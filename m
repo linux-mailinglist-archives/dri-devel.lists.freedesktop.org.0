@@ -2,65 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA3263AE9D7
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Jun 2021 15:14:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6405E3AE9D9
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Jun 2021 15:15:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 14CA36E027;
-	Mon, 21 Jun 2021 13:14:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ECD1C6E090;
+	Mon, 21 Jun 2021 13:14:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
- [IPv6:2a00:1450:4864:20::330])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2499E6E027
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Jun 2021 13:14:56 +0000 (UTC)
-Received: by mail-wm1-x330.google.com with SMTP id
- l7-20020a05600c1d07b02901b0e2ebd6deso10695815wms.1
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Jun 2021 06:14:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=bIFIByuOrJ9vre3Db7oecRl4g6yZz3JjWn/NEk86LVk=;
- b=L6rKETQ/FC0rGnqhBC+AaPaop6zXJZOOOmgXYqW3JzpUYutXLX60uK3w1rkcve9a8+
- XImT6PYUn6YemSA/SOzKqR/xm/Y0a6651knKdwoB9zQ8jAJ0+O3Trmed+fSXUPjMaRIy
- F29FOdbcXP783F9eKwiJ677m6uDv6vem/2FJZgSafAs75pqeXoRuRCjO6ycTKdWF2rWR
- UeFPjgowfOC3lASkS2fUOiaZZ0W6bjPt600/z6AoXi2MBmTWD9KRBHo9a6SYjASaHvHE
- ORUt0PeQt++YhFApJnTG1JeQhAkuHtL+IGYB77k44tiRhTHVRmd/QzMpz++JVxrXZIQN
- +QFQ==
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com
+ [IPv6:2a00:1450:4864:20::62d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9914D6E081;
+ Mon, 21 Jun 2021 13:14:58 +0000 (UTC)
+Received: by mail-ej1-x62d.google.com with SMTP id gn32so1325486ejc.2;
+ Mon, 21 Jun 2021 06:14:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-transfer-encoding:content-language;
+ bh=g9KkfTDVm23JtZIvLIP9VLFqfjPUY5iB/GbhgG8cLMM=;
+ b=vTy8A+9nafnuDunjIDd4Kw5i54e18ysZG8ACwZUsHC3jhZQ5ykmqodZANlff/9K/l5
+ xHhB0j621x7dOKN0Js5v6xmOR+9bGcKIzX1sMSHtdYntVzjJTDTq0b2h8d/tKdYf7Gvo
+ k7F3zfdIojg1Pok3rAfeh3wNfoluqLAIL5V+mz0QCAO2VUfdzsxgqA+KsI1OSsWJuPqD
+ rHVp1803xMdQIOgP93s94eLvEq4dUTZzjmFj/LzxNr8OpSrqJXFyQx0kLafAyvh9MDt5
+ XNOzTKXk4cMGy32mArPZljWNUMxkZTOEPfSZIdmH35JOjaGXmEAhTGONM/gAc50yWADx
+ 1UxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=bIFIByuOrJ9vre3Db7oecRl4g6yZz3JjWn/NEk86LVk=;
- b=RkYGM2Uh6B/xjwVv9dVZSJQBZqhUwv69osFkx+FURAFb8Fa8bHsEQoHwOPvhs8hGxB
- qMCoLEydJF+ZKfIL2S8z54GLDhHuvneHhFxcHZTu4QtFEDcHqWAS0jOYYw0fC4ajevaE
- 0krb3z2VD8qbaUTCeiqd9Q3+cpvEwxhksV8eV6uvQpOXtphQKAmboLBHaT0/qWtso21s
- uWEEEr5OR1cYAVC0fSSmDFLLt6e+P1i+NJ3wxJLS91jToh64wCsll8iMxT0ooCBLzlY6
- NJSzBaiW1kfWKzhirgWbF7IhItM42vDT2n8wVNjdooDaqLLctmsaeXvaNovjgzLhL5cy
- MNjQ==
-X-Gm-Message-State: AOAM531skcmEqDLZB8Uro6Qhlx72xtdOvVbm1ZM2/vEjH9TZWMiH6MR+
- 7HgvVo7AE5hL0///poAY3xa/Qw==
-X-Google-Smtp-Source: ABdhPJxLuM1+DlTVV9Pnzaa2naBu4a/JLd+3YiN0tkm5XCvojjWTrWmGs0aJSGZixHc6wga5u2JsAw==
-X-Received: by 2002:a7b:c013:: with SMTP id c19mr26860484wmb.158.1624281294848; 
- Mon, 21 Jun 2021 06:14:54 -0700 (PDT)
-Received: from maple.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net.
- [80.7.220.175])
- by smtp.gmail.com with ESMTPSA id v22sm9532508wmh.40.2021.06.21.06.14.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Jun 2021 06:14:54 -0700 (PDT)
-Date: Mon, 21 Jun 2021 14:14:52 +0100
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-Subject: Re: [PATCH v3 2/2] backlight: lm3630a: convert to atomic PWM API and
- check for errors
-Message-ID: <20210621131452.udhm2qbz47s3yafc@maple.lan>
-References: <20210621122148.116863-1-u.kleine-koenig@pengutronix.de>
- <20210621122148.116863-3-u.kleine-koenig@pengutronix.de>
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=g9KkfTDVm23JtZIvLIP9VLFqfjPUY5iB/GbhgG8cLMM=;
+ b=VVt6riBqpbDxBWEtqyO//k2+fIIluQN5KMfkB/p9MwiopwHaYL87EmEyWD/QA50XOd
+ 9471KepBjeZAOkuIkjri9WCvqmQt5MWHvK9ep3SBk/y3K2PXyH92vBeLpg1HKpYPyZoB
+ dNiIKrsTmk4GkcqlRfBiQRgVLMDTS30P2yrEzFUfC3IeKoHHZpcvDt7JzfpT27jdKCXU
+ GBZjzfVaepigGaVHnHwTuILDfk1mxUp8bHPqV+aWc9aDknLCT4d+RiujIwq+EAwxblw6
+ moKOQz5lcWUeHn00yP8RAWC7+NuUmK7xNKjBFnCGDpJb5VlasrrK53949Bbt6QAE+4tO
+ W70Q==
+X-Gm-Message-State: AOAM530eXNd+TCyVf5DvUSGzkwkwKwff2mDQtMneDtm8/sL5LzF+fXGJ
+ GLUdqnwu6XgTmmhjyecJHfOxqL7jpug=
+X-Google-Smtp-Source: ABdhPJw7UOpkpVETkGgcEQ+88p7i7WZ6TCsGVEAzQBQYJbhzRbQ040X/+rhkp86UGkPgHVKCFhvTqg==
+X-Received: by 2002:a17:906:fcad:: with SMTP id
+ qw13mr7684542ejb.209.1624281297327; 
+ Mon, 21 Jun 2021 06:14:57 -0700 (PDT)
+Received: from ?IPv6:2a02:908:1252:fb60:aae5:6e05:c:d69?
+ ([2a02:908:1252:fb60:aae5:6e05:c:d69])
+ by smtp.gmail.com with ESMTPSA id q9sm10702070edv.31.2021.06.21.06.14.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 21 Jun 2021 06:14:56 -0700 (PDT)
+Subject: Re: [PATCH] drm/radeon: delete useless function return values &
+ remove meaningless if(r) check code
+To: Bernard Zhao <bernard@vivo.com>, Alex Deucher
+ <alexander.deucher@amd.com>, =?UTF-8?Q?Christian_K=c3=b6nig?=
+ <christian.koenig@amd.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20210621130508.29511-1-bernard@vivo.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <626348b5-a3c5-4a86-ca9f-ec41cc82044d@gmail.com>
+Date: Mon, 21 Jun 2021 15:14:55 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+In-Reply-To: <20210621130508.29511-1-bernard@vivo.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210621122148.116863-3-u.kleine-koenig@pengutronix.de>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,115 +78,285 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Jingoo Han <jingoohan1@gmail.com>,
- dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
- kernel@pengutronix.de, Lee Jones <lee.jones@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 21, 2021 at 02:21:48PM +0200, Uwe Kleine-König wrote:
-> The practical upside here is that this only needs a single API call to
-> program the hardware which (depending on the underlaying hardware) can
-> be more effective and prevents glitches.
-> 
-> Up to now the return value of the pwm functions was ignored. Fix this
-> and propagate the error to the caller.
-> 
-> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+Am 21.06.21 um 15:05 schrieb Bernard Zhao:
+> Function radeon_fence_driver_init always returns success,
+> the function type maybe coule be changed to void.
+> This patch first delete the check of the return
+> value of the function call radeon_fence_driver_init, then,
+> optimise the function declaration and function to void type.
+>
+> Signed-off-by: Bernard Zhao <bernard@vivo.com>
 
-Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
-
-
-Daniel.
-
+Reviewed-by: Christian KÃ¶nig <christian.koenig@amd.com>
 
 > ---
->  drivers/video/backlight/lm3630a_bl.c | 42 +++++++++++++---------------
->  1 file changed, 19 insertions(+), 23 deletions(-)
-> 
-> diff --git a/drivers/video/backlight/lm3630a_bl.c b/drivers/video/backlight/lm3630a_bl.c
-> index 7140b0d98082..f377dfdd9868 100644
-> --- a/drivers/video/backlight/lm3630a_bl.c
-> +++ b/drivers/video/backlight/lm3630a_bl.c
-> @@ -52,6 +52,7 @@ struct lm3630a_chip {
->  	struct gpio_desc *enable_gpio;
->  	struct regmap *regmap;
->  	struct pwm_device *pwmd;
-> +	struct pwm_state pwmd_state;
->  };
->  
->  /* i2c access */
-> @@ -167,16 +168,19 @@ static int lm3630a_intr_config(struct lm3630a_chip *pchip)
->  	return rval;
->  }
->  
-> -static void lm3630a_pwm_ctrl(struct lm3630a_chip *pchip, int br, int br_max)
-> +static int lm3630a_pwm_ctrl(struct lm3630a_chip *pchip, int br, int br_max)
->  {
-> -	unsigned int period = pchip->pdata->pwm_period;
-> -	unsigned int duty = br * period / br_max;
-> +	int err;
->  
-> -	pwm_config(pchip->pwmd, duty, period);
-> -	if (duty)
-> -		pwm_enable(pchip->pwmd);
-> -	else
-> -		pwm_disable(pchip->pwmd);
-> +	pchip->pwmd_state.period = pchip->pdata->pwm_period;
-> +
-> +	err = pwm_set_relative_duty_cycle(&pchip->pwmd_state, br, br_max);
-> +	if (err)
-> +		return err;
-> +
-> +	pchip->pwmd_state.enabled = pchip->pwmd_state.duty_cycle ? true : false;
-> +
-> +	return pwm_apply_state(pchip->pwmd, &pchip->pwmd_state);
->  }
->  
->  /* update and get brightness */
-> @@ -187,11 +191,9 @@ static int lm3630a_bank_a_update_status(struct backlight_device *bl)
->  	enum lm3630a_pwm_ctrl pwm_ctrl = pchip->pdata->pwm_ctrl;
->  
->  	/* pwm control */
-> -	if ((pwm_ctrl & LM3630A_PWM_BANK_A) != 0) {
-> -		lm3630a_pwm_ctrl(pchip, bl->props.brightness,
-> -				 bl->props.max_brightness);
-> -		return 0;
+>   drivers/gpu/drm/radeon/cik.c          | 4 +---
+>   drivers/gpu/drm/radeon/evergreen.c    | 4 +---
+>   drivers/gpu/drm/radeon/ni.c           | 4 +---
+>   drivers/gpu/drm/radeon/r100.c         | 4 +---
+>   drivers/gpu/drm/radeon/r300.c         | 4 +---
+>   drivers/gpu/drm/radeon/r420.c         | 5 +----
+>   drivers/gpu/drm/radeon/r520.c         | 4 +---
+>   drivers/gpu/drm/radeon/r600.c         | 4 +---
+>   drivers/gpu/drm/radeon/radeon.h       | 2 +-
+>   drivers/gpu/drm/radeon/radeon_fence.c | 5 +----
+>   drivers/gpu/drm/radeon/rs400.c        | 4 +---
+>   drivers/gpu/drm/radeon/rs600.c        | 4 +---
+>   drivers/gpu/drm/radeon/rs690.c        | 4 +---
+>   drivers/gpu/drm/radeon/rv515.c        | 4 +---
+>   drivers/gpu/drm/radeon/rv770.c        | 4 +---
+>   drivers/gpu/drm/radeon/si.c           | 4 +---
+>   16 files changed, 16 insertions(+), 48 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/radeon/cik.c b/drivers/gpu/drm/radeon/cik.c
+> index 42a8afa839cb..f6cf0b8fdd83 100644
+> --- a/drivers/gpu/drm/radeon/cik.c
+> +++ b/drivers/gpu/drm/radeon/cik.c
+> @@ -8584,9 +8584,7 @@ int cik_init(struct radeon_device *rdev)
+>   	radeon_get_clock_info(rdev->ddev);
+>   
+>   	/* Fence driver */
+> -	r = radeon_fence_driver_init(rdev);
+> -	if (r)
+> -		return r;
+> +	radeon_fence_driver_init(rdev);
+>   
+>   	/* initialize memory controller */
+>   	r = cik_mc_init(rdev);
+> diff --git a/drivers/gpu/drm/radeon/evergreen.c b/drivers/gpu/drm/radeon/evergreen.c
+> index 8e9e88bf1f43..36a888e1b179 100644
+> --- a/drivers/gpu/drm/radeon/evergreen.c
+> +++ b/drivers/gpu/drm/radeon/evergreen.c
+> @@ -5208,9 +5208,7 @@ int evergreen_init(struct radeon_device *rdev)
+>   	/* Initialize clocks */
+>   	radeon_get_clock_info(rdev->ddev);
+>   	/* Fence driver */
+> -	r = radeon_fence_driver_init(rdev);
+> -	if (r)
+> -		return r;
+> +	radeon_fence_driver_init(rdev);
+>   	/* initialize AGP */
+>   	if (rdev->flags & RADEON_IS_AGP) {
+>   		r = radeon_agp_init(rdev);
+> diff --git a/drivers/gpu/drm/radeon/ni.c b/drivers/gpu/drm/radeon/ni.c
+> index ab7bd3080217..4a364ca7a1be 100644
+> --- a/drivers/gpu/drm/radeon/ni.c
+> +++ b/drivers/gpu/drm/radeon/ni.c
+> @@ -2375,9 +2375,7 @@ int cayman_init(struct radeon_device *rdev)
+>   	/* Initialize clocks */
+>   	radeon_get_clock_info(rdev->ddev);
+>   	/* Fence driver */
+> -	r = radeon_fence_driver_init(rdev);
+> -	if (r)
+> -		return r;
+> +	radeon_fence_driver_init(rdev);
+>   	/* initialize memory controller */
+>   	r = evergreen_mc_init(rdev);
+>   	if (r)
+> diff --git a/drivers/gpu/drm/radeon/r100.c b/drivers/gpu/drm/radeon/r100.c
+> index fcfcaec25a9e..aa6800b0e198 100644
+> --- a/drivers/gpu/drm/radeon/r100.c
+> +++ b/drivers/gpu/drm/radeon/r100.c
+> @@ -4056,9 +4056,7 @@ int r100_init(struct radeon_device *rdev)
+>   	/* initialize VRAM */
+>   	r100_mc_init(rdev);
+>   	/* Fence driver */
+> -	r = radeon_fence_driver_init(rdev);
+> -	if (r)
+> -		return r;
+> +	radeon_fence_driver_init(rdev);
+>   	/* Memory manager */
+>   	r = radeon_bo_init(rdev);
+>   	if (r)
+> diff --git a/drivers/gpu/drm/radeon/r300.c b/drivers/gpu/drm/radeon/r300.c
+> index 92643dfdd8a8..621ff174dff3 100644
+> --- a/drivers/gpu/drm/radeon/r300.c
+> +++ b/drivers/gpu/drm/radeon/r300.c
+> @@ -1549,9 +1549,7 @@ int r300_init(struct radeon_device *rdev)
+>   	/* initialize memory controller */
+>   	r300_mc_init(rdev);
+>   	/* Fence driver */
+> -	r = radeon_fence_driver_init(rdev);
+> -	if (r)
+> -		return r;
+> +	radeon_fence_driver_init(rdev);
+>   	/* Memory manager */
+>   	r = radeon_bo_init(rdev);
+>   	if (r)
+> diff --git a/drivers/gpu/drm/radeon/r420.c b/drivers/gpu/drm/radeon/r420.c
+> index 1ed4407b91aa..7e6320e8c6a0 100644
+> --- a/drivers/gpu/drm/radeon/r420.c
+> +++ b/drivers/gpu/drm/radeon/r420.c
+> @@ -425,10 +425,7 @@ int r420_init(struct radeon_device *rdev)
+>   	r300_mc_init(rdev);
+>   	r420_debugfs(rdev);
+>   	/* Fence driver */
+> -	r = radeon_fence_driver_init(rdev);
+> -	if (r) {
+> -		return r;
 > -	}
-> +	if ((pwm_ctrl & LM3630A_PWM_BANK_A) != 0)
-> +		return lm3630a_pwm_ctrl(pchip, bl->props.brightness,
-> +					bl->props.max_brightness);
->  
->  	/* disable sleep */
->  	ret = lm3630a_update(pchip, REG_CTRL, 0x80, 0x00);
-> @@ -264,11 +266,9 @@ static int lm3630a_bank_b_update_status(struct backlight_device *bl)
->  	enum lm3630a_pwm_ctrl pwm_ctrl = pchip->pdata->pwm_ctrl;
->  
->  	/* pwm control */
-> -	if ((pwm_ctrl & LM3630A_PWM_BANK_B) != 0) {
-> -		lm3630a_pwm_ctrl(pchip, bl->props.brightness,
-> -				 bl->props.max_brightness);
-> -		return 0;
-> -	}
-> +	if ((pwm_ctrl & LM3630A_PWM_BANK_B) != 0)
-> +		return lm3630a_pwm_ctrl(pchip, bl->props.brightness,
-> +					bl->props.max_brightness);
->  
->  	/* disable sleep */
->  	ret = lm3630a_update(pchip, REG_CTRL, 0x80, 0x00);
-> @@ -563,11 +563,7 @@ static int lm3630a_probe(struct i2c_client *client,
->  			return PTR_ERR(pchip->pwmd);
->  		}
->  
-> -		/*
-> -		 * FIXME: pwm_apply_args() should be removed when switching to
-> -		 * the atomic PWM API.
-> -		 */
-> -		pwm_apply_args(pchip->pwmd);
-> +		pwm_init_state(pchip->pwmd, &pchip->pwmd_state);
->  	}
->  
->  	/* interrupt enable  : irq 0 is not allowed */
-> -- 
-> 2.30.2
-> 
+> +	radeon_fence_driver_init(rdev);
+>   	/* Memory manager */
+>   	r = radeon_bo_init(rdev);
+>   	if (r) {
+> diff --git a/drivers/gpu/drm/radeon/r520.c b/drivers/gpu/drm/radeon/r520.c
+> index fc78e64ae727..6cbcaa845192 100644
+> --- a/drivers/gpu/drm/radeon/r520.c
+> +++ b/drivers/gpu/drm/radeon/r520.c
+> @@ -299,9 +299,7 @@ int r520_init(struct radeon_device *rdev)
+>   	r520_mc_init(rdev);
+>   	rv515_debugfs(rdev);
+>   	/* Fence driver */
+> -	r = radeon_fence_driver_init(rdev);
+> -	if (r)
+> -		return r;
+> +	radeon_fence_driver_init(rdev);
+>   	/* Memory manager */
+>   	r = radeon_bo_init(rdev);
+>   	if (r)
+> diff --git a/drivers/gpu/drm/radeon/r600.c b/drivers/gpu/drm/radeon/r600.c
+> index 7444dc0e0c0e..ca3fcae2adb5 100644
+> --- a/drivers/gpu/drm/radeon/r600.c
+> +++ b/drivers/gpu/drm/radeon/r600.c
+> @@ -3282,9 +3282,7 @@ int r600_init(struct radeon_device *rdev)
+>   	/* Initialize clocks */
+>   	radeon_get_clock_info(rdev->ddev);
+>   	/* Fence driver */
+> -	r = radeon_fence_driver_init(rdev);
+> -	if (r)
+> -		return r;
+> +	radeon_fence_driver_init(rdev);
+>   	if (rdev->flags & RADEON_IS_AGP) {
+>   		r = radeon_agp_init(rdev);
+>   		if (r)
+> diff --git a/drivers/gpu/drm/radeon/radeon.h b/drivers/gpu/drm/radeon/radeon.h
+> index 56ed5634cebe..8a15f490a390 100644
+> --- a/drivers/gpu/drm/radeon/radeon.h
+> +++ b/drivers/gpu/drm/radeon/radeon.h
+> @@ -384,7 +384,7 @@ struct radeon_fence {
+>   };
+>   
+>   int radeon_fence_driver_start_ring(struct radeon_device *rdev, int ring);
+> -int radeon_fence_driver_init(struct radeon_device *rdev);
+> +void radeon_fence_driver_init(struct radeon_device *rdev);
+>   void radeon_fence_driver_fini(struct radeon_device *rdev);
+>   void radeon_fence_driver_force_completion(struct radeon_device *rdev, int ring);
+>   int radeon_fence_emit(struct radeon_device *rdev, struct radeon_fence **fence, int ring);
+> diff --git a/drivers/gpu/drm/radeon/radeon_fence.c b/drivers/gpu/drm/radeon/radeon_fence.c
+> index 0d8ef2368adf..b2ce642ca4fa 100644
+> --- a/drivers/gpu/drm/radeon/radeon_fence.c
+> +++ b/drivers/gpu/drm/radeon/radeon_fence.c
+> @@ -905,9 +905,8 @@ static void radeon_fence_driver_init_ring(struct radeon_device *rdev, int ring)
+>    * Not all asics have all rings, so each asic will only
+>    * start the fence driver on the rings it has using
+>    * radeon_fence_driver_start_ring().
+> - * Returns 0 for success.
+>    */
+> -int radeon_fence_driver_init(struct radeon_device *rdev)
+> +void radeon_fence_driver_init(struct radeon_device *rdev)
+>   {
+>   	int ring;
+>   
+> @@ -917,8 +916,6 @@ int radeon_fence_driver_init(struct radeon_device *rdev)
+>   	}
+>   
+>   	radeon_debugfs_fence_init(rdev);
+> -
+> -	return 0;
+>   }
+>   
+>   /**
+> diff --git a/drivers/gpu/drm/radeon/rs400.c b/drivers/gpu/drm/radeon/rs400.c
+> index 8423bcc3302b..6383f7a34bd8 100644
+> --- a/drivers/gpu/drm/radeon/rs400.c
+> +++ b/drivers/gpu/drm/radeon/rs400.c
+> @@ -555,9 +555,7 @@ int rs400_init(struct radeon_device *rdev)
+>   	/* initialize memory controller */
+>   	rs400_mc_init(rdev);
+>   	/* Fence driver */
+> -	r = radeon_fence_driver_init(rdev);
+> -	if (r)
+> -		return r;
+> +	radeon_fence_driver_init(rdev);
+>   	/* Memory manager */
+>   	r = radeon_bo_init(rdev);
+>   	if (r)
+> diff --git a/drivers/gpu/drm/radeon/rs600.c b/drivers/gpu/drm/radeon/rs600.c
+> index 5bf26058eec0..b2d22e25eee1 100644
+> --- a/drivers/gpu/drm/radeon/rs600.c
+> +++ b/drivers/gpu/drm/radeon/rs600.c
+> @@ -1132,9 +1132,7 @@ int rs600_init(struct radeon_device *rdev)
+>   	rs600_mc_init(rdev);
+>   	r100_debugfs_rbbm_init(rdev);
+>   	/* Fence driver */
+> -	r = radeon_fence_driver_init(rdev);
+> -	if (r)
+> -		return r;
+> +	radeon_fence_driver_init(rdev);
+>   	/* Memory manager */
+>   	r = radeon_bo_init(rdev);
+>   	if (r)
+> diff --git a/drivers/gpu/drm/radeon/rs690.c b/drivers/gpu/drm/radeon/rs690.c
+> index 7bc302a89232..14fb0819b8c1 100644
+> --- a/drivers/gpu/drm/radeon/rs690.c
+> +++ b/drivers/gpu/drm/radeon/rs690.c
+> @@ -850,9 +850,7 @@ int rs690_init(struct radeon_device *rdev)
+>   	rs690_mc_init(rdev);
+>   	rv515_debugfs(rdev);
+>   	/* Fence driver */
+> -	r = radeon_fence_driver_init(rdev);
+> -	if (r)
+> -		return r;
+> +	radeon_fence_driver_init(rdev);
+>   	/* Memory manager */
+>   	r = radeon_bo_init(rdev);
+>   	if (r)
+> diff --git a/drivers/gpu/drm/radeon/rv515.c b/drivers/gpu/drm/radeon/rv515.c
+> index 46a53dd38079..63fb06e8e2d7 100644
+> --- a/drivers/gpu/drm/radeon/rv515.c
+> +++ b/drivers/gpu/drm/radeon/rv515.c
+> @@ -648,9 +648,7 @@ int rv515_init(struct radeon_device *rdev)
+>   	rv515_mc_init(rdev);
+>   	rv515_debugfs(rdev);
+>   	/* Fence driver */
+> -	r = radeon_fence_driver_init(rdev);
+> -	if (r)
+> -		return r;
+> +	radeon_fence_driver_init(rdev);
+>   	/* Memory manager */
+>   	r = radeon_bo_init(rdev);
+>   	if (r)
+> diff --git a/drivers/gpu/drm/radeon/rv770.c b/drivers/gpu/drm/radeon/rv770.c
+> index 88e29ebaad46..74499307285b 100644
+> --- a/drivers/gpu/drm/radeon/rv770.c
+> +++ b/drivers/gpu/drm/radeon/rv770.c
+> @@ -1941,9 +1941,7 @@ int rv770_init(struct radeon_device *rdev)
+>   	/* Initialize clocks */
+>   	radeon_get_clock_info(rdev->ddev);
+>   	/* Fence driver */
+> -	r = radeon_fence_driver_init(rdev);
+> -	if (r)
+> -		return r;
+> +	radeon_fence_driver_init(rdev);
+>   	/* initialize AGP */
+>   	if (rdev->flags & RADEON_IS_AGP) {
+>   		r = radeon_agp_init(rdev);
+> diff --git a/drivers/gpu/drm/radeon/si.c b/drivers/gpu/drm/radeon/si.c
+> index d0e94b10e4c0..013e44ed0f39 100644
+> --- a/drivers/gpu/drm/radeon/si.c
+> +++ b/drivers/gpu/drm/radeon/si.c
+> @@ -6857,9 +6857,7 @@ int si_init(struct radeon_device *rdev)
+>   	radeon_get_clock_info(rdev->ddev);
+>   
+>   	/* Fence driver */
+> -	r = radeon_fence_driver_init(rdev);
+> -	if (r)
+> -		return r;
+> +	radeon_fence_driver_init(rdev);
+>   
+>   	/* initialize memory controller */
+>   	r = si_mc_init(rdev);
+
