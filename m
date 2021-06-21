@@ -2,64 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DCEB3AE789
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Jun 2021 12:47:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F237A3AE7C8
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Jun 2021 12:59:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C97B892BD;
-	Mon, 21 Jun 2021 10:47:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3529089E35;
+	Mon, 21 Jun 2021 10:59:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
- [IPv6:2a00:1450:4864:20::436])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A089892BD
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Jun 2021 10:47:44 +0000 (UTC)
-Received: by mail-wr1-x436.google.com with SMTP id h11so1611966wrx.5
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Jun 2021 03:47:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com
+ [IPv6:2a00:1450:4864:20::52f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8508389E35
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Jun 2021 10:59:34 +0000 (UTC)
+Received: by mail-ed1-x52f.google.com with SMTP id c7so17370456edn.6
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Jun 2021 03:59:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=OdEudXtXjGQN/dt1vAk/VP3YNSIfD82T+dahjF+Eqfk=;
- b=dLH6co5FAw2vpQG4gb1SLS9vY8cXkvZM2/FHjc14+l3BsqIbMQ8TQqtpqg++4ZC/Lp
- IQrIkpM29jW9E9jmmIwpJ9diuVUXRBbn36PiKfo8DZ6FoZsZRPx/uOdmNUHiQv/aFJF6
- IEq1GxQG/OW0OPQoW6DrRB8f2ptle/M14sABxuKrF3oOVsv6FBncAeCp2qoJlIfyIaor
- 3IylGme4SMO5nn7bNf3PhXi7YThu6vEXL6jtmfYHuubD7j6uqsT+3eYrYfhIyNvZY3jC
- XMro+fy6BGj/T7mzI+fFaJGGJJxIElWwqDWGgvtb1fAYL+Cf6RxtqHU0Sp/lRYtJCsZq
- j+dA==
+ :content-disposition:in-reply-to:user-agent;
+ bh=mQxqixLK5rjqMvfwNndLJU9kpq2UUMss0IdRDqE4Nyc=;
+ b=YxZQAdUUkLMQ2M2mYkUfSjDJ+SB9P+64CPFg3uK5hM1E/C6K8NmCvjI6fxDHBrBoe5
+ Lq7cJ78pC6eJoQL/iMslWnzhkAluJRJRKlpXrcHJnAUBY4LLp/MkPZU7sYhkLRFqBEPl
+ 0uRZq36q9MKx0pTNYdZeSNZVZbFJ3t7QfDM1AYpc6XcFG9PqXhyyIxdCa5GYj1KE51gX
+ CERelqx0rdtwMVSq94UjUjpVTG8H0AvhhKV8qm464N8P+VLib7JBniwt5Gxc5ZaGVkw8
+ lQDzEpiPMwHEZaSZ1PmHvgWOeshz1XWPFZ9zBPPsG67Jh3+Her1tkKd/DUdiLjAtUvJM
+ joSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=OdEudXtXjGQN/dt1vAk/VP3YNSIfD82T+dahjF+Eqfk=;
- b=Uwzfs8ergUyVQGDXCToLCWDGGrAZUmob+9ngA2xYbHATb2GnZsLiEihxHxng2nELR3
- L+j8tnilcsxjPy3hJ6WaQXOrYfC+y1mcKVjYUVRHpY1bcD2YufLe3sl791fQt3m7PxWB
- NmCiULBNHwlg76hVCXpTaF5VuECu/URjxOP5G8+RtstZS8OfKPrKNRbY10sI1ZlMCtXN
- 4a51ZFw8QYpN3ywZcBTI4GSor/RrwlPMQDdFzlFGq6bGqdGX3Sdm/EwwLisAFACmj1IQ
- QFGfj1wvNPHhRfeHa10oRwZcnZf2XmKIR0eouJmJVFMxfZpP088o2Im4/Gmij1n4hEvB
- KStQ==
-X-Gm-Message-State: AOAM531GhxEIpBS32P+zKJI4JX1laJqhQ6lyn4jlXALpGCfUKyF8Cj18
- RfWJMRbOp6WNRA5tK/GV70BhYQ==
-X-Google-Smtp-Source: ABdhPJyX5FTE5HVxXFwri17oTsxzpaBpm2xBpLIoni8Bfe8SclKa8ghQphJNAgUVIbnoFs/iX1Wv9g==
-X-Received: by 2002:adf:e110:: with SMTP id t16mr27890314wrz.359.1624272462653; 
- Mon, 21 Jun 2021 03:47:42 -0700 (PDT)
-Received: from maple.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net.
- [80.7.220.175])
- by smtp.gmail.com with ESMTPSA id t128sm4241264wma.41.2021.06.21.03.47.42
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=mQxqixLK5rjqMvfwNndLJU9kpq2UUMss0IdRDqE4Nyc=;
+ b=W8arFMMzShHVj6If6tvWk0MjSK3gYN+Ub8fFv+gjFs9efIKXbmTVeCn0w/ppDI82RD
+ ay6VfFlvXmF+NAbTwEZCB5cLboSuDwR41FNZVrTMd7UnPUHojJUG5BxZOX1C/FF4umZW
+ 6BMBdu+p92RAY1E8RtpPtLJCB9s+g7aDuvicEeZETaZS6nItalJAHFCNiONZZde6DcTR
+ w/i2LjZCPnFkorOrVcxAgr1iFliPRxrEova8hCXVyV6vudB7bzhFBPD2PHLDVhB7kpa+
+ ZRNODGRZ84BLRVWHGTPeqjnB1ZuqlJcyJr6UBGUYD3cwbVd6jf4PNDQkSDBiNa2EdWGU
+ Pr7Q==
+X-Gm-Message-State: AOAM532hCqAnpREgvSIp0MJ2qER7NBezDY5v+trlONSFXenRgj05JKOV
+ ycdOPs3REVkfEQ969pnEQ5U=
+X-Google-Smtp-Source: ABdhPJygm2GSM+8x1mA8AMigPK6YI6mwpzcBwg47WwZ0gmXyzshqwUTK6KliNuLXNpTFL6h27g8Z5Q==
+X-Received: by 2002:a50:fd1a:: with SMTP id i26mr6912086eds.181.1624273173262; 
+ Mon, 21 Jun 2021 03:59:33 -0700 (PDT)
+Received: from localhost ([62.96.65.119])
+ by smtp.gmail.com with ESMTPSA id c15sm7817001edu.19.2021.06.21.03.59.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Jun 2021 03:47:42 -0700 (PDT)
-Date: Mon, 21 Jun 2021 11:47:40 +0100
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-Subject: Re: [PATCH v2 2/2] backlight: lm3630a: convert to atomic PWM API and
- check for errors
-Message-ID: <20210621104740.cenlzw2wfy2vacoi@maple.lan>
-References: <20210620193928.14467-1-u.kleine-koenig@pengutronix.de>
- <20210620193928.14467-2-u.kleine-koenig@pengutronix.de>
+ Mon, 21 Jun 2021 03:59:32 -0700 (PDT)
+Date: Mon, 21 Jun 2021 13:01:28 +0200
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Dmitry Osipenko <digetx@gmail.com>
+Subject: Re: [PATCH v18 0/2] Add memory bandwidth management to NVIDIA Tegra
+ DRM driver
+Message-ID: <YNBxiFXMS9rfT93c@orome.fritz.box>
+References: <20210601042108.1942-1-digetx@gmail.com>
+ <8accfe1e-fc48-21ca-f7c6-bd2d60162e6d@gmail.com>
+ <50912a57-aa43-58b0-02d2-6928578d6286@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="hHIGeTg/3zFQR6Mt"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210620193928.14467-2-u.kleine-koenig@pengutronix.de>
+In-Reply-To: <50912a57-aa43-58b0-02d2-6928578d6286@gmail.com>
+User-Agent: Mutt/2.0.7 (481f3800) (2021-05-04)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,81 +72,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Jingoo Han <jingoohan1@gmail.com>,
- dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
- kernel@pengutronix.de, Lee Jones <lee.jones@linaro.org>
+Cc: linux-pm@vger.kernel.org, Nicolas Chauvet <kwizart@gmail.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Matt Merhar <mattmerhar@protonmail.com>, Peter Geis <pgwipeout@gmail.com>,
+ linux-tegra@vger.kernel.org,
+ =?utf-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Jun 20, 2021 at 09:39:28PM +0200, Uwe Kleine-König wrote:
-> The practical upside here is that this only needs a single API call to
-> program the hardware which (depending on the underlaying hardware) can
-> be more effective and prevents glitches.
-> 
-> Up to now the return value of the pwm functions was ignored. Fix this
-> and propagate the error to the caller.
-> 
-> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
-> ---
->  drivers/video/backlight/lm3630a_bl.c | 34 +++++++++++++---------------
->  1 file changed, 16 insertions(+), 18 deletions(-)
-> 
-> diff --git a/drivers/video/backlight/lm3630a_bl.c b/drivers/video/backlight/lm3630a_bl.c
-> index 16a2658a72e1..99eb8277149b 100644
-> --- a/drivers/video/backlight/lm3630a_bl.c
-> +++ b/drivers/video/backlight/lm3630a_bl.c
-> @@ -52,6 +52,7 @@ struct lm3630a_chip {
->  	struct gpio_desc *enable_gpio;
->  	struct regmap *regmap;
->  	struct pwm_device *pwmd;
-> +	struct pwm_state pwmd_state;
->  };
->  
->  /* i2c access */
-> @@ -167,16 +168,19 @@ static int lm3630a_intr_config(struct lm3630a_chip *pchip)
->  	return rval;
->  }
->  
-> -static void lm3630a_pwm_ctrl(struct lm3630a_chip *pchip, int br, int br_max)
-> +static int lm3630a_pwm_ctrl(struct lm3630a_chip *pchip, int br, int br_max)
->  {
-> -	unsigned int period = pchip->pdata->pwm_period;
-> -	unsigned int duty = br * period / br_max;
-> +	int err;
->  
-> -	pwm_config(pchip->pwmd, duty, period);
-> -	if (duty)
-> -		pwm_enable(pchip->pwmd);
-> -	else
-> -		pwm_disable(pchip->pwmd);
-> +	pchip->pwmd_state.period = pchip->pdata->pwm_period;
-> +
-> +	err = pwm_set_relative_duty_cycle(&pchip->pwmd_state, br, br_max);
-> +	if (err)
-> +		return err;
-> +
-> +	pchip->pwmd_state.enabled = pchip->pwmd_state.duty_cycle ? true : false;
-> +
-> +	return pwm_apply_state(pchip->pwmd, &pchip->pwmd_state);
->  }
->  
->  /* update and get brightness */
-> @@ -187,11 +191,9 @@ static int lm3630a_bank_a_update_status(struct backlight_device *bl)
->  	enum lm3630a_pwm_ctrl pwm_ctrl = pchip->pdata->pwm_ctrl;
->  
->  	/* pwm control */
-> -	if ((pwm_ctrl & LM3630A_PWM_BANK_A) != 0) {
-> -		lm3630a_pwm_ctrl(pchip, bl->props.brightness,
-> -				 bl->props.max_brightness);
-> -		return 0;
-> -	}
-> +	if ((pwm_ctrl & LM3630A_PWM_BANK_A) != 0)
-> +		return lm3630a_pwm_ctrl(pchip, bl->props.brightness,
-> +					bl->props.max_brightness);
 
-My apologies for overlooking this at v1 (and even when reviewing the first of
-the v2 patchs) but...  this fixes the code for bank A. Bank B also requires exactly
-the same set of fixes!
+--hHIGeTg/3zFQR6Mt
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Mon, Jun 21, 2021 at 07:19:15AM +0300, Dmitry Osipenko wrote:
+> 07.06.2021 01:40, Dmitry Osipenko =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> > 01.06.2021 07:21, Dmitry Osipenko =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> >> This series adds memory bandwidth management to the NVIDIA Tegra DRM d=
+river,
+> >> which is done using interconnect framework. It fixes display corruptio=
+n that
+> >> happens due to insufficient memory bandwidth.
+> >>
+> >> Changelog:
+> >>
+> >> v18: - Moved total peak bandwidth from CRTC state to plane state and r=
+emoved
+> >>        dummy plane bandwidth state initialization from T186+ plane hub=
+=2E This
+> >>        was suggested by Thierry Reding to v17.
+> >>
+> >>      - I haven't done anything about the cursor's plane bandwidth which
+> >>        doesn't contribute to overlapping bandwidths for a small sized
+> >>        window because it works okay as-is.
+> >=20
+> > Thierry, will you take these patches for 5.14?
+> >=20
+>=20
+> The display controller does _NOT_WORK_ properly without bandwidth
+> management.
 
-Daniel.
+That's surprising. So either it has never worked before (which I think
+I'd know) or something has caused this regression recently. In the
+latter case we need to identify what that was and revert (or fix) it.
+
+> Can we get this patch into 5.14? What is the problem?
+
+There was not enough time to review and test this, so I didn't feel
+comfortable picking it up so close to the -rc6 cut-off. I plan to pick
+this up early in the v5.14 release cycle and target v5.15.
+
+Thierry
+
+--hHIGeTg/3zFQR6Mt
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmDQcYQACgkQ3SOs138+
+s6HM5Q//eNrrfdv1Eha+kmKoOay07IzXHohR56bITStHor3M0uzvNVZaSCcADjl4
+FpHEAIfe2FuS41Y81iUZqV3PmRNXloneCz4vzgFVkmz8poeq5aPwiQlsSPEzRawt
+UJbyYSGTUhtM8GvqxW6TL47M8wYCYND7bTp+GIh45nGPSuZlGIhT4Qp9zqfxARn7
+AmuA/lUkHxT5krTo1Sx9PfTENLPxMikM4MdahTnro0S1WAOqWaudqnWidV81jA2j
+pAektGCfs5uanFq8nOjpO4/AkHmYfq1FSOS0ZpYn2eyhDDK9BDPLuW4L3ithBl1o
+r+vqwedj/xAPeOWxha6JwEvMwhRReZHN0/uZTlWDnqvAVgVFrptefGKo7V355Brw
+NRgJrJFCdoCW8m2FntrRCoxTqDy0v9h+607vD3myk9pyD94IZ7SeKEwyh31vKls3
+OwIGQEVPgyDXoSolj/rG7xwF2vDN+OaW+hidqmuM3p5xpjOqwToJ996s0F0XuUc1
+x0uKQ5+jnuRH132Nn2K73OBFzBS6Le/h1N/DLtxOhq1L3VcZczRx9MYDR5aT6p5r
+Pug+Byyy3Qx0TRDUq6P+bJGTHu3di+ty0Rvrd/LdbTCXHNNctN/N95ZUseeUsG1E
+RnN2FwphYn08qZ5QKGWesnLj4+RJHVjH+c8PpXjyaj2FNXyvsZU=
+=NJyS
+-----END PGP SIGNATURE-----
+
+--hHIGeTg/3zFQR6Mt--
