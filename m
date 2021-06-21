@@ -2,58 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF3C53AEC2C
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Jun 2021 17:18:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86DCA3AEC2E
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Jun 2021 17:19:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7621B6E1CE;
-	Mon, 21 Jun 2021 15:18:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A28F76E1CF;
+	Mon, 21 Jun 2021 15:19:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
- [IPv6:2a00:1450:4864:20::330])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB60D6E1CE
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Jun 2021 15:18:05 +0000 (UTC)
-Received: by mail-wm1-x330.google.com with SMTP id
- l18-20020a1ced120000b029014c1adff1edso14154831wmh.4
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Jun 2021 08:18:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=H+K7pfn/GwizgnG81bD8iFEUz4FpDS5BGHuYh6ppqGs=;
- b=FlL3v/bFlgCt0P/oIGy8repY7sjZt4myWS31/wrBiXr1N8O3qn57mIpK3dnv40/D6C
- D0gKjBkx2kCYTg/enPbPCdxVE9mqxPpzNptVHakOCYEGXwvpfNj2QlaGol2fLSvK9a+V
- Z3XdihUHddAIKf4j51kVZYz0tBrsGg0VM/YTs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=H+K7pfn/GwizgnG81bD8iFEUz4FpDS5BGHuYh6ppqGs=;
- b=KQkS+2mCNzirArBso8dcWkdYibLq/RS80XE7biz74uF2F8GfQabcwdYuIsGp2Y0rlO
- ShxMVLErrIBq7ka4wJISOVy0I1EDkKCbRhgjBx8j5XHjIOKysBYRPGEN6cM0ifJFDVCH
- oSLFT2ST8XjovSl1bI0Z9Kk4NVqcV5ogaUHcdPdsyISoh7yCSJjQLDRBrSipTYjwxZ28
- smv4WpYgNjTV3xD8fsfkEUWU6q/sdLKKdL2XR20klldE7irgJLrhX/8nhNJqxY2iJch9
- Vl41by/P449UHKAdRgm66Zb1KHJgB81ywYV04T5rW3EoTtLqmnsecJif4rO923DexiTs
- Mx6A==
-X-Gm-Message-State: AOAM532NHAfTmLl52fG7Xe7OJSMWsSvVlP3+Jfz3iHA2raacL+MOjFvv
- UFIScSSdwzuUveX3mR6QJQLJMAAeNQlrHA==
-X-Google-Smtp-Source: ABdhPJz5vdUuiEHUJTp54WNNpoa4PdEUmEim1wA7kTYxtIMXfdKhj0N4kj3e7oMUHKwBYnmQtXmLew==
-X-Received: by 2002:a7b:c041:: with SMTP id u1mr27226445wmc.95.1624288684627; 
- Mon, 21 Jun 2021 08:18:04 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id b9sm1790947wrt.55.2021.06.21.08.18.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Jun 2021 08:18:02 -0700 (PDT)
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: [PATCH] dma-buf: Document non-dynamic exporter expectations better
-Date: Mon, 21 Jun 2021 17:17:58 +0200
-Message-Id: <20210621151758.2347474-1-daniel.vetter@ffwll.ch>
-X-Mailer: git-send-email 2.32.0.rc2
-In-Reply-To: <20210621150732.2345632-1-daniel.vetter@ffwll.ch>
-References: <20210621150732.2345632-1-daniel.vetter@ffwll.ch>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 91AB56E1D7
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Jun 2021 15:19:40 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 45FA31042;
+ Mon, 21 Jun 2021 08:19:40 -0700 (PDT)
+Received: from [192.168.1.179] (unknown [172.31.20.19])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 509D03F694;
+ Mon, 21 Jun 2021 08:19:39 -0700 (PDT)
+Subject: Re: [PATCH v2 08/12] drm/panfrost: Do the exception -> string
+ translation using a table
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ Rob Herring <robh+dt@kernel.org>, Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Robin Murphy <robin.murphy@arm.com>
+References: <20210621133907.1683899-1-boris.brezillon@collabora.com>
+ <20210621133907.1683899-9-boris.brezillon@collabora.com>
+From: Steven Price <steven.price@arm.com>
+Message-ID: <39e7887f-dc9a-376f-0b0e-e15835ed139a@arm.com>
+Date: Mon, 21 Jun 2021 16:19:38 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210621133907.1683899-9-boris.brezillon@collabora.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,84 +48,205 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@intel.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Christian and me realized we have a pretty massive disconnect about
-different interpretations of what dma_resv is used for by different
-drivers. The discussion is much, much bigger than this change here,
-but this is an important one:
+On 21/06/2021 14:39, Boris Brezillon wrote:
+> Do the exception -> string translation using a table so we can add extra
+> fields if we need to. While at it add an error field to ease the
+> exception -> error conversion which we'll need if we want to set the
+> fence error to something that reflects the exception code.
+> 
+> TODO: fix the error codes.
 
-Non-dynamic exporters must guarantee that the memory they return is
-ready for use. They cannot expect importers to wait for the exclusive
-fence. Only dynamic importers are required to obey the dma_resv fences
-strictly (and more patches are needed to define exactly what this
-means).
+TODO: Do the TODO ;)
 
-Christian has patches to update nouvea, radeon and amdgpu. The only
-other driver using both ttm and supporting dma-buf export is qxl,
-which only uses synchronous ttm_bo_move.
+I'm not sure how useful translating the hardware error codes to Linux
+ones are. E.g. 'OOM' means something quite different from a normal
+-ENOMEM. One is running out of a space in a predefined buffer, the other
+is Linux not able to allocate memory.
 
-v2: To hammer this in document that dynamic importers _must_ wait for
-the exclusive fence after having called dma_buf_map_attachment.
+> 
+> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> ---
+>  drivers/gpu/drm/panfrost/panfrost_device.c | 134 +++++++++++++--------
+>  drivers/gpu/drm/panfrost/panfrost_device.h |   1 +
+>  2 files changed, 88 insertions(+), 47 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_device.c b/drivers/gpu/drm/panfrost/panfrost_device.c
+> index f7f5ca94f910..2de011cee258 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_device.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_device.c
+> @@ -292,55 +292,95 @@ void panfrost_device_fini(struct panfrost_device *pfdev)
+>  	panfrost_clk_fini(pfdev);
+>  }
+>  
+> -const char *panfrost_exception_name(u32 exception_code)
+> -{
+> -	switch (exception_code) {
+> -		/* Non-Fault Status code */
+> -	case 0x00: return "NOT_STARTED/IDLE/OK";
+> -	case 0x01: return "DONE";
+> -	case 0x02: return "INTERRUPTED";
+> -	case 0x03: return "STOPPED";
+> -	case 0x04: return "TERMINATED";
+> -	case 0x08: return "ACTIVE";
+> -		/* Job exceptions */
+> -	case 0x40: return "JOB_CONFIG_FAULT";
+> -	case 0x41: return "JOB_POWER_FAULT";
+> -	case 0x42: return "JOB_READ_FAULT";
+> -	case 0x43: return "JOB_WRITE_FAULT";
+> -	case 0x44: return "JOB_AFFINITY_FAULT";
+> -	case 0x48: return "JOB_BUS_FAULT";
+> -	case 0x50: return "INSTR_INVALID_PC";
+> -	case 0x51: return "INSTR_INVALID_ENC";
+> -	case 0x52: return "INSTR_TYPE_MISMATCH";
+> -	case 0x53: return "INSTR_OPERAND_FAULT";
+> -	case 0x54: return "INSTR_TLS_FAULT";
+> -	case 0x55: return "INSTR_BARRIER_FAULT";
+> -	case 0x56: return "INSTR_ALIGN_FAULT";
+> -	case 0x58: return "DATA_INVALID_FAULT";
+> -	case 0x59: return "TILE_RANGE_FAULT";
+> -	case 0x5A: return "ADDR_RANGE_FAULT";
+> -	case 0x60: return "OUT_OF_MEMORY";
+> -		/* GPU exceptions */
+> -	case 0x80: return "DELAYED_BUS_FAULT";
+> -	case 0x88: return "SHAREABILITY_FAULT";
+> -		/* MMU exceptions */
+> -	case 0xC1: return "TRANSLATION_FAULT_LEVEL1";
+> -	case 0xC2: return "TRANSLATION_FAULT_LEVEL2";
+> -	case 0xC3: return "TRANSLATION_FAULT_LEVEL3";
+> -	case 0xC4: return "TRANSLATION_FAULT_LEVEL4";
+> -	case 0xC8: return "PERMISSION_FAULT";
+> -	case 0xC9 ... 0xCF: return "PERMISSION_FAULT";
+> -	case 0xD1: return "TRANSTAB_BUS_FAULT_LEVEL1";
+> -	case 0xD2: return "TRANSTAB_BUS_FAULT_LEVEL2";
+> -	case 0xD3: return "TRANSTAB_BUS_FAULT_LEVEL3";
+> -	case 0xD4: return "TRANSTAB_BUS_FAULT_LEVEL4";
+> -	case 0xD8: return "ACCESS_FLAG";
+> -	case 0xD9 ... 0xDF: return "ACCESS_FLAG";
+> -	case 0xE0 ... 0xE7: return "ADDRESS_SIZE_FAULT";
+> -	case 0xE8 ... 0xEF: return "MEMORY_ATTRIBUTES_FAULT";
+> +#define PANFROST_EXCEPTION(id, err) \
+> +	[DRM_PANFROST_EXCEPTION_ ## id] = { \
+> +		.name = #id, \
+> +		.error = err, \
+>  	}
+>  
+> -	return "UNKNOWN";
+> +struct panfrost_exception_info {
+> +	const char *name;
+> +	int error;
+> +};
+> +
+> +static const struct panfrost_exception_info panfrost_exception_infos[] = {
+> +	PANFROST_EXCEPTION(OK, 0),
+> +	PANFROST_EXCEPTION(DONE, 0),
+> +	PANFROST_EXCEPTION(STOPPED, 0),
+> +	PANFROST_EXCEPTION(TERMINATED, 0),
 
-Cc: Christian König <ckoenig.leichtzumerken@gmail.com>
-Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
----
- drivers/dma-buf/dma-buf.c |  3 +++
- include/linux/dma-buf.h   | 15 +++++++++++++++
- 2 files changed, 18 insertions(+)
+STOPPED/TERMINATED are not really 'success' from an application
+perspective. But equally they are ones that need special handling from
+the kernel.
 
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index e3ba5db5f292..65cbd7f0f16a 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -956,6 +956,9 @@ EXPORT_SYMBOL_GPL(dma_buf_unpin);
-  * the underlying backing storage is pinned for as long as a mapping exists,
-  * therefore users/importers should not hold onto a mapping for undue amounts of
-  * time.
-+ *
-+ * Important: Dynamic importers must wait for the exclusive fence of the struct
-+ * dma_resv attached to the DMA-BUF first.
-  */
- struct sg_table *dma_buf_map_attachment(struct dma_buf_attachment *attach,
- 					enum dma_data_direction direction)
-diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-index 342585bd6dff..92eec38a03aa 100644
---- a/include/linux/dma-buf.h
-+++ b/include/linux/dma-buf.h
-@@ -96,6 +96,12 @@ struct dma_buf_ops {
- 	 * This is called automatically for non-dynamic importers from
- 	 * dma_buf_attach().
- 	 *
-+	 * Note that similar to non-dynamic exporters in their @map_dma_buf
-+	 * callback the driver must guarantee that the memory is available for
-+	 * use and cleared of any old data by the time this function returns.
-+	 * Drivers which pipeline their buffer moves internally must wait for
-+	 * all moves and clears to complete.
-+	 *
- 	 * Returns:
- 	 *
- 	 * 0 on success, negative error code on failure.
-@@ -144,6 +150,15 @@ struct dma_buf_ops {
- 	 * This is always called with the dmabuf->resv object locked when
- 	 * the dynamic_mapping flag is true.
- 	 *
-+	 * Note that for non-dynamic exporters the driver must guarantee that
-+	 * that the memory is available for use and cleared of any old data by
-+	 * the time this function returns.  Drivers which pipeline their buffer
-+	 * moves internally must wait for all moves and clears to complete.
-+	 * Dynamic exporters do not need to follow this rule: For non-dynamic
-+	 * importers the buffer is already pinned through @pin, which has the
-+	 * same requirements. Dynamic importers otoh are required to obey the
-+	 * dma_resv fences.
-+	 *
- 	 * Returns:
- 	 *
- 	 * A &sg_table scatter list of or the backing storage of the DMA buffer,
--- 
-2.32.0.rc2
+> +	PANFROST_EXCEPTION(KABOOM, 0),
+> +	PANFROST_EXCEPTION(EUREKA, 0),
+> +	PANFROST_EXCEPTION(ACTIVE, 0),
+> +	PANFROST_EXCEPTION(JOB_CONFIG_FAULT, -EINVAL),
+> +	PANFROST_EXCEPTION(JOB_POWER_FAULT, -ECANCELED),
+> +	PANFROST_EXCEPTION(JOB_READ_FAULT, -EINVAL),
+> +	PANFROST_EXCEPTION(JOB_WRITE_FAULT, -EINVAL),
+> +	PANFROST_EXCEPTION(JOB_AFFINITY_FAULT, -EINVAL),
+> +	PANFROST_EXCEPTION(JOB_BUS_FAULT, -EINVAL),
+> +	PANFROST_EXCEPTION(INSTR_INVALID_PC, -EINVAL),
+> +	PANFROST_EXCEPTION(INSTR_INVALID_ENC, -EINVAL),
+> +	PANFROST_EXCEPTION(INSTR_BARRIER_FAULT, -EINVAL),
+> +	PANFROST_EXCEPTION(DATA_INVALID_FAULT, -EINVAL),
+> +	PANFROST_EXCEPTION(TILE_RANGE_FAULT, -EINVAL),
+> +	PANFROST_EXCEPTION(ADDR_RANGE_FAULT, -EINVAL),
+> +	PANFROST_EXCEPTION(IMPRECISE_FAULT, -EINVAL),
+> +	PANFROST_EXCEPTION(OOM, -ENOMEM),
+> +	PANFROST_EXCEPTION(UNKNOWN, -EINVAL),
+
+We should probably make a distinction between this 'special' UNKNOWN
+that the hardware can report...
+
+> +	PANFROST_EXCEPTION(DELAYED_BUS_FAULT, -EINVAL),
+> +	PANFROST_EXCEPTION(GPU_SHAREABILITY_FAULT, -ECANCELED),
+> +	PANFROST_EXCEPTION(SYS_SHAREABILITY_FAULT, -ECANCELED),
+> +	PANFROST_EXCEPTION(GPU_CACHEABILITY_FAULT, -ECANCELED),
+> +	PANFROST_EXCEPTION(TRANSLATION_FAULT_0, -EINVAL),
+> +	PANFROST_EXCEPTION(TRANSLATION_FAULT_1, -EINVAL),
+> +	PANFROST_EXCEPTION(TRANSLATION_FAULT_2, -EINVAL),
+> +	PANFROST_EXCEPTION(TRANSLATION_FAULT_3, -EINVAL),
+> +	PANFROST_EXCEPTION(TRANSLATION_FAULT_4, -EINVAL),
+> +	PANFROST_EXCEPTION(TRANSLATION_FAULT_IDENTITY, -EINVAL),
+> +	PANFROST_EXCEPTION(PERM_FAULT_0, -EINVAL),
+> +	PANFROST_EXCEPTION(PERM_FAULT_1, -EINVAL),
+> +	PANFROST_EXCEPTION(PERM_FAULT_2, -EINVAL),
+> +	PANFROST_EXCEPTION(PERM_FAULT_3, -EINVAL),
+> +	PANFROST_EXCEPTION(TRANSTAB_BUS_FAULT_0, -EINVAL),
+> +	PANFROST_EXCEPTION(TRANSTAB_BUS_FAULT_1, -EINVAL),
+> +	PANFROST_EXCEPTION(TRANSTAB_BUS_FAULT_2, -EINVAL),
+> +	PANFROST_EXCEPTION(TRANSTAB_BUS_FAULT_3, -EINVAL),
+> +	PANFROST_EXCEPTION(ACCESS_FLAG_0, -EINVAL),
+> +	PANFROST_EXCEPTION(ACCESS_FLAG_1, -EINVAL),
+> +	PANFROST_EXCEPTION(ACCESS_FLAG_2, -EINVAL),
+> +	PANFROST_EXCEPTION(ACCESS_FLAG_3, -EINVAL),
+> +	PANFROST_EXCEPTION(ADDR_SIZE_FAULT_IN0, -EINVAL),
+> +	PANFROST_EXCEPTION(ADDR_SIZE_FAULT_IN1, -EINVAL),
+> +	PANFROST_EXCEPTION(ADDR_SIZE_FAULT_IN2, -EINVAL),
+> +	PANFROST_EXCEPTION(ADDR_SIZE_FAULT_IN3, -EINVAL),
+> +	PANFROST_EXCEPTION(ADDR_SIZE_FAULT_OUT0, -EINVAL),
+> +	PANFROST_EXCEPTION(ADDR_SIZE_FAULT_OUT1, -EINVAL),
+> +	PANFROST_EXCEPTION(ADDR_SIZE_FAULT_OUT2, -EINVAL),
+> +	PANFROST_EXCEPTION(ADDR_SIZE_FAULT_OUT3, -EINVAL),
+> +	PANFROST_EXCEPTION(MEM_ATTR_FAULT_0, -EINVAL),
+> +	PANFROST_EXCEPTION(MEM_ATTR_FAULT_1, -EINVAL),
+> +	PANFROST_EXCEPTION(MEM_ATTR_FAULT_2, -EINVAL),
+> +	PANFROST_EXCEPTION(MEM_ATTR_FAULT_3, -EINVAL),
+> +	PANFROST_EXCEPTION(MEM_ATTR_NONCACHE_0, -EINVAL),
+> +	PANFROST_EXCEPTION(MEM_ATTR_NONCACHE_1, -EINVAL),
+> +	PANFROST_EXCEPTION(MEM_ATTR_NONCACHE_2, -EINVAL),
+> +	PANFROST_EXCEPTION(MEM_ATTR_NONCACHE_3, -EINVAL),
+> +};
+> +
+> +const char *panfrost_exception_name(u32 exception_code)
+> +{
+> +	if (WARN_ON(exception_code >= ARRAY_SIZE(panfrost_exception_infos) ||
+> +		    !panfrost_exception_infos[exception_code].name))
+> +		return "UNKNOWN";
+
+...and this UNKNOWN that just means we don't have a clue what the magic
+number is.
+
+Steve
+
+> +
+> +	return panfrost_exception_infos[exception_code].name;
+> +}
+> +
+> +int panfrost_exception_to_error(u32 exception_code)
+> +{
+> +	if (WARN_ON(exception_code >= ARRAY_SIZE(panfrost_exception_infos)))
+> +		return 0;
+> +
+> +	return panfrost_exception_infos[exception_code].error;
+>  }
+>  
+>  void panfrost_device_reset(struct panfrost_device *pfdev)
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_device.h b/drivers/gpu/drm/panfrost/panfrost_device.h
+> index 1c6a3597eba0..498c7b5dccd0 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_device.h
+> +++ b/drivers/gpu/drm/panfrost/panfrost_device.h
+> @@ -174,6 +174,7 @@ int panfrost_device_resume(struct device *dev);
+>  int panfrost_device_suspend(struct device *dev);
+>  
+>  const char *panfrost_exception_name(u32 exception_code);
+> +int panfrost_exception_to_error(u32 exception_code);
+>  
+>  static inline void
+>  panfrost_device_schedule_reset(struct panfrost_device *pfdev)
+> 
 
