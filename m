@@ -2,32 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14BB63AEA03
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Jun 2021 15:26:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F8DB3AE9FF
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Jun 2021 15:26:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3FEAA6E13C;
-	Mon, 21 Jun 2021 13:26:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3CAA46E102;
+	Mon, 21 Jun 2021 13:25:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
  [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED8666E0FC
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Jun 2021 13:25:49 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4DF9E6E117
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Jun 2021 13:25:50 +0000 (UTC)
 Received: from localhost.localdomain (unknown
  [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id A6E5F1F42715;
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 04A701F4271A;
  Mon, 21 Jun 2021 14:25:48 +0100 (BST)
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: Rob Herring <robh+dt@kernel.org>,
  Tomeu Vizoso <tomeu.vizoso@collabora.com>,
  Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
  Steven Price <steven.price@arm.com>, Robin Murphy <robin.murphy@arm.com>
-Subject: [PATCH 08/10] drm/panfrost: Do the exception -> string translation
- using a table
-Date: Mon, 21 Jun 2021 15:25:37 +0200
-Message-Id: <20210621132539.1683000-9-boris.brezillon@collabora.com>
+Subject: [PATCH 09/10] drm/panfrost: Don't reset the GPU on job faults unless
+ we really have to
+Date: Mon, 21 Jun 2021 15:25:38 +0200
+Message-Id: <20210621132539.1683000-10-boris.brezillon@collabora.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210621132539.1683000-1-boris.brezillon@collabora.com>
 References: <20210621132539.1683000-1-boris.brezillon@collabora.com>
@@ -50,178 +50,104 @@ Cc: Boris Brezillon <boris.brezillon@collabora.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Do the exception -> string translation using a table so we can add extra
-fields if we need to. While at it add an error field to ease the
-exception -> error conversion which we'll need if we want to set the
-fence error to something that reflects the exception code.
-
-TODO: fix the error codes.
+If we can recover from a fault without a reset there's no reason to
+issue one.
 
 Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 ---
- drivers/gpu/drm/panfrost/panfrost_device.c | 134 +++++++++++++--------
- drivers/gpu/drm/panfrost/panfrost_device.h |   1 +
- 2 files changed, 88 insertions(+), 47 deletions(-)
+ drivers/gpu/drm/panfrost/panfrost_device.c |  9 ++++++
+ drivers/gpu/drm/panfrost/panfrost_device.h |  2 ++
+ drivers/gpu/drm/panfrost/panfrost_job.c    | 35 ++++++++++++++--------
+ 3 files changed, 34 insertions(+), 12 deletions(-)
 
 diff --git a/drivers/gpu/drm/panfrost/panfrost_device.c b/drivers/gpu/drm/panfrost/panfrost_device.c
-index f7f5ca94f910..2de011cee258 100644
+index 2de011cee258..ac76e8646e97 100644
 --- a/drivers/gpu/drm/panfrost/panfrost_device.c
 +++ b/drivers/gpu/drm/panfrost/panfrost_device.c
-@@ -292,55 +292,95 @@ void panfrost_device_fini(struct panfrost_device *pfdev)
- 	panfrost_clk_fini(pfdev);
+@@ -383,6 +383,15 @@ int panfrost_exception_to_error(u32 exception_code)
+ 	return panfrost_exception_infos[exception_code].error;
  }
  
--const char *panfrost_exception_name(u32 exception_code)
--{
--	switch (exception_code) {
--		/* Non-Fault Status code */
--	case 0x00: return "NOT_STARTED/IDLE/OK";
--	case 0x01: return "DONE";
--	case 0x02: return "INTERRUPTED";
--	case 0x03: return "STOPPED";
--	case 0x04: return "TERMINATED";
--	case 0x08: return "ACTIVE";
--		/* Job exceptions */
--	case 0x40: return "JOB_CONFIG_FAULT";
--	case 0x41: return "JOB_POWER_FAULT";
--	case 0x42: return "JOB_READ_FAULT";
--	case 0x43: return "JOB_WRITE_FAULT";
--	case 0x44: return "JOB_AFFINITY_FAULT";
--	case 0x48: return "JOB_BUS_FAULT";
--	case 0x50: return "INSTR_INVALID_PC";
--	case 0x51: return "INSTR_INVALID_ENC";
--	case 0x52: return "INSTR_TYPE_MISMATCH";
--	case 0x53: return "INSTR_OPERAND_FAULT";
--	case 0x54: return "INSTR_TLS_FAULT";
--	case 0x55: return "INSTR_BARRIER_FAULT";
--	case 0x56: return "INSTR_ALIGN_FAULT";
--	case 0x58: return "DATA_INVALID_FAULT";
--	case 0x59: return "TILE_RANGE_FAULT";
--	case 0x5A: return "ADDR_RANGE_FAULT";
--	case 0x60: return "OUT_OF_MEMORY";
--		/* GPU exceptions */
--	case 0x80: return "DELAYED_BUS_FAULT";
--	case 0x88: return "SHAREABILITY_FAULT";
--		/* MMU exceptions */
--	case 0xC1: return "TRANSLATION_FAULT_LEVEL1";
--	case 0xC2: return "TRANSLATION_FAULT_LEVEL2";
--	case 0xC3: return "TRANSLATION_FAULT_LEVEL3";
--	case 0xC4: return "TRANSLATION_FAULT_LEVEL4";
--	case 0xC8: return "PERMISSION_FAULT";
--	case 0xC9 ... 0xCF: return "PERMISSION_FAULT";
--	case 0xD1: return "TRANSTAB_BUS_FAULT_LEVEL1";
--	case 0xD2: return "TRANSTAB_BUS_FAULT_LEVEL2";
--	case 0xD3: return "TRANSTAB_BUS_FAULT_LEVEL3";
--	case 0xD4: return "TRANSTAB_BUS_FAULT_LEVEL4";
--	case 0xD8: return "ACCESS_FLAG";
--	case 0xD9 ... 0xDF: return "ACCESS_FLAG";
--	case 0xE0 ... 0xE7: return "ADDRESS_SIZE_FAULT";
--	case 0xE8 ... 0xEF: return "MEMORY_ATTRIBUTES_FAULT";
-+#define PANFROST_EXCEPTION(id, err) \
-+	[DRM_PANFROST_EXCEPTION_ ## id] = { \
-+		.name = #id, \
-+		.error = err, \
- 	}
- 
--	return "UNKNOWN";
-+struct panfrost_exception_info {
-+	const char *name;
-+	int error;
-+};
-+
-+static const struct panfrost_exception_info panfrost_exception_infos[] = {
-+	PANFROST_EXCEPTION(OK, 0),
-+	PANFROST_EXCEPTION(DONE, 0),
-+	PANFROST_EXCEPTION(STOPPED, 0),
-+	PANFROST_EXCEPTION(TERMINATED, 0),
-+	PANFROST_EXCEPTION(KABOOM, 0),
-+	PANFROST_EXCEPTION(EUREKA, 0),
-+	PANFROST_EXCEPTION(ACTIVE, 0),
-+	PANFROST_EXCEPTION(JOB_CONFIG_FAULT, -EINVAL),
-+	PANFROST_EXCEPTION(JOB_POWER_FAULT, -ECANCELED),
-+	PANFROST_EXCEPTION(JOB_READ_FAULT, -EINVAL),
-+	PANFROST_EXCEPTION(JOB_WRITE_FAULT, -EINVAL),
-+	PANFROST_EXCEPTION(JOB_AFFINITY_FAULT, -EINVAL),
-+	PANFROST_EXCEPTION(JOB_BUS_FAULT, -EINVAL),
-+	PANFROST_EXCEPTION(INSTR_INVALID_PC, -EINVAL),
-+	PANFROST_EXCEPTION(INSTR_INVALID_ENC, -EINVAL),
-+	PANFROST_EXCEPTION(INSTR_BARRIER_FAULT, -EINVAL),
-+	PANFROST_EXCEPTION(DATA_INVALID_FAULT, -EINVAL),
-+	PANFROST_EXCEPTION(TILE_RANGE_FAULT, -EINVAL),
-+	PANFROST_EXCEPTION(ADDR_RANGE_FAULT, -EINVAL),
-+	PANFROST_EXCEPTION(IMPRECISE_FAULT, -EINVAL),
-+	PANFROST_EXCEPTION(OOM, -ENOMEM),
-+	PANFROST_EXCEPTION(UNKNOWN, -EINVAL),
-+	PANFROST_EXCEPTION(DELAYED_BUS_FAULT, -EINVAL),
-+	PANFROST_EXCEPTION(GPU_SHAREABILITY_FAULT, -ECANCELED),
-+	PANFROST_EXCEPTION(SYS_SHAREABILITY_FAULT, -ECANCELED),
-+	PANFROST_EXCEPTION(GPU_CACHEABILITY_FAULT, -ECANCELED),
-+	PANFROST_EXCEPTION(TRANSLATION_FAULT_0, -EINVAL),
-+	PANFROST_EXCEPTION(TRANSLATION_FAULT_1, -EINVAL),
-+	PANFROST_EXCEPTION(TRANSLATION_FAULT_2, -EINVAL),
-+	PANFROST_EXCEPTION(TRANSLATION_FAULT_3, -EINVAL),
-+	PANFROST_EXCEPTION(TRANSLATION_FAULT_4, -EINVAL),
-+	PANFROST_EXCEPTION(TRANSLATION_FAULT_IDENTITY, -EINVAL),
-+	PANFROST_EXCEPTION(PERM_FAULT_0, -EINVAL),
-+	PANFROST_EXCEPTION(PERM_FAULT_1, -EINVAL),
-+	PANFROST_EXCEPTION(PERM_FAULT_2, -EINVAL),
-+	PANFROST_EXCEPTION(PERM_FAULT_3, -EINVAL),
-+	PANFROST_EXCEPTION(TRANSTAB_BUS_FAULT_0, -EINVAL),
-+	PANFROST_EXCEPTION(TRANSTAB_BUS_FAULT_1, -EINVAL),
-+	PANFROST_EXCEPTION(TRANSTAB_BUS_FAULT_2, -EINVAL),
-+	PANFROST_EXCEPTION(TRANSTAB_BUS_FAULT_3, -EINVAL),
-+	PANFROST_EXCEPTION(ACCESS_FLAG_0, -EINVAL),
-+	PANFROST_EXCEPTION(ACCESS_FLAG_1, -EINVAL),
-+	PANFROST_EXCEPTION(ACCESS_FLAG_2, -EINVAL),
-+	PANFROST_EXCEPTION(ACCESS_FLAG_3, -EINVAL),
-+	PANFROST_EXCEPTION(ADDR_SIZE_FAULT_IN0, -EINVAL),
-+	PANFROST_EXCEPTION(ADDR_SIZE_FAULT_IN1, -EINVAL),
-+	PANFROST_EXCEPTION(ADDR_SIZE_FAULT_IN2, -EINVAL),
-+	PANFROST_EXCEPTION(ADDR_SIZE_FAULT_IN3, -EINVAL),
-+	PANFROST_EXCEPTION(ADDR_SIZE_FAULT_OUT0, -EINVAL),
-+	PANFROST_EXCEPTION(ADDR_SIZE_FAULT_OUT1, -EINVAL),
-+	PANFROST_EXCEPTION(ADDR_SIZE_FAULT_OUT2, -EINVAL),
-+	PANFROST_EXCEPTION(ADDR_SIZE_FAULT_OUT3, -EINVAL),
-+	PANFROST_EXCEPTION(MEM_ATTR_FAULT_0, -EINVAL),
-+	PANFROST_EXCEPTION(MEM_ATTR_FAULT_1, -EINVAL),
-+	PANFROST_EXCEPTION(MEM_ATTR_FAULT_2, -EINVAL),
-+	PANFROST_EXCEPTION(MEM_ATTR_FAULT_3, -EINVAL),
-+	PANFROST_EXCEPTION(MEM_ATTR_NONCACHE_0, -EINVAL),
-+	PANFROST_EXCEPTION(MEM_ATTR_NONCACHE_1, -EINVAL),
-+	PANFROST_EXCEPTION(MEM_ATTR_NONCACHE_2, -EINVAL),
-+	PANFROST_EXCEPTION(MEM_ATTR_NONCACHE_3, -EINVAL),
-+};
-+
-+const char *panfrost_exception_name(u32 exception_code)
++bool panfrost_exception_needs_reset(const struct panfrost_device *pfdev,
++				    u32 exception_code)
 +{
-+	if (WARN_ON(exception_code >= ARRAY_SIZE(panfrost_exception_infos) ||
-+		    !panfrost_exception_infos[exception_code].name))
-+		return "UNKNOWN";
-+
-+	return panfrost_exception_infos[exception_code].name;
++	/* Right now, none of the GPU we support need a reset, but this
++	 * might change (e.g. Valhall GPUs require a when a BUS_FAULT occurs).
++	 */
++	return false;
 +}
 +
-+int panfrost_exception_to_error(u32 exception_code)
-+{
-+	if (WARN_ON(exception_code >= ARRAY_SIZE(panfrost_exception_infos)))
-+		return 0;
-+
-+	return panfrost_exception_infos[exception_code].error;
- }
- 
  void panfrost_device_reset(struct panfrost_device *pfdev)
+ {
+ 	panfrost_gpu_soft_reset(pfdev);
 diff --git a/drivers/gpu/drm/panfrost/panfrost_device.h b/drivers/gpu/drm/panfrost/panfrost_device.h
-index 1c6a3597eba0..498c7b5dccd0 100644
+index 498c7b5dccd0..95e6044008d2 100644
 --- a/drivers/gpu/drm/panfrost/panfrost_device.h
 +++ b/drivers/gpu/drm/panfrost/panfrost_device.h
-@@ -174,6 +174,7 @@ int panfrost_device_resume(struct device *dev);
- int panfrost_device_suspend(struct device *dev);
+@@ -175,6 +175,8 @@ int panfrost_device_suspend(struct device *dev);
  
  const char *panfrost_exception_name(u32 exception_code);
-+int panfrost_exception_to_error(u32 exception_code);
+ int panfrost_exception_to_error(u32 exception_code);
++bool panfrost_exception_needs_reset(const struct panfrost_device *pfdev,
++				    u32 exception_code);
  
  static inline void
  panfrost_device_schedule_reset(struct panfrost_device *pfdev)
+diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
+index be5d3e4a1d0a..aedc604d331c 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_job.c
++++ b/drivers/gpu/drm/panfrost/panfrost_job.c
+@@ -493,27 +493,38 @@ static irqreturn_t panfrost_job_irq_handler(int irq, void *data)
+ 
+ 		if (status & JOB_INT_MASK_ERR(j)) {
+ 			enum panfrost_queue_status old_status;
++			u32 js_status = job_read(pfdev, JS_STATUS(j));
+ 
+ 			job_write(pfdev, JS_COMMAND_NEXT(j), JS_COMMAND_NOP);
+ 
+ 			dev_err(pfdev->dev, "js fault, js=%d, status=%s, head=0x%x, tail=0x%x",
+ 				j,
+-				panfrost_exception_name(job_read(pfdev, JS_STATUS(j))),
++				panfrost_exception_name(js_status),
+ 				job_read(pfdev, JS_HEAD_LO(j)),
+ 				job_read(pfdev, JS_TAIL_LO(j)));
+ 
+-			/*
+-			 * When the queue is being restarted we don't report
+-			 * faults directly to avoid races between the timeout
+-			 * and reset handlers. panfrost_scheduler_start() will
+-			 * call drm_sched_fault() after the queue has been
+-			 * started if status == FAULT_PENDING.
++			/* If we need a reset, signal it to the reset handler,
++			 * otherwise, update the fence error field and signal
++			 * the job fence.
+ 			 */
+-			old_status = atomic_cmpxchg(&pfdev->js->queue[j].status,
+-						    PANFROST_QUEUE_STATUS_STARTING,
+-						    PANFROST_QUEUE_STATUS_FAULT_PENDING);
+-			if (old_status == PANFROST_QUEUE_STATUS_ACTIVE)
+-				drm_sched_fault(&pfdev->js->queue[j].sched);
++			if (panfrost_exception_needs_reset(pfdev, js_status)) {
++				/*
++				 * When the queue is being restarted we don't report
++				 * faults directly to avoid races between the timeout
++				 * and reset handlers. panfrost_scheduler_start() will
++				 * call drm_sched_fault() after the queue has been
++				 * started if status == FAULT_PENDING.
++				 */
++				old_status = atomic_cmpxchg(&pfdev->js->queue[j].status,
++							    PANFROST_QUEUE_STATUS_STARTING,
++							    PANFROST_QUEUE_STATUS_FAULT_PENDING);
++				if (old_status == PANFROST_QUEUE_STATUS_ACTIVE)
++					drm_sched_fault(&pfdev->js->queue[j].sched);
++			} else {
++				dma_fence_set_error(pfdev->jobs[j]->done_fence,
++						    panfrost_exception_to_error(js_status));
++				status |= JOB_INT_MASK_DONE(j);
++			}
+ 		}
+ 
+ 		if (status & JOB_INT_MASK_DONE(j)) {
 -- 
 2.31.1
 
