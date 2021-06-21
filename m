@@ -2,30 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2428E3AEA32
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Jun 2021 15:39:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAC5B3AEA34
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Jun 2021 15:39:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 37DD26E140;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E1C56E14C;
 	Mon, 21 Jun 2021 13:39:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB53D6E133
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D26446E12E
  for <dri-devel@lists.freedesktop.org>; Mon, 21 Jun 2021 13:39:33 +0000 (UTC)
 Received: from localhost.localdomain (unknown
  [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 86D181F42297;
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id D5C0D1F4229D;
  Mon, 21 Jun 2021 14:39:27 +0100 (BST)
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: Rob Herring <robh+dt@kernel.org>,
  Tomeu Vizoso <tomeu.vizoso@collabora.com>,
  Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
  Steven Price <steven.price@arm.com>, Robin Murphy <robin.murphy@arm.com>
-Subject: [PATCH v2 05/12] drm/panfrost: Disable the AS on unhandled page faults
-Date: Mon, 21 Jun 2021 15:39:00 +0200
-Message-Id: <20210621133907.1683899-6-boris.brezillon@collabora.com>
+Subject: [PATCH v2 06/12] drm/panfrost: Expose a helper to trigger a GPU reset
+Date: Mon, 21 Jun 2021 15:39:01 +0200
+Message-Id: <20210621133907.1683899-7-boris.brezillon@collabora.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210621133907.1683899-1-boris.brezillon@collabora.com>
 References: <20210621133907.1683899-1-boris.brezillon@collabora.com>
@@ -48,38 +49,47 @@ Cc: Boris Brezillon <boris.brezillon@collabora.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If we don't do that, we have to wait for the job timeout to expire
-before the fault jobs gets killed.
+Expose a helper to trigger a GPU reset so we can easily trigger reset
+operations outside the job timeout handler.
 
 Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 ---
- drivers/gpu/drm/panfrost/panfrost_mmu.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/panfrost/panfrost_device.h | 8 ++++++++
+ drivers/gpu/drm/panfrost/panfrost_job.c    | 4 +---
+ 2 files changed, 9 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/panfrost/panfrost_mmu.c b/drivers/gpu/drm/panfrost/panfrost_mmu.c
-index 2a9bf30edc9d..d5c624e776f1 100644
---- a/drivers/gpu/drm/panfrost/panfrost_mmu.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_mmu.c
-@@ -661,7 +661,7 @@ static irqreturn_t panfrost_mmu_irq_handler_thread(int irq, void *data)
- 		if ((status & mask) == BIT(as) && (exception_type & 0xF8) == 0xC0)
- 			ret = panfrost_mmu_map_fault_addr(pfdev, as, addr);
+diff --git a/drivers/gpu/drm/panfrost/panfrost_device.h b/drivers/gpu/drm/panfrost/panfrost_device.h
+index 2fe1550da7f8..1c6a3597eba0 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_device.h
++++ b/drivers/gpu/drm/panfrost/panfrost_device.h
+@@ -175,4 +175,12 @@ int panfrost_device_suspend(struct device *dev);
  
--		if (ret)
-+		if (ret) {
- 			/* terminal fault, print info about the fault */
- 			dev_err(pfdev->dev,
- 				"Unhandled Page fault in AS%d at VA 0x%016llX\n"
-@@ -679,6 +679,10 @@ static irqreturn_t panfrost_mmu_irq_handler_thread(int irq, void *data)
- 				access_type, access_type_name(pfdev, fault_status),
- 				source_id);
+ const char *panfrost_exception_name(u32 exception_code);
  
-+			/* Disable the MMU to stop jobs on this AS immediately */
-+			panfrost_mmu_disable(pfdev, as);
-+		}
++static inline void
++panfrost_device_schedule_reset(struct panfrost_device *pfdev)
++{
++	/* Schedule a reset if there's no reset in progress. */
++	if (!atomic_xchg(&pfdev->reset.pending, 1))
++		schedule_work(&pfdev->reset.work);
++}
 +
- 		status &= ~mask;
+ #endif
+diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
+index 1be80b3dd5d0..be5d3e4a1d0a 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_job.c
++++ b/drivers/gpu/drm/panfrost/panfrost_job.c
+@@ -458,9 +458,7 @@ static enum drm_gpu_sched_stat panfrost_job_timedout(struct drm_sched_job
+ 	if (!panfrost_scheduler_stop(&pfdev->js->queue[js], sched_job))
+ 		return DRM_GPU_SCHED_STAT_NOMINAL;
  
- 		/* If we received new MMU interrupts, process them before returning. */
+-	/* Schedule a reset if there's no reset in progress. */
+-	if (!atomic_xchg(&pfdev->reset.pending, 1))
+-		schedule_work(&pfdev->reset.work);
++	panfrost_device_schedule_reset(pfdev);
+ 
+ 	return DRM_GPU_SCHED_STAT_NOMINAL;
+ }
 -- 
 2.31.1
 
