@@ -2,33 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBE953AEA02
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Jun 2021 15:26:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C7073AEA2B
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Jun 2021 15:39:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F5D96E125;
-	Mon, 21 Jun 2021 13:26:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 72E8C6E118;
+	Mon, 21 Jun 2021 13:39:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE4CB6E0FC
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Jun 2021 13:25:50 +0000 (UTC)
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B8626E118
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Jun 2021 13:39:26 +0000 (UTC)
 Received: from localhost.localdomain (unknown
  [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 569561F42717;
- Mon, 21 Jun 2021 14:25:49 +0100 (BST)
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 0DB051F42297;
+ Mon, 21 Jun 2021 14:39:12 +0100 (BST)
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: Rob Herring <robh+dt@kernel.org>,
  Tomeu Vizoso <tomeu.vizoso@collabora.com>,
  Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
  Steven Price <steven.price@arm.com>, Robin Murphy <robin.murphy@arm.com>
-Subject: [PATCH 10/10] drm/panfrost: Kill in-flight jobs on FD close
-Date: Mon, 21 Jun 2021 15:25:39 +0200
-Message-Id: <20210621132539.1683000-11-boris.brezillon@collabora.com>
+Subject: [PATCH v2 00/12] drm/panfrost: Misc fixes/improvements
+Date: Mon, 21 Jun 2021 15:38:55 +0200
+Message-Id: <20210621133907.1683899-1-boris.brezillon@collabora.com>
 X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210621132539.1683000-1-boris.brezillon@collabora.com>
-References: <20210621132539.1683000-1-boris.brezillon@collabora.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -48,72 +47,64 @@ Cc: Boris Brezillon <boris.brezillon@collabora.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If the process who submitted these jobs decided to close the FD before
-the jobs are done it probably means it doesn't care about the result.
+Hello,
 
-Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
----
- drivers/gpu/drm/panfrost/panfrost_job.c | 33 +++++++++++++++++++++----
- 1 file changed, 28 insertions(+), 5 deletions(-)
+Sorry for the noise, but I forgot 2 fixes (one fixing the error
+set to the sched fence when the driver fence allocation fails,
+and the other one shrinking the dma signalling section to get
+rid of spurious lockdep warnings).
 
-diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
-index aedc604d331c..a51fa0a81367 100644
---- a/drivers/gpu/drm/panfrost/panfrost_job.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_job.c
-@@ -494,14 +494,22 @@ static irqreturn_t panfrost_job_irq_handler(int irq, void *data)
- 		if (status & JOB_INT_MASK_ERR(j)) {
- 			enum panfrost_queue_status old_status;
- 			u32 js_status = job_read(pfdev, JS_STATUS(j));
-+			int error = panfrost_exception_to_error(js_status);
-+			const char *exception_name = panfrost_exception_name(js_status);
- 
- 			job_write(pfdev, JS_COMMAND_NEXT(j), JS_COMMAND_NOP);
- 
--			dev_err(pfdev->dev, "js fault, js=%d, status=%s, head=0x%x, tail=0x%x",
--				j,
--				panfrost_exception_name(js_status),
--				job_read(pfdev, JS_HEAD_LO(j)),
--				job_read(pfdev, JS_TAIL_LO(j)));
-+			if (!error) {
-+				dev_dbg(pfdev->dev, "js interrupt, js=%d, status=%s, head=0x%x, tail=0x%x",
-+					j, exception_name,
-+					job_read(pfdev, JS_HEAD_LO(j)),
-+					job_read(pfdev, JS_TAIL_LO(j)));
-+			} else {
-+				dev_err(pfdev->dev, "js fault, js=%d, status=%s, head=0x%x, tail=0x%x",
-+					j, exception_name,
-+					job_read(pfdev, JS_HEAD_LO(j)),
-+					job_read(pfdev, JS_TAIL_LO(j)));
-+			}
- 
- 			/* If we need a reset, signal it to the reset handler,
- 			 * otherwise, update the fence error field and signal
-@@ -688,10 +696,25 @@ int panfrost_job_open(struct panfrost_file_priv *panfrost_priv)
- 
- void panfrost_job_close(struct panfrost_file_priv *panfrost_priv)
- {
-+	struct panfrost_device *pfdev = panfrost_priv->pfdev;
-+	unsigned long flags;
- 	int i;
- 
- 	for (i = 0; i < NUM_JOB_SLOTS; i++)
- 		drm_sched_entity_destroy(&panfrost_priv->sched_entity[i]);
-+
-+	/* Kill in-flight jobs */
-+	spin_lock_irqsave(&pfdev->js->job_lock, flags);
-+	for (i = 0; i < NUM_JOB_SLOTS; i++) {
-+		struct drm_sched_entity *entity = &panfrost_priv->sched_entity[i];
-+		struct panfrost_job *job = pfdev->jobs[i];
-+
-+		if (!job || job->base.entity != entity)
-+			continue;
-+
-+		job_write(pfdev, JS_COMMAND(i), JS_COMMAND_HARD_STOP);
-+	}
-+	spin_unlock_irqrestore(&pfdev->js->job_lock, flags);
- }
- 
- int panfrost_job_is_idle(struct panfrost_device *pfdev)
+The rest of the series hasn't changed.
+
+The first patch has been submitted a while ago but was lacking a way
+to kill in-flight jobs when a context is closed; which is now addressed
+in patch 10.
+
+The rest of those patches are improving fault handling (with some code
+refactoring in the middle).
+
+"drm/panfrost: Do the exception -> string translation using a table"
+still has a TODO. I basically mapped all exception types to
+EINVAL since most faults are triggered by invalid job/shaders, but
+there might be some exceptions that should be translated to something
+else. Any feedback on that aspect is welcome.
+
+Regards,
+
+Boris
+
+Changes in v2:
+* Added patch 11 and 12
+
+Boris Brezillon (12):
+  drm/panfrost: Make sure MMU context lifetime is not bound to
+    panfrost_priv
+  drm/panfrost: Get rid of the unused JS_STATUS_EVENT_ACTIVE definition
+  drm/panfrost: Drop the pfdev argument passed to
+    panfrost_exception_name()
+  drm/panfrost: Expose exception types to userspace
+  drm/panfrost: Disable the AS on unhandled page faults
+  drm/panfrost: Expose a helper to trigger a GPU reset
+  drm/panfrost: Reset the GPU when the AS_ACTIVE bit is stuck
+  drm/panfrost: Do the exception -> string translation using a table
+  drm/panfrost: Don't reset the GPU on job faults unless we really have
+    to
+  drm/panfrost: Kill in-flight jobs on FD close
+  drm/panfrost: Make ->run_job() return an ERR_PTR() when appropriate
+  drm/panfrost: Shorten the fence signalling section
+
+ drivers/gpu/drm/panfrost/panfrost_device.c | 143 +++++++++++------
+ drivers/gpu/drm/panfrost/panfrost_device.h |  21 ++-
+ drivers/gpu/drm/panfrost/panfrost_drv.c    |  50 ++----
+ drivers/gpu/drm/panfrost/panfrost_gem.c    |  20 ++-
+ drivers/gpu/drm/panfrost/panfrost_gpu.c    |   2 +-
+ drivers/gpu/drm/panfrost/panfrost_job.c    |  83 ++++++----
+ drivers/gpu/drm/panfrost/panfrost_mmu.c    | 173 ++++++++++++++-------
+ drivers/gpu/drm/panfrost/panfrost_mmu.h    |   5 +-
+ drivers/gpu/drm/panfrost/panfrost_regs.h   |   3 -
+ include/uapi/drm/panfrost_drm.h            |  65 ++++++++
+ 10 files changed, 375 insertions(+), 190 deletions(-)
+
 -- 
 2.31.1
 
