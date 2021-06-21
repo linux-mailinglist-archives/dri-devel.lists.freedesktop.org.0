@@ -1,56 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2884D3AE427
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Jun 2021 09:25:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B71403AE428
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Jun 2021 09:25:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 54D7689E08;
-	Mon, 21 Jun 2021 07:25:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F28B589E0D;
+	Mon, 21 Jun 2021 07:25:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com
- [IPv6:2607:f8b0:4864:20::42c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 505E489E08
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Jun 2021 07:25:34 +0000 (UTC)
-Received: by mail-pf1-x42c.google.com with SMTP id g6so12963131pfq.1
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Jun 2021 00:25:34 -0700 (PDT)
+Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com
+ [IPv6:2607:f8b0:4864:20::52c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 46B4389E0D
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Jun 2021 07:25:41 +0000 (UTC)
+Received: by mail-pg1-x52c.google.com with SMTP id t13so1627610pgu.11
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Jun 2021 00:25:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amarulasolutions.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=CDm4Fe12mdxq5DdIPspRuN5iFshZ9EbPE5vdu5Oxm04=;
- b=YZOmFhde+7WJEAJJcHhiE2RoCfiZ5+Xre9HWv6er8mZGYPFwx86A5pI5HvqQ2aIYJa
- mGQl507iONMiu2Njyt//5ToHzpgInx4NxnruZObcvkMMVEwmlvPwD1V4WVl+A4Mn9tpU
- Es22Hpp1Cbf2desjyFjngKNPKVp4vgR3lYPsE=
+ bh=lTGm4JdvD3Vra2uimR9VdWCccBLfDRHg1bYd/TgBubU=;
+ b=PFJ+240oebdQnrjo/n/RAYbIElojZ4FKbPovvcLEqUz4yBbkyVuFvAOGUWXkm30rfe
+ 75bW0/Ce4RgwAgC4v3Vrk7kmCKD6qi1mkuF5f0eGUUYyW6TGPpMB4W5gED+bP1XNgU3J
+ fcUqMyXjuP9ETuCKYHTX4nrwrmYudt7xQPSBo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=CDm4Fe12mdxq5DdIPspRuN5iFshZ9EbPE5vdu5Oxm04=;
- b=tvw+OXvWO7DKkzfcI8QHauFWfKxq0dHonv9c8jG+i1T0k2sI6ZehRvIaAC/Vq4K/M5
- gukKehwKlyC0CO0joU1FuOSAM5zYnWbPoqmv4eZVgwFA5GLpHxymD4C5uIR3ntYvu5Vl
- h1kRz2gPzUmAhn0MJF2uSTEpgHgWkohZFGdFGQ5S00RqdeuRIIHZvLXv9if9dKmWnTHn
- WVhykht+eJK5p+MQt9AKiXgSD5A9yBAsRZjqD+GCn2M8E5M6yrPIa0x0C88OXowPsH5p
- Vo/ixehB/apfJwnvty7z8WJ+xlbwJ6zJtjQ22WyEOY0VPExc8Cim0+0IeheqOiBMW9Od
- +XYQ==
-X-Gm-Message-State: AOAM531oj6RB0MfHIonwHt5mdf2aj134EOZpLb/9teSuSDaFKWteqhF+
- TH7ghL6BWLIKGy19pOnTKmCzRg==
-X-Google-Smtp-Source: ABdhPJxxKWIiejU1Buqyxc/58klL8XS905Uz5TdWMrAYfu8+TVmMNfyDjpogOLqWfZadZDexODr4cQ==
-X-Received: by 2002:a65:63d2:: with SMTP id n18mr22683982pgv.447.1624260333918; 
- Mon, 21 Jun 2021 00:25:33 -0700 (PDT)
+ bh=lTGm4JdvD3Vra2uimR9VdWCccBLfDRHg1bYd/TgBubU=;
+ b=oSPuyzALRPKbv4VsjTKOkn7B8vYwqJ5KlsyR1g4VCUzW+dL6t//YD3WQHn6SYZ5Y6I
+ jnQflR/0tqDDAbI2BMavyKqQa123nr4sKpNbIEpUgPwOJELHrqgI3/ZpNjcUUVKc1XQZ
+ DFyUaulPJARVvKDl2dOS9wUZ2vd+p3ngdgjGgNLqm1T76sr50b3lBLAIYs1UGci17Pn8
+ HtS8xHJDCjRAGOC19p+2dXesGif8mdgk+nTYfxf7Rvgtcn/dmPgM5ayWmQ9lVAxn8OYX
+ qXXghEi9KZYLWeH8UdTvh3k+8Mx8WG8DmF+Z3nOg+10ho+9me+ZvbJ5KPfAiLC/YTh5k
+ Cmjw==
+X-Gm-Message-State: AOAM533hte0UDhs1zhZq+4d0a7rIakzopPMhyRwn/lz/8x1xNbp18fes
+ tmNgrbh/mCbYShHzgoJgUsgIpA==
+X-Google-Smtp-Source: ABdhPJySHSLKRyuhIZrudYf++tyEsD+0GgBX+hyzQUfgAdzn15cvpKaHOeRlq0FvEo+n97tiu5R9dg==
+X-Received: by 2002:a63:185b:: with SMTP id 27mr23058306pgy.164.1624260340808; 
+ Mon, 21 Jun 2021 00:25:40 -0700 (PDT)
 Received: from localhost.localdomain ([2405:201:c00a:a884:139:e97f:a55d:7f66])
  by smtp.gmail.com with ESMTPSA id
- 21sm13951294pfh.103.2021.06.21.00.25.27
+ 21sm13951294pfh.103.2021.06.21.00.25.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Jun 2021 00:25:33 -0700 (PDT)
+ Mon, 21 Jun 2021 00:25:40 -0700 (PDT)
 From: Jagan Teki <jagan@amarulasolutions.com>
 To: Peng Fan <peng.fan@nxp.com>, Shawn Guo <shawnguo@kernel.org>,
  Sascha Hauer <s.hauer@pengutronix.de>, Tomasz Figa <t.figa@samsung.com>,
  Fancy Fang <chen.fang@nxp.com>
-Subject: [RFC PATCH 8/9] arm64: dts: imx8mm: Add MIPI DSI pipeline
-Date: Mon, 21 Jun 2021 12:54:23 +0530
-Message-Id: <20210621072424.111733-9-jagan@amarulasolutions.com>
+Subject: [RFC PATCH 9/9] arm64: dts: imx8mm-icore: Enable LVDS panel for
+ EDIMM2.2
+Date: Mon, 21 Jun 2021 12:54:24 +0530
+Message-Id: <20210621072424.111733-10-jagan@amarulasolutions.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210621072424.111733-1-jagan@amarulasolutions.com>
 References: <20210621072424.111733-1-jagan@amarulasolutions.com>
@@ -79,89 +80,142 @@ Cc: devicetree@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add MIPI DSI pipeline for i.MX8MM.
-
-Video pipeline start from eLCDIF to MIPI DSI and respective
-Panel or Bridge on the backend side.
-
-Add support for it.
+Enable LVDS Panel for Engicam i.Core MX8MMini EDIMM2.2 board.
 
 Cc: Rob Herring <robh+dt@kernel.org>
 Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
 ---
- arch/arm64/boot/dts/freescale/imx8mm.dtsi | 59 +++++++++++++++++++++++
- 1 file changed, 59 insertions(+)
+ .../freescale/imx8mm-icore-mx8mm-edimm2.2.dts | 90 +++++++++++++++++++
+ 1 file changed, 90 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/freescale/imx8mm.dtsi b/arch/arm64/boot/dts/freescale/imx8mm.dtsi
-index 5f68182ed3a6..bc09fce0f6a9 100644
---- a/arch/arm64/boot/dts/freescale/imx8mm.dtsi
-+++ b/arch/arm64/boot/dts/freescale/imx8mm.dtsi
-@@ -1047,6 +1047,65 @@ lcdif: lcdif@32e00000 {
- 				interrupts = <GIC_SPI 5 IRQ_TYPE_LEVEL_HIGH>;
- 				power-domains = <&dispmix_blk_ctl IMX8MM_BLK_CTL_PD_DISPMIX_LCDIF>;
- 				status = "disabled";
-+
-+				port {
-+					lcdif_out_dsi: endpoint {
-+						remote-endpoint = <&dsi_in_lcdif>;
-+					};
-+				};
-+			};
-+
-+			dsi: dsi@32e10000 {
-+				compatible = "fsl,imx8mm-sec-dsim";
-+				reg = <0x32e10000 0xa0>;
-+				clocks = <&clk IMX8MM_CLK_DSI_CORE>,
-+					 <&clk IMX8MM_CLK_DSI_PHY_REF>;
-+				clock-names = "bus", "phy_ref";
-+				assigned-clocks = <&clk IMX8MM_CLK_DSI_CORE>,
-+						  <&clk IMX8MM_VIDEO_PLL1_OUT>,
-+						  <&clk IMX8MM_CLK_DSI_PHY_REF>;
-+				assigned-clock-parents = <&clk IMX8MM_SYS_PLL1_266M>,
-+							 <&clk IMX8MM_VIDEO_PLL1_BYPASS>,
-+							 <&clk IMX8MM_VIDEO_PLL1_OUT>;
-+				assigned-clock-rates = <266000000>, <594000000>, <27000000>;
-+				interrupts = <GIC_SPI 18 IRQ_TYPE_LEVEL_HIGH>;
-+				phys = <&dphy>;
-+				phy-names = "dphy";
-+				power-domains = <&dispmix_blk_ctl IMX8MM_BLK_CTL_PD_DISPMIX_MIPI_DSI>;
-+				samsung,burst-clock-frequency = <891000000>;
-+				samsung,esc-clock-frequency = <54000000>;
-+				samsung,pll-clock-frequency = <27000000>;
-+				status = "disabled";
-+
-+				ports {
-+					#address-cells = <1>;
-+					#size-cells = <0>;
-+
-+					port@0 {
-+						reg = <0>;
-+						#address-cells = <1>;
-+						#size-cells = <0>;
-+
-+						dsi_in_lcdif: endpoint@0 {
-+							reg = <0>;
-+							remote-endpoint = <&lcdif_out_dsi>;
-+						};
-+					};
-+
-+					port@1 {
-+						reg = <1>;
-+					};
-+				};
-+			};
-+
-+			dphy: dphy@32e100a4 {
-+				compatible = "fsl,imx8mm-sec-dsim-dphy";
-+				reg = <0x32e100a4 0xbc>;
-+				clocks = <&clk IMX8MM_CLK_DSI_PHY_REF>;
-+				clock-names = "phy_ref";
-+				#phy-cells = <0>;
-+				power-domains = <&dispmix_blk_ctl IMX8MM_BLK_CTL_PD_DISPMIX_MIPI_DPHY>;
-+				status = "disabled";
- 			};
+diff --git a/arch/arm64/boot/dts/freescale/imx8mm-icore-mx8mm-edimm2.2.dts b/arch/arm64/boot/dts/freescale/imx8mm-icore-mx8mm-edimm2.2.dts
+index a4a2ada14835..f1256c9c9bd7 100644
+--- a/arch/arm64/boot/dts/freescale/imx8mm-icore-mx8mm-edimm2.2.dts
++++ b/arch/arm64/boot/dts/freescale/imx8mm-icore-mx8mm-edimm2.2.dts
+@@ -14,9 +14,51 @@ / {
+ 	compatible = "engicam,icore-mx8mm-edimm2.2", "engicam,icore-mx8mm",
+ 		     "fsl,imx8mm";
  
- 			dispmix_blk_ctl: blk-ctl@32e28000 {
++	backlight: backlight {
++		compatible = "pwm-backlight";
++		pinctrl-names = "default";
++		pinctrl-0 = <&pinctrl_pwm1>;
++		pwms = <&pwm1 0 1000000>;
++		brightness-levels = <0 4 8 16 32 64 128 255>;
++		default-brightness-level = <7>;
++	};
++
+ 	chosen {
+ 		stdout-path = &uart2;
+ 	};
++
++	panel {
++		compatible = "yes-optoelectronics,ytc700tlag-05-201c";
++		backlight = <&backlight>;
++		data-mapping = "vesa-24";
++
++		port {
++			panel_out_bridge: endpoint {
++				remote-endpoint = <&bridge_out_panel>;
++			};
++		};
++	};
++};
++
++&dphy {
++	status = "okay";
++};
++
++&dsi {
++	#address-cells = <1>;
++	#size-cells = <0>;
++	status = "okay";
++
++	ports {
++		port@1 {
++			reg = <1>;
++
++			dsi_out_bridge: endpoint {
++				remote-endpoint = <&bridge_in_dsi>;
++				data-lanes = <0 1>;
++			};
++		};
++	};
+ };
+ 
+ &fec1 {
+@@ -35,9 +77,43 @@ &i2c4 {
+ 	pinctrl-names = "default";
+ 	pinctrl-0 = <&pinctrl_i2c4>;
+ 	status = "okay";
++
++	bridge@2c {
++		compatible = "ti,sn65dsi84";
++		reg = <0x2c>;
++		enable-gpios = <&gpio3 9  GPIO_ACTIVE_HIGH>;
++		pinctrl-names = "default";
++		pinctrl-0 = <&pinctrl_dsi_bridge_enable>;
++
++		ports {
++			#address-cells = <1>;
++			#size-cells = <0>;
++
++			port@0 {
++				reg = <0>;
++				bridge_in_dsi: endpoint {
++					remote-endpoint = <&dsi_out_bridge>;
++				};
++			};
++
++			port@1 {
++				reg = <1>;
++				bridge_out_panel: endpoint {
++					remote-endpoint = <&panel_out_bridge>;
++				};
++			};
++		};
++	};
+ };
+ 
+ &iomuxc {
++	pinctrl_dsi_bridge_enable: dsibridgeenablegrp {
++		fsl,pins = <
++			MX8MM_IOMUXC_NAND_DATA03_GPIO3_IO9	0x19
++			MX8MM_IOMUXC_NAND_DATA02_GPIO3_IO8	0x19
++		>;
++	};
++
+ 	pinctrl_i2c2: i2c2grp {
+ 		fsl,pins = <
+ 			MX8MM_IOMUXC_I2C2_SCL_I2C2_SCL		0x400001c3
+@@ -52,6 +128,12 @@ MX8MM_IOMUXC_I2C4_SDA_I2C4_SDA		0x400001c3
+ 		>;
+ 	};
+ 
++	pinctrl_pwm1: pwm1grp {
++		fsl,pins = <
++			MX8MM_IOMUXC_SPDIF_EXT_CLK_PWM1_OUT     0x19
++		>;
++	};
++
+ 	pinctrl_uart2: uart2grp {
+ 		fsl,pins = <
+ 			MX8MM_IOMUXC_UART2_RXD_UART2_DCE_RX	0x140
+@@ -77,6 +159,14 @@ MX8MM_IOMUXC_SD1_DATA3_USDHC1_DATA3	0x1d0
+ 	};
+ };
+ 
++&lcdif {
++	status = "okay";
++};
++
++&pwm1 {
++	status = "okay";
++};
++
+ &uart2 {
+ 	pinctrl-names = "default";
+ 	pinctrl-0 = <&pinctrl_uart2>;
 -- 
 2.25.1
 
