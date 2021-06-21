@@ -2,74 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 524FF3AEBEE
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Jun 2021 17:04:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 792E73AEBFF
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Jun 2021 17:07:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0CBEC89346;
-	Mon, 21 Jun 2021 15:04:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB3336E1B6;
+	Mon, 21 Jun 2021 15:07:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mickerik.phytec.de (mickerik.phytec.de [195.145.39.210])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B07E189346
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Jun 2021 15:04:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; d=phytec.de; s=a1; c=relaxed/simple;
- q=dns/txt; i=@phytec.de; t=1624287875; x=1626879875;
- h=From:Sender:Reply-To:Subject:Date:Message-ID:To:CC:MIME-Version:Content-Type:
- Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:Resent-From:
- Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
- List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=FMFm7DRqfOr51mpOkgcgQZ4WLcz/JJndEHy5ANm5f5o=;
- b=nGyAn87Oj1+ENFgGJ7g3DNAOXtac0ZKf+UZ7oDRVy3b9MOwlWrdY1Jpo0GfRqo50
- VZkOTstkPb6NN5Y0D9RiT0E14y+sGsuEaAcTO9XavaYG9sDkLQtB+AUai9LQV4YE
- CMhS/FgWI4m6SQV6WYIT3tSg0IMy+MhwtBl4SR4EtL8=;
-X-AuditID: c39127d2-a9fbd70000001c5e-57-60d0aa83d6cf
-Received: from florix.phytec.de (florix.phytec.de [172.16.0.118])
- (using TLS with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (Client did not present a certificate)
- by mickerik.phytec.de (PHYTEC Mail Gateway) with SMTP id AA.67.07262.38AA0D06;
- Mon, 21 Jun 2021 17:04:35 +0200 (CEST)
-Received: from Berlix.phytec.de (172.16.0.117) by Florix.phytec.de
- (172.16.0.118) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.2; Mon, 21 Jun
- 2021 17:04:35 +0200
-Received: from Berlix.phytec.de ([fe80::343f:7618:c7ce:97c9]) by
- berlix.phytec.de ([fe80::343f:7618:c7ce:97c9%3]) with mapi id 15.01.2176.009; 
- Mon, 21 Jun 2021 17:04:35 +0200
-From: =?utf-8?B?U3RlZmFuIFJpZWRtw7xsbGVy?= <S.Riedmueller@phytec.de>
-To: "sam@ravnborg.org" <sam@ravnborg.org>
-Subject: Re: [PATCH 1/3] drm/panel: Add connector_type and bus_format for AUO
- G104SN02 V2 panel
-Thread-Topic: [PATCH 1/3] drm/panel: Add connector_type and bus_format for AUO
- G104SN02 V2 panel
-Thread-Index: AQHXMdf+y0dS36bcQE6gcAvYiVq17ar1fdqAgCjp/gCAAGNSgIAADRwA
-Date: Mon, 21 Jun 2021 15:04:35 +0000
-Message-ID: <eae45605716b194bae63e445a28f07897d4e82fe.camel@phytec.de>
-References: <20210415091616.53415-1-s.riedmueller@phytec.de>
- <57bf547d95ba84f72d0f9da0e687fbe71311e5b8.camel@phytec.de>
- <5942e9c67f7d50737536613b80a2cb42a3615b3d.camel@phytec.de>
- <20210621141739.GA823900@ravnborg.org>
-In-Reply-To: <20210621141739.GA823900@ravnborg.org>
-Accept-Language: en-US, de-DE
-Content-Language: de-DE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.16.0.116]
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <9F0C08E8BCAC684F8D34E77AEC286C94@phytec.de>
-Content-Transfer-Encoding: base64
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
+ [IPv6:2a00:1450:4864:20::42d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D03816E1AA
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Jun 2021 15:07:38 +0000 (UTC)
+Received: by mail-wr1-x42d.google.com with SMTP id b3so9814182wrm.6
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Jun 2021 08:07:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=UcQFtYcmOh5H3xEqT6zXnbAzZFfEffv4q6FmmdZPRdE=;
+ b=CNk0dpvXhffwyAyXQogndxfcA7lvypG+7Oem6LfQS3RB8s6ZDZLLM6m7TmBrjX1xAv
+ 6gVj4FXdVvhHPRbcDdnqQ5BQuC0LctJFu0SWXtF6a2ODQNVrFpMjg1VZbhkc6qvEOiD8
+ vjIHvCRny/FscUj9KXBX2mZ7Xgi5p6dMZJpGw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=UcQFtYcmOh5H3xEqT6zXnbAzZFfEffv4q6FmmdZPRdE=;
+ b=Jx+XhnMF/Oq5VwlutDDouZTCDNVD+O3QSlAWUoP7f9J6IE6LX/3Z4dhrFgUQWdGtgM
+ qwfC37B6xAebIJq31PMWiTJVoflrX4/8plKGsU6cAy7g6BVx7sH5kxerIf+3LYxRttEG
+ Tf/2uq430yqZKw3LjC5K/Mg5SjCnNPkvzELwEf3LG6m76DkFWJIiz75tEujKfuKGUEBZ
+ iialtpXEk7roswgrUVM77kdutP1RDkMF477EY70i+3DKR+Jkd6FVXvKeH1isiVrwybwv
+ G2tnf2g9pXcTT1SSrcONq63NCkEm2xbPrLEfliRICX4cMuGVvbrgD3umj1c22JgEtEGN
+ Xm1Q==
+X-Gm-Message-State: AOAM5333nLt6VK4Wvhv46qAnkhEkfhsZENc0lCeX5f3JoSM8SfICwmYx
+ djqWpVHwkT1V6mzlLafI1wSx9+7K+DtoLA==
+X-Google-Smtp-Source: ABdhPJz6co5ldEFRHWqW+xIRNE59F/DgRcZ5Olh/VxxxZPuDQnf853jq5Egqc9TloIYzU4usBf4dXg==
+X-Received: by 2002:a5d:5986:: with SMTP id n6mr28745662wri.60.1624288057613; 
+ Mon, 21 Jun 2021 08:07:37 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id t64sm10002761wma.44.2021.06.21.08.07.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 21 Jun 2021 08:07:37 -0700 (PDT)
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+To: DRI Development <dri-devel@lists.freedesktop.org>
+Subject: [PATCH] dma-buf: Document non-dynamic exporter expectations better
+Date: Mon, 21 Jun 2021 17:07:32 +0200
+Message-Id: <20210621150732.2345632-1-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.32.0.rc2
 MIME-Version: 1.0
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrIIsWRmVeSWpSXmKPExsWyRoChTLd51YUEgxdXDS16z51ksvi/bSKz
- xZWv79ksOicuYbe4vGsOm8WKn1sZLX7umsfiwO6x99sCFo+ds+6ye8zumMnqsf3bA1aP+93H
- mTyWTLvK5vF5k1wAexSXTUpqTmZZapG+XQJXxtJZN1gKLrBWTL8T1sC4h7WLkZNDQsBE4trz
- 32xdjFwcQgLLmST+rdvNCOE8ZJTYveQdlLOJUeLD5BNgLWwCLhKf276xgdgiApoSH19PYgcp
- Yha4xSSxYdFSFpCEsECixOVDX1kgipIkpj58zAphu0kc37CCHcRmEVCVOHfxIROIzQsUb5rT
- DXXHI0aJCat/MYMkOAWMJW7OWw42iFFAVqKz4R1YA7OAuMSmZ9+hnhCQWLLnPDOELSrx8vE/
- qLiCRFtPJ1A9B1C9psT6XfoQrRYS254sY4awFSWmdD9kh7hBUOLkzCcsExjFZyHZMAuhexaS
- 7llIumch6V7AyLqKUSg3Mzk7tSgzW68go7IkNVkvJXUTIzCaD09Uv7SDsW+OxyFGJg7GQ4wS
- HMxKIrw3Uy4kCPGmJFZWpRblxxeV5qQWH2KU5mBREufdwFsSJiSQnliSmp2aWpBaBJNl4uCU
- amDU2PzK9+P9W/dWMMxI6mTRapNQFi+eyl6RJjUzzD3f4rG67QGZ41UlHf93r1m/rc/zr2Cy
- QW1xsIfvbeE45l35GR7RR9JCZF7vXuymIcwhuE7wxuSAd1H57rzXGnM/6B2MWspXwVG7huHU
- Prfn1xj+nJ2uZFyy/sb6eiWTGffW1nwOruw60KDEUpyRaKjFXFScCAAHGwMV1AIAAA==
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,21 +63,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "airlied@linux.ie" <airlied@linux.ie>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
- "laurent.pinchart@ideasonboard.com" <laurent.pinchart@ideasonboard.com>
+Cc: Daniel Vetter <daniel.vetter@intel.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgU2FtLA0KDQpPbiBNb24sIDIwMjEtMDYtMjEgYXQgMTY6MTcgKzAyMDAsIFNhbSBSYXZuYm9y
-ZyB3cm90ZToNCj4gSGkgU3RlZmFuLA0KPiANCj4gT24gTW9uLCBKdW4gMjEsIDIwMjEgYXQgMDg6
-MjI6MTBBTSArMDAwMCwgU3RlZmFuIFJpZWRtw7xsbGVyIHdyb3RlOg0KPiA+IEhpLA0KPiA+IA0K
-PiA+IGFub3RoZXIgZ2VudGxlIHBpbmcuDQo+ID4gDQo+ID4gQWxzbyBhZGRpbmcgTGF1cmVudCBQ
-aW5jaGFydCB0byBDQy4NCj4gDQo+IENhbiBJIGFzayB5b3UgdG8gcmVzZW5kIHRoZSB3aG9sZSBs
-b3QuIEkgaGF2ZSByZXN1cmZhY2VkIGFmdGVyIGFuDQo+IG9mZi1saW5lIHBlcmlvZCBhbmQgZGVs
-ZXRlZCBhbGwgcGVuZGluZyBtYWlscy4NCj4gDQo+IEkgY291bGQgcHJvYmFybHkgaHVudCBkb3du
-IHRoZSBtYWlscyBzb21ld2hlcmUgYnV0IHJlc2VuZCBpcyBlYXNpZXIgb24NCj4gbXkgZW5kLg0K
-DQpTdXJlLCBubyBwcm9ibGVtLCBJJ2xsIHNlbmQgaXQgb3V0IEFTQVAuDQoNClN0ZWZhbg0KDQo+
-IA0KPiAJU2FtDQo=
+Christian and me realized we have a pretty massive disconnect about
+different interpretations of what dma_resv is used for by different
+drivers. The discussion is much, much bigger than this change here,
+but this is an important one:
+
+Non-dynamic exporters must guarantee that the memory they return is
+ready for use. They cannot expect importers to wait for the exclusive
+fence. Only dynamic importers are required to obey the dma_resv fences
+strictly (and more patches are needed to define exactly what this
+means).
+
+Christian has patches to update nouvea, radeon and amdgpu. The only
+other driver using both ttm and supporting dma-buf export is qxl,
+which only uses synchronous ttm_bo_move.
+
+Cc: Christian König <ckoenig.leichtzumerken@gmail.com>
+Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+---
+ include/linux/dma-buf.h | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
+
+diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+index 342585bd6dff..92eec38a03aa 100644
+--- a/include/linux/dma-buf.h
++++ b/include/linux/dma-buf.h
+@@ -96,6 +96,12 @@ struct dma_buf_ops {
+ 	 * This is called automatically for non-dynamic importers from
+ 	 * dma_buf_attach().
+ 	 *
++	 * Note that similar to non-dynamic exporters in their @map_dma_buf
++	 * callback the driver must guarantee that the memory is available for
++	 * use and cleared of any old data by the time this function returns.
++	 * Drivers which pipeline their buffer moves internally must wait for
++	 * all moves and clears to complete.
++	 *
+ 	 * Returns:
+ 	 *
+ 	 * 0 on success, negative error code on failure.
+@@ -144,6 +150,15 @@ struct dma_buf_ops {
+ 	 * This is always called with the dmabuf->resv object locked when
+ 	 * the dynamic_mapping flag is true.
+ 	 *
++	 * Note that for non-dynamic exporters the driver must guarantee that
++	 * that the memory is available for use and cleared of any old data by
++	 * the time this function returns.  Drivers which pipeline their buffer
++	 * moves internally must wait for all moves and clears to complete.
++	 * Dynamic exporters do not need to follow this rule: For non-dynamic
++	 * importers the buffer is already pinned through @pin, which has the
++	 * same requirements. Dynamic importers otoh are required to obey the
++	 * dma_resv fences.
++	 *
+ 	 * Returns:
+ 	 *
+ 	 * A &sg_table scatter list of or the backing storage of the DMA buffer,
+-- 
+2.32.0.rc2
+
