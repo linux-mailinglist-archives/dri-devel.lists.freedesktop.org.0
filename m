@@ -2,56 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B4E83AECD8
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Jun 2021 17:53:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F06353AECD9
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Jun 2021 17:53:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EDB746E1F8;
-	Mon, 21 Jun 2021 15:53:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 293976E1F2;
+	Mon, 21 Jun 2021 15:53:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com
- [IPv6:2607:f8b0:4864:20::32e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 13F5B6E03D
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Jun 2021 15:53:28 +0000 (UTC)
-Received: by mail-ot1-x32e.google.com with SMTP id
- v22-20020a0568301416b029044e2d8e855eso8983320otp.8
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Jun 2021 08:53:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=9ZbRwuIdQDNCcz/pnU9BDxlzoJgaD/x3T5Lkco7n4mA=;
- b=W3Z0uj9rKqdn6ZJWrTqOx/GtU569/5Kcpkjwszw5lCOk8Gp6wuyWlqD3Byp4rw7G8X
- H3GmU5dUycsvTjdwpOEFg0p5gVdvqtlcSZhrwPFr95/yWe267UjjvfxbxHiPNzA0zDC0
- 1YhasX4QWal1E+Z/ANTRSPBCkY1v4jwrVzhb4=
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
+ [IPv6:2a00:1450:4864:20::62a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 14B7D6E1F2
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Jun 2021 15:53:49 +0000 (UTC)
+Received: by mail-ej1-x62a.google.com with SMTP id l1so29693758ejb.6
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Jun 2021 08:53:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=MNRL4AH4MT8dZpE3HVQWPA/V/jrnUQwdA9q5faDgCZs=;
+ b=l3wQ/2sDIBQhUh20E9bcOr13AZfQnhs4foQlPgF1PTUrSKMBclC7KTNF8P9EbYS84n
+ OPHKUU1FLMzoHRBOiMMln1CuypFpnSx/IqYnQ7+4F8HP9RV6EypXNpeCV3kn+Y0gTYa4
+ gzwhOHtM0gnNcqmGbRhvUybEK8Ke1y7Kc22/tvEV+KyV2wALQkl1Hj4p2fY5MrFPisaI
+ PpO21C/eBwxv1Q2AA6aKpFfLdlSlBVKrrFyXPR9xOzmtrTEDSI1n/fjESb0pEfEE0mVT
+ z3noNvhkt810gj+0pej9GeM3bO446Z5SWFM71zChzUAvmQM4EMJal/0E4d8fJ9JevI9F
+ xbng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=9ZbRwuIdQDNCcz/pnU9BDxlzoJgaD/x3T5Lkco7n4mA=;
- b=PCt0+Hitdq0TWyNO9X4a+OSAQ/3VJHa++bJEZ1z07nSoo3N/PtSD3NKSkUNEabD3bL
- j8FoBd0tlu29UCzk+9WV+nOC4vqxGFCZziSDJVgFFPeMQ5xq2Cu+MSqhb09ndi1ie19Z
- iKnX3fvsxRzmu1KSLhVzjQ/ewI1lO1N0qlro+wYdpvMUlg9h42UKTWzxbcIKIOxEFvM2
- cva9az0OQRmXf8yDEMGdABtUeCNkUpVdqSgR21M/J/GceLCTySuXJspxWRTp8hfR2PMV
- eLHbwvUCIWi49mgNvrnKL41Pd4n8gBCeuqtEhtTMkcjZur7YsKHlBiLq7BY+g5808MfC
- y94w==
-X-Gm-Message-State: AOAM532Z2WSJeFOq4wN1Msf6Aq93XWF1VcVsM++N2VJf5tf615PKuPRc
- gz4i9KsUeI0TkK5ppF83W5mpNEBmgm7K8NWSVY1HTg==
-X-Google-Smtp-Source: ABdhPJytSq1TwW8sX7+Gd2OBgr6JZnE1MbVUqfwzWKowqyJPkP+thwgGRIJhAysYcpdKL8914lI9tz4uvczAUxKpTh8=
-X-Received: by 2002:a05:6830:2370:: with SMTP id
- r16mr21533959oth.188.1624290808187; 
- Mon, 21 Jun 2021 08:53:28 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=MNRL4AH4MT8dZpE3HVQWPA/V/jrnUQwdA9q5faDgCZs=;
+ b=lLtQtpMVcKFXKjXTybK5BW9K7H+Li3TaGyBU/3jyLTf+Iz4jbEkc+8w+j0llQxnTYj
+ oRADQcnKjxYbYUf4/+srVDTmeLB+4HSXYhItzPYFrVsrxqsJwS1ALLRBFQK+Q7hz5QeY
+ 9wAt7f6xFM4yUXwZub5qKg70K7iSLkd2A9He7Zc1Gny76XNIymV7QOw9EfKwFf7KeFnI
+ nxSaoZqYyEdF6QxPuhLr3EdjpJUYtZHn8H7pFWH+oZefdqTmwgMTgDN+RB0eKn2Aoamg
+ qO9BWS0OxHzw0kjYhRtgvLuMP1InttWSWpLrV5AudxysMXoHe1+nlNnPXWio9Y8DDMw2
+ gl7g==
+X-Gm-Message-State: AOAM531/CpZrHk69TsM17cJ2DWwTmi3tfpgjH+z6E54qWG9Xdm6WTpJ4
+ 9xHp6g/Iw6Lw8NGxcmRm9+I=
+X-Google-Smtp-Source: ABdhPJysq43cRysC5km4ATO9z8osEUnjjwUCnXOD+KvuojHbLN+/jiBs23rhG9qsaxD5cItkljeuUA==
+X-Received: by 2002:a17:906:dbd5:: with SMTP id
+ yc21mr11898653ejb.223.1624290827794; 
+ Mon, 21 Jun 2021 08:53:47 -0700 (PDT)
+Received: from ?IPv6:2a02:908:1252:fb60:98e4:7a7c:4972:8db6?
+ ([2a02:908:1252:fb60:98e4:7a7c:4972:8db6])
+ by smtp.gmail.com with ESMTPSA id yd2sm3202880ejb.124.2021.06.21.08.53.46
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 21 Jun 2021 08:53:47 -0700 (PDT)
+Subject: Re: [PATCH] dma-buf: Document non-dynamic exporter expectations better
+To: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ DRI Development <dri-devel@lists.freedesktop.org>
+References: <20210621150732.2345632-1-daniel.vetter@ffwll.ch>
+ <20210621151758.2347474-1-daniel.vetter@ffwll.ch>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <75e2dff9-41e3-b24a-5c9c-068c8b1a18c9@gmail.com>
+Date: Mon, 21 Jun 2021 17:53:46 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-References: <20210621130328.11070-1-christian.koenig@amd.com>
- <YNCoK1qv6CCIy0Rl@phenom.ffwll.local>
- <2033755d-c49f-8b90-f726-d640146a3df7@gmail.com>
-In-Reply-To: <2033755d-c49f-8b90-f726-d640146a3df7@gmail.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Mon, 21 Jun 2021 17:53:15 +0200
-Message-ID: <CAKMK7uEET_E7eJa1No3KLMBudgE16ymXzXZp0CRYt_ZjS-_YsA@mail.gmail.com>
-Subject: Re: [PATCH 1/3] drm/nouveau: wait for moving fence after pinning
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20210621151758.2347474-1-daniel.vetter@ffwll.ch>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,87 +75,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nouveau Dev <nouveau@lists.freedesktop.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Daniel Vetter <daniel.vetter@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 21, 2021 at 5:49 PM Christian K=C3=B6nig
-<ckoenig.leichtzumerken@gmail.com> wrote:
+Am 21.06.21 um 17:17 schrieb Daniel Vetter:
+> Christian and me realized we have a pretty massive disconnect about
+> different interpretations of what dma_resv is used for by different
+> drivers. The discussion is much, much bigger than this change here,
+> but this is an important one:
 >
-> Am 21.06.21 um 16:54 schrieb Daniel Vetter:
-> > On Mon, Jun 21, 2021 at 03:03:26PM +0200, Christian K=C3=B6nig wrote:
-> >> We actually need to wait for the moving fence after pinning
-> >> the BO to make sure that the pin is completed.
-> >>
-> >> Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-> >> CC: stable@kernel.org
-> >> ---
-> >>   drivers/gpu/drm/nouveau/nouveau_prime.c | 8 +++++++-
-> >>   1 file changed, 7 insertions(+), 1 deletion(-)
-> >>
-> >> diff --git a/drivers/gpu/drm/nouveau/nouveau_prime.c b/drivers/gpu/drm=
-/nouveau/nouveau_prime.c
-> >> index 347488685f74..591738545eba 100644
-> >> --- a/drivers/gpu/drm/nouveau/nouveau_prime.c
-> >> +++ b/drivers/gpu/drm/nouveau/nouveau_prime.c
-> >> @@ -93,7 +93,13 @@ int nouveau_gem_prime_pin(struct drm_gem_object *ob=
-j)
-> >>      if (ret)
-> >>              return -EINVAL;
-> >>
-> >> -    return 0;
-> >> +    if (nvbo->bo.moving) {
-> > Don't we need to hold the dma_resv to read this? We can grab a referenc=
-e
-> > and then unlock, but I think just unlocked wait can go boom pretty easi=
-ly
-> > (since we don't hold a reference or lock so someone else can jump in an=
-d
-> > free the moving fence).
+> Non-dynamic exporters must guarantee that the memory they return is
+> ready for use. They cannot expect importers to wait for the exclusive
+> fence. Only dynamic importers are required to obey the dma_resv fences
+> strictly (and more patches are needed to define exactly what this
+> means).
 >
-> The moving fence is only modified while the BO is moved and since we
-> have just successfully pinned it....
-
-Yeah  ... so probably correct, but really tricky. Just wrapping a
-ttm_bo_reserve/unreserve around the code you add should be enough and
-get the job done?
-
-> But in general I agree that it would be better to avoid this. I just
-> didn't wanted to open a bigger can of worms by changing nouveau so much.
-
-Yeah, but I'm kinda thinking of some helpers to wait for the move
-fence (so that later on we can switch from having the exclusive fence
-to the move fence do that, maybe). And then locking checks in there
-would be nice.
-
-Also avoids the case of explaining why lockless here is fine, but
-lockless wait for the exclusive fence in e.g. a dynami dma-buf
-importer is very much not fine at all. Just all around less trouble.
--Daniel
-
+> Christian has patches to update nouvea, radeon and amdgpu. The only
+> other driver using both ttm and supporting dma-buf export is qxl,
+> which only uses synchronous ttm_bo_move.
 >
-> Christian.
+> v2: To hammer this in document that dynamic importers _must_ wait for
+> the exclusive fence after having called dma_buf_map_attachment.
 >
-> > -Daniel
-> >
-> >> +            ret =3D dma_fence_wait(nvbo->bo.moving, true);
-> >> +            if (ret)
-> >> +                    nouveau_bo_unpin(nvbo);
-> >> +    }
-> >> +
-> >> +    return ret;
-> >>   }
-> >>
-> >>   void nouveau_gem_prime_unpin(struct drm_gem_object *obj)
-> >> --
-> >> 2.25.1
-> >>
+> Cc: Christian König <ckoenig.leichtzumerken@gmail.com>
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+
+Reviewed-by: Christian König <christian.koenig@amd.com>
+
+> ---
+>   drivers/dma-buf/dma-buf.c |  3 +++
+>   include/linux/dma-buf.h   | 15 +++++++++++++++
+>   2 files changed, 18 insertions(+)
 >
+> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> index e3ba5db5f292..65cbd7f0f16a 100644
+> --- a/drivers/dma-buf/dma-buf.c
+> +++ b/drivers/dma-buf/dma-buf.c
+> @@ -956,6 +956,9 @@ EXPORT_SYMBOL_GPL(dma_buf_unpin);
+>    * the underlying backing storage is pinned for as long as a mapping exists,
+>    * therefore users/importers should not hold onto a mapping for undue amounts of
+>    * time.
+> + *
+> + * Important: Dynamic importers must wait for the exclusive fence of the struct
+> + * dma_resv attached to the DMA-BUF first.
+>    */
+>   struct sg_table *dma_buf_map_attachment(struct dma_buf_attachment *attach,
+>   					enum dma_data_direction direction)
+> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+> index 342585bd6dff..92eec38a03aa 100644
+> --- a/include/linux/dma-buf.h
+> +++ b/include/linux/dma-buf.h
+> @@ -96,6 +96,12 @@ struct dma_buf_ops {
+>   	 * This is called automatically for non-dynamic importers from
+>   	 * dma_buf_attach().
+>   	 *
+> +	 * Note that similar to non-dynamic exporters in their @map_dma_buf
+> +	 * callback the driver must guarantee that the memory is available for
+> +	 * use and cleared of any old data by the time this function returns.
+> +	 * Drivers which pipeline their buffer moves internally must wait for
+> +	 * all moves and clears to complete.
+> +	 *
+>   	 * Returns:
+>   	 *
+>   	 * 0 on success, negative error code on failure.
+> @@ -144,6 +150,15 @@ struct dma_buf_ops {
+>   	 * This is always called with the dmabuf->resv object locked when
+>   	 * the dynamic_mapping flag is true.
+>   	 *
+> +	 * Note that for non-dynamic exporters the driver must guarantee that
+> +	 * that the memory is available for use and cleared of any old data by
+> +	 * the time this function returns.  Drivers which pipeline their buffer
+> +	 * moves internally must wait for all moves and clears to complete.
+> +	 * Dynamic exporters do not need to follow this rule: For non-dynamic
+> +	 * importers the buffer is already pinned through @pin, which has the
+> +	 * same requirements. Dynamic importers otoh are required to obey the
+> +	 * dma_resv fences.
+> +	 *
+>   	 * Returns:
+>   	 *
+>   	 * A &sg_table scatter list of or the backing storage of the DMA buffer,
 
-
---=20
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
