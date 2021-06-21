@@ -2,68 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 856FB3AEBAF
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Jun 2021 16:47:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D15AD3AEBB2
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Jun 2021 16:49:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 554CD6E187;
-	Mon, 21 Jun 2021 14:47:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A11966E18E;
+	Mon, 21 Jun 2021 14:49:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com
- [IPv6:2a00:1450:4864:20::333])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 823E96E187
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Jun 2021 14:47:25 +0000 (UTC)
-Received: by mail-wm1-x333.google.com with SMTP id k42so8834897wms.0
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Jun 2021 07:47:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=YEBo064pSywI1ujONVGHoZZKvA4NTzTko1+RKgE7D4g=;
- b=ba2SBCZEyQczhq+VJB5dko7tHajxH0Kr8zPf/FpzXkBcOBOd1+gQdelwkrGRmbmtYt
- IeU/rlUg/x6OAUNNXf8w/mVgNqJBOrxMGH3lD8/wJ/0b7O/9a9YoDsBf+3XDY2J5t9Sc
- xqnXyV8rLXwr3aYu/qn880YNwxTb6P6UHjWCQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=YEBo064pSywI1ujONVGHoZZKvA4NTzTko1+RKgE7D4g=;
- b=YXrj6wDZTNCz5ATlhql9RsSUf1Tp2vj+7XoY36H7T4m3KOqck5/BzhIzB/2+vRzJP8
- lV/ytMw61hQnvrU+JTITVphFU4TNLgiVcEpcu5UGPuMqzq3cSed0dwrbT9JFFv9pelDq
- ajZdAtSYzVBONG3pjrnRG0uULoSUdDxKB2yjavYDKS8bsDAKY6P6NlIf4ADWD9xVZCiO
- Q7NOg2tyhcnT7g4vv/7JXkQp3nUUjPnuS6W1/P51W0qvZOh8+rEAudqy5Zyq5AmHA7ze
- +NrwZNpgdcBfPuNlAfoujUPhM01u8tYHtcO0BHqy16v803BvbBSGYqIt9oSfb6frDmRU
- S0oQ==
-X-Gm-Message-State: AOAM533DIPtiKXxLuIxp1QspWSR8lqM5tpMXdHUwUH+gb6EcfvrXwp5J
- wR74OM6l4E7ERkZBJXYZifmCEA==
-X-Google-Smtp-Source: ABdhPJwx0NURIBc04sBsMiB1Va00uzekc6gUFEM7F1Qh3cnDnwUQz9ga6rpO0g2rcOrcvWMzIRBfMg==
-X-Received: by 2002:a1c:df09:: with SMTP id w9mr23599465wmg.91.1624286844131; 
- Mon, 21 Jun 2021 07:47:24 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id c133sm3326560wmf.0.2021.06.21.07.47.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Jun 2021 07:47:23 -0700 (PDT)
-Date: Mon, 21 Jun 2021 16:47:21 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
-Subject: Re: [PATCH v3 2/2] drm: protect drm_master pointers in drm_lease.c
-Message-ID: <YNCmeYdY8giE8M9b@phenom.ffwll.local>
-Mail-Followup-To: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@linux.ie, sumit.semwal@linaro.org,
- christian.koenig@amd.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, skhan@linuxfoundation.org,
- gregkh@linuxfoundation.org,
- linux-kernel-mentees@lists.linuxfoundation.org,
- emil.l.velikov@gmail.com
-References: <20210620110327.4964-1-desmondcheongzx@gmail.com>
- <20210620110327.4964-3-desmondcheongzx@gmail.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 031E76E18E
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Jun 2021 14:49:16 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 98C5FD6E;
+ Mon, 21 Jun 2021 07:49:16 -0700 (PDT)
+Received: from [192.168.1.179] (unknown [172.31.20.19])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9C6BF3F694;
+ Mon, 21 Jun 2021 07:49:15 -0700 (PDT)
+Subject: Re: [PATCH v2 04/12] drm/panfrost: Expose exception types to userspace
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ Rob Herring <robh+dt@kernel.org>, Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Robin Murphy <robin.murphy@arm.com>
+References: <20210621133907.1683899-1-boris.brezillon@collabora.com>
+ <20210621133907.1683899-5-boris.brezillon@collabora.com>
+From: Steven Price <steven.price@arm.com>
+Message-ID: <76fe9527-fecd-2271-02a6-60c9b99ab4c2@arm.com>
+Date: Mon, 21 Jun 2021 15:49:14 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210620110327.4964-3-desmondcheongzx@gmail.com>
-X-Operating-System: Linux phenom 5.10.0-7-amd64 
+In-Reply-To: <20210621133907.1683899-5-boris.brezillon@collabora.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,370 +47,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tzimmermann@suse.de, airlied@linux.ie, gregkh@linuxfoundation.org,
- Daniel Vetter <daniel.vetter@ffwll.ch>, linux-kernel@vger.kernel.org,
- christian.koenig@amd.com, linaro-mm-sig@lists.linaro.org,
- emil.l.velikov@gmail.com, dri-devel@lists.freedesktop.org,
- skhan@linuxfoundation.org, linux-kernel-mentees@lists.linuxfoundation.org,
- linux-media@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Jun 20, 2021 at 07:03:27PM +0800, Desmond Cheong Zhi Xi wrote:
-> Currently, direct copies of drm_file->master pointers should be
-> protected by drm_device.master_mutex when being dereferenced. This is
-> because drm_file->master is not invariant for the lifetime of
-> drm_file. If drm_file is not the creator of master, then
-> drm_file->is_master is false, and a call to drm_setmaster_ioctl will
-> invoke drm_new_set_master, which then allocates a new master for
-> drm_file and puts the old master.
+On 21/06/2021 14:38, Boris Brezillon wrote:
+> Job headers contain an exception type field which might be read and
+> converted to a human readable string by tracing tools. Let's expose
+> the exception type as an enum so we share the same definition.
 > 
-> Thus, without holding drm_device.master_mutex, the old value of
-> drm_file->master could be freed while it is being used by another
-> concurrent process.
-> 
-> In drm_lease.c, there are multiple instances where drm_file->master is
-> accessed and dereferenced while drm_device.master_mutex is not
-> held. This makes drm_lease.c vulnerable to use-after-free bugs.
-> 
-> We address this issue as follows:
-> 
-> 1. Clarify in the kerneldoc that drm_file->master is protected by
-> drm_device.master_mutex.
-> 
-> 2. Add a new drm_file_get_master() function that calls drm_master_get
-> on drm_file->master while holding on to drm_device.master_mutex. Since
-> drm_master_get increments the reference count of master, this
-> prevents master from being freed until we unreference it with
-> drm_master_put.
-> 
-> 3. In each case where drm_file->master is directly accessed and
-> eventually dereferenced in drm_lease.c, we wrap the access in a call
-> to the new drm_file_get_master function, then unreference the master
-> pointer once we are done using it.
-> 
-> Reported-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
-
-I think this approach looks much clearer than the previous. I've found a
-few smaller things below still. I think at least ...
-
-Cheers, Daniel
-
+> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 > ---
->  drivers/gpu/drm/drm_auth.c  | 22 ++++++++++++++
->  drivers/gpu/drm/drm_lease.c | 57 ++++++++++++++++++++++++++-----------
->  include/drm/drm_auth.h      |  1 +
->  include/drm/drm_file.h      | 15 ++++++++--
->  4 files changed, 75 insertions(+), 20 deletions(-)
+>  include/uapi/drm/panfrost_drm.h | 65 +++++++++++++++++++++++++++++++++
+>  1 file changed, 65 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/drm_auth.c b/drivers/gpu/drm/drm_auth.c
-> index 86d4b72e95cb..0c64a77c67a6 100644
-> --- a/drivers/gpu/drm/drm_auth.c
-> +++ b/drivers/gpu/drm/drm_auth.c
-> @@ -384,6 +384,28 @@ struct drm_master *drm_master_get(struct drm_master *master)
->  }
->  EXPORT_SYMBOL(drm_master_get);
->  
-> +/**
-> + * drm_file_get_master - reference @file_priv->master
-> + * @file_priv: DRM file private
-> + *
-> + * Increments the reference count of @file_priv->master and returns
-
-Does this format correctly? I'd go with "&drm_file.master of @file_priv".
-
-> + * @file_priv->master.
-> + *
-> + * Master pointers returned from this function should be unreferenced using
-> + * drm_master_put().
-> + */
-> +struct drm_master *drm_file_get_master(struct drm_file *file_priv)
-> +{
-> +	struct drm_master *master;
-> +
-> +	mutex_lock(&file_priv->master->dev->master_mutex);
-> +	master = drm_master_get(file_priv->master);
-> +	mutex_unlock(&file_priv->master->dev->master_mutex);
-> +
-> +	return master;
-> +}
-> +EXPORT_SYMBOL(drm_file_get_master);
-> +
->  static void drm_master_destroy(struct kref *kref)
->  {
->  	struct drm_master *master = container_of(kref, struct drm_master, refcount);
-> diff --git a/drivers/gpu/drm/drm_lease.c b/drivers/gpu/drm/drm_lease.c
-> index da4f085fc09e..65eab82f8acc 100644
-> --- a/drivers/gpu/drm/drm_lease.c
-> +++ b/drivers/gpu/drm/drm_lease.c
-> @@ -107,10 +107,17 @@ static bool _drm_has_leased(struct drm_master *master, int id)
->   */
->  bool _drm_lease_held(struct drm_file *file_priv, int id)
->  {
-> +	bool ret;
-> +	struct drm_master *master;
-> +
->  	if (!file_priv || !file_priv->master)
-
-So here we still have a ->master access outside of the locked code
-section. I think the best fix for that would be to move the NULL check
-into drm_file_get_master (where we grab the lock already anyway), and
-update the kerneldoc to state that it might return NULL.
-
-Same with all the checks for ->master below.
-
->  		return true;
->  
-> -	return _drm_lease_held_master(file_priv->master, id);
-> +	master = drm_file_get_master(file_priv);
-> +	ret = _drm_lease_held_master(master, id);
-> +	drm_master_put(&master);
-> +
-> +	return ret;
->  }
->  
->  /**
-> @@ -132,10 +139,11 @@ bool drm_lease_held(struct drm_file *file_priv, int id)
->  	if (!file_priv || !file_priv->master || !file_priv->master->lessor)
->  		return true;
-
-master->lessor dereferenced outside the lock or without holding a
-reference.
-
->  
-> -	master = file_priv->master;
-> +	master = drm_file_get_master(file_priv);
->  	mutex_lock(&master->dev->mode_config.idr_mutex);
->  	ret = _drm_lease_held_master(master, id);
->  	mutex_unlock(&master->dev->mode_config.idr_mutex);
-> +	drm_master_put(&master);
->  	return ret;
->  }
->  
-> @@ -158,7 +166,7 @@ uint32_t drm_lease_filter_crtcs(struct drm_file *file_priv, uint32_t crtcs_in)
->  	if (!file_priv || !file_priv->master || !file_priv->master->lessor)
->  		return crtcs_in;
-
-Same here.
-
->  
-> -	master = file_priv->master;
-> +	master = drm_file_get_master(file_priv);
->  	dev = master->dev;
->  
->  	count_in = count_out = 0;
-> @@ -177,6 +185,7 @@ uint32_t drm_lease_filter_crtcs(struct drm_file *file_priv, uint32_t crtcs_in)
->  		count_in++;
->  	}
->  	mutex_unlock(&master->dev->mode_config.idr_mutex);
-> +	drm_master_put(&master);
->  	return crtcs_out;
->  }
->  
-> @@ -490,7 +499,7 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
->  	size_t object_count;
->  	int ret = 0;
->  	struct idr leases;
-> -	struct drm_master *lessor = lessor_priv->master;
-> +	struct drm_master *lessor;
->  	struct drm_master *lessee = NULL;
->  	struct file *lessee_file = NULL;
->  	struct file *lessor_file = lessor_priv->filp;
-> @@ -502,12 +511,6 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
->  	if (!drm_core_check_feature(dev, DRIVER_MODESET))
->  		return -EOPNOTSUPP;
->  
-> -	/* Do not allow sub-leases */
-> -	if (lessor->lessor) {
-> -		DRM_DEBUG_LEASE("recursive leasing not allowed\n");
-> -		return -EINVAL;
-> -	}
-> -
->  	/* need some objects */
->  	if (cl->object_count == 0) {
->  		DRM_DEBUG_LEASE("no objects in lease\n");
-> @@ -519,12 +522,22 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
->  		return -EINVAL;
->  	}
->  
-> +	lessor = drm_file_get_master(lessor_priv);
-> +	/* Do not allow sub-leases */
-> +	if (lessor->lessor) {
-
-Here we check after grabbing the reference, so looks correct.
-
-> +		DRM_DEBUG_LEASE("recursive leasing not allowed\n");
-> +		ret = -EINVAL;
-> +		goto out_lessor;
-> +	}
-> +
->  	object_count = cl->object_count;
->  
->  	object_ids = memdup_user(u64_to_user_ptr(cl->object_ids),
->  			array_size(object_count, sizeof(__u32)));
-> -	if (IS_ERR(object_ids))
-> -		return PTR_ERR(object_ids);
-> +	if (IS_ERR(object_ids)) {
-> +		ret = PTR_ERR(object_ids);
-> +		goto out_lessor;
-> +	}
->  
->  	idr_init(&leases);
->  
-> @@ -535,14 +548,15 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
->  	if (ret) {
->  		DRM_DEBUG_LEASE("lease object lookup failed: %i\n", ret);
->  		idr_destroy(&leases);
-> -		return ret;
-> +		goto out_lessor;
->  	}
->  
->  	/* Allocate a file descriptor for the lease */
->  	fd = get_unused_fd_flags(cl->flags & (O_CLOEXEC | O_NONBLOCK));
->  	if (fd < 0) {
->  		idr_destroy(&leases);
-> -		return fd;
-> +		ret = fd;
-> +		goto out_lessor;
->  	}
->  
->  	DRM_DEBUG_LEASE("Creating lease\n");
-> @@ -578,6 +592,7 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
->  	/* Hook up the fd */
->  	fd_install(fd, lessee_file);
->  
-> +	drm_master_put(&lessor);
->  	DRM_DEBUG_LEASE("drm_mode_create_lease_ioctl succeeded\n");
->  	return 0;
->  
-> @@ -587,6 +602,8 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
->  out_leases:
->  	put_unused_fd(fd);
->  
-> +out_lessor:
-> +	drm_master_put(&lessor);
->  	DRM_DEBUG_LEASE("drm_mode_create_lease_ioctl failed: %d\n", ret);
->  	return ret;
->  }
-> @@ -609,7 +626,7 @@ int drm_mode_list_lessees_ioctl(struct drm_device *dev,
->  	struct drm_mode_list_lessees *arg = data;
->  	__u32 __user *lessee_ids = (__u32 __user *) (uintptr_t) (arg->lessees_ptr);
->  	__u32 count_lessees = arg->count_lessees;
-> -	struct drm_master *lessor = lessor_priv->master, *lessee;
-> +	struct drm_master *lessor, *lessee;
->  	int count;
->  	int ret = 0;
->  
-> @@ -620,6 +637,7 @@ int drm_mode_list_lessees_ioctl(struct drm_device *dev,
->  	if (!drm_core_check_feature(dev, DRIVER_MODESET))
->  		return -EOPNOTSUPP;
->  
-> +	lessor = drm_file_get_master(lessor_priv);
->  	DRM_DEBUG_LEASE("List lessees for %d\n", lessor->lessee_id);
->  
->  	mutex_lock(&dev->mode_config.idr_mutex);
-> @@ -643,6 +661,7 @@ int drm_mode_list_lessees_ioctl(struct drm_device *dev,
->  		arg->count_lessees = count;
->  
->  	mutex_unlock(&dev->mode_config.idr_mutex);
-> +	drm_master_put(&lessor);
->  
->  	return ret;
->  }
-> @@ -662,7 +681,7 @@ int drm_mode_get_lease_ioctl(struct drm_device *dev,
->  	struct drm_mode_get_lease *arg = data;
->  	__u32 __user *object_ids = (__u32 __user *) (uintptr_t) (arg->objects_ptr);
->  	__u32 count_objects = arg->count_objects;
-> -	struct drm_master *lessee = lessee_priv->master;
-> +	struct drm_master *lessee;
->  	struct idr *object_idr;
->  	int count;
->  	void *entry;
-> @@ -676,6 +695,7 @@ int drm_mode_get_lease_ioctl(struct drm_device *dev,
->  	if (!drm_core_check_feature(dev, DRIVER_MODESET))
->  		return -EOPNOTSUPP;
->  
-> +	lessee = drm_file_get_master(lessee_priv);
->  	DRM_DEBUG_LEASE("get lease for %d\n", lessee->lessee_id);
->  
->  	mutex_lock(&dev->mode_config.idr_mutex);
-> @@ -703,6 +723,7 @@ int drm_mode_get_lease_ioctl(struct drm_device *dev,
->  		arg->count_objects = count;
->  
->  	mutex_unlock(&dev->mode_config.idr_mutex);
-> +	drm_master_put(&lessee);
->  
->  	return ret;
->  }
-> @@ -721,7 +742,7 @@ int drm_mode_revoke_lease_ioctl(struct drm_device *dev,
->  				void *data, struct drm_file *lessor_priv)
->  {
->  	struct drm_mode_revoke_lease *arg = data;
-> -	struct drm_master *lessor = lessor_priv->master;
-> +	struct drm_master *lessor;
->  	struct drm_master *lessee;
->  	int ret = 0;
->  
-> @@ -731,6 +752,7 @@ int drm_mode_revoke_lease_ioctl(struct drm_device *dev,
->  	if (!drm_core_check_feature(dev, DRIVER_MODESET))
->  		return -EOPNOTSUPP;
->  
-> +	lessor = drm_file_get_master(lessor_priv);
->  	mutex_lock(&dev->mode_config.idr_mutex);
->  
->  	lessee = _drm_find_lessee(lessor, arg->lessee_id);
-> @@ -751,6 +773,7 @@ int drm_mode_revoke_lease_ioctl(struct drm_device *dev,
->  
->  fail:
->  	mutex_unlock(&dev->mode_config.idr_mutex);
-> +	drm_master_put(&lessor);
->  
->  	return ret;
->  }
-> diff --git a/include/drm/drm_auth.h b/include/drm/drm_auth.h
-> index 6bf8b2b78991..f99d3417f304 100644
-> --- a/include/drm/drm_auth.h
-> +++ b/include/drm/drm_auth.h
-> @@ -107,6 +107,7 @@ struct drm_master {
+> diff --git a/include/uapi/drm/panfrost_drm.h b/include/uapi/drm/panfrost_drm.h
+> index 061e700dd06c..9a05d57d0118 100644
+> --- a/include/uapi/drm/panfrost_drm.h
+> +++ b/include/uapi/drm/panfrost_drm.h
+> @@ -224,6 +224,71 @@ struct drm_panfrost_madvise {
+>  	__u32 retained;       /* out, whether backing store still exists */
 >  };
 >  
->  struct drm_master *drm_master_get(struct drm_master *master);
-> +struct drm_master *drm_file_get_master(struct drm_file *file_priv);
->  void drm_master_put(struct drm_master **master);
->  bool drm_is_current_master(struct drm_file *fpriv);
->  
-> diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
-> index b81b3bfb08c8..e9931fca4ab7 100644
-> --- a/include/drm/drm_file.h
-> +++ b/include/drm/drm_file.h
-> @@ -226,9 +226,18 @@ struct drm_file {
->  	/**
->  	 * @master:
->  	 *
-> -	 * Master this node is currently associated with. Only relevant if
-> -	 * drm_is_primary_client() returns true. Note that this only
-> -	 * matches &drm_device.master if the master is the currently active one.
-> +	 * Master this node is currently associated with. Protected by struct
-> +	 * &drm_device.master_mutex.
-> +	 *
-> +	 * Only relevant if drm_is_primary_client() returns true. Note that
-> +	 * this only matches &drm_device.master if the master is the currently
-> +	 * active one.
-> +	 *
-> +	 * When obtaining a copy of this pointer, it is recommended to either
-> +	 * hold struct &drm_device.master_mutex for the duration of the
-> +	 * pointer's use, or to use drm_file_get_master() if struct
-> +	 * &drm_device.master_mutex is not currently held and there is no other
-> +	 * need to hold it. This prevents @master from being freed during use.
->  	 *
->  	 * See also @authentication and @is_master and the :ref:`section on
->  	 * primary nodes and authentication <drm_primary_node>`.
-> -- 
-> 2.25.1
+> +/* The exception types */
+> +
+> +enum drm_panfrost_exception_type {
+> +	DRM_PANFROST_EXCEPTION_OK = 0x00,
+> +	DRM_PANFROST_EXCEPTION_DONE = 0x01,
+
+Any reason to miss INTERRUPTED? Although I don't think you'll ever see it.
+
+> +	DRM_PANFROST_EXCEPTION_STOPPED = 0x03,
+> +	DRM_PANFROST_EXCEPTION_TERMINATED = 0x04,
+> +	DRM_PANFROST_EXCEPTION_KABOOM = 0x05,
+> +	DRM_PANFROST_EXCEPTION_EUREKA = 0x06,
+
+Interestingly KABOOM/EUREKA are missing from panfrost_exception_name()
+
+> +	DRM_PANFROST_EXCEPTION_ACTIVE = 0x08,
+> +	DRM_PANFROST_EXCEPTION_JOB_CONFIG_FAULT = 0x40,
+> +	DRM_PANFROST_EXCEPTION_JOB_POWER_FAULT = 0x41,
+> +	DRM_PANFROST_EXCEPTION_JOB_READ_FAULT = 0x42,
+> +	DRM_PANFROST_EXCEPTION_JOB_WRITE_FAULT = 0x43,
+> +	DRM_PANFROST_EXCEPTION_JOB_AFFINITY_FAULT = 0x44,
+> +	DRM_PANFROST_EXCEPTION_JOB_BUS_FAULT = 0x48,
+> +	DRM_PANFROST_EXCEPTION_INSTR_INVALID_PC = 0x50,
+> +	DRM_PANFROST_EXCEPTION_INSTR_INVALID_ENC = 0x51,
+
+0x52: INSTR_TYPE_MISMATCH
+0x53: INSTR_OPERAND_FAULT
+0x54: INSTR_TLS_FAULT
+
+> +	DRM_PANFROST_EXCEPTION_INSTR_BARRIER_FAULT = 0x55,
+
+0x56: INSTR_ALIGN_FAULT
+
+By the looks of it this is probably the Bifrost list and missing those
+codes which are Midgard only, whereas panfrost_exception_name() looks
+like it's missing some Bifrost status codes.
+
+Given this is UAPI there is some argument for missing e.g. INTERRUPTED
+(I'm not sure it was ever actually implemented in hardware and the term
+INTERRUPTED might be reused in future), but it seems a bit wrong just to
+have Bifrost values here.
+
+Steve
+
+> +	DRM_PANFROST_EXCEPTION_DATA_INVALID_FAULT = 0x58,
+> +	DRM_PANFROST_EXCEPTION_TILE_RANGE_FAULT = 0x59,
+> +	DRM_PANFROST_EXCEPTION_ADDR_RANGE_FAULT = 0x5a,
+> +	DRM_PANFROST_EXCEPTION_IMPRECISE_FAULT = 0x5b,
+> +	DRM_PANFROST_EXCEPTION_OOM = 0x60,
+> +	DRM_PANFROST_EXCEPTION_UNKNOWN = 0x7f,
+> +	DRM_PANFROST_EXCEPTION_DELAYED_BUS_FAULT = 0x80,
+> +	DRM_PANFROST_EXCEPTION_GPU_SHAREABILITY_FAULT = 0x88,
+> +	DRM_PANFROST_EXCEPTION_SYS_SHAREABILITY_FAULT = 0x89,
+> +	DRM_PANFROST_EXCEPTION_GPU_CACHEABILITY_FAULT = 0x8a,
+> +	DRM_PANFROST_EXCEPTION_TRANSLATION_FAULT_0 = 0xc0,
+> +	DRM_PANFROST_EXCEPTION_TRANSLATION_FAULT_1 = 0xc1,
+> +	DRM_PANFROST_EXCEPTION_TRANSLATION_FAULT_2 = 0xc2,
+> +	DRM_PANFROST_EXCEPTION_TRANSLATION_FAULT_3 = 0xc3,
+> +	DRM_PANFROST_EXCEPTION_TRANSLATION_FAULT_4 = 0xc4,
+> +	DRM_PANFROST_EXCEPTION_TRANSLATION_FAULT_IDENTITY = 0xc7,
+> +	DRM_PANFROST_EXCEPTION_PERM_FAULT_0 = 0xc8,
+> +	DRM_PANFROST_EXCEPTION_PERM_FAULT_1 = 0xc9,
+> +	DRM_PANFROST_EXCEPTION_PERM_FAULT_2 = 0xca,
+> +	DRM_PANFROST_EXCEPTION_PERM_FAULT_3 = 0xcb,
+> +	DRM_PANFROST_EXCEPTION_TRANSTAB_BUS_FAULT_0 = 0xd0,
+> +	DRM_PANFROST_EXCEPTION_TRANSTAB_BUS_FAULT_1 = 0xd1,
+> +	DRM_PANFROST_EXCEPTION_TRANSTAB_BUS_FAULT_2 = 0xd2,
+> +	DRM_PANFROST_EXCEPTION_TRANSTAB_BUS_FAULT_3 = 0xd3,
+> +	DRM_PANFROST_EXCEPTION_ACCESS_FLAG_0 = 0xd8,
+> +	DRM_PANFROST_EXCEPTION_ACCESS_FLAG_1 = 0xd9,
+> +	DRM_PANFROST_EXCEPTION_ACCESS_FLAG_2 = 0xda,
+> +	DRM_PANFROST_EXCEPTION_ACCESS_FLAG_3 = 0xdb,
+> +	DRM_PANFROST_EXCEPTION_ADDR_SIZE_FAULT_IN0 = 0xe0,
+> +	DRM_PANFROST_EXCEPTION_ADDR_SIZE_FAULT_IN1 = 0xe1,
+> +	DRM_PANFROST_EXCEPTION_ADDR_SIZE_FAULT_IN2 = 0xe2,
+> +	DRM_PANFROST_EXCEPTION_ADDR_SIZE_FAULT_IN3 = 0xe3,
+> +	DRM_PANFROST_EXCEPTION_ADDR_SIZE_FAULT_OUT0 = 0xe4,
+> +	DRM_PANFROST_EXCEPTION_ADDR_SIZE_FAULT_OUT1 = 0xe5,
+> +	DRM_PANFROST_EXCEPTION_ADDR_SIZE_FAULT_OUT2 = 0xe6,
+> +	DRM_PANFROST_EXCEPTION_ADDR_SIZE_FAULT_OUT3 = 0xe7,
+> +	DRM_PANFROST_EXCEPTION_MEM_ATTR_FAULT_0 = 0xe8,
+> +	DRM_PANFROST_EXCEPTION_MEM_ATTR_FAULT_1 = 0xe9,
+> +	DRM_PANFROST_EXCEPTION_MEM_ATTR_FAULT_2 = 0xea,
+> +	DRM_PANFROST_EXCEPTION_MEM_ATTR_FAULT_3 = 0xeb,
+> +	DRM_PANFROST_EXCEPTION_MEM_ATTR_NONCACHE_0 = 0xec,
+> +	DRM_PANFROST_EXCEPTION_MEM_ATTR_NONCACHE_1 = 0xed,
+> +	DRM_PANFROST_EXCEPTION_MEM_ATTR_NONCACHE_2 = 0xee,
+> +	DRM_PANFROST_EXCEPTION_MEM_ATTR_NONCACHE_3 = 0xef,
+> +};
+> +
+>  #if defined(__cplusplus)
+>  }
+>  #endif
 > 
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
