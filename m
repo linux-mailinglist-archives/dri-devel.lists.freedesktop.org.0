@@ -1,64 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 182EA3AED32
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Jun 2021 18:13:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 534DF3AED87
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Jun 2021 18:18:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E422F6E20A;
-	Mon, 21 Jun 2021 16:13:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 732DC89C16;
+	Mon, 21 Jun 2021 16:18:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com
- [IPv6:2a00:1450:4864:20::32c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 80FE46E20A
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Jun 2021 16:13:39 +0000 (UTC)
-Received: by mail-wm1-x32c.google.com with SMTP id
- n35-20020a05600c3ba3b02901cdecb6bda8so14285295wms.5
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Jun 2021 09:13:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=YZ5jvtRoj/Rc3yW3uNUP4T0A+RWsbe0Q60+gCG3YCZw=;
- b=Ts7Up1YaojKwWZdVrmJdHBsGLOe3Tpn4OBRo9knbDF7EBhZMc6HqjiA1xhE/WcXYNk
- S0CPw8EzWPB5HKf6CM+7vfu3b6JZEAHnsB90PuYxEUJc3JmUtEn+b6b1JOekXnlNAulu
- 3l1iMNyjzKT2lXkJbDZjOoQqay0UCfIRwiy1Q=
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
+ [IPv6:2a00:1450:4864:20::42e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 899D189C16
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Jun 2021 16:18:40 +0000 (UTC)
+Received: by mail-wr1-x42e.google.com with SMTP id h11so2863849wrx.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Jun 2021 09:18:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=raspberrypi.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=tthdio2toNyiWcsxLuaNlU3sKk9Qswk6j48qKJdhloI=;
+ b=qhaDLDHPMGDuCgFJBo3YwN8uNEPEWZV2c8hfOhY43wO4SjlCDHZbid9svB4Gj0YIBE
+ 5O6NfI+Zl7C4EkEoX2fiGureZkOzLPH8OL1WybeNAF2VACmyWpc8+8lTEGPQ4XyIvZB0
+ XnxVezcTlsuJ8I4Cdna18yDM9csRjqh7z0MSwNZ+Pp2HaaiayBGTTwZ76n3vXMqehkWl
+ COxak8LopA4zbC0Q2VwwTdO3oZZ99o7FjBwrwXx0+ZsZpCjhML4UaMF5Zvu6MHcLm2/+
+ 9AMOckO1zN/XeMPQGhCEi7QZ/YRN5NJXZNA+moDsb1Z4IWeNhLxEnvlYAENdjeppBf9N
+ wywQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=YZ5jvtRoj/Rc3yW3uNUP4T0A+RWsbe0Q60+gCG3YCZw=;
- b=pJ9LqZwoJVQvQzZeKBEWUGq9xzZlf9j76maAutUI8ebvTRu+EQxUEKFRI4ky8c3tG0
- 0ZCatNhjbjPxRihRyqrEkoXCZoFRi1gzb2hAS6PsvyUxxlmiIua0CkRxE1SuLsss+fiq
- FEVWufRhAeG0vA6+Ixxj2DUdAGjYkOCREfkZFg3OixXRUpzjuFKH2SxFCQfBf0Hq/sfo
- lr/W5fEWwWXiCkUYHO0ZrRXh15cVBxuk37FO88EnI2hBWAPqbHEuIh2dUKhc7EcBwptq
- e18pVVAeOLavFlh0yyg+9k/NU0KNmytQnDXOh1atlFJlD7+jeZfXs9h8a6h44TOHJjOK
- QCGg==
-X-Gm-Message-State: AOAM531bZknN4VIliIZl7n1/IKZ8l7/sKOJ8X+NuhXWZCFP6hBp3BVQw
- La2l2LNXBqanPVIS4rsw+ZiT0Q==
-X-Google-Smtp-Source: ABdhPJw6afDSISlQFjCaDK/M8n4zqWK2w3Q2V8P57Yw5lOY+iPC1dv182jSrKOBhcWX8Us87Yky/Lg==
-X-Received: by 2002:a05:600c:2e53:: with SMTP id
- q19mr19459226wmf.39.1624292018191; 
- Mon, 21 Jun 2021 09:13:38 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id p8sm10901430wmi.46.2021.06.21.09.13.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Jun 2021 09:13:37 -0700 (PDT)
-Date: Mon, 21 Jun 2021 18:13:35 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
-Subject: Re: [PATCH] dma-buf: Document non-dynamic exporter expectations better
-Message-ID: <YNC6ryxraAupKVbH@phenom.ffwll.local>
-References: <20210621150732.2345632-1-daniel.vetter@ffwll.ch>
- <20210621151758.2347474-1-daniel.vetter@ffwll.ch>
- <75e2dff9-41e3-b24a-5c9c-068c8b1a18c9@gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=tthdio2toNyiWcsxLuaNlU3sKk9Qswk6j48qKJdhloI=;
+ b=ILUjQpkZL74XrjyXZdWelQMv2yR/teWmnCPgZuaAkzgVvSFO3kWh0yzzLJ4fQPQm5t
+ rUtMOVQ/yQQgoFSmZggK3dM8LPkE3BJBzGbhHJpeyYl5inJVtjkCM8/Qs4TW8LxwZGpX
+ jF9bNTvseTS+pvwwCvnw42lKhTM0oY4Q3GQtF92C5ipeYgyg8LnQRe/FsL8TfdtToRA3
+ rX0Na+u3WHHlcSRwQrQqWWmjkE62sNcsnttGjqeL0DMprNBMtX4iD8oVxchOo3k8Hh+2
+ K63Kiph/tVwihW6TD65Unw/ors5joTv6IhkfpwWMNKXNs31SDsCzxr5X94x2KMMxVBrf
+ fL5A==
+X-Gm-Message-State: AOAM532yOxLeXVk25Kqvrvh0GeBjVBDyRnssIwYktb9eB28Ft/fSO4i8
+ NBVCoo1R1ujNU4t2INRQYb1l2vw+68w+PGzM9J4RMw==
+X-Google-Smtp-Source: ABdhPJxfKgsLbD4mBF8xFTkaIH9Jnw9ynEp+yGhuiV13D4JlBQx5v9mfFu1UDaDERTmS2+WQtGjJYV+GeqnCMJ0Efic=
+X-Received: by 2002:a5d:59a5:: with SMTP id p5mr28448027wrr.27.1624292319231; 
+ Mon, 21 Jun 2021 09:18:39 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <75e2dff9-41e3-b24a-5c9c-068c8b1a18c9@gmail.com>
-X-Operating-System: Linux phenom 5.10.0-7-amd64 
+References: <20200707101912.571531-1-maxime@cerno.tech>
+ <YM6dgVb12oITNfc0@pendragon.ideasonboard.com>
+ <20210621160517.5fptdj4tkbzgqn76@gilmour>
+In-Reply-To: <20210621160517.5fptdj4tkbzgqn76@gilmour>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Mon, 21 Jun 2021 17:18:22 +0100
+Message-ID: <CAPY8ntA0dsNwiyEiSHR7AuL1ESyPvTpKWAAg=MK3Gx9HKhq5qg@mail.gmail.com>
+Subject: Re: [PATCH] drm/vc4: dsi: Only register our component once a DSI
+ device is attached
+To: Maxime Ripard <maxime@cerno.tech>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,102 +65,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+Cc: Marek Vasut <marex@denx.de>, Tim Gover <tim.gover@raspberrypi.com>,
+ Andrzej Hajda <a.hajda@samsung.com>, linux-arm-kernel@lists.infradead.org,
+ LKML <linux-kernel@vger.kernel.org>,
  DRI Development <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@intel.com>
+ Eric Anholt <eric@anholt.net>, bcm-kernel-feedback-list@broadcom.com,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Phil Elwell <phil@raspberrypi.com>,
+ Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
+ linux-rpi-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 21, 2021 at 05:53:46PM +0200, Christian König wrote:
-> Am 21.06.21 um 17:17 schrieb Daniel Vetter:
-> > Christian and me realized we have a pretty massive disconnect about
-> > different interpretations of what dma_resv is used for by different
-> > drivers. The discussion is much, much bigger than this change here,
-> > but this is an important one:
-> > 
-> > Non-dynamic exporters must guarantee that the memory they return is
-> > ready for use. They cannot expect importers to wait for the exclusive
-> > fence. Only dynamic importers are required to obey the dma_resv fences
-> > strictly (and more patches are needed to define exactly what this
-> > means).
-> > 
-> > Christian has patches to update nouvea, radeon and amdgpu. The only
-> > other driver using both ttm and supporting dma-buf export is qxl,
-> > which only uses synchronous ttm_bo_move.
-> > 
-> > v2: To hammer this in document that dynamic importers _must_ wait for
-> > the exclusive fence after having called dma_buf_map_attachment.
-> > 
-> > Cc: Christian König <ckoenig.leichtzumerken@gmail.com>
-> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> 
-> Reviewed-by: Christian König <christian.koenig@amd.com>
+Hi Maxime
 
-Applied to drm-misc-next, thanks for taking a look. Maybe when you merge
-the actual bugfixes link to this patch as an explanation in each commit
-message:
+On Mon, 21 Jun 2021 at 17:05, Maxime Ripard <maxime@cerno.tech> wrote:
+>
+> Hi Laurent,
+>
+> On Sun, Jun 20, 2021 at 04:44:33AM +0300, Laurent Pinchart wrote:
+> > Hi Maxime,
+> >
+> > I'm testing this, and I'm afraid it causes an issue with all the
+> > I2C-controlled bridges. I'm focussing on the newly merged ti-sn65dsi83
+> > driver at the moment, but other are affected the same way.
+> >
+> > With this patch, the DSI component is only added when the DSI device is
+> > attached to the host with mipi_dsi_attach(). In the ti-sn65dsi83 driver,
+> > this happens in the bridge attach callback, which is called when the
+> > bridge is attached by a call to drm_bridge_attach() in vc4_dsi_bind().
+> > This creates a circular dependency, and the DRM/KMS device is never
+> > created.
+>
+> We discussed it on IRC, but it makes more sense here.
+>
+> The thing is, that patch is fixing a circular dependency we discussed
+> with Andrzej a year ago:
+>
+> https://lore.kernel.org/dri-devel/20200630132711.ezywhvoiuv3swo57@gilmour.lan/
+>
+> It seems like we have to choose between having the panels or bridges
+> working :/
 
-References: https://lore.kernel.org/dri-devel/20210621151758.2347474-1-daniel.vetter@ffwll.ch/
+The Pi panel using the panel-raspberrypi-touchscreen driver is flawed
+as it controls the power to the FT5406 touchscreen element as well as
+the display. If DRM powers down the display, power goes to the
+touchscreen too, but the edt-ft5x06 touchscreen driver has no notion
+of this :-(
 
-That helps a bit with your rather terse commit messages.
--Daniel
+The two parts have been broken into bridge/tc358762 and
+regulator/rpi-panel-attiny-regulator which then allows the edt-ft5x06
+driver to keep control over power. I haven't had it be 100% reliable
+though, so I'm still investigating as time allows, but this seems like
+the better solution than panel-raspberrypi-touchscreen.
 
-> 
-> > ---
-> >   drivers/dma-buf/dma-buf.c |  3 +++
-> >   include/linux/dma-buf.h   | 15 +++++++++++++++
-> >   2 files changed, 18 insertions(+)
-> > 
-> > diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> > index e3ba5db5f292..65cbd7f0f16a 100644
-> > --- a/drivers/dma-buf/dma-buf.c
-> > +++ b/drivers/dma-buf/dma-buf.c
-> > @@ -956,6 +956,9 @@ EXPORT_SYMBOL_GPL(dma_buf_unpin);
-> >    * the underlying backing storage is pinned for as long as a mapping exists,
-> >    * therefore users/importers should not hold onto a mapping for undue amounts of
-> >    * time.
-> > + *
-> > + * Important: Dynamic importers must wait for the exclusive fence of the struct
-> > + * dma_resv attached to the DMA-BUF first.
-> >    */
-> >   struct sg_table *dma_buf_map_attachment(struct dma_buf_attachment *attach,
-> >   					enum dma_data_direction direction)
-> > diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-> > index 342585bd6dff..92eec38a03aa 100644
-> > --- a/include/linux/dma-buf.h
-> > +++ b/include/linux/dma-buf.h
-> > @@ -96,6 +96,12 @@ struct dma_buf_ops {
-> >   	 * This is called automatically for non-dynamic importers from
-> >   	 * dma_buf_attach().
-> >   	 *
-> > +	 * Note that similar to non-dynamic exporters in their @map_dma_buf
-> > +	 * callback the driver must guarantee that the memory is available for
-> > +	 * use and cleared of any old data by the time this function returns.
-> > +	 * Drivers which pipeline their buffer moves internally must wait for
-> > +	 * all moves and clears to complete.
-> > +	 *
-> >   	 * Returns:
-> >   	 *
-> >   	 * 0 on success, negative error code on failure.
-> > @@ -144,6 +150,15 @@ struct dma_buf_ops {
-> >   	 * This is always called with the dmabuf->resv object locked when
-> >   	 * the dynamic_mapping flag is true.
-> >   	 *
-> > +	 * Note that for non-dynamic exporters the driver must guarantee that
-> > +	 * that the memory is available for use and cleared of any old data by
-> > +	 * the time this function returns.  Drivers which pipeline their buffer
-> > +	 * moves internally must wait for all moves and clears to complete.
-> > +	 * Dynamic exporters do not need to follow this rule: For non-dynamic
-> > +	 * importers the buffer is already pinned through @pin, which has the
-> > +	 * same requirements. Dynamic importers otoh are required to obey the
-> > +	 * dma_resv fences.
-> > +	 *
-> >   	 * Returns:
-> >   	 *
-> >   	 * A &sg_table scatter list of or the backing storage of the DMA buffer,
-> 
+With the tc358762 node back under the DSI host node, I think that
+circular dependency you were trying to solve goes away.
+However with sn65dsi83 being I2C configured, is that an issue again?
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+  Dave
