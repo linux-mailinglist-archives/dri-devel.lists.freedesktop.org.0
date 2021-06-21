@@ -1,62 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B71403AE428
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Jun 2021 09:25:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E3233AE4AF
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Jun 2021 10:22:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F28B589E0D;
-	Mon, 21 Jun 2021 07:25:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 065A289C9B;
+	Mon, 21 Jun 2021 08:22:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com
- [IPv6:2607:f8b0:4864:20::52c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 46B4389E0D
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Jun 2021 07:25:41 +0000 (UTC)
-Received: by mail-pg1-x52c.google.com with SMTP id t13so1627610pgu.11
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Jun 2021 00:25:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=lTGm4JdvD3Vra2uimR9VdWCccBLfDRHg1bYd/TgBubU=;
- b=PFJ+240oebdQnrjo/n/RAYbIElojZ4FKbPovvcLEqUz4yBbkyVuFvAOGUWXkm30rfe
- 75bW0/Ce4RgwAgC4v3Vrk7kmCKD6qi1mkuF5f0eGUUYyW6TGPpMB4W5gED+bP1XNgU3J
- fcUqMyXjuP9ETuCKYHTX4nrwrmYudt7xQPSBo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=lTGm4JdvD3Vra2uimR9VdWCccBLfDRHg1bYd/TgBubU=;
- b=oSPuyzALRPKbv4VsjTKOkn7B8vYwqJ5KlsyR1g4VCUzW+dL6t//YD3WQHn6SYZ5Y6I
- jnQflR/0tqDDAbI2BMavyKqQa123nr4sKpNbIEpUgPwOJELHrqgI3/ZpNjcUUVKc1XQZ
- DFyUaulPJARVvKDl2dOS9wUZ2vd+p3ngdgjGgNLqm1T76sr50b3lBLAIYs1UGci17Pn8
- HtS8xHJDCjRAGOC19p+2dXesGif8mdgk+nTYfxf7Rvgtcn/dmPgM5ayWmQ9lVAxn8OYX
- qXXghEi9KZYLWeH8UdTvh3k+8Mx8WG8DmF+Z3nOg+10ho+9me+ZvbJ5KPfAiLC/YTh5k
- Cmjw==
-X-Gm-Message-State: AOAM533hte0UDhs1zhZq+4d0a7rIakzopPMhyRwn/lz/8x1xNbp18fes
- tmNgrbh/mCbYShHzgoJgUsgIpA==
-X-Google-Smtp-Source: ABdhPJySHSLKRyuhIZrudYf++tyEsD+0GgBX+hyzQUfgAdzn15cvpKaHOeRlq0FvEo+n97tiu5R9dg==
-X-Received: by 2002:a63:185b:: with SMTP id 27mr23058306pgy.164.1624260340808; 
- Mon, 21 Jun 2021 00:25:40 -0700 (PDT)
-Received: from localhost.localdomain ([2405:201:c00a:a884:139:e97f:a55d:7f66])
- by smtp.gmail.com with ESMTPSA id
- 21sm13951294pfh.103.2021.06.21.00.25.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Jun 2021 00:25:40 -0700 (PDT)
-From: Jagan Teki <jagan@amarulasolutions.com>
-To: Peng Fan <peng.fan@nxp.com>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>, Tomasz Figa <t.figa@samsung.com>,
- Fancy Fang <chen.fang@nxp.com>
-Subject: [RFC PATCH 9/9] arm64: dts: imx8mm-icore: Enable LVDS panel for
- EDIMM2.2
-Date: Mon, 21 Jun 2021 12:54:24 +0530
-Message-Id: <20210621072424.111733-10-jagan@amarulasolutions.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210621072424.111733-1-jagan@amarulasolutions.com>
-References: <20210621072424.111733-1-jagan@amarulasolutions.com>
+X-Greylist: delayed 540 seconds by postgrey-1.36 at gabe;
+ Mon, 21 Jun 2021 08:22:07 UTC
+Received: from rhlx01.hs-esslingen.de (rhlx01.hs-esslingen.de
+ [IPv6:2001:7c0:700::10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4DD3489C93;
+ Mon, 21 Jun 2021 08:22:07 +0000 (UTC)
+Received: by rhlx01.hs-esslingen.de (Postfix, from userid 1203)
+ id 1F6A42A01847; Mon, 21 Jun 2021 10:13:05 +0200 (CEST)
+Date: Mon, 21 Jun 2021 10:13:05 +0200
+From: Adrian Reber <adrian@lisas.de>
+To: Felix Kuehling <felix.kuehling@amd.com>
+Subject: Re: [RFC] CRIU support for ROCm
+Message-ID: <YNBKEWlbCVFJHnsG@lisas.de>
+References: <9245171d-ecc9-1bdf-3ecd-cf776dc17855@amd.com>
+ <YI2J97Rg4+1+KVNs@lisas.de>
+ <e6a70c3c-c710-5566-4152-876324ddeb73@amd.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e6a70c3c-c710-5566-4152-876324ddeb73@amd.com>
+X-Url: <http://lisas.de/~adrian/>
+X-Operating-System: Linux (5.10.10-200.fc33.x86_64)
+X-Load-Average: 5.25 6.63 7.53
+X-Unexpected: The Spanish Inquisition
+X-GnuPG-Key: gpg --recv-keys D3C4906A
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,153 +46,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Francis Laniel <francis.laniel@amarulasolutions.com>,
- Matteo Lisi <matteo.lisi@engicam.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
- NXP Linux Team <linux-imx@nxp.com>, Milco Pratesi <milco.pratesi@engicam.com>,
- Anthony Brandon <anthony@amarulasolutions.com>, linux-phy@lists.infradead.org,
- linux-amarula@amarulasolutions.com, linux-arm-kernel@lists.infradead.org,
- Jagan Teki <jagan@amarulasolutions.com>
+Cc: Alexander Mihalicyn <alexander@mihalicyn.com>,
+ Pavel Emelyanov <ovzxemul@gmail.com>, Pavel Tikhomirov <snorcht@gmail.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>, "Bhardwaj,
+ Rajneesh" <Rajneesh.Bhardwaj@amd.com>, criu@openvz.org, "Yat Sin,
+ David" <David.YatSin@amd.com>, amd-gfx list <amd-gfx@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Enable LVDS Panel for Engicam i.Core MX8MMini EDIMM2.2 board.
+On Fri, Jun 18, 2021 at 05:48:33PM -0400, Felix Kuehling wrote:
+> Am 2021-05-01 um 1:03 p.m. schrieb Adrian Reber:
+> >
+> > It would also be good to have your patchset submitted as a PR on github
+> > to have our normal CI test coverage of the changes.
+> 
+> Hi Adrian,
+> 
+> We moved our work to a new github repository that is a fork of
+> checkpoint-restore/criu so that we could send a pull request:
+> https://github.com/checkpoint-restore/criu/pull/1519. This is still an
+> RFC. It has some updates that Rajneesh explained in the pull request.
+> Two big things still missing that we are working on now are:
+> 
+>   * New ioctl API to make it maintainable and extensible for the future
+>   * Using DMA engines for saving/restoring VRAM contents
+> 
+> We should have another update with those two things in about two weeks.
+> 
+> We'd really appreciate feedback on the changes we had to make to core
+> CRIU, and the build system changes for the new plugin directory.
 
-Cc: Rob Herring <robh+dt@kernel.org>
-Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
----
- .../freescale/imx8mm-icore-mx8mm-edimm2.2.dts | 90 +++++++++++++++++++
- 1 file changed, 90 insertions(+)
+See my comments on the pull request on github.
 
-diff --git a/arch/arm64/boot/dts/freescale/imx8mm-icore-mx8mm-edimm2.2.dts b/arch/arm64/boot/dts/freescale/imx8mm-icore-mx8mm-edimm2.2.dts
-index a4a2ada14835..f1256c9c9bd7 100644
---- a/arch/arm64/boot/dts/freescale/imx8mm-icore-mx8mm-edimm2.2.dts
-+++ b/arch/arm64/boot/dts/freescale/imx8mm-icore-mx8mm-edimm2.2.dts
-@@ -14,9 +14,51 @@ / {
- 	compatible = "engicam,icore-mx8mm-edimm2.2", "engicam,icore-mx8mm",
- 		     "fsl,imx8mm";
- 
-+	backlight: backlight {
-+		compatible = "pwm-backlight";
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&pinctrl_pwm1>;
-+		pwms = <&pwm1 0 1000000>;
-+		brightness-levels = <0 4 8 16 32 64 128 255>;
-+		default-brightness-level = <7>;
-+	};
-+
- 	chosen {
- 		stdout-path = &uart2;
- 	};
-+
-+	panel {
-+		compatible = "yes-optoelectronics,ytc700tlag-05-201c";
-+		backlight = <&backlight>;
-+		data-mapping = "vesa-24";
-+
-+		port {
-+			panel_out_bridge: endpoint {
-+				remote-endpoint = <&bridge_out_panel>;
-+			};
-+		};
-+	};
-+};
-+
-+&dphy {
-+	status = "okay";
-+};
-+
-+&dsi {
-+	#address-cells = <1>;
-+	#size-cells = <0>;
-+	status = "okay";
-+
-+	ports {
-+		port@1 {
-+			reg = <1>;
-+
-+			dsi_out_bridge: endpoint {
-+				remote-endpoint = <&bridge_in_dsi>;
-+				data-lanes = <0 1>;
-+			};
-+		};
-+	};
- };
- 
- &fec1 {
-@@ -35,9 +77,43 @@ &i2c4 {
- 	pinctrl-names = "default";
- 	pinctrl-0 = <&pinctrl_i2c4>;
- 	status = "okay";
-+
-+	bridge@2c {
-+		compatible = "ti,sn65dsi84";
-+		reg = <0x2c>;
-+		enable-gpios = <&gpio3 9  GPIO_ACTIVE_HIGH>;
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&pinctrl_dsi_bridge_enable>;
-+
-+		ports {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+
-+			port@0 {
-+				reg = <0>;
-+				bridge_in_dsi: endpoint {
-+					remote-endpoint = <&dsi_out_bridge>;
-+				};
-+			};
-+
-+			port@1 {
-+				reg = <1>;
-+				bridge_out_panel: endpoint {
-+					remote-endpoint = <&panel_out_bridge>;
-+				};
-+			};
-+		};
-+	};
- };
- 
- &iomuxc {
-+	pinctrl_dsi_bridge_enable: dsibridgeenablegrp {
-+		fsl,pins = <
-+			MX8MM_IOMUXC_NAND_DATA03_GPIO3_IO9	0x19
-+			MX8MM_IOMUXC_NAND_DATA02_GPIO3_IO8	0x19
-+		>;
-+	};
-+
- 	pinctrl_i2c2: i2c2grp {
- 		fsl,pins = <
- 			MX8MM_IOMUXC_I2C2_SCL_I2C2_SCL		0x400001c3
-@@ -52,6 +128,12 @@ MX8MM_IOMUXC_I2C4_SDA_I2C4_SDA		0x400001c3
- 		>;
- 	};
- 
-+	pinctrl_pwm1: pwm1grp {
-+		fsl,pins = <
-+			MX8MM_IOMUXC_SPDIF_EXT_CLK_PWM1_OUT     0x19
-+		>;
-+	};
-+
- 	pinctrl_uart2: uart2grp {
- 		fsl,pins = <
- 			MX8MM_IOMUXC_UART2_RXD_UART2_DCE_RX	0x140
-@@ -77,6 +159,14 @@ MX8MM_IOMUXC_SD1_DATA3_USDHC1_DATA3	0x1d0
- 	};
- };
- 
-+&lcdif {
-+	status = "okay";
-+};
-+
-+&pwm1 {
-+	status = "okay";
-+};
-+
- &uart2 {
- 	pinctrl-names = "default";
- 	pinctrl-0 = <&pinctrl_uart2>;
--- 
-2.25.1
-
+		Adrian
