@@ -2,41 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5E3C3AF636
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Jun 2021 21:34:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 122C93AF63B
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Jun 2021 21:37:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8709D6E3FC;
-	Mon, 21 Jun 2021 19:34:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 238296E3F9;
+	Mon, 21 Jun 2021 19:37:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.smtp.larsendata.com (mx1.smtp.larsendata.com
- [91.221.196.215])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE16A6E3FC
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Jun 2021 19:34:49 +0000 (UTC)
-Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
- by mx1.smtp.larsendata.com (Halon) with ESMTPS
- id c6dabb94-d2c7-11eb-960d-0050568c148b;
- Mon, 21 Jun 2021 19:35:04 +0000 (UTC)
-Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
- [80.162.45.141])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: sam@ravnborg.org)
- by mail01.mxhotel.dk (Postfix) with ESMTPSA id AF354194B48;
- Mon, 21 Jun 2021 21:34:52 +0200 (CEST)
-Date: Mon, 21 Jun 2021 21:34:46 +0200
-X-Report-Abuse-To: abuse@mxhotel.dk
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH 0/5] ti-sn65dsi83: Finalize transition to atomic operations
-Message-ID: <20210621193446.GA962565@ravnborg.org>
-References: <20210621125518.13715-1-laurent.pinchart@ideasonboard.com>
- <20210621184953.GC918146@ravnborg.org>
- <YNDhuwRErUEeE19+@pendragon.ideasonboard.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7BCFC6E3F9;
+ Mon, 21 Jun 2021 19:37:01 +0000 (UTC)
+IronPort-SDR: 8SrZfsjAGx0QU+2PtFD7MwJpqrDF+l9sR3hsQyhYDGTQ0fYDXGkeHfTl5iUQAv+I/wjLknlvQ4
+ f06OE5RgrmeA==
+X-IronPort-AV: E=McAfee;i="6200,9189,10022"; a="292548367"
+X-IronPort-AV: E=Sophos;i="5.83,289,1616482800"; d="scan'208";a="292548367"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Jun 2021 12:37:00 -0700
+IronPort-SDR: YZzy1rBylVz0mvgSMLv6qQDxe6JVwbABPVYQCm+q8uogsE+U629luKJQX0x9VmktjwRmtgc9gJ
+ SL8BTq6F7+Gw==
+X-IronPort-AV: E=Sophos;i="5.83,289,1616482800"; d="scan'208";a="489989521"
+Received: from gperry-mobl.ger.corp.intel.com (HELO thellst-mobl1.intel.com)
+ ([10.249.254.94])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Jun 2021 12:36:59 -0700
+From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH v6 0/3] drm/i915: Move system memory to TTM for discrete
+Date: Mon, 21 Jun 2021 21:36:41 +0200
+Message-Id: <20210621193644.105627-1-thomas.hellstrom@linux.intel.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YNDhuwRErUEeE19+@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,45 +48,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Loic Poulain <loic.poulain@linaro.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Robert Foss <robert.foss@linaro.org>, Douglas Anderson <dianders@chromium.org>,
- dri-devel@lists.freedesktop.org,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- Philippe Schenker <philippe.schenker@toradex.com>,
- Jagan Teki <jagan@amarulasolutions.com>,
- Valentin Raevsky <valentin@compulab.co.il>, Stephen Boyd <swboyd@chromium.org>,
- Adam Ford <aford173@gmail.com>, Maxime Ripard <maxime@cerno.tech>
+Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ matthew.auld@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Laurent,
+Early implementation of moving system memory for discrete cards over to
+TTM. We first add the notion of objects being migratable under the object
+lock to i915 gem, and add some asserts to verify that objects are either
+locked or pinned when the placement is checked by the gem code.
 
-> > 
-> > It is news to me that the atomic ops are the way to go - but then I have
-> > been off-line for a while so no suprise or maybe I just missed it
-> > before.
-> 
-> They're not mandatory as such, but they give us access to the atomic
-> state, which is sometimes required. Overall I think it would be nice to
-> move to the atomic operations and drop the legacy ones, to avoid
-> maintaining two sets of operations. It will take time :-)
-Yeah, but if we can get more people working on the job..
-> 
-> > It would be good if the comments in drm_bridge.h could point out what is
-> > deprecated, so we know what to avoid in new and updated bridge drivers.
-> > But this is all un-related to this series.
-> 
-> It's a good point. Would you like to submit a patch, or should I do so ?
-Please do as I would have to dig around to do it right as I have
-fogotten most of the drm internals the last couple of months.
+Patch 2 deals with updating the i915 gem bookkeeping after a TTM move,
+Patch 3 moves system over from shmem to TTM for discrete
 
-Just something simple like: "This is deprecated, do not use!" would do
-the trick for me. Then I would know what to look for if I was reviewing
-a new bridge driver or patching an existing one or just trying to gentle
-push someone in the right direction.
+Note that the mock device doesn't consider itself discrete so the TTM
+system path is not checked by the mock selftests.
 
-For drm_drv.h this really helped me to understand what should not be
-used.
+v2:
+- Style fixes (reported by Matthew Auld)
+- Drop the last patch (migration) It needs selftests and some additional work.
+- Unconditionally add VM_IO at mmap time.
 
-	Sam
+v3:
+- More style fixes (reported by Matthew Auld)
+- Don't overfill the busy placement vector (reported by Matthew Auld)
+
+v4:
+- Remove confusion around shrinkable objects (reported by Matthew Auld)
+
+v5:
+- Remove confusion around shrinkable objects again, but this time in the
+  correct patch. (reported by Matthew Auld)
+
+v6:
+- One patch already committed.
+- Introduce a __i915_gem_object_is_lmem() to be used in situations where we
+  know that a fence that can't currently signal keeps the object from being
+  migrated or evicted.
+- Rebase on accelerated TTM moves
+- Fix TODO:s for supporting system memory with TTM.
+- Update the object GEM region after a TTM move if compatible.
+- Move a couple of warnings for shmem on DGFX.
+
+Thomas Hellström (3):
+  drm/i915: Update object placement flags to be mutable
+  drm/i915/ttm: Adjust gem flags and caching settings after a move
+  drm/i915/ttm: Use TTM for system memory
+
+ drivers/gpu/drm/i915/gem/i915_gem_internal.c  |   4 +-
+ drivers/gpu/drm/i915/gem/i915_gem_lmem.c      |  22 ++
+ drivers/gpu/drm/i915/gem/i915_gem_lmem.h      |   2 +
+ drivers/gpu/drm/i915/gem/i915_gem_mman.c      |  12 +-
+ drivers/gpu/drm/i915/gem/i915_gem_object.c    |  38 ++++
+ drivers/gpu/drm/i915/gem/i915_gem_object.h    |  14 +-
+ .../gpu/drm/i915/gem/i915_gem_object_types.h  |  20 +-
+ drivers/gpu/drm/i915/gem/i915_gem_pages.c     |   2 +-
+ drivers/gpu/drm/i915/gem/i915_gem_phys.c      |   2 +-
+ drivers/gpu/drm/i915/gem/i915_gem_shmem.c     |  10 +-
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.c       | 194 +++++++++++++-----
+ drivers/gpu/drm/i915/gem/i915_gem_userptr.c   |   4 +-
+ .../drm/i915/gem/selftests/huge_gem_object.c  |   4 +-
+ .../gpu/drm/i915/gem/selftests/huge_pages.c   |   5 +-
+ .../drm/i915/gem/selftests/i915_gem_mman.c    |   4 +-
+ .../drm/i915/gem/selftests/i915_gem_phys.c    |   3 +-
+ drivers/gpu/drm/i915/i915_drv.h               |   3 -
+ drivers/gpu/drm/i915/i915_gpu_error.c         |   2 +-
+ drivers/gpu/drm/i915/intel_memory_region.c    |   7 +-
+ drivers/gpu/drm/i915/intel_memory_region.h    |   8 +
+ 20 files changed, 265 insertions(+), 95 deletions(-)
+
+-- 
+2.31.1
+
