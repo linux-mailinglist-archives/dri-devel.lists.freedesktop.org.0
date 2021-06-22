@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A423B3B05C8
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Jun 2021 15:25:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1DE43B05CA
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Jun 2021 15:26:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3647D6E505;
-	Tue, 22 Jun 2021 13:25:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F175B6E0CB;
+	Tue, 22 Jun 2021 13:26:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7AE606E520
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Jun 2021 13:25:47 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 3FA046112D
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Jun 2021 13:25:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B43A6E0CB
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Jun 2021 13:26:55 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id E6E3061164
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Jun 2021 13:26:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1624368346;
- bh=TM/ddZmHQLKIBezf3jpqN2WmCnY/b3UtfRqjH73KilM=;
+ s=k20201202; t=1624368414;
+ bh=Sk7B6+OY9GKq+36hyICa++pL03I3oiS7fuQGe+Lj8WI=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=u4dL+tF86HF90i1yqb8rUnyPg5tYgDvT7jzRpEJnkyPd2Z8NdsBJht6+3nz/jP9Hp
- ydfJVEuDKvElHOgd7TFW9NQElqOKcjrmw1fkC7APdJk8Kl5mo+BhgrAOW1aECiDv5c
- shu+DCG6XXo4G9aeBSqtuPC5m5XDzDNXkoJLjmtONxbj2iZD1uOpvV8fQsJPnmywrz
- 7PNKdIdGu73w7zoXgxTwHmX81utufU01NIINfQBD7utzCetxO0+pYICklyZgJRYtm6
- EgbkdEmujYve9/0WAarX+L4x4/ZB0fzEGyXro3c1UceL8UtCgRaFJ6uwnEKNSW5PKW
- 03hMJgzivfdiw==
+ b=dwioAS4F8wUvuFNQqWS4G4kTKsCQlKlCi48USHEmkWc1IeAAj0+aAHkiWdwM2cTlD
+ axjP71KjCiu32ftiUE2fKL1/F9Wz1GnPw0ASuUKYET2PBT3+bbgOKpn8muygOjsq46
+ aGFajSlt4wZumlllNVm3ekD1XzBDlvLgL8yDcLK37ViMwn/yS9AC8N7merAJ5y5Blc
+ eHPIo0zo5R0AF2UrO1FuxdjNP6CWoeJwLcoFHfNR9fe0fCpfMhl6bfzxSVnJoam1Wx
+ fWbMjMIJ907PPIL17B+lF8V6Pr18+xY1oXMsDFiZGq8QnR2het/UOnVWOKozP/MgU2
+ M5PAbiWhikjJg==
 Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 3C4FE61278; Tue, 22 Jun 2021 13:25:46 +0000 (UTC)
+ id E391E61278; Tue, 22 Jun 2021 13:26:54 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 212327] i915 / Kernel Mode Setting - Distorts Screen
-Date: Tue, 22 Jun 2021 13:25:46 +0000
+Subject: [Bug 210005] Kernel stacktrace, Xorg freezes
+Date: Tue, 22 Jun 2021 13:26:54 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -37,7 +37,7 @@ X-Bugzilla-Product: Drivers
 X-Bugzilla-Component: Video(DRI - non Intel)
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
+X-Bugzilla-Severity: high
 X-Bugzilla-Who: jani.nikula@intel.com
 X-Bugzilla-Status: RESOLVED
 X-Bugzilla-Resolution: INVALID
@@ -45,9 +45,9 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-212327-2300-tcbsZbtp95@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-212327-2300@https.bugzilla.kernel.org/>
-References: <bug-212327-2300@https.bugzilla.kernel.org/>
+Message-ID: <bug-210005-2300-nVFSCYsLCQ@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-210005-2300@https.bugzilla.kernel.org/>
+References: <bug-210005-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -68,7 +68,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D212327
+https://bugzilla.kernel.org/show_bug.cgi?id=3D210005
 
 Jani Nikula (jani.nikula@intel.com) changed:
 
