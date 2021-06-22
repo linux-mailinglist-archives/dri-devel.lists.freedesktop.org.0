@@ -1,46 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F15BD3B0038
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Jun 2021 11:29:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 467A13B003B
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Jun 2021 11:29:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 48B8489B9F;
-	Tue, 22 Jun 2021 09:29:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 44B7E6E456;
+	Tue, 22 Jun 2021 09:29:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from srv6.fidu.org (srv6.fidu.org [IPv6:2a01:4f8:231:de0::2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EDEE28991A;
- Tue, 22 Jun 2021 09:29:03 +0000 (UTC)
-Received: from localhost (localhost.localdomain [127.0.0.1])
- by srv6.fidu.org (Postfix) with ESMTP id 47D8BC8009D;
- Tue, 22 Jun 2021 11:29:02 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at srv6.fidu.org
-Received: from srv6.fidu.org ([127.0.0.1])
- by localhost (srv6.fidu.org [127.0.0.1]) (amavisd-new, port 10024)
- with LMTP id 4rnUcpHUmxjY; Tue, 22 Jun 2021 11:29:01 +0200 (CEST)
-Received: from [IPv6:2003:e3:7f39:4900:2847:eb91:7f60:5216]
- (p200300E37F3949002847Eb917F605216.dip0.t-ipconnect.de
- [IPv6:2003:e3:7f39:4900:2847:eb91:7f60:5216])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: wse@tuxedocomputers.com)
- by srv6.fidu.org (Postfix) with ESMTPSA id 45139C8009B;
- Tue, 22 Jun 2021 11:28:57 +0200 (CEST)
-Subject: Re: [PATCH v4 17/17] drm/amd/display: Add handling for new "Broadcast
- RGB" property
-To: Pekka Paalanen <ppaalanen@gmail.com>
-References: <20210618091116.14428-1-wse@tuxedocomputers.com>
- <20210618091116.14428-18-wse@tuxedocomputers.com>
- <20210622102955.1e0488b1@eldfell>
-From: Werner Sembach <wse@tuxedocomputers.com>
-Message-ID: <ded3d448-4837-f38d-9878-f5d764712db7@tuxedocomputers.com>
-Date: Tue, 22 Jun 2021 11:28:57 +0200
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com
+ [IPv6:2a00:1450:4864:20::52c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D7AB6E456;
+ Tue, 22 Jun 2021 09:29:44 +0000 (UTC)
+Received: by mail-ed1-x52c.google.com with SMTP id q14so1402645eds.5;
+ Tue, 22 Jun 2021 02:29:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=NdjMudB00SK16mm0slQHpVJFVcY9ZMyqCPAzIyYdoJM=;
+ b=PZUiT3w/En6Y+vR/Ddzhajf9kBo/fxoyD7T/pE9cd9BRHOEWLXhlYWABIXosLkxYse
+ hCjMHGy9CPj08IQmb0hTzEBNHncqOJVOgxxxap2c0VMz+AVNrWpJDdUcxKnclmsb1I++
+ OgRRR5neV4lTMHLRX23ZO8ZCsyva8o2vuhGRuaX0mvJK2f0Vdf8SJnyNta0/573T/5dP
+ er3ayXzZJBZpOApvz0j0fMv/Jbiva2Fns69o2CMlhB9jgF5zM16DtBZmNGR5sOsdDPhC
+ nsry6UZw7LkrWjuJ9Ej3+nIoHg3M2mo5iCNswAhnDSoJ+A0xet55sgQuAn9utyHJXWMB
+ JYpg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=NdjMudB00SK16mm0slQHpVJFVcY9ZMyqCPAzIyYdoJM=;
+ b=pnbQcciGkfqI1iAtft3hSFOm1XQke3azizGJ4viyKk1/L2QzNnRd1xhgK/0qOe93DF
+ 01kw+gbF5lWayr4VjuAnikcFlBisZW8Xxed3/74hi1uZnMBdUEGxs9ZriGzrqHbR2y5x
+ /zymnkqMHhqbMv5NbWn6HJ+EvQ098bWph4zLNbDmQqi2FG0gXCSh/GBLZxP76VANfRSM
+ sXKezTNRD69ht3Q6HoG89mMh2UdeDnfiaxPq/G2Aw2U887ptKP07uPwniThshiOGRvMh
+ CCi/e3l4pREkA8Vy5aVIREKcykhU4/Z7NaLYlW8Yv8+/xr+LYnSCj8lPj/VcGxdpEuzp
+ ASCQ==
+X-Gm-Message-State: AOAM530Yzc6fHx1tHsKK17mOScJPtqvSUHIgkwrRdwzoi65EPXEGDFJy
+ yFilnn6gxiEfr6NlO0pWeNbRCjw/ZZM=
+X-Google-Smtp-Source: ABdhPJwjtiXEL/ty27bWRrZ4Tfuk29kWF5gNxmpQ3KlzAt/Bafax81pQe4w3XwRk/WC/rAwc7JqOJA==
+X-Received: by 2002:a50:ef12:: with SMTP id m18mr3649099eds.285.1624354183026; 
+ Tue, 22 Jun 2021 02:29:43 -0700 (PDT)
+Received: from ?IPv6:2a02:908:1252:fb60:9dfd:8ca7:7f8d:67e4?
+ ([2a02:908:1252:fb60:9dfd:8ca7:7f8d:67e4])
+ by smtp.gmail.com with ESMTPSA id r4sm5805002ejd.105.2021.06.22.02.29.42
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 22 Jun 2021 02:29:42 -0700 (PDT)
+Subject: Re: [PATCH 1/3] drm/nouveau: wait for moving fence after pinning
+To: Daniel Vetter <daniel@ffwll.ch>
+References: <20210621130328.11070-1-christian.koenig@amd.com>
+ <YNCoK1qv6CCIy0Rl@phenom.ffwll.local>
+ <2033755d-c49f-8b90-f726-d640146a3df7@gmail.com>
+ <CAKMK7uEET_E7eJa1No3KLMBudgE16ymXzXZp0CRYt_ZjS-_YsA@mail.gmail.com>
+ <CAKMK7uECbQ+Fk6y9rsGdGdh4fEErhjUjSGicJLifnENAhjnZZw@mail.gmail.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <0785485d-60e2-5c5b-557e-42253d545a53@gmail.com>
+Date: Tue, 22 Jun 2021 11:29:41 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210622102955.1e0488b1@eldfell>
-Content-Type: text/plain; charset=windows-1252
+In-Reply-To: <CAKMK7uECbQ+Fk6y9rsGdGdh4fEErhjUjSGicJLifnENAhjnZZw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -55,145 +76,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: sunpeng.li@amd.com, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- airlied@linux.ie, amd-gfx@lists.freedesktop.org, tzimmermann@suse.de,
- rodrigo.vivi@intel.com, alexander.deucher@amd.com, christian.koenig@amd.com
+Cc: Nouveau Dev <nouveau@lists.freedesktop.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 22.06.21 um 09:29 schrieb Pekka Paalanen:
-> On Fri, 18 Jun 2021 11:11:16 +0200
-> Werner Sembach <wse@tuxedocomputers.com> wrote:
+Am 22.06.21 um 11:20 schrieb Daniel Vetter:
+> On Mon, Jun 21, 2021 at 5:53 PM Daniel Vetter <daniel@ffwll.ch> wrote:
+>> On Mon, Jun 21, 2021 at 5:49 PM Christian KÃ¶nig
+>> <ckoenig.leichtzumerken@gmail.com> wrote:
+>>> Am 21.06.21 um 16:54 schrieb Daniel Vetter:
+>>>> On Mon, Jun 21, 2021 at 03:03:26PM +0200, Christian KÃ¶nig wrote:
+>>>>> We actually need to wait for the moving fence after pinning
+>>>>> the BO to make sure that the pin is completed.
+>>>>>
+>>>>> Signed-off-by: Christian KÃ¶nig <christian.koenig@amd.com>
+>>>>> CC: stable@kernel.org
+>>>>> ---
+>>>>>    drivers/gpu/drm/nouveau/nouveau_prime.c | 8 +++++++-
+>>>>>    1 file changed, 7 insertions(+), 1 deletion(-)
+>>>>>
+>>>>> diff --git a/drivers/gpu/drm/nouveau/nouveau_prime.c b/drivers/gpu/drm/nouveau/nouveau_prime.c
+>>>>> index 347488685f74..591738545eba 100644
+>>>>> --- a/drivers/gpu/drm/nouveau/nouveau_prime.c
+>>>>> +++ b/drivers/gpu/drm/nouveau/nouveau_prime.c
+>>>>> @@ -93,7 +93,13 @@ int nouveau_gem_prime_pin(struct drm_gem_object *obj)
+>>>>>       if (ret)
+>>>>>               return -EINVAL;
+>>>>>
+>>>>> -    return 0;
+>>>>> +    if (nvbo->bo.moving) {
+>>>> Don't we need to hold the dma_resv to read this? We can grab a reference
+>>>> and then unlock, but I think just unlocked wait can go boom pretty easily
+>>>> (since we don't hold a reference or lock so someone else can jump in and
+>>>> free the moving fence).
+>>> The moving fence is only modified while the BO is moved and since we
+>>> have just successfully pinned it....
+>> Yeah  ... so probably correct, but really tricky. Just wrapping a
+>> ttm_bo_reserve/unreserve around the code you add should be enough and
+>> get the job done?
+> I think you distracted me a bit with the "it can't move", so yes
+> there's a guarantee that no other fence can show up in ttm_bo->moving
+> and confuse us. But it could get set to NULL because someone realized
+> it signalled. We're not doing that systematically, but relying on
+> fences never getting garbage-collected for correctness isn't great.
+
+Yeah, that's what I essentially meant with it would be better in general 
+to take the lock.
+
 >
->> This commit implements the "Broadcast RGB" drm property for the AMD GPU
->> driver.
+> Sot the ttm_bo_reserve/unreserve is definitely needed here around this
+> bit of code. You don't need to merge it with the reserve/unreserve in
+> the pin function though, it's just to protect against the
+> use-after-free.
+
+Ah, yes good point. That means I don't need to change the pin/unpin 
+functions in nouveau at all.
+
+
+BTW: What do you think of making dma_fence_is_signaled() and 
+dma_fence_wait_timeout() save to passing in NULL as fence?
+
+I think we have a lot of cases where we check "!fence || 
+dma_fence_is_signaled(fence)" or similar.
+
+Christian.
+
+> -Daniel
+>
+>>> But in general I agree that it would be better to avoid this. I just
+>>> didn't wanted to open a bigger can of worms by changing nouveau so much.
+>> Yeah, but I'm kinda thinking of some helpers to wait for the move
+>> fence (so that later on we can switch from having the exclusive fence
+>> to the move fence do that, maybe). And then locking checks in there
+>> would be nice.
 >>
->> Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
->> ---
->>  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 22 ++++++++++++++-----
->>  .../display/amdgpu_dm/amdgpu_dm_mst_types.c   |  4 ++++
->>  2 files changed, 21 insertions(+), 5 deletions(-)
+>> Also avoids the case of explaining why lockless here is fine, but
+>> lockless wait for the exclusive fence in e.g. a dynami dma-buf
+>> importer is very much not fine at all. Just all around less trouble.
+>> -Daniel
 >>
->> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
->> index 9ffd2f9d3d75..c5dbf948a47a 100644
->> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
->> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
->> @@ -5252,7 +5252,8 @@ get_aspect_ratio(const struct drm_display_mode *mode_in)
->>  }
->>  
->>  static enum dc_color_space
->> -get_output_color_space(const struct dc_crtc_timing *dc_crtc_timing)
->> +get_output_color_space(const struct dc_crtc_timing *dc_crtc_timing,
->> +		       enum drm_mode_color_range preferred_color_range)
->>  {
->>  	enum dc_color_space color_space = COLOR_SPACE_SRGB;
->>  
->> @@ -5267,13 +5268,17 @@ get_output_color_space(const struct dc_crtc_timing *dc_crtc_timing)
->>  		 * respectively
->>  		 */
->>  		if (dc_crtc_timing->pix_clk_100hz > 270300) {
->> -			if (dc_crtc_timing->flags.Y_ONLY)
->> +			if (dc_crtc_timing->flags.Y_ONLY
->> +					|| preferred_color_range ==
->> +						DRM_MODE_COLOR_RANGE_LIMITED_16_235)
->>  				color_space =
->>  					COLOR_SPACE_YCBCR709_LIMITED;
->>  			else
->>  				color_space = COLOR_SPACE_YCBCR709;
-> Hi,
->
-> does this mean that amdgpu would be using a property named "Broadcast
-> RGB" to control the range of YCbCr too?
-
-Yes, because I avoided creating a new property, but I'm not really happy with it either.
-
-Possibility 1: Use "Broadcast RGB" for Y'CbCr too and clarify in documentation
-    - still confusing name
-    - limited does not mean something a little bit different for Y'CbCr and not strictly 16-235:
-https://www.kernel.org/doc/html/v5.12/userspace-api/media/v4l/colorspaces-defs.html#c.V4L.v4l2_quantization , but name
-of option is given by preexisting property
-
-Possibility 2: Deprecate "Broadcast RGB" and a a more neutral sounding "preferred color range", with the more neutral
-sounding "limited" option instead of "Limited 16:235"
-    - What's the relation between the 2? pq mentioned on the amdgpu gitlab that there is a posibility for userspace to
-have only the new or the old one shown
-    - Alternatively ignore "Broadcast RGB" when "preferred color range" is set and have them coexist?
-
->
-> That is surprising. If this is truly wanted, then the documentation of
-> "Broadcast RGB" must say that it applies to YCbCr too.
->
-> Does amdgpu do the same as intel wrt. to the question about whose
-> responsibility it is to make the pixels at the connector to match the
-> set range?
-
-I guess the kernel driver does the conversion, but i have to check for both.
-
-For Intel I did not change the behavior of Boradcast RGB, but i think it's not clearly specified in the docs where the
-conversion happens.
-
+>>> Christian.
+>>>
+>>>> -Daniel
+>>>>
+>>>>> +            ret = dma_fence_wait(nvbo->bo.moving, true);
+>>>>> +            if (ret)
+>>>>> +                    nouveau_bo_unpin(nvbo);
+>>>>> +    }
+>>>>> +
+>>>>> +    return ret;
+>>>>>    }
+>>>>>
+>>>>>    void nouveau_gem_prime_unpin(struct drm_gem_object *obj)
+>>>>> --
+>>>>> 2.25.1
+>>>>>
+>>
+>> --
+>> Daniel Vetter
+>> Software Engineer, Intel Corporation
+>> http://blog.ffwll.ch
 >
 >
-> Thanks,
-> pq
->
->>  		} else {
->> -			if (dc_crtc_timing->flags.Y_ONLY)
->> +			if (dc_crtc_timing->flags.Y_ONLY
->> +					|| preferred_color_range ==
->> +						DRM_MODE_COLOR_RANGE_LIMITED_16_235)
->>  				color_space =
->>  					COLOR_SPACE_YCBCR601_LIMITED;
->>  			else
->> @@ -5283,7 +5288,10 @@ get_output_color_space(const struct dc_crtc_timing *dc_crtc_timing)
->>  	}
->>  	break;
->>  	case PIXEL_ENCODING_RGB:
->> -		color_space = COLOR_SPACE_SRGB;
->> +		if (preferred_color_range == DRM_MODE_COLOR_RANGE_LIMITED_16_235)
->> +			color_space = COLOR_SPACE_SRGB_LIMITED;
->> +		else
->> +			color_space = COLOR_SPACE_SRGB;
->>  		break;
->>  
->>  	default:
->> @@ -5429,7 +5437,10 @@ static void fill_stream_properties_from_drm_display_mode(
->>  
->>  	timing_out->aspect_ratio = get_aspect_ratio(mode_in);
->>  
->> -	stream->output_color_space = get_output_color_space(timing_out);
->> +	stream->output_color_space = get_output_color_space(timing_out,
->> +							    connector_state ?
->> +							    connector_state->preferred_color_range :
->> +							    DRM_MODE_COLOR_RANGE_UNSET);
->>  
->>  	stream->out_transfer_func->type = TF_TYPE_PREDEFINED;
->>  	stream->out_transfer_func->tf = TRANSFER_FUNCTION_SRGB;
->> @@ -7780,6 +7791,7 @@ void amdgpu_dm_connector_init_helper(struct amdgpu_display_manager *dm,
->>  		drm_connector_attach_active_bpc_property(&aconnector->base, 8, 16);
->>  		drm_connector_attach_preferred_color_format_property(&aconnector->base);
->>  		drm_connector_attach_active_color_format_property(&aconnector->base);
->> +		drm_connector_attach_preferred_color_range_property(&aconnector->base);
->>  		drm_connector_attach_active_color_range_property(&aconnector->base);
->>  	}
->>  
->> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
->> index 2563788ba95a..80e1389fd0ec 100644
->> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
->> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
->> @@ -421,6 +421,10 @@ dm_dp_add_mst_connector(struct drm_dp_mst_topology_mgr *mgr,
->>  	if (connector->active_color_format_property)
->>  		drm_connector_attach_active_color_format_property(&aconnector->base);
->>  
->> +	connector->preferred_color_range_property = master->base.preferred_color_range_property;
->> +	if (connector->preferred_color_range_property)
->> +		drm_connector_attach_preferred_color_range_property(&aconnector->base);
->> +
->>  	connector->active_color_range_property = master->base.active_color_range_property;
->>  	if (connector->active_color_range_property)
->>  		drm_connector_attach_active_color_range_property(&aconnector->base);
-> _______________________________________________
-> amd-gfx mailing list
-> amd-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
+
