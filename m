@@ -2,55 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82C9A3AFB4B
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Jun 2021 05:09:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E3FF3AFB4E
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Jun 2021 05:09:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 39EA46E082;
-	Tue, 22 Jun 2021 03:09:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6512D6E0EF;
+	Tue, 22 Jun 2021 03:09:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
- [IPv6:2a00:1450:4864:20::635])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1543F6E07B
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Jun 2021 03:09:13 +0000 (UTC)
-Received: by mail-ej1-x635.google.com with SMTP id l1so32138056ejb.6
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Jun 2021 20:09:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=7niPUm2hSmXvDTZIayC2hRqOTqKfDH7sAfKGCNr3PSo=;
- b=Zx+57caGKfxlamUwXIlwuTe4G3ODjn+B6ted2HuK2+zIn7+TrVW2gdJcV3WxdX5s3N
- SZi/s1vDnktJkDb75Rju2zcYWol/4DqSJqO1AFsyRyAkqLmz5TRLavUZaK6+F9eqe9DK
- +xMHz+ytlIDL9ZwD+iy7cWeQ6KpavudGFcfEv2upbHvnoBjqpzH7oSy4rQKuvad1IQLV
- HLjWxc92fWmYc7nICmQ8qQI+XJ/BhU8mu+32kUgvtdIa1TjBAwWiCax9EeefIJvYK/pl
- VliD4SK7A5llEdkqCGaH2HgG81kNYg7Li/DSB4R7v6TgU0BHQ9uuxEsv10X7Yvnnbdz+
- qCAQ==
+Received: from mail-ot1-x32b.google.com (mail-ot1-x32b.google.com
+ [IPv6:2607:f8b0:4864:20::32b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7985D6E07B
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Jun 2021 03:09:50 +0000 (UTC)
+Received: by mail-ot1-x32b.google.com with SMTP id
+ f3-20020a0568301c23b029044ce5da4794so13260029ote.11
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Jun 2021 20:09:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=JJaXR0MvWTLUMUBxm6vEFmtzzq3mthCeXlJRBUTcj0k=;
+ b=JjFGC6CPjqlXte5fKt+wg8qPPb7RoF6xEWbQtpUeivEI7CVJIhOD8nkxVDBvUaM3bE
+ +9q+NYvGp6FFv84lXRcowgz3f87+O0L4YEbpgiawuezPJs6YAUUvJmNdZ4Iqyz8xycs8
+ inTuVW3hN35wrWcnsO7aMGmrh3TDPKPsdU4d3HNrLNa8Nqi4HQWLIGIMdKEAvTsfjjj0
+ thubd0GPQmhiHKlwnKgrPau+SpI5HGN3lSsmd0QJ5zBgIxaaZh/2eGFhFILpxp1p5GRk
+ PWWwOuGx+NZeDbJO+jv9mA/yZVzFJg4neUMYzCFoafsl3jhHCGIU1kIp9pzkEjuN1oIM
+ QspA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=7niPUm2hSmXvDTZIayC2hRqOTqKfDH7sAfKGCNr3PSo=;
- b=oL6n2kK2Mz4DVcpRL+gKz8pXwV65eRNv5RQVC8VTeTz91NgNbpwSUynGa/nA9Ouf6h
- /GxiQ4L794hcq4ypjuuw5FXCET4Co9QcQaXzGq+Zrxnzt400tdqEKb1zf45Tt3RM1Zr9
- VGbZ2K7yP9Co5BbdKPMvGbfatkqtKEwdHkhclFONxBYa+ytQsS5hljLgokomZiWNBC5O
- BKT8IzxCTGyKN4KYlomWks6Dw3XwqYRDD/uIDBt+OSerKZenBjFFNMxQWXvdwUNTsA7M
- WEG4u1Uut4A+eNUj+k0hhEWq1WajBZMLetqJa/2l9Vsow7Pu9aGdbCE9L5Oo6BqqZz+8
- LSKw==
-X-Gm-Message-State: AOAM533xZkeRErsASuktgZ5GCQwodlAot5UDKVNM01BUIIWMCLOuXwj5
- buyKR7hWvu3ldpHt0DLGoMXYTIi8WTe9Dhp7FfY=
-X-Google-Smtp-Source: ABdhPJzozl3nK5cYfHbxs2Xty143R2O1VPZnWLAKoR/K4faLM/z8uiVuXlXqTrzTGoJdLISQuhOYfLCbJqd47LLTINE=
-X-Received: by 2002:a17:907:1611:: with SMTP id
- hb17mr1418947ejc.450.1624331351539; 
- Mon, 21 Jun 2021 20:09:11 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=JJaXR0MvWTLUMUBxm6vEFmtzzq3mthCeXlJRBUTcj0k=;
+ b=TwvfA1Cm65iWvJZkK1oQqEcrpXSaTAxGIqcqXFpfmFUj0wE8kZyKCfW2nW3e8rnysU
+ NvWODq5e/+nyqSD7QQ8a9h34PAHz58uhR1wg1lScyqfspGilU1Jz7BCyYbpnlknojnnV
+ xZtdll6YzrvmsNhbB3AdDYcnv3uONyVzGqB6M03tG1SG24JOgIDQsbTWIoBSkwnZX6Sd
+ wlrsKLVfQgwm9Nsjfvav3eFdr/J/S6hcP6C2FqGdPOVKZz9gtziaTXT4SANEKQsBdGXv
+ N2LCBz6nVEtqyFgo9Hec+wzknHHeOB8Mp69fvm35nzUkvETgK5xJWGE75411UeP7GqmW
+ 97Zw==
+X-Gm-Message-State: AOAM5321AJtAZYci2aixstx1bjVrPHEpLv+ax0UitwGxuHKNsQ/wKyQe
+ M6YOP5xN1ME3YyC5AnW0MTCg3A==
+X-Google-Smtp-Source: ABdhPJwjJhzKb2EkdUdagJpaCej1dmFSqwYlH+F+rbKPdjgh7NJF6+8WPzYwDKKjEZLT4CS07R07kw==
+X-Received: by 2002:a9d:6303:: with SMTP id q3mr1126330otk.197.1624331389610; 
+ Mon, 21 Jun 2021 20:09:49 -0700 (PDT)
+Received: from builder.lan (104-57-184-186.lightspeed.austtx.sbcglobal.net.
+ [104.57.184.186])
+ by smtp.gmail.com with ESMTPSA id d10sm243454oop.3.2021.06.21.20.09.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 21 Jun 2021 20:09:49 -0700 (PDT)
+From: Bjorn Andersson <bjorn.andersson@linaro.org>
+To: Thierry Reding <thierry.reding@gmail.com>,
+ =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ Lee Jones <lee.jones@linaro.org>, Doug Anderson <dianders@chromium.org>
+Subject: [PATCH v3 1/2] pwm: Introduce single-PWM of_xlate function
+Date: Mon, 21 Jun 2021 22:09:47 -0500
+Message-Id: <20210622030948.966748-1-bjorn.andersson@linaro.org>
+X-Mailer: git-send-email 2.31.0
 MIME-Version: 1.0
-References: <20210621072424.111733-1-jagan@amarulasolutions.com>
- <20210621072424.111733-8-jagan@amarulasolutions.com>
-In-Reply-To: <20210621072424.111733-8-jagan@amarulasolutions.com>
-From: Adam Ford <aford173@gmail.com>
-Date: Mon, 21 Jun 2021 22:09:00 -0500
-Message-ID: <CAHCN7x+RKuOwBEFC5ySHJuFiC26ZdYuv620+5FiTfrh-3y2-Lg@mail.gmail.com>
-Subject: Re: [RFC PATCH 7/9] arm64: dts: imx8mm: Add eLCDIF node support
-To: Jagan Teki <jagan@amarulasolutions.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,70 +69,118 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree <devicetree@vger.kernel.org>, Peng Fan <peng.fan@nxp.com>,
- Francis Laniel <francis.laniel@amarulasolutions.com>,
- Matteo Lisi <matteo.lisi@engicam.com>, linux-amarula@amarulasolutions.com,
- Tomasz Figa <t.figa@samsung.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Rob Herring <robh+dt@kernel.org>,
- NXP Linux Team <linux-imx@nxp.com>, Milco Pratesi <milco.pratesi@engicam.com>,
- Anthony Brandon <anthony@amarulasolutions.com>, linux-phy@lists.infradead.org,
- Fancy Fang <chen.fang@nxp.com>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- arm-soc <linux-arm-kernel@lists.infradead.org>
+Cc: linux-pwm@vger.kernel.org, Jonas Karlman <jonas@kwiboo.se>,
+ David Airlie <airlied@linux.ie>, Robert Foss <robert.foss@linaro.org>,
+ dri-devel@lists.freedesktop.org, Neil Armstrong <narmstrong@baylibre.com>,
+ linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Andrzej Hajda <a.hajda@samsung.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 21, 2021 at 2:25 AM Jagan Teki <jagan@amarulasolutions.com> wrote:
->
-> Add eLCDIF controller node for i.MX8MM.
->
-> Cc: Rob Herring <robh+dt@kernel.org>
-> Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
-> ---
->  arch/arm64/boot/dts/freescale/imx8mm.dtsi | 19 +++++++++++++++++++
->  1 file changed, 19 insertions(+)
->
-> diff --git a/arch/arm64/boot/dts/freescale/imx8mm.dtsi b/arch/arm64/boot/dts/freescale/imx8mm.dtsi
-> index fe5485ee9419..5f68182ed3a6 100644
-> --- a/arch/arm64/boot/dts/freescale/imx8mm.dtsi
-> +++ b/arch/arm64/boot/dts/freescale/imx8mm.dtsi
-> @@ -1030,6 +1030,25 @@ aips4: bus@32c00000 {
->                         #size-cells = <1>;
->                         ranges = <0x32c00000 0x32c00000 0x400000>;
->
-> +                       lcdif: lcdif@32e00000 {
-> +                               compatible = "fsl,imx8mm-lcdif", "fsl,imx6sx-lcdif";
+The existing pxa driver and the upcoming addition of PWM support in the
+TI sn565dsi86 DSI/eDP bridge driver both has a single PWM channel and
+thereby a need for a of_xlate function with the period as its single
+argument.
 
-Based on a comment I read from Marek [1] from this patch series for
-the driver, I think fallback compatible should be fsl,imx28-lcdif.
+Introduce a common helper function in the core that can be used as
+of_xlate by such drivers and migrate the pxa driver to use this.
 
-"The iMX8MM and iMX8MN do not support the overlay plane, so they are MXSFB V4"
+Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+---
 
-[1] - https://patchwork.kernel.org/project/dri-devel/patch/20210620224834.189411-1-marex@denx.de/
+Changes since v2:
+- None
 
-adam
+ drivers/pwm/core.c    | 26 ++++++++++++++++++++++++++
+ drivers/pwm/pwm-pxa.c | 16 +---------------
+ include/linux/pwm.h   |  2 ++
+ 3 files changed, 29 insertions(+), 15 deletions(-)
 
-> +                               reg = <0x32e00000 0x10000>;
-> +                               clocks = <&clk IMX8MM_CLK_LCDIF_PIXEL>,
-> +                                        <&clk IMX8MM_CLK_DISP_AXI_ROOT>,
-> +                                        <&clk IMX8MM_CLK_DISP_APB_ROOT>;
-> +                               clock-names = "pix", "disp_axi", "axi";
-> +                               assigned-clocks = <&clk IMX8MM_CLK_LCDIF_PIXEL>,
-> +                                                 <&clk IMX8MM_CLK_DISP_AXI>,
-> +                                                 <&clk IMX8MM_CLK_DISP_APB>;
-> +                               assigned-clock-parents = <&clk IMX8MM_VIDEO_PLL1_OUT>,
-> +                                                        <&clk IMX8MM_SYS_PLL2_1000M>,
-> +                                                        <&clk IMX8MM_SYS_PLL1_800M>;
-> +                               assigned-clock-rate = <594000000>, <500000000>, <200000000>;
-> +                               interrupts = <GIC_SPI 5 IRQ_TYPE_LEVEL_HIGH>;
-> +                               power-domains = <&dispmix_blk_ctl IMX8MM_BLK_CTL_PD_DISPMIX_LCDIF>;
-> +                               status = "disabled";
-> +                       };
-> +
->                         dispmix_blk_ctl: blk-ctl@32e28000 {
->                                 compatible = "fsl,imx8mm-dispmix-blk-ctl", "syscon";
->                                 reg = <0x32e28000 0x100>;
-> --
-> 2.25.1
->
+diff --git a/drivers/pwm/core.c b/drivers/pwm/core.c
+index a42999f877d2..5e9c876fccc4 100644
+--- a/drivers/pwm/core.c
++++ b/drivers/pwm/core.c
+@@ -152,6 +152,32 @@ of_pwm_xlate_with_flags(struct pwm_chip *pc, const struct of_phandle_args *args)
+ }
+ EXPORT_SYMBOL_GPL(of_pwm_xlate_with_flags);
+ 
++struct pwm_device *
++of_pwm_single_xlate(struct pwm_chip *pc, const struct of_phandle_args *args)
++{
++	struct pwm_device *pwm;
++
++	if (pc->of_pwm_n_cells < 1)
++		return ERR_PTR(-EINVAL);
++
++	/* validate that one cell is specified, optionally with flags */
++	if (args->args_count != 1 && args->args_count != 2)
++		return ERR_PTR(-EINVAL);
++
++	pwm = pwm_request_from_chip(pc, 0, NULL);
++	if (IS_ERR(pwm))
++		return pwm;
++
++	pwm->args.period = args->args[0];
++	pwm->args.polarity = PWM_POLARITY_NORMAL;
++
++	if (args->args_count == 2 && args->args[2] & PWM_POLARITY_INVERTED)
++		pwm->args.polarity = PWM_POLARITY_INVERSED;
++
++	return pwm;
++}
++EXPORT_SYMBOL_GPL(of_pwm_single_xlate);
++
+ static void of_pwmchip_add(struct pwm_chip *chip)
+ {
+ 	if (!chip->dev || !chip->dev->of_node)
+diff --git a/drivers/pwm/pwm-pxa.c b/drivers/pwm/pwm-pxa.c
+index cfb683827d32..8cd82fb54483 100644
+--- a/drivers/pwm/pwm-pxa.c
++++ b/drivers/pwm/pwm-pxa.c
+@@ -148,20 +148,6 @@ static const struct platform_device_id *pxa_pwm_get_id_dt(struct device *dev)
+ 	return id ? id->data : NULL;
+ }
+ 
+-static struct pwm_device *
+-pxa_pwm_of_xlate(struct pwm_chip *pc, const struct of_phandle_args *args)
+-{
+-	struct pwm_device *pwm;
+-
+-	pwm = pwm_request_from_chip(pc, 0, NULL);
+-	if (IS_ERR(pwm))
+-		return pwm;
+-
+-	pwm->args.period = args->args[0];
+-
+-	return pwm;
+-}
+-
+ static int pwm_probe(struct platform_device *pdev)
+ {
+ 	const struct platform_device_id *id = platform_get_device_id(pdev);
+@@ -187,7 +173,7 @@ static int pwm_probe(struct platform_device *pdev)
+ 	pwm->chip.npwm = (id->driver_data & HAS_SECONDARY_PWM) ? 2 : 1;
+ 
+ 	if (IS_ENABLED(CONFIG_OF)) {
+-		pwm->chip.of_xlate = pxa_pwm_of_xlate;
++		pwm->chip.of_xlate = of_pwm_single_xlate;
+ 		pwm->chip.of_pwm_n_cells = 1;
+ 	}
+ 
+diff --git a/include/linux/pwm.h b/include/linux/pwm.h
+index 5a73251d28e3..6aff1fa4fe5d 100644
+--- a/include/linux/pwm.h
++++ b/include/linux/pwm.h
+@@ -411,6 +411,8 @@ struct pwm_device *pwm_request_from_chip(struct pwm_chip *chip,
+ 
+ struct pwm_device *of_pwm_xlate_with_flags(struct pwm_chip *pc,
+ 		const struct of_phandle_args *args);
++struct pwm_device *of_pwm_single_xlate(struct pwm_chip *pc,
++				       const struct of_phandle_args *args);
+ 
+ struct pwm_device *pwm_get(struct device *dev, const char *con_id);
+ struct pwm_device *of_pwm_get(struct device *dev, struct device_node *np,
+-- 
+2.31.0
+
