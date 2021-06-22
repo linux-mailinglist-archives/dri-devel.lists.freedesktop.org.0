@@ -1,47 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 776F33B061A
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Jun 2021 15:43:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EC3B23B0660
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Jun 2021 15:59:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D337E6E041;
-	Tue, 22 Jun 2021 13:43:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3231F6E155;
+	Tue, 22 Jun 2021 13:59:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A7616E041
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Jun 2021 13:43:53 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E1B85613B2
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Jun 2021 13:43:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1624369432;
- bh=NqFXh1RzaIB7T3yUivBhV+3jLDLAyj/zzCtWY0JA0SQ=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=n2C4l95B/w+7fm3Hy/W1ls3BjWTgUnPkeMWPcJwuHNhjALViq36NSNRvf1J+UxXwT
- W1of8Zg2OiipKGz+JaQJVEN0Rymz9BqpYAiOBzmrtdT5/mgiDbEVBsHlr3gDk+TOBO
- Fe7qpiKq+UgUir5JlR9fsJDRZtySIEJhB36NWX9yf5t0mO64+Z1mYCq7ew8ZAwg0KI
- F5hwQr8sPPDgEGs9UTcylTzkdsRMaQyTccf/acpKJhxDJxKtULLFNQYEsUOGj4MJxK
- B3a0hJqzs9FjH4X1uUrkMDUidT5NSByby5xfUTkfYV6nW2261SSjbz6fXsdgEAv5QU
- qCbHec6qB4IfA==
-Received: by mail-ed1-f43.google.com with SMTP id h2so10218048edt.3
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Jun 2021 06:43:52 -0700 (PDT)
-X-Gm-Message-State: AOAM530R2U461ToOldb3HqMCkeNsVhYJCXCPrKEzRI11HZtGQmD5Fuyx
- zJjfYcq9dlFwikGTLkBP3/WFjn09nyeyTYQSCQ==
-X-Google-Smtp-Source: ABdhPJzR0Ub3ZgSNkr3MEhjSHq6x9DynzmvMX7quMzOS1boijoDJs7nsAsYPAJuJ3rupM/aSXMVZuLXS4ayPZR+vCGA=
-X-Received: by 2002:a05:6402:ca2:: with SMTP id
- cn2mr2897976edb.62.1624369431373; 
- Tue, 22 Jun 2021 06:43:51 -0700 (PDT)
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com
+ [IPv6:2a00:1450:4864:20::52c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7DC746E15C
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Jun 2021 13:59:51 +0000 (UTC)
+Received: by mail-ed1-x52c.google.com with SMTP id n20so23806299edv.8
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Jun 2021 06:59:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=TvpjBACzoV42mn66zZsleALOXDYyAjKfVllzcHMcfwM=;
+ b=Wp1TqiybqZXzu69uHeEPGREFTO4HIBfR+ESJKgc0unJBPRzOBSE7xOgXcg8pCqdhI0
+ l8CHinSE9Y/aEqHbLuiB6OSStiCxRY0Hn+tzuJawj+ViDwS02PWNcI/dvUNECQlf4i1J
+ HSvmL13FTBydydk0Gb5/zUkalgf6J0ziuYZCI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=TvpjBACzoV42mn66zZsleALOXDYyAjKfVllzcHMcfwM=;
+ b=bcs/P/4jwEHZFfFLz4WYYW3jz8Lscp2mD+74U7XlU092w+p9bnc/1o8FowdzkJzhP4
+ 2pG+jYVhg1CvyD4SLf90qOHv9VlY45f9pq+NkztZa/e7hz/jjSya46yCz/zUWGrLks5K
+ BpoQ2o2Xx34ZBOD0pRp3Pc8oygGdhaRpwBaTKXr9peQp4gcMKwB9Pn6ueY8SRzYc0PSx
+ Qms+mybfvzm5+U7U1/B5XasFmE97JTucOI0UccnDXlWrHbd9Bo4hSaVO/r0qwtMO7eUU
+ /OMul3Zy0zXe8Vs6TUCIXUqWNW+rwYFm2ONlm6vWGP387hxJeLE2vU9mPVUgti4BLd12
+ wy5g==
+X-Gm-Message-State: AOAM531eUNtXpsK+SM6PVUNHoiMoLE50DrrBi87nYdVqKZloGDgAr+fC
+ htwLLZl3XiBuhLalURCzbD50Zgjw25UoPNcYwP3tKg==
+X-Google-Smtp-Source: ABdhPJw/q9PxAXyZv2WBeIUBgEA/9dXP9RWMWTh4uf9ndcmWUOV/Ki10fp+3NvT1lHWph76Diq/QxzKIiaoVikN66Oo=
+X-Received: by 2002:aa7:c644:: with SMTP id z4mr172031edr.204.1624370390201;
+ Tue, 22 Jun 2021 06:59:50 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210615191543.1043414-1-robh@kernel.org>
- <CAMuHMdUGXu8yj3JWKwM8mt7axkrzGMiowC1t0PHrbpxRCBME3w@mail.gmail.com>
-In-Reply-To: <CAMuHMdUGXu8yj3JWKwM8mt7axkrzGMiowC1t0PHrbpxRCBME3w@mail.gmail.com>
-From: Rob Herring <robh@kernel.org>
-Date: Tue, 22 Jun 2021 07:43:37 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqJ8jjkufTAmoFHuqpWB0bMUfCCkUR-pFFa2MoyeGzgBvA@mail.gmail.com>
-Message-ID: <CAL_JsqJ8jjkufTAmoFHuqpWB0bMUfCCkUR-pFFa2MoyeGzgBvA@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: Drop redundant minItems/maxItems
-To: Geert Uytterhoeven <geert@linux-m68k.org>
+References: <20210621072424.111733-1-jagan@amarulasolutions.com>
+ <20210621072424.111733-8-jagan@amarulasolutions.com>
+ <CAHCN7x+RKuOwBEFC5ySHJuFiC26ZdYuv620+5FiTfrh-3y2-Lg@mail.gmail.com>
+In-Reply-To: <CAHCN7x+RKuOwBEFC5ySHJuFiC26ZdYuv620+5FiTfrh-3y2-Lg@mail.gmail.com>
+From: Jagan Teki <jagan@amarulasolutions.com>
+Date: Tue, 22 Jun 2021 19:29:39 +0530
+Message-ID: <CAMty3ZCR7A76UfN98ffawET20D+nN5=EMmzosXu1G2vaNtBdfw@mail.gmail.com>
+Subject: Re: [RFC PATCH 7/9] arm64: dts: imx8mm: Add eLCDIF node support
+To: Adam Ford <aford173@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -55,118 +61,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrew Lunn <andrew@lunn.ch>,
- ALSA Development Mailing List <alsa-devel@alsa-project.org>,
- Daniel Lezcano <daniel.lezcano@linaro.org>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Linux PWM List <linux-pwm@vger.kernel.org>,
- "open list:IIO SUBSYSTEM AND DRIVERS" <linux-iio@vger.kernel.org>,
- linux-pci <linux-pci@vger.kernel.org>,
- "open list:REMOTE PROCESSOR \(REMOTEPROC\) SUBSYSTEM"
- <linux-remoteproc@vger.kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- "open list:LIBATA SUBSYSTEM \(Serial and Parallel ATA drivers\)"
- <linux-ide@vger.kernel.org>, Linux I2C <linux-i2c@vger.kernel.org>,
- linux-phy@lists.infradead.org, linux-riscv <linux-riscv@lists.infradead.org>,
- Lee Jones <lee.jones@linaro.org>, linux-clk <linux-clk@vger.kernel.org>,
- "open list:REAL TIME CLOCK \(RTC\) SUBSYSTEM" <linux-rtc@vger.kernel.org>,
- Herbert Xu <herbert@gondor.apana.org.au>,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>, Marc Zyngier <maz@kernel.org>,
- Joerg Roedel <joro@8bytes.org>, Jassi Brar <jassisinghbrar@gmail.com>,
- Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@ti.com>,
- David Airlie <airlied@linux.ie>,
- "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
- =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Jakub Kicinski <kuba@kernel.org>, Zhang Rui <rui.zhang@intel.com>,
- Vivien Didelot <vivien.didelot@gmail.com>,
- Wolfgang Grandegger <wg@grandegger.com>,
- Linux Media Mailing List <linux-media@vger.kernel.org>,
- Ohad Ben-Cohen <ohad@wizery.com>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Albert Ou <aou@eecs.berkeley.edu>,
- Linux Watchdog Mailing List <linux-watchdog@vger.kernel.org>,
- Linux PM list <linux-pm@vger.kernel.org>, linux-can@vger.kernel.org,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- Mark Brown <broonie@kernel.org>, Marc Kleine-Budde <mkl@pengutronix.de>,
- Kamal Dasu <kdasu.kdev@gmail.com>, Paul Walmsley <paul.walmsley@sifive.com>,
- Bjorn Helgaas <bhelgaas@google.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
- Thomas Gleixner <tglx@linutronix.de>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>, Jens Axboe <axboe@kernel.dk>,
- Alessandro Zummo <a.zummo@towertech.it>,
- Wim Van Sebroeck <wim@linux-watchdog.org>, Guenter Roeck <linux@roeck-us.net>,
- Mathieu Poirier <mathieu.poirier@linaro.org>, Stephen Boyd <sboyd@kernel.org>,
- netdev <netdev@vger.kernel.org>, USB list <linux-usb@vger.kernel.org>,
- Linux MMC List <linux-mmc@vger.kernel.org>,
+Cc: devicetree <devicetree@vger.kernel.org>, Peng Fan <peng.fan@nxp.com>,
+ Francis Laniel <francis.laniel@amarulasolutions.com>,
+ Matteo Lisi <matteo.lisi@engicam.com>,
+ linux-amarula <linux-amarula@amarulasolutions.com>,
+ Tomasz Figa <t.figa@samsung.com>,
  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- linux-spi <linux-spi@vger.kernel.org>,
- Linux IOMMU <iommu@lists.linux-foundation.org>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- dmaengine <dmaengine@vger.kernel.org>, Vladimir Oltean <olteanv@gmail.com>,
- "David S. Miller" <davem@davemloft.net>, Jonathan Cameron <jic23@kernel.org>
+ dri-devel <dri-devel@lists.freedesktop.org>, Rob Herring <robh+dt@kernel.org>,
+ NXP Linux Team <linux-imx@nxp.com>, Milco Pratesi <milco.pratesi@engicam.com>,
+ Anthony Brandon <anthony@amarulasolutions.com>, linux-phy@lists.infradead.org,
+ Fancy Fang <chen.fang@nxp.com>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ arm-soc <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 22, 2021 at 2:17 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+On Tue, Jun 22, 2021 at 8:39 AM Adam Ford <aford173@gmail.com> wrote:
 >
-> Hi Rob,
->
-> On Tue, Jun 15, 2021 at 9:16 PM Rob Herring <robh@kernel.org> wrote:
-> > If a property has an 'items' list, then a 'minItems' or 'maxItems' with the
-> > same size as the list is redundant and can be dropped. Note that is DT
-> > schema specific behavior and not standard json-schema behavior. The tooling
-> > will fixup the final schema adding any unspecified minItems/maxItems.
+> On Mon, Jun 21, 2021 at 2:25 AM Jagan Teki <jagan@amarulasolutions.com> wrote:
 > >
-> > This condition is partially checked with the meta-schema already, but
-> > only if both 'minItems' and 'maxItems' are equal to the 'items' length.
-> > An improved meta-schema is pending.
->
-> > Signed-off-by: Rob Herring <robh@kernel.org>
->
-> > --- a/Documentation/devicetree/bindings/net/stm32-dwmac.yaml
-> > +++ b/Documentation/devicetree/bindings/net/stm32-dwmac.yaml
-> > @@ -46,7 +46,6 @@ properties:
+> > Add eLCDIF controller node for i.MX8MM.
 > >
-> >    clocks:
-> >      minItems: 3
-> > -    maxItems: 5
-> >      items:
-> >        - description: GMAC main clock
-> >        - description: MAC TX clock
+> > Cc: Rob Herring <robh+dt@kernel.org>
+> > Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
+> > ---
+> >  arch/arm64/boot/dts/freescale/imx8mm.dtsi | 19 +++++++++++++++++++
+> >  1 file changed, 19 insertions(+)
+> >
+> > diff --git a/arch/arm64/boot/dts/freescale/imx8mm.dtsi b/arch/arm64/boot/dts/freescale/imx8mm.dtsi
+> > index fe5485ee9419..5f68182ed3a6 100644
+> > --- a/arch/arm64/boot/dts/freescale/imx8mm.dtsi
+> > +++ b/arch/arm64/boot/dts/freescale/imx8mm.dtsi
+> > @@ -1030,6 +1030,25 @@ aips4: bus@32c00000 {
+> >                         #size-cells = <1>;
+> >                         ranges = <0x32c00000 0x32c00000 0x400000>;
+> >
+> > +                       lcdif: lcdif@32e00000 {
+> > +                               compatible = "fsl,imx8mm-lcdif", "fsl,imx6sx-lcdif";
 >
-> While resolving the conflict with commit fea99822914039c6
-> ("dt-bindings: net: document ptp_ref clk in dwmac") in soc/for-next,
-> I noticed the following construct for clock-names:
+> Based on a comment I read from Marek [1] from this patch series for
+> the driver, I think fallback compatible should be fsl,imx28-lcdif.
 >
->   clock-names:
->     minItems: 3
->     maxItems: 6
->     contains:
->       enum:
->         - stmmaceth
->         - mac-clk-tx
->         - mac-clk-rx
->         - ethstp
->         - eth-ck
->         - ptp_ref
+> "The iMX8MM and iMX8MN do not support the overlay plane, so they are MXSFB V4"
 >
-> Should this use items instead of enum, and drop maxItems, or is this
-> a valid construct to support specifying the clocks in random order?
-> If the latter, it does mean that the order of clock-names may not
-> match the order of the clock descriptions.
+> [1] - https://patchwork.kernel.org/project/dri-devel/patch/20210620224834.189411-1-marex@denx.de/
 
-'contains' is true if one or more entries match the strings. So it is
-really saying one of these is required. That's not really much of a
-constraint. There's 'minContains' and 'maxContains' in newer
-json-schema versions (not yet supported) that could add some
-constraints if there has to be at least N entries from contains. An
-'items' schema (as opposed to a list) would say all items have to
-match one of the strings. I'm sure that's too strict.
+Yes, I saw that, look like some conversation is going on that thread.
+will update accordingly in next version.
 
-TLDR: clocks for this binding are a mess and the above is probably all
-we can do here.
-
-Rob
+Jagan.
