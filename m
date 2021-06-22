@@ -1,45 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3135B3B0FF7
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Jun 2021 00:17:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 713B03B1064
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Jun 2021 01:11:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 587F26E2F2;
-	Tue, 22 Jun 2021 22:17:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B0DE6E087;
+	Tue, 22 Jun 2021 23:11:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 596DA6E2F2
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Jun 2021 22:17:33 +0000 (UTC)
-Received: from [192.168.0.20]
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6FFDA6E087
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Jun 2021 23:11:53 +0000 (UTC)
+Received: from Monstersaurus.local
  (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id C6B67A66;
- Wed, 23 Jun 2021 00:17:31 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id EA95AA66;
+ Wed, 23 Jun 2021 01:11:50 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1624400251;
- bh=EQGAcaXjURCpvn903fkMskzJfYK888/MW1sdDAuRA3o=;
- h=From:Subject:To:Cc:References:Date:In-Reply-To:From;
- b=SH0oUBq52oV90VySWUX9s8zZwF2xh4ngU5H3jGomH9GczOl4XuT7wzcOAIxzOaN/+
- 7e0zbtNkZ4yX2e28BByEx8kSvLrh7X4uKlSXerSaKJpHyxV8cmjUeFAHQuxM33OJFU
- 60wE/MtbniaxuP5sNo2VDEbk3N5Cn++55He9y/kU=
+ s=mail; t=1624403511;
+ bh=uZC7sopp+vxOG159NLgXzUDh0pD0kUjE7c7PBO1aBVM=;
+ h=From:To:Cc:Subject:Date:From;
+ b=Frv+m2psrQ+tK1MZ8xrRj1vJWI35m5nq3IillypB1dETwmc179uNaaUeouJJlHp5i
+ O3BKC26iRNyJ6FO3YU/2nwAlw+2DR1NgHfMv2XwbskhyGCJTKsT9ZcC6DA0dEyQIy0
+ BRM/B4B9CL52sFqGzxeB25wljAVcOz4qJpNe6XfQ=
 From: Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: Re: [PATCH v3 4/4] drm: rcar-du: Use drm_bridge_connector_init()
- helper
-To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- dri-devel@lists.freedesktop.org
-References: <20210520065046.28978-1-laurent.pinchart+renesas@ideasonboard.com>
- <20210520065046.28978-5-laurent.pinchart+renesas@ideasonboard.com>
-Message-ID: <0d59a0d4-2201-210a-fc4e-fd67dd756d88@ideasonboard.com>
-Date: Tue, 22 Jun 2021 23:17:29 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: [PATCH] dt-bindings: display: renesas,
+ du: Provide bindings for r8a779a0
+Date: Wed, 23 Jun 2021 00:11:46 +0100
+Message-Id: <20210622231146.3208404-1-kieran.bingham@ideasonboard.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-In-Reply-To: <20210520065046.28978-5-laurent.pinchart+renesas@ideasonboard.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,84 +45,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-renesas-soc@vger.kernel.org
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:DRM DRIVERS FOR RENESAS" <dri-devel@lists.freedesktop.org>,
+ "open list:DRM DRIVERS FOR RENESAS" <linux-renesas-soc@vger.kernel.org>,
+ Rob Herring <robh+dt@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Laurent,
+From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
+Extend the Renesas DU display bindings to support the r8a779a0 V3U.
 
-On 20/05/2021 07:50, Laurent Pinchart wrote:
-> Use the drm_bridge_connector_init() helper to create a drm_connector for
-> each output, instead of relying on the bridge drivers doing so. Attach
-> the bridges with the DRM_BRIDGE_ATTACH_NO_CONNECTOR flag to instruct
-> them not to create a connector.
-> 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+---
+ .../bindings/display/renesas,du.yaml          | 52 +++++++++++++++++++
+ 1 file changed, 52 insertions(+)
 
-Aha, this is the one that fixed my issues!
+diff --git a/Documentation/devicetree/bindings/display/renesas,du.yaml b/Documentation/devicetree/bindings/display/renesas,du.yaml
+index 121596f106da..febbd89a646e 100644
+--- a/Documentation/devicetree/bindings/display/renesas,du.yaml
++++ b/Documentation/devicetree/bindings/display/renesas,du.yaml
+@@ -39,6 +39,7 @@ properties:
+       - renesas,du-r8a77980 # for R-Car V3H compatible DU
+       - renesas,du-r8a77990 # for R-Car E3 compatible DU
+       - renesas,du-r8a77995 # for R-Car D3 compatible DU
++      - renesas,du-r8a779a0 # for R-Car V3U compatible DU
+ 
+   reg:
+     maxItems: 1
+@@ -774,6 +775,57 @@ allOf:
+         - reset-names
+         - renesas,vsps
+ 
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - renesas,du-r8a779a0
++    then:
++      properties:
++        clocks:
++          items:
++            - description: Functional clock for DU0
++            - description: Functional clock for DU1
++
++        clock-names:
++          items:
++            - const: du.0
++            - const: du.1
++
++        interrupts:
++          maxItems: 2
++
++        resets:
++          maxItems: 1
++
++        reset-names:
++          items:
++            - const: du.0
++
++        ports:
++          properties:
++            port@0:
++              description: DSI 0
++            port@1:
++              description: DSI 1
++            port@2: false
++            port@3: false
++
++          required:
++            - port@0
++            - port@1
++
++        renesas,vsps:
++          minItems: 2
++
++      required:
++        - clock-names
++        - interrupts
++        - resets
++        - reset-names
++        - renesas,vsps
++
+ additionalProperties: false
+ 
+ examples:
+-- 
+2.30.2
 
-Looks good, and tests well ;-)
-
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-
-> ---
-> Changes since v2:
-> 
-> - Declare ret variable
-> ---
->  drivers/gpu/drm/rcar-du/rcar_du_encoder.c | 26 ++++++++++++++++++-----
->  1 file changed, 21 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_encoder.c b/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
-> index ca3761772211..0daa8bba50f5 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
-> @@ -11,6 +11,7 @@
->  #include <linux/slab.h>
->  
->  #include <drm/drm_bridge.h>
-> +#include <drm/drm_bridge_connector.h>
->  #include <drm/drm_crtc.h>
->  #include <drm/drm_managed.h>
->  #include <drm/drm_modeset_helper_vtables.h>
-> @@ -53,7 +54,9 @@ int rcar_du_encoder_init(struct rcar_du_device *rcdu,
->  			 struct device_node *enc_node)
->  {
->  	struct rcar_du_encoder *renc;
-> +	struct drm_connector *connector;
->  	struct drm_bridge *bridge;
-> +	int ret;
->  
->  	/*
->  	 * Locate the DRM bridge from the DT node. For the DPAD outputs, if the
-> @@ -103,9 +106,22 @@ int rcar_du_encoder_init(struct rcar_du_device *rcdu,
->  
->  	renc->output = output;
->  
-> -	/*
-> -	 * Attach the bridge to the encoder. The bridge will create the
-> -	 * connector.
-> -	 */
-> -	return drm_bridge_attach(&renc->base, bridge, NULL, 0);
-> +	/* Attach the bridge to the encoder. */
-> +	ret = drm_bridge_attach(&renc->base, bridge, NULL,
-> +				DRM_BRIDGE_ATTACH_NO_CONNECTOR);
-> +	if (ret) {
-> +		dev_err(rcdu->dev, "failed to attach bridge for output %u\n",
-> +			output);
-> +		return ret;
-> +	}
-> +
-> +	/* Create the connector for the chain of bridges. */
-> +	connector = drm_bridge_connector_init(&rcdu->ddev, &renc->base);
-> +	if (IS_ERR(connector)) {
-> +		dev_err(rcdu->dev,
-> +			"failed to created connector for output %u\n", output);
-> +		return PTR_ERR(connector);
-> +	}
-> +
-> +	return drm_connector_attach_encoder(connector, &renc->base);
->  }
-> 
