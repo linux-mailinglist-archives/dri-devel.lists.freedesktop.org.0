@@ -1,75 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E8923B0000
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Jun 2021 11:12:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 101763B0016
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Jun 2021 11:20:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B90F89A16;
-	Tue, 22 Jun 2021 09:12:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04AD76E452;
+	Tue, 22 Jun 2021 09:20:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 78CF889A16
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Jun 2021 09:12:18 +0000 (UTC)
-Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
- (using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 197A01FD64;
- Tue, 22 Jun 2021 09:12:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1624353137; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=2S1GZjVV0O2eW26D/C5mP/xBfS/QZ8D4wdzglA9JkS8=;
- b=HLJG32V+C+He6nAcw1Um3uc6J4JQOnkewLRaltCeI0XGxogyC+/ibRFrxfMTwE5Sb8cL8L
- s8eZ7teby7ePFxxBgJXIdO0eyofNl6winiaJi/6+B8KF+K3gRfGNhIe5dEcJVG0hgk7Qju
- 1oR/WmGhVOr5j41+AIGs2RLBo8kBm50=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1624353137;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=2S1GZjVV0O2eW26D/C5mP/xBfS/QZ8D4wdzglA9JkS8=;
- b=m6G4l+FIBEhqEn2P3pVAPi9Edtrz0lBR/DREKWmORwciEtiaVRFWXCxavfNB2vfqQHrq3f
- agIbKULr9+h1IkDg==
-Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
- by imap.suse.de (Postfix) with ESMTP id D3F75118DD;
- Tue, 22 Jun 2021 09:12:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1624353137; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=2S1GZjVV0O2eW26D/C5mP/xBfS/QZ8D4wdzglA9JkS8=;
- b=HLJG32V+C+He6nAcw1Um3uc6J4JQOnkewLRaltCeI0XGxogyC+/ibRFrxfMTwE5Sb8cL8L
- s8eZ7teby7ePFxxBgJXIdO0eyofNl6winiaJi/6+B8KF+K3gRfGNhIe5dEcJVG0hgk7Qju
- 1oR/WmGhVOr5j41+AIGs2RLBo8kBm50=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1624353137;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=2S1GZjVV0O2eW26D/C5mP/xBfS/QZ8D4wdzglA9JkS8=;
- b=m6G4l+FIBEhqEn2P3pVAPi9Edtrz0lBR/DREKWmORwciEtiaVRFWXCxavfNB2vfqQHrq3f
- agIbKULr9+h1IkDg==
-Received: from director2.suse.de ([192.168.254.72]) by imap3-int with ESMTPSA
- id KiC9MnCp0WASIwAALh3uQQ
- (envelope-from <tzimmermann@suse.de>); Tue, 22 Jun 2021 09:12:16 +0000
-Subject: Re: [PATH 0/4] [RFC] Support virtual DRM
-To: Esaki Tomohito <etom@igel.co.jp>
-References: <20210621062742.26073-1-etom@igel.co.jp>
- <9853d0a9-6053-db64-9c79-40b7e0689eec@suse.de>
- <85593f2f-5aa9-6023-ecba-c5275a468b71@igel.co.jp>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <bd64733a-d45c-a985-d99d-0fa70bacb001@suse.de>
-Date: Tue, 22 Jun 2021 11:12:16 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+Received: from mail-oo1-xc33.google.com (mail-oo1-xc33.google.com
+ [IPv6:2607:f8b0:4864:20::c33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E1B466E452
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Jun 2021 09:20:48 +0000 (UTC)
+Received: by mail-oo1-xc33.google.com with SMTP id
+ s20-20020a4ae9940000b02902072d5df239so5206974ood.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Jun 2021 02:20:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=B0CLRv/C97SIL4mDRjWeR2RS/vw2/AXlOiSHFmBfaag=;
+ b=iXyQoMTlfsopHp7iUDCM50Nbt8fJ0O4Y/hzi7SqPnEBKB+F2nCcWCTEjeR/Rm5vwYJ
+ 6GurH29V+pDQhvsuH8KEjYTLVuM/AOgTeToykj4dLY5ugg1UJl4O8FGiKggvZUSj7gDB
+ 9TOraxxUNlsd1zUSqN/1hwfpiBNZOvIhBNTNQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=B0CLRv/C97SIL4mDRjWeR2RS/vw2/AXlOiSHFmBfaag=;
+ b=rwUN9dCRpV/IicN6jrhrawP9qrEsw+EOhZ2RxFN4YHid7XK7Az7seqnxEBmTbwRDQ+
+ Up9nl4PvFd5FAHewe5pn5yqRDS//5+qpmyfTZc6Dsdd4zmeQ801UNgcSg+HvxkUMbaOv
+ vOlst4rmXC5G6Flsk1RM/hVyJd4d9pDpGP8j1TCQMf1ljJdxOsX99G0DdGZRNa9pCsLV
+ haIPxMV81ea3egvaAusB7j+0Vie2AFWEf+MyfmAo1iJ4Pzt3EOe9ZfxfFMUFwBEJyWsK
+ 8ScgMsJ5jgMTqLstJOfJEnGya2G4eprEf7hd4MvcTof+UxN3KP03lNBCvM/ZgSYv3o2X
+ 9OGw==
+X-Gm-Message-State: AOAM530Sc8PX0ZORBRUv++cELK9NwVrTzTY1lESlOXGOzO7NQtYQq+UH
+ vkxq9Nm46nbDQFUOJYuZ3OhdvczJnT35dfb+6+2bMQ==
+X-Google-Smtp-Source: ABdhPJyXDdHBte8f3i/aHTI1hWl//Nq8BnqMgfp8TRuBWA/zUcgICOOM03TiXWCNBTBU6rvXyp5dZmjeybWnMHyRq4w=
+X-Received: by 2002:a4a:9b99:: with SMTP id x25mr2429637ooj.85.1624353648166; 
+ Tue, 22 Jun 2021 02:20:48 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <85593f2f-5aa9-6023-ecba-c5275a468b71@igel.co.jp>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="WlcHhU6hex4h9Z0LOqBGwvBjeuF1z7K0S"
+References: <20210621130328.11070-1-christian.koenig@amd.com>
+ <YNCoK1qv6CCIy0Rl@phenom.ffwll.local>
+ <2033755d-c49f-8b90-f726-d640146a3df7@gmail.com>
+ <CAKMK7uEET_E7eJa1No3KLMBudgE16ymXzXZp0CRYt_ZjS-_YsA@mail.gmail.com>
+In-Reply-To: <CAKMK7uEET_E7eJa1No3KLMBudgE16ymXzXZp0CRYt_ZjS-_YsA@mail.gmail.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Tue, 22 Jun 2021 11:20:37 +0200
+Message-ID: <CAKMK7uECbQ+Fk6y9rsGdGdh4fEErhjUjSGicJLifnENAhjnZZw@mail.gmail.com>
+Subject: Re: [PATCH 1/3] drm/nouveau: wait for moving fence after pinning
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,127 +64,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Takanari Hayama <taki@igel.co.jp>,
- linux-doc@vger.kernel.org, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-renesas-soc@vger.kernel.org,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Damian Hobson-Garcia <dhobsong@igel.co.jp>
+Cc: Nouveau Dev <nouveau@lists.freedesktop.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---WlcHhU6hex4h9Z0LOqBGwvBjeuF1z7K0S
-Content-Type: multipart/mixed; boundary="Kk1kL8IpnwdpIdgA1q2JbHjX2dsQ44t2z";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Esaki Tomohito <etom@igel.co.jp>
-Cc: devicetree@vger.kernel.org, Takanari Hayama <taki@igel.co.jp>,
- linux-doc@vger.kernel.org, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Damian Hobson-Garcia <dhobsong@igel.co.jp>
-Message-ID: <bd64733a-d45c-a985-d99d-0fa70bacb001@suse.de>
-Subject: Re: [PATH 0/4] [RFC] Support virtual DRM
-References: <20210621062742.26073-1-etom@igel.co.jp>
- <9853d0a9-6053-db64-9c79-40b7e0689eec@suse.de>
- <85593f2f-5aa9-6023-ecba-c5275a468b71@igel.co.jp>
-In-Reply-To: <85593f2f-5aa9-6023-ecba-c5275a468b71@igel.co.jp>
+On Mon, Jun 21, 2021 at 5:53 PM Daniel Vetter <daniel@ffwll.ch> wrote:
+>
+> On Mon, Jun 21, 2021 at 5:49 PM Christian K=C3=B6nig
+> <ckoenig.leichtzumerken@gmail.com> wrote:
+> >
+> > Am 21.06.21 um 16:54 schrieb Daniel Vetter:
+> > > On Mon, Jun 21, 2021 at 03:03:26PM +0200, Christian K=C3=B6nig wrote:
+> > >> We actually need to wait for the moving fence after pinning
+> > >> the BO to make sure that the pin is completed.
+> > >>
+> > >> Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+> > >> CC: stable@kernel.org
+> > >> ---
+> > >>   drivers/gpu/drm/nouveau/nouveau_prime.c | 8 +++++++-
+> > >>   1 file changed, 7 insertions(+), 1 deletion(-)
+> > >>
+> > >> diff --git a/drivers/gpu/drm/nouveau/nouveau_prime.c b/drivers/gpu/d=
+rm/nouveau/nouveau_prime.c
+> > >> index 347488685f74..591738545eba 100644
+> > >> --- a/drivers/gpu/drm/nouveau/nouveau_prime.c
+> > >> +++ b/drivers/gpu/drm/nouveau/nouveau_prime.c
+> > >> @@ -93,7 +93,13 @@ int nouveau_gem_prime_pin(struct drm_gem_object *=
+obj)
+> > >>      if (ret)
+> > >>              return -EINVAL;
+> > >>
+> > >> -    return 0;
+> > >> +    if (nvbo->bo.moving) {
+> > > Don't we need to hold the dma_resv to read this? We can grab a refere=
+nce
+> > > and then unlock, but I think just unlocked wait can go boom pretty ea=
+sily
+> > > (since we don't hold a reference or lock so someone else can jump in =
+and
+> > > free the moving fence).
+> >
+> > The moving fence is only modified while the BO is moved and since we
+> > have just successfully pinned it....
+>
+> Yeah  ... so probably correct, but really tricky. Just wrapping a
+> ttm_bo_reserve/unreserve around the code you add should be enough and
+> get the job done?
 
---Kk1kL8IpnwdpIdgA1q2JbHjX2dsQ44t2z
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+I think you distracted me a bit with the "it can't move", so yes
+there's a guarantee that no other fence can show up in ttm_bo->moving
+and confuse us. But it could get set to NULL because someone realized
+it signalled. We're not doing that systematically, but relying on
+fences never getting garbage-collected for correctness isn't great.
 
-Hi
+Sot the ttm_bo_reserve/unreserve is definitely needed here around this
+bit of code. You don't need to merge it with the reserve/unreserve in
+the pin function though, it's just to protect against the
+use-after-free.
+-Daniel
 
-Am 22.06.21 um 06:02 schrieb Esaki Tomohito:
-> Hi, Thomas
-> Thank you for reply.
->=20
-> On 2021/06/21 16:10, Thomas Zimmermann wrote:
->> Hi
->>
->> Am 21.06.21 um 08:27 schrieb Tomohito Esaki:
->>> Virtual DRM splits the overlay planes of a display controller into
->>> multiple
->>> virtual devices to allow each plane to be accessed by each process.
->>>
->>> This makes it possible to overlay images output from multiple
->>> processes on a
->>> display. For example, one process displays the camera image without
->>> compositor
->>> while another process overlays the UI.
->>
->> I briefly looked over your patches. I didn't understand how this is
->> different to the functionality of a compositor? Shouldn't this be solv=
-ed
->> in userspace?
->=20
-> I think when latency is important (e.g., AR, VR, for displaying camera
-> images in IVI systems), there may be use cases where the compositor
-> cannot be used.
-> Normally, when the image is passed through the compositor, it is
-> displayed after 2 VSYNC at most, because the compositor combines the
-> image with VSYNC synchronization. On the other hand, if we use vDRM, th=
-e
-> image will be displayed at the next VSYNC, so it will be displayed afte=
-r
-> 1 VSYNC at most.
+>
+> > But in general I agree that it would be better to avoid this. I just
+> > didn't wanted to open a bigger can of worms by changing nouveau so much=
+.
+>
+> Yeah, but I'm kinda thinking of some helpers to wait for the move
+> fence (so that later on we can switch from having the exclusive fence
+> to the move fence do that, maybe). And then locking checks in there
+> would be nice.
+>
+> Also avoids the case of explaining why lockless here is fine, but
+> lockless wait for the exclusive fence in e.g. a dynami dma-buf
+> importer is very much not fine at all. Just all around less trouble.
+> -Daniel
+>
+> >
+> > Christian.
+> >
+> > > -Daniel
+> > >
+> > >> +            ret =3D dma_fence_wait(nvbo->bo.moving, true);
+> > >> +            if (ret)
+> > >> +                    nouveau_bo_unpin(nvbo);
+> > >> +    }
+> > >> +
+> > >> +    return ret;
+> > >>   }
+> > >>
+> > >>   void nouveau_gem_prime_unpin(struct drm_gem_object *obj)
+> > >> --
+> > >> 2.25.1
+> > >>
+> >
+>
+>
+> --
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
 
-Other commenters already addressed these points.
 
->=20
-> Also, since the compositor is a single point of failure, we may not wan=
-t
-> to make it dependent on it.
-
-The kernel is also a single point of failure.
-
-TBH I don't think this feature should be merged until there's a clear=20
-use case that cannot be solved in userspace idiomatically.
-
-Best regards
-Thomas
-
->=20
-> Best regards
-> Tomohito Esaki
->=20
 
 --=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---Kk1kL8IpnwdpIdgA1q2JbHjX2dsQ44t2z--
-
---WlcHhU6hex4h9Z0LOqBGwvBjeuF1z7K0S
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmDRqXAFAwAAAAAACgkQlh/E3EQov+Af
-LhAAl2DsZ+2q/Kykruu+aUiljCoeGL+fehatgi3Qbz9LHotnb+8lcZL8qNGjphWQxLpooqeO9ZDr
-WPop9s6a4mSHD9nyyvXrdWLdid5wYpmetCMH6SVXHMlVWh+n/qw9v49DtqxHEADDk5VixNgh9cxQ
-RbRmOVg88YT8Z40zAZw2I6MlmIpS0SSDE5yjR3JHE6zOI6bniAdGiiCKojqoIS/Md/9g4MBjsIk2
-lro7eW7ulINyEuoDnbY3M241s/cZnP/ZShARtgScL5bVhoQZ6s7YO8OISYhYdkg+eF1qi1AdsqZY
-pmDLtAhZ95arQa5OIVTGewxxCG/uzbIDUh4v4lJSgBSF0SUtakCJF9Q9AhjCvW1+era0253MfyCy
-/F5sndCQh/Iaqt6hpqe6ijC5RgA4Le7IUBBZV+HE48/9hRv6QqZSEVz61LvpbK2mFihJYxFPfTwS
-xxa1E/+HvWDuEgUeehAWqaL07ytWPoaQBqn9nSvAtXTNPbXiknOWqW7Vq3vUMmf/zpF6mkd8R89U
-um6D6/bEIu0Vd9ZK5blNbuzoX+g/qJpWU+As8jkXF1uR0tDHPq2OsokaWQ2IsDkoJT4DBzzgFcl9
-RaTrRoKwCoEGIZfu1Bg4cfMPi6T0BmXiWs+psao3lp1Dwpiz8FMMRG6ObJ/0hcZ5g5B6+gugbqjb
-/Og=
-=+9bo
------END PGP SIGNATURE-----
-
---WlcHhU6hex4h9Z0LOqBGwvBjeuF1z7K0S--
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
