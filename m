@@ -1,65 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04FD13B058F
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Jun 2021 15:11:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 81E5C3B059C
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Jun 2021 15:12:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B1B276E0F5;
-	Tue, 22 Jun 2021 13:11:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6BB596E4FE;
+	Tue, 22 Jun 2021 13:12:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com
- [IPv6:2a00:1450:4864:20::333])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7584A6E0F5
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Jun 2021 13:11:06 +0000 (UTC)
-Received: by mail-wm1-x333.google.com with SMTP id
- y13-20020a1c4b0d0000b02901c20173e165so2256204wma.0
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Jun 2021 06:11:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=4ClenBNFnPWHMhqejsNe5gaf74Np+yZIMmycF1fngD0=;
- b=cikWR6oES/vEFxXcIF4Otrr+lOBxkB0bxRhNQz40xIxkZEwqBUL4rd+XEYhUiPy02A
- ld7jETSbFZNw0+94pqVncdWGaSmXxWiHls2XS40Yujxuap0EjZQl+za51D7abFPAh0jZ
- alBZBfTL/WJESu21EaUjmVbjv5PSMT+2uZ0lLo6A4YWvuBpM55Pnzlh1wAmqd/e1/+My
- /mtj535QVBJzQYOpdFcNwcPEPULDIWEHQwHSbihdzlv5VqOzQ23atTaognM8FyimQWG8
- lmK7W3Tl3pbXE/PjZud6cEGliygQ7C2RGefzBZD6z0lazAq0snJH4cpNKari12+h/Oke
- X1sQ==
+Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com
+ [IPv6:2607:f8b0:4864:20::22b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ACFA76E4F9;
+ Tue, 22 Jun 2021 13:12:53 +0000 (UTC)
+Received: by mail-oi1-x22b.google.com with SMTP id s23so23684214oiw.9;
+ Tue, 22 Jun 2021 06:12:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=Zo8AMbVZ0Bpk+i0daFhjZFD9mbDtHeyM5fWaVTiW44c=;
+ b=M05I4XSyQvJq3QrAd4YBgso50a64XymDeEWCojzzYqEGpvV4rh82mK2VGpP2ZpQw/K
+ qKLMFRbXqv6tTtNOrZ0DfZ/7XN9zk8aAO7H29pjKNlXbwyFKm1mGbOqZSO36X7wT3m7P
+ 81j0l7w9IdikOL9pXOvSfc2I4ej0eigFsmLjVhpf6rAwucqQvM2hTGGC03uozjBCzjhM
+ b0RYRSapW0yTEw7Ctcr7dBktk7sjweeCgQXLqe0Djkdv/UeVSGwRA1/91NCbYrZi3ufl
+ 11gmazwOPS8f0/v7rNXQbB349lJ4lS6Zf/6sYR4bj+imOJbN3S+rAay06cfD0bzrE63T
+ LGhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=4ClenBNFnPWHMhqejsNe5gaf74Np+yZIMmycF1fngD0=;
- b=Uwy7MpCC0cOZkoQ/pGIJ90wad7Hb1/uIIewz5RK317flTR6Y+iPY4m1TVuyuwGPbhp
- CighI/Kz9sfTsVuKw8P1qTqX+OETJCa7b8+14GXjw0q0eMuCkdfjbnA+nw74CXmptITu
- ++IS9ATHwbOP04jZz/qVR1bfXqK35Fcf/ZAMVImjj+ozBgPtQz+v6VChxN9JeSE1LLxp
- U4w16zLvkFC8g7jI7RW1np7WNljt5Cmy63I8N8rFXlbAYDqhVPN5kYtbW3MUMnvfXTyk
- tu0zWWFnW74A2d7TrtYvnYYHvb5BIGU/eXVCJuD+ruNkvh6uXKCe0SUA1N2ROi/gSCfV
- 5oyw==
-X-Gm-Message-State: AOAM531QG/ovTyM01CKpuSBN+mwRaRo6aOi677xC2w+eEHxXK2xIX/4J
- m6LxD0YW+FW5/2S9Nqs/VZwXaw==
-X-Google-Smtp-Source: ABdhPJyd0ZBEfT4naKU/aoV/BVHri+673sPYJQn0GQx2PGKHw3++vn5T86SrhOVGaXeBJcRhs2KDDw==
-X-Received: by 2002:a1c:7f96:: with SMTP id a144mr4496387wmd.22.1624367465132; 
- Tue, 22 Jun 2021 06:11:05 -0700 (PDT)
-Received: from dell ([91.110.221.181])
- by smtp.gmail.com with ESMTPSA id c23sm2482647wmb.38.2021.06.22.06.11.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Jun 2021 06:11:04 -0700 (PDT)
-Date: Tue, 22 Jun 2021 14:11:01 +0100
-From: Lee Jones <lee.jones@linaro.org>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
-Subject: Re: [PATCH v3 1/2] backlight: lm3630a: fix return code of
- .update_status() callback
-Message-ID: <YNHhZRkKFoucAyQJ@dell>
-References: <20210621122148.116863-1-u.kleine-koenig@pengutronix.de>
- <20210621122148.116863-2-u.kleine-koenig@pengutronix.de>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Zo8AMbVZ0Bpk+i0daFhjZFD9mbDtHeyM5fWaVTiW44c=;
+ b=JZ5mEuEab/fNo2tJG/vVX+6LGReloVPp4hrc6qHJ1rlIgYRCTJObRVRHUZjaaxBsXp
+ RL3ng3RP/GIcrzdDh5fMmgv2no/zY9Wi1BymC+yVm0MuUc+cB1pmPSAUbjxjK2/Ygs9y
+ gDC8fJ29UCWCbo60ARasL9lTzigJP3+eWWpCmLEAILZtTVm4TkbaBprcKu1PXCa9zfxi
+ yHWBBvA8gIExMvn2LuKaI9RBZsBS2Mu8wYfh238TI/JjaK2T1KlntNKLhTwPQI+YuJM9
+ 3rA/7iP5EPuOupUdfTtWjYGrLBDPfxKuz6zL2g9o4zhIt0+WJrl0wY/LhN7Azq91U/WC
+ r+wQ==
+X-Gm-Message-State: AOAM533ekYc9jPy2zmDb7dzkOhKLclU9cZDAqvHM8YqawgfhuujKgUFi
+ gkVeBC2gb3+V0e48+3xPcBETa0KU5RCw0fOZ/4E=
+X-Google-Smtp-Source: ABdhPJx0VEzjKsRYKDZvxAXPUrSx4rHDbmALWmjVLs/sT+gDzBTdktbxkHUJKd8+jHZcNZxQ6zZrih+vNRQS+TgBW6w=
+X-Received: by 2002:aca:3bc3:: with SMTP id i186mr2878226oia.102.1624367572833; 
+ Tue, 22 Jun 2021 06:12:52 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210621122148.116863-2-u.kleine-koenig@pengutronix.de>
+References: <20210621141217.GE1096940@ziepe.ca>
+ <CAFCwf10KvCh0zfHEHqYR-Na6KJh4j+9i-6+==QaMdHHpLH1yEA@mail.gmail.com>
+ <20210621175511.GI1096940@ziepe.ca>
+ <CAKMK7uEO1_B59DtM7N2g7kkH7pYtLM_WAkn+0f3FU3ps=XEjZQ@mail.gmail.com>
+ <CAFCwf11jOnewkbLuxUESswCJpyo7C0ovZj80UrnwUOZkPv2JYQ@mail.gmail.com>
+ <20210621232912.GK1096940@ziepe.ca>
+ <d358c740-fd3a-9ecd-7001-676e2cb44ec9@gmail.com>
+ <CAFCwf11h_Nj_GEdCdeTzO5jgr-Y9em+W-v_pYUfz64i5Ac25yg@mail.gmail.com>
+ <20210622120142.GL1096940@ziepe.ca>
+ <CAFCwf10GmBjeJAFp0uJsMLiv-8HWAR==RqV9ZdMQz+iW9XWdTA@mail.gmail.com>
+ <20210622121546.GN1096940@ziepe.ca>
+In-Reply-To: <20210622121546.GN1096940@ziepe.ca>
+From: Oded Gabbay <oded.gabbay@gmail.com>
+Date: Tue, 22 Jun 2021 16:12:26 +0300
+Message-ID: <CAFCwf13BuS+U3Pko_62hFPuvZPG26HQXuu-cxPmcADNPO22g9g@mail.gmail.com>
+Subject: Re: [Linaro-mm-sig] [PATCH v3 1/2] habanalabs: define uAPI to export
+ FD for DMA-BUF
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,31 +74,105 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Thompson <daniel.thompson@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
- kernel@pengutronix.de
+Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ linux-rdma <linux-rdma@vger.kernel.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ sleybo@amazon.com, Gal Pressman <galpress@amazon.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Christoph Hellwig <hch@lst.de>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Doug Ledford <dledford@redhat.com>, Tomer Tayar <ttayar@habana.ai>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Greg KH <gregkh@linuxfoundation.org>, Alex Deucher <alexander.deucher@amd.com>,
+ Leon Romanovsky <leonro@nvidia.com>, Oded Gabbay <ogabbay@kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 21 Jun 2021, Uwe Kleine-König wrote:
+On Tue, Jun 22, 2021 at 3:15 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
+>
+> On Tue, Jun 22, 2021 at 03:04:30PM +0300, Oded Gabbay wrote:
+> > On Tue, Jun 22, 2021 at 3:01 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
+> > >
+> > > On Tue, Jun 22, 2021 at 11:42:27AM +0300, Oded Gabbay wrote:
+> > > > On Tue, Jun 22, 2021 at 9:37 AM Christian K=C3=B6nig
+> > > > <ckoenig.leichtzumerken@gmail.com> wrote:
+> > > > >
+> > > > > Am 22.06.21 um 01:29 schrieb Jason Gunthorpe:
+> > > > > > On Mon, Jun 21, 2021 at 10:24:16PM +0300, Oded Gabbay wrote:
+> > > > > >
+> > > > > >> Another thing I want to emphasize is that we are doing p2p onl=
+y
+> > > > > >> through the export/import of the FD. We do *not* allow the use=
+r to
+> > > > > >> mmap the dma-buf as we do not support direct IO. So there is n=
+o access
+> > > > > >> to these pages through the userspace.
+> > > > > > Arguably mmaping the memory is a better choice, and is the dire=
+ction
+> > > > > > that Logan's series goes in. Here the use of DMABUF was specifi=
+cally
+> > > > > > designed to allow hitless revokation of the memory, which this =
+isn't
+> > > > > > even using.
+> > > > >
+> > > > > The major problem with this approach is that DMA-buf is also used=
+ for
+> > > > > memory which isn't CPU accessible.
+> > >
+> > > That isn't an issue here because the memory is only intended to be
+> > > used with P2P transfers so it must be CPU accessible.
+> > >
+> > > > > That was one of the reasons we didn't even considered using the m=
+apping
+> > > > > memory approach for GPUs.
+> > >
+> > > Well, now we have DEVICE_PRIVATE memory that can meet this need
+> > > too.. Just nobody has wired it up to hmm_range_fault()
+> > >
+> > > > > > So you are taking the hit of very limited hardware support and =
+reduced
+> > > > > > performance just to squeeze into DMABUF..
+> > > >
+> > > > Thanks Jason for the clarification, but I honestly prefer to use
+> > > > DMA-BUF at the moment.
+> > > > It gives us just what we need (even more than what we need as you
+> > > > pointed out), it is *already* integrated and tested in the RDMA
+> > > > subsystem, and I'm feeling comfortable using it as I'm somewhat
+> > > > familiar with it from my AMD days.
+> > >
+> > > You still have the issue that this patch is doing all of this P2P
+> > > stuff wrong - following the already NAK'd AMD approach.
+> >
+> > Could you please point me exactly to the lines of code that are wrong
+> > in your opinion ?
+>
+> 1) Setting sg_page to NULL
+> 2) 'mapping' pages for P2P DMA without going through the iommu
+> 3) Allowing P2P DMA without using the p2p dma API to validate that it
+>    can work at all in the first place.
+>
+> All of these result in functional bugs in certain system
+> configurations.
+>
+> Jason
 
-> According to <linux/backlight.h> .update_status() is supposed to
-> return 0 on success and a negative error code otherwise. Adapt
-> lm3630a_bank_a_update_status() and lm3630a_bank_b_update_status() to
-> actually do it.
-> 
-> While touching that also add the error code to the failure message.
-> 
-> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
-> ---
->  drivers/video/backlight/lm3630a_bl.c | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
+Hi Jason,
+Thanks for the feedback.
+Regarding point 1, why is that a problem if we disable the option to
+mmap the dma-buf from user-space ? We don't want to support CPU
+fallback/Direct IO.
+In addition, I didn't see any problem with sg_page being NULL in the
+RDMA p2p dma-buf code. Did I miss something here ?
 
-Fixed the subject line for you and applied, thanks.
+Regarding points 2 & 3, I want to examine them more closely in a KVM
+virtual machine environment with IOMMU enabled.
+I will take two GAUDI devices and use one as an exporter and one as an
+importer. I want to see that the solution works end-to-end, with real
+device DMA from importer to exporter.
+I fear that the dummy importer I wrote is bypassing these two issues
+you brought up.
 
--- 
-Lee Jones [李琼斯]
-Senior Technical Lead - Developer Services
-Linaro.org │ Open source software for Arm SoCs
-Follow Linaro: Facebook | Twitter | Blog
+So thanks again and I'll get back and update once I've finished testing it.
+
+Oded
