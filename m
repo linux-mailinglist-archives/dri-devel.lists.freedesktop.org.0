@@ -1,63 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B96F73AFD7E
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Jun 2021 09:00:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E8CC3AFDB0
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Jun 2021 09:15:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0ABDC6E03A;
-	Tue, 22 Jun 2021 07:00:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0753E6E077;
+	Tue, 22 Jun 2021 07:15:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com
- [IPv6:2a00:1450:4864:20::231])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A01B6E03A;
- Tue, 22 Jun 2021 07:00:48 +0000 (UTC)
-Received: by mail-lj1-x231.google.com with SMTP id f13so1496706ljp.10;
- Tue, 22 Jun 2021 00:00:47 -0700 (PDT)
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com
+ [IPv6:2a00:1450:4864:20::144])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 42C0F6E03E;
+ Tue, 22 Jun 2021 07:15:22 +0000 (UTC)
+Received: by mail-lf1-x144.google.com with SMTP id k10so1207662lfv.13;
+ Tue, 22 Jun 2021 00:15:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=8uB2W+0iSYgQ4pTL1g6pWR0NWFjt+BXADvBX4pMDVn8=;
- b=iYxBfk5mMSUNGYr6pf9jdnwBzC/HaOFj21ZL5y/BRiXPqJXQFHNyNS8fEdSaTow1uO
- y6gpdb9+Ej0l5HDufcinLv7frUGfHGKL9av5Vj4uk9IqalAcHPND9Azu/GO+JY9J8sZ8
- 1utMAskWZNbPFjCeDHM3EBc+OPp8DJ83j+4oO1VnWW15+l3SruK1023BD3QjWcSf0Vww
- 90dG6628udKTgGpOnzSYlBDV8NkLdUWh7ER0Aw8Bf/S9n8V6Z/ytiFnl4yuK+jXLSiGh
- kRODKD9NRX5jOnoc57daDcHuODeTluP3kb7ldnyfxMMRrod5M3+hF0OL5M5EP0NI0Scf
- xRUA==
+ :mime-version; bh=AMV40G0WQa5rwDidNF4QOHohhlYu3g3xNBvCqr6xBv8=;
+ b=E6/t0xdALJK9dIvK4kmzxlmOWJyuGnCuZ4D/84T0z35Zxv76HBjGW3pfaDpm1iBgfC
+ o6tNIk7w9cTD3d/PdHlXv3HBjjaNTBiqsDB3f+x/snE6MEMshMNeeudTioO9LUxPLd6k
+ tgv/TtEX0qTYYhwE0AwZ251DtuE7fPdg2N9lni37XwLbiP8XzXjZgM8czgD9Gr+PHUby
+ 2mR98U7ihOTUpC3JeL9NLyizR1d9v5/7vh+pCTrf5mpZnf2z8KbwArxDNwZcxvSH6mmN
+ XCYg2ib8biu/EGeyaprfgh94roWkEt2GqxN19DG4Z0mJdLeyxaz7wDF7hCrVwCFyOTZH
+ 9PIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
  :references:mime-version;
- bh=8uB2W+0iSYgQ4pTL1g6pWR0NWFjt+BXADvBX4pMDVn8=;
- b=LqrTs7BnWHE6IIG+zhxAbR2+6TvWfL/Hlm3/jsfGiQ1eQ7ALUBkWskhVEXMNGEiDEy
- V03hwhmqmib6zHGjCEaWgRSzmfov5SKi0z4LOa5NOWfttXou6ekhLmlP9FZBotLNIKzR
- MipK4zPU6Ewov93Y+ULT0rkJhzGhkUnar+7XvH4uViBefEIVKeKFeEbyfV4wq9agU99m
- QXDY5/qm0uzGrmgu4XyKplM+nhVX6tHaI2QdS9j93IybaK5IvOCoxTfoUNEco2JCGFWc
- 4yTJQ/hwNPZ5l83tSmj14j/klgyG2O2+SQieCQSSW0AFN4qiLO+zyUqrQ7JHtyNT9fNP
- 2Quw==
-X-Gm-Message-State: AOAM530WPtvpcK+QQShsfsYsnIm7XvJmUqiAoE6VjDt7kNHAFz+E5Csr
- MkcGCUiwx+DbOdNXEOPDzEA=
-X-Google-Smtp-Source: ABdhPJwNdrhQOfRxKwlt69rv1LLhEtWfzlVijV4G41UDgnYQgpk5xh8QdH1ckw5ZhUBDdtB00YTYEA==
-X-Received: by 2002:a05:651c:543:: with SMTP id
- q3mr1916342ljp.432.1624345246446; 
- Tue, 22 Jun 2021 00:00:46 -0700 (PDT)
+ bh=AMV40G0WQa5rwDidNF4QOHohhlYu3g3xNBvCqr6xBv8=;
+ b=S9lE6A8jfBQ4V7nSOxfvlyRH9d5MUTUSqLCFZISX25RqnshtLuMmZKewvJGKUjxBxG
+ DdnlG2TiIZZoKJq8tNScftTyOIRw5DQlZy+LQTDYPZhuUbCj/vfsgVS5x7hApUYPQ2zA
+ pJPB0qvRCiJ2atIkK8OgoFTykYa65bJAjCISn1cqjI5CzFG58XpzEsepiS3zfixWpT9m
+ FPD8isKMLUs2HIX8cHqn0ebXXE73b2i/UC/TR/g6OL6VjeQ6A7teFDIyCGmAxXU6eb6W
+ XFYM90fylxZ4O3YyXcOXXyiNEOA3+QQ+z2Gn8CpgLp3oLSjpFp7NHm/ujmh+zTv8YYSL
+ 9XpA==
+X-Gm-Message-State: AOAM531upG/VZcVgBVpCVAJa+KOJ1EPmaTa7c+BdHSxmhIvdxNAClIzo
+ Le5i177A1kNePOEh2hn8TRc=
+X-Google-Smtp-Source: ABdhPJzLfb1Rd3xykruv5WU9C0lgkMrLGGzzsAjV4xlo6WpWcaAmawp7H+WicXTM5o6ujr6gBbxSSw==
+X-Received: by 2002:ac2:5233:: with SMTP id i19mr1708498lfl.575.1624346120610; 
+ Tue, 22 Jun 2021 00:15:20 -0700 (PDT)
 Received: from eldfell ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id bn23sm2457632ljb.48.2021.06.22.00.00.45
+ by smtp.gmail.com with ESMTPSA id x14sm389743ljp.11.2021.06.22.00.15.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Jun 2021 00:00:46 -0700 (PDT)
-Date: Tue, 22 Jun 2021 10:00:42 +0300
+ Tue, 22 Jun 2021 00:15:20 -0700 (PDT)
+Date: Tue, 22 Jun 2021 10:15:16 +0300
 From: Pekka Paalanen <ppaalanen@gmail.com>
 To: Werner Sembach <wse@tuxedocomputers.com>
-Subject: Re: [PATCH v4 09/17] drm/uAPI: Add "active color range" drm
- property as feedback for userspace
-Message-ID: <20210622100042.4041624a@eldfell>
-In-Reply-To: <20210618091116.14428-10-wse@tuxedocomputers.com>
+Subject: Re: [PATCH v4 12/17] drm/uAPI: Add "preferred color format" drm
+ property as setting for userspace
+Message-ID: <20210622101516.6a53831c@eldfell>
+In-Reply-To: <20210618091116.14428-13-wse@tuxedocomputers.com>
 References: <20210618091116.14428-1-wse@tuxedocomputers.com>
- <20210618091116.14428-10-wse@tuxedocomputers.com>
+ <20210618091116.14428-13-wse@tuxedocomputers.com>
 X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/RcB.Nk0Zn=HnVnpEEXCRGdK"; protocol="application/pgp-signature"
+ boundary="Sig_/L.D.0v0v3EndnJnEeMysKiT"; protocol="application/pgp-signature"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,233 +77,276 @@ Cc: amd-gfx@lists.freedesktop.org, tzimmermann@suse.de,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/RcB.Nk0Zn=HnVnpEEXCRGdK
+--Sig_/L.D.0v0v3EndnJnEeMysKiT
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, 18 Jun 2021 11:11:08 +0200
+On Fri, 18 Jun 2021 11:11:11 +0200
 Werner Sembach <wse@tuxedocomputers.com> wrote:
 
-> Add a new general drm property "active color range" which can be used by
-> graphic drivers to report the used color range back to userspace.
+> Add a new general drm property "preferred color format" which can be used
+> by userspace to tell the graphic drivers to which color format to use.
 >=20
-> There was no way to check which color range got actually used on a given
-> monitor. To surely predict this, one must know the exact capabilities of
-> the monitor and what the default behaviour of the used driver is. This
-> property helps eliminating the guessing at this point.
+> Possible options are:
+>     - auto (default/current behaviour)
+>     - rgb
+>     - ycbcr444
+>     - ycbcr422 (not supported by both amdgpu and i915)
+>     - ycbcr420
+>=20
+> In theory the auto option should choose the best available option for the
+> current setup, but because of bad internal conversion some monitors look
+> better with rgb and some with ycbcr444.
+>=20
+> Also, because of bad shielded connectors and/or cables, it might be
+> preferable to use the less bandwidth heavy ycbcr422 and ycbcr420 formats
+> for a signal that is less deceptible to interference.
 >=20
 > In the future, automatic color calibration for screens might also depend =
 on
-> this information being available.
+> this option being available.
 >=20
 > Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
 > ---
->  drivers/gpu/drm/drm_connector.c | 59 +++++++++++++++++++++++++++++++++
->  include/drm/drm_connector.h     | 27 +++++++++++++++
->  2 files changed, 86 insertions(+)
+>  drivers/gpu/drm/drm_atomic_helper.c |  4 +++
+>  drivers/gpu/drm/drm_atomic_uapi.c   |  4 +++
+>  drivers/gpu/drm/drm_connector.c     | 48 ++++++++++++++++++++++++++++-
+>  include/drm/drm_connector.h         | 17 ++++++++++
+>  4 files changed, 72 insertions(+), 1 deletion(-)
 >=20
+> diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_at=
+omic_helper.c
+> index bc3487964fb5..90d62f305257 100644
+> --- a/drivers/gpu/drm/drm_atomic_helper.c
+> +++ b/drivers/gpu/drm/drm_atomic_helper.c
+> @@ -687,6 +687,10 @@ drm_atomic_helper_check_modeset(struct drm_device *d=
+ev,
+>  			if (old_connector_state->max_requested_bpc !=3D
+>  			    new_connector_state->max_requested_bpc)
+>  				new_crtc_state->connectors_changed =3D true;
+> +
+> +			if (old_connector_state->preferred_color_format !=3D
+> +			    new_connector_state->preferred_color_format)
+> +				new_crtc_state->connectors_changed =3D true;
+>  		}
+> =20
+>  		if (funcs->atomic_check)
+> diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atom=
+ic_uapi.c
+> index 438e9585b225..c536f5e22016 100644
+> --- a/drivers/gpu/drm/drm_atomic_uapi.c
+> +++ b/drivers/gpu/drm/drm_atomic_uapi.c
+> @@ -796,6 +796,8 @@ static int drm_atomic_connector_set_property(struct d=
+rm_connector *connector,
+>  						   fence_ptr);
+>  	} else if (property =3D=3D connector->max_bpc_property) {
+>  		state->max_requested_bpc =3D val;
+> +	} else if (property =3D=3D connector->preferred_color_format_property) {
+> +		state->preferred_color_format =3D val;
+>  	} else if (connector->funcs->atomic_set_property) {
+>  		return connector->funcs->atomic_set_property(connector,
+>  				state, property, val);
+> @@ -873,6 +875,8 @@ drm_atomic_connector_get_property(struct drm_connecto=
+r *connector,
+>  		*val =3D 0;
+>  	} else if (property =3D=3D connector->max_bpc_property) {
+>  		*val =3D state->max_requested_bpc;
+> +	} else if (property =3D=3D connector->preferred_color_format_property) {
+> +		*val =3D state->preferred_color_format;
+>  	} else if (connector->funcs->atomic_get_property) {
+>  		return connector->funcs->atomic_get_property(connector,
+>  				state, property, val);
 > diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connec=
 tor.c
-> index 684d7abdf0eb..818de58d972f 100644
+> index 818de58d972f..aea03dd02e33 100644
 > --- a/drivers/gpu/drm/drm_connector.c
 > +++ b/drivers/gpu/drm/drm_connector.c
-> @@ -897,6 +897,12 @@ static const struct drm_prop_enum_list drm_active_co=
-lor_format_enum_list[] =3D {
->  	{ DRM_COLOR_FORMAT_YCRCB420, "ycbcr420" },
+> @@ -889,6 +889,14 @@ static const struct drm_prop_enum_list drm_dp_subcon=
+nector_enum_list[] =3D {
+>  	{ DRM_MODE_SUBCONNECTOR_Native,	     "Native"    }, /* DP */
 >  };
 > =20
-> +static const struct drm_prop_enum_list drm_active_color_range_enum_list[=
-] =3D {
-> +	{ DRM_MODE_COLOR_RANGE_UNSET, "Unknown" },
-> +	{ DRM_MODE_COLOR_RANGE_FULL, "Full" },
-> +	{ DRM_MODE_COLOR_RANGE_LIMITED_16_235, "Limited 16:235" },
+> +static const struct drm_prop_enum_list drm_preferred_color_format_enum_l=
+ist[] =3D {
+> +	{ 0, "auto" },
+> +	{ DRM_COLOR_FORMAT_RGB444, "rgb" },
+> +	{ DRM_COLOR_FORMAT_YCRCB444, "ycbcr444" },
+> +	{ DRM_COLOR_FORMAT_YCRCB422, "ycbcr422" },
+> +	{ DRM_COLOR_FORMAT_YCRCB420, "ycbcr420" },
+> +};
+> +
+>  static const struct drm_prop_enum_list drm_active_color_format_enum_list=
+[] =3D {
+>  	{ 0, "unknown" },
+>  	{ DRM_COLOR_FORMAT_RGB444, "rgb" },
+> @@ -1219,11 +1227,19 @@ static const struct drm_prop_enum_list dp_colorsp=
+aces[] =3D {
+>   *	Drivers shall use drm_connector_attach_active_bpc_property() to insta=
+ll
+>   *	this property.
+>   *
+> + * preferred color format:
+> + *	This property is used by userspace to change the used color format. W=
+hen
+> + *	used the driver will use the selected format if valid for the hardwar=
+e,
+> + *	sink, and current resolution and refresh rate combination. Drivers to
+> + *	use the function drm_connector_attach_preferred_color_format_property=
+()
+> + *	to create and attach the property to the connector during
+> + *	initialization.
+> + *
+>   * active color format:
+>   *	This read-only property tells userspace the color format actually used
+>   *	by the hardware display engine on "the cable" on a connector. The cho=
+sen
+>   *	value depends on hardware capabilities, both display engine and
+> - *	connected monitor. Drivers shall use
+> + *	connected monitor, and the "preferred color format". Drivers shall use
+>   *	drm_connector_attach_active_color_format_property() to install this
+>   *	property.
+>   *
+> @@ -2233,6 +2249,36 @@ void drm_connector_set_active_bpc_property(struct =
+drm_connector *connector, int
+>  }
+>  EXPORT_SYMBOL(drm_connector_set_active_bpc_property);
+> =20
+> +/**
+> + * drm_connector_attach_preferred_color_format_property - attach "prefer=
+red color format" property
+> + * @connector: connector to attach active color format property on.
+> + *
+> + * This is used to add support for selecting a color format on a connect=
+or.
+> + *
+> + * Returns:
+> + * Zero on success, negative errno on failure.
+> + */
+> +int drm_connector_attach_preferred_color_format_property(struct drm_conn=
+ector *connector)
+> +{
+> +	struct drm_device *dev =3D connector->dev;
+> +	struct drm_property *prop;
+> +
+> +	if (!connector->preferred_color_format_property) {
+> +		prop =3D drm_property_create_enum(dev, 0, "preferred color format",
+> +						drm_preferred_color_format_enum_list,
+> +						ARRAY_SIZE(drm_preferred_color_format_enum_list));
+> +		if (!prop)
+> +			return -ENOMEM;
+> +
+> +		connector->preferred_color_format_property =3D prop;
+> +		drm_object_attach_property(&connector->base, prop, 0);
+> +		connector->state->preferred_color_format =3D 0;
+> +	}
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL(drm_connector_attach_preferred_color_format_property);
+> +
+>  /**
+>   * drm_connector_attach_active_color_format_property - attach "active co=
+lor format" property
+>   * @connector: connector to attach active color format property on.
+> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+> index 9fb7119b7a02..7b85407ba45c 100644
+> --- a/include/drm/drm_connector.h
+> +++ b/include/drm/drm_connector.h
+> @@ -799,6 +799,16 @@ struct drm_connector_state {
+>  	 */
+>  	u8 max_bpc;
+> =20
+> +	/**
+> +	 * preferred_color_format: Property set by userspace to tell the GPU
+> +	 * driver which color format to use. It only gets applied if hardware,
+> +	 * meaning both the computer and the monitor, and the driver support the
+> +	 * given format at the current resolution and refresh rate. Userspace
+> +	 * can check for (un-)successful application via the active_color_format
+> +	 * property.
+> +	 */
+> +	u32 preferred_color_format;
 
-Doesn't "limited" mean different numbers on RGB vs. Y vs. CbCr? I have
-a vague recollection that at least one of them was different from the
-others.
+Hi,
 
-Documenting DRM_MODE_COLOR_RANGE_UNSET as "unspecified/default" while
-the string for it is "Unknown" seems inconsistent to me. I would
-recommend to avoid the word "default" because "reset to defaults" might
-become a thing one day, and that probably is not the same default as
-here.
+yes, I think this makes sense, even if it is a property that one can't
+tell for sure what it does before hand.
 
-Is there actually a case for "unknown"? How can it be not known? Or
-does it mean "not applicable"?
+Using a pair of properties, preference and active, to ask for something
+and then check what actually worked is good for reducing the
+combinatorial explosion caused by needing to "atomic TEST_ONLY commit"
+test different KMS configurations. Userspace has a better chance of
+finding a configuration that is possible.
 
-Otherwise looks good to me.
+OTOH, this has the problem than in UI one cannot tell the user in
+advance which options are truly possible. Given that KMS properties are
+rarely completely independent, and in this case known to depend on
+several other KMS properties, I think it is good enough to know after
+the fact.
+
+If a driver does not use what userspace prefers, there is no way to
+understand why, or what else to change to make it happen. That problem
+exists anyway, because TEST_ONLY commits do not give useful feedback
+but only a yes/no.
+
+Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
 
 
 Thanks,
 pq
 
 
-> +};
 > +
->  DRM_ENUM_NAME_FN(drm_get_dp_subconnector_name,
->  		 drm_dp_subconnector_enum_list)
-> =20
-> @@ -1221,6 +1227,14 @@ static const struct drm_prop_enum_list dp_colorspa=
-ces[] =3D {
->   *	drm_connector_attach_active_color_format_property() to install this
->   *	property.
->   *
-> + * active color range:
-> + *	This read-only property tells userspace the color range actually used=
- by
-> + *	the hardware display engine on "the cable" on a connector. The chosen
-> + *	value depends on hardware capabilities of the monitor and the used co=
-lor
-> + *	format. Drivers shall use
-> + *	drm_connector_attach_active_color_range_property() to install this
-> + *	property.
-> + *
->   * Connectors also have one standardized atomic property:
->   *
->   * CRTC_ID:
-> @@ -2264,6 +2278,51 @@ void drm_connector_set_active_color_format_propert=
-y(struct drm_connector *connec
->  }
->  EXPORT_SYMBOL(drm_connector_set_active_color_format_property);
-> =20
-> +/**
-> + * drm_connector_attach_active_color_range_property - attach "active col=
-or range" property
-> + * @connector: connector to attach active color range property on.
-> + *
-> + * This is used to check the applied color range on a connector.
-> + *
-> + * Returns:
-> + * Zero on success, negative errno on failure.
-> + */
-> +int drm_connector_attach_active_color_range_property(struct drm_connecto=
-r *connector)
-> +{
-> +	struct drm_device *dev =3D connector->dev;
-> +	struct drm_property *prop;
-> +
-> +	if (!connector->active_color_range_property) {
-> +		prop =3D drm_property_create_enum(dev, DRM_MODE_PROP_IMMUTABLE, "activ=
-e color range",
-> +						drm_active_color_range_enum_list,
-> +						ARRAY_SIZE(drm_active_color_range_enum_list));
-> +		if (!prop)
-> +			return -ENOMEM;
-> +
-> +		connector->active_color_range_property =3D prop;
-> +		drm_object_attach_property(&connector->base, prop, DRM_MODE_COLOR_RANG=
-E_UNSET);
-> +	}
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL(drm_connector_attach_active_color_range_property);
-> +
-> +/**
-> + * drm_connector_set_active_color_range_property - sets the active color=
- range property for a
-> + * connector
-> + * @connector: drm connector
-> + * @active_color_range: color range for the connector currently active o=
-n "the cable"
-> + *
-> + * Should be used by atomic drivers to update the active color range ove=
-r a connector.
-> + */
-> +void drm_connector_set_active_color_range_property(struct drm_connector =
-*connector,
-> +						   enum drm_mode_color_range active_color_range)
-> +{
-> +	drm_object_property_set_value(&connector->base, connector->active_color=
-_range_property,
-> +				      active_color_range);
-> +}
-> +EXPORT_SYMBOL(drm_connector_set_active_color_range_property);
-> +
->  /**
->   * drm_connector_attach_hdr_output_metadata_property - attach "HDR_OUTPU=
-T_METADA" property
->   * @connector: connector to attach the property on.
-> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-> index 8a5197f14e87..9fb7119b7a02 100644
-> --- a/include/drm/drm_connector.h
-> +++ b/include/drm/drm_connector.h
-> @@ -648,6 +648,24 @@ struct drm_tv_connector_state {
->  	unsigned int hue;
->  };
-> =20
-> +/**
-> + * enum drm_mode_color_range - color_range info for &drm_connector
-> + *
-> + * This enum is used to represent full or limited color range on the dis=
-play
-> + * connector signal.
-> + *
-> + * @DRM_MODE_COLOR_RANGE_UNSET:		Color range is unspecified/default.
-> + * @DRM_MODE_COLOR_RANGE_FULL:		Color range is full range, 0-255 for
-> + *					8-Bit color depth.
-> + * DRM_MODE_COLOR_RANGE_LIMITED_16_235:	Color range is limited range, 16=
--235 for
-> + *					8-Bit color depth.
-> + */
-> +enum drm_mode_color_range {
-> +	DRM_MODE_COLOR_RANGE_UNSET,
-> +	DRM_MODE_COLOR_RANGE_FULL,
-> +	DRM_MODE_COLOR_RANGE_LIMITED_16_235,
-> +};
-> +
->  /**
->   * struct drm_connector_state - mutable connector state
->   */
-> @@ -1392,6 +1410,12 @@ struct drm_connector {
+>  	/**
+>  	 * @hdr_output_metadata:
+>  	 * DRM blob property for HDR output metadata
+> @@ -1404,6 +1414,12 @@ struct drm_connector {
 >  	 */
->  	struct drm_property *active_color_format_property;
+>  	struct drm_property *active_bpc_property;
 > =20
 > +	/**
-> +	 * @active_color_range_property: Default connector property for the
-> +	 * active color range to be driven out of the connector.
+> +	 * @preferred_color_format_property: Default connector property for the
+> +	 * preferred color format to be driven out of the connector.
 > +	 */
-> +	struct drm_property *active_color_range_property;
+> +	struct drm_property *preferred_color_format_property;
 > +
->  #define DRM_CONNECTOR_POLL_HPD (1 << 0)
->  #define DRM_CONNECTOR_POLL_CONNECT (1 << 1)
->  #define DRM_CONNECTOR_POLL_DISCONNECT (1 << 2)
-> @@ -1719,6 +1743,9 @@ void drm_connector_set_active_bpc_property(struct d=
-rm_connector *connector, int
+>  	/**
+>  	 * @active_color_format_property: Default connector property for the
+>  	 * active color format to be driven out of the connector.
+> @@ -1740,6 +1756,7 @@ int drm_connector_attach_max_bpc_property(struct dr=
+m_connector *connector,
+>  					  int min, int max);
+>  int drm_connector_attach_active_bpc_property(struct drm_connector *conne=
+ctor, int min, int max);
+>  void drm_connector_set_active_bpc_property(struct drm_connector *connect=
+or, int active_bpc);
+> +int drm_connector_attach_preferred_color_format_property(struct drm_conn=
+ector *connector);
 >  int drm_connector_attach_active_color_format_property(struct drm_connect=
 or *connector);
 >  void drm_connector_set_active_color_format_property(struct drm_connector=
  *connector,
 >  						    u32 active_color_format);
-> +int drm_connector_attach_active_color_range_property(struct drm_connecto=
-r *connector);
-> +void drm_connector_set_active_color_range_property(struct drm_connector =
-*connector,
-> +						   enum drm_mode_color_range active_color_range);
-> =20
->  /**
->   * struct drm_tile_group - Tile group metadata
 
 
---Sig_/RcB.Nk0Zn=HnVnpEEXCRGdK
+--Sig_/L.D.0v0v3EndnJnEeMysKiT
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmDRipoACgkQI1/ltBGq
-qqdYLRAApBOAb0ECllm5vp+4XsKkiT0b+WEnY4miGKEBtffDvHsJ2XTEFhs8V6Fg
-/SO2heTKOynAbX9QgySLM2PFGYOpnU9g04owCt+E1iVVSevQlLNVZXJFcPvFCrrS
-oxbpZTpzpVHAWT/WakJYVQAk/fsXLl8YNujMwDqK3SfHJ9GVKNHgBTBMrrpQuPEu
-d39Om9Blvms3heuK/9JL6P0sWwTm46kBU2CqN6d+QUcV7h57Ug6Mx1l2l9jypNv2
-yxK3ADKjCF5r6gePGt3Ni14neh6DfJvtskFdCAz7StarFbzAZeytepXd9H+6TskG
-NzaOV1Fqvt5gccz2QH0XvNVOi2WhFk2dRPbYHn/FebwdgwpJrGLiG2ybt4IsWGL/
-JbzN6nGhNHqJdoXnlIADRPbMgS17XGLva6+qOPHRGjzDfRB3VSvHS/gTO/zpWSdy
-i7WrpMJtoAPbgS5p94p3pQtV0EbKWuHxDmlt/wkM+Y4dLE9wRbDtOtp8UsqPgIrt
-pWHFyBLv4Gp/ytc5bd7cCcFt5S2tFX/U3QHYIhGmbxYnKckbrzeBEXL+oBhnAjYm
-BeCsGpUlOqtwJQTpjrUY6iyGKwgnxIdls6cz4PoQ+Q6pm/N9u3FCIqpcRxa1y0DU
-jRtYcaxZtfjkcKazyZrbTlNFwMJ9RT3prW7x11OMd2TEJC+FkZE=
-=fi5a
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmDRjgQACgkQI1/ltBGq
+qqdhwhAAhoDfObqfEZQNeibtIpwNqkHY055dii6/SWOwJBDNzZg36s84Xzgjbhds
+8Bt35uYgr7WCvI82yqfzKDu9gd7pJiiLKQ42A6tgpu+tpjD1/pRUDpn/Ufzbuaj9
+VF1Rq+qKGJs7X5MY4X2JLT6aLnykS0KUUKJcTw8X74j7OaMjZqEtMaiPGW04UQcE
+2WWxRaVi1R8yaRspb9HTDBcEhLZgWWVg9S92rysVFsBoEUHnbWrC02R/wyEz+CZx
+PPgW+X5Skzrk1TFgCgqL40Wc9QZnSyEbmBy5J1riNlGvcfQP74qhcNYyPyT+ORaw
+UtEDcBfUFigGX3JaiXYvDT1aGAHefncPc1TFt+u7uBxl6Efza6ClZDw3FKWBRVnk
+jjJG7arN/6MNXrTODz+ZW5H+FFU3NgPJYAanBTGtqKB44/eF+AgAUBrMVDRlhSM9
+b3oO0ft2wnf2HDfVVP0OQDvWpZ/I0MIwqctQJli8Do7bAJv2n5WgAPW5AxqBXsPN
+iOcoWJ9XUbHWOgCSVLfeN5kPLCMMBdBt+5GpJWqycofVvf5tWZObC+a7Zm0qujxI
+gneewTb1OfzvKMbWfZen4MFa6A1eYRxKgm8FMqUWRVU4dylUmS9uaxtbF4JARF6W
+OW+RzKlkePz/L1nqRCgpRlK3qXDSE+XVhVOPWUxGvJ2UZC1tky4=
+=k/cp
 -----END PGP SIGNATURE-----
 
---Sig_/RcB.Nk0Zn=HnVnpEEXCRGdK--
+--Sig_/L.D.0v0v3EndnJnEeMysKiT--
