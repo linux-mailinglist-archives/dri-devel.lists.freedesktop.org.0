@@ -1,57 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE4AF3B0CD5
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Jun 2021 20:24:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B2B8D3B0CF5
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Jun 2021 20:33:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B03D8984D;
-	Tue, 22 Jun 2021 18:24:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5CAEC89C80;
+	Tue, 22 Jun 2021 18:33:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22e.google.com (mail-oi1-x22e.google.com
- [IPv6:2607:f8b0:4864:20::22e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9AF578984D;
- Tue, 22 Jun 2021 18:24:35 +0000 (UTC)
-Received: by mail-oi1-x22e.google.com with SMTP id s23so348345oiw.9;
- Tue, 22 Jun 2021 11:24:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+Received: from mail-qk1-x729.google.com (mail-qk1-x729.google.com
+ [IPv6:2607:f8b0:4864:20::729])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C488189BAE
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Jun 2021 18:33:27 +0000 (UTC)
+Received: by mail-qk1-x729.google.com with SMTP id q190so39386859qkd.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Jun 2021 11:33:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=QnNjKnbGZ7GCakKJ0QRWcO3isBu6ee+iFzNt3JwiLrQ=;
- b=dqPmpji3/zleh1sSp3ECwtpB+rCeFmpJwfu48ICknDl4hPhbl4RJYchn4l7F/iei+f
- FJMQg+Xuap/VbhldFPL4BDYTcx8vhPBq7ReKyU4JKnxRRziTUmxgkzYIsiHM8hpLJJVa
- A6oo+pigack/3J3hxCiXFRcQwPRhBvNg707biv478ePFaEcpEToGyB7L3KXwVdf7tAB1
- bGdHUUXiR9Le3ssuzq16H5lPFRjfmDMlpeyXLfPJMSeCKwpmQD/8UbKkOsPK3E2Z9/gg
- BUvWzXPdqz2e9CfiiHQDSCweOtpvJT1oeu8yzDjwW74BHSjl5fN9EqClhJcduGvkw9e+
- m1kQ==
+ :cc; bh=pumBvi+qi7d1sRM6cwo7R1W/BHxp1boGJK8L9dh8S7I=;
+ b=Gnb/8JfrLJ+yvZfpmSoMuJKpnj9MskU5T49YYM3w8+ZW9IypPBpCVKfYBZ02l5sZS0
+ 52RS8k1paGyZM5BA6bltHp9N0Sq2IWSZwbT/ojCUlljFvnkTkQmcIHt74VxA+KVyV8lY
+ wiVJcA1DfdRMryKyocv7WRfaVD9tANv1RWGyU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=QnNjKnbGZ7GCakKJ0QRWcO3isBu6ee+iFzNt3JwiLrQ=;
- b=stZOlwquARmqcsx4FoaVKDVccReu1oX1/I6ht22RTjZ8ciJYEdwteCtDttboz1FPMn
- VQULsCXDwsmXnvEPyCFU7bAU6R2wyOtUgQg0QbTB7xzkiwXKmS/Ltj7NDZyVbwvhSpqm
- fZI8KFz/LELX3bmEHUmK9ug2F81cm5cwqIxlz/cTTUceNUcR8u5isF0QP01q4FmwCtE3
- pZEGJqohj7iXAF6whey6UnxO0646tvhJWqF7enfP1wk7KR+F5t/4Sv72ZxuGdv3qiWRK
- QVhWcywjKgZBUgqWC8DUiyZcw3ikWj/7ODQGDTuzKCrAQVLZI67nb7f8lnBnzLGmCAUG
- 5jnA==
-X-Gm-Message-State: AOAM530dswiE9ILS98qpReAX3HKZKeoqhJi64Ct0NRgndXM1+tSJkJq8
- sfqxuzss5CE2vjZuEHvoUKY+6zSO4kt8+nZEHGE=
-X-Google-Smtp-Source: ABdhPJxzuAriDmEVeAdrMJPYD/SJuKQM97c66cvLRZSBXLKm4X23QaNDIhTRCHyc4Kz7S3is47eENV+KomUGovpkSTU=
-X-Received: by 2002:a05:6808:c3:: with SMTP id t3mr85229oic.5.1624386275151;
- Tue, 22 Jun 2021 11:24:35 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=pumBvi+qi7d1sRM6cwo7R1W/BHxp1boGJK8L9dh8S7I=;
+ b=AW3j1dvmT8G4jTc5weciKPwHEcUclNk/suY4IkJwQxwrC+0WOp6nGYcm3ijKL9fpXo
+ c3d1lgSyhW32FooAvhX4y7K40d0Z35BoCzTDdGUMrpk1KAAfHhqOuTyJmHfuGnwSapEu
+ 5YEK9VglDNvQVSa9BerW1yAnnyEZY2azHSEwNXZn99sp7kbU8pwDrvI8+s1+moHtLKrX
+ 3kXn8f4opKzQxpd8hntBbaJZc3F6n/vuhOgl1dVBwbqHVoT8CDVaK6OwNTNEpsRan+mp
+ QXB7Z75UouA00bLPxiQflyyOQi9nQXRUSfge8xpSgzVRQ1lNVlKgjFxdJfWeFKkhH6Xs
+ TylA==
+X-Gm-Message-State: AOAM533nRBdjSoDNhYsCqEZbFXPNgbXReu92T08KWdntUVb5vJdmApoK
+ 8UCe6jCnYOtcbRiFCTtBUFuD82DFMeFUXQ==
+X-Google-Smtp-Source: ABdhPJx+go5Cb5GOw5Itfxel/FHwSJq+XOhC2UYVPzynLxy0JGMWO51PDQVtv7x28B3T41t0azCn9A==
+X-Received: by 2002:a37:8b81:: with SMTP id n123mr3654326qkd.340.1624386806685; 
+ Tue, 22 Jun 2021 11:33:26 -0700 (PDT)
+Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com.
+ [209.85.222.172])
+ by smtp.gmail.com with ESMTPSA id n64sm9957155qkd.79.2021.06.22.11.33.25
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 22 Jun 2021 11:33:25 -0700 (PDT)
+Received: by mail-qk1-f172.google.com with SMTP id o6so6697534qkh.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Jun 2021 11:33:25 -0700 (PDT)
+X-Received: by 2002:a5b:54a:: with SMTP id r10mr6520278ybp.476.1624386805037; 
+ Tue, 22 Jun 2021 11:33:25 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210622165511.3169559-1-daniel.vetter@ffwll.ch>
- <20210622165511.3169559-3-daniel.vetter@ffwll.ch>
-In-Reply-To: <20210622165511.3169559-3-daniel.vetter@ffwll.ch>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 22 Jun 2021 14:24:24 -0400
-Message-ID: <CADnq5_Mb28xV67FcQnG9wGYGUMi7ooN7g_UEeqsYJ8tJ15Ykvw@mail.gmail.com>
-Subject: Re: [PATCH 02/15] dma-buf: Switch to inline kerneldoc
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
+References: <1624099230-20899-1-git-send-email-rajeevny@codeaurora.org>
+ <1624099230-20899-2-git-send-email-rajeevny@codeaurora.org>
+ <20210620093141.GA703072@ravnborg.org>
+ <ebf5581759daee9596c2f092ca836ecb@codeaurora.org>
+ <20210621183828.GA918146@ravnborg.org>
+In-Reply-To: <20210621183828.GA918146@ravnborg.org>
+From: Doug Anderson <dianders@chromium.org>
+Date: Tue, 22 Jun 2021 11:33:13 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=WJiA+RxaQA9xt7Tik_2pCEJo0+6b39Di8cfnSWGuKkJQ@mail.gmail.com>
+Message-ID: <CAD=FV=WJiA+RxaQA9xt7Tik_2pCEJo0+6b39Di8cfnSWGuKkJQ@mail.gmail.com>
+Subject: Re: [v7 1/5] drm/panel: add basic DP AUX backlight support
+To: Sam Ravnborg <sam@ravnborg.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,232 +73,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Deepak R Varma <mh12gx2825@gmail.com>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Kevin Wang <kevin1.wang@amd.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Nirmoy Das <nirmoy.das@amd.com>, Chen Li <chenli@uniontech.com>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Alex Deucher <alexander.deucher@amd.com>, Dave Airlie <airlied@redhat.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- linux-media <linux-media@vger.kernel.org>
+Cc: linux-fbdev@vger.kernel.org, dri-devel <dri-devel@lists.freedesktop.org>,
+ Andrzej Hajda <a.hajda@samsung.com>, Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ "Kristian H. Kristensen" <hoegsberg@chromium.org>,
+ Lee Jones <lee.jones@linaro.org>, Daniel Thompson <daniel.thompson@linaro.org>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Jani Nikula <jani.nikula@intel.com>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Abhinav Kumar <abhinavk@codeaurora.org>, Sean Paul <seanpaul@chromium.org>,
+ Kalyan Thota <kalyan_t@codeaurora.org>,
+ Krishna Manikandan <mkrishn@codeaurora.org>,
+ Rajeev Nandan <rajeevny@codeaurora.org>, Jingoo Han <jingoohan1@gmail.com>,
+ LKML <linux-kernel@vger.kernel.org>, Rob Clark <robdclark@gmail.com>,
+ freedreno <freedreno@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 22, 2021 at 12:55 PM Daniel Vetter <daniel.vetter@ffwll.ch> wro=
-te:
+Hi,
+
+On Mon, Jun 21, 2021 at 11:38 AM Sam Ravnborg <sam@ravnborg.org> wrote:
 >
-> Also review & update everything while we're at it.
+> > > I cannot see why you need the extra check on ->enabled?
+> > > Would it be sufficient to check backlight_is_blank() only?
+> >
+> > This extra check on bl->enabled flag is added to avoid enabling/disabling
+> > backlight again if it is already enabled/disabled.
+> > Using this flag way can know the transition between backlight blank and
+> > un-blank, and decide when to enable/disable the backlight.
 >
-> This is prep work to smash a ton of stuff into the kerneldoc for
-> @resv.
->
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
-> Cc: Alex Deucher <alexander.deucher@amd.com>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: Dave Airlie <airlied@redhat.com>
-> Cc: Nirmoy Das <nirmoy.das@amd.com>
-> Cc: Deepak R Varma <mh12gx2825@gmail.com>
-> Cc: Chen Li <chenli@uniontech.com>
-> Cc: Kevin Wang <kevin1.wang@amd.com>
-> Cc: linux-media@vger.kernel.org
-> Cc: linaro-mm-sig@lists.linaro.org
-> ---
->  include/linux/dma-buf.h | 107 +++++++++++++++++++++++++++++++---------
->  1 file changed, 83 insertions(+), 24 deletions(-)
->
-> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-> index 92eec38a03aa..6d18b9e448b9 100644
-> --- a/include/linux/dma-buf.h
-> +++ b/include/linux/dma-buf.h
-> @@ -289,28 +289,6 @@ struct dma_buf_ops {
->
->  /**
->   * struct dma_buf - shared buffer object
-> - * @size: size of the buffer; invariant over the lifetime of the buffer.
-> - * @file: file pointer used for sharing buffers across, and for refcount=
-ing.
-> - * @attachments: list of dma_buf_attachment that denotes all devices att=
-ached,
-> - *               protected by dma_resv lock.
-> - * @ops: dma_buf_ops associated with this buffer object.
-> - * @lock: used internally to serialize list manipulation, attach/detach =
-and
-> - *        vmap/unmap
-> - * @vmapping_counter: used internally to refcnt the vmaps
-> - * @vmap_ptr: the current vmap ptr if vmapping_counter > 0
-> - * @exp_name: name of the exporter; useful for debugging.
-> - * @name: userspace-provided name; useful for accounting and debugging,
-> - *        protected by @resv.
-> - * @name_lock: spinlock to protect name access
-> - * @owner: pointer to exporter module; used for refcounting when exporte=
-r is a
-> - *         kernel module.
-> - * @list_node: node for dma_buf accounting and debugging.
-> - * @priv: exporter specific private data for this buffer object.
-> - * @resv: reservation object linked to this dma-buf
-> - * @poll: for userspace poll support
-> - * @cb_excl: for userspace poll support
-> - * @cb_shared: for userspace poll support
-> - * @sysfs_entry: for exposing information about this buffer in sysfs.
->   * The attachment_uid member of @sysfs_entry is protected by dma_resv lo=
-ck
->   * and is incremented on each attach.
->   *
-> @@ -324,24 +302,100 @@ struct dma_buf_ops {
->   * Device DMA access is handled by the separate &struct dma_buf_attachme=
-nt.
->   */
->  struct dma_buf {
-> +       /**
-> +        * @size:
-> +        *
-> +        * Size of the buffer; invariant over the lifetime of the buffer.
-> +        */
->         size_t size;
-> +
-> +       /**
-> +        * @file:
-> +        *
-> +        * File pointer used for sharing buffers across, and for refcount=
-ing.
-> +        * See dma_buf_get() and dma_buf_put().
-> +        */
->         struct file *file;
-> +
-> +       /**
-> +        * @attachments:
-> +        *
-> +        * List of dma_buf_attachment that denotes all devices attached,
-> +        * protected by &dma_resv lock @resv.
-> +        */
->         struct list_head attachments;
-> +
-> +       /** @ops: dma_buf_ops associated with this buffer object. */
+> My point is that this should really not be needed, as it would cover up
+> for some other bug whaere we try to do something twice that is not
+> needed. But I am less certain here so if you think it is needed, keep
+> it as is.
 
-For consistency you may want to format this like:
-/**
-  * @ops:
-  *
-  * dma_buf_ops associated with this buffer object.
-  */
+I haven't tested this myself, but I believe that it is needed. I don't
+think the backlight update_status() function is like an enable/disable
+function. I believe it can be called more than one time even while the
+backlight is disabled. For instance, you can see that
+backlight_update_status() just blindly calls through to update the
+status. That function can be called for a number of reasons. Perhaps
+Rajeev can put some printouts to confirm but I think that if the
+backlight is "blanked" for whatever reason and you write to sysfs and
+change the backlight level you'll still get called again even though
+the backlight is still "disabled".
 
->         const struct dma_buf_ops *ops;
-> +
-> +       /**
-> +        * @lock:
-> +        *
-> +        * Used internally to serialize list manipulation, attach/detach =
-and
-> +        * vmap/unmap. Note that in many cases this is superseeded by
-> +        * dma_resv_lock() on @resv.
-> +        */
->         struct mutex lock;
-> +
-> +       /**
-> +        * @vmapping_counter:
-> +        *
-> +        * Used internally to refcnt the vmaps returned by dma_buf_vmap()=
-.
-> +        * Protected by @lock.
-> +        */
->         unsigned vmapping_counter;
-> +
-> +       /**
-> +        * @vmap_ptr:
-> +        * The current vmap ptr if @vmapping_counter > 0. Protected by @l=
-ock.
-> +        */
-
-Same comment as above.
-
->         struct dma_buf_map vmap_ptr;
-> +
-> +       /**
-> +        * @exp_name:
-> +        *
-> +        * Name of the exporter; useful for debugging. See the
-> +        * DMA_BUF_SET_NAME IOCTL.
-> +        */
->         const char *exp_name;
-> +
-> +       /**
-> +        * @name:
-> +        *
-> +        * Userspace-provided name; useful for accounting and debugging,
-> +        * protected by dma_resv_lock() on @resv and @name_lock for read =
-access.
-> +        */
->         const char *name;
-> +
-> +       /** @name_lock: Spinlock to protect name acces for read access. *=
-/
->         spinlock_t name_lock;
-> +
-> +       /**
-> +        * @owner:
-> +        *
-> +        * Pointer to exporter module; used for refcounting when exporter=
- is a
-> +        * kernel module.
-> +        */
->         struct module *owner;
-> +
-> +       /** @list_node: node for dma_buf accounting and debugging. */
-
-and here.
-
->         struct list_head list_node;
-> +
-> +       /** @priv: exporter specific private data for this buffer object.=
- */
-
-and here.
-
->         void *priv;
-> +
-> +       /**
-> +        * @resv:
-> +        *
-> +        * Reservation object linked to this dma-buf.
-> +        */
->         struct dma_resv *resv;
->
-> -       /* poll support */
-> +       /** @poll: for userspace poll support */
-
-here.
-
->         wait_queue_head_t poll;
->
-> +       /** @cb_excl: for userspace poll support */
-> +       /** @cb_shared: for userspace poll support */
-
-Here.
-
-Either way,
-Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
-
->         struct dma_buf_poll_cb_t {
->                 struct dma_fence_cb cb;
->                 wait_queue_head_t *poll;
-> @@ -349,7 +403,12 @@ struct dma_buf {
->                 __poll_t active;
->         } cb_excl, cb_shared;
->  #ifdef CONFIG_DMABUF_SYSFS_STATS
-> -       /* for sysfs stats */
-> +       /**
-> +        * @sysfs_entry:
-> +        *
-> +        * For exposing information about this buffer in sysfs. See also
-> +        * `DMA-BUF statistics`_ for the uapi this enables.
-> +        */
->         struct dma_buf_sysfs_entry {
->                 struct kobject kobj;
->                 struct dma_buf *dmabuf;
-> --
-> 2.32.0.rc2
->
+-Doug
