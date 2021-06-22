@@ -1,77 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 576903B09E6
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Jun 2021 18:05:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 25E8C3B0A09
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Jun 2021 18:12:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F5A66E5BB;
-	Tue, 22 Jun 2021 16:05:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 527E26E5BD;
+	Tue, 22 Jun 2021 16:12:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x82e.google.com (mail-qt1-x82e.google.com
- [IPv6:2607:f8b0:4864:20::82e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 642F16E5BD
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Jun 2021 16:05:40 +0000 (UTC)
-Received: by mail-qt1-x82e.google.com with SMTP id t9so16383152qtw.7
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Jun 2021 09:05:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=DZ3pXIZRpSkwolJsuMb/jDRoPgB3Tr5Ed0gJwqNhEn0=;
- b=bPcDo+rlbwvx6J+BbENOrwkAhwr/ApYX6dANLjI5IldJpUZEty9WP/A+WSRSkVnfVp
- fd2e4y/tXjqXDkPAhIKeQEV9eOqRiGPykVl6hBy9OPbjguGQbCXYh8BSABRpZ+0/loeK
- k5B7tYHxXO+OYAqc2XDEiodfylo30HXpiBw3o5xdgwyyFytUxxOswWBt61pJyEvA82JG
- jeswvAaYdQ80zAeU2QU/ihXizpJ995HOOdf81AhQWyQIhwQZLacM2brku76mBW2AwSnt
- rLC2zGxEtGcdZECkACvvAcUZ2O3xmGuKK/Qrbfiv04IEijyo0iWQN51AxkzmtGCV9rNa
- dlIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=DZ3pXIZRpSkwolJsuMb/jDRoPgB3Tr5Ed0gJwqNhEn0=;
- b=jRaYpnjsm4nYZNbK0rXb/4bEF2mLbjRhxWkQhEVPEkV8apdzBea9v6xaHk/0Xa37no
- KeYTvi56IFPe/OMGBV9TSF94oSA43waqD2iKl3ae5xWOiAEpBf5bSO5mlLyZx3PHoQIT
- l9vTfe052RFPHXUHrjLslI4DaCbGXEmHaFTZr1ipZepvz15LA00Oq/Ueln7tExcxVR0q
- fv0Gmz/qN/NFgbVoqqThM9fhZDM+BIrWl1tSfFXB9sliEISkStx5dsL0aZc+cwtD7DV8
- KyKBfKP+3DD7J32wIaPkvLe/GfyyqYBP8A8fox2CogiLuem1PgFJhdj01IS0vR6r69HB
- aK4A==
-X-Gm-Message-State: AOAM531Q/OP19NZ6FYs+MKF3tAvyaJ1ZGvYB9vPIE9+vTaPNKY4PYSne
- 5AVdXP+WocrmhH1nqmqj8jQd9g==
-X-Google-Smtp-Source: ABdhPJwsZvQD0cl9e1oHhoP7iCcZiW+TSb8cEQVE7Z3CfQWJtDN54cMi/qDxEpHPFsGzcH9l1+8wSg==
-X-Received: by 2002:a05:622a:13cd:: with SMTP id
- p13mr4098685qtk.235.1624377939521; 
- Tue, 22 Jun 2021 09:05:39 -0700 (PDT)
-Received: from ziepe.ca
- (hlfxns017vw-47-55-113-94.dhcp-dynamic.fibreop.ns.bellaliant.net.
- [47.55.113.94])
- by smtp.gmail.com with ESMTPSA id j7sm13254363qkd.21.2021.06.22.09.05.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Jun 2021 09:05:38 -0700 (PDT)
-Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
- id 1lviuA-00ADrH-BE; Tue, 22 Jun 2021 13:05:38 -0300
-Date: Tue, 22 Jun 2021 13:05:38 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
-Subject: Re: [Linaro-mm-sig] [PATCH v3 1/2] habanalabs: define uAPI to export
- FD for DMA-BUF
-Message-ID: <20210622160538.GT1096940@ziepe.ca>
-References: <CAFCwf11jOnewkbLuxUESswCJpyo7C0ovZj80UrnwUOZkPv2JYQ@mail.gmail.com>
- <20210621232912.GK1096940@ziepe.ca>
- <d358c740-fd3a-9ecd-7001-676e2cb44ec9@gmail.com>
- <CAFCwf11h_Nj_GEdCdeTzO5jgr-Y9em+W-v_pYUfz64i5Ac25yg@mail.gmail.com>
- <20210622120142.GL1096940@ziepe.ca>
- <d497b0a2-897e-adff-295c-cf0f4ff93cb4@amd.com>
- <20210622152343.GO1096940@ziepe.ca>
- <3fabe8b7-7174-bf49-5ffe-26db30968a27@amd.com>
- <20210622154027.GS1096940@ziepe.ca>
- <09df4a03-d99c-3949-05b2-8b49c71a109e@amd.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 93DEE6E5BD
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Jun 2021 16:12:02 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 82C49FE0;
+ Tue, 22 Jun 2021 18:12:00 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1624378320;
+ bh=E1KjYBr0PRd//Rh/JFA2D9huXNngtbcIo60EYm6yjcM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=hh92VDHFFFuGY+ij89Tk/0LAzaSW+kEr9dWfQrDPQQWsRe5C3zTHMpzJy9EtqmNe7
+ fe8CwxVd7hReruVHlt2Vz9ofcwK7MrKI8+pkmwKvlFlKCjbjB5RjgHD9QUiLCULLa0
+ YjXygLYAAbXJHyKajZ/6zxMhq99nKm9MtdEjklaw=
+Date: Tue, 22 Jun 2021 19:11:32 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v2 00/22] Deprecate struct drm_device.irq_enabled
+Message-ID: <YNILtLMkI3uoH7mJ@pendragon.ideasonboard.com>
+References: <20210622141002.11590-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <09df4a03-d99c-3949-05b2-8b49c71a109e@amd.com>
+In-Reply-To: <20210622141002.11590-1-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,63 +46,125 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-rdma <linux-rdma@vger.kernel.org>,
- Christian =?utf-8?B?S8O2bmln?= <ckoenig.leichtzumerken@gmail.com>,
- sleybo@amazon.com, Gal Pressman <galpress@amazon.com>,
- dri-devel <dri-devel@lists.freedesktop.org>, Christoph Hellwig <hch@lst.de>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Doug Ledford <dledford@redhat.com>, Tomer Tayar <ttayar@habana.ai>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Greg KH <gregkh@linuxfoundation.org>, Alex Deucher <alexander.deucher@amd.com>,
- Leon Romanovsky <leonro@nvidia.com>, Oded Gabbay <ogabbay@kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
+Cc: emma@anholt.net, airlied@linux.ie, nouveau@lists.freedesktop.org,
+ liviu.dudau@arm.com, alexandre.torgue@foss.st.com,
+ dri-devel@lists.freedesktop.org, michal.simek@xilinx.com,
+ linux-tegra@vger.kernel.org, thierry.reding@gmail.com,
+ amd-gfx@lists.freedesktop.org, benjamin.gaignard@linaro.org,
+ mihail.atanassov@arm.com, linux-stm32@st-md-mailman.stormreply.com,
+ linux-samsung-soc@vger.kernel.org, jy0922.shim@samsung.com,
+ krzysztof.kozlowski@canonical.com, linux-rockchip@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, wens@csie.org, jernej.skrabec@gmail.com,
+ jonathanh@nvidia.com, xinliang.liu@linaro.org, kong.kongxinwei@hisilicon.com,
+ james.qian.wang@arm.com, linux-imx@nxp.com,
+ linux-graphics-maintainer@vmware.com, linux-sunxi@lists.linux.dev,
+ bskeggs@redhat.com, chunkuang.hu@kernel.org, puck.chen@hisilicon.com,
+ s.hauer@pengutronix.de, laurentiu.palcu@oss.nxp.com, matthias.bgg@gmail.com,
+ kernel@pengutronix.de, linux-arm-kernel@lists.infradead.org,
+ mcoquelin.stm32@gmail.com, hyun.kwon@xilinx.com, tomba@kernel.org,
+ jyri.sarha@iki.fi, yannick.fertre@foss.st.com, Xinhui.Pan@amd.com,
+ sw0312.kim@samsung.com, hjc@rock-chips.com, christian.koenig@amd.com,
+ kyungmin.park@samsung.com, philippe.cornu@foss.st.com,
+ alexander.deucher@amd.com, tiantao6@hisilicon.com, shawnguo@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 22, 2021 at 05:48:10PM +0200, Christian König wrote:
-> Am 22.06.21 um 17:40 schrieb Jason Gunthorpe:
-> > On Tue, Jun 22, 2021 at 05:29:01PM +0200, Christian König wrote:
-> > > [SNIP]
-> > > No absolutely not. NVidia GPUs work exactly the same way.
-> > > 
-> > > And you have tons of similar cases in embedded and SoC systems where
-> > > intermediate memory between devices isn't directly addressable with the CPU.
-> > None of that is PCI P2P.
-> > 
-> > It is all some specialty direct transfer.
-> > 
-> > You can't reasonably call dma_map_resource() on non CPU mapped memory
-> > for instance, what address would you pass?
-> > 
-> > Do not confuse "I am doing transfers between two HW blocks" with PCI
-> > Peer to Peer DMA transfers - the latter is a very narrow subcase.
-> > 
-> > > No, just using the dma_map_resource() interface.
-> > Ik, but yes that does "work". Logan's series is better.
->
-> No it isn't. It makes devices depend on allocating struct pages for their
-> BARs which is not necessary nor desired.
+Hi Thomas,
 
-Which dramatically reduces the cost of establishing DMA mappings, a
-loop of dma_map_resource() is very expensive.
- 
-> How do you prevent direct I/O on those pages for example?
+Thank you for the patches.
 
-GUP fails.
+On Tue, Jun 22, 2021 at 04:09:40PM +0200, Thomas Zimmermann wrote:
+> Remove references to struct drm_device.irq_enabled from modern
+> DRM drivers and core.
+> 
+> KMS drivers enable IRQs for their devices internally. They don't
+> have to keep track of the IRQ state via irq_enabled. For vblanking,
+> it's cleaner to test for vblanking support directly than to test
+> for enabled IRQs.
+> 
+> This used to be a single patch, [1] but it's now a full series.
+> 
+> The first 3 patches replace instances of irq_enabled that are not
+> required.
+> 
+> Patch 4 fixes vblank ioctls to actually test for vblank support
+> instead of IRQs.
+> 
+> THe rest of the patchset removes irq_enabled from all non-legacy
+> drivers. The only exception is omapdrm, which has an internal
+> dpendency on the field's value. For this drivers, the state gets
+> duplicated internally.
+> 
+> With the patchset applied, drivers can later switch over to plain
+> Linux IRQ interfaces and DRM's IRQ midlayer can be declared legacy.
+> 
+> v2:
+> 	* keep the original test for legacy drivers in
+> 	  drm_wait_vblank_ioctl() (Daniel)
+> 
+> [1] https://lore.kernel.org/dri-devel/20210608090301.4752-1-tzimmermann@suse.de/
+> 
+> Thomas Zimmermann (22):
+>   drm/amdgpu: Track IRQ state in local device state
+>   drm/hibmc: Call drm_irq_uninstall() unconditionally
+>   drm/radeon: Track IRQ state in local device state
+>   drm: Don't test for IRQ support in VBLANK ioctls
+>   drm/komeda: Don't set struct drm_device.irq_enabled
+>   drm/malidp: Don't set struct drm_device.irq_enabled
+>   drm/exynos: Don't set struct drm_device.irq_enabled
+>   drm/kirin: Don't set struct drm_device.irq_enabled
+>   drm/imx: Don't set struct drm_device.irq_enabled
+>   drm/mediatek: Don't set struct drm_device.irq_enabled
+>   drm/nouveau: Don't set struct drm_device.irq_enabled
+>   drm/omapdrm: Track IRQ state in local device state
+>   drm/rockchip: Don't set struct drm_device.irq_enabled
+>   drm/sti: Don't set struct drm_device.irq_enabled
+>   drm/stm: Don't set struct drm_device.irq_enabled
+>   drm/sun4i: Don't set struct drm_device.irq_enabled
+>   drm/tegra: Don't set struct drm_device.irq_enabled
+>   drm/tidss: Don't use struct drm_device.irq_enabled
+>   drm/vc4: Don't set struct drm_device.irq_enabled
+>   drm/vmwgfx: Don't set struct drm_device.irq_enabled
+>   drm/xlnx: Don't set struct drm_device.irq_enabled
+>   drm/zte: Don't set struct drm_device.irq_enabled
 
-> Allocating a struct pages has their use case, for example for exposing VRAM
-> as memory for HMM. But that is something very specific and should not limit
-> PCIe P2P DMA in general.
+The list seems to be missing armada, rcar-du and vkms. It would also be
+nice to address i915 if possible.
 
-Sure, but that is an ideal we are far from obtaining, and nobody wants
-to work on it prefering to do hacky hacky like this.
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c         |  6 +++---
+>  drivers/gpu/drm/arm/display/komeda/komeda_kms.c |  4 ----
+>  drivers/gpu/drm/arm/malidp_drv.c                |  4 ----
+>  drivers/gpu/drm/drm_irq.c                       | 10 +++-------
+>  drivers/gpu/drm/drm_vblank.c                    | 13 +++++++++----
+>  drivers/gpu/drm/exynos/exynos_drm_drv.c         | 10 ----------
+>  drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c |  3 +--
+>  drivers/gpu/drm/hisilicon/kirin/kirin_drm_drv.c |  2 --
+>  drivers/gpu/drm/imx/dcss/dcss-kms.c             |  3 ---
+>  drivers/gpu/drm/imx/imx-drm-core.c              | 11 -----------
+>  drivers/gpu/drm/mediatek/mtk_drm_drv.c          |  6 ------
+>  drivers/gpu/drm/nouveau/nouveau_drm.c           |  3 ---
+>  drivers/gpu/drm/omapdrm/omap_drv.h              |  2 ++
+>  drivers/gpu/drm/omapdrm/omap_irq.c              |  6 +++---
+>  drivers/gpu/drm/radeon/radeon_fence.c           |  2 +-
+>  drivers/gpu/drm/radeon/radeon_irq_kms.c         | 16 ++++++++--------
+>  drivers/gpu/drm/rockchip/rockchip_drm_drv.c     |  6 ------
+>  drivers/gpu/drm/sti/sti_compositor.c            |  2 --
+>  drivers/gpu/drm/stm/ltdc.c                      |  3 ---
+>  drivers/gpu/drm/sun4i/sun4i_drv.c               |  2 --
+>  drivers/gpu/drm/tegra/drm.c                     |  7 -------
+>  drivers/gpu/drm/tidss/tidss_irq.c               |  3 ---
+>  drivers/gpu/drm/vc4/vc4_kms.c                   |  1 -
+>  drivers/gpu/drm/vmwgfx/vmwgfx_irq.c             |  8 --------
+>  drivers/gpu/drm/xlnx/zynqmp_dpsub.c             |  2 --
+>  drivers/gpu/drm/zte/zx_drm_drv.c                |  6 ------
+>  26 files changed, 30 insertions(+), 111 deletions(-)
+> 
+> 
+> base-commit: 8c1323b422f8473421682ba783b5949ddd89a3f4
+> prerequisite-patch-id: c2b2f08f0eccc9f5df0c0da49fa1d36267deb11d
+> prerequisite-patch-id: c67e5d886a47b7d0266d81100837557fda34cb24
 
-If you believe in this then remove the scatter list from dmabuf, add a
-new set of dma_map* APIs to work on physical addresses and all the
-other stuff needed.
+-- 
+Regards,
 
-Otherwise, we have what we have and drivers don't get to opt out. This
-is why the stuff in AMDGPU was NAK'd.
-
-Jason
+Laurent Pinchart
