@@ -1,32 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5826C3B0A43
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Jun 2021 18:24:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DA5333B0A42
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Jun 2021 18:24:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E5A1D6E5D4;
-	Tue, 22 Jun 2021 16:24:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E4E156E5CE;
+	Tue, 22 Jun 2021 16:24:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2046.outbound.protection.outlook.com [40.107.237.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AFD706E5C1;
- Tue, 22 Jun 2021 16:24:16 +0000 (UTC)
+ (mail-bn8nam12on2065.outbound.protection.outlook.com [40.107.237.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD0766E5CD;
+ Tue, 22 Jun 2021 16:24:17 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=OuZV6j1Klcwl9TT44X68jLaKBhLLwr/d5E33jY9IADG4hgTXz91j85gtH9+RsOOkaA+pBclJD1z0Wgs8qgjbIErhzK+ltkMpLfbw/mjGDkF9mpftGXS/dbTk2fPygnNGTjpHuY+1Efwxn3IWcxGDMkMKItcrzb6aX/xQiDeG4lEsHmggiU9Bcw1If13vrPE4iUoIxu8DBsXsOYspwSkyc6tIYHTXYzrYcYMYDcXfxo6MsZQRuCbBQiG2FcQF7/jUGhqBNdiB8Fys77Q6Z/cAF2elb3Tm7ATqZXgBimqYuBgdrsmqdyA2rSEnuQF3KecFtzBMXzDFsMjxvMIfaIxjJA==
+ b=QIQ5FNuGLkEOBH5eNQZee8oghqCvC1O2jrFWWAucOZBHTBecX6UIZOB+t5hzKwdDqjcvUyQk0eq8DHTx1QIkynUIiuONnPwpcFcTvSB0sfZJqAeqQ38J0aGyU4EdNRA/G74Mb99MwHUSc77f1AgXEnukHqt3EMwLWGm9GcnRbk6/bLYl9JAadlpr0eQG3VcMe0J3lOBJCACcL138JyQHhLfhKaKmpiGu6UI2D2ZRodWsQaZFch40CIEteWRjDaS0JcoZdZg5PyhMF6jxKV2+zzaFk0S0GUwncPr9sWWLzSzApXxEdivAQerVQGZFJ9T8vPIMzs2vduIpM4KSbL/5KA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=C94EjJZFq56JM4fuN39uPzqAcd7PXMxK+uAZIKGoG6A=;
- b=UiP5z6PkyHZNHMR9BZ6FF2h1OZKE4QV8Z/135CA5ni+aJQMeTqNbCkgPxy94gzz0M+V6ZotRiUTLxhsKWHTBsRsI0eDg6EmxqE/4LyfpOETxTlRB/ICIQL5CKLPkF3WleF8OzhXjA9KdpHGoKMSJPy6PVXDMqrRvVLM0Mm/dAy5iGuPJKPQNw9Wn5KgaZaw1Vjx3BiTRELR2/VnuJablhrW6btoyFkTqwboWxvj5uPbeeVfPCMGyJ5Jfv6vNsR9hSByNRXE7WQ/+bjvzlc0TxzrTBct+GhVeo2tsEP8mnRCoYGyrMgzij/uv7AeZrF4PudNdWd+K6Gjfe+GCctOgJQ==
+ bh=kZ1TL2oUsvJFC51IBukA21mX9pZS3FElzBYz+QaKu+8=;
+ b=loOOQifNnoc2wzKnEhTvVvbvJ6mLbMMKgvqj8uWjLWrx030BddN8co1om6vFxW5u0EF2dkT69FMDBlz4qK0ILAexjR/oPA4rgAK37U2voTWdXYZIGSZM0nXNKy5dh6hq9VC/EC37gjG0HLnuihtSNTQ2M+13QelcvJ4S+FLo/rdgKSr6T5Le1mo3/ma40QjF5wnVL3kA/ESJ4kHHxO75AGfUjRSnFP84EbM95nHk3pMGAvKaW1dMJDXTQJg5Ak7Hi+8bZ616z1P2bb6VVDMlXKDfGBX4YbMYOD6EqLhN3epX2T2niD3qb1eN/1kw8Ou7uLlR+bn/zqoPt3AqNVBRDg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=C94EjJZFq56JM4fuN39uPzqAcd7PXMxK+uAZIKGoG6A=;
- b=1uvG6ewE4MTjmpAm5ZyrU4cgqBhwXVJXvlheoUbTZ80VvV3H09IZbzGwESfr3v1HQOYVYSfIwYcX3mfkLIDz+q3hCt/747N6Nd9qvkMR7+HLqFckU0DP8oMnH7G/MpuelAD7MTl4KRuWlBN7BTmi8hBrK60X5tM47j0EuWEk3yg=
+ bh=kZ1TL2oUsvJFC51IBukA21mX9pZS3FElzBYz+QaKu+8=;
+ b=LAY+NTJp8a2Io6feuzlgnD8iEqGRNIHhTpCQ8A9Cq5C3CJHd1X+INgbC9soGpVeidbKAKTQHInGJMGyx7bqjgAmjhZCeCSz0nsMBAOXluysuVIlY4sCitfWLwM1gfO+VeXGvHewl50k9iX5w6+pheVPtdAspJW9UEYnThZn1ybc=
 Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
  header.d=none; lists.freedesktop.org;
  dmarc=none action=none header.from=amd.com;
@@ -34,17 +34,17 @@ Received: from SN6PR12MB4623.namprd12.prod.outlook.com (2603:10b6:805:e9::17)
  by SA0PR12MB4399.namprd12.prod.outlook.com (2603:10b6:806:98::17)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4264.18; Tue, 22 Jun
- 2021 16:24:14 +0000
+ 2021 16:24:16 +0000
 Received: from SN6PR12MB4623.namprd12.prod.outlook.com
  ([fe80::9f8:ec71:6535:cd36]) by SN6PR12MB4623.namprd12.prod.outlook.com
  ([fe80::9f8:ec71:6535:cd36%5]) with mapi id 15.20.4242.023; Tue, 22 Jun 2021
- 16:24:14 +0000
+ 16:24:16 +0000
 From: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
 To: dri-devel@lists.freedesktop.org,
 	amd-gfx@lists.freedesktop.org
-Subject: [PATCH 5/6] drm/amdgpu: Fix BUG_ON assert
-Date: Tue, 22 Jun 2021 12:23:38 -0400
-Message-Id: <20210622162339.761651-5-andrey.grodzovsky@amd.com>
+Subject: [PATCH 6/6] drm/ttm: Fix multihop assert on eviction.
+Date: Tue, 22 Jun 2021 12:23:39 -0400
+Message-Id: <20210622162339.761651-6-andrey.grodzovsky@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210622162339.761651-1-andrey.grodzovsky@amd.com>
 References: <20210622162339.761651-1-andrey.grodzovsky@amd.com>
@@ -60,54 +60,54 @@ Received: from agrodzovsky-All-Series.hitronhub.home
  (2607:fea8:3edf:49b0:5c6b:dde9:a4fe:685) by
  YT1PR01CA0137.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:2f::16) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4264.18 via Frontend Transport; Tue, 22 Jun 2021 16:24:14 +0000
+ 15.20.4264.18 via Frontend Transport; Tue, 22 Jun 2021 16:24:15 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: dce55385-2e68-431a-4a11-08d9359a2d0a
+X-MS-Office365-Filtering-Correlation-Id: de273d25-7447-4e00-ff1a-08d9359a2dd9
 X-MS-TrafficTypeDiagnostic: SA0PR12MB4399:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SA0PR12MB4399CE43B4B991FE7B5DBF81EA099@SA0PR12MB4399.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:586;
+X-Microsoft-Antispam-PRVS: <SA0PR12MB4399DBBBEE2C3A580B8BFEBAEA099@SA0PR12MB4399.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 6sJQnLnTVteKJLexe2lGQTD8k9cLNnU+TUh1yCSaauLDJMyV5RaxzSzlGRN0oCIei9bGRscTAeS4tfzGDrSKiQbmQXjs9x33Vv3TwPL+lqzXgtTqmpkJNN8hDrSa2qyzHcfiYgVWvOBXiX5sWEcwWbY+KdjO05Q2KZkVcftvANf8IA5CBAB1En9gQ52dMxQxljImtGqGVrrg/8RQgJdREHQwjm04l5XKPbga6TWHbe5ZkGxrLCe47ol4Lp0VH46OJPBnX3JZSN9y9dwqNKJmH8fjLw1xWMWnu8mUkQTzZyksVz+i1/s89jbqq6+rXsVGeigkUeumHbkIPERF8iM3P8i2RJZsvB2LcS+F374y332+QDvoFE/hVd23Uj7zU1fcCg0+WaOGynCc/D2uFdiG8DmHb39wa0lV/CsbUKbk7B47JE4/E93ZDZ3vkYieVxEyFBEJS0xxxowNelvZs2azpgcwsLJ3aNDn5uveDVVi/gr79YVqp9kio8HQAZBnTlwdDj4aSKJwYHCmwHMYkzxyc+CEd++J15Me4z74sLYBbBNov6wxNMh/nFxYcr0MTJov52GsFYTPl9k3Syu+SCL3/Z/L1ACFpwPIYQSpoYaCnRo=
+X-Microsoft-Antispam-Message-Info: PjYA/nW90yO+Bf0jyJplfy3S+nC2FDT0/16LTHt87dIgLeU70pmvQStja9dt5T1XkxJnVXGRMlfCeLQyBtZwREaY9DAfDJhYci6M+ZQOE195XizF30IvoDNEO5CkOOq5XgrNjZPVIa27JAYNPIz15Z+uVL1ZlOXuwdGyi3gRcJI6LGj5oqOgi0b3rngVid6T/hccoJlAFjvHMaHMoTcUBkcmaFQ9Epiq39Ego1qPrd58DLiQVNNNN6fuxqUpC0cu1u80Iejz6pHLxBSUBfjwXNZtN3aFZltGUH6E2HAf4CysPDHYoG7KScOTBnJYK+K2vPIgZz3lMmBhM+xMrJI8WL/GVhFtwLxLedwPUn2iE9BZHCZ8kLs1cunQCgtjCcuCHQDItNBG+lZPPJnV+lD/4YsM74K6O9woEM8BuOBN2IkDkj+A3ttQKXafUKF0S2nGrPWsD2gwdJw2ZAOm73Ud/7hlGsBt70PmCALJS99Fc0EA0Gr4eqHyMarBdUJ6Jdk/eH16ZUnu8NJNWeUnEl4PaSXnRgQobSPPQU3cuFIvMWSfTBc31oSXCcCDhW8ZeO4CH41ZThlnZZuQ9GFauP2F+mA36UVgnnKnAotQWw9jwMc=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:SN6PR12MB4623.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(36756003)(66476007)(66556008)(66946007)(2616005)(44832011)(2906002)(8936002)(8676002)(4744005)(5660300002)(6666004)(86362001)(6486002)(16526019)(186003)(6512007)(6506007)(83380400001)(1076003)(52116002)(38100700002)(4326008)(498600001);
+ SFS:(4636009)(39860400002)(366004)(346002)(396003)(376002)(136003)(36756003)(66476007)(66556008)(66946007)(2616005)(44832011)(2906002)(8936002)(8676002)(316002)(5660300002)(6666004)(86362001)(6486002)(16526019)(186003)(6512007)(6506007)(83380400001)(1076003)(52116002)(38100700002)(4326008)(478600001);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?01Y33H60xy+0Z5C9YV146cMb63lQX+mk2JI2/0uqXRXo17VNxqyv2x5CYlOd?=
- =?us-ascii?Q?Dp2RblEECTW7bMDZl9cIg1H/4poo5ZZTGff3f/InrkIgWjTxlBuZrwBp7thr?=
- =?us-ascii?Q?DOS8WFKtl4qdc8bGGAmCPyA5ckW7SsErGGQF7pFA54Ae8r0BKjWNW296/MG/?=
- =?us-ascii?Q?DHFvvslaQ7YevuBk6gOcbg5lC9WUaxvS89QaDYfE4LmotgQjOcsxM8VqKymj?=
- =?us-ascii?Q?4MtKOl3R0gFOW8xnK6gA+1suu5Robvvas5uhjCZ4FBXKi7R3SqVbFbFWhE0w?=
- =?us-ascii?Q?Gh9PiIck+1Q3OHaZ1FjvIKq8XlYzB6jHg1ZTXKW85ge4GsO+hGzUrpmejKZb?=
- =?us-ascii?Q?GR0AnX1fVQHuyLJumVcGHFP18HcuBgO+LmnraQqmSjnsQkRkUjAoVK7oFl/+?=
- =?us-ascii?Q?AlX4Jg0IAsL34cdcEhtMIgwyUauDTsiKQaNP96o1a/akN13WugyrptGHwVmV?=
- =?us-ascii?Q?Tc9LfRgbWvmBdLdDnZxamGLFDithB28u9WCZewYi/o46U/17JirNHyQy9jiA?=
- =?us-ascii?Q?q4CRCNeleo+IxMHXx/JojqdFFrg+S2qRvG7SnD7KAxVPPNBoevVZhHn15Ncr?=
- =?us-ascii?Q?oxpE7hSIUgloRq8uPXxUeLT6UFl42HfXxbkOuiPm2ex8xNfABqKRXtzIfcMp?=
- =?us-ascii?Q?QNhVtWRPE6MgkynK/RrEi51RLIMIGfSgKVl+89GjtuYrQfBhvtout6DMPWz5?=
- =?us-ascii?Q?wpLaVNlyEvvwDthkJ4MXEEot8HFYflwhTmUEebYfBMSkdQaztCc4oDOGiAJE?=
- =?us-ascii?Q?1kQOyCmKRfRDMNYxl6B0RJ4C54AUc9xaxwtg70g4usA2tq7RjNYgfBWxZVpP?=
- =?us-ascii?Q?e70Vrh88UyQjKX2wGyeQGBJRxF5fS3YDv25YEo2LcJoZ1qkQ3WxFx0NNJSEM?=
- =?us-ascii?Q?VDafz7w3lCjUtYCswbKu1tD2yxROCRH/mJAgNJjrkliYFonyENn7I0jItLC9?=
- =?us-ascii?Q?a6jgo+0PFf/vWVt0SenkqyqMrJLQ07UdUdZc9XhNr56pfezLxOVVyEyv+OOt?=
- =?us-ascii?Q?SP8gjLllLwI3EY86aCK+bv8/eVCpLl7mGHpxdnH6QeNVojQUYUn8FW4+czWo?=
- =?us-ascii?Q?ksIEK+WZfikoK7wrtNZmB1tBNPrv3soVvzSfgtGiJTbH1Erw+f6eUeX3PG6H?=
- =?us-ascii?Q?ApeHZ3EbALALxpjo9qNX89lI7JI2RE7jn8mwUShDuIbn596eoTRCmCvwTzXY?=
- =?us-ascii?Q?ws4/06QPnB+YB/gZnNKVode1xUhoV4P3TvpvP7s8Eo5ul2YWR8f2U271dCpy?=
- =?us-ascii?Q?xJFjSmtmrxIr98mp3AosxrBAFZKxdlMldOjmE1UZc2kH8a9gzWfwySO4JSCZ?=
- =?us-ascii?Q?KAwEdIdBynJVGHOkWtauVFGCs8m3cki5/9pWBNxDus5dhBTnnOfXvimdpTsH?=
- =?us-ascii?Q?5G0EABv+eieWXiS0367nLcBAuCa+?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?zOceRIzIc9WCrWI8cjQFS1O+4pe5LczcgGar+g1cyvhcc5nHOHq0yUPeB1d6?=
+ =?us-ascii?Q?NV4MqfZ9tB3Ww1ZD9zmFGThLt5S0ON5JQLflER+RSa9NU3rxzbtW0oHaSnMr?=
+ =?us-ascii?Q?Ms945TGVYcPsKS/J4rthWnI5b3DsJ+lajBAza+y7cv8B4D/olAtkyRM1IeiW?=
+ =?us-ascii?Q?DQhCXHmGh1EXSRN+Dw2xfY6W15zj07gV7I6+zhvh0K/q43HYcQ+RSqzsLek/?=
+ =?us-ascii?Q?PsU8YluPGU2bvy5pJCFumkIapOfXTeHWUvUOMq/V+3y++Dtna2aRbJ7aFzMr?=
+ =?us-ascii?Q?BCGV+1AytfIH8oDrNRp1F2PxgSFt04cC7kinKajP+HvniE/1u5dUeYbQogv2?=
+ =?us-ascii?Q?tvqqAAKZZz6owjW4WCbjESqkrrSIaO+V6QGyoog4sFGZAz1sLegsdIWxwA/I?=
+ =?us-ascii?Q?DjNAKPoFxtuch1QTs0ct3TauRaxeOlNW2rk9DlptgzsuR5W1YS1vYq/h9ZBA?=
+ =?us-ascii?Q?ZOD57kutX8F4vKxbyZ8DjB0Pn1lm7yNX6XM3Ee/8je8bPzcsGHymnoJ7nqu/?=
+ =?us-ascii?Q?qzitjgJlBCyrHY2WcdWLEReMmuThODAWDM0zScywb/H7lkvcGVaCBh89wITu?=
+ =?us-ascii?Q?z2ZWIx2zBLSjZNssnZvDPmR1+549qUdY6zcR1Sepdh6T/0HmV+apyznDM9wc?=
+ =?us-ascii?Q?QoIwohCJwxe9xOFOcTbrI6D2pBP4n7UnEHFdkxXVRcr9UsA+8c5Q294i+ZVk?=
+ =?us-ascii?Q?p2G93Wnr9jVShSwNwwLL9i7n9aLQAbSF16k/YbKn0WM6uj0VMWrr/Dm8Tpzf?=
+ =?us-ascii?Q?DO0EY+bFqWtejv/SFoPkF2e2kOblKbxagBFHLNKd353L65g+h5pPtSbQy91G?=
+ =?us-ascii?Q?5bTeUOi8mUxNQVczC5ZkJ8+MlarczRRAuBdW0CTZUxcyCqX/OaKpYi/HFQM/?=
+ =?us-ascii?Q?BxosD3vGWOdp/h/xlD3NzvXysBLDWEP/njRTFwWEgg0anrIovDyKIVgSyG7l?=
+ =?us-ascii?Q?PIqttp+93CIn/Fczpz46hn9oFpQ5/qyOY0F9tWQ9laAfYvWSajn0LyWAx/kf?=
+ =?us-ascii?Q?xCSXX0lBHGO+AILYLfLv06OzB0/6VDRbR78aHW4J0+x/VtZoEbJeUqvIxFa9?=
+ =?us-ascii?Q?dyD9Sq6m1BAQvVQ5o85tUBzEsRGZHtPPiQJGDNPVo/Xxk2QLs6r89Ermpag0?=
+ =?us-ascii?Q?nDkwy5ifPVW9VgopMs2EHWZi1Tu1uKsYl5i8gz6MgIENkHXZ0Ik76kCcq4Bb?=
+ =?us-ascii?Q?txQjUEgSaup9IzIuzBu86IUh45c6fEVzb1h+5wIGAYYCLLXWDhfON1s/EcXu?=
+ =?us-ascii?Q?jr+MQg1H1tVK5m5e5c8Zcs7WZ46QCvGLXNGpDxfVaT63fWQulBG5qbxufD2I?=
+ =?us-ascii?Q?pNLMxHIGJo/ueJxq69hjf9Y2frHJx9U3cdLXHqnQdA9c71fgdG8dOCd1isZG?=
+ =?us-ascii?Q?r42GCNcuBoYFhSzRLreTGcJg/1pb?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: dce55385-2e68-431a-4a11-08d9359a2d0a
+X-MS-Exchange-CrossTenant-Network-Message-Id: de273d25-7447-4e00-ff1a-08d9359a2dd9
 X-MS-Exchange-CrossTenant-AuthSource: SN6PR12MB4623.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jun 2021 16:24:14.8739 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jun 2021 16:24:16.2001 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: daZA+BWBSq+qnu2OiTEy4z5hM4Rm0Rjc+zSnrrClrbNG2G9y8MDqxfxfQbG7MrcrED9EdrRVc41mVyiCLx2t4w==
+X-MS-Exchange-CrossTenant-UserPrincipalName: Vb9De1/Yr9NAQ9S83+ztCmzJJyr9Oy9GmbbiNqsk3Y2JvzDDlU6/25bY7nasUbk+mPuFDTJRA8J2DLuYzkdwfg==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4399
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -125,27 +125,109 @@ Cc: ckoenig.leichtzumerken@gmail.com, Lang.Yu@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-With added CPU domain to placement you can have
-now 3 placemnts at once.
+Problem:
+Under memory pressure when GTT domain is almost full multihop assert
+will come up when trying to evict LRU BO from VRAM to SYSTEM.
+
+Fix:
+Don't assert on multihop error in evict code but rather do a retry
+as we do in ttm_bo_move_buffer
 
 Signed-off-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_object.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/ttm/ttm_bo.c | 63 +++++++++++++++++++-----------------
+ 1 file changed, 34 insertions(+), 29 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-index b7a2070d90af..81268eded073 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-@@ -180,7 +180,7 @@ void amdgpu_bo_placement_from_domain(struct amdgpu_bo *abo, u32 domain)
- 		c++;
+diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
+index 45145d02aed2..5a2dc712c632 100644
+--- a/drivers/gpu/drm/ttm/ttm_bo.c
++++ b/drivers/gpu/drm/ttm/ttm_bo.c
+@@ -485,6 +485,31 @@ void ttm_bo_unlock_delayed_workqueue(struct ttm_device *bdev, int resched)
+ }
+ EXPORT_SYMBOL(ttm_bo_unlock_delayed_workqueue);
+ 
++static int ttm_bo_bounce_temp_buffer(struct ttm_buffer_object *bo,
++				     struct ttm_resource **mem,
++				     struct ttm_operation_ctx *ctx,
++				     struct ttm_place *hop)
++{
++	struct ttm_placement hop_placement;
++	struct ttm_resource *hop_mem;
++	int ret;
++
++	hop_placement.num_placement = hop_placement.num_busy_placement = 1;
++	hop_placement.placement = hop_placement.busy_placement = hop;
++
++	/* find space in the bounce domain */
++	ret = ttm_bo_mem_space(bo, &hop_placement, &hop_mem, ctx);
++	if (ret)
++		return ret;
++	/* move to the bounce domain */
++	ret = ttm_bo_handle_move_mem(bo, hop_mem, false, ctx, NULL);
++	if (ret) {
++		ttm_resource_free(bo, &hop_mem);
++		return ret;
++	}
++	return 0;
++}
++
+ static int ttm_bo_evict(struct ttm_buffer_object *bo,
+ 			struct ttm_operation_ctx *ctx)
+ {
+@@ -524,12 +549,17 @@ static int ttm_bo_evict(struct ttm_buffer_object *bo,
+ 		goto out;
  	}
  
--	BUG_ON(c >= AMDGPU_BO_MAX_PLACEMENTS);
-+	BUG_ON(c > AMDGPU_BO_MAX_PLACEMENTS);
++bounce:
+ 	ret = ttm_bo_handle_move_mem(bo, evict_mem, true, ctx, &hop);
+-	if (unlikely(ret)) {
+-		WARN(ret == -EMULTIHOP, "Unexpected multihop in eviction - likely driver bug\n");
+-		if (ret != -ERESTARTSYS)
++	if (ret == -EMULTIHOP) {
++		ret = ttm_bo_bounce_temp_buffer(bo, &evict_mem, ctx, &hop);
++		if (ret) {
+ 			pr_err("Buffer eviction failed\n");
+-		ttm_resource_free(bo, &evict_mem);
++			ttm_resource_free(bo, &evict_mem);
++			goto out;
++		}
++		/* try and move to final place now. */
++		goto bounce;
+ 	}
+ out:
+ 	return ret;
+@@ -844,31 +874,6 @@ int ttm_bo_mem_space(struct ttm_buffer_object *bo,
+ }
+ EXPORT_SYMBOL(ttm_bo_mem_space);
  
- 	placement->num_placement = c;
- 	placement->placement = places;
+-static int ttm_bo_bounce_temp_buffer(struct ttm_buffer_object *bo,
+-				     struct ttm_resource **mem,
+-				     struct ttm_operation_ctx *ctx,
+-				     struct ttm_place *hop)
+-{
+-	struct ttm_placement hop_placement;
+-	struct ttm_resource *hop_mem;
+-	int ret;
+-
+-	hop_placement.num_placement = hop_placement.num_busy_placement = 1;
+-	hop_placement.placement = hop_placement.busy_placement = hop;
+-
+-	/* find space in the bounce domain */
+-	ret = ttm_bo_mem_space(bo, &hop_placement, &hop_mem, ctx);
+-	if (ret)
+-		return ret;
+-	/* move to the bounce domain */
+-	ret = ttm_bo_handle_move_mem(bo, hop_mem, false, ctx, NULL);
+-	if (ret) {
+-		ttm_resource_free(bo, &hop_mem);
+-		return ret;
+-	}
+-	return 0;
+-}
+-
+ static int ttm_bo_move_buffer(struct ttm_buffer_object *bo,
+ 			      struct ttm_placement *placement,
+ 			      struct ttm_operation_ctx *ctx)
 -- 
 2.25.1
 
