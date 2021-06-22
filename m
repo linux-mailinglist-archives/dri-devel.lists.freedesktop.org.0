@@ -2,58 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 668D13B0318
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Jun 2021 13:45:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA32A3B0319
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Jun 2021 13:45:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B8FCB6E4A7;
-	Tue, 22 Jun 2021 11:45:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 435E66E4AA;
+	Tue, 22 Jun 2021 11:45:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com
- [IPv6:2a00:1450:4864:20::52e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 722A86E4A7
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Jun 2021 11:45:09 +0000 (UTC)
-Received: by mail-ed1-x52e.google.com with SMTP id h17so13289779edw.11
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Jun 2021 04:45:09 -0700 (PDT)
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com
+ [IPv6:2a00:1450:4864:20::536])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C0796E4A7
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Jun 2021 11:45:10 +0000 (UTC)
+Received: by mail-ed1-x536.google.com with SMTP id d7so23287580edx.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Jun 2021 04:45:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:subject:date:message-id:mime-version
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=wnx8lDVkb1xvEHags0MQZ4JbyyaNbM2v7qeWypbjyqE=;
- b=t9G3r+on89JBtj4GRpljcwpLlZ7X01+QfRnoCmeHPSEMTKjGoHjcp/enp1iM877I9y
- tCXwanTd7X9rJxqv+JlslB6AqOkXY299UrGHT5HPDA84V6J8X9MuhJURWFHlrpUc7k9b
- hCtMXtG9kwMFrb9wZ1wa/IWg6km/GzVxAmzAhdxyTHz3ZK10mpI8JMaz8mp8TtRxZQYP
- ttay/Y7i9/kA49S5rZZDz6WNFnfUAuHWlvqJ76BgCtnjNx4g7SIGgKemF29L7Y0ESJPd
- QZvrNmI1vRDc7SqgkSpEyEZnU2/LeGWZiMuMUcJ3bSktSEssKe+IrcXBJQRLosbdQIwv
- 3o+A==
+ bh=0+CEPVf1HFOauapw66dGMiJ3ncGrsuSRV3Yn5C0OAWw=;
+ b=e7MCQMvFouq9v1F57lrRMDZNcqBkpV2r+Xq/Lm7bMzsRRPTRsVubJ4ewQnlnfITyOt
+ dqIEpxLDcc/z0/MQAXvKlgQaNFa6m0cQ+VuT6HyDrVkk7VdNOSC4qsFZVOjZ8Dy1FkO1
+ +jOdXg9os4tQzgnBCjyodn3lf7ftveQ/neFXTijsE+HWGKf1EuQEC3zwtjx2Qv/DyCZx
+ 9M3SiWzBKR8FK7OGh5bJkPZrdKtu5g9KH9pX492dA7DFJUwEpDyoi1AMRrk0b4zyLjE8
+ xAWRhnyOkJq8f47rrywsA88GWXEipZYKuP8ovBXp0szOnmlpy5rzSg44k1IzOowWmOQa
+ De4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=wnx8lDVkb1xvEHags0MQZ4JbyyaNbM2v7qeWypbjyqE=;
- b=gIrI+s+rpooItSS2xAhScDVYsv+LObnnCcaWVDF4gA8ESIF4yhqoiEjkuAlIGHgYKl
- w89Uwc86yQoDwptbbnSYoszb6yruIrmIFq7qhmFyHBpTUi8O1FjQFRWEUF4rjN/E0ndp
- tcMZPeT/oQOYyr7YNh6pfEKrskA31xxDOQuKSyBNk/Jyv98hRUBERMwAXI8qOZ9YaBxr
- 1YpEYE9dFdpG7cE+h4om4wPHX/LrOFk2uFAnjvBGMuQodurV9RD0pJ0oTAxtG1yeo8z2
- 6N2Xmuxqq70uZ7tOkgkYmXJq/ceh7ax7N7G52cqCcHBUiwrWhfDHjtVinE7wwErcEU+l
- xRwg==
-X-Gm-Message-State: AOAM532lXoI7y88oVT2joY9gHjHcDJgWNB9dY9qAPZZ8T+ovn3K8o2Ol
- kgYZkIC/QWdprjrMnHOx/K4BRhp/ytU=
-X-Google-Smtp-Source: ABdhPJyVCOCLrf/H4Vg3QuQ723B3R+S22MlmxbxGgoGiD6f7uZUttNDewURQ7D88tS+FWQBQwcTg/Q==
-X-Received: by 2002:aa7:d9d3:: with SMTP id v19mr4374076eds.145.1624362308199; 
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=0+CEPVf1HFOauapw66dGMiJ3ncGrsuSRV3Yn5C0OAWw=;
+ b=AfktzK750pEIImXly8Pm5nGdpZbgxAt07dlicZqLmD2G717t/v108PDwISr5+/3DUW
+ LbAVe8NRPgBMSLvdGdvGnYW+eQ6vf/viqj1566aUA0ZQ/aj6QaIo/7OddtfSN732CuDS
+ 0Nx7TCmC4xx99Bd3FX/Lzjr7rFVr/orO4iBdXRZowWDiL5oGXTbvAHw7YEja9uBWtEq2
+ X0iBO9mJYpUyrMWWJ5DGJ30uy8IdHi6yyq+WgN7mtIRMuRdc7ZHRNuNqKXnbAGjq5sHX
+ byj3i7URNoytebQW/vQfAVK5U0mbgfn2BcUEI4/9N+8f1sqxzDK0M5C8Rs/tTjMNsmhM
+ /x8Q==
+X-Gm-Message-State: AOAM530ulX8lNTMeoAYAX5M/v4RRJit4PpUuGcAMFT0CEo0fAqbjhwB9
+ R/8AshcQrGnuLugvgwUWFeZ9thqZWOY=
+X-Google-Smtp-Source: ABdhPJxYBDHU9bCdx2FR87JQlylphdwaaVltc/U46MIkHJwRg9cs4p8ChAymIzYm1vBjtqvGGZbgLg==
+X-Received: by 2002:a50:fd1a:: with SMTP id i26mr4267859eds.181.1624362308941; 
  Tue, 22 Jun 2021 04:45:08 -0700 (PDT)
 Received: from abel.fritz.box ([2a02:908:1252:fb60:19f5:e310:467b:783d])
- by smtp.gmail.com with ESMTPSA id hg25sm5939086ejc.51.2021.06.22.04.45.07
+ by smtp.gmail.com with ESMTPSA id hg25sm5939086ejc.51.2021.06.22.04.45.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Jun 2021 04:45:07 -0700 (PDT)
+ Tue, 22 Jun 2021 04:45:08 -0700 (PDT)
 From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
  <christian.koenig@amd.com>
 To: dri-devel@lists.freedesktop.org,
 	daniel.vetter@ffwll.ch
-Subject: [PATCH 1/3] drm/nouveau: wait for moving fence after pinning v2
-Date: Tue, 22 Jun 2021 13:45:04 +0200
-Message-Id: <20210622114506.106349-1-christian.koenig@amd.com>
+Subject: [PATCH 2/3] drm/radeon: wait for moving fence after pinning
+Date: Tue, 22 Jun 2021 13:45:05 +0200
+Message-Id: <20210622114506.106349-2-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210622114506.106349-1-christian.koenig@amd.com>
+References: <20210622114506.106349-1-christian.koenig@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -75,43 +77,41 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 We actually need to wait for the moving fence after pinning
 the BO to make sure that the pin is completed.
 
-v2: grab the lock while waiting
-
 Signed-off-by: Christian König <christian.koenig@amd.com>
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 References: https://lore.kernel.org/dri-devel/20210621151758.2347474-1-daniel.vetter@ffwll.ch/
 CC: stable@kernel.org
 ---
- drivers/gpu/drm/nouveau/nouveau_prime.c | 17 ++++++++++++++++-
- 1 file changed, 16 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/radeon/radeon_prime.c | 16 +++++++++++++---
+ 1 file changed, 13 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_prime.c b/drivers/gpu/drm/nouveau/nouveau_prime.c
-index 347488685f74..60019d0532fc 100644
---- a/drivers/gpu/drm/nouveau/nouveau_prime.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_prime.c
-@@ -93,7 +93,22 @@ int nouveau_gem_prime_pin(struct drm_gem_object *obj)
- 	if (ret)
- 		return -EINVAL;
+diff --git a/drivers/gpu/drm/radeon/radeon_prime.c b/drivers/gpu/drm/radeon/radeon_prime.c
+index 42a87948e28c..4a90807351e7 100644
+--- a/drivers/gpu/drm/radeon/radeon_prime.c
++++ b/drivers/gpu/drm/radeon/radeon_prime.c
+@@ -77,9 +77,19 @@ int radeon_gem_prime_pin(struct drm_gem_object *obj)
  
--	return 0;
-+	ret = ttm_bo_reserve(&nvbo->bo, false, false, NULL);
-+	if (ret)
+ 	/* pin buffer into GTT */
+ 	ret = radeon_bo_pin(bo, RADEON_GEM_DOMAIN_GTT, NULL);
+-	if (likely(ret == 0))
+-		bo->prime_shared_count++;
+-
++	if (unlikely(ret))
 +		goto error;
 +
-+	if (nvbo->bo.moving)
-+		ret = dma_fence_wait(nvbo->bo.moving, true);
++	if (bo->tbo.moving) {
++		ret = dma_fence_wait(bo->tbo.moving, false);
++		if (unlikely(ret)) {
++			radeon_bo_unpin(bo);
++			goto error;
++		}
++	}
 +
-+	ttm_bo_unreserve(&nvbo->bo);
-+	if (ret)
-+		goto error;
-+
-+	return ret;
-+
++	bo->prime_shared_count++;
 +error:
-+	nouveau_bo_unpin(nvbo);
-+	return ret;
+ 	radeon_bo_unreserve(bo);
+ 	return ret;
  }
- 
- void nouveau_gem_prime_unpin(struct drm_gem_object *obj)
 -- 
 2.25.1
 
