@@ -2,52 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51C853B0ADD
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Jun 2021 18:55:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FC6A3B0AE1
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Jun 2021 18:55:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 082716E80B;
-	Tue, 22 Jun 2021 16:55:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F8846E81F;
+	Tue, 22 Jun 2021 16:55:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
- [IPv6:2a00:1450:4864:20::32b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E88046E7FA
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Jun 2021 16:55:28 +0000 (UTC)
-Received: by mail-wm1-x32b.google.com with SMTP id c84so13233686wme.5
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Jun 2021 09:55:28 -0700 (PDT)
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
+ [IPv6:2a00:1450:4864:20::436])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 223B86E80B
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Jun 2021 16:55:30 +0000 (UTC)
+Received: by mail-wr1-x436.google.com with SMTP id y7so24383264wrh.7
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Jun 2021 09:55:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=naYXUUBK9vopSkhhs+SbsF73vr2q6Xr/BYlxTkKgAp0=;
- b=iDYuCEvjyN5+Pfuqb1UsGVxfsga4Ic/bTWJ8nWmsQBk5g2S3VYvlZ3dG/lFUvsZbop
- t0Ibzs1N5/7tRD0ECm8MCxfIWvNsGc0PNNqedHX0wsI16ShJ49dxu16wHmHZZ8Bbg1xD
- vLHE8BKlnMjbWbuNOC4UyF7BT2siUXfkKIwYM=
+ bh=Bjs6oeW10B8/q3VjlvRz2emu1GApOGAaaMFI0+Deg98=;
+ b=ieH46vwh89tnJ+i9Ew1lN0V98W4qyZuNumrwD9w5G2xxb+42J3eRV2mNkDzYQOqpLt
+ 0p2NKRqf6vx3pXviOmaPoZCree01md8E6rWMm2TIOKcx611Ngcz+/3Qx7Dj2i36zZXkw
+ Dl5Ahy3zYTw8hXaxDlqCuQtp7T6ynpvApzkp4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=naYXUUBK9vopSkhhs+SbsF73vr2q6Xr/BYlxTkKgAp0=;
- b=Xbh3GkwrFnMuitF/ItRA3z5WlH2D430Dv1le/9KkqP3egAz6kuhl11iPfDj5XDjMtY
- KouwehpbNxQE8vZHf9h69TIxnUE/V8TKBwkfS1eO2DlTCFnhKE2lWZT91dljEMs6m5Mn
- JV85I2c/4gxnzKy53bJ1yMjOK0p84bfr+NAHsukxPzTC5G3BHHPEzhGFvpMAxLaLAw5Z
- VEVx9B1I0I2OQPzzRu0zbHr7lkDOXoZ94z4JdBC3ZmDp/MfpDvLUzGHyIgussFcLkL7Y
- P/gyDwj0spSj7gqb1coxxaPgAQe+9RKT7QoYKrvT+2O5nS9W86DswDT884+YGdZ+lY1Q
- G37g==
-X-Gm-Message-State: AOAM530eBIvkWhGpqly9S8DZUnuh8/EQljZO1uqqkPWxRhEr/7jTsxYC
- bdz3NlTkyWqD4uVhhPElenN+jFwaQftoCg==
-X-Google-Smtp-Source: ABdhPJw0LKWc1TI6pW6BsmNY5c+TyH8/tdOMgNd0GE908rhXRG0DT8WnDBRncDVrGcFh1olBqutBxQ==
-X-Received: by 2002:a05:600c:d8:: with SMTP id
- u24mr5847552wmm.94.1624380927672; 
- Tue, 22 Jun 2021 09:55:27 -0700 (PDT)
+ bh=Bjs6oeW10B8/q3VjlvRz2emu1GApOGAaaMFI0+Deg98=;
+ b=uH6//LHmLt5S0I/22N2+Y0Wow84UB0Q7RC/ipQzY0zG7DpVMeWXrPr5PVOytKB9ie8
+ hKHNt7FX9+OF1Wwm6DCRYQU/PuBga/+jZlbeybJEOXAw/Ot4FOYDd6q7DpF8ZnDi47P+
+ 2GUwRfKIx4oEjyMAaqUumvJVjg3BTjDccP/ZbV5hHCc51matYnKqFTcYaraJf368859c
+ 6Njgxt9yhMEhO2mWLmNcR8AXn0Amg8lwNpYvk3RH2XyLMRs+Sngb1yFkXFlGdtD/1VFQ
+ Cn44jssDHiuCUGy5uzu7yHIdJql0/DunAG/xTA1BRZozDy14u/Jou4MRsTSw/jtAfcv2
+ zqhw==
+X-Gm-Message-State: AOAM5315YoXiF20Fk3UFtEn5laTZntkjOb+YNezXdoWQabVA6DPWI4IN
+ +/nlTaN86xNVsQEKer0/qrB7lS9cJXqgnA==
+X-Google-Smtp-Source: ABdhPJyZ18t4vhGnbxHq1zKwfH8pWUCTyqvgQo0B6NLGyC1KLMEhIjKRstRh8t4WHM8TNWPS6eaPtA==
+X-Received: by 2002:a5d:4b0a:: with SMTP id v10mr6025820wrq.328.1624380928671; 
+ Tue, 22 Jun 2021 09:55:28 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id l23sm3632342wmc.5.2021.06.22.09.55.26
+ by smtp.gmail.com with ESMTPSA id l23sm3632342wmc.5.2021.06.22.09.55.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Jun 2021 09:55:27 -0700 (PDT)
+ Tue, 22 Jun 2021 09:55:28 -0700 (PDT)
 From: Daniel Vetter <daniel.vetter@ffwll.ch>
 To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 09/15] drm/armada: Remove prepare/cleanup_fb hooks
-Date: Tue, 22 Jun 2021 18:55:05 +0200
-Message-Id: <20210622165511.3169559-10-daniel.vetter@ffwll.ch>
+Subject: [PATCH 10/15] drm/vram-helpers: Create DRM_GEM_VRAM_PLANE_HELPER_FUNCS
+Date: Tue, 22 Jun 2021 18:55:06 +0200
+Message-Id: <20210622165511.3169559-11-daniel.vetter@ffwll.ch>
 X-Mailer: git-send-email 2.32.0.rc2
 In-Reply-To: <20210622165511.3169559-1-daniel.vetter@ffwll.ch>
 References: <20210622165511.3169559-1-daniel.vetter@ffwll.ch>
@@ -65,100 +64,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
  Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Russell King <linux@armlinux.org.uk>, Daniel Vetter <daniel.vetter@intel.com>
+ Tian Tao <tiantao6@hisilicon.com>, Hans de Goede <hdegoede@redhat.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Dave Airlie <airlied@redhat.com>,
+ Daniel Vetter <daniel.vetter@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-All they do is refcount the fb, which the atomic helpers already do.
+Like we have for the shadow helpers too, and roll it out to drivers.
 
-This is was necessary with the legacy helpers and I guess just carry
-over in the conversion. drm_plane_state always has a full reference
-for its ->fb pointer during its entire lifetime,
-see __drm_atomic_helper_plane_destroy_state()
-
+Acked-by: Tian Tao <tiantao6@hisilicon.com>
 Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-Cc: Russell King <linux@armlinux.org.uk>
+Cc: Dave Airlie <airlied@redhat.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Hans de Goede <hdegoede@redhat.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: David Airlie <airlied@linux.ie>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Tian Tao <tiantao6@hisilicon.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/gpu/drm/armada/armada_overlay.c |  2 --
- drivers/gpu/drm/armada/armada_plane.c   | 29 -------------------------
- drivers/gpu/drm/armada/armada_plane.h   |  2 --
- 3 files changed, 33 deletions(-)
+ drivers/gpu/drm/ast/ast_mode.c                 |  3 +--
+ drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c |  3 +--
+ drivers/gpu/drm/vboxvideo/vbox_mode.c          |  3 +--
+ include/drm/drm_gem_vram_helper.h              | 12 ++++++++++++
+ 4 files changed, 15 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/armada/armada_overlay.c b/drivers/gpu/drm/armada/armada_overlay.c
-index d3e3e5fdc390..424250535fed 100644
---- a/drivers/gpu/drm/armada/armada_overlay.c
-+++ b/drivers/gpu/drm/armada/armada_overlay.c
-@@ -247,8 +247,6 @@ static void armada_drm_overlay_plane_atomic_disable(struct drm_plane *plane,
+diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
+index e5996ae03c49..f5d58c3088fe 100644
+--- a/drivers/gpu/drm/ast/ast_mode.c
++++ b/drivers/gpu/drm/ast/ast_mode.c
+@@ -612,8 +612,7 @@ ast_primary_plane_helper_atomic_disable(struct drm_plane *plane,
  }
  
- static const struct drm_plane_helper_funcs armada_overlay_plane_helper_funcs = {
--	.prepare_fb	= armada_drm_plane_prepare_fb,
--	.cleanup_fb	= armada_drm_plane_cleanup_fb,
- 	.atomic_check	= armada_drm_plane_atomic_check,
- 	.atomic_update	= armada_drm_overlay_plane_atomic_update,
- 	.atomic_disable	= armada_drm_overlay_plane_atomic_disable,
-diff --git a/drivers/gpu/drm/armada/armada_plane.c b/drivers/gpu/drm/armada/armada_plane.c
-index 40f5c34fb4d8..1c56a2883b91 100644
---- a/drivers/gpu/drm/armada/armada_plane.c
-+++ b/drivers/gpu/drm/armada/armada_plane.c
-@@ -78,33 +78,6 @@ void armada_drm_plane_calc(struct drm_plane_state *state, u32 addrs[2][3],
- 	}
- }
+ static const struct drm_plane_helper_funcs ast_primary_plane_helper_funcs = {
+-	.prepare_fb = drm_gem_vram_plane_helper_prepare_fb,
+-	.cleanup_fb = drm_gem_vram_plane_helper_cleanup_fb,
++	DRM_GEM_VRAM_PLANE_HELPER_FUNCS,
+ 	.atomic_check = ast_primary_plane_helper_atomic_check,
+ 	.atomic_update = ast_primary_plane_helper_atomic_update,
+ 	.atomic_disable = ast_primary_plane_helper_atomic_disable,
+diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c
+index 29b8332b2bca..ccf80e369b4b 100644
+--- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c
++++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c
+@@ -158,8 +158,7 @@ static const struct drm_plane_funcs hibmc_plane_funcs = {
+ };
  
--int armada_drm_plane_prepare_fb(struct drm_plane *plane,
--	struct drm_plane_state *state)
--{
--	DRM_DEBUG_KMS("[PLANE:%d:%s] [FB:%d]\n",
--		plane->base.id, plane->name,
--		state->fb ? state->fb->base.id : 0);
--
--	/*
--	 * Take a reference on the new framebuffer - we want to
--	 * hold on to it while the hardware is displaying it.
--	 */
--	if (state->fb)
--		drm_framebuffer_get(state->fb);
--	return 0;
--}
--
--void armada_drm_plane_cleanup_fb(struct drm_plane *plane,
--	struct drm_plane_state *old_state)
--{
--	DRM_DEBUG_KMS("[PLANE:%d:%s] [FB:%d]\n",
--		plane->base.id, plane->name,
--		old_state->fb ? old_state->fb->base.id : 0);
--
--	if (old_state->fb)
--		drm_framebuffer_put(old_state->fb);
--}
--
- int armada_drm_plane_atomic_check(struct drm_plane *plane,
- 	struct drm_atomic_state *state)
- {
-@@ -282,8 +255,6 @@ static void armada_drm_primary_plane_atomic_disable(struct drm_plane *plane,
- }
+ static const struct drm_plane_helper_funcs hibmc_plane_helper_funcs = {
+-	.prepare_fb	= drm_gem_vram_plane_helper_prepare_fb,
+-	.cleanup_fb	= drm_gem_vram_plane_helper_cleanup_fb,
++	DRM_GEM_VRAM_PLANE_HELPER_FUNCS,
+ 	.atomic_check = hibmc_plane_atomic_check,
+ 	.atomic_update = hibmc_plane_atomic_update,
+ };
+diff --git a/drivers/gpu/drm/vboxvideo/vbox_mode.c b/drivers/gpu/drm/vboxvideo/vbox_mode.c
+index 964381d55fc1..972c83b720aa 100644
+--- a/drivers/gpu/drm/vboxvideo/vbox_mode.c
++++ b/drivers/gpu/drm/vboxvideo/vbox_mode.c
+@@ -488,8 +488,7 @@ static const struct drm_plane_helper_funcs vbox_primary_helper_funcs = {
+ 	.atomic_check = vbox_primary_atomic_check,
+ 	.atomic_update = vbox_primary_atomic_update,
+ 	.atomic_disable = vbox_primary_atomic_disable,
+-	.prepare_fb	= drm_gem_vram_plane_helper_prepare_fb,
+-	.cleanup_fb	= drm_gem_vram_plane_helper_cleanup_fb,
++	DRM_GEM_VRAM_PLANE_HELPER_FUNCS,
+ };
  
- static const struct drm_plane_helper_funcs armada_primary_plane_helper_funcs = {
--	.prepare_fb	= armada_drm_plane_prepare_fb,
--	.cleanup_fb	= armada_drm_plane_cleanup_fb,
- 	.atomic_check	= armada_drm_plane_atomic_check,
- 	.atomic_update	= armada_drm_primary_plane_atomic_update,
- 	.atomic_disable	= armada_drm_primary_plane_atomic_disable,
-diff --git a/drivers/gpu/drm/armada/armada_plane.h b/drivers/gpu/drm/armada/armada_plane.h
-index 51dab8d8da22..368415c609a6 100644
---- a/drivers/gpu/drm/armada/armada_plane.h
-+++ b/drivers/gpu/drm/armada/armada_plane.h
-@@ -21,8 +21,6 @@ struct armada_plane_state {
+ static const struct drm_plane_funcs vbox_primary_plane_funcs = {
+diff --git a/include/drm/drm_gem_vram_helper.h b/include/drm/drm_gem_vram_helper.h
+index 27ed7e9243b9..f48d181c824b 100644
+--- a/include/drm/drm_gem_vram_helper.h
++++ b/include/drm/drm_gem_vram_helper.h
+@@ -124,6 +124,18 @@ void
+ drm_gem_vram_plane_helper_cleanup_fb(struct drm_plane *plane,
+ 				     struct drm_plane_state *old_state);
  
- void armada_drm_plane_calc(struct drm_plane_state *state, u32 addrs[2][3],
- 	u16 pitches[3], bool interlaced);
--int armada_drm_plane_prepare_fb(struct drm_plane *plane,
--	struct drm_plane_state *state);
- void armada_drm_plane_cleanup_fb(struct drm_plane *plane,
- 	struct drm_plane_state *old_state);
- int armada_drm_plane_atomic_check(struct drm_plane *plane,
++/**
++ * DRM_GEM_VRAM_PLANE_HELPER_FUNCS -
++ *	Initializes struct drm_plane_helper_funcs for VRAM handling
++ *
++ * Drivers may use GEM BOs as VRAM helpers for the framebuffer memory. This
++ * macro initializes struct drm_plane_helper_funcs to use the respective helper
++ * functions.
++ */
++#define DRM_GEM_VRAM_PLANE_HELPER_FUNCS \
++	.prepare_fb = drm_gem_vram_plane_helper_prepare_fb, \
++	.cleanup_fb = drm_gem_vram_plane_helper_cleanup_fb
++
+ /*
+  * Helpers for struct drm_simple_display_pipe_funcs
+  */
 -- 
 2.32.0.rc2
 
