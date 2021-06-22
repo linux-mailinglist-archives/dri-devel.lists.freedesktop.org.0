@@ -2,39 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79B573B023C
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Jun 2021 13:02:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 668D13B0318
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Jun 2021 13:45:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 56A286E49A;
-	Tue, 22 Jun 2021 11:02:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B8FCB6E4A7;
+	Tue, 22 Jun 2021 11:45:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D34806E49C
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Jun 2021 11:02:50 +0000 (UTC)
-X-UUID: f60c50f0241e4612bee59c968a83be0a-20210622
-X-UUID: f60c50f0241e4612bee59c968a83be0a-20210622
-Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by
- mailgw02.mediatek.com (envelope-from <yongqiang.niu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 2063075771; Tue, 22 Jun 2021 19:02:44 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs08n1.mediatek.inc (172.21.101.55) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Tue, 22 Jun 2021 19:02:40 +0800
-Received: from localhost.localdomain (10.17.3.153) by mtkcas11.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Tue, 22 Jun 2021 19:02:39 +0800
-From: Yongqiang Niu <yongqiang.niu@mediatek.com>
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Subject: [PATCH v7, 2/2] soc: mediatek: mmsys: Add mt8192 mmsys routing table
-Date: Tue, 22 Jun 2021 19:02:27 +0800
-Message-ID: <1624359747-25567-3-git-send-email-yongqiang.niu@mediatek.com>
-X-Mailer: git-send-email 1.8.1.1.dirty
-In-Reply-To: <1624359747-25567-1-git-send-email-yongqiang.niu@mediatek.com>
-References: <1624359747-25567-1-git-send-email-yongqiang.niu@mediatek.com>
+Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com
+ [IPv6:2a00:1450:4864:20::52e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 722A86E4A7
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Jun 2021 11:45:09 +0000 (UTC)
+Received: by mail-ed1-x52e.google.com with SMTP id h17so13289779edw.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Jun 2021 04:45:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=wnx8lDVkb1xvEHags0MQZ4JbyyaNbM2v7qeWypbjyqE=;
+ b=t9G3r+on89JBtj4GRpljcwpLlZ7X01+QfRnoCmeHPSEMTKjGoHjcp/enp1iM877I9y
+ tCXwanTd7X9rJxqv+JlslB6AqOkXY299UrGHT5HPDA84V6J8X9MuhJURWFHlrpUc7k9b
+ hCtMXtG9kwMFrb9wZ1wa/IWg6km/GzVxAmzAhdxyTHz3ZK10mpI8JMaz8mp8TtRxZQYP
+ ttay/Y7i9/kA49S5rZZDz6WNFnfUAuHWlvqJ76BgCtnjNx4g7SIGgKemF29L7Y0ESJPd
+ QZvrNmI1vRDc7SqgkSpEyEZnU2/LeGWZiMuMUcJ3bSktSEssKe+IrcXBJQRLosbdQIwv
+ 3o+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=wnx8lDVkb1xvEHags0MQZ4JbyyaNbM2v7qeWypbjyqE=;
+ b=gIrI+s+rpooItSS2xAhScDVYsv+LObnnCcaWVDF4gA8ESIF4yhqoiEjkuAlIGHgYKl
+ w89Uwc86yQoDwptbbnSYoszb6yruIrmIFq7qhmFyHBpTUi8O1FjQFRWEUF4rjN/E0ndp
+ tcMZPeT/oQOYyr7YNh6pfEKrskA31xxDOQuKSyBNk/Jyv98hRUBERMwAXI8qOZ9YaBxr
+ 1YpEYE9dFdpG7cE+h4om4wPHX/LrOFk2uFAnjvBGMuQodurV9RD0pJ0oTAxtG1yeo8z2
+ 6N2Xmuxqq70uZ7tOkgkYmXJq/ceh7ax7N7G52cqCcHBUiwrWhfDHjtVinE7wwErcEU+l
+ xRwg==
+X-Gm-Message-State: AOAM532lXoI7y88oVT2joY9gHjHcDJgWNB9dY9qAPZZ8T+ovn3K8o2Ol
+ kgYZkIC/QWdprjrMnHOx/K4BRhp/ytU=
+X-Google-Smtp-Source: ABdhPJyVCOCLrf/H4Vg3QuQ723B3R+S22MlmxbxGgoGiD6f7uZUttNDewURQ7D88tS+FWQBQwcTg/Q==
+X-Received: by 2002:aa7:d9d3:: with SMTP id v19mr4374076eds.145.1624362308199; 
+ Tue, 22 Jun 2021 04:45:08 -0700 (PDT)
+Received: from abel.fritz.box ([2a02:908:1252:fb60:19f5:e310:467b:783d])
+ by smtp.gmail.com with ESMTPSA id hg25sm5939086ejc.51.2021.06.22.04.45.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 22 Jun 2021 04:45:07 -0700 (PDT)
+From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>
+To: dri-devel@lists.freedesktop.org,
+	daniel.vetter@ffwll.ch
+Subject: [PATCH 1/3] drm/nouveau: wait for moving fence after pinning v2
+Date: Tue, 22 Jun 2021 13:45:04 +0200
+Message-Id: <20210622114506.106349-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK: N
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,137 +69,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- David Airlie <airlied@linux.ie>, Jassi Brar <jassisinghbrar@gmail.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Yongqiang Niu <yongqiang.niu@mediatek.com>,
- Dennis YC Hsieh <dennis-yc.hsieh@mediatek.com>,
- Fabien Parent <fparent@baylibre.com>, Rob Herring <robh+dt@kernel.org>,
- linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-mt8192 has different routing registers than mt8183
+We actually need to wait for the moving fence after pinning
+the BO to make sure that the pin is completed.
 
-Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
+v2: grab the lock while waiting
+
+Signed-off-by: Christian König <christian.koenig@amd.com>
+References: https://lore.kernel.org/dri-devel/20210621151758.2347474-1-daniel.vetter@ffwll.ch/
+CC: stable@kernel.org
 ---
- drivers/soc/mediatek/mt8192-mmsys.h | 68 +++++++++++++++++++++++++++++++++++++
- drivers/soc/mediatek/mtk-mmsys.c    | 11 ++++++
- 2 files changed, 79 insertions(+)
- create mode 100644 drivers/soc/mediatek/mt8192-mmsys.h
+ drivers/gpu/drm/nouveau/nouveau_prime.c | 17 ++++++++++++++++-
+ 1 file changed, 16 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/soc/mediatek/mt8192-mmsys.h b/drivers/soc/mediatek/mt8192-mmsys.h
-new file mode 100644
-index 0000000..3179029
---- /dev/null
-+++ b/drivers/soc/mediatek/mt8192-mmsys.h
-@@ -0,0 +1,68 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+
-+#ifndef __SOC_MEDIATEK_MT8192_MMSYS_H
-+#define __SOC_MEDIATEK_MT8192_MMSYS_H
-+
-+#define MT8192_MMSYS_OVL_MOUT_EN		0xf04
-+#define MT8192_DISP_OVL1_2L_MOUT_EN		0xf08
-+#define MT8192_DISP_OVL0_2L_MOUT_EN		0xf18
-+#define MT8192_DISP_OVL0_MOUT_EN		0xf1c
-+#define MT8192_DISP_RDMA0_SEL_IN		0xf2c
-+#define MT8192_DISP_RDMA0_SOUT_SEL		0xf30
-+#define MT8192_DISP_CCORR0_SOUT_SEL		0xf34
-+#define MT8192_DISP_AAL0_SEL_IN			0xf38
-+#define MT8192_DISP_DITHER0_MOUT_EN		0xf3c
-+#define MT8192_DISP_DSI0_SEL_IN			0xf40
-+#define MT8192_DISP_OVL2_2L_MOUT_EN		0xf4c
-+
-+#define MT8192_DISP_OVL0_GO_BLEND			BIT(0)
-+#define MT8192_DITHER0_MOUT_IN_DSI0			BIT(0)
-+#define MT8192_OVL0_MOUT_EN_DISP_RDMA0			BIT(0)
-+#define MT8192_OVL2_2L_MOUT_EN_RDMA4			BIT(0)
-+#define MT8192_DISP_OVL0_GO_BG				BIT(1)
-+#define MT8192_DISP_OVL0_2L_GO_BLEND			BIT(2)
-+#define MT8192_DISP_OVL0_2L_GO_BG			BIT(3)
-+#define MT8192_OVL1_2L_MOUT_EN_RDMA1			BIT(4)
-+#define MT8192_OVL0_MOUT_EN_OVL0_2L			BIT(4)
-+#define MT8192_RDMA0_SEL_IN_OVL0_2L			0x3
-+#define MT8192_RDMA0_SOUT_COLOR0			0x1
-+#define MT8192_CCORR0_SOUT_AAL0				0x1
-+#define MT8192_AAL0_SEL_IN_CCORR0			0x1
-+#define MT8192_DSI0_SEL_IN_DITHER0			0x1
-+
-+static const struct mtk_mmsys_routes mmsys_mt8192_routing_table[] = {
-+	{
-+		DDP_COMPONENT_OVL_2L0, DDP_COMPONENT_RDMA0,
-+		MT8192_DISP_OVL0_2L_MOUT_EN, MT8192_OVL0_MOUT_EN_DISP_RDMA0,
-+	}, {
-+		DDP_COMPONENT_OVL_2L2, DDP_COMPONENT_RDMA4,
-+		MT8192_DISP_OVL2_2L_MOUT_EN, MT8192_OVL2_2L_MOUT_EN_RDMA4
-+	}, {
-+		DDP_COMPONENT_DITHER, DDP_COMPONENT_DSI0,
-+		MT8192_DISP_DITHER0_MOUT_EN, MT8192_DITHER0_MOUT_IN_DSI0
-+	}, {
-+		DDP_COMPONENT_OVL_2L0, DDP_COMPONENT_RDMA0,
-+		MT8192_DISP_RDMA0_SEL_IN, MT8192_RDMA0_SEL_IN_OVL0_2L
-+	}, {
-+		DDP_COMPONENT_CCORR, DDP_COMPONENT_AAL0,
-+		MT8192_DISP_AAL0_SEL_IN, MT8192_AAL0_SEL_IN_CCORR0
-+	}, {
-+		DDP_COMPONENT_DITHER, DDP_COMPONENT_DSI0,
-+		MT8192_DISP_DSI0_SEL_IN, MT8192_DSI0_SEL_IN_DITHER0
-+	}, {
-+		DDP_COMPONENT_RDMA0, DDP_COMPONENT_COLOR0,
-+		MT8192_DISP_RDMA0_SOUT_SEL, MT8192_RDMA0_SOUT_COLOR0
-+	}, {
-+		DDP_COMPONENT_CCORR, DDP_COMPONENT_AAL0,
-+		MT8192_DISP_CCORR0_SOUT_SEL, MT8192_CCORR0_SOUT_AAL0
-+	}, {
-+		DDP_COMPONENT_OVL0, DDP_COMPONENT_OVL_2L0,
-+		MT8192_MMSYS_OVL_MOUT_EN, MT8192_DISP_OVL0_GO_BG,
-+	}, {
-+		DDP_COMPONENT_OVL_2L0, DDP_COMPONENT_RDMA0,
-+		MT8192_MMSYS_OVL_MOUT_EN, MT8192_DISP_OVL0_2L_GO_BLEND,
-+	}
-+};
-+
-+#endif /* __SOC_MEDIATEK_MT8192_MMSYS_H */
-+
-diff --git a/drivers/soc/mediatek/mtk-mmsys.c b/drivers/soc/mediatek/mtk-mmsys.c
-index 080660e..de7b122 100644
---- a/drivers/soc/mediatek/mtk-mmsys.c
-+++ b/drivers/soc/mediatek/mtk-mmsys.c
-@@ -13,6 +13,7 @@
- #include "mtk-mmsys.h"
- #include "mt8167-mmsys.h"
- #include "mt8183-mmsys.h"
-+#include "mt8192-mmsys.h"
+diff --git a/drivers/gpu/drm/nouveau/nouveau_prime.c b/drivers/gpu/drm/nouveau/nouveau_prime.c
+index 347488685f74..60019d0532fc 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_prime.c
++++ b/drivers/gpu/drm/nouveau/nouveau_prime.c
+@@ -93,7 +93,22 @@ int nouveau_gem_prime_pin(struct drm_gem_object *obj)
+ 	if (ret)
+ 		return -EINVAL;
  
- static const struct mtk_mmsys_driver_data mt2701_mmsys_driver_data = {
- 	.clk_driver = "clk-mt2701-mm",
-@@ -52,6 +53,12 @@
- 	.num_routes = ARRAY_SIZE(mmsys_mt8183_routing_table),
- };
- 
-+static const struct mtk_mmsys_driver_data mt8192_mmsys_driver_data = {
-+	.clk_driver = "clk-mt8192-mm",
-+	.routes = mmsys_mt8192_routing_table,
-+	.num_routes = ARRAY_SIZE(mmsys_mt8192_routing_table),
-+};
+-	return 0;
++	ret = ttm_bo_reserve(&nvbo->bo, false, false, NULL);
++	if (ret)
++		goto error;
 +
- struct mtk_mmsys {
- 	void __iomem *regs;
- 	const struct mtk_mmsys_driver_data *data;
-@@ -157,6 +164,10 @@ static int mtk_mmsys_probe(struct platform_device *pdev)
- 		.compatible = "mediatek,mt8183-mmsys",
- 		.data = &mt8183_mmsys_driver_data,
- 	},
-+	{
-+		.compatible = "mediatek,mt8192-mmsys",
-+		.data = &mt8192_mmsys_driver_data,
-+	},
- 	{ }
- };
++	if (nvbo->bo.moving)
++		ret = dma_fence_wait(nvbo->bo.moving, true);
++
++	ttm_bo_unreserve(&nvbo->bo);
++	if (ret)
++		goto error;
++
++	return ret;
++
++error:
++	nouveau_bo_unpin(nvbo);
++	return ret;
+ }
  
+ void nouveau_gem_prime_unpin(struct drm_gem_object *obj)
 -- 
-1.8.1.1.dirty
+2.25.1
 
