@@ -1,39 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C05773B08E5
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Jun 2021 17:25:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8128C3B08ED
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Jun 2021 17:26:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CDE416E598;
-	Tue, 22 Jun 2021 15:25:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ABBCE6E5A0;
+	Tue, 22 Jun 2021 15:26:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 24F8E6E598;
- Tue, 22 Jun 2021 15:25:56 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 9682C6E59D;
+ Tue, 22 Jun 2021 15:26:34 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C2F9DED1;
- Tue, 22 Jun 2021 08:25:55 -0700 (PDT)
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id F2E9031B;
+ Tue, 22 Jun 2021 08:26:33 -0700 (PDT)
 Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
  [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9E2263F718;
- Tue, 22 Jun 2021 08:25:55 -0700 (PDT)
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D102D3F718;
+ Tue, 22 Jun 2021 08:26:33 -0700 (PDT)
 Received: by e110455-lin.cambridge.arm.com (Postfix, from userid 1000)
- id 63299683943; Tue, 22 Jun 2021 16:25:54 +0100 (BST)
-Date: Tue, 22 Jun 2021 16:25:54 +0100
+ id 938E46850D7; Tue, 22 Jun 2021 16:26:32 +0100 (BST)
+Date: Tue, 22 Jun 2021 16:26:32 +0100
 From: Liviu Dudau <liviu.dudau@arm.com>
 To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v2 05/22] drm/komeda: Don't set struct
+Subject: Re: [PATCH v2 06/22] drm/malidp: Don't set struct
  drm_device.irq_enabled
-Message-ID: <20210622152554.vc7mnohj5u2trxpi@e110455-lin.cambridge.arm.com>
+Message-ID: <20210622152632.647akpp5nqcdfozk@e110455-lin.cambridge.arm.com>
 References: <20210622141002.11590-1-tzimmermann@suse.de>
- <20210622141002.11590-6-tzimmermann@suse.de>
+ <20210622141002.11590-7-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210622141002.11590-6-tzimmermann@suse.de>
+In-Reply-To: <20210622141002.11590-7-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,9 +69,9 @@ Cc: emma@anholt.net, airlied@linux.ie, nouveau@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 22, 2021 at 04:09:45PM +0200, Thomas Zimmermann wrote:
+On Tue, Jun 22, 2021 at 04:09:46PM +0200, Thomas Zimmermann wrote:
 > The field drm_device.irq_enabled is only used by legacy drivers
-> with userspace modesetting. Don't set it in komeda.
+> with userspace modesetting. Don't set it in malidp.
 > 
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 
@@ -81,38 +81,38 @@ Best regards,
 Liviu
 
 > ---
->  drivers/gpu/drm/arm/display/komeda/komeda_kms.c | 4 ----
+>  drivers/gpu/drm/arm/malidp_drv.c | 4 ----
 >  1 file changed, 4 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_kms.c b/drivers/gpu/drm/arm/display/komeda/komeda_kms.c
-> index ff45f23f3d56..52a6db5707a3 100644
-> --- a/drivers/gpu/drm/arm/display/komeda/komeda_kms.c
-> +++ b/drivers/gpu/drm/arm/display/komeda/komeda_kms.c
-> @@ -301,8 +301,6 @@ struct komeda_kms_dev *komeda_kms_attach(struct komeda_dev *mdev)
->  	if (err)
->  		goto free_component_binding;
+> diff --git a/drivers/gpu/drm/arm/malidp_drv.c b/drivers/gpu/drm/arm/malidp_drv.c
+> index de59f3302516..78d15b04b105 100644
+> --- a/drivers/gpu/drm/arm/malidp_drv.c
+> +++ b/drivers/gpu/drm/arm/malidp_drv.c
+> @@ -847,8 +847,6 @@ static int malidp_bind(struct device *dev)
+>  	if (ret < 0)
+>  		goto irq_init_fail;
 >  
 > -	drm->irq_enabled = true;
 > -
->  	drm_kms_helper_poll_init(drm);
->  
->  	err = drm_dev_register(drm, 0);
-> @@ -313,7 +311,6 @@ struct komeda_kms_dev *komeda_kms_attach(struct komeda_dev *mdev)
->  
->  free_interrupts:
->  	drm_kms_helper_poll_fini(drm);
+>  	ret = drm_vblank_init(drm, drm->mode_config.num_crtc);
+>  	if (ret < 0) {
+>  		DRM_ERROR("failed to initialise vblank\n");
+> @@ -874,7 +872,6 @@ static int malidp_bind(struct device *dev)
+>  vblank_fail:
+>  	malidp_se_irq_fini(hwdev);
+>  	malidp_de_irq_fini(hwdev);
 > -	drm->irq_enabled = false;
->  free_component_binding:
->  	component_unbind_all(mdev->dev, drm);
->  cleanup_mode_config:
-> @@ -331,7 +328,6 @@ void komeda_kms_detach(struct komeda_kms_dev *kms)
->  	drm_dev_unregister(drm);
->  	drm_kms_helper_poll_fini(drm);
+>  irq_init_fail:
 >  	drm_atomic_helper_shutdown(drm);
+>  	component_unbind_all(dev, drm);
+> @@ -909,7 +906,6 @@ static void malidp_unbind(struct device *dev)
+>  	drm_atomic_helper_shutdown(drm);
+>  	malidp_se_irq_fini(hwdev);
+>  	malidp_de_irq_fini(hwdev);
 > -	drm->irq_enabled = false;
->  	component_unbind_all(mdev->dev, drm);
->  	drm_mode_config_cleanup(drm);
->  	komeda_kms_cleanup_private_objs(kms);
+>  	component_unbind_all(dev, drm);
+>  	of_node_put(malidp->crtc.port);
+>  	malidp->crtc.port = NULL;
 > -- 
 > 2.32.0
 > 
