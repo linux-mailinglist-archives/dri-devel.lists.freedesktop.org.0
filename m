@@ -2,65 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B03FB3AFF74
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Jun 2021 10:43:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E8923B0000
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Jun 2021 11:12:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7DD086E0F3;
-	Tue, 22 Jun 2021 08:42:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B90F89A16;
+	Tue, 22 Jun 2021 09:12:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x331.google.com (mail-ot1-x331.google.com
- [IPv6:2607:f8b0:4864:20::331])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BCC496E0F3;
- Tue, 22 Jun 2021 08:42:54 +0000 (UTC)
-Received: by mail-ot1-x331.google.com with SMTP id
- f3-20020a0568301c23b029044ce5da4794so13885326ote.11; 
- Tue, 22 Jun 2021 01:42:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=Wk5uHooOe9m9o4Li9n5UAmr51NiBBmwNJ7AeW2XMF1s=;
- b=DpDeRnU/4unkLfeKoqfIKEFsfBMZFLBF8xKaZiqlTL9oc6P670t4XFLRq0TbDdE6nr
- Ztf3mV6Jahqo5RivMEWXCClTKbKDMDe6c7CL3y9QiJTZt8/r2DB9HhkBvxBCH8TrEfdm
- Rt/c8fK3pi38t+F5QDTk0+rxauu4yuqIqdSUlpvdAhK+1McLQSnLZ32JDHCpHLb58xJG
- 9PLhewIvLG/dnvIOahxYSNKAxU8IZKlfkXFiSxdV5+C0PGXWM7yX0apmRtf4EIruhPsC
- ZdnMtoc3+SsuyvZ4RQOwY5D2Bxf48aWo0hzb8v20huhOrOF7qWZgFU7vlfk5rpemBNeB
- mw9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Wk5uHooOe9m9o4Li9n5UAmr51NiBBmwNJ7AeW2XMF1s=;
- b=ZVWlAIyRGm4oYt/upbFWOaQGgLFlNel+x11nPNgGDztlL077q9tf3Wo1O5BpQ6Rjz3
- 8vps0U/ofrnbJYvkZmO1lAkzhZzpaZ7OOa05AEulyFOFmNVL2zia2l4PWCzeFbg9IJvH
- 4NtZoO0KRhn8m8A07gGbkywW9V4PabsCCRqCd6zhHedaVejQSvCtRgn1IWnqHOC4JNqa
- mB9o7GZ14AUdn1jTRdOzICLfDI+jXtVMjRArsQhbdBSMDcztYnKSA7MMvkGryws1jBhW
- S2JLP0CgzqgiaIIaaEHHRo6tGXv1OvwtZ5I4j09cbA0lj/k3Eg4mbirVfkFEAnNDl/+e
- yzEA==
-X-Gm-Message-State: AOAM532Dr2dCxhw7lq+3b09hCtVbJnSlz1+PuXBlXgnR/RTQHwXC21cC
- WRpJpAb0g+IJEtBWR8qVQO7lJe6wU6hoZ/R6S74=
-X-Google-Smtp-Source: ABdhPJzeINwyGxytAS9kO9kcC4dX49tJx+ip+znA7WLEk4h03GgImJS/DeJ5KNQOD5tnXfEngTt8fSVxTPnkQjTwAv4=
-X-Received: by 2002:a9d:509:: with SMTP id 9mr2169190otw.339.1624351373978;
- Tue, 22 Jun 2021 01:42:53 -0700 (PDT)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 78CF889A16
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Jun 2021 09:12:18 +0000 (UTC)
+Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
+ (using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 197A01FD64;
+ Tue, 22 Jun 2021 09:12:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1624353137; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=2S1GZjVV0O2eW26D/C5mP/xBfS/QZ8D4wdzglA9JkS8=;
+ b=HLJG32V+C+He6nAcw1Um3uc6J4JQOnkewLRaltCeI0XGxogyC+/ibRFrxfMTwE5Sb8cL8L
+ s8eZ7teby7ePFxxBgJXIdO0eyofNl6winiaJi/6+B8KF+K3gRfGNhIe5dEcJVG0hgk7Qju
+ 1oR/WmGhVOr5j41+AIGs2RLBo8kBm50=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1624353137;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=2S1GZjVV0O2eW26D/C5mP/xBfS/QZ8D4wdzglA9JkS8=;
+ b=m6G4l+FIBEhqEn2P3pVAPi9Edtrz0lBR/DREKWmORwciEtiaVRFWXCxavfNB2vfqQHrq3f
+ agIbKULr9+h1IkDg==
+Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
+ by imap.suse.de (Postfix) with ESMTP id D3F75118DD;
+ Tue, 22 Jun 2021 09:12:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1624353137; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=2S1GZjVV0O2eW26D/C5mP/xBfS/QZ8D4wdzglA9JkS8=;
+ b=HLJG32V+C+He6nAcw1Um3uc6J4JQOnkewLRaltCeI0XGxogyC+/ibRFrxfMTwE5Sb8cL8L
+ s8eZ7teby7ePFxxBgJXIdO0eyofNl6winiaJi/6+B8KF+K3gRfGNhIe5dEcJVG0hgk7Qju
+ 1oR/WmGhVOr5j41+AIGs2RLBo8kBm50=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1624353137;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=2S1GZjVV0O2eW26D/C5mP/xBfS/QZ8D4wdzglA9JkS8=;
+ b=m6G4l+FIBEhqEn2P3pVAPi9Edtrz0lBR/DREKWmORwciEtiaVRFWXCxavfNB2vfqQHrq3f
+ agIbKULr9+h1IkDg==
+Received: from director2.suse.de ([192.168.254.72]) by imap3-int with ESMTPSA
+ id KiC9MnCp0WASIwAALh3uQQ
+ (envelope-from <tzimmermann@suse.de>); Tue, 22 Jun 2021 09:12:16 +0000
+Subject: Re: [PATH 0/4] [RFC] Support virtual DRM
+To: Esaki Tomohito <etom@igel.co.jp>
+References: <20210621062742.26073-1-etom@igel.co.jp>
+ <9853d0a9-6053-db64-9c79-40b7e0689eec@suse.de>
+ <85593f2f-5aa9-6023-ecba-c5275a468b71@igel.co.jp>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <bd64733a-d45c-a985-d99d-0fa70bacb001@suse.de>
+Date: Tue, 22 Jun 2021 11:12:16 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210618123615.11456-1-ogabbay@kernel.org>
- <CAKMK7uFOfoxbD2Z5mb-qHFnUe5rObGKQ6Ygh--HSH9M=9bziGg@mail.gmail.com>
- <YNCN0ulL6DQiRJaB@kroah.com> <20210621141217.GE1096940@ziepe.ca>
- <CAFCwf10KvCh0zfHEHqYR-Na6KJh4j+9i-6+==QaMdHHpLH1yEA@mail.gmail.com>
- <20210621175511.GI1096940@ziepe.ca>
- <CAKMK7uEO1_B59DtM7N2g7kkH7pYtLM_WAkn+0f3FU3ps=XEjZQ@mail.gmail.com>
- <CAFCwf11jOnewkbLuxUESswCJpyo7C0ovZj80UrnwUOZkPv2JYQ@mail.gmail.com>
- <20210621232912.GK1096940@ziepe.ca>
- <d358c740-fd3a-9ecd-7001-676e2cb44ec9@gmail.com>
-In-Reply-To: <d358c740-fd3a-9ecd-7001-676e2cb44ec9@gmail.com>
-From: Oded Gabbay <oded.gabbay@gmail.com>
-Date: Tue, 22 Jun 2021 11:42:27 +0300
-Message-ID: <CAFCwf11h_Nj_GEdCdeTzO5jgr-Y9em+W-v_pYUfz64i5Ac25yg@mail.gmail.com>
-Subject: Re: [Linaro-mm-sig] [PATCH v3 1/2] habanalabs: define uAPI to export
- FD for DMA-BUF
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <85593f2f-5aa9-6023-ecba-c5275a468b71@igel.co.jp>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="WlcHhU6hex4h9Z0LOqBGwvBjeuF1z7K0S"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,67 +82,127 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- linux-rdma <linux-rdma@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, sleybo@amazon.com,
- Gal Pressman <galpress@amazon.com>,
- dri-devel <dri-devel@lists.freedesktop.org>, Christoph Hellwig <hch@lst.de>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Jason Gunthorpe <jgg@ziepe.ca>, Doug Ledford <dledford@redhat.com>,
- Tomer Tayar <ttayar@habana.ai>, amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Greg KH <gregkh@linuxfoundation.org>, Alex Deucher <alexander.deucher@amd.com>,
- Leon Romanovsky <leonro@nvidia.com>, Oded Gabbay <ogabbay@kernel.org>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
+Cc: devicetree@vger.kernel.org, Takanari Hayama <taki@igel.co.jp>,
+ linux-doc@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-renesas-soc@vger.kernel.org,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Damian Hobson-Garcia <dhobsong@igel.co.jp>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 22, 2021 at 9:37 AM Christian K=C3=B6nig
-<ckoenig.leichtzumerken@gmail.com> wrote:
->
-> Am 22.06.21 um 01:29 schrieb Jason Gunthorpe:
-> > On Mon, Jun 21, 2021 at 10:24:16PM +0300, Oded Gabbay wrote:
-> >
-> >> Another thing I want to emphasize is that we are doing p2p only
-> >> through the export/import of the FD. We do *not* allow the user to
-> >> mmap the dma-buf as we do not support direct IO. So there is no access
-> >> to these pages through the userspace.
-> > Arguably mmaping the memory is a better choice, and is the direction
-> > that Logan's series goes in. Here the use of DMABUF was specifically
-> > designed to allow hitless revokation of the memory, which this isn't
-> > even using.
->
-> The major problem with this approach is that DMA-buf is also used for
-> memory which isn't CPU accessible.
->
-> That was one of the reasons we didn't even considered using the mapping
-> memory approach for GPUs.
->
-> Regards,
-> Christian.
->
-> >
-> > So you are taking the hit of very limited hardware support and reduced
-> > performance just to squeeze into DMABUF..
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--WlcHhU6hex4h9Z0LOqBGwvBjeuF1z7K0S
+Content-Type: multipart/mixed; boundary="Kk1kL8IpnwdpIdgA1q2JbHjX2dsQ44t2z";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Esaki Tomohito <etom@igel.co.jp>
+Cc: devicetree@vger.kernel.org, Takanari Hayama <taki@igel.co.jp>,
+ linux-doc@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Damian Hobson-Garcia <dhobsong@igel.co.jp>
+Message-ID: <bd64733a-d45c-a985-d99d-0fa70bacb001@suse.de>
+Subject: Re: [PATH 0/4] [RFC] Support virtual DRM
+References: <20210621062742.26073-1-etom@igel.co.jp>
+ <9853d0a9-6053-db64-9c79-40b7e0689eec@suse.de>
+ <85593f2f-5aa9-6023-ecba-c5275a468b71@igel.co.jp>
+In-Reply-To: <85593f2f-5aa9-6023-ecba-c5275a468b71@igel.co.jp>
 
-Thanks Jason for the clarification, but I honestly prefer to use
-DMA-BUF at the moment.
-It gives us just what we need (even more than what we need as you
-pointed out), it is *already* integrated and tested in the RDMA
-subsystem, and I'm feeling comfortable using it as I'm somewhat
-familiar with it from my AMD days.
+--Kk1kL8IpnwdpIdgA1q2JbHjX2dsQ44t2z
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-I'll go and read Logan's patch-set to see if that will work for us in
-the future. Please remember, as Daniel said, we don't have struct page
-backing our device memory, so if that is a requirement to connect to
-Logan's work, then I don't think we will want to do it at this point.
+Hi
 
-Thanks,
-Oded
+Am 22.06.21 um 06:02 schrieb Esaki Tomohito:
+> Hi, Thomas
+> Thank you for reply.
+>=20
+> On 2021/06/21 16:10, Thomas Zimmermann wrote:
+>> Hi
+>>
+>> Am 21.06.21 um 08:27 schrieb Tomohito Esaki:
+>>> Virtual DRM splits the overlay planes of a display controller into
+>>> multiple
+>>> virtual devices to allow each plane to be accessed by each process.
+>>>
+>>> This makes it possible to overlay images output from multiple
+>>> processes on a
+>>> display. For example, one process displays the camera image without
+>>> compositor
+>>> while another process overlays the UI.
+>>
+>> I briefly looked over your patches. I didn't understand how this is
+>> different to the functionality of a compositor? Shouldn't this be solv=
+ed
+>> in userspace?
+>=20
+> I think when latency is important (e.g., AR, VR, for displaying camera
+> images in IVI systems), there may be use cases where the compositor
+> cannot be used.
+> Normally, when the image is passed through the compositor, it is
+> displayed after 2 VSYNC at most, because the compositor combines the
+> image with VSYNC synchronization. On the other hand, if we use vDRM, th=
+e
+> image will be displayed at the next VSYNC, so it will be displayed afte=
+r
+> 1 VSYNC at most.
 
-> >
-> > Jason
-> > _______________________________________________
-> > Linaro-mm-sig mailing list
-> > Linaro-mm-sig@lists.linaro.org
-> > https://lists.linaro.org/mailman/listinfo/linaro-mm-sig
->
+Other commenters already addressed these points.
+
+>=20
+> Also, since the compositor is a single point of failure, we may not wan=
+t
+> to make it dependent on it.
+
+The kernel is also a single point of failure.
+
+TBH I don't think this feature should be merged until there's a clear=20
+use case that cannot be solved in userspace idiomatically.
+
+Best regards
+Thomas
+
+>=20
+> Best regards
+> Tomohito Esaki
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--Kk1kL8IpnwdpIdgA1q2JbHjX2dsQ44t2z--
+
+--WlcHhU6hex4h9Z0LOqBGwvBjeuF1z7K0S
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmDRqXAFAwAAAAAACgkQlh/E3EQov+Af
+LhAAl2DsZ+2q/Kykruu+aUiljCoeGL+fehatgi3Qbz9LHotnb+8lcZL8qNGjphWQxLpooqeO9ZDr
+WPop9s6a4mSHD9nyyvXrdWLdid5wYpmetCMH6SVXHMlVWh+n/qw9v49DtqxHEADDk5VixNgh9cxQ
+RbRmOVg88YT8Z40zAZw2I6MlmIpS0SSDE5yjR3JHE6zOI6bniAdGiiCKojqoIS/Md/9g4MBjsIk2
+lro7eW7ulINyEuoDnbY3M241s/cZnP/ZShARtgScL5bVhoQZ6s7YO8OISYhYdkg+eF1qi1AdsqZY
+pmDLtAhZ95arQa5OIVTGewxxCG/uzbIDUh4v4lJSgBSF0SUtakCJF9Q9AhjCvW1+era0253MfyCy
+/F5sndCQh/Iaqt6hpqe6ijC5RgA4Le7IUBBZV+HE48/9hRv6QqZSEVz61LvpbK2mFihJYxFPfTwS
+xxa1E/+HvWDuEgUeehAWqaL07ytWPoaQBqn9nSvAtXTNPbXiknOWqW7Vq3vUMmf/zpF6mkd8R89U
+um6D6/bEIu0Vd9ZK5blNbuzoX+g/qJpWU+As8jkXF1uR0tDHPq2OsokaWQ2IsDkoJT4DBzzgFcl9
+RaTrRoKwCoEGIZfu1Bg4cfMPi6T0BmXiWs+psao3lp1Dwpiz8FMMRG6ObJ/0hcZ5g5B6+gugbqjb
+/Og=
+=+9bo
+-----END PGP SIGNATURE-----
+
+--WlcHhU6hex4h9Z0LOqBGwvBjeuF1z7K0S--
