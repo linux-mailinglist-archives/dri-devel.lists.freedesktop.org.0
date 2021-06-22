@@ -1,38 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B5A93B08D8
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Jun 2021 17:25:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C05773B08E5
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Jun 2021 17:25:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 936816E593;
-	Tue, 22 Jun 2021 15:25:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CDE416E598;
+	Tue, 22 Jun 2021 15:25:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id E7B3C6E593;
- Tue, 22 Jun 2021 15:25:06 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 24F8E6E598;
+ Tue, 22 Jun 2021 15:25:56 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0C59731B;
- Tue, 22 Jun 2021 08:25:06 -0700 (PDT)
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C2F9DED1;
+ Tue, 22 Jun 2021 08:25:55 -0700 (PDT)
 Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
  [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C1ECC3F718;
- Tue, 22 Jun 2021 08:25:05 -0700 (PDT)
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9E2263F718;
+ Tue, 22 Jun 2021 08:25:55 -0700 (PDT)
 Received: by e110455-lin.cambridge.arm.com (Postfix, from userid 1000)
- id 7C5A86837C9; Tue, 22 Jun 2021 16:25:04 +0100 (BST)
-Date: Tue, 22 Jun 2021 16:25:04 +0100
+ id 63299683943; Tue, 22 Jun 2021 16:25:54 +0100 (BST)
+Date: Tue, 22 Jun 2021 16:25:54 +0100
 From: Liviu Dudau <liviu.dudau@arm.com>
 To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v2 04/22] drm: Don't test for IRQ support in VBLANK ioctls
-Message-ID: <20210622152504.2sw6khajwydsoaqa@e110455-lin.cambridge.arm.com>
+Subject: Re: [PATCH v2 05/22] drm/komeda: Don't set struct
+ drm_device.irq_enabled
+Message-ID: <20210622152554.vc7mnohj5u2trxpi@e110455-lin.cambridge.arm.com>
 References: <20210622141002.11590-1-tzimmermann@suse.de>
- <20210622141002.11590-5-tzimmermann@suse.de>
+ <20210622141002.11590-6-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210622141002.11590-5-tzimmermann@suse.de>
+In-Reply-To: <20210622141002.11590-6-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,99 +69,50 @@ Cc: emma@anholt.net, airlied@linux.ie, nouveau@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
-
-On Tue, Jun 22, 2021 at 04:09:44PM +0200, Thomas Zimmermann wrote:
-> For KMS drivers, replace the IRQ check in VBLANK ioctls with a check for
-> vblank support. IRQs might be enabled wthout vblanking being supported.
-> 
-> This change also removes the DRM framework's only dependency on IRQ state
-> for non-legacy drivers. For legacy drivers with userspace modesetting,
-> the original test remains in drm_wait_vblank_ioctl().
-> 
-> v2:
-> 	* keep the old test for legacy drivers in
-> 	  drm_wait_vblank_ioctl() (Daniel)
+On Tue, Jun 22, 2021 at 04:09:45PM +0200, Thomas Zimmermann wrote:
+> The field drm_device.irq_enabled is only used by legacy drivers
+> with userspace modesetting. Don't set it in komeda.
 > 
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
->  drivers/gpu/drm/drm_irq.c    | 10 +++-------
->  drivers/gpu/drm/drm_vblank.c | 13 +++++++++----
->  2 files changed, 12 insertions(+), 11 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_irq.c b/drivers/gpu/drm/drm_irq.c
-> index c3bd664ea733..1d7785721323 100644
-> --- a/drivers/gpu/drm/drm_irq.c
-> +++ b/drivers/gpu/drm/drm_irq.c
-> @@ -74,10 +74,8 @@
->   * only supports devices with a single interrupt on the main device stored in
->   * &drm_device.dev and set as the device paramter in drm_dev_alloc().
->   *
-> - * These IRQ helpers are strictly optional. Drivers which roll their own only
-> - * need to set &drm_device.irq_enabled to signal the DRM core that vblank
-> - * interrupts are working. Since these helpers don't automatically clean up the
-> - * requested interrupt like e.g. devm_request_irq() they're not really
-> + * These IRQ helpers are strictly optional. Since these helpers don't automatically
-> + * clean up the requested interrupt like e.g. devm_request_irq() they're not really
->   * recommended.
->   */
->  
-> @@ -91,9 +89,7 @@
->   * and after the installation.
->   *
->   * This is the simplified helper interface provided for drivers with no special
-> - * needs. Drivers which need to install interrupt handlers for multiple
-> - * interrupts must instead set &drm_device.irq_enabled to signal the DRM core
-> - * that vblank interrupts are available.
-> + * needs.
->   *
->   * @irq must match the interrupt number that would be passed to request_irq(),
->   * if called directly instead of using this helper function.
-> diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
-> index 3417e1ac7918..a98a4aad5037 100644
-> --- a/drivers/gpu/drm/drm_vblank.c
-> +++ b/drivers/gpu/drm/drm_vblank.c
-> @@ -1748,8 +1748,13 @@ int drm_wait_vblank_ioctl(struct drm_device *dev, void *data,
->  	unsigned int pipe_index;
->  	unsigned int flags, pipe, high_pipe;
->  
-> -	if (!dev->irq_enabled)
-> -		return -EOPNOTSUPP;
-> +	if  (drm_core_check_feature(dev, DRIVER_MODESET)) {
-> +		if (!drm_dev_has_vblank(dev))
-> +			return -EOPNOTSUPP;
-> +	} else {
-> +		if (!dev->irq_enabled)
-> +			return -EOPNOTSUPP;
-> +	}
 
-For a system call that is used quite a lot by userspace we have increased the code size
-in a noticeable way. Can we not cache it privately?
+Acked-by: Liviu Dudau <liviu.dudau@arm.com>
 
 Best regards,
 Liviu
 
+> ---
+>  drivers/gpu/drm/arm/display/komeda/komeda_kms.c | 4 ----
+>  1 file changed, 4 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_kms.c b/drivers/gpu/drm/arm/display/komeda/komeda_kms.c
+> index ff45f23f3d56..52a6db5707a3 100644
+> --- a/drivers/gpu/drm/arm/display/komeda/komeda_kms.c
+> +++ b/drivers/gpu/drm/arm/display/komeda/komeda_kms.c
+> @@ -301,8 +301,6 @@ struct komeda_kms_dev *komeda_kms_attach(struct komeda_dev *mdev)
+>  	if (err)
+>  		goto free_component_binding;
 >  
->  	if (vblwait->request.type & _DRM_VBLANK_SIGNAL)
->  		return -EINVAL;
-> @@ -2023,7 +2028,7 @@ int drm_crtc_get_sequence_ioctl(struct drm_device *dev, void *data,
->  	if (!drm_core_check_feature(dev, DRIVER_MODESET))
->  		return -EOPNOTSUPP;
+> -	drm->irq_enabled = true;
+> -
+>  	drm_kms_helper_poll_init(drm);
 >  
-> -	if (!dev->irq_enabled)
-> +	if (!drm_dev_has_vblank(dev))
->  		return -EOPNOTSUPP;
+>  	err = drm_dev_register(drm, 0);
+> @@ -313,7 +311,6 @@ struct komeda_kms_dev *komeda_kms_attach(struct komeda_dev *mdev)
 >  
->  	crtc = drm_crtc_find(dev, file_priv, get_seq->crtc_id);
-> @@ -2082,7 +2087,7 @@ int drm_crtc_queue_sequence_ioctl(struct drm_device *dev, void *data,
->  	if (!drm_core_check_feature(dev, DRIVER_MODESET))
->  		return -EOPNOTSUPP;
->  
-> -	if (!dev->irq_enabled)
-> +	if (!drm_dev_has_vblank(dev))
->  		return -EOPNOTSUPP;
->  
->  	crtc = drm_crtc_find(dev, file_priv, queue_seq->crtc_id);
+>  free_interrupts:
+>  	drm_kms_helper_poll_fini(drm);
+> -	drm->irq_enabled = false;
+>  free_component_binding:
+>  	component_unbind_all(mdev->dev, drm);
+>  cleanup_mode_config:
+> @@ -331,7 +328,6 @@ void komeda_kms_detach(struct komeda_kms_dev *kms)
+>  	drm_dev_unregister(drm);
+>  	drm_kms_helper_poll_fini(drm);
+>  	drm_atomic_helper_shutdown(drm);
+> -	drm->irq_enabled = false;
+>  	component_unbind_all(mdev->dev, drm);
+>  	drm_mode_config_cleanup(drm);
+>  	komeda_kms_cleanup_private_objs(kms);
 > -- 
 > 2.32.0
 > 
