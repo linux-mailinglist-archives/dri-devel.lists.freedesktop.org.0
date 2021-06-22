@@ -2,53 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B75753B0ABC
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Jun 2021 18:55:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A4383B0AC2
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Jun 2021 18:55:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 525B06E5CD;
-	Tue, 22 Jun 2021 16:55:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 382E76E7E5;
+	Tue, 22 Jun 2021 16:55:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f53.google.com (mail-io1-f53.google.com
- [209.85.166.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6FC656E7D3
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Jun 2021 16:55:02 +0000 (UTC)
-Received: by mail-io1-f53.google.com with SMTP id k16so20821451ios.10
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Jun 2021 09:55:02 -0700 (PDT)
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
+ [IPv6:2a00:1450:4864:20::42f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E34C6E5D5
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Jun 2021 16:55:19 +0000 (UTC)
+Received: by mail-wr1-x42f.google.com with SMTP id n7so24499158wri.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Jun 2021 09:55:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=ofnj3zZOb6lvNBLTmLvRZ/dI7B7Qizs2A5qFqSokZMs=;
+ b=PlDcLOVGiA96xcwhvZHPQlAvGMEDcBg9O6ntIM3BCh41iUZ2TDSZtrlqYDU8AaH4SW
+ VDIN57zvAe9n66JyTgIQ0zKjFdNj0fhCyqYu1iSpC/6rjhGX2IkMAmVssHzRiuldBTiR
+ jhp1mZSCgGKNP26cKAT1jLdUgW5uFs/CRHA+0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=Nst9vbRv3atdsjiAwZVyleOKg/gFLJsFk5FhmXQlxQw=;
- b=TrNd26dJkSOVaqjiSwEfPrphK1wVhQl5Sm6ejD4/W2dwMsKTiOmXGLOrMRpifcTDJ7
- TcOajeFosdX0MD1nz/PfYniddr+/CnWHgI2N9ax9IEFEKQ3I3hTO5s6mKmGLvVjsD1gR
- iWSh8xqAY5b0VJJ8EMC+hdMvszxOsZqExrfZNt6FmYMrxbhN0k1ane1wSU5a2UdzPUNS
- SrxwP/q/MAy0IMxrjZ5kbhsMZky/df54NJFIQqtHYJ6UySJAvoB8a2LKJq46LIZZDicS
- pBfUWk9Lgu5sIYXN3LzU5ODi9SN+TJ944z46Xvbl3bOiSfQBST22ri+7mGAm2Z1Vkxaw
- E3Ag==
-X-Gm-Message-State: AOAM5331vtiQKTBc7emlkdcB6PcLAOJ6ScTQpSc/GNC2X+fnnCYYkGd1
- ohZGgGls5H5B9q7wAyY7Wg==
-X-Google-Smtp-Source: ABdhPJwxes1QyEmFowKSsudJkkyqhfPKqc6A8x0/51AML0FVdLusi2ElghJUf8zau5B5LBuX3hvUjQ==
-X-Received: by 2002:a05:6638:12cd:: with SMTP id
- v13mr4854440jas.104.1624380900931; 
- Tue, 22 Jun 2021 09:55:00 -0700 (PDT)
-Received: from robh.at.kernel.org ([64.188.179.248])
- by smtp.gmail.com with ESMTPSA id g4sm2282474ilk.37.2021.06.22.09.54.57
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=ofnj3zZOb6lvNBLTmLvRZ/dI7B7Qizs2A5qFqSokZMs=;
+ b=SooLwOt5yUE/dLqKpMWo94orJ87Wd12vBohW8q+I7OnJuo3RI7BeWJOEw2y0aO0EPx
+ AvYJOQbdJiB0u9KYrU8FNrivFzmZkGSZg0E7jhXmIRXFqz/Daj4DSi7zRdiDftej6CFl
+ m/AY+C7fi12GISSHEBDfztXJ4kNZKCVyyiALBPMIr/07OJYNFck2i3KNqmpwo9fhTof2
+ YYdewTE6WBB7SCNa6kqYoxqTp3q2wd81xUKYdN9GuzbRjznwEGnqB1MKKtSyi/YhFtYL
+ Kck1n5cYiM4ytm3QmVKiTPv5vkpSefqrgYsPV6CZvWcv4bgFcryHmUgQ+i2IpnpY9/84
+ dp1g==
+X-Gm-Message-State: AOAM53018Xi90PEwCkQ6TaWow3ZnxQg/8ftdn0pWC5IulLQ4b4JpZJ5i
+ iTFC1mzKXyfcEGVxRz3EmQGfmriYXzFRzA==
+X-Google-Smtp-Source: ABdhPJxbm3m5AxBLJ1sntMH1y3g3e+GjtyXkKAUUh9TQfj84Nt1Ek6DhdWavkN+hSBoePr5r0dEEoQ==
+X-Received: by 2002:a5d:6c65:: with SMTP id r5mr5875974wrz.339.1624380918343; 
+ Tue, 22 Jun 2021 09:55:18 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id l23sm3632342wmc.5.2021.06.22.09.55.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Jun 2021 09:55:00 -0700 (PDT)
-Received: (nullmailer pid 3837213 invoked by uid 1000);
- Tue, 22 Jun 2021 16:54:56 -0000
-Date: Tue, 22 Jun 2021 10:54:56 -0600
-From: Rob Herring <robh@kernel.org>
-To: Tomohito Esaki <etom@igel.co.jp>
-Subject: Re: [PATH 3/4] dt-bindings: display: Add virtual DRM
-Message-ID: <20210622165456.GA3756306@robh.at.kernel.org>
-References: <20210621064403.26663-1-etom@igel.co.jp>
- <20210621064403.26663-4-etom@igel.co.jp>
+ Tue, 22 Jun 2021 09:55:17 -0700 (PDT)
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+To: DRI Development <dri-devel@lists.freedesktop.org>
+Subject: [PATCH 01/15] dma-resv: Fix kerneldoc
+Date: Tue, 22 Jun 2021 18:54:57 +0200
+Message-Id: <20210622165511.3169559-2-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.32.0.rc2
+In-Reply-To: <20210622165511.3169559-1-daniel.vetter@ffwll.ch>
+References: <20210622165511.3169559-1-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210621064403.26663-4-etom@igel.co.jp>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,103 +65,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- linux-doc@vger.kernel.org, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ linaro-mm-sig@lists.linaro.org, Daniel Vetter <daniel.vetter@intel.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 21, 2021 at 03:44:02PM +0900, Tomohito Esaki wrote:
-> Add device tree bindings documentation for virtual DRM.
+Oversight from
 
-DRM is a Linuxism. What's virtual DRM? Why does it need to be in DT? 
-What's the usecase? You're going to need a lot more reasoning to justify 
-this for DT.
+commit 6edbd6abb783d54f6ac4c3ed5cd9e50cff6c15e9
+Author: Christian König <christian.koenig@amd.com>
+Date:   Mon May 10 16:14:09 2021 +0200
 
-> 
-> Signed-off-by: Tomohito Esaki <etom@igel.co.jp>
-> ---
->  .../devicetree/bindings/display/vdrm.yaml     | 67 +++++++++++++++++++
->  1 file changed, 67 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/vdrm.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/display/vdrm.yaml b/Documentation/devicetree/bindings/display/vdrm.yaml
-> new file mode 100644
-> index 000000000000..6493bb0fc09f
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/vdrm.yaml
-> @@ -0,0 +1,67 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/vdrm.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Virtual DRM Device Tree Bindings
-> +
-> +description:
-> +  This document defines device tree properties virtual DRM. The initial
-> +  position, size and z-position of the plane used in the virtual DRM is
-> +  specified.
-> +  The current limitation is that these settings are applied to all crtc.
-> +
-> +properties:
-> +  compatible:
-> +    const: virt-drm
-> +
-> +patternProperties:
-> +  "^plane(@.*)?$":
-> +    description: Information of the planes used in virtual DRM
-> +    type: object
-> +
-> +    properties:
-> +      x:
-> +        type: int
-> +        description: x-coordinate of the left-top of the plane in pixels
-> +
-> +      y:
-> +        type: int
-> +        description: y-coordinate of the left-top of the plane in pixels
-> +
-> +      width:
-> +        type: int
-> +        description: width of the plane in pixels
-> +
-> +      height:
-> +        type: int
-> +	description: height of the plane in pixels
-> +
-> +      zpos:
-> +        type: int
-> +        description: z-position of the plane
-> +
-> +    required:
-> +      - x
-> +      - y
-> +      - width
-> +      - height
-> +      - zpos
-> +
-> +required:
-> +  - compatible
-> +  - "^plane(@.*)?$"
-> +
-> +examples:
-> + - |
-> +   vdrm@0 {
-> +       compatible = "virt-drm";
-> +       plane@0 {
-> +           x = <200>;
-> +	   y = <100>;
-> +	   width = <800>;
-> +	   height = <600>;
-> +	   zpos = <1>;
-> +       };
-> +   };
-> -- 
-> 2.25.1
-> 
-> 
+    dma-buf: rename and cleanup dma_resv_get_excl v3
+
+Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: "Christian König" <christian.koenig@amd.com>
+Cc: linux-media@vger.kernel.org
+Cc: linaro-mm-sig@lists.linaro.org
+---
+ include/linux/dma-resv.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/include/linux/dma-resv.h b/include/linux/dma-resv.h
+index 562b885cf9c3..e1ca2080a1ff 100644
+--- a/include/linux/dma-resv.h
++++ b/include/linux/dma-resv.h
+@@ -212,7 +212,7 @@ static inline void dma_resv_unlock(struct dma_resv *obj)
+ }
+ 
+ /**
+- * dma_resv_exclusive - return the object's exclusive fence
++ * dma_resv_excl_fence - return the object's exclusive fence
+  * @obj: the reservation object
+  *
+  * Returns the exclusive fence (if any). Caller must either hold the objects
+-- 
+2.32.0.rc2
+
