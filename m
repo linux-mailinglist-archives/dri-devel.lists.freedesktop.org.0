@@ -1,59 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 983FA3B08C8
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Jun 2021 17:24:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E12FB3B08D2
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Jun 2021 17:24:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F6A56E58B;
-	Tue, 22 Jun 2021 15:24:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 96E916E591;
+	Tue, 22 Jun 2021 15:24:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
- [IPv6:2a00:1450:4864:20::42b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 803DF6E591
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Jun 2021 15:24:26 +0000 (UTC)
-Received: by mail-wr1-x42b.google.com with SMTP id i94so24128803wri.4
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Jun 2021 08:24:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=ZeqWuXtX2BrYCzJWvhQ3y4KbulOq0QYwwBD94QW58/k=;
- b=ZlqWM+jail8wVe6yddVhoDkll94K1QcrO1qPfcnvA5ZgF7O5UWGiwgAoirgPr5VThQ
- PxLEoFhDthsBu11VLuKNyZ4t3jV2oXfE2AjGKpc2koo0GT0EP0wz7tBbPjapFZRbS4qF
- iL45agNDVjpfa14ecS7F0zPBWAmsGHIs8s5iQ=
+Received: from mail-ot1-x332.google.com (mail-ot1-x332.google.com
+ [IPv6:2607:f8b0:4864:20::332])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 101DD6E581;
+ Tue, 22 Jun 2021 15:24:56 +0000 (UTC)
+Received: by mail-ot1-x332.google.com with SMTP id
+ 7-20020a9d0d070000b0290439abcef697so21588549oti.2; 
+ Tue, 22 Jun 2021 08:24:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=4X+AcHyDDe3HhjQCq2G+eaJ8kvsIjHhuoyLFdEACcnQ=;
+ b=F9cy62wh9RybK9h82fBHPpp8hPDnZx1s+Z0/GOTSU92eNMyNLfj1mmqR2+r3kT8aM1
+ xYDm3xoWuWMpBQnf+yCUtYaytLMGRdU+gDGi6swnU2/1W4YjA3DmVGgEJEhpqqWEJhiE
+ 01z+W8Xkif0R9mOOrdnFJqQd5G+uUqQGTMfvsT/2xP5BWwkuBCnE6fDDDeJPKFj99hpa
+ IUTx7/RubZA8kR6BUpUTkctQ7E0FSq1LJm9p8lS8IeiHhgNrTRG9ObqVGWK0oLwjI4ER
+ nWl4Jh30VyNTX8WV9ruVKyd0scG13WLdSbrapyE0pKhuHbHyEx+IQYLAiGL9vT11KyaE
+ aOoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=ZeqWuXtX2BrYCzJWvhQ3y4KbulOq0QYwwBD94QW58/k=;
- b=OMnux7bTF/OQumxg9UB6koscd1fvutwS5pY6T0dEJfE4tZuk5u/tY2VlR41DfmMzkL
- xzM6PYedZH+2SrUjGouWs5VpXNGUjdITpsmVa+qVJfSm3TwznGFLuqzztMHtfl9V9IY4
- jLlGJ/dNmzi+FN79Fx0iVs3JzjtNrleQLemnzr4Ajj4H1gNBI3SWj6rBwcQesoUkcj5A
- GLq/7l0cM6oreAebHS81ZFqNVBXwb6Fo+qKxfcYmwrS1lRI5vNsosmb4Sy31bxH+dorM
- klG2H3g83vsf4jfoEr9j9rpzRt+LwF8I7V1Egjh1VlNJdwhFeMD3yqpzOhJ7bRKi86IU
- pwaA==
-X-Gm-Message-State: AOAM531WS+gnLTnywonPscscsAOGpB5RBXEPpy7i3Ye8SiPa3Rm03xzO
- lxefRrJPsBZafJH5nVLNvSrzfA==
-X-Google-Smtp-Source: ABdhPJxIsS4KMhI+Y3KiogSWjdDWrVZYSvpp7dXLHAVjT9HzjIzI+eRKdkXYHvp6Rq+N7hy/RDRSKg==
-X-Received: by 2002:a05:6000:128b:: with SMTP id
- f11mr5556353wrx.171.1624375465147; 
- Tue, 22 Jun 2021 08:24:25 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id a24sm2852645wmj.30.2021.06.22.08.24.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Jun 2021 08:24:24 -0700 (PDT)
-Date: Tue, 22 Jun 2021 17:24:21 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v2 00/22] Deprecate struct drm_device.irq_enabled
-Message-ID: <YNIApfAnFCsCHoYK@phenom.ffwll.local>
-References: <20210622141002.11590-1-tzimmermann@suse.de>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=4X+AcHyDDe3HhjQCq2G+eaJ8kvsIjHhuoyLFdEACcnQ=;
+ b=Hg24sXjZJyQIh2lA2AJ+rJusCKu6v945U6TH39cxrHxL5mMm0zdNgQZXxEoiEVHRNG
+ s1KYOfBHbTTp1CXuErFerLbOb8IG3fZm9sWoIkeKd/cYeHSw19SQELYjaR+7iC5nwMd1
+ LL3TC2jr6NyW2G9PMcR5HV0/TytJr9KfstQXeXtqqvUqNIpPmJdK8y6OLrxZucNgJG5w
+ ZqVRji68jRZpIvphLfVUpnBpX6xc+6u5xBs8RKB0c8EJxJ9RuHT0+BAMS21RYVulCU+c
+ AdjXptIQRhhLQoqLghSSNUAtH3K3t1wDHTYDGccdPwbNZagz4KjLe7Ga7GL87Z7Gq6YZ
+ r81w==
+X-Gm-Message-State: AOAM533XnuhupFMy2A6OqRRK5FUkKnkt8wVzoqNy13jXHfPANI+9G+bU
+ axiPfokEcXQ9i4lpt1I69e94l6yL5MAJkj71miI=
+X-Google-Smtp-Source: ABdhPJxdbW8W5cXUxxqtgxKi95nj/EmM2JjajNW5+/OukMinRa2g08LQoWclCFHmO/psGwfcUIox+YZCnLKA4tnM/9A=
+X-Received: by 2002:a9d:4581:: with SMTP id x1mr3651165ote.145.1624375495284; 
+ Tue, 22 Jun 2021 08:24:55 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210622141002.11590-1-tzimmermann@suse.de>
-X-Operating-System: Linux phenom 5.10.0-7-amd64 
+References: <20210621175511.GI1096940@ziepe.ca>
+ <CAKMK7uEO1_B59DtM7N2g7kkH7pYtLM_WAkn+0f3FU3ps=XEjZQ@mail.gmail.com>
+ <CAFCwf11jOnewkbLuxUESswCJpyo7C0ovZj80UrnwUOZkPv2JYQ@mail.gmail.com>
+ <20210621232912.GK1096940@ziepe.ca>
+ <d358c740-fd3a-9ecd-7001-676e2cb44ec9@gmail.com>
+ <CAFCwf11h_Nj_GEdCdeTzO5jgr-Y9em+W-v_pYUfz64i5Ac25yg@mail.gmail.com>
+ <20210622120142.GL1096940@ziepe.ca>
+ <CAFCwf10GmBjeJAFp0uJsMLiv-8HWAR==RqV9ZdMQz+iW9XWdTA@mail.gmail.com>
+ <20210622121546.GN1096940@ziepe.ca>
+ <CAFCwf13BuS+U3Pko_62hFPuvZPG26HQXuu-cxPmcADNPO22g9g@mail.gmail.com>
+ <20210622151142.GA2431880@ziepe.ca>
+In-Reply-To: <20210622151142.GA2431880@ziepe.ca>
+From: Oded Gabbay <oded.gabbay@gmail.com>
+Date: Tue, 22 Jun 2021 18:24:28 +0300
+Message-ID: <CAFCwf1361iVGeGtcc8WsQeFmHMWY+J6UNkzJnrodFrsOh9zgqQ@mail.gmail.com>
+Subject: Re: [Linaro-mm-sig] [PATCH v3 1/2] habanalabs: define uAPI to export
+ FD for DMA-BUF
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,134 +73,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: emma@anholt.net, airlied@linux.ie, nouveau@lists.freedesktop.org,
- liviu.dudau@arm.com, alexandre.torgue@foss.st.com,
- dri-devel@lists.freedesktop.org, michal.simek@xilinx.com,
- linux-tegra@vger.kernel.org, thierry.reding@gmail.com,
- laurent.pinchart@ideasonboard.com, benjamin.gaignard@linaro.org,
- mihail.atanassov@arm.com, linux-stm32@st-md-mailman.stormreply.com,
- linux-samsung-soc@vger.kernel.org, jy0922.shim@samsung.com,
- krzysztof.kozlowski@canonical.com, linux-rockchip@lists.infradead.org,
- linux-mediatek@lists.infradead.org, wens@csie.org, jernej.skrabec@gmail.com,
- jonathanh@nvidia.com, xinliang.liu@linaro.org, kong.kongxinwei@hisilicon.com,
- james.qian.wang@arm.com, linux-imx@nxp.com,
- linux-graphics-maintainer@vmware.com, linux-sunxi@lists.linux.dev,
- bskeggs@redhat.com, chunkuang.hu@kernel.org, puck.chen@hisilicon.com,
- s.hauer@pengutronix.de, laurentiu.palcu@oss.nxp.com, matthias.bgg@gmail.com,
- kernel@pengutronix.de, linux-arm-kernel@lists.infradead.org,
- mcoquelin.stm32@gmail.com, amd-gfx@lists.freedesktop.org, hyun.kwon@xilinx.com,
- tomba@kernel.org, jyri.sarha@iki.fi, yannick.fertre@foss.st.com,
- Xinhui.Pan@amd.com, sw0312.kim@samsung.com, hjc@rock-chips.com,
- christian.koenig@amd.com, kyungmin.park@samsung.com,
- philippe.cornu@foss.st.com, alexander.deucher@amd.com, tiantao6@hisilicon.com,
- shawnguo@kernel.org
+Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ linux-rdma <linux-rdma@vger.kernel.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ sleybo@amazon.com, Gal Pressman <galpress@amazon.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Christoph Hellwig <hch@lst.de>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Doug Ledford <dledford@redhat.com>, Tomer Tayar <ttayar@habana.ai>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Greg KH <gregkh@linuxfoundation.org>, Alex Deucher <alexander.deucher@amd.com>,
+ Leon Romanovsky <leonro@nvidia.com>, Oded Gabbay <ogabbay@kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 22, 2021 at 04:09:40PM +0200, Thomas Zimmermann wrote:
-> Remove references to struct drm_device.irq_enabled from modern
-> DRM drivers and core.
-> 
-> KMS drivers enable IRQs for their devices internally. They don't
-> have to keep track of the IRQ state via irq_enabled. For vblanking,
-> it's cleaner to test for vblanking support directly than to test
-> for enabled IRQs.
-> 
-> This used to be a single patch, [1] but it's now a full series.
-> 
-> The first 3 patches replace instances of irq_enabled that are not
-> required.
-> 
-> Patch 4 fixes vblank ioctls to actually test for vblank support
-> instead of IRQs.
-> 
-> THe rest of the patchset removes irq_enabled from all non-legacy
-> drivers. The only exception is omapdrm, which has an internal
-> dpendency on the field's value. For this drivers, the state gets
-> duplicated internally.
-> 
-> With the patchset applied, drivers can later switch over to plain
-> Linux IRQ interfaces and DRM's IRQ midlayer can be declared legacy.
-> 
-> v2:
-> 	* keep the original test for legacy drivers in
-> 	  drm_wait_vblank_ioctl() (Daniel)
-> 
-> [1] https://lore.kernel.org/dri-devel/20210608090301.4752-1-tzimmermann@suse.de/
+On Tue, Jun 22, 2021 at 6:11 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
+>
+> On Tue, Jun 22, 2021 at 04:12:26PM +0300, Oded Gabbay wrote:
+>
+> > > 1) Setting sg_page to NULL
+> > > 2) 'mapping' pages for P2P DMA without going through the iommu
+> > > 3) Allowing P2P DMA without using the p2p dma API to validate that it
+> > >    can work at all in the first place.
+> > >
+> > > All of these result in functional bugs in certain system
+> > > configurations.
+> > >
+> > > Jason
+> >
+> > Hi Jason,
+> > Thanks for the feedback.
+> > Regarding point 1, why is that a problem if we disable the option to
+> > mmap the dma-buf from user-space ?
+>
+> Userspace has nothing to do with needing struct pages or not
+>
+> Point 1 and 2 mostly go together, you supporting the iommu is not nice
+> if you dont have struct pages.
+>
+> You should study Logan's patches I pointed you at as they are solving
+> exactly this problem.
+Yes, I do need to study them. I agree with you here. It appears I have
+a hole in my understanding.
+I'm missing the connection between iommu support (which I must have of
+course) and struct pages.
 
-On the series:
+>
+> > In addition, I didn't see any problem with sg_page being NULL in the
+> > RDMA p2p dma-buf code. Did I miss something here ?
+>
+> No, the design of the dmabuf requires the exporter to do the dma maps
+> and so it is only the exporter that is wrong to omit all the iommu and
+> p2p logic.
+>
+> RDMA is OK today only because nobody has implemented dma buf support
+> in rxe/si - mainly because the only implementations of exporters don't
+Can you please educate me, what is rxe/si ?
 
-Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> set the struct page and are thus buggy.
 
-But I've only done a very light reading of this, so please wait for driver
-folks to have some time to check their own before merging.
+ok...
+so how come that patch-set was merged into 5.12 if it's buggy ?
+Because the current exporters are buggy ?  I probably need a history
+lesson here.
+But I understand why you think it's a bad idea to add a new buggy exporter.
 
-I think a devm_ version of drm_irq_install might be helpful in further
-untangling here, but that's definitely for another series.
--Daniel
+>
+> > I will take two GAUDI devices and use one as an exporter and one as an
+> > importer. I want to see that the solution works end-to-end, with real
+> > device DMA from importer to exporter.
+>
+> I can tell you it doesn't. Stuffing physical addresses directly into
+> the sg list doesn't involve any of the IOMMU code so any configuration
+> that requires IOMMU page table setup will not work.
+>
+> Jason
 
-> 
-> Thomas Zimmermann (22):
->   drm/amdgpu: Track IRQ state in local device state
->   drm/hibmc: Call drm_irq_uninstall() unconditionally
->   drm/radeon: Track IRQ state in local device state
->   drm: Don't test for IRQ support in VBLANK ioctls
->   drm/komeda: Don't set struct drm_device.irq_enabled
->   drm/malidp: Don't set struct drm_device.irq_enabled
->   drm/exynos: Don't set struct drm_device.irq_enabled
->   drm/kirin: Don't set struct drm_device.irq_enabled
->   drm/imx: Don't set struct drm_device.irq_enabled
->   drm/mediatek: Don't set struct drm_device.irq_enabled
->   drm/nouveau: Don't set struct drm_device.irq_enabled
->   drm/omapdrm: Track IRQ state in local device state
->   drm/rockchip: Don't set struct drm_device.irq_enabled
->   drm/sti: Don't set struct drm_device.irq_enabled
->   drm/stm: Don't set struct drm_device.irq_enabled
->   drm/sun4i: Don't set struct drm_device.irq_enabled
->   drm/tegra: Don't set struct drm_device.irq_enabled
->   drm/tidss: Don't use struct drm_device.irq_enabled
->   drm/vc4: Don't set struct drm_device.irq_enabled
->   drm/vmwgfx: Don't set struct drm_device.irq_enabled
->   drm/xlnx: Don't set struct drm_device.irq_enabled
->   drm/zte: Don't set struct drm_device.irq_enabled
-> 
->  drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c         |  6 +++---
->  drivers/gpu/drm/arm/display/komeda/komeda_kms.c |  4 ----
->  drivers/gpu/drm/arm/malidp_drv.c                |  4 ----
->  drivers/gpu/drm/drm_irq.c                       | 10 +++-------
->  drivers/gpu/drm/drm_vblank.c                    | 13 +++++++++----
->  drivers/gpu/drm/exynos/exynos_drm_drv.c         | 10 ----------
->  drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c |  3 +--
->  drivers/gpu/drm/hisilicon/kirin/kirin_drm_drv.c |  2 --
->  drivers/gpu/drm/imx/dcss/dcss-kms.c             |  3 ---
->  drivers/gpu/drm/imx/imx-drm-core.c              | 11 -----------
->  drivers/gpu/drm/mediatek/mtk_drm_drv.c          |  6 ------
->  drivers/gpu/drm/nouveau/nouveau_drm.c           |  3 ---
->  drivers/gpu/drm/omapdrm/omap_drv.h              |  2 ++
->  drivers/gpu/drm/omapdrm/omap_irq.c              |  6 +++---
->  drivers/gpu/drm/radeon/radeon_fence.c           |  2 +-
->  drivers/gpu/drm/radeon/radeon_irq_kms.c         | 16 ++++++++--------
->  drivers/gpu/drm/rockchip/rockchip_drm_drv.c     |  6 ------
->  drivers/gpu/drm/sti/sti_compositor.c            |  2 --
->  drivers/gpu/drm/stm/ltdc.c                      |  3 ---
->  drivers/gpu/drm/sun4i/sun4i_drv.c               |  2 --
->  drivers/gpu/drm/tegra/drm.c                     |  7 -------
->  drivers/gpu/drm/tidss/tidss_irq.c               |  3 ---
->  drivers/gpu/drm/vc4/vc4_kms.c                   |  1 -
->  drivers/gpu/drm/vmwgfx/vmwgfx_irq.c             |  8 --------
->  drivers/gpu/drm/xlnx/zynqmp_dpsub.c             |  2 --
->  drivers/gpu/drm/zte/zx_drm_drv.c                |  6 ------
->  26 files changed, 30 insertions(+), 111 deletions(-)
-> 
-> 
-> base-commit: 8c1323b422f8473421682ba783b5949ddd89a3f4
-> prerequisite-patch-id: c2b2f08f0eccc9f5df0c0da49fa1d36267deb11d
-> prerequisite-patch-id: c67e5d886a47b7d0266d81100837557fda34cb24
-> --
-> 2.32.0
-> 
+Yes, that's what I expect to see. But I want to see it with my own
+eyes and then figure out how to solve this.
+Maybe the result will be going to Logan's path, maybe something else,
+but I need to start by seeing the failure in a real system.
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Thanks for the information, it is really helpful.
+
+Oded
