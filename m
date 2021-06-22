@@ -1,42 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3502C3B0FDC
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Jun 2021 00:07:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 692473B0FE1
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Jun 2021 00:10:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F1A76E0B9;
-	Tue, 22 Jun 2021 22:07:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 334CF6E288;
+	Tue, 22 Jun 2021 22:10:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 073906E0B9
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Jun 2021 22:07:26 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C909A6E288
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Jun 2021 22:10:22 +0000 (UTC)
 Received: from [192.168.0.20]
  (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3FFF7EE;
- Wed, 23 Jun 2021 00:07:25 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2D8E6EE;
+ Wed, 23 Jun 2021 00:10:21 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1624399645;
- bh=VwgyXRJTAMgHLiUzfGfZYyjPpNTXNcg+lK1akEP16X4=;
+ s=mail; t=1624399821;
+ bh=aPyvTL63Knmzv0VLeUHMA+54INK6aLYn9WeKqOvP0l8=;
  h=From:Subject:To:Cc:References:Date:In-Reply-To:From;
- b=Ax8eUj4VG3AtPxL9DDCzfSHdGrcIz5mIS1HxoDxrsbNpPWsaUisbJ/8xLlI+xwsh/
- EhVUYkYkUKPceFEGGIlVpJR2bbkHs7zqHyEEfBoXdoneNBw7jrVg5+KXYaSMX58x9a
- NyGlSht4SZeA4U7DYBk/KR55lfyTeAoKWuAQCAsE=
+ b=oQq6CyWC7DJ0cgJ1kxWmgDoiiL5UFUffuRAeL9kzRIBY8f9k6rUo1g6TA3t388MnO
+ a1Z9WTlKNb1OKUws7vIdHl+n6K6FCAfPStPZwKY3W1IazzNk+xAZgE/DTvgp1OOzsh
+ lEHqah70jqO/7ny3wnOvih8wLqCzGzaE7L4N/erw=
 From: Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: Re: [PATCH v3 1/4] drm: bridge: dw-hdmi: Attach to next bridge if
- available
+Subject: Re: [PATCH v3 2/4] drm: rcar-du: lvds: Convert to DRM panel bridge
+ helper
 To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
  dri-devel@lists.freedesktop.org
 References: <20210520065046.28978-1-laurent.pinchart+renesas@ideasonboard.com>
- <20210520065046.28978-2-laurent.pinchart+renesas@ideasonboard.com>
-Message-ID: <04dd7768-e21b-6e68-cd76-fc667372c160@ideasonboard.com>
-Date: Tue, 22 Jun 2021 23:07:22 +0100
+ <20210520065046.28978-3-laurent.pinchart+renesas@ideasonboard.com>
+Message-ID: <7dd01873-ed11-c356-4aec-2e0a714cf9a7@ideasonboard.com>
+Date: Tue, 22 Jun 2021 23:10:19 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210520065046.28978-2-laurent.pinchart+renesas@ideasonboard.com>
+In-Reply-To: <20210520065046.28978-3-laurent.pinchart+renesas@ideasonboard.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
@@ -59,125 +59,201 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Hi Laurent,
 
 On 20/05/2021 07:50, Laurent Pinchart wrote:
-> On all platforms except i.MX and Rockchip, the dw-hdmi DT bindings
-> require a video output port connected to an HDMI sink (most likely an
-> HDMI connector, in rare cases another bridges converting HDMI to another
-> protocol). For those platforms, retrieve the next bridge and attach it
-> from the dw-hdmi bridge attach handler.
+> Replace the manual panel handling with usage of the DRM panel bridge
+> helper. This simplifies the driver, and brings support for
+> DRM_BRIDGE_ATTACH_NO_CONNECTOR as an added bonus.
 > 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> Reviewed-by: Neil Armstrong <narmstrong@baylibre.com>
 
-Nothing jumping out at me here.
+That's a lot of code removal. Excellent.
 
 Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 > ---
-> Changes since v1:
+>  drivers/gpu/drm/rcar-du/rcar_lvds.c | 120 +++-------------------------
+>  1 file changed, 12 insertions(+), 108 deletions(-)
 > 
-> - Make missing endpoint a fatal error
-> ---
->  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 54 ++++++++++++++++++++++-
->  include/drm/bridge/dw_hdmi.h              |  2 +
->  2 files changed, 55 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> index e7c7c9b9c646..f9065ca4cd88 100644
-> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> @@ -143,6 +143,7 @@ struct dw_hdmi_phy_data {
->  struct dw_hdmi {
->  	struct drm_connector connector;
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_lvds.c b/drivers/gpu/drm/rcar-du/rcar_lvds.c
+> index 70dbbe44bb23..1b360e06658c 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_lvds.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_lvds.c
+> @@ -63,7 +63,6 @@ struct rcar_lvds {
 >  	struct drm_bridge bridge;
-> +	struct drm_bridge *next_bridge;
 >  
->  	unsigned int version;
+>  	struct drm_bridge *next_bridge;
+> -	struct drm_connector connector;
+>  	struct drm_panel *panel;
 >  
-> @@ -2775,7 +2776,8 @@ static int dw_hdmi_bridge_attach(struct drm_bridge *bridge,
->  	struct dw_hdmi *hdmi = bridge->driver_private;
+>  	void __iomem *mmio;
+> @@ -80,73 +79,11 @@ struct rcar_lvds {
+>  #define bridge_to_rcar_lvds(b) \
+>  	container_of(b, struct rcar_lvds, bridge)
 >  
->  	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR)
-> -		return 0;
-> +		return drm_bridge_attach(bridge->encoder, hdmi->next_bridge,
-> +					 bridge, flags);
->  
->  	return dw_hdmi_connector_create(hdmi);
->  }
-> @@ -3160,6 +3162,52 @@ static void dw_hdmi_init_hw(struct dw_hdmi *hdmi)
->  /* -----------------------------------------------------------------------------
->   * Probe/remove API, used from platforms based on the DRM bridge API.
->   */
-> +
-> +static int dw_hdmi_parse_dt(struct dw_hdmi *hdmi)
-> +{
-> +	struct device_node *endpoint;
-> +	struct device_node *remote;
-> +
-> +	if (!hdmi->plat_data->output_port)
-> +		return 0;
-> +
-> +	endpoint = of_graph_get_endpoint_by_regs(hdmi->dev->of_node,
-> +						 hdmi->plat_data->output_port,
-> +						 -1);
-> +	if (!endpoint) {
-> +		/*
-> +		 * On platforms whose bindings don't make the output port
-> +		 * mandatory (such as Rockchip) the plat_data->output_port
-> +		 * field isn't set, so it's safe to make this a fatal error.
-> +		 */
-> +		dev_err(hdmi->dev, "Missing endpoint in port@%u\n",
-> +			hdmi->plat_data->output_port);
-> +		return -ENODEV;
-> +	}
-> +
-> +	remote = of_graph_get_remote_port_parent(endpoint);
-> +	of_node_put(endpoint);
-> +	if (!remote) {
-> +		dev_err(hdmi->dev, "Endpoint in port@%u unconnected\n",
-> +			hdmi->plat_data->output_port);
-> +		return -ENODEV;
-> +	}
-> +
-> +	if (!of_device_is_available(remote)) {
-> +		dev_err(hdmi->dev, "port@%u remote device is disabled\n",
-> +			hdmi->plat_data->output_port);
-> +		of_node_put(remote);
-> +		return -ENODEV;
-> +	}
-> +
-> +	hdmi->next_bridge = of_drm_find_bridge(remote);
-> +	of_node_put(remote);
-> +	if (!hdmi->next_bridge)
-> +		return -EPROBE_DEFER;
-> +
-> +	return 0;
-> +}
-> +
->  struct dw_hdmi *dw_hdmi_probe(struct platform_device *pdev,
->  			      const struct dw_hdmi_plat_data *plat_data)
+> -#define connector_to_rcar_lvds(c) \
+> -	container_of(c, struct rcar_lvds, connector)
+> -
+>  static void rcar_lvds_write(struct rcar_lvds *lvds, u32 reg, u32 data)
 >  {
-> @@ -3196,6 +3244,10 @@ struct dw_hdmi *dw_hdmi_probe(struct platform_device *pdev,
->  	mutex_init(&hdmi->cec_notifier_mutex);
->  	spin_lock_init(&hdmi->audio_lock);
+>  	iowrite32(data, lvds->mmio + reg);
+>  }
 >  
-> +	ret = dw_hdmi_parse_dt(hdmi);
-> +	if (ret < 0)
-> +		return ERR_PTR(ret);
-> +
->  	ddc_node = of_parse_phandle(np, "ddc-i2c-bus", 0);
->  	if (ddc_node) {
->  		hdmi->ddc = of_get_i2c_adapter_by_node(ddc_node);
-> diff --git a/include/drm/bridge/dw_hdmi.h b/include/drm/bridge/dw_hdmi.h
-> index 6a5716655619..2a1f85f9a8a3 100644
-> --- a/include/drm/bridge/dw_hdmi.h
-> +++ b/include/drm/bridge/dw_hdmi.h
-> @@ -126,6 +126,8 @@ struct dw_hdmi_phy_ops {
->  struct dw_hdmi_plat_data {
->  	struct regmap *regm;
+> -/* -----------------------------------------------------------------------------
+> - * Connector & Panel
+> - */
+> -
+> -static int rcar_lvds_connector_get_modes(struct drm_connector *connector)
+> -{
+> -	struct rcar_lvds *lvds = connector_to_rcar_lvds(connector);
+> -
+> -	return drm_panel_get_modes(lvds->panel, connector);
+> -}
+> -
+> -static int rcar_lvds_connector_atomic_check(struct drm_connector *connector,
+> -					    struct drm_atomic_state *state)
+> -{
+> -	struct rcar_lvds *lvds = connector_to_rcar_lvds(connector);
+> -	const struct drm_display_mode *panel_mode;
+> -	struct drm_connector_state *conn_state;
+> -	struct drm_crtc_state *crtc_state;
+> -
+> -	conn_state = drm_atomic_get_new_connector_state(state, connector);
+> -	if (!conn_state->crtc)
+> -		return 0;
+> -
+> -	if (list_empty(&connector->modes)) {
+> -		dev_dbg(lvds->dev, "connector: empty modes list\n");
+> -		return -EINVAL;
+> -	}
+> -
+> -	panel_mode = list_first_entry(&connector->modes,
+> -				      struct drm_display_mode, head);
+> -
+> -	/* We're not allowed to modify the resolution. */
+> -	crtc_state = drm_atomic_get_crtc_state(state, conn_state->crtc);
+> -	if (IS_ERR(crtc_state))
+> -		return PTR_ERR(crtc_state);
+> -
+> -	if (crtc_state->mode.hdisplay != panel_mode->hdisplay ||
+> -	    crtc_state->mode.vdisplay != panel_mode->vdisplay)
+> -		return -EINVAL;
+> -
+> -	/* The flat panel mode is fixed, just copy it to the adjusted mode. */
+> -	drm_mode_copy(&crtc_state->adjusted_mode, panel_mode);
+> -
+> -	return 0;
+> -}
+> -
+> -static const struct drm_connector_helper_funcs rcar_lvds_conn_helper_funcs = {
+> -	.get_modes = rcar_lvds_connector_get_modes,
+> -	.atomic_check = rcar_lvds_connector_atomic_check,
+> -};
+> -
+> -static const struct drm_connector_funcs rcar_lvds_conn_funcs = {
+> -	.reset = drm_atomic_helper_connector_reset,
+> -	.fill_modes = drm_helper_probe_single_connector_modes,
+> -	.destroy = drm_connector_cleanup,
+> -	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
+> -	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
+> -};
+> -
+>  /* -----------------------------------------------------------------------------
+>   * PLL Setup
+>   */
+> @@ -583,11 +520,6 @@ static void __rcar_lvds_atomic_enable(struct drm_bridge *bridge,
+>  	/* Turn the output on. */
+>  	lvdcr0 |= LVDCR0_LVRES;
+>  	rcar_lvds_write(lvds, LVDCR0, lvdcr0);
+> -
+> -	if (lvds->panel) {
+> -		drm_panel_prepare(lvds->panel);
+> -		drm_panel_enable(lvds->panel);
+> -	}
+>  }
 >  
-> +	unsigned int output_port;
+>  static void rcar_lvds_atomic_enable(struct drm_bridge *bridge,
+> @@ -609,11 +541,6 @@ static void rcar_lvds_atomic_disable(struct drm_bridge *bridge,
+>  {
+>  	struct rcar_lvds *lvds = bridge_to_rcar_lvds(bridge);
+>  
+> -	if (lvds->panel) {
+> -		drm_panel_disable(lvds->panel);
+> -		drm_panel_unprepare(lvds->panel);
+> -	}
+> -
+>  	rcar_lvds_write(lvds, LVDCR0, 0);
+>  	rcar_lvds_write(lvds, LVDCR1, 0);
+>  	rcar_lvds_write(lvds, LVDPLLCR, 0);
+> @@ -648,45 +575,13 @@ static int rcar_lvds_attach(struct drm_bridge *bridge,
+>  			    enum drm_bridge_attach_flags flags)
+>  {
+>  	struct rcar_lvds *lvds = bridge_to_rcar_lvds(bridge);
+> -	struct drm_connector *connector = &lvds->connector;
+> -	struct drm_encoder *encoder = bridge->encoder;
+> -	int ret;
+>  
+> -	/* If we have a next bridge just attach it. */
+> -	if (lvds->next_bridge)
+> -		return drm_bridge_attach(bridge->encoder, lvds->next_bridge,
+> -					 bridge, flags);
+> -
+> -	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR) {
+> -		DRM_ERROR("Fix bridge driver to make connector optional!");
+> -		return -EINVAL;
+> -	}
+> -
+> -	/* Otherwise if we have a panel, create a connector. */
+> -	if (!lvds->panel)
+> -		return 0;
+> -
+> -	ret = drm_connector_init(bridge->dev, connector, &rcar_lvds_conn_funcs,
+> -				 DRM_MODE_CONNECTOR_LVDS);
+> -	if (ret < 0)
+> -		return ret;
+> -
+> -	drm_connector_helper_add(connector, &rcar_lvds_conn_helper_funcs);
+> -
+> -	ret = drm_connector_attach_encoder(connector, encoder);
+> -	if (ret < 0)
+> -		return ret;
+> -
+> -	return 0;
+> -}
+> -
+> -static void rcar_lvds_detach(struct drm_bridge *bridge)
+> -{
+> +	return drm_bridge_attach(bridge->encoder, lvds->next_bridge, bridge,
+> +				 flags);
+>  }
+>  
+>  static const struct drm_bridge_funcs rcar_lvds_bridge_ops = {
+>  	.attach = rcar_lvds_attach,
+> -	.detach = rcar_lvds_detach,
+>  	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
+>  	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
+>  	.atomic_reset = drm_atomic_helper_bridge_reset,
+> @@ -759,7 +654,7 @@ static int rcar_lvds_parse_dt_companion(struct rcar_lvds *lvds)
+>  		 * that we are expected to generate even pixels from the primary
+>  		 * encoder, and odd pixels from the companion encoder.
+>  		 */
+> -		if (lvds->next_bridge && lvds->next_bridge->timings &&
+> +		if (lvds->next_bridge->timings &&
+>  		    lvds->next_bridge->timings->dual_link)
+>  			lvds->link_type = RCAR_LVDS_DUAL_LINK_EVEN_ODD_PIXELS;
+>  		else
+> @@ -811,6 +706,15 @@ static int rcar_lvds_parse_dt(struct rcar_lvds *lvds)
+>  	if (ret)
+>  		goto done;
+>  
+> +	if (lvds->panel) {
+> +		lvds->next_bridge = devm_drm_panel_bridge_add(lvds->dev,
+> +							      lvds->panel);
+> +		if (IS_ERR_OR_NULL(lvds->next_bridge)) {
+> +			ret = -EINVAL;
+> +			goto done;
+> +		}
+> +	}
 > +
->  	unsigned long input_bus_encoding;
->  	bool use_drm_infoframe;
->  	bool ycbcr_420_allowed;
+>  	if (lvds->info->quirks & RCAR_LVDS_QUIRK_DUAL_LINK)
+>  		ret = rcar_lvds_parse_dt_companion(lvds);
+>  
 > 
