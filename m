@@ -1,57 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B71A23B0ABE
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Jun 2021 18:55:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B75753B0ABC
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Jun 2021 18:55:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B33B96E7D3;
-	Tue, 22 Jun 2021 16:55:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 525B06E5CD;
+	Tue, 22 Jun 2021 16:55:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com
- [IPv6:2a00:1450:4864:20::334])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD0026E5D5
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Jun 2021 16:55:18 +0000 (UTC)
-Received: by mail-wm1-x334.google.com with SMTP id
- l7-20020a05600c1d07b02901b0e2ebd6deso2714928wms.1
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Jun 2021 09:55:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=rGseW/2NA6fZVCFc5Kns8fRU7bafEFYBWr5+CbGtNOg=;
- b=BLlKpZF+W0F89w0d1M6ubYZffSuuE5Yps0apeP/drgt9QWtdVgszEHmIZdJ/mSxidD
- QLBmzI18tDJAVpkQuhCv6qPq75yDR+fbVwbT4P0af6wIBdrxkERaotV5dIxhohP7wMr1
- qTrUz0atoijLS9U3ZeZP2YgmD+4lQ/EpgbLws=
+Received: from mail-io1-f53.google.com (mail-io1-f53.google.com
+ [209.85.166.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6FC656E7D3
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Jun 2021 16:55:02 +0000 (UTC)
+Received: by mail-io1-f53.google.com with SMTP id k16so20821451ios.10
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Jun 2021 09:55:02 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=rGseW/2NA6fZVCFc5Kns8fRU7bafEFYBWr5+CbGtNOg=;
- b=PxxO4nyZb4+gQlXnEHDGsfZs/T0VoVj43cdFH2QEKUx2juSqAObDn80rTIm9wLz6Jf
- 0MfkYQX8linWkDtcfLkP9Af57TnT1tPFSG3gsplJMVjez8tiVqqycLXm72nTFJlSotOj
- yKD3kyh0Pb4obtHavcPQhR+ywcAej+ze7yLHelOfrTuyfuvbTtdqVvrAFUaAv1QdJRXB
- benoVekmrjvVQNpvcL5IhB1W8DMNt/qFRXZsAxn01ovVsHy99m5Yx7KTaUQPjj9iYJxI
- IZ3y72sFbPMxrQbli6Qm72OXqmW1TJlOmVGhMcLTAsylDa+wa/9/E9oAq2dDcD+Tw4TV
- K6RQ==
-X-Gm-Message-State: AOAM530gwBibmJ4Catll3YrIIEw+fw0H8iBsMRk23ASR+0BtwHc/q8sJ
- gC2YKTgLbSV6PJK2aT/Vubxr0tASq8Pw1g==
-X-Google-Smtp-Source: ABdhPJwx7DftFLy/uJveBEvFozElMCAhNwSlUPie2QPKETquGjboOFCsRE7C89bBEUzYTH3kuNoKjw==
-X-Received: by 2002:a1c:4b04:: with SMTP id y4mr5714572wma.186.1624380917326; 
- Tue, 22 Jun 2021 09:55:17 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id l23sm3632342wmc.5.2021.06.22.09.55.16
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=Nst9vbRv3atdsjiAwZVyleOKg/gFLJsFk5FhmXQlxQw=;
+ b=TrNd26dJkSOVaqjiSwEfPrphK1wVhQl5Sm6ejD4/W2dwMsKTiOmXGLOrMRpifcTDJ7
+ TcOajeFosdX0MD1nz/PfYniddr+/CnWHgI2N9ax9IEFEKQ3I3hTO5s6mKmGLvVjsD1gR
+ iWSh8xqAY5b0VJJ8EMC+hdMvszxOsZqExrfZNt6FmYMrxbhN0k1ane1wSU5a2UdzPUNS
+ SrxwP/q/MAy0IMxrjZ5kbhsMZky/df54NJFIQqtHYJ6UySJAvoB8a2LKJq46LIZZDicS
+ pBfUWk9Lgu5sIYXN3LzU5ODi9SN+TJ944z46Xvbl3bOiSfQBST22ri+7mGAm2Z1Vkxaw
+ E3Ag==
+X-Gm-Message-State: AOAM5331vtiQKTBc7emlkdcB6PcLAOJ6ScTQpSc/GNC2X+fnnCYYkGd1
+ ohZGgGls5H5B9q7wAyY7Wg==
+X-Google-Smtp-Source: ABdhPJwxes1QyEmFowKSsudJkkyqhfPKqc6A8x0/51AML0FVdLusi2ElghJUf8zau5B5LBuX3hvUjQ==
+X-Received: by 2002:a05:6638:12cd:: with SMTP id
+ v13mr4854440jas.104.1624380900931; 
+ Tue, 22 Jun 2021 09:55:00 -0700 (PDT)
+Received: from robh.at.kernel.org ([64.188.179.248])
+ by smtp.gmail.com with ESMTPSA id g4sm2282474ilk.37.2021.06.22.09.54.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Jun 2021 09:55:16 -0700 (PDT)
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 00/15] implicit fencing/dma-resv rules for shared buffers
-Date: Tue, 22 Jun 2021 18:54:56 +0200
-Message-Id: <20210622165511.3169559-1-daniel.vetter@ffwll.ch>
-X-Mailer: git-send-email 2.32.0.rc2
+ Tue, 22 Jun 2021 09:55:00 -0700 (PDT)
+Received: (nullmailer pid 3837213 invoked by uid 1000);
+ Tue, 22 Jun 2021 16:54:56 -0000
+Date: Tue, 22 Jun 2021 10:54:56 -0600
+From: Rob Herring <robh@kernel.org>
+To: Tomohito Esaki <etom@igel.co.jp>
+Subject: Re: [PATH 3/4] dt-bindings: display: Add virtual DRM
+Message-ID: <20210622165456.GA3756306@robh.at.kernel.org>
+References: <20210621064403.26663-1-etom@igel.co.jp>
+ <20210621064403.26663-4-etom@igel.co.jp>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210621064403.26663-4-etom@igel.co.jp>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,116 +61,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>
+Cc: devicetree@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-doc@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi all,
+On Mon, Jun 21, 2021 at 03:44:02PM +0900, Tomohito Esaki wrote:
+> Add device tree bindings documentation for virtual DRM.
 
-After many bits have been spilled on dri-devel discussion this I think
-we're converging on a consensus understanding of where we are, and it's
-time to resubmit patches.
+DRM is a Linuxism. What's virtual DRM? Why does it need to be in DT? 
+What's the usecase? You're going to need a lot more reasoning to justify 
+this for DT.
 
-This is essentially v2 of
-
-https://lore.kernel.org/dri-devel/20210521090959.1663703-7-daniel.vetter@ffwll.ch/
-
-but a lot has changed:
-
-- Christian fixed up amdgpu with a much more competent patch.
-
-- I used the entire audit I've done in that patch to instead improve the
-  documentation. That's the first 3 patches.
-
-- panfrost patches fixed (hopefully, testing would be appreciated)
-
-- drm/tiny patch fixed
-
-- I've also thrown an RFC on top at the end for what I think amdgpu should
-  be doing. Probably really, really buggy, so beware :-)
-
-Review on the entire pile except the very last RFC very much appreciated.
-
-Note that this does not, by far, fix all the various issues in handling
-dma_buf.resv fences. This is just the part I had mostly ready already, and
-which didn't take long to refresh and rebase. The other part is checking
-whether drivers do anything funny that breaks the cross driver contract in
-how they handle dependencies the get from the dma_buf.resv. I know they
-do, but the full audit is not yet done.
-
-Cheers, Daniel
-
-Daniel Vetter (15):
-  dma-resv: Fix kerneldoc
-  dma-buf: Switch to inline kerneldoc
-  dma-buf: Document dma-buf implicit fencing/resv fencing rules
-  drm/panfrost: Shrink sched_lock
-  drm/panfrost: Use xarray and helpers for depedency tracking
-  drm/panfrost: Fix implicit sync
-  drm/atomic-helper: make drm_gem_plane_helper_prepare_fb the default
-  drm/<driver>: drm_gem_plane_helper_prepare_fb is now the default
-  drm/armada: Remove prepare/cleanup_fb hooks
-  drm/vram-helpers: Create DRM_GEM_VRAM_PLANE_HELPER_FUNCS
-  drm/omap: Follow implicit fencing in prepare_fb
-  drm/simple-helper: drm_gem_simple_display_pipe_prepare_fb as default
-  drm/tiny: drm_gem_simple_display_pipe_prepare_fb is the default
-  drm/gem: Tiny kernel clarification for drm_gem_fence_array_add
-  RFC: drm/amdgpu: Implement a proper implicit fencing uapi
-
- drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c        |   7 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c       |  21 +++
- drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h        |   6 +
- drivers/gpu/drm/armada/armada_overlay.c       |   2 -
- drivers/gpu/drm/armada/armada_plane.c         |  29 ----
- drivers/gpu/drm/armada/armada_plane.h         |   2 -
- drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c      |   1 -
- drivers/gpu/drm/ast/ast_mode.c                |   3 +-
- drivers/gpu/drm/drm_atomic_helper.c           |  10 ++
- drivers/gpu/drm/drm_gem.c                     |   3 +
- drivers/gpu/drm/drm_gem_atomic_helper.c       |   3 +
- drivers/gpu/drm/drm_simple_kms_helper.c       |  12 +-
- drivers/gpu/drm/gud/gud_drv.c                 |   1 -
- .../gpu/drm/hisilicon/hibmc/hibmc_drm_de.c    |   3 +-
- drivers/gpu/drm/imx/dcss/dcss-plane.c         |   1 -
- drivers/gpu/drm/imx/ipuv3-plane.c             |   1 -
- drivers/gpu/drm/ingenic/ingenic-drm-drv.c     |   1 -
- drivers/gpu/drm/ingenic/ingenic-ipu.c         |   1 -
- drivers/gpu/drm/mcde/mcde_display.c           |   1 -
- drivers/gpu/drm/mediatek/mtk_drm_plane.c      |   1 -
- drivers/gpu/drm/meson/meson_overlay.c         |   1 -
- drivers/gpu/drm/meson/meson_plane.c           |   1 -
- drivers/gpu/drm/mxsfb/mxsfb_kms.c             |   2 -
- drivers/gpu/drm/omapdrm/omap_plane.c          |   3 +
- drivers/gpu/drm/panfrost/panfrost_drv.c       |  41 +++--
- drivers/gpu/drm/panfrost/panfrost_job.c       |  71 ++++-----
- drivers/gpu/drm/panfrost/panfrost_job.h       |   8 +-
- drivers/gpu/drm/pl111/pl111_display.c         |   1 -
- drivers/gpu/drm/rockchip/rockchip_drm_vop.c   |   1 -
- drivers/gpu/drm/stm/ltdc.c                    |   1 -
- drivers/gpu/drm/sun4i/sun4i_layer.c           |   1 -
- drivers/gpu/drm/sun4i/sun8i_ui_layer.c        |   1 -
- drivers/gpu/drm/sun4i/sun8i_vi_layer.c        |   1 -
- drivers/gpu/drm/tidss/tidss_plane.c           |   1 -
- drivers/gpu/drm/tiny/hx8357d.c                |   1 -
- drivers/gpu/drm/tiny/ili9225.c                |   1 -
- drivers/gpu/drm/tiny/ili9341.c                |   1 -
- drivers/gpu/drm/tiny/ili9486.c                |   1 -
- drivers/gpu/drm/tiny/mi0283qt.c               |   1 -
- drivers/gpu/drm/tiny/repaper.c                |   1 -
- drivers/gpu/drm/tiny/st7586.c                 |   1 -
- drivers/gpu/drm/tiny/st7735r.c                |   1 -
- drivers/gpu/drm/tve200/tve200_display.c       |   1 -
- drivers/gpu/drm/vboxvideo/vbox_mode.c         |   3 +-
- drivers/gpu/drm/xen/xen_drm_front_kms.c       |   1 -
- include/drm/drm_gem_vram_helper.h             |  12 ++
- include/drm/drm_modeset_helper_vtables.h      |   7 +-
- include/drm/drm_simple_kms_helper.h           |   7 +-
- include/linux/dma-buf.h                       | 146 +++++++++++++++---
- include/linux/dma-resv.h                      |   2 +-
- include/uapi/drm/amdgpu_drm.h                 |  10 ++
- 51 files changed, 270 insertions(+), 170 deletions(-)
-
--- 
-2.32.0.rc2
-
+> 
+> Signed-off-by: Tomohito Esaki <etom@igel.co.jp>
+> ---
+>  .../devicetree/bindings/display/vdrm.yaml     | 67 +++++++++++++++++++
+>  1 file changed, 67 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/vdrm.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/display/vdrm.yaml b/Documentation/devicetree/bindings/display/vdrm.yaml
+> new file mode 100644
+> index 000000000000..6493bb0fc09f
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/vdrm.yaml
+> @@ -0,0 +1,67 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/vdrm.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Virtual DRM Device Tree Bindings
+> +
+> +description:
+> +  This document defines device tree properties virtual DRM. The initial
+> +  position, size and z-position of the plane used in the virtual DRM is
+> +  specified.
+> +  The current limitation is that these settings are applied to all crtc.
+> +
+> +properties:
+> +  compatible:
+> +    const: virt-drm
+> +
+> +patternProperties:
+> +  "^plane(@.*)?$":
+> +    description: Information of the planes used in virtual DRM
+> +    type: object
+> +
+> +    properties:
+> +      x:
+> +        type: int
+> +        description: x-coordinate of the left-top of the plane in pixels
+> +
+> +      y:
+> +        type: int
+> +        description: y-coordinate of the left-top of the plane in pixels
+> +
+> +      width:
+> +        type: int
+> +        description: width of the plane in pixels
+> +
+> +      height:
+> +        type: int
+> +	description: height of the plane in pixels
+> +
+> +      zpos:
+> +        type: int
+> +        description: z-position of the plane
+> +
+> +    required:
+> +      - x
+> +      - y
+> +      - width
+> +      - height
+> +      - zpos
+> +
+> +required:
+> +  - compatible
+> +  - "^plane(@.*)?$"
+> +
+> +examples:
+> + - |
+> +   vdrm@0 {
+> +       compatible = "virt-drm";
+> +       plane@0 {
+> +           x = <200>;
+> +	   y = <100>;
+> +	   width = <800>;
+> +	   height = <600>;
+> +	   zpos = <1>;
+> +       };
+> +   };
+> -- 
+> 2.25.1
+> 
+> 
