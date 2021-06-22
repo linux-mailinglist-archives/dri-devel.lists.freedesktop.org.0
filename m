@@ -1,41 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 702AB3B0FF0
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Jun 2021 00:14:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3135B3B0FF7
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Jun 2021 00:17:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C6896E1F1;
-	Tue, 22 Jun 2021 22:14:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 587F26E2F2;
+	Tue, 22 Jun 2021 22:17:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 42D736E1F1
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Jun 2021 22:14:31 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 596DA6E2F2
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Jun 2021 22:17:33 +0000 (UTC)
 Received: from [192.168.0.20]
  (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id AEEDC9AA;
- Wed, 23 Jun 2021 00:14:29 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id C6B67A66;
+ Wed, 23 Jun 2021 00:17:31 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1624400069;
- bh=KJaM06corl+qbZ9gtAZ4VVNt6jd4v4LQ6a4cbtNys4U=;
+ s=mail; t=1624400251;
+ bh=EQGAcaXjURCpvn903fkMskzJfYK888/MW1sdDAuRA3o=;
  h=From:Subject:To:Cc:References:Date:In-Reply-To:From;
- b=BZJA4DDZmQCDd4huKIkz8hY4n5QFAsVCHI2UaYZT+Xabyn6siIS1GoFlhp09hvua4
- MfurY3f00lb6W8V9Rf4Q3k3mCr2VP9/tfCGPPgpwSGZOveJwUYLWRC2yOpQgPNO+NP
- +cj5HNen1QgNvbshpFHBdUv1vFKBRDWaeQNZpzzU=
+ b=SH0oUBq52oV90VySWUX9s8zZwF2xh4ngU5H3jGomH9GczOl4XuT7wzcOAIxzOaN/+
+ 7e0zbtNkZ4yX2e28BByEx8kSvLrh7X4uKlSXerSaKJpHyxV8cmjUeFAHQuxM33OJFU
+ 60wE/MtbniaxuP5sNo2VDEbk3N5Cn++55He9y/kU=
 From: Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: Re: [PATCH v3 3/4] drm: rcar-du: dw-hdmi: Set output port number
+Subject: Re: [PATCH v3 4/4] drm: rcar-du: Use drm_bridge_connector_init()
+ helper
 To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
  dri-devel@lists.freedesktop.org
 References: <20210520065046.28978-1-laurent.pinchart+renesas@ideasonboard.com>
- <20210520065046.28978-4-laurent.pinchart+renesas@ideasonboard.com>
-Message-ID: <ef966b6b-e367-0986-9ef6-66fff799c205@ideasonboard.com>
-Date: Tue, 22 Jun 2021 23:14:27 +0100
+ <20210520065046.28978-5-laurent.pinchart+renesas@ideasonboard.com>
+Message-ID: <0d59a0d4-2201-210a-fc4e-fd67dd756d88@ideasonboard.com>
+Date: Tue, 22 Jun 2021 23:17:29 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210520065046.28978-4-laurent.pinchart+renesas@ideasonboard.com>
+In-Reply-To: <20210520065046.28978-5-laurent.pinchart+renesas@ideasonboard.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
@@ -57,30 +58,78 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi Laurent,
 
+
 On 20/05/2021 07:50, Laurent Pinchart wrote:
-> Report the DT output port number in dw_hdmi_plat_data to connect to the
-> next bridge in the dw-hdmi driver.
+> Use the drm_bridge_connector_init() helper to create a drm_connector for
+> each output, instead of relying on the bridge drivers doing so. Attach
+> the bridges with the DRM_BRIDGE_ATTACH_NO_CONNECTOR flag to instruct
+> them not to create a connector.
 > 
 > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> ---
->  drivers/gpu/drm/rcar-du/rcar_dw_hdmi.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_dw_hdmi.c b/drivers/gpu/drm/rcar-du/rcar_dw_hdmi.c
-> index 7b8ec8310699..18ed14911b98 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_dw_hdmi.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_dw_hdmi.c
-> @@ -75,6 +75,7 @@ static int rcar_hdmi_phy_configure(struct dw_hdmi *hdmi, void *data,
->  }
->  
->  static const struct dw_hdmi_plat_data rcar_dw_hdmi_plat_data = {
-> +	.output_port = 1,
+> Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 
-I presume this matches the bindings at "port@1:HDMI output port"
+Aha, this is the one that fixed my issues!
+
+Looks good, and tests well ;-)
 
 Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
->  	.mode_valid = rcar_hdmi_mode_valid,
->  	.configure_phy	= rcar_hdmi_phy_configure,
->  };
+> ---
+> Changes since v2:
+> 
+> - Declare ret variable
+> ---
+>  drivers/gpu/drm/rcar-du/rcar_du_encoder.c | 26 ++++++++++++++++++-----
+>  1 file changed, 21 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_encoder.c b/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
+> index ca3761772211..0daa8bba50f5 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
+> @@ -11,6 +11,7 @@
+>  #include <linux/slab.h>
+>  
+>  #include <drm/drm_bridge.h>
+> +#include <drm/drm_bridge_connector.h>
+>  #include <drm/drm_crtc.h>
+>  #include <drm/drm_managed.h>
+>  #include <drm/drm_modeset_helper_vtables.h>
+> @@ -53,7 +54,9 @@ int rcar_du_encoder_init(struct rcar_du_device *rcdu,
+>  			 struct device_node *enc_node)
+>  {
+>  	struct rcar_du_encoder *renc;
+> +	struct drm_connector *connector;
+>  	struct drm_bridge *bridge;
+> +	int ret;
+>  
+>  	/*
+>  	 * Locate the DRM bridge from the DT node. For the DPAD outputs, if the
+> @@ -103,9 +106,22 @@ int rcar_du_encoder_init(struct rcar_du_device *rcdu,
+>  
+>  	renc->output = output;
+>  
+> -	/*
+> -	 * Attach the bridge to the encoder. The bridge will create the
+> -	 * connector.
+> -	 */
+> -	return drm_bridge_attach(&renc->base, bridge, NULL, 0);
+> +	/* Attach the bridge to the encoder. */
+> +	ret = drm_bridge_attach(&renc->base, bridge, NULL,
+> +				DRM_BRIDGE_ATTACH_NO_CONNECTOR);
+> +	if (ret) {
+> +		dev_err(rcdu->dev, "failed to attach bridge for output %u\n",
+> +			output);
+> +		return ret;
+> +	}
+> +
+> +	/* Create the connector for the chain of bridges. */
+> +	connector = drm_bridge_connector_init(&rcdu->ddev, &renc->base);
+> +	if (IS_ERR(connector)) {
+> +		dev_err(rcdu->dev,
+> +			"failed to created connector for output %u\n", output);
+> +		return PTR_ERR(connector);
+> +	}
+> +
+> +	return drm_connector_attach_encoder(connector, &renc->base);
+>  }
 > 
