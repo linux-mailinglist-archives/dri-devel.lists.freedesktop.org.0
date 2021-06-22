@@ -1,44 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC0533B00F4
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Jun 2021 12:07:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A1DF83B0102
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Jun 2021 12:11:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7275E6E47A;
-	Tue, 22 Jun 2021 10:07:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 563346E487;
+	Tue, 22 Jun 2021 10:11:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E77366E0DD;
- Tue, 22 Jun 2021 10:07:37 +0000 (UTC)
-IronPort-SDR: HVqPe6tMGnIS8s67xqhFPR6ptB2H7+nxG6+4l3Cjki5vsfdBLbAHaoBwmtPyl0hnJAgmo8z17D
- 1jLxyA+Gs2Ww==
-X-IronPort-AV: E=McAfee;i="6200,9189,10022"; a="206844589"
-X-IronPort-AV: E=Sophos;i="5.83,291,1616482800"; d="scan'208";a="206844589"
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD11B6E0DD;
+ Tue, 22 Jun 2021 10:11:39 +0000 (UTC)
+IronPort-SDR: 9u1dH1upPunTLO8U3I3mRLDBmIuUAZROY6p9vgqEKZCknoB3bMnfsygG+cpbE7IjJGexQhMGIy
+ RVtS7ScNBnzA==
+X-IronPort-AV: E=McAfee;i="6200,9189,10022"; a="204016491"
+X-IronPort-AV: E=Sophos;i="5.83,291,1616482800"; d="scan'208";a="204016491"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Jun 2021 03:07:35 -0700
-IronPort-SDR: suGCEBjZczJBBpC3tr04hYCkQYalzuz7eKBXLe388us1v7BklKiEMgwEfDtyZlDZcAokYQeYtk
- 3Usoxc1mvPow==
-X-IronPort-AV: E=Sophos;i="5.83,291,1616482800"; d="scan'208";a="623416908"
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Jun 2021 03:11:26 -0700
+IronPort-SDR: plzRNugId5emiyaj6/ElH+gRqbenQHqt3BTdkDxG2+2naX0hcn4xBCUpHFePvdpCjAZcyvL0VD
+ wf3HDs0voyUQ==
+X-IronPort-AV: E=Sophos;i="5.83,291,1616482800"; d="scan'208";a="623417857"
 Received: from clanggaa-mobl1.ger.corp.intel.com (HELO [10.249.254.95])
  ([10.249.254.95])
  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Jun 2021 03:07:34 -0700
-Subject: Re: [Intel-gfx] [PATCH v7 2/3] drm/i915/ttm: Adjust gem flags and
- caching settings after a move
-To: Matthew Auld <matthew.william.auld@gmail.com>
-References: <20210622093418.153400-1-thomas.hellstrom@linux.intel.com>
- <20210622093418.153400-3-thomas.hellstrom@linux.intel.com>
- <CAM0jSHMWG4tGSHDGzuKw+qC5D-PoXzfDJa_QCdwpn=p20fkC4Q@mail.gmail.com>
+ 22 Jun 2021 03:11:24 -0700
+Subject: Re: [PATCH] drm/i915/ttm: consider all placements for the page
+ alignment
+To: Matthew Auld <matthew.auld@intel.com>, intel-gfx@lists.freedesktop.org
+References: <20210622095843.132549-1-matthew.auld@intel.com>
 From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
-Message-ID: <81eff799-996d-cf3d-c734-94d0beacd475@linux.intel.com>
-Date: Tue, 22 Jun 2021 12:07:30 +0200
+Message-ID: <1aeeac85-07d7-b6d5-4253-386801088307@linux.intel.com>
+Date: Tue, 22 Jun 2021 12:11:23 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <CAM0jSHMWG4tGSHDGzuKw+qC5D-PoXzfDJa_QCdwpn=p20fkC4Q@mail.gmail.com>
+In-Reply-To: <20210622095843.132549-1-matthew.auld@intel.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
@@ -54,80 +52,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Matthew Auld <matthew.auld@intel.com>,
- ML dri-devel <dri-devel@lists.freedesktop.org>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 6/22/21 11:44 AM, Matthew Auld wrote:
-> On Tue, 22 Jun 2021 at 10:34, Thomas Hellström
-> <thomas.hellstrom@linux.intel.com> wrote:
->> After a TTM move or object init we need to update the i915 gem flags and
->> caching settings to reflect the new placement. Currently caching settings
->> are not changed during the lifetime of an object, although that might
->> change moving forward if we run into performance issues or issues with
->> WC system page allocations.
->> Also introduce gpu_binds_iomem() and cpu_maps_iomem() to clean up the
->> various ways we previously used to detect this.
->> Finally, initialize the TTM object reserved to be able to update
->> flags and caching before anyone else gets hold of the object.
->>
->> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
->> Reviewed-by: Matthew Auld <matthew.auld@intel.com>
->> ---
->> v6:
->> - Rebase on accelerated ttm moves.
->> ---
-> <snip>
+On 6/22/21 11:58 AM, Matthew Auld wrote:
+> Just checking the current region is not enough, if we later migrate the
+> object somewhere else. For example if the placements are {SMEM, LMEM},
+> then we might get this wrong. Another idea might be to make the
+> page_alignment part of the ttm_place, instead of the BO.
 >
->> @@ -775,14 +845,13 @@ int __i915_gem_ttm_object_init(struct intel_memory_region *mem,
->>          i915_gem_object_init(obj, &i915_gem_ttm_obj_ops, &lock_class, flags);
->>          i915_gem_object_init_memory_region(obj, mem);
->>          i915_gem_object_make_unshrinkable(obj);
->> -       obj->read_domains = I915_GEM_DOMAIN_WC | I915_GEM_DOMAIN_GTT;
->> -       obj->mem_flags |= I915_BO_FLAG_IOMEM;
->> -       i915_gem_object_set_cache_coherency(obj, I915_CACHE_NONE);
->>          INIT_RADIX_TREE(&obj->ttm.get_io_page.radix, GFP_KERNEL | __GFP_NOWARN);
->>          mutex_init(&obj->ttm.get_io_page.lock);
->>          bo_type = (obj->flags & I915_BO_ALLOC_USER) ? ttm_bo_type_device :
->>                  ttm_bo_type_kernel;
->>
->> +       obj->base.vma_node.driver_private = i915_gem_to_ttm(obj);
->> +
->>          /*
->>           * If this function fails, it will call the destructor, but
->>           * our caller still owns the object. So no freeing in the
->> @@ -790,14 +859,16 @@ int __i915_gem_ttm_object_init(struct intel_memory_region *mem,
->>           * Similarly, in delayed_destroy, we can't call ttm_bo_put()
->>           * until successful initialization.
->>           */
->> -       obj->base.vma_node.driver_private = i915_gem_to_ttm(obj);
->> -       ret = ttm_bo_init(&i915->bdev, i915_gem_to_ttm(obj), size,
->> -                         bo_type, &i915_sys_placement,
->> -                         mem->min_page_size >> PAGE_SHIFT,
->> -                         true, NULL, NULL, i915_ttm_bo_destroy);
->> -       if (!ret)
->> -               obj->ttm.created = true;
->> -
->> -       /* i915 wants -ENXIO when out of memory region space. */
->> -       return i915_ttm_err_to_gem(ret);
->> +       ret = ttm_bo_init_reserved(&i915->bdev, i915_gem_to_ttm(obj), size,
->> +                                  bo_type, &i915_sys_placement, 1,
-> mem->min_page_size >> PAGE_SHIFT? Although just realised that looks
-> iffy since it only considers the current region, when it should
-> consider all future placements. I wonder if it makes sense to make
-> page_alignment part of ttm_place? Anyway, it doesn't matter for this
-> series.
+> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> ---
+>   drivers/gpu/drm/i915/gem/i915_gem_ttm.c | 21 ++++++++++++++++++++-
+>   1 file changed, 20 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> index c5deb8b7227c..5d894bba6430 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> @@ -753,6 +753,25 @@ void i915_ttm_bo_destroy(struct ttm_buffer_object *bo)
+>   		call_rcu(&obj->rcu, __i915_gem_free_object_rcu);
+>   }
+>   
+> +static u64 i915_gem_object_page_size(struct drm_i915_gem_object *obj)
+> +{
+> +	u64 page_size;
+> +	int i;
+> +
+> +	if (!obj->mm.n_placements)
+> +		return obj->mm.region->min_page_size;
+> +
+> +	page_size = 0;
+> +	for (i = 0; i < obj->mm.n_placements; i++) {
+> +		struct intel_memory_region *mr = obj->mm.placements[i];
+> +
+> +		page_size = max_t(u64, mr->min_page_size, page_size);
+> +	}
+> +
+> +	GEM_BUG_ON(!page_size);
+> +	return page_size;
+> +}
+> +
+>   /**
+>    * __i915_gem_ttm_object_init - Initialize a ttm-backed i915 gem object
+>    * @mem: The initial memory region for the object.
+> @@ -793,7 +812,7 @@ int __i915_gem_ttm_object_init(struct intel_memory_region *mem,
+>   	obj->base.vma_node.driver_private = i915_gem_to_ttm(obj);
+>   	ret = ttm_bo_init(&i915->bdev, i915_gem_to_ttm(obj), size,
+>   			  bo_type, &i915_sys_placement,
+> -			  mem->min_page_size >> PAGE_SHIFT,
+> +			  i915_gem_object_page_size(obj) >> PAGE_SHIFT,
 
-Good catch. Yes completely agree it should be part of ttm_place. But 
-extending ttm_place and audit all drivers to always clear unused parts 
-of ttm_place is a big task.
-
-But it's also the case that the region manager is allowed to enforce an 
-alignment, unknown to us here, so we might want to take that approach to 
-begin with?
+Hmm, can't we just have the buddy manager silently enforce its 
+min_page_size?
 
 /Thomas
 
