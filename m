@@ -2,61 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 720953AFEDA
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Jun 2021 10:12:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27FB53AFEEF
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Jun 2021 10:17:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 655C36E0C8;
-	Tue, 22 Jun 2021 08:12:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6CF846E41A;
+	Tue, 22 Jun 2021 08:17:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com
- [IPv6:2a00:1450:4864:20::231])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E7576E0C8
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Jun 2021 08:12:44 +0000 (UTC)
-Received: by mail-lj1-x231.google.com with SMTP id q23so18445832ljh.0
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Jun 2021 01:12:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=l80hFXzIVguJ2ISI6NvoXUY8Ngy0ZHuL8PmMh8jl6og=;
- b=FAtsu82bSvKCc9BzPjAKU6upCOD8/CotbXoiLjuYIBWWv7A66ZjxWqsLPWkJZMsz8Z
- tuLi8xFXyaLrld8RhiaxbpIRqZhMpuh6M3i3W1g0BnR4AbFA58fl9YPXk9Vfv9jhus2Y
- o78sz7GI0GEybcqwBgio8xnaEHmwdK3MMJmgddNu9fisMg8hKYkRCeXwXSg0tIL+gCrz
- CqbMUSH2+klJDWY5myaySJTErd5/8TmLiLwrUcIo3mVXQPzjBEixYFRdRa9KkQoJQ7+0
- fGz4bBWBeDYnA6cFszLlG1nt2zIOHYzcokCOHQXHTgNC1tBiYZZYFm7NOZNFvIcgNp76
- pcYQ==
+Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com
+ [209.85.217.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 85D766E41A
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Jun 2021 08:17:41 +0000 (UTC)
+Received: by mail-vs1-f49.google.com with SMTP id x12so3648710vsp.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Jun 2021 01:17:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=l80hFXzIVguJ2ISI6NvoXUY8Ngy0ZHuL8PmMh8jl6og=;
- b=Aba1k5vIbngRYlCfhLb6vGIh7PS15DZiqDvFq4xD+mlKWE5nrkkNlEFglE7YI4bsG/
- ZBkPraryuya5QQULHj/qFNNbmJo2AN0sbVx+ymwwxPMPFP6V72BTa8f7znR3l3hXMayJ
- Ej8mtLNkPvAHaC8lRSseLAO5wG4c0GksgC21zYzrky0MPbff9Am9CTaDFFYehSeG9K4/
- BgElbTz9B0OXdTx3ifnzPVHrV384dwrCe3jFFQAu+0vqBRQuYLPVanebFkwZBACVF4J5
- e7+JirGrcOjNgOJ6qzgAQHOg/8PLdaacxJXBhFHOLoElTBcdcEXcbdof60+wkcAZvy34
- DAcg==
-X-Gm-Message-State: AOAM5331NZypblIHJDiE8VWqhBevJz//DKAOieIvnikGLVOFiMpZZQIl
- V53s8hj9ylXbdYt82j6iguI=
-X-Google-Smtp-Source: ABdhPJzTEya+DK/dLqz4GNf60M0oDM35gbd62pS5Hcq3OiM3+lZjB0AsJ69A5UWRga08aSjmBP+YAw==
-X-Received: by 2002:a2e:b548:: with SMTP id a8mr2178007ljn.346.1624349562553; 
- Tue, 22 Jun 2021 01:12:42 -0700 (PDT)
-Received: from eldfell ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id q6sm2127899lfj.88.2021.06.22.01.12.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Jun 2021 01:12:42 -0700 (PDT)
-Date: Tue, 22 Jun 2021 11:12:39 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Esaki Tomohito <etom@igel.co.jp>
-Subject: Re: [PATH 0/4] [RFC] Support virtual DRM
-Message-ID: <20210622111239.73aa87aa@eldfell>
-In-Reply-To: <1cfab5f9-f275-aa53-00de-5da3fcea71c5@igel.co.jp>
-References: <20210621062742.26073-1-etom@igel.co.jp>
- <7cde82a9-c60c-e527-eeac-eaad0c5842a1@metux.net>
- <1cfab5f9-f275-aa53-00de-5da3fcea71c5@igel.co.jp>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=s0hVMlLFV5eIwzuXXBEJWEV7FxMfuDBGtQwv1PuAfDc=;
+ b=iYHVkaLaq2rTrqTStvN12EG/Q6YntXS4khLZGjwrfjqx7zgRxplhLEbd2P6c2ujka0
+ n+e1W+UDSj4FyIHVQasEdZm1lw0g/7RtMaZkitdpuy3yfAIBdP2sr+0vvMN2dF3Pg2fT
+ OvPDBvylGcRKhTiAJVICHBOqh+bQnGGxJ1v+3HYkxWO9VSGTP54SbbovHFw3Pd4FNHIR
+ eqsjp591+3lvt3QDkq1NmMmIcoVVNVc1I5/9nfiehzvNH1nmZWET+gcWvjhiSRJk5TOa
+ pBBMB8e22jWh7yEBDN49pdYhEukMJTymtS7+px//5AgouqFBgmnQYfh7NF/LpQJkmMPJ
+ ceqQ==
+X-Gm-Message-State: AOAM531ZQN5V7GQoC5E76EB9AS+Mti5IlBCN0kLkVaKZPiuApOACZt3J
+ gVunOQ+4FcOqHgYO2n7w75SHXRfDFSIJI19Mtl8=
+X-Google-Smtp-Source: ABdhPJz3clw2O8tsVFk5F4OGcaBfo9Z8eHqvoF8LwYXAPGollSTCOREHx1S0f08A9nsiznMjaM5G5srL4UVXlJSotsU=
+X-Received: by 2002:a05:6102:2011:: with SMTP id
+ p17mr21421376vsr.40.1624349860512; 
+ Tue, 22 Jun 2021 01:17:40 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/6Ioj+ZDqgcM+6oFIVX7Ffxl"; protocol="application/pgp-signature"
+References: <20210615191543.1043414-1-robh@kernel.org>
+In-Reply-To: <20210615191543.1043414-1-robh@kernel.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 22 Jun 2021 10:17:28 +0200
+Message-ID: <CAMuHMdUGXu8yj3JWKwM8mt7axkrzGMiowC1t0PHrbpxRCBME3w@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: Drop redundant minItems/maxItems
+To: Rob Herring <robh@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,133 +53,112 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Takanari Hayama <taki@igel.co.jp>,
- linux-doc@vger.kernel.org, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-renesas-soc@vger.kernel.org,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, "Enrico Weigelt,
- metux IT consult" <lkml@metux.net>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Damian Hobson-Garcia <dhobsong@igel.co.jp>
+Cc: Andrew Lunn <andrew@lunn.ch>,
+ ALSA Development Mailing List <alsa-devel@alsa-project.org>,
+ Daniel Lezcano <daniel.lezcano@linaro.org>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Linux PWM List <linux-pwm@vger.kernel.org>, linux-iio@vger.kernel.org,
+ linux-pci <linux-pci@vger.kernel.org>,
+ "open list:REMOTE PROCESSOR \(REMOTEPROC\) SUBSYSTEM"
+ <linux-remoteproc@vger.kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>, linux-ide@vger.kernel.org,
+ Linux I2C <linux-i2c@vger.kernel.org>, linux-phy@lists.infradead.org,
+ linux-riscv <linux-riscv@lists.infradead.org>,
+ Lee Jones <lee.jones@linaro.org>, linux-clk <linux-clk@vger.kernel.org>,
+ linux-rtc@vger.kernel.org, Herbert Xu <herbert@gondor.apana.org.au>,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>, Marc Zyngier <maz@kernel.org>,
+ Joerg Roedel <joro@8bytes.org>, Jassi Brar <jassisinghbrar@gmail.com>,
+ Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@ti.com>,
+ David Airlie <airlied@linux.ie>,
+ "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
+ =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ Jakub Kicinski <kuba@kernel.org>, Zhang Rui <rui.zhang@intel.com>,
+ Vivien Didelot <vivien.didelot@gmail.com>,
+ Wolfgang Grandegger <wg@grandegger.com>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
+ Ohad Ben-Cohen <ohad@wizery.com>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Albert Ou <aou@eecs.berkeley.edu>,
+ Linux Watchdog Mailing List <linux-watchdog@vger.kernel.org>,
+ Linux PM list <linux-pm@vger.kernel.org>, linux-can@vger.kernel.org,
+ "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ Mark Brown <broonie@kernel.org>, Marc Kleine-Budde <mkl@pengutronix.de>,
+ Kamal Dasu <kdasu.kdev@gmail.com>, Paul Walmsley <paul.walmsley@sifive.com>,
+ Bjorn Helgaas <bhelgaas@google.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>, Jens Axboe <axboe@kernel.dk>,
+ Alessandro Zummo <a.zummo@towertech.it>,
+ Wim Van Sebroeck <wim@linux-watchdog.org>, Guenter Roeck <linux@roeck-us.net>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>, Stephen Boyd <sboyd@kernel.org>,
+ netdev <netdev@vger.kernel.org>, USB list <linux-usb@vger.kernel.org>,
+ Linux MMC List <linux-mmc@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ linux-spi <linux-spi@vger.kernel.org>,
+ Linux IOMMU <iommu@lists.linux-foundation.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ dmaengine <dmaengine@vger.kernel.org>, Vladimir Oltean <olteanv@gmail.com>,
+ "David S. Miller" <davem@davemloft.net>, Jonathan Cameron <jic23@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/6Ioj+ZDqgcM+6oFIVX7Ffxl
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Hi Rob,
 
-On Tue, 22 Jun 2021 13:03:39 +0900
-Esaki Tomohito <etom@igel.co.jp> wrote:
+On Tue, Jun 15, 2021 at 9:16 PM Rob Herring <robh@kernel.org> wrote:
+> If a property has an 'items' list, then a 'minItems' or 'maxItems' with the
+> same size as the list is redundant and can be dropped. Note that is DT
+> schema specific behavior and not standard json-schema behavior. The tooling
+> will fixup the final schema adding any unspecified minItems/maxItems.
+>
+> This condition is partially checked with the meta-schema already, but
+> only if both 'minItems' and 'maxItems' are equal to the 'items' length.
+> An improved meta-schema is pending.
 
-> Hi, Enrico Weigelt
-> Thank you for reply.
->=20
-> On 2021/06/22 1:05, Enrico Weigelt, metux IT consult wrote:
-> > On 21.06.21 08:27, Tomohito Esaki wrote:
-> >=20
-> > Hi,
-> >  =20
-> >> Virtual DRM splits the overlay planes of a display controller into mul=
-tiple
-> >> virtual devices to allow each plane to be accessed by each process.
-> >>
-> >> This makes it possible to overlay images output from multiple processe=
-s on a
-> >> display. For example, one process displays the camera image without co=
-mpositor
-> >> while another process overlays the UI. =20
-> >=20
-> > Are you attempting to create an simple in-kernel compositor ? =20
->=20
-> I think the basic idea is the same as DRMlease.
+> Signed-off-by: Rob Herring <robh@kernel.org>
 
-Hi,
+> --- a/Documentation/devicetree/bindings/net/stm32-dwmac.yaml
+> +++ b/Documentation/devicetree/bindings/net/stm32-dwmac.yaml
+> @@ -46,7 +46,6 @@ properties:
+>
+>    clocks:
+>      minItems: 3
+> -    maxItems: 5
+>      items:
+>        - description: GMAC main clock
+>        - description: MAC TX clock
 
-indeed. Why not use DRM leases instead?
+While resolving the conflict with commit fea99822914039c6
+("dt-bindings: net: document ptp_ref clk in dwmac") in soc/for-next,
+I noticed the following construct for clock-names:
 
-> We want to separate the resources from the master in units of planes,
-> so we proposed virtual DRM.
-> I think the advantage of vDRM is that you can use general DRM APIs
-> in userland.
+  clock-names:
+    minItems: 3
+    maxItems: 6
+    contains:
+      enum:
+        - stmmaceth
+        - mac-clk-tx
+        - mac-clk-rx
+        - ethstp
+        - eth-ck
+        - ptp_ref
 
-You do that with DRM leases too.
+Should this use items instead of enum, and drop maxItems, or is this
+a valid construct to support specifying the clocks in random order?
+If the latter, it does mean that the order of clock-names may not
+match the order of the clock descriptions.
 
-> > I don't think that's not the way to go, at least not by touching each
-> > single display driver, and not hardcoding the planes in DT. =20
->=20
-> Thank you for comment. I will reconsider about DT.
->=20
-> > What's the actual use case you're doing that for ? Why not using some
-> > userland compositor ? =20
->=20
-> I think when latency is important (e.g., AR, VR, for displaying camera
-> images in IVI systems), there may be use cases where the compositor
-> cannot be used.
-> Normally, when the image is passed through the compositor, it is
-> displayed after 2 VSYNC at most, because the compositor combines the
-> image with VSYNC synchronization. On the other hand, if we use vDRM, the
-> image will be displayed at the next VSYNC, so it will be displayed after
-> 1 VSYNC at most.
+Gr{oetje,eeting}s,
 
-As I said in my other email, this is false in the general sense.
-
-> Also, since the compositor is a single point of failure, we may not want
-> to make it dependent on it.
-
-This... I'm not quite sure I buy it. If any of all the programs using
-virtual KMS crashes, you still lose some crucial components from your
-display. Maybe that program, while crashing, uploads such a bad state
-to its very own KMS plane, that it causes other KMS planes to
-malfunction. Then you need to detect this situation and still restart
-everything, not just the crashed program.
-
-I would think a userspace compositor approach is actually more
-reliable. You write the compositor to be extremely robust. Exactly
-because the compositor is in control of the complete display device and
-not just little pieces of it, it can see what is happening and it can
-mitigate problems. If you have more unreliable components needing
-access to display, make those clients to the compositor, so they can
-crash and malfunction on their own without potentially killing the
-whole display device. If you are as concerned about latency as XR
-people are, then use DRM leases.
-
-Also, what if your virtual KMS driver has a bug? Restarting the kernel
-is much harder that restarting a userspace compositor that hands out
-DRM leases.
-
-The userspace compositor could even be such that it does nothing more
-than handing out DRM leases. However, DRM leases have the problem that
-there is no single entity responsible for keeping the display device
-working, but that responsibility is split between several processes and
-none of them sees the whole picture.
+                        Geert
 
 
-Btw. VKMS is an existing DRM driver, so your name choice is conflicting.
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-
-Thanks,
-pq
-
---Sig_/6Ioj+ZDqgcM+6oFIVX7Ffxl
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmDRm3cACgkQI1/ltBGq
-qqdYIRAAja56P3aL+jh8qcOULrgGk62ujpwQF8VBpOOdE7mT5c3nR4kvTk233Yde
-LSzSECRrIiVFMCdPwt0J27DtT/2NSkwT5tTRr4Rl0uA+TdNYdcnVpLUjFMXKQl0W
-WOQoOIGCK7evGbY0v5nzQBTCuOQ5va6/1yUWLjsPl57/fmNwCrppmynWIf+m1nPJ
-jSqrMdbkisAkMcnVR/s9cZWj2x0mUs6xV7OIgtAkrI6gnbPejGHmPXz/a3Atmg25
-hc9FzwOZk/zTR7GeMsZjjRTMKsutbHTR7SSIcV6D6cYVxyro4aRRxHmAIr5q43qM
-VjKM0XZFNvCt+TPkmUeMgG/LyiqjgRD6iqIpZjt2nGmMwPTXq4r7qDsKf0kWeLh4
-bjZ6JqfwD6JM+qInpjTycefcrerWip+debLK3m87HzVxUogFWrR1+SyhESzMVL3f
-bGVBdiDkRf8p/lkNuDF7c1F1NDipbzB9z2HYl9hGHplpZGVkN8r4FmJkdHv/Cv9p
-XfUNLhvBvHwgvWnCC20TLws3LFRs/Uq2gEYG+4hHZE3EuFsP00i+/zBCwzLtE829
-4v/m32+BJivsy7HGJS+JM4hd2LkMpLxLxKHdxlolw++m5J05YQyMjmSD3LGuDneE
-WxQsX/R8PwKe2FOAxVGqnDJ+bnfl8OT0XTYorm4fRWh1qk+oq4I=
-=UJJD
------END PGP SIGNATURE-----
-
---Sig_/6Ioj+ZDqgcM+6oFIVX7Ffxl--
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
