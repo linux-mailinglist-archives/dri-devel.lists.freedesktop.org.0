@@ -1,66 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E12FB3B08D2
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Jun 2021 17:24:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B5A93B08D8
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Jun 2021 17:25:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 96E916E591;
-	Tue, 22 Jun 2021 15:24:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 936816E593;
+	Tue, 22 Jun 2021 15:25:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x332.google.com (mail-ot1-x332.google.com
- [IPv6:2607:f8b0:4864:20::332])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 101DD6E581;
- Tue, 22 Jun 2021 15:24:56 +0000 (UTC)
-Received: by mail-ot1-x332.google.com with SMTP id
- 7-20020a9d0d070000b0290439abcef697so21588549oti.2; 
- Tue, 22 Jun 2021 08:24:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=4X+AcHyDDe3HhjQCq2G+eaJ8kvsIjHhuoyLFdEACcnQ=;
- b=F9cy62wh9RybK9h82fBHPpp8hPDnZx1s+Z0/GOTSU92eNMyNLfj1mmqR2+r3kT8aM1
- xYDm3xoWuWMpBQnf+yCUtYaytLMGRdU+gDGi6swnU2/1W4YjA3DmVGgEJEhpqqWEJhiE
- 01z+W8Xkif0R9mOOrdnFJqQd5G+uUqQGTMfvsT/2xP5BWwkuBCnE6fDDDeJPKFj99hpa
- IUTx7/RubZA8kR6BUpUTkctQ7E0FSq1LJm9p8lS8IeiHhgNrTRG9ObqVGWK0oLwjI4ER
- nWl4Jh30VyNTX8WV9ruVKyd0scG13WLdSbrapyE0pKhuHbHyEx+IQYLAiGL9vT11KyaE
- aOoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=4X+AcHyDDe3HhjQCq2G+eaJ8kvsIjHhuoyLFdEACcnQ=;
- b=Hg24sXjZJyQIh2lA2AJ+rJusCKu6v945U6TH39cxrHxL5mMm0zdNgQZXxEoiEVHRNG
- s1KYOfBHbTTp1CXuErFerLbOb8IG3fZm9sWoIkeKd/cYeHSw19SQELYjaR+7iC5nwMd1
- LL3TC2jr6NyW2G9PMcR5HV0/TytJr9KfstQXeXtqqvUqNIpPmJdK8y6OLrxZucNgJG5w
- ZqVRji68jRZpIvphLfVUpnBpX6xc+6u5xBs8RKB0c8EJxJ9RuHT0+BAMS21RYVulCU+c
- AdjXptIQRhhLQoqLghSSNUAtH3K3t1wDHTYDGccdPwbNZagz4KjLe7Ga7GL87Z7Gq6YZ
- r81w==
-X-Gm-Message-State: AOAM533XnuhupFMy2A6OqRRK5FUkKnkt8wVzoqNy13jXHfPANI+9G+bU
- axiPfokEcXQ9i4lpt1I69e94l6yL5MAJkj71miI=
-X-Google-Smtp-Source: ABdhPJxdbW8W5cXUxxqtgxKi95nj/EmM2JjajNW5+/OukMinRa2g08LQoWclCFHmO/psGwfcUIox+YZCnLKA4tnM/9A=
-X-Received: by 2002:a9d:4581:: with SMTP id x1mr3651165ote.145.1624375495284; 
- Tue, 22 Jun 2021 08:24:55 -0700 (PDT)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id E7B3C6E593;
+ Tue, 22 Jun 2021 15:25:06 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0C59731B;
+ Tue, 22 Jun 2021 08:25:06 -0700 (PDT)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C1ECC3F718;
+ Tue, 22 Jun 2021 08:25:05 -0700 (PDT)
+Received: by e110455-lin.cambridge.arm.com (Postfix, from userid 1000)
+ id 7C5A86837C9; Tue, 22 Jun 2021 16:25:04 +0100 (BST)
+Date: Tue, 22 Jun 2021 16:25:04 +0100
+From: Liviu Dudau <liviu.dudau@arm.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v2 04/22] drm: Don't test for IRQ support in VBLANK ioctls
+Message-ID: <20210622152504.2sw6khajwydsoaqa@e110455-lin.cambridge.arm.com>
+References: <20210622141002.11590-1-tzimmermann@suse.de>
+ <20210622141002.11590-5-tzimmermann@suse.de>
 MIME-Version: 1.0
-References: <20210621175511.GI1096940@ziepe.ca>
- <CAKMK7uEO1_B59DtM7N2g7kkH7pYtLM_WAkn+0f3FU3ps=XEjZQ@mail.gmail.com>
- <CAFCwf11jOnewkbLuxUESswCJpyo7C0ovZj80UrnwUOZkPv2JYQ@mail.gmail.com>
- <20210621232912.GK1096940@ziepe.ca>
- <d358c740-fd3a-9ecd-7001-676e2cb44ec9@gmail.com>
- <CAFCwf11h_Nj_GEdCdeTzO5jgr-Y9em+W-v_pYUfz64i5Ac25yg@mail.gmail.com>
- <20210622120142.GL1096940@ziepe.ca>
- <CAFCwf10GmBjeJAFp0uJsMLiv-8HWAR==RqV9ZdMQz+iW9XWdTA@mail.gmail.com>
- <20210622121546.GN1096940@ziepe.ca>
- <CAFCwf13BuS+U3Pko_62hFPuvZPG26HQXuu-cxPmcADNPO22g9g@mail.gmail.com>
- <20210622151142.GA2431880@ziepe.ca>
-In-Reply-To: <20210622151142.GA2431880@ziepe.ca>
-From: Oded Gabbay <oded.gabbay@gmail.com>
-Date: Tue, 22 Jun 2021 18:24:28 +0300
-Message-ID: <CAFCwf1361iVGeGtcc8WsQeFmHMWY+J6UNkzJnrodFrsOh9zgqQ@mail.gmail.com>
-Subject: Re: [Linaro-mm-sig] [PATCH v3 1/2] habanalabs: define uAPI to export
- FD for DMA-BUF
-To: Jason Gunthorpe <jgg@ziepe.ca>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210622141002.11590-5-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,88 +45,132 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- linux-rdma <linux-rdma@vger.kernel.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- sleybo@amazon.com, Gal Pressman <galpress@amazon.com>,
- dri-devel <dri-devel@lists.freedesktop.org>, Christoph Hellwig <hch@lst.de>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Doug Ledford <dledford@redhat.com>, Tomer Tayar <ttayar@habana.ai>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Greg KH <gregkh@linuxfoundation.org>, Alex Deucher <alexander.deucher@amd.com>,
- Leon Romanovsky <leonro@nvidia.com>, Oded Gabbay <ogabbay@kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
+Cc: emma@anholt.net, airlied@linux.ie, nouveau@lists.freedesktop.org,
+ alexandre.torgue@foss.st.com, dri-devel@lists.freedesktop.org,
+ michal.simek@xilinx.com, linux-tegra@vger.kernel.org, thierry.reding@gmail.com,
+ laurent.pinchart@ideasonboard.com, benjamin.gaignard@linaro.org,
+ mihail.atanassov@arm.com, linux-stm32@st-md-mailman.stormreply.com,
+ linux-samsung-soc@vger.kernel.org, jy0922.shim@samsung.com,
+ krzysztof.kozlowski@canonical.com, linux-rockchip@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, wens@csie.org, jernej.skrabec@gmail.com,
+ jonathanh@nvidia.com, xinliang.liu@linaro.org, kong.kongxinwei@hisilicon.com,
+ james.qian.wang@arm.com, linux-imx@nxp.com,
+ linux-graphics-maintainer@vmware.com, linux-sunxi@lists.linux.dev,
+ bskeggs@redhat.com, chunkuang.hu@kernel.org, puck.chen@hisilicon.com,
+ s.hauer@pengutronix.de, laurentiu.palcu@oss.nxp.com, matthias.bgg@gmail.com,
+ kernel@pengutronix.de, linux-arm-kernel@lists.infradead.org,
+ mcoquelin.stm32@gmail.com, amd-gfx@lists.freedesktop.org, hyun.kwon@xilinx.com,
+ tomba@kernel.org, jyri.sarha@iki.fi, yannick.fertre@foss.st.com,
+ Xinhui.Pan@amd.com, sw0312.kim@samsung.com, hjc@rock-chips.com,
+ christian.koenig@amd.com, kyungmin.park@samsung.com,
+ philippe.cornu@foss.st.com, alexander.deucher@amd.com, tiantao6@hisilicon.com,
+ shawnguo@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 22, 2021 at 6:11 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
->
-> On Tue, Jun 22, 2021 at 04:12:26PM +0300, Oded Gabbay wrote:
->
-> > > 1) Setting sg_page to NULL
-> > > 2) 'mapping' pages for P2P DMA without going through the iommu
-> > > 3) Allowing P2P DMA without using the p2p dma API to validate that it
-> > >    can work at all in the first place.
-> > >
-> > > All of these result in functional bugs in certain system
-> > > configurations.
-> > >
-> > > Jason
-> >
-> > Hi Jason,
-> > Thanks for the feedback.
-> > Regarding point 1, why is that a problem if we disable the option to
-> > mmap the dma-buf from user-space ?
->
-> Userspace has nothing to do with needing struct pages or not
->
-> Point 1 and 2 mostly go together, you supporting the iommu is not nice
-> if you dont have struct pages.
->
-> You should study Logan's patches I pointed you at as they are solving
-> exactly this problem.
-Yes, I do need to study them. I agree with you here. It appears I have
-a hole in my understanding.
-I'm missing the connection between iommu support (which I must have of
-course) and struct pages.
+Hello,
 
->
-> > In addition, I didn't see any problem with sg_page being NULL in the
-> > RDMA p2p dma-buf code. Did I miss something here ?
->
-> No, the design of the dmabuf requires the exporter to do the dma maps
-> and so it is only the exporter that is wrong to omit all the iommu and
-> p2p logic.
->
-> RDMA is OK today only because nobody has implemented dma buf support
-> in rxe/si - mainly because the only implementations of exporters don't
-Can you please educate me, what is rxe/si ?
+On Tue, Jun 22, 2021 at 04:09:44PM +0200, Thomas Zimmermann wrote:
+> For KMS drivers, replace the IRQ check in VBLANK ioctls with a check for
+> vblank support. IRQs might be enabled wthout vblanking being supported.
+> 
+> This change also removes the DRM framework's only dependency on IRQ state
+> for non-legacy drivers. For legacy drivers with userspace modesetting,
+> the original test remains in drm_wait_vblank_ioctl().
+> 
+> v2:
+> 	* keep the old test for legacy drivers in
+> 	  drm_wait_vblank_ioctl() (Daniel)
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>  drivers/gpu/drm/drm_irq.c    | 10 +++-------
+>  drivers/gpu/drm/drm_vblank.c | 13 +++++++++----
+>  2 files changed, 12 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_irq.c b/drivers/gpu/drm/drm_irq.c
+> index c3bd664ea733..1d7785721323 100644
+> --- a/drivers/gpu/drm/drm_irq.c
+> +++ b/drivers/gpu/drm/drm_irq.c
+> @@ -74,10 +74,8 @@
+>   * only supports devices with a single interrupt on the main device stored in
+>   * &drm_device.dev and set as the device paramter in drm_dev_alloc().
+>   *
+> - * These IRQ helpers are strictly optional. Drivers which roll their own only
+> - * need to set &drm_device.irq_enabled to signal the DRM core that vblank
+> - * interrupts are working. Since these helpers don't automatically clean up the
+> - * requested interrupt like e.g. devm_request_irq() they're not really
+> + * These IRQ helpers are strictly optional. Since these helpers don't automatically
+> + * clean up the requested interrupt like e.g. devm_request_irq() they're not really
+>   * recommended.
+>   */
+>  
+> @@ -91,9 +89,7 @@
+>   * and after the installation.
+>   *
+>   * This is the simplified helper interface provided for drivers with no special
+> - * needs. Drivers which need to install interrupt handlers for multiple
+> - * interrupts must instead set &drm_device.irq_enabled to signal the DRM core
+> - * that vblank interrupts are available.
+> + * needs.
+>   *
+>   * @irq must match the interrupt number that would be passed to request_irq(),
+>   * if called directly instead of using this helper function.
+> diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
+> index 3417e1ac7918..a98a4aad5037 100644
+> --- a/drivers/gpu/drm/drm_vblank.c
+> +++ b/drivers/gpu/drm/drm_vblank.c
+> @@ -1748,8 +1748,13 @@ int drm_wait_vblank_ioctl(struct drm_device *dev, void *data,
+>  	unsigned int pipe_index;
+>  	unsigned int flags, pipe, high_pipe;
+>  
+> -	if (!dev->irq_enabled)
+> -		return -EOPNOTSUPP;
+> +	if  (drm_core_check_feature(dev, DRIVER_MODESET)) {
+> +		if (!drm_dev_has_vblank(dev))
+> +			return -EOPNOTSUPP;
+> +	} else {
+> +		if (!dev->irq_enabled)
+> +			return -EOPNOTSUPP;
+> +	}
 
-> set the struct page and are thus buggy.
+For a system call that is used quite a lot by userspace we have increased the code size
+in a noticeable way. Can we not cache it privately?
 
-ok...
-so how come that patch-set was merged into 5.12 if it's buggy ?
-Because the current exporters are buggy ?  I probably need a history
-lesson here.
-But I understand why you think it's a bad idea to add a new buggy exporter.
+Best regards,
+Liviu
 
->
-> > I will take two GAUDI devices and use one as an exporter and one as an
-> > importer. I want to see that the solution works end-to-end, with real
-> > device DMA from importer to exporter.
->
-> I can tell you it doesn't. Stuffing physical addresses directly into
-> the sg list doesn't involve any of the IOMMU code so any configuration
-> that requires IOMMU page table setup will not work.
->
-> Jason
+>  
+>  	if (vblwait->request.type & _DRM_VBLANK_SIGNAL)
+>  		return -EINVAL;
+> @@ -2023,7 +2028,7 @@ int drm_crtc_get_sequence_ioctl(struct drm_device *dev, void *data,
+>  	if (!drm_core_check_feature(dev, DRIVER_MODESET))
+>  		return -EOPNOTSUPP;
+>  
+> -	if (!dev->irq_enabled)
+> +	if (!drm_dev_has_vblank(dev))
+>  		return -EOPNOTSUPP;
+>  
+>  	crtc = drm_crtc_find(dev, file_priv, get_seq->crtc_id);
+> @@ -2082,7 +2087,7 @@ int drm_crtc_queue_sequence_ioctl(struct drm_device *dev, void *data,
+>  	if (!drm_core_check_feature(dev, DRIVER_MODESET))
+>  		return -EOPNOTSUPP;
+>  
+> -	if (!dev->irq_enabled)
+> +	if (!drm_dev_has_vblank(dev))
+>  		return -EOPNOTSUPP;
+>  
+>  	crtc = drm_crtc_find(dev, file_priv, queue_seq->crtc_id);
+> -- 
+> 2.32.0
+> 
 
-Yes, that's what I expect to see. But I want to see it with my own
-eyes and then figure out how to solve this.
-Maybe the result will be going to Logan's path, maybe something else,
-but I need to start by seeing the failure in a real system.
-
-Thanks for the information, it is really helpful.
-
-Oded
+-- 
+====================
+| I would like to |
+| fix the world,  |
+| but they're not |
+| giving me the   |
+ \ source code!  /
+  ---------------
+    ¯\_(ツ)_/¯
