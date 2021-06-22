@@ -1,52 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A4383B0AC2
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Jun 2021 18:55:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 74E2F3B0AC5
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Jun 2021 18:55:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 382E76E7E5;
-	Tue, 22 Jun 2021 16:55:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2DBF06E7EC;
+	Tue, 22 Jun 2021 16:55:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
- [IPv6:2a00:1450:4864:20::42f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E34C6E5D5
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Jun 2021 16:55:19 +0000 (UTC)
-Received: by mail-wr1-x42f.google.com with SMTP id n7so24499158wri.3
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Jun 2021 09:55:19 -0700 (PDT)
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com
+ [IPv6:2a00:1450:4864:20::336])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C2D746E7D1
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Jun 2021 16:55:20 +0000 (UTC)
+Received: by mail-wm1-x336.google.com with SMTP id
+ f16-20020a05600c1550b02901b00c1be4abso2230476wmg.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Jun 2021 09:55:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ofnj3zZOb6lvNBLTmLvRZ/dI7B7Qizs2A5qFqSokZMs=;
- b=PlDcLOVGiA96xcwhvZHPQlAvGMEDcBg9O6ntIM3BCh41iUZ2TDSZtrlqYDU8AaH4SW
- VDIN57zvAe9n66JyTgIQ0zKjFdNj0fhCyqYu1iSpC/6rjhGX2IkMAmVssHzRiuldBTiR
- jhp1mZSCgGKNP26cKAT1jLdUgW5uFs/CRHA+0=
+ bh=Pya40DVjcJj5BW1FVokXsLJJM2aJYidE6DU5AszPKcA=;
+ b=TrbJ1ukWOdbGIkgGvvhbR2N8NeHcu7TL0jxDDmJksRr3u6CINrNYADW2XJ8Muxljzw
+ +A5NwtlRHv5hIYq035iX3Ma+1HnPAfcbDN1AqBNatd7pmPZaCfwVTJZZ4xvn8IzmeFAX
+ uEOra2eN8WhuvKynwlS+mfdADlAghXaEkZ7s0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ofnj3zZOb6lvNBLTmLvRZ/dI7B7Qizs2A5qFqSokZMs=;
- b=SooLwOt5yUE/dLqKpMWo94orJ87Wd12vBohW8q+I7OnJuo3RI7BeWJOEw2y0aO0EPx
- AvYJOQbdJiB0u9KYrU8FNrivFzmZkGSZg0E7jhXmIRXFqz/Daj4DSi7zRdiDftej6CFl
- m/AY+C7fi12GISSHEBDfztXJ4kNZKCVyyiALBPMIr/07OJYNFck2i3KNqmpwo9fhTof2
- YYdewTE6WBB7SCNa6kqYoxqTp3q2wd81xUKYdN9GuzbRjznwEGnqB1MKKtSyi/YhFtYL
- Kck1n5cYiM4ytm3QmVKiTPv5vkpSefqrgYsPV6CZvWcv4bgFcryHmUgQ+i2IpnpY9/84
- dp1g==
-X-Gm-Message-State: AOAM53018Xi90PEwCkQ6TaWow3ZnxQg/8ftdn0pWC5IulLQ4b4JpZJ5i
- iTFC1mzKXyfcEGVxRz3EmQGfmriYXzFRzA==
-X-Google-Smtp-Source: ABdhPJxbm3m5AxBLJ1sntMH1y3g3e+GjtyXkKAUUh9TQfj84Nt1Ek6DhdWavkN+hSBoePr5r0dEEoQ==
-X-Received: by 2002:a5d:6c65:: with SMTP id r5mr5875974wrz.339.1624380918343; 
- Tue, 22 Jun 2021 09:55:18 -0700 (PDT)
+ bh=Pya40DVjcJj5BW1FVokXsLJJM2aJYidE6DU5AszPKcA=;
+ b=Exs7ztqwlf+Y/LSj244Zb8N6NxoK/pRvI8HUipfaGuDyBkqtMao5DL5DtL/43PFhfP
+ Vv3wsg4U4KPV8a06dn1jizccwJFbtKibQR6yw99ybOeGOquXc7Wow4FzpjDYJjzJ5oai
+ t9Y6aWTLEw6EX7EQrALtCXbAxsCFMMmvr5CXSvbU0CjRB0WDqY2JkYN2yW62m37n/7Od
+ 5DFA5wkKR04ne/dQgzCO9LbNHqreRKHJNLTxqhje8lx8gz/qrDnmuIB2CLFtUWrinj91
+ u60apVhBKfXCmH1KXArZ3XIN1BXjzFlOjT1VgBc4PZzpLRcUaAVThDHnsfyxW3ENh5bL
+ cUZw==
+X-Gm-Message-State: AOAM53004e+jSdvNtVQPdpX2KjpDCHSNq4GdBKbI0n/oJnPNPDojDVm+
+ a6em/bdeakdBEIOC0EH5rddURXH6B8PYHw==
+X-Google-Smtp-Source: ABdhPJwScbI2igBwMthiteBhgJTlAyEs7MdGHzPT05OF2jHuLlFRzP0jfHfP+Bf1t2qvpRFNfoQxHA==
+X-Received: by 2002:a05:600c:3658:: with SMTP id
+ y24mr5564844wmq.6.1624380919402; 
+ Tue, 22 Jun 2021 09:55:19 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id l23sm3632342wmc.5.2021.06.22.09.55.17
+ by smtp.gmail.com with ESMTPSA id l23sm3632342wmc.5.2021.06.22.09.55.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Jun 2021 09:55:17 -0700 (PDT)
+ Tue, 22 Jun 2021 09:55:18 -0700 (PDT)
 From: Daniel Vetter <daniel.vetter@ffwll.ch>
 To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 01/15] dma-resv: Fix kerneldoc
-Date: Tue, 22 Jun 2021 18:54:57 +0200
-Message-Id: <20210622165511.3169559-2-daniel.vetter@ffwll.ch>
+Subject: [PATCH 02/15] dma-buf: Switch to inline kerneldoc
+Date: Tue, 22 Jun 2021 18:54:58 +0200
+Message-Id: <20210622165511.3169559-3-daniel.vetter@ffwll.ch>
 X-Mailer: git-send-email 2.32.0.rc2
 In-Reply-To: <20210622165511.3169559-1-daniel.vetter@ffwll.ch>
 References: <20210622165511.3169559-1-daniel.vetter@ffwll.ch>
@@ -65,44 +67,188 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+Cc: Deepak R Varma <mh12gx2825@gmail.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
  Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- linaro-mm-sig@lists.linaro.org, Daniel Vetter <daniel.vetter@intel.com>,
+ Kevin Wang <kevin1.wang@amd.com>, linaro-mm-sig@lists.linaro.org,
+ Nirmoy Das <nirmoy.das@amd.com>, Chen Li <chenli@uniontech.com>,
+ Dave Airlie <airlied@redhat.com>, Alex Deucher <alexander.deucher@amd.com>,
+ Daniel Vetter <daniel.vetter@intel.com>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
  linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Oversight from
+Also review & update everything while we're at it.
 
-commit 6edbd6abb783d54f6ac4c3ed5cd9e50cff6c15e9
-Author: Christian König <christian.koenig@amd.com>
-Date:   Mon May 10 16:14:09 2021 +0200
-
-    dma-buf: rename and cleanup dma_resv_get_excl v3
+This is prep work to smash a ton of stuff into the kerneldoc for
+@resv.
 
 Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
 Cc: Sumit Semwal <sumit.semwal@linaro.org>
 Cc: "Christian König" <christian.koenig@amd.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Dave Airlie <airlied@redhat.com>
+Cc: Nirmoy Das <nirmoy.das@amd.com>
+Cc: Deepak R Varma <mh12gx2825@gmail.com>
+Cc: Chen Li <chenli@uniontech.com>
+Cc: Kevin Wang <kevin1.wang@amd.com>
 Cc: linux-media@vger.kernel.org
 Cc: linaro-mm-sig@lists.linaro.org
 ---
- include/linux/dma-resv.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/linux/dma-buf.h | 107 +++++++++++++++++++++++++++++++---------
+ 1 file changed, 83 insertions(+), 24 deletions(-)
 
-diff --git a/include/linux/dma-resv.h b/include/linux/dma-resv.h
-index 562b885cf9c3..e1ca2080a1ff 100644
---- a/include/linux/dma-resv.h
-+++ b/include/linux/dma-resv.h
-@@ -212,7 +212,7 @@ static inline void dma_resv_unlock(struct dma_resv *obj)
- }
+diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+index 92eec38a03aa..6d18b9e448b9 100644
+--- a/include/linux/dma-buf.h
++++ b/include/linux/dma-buf.h
+@@ -289,28 +289,6 @@ struct dma_buf_ops {
  
  /**
-- * dma_resv_exclusive - return the object's exclusive fence
-+ * dma_resv_excl_fence - return the object's exclusive fence
-  * @obj: the reservation object
+  * struct dma_buf - shared buffer object
+- * @size: size of the buffer; invariant over the lifetime of the buffer.
+- * @file: file pointer used for sharing buffers across, and for refcounting.
+- * @attachments: list of dma_buf_attachment that denotes all devices attached,
+- *               protected by dma_resv lock.
+- * @ops: dma_buf_ops associated with this buffer object.
+- * @lock: used internally to serialize list manipulation, attach/detach and
+- *        vmap/unmap
+- * @vmapping_counter: used internally to refcnt the vmaps
+- * @vmap_ptr: the current vmap ptr if vmapping_counter > 0
+- * @exp_name: name of the exporter; useful for debugging.
+- * @name: userspace-provided name; useful for accounting and debugging,
+- *        protected by @resv.
+- * @name_lock: spinlock to protect name access
+- * @owner: pointer to exporter module; used for refcounting when exporter is a
+- *         kernel module.
+- * @list_node: node for dma_buf accounting and debugging.
+- * @priv: exporter specific private data for this buffer object.
+- * @resv: reservation object linked to this dma-buf
+- * @poll: for userspace poll support
+- * @cb_excl: for userspace poll support
+- * @cb_shared: for userspace poll support
+- * @sysfs_entry: for exposing information about this buffer in sysfs.
+  * The attachment_uid member of @sysfs_entry is protected by dma_resv lock
+  * and is incremented on each attach.
   *
-  * Returns the exclusive fence (if any). Caller must either hold the objects
+@@ -324,24 +302,100 @@ struct dma_buf_ops {
+  * Device DMA access is handled by the separate &struct dma_buf_attachment.
+  */
+ struct dma_buf {
++	/**
++	 * @size:
++	 *
++	 * Size of the buffer; invariant over the lifetime of the buffer.
++	 */
+ 	size_t size;
++
++	/**
++	 * @file:
++	 *
++	 * File pointer used for sharing buffers across, and for refcounting.
++	 * See dma_buf_get() and dma_buf_put().
++	 */
+ 	struct file *file;
++
++	/**
++	 * @attachments:
++	 *
++	 * List of dma_buf_attachment that denotes all devices attached,
++	 * protected by &dma_resv lock @resv.
++	 */
+ 	struct list_head attachments;
++
++	/** @ops: dma_buf_ops associated with this buffer object. */
+ 	const struct dma_buf_ops *ops;
++
++	/**
++	 * @lock:
++	 *
++	 * Used internally to serialize list manipulation, attach/detach and
++	 * vmap/unmap. Note that in many cases this is superseeded by
++	 * dma_resv_lock() on @resv.
++	 */
+ 	struct mutex lock;
++
++	/**
++	 * @vmapping_counter:
++	 *
++	 * Used internally to refcnt the vmaps returned by dma_buf_vmap().
++	 * Protected by @lock.
++	 */
+ 	unsigned vmapping_counter;
++
++	/**
++	 * @vmap_ptr:
++	 * The current vmap ptr if @vmapping_counter > 0. Protected by @lock.
++	 */
+ 	struct dma_buf_map vmap_ptr;
++
++	/**
++	 * @exp_name:
++	 *
++	 * Name of the exporter; useful for debugging. See the
++	 * DMA_BUF_SET_NAME IOCTL.
++	 */
+ 	const char *exp_name;
++
++	/**
++	 * @name:
++	 *
++	 * Userspace-provided name; useful for accounting and debugging,
++	 * protected by dma_resv_lock() on @resv and @name_lock for read access.
++	 */
+ 	const char *name;
++
++	/** @name_lock: Spinlock to protect name acces for read access. */
+ 	spinlock_t name_lock;
++
++	/**
++	 * @owner:
++	 *
++	 * Pointer to exporter module; used for refcounting when exporter is a
++	 * kernel module.
++	 */
+ 	struct module *owner;
++
++	/** @list_node: node for dma_buf accounting and debugging. */
+ 	struct list_head list_node;
++
++	/** @priv: exporter specific private data for this buffer object. */
+ 	void *priv;
++
++	/**
++	 * @resv:
++	 *
++	 * Reservation object linked to this dma-buf.
++	 */
+ 	struct dma_resv *resv;
+ 
+-	/* poll support */
++	/** @poll: for userspace poll support */
+ 	wait_queue_head_t poll;
+ 
++	/** @cb_excl: for userspace poll support */
++	/** @cb_shared: for userspace poll support */
+ 	struct dma_buf_poll_cb_t {
+ 		struct dma_fence_cb cb;
+ 		wait_queue_head_t *poll;
+@@ -349,7 +403,12 @@ struct dma_buf {
+ 		__poll_t active;
+ 	} cb_excl, cb_shared;
+ #ifdef CONFIG_DMABUF_SYSFS_STATS
+-	/* for sysfs stats */
++	/**
++	 * @sysfs_entry:
++	 *
++	 * For exposing information about this buffer in sysfs. See also
++	 * `DMA-BUF statistics`_ for the uapi this enables.
++	 */
+ 	struct dma_buf_sysfs_entry {
+ 		struct kobject kobj;
+ 		struct dma_buf *dmabuf;
 -- 
 2.32.0.rc2
 
