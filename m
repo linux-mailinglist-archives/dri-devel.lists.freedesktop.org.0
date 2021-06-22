@@ -1,134 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FEB93B08C1
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Jun 2021 17:24:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 983FA3B08C8
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Jun 2021 17:24:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B21B16E58A;
-	Tue, 22 Jun 2021 15:24:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F6A56E58B;
+	Tue, 22 Jun 2021 15:24:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2052.outbound.protection.outlook.com [40.107.220.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 23CF86E588;
- Tue, 22 Jun 2021 15:24:19 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dize3MeG3RLJlCGvIk1XZAgoEnv2O43k/75kMLOWolDOcp3s1YY2ftmxrpzw0UVeJ831050XheyUScr0/B7+b6CVXRi/ULykIaRvVQcw6RTorx9Mx6zcsoj3xSyuF9Hi6Mb1UgK1A4INXD/nq8pqdE69sfJLIwiLu7r0Ad8m0h3Jxi3V7xqg94vWsyjYVH8dceGlcXhfWjHHZp33zU3EhsyA2ooXT3O3G3JBISD+MwoK/d38HhwEcM/E+Ch5U3cKMCjn7QBgCbtl6JYOVQlK1IaCZ+W3HWZzS6Ke7pyKZvKEaTg7dg3Y7fjPgrerolCH5mCeHr11cT+D6Ghq+H66nA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OcOYWBtjnwKkB7Pww19ef6qj8z1Sx4Jxwprx9erVfDc=;
- b=Yp0C9MEaw0gSZHvF//7F2k7iZABw1fv9KdLFJ115NorQLQDvOmvs75ZJtu5ebKy173W+N276vTvlb3sw1ZY19WhUf46HYiVQ6akFOteJe06hSdEGqx08BkneJwskTRiH/70Ziuv7vKyGaaXhA2KA5XbbJGwSO7kIz/BNlyzaAVI3RJuppH2SbEFjru5YcTJQz24Vqky5b1FVjQIXaNLp8yJZGUr3+RCJ4Y3O0RLakxEOnDYBJq/HolhFxZUtl1vWWflroILydTvOlM6iZ/XiKfuhK0WAVTTi26oFNU8ROUmikkqvLjUCi4gEmSL84Es4/jxOS8QWHhMFzzuqYEYcGg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OcOYWBtjnwKkB7Pww19ef6qj8z1Sx4Jxwprx9erVfDc=;
- b=13bd3p1BFdcxTqGIoJB48r5LWcOxc/5oJoFiEDX8XO67CiepqEXzzXObG1mLKG5Eo+nl2mbiLGfgJsLqCVN5aGClwnASXa21TXbW/iUH1VqHFxlswGQ8i9x65RVEyEtOTOBs7+RfpU1HQrEpIASOS6yKWV+AdzoniF7OzidfgBs=
-Authentication-Results: vger.kernel.org; dkim=none (message not signed)
- header.d=none;vger.kernel.org; dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
- by BL0PR12MB4899.namprd12.prod.outlook.com (2603:10b6:208:1cf::8)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4264.18; Tue, 22 Jun
- 2021 15:24:16 +0000
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::6c9e:1e08:7617:f756]) by MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::6c9e:1e08:7617:f756%5]) with mapi id 15.20.4242.024; Tue, 22 Jun 2021
- 15:24:16 +0000
-Subject: Re: [Linaro-mm-sig] [PATCH v3 1/2] habanalabs: define uAPI to export
- FD for DMA-BUF
-To: Jason Gunthorpe <jgg@ziepe.ca>, Oded Gabbay <oded.gabbay@gmail.com>
-References: <20210621175511.GI1096940@ziepe.ca>
- <CAKMK7uEO1_B59DtM7N2g7kkH7pYtLM_WAkn+0f3FU3ps=XEjZQ@mail.gmail.com>
- <CAFCwf11jOnewkbLuxUESswCJpyo7C0ovZj80UrnwUOZkPv2JYQ@mail.gmail.com>
- <20210621232912.GK1096940@ziepe.ca>
- <d358c740-fd3a-9ecd-7001-676e2cb44ec9@gmail.com>
- <CAFCwf11h_Nj_GEdCdeTzO5jgr-Y9em+W-v_pYUfz64i5Ac25yg@mail.gmail.com>
- <20210622120142.GL1096940@ziepe.ca>
- <CAFCwf10GmBjeJAFp0uJsMLiv-8HWAR==RqV9ZdMQz+iW9XWdTA@mail.gmail.com>
- <20210622121546.GN1096940@ziepe.ca>
- <CAFCwf13BuS+U3Pko_62hFPuvZPG26HQXuu-cxPmcADNPO22g9g@mail.gmail.com>
- <20210622151142.GA2431880@ziepe.ca>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <4a37216d-7c4c-081e-3325-82466f30b6eb@amd.com>
-Date: Tue, 22 Jun 2021 17:24:08 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-In-Reply-To: <20210622151142.GA2431880@ziepe.ca>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Originating-IP: [2a02:908:1252:fb60:9dfd:8ca7:7f8d:67e4]
-X-ClientProxiedBy: AM4PR0701CA0029.eurprd07.prod.outlook.com
- (2603:10a6:200:42::39) To MN2PR12MB3775.namprd12.prod.outlook.com
- (2603:10b6:208:159::19)
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
+ [IPv6:2a00:1450:4864:20::42b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 803DF6E591
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Jun 2021 15:24:26 +0000 (UTC)
+Received: by mail-wr1-x42b.google.com with SMTP id i94so24128803wri.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Jun 2021 08:24:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=ZeqWuXtX2BrYCzJWvhQ3y4KbulOq0QYwwBD94QW58/k=;
+ b=ZlqWM+jail8wVe6yddVhoDkll94K1QcrO1qPfcnvA5ZgF7O5UWGiwgAoirgPr5VThQ
+ PxLEoFhDthsBu11VLuKNyZ4t3jV2oXfE2AjGKpc2koo0GT0EP0wz7tBbPjapFZRbS4qF
+ iL45agNDVjpfa14ecS7F0zPBWAmsGHIs8s5iQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=ZeqWuXtX2BrYCzJWvhQ3y4KbulOq0QYwwBD94QW58/k=;
+ b=OMnux7bTF/OQumxg9UB6koscd1fvutwS5pY6T0dEJfE4tZuk5u/tY2VlR41DfmMzkL
+ xzM6PYedZH+2SrUjGouWs5VpXNGUjdITpsmVa+qVJfSm3TwznGFLuqzztMHtfl9V9IY4
+ jLlGJ/dNmzi+FN79Fx0iVs3JzjtNrleQLemnzr4Ajj4H1gNBI3SWj6rBwcQesoUkcj5A
+ GLq/7l0cM6oreAebHS81ZFqNVBXwb6Fo+qKxfcYmwrS1lRI5vNsosmb4Sy31bxH+dorM
+ klG2H3g83vsf4jfoEr9j9rpzRt+LwF8I7V1Egjh1VlNJdwhFeMD3yqpzOhJ7bRKi86IU
+ pwaA==
+X-Gm-Message-State: AOAM531WS+gnLTnywonPscscsAOGpB5RBXEPpy7i3Ye8SiPa3Rm03xzO
+ lxefRrJPsBZafJH5nVLNvSrzfA==
+X-Google-Smtp-Source: ABdhPJxIsS4KMhI+Y3KiogSWjdDWrVZYSvpp7dXLHAVjT9HzjIzI+eRKdkXYHvp6Rq+N7hy/RDRSKg==
+X-Received: by 2002:a05:6000:128b:: with SMTP id
+ f11mr5556353wrx.171.1624375465147; 
+ Tue, 22 Jun 2021 08:24:25 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id a24sm2852645wmj.30.2021.06.22.08.24.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 22 Jun 2021 08:24:24 -0700 (PDT)
+Date: Tue, 22 Jun 2021 17:24:21 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v2 00/22] Deprecate struct drm_device.irq_enabled
+Message-ID: <YNIApfAnFCsCHoYK@phenom.ffwll.local>
+References: <20210622141002.11590-1-tzimmermann@suse.de>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:908:1252:fb60:9dfd:8ca7:7f8d:67e4]
- (2a02:908:1252:fb60:9dfd:8ca7:7f8d:67e4) by
- AM4PR0701CA0029.eurprd07.prod.outlook.com (2603:10a6:200:42::39) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4264.7 via Frontend
- Transport; Tue, 22 Jun 2021 15:24:13 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 88e5d17a-42bf-4232-7713-08d93591cbd3
-X-MS-TrafficTypeDiagnostic: BL0PR12MB4899:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BL0PR12MB4899F5C998842AE54B25FD5F83099@BL0PR12MB4899.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: IxY3pvgedkXpmjypP5gNh2FPvHQe4HdS7tqjD2RpJVqUuCXQMFooKefhrMrI32W3mzpJ3HtGeppeWJcKGtJODkToSSBvx1z593ynfNIoSVV+3zPc5OdlD+3FLREVk5ORuqoFOLf6Ac4lwdFicaBPLmUwK5Kexccwpe8/H/G0TwC7bnPgLYQtLl89urVFI53MEnYxpFpXccRfMZHr0ZXTwRbuPb6fVbbJUEBxRm7RrCwCY4Bq3Xw6Jf+8AGLvCXm9VD6jD0Nk+X/YnTBm6wFP9Yn698q99XSpVCMPIsNobSe0cl0PHBJO+7dV9eJFPZz1oqh8XlKyF1ftpSBfoS6Z1OxSjhlnzg96roVZ3AZV4RGmqwDKk977iH1o5XnehyTNM4iEhJhX+Ts96m7ywcvswaAIdDvMJ/qwMy5pTp26mNA0WgNWQ/ov3t3oCg/0B8E1eEM3bnXNZkbKpl4VcuhMY95d5IJmUCPEy6IdJZdLF8fWtZ2O0/e2CHVham7tSzrREBlk0ee3+oPuNzhUUH1lCvZfmeaVIzGBsn3Lx/t/ABTqf5iK1niEOPz4dFddeWTH5j5QNfHRVv590D+jAu/8KnTPlHiRpaddnF8YIeafiFJiyNLCMd/sJ0u4mRSgmLTW9+/ur+PrxN39wcamkFFRQxaPV42ONK2qXfzSwwve9f3U+FF2B+SO35lMVobNydW+
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(396003)(136003)(366004)(346002)(39860400002)(376002)(66946007)(16526019)(7416002)(66476007)(66556008)(186003)(83380400001)(8676002)(31686004)(110136005)(86362001)(316002)(54906003)(6666004)(8936002)(478600001)(36756003)(6486002)(2616005)(2906002)(31696002)(38100700002)(5660300002)(4326008)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UXduZERobXJFYUk3ZE9tT2I2ckRDT0hzRmRabVYvdytsai9ISUJSWVZ6ZFA2?=
- =?utf-8?B?eEtrY3lGNTlzWjZQNjR1bm81R1VSbXc1U0hMU2NweXRicjBFV0sxb3hUUUxw?=
- =?utf-8?B?dFBCcFpjcDFSUXNpUkNsTzNuWnB4NnRGbWIwUjFocVpTREFXUklHelhmNWVa?=
- =?utf-8?B?T0V4bkhGZnZCdDZ1aHVYUzBJRWJxSS9uYVE3V3JVWHRwTjlodmlSbHo1Ujk2?=
- =?utf-8?B?K3dzVnplTW8xWlhuUG5ZWUF2dTNxWnlvTmZndk9GbFJLdUNxR2gxYW9kVUpP?=
- =?utf-8?B?KzNVRjZjM0Y2QU9KQTNRMGNXVjI4QVBXaTBsU3ZpVkdGZFNNSmpqL1hCNzF6?=
- =?utf-8?B?aGtnY2RSdmpseXZKMEJBR0Y4aE8vcEtHdkZCNGVhL0Zrdloxd3BHb1FYQjNi?=
- =?utf-8?B?OXE1cEY5dXMwbWRpQlJ2SEQxVlRRSlZRRzcveVhUeFdtdHp4MmRmTTNCek9u?=
- =?utf-8?B?V0g0QkNyTjY3QUZCYW5zS3Y3UWZVWnZIVDhLQnlqamV3Y29KTEVZOVhHRjBS?=
- =?utf-8?B?M2U1NTJKNjhPSDI4QmtiUVI3bHF4cEp1dzRlSmxjRFhoek1NSmJKMU1VbFgr?=
- =?utf-8?B?Ry9qbUNxZm5FMithemhNUnB2VVNpS0JCR1NFaFBVQ0tuVHJ4UTQxSG9uREVl?=
- =?utf-8?B?b0piYlFidVowZ0ZyWFk4QnM2NVdpZk5Pc2pmMlR5S3ZSVVBXb2h1aTZJN0tB?=
- =?utf-8?B?WlRqYmJYMFZENUkyUmpqY0Z6bitWSlNzRElNUElMNXoxVHhGNDF0YmRscDRo?=
- =?utf-8?B?WDZKL0llSzBwTEh0cmlzaUtjS0pHeEwweGYzaDRUczNXR01DYWJEUVZ0c1Zn?=
- =?utf-8?B?QSt5WkxqNWJ4d0dXQ0c1TkFBeElySUdRMTRwZkNubXl6VWxNTXBVSTJoS1o2?=
- =?utf-8?B?dmIzcVg1cG9PMXRVOVFxSlpmanJrNUdsMzJDRVFxRGJIdGpDWmd1czRUdHMw?=
- =?utf-8?B?NktGYlRVbXB0MU9ZZ1dPVm1JNlFIelI3a0VHUXp6VWh1d0JmQVAvQ1RZanM5?=
- =?utf-8?B?bHVmZjNwU3I5RnJBT0MrWlU2bENmK3dNNzRMNml4aGtyT3A0Y2VYeXp2b2xE?=
- =?utf-8?B?dk9sMUMwZ1hkakl4V1RVbUFwYkJaRmxhT1N5Vk45TlQ5aGdtMkF4MmVtc0lu?=
- =?utf-8?B?d0c0UmlncEpJRUtFWFMrVFd1Nkl4WjlMbWhoYTJVUlhHSUtXMzFSWVlTTEF6?=
- =?utf-8?B?c3Y4RFY4YlJtQmM4OWxGdWNvdzc3VmQrY1Y0L0F0R0YzcVJGVHpqbGdiSjFp?=
- =?utf-8?B?VHBldnNicDhmUWRMZzJIRkNUQmhNbENnbnArcjc3TmpraTE3YlA2U1hLczlV?=
- =?utf-8?B?OFV6K1AxWWNwVDd6WWN5bzRmd1lVVDdXL2FveEVnYkJuRDhoanZ3djI2Mmd1?=
- =?utf-8?B?ZU9EQTZGaHp3TDJZd2QxcHk0UWpDcFhpa2pPZFVWdlR6LzR4SmhGNmhleDdy?=
- =?utf-8?B?cTM4Q1ZmUHhMRmJEK1M2Y0NVbEcyQmhIU3hjVGNTbTZSWlVTWjMwbDc0bUVk?=
- =?utf-8?B?cWt1bHVNVWVmMVFxNDhiTnlha1g2cVJaMXR2T2tzME03ZHJJcFkvZ2ZtdzJz?=
- =?utf-8?B?MFRUQUd4MHdTV1daa0xnc1h3SlhEV01MZGtWS0Q2SUN6YWFGcmFSSWpkUEIx?=
- =?utf-8?B?SjZEclY1VW1nYTI0d2hhQTBMZjFHSCtLNGVBaklKcEZkc01IK3VuYXRLSDRU?=
- =?utf-8?B?TjNKajVFK2NQeTJDRGs1bE14ODdQNkFRdzZNc1hMTzl4eWljSjFlQlV0YTcw?=
- =?utf-8?B?UXBoZXpwWW1oak9ZV05qa012eVVYWHZoVGZ4YVRyNEVnZTljSkQ3QTZLenZD?=
- =?utf-8?B?d3cvVVRKMlVXMndoYnhZVTVXNnM5ZzlrcDZSL1VLd0dTcVlRUnpUczdTdk1D?=
- =?utf-8?Q?JA51AUvTUtoCM?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 88e5d17a-42bf-4232-7713-08d93591cbd3
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jun 2021 15:24:15.9887 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: sTRnfMfws1KDIlEEi33QKgRjB3jZYpVKTDCQStDYivjoVNVRZhzRehjFP/RnpoV2
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB4899
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210622141002.11590-1-tzimmermann@suse.de>
+X-Operating-System: Linux phenom 5.10.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -141,90 +66,134 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-rdma <linux-rdma@vger.kernel.org>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- sleybo@amazon.com, Gal Pressman <galpress@amazon.com>,
- dri-devel <dri-devel@lists.freedesktop.org>, Christoph Hellwig <hch@lst.de>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Doug Ledford <dledford@redhat.com>, Tomer Tayar <ttayar@habana.ai>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Greg KH <gregkh@linuxfoundation.org>, Alex Deucher <alexander.deucher@amd.com>,
- Leon Romanovsky <leonro@nvidia.com>, Oded Gabbay <ogabbay@kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
+Cc: emma@anholt.net, airlied@linux.ie, nouveau@lists.freedesktop.org,
+ liviu.dudau@arm.com, alexandre.torgue@foss.st.com,
+ dri-devel@lists.freedesktop.org, michal.simek@xilinx.com,
+ linux-tegra@vger.kernel.org, thierry.reding@gmail.com,
+ laurent.pinchart@ideasonboard.com, benjamin.gaignard@linaro.org,
+ mihail.atanassov@arm.com, linux-stm32@st-md-mailman.stormreply.com,
+ linux-samsung-soc@vger.kernel.org, jy0922.shim@samsung.com,
+ krzysztof.kozlowski@canonical.com, linux-rockchip@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, wens@csie.org, jernej.skrabec@gmail.com,
+ jonathanh@nvidia.com, xinliang.liu@linaro.org, kong.kongxinwei@hisilicon.com,
+ james.qian.wang@arm.com, linux-imx@nxp.com,
+ linux-graphics-maintainer@vmware.com, linux-sunxi@lists.linux.dev,
+ bskeggs@redhat.com, chunkuang.hu@kernel.org, puck.chen@hisilicon.com,
+ s.hauer@pengutronix.de, laurentiu.palcu@oss.nxp.com, matthias.bgg@gmail.com,
+ kernel@pengutronix.de, linux-arm-kernel@lists.infradead.org,
+ mcoquelin.stm32@gmail.com, amd-gfx@lists.freedesktop.org, hyun.kwon@xilinx.com,
+ tomba@kernel.org, jyri.sarha@iki.fi, yannick.fertre@foss.st.com,
+ Xinhui.Pan@amd.com, sw0312.kim@samsung.com, hjc@rock-chips.com,
+ christian.koenig@amd.com, kyungmin.park@samsung.com,
+ philippe.cornu@foss.st.com, alexander.deucher@amd.com, tiantao6@hisilicon.com,
+ shawnguo@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, Jun 22, 2021 at 04:09:40PM +0200, Thomas Zimmermann wrote:
+> Remove references to struct drm_device.irq_enabled from modern
+> DRM drivers and core.
+> 
+> KMS drivers enable IRQs for their devices internally. They don't
+> have to keep track of the IRQ state via irq_enabled. For vblanking,
+> it's cleaner to test for vblanking support directly than to test
+> for enabled IRQs.
+> 
+> This used to be a single patch, [1] but it's now a full series.
+> 
+> The first 3 patches replace instances of irq_enabled that are not
+> required.
+> 
+> Patch 4 fixes vblank ioctls to actually test for vblank support
+> instead of IRQs.
+> 
+> THe rest of the patchset removes irq_enabled from all non-legacy
+> drivers. The only exception is omapdrm, which has an internal
+> dpendency on the field's value. For this drivers, the state gets
+> duplicated internally.
+> 
+> With the patchset applied, drivers can later switch over to plain
+> Linux IRQ interfaces and DRM's IRQ midlayer can be declared legacy.
+> 
+> v2:
+> 	* keep the original test for legacy drivers in
+> 	  drm_wait_vblank_ioctl() (Daniel)
+> 
+> [1] https://lore.kernel.org/dri-devel/20210608090301.4752-1-tzimmermann@suse.de/
 
+On the series:
 
-Am 22.06.21 um 17:11 schrieb Jason Gunthorpe:
-> On Tue, Jun 22, 2021 at 04:12:26PM +0300, Oded Gabbay wrote:
->
->>> 1) Setting sg_page to NULL
->>> 2) 'mapping' pages for P2P DMA without going through the iommu
->>> 3) Allowing P2P DMA without using the p2p dma API to validate that it
->>>     can work at all in the first place.
->>>
->>> All of these result in functional bugs in certain system
->>> configurations.
->>>
->>> Jason
->> Hi Jason,
->> Thanks for the feedback.
->> Regarding point 1, why is that a problem if we disable the option to
->> mmap the dma-buf from user-space ?
-> Userspace has nothing to do with needing struct pages or not
->
-> Point 1 and 2 mostly go together, you supporting the iommu is not nice
-> if you dont have struct pages.
->
-> You should study Logan's patches I pointed you at as they are solving
-> exactly this problem.
->
->> In addition, I didn't see any problem with sg_page being NULL in the
->> RDMA p2p dma-buf code. Did I miss something here ?
-> No, the design of the dmabuf requires the exporter to do the dma maps
-> and so it is only the exporter that is wrong to omit all the iommu and
-> p2p logic.
->
-> RDMA is OK today only because nobody has implemented dma buf support
-> in rxe/si - mainly because the only implementations of exporters don't
-> set the struct page and are thus buggy.
->
->> I will take two GAUDI devices and use one as an exporter and one as an
->> importer. I want to see that the solution works end-to-end, with real
->> device DMA from importer to exporter.
-> I can tell you it doesn't. Stuffing physical addresses directly into
-> the sg list doesn't involve any of the IOMMU code so any configuration
-> that requires IOMMU page table setup will not work.
+Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
-Sure it does. See amdgpu_vram_mgr_alloc_sgt:
+But I've only done a very light reading of this, so please wait for driver
+folks to have some time to check their own before merging.
 
-         amdgpu_res_first(res, offset, length, &cursor);
-         for_each_sgtable_sg((*sgt), sg, i) {
-                 phys_addr_t phys = cursor.start + adev->gmc.aper_base;
-                 size_t size = cursor.size;
-                 dma_addr_t addr;
+I think a devm_ version of drm_irq_install might be helpful in further
+untangling here, but that's definitely for another series.
+-Daniel
 
-                 addr = dma_map_resource(dev, phys, size, dir,
-                                         DMA_ATTR_SKIP_CPU_SYNC);
-                 r = dma_mapping_error(dev, addr);
-                 if (r)
-                         goto error_unmap;
+> 
+> Thomas Zimmermann (22):
+>   drm/amdgpu: Track IRQ state in local device state
+>   drm/hibmc: Call drm_irq_uninstall() unconditionally
+>   drm/radeon: Track IRQ state in local device state
+>   drm: Don't test for IRQ support in VBLANK ioctls
+>   drm/komeda: Don't set struct drm_device.irq_enabled
+>   drm/malidp: Don't set struct drm_device.irq_enabled
+>   drm/exynos: Don't set struct drm_device.irq_enabled
+>   drm/kirin: Don't set struct drm_device.irq_enabled
+>   drm/imx: Don't set struct drm_device.irq_enabled
+>   drm/mediatek: Don't set struct drm_device.irq_enabled
+>   drm/nouveau: Don't set struct drm_device.irq_enabled
+>   drm/omapdrm: Track IRQ state in local device state
+>   drm/rockchip: Don't set struct drm_device.irq_enabled
+>   drm/sti: Don't set struct drm_device.irq_enabled
+>   drm/stm: Don't set struct drm_device.irq_enabled
+>   drm/sun4i: Don't set struct drm_device.irq_enabled
+>   drm/tegra: Don't set struct drm_device.irq_enabled
+>   drm/tidss: Don't use struct drm_device.irq_enabled
+>   drm/vc4: Don't set struct drm_device.irq_enabled
+>   drm/vmwgfx: Don't set struct drm_device.irq_enabled
+>   drm/xlnx: Don't set struct drm_device.irq_enabled
+>   drm/zte: Don't set struct drm_device.irq_enabled
+> 
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c         |  6 +++---
+>  drivers/gpu/drm/arm/display/komeda/komeda_kms.c |  4 ----
+>  drivers/gpu/drm/arm/malidp_drv.c                |  4 ----
+>  drivers/gpu/drm/drm_irq.c                       | 10 +++-------
+>  drivers/gpu/drm/drm_vblank.c                    | 13 +++++++++----
+>  drivers/gpu/drm/exynos/exynos_drm_drv.c         | 10 ----------
+>  drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c |  3 +--
+>  drivers/gpu/drm/hisilicon/kirin/kirin_drm_drv.c |  2 --
+>  drivers/gpu/drm/imx/dcss/dcss-kms.c             |  3 ---
+>  drivers/gpu/drm/imx/imx-drm-core.c              | 11 -----------
+>  drivers/gpu/drm/mediatek/mtk_drm_drv.c          |  6 ------
+>  drivers/gpu/drm/nouveau/nouveau_drm.c           |  3 ---
+>  drivers/gpu/drm/omapdrm/omap_drv.h              |  2 ++
+>  drivers/gpu/drm/omapdrm/omap_irq.c              |  6 +++---
+>  drivers/gpu/drm/radeon/radeon_fence.c           |  2 +-
+>  drivers/gpu/drm/radeon/radeon_irq_kms.c         | 16 ++++++++--------
+>  drivers/gpu/drm/rockchip/rockchip_drm_drv.c     |  6 ------
+>  drivers/gpu/drm/sti/sti_compositor.c            |  2 --
+>  drivers/gpu/drm/stm/ltdc.c                      |  3 ---
+>  drivers/gpu/drm/sun4i/sun4i_drv.c               |  2 --
+>  drivers/gpu/drm/tegra/drm.c                     |  7 -------
+>  drivers/gpu/drm/tidss/tidss_irq.c               |  3 ---
+>  drivers/gpu/drm/vc4/vc4_kms.c                   |  1 -
+>  drivers/gpu/drm/vmwgfx/vmwgfx_irq.c             |  8 --------
+>  drivers/gpu/drm/xlnx/zynqmp_dpsub.c             |  2 --
+>  drivers/gpu/drm/zte/zx_drm_drv.c                |  6 ------
+>  26 files changed, 30 insertions(+), 111 deletions(-)
+> 
+> 
+> base-commit: 8c1323b422f8473421682ba783b5949ddd89a3f4
+> prerequisite-patch-id: c2b2f08f0eccc9f5df0c0da49fa1d36267deb11d
+> prerequisite-patch-id: c67e5d886a47b7d0266d81100837557fda34cb24
+> --
+> 2.32.0
+> 
 
-                 sg_set_page(sg, NULL, size, 0);
-                 sg_dma_address(sg) = addr;
-                 sg_dma_len(sg) = size;
-
-                 amdgpu_res_next(&cursor, cursor.size);
-         }
-
-dma_map_resource() does the IOMMU mapping for us.
-
-Regards,
-Christian.
-
-
->
-> Jason
-
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
