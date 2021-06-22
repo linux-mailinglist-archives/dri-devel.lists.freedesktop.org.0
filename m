@@ -2,57 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1DE43B05CA
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Jun 2021 15:26:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13C493B05CE
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Jun 2021 15:27:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F175B6E0CB;
-	Tue, 22 Jun 2021 13:26:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D4D16E50B;
+	Tue, 22 Jun 2021 13:27:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B43A6E0CB
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Jun 2021 13:26:55 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id E6E3061164
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Jun 2021 13:26:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1624368414;
- bh=Sk7B6+OY9GKq+36hyICa++pL03I3oiS7fuQGe+Lj8WI=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=dwioAS4F8wUvuFNQqWS4G4kTKsCQlKlCi48USHEmkWc1IeAAj0+aAHkiWdwM2cTlD
- axjP71KjCiu32ftiUE2fKL1/F9Wz1GnPw0ASuUKYET2PBT3+bbgOKpn8muygOjsq46
- aGFajSlt4wZumlllNVm3ekD1XzBDlvLgL8yDcLK37ViMwn/yS9AC8N7merAJ5y5Blc
- eHPIo0zo5R0AF2UrO1FuxdjNP6CWoeJwLcoFHfNR9fe0fCpfMhl6bfzxSVnJoam1Wx
- fWbMjMIJ907PPIL17B+lF8V6Pr18+xY1oXMsDFiZGq8QnR2het/UOnVWOKozP/MgU2
- M5PAbiWhikjJg==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id E391E61278; Tue, 22 Jun 2021 13:26:54 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 210005] Kernel stacktrace, Xorg freezes
-Date: Tue, 22 Jun 2021 13:26:54 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: high
-X-Bugzilla-Who: jani.nikula@intel.com
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: INVALID
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-210005-2300-nVFSCYsLCQ@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-210005-2300@https.bugzilla.kernel.org/>
-References: <bug-210005-2300@https.bugzilla.kernel.org/>
+Received: from mail-oi1-x236.google.com (mail-oi1-x236.google.com
+ [IPv6:2607:f8b0:4864:20::236])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 855706E508;
+ Tue, 22 Jun 2021 13:27:19 +0000 (UTC)
+Received: by mail-oi1-x236.google.com with SMTP id r16so11257696oiw.3;
+ Tue, 22 Jun 2021 06:27:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=cO64HjfY7zNoK3o+z033NE4yyjdDHedNRwY8vXER4vQ=;
+ b=tNvOXU+QX2QJs+WToJo0sEUkiFc6PcN1b7MhrMAA/TopNGEKVupLKWwx8wk+dcejFp
+ sCDmU7+hsAjjXLgo7azCee8i93fql+u32UkdgABzzrffHkQp7ThqBysMk8HMZDO93DdA
+ ILJO3l4N4qzgWdI1ARu602wbUU9EDTTuyvik/UUrkg6zBfFsC+BDyHbA9mNpU4a8zRq6
+ EzqEFwcl5jcprjEspoxRxOTIE6nZMKf4qfTEdIMk3pHI9Df5fbmoR7poEv9Pl7yKJfT4
+ b2BAmNt8yxFG/4ejE+VSXL4Fl1w5p1iQb4kOBGzkRJA3LmapUZyWw1alHME61NpC4izE
+ AN9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=cO64HjfY7zNoK3o+z033NE4yyjdDHedNRwY8vXER4vQ=;
+ b=HtOfP6ZNk+JzrGJVHRpaYbO1t+7kAjSueRJ5SGVLCZw5SiFN6Jb9qxbdmas7dhew89
+ Y1qaFtY2hyR51Y9lYKAvVn0maoZO1fRFuwnf1ysearYqPEGKLNrubql9eASgzMhYMvPd
+ 4iuDL7Cn0qQOq5ghxueCqj4G0Octp24Mic27hoPeG4px5uiFJAkef44hGaLMN9uoU9/r
+ ocRAuKRjG520/hyV1K1qEY8josGlCJy/AUjgHZXjVe+mh8M6NJ2bWBLyaCXlP3TyMk6s
+ 2UX6SElQonG0uMe+3CNqKpqwfgY5n0AThnUIGfilHwf2pi7krF+p0Nt9P2YZvKxfgnB7
+ qsjw==
+X-Gm-Message-State: AOAM533hIgOcs6rGwYo55v64JZiQ8rp6894duWkmrK09rqO1WD89Yosf
+ sPukEH9gqLD4tz2ZmuaM6jYbU9aB9K1pm6ds7+o=
+X-Google-Smtp-Source: ABdhPJxb0AIHYQQktiOBdlyyOtOiRLDUVeLRQEw+8NfaFVfVs9os58oUh51UPoA6rNP5GeVxmYdp3K9iwSRm9p/a/10=
+X-Received: by 2002:a05:6808:c3:: with SMTP id t3mr2895569oic.5.1624368438642; 
+ Tue, 22 Jun 2021 06:27:18 -0700 (PDT)
+MIME-Version: 1.0
+References: <20210614110517.1624-1-christian.koenig@amd.com>
+ <8f2720e3-8a86-11bc-7988-b763a5f1525a@gmail.com>
+In-Reply-To: <8f2720e3-8a86-11bc-7988-b763a5f1525a@gmail.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 22 Jun 2021 09:27:07 -0400
+Message-ID: <CADnq5_NmVJbFzhf7swvkU-3xbMamTxgALcHdnCRNEaHZRR5BBA@mail.gmail.com>
+Subject: Re: [PATCH] drm/nouveau: fix dma_address check for CPU/GPU sync
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
-MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,27 +64,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: nouveau <nouveau@lists.freedesktop.org>, Ben Skeggs <bskeggs@redhat.com>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>, linux@zary.sk
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D210005
+On Tue, Jun 22, 2021 at 5:32 AM Christian K=C3=B6nig
+<ckoenig.leichtzumerken@gmail.com> wrote:
+>
+> Ping? Does anybody wants to give me an rb or acked-by?
+>
+> AGP is basically broken on nouveu without this.
 
-Jani Nikula (jani.nikula@intel.com) changed:
+Looks correct to me.
+Acked-by: Alex Deucher <alexander.deucher@amd.com>
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
-         Resolution|---                         |INVALID
-
---- Comment #2 from Jani Nikula (jani.nikula@intel.com) ---
-Please file drm/i915 bugs at
-https://gitlab.freedesktop.org/drm/intel/issues/new
-
-See also https://gitlab.freedesktop.org/drm/intel/wikis/How-to-file-i915-bu=
-gs
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+>
+> Christian.
+>
+> Am 14.06.21 um 13:05 schrieb Christian K=C3=B6nig:
+> > AGP for example doesn't have a dma_address array.
+> >
+> > Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+> > ---
+> >   drivers/gpu/drm/nouveau/nouveau_bo.c | 4 ++--
+> >   1 file changed, 2 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c b/drivers/gpu/drm/nou=
+veau/nouveau_bo.c
+> > index 3e09df0472ce..170aba99a110 100644
+> > --- a/drivers/gpu/drm/nouveau/nouveau_bo.c
+> > +++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
+> > @@ -546,7 +546,7 @@ nouveau_bo_sync_for_device(struct nouveau_bo *nvbo)
+> >       struct ttm_tt *ttm_dma =3D (struct ttm_tt *)nvbo->bo.ttm;
+> >       int i, j;
+> >
+> > -     if (!ttm_dma)
+> > +     if (!ttm_dma || !ttm_dma->dma_address)
+> >               return;
+> >       if (!ttm_dma->pages) {
+> >               NV_DEBUG(drm, "ttm_dma 0x%p: pages NULL\n", ttm_dma);
+> > @@ -582,7 +582,7 @@ nouveau_bo_sync_for_cpu(struct nouveau_bo *nvbo)
+> >       struct ttm_tt *ttm_dma =3D (struct ttm_tt *)nvbo->bo.ttm;
+> >       int i, j;
+> >
+> > -     if (!ttm_dma)
+> > +     if (!ttm_dma || !ttm_dma->dma_address)
+> >               return;
+> >       if (!ttm_dma->pages) {
+> >               NV_DEBUG(drm, "ttm_dma 0x%p: pages NULL\n", ttm_dma);
+>
