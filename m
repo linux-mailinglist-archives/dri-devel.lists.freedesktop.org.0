@@ -1,75 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 598A03B1152
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Jun 2021 03:21:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 81F713B1190
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Jun 2021 04:10:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DAB866E889;
-	Wed, 23 Jun 2021 01:21:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BEE8C6E425;
+	Wed, 23 Jun 2021 02:10:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B4A76E889
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Jun 2021 01:21:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624411280;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=6WZjidwpALD0+6okLjRpzpQCZxBF9g0JCe+CU6OJZxo=;
- b=cZHnSC89gbIAWWcRT9UJhnH41wDlBldJwiBRVp2bpErPQXDJFv/TzXDuTGgGfI7dD+tilt
- CehZBb/iOjBosGe6umczxrlVrwVBqftwJUUu4kPMvXT+oiPHaR+Y0Fn6fQfQVdgA2VMvk9
- 1qRvE084CPFlTxBPiIhF1VdjhhNO8wE=
-Received: from mail-ot1-f72.google.com (mail-ot1-f72.google.com
- [209.85.210.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-98-yeB1b5VQMw6OwTF--XmPzA-1; Tue, 22 Jun 2021 21:21:18 -0400
-X-MC-Unique: yeB1b5VQMw6OwTF--XmPzA-1
-Received: by mail-ot1-f72.google.com with SMTP id
- f4-20020a0568302044b029044be209a5d7so219816otp.10
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Jun 2021 18:21:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:organization:mime-version:content-transfer-encoding;
- bh=6WZjidwpALD0+6okLjRpzpQCZxBF9g0JCe+CU6OJZxo=;
- b=B3DucTHlj1zbJ5PhrQv5IulMwH3iWoH0ZjlXSsduvsEjyLIw9nbrbVMtkdBYqiAg5e
- 14p/G5YE25Ye1JV8einPwn+cw8iRPATBy5NrmqUaubDIqTrOR18DTk0g8SxEHVKxAynO
- 0QYUagExjtf/u8DRanqnS3UpuWNQoALexp195a05a3gTwSEwg6j8O0zDii/9S1Ylltz+
- GY7mzdWrIP4ZsKk5vk+5fNMajjToDiSkySUV2rlzki4oKv92qcbiVyahUlRRZOy0MZ6l
- 2/5SNMMk1A7pkt7VcabKghH+rRkgAVOqT/6rGppLR05l16KTTRWf6B4QkqBqhosgLQ+w
- LtNA==
-X-Gm-Message-State: AOAM53187QgzG0ue0NmRWnJIR4QiedN9MWMMnh10I8aA0UB2Miwu2Cyy
- CGX6iAc6aoYepnz1LOlW0DDQSyHaDpoRLBYrlzK0Rs4eN+BnW5WVuwknnzsvyIf2cfzSG4ygV3u
- vPKS2TBphj4TxYLam8uh2mrhet0c7
-X-Received: by 2002:a9d:c04:: with SMTP id 4mr5426570otr.245.1624411278072;
- Tue, 22 Jun 2021 18:21:18 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxIMydhH4YIk5UlsJLWeyye09J8NdqydLo549hleKoU/i5XuOd4xS2Z30zIrGFONsoACRmAyw==
-X-Received: by 2002:a9d:c04:: with SMTP id 4mr5426545otr.245.1624411277887;
- Tue, 22 Jun 2021 18:21:17 -0700 (PDT)
-Received: from redhat.com ([198.99.80.109])
- by smtp.gmail.com with ESMTPSA id q18sm239916otf.72.2021.06.22.18.21.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Jun 2021 18:21:17 -0700 (PDT)
-Date: Tue, 22 Jun 2021 19:21:15 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Subject: Re: Allow mdev drivers to directly create the vfio_device (v4)
-Message-ID: <20210622192115.71e7e333.alex.williamson@redhat.com>
-In-Reply-To: <20210623000550.GI2371267@nvidia.com>
-References: <20210617142218.1877096-1-hch@lst.de>
- <20210623000550.GI2371267@nvidia.com>
-Organization: Red Hat
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C244E6E425
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Jun 2021 02:10:26 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 391EA9B1;
+ Wed, 23 Jun 2021 04:10:24 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1624414224;
+ bh=93LMMNTAt4uAzlvI1TIp36PyNMZaJQuvuK+SM2yxdQo=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=UTEL7y4rsEJ6MGUTGAcjEGqmwvmu/s0rdDAlssok3fuCu8oKoS+BhXc+2wuQ9EVv0
+ H2oyM/BBXzGGXI4G0J7MtILjNEwVpVTPyK5uhtg2ZdGU1cyb6CRr/IVcMw7PatRhrX
+ kIr1G3a92sgp6PZuAE748CKEfTGTcHpSn3w1E26k=
+Date: Wed, 23 Jun 2021 05:09:54 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Kieran Bingham <kieran.bingham@ideasonboard.com>
+Subject: Re: [PATCH 0/3] drm: rcar-du: V3U support
+Message-ID: <YNKX8qN4YtjFlW6T@pendragon.ideasonboard.com>
+References: <20210622232024.3215248-1-kieran.bingham@ideasonboard.com>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210622232024.3215248-1-kieran.bingham@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,41 +46,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, linux-doc@vger.kernel.org,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Kirti Wankhede <kwankhede@nvidia.com>, Christoph Hellwig <hch@lst.de>,
- linux-s390@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- intel-gfx@lists.freedesktop.org, Jason Herne <jjherne@linux.ibm.com>,
- Vasily Gorbik <gor@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Tony Krowiak <akrowiak@linux.ibm.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Cornelia Huck <cohuck@redhat.com>
+Cc: linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 22 Jun 2021 21:05:50 -0300
-Jason Gunthorpe <jgg@nvidia.com> wrote:
+Hi Kieran,
 
-> On Thu, Jun 17, 2021 at 04:22:08PM +0200, Christoph Hellwig wrote:
-> > This is my alternative take on this series from Jason:
-> > 
-> > https://lore.kernel.org/dri-devel/87czsszi9i.fsf@redhat.com/T/
-> > 
-> > The mdev/vfio parts are exactly the same, but this solves the driver core
-> > changes for the direct probing without the in/out flag that Greg hated,
-> > which cause a little more work, but probably make the result better.  
+It seems that the cover letter didn't include the mailing lists on CC,
+fixing this.
+
+On Wed, Jun 23, 2021 at 12:20:21AM +0100, Kieran Bingham wrote:
+> Extend support for the V3U Display Unit, making use of the {recently,
+> soon to be} posted DSI encoder from Laurent.
 > 
-> I did some testing and it looks good, thanks
+> Patch 1 just cleans up in preparation for patch 3, and patch 2 is
+> required for operation on the V3U, however it is functional and should
+> be correct for the D3 and E3 as well, as they also lack external sync.
 > 
-> I see Alex has this in hch-mdev-direct-v4 in linux-next now, so
-> expecting this to be in the next merge window?
+> Patch 3 enables the V3U and connects it to the MIPI DSI encoder, of
+> which I'm in a race between me and laurent for posting these patches ;-)
 
-Yeah, sorry I didn't send out an "applied" note, end of the day
-yesterday and forgot today.  My bad.  I expect this to go into v5.14
-given the acks and Greg's deferral for the driver-core changes to go
-through the vfio tree.  Speak now, or... Thanks,
+You won the race :-)
 
-Alex
+> Tests have been run and produce images - but there are artifacts visible
+> and some modes are unavailable, which will need further investigations,
+> but can be done on top of this integration.
+> 
+> Kieran Bingham (3):
+>   drm: rcar-du: Sort the DU outputs
+>   drm: rcar-du: Only initialise TVM_TVSYNC mode when supported
+>   drm: rcar-du: Add r8a779a0 device support
+> 
+>  drivers/gpu/drm/rcar-du/rcar_du_crtc.c    | 25 ++++++++++++++++++++++-
+>  drivers/gpu/drm/rcar-du/rcar_du_crtc.h    |  6 ++++--
+>  drivers/gpu/drm/rcar-du/rcar_du_drv.c     | 21 +++++++++++++++++++
+>  drivers/gpu/drm/rcar-du/rcar_du_drv.h     |  6 ++++++
+>  drivers/gpu/drm/rcar-du/rcar_du_encoder.c |  4 ++++
+>  drivers/gpu/drm/rcar-du/rcar_du_group.c   |  2 ++
+>  6 files changed, 61 insertions(+), 3 deletions(-)
+> 
 
+-- 
+Regards,
+
+Laurent Pinchart
