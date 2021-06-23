@@ -1,64 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D1C53B1CE2
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Jun 2021 16:51:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 10EBF3B1CD8
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Jun 2021 16:48:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 34BD96E926;
-	Wed, 23 Jun 2021 14:51:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B2C06E91F;
+	Wed, 23 Jun 2021 14:48:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x335.google.com (mail-ot1-x335.google.com
- [IPv6:2607:f8b0:4864:20::335])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3FB896E921
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Jun 2021 14:50:58 +0000 (UTC)
-Received: by mail-ot1-x335.google.com with SMTP id
- n99-20020a9d206c0000b029045d4f996e62so2190082ota.4
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Jun 2021 07:50:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=mLK+t9vbBMf5eQK1453iefhEKkMWDs/+WdTBxGANbmU=;
- b=DQ4I6rKH4Sb7nUJ1kDBPVglIYR9klQ6uzr24M5E+IML8qk1fk8PczQU/yk60BWD4RD
- jc/ugGtks5sVbhFzbK+qS+3RFnPO+w5zOQ0HqMgapPsSnjPHZv+4IpMlxSiVoNpjwvNN
- oyaZwWHNS1/Zm2hgSLeoY8eYCuHwjqPJO0y3Q=
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
+ [IPv6:2a00:1450:4864:20::32f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B43F6E91C;
+ Wed, 23 Jun 2021 14:48:30 +0000 (UTC)
+Received: by mail-wm1-x32f.google.com with SMTP id
+ h21-20020a1ccc150000b02901d4d33c5ca0so1532076wmb.3; 
+ Wed, 23 Jun 2021 07:48:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=d1q053PoMUI27HkuA+/kGj3JaXMCINu5aAUPFc/SDcY=;
+ b=lB5FRYab/LPA7TfirA7mk9d+RUxXem9GOVCByPQAhEx7oLpqzOs0f8KLYL3L6PNGZM
+ lJs6wIzzXYkqIM4NPrNXtIxKmLORYyCDF5UDO209kGQUdwdIc2Yg1gs7iVEu5ZGOc+85
+ zGoE5nCcBipZIt5VlgjTiUlCS7SNg3oNsTMjsaXoShFw6hMY//fKOiH5wgNmGCQpTrqJ
+ 501kBeyetgf/ZM3dQRmnTooecjep86iPtbyNQs6ddD/yAlfb1cvfauvP0diwrlFl4SL9
+ WeEeVWqggHdd4kb2xsCbIT08NBAdGSPgI3g7XWlA4lQPz+1Qy4jahfnJMCtxF3yJa/p0
+ xRrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=mLK+t9vbBMf5eQK1453iefhEKkMWDs/+WdTBxGANbmU=;
- b=LZv6b+bAoH2vAC5lu/lHA7JFRXorYF1oQwoBQboQdrXquZKOzR1aytUMzDsGAZTUTU
- Umud/vTGDkAaVUvmszmjDZv8Y32guZfgdl6Z3mkFbGsb0KnB9nB4NJEMjy2lRaI8+GMP
- aUqca+HFsfA6qWnQzr3cqakLnMfBC7LxT68Skq+eWMrtPqmmxSVhKZa6AjBbFQIBg7Pg
- N0NE5hgaRPEqCDQWMclNMco4oleOYsQ3jGCeaHec1vQVdMzRyIQLJQAxmiLAbClgr0pn
- cPbjp7QyOKhCP5sFu801gECzFrpdxxxGPyiOalOQjF8o6Z++ekRSyh5B/NLDyWC3QPZb
- RXNA==
-X-Gm-Message-State: AOAM533cUlEI16aXVbsyUXpvRvDawqGnXr/6FBb6Bd4opZT0URpI6zjA
- v8zZ8ylanPNmZY8ux2tlg82jZ4NyJADDziT6C59x1Q==
-X-Google-Smtp-Source: ABdhPJwepdGBrzdDtB8NbnIjNfZukLgkURi/E6/D407xWoqeY1N/4o1WVrchBWB0lb87samOU9kH5E7Xa/sycejkvVU=
-X-Received: by 2002:a05:6830:2370:: with SMTP id
- r16mr261588oth.188.1624459857447; 
- Wed, 23 Jun 2021 07:50:57 -0700 (PDT)
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=d1q053PoMUI27HkuA+/kGj3JaXMCINu5aAUPFc/SDcY=;
+ b=J6DFfdEbMCFfEaBvfe5TI5Lpi1ZzpwnxtSNtGyre57Z/Se8hc9Ngm3l7Phi7BWugSw
+ 7A/Tlu1wsjfzjGz8hv/i+3Np/iMG/kEblqlO8G+kodY3yDtAZ73HmJ6mmvmnPhY4/p3V
+ H64+rxF52o/JmlxW921LkSnnQnbm9Naw0yIYpRoRu40u3nDo5Bjdp0Cg1ORphCiuV41F
+ QyEW9UjIzOdtpsgyA1BIAfe7L1kAvVElKNfhqVQWSWkaSqfczMbR0QlNHzGgz7RW2wSl
+ LMUb3kQRNC7h4969d4xwHbiQDZ7v8FeACBPSYboE4B15YjZkqT/7M9+PgQTG5Nt8E7yr
+ SdzA==
+X-Gm-Message-State: AOAM5335kt5DkALnbF0Qz/au0q8ZhDYVyXLD00dw7Du9VSzEL0YWZKXt
+ 7bZp+Pril2LzebA1vBfwvG/hS9X7pHKw7L39R8w=
+X-Google-Smtp-Source: ABdhPJwhuM+QdzME5YDMjYAUe5o8s4tsyh5hrzQ8jDed0fMMsmaUOIjPq/jy4M6pQYsr4xhVPcg+CPH9LhPkAWm/LDw=
+X-Received: by 2002:a1c:2605:: with SMTP id m5mr11435501wmm.123.1624459708715; 
+ Wed, 23 Jun 2021 07:48:28 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210622165511.3169559-1-daniel.vetter@ffwll.ch>
- <20210622165511.3169559-16-daniel.vetter@ffwll.ch>
- <CAP+8YyHPLpe6jM7gz3ZNL3QqdHiCdL0P5cVMS7ddNgBSJmutSA@mail.gmail.com>
- <CAKMK7uGOrro7-2+OVJse3CcuZO66kreq-XjL45Ay5vhL=2TZvQ@mail.gmail.com>
- <3bf45006-4256-763d-601b-3a25a7057820@amd.com>
- <CAP+8YyH1xyYVfEkYVudCn+=jyiWxoZgDndrcSLM0Qq=E9_GDKg@mail.gmail.com>
- <421cb10d-92a7-0780-3d38-d4cabd008c0c@amd.com>
- <CAKMK7uEjc+tZCKB8Yu3_zAjOgYLPBhnYebHOXgxpFaSunuPCfA@mail.gmail.com>
- <682d2f3b-8ba3-cccb-1385-1f74f0b06ada@amd.com>
-In-Reply-To: <682d2f3b-8ba3-cccb-1385-1f74f0b06ada@amd.com>
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Wed, 23 Jun 2021 16:50:46 +0200
-Message-ID: <CAKMK7uGNNJZBMLvqXE9GkXESf-uZDWVxA5y+J2eKX9giNPXdZw@mail.gmail.com>
-Subject: Re: [PATCH 15/15] RFC: drm/amdgpu: Implement a proper implicit
- fencing uapi
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Wed, 23 Jun 2021 07:52:28 -0700
+Message-ID: <CAF6AEGvR7oJzwbzBPFqTV6dQFF95D48HHgVwF2RwMPRocMwqtA@mail.gmail.com>
+Subject: [pull v2] drm/msm: drm-msm-next-2021-06-23 for v5.14
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,502 +59,351 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Daniel Stone <daniels@collabora.com>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Kevin Wang <kevin1.wang@amd.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Luben Tuikov <luben.tuikov@amd.com>,
- "Kristian H . Kristensen" <hoegsberg@google.com>,
- Chen Li <chenli@uniontech.com>, Alex Deucher <alexander.deucher@amd.com>,
- mesa-dev <mesa-dev@lists.freedesktop.org>,
- =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
- Dennis Li <Dennis.Li@amd.com>, Deepak R Varma <mh12gx2825@gmail.com>
+Cc: Will Deacon <will@kernel.org>, freedreno <freedreno@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Jordan Crouse <jordan@cosmicpenguin.net>,
+ Abhinav Kumar <abhinavk@codeaurora.org>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Robin Murphy <robin.murphy@arm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 23, 2021 at 4:02 PM Christian K=C3=B6nig
-<christian.koenig@amd.com> wrote:
->
-> Am 23.06.21 um 15:49 schrieb Daniel Vetter:
-> > On Wed, Jun 23, 2021 at 3:44 PM Christian K=C3=B6nig
-> > <christian.koenig@amd.com> wrote:
-> >> Am 23.06.21 um 15:38 schrieb Bas Nieuwenhuizen:
-> >>> On Wed, Jun 23, 2021 at 2:59 PM Christian K=C3=B6nig
-> >>> <christian.koenig@amd.com> wrote:
-> >>>> Am 23.06.21 um 14:18 schrieb Daniel Vetter:
-> >>>>> On Wed, Jun 23, 2021 at 11:45 AM Bas Nieuwenhuizen
-> >>>>> <bas@basnieuwenhuizen.nl> wrote:
-> >>>>>> On Tue, Jun 22, 2021 at 6:55 PM Daniel Vetter <daniel.vetter@ffwll=
-.ch> wrote:
-> >>>>>>> WARNING: Absolutely untested beyond "gcc isn't dying in agony".
-> >>>>>>>
-> >>>>>>> Implicit fencing done properly needs to treat the implicit fencin=
-g
-> >>>>>>> slots like a funny kind of IPC mailbox. In other words it needs t=
-o be
-> >>>>>>> explicitly. This is the only way it will mesh well with explicit
-> >>>>>>> fencing userspace like vk, and it's also the bare minimum require=
-d to
-> >>>>>>> be able to manage anything else that wants to use the same buffer=
- on
-> >>>>>>> multiple engines in parallel, and still be able to share it throu=
-gh
-> >>>>>>> implicit sync.
-> >>>>>>>
-> >>>>>>> amdgpu completely lacks such an uapi. Fix this.
-> >>>>>>>
-> >>>>>>> Luckily the concept of ignoring implicit fences exists already, a=
-nd
-> >>>>>>> takes care of all the complexities of making sure that non-option=
-al
-> >>>>>>> fences (like bo moves) are not ignored. This support was added in
-> >>>>>>>
-> >>>>>>> commit 177ae09b5d699a5ebd1cafcee78889db968abf54
-> >>>>>>> Author: Andres Rodriguez <andresx7@gmail.com>
-> >>>>>>> Date:   Fri Sep 15 20:44:06 2017 -0400
-> >>>>>>>
-> >>>>>>>        drm/amdgpu: introduce AMDGPU_GEM_CREATE_EXPLICIT_SYNC v2
-> >>>>>>>
-> >>>>>>> Unfortuantely it's the wrong semantics, because it's a bo flag an=
-d
-> >>>>>>> disables implicit sync on an allocated buffer completely.
-> >>>>>>>
-> >>>>>>> We _do_ want implicit sync, but control it explicitly. For this w=
-e
-> >>>>>>> need a flag on the drm_file, so that a given userspace (like vulk=
-an)
-> >>>>>>> can manage the implicit sync slots explicitly. The other side of =
-the
-> >>>>>>> pipeline (compositor, other process or just different stage in a =
-media
-> >>>>>>> pipeline in the same process) can then either do the same, or ful=
-ly
-> >>>>>>> participate in the implicit sync as implemented by the kernel by
-> >>>>>>> default.
-> >>>>>>>
-> >>>>>>> By building on the existing flag for buffers we avoid any issues =
-with
-> >>>>>>> opening up additional security concerns - anything this new flag =
-here
-> >>>>>>> allows is already.
-> >>>>>>>
-> >>>>>>> All drivers which supports this concept of a userspace-specific
-> >>>>>>> opt-out of implicit sync have a flag in their CS ioctl, but in re=
-ality
-> >>>>>>> that turned out to be a bit too inflexible. See the discussion be=
-low,
-> >>>>>>> let's try to do a bit better for amdgpu.
-> >>>>>>>
-> >>>>>>> This alone only allows us to completely avoid any stalls due to
-> >>>>>>> implicit sync, it does not yet allow us to use implicit sync as a
-> >>>>>>> strange form of IPC for sync_file.
-> >>>>>>>
-> >>>>>>> For that we need two more pieces:
-> >>>>>>>
-> >>>>>>> - a way to get the current implicit sync fences out of a buffer. =
-Could
-> >>>>>>>      be done in a driver ioctl, but everyone needs this, and gene=
-rally a
-> >>>>>>>      dma-buf is involved anyway to establish the sharing. So an i=
-octl on
-> >>>>>>>      the dma-buf makes a ton more sense:
-> >>>>>>>
-> >>>>>>>      https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%=
-3A%2F%2Flore.kernel.org%2Fdri-devel%2F20210520190007.534046-4-jason%40jleks=
-trand.net%2F&amp;data=3D04%7C01%7Cchristian.koenig%40amd.com%7C83dbdd0a1eb8=
-442cbf7108d9364db51e%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637600529=
-684040802%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBT=
-iI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=3DfbdwtutEj93anZp6Pshs277QoMTHZx=
-Iy0Yl54T95rCw%3D&amp;reserved=3D0
-> >>>>>>>
-> >>>>>>>      Current drivers in upstream solves this by having the opt-ou=
-t flag
-> >>>>>>>      on their CS ioctl. This has the downside that very often the=
- CS
-> >>>>>>>      which must actually stall for the implicit fence is run a wh=
-ile
-> >>>>>>>      after the implicit fence point was logically sampled per the=
- api
-> >>>>>>>      spec (vk passes an explicit syncobj around for that afaiui),=
- and so
-> >>>>>>>      results in oversync. Converting the implicit sync fences int=
-o a
-> >>>>>>>      snap-shot sync_file is actually accurate.
-> >>>>>>>
-> >>>>>>> - Simillar we need to be able to set the exclusive implicit fence=
-.
-> >>>>>>>      Current drivers again do this with a CS ioctl flag, with aga=
-in the
-> >>>>>>>      same problems that the time the CS happens additional depend=
-encies
-> >>>>>>>      have been added. An explicit ioctl to only insert a sync_fil=
-e (while
-> >>>>>>>      respecting the rules for how exclusive and shared fence slot=
-s must
-> >>>>>>>      be update in struct dma_resv) is much better. This is propos=
-ed here:
-> >>>>>>>
-> >>>>>>>      https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%=
-3A%2F%2Flore.kernel.org%2Fdri-devel%2F20210520190007.534046-5-jason%40jleks=
-trand.net%2F&amp;data=3D04%7C01%7Cchristian.koenig%40amd.com%7C83dbdd0a1eb8=
-442cbf7108d9364db51e%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637600529=
-684040802%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBT=
-iI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=3Dvv%2BREnWorjoTOwrD1jH1GHVQcjPy=
-1oesaophsz056aI%3D&amp;reserved=3D0
-> >>>>>>>
-> >>>>>>> These three pieces together allow userspace to fully control impl=
-icit
-> >>>>>>> fencing and remove all unecessary stall points due to them.
-> >>>>>>>
-> >>>>>>> Well, as much as the implicit fencing model fundamentally allows:
-> >>>>>>> There is only one set of fences, you can only choose to sync agai=
-nst
-> >>>>>>> only writers (exclusive slot), or everyone. Hence suballocating
-> >>>>>>> multiple buffers or anything else like this is fundamentally not
-> >>>>>>> possible, and can only be fixed by a proper explicit fencing mode=
-l.
-> >>>>>>>
-> >>>>>>> Aside from that caveat this model gets implicit fencing as closel=
-y to
-> >>>>>>> explicit fencing semantics as possible:
-> >>>>>>>
-> >>>>>>> On the actual implementation I opted for a simple setparam ioctl,=
- no
-> >>>>>>> locking (just atomic reads/writes) for simplicity. There is a nic=
-e
-> >>>>>>> flag parameter in the VM ioctl which we could use, except:
-> >>>>>>> - it's not checked, so userspace likely passes garbage
-> >>>>>>> - there's already a comment that userspace _does_ pass garbage in=
- the
-> >>>>>>>      priority field
-> >>>>>>> So yeah unfortunately this flag parameter for setting vm flags is
-> >>>>>>> useless, and we need to hack up a new one.
-> >>>>>>>
-> >>>>>>> v2: Explain why a new SETPARAM (Jason)
-> >>>>>>>
-> >>>>>>> v3: Bas noticed I forgot to hook up the dependency-side shortcut.=
- We
-> >>>>>>> need both, or this doesn't do much.
-> >>>>>>>
-> >>>>>>> v4: Rebase over the amdgpu patch to always set the implicit sync
-> >>>>>>> fences.
-> >>>>>> So I think there is still a case missing in this implementation.
-> >>>>>> Consider these 3 cases
-> >>>>>>
-> >>>>>> (format: a->b: b waits on a. Yes, I know arrows are hard)
-> >>>>>>
-> >>>>>> explicit->explicit: This doesn't wait now, which is good
-> >>>>>> Implicit->explicit: This doesn't wait now, which is good
-> >>>>>> explicit->implicit : This still waits as the explicit submission s=
-till
-> >>>>>> adds shared fences and most things that set an exclusive fence for
-> >>>>>> implicit sync will hence wait on it.
-> >>>>>>
-> >>>>>> This is probably good enough for what radv needs now but also soun=
-ds
-> >>>>>> like a risk wrt baking in new uapi behavior that we don't want to =
-be
-> >>>>>> the end result.
-> >>>>>>
-> >>>>>> Within AMDGPU this is probably solvable in two ways:
-> >>>>>>
-> >>>>>> 1) Downgrade AMDGPU_SYNC_NE_OWNER to AMDGPU_SYNC_EXPLICIT for shar=
-ed fences.
-> >>>>> I'm not sure that works. I think the right fix is that radeonsi als=
-o
-> >>>>> switches to this model, with maybe a per-bo CS flag to set indicate
-> >>>>> write access, to cut down on the number of ioctls that are needed
-> >>>>> otherwise on shared buffers. This per-bo flag would essentially sel=
-ect
-> >>>>> between SYNC_NE_OWNER and SYNC_EXPLICIT on a per-buffer basis.
-> >>>> Yeah, but I'm still not entirely sure why that approach isn't suffic=
-ient?
-> >>>>
-> >>>> Problem with the per context or per vm flag is that you then don't g=
-et
-> >>>> any implicit synchronization any more when another process starts us=
-ing
-> >>>> the buffer.
-> >>> That is exactly what I want for Vulkan :)
-> >> Yeah, but as far as I know this is not something we can do.
-> >>
-> >> See we have use cases like screen capture and debug which rely on that
-> >> behavior.
-> > They will keep working, if (and only if) the vulkan side sets the
-> > winsys fences correctly. Also, everything else in vulkan aside from
-> > winsys is explicitly not synced at all, you have to import drm syncobj
-> > timeline on the gl side.
-> >
-> >> The only thing we can do is to say on a per buffer flag that a buffer
-> >> should not participate in implicit sync at all.
-> > Nah, this doesn't work. Because it's not a global decision, is a local
-> > decision for the rendered. Vulkan wants to control implicit sync
-> > explicitly, and the kernel can't force more synchronization. If a
-> > buffer is shared as a winsys buffer between vulkan client and gl using
-> > compositor, then you _have_ to use implicit sync on it. But vk needs
-> > to set the fences directly (and if the app gets it wrong, you get
-> > misrendering, but that is the specified behavour of vulkan).
->
-> Yeah, but that's exactly what we tried to avoid.
->
-> Mhm, when we attach the flag to the process/VM then this would break the
-> use case of VA-API and Vulkan in the same process.
->
-> But I think if you attach the flag to the context that should indeed
-> work fine.
+Hi Dave & Daniel,
 
-Yeah that's a question I have, whether the drm_file is shared within
-one process among everything, or whether radeonsi/libva/vk each have
-their own. If each have their own drm_file, then we should be fine,
-otherwise we need to figure out another place to put this (worst case
-as a CS extension that vk just sets on every submit).
+Resend of previous pull request, but with history rewritten to correct
+a Fixes tag that was incorrectly pointing at a CrOS kernel commit :-(
 
-Also yes this risks that a vk app which was violationing the winsys
-spec will now break, which is why I think we should do this sooner
-than later. Otherwise the list of w/a we might need to apply in vk
-userspace will become very long :-( At least since this is purely
-opt-in from userspace, we only need to have the w/a list in userspace,
-where mesa has the infrastructure for that already.
--Daniel
+Otherwise, the same as before.  Original description:
 
->
-> Christian.
->
-> > -Daniel
-> >
-> >> Regards,
-> >> Christian.
-> >>
-> >>>>> The current amdgpu uapi just doesn't allow any other model without =
-an
-> >>>>> explicit opt-in. So current implicit sync userspace just has to
-> >>>>> oversync, there's not much choice.
-> >>>>>
-> >>>>>> 2) Have an EXPLICIT fence owner that is used for explicit submissi=
-ons
-> >>>>>> that is ignored by AMDGPU_SYNC_NE_OWNER.
-> >>>>>>
-> >>>>>> But this doesn't solve cross-driver interactions here.
-> >>>>> Yeah cross-driver is still entirely unsolved, because
-> >>>>> amdgpu_bo_explicit_sync() on the bo didn't solve that either.
-> >>>> Hui? You have lost me. Why is that still unsolved?
-> >>> The part we're trying to solve with this patch is Vulkan should not
-> >>> participate in any implicit sync at all wrt submissions (and then
-> >>> handle the implicit sync for WSI explicitly using the fence
-> >>> import/export stuff that Jason wrote). As long we add shared fences t=
-o
-> >>> the dma_resv we participate in implicit sync (at the level of an
-> >>> implicit sync read) still, at least from the perspective of later job=
-s
-> >>> waiting on these fences.
-> >>>
-> >>>> Regards,
-> >>>> Christian.
-> >>>>
-> >>>>> -Daniel
-> >>>>>
-> >>>>>>> Cc: mesa-dev@lists.freedesktop.org
-> >>>>>>> Cc: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
-> >>>>>>> Cc: Dave Airlie <airlied@gmail.com>
-> >>>>>>> Cc: Rob Clark <robdclark@chromium.org>
-> >>>>>>> Cc: Kristian H. Kristensen <hoegsberg@google.com>
-> >>>>>>> Cc: Michel D=C3=A4nzer <michel@daenzer.net>
-> >>>>>>> Cc: Daniel Stone <daniels@collabora.com>
-> >>>>>>> Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> >>>>>>> Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
-> >>>>>>> Cc: Alex Deucher <alexander.deucher@amd.com>
-> >>>>>>> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> >>>>>>> Cc: Deepak R Varma <mh12gx2825@gmail.com>
-> >>>>>>> Cc: Chen Li <chenli@uniontech.com>
-> >>>>>>> Cc: Kevin Wang <kevin1.wang@amd.com>
-> >>>>>>> Cc: Dennis Li <Dennis.Li@amd.com>
-> >>>>>>> Cc: Luben Tuikov <luben.tuikov@amd.com>
-> >>>>>>> Cc: linaro-mm-sig@lists.linaro.org
-> >>>>>>> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> >>>>>>> ---
-> >>>>>>>     drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c  |  7 +++++--
-> >>>>>>>     drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c | 21 ++++++++++++++++=
-+++++
-> >>>>>>>     drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h  |  6 ++++++
-> >>>>>>>     include/uapi/drm/amdgpu_drm.h           | 10 ++++++++++
-> >>>>>>>     4 files changed, 42 insertions(+), 2 deletions(-)
-> >>>>>>>
-> >>>>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu=
-/drm/amd/amdgpu/amdgpu_cs.c
-> >>>>>>> index 65df34c17264..c5386d13eb4a 100644
-> >>>>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-> >>>>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-> >>>>>>> @@ -498,6 +498,7 @@ static int amdgpu_cs_parser_bos(struct amdgpu=
-_cs_parser *p,
-> >>>>>>>            struct amdgpu_bo *gds;
-> >>>>>>>            struct amdgpu_bo *gws;
-> >>>>>>>            struct amdgpu_bo *oa;
-> >>>>>>> +       bool no_implicit_sync =3D READ_ONCE(fpriv->vm.no_implicit=
-_sync);
-> >>>>>>>            int r;
-> >>>>>>>
-> >>>>>>>            INIT_LIST_HEAD(&p->validated);
-> >>>>>>> @@ -577,7 +578,8 @@ static int amdgpu_cs_parser_bos(struct amdgpu=
-_cs_parser *p,
-> >>>>>>>
-> >>>>>>>                    e->bo_va =3D amdgpu_vm_bo_find(vm, bo);
-> >>>>>>>
-> >>>>>>> -               if (bo->tbo.base.dma_buf && !amdgpu_bo_explicit_s=
-ync(bo)) {
-> >>>>>>> +               if (bo->tbo.base.dma_buf &&
-> >>>>>>> +                   !(no_implicit_sync || amdgpu_bo_explicit_sync=
-(bo))) {
-> >>>>>>>                            e->chain =3D dma_fence_chain_alloc();
-> >>>>>>>                            if (!e->chain) {
-> >>>>>>>                                    r =3D -ENOMEM;
-> >>>>>>> @@ -649,6 +651,7 @@ static int amdgpu_cs_sync_rings(struct amdgpu=
-_cs_parser *p)
-> >>>>>>>     {
-> >>>>>>>            struct amdgpu_fpriv *fpriv =3D p->filp->driver_priv;
-> >>>>>>>            struct amdgpu_bo_list_entry *e;
-> >>>>>>> +       bool no_implicit_sync =3D READ_ONCE(fpriv->vm.no_implicit=
-_sync);
-> >>>>>>>            int r;
-> >>>>>>>
-> >>>>>>>            list_for_each_entry(e, &p->validated, tv.head) {
-> >>>>>>> @@ -656,7 +659,7 @@ static int amdgpu_cs_sync_rings(struct amdgpu=
-_cs_parser *p)
-> >>>>>>>                    struct dma_resv *resv =3D bo->tbo.base.resv;
-> >>>>>>>                    enum amdgpu_sync_mode sync_mode;
-> >>>>>>>
-> >>>>>>> -               sync_mode =3D amdgpu_bo_explicit_sync(bo) ?
-> >>>>>>> +               sync_mode =3D no_implicit_sync || amdgpu_bo_expli=
-cit_sync(bo) ?
-> >>>>>>>                            AMDGPU_SYNC_EXPLICIT : AMDGPU_SYNC_NE_=
-OWNER;
-> >>>>>>>                    r =3D amdgpu_sync_resv(p->adev, &p->job->sync,=
- resv, sync_mode,
-> >>>>>>>                                         &fpriv->vm);
-> >>>>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gp=
-u/drm/amd/amdgpu/amdgpu_drv.c
-> >>>>>>> index c080ba15ae77..f982626b5328 100644
-> >>>>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> >>>>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> >>>>>>> @@ -1724,6 +1724,26 @@ int amdgpu_file_to_fpriv(struct file *filp=
-, struct amdgpu_fpriv **fpriv)
-> >>>>>>>            return 0;
-> >>>>>>>     }
-> >>>>>>>
-> >>>>>>> +int amdgpu_setparam_ioctl(struct drm_device *dev, void *data,
-> >>>>>>> +                         struct drm_file *filp)
-> >>>>>>> +{
-> >>>>>>> +       struct drm_amdgpu_setparam *setparam =3D data;
-> >>>>>>> +       struct amdgpu_fpriv *fpriv =3D filp->driver_priv;
-> >>>>>>> +
-> >>>>>>> +       switch (setparam->param) {
-> >>>>>>> +       case AMDGPU_SETPARAM_NO_IMPLICIT_SYNC:
-> >>>>>>> +               if (setparam->value)
-> >>>>>>> +                       WRITE_ONCE(fpriv->vm.no_implicit_sync, tr=
-ue);
-> >>>>>>> +               else
-> >>>>>>> +                       WRITE_ONCE(fpriv->vm.no_implicit_sync, fa=
-lse);
-> >>>>>>> +               break;
-> >>>>>>> +       default:
-> >>>>>>> +               return -EINVAL;
-> >>>>>>> +       }
-> >>>>>>> +
-> >>>>>>> +       return 0;
-> >>>>>>> +}
-> >>>>>>> +
-> >>>>>>>     const struct drm_ioctl_desc amdgpu_ioctls_kms[] =3D {
-> >>>>>>>            DRM_IOCTL_DEF_DRV(AMDGPU_GEM_CREATE, amdgpu_gem_create=
-_ioctl, DRM_AUTH|DRM_RENDER_ALLOW),
-> >>>>>>>            DRM_IOCTL_DEF_DRV(AMDGPU_CTX, amdgpu_ctx_ioctl, DRM_AU=
-TH|DRM_RENDER_ALLOW),
-> >>>>>>> @@ -1742,6 +1762,7 @@ const struct drm_ioctl_desc amdgpu_ioctls_k=
-ms[] =3D {
-> >>>>>>>            DRM_IOCTL_DEF_DRV(AMDGPU_GEM_VA, amdgpu_gem_va_ioctl, =
-DRM_AUTH|DRM_RENDER_ALLOW),
-> >>>>>>>            DRM_IOCTL_DEF_DRV(AMDGPU_GEM_OP, amdgpu_gem_op_ioctl, =
-DRM_AUTH|DRM_RENDER_ALLOW),
-> >>>>>>>            DRM_IOCTL_DEF_DRV(AMDGPU_GEM_USERPTR, amdgpu_gem_userp=
-tr_ioctl, DRM_AUTH|DRM_RENDER_ALLOW),
-> >>>>>>> +       DRM_IOCTL_DEF_DRV(AMDGPU_SETPARAM, amdgpu_setparam_ioctl,=
- DRM_AUTH|DRM_RENDER_ALLOW),
-> >>>>>>>     };
-> >>>>>>>
-> >>>>>>>     static const struct drm_driver amdgpu_kms_driver =3D {
-> >>>>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h b/drivers/gpu=
-/drm/amd/amdgpu/amdgpu_vm.h
-> >>>>>>> index ddb85a85cbba..0e8c440c6303 100644
-> >>>>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h
-> >>>>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h
-> >>>>>>> @@ -321,6 +321,12 @@ struct amdgpu_vm {
-> >>>>>>>            bool                    bulk_moveable;
-> >>>>>>>            /* Flag to indicate if VM is used for compute */
-> >>>>>>>            bool                    is_compute_context;
-> >>>>>>> +       /*
-> >>>>>>> +        * Flag to indicate whether implicit sync should always b=
-e skipped on
-> >>>>>>> +        * this context. We do not care about races at all, users=
-pace is allowed
-> >>>>>>> +        * to shoot itself with implicit sync to its fullest liki=
-ng.
-> >>>>>>> +        */
-> >>>>>>> +       bool no_implicit_sync;
-> >>>>>>>     };
-> >>>>>>>
-> >>>>>>>     struct amdgpu_vm_manager {
-> >>>>>>> diff --git a/include/uapi/drm/amdgpu_drm.h b/include/uapi/drm/amd=
-gpu_drm.h
-> >>>>>>> index 0cbd1540aeac..9eae245c14d6 100644
-> >>>>>>> --- a/include/uapi/drm/amdgpu_drm.h
-> >>>>>>> +++ b/include/uapi/drm/amdgpu_drm.h
-> >>>>>>> @@ -54,6 +54,7 @@ extern "C" {
-> >>>>>>>     #define DRM_AMDGPU_VM                  0x13
-> >>>>>>>     #define DRM_AMDGPU_FENCE_TO_HANDLE     0x14
-> >>>>>>>     #define DRM_AMDGPU_SCHED               0x15
-> >>>>>>> +#define DRM_AMDGPU_SETPARAM            0x16
-> >>>>>>>
-> >>>>>>>     #define DRM_IOCTL_AMDGPU_GEM_CREATE    DRM_IOWR(DRM_COMMAND_B=
-ASE + DRM_AMDGPU_GEM_CREATE, union drm_amdgpu_gem_create)
-> >>>>>>>     #define DRM_IOCTL_AMDGPU_GEM_MMAP      DRM_IOWR(DRM_COMMAND_B=
-ASE + DRM_AMDGPU_GEM_MMAP, union drm_amdgpu_gem_mmap)
-> >>>>>>> @@ -71,6 +72,7 @@ extern "C" {
-> >>>>>>>     #define DRM_IOCTL_AMDGPU_VM            DRM_IOWR(DRM_COMMAND_B=
-ASE + DRM_AMDGPU_VM, union drm_amdgpu_vm)
-> >>>>>>>     #define DRM_IOCTL_AMDGPU_FENCE_TO_HANDLE DRM_IOWR(DRM_COMMAND=
-_BASE + DRM_AMDGPU_FENCE_TO_HANDLE, union drm_amdgpu_fence_to_handle)
-> >>>>>>>     #define DRM_IOCTL_AMDGPU_SCHED         DRM_IOW(DRM_COMMAND_BA=
-SE + DRM_AMDGPU_SCHED, union drm_amdgpu_sched)
-> >>>>>>> +#define DRM_IOCTL_AMDGPU_SETPARAM      DRM_IOW(DRM_COMMAND_BASE =
-+ DRM_AMDGPU_SETPARAM, struct drm_amdgpu_setparam)
-> >>>>>>>
-> >>>>>>>     /**
-> >>>>>>>      * DOC: memory domains
-> >>>>>>> @@ -306,6 +308,14 @@ union drm_amdgpu_sched {
-> >>>>>>>            struct drm_amdgpu_sched_in in;
-> >>>>>>>     };
-> >>>>>>>
-> >>>>>>> +#define AMDGPU_SETPARAM_NO_IMPLICIT_SYNC       1
-> >>>>>>> +
-> >>>>>>> +struct drm_amdgpu_setparam {
-> >>>>>>> +       /* AMDGPU_SETPARAM_* */
-> >>>>>>> +       __u32   param;
-> >>>>>>> +       __u32   value;
-> >>>>>>> +};
-> >>>>>>> +
-> >>>>>>>     /*
-> >>>>>>>      * This is not a reliable API and you should expect it to fai=
-l for any
-> >>>>>>>      * number of reasons and have fallback path that do not use u=
-serptr to
-> >>>>>>> --
-> >>>>>>> 2.32.0.rc2
-> >>>>>>>
-> >
->
+Here is msm-next for v5.14
 
+Notable additions this time around:
 
---=20
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+* devcoredump support for display errors
+* dpu: irq cleanup/refactor
+* dpu: dt bindings conversion to yaml
+* dsi: dt bindings conversion to yaml
+* mdp5: alpha/blend_mode/zpos support
+* mdp5: dynamic bandwidth management
+* a6xx: cached coherent buffer support
+* a660 support
+* gpu iova fault improvements:
+   - info about which block triggered the fault, etc
+   - generation of gpu devcoredump on fault
+* assortment of other cleanups and fixes
+
+The following changes since commit c4681547bcce777daf576925a966ffa824edd09d:
+
+  Linux 5.13-rc3 (2021-05-23 11:42:48 -1000)
+
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/drm/msm.git drm-msm-next-2021-06-23
+
+for you to fetch changes up to c1d12c19efd91b9cda5472bc4ec48854e67c24a8:
+
+  drm/msm/mdp5: provide dynamic bandwidth management (2021-06-23 07:33:56 -0700)
+
+----------------------------------------------------------------
+Abhinav Kumar (7):
+      drm: allow drm_atomic_print_state() to accept any drm_printer
+      drm/msm: add support to take dpu snapshot
+      drm/msm/dsi: add API to take DSI register snapshot
+      drm/msm/dp: add API to take DP register snapshot
+      drm/msm/disp/dpu1: add API to take DPU register snapshot
+      drm/msm: add support to take dsi, dp and dpu snapshot
+      drm/msm: add disp snapshot points across dpu driver
+
+Alexey Minnekhanov (1):
+      drm/msm: Init mm_list before accessing it for use_vram path
+
+Arnd Bergmann (1):
+      drm/msm/dsi: fix 32-bit clang warning
+
+Bernard Zhao (1):
+      drm/msm: remove unneeded variable ret
+
+Bhaskar Chowdhury (3):
+      drm/msm/dpu: Fix a typo
+      drm/msm/dpu: Fix a typo
+      drm/msm/dp: Fixed couple of typos
+
+Bjorn Andersson (1):
+      drm/msm/dpu: Avoid ABBA deadlock between IRQ modules
+
+Dmitry Baryshkov (23):
+      drm/msm: pass dump state as a function argument
+      drm/msm: make msm_disp_state transient data struct
+      drm/msm: get rid of msm_iomap_size
+      drm/msm/dsi: add DSI PHY registers to snapshot data
+      drm/msm: fix display snapshotting if DP or DSI is disabled
+      drm/msm/dpu: merge dpu_hw_intr_get_interrupt_statuses into
+dpu_hw_intr_dispatch_irqs
+      drm/msm/dpu: hw_intr: always call dpu_hw_intr_clear_intr_status_nolock
+      drm/msm/dpu: define interrupt register names
+      drm/msm/dpu: replace IRQ lookup with the data in hw catalog
+      drm/msm/dpu: drop remains of old irq lookup subsystem
+      drm/msm/dpu: simplify IRQ enabling/disabling
+      drm/msm/dsi: print error code when MIPI DSI host registration fails
+      drm/msm/dpu: remove unused dpu_hw_blk features
+      drm/msm/dpu: drop dpu_hw_blk_destroy function
+      drm/msm/dpu: use struct dpu_hw_merge_3d in dpu_hw_pingpong
+      drm/msm/dpu: hw_blk: make dpu_hw_blk empty opaque structure
+      drm/msm/dsi: do not enable PHYs when called for the slave DSI interface
+      drm/msm/mdp5: use drm atomic helpers to handle base drm plane state
+      drm/msm/mdp5: use drm_plane_state for storing alpha value
+      drm/msm/mdp5: use drm_plane_state for pixel blend mode
+      drm/msm/mdp5: add support for alpha/blend_mode properties
+      drm/msm/mdp5: switch to standard zpos property
+      drm/msm/mdp5: provide dynamic bandwidth management
+
+Guenter Roeck (2):
+      drm/msm/dp: Drop unnecessary NULL checks after container_of
+      drm/msm/dpu: Drop unnecessary NULL checks after container_of in
+dpu_encoder
+
+James Willcox (1):
+      drm/msm/mdp5: add perf blocks for holding fudge factors
+
+Jonathan Marek (13):
+      drm/msm/a6xx: update/fix CP_PROTECT initialization
+      drm/msm/a6xx: fix incorrectly set uavflagprd_inv field for A650
+      drm/msm/a6xx: avoid shadow NULL reference in failure path
+      drm/msm: remove unnecessary mmap logic for cached BOs
+      drm/msm: replace MSM_BO_UNCACHED with MSM_BO_WC for internal objects
+      drm/msm: use the right pgprot when mapping BOs in the kernel
+      drm/msm: add MSM_BO_CACHED_COHERENT
+      drm/msm: deprecate MSM_BO_UNCACHED (map as writecombine instead)
+      drm/msm: remove unused icc_path/ocmem_icc_path
+      drm/msm/a6xx: use AOP-initialized PDC for a650
+      drm/msm/a6xx: add GMU_CX_GMU_CX_FALNEXT_INTF write for a650
+      drm/msm/a6xx: add missing PC_DBG_ECO_CNTL bit for a640/a650
+      drm/msm/a6xx: add support for Adreno 660 GPU
+
+Jordan Crouse (3):
+      iommu/arm-smmu: Add support for driver IOMMU fault handlers
+      iommu/arm-smmu-qcom: Add an adreno-smmu-priv callback to get
+pagefault info
+      drm/msm: Improve the a6xx page fault handler
+
+Krishna Manikandan (5):
+      dt-bindings: msm: disp: add yaml schemas for DPU bindings
+      dt-bindings: msm: dsi: add yaml schemas for DSI bindings
+      dt-bindings: msm: dsi: add yaml schemas for DSI PHY bindings
+      dt-bindings: msm/dp: Add bindings of MSM DisplayPort controller
+      drm/msm/disp/dpu1: avoid perf update in frame done event
+
+Kuogee Hsieh (2):
+      drm/msm/dp: handle irq_hpd with sink_count = 0 correctly
+      drm/msm/dp: power off DP phy at suspend
+
+Lee Jones (5):
+      drm/msm/dp/dp_display: Remove unused variable 'hpd'
+      drm/msm/disp/dpu1/dpu_plane: Fix a couple of naming issues
+      drm/msm/msm_gem: Demote kernel-doc abuses
+      drm/msm/dp/dp_catalog: Correctly document param 'dp_catalog'
+      drm/msm/dp/dp_link: Fix some potential doc-rot
+
+Rob Clark (5):
+      Merge branch 'msm-fixes-v5.13-rc6' into msm-next-redo
+      drm/msm: Generated register update
+      iommu/arm-smmu-qcom: Add stall support
+      drm/msm: devcoredump iommu fault support
+      drm/msm: Add debugfs to trigger shrinker
+
+Samuel Iglesias Gonsalvez (1):
+      drm/msm: export hangcheck_period in debugfs
+
+Shaokun Zhang (1):
+      drm/msm/dp: remove the repeated declaration
+
+Stephen Boyd (10):
+      drm/msm/dsi: Stash away calculated vco frequency on recalc
+      drm/msm/dp: Simplify aux irq handling code
+      drm/msm/dp: Shrink locking area of dp_aux_transfer()
+      drm/msm/dp: Handle aux timeouts, nacks, defers
+      drm/msm: Move vblank debug prints to drm_dbg_vbl()
+      drm/msm/dp: Drop malformed debug print
+      drm/msm: Move FB debug prints to drm_dbg_state()
+      drm/msm/disp: Use plane debug print helper
+      drm/msm/disp: Move various debug logs to atomic bucket
+      drm/msm: Use VERB() for extra verbose logging
+
+Yangtao Li (1):
+      drm/msm: Convert to use resource-managed OPP API
+
+Zhen Lei (3):
+      drm/msm: Fix error return code in msm_drm_init()
+      drm/msm/dpu: Fix error return code in dpu_mdss_init()
+      drm/msm/dpu: remove unused local variable 'cmd_enc'
+
+zuoqilin (1):
+      drm/msm: Remove unneeded variable: "rc"
+
+ .../bindings/display/msm/dp-controller.yaml        |  146 ++
+ .../bindings/display/msm/dpu-sc7180.yaml           |  228 ++
+ .../bindings/display/msm/dpu-sdm845.yaml           |  212 ++
+ .../devicetree/bindings/display/msm/dpu.txt        |  141 --
+ .../bindings/display/msm/dsi-controller-main.yaml  |  185 ++
+ .../bindings/display/msm/dsi-phy-10nm.yaml         |   68 +
+ .../bindings/display/msm/dsi-phy-14nm.yaml         |   66 +
+ .../bindings/display/msm/dsi-phy-20nm.yaml         |   71 +
+ .../bindings/display/msm/dsi-phy-28nm.yaml         |   68 +
+ .../bindings/display/msm/dsi-phy-common.yaml       |   40 +
+ .../devicetree/bindings/display/msm/dsi.txt        |  249 ---
+ drivers/gpu/drm/drm_atomic.c                       |   28 +-
+ drivers/gpu/drm/drm_atomic_uapi.c                  |    4 +-
+ drivers/gpu/drm/drm_crtc_internal.h                |    4 +-
+ drivers/gpu/drm/msm/Makefile                       |    3 +-
+ drivers/gpu/drm/msm/adreno/a2xx.xml.h              |   60 +-
+ drivers/gpu/drm/msm/adreno/a3xx.xml.h              |   40 +-
+ drivers/gpu/drm/msm/adreno/a4xx.xml.h              |   38 +-
+ drivers/gpu/drm/msm/adreno/a5xx.xml.h              |   95 +-
+ drivers/gpu/drm/msm/adreno/a5xx_gpu.c              |   29 +-
+ drivers/gpu/drm/msm/adreno/a5xx_power.c            |    2 +-
+ drivers/gpu/drm/msm/adreno/a5xx_preempt.c          |    4 +-
+ drivers/gpu/drm/msm/adreno/a6xx.xml.h              | 2201 ++++++++++----------
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.c              |   55 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.xml.h          |   34 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c              |  460 +++-
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.h              |    4 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c        |   44 +-
+ drivers/gpu/drm/msm/adreno/a6xx_hfi.c              |   33 +
+ drivers/gpu/drm/msm/adreno/adreno_common.xml.h     |   30 +-
+ drivers/gpu/drm/msm/adreno/adreno_device.c         |   14 +
+ drivers/gpu/drm/msm/adreno/adreno_gpu.c            |   26 +-
+ drivers/gpu/drm/msm/adreno/adreno_gpu.h            |   13 +-
+ drivers/gpu/drm/msm/adreno/adreno_pm4.xml.h        |  119 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_core_irq.c       |  230 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_core_irq.h       |   43 -
+ drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c      |   22 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c           |   43 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c        |  110 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h   |    4 -
+ .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c   |   58 +-
+ .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c   |   54 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c        |    6 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_blk.c         |  139 --
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_blk.h         |   22 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     |  202 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |   16 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c         |    6 -
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c        |    7 -
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c  | 1508 +-------------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.h  |  132 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c        |    6 -
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c          |    6 -
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h        |    2 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_merge3d.c     |    6 -
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c    |    6 -
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.h    |    4 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c        |    6 -
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c         |    6 -
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |   70 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h            |    8 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_mdss.c           |    8 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c          |   23 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c             |    4 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h          |   63 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_vbif.c           |   14 +-
+ drivers/gpu/drm/msm/disp/mdp4/mdp4.xml.h           |   34 +-
+ drivers/gpu/drm/msm/disp/mdp5/mdp5.xml.h           |   38 +-
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c           |   35 +
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.h           |    7 +
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c          |   56 +-
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c           |  119 +-
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.h           |   17 +-
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c         |  177 +-
+ drivers/gpu/drm/msm/disp/mdp_common.xml.h          |   34 +-
+ drivers/gpu/drm/msm/disp/msm_disp_snapshot.c       |  125 ++
+ drivers/gpu/drm/msm/disp/msm_disp_snapshot.h       |  136 ++
+ drivers/gpu/drm/msm/disp/msm_disp_snapshot_util.c  |  187 ++
+ drivers/gpu/drm/msm/dp/dp_aux.c                    |  181 +-
+ drivers/gpu/drm/msm/dp/dp_aux.h                    |    8 -
+ drivers/gpu/drm/msm/dp/dp_catalog.c                |   18 +-
+ drivers/gpu/drm/msm/dp/dp_catalog.h                |    7 +-
+ drivers/gpu/drm/msm/dp/dp_ctrl.c                   |   87 +-
+ drivers/gpu/drm/msm/dp/dp_ctrl.h                   |    3 +-
+ drivers/gpu/drm/msm/dp/dp_display.c                |  121 +-
+ drivers/gpu/drm/msm/dp/dp_display.h                |    1 +
+ drivers/gpu/drm/msm/dp/dp_link.c                   |   21 +-
+ drivers/gpu/drm/msm/dp/dp_panel.c                  |    4 +-
+ drivers/gpu/drm/msm/dp/dp_power.h                  |    4 +-
+ drivers/gpu/drm/msm/dsi/dsi.c                      |    6 +
+ drivers/gpu/drm/msm/dsi/dsi.h                      |    4 +-
+ drivers/gpu/drm/msm/dsi/dsi.xml.h                  | 1722 +--------------
+ drivers/gpu/drm/msm/dsi/dsi_host.c                 |   30 +-
+ drivers/gpu/drm/msm/dsi/dsi_manager.c              |   12 +-
+ drivers/gpu/drm/msm/dsi/dsi_phy_10nm.xml.h         |  228 ++
+ drivers/gpu/drm/msm/dsi/dsi_phy_14nm.xml.h         |  310 +++
+ drivers/gpu/drm/msm/dsi/dsi_phy_20nm.xml.h         |  238 +++
+ drivers/gpu/drm/msm/dsi/dsi_phy_28nm.xml.h         |  385 ++++
+ drivers/gpu/drm/msm/dsi/dsi_phy_28nm_8960.xml.h    |  287 +++
+ drivers/gpu/drm/msm/dsi/dsi_phy_5nm.xml.h          |  480 +++++
+ drivers/gpu/drm/msm/dsi/dsi_phy_7nm.xml.h          |  482 +++++
+ drivers/gpu/drm/msm/dsi/mmss_cc.xml.h              |   34 +-
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy.c              |   31 +-
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy.h              |    4 +
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_10nm.c         |    2 +
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c         |    1 +
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_20nm.c         |    1 +
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c         |    1 +
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c    |    1 +
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c          |    8 +-
+ drivers/gpu/drm/msm/dsi/sfpb.xml.h                 |   34 +-
+ drivers/gpu/drm/msm/edp/edp.xml.h                  |   34 +-
+ drivers/gpu/drm/msm/hdmi/hdmi.xml.h                |   34 +-
+ drivers/gpu/drm/msm/hdmi/qfprom.xml.h              |   34 +-
+ drivers/gpu/drm/msm/msm_debugfs.c                  |   31 +
+ drivers/gpu/drm/msm/msm_drv.c                      |   33 +-
+ drivers/gpu/drm/msm/msm_drv.h                      |   24 +-
+ drivers/gpu/drm/msm/msm_fb.c                       |    8 +-
+ drivers/gpu/drm/msm/msm_gem.c                      |   45 +-
+ drivers/gpu/drm/msm/msm_gem.h                      |    1 +
+ drivers/gpu/drm/msm/msm_gem_shrinker.c             |   18 +
+ drivers/gpu/drm/msm/msm_gem_submit.c               |    1 +
+ drivers/gpu/drm/msm/msm_gpu.c                      |   51 +-
+ drivers/gpu/drm/msm/msm_gpu.h                      |   29 +-
+ drivers/gpu/drm/msm/msm_gpummu.c                   |    5 +
+ drivers/gpu/drm/msm/msm_iommu.c                    |   22 +-
+ drivers/gpu/drm/msm/msm_kms.h                      |    9 +
+ drivers/gpu/drm/msm/msm_mmu.h                      |    5 +-
+ drivers/gpu/drm/selftests/test-drm_framebuffer.c   |    1 +
+ drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c         |   50 +
+ drivers/iommu/arm/arm-smmu/arm-smmu.c              |    9 +-
+ drivers/iommu/arm/arm-smmu/arm-smmu.h              |    2 +
+ include/linux/adreno-smmu-priv.h                   |   38 +-
+ include/uapi/drm/msm_drm.h                         |    7 +-
+ 134 files changed, 7508 insertions(+), 6352 deletions(-)
+ create mode 100644
+Documentation/devicetree/bindings/display/msm/dp-controller.yaml
+ create mode 100644
+Documentation/devicetree/bindings/display/msm/dpu-sc7180.yaml
+ create mode 100644
+Documentation/devicetree/bindings/display/msm/dpu-sdm845.yaml
+ delete mode 100644 Documentation/devicetree/bindings/display/msm/dpu.txt
+ create mode 100644
+Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
+ create mode 100644
+Documentation/devicetree/bindings/display/msm/dsi-phy-10nm.yaml
+ create mode 100644
+Documentation/devicetree/bindings/display/msm/dsi-phy-14nm.yaml
+ create mode 100644
+Documentation/devicetree/bindings/display/msm/dsi-phy-20nm.yaml
+ create mode 100644
+Documentation/devicetree/bindings/display/msm/dsi-phy-28nm.yaml
+ create mode 100644
+Documentation/devicetree/bindings/display/msm/dsi-phy-common.yaml
+ delete mode 100644 Documentation/devicetree/bindings/display/msm/dsi.txt
+ delete mode 100644 drivers/gpu/drm/msm/disp/dpu1/dpu_hw_blk.c
+ create mode 100644 drivers/gpu/drm/msm/disp/msm_disp_snapshot.c
+ create mode 100644 drivers/gpu/drm/msm/disp/msm_disp_snapshot.h
+ create mode 100644 drivers/gpu/drm/msm/disp/msm_disp_snapshot_util.c
+ create mode 100644 drivers/gpu/drm/msm/dsi/dsi_phy_10nm.xml.h
+ create mode 100644 drivers/gpu/drm/msm/dsi/dsi_phy_14nm.xml.h
+ create mode 100644 drivers/gpu/drm/msm/dsi/dsi_phy_20nm.xml.h
+ create mode 100644 drivers/gpu/drm/msm/dsi/dsi_phy_28nm.xml.h
+ create mode 100644 drivers/gpu/drm/msm/dsi/dsi_phy_28nm_8960.xml.h
+ create mode 100644 drivers/gpu/drm/msm/dsi/dsi_phy_5nm.xml.h
+ create mode 100644 drivers/gpu/drm/msm/dsi/dsi_phy_7nm.xml.h
