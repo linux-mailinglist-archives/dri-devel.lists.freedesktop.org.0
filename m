@@ -2,62 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BAC93B13CA
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Jun 2021 08:15:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 960C03B13EF
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Jun 2021 08:28:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B871B89C6B;
-	Wed, 23 Jun 2021 06:15:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2564089AEA;
+	Wed, 23 Jun 2021 06:28:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 977E289C6B
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Jun 2021 06:15:27 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1624428927; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=YgXZ6VNhDITS6yDaGx56LtlJqbhq7xTELt1tz8y6TYM=;
- b=QceX7wa0eTmmXzY7lkWOAkSV1PiGgZN6m6/lxGjUAMBzxTgfYs3CZWGYbo1//ZVuXwtTKvY6
- 9VcxH2cIJ82xAA2lmgRgIxcU/nPpUXOJ15ey7lE/XBi6VJGhS4sI9D5wzNda3+CmEv6f6pHv
- RY2SxTtNFx2kqH6ENVedPDTxzp8=
-X-Mailgun-Sending-Ip: 69.72.43.7
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n02.prod.us-west-2.postgun.com with SMTP id
- 60d2d17e01dd9a943150670b (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 23 Jun 2021 06:15:26
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 7AC20C43460; Wed, 23 Jun 2021 06:15:26 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00
- autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
- (No client certificate requested) (Authenticated sender: rajeevny)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 93D9CC433D3;
- Wed, 23 Jun 2021 06:15:24 +0000 (UTC)
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9FA8A89A62;
+ Wed, 23 Jun 2021 06:28:43 +0000 (UTC)
+IronPort-SDR: I9f7pmS2fOhLVIovNMkZbf7cJTTqFD8I3jevukwUrJ85RSsIKh/Ng93XxbtIrhRelQD4TNncGn
+ +XfH56AO0ZhQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,10023"; a="268342177"
+X-IronPort-AV: E=Sophos;i="5.83,293,1616482800"; d="scan'208";a="268342177"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Jun 2021 23:28:42 -0700
+IronPort-SDR: e+qNcmw4KdhOItgDcU+EY11XysQAxQsbthmVLfP1dg2S6WPoCq+eNbp5E3/Ne4ZcSqdCYTWZDu
+ HqKuUbcgxBgA==
+X-IronPort-AV: E=Sophos;i="5.83,293,1616482800"; d="scan'208";a="639346847"
+Received: from ibanaga-mobl.ger.corp.intel.com (HELO thellst-mobl1.intel.com)
+ ([10.249.254.100])
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Jun 2021 23:28:40 -0700
+From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH v8 0/3] drm/i915: Move system memory to TTM for discrete
+Date: Wed, 23 Jun 2021 08:28:22 +0200
+Message-Id: <20210623062825.417187-1-thomas.hellstrom@linux.intel.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date: Wed, 23 Jun 2021 11:45:24 +0530
-From: rajeevny@codeaurora.org
-To: Doug Anderson <dianders@chromium.org>
-Subject: Re: [v7 1/5] drm/panel: add basic DP AUX backlight support
-In-Reply-To: <CAD=FV=WJiA+RxaQA9xt7Tik_2pCEJo0+6b39Di8cfnSWGuKkJQ@mail.gmail.com>
-References: <1624099230-20899-1-git-send-email-rajeevny@codeaurora.org>
- <1624099230-20899-2-git-send-email-rajeevny@codeaurora.org>
- <20210620093141.GA703072@ravnborg.org>
- <ebf5581759daee9596c2f092ca836ecb@codeaurora.org>
- <20210621183828.GA918146@ravnborg.org>
- <CAD=FV=WJiA+RxaQA9xt7Tik_2pCEJo0+6b39Di8cfnSWGuKkJQ@mail.gmail.com>
-Message-ID: <c15947bb1566f176a2f534c52a7c3183@codeaurora.org>
-X-Sender: rajeevny@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,170 +48,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, dri-devel <dri-devel@lists.freedesktop.org>,
- Andrzej Hajda <a.hajda@samsung.com>, Thierry Reding <thierry.reding@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- "Kristian H. Kristensen" <hoegsberg@chromium.org>,
- Sam Ravnborg <sam@ravnborg.org>, Daniel Thompson <daniel.thompson@linaro.org>,
- Lee Jones <lee.jones@linaro.org>, "open list:OPEN FIRMWARE AND FLATTENED
- DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>,
- Jani Nikula <jani.nikula@intel.com>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Abhinav Kumar <abhinavk@codeaurora.org>, Sean Paul <seanpaul@chromium.org>,
- Kalyan Thota <kalyan_t@codeaurora.org>,
- Krishna Manikandan <mkrishn@codeaurora.org>, Jingoo Han <jingoohan1@gmail.com>,
- LKML <linux-kernel@vger.kernel.org>, Rob Clark <robdclark@gmail.com>,
- freedreno <freedreno@lists.freedesktop.org>
+Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ matthew.auld@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Early implementation of moving system memory for discrete cards over to
+TTM. We first add the notion of objects being migratable under the object
+lock to i915 gem, and add some asserts to verify that objects are either
+locked or pinned when the placement is checked by the gem code.
 
-On 23-06-2021 00:03, Doug Anderson wrote:
-> Hi,
-> 
-> On Mon, Jun 21, 2021 at 11:38 AM Sam Ravnborg <sam@ravnborg.org> wrote:
->> 
->> > > I cannot see why you need the extra check on ->enabled?
->> > > Would it be sufficient to check backlight_is_blank() only?
->> >
->> > This extra check on bl->enabled flag is added to avoid enabling/disabling
->> > backlight again if it is already enabled/disabled.
->> > Using this flag way can know the transition between backlight blank and
->> > un-blank, and decide when to enable/disable the backlight.
->> 
->> My point is that this should really not be needed, as it would cover 
->> up
->> for some other bug whaere we try to do something twice that is not
->> needed. But I am less certain here so if you think it is needed, keep
->> it as is.
-> 
-> I haven't tested this myself, but I believe that it is needed. I don't
-> think the backlight update_status() function is like an enable/disable
-> function. I believe it can be called more than one time even while the
-> backlight is disabled. For instance, you can see that
-> backlight_update_status() just blindly calls through to update the
-> status. That function can be called for a number of reasons. Perhaps
-> Rajeev can put some printouts to confirm but I think that if the
-> backlight is "blanked" for whatever reason and you write to sysfs and
-> change the backlight level you'll still get called again even though
-> the backlight is still "disabled".
-> 
-Yes, sysfs write will always try to update the backlight even though the 
-backlight is "blanked".
+Patch 2 deals with updating the i915 gem bookkeeping after a TTM move,
+Patch 3 moves system over from shmem to TTM for discrete
 
-The "bl->enabled" check is also required to prevent unnecessary calls to 
-drm_edp_backlight_enable() during every backlight level change.
+Note that the mock device doesn't consider itself discrete so the TTM
+system path is not checked by the mock selftests.
 
-To confirm this, I have added few prints in 
-dp_aux_backlight_update_status() function and collected the logs.
-(Copying the code here to make the review easy)
+v2:
+- Style fixes (reported by Matthew Auld)
+- Drop the last patch (migration) It needs selftests and some additional work.
+- Unconditionally add VM_IO at mmap time.
 
+v3:
+- More style fixes (reported by Matthew Auld)
+- Don't overfill the busy placement vector (reported by Matthew Auld)
 
-static int dp_aux_backlight_update_status(struct backlight_device *bd)
-{
-         struct dp_aux_backlight *bl = bl_get_data(bd);
-         u16 brightness = backlight_get_brightness(bd);
-         int ret = 0;
+v4:
+- Remove confusion around shrinkable objects (reported by Matthew Auld)
 
-+        pr_err("%s: brightness %d, _is_blank %d, bl->enabled %d\n", 
-__func__,
-+                brightness, backlight_is_blank(bd), bl->enabled);
+v5:
+- Remove confusion around shrinkable objects again, but this time in the
+  correct patch. (reported by Matthew Auld)
 
-         if (!backlight_is_blank(bd)) {
-                 if (!bl->enabled) {
-+                        pr_err("%s: enabling backlight\n", __func__);
-                         drm_edp_backlight_enable(bl->aux, &bl->info, 
-brightness);
-                         bl->enabled = true;
-                         return 0;
-                 }
-                 ret = drm_edp_backlight_set_level(bl->aux, &bl->info, 
-brightness);
-         } else {
-                 if (bl->enabled) {
-+                       pr_err("%s: disabling backlight\n", __func__);
-                         drm_edp_backlight_disable(bl->aux, &bl->info);
-                         bl->enabled = false;
-                 }
-         }
+v6:
+- One patch already committed.
+- Introduce a __i915_gem_object_is_lmem() to be used in situations where we
+  know that a fence that can't currently signal keeps the object from being
+  migrated or evicted.
+- Rebase on accelerated TTM moves
+- Fix TODO:s for supporting system memory with TTM.
+- Update the object GEM region after a TTM move if compatible.
+- Move a couple of warnings for shmem on DGFX.
 
-         return ret;
-}
+v7:
+- Just updated a commit message with version history under dashes.
 
+v8:
+- Reinstate alignment at ttm_bo_init_reserved() time. (Reported by
+  Matthew Auld).
+- When changing regions, also move the object to the new region list
+  and break early. (Reported by Matthew Auld).
+- Don't flag the object as contiguous based on the current region min
+  pages size.
 
-LOGS
-====
+Thomas Hellström (3):
+  drm/i915: Update object placement flags to be mutable
+  drm/i915/ttm: Adjust gem flags and caching settings after a move
+  drm/i915/ttm: Use TTM for system memory
 
-During boot
------------
-[    4.752188] dp_aux_backlight_update_status: brightness 102, _is_blank 
-0, bl->enabled 0
-[    4.760447] dp_aux_backlight_update_status: enabling backlight
-[    5.503866] dp_aux_backlight_update_status: brightness 102, _is_blank 
-0, bl->enabled 1
-[    6.897355] dp_aux_backlight_update_status: brightness 103, _is_blank 
-0, bl->enabled 1
-[    6.938617] dp_aux_backlight_update_status: brightness 104, _is_blank 
-0, bl->enabled 1
-[    6.980634] dp_aux_backlight_update_status: brightness 105, _is_blank 
-0, bl->enabled 1
+ drivers/gpu/drm/i915/gem/i915_gem_internal.c  |   4 +-
+ drivers/gpu/drm/i915/gem/i915_gem_lmem.c      |  22 ++
+ drivers/gpu/drm/i915/gem/i915_gem_lmem.h      |   2 +
+ drivers/gpu/drm/i915/gem/i915_gem_mman.c      |  12 +-
+ drivers/gpu/drm/i915/gem/i915_gem_object.c    |  38 ++++
+ drivers/gpu/drm/i915/gem/i915_gem_object.h    |  14 +-
+ .../gpu/drm/i915/gem/i915_gem_object_types.h  |  20 +-
+ drivers/gpu/drm/i915/gem/i915_gem_pages.c     |   2 +-
+ drivers/gpu/drm/i915/gem/i915_gem_phys.c      |   2 +-
+ drivers/gpu/drm/i915/gem/i915_gem_region.c    |   4 -
+ drivers/gpu/drm/i915/gem/i915_gem_shmem.c     |  10 +-
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.c       | 196 ++++++++++++++----
+ drivers/gpu/drm/i915/gem/i915_gem_userptr.c   |   4 +-
+ .../drm/i915/gem/selftests/huge_gem_object.c  |   4 +-
+ .../gpu/drm/i915/gem/selftests/huge_pages.c   |   5 +-
+ .../drm/i915/gem/selftests/i915_gem_mman.c    |   4 +-
+ .../drm/i915/gem/selftests/i915_gem_phys.c    |   3 +-
+ drivers/gpu/drm/i915/i915_drv.h               |   3 -
+ drivers/gpu/drm/i915/i915_gpu_error.c         |   2 +-
+ drivers/gpu/drm/i915/intel_memory_region.c    |   7 +-
+ drivers/gpu/drm/i915/intel_memory_region.h    |   8 +
+ 21 files changed, 267 insertions(+), 99 deletions(-)
 
-
-Turning Panel OFF
------------------
-localhost ~ # set_power_policy --ac_screen_dim_delay=5 
---ac_screen_off_delay=10
-localhost ~ #
-
-[  106.555140] dp_aux_backlight_update_status: brightness 145, _is_blank 
-0, bl->enabled 1
-...
-...
-[  111.679407] dp_aux_backlight_update_status: brightness 7, _is_blank 
-0, bl->enabled 1
-[  111.700302] dp_aux_backlight_update_status: brightness 4, _is_blank 
-0, bl->enabled 1
-[  111.720805] dp_aux_backlight_update_status: brightness 2, _is_blank 
-0, bl->enabled 1
-[  111.747486] dp_aux_backlight_update_status: brightness 0, _is_blank 
-1, bl->enabled 1
-[  111.755580] dp_aux_backlight_update_status: disabling backlight
-[  111.792344] dp_aux_backlight_update_status: brightness 0, _is_blank 
-1, bl->enabled 0
-
-
-Changing brightness from sysfs while panel is off
---------------------------------------------------
-(it will do nothing)
-
-localhost ~ # echo 100 > 
-/sys/class/backlight/dp_aux_backlight/brightness
-[  352.754963] dp_aux_backlight_update_status: brightness 0, _is_blank 
-1, bl->enabled 0
-
-localhost ~ # echo 200 > 
-/sys/class/backlight/dp_aux_backlight/brightness
-[  364.708048] dp_aux_backlight_update_status: brightness 0, _is_blank 
-1, bl->enabled 0
-
-localhost ~ # echo 0 > /sys/class/backlight/dp_aux_backlight/brightness
-[  378.850978] dp_aux_backlight_update_status: brightness 0, _is_blank 
-1, bl->enabled 0
-
-
-Turning Panel ON
-----------------
-[  553.381745] dp_aux_backlight_update_status: brightness 0, _is_blank 
-0, bl->enabled 0
-[  553.418133] dp_aux_backlight_update_status: enabling backlight
-[  553.426397] dp_aux_backlight_update_status: brightness 159, _is_blank 
-0, bl->enabled 1
-
-====
-
-
-
-Thanks,
-Rajeev
+-- 
+2.31.1
 
