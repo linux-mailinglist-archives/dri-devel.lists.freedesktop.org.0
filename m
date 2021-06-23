@@ -2,121 +2,122 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BA593B15E4
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Jun 2021 10:31:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B8013B15EA
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Jun 2021 10:32:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6706089D5F;
-	Wed, 23 Jun 2021 08:31:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EAFE66E87A;
+	Wed, 23 Jun 2021 08:32:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2089.outbound.protection.outlook.com [40.107.223.89])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E519E89D5F;
- Wed, 23 Jun 2021 08:31:25 +0000 (UTC)
+ (mail-dm6nam11on2074.outbound.protection.outlook.com [40.107.223.74])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 30F9C6E87A;
+ Wed, 23 Jun 2021 08:32:25 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mdXeO4l14+scon0W0CgT/xY5nP5Z0bFgWIVscrS5kttGhRv64nVIWIpoPkMa2R6JbTLVV+IR6xT/GUTsG5s6XWRPi0THet/q3UllZmrT/xHqvlt9iVtEH7Dj0vXGwJQyLsCBqGNZ5c+gala0ScmnSqxtvPMymJk5xtiFn7OKnKLbefE/aJAh2u0wVQejmGH0K75qKoNRJKPtDbs5H9/7gp47rZpnJDjV+88GPQfmHjde++rlK3mjPUk7PrvdS9Gs3FFxycY6ALINRYUCaQIr0NOS5YKK3/t2QjmH0OZCQiTyU7X13CEdpPhBQK8XKYKN41SlfNWEwE3OfZalTU4bEg==
+ b=KtTtKMexypjgH2eSpTjgZ1v1L1Rt+fy8su3/oXFzsX7teTUcQZgZLZ8uOtST0VJGvPJisW55dpfgWYRSkMIk+ZuberOfWLM5iFGCv72qHI9bugsh/T78tHvnoMYbNbdV2qWywT6qf3d4wea5Li3HrzbExHO5p+Wq9bEH8pOI3dWhmz6sLTkYVavyjCA8RKl/eil1R3ISwuF7i4RATsou2p/MF5dVEVTNU3mHntlCesCm1JyprjADbeez5x1deZE+ZADAcXEjAk4qN4ctDbdzgOsgMAHoHOePgwNZQzQEWkgQ2Vhs2jnREZDdy/xaKO/z7u35fAUwiC7M5JQU71vIgw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fmDm4vZf/BRPSTLKEmz8gq8XAOrwNVDoEmcRZxNyVxg=;
- b=mGmJrM4fsb/y8wgZ2ndDGjwB0+qbdOIA/kGs8lIYTDxQF3He8s8QYNcRSL/rxM+6ejKa2VJAZlEYXL/ZyFJQC3TpIQWvoPh61FvmHUyS8+F9K3vjjQHiYB5kbU2Qzr8wD4mqlqhxm10iDk68cOWpGgAJMUGGhX6fN8QYkG8LyEE/g1MbLD4NJ8tBqhjG4qviwAdtxvGHW6R5mn5nJOmbUKdexytkVZ3iYxOzGmlmWb20uU2fqzgnUYdABiYCxO5cmKNbU5tNAy0wGbHVIRZenqjVfA8ypF30R8HlECLB4W96zX2beUinHMvGlD/pEcH/+1fr8eljk7oD7fSHZ4Fw2g==
+ bh=oM+vfC1XipeGRU/f4AUhyG5S1zS3JSGlj5sTeBuaDTI=;
+ b=ne1C7n5Oc8KsNUPiM2UrdylFzAHFvn5Jq06PK+srdMGx5wFukEUUKqdLdqY0Aqq2KqBZE/Njh9ZCiDkrES4LBhVGBmRtkzVnGmWBA0Q65+YxjDG+s0KclKwrAjNbCfD8drLUI+Xths62uO4TYJR6hQ50ttcz2J+xDrcV3CO5qi6NmunzIzcu2MM/VdPIC+vc+RfJemOx6R/i/DhQp5CF3jg0ozpfBpYHVPbHtOm60nphSj9r+B9TFsmEy53rZHWZ2HLIqQxpQFQLAyvMktqOFxKkZkpFoo6ONV3XJPznmOZTo8403Jg47gTV97dkCHNHttYWAHMz1xbigGqqiAWF6g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fmDm4vZf/BRPSTLKEmz8gq8XAOrwNVDoEmcRZxNyVxg=;
- b=ZgKkk+/tGWyH5owTfLX47gg64kex+4wLf9oWqeHAcm9HXNEwTZVBf1oLG1FDVWGWMxlTis17dxHn5N6AcveSHBf13TAIgWvAZq7LLF5bqdIQ+HQTNkbyTCRYGSlKwOUsLwYdZew0Bz1LYtWT01gU9ENF7c6Io8ezguxOH1KGST0=
+ bh=oM+vfC1XipeGRU/f4AUhyG5S1zS3JSGlj5sTeBuaDTI=;
+ b=UTBnp3Prss9TVLDdDTBfQGNFVzvEYlrvBwMzt+/rn3VtDreE7QMyAclm/XTKqubEj/ouOC9kzWcDko07Y3GmKowdzdhmmKBX6yKBN+JjHpIx/v1RyVD5A5sjS5RShEEotjLfL8TR3B2HFggi6VVc4U+M38ZEkoY0EWbjSnRQH4U=
 Authentication-Results: lists.linaro.org; dkim=none (message not signed)
  header.d=none;lists.linaro.org; dmarc=none action=none header.from=amd.com;
 Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
  by MN2PR12MB4206.namprd12.prod.outlook.com (2603:10b6:208:1d5::18)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4242.18; Wed, 23 Jun
- 2021 08:31:24 +0000
+ 2021 08:32:23 +0000
 Received: from MN2PR12MB3775.namprd12.prod.outlook.com
  ([fe80::6c9e:1e08:7617:f756]) by MN2PR12MB3775.namprd12.prod.outlook.com
  ([fe80::6c9e:1e08:7617:f756%5]) with mapi id 15.20.4242.024; Wed, 23 Jun 2021
- 08:31:24 +0000
-Subject: Re: [PATCH 01/15] dma-resv: Fix kerneldoc
+ 08:32:23 +0000
+Subject: Re: [PATCH 02/15] dma-buf: Switch to inline kerneldoc
 To: Daniel Vetter <daniel.vetter@ffwll.ch>,
  DRI Development <dri-devel@lists.freedesktop.org>
 References: <20210622165511.3169559-1-daniel.vetter@ffwll.ch>
- <20210622165511.3169559-2-daniel.vetter@ffwll.ch>
+ <20210622165511.3169559-3-daniel.vetter@ffwll.ch>
 From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <87f6529c-caf0-6e4b-6506-b0e2d1a0f9e0@amd.com>
-Date: Wed, 23 Jun 2021 10:31:18 +0200
+Message-ID: <5043bdf9-6f39-cc91-b7f0-adfb2dab2d9a@amd.com>
+Date: Wed, 23 Jun 2021 10:32:15 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
-In-Reply-To: <20210622165511.3169559-2-daniel.vetter@ffwll.ch>
+In-Reply-To: <20210622165511.3169559-3-daniel.vetter@ffwll.ch>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
 X-Originating-IP: [2a02:908:1252:fb60:69e4:a619:aa86:4e9c]
-X-ClientProxiedBy: PR1P264CA0029.FRAP264.PROD.OUTLOOK.COM
- (2603:10a6:102:19f::16) To MN2PR12MB3775.namprd12.prod.outlook.com
+X-ClientProxiedBy: PR1P264CA0025.FRAP264.PROD.OUTLOOK.COM
+ (2603:10a6:102:19f::12) To MN2PR12MB3775.namprd12.prod.outlook.com
  (2603:10b6:208:159::19)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from [IPv6:2a02:908:1252:fb60:69e4:a619:aa86:4e9c]
  (2a02:908:1252:fb60:69e4:a619:aa86:4e9c) by
- PR1P264CA0029.FRAP264.PROD.OUTLOOK.COM (2603:10a6:102:19f::16) with Microsoft
+ PR1P264CA0025.FRAP264.PROD.OUTLOOK.COM (2603:10a6:102:19f::12) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4264.18 via Frontend Transport; Wed, 23 Jun 2021 08:31:22 +0000
+ 15.20.4264.19 via Frontend Transport; Wed, 23 Jun 2021 08:32:21 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: fdb3b35e-8249-4034-34b9-08d936214954
+X-MS-Office365-Filtering-Correlation-Id: e7a37e39-b847-45da-5875-08d936216c94
 X-MS-TrafficTypeDiagnostic: MN2PR12MB4206:
-X-Microsoft-Antispam-PRVS: <MN2PR12MB4206899FA7969C83A0A070FE83089@MN2PR12MB4206.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:182;
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <MN2PR12MB42068A4D15196763C7323B6F83089@MN2PR12MB4206.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5516;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Mf2jgdQOV77uxHz+PFxGzk5Q6R+sx+sTENWLSM7BbmNT7M+uMeofG9VJ4OGIu2/fyLlHZC2cbIhdIwhS+UgGnTvESCS2Y1k0lOxhWo51cLhS+oKquc3CKOJ8uOaiRnVEWMn94QR6g5ukBS8QUrdnxnzhb1rexReWU7li4syjBEHNqacPvUU+Eyd1HvSKvDeLLLrvaffmMcp38aHTFoIVSI4XjhId0/Ao+TiicZVIPPWnFBIHRxLy82Fi7pK5h4+00TIyaqS05HFqd/4CsPMgs9R/3JXxWF0L6wIFf97lzhVITvpvUzYFTbr4wfHrZWD98/jqVrjGq1RxjW5gnF11v4OF/nwzXxAKbr35T+PaqHI3xWp9hdgeYd/StR+UFZ3LHOwy+mtGr1tnC/uOgHWna78YMq6ZUvQjJwRs5Ma4Gx2AxZAWgr3rTlRUyXOhljAt9XZBcRl+9e/WM9H4MQCQf1kJ3y823OKyTwB+NfJR1dXLG92OxIlhPu7qN4NvYlVqrJ+ziNy9fkD4Oo/jnZBFTBMgjdmysppGx1dQ1dw4L+4G0Qj8vTckQxAX0irLdcjO5u+8bzt1m/0JisneCy1SBtDTOutVQLcQF1kYQSgAvdS7BV45piVnkkM6Ya/NiebqlwzReAqfccMCtN0gCd6caZlDxgHjAoqCgD0uD+MXKfeP3jahYlWCz5nxduJfnDyG
+X-Microsoft-Antispam-Message-Info: BzfY40kDQaQyzzrob72jSLSwETu0LgDqFeexHPWj/E2ZM+2Gf5FuN47CuM/qIZ+QBuSKG35LfEeHGTEWnd4rEaaUHtSOBh639Pql9ML3IQL+fzgy05PTTFNDjZ8B4ElKYfZVsUTQVHCA68UcldeFjE6Qv29FMfbjNmShQLwuZ23/PJTIj2PYBqL76fZLtg/73jsM7UhXWNYmOCNAYyNfc8XQOPI/X5yFuac2pCZOJ4xPncGjdLUdBKxagwXyV6bIO3oCsSs2Ui7YlMO681YrXMBO7f8QLPEdlpg35V5zRTqxThsa6cBEMmrDNd3sRCPBWmm7sdg1GG/CR4lUnJoMBj6AgSsZ9GBD4p5vwsl0nq2P8RBTaNlFyrfKRLrUlZZG99aZuy2LmJ/tiGjbFoXKqHBZh/H/LScq4yQf5POW4bkd1lFPPk3+jwzob8W+bqbqrTH+o5lbsLQBoaGvzimx9/OCrbLznUc8t09VAppW5mmWUVrLM6ybJGU7KUOExW52Qo1frEMMCLD2tlBPmR/GH7n0VtWLtthfffQndFPvRphkLBwIzkQn4XK5gkgzKmTWL2Ew2NEsGpIairwhA33MafJPB8bXmcu7/SqxBlGkpZFFd6CV7Eq+kjoRUGG73A7EJkS8N9+QvbGUL3DlaJAodt+41kC20gPvtWhN0ymrPfdMLaSBeqME9FvGgkl9gS4y
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39860400002)(136003)(396003)(346002)(366004)(376002)(2906002)(2616005)(86362001)(83380400001)(8676002)(6666004)(478600001)(4326008)(66574015)(186003)(16526019)(316002)(31686004)(5660300002)(38100700002)(66946007)(66476007)(8936002)(6486002)(66556008)(36756003)(31696002)(54906003)(110136005)(45980500001)(43740500002);
+ SFS:(4636009)(39860400002)(136003)(396003)(346002)(366004)(376002)(2906002)(7416002)(2616005)(86362001)(83380400001)(8676002)(6666004)(478600001)(4326008)(66574015)(186003)(16526019)(316002)(31686004)(5660300002)(38100700002)(66946007)(66476007)(8936002)(6486002)(66556008)(36756003)(31696002)(54906003)(110136005)(45980500001)(43740500002);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dUJrY1FXbE1YL1Z3S1N4Q2pDNHFIankwLytsdU5haW5za0U3TDlZUUVGemJ5?=
- =?utf-8?B?ZWRqSE1MMHNwckdqRXlqd1UvVXJTRGhHZkpBYXNUZ0RRTGhSMEV3cEN3YTY4?=
- =?utf-8?B?ZEYrZE1uamVCRGR3T2hqRm00ZDhOWk9GTHVYY0dNZDBJV3Y5V2dFWmxWbFVD?=
- =?utf-8?B?V1dtN3N3aHNtTCtQRHJtclRCZWFBRlJNQnMrcG0vMHF6cnlCZENzUTNpZ0dy?=
- =?utf-8?B?V2l2VGNKQzB2Lzgzb00zZzFlRy9lRWFZL3ZNT2t2TVI4YTJIVVlUNzZ5VFY5?=
- =?utf-8?B?QXZQZEt4eHh4NHI4R1NHTnZJLzBtVnBXWHh5SmlMZnNaNWt2T0xwOVRkN2tx?=
- =?utf-8?B?NnJjNVRaODFyWG9xS0VScFA1QjJRNHp5SW56Q0ttNGNXM2dScktyeGxlcWds?=
- =?utf-8?B?NWJSd3QybnFteVM4OERpUnBoNngwV1hiSEF6STJrTUg4TVo3RGRzbWZ5eThH?=
- =?utf-8?B?dVd5dmRldm4xSGlyWW16MGVWYVJaWUthaWtFOHhpbG1VMHZSTG9YRHE1NGpu?=
- =?utf-8?B?WUJQN2crYWtEZk9MdnZKUjBWVE9VRGFSVHpTbFcrY3VNVnRhdkRPOFdtNk5F?=
- =?utf-8?B?QTljVDhQdDZrZWwyc0dhRmpRUi9CMXJraExSM1k0MjVWS2JrSlZmNlVKcWhu?=
- =?utf-8?B?UG5mYS82cE9JR0gxMmNES2p6RTloQkhINlUwSUQyN01PdXJaUDNPZXRIMzFE?=
- =?utf-8?B?WmVNdVc1MXJEaVZTQ0hVbVVxUVdsRGppVkxTSXVJTmxOck01Vi9FbFlJZlQ0?=
- =?utf-8?B?dVpGczZaci9nb3VYNGxGdWQ4VHJyZW9MeVFSUW1BM2p4SWhwOXpWdnIzajEx?=
- =?utf-8?B?Y2ptcFJxVGlmQkxGdWxBeHg1QmdYTkIwU2hNTHZiQllVZVJJZ1NBY0xxYno5?=
- =?utf-8?B?TXZpRmtmRi9yNnR5cXpuajJnUWdwZVE4OURXN1RPeWZCUzFYdmZQWVZLOHFC?=
- =?utf-8?B?R3dVT0xmYnNUNHk5b2x6MDdwc1BlMWlBMStoaVpta1VTOUIxbG1FVFYvbW5H?=
- =?utf-8?B?YzgrQ3c4ZzBGUU1MbXI3T1hsZWZ1Z0s0QVFCTlVzTVhDbHRNNlhycVorU1pV?=
- =?utf-8?B?ZlFLZlllai9WYmZtWE9teXFmU3drS1FQRGcyZjM3Wm94dHJmYlFrZjhrTE9m?=
- =?utf-8?B?bUJrT2k2KytXSFBuT2ZTTndYMzZzRXJDbjUvNEx4c0Q1QXIxd2hPSHN5S2ND?=
- =?utf-8?B?djM2MWlBd2doQ3VBZWc2ajRrMzRLZkFYWnVmUXArdVIxbWxVZC9LZ2E5ei9M?=
- =?utf-8?B?TFNkb0FnMFFIa0M3NVhKK1hocllLZ3Ywc1pXQXV4NHJ5aTlFUm1Md295eDZk?=
- =?utf-8?B?aDQ0N2dPclRLeUMzNGZNWVRiSm0wb0htWVlBZmtqcElxZUh0NVRDeUxiZlU2?=
- =?utf-8?B?V0UvcmdNV0J2UVA4eDNjK09TZUtId2pHVTF6VHJhQzZkT0hYVXdmdEN1dm1V?=
- =?utf-8?B?Q1lGWk9RL1hJanAyU1ltMGhSbExGUm1KcVZ5QmdmRHNaUlo5UVNBY01ya1Zp?=
- =?utf-8?B?U3dIc2Q5WC9aYTVERjlMQVozSEVhRG84Uk5FRDZDV3NyNjBVRWxteisxUVhE?=
- =?utf-8?B?dmo0RldGaXZ3bzkwQUM1OEkvRlQ1ck1TRVE0b2JMcnprOXRBQ0NEY0Yrd1BC?=
- =?utf-8?B?dksybnhBSkNIMkhPRU1OYVhrb2w2UzZMd0tJYlZwdWREYUVld2dYQnZCZWNO?=
- =?utf-8?B?eDNWRXhTTThrYnYrUGxQempYOFRVaVNIY1RGZmxobzJ0Uk5acURrU2NZZWxz?=
- =?utf-8?B?RXZBdnVwZ3dzYjNvNG5aOEFUUWdveFJ0WUtSN0N3cmk5dm9XdTBNQkdKbUdO?=
- =?utf-8?B?V3NnOWFOSlZLNEwrTC95Vkw2YnNOOVBCdFVnNWtPNjVRNWgxNEI5bkFTaU03?=
- =?utf-8?Q?zwdaOddiz9oru?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Z2M5c0RvK3JQT3pNVFF4ZnBzTUl4NG04RjczSDNuZmdCUXh3MXRJcnhFQVBN?=
+ =?utf-8?B?YjJWRDl6ZTE2RUVnbzFTTzlpQzkvcjg3TVdVVTlJeWN4Rm8rUDdPbFRGaUNa?=
+ =?utf-8?B?SmRtQzc5MzhXUGJSV2ZWWG9udjEvYkVabWw4Ty9JTExCMURHbTRnRC9UUlpj?=
+ =?utf-8?B?di9CQnVRTHFsbEdWVzhobERBV2JVZHdmUSt3WTg1ZmxuQk5yNU9KeGJOaXda?=
+ =?utf-8?B?aG11NlNvRFVXR2pLYWxneGJzQjlxVUt5VUpUL3pVUGZ0L2JRS0N3YVVNVWNC?=
+ =?utf-8?B?RUV4U1oxUmx6RGV0Yld6MC9xQWxsQWk1eHBjSkFmK2tEUlZsY2dkbEtXUG5q?=
+ =?utf-8?B?aW00OUZib29kQmZEemExSGpTOFhvL2t0akxQc0pBWGhOY1BqQ2hINWliWS9i?=
+ =?utf-8?B?aUtqOUkzT0pISmp6b0ZKKzcxUm9sdVMrNkZZY2RJZ21xZS9TNWRTcXIxTXRi?=
+ =?utf-8?B?U1QzS1RsRmNhcTdueElEcUdzcHhGTzNJYXJCNHZkZ3lZMjdHN2YyZUo2b1F3?=
+ =?utf-8?B?Y2NTRCtTOEVlQzBJdlU5cFQxT0VVWTcwWCtwVVMvc1BDdDdvUkhRVk81T1d5?=
+ =?utf-8?B?dDBPZjcvUk9QVmFXenUxbVdIdlZWZDlBRHhjcStvdTdBSjhCR0ltVlJPUUxB?=
+ =?utf-8?B?aFBZa0laNTNVQnllbTNPSFhvWXBNeitHS0tnRG1IbEJ6dmY2T2tNdmVCZFp4?=
+ =?utf-8?B?RG93ekJ4dFBTY0tnTlhIeURrQ2xXbXRJZ2FSWGFyeFBDVmVRQ0R6MmQ1ZTND?=
+ =?utf-8?B?REcvam9kNDU5ejZ3YWt5b2RmWElmQ1RTNHhtRmljVFFtNXdPcytkWnQ2SEFk?=
+ =?utf-8?B?Mld3SEwxand4R0JoTElEc1Jnc09pNFRiK3Bnb0xjK01CNE9uWEVsVXNVWXlM?=
+ =?utf-8?B?alYwSW1pdG9PRlhlZS9lekpSMEc2OWpleWxVai9rd2hYT3lsbHN1YW4yZkw3?=
+ =?utf-8?B?TTdWaDhrSDZDdFBYcW1kTlNZSmhzYlJSNHZYV0luQU9CNDk1YXpobDE0c1Rj?=
+ =?utf-8?B?enRaY2tjUU1NNlJ2bVdLcG1wQzRkQmVhbVNWMXd1aDR3RFgzMHFmb1FxLzNR?=
+ =?utf-8?B?dDYyNTVicnBYYzMxU2NCQUx0SGQ2WUc2K0VyOVRwbWFCbTZqYnVNRS8rRFR3?=
+ =?utf-8?B?ZW40ZjQ5SVYwMWVZOHRxWklJbGY3alo0TEkvQ2xWOXRYbTE1N0RjVXJZL01M?=
+ =?utf-8?B?cDdnQitqamc2ZkEydUF3cU1QSzNWeW92b3BMZklzbXRleHJPL0lCc21ZTXpu?=
+ =?utf-8?B?aWJkdHVXbU45aWVyczl1TjZZV3BOVFZkZHBQRC9QNWlTUitIUTlMWS8wU1Nw?=
+ =?utf-8?B?T1hJRTBUUGUrSDlQMTNuQWI1VWVLM3NUb1lXN2ZHZVl5aUZGS0RWL3lkM2pr?=
+ =?utf-8?B?TEtucXlGdkFiMlo5RWJRYjUyVU9rODAzWWJBTVhwZGNvR3U1Zld6ak1ORUY1?=
+ =?utf-8?B?N1BoZjN1aGlHaHRsa0NqQ3J6MXFiRkU2eE80UWlid1hmWU5hVVhWb3VwT0Nu?=
+ =?utf-8?B?b2FQcE45ZHYzRC9NMlU1V1JtbFVRZUdCUStzYklSYkpWYUtNQ094SnBCZE14?=
+ =?utf-8?B?TTVFL2FmQTl0WkNkNkxuUytkNVBaY0VmbFNEYnFsUTRRYllsckJyMHlkSk5C?=
+ =?utf-8?B?NUd3SE5NNHIwTjNxVWVLQ3lXcEpxVnUxWW1rcEU0d1BJUGFOU0Z0QnpFK2d0?=
+ =?utf-8?B?WjB2SVBPL3htbDk1SFhpVTlWa29RdURPT1ZkMElGV1BzTGZOdVpXZ3habzVV?=
+ =?utf-8?B?aXVvN2ZjS3I4dmVBS2lxczdCeUl1eEVxYTgvSjJXekdsQ0xMQ1dzZ0RIRTZV?=
+ =?utf-8?B?U3NjbkNENXVMSWlLaDdRR0FJYnVQUjU4NXowUUpkQ0FZNlJsUnNJZ2hsZjdX?=
+ =?utf-8?Q?RgWxzm3MQhT+g?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fdb3b35e-8249-4034-34b9-08d936214954
+X-MS-Exchange-CrossTenant-Network-Message-Id: e7a37e39-b847-45da-5875-08d936216c94
 X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jun 2021 08:31:24.3500 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jun 2021 08:32:23.4716 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: q6wuOL8z8Y3ZDyaXIdkEqCDA007o09QqNmLsUWImaumIXhwAHP/yyRXJgXySsAAQ
+X-MS-Exchange-CrossTenant-UserPrincipalName: jtr9K1cmzFoTCfvT1DcPwoqlmbQgJEuoT+DviL0bL251cO/B5k7chRT0hYINksvO
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4206
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -130,44 +131,187 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linaro-mm-sig@lists.linaro.org, Daniel Vetter <daniel.vetter@intel.com>,
+Cc: Deepak R Varma <mh12gx2825@gmail.com>,
  Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- linux-media@vger.kernel.org
+ Kevin Wang <kevin1.wang@amd.com>, linaro-mm-sig@lists.linaro.org,
+ Nirmoy Das <nirmoy.das@amd.com>, Chen Li <chenli@uniontech.com>,
+ Dave Airlie <airlied@redhat.com>, Alex Deucher <alexander.deucher@amd.com>,
+ Daniel Vetter <daniel.vetter@intel.com>, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Am 22.06.21 um 18:54 schrieb Daniel Vetter:
-> Oversight from
+> Also review & update everything while we're at it.
 >
-> commit 6edbd6abb783d54f6ac4c3ed5cd9e50cff6c15e9
-> Author: Christian König <christian.koenig@amd.com>
-> Date:   Mon May 10 16:14:09 2021 +0200
->
->      dma-buf: rename and cleanup dma_resv_get_excl v3
+> This is prep work to smash a ton of stuff into the kerneldoc for
+> @resv.
 >
 > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
 > Cc: Sumit Semwal <sumit.semwal@linaro.org>
 > Cc: "Christian König" <christian.koenig@amd.com>
+> Cc: Alex Deucher <alexander.deucher@amd.com>
+> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Cc: Dave Airlie <airlied@redhat.com>
+> Cc: Nirmoy Das <nirmoy.das@amd.com>
+> Cc: Deepak R Varma <mh12gx2825@gmail.com>
+> Cc: Chen Li <chenli@uniontech.com>
+> Cc: Kevin Wang <kevin1.wang@amd.com>
 > Cc: linux-media@vger.kernel.org
 > Cc: linaro-mm-sig@lists.linaro.org
 
-Reviewed-by: Christian König <christian.koenig@amd.com>
+Acked-by: Christian König <christian.koenig@amd.com>
 
 > ---
->   include/linux/dma-resv.h | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>   include/linux/dma-buf.h | 107 +++++++++++++++++++++++++++++++---------
+>   1 file changed, 83 insertions(+), 24 deletions(-)
 >
-> diff --git a/include/linux/dma-resv.h b/include/linux/dma-resv.h
-> index 562b885cf9c3..e1ca2080a1ff 100644
-> --- a/include/linux/dma-resv.h
-> +++ b/include/linux/dma-resv.h
-> @@ -212,7 +212,7 @@ static inline void dma_resv_unlock(struct dma_resv *obj)
->   }
+> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+> index 92eec38a03aa..6d18b9e448b9 100644
+> --- a/include/linux/dma-buf.h
+> +++ b/include/linux/dma-buf.h
+> @@ -289,28 +289,6 @@ struct dma_buf_ops {
 >   
 >   /**
-> - * dma_resv_exclusive - return the object's exclusive fence
-> + * dma_resv_excl_fence - return the object's exclusive fence
->    * @obj: the reservation object
+>    * struct dma_buf - shared buffer object
+> - * @size: size of the buffer; invariant over the lifetime of the buffer.
+> - * @file: file pointer used for sharing buffers across, and for refcounting.
+> - * @attachments: list of dma_buf_attachment that denotes all devices attached,
+> - *               protected by dma_resv lock.
+> - * @ops: dma_buf_ops associated with this buffer object.
+> - * @lock: used internally to serialize list manipulation, attach/detach and
+> - *        vmap/unmap
+> - * @vmapping_counter: used internally to refcnt the vmaps
+> - * @vmap_ptr: the current vmap ptr if vmapping_counter > 0
+> - * @exp_name: name of the exporter; useful for debugging.
+> - * @name: userspace-provided name; useful for accounting and debugging,
+> - *        protected by @resv.
+> - * @name_lock: spinlock to protect name access
+> - * @owner: pointer to exporter module; used for refcounting when exporter is a
+> - *         kernel module.
+> - * @list_node: node for dma_buf accounting and debugging.
+> - * @priv: exporter specific private data for this buffer object.
+> - * @resv: reservation object linked to this dma-buf
+> - * @poll: for userspace poll support
+> - * @cb_excl: for userspace poll support
+> - * @cb_shared: for userspace poll support
+> - * @sysfs_entry: for exposing information about this buffer in sysfs.
+>    * The attachment_uid member of @sysfs_entry is protected by dma_resv lock
+>    * and is incremented on each attach.
 >    *
->    * Returns the exclusive fence (if any). Caller must either hold the objects
+> @@ -324,24 +302,100 @@ struct dma_buf_ops {
+>    * Device DMA access is handled by the separate &struct dma_buf_attachment.
+>    */
+>   struct dma_buf {
+> +	/**
+> +	 * @size:
+> +	 *
+> +	 * Size of the buffer; invariant over the lifetime of the buffer.
+> +	 */
+>   	size_t size;
+> +
+> +	/**
+> +	 * @file:
+> +	 *
+> +	 * File pointer used for sharing buffers across, and for refcounting.
+> +	 * See dma_buf_get() and dma_buf_put().
+> +	 */
+>   	struct file *file;
+> +
+> +	/**
+> +	 * @attachments:
+> +	 *
+> +	 * List of dma_buf_attachment that denotes all devices attached,
+> +	 * protected by &dma_resv lock @resv.
+> +	 */
+>   	struct list_head attachments;
+> +
+> +	/** @ops: dma_buf_ops associated with this buffer object. */
+>   	const struct dma_buf_ops *ops;
+> +
+> +	/**
+> +	 * @lock:
+> +	 *
+> +	 * Used internally to serialize list manipulation, attach/detach and
+> +	 * vmap/unmap. Note that in many cases this is superseeded by
+> +	 * dma_resv_lock() on @resv.
+> +	 */
+>   	struct mutex lock;
+> +
+> +	/**
+> +	 * @vmapping_counter:
+> +	 *
+> +	 * Used internally to refcnt the vmaps returned by dma_buf_vmap().
+> +	 * Protected by @lock.
+> +	 */
+>   	unsigned vmapping_counter;
+> +
+> +	/**
+> +	 * @vmap_ptr:
+> +	 * The current vmap ptr if @vmapping_counter > 0. Protected by @lock.
+> +	 */
+>   	struct dma_buf_map vmap_ptr;
+> +
+> +	/**
+> +	 * @exp_name:
+> +	 *
+> +	 * Name of the exporter; useful for debugging. See the
+> +	 * DMA_BUF_SET_NAME IOCTL.
+> +	 */
+>   	const char *exp_name;
+> +
+> +	/**
+> +	 * @name:
+> +	 *
+> +	 * Userspace-provided name; useful for accounting and debugging,
+> +	 * protected by dma_resv_lock() on @resv and @name_lock for read access.
+> +	 */
+>   	const char *name;
+> +
+> +	/** @name_lock: Spinlock to protect name acces for read access. */
+>   	spinlock_t name_lock;
+> +
+> +	/**
+> +	 * @owner:
+> +	 *
+> +	 * Pointer to exporter module; used for refcounting when exporter is a
+> +	 * kernel module.
+> +	 */
+>   	struct module *owner;
+> +
+> +	/** @list_node: node for dma_buf accounting and debugging. */
+>   	struct list_head list_node;
+> +
+> +	/** @priv: exporter specific private data for this buffer object. */
+>   	void *priv;
+> +
+> +	/**
+> +	 * @resv:
+> +	 *
+> +	 * Reservation object linked to this dma-buf.
+> +	 */
+>   	struct dma_resv *resv;
+>   
+> -	/* poll support */
+> +	/** @poll: for userspace poll support */
+>   	wait_queue_head_t poll;
+>   
+> +	/** @cb_excl: for userspace poll support */
+> +	/** @cb_shared: for userspace poll support */
+>   	struct dma_buf_poll_cb_t {
+>   		struct dma_fence_cb cb;
+>   		wait_queue_head_t *poll;
+> @@ -349,7 +403,12 @@ struct dma_buf {
+>   		__poll_t active;
+>   	} cb_excl, cb_shared;
+>   #ifdef CONFIG_DMABUF_SYSFS_STATS
+> -	/* for sysfs stats */
+> +	/**
+> +	 * @sysfs_entry:
+> +	 *
+> +	 * For exposing information about this buffer in sysfs. See also
+> +	 * `DMA-BUF statistics`_ for the uapi this enables.
+> +	 */
+>   	struct dma_buf_sysfs_entry {
+>   		struct kobject kobj;
+>   		struct dma_buf *dmabuf;
 
