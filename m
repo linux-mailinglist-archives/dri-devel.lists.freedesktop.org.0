@@ -1,75 +1,113 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4238D3B1413
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Jun 2021 08:43:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 86FD73B141B
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Jun 2021 08:44:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C9DF56E094;
-	Wed, 23 Jun 2021 06:43:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7CE7D6E0D8;
+	Wed, 23 Jun 2021 06:44:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6DFB96E0BC;
- Wed, 23 Jun 2021 06:43:11 +0000 (UTC)
-Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
- (using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 7CD3D1FD66;
- Wed, 23 Jun 2021 06:43:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1624430589; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=TlGZRZ99uCIt4JDAjOFXnswm4yaCa3ZMTl87RK83waE=;
- b=UL41/fdqkxp8KiBTP5sNgkK3QzSU6SjtYTCEKYkWMnVzCi0BsNO6N7H6Z/xHRP1nMXJTSK
- uAOvfeYpPY7ReQoGYz0BeGd1DtemAc5QyqOXIZOtYXgrkn7Ds1VLptp+gjp1TLwppTBvXC
- xy1xTFf1031DvsP89g+ewUEcPYWmU8w=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1624430589;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=TlGZRZ99uCIt4JDAjOFXnswm4yaCa3ZMTl87RK83waE=;
- b=hrob67bWMmViAg5CAyhvDg8xtRHrAUBAM0VSFniEqSI0myWGdc/UaBO6QCSVllrliNsDjF
- D7AeOlonnA0UfzBQ==
-Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
- by imap.suse.de (Postfix) with ESMTP id 7CE9211A97;
- Wed, 23 Jun 2021 06:43:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1624430589; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=TlGZRZ99uCIt4JDAjOFXnswm4yaCa3ZMTl87RK83waE=;
- b=UL41/fdqkxp8KiBTP5sNgkK3QzSU6SjtYTCEKYkWMnVzCi0BsNO6N7H6Z/xHRP1nMXJTSK
- uAOvfeYpPY7ReQoGYz0BeGd1DtemAc5QyqOXIZOtYXgrkn7Ds1VLptp+gjp1TLwppTBvXC
- xy1xTFf1031DvsP89g+ewUEcPYWmU8w=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1624430589;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=TlGZRZ99uCIt4JDAjOFXnswm4yaCa3ZMTl87RK83waE=;
- b=hrob67bWMmViAg5CAyhvDg8xtRHrAUBAM0VSFniEqSI0myWGdc/UaBO6QCSVllrliNsDjF
- D7AeOlonnA0UfzBQ==
-Received: from director2.suse.de ([192.168.254.72]) by imap3-int with ESMTPSA
- id RGKAHfzX0mBnawAALh3uQQ
- (envelope-from <tzimmermann@suse.de>); Wed, 23 Jun 2021 06:43:08 +0000
-To: Liviu Dudau <liviu.dudau@arm.com>
+Received: from EUR04-DB3-obe.outbound.protection.outlook.com
+ (mail-eopbgr60057.outbound.protection.outlook.com [40.107.6.57])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C81B66E0BC;
+ Wed, 23 Jun 2021 06:44:12 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=MmRuA1wtKdaa93/qa1pkc5o3Th7OzFDdoNNToGhyNwps8ffN/adEXal56gyPo2bFa2ktttfiKgOodp7udjB1EnEUqDNBy9m25KLbwYtjLN2s0fFpLPef7WqjrZwWzLCI3hwkMxnHA/pVEG0y0eHjT/nf/qvTO0lydQw8dXlegPIYGxcaFNHzicciSitV0ZT6wzFr8Qx+Os3cwlmEowb6iDVTJwyk8myVOa/nWXoaRUo5DXaUIYkRNjjQmIOdZACyJVlYpuhnPM6ksp6QDxvXHHw9042YKZzM8mH/Apkn0ceqGF81JOVsORnLpDzFGzVptThS3NP6lTy3eO3ozoqm4Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZTaUa13910xDlQjqgNL//BhpGf3jJvczln3OKNN6nYM=;
+ b=JnKXykLH9U7PxAmIZBHL0BQi2NM7yBO+IxXwdZ1X/hVpkAp/zohtJYVa/i7G6zPIbdY5btlRHPGeDFOa/iKep+lo0UTr73E4oz+mvRe00ORoTIJLdG8uSBJGJI8XLyrbnMuObj//9T6a3PBB9PDOlWJix1iZ3a0+d7fNGXB7tvjlUMulQgFWlnyI7NNmWlk9fVm1RmocYg0H0+4BNdWOdSgTAi0fqaVyHuO6e1OYZJwYiwrRyOKa5LXf4Mk8qcKY0D6+rk/4OkJKNR6Sevg+whgrS0KLLYPRZuNvCUPNWJ7U8gMBzMCdt4GTzhFCqgmKzyCs23anNub9tPsCXVuDpw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com; 
+ s=selector2-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZTaUa13910xDlQjqgNL//BhpGf3jJvczln3OKNN6nYM=;
+ b=jAV07663zIxellWWwv4HPl+bfXKtvU3hzqjCXTrD/Yt2d7VLbVTQfTvDJ9vWzRcuF46HInnspX/mIZSHt7Kf1loHlBGcsKtEHzg/2vudwlHwBAfl6yk3yHXxnnTVyJs6hDjBLEQ23Qokf2qzOfS/AeyCobacv/5/ebt7OJoGGr0=
+Authentication-Results: suse.de; dkim=none (message not signed)
+ header.d=none;suse.de; dmarc=none action=none header.from=oss.nxp.com;
+Received: from VI1PR0402MB3902.eurprd04.prod.outlook.com
+ (2603:10a6:803:22::27) by VI1PR04MB4094.eurprd04.prod.outlook.com
+ (2603:10a6:803:43::32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4242.19; Wed, 23 Jun
+ 2021 06:44:07 +0000
+Received: from VI1PR0402MB3902.eurprd04.prod.outlook.com
+ ([fe80::54c5:2184:1aa:7e51]) by VI1PR0402MB3902.eurprd04.prod.outlook.com
+ ([fe80::54c5:2184:1aa:7e51%3]) with mapi id 15.20.4242.023; Wed, 23 Jun 2021
+ 06:44:05 +0000
+Date: Wed, 23 Jun 2021 09:43:58 +0300
+From: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v2 09/22] drm/imx: Don't set struct drm_device.irq_enabled
+Message-ID: <20210623064358.u2acxvz5z52l7h7l@fsr-ub1664-121.ea.freescale.net>
 References: <20210622141002.11590-1-tzimmermann@suse.de>
- <20210622141002.11590-5-tzimmermann@suse.de>
- <20210622152504.2sw6khajwydsoaqa@e110455-lin.cambridge.arm.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v2 04/22] drm: Don't test for IRQ support in VBLANK ioctls
-Message-ID: <f7e72a3c-df86-2d4b-2caa-bf91442290a9@suse.de>
-Date: Wed, 23 Jun 2021 08:43:07 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ <20210622141002.11590-10-tzimmermann@suse.de>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210622141002.11590-10-tzimmermann@suse.de>
+User-Agent: NeoMutt/20171215
+X-Originating-IP: [83.217.231.2]
+X-ClientProxiedBy: AM8P189CA0006.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:20b:218::11) To VI1PR0402MB3902.eurprd04.prod.outlook.com
+ (2603:10a6:803:22::27)
 MIME-Version: 1.0
-In-Reply-To: <20210622152504.2sw6khajwydsoaqa@e110455-lin.cambridge.arm.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="7jLGShJWLlf8CSqVlOcnyBWWcy9Lp6Rkb"
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from fsr-ub1664-121.ea.freescale.net (83.217.231.2) by
+ AM8P189CA0006.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:218::11) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4264.18 via Frontend Transport; Wed, 23 Jun 2021 06:44:01 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: b2d312c4-75b9-4cd3-3eeb-08d936124b77
+X-MS-TrafficTypeDiagnostic: VI1PR04MB4094:
+X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <VI1PR04MB4094753F025F4787861E156EBE089@VI1PR04MB4094.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Fh9dsYEknwRMMWbSx2DJCzutlhUuCpxHs7AMAK1zbjrUxc9XIzEAHGDfBTpU0AIAsAbyaFH5HZxd/IGz/jPcjozA5a0mmwkKu2yousAeAMwyKY/KRC0j2TEl+C9d3Ujbk8rsnCxncO6TS5I+iXxKq4P1SoHAqe8anQle/431NW6nnRnajKd+YfYcjCd16vXCmmGaduaP+EY9qIlpQFEpj6ddCINiSRIHg7xFLvk322YUUJMtH/EKkinXQwUFEntxekHNPoFlJdslsBoWuJ+uiAPN9bsCkvxptFs0BksB7zoSTNvmoFxqbo+LEU2m+QCxYGugmdekZCaKnp0kcA/ZR5/wj2iTIdGzNRG+fgPnNFObtpEi+ZJXo9TR4kbyJc5QbZIn/l/P3kw5TjqqDE3of7mrTGOC2nQmjGj5ZVyKNx9f4E1xjXAOmoIl62taRpMkUFZhdaSKroopUI0N5AcFjcdavUjpffW1Vyp6MjJvzxYd7nCH0KLhPrM5SX9KLx5TPBfqQZheG1NRuR03/ZYMyjg+inaQufy9EkGs7nMfcub9RhAgA+QuWy+gDEr6gW+uz7ksk89ooM9XVuDfKeSD+bIPEJ9xy94sLSEV+SP9l4Ub7zMsxj/JdsvXJD5R8LYGc0cUYUCZkj5bcSRBEE3e1w==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:VI1PR0402MB3902.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(136003)(396003)(376002)(39860400002)(346002)(7696005)(6666004)(52116002)(26005)(6506007)(8936002)(38100700002)(9686003)(8676002)(1076003)(2906002)(86362001)(38350700002)(83380400001)(55016002)(186003)(66946007)(316002)(16526019)(5660300002)(7416002)(7366002)(4326008)(7406005)(44832011)(478600001)(66556008)(66476007)(6916009)(956004);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?pxGOlG/MowBLaCmVSMd6AgjHjTzTJT2BSx+jI4bpHEzZM4dtn3OcuRz1SQsU?=
+ =?us-ascii?Q?pDNwC8tVHdL2h07HjjuhM/M+HUP6leC+1+l5LEVeU3qtS3DXnDk3KkQqXBFE?=
+ =?us-ascii?Q?b5tVvei/maTJnwuVNSjy7pjLDehGdb3sIfa5Q15Or6C3z/SegjhP02QiErzh?=
+ =?us-ascii?Q?2cKoG0xsmvB2LK3cbxg3D/Y3iZEgnYuU062bTPJXLXX0UysA6rUhjt5T6LNE?=
+ =?us-ascii?Q?VlIypXy+u4iJ0HN4iLPvm/As7txbwpn8KIU7iSeRg/Hgkp4VLxbc3hzm3efb?=
+ =?us-ascii?Q?dVpupTejNukJDUfiuTtuv9UvvLczgcJbhpgi2Y6+0+5U8EhwIFdd8wXAG4CR?=
+ =?us-ascii?Q?Lh3fq2sK1FfraBQbaoxt6IrzlNqqdSzdsBAe3uZAz5kBp/8XmdlyJQ/8OFol?=
+ =?us-ascii?Q?P7GzywVrViiKBbSQ5ATxoiW3z4p7VO77yfcMNU3u76c5bypjISXIwbRrCl5G?=
+ =?us-ascii?Q?YbSuYtPeE6aQDAkba1XZ2NuXHMhFQpDQa/9Fv9WLs69SnFqLV6MfJ272Tzkj?=
+ =?us-ascii?Q?BsfUt+YfK4eXi0pMbgOMV5QUX2Pb/ngftF77++fIFM9L5XSPG1CZV3fQeEP1?=
+ =?us-ascii?Q?yxmQeikFKmqmlbKiTh3tRfmgIF5qjRIVIkbE96YAbgtzynRyVu49sJBnVOOb?=
+ =?us-ascii?Q?KHMs+4MnsF7T2UOWnfzPY/XG02mWsB6ULfG/NGU7o5+4MsWX01R6TSyLpzim?=
+ =?us-ascii?Q?hbg3/qfiW/dSNbfFhcupTUTwdcN3K5JVmTVVKDgD5FS56OQDO/Y6fjh9XOZP?=
+ =?us-ascii?Q?wIbDmR3CC0pOmer4coSQTKPbHFS+UWX4l61BW7brMh/u5DLVhh/vPSsicYNT?=
+ =?us-ascii?Q?dEOtOa44FBRQPAnI/xNf8fYi8hNlm9mSK7verYznEd5GW+86ni8SxVhU/YHi?=
+ =?us-ascii?Q?Bl+ewLVaB7cp7bMpMnypLUn7kpxxskCppTiZ2y+IllqKWrDJ3F2FHV7XvoQi?=
+ =?us-ascii?Q?23pQgUzrDxDdxGuYktyzkAC/ylTL9Q7AIzb8C0fkuPwsW3PbT70IEU17KNNs?=
+ =?us-ascii?Q?G2fV/X+RnScygD0xXul7UaL5UNBapQVGsqe40Rp+LGK23BPka8RXnXFQGC/b?=
+ =?us-ascii?Q?4EYoaQLj/950i50p3n4/yp8+2nSfGFquxJ34XB5/gTuqHpKUiQ2u1KU9sqOT?=
+ =?us-ascii?Q?/t+bSP/Ys6983ttArvYGM9Yx5ZDKaP/mOFruvVJ8eVQ657sHpYc8DXE9AAGS?=
+ =?us-ascii?Q?KJCB/nWJdSTOKujAaJ414NUTlfRP4I8ymAKkXDw68FNGYjKbSl1wTw2wzQ0A?=
+ =?us-ascii?Q?g2Gt/l7VmKSkSg17A9lg0XPPk1slwcFiPqi9F6pYCgaWKshLOCWGng8+VldF?=
+ =?us-ascii?Q?0Z9jRlOn3NAq/+lqK+o8ZnOr?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b2d312c4-75b9-4cd3-3eeb-08d936124b77
+X-MS-Exchange-CrossTenant-AuthSource: VI1PR0402MB3902.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jun 2021 06:44:05.6671 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: +1vwPnN0/4Y6EwTEAemvNjcsC17/VSE27OX70t/q5jm1UEAFiAmZNDZH2cs2YBc+tHfYkNWv14cG+rLZ25IV4g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB4094
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,8 +121,9 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: emma@anholt.net, airlied@linux.ie, nouveau@lists.freedesktop.org,
- alexandre.torgue@foss.st.com, dri-devel@lists.freedesktop.org,
- michal.simek@xilinx.com, linux-tegra@vger.kernel.org, thierry.reding@gmail.com,
+ liviu.dudau@arm.com, alexandre.torgue@foss.st.com,
+ dri-devel@lists.freedesktop.org, michal.simek@xilinx.com,
+ linux-tegra@vger.kernel.org, thierry.reding@gmail.com,
  laurent.pinchart@ideasonboard.com, benjamin.gaignard@linaro.org,
  mihail.atanassov@arm.com, linux-stm32@st-md-mailman.stormreply.com,
  linux-samsung-soc@vger.kernel.org, jy0922.shim@samsung.com,
@@ -94,206 +133,83 @@ Cc: emma@anholt.net, airlied@linux.ie, nouveau@lists.freedesktop.org,
  james.qian.wang@arm.com, linux-imx@nxp.com,
  linux-graphics-maintainer@vmware.com, linux-sunxi@lists.linux.dev,
  bskeggs@redhat.com, chunkuang.hu@kernel.org, puck.chen@hisilicon.com,
- s.hauer@pengutronix.de, laurentiu.palcu@oss.nxp.com, matthias.bgg@gmail.com,
- kernel@pengutronix.de, linux-arm-kernel@lists.infradead.org,
- mcoquelin.stm32@gmail.com, amd-gfx@lists.freedesktop.org, hyun.kwon@xilinx.com,
- tomba@kernel.org, jyri.sarha@iki.fi, yannick.fertre@foss.st.com,
- Xinhui.Pan@amd.com, sw0312.kim@samsung.com, hjc@rock-chips.com,
- christian.koenig@amd.com, kyungmin.park@samsung.com,
- philippe.cornu@foss.st.com, alexander.deucher@amd.com, tiantao6@hisilicon.com,
- shawnguo@kernel.org
+ s.hauer@pengutronix.de, matthias.bgg@gmail.com, kernel@pengutronix.de,
+ linux-arm-kernel@lists.infradead.org, mcoquelin.stm32@gmail.com,
+ amd-gfx@lists.freedesktop.org, hyun.kwon@xilinx.com, tomba@kernel.org,
+ jyri.sarha@iki.fi, yannick.fertre@foss.st.com, Xinhui.Pan@amd.com,
+ sw0312.kim@samsung.com, hjc@rock-chips.com, christian.koenig@amd.com,
+ kyungmin.park@samsung.com, philippe.cornu@foss.st.com,
+ alexander.deucher@amd.com, tiantao6@hisilicon.com, shawnguo@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---7jLGShJWLlf8CSqVlOcnyBWWcy9Lp6Rkb
-Content-Type: multipart/mixed; boundary="3ihYu1sFcNnMMAMmUEcEMG76YaQ22m49E";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Liviu Dudau <liviu.dudau@arm.com>
-Cc: daniel@ffwll.ch, airlied@linux.ie, alexander.deucher@amd.com,
- christian.koenig@amd.com, Xinhui.Pan@amd.com, james.qian.wang@arm.com,
- mihail.atanassov@arm.com, brian.starkey@arm.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, inki.dae@samsung.com,
- jy0922.shim@samsung.com, sw0312.kim@samsung.com, kyungmin.park@samsung.com,
- krzysztof.kozlowski@canonical.com, xinliang.liu@linaro.org,
- tiantao6@hisilicon.com, john.stultz@linaro.org,
- kong.kongxinwei@hisilicon.com, puck.chen@hisilicon.com,
- laurentiu.palcu@oss.nxp.com, l.stach@pengutronix.de, p.zabel@pengutronix.de,
- shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
- festevam@gmail.com, linux-imx@nxp.com, chunkuang.hu@kernel.org,
- matthias.bgg@gmail.com, bskeggs@redhat.com, tomba@kernel.org,
- hjc@rock-chips.com, heiko@sntech.de, benjamin.gaignard@linaro.org,
- yannick.fertre@foss.st.com, philippe.cornu@foss.st.com,
- mcoquelin.stm32@gmail.com, alexandre.torgue@foss.st.com, wens@csie.org,
- jernej.skrabec@gmail.com, thierry.reding@gmail.com, jonathanh@nvidia.com,
- jyri.sarha@iki.fi, emma@anholt.net, linux-graphics-maintainer@vmware.com,
- zackr@vmware.com, hyun.kwon@xilinx.com, laurent.pinchart@ideasonboard.com,
- michal.simek@xilinx.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, linux-mediatek@lists.infradead.org,
- nouveau@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev,
- linux-tegra@vger.kernel.org
-Message-ID: <f7e72a3c-df86-2d4b-2caa-bf91442290a9@suse.de>
-Subject: Re: [PATCH v2 04/22] drm: Don't test for IRQ support in VBLANK ioctls
-References: <20210622141002.11590-1-tzimmermann@suse.de>
- <20210622141002.11590-5-tzimmermann@suse.de>
- <20210622152504.2sw6khajwydsoaqa@e110455-lin.cambridge.arm.com>
-In-Reply-To: <20210622152504.2sw6khajwydsoaqa@e110455-lin.cambridge.arm.com>
+Hi Thomas,
 
---3ihYu1sFcNnMMAMmUEcEMG76YaQ22m49E
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+On Tue, Jun 22, 2021 at 04:09:49PM +0200, Thomas Zimmermann wrote:
+> The field drm_device.irq_enabled is only used by legacy drivers
+> with userspace modesetting. Don't set it in imx.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>  drivers/gpu/drm/imx/dcss/dcss-kms.c |  3 ---
 
-Hi Liviu
+Not sure if it's worth the effort but, since DCSS is a completely
+self-contained driver, maybe it would be good to split this patch in 2
+as well.
 
-Am 22.06.21 um 17:25 schrieb Liviu Dudau:
-> Hello,
->=20
-> On Tue, Jun 22, 2021 at 04:09:44PM +0200, Thomas Zimmermann wrote:
->> For KMS drivers, replace the IRQ check in VBLANK ioctls with a check f=
-or
->> vblank support. IRQs might be enabled wthout vblanking being supported=
-=2E
->>
->> This change also removes the DRM framework's only dependency on IRQ st=
-ate
->> for non-legacy drivers. For legacy drivers with userspace modesetting,=
+Anyway, for DCSS bit:
 
->> the original test remains in drm_wait_vblank_ioctl().
->>
->> v2:
->> 	* keep the old test for legacy drivers in
->> 	  drm_wait_vblank_ioctl() (Daniel)
->>
->> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->> ---
->>   drivers/gpu/drm/drm_irq.c    | 10 +++-------
->>   drivers/gpu/drm/drm_vblank.c | 13 +++++++++----
->>   2 files changed, 12 insertions(+), 11 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/drm_irq.c b/drivers/gpu/drm/drm_irq.c
->> index c3bd664ea733..1d7785721323 100644
->> --- a/drivers/gpu/drm/drm_irq.c
->> +++ b/drivers/gpu/drm/drm_irq.c
->> @@ -74,10 +74,8 @@
->>    * only supports devices with a single interrupt on the main device =
-stored in
->>    * &drm_device.dev and set as the device paramter in drm_dev_alloc()=
-=2E
->>    *
->> - * These IRQ helpers are strictly optional. Drivers which roll their =
-own only
->> - * need to set &drm_device.irq_enabled to signal the DRM core that vb=
-lank
->> - * interrupts are working. Since these helpers don't automatically cl=
-ean up the
->> - * requested interrupt like e.g. devm_request_irq() they're not reall=
-y
->> + * These IRQ helpers are strictly optional. Since these helpers don't=
- automatically
->> + * clean up the requested interrupt like e.g. devm_request_irq() they=
-'re not really
->>    * recommended.
->>    */
->>  =20
->> @@ -91,9 +89,7 @@
->>    * and after the installation.
->>    *
->>    * This is the simplified helper interface provided for drivers with=
- no special
->> - * needs. Drivers which need to install interrupt handlers for multip=
-le
->> - * interrupts must instead set &drm_device.irq_enabled to signal the =
-DRM core
->> - * that vblank interrupts are available.
->> + * needs.
->>    *
->>    * @irq must match the interrupt number that would be passed to requ=
-est_irq(),
->>    * if called directly instead of using this helper function.
->> diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank=
-=2Ec
->> index 3417e1ac7918..a98a4aad5037 100644
->> --- a/drivers/gpu/drm/drm_vblank.c
->> +++ b/drivers/gpu/drm/drm_vblank.c
->> @@ -1748,8 +1748,13 @@ int drm_wait_vblank_ioctl(struct drm_device *de=
-v, void *data,
->>   	unsigned int pipe_index;
->>   	unsigned int flags, pipe, high_pipe;
->>  =20
->> -	if (!dev->irq_enabled)
->> -		return -EOPNOTSUPP;
->> +	if  (drm_core_check_feature(dev, DRIVER_MODESET)) {
->> +		if (!drm_dev_has_vblank(dev))
->> +			return -EOPNOTSUPP;
->> +	} else {
->> +		if (!dev->irq_enabled)
->> +			return -EOPNOTSUPP;
->> +	}
->=20
-> For a system call that is used quite a lot by userspace we have increas=
-ed the code size
-> in a noticeable way. Can we not cache it privately?
+Acked-by: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
 
-I'm not quite sure that I understand your concern. The additionally=20
-called functions are trivial one-liners; probably inlined anyway.
+Thanks,
+laurentiu
 
-However, irq_enabled is only relevant for legacy drivers and will=20
-eventually disappear behind CONFIG_DRM_LEGACY. We can rewrite the test=20
-like this:
-
-ifdef CONFIG_DRM_LEGACY
-   if (unlikely(check_feature(dev, DRIVER_LEGACY))) {
-     if (!irq_enabled)
-       return;
-   } else
-#endif
-   {
-     if (!has_vblank_support(dev))
-       return;
-   }
-
-As CONFIG_DRM_LEGACY is most likely disabled on concurrent systems, we'd =
-
-get a single test for the modern drivers. If DRM_LEGACYis on, the=20
-compiler at least knows that the else branch is preferred.
-
-Best regards
-Thomas
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---3ihYu1sFcNnMMAMmUEcEMG76YaQ22m49E--
-
---7jLGShJWLlf8CSqVlOcnyBWWcy9Lp6Rkb
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmDS1/sFAwAAAAAACgkQlh/E3EQov+DQ
-GBAAgLEWLgvBzCF5hV0mjIUdLsPzDOR+sZaMmkihftgMzVIfDXBMfZp4PON/h5XP/oa3S7zWw9+W
-RaNndoHIiRezAR4dnNcXern7ByoYb3kFLVlzcdpjZYvhitX8fUEanpR8nSXzouFAPuevtw8dNzr3
-pyvXZCqqdXCmGz09Qrfc48j7bCYMgZ/b21GUHjKRGIC7JFkcSnGm2JopJOCsc9EiUD7tr0l7VfwS
-/H0ho3e9vLqI/p+1MdU/KMUjItmN71b2VEm8yp0KPceIEiCgsggBrW4np4kg8qoBrSVFNT+NDy1O
-weBoJYVfyPVT4UJXatHhqff7l9GUVWHtk2h2JfMrPIGj4qc15wiXUAiY9Goi5+z/9MgpJLl0TkXt
-GkxkK4Vdx1AdFMhNfE0PqmHjp1pOlLU/apueEhoeVslIwyatSi2cuTLKmRylHOzBYQhK9VsnS0Ip
-bLKBFuKu1QNELEqow7/6jmoneBg7LQwCtrFUZZ1juJfaHqCGttl8f4SleboXZe0fb8nPAgrQPItN
-TNb/u1tvc0hQhQ2DooSdMzvuCsM5qPlCi2ZLUwNNsj9uJo6rYJ49Xv7ay4pKE0TWQQN9MC+oyaa1
-InbjRqUF5ubLt361DDxI0YuEq7FBhvcQ1dC0J4I/uKgXvATLllGtOvUzyK0ZAkiXQZ+UKkd0HRDx
-v9w=
-=aQqG
------END PGP SIGNATURE-----
-
---7jLGShJWLlf8CSqVlOcnyBWWcy9Lp6Rkb--
+>  drivers/gpu/drm/imx/imx-drm-core.c  | 11 -----------
+>  2 files changed, 14 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/imx/dcss/dcss-kms.c b/drivers/gpu/drm/imx/dcss/dcss-kms.c
+> index 37ae68a7fba5..917834b1c80e 100644
+> --- a/drivers/gpu/drm/imx/dcss/dcss-kms.c
+> +++ b/drivers/gpu/drm/imx/dcss/dcss-kms.c
+> @@ -133,8 +133,6 @@ struct dcss_kms_dev *dcss_kms_attach(struct dcss_dev *dcss)
+>  	if (ret)
+>  		goto cleanup_mode_config;
+>  
+> -	drm->irq_enabled = true;
+> -
+>  	ret = dcss_kms_bridge_connector_init(kms);
+>  	if (ret)
+>  		goto cleanup_mode_config;
+> @@ -178,7 +176,6 @@ void dcss_kms_detach(struct dcss_kms_dev *kms)
+>  	drm_kms_helper_poll_fini(drm);
+>  	drm_atomic_helper_shutdown(drm);
+>  	drm_crtc_vblank_off(&kms->crtc.base);
+> -	drm->irq_enabled = false;
+>  	drm_mode_config_cleanup(drm);
+>  	dcss_crtc_deinit(&kms->crtc, drm);
+>  	drm->dev_private = NULL;
+> diff --git a/drivers/gpu/drm/imx/imx-drm-core.c b/drivers/gpu/drm/imx/imx-drm-core.c
+> index 76819a8ac37f..9558e9e1b431 100644
+> --- a/drivers/gpu/drm/imx/imx-drm-core.c
+> +++ b/drivers/gpu/drm/imx/imx-drm-core.c
+> @@ -207,17 +207,6 @@ static int imx_drm_bind(struct device *dev)
+>  	if (IS_ERR(drm))
+>  		return PTR_ERR(drm);
+>  
+> -	/*
+> -	 * enable drm irq mode.
+> -	 * - with irq_enabled = true, we can use the vblank feature.
+> -	 *
+> -	 * P.S. note that we wouldn't use drm irq handler but
+> -	 *      just specific driver own one instead because
+> -	 *      drm framework supports only one irq handler and
+> -	 *      drivers can well take care of their interrupts
+> -	 */
+> -	drm->irq_enabled = true;
+> -
+>  	/*
+>  	 * set max width and height as default value(4096x4096).
+>  	 * this value would be used to check framebuffer size limitation
+> -- 
+> 2.32.0
+> 
