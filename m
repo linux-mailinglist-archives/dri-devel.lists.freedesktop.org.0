@@ -1,43 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF96B3B1A7F
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Jun 2021 14:50:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8167F3B1A88
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Jun 2021 14:53:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 982446E8D8;
-	Wed, 23 Jun 2021 12:50:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6DE3A6E0E6;
+	Wed, 23 Jun 2021 12:53:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CDA3F6E0E6;
- Wed, 23 Jun 2021 12:50:50 +0000 (UTC)
-IronPort-SDR: Iuk2AAT54learJ4rKCx+8+AY7s2gxsD+fW1BIKsPqkYRPjQ6fGFxIQVRZtIS9VhIejIaAd6E08
- Cjlp+TV0XUjQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,10023"; a="207294468"
-X-IronPort-AV: E=Sophos;i="5.83,293,1616482800"; d="scan'208";a="207294468"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Jun 2021 05:50:49 -0700
-IronPort-SDR: b38MtDZ3FnbELNUJNBkrxwtq4E/3l8qOxkxI64emgzJHFqLdIFYcYEc8sisV3LgChlviTbgk2H
- WChcuKmWvm1Q==
-X-IronPort-AV: E=Sophos;i="5.83,293,1616482800"; d="scan'208";a="623829990"
-Received: from asortkjx-mobl.ger.corp.intel.com (HELO [10.249.254.136])
- ([10.249.254.136])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Jun 2021 05:50:48 -0700
-Message-ID: <c8f4daeaba546d20c63ee4a7fb2c99824a319df9.camel@linux.intel.com>
-Subject: Re: [PATCH 1/3] drm/i915/ttm: consider all placements for the page
- alignment
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: Matthew Auld <matthew.auld@intel.com>, intel-gfx@lists.freedesktop.org
-Date: Wed, 23 Jun 2021 14:50:46 +0200
-In-Reply-To: <20210623112637.266855-1-matthew.auld@intel.com>
-References: <20210623112637.266855-1-matthew.auld@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.1 (3.40.1-1.fc34) 
+Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com
+ [209.85.217.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF1186E0E6
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Jun 2021 12:53:45 +0000 (UTC)
+Received: by mail-vs1-f46.google.com with SMTP id z15so1339015vsn.13
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Jun 2021 05:53:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=P76n6RiaHARTNJx4hBu1PTQcMcnpO5X4D5Pt6jdXVrM=;
+ b=Sgq90GXE5ePpgJnKEN+4XCslIstEzPBay9d+zz9ImZ8Ji67i4ujzgGymZUW17b3QjR
+ gNBHTwBfUBb0UB92qkRit8UaqfJR5Cd6wy6WRPhMzwbKy1zI/0uBRSPH6LlFwDA/LVOv
+ WmKhv0eGkYWGc8jSZImkWQ2xES0xPt546Rzd/+4jvX/GrG+NflnBXh/mYkdAK4QuzeXE
+ jcuKaSytocM+b+/Bz/BBxM8L29lpm0z5qTXPr5JGJmYARine9/Lk1N++gvuJzT4vBYy2
+ STlSOLkkDTXDia9ohDkjJlreGPlQGPB/aNf96K336xvYUD5BBDO7NhnQPsk51M38ZXhD
+ ZHLg==
+X-Gm-Message-State: AOAM532j43LW6uJDxvtEgTEyf1t3p4fxmeuKveuEWU3Ug4DH60DkKVNT
+ ZajPyfnq8sd1ip4i//QTUXBPJGOjqbTopNG9YRg=
+X-Google-Smtp-Source: ABdhPJzQtwkx6Vol4T8y0aFn6deUBrbclNdnvtkKHC32EZvJE81p6+UAva6S9Ij1VyIOK4AEw4OeUADP2euokpub3lI=
+X-Received: by 2002:a67:ba0c:: with SMTP id l12mr1120114vsn.40.1624452824812; 
+ Wed, 23 Jun 2021 05:53:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210622231146.3208404-1-kieran.bingham@ideasonboard.com>
+In-Reply-To: <20210622231146.3208404-1-kieran.bingham@ideasonboard.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 23 Jun 2021 14:53:33 +0200
+Message-ID: <CAMuHMdW8vYC3+gVCv5eG_vkX79vU8RQL-6fSJd9McetDzikzSA@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: display: renesas,
+ du: Provide bindings for r8a779a0
+To: Kieran Bingham <kieran.bingham@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,86 +53,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:DRM DRIVERS FOR RENESAS" <dri-devel@lists.freedesktop.org>,
+ "open list:DRM DRIVERS FOR RENESAS" <linux-renesas-soc@vger.kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2021-06-23 at 12:26 +0100, Matthew Auld wrote:
-> Just checking the current region is not enough, if we later migrate
-> the
-> object somewhere else. For example if the placements are {SMEM,
-> LMEM},
-> then we might get this wrong. Another idea might be to make the
-> page_alignment part of the ttm_place, instead of the BO.
-> 
-> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
-> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> ---
->  drivers/gpu/drm/i915/gem/i915_gem_ttm.c | 21 ++++++++++++++++++++-
->  1 file changed, 20 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> index c5deb8b7227c..5d894bba6430 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> @@ -753,6 +753,25 @@ void i915_ttm_bo_destroy(struct
-> ttm_buffer_object *bo)
->                 call_rcu(&obj->rcu, __i915_gem_free_object_rcu);
->  }
->  
-> +static u64 i915_gem_object_page_size(struct drm_i915_gem_object
-> *obj)
-> +{
-> +       u64 page_size;
-> +       int i;
+Hi Kieran,
+
+On Wed, Jun 23, 2021 at 1:11 AM Kieran Bingham
+<kieran.bingham@ideasonboard.com> wrote:
+> From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+>
+> Extend the Renesas DU display bindings to support the r8a779a0 V3U.
+>
+> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+
+Thanks for your patch!
+
+> --- a/Documentation/devicetree/bindings/display/renesas,du.yaml
+> +++ b/Documentation/devicetree/bindings/display/renesas,du.yaml
+> @@ -39,6 +39,7 @@ properties:
+>        - renesas,du-r8a77980 # for R-Car V3H compatible DU
+>        - renesas,du-r8a77990 # for R-Car E3 compatible DU
+>        - renesas,du-r8a77995 # for R-Car D3 compatible DU
+> +      - renesas,du-r8a779a0 # for R-Car V3U compatible DU
+>
+>    reg:
+>      maxItems: 1
+> @@ -774,6 +775,57 @@ allOf:
+>          - reset-names
+>          - renesas,vsps
+>
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - renesas,du-r8a779a0
+> +    then:
+> +      properties:
+> +        clocks:
+> +          items:
+> +            - description: Functional clock for DU0
+> +            - description: Functional clock for DU1
 > +
-> +       if (!obj->mm.n_placements)
-> +               return obj->mm.region->min_page_size;
-> +
-> +       page_size = 0;
-> +       for (i = 0; i < obj->mm.n_placements; i++) {
-> +               struct intel_memory_region *mr = obj-
-> >mm.placements[i];
-> +
-> +               page_size = max_t(u64, mr->min_page_size, page_size);
-> +       }
-> +
-> +       GEM_BUG_ON(!page_size);
-> +       return page_size;
-> +}
-> +
+> +        clock-names:
+> +          items:
+> +            - const: du.0
+> +            - const: du.1
 
-I think if at all possible, we really should try to avoid the above.
-Could we, just like in your next patch, perhaps set alignment to 0,
-indicating that we don't care at the per-object level and something
-else, indicating that we care.
+The hardware block has only a single function clock for both channels,
+like on R-Car H1.
 
-Then the manager could use its default if we don't care and the
-indicated alignment, even if it's less, if we care at the per object
-level? 
+And what about DU_DOTCLKIN?
 
-/Thomas
+Gr{oetje,eeting}s,
 
->  /**
->   * __i915_gem_ttm_object_init - Initialize a ttm-backed i915 gem
-> object
->   * @mem: The initial memory region for the object.
-> @@ -793,7 +812,7 @@ int __i915_gem_ttm_object_init(struct
-> intel_memory_region *mem,
->         obj->base.vma_node.driver_private = i915_gem_to_ttm(obj);
->         ret = ttm_bo_init(&i915->bdev, i915_gem_to_ttm(obj), size,
->                           bo_type, &i915_sys_placement,
-> -                         mem->min_page_size >> PAGE_SHIFT,
-> +                         i915_gem_object_page_size(obj) >>
-> PAGE_SHIFT,
+                        Geert
 
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-
-
-
->                           true, NULL, NULL, i915_ttm_bo_destroy);
->         if (!ret)
->                 obj->ttm.created = true;
-
-
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
