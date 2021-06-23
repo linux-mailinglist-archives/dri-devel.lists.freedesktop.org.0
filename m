@@ -2,47 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E7D83B182E
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Jun 2021 12:37:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 719DD3B183E
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Jun 2021 12:50:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 62A286E8A5;
-	Wed, 23 Jun 2021 10:37:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C16C16E8A9;
+	Wed, 23 Jun 2021 10:50:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 418 seconds by postgrey-1.36 at gabe;
- Wed, 23 Jun 2021 10:37:42 UTC
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 63D1C6E8A5;
- Wed, 23 Jun 2021 10:37:42 +0000 (UTC)
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
- by smtp-out1.suse.de (Postfix) with ESMTP id 2164321916;
- Wed, 23 Jun 2021 10:30:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1624444243; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=HCvoFUMGXgLIQO/hA7VYGyu+LChmbtQQAc+dzSw213M=;
- b=aZoZXMPpCOMVC2ogAFPWHm6UfM6wGyZMFuT8VTa0soMFVprOblOQfw5Fy0uuHHJTv3a27t
- Xo7d1yqAmdhaBHYUt4uIQZzQkR3Lo/5LUEiCkb3hs0gY8honH9x0vhZ52Z9fMz6YGDAAer
- 9voXwrWqrlxNul/JB4kI1tia5H4ZxkQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1624444243;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=HCvoFUMGXgLIQO/hA7VYGyu+LChmbtQQAc+dzSw213M=;
- b=fg1HPCSLsGLz/2D0dvo4QcmAWQiO/Ti2wKSk4zx1tioKnEA/DZu70ZP0Mc/EfCzvo9vPN/
- NSXGeQse+fnwvxBQ==
-Received: from kitsune.suse.cz (kitsune.suse.cz [10.100.12.127])
- by relay2.suse.de (Postfix) with ESMTP id D3A5BA3B81;
- Wed, 23 Jun 2021 10:30:42 +0000 (UTC)
-From: Michal Suchanek <msuchanek@suse.de>
-To: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>
-Subject: [PATCH] drm/amdgpu/dc: Really fix DCN3.1 Makefile for PPC64
-Date: Wed, 23 Jun 2021 12:30:39 +0200
-Message-Id: <20210623103039.9881-1-msuchanek@suse.de>
-X-Mailer: git-send-email 2.26.2
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B4106E8A9
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Jun 2021 10:50:42 +0000 (UTC)
+Received: from [192.168.0.20]
+ (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0F1729AA;
+ Wed, 23 Jun 2021 12:50:40 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1624445440;
+ bh=1Nw9KFG0firHWcFNBnkf1WjlktblyiOSb/y0v3cbHxA=;
+ h=From:Subject:To:Cc:References:Date:In-Reply-To:From;
+ b=i0ooc81j561MWV4PlpTKBkg4ilTRGRGXGHlaaH56UfN9iKYm0IofY9gNpy2QIU6ZC
+ z3ZTSAAOqPpjFHXkqYc5QZbm2hicy99MXaYtramI/8Xu/AfTWEH5n8zDL3gVKqVQQC
+ 4HSDUK61E3OFiq9btXAVr2HE6DhZiHOWxymxtIJo=
+From: Kieran Bingham <kieran.bingham@ideasonboard.com>
+Subject: Re: [PATCH 3/3] drm: rcar-du: Add r8a779a0 device support
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20210622232024.3215248-1-kieran.bingham@ideasonboard.com>
+ <20210622232024.3215248-4-kieran.bingham@ideasonboard.com>
+ <YNKcI8bS78dXDc1v@pendragon.ideasonboard.com>
+Message-ID: <baea3a32-9047-18f1-38ad-1f495fb37cfd@ideasonboard.com>
+Date: Wed, 23 Jun 2021 11:50:37 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <YNKcI8bS78dXDc1v@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,48 +51,228 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Arnd Bergmann <arnd@arndb.de>, Leo Li <sunpeng.li@amd.com>,
- Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- Will Deacon <will@kernel.org>, Huang Rui <ray.huang@amd.com>,
- dri-devel@lists.freedesktop.org, Michal Suchanek <msuchanek@suse.de>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: David Airlie <airlied@linux.ie>, open list <linux-kernel@vger.kernel.org>,
+ "open list:DRM DRIVERS FOR RENESAS" <dri-devel@lists.freedesktop.org>,
+ "open list:DRM DRIVERS FOR RENESAS" <linux-renesas-soc@vger.kernel.org>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Also copy over the part that makes old gcc handling cross-platform.
+Hi Laurent,
 
-Fixes: df7a1658f257 ("drm/amdgpu/dc: fix DCN3.1 Makefile for PPC64")
-Fixes: 926d6972efb6 ("drm/amd/display: Add DCN3.1 blocks to the DC Makefile")
-Signed-off-by: Michal Suchanek <msuchanek@suse.de>
----
-The fact that the old gcc handling triggers on gcc 10 and 11 is another
-story I don't want to delve into.
----
- drivers/gpu/drm/amd/display/dc/dcn31/Makefile | 2 ++
- 1 file changed, 2 insertions(+)
+On 23/06/2021 03:27, Laurent Pinchart wrote:
+> Hi Kieran,
+> 
+> Thank you for the patch.
+> 
+> On Wed, Jun 23, 2021 at 12:20:24AM +0100, Kieran Bingham wrote:
+>> From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+>>
+>> Extend the rcar_du_device_info structure and rcar_du_output enum to
+>> support DSI outputs and utilise these additions to provide support for
+>> the R8A779A0 V3U platform.
+>>
+>> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+>> ---
+>>  drivers/gpu/drm/rcar-du/rcar_du_crtc.c    | 20 ++++++++++++++++++++
+>>  drivers/gpu/drm/rcar-du/rcar_du_crtc.h    |  2 ++
+>>  drivers/gpu/drm/rcar-du/rcar_du_drv.c     | 21 +++++++++++++++++++++
+>>  drivers/gpu/drm/rcar-du/rcar_du_drv.h     |  6 ++++++
+>>  drivers/gpu/drm/rcar-du/rcar_du_encoder.c |  4 ++++
+>>  drivers/gpu/drm/rcar-du/rcar_du_group.c   |  2 ++
+>>  6 files changed, 55 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+>> index cff0d82b9491..edc46a96df6b 100644
+>> --- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+>> +++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+>> @@ -31,6 +31,7 @@
+>>  #include "rcar_du_regs.h"
+>>  #include "rcar_du_vsp.h"
+>>  #include "rcar_lvds.h"
+>> +#include "rcar_mipi_dsi.h"
+>>  
+>>  static u32 rcar_du_crtc_read(struct rcar_du_crtc *rcrtc, u32 reg)
+>>  {
+>> @@ -737,6 +738,16 @@ static void rcar_du_crtc_atomic_enable(struct drm_crtc *crtc,
+>>  		rcar_lvds_clk_enable(bridge, mode->clock * 1000);
+>>  	}
+>>  
+>> +	/*
+>> +	 * On V3U the dot clock is provided by the MIPI DSI encoder which is
+>> +	 * attached to DU. So, the MIPI DSI module should be enable before starting DU.
+> 
+> s/enable/enabled/
+> 
+> Line wrap.
+> 
+> But do we ? On D3 and E3, the situation is different, the clock is
+> provided by the LVDS encoder even if a non-LVDS output is used. On V3U,
+> we only have DSI outputs, so the DSI encoder will be enabled normally
+> anyway.
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn31/Makefile b/drivers/gpu/drm/amd/display/dc/dcn31/Makefile
-index 5dcdc5a858fe..4bab97acb155 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn31/Makefile
-+++ b/drivers/gpu/drm/amd/display/dc/dcn31/Makefile
-@@ -28,6 +28,7 @@ endif
- CFLAGS_$(AMDDALPATH)/dc/dcn31/dcn31_resource.o += -mhard-float
- endif
- 
-+ifdef CONFIG_X86
- ifdef IS_OLD_GCC
- # Stack alignment mismatch, proceed with caution.
- # GCC < 7.1 cannot compile code using `double` and -mpreferred-stack-boundary=3
-@@ -36,6 +37,7 @@ CFLAGS_$(AMDDALPATH)/dc/dcn31/dcn31_resource.o += -mpreferred-stack-boundary=4
- else
- CFLAGS_$(AMDDALPATH)/dc/dcn31/dcn31_resource.o += -msse2
- endif
-+endif
- 
- AMD_DAL_DCN31 = $(addprefix $(AMDDALPATH)/dc/dcn31/,$(DCN31))
- 
--- 
-2.26.2
+Ok - presumably you suggest moving the contents of
+rcar_mipi_dsi_clk_enable() to be called as a pre_enable(struct
+drm_bridge *bridge) hook then?
 
+Or it can be directly in the enable I guess. (also adding a disable)
+
+In fact, it's working when it's called from the enable, so I'll move
+this all out and send fixups for your RFC series to ultimately squash down.
+
+
+> If we don't have to enable the DSI clock manually here, we can get rid
+> of the dsi array, which will simplify this patch.
+
+Indeed, clears out a bit.
+
+> 
+>> +	 */
+>> +	if (rcdu->info->dsi_clk_mask & BIT(rcrtc->index)) {
+>> +		struct drm_bridge *bridge = rcdu->dsi[rcrtc->index];
+>> +
+>> +		rcar_mipi_dsi_clk_enable(bridge);
+>> +	}
+>> +
+>>  	rcar_du_crtc_start(rcrtc);
+>>  
+>>  	/*
+>> @@ -770,6 +781,15 @@ static void rcar_du_crtc_atomic_disable(struct drm_crtc *crtc,
+>>  		rcar_lvds_clk_disable(bridge);
+>>  	}
+>>  
+>> +	if (rcdu->info->dsi_clk_mask & BIT(rcrtc->index)) {
+>> +		struct drm_bridge *bridge = rcdu->dsi[rcrtc->index];
+>> +
+>> +		/*
+>> +		 * Disable the MIPI DSI clock output
+>> +		 */
+>> +		rcar_mipi_dsi_clk_disable(bridge);
+>> +	}
+>> +
+>>  	spin_lock_irq(&crtc->dev->event_lock);
+>>  	if (crtc->state->event) {
+>>  		drm_crtc_send_vblank_event(crtc, crtc->state->event);
+>> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.h b/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
+>> index 440e6b4fbb58..26e79b74898c 100644
+>> --- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
+>> +++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
+>> @@ -96,6 +96,8 @@ struct rcar_du_crtc_state {
+>>  enum rcar_du_output {
+>>  	RCAR_DU_OUTPUT_DPAD0,
+>>  	RCAR_DU_OUTPUT_DPAD1,
+>> +	RCAR_DU_OUTPUT_DSI0,
+>> +	RCAR_DU_OUTPUT_DSI1,
+>>  	RCAR_DU_OUTPUT_HDMI0,
+>>  	RCAR_DU_OUTPUT_HDMI1,
+>>  	RCAR_DU_OUTPUT_LVDS0,
+>> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+>> index bfbff90588cb..16c0d7886fb2 100644
+>> --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+>> +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+>> @@ -473,6 +473,26 @@ static const struct rcar_du_device_info rcar_du_r8a7799x_info = {
+>>  	.lvds_clk_mask =  BIT(1) | BIT(0),
+>>  };
+>>  
+>> +static const struct rcar_du_device_info rcar_du_r8a779a0_info = {
+>> +	.gen = 3,
+>> +	.features = RCAR_DU_FEATURE_CRTC_IRQ_CLOCK
+>> +		  | RCAR_DU_FEATURE_VSP1_SOURCE,
+>> +	.channels_mask = BIT(1) | BIT(0),
+>> +	.routes = {
+>> +		/* R8A779A0 has two MIPI DSI outputs. */
+>> +		[RCAR_DU_OUTPUT_DSI0] = {
+>> +			.possible_crtcs = BIT(0),
+>> +			.port = 0,
+>> +		},
+>> +		[RCAR_DU_OUTPUT_DSI1] = {
+>> +			.possible_crtcs = BIT(1),
+>> +			.port = 1,
+>> +		},
+>> +	},
+>> +	.num_dsi = 2,
+>> +	.dsi_clk_mask =  BIT(1) | BIT(0),
+>> +};
+>> +
+>>  static const struct of_device_id rcar_du_of_table[] = {
+>>  	{ .compatible = "renesas,du-r8a7742", .data = &rcar_du_r8a7790_info },
+>>  	{ .compatible = "renesas,du-r8a7743", .data = &rzg1_du_r8a7743_info },
+>> @@ -497,6 +517,7 @@ static const struct of_device_id rcar_du_of_table[] = {
+>>  	{ .compatible = "renesas,du-r8a77980", .data = &rcar_du_r8a77970_info },
+>>  	{ .compatible = "renesas,du-r8a77990", .data = &rcar_du_r8a7799x_info },
+>>  	{ .compatible = "renesas,du-r8a77995", .data = &rcar_du_r8a7799x_info },
+>> +	{ .compatible = "renesas,du-r8a779a0", .data = &rcar_du_r8a779a0_info },
+>>  	{ }
+>>  };
+>>  
+>> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.h b/drivers/gpu/drm/rcar-du/rcar_du_drv.h
+>> index 02ca2d0e1b55..675207e8a56a 100644
+>> --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.h
+>> +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.h
+>> @@ -54,8 +54,10 @@ struct rcar_du_output_routing {
+>>   * @quirks: device quirks (RCAR_DU_QUIRK_*)
+>>   * @channels_mask: bit mask of available DU channels
+>>   * @routes: array of CRTC to output routes, indexed by output (RCAR_DU_OUTPUT_*)
+>> + * @num_dsi: number of internal DSI encoders
+>>   * @num_lvds: number of internal LVDS encoders
+>>   * @dpll_mask: bit mask of DU channels equipped with a DPLL
+>> + * @dsi_clk_mask: bitmask of channels that can use the DSI clock as dot clock
+>>   * @lvds_clk_mask: bitmask of channels that can use the LVDS clock as dot clock
+>>   */
+>>  struct rcar_du_device_info {
+>> @@ -64,8 +66,10 @@ struct rcar_du_device_info {
+>>  	unsigned int quirks;
+>>  	unsigned int channels_mask;
+>>  	struct rcar_du_output_routing routes[RCAR_DU_OUTPUT_MAX];
+>> +	unsigned int num_dsi;
+>>  	unsigned int num_lvds;
+>>  	unsigned int dpll_mask;
+>> +	unsigned int dsi_clk_mask;
+>>  	unsigned int lvds_clk_mask;
+>>  };
+>>  
+>> @@ -73,6 +77,7 @@ struct rcar_du_device_info {
+>>  #define RCAR_DU_MAX_GROUPS		DIV_ROUND_UP(RCAR_DU_MAX_CRTCS, 2)
+>>  #define RCAR_DU_MAX_VSPS		4
+>>  #define RCAR_DU_MAX_LVDS		2
+>> +#define RCAR_DU_MAX_DSI			2
+>>  
+>>  struct rcar_du_device {
+>>  	struct device *dev;
+>> @@ -89,6 +94,7 @@ struct rcar_du_device {
+>>  	struct platform_device *cmms[RCAR_DU_MAX_CRTCS];
+>>  	struct rcar_du_vsp vsps[RCAR_DU_MAX_VSPS];
+>>  	struct drm_bridge *lvds[RCAR_DU_MAX_LVDS];
+>> +	struct drm_bridge *dsi[RCAR_DU_MAX_DSI];
+>>  
+>>  	struct {
+>>  		struct drm_property *colorkey;
+>> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_encoder.c b/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
+>> index 0daa8bba50f5..d7697099f2a1 100644
+>> --- a/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
+>> +++ b/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
+>> @@ -83,6 +83,10 @@ int rcar_du_encoder_init(struct rcar_du_device *rcdu,
+>>  		if (output == RCAR_DU_OUTPUT_LVDS0 ||
+>>  		    output == RCAR_DU_OUTPUT_LVDS1)
+>>  			rcdu->lvds[output - RCAR_DU_OUTPUT_LVDS0] = bridge;
+>> +
+>> +		if (output == RCAR_DU_OUTPUT_DSI0 ||
+>> +		    output == RCAR_DU_OUTPUT_DSI1)
+>> +			rcdu->dsi[output - RCAR_DU_OUTPUT_DSI0] = bridge;
+>>  	}
+>>  
+>>  	/*
+>> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_group.c b/drivers/gpu/drm/rcar-du/rcar_du_group.c
+>> index 88a783ceb3e9..92631a4571ad 100644
+>> --- a/drivers/gpu/drm/rcar-du/rcar_du_group.c
+>> +++ b/drivers/gpu/drm/rcar-du/rcar_du_group.c
+>> @@ -124,6 +124,8 @@ static void rcar_du_group_setup_didsr(struct rcar_du_group *rgrp)
+>>  		if (rcdu->info->lvds_clk_mask & BIT(rcrtc->index))
+>>  			didsr |= DIDSR_LCDS_LVDS0(i)
+>>  			      |  DIDSR_PDCS_CLK(i, 0);
+>> +		else if (rcdu->info->dsi_clk_mask & BIT(rcrtc->index))
+>> +			didsr |= DIDSR_LCDS_LVDS0(i);
+>>  		else
+>>  			didsr |= DIDSR_LCDS_DCLKIN(i)
+>>  			      |  DIDSR_PDCS_CLK(i, 0);
+> 
