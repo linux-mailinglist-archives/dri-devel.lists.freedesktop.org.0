@@ -1,48 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9DDF3B19DE
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Jun 2021 14:25:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7566D3B1A1E
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Jun 2021 14:29:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB41F6E8D3;
-	Wed, 23 Jun 2021 12:25:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 09F416E8D2;
+	Wed, 23 Jun 2021 12:29:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C11746E8D4;
- Wed, 23 Jun 2021 12:25:28 +0000 (UTC)
-IronPort-SDR: N2nZnG09KaRZyYPOxOfCQpG64iUeXWqxPCZdpea3geRrW92q+go+4gTjN0l4A5GfIDuPVHfeW2
- 6aR+eSPP1MYA==
-X-IronPort-AV: E=McAfee;i="6200,9189,10023"; a="207066044"
-X-IronPort-AV: E=Sophos;i="5.83,293,1616482800"; d="scan'208";a="207066044"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Jun 2021 05:25:27 -0700
-IronPort-SDR: DheJDumbH+dm8wOCtzxqpNWaWwp1ErVaALMWZ760nx6jeAzAUPwcKfoomp/D0frnExsEyn7SUQ
- 4a99IKqnuY/g==
-X-IronPort-AV: E=Sophos;i="5.83,293,1616482800"; d="scan'208";a="556129300"
-Received: from dconnon-mobl.ger.corp.intel.com (HELO [10.252.14.111])
- ([10.252.14.111])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Jun 2021 05:25:25 -0700
-Subject: Re: [PATCH 3/3] drm/i915/gtt: ignore min_page_size for paging
- structures
-To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- intel-gfx@lists.freedesktop.org
-References: <20210623112637.266855-1-matthew.auld@intel.com>
- <20210623112637.266855-3-matthew.auld@intel.com>
- <a5c0dca7-a586-15b6-6004-09d320b1159e@linux.intel.com>
-From: Matthew Auld <matthew.auld@intel.com>
-Message-ID: <dcb9729d-fd1c-900e-bb6e-38eb2cf208d2@intel.com>
-Date: Wed, 23 Jun 2021 13:25:23 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
+ [66.111.4.230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE1056E8D2
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Jun 2021 12:29:07 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 44CF35805E0;
+ Wed, 23 Jun 2021 08:29:07 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute6.internal (MEProxy); Wed, 23 Jun 2021 08:29:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm3; bh=LYmysgAYQbYf4D5WIV3nX+JHKv4
+ gcr5JH0CPAhQp3EQ=; b=2eJlQpIHzliDahyhagWavmKnGgwp95ZisZfiYEn9MQr
+ kFnx2PwYMwEwfxbsdSuu5H0iwUSDqsdvFTmGqElDbDAKRvHLLvLCIS1C2D4DLieT
+ tdt+ULQRftMO8WV54GoiYsTiwbC3K1wUdoLrhvxobU6PNICaLAhzZZh5qwYIYHgW
+ Qot3r07h03x4S/7gR4qA7Boi0D2f9UFjmRPBw0qSmGz4XnDhs7jQPkAAdv7QCFLi
+ nJ9LVhD5NkgH7pPP4p/GixwP9y3ZHmJ2RmYL33AYyyR72L0/7xJhBtB7rBKnw5uJ
+ aGzyS9WSLYNaGC0bdDafCdCCbAUf/zU12Sh0GMJYOCg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=LYmysg
+ AYQbYf4D5WIV3nX+JHKv4gcr5JH0CPAhQp3EQ=; b=lcr+uzMgCh79q2GtuWp50h
+ xEyL0RWnfNYX34/c26G/ynQQcmDVGgDu76mPvLqRRyrlHWQm54BVa78BABb3nkjD
+ RiE2e7XdKfj1iVGoZVQ27NgzEBxvM/5y4zx4W6Nd0dTIpqxtQgmQdEcaiXvm0Yp5
+ MIGwT6Y0dztc9joSc9wgrs7/e2oOtOMeCndXFrRRrlCoirJE24OTBUeJF+EMLOdE
+ APyK+Rzg9kPtZD+blzODFda0w24L/NONnXqZOovMh6kY6zlKzZLQlAwKiaN0GlyK
+ eVGAOHLp5rFyuNX7+j7zSLsA1ePkLNUQVn59JahN0ZKhhonk+V1xtXGWaY3MxZaw
+ ==
+X-ME-Sender: <xms:ESnTYK_C-21U2l2QozyILoNSlPVqKfpTp1q6YqEseQtERYTgD7wEjA>
+ <xme:ESnTYKs6ZYg2RUE3T4E6_4WYfh7byUamSHlJxrXSRIO9zEAnf3vP53J6ISh3gHTex
+ vjveIKAZEot9ElXG9Q>
+X-ME-Received: <xmr:ESnTYAD101y1Z0cSzKC5muGw7O86ArnMv0EERbPkuBkRESwg4ufvcqvrEDGFH43cICse_euQkCXeR5wF_iBFxf7l5AzuiVuIDg2F>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfeegfedgheefucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
+ vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+ htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
+ gedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+ grgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:ESnTYCe9QBXtVFJhfKsnRwaDl-xkxqvQydUEScUwiqPYbRcEi1TlPQ>
+ <xmx:ESnTYPNXuaRR8kEvEfb-7qU59Zify5c9K1HKVr_vC8Om2KWmtIZAxg>
+ <xmx:ESnTYMlg2fbk5mkdtWnpb4rpr71L0d4YVRQ-KoHTE6BfyypN_1u9OQ>
+ <xmx:EynTYCdX2W4keJN3BziO7ALHGBYvumNaAZ_6JzvRr3sRzPLV1XkbCg>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 23 Jun 2021 08:29:04 -0400 (EDT)
+Date: Wed, 23 Jun 2021 14:29:03 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: nicolas saenz julienne <nsaenz@kernel.org>
+Subject: Re: [PATCH v2 10/12] drm/vc4: hdmi: Register HDMI codec
+Message-ID: <20210623122903.nvkm7hagt324n4pd@gilmour>
+References: <20210525132354.297468-1-maxime@cerno.tech>
+ <20210525132354.297468-11-maxime@cerno.tech>
+ <c1ee306fbc81da2df7d0041c719fc8cd3302cf0f.camel@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <a5c0dca7-a586-15b6-6004-09d320b1159e@linux.intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="ed3s3jfq3fuhw3ac"
+Content-Disposition: inline
+In-Reply-To: <c1ee306fbc81da2df7d0041c719fc8cd3302cf0f.camel@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,62 +81,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: alsa-devel@alsa-project.org, Tim Gover <tim.gover@raspberrypi.com>,
+ linux-doc@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, Takashi Iwai <tiwai@suse.com>,
+ Eric Anholt <eric@anholt.net>, Daniel Vetter <daniel.vetter@intel.com>,
+ Phil Elwell <phil@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ bcm-kernel-feedback-list@broadcom.com, devicetree@vger.kernel.org,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ linux-rpi-kernel@lists.infradead.org, Jaroslav Kysela <perex@perex.cz>,
+ linux-arm-kernel@lists.infradead.org, Dom Cobley <dom@raspberrypi.com>,
+ Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 23/06/2021 12:51, Thomas Hellström wrote:
-> 
-> On 6/23/21 1:26 PM, Matthew Auld wrote:
->> The min_page_size is only needed for pages inserted into the GTT, and
->> for our paging structures we only need at most 4K bytes, so simply
->> ignore the min_page_size restrictions here, otherwise we might see some
->> severe overallocation on some devices.
->>
->> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
->> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
->> ---
->>   drivers/gpu/drm/i915/gt/intel_gtt.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.c 
->> b/drivers/gpu/drm/i915/gt/intel_gtt.c
->> index 084ea65d59c0..61e8a8c25374 100644
->> --- a/drivers/gpu/drm/i915/gt/intel_gtt.c
->> +++ b/drivers/gpu/drm/i915/gt/intel_gtt.c
->> @@ -16,7 +16,7 @@ struct drm_i915_gem_object *alloc_pt_lmem(struct 
->> i915_address_space *vm, int sz)
->>   {
->>       struct drm_i915_gem_object *obj;
->> -    obj = i915_gem_object_create_lmem(vm->i915, sz, 0);
->> +    obj = __i915_gem_object_create_lmem_with_ps(vm->i915, sz, sz, 0);
->>       /*
->>        * Ensure all paging structures for this vm share the same dma-resv
->>        * object underneath, with the idea that one object_lock() will 
->> lock
-> 
-> I think for this one the new gt migration code might break, because 
-> there we insert even PT pages into the GTT, so it might need a special 
-> interface? Ram is looking at supporter larger GPU PTE sizes with that 
-> code..
 
-For DG1 at least we don't need this. But yeah we can always just pass 
-along the page size when allocating the stash I guess, if we need 
-something special for migration?
+--ed3s3jfq3fuhw3ac
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-But when we need to support huge PTEs for stuff other than DG1, then 
-it's still a pile of work I assume, since we still need all the special 
-PTE insertion routines specifically for insert_pte() which will differ 
-wildly between generations, also each has quite different restrictions 
-wrt min physical alignment of lmem, whether you can mix 64K/4K PTEs in 
-the same 2M va range, whether 4K PTEs are even supported for lmem etc.
+On Tue, Jun 01, 2021 at 11:26:24AM +0200, nicolas saenz julienne wrote:
+> On Tue, 2021-05-25 at 15:23 +0200, Maxime Ripard wrote:
+> > The hdmi-codec brings a lot of advanced features, including the HDMI
+> > channel mapping. Let's use it in our driver instead of our own codec.
+> >=20
+> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> > ---
+>=20
+> Reviewed-by: Nicolas Saenz Julienne <nsaenz@kernel.org>
 
-Not sure if it's simpler to go with mapping all of lmem upfront with the 
-flat-ppGTT? Maybe that sidesteps some of these issues? At least for the 
-physical alignment of paging structures that would no longer be a concern.
+Applied 6 to 10, I'll resend 11
 
-> 
-> /Thomas
-> 
-> 
-> 
+Thanks!
+Maxime
+
+--ed3s3jfq3fuhw3ac
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYNMpDwAKCRDj7w1vZxhR
+xTtEAQCsRUnfy20Se4iYG9OnMpYBOcMIXkIlk4MHoGG22GbIhgD+KEWBCy8hUjqQ
+hXB++Vu4wHH9EPXj1HdCg3lwFXxWrQI=
+=QYZn
+-----END PGP SIGNATURE-----
+
+--ed3s3jfq3fuhw3ac--
