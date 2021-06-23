@@ -1,65 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E460D3B1554
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Jun 2021 10:02:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 18EA73B155A
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Jun 2021 10:03:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 912056E833;
-	Wed, 23 Jun 2021 08:02:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 321C26E834;
+	Wed, 23 Jun 2021 08:03:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
- [IPv6:2a00:1450:4864:20::12f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 78F8D6E832;
- Wed, 23 Jun 2021 08:02:02 +0000 (UTC)
-Received: by mail-lf1-x12f.google.com with SMTP id k10so2499638lfv.13;
- Wed, 23 Jun 2021 01:02:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=ALp5/N27RPVlOOdmQTHFA/PlRSYSgcTj/HOCoALwZHU=;
- b=jTbDpOhkkcRBj+Tr+txKS3w8AL191MGPqQKTJnQWRFyghzbRxc50ybjVs9+xSyTvBP
- NPKTd7wql5N78Irn8b3ZVHQHFY0FjPEmEsiOLtkdnErfTMzbrdg/Oxhn6tfTI03wP8pD
- 4OxyMTgkHuIi/5O5pBE/DFuXlbiJyQoo8NpmtaGXEZgp8yvXA14xeAiJS2uNsTsyMJNs
- U2fwbQiqPFzTc1K164Xm2DcFlE3uTI1PF6xJc8NR7rrQabMu0T9kSMPPTLF+S1JmnW8O
- xZ143ju579UWLalmW98hQWyCtdk8LrFHsLTMBaxd6b3Bd+8teorXbhCb1Eg0/zqsok6Y
- IQ8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=ALp5/N27RPVlOOdmQTHFA/PlRSYSgcTj/HOCoALwZHU=;
- b=fJLTr0fsPstM1D/O91vhJh2T5nCchpMoEVvPcfGXScdjq32s7jf1nLgQaeP4EwnQWP
- 7pPsu/dNqPrYF8F0hptXbiSRYxv7amRyweoZ8UIOQZCnqqLXY7xycVgyZKPLz3utKsIm
- 5dLymDHqzuLPUuFtm8oSXB0sPHx2x5uw6Dp55i620ducstKozk27f/jNxYVTm8WYRDMU
- esk23IzpASan+yCGaSmqK9r3ck3UxPK5ZREoll61xZf6pMVNmRKsCE0zZFAcVDb8JpgY
- c51w8dna01vL2hKKLnJugTQ4USdOlonqZ+3Qz7ABZOCx1iRSjILqhAFILygNrJofZgtG
- CZFw==
-X-Gm-Message-State: AOAM533od+y9nxHciyeqT3x0BzO16Xw3uIDdeL4s4ye/UwTKft1TsMlR
- zySOQG3XKCpHTXqPgJjuoYI=
-X-Google-Smtp-Source: ABdhPJxA76V011BKXooz42uid5MGbx2UUylgUe4QH9zqXyMr8+sUmU3nxOG3kR1o/s1ae8kxoCdS2Q==
-X-Received: by 2002:a05:6512:4c3:: with SMTP id
- w3mr6328062lfq.594.1624435320753; 
- Wed, 23 Jun 2021 01:02:00 -0700 (PDT)
-Received: from eldfell ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id z15sm2459818lfs.207.2021.06.23.01.01.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Jun 2021 01:02:00 -0700 (PDT)
-Date: Wed, 23 Jun 2021 11:01:56 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Werner Sembach <wse@tuxedocomputers.com>
-Subject: Re: [PATCH v4 17/17] drm/amd/display: Add handling for new
- "Broadcast RGB" property
-Message-ID: <20210623110156.4791505e@eldfell>
-In-Reply-To: <ded3d448-4837-f38d-9878-f5d764712db7@tuxedocomputers.com>
-References: <20210618091116.14428-1-wse@tuxedocomputers.com>
- <20210618091116.14428-18-wse@tuxedocomputers.com>
- <20210622102955.1e0488b1@eldfell>
- <ded3d448-4837-f38d-9878-f5d764712db7@tuxedocomputers.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F1CF6E834
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Jun 2021 08:03:00 +0000 (UTC)
+Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
+ (using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 56F4E1FD36;
+ Wed, 23 Jun 2021 08:02:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1624435379; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=UZoLo96NVn68t1HfWFgLxX9DAUowVpJaq/Y9F+uTYw4=;
+ b=LLjSoBpCalHQifNpbFXjt/5QRx39qegVwdm5OKWus5dn64Wnvu0GkuRaIQqeoHalm9WX+j
+ 4f3IdBEoy9Ap2QC/ENhI0QM6kBwEXMxaqB0xhCnMsKMz7eu1AZx1iov8sxq5WMiL9mvC6E
+ HRl0NhmZm6QqEYIXL47QYthcOLmbecI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1624435379;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=UZoLo96NVn68t1HfWFgLxX9DAUowVpJaq/Y9F+uTYw4=;
+ b=5g8pwWUndxKwE3uPBmJx116JuqN9soSHA826J17wt+y7//WsdGTsOwkmeD+595UfAUWHEV
+ EDrmvC0KLeIJccDA==
+Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
+ by imap.suse.de (Postfix) with ESMTP id 2680611A97;
+ Wed, 23 Jun 2021 08:02:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1624435379; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=UZoLo96NVn68t1HfWFgLxX9DAUowVpJaq/Y9F+uTYw4=;
+ b=LLjSoBpCalHQifNpbFXjt/5QRx39qegVwdm5OKWus5dn64Wnvu0GkuRaIQqeoHalm9WX+j
+ 4f3IdBEoy9Ap2QC/ENhI0QM6kBwEXMxaqB0xhCnMsKMz7eu1AZx1iov8sxq5WMiL9mvC6E
+ HRl0NhmZm6QqEYIXL47QYthcOLmbecI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1624435379;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=UZoLo96NVn68t1HfWFgLxX9DAUowVpJaq/Y9F+uTYw4=;
+ b=5g8pwWUndxKwE3uPBmJx116JuqN9soSHA826J17wt+y7//WsdGTsOwkmeD+595UfAUWHEV
+ EDrmvC0KLeIJccDA==
+Received: from director2.suse.de ([192.168.254.72]) by imap3-int with ESMTPSA
+ id Vu0oCLPq0mCUDwAALh3uQQ
+ (envelope-from <tzimmermann@suse.de>); Wed, 23 Jun 2021 08:02:59 +0000
+To: KuoHsiang Chou <kuohsiang_chou@aspeedtech.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <bbe8ccfd-7e73-e1e6-32a5-f08f71c4ed3f@suse.de>
+ <20210507092708.39552-1-kuohsiang_chou@aspeedtech.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v4] drm/ast: Disable fast reset after DRAM initial
+Message-ID: <bb505d06-bf46-237c-ed2f-15e3f23ec338@suse.de>
+Date: Wed, 23 Jun 2021 10:02:58 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/9t65WvBL3CHONVstlbG_ova";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+In-Reply-To: <20210507092708.39552-1-kuohsiang_chou@aspeedtech.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="XoCxvESSzGROz96aYRgLc4sMrIB5s8baV"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,156 +82,230 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: sunpeng.li@amd.com, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- airlied@linux.ie, amd-gfx@lists.freedesktop.org, tzimmermann@suse.de,
- rodrigo.vivi@intel.com, alexander.deucher@amd.com, christian.koenig@amd.com
+Cc: airlied@linux.ie, airlied@redhat.com, jenmin_yuan@aspeedtech.com,
+ arc_sung@aspeedtech.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/9t65WvBL3CHONVstlbG_ova
-Content-Type: text/plain; charset=UTF-8
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--XoCxvESSzGROz96aYRgLc4sMrIB5s8baV
+Content-Type: multipart/mixed; boundary="dK607Pj6UoSX1Io7cPHv2ETyMyVM3gZqY";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: KuoHsiang Chou <kuohsiang_chou@aspeedtech.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: airlied@redhat.com, airlied@linux.ie, daniel@ffwll.ch,
+ jenmin_yuan@aspeedtech.com, arc_sung@aspeedtech.com
+Message-ID: <bb505d06-bf46-237c-ed2f-15e3f23ec338@suse.de>
+Subject: Re: [PATCH v4] drm/ast: Disable fast reset after DRAM initial
+References: <bbe8ccfd-7e73-e1e6-32a5-f08f71c4ed3f@suse.de>
+ <20210507092708.39552-1-kuohsiang_chou@aspeedtech.com>
+In-Reply-To: <20210507092708.39552-1-kuohsiang_chou@aspeedtech.com>
+
+--dK607Pj6UoSX1Io7cPHv2ETyMyVM3gZqY
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, 22 Jun 2021 11:28:57 +0200
-Werner Sembach <wse@tuxedocomputers.com> wrote:
+Hi,
 
-> Am 22.06.21 um 09:29 schrieb Pekka Paalanen:
-> > On Fri, 18 Jun 2021 11:11:16 +0200
-> > Werner Sembach <wse@tuxedocomputers.com> wrote:
-> > =20
-> >> This commit implements the "Broadcast RGB" drm property for the AMD GPU
-> >> driver.
-> >>
-> >> Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
-> >> ---
-> >>  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 22 ++++++++++++++-----
-> >>  .../display/amdgpu_dm/amdgpu_dm_mst_types.c   |  4 ++++
-> >>  2 files changed, 21 insertions(+), 5 deletions(-)
-> >>
-> >> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drive=
-rs/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> >> index 9ffd2f9d3d75..c5dbf948a47a 100644
-> >> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> >> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> >> @@ -5252,7 +5252,8 @@ get_aspect_ratio(const struct drm_display_mode *=
-mode_in)
-> >>  }
-> >> =20
-> >>  static enum dc_color_space
-> >> -get_output_color_space(const struct dc_crtc_timing *dc_crtc_timing)
-> >> +get_output_color_space(const struct dc_crtc_timing *dc_crtc_timing,
-> >> +		       enum drm_mode_color_range preferred_color_range)
-> >>  {
-> >>  	enum dc_color_space color_space =3D COLOR_SPACE_SRGB;
-> >> =20
-> >> @@ -5267,13 +5268,17 @@ get_output_color_space(const struct dc_crtc_ti=
-ming *dc_crtc_timing)
-> >>  		 * respectively
-> >>  		 */
-> >>  		if (dc_crtc_timing->pix_clk_100hz > 270300) {
-> >> -			if (dc_crtc_timing->flags.Y_ONLY)
-> >> +			if (dc_crtc_timing->flags.Y_ONLY
-> >> +					|| preferred_color_range =3D=3D
-> >> +						DRM_MODE_COLOR_RANGE_LIMITED_16_235)
-> >>  				color_space =3D
-> >>  					COLOR_SPACE_YCBCR709_LIMITED;
-> >>  			else
-> >>  				color_space =3D COLOR_SPACE_YCBCR709; =20
-> > Hi,
-> >
-> > does this mean that amdgpu would be using a property named "Broadcast
-> > RGB" to control the range of YCbCr too? =20
+here's the review that you've been waiting for. Sorry for taking so long.=
+
+
+Am 07.05.21 um 11:27 schrieb KuoHsiang Chou:
+> [Bug][AST2500]
 >=20
-> Yes, because I avoided creating a new property, but I'm not really happy =
-with it either.
+> V1:
+> When AST2500 acts as stand-alone VGA so that DRAM and DVO initializatio=
+n
+> have to be achieved by VGA driver with P2A (PCI to AHB) enabling.
+> However, HW suggests disable Fast reset mode after DRAM initializaton,
+> because fast reset mode is mainly designed for ARM ICE debugger.
+> Once Fast reset is checked as enabling, WDT (Watch Dog Timer) should be=
+
+> first enabled to avoid system deadlock before disable fast reset mode.
 >=20
-> Possibility 1: Use "Broadcast RGB" for Y'CbCr too and clarify in document=
-ation
-> =C2=A0=C2=A0=C2=A0 - still confusing name
-> =C2=A0=C2=A0=C2=A0 - limited does not mean something a little bit differe=
-nt for Y'CbCr and not strictly 16-235:
-> https://www.kernel.org/doc/html/v5.12/userspace-api/media/v4l/colorspaces=
--defs.html#c.V4L.v4l2_quantization , but name
-> of option is given by preexisting property
+> V2:
+> Use to_pci_dev() to get revision of PCI configuration.
 >=20
-> Possibility 2: Deprecate "Broadcast RGB" and a a more neutral sounding "p=
-referred color range", with the more neutral
-> sounding "limited" option instead of "Limited 16:235"
-> =C2=A0=C2=A0=C2=A0 - What's the relation between the 2? pq mentioned on t=
-he amdgpu
-> gitlab that there is a posibility for userspace to have only the new
-> or the old one shown
-
-It's just an idea that we could decide to expose only one or the other
-property. It would need to be engineered in code, go through the UAPI
-validation with userspace etc. I'm not aware of this being done before
-exactly like this, but DRM client caps exist.
-
-> =C2=A0=C2=A0=C2=A0 - Alternatively ignore "Broadcast RGB" when "preferred=
- color range" is set and have them coexist?
-
-Determining "is set" means we would need "unset" value for "preferred
-color range". But there is no notion of who set it. If some KMS client
-decides to set it, then it will likely remain set, even if you next
-start another KMS client who does not use this property - it would just
-confuse users when "Broadcast RGB" silently stopped working while it
-still exists.
-
-So I don't think this is a good solution.
-
-When considering a new property, what I wrote just earlier fit here:
-https://lists.freedesktop.org/archives/dri-devel/2021-June/312248.html
-
-There are more questions that just what does the limited range actually
-mean.
-
-> > That is surprising. If this is truly wanted, then the documentation of
-> > "Broadcast RGB" must say that it applies to YCbCr too.
-> >
-> > Does amdgpu do the same as intel wrt. to the question about whose
-> > responsibility it is to make the pixels at the connector to match the
-> > set range? =20
+> V3:
+> If SCU00 is not unlocked, just enter its password again.
+> It is unnecessary to clear AHB lock condition and restore WDT default
+> setting again, before Fast-reset clearing.
 >=20
-> I guess the kernel driver does the conversion, but i have to check
-> for both.
+> V4:
+> repatch after "error : could not build fake ancestor" resolved.
 >=20
-> For Intel I did not change the behavior of Boradcast RGB, but i think
-> it's not clearly specified in the docs where the conversion happens.
+> Signed-off-by: KuoHsiang Chou <kuohsiang_chou@aspeedtech.com>
+> ---
+>   drivers/gpu/drm/ast/ast_drv.h  |  1 +
+>   drivers/gpu/drm/ast/ast_main.c |  4 ++
+>   drivers/gpu/drm/ast/ast_post.c | 68 +++++++++++++++++++++------------=
+-
+>   3 files changed, 47 insertions(+), 26 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_dr=
+v.h
+> index 911f9f414..5ebb5905d 100644
+> --- a/drivers/gpu/drm/ast/ast_drv.h
+> +++ b/drivers/gpu/drm/ast/ast_drv.h
+> @@ -346,6 +346,7 @@ bool ast_is_vga_enabled(struct drm_device *dev);
+>   void ast_post_gpu(struct drm_device *dev);
+>   u32 ast_mindwm(struct ast_private *ast, u32 r);
+>   void ast_moutdwm(struct ast_private *ast, u32 r, u32 v);
+> +void ast_patch_ahb_2500(struct ast_private *ast);
+>   /* ast dp501 */
+>   void ast_set_dp501_video_output(struct drm_device *dev, u8 mode);
+>   bool ast_backup_fw(struct drm_device *dev, u8 *addr, u32 size);
+> diff --git a/drivers/gpu/drm/ast/ast_main.c b/drivers/gpu/drm/ast/ast_m=
+ain.c
+> index 2aff2e6cf..cfb56ea3a 100644
+> --- a/drivers/gpu/drm/ast/ast_main.c
+> +++ b/drivers/gpu/drm/ast/ast_main.c
+> @@ -97,6 +97,10 @@ static void ast_detect_config_mode(struct drm_device=
+ *dev, u32 *scu_rev)
+>   	jregd0 =3D ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xd0, 0xff)=
+;
+>   	jregd1 =3D ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xd1, 0xff)=
+;
+>   	if (!(jregd0 & 0x80) || !(jregd1 & 0x10)) {
+> +		/* Patch AST2500 */
+> +		if (((pdev->revision & 0xF0) =3D=3D 0x40) && ((jregd0 & 0xC0) =3D=3D=
+ 0))
 
-Right, at the very least the current behaviour needs to be documented
-before enrolling this property to any more drivers, so that those
-drivers can then be reviewed to work the same way.
+These magic numbers are hard to read. Is there any way of make it more=20
+clear what we're testing for? Constants? Helper functions?
 
-You notice I didn't actually answer your question 1 or 2. I don't know.
-Going with 1 is easy compared to 2, even if the names are awkward but
-it technically shouldn't cause any problems. 2 may or may not be
-better, and until we have answers to which design is better, it's maybe
-best to leave option 2 alone?
+> +			ast_patch_ahb_2500(ast);
+> +
+>   		/* Double check it's actually working */
+>   		data =3D ast_read32(ast, 0xf004);
+>   		if ((data !=3D 0xFFFFFFFF) && (data !=3D 0x00)) {
+> diff --git a/drivers/gpu/drm/ast/ast_post.c b/drivers/gpu/drm/ast/ast_p=
+ost.c
+> index 0607658dd..56428798a 100644
+> --- a/drivers/gpu/drm/ast/ast_post.c
+> +++ b/drivers/gpu/drm/ast/ast_post.c
+> @@ -2028,6 +2028,30 @@ static bool ast_dram_init_2500(struct ast_privat=
+e *ast)
+>   	return true;
+>   }
+>=20
+> +void ast_patch_ahb_2500(struct ast_private *ast)
+> +{
+> +	u32	data;
+
+Only a single space after the type.
+
+> +
+> +	/* Clear bus lock condition */
+> +	ast_moutdwm(ast, 0x1e600000, 0xAEED1A03);
+> +	ast_moutdwm(ast, 0x1e600084, 0x00010000);
+> +	ast_moutdwm(ast, 0x1e600088, 0x00000000);
+> +	ast_moutdwm(ast, 0x1e6e2000, 0x1688A8A8);
+> +	data =3D ast_mindwm(ast, 0x1e6e2070);
+> +	if (data & 0x08000000) {					/* check fast reset */
+> +
+
+No empty line here.
+
+> +		ast_moutdwm(ast, 0x1E785004, 0x00000010);
+> +		ast_moutdwm(ast, 0x1E785008, 0x00004755);
+> +		ast_moutdwm(ast, 0x1E78500c, 0x00000033);
+> +		udelay(1000);
+> +	}
+> +	do {
+> +		ast_moutdwm(ast, 0x1e6e2000, 0x1688A8A8);
+> +		data =3D ast_mindwm(ast, 0x1e6e2000);
+> +	}	while (data !=3D 1);
+> +	ast_moutdwm(ast, 0x1e6e207c, 0x08000000);	/* clear fast reset */
+> +}
+> +
+>   void ast_post_chip_2500(struct drm_device *dev)
+>   {
+>   	struct ast_private *ast =3D to_ast_private(dev);
+> @@ -2035,39 +2059,31 @@ void ast_post_chip_2500(struct drm_device *dev)=
+
+>   	u8 reg;
+>=20
+>   	reg =3D ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xd0, 0xff);
+> -	if ((reg & 0x80) =3D=3D 0) {/* vga only */
+> +	if ((reg & 0xC0) =3D=3D 0) {/* vga only */
+
+Why this change?
+
+>   		/* Clear bus lock condition */
+> -		ast_moutdwm(ast, 0x1e600000, 0xAEED1A03);
+> -		ast_moutdwm(ast, 0x1e600084, 0x00010000);
+> -		ast_moutdwm(ast, 0x1e600088, 0x00000000);
+> -		ast_moutdwm(ast, 0x1e6e2000, 0x1688A8A8);
+> -		ast_write32(ast, 0xf004, 0x1e6e0000);
+> -		ast_write32(ast, 0xf000, 0x1);
+> -		ast_write32(ast, 0x12000, 0x1688a8a8);
+> -		while (ast_read32(ast, 0x12000) !=3D 0x1)
+> -			;
+> -
+> -		ast_write32(ast, 0x10000, 0xfc600309);
+> -		while (ast_read32(ast, 0x10000) !=3D 0x1)
+> -			;
+> +		ast_patch_ahb_2500(ast);
+
+You're calling this function here, but it's different from the old code.
+
+> +
+> +		/* Disable watchdog */
+> +		ast_moutdwm(ast, 0x1E78502C, 0x00000000);
+> +		ast_moutdwm(ast, 0x1E78504C, 0x00000000);
+> +		/* Reset USB port */
+
+Reset USB port? In the graphics driver?
 
 
-Thanks,
-pq
+The whole gpu post/init code is undecipherable to me. It's full of magic =
 
---Sig_/9t65WvBL3CHONVstlbG_ova
-Content-Type: application/pgp-signature
+numbers that are nowhere documented.
+
+
+Therefore, the overall problem with this patch is that I have no idea=20
+what the actual bug fix is.
+  Is it possible to first refactor that code a bit and then add a=20
+minimal fix?
+
+Best regards
+Thomas
+
+
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--dK607Pj6UoSX1Io7cPHv2ETyMyVM3gZqY--
+
+--XoCxvESSzGROz96aYRgLc4sMrIB5s8baV
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmDS6nQACgkQI1/ltBGq
-qqchjQ//UhWP/scpD6nbt+KCsdHLrYGMFqmi8iFTG/Zhl+XDBib1UkOYt0zH5IVo
-i9Ag05LEaNmGK51xuDZ65wAyjyEY66T3tvcZyM6Wb+y+Au7DWTTEA5v3I4VmTD87
-tSHHvAFEKtgUdukSpoemhEUuxlCad/sOqLbA0D/ykX2osM7eLiy3ViSZdjxT0Nyt
-0KIhgfVQ4t5Df/uzjRHOISj6kzgUx/pZrBwwY/9c7vZ5hIzkJahEmYhOxXggMX4w
-beZPHa12peZ+zom8Y94aW51WK85qoFYJ8F9Lq+Yb0NcMiKpK5qk+u4n1We1obbuG
-KePy6Ctwbz2QzDsi2PBIpHHYIdEh3mZpQa8RU4bWIHYFaI6aAg/CMR46jnUMzjrw
-DklDzxcd/l5/HnokBVRbHjTrks0J379KY6o85ZWyg4cUJOhcbmPEC24H7NDUpZzd
-pq6LctfNTEMMeOB8DY975tNr3UYaR7hfP00iXGUC+15s0buqBhKFMcfyZ4O6dGyo
-/xjX35DrGoB31aOQdLevPh6Nd+682PmwwrtAGAC/h9T+NQ2X2B7WrirBDhkhxlC7
-PW7sHpyFpLBInTjOuiavpV8bd6M/cd0nONzxJQTrtw5TP7c8kuGGdC4vYplW5gtT
-aPUsotdeQxloZvgk8oewjvHuIB/acDz+5GDM/4YhIpjCAH2ee80=
-=9bA4
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmDS6rIFAwAAAAAACgkQlh/E3EQov+AE
+jg/+IjVJSMPLxj1McO4GIUHbojvxbCbNworeTaZxTRoa595IYR8hAwetni2MOSBX1s8gOOWyOO8e
+vGJGzx+VBJK6zuKaclEQz4Hsy3jOWrEtAwmRfXnVynH4BJMUjTQIkRfUo+hu6R8dtHOHBCwR99n6
+ff1YtWK2Ug3YC2ZjRRHUmRBP5QPGwWyYLMKg1jWbRDT/I/ETkWO7DyVJiVHHZAjZwiYkY/xDwzSI
+SVr9CbpkkXe0bDkpN/0DihqAN6P9Plqa/oyqwj9B3xJYq2YsoY6jPKpHN75rgAikcvgvCr5eB7Jk
+d3K1PWHgm3tBmB1UcCUfljoC+oakJwN/DFvBxGABVEa1jntLsnCch6m3W0hHb9rcKsAjTz5PA5HE
+RscN/1IBtk/0ryB2haoNWjwF2WEiDOvtOQpxoK45C3LcDCU1wHw+qtunB8gyXPwsxqOZrtoLCcef
+N9EU73nbgHGorEre1sLaEpSzvVitVwWl12usmDtz5t5ZsrQNf7sEuZ3APXhlsloMir0q/GrZ0Y4w
+pAl5atIYxOFyLdVOTiQOyrFmFUUrDBb8j599ksPc/c8wMU9dvnCT3gT7qkVgb+tD6Xu9T2SzGydy
+P5K8jQwmyXXP+u7E4hH9U6QeDyYtDTmJuFWo+V7d7dHpXdBG4Jw9+XLgS9Tze/MVFQ+KmZEdXKZQ
+Khw=
+=UWZk
 -----END PGP SIGNATURE-----
 
---Sig_/9t65WvBL3CHONVstlbG_ova--
+--XoCxvESSzGROz96aYRgLc4sMrIB5s8baV--
