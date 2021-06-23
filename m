@@ -2,59 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C034A3B20A8
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Jun 2021 20:50:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A988B3B20B6
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Jun 2021 21:00:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 025E36E972;
-	Wed, 23 Jun 2021 18:50:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 91E1E6E97C;
+	Wed, 23 Jun 2021 19:00:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x730.google.com (mail-qk1-x730.google.com
- [IPv6:2607:f8b0:4864:20::730])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3628F6E972
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Jun 2021 18:50:47 +0000 (UTC)
-Received: by mail-qk1-x730.google.com with SMTP id o6so7845618qkh.4
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Jun 2021 11:50:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=A9I072mZJre1TS+IQKbZNgSu5AaMK7P2E0lmk7a57z4=;
- b=b5e3Vs0J8hbfUScY+Wtfo2QnoFw5zQRvSxFua4X+zv6sZmqniXxjtckK2oI0DJ0jKp
- +FpDq4XgR5FvYz5KhFDvESo6/vvn5bGvgGZWSgiYdS8/PfbLxpaqI3o9lhVUAZxmPK5T
- nDlzhXlXLqlvJVTPQVPebRcUOY8aDMfSl2n44EWIYFP7pJbCLgzg7CgH7naHE97q6TC2
- fZXUfMee0Dfy9rvfoVtazaR6R+Q7ESYAYIdPD2TcTnMWbmqWi3fqt48BxyEAqBINSR6Y
- /GKjFQQmTzpnkbtvp/1Ez+q16SM92SVKit9WzRj/wJHNz3K/lD3bYob3W0EWe1zfdvXM
- mlxA==
+Received: from mail-oi1-x233.google.com (mail-oi1-x233.google.com
+ [IPv6:2607:f8b0:4864:20::233])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6BF4C6E97C;
+ Wed, 23 Jun 2021 19:00:56 +0000 (UTC)
+Received: by mail-oi1-x233.google.com with SMTP id r16so4496191oiw.3;
+ Wed, 23 Jun 2021 12:00:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=HU0njkEAFXSJ+n1VhC5vO37YX20GbDuiyUcRu8p0LjY=;
+ b=rM3WDg9MMATVrxXbwamjLp8MYkt3nKZzzeXshLf8ILv5x6LgyXo2blESNLQIVeXsFD
+ rpjPxLKs1h6HOwdPV14GthqwAemSKTrfW+nY32gCA+UIpPY6ihPofAgehpg7681KUIJo
+ IxLdr13iGdEUHDNjN933QVGA/I/zGKtjSXUCfl9XFFp8gtAZxYi7iB3TIHJWaw+D725M
+ voWKL6spbhaM8cvdeDxt2zl3XvfYn/ragq8k6CV6q9O/DUtK/a5Pnmd6TVv8UhbanjwQ
+ P4Fo52HgvmP31qSnkL1NysqPThoMiJhTwMPxGzMMAHosCkhwP6CH4HFv2r6M9U3QsvSH
+ iaew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=A9I072mZJre1TS+IQKbZNgSu5AaMK7P2E0lmk7a57z4=;
- b=MipsAViBB1t88jcfsX8Ne6h5n+n8X1CUwv4P6VtbdsZZ9BLW46FS7nD7F88G1n3D9R
- dwQAclFLCCV2xilxGTly3FoutT+Ll8yOCMCt6xCE5N5CaevUVCgS57XFjZKkXtKgDeA1
- HxZvzWt3Rya+5k7T10DjomJIB2FvbAM5xQwwhJ1KBZTcsGbrWeUmAnwPVX3jEsFGjOnm
- xYL4T8R+KyDOEjGBM5ayr+n8hDC81pEevjDA6ykjApULlS7CUKfBknkKH1JF+Q94FPEC
- MtfjSL7fMncZ0uRTyiQP5KhC0pjMFS/cxjJnsoPVnvJpdiuHovPj63fvpnkRXBBlMxpU
- vy8w==
-X-Gm-Message-State: AOAM5339b9c9Up4AtTLSL4DVx9I80bI1400zddEBnHgGIIz/oTsdFbli
- 5knXAghdBR04H2TEitgBEdJvrA==
-X-Google-Smtp-Source: ABdhPJy26aLIQNDGYzv9yUWJkE1S7Ng46xlnu9FBhglctMci0BMRl57bB82kjnJJ4TuniXpuKS76ig==
-X-Received: by 2002:a37:5cc6:: with SMTP id q189mr1519218qkb.305.1624474246361; 
- Wed, 23 Jun 2021 11:50:46 -0700 (PDT)
-Received: from ziepe.ca
- (hlfxns017vw-47-55-113-94.dhcp-dynamic.fibreop.ns.bellaliant.net.
- [47.55.113.94])
- by smtp.gmail.com with ESMTPSA id y18sm503840qtx.6.2021.06.23.11.50.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Jun 2021 11:50:45 -0700 (PDT)
-Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
- id 1lw7xV-00Blq0-8k; Wed, 23 Jun 2021 15:50:45 -0300
-Date: Wed, 23 Jun 2021 15:50:45 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Oded Gabbay <oded.gabbay@gmail.com>
-Subject: Re: [Linaro-mm-sig] [PATCH v3 1/2] habanalabs: define uAPI to export
- FD for DMA-BUF
-Message-ID: <20210623185045.GY1096940@ziepe.ca>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=HU0njkEAFXSJ+n1VhC5vO37YX20GbDuiyUcRu8p0LjY=;
+ b=l94RDj8IPWR8z0Ovqa7/zcLwSByTh8N2p+IDavhmn2duqdryVGIKXFqzI6pnWcGUKh
+ aUsglEmdHqFoVeoeEq7ykKeogLSTfj70aQhLDVYhgCdcQSEJ0W3w9/qt7yhXrfeZ1yho
+ /PN/RQEIw1YqUsont5e8BAQtU8/UD5OqJBdgnpzVWuAdNzZdyK0kXGmTxIBLaNENhz4Q
+ IR6eKB3+LWh6vxuFCBKZebS7cPth4Mv/4Sc4yock+ZNc7d68T3QSRbvgdEKEWuueJ+Og
+ U+gsUYtzfLji8BnkMZADQ3RWI6uUny4ZsPYpJEJv0fgMqYSs441tvT31hb4LOpZDLcAD
+ 9yrw==
+X-Gm-Message-State: AOAM532C7cmEZScv+9hGD8CvA0W8uwlcxuNcRiR4M8CPUwFOtrt4rnAh
+ EvVLLbK4vVKMV2XL1vwieAXbe+PZHmPH2kDI0GU=
+X-Google-Smtp-Source: ABdhPJwZaqDGEAw39pokh5wKazMtsYd0U8zjcFHkgl/u/5WFqx2ojdszUYddCg8iZJyKUS2V1hzOATZO27SCBKnlQ9E=
+X-Received: by 2002:aca:ac02:: with SMTP id v2mr4495297oie.154.1624474855653; 
+ Wed, 23 Jun 2021 12:00:55 -0700 (PDT)
+MIME-Version: 1.0
 References: <20210622120142.GL1096940@ziepe.ca>
  <d497b0a2-897e-adff-295c-cf0f4ff93cb4@amd.com>
  <20210622152343.GO1096940@ziepe.ca>
@@ -65,10 +51,15 @@ References: <20210622120142.GL1096940@ziepe.ca>
  <d600a638-9e55-6249-b574-0986cd5cea1e@gmail.com>
  <20210623182435.GX1096940@ziepe.ca>
  <CAFCwf111O0_YB_tixzEUmaKpGAHMNvMaOes2AfMD4x68Am4Yyg@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAFCwf111O0_YB_tixzEUmaKpGAHMNvMaOes2AfMD4x68Am4Yyg@mail.gmail.com>
+ <20210623185045.GY1096940@ziepe.ca>
+In-Reply-To: <20210623185045.GY1096940@ziepe.ca>
+From: Oded Gabbay <oded.gabbay@gmail.com>
+Date: Wed, 23 Jun 2021 22:00:29 +0300
+Message-ID: <CAFCwf12tW_WawFfAfrC8bgVhTRnDA7DuM+0V8w3JsUZpA2j84w@mail.gmail.com>
+Subject: Re: [Linaro-mm-sig] [PATCH v3 1/2] habanalabs: define uAPI to export
+ FD for DMA-BUF
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,11 +73,11 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: linux-rdma <linux-rdma@vger.kernel.org>,
- Christian =?utf-8?B?S8O2bmln?= <ckoenig.leichtzumerken@gmail.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
  sleybo@amazon.com, Leon Romanovsky <leonro@nvidia.com>,
  Gal Pressman <galpress@amazon.com>,
  dri-devel <dri-devel@lists.freedesktop.org>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
  "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
  Doug Ledford <dledford@redhat.com>, Tomer Tayar <ttayar@habana.ai>,
  amd-gfx list <amd-gfx@lists.freedesktop.org>,
@@ -97,31 +88,46 @@ Cc: linux-rdma <linux-rdma@vger.kernel.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 23, 2021 at 09:43:04PM +0300, Oded Gabbay wrote:
+On Wed, Jun 23, 2021 at 9:50 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
+>
+> On Wed, Jun 23, 2021 at 09:43:04PM +0300, Oded Gabbay wrote:
+>
+> > Can you please explain why it is so important to (allow) access them
+> > through the CPU ?
+>
+> It is not so much important, as it reflects significant design choices
+> that are already tightly baked into alot of our stacks.
+>
+> A SGL is CPU accessible by design - that is baked into this thing and
+> places all over the place assume it. Even in RDMA we have
+> RXE/SWI/HFI1/qib that might want to use the CPU side (grep for sg_page
+> to see)
+>
+> So, the thing at the top of the stack - in this case the gaudi driver
+> - simply can't assume what the rest of the stack is going to do and
+> omit the CPU side. It breaks everything.
+>
+> Logan's patch series is the most fully developed way out of this
+> predicament so far.
 
-> Can you please explain why it is so important to (allow) access them
-> through the CPU ?
+I understand the argument and I agree that for the generic case, the
+top of the stack can't assume anything.
+Having said that, in this case the SGL is encapsulated inside a dma-buf object.
 
-It is not so much important, as it reflects significant design choices
-that are already tightly baked into alot of our stacks. 
+Maybe its a stupid/over-simplified suggestion, but can't we add a
+property to the dma-buf object,
+that will be set by the exporter, which will "tell" the importer it
+can't use any CPU fallback ? Only "real" p2p ?
+Won't that solve the problem by eliminating the unsupported access methods ?
 
-A SGL is CPU accessible by design - that is baked into this thing and
-places all over the place assume it. Even in RDMA we have
-RXE/SWI/HFI1/qib that might want to use the CPU side (grep for sg_page
-to see)
+Oded
 
-So, the thing at the top of the stack - in this case the gaudi driver
-- simply can't assume what the rest of the stack is going to do and
-omit the CPU side. It breaks everything.
-
-Logan's patch series is the most fully developed way out of this
-predicament so far.
-
-> The whole purpose is that the other device accesses my device,
-> bypassing the CPU.
-
-Sure, but you don't know that will happen, or if it is even possible
-in any given system configuration. The purpose is to allow for that
-optimization when possible, not exclude CPU based approaches.
-
-Jason
+>
+> > The whole purpose is that the other device accesses my device,
+> > bypassing the CPU.
+>
+> Sure, but you don't know that will happen, or if it is even possible
+> in any given system configuration. The purpose is to allow for that
+> optimization when possible, not exclude CPU based approaches.
+>
+> Jason
