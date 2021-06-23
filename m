@@ -1,63 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B97143B191C
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Jun 2021 13:40:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DC683B1925
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Jun 2021 13:41:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB8826E0AA;
-	Wed, 23 Jun 2021 11:40:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC5566E8B5;
+	Wed, 23 Jun 2021 11:41:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com
- [IPv6:2607:f8b0:4864:20::1030])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C79B06E0AA;
- Wed, 23 Jun 2021 11:40:24 +0000 (UTC)
-Received: by mail-pj1-x1030.google.com with SMTP id k5so1357812pjj.1;
- Wed, 23 Jun 2021 04:40:24 -0700 (PDT)
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
+ [IPv6:2a00:1450:4864:20::12d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8AC5F6E8B5
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Jun 2021 11:41:21 +0000 (UTC)
+Received: by mail-lf1-x12d.google.com with SMTP id j4so3550353lfc.8
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Jun 2021 04:41:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=e89hcvZxRiZ5Blo85VTbkHd9GG4LouPsbTHXMkcWyoA=;
- b=GUe02DZwLNPH+YH8e7LGBVS0m9GuJs2I9/9dFCM8PDKKxf2DN9SmmFZlSvMiqVNlI/
- 2IUEbufssijeyZaOdte0eleZpH5yXYPuMhK3nTOCtS/0UtdcUc07/DPfDlzcVgFDql7C
- 1Brkhjb7SeqWj5S6o8wwac6fZhXnULmFxEc6t31ui0lUVUAh26r/OFSRwe1zL8TDbjJy
- 9+RYMLWgNd3TMmd2zkPbI7DTRLVAzn7/ha1qNSO5QYnRTLMnnAl1crfQpS4/rikZPssI
- jplCn7nwnuFZmlPf9Ar/sXnhYOSG32HDXOWTel1cBrNhaz4MUIpFO0pdgSTp4fGyShNS
- wScw==
+ h=date:from:to:cc:subject:message-id:in-reply-to:references
+ :mime-version; bh=4jXNkZBkJCroCZHEHJk4Yl0iihmMmzV2M0MO5HkyT6Q=;
+ b=YYkBUkBpU74bPcyMCofnr6vYjMEV/taXJMbO203C+UhmzYMZlLtfIj6jjYVfkot34R
+ FRyZMgx0hOwJNSjaJgn3ZOrlsluA8fZdlaumVe0xerzgjPQJxZrJa4mtYIAs/LaBOTbo
+ ewVkZ9FycNDqwmYWW6cgAHTtmI0xJHp4OCk2qEJOoT+tBqJtDXzz0iaNEK77VOU/eCRD
+ lUWBEWcMnE40AGTXpElCm1wymHKCcpGZ3gAdO1qxfGTqFqGb+wIM2iy9eFKW2LZ0lffi
+ SbtHGSiq/ZNnIBSpy+Q1eRqbzNjFSx6103ZvlmIIE5VySWxlOozjSZX6LO5Iu9FC8FWL
+ a3aQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=e89hcvZxRiZ5Blo85VTbkHd9GG4LouPsbTHXMkcWyoA=;
- b=HTrUriCfeCJXKTwYkc47R+F877lMTg4OXDeiAh73UfUQT/1jck2nIeMTEu1wYhjV9q
- lwu+C8iSL/GS/ZBGtDSg6PbgXET56rbnELt/zLf3gKkvJU95g+igT/VSBaeWpdahkSBA
- dyAY5ew6MdOVvziloALPFoF7d6nIQGmEpNa4c6vjub9KbCxC5RV3dQOZ90CpQQE754In
- NTknMIXch/c2F95nDUS1st9sKhok1pi3/oVEVUlTNBkWcjdVGInTVjvuLDk/LcklJZ3T
- x219dY+VnRwmlWfd8p8dNCCQ6fR2XHjaefd1ks3xUo1ogXiHzZMAwXv+acv4xCqXAdst
- xUbw==
-X-Gm-Message-State: AOAM5306kCnk2fbH1B1RsGIlrm+EYb+7DRuObZE41UWFmHNEVVWI3829
- b2MfvDHmArOzdGdrYBd7w/g=
-X-Google-Smtp-Source: ABdhPJz7D3G423F2XdXK7xPLPTEuZoxa7gP2otRVxlBL2I9EoGrSsrQvX/LaIwT72jV3PIVGIuTUZA==
-X-Received: by 2002:a17:90a:8a13:: with SMTP id
- w19mr9084338pjn.227.1624448424388; 
- Wed, 23 Jun 2021 04:40:24 -0700 (PDT)
-Received: from localhost.localdomain ([118.200.190.93])
- by smtp.gmail.com with ESMTPSA id u12sm5368922pjc.0.2021.06.23.04.40.19
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version;
+ bh=4jXNkZBkJCroCZHEHJk4Yl0iihmMmzV2M0MO5HkyT6Q=;
+ b=P/2S7bhu3i0krw5daZ2UvQ45cu1b9LRDLnjra4Axrzo+qmI+ny535M2mg3kyEd2llv
+ R8TPOILw/eUVj3gaN59eLUjWjG+Quc6ttRSzQPQb8n6DWHxmX564a++/LI1XkLt8Kdse
+ qxJAsCTyy36SzZMUX5LxUAPlxLQIJUevOF6zWKL3dUqMTD3hdcR4q/hFvz/2eZpqds3L
+ UKQ9QS5+kQHz+pGjQHgfB08ztJQWeCPpN6kzolLtwo+KOOYT0DlkgmuCKNDg5cYaHay6
+ QAjPHdmyH2OHpTFEobuXpdLCnJeDRZUo9ZMrUTnEwJmf3Sie5VqFNN/SyGFDlV5v6S7G
+ IiiA==
+X-Gm-Message-State: AOAM533S8zg2NAissvlSqOD3N/9kP+2XkTr7aYSa8lKyqt9cBsB/O4xv
+ gxx98nQF7RF+hk3pGUTA4Zc=
+X-Google-Smtp-Source: ABdhPJzQLBEqhzr9/Fy6xHJQZ8lzEEnYgFyW2SIS8NS68pVkr6MWIEVK/UvsgUwXnzeArDL4SiA5+A==
+X-Received: by 2002:a05:6512:1191:: with SMTP id
+ g17mr4457991lfr.347.1624448479689; 
+ Wed, 23 Jun 2021 04:41:19 -0700 (PDT)
+Received: from eldfell ([194.136.85.206])
+ by smtp.gmail.com with ESMTPSA id c12sm2067401lfc.32.2021.06.23.04.41.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Jun 2021 04:40:23 -0700 (PDT)
-From: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
-To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@linux.ie, daniel@ffwll.ch, sumit.semwal@linaro.org,
- christian.koenig@amd.com
-Subject: [PATCH v4 2/2] drm: protect drm_master pointers in drm_lease.c
-Date: Wed, 23 Jun 2021 19:37:40 +0800
-Message-Id: <20210623113740.6260-3-desmondcheongzx@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210623113740.6260-1-desmondcheongzx@gmail.com>
-References: <20210623113740.6260-1-desmondcheongzx@gmail.com>
+ Wed, 23 Jun 2021 04:41:19 -0700 (PDT)
+Date: Wed, 23 Jun 2021 14:41:15 +0300
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Esaki Tomohito <etom@igel.co.jp>
+Subject: Re: [PATH 0/4] [RFC] Support virtual DRM
+Message-ID: <20210623144115.1bc55db1@eldfell>
+In-Reply-To: <ab816c34-ff98-911f-e53d-b91cd3be6f2b@igel.co.jp>
+References: <20210621062742.26073-1-etom@igel.co.jp>
+ <7cde82a9-c60c-e527-eeac-eaad0c5842a1@metux.net>
+ <1cfab5f9-f275-aa53-00de-5da3fcea71c5@igel.co.jp>
+ <20210622111239.73aa87aa@eldfell>
+ <ee0161b5-c88b-40ce-c02f-86e0927b70bb@igel.co.jp>
+ <20210623113922.1e603139@eldfell>
+ <ab816c34-ff98-911f-e53d-b91cd3be6f2b@igel.co.jp>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; boundary="Sig_/ljMzJSbhx05gG.4fz0yC81V";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,363 +74,143 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, gregkh@linuxfoundation.org,
- intel-gfx@lists.freedesktop.org, emil.l.velikov@gmail.com,
+Cc: devicetree@vger.kernel.org, Takanari Hayama <taki@igel.co.jp>,
+ linux-doc@vger.kernel.org, David Airlie <airlied@linux.ie>,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, skhan@linuxfoundation.org,
- Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
- linux-kernel-mentees@lists.linuxfoundation.org, linux-media@vger.kernel.org
+ linux-renesas-soc@vger.kernel.org,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, "Enrico Weigelt,
+ metux IT consult" <lkml@metux.net>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Damian Hobson-Garcia <dhobsong@igel.co.jp>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently, direct copies of drm_file->master pointers should be
-protected by drm_device.master_mutex when being dereferenced. This is
-because drm_file->master is not invariant for the lifetime of
-drm_file. If drm_file is not the creator of master, then
-drm_file->is_master is false, and a call to drm_setmaster_ioctl will
-invoke drm_new_set_master, which then allocates a new master for
-drm_file and puts the old master.
+--Sig_/ljMzJSbhx05gG.4fz0yC81V
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Thus, without holding drm_device.master_mutex, the old value of
-drm_file->master could be freed while it is being used by another
-concurrent process.
+On Wed, 23 Jun 2021 18:22:47 +0900
+Esaki Tomohito <etom@igel.co.jp> wrote:
 
-In drm_lease.c, there are multiple instances where drm_file->master is
-accessed and dereferenced while drm_device.master_mutex is not
-held. This makes drm_lease.c vulnerable to use-after-free bugs.
+> On 2021/06/23 17:39, Pekka Paalanen wrote:
+> > On Wed, 23 Jun 2021 15:56:05 +0900
+> > Esaki Tomohito <etom@igel.co.jp> wrote:
+> >  =20
+> >> Hi,
+> >> Thank you all for your comments.
+> >>
+> >> On 2021/06/22 17:12, Pekka Paalanen wrote: =20
+> >>> On Tue, 22 Jun 2021 13:03:39 +0900
+> >>> Esaki Tomohito <etom@igel.co.jp> wrote:
+> >>>    =20
+> >>>> Hi, Enrico Weigelt
+> >>>> Thank you for reply.
+> >>>>
+> >>>> On 2021/06/22 1:05, Enrico Weigelt, metux IT consult wrote:   =20
+> >>>>> On 21.06.21 08:27, Tomohito Esaki wrote:
+> >>>>>
+> >>>>> Hi,
+> >>>>>      =20
+> >>>>>> Virtual DRM splits the overlay planes of a display controller into=
+ multiple
+> >>>>>> virtual devices to allow each plane to be accessed by each process.
+> >>>>>>
+> >>>>>> This makes it possible to overlay images output from multiple proc=
+esses on a
+> >>>>>> display. For example, one process displays the camera image withou=
+t compositor
+> >>>>>> while another process overlays the UI.     =20
+> >>>>>
+> >>>>> Are you attempting to create an simple in-kernel compositor ?     =
+=20
+> >>>>
+> >>>> I think the basic idea is the same as DRMlease.   =20
+> >>>
+> >>> Hi,
+> >>>
+> >>> indeed. Why not use DRM leases instead?
+> >>>    =20
+> >>
+> >> In this use case, I understand that this is not possible with DRM leas=
+e,
+> >> am I wrong?
+> >> I understand that it=E2=80=99s not possible to lease a plane and updat=
+e planes
+> >> on the same output independently from different processes in current D=
+RM
+> >> lease.
+> >>
+> >> If this is correct, what do you think of adding support for plane leas=
+es
+> >> to the DRM lease to handle this case? =20
+> >=20
+> > Hi,
+> >=20
+> > I would love to see support added for leasing individual planes,
+> > especially to replace the virtual DRM proposal which seems to be
+> > eradicating everything that atomic modesetting and nuclear pageflip
+> > have built over the many years.
+> >=20
+> > However, please note that "on the same output independently" is
+> > physically impossible. Semantically, the planes define what a CRTC
+> > scans out, and the CRTC defines the scanout timings. Therefore it is not
+> > possible to update individual planes independently, they will all
+> > always share the timings of the CRTC.
+> >=20
+> > That combined with KMS not allowing multiple updates to be queued at
+> > the same time for the same CRTC (atomic commits and legacy pageflips
+> > returning EBUSY) makes the plane updates very much inter-dependent.
+> >=20
+> > If you want to avoid EBUSY and have planes update on the vblank you
+> > intended, you really need a userspace compositor to pull everything
+> > together *before* submitting anything to the kernel. =20
+>=20
+> Hi,
+>=20
+> Thank you for your comments and advice.
+> I will consider leasing a plane.
 
-We address this issue in 3 ways:
+Hi,
 
-1. Clarify in the kerneldoc that drm_file->master is protected by
-drm_device.master_mutex.
+I wish you considered a userspace compositor first, once more, with
+passion.
 
-2. Add a new drm_file_get_master() function that calls drm_master_get
-on drm_file->master while holding on to drm_device.master_mutex. Since
-drm_master_get increments the reference count of master, this
-prevents master from being freed until we unreference it with
-drm_master_put.
+It does not need to be Weston, and it does not need to use Wayland.
+Just a userspace daemon that owns the whole display device and somehow
+talks to whatever else wants stuff on screen.
 
-3. In each case where drm_file->master is directly accessed and
-eventually dereferenced in drm_lease.c, we wrap the access in a call
-to the new drm_file_get_master function, then unreference the master
-pointer once we are done using it.
+I have not seen any evidence that leasing individual planes would do
+you any good. I can easily see it doing you harm. I'm only saying that
+it would be better than the virtual DRM proposal if you absolutely have
+to go there. Please, consider not going there at all.
 
-Reported-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
----
- drivers/gpu/drm/drm_auth.c  | 25 ++++++++++++
- drivers/gpu/drm/drm_lease.c | 77 +++++++++++++++++++++++++++----------
- include/drm/drm_auth.h      |  1 +
- include/drm/drm_file.h      | 15 ++++++--
- 4 files changed, 95 insertions(+), 23 deletions(-)
+"On the same output independently" is not possible for the very simple
+reason that the pixel data needs to be streamed serially to a monitor.
 
-diff --git a/drivers/gpu/drm/drm_auth.c b/drivers/gpu/drm/drm_auth.c
-index ab1863c5a5a0..c36a0b72be26 100644
---- a/drivers/gpu/drm/drm_auth.c
-+++ b/drivers/gpu/drm/drm_auth.c
-@@ -384,6 +384,31 @@ struct drm_master *drm_master_get(struct drm_master *master)
- }
- EXPORT_SYMBOL(drm_master_get);
- 
-+/**
-+ * drm_file_get_master - reference &drm_file.master of @file_priv
-+ * @file_priv: DRM file private
-+ *
-+ * Increments the reference count of @file_priv's &drm_file.master and returns
-+ * the &drm_file.master. If @file_priv has no &drm_file.master, returns NULL.
-+ *
-+ * Master pointers returned from this function should be unreferenced using
-+ * drm_master_put().
-+ */
-+struct drm_master *drm_file_get_master(struct drm_file *file_priv)
-+{
-+	struct drm_master *master = NULL;
-+
-+	mutex_lock(&file_priv->minor->dev->master_mutex);
-+	if (!file_priv->master)
-+		goto unlock;
-+	master = drm_master_get(file_priv->master);
-+
-+unlock:
-+	mutex_unlock(&file_priv->minor->dev->master_mutex);
-+	return master;
-+}
-+EXPORT_SYMBOL(drm_file_get_master);
-+
- static void drm_master_destroy(struct kref *kref)
- {
- 	struct drm_master *master = container_of(kref, struct drm_master, refcount);
-diff --git a/drivers/gpu/drm/drm_lease.c b/drivers/gpu/drm/drm_lease.c
-index 00fb433bcef1..cdcc87fa9685 100644
---- a/drivers/gpu/drm/drm_lease.c
-+++ b/drivers/gpu/drm/drm_lease.c
-@@ -106,10 +106,19 @@ static bool _drm_has_leased(struct drm_master *master, int id)
-  */
- bool _drm_lease_held(struct drm_file *file_priv, int id)
- {
--	if (!file_priv || !file_priv->master)
-+	bool ret;
-+	struct drm_master *master;
-+
-+	if (!file_priv)
- 		return true;
- 
--	return _drm_lease_held_master(file_priv->master, id);
-+	master = drm_file_get_master(file_priv);
-+	if (master == NULL)
-+		return true;
-+	ret = _drm_lease_held_master(master, id);
-+	drm_master_put(&master);
-+
-+	return ret;
- }
- 
- /**
-@@ -128,13 +137,20 @@ bool drm_lease_held(struct drm_file *file_priv, int id)
- 	struct drm_master *master;
- 	bool ret;
- 
--	if (!file_priv || !file_priv->master || !file_priv->master->lessor)
-+	if (!file_priv)
- 		return true;
- 
--	master = file_priv->master;
-+	master = drm_file_get_master(file_priv);
-+	if (master == NULL)
-+		return true;
-+	if (!master->lessor) {
-+		drm_master_put(&master);
-+		return true;
-+	}
- 	mutex_lock(&master->dev->mode_config.idr_mutex);
- 	ret = _drm_lease_held_master(master, id);
- 	mutex_unlock(&master->dev->mode_config.idr_mutex);
-+	drm_master_put(&master);
- 	return ret;
- }
- 
-@@ -154,10 +170,16 @@ uint32_t drm_lease_filter_crtcs(struct drm_file *file_priv, uint32_t crtcs_in)
- 	int count_in, count_out;
- 	uint32_t crtcs_out = 0;
- 
--	if (!file_priv || !file_priv->master || !file_priv->master->lessor)
-+	if (!file_priv)
- 		return crtcs_in;
- 
--	master = file_priv->master;
-+	master = drm_file_get_master(file_priv);
-+	if (master == NULL)
-+		return crtcs_in;
-+	if (!master->lessor) {
-+		drm_master_put(&master);
-+		return crtcs_in;
-+	}
- 	dev = master->dev;
- 
- 	count_in = count_out = 0;
-@@ -176,6 +198,7 @@ uint32_t drm_lease_filter_crtcs(struct drm_file *file_priv, uint32_t crtcs_in)
- 		count_in++;
- 	}
- 	mutex_unlock(&master->dev->mode_config.idr_mutex);
-+	drm_master_put(&master);
- 	return crtcs_out;
- }
- 
-@@ -489,7 +512,7 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
- 	size_t object_count;
- 	int ret = 0;
- 	struct idr leases;
--	struct drm_master *lessor = lessor_priv->master;
-+	struct drm_master *lessor;
- 	struct drm_master *lessee = NULL;
- 	struct file *lessee_file = NULL;
- 	struct file *lessor_file = lessor_priv->filp;
-@@ -501,12 +524,6 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
- 	if (!drm_core_check_feature(dev, DRIVER_MODESET))
- 		return -EOPNOTSUPP;
- 
--	/* Do not allow sub-leases */
--	if (lessor->lessor) {
--		DRM_DEBUG_LEASE("recursive leasing not allowed\n");
--		return -EINVAL;
--	}
--
- 	/* need some objects */
- 	if (cl->object_count == 0) {
- 		DRM_DEBUG_LEASE("no objects in lease\n");
-@@ -518,12 +535,22 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
- 		return -EINVAL;
- 	}
- 
-+	lessor = drm_file_get_master(lessor_priv);
-+	/* Do not allow sub-leases */
-+	if (lessor->lessor) {
-+		DRM_DEBUG_LEASE("recursive leasing not allowed\n");
-+		ret = -EINVAL;
-+		goto out_lessor;
-+	}
-+
- 	object_count = cl->object_count;
- 
- 	object_ids = memdup_user(u64_to_user_ptr(cl->object_ids),
- 			array_size(object_count, sizeof(__u32)));
--	if (IS_ERR(object_ids))
--		return PTR_ERR(object_ids);
-+	if (IS_ERR(object_ids)) {
-+		ret = PTR_ERR(object_ids);
-+		goto out_lessor;
-+	}
- 
- 	idr_init(&leases);
- 
-@@ -534,14 +561,15 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
- 	if (ret) {
- 		DRM_DEBUG_LEASE("lease object lookup failed: %i\n", ret);
- 		idr_destroy(&leases);
--		return ret;
-+		goto out_lessor;
- 	}
- 
- 	/* Allocate a file descriptor for the lease */
- 	fd = get_unused_fd_flags(cl->flags & (O_CLOEXEC | O_NONBLOCK));
- 	if (fd < 0) {
- 		idr_destroy(&leases);
--		return fd;
-+		ret = fd;
-+		goto out_lessor;
- 	}
- 
- 	DRM_DEBUG_LEASE("Creating lease\n");
-@@ -577,6 +605,7 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
- 	/* Hook up the fd */
- 	fd_install(fd, lessee_file);
- 
-+	drm_master_put(&lessor);
- 	DRM_DEBUG_LEASE("drm_mode_create_lease_ioctl succeeded\n");
- 	return 0;
- 
-@@ -586,6 +615,8 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
- out_leases:
- 	put_unused_fd(fd);
- 
-+out_lessor:
-+	drm_master_put(&lessor);
- 	DRM_DEBUG_LEASE("drm_mode_create_lease_ioctl failed: %d\n", ret);
- 	return ret;
- }
-@@ -608,7 +639,7 @@ int drm_mode_list_lessees_ioctl(struct drm_device *dev,
- 	struct drm_mode_list_lessees *arg = data;
- 	__u32 __user *lessee_ids = (__u32 __user *) (uintptr_t) (arg->lessees_ptr);
- 	__u32 count_lessees = arg->count_lessees;
--	struct drm_master *lessor = lessor_priv->master, *lessee;
-+	struct drm_master *lessor, *lessee;
- 	int count;
- 	int ret = 0;
- 
-@@ -619,6 +650,7 @@ int drm_mode_list_lessees_ioctl(struct drm_device *dev,
- 	if (!drm_core_check_feature(dev, DRIVER_MODESET))
- 		return -EOPNOTSUPP;
- 
-+	lessor = drm_file_get_master(lessor_priv);
- 	DRM_DEBUG_LEASE("List lessees for %d\n", lessor->lessee_id);
- 
- 	mutex_lock(&dev->mode_config.idr_mutex);
-@@ -642,6 +674,7 @@ int drm_mode_list_lessees_ioctl(struct drm_device *dev,
- 		arg->count_lessees = count;
- 
- 	mutex_unlock(&dev->mode_config.idr_mutex);
-+	drm_master_put(&lessor);
- 
- 	return ret;
- }
-@@ -661,7 +694,7 @@ int drm_mode_get_lease_ioctl(struct drm_device *dev,
- 	struct drm_mode_get_lease *arg = data;
- 	__u32 __user *object_ids = (__u32 __user *) (uintptr_t) (arg->objects_ptr);
- 	__u32 count_objects = arg->count_objects;
--	struct drm_master *lessee = lessee_priv->master;
-+	struct drm_master *lessee;
- 	struct idr *object_idr;
- 	int count;
- 	void *entry;
-@@ -675,6 +708,7 @@ int drm_mode_get_lease_ioctl(struct drm_device *dev,
- 	if (!drm_core_check_feature(dev, DRIVER_MODESET))
- 		return -EOPNOTSUPP;
- 
-+	lessee = drm_file_get_master(lessee_priv);
- 	DRM_DEBUG_LEASE("get lease for %d\n", lessee->lessee_id);
- 
- 	mutex_lock(&dev->mode_config.idr_mutex);
-@@ -702,6 +736,7 @@ int drm_mode_get_lease_ioctl(struct drm_device *dev,
- 		arg->count_objects = count;
- 
- 	mutex_unlock(&dev->mode_config.idr_mutex);
-+	drm_master_put(&lessee);
- 
- 	return ret;
- }
-@@ -720,7 +755,7 @@ int drm_mode_revoke_lease_ioctl(struct drm_device *dev,
- 				void *data, struct drm_file *lessor_priv)
- {
- 	struct drm_mode_revoke_lease *arg = data;
--	struct drm_master *lessor = lessor_priv->master;
-+	struct drm_master *lessor;
- 	struct drm_master *lessee;
- 	int ret = 0;
- 
-@@ -730,6 +765,7 @@ int drm_mode_revoke_lease_ioctl(struct drm_device *dev,
- 	if (!drm_core_check_feature(dev, DRIVER_MODESET))
- 		return -EOPNOTSUPP;
- 
-+	lessor = drm_file_get_master(lessor_priv);
- 	mutex_lock(&dev->mode_config.idr_mutex);
- 
- 	lessee = _drm_find_lessee(lessor, arg->lessee_id);
-@@ -750,6 +786,7 @@ int drm_mode_revoke_lease_ioctl(struct drm_device *dev,
- 
- fail:
- 	mutex_unlock(&dev->mode_config.idr_mutex);
-+	drm_master_put(&lessor);
- 
- 	return ret;
- }
-diff --git a/include/drm/drm_auth.h b/include/drm/drm_auth.h
-index 6bf8b2b78991..f99d3417f304 100644
---- a/include/drm/drm_auth.h
-+++ b/include/drm/drm_auth.h
-@@ -107,6 +107,7 @@ struct drm_master {
- };
- 
- struct drm_master *drm_master_get(struct drm_master *master);
-+struct drm_master *drm_file_get_master(struct drm_file *file_priv);
- void drm_master_put(struct drm_master **master);
- bool drm_is_current_master(struct drm_file *fpriv);
- 
-diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
-index b81b3bfb08c8..e9931fca4ab7 100644
---- a/include/drm/drm_file.h
-+++ b/include/drm/drm_file.h
-@@ -226,9 +226,18 @@ struct drm_file {
- 	/**
- 	 * @master:
- 	 *
--	 * Master this node is currently associated with. Only relevant if
--	 * drm_is_primary_client() returns true. Note that this only
--	 * matches &drm_device.master if the master is the currently active one.
-+	 * Master this node is currently associated with. Protected by struct
-+	 * &drm_device.master_mutex.
-+	 *
-+	 * Only relevant if drm_is_primary_client() returns true. Note that
-+	 * this only matches &drm_device.master if the master is the currently
-+	 * active one.
-+	 *
-+	 * When obtaining a copy of this pointer, it is recommended to either
-+	 * hold struct &drm_device.master_mutex for the duration of the
-+	 * pointer's use, or to use drm_file_get_master() if struct
-+	 * &drm_device.master_mutex is not currently held and there is no other
-+	 * need to hold it. This prevents @master from being freed during use.
- 	 *
- 	 * See also @authentication and @is_master and the :ref:`section on
- 	 * primary nodes and authentication <drm_primary_node>`.
--- 
-2.25.1
 
+Thanks,
+pq
+
+--Sig_/ljMzJSbhx05gG.4fz0yC81V
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmDTHdsACgkQI1/ltBGq
+qqcLZg//QkFy2hWZeB2Fkh+0ETzd5SkUgpmcL5x8+DLBH71YJk0Z3+sb9EhK1jl+
+kfcuHCiAE9p1f3VpiOp8c0R7zpPqanhi6epHZ8iUQHksXrt6IG84GntHafCOeTeW
+6xhQrCfV9RdhASfrKFTt0AFIcP1nw7daACtGDVMMKoUH5NzdrmEZClqxHFQ+3sti
+NQZ96YGUNWkbmJ9UMki4qeJ/2Rp77YKUcFXBy4qZ2MZufuAB1iRt85C3DEWJQZOp
+0JXxYEfFmaLj+9fEVeI5bMAWlIGbP9tzNhCc74xUhUTnryAOvhb/9X0C0hNiHG9T
+aJrNBvTEYWayx28S6w8rLSCAoJ3CpMr9pAfZSehxzZDyaRpJf0+Lj55xb9VRUT7V
+Hx5Wu+2bDdC3BFP0puhbD/bgWTcgHNGmPvVinqFfGoZYsp9nz+q2g4IEB7zYrDyt
+yJsfPl8b1lGSzWvESjzNVE3QyP99142rULB3YvZa8zbgQuYkIlOMRGWeaJw9FxkI
+w0zGDMQYZoaJ1kC615SweChTRkkN52CW49MKIsvtVDHdxhIKuD7P3ij6Cq9OAyuW
+uqa/lz2uBZOrWEfv3S1f/O1fdWO0U1juNIF1DIvszZo4KDjn1Z9flOqd1/gKSzaa
+NOaKo0UKDqzSrnj/gMdQRk+3aoxOA5WrQ5Uq3wh3juagyeHW1BA=
+=+5tU
+-----END PGP SIGNATURE-----
+
+--Sig_/ljMzJSbhx05gG.4fz0yC81V--
