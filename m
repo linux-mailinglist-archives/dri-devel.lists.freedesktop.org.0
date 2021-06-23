@@ -1,36 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26C643B1431
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Jun 2021 08:52:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4238D3B1413
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Jun 2021 08:43:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E086089AEB;
-	Wed, 23 Jun 2021 06:52:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C9DF56E094;
+	Wed, 23 Jun 2021 06:43:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from yyz.mikelr.com (yyz.mikelr.com [170.75.163.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1AAD66E02A;
- Tue, 22 Jun 2021 21:28:23 +0000 (UTC)
-Received: from glidewell.ykf.mikelr.com (198-84-194-208.cpe.teksavvy.com
- [198.84.194.208])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (Client did not present a certificate)
- by yyz.mikelr.com (Postfix) with ESMTPSA id 49FF34F981;
- Tue, 22 Jun 2021 17:28:21 -0400 (EDT)
-From: Mikel Rychliski <mikel@mikelr.com>
-To: Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH v2] drm/radeon: Fix NULL dereference when updating memory stats
-Date: Tue, 22 Jun 2021 17:26:13 -0400
-Message-Id: <20210622212613.16302-1-mikel@mikelr.com>
-X-Mailer: git-send-email 2.13.7
-X-Mailman-Approved-At: Wed, 23 Jun 2021 06:52:41 +0000
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6DFB96E0BC;
+ Wed, 23 Jun 2021 06:43:11 +0000 (UTC)
+Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
+ (using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 7CD3D1FD66;
+ Wed, 23 Jun 2021 06:43:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1624430589; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=TlGZRZ99uCIt4JDAjOFXnswm4yaCa3ZMTl87RK83waE=;
+ b=UL41/fdqkxp8KiBTP5sNgkK3QzSU6SjtYTCEKYkWMnVzCi0BsNO6N7H6Z/xHRP1nMXJTSK
+ uAOvfeYpPY7ReQoGYz0BeGd1DtemAc5QyqOXIZOtYXgrkn7Ds1VLptp+gjp1TLwppTBvXC
+ xy1xTFf1031DvsP89g+ewUEcPYWmU8w=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1624430589;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=TlGZRZ99uCIt4JDAjOFXnswm4yaCa3ZMTl87RK83waE=;
+ b=hrob67bWMmViAg5CAyhvDg8xtRHrAUBAM0VSFniEqSI0myWGdc/UaBO6QCSVllrliNsDjF
+ D7AeOlonnA0UfzBQ==
+Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
+ by imap.suse.de (Postfix) with ESMTP id 7CE9211A97;
+ Wed, 23 Jun 2021 06:43:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1624430589; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=TlGZRZ99uCIt4JDAjOFXnswm4yaCa3ZMTl87RK83waE=;
+ b=UL41/fdqkxp8KiBTP5sNgkK3QzSU6SjtYTCEKYkWMnVzCi0BsNO6N7H6Z/xHRP1nMXJTSK
+ uAOvfeYpPY7ReQoGYz0BeGd1DtemAc5QyqOXIZOtYXgrkn7Ds1VLptp+gjp1TLwppTBvXC
+ xy1xTFf1031DvsP89g+ewUEcPYWmU8w=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1624430589;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=TlGZRZ99uCIt4JDAjOFXnswm4yaCa3ZMTl87RK83waE=;
+ b=hrob67bWMmViAg5CAyhvDg8xtRHrAUBAM0VSFniEqSI0myWGdc/UaBO6QCSVllrliNsDjF
+ D7AeOlonnA0UfzBQ==
+Received: from director2.suse.de ([192.168.254.72]) by imap3-int with ESMTPSA
+ id RGKAHfzX0mBnawAALh3uQQ
+ (envelope-from <tzimmermann@suse.de>); Wed, 23 Jun 2021 06:43:08 +0000
+To: Liviu Dudau <liviu.dudau@arm.com>
+References: <20210622141002.11590-1-tzimmermann@suse.de>
+ <20210622141002.11590-5-tzimmermann@suse.de>
+ <20210622152504.2sw6khajwydsoaqa@e110455-lin.cambridge.arm.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v2 04/22] drm: Don't test for IRQ support in VBLANK ioctls
+Message-ID: <f7e72a3c-df86-2d4b-2caa-bf91442290a9@suse.de>
+Date: Wed, 23 Jun 2021 08:43:07 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
+MIME-Version: 1.0
+In-Reply-To: <20210622152504.2sw6khajwydsoaqa@e110455-lin.cambridge.arm.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="7jLGShJWLlf8CSqVlOcnyBWWcy9Lp6Rkb"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,193 +82,218 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mikel Rychliski <mikel@mikelr.com>
+Cc: emma@anholt.net, airlied@linux.ie, nouveau@lists.freedesktop.org,
+ alexandre.torgue@foss.st.com, dri-devel@lists.freedesktop.org,
+ michal.simek@xilinx.com, linux-tegra@vger.kernel.org, thierry.reding@gmail.com,
+ laurent.pinchart@ideasonboard.com, benjamin.gaignard@linaro.org,
+ mihail.atanassov@arm.com, linux-stm32@st-md-mailman.stormreply.com,
+ linux-samsung-soc@vger.kernel.org, jy0922.shim@samsung.com,
+ krzysztof.kozlowski@canonical.com, linux-rockchip@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, wens@csie.org, jernej.skrabec@gmail.com,
+ jonathanh@nvidia.com, xinliang.liu@linaro.org, kong.kongxinwei@hisilicon.com,
+ james.qian.wang@arm.com, linux-imx@nxp.com,
+ linux-graphics-maintainer@vmware.com, linux-sunxi@lists.linux.dev,
+ bskeggs@redhat.com, chunkuang.hu@kernel.org, puck.chen@hisilicon.com,
+ s.hauer@pengutronix.de, laurentiu.palcu@oss.nxp.com, matthias.bgg@gmail.com,
+ kernel@pengutronix.de, linux-arm-kernel@lists.infradead.org,
+ mcoquelin.stm32@gmail.com, amd-gfx@lists.freedesktop.org, hyun.kwon@xilinx.com,
+ tomba@kernel.org, jyri.sarha@iki.fi, yannick.fertre@foss.st.com,
+ Xinhui.Pan@amd.com, sw0312.kim@samsung.com, hjc@rock-chips.com,
+ christian.koenig@amd.com, kyungmin.park@samsung.com,
+ philippe.cornu@foss.st.com, alexander.deucher@amd.com, tiantao6@hisilicon.com,
+ shawnguo@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-radeon_ttm_bo_destroy() is attempting to access the resource object to
-update memory counters. However, the resource object is already freed when
-ttm calls this function via the destroy callback. This causes an oops when
-a bo is freed:
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--7jLGShJWLlf8CSqVlOcnyBWWcy9Lp6Rkb
+Content-Type: multipart/mixed; boundary="3ihYu1sFcNnMMAMmUEcEMG76YaQ22m49E";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Liviu Dudau <liviu.dudau@arm.com>
+Cc: daniel@ffwll.ch, airlied@linux.ie, alexander.deucher@amd.com,
+ christian.koenig@amd.com, Xinhui.Pan@amd.com, james.qian.wang@arm.com,
+ mihail.atanassov@arm.com, brian.starkey@arm.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, inki.dae@samsung.com,
+ jy0922.shim@samsung.com, sw0312.kim@samsung.com, kyungmin.park@samsung.com,
+ krzysztof.kozlowski@canonical.com, xinliang.liu@linaro.org,
+ tiantao6@hisilicon.com, john.stultz@linaro.org,
+ kong.kongxinwei@hisilicon.com, puck.chen@hisilicon.com,
+ laurentiu.palcu@oss.nxp.com, l.stach@pengutronix.de, p.zabel@pengutronix.de,
+ shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
+ festevam@gmail.com, linux-imx@nxp.com, chunkuang.hu@kernel.org,
+ matthias.bgg@gmail.com, bskeggs@redhat.com, tomba@kernel.org,
+ hjc@rock-chips.com, heiko@sntech.de, benjamin.gaignard@linaro.org,
+ yannick.fertre@foss.st.com, philippe.cornu@foss.st.com,
+ mcoquelin.stm32@gmail.com, alexandre.torgue@foss.st.com, wens@csie.org,
+ jernej.skrabec@gmail.com, thierry.reding@gmail.com, jonathanh@nvidia.com,
+ jyri.sarha@iki.fi, emma@anholt.net, linux-graphics-maintainer@vmware.com,
+ zackr@vmware.com, hyun.kwon@xilinx.com, laurent.pinchart@ideasonboard.com,
+ michal.simek@xilinx.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-samsung-soc@vger.kernel.org, linux-mediatek@lists.infradead.org,
+ nouveau@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev,
+ linux-tegra@vger.kernel.org
+Message-ID: <f7e72a3c-df86-2d4b-2caa-bf91442290a9@suse.de>
+Subject: Re: [PATCH v2 04/22] drm: Don't test for IRQ support in VBLANK ioctls
+References: <20210622141002.11590-1-tzimmermann@suse.de>
+ <20210622141002.11590-5-tzimmermann@suse.de>
+ <20210622152504.2sw6khajwydsoaqa@e110455-lin.cambridge.arm.com>
+In-Reply-To: <20210622152504.2sw6khajwydsoaqa@e110455-lin.cambridge.arm.com>
 
-	BUG: kernel NULL pointer dereference, address: 0000000000000010
-	RIP: 0010:radeon_ttm_bo_destroy+0x2c/0x100 [radeon]
-	Call Trace:
-	 radeon_bo_unref+0x1a/0x30 [radeon]
-	 radeon_gem_object_free+0x33/0x50 [radeon]
-	 drm_gem_object_release_handle+0x69/0x70 [drm]
-	 drm_gem_handle_delete+0x62/0xa0 [drm]
-	 ? drm_mode_destroy_dumb+0x40/0x40 [drm]
-	 drm_ioctl_kernel+0xb2/0xf0 [drm]
-	 drm_ioctl+0x30a/0x3c0 [drm]
-	 ? drm_mode_destroy_dumb+0x40/0x40 [drm]
-	 radeon_drm_ioctl+0x49/0x80 [radeon]
-	 __x64_sys_ioctl+0x8e/0xd0
+--3ihYu1sFcNnMMAMmUEcEMG76YaQ22m49E
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-Avoid the issue by updating the counters in the delete_mem_notify callback
-instead. Also, fix memory statistic updating in radeon_bo_move() to
-identify the source type correctly. The source type needs to be saved
-before the move, because the moved from object may be altered by the move.
+Hi Liviu
 
-Fixes: bfa3357ef9ab ("drm/ttm: allocate resource object instead of embedding it v2")
-Signed-off-by: Mikel Rychliski <mikel@mikelr.com>
----
+Am 22.06.21 um 17:25 schrieb Liviu Dudau:
+> Hello,
+>=20
+> On Tue, Jun 22, 2021 at 04:09:44PM +0200, Thomas Zimmermann wrote:
+>> For KMS drivers, replace the IRQ check in VBLANK ioctls with a check f=
+or
+>> vblank support. IRQs might be enabled wthout vblanking being supported=
+=2E
+>>
+>> This change also removes the DRM framework's only dependency on IRQ st=
+ate
+>> for non-legacy drivers. For legacy drivers with userspace modesetting,=
 
-v2: Update statistics on ghost object destroy
+>> the original test remains in drm_wait_vblank_ioctl().
+>>
+>> v2:
+>> 	* keep the old test for legacy drivers in
+>> 	  drm_wait_vblank_ioctl() (Daniel)
+>>
+>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> ---
+>>   drivers/gpu/drm/drm_irq.c    | 10 +++-------
+>>   drivers/gpu/drm/drm_vblank.c | 13 +++++++++----
+>>   2 files changed, 12 insertions(+), 11 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/drm_irq.c b/drivers/gpu/drm/drm_irq.c
+>> index c3bd664ea733..1d7785721323 100644
+>> --- a/drivers/gpu/drm/drm_irq.c
+>> +++ b/drivers/gpu/drm/drm_irq.c
+>> @@ -74,10 +74,8 @@
+>>    * only supports devices with a single interrupt on the main device =
+stored in
+>>    * &drm_device.dev and set as the device paramter in drm_dev_alloc()=
+=2E
+>>    *
+>> - * These IRQ helpers are strictly optional. Drivers which roll their =
+own only
+>> - * need to set &drm_device.irq_enabled to signal the DRM core that vb=
+lank
+>> - * interrupts are working. Since these helpers don't automatically cl=
+ean up the
+>> - * requested interrupt like e.g. devm_request_irq() they're not reall=
+y
+>> + * These IRQ helpers are strictly optional. Since these helpers don't=
+ automatically
+>> + * clean up the requested interrupt like e.g. devm_request_irq() they=
+'re not really
+>>    * recommended.
+>>    */
+>>  =20
+>> @@ -91,9 +89,7 @@
+>>    * and after the installation.
+>>    *
+>>    * This is the simplified helper interface provided for drivers with=
+ no special
+>> - * needs. Drivers which need to install interrupt handlers for multip=
+le
+>> - * interrupts must instead set &drm_device.irq_enabled to signal the =
+DRM core
+>> - * that vblank interrupts are available.
+>> + * needs.
+>>    *
+>>    * @irq must match the interrupt number that would be passed to requ=
+est_irq(),
+>>    * if called directly instead of using this helper function.
+>> diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank=
+=2Ec
+>> index 3417e1ac7918..a98a4aad5037 100644
+>> --- a/drivers/gpu/drm/drm_vblank.c
+>> +++ b/drivers/gpu/drm/drm_vblank.c
+>> @@ -1748,8 +1748,13 @@ int drm_wait_vblank_ioctl(struct drm_device *de=
+v, void *data,
+>>   	unsigned int pipe_index;
+>>   	unsigned int flags, pipe, high_pipe;
+>>  =20
+>> -	if (!dev->irq_enabled)
+>> -		return -EOPNOTSUPP;
+>> +	if  (drm_core_check_feature(dev, DRIVER_MODESET)) {
+>> +		if (!drm_dev_has_vblank(dev))
+>> +			return -EOPNOTSUPP;
+>> +	} else {
+>> +		if (!dev->irq_enabled)
+>> +			return -EOPNOTSUPP;
+>> +	}
+>=20
+> For a system call that is used quite a lot by userspace we have increas=
+ed the code size
+> in a noticeable way. Can we not cache it privately?
 
- drivers/gpu/drm/radeon/radeon_object.c | 33 ++++++++-------------------------
- drivers/gpu/drm/radeon/radeon_object.h |  7 ++++---
- drivers/gpu/drm/radeon/radeon_ttm.c    | 20 +++++++++++++++++---
- 3 files changed, 29 insertions(+), 31 deletions(-)
+I'm not quite sure that I understand your concern. The additionally=20
+called functions are trivial one-liners; probably inlined anyway.
 
-diff --git a/drivers/gpu/drm/radeon/radeon_object.c b/drivers/gpu/drm/radeon/radeon_object.c
-index bfaaa3c969a3..e0f98b394acd 100644
---- a/drivers/gpu/drm/radeon/radeon_object.c
-+++ b/drivers/gpu/drm/radeon/radeon_object.c
-@@ -49,23 +49,23 @@ static void radeon_bo_clear_surface_reg(struct radeon_bo *bo);
-  * function are calling it.
-  */
- 
--static void radeon_update_memory_usage(struct radeon_bo *bo,
--				       unsigned mem_type, int sign)
-+void radeon_update_memory_usage(struct ttm_buffer_object *bo,
-+				unsigned int mem_type, int sign)
- {
--	struct radeon_device *rdev = bo->rdev;
-+	struct radeon_device *rdev = radeon_get_rdev(bo->bdev);
- 
- 	switch (mem_type) {
- 	case TTM_PL_TT:
- 		if (sign > 0)
--			atomic64_add(bo->tbo.base.size, &rdev->gtt_usage);
-+			atomic64_add(bo->base.size, &rdev->gtt_usage);
- 		else
--			atomic64_sub(bo->tbo.base.size, &rdev->gtt_usage);
-+			atomic64_sub(bo->base.size, &rdev->gtt_usage);
- 		break;
- 	case TTM_PL_VRAM:
- 		if (sign > 0)
--			atomic64_add(bo->tbo.base.size, &rdev->vram_usage);
-+			atomic64_add(bo->base.size, &rdev->vram_usage);
- 		else
--			atomic64_sub(bo->tbo.base.size, &rdev->vram_usage);
-+			atomic64_sub(bo->base.size, &rdev->vram_usage);
- 		break;
- 	}
- }
-@@ -76,8 +76,6 @@ static void radeon_ttm_bo_destroy(struct ttm_buffer_object *tbo)
- 
- 	bo = container_of(tbo, struct radeon_bo, tbo);
- 
--	radeon_update_memory_usage(bo, bo->tbo.resource->mem_type, -1);
--
- 	mutex_lock(&bo->rdev->gem.mutex);
- 	list_del_init(&bo->list);
- 	mutex_unlock(&bo->rdev->gem.mutex);
-@@ -726,25 +724,10 @@ int radeon_bo_check_tiling(struct radeon_bo *bo, bool has_moved,
- 	return radeon_bo_get_surface_reg(bo);
- }
- 
--void radeon_bo_move_notify(struct ttm_buffer_object *bo,
--			   bool evict,
--			   struct ttm_resource *new_mem)
-+void radeon_bo_move_notify(struct radeon_bo *rbo)
- {
--	struct radeon_bo *rbo;
--
--	if (!radeon_ttm_bo_is_radeon_bo(bo))
--		return;
--
--	rbo = container_of(bo, struct radeon_bo, tbo);
- 	radeon_bo_check_tiling(rbo, 0, 1);
- 	radeon_vm_bo_invalidate(rbo->rdev, rbo);
--
--	/* update statistics */
--	if (!new_mem)
--		return;
--
--	radeon_update_memory_usage(rbo, bo->resource->mem_type, -1);
--	radeon_update_memory_usage(rbo, new_mem->mem_type, 1);
- }
- 
- vm_fault_t radeon_bo_fault_reserve_notify(struct ttm_buffer_object *bo)
-diff --git a/drivers/gpu/drm/radeon/radeon_object.h b/drivers/gpu/drm/radeon/radeon_object.h
-index 1739c6a142cd..0be50d28bafa 100644
---- a/drivers/gpu/drm/radeon/radeon_object.h
-+++ b/drivers/gpu/drm/radeon/radeon_object.h
-@@ -133,6 +133,9 @@ static inline u64 radeon_bo_mmap_offset(struct radeon_bo *bo)
- 	return drm_vma_node_offset_addr(&bo->tbo.base.vma_node);
- }
- 
-+extern void radeon_update_memory_usage(struct ttm_buffer_object *bo,
-+				       unsigned int mem_type, int sign);
-+
- extern int radeon_bo_create(struct radeon_device *rdev,
- 			    unsigned long size, int byte_align,
- 			    bool kernel, u32 domain, u32 flags,
-@@ -160,9 +163,7 @@ extern void radeon_bo_get_tiling_flags(struct radeon_bo *bo,
- 				u32 *tiling_flags, u32 *pitch);
- extern int radeon_bo_check_tiling(struct radeon_bo *bo, bool has_moved,
- 				bool force_drop);
--extern void radeon_bo_move_notify(struct ttm_buffer_object *bo,
--				  bool evict,
--				  struct ttm_resource *new_mem);
-+extern void radeon_bo_move_notify(struct radeon_bo *rbo);
- extern vm_fault_t radeon_bo_fault_reserve_notify(struct ttm_buffer_object *bo);
- extern int radeon_bo_get_surface_reg(struct radeon_bo *bo);
- extern void radeon_bo_fence(struct radeon_bo *bo, struct radeon_fence *fence,
-diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c b/drivers/gpu/drm/radeon/radeon_ttm.c
-index ad2a5a791bba..1bc0648c5865 100644
---- a/drivers/gpu/drm/radeon/radeon_ttm.c
-+++ b/drivers/gpu/drm/radeon/radeon_ttm.c
-@@ -199,7 +199,7 @@ static int radeon_bo_move(struct ttm_buffer_object *bo, bool evict,
- 	struct ttm_resource *old_mem = bo->resource;
- 	struct radeon_device *rdev;
- 	struct radeon_bo *rbo;
--	int r;
-+	int r, old_type;
- 
- 	if (new_mem->mem_type == TTM_PL_TT) {
- 		r = radeon_ttm_tt_bind(bo->bdev, bo->ttm, new_mem);
-@@ -216,6 +216,9 @@ static int radeon_bo_move(struct ttm_buffer_object *bo, bool evict,
- 	if (WARN_ON_ONCE(rbo->tbo.pin_count > 0))
- 		return -EINVAL;
- 
-+	/* Save old type for statistics update */
-+	old_type = old_mem->mem_type;
-+
- 	rdev = radeon_get_rdev(bo->bdev);
- 	if (old_mem->mem_type == TTM_PL_SYSTEM && bo->ttm == NULL) {
- 		ttm_bo_move_null(bo, new_mem);
-@@ -261,7 +264,9 @@ static int radeon_bo_move(struct ttm_buffer_object *bo, bool evict,
- out:
- 	/* update statistics */
- 	atomic64_add(bo->base.size, &rdev->num_bytes_moved);
--	radeon_bo_move_notify(bo, evict, new_mem);
-+	radeon_update_memory_usage(bo, old_type, -1);
-+	radeon_update_memory_usage(bo, new_mem->mem_type, 1);
-+	radeon_bo_move_notify(rbo);
- 	return 0;
- }
- 
-@@ -682,7 +687,16 @@ bool radeon_ttm_tt_is_readonly(struct radeon_device *rdev,
- static void
- radeon_bo_delete_mem_notify(struct ttm_buffer_object *bo)
- {
--	radeon_bo_move_notify(bo, false, NULL);
-+	struct radeon_bo *rbo;
-+
-+	if (bo->resource)
-+		radeon_update_memory_usage(bo, bo->resource->mem_type, -1);
-+
-+	if (!radeon_ttm_bo_is_radeon_bo(bo))
-+		return;
-+
-+	rbo = container_of(bo, struct radeon_bo, tbo);
-+	radeon_bo_move_notify(rbo);
- }
- 
- static struct ttm_device_funcs radeon_bo_driver = {
--- 
-2.13.7
+However, irq_enabled is only relevant for legacy drivers and will=20
+eventually disappear behind CONFIG_DRM_LEGACY. We can rewrite the test=20
+like this:
 
+ifdef CONFIG_DRM_LEGACY
+   if (unlikely(check_feature(dev, DRIVER_LEGACY))) {
+     if (!irq_enabled)
+       return;
+   } else
+#endif
+   {
+     if (!has_vblank_support(dev))
+       return;
+   }
+
+As CONFIG_DRM_LEGACY is most likely disabled on concurrent systems, we'd =
+
+get a single test for the modern drivers. If DRM_LEGACYis on, the=20
+compiler at least knows that the else branch is preferred.
+
+Best regards
+Thomas
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--3ihYu1sFcNnMMAMmUEcEMG76YaQ22m49E--
+
+--7jLGShJWLlf8CSqVlOcnyBWWcy9Lp6Rkb
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmDS1/sFAwAAAAAACgkQlh/E3EQov+DQ
+GBAAgLEWLgvBzCF5hV0mjIUdLsPzDOR+sZaMmkihftgMzVIfDXBMfZp4PON/h5XP/oa3S7zWw9+W
+RaNndoHIiRezAR4dnNcXern7ByoYb3kFLVlzcdpjZYvhitX8fUEanpR8nSXzouFAPuevtw8dNzr3
+pyvXZCqqdXCmGz09Qrfc48j7bCYMgZ/b21GUHjKRGIC7JFkcSnGm2JopJOCsc9EiUD7tr0l7VfwS
+/H0ho3e9vLqI/p+1MdU/KMUjItmN71b2VEm8yp0KPceIEiCgsggBrW4np4kg8qoBrSVFNT+NDy1O
+weBoJYVfyPVT4UJXatHhqff7l9GUVWHtk2h2JfMrPIGj4qc15wiXUAiY9Goi5+z/9MgpJLl0TkXt
+GkxkK4Vdx1AdFMhNfE0PqmHjp1pOlLU/apueEhoeVslIwyatSi2cuTLKmRylHOzBYQhK9VsnS0Ip
+bLKBFuKu1QNELEqow7/6jmoneBg7LQwCtrFUZZ1juJfaHqCGttl8f4SleboXZe0fb8nPAgrQPItN
+TNb/u1tvc0hQhQ2DooSdMzvuCsM5qPlCi2ZLUwNNsj9uJo6rYJ49Xv7ay4pKE0TWQQN9MC+oyaa1
+InbjRqUF5ubLt361DDxI0YuEq7FBhvcQ1dC0J4I/uKgXvATLllGtOvUzyK0ZAkiXQZ+UKkd0HRDx
+v9w=
+=aQqG
+-----END PGP SIGNATURE-----
+
+--7jLGShJWLlf8CSqVlOcnyBWWcy9Lp6Rkb--
