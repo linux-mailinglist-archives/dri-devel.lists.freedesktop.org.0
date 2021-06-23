@@ -2,76 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D928F3B1653
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Jun 2021 10:57:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9789F3B1662
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Jun 2021 11:01:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 40DD36E88A;
-	Wed, 23 Jun 2021 08:57:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E6DE6E840;
+	Wed, 23 Jun 2021 09:01:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com
- [IPv6:2a00:1450:4864:20::433])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E2E906E402;
- Wed, 23 Jun 2021 08:57:38 +0000 (UTC)
-Received: by mail-wr1-x433.google.com with SMTP id m18so1738602wrv.2;
- Wed, 23 Jun 2021 01:57:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=ZDxBkMAz03P8f+aMbelwxHltUcPmaJQiAy762htmSOw=;
- b=gKPDCYXud3/Ny6GugpuD8PxV3Af5S6G9njiquRSYdnYuIyUPc5d4pP41bLP8IncC+b
- q0G+HGYLvTHmPkI8X4/wi97s/dtCDFf49XbHlQi3Y8XHCnuItPph3HC8KyweTZ73ISLS
- 6U70DcSwpJUikE7mrhXsZVWSIjwXeGdbOwnc7Gqoc2QWpTyRWMdjNrQM48WmgKKpatH8
- rBMNFlxNEU7ReMuigAM0E6MsLA5W/Uz06GOd1A8ft0Tyi8xffgc2Iz9N5ULy5mLXvBvT
- cN+ZLDZs6oxy0wovyiU+HR9yKzaIKdGhpmY80/A/dYDf/wFVdMrbAX+Lqv+PElUMYYoR
- h9Nw==
+Received: from mail-qk1-x732.google.com (mail-qk1-x732.google.com
+ [IPv6:2607:f8b0:4864:20::732])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 536AF6E507
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Jun 2021 09:01:41 +0000 (UTC)
+Received: by mail-qk1-x732.google.com with SMTP id c23so3265403qkc.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Jun 2021 02:01:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=13Gr0i1MTKRVJOLYjbaQS0t+sJQavN2HZYVSf9igv0I=;
+ b=SA9G17LOrb34DyVZWPMTTHIONdcJ/5ZbZWqssqBb4aWqa4vseTx3+V6CkFU4RvePBr
+ YNNS8jqCGxfTDXRduKfQQMwLt3JL1m3nr4PNVWIksCr6YiJm78aGWUxZDo4V4hXGS1bN
+ zAH4ZuRlx4WIbGetsYgzQvT1yucBC3KtrF3U0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=ZDxBkMAz03P8f+aMbelwxHltUcPmaJQiAy762htmSOw=;
- b=BgL0CD1kYEdCYmMh0BqzrkWqegoAKObQlOEwHtTG+0pa8YtSn2wokf6XJrGyi4+w06
- zh/qSZqnhQK7J2rN+Dv5VeEqzKP11TBhLO0ho542sw90pBnmVKgZi3Tl+O6D0PNYBY+Z
- hnzALBxEi9OFhD9PfNowbVB+2VzZYfs77tUUfBTW4fwbTblYjEehEoyolXFX/lW5Rciw
- RjdhXz0mHXn3dua0WvBG3ev7HFb1/6K1wXzztSlbcstN15X/sNUke5qU9bYd/WLytn/F
- PMZcWKWDTrgaJGSflkmZM2D8/sM3/WS54cxdRmCQvtfkWV3VHq1J2xPP8MfVDk5coi6A
- 42xQ==
-X-Gm-Message-State: AOAM533j0YQDo8EutUMtPsdODXIVX+02d493dkFbZd3z1SG7r4+U375B
- jru+QEyhf65J9xm+bnmFu8w=
-X-Google-Smtp-Source: ABdhPJyO8408BeqPk1gg6ZvXlAibkwfvIR/i0k8QSdflfw+3uxptNWJCkjKtYAdDMMiuTI3v4KYHDw==
-X-Received: by 2002:adf:8b4d:: with SMTP id v13mr9929193wra.223.1624438657460; 
- Wed, 23 Jun 2021 01:57:37 -0700 (PDT)
-Received: from ?IPv6:2a02:908:1252:fb60:69e4:a619:aa86:4e9c?
- ([2a02:908:1252:fb60:69e4:a619:aa86:4e9c])
- by smtp.gmail.com with ESMTPSA id u12sm2195254wrr.40.2021.06.23.01.57.36
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=13Gr0i1MTKRVJOLYjbaQS0t+sJQavN2HZYVSf9igv0I=;
+ b=CsohsdbbIqkrEP3fbViJ7yjs+hg/2ciBM69iUEkp8QkKJCwiv9ar1SmDRZ2SkUElNx
+ UdpeFr54v4E+Rxz2zWN2htwPuwOnulsgfUSn7mS5xgQemb7U6mCfrO+VGe9cz9gbHWMm
+ oB3e9IsYvkdE/zNpdII2zgojRa4HP3yJYSlOKLjOjPsa1SECpjCc5rgn9Czq7pk0UN7L
+ RNia8bq2w4r0AB6Dr7g6SRIi1dCTOobhZo3HXZC7C/ZUEAykcPMjDdYW+fq6phOb6BPb
+ AFigJbsQhZiN1xP42TnyPvKXIOIPJfsO0ElzhknIuIgx2nBKEqTBpovGPlLEwZt2ux/v
+ FHNw==
+X-Gm-Message-State: AOAM5321Mnqoj2swXtuRISfKWMRm+El77antR7WSv5ALFIwQQlANqrDo
+ shEGsUPwMBbPU3tID6ceW8qQV4B691UETQ==
+X-Google-Smtp-Source: ABdhPJyWbRn2vbUuZYtHJRIUWj3X6WrNwGSmOqC7POvH2fOE4aICceAuYVZgalVS9o5073CsFlo0pg==
+X-Received: by 2002:a05:620a:5ad:: with SMTP id
+ q13mr6946769qkq.275.1624438900254; 
+ Wed, 23 Jun 2021 02:01:40 -0700 (PDT)
+Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com.
+ [209.85.222.172])
+ by smtp.gmail.com with ESMTPSA id h2sm15515293qkf.106.2021.06.23.02.01.37
+ for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 23 Jun 2021 01:57:36 -0700 (PDT)
-Subject: Re: [Linaro-mm-sig] [PATCH v3 1/2] habanalabs: define uAPI to export
- FD for DMA-BUF
-To: Jason Gunthorpe <jgg@ziepe.ca>, =?UTF-8?Q?Christian_K=c3=b6nig?=
- <christian.koenig@amd.com>
-References: <CAFCwf11jOnewkbLuxUESswCJpyo7C0ovZj80UrnwUOZkPv2JYQ@mail.gmail.com>
- <20210621232912.GK1096940@ziepe.ca>
- <d358c740-fd3a-9ecd-7001-676e2cb44ec9@gmail.com>
- <CAFCwf11h_Nj_GEdCdeTzO5jgr-Y9em+W-v_pYUfz64i5Ac25yg@mail.gmail.com>
- <20210622120142.GL1096940@ziepe.ca>
- <d497b0a2-897e-adff-295c-cf0f4ff93cb4@amd.com>
- <20210622152343.GO1096940@ziepe.ca>
- <3fabe8b7-7174-bf49-5ffe-26db30968a27@amd.com>
- <20210622154027.GS1096940@ziepe.ca>
- <09df4a03-d99c-3949-05b2-8b49c71a109e@amd.com>
- <20210622160538.GT1096940@ziepe.ca>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <d600a638-9e55-6249-b574-0986cd5cea1e@gmail.com>
-Date: Wed, 23 Jun 2021 10:57:35 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ Wed, 23 Jun 2021 02:01:38 -0700 (PDT)
+Received: by mail-qk1-f172.google.com with SMTP id w21so3274262qkb.9
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Jun 2021 02:01:37 -0700 (PDT)
+X-Received: by 2002:a02:4b46:: with SMTP id q67mr7991027jaa.84.1624438886886; 
+ Wed, 23 Jun 2021 02:01:26 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210622160538.GT1096940@ziepe.ca>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+References: <20210619034043.199220-1-tientzu@chromium.org>
+ <YNLy7z0Zq1AXKLng@char.us.oracle.com>
+In-Reply-To: <YNLy7z0Zq1AXKLng@char.us.oracle.com>
+From: Claire Chang <tientzu@chromium.org>
+Date: Wed, 23 Jun 2021 17:01:16 +0800
+X-Gmail-Original-Message-ID: <CALiNf28U9xaqth99u=hB45b=qWMYaSoe2DGgNVFrHXze6wNmdQ@mail.gmail.com>
+Message-ID: <CALiNf28U9xaqth99u=hB45b=qWMYaSoe2DGgNVFrHXze6wNmdQ@mail.gmail.com>
+Subject: Re: [PATCH v14 00/12] Restricted DMA
+To: Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,101 +71,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-rdma <linux-rdma@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, sleybo@amazon.com,
- Gal Pressman <galpress@amazon.com>,
- dri-devel <dri-devel@lists.freedesktop.org>, Christoph Hellwig <hch@lst.de>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Doug Ledford <dledford@redhat.com>, Tomer Tayar <ttayar@habana.ai>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Greg KH <gregkh@linuxfoundation.org>, Alex Deucher <alexander.deucher@amd.com>,
- Leon Romanovsky <leonro@nvidia.com>, Oded Gabbay <ogabbay@kernel.org>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
+Cc: heikki.krogerus@linux.intel.com, thomas.hellstrom@linux.intel.com,
+ peterz@infradead.org, dri-devel@lists.freedesktop.org,
+ chris@chris-wilson.co.uk, grant.likely@arm.com, paulus@samba.org,
+ Frank Rowand <frowand.list@gmail.com>, mingo@kernel.org,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Saravana Kannan <saravanak@google.com>, mpe@ellerman.id.au,
+ Joerg Roedel <joro@8bytes.org>,
+ "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
+ Christoph Hellwig <hch@lst.de>,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>, bskeggs@redhat.com,
+ linux-pci@vger.kernel.org, xen-devel@lists.xenproject.org,
+ Thierry Reding <treding@nvidia.com>, intel-gfx@lists.freedesktop.org,
+ matthew.auld@intel.com, linux-devicetree <devicetree@vger.kernel.org>,
+ Jianxiong Gao <jxgao@google.com>, Will Deacon <will@kernel.org>,
+ airlied@linux.ie, Dan Williams <dan.j.williams@intel.com>,
+ linuxppc-dev@lists.ozlabs.org, Rob Herring <robh+dt@kernel.org>,
+ rodrigo.vivi@intel.com, Bjorn Helgaas <bhelgaas@google.com>,
+ boris.ostrovsky@oracle.com,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>, jgross@suse.com,
+ Nicolas Boichat <drinkcat@chromium.org>, Greg KH <gregkh@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>, lkml <linux-kernel@vger.kernel.org>,
+ Tomasz Figa <tfiga@chromium.org>,
+ "list@263.net:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
+ Jim Quinlan <james.quinlan@broadcom.com>, xypron.glpk@gmx.de,
+ Tom Lendacky <thomas.lendacky@amd.com>, Robin Murphy <robin.murphy@arm.com>,
+ bauerman@linux.ibm.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 22.06.21 um 18:05 schrieb Jason Gunthorpe:
-> On Tue, Jun 22, 2021 at 05:48:10PM +0200, Christian König wrote:
->> Am 22.06.21 um 17:40 schrieb Jason Gunthorpe:
->>> On Tue, Jun 22, 2021 at 05:29:01PM +0200, Christian König wrote:
->>>> [SNIP]
->>>> No absolutely not. NVidia GPUs work exactly the same way.
->>>>
->>>> And you have tons of similar cases in embedded and SoC systems where
->>>> intermediate memory between devices isn't directly addressable with the CPU.
->>> None of that is PCI P2P.
->>>
->>> It is all some specialty direct transfer.
->>>
->>> You can't reasonably call dma_map_resource() on non CPU mapped memory
->>> for instance, what address would you pass?
->>>
->>> Do not confuse "I am doing transfers between two HW blocks" with PCI
->>> Peer to Peer DMA transfers - the latter is a very narrow subcase.
->>>
->>>> No, just using the dma_map_resource() interface.
->>> Ik, but yes that does "work". Logan's series is better.
->> No it isn't. It makes devices depend on allocating struct pages for their
->> BARs which is not necessary nor desired.
-> Which dramatically reduces the cost of establishing DMA mappings, a
-> loop of dma_map_resource() is very expensive.
-
-Yeah, but that is perfectly ok. Our BAR allocations are either in chunks 
-of at least 2MiB or only a single 4KiB page.
-
-Oded might run into more performance problems, but those DMA-buf 
-mappings are usually set up only once.
-
->> How do you prevent direct I/O on those pages for example?
-> GUP fails.
-
-At least that is calming.
-
->> Allocating a struct pages has their use case, for example for exposing VRAM
->> as memory for HMM. But that is something very specific and should not limit
->> PCIe P2P DMA in general.
-> Sure, but that is an ideal we are far from obtaining, and nobody wants
-> to work on it prefering to do hacky hacky like this.
+On Wed, Jun 23, 2021 at 4:38 PM Konrad Rzeszutek Wilk
+<konrad.wilk@oracle.com> wrote:
 >
-> If you believe in this then remove the scatter list from dmabuf, add a
-> new set of dma_map* APIs to work on physical addresses and all the
-> other stuff needed.
-
-Yeah, that's what I totally agree on. And I actually hoped that the new 
-P2P work for PCIe would go into that direction, but that didn't 
-materialized.
-
-But allocating struct pages for PCIe BARs which are essentially 
-registers and not memory is much more hacky than the dma_resource_map() 
-approach.
-
-To re-iterate why I think that having struct pages for those BARs is a 
-bad idea: Our doorbells on AMD GPUs are write and read pointers for ring 
-buffers.
-
-When you write to the BAR you essentially tell the firmware that you 
-have either filled the ring buffer or read a bunch of it. This in turn 
-then triggers an interrupt in the hardware/firmware which was eventually 
-asleep.
-
-By using PCIe P2P we want to avoid the round trip to the CPU when one 
-device has filled the ring buffer and another device must be woken up to 
-process it.
-
-Think of it as MSI-X in reverse and allocating struct pages for those 
-BARs just to work around the shortcomings of the DMA API makes no sense 
-at all to me.
-
-
-We also do have the VRAM BAR, and for HMM we do allocate struct pages 
-for the address range exposed there. But this is a different use case.
-
-Regards,
-Christian.
-
+> On Sat, Jun 19, 2021 at 11:40:31AM +0800, Claire Chang wrote:
+> > This series implements mitigations for lack of DMA access control on
+> > systems without an IOMMU, which could result in the DMA accessing the
+> > system memory at unexpected times and/or unexpected addresses, possibly
+> > leading to data leakage or corruption.
+> >
+> > For example, we plan to use the PCI-e bus for Wi-Fi and that PCI-e bus is
+> > not behind an IOMMU. As PCI-e, by design, gives the device full access to
+> > system memory, a vulnerability in the Wi-Fi firmware could easily escalate
+> > to a full system exploit (remote wifi exploits: [1a], [1b] that shows a
+> > full chain of exploits; [2], [3]).
+> >
+> > To mitigate the security concerns, we introduce restricted DMA. Restricted
+> > DMA utilizes the existing swiotlb to bounce streaming DMA in and out of a
+> > specially allocated region and does memory allocation from the same region.
+> > The feature on its own provides a basic level of protection against the DMA
+> > overwriting buffer contents at unexpected times. However, to protect
+> > against general data leakage and system memory corruption, the system needs
+> > to provide a way to restrict the DMA to a predefined memory region (this is
+> > usually done at firmware level, e.g. MPU in ATF on some ARM platforms [4]).
+> >
+> > [1a] https://googleprojectzero.blogspot.com/2017/04/over-air-exploiting-broadcoms-wi-fi_4.html
+> > [1b] https://googleprojectzero.blogspot.com/2017/04/over-air-exploiting-broadcoms-wi-fi_11.html
+> > [2] https://blade.tencent.com/en/advisories/qualpwn/
+> > [3] https://www.bleepingcomputer.com/news/security/vulnerabilities-found-in-highly-popular-firmware-for-wifi-chips/
+> > [4] https://github.com/ARM-software/arm-trusted-firmware/blob/master/plat/mediatek/mt8183/drivers/emi_mpu/emi_mpu.c#L132
 >
-> Otherwise, we have what we have and drivers don't get to opt out. This
-> is why the stuff in AMDGPU was NAK'd.
+> Heya Claire,
 >
-> Jason
+> I put all your patches on
+> https://git.kernel.org/pub/scm/linux/kernel/git/konrad/swiotlb.git/log/?h=devel/for-linus-5.14
+>
+> Please double-check that they all look ok.
+>
+> Thank you!
 
+They look fine. Thank you!
