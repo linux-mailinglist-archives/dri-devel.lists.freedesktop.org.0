@@ -1,73 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B061B3B1279
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Jun 2021 05:49:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BAC93B13CA
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Jun 2021 08:15:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 721F46E84D;
-	Wed, 23 Jun 2021 03:49:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B871B89C6B;
+	Wed, 23 Jun 2021 06:15:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com
- [IPv6:2607:f8b0:4864:20::634])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC0E56E0E1
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Jun 2021 03:49:05 +0000 (UTC)
-Received: by mail-pl1-x634.google.com with SMTP id h1so453779plt.1
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Jun 2021 20:49:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=yfvte9hUyFiYd2kHj7QDXnx/sjIUlGw0CWZs9V2GBVg=;
- b=dW67Dovp+hE3G/daqpHOocO9ySLua0BW/6bKax3Uf/E54F4pFqZ0SctPDx4465Shk8
- 75MyNdgAdIdPz5uaoIOhyMPFIMX1/TSLVbIsJuIuJY9bPoq4n98w8dEJFUEpX0z2ay2l
- ls4adNqzQNnYWAHXgE3SF5x58TmUK8uHnhqN4CiEqUcOYXTEWBpo6wQoa2WfFTnIeRTb
- /pecruYEb4RSRHwZ4dfG8AiYzdpWmPCe+1dwHjAlbIyYZyFe1jWlpeReaeMKRei+PHTX
- KLle+PUGyZAQ5BBWs9AKO+Xe2k9HGT0kiRwEgIqgOjt2rlL21JlBgS5xOnk8wOnkm9Gb
- n7Fg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=yfvte9hUyFiYd2kHj7QDXnx/sjIUlGw0CWZs9V2GBVg=;
- b=NXHI+mCfFJ7INra9XXYYaVz2RkVuLzvujaJyOdbwInnuRqH8GNDRRl8iPBSTANOSU0
- k5MhxLErDTasOjsCdsvhw+8g1wJD+6dd4a7H/7Bl7LfvbQZbmQ0fp9gjv/5zIpHIAR/j
- xBXONoBkBLDsBk+xWq5Cbk/yDHfVzCOCqWBh8udZrg4WoJ+/u8z/8Lov9Faa8bn+vpS6
- 6WBkqXV3JlXgHacU2wAIb2O7c4ZXNC4dKdiuAI0pBMZc3w1JzgQ6EtfiRkLfeSYxH7As
- GRmcagndQlEb+d1YwM7zfhRM9YVZ0T9gRW+dymzUoHhkpT3ivQKctXCazDINjz6QQ6ra
- 9M3A==
-X-Gm-Message-State: AOAM533ezafYalUjHdFY12xcN8jZEwN9cRvqAOvBIHbP1KjnRIL26APd
- MlNurkgaC5Lpf9GGMNJVCxc=
-X-Google-Smtp-Source: ABdhPJwVU6CpyZ4WfXIDA0T+Y3zaemsNoM/s5kPzIK7FW0fs3+2iwdoyiEJw50HCJ8nDpGvPkbxBXw==
-X-Received: by 2002:a17:90a:5d16:: with SMTP id
- s22mr7294045pji.48.1624420145213; 
- Tue, 22 Jun 2021 20:49:05 -0700 (PDT)
-Received: from [192.168.1.237] ([118.200.190.93])
- by smtp.gmail.com with ESMTPSA id 81sm13142274pgg.85.2021.06.22.20.49.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 22 Jun 2021 20:49:04 -0700 (PDT)
-Subject: Re: [PATCH v3 2/2] drm: protect drm_master pointers in drm_lease.c
-To: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@linux.ie, sumit.semwal@linaro.org,
- christian.koenig@amd.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, skhan@linuxfoundation.org,
- gregkh@linuxfoundation.org, linux-kernel-mentees@lists.linuxfoundation.org,
- emil.l.velikov@gmail.com
-References: <20210620110327.4964-1-desmondcheongzx@gmail.com>
- <20210620110327.4964-3-desmondcheongzx@gmail.com>
- <YNCmeYdY8giE8M9b@phenom.ffwll.local>
-From: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
-Message-ID: <99ee7966-09da-3942-0afe-ee1f185620d6@gmail.com>
-Date: Wed, 23 Jun 2021 11:48:59 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 977E289C6B
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Jun 2021 06:15:27 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1624428927; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=YgXZ6VNhDITS6yDaGx56LtlJqbhq7xTELt1tz8y6TYM=;
+ b=QceX7wa0eTmmXzY7lkWOAkSV1PiGgZN6m6/lxGjUAMBzxTgfYs3CZWGYbo1//ZVuXwtTKvY6
+ 9VcxH2cIJ82xAA2lmgRgIxcU/nPpUXOJ15ey7lE/XBi6VJGhS4sI9D5wzNda3+CmEv6f6pHv
+ RY2SxTtNFx2kqH6ENVedPDTxzp8=
+X-Mailgun-Sending-Ip: 69.72.43.7
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n02.prod.us-west-2.postgun.com with SMTP id
+ 60d2d17e01dd9a943150670b (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 23 Jun 2021 06:15:26
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 7AC20C43460; Wed, 23 Jun 2021 06:15:26 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00
+ autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ (No client certificate requested) (Authenticated sender: rajeevny)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 93D9CC433D3;
+ Wed, 23 Jun 2021 06:15:24 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <YNCmeYdY8giE8M9b@phenom.ffwll.local>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
 Content-Transfer-Encoding: 7bit
+Date: Wed, 23 Jun 2021 11:45:24 +0530
+From: rajeevny@codeaurora.org
+To: Doug Anderson <dianders@chromium.org>
+Subject: Re: [v7 1/5] drm/panel: add basic DP AUX backlight support
+In-Reply-To: <CAD=FV=WJiA+RxaQA9xt7Tik_2pCEJo0+6b39Di8cfnSWGuKkJQ@mail.gmail.com>
+References: <1624099230-20899-1-git-send-email-rajeevny@codeaurora.org>
+ <1624099230-20899-2-git-send-email-rajeevny@codeaurora.org>
+ <20210620093141.GA703072@ravnborg.org>
+ <ebf5581759daee9596c2f092ca836ecb@codeaurora.org>
+ <20210621183828.GA918146@ravnborg.org>
+ <CAD=FV=WJiA+RxaQA9xt7Tik_2pCEJo0+6b39Di8cfnSWGuKkJQ@mail.gmail.com>
+Message-ID: <c15947bb1566f176a2f534c52a7c3183@codeaurora.org>
+X-Sender: rajeevny@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,341 +70,170 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: linux-fbdev@vger.kernel.org, dri-devel <dri-devel@lists.freedesktop.org>,
+ Andrzej Hajda <a.hajda@samsung.com>, Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ "Kristian H. Kristensen" <hoegsberg@chromium.org>,
+ Sam Ravnborg <sam@ravnborg.org>, Daniel Thompson <daniel.thompson@linaro.org>,
+ Lee Jones <lee.jones@linaro.org>, "open list:OPEN FIRMWARE AND FLATTENED
+ DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>,
+ Jani Nikula <jani.nikula@intel.com>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Abhinav Kumar <abhinavk@codeaurora.org>, Sean Paul <seanpaul@chromium.org>,
+ Kalyan Thota <kalyan_t@codeaurora.org>,
+ Krishna Manikandan <mkrishn@codeaurora.org>, Jingoo Han <jingoohan1@gmail.com>,
+ LKML <linux-kernel@vger.kernel.org>, Rob Clark <robdclark@gmail.com>,
+ freedreno <freedreno@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 21/6/21 10:47 pm, Daniel Vetter wrote:
-> On Sun, Jun 20, 2021 at 07:03:27PM +0800, Desmond Cheong Zhi Xi wrote:
->> diff --git a/drivers/gpu/drm/drm_auth.c b/drivers/gpu/drm/drm_auth.c
->> index 86d4b72e95cb..0c64a77c67a6 100644
->> --- a/drivers/gpu/drm/drm_auth.c
->> +++ b/drivers/gpu/drm/drm_auth.c
->> @@ -384,6 +384,28 @@ struct drm_master *drm_master_get(struct drm_master *master)
->>   }
->>   EXPORT_SYMBOL(drm_master_get);
->>   
->> +/**
->> + * drm_file_get_master - reference @file_priv->master
->> + * @file_priv: DRM file private
->> + *
->> + * Increments the reference count of @file_priv->master and returns
-> 
-> Does this format correctly? I'd go with "&drm_file.master of @file_priv".
-> 
+Hi,
 
-Got it. "file_priv->master" was bolded, but no link to drm_file.master 
-was generated. I'll update this.
+On 23-06-2021 00:03, Doug Anderson wrote:
+> Hi,
+> 
+> On Mon, Jun 21, 2021 at 11:38 AM Sam Ravnborg <sam@ravnborg.org> wrote:
+>> 
+>> > > I cannot see why you need the extra check on ->enabled?
+>> > > Would it be sufficient to check backlight_is_blank() only?
+>> >
+>> > This extra check on bl->enabled flag is added to avoid enabling/disabling
+>> > backlight again if it is already enabled/disabled.
+>> > Using this flag way can know the transition between backlight blank and
+>> > un-blank, and decide when to enable/disable the backlight.
+>> 
+>> My point is that this should really not be needed, as it would cover 
+>> up
+>> for some other bug whaere we try to do something twice that is not
+>> needed. But I am less certain here so if you think it is needed, keep
+>> it as is.
+> 
+> I haven't tested this myself, but I believe that it is needed. I don't
+> think the backlight update_status() function is like an enable/disable
+> function. I believe it can be called more than one time even while the
+> backlight is disabled. For instance, you can see that
+> backlight_update_status() just blindly calls through to update the
+> status. That function can be called for a number of reasons. Perhaps
+> Rajeev can put some printouts to confirm but I think that if the
+> backlight is "blanked" for whatever reason and you write to sysfs and
+> change the backlight level you'll still get called again even though
+> the backlight is still "disabled".
+> 
+Yes, sysfs write will always try to update the backlight even though the 
+backlight is "blanked".
 
->> + * @file_priv->master.
->> + *
->> + * Master pointers returned from this function should be unreferenced using
->> + * drm_master_put().
->> + */
->> +struct drm_master *drm_file_get_master(struct drm_file *file_priv)
->> +{
->> +	struct drm_master *master;
->> +
->> +	mutex_lock(&file_priv->master->dev->master_mutex);
->> +	master = drm_master_get(file_priv->master);
->> +	mutex_unlock(&file_priv->master->dev->master_mutex);
->> +
->> +	return master;
->> +}
->> +EXPORT_SYMBOL(drm_file_get_master);
->> +
->>   static void drm_master_destroy(struct kref *kref)
->>   {
->>   	struct drm_master *master = container_of(kref, struct drm_master, refcount);
->> diff --git a/drivers/gpu/drm/drm_lease.c b/drivers/gpu/drm/drm_lease.c
->> index da4f085fc09e..65eab82f8acc 100644
->> --- a/drivers/gpu/drm/drm_lease.c
->> +++ b/drivers/gpu/drm/drm_lease.c
->> @@ -107,10 +107,17 @@ static bool _drm_has_leased(struct drm_master *master, int id)
->>    */
->>   bool _drm_lease_held(struct drm_file *file_priv, int id)
->>   {
->> +	bool ret;
->> +	struct drm_master *master;
->> +
->>   	if (!file_priv || !file_priv->master)
-> 
-> So here we still have a ->master access outside of the locked code
-> section. I think the best fix for that would be to move the NULL check
-> into drm_file_get_master (where we grab the lock already anyway), and
-> update the kerneldoc to state that it might return NULL.
-> 
-> Same with all the checks for ->master below.
-> 
+The "bl->enabled" check is also required to prevent unnecessary calls to 
+drm_edp_backlight_enable() during every backlight level change.
 
-Moving the check into drm_file_get_master sounds good. Grabbing the lock 
-before performing the NULL check poses a little chicken-and-egg problem 
-though.
+To confirm this, I have added few prints in 
+dp_aux_backlight_update_status() function and collected the logs.
+(Copying the code here to make the review easy)
 
-It's true that without the lock, even if file_priv->master passes the 
-NULL check, it could be freed in the time between the check and grabbing 
-the lock.
 
-However, based on the original code, it seems there's the possibility 
-that file_priv->master might be NULL. In this case, grabbing the lock 
-results in a null ptr dereference because we get the mutex via 
-&file_priv->master->dev->master_mutex.
+static int dp_aux_backlight_update_status(struct backlight_device *bd)
+{
+         struct dp_aux_backlight *bl = bl_get_data(bd);
+         u16 brightness = backlight_get_brightness(bd);
+         int ret = 0;
 
-By this reasoning, I think the safer method is still to perform the NULL 
-check before grabbing the lock.
++        pr_err("%s: brightness %d, _is_blank %d, bl->enabled %d\n", 
+__func__,
++                brightness, backlight_is_blank(bd), bl->enabled);
 
->>   		return true;
->>   
->> -	return _drm_lease_held_master(file_priv->master, id);
->> +	master = drm_file_get_master(file_priv);
->> +	ret = _drm_lease_held_master(master, id);
->> +	drm_master_put(&master);
->> +
->> +	return ret;
->>   }
->>   
->>   /**
->> @@ -132,10 +139,11 @@ bool drm_lease_held(struct drm_file *file_priv, int id)
->>   	if (!file_priv || !file_priv->master || !file_priv->master->lessor)
->>   		return true;
-> 
-> master->lessor dereferenced outside the lock or without holding a
-> reference.
-> 
->>   
->> -	master = file_priv->master;
->> +	master = drm_file_get_master(file_priv);
->>   	mutex_lock(&master->dev->mode_config.idr_mutex);
->>   	ret = _drm_lease_held_master(master, id);
->>   	mutex_unlock(&master->dev->mode_config.idr_mutex);
->> +	drm_master_put(&master);
->>   	return ret;
->>   }
->>   
->> @@ -158,7 +166,7 @@ uint32_t drm_lease_filter_crtcs(struct drm_file *file_priv, uint32_t crtcs_in)
->>   	if (!file_priv || !file_priv->master || !file_priv->master->lessor)
->>   		return crtcs_in;
-> 
-> Same here.
-> 
->>   
->> -	master = file_priv->master;
->> +	master = drm_file_get_master(file_priv);
->>   	dev = master->dev;
->>   
->>   	count_in = count_out = 0;
->> @@ -177,6 +185,7 @@ uint32_t drm_lease_filter_crtcs(struct drm_file *file_priv, uint32_t crtcs_in)
->>   		count_in++;
->>   	}
->>   	mutex_unlock(&master->dev->mode_config.idr_mutex);
->> +	drm_master_put(&master);
->>   	return crtcs_out;
->>   }
->>   
->> @@ -490,7 +499,7 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
->>   	size_t object_count;
->>   	int ret = 0;
->>   	struct idr leases;
->> -	struct drm_master *lessor = lessor_priv->master;
->> +	struct drm_master *lessor;
->>   	struct drm_master *lessee = NULL;
->>   	struct file *lessee_file = NULL;
->>   	struct file *lessor_file = lessor_priv->filp;
->> @@ -502,12 +511,6 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
->>   	if (!drm_core_check_feature(dev, DRIVER_MODESET))
->>   		return -EOPNOTSUPP;
->>   
->> -	/* Do not allow sub-leases */
->> -	if (lessor->lessor) {
->> -		DRM_DEBUG_LEASE("recursive leasing not allowed\n");
->> -		return -EINVAL;
->> -	}
->> -
->>   	/* need some objects */
->>   	if (cl->object_count == 0) {
->>   		DRM_DEBUG_LEASE("no objects in lease\n");
->> @@ -519,12 +522,22 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
->>   		return -EINVAL;
->>   	}
->>   
->> +	lessor = drm_file_get_master(lessor_priv);
->> +	/* Do not allow sub-leases */
->> +	if (lessor->lessor) {
-> 
-> Here we check after grabbing the reference, so looks correct.
-> 
->> +		DRM_DEBUG_LEASE("recursive leasing not allowed\n");
->> +		ret = -EINVAL;
->> +		goto out_lessor;
->> +	}
->> +
->>   	object_count = cl->object_count;
->>   
->>   	object_ids = memdup_user(u64_to_user_ptr(cl->object_ids),
->>   			array_size(object_count, sizeof(__u32)));
->> -	if (IS_ERR(object_ids))
->> -		return PTR_ERR(object_ids);
->> +	if (IS_ERR(object_ids)) {
->> +		ret = PTR_ERR(object_ids);
->> +		goto out_lessor;
->> +	}
->>   
->>   	idr_init(&leases);
->>   
->> @@ -535,14 +548,15 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
->>   	if (ret) {
->>   		DRM_DEBUG_LEASE("lease object lookup failed: %i\n", ret);
->>   		idr_destroy(&leases);
->> -		return ret;
->> +		goto out_lessor;
->>   	}
->>   
->>   	/* Allocate a file descriptor for the lease */
->>   	fd = get_unused_fd_flags(cl->flags & (O_CLOEXEC | O_NONBLOCK));
->>   	if (fd < 0) {
->>   		idr_destroy(&leases);
->> -		return fd;
->> +		ret = fd;
->> +		goto out_lessor;
->>   	}
->>   
->>   	DRM_DEBUG_LEASE("Creating lease\n");
->> @@ -578,6 +592,7 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
->>   	/* Hook up the fd */
->>   	fd_install(fd, lessee_file);
->>   
->> +	drm_master_put(&lessor);
->>   	DRM_DEBUG_LEASE("drm_mode_create_lease_ioctl succeeded\n");
->>   	return 0;
->>   
->> @@ -587,6 +602,8 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
->>   out_leases:
->>   	put_unused_fd(fd);
->>   
->> +out_lessor:
->> +	drm_master_put(&lessor);
->>   	DRM_DEBUG_LEASE("drm_mode_create_lease_ioctl failed: %d\n", ret);
->>   	return ret;
->>   }
->> @@ -609,7 +626,7 @@ int drm_mode_list_lessees_ioctl(struct drm_device *dev,
->>   	struct drm_mode_list_lessees *arg = data;
->>   	__u32 __user *lessee_ids = (__u32 __user *) (uintptr_t) (arg->lessees_ptr);
->>   	__u32 count_lessees = arg->count_lessees;
->> -	struct drm_master *lessor = lessor_priv->master, *lessee;
->> +	struct drm_master *lessor, *lessee;
->>   	int count;
->>   	int ret = 0;
->>   
->> @@ -620,6 +637,7 @@ int drm_mode_list_lessees_ioctl(struct drm_device *dev,
->>   	if (!drm_core_check_feature(dev, DRIVER_MODESET))
->>   		return -EOPNOTSUPP;
->>   
->> +	lessor = drm_file_get_master(lessor_priv);
->>   	DRM_DEBUG_LEASE("List lessees for %d\n", lessor->lessee_id);
->>   
->>   	mutex_lock(&dev->mode_config.idr_mutex);
->> @@ -643,6 +661,7 @@ int drm_mode_list_lessees_ioctl(struct drm_device *dev,
->>   		arg->count_lessees = count;
->>   
->>   	mutex_unlock(&dev->mode_config.idr_mutex);
->> +	drm_master_put(&lessor);
->>   
->>   	return ret;
->>   }
->> @@ -662,7 +681,7 @@ int drm_mode_get_lease_ioctl(struct drm_device *dev,
->>   	struct drm_mode_get_lease *arg = data;
->>   	__u32 __user *object_ids = (__u32 __user *) (uintptr_t) (arg->objects_ptr);
->>   	__u32 count_objects = arg->count_objects;
->> -	struct drm_master *lessee = lessee_priv->master;
->> +	struct drm_master *lessee;
->>   	struct idr *object_idr;
->>   	int count;
->>   	void *entry;
->> @@ -676,6 +695,7 @@ int drm_mode_get_lease_ioctl(struct drm_device *dev,
->>   	if (!drm_core_check_feature(dev, DRIVER_MODESET))
->>   		return -EOPNOTSUPP;
->>   
->> +	lessee = drm_file_get_master(lessee_priv);
->>   	DRM_DEBUG_LEASE("get lease for %d\n", lessee->lessee_id);
->>   
->>   	mutex_lock(&dev->mode_config.idr_mutex);
->> @@ -703,6 +723,7 @@ int drm_mode_get_lease_ioctl(struct drm_device *dev,
->>   		arg->count_objects = count;
->>   
->>   	mutex_unlock(&dev->mode_config.idr_mutex);
->> +	drm_master_put(&lessee);
->>   
->>   	return ret;
->>   }
->> @@ -721,7 +742,7 @@ int drm_mode_revoke_lease_ioctl(struct drm_device *dev,
->>   				void *data, struct drm_file *lessor_priv)
->>   {
->>   	struct drm_mode_revoke_lease *arg = data;
->> -	struct drm_master *lessor = lessor_priv->master;
->> +	struct drm_master *lessor;
->>   	struct drm_master *lessee;
->>   	int ret = 0;
->>   
->> @@ -731,6 +752,7 @@ int drm_mode_revoke_lease_ioctl(struct drm_device *dev,
->>   	if (!drm_core_check_feature(dev, DRIVER_MODESET))
->>   		return -EOPNOTSUPP;
->>   
->> +	lessor = drm_file_get_master(lessor_priv);
->>   	mutex_lock(&dev->mode_config.idr_mutex);
->>   
->>   	lessee = _drm_find_lessee(lessor, arg->lessee_id);
->> @@ -751,6 +773,7 @@ int drm_mode_revoke_lease_ioctl(struct drm_device *dev,
->>   
->>   fail:
->>   	mutex_unlock(&dev->mode_config.idr_mutex);
->> +	drm_master_put(&lessor);
->>   
->>   	return ret;
->>   }
->> diff --git a/include/drm/drm_auth.h b/include/drm/drm_auth.h
->> index 6bf8b2b78991..f99d3417f304 100644
->> --- a/include/drm/drm_auth.h
->> +++ b/include/drm/drm_auth.h
->> @@ -107,6 +107,7 @@ struct drm_master {
->>   };
->>   
->>   struct drm_master *drm_master_get(struct drm_master *master);
->> +struct drm_master *drm_file_get_master(struct drm_file *file_priv);
->>   void drm_master_put(struct drm_master **master);
->>   bool drm_is_current_master(struct drm_file *fpriv);
->>   
->> diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
->> index b81b3bfb08c8..e9931fca4ab7 100644
->> --- a/include/drm/drm_file.h
->> +++ b/include/drm/drm_file.h
->> @@ -226,9 +226,18 @@ struct drm_file {
->>   	/**
->>   	 * @master:
->>   	 *
->> -	 * Master this node is currently associated with. Only relevant if
->> -	 * drm_is_primary_client() returns true. Note that this only
->> -	 * matches &drm_device.master if the master is the currently active one.
->> +	 * Master this node is currently associated with. Protected by struct
->> +	 * &drm_device.master_mutex.
->> +	 *
->> +	 * Only relevant if drm_is_primary_client() returns true. Note that
->> +	 * this only matches &drm_device.master if the master is the currently
->> +	 * active one.
->> +	 *
->> +	 * When obtaining a copy of this pointer, it is recommended to either
->> +	 * hold struct &drm_device.master_mutex for the duration of the
->> +	 * pointer's use, or to use drm_file_get_master() if struct
->> +	 * &drm_device.master_mutex is not currently held and there is no other
->> +	 * need to hold it. This prevents @master from being freed during use.
->>   	 *
->>   	 * See also @authentication and @is_master and the :ref:`section on
->>   	 * primary nodes and authentication <drm_primary_node>`.
->> -- 
->> 2.25.1
->>
-> 
+         if (!backlight_is_blank(bd)) {
+                 if (!bl->enabled) {
++                        pr_err("%s: enabling backlight\n", __func__);
+                         drm_edp_backlight_enable(bl->aux, &bl->info, 
+brightness);
+                         bl->enabled = true;
+                         return 0;
+                 }
+                 ret = drm_edp_backlight_set_level(bl->aux, &bl->info, 
+brightness);
+         } else {
+                 if (bl->enabled) {
++                       pr_err("%s: disabling backlight\n", __func__);
+                         drm_edp_backlight_disable(bl->aux, &bl->info);
+                         bl->enabled = false;
+                 }
+         }
 
-Thanks for the feedback, Daniel. I'll send out an updated patch to 
-address these issues.
+         return ret;
+}
 
-Best wishes,
-Desmond
+
+LOGS
+====
+
+During boot
+-----------
+[    4.752188] dp_aux_backlight_update_status: brightness 102, _is_blank 
+0, bl->enabled 0
+[    4.760447] dp_aux_backlight_update_status: enabling backlight
+[    5.503866] dp_aux_backlight_update_status: brightness 102, _is_blank 
+0, bl->enabled 1
+[    6.897355] dp_aux_backlight_update_status: brightness 103, _is_blank 
+0, bl->enabled 1
+[    6.938617] dp_aux_backlight_update_status: brightness 104, _is_blank 
+0, bl->enabled 1
+[    6.980634] dp_aux_backlight_update_status: brightness 105, _is_blank 
+0, bl->enabled 1
+
+
+Turning Panel OFF
+-----------------
+localhost ~ # set_power_policy --ac_screen_dim_delay=5 
+--ac_screen_off_delay=10
+localhost ~ #
+
+[  106.555140] dp_aux_backlight_update_status: brightness 145, _is_blank 
+0, bl->enabled 1
+...
+...
+[  111.679407] dp_aux_backlight_update_status: brightness 7, _is_blank 
+0, bl->enabled 1
+[  111.700302] dp_aux_backlight_update_status: brightness 4, _is_blank 
+0, bl->enabled 1
+[  111.720805] dp_aux_backlight_update_status: brightness 2, _is_blank 
+0, bl->enabled 1
+[  111.747486] dp_aux_backlight_update_status: brightness 0, _is_blank 
+1, bl->enabled 1
+[  111.755580] dp_aux_backlight_update_status: disabling backlight
+[  111.792344] dp_aux_backlight_update_status: brightness 0, _is_blank 
+1, bl->enabled 0
+
+
+Changing brightness from sysfs while panel is off
+--------------------------------------------------
+(it will do nothing)
+
+localhost ~ # echo 100 > 
+/sys/class/backlight/dp_aux_backlight/brightness
+[  352.754963] dp_aux_backlight_update_status: brightness 0, _is_blank 
+1, bl->enabled 0
+
+localhost ~ # echo 200 > 
+/sys/class/backlight/dp_aux_backlight/brightness
+[  364.708048] dp_aux_backlight_update_status: brightness 0, _is_blank 
+1, bl->enabled 0
+
+localhost ~ # echo 0 > /sys/class/backlight/dp_aux_backlight/brightness
+[  378.850978] dp_aux_backlight_update_status: brightness 0, _is_blank 
+1, bl->enabled 0
+
+
+Turning Panel ON
+----------------
+[  553.381745] dp_aux_backlight_update_status: brightness 0, _is_blank 
+0, bl->enabled 0
+[  553.418133] dp_aux_backlight_update_status: enabling backlight
+[  553.426397] dp_aux_backlight_update_status: brightness 159, _is_blank 
+0, bl->enabled 1
+
+====
+
+
+
+Thanks,
+Rajeev
+
