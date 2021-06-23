@@ -2,50 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EB873B2081
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Jun 2021 20:43:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C034A3B20A8
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Jun 2021 20:50:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 65CA46E96F;
-	Wed, 23 Jun 2021 18:43:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 025E36E972;
+	Wed, 23 Jun 2021 18:50:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc31.google.com (mail-oo1-xc31.google.com
- [IPv6:2607:f8b0:4864:20::c31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 701926E96F;
- Wed, 23 Jun 2021 18:43:31 +0000 (UTC)
-Received: by mail-oo1-xc31.google.com with SMTP id
- k21-20020a4a2a150000b029024955603642so969642oof.8; 
- Wed, 23 Jun 2021 11:43:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=cpkWeMAkWCf76CjUWKr9rUiGHMNQHXwmEhD8GnECJcY=;
- b=FAdddLGyvRhCK6AccX0MB+lVTROAnOJkBjUEiLvKrGbCjDXg8cMuBvzhCKCYG+2wp/
- 7FJ3bFXrVJfND52cISdONm5rVb5W9wcg0gd6yEuwoMBJliQ+FKvkdyDQWzozxNSwBNbs
- JO7eZe4ZccJ/2bx2xYR8vGk+3FNkZO8h7JpLwuS4w5BJ2EAXBGSDJEkL0jivD5z+gFEw
- 7BIJX+4ApeN6hyu2dSaya30ciWfKtm1usu/9aEHqyXKsn8HrRL8Oik9b/5kIdMgkmffs
- 40h8uV5SomFi6A7tfXs9WuHwRD2nn3EpgHQL1ljq24NiTrr2WkcWAikxIxKIRjiJG6dp
- 7Gww==
+Received: from mail-qk1-x730.google.com (mail-qk1-x730.google.com
+ [IPv6:2607:f8b0:4864:20::730])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3628F6E972
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Jun 2021 18:50:47 +0000 (UTC)
+Received: by mail-qk1-x730.google.com with SMTP id o6so7845618qkh.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Jun 2021 11:50:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=A9I072mZJre1TS+IQKbZNgSu5AaMK7P2E0lmk7a57z4=;
+ b=b5e3Vs0J8hbfUScY+Wtfo2QnoFw5zQRvSxFua4X+zv6sZmqniXxjtckK2oI0DJ0jKp
+ +FpDq4XgR5FvYz5KhFDvESo6/vvn5bGvgGZWSgiYdS8/PfbLxpaqI3o9lhVUAZxmPK5T
+ nDlzhXlXLqlvJVTPQVPebRcUOY8aDMfSl2n44EWIYFP7pJbCLgzg7CgH7naHE97q6TC2
+ fZXUfMee0Dfy9rvfoVtazaR6R+Q7ESYAYIdPD2TcTnMWbmqWi3fqt48BxyEAqBINSR6Y
+ /GKjFQQmTzpnkbtvp/1Ez+q16SM92SVKit9WzRj/wJHNz3K/lD3bYob3W0EWe1zfdvXM
+ mlxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=cpkWeMAkWCf76CjUWKr9rUiGHMNQHXwmEhD8GnECJcY=;
- b=e33hJSvVdYth5atEGOG+XYXjaKB52SYAoRJw/RKKHYz/D2QzDRKDWc9xyWPjvkZCh0
- mfKs3taDWakBrkFQs6EfbyC9gILCQNN9NxWIJkWpF1EbP323qgAElfoiQ0LKrIK3QImv
- pht/X0QJlAdgF7lS7yUMb+7c07biiXRmIrq/tDR/Q0W4QyioXccjq7CSPFnN2XuZ8pO6
- ho7jPnVFVbO8ME8dK44IWNqewvAgZ28iNV6+Uxgw/QD9PFlKRS5fD+M8WMpfI3Qtnv8H
- 37TXgodK18shFzzTxwydL0z6c6l5jRoSv/XjXgHYnV9t9HK6q+PuMQYLLMc2gl5gMC58
- 72jw==
-X-Gm-Message-State: AOAM532i8+Aa/2z/TAlPSNaSQbD8UniUI0B+UwRiBDTpbID1fPw/RhXO
- Jey1NPbkNrFbvsEkLh2BygsLQ9j8oDC39DT2xJw=
-X-Google-Smtp-Source: ABdhPJztTw3IUTHnVPOKEUa+mzrtiHw343QNu8CeH1GRn9gntl2RUBK4RDrGb/9f1ZBukujNJOVgfhuumtOwviJ5UvE=
-X-Received: by 2002:a4a:1a84:: with SMTP id 126mr976948oof.77.1624473810500;
- Wed, 23 Jun 2021 11:43:30 -0700 (PDT)
-MIME-Version: 1.0
-References: <d358c740-fd3a-9ecd-7001-676e2cb44ec9@gmail.com>
- <CAFCwf11h_Nj_GEdCdeTzO5jgr-Y9em+W-v_pYUfz64i5Ac25yg@mail.gmail.com>
- <20210622120142.GL1096940@ziepe.ca>
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=A9I072mZJre1TS+IQKbZNgSu5AaMK7P2E0lmk7a57z4=;
+ b=MipsAViBB1t88jcfsX8Ne6h5n+n8X1CUwv4P6VtbdsZZ9BLW46FS7nD7F88G1n3D9R
+ dwQAclFLCCV2xilxGTly3FoutT+Ll8yOCMCt6xCE5N5CaevUVCgS57XFjZKkXtKgDeA1
+ HxZvzWt3Rya+5k7T10DjomJIB2FvbAM5xQwwhJ1KBZTcsGbrWeUmAnwPVX3jEsFGjOnm
+ xYL4T8R+KyDOEjGBM5ayr+n8hDC81pEevjDA6ykjApULlS7CUKfBknkKH1JF+Q94FPEC
+ MtfjSL7fMncZ0uRTyiQP5KhC0pjMFS/cxjJnsoPVnvJpdiuHovPj63fvpnkRXBBlMxpU
+ vy8w==
+X-Gm-Message-State: AOAM5339b9c9Up4AtTLSL4DVx9I80bI1400zddEBnHgGIIz/oTsdFbli
+ 5knXAghdBR04H2TEitgBEdJvrA==
+X-Google-Smtp-Source: ABdhPJy26aLIQNDGYzv9yUWJkE1S7Ng46xlnu9FBhglctMci0BMRl57bB82kjnJJ4TuniXpuKS76ig==
+X-Received: by 2002:a37:5cc6:: with SMTP id q189mr1519218qkb.305.1624474246361; 
+ Wed, 23 Jun 2021 11:50:46 -0700 (PDT)
+Received: from ziepe.ca
+ (hlfxns017vw-47-55-113-94.dhcp-dynamic.fibreop.ns.bellaliant.net.
+ [47.55.113.94])
+ by smtp.gmail.com with ESMTPSA id y18sm503840qtx.6.2021.06.23.11.50.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 23 Jun 2021 11:50:45 -0700 (PDT)
+Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
+ id 1lw7xV-00Blq0-8k; Wed, 23 Jun 2021 15:50:45 -0300
+Date: Wed, 23 Jun 2021 15:50:45 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Oded Gabbay <oded.gabbay@gmail.com>
+Subject: Re: [Linaro-mm-sig] [PATCH v3 1/2] habanalabs: define uAPI to export
+ FD for DMA-BUF
+Message-ID: <20210623185045.GY1096940@ziepe.ca>
+References: <20210622120142.GL1096940@ziepe.ca>
  <d497b0a2-897e-adff-295c-cf0f4ff93cb4@amd.com>
  <20210622152343.GO1096940@ziepe.ca>
  <3fabe8b7-7174-bf49-5ffe-26db30968a27@amd.com>
@@ -54,15 +64,11 @@ References: <d358c740-fd3a-9ecd-7001-676e2cb44ec9@gmail.com>
  <20210622160538.GT1096940@ziepe.ca>
  <d600a638-9e55-6249-b574-0986cd5cea1e@gmail.com>
  <20210623182435.GX1096940@ziepe.ca>
-In-Reply-To: <20210623182435.GX1096940@ziepe.ca>
-From: Oded Gabbay <oded.gabbay@gmail.com>
-Date: Wed, 23 Jun 2021 21:43:04 +0300
-Message-ID: <CAFCwf111O0_YB_tixzEUmaKpGAHMNvMaOes2AfMD4x68Am4Yyg@mail.gmail.com>
-Subject: Re: [Linaro-mm-sig] [PATCH v3 1/2] habanalabs: define uAPI to export
- FD for DMA-BUF
-To: Jason Gunthorpe <jgg@ziepe.ca>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ <CAFCwf111O0_YB_tixzEUmaKpGAHMNvMaOes2AfMD4x68Am4Yyg@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAFCwf111O0_YB_tixzEUmaKpGAHMNvMaOes2AfMD4x68Am4Yyg@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,11 +82,11 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: linux-rdma <linux-rdma@vger.kernel.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Christian =?utf-8?B?S8O2bmln?= <ckoenig.leichtzumerken@gmail.com>,
  sleybo@amazon.com, Leon Romanovsky <leonro@nvidia.com>,
  Gal Pressman <galpress@amazon.com>,
  dri-devel <dri-devel@lists.freedesktop.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
  "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
  Doug Ledford <dledford@redhat.com>, Tomer Tayar <ttayar@habana.ai>,
  amd-gfx list <amd-gfx@lists.freedesktop.org>,
@@ -91,73 +97,31 @@ Cc: linux-rdma <linux-rdma@vger.kernel.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 23, 2021 at 9:24 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
->
-> On Wed, Jun 23, 2021 at 10:57:35AM +0200, Christian K=C3=B6nig wrote:
->
-> > > > No it isn't. It makes devices depend on allocating struct pages for=
- their
-> > > > BARs which is not necessary nor desired.
-> > > Which dramatically reduces the cost of establishing DMA mappings, a
-> > > loop of dma_map_resource() is very expensive.
-> >
-> > Yeah, but that is perfectly ok. Our BAR allocations are either in chunk=
-s of
-> > at least 2MiB or only a single 4KiB page.
->
-> And very small apparently
->
-> > > > Allocating a struct pages has their use case, for example for expos=
-ing VRAM
-> > > > as memory for HMM. But that is something very specific and should n=
-ot limit
-> > > > PCIe P2P DMA in general.
-> > > Sure, but that is an ideal we are far from obtaining, and nobody want=
-s
-> > > to work on it prefering to do hacky hacky like this.
-> > >
-> > > If you believe in this then remove the scatter list from dmabuf, add =
-a
-> > > new set of dma_map* APIs to work on physical addresses and all the
-> > > other stuff needed.
-> >
-> > Yeah, that's what I totally agree on. And I actually hoped that the new=
- P2P
-> > work for PCIe would go into that direction, but that didn't materialize=
-d.
->
-> It is a lot of work and the only gain is to save a bit of memory for
-> struct pages. Not a very big pay off.
->
-> > But allocating struct pages for PCIe BARs which are essentially registe=
-rs
-> > and not memory is much more hacky than the dma_resource_map() approach.
->
-> It doesn't really matter. The pages are in a special zone and are only
-> being used as handles for the BAR memory.
->
-> > By using PCIe P2P we want to avoid the round trip to the CPU when one d=
-evice
-> > has filled the ring buffer and another device must be woken up to proce=
-ss
-> > it.
->
-> Sure, we all have these scenarios, what is inside the memory doesn't
-> realy matter. The mechanism is generic and the struct pages don't care
-> much if they point at something memory-like or at something
-> register-like.
->
-> They are already in big trouble because you can't portably use CPU
-> instructions to access them anyhow.
->
-> Jason
+On Wed, Jun 23, 2021 at 09:43:04PM +0300, Oded Gabbay wrote:
 
-Jason,
-Can you please explain why it is so important to (allow) access them
-through the CPU ?
-In regard to p2p, where is the use-case for that ?
-The whole purpose is that the other device accesses my device,
-bypassing the CPU.
+> Can you please explain why it is so important to (allow) access them
+> through the CPU ?
 
-Thanks,
-Oded
+It is not so much important, as it reflects significant design choices
+that are already tightly baked into alot of our stacks. 
+
+A SGL is CPU accessible by design - that is baked into this thing and
+places all over the place assume it. Even in RDMA we have
+RXE/SWI/HFI1/qib that might want to use the CPU side (grep for sg_page
+to see)
+
+So, the thing at the top of the stack - in this case the gaudi driver
+- simply can't assume what the rest of the stack is going to do and
+omit the CPU side. It breaks everything.
+
+Logan's patch series is the most fully developed way out of this
+predicament so far.
+
+> The whole purpose is that the other device accesses my device,
+> bypassing the CPU.
+
+Sure, but you don't know that will happen, or if it is even possible
+in any given system configuration. The purpose is to allow for that
+optimization when possible, not exclude CPU based approaches.
+
+Jason
