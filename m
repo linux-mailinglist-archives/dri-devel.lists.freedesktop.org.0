@@ -1,36 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D75E53B1CC3
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Jun 2021 16:41:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C4EE3B1CC7
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Jun 2021 16:41:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 188F26E91B;
-	Wed, 23 Jun 2021 14:41:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6CE2C6E91E;
+	Wed, 23 Jun 2021 14:41:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C93176E91B
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Jun 2021 14:41:28 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id A34C760FF2
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Jun 2021 14:41:28 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 671356E91C
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Jun 2021 14:41:40 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 21F8160FF2
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Jun 2021 14:41:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1624459288;
- bh=NClMK5MGx+sKytChGA5/AvqCXo9ymSHBJaEExNUIRyc=;
+ s=k20201202; t=1624459300;
+ bh=aWK9HcurnTFN+esyWWDSuclSDZ0nmNhr8S0DZpXJLfI=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=cGDIEpaMS87eESZiTEQMFQtCfYIjxFl/OUhYaxXEMLfm7dYFBSuSRSZb/+QZEI7ry
- MfiXnJ8y296A7z5fXXFU++k7QP4zwKGc5v6cs7vX9wKCJrPODyrouerEckpP0/sEYV
- hjeNrPcv8Dc0WTDM532oODmE+iIWX+DUzSM0F0zb+Ll9TT7ImY/ne2L1tfRn5rbXMe
- fYOmoSCdEhNuyKxn27W2CFL9mdxcoy+wex7+/DQl3M2/neazep2bj9wM9sDAcrKdqk
- 0tEnNhcJOl9r0UrEgDZndJvviBWACWhjfmgKJC/XUpHS7F4MNTG+UkqIfnKNUK9rGL
- PJIt5ptYSlY3w==
+ b=SXmgeORLvMJ3jra+dLP0ci12XyPeygcEx6lBaOWLbMyxBTifHjmR7ACvt5Q4w2wpo
+ zbShfPAcFRXVou6Eqf21vh7eSGXWmGpNR2n9PjVTzHqU5HtVBsBLEydPcpP2CvAbfa
+ ISS0f9huO3UPSgIhTFE55fcf6v2vPfmjnrnDDFmLkPfHX+PZEvCEpi+PEN8XsbP++i
+ ts2aQVGOo8QxJfO11QCqCyKq3Bzw1a+Oag52rP+X+RgcrXHd6n6c6hHKnJfw+sgff4
+ CfEyMo9Z0dRDhkTd70HAuhVXfnWAImO4oH+iizsNkn2IvqxOkaAibLVOHu/ujdObty
+ +1LzW3Pr+IDmA==
 Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 9FCE4612AD; Wed, 23 Jun 2021 14:41:28 +0000 (UTC)
+ id 1EBE4612AD; Wed, 23 Jun 2021 14:41:40 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 213561] [bisected] AMD GPU can no longer idle state after
+Subject: [Bug 213561] [bisected] AMD GPU can no longer enter idle state after
  commit 1c0b0efd148d5b24c4932ddb3fa03c8edd6097b3
-Date: Wed, 23 Jun 2021 14:41:28 +0000
+Date: Wed, 23 Jun 2021 14:41:39 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -45,8 +45,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cf_regression
-Message-ID: <bug-213561-2300-9yJlxClTgD@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: short_desc
+Message-ID: <bug-213561-2300-xAWvHAXyWA@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-213561-2300@https.bugzilla.kernel.org/>
 References: <bug-213561-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -75,7 +75,11 @@ Linux_Chemist (untaintableangel@hotmail.co.uk) changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-         Regression|No                          |Yes
+            Summary|[bisected] AMD GPU can no   |[bisected] AMD GPU can no
+                   |longer idle state after     |longer enter idle state
+                   |commit                      |after commit
+                   |1c0b0efd148d5b24c4932ddb3fa |1c0b0efd148d5b24c4932ddb3fa
+                   |03c8edd6097b3               |03c8edd6097b3
 
 --=20
 You may reply to this email to add a comment.
