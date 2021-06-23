@@ -1,75 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A69533B19A0
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Jun 2021 14:13:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 54D3F3B19A2
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Jun 2021 14:14:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AAB5F6E8C2;
-	Wed, 23 Jun 2021 12:13:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D5E96E8C3;
+	Wed, 23 Jun 2021 12:14:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
- [66.111.4.230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 342166E8C2
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Jun 2021 12:13:15 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailnew.nyi.internal (Postfix) with ESMTP id 53CB05805EC;
- Wed, 23 Jun 2021 08:13:14 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Wed, 23 Jun 2021 08:13:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm3; bh=bvlEN71gEJw8dTddmdc2q2Vwa/f
- oT2HV1h2HUMGGpWk=; b=QYV3LZdLpqmkM4L4+cnqSa9HU9oU+rMprHSsb/GpRe9
- GWY52E7PipkKUevdhlO+ajgvcc3aj0gLNpPLP+UjaGmBv4A28YWKy+1jWG2pOHe6
- SDBQOVDw+l6ZA82FeCqFPJ3u/4XxxsbwHBCRTYM5hrF46sz1F7uLhshZmbiK8bnQ
- hpaPiZYKnIpvd1Le0A15a6GRd6HPPloI9UEMkzWK7QFnkH2pGGPFAq7rKgIEUGFZ
- XEEAHECCcQBU8WymCYPRZ+BK2E1gd7VA535ODx4izTEbsVhvWgfok93dbS1vDSzj
- 1bBbZK2GmiOZga74UEFtgvcO7FxmdlYCDRuGc1baUhg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=bvlEN7
- 1gEJw8dTddmdc2q2Vwa/foT2HV1h2HUMGGpWk=; b=jHJeARFsGYkV+1k41dYd+p
- 6uJzJBWNE4MSFYijIqiOo00ZPHFYzJWOc61a9Yc4kQWeLAQxlJW5WHk5RT64ajet
- QFXddb2XshDyU18V6QWl8R7TwpY0j3u2UbjpRov+SlxxUyww62RXsUGAbDjB34p7
- 5GZDUWEf6zEQ1b5NVm7phrJIODeKzT88VXxqNlzwaxORcJHAPmIjVRxPNxODRr9W
- 30DFG2I1Kg8xrNtGmttYIhhof/5kYRVGItSRl0nr0rrMEUTxGVTVYjLPZRCBgV8Y
- i8SjgqtqGDImToat70xcPZvsUvJUU3F+70xnrTo7j/s56EbdwRpiqXAWwtPOmOiQ
- ==
-X-ME-Sender: <xms:WCXTYGUK8xceoJrOxy2UUQELe-vEVQAbyxc_dv_f83XITRI6TkIZdA>
- <xme:WCXTYClH5AAS0C0ZHLHb9WwanAZZEb7wOBxhQxoQ7OvWpuZYYGKVLpjXZU_ONHNMV
- QgogFtMI7Q-qa7wdAM>
-X-ME-Received: <xmr:WCXTYKZ6TZjLlypY3q-xGLUlerQc5WZaOoMc3V2CwquMjq2Qydr-eV3bdJdI_cNwY7TMj_RN64Qxbqoj5KhKCOhBT2gMjs1Rk8qG>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfeegfedghedtucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
- gedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
- grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:WCXTYNXIGb-bFSIrhvw-sjJ6GagaRged1569H6I9Tl7EgBswtCtLvg>
- <xmx:WCXTYAmlCZ8X-KS48Y-6CAg-g7OH88Db6db7OqPDE7PPfO0zGA2sGg>
- <xmx:WCXTYCf3k9TpbenJgrE388JwyVpL123O1fj4qUTuYue-rLrINppWwA>
- <xmx:WiXTYNjItrZulxglOXXEKAnrELpJgs_SyR0F0mLHVMAJoRNq-y5bpQ>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 23 Jun 2021 08:13:12 -0400 (EDT)
-Date: Wed, 23 Jun 2021 14:13:11 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Mark Brown <broonie@kernel.org>, Takashi Iwai <tiwai@suse.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>
-Subject: Re: [GIT PULL] HDMI codec improvements, v2
-Message-ID: <20210623121311.qlbnije5gn7o7so7@gilmour>
-References: <20210610122550.jnriewchqspdcrwk@gilmour>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 64E136E8C3
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Jun 2021 12:14:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1624450440;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=8rzbKpDe7cnFnDItzuNwdaYlU3GisHtg5A3ii2JnpoM=;
+ b=cl5nQd9cBbxQc5QVqffdrQquhC1o7NTbJ+IrAjm56sASqrzYsyWxdYBgjkZeosdzwKCc1v
+ aqL/jLhFNDufRsyafpFJvS2f/PdzMdqqZgUshU/fKAtNTCBTnq8K7DyGx1Wd9o+/TC1OOi
+ 5qbG4vDaZxY59/YnXr2E8qAwr2RQ3M8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-518-XhnrZbYaPUaaI0I0gx71PA-1; Wed, 23 Jun 2021 08:13:57 -0400
+X-MC-Unique: XhnrZbYaPUaaI0I0gx71PA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7561E19251AC;
+ Wed, 23 Jun 2021 12:13:56 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-38.ams2.redhat.com
+ [10.36.112.38])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1A3DB1000324;
+ Wed, 23 Jun 2021 12:13:56 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 77C7C180060E; Wed, 23 Jun 2021 14:13:54 +0200 (CEST)
+Date: Wed, 23 Jun 2021 14:13:54 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Vivek Kasireddy <vivek.kasireddy@intel.com>
+Subject: Re: [PATCH v1 0/3] drm/virtio: Add a default synchronization
+ mechanism for blobs
+Message-ID: <20210623121354.raajeo2fy6lj7gcx@sirius.home.kraxel.org>
+References: <20210610232456.671905-1-vivek.kasireddy@intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="ttfcqn3oaqjqblfs"
+In-Reply-To: <20210610232456.671905-1-vivek.kasireddy@intel.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210610122550.jnriewchqspdcrwk@gilmour>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,42 +66,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@intel.com>,
- alsa-devel@alsa-project.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: Dongwon Kim <dongwon.kim@intel.com>, dri-devel@lists.freedesktop.org,
+ Tina Zhang <tina.zhang@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, Jun 10, 2021 at 04:24:53PM -0700, Vivek Kasireddy wrote:
+> This 3 patch series is the counterpart for this other series:
+> https://lists.nongnu.org/archive/html/qemu-devel/2021-06/msg02906.html
+> 
+> It makes it possible for the Guest to wait until the Host has 
+> completely consumed its FB before reusing it again thereby ensuring
+> that both the parties don't access it at the same time.
+> 
+> Cc: Gerd Hoffmann <kraxel@redhat.com>
+> Cc: Dongwon Kim <dongwon.kim@intel.com>
+> Cc: Tina Zhang <tina.zhang@intel.com>
+> 
+> Vivek Kasireddy (3):
+>   drm/virtio: Add fences for Guest blobs
+>   drm/virtio: Prepare resource_flush to accept a fence
+>   drm/virtio: Add the fence in resource_flush if present
 
---ttfcqn3oaqjqblfs
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Pushed to drm-misc-next.
 
-On Thu, Jun 10, 2021 at 02:25:50PM +0200, Maxime Ripard wrote:
-> Hi,
->=20
-> Here's a PR for the changes to hdmi-codec that need to be shared between
-> drm-misc-next and ASoC.
->=20
-> This is the second iteration, fixing a bisection issue with compilation
->=20
-> Thanks!
-> Maxime
+thanks,
+  Gerd
 
-Merged into drm-misc-next
-
-Maxime
-
---ttfcqn3oaqjqblfs
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYNMlVwAKCRDj7w1vZxhR
-xX3xAQDxAGQmBeNhyLP7BR6FrulVySLHaiWkeiGlePaRir2uugD+NyFXqQyaAFJX
-OHqA+RuGw5JNpbnPtgsQYEU3Aj+Efwk=
-=homM
------END PGP SIGNATURE-----
-
---ttfcqn3oaqjqblfs--
