@@ -2,36 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B0233B13F2
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Jun 2021 08:28:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B729D3B13F4
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Jun 2021 08:29:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 77BBF89E1D;
-	Wed, 23 Jun 2021 06:28:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B95F89E47;
+	Wed, 23 Jun 2021 06:28:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1EAE189B42;
- Wed, 23 Jun 2021 06:28:46 +0000 (UTC)
-IronPort-SDR: RDYAJo5CNygQzlfSuQvjVnyAlpK3r0+fLoyRJ2tMquqixky2f4kGkhsMKgahk6yPF4fSchQK+r
- 3fM/0Uy+IAgg==
-X-IronPort-AV: E=McAfee;i="6200,9189,10023"; a="268342186"
-X-IronPort-AV: E=Sophos;i="5.83,293,1616482800"; d="scan'208";a="268342186"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B2F1489BD2;
+ Wed, 23 Jun 2021 06:28:47 +0000 (UTC)
+IronPort-SDR: Q27rYNEzHH9izZ68gE4AejW1QZWx4PUBJbHECtUR2KwCzEoixEqNVwlYLYJ03jguC/wy+hab1n
+ bOiO9efEAoIg==
+X-IronPort-AV: E=McAfee;i="6200,9189,10023"; a="268342188"
+X-IronPort-AV: E=Sophos;i="5.83,293,1616482800"; d="scan'208";a="268342188"
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Jun 2021 23:28:45 -0700
-IronPort-SDR: +A5bzaELlVnXiHfecUcd46UtB/D7ZuWcLUhW/ocFMXWWdIkcewT5y91kqLCx6S/gNO70/SGKA1
- Awi+4Mi/am0w==
-X-IronPort-AV: E=Sophos;i="5.83,293,1616482800"; d="scan'208";a="639346861"
+ 22 Jun 2021 23:28:47 -0700
+IronPort-SDR: 8vvkSQmMEO3ERVCdOgxyupK7a4jM28oSmyfsu3EihrkYMZgQqZzFsHEMopEed/L8oiWsbLV3BY
+ m2MGJGfATLhg==
+X-IronPort-AV: E=Sophos;i="5.83,293,1616482800"; d="scan'208";a="639346872"
 Received: from ibanaga-mobl.ger.corp.intel.com (HELO thellst-mobl1.intel.com)
  ([10.249.254.100])
  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Jun 2021 23:28:42 -0700
+ 22 Jun 2021 23:28:44 -0700
 From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH v8 1/3] drm/i915: Update object placement flags to be mutable
-Date: Wed, 23 Jun 2021 08:28:23 +0200
-Message-Id: <20210623062825.417187-2-thomas.hellstrom@linux.intel.com>
+Subject: [PATCH v8 2/3] drm/i915/ttm: Adjust gem flags and caching settings
+ after a move
+Date: Wed, 23 Jun 2021 08:28:24 +0200
+Message-Id: <20210623062825.417187-3-thomas.hellstrom@linux.intel.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210623062825.417187-1-thomas.hellstrom@linux.intel.com>
 References: <20210623062825.417187-1-thomas.hellstrom@linux.intel.com>
@@ -55,442 +56,313 @@ Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The object ops i915_GEM_OBJECT_HAS_IOMEM and the object
-I915_BO_ALLOC_STRUCT_PAGE flags are considered immutable by
-much of our code. Introduce a new mem_flags member to hold these
-and make sure checks for these flags being set are either done
-under the object lock or with pages properly pinned. The flags
-will change during migration under the object lock.
+After a TTM move or object init we need to update the i915 gem flags and
+caching settings to reflect the new placement. Currently caching settings
+are not changed during the lifetime of an object, although that might
+change moving forward if we run into performance issues or issues with
+WC system page allocations.
+Also introduce gpu_binds_iomem() and cpu_maps_iomem() to clean up the
+various ways we previously used to detect this.
+Finally, initialize the TTM object reserved to be able to update
+flags and caching before anyone else gets hold of the object.
 
 Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 Reviewed-by: Matthew Auld <matthew.auld@intel.com>
 ---
-v2:
-- Unconditionally set VM_IO on our VMAs in line with the rest core gem
-  and TTM. Since the bo might be migrated while the VMA is still alive,
-  there is no sense, whether or not it maps iomem might change.
 v6:
-- Introduce a __i915_gem_object_is_lmem() to be used in situations where we
-  know that a fence that can't currently signal keeps the object from being
-  migrated or evicted.
-- Move a couple of shmem warnings for DGFX to a later patch where we
-  actually move system memory to TTM.
+- Rebase on accelerated ttm moves.
+v8:
+- Reinstate alignment at ttm_bo_init_reserved() time. (Reported by
+  Matthew Auld).
 ---
- drivers/gpu/drm/i915/gem/i915_gem_internal.c  |  4 +-
- drivers/gpu/drm/i915/gem/i915_gem_lmem.c      | 22 +++++++++++
- drivers/gpu/drm/i915/gem/i915_gem_lmem.h      |  2 +
- drivers/gpu/drm/i915/gem/i915_gem_mman.c      | 12 +++---
- drivers/gpu/drm/i915/gem/i915_gem_object.c    | 38 +++++++++++++++++++
- drivers/gpu/drm/i915/gem/i915_gem_object.h    | 14 ++-----
- .../gpu/drm/i915/gem/i915_gem_object_types.h  | 20 +++++-----
- drivers/gpu/drm/i915/gem/i915_gem_pages.c     |  2 +-
- drivers/gpu/drm/i915/gem/i915_gem_phys.c      |  2 +-
- drivers/gpu/drm/i915/gem/i915_gem_shmem.c     |  7 ++--
- drivers/gpu/drm/i915/gem/i915_gem_ttm.c       |  2 +-
- drivers/gpu/drm/i915/gem/i915_gem_userptr.c   |  4 +-
- .../drm/i915/gem/selftests/huge_gem_object.c  |  4 +-
- .../gpu/drm/i915/gem/selftests/huge_pages.c   |  5 +--
- .../drm/i915/gem/selftests/i915_gem_mman.c    |  4 +-
- .../drm/i915/gem/selftests/i915_gem_phys.c    |  3 +-
- drivers/gpu/drm/i915/i915_gpu_error.c         |  2 +-
- 17 files changed, 101 insertions(+), 46 deletions(-)
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.c | 144 ++++++++++++++++++------
+ 1 file changed, 108 insertions(+), 36 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_internal.c b/drivers/gpu/drm/i915/gem/i915_gem_internal.c
-index ce6b664b10aa..13b217f75055 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_internal.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_internal.c
-@@ -177,8 +177,8 @@ i915_gem_object_create_internal(struct drm_i915_private *i915,
- 		return ERR_PTR(-ENOMEM);
- 
- 	drm_gem_private_object_init(&i915->drm, &obj->base, size);
--	i915_gem_object_init(obj, &i915_gem_object_internal_ops, &lock_class,
--			     I915_BO_ALLOC_STRUCT_PAGE);
-+	i915_gem_object_init(obj, &i915_gem_object_internal_ops, &lock_class, 0);
-+	obj->mem_flags |= I915_BO_FLAG_STRUCT_PAGE;
- 
- 	/*
- 	 * Mark the object as volatile, such that the pages are marked as
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_lmem.c b/drivers/gpu/drm/i915/gem/i915_gem_lmem.c
-index d539dffa1554..41d5182cd367 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_lmem.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_lmem.c
-@@ -71,6 +71,28 @@ bool i915_gem_object_is_lmem(struct drm_i915_gem_object *obj)
- 		      mr->type == INTEL_MEMORY_STOLEN_LOCAL);
- }
- 
-+/**
-+ * __i915_gem_object_is_lmem - Whether the object is resident in
-+ * lmem while in the fence signaling critical path.
-+ * @obj: The object to check.
-+ *
-+ * This function is intended to be called from within the fence signaling
-+ * path where the fence keeps the object from being migrated. For example
-+ * during gpu reset or similar.
-+ *
-+ * Return: Whether the object is resident in lmem.
-+ */
-+bool __i915_gem_object_is_lmem(struct drm_i915_gem_object *obj)
-+{
-+	struct intel_memory_region *mr = READ_ONCE(obj->mm.region);
-+
-+#ifdef CONFIG_LOCKDEP
-+	GEM_WARN_ON(dma_resv_test_signaled(obj->base.resv, true));
-+#endif
-+	return mr && (mr->type == INTEL_MEMORY_LOCAL ||
-+		      mr->type == INTEL_MEMORY_STOLEN_LOCAL);
-+}
-+
- struct drm_i915_gem_object *
- i915_gem_object_create_lmem(struct drm_i915_private *i915,
- 			    resource_size_t size,
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_lmem.h b/drivers/gpu/drm/i915/gem/i915_gem_lmem.h
-index ea76fd11ccb0..27a611deba47 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_lmem.h
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_lmem.h
-@@ -21,6 +21,8 @@ i915_gem_object_lmem_io_map(struct drm_i915_gem_object *obj,
- 
- bool i915_gem_object_is_lmem(struct drm_i915_gem_object *obj);
- 
-+bool __i915_gem_object_is_lmem(struct drm_i915_gem_object *obj);
-+
- struct drm_i915_gem_object *
- i915_gem_object_create_lmem(struct drm_i915_private *i915,
- 			    resource_size_t size,
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-index 2fd155742bd2..6497a2dbdab9 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-@@ -684,7 +684,7 @@ __assign_mmap_offset(struct drm_i915_gem_object *obj,
- 
- 	if (mmap_type != I915_MMAP_TYPE_GTT &&
- 	    !i915_gem_object_has_struct_page(obj) &&
--	    !i915_gem_object_type_has(obj, I915_GEM_OBJECT_HAS_IOMEM))
-+	    !i915_gem_object_has_iomem(obj))
- 		return -ENODEV;
- 
- 	mmo = mmap_offset_attach(obj, mmap_type, file);
-@@ -708,7 +708,12 @@ __assign_mmap_offset_handle(struct drm_file *file,
- 	if (!obj)
- 		return -ENOENT;
- 
-+	err = i915_gem_object_lock_interruptible(obj, NULL);
-+	if (err)
-+		goto out_put;
- 	err = __assign_mmap_offset(obj, mmap_type, offset, file);
-+	i915_gem_object_unlock(obj);
-+out_put:
- 	i915_gem_object_put(obj);
- 	return err;
- }
-@@ -932,10 +937,7 @@ int i915_gem_mmap(struct file *filp, struct vm_area_struct *vma)
- 		return PTR_ERR(anon);
- 	}
- 
--	vma->vm_flags |= VM_PFNMAP | VM_DONTEXPAND | VM_DONTDUMP;
--
--	if (i915_gem_object_has_iomem(obj))
--		vma->vm_flags |= VM_IO;
-+	vma->vm_flags |= VM_PFNMAP | VM_DONTEXPAND | VM_DONTDUMP | VM_IO;
- 
- 	/*
- 	 * We keep the ref on mmo->obj, not vm_file, but we require
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.c b/drivers/gpu/drm/i915/gem/i915_gem_object.c
-index cf18c430d51f..07e8ff9a8aae 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_object.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_object.c
-@@ -475,6 +475,44 @@ bool i915_gem_object_migratable(struct drm_i915_gem_object *obj)
- 	return obj->mm.n_placements > 1;
- }
- 
-+/**
-+ * i915_gem_object_has_struct_page - Whether the object is page-backed
-+ * @obj: The object to query.
-+ *
-+ * This function should only be called while the object is locked or pinned,
-+ * otherwise the page backing may change under the caller.
-+ *
-+ * Return: True if page-backed, false otherwise.
-+ */
-+bool i915_gem_object_has_struct_page(const struct drm_i915_gem_object *obj)
-+{
-+#ifdef CONFIG_LOCKDEP
-+	if (IS_DGFX(to_i915(obj->base.dev)) &&
-+	    i915_gem_object_evictable((void __force *)obj))
-+		assert_object_held_shared(obj);
-+#endif
-+	return obj->mem_flags & I915_BO_FLAG_STRUCT_PAGE;
-+}
-+
-+/**
-+ * i915_gem_object_has_iomem - Whether the object is iomem-backed
-+ * @obj: The object to query.
-+ *
-+ * This function should only be called while the object is locked or pinned,
-+ * otherwise the iomem backing may change under the caller.
-+ *
-+ * Return: True if iomem-backed, false otherwise.
-+ */
-+bool i915_gem_object_has_iomem(const struct drm_i915_gem_object *obj)
-+{
-+#ifdef CONFIG_LOCKDEP
-+	if (IS_DGFX(to_i915(obj->base.dev)) &&
-+	    i915_gem_object_evictable((void __force *)obj))
-+		assert_object_held_shared(obj);
-+#endif
-+	return obj->mem_flags & I915_BO_FLAG_IOMEM;
-+}
-+
- void i915_gem_init__objects(struct drm_i915_private *i915)
- {
- 	INIT_WORK(&i915->mm.free_work, __i915_gem_free_work);
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h b/drivers/gpu/drm/i915/gem/i915_gem_object.h
-index 7bf4dd46d8d2..ea3224a480c4 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
-@@ -148,7 +148,7 @@ i915_gem_object_put(struct drm_i915_gem_object *obj)
- /*
-  * If more than one potential simultaneous locker, assert held.
-  */
--static inline void assert_object_held_shared(struct drm_i915_gem_object *obj)
-+static inline void assert_object_held_shared(const struct drm_i915_gem_object *obj)
- {
- 	/*
- 	 * Note mm list lookup is protected by
-@@ -266,17 +266,9 @@ i915_gem_object_type_has(const struct drm_i915_gem_object *obj,
- 	return obj->ops->flags & flags;
- }
- 
--static inline bool
--i915_gem_object_has_struct_page(const struct drm_i915_gem_object *obj)
--{
--	return obj->flags & I915_BO_ALLOC_STRUCT_PAGE;
--}
-+bool i915_gem_object_has_struct_page(const struct drm_i915_gem_object *obj);
- 
--static inline bool
--i915_gem_object_has_iomem(const struct drm_i915_gem_object *obj)
--{
--	return i915_gem_object_type_has(obj, I915_GEM_OBJECT_HAS_IOMEM);
--}
-+bool i915_gem_object_has_iomem(const struct drm_i915_gem_object *obj);
- 
- static inline bool
- i915_gem_object_is_shrinkable(const struct drm_i915_gem_object *obj)
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
-index 3a2d9ecf8e03..28dec0787b3d 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
-@@ -33,10 +33,9 @@ struct i915_lut_handle {
- 
- struct drm_i915_gem_object_ops {
- 	unsigned int flags;
--#define I915_GEM_OBJECT_HAS_IOMEM	BIT(1)
--#define I915_GEM_OBJECT_IS_SHRINKABLE	BIT(2)
--#define I915_GEM_OBJECT_IS_PROXY	BIT(3)
--#define I915_GEM_OBJECT_NO_MMAP		BIT(4)
-+#define I915_GEM_OBJECT_IS_SHRINKABLE	BIT(1)
-+#define I915_GEM_OBJECT_IS_PROXY	BIT(2)
-+#define I915_GEM_OBJECT_NO_MMAP		BIT(3)
- 
- 	/* Interface between the GEM object and its backing storage.
- 	 * get_pages() is called once prior to the use of the associated set
-@@ -201,17 +200,18 @@ struct drm_i915_gem_object {
- 	unsigned long flags;
- #define I915_BO_ALLOC_CONTIGUOUS BIT(0)
- #define I915_BO_ALLOC_VOLATILE   BIT(1)
--#define I915_BO_ALLOC_STRUCT_PAGE BIT(2)
--#define I915_BO_ALLOC_CPU_CLEAR  BIT(3)
--#define I915_BO_ALLOC_USER       BIT(4)
-+#define I915_BO_ALLOC_CPU_CLEAR  BIT(2)
-+#define I915_BO_ALLOC_USER       BIT(3)
- #define I915_BO_ALLOC_FLAGS (I915_BO_ALLOC_CONTIGUOUS | \
- 			     I915_BO_ALLOC_VOLATILE | \
--			     I915_BO_ALLOC_STRUCT_PAGE | \
- 			     I915_BO_ALLOC_CPU_CLEAR | \
- 			     I915_BO_ALLOC_USER)
--#define I915_BO_READONLY         BIT(5)
--#define I915_TILING_QUIRK_BIT    6 /* unknown swizzling; do not release! */
-+#define I915_BO_READONLY         BIT(4)
-+#define I915_TILING_QUIRK_BIT    5 /* unknown swizzling; do not release! */
- 
-+	unsigned int mem_flags:2;
-+#define I915_BO_FLAG_STRUCT_PAGE BIT(0)
-+#define I915_BO_FLAG_IOMEM       BIT(1)
- 	/*
- 	 * Is the object to be mapped as read-only to the GPU
- 	 * Only honoured if hardware has relevant pte bit
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_pages.c b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
-index 086005c1c7ea..f2f850e31b8e 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_pages.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
-@@ -351,7 +351,7 @@ void *i915_gem_object_pin_map(struct drm_i915_gem_object *obj,
- 	int err;
- 
- 	if (!i915_gem_object_has_struct_page(obj) &&
--	    !i915_gem_object_type_has(obj, I915_GEM_OBJECT_HAS_IOMEM))
-+	    !i915_gem_object_has_iomem(obj))
- 		return ERR_PTR(-ENXIO);
- 
- 	assert_object_held(obj);
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_phys.c b/drivers/gpu/drm/i915/gem/i915_gem_phys.c
-index be72ad0634ba..7986612f48fa 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_phys.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_phys.c
-@@ -76,7 +76,7 @@ static int i915_gem_object_get_pages_phys(struct drm_i915_gem_object *obj)
- 	intel_gt_chipset_flush(&to_i915(obj->base.dev)->gt);
- 
- 	/* We're no longer struct page backed */
--	obj->flags &= ~I915_BO_ALLOC_STRUCT_PAGE;
-+	obj->mem_flags &= ~I915_BO_FLAG_STRUCT_PAGE;
- 	__i915_gem_object_set_pages(obj, st, sg->length);
- 
- 	return 0;
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
-index 5d16c4462fda..7aa1c95c7b7d 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
-@@ -444,7 +444,7 @@ shmem_pread(struct drm_i915_gem_object *obj,
- 
- static void shmem_release(struct drm_i915_gem_object *obj)
- {
--	if (obj->flags & I915_BO_ALLOC_STRUCT_PAGE)
-+	if (i915_gem_object_has_struct_page(obj))
- 		i915_gem_object_release_memory_region(obj);
- 
- 	fput(obj->base.filp);
-@@ -513,9 +513,8 @@ static int shmem_object_init(struct intel_memory_region *mem,
- 	mapping_set_gfp_mask(mapping, mask);
- 	GEM_BUG_ON(!(mapping_gfp_mask(mapping) & __GFP_RECLAIM));
- 
--	i915_gem_object_init(obj, &i915_gem_shmem_ops, &lock_class,
--			     I915_BO_ALLOC_STRUCT_PAGE);
--
-+	i915_gem_object_init(obj, &i915_gem_shmem_ops, &lock_class, 0);
-+	obj->mem_flags |= I915_BO_FLAG_STRUCT_PAGE;
- 	obj->write_domain = I915_GEM_DOMAIN_CPU;
- 	obj->read_domains = I915_GEM_DOMAIN_CPU;
- 
 diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-index c5deb8b7227c..b5dd3b7037f4 100644
+index b5dd3b7037f4..a1dc592c11bc 100644
 --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
 +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-@@ -732,7 +732,6 @@ static u64 i915_ttm_mmap_offset(struct drm_i915_gem_object *obj)
- 
- const struct drm_i915_gem_object_ops i915_gem_ttm_obj_ops = {
- 	.name = "i915_gem_object_ttm",
--	.flags = I915_GEM_OBJECT_HAS_IOMEM,
- 
- 	.get_pages = i915_ttm_get_pages,
- 	.put_pages = i915_ttm_put_pages,
-@@ -777,6 +776,7 @@ int __i915_gem_ttm_object_init(struct intel_memory_region *mem,
- 	i915_gem_object_init_memory_region(obj, mem);
- 	i915_gem_object_make_unshrinkable(obj);
- 	obj->read_domains = I915_GEM_DOMAIN_WC | I915_GEM_DOMAIN_GTT;
-+	obj->mem_flags |= I915_BO_FLAG_IOMEM;
- 	i915_gem_object_set_cache_coherency(obj, I915_CACHE_NONE);
- 	INIT_RADIX_TREE(&obj->ttm.get_io_page.radix, GFP_KERNEL | __GFP_NOWARN);
- 	mutex_init(&obj->ttm.get_io_page.lock);
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_userptr.c b/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
-index 4b0acc7eaa27..56edfeff8c02 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
-@@ -510,8 +510,8 @@ i915_gem_userptr_ioctl(struct drm_device *dev,
- 		return -ENOMEM;
- 
- 	drm_gem_private_object_init(dev, &obj->base, args->user_size);
--	i915_gem_object_init(obj, &i915_gem_userptr_ops, &lock_class,
--			     I915_BO_ALLOC_STRUCT_PAGE);
-+	i915_gem_object_init(obj, &i915_gem_userptr_ops, &lock_class, 0);
-+	obj->mem_flags = I915_BO_FLAG_STRUCT_PAGE;
- 	obj->read_domains = I915_GEM_DOMAIN_CPU;
- 	obj->write_domain = I915_GEM_DOMAIN_CPU;
- 	i915_gem_object_set_cache_coherency(obj, I915_CACHE_LLC);
-diff --git a/drivers/gpu/drm/i915/gem/selftests/huge_gem_object.c b/drivers/gpu/drm/i915/gem/selftests/huge_gem_object.c
-index 0c8ecfdf5405..f963b8e1e37b 100644
---- a/drivers/gpu/drm/i915/gem/selftests/huge_gem_object.c
-+++ b/drivers/gpu/drm/i915/gem/selftests/huge_gem_object.c
-@@ -114,8 +114,8 @@ huge_gem_object(struct drm_i915_private *i915,
- 		return ERR_PTR(-ENOMEM);
- 
- 	drm_gem_private_object_init(&i915->drm, &obj->base, dma_size);
--	i915_gem_object_init(obj, &huge_ops, &lock_class,
--			     I915_BO_ALLOC_STRUCT_PAGE);
-+	i915_gem_object_init(obj, &huge_ops, &lock_class, 0);
-+	obj->mem_flags |= I915_BO_FLAG_STRUCT_PAGE;
- 
- 	obj->read_domains = I915_GEM_DOMAIN_CPU;
- 	obj->write_domain = I915_GEM_DOMAIN_CPU;
-diff --git a/drivers/gpu/drm/i915/gem/selftests/huge_pages.c b/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
-index dadd485bc52f..ccc67ed1a84b 100644
---- a/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
-+++ b/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
-@@ -167,9 +167,8 @@ huge_pages_object(struct drm_i915_private *i915,
- 		return ERR_PTR(-ENOMEM);
- 
- 	drm_gem_private_object_init(&i915->drm, &obj->base, size);
--	i915_gem_object_init(obj, &huge_page_ops, &lock_class,
--			     I915_BO_ALLOC_STRUCT_PAGE);
--
-+	i915_gem_object_init(obj, &huge_page_ops, &lock_class, 0);
-+	obj->mem_flags |= I915_BO_FLAG_STRUCT_PAGE;
- 	i915_gem_object_set_volatile(obj);
- 
- 	obj->write_domain = I915_GEM_DOMAIN_CPU;
-diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
-index 44b5de06ce64..fcea0ddabcc5 100644
---- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
-+++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
-@@ -837,7 +837,7 @@ static bool can_mmap(struct drm_i915_gem_object *obj, enum i915_mmap_type type)
- 
- 	if (type != I915_MMAP_TYPE_GTT &&
- 	    !i915_gem_object_has_struct_page(obj) &&
--	    !i915_gem_object_type_has(obj, I915_GEM_OBJECT_HAS_IOMEM))
-+	    !i915_gem_object_has_iomem(obj))
- 		return false;
- 
- 	return true;
-@@ -991,7 +991,7 @@ static const char *repr_mmap_type(enum i915_mmap_type type)
- static bool can_access(const struct drm_i915_gem_object *obj)
- {
- 	return i915_gem_object_has_struct_page(obj) ||
--	       i915_gem_object_type_has(obj, I915_GEM_OBJECT_HAS_IOMEM);
-+	       i915_gem_object_has_iomem(obj);
+@@ -91,6 +91,26 @@ static int i915_ttm_err_to_gem(int err)
+ 	return err;
  }
  
- static int __igt_mmap_access(struct drm_i915_private *i915,
-diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_phys.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_phys.c
-index 3a6ce87f8b52..d43d8dae0f69 100644
---- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_phys.c
-+++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_phys.c
-@@ -25,13 +25,14 @@ static int mock_phys_object(void *arg)
- 		goto out;
- 	}
++static bool gpu_binds_iomem(struct ttm_resource *mem)
++{
++	return mem->mem_type != TTM_PL_SYSTEM;
++}
++
++static bool cpu_maps_iomem(struct ttm_resource *mem)
++{
++	/* Once / if we support GGTT, this is also false for cached ttm_tts */
++	return mem->mem_type != TTM_PL_SYSTEM;
++}
++
++static enum i915_cache_level
++i915_ttm_cache_level(struct drm_i915_private *i915, struct ttm_resource *res,
++		     struct ttm_tt *ttm)
++{
++	return ((HAS_LLC(i915) || HAS_SNOOP(i915)) && !gpu_binds_iomem(res) &&
++		ttm->caching == ttm_cached) ? I915_CACHE_LLC :
++		I915_CACHE_NONE;
++}
++
+ static void i915_ttm_adjust_lru(struct drm_i915_gem_object *obj);
  
-+	i915_gem_object_lock(obj, NULL);
- 	if (!i915_gem_object_has_struct_page(obj)) {
-+		i915_gem_object_unlock(obj);
- 		err = -EINVAL;
- 		pr_err("shmem has no struct page\n");
- 		goto out_obj;
- 	}
+ static enum ttm_caching
+@@ -248,6 +268,35 @@ static void i915_ttm_free_cached_io_st(struct drm_i915_gem_object *obj)
+ 	obj->ttm.cached_io_st = NULL;
+ }
  
--	i915_gem_object_lock(obj, NULL);
- 	err = i915_gem_object_attach_phys(obj, PAGE_SIZE);
- 	i915_gem_object_unlock(obj);
- 	if (err) {
-diff --git a/drivers/gpu/drm/i915/i915_gpu_error.c b/drivers/gpu/drm/i915/i915_gpu_error.c
-index cb182c6d265a..a2c58b54a592 100644
---- a/drivers/gpu/drm/i915/i915_gpu_error.c
-+++ b/drivers/gpu/drm/i915/i915_gpu_error.c
-@@ -1039,7 +1039,7 @@ i915_vma_coredump_create(const struct intel_gt *gt,
- 			if (ret)
- 				break;
++static void
++i915_ttm_adjust_domains_after_move(struct drm_i915_gem_object *obj)
++{
++	struct ttm_buffer_object *bo = i915_gem_to_ttm(obj);
++
++	if (cpu_maps_iomem(bo->resource) || bo->ttm->caching != ttm_cached) {
++		obj->write_domain = I915_GEM_DOMAIN_WC;
++		obj->read_domains = I915_GEM_DOMAIN_WC;
++	} else {
++		obj->write_domain = I915_GEM_DOMAIN_CPU;
++		obj->read_domains = I915_GEM_DOMAIN_CPU;
++	}
++}
++
++static void i915_ttm_adjust_gem_after_move(struct drm_i915_gem_object *obj)
++{
++	struct ttm_buffer_object *bo = i915_gem_to_ttm(obj);
++	unsigned int cache_level;
++
++	obj->mem_flags &= ~(I915_BO_FLAG_STRUCT_PAGE | I915_BO_FLAG_IOMEM);
++
++	obj->mem_flags |= cpu_maps_iomem(bo->resource) ? I915_BO_FLAG_IOMEM :
++		I915_BO_FLAG_STRUCT_PAGE;
++
++	cache_level = i915_ttm_cache_level(to_i915(bo->base.dev), bo->resource,
++					   bo->ttm);
++	i915_gem_object_set_cache_coherency(obj, cache_level);
++}
++
+ static void i915_ttm_purge(struct drm_i915_gem_object *obj)
+ {
+ 	struct ttm_buffer_object *bo = i915_gem_to_ttm(obj);
+@@ -263,8 +312,10 @@ static void i915_ttm_purge(struct drm_i915_gem_object *obj)
+ 
+ 	/* TTM's purge interface. Note that we might be reentering. */
+ 	ret = ttm_bo_validate(bo, &place, &ctx);
+-
+ 	if (!ret) {
++		obj->write_domain = 0;
++		obj->read_domains = 0;
++		i915_ttm_adjust_gem_after_move(obj);
+ 		i915_ttm_free_cached_io_st(obj);
+ 		obj->mm.madv = __I915_MADV_PURGED;
+ 	}
+@@ -347,12 +398,15 @@ i915_ttm_resource_get_st(struct drm_i915_gem_object *obj,
+ 			 struct ttm_resource *res)
+ {
+ 	struct ttm_buffer_object *bo = i915_gem_to_ttm(obj);
+-	struct ttm_resource_manager *man =
+-		ttm_manager_type(bo->bdev, res->mem_type);
+ 
+-	if (man->use_tt)
++	if (!gpu_binds_iomem(res))
+ 		return i915_ttm_tt_get_st(bo->ttm);
+ 
++	/*
++	 * If CPU mapping differs, we need to add the ttm_tt pages to
++	 * the resulting st. Might make sense for GGTT.
++	 */
++	GEM_WARN_ON(!cpu_maps_iomem(res));
+ 	return intel_region_ttm_resource_to_st(obj->mm.region, res);
+ }
+ 
+@@ -367,23 +421,25 @@ static int i915_ttm_accel_move(struct ttm_buffer_object *bo,
+ 	struct drm_i915_gem_object *obj = i915_ttm_to_gem(bo);
+ 	struct sg_table *src_st;
+ 	struct i915_request *rq;
++	struct ttm_tt *ttm = bo->ttm;
++	enum i915_cache_level src_level, dst_level;
+ 	int ret;
+ 
+ 	if (!i915->gt.migrate.context)
+ 		return -EINVAL;
+ 
+-	if (!bo->ttm || !ttm_tt_is_populated(bo->ttm)) {
++	dst_level = i915_ttm_cache_level(i915, dst_mem, ttm);
++	if (!ttm || !ttm_tt_is_populated(ttm)) {
+ 		if (bo->type == ttm_bo_type_kernel)
+ 			return -EINVAL;
+ 
+-		if (bo->ttm &&
+-		    !(bo->ttm->page_flags & TTM_PAGE_FLAG_ZERO_ALLOC))
++		if (ttm && !(ttm->page_flags & TTM_PAGE_FLAG_ZERO_ALLOC))
+ 			return 0;
+ 
+ 		intel_engine_pm_get(i915->gt.migrate.context->engine);
+ 		ret = intel_context_migrate_clear(i915->gt.migrate.context, NULL,
+-						  dst_st->sgl, I915_CACHE_NONE,
+-						  dst_mem->mem_type >= I915_PL_LMEM0,
++						  dst_st->sgl, dst_level,
++						  gpu_binds_iomem(dst_mem),
+ 						  0, &rq);
+ 
+ 		if (!ret && rq) {
+@@ -392,15 +448,16 @@ static int i915_ttm_accel_move(struct ttm_buffer_object *bo,
  		}
--	} else if (i915_gem_object_is_lmem(vma->obj)) {
-+	} else if (__i915_gem_object_is_lmem(vma->obj)) {
- 		struct intel_memory_region *mem = vma->obj->mm.region;
- 		dma_addr_t dma;
+ 		intel_engine_pm_put(i915->gt.migrate.context->engine);
+ 	} else {
+-		src_st = src_man->use_tt ? i915_ttm_tt_get_st(bo->ttm) :
+-						obj->ttm.cached_io_st;
++		src_st = src_man->use_tt ? i915_ttm_tt_get_st(ttm) :
++			obj->ttm.cached_io_st;
  
++		src_level = i915_ttm_cache_level(i915, bo->resource, ttm);
+ 		intel_engine_pm_get(i915->gt.migrate.context->engine);
+ 		ret = intel_context_migrate_copy(i915->gt.migrate.context,
+-						 NULL, src_st->sgl, I915_CACHE_NONE,
+-						 bo->resource->mem_type >= I915_PL_LMEM0,
+-						 dst_st->sgl, I915_CACHE_NONE,
+-						 dst_mem->mem_type >= I915_PL_LMEM0,
++						 NULL, src_st->sgl, src_level,
++						 gpu_binds_iomem(bo->resource),
++						 dst_st->sgl, dst_level,
++						 gpu_binds_iomem(dst_mem),
+ 						 &rq);
+ 		if (!ret && rq) {
+ 			i915_request_wait(rq, 0, MAX_SCHEDULE_TIMEOUT);
+@@ -420,8 +477,6 @@ static int i915_ttm_move(struct ttm_buffer_object *bo, bool evict,
+ 	struct drm_i915_gem_object *obj = i915_ttm_to_gem(bo);
+ 	struct ttm_resource_manager *dst_man =
+ 		ttm_manager_type(bo->bdev, dst_mem->mem_type);
+-	struct ttm_resource_manager *src_man =
+-		ttm_manager_type(bo->bdev, bo->resource->mem_type);
+ 	struct intel_memory_region *dst_reg, *src_reg;
+ 	union {
+ 		struct ttm_kmap_iter_tt tt;
+@@ -465,12 +520,12 @@ static int i915_ttm_move(struct ttm_buffer_object *bo, bool evict,
+ 	ret = i915_ttm_accel_move(bo, dst_mem, dst_st);
+ 	if (ret) {
+ 		/* If we start mapping GGTT, we can no longer use man::use_tt here. */
+-		dst_iter = dst_man->use_tt ?
++		dst_iter = !cpu_maps_iomem(dst_mem) ?
+ 			ttm_kmap_iter_tt_init(&_dst_iter.tt, bo->ttm) :
+ 			ttm_kmap_iter_iomap_init(&_dst_iter.io, &dst_reg->iomap,
+ 						 dst_st, dst_reg->region.start);
+ 
+-		src_iter = src_man->use_tt ?
++		src_iter = !cpu_maps_iomem(bo->resource) ?
+ 			ttm_kmap_iter_tt_init(&_src_iter.tt, bo->ttm) :
+ 			ttm_kmap_iter_iomap_init(&_src_iter.io, &src_reg->iomap,
+ 						 obj->ttm.cached_io_st,
+@@ -478,21 +533,24 @@ static int i915_ttm_move(struct ttm_buffer_object *bo, bool evict,
+ 
+ 		ttm_move_memcpy(bo, dst_mem->num_pages, dst_iter, src_iter);
+ 	}
++	/* Below dst_mem becomes bo->resource. */
+ 	ttm_bo_move_sync_cleanup(bo, dst_mem);
++	i915_ttm_adjust_domains_after_move(obj);
+ 	i915_ttm_free_cached_io_st(obj);
+ 
+-	if (!dst_man->use_tt) {
++	if (gpu_binds_iomem(dst_mem) || cpu_maps_iomem(dst_mem)) {
+ 		obj->ttm.cached_io_st = dst_st;
+ 		obj->ttm.get_io_page.sg_pos = dst_st->sgl;
+ 		obj->ttm.get_io_page.sg_idx = 0;
+ 	}
+ 
++	i915_ttm_adjust_gem_after_move(obj);
+ 	return 0;
+ }
+ 
+ static int i915_ttm_io_mem_reserve(struct ttm_device *bdev, struct ttm_resource *mem)
+ {
+-	if (mem->mem_type < I915_PL_LMEM0)
++	if (!cpu_maps_iomem(mem))
+ 		return 0;
+ 
+ 	mem->bus.caching = ttm_write_combined;
+@@ -590,6 +648,16 @@ static int i915_ttm_get_pages(struct drm_i915_gem_object *obj)
+ 			return i915_ttm_err_to_gem(ret);
+ 	}
+ 
++	i915_ttm_adjust_lru(obj);
++	if (bo->ttm && !ttm_tt_is_populated(bo->ttm)) {
++		ret = ttm_tt_populate(bo->bdev, bo->ttm, &ctx);
++		if (ret)
++			return ret;
++
++		i915_ttm_adjust_domains_after_move(obj);
++		i915_ttm_adjust_gem_after_move(obj);
++	}
++
+ 	/* Object either has a page vector or is an iomem object */
+ 	st = bo->ttm ? i915_ttm_tt_get_st(bo->ttm) : obj->ttm.cached_io_st;
+ 	if (IS_ERR(st))
+@@ -597,8 +665,6 @@ static int i915_ttm_get_pages(struct drm_i915_gem_object *obj)
+ 
+ 	__i915_gem_object_set_pages(obj, st, i915_sg_dma_sizes(st->sgl));
+ 
+-	i915_ttm_adjust_lru(obj);
+-
+ 	return ret;
+ }
+ 
+@@ -768,6 +834,10 @@ int __i915_gem_ttm_object_init(struct intel_memory_region *mem,
+ {
+ 	static struct lock_class_key lock_class;
+ 	struct drm_i915_private *i915 = mem->i915;
++	struct ttm_operation_ctx ctx = {
++		.interruptible = true,
++		.no_wait_gpu = false,
++	};
+ 	enum ttm_bo_type bo_type;
+ 	int ret;
+ 
+@@ -775,14 +845,13 @@ int __i915_gem_ttm_object_init(struct intel_memory_region *mem,
+ 	i915_gem_object_init(obj, &i915_gem_ttm_obj_ops, &lock_class, flags);
+ 	i915_gem_object_init_memory_region(obj, mem);
+ 	i915_gem_object_make_unshrinkable(obj);
+-	obj->read_domains = I915_GEM_DOMAIN_WC | I915_GEM_DOMAIN_GTT;
+-	obj->mem_flags |= I915_BO_FLAG_IOMEM;
+-	i915_gem_object_set_cache_coherency(obj, I915_CACHE_NONE);
+ 	INIT_RADIX_TREE(&obj->ttm.get_io_page.radix, GFP_KERNEL | __GFP_NOWARN);
+ 	mutex_init(&obj->ttm.get_io_page.lock);
+ 	bo_type = (obj->flags & I915_BO_ALLOC_USER) ? ttm_bo_type_device :
+ 		ttm_bo_type_kernel;
+ 
++	obj->base.vma_node.driver_private = i915_gem_to_ttm(obj);
++
+ 	/*
+ 	 * If this function fails, it will call the destructor, but
+ 	 * our caller still owns the object. So no freeing in the
+@@ -790,14 +859,17 @@ int __i915_gem_ttm_object_init(struct intel_memory_region *mem,
+ 	 * Similarly, in delayed_destroy, we can't call ttm_bo_put()
+ 	 * until successful initialization.
+ 	 */
+-	obj->base.vma_node.driver_private = i915_gem_to_ttm(obj);
+-	ret = ttm_bo_init(&i915->bdev, i915_gem_to_ttm(obj), size,
+-			  bo_type, &i915_sys_placement,
+-			  mem->min_page_size >> PAGE_SHIFT,
+-			  true, NULL, NULL, i915_ttm_bo_destroy);
+-	if (!ret)
+-		obj->ttm.created = true;
+-
+-	/* i915 wants -ENXIO when out of memory region space. */
+-	return i915_ttm_err_to_gem(ret);
++	ret = ttm_bo_init_reserved(&i915->bdev, i915_gem_to_ttm(obj), size,
++				   bo_type, &i915_sys_placement,
++				   mem->min_page_size >> PAGE_SHIFT,
++				   &ctx, NULL, NULL, i915_ttm_bo_destroy);
++	if (ret)
++		return i915_ttm_err_to_gem(ret);
++
++	obj->ttm.created = true;
++	i915_ttm_adjust_domains_after_move(obj);
++	i915_ttm_adjust_gem_after_move(obj);
++	i915_gem_object_unlock(obj);
++
++	return 0;
+ }
 -- 
 2.31.1
 
