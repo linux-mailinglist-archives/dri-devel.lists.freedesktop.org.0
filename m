@@ -2,37 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CF403B1BFD
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Jun 2021 16:05:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC53E3B1BFE
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Jun 2021 16:05:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B6A706E8F6;
-	Wed, 23 Jun 2021 14:05:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF5776E8F8;
+	Wed, 23 Jun 2021 14:05:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 072646E8F4;
- Wed, 23 Jun 2021 14:05:21 +0000 (UTC)
-IronPort-SDR: DjrDauH+bwL5vyvFYSsZlrOFeI1EqwAZ4Z/E0TQbj7diUdqWbrA6ju2y3Thf9HM+AerUxY/pTE
- DX6bwU/qN1+A==
-X-IronPort-AV: E=McAfee;i="6200,9189,10024"; a="271112249"
-X-IronPort-AV: E=Sophos;i="5.83,294,1616482800"; d="scan'208";a="271112249"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C77766E8F8;
+ Wed, 23 Jun 2021 14:05:23 +0000 (UTC)
+IronPort-SDR: zVInmIKak51x7Tc4WamFCnpHHbl0PN1lzwAlUtEw+CDZCsGnilJBvoN38UfOFFgg/LvsS0R/lJ
+ IB5QJbRVEJRA==
+X-IronPort-AV: E=McAfee;i="6200,9189,10024"; a="271112265"
+X-IronPort-AV: E=Sophos;i="5.83,294,1616482800"; d="scan'208";a="271112265"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Jun 2021 07:04:23 -0700
-IronPort-SDR: wAmQtf/vX16swWO4g6+rhxzEeyc32jQLD6ntMhuG9ZloE2RqFAvtF48hr2cMQM9aG+jjnak57o
- Amq/gwqVjvag==
-X-IronPort-AV: E=Sophos;i="5.83,294,1616482800"; d="scan'208";a="453046091"
+ 23 Jun 2021 07:04:25 -0700
+IronPort-SDR: 4OV1OO0Qh7bGuXAYy4frWYoJ7fVZIYIhf7G6nRFLtpmb0Wa8S/jCv8EWXnUUV1Nzb4K0AOemB7
+ KYTY0A3BMz8A==
+X-IronPort-AV: E=Sophos;i="5.83,294,1616482800"; d="scan'208";a="453046100"
 Received: from bkuncer-mobl1.ger.corp.intel.com (HELO thellst-mobl1.intel.com)
  ([10.249.254.243])
  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Jun 2021 07:04:22 -0700
+ 23 Jun 2021 07:04:24 -0700
 From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH v9 2/3] drm/i915/ttm: Adjust gem flags and caching settings
- after a move
-Date: Wed, 23 Jun 2021 16:04:09 +0200
-Message-Id: <20210623140410.15869-3-thomas.hellstrom@linux.intel.com>
+Subject: [PATCH v9 3/3] drm/i915/ttm: Use TTM for system memory
+Date: Wed, 23 Jun 2021 16:04:10 +0200
+Message-Id: <20210623140410.15869-4-thomas.hellstrom@linux.intel.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210623140410.15869-1-thomas.hellstrom@linux.intel.com>
 References: <20210623140410.15869-1-thomas.hellstrom@linux.intel.com>
@@ -56,313 +55,211 @@ Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-After a TTM move or object init we need to update the i915 gem flags and
-caching settings to reflect the new placement. Currently caching settings
-are not changed during the lifetime of an object, although that might
-change moving forward if we run into performance issues or issues with
-WC system page allocations.
-Also introduce gpu_binds_iomem() and cpu_maps_iomem() to clean up the
-various ways we previously used to detect this.
-Finally, initialize the TTM object reserved to be able to update
-flags and caching before anyone else gets hold of the object.
+For discrete, use TTM for both cached and WC system memory. That means
+we currently rely on the TTM memory accounting / shrinker. For cached
+system memory we should consider remaining shmem-backed, which can be
+implemented from our ttm_tt_populate callback. We can then also reuse our
+own very elaborate shrinker for that memory.
+
+If an object is evicted to a gem allowable region, we will now consider
+the object migrated, and we flip the gem region and move the object to a
+different region list. Since we are now changing gem regions, we can't
+any longer rely on the CONTIGUOUS flag being set based on the region
+min page size, so remove that flag update. If we want to reintroduce it,
+we need to put it in the mutable flags.
 
 Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 Reviewed-by: Matthew Auld <matthew.auld@intel.com>
 ---
+v2:
+- Fix IS_ERR_OR_NULL() check to IS_ERR() (Reported by Matthew Auld)
+v3:
+- Commit message typo fix
 v6:
-- Rebase on accelerated ttm moves.
+- Fix TODO:s for supporting system memory with TTM.
+- Update the object GEM region after a TTM move if compatible.
+- Add a couple of warnings for shmem on DGFX.
 v8:
-- Reinstate alignment at ttm_bo_init_reserved() time. (Reported by
-  Matthew Auld).
+- When changing regions, also move the object to the new region list
+  (Reported by Matthew Auld).
+v9:
+- Remove a DGFX warning in __i915_gem_object_release_shmem since it
+  is called from the userptr code.
 ---
- drivers/gpu/drm/i915/gem/i915_gem_ttm.c | 144 ++++++++++++++++++------
- 1 file changed, 108 insertions(+), 36 deletions(-)
+ drivers/gpu/drm/i915/gem/i915_gem_region.c |  4 --
+ drivers/gpu/drm/i915/gem/i915_gem_shmem.c  |  2 +
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.c    | 52 +++++++++++++++++-----
+ drivers/gpu/drm/i915/i915_drv.h            |  3 --
+ drivers/gpu/drm/i915/intel_memory_region.c |  7 ++-
+ drivers/gpu/drm/i915/intel_memory_region.h |  8 ++++
+ 6 files changed, 58 insertions(+), 18 deletions(-)
 
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_region.c b/drivers/gpu/drm/i915/gem/i915_gem_region.c
+index d1f1840540dd..4925563018b4 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_region.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_region.c
+@@ -13,11 +13,7 @@ void i915_gem_object_init_memory_region(struct drm_i915_gem_object *obj,
+ {
+ 	obj->mm.region = intel_memory_region_get(mem);
+ 
+-	if (obj->base.size <= mem->min_page_size)
+-		obj->flags |= I915_BO_ALLOC_CONTIGUOUS;
+-
+ 	mutex_lock(&mem->objects.lock);
+-
+ 	list_add(&obj->mm.region_link, &mem->objects.list);
+ 	mutex_unlock(&mem->objects.lock);
+ }
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
+index 7aa1c95c7b7d..e9ac913b923a 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
+@@ -302,6 +302,7 @@ void i915_gem_object_put_pages_shmem(struct drm_i915_gem_object *obj, struct sg_
+ 	struct pagevec pvec;
+ 	struct page *page;
+ 
++	GEM_WARN_ON(IS_DGFX(to_i915(obj->base.dev)));
+ 	__i915_gem_object_release_shmem(obj, pages, true);
+ 
+ 	i915_gem_gtt_finish_pages(obj, pages);
+@@ -560,6 +561,7 @@ i915_gem_object_create_shmem_from_data(struct drm_i915_private *dev_priv,
+ 	resource_size_t offset;
+ 	int err;
+ 
++	GEM_WARN_ON(IS_DGFX(dev_priv));
+ 	obj = i915_gem_object_create_shmem(dev_priv, round_up(size, PAGE_SIZE));
+ 	if (IS_ERR(obj))
+ 		return obj;
 diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-index b5dd3b7037f4..a1dc592c11bc 100644
+index a1dc592c11bc..3641a6c7b3d9 100644
 --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
 +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-@@ -91,6 +91,26 @@ static int i915_ttm_err_to_gem(int err)
- 	return err;
- }
- 
-+static bool gpu_binds_iomem(struct ttm_resource *mem)
-+{
-+	return mem->mem_type != TTM_PL_SYSTEM;
-+}
-+
-+static bool cpu_maps_iomem(struct ttm_resource *mem)
-+{
-+	/* Once / if we support GGTT, this is also false for cached ttm_tts */
-+	return mem->mem_type != TTM_PL_SYSTEM;
-+}
-+
-+static enum i915_cache_level
-+i915_ttm_cache_level(struct drm_i915_private *i915, struct ttm_resource *res,
-+		     struct ttm_tt *ttm)
-+{
-+	return ((HAS_LLC(i915) || HAS_SNOOP(i915)) && !gpu_binds_iomem(res) &&
-+		ttm->caching == ttm_cached) ? I915_CACHE_LLC :
-+		I915_CACHE_NONE;
-+}
-+
- static void i915_ttm_adjust_lru(struct drm_i915_gem_object *obj);
- 
- static enum ttm_caching
-@@ -248,6 +268,35 @@ static void i915_ttm_free_cached_io_st(struct drm_i915_gem_object *obj)
- 	obj->ttm.cached_io_st = NULL;
- }
- 
-+static void
-+i915_ttm_adjust_domains_after_move(struct drm_i915_gem_object *obj)
-+{
-+	struct ttm_buffer_object *bo = i915_gem_to_ttm(obj);
-+
-+	if (cpu_maps_iomem(bo->resource) || bo->ttm->caching != ttm_cached) {
-+		obj->write_domain = I915_GEM_DOMAIN_WC;
-+		obj->read_domains = I915_GEM_DOMAIN_WC;
-+	} else {
-+		obj->write_domain = I915_GEM_DOMAIN_CPU;
-+		obj->read_domains = I915_GEM_DOMAIN_CPU;
-+	}
-+}
-+
-+static void i915_ttm_adjust_gem_after_move(struct drm_i915_gem_object *obj)
-+{
-+	struct ttm_buffer_object *bo = i915_gem_to_ttm(obj);
-+	unsigned int cache_level;
-+
-+	obj->mem_flags &= ~(I915_BO_FLAG_STRUCT_PAGE | I915_BO_FLAG_IOMEM);
-+
-+	obj->mem_flags |= cpu_maps_iomem(bo->resource) ? I915_BO_FLAG_IOMEM :
-+		I915_BO_FLAG_STRUCT_PAGE;
-+
-+	cache_level = i915_ttm_cache_level(to_i915(bo->base.dev), bo->resource,
-+					   bo->ttm);
-+	i915_gem_object_set_cache_coherency(obj, cache_level);
-+}
-+
- static void i915_ttm_purge(struct drm_i915_gem_object *obj)
+@@ -286,6 +286,26 @@ static void i915_ttm_adjust_gem_after_move(struct drm_i915_gem_object *obj)
  {
  	struct ttm_buffer_object *bo = i915_gem_to_ttm(obj);
-@@ -263,8 +312,10 @@ static void i915_ttm_purge(struct drm_i915_gem_object *obj)
- 
- 	/* TTM's purge interface. Note that we might be reentering. */
- 	ret = ttm_bo_validate(bo, &place, &ctx);
--
- 	if (!ret) {
-+		obj->write_domain = 0;
-+		obj->read_domains = 0;
-+		i915_ttm_adjust_gem_after_move(obj);
- 		i915_ttm_free_cached_io_st(obj);
- 		obj->mm.madv = __I915_MADV_PURGED;
- 	}
-@@ -347,12 +398,15 @@ i915_ttm_resource_get_st(struct drm_i915_gem_object *obj,
- 			 struct ttm_resource *res)
- {
- 	struct ttm_buffer_object *bo = i915_gem_to_ttm(obj);
--	struct ttm_resource_manager *man =
--		ttm_manager_type(bo->bdev, res->mem_type);
- 
--	if (man->use_tt)
-+	if (!gpu_binds_iomem(res))
- 		return i915_ttm_tt_get_st(bo->ttm);
- 
+ 	unsigned int cache_level;
++	unsigned int i;
++
 +	/*
-+	 * If CPU mapping differs, we need to add the ttm_tt pages to
-+	 * the resulting st. Might make sense for GGTT.
++	 * If object was moved to an allowable region, update the object
++	 * region to consider it migrated. Note that if it's currently not
++	 * in an allowable region, it's evicted and we don't update the
++	 * object region.
 +	 */
-+	GEM_WARN_ON(!cpu_maps_iomem(res));
- 	return intel_region_ttm_resource_to_st(obj->mm.region, res);
- }
++	if (intel_region_to_ttm_type(obj->mm.region) != bo->resource->mem_type) {
++		for (i = 0; i < obj->mm.n_placements; ++i) {
++			struct intel_memory_region *mr = obj->mm.placements[i];
++
++			if (intel_region_to_ttm_type(mr) == bo->resource->mem_type &&
++			    mr != obj->mm.region) {
++				i915_gem_object_release_memory_region(obj);
++				i915_gem_object_init_memory_region(obj, mr);
++				break;
++			}
++		}
++	}
  
-@@ -367,23 +421,25 @@ static int i915_ttm_accel_move(struct ttm_buffer_object *bo,
- 	struct drm_i915_gem_object *obj = i915_ttm_to_gem(bo);
- 	struct sg_table *src_st;
- 	struct i915_request *rq;
-+	struct ttm_tt *ttm = bo->ttm;
-+	enum i915_cache_level src_level, dst_level;
- 	int ret;
+ 	obj->mem_flags &= ~(I915_BO_FLAG_STRUCT_PAGE | I915_BO_FLAG_IOMEM);
  
- 	if (!i915->gt.migrate.context)
- 		return -EINVAL;
+@@ -615,13 +635,6 @@ static int i915_ttm_get_pages(struct drm_i915_gem_object *obj)
+ 	/* Move to the requested placement. */
+ 	i915_ttm_placement_from_obj(obj, &requested, busy, &placement);
  
--	if (!bo->ttm || !ttm_tt_is_populated(bo->ttm)) {
-+	dst_level = i915_ttm_cache_level(i915, dst_mem, ttm);
-+	if (!ttm || !ttm_tt_is_populated(ttm)) {
- 		if (bo->type == ttm_bo_type_kernel)
- 			return -EINVAL;
+-	/*
+-	 * For now we support LMEM only with TTM.
+-	 * TODO: Remove with system support
+-	 */
+-	GEM_BUG_ON(requested.mem_type < I915_PL_LMEM0 ||
+-		   busy[0].mem_type < I915_PL_LMEM0);
+-
+ 	/* First try only the requested placement. No eviction. */
+ 	real_num_busy = fetch_and_zero(&placement.num_busy_placement);
+ 	ret = ttm_bo_validate(bo, &placement, &ctx);
+@@ -635,9 +648,6 @@ static int i915_ttm_get_pages(struct drm_i915_gem_object *obj)
+ 		    ret == -EAGAIN)
+ 			return ret;
  
--		if (bo->ttm &&
--		    !(bo->ttm->page_flags & TTM_PAGE_FLAG_ZERO_ALLOC))
-+		if (ttm && !(ttm->page_flags & TTM_PAGE_FLAG_ZERO_ALLOC))
- 			return 0;
+-		/* TODO: Remove this when we support system as TTM. */
+-		real_num_busy = 1;
+-
+ 		/*
+ 		 * If the initial attempt fails, allow all accepted placements,
+ 		 * evicting if necessary.
+@@ -873,3 +883,25 @@ int __i915_gem_ttm_object_init(struct intel_memory_region *mem,
  
- 		intel_engine_pm_get(i915->gt.migrate.context->engine);
- 		ret = intel_context_migrate_clear(i915->gt.migrate.context, NULL,
--						  dst_st->sgl, I915_CACHE_NONE,
--						  dst_mem->mem_type >= I915_PL_LMEM0,
-+						  dst_st->sgl, dst_level,
-+						  gpu_binds_iomem(dst_mem),
- 						  0, &rq);
- 
- 		if (!ret && rq) {
-@@ -392,15 +448,16 @@ static int i915_ttm_accel_move(struct ttm_buffer_object *bo,
- 		}
- 		intel_engine_pm_put(i915->gt.migrate.context->engine);
- 	} else {
--		src_st = src_man->use_tt ? i915_ttm_tt_get_st(bo->ttm) :
--						obj->ttm.cached_io_st;
-+		src_st = src_man->use_tt ? i915_ttm_tt_get_st(ttm) :
-+			obj->ttm.cached_io_st;
- 
-+		src_level = i915_ttm_cache_level(i915, bo->resource, ttm);
- 		intel_engine_pm_get(i915->gt.migrate.context->engine);
- 		ret = intel_context_migrate_copy(i915->gt.migrate.context,
--						 NULL, src_st->sgl, I915_CACHE_NONE,
--						 bo->resource->mem_type >= I915_PL_LMEM0,
--						 dst_st->sgl, I915_CACHE_NONE,
--						 dst_mem->mem_type >= I915_PL_LMEM0,
-+						 NULL, src_st->sgl, src_level,
-+						 gpu_binds_iomem(bo->resource),
-+						 dst_st->sgl, dst_level,
-+						 gpu_binds_iomem(dst_mem),
- 						 &rq);
- 		if (!ret && rq) {
- 			i915_request_wait(rq, 0, MAX_SCHEDULE_TIMEOUT);
-@@ -420,8 +477,6 @@ static int i915_ttm_move(struct ttm_buffer_object *bo, bool evict,
- 	struct drm_i915_gem_object *obj = i915_ttm_to_gem(bo);
- 	struct ttm_resource_manager *dst_man =
- 		ttm_manager_type(bo->bdev, dst_mem->mem_type);
--	struct ttm_resource_manager *src_man =
--		ttm_manager_type(bo->bdev, bo->resource->mem_type);
- 	struct intel_memory_region *dst_reg, *src_reg;
- 	union {
- 		struct ttm_kmap_iter_tt tt;
-@@ -465,12 +520,12 @@ static int i915_ttm_move(struct ttm_buffer_object *bo, bool evict,
- 	ret = i915_ttm_accel_move(bo, dst_mem, dst_st);
- 	if (ret) {
- 		/* If we start mapping GGTT, we can no longer use man::use_tt here. */
--		dst_iter = dst_man->use_tt ?
-+		dst_iter = !cpu_maps_iomem(dst_mem) ?
- 			ttm_kmap_iter_tt_init(&_dst_iter.tt, bo->ttm) :
- 			ttm_kmap_iter_iomap_init(&_dst_iter.io, &dst_reg->iomap,
- 						 dst_st, dst_reg->region.start);
- 
--		src_iter = src_man->use_tt ?
-+		src_iter = !cpu_maps_iomem(bo->resource) ?
- 			ttm_kmap_iter_tt_init(&_src_iter.tt, bo->ttm) :
- 			ttm_kmap_iter_iomap_init(&_src_iter.io, &src_reg->iomap,
- 						 obj->ttm.cached_io_st,
-@@ -478,21 +533,24 @@ static int i915_ttm_move(struct ttm_buffer_object *bo, bool evict,
- 
- 		ttm_move_memcpy(bo, dst_mem->num_pages, dst_iter, src_iter);
- 	}
-+	/* Below dst_mem becomes bo->resource. */
- 	ttm_bo_move_sync_cleanup(bo, dst_mem);
-+	i915_ttm_adjust_domains_after_move(obj);
- 	i915_ttm_free_cached_io_st(obj);
- 
--	if (!dst_man->use_tt) {
-+	if (gpu_binds_iomem(dst_mem) || cpu_maps_iomem(dst_mem)) {
- 		obj->ttm.cached_io_st = dst_st;
- 		obj->ttm.get_io_page.sg_pos = dst_st->sgl;
- 		obj->ttm.get_io_page.sg_idx = 0;
- 	}
- 
-+	i915_ttm_adjust_gem_after_move(obj);
  	return 0;
  }
- 
- static int i915_ttm_io_mem_reserve(struct ttm_device *bdev, struct ttm_resource *mem)
- {
--	if (mem->mem_type < I915_PL_LMEM0)
-+	if (!cpu_maps_iomem(mem))
- 		return 0;
- 
- 	mem->bus.caching = ttm_write_combined;
-@@ -590,6 +648,16 @@ static int i915_ttm_get_pages(struct drm_i915_gem_object *obj)
- 			return i915_ttm_err_to_gem(ret);
- 	}
- 
-+	i915_ttm_adjust_lru(obj);
-+	if (bo->ttm && !ttm_tt_is_populated(bo->ttm)) {
-+		ret = ttm_tt_populate(bo->bdev, bo->ttm, &ctx);
-+		if (ret)
-+			return ret;
 +
-+		i915_ttm_adjust_domains_after_move(obj);
-+		i915_ttm_adjust_gem_after_move(obj);
-+	}
++static const struct intel_memory_region_ops ttm_system_region_ops = {
++	.init_object = __i915_gem_ttm_object_init,
++};
 +
- 	/* Object either has a page vector or is an iomem object */
- 	st = bo->ttm ? i915_ttm_tt_get_st(bo->ttm) : obj->ttm.cached_io_st;
- 	if (IS_ERR(st))
-@@ -597,8 +665,6 @@ static int i915_ttm_get_pages(struct drm_i915_gem_object *obj)
++struct intel_memory_region *
++i915_gem_ttm_system_setup(struct drm_i915_private *i915,
++			  u16 type, u16 instance)
++{
++	struct intel_memory_region *mr;
++
++	mr = intel_memory_region_create(i915, 0,
++					totalram_pages() << PAGE_SHIFT,
++					PAGE_SIZE, 0,
++					type, instance,
++					&ttm_system_region_ops);
++	if (IS_ERR(mr))
++		return mr;
++
++	intel_memory_region_set_name(mr, "system-ttm");
++	return mr;
++}
+diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
+index 01e11fe38642..bfbfbae57573 100644
+--- a/drivers/gpu/drm/i915/i915_drv.h
++++ b/drivers/gpu/drm/i915/i915_drv.h
+@@ -1751,9 +1751,6 @@ void i915_gem_cleanup_userptr(struct drm_i915_private *dev_priv);
+ void i915_gem_init_early(struct drm_i915_private *dev_priv);
+ void i915_gem_cleanup_early(struct drm_i915_private *dev_priv);
  
- 	__i915_gem_object_set_pages(obj, st, i915_sg_dma_sizes(st->sgl));
- 
--	i915_ttm_adjust_lru(obj);
+-struct intel_memory_region *i915_gem_shmem_setup(struct drm_i915_private *i915,
+-						 u16 type, u16 instance);
 -
- 	return ret;
- }
- 
-@@ -768,6 +834,10 @@ int __i915_gem_ttm_object_init(struct intel_memory_region *mem,
+ static inline void i915_gem_drain_freed_objects(struct drm_i915_private *i915)
  {
- 	static struct lock_class_key lock_class;
- 	struct drm_i915_private *i915 = mem->i915;
-+	struct ttm_operation_ctx ctx = {
-+		.interruptible = true,
-+		.no_wait_gpu = false,
-+	};
- 	enum ttm_bo_type bo_type;
- 	int ret;
- 
-@@ -775,14 +845,13 @@ int __i915_gem_ttm_object_init(struct intel_memory_region *mem,
- 	i915_gem_object_init(obj, &i915_gem_ttm_obj_ops, &lock_class, flags);
- 	i915_gem_object_init_memory_region(obj, mem);
- 	i915_gem_object_make_unshrinkable(obj);
--	obj->read_domains = I915_GEM_DOMAIN_WC | I915_GEM_DOMAIN_GTT;
--	obj->mem_flags |= I915_BO_FLAG_IOMEM;
--	i915_gem_object_set_cache_coherency(obj, I915_CACHE_NONE);
- 	INIT_RADIX_TREE(&obj->ttm.get_io_page.radix, GFP_KERNEL | __GFP_NOWARN);
- 	mutex_init(&obj->ttm.get_io_page.lock);
- 	bo_type = (obj->flags & I915_BO_ALLOC_USER) ? ttm_bo_type_device :
- 		ttm_bo_type_kernel;
- 
-+	obj->base.vma_node.driver_private = i915_gem_to_ttm(obj);
-+
  	/*
- 	 * If this function fails, it will call the destructor, but
- 	 * our caller still owns the object. So no freeing in the
-@@ -790,14 +859,17 @@ int __i915_gem_ttm_object_init(struct intel_memory_region *mem,
- 	 * Similarly, in delayed_destroy, we can't call ttm_bo_put()
- 	 * until successful initialization.
- 	 */
--	obj->base.vma_node.driver_private = i915_gem_to_ttm(obj);
--	ret = ttm_bo_init(&i915->bdev, i915_gem_to_ttm(obj), size,
--			  bo_type, &i915_sys_placement,
--			  mem->min_page_size >> PAGE_SHIFT,
--			  true, NULL, NULL, i915_ttm_bo_destroy);
--	if (!ret)
--		obj->ttm.created = true;
--
--	/* i915 wants -ENXIO when out of memory region space. */
--	return i915_ttm_err_to_gem(ret);
-+	ret = ttm_bo_init_reserved(&i915->bdev, i915_gem_to_ttm(obj), size,
-+				   bo_type, &i915_sys_placement,
-+				   mem->min_page_size >> PAGE_SHIFT,
-+				   &ctx, NULL, NULL, i915_ttm_bo_destroy);
-+	if (ret)
-+		return i915_ttm_err_to_gem(ret);
+diff --git a/drivers/gpu/drm/i915/intel_memory_region.c b/drivers/gpu/drm/i915/intel_memory_region.c
+index df59f884d37c..779eb2fa90b6 100644
+--- a/drivers/gpu/drm/i915/intel_memory_region.c
++++ b/drivers/gpu/drm/i915/intel_memory_region.c
+@@ -173,7 +173,12 @@ int intel_memory_regions_hw_probe(struct drm_i915_private *i915)
+ 		instance = intel_region_map[i].instance;
+ 		switch (type) {
+ 		case INTEL_MEMORY_SYSTEM:
+-			mem = i915_gem_shmem_setup(i915, type, instance);
++			if (IS_DGFX(i915))
++				mem = i915_gem_ttm_system_setup(i915, type,
++								instance);
++			else
++				mem = i915_gem_shmem_setup(i915, type,
++							   instance);
+ 			break;
+ 		case INTEL_MEMORY_STOLEN_LOCAL:
+ 			mem = i915_gem_stolen_lmem_setup(i915, type, instance);
+diff --git a/drivers/gpu/drm/i915/intel_memory_region.h b/drivers/gpu/drm/i915/intel_memory_region.h
+index 2be8433d373a..b1b9e461d53b 100644
+--- a/drivers/gpu/drm/i915/intel_memory_region.h
++++ b/drivers/gpu/drm/i915/intel_memory_region.h
+@@ -125,4 +125,12 @@ intel_memory_region_set_name(struct intel_memory_region *mem,
+ int intel_memory_region_reserve(struct intel_memory_region *mem,
+ 				resource_size_t offset,
+ 				resource_size_t size);
 +
-+	obj->ttm.created = true;
-+	i915_ttm_adjust_domains_after_move(obj);
-+	i915_ttm_adjust_gem_after_move(obj);
-+	i915_gem_object_unlock(obj);
++struct intel_memory_region *
++i915_gem_ttm_system_setup(struct drm_i915_private *i915,
++			  u16 type, u16 instance);
++struct intel_memory_region *
++i915_gem_shmem_setup(struct drm_i915_private *i915,
++		     u16 type, u16 instance);
 +
-+	return 0;
- }
+ #endif
 -- 
 2.31.1
 
