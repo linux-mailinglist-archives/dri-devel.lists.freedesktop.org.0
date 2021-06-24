@@ -1,59 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A128B3B2F6A
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Jun 2021 14:52:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 079B93B2F7C
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Jun 2021 14:57:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CAC416EB7A;
-	Thu, 24 Jun 2021 12:52:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1BA566EB7D;
+	Thu, 24 Jun 2021 12:57:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
- [IPv6:2a00:1450:4864:20::331])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 32D306EB7A
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Jun 2021 12:52:53 +0000 (UTC)
-Received: by mail-wm1-x331.google.com with SMTP id j10so3914428wms.1
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Jun 2021 05:52:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=cJYcfg79JZa0zBzQtB20LCA3OLE/cQ7YCWcHuaHNjRE=;
- b=KHIhK/KD4HIAtQ6yuBkegur6bXuL6jaFPNyhP9/rPyM2ny2KJNA6MtH1AgFpjw1TsX
- opTvn+wok0L3k8CACuc4PSrxV6PfYJZNS4czJnuwHbeXSEnwH59Qr8/ez4PUHB51PibE
- jKb+vXgZjvLwqVQaTrZW8imH/UovBz2kzfwGw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=cJYcfg79JZa0zBzQtB20LCA3OLE/cQ7YCWcHuaHNjRE=;
- b=TEwMIhAv8HfYHWaG5L6ju0A+artR18MIA0K9hMjqj5+Rg8d3HD39NcO9dbq0QTbR4w
- uJgBcn8+LQ9BBpLZSgKy4vt0xM2M0HanedBAVD1h8Fht1+DeieaA9OnozMktTI+Oh+KU
- NsdseUyfQ3iHlCokuxI3bN0ilzs0+5fmojCc4mVj8O2eu6UpGaVMaE4+QP7rX+XJXDQB
- pZ24OFJMb2/+0DttEliZF+xhFXRgjdV4+Cdjjf7Mg2pxpmu5iuh7CRia9Fj3ikj9sZc8
- gGMw2RnyAiRFv8DxzyQGgW5CWUfUnqU0QCK1pxrpmmVVxdSN3T7dLojwLQrPB2RH9KeE
- GdNQ==
-X-Gm-Message-State: AOAM532N866wvKFENfhmrZdcwxkVbuUWNUXtwpnuvgPxs5r8zKTxGnBs
- JPyKcZB70GyPBL01lZE1gMFI1ukNBEURMQ==
-X-Google-Smtp-Source: ABdhPJyJOiJqhuww+e8lPgzaYUwVimKYzyVnIk7fFDM0vjCykXqjK68FmlIoTH2hajUUTZ3QOLtAkw==
-X-Received: by 2002:a05:600c:2482:: with SMTP id
- 2mr4087467wms.67.1624539171723; 
- Thu, 24 Jun 2021 05:52:51 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id b7sm3200649wrw.20.2021.06.24.05.52.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Jun 2021 05:52:51 -0700 (PDT)
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: [PATCH] dma-buf: Document dma-buf implicit fencing/resv fencing rules
-Date: Thu, 24 Jun 2021 14:52:46 +0200
-Message-Id: <20210624125246.166721-1-daniel.vetter@ffwll.ch>
-X-Mailer: git-send-email 2.32.0.rc2
-In-Reply-To: <20210623161955.3371466-1-daniel.vetter@ffwll.ch>
-References: <20210623161955.3371466-1-daniel.vetter@ffwll.ch>
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E5596EADA;
+ Thu, 24 Jun 2021 12:57:48 +0000 (UTC)
+Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
+ (using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 7CFC81FD40;
+ Thu, 24 Jun 2021 12:57:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1624539466; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=nlRQ0RGts2fg2n9D/bEIlhwvWJbNJH9fkaGW/6cqJVk=;
+ b=u3LjD6oZssj/mJkoGStiSAvIHllAs+WCZqbgI6BOg34/wy6NHBbzTQ1JSVyR10sH/NyAAw
+ pJl/nhBITtCxww7p96mvF926pQTQ0Gnk+voDz/USxmzhEd10NSPQzg7wj0bremchN+1FAC
+ 43RglR2P5jMZtZBUFtwX3C3sZNzp5eg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1624539466;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=nlRQ0RGts2fg2n9D/bEIlhwvWJbNJH9fkaGW/6cqJVk=;
+ b=skIn5fqMc0iuV1PMO3x3WjCWGfF0W6cyrE+GtqtdFjaVEN9HzBM8/z3ojcgJYirCjjhOr/
+ y3pCmtMNeAOKcwCA==
+Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
+ by imap.suse.de (Postfix) with ESMTP id 81AF511A97;
+ Thu, 24 Jun 2021 12:57:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1624539466; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=nlRQ0RGts2fg2n9D/bEIlhwvWJbNJH9fkaGW/6cqJVk=;
+ b=u3LjD6oZssj/mJkoGStiSAvIHllAs+WCZqbgI6BOg34/wy6NHBbzTQ1JSVyR10sH/NyAAw
+ pJl/nhBITtCxww7p96mvF926pQTQ0Gnk+voDz/USxmzhEd10NSPQzg7wj0bremchN+1FAC
+ 43RglR2P5jMZtZBUFtwX3C3sZNzp5eg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1624539466;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=nlRQ0RGts2fg2n9D/bEIlhwvWJbNJH9fkaGW/6cqJVk=;
+ b=skIn5fqMc0iuV1PMO3x3WjCWGfF0W6cyrE+GtqtdFjaVEN9HzBM8/z3ojcgJYirCjjhOr/
+ y3pCmtMNeAOKcwCA==
+Received: from director2.suse.de ([192.168.254.72]) by imap3-int with ESMTPSA
+ id V0K6HkmB1GBJTAAALh3uQQ
+ (envelope-from <tzimmermann@suse.de>); Thu, 24 Jun 2021 12:57:45 +0000
+Subject: Re: [PATCH v3 04/27] drm: Don't test for IRQ support in VBLANK ioctls
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Thierry Reding <thierry.reding@gmail.com>
+References: <20210624072916.27703-1-tzimmermann@suse.de>
+ <20210624072916.27703-5-tzimmermann@suse.de> <87im23u1ok.fsf@intel.com>
+ <b5e7729f-ed11-e9ca-386e-562feb2bd2b7@suse.de> <877dijtzl2.fsf@intel.com>
+ <af21db75-584f-aec0-9659-d5386f27b4ea@suse.de>
+ <YNR0m2DJsdIW3NAZ@orome.fritz.box> <87zgvfsalz.fsf@intel.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <0b0b7cda-9808-f0ed-4122-2d8eeaa8f7c3@suse.de>
+Date: Thu, 24 Jun 2021 14:57:44 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <87zgvfsalz.fsf@intel.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="uZAbLLO6gAsgbliLJ4wVdD8Q3Prh3JDl0"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,338 +85,212 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Deepak R Varma <mh12gx2825@gmail.com>,
- Dave Airlie <airlied@redhat.com>, Daniel Vetter <daniel.vetter@intel.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- =?UTF-8?q?Michel=20D=C3=A4nzer?= <michel@daenzer.net>,
- Kevin Wang <kevin1.wang@amd.com>, linaro-mm-sig@lists.linaro.org,
- Luben Tuikov <luben.tuikov@amd.com>,
- "Kristian H . Kristensen" <hoegsberg@google.com>,
- Chen Li <chenli@uniontech.com>, Alex Deucher <alexander.deucher@amd.com>,
- mesa-dev@lists.freedesktop.org,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Dennis Li <Dennis.Li@amd.com>, Daniel Stone <daniels@collabora.com>
+Cc: hamohammed.sa@gmail.com, emma@anholt.net, airlied@linux.ie,
+ nouveau@lists.freedesktop.org, laurentiu.palcu@oss.nxp.com,
+ liviu.dudau@arm.com, alexandre.torgue@foss.st.com,
+ dri-devel@lists.freedesktop.org, linux@armlinux.org.uk, melissa.srw@gmail.com,
+ matthias.bgg@gmail.com, laurent.pinchart@ideasonboard.com,
+ benjamin.gaignard@linaro.org, mihail.atanassov@arm.com,
+ linux-stm32@st-md-mailman.stormreply.com, linux-samsung-soc@vger.kernel.org,
+ jy0922.shim@samsung.com, krzysztof.kozlowski@canonical.com, tomba@kernel.org,
+ michal.simek@xilinx.com, jernej.skrabec@gmail.com, jonathanh@nvidia.com,
+ linux-rockchip@lists.infradead.org, wens@csie.org, james.qian.wang@arm.com,
+ linux-imx@nxp.com, xinliang.liu@linaro.org,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, linux-graphics-maintainer@vmware.com,
+ kong.kongxinwei@hisilicon.com, s.hauer@pengutronix.de, bskeggs@redhat.com,
+ chunkuang.hu@kernel.org, mcoquelin.stm32@gmail.com, puck.chen@hisilicon.com,
+ intel-gfx@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ rodrigo.vivi@intel.com, linux-tegra@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, amd-gfx@lists.freedesktop.org,
+ hyun.kwon@xilinx.com, rodrigosiqueiramelo@gmail.com, shawnguo@kernel.org,
+ yannick.fertre@foss.st.com, Xinhui.Pan@amd.com, sw0312.kim@samsung.com,
+ hjc@rock-chips.com, linux-sunxi@lists.linux.dev, kyungmin.park@samsung.com,
+ kieran.bingham+renesas@ideasonboard.com, philippe.cornu@foss.st.com,
+ kernel@pengutronix.de, alexander.deucher@amd.com, tiantao6@hisilicon.com,
+ jyri.sarha@iki.fi, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Docs for struct dma_resv are fairly clear:
-
-"A reservation object can have attached one exclusive fence (normally
-associated with write operations) or N shared fences (read
-operations)."
-
-https://dri.freedesktop.org/docs/drm/driver-api/dma-buf.html#reservation-objects
-
-Furthermore a review across all of upstream.
-
-First of render drivers and how they set implicit fences:
-
-- nouveau follows this contract, see in validate_fini_no_ticket()
-
-			nouveau_bo_fence(nvbo, fence, !!b->write_domains);
-
-  and that last boolean controls whether the exclusive or shared fence
-  slot is used.
-
-- radeon follows this contract by setting
-
-		p->relocs[i].tv.num_shared = !r->write_domain;
-
-  in radeon_cs_parser_relocs(), which ensures that the call to
-  ttm_eu_fence_buffer_objects() in radeon_cs_parser_fini() will do the
-  right thing.
-
-- vmwgfx seems to follow this contract with the shotgun approach of
-  always setting ttm_val_buf->num_shared = 0, which means
-  ttm_eu_fence_buffer_objects() will only use the exclusive slot.
-
-- etnaviv follows this contract, as can be trivially seen by looking
-  at submit_attach_object_fences()
-
-- i915 is a bit a convoluted maze with multiple paths leading to
-  i915_vma_move_to_active(). Which sets the exclusive flag if
-  EXEC_OBJECT_WRITE is set. This can either come as a buffer flag for
-  softpin mode, or through the write_domain when using relocations. It
-  follows this contract.
-
-- lima follows this contract, see lima_gem_submit() which sets the
-  exclusive fence when the LIMA_SUBMIT_BO_WRITE flag is set for that
-  bo
-
-- msm follows this contract, see msm_gpu_submit() which sets the
-  exclusive flag when the MSM_SUBMIT_BO_WRITE is set for that buffer
-
-- panfrost follows this contract with the shotgun approach of just
-  always setting the exclusive fence, see
-  panfrost_attach_object_fences(). Benefits of a single engine I guess
-
-- v3d follows this contract with the same shotgun approach in
-  v3d_attach_fences_and_unlock_reservation(), but it has at least an
-  XXX comment that maybe this should be improved
-
-- v4c uses the same shotgun approach of always setting an exclusive
-  fence, see vc4_update_bo_seqnos()
-
-- vgem also follows this contract, see vgem_fence_attach_ioctl() and
-  the VGEM_FENCE_WRITE. This is used in some igts to validate prime
-  sharing with i915.ko without the need of a 2nd gpu
-
-- vritio follows this contract again with the shotgun approach of
-  always setting an exclusive fence, see virtio_gpu_array_add_fence()
-
-This covers the setting of the exclusive fences when writing.
-
-Synchronizing against the exclusive fence is a lot more tricky, and I
-only spot checked a few:
-
-- i915 does it, with the optional EXEC_OBJECT_ASYNC to skip all
-  implicit dependencies (which is used by vulkan)
-
-- etnaviv does this. Implicit dependencies are collected in
-  submit_fence_sync(), again with an opt-out flag
-  ETNA_SUBMIT_NO_IMPLICIT. These are then picked up in
-  etnaviv_sched_dependency which is the
-  drm_sched_backend_ops->dependency callback.
-
-- v4c seems to not do much here, maybe gets away with it by not having
-  a scheduler and only a single engine. Since all newer broadcom chips than
-  the OG vc4 use v3d for rendering, which follows this contract, the
-  impact of this issue is fairly small.
-
-- v3d does this using the drm_gem_fence_array_add_implicit() helper,
-  which then it's drm_sched_backend_ops->dependency callback
-  v3d_job_dependency() picks up.
-
-- panfrost is nice here and tracks the implicit fences in
-  panfrost_job->implicit_fences, which again the
-  drm_sched_backend_ops->dependency callback panfrost_job_dependency()
-  picks up. It is mildly questionable though since it only picks up
-  exclusive fences in panfrost_acquire_object_fences(), but not buggy
-  in practice because it also always sets the exclusive fence. It
-  should pick up both sets of fences, just in case there's ever going
-  to be a 2nd gpu in a SoC with a mali gpu. Or maybe a mali SoC with a
-  pcie port and a real gpu, which might actually happen eventually. A
-  bug, but easy to fix. Should probably use the
-  drm_gem_fence_array_add_implicit() helper.
-
-- lima is nice an easy, uses drm_gem_fence_array_add_implicit() and
-  the same schema as v3d.
-
-- msm is mildly entertaining. It also supports MSM_SUBMIT_NO_IMPLICIT,
-  but because it doesn't use the drm/scheduler it handles fences from
-  the wrong context with a synchronous dma_fence_wait. See
-  submit_fence_sync() leading to msm_gem_sync_object(). Investing into
-  a scheduler might be a good idea.
-
-- all the remaining drivers are ttm based, where I hope they do
-  appropriately obey implicit fences already. I didn't do the full
-  audit there because a) not follow the contract would confuse ttm
-  quite well and b) reading non-standard scheduler and submit code
-  which isn't based on drm/scheduler is a pain.
-
-Onwards to the display side.
-
-- Any driver using the drm_gem_plane_helper_prepare_fb() helper will
-  correctly. Overwhelmingly most drivers get this right, except a few
-  totally dont. I'll follow up with a patch to make this the default
-  and avoid a bunch of bugs.
-
-- I didn't audit the ttm drivers, but given that dma_resv started
-  there I hope they get this right.
-
-In conclusion this IS the contract, both as documented and
-overwhelmingly implemented, specically as implemented by all render
-drivers except amdgpu.
-
-Amdgpu tried to fix this already in
-
-commit 049aca4363d8af87cab8d53de5401602db3b9999
-Author: Christian König <christian.koenig@amd.com>
-Date:   Wed Sep 19 16:54:35 2018 +0200
-
-    drm/amdgpu: fix using shared fence for exported BOs v2
-
-but this fix falls short on a number of areas:
-
-- It's racy, by the time the buffer is shared it might be too late. To
-  make sure there's definitely never a problem we need to set the
-  fences correctly for any buffer that's potentially exportable.
-
-- It's breaking uapi, dma-buf fds support poll() and differentitiate
-  between, which was introduced in
-
-	commit 9b495a5887994a6d74d5c261d012083a92b94738
-	Author: Maarten Lankhorst <maarten.lankhorst@canonical.com>
-	Date:   Tue Jul 1 12:57:43 2014 +0200
-
-	    dma-buf: add poll support, v3
-
-- Christian König wants to nack new uapi building further on this
-  dma_resv contract because it breaks amdgpu, quoting
-
-  "Yeah, and that is exactly the reason why I will NAK this uAPI change.
-
-  "This doesn't works for amdgpu at all for the reasons outlined above."
-
-  https://lore.kernel.org/dri-devel/f2eb6751-2f82-9b23-f57e-548de5b729de@gmail.com/
-
-  Rejecting new development because your own driver is broken and
-  violates established cross driver contracts and uapi is really not
-  how upstream works.
-
-Now this patch will have a severe performance impact on anything that
-runs on multiple engines. So we can't just merge it outright, but need
-a bit a plan:
-
-- amdgpu needs a proper uapi for handling implicit fencing. The funny
-  thing is that to do it correctly, implicit fencing must be treated
-  as a very strange IPC mechanism for transporting fences, where both
-  setting the fence and dependency intercepts must be handled
-  explicitly. Current best practices is a per-bo flag to indicate
-  writes, and a per-bo flag to to skip implicit fencing in the CS
-  ioctl as a new chunk.
-
-- Since amdgpu has been shipping with broken behaviour we need an
-  opt-out flag from the butchered implicit fencing model to enable the
-  proper explicit implicit fencing model.
-
-- for kernel memory fences due to bo moves at least the i915 idea is
-  to use ttm_bo->moving. amdgpu probably needs the same.
-
-- since the current p2p dma-buf interface assumes the kernel memory
-  fence is in the exclusive dma_resv fence slot we need to add a new
-  fence slot for kernel fences, which must never be ignored. Since
-  currently only amdgpu supports this there's no real problem here
-  yet, until amdgpu gains a NO_IMPLICIT CS flag.
-
-- New userspace needs to ship in enough desktop distros so that users
-  wont notice the perf impact. I think we can ignore LTS distros who
-  upgrade their kernels but not their mesa3d snapshot.
-
-- Then when this is all in place we can merge this patch here.
-
-What is not a solution to this problem here is trying to make the
-dma_resv rules in the kernel more clever. The fundamental issue here
-is that the amdgpu CS uapi is the least expressive one across all
-drivers (only equalled by panfrost, which has an actual excuse) by not
-allowing any userspace control over how implicit sync is conducted.
-
-Until this is fixed it's completely pointless to make the kernel more
-clever to improve amdgpu, because all we're doing is papering over
-this uapi design issue. amdgpu needs to attain the status quo
-established by other drivers first, once that's achieved we can tackle
-the remaining issues in a consistent way across drivers.
-
-v2: Bas pointed me at AMDGPU_GEM_CREATE_EXPLICIT_SYNC, which I
-entirely missed.
-
-This is great because it means the amdgpu specific piece for proper
-implicit fence handling exists already, and that since a while. The
-only thing that's now missing is
-- fishing the implicit fences out of a shared object at the right time
-- setting the exclusive implicit fence slot at the right time.
-
-Jason has a patch series to fill that gap with a bunch of generic
-ioctl on the dma-buf fd:
-
-https://lore.kernel.org/dri-devel/20210520190007.534046-1-jason@jlekstrand.net/
-
-v3: Since Christian has fixed amdgpu now in
-
-commit 8c505bdc9c8b955223b054e34a0be9c3d841cd20 (drm-misc/drm-misc-next)
-Author: Christian König <christian.koenig@amd.com>
-Date:   Wed Jun 9 13:51:36 2021 +0200
-
-    drm/amdgpu: rework dma_resv handling v3
-
-Use the audit covered in this commit message as the excuse to update
-the dma-buf docs around dma_buf.resv usage across drivers.
-
-Since dynamic importers have different rules also hammer these in
-again while we're at it.
-
-v4:
-- Add the missing "through the device" in the dynamic section that I
-  overlooked.
-- Fix a kerneldoc markup mistake, the link didn't connect
-
-v5:
-- A few s/should/must/ to make clear what must be done (if the driver
-  does implicit sync) and what's more a maybe (Daniel Stone)
-- drop all the example api discussion, that needs to be expanded,
-  clarified and put into a new chapter in drm-uapi.rst (Daniel Stone)
-
-Cc: Daniel Stone <daniel@fooishbar.org>
-Acked-by: Daniel Stone <daniel@fooishbar.org>
-Reviewed-by: Dave Airlie <airlied@redhat.com> (v4)
-Reviewed-by: Christian König <christian.koenig@amd.com> (v3)
-Cc: mesa-dev@lists.freedesktop.org
-Cc: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
-Cc: Dave Airlie <airlied@gmail.com>
-Cc: Rob Clark <robdclark@chromium.org>
-Cc: Kristian H. Kristensen <hoegsberg@google.com>
-Cc: Michel Dänzer <michel@daenzer.net>
-Cc: Daniel Stone <daniels@collabora.com>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: "Christian König" <christian.koenig@amd.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Deepak R Varma <mh12gx2825@gmail.com>
-Cc: Chen Li <chenli@uniontech.com>
-Cc: Kevin Wang <kevin1.wang@amd.com>
-Cc: Dennis Li <Dennis.Li@amd.com>
-Cc: Luben Tuikov <luben.tuikov@amd.com>
-Cc: linaro-mm-sig@lists.linaro.org
-Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
----
- include/linux/dma-buf.h | 34 ++++++++++++++++++++++++++++++++++
- 1 file changed, 34 insertions(+)
-
-diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-index 81cebf414505..2b814fde0d11 100644
---- a/include/linux/dma-buf.h
-+++ b/include/linux/dma-buf.h
-@@ -386,6 +386,40 @@ struct dma_buf {
- 	 * @resv:
- 	 *
- 	 * Reservation object linked to this dma-buf.
-+	 *
-+	 * IMPLICIT SYNCHRONIZATION RULES:
-+	 *
-+	 * Drivers which support implicit synchronization of buffer access as
-+	 * e.g. exposed in `Implicit Fence Poll Support`_ must follow the
-+	 * below rules.
-+	 *
-+	 * - Drivers must add a shared fence through dma_resv_add_shared_fence()
-+	 *   for anything the userspace API considers a read access. This highly
-+	 *   depends upon the API and window system.
-+	 *
-+	 * - Similarly drivers must set the exclusive fence through
-+	 *   dma_resv_add_excl_fence() for anything the userspace API considers
-+	 *   write access.
-+	 *
-+	 * - Drivers may just always set the exclusive fence, since that only
-+	 *   causes unecessarily synchronization, but no correctness issues.
-+	 *
-+	 * - Some drivers only expose a synchronous userspace API with no
-+	 *   pipelining across drivers. These do not set any fences for their
-+	 *   access. An example here is v4l.
-+	 *
-+	 * DYNAMIC IMPORTER RULES:
-+	 *
-+	 * Dynamic importers, see dma_buf_attachment_is_dynamic(), have
-+	 * additional constraints on how they set up fences:
-+	 *
-+	 * - Dynamic importers must obey the exclusive fence and wait for it to
-+	 *   signal before allowing access to the buffer's underlying storage
-+	 *   through the device.
-+	 *
-+	 * - Dynamic importers should set fences for any access that they can't
-+	 *   disable immediately from their &dma_buf_attach_ops.move_notify
-+	 *   callback.
- 	 */
- 	struct dma_resv *resv;
- 
--- 
-2.32.0.rc2
-
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--uZAbLLO6gAsgbliLJ4wVdD8Q3Prh3JDl0
+Content-Type: multipart/mixed; boundary="lmd8tCC7cJwEr0gUau7cSsDcSUmocjFNc";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Thierry Reding <thierry.reding@gmail.com>
+Cc: hamohammed.sa@gmail.com, emma@anholt.net, airlied@linux.ie,
+ nouveau@lists.freedesktop.org, rodrigo.vivi@intel.com, liviu.dudau@arm.com,
+ alexandre.torgue@foss.st.com, dri-devel@lists.freedesktop.org,
+ michal.simek@xilinx.com, melissa.srw@gmail.com, linux-tegra@vger.kernel.org,
+ laurent.pinchart@ideasonboard.com, benjamin.gaignard@linaro.org,
+ linux@armlinux.org.uk, mihail.atanassov@arm.com,
+ linux-stm32@st-md-mailman.stormreply.com, linux-samsung-soc@vger.kernel.org,
+ jy0922.shim@samsung.com, krzysztof.kozlowski@canonical.com,
+ linux-rockchip@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ wens@csie.org, jernej.skrabec@gmail.com, jonathanh@nvidia.com,
+ xinliang.liu@linaro.org, kong.kongxinwei@hisilicon.com,
+ james.qian.wang@arm.com, linux-imx@nxp.com,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ linux-graphics-maintainer@vmware.com, intel-gfx@lists.freedesktop.org,
+ bskeggs@redhat.com, chunkuang.hu@kernel.org, puck.chen@hisilicon.com,
+ s.hauer@pengutronix.de, rodrigosiqueiramelo@gmail.com,
+ laurentiu.palcu@oss.nxp.com, matthias.bgg@gmail.com, kernel@pengutronix.de,
+ linux-arm-kernel@lists.infradead.org, mcoquelin.stm32@gmail.com,
+ amd-gfx@lists.freedesktop.org, hyun.kwon@xilinx.com, tomba@kernel.org,
+ jyri.sarha@iki.fi, yannick.fertre@foss.st.com, Xinhui.Pan@amd.com,
+ sw0312.kim@samsung.com, hjc@rock-chips.com, christian.koenig@amd.com,
+ linux-sunxi@lists.linux.dev, kyungmin.park@samsung.com,
+ kieran.bingham+renesas@ideasonboard.com, philippe.cornu@foss.st.com,
+ alexander.deucher@amd.com, tiantao6@hisilicon.com, shawnguo@kernel.org
+Message-ID: <0b0b7cda-9808-f0ed-4122-2d8eeaa8f7c3@suse.de>
+Subject: Re: [PATCH v3 04/27] drm: Don't test for IRQ support in VBLANK ioctls
+References: <20210624072916.27703-1-tzimmermann@suse.de>
+ <20210624072916.27703-5-tzimmermann@suse.de> <87im23u1ok.fsf@intel.com>
+ <b5e7729f-ed11-e9ca-386e-562feb2bd2b7@suse.de> <877dijtzl2.fsf@intel.com>
+ <af21db75-584f-aec0-9659-d5386f27b4ea@suse.de>
+ <YNR0m2DJsdIW3NAZ@orome.fritz.box> <87zgvfsalz.fsf@intel.com>
+In-Reply-To: <87zgvfsalz.fsf@intel.com>
+
+--lmd8tCC7cJwEr0gUau7cSsDcSUmocjFNc
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+Hi
+
+Am 24.06.21 um 14:36 schrieb Jani Nikula:
+> On Thu, 24 Jun 2021, Thierry Reding <thierry.reding@gmail.com> wrote:
+>> On Thu, Jun 24, 2021 at 11:07:57AM +0200, Thomas Zimmermann wrote:
+>>> Hi
+>>>
+>>> Am 24.06.21 um 10:51 schrieb Jani Nikula:
+>>>> On Thu, 24 Jun 2021, Thomas Zimmermann <tzimmermann@suse.de> wrote:
+>>>>> Hi
+>>>>>
+>>>>> Am 24.06.21 um 10:06 schrieb Jani Nikula:
+>>>>>> On Thu, 24 Jun 2021, Thomas Zimmermann <tzimmermann@suse.de> wrote=
+:
+>>>>>>> diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_v=
+blank.c
+>>>>>>> index 3417e1ac7918..10fe16bafcb6 100644
+>>>>>>> --- a/drivers/gpu/drm/drm_vblank.c
+>>>>>>> +++ b/drivers/gpu/drm/drm_vblank.c
+>>>>>>> @@ -1748,8 +1748,16 @@ int drm_wait_vblank_ioctl(struct drm_devic=
+e *dev, void *data,
+>>>>>>>     	unsigned int pipe_index;
+>>>>>>>     	unsigned int flags, pipe, high_pipe;
+>>>>>>> -	if (!dev->irq_enabled)
+>>>>>>> -		return -EOPNOTSUPP;
+>>>>>>> +#if defined(CONFIG_DRM_LEGACY)
+>>>>>>> +	if  (unlikely(drm_core_check_feature(dev, DRIVER_LEGACY))) {
+>>>>>>> +		if (!dev->irq_enabled)
+>>>>>>> +			return -EOPNOTSUPP;
+>>>>>>> +	} else /* if DRIVER_MODESET */
+>>>>>>> +#endif
+>>>>>>> +	{
+>>>>>>> +		if (!drm_dev_has_vblank(dev))
+>>>>>>> +			return -EOPNOTSUPP;
+>>>>>>> +	}
+>>>>>>
+>>>>>> Sheesh I hate this kind of inline #ifdefs.
+>>>>>>
+>>>>>> Two alternate suggestions that I believe should be as just efficie=
+nt:
+>>>>>
+>>>>> Or how about:
+>>>>>
+>>>>> static bool drm_wait_vblank_supported(struct drm_device *dev)
+>>>>>
+>>>>> {
+>>>>>
+>>>>> if defined(CONFIG_DRM_LEGACY)
+>>>>> 	if  (unlikely(drm_core_check_feature(dev, DRIVER_LEGACY)))
+>>>>>
+>>>>> 		return dev->irq_enabled;
+>>>>>
+>>>>> #endif
+>>>>> 	return drm_dev_has_vblank(dev);
+>>>>>
+>>>>> }
+>>>>>
+>>>>>
+>>>>> ?
+>>>>>
+>>>>> It's inline, but still readable.
+>>>>
+>>>> It's definitely better than the original, but it's unclear to me why=
+
+>>>> you'd prefer this over option 2) below. I guess the only reason I ca=
+n
+>>>> think of is emphasizing the conditional compilation. However,
+>>>> IS_ENABLED() is widely used in this manner specifically to avoid inl=
+ine
+>>>> #if, and the compiler optimizes it away.
+>>>
+>>> It's simply more readable to me as the condition is simpler. But opti=
+on 2 is
+>>> also ok.
+>>
+>> Perhaps do something like this, then:
+>>
+>> 	if (IS_ENABLED(CONFIG_DRM_LEGACY)) {
+>> 		if (unlikely(drm_core_check_feature(dev, DRIVER_LEGACY)))
+>> 			return dev->irq_enabled;
+>> 	}
+>>
+>> 	return drm_dev_has_vblank(dev);
+>>
+>> That's about just as readable as the variant involving the preprocesso=
+r
+>> but has all the benefits of not using the preprocessor.
+>=20
+> Looks like a winner to me. :)
+
+That's the most readable.
+
+But I just remembered that irq_enabled will likely become legacy-only in =
+
+the device structure. We'll need an ifdef variant then. :/
+
+Best regards
+Thomas
+
+>=20
+> BR,
+> Jani.
+>=20
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--lmd8tCC7cJwEr0gUau7cSsDcSUmocjFNc--
+
+--uZAbLLO6gAsgbliLJ4wVdD8Q3Prh3JDl0
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmDUgUgFAwAAAAAACgkQlh/E3EQov+Bk
+HA/9GKE6DtrNVTmNxi2Q1NuMTT4X0e/U8VAQ+IlFKl8xxDejBHRg5B2w4IWO1ryG0fVvwJTmulCJ
+4oIF7texau6jTumwKhAXbRwUOjdRyO1EVchjVjZ9OCG9+pab1hN4k6aH8EmG1Jbk47pgPrcn72Eb
+/Wk9L3GlqhVg/h5/gXnNXX7lE3N/zwms6VexWkqGXOQN8/eRK03NFHIaim9TH2ZwA52ePGCFxf7X
+qGCSxGUsTDfpjp1wh7vHkZQu8Xob/WUqBe8VD4l6qSxXmaaK6GX8PkcR/KHSaEQTbT9+xeiaARfc
+fL+AAzsKgwT7VHQiBtiDp+vTFSb7Smqb1njcV6XKoT22ChKIkwXgosP0un57vun3nbUCINjkSWhH
+sIDquVu33/iLM0phsJJGzNBVZIZ/TKjNZLN0xKL14t3QCiGaPmgK2T4oIIddEpEWDpC44+ReNuG+
+gmDsDDCGlph9N3IQ3hFbmZEbE3zq3wpoNZc8waPul0MIh3NP4oVXqFWKfZQHe5ZG2L+SsXA0mD3V
+JQ4YgpDzpqDrPVZN3e7IDy5AIAq8lHKQ7HjDnk9BAeU07ugunwtotH8nLRpsxEoH2rqRPHWLbskz
+MH+boqUIKPbGSWWh3OCLIsONS9XZR5dnZG2etdxPgteJRgWatYNmdaacVJzZt/epo1ZxEnEZXi3C
+DRk=
+=+AeC
+-----END PGP SIGNATURE-----
+
+--uZAbLLO6gAsgbliLJ4wVdD8Q3Prh3JDl0--
