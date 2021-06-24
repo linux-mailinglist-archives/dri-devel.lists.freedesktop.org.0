@@ -2,36 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8E8D3B2727
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Jun 2021 08:08:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10D213B2726
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Jun 2021 08:08:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B1ED6E9F2;
-	Thu, 24 Jun 2021 06:08:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A84A6E9F0;
+	Thu, 24 Jun 2021 06:08:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from yyz.mikelr.com (yyz.mikelr.com [170.75.163.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C3726E9E3;
- Thu, 24 Jun 2021 04:52:09 +0000 (UTC)
-Received: from glidewell.ykf.mikelr.com (198-84-194-208.cpe.teksavvy.com
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AFE816E9E3;
+ Thu, 24 Jun 2021 04:52:05 +0000 (UTC)
+Received: from glidewell.localnet (198-84-194-208.cpe.teksavvy.com
  [198.84.194.208])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (Client did not present a certificate)
- by yyz.mikelr.com (Postfix) with ESMTPSA id 440C34FA6A;
- Thu, 24 Jun 2021 00:52:08 -0400 (EDT)
+ by yyz.mikelr.com (Postfix) with ESMTPSA id 2E7E54FA68;
+ Thu, 24 Jun 2021 00:52:02 -0400 (EDT)
 From: Mikel Rychliski <mikel@mikelr.com>
-To: Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH v3] drm/radeon: Fix NULL dereference when updating memory stats
-Date: Thu, 24 Jun 2021 00:51:20 -0400
-Message-Id: <20210624045121.15643-1-mikel@mikelr.com>
-X-Mailer: git-send-email 2.13.7
+To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Subject: Re: [PATCH v2] drm/radeon: Fix NULL dereference when updating memory
+ stats
+Date: Thu, 24 Jun 2021 00:52:01 -0400
+Message-ID: <12410445.c4f2iDpdjA@glidewell>
 In-Reply-To: <085b7f51-15b8-42e0-fcf0-66da839542c8@amd.com>
-References: <085b7f51-15b8-42e0-fcf0-66da839542c8@amd.com>
+References: <20210622212613.16302-1-mikel@mikelr.com>
+ <085b7f51-15b8-42e0-fcf0-66da839542c8@amd.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 X-Mailman-Approved-At: Thu, 24 Jun 2021 06:08:10 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -45,174 +43,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mikel Rychliski <mikel@mikelr.com>
+Cc: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ David Airlie <airlied@linux.ie>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-radeon_ttm_bo_destroy() is attempting to access the resource object to
-update memory counters. However, the resource object is already freed when
-ttm calls this function via the destroy callback. This causes an oops when
-a bo is freed:
+On Wednesday, June 23, 2021 2:55:04 AM EDT Christian K=F6nig wrote:
+> Please rather keep the new resource as parameter here and update before
+> adjusting bo->resource.
+>=20
+> This way you also don't need to export radeon_update_memory_usage().
 
-	BUG: kernel NULL pointer dereference, address: 0000000000000010
-	RIP: 0010:radeon_ttm_bo_destroy+0x2c/0x100 [radeon]
-	Call Trace:
-	 radeon_bo_unref+0x1a/0x30 [radeon]
-	 radeon_gem_object_free+0x33/0x50 [radeon]
-	 drm_gem_object_release_handle+0x69/0x70 [drm]
-	 drm_gem_handle_delete+0x62/0xa0 [drm]
-	 ? drm_mode_destroy_dumb+0x40/0x40 [drm]
-	 drm_ioctl_kernel+0xb2/0xf0 [drm]
-	 drm_ioctl+0x30a/0x3c0 [drm]
-	 ? drm_mode_destroy_dumb+0x40/0x40 [drm]
-	 radeon_drm_ioctl+0x49/0x80 [radeon]
-	 __x64_sys_ioctl+0x8e/0xd0
+I wasn't sure exactly what you intended with the request to "update before
+adjusting bo->resource".
 
-Avoid the issue by updating the counters in the delete_mem_notify callback
-instead. Also, fix memory statistic updating in radeon_bo_move() to
-identify the source type correctly. The source type needs to be saved
-before the move, because the moved from object may be altered by the move.
+Assuming the statistics update is done as part of radeon_bo_move_notify(), =
+I=20
+believe that function cannot be called any earlier in radeon_bo_move(). If =
+it=20
+were, the source object would be invalidated before it moved.
 
-Fixes: bfa3357ef9ab ("drm/ttm: allocate resource object instead of embedding it v2")
-Signed-off-by: Mikel Rychliski <mikel@mikelr.com>
----
- drivers/gpu/drm/radeon/radeon_object.c | 29 ++++++++++++-----------------
- drivers/gpu/drm/radeon/radeon_object.h |  2 +-
- drivers/gpu/drm/radeon/radeon_ttm.c    | 13 ++++++++++---
- 3 files changed, 23 insertions(+), 21 deletions(-)
+So I assume you're suggesting updating the memory usage earlier in=20
+bo_move_notify (before the early return for ghost objects).
 
-diff --git a/drivers/gpu/drm/radeon/radeon_object.c b/drivers/gpu/drm/radeon/radeon_object.c
-index bfaaa3c969a3..56ede9d63b12 100644
---- a/drivers/gpu/drm/radeon/radeon_object.c
-+++ b/drivers/gpu/drm/radeon/radeon_object.c
-@@ -49,23 +49,23 @@ static void radeon_bo_clear_surface_reg(struct radeon_bo *bo);
-  * function are calling it.
-  */
- 
--static void radeon_update_memory_usage(struct radeon_bo *bo,
--				       unsigned mem_type, int sign)
-+static void radeon_update_memory_usage(struct ttm_buffer_object *bo,
-+				       unsigned int mem_type, int sign)
- {
--	struct radeon_device *rdev = bo->rdev;
-+	struct radeon_device *rdev = radeon_get_rdev(bo->bdev);
- 
- 	switch (mem_type) {
- 	case TTM_PL_TT:
- 		if (sign > 0)
--			atomic64_add(bo->tbo.base.size, &rdev->gtt_usage);
-+			atomic64_add(bo->base.size, &rdev->gtt_usage);
- 		else
--			atomic64_sub(bo->tbo.base.size, &rdev->gtt_usage);
-+			atomic64_sub(bo->base.size, &rdev->gtt_usage);
- 		break;
- 	case TTM_PL_VRAM:
- 		if (sign > 0)
--			atomic64_add(bo->tbo.base.size, &rdev->vram_usage);
-+			atomic64_add(bo->base.size, &rdev->vram_usage);
- 		else
--			atomic64_sub(bo->tbo.base.size, &rdev->vram_usage);
-+			atomic64_sub(bo->base.size, &rdev->vram_usage);
- 		break;
- 	}
- }
-@@ -76,8 +76,6 @@ static void radeon_ttm_bo_destroy(struct ttm_buffer_object *tbo)
- 
- 	bo = container_of(tbo, struct radeon_bo, tbo);
- 
--	radeon_update_memory_usage(bo, bo->tbo.resource->mem_type, -1);
--
- 	mutex_lock(&bo->rdev->gem.mutex);
- 	list_del_init(&bo->list);
- 	mutex_unlock(&bo->rdev->gem.mutex);
-@@ -727,24 +725,21 @@ int radeon_bo_check_tiling(struct radeon_bo *bo, bool has_moved,
- }
- 
- void radeon_bo_move_notify(struct ttm_buffer_object *bo,
--			   bool evict,
-+			   unsigned int old_type,
- 			   struct ttm_resource *new_mem)
- {
- 	struct radeon_bo *rbo;
- 
-+	radeon_update_memory_usage(bo, old_type, -1);
-+	if (new_mem)
-+		radeon_update_memory_usage(bo, new_mem->mem_type, 1);
-+
- 	if (!radeon_ttm_bo_is_radeon_bo(bo))
- 		return;
- 
- 	rbo = container_of(bo, struct radeon_bo, tbo);
- 	radeon_bo_check_tiling(rbo, 0, 1);
- 	radeon_vm_bo_invalidate(rbo->rdev, rbo);
--
--	/* update statistics */
--	if (!new_mem)
--		return;
--
--	radeon_update_memory_usage(rbo, bo->resource->mem_type, -1);
--	radeon_update_memory_usage(rbo, new_mem->mem_type, 1);
- }
- 
- vm_fault_t radeon_bo_fault_reserve_notify(struct ttm_buffer_object *bo)
-diff --git a/drivers/gpu/drm/radeon/radeon_object.h b/drivers/gpu/drm/radeon/radeon_object.h
-index 1739c6a142cd..1afc7992ef91 100644
---- a/drivers/gpu/drm/radeon/radeon_object.h
-+++ b/drivers/gpu/drm/radeon/radeon_object.h
-@@ -161,7 +161,7 @@ extern void radeon_bo_get_tiling_flags(struct radeon_bo *bo,
- extern int radeon_bo_check_tiling(struct radeon_bo *bo, bool has_moved,
- 				bool force_drop);
- extern void radeon_bo_move_notify(struct ttm_buffer_object *bo,
--				  bool evict,
-+				  unsigned int old_type,
- 				  struct ttm_resource *new_mem);
- extern vm_fault_t radeon_bo_fault_reserve_notify(struct ttm_buffer_object *bo);
- extern int radeon_bo_get_surface_reg(struct radeon_bo *bo);
-diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c b/drivers/gpu/drm/radeon/radeon_ttm.c
-index ad2a5a791bba..a06d4cc2fb1c 100644
---- a/drivers/gpu/drm/radeon/radeon_ttm.c
-+++ b/drivers/gpu/drm/radeon/radeon_ttm.c
-@@ -199,7 +199,7 @@ static int radeon_bo_move(struct ttm_buffer_object *bo, bool evict,
- 	struct ttm_resource *old_mem = bo->resource;
- 	struct radeon_device *rdev;
- 	struct radeon_bo *rbo;
--	int r;
-+	int r, old_type;
- 
- 	if (new_mem->mem_type == TTM_PL_TT) {
- 		r = radeon_ttm_tt_bind(bo->bdev, bo->ttm, new_mem);
-@@ -216,6 +216,9 @@ static int radeon_bo_move(struct ttm_buffer_object *bo, bool evict,
- 	if (WARN_ON_ONCE(rbo->tbo.pin_count > 0))
- 		return -EINVAL;
- 
-+	/* Save old type for statistics update */
-+	old_type = old_mem->mem_type;
-+
- 	rdev = radeon_get_rdev(bo->bdev);
- 	if (old_mem->mem_type == TTM_PL_SYSTEM && bo->ttm == NULL) {
- 		ttm_bo_move_null(bo, new_mem);
-@@ -261,7 +264,7 @@ static int radeon_bo_move(struct ttm_buffer_object *bo, bool evict,
- out:
- 	/* update statistics */
- 	atomic64_add(bo->base.size, &rdev->num_bytes_moved);
--	radeon_bo_move_notify(bo, evict, new_mem);
-+	radeon_bo_move_notify(bo, old_type, new_mem);
- 	return 0;
- }
- 
-@@ -682,7 +685,11 @@ bool radeon_ttm_tt_is_readonly(struct radeon_device *rdev,
- static void
- radeon_bo_delete_mem_notify(struct ttm_buffer_object *bo)
- {
--	radeon_bo_move_notify(bo, false, NULL);
-+	unsigned int old_type = TTM_PL_SYSTEM;
-+
-+	if (bo->resource)
-+		old_type = bo->resource->mem_type;
-+	radeon_bo_move_notify(bo, old_type, NULL);
- }
- 
- static struct ttm_device_funcs radeon_bo_driver = {
--- 
-2.13.7
-
+Thanks,
+Mikel
