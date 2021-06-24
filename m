@@ -2,57 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33B3C3B34F5
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Jun 2021 19:44:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9989C3B34FA
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Jun 2021 19:47:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C1176EC72;
-	Thu, 24 Jun 2021 17:44:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF43D6EC75;
+	Thu, 24 Jun 2021 17:47:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc2c.google.com (mail-oo1-xc2c.google.com
- [IPv6:2607:f8b0:4864:20::c2c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F1026EC72
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Jun 2021 17:44:11 +0000 (UTC)
-Received: by mail-oo1-xc2c.google.com with SMTP id
- v11-20020a4a8c4b0000b029024be8350c45so1819531ooj.12
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Jun 2021 10:44:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=2zbjEMLOhY6r00jLovUvg+cDkukY8e+ehBYDIDtu8ak=;
- b=cNXDM25LzsLh+znUAPF8XGZunGiT2d5LTm3VhQM3a30Nz2m8Mtm6Eg7ClFschfOFKA
- t4aJ1MEacWmOvglRsSQ+FKoCY5il6sTghtAt7cWTl6ZX/ei2H63paQDp2kwB0tTuIN/3
- RKoaHfFQSKAJLiCYdfUlF9lIWXk0x7gSghyIM=
+Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com
+ [IPv6:2607:f8b0:4864:20::536])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F5086EC73
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Jun 2021 17:47:41 +0000 (UTC)
+Received: by mail-pg1-x536.google.com with SMTP id e33so5354371pgm.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Jun 2021 10:47:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Tz/DuF/FND0AtzBbmjaoWlKt/aPhPThKNTwr9Xn43ZY=;
+ b=mUdywTQcwlGKOE7OWwYQdxjXsDaW66xFphJXbcZaHPQWM1XW1H9ZUkhuDs0FPkY/9Y
+ UEcPpnRE4mIjEccZBgw9PG7DESEF1A/rxrd0sWdpGos5pb0O2am1Q5QOH6SP7bubXQDf
+ eY0m3QA3laJ7RO33+PhUpbriBN0v/ETCeccUX+zQvJHN5GzU0yqP2+IhM+BgXkqXQoOI
+ h/Ke5l5G3NY8ir8F48Dp+E0i0nlgf4VZRkud9pMwTUAwPVvNv6SSCk+lWaPQPNvcGAC/
+ yNT1IcHaebZHyiA72yPR8Jte9dmAtTjtbVQO4+AUJyaAnx9xhfWYc7YrldYbRJNG4iI7
+ FOOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=2zbjEMLOhY6r00jLovUvg+cDkukY8e+ehBYDIDtu8ak=;
- b=Wr0Oi2E/CCCPr+7kqY9uVITu7la6ffBVwHRjsCge0Y2YFOONUrhLdXPg5USl9VAL/w
- gmrvwm7trDgPKmrBfKGz+CVgYzfQz9oG44iqIvYvOPk/i2qzkEdL/y3dj/OofdL20cRk
- 9gr1wDVksNAJuATgYYuOE8l/tdtiJayVLyHsHTGafycMit2A+ErZSoBW1EnAUewDqA2u
- IgCRxHqI7EmTHYS3j9npCH6cwpvmVAsixhZbu7wXNt+0p2fpOekkFKfFUDPkzuL/uOWw
- TUAc1f8lt4xO4mD4A/2ftMLek7t20uTJMaQ/P2nXrMQLR/xc9z+hCOzE9ZRDZ4l+o76U
- LU7g==
-X-Gm-Message-State: AOAM533591b/50FZG25vKAfPBwHAn8nfF6QSbZoCmpczz/OvqAmQ9/oK
- 8OKHNIhMiQyj18Akf35o8d0T4CYF5Ukvol0W9VZF1Q==
-X-Google-Smtp-Source: ABdhPJwCAUFdauKYgkR1eVpGkCFWIqzH3KUNGQT9AtCmEv9bqfAX5o9/lJseCwCrAk5dRFMXiwRlitsGkE2NYFA4/u8=
-X-Received: by 2002:a4a:8802:: with SMTP id d2mr5497433ooi.28.1624556650239;
- Thu, 24 Jun 2021 10:44:10 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Tz/DuF/FND0AtzBbmjaoWlKt/aPhPThKNTwr9Xn43ZY=;
+ b=jzcJB3eLR5ZvCwcBrnAyAzwRxAFGWB1LJvsewBWJV8LXh/24VNXWOxEKm0mAEZraae
+ Ezy8e0blmSPNhWylGtJ8JMw0LKV6rohZQVIKI3zZFDhCy1bfMd/A4GnRac/zOhW29JjE
+ HcXp/LIjEt87vbpfu1JBHAAeAmVGFm+WF5vNbYQZhYHHR0bF4Y/EzlptalKI7uOg0wli
+ Gzkz55RFMKRh4Avvsr3SJl4xsgniMkMkJ3m1cAb9UiMd2Wq87jz+T+54EqBi6Uxj9E/A
+ v33pO+tgjy9H7sXdn7+ElZBmAs9Qgk6VmgBReRaTb8Zf7fMfENdMhLRcLE7uQy4tmkav
+ xRhA==
+X-Gm-Message-State: AOAM531EQuvul1/xRD7AGuVcSzfhuY/K+esVyMf78hgMKxXb2MIto0yk
+ 2v0Qhb+HTWqp9ATkMdc9EMuOqKODRiqBqQ==
+X-Google-Smtp-Source: ABdhPJzAJUXKOu/Owpa4Ppem0EN3JzZS9ocke4+a3A0aamByRKXT2Z/LKeWyDmXuPfBVTGE+1efu+g==
+X-Received: by 2002:a65:49c4:: with SMTP id t4mr5784474pgs.108.1624556860603; 
+ Thu, 24 Jun 2021 10:47:40 -0700 (PDT)
+Received: from omlet.lan (jfdmzpr04-ext.jf.intel.com. [134.134.137.73])
+ by smtp.gmail.com with ESMTPSA id y1sm3013280pgr.70.2021.06.24.10.47.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 24 Jun 2021 10:47:40 -0700 (PDT)
+From: Jason Ekstrand <jason@jlekstrand.net>
+To: dri-devel@lists.freedesktop.org,
+	intel-gfx@lists.freedesktop.org
+Subject: [PATCH] dma-buf/sync_file: Don't leak fences on merge failure
+Date: Thu, 24 Jun 2021 12:47:32 -0500
+Message-Id: <20210624174732.1754546-1-jason@jlekstrand.net>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-References: <20210624140025.438303-1-daniel.vetter@ffwll.ch>
- <20210624140025.438303-11-daniel.vetter@ffwll.ch>
- <fa721d0e-46d7-b5f3-f846-560b8dad4e58@amd.com>
- <YNTBC04wfQ7ItRq7@phenom.ffwll.local>
- <811e5816-c9d7-72b8-2836-a3d1891bb762@amd.com>
-In-Reply-To: <811e5816-c9d7-72b8-2836-a3d1891bb762@amd.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Thu, 24 Jun 2021 19:43:59 +0200
-Message-ID: <CAKMK7uGmXiPUJEyC87bS5vTCtHTG7HFP=C-DQA0pQHB6mpB66A@mail.gmail.com>
-Subject: Re: [PATCH 10/11] drm/scheduler: Don't store self-dependencies
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,136 +68,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jack Zhang <Jack.Zhang1@amd.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Luben Tuikov <luben.tuikov@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
- Daniel Vetter <daniel.vetter@intel.com>
+Cc: Gustavo Padovan <gustavo.padovan@collabora.co.uk>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Jason Ekstrand <jason@jlekstrand.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 24, 2021 at 7:38 PM Christian K=C3=B6nig
-<christian.koenig@amd.com> wrote:
->
-> Am 24.06.21 um 19:29 schrieb Daniel Vetter:
-> > On Thu, Jun 24, 2021 at 07:03:10PM +0200, Christian K=C3=B6nig wrote:
-> >> Am 24.06.21 um 16:00 schrieb Daniel Vetter:
-> >>> This is essentially part of drm_sched_dependency_optimized(), which
-> >>> only amdgpu seems to make use of. Use it a bit more.
-> >>>
-> >>> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> >>> Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
-> >>> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> >>> Cc: Luben Tuikov <luben.tuikov@amd.com>
-> >>> Cc: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
-> >>> Cc: Alex Deucher <alexander.deucher@amd.com>
-> >>> Cc: Jack Zhang <Jack.Zhang1@amd.com>
-> >>> ---
-> >>>    drivers/gpu/drm/scheduler/sched_main.c | 7 +++++++
-> >>>    1 file changed, 7 insertions(+)
-> >>>
-> >>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm=
-/scheduler/sched_main.c
-> >>> index 370c336d383f..c31d7cf7df74 100644
-> >>> --- a/drivers/gpu/drm/scheduler/sched_main.c
-> >>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> >>> @@ -649,6 +649,13 @@ int drm_sched_job_await_fence(struct drm_sched_j=
-ob *job,
-> >>>     if (!fence)
-> >>>             return 0;
-> >>> +   /* if it's a fence from us it's guaranteed to be earlier */
-> >>> +   if (fence->context =3D=3D job->entity->fence_context ||
-> >>> +       fence->context =3D=3D job->entity->fence_context + 1) {
-> >>> +           dma_fence_put(fence);
-> >>> +           return 0;
-> >>> +   }
-> >>> +
-> >> Well NAK. That would break Vulkan.
+Each add_fence() call does a dma_fence_get() on the relevant fence.  In
+the error path, we weren't calling dma_fence_put() so all those fences
+got leaked.  Also, in the krealloc_array failure case, we weren't
+freeing the fences array.  Instead, ensure that i and fences are always
+zero-initialized and dma_fence_put() all the fences and kfree(fences) on
+every error path.
 
-I'm assuming your reply means the NAK is retracted and was just the
-usual "this doesn't perfectly fit for amdgpu" reflex?
+Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
+Fixes: a02b9dc90d84 ("dma-buf/sync_file: refactor fence storage in struct sync_file")
+Cc: Gustavo Padovan <gustavo.padovan@collabora.co.uk>
+Cc: Christian König <christian.koenig@amd.com>
+---
+ drivers/dma-buf/sync_file.c | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
 
-> >> The problem is that Vulkan can insert dependencies between jobs which =
-run on
-> >> the same queue.
-> >>
-> >> So we need to track those as well and if the previous job for the same
-> >> queue/scheduler is not yet finished a pipeline synchronization needs t=
-o be
-> >> inserted.
-> >>
-> >> That's one of the reasons we wasn't able to unify the dependency handl=
-ing
-> >> yet.
-> > That sounds like an extremely amdgpu specific constraint?
->
-> Yeah, that's totally hardware specific.
->
-> It's just that I don't know how else we could track that without having
-> the same separation as in amdgpu between implicit and explicit fences.
-> And as far as I understand it that's exactly what you want to avoid.
->
-> As I said this turned out to be really awkward.
->
-> > You're also the
-> > only one who keeps track of whether the previous job we've scheduled ha=
-s
-> > finished already (I guess they can get pipelined and you don't flush by
-> > default), so you insert fences.
->
-> Yes, exactly that.
->
-> > I guess we can add a await_fence_no_dedup or so for amdgpu, but I'm not
-> > sure why we have to inflict this design constraint on all other drivers=
-?
-> > At least I'm not seeing anything in lima, panfrost, v3d or entaviv that
-> > would break with this, and i915 will also be perfectly fine.
-> >
-> > Also note: I'm not using this for amdgpu, exactly because there's a few
-> > funny things going on.
->
-> Yeah, exactly the reason why we never unified this.
+diff --git a/drivers/dma-buf/sync_file.c b/drivers/dma-buf/sync_file.c
+index 20d9bddbb985b..394e6e1e96860 100644
+--- a/drivers/dma-buf/sync_file.c
++++ b/drivers/dma-buf/sync_file.c
+@@ -211,8 +211,8 @@ static struct sync_file *sync_file_merge(const char *name, struct sync_file *a,
+ 					 struct sync_file *b)
+ {
+ 	struct sync_file *sync_file;
+-	struct dma_fence **fences, **nfences, **a_fences, **b_fences;
+-	int i, i_a, i_b, num_fences, a_num_fences, b_num_fences;
++	struct dma_fence **fences = NULL, **nfences, **a_fences, **b_fences;
++	int i = 0, i_a, i_b, num_fences, a_num_fences, b_num_fences;
+ 
+ 	sync_file = sync_file_alloc();
+ 	if (!sync_file)
+@@ -236,7 +236,7 @@ static struct sync_file *sync_file_merge(const char *name, struct sync_file *a,
+ 	 * If a sync_file can only be created with sync_file_merge
+ 	 * and sync_file_create, this is a reasonable assumption.
+ 	 */
+-	for (i = i_a = i_b = 0; i_a < a_num_fences && i_b < b_num_fences; ) {
++	for (i_a = i_b = 0; i_a < a_num_fences && i_b < b_num_fences; ) {
+ 		struct dma_fence *pt_a = a_fences[i_a];
+ 		struct dma_fence *pt_b = b_fences[i_b];
+ 
+@@ -277,15 +277,16 @@ static struct sync_file *sync_file_merge(const char *name, struct sync_file *a,
+ 		fences = nfences;
+ 	}
+ 
+-	if (sync_file_set_fence(sync_file, fences, i) < 0) {
+-		kfree(fences);
++	if (sync_file_set_fence(sync_file, fences, i) < 0)
+ 		goto err;
+-	}
+ 
+ 	strlcpy(sync_file->user_name, name, sizeof(sync_file->user_name));
+ 	return sync_file;
+ 
+ err:
++	while (i)
++		dma_fence_put(fences[--i]);
++	kfree(fences);
+ 	fput(sync_file->file);
+ 	return NULL;
+ 
+-- 
+2.31.1
 
-Yeah there's clear limits to this, because you also can't use the
-await_implicit helper, because you have to keep filtering for owner or
-the current amdgpu uapi goes horribly slow. I think the benefit would
-be just that we could share the datastructure and the book-keeping,
-but aside from that you'd need your own integration in amdgpu.
-
-One idea I just had was whether we could use the tag bits xarray has
-for the amdgpu purposed. Like we could do a
-drm_sched_job_await_fence_tagged, where you supply additional
-information (like the "this might be relevant for the vm_flush" and
-things like that). Afaiui xarray tags are very fast to enumerate on if
-you're looking for specific tags, but I might be wrong. Ideally this
-would avoid the need for the duplicated amdgpu_job->sched.
-
-Cheers, Daniel
-
-
-> Regards,
-> Christian.
->
-> > Finally: You _really_ need explicit dependency handling for vulkan in y=
-our
-> > uapi, instead of the kernel second-guessing what userspace might be doi=
-ng.
-> > That's really not how vulkan is designed to work :-)
->
-> >
-> > Cheers, Daniel
-> >
-> >
-> >> Christian.
-> >>
-> >>>     /* Deduplicate if we already depend on a fence from the same cont=
-ext.
-> >>>      * This lets the size of the array of deps scale with the number =
-of
-> >>>      * engines involved, rather than the number of BOs.
->
-
-
---=20
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
