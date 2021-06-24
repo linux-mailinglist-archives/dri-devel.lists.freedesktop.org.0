@@ -1,66 +1,83 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4662D3B277B
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Jun 2021 08:36:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 302D23B280C
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Jun 2021 08:57:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D84C86E83B;
-	Thu, 24 Jun 2021 06:36:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB8CB6E9F5;
+	Thu, 24 Jun 2021 06:57:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from youngberry.canonical.com (youngberry.canonical.com
- [91.189.89.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 994576E83B
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Jun 2021 06:35:59 +0000 (UTC)
-Received: from mail-wm1-f72.google.com ([209.85.128.72])
- by youngberry.canonical.com with esmtps (TLS1.2) tls
- TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.93)
- (envelope-from <krzysztof.kozlowski@canonical.com>)
- id 1lwIxx-0004li-Ou
- for dri-devel@lists.freedesktop.org; Thu, 24 Jun 2021 06:35:57 +0000
-Received: by mail-wm1-f72.google.com with SMTP id
- j38-20020a05600c1c26b02901dbf7d18ff8so2635899wms.8
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Jun 2021 23:35:57 -0700 (PDT)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 491C86E9F5
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Jun 2021 06:57:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1624517863;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=igFDOV6BxGJ7IfsozRxLlI1SBnI7ilQNQtLZk9DKzFQ=;
+ b=NfMKvr8Ax1E1LpAoe9jSBidAQj+ol3buwQmpYHGZG+kDQY+eCVgPPndbFH8AmRYtuUGdd6
+ 73Dbvk1gl3N6WMgE0j2Ge8KPXEThGtYmYzN2ufR5BXrPwwfcYj9hfimVKweuRvymgVyEEw
+ vdbW6duZZOGeWQm/vjJkitKFrUcOawo=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-148-5tQfIbn7Pii_bBvwN98tyw-1; Thu, 24 Jun 2021 02:57:41 -0400
+X-MC-Unique: 5tQfIbn7Pii_bBvwN98tyw-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ v2-20020a7bcb420000b0290146b609814dso1254223wmj.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Jun 2021 23:57:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=R0aLcGzQ8alnnx9N3rRdFLtO2M7ctE9WWithaXsLLWI=;
- b=OIJRQlhK20WIVBgJfEPb4nT9O7Gv30aBKQYobT0aPZKwfGHkrxltTWGjqNZVd07QHB
- uWNsvH6dVY2S58Oh3Dkvo1f660k5g30F/XPUbQEOd7zzTswjgLIelcFWp10EmSgsz9fC
- 6r3j++s5xtyQyGaqKewYVGJTd6ZrboSlN1qLVmOXJyH3vS/xPVUoXs/j4+A2wErkhoQ1
- Z2E3/FS77J5VPQ7h1zUqGOtpJJEDuFu0eyVOlb99yxjjKXjTu5RTc1qPJ1CbCHWqYx1D
- 8YRJ43pZYfYJr6Hnne57Q68hgSvenlyy+VbJu0NEPO6x5H6iUJBgW0MvEQ0LQfCjAaAe
- 0vpQ==
-X-Gm-Message-State: AOAM532c/cAoLOunV746XbBC/ifl0oLxyD3Uo62po+Liabdvhm2VgBcg
- KBnVIV2JsgXxOIc2AVHKwckV47oqCWSWoAjfgD/o9yIMmFOaooZ6Mk04j91hjWcaU0L43DnIvUI
- i3JKE0LgaMb6YqeCRnvRGWDS5ytZkKan4zXQFhVTI23Avow==
-X-Received: by 2002:a1c:a597:: with SMTP id o145mr2277264wme.53.1624516557585; 
- Wed, 23 Jun 2021 23:35:57 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx7R5Kid8X3SyYMWnamWceIwi3ZiQ7MY/ZL5RhUroHzBxtla7y73sqnE4+q/iG5Y5wgPNqwng==
-X-Received: by 2002:a1c:a597:: with SMTP id o145mr2277246wme.53.1624516557384; 
- Wed, 23 Jun 2021 23:35:57 -0700 (PDT)
-Received: from [192.168.1.115] (xdsl-188-155-177-222.adslplus.ch.
- [188.155.177.222])
- by smtp.gmail.com with ESMTPSA id m184sm1893490wmm.26.2021.06.23.23.35.56
+ bh=igFDOV6BxGJ7IfsozRxLlI1SBnI7ilQNQtLZk9DKzFQ=;
+ b=IWPe8iybuPxkUF8uW9vxm6x/tUGy1IYT9jXB2fV+C+Era8vTjz8Pcy953rTwzjceSV
+ syH+/Fjq0dY+0K1/L5as+1EMdru5T48/897TsePAv8vY3Nf+qMrxe1TLJP+ac3ULxQ8Q
+ hSGG3zLZLk/f9zI1cN3Ln+C0bCWmKd7OYMzT40w1l8SzSbqDRHe3IW9XUBMHXulNibwq
+ +eDk/uAfmCAXkdMCGuUGb6glKpp7q2hUt5zD5Jn60538H/Au4E76LADyeY/P6GgVXtZ0
+ G9XJY2SZtufZXdhyeb9+E2kuuS0VXNNHhiDdN9jsCiX1KryterHHxByEpJiUGNNUzEDT
+ gwIA==
+X-Gm-Message-State: AOAM530TuLcm1+A/TIuBsSV/qBUTAMimc0P70HrRJxM35DLw+s0CMQtv
+ Ze2xfgRMgF0bi5OZH7kgfOM7GQ2Z/1HsukmvS4deXuR79ImsMjJPFFEx3MyPLKVJZcrlA30tSHI
+ fIrX7+nuUdt6fZanyCREnPW8X2cMM
+X-Received: by 2002:a05:6000:1889:: with SMTP id
+ a9mr85606wri.141.1624517860504; 
+ Wed, 23 Jun 2021 23:57:40 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzdqChWxI2TqFhdGI9pdTdW0OY2cpxOML9ILwZzD3plJUW6I8N3vbOFGhbVC127GRhm0xAu2w==
+X-Received: by 2002:a05:6000:1889:: with SMTP id
+ a9mr85587wri.141.1624517860347; 
+ Wed, 23 Jun 2021 23:57:40 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id o26sm1900491wmr.29.2021.06.23.23.57.38
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 23 Jun 2021 23:35:57 -0700 (PDT)
-Subject: Re: [PATCH] dt-bindings: Fix 'unevaluatedProperties' errors in DT
- graph users
-To: Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org
-References: <20210623164344.2571043-1-robh@kernel.org>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-Message-ID: <0fbde9aa-03c1-0343-3b6f-5a7945fd8df8@canonical.com>
-Date: Thu, 24 Jun 2021 08:35:56 +0200
+ Wed, 23 Jun 2021 23:57:39 -0700 (PDT)
+Subject: Re: [PATCH 0/6] KVM: Remove uses of struct page from x86 and arm64 MMU
+To: David Stevens <stevensd@chromium.org>, Marc Zyngier <maz@kernel.org>,
+ Huacai Chen <chenhuacai@kernel.org>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ Paul Mackerras <paulus@ozlabs.org>, Zhenyu Wang <zhenyuw@linux.intel.com>,
+ Zhi Wang <zhi.a.wang@intel.com>
+References: <20210624035749.4054934-1-stevensd@google.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <20baae77-785c-5d46-e00c-41d86c2fbc56@redhat.com>
+Date: Thu, 24 Jun 2021 08:57:37 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <20210623164344.2571043-1-robh@kernel.org>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20210624035749.4054934-1-stevensd@google.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,49 +90,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-renesas-soc@vger.kernel.org,
- "Paul J. Murphy" <paul.j.murphy@intel.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Daniele Alessandrelli <daniele.alessandrelli@intel.com>,
- linux-media@vger.kernel.org
+Cc: David Stevens <stevensd@google.com>, intel-gvt-dev@lists.freedesktop.org,
+ Wanpeng Li <wanpengli@tencent.com>, kvm@vger.kernel.org,
+ Will Deacon <will@kernel.org>, Suzuki K Poulose <suzuki.poulose@arm.com>,
+ Sean Christopherson <seanjc@google.com>, Joerg Roedel <joro@8bytes.org>,
+ linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+ kvm-ppc@vger.kernel.org, linux-mips@vger.kernel.org,
+ James Morse <james.morse@arm.com>, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, Vitaly Kuznetsov <vkuznets@redhat.com>,
+ Alexandru Elisei <alexandru.elisei@arm.com>, kvmarm@lists.cs.columbia.edu,
+ linux-arm-kernel@lists.infradead.org, Jim Mattson <jmattson@google.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 23/06/2021 18:43, Rob Herring wrote:
-> In testing out under development json-schema 2020-12 support, there's a
-> few issues with 'unevaluatedProperties' and the graph schema. If
-> 'graph.yaml#/properties/port' is used, then neither the port nor the
-> endpoint(s) can have additional properties. 'graph.yaml#/$defs/port-base'
-> needs to be used instead.
+On 24/06/21 05:57, David Stevens wrote:
+> KVM supports mapping VM_IO and VM_PFNMAP memory into the guest by using
+> follow_pte in gfn_to_pfn. However, the resolved pfns may not have
+> assoicated struct pages, so they should not be passed to pfn_to_page.
+> This series removes such calls from the x86 and arm64 secondary MMU. To
+> do this, this series modifies gfn_to_pfn to return a struct page in
+> addition to a pfn, if the hva was resolved by gup. This allows the
+> caller to call put_page only when necessated by gup.
 > 
-> Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: "Paul J. Murphy" <paul.j.murphy@intel.com>
-> Cc: Daniele Alessandrelli <daniele.alessandrelli@intel.com>
-> Cc: "Niklas Söderlund" <niklas.soderlund@ragnatech.se>
-> Cc: Krzysztof Kozlowski <krzk@kernel.org>
-> Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linux-media@vger.kernel.org
-> Cc: linux-renesas-soc@vger.kernel.org
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
->  .../devicetree/bindings/display/bridge/lontium,lt8912b.yaml    | 3 ++-
->  Documentation/devicetree/bindings/media/i2c/imx258.yaml        | 2 +-
->  Documentation/devicetree/bindings/media/i2c/ovti,ov5648.yaml   | 2 +-
->  Documentation/devicetree/bindings/media/i2c/ovti,ov8865.yaml   | 2 +-
->  Documentation/devicetree/bindings/media/i2c/sony,imx334.yaml   | 2 +-
->  Documentation/devicetree/bindings/media/renesas,vin.yaml       | 3 ++-
->  6 files changed, 8 insertions(+), 6 deletions(-)
+> This series provides a helper function that unwraps the new return type
+> of gfn_to_pfn to provide behavior identical to the old behavior. As I
+> have no hardware to test powerpc/mips changes, the function is used
+> there for minimally invasive changes. Additionally, as gfn_to_page and
+> gfn_to_pfn_cache are not integrated with mmu notifier, they cannot be
+> easily changed over to only use pfns.
 > 
+> This addresses CVE-2021-22543 on x86 and arm64.
 
+Thank you very much for this.  I agree that it makes sense to have a 
+minimal change; I had similar changes almost ready, but was stuck with 
+deadlocks in the gfn_to_pfn_cache case.  In retrospect I should have 
+posted something similar to your patches.
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+I have started reviewing the patches, and they look good.  I will try to 
+include them in 5.13.
 
+Paolo
 
-Best regards,
-Krzysztof
