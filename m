@@ -2,45 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD8223B2A67
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Jun 2021 10:32:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5DF43B2A95
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Jun 2021 10:43:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D1E996EAE2;
-	Thu, 24 Jun 2021 08:32:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C6E866EB22;
+	Thu, 24 Jun 2021 08:43:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 442266EAE2
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Jun 2021 08:32:32 +0000 (UTC)
-Received: from lupine.hi.pengutronix.de
- ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <p.zabel@pengutronix.de>)
- id 1lwKmk-0006cm-HJ; Thu, 24 Jun 2021 10:32:30 +0200
-Received: from pza by lupine with local (Exim 4.92)
- (envelope-from <p.zabel@pengutronix.de>)
- id 1lwKmX-0006oO-Cb; Thu, 24 Jun 2021 10:32:17 +0200
-Message-ID: <43f805608f1172b73c62717f6cdc72c7a15d145c.camel@pengutronix.de>
-Subject: Re: [PATCH 08/15] drm/<driver>: drm_gem_plane_helper_prepare_fb is
- now the default
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>, DRI Development
- <dri-devel@lists.freedesktop.org>
-Date: Thu, 24 Jun 2021 10:32:17 +0200
-In-Reply-To: <20210622165511.3169559-9-daniel.vetter@ffwll.ch>
-References: <20210622165511.3169559-1-daniel.vetter@ffwll.ch>
- <20210622165511.3169559-9-daniel.vetter@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.30.5-1.1 
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A0806EB21;
+ Thu, 24 Jun 2021 08:43:06 +0000 (UTC)
+IronPort-SDR: +/J23F4pa5xuYmk/zusfUtfjLnWIwGw4V3ZfTVPckQ9LIeg8K8rj6xR+Tq4+g7omrjLD8LnRkI
+ POoM04eSjT2w==
+X-IronPort-AV: E=McAfee;i="6200,9189,10024"; a="205601335"
+X-IronPort-AV: E=Sophos;i="5.83,296,1616482800"; d="scan'208";a="205601335"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Jun 2021 01:43:05 -0700
+IronPort-SDR: d+KoUZGvqw5hdmH6uHCLSy1jwkIqSGdyD3wAOPXRGS0WPycGD8r/ZuwXW0xjgronGT5+rYlHle
+ dj2IDXhd1etg==
+X-IronPort-AV: E=Sophos;i="5.83,296,1616482800"; d="scan'208";a="453344907"
+Received: from cmutgix-mobl.gar.corp.intel.com (HELO thellst-mobl1.intel.com)
+ ([10.249.254.20])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Jun 2021 01:43:03 -0700
+From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH v10 0/3] drm/i915: Move system memory to TTM for discrete
+Date: Thu, 24 Jun 2021 10:42:37 +0200
+Message-Id: <20210624084240.270219-1-thomas.hellstrom@linux.intel.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,56 +48,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <narmstrong@baylibre.com>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>, linux-mips@vger.kernel.org,
- Paul Cercueil <paul@crapouillou.net>,
- Benjamin Gaignard <benjamin.gaignard@linaro.org>,
- Daniel Vetter <daniel.vetter@intel.com>,
- linux-stm32@st-md-mailman.stormreply.com, Jerome Brunet <jbrunet@baylibre.com>,
- Marek Vasut <marex@denx.de>, Kevin Hilman <khilman@baylibre.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, linux-rockchip@lists.infradead.org,
- Chen-Yu Tsai <wens@csie.org>, NXP Linux Team <linux-imx@nxp.com>,
- Sascha Hauer <s.hauer@pengutronix.de>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- linux-mediatek@lists.infradead.org,
- Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
- Matthias Brugger <matthias.bgg@gmail.com>, linux-amlogic@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, Tomi Valkeinen <tomba@kernel.org>,
- Jyri Sarha <jyri.sarha@iki.fi>, Yannick Fertre <yannick.fertre@foss.st.com>,
- Sandy Huang <hjc@rock-chips.com>, linux-sunxi@lists.linux.dev,
- Philippe Cornu <philippe.cornu@foss.st.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Shawn Guo <shawnguo@kernel.org>
+Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ matthew.auld@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 2021-06-22 at 18:55 +0200, Daniel Vetter wrote:
-> No need to set it explicitly.
->=20
-[...]
->  drivers/gpu/drm/imx/ipuv3-plane.c           | 1 -
->  14 files changed, 15 deletions(-)
->=20
-[...]
-> diff --git a/drivers/gpu/drm/imx/ipuv3-plane.c b/drivers/gpu/drm/imx/ipuv=
-3-plane.c
-> index 8710f55d2579..ef114b6aa691 100644
-> --- a/drivers/gpu/drm/imx/ipuv3-plane.c
-> +++ b/drivers/gpu/drm/imx/ipuv3-plane.c
-> @@ -772,7 +772,6 @@ static void ipu_plane_atomic_update(struct drm_plane =
-*plane,
->  }
-> =20
->  static const struct drm_plane_helper_funcs ipu_plane_helper_funcs =3D {
-> -	.prepare_fb =3D drm_gem_plane_helper_prepare_fb,
->  	.atomic_check =3D ipu_plane_atomic_check,
->  	.atomic_disable =3D ipu_plane_atomic_disable,
->  	.atomic_update =3D ipu_plane_atomic_update,
+Early implementation of moving system memory for discrete cards over to
+TTM. We first add the notion of objects being migratable under the object
+lock to i915 gem, and add some asserts to verify that objects are either
+locked or pinned when the placement is checked by the gem code.
 
-Acked-by: Philipp Zabel <p.zabel@pengutronix.de>
+Patch 2 deals with updating the i915 gem bookkeeping after a TTM move,
+Patch 3 moves system over from shmem to TTM for discrete
 
-regards
-Philipp
+Note that the mock device doesn't consider itself discrete so the TTM
+system path is not checked by the mock selftests.
+
+v2:
+- Style fixes (reported by Matthew Auld)
+- Drop the last patch (migration) It needs selftests and some additional work.
+- Unconditionally add VM_IO at mmap time.
+
+v3:
+- More style fixes (reported by Matthew Auld)
+- Don't overfill the busy placement vector (reported by Matthew Auld)
+
+v4:
+- Remove confusion around shrinkable objects (reported by Matthew Auld)
+
+v5:
+- Remove confusion around shrinkable objects again, but this time in the
+  correct patch. (reported by Matthew Auld)
+
+v6:
+- One patch already committed.
+- Introduce a __i915_gem_object_is_lmem() to be used in situations where we
+  know that a fence that can't currently signal keeps the object from being
+  migrated or evicted.
+- Rebase on accelerated TTM moves
+- Fix TODO:s for supporting system memory with TTM.
+- Update the object GEM region after a TTM move if compatible.
+- Move a couple of warnings for shmem on DGFX.
+
+v7:
+- Just updated a commit message with version history under dashes.
+
+v8:
+- Reinstate alignment at ttm_bo_init_reserved() time. (Reported by
+  Matthew Auld).
+- When changing regions, also move the object to the new region list
+  and break early. (Reported by Matthew Auld).
+- Don't flag the object as contiguous based on the current region min
+  pages size.
+v9:
+- Remove a DGFX warning in __i915_gem_object_release_shmem since it
+  is called from the userptr code.
+v10:
+- Add some comments around the gem object "mem_flags" field, and
+  use a full unsigned int for it. (Suggested by Daniel Vetter).
+- Add an object locked section while checking mem_flags in the live
+  mman selftest.
+
+Thomas Hellström (3):
+  drm/i915: Update object placement flags to be mutable
+  drm/i915/ttm: Adjust gem flags and caching settings after a move
+  drm/i915/ttm: Use TTM for system memory
+
+ drivers/gpu/drm/i915/gem/i915_gem_internal.c  |   4 +-
+ drivers/gpu/drm/i915/gem/i915_gem_lmem.c      |  22 ++
+ drivers/gpu/drm/i915/gem/i915_gem_lmem.h      |   2 +
+ drivers/gpu/drm/i915/gem/i915_gem_mman.c      |  12 +-
+ drivers/gpu/drm/i915/gem/i915_gem_object.c    |  38 ++++
+ drivers/gpu/drm/i915/gem/i915_gem_object.h    |  14 +-
+ .../gpu/drm/i915/gem/i915_gem_object_types.h  |  27 ++-
+ drivers/gpu/drm/i915/gem/i915_gem_pages.c     |   2 +-
+ drivers/gpu/drm/i915/gem/i915_gem_phys.c      |   2 +-
+ drivers/gpu/drm/i915/gem/i915_gem_region.c    |   4 -
+ drivers/gpu/drm/i915/gem/i915_gem_shmem.c     |   9 +-
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.c       | 196 ++++++++++++++----
+ drivers/gpu/drm/i915/gem/i915_gem_userptr.c   |   4 +-
+ .../drm/i915/gem/selftests/huge_gem_object.c  |   4 +-
+ .../gpu/drm/i915/gem/selftests/huge_pages.c   |   5 +-
+ .../drm/i915/gem/selftests/i915_gem_mman.c    |  25 ++-
+ .../drm/i915/gem/selftests/i915_gem_phys.c    |   3 +-
+ drivers/gpu/drm/i915/i915_drv.h               |   3 -
+ drivers/gpu/drm/i915/i915_gpu_error.c         |   2 +-
+ drivers/gpu/drm/i915/intel_memory_region.c    |   7 +-
+ drivers/gpu/drm/i915/intel_memory_region.h    |   8 +
+ 21 files changed, 288 insertions(+), 105 deletions(-)
+
+-- 
+2.31.1
+
