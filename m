@@ -2,72 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FD353B2A60
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Jun 2021 10:31:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4608E3B2A75
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Jun 2021 10:34:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B8A66EABF;
-	Thu, 24 Jun 2021 08:30:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1DEA06EB19;
+	Thu, 24 Jun 2021 08:34:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from youngberry.canonical.com (youngberry.canonical.com
- [91.189.89.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 23DC66EABF
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Jun 2021 08:30:57 +0000 (UTC)
-Received: from mail-ej1-f71.google.com ([209.85.218.71])
- by youngberry.canonical.com with esmtps (TLS1.2) tls
- TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.93)
- (envelope-from <krzysztof.kozlowski@canonical.com>)
- id 1lwKlD-0005Il-Gk
- for dri-devel@lists.freedesktop.org; Thu, 24 Jun 2021 08:30:55 +0000
-Received: by mail-ej1-f71.google.com with SMTP id
- u4-20020a1709061244b02904648b302151so1713662eja.17
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Jun 2021 01:30:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=FWf1/8cps0f2orI5AbiDd3FTEBu65FvivubU0HnKemc=;
- b=fTUzwOQkfk6bC0mIhYrAORzHJ5zghUNq86P8zAl6vBQsdYZC/qYhX/Z/aJmHcu/ymo
- ES5cm7Fg2zxqwj4lpDiVS+gCVc3OzV9jDvi7HbviZOXDNmR0VrQ4EDAv3iBKAtgm5laH
- xz++zFXWPsmCr8CGZXCxeMv80LqIJyawahhheWk9OsraDU9ki7IMl+yFjNYWpzuwdpjt
- N43KTwVcw8NVOfkJCChNAuuZlNUbXl3B8SegbSYMzNaS/N1ox7nw4z1/6ae8b5PhgAZE
- mndFDiIxbgwsPHjMGvSukktqM/03rc1sEMF9kvsgD95/hqHSfddke5FGESCptAEzvM8+
- UdeQ==
-X-Gm-Message-State: AOAM533xSayGGCNHtalKeqCIHkdGYszCUbOiOsgC444rfHGDuFOBMmZ4
- KOiGpMmDypssy6VJvKSaQRukpHnUeDYn4uGVywAtd8mLth0iGBMuRxVOgpGGdjYOPNAkNJWCJSW
- WW74pRQRBR4syZlAgsyfl54sTui8RiOaVZNS110fwWsVSYQ==
-X-Received: by 2002:a17:906:dbd5:: with SMTP id
- yc21mr4064962ejb.233.1624523455180; 
- Thu, 24 Jun 2021 01:30:55 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyE9NG70Q0R7WlldJgiju8y4R6tNhr+XdnWHXcuF262S4ipiZ1rkQiFP2aNPfY2SEkDu6zFjg==
-X-Received: by 2002:a17:906:dbd5:: with SMTP id
- yc21mr4064931ejb.233.1624523455018; 
- Thu, 24 Jun 2021 01:30:55 -0700 (PDT)
-Received: from [192.168.1.115] (xdsl-188-155-177-222.adslplus.ch.
- [188.155.177.222])
- by smtp.gmail.com with ESMTPSA id a3sm1417424edu.61.2021.06.24.01.30.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 24 Jun 2021 01:30:54 -0700 (PDT)
-Subject: Re: [RFC PATCH 2/9] drm: bridge: Add Samsung SEC MIPI DSIM bridge
- driver
-To: Fabio Estevam <festevam@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Michael Tretter <m.tretter@pengutronix.de>
-References: <20210621072424.111733-1-jagan@amarulasolutions.com>
- <20210621072424.111733-3-jagan@amarulasolutions.com>
- <YNO0LHNVSWjrh1ZS@pendragon.ideasonboard.com>
- <CAOMZO5Ahbu4mohtMDOQOv_y5B_TDesbdYEUZTF1RL7_y-bS+RA@mail.gmail.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-Message-ID: <2decfea3-3659-2a3b-7706-326c97f57f8e@canonical.com>
-Date: Thu, 24 Jun 2021 10:30:53 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 18AA16EB19
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Jun 2021 08:34:30 +0000 (UTC)
+Received: from lupine.hi.pengutronix.de
+ ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <p.zabel@pengutronix.de>)
+ id 1lwKg5-0005gL-Pp; Thu, 24 Jun 2021 10:25:37 +0200
+Received: from pza by lupine with local (Exim 4.92)
+ (envelope-from <p.zabel@pengutronix.de>)
+ id 1lwKfk-0005je-QP; Thu, 24 Jun 2021 10:25:16 +0200
+Message-ID: <2c06d7eab5a20191723eb1d9a8027978342c66e9.camel@pengutronix.de>
+Subject: Re: [PATCH v3 11/27] drm/imx: Don't set struct drm_device.irq_enabled
+From: Philipp Zabel <p.zabel@pengutronix.de>
+To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
+ airlied@linux.ie,  alexander.deucher@amd.com, christian.koenig@amd.com,
+ Xinhui.Pan@amd.com,  james.qian.wang@arm.com, liviu.dudau@arm.com,
+ mihail.atanassov@arm.com,  brian.starkey@arm.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
+ inki.dae@samsung.com, jy0922.shim@samsung.com, sw0312.kim@samsung.com, 
+ kyungmin.park@samsung.com, krzysztof.kozlowski@canonical.com, 
+ xinliang.liu@linaro.org, tiantao6@hisilicon.com, john.stultz@linaro.org, 
+ kong.kongxinwei@hisilicon.com, puck.chen@hisilicon.com, 
+ laurentiu.palcu@oss.nxp.com, l.stach@pengutronix.de, shawnguo@kernel.org, 
+ s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com, 
+ linux-imx@nxp.com, chunkuang.hu@kernel.org, matthias.bgg@gmail.com, 
+ bskeggs@redhat.com, tomba@kernel.org, hjc@rock-chips.com, heiko@sntech.de, 
+ benjamin.gaignard@linaro.org, yannick.fertre@foss.st.com, 
+ philippe.cornu@foss.st.com, mcoquelin.stm32@gmail.com, 
+ alexandre.torgue@foss.st.com, wens@csie.org, jernej.skrabec@gmail.com, 
+ thierry.reding@gmail.com, jonathanh@nvidia.com, jyri.sarha@iki.fi,
+ emma@anholt.net,  linux-graphics-maintainer@vmware.com, zackr@vmware.com,
+ hyun.kwon@xilinx.com,  laurent.pinchart@ideasonboard.com,
+ michal.simek@xilinx.com,  jani.nikula@linux.intel.com,
+ rodrigo.vivi@intel.com, linux@armlinux.org.uk, 
+ kieran.bingham+renesas@ideasonboard.com, rodrigosiqueiramelo@gmail.com, 
+ melissa.srw@gmail.com, hamohammed.sa@gmail.com
+Date: Thu, 24 Jun 2021 10:25:16 +0200
+In-Reply-To: <20210624072916.27703-12-tzimmermann@suse.de>
+References: <20210624072916.27703-1-tzimmermann@suse.de>
+ <20210624072916.27703-12-tzimmermann@suse.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.30.5-1.1 
 MIME-Version: 1.0
-In-Reply-To: <CAOMZO5Ahbu4mohtMDOQOv_y5B_TDesbdYEUZTF1RL7_y-bS+RA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,41 +73,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: DRI mailing list <dri-devel@lists.freedesktop.org>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Peng Fan <peng.fan@nxp.com>,
- Francis Laniel <francis.laniel@amarulasolutions.com>,
- Matteo Lisi <matteo.lisi@engicam.com>,
- Neil Armstrong <narmstrong@baylibre.com>, Shawn Guo <shawnguo@kernel.org>,
- Tomasz Figa <t.figa@samsung.com>, linux-kernel <linux-kernel@vger.kernel.org>,
- Robert Foss <robert.foss@linaro.org>, Andrzej Hajda <a.hajda@samsung.com>,
- Jagan Teki <jagan@amarulasolutions.com>,
- Milco Pratesi <milco.pratesi@engicam.com>,
- Anthony Brandon <anthony@amarulasolutions.com>, linux-phy@lists.infradead.org,
- Fancy Fang <chen.fang@nxp.com>,
- linux-amarula <linux-amarula@amarulasolutions.com>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
- <linux-arm-kernel@lists.infradead.org>, NXP Linux Team <linux-imx@nxp.com>
+Cc: linux-samsung-soc@vger.kernel.org, nouveau@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-sunxi@lists.linux.dev, linux-rockchip@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, amd-gfx@lists.freedesktop.org,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, linux-tegra@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 24/06/2021 04:48, Fabio Estevam wrote:
-> Hi Jagan/Laurent,
-> 
-> On Wed, Jun 23, 2021 at 7:23 PM Laurent Pinchart
-> <laurent.pinchart@ideasonboard.com> wrote:
-> 
->> Looking at the register set, it seems to match the Exynos 5433,
->> supported by drivers/gpu/drm/exynos/exynos_drm_dsi.c. Can we leverage
->> that driver instead of adding a new one for the same IP core ?
-> 
-> Yes. there was an attempt from Michael in this direction:
-> https://patchwork.kernel.org/project/dri-devel/cover/20200911135413.3654800-1-m.tretter@pengutronix.de/
+On Thu, 2021-06-24 at 09:29 +0200, Thomas Zimmermann wrote:
+> The field drm_device.irq_enabled is only used by legacy drivers
+> with userspace modesetting. Don't set it in imx.
+>=20
+> v3:
+> 	* move dcss changes into separate patch (Laurentiu)
+>=20
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> ---
+>  drivers/gpu/drm/imx/imx-drm-core.c | 11 -----------
+>  1 file changed, 11 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/imx/imx-drm-core.c b/drivers/gpu/drm/imx/imx=
+-drm-core.c
+> index 76819a8ac37f..9558e9e1b431 100644
+> --- a/drivers/gpu/drm/imx/imx-drm-core.c
+> +++ b/drivers/gpu/drm/imx/imx-drm-core.c
+> @@ -207,17 +207,6 @@ static int imx_drm_bind(struct device *dev)
+>  	if (IS_ERR(drm))
+>  		return PTR_ERR(drm);
+> =20
+> -	/*
+> -	 * enable drm irq mode.
+> -	 * - with irq_enabled =3D true, we can use the vblank feature.
+> -	 *
+> -	 * P.S. note that we wouldn't use drm irq handler but
+> -	 *      just specific driver own one instead because
+> -	 *      drm framework supports only one irq handler and
+> -	 *      drivers can well take care of their interrupts
+> -	 */
+> -	drm->irq_enabled =3D true;
+> -
+>  	/*
+>  	 * set max width and height as default value(4096x4096).
+>  	 * this value would be used to check framebuffer size limitation
 
-That's the proper direction (maybe as Marek suggested - sharing common
-code like for Analogix DP), not duplicating a driver.
+Acked-by: Philipp Zabel <p.zabel@pengutronix.de>
 
-
-Best regards,
-Krzysztof
+regards
+Philipp
