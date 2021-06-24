@@ -2,63 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 194623B290E
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Jun 2021 09:30:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EB663B2900
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Jun 2021 09:29:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB46D6EA75;
-	Thu, 24 Jun 2021 07:29:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F2876EA66;
+	Thu, 24 Jun 2021 07:29:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 63C996EA47;
- Thu, 24 Jun 2021 07:29:25 +0000 (UTC)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9817F6EA43;
+ Thu, 24 Jun 2021 07:29:26 +0000 (UTC)
 Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
  (using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 0752C21988;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 256771FD6F;
+ Thu, 24 Jun 2021 07:29:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1624519765; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=cOEy1WAVMNA0BXH/huQAt4IYemB5GiGm9lorFe95Ebc=;
+ b=v3QzGmLCvf4neFOYUm7yeY/XKK3tMYIoFFTl8WtHnVTQHu2uCCBq6iTsXDVGmsJqg1tUJu
+ HE3K14X8ijpnG0Qaj88IakTpmm3xnmoMYAVyiZZESqIX7n2jR/f+Zdh+NTHL10ud9Dkodb
+ rNTcWLCLW/yAgTxT0vcxnoV03wZjo0A=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1624519765;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=cOEy1WAVMNA0BXH/huQAt4IYemB5GiGm9lorFe95Ebc=;
+ b=h8DSx5S+5eShU+Bp35yXK7oR8pjfp2kmcuLSp3ay79ezjLYgz29KYhMR4k3zcySS3xG4rb
+ Bth6b8kinNol+UBw==
+Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
+ by imap.suse.de (Postfix) with ESMTP id 09D0711A97;
  Thu, 24 Jun 2021 07:29:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1624519764; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1624519765; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vCvMaakhW43FBHwwwgIT0NH9WFXQUbPBWotzOXDN7eU=;
- b=nmIPqslFnX0Q80pdl86tf/ccQHTD1qXZsv4FKeiVGQ9IRRJxlLhagX7pxTlWyuquo0luD8
- Y+yxCDiJS4aeG4Zy6HC0+Z8XbTzeV/i+7UpD8QoWiBZUnFCgN0PCysS1rlMIzQ1CvHfwPd
- uBLM+l0Ri8muTKu8yIbga7XmmG+jxSY=
+ bh=cOEy1WAVMNA0BXH/huQAt4IYemB5GiGm9lorFe95Ebc=;
+ b=v3QzGmLCvf4neFOYUm7yeY/XKK3tMYIoFFTl8WtHnVTQHu2uCCBq6iTsXDVGmsJqg1tUJu
+ HE3K14X8ijpnG0Qaj88IakTpmm3xnmoMYAVyiZZESqIX7n2jR/f+Zdh+NTHL10ud9Dkodb
+ rNTcWLCLW/yAgTxT0vcxnoV03wZjo0A=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1624519764;
+ s=susede2_ed25519; t=1624519765;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vCvMaakhW43FBHwwwgIT0NH9WFXQUbPBWotzOXDN7eU=;
- b=4K5huN0VkhXvJqoObl1xqjkuOwsgHQq6A6n84t0A84IVQS58zLUjUZrDpXSMqUjQ/Qj+U9
- My1vXx7mqxhEBrBw==
-Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
- by imap.suse.de (Postfix) with ESMTP id D5B5D11C9B;
- Thu, 24 Jun 2021 07:29:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1624519763; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=vCvMaakhW43FBHwwwgIT0NH9WFXQUbPBWotzOXDN7eU=;
- b=GXB3NT/hiSOvWGqH7SX1jWLCRIQsgSuCL9ZUMVM43hZtusQyoXnRYqMFYrFUwS06LB+rZw
- /9bo2QzCoJsoALwtQzu3T3mbsshlB9DDYVZ2gneICHT2rX7jVJlMpTJ+lrJxWiNMz0I0jt
- XvmFgm1jIDwBF8dHUaZb0mFaHSaagPs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1624519763;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=vCvMaakhW43FBHwwwgIT0NH9WFXQUbPBWotzOXDN7eU=;
- b=s5ZiQAcpHVYNWTd+aExwSUDXm69sEq82qW7VdS9TIIEAlhuWm4ovd82h6Of8oFUTT/TDcK
- fPsEbmXK94XTchBw==
+ bh=cOEy1WAVMNA0BXH/huQAt4IYemB5GiGm9lorFe95Ebc=;
+ b=h8DSx5S+5eShU+Bp35yXK7oR8pjfp2kmcuLSp3ay79ezjLYgz29KYhMR4k3zcySS3xG4rb
+ Bth6b8kinNol+UBw==
 Received: from director2.suse.de ([192.168.254.72]) by imap3-int with ESMTPSA
- id YJc+M1I01GAJfwAALh3uQQ
- (envelope-from <tzimmermann@suse.de>); Thu, 24 Jun 2021 07:29:22 +0000
+ id eG6LAVQ01GAJfwAALh3uQQ
+ (envelope-from <tzimmermann@suse.de>); Thu, 24 Jun 2021 07:29:24 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch, airlied@linux.ie, alexander.deucher@amd.com,
  christian.koenig@amd.com, Xinhui.Pan@amd.com, james.qian.wang@arm.com,
@@ -83,9 +83,9 @@ To: daniel@ffwll.ch, airlied@linux.ie, alexander.deucher@amd.com,
  rodrigo.vivi@intel.com, linux@armlinux.org.uk,
  kieran.bingham+renesas@ideasonboard.com, rodrigosiqueiramelo@gmail.com,
  melissa.srw@gmail.com, hamohammed.sa@gmail.com
-Subject: [PATCH v3 03/27] drm/radeon: Track IRQ state in local device state
-Date: Thu, 24 Jun 2021 09:28:52 +0200
-Message-Id: <20210624072916.27703-4-tzimmermann@suse.de>
+Subject: [PATCH v3 04/27] drm: Don't test for IRQ support in VBLANK ioctls
+Date: Thu, 24 Jun 2021 09:28:53 +0200
+Message-Id: <20210624072916.27703-5-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210624072916.27703-1-tzimmermann@suse.de>
 References: <20210624072916.27703-1-tzimmermann@suse.de>
@@ -113,108 +113,107 @@ Cc: linux-samsung-soc@vger.kernel.org, nouveau@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Replace usage of struct drm_device.irq_enabled with the driver's
-own state field struct radeon_device.irq.installed. The field in
-the DRM device structure is considered legacy and should not be
-used by KMS drivers.
+For KMS drivers, replace the IRQ check in VBLANK ioctls with a check for
+vblank support. IRQs might be enabled wthout vblanking being supported.
+
+This change also removes the DRM framework's only dependency on IRQ state
+for non-legacy drivers. For legacy drivers with userspace modesetting,
+the original test remains in drm_wait_vblank_ioctl().
+
+v3:
+	* optimize test in drm_wait_vblank_ioctl() for KMS case (Liviu)
+	* update docs for drm_irq_uninstall()
+v2:
+	* keep the old test for legacy drivers in
+	  drm_wait_vblank_ioctl() (Daniel)
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 ---
- drivers/gpu/drm/radeon/radeon_fence.c   |  2 +-
- drivers/gpu/drm/radeon/radeon_irq_kms.c | 16 ++++++++--------
- 2 files changed, 9 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/drm_irq.c    | 13 ++++---------
+ drivers/gpu/drm/drm_vblank.c | 16 ++++++++++++----
+ 2 files changed, 16 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/gpu/drm/radeon/radeon_fence.c b/drivers/gpu/drm/radeon/radeon_fence.c
-index 0d8ef2368adf..7ec581363e23 100644
---- a/drivers/gpu/drm/radeon/radeon_fence.c
-+++ b/drivers/gpu/drm/radeon/radeon_fence.c
-@@ -288,7 +288,7 @@ static void radeon_fence_check_lockup(struct work_struct *work)
- 		return;
- 	}
+diff --git a/drivers/gpu/drm/drm_irq.c b/drivers/gpu/drm/drm_irq.c
+index c3bd664ea733..945dd82e2ea3 100644
+--- a/drivers/gpu/drm/drm_irq.c
++++ b/drivers/gpu/drm/drm_irq.c
+@@ -74,10 +74,8 @@
+  * only supports devices with a single interrupt on the main device stored in
+  * &drm_device.dev and set as the device paramter in drm_dev_alloc().
+  *
+- * These IRQ helpers are strictly optional. Drivers which roll their own only
+- * need to set &drm_device.irq_enabled to signal the DRM core that vblank
+- * interrupts are working. Since these helpers don't automatically clean up the
+- * requested interrupt like e.g. devm_request_irq() they're not really
++ * These IRQ helpers are strictly optional. Since these helpers don't automatically
++ * clean up the requested interrupt like e.g. devm_request_irq() they're not really
+  * recommended.
+  */
  
--	if (fence_drv->delayed_irq && rdev->ddev->irq_enabled) {
-+	if (fence_drv->delayed_irq && rdev->irq.installed) {
- 		unsigned long irqflags;
+@@ -91,9 +89,7 @@
+  * and after the installation.
+  *
+  * This is the simplified helper interface provided for drivers with no special
+- * needs. Drivers which need to install interrupt handlers for multiple
+- * interrupts must instead set &drm_device.irq_enabled to signal the DRM core
+- * that vblank interrupts are available.
++ * needs.
+  *
+  * @irq must match the interrupt number that would be passed to request_irq(),
+  * if called directly instead of using this helper function.
+@@ -156,8 +152,7 @@ EXPORT_SYMBOL(drm_irq_install);
+  *
+  * Calls the driver's &drm_driver.irq_uninstall function and unregisters the IRQ
+  * handler.  This should only be called by drivers which used drm_irq_install()
+- * to set up their interrupt handler. Other drivers must only reset
+- * &drm_device.irq_enabled to false.
++ * to set up their interrupt handler.
+  *
+  * Note that for kernel modesetting drivers it is a bug if this function fails.
+  * The sanity checks are only to catch buggy user modesetting drivers which call
+diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
+index 3417e1ac7918..10fe16bafcb6 100644
+--- a/drivers/gpu/drm/drm_vblank.c
++++ b/drivers/gpu/drm/drm_vblank.c
+@@ -1748,8 +1748,16 @@ int drm_wait_vblank_ioctl(struct drm_device *dev, void *data,
+ 	unsigned int pipe_index;
+ 	unsigned int flags, pipe, high_pipe;
  
- 		fence_drv->delayed_irq = false;
-diff --git a/drivers/gpu/drm/radeon/radeon_irq_kms.c b/drivers/gpu/drm/radeon/radeon_irq_kms.c
-index 84d0b1a3355f..a36ce826d0c0 100644
---- a/drivers/gpu/drm/radeon/radeon_irq_kms.c
-+++ b/drivers/gpu/drm/radeon/radeon_irq_kms.c
-@@ -357,7 +357,7 @@ void radeon_irq_kms_sw_irq_get(struct radeon_device *rdev, int ring)
- {
- 	unsigned long irqflags;
+-	if (!dev->irq_enabled)
+-		return -EOPNOTSUPP;
++#if defined(CONFIG_DRM_LEGACY)
++	if  (unlikely(drm_core_check_feature(dev, DRIVER_LEGACY))) {
++		if (!dev->irq_enabled)
++			return -EOPNOTSUPP;
++	} else /* if DRIVER_MODESET */
++#endif
++	{
++		if (!drm_dev_has_vblank(dev))
++			return -EOPNOTSUPP;
++	}
  
--	if (!rdev->ddev->irq_enabled)
-+	if (!rdev->irq.installed)
- 		return;
+ 	if (vblwait->request.type & _DRM_VBLANK_SIGNAL)
+ 		return -EINVAL;
+@@ -2023,7 +2031,7 @@ int drm_crtc_get_sequence_ioctl(struct drm_device *dev, void *data,
+ 	if (!drm_core_check_feature(dev, DRIVER_MODESET))
+ 		return -EOPNOTSUPP;
  
- 	if (atomic_inc_return(&rdev->irq.ring_int[ring]) == 1) {
-@@ -396,7 +396,7 @@ void radeon_irq_kms_sw_irq_put(struct radeon_device *rdev, int ring)
- {
- 	unsigned long irqflags;
+-	if (!dev->irq_enabled)
++	if (!drm_dev_has_vblank(dev))
+ 		return -EOPNOTSUPP;
  
--	if (!rdev->ddev->irq_enabled)
-+	if (!rdev->irq.installed)
- 		return;
+ 	crtc = drm_crtc_find(dev, file_priv, get_seq->crtc_id);
+@@ -2082,7 +2090,7 @@ int drm_crtc_queue_sequence_ioctl(struct drm_device *dev, void *data,
+ 	if (!drm_core_check_feature(dev, DRIVER_MODESET))
+ 		return -EOPNOTSUPP;
  
- 	if (atomic_dec_and_test(&rdev->irq.ring_int[ring])) {
-@@ -422,7 +422,7 @@ void radeon_irq_kms_pflip_irq_get(struct radeon_device *rdev, int crtc)
- 	if (crtc < 0 || crtc >= rdev->num_crtc)
- 		return;
+-	if (!dev->irq_enabled)
++	if (!drm_dev_has_vblank(dev))
+ 		return -EOPNOTSUPP;
  
--	if (!rdev->ddev->irq_enabled)
-+	if (!rdev->irq.installed)
- 		return;
- 
- 	if (atomic_inc_return(&rdev->irq.pflip[crtc]) == 1) {
-@@ -448,7 +448,7 @@ void radeon_irq_kms_pflip_irq_put(struct radeon_device *rdev, int crtc)
- 	if (crtc < 0 || crtc >= rdev->num_crtc)
- 		return;
- 
--	if (!rdev->ddev->irq_enabled)
-+	if (!rdev->irq.installed)
- 		return;
- 
- 	if (atomic_dec_and_test(&rdev->irq.pflip[crtc])) {
-@@ -470,7 +470,7 @@ void radeon_irq_kms_enable_afmt(struct radeon_device *rdev, int block)
- {
- 	unsigned long irqflags;
- 
--	if (!rdev->ddev->irq_enabled)
-+	if (!rdev->irq.installed)
- 		return;
- 
- 	spin_lock_irqsave(&rdev->irq.lock, irqflags);
-@@ -492,7 +492,7 @@ void radeon_irq_kms_disable_afmt(struct radeon_device *rdev, int block)
- {
- 	unsigned long irqflags;
- 
--	if (!rdev->ddev->irq_enabled)
-+	if (!rdev->irq.installed)
- 		return;
- 
- 	spin_lock_irqsave(&rdev->irq.lock, irqflags);
-@@ -514,7 +514,7 @@ void radeon_irq_kms_enable_hpd(struct radeon_device *rdev, unsigned hpd_mask)
- 	unsigned long irqflags;
- 	int i;
- 
--	if (!rdev->ddev->irq_enabled)
-+	if (!rdev->irq.installed)
- 		return;
- 
- 	spin_lock_irqsave(&rdev->irq.lock, irqflags);
-@@ -537,7 +537,7 @@ void radeon_irq_kms_disable_hpd(struct radeon_device *rdev, unsigned hpd_mask)
- 	unsigned long irqflags;
- 	int i;
- 
--	if (!rdev->ddev->irq_enabled)
-+	if (!rdev->irq.installed)
- 		return;
- 
- 	spin_lock_irqsave(&rdev->irq.lock, irqflags);
+ 	crtc = drm_crtc_find(dev, file_priv, queue_seq->crtc_id);
 -- 
 2.32.0
 
