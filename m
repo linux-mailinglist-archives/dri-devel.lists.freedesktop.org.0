@@ -1,26 +1,26 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E8C93B360C
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Jun 2021 20:47:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 626033B360A
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Jun 2021 20:47:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B6AB26ECA9;
-	Thu, 24 Jun 2021 18:47:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E0156ECA5;
+	Thu, 24 Jun 2021 18:47:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
  [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B2776EC7C
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Jun 2021 18:27:23 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2836C6EC7F
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Jun 2021 18:27:28 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: ezequiel) with ESMTPSA id BF8D31F44219
+ (Authenticated sender: ezequiel) with ESMTPSA id AF4051F4421A
 From: Ezequiel Garcia <ezequiel@collabora.com>
 To: linux-media@vger.kernel.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH 10/12] dt-bindings: media: rockchip-vpu: Add PX30 compatible
-Date: Thu, 24 Jun 2021 15:26:10 -0300
-Message-Id: <20210624182612.177969-11-ezequiel@collabora.com>
+Subject: [PATCH 11/12] arm64: dts: rockchip: Add VPU support for the PX30
+Date: Thu, 24 Jun 2021 15:26:11 -0300
+Message-Id: <20210624182612.177969-12-ezequiel@collabora.com>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <20210624182612.177969-1-ezequiel@collabora.com>
 References: <20210624182612.177969-1-ezequiel@collabora.com>
@@ -51,29 +51,49 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 
-The Rockchip PX30 SoC has a Hantro VPU that features a decoder (VDPU2)
-and an encoder (VEPU2).
+The PX30 has a VPU (both decoder and encoder) with a dedicated IOMMU.
+Describe these two entities in device-tree.
 
 Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
 ---
- Documentation/devicetree/bindings/media/rockchip-vpu.yaml | 3 +++
- 1 file changed, 3 insertions(+)
+ arch/arm64/boot/dts/rockchip/px30.dtsi | 23 +++++++++++++++++++++++
+ 1 file changed, 23 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/media/rockchip-vpu.yaml b/Documentation/devicetree/bindings/media/rockchip-vpu.yaml
-index b88172a59de7..3b9c5aa91fcc 100644
---- a/Documentation/devicetree/bindings/media/rockchip-vpu.yaml
-+++ b/Documentation/devicetree/bindings/media/rockchip-vpu.yaml
-@@ -28,6 +28,9 @@ properties:
-       - items:
-           - const: rockchip,rk3228-vpu
-           - const: rockchip,rk3399-vpu
-+      - items:
-+          - const: rockchip,px30-vpu
-+          - const: rockchip,rk3399-vpu
+diff --git a/arch/arm64/boot/dts/rockchip/px30.dtsi b/arch/arm64/boot/dts/rockchip/px30.dtsi
+index 09baa8a167ce..892eb074775b 100644
+--- a/arch/arm64/boot/dts/rockchip/px30.dtsi
++++ b/arch/arm64/boot/dts/rockchip/px30.dtsi
+@@ -1016,6 +1016,29 @@ gpu: gpu@ff400000 {
+ 		status = "disabled";
+ 	};
  
-   reg:
-     maxItems: 1
++	vpu: video-codec@ff442000 {
++		compatible = "rockchip,px30-vpu", "rockchip,rk3399-vpu";
++		reg = <0x0 0xff442000 0x0 0x800>;
++		interrupts = <GIC_SPI 80 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 79 IRQ_TYPE_LEVEL_HIGH>;
++		interrupt-names = "vepu", "vdpu";
++		clocks = <&cru ACLK_VPU>, <&cru HCLK_VPU>;
++		clock-names = "aclk", "hclk";
++		iommus = <&vpu_mmu>;
++		power-domains = <&power PX30_PD_VPU>;
++	};
++
++	vpu_mmu: iommu@ff442800 {
++		compatible = "rockchip,iommu";
++		reg = <0x0 0xff442800 0x0 0x100>;
++		interrupts = <GIC_SPI 81 IRQ_TYPE_LEVEL_HIGH>;
++		interrupt-names = "vpu_mmu";
++		clocks = <&cru ACLK_VPU>, <&cru HCLK_VPU>;
++		clock-names = "aclk", "iface";
++		#iommu-cells = <0>;
++		power-domains = <&power PX30_PD_VPU>;
++	};
++
+ 	dsi: dsi@ff450000 {
+ 		compatible = "rockchip,px30-mipi-dsi";
+ 		reg = <0x0 0xff450000 0x0 0x10000>;
 -- 
 2.30.0
 
