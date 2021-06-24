@@ -2,54 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F64D3B2DC0
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Jun 2021 13:23:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 708983B2DDD
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Jun 2021 13:29:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05B536EAC0;
-	Thu, 24 Jun 2021 11:23:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D412F6EAC3;
+	Thu, 24 Jun 2021 11:29:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc33.google.com (mail-oo1-xc33.google.com
- [IPv6:2607:f8b0:4864:20::c33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 446586EAC2
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Jun 2021 11:23:12 +0000 (UTC)
-Received: by mail-oo1-xc33.google.com with SMTP id
- s20-20020a4ae9940000b02902072d5df239so1527417ood.2
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Jun 2021 04:23:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=N+fO1NsT3+/4WEZxEBub8Q8BkuWwxoPBEqlhTKIIJ8I=;
- b=LErNrksWX0Hro3gbvdvl4cVQOtiy4YZm09Vx9j9lXlVrSvgcAvUjT6iPRyvEgdMQ44
- sBbgi+egQRnw/DzL0cvqnxItRW5i32edhtifHYwpuq2Zdeehd29+5q3mginxbdl8lhSc
- RrJGulitXJjVyxyKf2cVmEmpjO7lAVmsZUhCA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=N+fO1NsT3+/4WEZxEBub8Q8BkuWwxoPBEqlhTKIIJ8I=;
- b=UM4TRQ9vjms7CJwQSQF51skH97gQJ+2VQWaG7LchRgradaCngXuaWe0wfPkprZN8uT
- AYHOWW91cOtbpwP3XHNOxlJQ72kKXnhgSZova95mOaAdlrYpbHaLQkJ5TGqOaqELTcfo
- xYRA/jG0rKOyf8OP6bPK6cRAuSd6RQ8k2KEoo0pdwOUDPZFN5+O+54bQo7dy7p1F8jt7
- 5VplJGQuevcxA1JLV/j+u2BBssM73JyDN5pVdE7TWirO7DjoOCesJIkQpv6+yNjsKnQK
- wkXNbpw6zzO/HMsmphO39To4vfMGJVLtAq4RtXaihlVa19HyZSHND5fDQUOEJkDnVq0h
- vCcA==
-X-Gm-Message-State: AOAM531hF/7CJnppdDb7HFnVQBWvW3HFec9MBWexK2BUii14spPfwZXr
- Vxln/J8dpJxCjQxHL2tma0AA0E4GYmY58I/bVfcmEg==
-X-Google-Smtp-Source: ABdhPJy2FkxP9uCAjgHSVGAUyuIAzs5LoJI255+ysGzmVAqm+Q5JlQU0zgPPhXz524KDDzM/bcIN5sXvCDie8V++BiA=
-X-Received: by 2002:a4a:ab07:: with SMTP id i7mr3943321oon.89.1624533791640;
- Thu, 24 Jun 2021 04:23:11 -0700 (PDT)
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF5B16EAC3;
+ Thu, 24 Jun 2021 11:29:29 +0000 (UTC)
+IronPort-SDR: KhN0oItrhy/hinPQRqYpAozMeN5tD5WliDf3CcflaG6ZDcnj+nBWnT4bkPpeu5ZeAINIQVd19N
+ U0cjDI3naSuw==
+X-IronPort-AV: E=McAfee;i="6200,9189,10024"; a="204443493"
+X-IronPort-AV: E=Sophos;i="5.83,296,1616482800"; d="scan'208";a="204443493"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Jun 2021 04:29:26 -0700
+IronPort-SDR: jQPUZZpL7ULIuvNEYyenzraWhFLm2dygF8r2JZOWVFjbPKNxU8kIF8oqd0gxvj7ZoVDKlCh75i
+ 2gQwdGW3jf6g==
+X-IronPort-AV: E=Sophos;i="5.83,296,1616482800"; d="scan'208";a="474479278"
+Received: from cmutgix-mobl.gar.corp.intel.com (HELO thellst-mobl1.intel.com)
+ ([10.249.254.20])
+ by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Jun 2021 04:29:23 -0700
+From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH v2] drm/i915: Reinstate the mmap ioctl for some platforms
+Date: Thu, 24 Jun 2021 13:29:14 +0200
+Message-Id: <20210624112914.311984-1-thomas.hellstrom@linux.intel.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-References: <20210622165511.3169559-4-daniel.vetter@ffwll.ch>
- <20210623161955.3371466-1-daniel.vetter@ffwll.ch>
- <CAPj87rN_P7u5JGWBOHc5BEXiz1Znek6fDTyj-uVr2nwEcGX_XA@mail.gmail.com>
-In-Reply-To: <CAPj87rN_P7u5JGWBOHc5BEXiz1Znek6fDTyj-uVr2nwEcGX_XA@mail.gmail.com>
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Thu, 24 Jun 2021 13:23:00 +0200
-Message-ID: <CAKMK7uF-79a8Q7M49ynhcoBRcD1qmvRQ7DvZ6USeuKyxV4t0zQ@mail.gmail.com>
-Subject: Re: [Mesa-dev] [PATCH] dma-buf: Document dma-buf implicit
- fencing/resv fencing rules
-To: Daniel Stone <daniel@fooishbar.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,137 +48,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Daniel Stone <daniels@collabora.com>,
- =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Kevin Wang <kevin1.wang@amd.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Luben Tuikov <luben.tuikov@amd.com>,
- "Kristian H . Kristensen" <hoegsberg@google.com>,
- Chen Li <chenli@uniontech.com>, ML mesa-dev <mesa-dev@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- Daniel Vetter <daniel.vetter@intel.com>, Dennis Li <Dennis.Li@amd.com>,
- Deepak R Varma <mh12gx2825@gmail.com>
+Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ matthew.auld@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 24, 2021 at 1:08 PM Daniel Stone <daniel@fooishbar.org> wrote:
->
-> Hi,
->
-> On Wed, 23 Jun 2021 at 17:20, Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
-> > +        *
-> > +        * IMPLICIT SYNCHRONIZATION RULES:
-> > +        *
-> > +        * Drivers which support implicit synchronization of buffer access as
-> > +        * e.g. exposed in `Implicit Fence Poll Support`_ should follow the
-> > +        * below rules.
->
-> 'Should' ... ? Must.
+Reinstate the mmap ioctl for all current integrated platforms.
+The intention was really to have it disabled for discrete graphics
+where we enforce a single mmap mode.
 
-Yeah  I guess I can upgrade a bunch of them.
+Fixes: 35cbd91eb541 ("drm/i915: Disable mmap ioctl for gen12+")
+Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+---
+v2:
+- Added a R-B.
+- Fixed up the code comment a bit.
+---
+ drivers/gpu/drm/i915/gem/i915_gem_mman.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-> > +        * - Drivers should add a shared fence through
-> > +        *   dma_resv_add_shared_fence() for anything the userspace API
-> > +        *   considers a read access. This highly depends upon the API and
-> > +        *   window system: E.g. OpenGL is generally implicitly synchronized on
-> > +        *   Linux, but explicitly synchronized on Android. Whereas Vulkan is
-> > +        *   generally explicitly synchronized for everything, and window system
-> > +        *   buffers have explicit API calls (which then need to make sure the
-> > +        *   implicit fences store here in @resv are updated correctly).
-> > +        *
-> > +        * - [...]
->
-> Mmm, I think this is all right, but it could be worded much more
-> clearly. Right now it's a bunch of points all smashed into one, and
-> there's a lot of room for misinterpretation.
->
-> Here's a strawman, starting with most basic and restrictive, working
-> through to when you're allowed to wriggle your way out:
->
-> Rule 1: Drivers must add a shared fence through
-> dma_resv_add_shared_fence() for any read accesses against that buffer.
-> This appends a fence to the shared array, ensuring that any future
-> non-read access will be synchronised against this operation to only
-> begin after it has completed.
->
-> Rule 2: Drivers must add an exclusive fence through
-> dma_resv_add_excl_fence() for any write accesses against that buffer.
-> This replaces the exclusive fence with the new operation, ensuring
-> that all future access will be synchronised against this operation to
-> only begin after it has completed.
->
-> Rule 3: Drivers must synchronise all accesses to buffers against
-> existing implicit fences. Read accesses must synchronise against the
-> exclusive fence (read-after-write), and write accesses must
-> synchronise against both the exclusive (write-after-write) and shared
-> (write-after-read) fences.
->
-> Note 1: Users like OpenGL and window systems on non-Android userspace
-> are generally implicitly synchronised. An implicitly-synchronised
-> userspace is unaware of fences from prior operations, so the kernel
-> mediates scheduling to create the illusion that GPU work is FIFO. For
-> example, an application will flush and schedule GPU write work to
-> render its image, then immediately tell the window system to display
-> that image; the window system may immediately flush and schedule GPU
-> read work to display that image, with neither waiting for the write to
-> have completed. The kernel provides coherence by synchronising the
-> read access against the write fence in the exclusive slot, so that the
-> image displayed is correct.
->
-> Note 2: Users like Vulkan and Android window system are generally
-> explicitly synchronised. An explicitly-synchronised userspace is
-> responsible for tracking its own read and write access and providing
-> the kernel with synchronisation barriers. For instance, a Vulkan
-> application rendering to a buffer and subsequently using it as a read
-> texture, must annotate the read operation with a read-after-write
-> synchronisation barrier.
->
-> Note 3: Implicit and explicit userspace can coexist. For instance, an
-> explicitly-synchronised Vulkan application may be running as a client
-> of an implicitly-synchronised window system which uses OpenGL for
-> composition; an implicitly-synchronised OpenGL application may be
-> running as a client of a window system which uses Vulkan for
-> composition.
->
-> Note 4: Some subsystems, for example V4L2, do not pipeline operations,
-> and instead only return to userspace when the scheduled work against a
-> buffer has fully retired.
->
-> Exemption 1: Fully self-coherent userspace may skip implicit
-> synchronisation barriers. For instance, accesses between two
-> Vulkan-internal buffers allocated by a single application do not need
-> to synchronise against each other's implicit fences, as the client is
-> responsible for explicitly providing barriers for access. A
-> self-contained OpenGL userspace also has no need to implicitly
-> synchronise its access if the driver instead tracks all access and
-> inserts the appropriate synchronisation barriers.
->
-> Exemption 2: When implicit and explicit userspace coexist, the
-> explicit side may skip intermediate synchronisation, and only place
-> synchronisation barriers at transition points. For example, a Vulkan
-> compositor displaying a buffer from an OpenGL application would need
-> to synchronise its first access against the fence placed in the
-> exclusive implicit-synchronisation slot. Once this read has fully
-> retired, the compositor has no need to participate in implicit
-> synchronisation until it is ready to return the buffer to the
-> application, at which point it must insert all its non-retired
-> accesses into the shared slot, which the application will then
-> synchronise future write accesses against.
-
-So I think this is excellent, but maybe better suited in the uapi
-section as a sperate chapter? Essentially keep your rules in the
-driver-internal docs, but move the Note/excemptions into the uapi
-section under a "Implicit Sync Mode of Operation" or whatever heading?
-
-The other thing to keep in mind is that this is very much incomplete:
-I'm silent on what drivers should do exactly with these fences. That's
-largely because I haven't fully completed that audit, and there's a
-pile of bugs there still.
--Daniel
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
+index 2fd155742bd2..4f50a508c7a0 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_mman.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
+@@ -62,10 +62,11 @@ i915_gem_mmap_ioctl(struct drm_device *dev, void *data,
+ 	struct drm_i915_gem_object *obj;
+ 	unsigned long addr;
+ 
+-	/* mmap ioctl is disallowed for all platforms after TGL-LP.  This also
+-	 * covers all platforms with local memory.
++	/*
++	 * mmap ioctl is disallowed for all discrete platforms,
++	 * and for all platforms with GRAPHICS_VER > 12.
+ 	 */
+-	if (GRAPHICS_VER(i915) >= 12 && !IS_TIGERLAKE(i915))
++	if (IS_DGFX(i915) || GRAPHICS_VER(i915) > 12)
+ 		return -EOPNOTSUPP;
+ 
+ 	if (args->flags & ~(I915_MMAP_WC))
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.31.1
+
