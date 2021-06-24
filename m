@@ -2,56 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 651D83B2653
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Jun 2021 06:28:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C9643B2660
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Jun 2021 06:32:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 189106E9DF;
-	Thu, 24 Jun 2021 04:28:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E68F16E9DE;
+	Thu, 24 Jun 2021 04:32:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x72a.google.com (mail-qk1-x72a.google.com
- [IPv6:2607:f8b0:4864:20::72a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3FFE76E9E3
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Jun 2021 04:28:34 +0000 (UTC)
-Received: by mail-qk1-x72a.google.com with SMTP id y29so9610070qky.12
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Jun 2021 21:28:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Vf6iRayWkpLOoYUf7pNtG+CaRTyVw0JAqulSitMDQO0=;
- b=XhlMv+xUBROxE3lM6Rw1CgXO1kddD8cgUoOHPx8CrrP4EyoU4DEd7SG1RL9I+0DYan
- boJUZwUYrjArp3SWtAGk9E+FeS6qz4WFyjdbkPcDaZ6Ojv9o8/zJPPYdzKO3qy5vBtEQ
- HXmGW25TeHi/8kTi8dJmCqS/q5sIDUcuof6X0=
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com
+ [IPv6:2607:f8b0:4864:20::632])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA9616E9DE
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Jun 2021 04:32:42 +0000 (UTC)
+Received: by mail-pl1-x632.google.com with SMTP id m17so2286429plx.7
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Jun 2021 21:32:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=lTTd4C04SA2E3AghdMNSGn7s0cIff6cdMlZ1vAXtDSA=;
+ b=gen7iuSa1fQaov27zr35RQ3fadV1bVakwExJvyoiz/2bAisC/EC2AoCmrVyvbgzPwD
+ 4nlY18J9+uD30MzVgmESRnwG7KFHNjSUm/oMxYcJ59RgRczKUQERiJGKHqOviBzoxTL6
+ 0DMxTW3MAk0v0ymifRwSsciaXB//wR52cMlxJYQytRE+5McqSQDKGO7tH4DZkxUOuSo0
+ /cwV8keRsZwMejvLjCpil20D/D9pR2P9xM7WhBEGNGM+14jxF7KzzVBhbeHotw0I9eEk
+ R6U0KXym1XeZAv1klhqYuOW+UDK8YKQP4tcXjo2hn0YGW7q4CIwqvgSLLeMY6Uo7g/9H
+ h0Xg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Vf6iRayWkpLOoYUf7pNtG+CaRTyVw0JAqulSitMDQO0=;
- b=aivli1G1N2GGPlBgKZd8V4bZmR7t24o+oedgF/7NPWtUvmAgnNYOZ+lJRV0hmiFL2h
- vlKThPBw5tMeWLolDPVcPi1dVTT48Trh2QrDSMz5r9syTtX7mYqgybDRV4JjTpu6Q0kA
- KQeyIABKEEYkeMjWh241hXKnD8NEr+vujluigWtyNMP1zE5c6srZi6b488FQ2j/2kftY
- jz8SJiJIXfO1YwReooK0yJpCL0Lx2/Lu1Xe/NxdQSlF4bJV9DgT9ttKNszWt7uVwuXFR
- tkSjWIGTHpxYjlFI840cjPldF9GiMby9ju8LBNGl7/FOCNCHJ/nBLtPD4EKqAE2wMeb6
- kLHQ==
-X-Gm-Message-State: AOAM5329uSg0PDtBOimqk5A2v14st9/xDxuBmabxY6SACNLydXk/w9Dp
- l2G47yGha4uZaPByoGv7X3ADCOMvMeL5tiv3PYKvlQ==
-X-Google-Smtp-Source: ABdhPJzN6yIAnrutP4mXY4YUqxFUME7cFcfwCCdv9KLoP/1Ux65U8D0qn4SKiYpFY+s6pSHfO29nSf+YvOucHrB1PFc=
-X-Received: by 2002:a05:620a:1a87:: with SMTP id
- bl7mr3690332qkb.232.1624508913860; 
- Wed, 23 Jun 2021 21:28:33 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=lTTd4C04SA2E3AghdMNSGn7s0cIff6cdMlZ1vAXtDSA=;
+ b=qF3fOEzKY7veXNs2bVrrfEbvti0UcNlfsNVoxPGxOVa3QJUxAjEdNsIbwu6nq4y0Ir
+ tbKvhyWyz7HaCkV49VSeVFroUCkBS4wpBeubzcYeAIHDoYwW0fpYWWX3mMplY4lL3Ta3
+ p3B2+5hLIUGzR3jZljKegy32uubaDqj/rssa0ZErWEm3mOiRg/3Ip6vCcn40oZW0Wyd1
+ NlKa/mctQGrHpLGLLpB7F+MunNCQj8s976XSIr2q3ichqXrcIzuTLQ3An3dmhhFgX0jr
+ LNjmZ35TwBgvh5rCknzdOByRdoPOcoNgvwNojRnbx5AuGcVTIvZ91tyJ4C+eeP8WEYp4
+ k5hA==
+X-Gm-Message-State: AOAM5307GdqGxq1HkxIQUcDAEyJ5T/vyY5F2gobzYADtUZ2g9ETtWtUH
+ Sb9fRsJwcMTv5DP7/F9ziC4eFQ==
+X-Google-Smtp-Source: ABdhPJzz6vn2zWUKB2ryOpIaYUVQnrSaiXXW5UhtPCB+tqvxcPK98S7Q9smW66yPLcbeUXDhds9k9Q==
+X-Received: by 2002:a17:90a:de84:: with SMTP id
+ n4mr8712489pjv.62.1624509162441; 
+ Wed, 23 Jun 2021 21:32:42 -0700 (PDT)
+Received: from localhost ([136.185.134.182])
+ by smtp.gmail.com with ESMTPSA id 76sm1231543pfu.131.2021.06.23.21.32.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 23 Jun 2021 21:32:41 -0700 (PDT)
+Date: Thu, 24 Jun 2021 10:02:40 +0530
+From: Viresh Kumar <viresh.kumar@linaro.org>
+To: Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH 2/2] dt-bindings: opp: Convert to DT schema
+Message-ID: <20210624043240.n6m3cdftz75lhm3t@vireshk-i7>
+References: <20210623230722.3545986-1-robh@kernel.org>
+ <20210623230722.3545986-3-robh@kernel.org>
 MIME-Version: 1.0
-References: <20210624035749.4054934-1-stevensd@google.com>
- <20210624035749.4054934-7-stevensd@google.com>
-In-Reply-To: <20210624035749.4054934-7-stevensd@google.com>
-From: David Stevens <stevensd@chromium.org>
-Date: Thu, 24 Jun 2021 13:28:23 +0900
-Message-ID: <CAD=HUj6C455sDhBUdQ_Kev=DPpdLRDDycumqfh8kjvredGh=hw@mail.gmail.com>
-Subject: Re: [PATCH 6/6] drm/i915/gvt: use gfn_to_pfn's page instead of pfn
-To: Marc Zyngier <maz@kernel.org>, Huacai Chen <chenhuacai@kernel.org>, 
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Paul Mackerras <paulus@ozlabs.org>, 
- Paolo Bonzini <pbonzini@redhat.com>, Zhenyu Wang <zhenyuw@linux.intel.com>, 
- Zhi Wang <zhi.a.wang@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210623230722.3545986-3-robh@kernel.org>
+User-Agent: NeoMutt/20180716-391-311a52
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,150 +70,135 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Stevens <stevensd@google.com>, intel-gvt-dev@lists.freedesktop.org,
- Wanpeng Li <wanpengli@tencent.com>, kvm@vger.kernel.org,
- Will Deacon <will@kernel.org>, Suzuki K Poulose <suzuki.poulose@arm.com>,
- Sean Christopherson <seanjc@google.com>, Joerg Roedel <joro@8bytes.org>,
- linuxppc-dev@lists.ozlabs.org, open list <linux-kernel@vger.kernel.org>,
- kvm-ppc@vger.kernel.org, linux-mips@vger.kernel.org,
- James Morse <james.morse@arm.com>,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- intel-gfx@lists.freedesktop.org, Vitaly Kuznetsov <vkuznets@redhat.com>,
- Alexandru Elisei <alexandru.elisei@arm.com>, kvmarm@lists.cs.columbia.edu,
- linux-arm-kernel@lists.infradead.org, Jim Mattson <jmattson@google.com>
+Cc: Nishanth Menon <nm@ti.com>, devicetree@vger.kernel.org,
+ linux-pm@vger.kernel.org, Yangtao Li <tiny.windzz@gmail.com>,
+ Viresh Kumar <vireshk@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ linux-kernel@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>,
+ Chen-Yu Tsai <wens@csie.org>, dri-devel@lists.freedesktop.org,
+ Georgi Djakov <djakov@kernel.org>, Leonard Crestez <leonard.crestez@nxp.com>,
+ Shawn Guo <shawnguo@kernel.org>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Please ignore this last patch. It was put together as an afterthought
-and wasn't properly tested.
+Thanks for taking it up :)
 
--David
-
-On Thu, Jun 24, 2021 at 12:59 PM David Stevens <stevensd@chromium.org> wrote:
->
-> Return struct page instead of pfn from gfn_to_mfn. This function is only
-> used to determine if the page is a transparent hugepage, to enable 2MB
-> huge gtt shadowing. Returning the page directly avoids the risk of
-> calling pfn_to_page on a VM_IO|VM_PFNMAP pfn.
->
-> This change also properly releases the reference on the page returned by
-> gfn_to_pfn.
->
-> Signed-off-by: David Stevens <stevensd@google.com>
-> ---
->  drivers/gpu/drm/i915/gvt/gtt.c       | 12 ++++++++----
->  drivers/gpu/drm/i915/gvt/hypercall.h |  3 ++-
->  drivers/gpu/drm/i915/gvt/kvmgt.c     | 12 ++++--------
->  drivers/gpu/drm/i915/gvt/mpt.h       |  8 ++++----
->  4 files changed, 18 insertions(+), 17 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/gvt/gtt.c b/drivers/gpu/drm/i915/gvt/gtt.c
-> index 9478c132d7b6..b2951c560582 100644
-> --- a/drivers/gpu/drm/i915/gvt/gtt.c
-> +++ b/drivers/gpu/drm/i915/gvt/gtt.c
-> @@ -1160,16 +1160,20 @@ static int is_2MB_gtt_possible(struct intel_vgpu *vgpu,
->         struct intel_gvt_gtt_entry *entry)
->  {
->         struct intel_gvt_gtt_pte_ops *ops = vgpu->gvt->gtt.pte_ops;
-> -       unsigned long pfn;
-> +       struct page *page;
-> +       bool is_trans_huge;
->
->         if (!HAS_PAGE_SIZES(vgpu->gvt->gt->i915, I915_GTT_PAGE_SIZE_2M))
->                 return 0;
->
-> -       pfn = intel_gvt_hypervisor_gfn_to_mfn(vgpu, ops->get_pfn(entry));
-> -       if (pfn == INTEL_GVT_INVALID_ADDR)
-> +       page = intel_gvt_hypervisor_gfn_to_mfn_page(vgpu, ops->get_pfn(entry));
-> +       if (!page)
->                 return -EINVAL;
->
-> -       return PageTransHuge(pfn_to_page(pfn));
-> +       is_trans_huge = PageTransHuge(page);
-> +       put_page(page);
+On 23-06-21, 17:07, Rob Herring wrote:
+> diff --git a/Documentation/devicetree/bindings/opp/opp-v2-base.yaml b/Documentation/devicetree/bindings/opp/opp-v2-base.yaml
+> +$id: http://devicetree.org/schemas/opp/opp-v2-base.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +       return is_trans_huge;
->  }
->
->  static int split_2MB_gtt_entry(struct intel_vgpu *vgpu,
-> diff --git a/drivers/gpu/drm/i915/gvt/hypercall.h b/drivers/gpu/drm/i915/gvt/hypercall.h
-> index b79da5124f83..017190ff52d5 100644
-> --- a/drivers/gpu/drm/i915/gvt/hypercall.h
-> +++ b/drivers/gpu/drm/i915/gvt/hypercall.h
-> @@ -60,7 +60,8 @@ struct intel_gvt_mpt {
->                         unsigned long len);
->         int (*write_gpa)(unsigned long handle, unsigned long gpa, void *buf,
->                          unsigned long len);
-> -       unsigned long (*gfn_to_mfn)(unsigned long handle, unsigned long gfn);
-> +       struct page *(*gfn_to_mfn_page)(unsigned long handle,
-> +                                       unsigned long gfn);
->
->         int (*dma_map_guest_page)(unsigned long handle, unsigned long gfn,
->                                   unsigned long size, dma_addr_t *dma_addr);
-> diff --git a/drivers/gpu/drm/i915/gvt/kvmgt.c b/drivers/gpu/drm/i915/gvt/kvmgt.c
-> index b829ff67e3d9..1e97ae813ed0 100644
-> --- a/drivers/gpu/drm/i915/gvt/kvmgt.c
-> +++ b/drivers/gpu/drm/i915/gvt/kvmgt.c
-> @@ -1928,21 +1928,17 @@ static int kvmgt_inject_msi(unsigned long handle, u32 addr, u16 data)
->         return -EFAULT;
->  }
->
-> -static unsigned long kvmgt_gfn_to_pfn(unsigned long handle, unsigned long gfn)
-> +static struct page *kvmgt_gfn_to_page(unsigned long handle, unsigned long gfn)
->  {
->         struct kvmgt_guest_info *info;
->         kvm_pfn_t pfn;
->
->         if (!handle_valid(handle))
-> -               return INTEL_GVT_INVALID_ADDR;
-> +               return NULL;
->
->         info = (struct kvmgt_guest_info *)handle;
->
-> -       pfn = kvm_pfn_page_unwrap(gfn_to_pfn(info->kvm, gfn));
-> -       if (is_error_noslot_pfn(pfn))
-> -               return INTEL_GVT_INVALID_ADDR;
-> -
-> -       return pfn;
-> +       return gfn_to_pfn(info->kvm, gfn).page;
->  }
->
->  static int kvmgt_dma_map_guest_page(unsigned long handle, unsigned long gfn,
-> @@ -2112,7 +2108,7 @@ static const struct intel_gvt_mpt kvmgt_mpt = {
->         .disable_page_track = kvmgt_page_track_remove,
->         .read_gpa = kvmgt_read_gpa,
->         .write_gpa = kvmgt_write_gpa,
-> -       .gfn_to_mfn = kvmgt_gfn_to_pfn,
-> +       .gfn_to_mfn_page = kvmgt_gfn_to_page,
->         .dma_map_guest_page = kvmgt_dma_map_guest_page,
->         .dma_unmap_guest_page = kvmgt_dma_unmap_guest_page,
->         .dma_pin_guest_page = kvmgt_dma_pin_guest_page,
-> diff --git a/drivers/gpu/drm/i915/gvt/mpt.h b/drivers/gpu/drm/i915/gvt/mpt.h
-> index 550a456e936f..9169b83cf0f6 100644
-> --- a/drivers/gpu/drm/i915/gvt/mpt.h
-> +++ b/drivers/gpu/drm/i915/gvt/mpt.h
-> @@ -214,17 +214,17 @@ static inline int intel_gvt_hypervisor_write_gpa(struct intel_vgpu *vgpu,
->  }
->
->  /**
-> - * intel_gvt_hypervisor_gfn_to_mfn - translate a GFN to MFN
-> + * intel_gvt_hypervisor_gfn_to_mfn_page - translate a GFN to MFN page
->   * @vgpu: a vGPU
->   * @gpfn: guest pfn
->   *
->   * Returns:
-> - * MFN on success, INTEL_GVT_INVALID_ADDR if failed.
-> + * struct page* on success, NULL if failed.
->   */
-> -static inline unsigned long intel_gvt_hypervisor_gfn_to_mfn(
-> +static inline unsigned long intel_gvt_hypervisor_gfn_to_mfn_page(
->                 struct intel_vgpu *vgpu, unsigned long gfn)
->  {
-> -       return intel_gvt_host.mpt->gfn_to_mfn(vgpu->handle, gfn);
-> +       return intel_gvt_host.mpt->gfn_to_mfn_page(vgpu->handle, gfn);
->  }
->
->  /**
-> --
-> 2.32.0.93.g670b81a890-goog
->
+> +title: Generic OPP (Operating Performance Points) Common Binding
+> +
+> +maintainers:
+> +  - Viresh Kumar <viresh.kumar@linaro.org>
+> +
+> +description: |
+> +  Devices work at voltage-current-frequency combinations and some implementations
+> +  have the liberty of choosing these. These combinations are called Operating
+> +  Performance Points aka OPPs. This document defines bindings for these OPPs
+> +  applicable across wide range of devices. For illustration purpose, this document
+> +  uses CPU as a device.
+> +
+> +  This describes the OPPs belonging to a device.
+> +
+> +select: false
+> +
+> +properties:
+> +  $nodename:
+> +    pattern: '^opp-table(-[a-z0-9]+)?$'
+> +
+> +  opp-shared:
+> +    description:
+> +      Indicates that device nodes using this OPP Table Node's phandle switch
+> +      their DVFS state together, i.e. they share clock/voltage/current lines.
+> +      Missing property means devices have independent clock/voltage/current
+> +      lines, but they share OPP tables.
+> +    type: boolean
+> +
+> +patternProperties:
+> +  '^opp-?[0-9]+$':
+> +    type: object
+> +    description:
+> +      One or more OPP nodes describing voltage-current-frequency combinations.
+> +      Their name isn't significant but their phandle can be used to reference an
+> +      OPP. These are mandatory except for the case where the OPP table is
+> +      present only to indicate dependency between devices using the opp-shared
+> +      property.
+> +
+> +    properties:
+> +      opp-hz:
+> +        description:
+> +          Frequency in Hz, expressed as a 64-bit big-endian integer. This is a
+> +          required property for all device nodes, unless another "required"
+> +          property to uniquely identify the OPP nodes exists. Devices like power
+> +          domains must have another (implementation dependent) property.
+> +
+> +      opp-peak-kBps:
+> +        description:
+> +          Peak bandwidth in kilobytes per second, expressed as an array of
+> +          32-bit big-endian integers. Each element of the array represents the
+> +          peak bandwidth value of each interconnect path. The number of elements
+> +          should match the number of interconnect paths.
+> +        minItems: 1
+> +        maxItems: 32  # Should be enough
+
+Can we move this down, closer to opp-avg-kBps ?
+
+> +
+> +      opp-microvolt:
+> +        description: |
+> +          Voltage for the OPP
+> +
+> +          A single regulator's voltage is specified with an array of size one or three.
+> +          Single entry is for target voltage and three entries are for <target min max>
+> +          voltages.
+> +
+> +          Entries for multiple regulators shall be provided in the same field separated
+> +          by angular brackets <>. The OPP binding doesn't provide any provisions to
+> +          relate the values to their power supplies or the order in which the supplies
+> +          need to be configured and that is left for the implementation specific
+> +          binding.
+> +
+> +          Entries for all regulators shall be of the same size, i.e. either all use a
+> +          single value or triplets.
+> +        minItems: 1
+> +        maxItems: 8
+
+For consistency with rest of the doc, maybe add
+
+# Should be enough regulators
+
+> +        items:
+> +          minItems: 1
+> +          maxItems: 3
+> +
+> +      opp-microamp:
+> +        description: |
+> +          The maximum current drawn by the device in microamperes considering
+> +          system specific parameters (such as transients, process, aging,
+> +          maximum operating temperature range etc.) as necessary. This may be
+> +          used to set the most efficient regulator operating mode.
+> +
+> +          Should only be set if opp-microvolt(-name)? is set for the OPP.
+
+What is the significance of '?' here ?
+
+> +
+> +          Entries for multiple regulators shall be provided in the same field
+> +          separated by angular brackets <>. If current values aren't required
+> +          for a regulator, then it shall be filled with 0. If current values
+> +          aren't required for any of the regulators, then this field is not
+> +          required. The OPP binding doesn't provide any provisions to relate the
+> +          values to their power supplies or the order in which the supplies need
+> +          to be configured and that is left for the implementation specific
+> +          binding.
+> +        minItems: 1
+> +        maxItems: 8   # Should be enough regulators
+> +        items:
+> +          minItems: 1
+> +          maxItems: 3
+
+Acked-by: Viresh Kumar <viresh.kumar@linaro.org>
+
+-- 
+viresh
