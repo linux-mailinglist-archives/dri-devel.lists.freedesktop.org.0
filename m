@@ -2,63 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7A4B3B292C
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Jun 2021 09:30:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10C083B293A
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Jun 2021 09:30:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 614A76EABD;
-	Thu, 24 Jun 2021 07:29:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B45856EAD3;
+	Thu, 24 Jun 2021 07:29:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9889F6EAAB;
- Thu, 24 Jun 2021 07:29:41 +0000 (UTC)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D418E6EA95;
+ Thu, 24 Jun 2021 07:29:42 +0000 (UTC)
 Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
  (using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 43DAD1FD66;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 6C1542198C;
+ Thu, 24 Jun 2021 07:29:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1624519781; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=nGXqgezA3DH40NKC8JsOWRUv5iKSH3hlmAbcoV/jF1o=;
+ b=ctSjdB1RzKX7IP4VdaEOyFmU4bWt6J20qO32P8lwiTU7W4zxMtNCgNxPrLI06nTorWxdPw
+ 94Sp3W9fTsZtwHtk2Ne9Dwh4wuKkJHLM/1u6iGwM30P7VE4oYk3fVVVK+Iuh2K6gUxRo9h
+ OCe+7JFvXdqydPlzW5kW7aYIA8yeK6g=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1624519781;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=nGXqgezA3DH40NKC8JsOWRUv5iKSH3hlmAbcoV/jF1o=;
+ b=6e6IRcXlp/Es5f4d81mI6xkL96LuWclhCnqfQJZBfXrwfbWRzLxOTPVLEfTY82PRuP8ABx
+ spfRpO+AoQHPVUDg==
+Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
+ by imap.suse.de (Postfix) with ESMTP id 4901C11A97;
  Thu, 24 Jun 2021 07:29:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1624519780; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1624519781; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Nqa6630ruRYYlI8ZNLoNGF3Kw3KIKsV19KV/b5stot8=;
- b=dX+/BwNcpKGCSdnGs1uafj8/cDRwToWxdSjVs+bivHahyVKE9b3/QyIQIZpjALZRYo0X5f
- 8AMXqIyzeIHDisR11ysiAgj9C7dL3dTmp5P7HwvCUuwEDfmd91wyMbiea0wrbLjN2NU33l
- GiStrO+N4oNRp7Hp+ldwUwgGgyJYQMU=
+ bh=nGXqgezA3DH40NKC8JsOWRUv5iKSH3hlmAbcoV/jF1o=;
+ b=ctSjdB1RzKX7IP4VdaEOyFmU4bWt6J20qO32P8lwiTU7W4zxMtNCgNxPrLI06nTorWxdPw
+ 94Sp3W9fTsZtwHtk2Ne9Dwh4wuKkJHLM/1u6iGwM30P7VE4oYk3fVVVK+Iuh2K6gUxRo9h
+ OCe+7JFvXdqydPlzW5kW7aYIA8yeK6g=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1624519780;
+ s=susede2_ed25519; t=1624519781;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Nqa6630ruRYYlI8ZNLoNGF3Kw3KIKsV19KV/b5stot8=;
- b=Xy6ruu/MJAS3iRb8RmZlcW3eoc6qc5jOqN0Kdxu7WCuW1np9DdNCj0I3Xig+LI91L9/uPk
- tT+g8QjZ+pgEV1CA==
-Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
- by imap.suse.de (Postfix) with ESMTP id 1D38311C9B;
- Thu, 24 Jun 2021 07:29:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1624519780; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Nqa6630ruRYYlI8ZNLoNGF3Kw3KIKsV19KV/b5stot8=;
- b=dX+/BwNcpKGCSdnGs1uafj8/cDRwToWxdSjVs+bivHahyVKE9b3/QyIQIZpjALZRYo0X5f
- 8AMXqIyzeIHDisR11ysiAgj9C7dL3dTmp5P7HwvCUuwEDfmd91wyMbiea0wrbLjN2NU33l
- GiStrO+N4oNRp7Hp+ldwUwgGgyJYQMU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1624519780;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Nqa6630ruRYYlI8ZNLoNGF3Kw3KIKsV19KV/b5stot8=;
- b=Xy6ruu/MJAS3iRb8RmZlcW3eoc6qc5jOqN0Kdxu7WCuW1np9DdNCj0I3Xig+LI91L9/uPk
- tT+g8QjZ+pgEV1CA==
+ bh=nGXqgezA3DH40NKC8JsOWRUv5iKSH3hlmAbcoV/jF1o=;
+ b=6e6IRcXlp/Es5f4d81mI6xkL96LuWclhCnqfQJZBfXrwfbWRzLxOTPVLEfTY82PRuP8ABx
+ spfRpO+AoQHPVUDg==
 Received: from director2.suse.de ([192.168.254.72]) by imap3-int with ESMTPSA
- id YNlHBmM01GAJfwAALh3uQQ
- (envelope-from <tzimmermann@suse.de>); Thu, 24 Jun 2021 07:29:39 +0000
+ id sKraEGQ01GAJfwAALh3uQQ
+ (envelope-from <tzimmermann@suse.de>); Thu, 24 Jun 2021 07:29:40 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch, airlied@linux.ie, alexander.deucher@amd.com,
  christian.koenig@amd.com, Xinhui.Pan@amd.com, james.qian.wang@arm.com,
@@ -83,9 +83,9 @@ To: daniel@ffwll.ch, airlied@linux.ie, alexander.deucher@amd.com,
  rodrigo.vivi@intel.com, linux@armlinux.org.uk,
  kieran.bingham+renesas@ideasonboard.com, rodrigosiqueiramelo@gmail.com,
  melissa.srw@gmail.com, hamohammed.sa@gmail.com
-Subject: [PATCH v3 17/27] drm/rockchip: Don't set struct drm_device.irq_enabled
-Date: Thu, 24 Jun 2021 09:29:06 +0200
-Message-Id: <20210624072916.27703-18-tzimmermann@suse.de>
+Subject: [PATCH v3 18/27] drm/sti: Don't set struct drm_device.irq_enabled
+Date: Thu, 24 Jun 2021 09:29:07 +0200
+Message-Id: <20210624072916.27703-19-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210624072916.27703-1-tzimmermann@suse.de>
 References: <20210624072916.27703-1-tzimmermann@suse.de>
@@ -114,32 +114,28 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 The field drm_device.irq_enabled is only used by legacy drivers
-with userspace modesetting. Don't set it in rockchip.
+with userspace modesetting. Don't set it in sti.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 ---
- drivers/gpu/drm/rockchip/rockchip_drm_drv.c | 6 ------
- 1 file changed, 6 deletions(-)
+ drivers/gpu/drm/sti/sti_compositor.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_drv.c b/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
-index b730b8d5d949..c8e60fd9ff24 100644
---- a/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
-+++ b/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
-@@ -162,12 +162,6 @@ static int rockchip_drm_bind(struct device *dev)
+diff --git a/drivers/gpu/drm/sti/sti_compositor.c b/drivers/gpu/drm/sti/sti_compositor.c
+index 319962a2c17b..9caaf3ccfabe 100644
+--- a/drivers/gpu/drm/sti/sti_compositor.c
++++ b/drivers/gpu/drm/sti/sti_compositor.c
+@@ -145,8 +145,6 @@ static int sti_compositor_bind(struct device *dev,
+ 	}
  
- 	drm_mode_config_reset(drm_dev);
+ 	drm_vblank_init(drm_dev, crtc_id);
+-	/* Allow usage of vblank without having to call drm_irq_install */
+-	drm_dev->irq_enabled = 1;
  
--	/*
--	 * enable drm irq mode.
--	 * - with irq_enabled = true, we can use the vblank feature.
--	 */
--	drm_dev->irq_enabled = true;
--
- 	ret = rockchip_drm_fbdev_init(drm_dev);
- 	if (ret)
- 		goto err_unbind_all;
+ 	return 0;
+ }
 -- 
 2.32.0
 
