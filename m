@@ -1,78 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8662F3B2BAA
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Jun 2021 11:42:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 215A23B2BB8
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Jun 2021 11:43:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 538CA6EB45;
-	Thu, 24 Jun 2021 09:42:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 39E666EB48;
+	Thu, 24 Jun 2021 09:43:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 716AE6EB42
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Jun 2021 09:42:40 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8178D6EB42
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Jun 2021 09:43:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624527759;
+ s=mimecast20190719; t=1624527817;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jyD4vH5kMZavgg+0al23ybbW1mNcrfB3c+Wxr6kYX38=;
- b=Dg09Q1JBF1FT2yGNlpUzg5ZmMVjnOBAvUUr/3l3rEgNzCEWl6NxXAbpZOaTky7eftJRdKJ
- oLpHNwtWiHd3s5w1WybrIvw/U5xAXkcr7IYk7Yf6x3VaO8BxsZglrteqpEmK2bmTaeJjz8
- YWZIaYY8hOjiyj/sr/s0Lnv4p8Zlgy0=
+ bh=qkxHw284a/HcUQKczqJcr3hZxs0a/eNZzaMIqcieCR4=;
+ b=N2dmpoXd8h1tJ/1jVQ8EadWoXvdJ00hsKd76ingRURI7ArP7YM3OVAqgd5iCcGtLbxK3C7
+ J0rwSiQGm1W62yubsHJcsSZWAiwG+R6YTX3bMtLXDw+7oAc+B11Z/3FqYtBXdPD45Pcc9x
+ UB6haCnVbw5AnTQduuhTYeNyrGJRGKk=
 Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
  [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-421-UcvXtJnmP72q9Y35eXVUEQ-1; Thu, 24 Jun 2021 05:42:38 -0400
-X-MC-Unique: UcvXtJnmP72q9Y35eXVUEQ-1
+ us-mta-314-2JEMaw58O8OEDxINfttlDg-1; Thu, 24 Jun 2021 05:43:36 -0400
+X-MC-Unique: 2JEMaw58O8OEDxINfttlDg-1
 Received: by mail-ed1-f69.google.com with SMTP id
- y18-20020a0564022712b029038ffac1995eso3057747edd.12
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Jun 2021 02:42:37 -0700 (PDT)
+ ee28-20020a056402291cb0290394a9a0bfaeso3034793edb.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Jun 2021 02:43:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=jyD4vH5kMZavgg+0al23ybbW1mNcrfB3c+Wxr6kYX38=;
- b=TITGJtO9WqUYWnUnifMLoRCXHfdcFA12+b82ooFl0zKnclcyWIbSca9czhfNAkSQDp
- pmQspcBpw/L23optUjkkX5Zeo/R4tCH9EHuoPi5tHwAaaVuwFkzWyG9cU2oe3DAvYdOp
- GrSjHaRwD6FoTFJfFtDz4TpnA31aJFocP9eqvpNfYxWq5EGwmLDZcLQxuAdvsAz5NTvx
- kYUAM9irQd4nlUhNppXZFJ0tfaWoEU44fsPBIxB+QQ66P9sHeuZLylRi4WZUfI7tLUUm
- c68yJtZCOBjIcHk8AOIeUiOe/LKomd3UCblAWo0jIo1jkMvmoDsV02iqoBlMrKqVJymE
- BJUg==
-X-Gm-Message-State: AOAM532j+cRlaPyb3+rdJ/EEiiW93UaGYupW6rbNtkfQWoA5mpORBpkR
- RjJun6f3y0ZbEe2NNgKnxf+MINLSAPGFaZOTEgEpNS7XSb56W2iA8fUA8fu5hg3mjerMW53pYjF
- oR3WOHhqFwJzsHgLtmqXvzJq0aF8E
-X-Received: by 2002:a05:6402:54c:: with SMTP id
- i12mr5909993edx.64.1624527756959; 
- Thu, 24 Jun 2021 02:42:36 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzUADYaxbQu5a0ZM6V5UX0tysDgP0Lb+XMxpzsUfVTNQ4yl7MEG7UQrmtC4bLiXvUVljS3Ohw==
-X-Received: by 2002:a05:6402:54c:: with SMTP id
- i12mr5909945edx.64.1624527756727; 
- Thu, 24 Jun 2021 02:42:36 -0700 (PDT)
+ bh=qkxHw284a/HcUQKczqJcr3hZxs0a/eNZzaMIqcieCR4=;
+ b=pWstXkyToqPa+B/galhaeL+8sQRMsypCRH4U+XFJUQbYZkn/X+c4O913sh6TuX5i46
+ 2llPuX3WeoQBNOs01IyBpgI69YtG4bjzgEnzKdmMMu+4jiH9/M9wVTpI2EaTXsv2ZSt0
+ 7aRrrLFc67VZFJqt2gXblHD5qycPVi32zyNii9Lj+ZGS8ZsA9KFfBfeBZUUnfH0qDVcN
+ ZiqeY3xb8VR5opgWtpriSAXeOy4eVQBTqKDUUnluzaq/CgkNPj1YvZjEH1lP4LWSe+Qa
+ lVg8em26ZYQModztIiP2iiNUptnTzeKTo9o1HW7i4TD1jhpTpyfZGcyBtsP4iIWiQmvz
+ 4YeA==
+X-Gm-Message-State: AOAM530LGnnG3PB3tI7YoBHFKbPJdsckGyJTn8kZECc+C2/rjBaFQ5Bn
+ n3fKaHVaOA4srZ6Vx1cjvv1KmlG2LjRiH1Z37KpoCSQ5g5vXB01Kkxgw8k3oo578Ou/qOk9xWZz
+ 8vgzhXywhRPK02kLL0B7/3vKYNZ3d
+X-Received: by 2002:a05:6402:944:: with SMTP id
+ h4mr5798141edz.76.1624527815209; 
+ Thu, 24 Jun 2021 02:43:35 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwD6cFFU4Uspcy5dTYBfn7A0VR+4loxnlaoo/QjHY9IN1nmjQ4mSQ+4egclMkG5+RC1oGdqOg==
+X-Received: by 2002:a05:6402:944:: with SMTP id
+ h4mr5798117edz.76.1624527814999; 
+ Thu, 24 Jun 2021 02:43:34 -0700 (PDT)
 Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
  ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id jz27sm944475ejc.33.2021.06.24.02.42.34
+ by smtp.gmail.com with ESMTPSA id t17sm1544705edv.75.2021.06.24.02.43.32
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 24 Jun 2021 02:42:35 -0700 (PDT)
-Subject: Re: [PATCH 2/6] KVM: mmu: also return page from gfn_to_pfn
+ Thu, 24 Jun 2021 02:43:34 -0700 (PDT)
+Subject: Re: [PATCH 1/6] KVM: x86/mmu: release audited pfns
 To: Nicholas Piggin <npiggin@gmail.com>,
  Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
  Huacai Chen <chenhuacai@kernel.org>, Marc Zyngier <maz@kernel.org>,
  Paul Mackerras <paulus@ozlabs.org>, David Stevens <stevensd@chromium.org>,
  Zhenyu Wang <zhenyuw@linux.intel.com>, Zhi Wang <zhi.a.wang@intel.com>
 References: <20210624035749.4054934-1-stevensd@google.com>
- <20210624035749.4054934-3-stevensd@google.com>
- <1624524331.zsin3qejl9.astroid@bobo.none>
+ <20210624035749.4054934-2-stevensd@google.com>
+ <1624524156.04etgk7zmz.astroid@bobo.none>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <201b68a7-10ea-d656-0c1e-5511b1f22674@redhat.com>
-Date: Thu, 24 Jun 2021 11:42:33 +0200
+Message-ID: <4816287a-b9a9-d3f4-f844-06922d696e06@redhat.com>
+Date: Thu, 24 Jun 2021 11:43:32 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <1624524331.zsin3qejl9.astroid@bobo.none>
+In-Reply-To: <1624524156.04etgk7zmz.astroid@bobo.none>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -105,19 +105,43 @@ Cc: Wanpeng Li <wanpengli@tencent.com>, kvm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 24/06/21 10:52, Nicholas Piggin wrote:
->> For now, wrap all calls to gfn_to_pfn functions in the new helper
->> function. Callers which don't need the page struct will be updated in
->> follow-up patches.
-> Hmm. You mean callers that do need the page will be updated? Normally
-> if there will be leftover users that don't need the struct page then
-> you would go the other way and keep the old call the same, and add a new
-> one (gfn_to_pfn_page) just for those that need it.
+On 24/06/21 10:43, Nicholas Piggin wrote:
+> Excerpts from David Stevens's message of June 24, 2021 1:57 pm:
+>> From: David Stevens <stevensd@chromium.org>
+> 
+> Changelog? This looks like a bug, should it have a Fixes: tag?
 
-Needing kvm_pfn_page_unwrap is a sign that something might be buggy, so 
-it's a good idea to move the short name to the common case and the ugly 
-kvm_pfn_page_unwrap(gfn_to_pfn(...)) for the weird one.  In fact I'm not 
-sure there should be any kvm_pfn_page_unwrap in the end.
+Probably has been there forever... The best way to fix the bug would be 
+to nuke mmu_audit.c, which I've threatened to do many times but never 
+followed up on.
 
 Paolo
+
+> Thanks,
+> Nick
+> 
+>>
+>> Signed-off-by: David Stevens <stevensd@chromium.org>
+>> ---
+>>   arch/x86/kvm/mmu/mmu_audit.c | 2 ++
+>>   1 file changed, 2 insertions(+)
+>>
+>> diff --git a/arch/x86/kvm/mmu/mmu_audit.c b/arch/x86/kvm/mmu/mmu_audit.c
+>> index cedc17b2f60e..97ff184084b4 100644
+>> --- a/arch/x86/kvm/mmu/mmu_audit.c
+>> +++ b/arch/x86/kvm/mmu/mmu_audit.c
+>> @@ -121,6 +121,8 @@ static void audit_mappings(struct kvm_vcpu *vcpu, u64 *sptep, int level)
+>>   		audit_printk(vcpu->kvm, "levels %d pfn %llx hpa %llx "
+>>   			     "ent %llxn", vcpu->arch.mmu->root_level, pfn,
+>>   			     hpa, *sptep);
+>> +
+>> +	kvm_release_pfn_clean(pfn);
+>>   }
+>>   
+>>   static void inspect_spte_has_rmap(struct kvm *kvm, u64 *sptep)
+>> -- 
+>> 2.32.0.93.g670b81a890-goog
+>>
+>>
+> 
 
