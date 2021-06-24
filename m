@@ -2,63 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C7893B291D
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Jun 2021 09:30:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 200A63B291A
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Jun 2021 09:30:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4155D6EA92;
-	Thu, 24 Jun 2021 07:29:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B2736EA43;
+	Thu, 24 Jun 2021 07:29:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 519FC6EA79;
- Thu, 24 Jun 2021 07:29:33 +0000 (UTC)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E7876EA8F;
+ Thu, 24 Jun 2021 07:29:34 +0000 (UTC)
 Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
  (using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 002CC1FD6C;
- Thu, 24 Jun 2021 07:29:31 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 2B58421982;
+ Thu, 24 Jun 2021 07:29:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1624519772; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1624519773; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SLzKsIZA1d52/kbw8dyxn4baJfnhn8GvqO/eIvChuCE=;
- b=0xFk8NimM1qqvzap0A70kc2hRAkvng7iD8kaq7UaXBIvcTrEnLcPdQymTn/GQBIPBGGLtB
- QwRNLkqmfHLpvLvZ8HIJZlu/pEcFN4duztgdkADc4PKIiGIxy+syH3UtmgNB21XtJmHPuZ
- v4u2l1EtDH4lZ85UHqwJ8mnhHQVVEeA=
+ bh=UO6k9K3tdxXVOPCiQ2BE2Bm1K+UEKxtn2PzLQZkgDms=;
+ b=fXNyTjuC+71DNsmaCMCEzC0vccSCC3y4MAJhGwhF5COrYdXjmTLoakr9Us5Zou7vsx9Hbk
+ Zg7/XCJ8lESsKeI0ebPS55Ji7Q5Jfx1hVXOxXpkIKqSMZ0DzMOVYlaMrKslvK3/635cvkH
+ M2dCfrYqOc4mqvTZyLj3htANrQIisT0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1624519772;
+ s=susede2_ed25519; t=1624519773;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SLzKsIZA1d52/kbw8dyxn4baJfnhn8GvqO/eIvChuCE=;
- b=jtxWilsW1MyGCBaGYcGGm/G4Xi/Bu0lVnJb4eKCF1igZVNgipe1gEocD9hjdjU7kkjj4JP
- gLbA8EoREdaR/dBA==
+ bh=UO6k9K3tdxXVOPCiQ2BE2Bm1K+UEKxtn2PzLQZkgDms=;
+ b=aVFyaEOzRuXSZEIJlapVgpwtSmf2hZG/+2qm1zBUiRM6VSbSB28t5jA79wqtmgR5UNlKt8
+ 9CXAEfzJHSmdveDg==
 Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
- by imap.suse.de (Postfix) with ESMTP id D120611A97;
- Thu, 24 Jun 2021 07:29:30 +0000 (UTC)
+ by imap.suse.de (Postfix) with ESMTP id 0532E11C9B;
+ Thu, 24 Jun 2021 07:29:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1624519771; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1624519773; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SLzKsIZA1d52/kbw8dyxn4baJfnhn8GvqO/eIvChuCE=;
- b=K3ZdIvurRTsc8lq9wXYtYTilULrFC5SFtwfJhELDy917Pv/10E0YJWYVE+GfHUlUr21Gcz
- MAEs7775s50Uyt29dQRNjchWeSSgVhhKsPyVfUeS2TFZP5/ZiowSUk0wINXhLvQ58s/eny
- 5ldT0xeXLSJdlDKF2URMCrtOdxPagGU=
+ bh=UO6k9K3tdxXVOPCiQ2BE2Bm1K+UEKxtn2PzLQZkgDms=;
+ b=fXNyTjuC+71DNsmaCMCEzC0vccSCC3y4MAJhGwhF5COrYdXjmTLoakr9Us5Zou7vsx9Hbk
+ Zg7/XCJ8lESsKeI0ebPS55Ji7Q5Jfx1hVXOxXpkIKqSMZ0DzMOVYlaMrKslvK3/635cvkH
+ M2dCfrYqOc4mqvTZyLj3htANrQIisT0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1624519771;
+ s=susede2_ed25519; t=1624519773;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SLzKsIZA1d52/kbw8dyxn4baJfnhn8GvqO/eIvChuCE=;
- b=oUCdrmVRbMo74mrhDbmtRcA0XdSv73+pFJttH3kbfvkP/Hq4DHKY4A9oR6T3g5K9Dz8ppc
- y7FY+iO0apBC3xBg==
+ bh=UO6k9K3tdxXVOPCiQ2BE2Bm1K+UEKxtn2PzLQZkgDms=;
+ b=aVFyaEOzRuXSZEIJlapVgpwtSmf2hZG/+2qm1zBUiRM6VSbSB28t5jA79wqtmgR5UNlKt8
+ 9CXAEfzJHSmdveDg==
 Received: from director2.suse.de ([192.168.254.72]) by imap3-int with ESMTPSA
- id 4KEjMlo01GAJfwAALh3uQQ
- (envelope-from <tzimmermann@suse.de>); Thu, 24 Jun 2021 07:29:30 +0000
+ id sCVrAFw01GAJfwAALh3uQQ
+ (envelope-from <tzimmermann@suse.de>); Thu, 24 Jun 2021 07:29:32 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch, airlied@linux.ie, alexander.deucher@amd.com,
  christian.koenig@amd.com, Xinhui.Pan@amd.com, james.qian.wang@arm.com,
@@ -83,9 +83,9 @@ To: daniel@ffwll.ch, airlied@linux.ie, alexander.deucher@amd.com,
  rodrigo.vivi@intel.com, linux@armlinux.org.uk,
  kieran.bingham+renesas@ideasonboard.com, rodrigosiqueiramelo@gmail.com,
  melissa.srw@gmail.com, hamohammed.sa@gmail.com
-Subject: [PATCH v3 10/27] drm/kirin: Don't set struct drm_device.irq_enabled
-Date: Thu, 24 Jun 2021 09:28:59 +0200
-Message-Id: <20210624072916.27703-11-tzimmermann@suse.de>
+Subject: [PATCH v3 11/27] drm/imx: Don't set struct drm_device.irq_enabled
+Date: Thu, 24 Jun 2021 09:29:00 +0200
+Message-Id: <20210624072916.27703-12-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210624072916.27703-1-tzimmermann@suse.de>
 References: <20210624072916.27703-1-tzimmermann@suse.de>
@@ -114,28 +114,40 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 The field drm_device.irq_enabled is only used by legacy drivers
-with userspace modesetting. Don't set it in kirin.
+with userspace modesetting. Don't set it in imx.
+
+v3:
+	* move dcss changes into separate patch (Laurentiu)
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 ---
- drivers/gpu/drm/hisilicon/kirin/kirin_drm_drv.c | 2 --
- 1 file changed, 2 deletions(-)
+ drivers/gpu/drm/imx/imx-drm-core.c | 11 -----------
+ 1 file changed, 11 deletions(-)
 
-diff --git a/drivers/gpu/drm/hisilicon/kirin/kirin_drm_drv.c b/drivers/gpu/drm/hisilicon/kirin/kirin_drm_drv.c
-index e590e19db657..98ae9a48f3fe 100644
---- a/drivers/gpu/drm/hisilicon/kirin/kirin_drm_drv.c
-+++ b/drivers/gpu/drm/hisilicon/kirin/kirin_drm_drv.c
-@@ -185,8 +185,6 @@ static int kirin_drm_kms_init(struct drm_device *dev,
- 		DRM_ERROR("failed to initialize vblank.\n");
- 		goto err_unbind_all;
- 	}
--	/* with irq_enabled = true, we can use the vblank feature. */
--	dev->irq_enabled = true;
+diff --git a/drivers/gpu/drm/imx/imx-drm-core.c b/drivers/gpu/drm/imx/imx-drm-core.c
+index 76819a8ac37f..9558e9e1b431 100644
+--- a/drivers/gpu/drm/imx/imx-drm-core.c
++++ b/drivers/gpu/drm/imx/imx-drm-core.c
+@@ -207,17 +207,6 @@ static int imx_drm_bind(struct device *dev)
+ 	if (IS_ERR(drm))
+ 		return PTR_ERR(drm);
  
- 	/* reset all the states of crtc/plane/encoder/connector */
- 	drm_mode_config_reset(dev);
+-	/*
+-	 * enable drm irq mode.
+-	 * - with irq_enabled = true, we can use the vblank feature.
+-	 *
+-	 * P.S. note that we wouldn't use drm irq handler but
+-	 *      just specific driver own one instead because
+-	 *      drm framework supports only one irq handler and
+-	 *      drivers can well take care of their interrupts
+-	 */
+-	drm->irq_enabled = true;
+-
+ 	/*
+ 	 * set max width and height as default value(4096x4096).
+ 	 * this value would be used to check framebuffer size limitation
 -- 
 2.32.0
 
