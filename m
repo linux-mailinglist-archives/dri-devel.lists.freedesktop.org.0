@@ -2,94 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56CB03B2A53
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Jun 2021 10:29:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FD353B2A60
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Jun 2021 10:31:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C9CD76EA88;
-	Thu, 24 Jun 2021 08:29:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B8A66EABF;
+	Thu, 24 Jun 2021 08:30:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A932E6E9E5;
- Thu, 24 Jun 2021 08:29:02 +0000 (UTC)
-Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
- (using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id F29331FD6B;
- Thu, 24 Jun 2021 08:29:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1624523341; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=0L5nz5bVnzlvJV0RjY8gCyLPBlQHqLtg4oioZgDj7sE=;
- b=H47JB6rfcTZrnBwfDErNXWaKzTNfBpYnmnio3CIpCf8t3632jgCaxwzRMuz/mdYp9Yz/ao
- XSsgx7UAK+VYhayo4uFpTyl/3X8uoFfqI08rv4ZeVShxNVAAOQlTrHJrmV0DfbOJNybTYR
- PultKHLRqSOLL93gXfamRbzfV6CrU1E=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1624523341;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=0L5nz5bVnzlvJV0RjY8gCyLPBlQHqLtg4oioZgDj7sE=;
- b=VGe9rG6so5c34BqO1pSCopzOeVyTNgfweNOXlBZdbQ53I4/7QT/vY1xqauJkC9BafqA9j+
- S6Kg5u/bUT8FLqDw==
-Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
- by imap.suse.de (Postfix) with ESMTP id BFDDD11A97;
- Thu, 24 Jun 2021 08:28:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1624523340; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=0L5nz5bVnzlvJV0RjY8gCyLPBlQHqLtg4oioZgDj7sE=;
- b=rfyPFlnrx0gMc6BzpqKzRr4E3RL5MMa6uTkl3g1ggRTmxlP/GEjI3N6ZCDgG/PSEW4V9I0
- CC9jy4Fmuhh7S49OTyfzuUHxDuNa2tvtlWT3wAA3WMrsIHEFs9k1tZdMvnRFdCnsdtksqQ
- RICsUBNTluOuPynz67gyFio3iP0eMNA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1624523340;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=0L5nz5bVnzlvJV0RjY8gCyLPBlQHqLtg4oioZgDj7sE=;
- b=wgWw5+iHWQ5qv3h7jV7wxXmyKHYRMe8CDc7lR0BDGQmqx/Do4XbDkNVtHpd2XiGqlnj6YX
- 1A74dssIJKaSWNBw==
-Received: from director2.suse.de ([192.168.254.72]) by imap3-int with ESMTPSA
- id zwiRLUtC1GBNIQAALh3uQQ
- (envelope-from <tzimmermann@suse.de>); Thu, 24 Jun 2021 08:28:59 +0000
-Subject: Re: [PATCH v3 04/27] drm: Don't test for IRQ support in VBLANK ioctls
-To: Jani Nikula <jani.nikula@linux.intel.com>, daniel@ffwll.ch,
- airlied@linux.ie, alexander.deucher@amd.com, christian.koenig@amd.com,
- Xinhui.Pan@amd.com, james.qian.wang@arm.com, liviu.dudau@arm.com,
- mihail.atanassov@arm.com, brian.starkey@arm.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, inki.dae@samsung.com,
- jy0922.shim@samsung.com, sw0312.kim@samsung.com, kyungmin.park@samsung.com,
- krzysztof.kozlowski@canonical.com, xinliang.liu@linaro.org,
- tiantao6@hisilicon.com, john.stultz@linaro.org,
- kong.kongxinwei@hisilicon.com, puck.chen@hisilicon.com,
- laurentiu.palcu@oss.nxp.com, l.stach@pengutronix.de, p.zabel@pengutronix.de,
- shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
- festevam@gmail.com, linux-imx@nxp.com, chunkuang.hu@kernel.org,
- matthias.bgg@gmail.com, bskeggs@redhat.com, tomba@kernel.org,
- hjc@rock-chips.com, heiko@sntech.de, benjamin.gaignard@linaro.org,
- yannick.fertre@foss.st.com, philippe.cornu@foss.st.com,
- mcoquelin.stm32@gmail.com, alexandre.torgue@foss.st.com, wens@csie.org,
- jernej.skrabec@gmail.com, thierry.reding@gmail.com, jonathanh@nvidia.com,
- jyri.sarha@iki.fi, emma@anholt.net, linux-graphics-maintainer@vmware.com,
- zackr@vmware.com, hyun.kwon@xilinx.com, laurent.pinchart@ideasonboard.com,
- michal.simek@xilinx.com, rodrigo.vivi@intel.com, linux@armlinux.org.uk,
- kieran.bingham+renesas@ideasonboard.com, rodrigosiqueiramelo@gmail.com,
- melissa.srw@gmail.com, hamohammed.sa@gmail.com
-References: <20210624072916.27703-1-tzimmermann@suse.de>
- <20210624072916.27703-5-tzimmermann@suse.de> <87im23u1ok.fsf@intel.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <b5e7729f-ed11-e9ca-386e-562feb2bd2b7@suse.de>
-Date: Thu, 24 Jun 2021 10:28:59 +0200
+Received: from youngberry.canonical.com (youngberry.canonical.com
+ [91.189.89.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 23DC66EABF
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Jun 2021 08:30:57 +0000 (UTC)
+Received: from mail-ej1-f71.google.com ([209.85.218.71])
+ by youngberry.canonical.com with esmtps (TLS1.2) tls
+ TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.93)
+ (envelope-from <krzysztof.kozlowski@canonical.com>)
+ id 1lwKlD-0005Il-Gk
+ for dri-devel@lists.freedesktop.org; Thu, 24 Jun 2021 08:30:55 +0000
+Received: by mail-ej1-f71.google.com with SMTP id
+ u4-20020a1709061244b02904648b302151so1713662eja.17
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Jun 2021 01:30:55 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=FWf1/8cps0f2orI5AbiDd3FTEBu65FvivubU0HnKemc=;
+ b=fTUzwOQkfk6bC0mIhYrAORzHJ5zghUNq86P8zAl6vBQsdYZC/qYhX/Z/aJmHcu/ymo
+ ES5cm7Fg2zxqwj4lpDiVS+gCVc3OzV9jDvi7HbviZOXDNmR0VrQ4EDAv3iBKAtgm5laH
+ xz++zFXWPsmCr8CGZXCxeMv80LqIJyawahhheWk9OsraDU9ki7IMl+yFjNYWpzuwdpjt
+ N43KTwVcw8NVOfkJCChNAuuZlNUbXl3B8SegbSYMzNaS/N1ox7nw4z1/6ae8b5PhgAZE
+ mndFDiIxbgwsPHjMGvSukktqM/03rc1sEMF9kvsgD95/hqHSfddke5FGESCptAEzvM8+
+ UdeQ==
+X-Gm-Message-State: AOAM533xSayGGCNHtalKeqCIHkdGYszCUbOiOsgC444rfHGDuFOBMmZ4
+ KOiGpMmDypssy6VJvKSaQRukpHnUeDYn4uGVywAtd8mLth0iGBMuRxVOgpGGdjYOPNAkNJWCJSW
+ WW74pRQRBR4syZlAgsyfl54sTui8RiOaVZNS110fwWsVSYQ==
+X-Received: by 2002:a17:906:dbd5:: with SMTP id
+ yc21mr4064962ejb.233.1624523455180; 
+ Thu, 24 Jun 2021 01:30:55 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyE9NG70Q0R7WlldJgiju8y4R6tNhr+XdnWHXcuF262S4ipiZ1rkQiFP2aNPfY2SEkDu6zFjg==
+X-Received: by 2002:a17:906:dbd5:: with SMTP id
+ yc21mr4064931ejb.233.1624523455018; 
+ Thu, 24 Jun 2021 01:30:55 -0700 (PDT)
+Received: from [192.168.1.115] (xdsl-188-155-177-222.adslplus.ch.
+ [188.155.177.222])
+ by smtp.gmail.com with ESMTPSA id a3sm1417424edu.61.2021.06.24.01.30.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 24 Jun 2021 01:30:54 -0700 (PDT)
+Subject: Re: [RFC PATCH 2/9] drm: bridge: Add Samsung SEC MIPI DSIM bridge
+ driver
+To: Fabio Estevam <festevam@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Michael Tretter <m.tretter@pengutronix.de>
+References: <20210621072424.111733-1-jagan@amarulasolutions.com>
+ <20210621072424.111733-3-jagan@amarulasolutions.com>
+ <YNO0LHNVSWjrh1ZS@pendragon.ideasonboard.com>
+ <CAOMZO5Ahbu4mohtMDOQOv_y5B_TDesbdYEUZTF1RL7_y-bS+RA@mail.gmail.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+Message-ID: <2decfea3-3659-2a3b-7706-326c97f57f8e@canonical.com>
+Date: Thu, 24 Jun 2021 10:30:53 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <87im23u1ok.fsf@intel.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="XeS7eJ5JPg7IwjZ7mWHplNVbGBiq1dAM5"
+In-Reply-To: <CAOMZO5Ahbu4mohtMDOQOv_y5B_TDesbdYEUZTF1RL7_y-bS+RA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,290 +80,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc@vger.kernel.org, nouveau@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-rockchip@lists.infradead.org,
- linux-mediatek@lists.infradead.org, amd-gfx@lists.freedesktop.org,
- Daniel Vetter <daniel.vetter@ffwll.ch>, linux-tegra@vger.kernel.org,
- linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Cc: DRI mailing list <dri-devel@lists.freedesktop.org>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Peng Fan <peng.fan@nxp.com>,
+ Francis Laniel <francis.laniel@amarulasolutions.com>,
+ Matteo Lisi <matteo.lisi@engicam.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, Shawn Guo <shawnguo@kernel.org>,
+ Tomasz Figa <t.figa@samsung.com>, linux-kernel <linux-kernel@vger.kernel.org>,
+ Robert Foss <robert.foss@linaro.org>, Andrzej Hajda <a.hajda@samsung.com>,
+ Jagan Teki <jagan@amarulasolutions.com>,
+ Milco Pratesi <milco.pratesi@engicam.com>,
+ Anthony Brandon <anthony@amarulasolutions.com>, linux-phy@lists.infradead.org,
+ Fancy Fang <chen.fang@nxp.com>,
+ linux-amarula <linux-amarula@amarulasolutions.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
+ <linux-arm-kernel@lists.infradead.org>, NXP Linux Team <linux-imx@nxp.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---XeS7eJ5JPg7IwjZ7mWHplNVbGBiq1dAM5
-Content-Type: multipart/mixed; boundary="zYjFVN6LbQJto7YyRvmktHhbjS3oGNxBZ";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Jani Nikula <jani.nikula@linux.intel.com>, daniel@ffwll.ch,
- airlied@linux.ie, alexander.deucher@amd.com, christian.koenig@amd.com,
- Xinhui.Pan@amd.com, james.qian.wang@arm.com, liviu.dudau@arm.com,
- mihail.atanassov@arm.com, brian.starkey@arm.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, inki.dae@samsung.com,
- jy0922.shim@samsung.com, sw0312.kim@samsung.com, kyungmin.park@samsung.com,
- krzysztof.kozlowski@canonical.com, xinliang.liu@linaro.org,
- tiantao6@hisilicon.com, john.stultz@linaro.org,
- kong.kongxinwei@hisilicon.com, puck.chen@hisilicon.com,
- laurentiu.palcu@oss.nxp.com, l.stach@pengutronix.de, p.zabel@pengutronix.de,
- shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
- festevam@gmail.com, linux-imx@nxp.com, chunkuang.hu@kernel.org,
- matthias.bgg@gmail.com, bskeggs@redhat.com, tomba@kernel.org,
- hjc@rock-chips.com, heiko@sntech.de, benjamin.gaignard@linaro.org,
- yannick.fertre@foss.st.com, philippe.cornu@foss.st.com,
- mcoquelin.stm32@gmail.com, alexandre.torgue@foss.st.com, wens@csie.org,
- jernej.skrabec@gmail.com, thierry.reding@gmail.com, jonathanh@nvidia.com,
- jyri.sarha@iki.fi, emma@anholt.net, linux-graphics-maintainer@vmware.com,
- zackr@vmware.com, hyun.kwon@xilinx.com, laurent.pinchart@ideasonboard.com,
- michal.simek@xilinx.com, rodrigo.vivi@intel.com, linux@armlinux.org.uk,
- kieran.bingham+renesas@ideasonboard.com, rodrigosiqueiramelo@gmail.com,
- melissa.srw@gmail.com, hamohammed.sa@gmail.com
-Cc: linux-samsung-soc@vger.kernel.org, nouveau@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-sunxi@lists.linux.dev, linux-rockchip@lists.infradead.org,
- linux-mediatek@lists.infradead.org, amd-gfx@lists.freedesktop.org,
- Daniel Vetter <daniel.vetter@ffwll.ch>, linux-tegra@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org
-Message-ID: <b5e7729f-ed11-e9ca-386e-562feb2bd2b7@suse.de>
-Subject: Re: [PATCH v3 04/27] drm: Don't test for IRQ support in VBLANK ioctls
-References: <20210624072916.27703-1-tzimmermann@suse.de>
- <20210624072916.27703-5-tzimmermann@suse.de> <87im23u1ok.fsf@intel.com>
-In-Reply-To: <87im23u1ok.fsf@intel.com>
+On 24/06/2021 04:48, Fabio Estevam wrote:
+> Hi Jagan/Laurent,
+> 
+> On Wed, Jun 23, 2021 at 7:23 PM Laurent Pinchart
+> <laurent.pinchart@ideasonboard.com> wrote:
+> 
+>> Looking at the register set, it seems to match the Exynos 5433,
+>> supported by drivers/gpu/drm/exynos/exynos_drm_dsi.c. Can we leverage
+>> that driver instead of adding a new one for the same IP core ?
+> 
+> Yes. there was an attempt from Michael in this direction:
+> https://patchwork.kernel.org/project/dri-devel/cover/20200911135413.3654800-1-m.tretter@pengutronix.de/
 
---zYjFVN6LbQJto7YyRvmktHhbjS3oGNxBZ
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-Hi
-
-Am 24.06.21 um 10:06 schrieb Jani Nikula:
-> On Thu, 24 Jun 2021, Thomas Zimmermann <tzimmermann@suse.de> wrote:
->> For KMS drivers, replace the IRQ check in VBLANK ioctls with a check f=
-or
->> vblank support. IRQs might be enabled wthout vblanking being supported=
-=2E
->>
->> This change also removes the DRM framework's only dependency on IRQ st=
-ate
->> for non-legacy drivers. For legacy drivers with userspace modesetting,=
-
->> the original test remains in drm_wait_vblank_ioctl().
->>
->> v3:
->> 	* optimize test in drm_wait_vblank_ioctl() for KMS case (Liviu)
->> 	* update docs for drm_irq_uninstall()
->> v2:
->> 	* keep the old test for legacy drivers in
->> 	  drm_wait_vblank_ioctl() (Daniel)
->>
->> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->> Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
->> ---
->>   drivers/gpu/drm/drm_irq.c    | 13 ++++---------
->>   drivers/gpu/drm/drm_vblank.c | 16 ++++++++++++----
->>   2 files changed, 16 insertions(+), 13 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/drm_irq.c b/drivers/gpu/drm/drm_irq.c
->> index c3bd664ea733..945dd82e2ea3 100644
->> --- a/drivers/gpu/drm/drm_irq.c
->> +++ b/drivers/gpu/drm/drm_irq.c
->> @@ -74,10 +74,8 @@
->>    * only supports devices with a single interrupt on the main device =
-stored in
->>    * &drm_device.dev and set as the device paramter in drm_dev_alloc()=
-=2E
->>    *
->> - * These IRQ helpers are strictly optional. Drivers which roll their =
-own only
->> - * need to set &drm_device.irq_enabled to signal the DRM core that vb=
-lank
->> - * interrupts are working. Since these helpers don't automatically cl=
-ean up the
->> - * requested interrupt like e.g. devm_request_irq() they're not reall=
-y
->> + * These IRQ helpers are strictly optional. Since these helpers don't=
- automatically
->> + * clean up the requested interrupt like e.g. devm_request_irq() they=
-'re not really
->>    * recommended.
->>    */
->>  =20
->> @@ -91,9 +89,7 @@
->>    * and after the installation.
->>    *
->>    * This is the simplified helper interface provided for drivers with=
- no special
->> - * needs. Drivers which need to install interrupt handlers for multip=
-le
->> - * interrupts must instead set &drm_device.irq_enabled to signal the =
-DRM core
->> - * that vblank interrupts are available.
->> + * needs.
->>    *
->>    * @irq must match the interrupt number that would be passed to requ=
-est_irq(),
->>    * if called directly instead of using this helper function.
->> @@ -156,8 +152,7 @@ EXPORT_SYMBOL(drm_irq_install);
->>    *
->>    * Calls the driver's &drm_driver.irq_uninstall function and unregis=
-ters the IRQ
->>    * handler.  This should only be called by drivers which used drm_ir=
-q_install()
->> - * to set up their interrupt handler. Other drivers must only reset
->> - * &drm_device.irq_enabled to false.
->> + * to set up their interrupt handler.
->>    *
->>    * Note that for kernel modesetting drivers it is a bug if this func=
-tion fails.
->>    * The sanity checks are only to catch buggy user modesetting driver=
-s which call
->> diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank=
-=2Ec
->> index 3417e1ac7918..10fe16bafcb6 100644
->> --- a/drivers/gpu/drm/drm_vblank.c
->> +++ b/drivers/gpu/drm/drm_vblank.c
->> @@ -1748,8 +1748,16 @@ int drm_wait_vblank_ioctl(struct drm_device *de=
-v, void *data,
->>   	unsigned int pipe_index;
->>   	unsigned int flags, pipe, high_pipe;
->>  =20
->> -	if (!dev->irq_enabled)
->> -		return -EOPNOTSUPP;
->> +#if defined(CONFIG_DRM_LEGACY)
->> +	if  (unlikely(drm_core_check_feature(dev, DRIVER_LEGACY))) {
->> +		if (!dev->irq_enabled)
->> +			return -EOPNOTSUPP;
->> +	} else /* if DRIVER_MODESET */
->> +#endif
->> +	{
->> +		if (!drm_dev_has_vblank(dev))
->> +			return -EOPNOTSUPP;
->> +	}
->=20
-> Sheesh I hate this kind of inline #ifdefs.
->=20
-> Two alternate suggestions that I believe should be as just efficient:
-
-Or how about:
-
-static bool drm_wait_vblank_supported(struct drm_device *dev)
-
-{
-
-if defined(CONFIG_DRM_LEGACY)
-	if  (unlikely(drm_core_check_feature(dev, DRIVER_LEGACY)))
-
-		return dev->irq_enabled;
-
-#endif
-	return drm_dev_has_vblank(dev);
-
-}
+That's the proper direction (maybe as Marek suggested - sharing common
+code like for Analogix DP), not duplicating a driver.
 
 
-?
-
-It's inline, but still readable.
-
-Best regards
-Thomas
-
->=20
-> 1) The more verbose:
->=20
-> #if defined(CONFIG_DRM_LEGACY)
-> static bool drm_wait_vblank_supported(struct drm_device *dev)
-> {
-> 	if  (unlikely(drm_core_check_feature(dev, DRIVER_LEGACY)))
-> 		return dev->irq_enabled;
-> 	else
-> 		return drm_dev_has_vblank(dev);
-> }
-> #else
-> static bool drm_wait_vblank_supported(struct drm_device *dev)
-> {
-> 	return drm_dev_has_vblank(dev);
-> }
-> #endif
->=20
-> 2) The more compact:
->=20
-> static bool drm_wait_vblank_supported(struct drm_device *dev)
-> {
-> 	if  (IS_ENABLED(CONFIG_DRM_LEGACY) && unlikely(drm_core_check_feature(=
-dev, DRIVER_LEGACY)))
-> 		return dev->irq_enabled;
-> 	else
-> 		return drm_dev_has_vblank(dev);
-> }
->=20
-> Then, in drm_wait_vblank_ioctl().
->=20
-> 	if (!drm_wait_vblank_supported(dev))
-> 		return -EOPNOTSUPP;
->=20
-> The compiler should do the right thing without any explicit inline
-> keywords etc.
->=20
-> BR,
-> Jani.
->=20
->>  =20
->>   	if (vblwait->request.type & _DRM_VBLANK_SIGNAL)
->>   		return -EINVAL;
->> @@ -2023,7 +2031,7 @@ int drm_crtc_get_sequence_ioctl(struct drm_devic=
-e *dev, void *data,
->>   	if (!drm_core_check_feature(dev, DRIVER_MODESET))
->>   		return -EOPNOTSUPP;
->>  =20
->> -	if (!dev->irq_enabled)
->> +	if (!drm_dev_has_vblank(dev))
->>   		return -EOPNOTSUPP;
->>  =20
->>   	crtc =3D drm_crtc_find(dev, file_priv, get_seq->crtc_id);
->> @@ -2082,7 +2090,7 @@ int drm_crtc_queue_sequence_ioctl(struct drm_dev=
-ice *dev, void *data,
->>   	if (!drm_core_check_feature(dev, DRIVER_MODESET))
->>   		return -EOPNOTSUPP;
->>  =20
->> -	if (!dev->irq_enabled)
->> +	if (!drm_dev_has_vblank(dev))
->>   		return -EOPNOTSUPP;
->>  =20
->>   	crtc =3D drm_crtc_find(dev, file_priv, queue_seq->crtc_id);
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---zYjFVN6LbQJto7YyRvmktHhbjS3oGNxBZ--
-
---XeS7eJ5JPg7IwjZ7mWHplNVbGBiq1dAM5
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmDUQksFAwAAAAAACgkQlh/E3EQov+CO
-tBAAscKEApzwALsL/afbcm5uKvx5iVv2dEDtvThHqwM/vLySjYR97Sf8prBBklUa9XgOJYT3X8rC
-c0t3Uzq4+VIxvZIKgYydECvLfVRwq2MJXr3y5SxsFVA1GpH0kfHj0hoXjy5PINp3GJQReIlvReTd
-OmKzv5fejYkixYbEmJcn/TMilZvcevMrgBTOybnVAoC37xDEochnf9GmoofpS5HnSuGFucNn+Wqv
-REeGPKDeGDFyQHtGxv4vjsFqoJSiqWtQUemnQhuTeeZoPUbxDXU6sR77LDz/S3mmTDOmCPC8IFn1
-/J+8HVQi1UJLew7unH7VVMbsIzhJs08qaebBl5uWcW2qElDlKIKShgCMmp1DhkmlVaUFoWeomP6R
-DYL9GXnrbQ81rcOFipoZd/MYhO0F7TtLufsHBJ2t3KOwTYfLwXkF7NCwU7Sb/ABG+WcVFIW47I9s
-qwtU3BXWIy2bp19c3bqCc4HX6+V847yKXSa5k6ZMy9KaraKlFtymY/fmDGwEhprS2DPM0VIl0qg7
-yU0usq5cMV5Y9uREDDb3TFT1j+8HvvA0Ghm9dnhzYc9OAl44HtGp1pVaRFq/FL8Q4mG7fdeY8cSv
-Yv9Eq4DU8xhTmGJfJa5lM6MgIL0Xc9Pkni9cetDt8+WTRgcNZqcfFYIF0+M99NEvfuoboHNBTcXJ
-qWc=
-=qKXa
------END PGP SIGNATURE-----
-
---XeS7eJ5JPg7IwjZ7mWHplNVbGBiq1dAM5--
+Best regards,
+Krzysztof
