@@ -1,36 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46F4F3B27CF
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Jun 2021 08:48:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 536A53B27A4
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Jun 2021 08:48:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C53C6EA22;
-	Thu, 24 Jun 2021 06:47:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3DBB96EA0B;
+	Thu, 24 Jun 2021 06:47:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9AC4B6EA01;
- Thu, 24 Jun 2021 06:47:30 +0000 (UTC)
-IronPort-SDR: 57haFOq8iUv1AW+ntokm/kEVJJ2NJ5iFCbytMmFKETJAL74AXML9nOxtnTZFtgtc2mXQSNsO6V
- ndOQ+WvrP73g==
-X-IronPort-AV: E=McAfee;i="6200,9189,10024"; a="207346762"
-X-IronPort-AV: E=Sophos;i="5.83,295,1616482800"; d="scan'208";a="207346762"
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0BBA96E9F6;
+ Thu, 24 Jun 2021 06:47:29 +0000 (UTC)
+IronPort-SDR: swaXW+aVot4LBJN4HMo1K22IW5QweIk30xK/nkhx96MEfMCEjcrUgZoLZYh0zlkFMhBAiJOZBD
+ qCxk8LXmfUtg==
+X-IronPort-AV: E=McAfee;i="6200,9189,10024"; a="293039164"
+X-IronPort-AV: E=Sophos;i="5.83,295,1616482800"; d="scan'208";a="293039164"
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  23 Jun 2021 23:47:26 -0700
-IronPort-SDR: lIG7lEmQye0rdEaph7a6C4XToeVUyGRB37NoeWoOh6ZHatauB6eacQ3UvvyZlXDW5Ln0FTPE39
- OhxjEQ1WAj0A==
-X-IronPort-AV: E=Sophos;i="5.83,295,1616482800"; d="scan'208";a="556390932"
+IronPort-SDR: +O1puhFMBYZeeS1pLSp4H3EMD7GYEx1zJEIUxKBWYLDq+UzEL8ilfbfhBU3fR/ZUjKl0Rmcs+3
+ df8AIvoFtPtw==
+X-IronPort-AV: E=Sophos;i="5.83,295,1616482800"; d="scan'208";a="556390935"
 Received: from dhiatt-server.jf.intel.com ([10.54.81.3])
  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  23 Jun 2021 23:47:25 -0700
 From: Matthew Brost <matthew.brost@intel.com>
 To: <intel-gfx@lists.freedesktop.org>,
 	<dri-devel@lists.freedesktop.org>
-Subject: [PATCH 23/47] drm/i915/guc: Update GuC debugfs to support new GuC
-Date: Thu, 24 Jun 2021 00:04:52 -0700
-Message-Id: <20210624070516.21893-24-matthew.brost@intel.com>
+Subject: [PATCH 24/47] drm/i915/guc: Add several request trace points
+Date: Thu, 24 Jun 2021 00:04:53 -0700
+Message-Id: <20210624070516.21893-25-matthew.brost@intel.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20210624070516.21893-1-matthew.brost@intel.com>
 References: <20210624070516.21893-1-matthew.brost@intel.com>
@@ -52,211 +52,130 @@ Cc: daniele.ceraolospurio@intel.com, john.c.harrison@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Update GuC debugfs to support the new GuC structures.
+Add trace points for request dependencies and GuC submit. Extended
+existing request trace points to include submit fence value,, guc_id,
+and ring tail value.
 
-Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+Cc: John Harrison <john.c.harrison@intel.com>
 Signed-off-by: Matthew Brost <matthew.brost@intel.com>
 ---
- drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c     | 22 ++++++++
- drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h     |  3 ++
- .../gpu/drm/i915/gt/uc/intel_guc_debugfs.c    | 23 +++++++-
- .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 52 +++++++++++++++++++
- .../gpu/drm/i915/gt/uc/intel_guc_submission.h |  4 ++
- drivers/gpu/drm/i915/i915_debugfs.c           |  1 +
- 6 files changed, 104 insertions(+), 1 deletion(-)
+ .../gpu/drm/i915/gt/uc/intel_guc_submission.c |  3 ++
+ drivers/gpu/drm/i915/i915_request.c           |  3 ++
+ drivers/gpu/drm/i915/i915_trace.h             | 39 ++++++++++++++++++-
+ 3 files changed, 43 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-index e0f92e28350c..4ed074df88e5 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-@@ -1135,3 +1135,25 @@ void intel_guc_ct_event_handler(struct intel_guc_ct *ct)
- 
- 	ct_try_receive_message(ct);
- }
-+
-+void intel_guc_log_ct_info(struct intel_guc_ct *ct,
-+			   struct drm_printer *p)
-+{
-+	if (!ct->enabled) {
-+		drm_puts(p, "CT disabled\n");
-+		return;
-+	}
-+
-+	drm_printf(p, "H2G Space: %u\n",
-+		   atomic_read(&ct->ctbs.send.space) * 4);
-+	drm_printf(p, "Head: %u\n",
-+		   ct->ctbs.send.desc->head);
-+	drm_printf(p, "Tail: %u\n",
-+		   ct->ctbs.send.desc->tail);
-+	drm_printf(p, "G2H Space: %u\n",
-+		   atomic_read(&ct->ctbs.recv.space) * 4);
-+	drm_printf(p, "Head: %u\n",
-+		   ct->ctbs.recv.desc->head);
-+	drm_printf(p, "Tail: %u\n",
-+		   ct->ctbs.recv.desc->tail);
-+}
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
-index ab1b79ab960b..f62eb06b32fc 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
-@@ -16,6 +16,7 @@
- 
- struct i915_vma;
- struct intel_guc;
-+struct drm_printer;
- 
- /**
-  * DOC: Command Transport (CT).
-@@ -106,4 +107,6 @@ int intel_guc_ct_send(struct intel_guc_ct *ct, const u32 *action, u32 len,
- 		      u32 *response_buf, u32 response_buf_size, u32 flags);
- void intel_guc_ct_event_handler(struct intel_guc_ct *ct);
- 
-+void intel_guc_log_ct_info(struct intel_guc_ct *ct, struct drm_printer *p);
-+
- #endif /* _INTEL_GUC_CT_H_ */
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_debugfs.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_debugfs.c
-index fe7cb7b29a1e..62b9ce0fafaa 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_debugfs.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_debugfs.c
-@@ -9,6 +9,8 @@
- #include "intel_guc.h"
- #include "intel_guc_debugfs.h"
- #include "intel_guc_log_debugfs.h"
-+#include "gt/uc/intel_guc_ct.h"
-+#include "gt/uc/intel_guc_submission.h"
- 
- static int guc_info_show(struct seq_file *m, void *data)
- {
-@@ -22,16 +24,35 @@ static int guc_info_show(struct seq_file *m, void *data)
- 	drm_puts(&p, "\n");
- 	intel_guc_log_info(&guc->log, &p);
- 
--	/* Add more as required ... */
-+	if (!intel_guc_submission_is_used(guc))
-+		return 0;
-+
-+	intel_guc_log_ct_info(&guc->ct, &p);
-+	intel_guc_log_submission_info(guc, &p);
- 
- 	return 0;
- }
- DEFINE_GT_DEBUGFS_ATTRIBUTE(guc_info);
- 
-+static int guc_registered_contexts_show(struct seq_file *m, void *data)
-+{
-+	struct intel_guc *guc = m->private;
-+	struct drm_printer p = drm_seq_file_printer(m);
-+
-+	if (!intel_guc_submission_is_used(guc))
-+		return -ENODEV;
-+
-+	intel_guc_log_context_info(guc, &p);
-+
-+	return 0;
-+}
-+DEFINE_GT_DEBUGFS_ATTRIBUTE(guc_registered_contexts);
-+
- void intel_guc_debugfs_register(struct intel_guc *guc, struct dentry *root)
- {
- 	static const struct debugfs_gt_file files[] = {
- 		{ "guc_info", &guc_info_fops, NULL },
-+		{ "guc_registered_contexts", &guc_registered_contexts_fops, NULL },
- 	};
- 
- 	if (!intel_guc_is_supported(guc))
 diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-index d1a28283a9ae..89b3c7e5d15b 100644
+index 89b3c7e5d15b..c2327eebc09c 100644
 --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
 +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-@@ -1600,3 +1600,55 @@ int intel_guc_sched_done_process_msg(struct intel_guc *guc,
+@@ -422,6 +422,7 @@ static int guc_dequeue_one_context(struct intel_guc *guc)
+ 			guc->stalled_request = last;
+ 			return false;
+ 		}
++		trace_i915_request_guc_submit(last);
+ 	}
  
- 	return 0;
+ 	guc->stalled_request = NULL;
+@@ -642,6 +643,8 @@ static int guc_bypass_tasklet_submit(struct intel_guc *guc,
+ 	ret = guc_add_request(guc, rq);
+ 	if (ret == -EBUSY)
+ 		guc->stalled_request = rq;
++	else
++		trace_i915_request_guc_submit(rq);
+ 
+ 	return ret;
  }
+diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
+index d92c9f25c9f4..7f7aa096e873 100644
+--- a/drivers/gpu/drm/i915/i915_request.c
++++ b/drivers/gpu/drm/i915/i915_request.c
+@@ -1344,6 +1344,9 @@ __i915_request_await_execution(struct i915_request *to,
+ 			return err;
+ 	}
+ 
++	trace_i915_request_dep_to(to);
++	trace_i915_request_dep_from(from);
 +
-+void intel_guc_log_submission_info(struct intel_guc *guc,
-+				   struct drm_printer *p)
+ 	/* Couple the dependency tree for PI on this exposed to->fence */
+ 	if (to->engine->sched_engine->schedule) {
+ 		err = i915_sched_node_add_dependency(&to->sched,
+diff --git a/drivers/gpu/drm/i915/i915_trace.h b/drivers/gpu/drm/i915/i915_trace.h
+index 6778ad2a14a4..b02d04b6c8f6 100644
+--- a/drivers/gpu/drm/i915/i915_trace.h
++++ b/drivers/gpu/drm/i915/i915_trace.h
+@@ -794,22 +794,27 @@ DECLARE_EVENT_CLASS(i915_request,
+ 	    TP_STRUCT__entry(
+ 			     __field(u32, dev)
+ 			     __field(u64, ctx)
++			     __field(u32, guc_id)
+ 			     __field(u16, class)
+ 			     __field(u16, instance)
+ 			     __field(u32, seqno)
++			     __field(u32, tail)
+ 			     ),
+ 
+ 	    TP_fast_assign(
+ 			   __entry->dev = rq->engine->i915->drm.primary->index;
+ 			   __entry->class = rq->engine->uabi_class;
+ 			   __entry->instance = rq->engine->uabi_instance;
++			   __entry->guc_id = rq->context->guc_id;
+ 			   __entry->ctx = rq->fence.context;
+ 			   __entry->seqno = rq->fence.seqno;
++			   __entry->tail = rq->tail;
+ 			   ),
+ 
+-	    TP_printk("dev=%u, engine=%u:%u, ctx=%llu, seqno=%u",
++	    TP_printk("dev=%u, engine=%u:%u, guc_id=%u, ctx=%llu, seqno=%u, tail=%u",
+ 		      __entry->dev, __entry->class, __entry->instance,
+-		      __entry->ctx, __entry->seqno)
++		      __entry->guc_id, __entry->ctx, __entry->seqno,
++		      __entry->tail)
+ );
+ 
+ DEFINE_EVENT(i915_request, i915_request_add,
+@@ -818,6 +823,21 @@ DEFINE_EVENT(i915_request, i915_request_add,
+ );
+ 
+ #if defined(CONFIG_DRM_I915_LOW_LEVEL_TRACEPOINTS)
++DEFINE_EVENT(i915_request, i915_request_dep_to,
++	     TP_PROTO(struct i915_request *rq),
++	     TP_ARGS(rq)
++);
++
++DEFINE_EVENT(i915_request, i915_request_dep_from,
++	     TP_PROTO(struct i915_request *rq),
++	     TP_ARGS(rq)
++);
++
++DEFINE_EVENT(i915_request, i915_request_guc_submit,
++	     TP_PROTO(struct i915_request *rq),
++	     TP_ARGS(rq)
++);
++
+ DEFINE_EVENT(i915_request, i915_request_submit,
+ 	     TP_PROTO(struct i915_request *rq),
+ 	     TP_ARGS(rq)
+@@ -887,6 +907,21 @@ TRACE_EVENT(i915_request_out,
+ 
+ #else
+ #if !defined(TRACE_HEADER_MULTI_READ)
++static inline void
++trace_i915_request_dep_to(struct i915_request *rq)
 +{
-+	struct i915_sched_engine *sched_engine = guc->sched_engine;
-+	struct rb_node *rb;
-+	unsigned long flags;
-+
-+	drm_printf(p, "GuC Number Outstanding Submission G2H: %u\n",
-+		   atomic_read(&guc->outstanding_submission_g2h));
-+	drm_printf(p, "GuC tasklet count: %u\n\n",
-+		   atomic_read(&sched_engine->tasklet.count));
-+
-+	spin_lock_irqsave(&sched_engine->lock, flags);
-+	drm_printf(p, "Requests in GuC submit tasklet:\n");
-+	for (rb = rb_first_cached(&sched_engine->queue); rb; rb = rb_next(rb)) {
-+		struct i915_priolist *pl = to_priolist(rb);
-+		struct i915_request *rq;
-+
-+		priolist_for_each_request(rq, pl)
-+			drm_printf(p, "guc_id=%u, seqno=%llu\n",
-+				   rq->context->guc_id,
-+				   rq->fence.seqno);
-+	}
-+	spin_unlock_irqrestore(&sched_engine->lock, flags);
-+	drm_printf(p, "\n");
 +}
 +
-+void intel_guc_log_context_info(struct intel_guc *guc,
-+				struct drm_printer *p)
++static inline void
++trace_i915_request_dep_from(struct i915_request *rq)
 +{
-+	struct intel_context *ce;
-+	unsigned long index;
-+
-+	xa_for_each(&guc->context_lookup, index, ce) {
-+		drm_printf(p, "GuC lrc descriptor %u:\n", ce->guc_id);
-+		drm_printf(p, "\tHW Context Desc: 0x%08x\n", ce->lrc.lrca);
-+		drm_printf(p, "\t\tLRC Head: Internal %u, Memory %u\n",
-+			   ce->ring->head,
-+			   ce->lrc_reg_state[CTX_RING_HEAD]);
-+		drm_printf(p, "\t\tLRC Tail: Internal %u, Memory %u\n",
-+			   ce->ring->tail,
-+			   ce->lrc_reg_state[CTX_RING_TAIL]);
-+		drm_printf(p, "\t\tContext Pin Count: %u\n",
-+			   atomic_read(&ce->pin_count));
-+		drm_printf(p, "\t\tGuC ID Ref Count: %u\n",
-+			   atomic_read(&ce->guc_id_ref));
-+		drm_printf(p, "\t\tSchedule State: 0x%x, 0x%x\n\n",
-+			   ce->guc_state.sched_state,
-+			   atomic_read(&ce->guc_sched_state_no_lock));
-+	}
 +}
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h
-index 3f7005018939..6453e2bfa151 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h
-@@ -10,6 +10,7 @@
- 
- #include "intel_guc.h"
- 
-+struct drm_printer;
- struct intel_engine_cs;
- 
- void intel_guc_submission_init_early(struct intel_guc *guc);
-@@ -20,6 +21,9 @@ void intel_guc_submission_fini(struct intel_guc *guc);
- int intel_guc_preempt_work_create(struct intel_guc *guc);
- void intel_guc_preempt_work_destroy(struct intel_guc *guc);
- int intel_guc_submission_setup(struct intel_engine_cs *engine);
-+void intel_guc_log_submission_info(struct intel_guc *guc,
-+				   struct drm_printer *p);
-+void intel_guc_log_context_info(struct intel_guc *guc, struct drm_printer *p);
- 
- static inline bool intel_guc_submission_is_supported(struct intel_guc *guc)
- {
-diff --git a/drivers/gpu/drm/i915/i915_debugfs.c b/drivers/gpu/drm/i915/i915_debugfs.c
-index 277800987bf8..a9084789deff 100644
---- a/drivers/gpu/drm/i915/i915_debugfs.c
-+++ b/drivers/gpu/drm/i915/i915_debugfs.c
-@@ -50,6 +50,7 @@
- #include "i915_trace.h"
- #include "intel_pm.h"
- #include "intel_sideband.h"
-+#include "gt/intel_lrc_reg.h"
- 
- static inline struct drm_i915_private *node_to_i915(struct drm_info_node *node)
++
++static inline void
++trace_i915_request_guc_submit(struct i915_request *rq)
++{
++}
++
+ static inline void
+ trace_i915_request_submit(struct i915_request *rq)
  {
 -- 
 2.28.0
