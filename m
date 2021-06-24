@@ -1,25 +1,27 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFAC13B3600
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Jun 2021 20:47:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D0093B3609
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Jun 2021 20:47:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 95E456ECA2;
-	Thu, 24 Jun 2021 18:47:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A0CD6ECA6;
+	Thu, 24 Jun 2021 18:47:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EAEC56EC78
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Jun 2021 18:26:33 +0000 (UTC)
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC41C6EC7A
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Jun 2021 18:26:38 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: ezequiel) with ESMTPSA id 69B1C1F4420C
+ (Authenticated sender: ezequiel) with ESMTPSA id 562AC1F44215
 From: Ezequiel Garcia <ezequiel@collabora.com>
 To: linux-media@vger.kernel.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH 01/12] drm/panel: kd35t133: Add panel orientation support
-Date: Thu, 24 Jun 2021 15:26:01 -0300
-Message-Id: <20210624182612.177969-2-ezequiel@collabora.com>
+Subject: [PATCH 02/12] arm64: dts: rockchip: Add panel orientation to Odroid
+ Go Advance
+Date: Thu, 24 Jun 2021 15:26:02 -0300
+Message-Id: <20210624182612.177969-3-ezequiel@collabora.com>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <20210624182612.177969-1-ezequiel@collabora.com>
 References: <20210624182612.177969-1-ezequiel@collabora.com>
@@ -48,48 +50,26 @@ Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Parse the device tree rotation specifier, and set a DRM
-connector orientation property. The property can then be read
-by compositors to apply hardware plane rotation or a GPU transform.
+The Odroid Go Advance panel is rotated, so let's reflect this
+in the device tree.
 
 Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
 ---
- drivers/gpu/drm/panel/panel-elida-kd35t133.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ arch/arm64/boot/dts/rockchip/rk3326-odroid-go2.dts | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/panel/panel-elida-kd35t133.c b/drivers/gpu/drm/panel/panel-elida-kd35t133.c
-index fe5ac3ef9018..5987d28c874c 100644
---- a/drivers/gpu/drm/panel/panel-elida-kd35t133.c
-+++ b/drivers/gpu/drm/panel/panel-elida-kd35t133.c
-@@ -39,6 +39,7 @@
- struct kd35t133 {
- 	struct device *dev;
- 	struct drm_panel panel;
-+	enum drm_panel_orientation orientation;
- 	struct gpio_desc *reset_gpio;
- 	struct regulator *vdd;
- 	struct regulator *iovcc;
-@@ -216,6 +217,7 @@ static int kd35t133_get_modes(struct drm_panel *panel,
- 	connector->display_info.width_mm = mode->width_mm;
- 	connector->display_info.height_mm = mode->height_mm;
- 	drm_mode_probed_add(connector, mode);
-+	drm_connector_set_panel_orientation(connector, ctx->orientation);
+diff --git a/arch/arm64/boot/dts/rockchip/rk3326-odroid-go2.dts b/arch/arm64/boot/dts/rockchip/rk3326-odroid-go2.dts
+index 49c97f76df77..cca19660e60a 100644
+--- a/arch/arm64/boot/dts/rockchip/rk3326-odroid-go2.dts
++++ b/arch/arm64/boot/dts/rockchip/rk3326-odroid-go2.dts
+@@ -240,6 +240,7 @@ panel@0 {
+ 		iovcc-supply = <&vcc_lcd>;
+ 		reset-gpios = <&gpio3 RK_PC0 GPIO_ACTIVE_LOW>;
+ 		vdd-supply = <&vcc_lcd>;
++		rotation = <270>;
  
- 	return 1;
- }
-@@ -258,6 +260,12 @@ static int kd35t133_probe(struct mipi_dsi_device *dsi)
- 		return ret;
- 	}
- 
-+	ret = of_drm_get_panel_orientation(dev->of_node, &ctx->orientation);
-+	if (ret) {
-+		dev_err(dev, "%pOF: failed to get orientation %d\n", dev->of_node, ret);
-+		return ret;
-+	}
-+
- 	mipi_dsi_set_drvdata(dsi, ctx);
- 
- 	ctx->dev = dev;
+ 		port {
+ 			mipi_in_panel: endpoint {
 -- 
 2.30.0
 
