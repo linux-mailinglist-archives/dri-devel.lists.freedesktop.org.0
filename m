@@ -2,41 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85E603B32D3
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Jun 2021 17:48:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57D6B3B334A
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Jun 2021 17:57:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 470BD6EC40;
-	Thu, 24 Jun 2021 15:48:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5AE606EC4A;
+	Thu, 24 Jun 2021 15:57:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D9E76EB5E;
- Thu, 24 Jun 2021 15:48:41 +0000 (UTC)
-IronPort-SDR: K7BkZt89mNhsRSouk3qgbYVJhKsX+S3uAbkQ7B5v0YmpGc/g+2ajyfq5VSk0TGc/FeiSNgZ3LG
- adRXE/NpwLbw==
-X-IronPort-AV: E=McAfee;i="6200,9189,10025"; a="268630784"
-X-IronPort-AV: E=Sophos;i="5.83,296,1616482800"; d="scan'208";a="268630784"
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6351A6EC4A;
+ Thu, 24 Jun 2021 15:57:45 +0000 (UTC)
+IronPort-SDR: wFzDWiGK9fk1zZCAgh7xaBH3D9UWDv6FhaO6H5sJcsjsDTD3qXduvhrwHeQo6pycL1AYHasGgR
+ DGCNoEH2+p7Q==
+X-IronPort-AV: E=McAfee;i="6200,9189,10025"; a="207537948"
+X-IronPort-AV: E=Sophos;i="5.83,296,1616482800"; d="scan'208";a="207537948"
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Jun 2021 08:48:40 -0700
-IronPort-SDR: zBwbJmFI9wx/89LsVN1u+c7y3aF8xYk5lgETlLZpOrklgTgsf11ryBzbYPT7JC25hqikPV6uFO
- DHLspgvYQQWA==
-X-IronPort-AV: E=Sophos;i="5.83,296,1616482800"; d="scan'208";a="424115448"
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Jun 2021 08:56:29 -0700
+IronPort-SDR: T7bIvbxkxvWH0/hSgX6WXYckUfx3Pm3K2JPYr72JrVXzyIPTJNapVIWRo1AaHD4tl7OobUWk2/
+ FN4pNLpVT0gw==
+X-IronPort-AV: E=Sophos;i="5.83,296,1616482800"; d="scan'208";a="424116914"
 Received: from unknown (HELO sdutt-i7) ([10.165.21.147])
  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Jun 2021 08:48:39 -0700
-Date: Thu, 24 Jun 2021 08:41:58 -0700
+ 24 Jun 2021 08:56:29 -0700
+Date: Thu, 24 Jun 2021 08:49:48 -0700
 From: Matthew Brost <matthew.brost@intel.com>
 To: Michal Wajdeczko <michal.wajdeczko@intel.com>
-Subject: Re: [PATCH 03/47] drm/i915/guc: Increase size of CTB buffers
-Message-ID: <20210624154158.GA1629@sdutt-i7>
+Subject: Re: [Intel-gfx] [PATCH 04/47] drm/i915/guc: Add non blocking CTB
+ send function
+Message-ID: <20210624154947.GB1629@sdutt-i7>
 References: <20210624070516.21893-1-matthew.brost@intel.com>
- <20210624070516.21893-4-matthew.brost@intel.com>
- <0b04e2ee-f5f3-3eb9-ad9f-a595f1942e4c@intel.com>
+ <20210624070516.21893-5-matthew.brost@intel.com>
+ <761f2063-7fe6-518b-d05e-67f8fadb9a9c@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <0b04e2ee-f5f3-3eb9-ad9f-a595f1942e4c@intel.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <761f2063-7fe6-518b-d05e-67f8fadb9a9c@intel.com>
 User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -50,66 +52,282 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, daniele.ceraolospurio@intel.com,
- john.c.harrison@intel.com, dri-devel@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 24, 2021 at 03:49:55PM +0200, Michal Wajdeczko wrote:
+On Thu, Jun 24, 2021 at 04:48:32PM +0200, Michal Wajdeczko wrote:
 > 
 > 
 > On 24.06.2021 09:04, Matthew Brost wrote:
-> > With the introduction of non-blocking CTBs more than one CTB can be in
-> > flight at a time. Increasing the size of the CTBs should reduce how
-> > often software hits the case where no space is available in the CTB
-> > buffer.
+> > Add non blocking CTB send function, intel_guc_send_nb. GuC submission
+> > will send CTBs in the critical path and does not need to wait for these
+> > CTBs to complete before moving on, hence the need for this new function.
 > > 
-> > Cc: John Harrison <john.c.harrison@intel.com>
+> > The non-blocking CTB now must have a flow control mechanism to ensure
+> > the buffer isn't overrun. A lazy spin wait is used as we believe the
+> > flow control condition should be rare with a properly sized buffer.
+> > 
+> > The function, intel_guc_send_nb, is exported in this patch but unused.
+> > Several patches later in the series make use of this function.
+> > 
+> > Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
 > > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
 > > ---
-> >  drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c | 11 ++++++++---
-> >  1 file changed, 8 insertions(+), 3 deletions(-)
+> >  drivers/gpu/drm/i915/gt/uc/intel_guc.h    | 12 +++-
+> >  drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c | 77 +++++++++++++++++++++--
+> >  drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h |  3 +-
+> >  3 files changed, 82 insertions(+), 10 deletions(-)
 > > 
+> > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
+> > index 4abc59f6f3cd..24b1df6ad4ae 100644
+> > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc.h
+> > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
+> > @@ -74,7 +74,15 @@ static inline struct intel_guc *log_to_guc(struct intel_guc_log *log)
+> >  static
+> >  inline int intel_guc_send(struct intel_guc *guc, const u32 *action, u32 len)
+> >  {
+> > -	return intel_guc_ct_send(&guc->ct, action, len, NULL, 0);
+> > +	return intel_guc_ct_send(&guc->ct, action, len, NULL, 0, 0);
+> > +}
+> > +
+> > +#define INTEL_GUC_SEND_NB		BIT(31)
+> 
+> hmm, this flag really belongs to intel_guc_ct_send() so it should be
+> defined as CTB flag near that function declaration
+> 
+
+I can move this up a few lines.
+
+> > +static
+> > +inline int intel_guc_send_nb(struct intel_guc *guc, const u32 *action, u32 len)
+> > +{
+> > +	return intel_guc_ct_send(&guc->ct, action, len, NULL, 0,
+> > +				 INTEL_GUC_SEND_NB);
+> >  }
+> >  
+> >  static inline int
+> > @@ -82,7 +90,7 @@ intel_guc_send_and_receive(struct intel_guc *guc, const u32 *action, u32 len,
+> >  			   u32 *response_buf, u32 response_buf_size)
+> >  {
+> >  	return intel_guc_ct_send(&guc->ct, action, len,
+> > -				 response_buf, response_buf_size);
+> > +				 response_buf, response_buf_size, 0);
+> >  }
+> >  
+> >  static inline void intel_guc_to_host_event_handler(struct intel_guc *guc)
 > > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-> > index 07f080ddb9ae..a17215920e58 100644
+> > index a17215920e58..c9a65d05911f 100644
 > > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
 > > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-> > @@ -58,11 +58,16 @@ static inline struct drm_device *ct_to_drm(struct intel_guc_ct *ct)
-> >   *      +--------+-----------------------------------------------+------+
-> >   *
-> >   * Size of each `CT Buffer`_ must be multiple of 4K.
-> > - * As we don't expect too many messages, for now use minimum sizes.
-> > + * We don't expect too many messages in flight at any time, unless we are
-> > + * using the GuC submission. In that case each request requires a minimum
-> > + * 2 dwords which gives us a maximum 256 queue'd requests. Hopefully this
-> > + * enough space to avoid backpressure on the driver. We increase the size
-> > + * of the receive buffer (relative to the send) to ensure a G2H response
-> > + * CTB has a landing spot.
+> > @@ -3,6 +3,11 @@
+> >   * Copyright © 2016-2019 Intel Corporation
 > >   */
-> >  #define CTB_DESC_SIZE		ALIGN(sizeof(struct guc_ct_buffer_desc), SZ_2K)
-> >  #define CTB_H2G_BUFFER_SIZE	(SZ_4K)
-> > -#define CTB_G2H_BUFFER_SIZE	(SZ_4K)
-> > +#define CTB_G2H_BUFFER_SIZE	(4 * CTB_H2G_BUFFER_SIZE)
 > >  
-> >  struct ct_request {
-> >  	struct list_head link;
-> > @@ -641,7 +646,7 @@ static int ct_read(struct intel_guc_ct *ct, struct ct_incoming_msg **msg)
-> >  	/* beware of buffer wrap case */
-> >  	if (unlikely(available < 0))
-> >  		available += size;
-> > -	CT_DEBUG(ct, "available %d (%u:%u)\n", available, head, tail);
-> > +	CT_DEBUG(ct, "available %d (%u:%u:%u)\n", available, head, tail, size);
+> > +#include <linux/circ_buf.h>
+> > +#include <linux/ktime.h>
+> > +#include <linux/time64.h>
+> > +#include <linux/timekeeping.h>
+> > +
+> >  #include "i915_drv.h"
+> >  #include "intel_guc_ct.h"
+> >  #include "gt/intel_gt.h"
+> > @@ -373,7 +378,7 @@ static void write_barrier(struct intel_guc_ct *ct)
+> >  static int ct_write(struct intel_guc_ct *ct,
+> >  		    const u32 *action,
+> >  		    u32 len /* in dwords */,
+> > -		    u32 fence)
+> > +		    u32 fence, u32 flags)
+> >  {
+> >  	struct intel_guc_ct_buffer *ctb = &ct->ctbs.send;
+> >  	struct guc_ct_buffer_desc *desc = ctb->desc;
+> > @@ -421,9 +426,13 @@ static int ct_write(struct intel_guc_ct *ct,
+> >  		 FIELD_PREP(GUC_CTB_MSG_0_NUM_DWORDS, len) |
+> >  		 FIELD_PREP(GUC_CTB_MSG_0_FENCE, fence);
+> >  
+> > -	hxg = FIELD_PREP(GUC_HXG_MSG_0_TYPE, GUC_HXG_TYPE_REQUEST) |
+> > -	      FIELD_PREP(GUC_HXG_REQUEST_MSG_0_ACTION |
+> > -			 GUC_HXG_REQUEST_MSG_0_DATA0, action[0]);
+> > +	hxg = (flags & INTEL_GUC_SEND_NB) ?
+> > +		(FIELD_PREP(GUC_HXG_MSG_0_TYPE, GUC_HXG_TYPE_EVENT) |
+> > +		 FIELD_PREP(GUC_HXG_EVENT_MSG_0_ACTION |
+> > +			    GUC_HXG_EVENT_MSG_0_DATA0, action[0])) :
+> > +		(FIELD_PREP(GUC_HXG_MSG_0_TYPE, GUC_HXG_TYPE_REQUEST) |
+> > +		 FIELD_PREP(GUC_HXG_REQUEST_MSG_0_ACTION |
+> > +			    GUC_HXG_REQUEST_MSG_0_DATA0, action[0]));
 > 
-> CTB size is already printed in intel_guc_ct_init() and is fixed so not
-> sure if repeating it on every ct_read has any benefit
+> or as we already switched to accept and return whole HXG messages in
+> guc_send_mmio() maybe we should do the same for CTB variant too and
+> instead of using extra flag just let caller to prepare proper HXG header
+> with HXG_EVENT type and then in CTB code just look at this type to make
+> decision which code path to use
+>
+
+Not sure I follow. Anyways could this be done in a follow up by you if
+want this change.
+ 
+> note that existing callers should not be impacted, as full HXG header
+> for the REQUEST message looks exactly the same as "action" code alone.
+> 
+> >  
+> >  	CT_DEBUG(ct, "writing (tail %u) %*ph %*ph %*ph\n",
+> >  		 tail, 4, &header, 4, &hxg, 4 * (len - 1), &action[1]);
+> > @@ -498,6 +507,46 @@ static int wait_for_ct_request_update(struct ct_request *req, u32 *status)
+> >  	return err;
+> >  }
+> >  
+> > +static inline bool h2g_has_room(struct intel_guc_ct_buffer *ctb, u32 len_dw)
+> > +{
+> > +	struct guc_ct_buffer_desc *desc = ctb->desc;
+> > +	u32 head = READ_ONCE(desc->head);
+> > +	u32 space;
+> > +
+> > +	space = CIRC_SPACE(desc->tail, head, ctb->size);
+> > +
+> > +	return space >= len_dw;
+> 
+> here you are returning true(1) as has room
+>
+
+See below.
+ 
+> > +}
+> > +
+> > +static int ct_send_nb(struct intel_guc_ct *ct,
+> > +		      const u32 *action,
+> > +		      u32 len,
+> > +		      u32 flags)
+> > +{
+> > +	struct intel_guc_ct_buffer *ctb = &ct->ctbs.send;
+> > +	unsigned long spin_flags;
+> > +	u32 fence;
+> > +	int ret;
+> > +
+> > +	spin_lock_irqsave(&ctb->lock, spin_flags);
+> > +
+> > +	ret = h2g_has_room(ctb, len + 1);
+> 
+> but here you treat "1" it as en error
 > 
 
-I'd say more debug the better and if CT_DEBUG is enabled the logs are
-very verbose so an extra value doesn't really hurt.
+Yes, this patch is broken but fixed in a follow up one. Regardless I'll
+fix this patch in place.
+
+> and this "1" is GUC_HXG_MSG_MIN_LEN, right ?
+>
+
+Not exactly. This is following how ct_send() uses the action + len
+field. Action[0] field goes in the HXG header and extra + 1 is for the
+CT header.
+
+> > +	if (unlikely(ret))
+> > +		goto out;
+> > +
+> > +	fence = ct_get_next_fence(ct);
+> > +	ret = ct_write(ct, action, len, fence, flags);
+> > +	if (unlikely(ret))
+> > +		goto out;
+> > +
+> > +	intel_guc_notify(ct_to_guc(ct));
+> > +
+> > +out:
+> > +	spin_unlock_irqrestore(&ctb->lock, spin_flags);
+> > +
+> > +	return ret;
+> > +}
+> > +
+> >  static int ct_send(struct intel_guc_ct *ct,
+> >  		   const u32 *action,
+> >  		   u32 len,
+> > @@ -505,6 +554,7 @@ static int ct_send(struct intel_guc_ct *ct,
+> >  		   u32 response_buf_size,
+> >  		   u32 *status)
+> >  {
+> > +	struct intel_guc_ct_buffer *ctb = &ct->ctbs.send;
+> >  	struct ct_request request;
+> >  	unsigned long flags;
+> >  	u32 fence;
+> > @@ -514,8 +564,20 @@ static int ct_send(struct intel_guc_ct *ct,
+> >  	GEM_BUG_ON(!len);
+> >  	GEM_BUG_ON(len & ~GUC_CT_MSG_LEN_MASK);
+> >  	GEM_BUG_ON(!response_buf && response_buf_size);
+> > +	might_sleep();
+> >  
+> > +	/*
+> > +	 * We use a lazy spin wait loop here as we believe that if the CT
+> > +	 * buffers are sized correctly the flow control condition should be
+> > +	 * rare.
+> 
+> shouldn't we at least try to log such cases with RATE_LIMITED to find
+> out how "rare" it is, or if really unlikely just return -EBUSY as in
+> case of non-blocking send ?
+>
+
+Definitely not return -EBUSY as this a blocking call. Perhaps we can log
+this, but IGTs likely can hit rather easily. It really is only
+interesting if real workloads hit this. Regardless that can be a follow
+up.
 
 Matt
-
-> >  	GEM_BUG_ON(available < 0);
+ 
+> > +	 */
+> > +retry:
+> >  	spin_lock_irqsave(&ct->ctbs.send.lock, flags);
+> > +	if (unlikely(!h2g_has_room(ctb, len + 1))) {
+> > +		spin_unlock_irqrestore(&ct->ctbs.send.lock, flags);
+> > +		cond_resched();
+> > +		goto retry;
+> > +	}
 > >  
-> >  	header = cmds[head];
+> >  	fence = ct_get_next_fence(ct);
+> >  	request.fence = fence;
+> > @@ -527,7 +589,7 @@ static int ct_send(struct intel_guc_ct *ct,
+> >  	list_add_tail(&request.link, &ct->requests.pending);
+> >  	spin_unlock(&ct->requests.lock);
+> >  
+> > -	err = ct_write(ct, action, len, fence);
+> > +	err = ct_write(ct, action, len, fence, 0);
+> >  
+> >  	spin_unlock_irqrestore(&ct->ctbs.send.lock, flags);
+> >  
+> > @@ -569,7 +631,7 @@ static int ct_send(struct intel_guc_ct *ct,
+> >   * Command Transport (CT) buffer based GuC send function.
+> >   */
+> >  int intel_guc_ct_send(struct intel_guc_ct *ct, const u32 *action, u32 len,
+> > -		      u32 *response_buf, u32 response_buf_size)
+> > +		      u32 *response_buf, u32 response_buf_size, u32 flags)
+> >  {
+> >  	u32 status = ~0; /* undefined */
+> >  	int ret;
+> > @@ -579,6 +641,9 @@ int intel_guc_ct_send(struct intel_guc_ct *ct, const u32 *action, u32 len,
+> >  		return -ENODEV;
+> >  	}
+> >  
+> > +	if (flags & INTEL_GUC_SEND_NB)
+> > +		return ct_send_nb(ct, action, len, flags);
+> > +
+> >  	ret = ct_send(ct, action, len, response_buf, response_buf_size, &status);
+> >  	if (unlikely(ret < 0)) {
+> >  		CT_ERROR(ct, "Sending action %#x failed (err=%d status=%#X)\n",
+> > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
+> > index 1ae2dde6db93..eb69263324ba 100644
+> > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
+> > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
+> > @@ -42,7 +42,6 @@ struct intel_guc_ct_buffer {
+> >  	bool broken;
+> >  };
+> >  
+> > -
+> >  /** Top-level structure for Command Transport related data
+> >   *
+> >   * Includes a pair of CT buffers for bi-directional communication and tracking
+> > @@ -88,7 +87,7 @@ static inline bool intel_guc_ct_enabled(struct intel_guc_ct *ct)
+> >  }
+> >  
+> >  int intel_guc_ct_send(struct intel_guc_ct *ct, const u32 *action, u32 len,
+> > -		      u32 *response_buf, u32 response_buf_size);
+> > +		      u32 *response_buf, u32 response_buf_size, u32 flags);
+> >  void intel_guc_ct_event_handler(struct intel_guc_ct *ct);
+> >  
+> >  #endif /* _INTEL_GUC_CT_H_ */
 > > 
