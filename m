@@ -2,153 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B04C03B3317
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Jun 2021 17:56:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EC8E3B3318
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Jun 2021 17:56:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4CFE86EC4F;
-	Thu, 24 Jun 2021 15:56:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7BB216EC53;
+	Thu, 24 Jun 2021 15:56:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com
- [205.220.165.32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 64A5C6EC4F;
- Thu, 24 Jun 2021 15:56:34 +0000 (UTC)
-Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 15OFlHY2002748; Thu, 24 Jun 2021 15:55:51 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=date : from : to : cc
- : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=corp-2020-01-29;
- bh=RNYw98/G7tITOD2JUar0dJNWfAGLFBejbGFGi7BFxgQ=;
- b=aqQbQjyqegqFFnwtAq+5yiLyt5h8lG/pDmyIHA/MMoi5T34sx1AvnFhUht5va4XsSA6d
- nutlUpL4XKHUE9M/hskFiiMJE17MzAoePlEvjGQZfG+SaeA+m5Qi14lxV6OIl8YVdrtQ
- sEH7iw9Od05GdCfppgzN3oiUpYVrXycnaef5LvZ8QCv6IenuMHu2ohLQx7jliSJkMmWr
- KbdtLf6sWZSJUZBlyZQ7yWZ+VPmy1CM93o2HXrkG1iMWmLzTH/8i7tHHt/ojfaiO+Auy
- KoTMM7Y2qSpmUhJbLydHEANcRCnR8xyuEmvMPGzyLdGoG7b8rrWUwEpSWmxdnlHd8HIW Qw== 
-Received: from oracle.com (aserp3030.oracle.com [141.146.126.71])
- by mx0b-00069f02.pphosted.com with ESMTP id 39c2wnkce0-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 24 Jun 2021 15:55:50 +0000
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [127.0.0.1])
- by pps.podrdrct (8.16.0.36/8.16.0.36) with SMTP id 15OFtnlS067641;
- Thu, 24 Jun 2021 15:55:49 GMT
-Received: from nam12-bn8-obe.outbound.protection.outlook.com
- (mail-bn8nam12lp2174.outbound.protection.outlook.com [104.47.55.174])
- by aserp3030.oracle.com with ESMTP id 3996mgr9nd-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 24 Jun 2021 15:55:49 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LM8WdCAKxMuFmxRPdPWYfm6JwwLhm1EY+o1dOG6Omv7D9qMZiMQaefpWR/bF4JgkKwjVnExBGL/J+fF4S95dogPEHJU1EpiQjI2PXoOMSp7OQRckAKQDeQidnCG3UAm/5I7dwqxKMSf9qS5LIDmZx0J18vw7FoSYHNc0bkoWOFIry4SpJKI4dUtlMv/QdH/wp+LlSqia3OOoPIqoHC+onGIhoWWo+QsIHEvYujOX1AamdzODyJe1mWWlNrlDkenIFvJMY7Fsy4y9RJR/PGGzbIWJhyv+UPAPsxnYhjGpMOqqpvgl8Xg3lrC66nUP/ru3vdlVSUh7T/xj9+U2fajsWA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RNYw98/G7tITOD2JUar0dJNWfAGLFBejbGFGi7BFxgQ=;
- b=WGHZouTD0dBnGgiqwn40+bzGuLU6p1CWMn6EExAKVsxFXkLy8h0mVXFktwuN77Sc0aQ9plxHvEOyVT1kwjoQAui3vykvm7QFkfJzMWXQwqLhK1xevJEdYKtVjmNkvQ4OqawI708Kh5cS06l7TuvyBqhWyGQn4m81IzftzVurnsj+jQ/YaeF1+8kQfXStOvUudGWpBdqbJqSyHc98vtbbRdrMZLQvdP0KeFJVP0RgzdsbdtM0ZVz+1Dn+CjkqbJpUk1ZhbvyuuCYX6lYDY6rgBfP0FDaKBS46FKyUj/IlLK7L/ppaqHti1FvQjI5/7e/jf6hWYSZR0Sv9CbtPeMBGzA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RNYw98/G7tITOD2JUar0dJNWfAGLFBejbGFGi7BFxgQ=;
- b=hXwyChdVOMENoPgUAxpZq/b2l5rUNKZx1FBCKR8Z7ZASLfBfUH2NFv79FCNZwcAhHcLO+Jto3lpHZwwV7PVvHmsTjQ1YZnM4zjBbn4XlOUhtVq225tlgBvs1GJkiyTWxcBbf2nmtz4leINU+ePuZojZhj/BIT/vsf2rk0nDsvwM=
-Authentication-Results: quicinc.com; dkim=none (message not signed)
- header.d=none;quicinc.com; dmarc=none action=none header.from=oracle.com;
-Received: from BYAPR10MB2999.namprd10.prod.outlook.com (2603:10b6:a03:85::27)
- by BY5PR10MB4369.namprd10.prod.outlook.com (2603:10b6:a03:204::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4264.18; Thu, 24 Jun
- 2021 15:55:34 +0000
-Received: from BYAPR10MB2999.namprd10.prod.outlook.com
- ([fe80::8111:d8f1:c262:808d]) by BYAPR10MB2999.namprd10.prod.outlook.com
- ([fe80::8111:d8f1:c262:808d%6]) with mapi id 15.20.4264.020; Thu, 24 Jun 2021
- 15:55:34 +0000
-Date: Thu, 24 Jun 2021 11:55:19 -0400
-From: Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
-To: Qian Cai <quic_qiancai@quicinc.com>
-Subject: Re: [PATCH v14 06/12] swiotlb: Use is_swiotlb_force_bounce for
- swiotlb data bouncing
-Message-ID: <YNSq56zyJ7EYdTcI@char.us.oracle.com>
-References: <76c3343d-72e5-9df3-8924-5474ee698ef4@quicinc.com>
- <20210623183736.GA472@willie-the-truck>
- <19d4c7a2-744d-21e0-289c-a576e1f0e6f3@quicinc.com>
- <20210624054315.GA25381@lst.de>
- <CALiNf288ZLMhY3E8E3N+z9rkwi1viWNLm1wwMEwT4rNwh3FfwQ@mail.gmail.com>
- <364e6715-eafd-fc4a-e0af-ce2a042756b4@arm.com>
- <20210624111855.GA1382@willie-the-truck>
- <452155d2-c98e-23f6-86d6-3a2ff2e74783@arm.com>
- <20210624114829.GB1382@willie-the-truck>
- <43ec9dd6-12c0-98ec-8d5d-b2904292721e@quicinc.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <43ec9dd6-12c0-98ec-8d5d-b2904292721e@quicinc.com>
-X-Originating-IP: [138.3.200.4]
-X-ClientProxiedBy: SA9PR13CA0037.namprd13.prod.outlook.com
- (2603:10b6:806:22::12) To BYAPR10MB2999.namprd10.prod.outlook.com
- (2603:10b6:a03:85::27)
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com
+ [IPv6:2607:f8b0:4864:20::102b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 106DE6EC4F
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Jun 2021 15:56:33 +0000 (UTC)
+Received: by mail-pj1-x102b.google.com with SMTP id
+ bb10-20020a17090b008ab029016eef083425so6175053pjb.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Jun 2021 08:56:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=vWWa68OFQeb7FNC92AYjUweQlraoAtZ2qywuTutOPN8=;
+ b=VXwSpljaHyT9CGsX566zaWUYjLWqT6EZGvW+HUV35ZUKMCtL+5WOxJcFRf4L1/7RFc
+ qGeV6pbn94x/vW7fLhV34a5kH7V7Jg+oyk1mVqp0p88iltTd6zaG8ZqWhoFwX03BHlru
+ OGskxuzkvEXUDLIs9WCRDc/Gg2nJw/vs7F2Ng=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=vWWa68OFQeb7FNC92AYjUweQlraoAtZ2qywuTutOPN8=;
+ b=tTOVs4rQ00DINEm7byeV8ClyT1Z12JxqeYlx+rZvHzD2KLguzZR4iygJpr9wNkSg4H
+ 63zJiIo+vuD2iUSAGONeqOxX76nnzxPLXeTFcet9grwq+45XqAbUf2+sRJgHv+PCInGe
+ jScKqvtQPoVC+GI/x/jfMhBf+sTRAdDmZZugxTrGQCCWgtxIQ3z/Q2y06vgpWTtp3HDe
+ eGFKfS2WqrvtYWQ3X9I6izQNbxbqhAa9RaZffoco5f30Clh/FwnGWXw+yxCpFvF1tSvg
+ Kedpm+7jdbBTUMEdvSoh2aVgV7+BP1I9a6hnit0dQ5WAzJY9FbFSVrgHlXXkQeqpx0sH
+ y21A==
+X-Gm-Message-State: AOAM530u3VRTM1dFCnW3PNXGBC8RzYx0hwkiQWQgZL15mPUK+7ndliYW
+ gvJiA7s6BTcVgxhpp6IVcnX8gQ==
+X-Google-Smtp-Source: ABdhPJyM3ZtD9p071nGaZ41yrN00ryvbfXJ3YxQAdjvfE9uJr/thaI9NsyuGT18oKxVn0E9uAB208g==
+X-Received: by 2002:a17:90a:db8a:: with SMTP id
+ h10mr16188658pjv.50.1624550192680; 
+ Thu, 24 Jun 2021 08:56:32 -0700 (PDT)
+Received: from localhost ([2401:fa00:95:205:165a:99ec:42d5:d8b])
+ by smtp.gmail.com with UTF8SMTPSA id 10sm3356835pfh.174.2021.06.24.08.56.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 24 Jun 2021 08:56:32 -0700 (PDT)
+From: Claire Chang <tientzu@chromium.org>
+To: Rob Herring <robh+dt@kernel.org>, mpe@ellerman.id.au,
+ Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+ Frank Rowand <frowand.list@gmail.com>,
+ Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>, boris.ostrovsky@oracle.com,
+ jgross@suse.com, Christoph Hellwig <hch@lst.de>,
+ Marek Szyprowski <m.szyprowski@samsung.com>
+Subject: [PATCH v15 06/12] swiotlb: Use is_swiotlb_force_bounce for swiotlb
+ data bouncing
+Date: Thu, 24 Jun 2021 23:55:20 +0800
+Message-Id: <20210624155526.2775863-7-tientzu@chromium.org>
+X-Mailer: git-send-email 2.32.0.288.g62a8d224e6-goog
+In-Reply-To: <20210624155526.2775863-1-tientzu@chromium.org>
+References: <20210624155526.2775863-1-tientzu@chromium.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from char.us.oracle.com (138.3.200.4) by
- SA9PR13CA0037.namprd13.prod.outlook.com (2603:10b6:806:22::12) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4287.8 via Frontend Transport; Thu, 24 Jun 2021 15:55:23 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 47a9ea18-e738-4e61-fbf3-08d937288021
-X-MS-TrafficTypeDiagnostic: BY5PR10MB4369:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BY5PR10MB4369D2979C2AD8BE7FE6D7AE89079@BY5PR10MB4369.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: KIKtg1nGNwOGX/aAaFn8EHHEnbyV5IkwHkkuYXUp6k76Is7d9bdSAuPeFMKzDbynBrUFtPXcBBcOAg+K30PVogyrqTv5fhy0R7G0/sHAWNrHQ/lFQSpfaTX2xK/2YBZbLAeiShOfclW5vOI4kJhYLT6VVyn57NaJ/BQHD81zFJguqkqtDOL6wADv5yRVX4vRbWkeC+VsomJxA7zCIqwVfiBqMexwhX8rjODEohyYNNpaTgs/mvFB+OG6+/XO6U9E7RxrfFlIAldxqaOSoTJT1ABJXdFF4Ahj5S7Aq+G4hLuq5h0vbDwW9Yq+pfSvpj6USemdxbU/LzUvq1KxgcbozaI7G4V/htvgn3gy0UJYq36HKpIGPf/ZbUbvO6G5h3Z6m5BjlrGRgbAngGBhatcwiolCofQS8X2hSQ3YPKjoEFEUNd7X1y4O0Dvq6LD5yaqCi/87sWcHBkU5qYqCKDQmhSBq5hzAYGBpyQr68YdpgHd8nBpiFbtkOxx63l7qofF6mNhuHzESTgQlMviuRRVaUhs00cqwog7GmiNu3OPc1W6O0p2ZpF64BqRDE6BwHUNCqEoh2PteD8lwLoSuXoBVUFHqP33id9l2L03q6AwW5V/0TzLUopi/IMjHLQDl0WV2x8AsyEo9WIOnKcp3Dt0Okg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR10MB2999.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(346002)(396003)(376002)(136003)(39860400002)(366004)(16526019)(186003)(7696005)(5660300002)(26005)(53546011)(52116002)(8676002)(8936002)(54906003)(66946007)(66556008)(7406005)(7366002)(7416002)(38100700002)(38350700002)(316002)(86362001)(956004)(66476007)(4326008)(55016002)(6666004)(6916009)(2906002)(478600001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?pzrYT5KFOELAqgkJjyJORIMiyHCjPKag7JOn1S020u7H2SZZdrqAEa05ox3Z?=
- =?us-ascii?Q?RzQ3wPVi9fuiOmzNXyjiYkYlwOe94CXVj8uiR3dN4Ety7pwLzN1QeAFJs3wB?=
- =?us-ascii?Q?783ongZwdHB5ERPGiDNHj0wl2zHiawi9NFVvKzZwgkv/SihvE4IMf3gVjrgD?=
- =?us-ascii?Q?TxYRoonszISPvvgXK3qgtrj+5ahQQYNKtIe72NI9p4E5/NlqCBu7OozxQLDu?=
- =?us-ascii?Q?uZZk0rwDw2rPzX/dYCWPD99anJ4cFuqd+nGeHHLzq8D63NHC1jWXez2Dh+D9?=
- =?us-ascii?Q?rL8HcO6cXqWxz8ssh7gT65g4yXWQciy33vVmx1n58LvC9jWBfhPGjE9M8YkO?=
- =?us-ascii?Q?3dbFaGGiA21ivSudT70ymRcdVS3PUDoRHh+FnYUQ+EoPEf+XH42UKSkYbbpl?=
- =?us-ascii?Q?mdaS9SZefg95MWLd50QE8T69wh0w6+S27gZg90UC0db498aNFjmLHQI1YmfJ?=
- =?us-ascii?Q?8NBZja5YLY5b23id3MFhT7Dh9uOCqG76ZOl+LNYinlf0mO+W/OwjlcxKdOLQ?=
- =?us-ascii?Q?kiwdRiJmHjcyk8u+mkUg9QOh7WDtRTdkxSUWtigB5aU0vMI//qMLg/XC5Crf?=
- =?us-ascii?Q?eEF44YyTCGi6osipfB3SlrqSD393vMd2sEUiB13cFffjizlvn6K1hdp+dIzs?=
- =?us-ascii?Q?ohAX+IbXY2ZTxRWt1MskDdWn3UQoSy5tUR9aohrmIxxrOguZ1ZZV/cp6ECPH?=
- =?us-ascii?Q?korY4eI4zPBlMHFbl0e5oI/YtJlx2/mdePnJ+L/CtryZJUgLfkzC8Gu2lVzw?=
- =?us-ascii?Q?M3Fwu3k1xaKiYjQnPyRzqgghY/5cm4+ZxqvidTXw2/YNZsbru1AmxPcA9EOv?=
- =?us-ascii?Q?BgE4kpquarvJf3NR/LKoRsN4DXCrH+b4Zq0MXD8erPLztv/JAEc4JnmoZeYN?=
- =?us-ascii?Q?3jwrGoaPXywipomTboj98NQ2ADpEjjuvDth7c4Y236smR3ys3txbKPPCUaWJ?=
- =?us-ascii?Q?Ic48SPkBZavF9Bak/cYl8GGtHSEgJgGR6x4UlhIYUN2lwJAz49pK8k6HNugP?=
- =?us-ascii?Q?fFLulRcf98upNYuLOL/gQQQbZaQq/I/XjVend8aJyEni/96Gai8UXZh5RPr5?=
- =?us-ascii?Q?ZeQIN1QQ8XfgW84/xAECXatWu9qP82oU1HMwcwvxvCqeS0bUJZD+oa/uE+A4?=
- =?us-ascii?Q?oY+y+wIf2Mc5Cz8CegYFw8FTdFmgoxS7zN2rq6TBmJ+iRsRnLULcxYuwXNYc?=
- =?us-ascii?Q?YNl2IpC10ufiGeYFq6ceCbf8VjbvQuKdatPrRqLL/kCed52R9oWkaVtM9MJ9?=
- =?us-ascii?Q?UFkVvUCt/euMMP3/L1wXvszZ/aaubH7kTE2uZm9ka3qMomuhTQuzqHVCyAMo?=
- =?us-ascii?Q?qzlWa2SSvHCCB7vu9QO/IJP7?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 47a9ea18-e738-4e61-fbf3-08d937288021
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR10MB2999.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jun 2021 15:55:34.0664 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 1Z26jQfjV7+erWEAS2AX9aQ5SeIm8Yv6bME/x0sm9C+HkxWYLELC+OsTOztxxJP0mmnZCMziJj6LrscyRc1Kzg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR10MB4369
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=10025
- signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- malwarescore=0
- mlxscore=0 mlxlogscore=999 adultscore=0 phishscore=0 spamscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104190000 definitions=main-2106240088
-X-Proofpoint-GUID: p8KxGgb5y0yeXuOQo-n6HxcOzf5mDbyT
-X-Proofpoint-ORIG-GUID: p8KxGgb5y0yeXuOQo-n6HxcOzf5mDbyT
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -161,97 +72,146 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: heikki.krogerus@linux.intel.com,
- linux-devicetree <devicetree@vger.kernel.org>, peterz@infradead.org,
- dri-devel@lists.freedesktop.org, chris@chris-wilson.co.uk,
- grant.likely@arm.com, paulus@samba.org, Will Deacon <will@kernel.org>,
- Christoph Hellwig <hch@lst.de>, Jianxiong Gao <jxgao@google.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Frank Rowand <frowand.list@gmail.com>, mpe@ellerman.id.au,
- Joerg Roedel <joro@8bytes.org>,
- "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>, mingo@kernel.org,
+Cc: heikki.krogerus@linux.intel.com, thomas.hellstrom@linux.intel.com,
+ peterz@infradead.org, dri-devel@lists.freedesktop.org,
+ chris@chris-wilson.co.uk, grant.likely@arm.com, paulus@samba.org,
+ mingo@kernel.org, jxgao@google.com, sstabellini@kernel.org,
+ Saravana Kannan <saravanak@google.com>, xypron.glpk@gmx.de,
+ "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
  Bartosz Golaszewski <bgolaszewski@baylibre.com>, bskeggs@redhat.com,
  linux-pci@vger.kernel.org, xen-devel@lists.xenproject.org,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Dan Williams <dan.j.williams@intel.com>, matthew.auld@intel.com,
- Nicolas Boichat <drinkcat@chromium.org>, thomas.hellstrom@linux.intel.com,
- Jim Quinlan <james.quinlan@broadcom.com>, intel-gfx@lists.freedesktop.org,
- Rob Herring <robh+dt@kernel.org>, rodrigo.vivi@intel.com,
- Bjorn Helgaas <bhelgaas@google.com>, Claire Chang <tientzu@chromium.org>,
- boris.ostrovsky@oracle.com,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>, jgross@suse.com,
- airlied@linux.ie, Thierry Reding <treding@nvidia.com>,
- Saravana Kannan <saravanak@google.com>, linuxppc-dev@lists.ozlabs.org,
- Randy Dunlap <rdunlap@infradead.org>, Greg KH <gregkh@linuxfoundation.org>,
- lkml <linux-kernel@vger.kernel.org>,
+ Thierry Reding <treding@nvidia.com>, intel-gfx@lists.freedesktop.org,
+ matthew.auld@intel.com, linux-devicetree <devicetree@vger.kernel.org>,
+ airlied@linux.ie, Robin Murphy <robin.murphy@arm.com>,
+ Nicolas Boichat <drinkcat@chromium.org>, rodrigo.vivi@intel.com,
+ bhelgaas@google.com, tientzu@chromium.org,
+ Dan Williams <dan.j.williams@intel.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Greg KH <gregkh@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>,
+ quic_qiancai@quicinc.com, lkml <linux-kernel@vger.kernel.org>,
+ tfiga@chromium.org,
  "list@263.net:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
- xypron.glpk@gmx.de, Tom Lendacky <thomas.lendacky@amd.com>,
- Robin Murphy <robin.murphy@arm.com>, bauerman@linux.ibm.com
+ Jim Quinlan <james.quinlan@broadcom.com>, thomas.lendacky@amd.com,
+ linuxppc-dev@lists.ozlabs.org, bauerman@linux.ibm.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 24, 2021 at 10:10:51AM -0400, Qian Cai wrote:
-> 
-> 
-> On 6/24/2021 7:48 AM, Will Deacon wrote:
-> > Ok, diff below which attempts to tackle the offset issue I mentioned as
-> > well. Qian Cai -- please can you try with these changes?
-> 
-> This works fine.
+Propagate the swiotlb_force into io_tlb_default_mem->force_bounce and
+use it to determine whether to bounce the data or not. This will be
+useful later to allow for different pools.
 
-Cool. Let me squash this patch in #6 and rebase the rest of them.
+Signed-off-by: Claire Chang <tientzu@chromium.org>
+Reviewed-by: Christoph Hellwig <hch@lst.de>
+Tested-by: Stefano Stabellini <sstabellini@kernel.org>
+Tested-by: Will Deacon <will@kernel.org>
+Acked-by: Stefano Stabellini <sstabellini@kernel.org>
+---
+ drivers/xen/swiotlb-xen.c |  2 +-
+ include/linux/swiotlb.h   | 13 +++++++++++++
+ kernel/dma/direct.c       |  2 +-
+ kernel/dma/direct.h       |  2 +-
+ kernel/dma/swiotlb.c      |  4 ++++
+ 5 files changed, 20 insertions(+), 3 deletions(-)
 
-Claire, could you check the devel/for-linus-5.14 say by end of today to
-double check that I didn't mess anything up please?
+diff --git a/drivers/xen/swiotlb-xen.c b/drivers/xen/swiotlb-xen.c
+index 0c6ed09f8513..4730a146fa35 100644
+--- a/drivers/xen/swiotlb-xen.c
++++ b/drivers/xen/swiotlb-xen.c
+@@ -369,7 +369,7 @@ static dma_addr_t xen_swiotlb_map_page(struct device *dev, struct page *page,
+ 	if (dma_capable(dev, dev_addr, size, true) &&
+ 	    !range_straddles_page_boundary(phys, size) &&
+ 		!xen_arch_need_swiotlb(dev, phys, dev_addr) &&
+-		swiotlb_force != SWIOTLB_FORCE)
++		!is_swiotlb_force_bounce(dev))
+ 		goto done;
+ 
+ 	/*
+diff --git a/include/linux/swiotlb.h b/include/linux/swiotlb.h
+index dd1c30a83058..da348671b0d5 100644
+--- a/include/linux/swiotlb.h
++++ b/include/linux/swiotlb.h
+@@ -84,6 +84,7 @@ extern enum swiotlb_force swiotlb_force;
+  *		unmap calls.
+  * @debugfs:	The dentry to debugfs.
+  * @late_alloc:	%true if allocated using the page allocator
++ * @force_bounce: %true if swiotlb bouncing is forced
+  */
+ struct io_tlb_mem {
+ 	phys_addr_t start;
+@@ -94,6 +95,7 @@ struct io_tlb_mem {
+ 	spinlock_t lock;
+ 	struct dentry *debugfs;
+ 	bool late_alloc;
++	bool force_bounce;
+ 	struct io_tlb_slot {
+ 		phys_addr_t orig_addr;
+ 		size_t alloc_size;
+@@ -109,6 +111,13 @@ static inline bool is_swiotlb_buffer(struct device *dev, phys_addr_t paddr)
+ 	return mem && paddr >= mem->start && paddr < mem->end;
+ }
+ 
++static inline bool is_swiotlb_force_bounce(struct device *dev)
++{
++	struct io_tlb_mem *mem = dev->dma_io_tlb_mem;
++
++	return mem && mem->force_bounce;
++}
++
+ void __init swiotlb_exit(void);
+ unsigned int swiotlb_max_segment(void);
+ size_t swiotlb_max_mapping_size(struct device *dev);
+@@ -120,6 +129,10 @@ static inline bool is_swiotlb_buffer(struct device *dev, phys_addr_t paddr)
+ {
+ 	return false;
+ }
++static inline bool is_swiotlb_force_bounce(struct device *dev)
++{
++	return false;
++}
+ static inline void swiotlb_exit(void)
+ {
+ }
+diff --git a/kernel/dma/direct.c b/kernel/dma/direct.c
+index 7a88c34d0867..a92465b4eb12 100644
+--- a/kernel/dma/direct.c
++++ b/kernel/dma/direct.c
+@@ -496,7 +496,7 @@ size_t dma_direct_max_mapping_size(struct device *dev)
+ {
+ 	/* If SWIOTLB is active, use its maximum mapping size */
+ 	if (is_swiotlb_active(dev) &&
+-	    (dma_addressing_limited(dev) || swiotlb_force == SWIOTLB_FORCE))
++	    (dma_addressing_limited(dev) || is_swiotlb_force_bounce(dev)))
+ 		return swiotlb_max_mapping_size(dev);
+ 	return SIZE_MAX;
+ }
+diff --git a/kernel/dma/direct.h b/kernel/dma/direct.h
+index 13e9e7158d94..4632b0f4f72e 100644
+--- a/kernel/dma/direct.h
++++ b/kernel/dma/direct.h
+@@ -87,7 +87,7 @@ static inline dma_addr_t dma_direct_map_page(struct device *dev,
+ 	phys_addr_t phys = page_to_phys(page) + offset;
+ 	dma_addr_t dma_addr = phys_to_dma(dev, phys);
+ 
+-	if (unlikely(swiotlb_force == SWIOTLB_FORCE))
++	if (is_swiotlb_force_bounce(dev))
+ 		return swiotlb_map(dev, phys, size, dir, attrs);
+ 
+ 	if (unlikely(!dma_capable(dev, dma_addr, size, true))) {
+diff --git a/kernel/dma/swiotlb.c b/kernel/dma/swiotlb.c
+index 8a120f42340b..0d294bbf274c 100644
+--- a/kernel/dma/swiotlb.c
++++ b/kernel/dma/swiotlb.c
+@@ -179,6 +179,10 @@ static void swiotlb_init_io_tlb_mem(struct io_tlb_mem *mem, phys_addr_t start,
+ 	mem->end = mem->start + bytes;
+ 	mem->index = 0;
+ 	mem->late_alloc = late_alloc;
++
++	if (swiotlb_force == SWIOTLB_FORCE)
++		mem->force_bounce = true;
++
+ 	spin_lock_init(&mem->lock);
+ 	for (i = 0; i < mem->nslabs; i++) {
+ 		mem->slots[i].list = IO_TLB_SEGSIZE - io_tlb_offset(i);
+-- 
+2.32.0.288.g62a8d224e6-goog
 
-Will,
-
-Thank you for generating the fix! I am going to run it on x86 and Xen
-to make sure all is good (granted last time I ran devel/for-linus-5.14
-on that setup I didn't see any errors so I need to double check
-I didn't do something silly like run a wrong kernel).
-
-
-> 
-> > 
-> > Will
-> > 
-> > --->8
-> > 
-> > diff --git a/include/linux/swiotlb.h b/include/linux/swiotlb.h
-> > index 175b6c113ed8..39284ff2a6cd 100644
-> > --- a/include/linux/swiotlb.h
-> > +++ b/include/linux/swiotlb.h
-> > @@ -116,7 +116,9 @@ static inline bool is_swiotlb_buffer(struct device *dev, phys_addr_t paddr)
-> >  
-> >  static inline bool is_swiotlb_force_bounce(struct device *dev)
-> >  {
-> > -       return dev->dma_io_tlb_mem->force_bounce;
-> > +       struct io_tlb_mem *mem = dev->dma_io_tlb_mem;
-> > +
-> > +       return mem && mem->force_bounce;
-> >  }
-> >  
-> >  void __init swiotlb_exit(void);
-> > diff --git a/kernel/dma/swiotlb.c b/kernel/dma/swiotlb.c
-> > index 44be8258e27b..0ffbaae9fba2 100644
-> > --- a/kernel/dma/swiotlb.c
-> > +++ b/kernel/dma/swiotlb.c
-> > @@ -449,6 +449,7 @@ static int swiotlb_find_slots(struct device *dev, phys_addr_t orig_addr,
-> >                 dma_get_min_align_mask(dev) & ~(IO_TLB_SIZE - 1);
-> >         unsigned int nslots = nr_slots(alloc_size), stride;
-> >         unsigned int index, wrap, count = 0, i;
-> > +       unsigned int offset = swiotlb_align_offset(dev, orig_addr);
-> >         unsigned long flags;
-> >  
-> >         BUG_ON(!nslots);
-> > @@ -497,7 +498,7 @@ static int swiotlb_find_slots(struct device *dev, phys_addr_t orig_addr,
-> >         for (i = index; i < index + nslots; i++) {
-> >                 mem->slots[i].list = 0;
-> >                 mem->slots[i].alloc_size =
-> > -                       alloc_size - ((i - index) << IO_TLB_SHIFT);
-> > +                       alloc_size - (offset + ((i - index) << IO_TLB_SHIFT));
-> >         }
-> >         for (i = index - 1;
-> >              io_tlb_offset(i) != IO_TLB_SEGSIZE - 1 &&
-> > 
