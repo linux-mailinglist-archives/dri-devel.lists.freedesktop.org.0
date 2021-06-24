@@ -1,60 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5AF03B297B
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Jun 2021 09:38:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 787B33B29B0
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Jun 2021 09:46:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A0A7D6EA59;
-	Thu, 24 Jun 2021 07:38:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B8C556EA40;
+	Thu, 24 Jun 2021 07:46:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D85C6EA48;
- Thu, 24 Jun 2021 07:38:07 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 753BC6E9FB;
+ Thu, 24 Jun 2021 07:46:22 +0000 (UTC)
 Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
  (using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 14A182197E;
- Thu, 24 Jun 2021 07:38:06 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 2D07A2197E;
+ Thu, 24 Jun 2021 07:46:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1624520286; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1624520781; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=QPK14lABm+1uyZenNjve8XvNG/MX0PdCh2Je8qHiRT8=;
- b=KQXrE0ZBSDGTwh5OxOoqfMHQdMz6f3X3FPjLX+rRDem5kAkKUX/xcw4UNK1zllOtMXSjNG
- dK7YuFKqlVoXRbbyhc8y3LCdsUo1Ld8ZbvlAGRTz8FEJylufNx9h7D4W3RfMRf01LsQOaB
- 9liXE1yOrWE+ke6obWl6gI9CQvol/Mg=
+ bh=jVwcri593ba1CJ2aKAAm70yjSxT1JVgNF5z4CPQfIdM=;
+ b=OXRjV1BzshWsnMiv9ICZbEo/UP8KUTPx8LxQBoe1fMKhN2ZlrOvvaDBsoFGi24EBT5Q4/Y
+ tHnsU1t9IAbqCBPqNtN+7WWsmm7iVox5yB9CD68uY8mxr4nKBMthEq/sxbfAZ0V861Hw/2
+ FJ/MCVibFKJ3PuBI77Vg+fwNOi0yQdo=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1624520286;
+ s=susede2_ed25519; t=1624520781;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=QPK14lABm+1uyZenNjve8XvNG/MX0PdCh2Je8qHiRT8=;
- b=S0uflecAkak1929Zm7ctnac0vp8IbN9VRo+h9DKPIBXvXJvIBdrJaYntHJiuRKuzw4W4Md
- i7+zpgwfkUEdKuBQ==
+ bh=jVwcri593ba1CJ2aKAAm70yjSxT1JVgNF5z4CPQfIdM=;
+ b=Q/N1aDghXQPGF4NfTpM6eis30ImlC/QnFF7ADuPWJkkFKQk9HPkA0455+uTo2gVAxW3fBS
+ y7Jrp7CRvRABgABA==
 Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
- by imap.suse.de (Postfix) with ESMTP id E0D0F11A97;
- Thu, 24 Jun 2021 07:38:05 +0000 (UTC)
+ by imap.suse.de (Postfix) with ESMTP id F2A7F11A97;
+ Thu, 24 Jun 2021 07:46:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1624520286; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1624520781; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=QPK14lABm+1uyZenNjve8XvNG/MX0PdCh2Je8qHiRT8=;
- b=KQXrE0ZBSDGTwh5OxOoqfMHQdMz6f3X3FPjLX+rRDem5kAkKUX/xcw4UNK1zllOtMXSjNG
- dK7YuFKqlVoXRbbyhc8y3LCdsUo1Ld8ZbvlAGRTz8FEJylufNx9h7D4W3RfMRf01LsQOaB
- 9liXE1yOrWE+ke6obWl6gI9CQvol/Mg=
+ bh=jVwcri593ba1CJ2aKAAm70yjSxT1JVgNF5z4CPQfIdM=;
+ b=OXRjV1BzshWsnMiv9ICZbEo/UP8KUTPx8LxQBoe1fMKhN2ZlrOvvaDBsoFGi24EBT5Q4/Y
+ tHnsU1t9IAbqCBPqNtN+7WWsmm7iVox5yB9CD68uY8mxr4nKBMthEq/sxbfAZ0V861Hw/2
+ FJ/MCVibFKJ3PuBI77Vg+fwNOi0yQdo=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1624520286;
+ s=susede2_ed25519; t=1624520781;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=QPK14lABm+1uyZenNjve8XvNG/MX0PdCh2Je8qHiRT8=;
- b=S0uflecAkak1929Zm7ctnac0vp8IbN9VRo+h9DKPIBXvXJvIBdrJaYntHJiuRKuzw4W4Md
- i7+zpgwfkUEdKuBQ==
+ bh=jVwcri593ba1CJ2aKAAm70yjSxT1JVgNF5z4CPQfIdM=;
+ b=Q/N1aDghXQPGF4NfTpM6eis30ImlC/QnFF7ADuPWJkkFKQk9HPkA0455+uTo2gVAxW3fBS
+ y7Jrp7CRvRABgABA==
 Received: from director2.suse.de ([192.168.254.72]) by imap3-int with ESMTPSA
- id FEG/NV021GCkBAAALh3uQQ
- (envelope-from <tzimmermann@suse.de>); Thu, 24 Jun 2021 07:38:05 +0000
+ id 2uJXOkw41GDFCQAALh3uQQ
+ (envelope-from <tzimmermann@suse.de>); Thu, 24 Jun 2021 07:46:20 +0000
 Subject: Re: [PATCH 10/15] drm/vram-helpers: Create
  DRM_GEM_VRAM_PLANE_HELPER_FUNCS
 To: Daniel Vetter <daniel.vetter@ffwll.ch>,
@@ -62,15 +62,15 @@ To: Daniel Vetter <daniel.vetter@ffwll.ch>,
 References: <20210622165511.3169559-1-daniel.vetter@ffwll.ch>
  <20210622165511.3169559-11-daniel.vetter@ffwll.ch>
 From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <33cb360d-9b4b-dc44-fd42-6fbc082eecab@suse.de>
-Date: Thu, 24 Jun 2021 09:38:05 +0200
+Message-ID: <da2c2108-6f48-6a85-db71-c93614484369@suse.de>
+Date: Thu, 24 Jun 2021 09:46:20 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
 In-Reply-To: <20210622165511.3169559-11-daniel.vetter@ffwll.ch>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="wQDUgZEOBbgJ1sqjtS0vLo8Ad8CXGngii"
+ boundary="sdO51lUl8HAYV5M4qG0S8bJTLtGR7P5hS"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,8 +92,8 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---wQDUgZEOBbgJ1sqjtS0vLo8Ad8CXGngii
-Content-Type: multipart/mixed; boundary="7Nx9CISA01WWWqei1wMsuGUkQUyKpT6hI";
+--sdO51lUl8HAYV5M4qG0S8bJTLtGR7P5hS
+Content-Type: multipart/mixed; boundary="VR22UcpH8RRuI3cLNCnkwnmHKzdC3E0wH";
  protected-headers="v1"
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: Daniel Vetter <daniel.vetter@ffwll.ch>,
@@ -103,22 +103,29 @@ Cc: David Airlie <airlied@linux.ie>,
  Tian Tao <tiantao6@hisilicon.com>, Hans de Goede <hdegoede@redhat.com>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Dave Airlie <airlied@redhat.com>, Daniel Vetter <daniel.vetter@intel.com>
-Message-ID: <33cb360d-9b4b-dc44-fd42-6fbc082eecab@suse.de>
+Message-ID: <da2c2108-6f48-6a85-db71-c93614484369@suse.de>
 Subject: Re: [PATCH 10/15] drm/vram-helpers: Create
  DRM_GEM_VRAM_PLANE_HELPER_FUNCS
 References: <20210622165511.3169559-1-daniel.vetter@ffwll.ch>
  <20210622165511.3169559-11-daniel.vetter@ffwll.ch>
 In-Reply-To: <20210622165511.3169559-11-daniel.vetter@ffwll.ch>
 
---7Nx9CISA01WWWqei1wMsuGUkQUyKpT6hI
+--VR22UcpH8RRuI3cLNCnkwnmHKzdC3E0wH
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-
+Hi
 
 Am 22.06.21 um 18:55 schrieb Daniel Vetter:
 > Like we have for the shadow helpers too, and roll it out to drivers.
+
+In addition to the plane-helper macro, you may also want to add=20
+DRM_GEM_VRAM_SIMPLE_DISPLAY_PIPE_FUNCS and use it in bochs.
+
+Best regards
+Thomas
+
 >=20
 > Acked-by: Tian Tao <tiantao6@hisilicon.com>
 > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
@@ -131,9 +138,6 @@ Am 22.06.21 um 18:55 schrieb Daniel Vetter:
 > Cc: Daniel Vetter <daniel@ffwll.ch>
 > Cc: Tian Tao <tiantao6@hisilicon.com>
 > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-
 > ---
 >   drivers/gpu/drm/ast/ast_mode.c                 |  3 +--
 >   drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c |  3 +--
@@ -228,27 +232,27 @@ Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
 Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
 
---7Nx9CISA01WWWqei1wMsuGUkQUyKpT6hI--
+--VR22UcpH8RRuI3cLNCnkwnmHKzdC3E0wH--
 
---wQDUgZEOBbgJ1sqjtS0vLo8Ad8CXGngii
+--sdO51lUl8HAYV5M4qG0S8bJTLtGR7P5hS
 Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmDUNl0FAwAAAAAACgkQlh/E3EQov+CJ
-eQ/+KSOa9KFNZTiidNbffdNAiuTuTzvnaQNLoTBUBNWtvHSxitYwFJW0J9iYsEi+MyFg/r2XORTe
-LoLTDq+T0/CE6acZGikJkfPii8m0k/e188lgtS5JiXNKls3sZHwWHiDAY0mO7k/IUbDJzyYb3JuG
-LqhUyb4zYuuMd/xiqkWpHeu8NRQjNIE2UOre3Jh9f3VHsOcTC2k2lukDi2Uiv4IW6nkU11IO3YET
-aHSIwFVPsVYIULjXstmaTIHUOezbrV7LyA7aHTVWABLrFj1frO399EIUnYRPSShRufXvW7VBX5/2
-GG1B5giGP5kIvmLFQFOh2e9cTV9apki4n7AQrv/DHsGNLfO9YmnUQ3YvA+v1ajdNgAU01kanzMkw
-7Q6NWUAzkzvE+l4iBaPy8PrbwFh3CV1193b5Iof4/SEpxxrcYfrNbDJHljFIxWfzfR8rlvQD00AW
-7vlwt26tiix3Ot/mzv3clhIJDT5/6Z5qMOVBR8DG7wCio86B45q7ctNuXbLcDK2ffp+NbERIsLQw
-bi2UdHTrWoHe3BCHYHHBQoM43JmReoxy4YWmJDFTcTWAAE0tq//R9JLG2SxtZTLY8ipQ/iCEMcdW
-QZzWVIf35/dKllvq15NcG+u76d0MwS25NLzejvxnsZBtxRz3iM3TQJGqD+GedE4roJ4STRlcPzl9
-C5A=
-=Y9r7
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmDUOEwFAwAAAAAACgkQlh/E3EQov+Bh
+LQ/9Fd1xO2doOMm0ADWxlcIvsaFwKGOr47fKb1OuqlKnFfbTZy4Z7nJwtBCxGVxw/63L1JT3AZJa
+WRDowp+0SaMTGbwTLTXsEX10I6BYKd5Ij1FjvUx2uUUOKJCx9Appbzbk8MCEGVOcuv/+zAT1IZLs
+DEuKd0uMrEOX4y3EbdQ475usDMZ68xLgDIChhKyNT3hysYXMMqjkjy2tAgnyLdGbkzPtTbrlSEJr
+B62EnVy775ygeYZw2GgyZP09v7lem9EtwynSiGMQUO3mOUNdq5m3QCEV//KcHCQDgmWMT1wbzUbs
+I8wq6idlCbQgeUXsrdFXVLQ+UXoCrpvjR3O+HQC0rmYQrX/zlDCwKX7a7xAn/X5HDUYdQ79kVdq5
+SIKeldD0q51oTRBGoZYgARNjkt4Vvk0gBChGahH/nM5Wtt0kDG7/dybjN9qGXyMzU0lwWysXaxRX
+Z7Ir94t5aO9Gs22V8sNzYkT3EdfddgxYmSnwrzj/jyksmd0pz3m8Zccpsrqf3Z1C1+39yTiZ0lKF
+i1MEfLnMdiw8Krq9q2CGJX3PylmVKz8CIpxY8128bc108XczQlZY1b0PEo4WZfCwFabMka/pA4iC
+KoHetRbknJUcsqoExpsLPJf2Yf46K86zpdTOwEGMhya66/00lS9q4J60Z8fBtNyu10q9sL8gqy0/
+NaA=
+=dasV
 -----END PGP SIGNATURE-----
 
---wQDUgZEOBbgJ1sqjtS0vLo8Ad8CXGngii--
+--sdO51lUl8HAYV5M4qG0S8bJTLtGR7P5hS--
