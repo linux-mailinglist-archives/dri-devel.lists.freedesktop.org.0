@@ -1,88 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76CA43B2C59
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Jun 2021 12:21:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9542E3B2C72
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Jun 2021 12:27:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C0F4E6EB4F;
-	Thu, 24 Jun 2021 10:21:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ECCA26EB50;
+	Thu, 24 Jun 2021 10:27:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D98036EB4F
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Jun 2021 10:21:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624530067;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=oKXkBJKG47HF5zZ+T34yALxUp2DCGSnnk7HiRaaGJBk=;
- b=OyOYIhkFlD72RXa4ApycBznJ8h/A4rxQkZYFz4zqo5MtkH1geetKyPWMfBX0ch0jh7q3Lg
- qnz7zGgvlyQUIzPbypEimxNaD0+gpIcj0/R+UxQuP9AGOacLVchr1yQsGXdxC66zyvRmgz
- DHDojJLPq7Dlhzp9U4RjDK0rp/NxRo4=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-250-vb2qiS4sMCC6Qfd7zF8Tfw-1; Thu, 24 Jun 2021 06:21:05 -0400
-X-MC-Unique: vb2qiS4sMCC6Qfd7zF8Tfw-1
-Received: by mail-ed1-f72.google.com with SMTP id
- g13-20020a056402090db02903935a4cb74fso3098293edz.1
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Jun 2021 03:21:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=oKXkBJKG47HF5zZ+T34yALxUp2DCGSnnk7HiRaaGJBk=;
- b=X8QYjncyNu6r0SiF5FhAKnWfCG1ZduGoUppiQu5F5LVSONp2NUC+FT3lDzSWB9bMqW
- JhUC4beOsnrGqcWV2fJs5bYAYfASIu2gdMX+TNA8oCDDyBLprJvgqRpZQkqGmLkJfQzE
- Lb/gk1w1zLBopbgfxw4wdKqEUqIc3q7uR6p7JCRn+ADCQkhB7Z8eTbhdgGYuVs4VlZDH
- Vsfyn1bvDMJ5ZOfNte3thiK5Jgj/eZIV6lQ+++PNGLXT4fGHaYuT0laGBPnCj7ONNzjV
- GSphmCEalg3fwjJeF766lnW7pt8ZwID/UwCY01roQzBy1sGvEKwetn1m0OKSP0KYd/Y5
- pAIg==
-X-Gm-Message-State: AOAM5325zyxS6ABTdYQcgXRjjoGpzdVWvM26JLLBPbdo4DDhTy67CNm4
- Dbcx0i8wtni+fvF164Ox0cv6wVeEPcrK5Uv7gW5Jc2/bJxFnHuWYLbttQf8aVOud4W6m8Z9Hw3D
- U8sdEkbePXof77+82DnRj5f+JQL0D
-X-Received: by 2002:a05:6402:220d:: with SMTP id
- cq13mr6001629edb.214.1624530064584; 
- Thu, 24 Jun 2021 03:21:04 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzs51nnE9ArY9tBUvtcT3K4P6rQ2AL9pfX67ccTlvEZ5+BaJldlaSdGdhR+tmPYnfTJgtakmA==
-X-Received: by 2002:a05:6402:220d:: with SMTP id
- cq13mr6001609edb.214.1624530064420; 
- Thu, 24 Jun 2021 03:21:04 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id e7sm493571ejm.93.2021.06.24.03.21.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 24 Jun 2021 03:21:03 -0700 (PDT)
-Subject: Re: [PATCH 2/6] KVM: mmu: also return page from gfn_to_pfn
-To: Nicholas Piggin <npiggin@gmail.com>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Huacai Chen <chenhuacai@kernel.org>, Marc Zyngier <maz@kernel.org>,
- Paul Mackerras <paulus@ozlabs.org>, David Stevens <stevensd@chromium.org>,
- Zhenyu Wang <zhenyuw@linux.intel.com>, Zhi Wang <zhi.a.wang@intel.com>
-References: <20210624035749.4054934-1-stevensd@google.com>
- <20210624035749.4054934-3-stevensd@google.com>
- <1624524331.zsin3qejl9.astroid@bobo.none>
- <201b68a7-10ea-d656-0c1e-5511b1f22674@redhat.com>
- <1624528342.s2ezcyp90x.astroid@bobo.none>
- <1624529635.75a1ann91v.astroid@bobo.none>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <fc2a88ed-6a98-857d-bb1f-73260b01ac30@redhat.com>
-Date: Thu, 24 Jun 2021 12:21:01 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id B3CB86EB4D;
+ Thu, 24 Jun 2021 10:27:34 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 051AA31B;
+ Thu, 24 Jun 2021 03:27:34 -0700 (PDT)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BA68A3F718;
+ Thu, 24 Jun 2021 03:27:33 -0700 (PDT)
+Received: by e110455-lin.cambridge.arm.com (Postfix, from userid 1000)
+ id 75E09684F2B; Thu, 24 Jun 2021 11:27:32 +0100 (BST)
+Date: Thu, 24 Jun 2021 11:27:32 +0100
+From: Liviu Dudau <liviu.dudau@arm.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v3 04/27] drm: Don't test for IRQ support in VBLANK ioctls
+Message-ID: <20210624102732.3h7lnsik7mkbphgw@e110455-lin.cambridge.arm.com>
+References: <20210624072916.27703-1-tzimmermann@suse.de>
+ <20210624072916.27703-5-tzimmermann@suse.de>
+ <87im23u1ok.fsf@intel.com>
+ <b5e7729f-ed11-e9ca-386e-562feb2bd2b7@suse.de>
+ <877dijtzl2.fsf@intel.com>
+ <af21db75-584f-aec0-9659-d5386f27b4ea@suse.de>
 MIME-Version: 1.0
-In-Reply-To: <1624529635.75a1ann91v.astroid@bobo.none>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <af21db75-584f-aec0-9659-d5386f27b4ea@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,44 +49,191 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Wanpeng Li <wanpengli@tencent.com>, kvm@vger.kernel.org,
- Suzuki K Poulose <suzuki.poulose@arm.com>,
- Alexandru Elisei <alexandru.elisei@arm.com>, intel-gfx@lists.freedesktop.org,
- linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, kvmarm@lists.cs.columbia.edu,
- Will Deacon <will@kernel.org>, James Morse <james.morse@arm.com>,
- kvm-ppc@vger.kernel.org, Sean Christopherson <seanjc@google.com>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, linux-mips@vger.kernel.org,
- intel-gvt-dev@lists.freedesktop.org, Joerg Roedel <joro@8bytes.org>,
- linux-arm-kernel@lists.infradead.org, Jim Mattson <jmattson@google.com>
+Cc: hamohammed.sa@gmail.com, emma@anholt.net, airlied@linux.ie,
+ nouveau@lists.freedesktop.org, rodrigo.vivi@intel.com,
+ alexandre.torgue@foss.st.com, dri-devel@lists.freedesktop.org,
+ michal.simek@xilinx.com, melissa.srw@gmail.com, linux-tegra@vger.kernel.org,
+ thierry.reding@gmail.com, laurent.pinchart@ideasonboard.com,
+ benjamin.gaignard@linaro.org, linux@armlinux.org.uk, mihail.atanassov@arm.com,
+ linux-stm32@st-md-mailman.stormreply.com, linux-samsung-soc@vger.kernel.org,
+ jy0922.shim@samsung.com, krzysztof.kozlowski@canonical.com,
+ linux-rockchip@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ wens@csie.org, jernej.skrabec@gmail.com, jonathanh@nvidia.com,
+ xinliang.liu@linaro.org, kong.kongxinwei@hisilicon.com,
+ james.qian.wang@arm.com, linux-imx@nxp.com,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, linux-graphics-maintainer@vmware.com,
+ intel-gfx@lists.freedesktop.org, bskeggs@redhat.com, chunkuang.hu@kernel.org,
+ puck.chen@hisilicon.com, s.hauer@pengutronix.de, rodrigosiqueiramelo@gmail.com,
+ laurentiu.palcu@oss.nxp.com, matthias.bgg@gmail.com, kernel@pengutronix.de,
+ linux-arm-kernel@lists.infradead.org, mcoquelin.stm32@gmail.com,
+ amd-gfx@lists.freedesktop.org, hyun.kwon@xilinx.com, tomba@kernel.org,
+ jyri.sarha@iki.fi, yannick.fertre@foss.st.com, Xinhui.Pan@amd.com,
+ sw0312.kim@samsung.com, hjc@rock-chips.com, christian.koenig@amd.com,
+ linux-sunxi@lists.linux.dev, kyungmin.park@samsung.com,
+ kieran.bingham+renesas@ideasonboard.com, philippe.cornu@foss.st.com,
+ alexander.deucher@amd.com, tiantao6@hisilicon.com, shawnguo@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 24/06/21 12:17, Nicholas Piggin wrote:
->> If all callers were updated that is one thing, but from the changelog
->> it sounds like that would not happen and there would be some gfn_to_pfn
->> users left over.
->>
->> But yes in the end you would either need to make gfn_to_pfn never return
->> a page found via follow_pte, or change all callers to the new way. If
->> the plan is for the latter then I guess that's fine.
->
-> Actually in that case anyway I don't see the need -- the existence of
-> gfn_to_pfn is enough to know it might be buggy. It can just as easily
-> be grepped for as kvm_pfn_page_unwrap.
+On Thu, Jun 24, 2021 at 11:07:57AM +0200, Thomas Zimmermann wrote:
+> Hi
+> 
+> Am 24.06.21 um 10:51 schrieb Jani Nikula:
+> > On Thu, 24 Jun 2021, Thomas Zimmermann <tzimmermann@suse.de> wrote:
+> > > Hi
+> > > 
+> > > Am 24.06.21 um 10:06 schrieb Jani Nikula:
+> > > > On Thu, 24 Jun 2021, Thomas Zimmermann <tzimmermann@suse.de> wrote:
+> > > > > diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
+> > > > > index 3417e1ac7918..10fe16bafcb6 100644
+> > > > > --- a/drivers/gpu/drm/drm_vblank.c
+> > > > > +++ b/drivers/gpu/drm/drm_vblank.c
+> > > > > @@ -1748,8 +1748,16 @@ int drm_wait_vblank_ioctl(struct drm_device *dev, void *data,
+> > > > >    	unsigned int pipe_index;
+> > > > >    	unsigned int flags, pipe, high_pipe;
+> > > > > -	if (!dev->irq_enabled)
+> > > > > -		return -EOPNOTSUPP;
+> > > > > +#if defined(CONFIG_DRM_LEGACY)
+> > > > > +	if  (unlikely(drm_core_check_feature(dev, DRIVER_LEGACY))) {
+> > > > > +		if (!dev->irq_enabled)
+> > > > > +			return -EOPNOTSUPP;
+> > > > > +	} else /* if DRIVER_MODESET */
+> > > > > +#endif
+> > > > > +	{
+> > > > > +		if (!drm_dev_has_vblank(dev))
+> > > > > +			return -EOPNOTSUPP;
+> > > > > +	}
+> > > > 
+> > > > Sheesh I hate this kind of inline #ifdefs.
+> > > > 
+> > > > Two alternate suggestions that I believe should be as just efficient:
+> > > 
+> > > Or how about:
+> > > 
+> > > static bool drm_wait_vblank_supported(struct drm_device *dev)
+> > > 
+> > > {
+> > > 
+> > > if defined(CONFIG_DRM_LEGACY)
+> > > 	if  (unlikely(drm_core_check_feature(dev, DRIVER_LEGACY)))
+> > > 
+> > > 		return dev->irq_enabled;
+> > > 
+> > > #endif
+> > > 	return drm_dev_has_vblank(dev);
+> > > 
+> > > }
+> > > 
+> > > 
+> > > ?
+> > > 
+> > > It's inline, but still readable.
+> > 
+> > It's definitely better than the original, but it's unclear to me why
+> > you'd prefer this over option 2) below. I guess the only reason I can
+> > think of is emphasizing the conditional compilation. However,
+> > IS_ENABLED() is widely used in this manner specifically to avoid inline
+> > #if, and the compiler optimizes it away.
+> 
+> It's simply more readable to me as the condition is simpler. But option 2 is
+> also ok.
 
-Sure, but that would leave us with longer function names 
-(gfn_to_pfn_page* instead of gfn_to_pfn*).  So the "safe" use is the one 
-that looks worse and the unsafe use is the one that looks safe.
+Either option looks good to me.
 
-> And are gfn_to_page cases also
-> vulernable to the same issue?
+Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
 
-No, they're just broken for the VM_IO|VM_PFNMAP case.
+Thanks for doing that!
+Liviu
 
-Paolo
+> 
+> Best regards
+> Thomas
+> 
+> > 
+> > BR,
+> > Jani.
+> > 
+> > 
+> > > 
+> > > Best regards
+> > > Thomas
+> > > 
+> > > > 
+> > > > 1) The more verbose:
+> > > > 
+> > > > #if defined(CONFIG_DRM_LEGACY)
+> > > > static bool drm_wait_vblank_supported(struct drm_device *dev)
+> > > > {
+> > > > 	if  (unlikely(drm_core_check_feature(dev, DRIVER_LEGACY)))
+> > > > 		return dev->irq_enabled;
+> > > > 	else
+> > > > 		return drm_dev_has_vblank(dev);
+> > > > }
+> > > > #else
+> > > > static bool drm_wait_vblank_supported(struct drm_device *dev)
+> > > > {
+> > > > 	return drm_dev_has_vblank(dev);
+> > > > }
+> > > > #endif
+> > > > 
+> > > > 2) The more compact:
+> > > > 
+> > > > static bool drm_wait_vblank_supported(struct drm_device *dev)
+> > > > {
+> > > > 	if  (IS_ENABLED(CONFIG_DRM_LEGACY) && unlikely(drm_core_check_feature(dev, DRIVER_LEGACY)))
+> > > > 		return dev->irq_enabled;
+> > > > 	else
+> > > > 		return drm_dev_has_vblank(dev);
+> > > > }
+> > > > 
+> > > > Then, in drm_wait_vblank_ioctl().
+> > > > 
+> > > > 	if (!drm_wait_vblank_supported(dev))
+> > > > 		return -EOPNOTSUPP;
+> > > > 
+> > > > The compiler should do the right thing without any explicit inline
+> > > > keywords etc.
+> > > > 
+> > > > BR,
+> > > > Jani.
+> > > > 
+> > > > >    	if (vblwait->request.type & _DRM_VBLANK_SIGNAL)
+> > > > >    		return -EINVAL;
+> > > > > @@ -2023,7 +2031,7 @@ int drm_crtc_get_sequence_ioctl(struct drm_device *dev, void *data,
+> > > > >    	if (!drm_core_check_feature(dev, DRIVER_MODESET))
+> > > > >    		return -EOPNOTSUPP;
+> > > > > -	if (!dev->irq_enabled)
+> > > > > +	if (!drm_dev_has_vblank(dev))
+> > > > >    		return -EOPNOTSUPP;
+> > > > >    	crtc = drm_crtc_find(dev, file_priv, get_seq->crtc_id);
+> > > > > @@ -2082,7 +2090,7 @@ int drm_crtc_queue_sequence_ioctl(struct drm_device *dev, void *data,
+> > > > >    	if (!drm_core_check_feature(dev, DRIVER_MODESET))
+> > > > >    		return -EOPNOTSUPP;
+> > > > > -	if (!dev->irq_enabled)
+> > > > > +	if (!drm_dev_has_vblank(dev))
+> > > > >    		return -EOPNOTSUPP;
+> > > > >    	crtc = drm_crtc_find(dev, file_priv, queue_seq->crtc_id);
+> > > > 
+> > 
+> 
+> -- 
+> Thomas Zimmermann
+> Graphics Driver Developer
+> SUSE Software Solutions Germany GmbH
+> Maxfeldstr. 5, 90409 Nürnberg, Germany
+> (HRB 36809, AG Nürnberg)
+> Geschäftsführer: Felix Imendörffer
+> 
 
-> So I think it could be marked deprecated or something if not everything
-> will be converted in the one series, and don't need to touch all that
-> arch code with this patch.
 
+
+
+-- 
+====================
+| I would like to |
+| fix the world,  |
+| but they're not |
+| giving me the   |
+ \ source code!  /
+  ---------------
+    ¯\_(ツ)_/¯
