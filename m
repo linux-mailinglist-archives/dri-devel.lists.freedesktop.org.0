@@ -1,125 +1,125 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25B8E3B34E6
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Jun 2021 19:38:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C46A83B34EE
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Jun 2021 19:39:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A1A06EC70;
-	Thu, 24 Jun 2021 17:38:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C16506EC74;
+	Thu, 24 Jun 2021 17:39:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2088.outbound.protection.outlook.com [40.107.237.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ADA486EC70
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Jun 2021 17:38:23 +0000 (UTC)
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2068.outbound.protection.outlook.com [40.107.93.68])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 30C1B6EC72;
+ Thu, 24 Jun 2021 17:39:40 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BKiMtOySVbHf6PxktZzEM6gTs3Ai1E580v/jUIMN1PuMUdOPLOlaZ1lblJ7+kiD4k6kP2J3iswJX6daLpjt4Msbf4JZISplBz5qC/4x81vBPYPXnuc/qur0dtHZSymRrUyFSmG6ZRZWPgLUusUmblaPqkPVMm+LbRlki5Htup6dINslv2DHZexX6xWSfc4uY5aaKqEWSLCgM7ETytmcshmGdWwrYvJU5dT0+4ds1g0nJgXu2s9WAD0V3oPqVV9hzcZHkt6RMn/KUxynXED68GKaZQb8/Nqr3YgTbfDnWeqTs3s+dAXch4QtJx0N7672g4nQ85XPoXB6yPf81qUs9Rg==
+ b=GjaAEs9BodqVWr2HODQNJwYtpWs1LsHzuz6/riby5pzOZyTWUrVQO+rLN6BPN0EeuM9U4XzIZXHIYBTyowVQN5CVDgSUL25fS7dhd6hVOPrDGoNzn/ORhZd1hIhRZcqXsJXjA+WZ5aRLmKIh++FC1stWOeuGzhoju50WecGJDv1EGjE465po/1PdKORP35FFFSx/pX+/GMiob8SOFvN5kK+ScNeYqt8UC6WM9C1Wp9HOt5LoaO57AgyAO9j14+0zqPhXIx+0aKwrTddGa2e7SLVHX+6HqQOjee/SUGa/BbPAPMV43BYgwKJq0GoYVRDsp6E/kQ5SCZuddbODW3ES4A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kYOvskiXd7MhEnNtXyw2BtWa8lbFmP22KzTzQtsObWA=;
- b=EF6Gfy1IO71QxzWT91zMCdTHRPNyRTWYNVNU2hctQ8MwFdLs9Pye/lV4aG0LiXb9osq2KR7Soyb5oRYS/QjvWAhw+Tay/foI33CpheE0+UeXhCc9N+fXyUTNuba49Efh1YWje2Af6Al8xACk3vihHHZYlf2hvl1dfYHxood2YZeaDfCoJ4H41ZfoaLbES53sjhRYuHvXNeaR3JxzWYyko2kIzf/EVBHnNhZfwr6eh+VFMdqrx3MLjHc5u+EDbFy32MxQfs2amGrtzkXF0izGKWkHX/ys4tJmFIkeTi6qXEf2ov6uZh603fYFsygwZ4orHoEIkxy8M7zvrdvXI1KzPA==
+ bh=flpMewtE407Z5pHrEl+LTk8A4Z9muwsc5ImOJBJNFPM=;
+ b=lxD/YHljLBffjkFs4uJBZfV6aLvChW4hSx6yqqQU4GdUflRk+o7JIg8tVnVLGMITpIdC/PE/kCn38RBfk6p9M117PriHHxPzJPvILJocBcvfPTVMSt83vuDxbOLe6uDv2yIuN2bRydBXY8b4xMGPKh2+kiAfe12covGl61Q9iXryfC0IuRb+cQ4Gwj6Qcvg658s6r+kvtLhrVP6eKewWW7n1Yd1V8MC6bXgClntG2wYvHjD6yv9hCaA5sYe64YF9gf/0gMGIwyEgLm94Dv9LEnRGZdesJd9h5kqyTlBvuRh1CNXaoIsz3RvrFQa8Qn6/tWjTi/Lukv90F5l+N+iz/w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kYOvskiXd7MhEnNtXyw2BtWa8lbFmP22KzTzQtsObWA=;
- b=zUpqNTaVLwA20/I6+A4i5oUBzAuCvPN0UVaapCNviqsUFaerewmObKO7S2Sm82MsnD1v6aVXw8TCWVci3ngCCStGf9CYHGUvGJHES2b3By9DtIAVtlb7J/YbJE8N4nOQw6MbJ8VONZ9SlARRpZC1BO4eySVQGvbe1t48b4y7zec=
-Authentication-Results: amd.com; dkim=none (message not signed)
- header.d=none;amd.com; dmarc=none action=none header.from=amd.com;
+ bh=flpMewtE407Z5pHrEl+LTk8A4Z9muwsc5ImOJBJNFPM=;
+ b=abSi7UpAhN/IAqMnExlQ8iDAoM/L99OE4x/V8/U3f1UAHUeISm4zOdz/ya8N6ja3Ex+0TMoxQfBdBNvCI/asw3SeCYVP5z9DcDa44dlKnssSatV54vaO9q1x2Dl4RlS1hYdK/Bup/qBmqsbWvpj4QjSia8h4RKl8ZInh9tYwC7c=
+Authentication-Results: lists.linaro.org; dkim=none (message not signed)
+ header.d=none;lists.linaro.org; dmarc=none action=none header.from=amd.com;
 Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
- by MN2PR12MB4551.namprd12.prod.outlook.com (2603:10b6:208:263::22)
+ by BL0PR12MB2419.namprd12.prod.outlook.com (2603:10b6:207:44::27)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4264.19; Thu, 24 Jun
- 2021 17:38:19 +0000
+ 2021 17:39:36 +0000
 Received: from MN2PR12MB3775.namprd12.prod.outlook.com
  ([fe80::6c9e:1e08:7617:f756]) by MN2PR12MB3775.namprd12.prod.outlook.com
  ([fe80::6c9e:1e08:7617:f756%5]) with mapi id 15.20.4264.020; Thu, 24 Jun 2021
- 17:38:19 +0000
-Subject: Re: [PATCH 10/11] drm/scheduler: Don't store self-dependencies
-To: Daniel Vetter <daniel@ffwll.ch>
+ 17:39:36 +0000
+Subject: Re: [PATCH 01/11] drm/sched: Split drm_sched_job_init
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
 References: <20210624140025.438303-1-daniel.vetter@ffwll.ch>
- <20210624140025.438303-11-daniel.vetter@ffwll.ch>
- <fa721d0e-46d7-b5f3-f846-560b8dad4e58@amd.com>
- <YNTBC04wfQ7ItRq7@phenom.ffwll.local>
+ <20210624140025.438303-2-daniel.vetter@ffwll.ch>
+ <834f5d78-9052-8e7a-fd34-c5b4f37857cf@amd.com>
+ <CAKMK7uEyiD7fD6DUD-4dJyXZEYaZiE3bdGyz6cLzsf7cjaRD4g@mail.gmail.com>
 From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <811e5816-c9d7-72b8-2836-a3d1891bb762@amd.com>
-Date: Thu, 24 Jun 2021 19:38:14 +0200
+Message-ID: <fdf12f4a-e719-0993-1b05-0de7b4a150a6@amd.com>
+Date: Thu, 24 Jun 2021 19:39:26 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
-In-Reply-To: <YNTBC04wfQ7ItRq7@phenom.ffwll.local>
+In-Reply-To: <CAKMK7uEyiD7fD6DUD-4dJyXZEYaZiE3bdGyz6cLzsf7cjaRD4g@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
 X-Originating-IP: [2a02:908:1252:fb60:c089:94ee:b4ef:e121]
-X-ClientProxiedBy: FRYP281CA0010.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10::20)
+X-ClientProxiedBy: FRYP281CA0002.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10::12)
  To MN2PR12MB3775.namprd12.prod.outlook.com
  (2603:10b6:208:159::19)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from [IPv6:2a02:908:1252:fb60:c089:94ee:b4ef:e121]
  (2a02:908:1252:fb60:c089:94ee:b4ef:e121) by
- FRYP281CA0010.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10::20) with Microsoft
+ FRYP281CA0002.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10::12) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4287.8 via Frontend Transport; Thu, 24 Jun 2021 17:38:17 +0000
+ 15.20.4264.10 via Frontend Transport; Thu, 24 Jun 2021 17:39:31 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 32ac6b12-7d21-434d-ea0c-08d93736dabf
-X-MS-TrafficTypeDiagnostic: MN2PR12MB4551:
+X-MS-Office365-Filtering-Correlation-Id: 05877df3-86af-4d15-01fc-08d937370907
+X-MS-TrafficTypeDiagnostic: BL0PR12MB2419:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <MN2PR12MB4551F5D83F3BFD80977AFCAE83079@MN2PR12MB4551.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-Microsoft-Antispam-PRVS: <BL0PR12MB2419233EED49498F98C054B383079@BL0PR12MB2419.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2449;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Trwe4uibT3kuljQDFMGXFo3Fl/NKnU2IHY315I2tPG+3yPriaQr52KoCs476lAwDo4xF8xxrmrTaO8VcXikaEXTd70gBw7TdxmJmBeSdaHNuDmQ2rYNFyRblhND+AyRLU+S1WaYN31pO/n4GBrQhTxk5Qr973SD1htgCEU+S2l6hSkvWA0NNjlpHgUDaLS1Ko2bfX/Y1toTT6i3Wz+9OJt9jzqiWV10YR4XcfxWp+ECu3hQrANVyG38ruodEl52t8R2s1cinUtRLRxUmLwN1aHs0N8u8/TpMc0wEmsPjIR5xDfs/L+I4mc7RNnmJXbYaw416b8JcNueeAlrpCrNdmMNNth8ha/wKL/xgvKsEmy0lBAQUJHPEMoHpf4y8gtj7WhLnmeCAL+CqzP8be7DhOoOurLAHSDoY/F/ev1ZWYQT4DvyLr1EDOg5r0OGHyqJ3lKqibhKuURDu86U7JHUUxr/g/pDhSFIW9oqBqCqHZPQ42jBHSbmyj/ruE51VIDwH/jSiEQHZVyIkJPgbUIn2Zla3ry8Yjg6rzAQUnqSuLAn6zGjoZYPrA1dc+GW2/yjJeSG4z+/9yMJfkewXhOV2pBM5jfWsS/wKJIwrvjai3MWNhVH53GhSd0h00MHlb5zfKumca7rUXq4OwjgsdpDzANN48wH9fYKky9FOKb8S8lxXL4L7n5QL5toyxfpWYlx8
+X-Microsoft-Antispam-Message-Info: NB1Si4lvQDZWX7L9MMeb9n+ZRU07LOUhpcIwI+f9ule/R+c/UXKpLImo+SLY6HqCUDCaeh+MY4BIXgpCBaCre5rOnbsF3pzfq7aqSA4/pW7+Fq0+M2z2Y0Tq+MF1UoSMe327jq55NT1PSIuv3Tr7qdRY48LS1oQ9u4DCwcNUtUqUYn7n+gtqBK1Uf9ciW8U+jxN58XcGu8oIDMdcmT0ftToMHMlWKpnu4xYYeJNou2hZkAZaTy/YH+VJpLEt4Tq5STu0W94UD31Ejm0f5JOUQcu0dx2PFaVxuNwc9HERy1dwitsd10FBzN71PDV6lJ7XAZlNbzsefMCcEuuGo6SeRZ5ZeF0r2O6T/aQ7amipBGcQJkWRvi34Uit1iRlJQaS8yTVBQ2d3oV3tQDiPKEJFTqB4UEISqcb1QXNborHGN7Fe5Ae4C5Y350SCmJsq/cb+jQLp/MYnBJqc85aF6gP4Y9hu0mLQ3nWTzYlqzGuvFo7yD+8Lnz5krUgnQsaGH6v/0ug3Sk7B6bSbum8A6YUvruPRKW06vxz5I7UduW8Jv78iQWq2FrFlNazmjp60GVaHh2tk0BgBUOQGpl/MutOsgzGKFR9y7ipYN0HF0vO42TRNVlZS4dcLCB+piK+HxsT5hAzqF4zDjALQP8m+kMJZKtJZHJ1zF3Po/JcCtocum0GAi8OM5GBm2cRyT3xQZb78
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(31686004)(6916009)(38100700002)(54906003)(2906002)(4326008)(86362001)(498600001)(66574015)(66476007)(66556008)(6666004)(66946007)(36756003)(8676002)(2616005)(8936002)(186003)(5660300002)(31696002)(16526019)(6486002)(43740500002)(45980500001);
+ SFS:(4636009)(376002)(39860400002)(346002)(396003)(136003)(366004)(66574015)(83380400001)(5660300002)(6666004)(31686004)(66946007)(66476007)(66556008)(478600001)(38100700002)(4326008)(8676002)(2906002)(2616005)(16526019)(31696002)(86362001)(186003)(6916009)(7416002)(7406005)(316002)(54906003)(30864003)(53546011)(6486002)(36756003)(8936002)(43740500002)(45980500001);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Wk9XUFFJaVBVa25mbWV6NDFWRVNibTRyUlRaMjdiaWMrUEVEbGwraDQ2QzJI?=
- =?utf-8?B?OTcyelk0ZERRRlhqaWl3SXlLZEU3QXJKdXAzSmxnN0FSWlBPQ0RWRTVZZ2x5?=
- =?utf-8?B?dnBoUW14U2Q5KyszL0RMUnl0QVMwUTFOVUxzc1ZjWjdtYnNXenFHR09sMFFi?=
- =?utf-8?B?cjhUL25IdStaVHBKK2FmQ09GM2NBZWlvOFc1akV2TE56TmdwVWwwWGpIeUlU?=
- =?utf-8?B?Q2oyb2t2NUU0S3NhamtUYVFGUkFrL1R3L2J4ZFZKVStqamx1emtwYVh1VUdC?=
- =?utf-8?B?cU11WldYR1hvN3lvNjh1VWRsRUgvUVNiZFRwV3NYK1ZTcHphZEFUZkdwUE9O?=
- =?utf-8?B?WUVNRXBrY29pbHI0cG9qanM1ekVxR21CbDRyTmtJQ0hvREJIdEw4OUd0WjJm?=
- =?utf-8?B?MmJMUVZRaCtsM3pUTnhHTjNZalFhNXk3U2F5ZVlHdXlPT2JzT2pzRnBxbDFx?=
- =?utf-8?B?YTZWdHVMVjErcGNrUlVOR2F1aHFIQW9aKy8xSGx2ZXdUcnd3NVZOc0hLSWMv?=
- =?utf-8?B?amZOS2I0czdvM3NtUzFWYVlPVGpGVmd6R1ZScU9iTTBOYXdveVQxSzllNmcy?=
- =?utf-8?B?K1NUSm9zMnBVblg5d09DTnFDQnhRZm1sY2hXZFlUV3I5V2VCaktubVFydTM1?=
- =?utf-8?B?MVhBMTA0QVF2TnEvSzdMazZqVzdUclNlWnRqY3FLWThheTF1YzV2WFNHSk5P?=
- =?utf-8?B?UWkvZ1BYdlRSZXhMVFRmTXRjM0NHTFpnclBnYzJzTDFsbVpPZ1UvK1dXSXpY?=
- =?utf-8?B?aFZ0U0xXUUNlUGUxMXVqeS9nVGN4aVlsakxaVloyTnhjdVZ3NlRYK2RZcTdl?=
- =?utf-8?B?bm1VeXhaU2F3NnE4dTBXMHQ4Zk5pdDdNTUpEU2lIYnYxclZLTDFEZlRTZjJB?=
- =?utf-8?B?S1lpQWQ2Z2NFT2RrOUdVQ1B4OWI1ejVtd3N0OFBSSDZIdS9WdHFEajlsOG1l?=
- =?utf-8?B?UXhZakdzRFJFNitPNjJCZTJsU0poM1RhaXJhQ1drUDZWRzJvYXFTdVJrQTBX?=
- =?utf-8?B?NEV1VTFTWS9Relg0K2d6QzJsSzlwK3RCZWJQZTRIWDRLS2UycFd6Y1A2T3NN?=
- =?utf-8?B?b2kxRVFDeDZVSk1hcWRXRUVmam9vdUZ6dlZBYmVCK2xCRGJPL1F3TnZsWGg3?=
- =?utf-8?B?RTAxTEdGUzJvRy92Z2d4MVFmNEdCT0tUYUQ0R0ZpdHYzWC9zdXBJenZHMmdp?=
- =?utf-8?B?eGZPMU5vMEp2VHZDYWlJdTl5dFpsbzBSTkVXVlFCYlBlSVdRVFdVc1NBREFY?=
- =?utf-8?B?S0pjRHVKSEhCWmVobFNVK2ozU0RWcWZYZDBtYXdwRmQxV0s1WTB1aVd0TGlo?=
- =?utf-8?B?K1hBaHRzYTNuenF2U1RkRklGSXhxTk54eTcvT1BaOEh0M1oyS3E2RXhBNHVB?=
- =?utf-8?B?Y1U0bnZyMVNvUmZGNytTd0RoUGsxaW5lWGlZdEVROFZCL3RMdm9DNnZhMmhj?=
- =?utf-8?B?cCthaTQrZm5zRXZ6RHRzRzQrQ0FZSm9jNk5PWXVjTHlZbHBjU2NuQnZrREdV?=
- =?utf-8?B?eGtCUGJ3bGVmeVk0bE80NUJzOEVNYkJpSTkzandHR3c0YStVdXhWd3ZNRWFx?=
- =?utf-8?B?aXVoeEpKTHVsMHlnTWtVRkJvMFc3WGNsejJxRkYzaFR0b2IyTG5oL0dCMHYy?=
- =?utf-8?B?MnlOaFhCQXJhQ2dHUDJISm5wRGpqOWxOajF5OHd3ZTlxaDBLdm1yWmptY3hH?=
- =?utf-8?B?ZXIzbkpsMXFXNDJjRGVHSkU5WXRnZU5WVzVSQnAxck9TcGgrQ0VsMGNaY0xJ?=
- =?utf-8?B?UVBxbklwUzZWMVBOT1FaamNsdnZWWk52K3g4VWFHcjRWVjd3VWVOQlN3T1Ux?=
- =?utf-8?B?ZVZmdDg1MnRGR0FEclEzMUdLbFJmaFB6c2tDQXBNZTN2MnU3cjhnWkc0V0RH?=
- =?utf-8?Q?e14++vjOYHaND?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?REo4N2labUpJYms0a2VHVVc0YUhveGVzVFdCdlVKdjBsOUJPbFcybW8vbHJ5?=
+ =?utf-8?B?ODRVdnpKVnJVd0EwRkUrRG5uS2ZOZFRYY2pPa0FiOHFWcTBHUHM5b1lXanBo?=
+ =?utf-8?B?V05PN3Z4ZjFLMnJlUW5sVUpFZzY3SUxVaS9TdGlhUHNNQXhWZHJwL2JnUlBt?=
+ =?utf-8?B?Q2NJZHhKRmkzZkMvb2J5QzlNK3BMTnNTUEFHNXFnNEM4UWRudmlpYUI4ek9a?=
+ =?utf-8?B?QUpTUVJ5bTh0ZEZQUVFFM1JiS0ZWdjNwNDNnN3gvWGxpb3VucFNaQkNxOEhm?=
+ =?utf-8?B?WU9ZOW9LTWFkdnU2LytLNExzbGErRFoxam9RUE5yK1BybjBHMGdaZ2NhQS9a?=
+ =?utf-8?B?MXA5dnUzaWdCeVF0dWNnd0tOZm4yOG9jOWo2dEltSXh1WFh3QVE0dVlrUmto?=
+ =?utf-8?B?RkJ5MzZ1VGhPRmc5VituRmJDbmYvRWU5VWg3Mm5qVVNNSEMxcnErTXFlMURN?=
+ =?utf-8?B?T2Z1Vmh0NEZ2eEJzNW1sb0hxWlBoVVlsMXB5a3VGVXFSYXFQRlpIRm1yNWl6?=
+ =?utf-8?B?aWI4UjQ1MXFqekhtekdhVml5WHFwN0tlMWFlNWY3VjRKb0pUUnRRSlVMYVpa?=
+ =?utf-8?B?WlVJbmZDeWJ0T29XQjUreFZxN0pEbXBjVjhCZHFEOUlKNFdCRE1ISDlkaWhu?=
+ =?utf-8?B?MDFUY1ZTVGk3bXNCWkxOZnRRdnR0LzBXOXlVSnkvK05pcSswLytVb0Q2dTdj?=
+ =?utf-8?B?ZU95VnZaWm5paVJtMTFuQytZbDVoVlp2UFA4T3RCcHE0Mk9qZUZ1a3ZqbTdF?=
+ =?utf-8?B?MGYya0E1d3ZWWDNUKzVaRFc1WndaeWF1Mk54OE5NZjU4cGxxNkdqWFpjWUky?=
+ =?utf-8?B?cjJiY1IycC9vdGdlNGhaR3FpNnRwV0V6cDBzZHZkbzRWNmd3S1pBSUdrOERl?=
+ =?utf-8?B?UkphaTV5TEdzWlVmM2hkZFIvK0ZUYWgwS254S3JoRTcvbEdza20wd0Z4YkFT?=
+ =?utf-8?B?V3hma0pGcGdyRG4xa2QwRmwvRnQ1d1BDQlg5cytOelFWVUpyeWFXZ203Z3hO?=
+ =?utf-8?B?WTBmWTJydjdJRDNtUHBNMndwOVhNZjJFMURlc2M2eDczd0Z1aTB6T3ZyUlhD?=
+ =?utf-8?B?SlUvWnI5dU1zSUxKeUtlOWpqUnFkMks0Uk85eTFzZXhSRXFBNGZ1S0ZjQ1h4?=
+ =?utf-8?B?YXlPeVA1dlBoQ1p6YS9tRmdSamc1Wk5vVnVIQkFMZVRNb2Q1aU1EN0pDemFu?=
+ =?utf-8?B?elBwODhCYVNHK0xnbUtYai9LMWJzZnhWWWM0bllBbFFVWWVwNGtDTXd4eWI5?=
+ =?utf-8?B?ZzkxVlVJdkUzTG14Vnd1OG1sTDJxbS9xajZjNzNJVXNSMGxWUmV4c0xxd21t?=
+ =?utf-8?B?QnRkQXluY1VkNDRFQTMyaHFyR3ZIOG45R29majZCNzV0Vmlha3l1SkYyenUx?=
+ =?utf-8?B?bFR1ZWZPWTRmZVBYR3NQUDA0Y2ZCTUJ0Y2NPNUNPbXFHMGVZNXZoTW9Uc2l3?=
+ =?utf-8?B?R28raXJteTEwVmd3ZzIxeTlZVG5OdHh1UFRBL1RwQS9QdG9SbnppZ1ZwMjU0?=
+ =?utf-8?B?OHEwSzBxTWtjREVkbWRtMVNSdnZxQ2cwbGRIaWlOUlA5Q3EzTnlGejN4K1RC?=
+ =?utf-8?B?T2Q3TXo2bDFmdEpSSWo5SlMwNlJwcElLZWNMNllVWml5akdscFl4QWJxYkEx?=
+ =?utf-8?B?N0dsU3B0T3U5UHJaYzF6bmJLT0pwcG9jaGxZMVoxUXQzakJVNFM3OFpINzdY?=
+ =?utf-8?B?eFZ1ZVpJeHNmVnpkZkJjaEZ6ZGhyTzVrOVF4MXZYb2lIUXBxMU1pc0xaeUVH?=
+ =?utf-8?B?aWVDVjI1QmoyUk9TeVU3Z3pjd1ZsaWhibklhMVc3ZmtWZnczSkF1aCtnRmxh?=
+ =?utf-8?B?d3U1dERLNHcxUkJUZTNIT0FYTFJyWWxtRW9qUWdnZVNLcVp5L2lHVzUySWNv?=
+ =?utf-8?Q?l/k0h3RNUuEiQ?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 32ac6b12-7d21-434d-ea0c-08d93736dabf
+X-MS-Exchange-CrossTenant-Network-Message-Id: 05877df3-86af-4d15-01fc-08d937370907
 X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jun 2021 17:38:18.9356 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jun 2021 17:39:36.7287 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: InuMO/wfXrHf7PNi1tHpsK1VVuJzJ/Uhroq3vK07R9euVj4QITk2EO4zRe58JFK3
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4551
+X-MS-Exchange-CrossTenant-UserPrincipalName: tVpx7Oy5q96I5uKdO+pdilNPIApRNOGWVNNUD1YAwNP9veLZiiJBbjkKvoNgme8A
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB2419
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -132,96 +132,327 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jack Zhang <Jack.Zhang1@amd.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+Cc: Adam Borowski <kilobyte@angband.pl>, David Airlie <airlied@linux.ie>,
+ Viresh Kumar <viresh.kumar@linaro.org>,
  DRI Development <dri-devel@lists.freedesktop.org>,
- Luben Tuikov <luben.tuikov@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
- Daniel Vetter <daniel.vetter@intel.com>
+ Sonny Jiang <sonny.jiang@amd.com>, Nirmoy Das <nirmoy.das@amd.com>,
+ Daniel Vetter <daniel.vetter@intel.com>, Lee Jones <lee.jones@linaro.org>,
+ Jack Zhang <Jack.Zhang1@amd.com>, lima@lists.freedesktop.org,
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ Masahiro Yamada <masahiroy@kernel.org>, Steven Price <steven.price@arm.com>,
+ Luben Tuikov <luben.tuikov@amd.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Sami Tolvanen <samitolvanen@google.com>,
+ Russell King <linux+etnaviv@armlinux.org.uk>, Dave Airlie <airlied@redhat.com>,
+ Dennis Li <Dennis.Li@amd.com>, Chen Li <chenli@uniontech.com>,
+ Paul Menzel <pmenzel@molgen.mpg.de>, Kees Cook <keescook@chromium.org>,
+ =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <marek.olsak@amd.com>,
+ Kevin Wang <kevin1.wang@amd.com>,
+ The etnaviv authors <etnaviv@lists.freedesktop.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Nick Terrell <terrelln@fb.com>, Deepak R Varma <mh12gx2825@gmail.com>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>, Qiang Yu <yuq825@gmail.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Tian Tao <tiantao6@hisilicon.com>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 24.06.21 um 19:29 schrieb Daniel Vetter:
-> On Thu, Jun 24, 2021 at 07:03:10PM +0200, Christian König wrote:
+
+
+Am 24.06.21 um 19:37 schrieb Daniel Vetter:
+> On Thu, Jun 24, 2021 at 7:30 PM Christian König
+> <christian.koenig@amd.com> wrote:
 >> Am 24.06.21 um 16:00 schrieb Daniel Vetter:
->>> This is essentially part of drm_sched_dependency_optimized(), which
->>> only amdgpu seems to make use of. Use it a bit more.
->>>
->>> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
->>> Cc: "Christian König" <christian.koenig@amd.com>
->>> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
->>> Cc: Luben Tuikov <luben.tuikov@amd.com>
->>> Cc: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
->>> Cc: Alex Deucher <alexander.deucher@amd.com>
->>> Cc: Jack Zhang <Jack.Zhang1@amd.com>
->>> ---
->>>    drivers/gpu/drm/scheduler/sched_main.c | 7 +++++++
->>>    1 file changed, 7 insertions(+)
->>>
->>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
->>> index 370c336d383f..c31d7cf7df74 100644
->>> --- a/drivers/gpu/drm/scheduler/sched_main.c
->>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
->>> @@ -649,6 +649,13 @@ int drm_sched_job_await_fence(struct drm_sched_job *job,
->>>    	if (!fence)
->>>    		return 0;
->>> +	/* if it's a fence from us it's guaranteed to be earlier */
->>> +	if (fence->context == job->entity->fence_context ||
->>> +	    fence->context == job->entity->fence_context + 1) {
->>> +		dma_fence_put(fence);
->>> +		return 0;
->>> +	}
->>> +
->> Well NAK. That would break Vulkan.
+>>> This is a very confusingly named function, because not just does it
+>>> init an object, it arms it and provides a point of no return for
+>>> pushing a job into the scheduler. It would be nice if that's a bit
+>>> clearer in the interface.
+>> We originally had that in the push_job interface, but moved that to init
+>> for some reason I don't remember.
 >>
->> The problem is that Vulkan can insert dependencies between jobs which run on
->> the same queue.
+>>> But the real reason is that I want to push the dependency tracking
+>>> helpers into the scheduler code, and that means drm_sched_job_init
+>>> must be called a lot earlier, without arming the job.
+>> I'm really questioning myself if I like that naming.
 >>
->> So we need to track those as well and if the previous job for the same
->> queue/scheduler is not yet finished a pipeline synchronization needs to be
->> inserted.
->>
->> That's one of the reasons we wasn't able to unify the dependency handling
->> yet.
-> That sounds like an extremely amdgpu specific constraint?
+>> What about using drm_sched_job_add_dependency instead?
+> You're suggesting a
+> s/drm_sched_job_init/drm_sched_job_add_dependency/, or just replied to
+> the wrong patch?
 
-Yeah, that's totally hardware specific.
+Replied to the wrong patch accidentally. I was talking about the "await" 
+terminology.
 
-It's just that I don't know how else we could track that without having 
-the same separation as in amdgpu between implicit and explicit fences. 
-And as far as I understand it that's exactly what you want to avoid.
-
-As I said this turned out to be really awkward.
-
-> You're also the
-> only one who keeps track of whether the previous job we've scheduled has
-> finished already (I guess they can get pipelined and you don't flush by
-> default), so you insert fences.
-
-Yes, exactly that.
-
-> I guess we can add a await_fence_no_dedup or so for amdgpu, but I'm not
-> sure why we have to inflict this design constraint on all other drivers?
-> At least I'm not seeing anything in lima, panfrost, v3d or entaviv that
-> would break with this, and i915 will also be perfectly fine.
->
-> Also note: I'm not using this for amdgpu, exactly because there's a few
-> funny things going on.
-
-Yeah, exactly the reason why we never unified this.
-
-Regards,
 Christian.
 
-> Finally: You _really_ need explicit dependency handling for vulkan in your
-> uapi, instead of the kernel second-guessing what userspace might be doing.
-> That's really not how vulkan is designed to work :-)
-
->
-> Cheers, Daniel
->
+> -Daniel
 >
 >> Christian.
 >>
->>>    	/* Deduplicate if we already depend on a fence from the same context.
->>>    	 * This lets the size of the array of deps scale with the number of
->>>    	 * engines involved, rather than the number of BOs.
+>>> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+>>> Cc: Lucas Stach <l.stach@pengutronix.de>
+>>> Cc: Russell King <linux+etnaviv@armlinux.org.uk>
+>>> Cc: Christian Gmeiner <christian.gmeiner@gmail.com>
+>>> Cc: Qiang Yu <yuq825@gmail.com>
+>>> Cc: Rob Herring <robh@kernel.org>
+>>> Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>
+>>> Cc: Steven Price <steven.price@arm.com>
+>>> Cc: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+>>> Cc: David Airlie <airlied@linux.ie>
+>>> Cc: Daniel Vetter <daniel@ffwll.ch>
+>>> Cc: Sumit Semwal <sumit.semwal@linaro.org>
+>>> Cc: "Christian König" <christian.koenig@amd.com>
+>>> Cc: Masahiro Yamada <masahiroy@kernel.org>
+>>> Cc: Kees Cook <keescook@chromium.org>
+>>> Cc: Adam Borowski <kilobyte@angband.pl>
+>>> Cc: Nick Terrell <terrelln@fb.com>
+>>> Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+>>> Cc: Paul Menzel <pmenzel@molgen.mpg.de>
+>>> Cc: Sami Tolvanen <samitolvanen@google.com>
+>>> Cc: Viresh Kumar <viresh.kumar@linaro.org>
+>>> Cc: Alex Deucher <alexander.deucher@amd.com>
+>>> Cc: Dave Airlie <airlied@redhat.com>
+>>> Cc: Nirmoy Das <nirmoy.das@amd.com>
+>>> Cc: Deepak R Varma <mh12gx2825@gmail.com>
+>>> Cc: Lee Jones <lee.jones@linaro.org>
+>>> Cc: Kevin Wang <kevin1.wang@amd.com>
+>>> Cc: Chen Li <chenli@uniontech.com>
+>>> Cc: Luben Tuikov <luben.tuikov@amd.com>
+>>> Cc: "Marek Olšák" <marek.olsak@amd.com>
+>>> Cc: Dennis Li <Dennis.Li@amd.com>
+>>> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+>>> Cc: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+>>> Cc: Sonny Jiang <sonny.jiang@amd.com>
+>>> Cc: Boris Brezillon <boris.brezillon@collabora.com>
+>>> Cc: Tian Tao <tiantao6@hisilicon.com>
+>>> Cc: Jack Zhang <Jack.Zhang1@amd.com>
+>>> Cc: etnaviv@lists.freedesktop.org
+>>> Cc: lima@lists.freedesktop.org
+>>> Cc: linux-media@vger.kernel.org
+>>> Cc: linaro-mm-sig@lists.linaro.org
+>>> ---
+>>>    .gitignore                               |  1 +
+>>>    drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c   |  2 ++
+>>>    drivers/gpu/drm/amd/amdgpu/amdgpu_job.c  |  2 ++
+>>>    drivers/gpu/drm/etnaviv/etnaviv_sched.c  |  2 ++
+>>>    drivers/gpu/drm/lima/lima_sched.c        |  2 ++
+>>>    drivers/gpu/drm/panfrost/panfrost_job.c  |  2 ++
+>>>    drivers/gpu/drm/scheduler/sched_entity.c |  6 +++---
+>>>    drivers/gpu/drm/scheduler/sched_fence.c  | 15 ++++++++++-----
+>>>    drivers/gpu/drm/scheduler/sched_main.c   | 23 ++++++++++++++++++++++-
+>>>    include/drm/gpu_scheduler.h              |  6 +++++-
+>>>    10 files changed, 51 insertions(+), 10 deletions(-)
+>>>
+>>> diff --git a/.gitignore b/.gitignore
+>>> index 7afd412dadd2..52433a930299 100644
+>>> --- a/.gitignore
+>>> +++ b/.gitignore
+>>> @@ -66,6 +66,7 @@ modules.order
+>>>    /modules.builtin
+>>>    /modules.builtin.modinfo
+>>>    /modules.nsdeps
+>>> +*.builtin
+>>>
+>>>    #
+>>>    # RPM spec file (make rpm-pkg)
+>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+>>> index c5386d13eb4a..a4ec092af9a7 100644
+>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+>>> @@ -1226,6 +1226,8 @@ static int amdgpu_cs_submit(struct amdgpu_cs_parser *p,
+>>>        if (r)
+>>>                goto error_unlock;
+>>>
+>>> +     drm_sched_job_arm(&job->base);
+>>> +
+>>>        /* No memory allocation is allowed while holding the notifier lock.
+>>>         * The lock is held until amdgpu_cs_submit is finished and fence is
+>>>         * added to BOs.
+>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
+>>> index d33e6d97cc89..5ddb955d2315 100644
+>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
+>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
+>>> @@ -170,6 +170,8 @@ int amdgpu_job_submit(struct amdgpu_job *job, struct drm_sched_entity *entity,
+>>>        if (r)
+>>>                return r;
+>>>
+>>> +     drm_sched_job_arm(&job->base);
+>>> +
+>>>        *f = dma_fence_get(&job->base.s_fence->finished);
+>>>        amdgpu_job_free_resources(job);
+>>>        drm_sched_entity_push_job(&job->base, entity);
+>>> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_sched.c b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+>>> index 19826e504efc..af1671f01c7f 100644
+>>> --- a/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+>>> +++ b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+>>> @@ -163,6 +163,8 @@ int etnaviv_sched_push_job(struct drm_sched_entity *sched_entity,
+>>>        if (ret)
+>>>                goto out_unlock;
+>>>
+>>> +     drm_sched_job_arm(&submit->sched_job);
+>>> +
+>>>        submit->out_fence = dma_fence_get(&submit->sched_job.s_fence->finished);
+>>>        submit->out_fence_id = idr_alloc_cyclic(&submit->gpu->fence_idr,
+>>>                                                submit->out_fence, 0,
+>>> diff --git a/drivers/gpu/drm/lima/lima_sched.c b/drivers/gpu/drm/lima/lima_sched.c
+>>> index ecf3267334ff..bd1af1fd8c0f 100644
+>>> --- a/drivers/gpu/drm/lima/lima_sched.c
+>>> +++ b/drivers/gpu/drm/lima/lima_sched.c
+>>> @@ -129,6 +129,8 @@ int lima_sched_task_init(struct lima_sched_task *task,
+>>>                return err;
+>>>        }
+>>>
+>>> +     drm_sched_job_arm(&task->base);
+>>> +
+>>>        task->num_bos = num_bos;
+>>>        task->vm = lima_vm_get(vm);
+>>>
+>>> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
+>>> index beb62c8fc851..1e950534b9b0 100644
+>>> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
+>>> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
+>>> @@ -244,6 +244,8 @@ int panfrost_job_push(struct panfrost_job *job)
+>>>                goto unlock;
+>>>        }
+>>>
+>>> +     drm_sched_job_arm(&job->base);
+>>> +
+>>>        job->render_done_fence = dma_fence_get(&job->base.s_fence->finished);
+>>>
+>>>        ret = panfrost_acquire_object_fences(job->bos, job->bo_count,
+>>> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
+>>> index 79554aa4dbb1..f7347c284886 100644
+>>> --- a/drivers/gpu/drm/scheduler/sched_entity.c
+>>> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
+>>> @@ -485,9 +485,9 @@ void drm_sched_entity_select_rq(struct drm_sched_entity *entity)
+>>>     * @sched_job: job to submit
+>>>     * @entity: scheduler entity
+>>>     *
+>>> - * Note: To guarantee that the order of insertion to queue matches
+>>> - * the job's fence sequence number this function should be
+>>> - * called with drm_sched_job_init under common lock.
+>>> + * Note: To guarantee that the order of insertion to queue matches the job's
+>>> + * fence sequence number this function should be called with drm_sched_job_arm()
+>>> + * under common lock.
+>>>     *
+>>>     * Returns 0 for success, negative error code otherwise.
+>>>     */
+>>> diff --git a/drivers/gpu/drm/scheduler/sched_fence.c b/drivers/gpu/drm/scheduler/sched_fence.c
+>>> index 69de2c76731f..0ba810c198bd 100644
+>>> --- a/drivers/gpu/drm/scheduler/sched_fence.c
+>>> +++ b/drivers/gpu/drm/scheduler/sched_fence.c
+>>> @@ -152,11 +152,10 @@ struct drm_sched_fence *to_drm_sched_fence(struct dma_fence *f)
+>>>    }
+>>>    EXPORT_SYMBOL(to_drm_sched_fence);
+>>>
+>>> -struct drm_sched_fence *drm_sched_fence_create(struct drm_sched_entity *entity,
+>>> -                                            void *owner)
+>>> +struct drm_sched_fence *drm_sched_fence_alloc(struct drm_sched_entity *entity,
+>>> +                                           void *owner)
+>>>    {
+>>>        struct drm_sched_fence *fence = NULL;
+>>> -     unsigned seq;
+>>>
+>>>        fence = kmem_cache_zalloc(sched_fence_slab, GFP_KERNEL);
+>>>        if (fence == NULL)
+>>> @@ -166,13 +165,19 @@ struct drm_sched_fence *drm_sched_fence_create(struct drm_sched_entity *entity,
+>>>        fence->sched = entity->rq->sched;
+>>>        spin_lock_init(&fence->lock);
+>>>
+>>> +     return fence;
+>>> +}
+>>> +
+>>> +void drm_sched_fence_init(struct drm_sched_fence *fence,
+>>> +                       struct drm_sched_entity *entity)
+>>> +{
+>>> +     unsigned seq;
+>>> +
+>>>        seq = atomic_inc_return(&entity->fence_seq);
+>>>        dma_fence_init(&fence->scheduled, &drm_sched_fence_ops_scheduled,
+>>>                       &fence->lock, entity->fence_context, seq);
+>>>        dma_fence_init(&fence->finished, &drm_sched_fence_ops_finished,
+>>>                       &fence->lock, entity->fence_context + 1, seq);
+>>> -
+>>> -     return fence;
+>>>    }
+>>>
+>>>    module_init(drm_sched_fence_slab_init);
+>>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+>>> index 61420a9c1021..70eefed17e06 100644
+>>> --- a/drivers/gpu/drm/scheduler/sched_main.c
+>>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+>>> @@ -48,9 +48,11 @@
+>>>    #include <linux/wait.h>
+>>>    #include <linux/sched.h>
+>>>    #include <linux/completion.h>
+>>> +#include <linux/dma-resv.h>
+>>>    #include <uapi/linux/sched/types.h>
+>>>
+>>>    #include <drm/drm_print.h>
+>>> +#include <drm/drm_gem.h>
+>>>    #include <drm/gpu_scheduler.h>
+>>>    #include <drm/spsc_queue.h>
+>>>
+>>> @@ -594,7 +596,7 @@ int drm_sched_job_init(struct drm_sched_job *job,
+>>>        job->sched = sched;
+>>>        job->entity = entity;
+>>>        job->s_priority = entity->rq - sched->sched_rq;
+>>> -     job->s_fence = drm_sched_fence_create(entity, owner);
+>>> +     job->s_fence = drm_sched_fence_alloc(entity, owner);
+>>>        if (!job->s_fence)
+>>>                return -ENOMEM;
+>>>        job->id = atomic64_inc_return(&sched->job_id_count);
+>>> @@ -605,6 +607,25 @@ int drm_sched_job_init(struct drm_sched_job *job,
+>>>    }
+>>>    EXPORT_SYMBOL(drm_sched_job_init);
+>>>
+>>> +/**
+>>> + * drm_sched_job_arm - arm a scheduler job for execution
+>>> + * @job: scheduler job to arm
+>>> + *
+>>> + * This arms a scheduler job for execution. Specifically it initializes the
+>>> + * &drm_sched_job.s_fence of @job, so that it can be attached to struct dma_resv
+>>> + * or other places that need to track the completion of this job.
+>>> + *
+>>> + * Refer to drm_sched_entity_push_job() documentation for locking
+>>> + * considerations.
+>>> + *
+>>> + * This can only be called if drm_sched_job_init() succeeded.
+>>> + */
+>>> +void drm_sched_job_arm(struct drm_sched_job *job)
+>>> +{
+>>> +     drm_sched_fence_init(job->s_fence, job->entity);
+>>> +}
+>>> +EXPORT_SYMBOL(drm_sched_job_arm);
+>>> +
+>>>    /**
+>>>     * drm_sched_job_cleanup - clean up scheduler job resources
+>>>     *
+>>> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+>>> index d18af49fd009..80438d126c9d 100644
+>>> --- a/include/drm/gpu_scheduler.h
+>>> +++ b/include/drm/gpu_scheduler.h
+>>> @@ -313,6 +313,7 @@ void drm_sched_fini(struct drm_gpu_scheduler *sched);
+>>>    int drm_sched_job_init(struct drm_sched_job *job,
+>>>                       struct drm_sched_entity *entity,
+>>>                       void *owner);
+>>> +void drm_sched_job_arm(struct drm_sched_job *job);
+>>>    void drm_sched_entity_modify_sched(struct drm_sched_entity *entity,
+>>>                                    struct drm_gpu_scheduler **sched_list,
+>>>                                       unsigned int num_sched_list);
+>>> @@ -352,8 +353,11 @@ void drm_sched_entity_set_priority(struct drm_sched_entity *entity,
+>>>                                   enum drm_sched_priority priority);
+>>>    bool drm_sched_entity_is_ready(struct drm_sched_entity *entity);
+>>>
+>>> -struct drm_sched_fence *drm_sched_fence_create(
+>>> +struct drm_sched_fence *drm_sched_fence_alloc(
+>>>        struct drm_sched_entity *s_entity, void *owner);
+>>> +void drm_sched_fence_init(struct drm_sched_fence *fence,
+>>> +                       struct drm_sched_entity *entity);
+>>> +
+>>>    void drm_sched_fence_scheduled(struct drm_sched_fence *fence);
+>>>    void drm_sched_fence_finished(struct drm_sched_fence *fence);
+>>>
+>
 
