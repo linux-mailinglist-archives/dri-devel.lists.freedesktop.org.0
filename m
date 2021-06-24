@@ -1,58 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 675123B25DB
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Jun 2021 05:59:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AE4613B25E6
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Jun 2021 05:59:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 31A566E9E1;
-	Thu, 24 Jun 2021 03:59:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF9F96E9DA;
+	Thu, 24 Jun 2021 03:59:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com
- [IPv6:2607:f8b0:4864:20::102d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F0586E9E1
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Jun 2021 03:59:44 +0000 (UTC)
-Received: by mail-pj1-x102d.google.com with SMTP id
- p4-20020a17090a9304b029016f3020d867so2641157pjo.3
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Jun 2021 20:59:44 -0700 (PDT)
+Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com
+ [IPv6:2607:f8b0:4864:20::435])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D79BB6E9E8
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Jun 2021 03:59:54 +0000 (UTC)
+Received: by mail-pf1-x435.google.com with SMTP id i6so4073517pfq.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Jun 2021 20:59:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=9SdgTNYjmLMWmcRIfueOdYZ96HzTH4opPLXoYslwZ9E=;
- b=HPdpShzC0ybrvT3bK4wS9AKVUDr5krTibehvPCZeEb7XnHyjJPFqDvLyg3WoT7WmjA
- ii16HFDb+Dr/ywbx1G0hClCMdzQem5OgkBkpMqkErnAepeE/QnIHr5J5GBAyF/S1r4Eo
- AQK6afL4d3/6PBkes4NF6aPC5Zj6ARVYpr48Q=
+ bh=cmGok1KP9mkQUahLNaNswnkRk+BZZNd8A6VDpCy6mq0=;
+ b=Puw+zuEB547BUNk23be4KLF8wOVKHFDwynxb4lruaPyNnXdjflBU2IzSDSn7Mmy/gI
+ GmMEkygbtUT0U9MSVI1A6lkcjDvFwvTTnQG/iiZY4thta8fK1I/CMV1Jn3JYfI6nzDB9
+ oH6xXVSDsNDRtnT8PT8KZIDcpOdIdD4cCiLRs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=9SdgTNYjmLMWmcRIfueOdYZ96HzTH4opPLXoYslwZ9E=;
- b=n2QK7o5B+MtOLtG1OpQW0u/Ye91xKe9bCh5oriO/dSM26KtuO+uKESvsL+h7vdo8zm
- y4FOy1EGu02+8znwvg+RHNGSXUO2GcG9rLT/tR1rc5dxLe76931GFyI2mGGj7rbRQ/fP
- IrBFIhhoFE5ADXfM3OPIatZc/9T4RxPmKBpplunwNUtQpRsVMtApy6zaP+9Ip0AIzAp7
- O6iAjkSmGpPVJYbRiCBl2uxVdDdDNI/tU9y0/mtaOyOgxaZNndMhqXMNbtorKoMe/UTu
- J4zzCKn7XBgULeE5dNrJGmnHV2e3wbCFdRrxKnd218h2S51m63vlykdQUptb/fbl+vsl
- dDgw==
-X-Gm-Message-State: AOAM531t+isTMPn7/0n1efsqnnbQAHpkjp9n8AJnV/eyBY1x2DsQPM3E
- ZpOCzODLtI/CG0eEEqA5iBABfg==
-X-Google-Smtp-Source: ABdhPJzreaDO29ENi90p5LTXgfYQ+JVEXyymwYOr6PQkte1CXgDzacuiEb/ffZjtnDSEFkJwBV2Mlg==
-X-Received: by 2002:a17:903:228d:b029:127:95be:1f7d with SMTP id
- b13-20020a170903228db029012795be1f7dmr2430947plh.64.1624507183619; 
- Wed, 23 Jun 2021 20:59:43 -0700 (PDT)
+ bh=cmGok1KP9mkQUahLNaNswnkRk+BZZNd8A6VDpCy6mq0=;
+ b=qfQrhPtrVsBW95gARAoy9IlFo8jzhQweK7uydV3fJ0FimNlk/COJVlOTe/RiHhUQwo
+ 6+v04W/+E7ARgInMobBzUjJorKqAMnE0xKZ/Oy3IwaOx/EOw7CiTbi3zX2gkF8jr32uy
+ XB9J83nimoFW3kpi0TXPP2uaRLKGGagHu9PiEicdep0OAHKuRNGV++fd/eCcJISTjwho
+ N7kec/mqTG9jyI5VEahBDl7+h4sy5BCAc+qZjwPGG9QRBqkKoMAx1WzKdqMHf2cwMaJ3
+ GZlV1AawTFKIi+6N9JeROzSUd/RLBuNJCKuxmtTGjkxo2gQHRfaO58ySqA7pQGVg8sEI
+ JPRQ==
+X-Gm-Message-State: AOAM532zwgEy2alQkP+I7DbvOKggmfC7qftb11xmQy3nCUTqbOmA4u2n
+ lss/sRXx9HC4oRys7XC2X7lq4A==
+X-Google-Smtp-Source: ABdhPJwdqYHO15pKuqB3WHvaFPDIGe3ZMDHFKd80sEGqz3qF8TpcI89MlzrarjtQsVeWDyea1kRTqQ==
+X-Received: by 2002:a63:d0d:: with SMTP id c13mr2893248pgl.384.1624507190102; 
+ Wed, 23 Jun 2021 20:59:50 -0700 (PDT)
 Received: from localhost ([2401:fa00:8f:203:5038:6344:7f10:3690])
- by smtp.gmail.com with UTF8SMTPSA id r92sm6898647pja.6.2021.06.23.20.59.38
+ by smtp.gmail.com with UTF8SMTPSA id a6sm1134854pfo.212.2021.06.23.20.59.45
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 23 Jun 2021 20:59:43 -0700 (PDT)
+ Wed, 23 Jun 2021 20:59:49 -0700 (PDT)
 From: David Stevens <stevensd@chromium.org>
 X-Google-Original-From: David Stevens <stevensd@google.com>
 To: Marc Zyngier <maz@kernel.org>, Huacai Chen <chenhuacai@kernel.org>,
  Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
  Paul Mackerras <paulus@ozlabs.org>, Paolo Bonzini <pbonzini@redhat.com>,
  Zhenyu Wang <zhenyuw@linux.intel.com>, Zhi Wang <zhi.a.wang@intel.com>
-Subject: [PATCH 4/6] KVM: arm64/mmu: avoid struct page in MMU
-Date: Thu, 24 Jun 2021 12:57:47 +0900
-Message-Id: <20210624035749.4054934-5-stevensd@google.com>
+Subject: [PATCH 5/6] KVM: mmu: remove over-aggressive warnings
+Date: Thu, 24 Jun 2021 12:57:48 +0900
+Message-Id: <20210624035749.4054934-6-stevensd@google.com>
 X-Mailer: git-send-email 2.32.0.93.g670b81a890-goog
 In-Reply-To: <20210624035749.4054934-1-stevensd@google.com>
 References: <20210624035749.4054934-1-stevensd@google.com>
@@ -86,137 +84,46 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: David Stevens <stevensd@chromium.org>
 
-Avoid converting pfns returned by follow_fault_pfn to struct pages to
-transiently take a reference. The reference was originally taken to
-match the reference taken by gup. However, pfns returned by
-follow_fault_pfn may not have a struct page set up for reference
-counting.
+Remove two warnings that require ref counts for pages to be non-zero, as
+mapped pfns from follow_pfn may not have an initialized ref count.
 
 Signed-off-by: David Stevens <stevensd@chromium.org>
 ---
- arch/arm64/kvm/mmu.c | 43 +++++++++++++++++++++++--------------------
- 1 file changed, 23 insertions(+), 20 deletions(-)
+ arch/x86/kvm/mmu/mmu.c | 7 -------
+ virt/kvm/kvm_main.c    | 2 +-
+ 2 files changed, 1 insertion(+), 8 deletions(-)
 
-diff --git a/arch/arm64/kvm/mmu.c b/arch/arm64/kvm/mmu.c
-index 896b3644b36f..a741972cb75f 100644
---- a/arch/arm64/kvm/mmu.c
-+++ b/arch/arm64/kvm/mmu.c
-@@ -779,17 +779,17 @@ static bool fault_supports_stage2_huge_mapping(struct kvm_memory_slot *memslot,
-  */
- static unsigned long
- transparent_hugepage_adjust(struct kvm_memory_slot *memslot,
--			    unsigned long hva, kvm_pfn_t *pfnp,
-+			    unsigned long hva, struct kvm_pfn_page *pfnpgp,
- 			    phys_addr_t *ipap)
- {
--	kvm_pfn_t pfn = *pfnp;
-+	kvm_pfn_t pfn = pfnpgp->pfn;
+diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
+index 8fa4a4a411ba..19249ad4b5b8 100644
+--- a/arch/x86/kvm/mmu/mmu.c
++++ b/arch/x86/kvm/mmu/mmu.c
+@@ -546,13 +546,6 @@ static int mmu_spte_clear_track_bits(u64 *sptep)
  
- 	/*
- 	 * Make sure the adjustment is done only for THP pages. Also make
- 	 * sure that the HVA and IPA are sufficiently aligned and that the
- 	 * block map is contained within the memslot.
+ 	pfn = spte_to_pfn(old_spte);
+ 
+-	/*
+-	 * KVM does not hold the refcount of the page used by
+-	 * kvm mmu, before reclaiming the page, we should
+-	 * unmap it from mmu first.
+-	 */
+-	WARN_ON(!kvm_is_reserved_pfn(pfn) && !page_count(pfn_to_page(pfn)));
+-
+ 	if (is_accessed_spte(old_spte))
+ 		kvm_set_pfn_accessed(pfn);
+ 
+diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
+index 898e90be4d0e..671361f30476 100644
+--- a/virt/kvm/kvm_main.c
++++ b/virt/kvm/kvm_main.c
+@@ -168,7 +168,7 @@ bool kvm_is_zone_device_pfn(kvm_pfn_t pfn)
+ 	 * the device has been pinned, e.g. by get_user_pages().  WARN if the
+ 	 * page_count() is zero to help detect bad usage of this helper.
  	 */
--	if (kvm_is_transparent_hugepage(pfn) &&
-+	if (pfnpgp->page && kvm_is_transparent_hugepage(pfn) &&
- 	    fault_supports_stage2_huge_mapping(memslot, hva, PMD_SIZE)) {
- 		/*
- 		 * The address we faulted on is backed by a transparent huge
-@@ -810,10 +810,11 @@ transparent_hugepage_adjust(struct kvm_memory_slot *memslot,
- 		 * page accordingly.
- 		 */
- 		*ipap &= PMD_MASK;
--		kvm_release_pfn_clean(pfn);
-+		put_page(pfnpgp->page);
- 		pfn &= ~(PTRS_PER_PMD - 1);
--		kvm_get_pfn(pfn);
--		*pfnp = pfn;
-+		pfnpgp->pfn = pfn;
-+		pfnpgp->page = pfn_to_page(pfnpgp->pfn);
-+		get_page(pfnpgp->page);
+-	if (!pfn_valid(pfn) || WARN_ON_ONCE(!page_count(pfn_to_page(pfn))))
++	if (!pfn_valid(pfn) || !page_count(pfn_to_page(pfn)))
+ 		return false;
  
- 		return PMD_SIZE;
- 	}
-@@ -836,7 +837,7 @@ static int user_mem_abort(struct kvm_vcpu *vcpu, phys_addr_t fault_ipa,
- 	struct vm_area_struct *vma;
- 	short vma_shift;
- 	gfn_t gfn;
--	kvm_pfn_t pfn;
-+	struct kvm_pfn_page pfnpg;
- 	bool logging_active = memslot_is_logging(memslot);
- 	unsigned long fault_level = kvm_vcpu_trap_get_fault_level(vcpu);
- 	unsigned long vma_pagesize, fault_granule;
-@@ -933,17 +934,16 @@ static int user_mem_abort(struct kvm_vcpu *vcpu, phys_addr_t fault_ipa,
- 	 */
- 	smp_rmb();
- 
--	pfn = kvm_pfn_page_unwrap(__gfn_to_pfn_memslot(memslot, gfn, false,
--						       NULL, write_fault,
--						       &writable, NULL));
--	if (pfn == KVM_PFN_ERR_HWPOISON) {
-+	pfnpg = __gfn_to_pfn_memslot(memslot, gfn, false, NULL,
-+				     write_fault, &writable, NULL);
-+	if (pfnpg.pfn == KVM_PFN_ERR_HWPOISON) {
- 		kvm_send_hwpoison_signal(hva, vma_shift);
- 		return 0;
- 	}
--	if (is_error_noslot_pfn(pfn))
-+	if (is_error_noslot_pfn(pfnpg.pfn))
- 		return -EFAULT;
- 
--	if (kvm_is_device_pfn(pfn)) {
-+	if (kvm_is_device_pfn(pfnpg.pfn)) {
- 		device = true;
- 		force_pte = true;
- 	} else if (logging_active && !write_fault) {
-@@ -968,16 +968,16 @@ static int user_mem_abort(struct kvm_vcpu *vcpu, phys_addr_t fault_ipa,
- 	 */
- 	if (vma_pagesize == PAGE_SIZE && !force_pte)
- 		vma_pagesize = transparent_hugepage_adjust(memslot, hva,
--							   &pfn, &fault_ipa);
-+							   &pfnpg, &fault_ipa);
- 	if (writable)
- 		prot |= KVM_PGTABLE_PROT_W;
- 
- 	if (fault_status != FSC_PERM && !device)
--		clean_dcache_guest_page(pfn, vma_pagesize);
-+		clean_dcache_guest_page(pfnpg.pfn, vma_pagesize);
- 
- 	if (exec_fault) {
- 		prot |= KVM_PGTABLE_PROT_X;
--		invalidate_icache_guest_page(pfn, vma_pagesize);
-+		invalidate_icache_guest_page(pfnpg.pfn, vma_pagesize);
- 	}
- 
- 	if (device)
-@@ -994,20 +994,23 @@ static int user_mem_abort(struct kvm_vcpu *vcpu, phys_addr_t fault_ipa,
- 		ret = kvm_pgtable_stage2_relax_perms(pgt, fault_ipa, prot);
- 	} else {
- 		ret = kvm_pgtable_stage2_map(pgt, fault_ipa, vma_pagesize,
--					     __pfn_to_phys(pfn), prot,
-+					     __pfn_to_phys(pfnpg.pfn), prot,
- 					     memcache);
- 	}
- 
- 	/* Mark the page dirty only if the fault is handled successfully */
- 	if (writable && !ret) {
--		kvm_set_pfn_dirty(pfn);
-+		if (pfnpg.page)
-+			kvm_set_pfn_dirty(pfnpg.pfn);
- 		mark_page_dirty_in_slot(kvm, memslot, gfn);
- 	}
- 
- out_unlock:
- 	spin_unlock(&kvm->mmu_lock);
--	kvm_set_pfn_accessed(pfn);
--	kvm_release_pfn_clean(pfn);
-+	if (pfnpg.page) {
-+		kvm_set_pfn_accessed(pfnpg.pfn);
-+		put_page(pfnpg.page);
-+	}
- 	return ret != -EAGAIN ? ret : 0;
- }
- 
+ 	return is_zone_device_page(pfn_to_page(pfn));
 -- 
 2.32.0.93.g670b81a890-goog
 
