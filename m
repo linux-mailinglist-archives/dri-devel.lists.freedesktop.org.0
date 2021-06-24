@@ -1,40 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64E7A3B2F95
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Jun 2021 15:02:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9258F3B2FDC
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Jun 2021 15:14:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 611226EB82;
-	Thu, 24 Jun 2021 13:02:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 39DEE6EB7F;
+	Thu, 24 Jun 2021 13:14:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 834996EB7F
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Jun 2021 13:02:10 +0000 (UTC)
-X-UUID: 102aa1da9340406f9c392988c8142640-20210624
-X-UUID: 102aa1da9340406f9c392988c8142640-20210624
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
- (envelope-from <yongqiang.niu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 736026807; Thu, 24 Jun 2021 21:02:06 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs08n1.mediatek.inc (172.21.101.55) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Thu, 24 Jun 2021 21:02:05 +0800
-Received: from localhost.localdomain (10.17.3.153) by mtkcas11.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Thu, 24 Jun 2021 21:02:04 +0800
-From: Yongqiang Niu <yongqiang.niu@mediatek.com>
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Subject: [PATCH v2] drm/mediatek: adjust rdma fifo threshold calculate formula
-Date: Thu, 24 Jun 2021 21:02:02 +0800
-Message-ID: <1624539722-29000-2-git-send-email-yongqiang.niu@mediatek.com>
-X-Mailer: git-send-email 1.8.1.1.dirty
-In-Reply-To: <1624539722-29000-1-git-send-email-yongqiang.niu@mediatek.com>
-References: <1624539722-29000-1-git-send-email-yongqiang.niu@mediatek.com>
+Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com
+ [IPv6:2a00:1450:4864:20::52e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9CD2F6EB7F;
+ Thu, 24 Jun 2021 13:14:14 +0000 (UTC)
+Received: by mail-ed1-x52e.google.com with SMTP id i5so8509356eds.1;
+ Thu, 24 Jun 2021 06:14:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=jUpvJfClAkxaposL4wig5DpTTSGxzLyBZMJv9+3xraw=;
+ b=FQOdUTnLrPgpw7RqaOdFwVkdK6V0R+CffRxI8pExGZ5EP7FPdfPrCM/lq5Kk9xN/Ax
+ OOsEPWED13scD59Iy/xG0WEv2/gahupuaK0kdSkQ52JG0Uo8av+1aQ0EDUGNWPCXMe+b
+ BTdFInlQtzg86zhedzR3z1aBlUe4Q580pEOW4PqDIDt+3M3mWy7rW98dWyZcDeqW6wDU
+ fPYpykJZxP8M45korUPmkOtavSe/rNHnBa1V/EgE6iE1oL6MZzPzQkRwUBCobWVKzvuv
+ Eyqri3V8ouKKIksJqYtzkrIi5cdpvTsfGfk4PrJPsw4ZSWStPvG1U7xLKfrqQeGIpREG
+ 3V9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=jUpvJfClAkxaposL4wig5DpTTSGxzLyBZMJv9+3xraw=;
+ b=kIW5Hej+77uR4IEngWc72wQRDJZYbKLMtq9Nnr563TaezNI6ckDa+vgIX9n/EV5vJw
+ ET+5bu1uqZHZgE9m72A4SC3eHVNqEmWKup285m58wdrLZQX2pf+BB9stbEo2H1cmzTHC
+ kMi1X2PxfCFU41TbsteyLEC2YxjfhOSMgJaNC2UL093b3HXwebsrOO8Gq1QWuyX/GRN0
+ OyO6iVN2m0XKCeL3/YpmkYPd5+6tRbep1FXkRPJank7p9q6wQLct3mqgVpRQl9hCxTGP
+ 1iAwL4k0odVIXIj8B+fEtpwQeI8zsLi85Sqsu07lfH/JsfFWN5DTxxdSFr1SwAk6hDg7
+ HHoQ==
+X-Gm-Message-State: AOAM533I8yBeC4Zf07ze7dW3T7u4ZMqgkhX5im2Jw1cGG7d4AarfVvDD
+ Kf7zk3QpbOAkpK1bzDQ/vCg=
+X-Google-Smtp-Source: ABdhPJwDiSksAJEUv018050vDI8BTEvoX64fF/WRVHk+OAidWOjSXro8cnrGuTG9AWCDHo/y24qnqg==
+X-Received: by 2002:a05:6402:336:: with SMTP id
+ q22mr7118192edw.3.1624540453432; 
+ Thu, 24 Jun 2021 06:14:13 -0700 (PDT)
+Received: from ?IPv6:2a02:908:1252:fb60:8a1c:e700:29c4:44b6?
+ ([2a02:908:1252:fb60:8a1c:e700:29c4:44b6])
+ by smtp.gmail.com with ESMTPSA id o14sm1967910edw.36.2021.06.24.06.14.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 24 Jun 2021 06:14:13 -0700 (PDT)
+Subject: Re: [PATCH] drm/amdgpu:use kvcalloc instead of kvmalloc_array
+To: huqiqiao <huqiqiao@uniontech.com>, airlied@linux.ie, daniel@ffwll.ch
+References: <20210623091242.12861-1-huqiqiao@uniontech.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <e18c2147-cc19-7493-5feb-de28e3102d3f@gmail.com>
+Date: Thu, 24 Jun 2021 15:14:11 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK: N
+In-Reply-To: <20210623091242.12861-1-huqiqiao@uniontech.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,44 +73,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- David Airlie <airlied@linux.ie>, Jassi Brar <jassisinghbrar@gmail.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Yongqiang Niu <yongqiang.niu@mediatek.com>,
- Dennis YC Hsieh <dennis-yc.hsieh@mediatek.com>,
- Fabien Parent <fparent@baylibre.com>, Rob Herring <robh+dt@kernel.org>,
- linux-mediatek@lists.infradead.org, Hsin-Yi Wang <hsinyi@chromium.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-the orginal formula will caused rdma fifo threshold config overflow
 
-Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
----
- drivers/gpu/drm/mediatek/mtk_disp_rdma.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_disp_rdma.c b/drivers/gpu/drm/mediatek/mtk_disp_rdma.c
-index 728aaad..bef3f04 100644
---- a/drivers/gpu/drm/mediatek/mtk_disp_rdma.c
-+++ b/drivers/gpu/drm/mediatek/mtk_disp_rdma.c
-@@ -164,10 +164,10 @@ void mtk_rdma_config(struct device *dev, unsigned int width,
- 	/*
- 	 * Enable FIFO underflow since DSI and DPI can't be blocked.
- 	 * Keep the FIFO pseudo size reset default of 8 KiB. Set the
--	 * output threshold to 6 microseconds with 7/6 overhead to
--	 * account for blanking, and with a pixel depth of 4 bytes:
-+	 * output threshold to 70% of max fifo size to make sure the
-+	 * threhold will not overflow
- 	 */
--	threshold = width * height * vrefresh * 4 * 7 / 1000000;
-+	threshold = rdma_fifo_size * 7 / 10;
- 	reg = RDMA_FIFO_UNDERFLOW_EN |
- 	      RDMA_FIFO_PSEUDO_SIZE(rdma_fifo_size) |
- 	      RDMA_OUTPUT_VALID_FIFO_THRESHOLD(threshold);
--- 
-1.8.1.1.dirty
+Am 23.06.21 um 11:12 schrieb huqiqiao:
+> kvmalloc_array + __GFP_ZERO is the same with kvcalloc.
+>
+> Signed-off-by: huqiqiao <huqiqiao@uniontech.com>
+> ---
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c | 5 ++---
+>   1 file changed, 2 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+> index 9acee4a5b2ba..50edc73525b0 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+> @@ -908,9 +908,8 @@ static int amdgpu_vm_alloc_pts(struct amdgpu_device *adev,
+>   		unsigned num_entries;
+>   
+>   		num_entries = amdgpu_vm_num_entries(adev, cursor->level);
+> -		entry->entries = kvmalloc_array(num_entries,
+> -						sizeof(*entry->entries),
+> -						GFP_KERNEL | __GFP_ZERO);
+> +		entry->entries = kvcalloc(num_entries,
+> +						sizeof(*entry->entries), GFP_KERNEL);
+
+Sounds like a good idea in general, but the indentation on the second 
+line seems to be of.
+
+Christian.
+
+>   		if (!entry->entries)
+>   			return -ENOMEM;
+>   	}
 
