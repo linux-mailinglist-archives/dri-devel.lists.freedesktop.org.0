@@ -1,70 +1,144 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34E933B368E
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Jun 2021 21:04:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 880EE3B36C1
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Jun 2021 21:20:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6CBAE6ECC4;
-	Thu, 24 Jun 2021 19:04:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 162066ECBC;
+	Thu, 24 Jun 2021 19:20:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com
- [64.147.123.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E48B6ECBE;
- Thu, 24 Jun 2021 19:04:01 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailnew.west.internal (Postfix) with ESMTP id 3A2582B01335;
- Thu, 24 Jun 2021 15:03:58 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Thu, 24 Jun 2021 15:03:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:mime-version:content-type; s=
- fm3; bh=OBuP9sreWlOXlTpL1WeRNqdk6MdVC3ddt4Wtt2u4XOs=; b=MgyTvR1i
- EkZFyTlM6k+d2RezqdTgTb3KzjLreveMRHVmV+rZ3tU+s789lyhl2pxHCmq3gGIe
- 4aQH1Y8OvKZ606pAmK86BlQtpY+45HuOwEjEQw+phRJSbhiL+huM/5TD3Zerp1vo
- fHYwa+PF8QqzHher6AanB1ujyc3rr1oeoZ27ltrIdrDiLbSWaj0pXyNDEmfp/7Qk
- mvxBUKOLfqaevTLTR1qx8LfgP8IlUkN1QYb17hR7paOw2h0nEODLVGNz0eTIZPiA
- 3GQFK09rZ8fFmTTv4t5rASqi/KTt2LsKZ1rdnntiSleinn9C2G+sQaki4QbtyhSZ
- rjAA4gM0S4A8hg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:message-id
- :mime-version:subject:to:x-me-proxy:x-me-proxy:x-me-sender
- :x-me-sender:x-sasl-enc; s=fm3; bh=OBuP9sreWlOXlTpL1WeRNqdk6MdVC
- 3ddt4Wtt2u4XOs=; b=isa5zAkD93qgQ3SrLIVytmI9puiDCJpy4+mLREbe8iNcn
- rB+fH3Mj6QiBlF5q/fxUUi5xIUyptdRelUelP/kTMTizbqhaEK5aMLyVm1Y96fFP
- JcEzALzScqi1DHpdH2+9ccYP/1QFU0bcERFMCZoACfxoBu2MlM2XB5NVOGRK3NgG
- AspUqdDgxnsfeOVH2Jg+C9oyKSzEWBYighna10Q/KHIwQxBNIJk0073BDfHHQOjy
- 1G4MMPnAwMUrRT93hLLf3GCBuySpzE3shzJXeccIUaA0294pOAtcfl5VpTtv5VbI
- 2R4dFq9Y3dcvo9YFd7SCHTibhGoIEBvEex7Ndxzdw==
-X-ME-Sender: <xms:HNfUYJwW6NKjA-iP6PrKU9dZjNjJQ6KsOxYubztzXXbg9Wr5WmCNKQ>
- <xme:HNfUYJTk57igKyrGVFbNDphOd8V5szbKUGRdkGuCi7pf9Mq0rWFmynPnaMDIMHqFf
- Kj-7hHJAQiaJVX1AFQ>
-X-ME-Received: <xmr:HNfUYDWj6Rn04P0leWYbgt4SP1NHg1R21JHjFplA4VgdDe_2Zhku7C2XHrs2fSkM3QfRiN7PRBVYYTVSf2PIjEGeJJ5MLVy2w36S>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfeeghedgudefvdcutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpeffhffvuffkgggtugesghdtreertddtudenucfhrhhomhepofgrgihimhgv
- ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
- gvrhhnpefhheetgfegkeetffeuieelkeefgeetteffgffgkeelheekffevvdegtdeitedv
- udenucffohhmrghinhepfhhrvggvuggvshhkthhophdrohhrghenucevlhhushhtvghruf
- hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdr
- thgvtghh
-X-ME-Proxy: <xmx:HNfUYLiH26AtXEETORCI2DRm_9pHmNCzT7GMFMvVTgUIg9bVNelCcQ>
- <xmx:HNfUYLDdS6NJsr1BFY0oUwFaDgK261jNzLRd_tOV17jxhXEH3_oaSg>
- <xmx:HNfUYEIgoC_XZkPyclvFeLLehFne46ct1JdZoAWx0taodlR2pTc0zQ>
- <xmx:HdfUYHsGQit7lDhkOY-9nMEBFfNOeoru87e8pFB1Q58tixzw_lOy1KqAB2M>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 24 Jun 2021 15:03:55 -0400 (EDT)
-Date: Thu, 24 Jun 2021 21:03:53 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-misc-fixes
-Message-ID: <20210624190353.wyizoil3wqrrxz5d@gilmour>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="a5kdybf52icymnkd"
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com
+ [205.220.165.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C07BE6ECBC;
+ Thu, 24 Jun 2021 19:20:48 +0000 (UTC)
+Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 15OJBmri025165; Thu, 24 Jun 2021 19:20:10 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=corp-2020-01-29;
+ bh=P8+6fQKt1GcJiNjuEjUVT8DwDaU9l6qyoErT2/2fhEo=;
+ b=ka4uO+w+HngPAlAlcvgVQkkZRUykFcqf4Wu4LLsIczBlUd9+Zr5u8u3Ez0oc7X0geuor
+ NBnMkH8lTH5cH7Nisz9W4sdd/zSB8dlSuy3OuvmdLF8Oc7s/wwN/Fv0dpLseQu3bdK7Z
+ 8wAYkg3ilAXxVIAui6DqWxa+spw0uny2hoar3/sW6hLatzWZNfkDtYHhjydp8A4Dz1yK
+ GiXznXL3JrmlRiC7nrEgrJPCqHuLUkxkwkvq/iCKDaooi2WJW6N0x6uixsHWWfFPAAKc
+ gswRROCllkfB1ApiO/vA4vIcprZIkyFi/x5gUAkuecntkqUc3lqadkY4GOxgsTJQ65SP VA== 
+Received: from oracle.com (userp3030.oracle.com [156.151.31.80])
+ by mx0b-00069f02.pphosted.com with ESMTP id 39c634ufgn-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 24 Jun 2021 19:20:09 +0000
+Received: from userp3030.oracle.com (userp3030.oracle.com [127.0.0.1])
+ by pps.podrdrct (8.16.0.36/8.16.0.36) with SMTP id 15OJK8hE035087;
+ Thu, 24 Jun 2021 19:20:08 GMT
+Received: from nam10-bn7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10lp2107.outbound.protection.outlook.com [104.47.70.107])
+ by userp3030.oracle.com with ESMTP id 3995q18276-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 24 Jun 2021 19:20:08 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=VpXMUxGbaQ9Xui1oyOBNhR0FlQrJsdrtDWMytIAHuioZMgW6zJlsv0RQ7Zyy0ipuGwV0EUoaBtpPPrGQUVhU1CLMwCc9Bm8NqLTCV7tGBbpMKTFW5SUdcmi3ileOSoHTnlrahWvP/PpcvPQ/WFhlq+5wfRP9HRB/tNFpZ4AODVejGA9Qxl8rH6/fmzV648vSQp0wun865YcsPwpsymd8TQBbwmJi20B1Pp7gt0UP1UXNTYXU7rhhoYl5uLLKeSQFQQBZV1J8tjezI7kk2zII34EuwGHr/4/yuq293og361XsZByELl0pIX7r0XIXUGcPXoH8mQvOFxB7+8kh/lDqug==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=P8+6fQKt1GcJiNjuEjUVT8DwDaU9l6qyoErT2/2fhEo=;
+ b=Cshqzkx1kSkYTdieScYtwuU9XYvSgltLRPgvqkm3ZBoVSbGYTAYM5qdWlrwvkT/mspLR05MBNFoGz90ikfF/o/uoaF0/Eesq/Xm5Puf03B/hjAot7s6Lge/vvuFHHqTa2s4illm5NLGJ+NLAFv7nzjkfJt1GA5mL1y5yCNmODo8AKrfZMMgzjG2iCOB2Kt70LnEPvNLJHbxqic952W1o6t7HGBjryKCAJD6yiJ/KAftlNRXLHAYBbQwU6GEyt1I+QLhfOZkDdVHwKGSfrYx6g3uNXjLWyM6BREfD6BHHy6s7qtMPkL3Opw/zDHY1RHzRrLCo4BJRtF9YLXheO5/4Fw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=P8+6fQKt1GcJiNjuEjUVT8DwDaU9l6qyoErT2/2fhEo=;
+ b=Jx9PG0C124tyZswmT6sJXGulr9UexRz4ZOBu9TDsfCCLOqUNHQ+2JT25KlFEKD+cGDZa3h/55BGXNVLxWyk0I9RTPjP/mauOKH1Q6kDRxZw8D/8pJee/Gpp3ZW0YskPauNAsJcHC8NUtNeVPFg82SXUhFRLKJmuFn41INbG7puM=
+Authentication-Results: chromium.org; dkim=none (message not signed)
+ header.d=none;chromium.org; dmarc=none action=none header.from=oracle.com;
+Received: from BYAPR10MB2999.namprd10.prod.outlook.com (2603:10b6:a03:85::27)
+ by BYAPR10MB3160.namprd10.prod.outlook.com (2603:10b6:a03:151::20)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4242.18; Thu, 24 Jun
+ 2021 19:20:04 +0000
+Received: from BYAPR10MB2999.namprd10.prod.outlook.com
+ ([fe80::8111:d8f1:c262:808d]) by BYAPR10MB2999.namprd10.prod.outlook.com
+ ([fe80::8111:d8f1:c262:808d%6]) with mapi id 15.20.4264.020; Thu, 24 Jun 2021
+ 19:20:04 +0000
+Date: Thu, 24 Jun 2021 15:19:48 -0400
+From: Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
+To: Claire Chang <tientzu@chromium.org>
+Subject: Re: [PATCH v15 00/12] Restricted DMA
+Message-ID: <YNTa1C5uvz+qWryf@char.us.oracle.com>
+References: <20210624155526.2775863-1-tientzu@chromium.org>
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20210624155526.2775863-1-tientzu@chromium.org>
+X-Originating-IP: [138.3.200.25]
+X-ClientProxiedBy: SN7P220CA0022.NAMP220.PROD.OUTLOOK.COM
+ (2603:10b6:806:123::27) To BYAPR10MB2999.namprd10.prod.outlook.com
+ (2603:10b6:a03:85::27)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from char.us.oracle.com (138.3.200.25) by
+ SN7P220CA0022.NAMP220.PROD.OUTLOOK.COM (2603:10b6:806:123::27) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4264.18 via Frontend Transport; Thu, 24 Jun 2021 19:19:52 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: e32a325a-d0c9-45f4-bf49-08d93745119f
+X-MS-TrafficTypeDiagnostic: BYAPR10MB3160:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <BYAPR10MB31602652C7EC6BB6F81C1EC689079@BYAPR10MB3160.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: i0tzwxIw/4elx5hgGO6B8CjrGZlYNudIrNxhhnBv2AEVGAu3qOEccTjmeVw/yPlpMcjJ+bDbBhjn2+hfLQmHvardT7U8dwR+IEbO7gNAHn2Z40GzLkt2Djw00klfkLLAHCILKIC9zOgcorAPVDMjXkKbIlTliv3wNg24lL7EqRJMotYkuff7S6PZqVUXbXzc//pNHEPio2z2Eo1mRtTbf3fbGtVHMdIfhSgIJ296IsKDCmAgGn5GEtoon3Z+v46kv+INIkWfCgzMcbBsVx4lKMzLE8QmpVn9X7BSPKqfM3zFeze7TuQTiNVgq768IO4blRwz+2U/w9Cj/H228oFeO3kwMlesgS2ci9DK+bc80GeW8fBEaNLRbfu0pTbG4Nkp62ywr+Psrcn1FwwVSlEUzu0RwicBeIgVIFR8EyFHPo03bhK7p9MS+DYJkd51RB/nv1JVOxXc4pGAoLz9viAev2WgTXqjTOSwvxbiBt9uLFMJ91UdTyqUQS/j4OivQHGYSZ87uFWSAWq3GKoPdu0oUpDnelPvYoE1tSfPQXbt2hN3tRPNnZIIZjKLMsCL8OrMTf+g4sXDuRRlgKfSafBgs8YmmBmEHzgjpGhodv/ZU6sR0Q9ixbnl9+dmmVdG5UO2nMOaOBQZeDV32rZA8g4BGBS6ESeLgdNda4Z+LkxoauheVOYquI/kgI8/85XfvvZrZG9+Tzf95XXXFs8C2y4JE74r8pc42U7e/6Go8i7RRPUGbTxkN+nz7UlMN9ZoIsXrVSX+8cUweb8l+SAdXpkX8gOfrk2Md+ongBUv9oRB94xn/X4PMchHzLipHqlELFr4ywVw9ywqe4tu2UAb9+J7cQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR10MB2999.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(136003)(396003)(346002)(39860400002)(376002)(366004)(54906003)(8676002)(5660300002)(316002)(86362001)(6916009)(478600001)(186003)(7406005)(2906002)(55016002)(966005)(16526019)(7416002)(26005)(6666004)(7366002)(38100700002)(52116002)(66476007)(7696005)(956004)(83380400001)(66556008)(4326008)(38350700002)(66946007)(8936002)(67856001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?bvJ7q3CIhSDXU5AEz5Lo5jbUWTmD3cx8rMWsToDHYRSYX63S2y8cG2e1rYk2?=
+ =?us-ascii?Q?eErzOJrygXEY8O1Y/n1U2p6iY1ReaLDVmCYe4vz5cWjRIHDU5CMCmVOl8Bcz?=
+ =?us-ascii?Q?xMmC8BvlazQ72+db6pe6YdvGFp5Qopzgw6ji6oq8s6ENqjEe+LrA188CgOVY?=
+ =?us-ascii?Q?FggWwijeLR8ekpCFnbsjOEaZRkjsxZD46BgCPJLfmSgk6z6e81cAZInUIF0p?=
+ =?us-ascii?Q?iuRYgKmhuI+wJ8VpgKyshIsdIxZTz/mIbVkXTkjO0ho3OT3wCJJsAEEv7s+8?=
+ =?us-ascii?Q?TIa6UwGP7uu6IyNz7WM1z/6K1mrBHONs7YO31I6J/Q+U2y/AnhENtMbc7313?=
+ =?us-ascii?Q?gcycAGPLkyxzVtE6hG6Aypbh0cgAnalSfvg2GOlA7Ia3tCpSS8XGsK0a6mfP?=
+ =?us-ascii?Q?9qlsq2UaTVrGTEZIsl40V2DBVUGkEkEU6jo42bXwraARhocJU5ki5J86gGw8?=
+ =?us-ascii?Q?ZOK1ghIKDsWW6c5hOjKBkXIq5Q4g3IcgftRSrYV2iZXgJ+XquJ2HIYdIcE6v?=
+ =?us-ascii?Q?B9sSLXP5DHB7dYUuPzI8EeMBKVBv4A+n1L9KFX/cX+4dfhTi5q+gjYoflut/?=
+ =?us-ascii?Q?f/DliTbrcQ2lHj7hgQvkfaYX32T+5CYDB5DyAra4EVdfei5/Jc9T6k7kiVxB?=
+ =?us-ascii?Q?sZctc0fLIREF6B1VGnF1YRj4eOeep8xT1L8OdL2o2rheBbEZDWXP2X3r5z/T?=
+ =?us-ascii?Q?ifZUwFkcrFhjrzbcZfiqgSDJ9KHF63Yt9zPnKv8Z5QGaTiqWVDARBIoonOEZ?=
+ =?us-ascii?Q?vJj+fZRore8OtRvlbRRxmiS7DocoHqdwjKa5nTteojR48eb5qKwEq/O0Ur6F?=
+ =?us-ascii?Q?KK/aC62a7rGONpgH5LjXC/o5izoP+hEPlTBqqSOnmJb7G4rQ+Oj8Akj6ijiK?=
+ =?us-ascii?Q?ROsj4gvLWimdelviji7rwTQ+JNbMKWJ2yJ1YfhZu5pmTUINuaYk0miM7t1Zd?=
+ =?us-ascii?Q?Og0aJ5QTriX3Lc6I3dmPmemfRZBGAI9b2NSt5L+2nHVgHQostGwVXMSn21Iq?=
+ =?us-ascii?Q?W8EoQo5Jc8LgRX2EhDJKGtYHGOeqeV+iV14voRiubW5rWI7jkzYLX29RGcHL?=
+ =?us-ascii?Q?txctobWYht7yescW1LhNXeTjBSrYNeea81RBXT0vtNPp1dQkjcgbIlnKfy3u?=
+ =?us-ascii?Q?7k1B6kQITgUefQ6ez/oj5hn6Xk044IdQtV3wl2NbUYHbzFE0xVs2Q3dvVbg6?=
+ =?us-ascii?Q?5C9UORHyjqNrPPFfPf4bvIBlt6+EJ4D15blYHjoo8k7AlUVxAOF/I6W4CSqs?=
+ =?us-ascii?Q?cYZzsOgcLSPISaMKyIk2Rzp1Grqnz0+XcGTd6Kza4oLRHo+4JDdQitYPRs7k?=
+ =?us-ascii?Q?oUYwqFmElmXOYx+cMilA4Egb?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e32a325a-d0c9-45f4-bf49-08d93745119f
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR10MB2999.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jun 2021 19:20:04.0737 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: xBncePuLzykfxJ7flQwRuVznf5ZATSXtneYvTgwW4c5iJ1PYAWB6YsZWdW9JYVICQZytQCiZHGX3C+dIcjwY8g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR10MB3160
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=10025
+ signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+ adultscore=0 suspectscore=0
+ phishscore=0 malwarescore=0 mlxscore=0 mlxlogscore=999 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104190000
+ definitions=main-2106240106
+X-Proofpoint-ORIG-GUID: HVGSeOE_AI_2-cWDVJ4zX0pPBMurpisx
+X-Proofpoint-GUID: HVGSeOE_AI_2-cWDVJ4zX0pPBMurpisx
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,98 +151,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
- intel-gfx@lists.freedesktop.org
+Cc: heikki.krogerus@linux.intel.com, thomas.hellstrom@linux.intel.com,
+ peterz@infradead.org, dri-devel@lists.freedesktop.org,
+ chris@chris-wilson.co.uk, grant.likely@arm.com, paulus@samba.org,
+ Frank Rowand <frowand.list@gmail.com>, mingo@kernel.org,
+ Marek Szyprowski <m.szyprowski@samsung.com>, sstabellini@kernel.org,
+ Saravana Kannan <saravanak@google.com>, mpe@ellerman.id.au,
+ Joerg Roedel <joro@8bytes.org>,
+ "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
+ Christoph Hellwig <hch@lst.de>,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>, bskeggs@redhat.com,
+ linux-pci@vger.kernel.org, xen-devel@lists.xenproject.org,
+ Thierry Reding <treding@nvidia.com>, intel-gfx@lists.freedesktop.org,
+ matthew.auld@intel.com, linux-devicetree <devicetree@vger.kernel.org>,
+ jxgao@google.com, Will Deacon <will@kernel.org>, airlied@linux.ie,
+ Dan Williams <dan.j.williams@intel.com>, linuxppc-dev@lists.ozlabs.org,
+ Rob Herring <robh+dt@kernel.org>, rodrigo.vivi@intel.com, bhelgaas@google.com,
+ boris.ostrovsky@oracle.com,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>, jgross@suse.com,
+ Nicolas Boichat <drinkcat@chromium.org>, Greg KH <gregkh@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>, quic_qiancai@quicinc.com,
+ lkml <linux-kernel@vger.kernel.org>, tfiga@chromium.org,
+ "list@263.net:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
+ Jim Quinlan <james.quinlan@broadcom.com>, xypron.glpk@gmx.de,
+ thomas.lendacky@amd.com, Robin Murphy <robin.murphy@arm.com>,
+ bauerman@linux.ibm.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, Jun 24, 2021 at 11:55:14PM +0800, Claire Chang wrote:
+> This series implements mitigations for lack of DMA access control on
+> systems without an IOMMU, which could result in the DMA accessing the
+> system memory at unexpected times and/or unexpected addresses, possibly
+> leading to data leakage or corruption.
+> 
+> For example, we plan to use the PCI-e bus for Wi-Fi and that PCI-e bus is
+> not behind an IOMMU. As PCI-e, by design, gives the device full access to
+> system memory, a vulnerability in the Wi-Fi firmware could easily escalate
+> to a full system exploit (remote wifi exploits: [1a], [1b] that shows a
+> full chain of exploits; [2], [3]).
+> 
+> To mitigate the security concerns, we introduce restricted DMA. Restricted
+> DMA utilizes the existing swiotlb to bounce streaming DMA in and out of a
+> specially allocated region and does memory allocation from the same region.
+> The feature on its own provides a basic level of protection against the DMA
+> overwriting buffer contents at unexpected times. However, to protect
+> against general data leakage and system memory corruption, the system needs
+> to provide a way to restrict the DMA to a predefined memory region (this is
+> usually done at firmware level, e.g. MPU in ATF on some ARM platforms [4]).
+> 
+> [1a] https://googleprojectzero.blogspot.com/2017/04/over-air-exploiting-broadcoms-wi-fi_4.html
+> [1b] https://googleprojectzero.blogspot.com/2017/04/over-air-exploiting-broadcoms-wi-fi_11.html
+> [2] https://blade.tencent.com/en/advisories/qualpwn/
+> [3] https://www.bleepingcomputer.com/news/security/vulnerabilities-found-in-highly-popular-firmware-for-wifi-chips/
+> [4] https://github.com/ARM-software/arm-trusted-firmware/blob/master/plat/mediatek/mt8183/drivers/emi_mpu/emi_mpu.c#L132
+> 
+> v15:
+> - Apply Will's diff (https://lore.kernel.org/patchwork/patch/1448957/#1647521)
+>   to fix the crash reported by Qian.
+> - Add Stefano's Acked-by tag for patch 01/12 from v14
 
---a5kdybf52icymnkd
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+That all should be now be on
 
-Hi Dave, Daniel,
+https://git.kernel.org/pub/scm/linux/kernel/git/konrad/swiotlb.git/
+devel/for-linus-5.14 (and linux-next)
 
-Here's this week drm-misc-fixes PR
-
-Thanks!
-Maxime
-
-drm-misc-fixes-2021-06-24:
-A DMA address check for nouveau, an error code return fix for kmb, fixes
-to wait for a moving fence after pinning the BO for amdgpu, nouveau and
-radeon, a crtc and async page flip fix for atmel-hlcdc and a cpu hang
-fix for vc4.
-The following changes since commit c336a5ee984708db4826ef9e47d184e638e29717:
-
-  drm: Lock pointer access in drm_master_release() (2021-06-10 12:22:02 +02=
-00)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-fixes-2021-06-24
-
-for you to fetch changes up to d330099115597bbc238d6758a4930e72b49ea9ba:
-
-  drm/nouveau: fix dma_address check for CPU/GPU sync (2021-06-24 15:40:44 =
-+0200)
-
-----------------------------------------------------------------
-A DMA address check for nouveau, an error code return fix for kmb, fixes
-to wait for a moving fence after pinning the BO for amdgpu, nouveau and
-radeon, a crtc and async page flip fix for atmel-hlcdc and a cpu hang
-fix for vc4.
-
-----------------------------------------------------------------
-Christian K=F6nig (4):
-      drm/nouveau: wait for moving fence after pinning v2
-      drm/radeon: wait for moving fence after pinning
-      drm/amdgpu: wait for moving fence after pinning
-      drm/nouveau: fix dma_address check for CPU/GPU sync
-
-Dan Sneddon (2):
-      drm: atmel_hlcdc: Enable the crtc vblank prior to crtc usage.
-      drm/atmel-hlcdc: Allow async page flips
-
-Daniel Vetter (1):
-      Revert "drm: add a locked version of drm_is_current_master"
-
-Desmond Cheong Zhi Xi (1):
-      drm: add a locked version of drm_is_current_master
-
-Krzysztof Kozlowski (1):
-      drm/panel: ld9040: reference spi_device_id table
-
-Maxime Ripard (2):
-      drm/vc4: hdmi: Move the HSM clock enable to runtime_pm
-      drm/vc4: hdmi: Make sure the controller is powered in detect
-
-Zhen Lei (1):
-      drm/kmb: Fix error return code in kmb_hw_init()
-
- drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c    | 14 +++++++-
- drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c | 17 ++++++----
- drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c   |  1 +
- drivers/gpu/drm/kmb/kmb_drv.c                  |  1 +
- drivers/gpu/drm/nouveau/nouveau_bo.c           |  4 +--
- drivers/gpu/drm/nouveau/nouveau_prime.c        | 17 +++++++++-
- drivers/gpu/drm/panel/panel-samsung-ld9040.c   |  1 +
- drivers/gpu/drm/radeon/radeon_prime.c          | 14 ++++++--
- drivers/gpu/drm/vc4/vc4_hdmi.c                 | 44 ++++++++++++++++++++--=
-----
- 9 files changed, 90 insertions(+), 23 deletions(-)
-
---a5kdybf52icymnkd
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYNTXGQAKCRDj7w1vZxhR
-xWskAQDRWFG66LvbYsXfeDhuXC2Wk/iPOHb6yyhddnvmXIUnKAD+KL8cvaIqR+cY
-YvLTgU0vWOlNcj/qGUyiukz21joYDgU=
-=TVQo
------END PGP SIGNATURE-----
-
---a5kdybf52icymnkd--
