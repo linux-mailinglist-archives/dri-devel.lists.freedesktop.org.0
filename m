@@ -2,36 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0D363B27D4
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Jun 2021 08:48:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBC223B27F0
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Jun 2021 08:49:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 127616EA37;
-	Thu, 24 Jun 2021 06:47:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E1D016EA69;
+	Thu, 24 Jun 2021 06:47:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B4AD6EA0A;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 518DA6E9F9;
  Thu, 24 Jun 2021 06:47:31 +0000 (UTC)
-IronPort-SDR: HILtt7LiLU1PIzI+kLCMGnae7Jejc3nV2XTsOkSHz+kMW2cDYlaNDWGVPGOFerm7kkVH6t9P6T
- V7IOfFjH8frA==
-X-IronPort-AV: E=McAfee;i="6200,9189,10024"; a="207346772"
-X-IronPort-AV: E=Sophos;i="5.83,295,1616482800"; d="scan'208";a="207346772"
+IronPort-SDR: Zh2E5thA1ah90mci/0IWoVGs6/u7vGBTdSGX0mg6Y6MCuu8nkpcJuHhi5NdxJDuKlCDWjoK1ji
+ ZllScEa81C5A==
+X-IronPort-AV: E=McAfee;i="6200,9189,10024"; a="207346774"
+X-IronPort-AV: E=Sophos;i="5.83,295,1616482800"; d="scan'208";a="207346774"
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  23 Jun 2021 23:47:26 -0700
-IronPort-SDR: 9Ob/0xwjK3p8R7PwOoeNV/mi+ViKspcnGFwvIN734Mk06J536YRAGC8u37uoaoFeizxrn9qQ52
- MM1HjBFUrsPg==
-X-IronPort-AV: E=Sophos;i="5.83,295,1616482800"; d="scan'208";a="556390966"
+IronPort-SDR: k90Q/D66NSV1LHJ+keDU1ZTNSUjQYtrO6uBQpnfAvUBjucbXAIoQwG6rHsoDNKa65pkUHlkoi3
+ k1V2M6p3jzQA==
+X-IronPort-AV: E=Sophos;i="5.83,295,1616482800"; d="scan'208";a="556390968"
 Received: from dhiatt-server.jf.intel.com ([10.54.81.3])
  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  23 Jun 2021 23:47:26 -0700
 From: Matthew Brost <matthew.brost@intel.com>
 To: <intel-gfx@lists.freedesktop.org>,
 	<dri-devel@lists.freedesktop.org>
-Subject: [PATCH 34/47] drm/i915/guc: Suspend/resume implementation for new
- interface
-Date: Thu, 24 Jun 2021 00:05:03 -0700
-Message-Id: <20210624070516.21893-35-matthew.brost@intel.com>
+Subject: [PATCH 35/47] drm/i915/guc: Handle context reset notification
+Date: Thu, 24 Jun 2021 00:05:04 -0700
+Message-Id: <20210624070516.21893-36-matthew.brost@intel.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20210624070516.21893-1-matthew.brost@intel.com>
 References: <20210624070516.21893-1-matthew.brost@intel.com>
@@ -53,233 +52,122 @@ Cc: daniele.ceraolospurio@intel.com, john.c.harrison@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The new GuC interface introduces an MMIO H2G command,
-INTEL_GUC_ACTION_RESET_CLIENT, which is used to implement suspend. This
-MMIO tears down any active contexts generating a context reset G2H CTB
-for each. Once that step completes the GuC tears down the CTB
-channels. It is safe to suspend once this MMIO H2G command completes
-and all G2H CTBs have been processed. In practice the i915 will likely
-never receive a G2H as suspend should only be called after the GPU is
-idle.
+GuC will issue a reset on detecting an engine hang and will notify
+the driver via a G2H message. The driver will service the notification
+by resetting the guilty context to a simple state or banning it
+completely.
 
-Resume is implemented in the same manner as before - simply reload the
-GuC firmware and reinitialize everything (e.g. CTB channels, contexts,
-etc..).
-
-Cc: John Harrison <john.c.harrison@intel.com>
+Cc: Matthew Brost <matthew.brost@intel.com>
+Cc: John Harrison <John.C.Harrison@Intel.com>
 Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
 ---
- .../gpu/drm/i915/gt/uc/abi/guc_actions_abi.h  |  1 +
- drivers/gpu/drm/i915/gt/uc/intel_guc.c        | 64 ++++++++-----------
- .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 14 ++--
- .../gpu/drm/i915/gt/uc/intel_guc_submission.h |  5 ++
- drivers/gpu/drm/i915/gt/uc/intel_uc.c         | 20 ++++--
- 5 files changed, 53 insertions(+), 51 deletions(-)
+ drivers/gpu/drm/i915/gt/uc/intel_guc.h        |  2 ++
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c     |  3 ++
+ .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 35 +++++++++++++++++++
+ drivers/gpu/drm/i915/i915_trace.h             | 10 ++++++
+ 4 files changed, 50 insertions(+)
 
-diff --git a/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h b/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h
-index 57e18babdf4b..596cf4b818e5 100644
---- a/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h
-+++ b/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h
-@@ -142,6 +142,7 @@ enum intel_guc_action {
- 	INTEL_GUC_ACTION_REGISTER_COMMAND_TRANSPORT_BUFFER = 0x4505,
- 	INTEL_GUC_ACTION_DEREGISTER_COMMAND_TRANSPORT_BUFFER = 0x4506,
- 	INTEL_GUC_ACTION_DEREGISTER_CONTEXT_DONE = 0x4600,
-+	INTEL_GUC_ACTION_RESET_CLIENT = 0x5B01,
- 	INTEL_GUC_ACTION_LIMIT
- };
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
+index 85ef6767f13b..e94b0ef733da 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc.h
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
+@@ -262,6 +262,8 @@ int intel_guc_deregister_done_process_msg(struct intel_guc *guc,
+ 					  const u32 *msg, u32 len);
+ int intel_guc_sched_done_process_msg(struct intel_guc *guc,
+ 				     const u32 *msg, u32 len);
++int intel_guc_context_reset_process_msg(struct intel_guc *guc,
++					const u32 *msg, u32 len);
  
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-index 9b09395b998f..68266cbffd1f 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-@@ -524,51 +524,34 @@ int intel_guc_auth_huc(struct intel_guc *guc, u32 rsa_offset)
-  */
- int intel_guc_suspend(struct intel_guc *guc)
- {
--	struct intel_uncore *uncore = guc_to_gt(guc)->uncore;
- 	int ret;
--	u32 status;
- 	u32 action[] = {
--		INTEL_GUC_ACTION_ENTER_S_STATE,
--		GUC_POWER_D1, /* any value greater than GUC_POWER_D0 */
-+		INTEL_GUC_ACTION_RESET_CLIENT,
- 	};
- 
--	/*
--	 * If GuC communication is enabled but submission is not supported,
--	 * we do not need to suspend the GuC.
--	 */
--	if (!intel_guc_submission_is_used(guc) || !intel_guc_is_ready(guc))
-+	if (!intel_guc_is_ready(guc))
- 		return 0;
- 
--	/*
--	 * The ENTER_S_STATE action queues the save/restore operation in GuC FW
--	 * and then returns, so waiting on the H2G is not enough to guarantee
--	 * GuC is done. When all the processing is done, GuC writes
--	 * INTEL_GUC_SLEEP_STATE_SUCCESS to scratch register 14, so we can poll
--	 * on that. Note that GuC does not ensure that the value in the register
--	 * is different from INTEL_GUC_SLEEP_STATE_SUCCESS while the action is
--	 * in progress so we need to take care of that ourselves as well.
--	 */
--
--	intel_uncore_write(uncore, SOFT_SCRATCH(14),
--			   INTEL_GUC_SLEEP_STATE_INVALID_MASK);
--
--	ret = intel_guc_send(guc, action, ARRAY_SIZE(action));
--	if (ret)
--		return ret;
--
--	ret = __intel_wait_for_register(uncore, SOFT_SCRATCH(14),
--					INTEL_GUC_SLEEP_STATE_INVALID_MASK,
--					0, 0, 10, &status);
--	if (ret)
--		return ret;
--
--	if (status != INTEL_GUC_SLEEP_STATE_SUCCESS) {
--		DRM_ERROR("GuC failed to change sleep state. "
--			  "action=0x%x, err=%u\n",
--			  action[0], status);
--		return -EIO;
-+	if (intel_guc_submission_is_used(guc)) {
-+		/*
-+		 * This H2G MMIO command tears down the GuC in two steps. First it will
-+		 * generate a G2H CTB for every active context indicating a reset. In
-+		 * practice the i915 shouldn't ever get a G2H as suspend should only be
-+		 * called when the GPU is idle. Next, it tears down the CTBs and this
-+		 * H2G MMIO command completes.
-+		 *
-+		 * Don't abort on a failure code from the GuC. Keep going and do the
-+		 * clean up in santize() and re-initialisation on resume and hopefully
-+		 * the error here won't be problematic.
-+		 */
-+		ret = intel_guc_send_mmio(guc, action, ARRAY_SIZE(action), NULL, 0);
-+		if (ret)
-+			DRM_ERROR("GuC suspend: RESET_CLIENT action failed with error %d!\n", ret);
- 	}
- 
-+	/* Signal that the GuC isn't running. */
-+	intel_guc_sanitize(guc);
-+
- 	return 0;
- }
- 
-@@ -578,7 +561,12 @@ int intel_guc_suspend(struct intel_guc *guc)
-  */
- int intel_guc_resume(struct intel_guc *guc)
- {
--	/* XXX: to be implemented with submission interface rework */
-+	/*
-+	 * NB: This function can still be called even if GuC submission is
-+	 * disabled, e.g. if GuC is enabled for HuC authentication only. Thus,
-+	 * if any code is later added here, it must be support doing nothing
-+	 * if submission is disabled (as per intel_guc_suspend).
-+	 */
- 	return 0;
- }
- 
+ void intel_guc_submission_reset_prepare(struct intel_guc *guc);
+ void intel_guc_submission_reset(struct intel_guc *guc, bool stalled);
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+index 4ed074df88e5..a2020373b8e8 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+@@ -945,6 +945,9 @@ static int ct_process_request(struct intel_guc_ct *ct, struct ct_incoming_msg *r
+ 	case INTEL_GUC_ACTION_SCHED_CONTEXT_MODE_DONE:
+ 		ret = intel_guc_sched_done_process_msg(guc, payload, len);
+ 		break;
++	case INTEL_GUC_ACTION_CONTEXT_RESET_NOTIFICATION:
++		ret = intel_guc_context_reset_process_msg(guc, payload, len);
++		break;
+ 	default:
+ 		ret = -EOPNOTSUPP;
+ 		break;
 diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-index 59fca9748c15..16b61fe71b07 100644
+index 16b61fe71b07..9845c5bd9832 100644
 --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
 +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-@@ -304,10 +304,10 @@ static int guc_submission_busy_loop(struct intel_guc* guc,
- 	return err;
+@@ -2192,6 +2192,41 @@ int intel_guc_sched_done_process_msg(struct intel_guc *guc,
+ 	return 0;
  }
  
--static int guc_wait_for_pending_msg(struct intel_guc *guc,
--				    atomic_t *wait_var,
--				    bool interruptible,
--				    long timeout)
-+int intel_guc_wait_for_pending_msg(struct intel_guc *guc,
-+				   atomic_t *wait_var,
-+				   bool interruptible,
-+				   long timeout)
- {
- 	const int state = interruptible ?
- 		TASK_INTERRUPTIBLE : TASK_UNINTERRUPTIBLE;
-@@ -352,8 +352,8 @@ int intel_guc_wait_for_idle(struct intel_guc *guc, long timeout)
- 	if (unlikely(timeout < 0))
- 		timeout = -timeout, interruptible = false;
- 
--	return guc_wait_for_pending_msg(guc, &guc->outstanding_submission_g2h,
--					interruptible, timeout);
-+	return intel_guc_wait_for_pending_msg(guc, &guc->outstanding_submission_g2h,
-+					      interruptible, timeout);
- }
- 
- static int guc_lrc_desc_pin(struct intel_context *ce, bool loop);
-@@ -625,7 +625,7 @@ void intel_guc_submission_reset_prepare(struct intel_guc *guc)
- 	for (i = 0; i < 4 && atomic_read(&guc->outstanding_submission_g2h); ++i) {
- 		intel_guc_to_host_event_handler(guc);
- #define wait_for_reset(guc, wait_var) \
--		guc_wait_for_pending_msg(guc, wait_var, false, (HZ / 20))
-+		intel_guc_wait_for_pending_msg(guc, wait_var, false, (HZ / 20))
- 		do {
- 			wait_for_reset(guc, &guc->outstanding_submission_g2h);
- 		} while (!list_empty(&guc->ct.requests.incoming));
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h
-index 95df5ab06031..b9b9f0f60f91 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h
-@@ -27,6 +27,11 @@ void intel_guc_log_context_info(struct intel_guc *guc, struct drm_printer *p);
- 
- bool intel_guc_virtual_engine_has_heartbeat(const struct intel_engine_cs *ve);
- 
-+int intel_guc_wait_for_pending_msg(struct intel_guc *guc,
-+				   atomic_t *wait_var,
-+				   bool interruptible,
-+				   long timeout);
++static void guc_context_replay(struct intel_context *ce)
++{
++	struct i915_sched_engine *sched_engine = ce->engine->sched_engine;
 +
- static inline bool intel_guc_submission_is_supported(struct intel_guc *guc)
- {
- 	/* XXX: GuC submission is unavailable for now */
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc.c b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-index ab11fe731ee7..b523a8521351 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-@@ -596,14 +596,18 @@ void intel_uc_cancel_requests(struct intel_uc *uc)
- void intel_uc_runtime_suspend(struct intel_uc *uc)
- {
- 	struct intel_guc *guc = &uc->guc;
--	int err;
- 
- 	if (!intel_guc_is_ready(guc))
- 		return;
- 
--	err = intel_guc_suspend(guc);
--	if (err)
--		DRM_DEBUG_DRIVER("Failed to suspend GuC, err=%d", err);
-+	/*
-+	 * Wait for any outstanding CTB before tearing down communication /w the
-+	 * GuC.
-+	 */
-+#define OUTSTANDING_CTB_TIMEOUT_PERIOD	(HZ / 5)
-+	intel_guc_wait_for_pending_msg(guc, &guc->outstanding_submission_g2h,
-+				       false, OUTSTANDING_CTB_TIMEOUT_PERIOD);
-+	GEM_WARN_ON(atomic_read(&guc->outstanding_submission_g2h));
- 
- 	guc_disable_communication(guc);
- }
-@@ -612,12 +616,16 @@ void intel_uc_suspend(struct intel_uc *uc)
- {
- 	struct intel_guc *guc = &uc->guc;
- 	intel_wakeref_t wakeref;
-+	int err;
- 
- 	if (!intel_guc_is_ready(guc))
- 		return;
- 
--	with_intel_runtime_pm(uc_to_gt(uc)->uncore->rpm, wakeref)
--		intel_uc_runtime_suspend(uc);
-+	with_intel_runtime_pm(&uc_to_gt(uc)->i915->runtime_pm, wakeref) {
-+		err = intel_guc_suspend(guc);
-+		if (err)
-+			DRM_DEBUG_DRIVER("Failed to suspend GuC, err=%d", err);
++	__guc_reset_context(ce, true);
++	tasklet_hi_schedule(&sched_engine->tasklet);
++}
++
++static void guc_handle_context_reset(struct intel_guc *guc,
++				     struct intel_context *ce)
++{
++	trace_intel_context_reset(ce);
++	guc_context_replay(ce);
++}
++
++int intel_guc_context_reset_process_msg(struct intel_guc *guc,
++					const u32 *msg, u32 len)
++{
++	struct intel_context *ce;
++	int desc_idx = msg[0];
++
++	if (unlikely(len != 1)) {
++		drm_dbg(&guc_to_gt(guc)->i915->drm, "Invalid length %u", len);
++		return -EPROTO;
 +	}
++
++	ce = g2h_context_lookup(guc, desc_idx);
++	if (unlikely(!ce))
++		return -EPROTO;
++
++	guc_handle_context_reset(guc, ce);
++
++	return 0;
++}
++
+ void intel_guc_log_submission_info(struct intel_guc *guc,
+ 				   struct drm_printer *p)
+ {
+diff --git a/drivers/gpu/drm/i915/i915_trace.h b/drivers/gpu/drm/i915/i915_trace.h
+index 97c2e83984ed..c095c4d39456 100644
+--- a/drivers/gpu/drm/i915/i915_trace.h
++++ b/drivers/gpu/drm/i915/i915_trace.h
+@@ -929,6 +929,11 @@ DECLARE_EVENT_CLASS(intel_context,
+ 		      __entry->guc_sched_state_no_lock)
+ );
+ 
++DEFINE_EVENT(intel_context, intel_context_reset,
++	     TP_PROTO(struct intel_context *ce),
++	     TP_ARGS(ce)
++);
++
+ DEFINE_EVENT(intel_context, intel_context_register,
+ 	     TP_PROTO(struct intel_context *ce),
+ 	     TP_ARGS(ce)
+@@ -1026,6 +1031,11 @@ trace_i915_request_out(struct i915_request *rq)
+ {
  }
  
- static int __uc_resume(struct intel_uc *uc, bool enable_communication)
++static inline void
++trace_intel_context_reset(struct intel_context *ce)
++{
++}
++
+ static inline void
+ trace_intel_context_register(struct intel_context *ce)
+ {
 -- 
 2.28.0
 
