@@ -2,62 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D2123B333E
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Jun 2021 17:57:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 256DC3B3368
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Jun 2021 18:03:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 889C76EC59;
-	Thu, 24 Jun 2021 15:57:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F02F6EC5C;
+	Thu, 24 Jun 2021 16:03:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com
- [IPv6:2607:f8b0:4864:20::636])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C4C26EC59
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Jun 2021 15:57:28 +0000 (UTC)
-Received: by mail-pl1-x636.google.com with SMTP id b3so3187903plg.2
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Jun 2021 08:57:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=xfRvKXXPDGozL9xpkc2RXgCWY6OxEYfQN41+lxoFnvY=;
- b=kEshnj7M08k1T5XsbOYdzjZbq7nVnmjng6eJnfjl4lHMzaAZWk6m94BUgoAkO9vE9h
- LGUHt/CR+GHi3cdJm3u8om1RbudjT01C0RCIVYBXBb3iKIFLf6Hz/aFd03GLLTot9C9q
- is4g5Rc9w98QwWpmpTahpJ12S/0U2a21x3Eus=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=xfRvKXXPDGozL9xpkc2RXgCWY6OxEYfQN41+lxoFnvY=;
- b=aFkp9AqyAfRgMwN+loBp6tsqZl9SnOfpWMAVNUGr7EaYjeUnZEZ0CP64OA9G0VAMuX
- 16xj6vvDjH0xt3nsosnphosDgqpM0BlgEby0ifeerAcI0tG3fwEQ5xMCyzKmUGPMX3Qd
- PKw2qRP7Pw/8CpYnHe3Fk498kzJ68S/yWGxWZeCyrY4NagN75XZhYB7CDp+Jai95XGL7
- R9BJKVxmV3uYQ3SOE4nbPzuZ58PqyZSrmQ2iioAq+15VT47cOo+aai1jsS/kkHn/SGrd
- EyK8mSKP1cw64z3p2EtfxQ81gJ25m5TcqiT0WJ51nWArMfylu7CIxlq9upo4sPzYDCNT
- lPag==
-X-Gm-Message-State: AOAM530bzAhDQ6cL8YtiTnhgCIagDCew1S5n8o8kNQHIE7ESLlvhk5rb
- Cth/KMdZZl98A6sl9RRZ1vmwbA==
-X-Google-Smtp-Source: ABdhPJzInUpAy17snFNN0CGcBB/ghyLU73coTfwG0l77wDEHQQH9RWDi8n5UN9ZkYoU3wlPKMD5xpQ==
-X-Received: by 2002:a17:90b:2282:: with SMTP id
- kx2mr5939882pjb.60.1624550248050; 
- Thu, 24 Jun 2021 08:57:28 -0700 (PDT)
-Received: from localhost ([2401:fa00:95:205:165a:99ec:42d5:d8b])
- by smtp.gmail.com with UTF8SMTPSA id n6sm2862924pgt.7.2021.06.24.08.57.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 24 Jun 2021 08:57:27 -0700 (PDT)
-From: Claire Chang <tientzu@chromium.org>
-To: Rob Herring <robh+dt@kernel.org>, mpe@ellerman.id.au,
- Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
- Frank Rowand <frowand.list@gmail.com>,
- Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>, boris.ostrovsky@oracle.com,
- jgross@suse.com, Christoph Hellwig <hch@lst.de>,
- Marek Szyprowski <m.szyprowski@samsung.com>
-Subject: [PATCH v15 12/12] of: Add plumbing for restricted DMA pool
-Date: Thu, 24 Jun 2021 23:55:26 +0800
-Message-Id: <20210624155526.2775863-13-tientzu@chromium.org>
-X-Mailer: git-send-email 2.32.0.288.g62a8d224e6-goog
-In-Reply-To: <20210624155526.2775863-1-tientzu@chromium.org>
-References: <20210624155526.2775863-1-tientzu@chromium.org>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6788F6EC6F;
+ Thu, 24 Jun 2021 16:03:14 +0000 (UTC)
+IronPort-SDR: guIEO1fyO7ROiSk4tgHaefcKRk4Mj5/k+50BRMT/iQ1ZNplg7OSRY7NIdCai6A1Ucvfyz7MQRE
+ kHGyVW1XB4qQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,10025"; a="207438313"
+X-IronPort-AV: E=Sophos;i="5.83,296,1616482800"; d="scan'208";a="207438313"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Jun 2021 09:02:40 -0700
+IronPort-SDR: fxiyLJ3nj04w4B9JM/3mo3sxPoVcz9kSXvKbi9b2sm3Ticrej1Q7cR7/oH4FyYTaWf/JYwcrEc
+ 0DaaN6O4BLsA==
+X-IronPort-AV: E=Sophos;i="5.83,296,1616482800"; d="scan'208";a="639837319"
+Received: from unknown (HELO sdutt-i7) ([10.165.21.147])
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Jun 2021 09:02:39 -0700
+Date: Thu, 24 Jun 2021 08:55:58 -0700
+From: Matthew Brost <matthew.brost@intel.com>
+To: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: Re: [Intel-gfx] [PATCH 39/47] drm/i915/guc: Don't complain about
+ reset races
+Message-ID: <20210624155557.GA3540@sdutt-i7>
+References: <20210624070516.21893-1-matthew.brost@intel.com>
+ <20210624070516.21893-40-matthew.brost@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210624070516.21893-40-matthew.brost@intel.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,130 +50,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: heikki.krogerus@linux.intel.com, thomas.hellstrom@linux.intel.com,
- peterz@infradead.org, dri-devel@lists.freedesktop.org,
- chris@chris-wilson.co.uk, grant.likely@arm.com, paulus@samba.org,
- mingo@kernel.org, jxgao@google.com, sstabellini@kernel.org,
- Saravana Kannan <saravanak@google.com>, xypron.glpk@gmx.de,
- "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>, bskeggs@redhat.com,
- linux-pci@vger.kernel.org, xen-devel@lists.xenproject.org,
- Thierry Reding <treding@nvidia.com>, intel-gfx@lists.freedesktop.org,
- matthew.auld@intel.com, linux-devicetree <devicetree@vger.kernel.org>,
- airlied@linux.ie, Robin Murphy <robin.murphy@arm.com>,
- Nicolas Boichat <drinkcat@chromium.org>, rodrigo.vivi@intel.com,
- bhelgaas@google.com, tientzu@chromium.org,
- Dan Williams <dan.j.williams@intel.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Greg KH <gregkh@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>,
- quic_qiancai@quicinc.com, lkml <linux-kernel@vger.kernel.org>,
- tfiga@chromium.org,
- "list@263.net:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
- Jim Quinlan <james.quinlan@broadcom.com>, thomas.lendacky@amd.com,
- linuxppc-dev@lists.ozlabs.org, bauerman@linux.ibm.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If a device is not behind an IOMMU, we look up the device node and set
-up the restricted DMA when the restricted-dma-pool is presented.
+On Thu, Jun 24, 2021 at 12:05:08AM -0700, Matthew Brost wrote:
+> From: John Harrison <John.C.Harrison@Intel.com>
+> 
+> It is impossible to seal all race conditions of resets occurring
+> concurrent to other operations. At least, not without introducing
+> excesive mutex locking. Instead, don't complain if it occurs. In
+> particular, don't complain if trying to send a H2G during a reset.
+> Whatever the H2G was about should get redone once the reset is over.
+> 
+> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
 
-Signed-off-by: Claire Chang <tientzu@chromium.org>
-Tested-by: Stefano Stabellini <sstabellini@kernel.org>
-Tested-by: Will Deacon <will@kernel.org>
----
- drivers/of/address.c    | 33 +++++++++++++++++++++++++++++++++
- drivers/of/device.c     |  3 +++
- drivers/of/of_private.h |  6 ++++++
- 3 files changed, 42 insertions(+)
+Reviewed-by: Matthew Brost <matthew.brost@intel.com>
 
-diff --git a/drivers/of/address.c b/drivers/of/address.c
-index 73ddf2540f3f..cdf700fba5c4 100644
---- a/drivers/of/address.c
-+++ b/drivers/of/address.c
-@@ -8,6 +8,7 @@
- #include <linux/logic_pio.h>
- #include <linux/module.h>
- #include <linux/of_address.h>
-+#include <linux/of_reserved_mem.h>
- #include <linux/pci.h>
- #include <linux/pci_regs.h>
- #include <linux/sizes.h>
-@@ -1022,6 +1023,38 @@ int of_dma_get_range(struct device_node *np, const struct bus_dma_region **map)
- 	of_node_put(node);
- 	return ret;
- }
-+
-+int of_dma_set_restricted_buffer(struct device *dev, struct device_node *np)
-+{
-+	struct device_node *node, *of_node = dev->of_node;
-+	int count, i;
-+
-+	count = of_property_count_elems_of_size(of_node, "memory-region",
-+						sizeof(u32));
-+	/*
-+	 * If dev->of_node doesn't exist or doesn't contain memory-region, try
-+	 * the OF node having DMA configuration.
-+	 */
-+	if (count <= 0) {
-+		of_node = np;
-+		count = of_property_count_elems_of_size(
-+			of_node, "memory-region", sizeof(u32));
-+	}
-+
-+	for (i = 0; i < count; i++) {
-+		node = of_parse_phandle(of_node, "memory-region", i);
-+		/*
-+		 * There might be multiple memory regions, but only one
-+		 * restricted-dma-pool region is allowed.
-+		 */
-+		if (of_device_is_compatible(node, "restricted-dma-pool") &&
-+		    of_device_is_available(node))
-+			return of_reserved_mem_device_init_by_idx(dev, of_node,
-+								  i);
-+	}
-+
-+	return 0;
-+}
- #endif /* CONFIG_HAS_DMA */
- 
- /**
-diff --git a/drivers/of/device.c b/drivers/of/device.c
-index 6cb86de404f1..e68316836a7a 100644
---- a/drivers/of/device.c
-+++ b/drivers/of/device.c
-@@ -165,6 +165,9 @@ int of_dma_configure_id(struct device *dev, struct device_node *np,
- 
- 	arch_setup_dma_ops(dev, dma_start, size, iommu, coherent);
- 
-+	if (!iommu)
-+		return of_dma_set_restricted_buffer(dev, np);
-+
- 	return 0;
- }
- EXPORT_SYMBOL_GPL(of_dma_configure_id);
-diff --git a/drivers/of/of_private.h b/drivers/of/of_private.h
-index d9e6a324de0a..25cebbed5f02 100644
---- a/drivers/of/of_private.h
-+++ b/drivers/of/of_private.h
-@@ -161,12 +161,18 @@ struct bus_dma_region;
- #if defined(CONFIG_OF_ADDRESS) && defined(CONFIG_HAS_DMA)
- int of_dma_get_range(struct device_node *np,
- 		const struct bus_dma_region **map);
-+int of_dma_set_restricted_buffer(struct device *dev, struct device_node *np);
- #else
- static inline int of_dma_get_range(struct device_node *np,
- 		const struct bus_dma_region **map)
- {
- 	return -ENODEV;
- }
-+static inline int of_dma_set_restricted_buffer(struct device *dev,
-+					       struct device_node *np)
-+{
-+	return -ENODEV;
-+}
- #endif
- 
- #endif /* _LINUX_OF_PRIVATE_H */
--- 
-2.32.0.288.g62a8d224e6-goog
-
+> ---
+>  drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c | 5 ++++-
+>  drivers/gpu/drm/i915/gt/uc/intel_uc.c     | 3 +++
+>  drivers/gpu/drm/i915/gt/uc/intel_uc.h     | 2 ++
+>  3 files changed, 9 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+> index dd6177c8d75c..3b32755f892e 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+> @@ -727,7 +727,10 @@ int intel_guc_ct_send(struct intel_guc_ct *ct, const u32 *action, u32 len,
+>  	int ret;
+>  
+>  	if (unlikely(!ct->enabled)) {
+> -		WARN(1, "Unexpected send: action=%#x\n", *action);
+> +		struct intel_guc *guc = ct_to_guc(ct);
+> +		struct intel_uc *uc = container_of(guc, struct intel_uc, guc);
+> +
+> +		WARN(!uc->reset_in_progress, "Unexpected send: action=%#x\n", *action);
+>  		return -ENODEV;
+>  	}
+>  
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc.c b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
+> index b523a8521351..77c1fe2ed883 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_uc.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
+> @@ -550,6 +550,7 @@ void intel_uc_reset_prepare(struct intel_uc *uc)
+>  {
+>  	struct intel_guc *guc = &uc->guc;
+>  
+> +	uc->reset_in_progress = true;
+>  
+>  	/* Nothing to do if GuC isn't supported */
+>  	if (!intel_uc_supports_guc(uc))
+> @@ -579,6 +580,8 @@ void intel_uc_reset_finish(struct intel_uc *uc)
+>  {
+>  	struct intel_guc *guc = &uc->guc;
+>  
+> +	uc->reset_in_progress = false;
+> +
+>  	/* Firmware expected to be running when this function is called */
+>  	if (intel_guc_is_fw_running(guc) && intel_uc_uses_guc_submission(uc))
+>  		intel_guc_submission_reset_finish(guc);
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc.h b/drivers/gpu/drm/i915/gt/uc/intel_uc.h
+> index eaa3202192ac..91315e3f1c58 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_uc.h
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_uc.h
+> @@ -30,6 +30,8 @@ struct intel_uc {
+>  
+>  	/* Snapshot of GuC log from last failed load */
+>  	struct drm_i915_gem_object *load_err_log;
+> +
+> +	bool reset_in_progress;
+>  };
+>  
+>  void intel_uc_init_early(struct intel_uc *uc);
+> -- 
+> 2.28.0
+> 
+> _______________________________________________
+> Intel-gfx mailing list
+> Intel-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
