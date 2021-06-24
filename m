@@ -2,58 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E486B3B2532
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Jun 2021 04:48:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 854583B253D
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Jun 2021 04:57:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A2A4E6E9C6;
-	Thu, 24 Jun 2021 02:48:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 699D36E9C7;
+	Thu, 24 Jun 2021 02:57:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
- [IPv6:2a00:1450:4864:20::12b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED2436E9C6
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Jun 2021 02:48:44 +0000 (UTC)
-Received: by mail-lf1-x12b.google.com with SMTP id i1so7612915lfe.6
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Jun 2021 19:48:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=5gXOkfW5QLdmxd3Wj2w+c9EViV9eI5MsnrUKf2z8FYs=;
- b=RUUtNGr5bfoevPXn+E3jhYX17ZhytUijcdcizuV5g4jQ4csAcRk/aeza4+qR2lvWm2
- nApl7i4P87KW/V3VmdWmT5rnNucE6KyVawrkZY/mYM6BrTB22om8kojGB0aoqBrGivyD
- ablP9MZHGlP/9wsmaXfsHq6WuEEMnrJMmmoJHij/4TS+w5DTgKyVWjOVbirOyDH7zKC4
- CW0N7U316rWwH6l4ydjxnV6Tes4O/Wgx6zcPcGySg2HNEfV5tFcYL5ymVYDAjIkY8+fZ
- mPEekWg9dqIadP4zouGwK4hPDmzZAQ0OO5uNK8m4HyR0np44kKJi6eE+jR92wFXrpABb
- UElA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=5gXOkfW5QLdmxd3Wj2w+c9EViV9eI5MsnrUKf2z8FYs=;
- b=MAUVc1uc2tJwpO/3O+43eIxEo1X1/J00zT/k4bEY6KuRv4EhFaSec6UFQUezKCsB3g
- 3ildgWgfKc3RPVqbsW15X+Jte7LsyDLoBub4dojtoPiNShGqv6RqiyF52tI3/0dElANK
- LVQfjY6STU0IbgbWJLgI1/3uZJb7uerxStoWh2ecS7cMsXeWTzLGOQXhmuwiD9O6hRB9
- zTnKzdKU0EUVRwDQDOpMPfrEE8fJ4kQvHny3wpMuoDVYux7upshkB8Fx/92QBsySJFOW
- BnZn3oH75TbLZk2NqUe5kJP4h5h34sf+Kt5cEvyuVsteNZd7zQ+xvvMwgdPf0sc50MID
- gnOA==
-X-Gm-Message-State: AOAM533wra+JGiG1zd+BFEQkydopx6bO/DRvWTFu9n061ikge9v+jAKJ
- YmtckXsnKCmyjXDYzYn+sNbJ7COtMnAsJ5K3lLg=
-X-Google-Smtp-Source: ABdhPJx3C4pME09Z+lCozESHkQ/9SDrguEu+2in3VcwEc05cxMVQ7T7rVyGEQn/CiFUVy/CuhM/rCWbxw+m+VilD2fQ=
-X-Received: by 2002:a05:6512:3b24:: with SMTP id
- f36mr1930656lfv.443.1624502923336; 
- Wed, 23 Jun 2021 19:48:43 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210621072424.111733-1-jagan@amarulasolutions.com>
- <20210621072424.111733-3-jagan@amarulasolutions.com>
- <YNO0LHNVSWjrh1ZS@pendragon.ideasonboard.com>
-In-Reply-To: <YNO0LHNVSWjrh1ZS@pendragon.ideasonboard.com>
-From: Fabio Estevam <festevam@gmail.com>
-Date: Wed, 23 Jun 2021 23:48:32 -0300
-Message-ID: <CAOMZO5Ahbu4mohtMDOQOv_y5B_TDesbdYEUZTF1RL7_y-bS+RA@mail.gmail.com>
-Subject: Re: [RFC PATCH 2/9] drm: bridge: Add Samsung SEC MIPI DSIM bridge
- driver
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Michael Tretter <m.tretter@pengutronix.de>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D0D616E9C7
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Jun 2021 02:57:21 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 9CC4A61209
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Jun 2021 02:57:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1624503441;
+ bh=Oq7BZW5i2TzDC6ihERoav8Ym91ZpTcTyOmxOKFT90Cg=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=tHH6zmXeFa8vCDRtVwemixZJCXHsgiTep3JsJEXAkJ8z3ePxV9moIkmv3Uy1R2SRF
+ c9sFyG8sohtzeVT8dzm9qtnmGkAN/pdraoW4R103FqQh2hZG8uiynpjEzFm5nHw84c
+ qldwr+O7QRB8z4ryItGvJdawGmF210Z/jnIdXRib4BXTyp5TOFJerI7QwATQVQZEiK
+ jBMFfE5rJ/yqCDOCaPxfQjMaveoOZxxbo2OsmrDqrFmsOBZfF+trEmPPWcHXGRakBz
+ SC7JCq6ph8TEph9cyMGTJ1ihwiF9eUxvjiAwjZsSZC69JwbydgPSj4He3eEj/7nxqw
+ fX31D6jEoyHuw==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id 8BD39612A0; Thu, 24 Jun 2021 02:57:21 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 213561] [bisected][regression] AMD GPU can no longer enter idle
+ state after commit
+Date: Thu, 24 Jun 2021 02:57:21 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: matoro@airmail.cc
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-213561-2300-DbZMYnYxOJ@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-213561-2300@https.bugzilla.kernel.org/>
+References: <bug-213561-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,35 +66,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: DRI mailing list <dri-devel@lists.freedesktop.org>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Peng Fan <peng.fan@nxp.com>,
- Francis Laniel <francis.laniel@amarulasolutions.com>,
- Matteo Lisi <matteo.lisi@engicam.com>,
- Neil Armstrong <narmstrong@baylibre.com>, Shawn Guo <shawnguo@kernel.org>,
- Tomasz Figa <t.figa@samsung.com>, linux-kernel <linux-kernel@vger.kernel.org>,
- Robert Foss <robert.foss@linaro.org>, Andrzej Hajda <a.hajda@samsung.com>,
- Jagan Teki <jagan@amarulasolutions.com>,
- Milco Pratesi <milco.pratesi@engicam.com>,
- Anthony Brandon <anthony@amarulasolutions.com>, linux-phy@lists.infradead.org,
- Fancy Fang <chen.fang@nxp.com>,
- linux-amarula <linux-amarula@amarulasolutions.com>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
- <linux-arm-kernel@lists.infradead.org>, NXP Linux Team <linux-imx@nxp.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jagan/Laurent,
+https://bugzilla.kernel.org/show_bug.cgi?id=3D213561
 
-On Wed, Jun 23, 2021 at 7:23 PM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
+matoro (matoro@airmail.cc) changed:
 
-> Looking at the register set, it seems to match the Exynos 5433,
-> supported by drivers/gpu/drm/exynos/exynos_drm_dsi.c. Can we leverage
-> that driver instead of adding a new one for the same IP core ?
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |matoro@airmail.cc
 
-Yes. there was an attempt from Michael in this direction:
-https://patchwork.kernel.org/project/dri-devel/cover/20200911135413.3654800-1-m.tretter@pengutronix.de/
+--- Comment #1 from matoro (matoro@airmail.cc) ---
+Hi, I am confirming this issue in 5.12.13 on my Colorful Red Devil RX 5700X=
+T.=20
+Because of the OC profile it was consuming almost 100W continuously and hea=
+ted
+up to nearly 90=C2=B0C before I realized what was happening and reverted to=
+ 5.12.12.
 
-Cheers
+My card:
+0d:00.0 VGA compatible controller: Advanced Micro Devices, Inc. [AMD/ATI] N=
+avi
+10 [Radeon RX 5600 OEM/5600 XT / 5700/5700 XT] (rev c1)
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
