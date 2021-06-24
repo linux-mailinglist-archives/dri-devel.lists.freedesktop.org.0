@@ -2,59 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C83F43B2A38
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Jun 2021 10:19:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56CB03B2A53
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Jun 2021 10:29:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD3296E9FB;
-	Thu, 24 Jun 2021 08:19:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C9CD76EA88;
+	Thu, 24 Jun 2021 08:29:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 265E76E9FB;
- Thu, 24 Jun 2021 08:19:28 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A932E6E9E5;
+ Thu, 24 Jun 2021 08:29:02 +0000 (UTC)
 Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
  (using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 9244F1FD66;
- Thu, 24 Jun 2021 08:19:26 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id F29331FD6B;
+ Thu, 24 Jun 2021 08:29:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1624522766; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1624523341; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=vWd7Clsceha48alSO3MSAZOa9A037NnlaUwYocVgtFQ=;
- b=1uGjm7UZ7PJfsImGvXQs3KOVxH/bk0ooj9b2bSR2edOzZndQIk/dKTOkdfhuwuZ1ArzjN0
- 3ujvsLTyNGTdVOJjOxBS+fsQJvfF+yz/szoJsoZ/AUWteqACGMpzqd+cXl+CS54ToA6/zz
- F9UEYZnG8dIpkLantgn7MZI0Egyzvmc=
+ bh=0L5nz5bVnzlvJV0RjY8gCyLPBlQHqLtg4oioZgDj7sE=;
+ b=H47JB6rfcTZrnBwfDErNXWaKzTNfBpYnmnio3CIpCf8t3632jgCaxwzRMuz/mdYp9Yz/ao
+ XSsgx7UAK+VYhayo4uFpTyl/3X8uoFfqI08rv4ZeVShxNVAAOQlTrHJrmV0DfbOJNybTYR
+ PultKHLRqSOLL93gXfamRbzfV6CrU1E=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1624522766;
+ s=susede2_ed25519; t=1624523341;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=vWd7Clsceha48alSO3MSAZOa9A037NnlaUwYocVgtFQ=;
- b=/YMR/IYhBBufrAHuJE1r8ttx4pmSzgH1ziIBufrpWtlSM9pcaTJsJU2ZXs521xcjYnIZRJ
- 3rlzR0512R0AfuBg==
+ bh=0L5nz5bVnzlvJV0RjY8gCyLPBlQHqLtg4oioZgDj7sE=;
+ b=VGe9rG6so5c34BqO1pSCopzOeVyTNgfweNOXlBZdbQ53I4/7QT/vY1xqauJkC9BafqA9j+
+ S6Kg5u/bUT8FLqDw==
 Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
- by imap.suse.de (Postfix) with ESMTP id 67D6711A97;
- Thu, 24 Jun 2021 08:19:25 +0000 (UTC)
+ by imap.suse.de (Postfix) with ESMTP id BFDDD11A97;
+ Thu, 24 Jun 2021 08:28:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1624522766; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1624523340; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=vWd7Clsceha48alSO3MSAZOa9A037NnlaUwYocVgtFQ=;
- b=1uGjm7UZ7PJfsImGvXQs3KOVxH/bk0ooj9b2bSR2edOzZndQIk/dKTOkdfhuwuZ1ArzjN0
- 3ujvsLTyNGTdVOJjOxBS+fsQJvfF+yz/szoJsoZ/AUWteqACGMpzqd+cXl+CS54ToA6/zz
- F9UEYZnG8dIpkLantgn7MZI0Egyzvmc=
+ bh=0L5nz5bVnzlvJV0RjY8gCyLPBlQHqLtg4oioZgDj7sE=;
+ b=rfyPFlnrx0gMc6BzpqKzRr4E3RL5MMa6uTkl3g1ggRTmxlP/GEjI3N6ZCDgG/PSEW4V9I0
+ CC9jy4Fmuhh7S49OTyfzuUHxDuNa2tvtlWT3wAA3WMrsIHEFs9k1tZdMvnRFdCnsdtksqQ
+ RICsUBNTluOuPynz67gyFio3iP0eMNA=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1624522766;
+ s=susede2_ed25519; t=1624523340;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=vWd7Clsceha48alSO3MSAZOa9A037NnlaUwYocVgtFQ=;
- b=/YMR/IYhBBufrAHuJE1r8ttx4pmSzgH1ziIBufrpWtlSM9pcaTJsJU2ZXs521xcjYnIZRJ
- 3rlzR0512R0AfuBg==
+ bh=0L5nz5bVnzlvJV0RjY8gCyLPBlQHqLtg4oioZgDj7sE=;
+ b=wgWw5+iHWQ5qv3h7jV7wxXmyKHYRMe8CDc7lR0BDGQmqx/Do4XbDkNVtHpd2XiGqlnj6YX
+ 1A74dssIJKaSWNBw==
 Received: from director2.suse.de ([192.168.254.72]) by imap3-int with ESMTPSA
- id w2+wFw1A1GA5HAAALh3uQQ
- (envelope-from <tzimmermann@suse.de>); Thu, 24 Jun 2021 08:19:25 +0000
+ id zwiRLUtC1GBNIQAALh3uQQ
+ (envelope-from <tzimmermann@suse.de>); Thu, 24 Jun 2021 08:28:59 +0000
 Subject: Re: [PATCH v3 04/27] drm: Don't test for IRQ support in VBLANK ioctls
 To: Jani Nikula <jani.nikula@linux.intel.com>, daniel@ffwll.ch,
  airlied@linux.ie, alexander.deucher@amd.com, christian.koenig@amd.com,
@@ -81,15 +81,15 @@ To: Jani Nikula <jani.nikula@linux.intel.com>, daniel@ffwll.ch,
 References: <20210624072916.27703-1-tzimmermann@suse.de>
  <20210624072916.27703-5-tzimmermann@suse.de> <87im23u1ok.fsf@intel.com>
 From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <13a2808e-e18b-d0c4-fd3f-9f74a1c28227@suse.de>
-Date: Thu, 24 Jun 2021 10:19:24 +0200
+Message-ID: <b5e7729f-ed11-e9ca-386e-562feb2bd2b7@suse.de>
+Date: Thu, 24 Jun 2021 10:28:59 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
 In-Reply-To: <87im23u1ok.fsf@intel.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="1abtLFnknRMcm59L8jJCqfHfzBd2N565M"
+ boundary="XeS7eJ5JPg7IwjZ7mWHplNVbGBiq1dAM5"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -112,8 +112,8 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---1abtLFnknRMcm59L8jJCqfHfzBd2N565M
-Content-Type: multipart/mixed; boundary="S90tyVSEB8ao9W3GA3iiO0RRpFfoFToer";
+--XeS7eJ5JPg7IwjZ7mWHplNVbGBiq1dAM5
+Content-Type: multipart/mixed; boundary="zYjFVN6LbQJto7YyRvmktHhbjS3oGNxBZ";
  protected-headers="v1"
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: Jani Nikula <jani.nikula@linux.intel.com>, daniel@ffwll.ch,
@@ -145,13 +145,13 @@ Cc: linux-samsung-soc@vger.kernel.org, nouveau@lists.freedesktop.org,
  Daniel Vetter <daniel.vetter@ffwll.ch>, linux-tegra@vger.kernel.org,
  linux-stm32@st-md-mailman.stormreply.com,
  linux-arm-kernel@lists.infradead.org
-Message-ID: <13a2808e-e18b-d0c4-fd3f-9f74a1c28227@suse.de>
+Message-ID: <b5e7729f-ed11-e9ca-386e-562feb2bd2b7@suse.de>
 Subject: Re: [PATCH v3 04/27] drm: Don't test for IRQ support in VBLANK ioctls
 References: <20210624072916.27703-1-tzimmermann@suse.de>
  <20210624072916.27703-5-tzimmermann@suse.de> <87im23u1ok.fsf@intel.com>
 In-Reply-To: <87im23u1ok.fsf@intel.com>
 
---S90tyVSEB8ao9W3GA3iiO0RRpFfoFToer
+--zYjFVN6LbQJto7YyRvmktHhbjS3oGNxBZ
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
@@ -264,15 +264,33 @@ v, void *data,
 >> +	}
 >=20
 > Sheesh I hate this kind of inline #ifdefs.
+>=20
+> Two alternate suggestions that I believe should be as just efficient:
 
-I don't like them either. I guess I'll go with suggestion 2. Thanks for=20
-the feedback.
+Or how about:
+
+static bool drm_wait_vblank_supported(struct drm_device *dev)
+
+{
+
+if defined(CONFIG_DRM_LEGACY)
+	if  (unlikely(drm_core_check_feature(dev, DRIVER_LEGACY)))
+
+		return dev->irq_enabled;
+
+#endif
+	return drm_dev_has_vblank(dev);
+
+}
+
+
+?
+
+It's inline, but still readable.
 
 Best regards
 Thomas
 
->=20
-> Two alternate suggestions that I believe should be as just efficient:
 >=20
 > 1) The more verbose:
 >=20
@@ -347,27 +365,27 @@ Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
 Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
 
---S90tyVSEB8ao9W3GA3iiO0RRpFfoFToer--
+--zYjFVN6LbQJto7YyRvmktHhbjS3oGNxBZ--
 
---1abtLFnknRMcm59L8jJCqfHfzBd2N565M
+--XeS7eJ5JPg7IwjZ7mWHplNVbGBiq1dAM5
 Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmDUQAwFAwAAAAAACgkQlh/E3EQov+AM
-1xAAon3lHuqQy+6wjZWY/BW0yUved7wPrHSnsue/EvRwAf4qizG4REU3rRLH+CO8iBUiJrYZPSRn
-8sm0Y4HwQlHt2Zy7ps/nbEtgjDg5fVOhqkc0IxmXPIw8joLCo6TwLxqboCYcPInMgdr/uvbP9n5m
-NF5FKlGhp6pFqb2DT5ZtZQkT44FbTtDZBOXin66cdVcAif0KqmtFcXS3zR0tG+ORS7RejPtgRm/t
-Q3DN33sXGq82NzsMKL9YZ7LWBlJLHgJ/1wBioZf1KmX86KpAkyFP+djzOk4wnBVi9bHH7QnhBR3B
-Dxjl8W1VuSXnwAndfs06GbVKdVoz+mawg1cMurmLpaZ7LyRmKKDvAti8TEkfvStMPdnPe3pDQDY/
-mG6SsUlrzre5LJRemQCMMAm5YRlIIkSWh4ECkVn8Q/dxq22nlDiPKSx9ZlA4sFM6iSF5IDix4yZB
-Y1lLWX64M3Sit7s7TDWxDqDFovM0GE/5dkYhB9v7d+TOYuQWkxMSmwdd/54gU9Z6smzVA0rsxKyT
-Y2wlMk9y7OtCVDdj2JrtH1O6q2QfSsBq/CaBWP/M2VunNnJZNBMnVNcHMhkv6pdmGnsk0863I/XQ
-G+GOEdqotN7Q7Z4tVMyFLBslHhy8gUELR36bPe41g9Rir/ijBnTSBUs/L182bxvhFp9F8IZ6DiGh
-wt0=
-=LtMp
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmDUQksFAwAAAAAACgkQlh/E3EQov+CO
+tBAAscKEApzwALsL/afbcm5uKvx5iVv2dEDtvThHqwM/vLySjYR97Sf8prBBklUa9XgOJYT3X8rC
+c0t3Uzq4+VIxvZIKgYydECvLfVRwq2MJXr3y5SxsFVA1GpH0kfHj0hoXjy5PINp3GJQReIlvReTd
+OmKzv5fejYkixYbEmJcn/TMilZvcevMrgBTOybnVAoC37xDEochnf9GmoofpS5HnSuGFucNn+Wqv
+REeGPKDeGDFyQHtGxv4vjsFqoJSiqWtQUemnQhuTeeZoPUbxDXU6sR77LDz/S3mmTDOmCPC8IFn1
+/J+8HVQi1UJLew7unH7VVMbsIzhJs08qaebBl5uWcW2qElDlKIKShgCMmp1DhkmlVaUFoWeomP6R
+DYL9GXnrbQ81rcOFipoZd/MYhO0F7TtLufsHBJ2t3KOwTYfLwXkF7NCwU7Sb/ABG+WcVFIW47I9s
+qwtU3BXWIy2bp19c3bqCc4HX6+V847yKXSa5k6ZMy9KaraKlFtymY/fmDGwEhprS2DPM0VIl0qg7
+yU0usq5cMV5Y9uREDDb3TFT1j+8HvvA0Ghm9dnhzYc9OAl44HtGp1pVaRFq/FL8Q4mG7fdeY8cSv
+Yv9Eq4DU8xhTmGJfJa5lM6MgIL0Xc9Pkni9cetDt8+WTRgcNZqcfFYIF0+M99NEvfuoboHNBTcXJ
+qWc=
+=qKXa
 -----END PGP SIGNATURE-----
 
---1abtLFnknRMcm59L8jJCqfHfzBd2N565M--
+--XeS7eJ5JPg7IwjZ7mWHplNVbGBiq1dAM5--
