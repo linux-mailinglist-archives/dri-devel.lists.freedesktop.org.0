@@ -1,58 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 129AB3B3206
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Jun 2021 16:57:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A9F7E3B320D
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Jun 2021 16:58:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B0F346EC22;
-	Thu, 24 Jun 2021 14:57:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DEBD36EC29;
+	Thu, 24 Jun 2021 14:58:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
- [IPv6:2a00:1450:4864:20::129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 778076EC1C
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Jun 2021 14:57:47 +0000 (UTC)
-Received: by mail-lf1-x129.google.com with SMTP id f30so10854353lfj.1
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Jun 2021 07:57:47 -0700 (PDT)
+Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com
+ [IPv6:2a00:1450:4864:20::230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A9B56EC20
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Jun 2021 14:57:48 +0000 (UTC)
+Received: by mail-lj1-x230.google.com with SMTP id f13so8140072ljp.10
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Jun 2021 07:57:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Hmb0jihXrsSfm2KPoeMapsdmcYPV0pPUcD3ESHARdqw=;
- b=rHuGSl844pk/QqnGzRZrZK+k71V36+KyFil84pNNTH3+HtbnqBlufSvNiLwiFIoUYK
- giLP76/h7Go4LUYuQ1NR6JE27wQfg3ufsZyBGLJq53+9kXzd87gLy4XdsYpkyuUCXBOU
- H/OzCvKUxpOi7HA43y0DuMgf6iwx1Ci3+MY2H11u9vfCQeb2W75oyal8Iajub0Q6DtFJ
- lhGwUp5J+LQoWc5kmDX+V8OCVa/gGL4OYlWP++vykhcuokxUiXBtlwbGq/CqOxqsaygm
- VWg+KkxaZbVPO/QptZ12ZRtuYvHPScghBZAGGmDsmFwl0Gm1vdIM0Pn868Q0fiKdY3Mk
- xo7w==
+ bh=KCaAu4jnvmCU/Mq+LvdhaCaR+6bzwbaah2dceb8YTQg=;
+ b=jBBk1j3oGnIGLCHfTVQaUkMQtQUYnnT81R3vgIRx7iKhJbZUEOPYWjFwPegOach714
+ 6ejdrzs2m5XwCDJc26GJz30+1MLcIEsIRX+4rj4yW1Q6GHUTZcvJjeoZScYkkWijKchu
+ dfdm5HCIF8+r2JxOfp7gDvghhlNTaTiGqzxuR+5Dhw3RaZSbQVa0Tp91cZMr+Or1Cf2X
+ Eiey30sC1V+xipRaM6rL/qUUdBwFxxe+/UaNahh8wHSMkUgorEjC77NvHjSg+SliMboa
+ JfS7RIaZSAIHcSGSAWUjTHE4mPesOINdWubPm6ZKrGE4OoNC1Y9+dJyFKbIGEFILyOKG
+ XFwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Hmb0jihXrsSfm2KPoeMapsdmcYPV0pPUcD3ESHARdqw=;
- b=Kh5ngcepMj4gwcewYBpP68sUkSF82dIH0BnnCReM3WaRWEq3cWkaRFVYcy7Icfr4Du
- EypZgF4ihQzn2RrI2KcdupCcC4LFRiD0TdhO+CDLH1h4gKGJtTEDFLAhUeBvum0O2wyh
- eDG8K/3LCvnKRonZGzcTT44ETAObv1ha9upGbwu2WBthLLAXX53u2/PNN8Vp8JZILsYS
- wvD+zplxE8BoqnDsEzPVC0Uwy58LxyicmYJpGrDtp4gZ+XkWwW0OnrwB4TtkavJ40DcS
- 2Dj1pmtoTA9g6ks+5udZCoR6wp1OWfy/NXd8D3+X6KJ7InHXoUMiBYP90R3UEqAG63L9
- yXUQ==
-X-Gm-Message-State: AOAM533rdI9/6E8M6mV2jIBq10HFfjsib4/gw/2lB9xk6DmY8tb5BaV6
- Qy6o1OgKNfPw+t14lv7yshz/jQ==
-X-Google-Smtp-Source: ABdhPJxqxfumnHsX2OYSLjMZfGaaN9SBou4/Ftq9kLB8xJgPMDErG2JWZPiUVHnxSaaT9u8a47JicQ==
-X-Received: by 2002:a05:6512:2283:: with SMTP id
- f3mr4092203lfu.632.1624546665920; 
- Thu, 24 Jun 2021 07:57:45 -0700 (PDT)
+ bh=KCaAu4jnvmCU/Mq+LvdhaCaR+6bzwbaah2dceb8YTQg=;
+ b=G7snVPFvb9a+cvooaK2Qvk6QxcQoYPxRNZNwFOnRAB8aP82A/kAIVoPqSRU28vJBqf
+ 3HrVUpUPlpo+vuYUFyOEDIh9oL77ayKpByCl+8NNU58mPZAcngd7qpr4yWnL/3hcM5nc
+ KrjOL1ucuvjkn8wJXAzrxti1u0e4Q84Sp3+E7I8J8xuhOcu4oVSlBhAa9iHzuVzvHJiw
+ K27oR9ghswPyLqP8TL4S5qN3x+5TVK8+VzJovSwvsZA2T5n1t6FI3r6SdJytCyoA7GoP
+ xglVo/l12ovE17NqRTUAjqcGSWKsGc8POIqgO7SGIK2Xnc0SVp1nLyZBEKIo0hMvmaAb
+ pHTg==
+X-Gm-Message-State: AOAM5322xxBLspn4LQDe9BjqQF/YAwp4Mz0KkOpde2XH/ttDekcieF48
+ RYDSyFFruUVDa+DBjEo5/W4kbg==
+X-Google-Smtp-Source: ABdhPJykEt+bltLJ7/eY4GqDbp1VEPfP14F5Wyvjl6pwLNdeGoIbPIt//ZlLEzlxMkK8w0LcxKMxyg==
+X-Received: by 2002:a2e:bc13:: with SMTP id b19mr4328707ljf.480.1624546666648; 
+ Thu, 24 Jun 2021 07:57:46 -0700 (PDT)
 Received: from eriador.lan ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id e17sm306329ljn.125.2021.06.24.07.57.45
+ by smtp.gmail.com with ESMTPSA id e17sm306329ljn.125.2021.06.24.07.57.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Jun 2021 07:57:45 -0700 (PDT)
+ Thu, 24 Jun 2021 07:57:46 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Bjorn Andersson <bjorn.andersson@linaro.org>,
  Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Abhinav Kumar <abhinavk@codeaurora.org>
-Subject: [PATCH 10/17] drm/msm/dpu: simplify colorspace conversion setup
-Date: Thu, 24 Jun 2021 17:57:26 +0300
-Message-Id: <20210624145733.2561992-11-dmitry.baryshkov@linaro.org>
+Subject: [PATCH 11/17] drm/msm/dpu: drop src_split and multirect check from
+ dpu_crtc_atomic_check
+Date: Thu, 24 Jun 2021 17:57:27 +0300
+Message-Id: <20210624145733.2561992-12-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210624145733.2561992-1-dmitry.baryshkov@linaro.org>
 References: <20210624145733.2561992-1-dmitry.baryshkov@linaro.org>
@@ -76,187 +76,195 @@ Cc: Jonathan Marek <jonathan@marek.ca>, Stephen Boyd <sboyd@kernel.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Simplify code surrounding CSC table setup.
+Neither source split nor multirect are properly supported at this
+moment. Both of these checks depend on zpos being equal for several
+planes (which is a clear userspace bug). Drop these checks to simplify
+dpu_crtc_atomic_check(). The actual support for either of these features
+is not removed from the backend code (sspp, ctl, etc).
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c |  2 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h |  2 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.c |  2 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h |  2 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c   | 84 +++++++++++----------
- 5 files changed, 48 insertions(+), 44 deletions(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c | 123 +----------------------
+ 1 file changed, 3 insertions(+), 120 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
-index cbafb61404d0..103d4bd7585b 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
-@@ -537,7 +537,7 @@ static void dpu_hw_sspp_setup_sourceaddress(struct dpu_hw_pipe *ctx,
- }
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+index 6fe0af9ffc23..b62e8e4e8d0a 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+@@ -895,12 +895,8 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
+ 	struct drm_plane *plane;
+ 	struct drm_display_mode *mode;
  
- static void dpu_hw_sspp_setup_csc(struct dpu_hw_pipe *ctx,
--		struct dpu_csc_cfg *data)
-+		const struct dpu_csc_cfg *data)
- {
- 	u32 idx;
- 	bool csc10 = false;
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
-index 27263bc1a1ef..e8939d7387cb 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
-@@ -262,7 +262,7 @@ struct dpu_hw_sspp_ops {
- 	 * @ctx: Pointer to pipe context
- 	 * @data: Pointer to config structure
- 	 */
--	void (*setup_csc)(struct dpu_hw_pipe *ctx, struct dpu_csc_cfg *data);
-+	void (*setup_csc)(struct dpu_hw_pipe *ctx, const struct dpu_csc_cfg *data);
+-	int cnt = 0, rc = 0, mixer_width = 0, i, z_pos;
++	int cnt = 0, rc = 0, mixer_width = 0, i;
  
- 	/**
- 	 * setup_solidfill - enable/disable colorfill
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.c
-index f94584c982cd..aad85116b0a0 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.c
-@@ -374,7 +374,7 @@ u32 dpu_hw_get_scaler3_ver(struct dpu_hw_blk_reg_map *c,
+-	struct dpu_multirect_plane_states multirect_plane[DPU_STAGE_MAX * 2];
+-	int multirect_count = 0;
+-	const struct drm_plane_state *pipe_staged[SSPP_MAX];
+-	int left_zpos_cnt = 0, right_zpos_cnt = 0;
+ 	struct drm_rect crtc_rect = { 0 };
  
- void dpu_hw_csc_setup(struct dpu_hw_blk_reg_map *c,
- 		u32 csc_reg_off,
--		struct dpu_csc_cfg *data, bool csc10)
-+		const struct dpu_csc_cfg *data, bool csc10)
- {
- 	static const u32 matrix_shift = 7;
- 	u32 clamp_shift = csc10 ? 16 : 8;
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h
-index ff3cffde84cd..bc2fdb2b8f5f 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h
-@@ -321,6 +321,6 @@ u32 dpu_hw_get_scaler3_ver(struct dpu_hw_blk_reg_map *c,
+ 	pstates = kzalloc(sizeof(*pstates) * DPU_STAGE_MAX * 4, GFP_KERNEL);
+@@ -920,8 +916,6 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
+ 	if (crtc_state->active_changed)
+ 		crtc_state->mode_changed = true;
  
- void dpu_hw_csc_setup(struct dpu_hw_blk_reg_map  *c,
- 		u32 csc_reg_off,
--		struct dpu_csc_cfg *data, bool csc10);
-+		const struct dpu_csc_cfg *data, bool csc10);
+-	memset(pipe_staged, 0, sizeof(pipe_staged));
+-
+ 	if (cstate->num_mixers) {
+ 		mixer_width = mode->hdisplay / cstate->num_mixers;
  
- #endif /* _DPU_HW_UTIL_H */
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-index 991697150f0d..c4a76dd6dbd5 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-@@ -107,7 +107,7 @@ struct dpu_plane {
- 	bool is_rt_pipe;
- 	struct dpu_mdss_cfg *catalog;
+@@ -947,18 +941,8 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
+ 		pstates[cnt].dpu_pstate = to_dpu_plane_state(pstate);
+ 		pstates[cnt].drm_pstate = pstate;
+ 		pstates[cnt].stage = pstate->normalized_zpos;
+-		pstates[cnt].pipe_id = dpu_plane_pipe(plane);
+-
+-		if (pipe_staged[pstates[cnt].pipe_id]) {
+-			multirect_plane[multirect_count].r0 =
+-				pipe_staged[pstates[cnt].pipe_id];
+-			multirect_plane[multirect_count].r1 = pstate;
+-			multirect_count++;
  
--	struct dpu_csc_cfg *csc_ptr;
-+	const struct dpu_csc_cfg *csc_ptr;
- };
+-			pipe_staged[pstates[cnt].pipe_id] = NULL;
+-		} else {
+-			pipe_staged[pstates[cnt].pipe_id] = pstate;
+-		}
++		dpu_plane_clear_multirect(pstate);
  
- static const uint64_t supported_format_modifiers[] = {
-@@ -578,51 +578,58 @@ static void _dpu_plane_setup_scaler3(struct dpu_plane *pdpu,
- 	scale_cfg->enable = 1;
- }
+ 		cnt++;
  
--static void _dpu_plane_setup_csc(struct dpu_plane *pdpu)
--{
--	static const struct dpu_csc_cfg dpu_csc_YUV2RGB_601L = {
--		{
--			/* S15.16 format */
--			0x00012A00, 0x00000000, 0x00019880,
--			0x00012A00, 0xFFFF9B80, 0xFFFF3000,
--			0x00012A00, 0x00020480, 0x00000000,
-+static const struct dpu_csc_cfg dpu_csc_YUV2RGB_601L = {
-+	{
-+		/* S15.16 format */
-+		0x00012A00, 0x00000000, 0x00019880,
-+		0x00012A00, 0xFFFF9B80, 0xFFFF3000,
-+		0x00012A00, 0x00020480, 0x00000000,
-+	},
-+	/* signed bias */
-+	{ 0xfff0, 0xff80, 0xff80,},
-+	{ 0x0, 0x0, 0x0,},
-+	/* unsigned clamp */
-+	{ 0x10, 0xeb, 0x10, 0xf0, 0x10, 0xf0,},
-+	{ 0x00, 0xff, 0x00, 0xff, 0x00, 0xff,},
-+};
-+static const struct dpu_csc_cfg dpu_csc10_YUV2RGB_601L = {
-+	{
-+		/* S15.16 format */
-+		0x00012A00, 0x00000000, 0x00019880,
-+		0x00012A00, 0xFFFF9B80, 0xFFFF3000,
-+		0x00012A00, 0x00020480, 0x00000000,
- 		},
--		/* signed bias */
--		{ 0xfff0, 0xff80, 0xff80,},
--		{ 0x0, 0x0, 0x0,},
--		/* unsigned clamp */
--		{ 0x10, 0xeb, 0x10, 0xf0, 0x10, 0xf0,},
--		{ 0x00, 0xff, 0x00, 0xff, 0x00, 0xff,},
--	};
--	static const struct dpu_csc_cfg dpu_csc10_YUV2RGB_601L = {
--		{
--			/* S15.16 format */
--			0x00012A00, 0x00000000, 0x00019880,
--			0x00012A00, 0xFFFF9B80, 0xFFFF3000,
--			0x00012A00, 0x00020480, 0x00000000,
--			},
--		/* signed bias */
--		{ 0xffc0, 0xfe00, 0xfe00,},
--		{ 0x0, 0x0, 0x0,},
--		/* unsigned clamp */
--		{ 0x40, 0x3ac, 0x40, 0x3c0, 0x40, 0x3c0,},
--		{ 0x00, 0x3ff, 0x00, 0x3ff, 0x00, 0x3ff,},
--	};
-+	/* signed bias */
-+	{ 0xffc0, 0xfe00, 0xfe00,},
-+	{ 0x0, 0x0, 0x0,},
-+	/* unsigned clamp */
-+	{ 0x40, 0x3ac, 0x40, 0x3c0, 0x40, 0x3c0,},
-+	{ 0x00, 0x3ff, 0x00, 0x3ff, 0x00, 0x3ff,},
-+};
-+
-+static const struct dpu_csc_cfg *_dpu_plane_get_csc(struct dpu_plane *pdpu, const struct dpu_format *fmt)
-+{
-+	const struct dpu_csc_cfg *csc_ptr;
- 
- 	if (!pdpu) {
- 		DPU_ERROR("invalid plane\n");
--		return;
-+		return NULL;
+@@ -973,19 +957,8 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
+ 		}
  	}
  
-+	if (!DPU_FORMAT_IS_YUV(fmt))
-+		return NULL;
-+
- 	if (BIT(DPU_SSPP_CSC_10BIT) & pdpu->pipe_hw->cap->features)
--		pdpu->csc_ptr = (struct dpu_csc_cfg *)&dpu_csc10_YUV2RGB_601L;
-+		csc_ptr = &dpu_csc10_YUV2RGB_601L;
- 	else
--		pdpu->csc_ptr = (struct dpu_csc_cfg *)&dpu_csc_YUV2RGB_601L;
-+		csc_ptr = &dpu_csc_YUV2RGB_601L;
+-	for (i = 1; i < SSPP_MAX; i++) {
+-		if (pipe_staged[i])
+-			dpu_plane_clear_multirect(pipe_staged[i]);
+-	}
+-
+-	z_pos = -1;
+ 	for (i = 0; i < cnt; i++) {
+-		/* reset counts at every new blend stage */
+-		if (pstates[i].stage != z_pos) {
+-			left_zpos_cnt = 0;
+-			right_zpos_cnt = 0;
+-			z_pos = pstates[i].stage;
+-		}
++		int z_pos = pstates[i].stage;
  
- 	DPU_DEBUG_PLANE(pdpu, "using 0x%X 0x%X 0x%X...\n",
--			pdpu->csc_ptr->csc_mv[0],
--			pdpu->csc_ptr->csc_mv[1],
--			pdpu->csc_ptr->csc_mv[2]);
-+			csc_ptr->csc_mv[0],
-+			csc_ptr->csc_mv[1],
-+			csc_ptr->csc_mv[2]);
-+
-+	return csc_ptr;
- }
- 
- static void _dpu_plane_setup_scaler(struct dpu_plane *pdpu,
-@@ -1160,10 +1167,7 @@ static void dpu_plane_sspp_atomic_update(struct drm_plane *plane)
+ 		/* verify z_pos setting before using it */
+ 		if (z_pos >= DPU_STAGE_MAX - DPU_STAGE_0) {
+@@ -993,40 +966,12 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
+ 					DPU_STAGE_MAX - DPU_STAGE_0);
+ 			rc = -EINVAL;
+ 			goto end;
+-		} else if (pstates[i].drm_pstate->crtc_x < mixer_width) {
+-			if (left_zpos_cnt == 2) {
+-				DPU_ERROR("> 2 planes @ stage %d on left\n",
+-					z_pos);
+-				rc = -EINVAL;
+-				goto end;
+-			}
+-			left_zpos_cnt++;
+-
+-		} else {
+-			if (right_zpos_cnt == 2) {
+-				DPU_ERROR("> 2 planes @ stage %d on right\n",
+-					z_pos);
+-				rc = -EINVAL;
+-				goto end;
+-			}
+-			right_zpos_cnt++;
  		}
  
- 		/* update csc */
--		if (DPU_FORMAT_IS_YUV(fmt))
--			_dpu_plane_setup_csc(pdpu);
--		else
--			pdpu->csc_ptr = 0;
-+		pdpu->csc_ptr = _dpu_plane_get_csc(pdpu, fmt);
+ 		pstates[i].dpu_pstate->stage = z_pos + DPU_STAGE_0;
+ 		DRM_DEBUG_ATOMIC("%s: zpos %d\n", dpu_crtc->name, z_pos);
  	}
  
- 	_dpu_plane_set_qos_lut(plane, fb, &pipe_cfg);
+-	for (i = 0; i < multirect_count; i++) {
+-		if (dpu_plane_validate_multirect_v2(&multirect_plane[i])) {
+-			DPU_ERROR(
+-			"multirect validation failed for planes (%d - %d)\n",
+-					multirect_plane[i].r0->plane->base.id,
+-					multirect_plane[i].r1->plane->base.id);
+-			rc = -EINVAL;
+-			goto end;
+-		}
+-	}
+-
+ 	atomic_inc(&_dpu_crtc_get_kms(crtc)->bandwidth_ref);
+ 
+ 	rc = dpu_core_perf_crtc_check(crtc, crtc_state);
+@@ -1036,68 +981,6 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
+ 		goto end;
+ 	}
+ 
+-	/* validate source split:
+-	 * use pstates sorted by stage to check planes on same stage
+-	 * we assume that all pipes are in source split so its valid to compare
+-	 * without taking into account left/right mixer placement
+-	 */
+-	for (i = 1; i < cnt; i++) {
+-		struct plane_state *prv_pstate, *cur_pstate;
+-		struct drm_rect left_rect, right_rect;
+-		int32_t left_pid, right_pid;
+-		int32_t stage;
+-
+-		prv_pstate = &pstates[i - 1];
+-		cur_pstate = &pstates[i];
+-		if (prv_pstate->stage != cur_pstate->stage)
+-			continue;
+-
+-		stage = cur_pstate->stage;
+-
+-		left_pid = prv_pstate->dpu_pstate->base.plane->base.id;
+-		left_rect = drm_plane_state_dest(prv_pstate->drm_pstate);
+-
+-		right_pid = cur_pstate->dpu_pstate->base.plane->base.id;
+-		right_rect = drm_plane_state_dest(cur_pstate->drm_pstate);
+-
+-		if (right_rect.x1 < left_rect.x1) {
+-			swap(left_pid, right_pid);
+-			swap(left_rect, right_rect);
+-		}
+-
+-		/**
+-		 * - planes are enumerated in pipe-priority order such that
+-		 *   planes with lower drm_id must be left-most in a shared
+-		 *   blend-stage when using source split.
+-		 * - planes in source split must be contiguous in width
+-		 * - planes in source split must have same dest yoff and height
+-		 */
+-		if (right_pid < left_pid) {
+-			DPU_ERROR(
+-				"invalid src split cfg. priority mismatch. stage: %d left: %d right: %d\n",
+-				stage, left_pid, right_pid);
+-			rc = -EINVAL;
+-			goto end;
+-		} else if (right_rect.x1 != drm_rect_width(&left_rect)) {
+-			DPU_ERROR("non-contiguous coordinates for src split. "
+-				  "stage: %d left: " DRM_RECT_FMT " right: "
+-				  DRM_RECT_FMT "\n", stage,
+-				  DRM_RECT_ARG(&left_rect),
+-				  DRM_RECT_ARG(&right_rect));
+-			rc = -EINVAL;
+-			goto end;
+-		} else if (left_rect.y1 != right_rect.y1 ||
+-			   drm_rect_height(&left_rect) != drm_rect_height(&right_rect)) {
+-			DPU_ERROR("source split at stage: %d. invalid "
+-				  "yoff/height: left: " DRM_RECT_FMT " right: "
+-				  DRM_RECT_FMT "\n", stage,
+-				  DRM_RECT_ARG(&left_rect),
+-				  DRM_RECT_ARG(&right_rect));
+-			rc = -EINVAL;
+-			goto end;
+-		}
+-	}
+-
+ end:
+ 	kfree(pstates);
+ 	return rc;
 -- 
 2.30.2
 
