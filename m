@@ -2,64 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68C233B2AC3
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Jun 2021 10:52:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B26AB3B2AD2
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Jun 2021 10:58:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E6076EAA1;
-	Thu, 24 Jun 2021 08:52:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5FE2E6EA42;
+	Thu, 24 Jun 2021 08:58:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 661416EA85;
- Thu, 24 Jun 2021 08:52:07 +0000 (UTC)
-IronPort-SDR: cRSlR4dk/nKSo6kFHgTixc1cZNRX1xVShzeUlCP6PBhXoFWF0fNxVRbjxCVjHG7Ec4aABp890y
- ksE2NqXHVhRg==
-X-IronPort-AV: E=McAfee;i="6200,9189,10024"; a="204422363"
-X-IronPort-AV: E=Sophos;i="5.83,296,1616482800"; d="scan'208";a="204422363"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Jun 2021 01:52:06 -0700
-IronPort-SDR: b2WPW20xI/GJO29ic6WIfxIMz72rLAtb0USOd7lNI7J+Sgm2+3/EG1ErQrLUO2vnU20Qh+TbCW
- rzKM1urai8Fg==
-X-IronPort-AV: E=Sophos;i="5.83,296,1616482800"; d="scan'208";a="487681787"
-Received: from schulke-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.252.59.242])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Jun 2021 01:51:41 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
- airlied@linux.ie, alexander.deucher@amd.com, christian.koenig@amd.com,
- Xinhui.Pan@amd.com, james.qian.wang@arm.com, liviu.dudau@arm.com,
- mihail.atanassov@arm.com, brian.starkey@arm.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- inki.dae@samsung.com, jy0922.shim@samsung.com, sw0312.kim@samsung.com,
- kyungmin.park@samsung.com, krzysztof.kozlowski@canonical.com,
- xinliang.liu@linaro.org, tiantao6@hisilicon.com, john.stultz@linaro.org,
- kong.kongxinwei@hisilicon.com, puck.chen@hisilicon.com,
- laurentiu.palcu@oss.nxp.com, l.stach@pengutronix.de,
- p.zabel@pengutronix.de, shawnguo@kernel.org, s.hauer@pengutronix.de,
- kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
- chunkuang.hu@kernel.org, matthias.bgg@gmail.com, bskeggs@redhat.com,
- tomba@kernel.org, hjc@rock-chips.com, heiko@sntech.de,
- benjamin.gaignard@linaro.org, yannick.fertre@foss.st.com,
- philippe.cornu@foss.st.com, mcoquelin.stm32@gmail.com,
- alexandre.torgue@foss.st.com, wens@csie.org, jernej.skrabec@gmail.com,
- thierry.reding@gmail.com, jonathanh@nvidia.com, jyri.sarha@iki.fi,
- emma@anholt.net, linux-graphics-maintainer@vmware.com, zackr@vmware.com,
- hyun.kwon@xilinx.com, laurent.pinchart@ideasonboard.com,
- michal.simek@xilinx.com, rodrigo.vivi@intel.com, linux@armlinux.org.uk,
- kieran.bingham+renesas@ideasonboard.com, rodrigosiqueiramelo@gmail.com,
- melissa.srw@gmail.com, hamohammed.sa@gmail.com
-Subject: Re: [PATCH v3 04/27] drm: Don't test for IRQ support in VBLANK ioctls
-In-Reply-To: <b5e7729f-ed11-e9ca-386e-562feb2bd2b7@suse.de>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20210624072916.27703-1-tzimmermann@suse.de>
- <20210624072916.27703-5-tzimmermann@suse.de> <87im23u1ok.fsf@intel.com>
- <b5e7729f-ed11-e9ca-386e-562feb2bd2b7@suse.de>
-Date: Thu, 24 Jun 2021 11:51:37 +0300
-Message-ID: <877dijtzl2.fsf@intel.com>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 81D166EA42;
+ Thu, 24 Jun 2021 08:58:04 +0000 (UTC)
+Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
+ (using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 35C7C21956;
+ Thu, 24 Jun 2021 08:58:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1624525083; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=h2DIkcYhSHhjdGevdXaUI25Y2wjLHj15VeFtSdpnndQ=;
+ b=1fgUVJka//y7Ks1Gj4wehdj4nwWxXic4Uy5EUOt2gOsG0PrSykRsYH3oqwdsBrUKfFQSnu
+ n/+WNi8WUylYkC1BsyA+l+wgBz02TQOcl675IHX1q8YcvbFOvC5d7+4AAZABhKlSnwykRz
+ JW9YVqduZBe2MSu2I4FyuIGdPG7qmXI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1624525083;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=h2DIkcYhSHhjdGevdXaUI25Y2wjLHj15VeFtSdpnndQ=;
+ b=atUpWkYhIadpnehgduqsSX82ExzgoVowL5w34I6y7ZoRk/kXtReY1eLgioDUkuIOY+kQ9w
+ Mx9bhOc+//vFymDA==
+Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
+ by imap.suse.de (Postfix) with ESMTP id 04B5411A97;
+ Thu, 24 Jun 2021 08:58:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1624525083; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=h2DIkcYhSHhjdGevdXaUI25Y2wjLHj15VeFtSdpnndQ=;
+ b=1fgUVJka//y7Ks1Gj4wehdj4nwWxXic4Uy5EUOt2gOsG0PrSykRsYH3oqwdsBrUKfFQSnu
+ n/+WNi8WUylYkC1BsyA+l+wgBz02TQOcl675IHX1q8YcvbFOvC5d7+4AAZABhKlSnwykRz
+ JW9YVqduZBe2MSu2I4FyuIGdPG7qmXI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1624525083;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=h2DIkcYhSHhjdGevdXaUI25Y2wjLHj15VeFtSdpnndQ=;
+ b=atUpWkYhIadpnehgduqsSX82ExzgoVowL5w34I6y7ZoRk/kXtReY1eLgioDUkuIOY+kQ9w
+ Mx9bhOc+//vFymDA==
+Received: from director2.suse.de ([192.168.254.72]) by imap3-int with ESMTPSA
+ id fdU1ABtJ1GBkMQAALh3uQQ
+ (envelope-from <tzimmermann@suse.de>); Thu, 24 Jun 2021 08:58:03 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: l.stach@pengutronix.de, linux+etnaviv@armlinux.org.uk,
+ christian.gmeiner@gmail.com, airlied@linux.ie, daniel@ffwll.ch
+Subject: [PATCH] drm/etnaviv: Implement mmap as GEM object function
+Date: Thu, 24 Jun 2021 10:58:00 +0200
+Message-Id: <20210624085800.7941-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,141 +72,144 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc@vger.kernel.org, nouveau@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-rockchip@lists.infradead.org,
- linux-mediatek@lists.infradead.org, amd-gfx@lists.freedesktop.org,
- Daniel Vetter <daniel.vetter@ffwll.ch>, linux-tegra@vger.kernel.org,
- linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, etnaviv@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 24 Jun 2021, Thomas Zimmermann <tzimmermann@suse.de> wrote:
-> Hi
->
-> Am 24.06.21 um 10:06 schrieb Jani Nikula:
->> On Thu, 24 Jun 2021, Thomas Zimmermann <tzimmermann@suse.de> wrote:
->>> diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
->>> index 3417e1ac7918..10fe16bafcb6 100644
->>> --- a/drivers/gpu/drm/drm_vblank.c
->>> +++ b/drivers/gpu/drm/drm_vblank.c
->>> @@ -1748,8 +1748,16 @@ int drm_wait_vblank_ioctl(struct drm_device *dev, void *data,
->>>   	unsigned int pipe_index;
->>>   	unsigned int flags, pipe, high_pipe;
->>>   
->>> -	if (!dev->irq_enabled)
->>> -		return -EOPNOTSUPP;
->>> +#if defined(CONFIG_DRM_LEGACY)
->>> +	if  (unlikely(drm_core_check_feature(dev, DRIVER_LEGACY))) {
->>> +		if (!dev->irq_enabled)
->>> +			return -EOPNOTSUPP;
->>> +	} else /* if DRIVER_MODESET */
->>> +#endif
->>> +	{
->>> +		if (!drm_dev_has_vblank(dev))
->>> +			return -EOPNOTSUPP;
->>> +	}
->> 
->> Sheesh I hate this kind of inline #ifdefs.
->> 
->> Two alternate suggestions that I believe should be as just efficient:
->
-> Or how about:
->
-> static bool drm_wait_vblank_supported(struct drm_device *dev)
->
-> {
->
-> if defined(CONFIG_DRM_LEGACY)
-> 	if  (unlikely(drm_core_check_feature(dev, DRIVER_LEGACY)))
->
-> 		return dev->irq_enabled;
->
-> #endif
-> 	return drm_dev_has_vblank(dev);
->
-> }
->
->
-> ?
->
-> It's inline, but still readable.
+Moving the driver-specific mmap code into a GEM object function allows
+for using DRM helpers for various mmap callbacks.
 
-It's definitely better than the original, but it's unclear to me why
-you'd prefer this over option 2) below. I guess the only reason I can
-think of is emphasizing the conditional compilation. However,
-IS_ENABLED() is widely used in this manner specifically to avoid inline
-#if, and the compiler optimizes it away.
+The respective etnaviv functions are being removed. The file_operations
+structure fops is now being created by the helper macro
+DEFINE_DRM_GEM_FOPS().
 
-BR,
-Jani.
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+---
+ drivers/gpu/drm/etnaviv/etnaviv_drv.c       | 14 ++------------
+ drivers/gpu/drm/etnaviv/etnaviv_drv.h       |  3 ---
+ drivers/gpu/drm/etnaviv/etnaviv_gem.c       | 18 +++++-------------
+ drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c | 13 -------------
+ 4 files changed, 7 insertions(+), 41 deletions(-)
 
-
->
-> Best regards
-> Thomas
->
->> 
->> 1) The more verbose:
->> 
->> #if defined(CONFIG_DRM_LEGACY)
->> static bool drm_wait_vblank_supported(struct drm_device *dev)
->> {
->> 	if  (unlikely(drm_core_check_feature(dev, DRIVER_LEGACY)))
->> 		return dev->irq_enabled;
->> 	else
->> 		return drm_dev_has_vblank(dev);
->> }
->> #else
->> static bool drm_wait_vblank_supported(struct drm_device *dev)
->> {
->> 	return drm_dev_has_vblank(dev);
->> }
->> #endif
->> 
->> 2) The more compact:
->> 
->> static bool drm_wait_vblank_supported(struct drm_device *dev)
->> {
->> 	if  (IS_ENABLED(CONFIG_DRM_LEGACY) && unlikely(drm_core_check_feature(dev, DRIVER_LEGACY)))
->> 		return dev->irq_enabled;
->> 	else
->> 		return drm_dev_has_vblank(dev);
->> }
->> 
->> Then, in drm_wait_vblank_ioctl().
->> 
->> 	if (!drm_wait_vblank_supported(dev))
->> 		return -EOPNOTSUPP;
->> 
->> The compiler should do the right thing without any explicit inline
->> keywords etc.
->> 
->> BR,
->> Jani.
->> 
->>>   
->>>   	if (vblwait->request.type & _DRM_VBLANK_SIGNAL)
->>>   		return -EINVAL;
->>> @@ -2023,7 +2031,7 @@ int drm_crtc_get_sequence_ioctl(struct drm_device *dev, void *data,
->>>   	if (!drm_core_check_feature(dev, DRIVER_MODESET))
->>>   		return -EOPNOTSUPP;
->>>   
->>> -	if (!dev->irq_enabled)
->>> +	if (!drm_dev_has_vblank(dev))
->>>   		return -EOPNOTSUPP;
->>>   
->>>   	crtc = drm_crtc_find(dev, file_priv, get_seq->crtc_id);
->>> @@ -2082,7 +2090,7 @@ int drm_crtc_queue_sequence_ioctl(struct drm_device *dev, void *data,
->>>   	if (!drm_core_check_feature(dev, DRIVER_MODESET))
->>>   		return -EOPNOTSUPP;
->>>   
->>> -	if (!dev->irq_enabled)
->>> +	if (!drm_dev_has_vblank(dev))
->>>   		return -EOPNOTSUPP;
->>>   
->>>   	crtc = drm_crtc_find(dev, file_priv, queue_seq->crtc_id);
->> 
-
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+index f0a07278ad04..7dcc6392792d 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+@@ -468,17 +468,7 @@ static const struct drm_ioctl_desc etnaviv_ioctls[] = {
+ 	ETNA_IOCTL(PM_QUERY_SIG, pm_query_sig, DRM_RENDER_ALLOW),
+ };
+ 
+-static const struct file_operations fops = {
+-	.owner              = THIS_MODULE,
+-	.open               = drm_open,
+-	.release            = drm_release,
+-	.unlocked_ioctl     = drm_ioctl,
+-	.compat_ioctl       = drm_compat_ioctl,
+-	.poll               = drm_poll,
+-	.read               = drm_read,
+-	.llseek             = no_llseek,
+-	.mmap               = etnaviv_gem_mmap,
+-};
++DEFINE_DRM_GEM_FOPS(fops);
+ 
+ static const struct drm_driver etnaviv_drm_driver = {
+ 	.driver_features    = DRIVER_GEM | DRIVER_RENDER,
+@@ -487,7 +477,7 @@ static const struct drm_driver etnaviv_drm_driver = {
+ 	.prime_handle_to_fd = drm_gem_prime_handle_to_fd,
+ 	.prime_fd_to_handle = drm_gem_prime_fd_to_handle,
+ 	.gem_prime_import_sg_table = etnaviv_gem_prime_import_sg_table,
+-	.gem_prime_mmap     = etnaviv_gem_prime_mmap,
++	.gem_prime_mmap     = drm_gem_prime_mmap,
+ #ifdef CONFIG_DEBUG_FS
+ 	.debugfs_init       = etnaviv_debugfs_init,
+ #endif
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.h b/drivers/gpu/drm/etnaviv/etnaviv_drv.h
+index 003288ebd896..049ae87de9be 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_drv.h
++++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.h
+@@ -47,12 +47,9 @@ struct etnaviv_drm_private {
+ int etnaviv_ioctl_gem_submit(struct drm_device *dev, void *data,
+ 		struct drm_file *file);
+ 
+-int etnaviv_gem_mmap(struct file *filp, struct vm_area_struct *vma);
+ int etnaviv_gem_mmap_offset(struct drm_gem_object *obj, u64 *offset);
+ struct sg_table *etnaviv_gem_prime_get_sg_table(struct drm_gem_object *obj);
+ int etnaviv_gem_prime_vmap(struct drm_gem_object *obj, struct dma_buf_map *map);
+-int etnaviv_gem_prime_mmap(struct drm_gem_object *obj,
+-			   struct vm_area_struct *vma);
+ struct drm_gem_object *etnaviv_gem_prime_import_sg_table(struct drm_device *dev,
+ 	struct dma_buf_attachment *attach, struct sg_table *sg);
+ int etnaviv_gem_prime_pin(struct drm_gem_object *obj);
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.c b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+index b8fa6ed3dd73..8f1b5af47dd6 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+@@ -130,8 +130,7 @@ static int etnaviv_gem_mmap_obj(struct etnaviv_gem_object *etnaviv_obj,
+ {
+ 	pgprot_t vm_page_prot;
+ 
+-	vma->vm_flags &= ~VM_PFNMAP;
+-	vma->vm_flags |= VM_MIXEDMAP;
++	vma->vm_flags |= VM_IO | VM_MIXEDMAP | VM_DONTEXPAND | VM_DONTDUMP;
+ 
+ 	vm_page_prot = vm_get_page_prot(vma->vm_flags);
+ 
+@@ -154,19 +153,11 @@ static int etnaviv_gem_mmap_obj(struct etnaviv_gem_object *etnaviv_obj,
+ 	return 0;
+ }
+ 
+-int etnaviv_gem_mmap(struct file *filp, struct vm_area_struct *vma)
++static int etnaviv_gem_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma)
+ {
+-	struct etnaviv_gem_object *obj;
+-	int ret;
+-
+-	ret = drm_gem_mmap(filp, vma);
+-	if (ret) {
+-		DBG("mmap failed: %d", ret);
+-		return ret;
+-	}
++	struct etnaviv_gem_object *etnaviv_obj = to_etnaviv_bo(obj);
+ 
+-	obj = to_etnaviv_bo(vma->vm_private_data);
+-	return obj->ops->mmap(obj, vma);
++	return etnaviv_obj->ops->mmap(etnaviv_obj, vma);
+ }
+ 
+ static vm_fault_t etnaviv_gem_fault(struct vm_fault *vmf)
+@@ -567,6 +558,7 @@ static const struct drm_gem_object_funcs etnaviv_gem_object_funcs = {
+ 	.unpin = etnaviv_gem_prime_unpin,
+ 	.get_sg_table = etnaviv_gem_prime_get_sg_table,
+ 	.vmap = etnaviv_gem_prime_vmap,
++	.mmap = etnaviv_gem_mmap,
+ 	.vm_ops = &vm_ops,
+ };
+ 
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
+index d741b1d735f7..6d8bed9c739d 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
+@@ -34,19 +34,6 @@ int etnaviv_gem_prime_vmap(struct drm_gem_object *obj, struct dma_buf_map *map)
+ 	return 0;
+ }
+ 
+-int etnaviv_gem_prime_mmap(struct drm_gem_object *obj,
+-			   struct vm_area_struct *vma)
+-{
+-	struct etnaviv_gem_object *etnaviv_obj = to_etnaviv_bo(obj);
+-	int ret;
+-
+-	ret = drm_gem_mmap_obj(obj, obj->size, vma);
+-	if (ret < 0)
+-		return ret;
+-
+-	return etnaviv_obj->ops->mmap(etnaviv_obj, vma);
+-}
+-
+ int etnaviv_gem_prime_pin(struct drm_gem_object *obj)
+ {
+ 	if (!obj->import_attach) {
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+2.32.0
+
