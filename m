@@ -2,38 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C83403B2DAF
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Jun 2021 13:20:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F64D3B2DC0
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Jun 2021 13:23:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E313E6EABE;
-	Thu, 24 Jun 2021 11:20:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05B536EAC0;
+	Thu, 24 Jun 2021 11:23:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E0BAF6EABE;
- Thu, 24 Jun 2021 11:20:24 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 40412613C5;
- Thu, 24 Jun 2021 11:20:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1624533624;
- bh=yeBxxI9RxIG1SBqoCQkOp8CWXVUmYQbT3KrhCdThdUQ=;
- h=Date:From:To:cc:Subject:From;
- b=h/uUXhqyme6NlwDRYS288PXCjbfgX3cO68nvhdbShTtcWiUCCFVN/lpxUTNwaT6Ng
- Co+4182vvnP77I/IlfJZ6NjSZ2eamUoa3E8ymWMJ48XG5VzmPhppOlNSO3U5daWq6/
- cmNoJp5UixUE4C1nhdTB1Li4yaf67syfRxE1fz1gUPjDR3tybyc7VTn1AHiEbpdad5
- Ca1ArlpbK875RpjhW+HaDyzuVVpUT9Pe9bFEF9DLGjGvPgx8xF67PrwNXJ1cq1GKgs
- ViBHsz8iDe1bOUepqReha5pnu8MO5nQ7IL8uAeGYK9SJjMmq5vQEPMV1tAwiqyBpvB
- fDDhfVaY6xwmw==
-Date: Thu, 24 Jun 2021 13:20:21 +0200 (CEST)
-From: Jiri Kosina <jikos@kernel.org>
-To: Alex Deucher <alexander.deucher@amd.com>, 
- =?ISO-8859-15?Q?Christian_K=F6nig?= <christian.koenig@amd.com>, 
- David Airlie <airlied@linux.ie>
-Subject: [PATCH] drm/amdgpu: Fix resource leak on probe error path
-Message-ID: <nycvar.YFH.7.76.2106241319430.18969@cbobk.fhfr.pm>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+Received: from mail-oo1-xc33.google.com (mail-oo1-xc33.google.com
+ [IPv6:2607:f8b0:4864:20::c33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 446586EAC2
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Jun 2021 11:23:12 +0000 (UTC)
+Received: by mail-oo1-xc33.google.com with SMTP id
+ s20-20020a4ae9940000b02902072d5df239so1527417ood.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Jun 2021 04:23:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=N+fO1NsT3+/4WEZxEBub8Q8BkuWwxoPBEqlhTKIIJ8I=;
+ b=LErNrksWX0Hro3gbvdvl4cVQOtiy4YZm09Vx9j9lXlVrSvgcAvUjT6iPRyvEgdMQ44
+ sBbgi+egQRnw/DzL0cvqnxItRW5i32edhtifHYwpuq2Zdeehd29+5q3mginxbdl8lhSc
+ RrJGulitXJjVyxyKf2cVmEmpjO7lAVmsZUhCA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=N+fO1NsT3+/4WEZxEBub8Q8BkuWwxoPBEqlhTKIIJ8I=;
+ b=UM4TRQ9vjms7CJwQSQF51skH97gQJ+2VQWaG7LchRgradaCngXuaWe0wfPkprZN8uT
+ AYHOWW91cOtbpwP3XHNOxlJQ72kKXnhgSZova95mOaAdlrYpbHaLQkJ5TGqOaqELTcfo
+ xYRA/jG0rKOyf8OP6bPK6cRAuSd6RQ8k2KEoo0pdwOUDPZFN5+O+54bQo7dy7p1F8jt7
+ 5VplJGQuevcxA1JLV/j+u2BBssM73JyDN5pVdE7TWirO7DjoOCesJIkQpv6+yNjsKnQK
+ wkXNbpw6zzO/HMsmphO39To4vfMGJVLtAq4RtXaihlVa19HyZSHND5fDQUOEJkDnVq0h
+ vCcA==
+X-Gm-Message-State: AOAM531hF/7CJnppdDb7HFnVQBWvW3HFec9MBWexK2BUii14spPfwZXr
+ Vxln/J8dpJxCjQxHL2tma0AA0E4GYmY58I/bVfcmEg==
+X-Google-Smtp-Source: ABdhPJy2FkxP9uCAjgHSVGAUyuIAzs5LoJI255+ysGzmVAqm+Q5JlQU0zgPPhXz524KDDzM/bcIN5sXvCDie8V++BiA=
+X-Received: by 2002:a4a:ab07:: with SMTP id i7mr3943321oon.89.1624533791640;
+ Thu, 24 Jun 2021 04:23:11 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+References: <20210622165511.3169559-4-daniel.vetter@ffwll.ch>
+ <20210623161955.3371466-1-daniel.vetter@ffwll.ch>
+ <CAPj87rN_P7u5JGWBOHc5BEXiz1Znek6fDTyj-uVr2nwEcGX_XA@mail.gmail.com>
+In-Reply-To: <CAPj87rN_P7u5JGWBOHc5BEXiz1Znek6fDTyj-uVr2nwEcGX_XA@mail.gmail.com>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Thu, 24 Jun 2021 13:23:00 +0200
+Message-ID: <CAKMK7uF-79a8Q7M49ynhcoBRcD1qmvRQ7DvZ6USeuKyxV4t0zQ@mail.gmail.com>
+Subject: Re: [Mesa-dev] [PATCH] dma-buf: Document dma-buf implicit
+ fencing/resv fencing rules
+To: Daniel Stone <daniel@fooishbar.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,68 +62,137 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Vojtech Pavlik <vojtech@ucw.cz>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: Rob Clark <robdclark@chromium.org>, Daniel Stone <daniels@collabora.com>,
+ =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Kevin Wang <kevin1.wang@amd.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Luben Tuikov <luben.tuikov@amd.com>,
+ "Kristian H . Kristensen" <hoegsberg@google.com>,
+ Chen Li <chenli@uniontech.com>, ML mesa-dev <mesa-dev@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Daniel Vetter <daniel.vetter@intel.com>, Dennis Li <Dennis.Li@amd.com>,
+ Deepak R Varma <mh12gx2825@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Jiri Kosina <jkosina@suse.cz>
+On Thu, Jun 24, 2021 at 1:08 PM Daniel Stone <daniel@fooishbar.org> wrote:
+>
+> Hi,
+>
+> On Wed, 23 Jun 2021 at 17:20, Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+> > +        *
+> > +        * IMPLICIT SYNCHRONIZATION RULES:
+> > +        *
+> > +        * Drivers which support implicit synchronization of buffer access as
+> > +        * e.g. exposed in `Implicit Fence Poll Support`_ should follow the
+> > +        * below rules.
+>
+> 'Should' ... ? Must.
 
-This reverts commit 4192f7b5768912ceda82be2f83c87ea7181f9980.
+Yeah  I guess I can upgrade a bunch of them.
 
-It is not true (as stated in the reverted commit changelog) that we never 
-unmap the BAR on failure; it actually does happen properly on 
-amdgpu_driver_load_kms() -> amdgpu_driver_unload_kms() -> 
-amdgpu_device_fini() error path.
+> > +        * - Drivers should add a shared fence through
+> > +        *   dma_resv_add_shared_fence() for anything the userspace API
+> > +        *   considers a read access. This highly depends upon the API and
+> > +        *   window system: E.g. OpenGL is generally implicitly synchronized on
+> > +        *   Linux, but explicitly synchronized on Android. Whereas Vulkan is
+> > +        *   generally explicitly synchronized for everything, and window system
+> > +        *   buffers have explicit API calls (which then need to make sure the
+> > +        *   implicit fences store here in @resv are updated correctly).
+> > +        *
+> > +        * - [...]
+>
+> Mmm, I think this is all right, but it could be worded much more
+> clearly. Right now it's a bunch of points all smashed into one, and
+> there's a lot of room for misinterpretation.
+>
+> Here's a strawman, starting with most basic and restrictive, working
+> through to when you're allowed to wriggle your way out:
+>
+> Rule 1: Drivers must add a shared fence through
+> dma_resv_add_shared_fence() for any read accesses against that buffer.
+> This appends a fence to the shared array, ensuring that any future
+> non-read access will be synchronised against this operation to only
+> begin after it has completed.
+>
+> Rule 2: Drivers must add an exclusive fence through
+> dma_resv_add_excl_fence() for any write accesses against that buffer.
+> This replaces the exclusive fence with the new operation, ensuring
+> that all future access will be synchronised against this operation to
+> only begin after it has completed.
+>
+> Rule 3: Drivers must synchronise all accesses to buffers against
+> existing implicit fences. Read accesses must synchronise against the
+> exclusive fence (read-after-write), and write accesses must
+> synchronise against both the exclusive (write-after-write) and shared
+> (write-after-read) fences.
+>
+> Note 1: Users like OpenGL and window systems on non-Android userspace
+> are generally implicitly synchronised. An implicitly-synchronised
+> userspace is unaware of fences from prior operations, so the kernel
+> mediates scheduling to create the illusion that GPU work is FIFO. For
+> example, an application will flush and schedule GPU write work to
+> render its image, then immediately tell the window system to display
+> that image; the window system may immediately flush and schedule GPU
+> read work to display that image, with neither waiting for the write to
+> have completed. The kernel provides coherence by synchronising the
+> read access against the write fence in the exclusive slot, so that the
+> image displayed is correct.
+>
+> Note 2: Users like Vulkan and Android window system are generally
+> explicitly synchronised. An explicitly-synchronised userspace is
+> responsible for tracking its own read and write access and providing
+> the kernel with synchronisation barriers. For instance, a Vulkan
+> application rendering to a buffer and subsequently using it as a read
+> texture, must annotate the read operation with a read-after-write
+> synchronisation barrier.
+>
+> Note 3: Implicit and explicit userspace can coexist. For instance, an
+> explicitly-synchronised Vulkan application may be running as a client
+> of an implicitly-synchronised window system which uses OpenGL for
+> composition; an implicitly-synchronised OpenGL application may be
+> running as a client of a window system which uses Vulkan for
+> composition.
+>
+> Note 4: Some subsystems, for example V4L2, do not pipeline operations,
+> and instead only return to userspace when the scheduled work against a
+> buffer has fully retired.
+>
+> Exemption 1: Fully self-coherent userspace may skip implicit
+> synchronisation barriers. For instance, accesses between two
+> Vulkan-internal buffers allocated by a single application do not need
+> to synchronise against each other's implicit fences, as the client is
+> responsible for explicitly providing barriers for access. A
+> self-contained OpenGL userspace also has no need to implicitly
+> synchronise its access if the driver instead tracks all access and
+> inserts the appropriate synchronisation barriers.
+>
+> Exemption 2: When implicit and explicit userspace coexist, the
+> explicit side may skip intermediate synchronisation, and only place
+> synchronisation barriers at transition points. For example, a Vulkan
+> compositor displaying a buffer from an OpenGL application would need
+> to synchronise its first access against the fence placed in the
+> exclusive implicit-synchronisation slot. Once this read has fully
+> retired, the compositor has no need to participate in implicit
+> synchronisation until it is ready to return the buffer to the
+> application, at which point it must insert all its non-retired
+> accesses into the shared slot, which the application will then
+> synchronise future write accesses against.
 
-What's worse, this commit actually completely breaks resource freeing on 
-probe failure (like e.g. failure to load microcode), as 
-amdgpu_driver_unload_kms() notices adev->rmmio being NULL and bails too 
-early, leaving all the resources that'd normally be freed in 
-amdgpu_acpi_fini() and amdgpu_device_fini() still hanging around, leading 
-to all sorts of oopses when someone tries to, for example, access the 
-sysfs and procfs resources which are still around while the driver is 
-gone.
+So I think this is excellent, but maybe better suited in the uapi
+section as a sperate chapter? Essentially keep your rules in the
+driver-internal docs, but move the Note/excemptions into the uapi
+section under a "Implicit Sync Mode of Operation" or whatever heading?
 
-Fixes: 4192f7b57689 ("drm/amdgpu: unmap register bar on device init failure")
-Reported-by: Vojtech Pavlik <vojtech@ucw.cz>
-Signed-off-by: Jiri Kosina <jkosina@suse.cz>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-index 57ec108b5972..0f1c0e17a587 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-@@ -3414,13 +3414,13 @@ int amdgpu_device_init(struct amdgpu_device *adev,
- 	r = amdgpu_device_get_job_timeout_settings(adev);
- 	if (r) {
- 		dev_err(adev->dev, "invalid lockup_timeout parameter syntax\n");
--		goto failed_unmap;
-+		return r;
- 	}
- 
- 	/* early init functions */
- 	r = amdgpu_device_ip_early_init(adev);
- 	if (r)
--		goto failed_unmap;
-+		return r;
- 
- 	/* doorbell bar mapping and doorbell index init*/
- 	amdgpu_device_doorbell_init(adev);
-@@ -3646,10 +3646,6 @@ int amdgpu_device_init(struct amdgpu_device *adev,
- failed:
- 	amdgpu_vf_error_trans_all(adev);
- 
--failed_unmap:
--	iounmap(adev->rmmio);
--	adev->rmmio = NULL;
--
- 	return r;
- }
- 
+The other thing to keep in mind is that this is very much incomplete:
+I'm silent on what drivers should do exactly with these fences. That's
+largely because I haven't fully completed that audit, and there's a
+pile of bugs there still.
+-Daniel
 -- 
-2.12.3
-
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
