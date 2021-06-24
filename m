@@ -1,38 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AE113B35CB
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Jun 2021 20:31:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C4DFD3B35CD
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Jun 2021 20:31:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B6DB6EC87;
-	Thu, 24 Jun 2021 18:31:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DFC676EC8B;
+	Thu, 24 Jun 2021 18:31:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4713F6EC83;
- Thu, 24 Jun 2021 18:31:32 +0000 (UTC)
-IronPort-SDR: MQS53MChVeMbEPGE9GnYNFLKwAtaKo9TIEbFog014BVwuBaBzC19hYUUD8IuGMr40hOiJGhOPh
- ZhRCB3HtZ4mg==
-X-IronPort-AV: E=McAfee;i="6200,9189,10025"; a="207354205"
-X-IronPort-AV: E=Sophos;i="5.83,296,1616482800"; d="scan'208";a="207354205"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 951EE6EC88;
+ Thu, 24 Jun 2021 18:31:34 +0000 (UTC)
+IronPort-SDR: lSR9mv4JVwM8dxeiyCraRQx4h+Lnlnp7T4K3dbKijYMn8PRohz65811nqIWCh/kvH3N4jBvsZy
+ ZENklWY+tF6A==
+X-IronPort-AV: E=McAfee;i="6200,9189,10025"; a="207354214"
+X-IronPort-AV: E=Sophos;i="5.83,296,1616482800"; d="scan'208";a="207354214"
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Jun 2021 11:31:31 -0700
-IronPort-SDR: yutExkWpfCVrOTp85fQQ966lO90W9BKDK6jVBrRFD0dY58zQ/b1QxDwvM04ua7LLzPY1req94s
- 8opLbByu3sbw==
-X-IronPort-AV: E=Sophos;i="5.83,296,1616482800"; d="scan'208";a="556585591"
+ 24 Jun 2021 11:31:34 -0700
+IronPort-SDR: KlBQojAwJ27frSmsP45Sv6qImAfd8rhhxE08LLAnYx3FKlSMZQYmLQ2ytezMG5hnVa61/LiSh7
+ B9bfcoihGW2w==
+X-IronPort-AV: E=Sophos;i="5.83,296,1616482800"; d="scan'208";a="556585603"
 Received: from mkayyal-mobl.ger.corp.intel.com (HELO thellst-mobl1.intel.com)
  ([10.249.254.243])
  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Jun 2021 11:31:30 -0700
+ 24 Jun 2021 11:31:32 -0700
 From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH 3/4] drm/i915/display: Migrate objects to LMEM if possible for
- display
-Date: Thu, 24 Jun 2021 20:31:09 +0200
-Message-Id: <20210624183110.22582-4-thomas.hellstrom@linux.intel.com>
+Subject: [PATCH 4/4] drm/i915/gem: Migrate to system at dma-buf map time
+Date: Thu, 24 Jun 2021 20:31:10 +0200
+Message-Id: <20210624183110.22582-5-thomas.hellstrom@linux.intel.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210624183110.22582-1-thomas.hellstrom@linux.intel.com>
 References: <20210624183110.22582-1-thomas.hellstrom@linux.intel.com>
@@ -56,99 +55,34 @@ Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Objects intended to be used as display framebuffers must reside in
-LMEM for discrete. If they happen to not do that, migrate them to
-LMEM before pinning.
+Until we support p2p dma or as a complement to that, migrate data
+to system memory at dma-buf map time if possible.
 
 Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 ---
- drivers/gpu/drm/i915/display/intel_display.c |  5 ++++-
- drivers/gpu/drm/i915/gem/i915_gem_domain.c   |  2 +-
- drivers/gpu/drm/i915/gem/i915_gem_lmem.c     | 21 --------------------
- drivers/gpu/drm/i915/gem/i915_gem_object.h   |  2 --
- 4 files changed, 5 insertions(+), 25 deletions(-)
+ drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
-index 4524dbfa5e42..83a4aba54d67 100644
---- a/drivers/gpu/drm/i915/display/intel_display.c
-+++ b/drivers/gpu/drm/i915/display/intel_display.c
-@@ -1331,6 +1331,9 @@ intel_pin_and_fence_fb_obj(struct drm_framebuffer *fb,
- 	ret = i915_gem_object_lock(obj, &ww);
- 	if (!ret && phys_cursor)
- 		ret = i915_gem_object_attach_phys(obj, alignment);
-+	else if (!ret && HAS_LMEM(dev_priv))
-+		ret = i915_gem_object_migrate(obj, &ww, INTEL_REGION_LMEM);
-+	/* TODO: Do we need to sync when migration becomes async? */
- 	if (!ret)
- 		ret = i915_gem_object_pin_pages(obj);
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
+index 616c3a2f1baf..a52f885bc09a 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
+@@ -25,7 +25,14 @@ static struct sg_table *i915_gem_map_dma_buf(struct dma_buf_attachment *attachme
+ 	struct scatterlist *src, *dst;
+ 	int ret, i;
+ 
+-	ret = i915_gem_object_pin_pages_unlocked(obj);
++	ret = i915_gem_object_lock_interruptible(obj, NULL);
++	if (ret)
++		return ERR_PTR(ret);
++
++	ret = i915_gem_object_migrate(obj, NULL, INTEL_REGION_SMEM);
++	if (!ret)
++		ret = i915_gem_object_pin_pages(obj);
++	i915_gem_object_unlock(obj);
  	if (ret)
-@@ -11770,7 +11773,7 @@ intel_user_framebuffer_create(struct drm_device *dev,
+ 		goto err;
  
- 	/* object is backed with LMEM for discrete */
- 	i915 = to_i915(obj->base.dev);
--	if (HAS_LMEM(i915) && !i915_gem_object_validates_to_lmem(obj)) {
-+	if (HAS_LMEM(i915) && !i915_gem_object_can_migrate(obj, INTEL_REGION_LMEM)) {
- 		/* object is "remote", not in local memory */
- 		i915_gem_object_put(obj);
- 		return ERR_PTR(-EREMOTE);
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_domain.c b/drivers/gpu/drm/i915/gem/i915_gem_domain.c
-index 073822100da7..7d1400b13429 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_domain.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_domain.c
-@@ -375,7 +375,7 @@ i915_gem_object_pin_to_display_plane(struct drm_i915_gem_object *obj,
- 	struct i915_vma *vma;
- 	int ret;
- 
--	/* Frame buffer must be in LMEM (no migration yet) */
-+	/* Frame buffer must be in LMEM */
- 	if (HAS_LMEM(i915) && !i915_gem_object_is_lmem(obj))
- 		return ERR_PTR(-EINVAL);
- 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_lmem.c b/drivers/gpu/drm/i915/gem/i915_gem_lmem.c
-index 41d5182cd367..be1d122574af 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_lmem.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_lmem.c
-@@ -23,27 +23,6 @@ i915_gem_object_lmem_io_map(struct drm_i915_gem_object *obj,
- 	return io_mapping_map_wc(&obj->mm.region->iomap, offset, size);
- }
- 
--/**
-- * i915_gem_object_validates_to_lmem - Whether the object is resident in
-- * lmem when pages are present.
-- * @obj: The object to check.
-- *
-- * Migratable objects residency may change from under us if the object is
-- * not pinned or locked. This function is intended to be used to check whether
-- * the object can only reside in lmem when pages are present.
-- *
-- * Return: Whether the object is always resident in lmem when pages are
-- * present.
-- */
--bool i915_gem_object_validates_to_lmem(struct drm_i915_gem_object *obj)
--{
--	struct intel_memory_region *mr = READ_ONCE(obj->mm.region);
--
--	return !i915_gem_object_migratable(obj) &&
--		mr && (mr->type == INTEL_MEMORY_LOCAL ||
--		       mr->type == INTEL_MEMORY_STOLEN_LOCAL);
--}
--
- /**
-  * i915_gem_object_is_lmem - Whether the object is resident in
-  * lmem
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h b/drivers/gpu/drm/i915/gem/i915_gem_object.h
-index 8cbd7a5334e2..d423d8cac4f2 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
-@@ -597,8 +597,6 @@ bool i915_gem_object_evictable(struct drm_i915_gem_object *obj);
- 
- bool i915_gem_object_migratable(struct drm_i915_gem_object *obj);
- 
--bool i915_gem_object_validates_to_lmem(struct drm_i915_gem_object *obj);
--
- int i915_gem_object_migrate(struct drm_i915_gem_object *obj,
- 			    struct i915_gem_ww_ctx *ww,
- 			    enum intel_region_id id);
 -- 
 2.31.1
 
