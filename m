@@ -2,62 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C9643B2660
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Jun 2021 06:32:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8E8D3B2727
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Jun 2021 08:08:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E68F16E9DE;
-	Thu, 24 Jun 2021 04:32:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B1ED6E9F2;
+	Thu, 24 Jun 2021 06:08:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com
- [IPv6:2607:f8b0:4864:20::632])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA9616E9DE
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Jun 2021 04:32:42 +0000 (UTC)
-Received: by mail-pl1-x632.google.com with SMTP id m17so2286429plx.7
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Jun 2021 21:32:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=lTTd4C04SA2E3AghdMNSGn7s0cIff6cdMlZ1vAXtDSA=;
- b=gen7iuSa1fQaov27zr35RQ3fadV1bVakwExJvyoiz/2bAisC/EC2AoCmrVyvbgzPwD
- 4nlY18J9+uD30MzVgmESRnwG7KFHNjSUm/oMxYcJ59RgRczKUQERiJGKHqOviBzoxTL6
- 0DMxTW3MAk0v0ymifRwSsciaXB//wR52cMlxJYQytRE+5McqSQDKGO7tH4DZkxUOuSo0
- /cwV8keRsZwMejvLjCpil20D/D9pR2P9xM7WhBEGNGM+14jxF7KzzVBhbeHotw0I9eEk
- R6U0KXym1XeZAv1klhqYuOW+UDK8YKQP4tcXjo2hn0YGW7q4CIwqvgSLLeMY6Uo7g/9H
- h0Xg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=lTTd4C04SA2E3AghdMNSGn7s0cIff6cdMlZ1vAXtDSA=;
- b=qF3fOEzKY7veXNs2bVrrfEbvti0UcNlfsNVoxPGxOVa3QJUxAjEdNsIbwu6nq4y0Ir
- tbKvhyWyz7HaCkV49VSeVFroUCkBS4wpBeubzcYeAIHDoYwW0fpYWWX3mMplY4lL3Ta3
- p3B2+5hLIUGzR3jZljKegy32uubaDqj/rssa0ZErWEm3mOiRg/3Ip6vCcn40oZW0Wyd1
- NlKa/mctQGrHpLGLLpB7F+MunNCQj8s976XSIr2q3ichqXrcIzuTLQ3An3dmhhFgX0jr
- LNjmZ35TwBgvh5rCknzdOByRdoPOcoNgvwNojRnbx5AuGcVTIvZ91tyJ4C+eeP8WEYp4
- k5hA==
-X-Gm-Message-State: AOAM5307GdqGxq1HkxIQUcDAEyJ5T/vyY5F2gobzYADtUZ2g9ETtWtUH
- Sb9fRsJwcMTv5DP7/F9ziC4eFQ==
-X-Google-Smtp-Source: ABdhPJzz6vn2zWUKB2ryOpIaYUVQnrSaiXXW5UhtPCB+tqvxcPK98S7Q9smW66yPLcbeUXDhds9k9Q==
-X-Received: by 2002:a17:90a:de84:: with SMTP id
- n4mr8712489pjv.62.1624509162441; 
- Wed, 23 Jun 2021 21:32:42 -0700 (PDT)
-Received: from localhost ([136.185.134.182])
- by smtp.gmail.com with ESMTPSA id 76sm1231543pfu.131.2021.06.23.21.32.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Jun 2021 21:32:41 -0700 (PDT)
-Date: Thu, 24 Jun 2021 10:02:40 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH 2/2] dt-bindings: opp: Convert to DT schema
-Message-ID: <20210624043240.n6m3cdftz75lhm3t@vireshk-i7>
-References: <20210623230722.3545986-1-robh@kernel.org>
- <20210623230722.3545986-3-robh@kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210623230722.3545986-3-robh@kernel.org>
-User-Agent: NeoMutt/20180716-391-311a52
+Received: from yyz.mikelr.com (yyz.mikelr.com [170.75.163.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C3726E9E3;
+ Thu, 24 Jun 2021 04:52:09 +0000 (UTC)
+Received: from glidewell.ykf.mikelr.com (198-84-194-208.cpe.teksavvy.com
+ [198.84.194.208])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Client did not present a certificate)
+ by yyz.mikelr.com (Postfix) with ESMTPSA id 440C34FA6A;
+ Thu, 24 Jun 2021 00:52:08 -0400 (EDT)
+From: Mikel Rychliski <mikel@mikelr.com>
+To: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH v3] drm/radeon: Fix NULL dereference when updating memory stats
+Date: Thu, 24 Jun 2021 00:51:20 -0400
+Message-Id: <20210624045121.15643-1-mikel@mikelr.com>
+X-Mailer: git-send-email 2.13.7
+In-Reply-To: <085b7f51-15b8-42e0-fcf0-66da839542c8@amd.com>
+References: <085b7f51-15b8-42e0-fcf0-66da839542c8@amd.com>
+X-Mailman-Approved-At: Thu, 24 Jun 2021 06:08:10 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,135 +45,174 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nishanth Menon <nm@ti.com>, devicetree@vger.kernel.org,
- linux-pm@vger.kernel.org, Yangtao Li <tiny.windzz@gmail.com>,
- Viresh Kumar <vireshk@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- linux-kernel@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>,
- Chen-Yu Tsai <wens@csie.org>, dri-devel@lists.freedesktop.org,
- Georgi Djakov <djakov@kernel.org>, Leonard Crestez <leonard.crestez@nxp.com>,
- Shawn Guo <shawnguo@kernel.org>, linux-arm-kernel@lists.infradead.org
+Cc: Mikel Rychliski <mikel@mikelr.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thanks for taking it up :)
+radeon_ttm_bo_destroy() is attempting to access the resource object to
+update memory counters. However, the resource object is already freed when
+ttm calls this function via the destroy callback. This causes an oops when
+a bo is freed:
 
-On 23-06-21, 17:07, Rob Herring wrote:
-> diff --git a/Documentation/devicetree/bindings/opp/opp-v2-base.yaml b/Documentation/devicetree/bindings/opp/opp-v2-base.yaml
-> +$id: http://devicetree.org/schemas/opp/opp-v2-base.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Generic OPP (Operating Performance Points) Common Binding
-> +
-> +maintainers:
-> +  - Viresh Kumar <viresh.kumar@linaro.org>
-> +
-> +description: |
-> +  Devices work at voltage-current-frequency combinations and some implementations
-> +  have the liberty of choosing these. These combinations are called Operating
-> +  Performance Points aka OPPs. This document defines bindings for these OPPs
-> +  applicable across wide range of devices. For illustration purpose, this document
-> +  uses CPU as a device.
-> +
-> +  This describes the OPPs belonging to a device.
-> +
-> +select: false
-> +
-> +properties:
-> +  $nodename:
-> +    pattern: '^opp-table(-[a-z0-9]+)?$'
-> +
-> +  opp-shared:
-> +    description:
-> +      Indicates that device nodes using this OPP Table Node's phandle switch
-> +      their DVFS state together, i.e. they share clock/voltage/current lines.
-> +      Missing property means devices have independent clock/voltage/current
-> +      lines, but they share OPP tables.
-> +    type: boolean
-> +
-> +patternProperties:
-> +  '^opp-?[0-9]+$':
-> +    type: object
-> +    description:
-> +      One or more OPP nodes describing voltage-current-frequency combinations.
-> +      Their name isn't significant but their phandle can be used to reference an
-> +      OPP. These are mandatory except for the case where the OPP table is
-> +      present only to indicate dependency between devices using the opp-shared
-> +      property.
-> +
-> +    properties:
-> +      opp-hz:
-> +        description:
-> +          Frequency in Hz, expressed as a 64-bit big-endian integer. This is a
-> +          required property for all device nodes, unless another "required"
-> +          property to uniquely identify the OPP nodes exists. Devices like power
-> +          domains must have another (implementation dependent) property.
-> +
-> +      opp-peak-kBps:
-> +        description:
-> +          Peak bandwidth in kilobytes per second, expressed as an array of
-> +          32-bit big-endian integers. Each element of the array represents the
-> +          peak bandwidth value of each interconnect path. The number of elements
-> +          should match the number of interconnect paths.
-> +        minItems: 1
-> +        maxItems: 32  # Should be enough
+	BUG: kernel NULL pointer dereference, address: 0000000000000010
+	RIP: 0010:radeon_ttm_bo_destroy+0x2c/0x100 [radeon]
+	Call Trace:
+	 radeon_bo_unref+0x1a/0x30 [radeon]
+	 radeon_gem_object_free+0x33/0x50 [radeon]
+	 drm_gem_object_release_handle+0x69/0x70 [drm]
+	 drm_gem_handle_delete+0x62/0xa0 [drm]
+	 ? drm_mode_destroy_dumb+0x40/0x40 [drm]
+	 drm_ioctl_kernel+0xb2/0xf0 [drm]
+	 drm_ioctl+0x30a/0x3c0 [drm]
+	 ? drm_mode_destroy_dumb+0x40/0x40 [drm]
+	 radeon_drm_ioctl+0x49/0x80 [radeon]
+	 __x64_sys_ioctl+0x8e/0xd0
 
-Can we move this down, closer to opp-avg-kBps ?
+Avoid the issue by updating the counters in the delete_mem_notify callback
+instead. Also, fix memory statistic updating in radeon_bo_move() to
+identify the source type correctly. The source type needs to be saved
+before the move, because the moved from object may be altered by the move.
 
-> +
-> +      opp-microvolt:
-> +        description: |
-> +          Voltage for the OPP
-> +
-> +          A single regulator's voltage is specified with an array of size one or three.
-> +          Single entry is for target voltage and three entries are for <target min max>
-> +          voltages.
-> +
-> +          Entries for multiple regulators shall be provided in the same field separated
-> +          by angular brackets <>. The OPP binding doesn't provide any provisions to
-> +          relate the values to their power supplies or the order in which the supplies
-> +          need to be configured and that is left for the implementation specific
-> +          binding.
-> +
-> +          Entries for all regulators shall be of the same size, i.e. either all use a
-> +          single value or triplets.
-> +        minItems: 1
-> +        maxItems: 8
+Fixes: bfa3357ef9ab ("drm/ttm: allocate resource object instead of embedding it v2")
+Signed-off-by: Mikel Rychliski <mikel@mikelr.com>
+---
+ drivers/gpu/drm/radeon/radeon_object.c | 29 ++++++++++++-----------------
+ drivers/gpu/drm/radeon/radeon_object.h |  2 +-
+ drivers/gpu/drm/radeon/radeon_ttm.c    | 13 ++++++++++---
+ 3 files changed, 23 insertions(+), 21 deletions(-)
 
-For consistency with rest of the doc, maybe add
-
-# Should be enough regulators
-
-> +        items:
-> +          minItems: 1
-> +          maxItems: 3
-> +
-> +      opp-microamp:
-> +        description: |
-> +          The maximum current drawn by the device in microamperes considering
-> +          system specific parameters (such as transients, process, aging,
-> +          maximum operating temperature range etc.) as necessary. This may be
-> +          used to set the most efficient regulator operating mode.
-> +
-> +          Should only be set if opp-microvolt(-name)? is set for the OPP.
-
-What is the significance of '?' here ?
-
-> +
-> +          Entries for multiple regulators shall be provided in the same field
-> +          separated by angular brackets <>. If current values aren't required
-> +          for a regulator, then it shall be filled with 0. If current values
-> +          aren't required for any of the regulators, then this field is not
-> +          required. The OPP binding doesn't provide any provisions to relate the
-> +          values to their power supplies or the order in which the supplies need
-> +          to be configured and that is left for the implementation specific
-> +          binding.
-> +        minItems: 1
-> +        maxItems: 8   # Should be enough regulators
-> +        items:
-> +          minItems: 1
-> +          maxItems: 3
-
-Acked-by: Viresh Kumar <viresh.kumar@linaro.org>
-
+diff --git a/drivers/gpu/drm/radeon/radeon_object.c b/drivers/gpu/drm/radeon/radeon_object.c
+index bfaaa3c969a3..56ede9d63b12 100644
+--- a/drivers/gpu/drm/radeon/radeon_object.c
++++ b/drivers/gpu/drm/radeon/radeon_object.c
+@@ -49,23 +49,23 @@ static void radeon_bo_clear_surface_reg(struct radeon_bo *bo);
+  * function are calling it.
+  */
+ 
+-static void radeon_update_memory_usage(struct radeon_bo *bo,
+-				       unsigned mem_type, int sign)
++static void radeon_update_memory_usage(struct ttm_buffer_object *bo,
++				       unsigned int mem_type, int sign)
+ {
+-	struct radeon_device *rdev = bo->rdev;
++	struct radeon_device *rdev = radeon_get_rdev(bo->bdev);
+ 
+ 	switch (mem_type) {
+ 	case TTM_PL_TT:
+ 		if (sign > 0)
+-			atomic64_add(bo->tbo.base.size, &rdev->gtt_usage);
++			atomic64_add(bo->base.size, &rdev->gtt_usage);
+ 		else
+-			atomic64_sub(bo->tbo.base.size, &rdev->gtt_usage);
++			atomic64_sub(bo->base.size, &rdev->gtt_usage);
+ 		break;
+ 	case TTM_PL_VRAM:
+ 		if (sign > 0)
+-			atomic64_add(bo->tbo.base.size, &rdev->vram_usage);
++			atomic64_add(bo->base.size, &rdev->vram_usage);
+ 		else
+-			atomic64_sub(bo->tbo.base.size, &rdev->vram_usage);
++			atomic64_sub(bo->base.size, &rdev->vram_usage);
+ 		break;
+ 	}
+ }
+@@ -76,8 +76,6 @@ static void radeon_ttm_bo_destroy(struct ttm_buffer_object *tbo)
+ 
+ 	bo = container_of(tbo, struct radeon_bo, tbo);
+ 
+-	radeon_update_memory_usage(bo, bo->tbo.resource->mem_type, -1);
+-
+ 	mutex_lock(&bo->rdev->gem.mutex);
+ 	list_del_init(&bo->list);
+ 	mutex_unlock(&bo->rdev->gem.mutex);
+@@ -727,24 +725,21 @@ int radeon_bo_check_tiling(struct radeon_bo *bo, bool has_moved,
+ }
+ 
+ void radeon_bo_move_notify(struct ttm_buffer_object *bo,
+-			   bool evict,
++			   unsigned int old_type,
+ 			   struct ttm_resource *new_mem)
+ {
+ 	struct radeon_bo *rbo;
+ 
++	radeon_update_memory_usage(bo, old_type, -1);
++	if (new_mem)
++		radeon_update_memory_usage(bo, new_mem->mem_type, 1);
++
+ 	if (!radeon_ttm_bo_is_radeon_bo(bo))
+ 		return;
+ 
+ 	rbo = container_of(bo, struct radeon_bo, tbo);
+ 	radeon_bo_check_tiling(rbo, 0, 1);
+ 	radeon_vm_bo_invalidate(rbo->rdev, rbo);
+-
+-	/* update statistics */
+-	if (!new_mem)
+-		return;
+-
+-	radeon_update_memory_usage(rbo, bo->resource->mem_type, -1);
+-	radeon_update_memory_usage(rbo, new_mem->mem_type, 1);
+ }
+ 
+ vm_fault_t radeon_bo_fault_reserve_notify(struct ttm_buffer_object *bo)
+diff --git a/drivers/gpu/drm/radeon/radeon_object.h b/drivers/gpu/drm/radeon/radeon_object.h
+index 1739c6a142cd..1afc7992ef91 100644
+--- a/drivers/gpu/drm/radeon/radeon_object.h
++++ b/drivers/gpu/drm/radeon/radeon_object.h
+@@ -161,7 +161,7 @@ extern void radeon_bo_get_tiling_flags(struct radeon_bo *bo,
+ extern int radeon_bo_check_tiling(struct radeon_bo *bo, bool has_moved,
+ 				bool force_drop);
+ extern void radeon_bo_move_notify(struct ttm_buffer_object *bo,
+-				  bool evict,
++				  unsigned int old_type,
+ 				  struct ttm_resource *new_mem);
+ extern vm_fault_t radeon_bo_fault_reserve_notify(struct ttm_buffer_object *bo);
+ extern int radeon_bo_get_surface_reg(struct radeon_bo *bo);
+diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c b/drivers/gpu/drm/radeon/radeon_ttm.c
+index ad2a5a791bba..a06d4cc2fb1c 100644
+--- a/drivers/gpu/drm/radeon/radeon_ttm.c
++++ b/drivers/gpu/drm/radeon/radeon_ttm.c
+@@ -199,7 +199,7 @@ static int radeon_bo_move(struct ttm_buffer_object *bo, bool evict,
+ 	struct ttm_resource *old_mem = bo->resource;
+ 	struct radeon_device *rdev;
+ 	struct radeon_bo *rbo;
+-	int r;
++	int r, old_type;
+ 
+ 	if (new_mem->mem_type == TTM_PL_TT) {
+ 		r = radeon_ttm_tt_bind(bo->bdev, bo->ttm, new_mem);
+@@ -216,6 +216,9 @@ static int radeon_bo_move(struct ttm_buffer_object *bo, bool evict,
+ 	if (WARN_ON_ONCE(rbo->tbo.pin_count > 0))
+ 		return -EINVAL;
+ 
++	/* Save old type for statistics update */
++	old_type = old_mem->mem_type;
++
+ 	rdev = radeon_get_rdev(bo->bdev);
+ 	if (old_mem->mem_type == TTM_PL_SYSTEM && bo->ttm == NULL) {
+ 		ttm_bo_move_null(bo, new_mem);
+@@ -261,7 +264,7 @@ static int radeon_bo_move(struct ttm_buffer_object *bo, bool evict,
+ out:
+ 	/* update statistics */
+ 	atomic64_add(bo->base.size, &rdev->num_bytes_moved);
+-	radeon_bo_move_notify(bo, evict, new_mem);
++	radeon_bo_move_notify(bo, old_type, new_mem);
+ 	return 0;
+ }
+ 
+@@ -682,7 +685,11 @@ bool radeon_ttm_tt_is_readonly(struct radeon_device *rdev,
+ static void
+ radeon_bo_delete_mem_notify(struct ttm_buffer_object *bo)
+ {
+-	radeon_bo_move_notify(bo, false, NULL);
++	unsigned int old_type = TTM_PL_SYSTEM;
++
++	if (bo->resource)
++		old_type = bo->resource->mem_type;
++	radeon_bo_move_notify(bo, old_type, NULL);
+ }
+ 
+ static struct ttm_device_funcs radeon_bo_driver = {
 -- 
-viresh
+2.13.7
+
