@@ -1,62 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 996903B3B52
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Jun 2021 05:48:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C51503B3D58
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Jun 2021 09:28:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A8386E096;
-	Fri, 25 Jun 2021 03:48:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D7D406ECDB;
+	Fri, 25 Jun 2021 07:28:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x236.google.com (mail-oi1-x236.google.com
- [IPv6:2607:f8b0:4864:20::236])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A2D386E096
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Jun 2021 03:48:30 +0000 (UTC)
-Received: by mail-oi1-x236.google.com with SMTP id h9so9924217oih.4
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Jun 2021 20:48:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=YPOpe/pbA8bUnGpZvYmFITp0NghwSmJn6dUDVrfCv+E=;
- b=hzs8Tl8EyDHus3ahR9b21fg/WfdJZlMs3DlXuyuWSukuoKTxim4HYJCFWVytM/+tmp
- eUHhrU25K52sd9THcIJKn/nehCWVBrSBhKWO6eM/U5V6pZpzRDQpTt7r0QZQqoZ8AYVE
- F4ZfrFDhvUwvLYRpVBCZfSUa9ThrBXSk0XgaLpDU0j/DnelILFiPtD5LHBUIHBrm6ETs
- dDKokJ+mSr+qX2mTSZC1BJLFRH+EIuKTGH5CF20O5k1YuzCJPIC2IDlj0bYO9C3HD0Sz
- kUFvtP2YFTFG11GYRiAcqha2nfHzQbihI2dWXHb/YQmO634KzQtFDcbHNbEK6WvTIW2b
- 4YKw==
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
+ [IPv6:2a00:1450:4864:20::431])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 72E346E096
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Jun 2021 22:39:52 +0000 (UTC)
+Received: by mail-wr1-x431.google.com with SMTP id a11so8375250wrt.13
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Jun 2021 15:39:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=awN+mLAoEH8adc/34pvvwVLjd8WD+JCjLBCZB/HNCcQ=;
+ b=JLavQb/N/JXoQK2XZZoqYunHXclRnGv45pD/NpTyHnyjTIRRz0aPG6zP9n3hJi78zm
+ 3MyOhzaScJju7ZFGodLqSeKzDvvZTZ44cnQJTpNszBoeItywz8zCG59fakQXhvf876wz
+ vwjpOyywH7OS7pS4zCCJJ4lVj6oEtEASi7Jl/6tAJPEQ0MXqBbXJL9SQ24uIjZP1rRwa
+ RkI5U64TlsN5JQGJjPk9fQdkEjJsCYv0wOwpaGdp6hiT7Qr9UtXH0i0MaC8j1PYeq+6z
+ 72NGED6YhG4qUWbf5UGDPFwQKq+DFP/IDQXCvFbNEuL+PEGyI3pK5zI7rf8DFGRFT+oI
+ HHDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=YPOpe/pbA8bUnGpZvYmFITp0NghwSmJn6dUDVrfCv+E=;
- b=nglhzzkR509r6TUGMPfvHusH1m/2vVlMl+nMQ4xKcw6e2V8eZ39EN53bmx84Z/XUbI
- lkAVYs8FtQK6SjcE0ba6djCwT4LaQEAwbPpZ1nCyRwKlB0dSxO5nDZDSfvUcD0IWp7eC
- v81KW3WPSo1UfE5tWkEfxNYCcIwKe2VIszh1Q9jEvUsd/0HiyatnhmVcP/gpayk+C/25
- VASb8sW5gmoPPk65VVkYrqM4kKyBnPAZCRDKrOaWhvO0qgHPLexZX4xO9m031Ac1Guho
- 5OsKY/D0LhsTPuEb6nMxR0aYdCiBeMZvY9GekkOXChPiSWeGf97kaVt4m5+8v2eqxpcr
- rO4Q==
-X-Gm-Message-State: AOAM531IixPMlmCUejrLvFygvr8NO5BWPET/NTLYhkvI+qNi4Z/PB7wf
- H46QIVzivXoTWv/iLnfLgTEWpw==
-X-Google-Smtp-Source: ABdhPJzU2V+rYLSU0OS1yhD01/njJqJk4DxGcmQAc4IA2qxy0Ho+ormW5U1DV/f3M7TJxA4YLuQOIA==
-X-Received: by 2002:a05:6808:251:: with SMTP id
- m17mr6547877oie.77.1624592909941; 
- Thu, 24 Jun 2021 20:48:29 -0700 (PDT)
-Received: from localhost.localdomain
- (104-57-184-186.lightspeed.austtx.sbcglobal.net. [104.57.184.186])
- by smtp.gmail.com with ESMTPSA id d20sm1099480otq.62.2021.06.24.20.48.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Jun 2021 20:48:29 -0700 (PDT)
-From: Bjorn Andersson <bjorn.andersson@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Dave Airlie <airlied@redhat.com>
-Subject: [PATCH] drm/msm/dp: Add missing drm_device backpointer
-Date: Thu, 24 Jun 2021 20:47:21 -0700
-Message-Id: <20210625034721.1287948-1-bjorn.andersson@linaro.org>
-X-Mailer: git-send-email 2.29.2
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=awN+mLAoEH8adc/34pvvwVLjd8WD+JCjLBCZB/HNCcQ=;
+ b=A+UHAKmuHhk1sLtvspvM6k/stdqSiTJBu2pLSXKQb2AYE6A2dni5SYPM0hU6RgfI9C
+ OK7evqHU+OLJTWigYGOxI13JrNKbS3lLFuiVprlHxTUIWKzlq09gMgUzGkXCJAyTJTVt
+ 6etG0FHXsE2jK+mMg85DCgA1fS0Ijfqr04pYs8qIaga0Jne7nj/WE7qVmnS4ETo7goZi
+ 9kbwuWNV/fc9aqmioY4pTY8a73z3WQ0dJiS+TyIjCxn6sbkC+xDaOvnlP6hwY0K8vsms
+ OYY3/hGXNp3E3EWs+C+BrOafXKlZXrnvYlow6D646xFgNil8ur/+oh0bgB47sQmvDhgI
+ dYwg==
+X-Gm-Message-State: AOAM530PGnYxM7b6Mtefb1MzxVMvbz/Yt5emCFbiprE202F/dHClMmxX
+ Kdz4tnP+9P4ufN3v9grr6Q==
+X-Google-Smtp-Source: ABdhPJygubo/RGkTNuu7pObCdpCXdlq3c6h0pwkkNyTmzLedvjah5lEQaZ9fy3rRI0bGZRwlFm9Wew==
+X-Received: by 2002:a5d:4589:: with SMTP id p9mr7355530wrq.30.1624574390996;
+ Thu, 24 Jun 2021 15:39:50 -0700 (PDT)
+Received: from [192.168.200.247] (ip5b434b8b.dynamic.kabel-deutschland.de.
+ [91.67.75.139])
+ by smtp.gmail.com with ESMTPSA id c8sm4298080wri.91.2021.06.24.15.39.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 24 Jun 2021 15:39:50 -0700 (PDT)
+Subject: Re: [PATCH 12/12] media: hantro: Add support for the Rockchip PX30
+To: Ezequiel Garcia <ezequiel@collabora.com>, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+References: <20210624182612.177969-1-ezequiel@collabora.com>
+ <20210624182612.177969-13-ezequiel@collabora.com>
+From: Alex Bee <knaerzche@gmail.com>
+Message-ID: <0f129376-1377-8288-7768-91a57790014d@gmail.com>
+Date: Fri, 25 Jun 2021 00:39:48 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210624182612.177969-13-ezequiel@collabora.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Mailman-Approved-At: Fri, 25 Jun 2021 07:28:22 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,70 +75,119 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
+ David Airlie <airlied@linux.ie>, Hans Verkuil <hverkuil@xs4all.nl>,
+ Thierry Reding <thierry.reding@gmail.com>, kernel@collabora.com,
+ Sam Ravnborg <sam@ravnborg.org>, Chris Healy <cphealy@gmail.com>,
+ maccraft123mc@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-'6cba3fe43341 ("drm/dp: Add backpointer to drm_device in drm_dp_aux")'
-introduced a mandator drm_device backpointer in struct drm_dp_aux, but
-missed the msm DP driver. Fix this.
+Hi Ezequiel,
 
-Fixes: 6cba3fe43341 ("drm/dp: Add backpointer to drm_device in drm_dp_aux")
-Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
----
- drivers/gpu/drm/msm/dp/dp_aux.c     | 3 ++-
- drivers/gpu/drm/msm/dp/dp_aux.h     | 2 +-
- drivers/gpu/drm/msm/dp/dp_display.c | 2 +-
- 3 files changed, 4 insertions(+), 3 deletions(-)
+Am 24.06.21 um 20:26 schrieb Ezequiel Garcia:
+> From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+>
+> The PX30 SoC includes both the VDPU2 and VEPU2 blocks which are similar
+> to the RK3399 (Hantro G1/H1 with shuffled registers).
+>
+> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+> ---
+>   drivers/staging/media/hantro/hantro_drv.c     |  1 +
+>   drivers/staging/media/hantro/hantro_hw.h      |  1 +
+>   .../staging/media/hantro/rockchip_vpu_hw.c    | 28 +++++++++++++++++++
+>   3 files changed, 30 insertions(+)
+>
+> diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
+> index 9b5415176bfe..8a2edd67f2c6 100644
+> --- a/drivers/staging/media/hantro/hantro_drv.c
+> +++ b/drivers/staging/media/hantro/hantro_drv.c
+> @@ -582,6 +582,7 @@ static const struct v4l2_file_operations hantro_fops = {
+>   
+>   static const struct of_device_id of_hantro_match[] = {
+>   #ifdef CONFIG_VIDEO_HANTRO_ROCKCHIP
+> +	{ .compatible = "rockchip,px30-vpu",   .data = &px30_vpu_variant, },
+>   	{ .compatible = "rockchip,rk3036-vpu", .data = &rk3036_vpu_variant, },
+>   	{ .compatible = "rockchip,rk3066-vpu", .data = &rk3066_vpu_variant, },
+>   	{ .compatible = "rockchip,rk3288-vpu", .data = &rk3288_vpu_variant, },
+> diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
+> index 9296624654a6..df7b5e3a57b9 100644
+> --- a/drivers/staging/media/hantro/hantro_hw.h
+> +++ b/drivers/staging/media/hantro/hantro_hw.h
+> @@ -209,6 +209,7 @@ enum hantro_enc_fmt {
+>   
+>   extern const struct hantro_variant imx8mq_vpu_g2_variant;
+>   extern const struct hantro_variant imx8mq_vpu_variant;
+> +extern const struct hantro_variant px30_vpu_variant;
+>   extern const struct hantro_variant rk3036_vpu_variant;
+>   extern const struct hantro_variant rk3066_vpu_variant;
+>   extern const struct hantro_variant rk3288_vpu_variant;
+> diff --git a/drivers/staging/media/hantro/rockchip_vpu_hw.c b/drivers/staging/media/hantro/rockchip_vpu_hw.c
+> index e4e3b5e7689b..e7f56e30b4a8 100644
+> --- a/drivers/staging/media/hantro/rockchip_vpu_hw.c
+> +++ b/drivers/staging/media/hantro/rockchip_vpu_hw.c
+> @@ -16,6 +16,7 @@
+>   
+>   #define RK3066_ACLK_MAX_FREQ (300 * 1000 * 1000)
+>   #define RK3288_ACLK_MAX_FREQ (400 * 1000 * 1000)
+> +#define PX30_ACLK_MAX_FREQ (300 * 1000 * 1000)
+>   
 
-diff --git a/drivers/gpu/drm/msm/dp/dp_aux.c b/drivers/gpu/drm/msm/dp/dp_aux.c
-index 4a3293b590b0..88659ed200b9 100644
---- a/drivers/gpu/drm/msm/dp/dp_aux.c
-+++ b/drivers/gpu/drm/msm/dp/dp_aux.c
-@@ -441,7 +441,7 @@ void dp_aux_deinit(struct drm_dp_aux *dp_aux)
- 	dp_catalog_aux_enable(aux->catalog, false);
- }
- 
--int dp_aux_register(struct drm_dp_aux *dp_aux)
-+int dp_aux_register(struct drm_dp_aux *dp_aux, struct drm_device *drm_dev)
- {
- 	struct dp_aux_private *aux;
- 	int ret;
-@@ -455,6 +455,7 @@ int dp_aux_register(struct drm_dp_aux *dp_aux)
- 
- 	aux->dp_aux.name = "dpu_dp_aux";
- 	aux->dp_aux.dev = aux->dev;
-+	aux->dp_aux.drm_dev = drm_dev;
- 	aux->dp_aux.transfer = dp_aux_transfer;
- 	ret = drm_dp_aux_register(&aux->dp_aux);
- 	if (ret) {
-diff --git a/drivers/gpu/drm/msm/dp/dp_aux.h b/drivers/gpu/drm/msm/dp/dp_aux.h
-index 0728cc09c9ec..7ef0d83b483a 100644
---- a/drivers/gpu/drm/msm/dp/dp_aux.h
-+++ b/drivers/gpu/drm/msm/dp/dp_aux.h
-@@ -9,7 +9,7 @@
- #include "dp_catalog.h"
- #include <drm/drm_dp_helper.h>
- 
--int dp_aux_register(struct drm_dp_aux *dp_aux);
-+int dp_aux_register(struct drm_dp_aux *dp_aux, struct drm_device *drm_dev);
- void dp_aux_unregister(struct drm_dp_aux *dp_aux);
- void dp_aux_isr(struct drm_dp_aux *dp_aux);
- void dp_aux_init(struct drm_dp_aux *dp_aux);
-diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-index c26562bd85fe..2f0a5c13f251 100644
---- a/drivers/gpu/drm/msm/dp/dp_display.c
-+++ b/drivers/gpu/drm/msm/dp/dp_display.c
-@@ -259,7 +259,7 @@ static int dp_display_bind(struct device *dev, struct device *master,
- 		return rc;
- 	}
- 
--	rc = dp_aux_register(dp->aux);
-+	rc = dp_aux_register(dp->aux, drm);
- 	if (rc) {
- 		DRM_ERROR("DRM DP AUX register failed\n");
- 		return rc;
--- 
-2.29.2
+Not sure it is required (besides semantics) to introduce a new 
+*ACLK_MAX_FREQ here. rk3036_vpu_hw_init could be used to entirely 
+replace px30_vpu_hw_init in px30_vpu_variant.
 
+(Maybe we can find some more common names, after we know which variant 
+combinations exist)
+
+>   /*
+>    * Supported formats.
+> @@ -279,6 +280,12 @@ static int rockchip_vpu_hw_init(struct hantro_dev *vpu)
+>   	return 0;
+>   }
+>   
+> +static int px30_vpu_hw_init(struct hantro_dev *vpu)
+> +{
+> +	clk_set_rate(vpu->clocks[0].clk, PX30_ACLK_MAX_FREQ);
+> +	return 0;
+> +}
+> +
+>   static void rk3066_vpu_dec_reset(struct hantro_ctx *ctx)
+>   {
+>   	struct hantro_dev *vpu = ctx->dev;
+> @@ -452,6 +459,10 @@ static const char * const rockchip_vpu_clk_names[] = {
+>   	"aclk", "hclk"
+>   };
+>   
+> +static const char * const px30_clk_names[] = {
+> +	"aclk", "hclk"
+> +};
+> +
+>   /* VDPU1/VEPU1 */
+>   
+>   const struct hantro_variant rk3036_vpu_variant = {
+> @@ -548,3 +559,20 @@ const struct hantro_variant rk3399_vpu_variant = {
+>   	.clk_names = rockchip_vpu_clk_names,
+>   	.num_clocks = ARRAY_SIZE(rockchip_vpu_clk_names)
+>   };
+> +
+> +const struct hantro_variant px30_vpu_variant = {
+> +	.enc_offset = 0x0,
+> +	.enc_fmts = rockchip_vpu_enc_fmts,
+> +	.num_enc_fmts = ARRAY_SIZE(rockchip_vpu_enc_fmts),
+> +	.dec_offset = 0x400,
+> +	.dec_fmts = rk3399_vpu_dec_fmts,
+> +	.num_dec_fmts = ARRAY_SIZE(rk3399_vpu_dec_fmts),
+> +	.codec = HANTRO_JPEG_ENCODER | HANTRO_MPEG2_DECODER |
+> +		 HANTRO_VP8_DECODER | HANTRO_H264_DECODER,
+> +	.codec_ops = rk3399_vpu_codec_ops,
+> +	.irqs = rockchip_vpu2_irqs,
+> +	.num_irqs = ARRAY_SIZE(rockchip_vpu2_irqs),
+> +	.init = px30_vpu_hw_init,
+> +	.clk_names = px30_clk_names,
+> +	.num_clocks = ARRAY_SIZE(px30_clk_names)
+Better re-use rockchip_vpu_clk_names for these two.
+> +};
+Alex.
