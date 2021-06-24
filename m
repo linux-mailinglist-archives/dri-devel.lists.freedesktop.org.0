@@ -1,56 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A93833B2D63
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Jun 2021 13:12:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 673573B2D78
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Jun 2021 13:14:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F3DE16EA4E;
-	Thu, 24 Jun 2021 11:12:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3496E6EA5F;
+	Thu, 24 Jun 2021 11:14:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x734.google.com (mail-qk1-x734.google.com
- [IPv6:2607:f8b0:4864:20::734])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B99976EA38;
- Thu, 24 Jun 2021 11:12:21 +0000 (UTC)
-Received: by mail-qk1-x734.google.com with SMTP id w21so13298785qkb.9;
- Thu, 24 Jun 2021 04:12:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=k+PQoGzK5k0xQDN3o5YLT/0h7qzxEyjd8atmtNMJgng=;
- b=lo7q2YdddQntHGPiQgiTNrkv3B0MWAKS+lWfrtrffuz/uTC9N6WCqvRgkkkzCoEcS4
- u9NjYgeqxVt8IxV/JQgJ0PjTiaf6+lsRnzBdLdc4R2xo8munKtiv8eUvRTTEw9qLQ/PC
- 0k6FyzU6PdWmSaXx4jIExLu10yqomT8+FayJdet8E+J3BbazfwCsZJk25YafzWz2uWX0
- O8CEhJrZgX2DBWJfvC558XLurUpWidqYbiHysN+H+fMGhMFCyAKP/jL5HotsIIrZiQsC
- wZJISsYMyOFErnH/HcqAbb87UVUIE74fd8oPL5Rj1NklQUKlWyl3IjQOGya6XqSJ3Xu0
- SJUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=k+PQoGzK5k0xQDN3o5YLT/0h7qzxEyjd8atmtNMJgng=;
- b=lFmOVN7QOMxfTvd2Ipi5TU0UcoqAoM0Rgj6r81D3g4uuivyEbUGeqqQc5RvdY5Orh+
- VzUzvv2gkkDf86nmmoRP9LGRLCfov9oT0BEhr1R+rsS9rlnm+t84HoZRBfzq7lcjlJFC
- 5BWDVPp1VALDb6q9masa8pTBzqeD5gUHj/MFGiB0kFAT3W5cfG2QUsz7lCTUPQcCBT1+
- 8EFmaIH02XcgJvViNjyqDF7baW+QdMy0DWjgazaO7eKCrYWB3oDJrl5P983E9AxR3B+n
- Q/Lvzu7uTGkyqNSGKkh5tvvddrlIA4DlmqlRDb47KHa6/ZE3YEwh4hJ6GAw3FrZsbj7u
- xBNw==
-X-Gm-Message-State: AOAM531sMQxFbdEBvHXZJjzv1FYyOJBRg4DcsydVzZuJJ1fsGlbxu8n7
- KYbV1yvECRiYPA5SpO5E5g06JcKfPTJ5mYIt1qc=
-X-Google-Smtp-Source: ABdhPJzeRC6j2Oc7sg5GmcmXtWjyJtGeIpThJ1VunlW4FboliOLUVPNIjJM3JxzT5BAqM0V8RsvDfnxJBGI7/SEcuwA=
-X-Received: by 2002:a37:4388:: with SMTP id q130mr4959694qka.460.1624533140892; 
- Thu, 24 Jun 2021 04:12:20 -0700 (PDT)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 1C8936EA38;
+ Thu, 24 Jun 2021 11:14:53 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3087531B;
+ Thu, 24 Jun 2021 04:14:52 -0700 (PDT)
+Received: from [10.57.9.136] (unknown [10.57.9.136])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 72B7B3F718;
+ Thu, 24 Jun 2021 04:14:44 -0700 (PDT)
+Subject: Re: [PATCH v14 06/12] swiotlb: Use is_swiotlb_force_bounce for
+ swiotlb data bouncing
+To: Claire Chang <tientzu@chromium.org>, Christoph Hellwig <hch@lst.de>
+References: <20210619034043.199220-1-tientzu@chromium.org>
+ <20210619034043.199220-7-tientzu@chromium.org>
+ <76c3343d-72e5-9df3-8924-5474ee698ef4@quicinc.com>
+ <20210623183736.GA472@willie-the-truck>
+ <19d4c7a2-744d-21e0-289c-a576e1f0e6f3@quicinc.com>
+ <20210624054315.GA25381@lst.de>
+ <CALiNf288ZLMhY3E8E3N+z9rkwi1viWNLm1wwMEwT4rNwh3FfwQ@mail.gmail.com>
+From: Robin Murphy <robin.murphy@arm.com>
+Message-ID: <364e6715-eafd-fc4a-e0af-ce2a042756b4@arm.com>
+Date: Thu, 24 Jun 2021 12:14:39 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-References: <20210624105337.296520-1-thomas.hellstrom@linux.intel.com>
-In-Reply-To: <20210624105337.296520-1-thomas.hellstrom@linux.intel.com>
-From: Matthew Auld <matthew.william.auld@gmail.com>
-Date: Thu, 24 Jun 2021 12:11:54 +0100
-Message-ID: <CAM0jSHMJFgL0Ttv+MGPAD=62CTRK3-F4eVi=J8Q0K9FH5-GKrA@mail.gmail.com>
-Subject: Re: [PATCH] drm/i915: Reinstate the mmap ioctl for some platforms
-To: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <CALiNf288ZLMhY3E8E3N+z9rkwi1viWNLm1wwMEwT4rNwh3FfwQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,19 +50,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Matthew Auld <matthew.auld@intel.com>,
- ML dri-devel <dri-devel@lists.freedesktop.org>
+Cc: heikki.krogerus@linux.intel.com,
+ linux-devicetree <devicetree@vger.kernel.org>, peterz@infradead.org,
+ dri-devel@lists.freedesktop.org, chris@chris-wilson.co.uk,
+ grant.likely@arm.com, paulus@samba.org, Frank Rowand <frowand.list@gmail.com>,
+ mingo@kernel.org, Jianxiong Gao <jxgao@google.com>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Saravana Kannan <saravanak@google.com>, mpe@ellerman.id.au,
+ Joerg Roedel <joro@8bytes.org>,
+ "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>, bskeggs@redhat.com,
+ linux-pci@vger.kernel.org, xen-devel@lists.xenproject.org,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Dan Williams <dan.j.williams@intel.com>, matthew.auld@intel.com,
+ Nicolas Boichat <drinkcat@chromium.org>, thomas.hellstrom@linux.intel.com,
+ Jim Quinlan <james.quinlan@broadcom.com>, Will Deacon <will@kernel.org>,
+ Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+ intel-gfx@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
+ rodrigo.vivi@intel.com, Bjorn Helgaas <bhelgaas@google.com>,
+ boris.ostrovsky@oracle.com,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>, jgross@suse.com,
+ airlied@linux.ie, Thierry Reding <treding@nvidia.com>,
+ Greg KH <gregkh@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>,
+ Qian Cai <quic_qiancai@quicinc.com>, lkml <linux-kernel@vger.kernel.org>,
+ "list@263.net:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
+ xypron.glpk@gmx.de, Tom Lendacky <thomas.lendacky@amd.com>,
+ linuxppc-dev@lists.ozlabs.org, bauerman@linux.ibm.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 24 Jun 2021 at 11:53, Thomas Hellstr=C3=B6m
-<thomas.hellstrom@linux.intel.com> wrote:
->
-> Reinstate the mmap ioctl for all current integrated platforms.
-> The intention was really to have it disabled for discrete graphics
-> where we enforce a single mmap mode.
->
-> Fixes: 35cbd91eb541 ("drm/i915: Disable mmap ioctl for gen12+")
-> Signed-off-by: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
-Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+On 2021-06-24 07:05, Claire Chang wrote:
+> On Thu, Jun 24, 2021 at 1:43 PM Christoph Hellwig <hch@lst.de> wrote:
+>>
+>> On Wed, Jun 23, 2021 at 02:44:34PM -0400, Qian Cai wrote:
+>>> is_swiotlb_force_bounce at /usr/src/linux-next/./include/linux/swiotlb.h:119
+>>>
+>>> is_swiotlb_force_bounce() was the new function introduced in this patch here.
+>>>
+>>> +static inline bool is_swiotlb_force_bounce(struct device *dev)
+>>> +{
+>>> +     return dev->dma_io_tlb_mem->force_bounce;
+>>> +}
+>>
+>> To me the crash looks like dev->dma_io_tlb_mem is NULL.  Can you
+>> turn this into :
+>>
+>>          return dev->dma_io_tlb_mem && dev->dma_io_tlb_mem->force_bounce;
+>>
+>> for a quick debug check?
+> 
+> I just realized that dma_io_tlb_mem might be NULL like Christoph
+> pointed out since swiotlb might not get initialized.
+> However,  `Unable to handle kernel paging request at virtual address
+> dfff80000000000e` looks more like the address is garbage rather than
+> NULL?
+> I wonder if that's because dev->dma_io_tlb_mem is not assigned
+> properly (which means device_initialize is not called?).
+
+What also looks odd is that the base "address" 0xdfff800000000000 is 
+held in a couple of registers, but the offset 0xe looks too small to 
+match up to any relevant structure member in that dereference chain :/
+
+Robin.
