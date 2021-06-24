@@ -1,45 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57D6B3B334A
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Jun 2021 17:57:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 72CD43B32E9
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Jun 2021 17:55:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5AE606EC4A;
-	Thu, 24 Jun 2021 15:57:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 962676EC46;
+	Thu, 24 Jun 2021 15:55:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6351A6EC4A;
- Thu, 24 Jun 2021 15:57:45 +0000 (UTC)
-IronPort-SDR: wFzDWiGK9fk1zZCAgh7xaBH3D9UWDv6FhaO6H5sJcsjsDTD3qXduvhrwHeQo6pycL1AYHasGgR
- DGCNoEH2+p7Q==
-X-IronPort-AV: E=McAfee;i="6200,9189,10025"; a="207537948"
-X-IronPort-AV: E=Sophos;i="5.83,296,1616482800"; d="scan'208";a="207537948"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Jun 2021 08:56:29 -0700
-IronPort-SDR: T7bIvbxkxvWH0/hSgX6WXYckUfx3Pm3K2JPYr72JrVXzyIPTJNapVIWRo1AaHD4tl7OobUWk2/
- FN4pNLpVT0gw==
-X-IronPort-AV: E=Sophos;i="5.83,296,1616482800"; d="scan'208";a="424116914"
-Received: from unknown (HELO sdutt-i7) ([10.165.21.147])
- by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Jun 2021 08:56:29 -0700
-Date: Thu, 24 Jun 2021 08:49:48 -0700
-From: Matthew Brost <matthew.brost@intel.com>
-To: Michal Wajdeczko <michal.wajdeczko@intel.com>
-Subject: Re: [Intel-gfx] [PATCH 04/47] drm/i915/guc: Add non blocking CTB
- send function
-Message-ID: <20210624154947.GB1629@sdutt-i7>
-References: <20210624070516.21893-1-matthew.brost@intel.com>
- <20210624070516.21893-5-matthew.brost@intel.com>
- <761f2063-7fe6-518b-d05e-67f8fadb9a9c@intel.com>
+Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com
+ [IPv6:2607:f8b0:4864:20::42a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A42E56EB2E
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Jun 2021 15:55:38 +0000 (UTC)
+Received: by mail-pf1-x42a.google.com with SMTP id g21so3843481pfc.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Jun 2021 08:55:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=rdc0HB9wCm28bStTIxqWIJNvJopKcq8sWWQzFyMGdN8=;
+ b=EWUPwdxHp5YKeCTYM1Ou9zc1bF9zF4WPE1YYn08iLU0DKzgmmZp5S8YTmyG8h6lXtv
+ H7bIKs3GpVKupJr/fP+pph0lGjQ+mJcFcHV01gy1FmuxsYy+jElw6HlWfLFvvUP+d+yn
+ QsIj+YxXmhSRVl7m7zjzDw87xA/6voIVdj0mk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=rdc0HB9wCm28bStTIxqWIJNvJopKcq8sWWQzFyMGdN8=;
+ b=SdTkkRG9fY2YO6HYqS/R6OcSR5JBNKgGmoZvm23Hvz7UpVIZZYb88mF31Ufbwk76gR
+ qyehUZHtMWpw8vGa3P+AlRZtMkE9dHR2WYFRaEoWl9uN+8tfkHolqJRd0/RvPNOQbmEL
+ fJe+0fFEl5f7IeiudqIpO12VSLlydY0EFhrVHfCTqgbarzz1sgLfMDOkOKuybZXnIpwB
+ bxWWAoR2O+hDAOdhvJi0bIZ1NEacim80zpJvz3zQlzkqjt/E6CvN7KiNM/bFlV7MWfd5
+ sLTKHGx/XCcYsUAsdN8VxHgf2H6/lfktsFfoBzOu2gtre6M72S37drDHz2vYsTyfJ7H6
+ pAYQ==
+X-Gm-Message-State: AOAM533b5O18CbMLyNGSQQX2IQvvHp00xo58EmQgFKpBxh9wrYACC90y
+ JWYNG64khhbTRnvlkZLV3R2zPg==
+X-Google-Smtp-Source: ABdhPJy87SSPlxL47d7OH+XoeGh+AXQQoDaeBE720F3P2KtS6fZXS8ICxE/Q45nw3Tf/1EGtaohwag==
+X-Received: by 2002:a05:6a00:810:b029:301:f08c:6b0d with SMTP id
+ m16-20020a056a000810b0290301f08c6b0dmr5744051pfk.8.1624550138225; 
+ Thu, 24 Jun 2021 08:55:38 -0700 (PDT)
+Received: from localhost ([2401:fa00:95:205:165a:99ec:42d5:d8b])
+ by smtp.gmail.com with UTF8SMTPSA id oc9sm2594487pjb.43.2021.06.24.08.55.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 24 Jun 2021 08:55:37 -0700 (PDT)
+From: Claire Chang <tientzu@chromium.org>
+To: Rob Herring <robh+dt@kernel.org>, mpe@ellerman.id.au,
+ Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+ Frank Rowand <frowand.list@gmail.com>,
+ Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>, boris.ostrovsky@oracle.com,
+ jgross@suse.com, Christoph Hellwig <hch@lst.de>,
+ Marek Szyprowski <m.szyprowski@samsung.com>
+Subject: [PATCH v15 00/12] Restricted DMA
+Date: Thu, 24 Jun 2021 23:55:14 +0800
+Message-Id: <20210624155526.2775863-1-tientzu@chromium.org>
+X-Mailer: git-send-email 2.32.0.288.g62a8d224e6-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <761f2063-7fe6-518b-d05e-67f8fadb9a9c@intel.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,282 +68,183 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: heikki.krogerus@linux.intel.com, thomas.hellstrom@linux.intel.com,
+ peterz@infradead.org, dri-devel@lists.freedesktop.org,
+ chris@chris-wilson.co.uk, grant.likely@arm.com, paulus@samba.org,
+ mingo@kernel.org, jxgao@google.com, sstabellini@kernel.org,
+ Saravana Kannan <saravanak@google.com>, xypron.glpk@gmx.de,
+ "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>, bskeggs@redhat.com,
+ linux-pci@vger.kernel.org, xen-devel@lists.xenproject.org,
+ Thierry Reding <treding@nvidia.com>, intel-gfx@lists.freedesktop.org,
+ matthew.auld@intel.com, linux-devicetree <devicetree@vger.kernel.org>,
+ airlied@linux.ie, Robin Murphy <robin.murphy@arm.com>,
+ Nicolas Boichat <drinkcat@chromium.org>, rodrigo.vivi@intel.com,
+ bhelgaas@google.com, tientzu@chromium.org,
+ Dan Williams <dan.j.williams@intel.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Greg KH <gregkh@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>,
+ quic_qiancai@quicinc.com, lkml <linux-kernel@vger.kernel.org>,
+ tfiga@chromium.org,
+ "list@263.net:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
+ Jim Quinlan <james.quinlan@broadcom.com>, thomas.lendacky@amd.com,
+ linuxppc-dev@lists.ozlabs.org, bauerman@linux.ibm.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 24, 2021 at 04:48:32PM +0200, Michal Wajdeczko wrote:
-> 
-> 
-> On 24.06.2021 09:04, Matthew Brost wrote:
-> > Add non blocking CTB send function, intel_guc_send_nb. GuC submission
-> > will send CTBs in the critical path and does not need to wait for these
-> > CTBs to complete before moving on, hence the need for this new function.
-> > 
-> > The non-blocking CTB now must have a flow control mechanism to ensure
-> > the buffer isn't overrun. A lazy spin wait is used as we believe the
-> > flow control condition should be rare with a properly sized buffer.
-> > 
-> > The function, intel_guc_send_nb, is exported in this patch but unused.
-> > Several patches later in the series make use of this function.
-> > 
-> > Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
-> > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> > ---
-> >  drivers/gpu/drm/i915/gt/uc/intel_guc.h    | 12 +++-
-> >  drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c | 77 +++++++++++++++++++++--
-> >  drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h |  3 +-
-> >  3 files changed, 82 insertions(+), 10 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-> > index 4abc59f6f3cd..24b1df6ad4ae 100644
-> > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-> > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-> > @@ -74,7 +74,15 @@ static inline struct intel_guc *log_to_guc(struct intel_guc_log *log)
-> >  static
-> >  inline int intel_guc_send(struct intel_guc *guc, const u32 *action, u32 len)
-> >  {
-> > -	return intel_guc_ct_send(&guc->ct, action, len, NULL, 0);
-> > +	return intel_guc_ct_send(&guc->ct, action, len, NULL, 0, 0);
-> > +}
-> > +
-> > +#define INTEL_GUC_SEND_NB		BIT(31)
-> 
-> hmm, this flag really belongs to intel_guc_ct_send() so it should be
-> defined as CTB flag near that function declaration
-> 
+This series implements mitigations for lack of DMA access control on
+systems without an IOMMU, which could result in the DMA accessing the
+system memory at unexpected times and/or unexpected addresses, possibly
+leading to data leakage or corruption.
 
-I can move this up a few lines.
+For example, we plan to use the PCI-e bus for Wi-Fi and that PCI-e bus is
+not behind an IOMMU. As PCI-e, by design, gives the device full access to
+system memory, a vulnerability in the Wi-Fi firmware could easily escalate
+to a full system exploit (remote wifi exploits: [1a], [1b] that shows a
+full chain of exploits; [2], [3]).
 
-> > +static
-> > +inline int intel_guc_send_nb(struct intel_guc *guc, const u32 *action, u32 len)
-> > +{
-> > +	return intel_guc_ct_send(&guc->ct, action, len, NULL, 0,
-> > +				 INTEL_GUC_SEND_NB);
-> >  }
-> >  
-> >  static inline int
-> > @@ -82,7 +90,7 @@ intel_guc_send_and_receive(struct intel_guc *guc, const u32 *action, u32 len,
-> >  			   u32 *response_buf, u32 response_buf_size)
-> >  {
-> >  	return intel_guc_ct_send(&guc->ct, action, len,
-> > -				 response_buf, response_buf_size);
-> > +				 response_buf, response_buf_size, 0);
-> >  }
-> >  
-> >  static inline void intel_guc_to_host_event_handler(struct intel_guc *guc)
-> > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-> > index a17215920e58..c9a65d05911f 100644
-> > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-> > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-> > @@ -3,6 +3,11 @@
-> >   * Copyright © 2016-2019 Intel Corporation
-> >   */
-> >  
-> > +#include <linux/circ_buf.h>
-> > +#include <linux/ktime.h>
-> > +#include <linux/time64.h>
-> > +#include <linux/timekeeping.h>
-> > +
-> >  #include "i915_drv.h"
-> >  #include "intel_guc_ct.h"
-> >  #include "gt/intel_gt.h"
-> > @@ -373,7 +378,7 @@ static void write_barrier(struct intel_guc_ct *ct)
-> >  static int ct_write(struct intel_guc_ct *ct,
-> >  		    const u32 *action,
-> >  		    u32 len /* in dwords */,
-> > -		    u32 fence)
-> > +		    u32 fence, u32 flags)
-> >  {
-> >  	struct intel_guc_ct_buffer *ctb = &ct->ctbs.send;
-> >  	struct guc_ct_buffer_desc *desc = ctb->desc;
-> > @@ -421,9 +426,13 @@ static int ct_write(struct intel_guc_ct *ct,
-> >  		 FIELD_PREP(GUC_CTB_MSG_0_NUM_DWORDS, len) |
-> >  		 FIELD_PREP(GUC_CTB_MSG_0_FENCE, fence);
-> >  
-> > -	hxg = FIELD_PREP(GUC_HXG_MSG_0_TYPE, GUC_HXG_TYPE_REQUEST) |
-> > -	      FIELD_PREP(GUC_HXG_REQUEST_MSG_0_ACTION |
-> > -			 GUC_HXG_REQUEST_MSG_0_DATA0, action[0]);
-> > +	hxg = (flags & INTEL_GUC_SEND_NB) ?
-> > +		(FIELD_PREP(GUC_HXG_MSG_0_TYPE, GUC_HXG_TYPE_EVENT) |
-> > +		 FIELD_PREP(GUC_HXG_EVENT_MSG_0_ACTION |
-> > +			    GUC_HXG_EVENT_MSG_0_DATA0, action[0])) :
-> > +		(FIELD_PREP(GUC_HXG_MSG_0_TYPE, GUC_HXG_TYPE_REQUEST) |
-> > +		 FIELD_PREP(GUC_HXG_REQUEST_MSG_0_ACTION |
-> > +			    GUC_HXG_REQUEST_MSG_0_DATA0, action[0]));
-> 
-> or as we already switched to accept and return whole HXG messages in
-> guc_send_mmio() maybe we should do the same for CTB variant too and
-> instead of using extra flag just let caller to prepare proper HXG header
-> with HXG_EVENT type and then in CTB code just look at this type to make
-> decision which code path to use
->
+To mitigate the security concerns, we introduce restricted DMA. Restricted
+DMA utilizes the existing swiotlb to bounce streaming DMA in and out of a
+specially allocated region and does memory allocation from the same region.
+The feature on its own provides a basic level of protection against the DMA
+overwriting buffer contents at unexpected times. However, to protect
+against general data leakage and system memory corruption, the system needs
+to provide a way to restrict the DMA to a predefined memory region (this is
+usually done at firmware level, e.g. MPU in ATF on some ARM platforms [4]).
 
-Not sure I follow. Anyways could this be done in a follow up by you if
-want this change.
- 
-> note that existing callers should not be impacted, as full HXG header
-> for the REQUEST message looks exactly the same as "action" code alone.
-> 
-> >  
-> >  	CT_DEBUG(ct, "writing (tail %u) %*ph %*ph %*ph\n",
-> >  		 tail, 4, &header, 4, &hxg, 4 * (len - 1), &action[1]);
-> > @@ -498,6 +507,46 @@ static int wait_for_ct_request_update(struct ct_request *req, u32 *status)
-> >  	return err;
-> >  }
-> >  
-> > +static inline bool h2g_has_room(struct intel_guc_ct_buffer *ctb, u32 len_dw)
-> > +{
-> > +	struct guc_ct_buffer_desc *desc = ctb->desc;
-> > +	u32 head = READ_ONCE(desc->head);
-> > +	u32 space;
-> > +
-> > +	space = CIRC_SPACE(desc->tail, head, ctb->size);
-> > +
-> > +	return space >= len_dw;
-> 
-> here you are returning true(1) as has room
->
+[1a] https://googleprojectzero.blogspot.com/2017/04/over-air-exploiting-broadcoms-wi-fi_4.html
+[1b] https://googleprojectzero.blogspot.com/2017/04/over-air-exploiting-broadcoms-wi-fi_11.html
+[2] https://blade.tencent.com/en/advisories/qualpwn/
+[3] https://www.bleepingcomputer.com/news/security/vulnerabilities-found-in-highly-popular-firmware-for-wifi-chips/
+[4] https://github.com/ARM-software/arm-trusted-firmware/blob/master/plat/mediatek/mt8183/drivers/emi_mpu/emi_mpu.c#L132
 
-See below.
- 
-> > +}
-> > +
-> > +static int ct_send_nb(struct intel_guc_ct *ct,
-> > +		      const u32 *action,
-> > +		      u32 len,
-> > +		      u32 flags)
-> > +{
-> > +	struct intel_guc_ct_buffer *ctb = &ct->ctbs.send;
-> > +	unsigned long spin_flags;
-> > +	u32 fence;
-> > +	int ret;
-> > +
-> > +	spin_lock_irqsave(&ctb->lock, spin_flags);
-> > +
-> > +	ret = h2g_has_room(ctb, len + 1);
-> 
-> but here you treat "1" it as en error
-> 
+v15:
+- Apply Will's diff (https://lore.kernel.org/patchwork/patch/1448957/#1647521)
+  to fix the crash reported by Qian.
+- Add Stefano's Acked-by tag for patch 01/12 from v14
 
-Yes, this patch is broken but fixed in a follow up one. Regardless I'll
-fix this patch in place.
+v14:
+- Move set_memory_decrypted before swiotlb_init_io_tlb_mem (patch 01/12, 10,12)
+- Add Stefano's Acked-by tag from v13
+https://lore.kernel.org/patchwork/cover/1448954/
 
-> and this "1" is GUC_HXG_MSG_MIN_LEN, right ?
->
+v13:
+- Fix xen-swiotlb issues
+  - memset in patch 01/12
+  - is_swiotlb_force_bounce in patch 06/12
+- Fix the dts example typo in reserved-memory.txt
+- Add Stefano and Will's Tested-by tag from v12
+https://lore.kernel.org/patchwork/cover/1448001/
 
-Not exactly. This is following how ct_send() uses the action + len
-field. Action[0] field goes in the HXG header and extra + 1 is for the
-CT header.
+v12:
+Split is_dev_swiotlb_force into is_swiotlb_force_bounce (patch 06/12) and
+is_swiotlb_for_alloc (patch 09/12)
+https://lore.kernel.org/patchwork/cover/1447254/
 
-> > +	if (unlikely(ret))
-> > +		goto out;
-> > +
-> > +	fence = ct_get_next_fence(ct);
-> > +	ret = ct_write(ct, action, len, fence, flags);
-> > +	if (unlikely(ret))
-> > +		goto out;
-> > +
-> > +	intel_guc_notify(ct_to_guc(ct));
-> > +
-> > +out:
-> > +	spin_unlock_irqrestore(&ctb->lock, spin_flags);
-> > +
-> > +	return ret;
-> > +}
-> > +
-> >  static int ct_send(struct intel_guc_ct *ct,
-> >  		   const u32 *action,
-> >  		   u32 len,
-> > @@ -505,6 +554,7 @@ static int ct_send(struct intel_guc_ct *ct,
-> >  		   u32 response_buf_size,
-> >  		   u32 *status)
-> >  {
-> > +	struct intel_guc_ct_buffer *ctb = &ct->ctbs.send;
-> >  	struct ct_request request;
-> >  	unsigned long flags;
-> >  	u32 fence;
-> > @@ -514,8 +564,20 @@ static int ct_send(struct intel_guc_ct *ct,
-> >  	GEM_BUG_ON(!len);
-> >  	GEM_BUG_ON(len & ~GUC_CT_MSG_LEN_MASK);
-> >  	GEM_BUG_ON(!response_buf && response_buf_size);
-> > +	might_sleep();
-> >  
-> > +	/*
-> > +	 * We use a lazy spin wait loop here as we believe that if the CT
-> > +	 * buffers are sized correctly the flow control condition should be
-> > +	 * rare.
-> 
-> shouldn't we at least try to log such cases with RATE_LIMITED to find
-> out how "rare" it is, or if really unlikely just return -EBUSY as in
-> case of non-blocking send ?
->
+v11:
+- Rebase against swiotlb devel/for-linus-5.14
+- s/mempry/memory/g
+- exchange the order of patch 09/12 and 10/12
+https://lore.kernel.org/patchwork/cover/1447216/
 
-Definitely not return -EBUSY as this a blocking call. Perhaps we can log
-this, but IGTs likely can hit rather easily. It really is only
-interesting if real workloads hit this. Regardless that can be a follow
-up.
+v10:
+Address the comments in v9 to
+  - fix the dev->dma_io_tlb_mem assignment
+  - propagate swiotlb_force setting into io_tlb_default_mem->force
+  - move set_memory_decrypted out of swiotlb_init_io_tlb_mem
+  - move debugfs_dir declaration into the main CONFIG_DEBUG_FS block
+  - add swiotlb_ prefix to find_slots and release_slots
+  - merge the 3 alloc/free related patches
+  - move the CONFIG_DMA_RESTRICTED_POOL later
+https://lore.kernel.org/patchwork/cover/1446882/
 
-Matt
- 
-> > +	 */
-> > +retry:
-> >  	spin_lock_irqsave(&ct->ctbs.send.lock, flags);
-> > +	if (unlikely(!h2g_has_room(ctb, len + 1))) {
-> > +		spin_unlock_irqrestore(&ct->ctbs.send.lock, flags);
-> > +		cond_resched();
-> > +		goto retry;
-> > +	}
-> >  
-> >  	fence = ct_get_next_fence(ct);
-> >  	request.fence = fence;
-> > @@ -527,7 +589,7 @@ static int ct_send(struct intel_guc_ct *ct,
-> >  	list_add_tail(&request.link, &ct->requests.pending);
-> >  	spin_unlock(&ct->requests.lock);
-> >  
-> > -	err = ct_write(ct, action, len, fence);
-> > +	err = ct_write(ct, action, len, fence, 0);
-> >  
-> >  	spin_unlock_irqrestore(&ct->ctbs.send.lock, flags);
-> >  
-> > @@ -569,7 +631,7 @@ static int ct_send(struct intel_guc_ct *ct,
-> >   * Command Transport (CT) buffer based GuC send function.
-> >   */
-> >  int intel_guc_ct_send(struct intel_guc_ct *ct, const u32 *action, u32 len,
-> > -		      u32 *response_buf, u32 response_buf_size)
-> > +		      u32 *response_buf, u32 response_buf_size, u32 flags)
-> >  {
-> >  	u32 status = ~0; /* undefined */
-> >  	int ret;
-> > @@ -579,6 +641,9 @@ int intel_guc_ct_send(struct intel_guc_ct *ct, const u32 *action, u32 len,
-> >  		return -ENODEV;
-> >  	}
-> >  
-> > +	if (flags & INTEL_GUC_SEND_NB)
-> > +		return ct_send_nb(ct, action, len, flags);
-> > +
-> >  	ret = ct_send(ct, action, len, response_buf, response_buf_size, &status);
-> >  	if (unlikely(ret < 0)) {
-> >  		CT_ERROR(ct, "Sending action %#x failed (err=%d status=%#X)\n",
-> > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
-> > index 1ae2dde6db93..eb69263324ba 100644
-> > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
-> > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
-> > @@ -42,7 +42,6 @@ struct intel_guc_ct_buffer {
-> >  	bool broken;
-> >  };
-> >  
-> > -
-> >  /** Top-level structure for Command Transport related data
-> >   *
-> >   * Includes a pair of CT buffers for bi-directional communication and tracking
-> > @@ -88,7 +87,7 @@ static inline bool intel_guc_ct_enabled(struct intel_guc_ct *ct)
-> >  }
-> >  
-> >  int intel_guc_ct_send(struct intel_guc_ct *ct, const u32 *action, u32 len,
-> > -		      u32 *response_buf, u32 response_buf_size);
-> > +		      u32 *response_buf, u32 response_buf_size, u32 flags);
-> >  void intel_guc_ct_event_handler(struct intel_guc_ct *ct);
-> >  
-> >  #endif /* _INTEL_GUC_CT_H_ */
-> > 
+v9:
+Address the comments in v7 to
+  - set swiotlb active pool to dev->dma_io_tlb_mem
+  - get rid of get_io_tlb_mem
+  - dig out the device struct for is_swiotlb_active
+  - move debugfs_create_dir out of swiotlb_create_debugfs
+  - do set_memory_decrypted conditionally in swiotlb_init_io_tlb_mem
+  - use IS_ENABLED in kernel/dma/direct.c
+  - fix redefinition of 'of_dma_set_restricted_buffer'
+https://lore.kernel.org/patchwork/cover/1445081/
+
+v8:
+- Fix reserved-memory.txt and add the reg property in example.
+- Fix sizeof for of_property_count_elems_of_size in
+  drivers/of/address.c#of_dma_set_restricted_buffer.
+- Apply Will's suggestion to try the OF node having DMA configuration in
+  drivers/of/address.c#of_dma_set_restricted_buffer.
+- Fix typo in the comment of drivers/of/address.c#of_dma_set_restricted_buffer.
+- Add error message for PageHighMem in
+  kernel/dma/swiotlb.c#rmem_swiotlb_device_init and move it to
+  rmem_swiotlb_setup.
+- Fix the message string in rmem_swiotlb_setup.
+https://lore.kernel.org/patchwork/cover/1437112/
+
+v7:
+Fix debugfs, PageHighMem and comment style in rmem_swiotlb_device_init
+https://lore.kernel.org/patchwork/cover/1431031/
+
+v6:
+Address the comments in v5
+https://lore.kernel.org/patchwork/cover/1423201/
+
+v5:
+Rebase on latest linux-next
+https://lore.kernel.org/patchwork/cover/1416899/
+
+v4:
+- Fix spinlock bad magic
+- Use rmem->name for debugfs entry
+- Address the comments in v3
+https://lore.kernel.org/patchwork/cover/1378113/
+
+v3:
+Using only one reserved memory region for both streaming DMA and memory
+allocation.
+https://lore.kernel.org/patchwork/cover/1360992/
+
+v2:
+Building on top of swiotlb.
+https://lore.kernel.org/patchwork/cover/1280705/
+
+v1:
+Using dma_map_ops.
+https://lore.kernel.org/patchwork/cover/1271660/
+
+Claire Chang (12):
+  swiotlb: Refactor swiotlb init functions
+  swiotlb: Refactor swiotlb_create_debugfs
+  swiotlb: Set dev->dma_io_tlb_mem to the swiotlb pool used
+  swiotlb: Update is_swiotlb_buffer to add a struct device argument
+  swiotlb: Update is_swiotlb_active to add a struct device argument
+  swiotlb: Use is_swiotlb_force_bounce for swiotlb data bouncing
+  swiotlb: Move alloc_size to swiotlb_find_slots
+  swiotlb: Refactor swiotlb_tbl_unmap_single
+  swiotlb: Add restricted DMA alloc/free support
+  swiotlb: Add restricted DMA pool initialization
+  dt-bindings: of: Add restricted DMA pool
+  of: Add plumbing for restricted DMA pool
+
+ .../reserved-memory/reserved-memory.txt       |  36 ++-
+ drivers/base/core.c                           |   4 +
+ drivers/gpu/drm/i915/gem/i915_gem_internal.c  |   2 +-
+ drivers/gpu/drm/nouveau/nouveau_ttm.c         |   2 +-
+ drivers/iommu/dma-iommu.c                     |  12 +-
+ drivers/of/address.c                          |  33 +++
+ drivers/of/device.c                           |   3 +
+ drivers/of/of_private.h                       |   6 +
+ drivers/pci/xen-pcifront.c                    |   2 +-
+ drivers/xen/swiotlb-xen.c                     |   4 +-
+ include/linux/device.h                        |   4 +
+ include/linux/swiotlb.h                       |  53 +++-
+ kernel/dma/Kconfig                            |  14 +
+ kernel/dma/direct.c                           |  59 ++--
+ kernel/dma/direct.h                           |   8 +-
+ kernel/dma/swiotlb.c                          | 251 +++++++++++++-----
+ 16 files changed, 390 insertions(+), 103 deletions(-)
+
+-- 
+2.32.0.288.g62a8d224e6-goog
+
