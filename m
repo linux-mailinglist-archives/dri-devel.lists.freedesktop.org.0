@@ -1,74 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56D7C3B2F54
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Jun 2021 14:46:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FE1D3B2F57
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Jun 2021 14:47:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 149ED6EB72;
-	Thu, 24 Jun 2021 12:46:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 95D176EB73;
+	Thu, 24 Jun 2021 12:47:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com
- [64.147.123.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AFE606EB2F;
- Thu, 24 Jun 2021 12:46:25 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.west.internal (Postfix) with ESMTP id 4873B320082A;
- Thu, 24 Jun 2021 08:46:22 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Thu, 24 Jun 2021 08:46:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:content-transfer-encoding:in-reply-to; s=fm3; bh=T
- EwddBOwGS/LE6uMv0Mg+16hiY8TobVC07jf41lyJDY=; b=V7wPGAgw3OuFAR6Hj
- RvYssx9RhaaCkIXyhN8cgSX7gQc8/Z/5b9bg985nUZoiZ1EKM3MLrbGaN3mtznxv
- SpJfo2X3zJAdMTzmNIJQRTNVlkD7joSDaXXwFbnVkPVATxmsqocmo1ZPmZBm8RXP
- 4PG7xIAu5eQjfBlx+yREfvmO0pGCDaUBmw/Smkvj7efQVWJjfws4vsLx7yDHG7Xh
- O/dwRJ2XNHRKnOUhq9VOAZn4US+w7bXaUqE3YP2BiU+wAM2uBlTKnKQu07Kq1Ybq
- 2+qh3MmbCO0XPcSzjVn/IfXAscCUCOVJm9EmxmT+H796eJLVOiWeEOry3H+VxGtP
- aKYLw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:content-type
- :date:from:in-reply-to:message-id:mime-version:references
- :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm3; bh=TEwddBOwGS/LE6uMv0Mg+16hiY8TobVC07jf41lyJ
- DY=; b=QfLxe4HhKlAua6qDSFIrzkuK90b4ilIgJNMY7S7pjdVL09Hn4s/7cHBZz
- bxpE7SQCHmPwm5UxXNW8lCt8JFVFm0IQUaFrCpUWtLqHS3jFb5OQ/3H10SHdKhU4
- Me5eJSfNlX0ZhnW+W1bHIchF+Ziz5y7qbZp3bM2U0TqIw/tIAdJBJL/Mch7RWwfi
- rLtCPjZypbcc+SjkaZM+UfpH+9W1MHv/DC/4SexW/V3Waxal/zs/DcX1F3NHeC5Q
- CRCD9EgMBDlofL9R+vd8g8EZSDpRquRBNjI6gQhs73UeTdB0leeLLp38Eg/+toYP
- llBokNOUVCl1NTUTHVbAh+xHik1mw==
-X-ME-Sender: <xms:nH7UYGfZdTVbJmeZlFFP0s73NzVbNdgzQNlIqwUaVA_saa4wvAEbZQ>
- <xme:nH7UYAM3aqmzxl5Y3bT-9mgSqiRUNQyymhR8wYN7YuHZOfV8KS2MgC8dgtR1dRtTy
- xEWTRPPDIn79mLjits>
-X-ME-Received: <xmr:nH7UYHh2yteDFFZRL7BiWq-xyH3wDvxFOlp8q1ImzRiVDdpeBDiK_wD48bnwU1q2cEA0o3yk_0jypTupL-8qeFtD_joIFU83QNgK>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfeeghedgheejucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtugfgjgesthhqredttddtvdenucfhrhhomhepofgrgihi
- mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
- htthgvrhhnpefgjeettdejgffgffdvteeutdehtdehgeehueetkeefgefhtdetjeekledu
- gedvudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
- hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:nH7UYD-tJ1N73PKElrS8w6bUvc49oF7oh8dTH9LAqzz6C6-AfXU8eA>
- <xmx:nH7UYCsi46E_vsWpd9s_LbMJ7JvemiPZfwWyGJgdwQOCROOdOw1-3g>
- <xmx:nH7UYKHK8kiGY8ucyPdvlBgH1hNiaWWfB9zzmx4krxeKwVkfMJ8Gog>
- <xmx:nX7UYGKDE2Gdjt9tvw2T0vm1Dk9_junCY4Ci-Q0yjMzBFNSmF-vusg>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 24 Jun 2021 08:46:20 -0400 (EDT)
-Date: Thu, 24 Jun 2021 14:46:18 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH 09/15] drm/armada: Remove prepare/cleanup_fb hooks
-Message-ID: <20210624124618.5bwvt5q6jklheyhl@gilmour>
-References: <20210622165511.3169559-1-daniel.vetter@ffwll.ch>
- <20210622165511.3169559-10-daniel.vetter@ffwll.ch>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E74706EB73
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Jun 2021 12:47:10 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5A7724A1;
+ Thu, 24 Jun 2021 14:47:09 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1624538829;
+ bh=YK1V6EQP0xZzOKnqIihFqu4R7XbETZn4rERcj1Ng924=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=ISN6O21MlplTqx8PlNg2EPdOfJUUl6CxBd2f+k+OV22V4YNKHPcHYj2WOnAWVqvbg
+ jnmBUEVhFuyO5XAE3xLBFW03f8s8hpfM9+YPFJ2C8bObVjL47X9NvNVQJPhprhYXBI
+ yovCKFftL3DvXUWIHkTcVLuZopqb//J9kdU+F/LI=
+Date: Thu, 24 Jun 2021 15:46:39 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Jagan Teki <jagan@amarulasolutions.com>
+Subject: Re: [RFC PATCH 2/9] drm: bridge: Add Samsung SEC MIPI DSIM bridge
+ driver
+Message-ID: <YNR+r3G7crWS+wcx@pendragon.ideasonboard.com>
+References: <20210621072424.111733-1-jagan@amarulasolutions.com>
+ <20210621072424.111733-3-jagan@amarulasolutions.com>
+ <YNO0LHNVSWjrh1ZS@pendragon.ideasonboard.com>
+ <CAOMZO5Ahbu4mohtMDOQOv_y5B_TDesbdYEUZTF1RL7_y-bS+RA@mail.gmail.com>
+ <CAMty3ZAtObU-bf6FuxvSBaZn2cotj_NxASW9g9on-kBJ7iW3OA@mail.gmail.com>
+ <YNR37NWkxq0mZyq5@pendragon.ideasonboard.com>
+ <CAMty3ZA=1xreRB+SZOwj6khH6+nLsE_ND5599xfV8J=LzGFYYQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20210622165511.3169559-10-daniel.vetter@ffwll.ch>
+In-Reply-To: <CAMty3ZA=1xreRB+SZOwj6khH6+nLsE_ND5599xfV8J=LzGFYYQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,24 +53,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@intel.com>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Russell King <linux@armlinux.org.uk>,
- DRI Development <dri-devel@lists.freedesktop.org>
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Peng Fan <peng.fan@nxp.com>,
+ Francis Laniel <francis.laniel@amarulasolutions.com>,
+ Matteo Lisi <matteo.lisi@engicam.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ linux-amarula <linux-amarula@amarulasolutions.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Michael Tretter <m.tretter@pengutronix.de>,
+ Robert Foss <robert.foss@linaro.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ Andrzej Hajda <a.hajda@samsung.com>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>,
+ Milco Pratesi <milco.pratesi@engicam.com>,
+ Anthony Brandon <anthony@amarulasolutions.com>, linux-phy@lists.infradead.org,
+ Shawn Guo <shawnguo@kernel.org>, Fancy Fang <chen.fang@nxp.com>,
+ "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
+ <linux-arm-kernel@lists.infradead.org>, NXP Linux Team <linux-imx@nxp.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 22, 2021 at 06:55:05PM +0200, Daniel Vetter wrote:
-> All they do is refcount the fb, which the atomic helpers already do.
->=20
-> This is was necessary with the legacy helpers and I guess just carry
-> over in the conversion. drm_plane_state always has a full reference
-> for its ->fb pointer during its entire lifetime,
-> see __drm_atomic_helper_plane_destroy_state()
->=20
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> Cc: Russell King <linux@armlinux.org.uk>
+On Thu, Jun 24, 2021 at 06:02:36PM +0530, Jagan Teki wrote:
+> Hi Laurent,
+> 
+> On Thu, Jun 24, 2021 at 5:48 PM Laurent Pinchart
+> <laurent.pinchart@ideasonboard.com> wrote:
+> >
+> > Hi Jagan,
+> >
+> > On Thu, Jun 24, 2021 at 05:42:43PM +0530, Jagan Teki wrote:
+> > > On Thu, Jun 24, 2021 at 8:18 AM Fabio Estevam wrote:
+> > > > On Wed, Jun 23, 2021 at 7:23 PM Laurent Pinchart wrote:
+> > > >
+> > > > > Looking at the register set, it seems to match the Exynos 5433,
+> > > > > supported by drivers/gpu/drm/exynos/exynos_drm_dsi.c. Can we leverage
+> > > > > that driver instead of adding a new one for the same IP core ?
+> > > >
+> > > > Yes. there was an attempt from Michael in this direction:
+> > > > https://patchwork.kernel.org/project/dri-devel/cover/20200911135413.3654800-1-m.tretter@pengutronix.de/
+> > >
+> > > Thanks for the reference, I will check it out and see I can send any
+> > > updated versions wrt my i.MX8MM platform.
+> >
+> > Thanks.
+> >
+> > I had a brief look at the exynos driver, and I think it should be turned
+> > into a DRM bridge as part of this rework to be used with the i.MX8MM.
+> >
+> > Is there someone from Samsung who could assist, at least to test the
+> > changes ?
+> 
+> I have hardware to verify it on i.MX8MM but from exynos I don't have
+> any contact from Samsung to suggest or test. Maybe I can add Tomasz
+> Figa while sending the changes?
 
-Acked-by: Maxime Ripard <maxime@cerno.tech>
+Tomasz hasn't been working for Samsung for a loooong time (I've dropped
+his Samsung address from the CC list for this reason).
 
-Maxime
+> I understand that there are 2 key implementations.
+> 
+> 1. Adjust the exynos_drm_dsi.c by dropping component_ops as i.MX8MM
+> flow with LCDIF doesn't have component_ops (make sure it works with
+> exynos platform first)
+
+I think it should be turned into a real drm_bridge, it's currently
+implemented based on drm_encoder.
+
+> 2. Sec DSIM Bridge driver common cross Exynos and i.MX8MM platform
+> drivers or only one Sec DSIM bridge driver to handle both the
+> platforms by differentiating compatible and driver data
+> 
+> Any more suggestions would be appreciated?
+
+-- 
+Regards,
+
+Laurent Pinchart
