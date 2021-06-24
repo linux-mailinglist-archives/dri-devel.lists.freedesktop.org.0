@@ -1,66 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9258F3B2FDC
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Jun 2021 15:14:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 04D243B2FE5
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Jun 2021 15:22:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 39DEE6EB7F;
-	Thu, 24 Jun 2021 13:14:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 41D176EB84;
+	Thu, 24 Jun 2021 13:22:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com
- [IPv6:2a00:1450:4864:20::52e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9CD2F6EB7F;
- Thu, 24 Jun 2021 13:14:14 +0000 (UTC)
-Received: by mail-ed1-x52e.google.com with SMTP id i5so8509356eds.1;
- Thu, 24 Jun 2021 06:14:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=jUpvJfClAkxaposL4wig5DpTTSGxzLyBZMJv9+3xraw=;
- b=FQOdUTnLrPgpw7RqaOdFwVkdK6V0R+CffRxI8pExGZ5EP7FPdfPrCM/lq5Kk9xN/Ax
- OOsEPWED13scD59Iy/xG0WEv2/gahupuaK0kdSkQ52JG0Uo8av+1aQ0EDUGNWPCXMe+b
- BTdFInlQtzg86zhedzR3z1aBlUe4Q580pEOW4PqDIDt+3M3mWy7rW98dWyZcDeqW6wDU
- fPYpykJZxP8M45korUPmkOtavSe/rNHnBa1V/EgE6iE1oL6MZzPzQkRwUBCobWVKzvuv
- Eyqri3V8ouKKIksJqYtzkrIi5cdpvTsfGfk4PrJPsw4ZSWStPvG1U7xLKfrqQeGIpREG
- 3V9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=jUpvJfClAkxaposL4wig5DpTTSGxzLyBZMJv9+3xraw=;
- b=kIW5Hej+77uR4IEngWc72wQRDJZYbKLMtq9Nnr563TaezNI6ckDa+vgIX9n/EV5vJw
- ET+5bu1uqZHZgE9m72A4SC3eHVNqEmWKup285m58wdrLZQX2pf+BB9stbEo2H1cmzTHC
- kMi1X2PxfCFU41TbsteyLEC2YxjfhOSMgJaNC2UL093b3HXwebsrOO8Gq1QWuyX/GRN0
- OyO6iVN2m0XKCeL3/YpmkYPd5+6tRbep1FXkRPJank7p9q6wQLct3mqgVpRQl9hCxTGP
- 1iAwL4k0odVIXIj8B+fEtpwQeI8zsLi85Sqsu07lfH/JsfFWN5DTxxdSFr1SwAk6hDg7
- HHoQ==
-X-Gm-Message-State: AOAM533I8yBeC4Zf07ze7dW3T7u4ZMqgkhX5im2Jw1cGG7d4AarfVvDD
- Kf7zk3QpbOAkpK1bzDQ/vCg=
-X-Google-Smtp-Source: ABdhPJwDiSksAJEUv018050vDI8BTEvoX64fF/WRVHk+OAidWOjSXro8cnrGuTG9AWCDHo/y24qnqg==
-X-Received: by 2002:a05:6402:336:: with SMTP id
- q22mr7118192edw.3.1624540453432; 
- Thu, 24 Jun 2021 06:14:13 -0700 (PDT)
-Received: from ?IPv6:2a02:908:1252:fb60:8a1c:e700:29c4:44b6?
- ([2a02:908:1252:fb60:8a1c:e700:29c4:44b6])
- by smtp.gmail.com with ESMTPSA id o14sm1967910edw.36.2021.06.24.06.14.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 24 Jun 2021 06:14:13 -0700 (PDT)
-Subject: Re: [PATCH] drm/amdgpu:use kvcalloc instead of kvmalloc_array
-To: huqiqiao <huqiqiao@uniontech.com>, airlied@linux.ie, daniel@ffwll.ch
-References: <20210623091242.12861-1-huqiqiao@uniontech.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <e18c2147-cc19-7493-5feb-de28e3102d3f@gmail.com>
-Date: Thu, 24 Jun 2021 15:14:11 +0200
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id C7B7E6EB84
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Jun 2021 13:22:11 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 35C48ED1;
+ Thu, 24 Jun 2021 06:22:11 -0700 (PDT)
+Received: from [192.168.1.179] (unknown [172.31.20.19])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 142C43F718;
+ Thu, 24 Jun 2021 06:22:09 -0700 (PDT)
+Subject: Re: [PATCH v2] drm/panfrost:report the full raw fault information
+ instead
+To: Chunyou Tang <tangchunyou@163.com>
+References: <20210617062054.1864-1-tangchunyou@163.com>
+ <2dcbb36a-b550-4c9d-cff8-73ca4b5abb11@arm.com>
+ <20210619111852.00003e52@163.com>
+ <23f675e9-698d-840d-104f-33aa594dcb96@arm.com>
+ <20210622094000.00004f7e@163.com>
+From: Steven Price <steven.price@arm.com>
+Message-ID: <04bc1306-f8a3-2e3c-b55d-030d1448fad2@arm.com>
+Date: Thu, 24 Jun 2021 14:22:04 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210623091242.12861-1-huqiqiao@uniontech.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+In-Reply-To: <20210622094000.00004f7e@163.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,41 +48,168 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: tomeu.vizoso@collabora.com, airlied@linux.ie, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, alyssa.rosenzweig@collabora.com,
+ ChunyouTang <tangchunyou@icubecorp.cn>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 22/06/2021 02:40, Chunyou Tang wrote:
+> Hi Steve,
+> 	I will send a new patch with suitable subject/commit message.
+> But I send a V3 or a new patch?
 
+Send a V3 - it is a new version of this patch.
 
-Am 23.06.21 um 11:12 schrieb huqiqiao:
-> kvmalloc_array + __GFP_ZERO is the same with kvcalloc.
->
-> Signed-off-by: huqiqiao <huqiqiao@uniontech.com>
-> ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c | 5 ++---
->   1 file changed, 2 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-> index 9acee4a5b2ba..50edc73525b0 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-> @@ -908,9 +908,8 @@ static int amdgpu_vm_alloc_pts(struct amdgpu_device *adev,
->   		unsigned num_entries;
->   
->   		num_entries = amdgpu_vm_num_entries(adev, cursor->level);
-> -		entry->entries = kvmalloc_array(num_entries,
-> -						sizeof(*entry->entries),
-> -						GFP_KERNEL | __GFP_ZERO);
-> +		entry->entries = kvcalloc(num_entries,
-> +						sizeof(*entry->entries), GFP_KERNEL);
+> 	I met a bug about the GPU,I have no idea about how to fix it,
+> If you can give me some suggestion,it is perfect.
+> 
+> You can see such kernel log:
+> 
+> Jun 20 10:20:13 icube kernel: [  774.566760] mvp_gpu 0000:05:00.0: GPU
+> Fault 0x00000088 (SHAREABILITY_FAULT) at 0x000000000310fd00 Jun 20
+> 10:20:13 icube kernel: [  774.566764] mvp_gpu 0000:05:00.0: There were
+> multiple GPU faults - some have not been reported Jun 20 10:20:13 icube
+> kernel: [  774.667542] mvp_gpu 0000:05:00.0: AS_ACTIVE bit stuck Jun 20
+> 10:20:13 icube kernel: [  774.767900] mvp_gpu 0000:05:00.0: AS_ACTIVE
+> bit stuck Jun 20 10:20:13 icube kernel: [  774.868546] mvp_gpu
+> 0000:05:00.0: AS_ACTIVE bit stuck Jun 20 10:20:13 icube kernel:
+> [  774.968910] mvp_gpu 0000:05:00.0: AS_ACTIVE bit stuck Jun 20
+> 10:20:13 icube kernel: [  775.069251] mvp_gpu 0000:05:00.0: AS_ACTIVE
+> bit stuck Jun 20 10:20:22 icube kernel: [  783.693971] mvp_gpu
+> 0000:05:00.0: gpu sched timeout, js=1, config=0x7300, status=0x8,
+> head=0x362c900, tail=0x362c100, sched_job=000000003252fb84
+> 
+> In
+> https://lore.kernel.org/dri-devel/20200510165538.19720-1-peron.clem@gmail.com/
+> there had a same bug like mine,and I found you at the mail list,I don't
+> know how it fixed?
 
-Sounds like a good idea in general, but the indentation on the second 
-line seems to be of.
+The GPU_SHAREABILITY_FAULT error means that a cache line has been
+accessed both as shareable and non-shareable and therefore coherency
+cannot be guaranteed. Although the "multiple GPU faults" means that this
+may not be the underlying cause.
 
-Christian.
+The fact that your dmesg log has PCI style identifiers ("0000:05:00.0")
+suggests this is an unusual platform - I've not previously been aware of
+a Mali device behind PCI. Is this device working with the kbase/DDK
+proprietary driver? It would be worth looking at the kbase kernel code
+for the platform to see if there is anything special done for the platform.
 
->   		if (!entry->entries)
->   			return -ENOMEM;
->   	}
+From the dmesg logs all I can really tell is that the GPU seems unhappy
+about the memory system.
+
+Steve
+
+> I need your help!
+> 
+> thinks very much!
+> 
+> Chunyou
+> 
+> 于 Mon, 21 Jun 2021 11:45:20 +0100
+> Steven Price <steven.price@arm.com> 写道:
+> 
+>> On 19/06/2021 04:18, Chunyou Tang wrote:
+>>> Hi Steve,
+>>> 	1,Now I know how to write the subject
+>>> 	2,the low 8 bits is the exception type in spec.
+>>>
+>>> and you can see prnfrost_exception_name()
+>>>
+>>> switch (exception_code) {
+>>>                 /* Non-Fault Status code */
+>>> case 0x00: return "NOT_STARTED/IDLE/OK";
+>>> case 0x01: return "DONE";
+>>> case 0x02: return "INTERRUPTED";
+>>> case 0x03: return "STOPPED";
+>>> case 0x04: return "TERMINATED";
+>>> case 0x08: return "ACTIVE";
+>>> ........
+>>> ........
+>>> case 0xD8: return "ACCESS_FLAG";
+>>> case 0xD9 ... 0xDF: return "ACCESS_FLAG";
+>>> case 0xE0 ... 0xE7: return "ADDRESS_SIZE_FAULT";
+>>> case 0xE8 ... 0xEF: return "MEMORY_ATTRIBUTES_FAULT";
+>>> }
+>>> return "UNKNOWN";
+>>> }
+>>>
+>>> the exception_code in case is only 8 bits,so if fault_status
+>>> in panfrost_gpu_irq_handler() don't & 0xFF,it can't get correct
+>>> exception reason,it will be always UNKNOWN.
+>>
+>> Yes, I'm happy with the change - I just need a patch that I can apply.
+>> At the moment this patch only changes the first '0x%08x' output rather
+>> than the call to panfrost_exception_name() as well. So we just need a
+>> patch which does:
+>>
+>> - fault_status & 0xFF, panfrost_exception_name(pfdev, fault_status),
+>> + fault_status, panfrost_exception_name(pfdev, fault_status & 0xFF),
+>>
+>> along with a suitable subject/commit message describing the change. If
+>> you can send me that I can apply it.
+>>
+>> Thanks,
+>>
+>> Steve
+>>
+>> PS. Sorry for going round in circles here - I'm trying to help you get
+>> setup so you'll be able to contribute patches easily in future. An
+>> important part of that is ensuring you can send a properly formatted
+>> patch to the list.
+>>
+>> PPS. I'm still not receiving your emails directly. I don't think it's
+>> a problem at my end because I'm receiving other emails, but if you can
+>> somehow fix the problem you're likely to receive a faster response.
+>>
+>>> 于 Fri, 18 Jun 2021 13:43:24 +0100
+>>> Steven Price <steven.price@arm.com> 写道:
+>>>
+>>>> On 17/06/2021 07:20, ChunyouTang wrote:
+>>>>> From: ChunyouTang <tangchunyou@icubecorp.cn>
+>>>>>
+>>>>> of the low 8 bits.
+>>>>
+>>>> Please don't split the subject like this. The first line of the
+>>>> commit should be a (very short) summary of the patch. Then a blank
+>>>> line and then a longer description of what the purpose of the
+>>>> patch is and why it's needed.
+>>>>
+>>>> Also you previously had this as part of a series (the first part
+>>>> adding the "& 0xFF" in the panfrost_exception_name() call). I'm not
+>>>> sure we need two patches for the single line, but as it stands this
+>>>> patch doesn't apply.
+>>>>
+>>>> Also I'm still not receiving any emails from you directly (only via
+>>>> the list), so it's possible I might have missed something you sent.
+>>>>
+>>>> Steve
+>>>>
+>>>>>
+>>>>> Signed-off-by: ChunyouTang <tangchunyou@icubecorp.cn>
+>>>>> ---
+>>>>>  drivers/gpu/drm/panfrost/panfrost_gpu.c | 2 +-
+>>>>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>>>>
+>>>>> diff --git a/drivers/gpu/drm/panfrost/panfrost_gpu.c
+>>>>> b/drivers/gpu/drm/panfrost/panfrost_gpu.c index
+>>>>> 1fffb6a0b24f..d2d287bbf4e7 100644 ---
+>>>>> a/drivers/gpu/drm/panfrost/panfrost_gpu.c +++
+>>>>> b/drivers/gpu/drm/panfrost/panfrost_gpu.c @@ -33,7 +33,7 @@ static
+>>>>> irqreturn_t panfrost_gpu_irq_handler(int irq, void *data) address
+>>>>> |= gpu_read(pfdev, GPU_FAULT_ADDRESS_LO); 
+>>>>>  		dev_warn(pfdev->dev, "GPU Fault 0x%08x (%s) at
+>>>>> 0x%016llx\n",
+>>>>> -			 fault_status & 0xFF,
+>>>>> panfrost_exception_name(pfdev, fault_status & 0xFF),
+>>>>> +			 fault_status,
+>>>>> panfrost_exception_name(pfdev, fault_status & 0xFF), address);
+>>>>>  
+>>>>>  		if (state & GPU_IRQ_MULTIPLE_FAULT)
+>>>>>
+>>>
+>>>
+> 
+> 
 
