@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52DD23B30AC
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Jun 2021 16:00:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D7073B30BE
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Jun 2021 16:01:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 525416EB97;
-	Thu, 24 Jun 2021 14:00:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4CFE66EBA8;
+	Thu, 24 Jun 2021 14:00:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
- [IPv6:2a00:1450:4864:20::42c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC5976EB9E
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Jun 2021 14:00:38 +0000 (UTC)
-Received: by mail-wr1-x42c.google.com with SMTP id e22so6817948wrc.1
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Jun 2021 07:00:38 -0700 (PDT)
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
+ [IPv6:2a00:1450:4864:20::42f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B35296EB9C
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Jun 2021 14:00:39 +0000 (UTC)
+Received: by mail-wr1-x42f.google.com with SMTP id f15so6791986wro.8
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Jun 2021 07:00:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=TaY8I8PQKe+ae2ytXcmHUgJ+unUJZgLDx20FzO6F5G4=;
- b=cYY9u8yaTce0gHBfd2m1c79aucx/1603P6Gt4t95V8Wpm1SPeACTZOm4/Dhb8jeAQp
- VDBNIMAR8bnalaHeprkq0I11DJTH4zNw6JJ/aon+iigFjueSdG7Q4ceJWcqXIqKXanB/
- NufInT3KKKHOeosun0zWNePQUDpF/hz2zMhQg=
+ bh=yA5hS9MK3qvVWE7RqPb6C+y3gsZ51KrUZME4lo6gw+s=;
+ b=fiY24WtuK08MCRsSCnrRShqgaZFXBk9Zh1jXcFF0WJl8nu8D/sYDlpaXNh/pBXOdRm
+ 66bs6SvNqTXxyEaeyw18fG/F4PCTD1b2KhO/SapwNgYLGaeQPMeID0yUj5+E7/SS3Y+N
+ N71mB5hs+zHNIxQkNVU8eajCezhpWUhUElOFA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=TaY8I8PQKe+ae2ytXcmHUgJ+unUJZgLDx20FzO6F5G4=;
- b=bSWmfnMig0DsMHa0t+49ocbrXUhcWLYvvSbAXWdeZenLaQEf3mTP9nQVTHzzL7/s6w
- 9RThfIslxFcUUYB0wv2btWhhxaVBCEnnEpqzFVM0j+jj4OQdPkMxKv7DGrC5PP72FCLR
- Ubu6XwPh67zrVa85RxEWy8xByApRhsN6xkfcHcmTdl3IfA1j5UvkQBuWoEOTDWC9VHpk
- FBY6s6YlXHBWJrZQF37qVva6m1IYoV1M9r2xjfMnqX/86ONlMYBoAMKZohUhHgoWyd9V
- VWuEFnz3w+v2SRGaZ0vt+dpvJ8JqWAKgqWm1MzyMb/eIzazW0yFmLf8Ozskrm1PIGpAU
- MWsA==
-X-Gm-Message-State: AOAM530cFo6z5X54FPAu+PPl21UzMv4ijGi+gc76YVjAOBMTK0iFOl7b
- tVrmHqEcMxo68rlHiRXiB8XYFcMx27/LTA==
-X-Google-Smtp-Source: ABdhPJyAn3gTYqk8o2fLv12VCuGikOqkTLI66UtYn7soLjqNJU17IRH8Sg92dPdiZOxv+vltgQD3AQ==
-X-Received: by 2002:a5d:5910:: with SMTP id v16mr4852853wrd.154.1624543237676; 
- Thu, 24 Jun 2021 07:00:37 -0700 (PDT)
+ bh=yA5hS9MK3qvVWE7RqPb6C+y3gsZ51KrUZME4lo6gw+s=;
+ b=iRZ3PlUVUJSHh+1PAHFHP+hXoIVLi+RX+6VTGNlGASLolCO7p0ioJnAzthu4sZ/R7d
+ +iSNkClwrYaTFLB5bEH3ghjE2LzAz5fl7/yDPFs3UvcnMQFZxzWVIJ6acqJCiKAu3iK5
+ VIPbWO7SG7XpfHhghYdLqiHK2B2vBpvVH487DAdjCSooIMt9YDegNz2JWZMsZgg+0bhb
+ wWpMxuAhST9YIx2RGhElUyookq4EG/eGN31hKXpxKFIAKj2l0yBXQ62RNRchNV7CxO4D
+ WSxWJxOqQ87jAzGRLNM5Lc9kCrYY36pimqGD1/++mq4CtHlA5Gfc3C+9P1gSSGSQ/3gY
+ cWzA==
+X-Gm-Message-State: AOAM531dlf6yx9V6dNT6ziK55XT4o7LADocL7kmfwRNxgcAGEE2US3pM
+ Woyr3kRhU8UVF9bvxjqpZSbFQ5/DBGx0qg==
+X-Google-Smtp-Source: ABdhPJy3ZYn61i+bkE7ie515iLSpyBUQPrbzrIWsnICGOMfg+0hNEIaAlT83QvI+nko2fS/H4wjGbA==
+X-Received: by 2002:a5d:5388:: with SMTP id d8mr4527807wrv.423.1624543238404; 
+ Thu, 24 Jun 2021 07:00:38 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id p5sm3600167wrd.25.2021.06.24.07.00.36
+ by smtp.gmail.com with ESMTPSA id p5sm3600167wrd.25.2021.06.24.07.00.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Jun 2021 07:00:36 -0700 (PDT)
+ Thu, 24 Jun 2021 07:00:38 -0700 (PDT)
 From: Daniel Vetter <daniel.vetter@ffwll.ch>
 To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 06/11] drm/v3d: Move drm_sched_job_init to v3d_job_init
-Date: Thu, 24 Jun 2021 16:00:20 +0200
-Message-Id: <20210624140025.438303-7-daniel.vetter@ffwll.ch>
+Subject: [PATCH 07/11] drm/v3d: Use scheduler dependency handling
+Date: Thu, 24 Jun 2021 16:00:21 +0200
+Message-Id: <20210624140025.438303-8-daniel.vetter@ffwll.ch>
 X-Mailer: git-send-email 2.32.0.rc2
 In-Reply-To: <20210624140025.438303-1-daniel.vetter@ffwll.ch>
 References: <20210624140025.438303-1-daniel.vetter@ffwll.ch>
@@ -64,228 +64,211 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, Emma Anholt <emma@anholt.net>,
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
  Daniel Vetter <daniel.vetter@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Prep work for using the scheduler dependency handling.
+With the prep work out of the way this isn't tricky anymore.
+
+Aside: The chaining of the various jobs is a bit awkward, with the
+possibility of failure in bad places. I think with the
+drm_sched_job_init/arm split and maybe preloading the
+job->dependencies xarray this should be fixable.
 
 Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-Cc: Emma Anholt <emma@anholt.net>
 ---
- drivers/gpu/drm/v3d/v3d_gem.c | 64 +++++++++++------------------------
- 1 file changed, 20 insertions(+), 44 deletions(-)
+ drivers/gpu/drm/v3d/v3d_drv.h   |  5 -----
+ drivers/gpu/drm/v3d/v3d_gem.c   | 25 ++++++++-----------------
+ drivers/gpu/drm/v3d/v3d_sched.c | 29 +----------------------------
+ 3 files changed, 9 insertions(+), 50 deletions(-)
 
+diff --git a/drivers/gpu/drm/v3d/v3d_drv.h b/drivers/gpu/drm/v3d/v3d_drv.h
+index 8a390738d65b..73559eb368a7 100644
+--- a/drivers/gpu/drm/v3d/v3d_drv.h
++++ b/drivers/gpu/drm/v3d/v3d_drv.h
+@@ -192,11 +192,6 @@ struct v3d_job {
+ 	struct drm_gem_object **bo;
+ 	u32 bo_count;
+ 
+-	/* Array of struct dma_fence * to block on before submitting this job.
+-	 */
+-	struct xarray deps;
+-	unsigned long last_dep;
+-
+ 	/* v3d fence to be signaled by IRQ handler when the job is complete. */
+ 	struct dma_fence *irq_fence;
+ 
 diff --git a/drivers/gpu/drm/v3d/v3d_gem.c b/drivers/gpu/drm/v3d/v3d_gem.c
-index ac608eb9b594..40302c77e667 100644
+index 40302c77e667..c54684f8b877 100644
 --- a/drivers/gpu/drm/v3d/v3d_gem.c
 +++ b/drivers/gpu/drm/v3d/v3d_gem.c
-@@ -433,9 +433,10 @@ v3d_wait_bo_ioctl(struct drm_device *dev, void *data,
- static int
- v3d_job_init(struct v3d_dev *v3d, struct drm_file *file_priv,
- 	     struct v3d_job *job, void (*free)(struct kref *ref),
--	     u32 in_sync)
-+	     u32 in_sync, enum v3d_queue queue)
- {
- 	struct dma_fence *in_fence = NULL;
-+	struct v3d_file_priv *v3d_priv = file_priv->driver_priv;
- 	int ret;
- 
- 	job->v3d = v3d;
-@@ -446,6 +447,10 @@ v3d_job_init(struct v3d_dev *v3d, struct drm_file *file_priv,
+@@ -257,8 +257,8 @@ v3d_lock_bo_reservations(struct v3d_job *job,
  		return ret;
  
- 	xa_init_flags(&job->deps, XA_FLAGS_ALLOC);
-+	ret = drm_sched_job_init(&job->base, &v3d_priv->sched_entity[queue],
-+				 v3d_priv);
-+	if (ret)
-+		goto fail;
+ 	for (i = 0; i < job->bo_count; i++) {
+-		ret = drm_gem_fence_array_add_implicit(&job->deps,
+-						       job->bo[i], true);
++		ret = drm_sched_job_await_implicit(&job->base,
++						   job->bo[i], true);
+ 		if (ret) {
+ 			drm_gem_unlock_reservations(job->bo, job->bo_count,
+ 						    acquire_ctx);
+@@ -354,8 +354,6 @@ static void
+ v3d_job_free(struct kref *ref)
+ {
+ 	struct v3d_job *job = container_of(ref, struct v3d_job, refcount);
+-	unsigned long index;
+-	struct dma_fence *fence;
+ 	int i;
  
- 	ret = drm_syncobj_find_fence(file_priv, in_sync, 0, 0, &in_fence);
+ 	for (i = 0; i < job->bo_count; i++) {
+@@ -364,11 +362,6 @@ v3d_job_free(struct kref *ref)
+ 	}
+ 	kvfree(job->bo);
+ 
+-	xa_for_each(&job->deps, index, fence) {
+-		dma_fence_put(fence);
+-	}
+-	xa_destroy(&job->deps);
+-
+ 	dma_fence_put(job->irq_fence);
+ 	dma_fence_put(job->done_fence);
+ 
+@@ -446,7 +439,6 @@ v3d_job_init(struct v3d_dev *v3d, struct drm_file *file_priv,
+ 	if (ret < 0)
+ 		return ret;
+ 
+-	xa_init_flags(&job->deps, XA_FLAGS_ALLOC);
+ 	ret = drm_sched_job_init(&job->base, &v3d_priv->sched_entity[queue],
+ 				 v3d_priv);
+ 	if (ret)
+@@ -456,7 +448,7 @@ v3d_job_init(struct v3d_dev *v3d, struct drm_file *file_priv,
  	if (ret == -EINVAL)
-@@ -464,25 +469,15 @@ v3d_job_init(struct v3d_dev *v3d, struct drm_file *file_priv,
- 	return ret;
- }
- 
--static int
--v3d_push_job(struct v3d_file_priv *v3d_priv,
--	     struct v3d_job *job, enum v3d_queue queue)
-+static void
-+v3d_push_job(struct v3d_job *job)
- {
--	int ret;
--
--	ret = drm_sched_job_init(&job->base, &v3d_priv->sched_entity[queue],
--				 v3d_priv);
--	if (ret)
--		return ret;
--
- 	job->done_fence = dma_fence_get(&job->base.s_fence->finished);
- 
- 	/* put by scheduler job completion */
- 	kref_get(&job->refcount);
- 
- 	drm_sched_entity_push_job(&job->base);
--
--	return 0;
- }
- 
- static void
-@@ -528,7 +523,6 @@ v3d_submit_cl_ioctl(struct drm_device *dev, void *data,
- 		    struct drm_file *file_priv)
- {
- 	struct v3d_dev *v3d = to_v3d_dev(dev);
--	struct v3d_file_priv *v3d_priv = file_priv->driver_priv;
- 	struct drm_v3d_submit_cl *args = data;
- 	struct v3d_bin_job *bin = NULL;
- 	struct v3d_render_job *render;
-@@ -554,7 +548,7 @@ v3d_submit_cl_ioctl(struct drm_device *dev, void *data,
- 	INIT_LIST_HEAD(&render->unref_list);
- 
- 	ret = v3d_job_init(v3d, file_priv, &render->base,
--			   v3d_render_job_free, args->in_sync_rcl);
-+			   v3d_render_job_free, args->in_sync_rcl, V3D_RENDER);
- 	if (ret) {
- 		kfree(render);
- 		return ret;
-@@ -568,7 +562,7 @@ v3d_submit_cl_ioctl(struct drm_device *dev, void *data,
- 		}
- 
- 		ret = v3d_job_init(v3d, file_priv, &bin->base,
--				   v3d_job_free, args->in_sync_bcl);
-+				   v3d_job_free, args->in_sync_bcl, V3D_BIN);
- 		if (ret) {
- 			v3d_job_put(&render->base);
- 			kfree(bin);
-@@ -590,7 +584,7 @@ v3d_submit_cl_ioctl(struct drm_device *dev, void *data,
- 			goto fail;
- 		}
- 
--		ret = v3d_job_init(v3d, file_priv, clean_job, v3d_job_free, 0);
-+		ret = v3d_job_init(v3d, file_priv, clean_job, v3d_job_free, 0, V3D_CACHE_CLEAN);
- 		if (ret) {
- 			kfree(clean_job);
- 			clean_job = NULL;
-@@ -613,9 +607,7 @@ v3d_submit_cl_ioctl(struct drm_device *dev, void *data,
- 
- 	mutex_lock(&v3d->sched_lock);
- 	if (bin) {
--		ret = v3d_push_job(v3d_priv, &bin->base, V3D_BIN);
--		if (ret)
--			goto fail_unreserve;
-+		v3d_push_job(&bin->base);
- 
- 		ret = drm_gem_fence_array_add(&render->base.deps,
- 					      dma_fence_get(bin->base.done_fence));
-@@ -623,9 +615,7 @@ v3d_submit_cl_ioctl(struct drm_device *dev, void *data,
- 			goto fail_unreserve;
- 	}
- 
--	ret = v3d_push_job(v3d_priv, &render->base, V3D_RENDER);
--	if (ret)
--		goto fail_unreserve;
-+	v3d_push_job(&render->base);
- 
- 	if (clean_job) {
- 		struct dma_fence *render_fence =
-@@ -633,9 +623,7 @@ v3d_submit_cl_ioctl(struct drm_device *dev, void *data,
- 		ret = drm_gem_fence_array_add(&clean_job->deps, render_fence);
- 		if (ret)
- 			goto fail_unreserve;
--		ret = v3d_push_job(v3d_priv, clean_job, V3D_CACHE_CLEAN);
--		if (ret)
--			goto fail_unreserve;
-+		v3d_push_job(clean_job);
- 	}
- 
- 	mutex_unlock(&v3d->sched_lock);
-@@ -682,7 +670,6 @@ v3d_submit_tfu_ioctl(struct drm_device *dev, void *data,
- 		     struct drm_file *file_priv)
- {
- 	struct v3d_dev *v3d = to_v3d_dev(dev);
--	struct v3d_file_priv *v3d_priv = file_priv->driver_priv;
- 	struct drm_v3d_submit_tfu *args = data;
- 	struct v3d_tfu_job *job;
- 	struct ww_acquire_ctx acquire_ctx;
-@@ -695,7 +682,7 @@ v3d_submit_tfu_ioctl(struct drm_device *dev, void *data,
- 		return -ENOMEM;
- 
- 	ret = v3d_job_init(v3d, file_priv, &job->base,
--			   v3d_job_free, args->in_sync);
-+			   v3d_job_free, args->in_sync, V3D_TFU);
- 	if (ret) {
- 		kfree(job);
- 		return ret;
-@@ -739,9 +726,7 @@ v3d_submit_tfu_ioctl(struct drm_device *dev, void *data,
  		goto fail;
  
- 	mutex_lock(&v3d->sched_lock);
--	ret = v3d_push_job(v3d_priv, &job->base, V3D_TFU);
--	if (ret)
--		goto fail_unreserve;
-+	v3d_push_job(&job->base);
- 	mutex_unlock(&v3d->sched_lock);
+-	ret = drm_gem_fence_array_add(&job->deps, in_fence);
++	ret = drm_sched_job_await_fence(&job->base, in_fence);
+ 	if (ret)
+ 		goto fail;
  
- 	v3d_attach_fences_and_unlock_reservation(file_priv,
-@@ -753,10 +738,6 @@ v3d_submit_tfu_ioctl(struct drm_device *dev, void *data,
+@@ -464,7 +456,6 @@ v3d_job_init(struct v3d_dev *v3d, struct drm_file *file_priv,
  
  	return 0;
- 
--fail_unreserve:
--	mutex_unlock(&v3d->sched_lock);
--	drm_gem_unlock_reservations(job->base.bo, job->base.bo_count,
--				    &acquire_ctx);
  fail:
- 	v3d_job_put(&job->base);
+-	xa_destroy(&job->deps);
+ 	pm_runtime_put_autosuspend(v3d->drm.dev);
+ 	return ret;
+ }
+@@ -609,8 +600,8 @@ v3d_submit_cl_ioctl(struct drm_device *dev, void *data,
+ 	if (bin) {
+ 		v3d_push_job(&bin->base);
  
-@@ -777,7 +758,6 @@ v3d_submit_csd_ioctl(struct drm_device *dev, void *data,
- 		     struct drm_file *file_priv)
- {
- 	struct v3d_dev *v3d = to_v3d_dev(dev);
--	struct v3d_file_priv *v3d_priv = file_priv->driver_priv;
- 	struct drm_v3d_submit_csd *args = data;
- 	struct v3d_csd_job *job;
- 	struct v3d_job *clean_job;
-@@ -796,7 +776,7 @@ v3d_submit_csd_ioctl(struct drm_device *dev, void *data,
- 		return -ENOMEM;
- 
- 	ret = v3d_job_init(v3d, file_priv, &job->base,
--			   v3d_job_free, args->in_sync);
-+			   v3d_job_free, args->in_sync, V3D_CSD);
- 	if (ret) {
- 		kfree(job);
- 		return ret;
-@@ -809,7 +789,7 @@ v3d_submit_csd_ioctl(struct drm_device *dev, void *data,
- 		return -ENOMEM;
+-		ret = drm_gem_fence_array_add(&render->base.deps,
+-					      dma_fence_get(bin->base.done_fence));
++		ret = drm_sched_job_await_fence(&render->base.base,
++						dma_fence_get(bin->base.done_fence));
+ 		if (ret)
+ 			goto fail_unreserve;
  	}
- 
--	ret = v3d_job_init(v3d, file_priv, clean_job, v3d_job_free, 0);
-+	ret = v3d_job_init(v3d, file_priv, clean_job, v3d_job_free, 0, V3D_CACHE_CLEAN);
- 	if (ret) {
- 		v3d_job_put(&job->base);
- 		kfree(clean_job);
-@@ -828,18 +808,14 @@ v3d_submit_csd_ioctl(struct drm_device *dev, void *data,
- 		goto fail;
- 
+@@ -620,7 +611,7 @@ v3d_submit_cl_ioctl(struct drm_device *dev, void *data,
+ 	if (clean_job) {
+ 		struct dma_fence *render_fence =
+ 			dma_fence_get(render->base.done_fence);
+-		ret = drm_gem_fence_array_add(&clean_job->deps, render_fence);
++		ret = drm_sched_job_await_fence(&clean_job->base, render_fence);
+ 		if (ret)
+ 			goto fail_unreserve;
+ 		v3d_push_job(clean_job);
+@@ -810,8 +801,8 @@ v3d_submit_csd_ioctl(struct drm_device *dev, void *data,
  	mutex_lock(&v3d->sched_lock);
--	ret = v3d_push_job(v3d_priv, &job->base, V3D_CSD);
--	if (ret)
--		goto fail_unreserve;
-+	v3d_push_job(&job->base);
+ 	v3d_push_job(&job->base);
  
- 	ret = drm_gem_fence_array_add(&clean_job->deps,
- 				      dma_fence_get(job->base.done_fence));
+-	ret = drm_gem_fence_array_add(&clean_job->deps,
+-				      dma_fence_get(job->base.done_fence));
++	ret = drm_sched_job_await_fence(&clean_job->base,
++					dma_fence_get(job->base.done_fence));
  	if (ret)
  		goto fail_unreserve;
  
--	ret = v3d_push_job(v3d_priv, clean_job, V3D_CACHE_CLEAN);
--	if (ret)
--		goto fail_unreserve;
-+	v3d_push_job(clean_job);
- 	mutex_unlock(&v3d->sched_lock);
+diff --git a/drivers/gpu/drm/v3d/v3d_sched.c b/drivers/gpu/drm/v3d/v3d_sched.c
+index 8992480c88fa..3af6a09764c7 100644
+--- a/drivers/gpu/drm/v3d/v3d_sched.c
++++ b/drivers/gpu/drm/v3d/v3d_sched.c
+@@ -13,7 +13,7 @@
+  * jobs when bulk background jobs are queued up, we submit a new job
+  * to the HW only when it has completed the last one, instead of
+  * filling up the CT[01]Q FIFOs with jobs.  Similarly, we use
+- * v3d_job_dependency() to manage the dependency between bin and
++ * drm_sched_job_await_fence() to manage the dependency between bin and
+  * render, instead of having the clients submit jobs using the HW's
+  * semaphores to interlock between them.
+  */
+@@ -63,28 +63,6 @@ v3d_job_free(struct drm_sched_job *sched_job)
+ 	v3d_job_put(job);
+ }
  
- 	v3d_attach_fences_and_unlock_reservation(file_priv,
+-/*
+- * Returns the fences that the job depends on, one by one.
+- *
+- * If placed in the scheduler's .dependency method, the corresponding
+- * .run_job won't be called until all of them have been signaled.
+- */
+-static struct dma_fence *
+-v3d_job_dependency(struct drm_sched_job *sched_job,
+-		   struct drm_sched_entity *s_entity)
+-{
+-	struct v3d_job *job = to_v3d_job(sched_job);
+-
+-	/* XXX: Wait on a fence for switching the GMP if necessary,
+-	 * and then do so.
+-	 */
+-
+-	if (!xa_empty(&job->deps))
+-		return xa_erase(&job->deps, job->last_dep++);
+-
+-	return NULL;
+-}
+-
+ static struct dma_fence *v3d_bin_job_run(struct drm_sched_job *sched_job)
+ {
+ 	struct v3d_bin_job *job = to_bin_job(sched_job);
+@@ -357,35 +335,30 @@ v3d_csd_job_timedout(struct drm_sched_job *sched_job)
+ }
+ 
+ static const struct drm_sched_backend_ops v3d_bin_sched_ops = {
+-	.dependency = v3d_job_dependency,
+ 	.run_job = v3d_bin_job_run,
+ 	.timedout_job = v3d_bin_job_timedout,
+ 	.free_job = v3d_job_free,
+ };
+ 
+ static const struct drm_sched_backend_ops v3d_render_sched_ops = {
+-	.dependency = v3d_job_dependency,
+ 	.run_job = v3d_render_job_run,
+ 	.timedout_job = v3d_render_job_timedout,
+ 	.free_job = v3d_job_free,
+ };
+ 
+ static const struct drm_sched_backend_ops v3d_tfu_sched_ops = {
+-	.dependency = v3d_job_dependency,
+ 	.run_job = v3d_tfu_job_run,
+ 	.timedout_job = v3d_generic_job_timedout,
+ 	.free_job = v3d_job_free,
+ };
+ 
+ static const struct drm_sched_backend_ops v3d_csd_sched_ops = {
+-	.dependency = v3d_job_dependency,
+ 	.run_job = v3d_csd_job_run,
+ 	.timedout_job = v3d_csd_job_timedout,
+ 	.free_job = v3d_job_free
+ };
+ 
+ static const struct drm_sched_backend_ops v3d_cache_clean_sched_ops = {
+-	.dependency = v3d_job_dependency,
+ 	.run_job = v3d_cache_clean_job_run,
+ 	.timedout_job = v3d_generic_job_timedout,
+ 	.free_job = v3d_job_free
 -- 
 2.32.0.rc2
 
