@@ -1,58 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 355D13B3219
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Jun 2021 16:58:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 998FF3B3213
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Jun 2021 16:58:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 439266EC16;
-	Thu, 24 Jun 2021 14:58:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C6A5F6EC2C;
+	Thu, 24 Jun 2021 14:58:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
- [IPv6:2a00:1450:4864:20::131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 593F16EC23
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
+ [IPv6:2a00:1450:4864:20::136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B80F86EC28
  for <dri-devel@lists.freedesktop.org>; Thu, 24 Jun 2021 14:57:49 +0000 (UTC)
-Received: by mail-lf1-x131.google.com with SMTP id a15so2998372lfr.6
+Received: by mail-lf1-x136.google.com with SMTP id u13so10832663lfk.2
  for <dri-devel@lists.freedesktop.org>; Thu, 24 Jun 2021 07:57:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=tDsHX0hxp/QVNOmO09ufPm+XNBvCicnDs8mQ30Y15QQ=;
- b=qhpAF/vpepGprjlgjI8xJn8+G7gGXphsnZQOd99413gIcRZFHqhuUtOd1L9w0SPbDz
- TI1gpe00wVuFH4q09c/LlAouOZa1EzndjHKo7he+G28wmrtOlj+Q3AKMztdiLKDHDl8N
- yu35lG3D0W8jRAMrbByn7j7S+uDWBPbotQZPx3LQGOn3cjclIQYcb5NpOf0RJ2hoogAN
- AT+nMVWIzs9IocRdfT6dM4ZZi+xUGS0DTQM88lVUob5pXhHw9YD8OpG/ipEE0+7317ZM
- Yodyu6RnpTqudNpQgPr5aFeCJv4VP9+48chN3XDc+BlGHHDSirK5t6/asBNywNatKWeA
- ouJQ==
+ bh=96wZKbVAZc0QZ8GAGuoZzdhN1om+iu8T/MIvGHo2HXM=;
+ b=HMBIcdCwiXMI824k6NBLU5oyVzXqtHS6oMwtm74emcbOkZsjNFVX+oNkpcemXQsYTy
+ mHTBn+9XVDwJFHySUAJLjgwaOQrn+53h0O+BqC5sudvn/thi/k6OVx3Tpzzy3n/1szZv
+ bTjmWSTS7D46QhPPAHqiZZj+zpUC18KAgiTcTjDwH950nA8OojAgC7/kVz6FHSA2VErg
+ lkn6YvaNvQrfNIPnHfUx0S0fWx1irgb3ytHsVlmnFIY+J/f6Oh01njccuDK08K6YvbL1
+ BmjirTc+oLIGHAjIHS7Zp6i/+BhWldFe3E4L7VcpAZAlhZi5b8CWRWJkZy54C/3cPpGv
+ 8ihQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=tDsHX0hxp/QVNOmO09ufPm+XNBvCicnDs8mQ30Y15QQ=;
- b=bvcis9TLru9cw3gL3eNnz7RQAAK4teDfYN/KLr8KmjVF2Ab5zJ7eqyq/+QLcSF2uAK
- By8wLj5nhafbEV8K4DeDlHB+AO0F3ckBDx2p5Qd8bAYq1CDabqiiqmnuIqi8jAURliH4
- daym5ceN+EBVpwM5n94sKJphDlOOLa7HIQ4GVIvnJZpGCSRTkI8KmJYqqDYA5z1F9cY+
- AIcjXzLO3P1kUFkeEFb5EuOsw8IGKJ7PcvsCMwJyoEpn6+6YzYN65WvgFsZPA8ioZdXR
- 7+xCE/aQfjE2+8HwJTXV9QHCspON/x2P44M9u/a3jP2eYAhc+W8iEDYVko33uju1vdq8
- AvOw==
-X-Gm-Message-State: AOAM531BVd/gC0qbzbgBsC10wy0ufAcD+ZjFYlWO+e+ZjrWhU0GPjcB+
- qDxFZm3GVrrxOCZxVeZqim/Kkw==
-X-Google-Smtp-Source: ABdhPJz4bQxAuKE1ltMkjvXZYNHkRWfiKi3UUQBb+zgz1zbpf9ko3z0Mnx1v2N3Ci+gqYG90yTAfQA==
-X-Received: by 2002:ac2:42cd:: with SMTP id n13mr4118450lfl.330.1624546667500; 
- Thu, 24 Jun 2021 07:57:47 -0700 (PDT)
+ bh=96wZKbVAZc0QZ8GAGuoZzdhN1om+iu8T/MIvGHo2HXM=;
+ b=NGinvhXfXy6jk/GtynnE41izDNdCePlev0BQ7if05PIW5A8CskgjRFaN7wnKQSBoz/
+ zipcCJbXxcmHvHwHli0wMJiMWP4npMZH1Kb3BbaM4VdqXce7hDub87zR17PXiFPRvS8V
+ W0XTSSHOsPORcu+Lk3NYJ5C3CE/TW/GtTEFKvXhcQwLypoprQP9NF5d25DFBPVcXlZSb
+ fRSzW9ZMSAsw1GjHO7yEVb+nFMonYUKXciaHTFZerSq1YonjawG7JWQxdp/Cip4Kc8VT
+ QvVI5O39x5y4T+KpajHwBcFC2fB3qQMxH92A+Z8P6oinaWXHdsWbNxjbwRA6PueNNEoq
+ POQg==
+X-Gm-Message-State: AOAM530u3XRG06km33vDOLLQYJMiDrquA7RlG/J9qstela5E2abDiARJ
+ TWDmQlkIgza+E3ATGLDyQp4T0g==
+X-Google-Smtp-Source: ABdhPJwsYYxTNAkrO0fW9LP2Q1a+Kr3Jh3hmX3SxnKeb0IQ+bz/LTiihnGXd+y4COYzuBnfRzs6XaQ==
+X-Received: by 2002:a05:6512:3ca2:: with SMTP id
+ h34mr1974898lfv.26.1624546668126; 
+ Thu, 24 Jun 2021 07:57:48 -0700 (PDT)
 Received: from eriador.lan ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id e17sm306329ljn.125.2021.06.24.07.57.46
+ by smtp.gmail.com with ESMTPSA id e17sm306329ljn.125.2021.06.24.07.57.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Jun 2021 07:57:46 -0700 (PDT)
+ Thu, 24 Jun 2021 07:57:47 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Bjorn Andersson <bjorn.andersson@linaro.org>,
  Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Abhinav Kumar <abhinavk@codeaurora.org>
-Subject: [PATCH 12/17] drm/msm/dpu: add list of supported formats to the DPU
- caps
-Date: Thu, 24 Jun 2021 17:57:28 +0300
-Message-Id: <20210624145733.2561992-13-dmitry.baryshkov@linaro.org>
+Subject: [PATCH 13/17] drm/msm/dpu: simplify DPU_SSPP features checks
+Date: Thu, 24 Jun 2021 17:57:29 +0300
+Message-Id: <20210624145733.2561992-14-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210624145733.2561992-1-dmitry.baryshkov@linaro.org>
 References: <20210624145733.2561992-1-dmitry.baryshkov@linaro.org>
@@ -76,88 +76,57 @@ Cc: Jonathan Marek <jonathan@marek.ca>, Stephen Boyd <sboyd@kernel.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As we are going to add virtual planes, add the list of supported formats
-to the hw catalog entry. It will be used to setup universal planes, with
-later selecting a pipe depending on whether the YUV format is used for
-the framebuffer.
+Add DPU_SSPP_CSC_ANY denoting any CSC block. As we are at it, rewrite
+DPU_SSPP_SCALER (any scaler) to use BIT(x) instead of hand-coded
+bitshifts.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 10 ++++++++++
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h |  4 ++++
- 2 files changed, 14 insertions(+)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h | 16 +++++++++++-----
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c   |  3 +--
+ 2 files changed, 12 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-index d01c4c919504..b8e0fece1f0b 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-@@ -195,6 +195,8 @@ static const struct dpu_caps sdm845_dpu_caps = {
- 	.pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
- 	.max_hdeci_exp = MAX_HORZ_DECIMATION,
- 	.max_vdeci_exp = MAX_VERT_DECIMATION,
-+	.format_list = plane_formats_yuv,
-+	.num_formats = ARRAY_SIZE(plane_formats_yuv),
- };
- 
- static const struct dpu_caps sc7180_dpu_caps = {
-@@ -207,6 +209,8 @@ static const struct dpu_caps sc7180_dpu_caps = {
- 	.has_idle_pc = true,
- 	.max_linewidth = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
- 	.pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
-+	.format_list = plane_formats_yuv,
-+	.num_formats = ARRAY_SIZE(plane_formats_yuv),
- };
- 
- static const struct dpu_caps sm8150_dpu_caps = {
-@@ -223,6 +227,8 @@ static const struct dpu_caps sm8150_dpu_caps = {
- 	.pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
- 	.max_hdeci_exp = MAX_HORZ_DECIMATION,
- 	.max_vdeci_exp = MAX_VERT_DECIMATION,
-+	.format_list = plane_formats_yuv,
-+	.num_formats = ARRAY_SIZE(plane_formats_yuv),
- };
- 
- static const struct dpu_caps sm8250_dpu_caps = {
-@@ -237,6 +243,8 @@ static const struct dpu_caps sm8250_dpu_caps = {
- 	.has_3d_merge = true,
- 	.max_linewidth = 4096,
- 	.pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
-+	.format_list = plane_formats_yuv,
-+	.num_formats = ARRAY_SIZE(plane_formats_yuv),
- };
- 
- static const struct dpu_caps sc7280_dpu_caps = {
-@@ -249,6 +257,8 @@ static const struct dpu_caps sc7280_dpu_caps = {
- 	.has_idle_pc = true,
- 	.max_linewidth = 2400,
- 	.pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
-+	.format_list = plane_formats_yuv,
-+	.num_formats = ARRAY_SIZE(plane_formats_yuv),
- };
- 
- static const struct dpu_mdp_cfg sdm845_mdp[] = {
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-index d2a945a27cfa..f3c5aa3f4b3f 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-@@ -324,6 +324,8 @@ struct dpu_qos_lut_tbl {
-  * @pixel_ram_size     size of latency hiding and de-tiling buffer in bytes
-  * @max_hdeci_exp      max horizontal decimation supported (max is 2^value)
-  * @max_vdeci_exp      max vertical decimation supported (max is 2^value)
-+ * @format_list: Pointer to list of supported formats
-+ * @num_formats: Number of supported formats
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
+index e8939d7387cb..fcf131f77df2 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
+@@ -25,11 +25,17 @@ struct dpu_hw_pipe;
+ /**
+  * Define all scaler feature bits in catalog
   */
- struct dpu_caps {
- 	u32 max_mixer_width;
-@@ -340,6 +342,8 @@ struct dpu_caps {
- 	u32 pixel_ram_size;
- 	u32 max_hdeci_exp;
- 	u32 max_vdeci_exp;
-+	const u32 *format_list;
-+	u32 num_formats;
- };
+-#define DPU_SSPP_SCALER ((1UL << DPU_SSPP_SCALER_RGB) | \
+-	(1UL << DPU_SSPP_SCALER_QSEED2) | \
+-	 (1UL << DPU_SSPP_SCALER_QSEED3) | \
+-	 (1UL << DPU_SSPP_SCALER_QSEED3LITE) | \
+-	  (1UL << DPU_SSPP_SCALER_QSEED4))
++#define DPU_SSPP_SCALER (BIT(DPU_SSPP_SCALER_RGB) | \
++			 BIT(DPU_SSPP_SCALER_QSEED2) | \
++			 BIT(DPU_SSPP_SCALER_QSEED3) | \
++			 BIT(DPU_SSPP_SCALER_QSEED3LITE) | \
++			 BIT(DPU_SSPP_SCALER_QSEED4))
++
++/*
++ * Define all CSC feature bits in catalog
++ */
++#define DPU_SSPP_CSC_ANY (BIT(DPU_SSPP_CSC) | \
++			  BIT(DPU_SSPP_CSC_10BIT))
  
  /**
+  * Component indices
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+index c4a76dd6dbd5..4658410eedfb 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+@@ -970,8 +970,7 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
+ 
+ 	if (DPU_FORMAT_IS_YUV(fmt) &&
+ 		(!(pdpu->pipe_hw->cap->features & DPU_SSPP_SCALER) ||
+-		 !(pdpu->pipe_hw->cap->features & (BIT(DPU_SSPP_CSC)
+-		 | BIT(DPU_SSPP_CSC_10BIT))))) {
++		 !(pdpu->pipe_hw->cap->features & DPU_SSPP_CSC_ANY))) {
+ 		DPU_DEBUG_PLANE(pdpu,
+ 				"plane doesn't have scaler/csc for yuv\n");
+ 		return -EINVAL;
 -- 
 2.30.2
 
