@@ -2,40 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04D243B2FE5
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Jun 2021 15:22:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21E743B2FFD
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Jun 2021 15:32:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 41D176EB84;
-	Thu, 24 Jun 2021 13:22:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B2D36EB86;
+	Thu, 24 Jun 2021 13:32:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id C7B7E6EB84
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Jun 2021 13:22:11 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 35C48ED1;
- Thu, 24 Jun 2021 06:22:11 -0700 (PDT)
-Received: from [192.168.1.179] (unknown [172.31.20.19])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 142C43F718;
- Thu, 24 Jun 2021 06:22:09 -0700 (PDT)
-Subject: Re: [PATCH v2] drm/panfrost:report the full raw fault information
- instead
-To: Chunyou Tang <tangchunyou@163.com>
-References: <20210617062054.1864-1-tangchunyou@163.com>
- <2dcbb36a-b550-4c9d-cff8-73ca4b5abb11@arm.com>
- <20210619111852.00003e52@163.com>
- <23f675e9-698d-840d-104f-33aa594dcb96@arm.com>
- <20210622094000.00004f7e@163.com>
-From: Steven Price <steven.price@arm.com>
-Message-ID: <04bc1306-f8a3-2e3c-b55d-030d1448fad2@arm.com>
-Date: Thu, 24 Jun 2021 14:22:04 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com
+ [IPv6:2a00:1450:4864:20::32a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A976B6EB88
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Jun 2021 13:32:30 +0000 (UTC)
+Received: by mail-wm1-x32a.google.com with SMTP id
+ j11-20020a05600c1c0bb02901e23d4c0977so5636167wms.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Jun 2021 06:32:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=UFhiEJt504RTMqp8+hAmLUOvZwafHba6yxHF1LCXlIs=;
+ b=NApO4BqpqZKbsAPF2q7911aiX0XFllNygyqDwm4IpfIkqxF/qWVA0VnvAuV0FxRdCF
+ 6K5D9Z3plpwX8SDdOqUsJjeJZz/Y5lFX8XUrxROI+89xMLhUqqlzSCrLAPF/HRLjBWE1
+ T/Ci+swNVAFxxNMtP58pmAxZaM3O3xDFYRElo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=UFhiEJt504RTMqp8+hAmLUOvZwafHba6yxHF1LCXlIs=;
+ b=CgQx1QKbW2l/Rg5GMY3Tum/PPf6vZ5T0xgWjVNL22rDeVXpuxMVuYhIXkhqJs7/jH0
+ UtYLYP8bmooBiH0IGTaMAtbAlmmlUOQS2ZPrRY5tfPNt7ch8SxRqOQb1c99UuEth1gWf
+ Otr2PfiyzFd4HUYL8VeGVFbnOwFOenO9r1MmCWrVcjvJwhoCO20HMhKJyFdufjarlSB7
+ Mgn3Ee2H2VnE/EXR/j0W3wy7VDcWV2GleeY8wCZx1f+cRhZ0YH2gFYnWc3giSrK5n6Da
+ 5ToO5z7nq1zy+jB6fojGZwPRtFnWX6pJWXQ5q5nKe/4mTrIVgHYE8tGIBlHnhydcWKk4
+ HLSA==
+X-Gm-Message-State: AOAM533STBIHQPLb6tX5ORPRLJMgVXAZy6Xn48fBI64ApO/2NHasCu8A
+ xuv6uiYAIYj6tlNPBSkdmWA7ww==
+X-Google-Smtp-Source: ABdhPJymDBd9yUGzh0GWCdZP9XBIxJSPvo36dzctTaDRmiC9UV0XJC81gCId6b7YQmM7kwKhDQUcYA==
+X-Received: by 2002:a7b:cb8d:: with SMTP id m13mr4353165wmi.8.1624541549303;
+ Thu, 24 Jun 2021 06:32:29 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id y4sm3225289wrw.71.2021.06.24.06.32.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 24 Jun 2021 06:32:28 -0700 (PDT)
+Date: Thu, 24 Jun 2021 15:32:26 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Subject: Re: [PATCH 14/15] drm/gem: Tiny kernel clarification for
+ drm_gem_fence_array_add
+Message-ID: <YNSJaizc5BpmTM8p@phenom.ffwll.local>
+References: <20210622165511.3169559-1-daniel.vetter@ffwll.ch>
+ <20210622165511.3169559-15-daniel.vetter@ffwll.ch>
+ <4ed8f1d3-eb9c-74d6-d93f-ee28971af7f6@amd.com>
+ <YNR9hSMVmzYmotF0@phenom.ffwll.local>
+ <4fba7964-3306-4e2a-f87e-906ebedbe7fe@amd.com>
 MIME-Version: 1.0
-In-Reply-To: <20210622094000.00004f7e@163.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Language: en-GB
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <4fba7964-3306-4e2a-f87e-906ebedbe7fe@amd.com>
+X-Operating-System: Linux phenom 5.10.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,168 +73,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tomeu.vizoso@collabora.com, airlied@linux.ie, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, alyssa.rosenzweig@collabora.com,
- ChunyouTang <tangchunyou@icubecorp.cn>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 22/06/2021 02:40, Chunyou Tang wrote:
-> Hi Steve,
-> 	I will send a new patch with suitable subject/commit message.
-> But I send a V3 or a new patch?
+On Thu, Jun 24, 2021 at 02:48:54PM +0200, Christian König wrote:
+> 
+> 
+> Am 24.06.21 um 14:41 schrieb Daniel Vetter:
+> > On Wed, Jun 23, 2021 at 10:42:50AM +0200, Christian König wrote:
+> > > Am 22.06.21 um 18:55 schrieb Daniel Vetter:
+> > > > Spotted while trying to convert panfrost to these.
+> > > > 
+> > > > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> > > > Cc: "Christian König" <christian.koenig@amd.com>
+> > > > Cc: Lucas Stach <l.stach@pengutronix.de>
+> > > > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> > > > Cc: Maxime Ripard <mripard@kernel.org>
+> > > > Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> > > > Cc: David Airlie <airlied@linux.ie>
+> > > > Cc: Daniel Vetter <daniel@ffwll.ch>
+> > > > ---
+> > > >    drivers/gpu/drm/drm_gem.c | 3 +++
+> > > >    1 file changed, 3 insertions(+)
+> > > > 
+> > > > diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+> > > > index ba2e64ed8b47..68deb1de8235 100644
+> > > > --- a/drivers/gpu/drm/drm_gem.c
+> > > > +++ b/drivers/gpu/drm/drm_gem.c
+> > > > @@ -1302,6 +1302,9 @@ EXPORT_SYMBOL(drm_gem_unlock_reservations);
+> > > >     * @fence_array: array of dma_fence * for the job to block on.
+> > > >     * @fence: the dma_fence to add to the list of dependencies.
+> > > >     *
+> > > > + * This functions consumes the reference for @fence both on success and error
+> > > > + * cases.
+> > > > + *
+> > > Oh, the later is a bit ugly I think. But good to know.
+> > > 
+> > > Reviewed-by: Christian König <christian.koenig@amd.com>
+> > Merged to drm-misc-next, thanks for taking a look. Can you perhaps take a
+> > look at the drm/armada patch too, then I think I have reviews/acks for all
+> > of them?
+> 
+> What are you talking about? I only see drm/armada patches for the irq stuff
+> Thomas is working on.
 
-Send a V3 - it is a new version of this patch.
-
-> 	I met a bug about the GPU,I have no idea about how to fix it,
-> If you can give me some suggestion,it is perfect.
-> 
-> You can see such kernel log:
-> 
-> Jun 20 10:20:13 icube kernel: [  774.566760] mvp_gpu 0000:05:00.0: GPU
-> Fault 0x00000088 (SHAREABILITY_FAULT) at 0x000000000310fd00 Jun 20
-> 10:20:13 icube kernel: [  774.566764] mvp_gpu 0000:05:00.0: There were
-> multiple GPU faults - some have not been reported Jun 20 10:20:13 icube
-> kernel: [  774.667542] mvp_gpu 0000:05:00.0: AS_ACTIVE bit stuck Jun 20
-> 10:20:13 icube kernel: [  774.767900] mvp_gpu 0000:05:00.0: AS_ACTIVE
-> bit stuck Jun 20 10:20:13 icube kernel: [  774.868546] mvp_gpu
-> 0000:05:00.0: AS_ACTIVE bit stuck Jun 20 10:20:13 icube kernel:
-> [  774.968910] mvp_gpu 0000:05:00.0: AS_ACTIVE bit stuck Jun 20
-> 10:20:13 icube kernel: [  775.069251] mvp_gpu 0000:05:00.0: AS_ACTIVE
-> bit stuck Jun 20 10:20:22 icube kernel: [  783.693971] mvp_gpu
-> 0000:05:00.0: gpu sched timeout, js=1, config=0x7300, status=0x8,
-> head=0x362c900, tail=0x362c100, sched_job=000000003252fb84
-> 
-> In
-> https://lore.kernel.org/dri-devel/20200510165538.19720-1-peron.clem@gmail.com/
-> there had a same bug like mine,and I found you at the mail list,I don't
-> know how it fixed?
-
-The GPU_SHAREABILITY_FAULT error means that a cache line has been
-accessed both as shareable and non-shareable and therefore coherency
-cannot be guaranteed. Although the "multiple GPU faults" means that this
-may not be the underlying cause.
-
-The fact that your dmesg log has PCI style identifiers ("0000:05:00.0")
-suggests this is an unusual platform - I've not previously been aware of
-a Mali device behind PCI. Is this device working with the kbase/DDK
-proprietary driver? It would be worth looking at the kbase kernel code
-for the platform to see if there is anything special done for the platform.
-
-From the dmesg logs all I can really tell is that the GPU seems unhappy
-about the memory system.
-
-Steve
-
-> I need your help!
-> 
-> thinks very much!
-> 
-> Chunyou
-> 
-> äºŽ Mon, 21 Jun 2021 11:45:20 +0100
-> Steven Price <steven.price@arm.com> å†™é“:
-> 
->> On 19/06/2021 04:18, Chunyou Tang wrote:
->>> Hi Steve,
->>> 	1,Now I know how to write the subject
->>> 	2,the low 8 bits is the exception type in spec.
->>>
->>> and you can see prnfrost_exception_name()
->>>
->>> switch (exception_code) {
->>>                 /* Non-Fault Status code */
->>> case 0x00: return "NOT_STARTED/IDLE/OK";
->>> case 0x01: return "DONE";
->>> case 0x02: return "INTERRUPTED";
->>> case 0x03: return "STOPPED";
->>> case 0x04: return "TERMINATED";
->>> case 0x08: return "ACTIVE";
->>> ........
->>> ........
->>> case 0xD8: return "ACCESS_FLAG";
->>> case 0xD9 ... 0xDF: return "ACCESS_FLAG";
->>> case 0xE0 ... 0xE7: return "ADDRESS_SIZE_FAULT";
->>> case 0xE8 ... 0xEF: return "MEMORY_ATTRIBUTES_FAULT";
->>> }
->>> return "UNKNOWN";
->>> }
->>>
->>> the exception_code in case is only 8 bits,so if fault_status
->>> in panfrost_gpu_irq_handler() don't & 0xFF,it can't get correct
->>> exception reason,it will be always UNKNOWN.
->>
->> Yes, I'm happy with the change - I just need a patch that I can apply.
->> At the moment this patch only changes the first '0x%08x' output rather
->> than the call to panfrost_exception_name() as well. So we just need a
->> patch which does:
->>
->> - fault_status & 0xFF, panfrost_exception_name(pfdev, fault_status),
->> + fault_status, panfrost_exception_name(pfdev, fault_status & 0xFF),
->>
->> along with a suitable subject/commit message describing the change. If
->> you can send me that I can apply it.
->>
->> Thanks,
->>
->> Steve
->>
->> PS. Sorry for going round in circles here - I'm trying to help you get
->> setup so you'll be able to contribute patches easily in future. An
->> important part of that is ensuring you can send a properly formatted
->> patch to the list.
->>
->> PPS. I'm still not receiving your emails directly. I don't think it's
->> a problem at my end because I'm receiving other emails, but if you can
->> somehow fix the problem you're likely to receive a faster response.
->>
->>> äºŽ Fri, 18 Jun 2021 13:43:24 +0100
->>> Steven Price <steven.price@arm.com> å†™é“:
->>>
->>>> On 17/06/2021 07:20, ChunyouTang wrote:
->>>>> From: ChunyouTang <tangchunyou@icubecorp.cn>
->>>>>
->>>>> of the low 8 bits.
->>>>
->>>> Please don't split the subject like this. The first line of the
->>>> commit should be a (very short) summary of the patch. Then a blank
->>>> line and then a longer description of what the purpose of the
->>>> patch is and why it's needed.
->>>>
->>>> Also you previously had this as part of a series (the first part
->>>> adding the "& 0xFF" in the panfrost_exception_name() call). I'm not
->>>> sure we need two patches for the single line, but as it stands this
->>>> patch doesn't apply.
->>>>
->>>> Also I'm still not receiving any emails from you directly (only via
->>>> the list), so it's possible I might have missed something you sent.
->>>>
->>>> Steve
->>>>
->>>>>
->>>>> Signed-off-by: ChunyouTang <tangchunyou@icubecorp.cn>
->>>>> ---
->>>>>  drivers/gpu/drm/panfrost/panfrost_gpu.c | 2 +-
->>>>>  1 file changed, 1 insertion(+), 1 deletion(-)
->>>>>
->>>>> diff --git a/drivers/gpu/drm/panfrost/panfrost_gpu.c
->>>>> b/drivers/gpu/drm/panfrost/panfrost_gpu.c index
->>>>> 1fffb6a0b24f..d2d287bbf4e7 100644 ---
->>>>> a/drivers/gpu/drm/panfrost/panfrost_gpu.c +++
->>>>> b/drivers/gpu/drm/panfrost/panfrost_gpu.c @@ -33,7 +33,7 @@ static
->>>>> irqreturn_t panfrost_gpu_irq_handler(int irq, void *data) address
->>>>> |= gpu_read(pfdev, GPU_FAULT_ADDRESS_LO); 
->>>>>  		dev_warn(pfdev->dev, "GPU Fault 0x%08x (%s) at
->>>>> 0x%016llx\n",
->>>>> -			 fault_status & 0xFF,
->>>>> panfrost_exception_name(pfdev, fault_status & 0xFF),
->>>>> +			 fault_status,
->>>>> panfrost_exception_name(pfdev, fault_status & 0xFF), address);
->>>>>  
->>>>>  		if (state & GPU_IRQ_MULTIPLE_FAULT)
->>>>>
->>>
->>>
-> 
-> 
-
+There was one in this series, but Maxime was quicker. I'm going to apply
+all the remaining ones now. After that I'll send out a patch set to add
+some dependency tracking to drm_sched_job so that there's not so much
+copypasta going on there. I stumbled over that when reviewing how we
+handle dependencies.
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
