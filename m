@@ -1,48 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE2E73B30BD
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Jun 2021 16:01:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 52DD23B30AC
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Jun 2021 16:00:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 434466EBA5;
-	Thu, 24 Jun 2021 14:00:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 525416EB97;
+	Thu, 24 Jun 2021 14:00:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E4C56EB15
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Jun 2021 14:00:34 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0BC1561404
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Jun 2021 14:00:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1624543234;
- bh=nnWxQzbRUx8Qk7mmLnWigLYEA/UQu5S806YSqsNSR6Q=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=Flgkarhy7Qk4jQS5swLgztydWO40jnFsofA/R+IZs4wPC7FhQqT+EbNfpVqoyL1pd
- R/rCwHvnUnEHDsAtodc7LzPgy5ikCadSfIoRnlZOcRzdlqtMfNI8JLqJjgLX6A3EyR
- trIEWpZi8DTffFXkeCvA2cz4tCYeTuWfhwcS6ThsDEVLc5n8PD76AcVB6wslyU53tF
- qrELditF57/G2rS10cnk88OjwSlN2pQAWuws0NHspfdcFah/IznLeoH0Olu7FQvVY7
- 50LGaM/HcNBhNso4MgkHl0ecrJrp7bcbD/O3lNRtU6xqt8qIVSEE8S8QwEWvYzXdNC
- JXg35VYld8sOQ==
-Received: by mail-ed1-f46.google.com with SMTP id m14so8685638edp.9
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Jun 2021 07:00:33 -0700 (PDT)
-X-Gm-Message-State: AOAM5310XlKPxCeo6FebS93tFbYAmgyZe2raM+UuO9wSU1exCgkzoWxk
- M8fE4DT27iK474aOxrxyQcvWp+R3tsoyQL98aA==
-X-Google-Smtp-Source: ABdhPJzzInWyD5X461ly7VfBRdz00t6HneScJdDHoXnnXJiaIo3nfJuXh1S7ImzvVuTpXeuUp4Zz0xB9MsnTE/pIyVI=
-X-Received: by 2002:aa7:cb19:: with SMTP id s25mr7559674edt.194.1624543232599; 
- Thu, 24 Jun 2021 07:00:32 -0700 (PDT)
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
+ [IPv6:2a00:1450:4864:20::42c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC5976EB9E
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Jun 2021 14:00:38 +0000 (UTC)
+Received: by mail-wr1-x42c.google.com with SMTP id e22so6817948wrc.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Jun 2021 07:00:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=TaY8I8PQKe+ae2ytXcmHUgJ+unUJZgLDx20FzO6F5G4=;
+ b=cYY9u8yaTce0gHBfd2m1c79aucx/1603P6Gt4t95V8Wpm1SPeACTZOm4/Dhb8jeAQp
+ VDBNIMAR8bnalaHeprkq0I11DJTH4zNw6JJ/aon+iigFjueSdG7Q4ceJWcqXIqKXanB/
+ NufInT3KKKHOeosun0zWNePQUDpF/hz2zMhQg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=TaY8I8PQKe+ae2ytXcmHUgJ+unUJZgLDx20FzO6F5G4=;
+ b=bSWmfnMig0DsMHa0t+49ocbrXUhcWLYvvSbAXWdeZenLaQEf3mTP9nQVTHzzL7/s6w
+ 9RThfIslxFcUUYB0wv2btWhhxaVBCEnnEpqzFVM0j+jj4OQdPkMxKv7DGrC5PP72FCLR
+ Ubu6XwPh67zrVa85RxEWy8xByApRhsN6xkfcHcmTdl3IfA1j5UvkQBuWoEOTDWC9VHpk
+ FBY6s6YlXHBWJrZQF37qVva6m1IYoV1M9r2xjfMnqX/86ONlMYBoAMKZohUhHgoWyd9V
+ VWuEFnz3w+v2SRGaZ0vt+dpvJ8JqWAKgqWm1MzyMb/eIzazW0yFmLf8Ozskrm1PIGpAU
+ MWsA==
+X-Gm-Message-State: AOAM530cFo6z5X54FPAu+PPl21UzMv4ijGi+gc76YVjAOBMTK0iFOl7b
+ tVrmHqEcMxo68rlHiRXiB8XYFcMx27/LTA==
+X-Google-Smtp-Source: ABdhPJyAn3gTYqk8o2fLv12VCuGikOqkTLI66UtYn7soLjqNJU17IRH8Sg92dPdiZOxv+vltgQD3AQ==
+X-Received: by 2002:a5d:5910:: with SMTP id v16mr4852853wrd.154.1624543237676; 
+ Thu, 24 Jun 2021 07:00:37 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id p5sm3600167wrd.25.2021.06.24.07.00.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 24 Jun 2021 07:00:36 -0700 (PDT)
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+To: DRI Development <dri-devel@lists.freedesktop.org>
+Subject: [PATCH 06/11] drm/v3d: Move drm_sched_job_init to v3d_job_init
+Date: Thu, 24 Jun 2021 16:00:20 +0200
+Message-Id: <20210624140025.438303-7-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.32.0.rc2
+In-Reply-To: <20210624140025.438303-1-daniel.vetter@ffwll.ch>
+References: <20210624140025.438303-1-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
-References: <20210623230722.3545986-1-robh@kernel.org>
- <20210623230722.3545986-3-robh@kernel.org>
- <20210624043240.n6m3cdftz75lhm3t@vireshk-i7>
-In-Reply-To: <20210624043240.n6m3cdftz75lhm3t@vireshk-i7>
-From: Rob Herring <robh@kernel.org>
-Date: Thu, 24 Jun 2021 08:00:20 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqJZf-i_utyar46aa0AD4fJBi1PeUHqm8cyk28GMSEtbDw@mail.gmail.com>
-Message-ID: <CAL_JsqJZf-i_utyar46aa0AD4fJBi1PeUHqm8cyk28GMSEtbDw@mail.gmail.com>
-Subject: Re: [PATCH 2/2] dt-bindings: opp: Convert to DT schema
-To: Viresh Kumar <viresh.kumar@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,146 +64,228 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nishanth Menon <nm@ti.com>, devicetree@vger.kernel.org,
- "open list:THERMAL" <linux-pm@vger.kernel.org>,
- Yangtao Li <tiny.windzz@gmail.com>, Viresh Kumar <vireshk@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Stephen Boyd <sboyd@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Georgi Djakov <djakov@kernel.org>,
- Leonard Crestez <leonard.crestez@nxp.com>, Shawn Guo <shawnguo@kernel.org>,
- linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, Emma Anholt <emma@anholt.net>,
+ Daniel Vetter <daniel.vetter@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 23, 2021 at 10:32 PM Viresh Kumar <viresh.kumar@linaro.org> wrote:
->
-> Thanks for taking it up :)
->
-> On 23-06-21, 17:07, Rob Herring wrote:
-> > diff --git a/Documentation/devicetree/bindings/opp/opp-v2-base.yaml b/Documentation/devicetree/bindings/opp/opp-v2-base.yaml
-> > +$id: http://devicetree.org/schemas/opp/opp-v2-base.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Generic OPP (Operating Performance Points) Common Binding
-> > +
-> > +maintainers:
-> > +  - Viresh Kumar <viresh.kumar@linaro.org>
-> > +
-> > +description: |
-> > +  Devices work at voltage-current-frequency combinations and some implementations
-> > +  have the liberty of choosing these. These combinations are called Operating
-> > +  Performance Points aka OPPs. This document defines bindings for these OPPs
-> > +  applicable across wide range of devices. For illustration purpose, this document
-> > +  uses CPU as a device.
-> > +
-> > +  This describes the OPPs belonging to a device.
-> > +
-> > +select: false
-> > +
-> > +properties:
-> > +  $nodename:
-> > +    pattern: '^opp-table(-[a-z0-9]+)?$'
-> > +
-> > +  opp-shared:
-> > +    description:
-> > +      Indicates that device nodes using this OPP Table Node's phandle switch
-> > +      their DVFS state together, i.e. they share clock/voltage/current lines.
-> > +      Missing property means devices have independent clock/voltage/current
-> > +      lines, but they share OPP tables.
-> > +    type: boolean
-> > +
-> > +patternProperties:
-> > +  '^opp-?[0-9]+$':
-> > +    type: object
-> > +    description:
-> > +      One or more OPP nodes describing voltage-current-frequency combinations.
-> > +      Their name isn't significant but their phandle can be used to reference an
-> > +      OPP. These are mandatory except for the case where the OPP table is
-> > +      present only to indicate dependency between devices using the opp-shared
-> > +      property.
-> > +
-> > +    properties:
-> > +      opp-hz:
-> > +        description:
-> > +          Frequency in Hz, expressed as a 64-bit big-endian integer. This is a
-> > +          required property for all device nodes, unless another "required"
-> > +          property to uniquely identify the OPP nodes exists. Devices like power
-> > +          domains must have another (implementation dependent) property.
-> > +
-> > +      opp-peak-kBps:
-> > +        description:
-> > +          Peak bandwidth in kilobytes per second, expressed as an array of
-> > +          32-bit big-endian integers. Each element of the array represents the
-> > +          peak bandwidth value of each interconnect path. The number of elements
-> > +          should match the number of interconnect paths.
-> > +        minItems: 1
-> > +        maxItems: 32  # Should be enough
->
-> Can we move this down, closer to opp-avg-kBps ?
+Prep work for using the scheduler dependency handling.
 
-Sure.
+Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+Cc: Emma Anholt <emma@anholt.net>
+---
+ drivers/gpu/drm/v3d/v3d_gem.c | 64 +++++++++++------------------------
+ 1 file changed, 20 insertions(+), 44 deletions(-)
 
-> > +
-> > +      opp-microvolt:
-> > +        description: |
-> > +          Voltage for the OPP
-> > +
-> > +          A single regulator's voltage is specified with an array of size one or three.
-> > +          Single entry is for target voltage and three entries are for <target min max>
-> > +          voltages.
-> > +
-> > +          Entries for multiple regulators shall be provided in the same field separated
-> > +          by angular brackets <>. The OPP binding doesn't provide any provisions to
-> > +          relate the values to their power supplies or the order in which the supplies
-> > +          need to be configured and that is left for the implementation specific
-> > +          binding.
-> > +
-> > +          Entries for all regulators shall be of the same size, i.e. either all use a
-> > +          single value or triplets.
-> > +        minItems: 1
-> > +        maxItems: 8
->
-> For consistency with rest of the doc, maybe add
->
-> # Should be enough regulators
->
-> > +        items:
-> > +          minItems: 1
-> > +          maxItems: 3
-> > +
-> > +      opp-microamp:
-> > +        description: |
-> > +          The maximum current drawn by the device in microamperes considering
-> > +          system specific parameters (such as transients, process, aging,
-> > +          maximum operating temperature range etc.) as necessary. This may be
-> > +          used to set the most efficient regulator operating mode.
-> > +
-> > +          Should only be set if opp-microvolt(-name)? is set for the OPP.
->
-> What is the significance of '?' here ?
+diff --git a/drivers/gpu/drm/v3d/v3d_gem.c b/drivers/gpu/drm/v3d/v3d_gem.c
+index ac608eb9b594..40302c77e667 100644
+--- a/drivers/gpu/drm/v3d/v3d_gem.c
++++ b/drivers/gpu/drm/v3d/v3d_gem.c
+@@ -433,9 +433,10 @@ v3d_wait_bo_ioctl(struct drm_device *dev, void *data,
+ static int
+ v3d_job_init(struct v3d_dev *v3d, struct drm_file *file_priv,
+ 	     struct v3d_job *job, void (*free)(struct kref *ref),
+-	     u32 in_sync)
++	     u32 in_sync, enum v3d_queue queue)
+ {
+ 	struct dma_fence *in_fence = NULL;
++	struct v3d_file_priv *v3d_priv = file_priv->driver_priv;
+ 	int ret;
+ 
+ 	job->v3d = v3d;
+@@ -446,6 +447,10 @@ v3d_job_init(struct v3d_dev *v3d, struct drm_file *file_priv,
+ 		return ret;
+ 
+ 	xa_init_flags(&job->deps, XA_FLAGS_ALLOC);
++	ret = drm_sched_job_init(&job->base, &v3d_priv->sched_entity[queue],
++				 v3d_priv);
++	if (ret)
++		goto fail;
+ 
+ 	ret = drm_syncobj_find_fence(file_priv, in_sync, 0, 0, &in_fence);
+ 	if (ret == -EINVAL)
+@@ -464,25 +469,15 @@ v3d_job_init(struct v3d_dev *v3d, struct drm_file *file_priv,
+ 	return ret;
+ }
+ 
+-static int
+-v3d_push_job(struct v3d_file_priv *v3d_priv,
+-	     struct v3d_job *job, enum v3d_queue queue)
++static void
++v3d_push_job(struct v3d_job *job)
+ {
+-	int ret;
+-
+-	ret = drm_sched_job_init(&job->base, &v3d_priv->sched_entity[queue],
+-				 v3d_priv);
+-	if (ret)
+-		return ret;
+-
+ 	job->done_fence = dma_fence_get(&job->base.s_fence->finished);
+ 
+ 	/* put by scheduler job completion */
+ 	kref_get(&job->refcount);
+ 
+ 	drm_sched_entity_push_job(&job->base);
+-
+-	return 0;
+ }
+ 
+ static void
+@@ -528,7 +523,6 @@ v3d_submit_cl_ioctl(struct drm_device *dev, void *data,
+ 		    struct drm_file *file_priv)
+ {
+ 	struct v3d_dev *v3d = to_v3d_dev(dev);
+-	struct v3d_file_priv *v3d_priv = file_priv->driver_priv;
+ 	struct drm_v3d_submit_cl *args = data;
+ 	struct v3d_bin_job *bin = NULL;
+ 	struct v3d_render_job *render;
+@@ -554,7 +548,7 @@ v3d_submit_cl_ioctl(struct drm_device *dev, void *data,
+ 	INIT_LIST_HEAD(&render->unref_list);
+ 
+ 	ret = v3d_job_init(v3d, file_priv, &render->base,
+-			   v3d_render_job_free, args->in_sync_rcl);
++			   v3d_render_job_free, args->in_sync_rcl, V3D_RENDER);
+ 	if (ret) {
+ 		kfree(render);
+ 		return ret;
+@@ -568,7 +562,7 @@ v3d_submit_cl_ioctl(struct drm_device *dev, void *data,
+ 		}
+ 
+ 		ret = v3d_job_init(v3d, file_priv, &bin->base,
+-				   v3d_job_free, args->in_sync_bcl);
++				   v3d_job_free, args->in_sync_bcl, V3D_BIN);
+ 		if (ret) {
+ 			v3d_job_put(&render->base);
+ 			kfree(bin);
+@@ -590,7 +584,7 @@ v3d_submit_cl_ioctl(struct drm_device *dev, void *data,
+ 			goto fail;
+ 		}
+ 
+-		ret = v3d_job_init(v3d, file_priv, clean_job, v3d_job_free, 0);
++		ret = v3d_job_init(v3d, file_priv, clean_job, v3d_job_free, 0, V3D_CACHE_CLEAN);
+ 		if (ret) {
+ 			kfree(clean_job);
+ 			clean_job = NULL;
+@@ -613,9 +607,7 @@ v3d_submit_cl_ioctl(struct drm_device *dev, void *data,
+ 
+ 	mutex_lock(&v3d->sched_lock);
+ 	if (bin) {
+-		ret = v3d_push_job(v3d_priv, &bin->base, V3D_BIN);
+-		if (ret)
+-			goto fail_unreserve;
++		v3d_push_job(&bin->base);
+ 
+ 		ret = drm_gem_fence_array_add(&render->base.deps,
+ 					      dma_fence_get(bin->base.done_fence));
+@@ -623,9 +615,7 @@ v3d_submit_cl_ioctl(struct drm_device *dev, void *data,
+ 			goto fail_unreserve;
+ 	}
+ 
+-	ret = v3d_push_job(v3d_priv, &render->base, V3D_RENDER);
+-	if (ret)
+-		goto fail_unreserve;
++	v3d_push_job(&render->base);
+ 
+ 	if (clean_job) {
+ 		struct dma_fence *render_fence =
+@@ -633,9 +623,7 @@ v3d_submit_cl_ioctl(struct drm_device *dev, void *data,
+ 		ret = drm_gem_fence_array_add(&clean_job->deps, render_fence);
+ 		if (ret)
+ 			goto fail_unreserve;
+-		ret = v3d_push_job(v3d_priv, clean_job, V3D_CACHE_CLEAN);
+-		if (ret)
+-			goto fail_unreserve;
++		v3d_push_job(clean_job);
+ 	}
+ 
+ 	mutex_unlock(&v3d->sched_lock);
+@@ -682,7 +670,6 @@ v3d_submit_tfu_ioctl(struct drm_device *dev, void *data,
+ 		     struct drm_file *file_priv)
+ {
+ 	struct v3d_dev *v3d = to_v3d_dev(dev);
+-	struct v3d_file_priv *v3d_priv = file_priv->driver_priv;
+ 	struct drm_v3d_submit_tfu *args = data;
+ 	struct v3d_tfu_job *job;
+ 	struct ww_acquire_ctx acquire_ctx;
+@@ -695,7 +682,7 @@ v3d_submit_tfu_ioctl(struct drm_device *dev, void *data,
+ 		return -ENOMEM;
+ 
+ 	ret = v3d_job_init(v3d, file_priv, &job->base,
+-			   v3d_job_free, args->in_sync);
++			   v3d_job_free, args->in_sync, V3D_TFU);
+ 	if (ret) {
+ 		kfree(job);
+ 		return ret;
+@@ -739,9 +726,7 @@ v3d_submit_tfu_ioctl(struct drm_device *dev, void *data,
+ 		goto fail;
+ 
+ 	mutex_lock(&v3d->sched_lock);
+-	ret = v3d_push_job(v3d_priv, &job->base, V3D_TFU);
+-	if (ret)
+-		goto fail_unreserve;
++	v3d_push_job(&job->base);
+ 	mutex_unlock(&v3d->sched_lock);
+ 
+ 	v3d_attach_fences_and_unlock_reservation(file_priv,
+@@ -753,10 +738,6 @@ v3d_submit_tfu_ioctl(struct drm_device *dev, void *data,
+ 
+ 	return 0;
+ 
+-fail_unreserve:
+-	mutex_unlock(&v3d->sched_lock);
+-	drm_gem_unlock_reservations(job->base.bo, job->base.bo_count,
+-				    &acquire_ctx);
+ fail:
+ 	v3d_job_put(&job->base);
+ 
+@@ -777,7 +758,6 @@ v3d_submit_csd_ioctl(struct drm_device *dev, void *data,
+ 		     struct drm_file *file_priv)
+ {
+ 	struct v3d_dev *v3d = to_v3d_dev(dev);
+-	struct v3d_file_priv *v3d_priv = file_priv->driver_priv;
+ 	struct drm_v3d_submit_csd *args = data;
+ 	struct v3d_csd_job *job;
+ 	struct v3d_job *clean_job;
+@@ -796,7 +776,7 @@ v3d_submit_csd_ioctl(struct drm_device *dev, void *data,
+ 		return -ENOMEM;
+ 
+ 	ret = v3d_job_init(v3d, file_priv, &job->base,
+-			   v3d_job_free, args->in_sync);
++			   v3d_job_free, args->in_sync, V3D_CSD);
+ 	if (ret) {
+ 		kfree(job);
+ 		return ret;
+@@ -809,7 +789,7 @@ v3d_submit_csd_ioctl(struct drm_device *dev, void *data,
+ 		return -ENOMEM;
+ 	}
+ 
+-	ret = v3d_job_init(v3d, file_priv, clean_job, v3d_job_free, 0);
++	ret = v3d_job_init(v3d, file_priv, clean_job, v3d_job_free, 0, V3D_CACHE_CLEAN);
+ 	if (ret) {
+ 		v3d_job_put(&job->base);
+ 		kfree(clean_job);
+@@ -828,18 +808,14 @@ v3d_submit_csd_ioctl(struct drm_device *dev, void *data,
+ 		goto fail;
+ 
+ 	mutex_lock(&v3d->sched_lock);
+-	ret = v3d_push_job(v3d_priv, &job->base, V3D_CSD);
+-	if (ret)
+-		goto fail_unreserve;
++	v3d_push_job(&job->base);
+ 
+ 	ret = drm_gem_fence_array_add(&clean_job->deps,
+ 				      dma_fence_get(job->base.done_fence));
+ 	if (ret)
+ 		goto fail_unreserve;
+ 
+-	ret = v3d_push_job(v3d_priv, clean_job, V3D_CACHE_CLEAN);
+-	if (ret)
+-		goto fail_unreserve;
++	v3d_push_job(clean_job);
+ 	mutex_unlock(&v3d->sched_lock);
+ 
+ 	v3d_attach_fences_and_unlock_reservation(file_priv,
+-- 
+2.32.0.rc2
 
-regex. '?' means optional.
-
-> > +          Entries for multiple regulators shall be provided in the same field
-> > +          separated by angular brackets <>. If current values aren't required
-> > +          for a regulator, then it shall be filled with 0. If current values
-> > +          aren't required for any of the regulators, then this field is not
-> > +          required. The OPP binding doesn't provide any provisions to relate the
-> > +          values to their power supplies or the order in which the supplies need
-> > +          to be configured and that is left for the implementation specific
-> > +          binding.
-> > +        minItems: 1
-> > +        maxItems: 8   # Should be enough regulators
-> > +        items:
-> > +          minItems: 1
-> > +          maxItems: 3
-
-Actually, I need to drop these 3 lines as opp-microamp doesn't have a
-range like opp-microvolt.
-
->
-> Acked-by: Viresh Kumar <viresh.kumar@linaro.org>
->
-> --
-> viresh
