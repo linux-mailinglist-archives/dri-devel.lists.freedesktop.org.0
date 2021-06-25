@@ -2,25 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DBD83B42EB
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Jun 2021 14:11:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C04B3B432D
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Jun 2021 14:29:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2FFE56ED8F;
-	Fri, 25 Jun 2021 12:11:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 361DA6ED91;
+	Fri, 25 Jun 2021 12:29:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 01C586ED8F
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Jun 2021 12:11:04 +0000 (UTC)
-From: Paul Cercueil <paul@crapouillou.net>
-To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- Rob Herring <robh+dt@kernel.org>
-Subject: [PATCH 2/2] drm/panel: Add Innolux EJ030NA 3.0" 320x480 panel
-Date: Fri, 25 Jun 2021 13:10:45 +0100
-Message-Id: <20210625121045.81711-2-paul@crapouillou.net>
-In-Reply-To: <20210625121045.81711-1-paul@crapouillou.net>
-References: <20210625121045.81711-1-paul@crapouillou.net>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4BA4F6E138;
+ Fri, 25 Jun 2021 12:29:24 +0000 (UTC)
+IronPort-SDR: uA9JRwMBxxcd6t/O0cgBQWZf5w4tYlegKp687j2/9KZ9L3DMjyMJxI8YfPjzhJsCeibYqRszKg
+ 2q6TlhDqePIw==
+X-IronPort-AV: E=McAfee;i="6200,9189,10025"; a="204651942"
+X-IronPort-AV: E=Sophos;i="5.83,298,1616482800"; d="scan'208";a="204651942"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Jun 2021 05:29:23 -0700
+IronPort-SDR: Zzr4R56rSB12nsbF7Z/QVWmTlz86jKzrFTr3RQhFlfP83U3HS8XlR71etHFfDa1qG8lH/NZE1j
+ nkj9NOga0nfA==
+X-IronPort-AV: E=Sophos;i="5.83,298,1616482800"; d="scan'208";a="488165493"
+Received: from adalyx-mobl1.ger.corp.intel.com (HELO mwauld-desk1.intel.com)
+ ([10.252.15.48])
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Jun 2021 05:29:21 -0700
+From: Matthew Auld <matthew.auld@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH v2 1/2] drm/i915/gem: only allow WC for lmem
+Date: Fri, 25 Jun 2021 13:27:50 +0100
+Message-Id: <20210625122751.590289-1-matthew.auld@intel.com>
+X-Mailer: git-send-email 2.26.3
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -34,359 +47,119 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Paul Cercueil <paul@crapouillou.net>,
- list@opendingux.net, Christophe Branchereau <cbranchereau@gmail.com>
+Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Christophe Branchereau <cbranchereau@gmail.com>
+This is already the case for our kernel internal mappings, and since we
+now only support a single mode this should always be WC if the object
+can be placed in lmem.
 
-Add support for the Innolux/Chimei EJ030NA 3.0"
-320x480 TFT panel.
+v2: rebase and also update set_domain
 
-This panel can be found in the LDKs, RS97 V2.1 and RG300 (non IPS)
-handheld gaming consoles.
-
-While being 320x480, it is actually a horizontal 4:3
-panel with non-square pixels in delta arrangement.
-
-Signed-off-by: Christophe Branchereau <cbranchereau@gmail.com>
-Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
 ---
- drivers/gpu/drm/panel/Kconfig                 |   9 +
- drivers/gpu/drm/panel/Makefile                |   1 +
- drivers/gpu/drm/panel/panel-innolux-ej030na.c | 289 ++++++++++++++++++
- 3 files changed, 299 insertions(+)
- create mode 100644 drivers/gpu/drm/panel/panel-innolux-ej030na.c
+ drivers/gpu/drm/i915/gem/i915_gem_domain.c |  6 ++++++
+ drivers/gpu/drm/i915/gem/i915_gem_mman.c   |  9 +++++++++
+ drivers/gpu/drm/i915/gem/i915_gem_object.c | 21 +++++++++++++++++++++
+ drivers/gpu/drm/i915/gem/i915_gem_object.h |  4 ++++
+ 4 files changed, 40 insertions(+)
 
-diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
-index 09acd18b3592..bfc6c23b2509 100644
---- a/drivers/gpu/drm/panel/Kconfig
-+++ b/drivers/gpu/drm/panel/Kconfig
-@@ -134,6 +134,15 @@ config DRM_PANEL_ILITEK_ILI9881C
- 	  Say Y if you want to enable support for panels based on the
- 	  Ilitek ILI9881c controller.
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_domain.c b/drivers/gpu/drm/i915/gem/i915_gem_domain.c
+index 073822100da7..d0c91697bb22 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_domain.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_domain.c
+@@ -571,6 +571,12 @@ i915_gem_set_domain_ioctl(struct drm_device *dev, void *data,
+ 	if (READ_ONCE(obj->write_domain) == read_domains)
+ 		goto out_unpin;
  
-+config DRM_PANEL_INNOLUX_EJ030NA
-+        tristate "Innolux EJ030NA 320x480 LCD panel"
-+        depends on OF && SPI
-+        select REGMAP_SPI
-+        help
-+          Say Y here to enable support for the Innolux/Chimei EJ030NA
-+          320x480 3.0" panel as found in the RS97 V2.1, RG300(non-ips)
-+          and LDK handheld gaming consoles.
++	if (i915_gem_object_placements_contain_type(obj, INTEL_MEMORY_LOCAL) &&
++	    read_domains != I915_GEM_DOMAIN_WC) {
++		err = -EINVAL;
++		goto out_unpin;
++	}
 +
- config DRM_PANEL_INNOLUX_P079ZCA
- 	tristate "Innolux P079ZCA panel"
- 	depends on OF
-diff --git a/drivers/gpu/drm/panel/Makefile b/drivers/gpu/drm/panel/Makefile
-index a350e0990d17..1b865e8ea7c9 100644
---- a/drivers/gpu/drm/panel/Makefile
-+++ b/drivers/gpu/drm/panel/Makefile
-@@ -12,6 +12,7 @@ obj-$(CONFIG_DRM_PANEL_FEIXIN_K101_IM2BA02) += panel-feixin-k101-im2ba02.o
- obj-$(CONFIG_DRM_PANEL_FEIYANG_FY07024DI26A30D) += panel-feiyang-fy07024di26a30d.o
- obj-$(CONFIG_DRM_PANEL_ILITEK_IL9322) += panel-ilitek-ili9322.o
- obj-$(CONFIG_DRM_PANEL_ILITEK_ILI9881C) += panel-ilitek-ili9881c.o
-+obj-$(CONFIG_DRM_PANEL_INNOLUX_EJ030NA) += panel-innolux-ej030na.o
- obj-$(CONFIG_DRM_PANEL_INNOLUX_P079ZCA) += panel-innolux-p079zca.o
- obj-$(CONFIG_DRM_PANEL_JDI_LT070ME05000) += panel-jdi-lt070me05000.o
- obj-$(CONFIG_DRM_PANEL_KHADAS_TS050) += panel-khadas-ts050.o
-diff --git a/drivers/gpu/drm/panel/panel-innolux-ej030na.c b/drivers/gpu/drm/panel/panel-innolux-ej030na.c
-new file mode 100644
-index 000000000000..4160b99ef544
---- /dev/null
-+++ b/drivers/gpu/drm/panel/panel-innolux-ej030na.c
-@@ -0,0 +1,289 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Innolux/Chimei EJ030NA TFT LCD panel driver
+ 	if (read_domains & I915_GEM_DOMAIN_WC)
+ 		err = i915_gem_object_set_to_wc_domain(obj, write_domain);
+ 	else if (read_domains & I915_GEM_DOMAIN_GTT)
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
+index a90f796e85c0..f3586b36dd53 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_mman.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
+@@ -688,6 +688,15 @@ __assign_mmap_offset(struct drm_i915_gem_object *obj,
+ 	    !i915_gem_object_has_iomem(obj))
+ 		return -ENODEV;
+ 
++	/*
++	 * Note that even if the object can also be placed in smem then we still
++	 * map as WC here, since we can only support a single mode. On DG1 this
++	 * sucks since we can't turn off snooping for this case.
++	 */
++	if (mmap_type != I915_MMAP_TYPE_WC &&
++	    i915_gem_object_placements_contain_type(obj, INTEL_MEMORY_LOCAL))
++		return -ENODEV;
++
+ 	mmo = mmap_offset_attach(obj, mmap_type, file);
+ 	if (IS_ERR(mmo))
+ 		return PTR_ERR(mmo);
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.c b/drivers/gpu/drm/i915/gem/i915_gem_object.c
+index 07e8ff9a8aae..326956c18f76 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_object.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_object.c
+@@ -513,6 +513,27 @@ bool i915_gem_object_has_iomem(const struct drm_i915_gem_object *obj)
+ 	return obj->mem_flags & I915_BO_FLAG_IOMEM;
+ }
+ 
++/**
++ * i915_gem_object_placements_contain_type - Check whether the object can be
++ * placed at certain memory type
++ * @obj: Pointer to the object
++ * @type: The memory type to check
 + *
-+ * Copyright (C) 2020, Paul Cercueil <paul@crapouillou.net>
-+ * Copyright (C) 2020, Christophe Branchereau <cbranchereau@gmail.com>
++ * Return: True if the object can be placed in @type. False otherwise.
 + */
-+
-+#include <linux/delay.h>
-+#include <linux/device.h>
-+#include <linux/gpio/consumer.h>
-+#include <linux/media-bus-format.h>
-+#include <linux/module.h>
-+#include <linux/of_device.h>
-+#include <linux/regmap.h>
-+#include <linux/regulator/consumer.h>
-+#include <linux/spi/spi.h>
-+
-+#include <drm/drm_modes.h>
-+#include <drm/drm_panel.h>
-+
-+struct ej030na_info {
-+	const struct drm_display_mode *display_modes;
-+	unsigned int num_modes;
-+	u16 width_mm, height_mm;
-+	u32 bus_format, bus_flags;
-+};
-+
-+struct ej030na {
-+	struct drm_panel panel;
-+	struct spi_device *spi;
-+	struct regmap *map;
-+
-+	const struct ej030na_info *panel_info;
-+
-+	struct regulator *supply;
-+	struct gpio_desc *reset_gpio;
-+};
-+
-+static inline struct ej030na *to_ej030na(struct drm_panel *panel)
++bool i915_gem_object_placements_contain_type(struct drm_i915_gem_object *obj,
++					     enum intel_memory_type type)
 +{
-+	return container_of(panel, struct ej030na, panel);
-+}
-+
-+static const struct reg_sequence ej030na_init_sequence[] = {
-+	{ 0x05, 0x1e },
-+	{ 0x05, 0x5c },
-+	{ 0x02, 0x14 },
-+	{ 0x03, 0x40 },
-+	{ 0x04, 0x07 },
-+	{ 0x06, 0x12 },
-+	{ 0x07, 0xd2 },
-+	{ 0x0c, 0x06 },
-+	{ 0x0d, 0x40 },
-+	{ 0x0e, 0x40 },
-+	{ 0x0f, 0x40 },
-+	{ 0x10, 0x40 },
-+	{ 0x11, 0x40 },
-+	{ 0x2f, 0x40 },
-+	{ 0x5a, 0x02 },
-+
-+	{ 0x30, 0x07 },
-+	{ 0x31, 0x57 },
-+	{ 0x32, 0x53 },
-+	{ 0x33, 0x77 },
-+	{ 0x34, 0xb8 },
-+	{ 0x35, 0xbd },
-+	{ 0x36, 0xb8 },
-+	{ 0x37, 0xe7 },
-+	{ 0x38, 0x04 },
-+	{ 0x39, 0xff },
-+
-+	{ 0x40, 0x0b },
-+	{ 0x41, 0xb8 },
-+	{ 0x42, 0xab },
-+	{ 0x43, 0xb9 },
-+	{ 0x44, 0x6a },
-+	{ 0x45, 0x56 },
-+	{ 0x46, 0x61 },
-+	{ 0x47, 0x08 },
-+	{ 0x48, 0x0f },
-+	{ 0x49, 0x0f },
-+
-+	{ 0x2b, 0x01 },
-+};
-+
-+static int ej030na_prepare(struct drm_panel *panel)
-+{
-+	struct ej030na *priv = to_ej030na(panel);
-+	struct device *dev = &priv->spi->dev;
-+	int err;
-+
-+	err = regulator_enable(priv->supply);
-+	if (err) {
-+		dev_err(dev, "Failed to enable power supply: %d\n", err);
-+		return err;
-+	}
-+
-+	/* Reset the chip */
-+	gpiod_set_value_cansleep(priv->reset_gpio, 1);
-+	usleep_range(50, 150);
-+	gpiod_set_value_cansleep(priv->reset_gpio, 0);
-+	usleep_range(50, 150);
-+
-+	err = regmap_multi_reg_write(priv->map, ej030na_init_sequence,
-+				     ARRAY_SIZE(ej030na_init_sequence));
-+	if (err) {
-+		dev_err(dev, "Failed to init registers: %d\n", err);
-+		goto err_disable_regulator;
-+	}
-+
-+	msleep(120);
-+
-+	return 0;
-+
-+err_disable_regulator:
-+	regulator_disable(priv->supply);
-+	return err;
-+}
-+
-+static int ej030na_unprepare(struct drm_panel *panel)
-+{
-+	struct ej030na *priv = to_ej030na(panel);
-+
-+	gpiod_set_value_cansleep(priv->reset_gpio, 1);
-+	regulator_disable(priv->supply);
-+
-+	return 0;
-+}
-+
-+static int ej030na_get_modes(struct drm_panel *panel,
-+				struct drm_connector *connector)
-+{
-+	struct ej030na *priv = to_ej030na(panel);
-+	const struct ej030na_info *panel_info = priv->panel_info;
-+	struct drm_display_mode *mode;
 +	unsigned int i;
 +
-+	for (i = 0; i < panel_info->num_modes; i++) {
-+		mode = drm_mode_duplicate(connector->dev,
-+					  &panel_info->display_modes[i]);
-+		if (!mode)
-+			return -ENOMEM;
-+
-+		drm_mode_set_name(mode);
-+
-+		mode->type = DRM_MODE_TYPE_DRIVER;
-+		if (panel_info->num_modes == 1)
-+			mode->type |= DRM_MODE_TYPE_PREFERRED;
-+
-+		drm_mode_probed_add(connector, mode);
++	for (i = 0; i < obj->mm.n_placements; i++) {
++		if (obj->mm.placements[i]->type == type)
++			return true;
 +	}
 +
-+	connector->display_info.bpc = 8;
-+	connector->display_info.width_mm = panel_info->width_mm;
-+	connector->display_info.height_mm = panel_info->height_mm;
-+
-+	drm_display_info_set_bus_formats(&connector->display_info,
-+					 &panel_info->bus_format, 1);
-+	connector->display_info.bus_flags = panel_info->bus_flags;
-+
-+	return panel_info->num_modes;
++	return false;
 +}
 +
-+static const struct drm_panel_funcs ej030na_funcs = {
-+	.prepare	= ej030na_prepare,
-+	.unprepare	= ej030na_unprepare,
-+	.get_modes	= ej030na_get_modes,
-+};
+ void i915_gem_init__objects(struct drm_i915_private *i915)
+ {
+ 	INIT_WORK(&i915->mm.free_work, __i915_gem_free_work);
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h b/drivers/gpu/drm/i915/gem/i915_gem_object.h
+index ea3224a480c4..e1daa58bc225 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
++++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
+@@ -12,6 +12,7 @@
+ #include <drm/drm_device.h>
+ 
+ #include "display/intel_frontbuffer.h"
++#include "intel_memory_region.h"
+ #include "i915_gem_object_types.h"
+ #include "i915_gem_gtt.h"
+ #include "i915_gem_ww.h"
+@@ -597,6 +598,9 @@ bool i915_gem_object_migratable(struct drm_i915_gem_object *obj);
+ 
+ bool i915_gem_object_validates_to_lmem(struct drm_i915_gem_object *obj);
+ 
++bool i915_gem_object_placements_contain_type(struct drm_i915_gem_object *obj,
++					     enum intel_memory_type type);
 +
-+static const struct regmap_config ej030na_regmap_config = {
-+	.reg_bits = 8,
-+	.val_bits = 8,
-+	.max_register = 0x5a,
-+};
-+
-+static int ej030na_probe(struct spi_device *spi)
-+{
-+	struct device *dev = &spi->dev;
-+	struct ej030na *priv;
-+	int err;
-+
-+	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-+	if (!priv)
-+		return -ENOMEM;
-+
-+	priv->spi = spi;
-+	spi_set_drvdata(spi, priv);
-+
-+	priv->map = devm_regmap_init_spi(spi, &ej030na_regmap_config);
-+	if (IS_ERR(priv->map)) {
-+		dev_err(dev, "Unable to init regmap\n");
-+		return PTR_ERR(priv->map);
-+	}
-+
-+	priv->panel_info = of_device_get_match_data(dev);
-+	if (!priv->panel_info)
-+		return -EINVAL;
-+
-+	priv->supply = devm_regulator_get(dev, "power");
-+	if (IS_ERR(priv->supply)) {
-+		dev_err(dev, "Failed to get power supply\n");
-+		return PTR_ERR(priv->supply);
-+	}
-+
-+	priv->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
-+	if (IS_ERR(priv->reset_gpio)) {
-+		dev_err(dev, "Failed to get reset GPIO\n");
-+		return PTR_ERR(priv->reset_gpio);
-+	}
-+
-+	drm_panel_init(&priv->panel, dev, &ej030na_funcs,
-+		       DRM_MODE_CONNECTOR_DPI);
-+
-+	err = drm_panel_of_backlight(&priv->panel);
-+	if (err)
-+		return err;
-+
-+	drm_panel_add(&priv->panel);
-+
-+	return 0;
-+}
-+
-+static int ej030na_remove(struct spi_device *spi)
-+{
-+	struct ej030na *priv = spi_get_drvdata(spi);
-+
-+	drm_panel_remove(&priv->panel);
-+	drm_panel_disable(&priv->panel);
-+	drm_panel_unprepare(&priv->panel);
-+
-+	return 0;
-+}
-+
-+static const struct drm_display_mode ej030na_modes[] = {
-+	{ /* 60 Hz */
-+		.clock = 14400,
-+		.hdisplay = 320,
-+		.hsync_start = 320 + 10,
-+		.hsync_end = 320 + 10 + 37,
-+		.htotal = 320 + 10 + 37 + 33,
-+		.vdisplay = 480,
-+		.vsync_start = 480 + 102,
-+		.vsync_end = 480 + 102 + 9 + 9,
-+		.vtotal = 480 + 102 + 9 + 9,
-+		.flags = DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC,
-+	},
-+	{ /* 50 Hz */
-+		.clock = 12000,
-+		.hdisplay = 320,
-+		.hsync_start = 320 + 10,
-+		.hsync_end = 320 + 10 + 37,
-+		.htotal = 320 + 10 + 37 + 33,
-+		.vdisplay = 480,
-+		.vsync_start = 480 + 102,
-+		.vsync_end = 480 + 102 + 9,
-+		.vtotal = 480 + 102 + 9 + 9,
-+		.flags = DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC,
-+	},
-+};
-+
-+static const struct ej030na_info ej030na_info = {
-+	.display_modes = ej030na_modes,
-+	.num_modes = ARRAY_SIZE(ej030na_modes),
-+	.width_mm = 70,
-+	.height_mm = 51,
-+	.bus_format = MEDIA_BUS_FMT_RGB888_3X8_DELTA,
-+	.bus_flags = DRM_BUS_FLAG_PIXDATA_SAMPLE_POSEDGE | DRM_BUS_FLAG_DE_LOW,
-+};
-+
-+static const struct of_device_id ej030na_of_match[] = {
-+	{ .compatible = "innolux,ej030na", .data = &ej030na_info },
-+	{ /* sentinel */ }
-+};
-+MODULE_DEVICE_TABLE(of, ej030na_of_match);
-+
-+static struct spi_driver ej030na_driver = {
-+	.driver = {
-+		.name = "panel-innolux-ej030na",
-+		.of_match_table = ej030na_of_match,
-+	},
-+	.probe = ej030na_probe,
-+	.remove = ej030na_remove,
-+};
-+module_spi_driver(ej030na_driver);
-+
-+MODULE_AUTHOR("Paul Cercueil <paul@crapouillou.net>");
-+MODULE_AUTHOR("Christophe Branchereau <cbranchereau@gmail.com>");
-+MODULE_LICENSE("GPL v2");
+ #ifdef CONFIG_MMU_NOTIFIER
+ static inline bool
+ i915_gem_object_is_userptr(struct drm_i915_gem_object *obj)
 -- 
-2.30.2
+2.26.3
 
