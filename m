@@ -1,62 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82F533B3D9D
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Jun 2021 09:37:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D56CC3B3E02
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Jun 2021 09:48:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E7F56ECEE;
-	Fri, 25 Jun 2021 07:37:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF0786EC35;
+	Fri, 25 Jun 2021 07:48:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com
- [IPv6:2607:f8b0:4864:20::62c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B7DA96ECEE
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Jun 2021 07:37:50 +0000 (UTC)
-Received: by mail-pl1-x62c.google.com with SMTP id c15so4275121pls.13
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Jun 2021 00:37:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=16WTMv4TM6XRqCXu1WqfhwXLGUuF1I5eSAZgF8nuzNU=;
- b=j1IBKqLi1jF1pVyyqujoaaEyDD956vhQFsW4IqQOy9pFHxew6pDCRuHqUYQPzXhgIV
- rZzKBOewFTMPizmmlwFMEzkUu3wwxGe2e89oLtXslKb8oDVXALVjACeulmB5NJhacKR6
- l2tBxaC35ppPnNjz4UkRwFuKRG263fy/OfW/I=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=16WTMv4TM6XRqCXu1WqfhwXLGUuF1I5eSAZgF8nuzNU=;
- b=Q/npB4b2qZ5Hp/qdx4QcAuKLcl0qJ9zd9wCD/ISUre+uD3qSJW6q/NCifnNXbyI7+y
- UfTwEMEADCfN1NI0lO0ouYbgx0nlK2ZWBhZRaNoGU6KOS2H/EO0Iju17XfFPuOxQGxRK
- nZ3oWg4obJettpbvYe3z3C1Z63SazcKcnW3WJLW2ALJ0NAOT5I5lP+1NfawvJqUMXR/e
- nOU90qCSS2mRDj3j24Jc8eYoXmirhIPzOcQQ6k9d0vEVfgCEfMRyDzxm7iEOpaiLW72o
- HDKwiBrLT69eodANtxY+FkKVdiHlvs7jqIF55kczyQaSicfA0wWY9Fxi7SgdauGCRoxA
- paDw==
-X-Gm-Message-State: AOAM530WIGeKxfQ6cOer76U95PHb1O0/nG2XlDscmiBixCq5ftklLYf7
- Xja3hZRx6AvPJfG8+r7PrJBLlA==
-X-Google-Smtp-Source: ABdhPJyNGzGIGPRke+4sy9vknoJlahbCbtDrQ1Pof1+x3qW6lrR+9qBg5laf4ZCLScq2FNWqiUDGlQ==
-X-Received: by 2002:a17:90b:b18:: with SMTP id
- bf24mr9795691pjb.220.1624606670432; 
- Fri, 25 Jun 2021 00:37:50 -0700 (PDT)
-Received: from localhost ([2401:fa00:8f:203:1492:9d4f:19fa:df61])
- by smtp.gmail.com with UTF8SMTPSA id j10sm4395324pjb.36.2021.06.25.00.37.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 25 Jun 2021 00:37:50 -0700 (PDT)
-From: David Stevens <stevensd@chromium.org>
-X-Google-Original-From: David Stevens <stevensd@google.com>
-To: Marc Zyngier <maz@kernel.org>, Huacai Chen <chenhuacai@kernel.org>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Paul Mackerras <paulus@ozlabs.org>, Paolo Bonzini <pbonzini@redhat.com>,
- Nick Piggin <npiggin@gmail.com>
-Subject: [PATCH v2 5/5] KVM: mmu: remove over-aggressive warnings
-Date: Fri, 25 Jun 2021 16:36:16 +0900
-Message-Id: <20210625073616.2184426-6-stevensd@google.com>
-X-Mailer: git-send-email 2.32.0.93.g670b81a890-goog
-In-Reply-To: <20210625073616.2184426-1-stevensd@google.com>
-References: <20210625073616.2184426-1-stevensd@google.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E02DA6EC35;
+ Fri, 25 Jun 2021 07:48:11 +0000 (UTC)
+IronPort-SDR: Oo33wuLQus7GgwZYx1XT+W4Wk5d5R6VaEQX1jB4rHvZYw8IaNfQ0ddrOjKrwlvbX80MZwPr1Nw
+ iO1Q6o/HbxEQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,10025"; a="229222038"
+X-IronPort-AV: E=Sophos;i="5.83,298,1616482800"; d="scan'208";a="229222038"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Jun 2021 00:48:10 -0700
+IronPort-SDR: b7Pe5NkesrrDkhsN96JJvpf3kl0mzb807k9Rkg6nvK/8CH5Q9wNxzc5WvFZ7JHNYX/3Je3H0WV
+ yO++uHf5meLw==
+X-IronPort-AV: E=Sophos;i="5.83,298,1616482800"; d="scan'208";a="453731121"
+Received: from ssaranga-mobl2.ger.corp.intel.com (HELO [10.252.39.20])
+ ([10.252.39.20])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Jun 2021 00:48:08 -0700
+Subject: Re: [Intel-gfx] [PATCH v2] drm/i915: Reinstate the mmap ioctl for
+ some platforms
+To: Daniel Vetter <daniel@ffwll.ch>,
+ =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
+References: <20210624112914.311984-1-thomas.hellstrom@linux.intel.com>
+ <CAKMK7uEeV0nvf+4ae2rYQHMBQ2rm2NNKT+n8CvDU=gdaEXHHBw@mail.gmail.com>
+From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Message-ID: <c9c9ab2d-e55c-6426-1d4f-20248040f111@linux.intel.com>
+Date: Fri, 25 Jun 2021 09:48:06 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.9.0
 MIME-Version: 1.0
+In-Reply-To: <CAKMK7uEeV0nvf+4ae2rYQHMBQ2rm2NNKT+n8CvDU=gdaEXHHBw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,62 +54,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Wanpeng Li <wanpengli@tencent.com>, kvm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mips@vger.kernel.org,
- Will Deacon <will@kernel.org>, kvmarm@lists.cs.columbia.edu,
- Alexandru Elisei <alexandru.elisei@arm.com>, Joerg Roedel <joro@8bytes.org>,
- Zhi Wang <zhi.a.wang@intel.com>, Suzuki K Poulose <suzuki.poulose@arm.com>,
- intel-gfx@lists.freedesktop.org, kvm-ppc@vger.kernel.org,
- intel-gvt-dev@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- Jim Mattson <jmattson@google.com>, Sean Christopherson <seanjc@google.com>,
- linux-kernel@vger.kernel.org, James Morse <james.morse@arm.com>,
- David Stevens <stevensd@chromium.org>, Vitaly Kuznetsov <vkuznets@redhat.com>,
- linuxppc-dev@lists.ozlabs.org
+Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
+ Matthew Auld <matthew.auld@intel.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: David Stevens <stevensd@chromium.org>
-
-Remove two warnings that require ref counts for pages to be non-zero, as
-mapped pfns from follow_pfn may not have an initialized ref count.
-
-Signed-off-by: David Stevens <stevensd@chromium.org>
----
- arch/x86/kvm/mmu/mmu.c | 7 -------
- virt/kvm/kvm_main.c    | 2 +-
- 2 files changed, 1 insertion(+), 8 deletions(-)
-
-diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
-index dd5cb6e33591..0c47245594c6 100644
---- a/arch/x86/kvm/mmu/mmu.c
-+++ b/arch/x86/kvm/mmu/mmu.c
-@@ -607,13 +607,6 @@ static int mmu_spte_clear_track_bits(u64 *sptep)
- 
- 	pfn = spte_to_pfn(old_spte);
- 
--	/*
--	 * KVM does not hold the refcount of the page used by
--	 * kvm mmu, before reclaiming the page, we should
--	 * unmap it from mmu first.
--	 */
--	WARN_ON(!kvm_is_reserved_pfn(pfn) && !page_count(pfn_to_page(pfn)));
--
- 	if (is_accessed_spte(old_spte))
- 		kvm_set_pfn_accessed(pfn);
- 
-diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-index 1de8702845ac..ce7126bab4b0 100644
---- a/virt/kvm/kvm_main.c
-+++ b/virt/kvm/kvm_main.c
-@@ -168,7 +168,7 @@ bool kvm_is_zone_device_pfn(kvm_pfn_t pfn)
- 	 * the device has been pinned, e.g. by get_user_pages().  WARN if the
- 	 * page_count() is zero to help detect bad usage of this helper.
- 	 */
--	if (!pfn_valid(pfn) || WARN_ON_ONCE(!page_count(pfn_to_page(pfn))))
-+	if (!pfn_valid(pfn) || !page_count(pfn_to_page(pfn)))
- 		return false;
- 
- 	return is_zone_device_page(pfn_to_page(pfn));
--- 
-2.32.0.93.g670b81a890-goog
-
+Op 24-06-2021 om 14:04 schreef Daniel Vetter:
+> On Thu, Jun 24, 2021 at 1:29 PM Thomas Hellström
+> <thomas.hellstrom@linux.intel.com> wrote:
+>> Reinstate the mmap ioctl for all current integrated platforms.
+>> The intention was really to have it disabled for discrete graphics
+>> where we enforce a single mmap mode.
+>>
+>> Fixes: 35cbd91eb541 ("drm/i915: Disable mmap ioctl for gen12+")
+>> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+>> Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+> Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+>
+>> ---
+>> v2:
+>> - Added a R-B.
+>> - Fixed up the code comment a bit.
+>> ---
+>>  drivers/gpu/drm/i915/gem/i915_gem_mman.c | 7 ++++---
+>>  1 file changed, 4 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
+>> index 2fd155742bd2..4f50a508c7a0 100644
+>> --- a/drivers/gpu/drm/i915/gem/i915_gem_mman.c
+>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
+>> @@ -62,10 +62,11 @@ i915_gem_mmap_ioctl(struct drm_device *dev, void *data,
+>>         struct drm_i915_gem_object *obj;
+>>         unsigned long addr;
+>>
+>> -       /* mmap ioctl is disallowed for all platforms after TGL-LP.  This also
+>> -        * covers all platforms with local memory.
+>> +       /*
+>> +        * mmap ioctl is disallowed for all discrete platforms,
+>> +        * and for all platforms with GRAPHICS_VER > 12.
+>>          */
+>> -       if (GRAPHICS_VER(i915) >= 12 && !IS_TIGERLAKE(i915))
+>> +       if (IS_DGFX(i915) || GRAPHICS_VER(i915) > 12)
+>>                 return -EOPNOTSUPP;
+>>
+>>         if (args->flags & ~(I915_MMAP_WC))
+>> --
+>> 2.31.1
+>>
+>
+Would keeping this change unapplied break any currently shipping platforms? If not, could we leave it as-is?
