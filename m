@@ -2,55 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B40C43B46C5
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Jun 2021 17:39:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 368973B470B
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Jun 2021 17:55:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5CB006EE01;
-	Fri, 25 Jun 2021 15:39:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 32A726EE07;
+	Fri, 25 Jun 2021 15:55:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
- [IPv6:2a00:1450:4864:20::42b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C8BBE6EDF2;
- Fri, 25 Jun 2021 15:39:00 +0000 (UTC)
-Received: by mail-wr1-x42b.google.com with SMTP id e22so11081901wrc.1;
- Fri, 25 Jun 2021 08:39:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=vdo63xtloDEOamPYATEH0AS03eYl+iSZfl6fPLjUbC0=;
- b=Jb0i1Lvqmij+LCFT/Mg28ra5KlS0qJQBQ26bnZVtH4y9cZM+GnQHp1dvUZ3LUnWJU1
- VzKHiDXKJ9TXOkl17FLwldxn5maUTbOx3wMjeu2i22mk56UmTrPM2C2y1zrh2p4371l0
- ngGo21DjmXU8rIwuOaB0GEvcMZhCKAAVE7WsMozqU4xp0DWnN/diafx6zcMFlVz8YtbY
- aIz9j5DOTQ8JoWobUYeiB5EYVcMY3rgGVqh20F/KXHQpiUCypMMwLwq0Qv/Y/y5sMS5I
- Wf5LtD+mCjflS70/C4h1O3yl6AOOjPMzZUBQRWl3uyvHi7tsu3jsi7mwnFUC1vgtP6yY
- uOMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=vdo63xtloDEOamPYATEH0AS03eYl+iSZfl6fPLjUbC0=;
- b=PdVF4pmMQSs5v5tKlglaTyCmoDSq0fCNt69SxTLzqeeTqfl51X9P67GXJVR3laG2WW
- QuYhWiOqOsrfUcNqR3ZOLN3fSUYLISH6Ftj8SgpFFbrK6HKgCYSTi99JtZLqV6NWDCYX
- qpJh5QsnSt3wIGTS2+cPrXseet+36FobT/ET3li/tczx7F/X64Fn/A4Cd552aZXYqWbv
- q3Cpw4Zmh2xWMw1/Zhy2T2aRG47HgSS6/utG2YrHiLbkA6Vjfkpeg+FeVjYlEKkeSwpn
- 0Q0xahDcoLVeIDSxHnew3jYBpOCULwywkpEmVwPbIj0Oiu4POcJKDHGuc7udQTvyNXFp
- Ybdg==
-X-Gm-Message-State: AOAM533gKkeXkpUnLYBn2YwoV2E2SQXsnetybmyvvJGZswYu0BKmonuh
- ZJH0oUF3QxbclSGxcijjR6iegQ42VRYWH6Q9iNM=
-X-Google-Smtp-Source: ABdhPJxMd2QD5QxjGCuh4pj9v343g3SW9Px0O12bqlsmSQOJev5MZ4vy4Nc2H7rSC6xBZLfN8VeV69ccnD8vSa1vkF0=
-X-Received: by 2002:adf:fcc5:: with SMTP id f5mr11934898wrs.83.1624635539523; 
- Fri, 25 Jun 2021 08:38:59 -0700 (PDT)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 7053D6EE07
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Jun 2021 15:55:20 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3A6961063;
+ Fri, 25 Jun 2021 08:55:19 -0700 (PDT)
+Received: from [192.168.1.179] (unknown [172.31.20.19])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 043083F719;
+ Fri, 25 Jun 2021 08:55:17 -0700 (PDT)
+Subject: Re: [PATCH v3 10/15] drm/panfrost: Make sure job interrupts are
+ masked before resetting
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ dri-devel@lists.freedesktop.org
+References: <20210625133327.2598825-1-boris.brezillon@collabora.com>
+ <20210625133327.2598825-11-boris.brezillon@collabora.com>
+From: Steven Price <steven.price@arm.com>
+Message-ID: <49a60b4f-911e-2c03-29ce-4b1b9f605b3d@arm.com>
+Date: Fri, 25 Jun 2021 16:55:12 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210610214431.539029-1-robdclark@gmail.com>
- <20210610214431.539029-4-robdclark@gmail.com>
- <YNVP6rfQ699BejsI@yoga>
-In-Reply-To: <YNVP6rfQ699BejsI@yoga>
-From: Rob Clark <robdclark@gmail.com>
-Date: Fri, 25 Jun 2021 08:42:59 -0700
-Message-ID: <CAF6AEGvTjTUQXqom-xhdh456tdLscbVFPQ+iud1H1gHc8A2=hA@mail.gmail.com>
-Subject: Re: [PATCH v5 3/5] drm/msm: Improve the a6xx page fault handler
-To: Bjorn Andersson <bjorn.andersson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20210625133327.2598825-11-boris.brezillon@collabora.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,100 +46,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- freedreno <freedreno@lists.freedesktop.org>,
- Jordan Crouse <jcrouse@codeaurora.org>, Jonathan Marek <jonathan@marek.ca>,
- David Airlie <airlied@linux.ie>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Sharat Masetty <smasetty@codeaurora.org>,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- Douglas Anderson <dianders@chromium.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Akhil P Oommen <akhilpo@codeaurora.org>, Eric Anholt <eric@anholt.net>,
- "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
- Joerg Roedel <joro@8bytes.org>, " <iommu@lists.linux-foundation.org>,
- "Kristian H. Kristensen" <hoegsberg@google.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Marijn Suijten <marijn.suijten@somainline.org>, Sean Paul <sean@poorly.run>,
- open list <linux-kernel@vger.kernel.org>
+Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>, Rob Herring <robh+dt@kernel.org>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Robin Murphy <robin.murphy@arm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 24, 2021 at 8:39 PM Bjorn Andersson
-<bjorn.andersson@linaro.org> wrote:
->
-> On Thu 10 Jun 16:44 CDT 2021, Rob Clark wrote:
-> [..]
-> > diff --git a/drivers/gpu/drm/msm/msm_iommu.c b/drivers/gpu/drm/msm/msm_iommu.c
-> > index 50d881794758..6975b95c3c29 100644
-> > --- a/drivers/gpu/drm/msm/msm_iommu.c
-> > +++ b/drivers/gpu/drm/msm/msm_iommu.c
-> > @@ -211,8 +211,17 @@ static int msm_fault_handler(struct iommu_domain *domain, struct device *dev,
-> >               unsigned long iova, int flags, void *arg)
-> >  {
-> >       struct msm_iommu *iommu = arg;
-> > +     struct adreno_smmu_priv *adreno_smmu = dev_get_drvdata(iommu->base.dev);
-> > +     struct adreno_smmu_fault_info info, *ptr = NULL;
-> > +
-> > +     if (adreno_smmu->get_fault_info) {
->
-> This seemed reasonable when I read it last time, but I didn't realize
-> that the msm_fault_handler() is installed for all msm_iommu instances.
->
-> So while we're trying to recover from the boot splash and setup the new
-> framebuffer we end up here with iommu->base.dev being the mdss device.
-> Naturally drvdata of mdss is not a struct adreno_smmu_priv.
->
-> > +             adreno_smmu->get_fault_info(adreno_smmu->cookie, &info);
->
-> So here we just jump straight out into hyperspace, never to return.
->
-> Not sure how to wire this up to avoid the problem, but right now I don't
-> think we can boot any device with a boot splash.
->
+On 25/06/2021 14:33, Boris Brezillon wrote:
+> This is not yet needed because we let active jobs be killed during by
+> the reset and we don't really bother making sure they can be restarted.
+> But once we start adding soft-stop support, controlling when we deal
+> with the remaining interrrupts and making sure those are handled before
+> the reset is issued gets tricky if we keep job interrupts active.
+> 
+> Let's prepare for that and mask+flush job IRQs before issuing a reset.
+> 
+> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> ---
+>  drivers/gpu/drm/panfrost/panfrost_job.c | 21 +++++++++++++++------
+>  1 file changed, 15 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
+> index 88d34fd781e8..0566e2f7e84a 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
+> @@ -34,6 +34,7 @@ struct panfrost_queue_state {
+>  struct panfrost_job_slot {
+>  	struct panfrost_queue_state queue[NUM_JOB_SLOTS];
+>  	spinlock_t job_lock;
+> +	int irq;
+>  };
+>  
+>  static struct panfrost_job *
+> @@ -400,7 +401,15 @@ static void panfrost_reset(struct panfrost_device *pfdev,
+>  	if (bad)
+>  		drm_sched_increase_karma(bad);
+>  
+> -	spin_lock(&pfdev->js->job_lock);
 
-I think we could do:
+I'm not sure it's safe to remove this lock as this protects the
+pfdev->jobs array: I can't see what would prevent panfrost_job_close()
+running at the same time without the lock. Am I missing something?
 
-------------------------
-diff --git a/drivers/gpu/drm/msm/msm_iommu.c b/drivers/gpu/drm/msm/msm_iommu.c
-index eed2a762e9dd..30ee8866154e 100644
---- a/drivers/gpu/drm/msm/msm_iommu.c
-+++ b/drivers/gpu/drm/msm/msm_iommu.c
-@@ -29,6 +29,9 @@ static struct msm_iommu_pagetable
-*to_pagetable(struct msm_mmu *mmu)
-  return container_of(mmu, struct msm_iommu_pagetable, base);
- }
+> +	/* Mask job interrupts and synchronize to make sure we won't be
+> +	 * interrupted during our reset.
+> +	 */
+> +	job_write(pfdev, JOB_INT_MASK, 0);
+> +	synchronize_irq(pfdev->js->irq);
+> +
+> +	/* Schedulers are stopped and interrupts are masked+flushed, we don't
+> +	 * need to protect the 'evict unfinished jobs' lock with the job_lock.
+> +	 */
+>  	for (i = 0; i < NUM_JOB_SLOTS; i++) {
+>  		if (pfdev->jobs[i]) {
+>  			pm_runtime_put_noidle(pfdev->dev);
+> @@ -408,7 +417,6 @@ static void panfrost_reset(struct panfrost_device *pfdev,
+>  			pfdev->jobs[i] = NULL;
+>  		}
+>  	}
+> -	spin_unlock(&pfdev->js->job_lock);
+>  
+>  	panfrost_device_reset(pfdev);
+>  
+> @@ -504,6 +512,7 @@ static void panfrost_job_handle_irq(struct panfrost_device *pfdev, u32 status)
+>  
+>  			job = pfdev->jobs[j];
+>  			/* Only NULL if job timeout occurred */
+> +			WARN_ON(!job);
 
-+static int msm_fault_handler(struct iommu_domain *domain, struct device *dev,
-+ unsigned long iova, int flags, void *arg);
-+
- static int msm_iommu_pagetable_unmap(struct msm_mmu *mmu, u64 iova,
-  size_t size)
- {
-@@ -151,6 +154,8 @@ struct msm_mmu *msm_iommu_pagetable_create(struct
-msm_mmu *parent)
-  struct io_pgtable_cfg ttbr0_cfg;
-  int ret;
+Was this WARN_ON intentional?
 
-+ iommu_set_fault_handler(iommu->domain, msm_fault_handler, iommu);
-+
-  /* Get the pagetable configuration from the domain */
-  if (adreno_smmu->cookie)
-  ttbr1_cfg = adreno_smmu->get_ttbr1_cfg(adreno_smmu->cookie);
-@@ -300,7 +305,6 @@ struct msm_mmu *msm_iommu_new(struct device *dev,
-struct iommu_domain *domain)
+Steve
 
-  iommu->domain = domain;
-  msm_mmu_init(&iommu->base, dev, &funcs, MSM_MMU_IOMMU);
-- iommu_set_fault_handler(domain, msm_fault_handler, iommu);
+>  			if (job) {
+>  				pfdev->jobs[j] = NULL;
+>  
+> @@ -563,7 +572,7 @@ static void panfrost_reset_work(struct work_struct *work)
+>  int panfrost_job_init(struct panfrost_device *pfdev)
+>  {
+>  	struct panfrost_job_slot *js;
+> -	int ret, j, irq;
+> +	int ret, j;
+>  
+>  	INIT_WORK(&pfdev->reset.work, panfrost_reset_work);
+>  
+> @@ -573,11 +582,11 @@ int panfrost_job_init(struct panfrost_device *pfdev)
+>  
+>  	spin_lock_init(&js->job_lock);
+>  
+> -	irq = platform_get_irq_byname(to_platform_device(pfdev->dev), "job");
+> -	if (irq <= 0)
+> +	js->irq = platform_get_irq_byname(to_platform_device(pfdev->dev), "job");
+> +	if (js->irq <= 0)
+>  		return -ENODEV;
+>  
+> -	ret = devm_request_threaded_irq(pfdev->dev, irq,
+> +	ret = devm_request_threaded_irq(pfdev->dev, js->irq,
+>  					panfrost_job_irq_handler,
+>  					panfrost_job_irq_handler_thread,
+>  					IRQF_SHARED, KBUILD_MODNAME "-job",
+> 
 
-  atomic_set(&iommu->pagetables, 0);
-
-------------------------
-
-That would have the result of setting the same fault handler multiple
-times, but that looks harmless.  Mostly the fault handling stuff is to
-make it easier to debug userspace issues, the fallback dmesg spam from
-arm-smmu should be sufficient for any kernel side issues.
-
-BR,
--R
