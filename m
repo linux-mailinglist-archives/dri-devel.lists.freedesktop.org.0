@@ -2,50 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 924E53B40D7
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Jun 2021 11:50:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB4C03B4122
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Jun 2021 12:09:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2CE8C6E0EB;
-	Fri, 25 Jun 2021 09:50:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EBAA56ECC3;
+	Fri, 25 Jun 2021 10:09:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m12-17.163.com (m12-17.163.com [220.181.12.17])
- by gabe.freedesktop.org (Postfix) with ESMTP id C4DEF6E0EB
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Jun 2021 09:50:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=Date:From:Subject:Message-ID:MIME-Version; bh=qjjsf
- gloB4/v4yj1HQPeRzBiJ9WcKqP2RzWYePynLac=; b=hf14gdLyBmRfc8LbWvWrb
- 00NxoZ9zzomWKYh90L71pTD8Z9vD77xRIJtH/kawAEDZjPAwFZaNlqp7E21PnSoU
- ok1bipAazWZpJH3ATyAevDaOqQPoaUTtm0sWlYBYtUZDw2DnI8uBAm4VutA9Ryf6
- de0958ssDQZvlvJ9H+FsVQ=
-Received: from localhost (unknown [218.17.89.111])
- by smtp13 (Coremail) with SMTP id EcCowAD3ApOxptVganLw9Q--.18008S2;
- Fri, 25 Jun 2021 17:49:39 +0800 (CST)
-Date: Fri, 25 Jun 2021 17:49:37 +0800
-From: Chunyou Tang <tangchunyou@163.com>
-To: Steven Price <steven.price@arm.com>
-Subject: Re: [PATCH v2] drm/panfrost:report the full raw fault information
- instead
-Message-ID: <20210625174937.0000183f@163.com>
-In-Reply-To: <04bc1306-f8a3-2e3c-b55d-030d1448fad2@arm.com>
-References: <20210617062054.1864-1-tangchunyou@163.com>
- <2dcbb36a-b550-4c9d-cff8-73ca4b5abb11@arm.com>
- <20210619111852.00003e52@163.com>
- <23f675e9-698d-840d-104f-33aa594dcb96@arm.com>
- <20210622094000.00004f7e@163.com>
- <04bc1306-f8a3-2e3c-b55d-030d1448fad2@arm.com>
-Organization: icube
-X-Mailer: Claws Mail 3.10.1 (GTK+ 2.16.6; i586-pc-mingw32msvc)
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com
+ [IPv6:2a00:1450:4864:20::629])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 503B26ECC3
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Jun 2021 10:09:12 +0000 (UTC)
+Received: by mail-ej1-x629.google.com with SMTP id ot9so13254302ejb.8
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Jun 2021 03:09:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=DTHgculPydhzpEVBph2GMT4tKo+Bdruk5MQJ3Xil02M=;
+ b=iYwJpzc2B1Vz6C+1VFuga00mnTGnb9YkGQ/i60e24srUZeXEivl90uhEWHDaJdJdZl
+ KAzTXfCP1HsostkzLKSNkcqzvh761bcFXJlvAuEcnKTdvLVOEw4iKFyeLOUgsTVIicbR
+ 6DM31e2rJS4bq7LbZAzi05Pn6ATJrDukYOReg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=DTHgculPydhzpEVBph2GMT4tKo+Bdruk5MQJ3Xil02M=;
+ b=F9xSZijGg3b27J4GzxeFDxVw3JuQDRwI2t4O2C96oXCkD4cNasVqVNFbagHN78Pypa
+ 6mp0A3GH6lrhIuiBVp7AcCFMLr1vKScT9MLSIHlGDhJVaJQrsr089ymDfGh/tI9DyTZd
+ tBFRt8j5xL+Eu5dPH8c18E/KVVMF7+o71+XLyonYVNK5QRnlx5YMevuJLPb+cHq6kHPN
+ g1Nu690bS/9NT1F3ohjCPmNclaQOOtDhqMsF88lYtZYCROGFOVH34TLWGA06rqL3B95e
+ njb972RTf/Top9rwnRFbhu3nCQWTLOWE6W+A1PRPdq+pr/VavPvg+ibK9QrcAcPa5Nmp
+ X05w==
+X-Gm-Message-State: AOAM531mHREiHqzKxLexYcoFH7qsjgUoXRvLh3++743TqAKiaMz1CKwY
+ Kj65F74YRghm9tD6NMw1rEDJz8Z/3kEJEOuh7x/Hsw==
+X-Google-Smtp-Source: ABdhPJx5YzGyXwGKXbBwpGfmUZFM2l/3b+DgX10TOcWtu9LgUc8/68VvsFeIkZnC3ePSCoBaMYF/unXbPoA2N3GfeR0=
+X-Received: by 2002:a17:906:bb10:: with SMTP id
+ jz16mr6339523ejb.252.1624615750910; 
+ Fri, 25 Jun 2021 03:09:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=GB18030
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: EcCowAD3ApOxptVganLw9Q--.18008S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW3Jw4UXrW3urW7trWUJw1fZwb_yoWxCr4fpr
- yUGayakrWktry7twnF9w4DGFyYyw4UtFykWFnrCr15tFsFvF17W3yktFyjka4DXr1UCa12
- vw4qy3yI9a4UZw7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jNa9-UUUUU=
-X-Originating-IP: [218.17.89.111]
-X-CM-SenderInfo: 5wdqwu5kxq50rx6rljoofrz/1tbiHhe8UVSIvboW-QAAsU
+References: <20210621072424.111733-1-jagan@amarulasolutions.com>
+ <20210621072424.111733-3-jagan@amarulasolutions.com>
+ <YNO0LHNVSWjrh1ZS@pendragon.ideasonboard.com>
+ <CAOMZO5Ahbu4mohtMDOQOv_y5B_TDesbdYEUZTF1RL7_y-bS+RA@mail.gmail.com>
+ <CAMty3ZAtObU-bf6FuxvSBaZn2cotj_NxASW9g9on-kBJ7iW3OA@mail.gmail.com>
+ <YNR37NWkxq0mZyq5@pendragon.ideasonboard.com>
+ <fdd446c6-c8ce-9dae-f7ac-e06241f76250@canonical.com>
+In-Reply-To: <fdd446c6-c8ce-9dae-f7ac-e06241f76250@canonical.com>
+From: Jagan Teki <jagan@amarulasolutions.com>
+Date: Fri, 25 Jun 2021 15:38:59 +0530
+Message-ID: <CAMty3ZCEQeRi53yuLYyWVU8o=Lo2ZKy+kgjU+9PC33QJEq2LQg@mail.gmail.com>
+Subject: Re: [RFC PATCH 2/9] drm: bridge: Add Samsung SEC MIPI DSIM bridge
+ driver
+To: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,190 +67,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tomeu.vizoso@collabora.com, airlied@linux.ie, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, alyssa.rosenzweig@collabora.com,
- ChunyouTang <tangchunyou@icubecorp.cn>
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Peng Fan <peng.fan@nxp.com>,
+ Francis Laniel <francis.laniel@amarulasolutions.com>,
+ Matteo Lisi <matteo.lisi@engicam.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ linux-amarula <linux-amarula@amarulasolutions.com>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>,
+ Michael Tretter <m.tretter@pengutronix.de>,
+ Robert Foss <robert.foss@linaro.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ Andrzej Hajda <a.hajda@samsung.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Milco Pratesi <milco.pratesi@engicam.com>,
+ Anthony Brandon <anthony@amarulasolutions.com>, linux-phy@lists.infradead.org,
+ Shawn Guo <shawnguo@kernel.org>, Fancy Fang <chen.fang@nxp.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
+ <linux-arm-kernel@lists.infradead.org>, NXP Linux Team <linux-imx@nxp.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Steve,
-	Thinks for your reply.
-	When I only set the pte |= ARM_LPAE_PTE_SH_NS;there have no "GPU
-Fault",When I set the pte |= ARM_LPAE_PTE_SH_IS(or
-ARM_LPAE_PTE_SH_OS);there have "GPU Fault".I don't know how the pte
-effect this issue?
-	Can you give me some suggestions again?
+Hi Krzysztof,
 
-Thinks.
+On Fri, Jun 25, 2021 at 2:51 PM Krzysztof Kozlowski
+<krzysztof.kozlowski@canonical.com> wrote:
+>
+> On Thu, 24 Jun 2021 at 14:19, Laurent Pinchart
+> <laurent.pinchart@ideasonboard.com> wrote:
+> >
+> > Hi Jagan,
+> >
+> > On Thu, Jun 24, 2021 at 05:42:43PM +0530, Jagan Teki wrote:
+> > > On Thu, Jun 24, 2021 at 8:18 AM Fabio Estevam wrote:
+> > > > On Wed, Jun 23, 2021 at 7:23 PM Laurent Pinchart wrote:
+> > > >
+> > > > > Looking at the register set, it seems to match the Exynos 5433,
+> > > > > supported by drivers/gpu/drm/exynos/exynos_drm_dsi.c. Can we leverage
+> > > > > that driver instead of adding a new one for the same IP core ?
+> > > >
+> > > > Yes. there was an attempt from Michael in this direction:
+> > > > https://patchwork.kernel.org/project/dri-devel/cover/20200911135413.3654800-1-m.tretter@pengutronix.de/
+> > >
+> > > Thanks for the reference, I will check it out and see I can send any
+> > > updated versions wrt my i.MX8MM platform.
+> >
+> > Thanks.
+> >
+> > I had a brief look at the exynos driver, and I think it should be turned
+> > into a DRM bridge as part of this rework to be used with the i.MX8MM.
+> >
+> > Is there someone from Samsung who could assist, at least to test the
+> > changes ?
+>
+> Yes, I mentioned few guys in reply to PHY. Around the DRM drivers you
+> can get in touch with:
+> Inki Dae <inki.dae@samsung.com>
+> Seung-Woo Kim <sw0312.kim@samsung.com>
+> Marek Szyprowski <m.szyprowski@samsung.com>
+> Andrzej Hajda <a.hajda@samsung.com>
 
-Chunyou
+Thanks for the information.
 
-于 Thu, 24 Jun 2021 14:22:04 +0100
-Steven Price <steven.price@arm.com> 写道:
+>
+> The easiest testing of the display stack would be on Hardkernel's Odroid
+> XU4 (https://www.hardkernel.com/shop/odroid-xu4-special-price/) however
+> you will not test the DSI/DSIM directly (it has only HDMI port).
 
-> On 22/06/2021 02:40, Chunyou Tang wrote:
-> > Hi Steve,
-> > 	I will send a new patch with suitable subject/commit
-> > message. But I send a V3 or a new patch?
-> 
-> Send a V3 - it is a new version of this patch.
-> 
-> > 	I met a bug about the GPU,I have no idea about how to fix
-> > it, If you can give me some suggestion,it is perfect.
-> > 
-> > You can see such kernel log:
-> > 
-> > Jun 20 10:20:13 icube kernel: [  774.566760] mvp_gpu 0000:05:00.0:
-> > GPU Fault 0x00000088 (SHAREABILITY_FAULT) at 0x000000000310fd00 Jun
-> > 20 10:20:13 icube kernel: [  774.566764] mvp_gpu 0000:05:00.0:
-> > There were multiple GPU faults - some have not been reported Jun 20
-> > 10:20:13 icube kernel: [  774.667542] mvp_gpu 0000:05:00.0:
-> > AS_ACTIVE bit stuck Jun 20 10:20:13 icube kernel: [  774.767900]
-> > mvp_gpu 0000:05:00.0: AS_ACTIVE bit stuck Jun 20 10:20:13 icube
-> > kernel: [  774.868546] mvp_gpu 0000:05:00.0: AS_ACTIVE bit stuck
-> > Jun 20 10:20:13 icube kernel: [  774.968910] mvp_gpu 0000:05:00.0:
-> > AS_ACTIVE bit stuck Jun 20 10:20:13 icube kernel: [  775.069251]
-> > mvp_gpu 0000:05:00.0: AS_ACTIVE bit stuck Jun 20 10:20:22 icube
-> > kernel: [  783.693971] mvp_gpu 0000:05:00.0: gpu sched timeout,
-> > js=1, config=0x7300, status=0x8, head=0x362c900, tail=0x362c100,
-> > sched_job=000000003252fb84
-> > 
-> > In
-> > https://lore.kernel.org/dri-devel/20200510165538.19720-1-peron.clem@gmail.com/
-> > there had a same bug like mine,and I found you at the mail list,I
-> > don't know how it fixed?
-> 
-> The GPU_SHAREABILITY_FAULT error means that a cache line has been
-> accessed both as shareable and non-shareable and therefore coherency
-> cannot be guaranteed. Although the "multiple GPU faults" means that
-> this may not be the underlying cause.
-> 
-> The fact that your dmesg log has PCI style identifiers
-> ("0000:05:00.0") suggests this is an unusual platform - I've not
-> previously been aware of a Mali device behind PCI. Is this device
-> working with the kbase/DDK proprietary driver? It would be worth
-> looking at the kbase kernel code for the platform to see if there is
-> anything special done for the platform.
-> 
-> From the dmesg logs all I can really tell is that the GPU seems
-> unhappy about the memory system.
-> 
-> Steve
-> 
-> > I need your help!
-> > 
-> > thinks very much!
-> > 
-> > Chunyou
-> > 
-> > 于 Mon, 21 Jun 2021 11:45:20 +0100
-> > Steven Price <steven.price@arm.com> 写道:
-> > 
-> >> On 19/06/2021 04:18, Chunyou Tang wrote:
-> >>> Hi Steve,
-> >>> 	1,Now I know how to write the subject
-> >>> 	2,the low 8 bits is the exception type in spec.
-> >>>
-> >>> and you can see prnfrost_exception_name()
-> >>>
-> >>> switch (exception_code) {
-> >>>                 /* Non-Fault Status code */
-> >>> case 0x00: return "NOT_STARTED/IDLE/OK";
-> >>> case 0x01: return "DONE";
-> >>> case 0x02: return "INTERRUPTED";
-> >>> case 0x03: return "STOPPED";
-> >>> case 0x04: return "TERMINATED";
-> >>> case 0x08: return "ACTIVE";
-> >>> ........
-> >>> ........
-> >>> case 0xD8: return "ACCESS_FLAG";
-> >>> case 0xD9 ... 0xDF: return "ACCESS_FLAG";
-> >>> case 0xE0 ... 0xE7: return "ADDRESS_SIZE_FAULT";
-> >>> case 0xE8 ... 0xEF: return "MEMORY_ATTRIBUTES_FAULT";
-> >>> }
-> >>> return "UNKNOWN";
-> >>> }
-> >>>
-> >>> the exception_code in case is only 8 bits,so if fault_status
-> >>> in panfrost_gpu_irq_handler() don't & 0xFF,it can't get correct
-> >>> exception reason,it will be always UNKNOWN.
-> >>
-> >> Yes, I'm happy with the change - I just need a patch that I can
-> >> apply. At the moment this patch only changes the first '0x%08x'
-> >> output rather than the call to panfrost_exception_name() as well.
-> >> So we just need a patch which does:
-> >>
-> >> - fault_status & 0xFF, panfrost_exception_name(pfdev,
-> >> fault_status),
-> >> + fault_status, panfrost_exception_name(pfdev, fault_status &
-> >> 0xFF),
-> >>
-> >> along with a suitable subject/commit message describing the
-> >> change. If you can send me that I can apply it.
-> >>
-> >> Thanks,
-> >>
-> >> Steve
-> >>
-> >> PS. Sorry for going round in circles here - I'm trying to help you
-> >> get setup so you'll be able to contribute patches easily in
-> >> future. An important part of that is ensuring you can send a
-> >> properly formatted patch to the list.
-> >>
-> >> PPS. I'm still not receiving your emails directly. I don't think
-> >> it's a problem at my end because I'm receiving other emails, but
-> >> if you can somehow fix the problem you're likely to receive a
-> >> faster response.
-> >>
-> >>> 于 Fri, 18 Jun 2021 13:43:24 +0100
-> >>> Steven Price <steven.price@arm.com> 写道:
-> >>>
-> >>>> On 17/06/2021 07:20, ChunyouTang wrote:
-> >>>>> From: ChunyouTang <tangchunyou@icubecorp.cn>
-> >>>>>
-> >>>>> of the low 8 bits.
-> >>>>
-> >>>> Please don't split the subject like this. The first line of the
-> >>>> commit should be a (very short) summary of the patch. Then a
-> >>>> blank line and then a longer description of what the purpose of
-> >>>> the patch is and why it's needed.
-> >>>>
-> >>>> Also you previously had this as part of a series (the first part
-> >>>> adding the "& 0xFF" in the panfrost_exception_name() call). I'm
-> >>>> not sure we need two patches for the single line, but as it
-> >>>> stands this patch doesn't apply.
-> >>>>
-> >>>> Also I'm still not receiving any emails from you directly (only
-> >>>> via the list), so it's possible I might have missed something
-> >>>> you sent.
-> >>>>
-> >>>> Steve
-> >>>>
-> >>>>>
-> >>>>> Signed-off-by: ChunyouTang <tangchunyou@icubecorp.cn>
-> >>>>> ---
-> >>>>>  drivers/gpu/drm/panfrost/panfrost_gpu.c | 2 +-
-> >>>>>  1 file changed, 1 insertion(+), 1 deletion(-)
-> >>>>>
-> >>>>> diff --git a/drivers/gpu/drm/panfrost/panfrost_gpu.c
-> >>>>> b/drivers/gpu/drm/panfrost/panfrost_gpu.c index
-> >>>>> 1fffb6a0b24f..d2d287bbf4e7 100644 ---
-> >>>>> a/drivers/gpu/drm/panfrost/panfrost_gpu.c +++
-> >>>>> b/drivers/gpu/drm/panfrost/panfrost_gpu.c @@ -33,7 +33,7 @@
-> >>>>> static irqreturn_t panfrost_gpu_irq_handler(int irq, void
-> >>>>> *data) address |= gpu_read(pfdev, GPU_FAULT_ADDRESS_LO); 
-> >>>>>  		dev_warn(pfdev->dev, "GPU Fault 0x%08x (%s) at
-> >>>>> 0x%016llx\n",
-> >>>>> -			 fault_status & 0xFF,
-> >>>>> panfrost_exception_name(pfdev, fault_status & 0xFF),
-> >>>>> +			 fault_status,
-> >>>>> panfrost_exception_name(pfdev, fault_status & 0xFF), address);
-> >>>>>  
-> >>>>>  		if (state & GPU_IRQ_MULTIPLE_FAULT)
-> >>>>>
-> >>>
-> >>>
-> > 
-> > 
+Look like I found one board with Exynos5430 with DSI. Does this SoC is
+same as mainline Exynos5433?
 
-
+Jagan.
