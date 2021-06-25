@@ -2,63 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CB8F3B3F12
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Jun 2021 10:23:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E82B63B3F16
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Jun 2021 10:23:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CFA386ED9F;
-	Fri, 25 Jun 2021 08:22:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4EDCA6EDAC;
+	Fri, 25 Jun 2021 08:23:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CAD2C6ED94;
- Fri, 25 Jun 2021 08:22:56 +0000 (UTC)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 069146ED9E;
+ Fri, 25 Jun 2021 08:22:58 +0000 (UTC)
 Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
  (using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 740BF21BD2;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id AB8081FE5C;
+ Fri, 25 Jun 2021 08:22:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1624609376; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=n83/+9s2T5Nzubb+gy66mf0gKEocr9OM5q295e9qPfs=;
+ b=2VwZW+QuZQdKIwo/BtptHdc6LE1Uavy+PW2A8LYhbwmt3mSQv4lDVyzz0WzRVnBgyxcbHm
+ NlpvlgxYT/lOW1XhW2IIfdIm3A/Sc8aRLaooBbmlNOyJSl7NA6YTO4eKnfMgdicYbAZR4i
+ DO6+obZNzYEjR8UB82pUqWAS4hgdlkc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1624609376;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=n83/+9s2T5Nzubb+gy66mf0gKEocr9OM5q295e9qPfs=;
+ b=o3fQdTNLVHh5970RBO6mIFq5blkEA+2h/NDmQ/ZhmABezPVIHBQS+2d+2QRBq25g690uro
+ +iiJO6QfgDJ44fAQ==
+Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
+ by imap.suse.de (Postfix) with ESMTP id 78E2A11C9B;
  Fri, 25 Jun 2021 08:22:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1624609375; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1624609376; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=i7Mr56wyd4h/V3HPoGieGlHpgVrzao6TyGx3y2AtGrg=;
- b=qO3BEAD2KYKl4fmnza5+IV9Vt5jhkU/EMizztUtDwG7nvW0tgWTuHVK3PeeUUSXfbtifaw
- ky2v08a1WngeKmld3Yq5AlHZgskfKBL7AQy5aV8jFjqzOeKoVTTrLNoIyHS1Od7JJHw8fD
- S66OLARrlLbxwXCmedyS4gBGpfER+T8=
+ bh=n83/+9s2T5Nzubb+gy66mf0gKEocr9OM5q295e9qPfs=;
+ b=2VwZW+QuZQdKIwo/BtptHdc6LE1Uavy+PW2A8LYhbwmt3mSQv4lDVyzz0WzRVnBgyxcbHm
+ NlpvlgxYT/lOW1XhW2IIfdIm3A/Sc8aRLaooBbmlNOyJSl7NA6YTO4eKnfMgdicYbAZR4i
+ DO6+obZNzYEjR8UB82pUqWAS4hgdlkc=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1624609375;
+ s=susede2_ed25519; t=1624609376;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=i7Mr56wyd4h/V3HPoGieGlHpgVrzao6TyGx3y2AtGrg=;
- b=Dd0Wt8eUgeBW9yTqWGo3KUuQw2yM/xIxdFvxs1YwDSDyOpqX6z3vivBbMRjJuKma36JPkk
- lWa1k+wQh9JS7zAQ==
-Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
- by imap.suse.de (Postfix) with ESMTP id 431AB11A97;
- Fri, 25 Jun 2021 08:22:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1624609375; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=i7Mr56wyd4h/V3HPoGieGlHpgVrzao6TyGx3y2AtGrg=;
- b=qO3BEAD2KYKl4fmnza5+IV9Vt5jhkU/EMizztUtDwG7nvW0tgWTuHVK3PeeUUSXfbtifaw
- ky2v08a1WngeKmld3Yq5AlHZgskfKBL7AQy5aV8jFjqzOeKoVTTrLNoIyHS1Od7JJHw8fD
- S66OLARrlLbxwXCmedyS4gBGpfER+T8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1624609375;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=i7Mr56wyd4h/V3HPoGieGlHpgVrzao6TyGx3y2AtGrg=;
- b=Dd0Wt8eUgeBW9yTqWGo3KUuQw2yM/xIxdFvxs1YwDSDyOpqX6z3vivBbMRjJuKma36JPkk
- lWa1k+wQh9JS7zAQ==
+ bh=n83/+9s2T5Nzubb+gy66mf0gKEocr9OM5q295e9qPfs=;
+ b=o3fQdTNLVHh5970RBO6mIFq5blkEA+2h/NDmQ/ZhmABezPVIHBQS+2d+2QRBq25g690uro
+ +iiJO6QfgDJ44fAQ==
 Received: from director2.suse.de ([192.168.254.72]) by imap3-int with ESMTPSA
- id sB+PD16S1WAISwAALh3uQQ
- (envelope-from <tzimmermann@suse.de>); Fri, 25 Jun 2021 08:22:54 +0000
+ id 2MCpHF+S1WAISwAALh3uQQ
+ (envelope-from <tzimmermann@suse.de>); Fri, 25 Jun 2021 08:22:55 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch, airlied@linux.ie, alexander.deucher@amd.com,
  christian.koenig@amd.com, Xinhui.Pan@amd.com, james.qian.wang@arm.com,
@@ -82,9 +82,9 @@ To: daniel@ffwll.ch, airlied@linux.ie, alexander.deucher@amd.com,
  rodrigo.vivi@intel.com, linux@armlinux.org.uk,
  kieran.bingham+renesas@ideasonboard.com, rodrigosiqueiramelo@gmail.com,
  melissa.srw@gmail.com, hamohammed.sa@gmail.com
-Subject: [PATCH v4 26/27] drm/xlnx: Don't set struct drm_device.irq_enabled
-Date: Fri, 25 Jun 2021 10:22:21 +0200
-Message-Id: <20210625082222.3845-27-tzimmermann@suse.de>
+Subject: [PATCH v4 27/27] drm/zte: Don't set struct drm_device.irq_enabled
+Date: Fri, 25 Jun 2021 10:22:22 +0200
+Message-Id: <20210625082222.3845-28-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210625082222.3845-1-tzimmermann@suse.de>
 References: <20210625082222.3845-1-tzimmermann@suse.de>
@@ -113,28 +113,32 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 The field drm_device.irq_enabled is only used by legacy drivers
-with userspace modesetting. Don't set it in xlnx.
+with userspace modesetting. Don't set it in zte.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 ---
- drivers/gpu/drm/xlnx/zynqmp_dpsub.c | 2 --
- 1 file changed, 2 deletions(-)
+ drivers/gpu/drm/zte/zx_drm_drv.c | 6 ------
+ 1 file changed, 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/xlnx/zynqmp_dpsub.c b/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
-index 0c1c50271a88..ac37053412a1 100644
---- a/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
-+++ b/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
-@@ -111,8 +111,6 @@ static int zynqmp_dpsub_drm_init(struct zynqmp_dpsub *dpsub)
- 	if (ret)
- 		return ret;
+diff --git a/drivers/gpu/drm/zte/zx_drm_drv.c b/drivers/gpu/drm/zte/zx_drm_drv.c
+index 5506336594e2..064056503ebb 100644
+--- a/drivers/gpu/drm/zte/zx_drm_drv.c
++++ b/drivers/gpu/drm/zte/zx_drm_drv.c
+@@ -75,12 +75,6 @@ static int zx_drm_bind(struct device *dev)
+ 		goto out_unbind;
+ 	}
  
--	drm->irq_enabled = 1;
+-	/*
+-	 * We will manage irq handler on our own.  In this case, irq_enabled
+-	 * need to be true for using vblank core support.
+-	 */
+-	drm->irq_enabled = true;
 -
+ 	drm_mode_config_reset(drm);
  	drm_kms_helper_poll_init(drm);
  
- 	/*
 -- 
 2.32.0
 
