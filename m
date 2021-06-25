@@ -2,62 +2,108 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23EA93B4788
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Jun 2021 18:42:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 826313B4835
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Jun 2021 19:28:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C1C706EDF4;
-	Fri, 25 Jun 2021 16:42:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7FCBB6EE1A;
+	Fri, 25 Jun 2021 17:28:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf34.google.com (mail-qv1-xf34.google.com
- [IPv6:2607:f8b0:4864:20::f34])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3980B6EDF4
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Jun 2021 16:42:17 +0000 (UTC)
-Received: by mail-qv1-xf34.google.com with SMTP id f5so5485961qvu.8
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Jun 2021 09:42:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=fsozG1UsXB2tqec6xjxXbUbC1wkoz0cK0Wz9twWzXrE=;
- b=F1Px+J58uFH8y7P+rEv+X4VWjH7cFC1cbLejg11LMon62y5NIkwpKcPlpLqI8QX2+B
- UEyvysbgADqkiWRTwZq4c2vt0WL2SXKMRQW+qP6CgPXDpdJUjypEriQI8hGuolCnZTHX
- Br0mCzH4qazhAne4TFOTtmFpJERhGa5R8ydOQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=fsozG1UsXB2tqec6xjxXbUbC1wkoz0cK0Wz9twWzXrE=;
- b=W14/xeqPa1eWnyBJQ3K1pntqBrl5W6EyV2rPMZr/YG5yoE+qdaSYnfuxIA9GfxOxan
- 2nH6mHC6+Kuy7M49jYRPwnihg5ba7pJcktFE0jRsSJOgW6+MQLtUUihBPeX1G4UFOcUP
- BUvswi6UFEVWcsUgjGklt8GifxZV9Euc89/uEnAS346u0uALC78w+zcz7glvxXWU1Uko
- OQCn3Lvmf3gDq0bY9G24YgonXdbVWHPwRKM5FM/0x/5kyosBYfuoq40c71gupFtgSqqU
- NfkjLaenrKGeJ2oBA4DEBNRBNj6SOoOzjBDNephZQ7uoXp4mhKLq4gadymN/6a2EXKtT
- gpsw==
-X-Gm-Message-State: AOAM532sDbael7+S1dfJ5FoR5z72OvETdtdbezjW0oa/61yoraIqvJwi
- zBrl3f5vFpn2BacPbxqTTsY7dBEpNm940A==
-X-Google-Smtp-Source: ABdhPJw75QAQfwjw91P4bWITLi96mIetKSfi4DFyRL4EqrXY42YuZELVeCcCXeLiz5Zm45+JwZu5pg==
-X-Received: by 2002:ad4:598f:: with SMTP id ek15mr12010630qvb.15.1624639336082; 
- Fri, 25 Jun 2021 09:42:16 -0700 (PDT)
-Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com.
- [209.85.219.173])
- by smtp.gmail.com with ESMTPSA id g19sm4109970qtg.36.2021.06.25.09.42.15
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 25 Jun 2021 09:42:15 -0700 (PDT)
-Received: by mail-yb1-f173.google.com with SMTP id t8so5530003ybt.10
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Jun 2021 09:42:15 -0700 (PDT)
-X-Received: by 2002:a25:60c1:: with SMTP id
- u184mr13311344ybb.343.1624639334895; 
- Fri, 25 Jun 2021 09:42:14 -0700 (PDT)
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2063.outbound.protection.outlook.com [40.107.223.63])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8413C6EE19;
+ Fri, 25 Jun 2021 17:28:25 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Hzs9NY1vu2jl/9rgH9CoyCWGMvp3rNYUHsJaFeVhmO+7EMEe5S3lIYWn4W8vY40PLy3J0Nk54I2kW6qBZ9tdkqjlWQ3cLlelpnumfpGkVV2wuinFqMEfbsJFFBlWGu6pMVNV3d/wSrT/uEbWgL/72+XcY6M+PeZh007a7fZkdWMp1n6uGmMRi7vKfnkfeeZPZkhPluDQHI1SKUnrcfFv2II0pVH0rBnmeaoo7JyFWccTsHdx5cZORuaM/7xfibXqN5DGYdMqm+9xdaNG0pQt5DU9ZVOO4ftEUevLE98LPkOOfEkh7AHpKUYorMC4cXzQNkkLBNwFKHgLPE17jx/2og==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=S/VvQQ1MLM6R9li8oKcyvzqQ8aajy6NZ/0NdYTt9/88=;
+ b=gJSyrbr4HuUkSuS/exc3v0ZAylp4WFyjivuINDioSkFnxT10+T/BFI1bTyO490yBTbRyO7HZhlB3Ixk5marJyk8JKHACmN3xkk1nM4eZttrftzn+bJ/6QHihScmpbwTi+TdPH+kGJOH/Y5oWlxIJeMhBE4OQeYD2S+e5Y4D/KTiwcelraMWLZmGzkgeH1hgjoDBdRQNc9iYpniQv01pRHQTLM95HQ7C9H2P1WrHLTAU1RT5vV9qu0SQZLn5dF4j44hTjYdJYlNULlYA+dOUz6sbint/0Fj2FDdPzE5ng3NvxOH9UJTrMKPqYlu4Ct+dnFfQTqcrFK4yOqUk+v7SRWA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=S/VvQQ1MLM6R9li8oKcyvzqQ8aajy6NZ/0NdYTt9/88=;
+ b=S4NuaAm3yMeFfaJZ1ZgOeQNGtSO1daaob8p5izrTBrjtjIdlytA07bAKLJcXSdybPcEUr7+YufDYdRVrcf2rccgw2GvbbxDESldIN8SS07ALCFghOLCpy23Gj/vBMM57jniKt/b5R5Jv1Y3MZVJecJdTTk93uzk1GmrKbeCWiWs=
+Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
+ header.d=none; lists.freedesktop.org;
+ dmarc=none action=none header.from=amd.com;
+Received: from DM4PR12MB5136.namprd12.prod.outlook.com (2603:10b6:5:393::23)
+ by DM8PR12MB5493.namprd12.prod.outlook.com (2603:10b6:8:3d::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4264.19; Fri, 25 Jun
+ 2021 17:28:23 +0000
+Received: from DM4PR12MB5136.namprd12.prod.outlook.com
+ ([fe80::901b:72bb:a15:2a68]) by DM4PR12MB5136.namprd12.prod.outlook.com
+ ([fe80::901b:72bb:a15:2a68%4]) with mapi id 15.20.4264.023; Fri, 25 Jun 2021
+ 17:28:23 +0000
+From: Nirmoy Das <nirmoy.das@amd.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH 1/2] drm/amdgpu: return early for preempt type BOs
+Date: Fri, 25 Jun 2021 19:28:03 +0200
+Message-Id: <20210625172804.3193-1-nirmoy.das@amd.com>
+X-Mailer: git-send-email 2.32.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [217.86.118.138]
+X-ClientProxiedBy: FR0P281CA0037.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:48::19) To DM4PR12MB5136.namprd12.prod.outlook.com
+ (2603:10b6:5:393::23)
 MIME-Version: 1.0
-References: <20210624224458.2486701-1-linus.walleij@linaro.org>
-In-Reply-To: <20210624224458.2486701-1-linus.walleij@linaro.org>
-From: Doug Anderson <dianders@chromium.org>
-Date: Fri, 25 Jun 2021 09:42:02 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=UdaGnUk8E9JobeTfS4nQdHxXbc++T2UtCmyzRLu5eeJA@mail.gmail.com>
-Message-ID: <CAD=FV=UdaGnUk8E9JobeTfS4nQdHxXbc++T2UtCmyzRLu5eeJA@mail.gmail.com>
-Subject: Re: [PATCH] drm/panel: ws2401: Add driver for WideChips WS2401
-To: Linus Walleij <linus.walleij@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from brihaspati.fritz.box (217.86.118.138) by
+ FR0P281CA0037.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:48::19) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4287.8 via Frontend Transport; Fri, 25 Jun 2021 17:28:22 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: fd84a602-0789-4363-ffd3-08d937fea22f
+X-MS-TrafficTypeDiagnostic: DM8PR12MB5493:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <DM8PR12MB549325A989148C8DDF8197338B069@DM8PR12MB5493.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3631;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: UNOkueXtoBxOd/S91RxpWqhUwyDln1B1UcEGfyhsZpHL3IAO3Mm5T+Q2FMMCitOo4VdQsRHw8SHYcVHMAXQ+KS3kQFkXozV+XOyF+bS50lIGjcFhF0GFgJzVuyXbQZezzOQdivIelxhnfZd/UU/fZ4meOFwETVn6TDC+mmzvvVxa4zvUkkyLOGcPqaP909KXYExdL0RG7nZr5fm7P8hlaU4V5GXdLKJDvFDeIVtCNPEylE1dUtf4FTRYcSv+8rBM3lGvegLVB4TBlK07wlkQklCg5dPnRU2yg9AqkVPbhDnFd9CWKJL67Z4Oic6YWB7QUEp2cy3tWHlH0Kt7PNYKdJja/yEpGQ+J8/wgkylydq9xa1KtV6uSvJdsEGARWj65Z3BkIsiXO0iQRNxuWhYGay31nEdx2a86Ws5UwhpJwYcra7xIqilWtNAH0w3ioQELjk70C0JUPi1id0oAQaynOn/VjBAOLtt9Hhnh4kABKf1KNiEZzi6QUYEEJTbnWweEGJ8Rj6/RZzz87T8KYaB0drZWDvXccKYA9ToB7XOsDSKoEADnPu0EdDXmzNmbef/cWv/Gm/OEG2sCr4i2j4bXxQqEfJqVGhr4LP4Lib6ImXukcOqkE/pyE4Rb6MXZ611ErriBwH445+rtRO2tbs0MJA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR12MB5136.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(376002)(39860400002)(346002)(396003)(136003)(66476007)(66556008)(4744005)(316002)(186003)(26005)(16526019)(956004)(44832011)(2616005)(52116002)(66946007)(1076003)(6506007)(86362001)(450100002)(4326008)(6666004)(36756003)(478600001)(2906002)(8676002)(6916009)(8936002)(38350700002)(38100700002)(5660300002)(6486002)(6512007);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?NgjUrzhrWqPP1pPgiJQV0q+BkytUP4yRXfcOW0LUyxqdqR3xrvKmLy59wXv9?=
+ =?us-ascii?Q?tl8FNl0pM+yaelbgJ6tauBcM10cfnYDCsdvFChngjNHwoelOjSFZBCMuy0e4?=
+ =?us-ascii?Q?Io+wRObckeh9V9T2fXKFfsr9OlFjzl8DNWk3KGi4joIcc07dzgmLeIiUDBlZ?=
+ =?us-ascii?Q?U1PNDurPw6KnwVoDu/pAd3ZcHhc78SyhRghjaM8iYRnTZGMCsKb+scJrwIdn?=
+ =?us-ascii?Q?xU2BYkWnyafEv0egJaj/pFClZXivPB7uWPyH8FmchcmhW4G5Ye/MLCQfrMid?=
+ =?us-ascii?Q?VLv9Vl5dc2/yTj/KpoyNWyRRmW3llF/LFeJM21OcCnB0ouKCwSb5D13QHX3o?=
+ =?us-ascii?Q?FAT48PbUr3V38WWtc+qUkOsOBe/17HNDZI5mLlieKiCIwK66nI1iXkmfL7hd?=
+ =?us-ascii?Q?235JUY1EklpPM1VugrZG6GW+Pc53f8i003eSLexUloSM8r37M63Re4T1ujMm?=
+ =?us-ascii?Q?xKUrLdaeF+zPiD8XW45a3Vlk/Q1P40javhN1ac4/IIuCIsV5uI5Uq9njeUVT?=
+ =?us-ascii?Q?F2Tiihb9YRmwfe1aRbftJG3Gv6fvgpFUnnZC0wdzYNNh0jXGEjMZMEJYTN+w?=
+ =?us-ascii?Q?GD/y3plR1m9oBsYIT/CJOt7NEW4/4sN9xXR0oRk8Wl/sNXEhiMGbGTy5H1Ji?=
+ =?us-ascii?Q?6dMcixOYW4ovoHT4inPSpdewfaliZNejDqkV/QS/7lOByBKkcSc001YayD5z?=
+ =?us-ascii?Q?kreY91sQNMx76/sCoCcW/LMrmvnuTq+cVRE0A7SAmXnimc/U6kN611rV8XKG?=
+ =?us-ascii?Q?2EDRW2hrzctb9ECWRuhI0WdNpjIdSkll3TZcj51NHFuRUFcBBLMeuGamf+B7?=
+ =?us-ascii?Q?nN68VsasnRBTnHq6uIcaul3kMxxGIVWMggaCl6XroLRFz09toUvDb2vVNp73?=
+ =?us-ascii?Q?H2YsVJZnAdUOm3Os7EX2yW97UufCKZMfpPnY0urCXW5eLXUqiYWRH+7ZhnwE?=
+ =?us-ascii?Q?BnVxZuv5ztUk2TsYt2HILHx9D1xrEFprvWeTBcsazxT0I7BzYNdII4inMgps?=
+ =?us-ascii?Q?RY/LVH8GWnqxUGldpv+4Z1DkavabisQYen1SrfH2imf6fvpECHpXnh10lbCR?=
+ =?us-ascii?Q?8VoyQzhzB1XNoS1turJuBVCPy2ljbm8XSD5lGoaajvewKBIcLD3c//gKE+0a?=
+ =?us-ascii?Q?+DWoz+FzfY+g+gsxmPQ10mWSy7eEB5cSwkjzVlweB+XdXyWP/IXSBAORxH6g?=
+ =?us-ascii?Q?lh2cAV6OwutRpK/ErlDh2CjIkz+w2iivneBAKxJKuq0ehicg4aLVv1O7ChnB?=
+ =?us-ascii?Q?qlL7FQ5yQ2mNTpnaeNaeaEMnBOM1Pe6q9G/PPpjwjxNHvolWsTm354d80e5y?=
+ =?us-ascii?Q?XGNvua9sd0e8hMitsjk/gdkj?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fd84a602-0789-4363-ffd3-08d937fea22f
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB5136.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jun 2021 17:28:23.6083 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: mPMQoPloAsbgoMqAVyPiazSWWV8UZkHIi8HWODmErFkneeHt1FXgKAJsxURieVLKvUvAATbXDGbsmr6uubQ/DQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM8PR12MB5493
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,151 +116,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, phone-devel@vger.kernel.org
+Cc: Felix.Kuehling@amd.com, Nirmoy Das <nirmoy.das@amd.com>,
+ Christian.Koenig@amd.com, amd-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Return early for AMDGPU_PL_PREEMPT BOs so that we don't pass
+wrong pointer to amdgpu_gtt_mgr_has_gart_addr() which assumes
+ttm_resource argument to be TTM_PL_TT type BO's.
 
-On Thu, Jun 24, 2021 at 3:47 PM Linus Walleij <linus.walleij@linaro.org> wrote:
->
-> @@ -5946,6 +5946,13 @@ S:       Maintained
->  T:     git git://anongit.freedesktop.org/drm/drm-misc
->  F:     drivers/gpu/drm/vboxvideo/
->
-> +DRM DRIVER FOR WIDECHIPS WS2401 PANELS
-> +M:     Linus Walleij <linus.walleij@linaro.org>
-> +S:     Maintained
-> +T:     git git://anongit.freedesktop.org/drm/drm-misc
-> +F:     Documentation/devicetree/bindings/display/panel/samsung,lms380kf01.yaml
-> +F:     drivers/gpu/drm/panel/panel-widechips-ws2401.c
-> +
->  DRM DRIVER FOR VMWARE VIRTUAL GPU
+Signed-off-by: Nirmoy Das <nirmoy.das@amd.com>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-nit: I assume this is supposed to be alphabetized? If so, [W]IDECHIPS
-comes after [V]MWARE
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+index b46726e47bce..3df06772a425 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+@@ -926,6 +926,11 @@ static int amdgpu_ttm_backend_bind(struct ttm_device *bdev,
+ 	    bo_mem->mem_type == AMDGPU_PL_OA)
+ 		return -EINVAL;
+ 
++	if (bo_mem->mem_type == AMDGPU_PL_PREEMPT) {
++		gtt->offset = AMDGPU_BO_INVALID_OFFSET;
++		return 0;
++	}
++
+ 	if (!amdgpu_gtt_mgr_has_gart_addr(bo_mem)) {
+ 		gtt->offset = AMDGPU_BO_INVALID_OFFSET;
+ 		return 0;
+-- 
+2.32.0
 
-
-> @@ -0,0 +1,404 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Panel driver for the WideChips WS2401 480x800 DPI RGB panel, used in
-> + * the Samsung Mobile Display (SMD) LMS380KF01.
-> + * Found in the Samsung Galaxy Ace 2 GT-I8160 mobile phone.
-> + * Linus Walleij <linus.walleij@linaro.org>
-> + * Inspired by code and know-how in the vendor driver by Gareth Phillips.
-> + */
-> +#include <drm/drm_modes.h>
-> +#include <drm/drm_mipi_dbi.h>
-
-nit: m[o]des sorts after m[i]pi
-
-
-> +#define ws2401_command(ws, cmd, seq...) \
-> +({ \
-> +       struct mipi_dbi *dbi = &ws->dbi; \
-> +       int ret; \
-> +       ret = mipi_dbi_command(dbi, cmd, seq);  \
-> +       if (ret) { \
-> +               dev_err(ws->dev, "failure in writing command %02x\n", cmd); \
-> +       } \
-
-nit: don't need braces for the "if", right?
-
-optional nit: use %#02x instead of %02x
-
-
-> +})
-> +
-> +static void ws2401_read_mtp_id(struct ws2401 *ws)
-> +{
-> +       struct mipi_dbi *dbi = &ws->dbi;
-> +       u8 id1, id2, id3;
-> +       int ret;
-> +
-> +       ret = mipi_dbi_command_read(dbi, WS2401_READ_ID1, &id1);
-> +       if (ret) {
-> +               dev_err(ws->dev, "unable to read MTP ID 1\n");
-> +               return;
-> +       }
-> +       ret = mipi_dbi_command_read(dbi, WS2401_READ_ID2, &id1);
-> +       if (ret) {
-> +               dev_err(ws->dev, "unable to read MTP ID 2\n");
-> +               return;
-> +       }
-> +       ret = mipi_dbi_command_read(dbi, WS2401_READ_ID3, &id1);
-> +       if (ret) {
-> +               dev_err(ws->dev, "unable to read MTP ID 3\n");
-> +               return;
-> +       }
-> +       dev_info(ws->dev, "MTP ID: %02x %02x %02x\n", id1, id2, id3);
-
-Does this need to be printed every time you power on the panel? Seems
-like it's going to spam up the logs... I'm not sure what it's used
-for.
-
-
-> +static int ws2401_power_off(struct ws2401 *ws)
-> +{
-> +       /* Disable backlight */
-> +       if (ws->bl)
-> +               ws2401_command(ws, WS2401_WRCTRLD, 0x00);
-
-I don't have any real knowledge here, but the location of this seems a
-little odd. Just based on inspection of the rest of the driver, I
-almost would have thought it would need to be sent _before_ entering
-sleep mode, but I certainly could be wrong.
-
-
-> +static int ws2401_disable(struct drm_panel *panel)
-> +{
-> +       struct ws2401 *ws = to_ws2401(panel);
-> +
-> +       ws2401_command(ws, MIPI_DCS_SET_DISPLAY_OFF);
-> +       msleep(25);
-
-It feels weird / arbitrary the split between "disable" and "unprepare"
-on this panel driver compared to the "db7430.c" one. In the other
-driver you put the sleep mode here and in this driver you put the
-sleep mode un "unpreapre". Is that for a reason, or just arbitrary?
-Can it be consistent between the two drivers?
-
-I guess maybe this is because in "db7430" the power up order was
-slightly different?
-
-
-> +static const struct backlight_ops ws2401_bl_ops = {
-> +       .update_status = ws2401_set_brightness,
-> +};
-> +
-> +const struct backlight_properties ws2401_bl_props = {
-
-"static const" instead of "const"?
-
-
-> +       ret = drm_panel_of_backlight(&ws->panel);
-> +       if (ret) {
-> +               dev_info(dev, "no external backlight, using internal backlight\n");
-> +               ws->bl = devm_backlight_device_register(dev, "ws2401", dev, ws,
-> +                                                       &ws2401_bl_ops, &ws2401_bl_props);
-> +               if (IS_ERR(ws->bl)) {
-> +                       ret = PTR_ERR(ws->bl);
-> +                       return dev_err_probe(dev, ret,
-> +                                            "failed to register backlight device\n");
-
-nit: probably didn't need the separate assignment to "ret". Just pass
-"PTR_ERR(ws->bl)" to the function. Then no need for braces for your
-"if" too.
-
-> +               }
-> +               ws->panel.backlight = ws->bl;
-> +       } else {
-> +               dev_info(dev, "using external backlight\n");
-
-This (and the other "no extenal backlight") feels a bit chatty to me.
-If you really want them and want them at "info" level then I won't
-object, but I guess I like short logs even with "info" enabled.
-
--Doug
