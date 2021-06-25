@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0842F3B3D89
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Jun 2021 09:37:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E7733B3D90
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Jun 2021 09:37:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A28046ECE7;
-	Fri, 25 Jun 2021 07:37:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E5616ECE2;
+	Fri, 25 Jun 2021 07:37:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com
- [IPv6:2607:f8b0:4864:20::52a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 272EE6ECE7
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Jun 2021 07:37:31 +0000 (UTC)
-Received: by mail-pg1-x52a.google.com with SMTP id e20so6919059pgg.0
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Jun 2021 00:37:31 -0700 (PDT)
+Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com
+ [IPv6:2607:f8b0:4864:20::62e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B89AC6ECEA
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Jun 2021 07:37:37 +0000 (UTC)
+Received: by mail-pl1-x62e.google.com with SMTP id f10so4314556plg.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Jun 2021 00:37:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=u4Msfi+S3PkAmckIb45Y4YhfvK0zrfK1v0GQOeKxL8U=;
- b=jsVWx4zRHi5LgbBDABZxQBMVf0I5Pehki/bLP1YEDTCFU+7oqcawuLdQyOF/WTHvrm
- GkAZKMD5IiMtCqrbGlu910q/CyOs+isCAewjZKOhwg59+E7AXomrJ6A2uZ9RqaGcXirk
- lV0SFGaAyCFC4T82D6h/FrcpvKiIknqhpH6yk=
+ bh=QKJBsVMhO/c8x/QJ2YicFcm13QERHw4iNUX2fp9JB6U=;
+ b=V3TR8715BNVqtFn4F1WGtuVoW01H4ri7xKq71i8t4rFpfyZ8dDJtHt1HeMri6IlxnK
+ J1uSTODyFoTeoNMweDwu4Jyqs4UnmGiGQLR8tkZQ/10/nQurbFovfK3CMuo1+ETzm+oO
+ f6x4DiftQXOJv1yYbahTM6GkVF3OGel/sjA9w=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=u4Msfi+S3PkAmckIb45Y4YhfvK0zrfK1v0GQOeKxL8U=;
- b=e38ifb0UlghX8EjpxrBhWwH513PTqZZoGJ2BgDtFZi9u4vHgt0hbzA6wnhAEOiKzpW
- MmIGTgSAK9Ve31A+g3ubSqM7i1ZU6cO/jPpDHl8kr3SmAqFb/icSWlYgzGT2eDJU3Dn2
- uOpydGB6Wi45mx612YBnRBt/Vm2lwQBWa6/QRuCPakJimEQO6kVcW69TLeh5Pj7UkKG9
- y+3GkwVM8wOwiAF7B2d5iRMar7z+Z2eSazNBV5s0UTRkk4GJZa8bweEY+tgdIK/UlqOq
- oUDW/H5WgYciTcy/58VSs7CW4fEmf3NqFix9dHMAcEfBZzAe6yqbgQKo50wDY53fzRVj
- IEtQ==
-X-Gm-Message-State: AOAM532GiKjHFb0sbzRB99ViBZ2Bb/7E/G5LoHJJw94HCQB7rcgywzK8
- h1SBqEU16P2eBva9TJ8sd5Emfg==
-X-Google-Smtp-Source: ABdhPJyyESM737HvNDRLo7wsjj7srNzMihvC96O4J3ijX1Pbthrr46lvLTHJ0sjdv2LUYHCcdC3mGQ==
-X-Received: by 2002:a05:6a00:238e:b029:2ef:839b:adc7 with SMTP id
- f14-20020a056a00238eb02902ef839badc7mr9115989pfc.54.1624606650766; 
- Fri, 25 Jun 2021 00:37:30 -0700 (PDT)
+ bh=QKJBsVMhO/c8x/QJ2YicFcm13QERHw4iNUX2fp9JB6U=;
+ b=eY/84oEdqKmLM2hXzK0tkv/D5xOPI5XKNGLv+p+yhgQWEgo+el75uvXNekaCYm9Agi
+ xycABc5EXhT6mph03RuaUXI4ax/hQkeSYyaRahCgKTZwDJlSd7RSGtGSPMZ/yqJDOegz
+ OVn1q/NthYbSRokApMs3g/Z5tIw8jeUJSD9jBmlpWANdIdIGaokxN1cizNIPeKyDkZfn
+ I1VA6pCC6PgFNugoyg2UhComNqchmR/ut/n/JOeBAV3QaknnaA2S8CXBsrzflf1o1jTh
+ fwXG9+4Z7bcL0AhBXiDxPN7L9LCZHpuNhLAIBtmZ1/sdHvtF0fq25BQMLzfWAkosnzih
+ 4rsQ==
+X-Gm-Message-State: AOAM532ZbYgSXThdswnJfT2UEnmb9BrhhFKZxm95CmhJPgTns1gmPRlh
+ UQTqMNrgHQjmgxdwgwBqxuLOCg==
+X-Google-Smtp-Source: ABdhPJwPyhoQmRD69YemrujRsqthuRR7FEcPQlV7KWoQXinWfASl9bYRd9sm8JFk9b6+Z2BOsrDrIg==
+X-Received: by 2002:a17:90b:46c3:: with SMTP id
+ jx3mr9718656pjb.206.1624606657339; 
+ Fri, 25 Jun 2021 00:37:37 -0700 (PDT)
 Received: from localhost ([2401:fa00:8f:203:1492:9d4f:19fa:df61])
- by smtp.gmail.com with UTF8SMTPSA id j22sm4516344pgb.62.2021.06.25.00.37.25
+ by smtp.gmail.com with UTF8SMTPSA id c20sm4941588pfp.203.2021.06.25.00.37.32
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 25 Jun 2021 00:37:30 -0700 (PDT)
+ Fri, 25 Jun 2021 00:37:37 -0700 (PDT)
 From: David Stevens <stevensd@chromium.org>
 X-Google-Original-From: David Stevens <stevensd@google.com>
 To: Marc Zyngier <maz@kernel.org>, Huacai Chen <chenhuacai@kernel.org>,
  Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
  Paul Mackerras <paulus@ozlabs.org>, Paolo Bonzini <pbonzini@redhat.com>,
  Nick Piggin <npiggin@gmail.com>
-Subject: [PATCH v2 2/5] KVM: mmu: introduce new gfn_to_pfn_page functions
-Date: Fri, 25 Jun 2021 16:36:13 +0900
-Message-Id: <20210625073616.2184426-3-stevensd@google.com>
+Subject: [PATCH v2 3/5] KVM: x86/mmu: use gfn_to_pfn_page
+Date: Fri, 25 Jun 2021 16:36:14 +0900
+Message-Id: <20210625073616.2184426-4-stevensd@google.com>
 X-Mailer: git-send-email 2.32.0.93.g670b81a890-goog
 In-Reply-To: <20210625073616.2184426-1-stevensd@google.com>
 References: <20210625073616.2184426-1-stevensd@google.com>
@@ -85,371 +85,329 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: David Stevens <stevensd@chromium.org>
 
-Introduce new gfn_to_pfn_page functions that parallel existing
-gfn_to_pfn functions. The new functions are identical except they take
-an additional out parameter that is used to return the struct page if
-the hva was resolved by gup. This allows callers to differentiate the
-gup and follow_pte cases, which in turn allows callers to only touch the
-page refcount when necessitated by gup.
-
-The old gfn_to_pfn functions are depreciated, and all callers should be
-migrated to the new gfn_to_pfn_page functions. In the interim, the
-gfn_to_pfn functions are reimplemented as wrappers of the corresponding
-gfn_to_pfn_page functions. The wrappers take a reference to the pfn's
-page that had previously been taken in hva_to_pfn_remapped.
+Covert usages of the deprecated gfn_to_pfn functions to the new
+gfn_to_pfn_page functions.
 
 Signed-off-by: David Stevens <stevensd@chromium.org>
 ---
- include/linux/kvm_host.h |  17 ++++
- virt/kvm/kvm_main.c      | 186 ++++++++++++++++++++++++++++-----------
- 2 files changed, 152 insertions(+), 51 deletions(-)
+ arch/x86/kvm/mmu/mmu.c          | 43 ++++++++++++++++++++-------------
+ arch/x86/kvm/mmu/mmu_internal.h |  3 ++-
+ arch/x86/kvm/mmu/paging_tmpl.h  | 23 +++++++++++-------
+ arch/x86/kvm/mmu/tdp_mmu.c      |  6 ++---
+ arch/x86/kvm/mmu/tdp_mmu.h      |  4 +--
+ arch/x86/kvm/x86.c              |  6 +++--
+ 6 files changed, 51 insertions(+), 34 deletions(-)
 
-diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
-index ae7735b490b4..2f828edd7278 100644
---- a/include/linux/kvm_host.h
-+++ b/include/linux/kvm_host.h
-@@ -820,6 +820,19 @@ kvm_pfn_t __gfn_to_pfn_memslot(struct kvm_memory_slot *slot, gfn_t gfn,
- 			       bool atomic, bool *async, bool write_fault,
- 			       bool *writable, hva_t *hva);
- 
-+kvm_pfn_t gfn_to_pfn_page(struct kvm *kvm, gfn_t gfn, struct page **page);
-+kvm_pfn_t gfn_to_pfn_page_prot(struct kvm *kvm, gfn_t gfn,
-+			       bool write_fault, bool *writable,
-+			       struct page **page);
-+kvm_pfn_t gfn_to_pfn_page_memslot(struct kvm_memory_slot *slot,
-+				  gfn_t gfn, struct page **page);
-+kvm_pfn_t gfn_to_pfn_page_memslot_atomic(struct kvm_memory_slot *slot,
-+					 gfn_t gfn, struct page **page);
-+kvm_pfn_t __gfn_to_pfn_page_memslot(struct kvm_memory_slot *slot,
-+				    gfn_t gfn, bool atomic, bool *async,
-+				    bool write_fault, bool *writable,
-+				    hva_t *hva, struct page **page);
-+
- void kvm_release_pfn_clean(kvm_pfn_t pfn);
- void kvm_release_pfn_dirty(kvm_pfn_t pfn);
- void kvm_set_pfn_dirty(kvm_pfn_t pfn);
-@@ -901,6 +914,10 @@ struct kvm_memslots *kvm_vcpu_memslots(struct kvm_vcpu *vcpu);
- struct kvm_memory_slot *kvm_vcpu_gfn_to_memslot(struct kvm_vcpu *vcpu, gfn_t gfn);
- kvm_pfn_t kvm_vcpu_gfn_to_pfn_atomic(struct kvm_vcpu *vcpu, gfn_t gfn);
- kvm_pfn_t kvm_vcpu_gfn_to_pfn(struct kvm_vcpu *vcpu, gfn_t gfn);
-+kvm_pfn_t kvm_vcpu_gfn_to_pfn_page_atomic(struct kvm_vcpu *vcpu, gfn_t gfn,
-+					  struct page **page);
-+kvm_pfn_t kvm_vcpu_gfn_to_pfn_page(struct kvm_vcpu *vcpu, gfn_t gfn,
-+				   struct page **page);
- int kvm_vcpu_map(struct kvm_vcpu *vcpu, gpa_t gpa, struct kvm_host_map *map);
- int kvm_map_gfn(struct kvm_vcpu *vcpu, gfn_t gfn, struct kvm_host_map *map,
- 		struct gfn_to_pfn_cache *cache, bool atomic);
-diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-index f7445c3bcd90..1de8702845ac 100644
---- a/virt/kvm/kvm_main.c
-+++ b/virt/kvm/kvm_main.c
-@@ -2102,9 +2102,9 @@ static inline int check_user_page_hwpoison(unsigned long addr)
-  * only part that runs if we can in atomic context.
-  */
- static bool hva_to_pfn_fast(unsigned long addr, bool write_fault,
--			    bool *writable, kvm_pfn_t *pfn)
-+			    bool *writable, kvm_pfn_t *pfn,
-+			    struct page **page)
- {
--	struct page *page[1];
- 
- 	/*
- 	 * Fast pin a writable pfn only if it is a write fault request
-@@ -2115,7 +2115,7 @@ static bool hva_to_pfn_fast(unsigned long addr, bool write_fault,
- 		return false;
- 
- 	if (get_user_page_fast_only(addr, FOLL_WRITE, page)) {
--		*pfn = page_to_pfn(page[0]);
-+		*pfn = page_to_pfn(*page);
- 
- 		if (writable)
- 			*writable = true;
-@@ -2130,10 +2130,9 @@ static bool hva_to_pfn_fast(unsigned long addr, bool write_fault,
-  * 1 indicates success, -errno is returned if error is detected.
-  */
- static int hva_to_pfn_slow(unsigned long addr, bool *async, bool write_fault,
--			   bool *writable, kvm_pfn_t *pfn)
-+			   bool *writable, kvm_pfn_t *pfn, struct page **page)
- {
- 	unsigned int flags = FOLL_HWPOISON;
--	struct page *page;
- 	int npages = 0;
- 
- 	might_sleep();
-@@ -2146,7 +2145,7 @@ static int hva_to_pfn_slow(unsigned long addr, bool *async, bool write_fault,
- 	if (async)
- 		flags |= FOLL_NOWAIT;
- 
--	npages = get_user_pages_unlocked(addr, 1, &page, flags);
-+	npages = get_user_pages_unlocked(addr, 1, page, flags);
- 	if (npages != 1)
- 		return npages;
- 
-@@ -2156,11 +2155,11 @@ static int hva_to_pfn_slow(unsigned long addr, bool *async, bool write_fault,
- 
- 		if (get_user_page_fast_only(addr, FOLL_WRITE, &wpage)) {
- 			*writable = true;
--			put_page(page);
--			page = wpage;
-+			put_page(*page);
-+			*page = wpage;
- 		}
- 	}
--	*pfn = page_to_pfn(page);
-+	*pfn = page_to_pfn(*page);
- 	return npages;
+diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
+index 00732757cc60..dd5cb6e33591 100644
+--- a/arch/x86/kvm/mmu/mmu.c
++++ b/arch/x86/kvm/mmu/mmu.c
+@@ -2702,8 +2702,9 @@ static int mmu_set_spte(struct kvm_vcpu *vcpu, u64 *sptep,
+ 	return ret;
  }
  
-@@ -2175,13 +2174,6 @@ static bool vma_is_valid(struct vm_area_struct *vma, bool write_fault)
+-static kvm_pfn_t pte_prefetch_gfn_to_pfn(struct kvm_vcpu *vcpu, gfn_t gfn,
+-				     bool no_dirty_log)
++static kvm_pfn_t pte_prefetch_gfn_to_pfn_page(struct kvm_vcpu *vcpu,
++					      gfn_t gfn, bool no_dirty_log,
++					      struct page **page)
+ {
+ 	struct kvm_memory_slot *slot;
+ 
+@@ -2711,7 +2712,7 @@ static kvm_pfn_t pte_prefetch_gfn_to_pfn(struct kvm_vcpu *vcpu, gfn_t gfn,
+ 	if (!slot)
+ 		return KVM_PFN_ERR_FAULT;
+ 
+-	return gfn_to_pfn_memslot_atomic(slot, gfn);
++	return gfn_to_pfn_page_memslot_atomic(slot, gfn, page);
+ }
+ 
+ static int direct_pte_prefetch_many(struct kvm_vcpu *vcpu,
+@@ -2840,7 +2841,8 @@ int kvm_mmu_max_mapping_level(struct kvm *kvm,
+ 
+ int kvm_mmu_hugepage_adjust(struct kvm_vcpu *vcpu, gfn_t gfn,
+ 			    int max_level, kvm_pfn_t *pfnp,
+-			    bool huge_page_disallowed, int *req_level)
++			    struct page *page, bool huge_page_disallowed,
++			    int *req_level)
+ {
+ 	struct kvm_memory_slot *slot;
+ 	kvm_pfn_t pfn = *pfnp;
+@@ -2852,6 +2854,9 @@ int kvm_mmu_hugepage_adjust(struct kvm_vcpu *vcpu, gfn_t gfn,
+ 	if (unlikely(max_level == PG_LEVEL_4K))
+ 		return PG_LEVEL_4K;
+ 
++	if (!page)
++		return PG_LEVEL_4K;
++
+ 	if (is_error_noslot_pfn(pfn) || kvm_is_reserved_pfn(pfn))
+ 		return PG_LEVEL_4K;
+ 
+@@ -2906,7 +2911,8 @@ void disallowed_hugepage_adjust(u64 spte, gfn_t gfn, int cur_level,
+ }
+ 
+ static int __direct_map(struct kvm_vcpu *vcpu, gpa_t gpa, u32 error_code,
+-			int map_writable, int max_level, kvm_pfn_t pfn,
++			int map_writable, int max_level,
++			kvm_pfn_t pfn, struct page *page,
+ 			bool prefault, bool is_tdp)
+ {
+ 	bool nx_huge_page_workaround_enabled = is_nx_huge_page_enabled();
+@@ -2919,7 +2925,7 @@ static int __direct_map(struct kvm_vcpu *vcpu, gpa_t gpa, u32 error_code,
+ 	gfn_t gfn = gpa >> PAGE_SHIFT;
+ 	gfn_t base_gfn = gfn;
+ 
+-	level = kvm_mmu_hugepage_adjust(vcpu, gfn, max_level, &pfn,
++	level = kvm_mmu_hugepage_adjust(vcpu, gfn, max_level, &pfn, page,
+ 					huge_page_disallowed, &req_level);
+ 
+ 	trace_kvm_mmu_spte_requested(gpa, level, pfn);
+@@ -3768,8 +3774,9 @@ static bool kvm_arch_setup_async_pf(struct kvm_vcpu *vcpu, gpa_t cr2_or_gpa,
+ }
+ 
+ static bool try_async_pf(struct kvm_vcpu *vcpu, bool prefault, gfn_t gfn,
+-			 gpa_t cr2_or_gpa, kvm_pfn_t *pfn, hva_t *hva,
+-			 bool write, bool *writable)
++			 gpa_t cr2_or_gpa, kvm_pfn_t *pfn,
++			 hva_t *hva, bool write, bool *writable,
++			 struct page **page)
+ {
+ 	struct kvm_memory_slot *slot = kvm_vcpu_gfn_to_memslot(vcpu, gfn);
+ 	bool async;
+@@ -3790,8 +3797,8 @@ static bool try_async_pf(struct kvm_vcpu *vcpu, bool prefault, gfn_t gfn,
+ 	}
+ 
+ 	async = false;
+-	*pfn = __gfn_to_pfn_memslot(slot, gfn, false, &async,
+-				    write, writable, hva);
++	*pfn = __gfn_to_pfn_page_memslot(slot, gfn, false, &async,
++					 write, writable, hva, page);
+ 	if (!async)
+ 		return false; /* *pfn has correct page already */
+ 
+@@ -3805,8 +3812,8 @@ static bool try_async_pf(struct kvm_vcpu *vcpu, bool prefault, gfn_t gfn,
+ 			return true;
+ 	}
+ 
+-	*pfn = __gfn_to_pfn_memslot(slot, gfn, false, NULL,
+-				    write, writable, hva);
++	*pfn = __gfn_to_pfn_page_memslot(slot, gfn, false, NULL,
++					 write, writable, hva, page);
+ 	return false;
+ }
+ 
+@@ -3820,6 +3827,7 @@ static int direct_page_fault(struct kvm_vcpu *vcpu, gpa_t gpa, u32 error_code,
+ 	gfn_t gfn = gpa >> PAGE_SHIFT;
+ 	unsigned long mmu_seq;
+ 	kvm_pfn_t pfn;
++	struct page *page;
+ 	hva_t hva;
+ 	int r;
+ 
+@@ -3840,7 +3848,7 @@ static int direct_page_fault(struct kvm_vcpu *vcpu, gpa_t gpa, u32 error_code,
+ 	smp_rmb();
+ 
+ 	if (try_async_pf(vcpu, prefault, gfn, gpa, &pfn, &hva,
+-			 write, &map_writable))
++			 write, &map_writable, &page))
+ 		return RET_PF_RETRY;
+ 
+ 	if (handle_abnormal_pfn(vcpu, is_tdp ? 0 : gpa, gfn, pfn, ACC_ALL, &r))
+@@ -3861,17 +3869,18 @@ static int direct_page_fault(struct kvm_vcpu *vcpu, gpa_t gpa, u32 error_code,
+ 
+ 	if (is_tdp_mmu_fault)
+ 		r = kvm_tdp_mmu_map(vcpu, gpa, error_code, map_writable, max_level,
+-				    pfn, prefault);
++				    pfn, page, prefault);
+ 	else
+-		r = __direct_map(vcpu, gpa, error_code, map_writable, max_level, pfn,
+-				 prefault, is_tdp);
++		r = __direct_map(vcpu, gpa, error_code, map_writable, max_level,
++				 pfn, page, prefault, is_tdp);
+ 
+ out_unlock:
+ 	if (is_tdp_mmu_fault)
+ 		read_unlock(&vcpu->kvm->mmu_lock);
+ 	else
+ 		write_unlock(&vcpu->kvm->mmu_lock);
+-	kvm_release_pfn_clean(pfn);
++	if (page)
++		put_page(page);
+ 	return r;
+ }
+ 
+diff --git a/arch/x86/kvm/mmu/mmu_internal.h b/arch/x86/kvm/mmu/mmu_internal.h
+index 35567293c1fd..cc02fe22b450 100644
+--- a/arch/x86/kvm/mmu/mmu_internal.h
++++ b/arch/x86/kvm/mmu/mmu_internal.h
+@@ -159,7 +159,8 @@ int kvm_mmu_max_mapping_level(struct kvm *kvm,
+ 			      kvm_pfn_t pfn, int max_level);
+ int kvm_mmu_hugepage_adjust(struct kvm_vcpu *vcpu, gfn_t gfn,
+ 			    int max_level, kvm_pfn_t *pfnp,
+-			    bool huge_page_disallowed, int *req_level);
++			    struct page *page, bool huge_page_disallowed,
++			    int *req_level);
+ void disallowed_hugepage_adjust(u64 spte, gfn_t gfn, int cur_level,
+ 				kvm_pfn_t *pfnp, int *goal_levelp);
+ 
+diff --git a/arch/x86/kvm/mmu/paging_tmpl.h b/arch/x86/kvm/mmu/paging_tmpl.h
+index 490a028ddabe..f1ebb1ee7f0f 100644
+--- a/arch/x86/kvm/mmu/paging_tmpl.h
++++ b/arch/x86/kvm/mmu/paging_tmpl.h
+@@ -564,6 +564,7 @@ FNAME(prefetch_gpte)(struct kvm_vcpu *vcpu, struct kvm_mmu_page *sp,
+ 	unsigned pte_access;
+ 	gfn_t gfn;
+ 	kvm_pfn_t pfn;
++	struct page *page;
+ 
+ 	if (FNAME(prefetch_invalid_gpte)(vcpu, sp, spte, gpte))
+ 		return false;
+@@ -573,8 +574,8 @@ FNAME(prefetch_gpte)(struct kvm_vcpu *vcpu, struct kvm_mmu_page *sp,
+ 	gfn = gpte_to_gfn(gpte);
+ 	pte_access = sp->role.access & FNAME(gpte_access)(gpte);
+ 	FNAME(protect_clean_gpte)(vcpu->arch.mmu, &pte_access, gpte);
+-	pfn = pte_prefetch_gfn_to_pfn(vcpu, gfn,
+-			no_dirty_log && (pte_access & ACC_WRITE_MASK));
++	pfn = pte_prefetch_gfn_to_pfn_page(vcpu, gfn,
++			no_dirty_log && (pte_access & ACC_WRITE_MASK), &page);
+ 	if (is_error_pfn(pfn))
+ 		return false;
+ 
+@@ -585,7 +586,8 @@ FNAME(prefetch_gpte)(struct kvm_vcpu *vcpu, struct kvm_mmu_page *sp,
+ 	mmu_set_spte(vcpu, spte, pte_access, false, PG_LEVEL_4K, gfn, pfn,
+ 		     true, true);
+ 
+-	kvm_release_pfn_clean(pfn);
++	if (page)
++		put_page(page);
  	return true;
  }
  
--static int kvm_try_get_pfn(kvm_pfn_t pfn)
--{
--	if (kvm_is_reserved_pfn(pfn))
--		return 1;
--	return get_page_unless_zero(pfn_to_page(pfn));
--}
--
- static int hva_to_pfn_remapped(struct vm_area_struct *vma,
- 			       unsigned long addr, bool *async,
- 			       bool write_fault, bool *writable,
-@@ -2221,26 +2213,6 @@ static int hva_to_pfn_remapped(struct vm_area_struct *vma,
- 		*writable = pte_write(*ptep);
- 	pfn = pte_pfn(*ptep);
- 
--	/*
--	 * Get a reference here because callers of *hva_to_pfn* and
--	 * *gfn_to_pfn* ultimately call kvm_release_pfn_clean on the
--	 * returned pfn.  This is only needed if the VMA has VM_MIXEDMAP
--	 * set, but the kvm_get_pfn/kvm_release_pfn_clean pair will
--	 * simply do nothing for reserved pfns.
--	 *
--	 * Whoever called remap_pfn_range is also going to call e.g.
--	 * unmap_mapping_range before the underlying pages are freed,
--	 * causing a call to our MMU notifier.
--	 *
--	 * Certain IO or PFNMAP mappings can be backed with valid
--	 * struct pages, but be allocated without refcounting e.g.,
--	 * tail pages of non-compound higher order allocations, which
--	 * would then underflow the refcount when the caller does the
--	 * required put_page. Don't allow those pages here.
--	 */ 
--	if (!kvm_try_get_pfn(pfn))
--		r = -EFAULT;
--
- out:
- 	pte_unmap_unlock(ptep, ptl);
- 	*p_pfn = pfn;
-@@ -2262,8 +2234,9 @@ static int hva_to_pfn_remapped(struct vm_area_struct *vma,
-  * 2): @write_fault = false && @writable, @writable will tell the caller
-  *     whether the mapping is writable.
+@@ -665,8 +667,8 @@ static void FNAME(pte_prefetch)(struct kvm_vcpu *vcpu, struct guest_walker *gw,
   */
--static kvm_pfn_t hva_to_pfn(unsigned long addr, bool atomic, bool *async,
--			bool write_fault, bool *writable)
-+static kvm_pfn_t hva_to_pfn(unsigned long addr, bool atomic,
-+			    bool *async, bool write_fault, bool *writable,
-+			    struct page **page)
+ static int FNAME(fetch)(struct kvm_vcpu *vcpu, gpa_t addr,
+ 			 struct guest_walker *gw, u32 error_code,
+-			 int max_level, kvm_pfn_t pfn, bool map_writable,
+-			 bool prefault)
++			 int max_level, kvm_pfn_t pfn, struct page *page,
++			 bool map_writable, bool prefault)
  {
- 	struct vm_area_struct *vma;
- 	kvm_pfn_t pfn = 0;
-@@ -2272,13 +2245,14 @@ static kvm_pfn_t hva_to_pfn(unsigned long addr, bool atomic, bool *async,
- 	/* we can do it either atomically or asynchronously, not both */
- 	BUG_ON(atomic && async);
- 
--	if (hva_to_pfn_fast(addr, write_fault, writable, &pfn))
-+	if (hva_to_pfn_fast(addr, write_fault, writable, &pfn, page))
- 		return pfn;
- 
- 	if (atomic)
- 		return KVM_PFN_ERR_FAULT;
- 
--	npages = hva_to_pfn_slow(addr, async, write_fault, writable, &pfn);
-+	npages = hva_to_pfn_slow(addr, async, write_fault, writable,
-+				 &pfn, page);
- 	if (npages == 1)
- 		return pfn;
- 
-@@ -2310,12 +2284,14 @@ static kvm_pfn_t hva_to_pfn(unsigned long addr, bool atomic, bool *async,
- 	return pfn;
- }
- 
--kvm_pfn_t __gfn_to_pfn_memslot(struct kvm_memory_slot *slot, gfn_t gfn,
--			       bool atomic, bool *async, bool write_fault,
--			       bool *writable, hva_t *hva)
-+kvm_pfn_t __gfn_to_pfn_page_memslot(struct kvm_memory_slot *slot,
-+				    gfn_t gfn, bool atomic, bool *async,
-+				    bool write_fault, bool *writable,
-+				    hva_t *hva, struct page **page)
- {
- 	unsigned long addr = __gfn_to_hva_many(slot, gfn, NULL, write_fault);
- 
-+	*page = NULL;
- 	if (hva)
- 		*hva = addr;
- 
-@@ -2338,45 +2314,153 @@ kvm_pfn_t __gfn_to_pfn_memslot(struct kvm_memory_slot *slot, gfn_t gfn,
+ 	bool nx_huge_page_workaround_enabled = is_nx_huge_page_enabled();
+ 	bool write_fault = error_code & PFERR_WRITE_MASK;
+@@ -723,7 +725,8 @@ static int FNAME(fetch)(struct kvm_vcpu *vcpu, gpa_t addr,
  	}
  
- 	return hva_to_pfn(addr, atomic, async, write_fault,
--			  writable);
-+			  writable, page);
-+}
-+EXPORT_SYMBOL_GPL(__gfn_to_pfn_page_memslot);
-+
-+kvm_pfn_t gfn_to_pfn_page_prot(struct kvm *kvm, gfn_t gfn, bool write_fault,
-+			       bool *writable, struct page **page)
-+{
-+	return __gfn_to_pfn_page_memslot(gfn_to_memslot(kvm, gfn), gfn, false,
-+					 NULL, write_fault, writable, NULL,
-+					 page);
-+}
-+EXPORT_SYMBOL_GPL(gfn_to_pfn_page_prot);
-+
-+kvm_pfn_t gfn_to_pfn_page_memslot(struct kvm_memory_slot *slot, gfn_t gfn,
-+				  struct page **page)
-+{
-+	return __gfn_to_pfn_page_memslot(slot, gfn, false, NULL, true,
-+					 NULL, NULL, page);
-+}
-+EXPORT_SYMBOL_GPL(gfn_to_pfn_page_memslot);
-+
-+kvm_pfn_t gfn_to_pfn_page_memslot_atomic(struct kvm_memory_slot *slot,
-+					 gfn_t gfn, struct page **page)
-+{
-+	return __gfn_to_pfn_page_memslot(slot, gfn, true, NULL, true, NULL,
-+					 NULL, page);
-+}
-+EXPORT_SYMBOL_GPL(gfn_to_pfn_page_memslot_atomic);
-+
-+kvm_pfn_t kvm_vcpu_gfn_to_pfn_page_atomic(struct kvm_vcpu *vcpu, gfn_t gfn,
-+					  struct page **page)
-+{
-+	return gfn_to_pfn_page_memslot_atomic(
-+			kvm_vcpu_gfn_to_memslot(vcpu, gfn), gfn, page);
-+}
-+EXPORT_SYMBOL_GPL(kvm_vcpu_gfn_to_pfn_page_atomic);
-+
-+kvm_pfn_t gfn_to_pfn_page(struct kvm *kvm, gfn_t gfn, struct page **page)
-+{
-+	return gfn_to_pfn_page_memslot(gfn_to_memslot(kvm, gfn), gfn, page);
-+}
-+EXPORT_SYMBOL_GPL(gfn_to_pfn_page);
-+
-+kvm_pfn_t kvm_vcpu_gfn_to_pfn_page(struct kvm_vcpu *vcpu, gfn_t gfn,
-+				   struct page **page)
-+{
-+	return gfn_to_pfn_page_memslot(kvm_vcpu_gfn_to_memslot(vcpu, gfn),
-+				       gfn, page);
-+}
-+EXPORT_SYMBOL_GPL(kvm_vcpu_gfn_to_pfn_page);
-+
-+static kvm_pfn_t ensure_pfn_ref(struct page *page, kvm_pfn_t pfn)
-+{
-+	if (page || is_error_pfn(pfn) || kvm_is_reserved_pfn(pfn))
-+		return pfn;
-+
-+	/*
-+	 * Certain IO or PFNMAP mappings can be backed with valid
-+	 * struct pages, but be allocated without refcounting e.g.,
-+	 * tail pages of non-compound higher order allocations, which
-+	 * would then underflow the refcount when the caller does the
-+	 * required put_page. Don't allow those pages here.
-+	 */
-+	if (get_page_unless_zero(pfn_to_page(pfn)))
-+		return pfn;
-+
-+	return KVM_PFN_ERR_FAULT;
-+}
-+
-+kvm_pfn_t __gfn_to_pfn_memslot(struct kvm_memory_slot *slot, gfn_t gfn,
-+			       bool atomic, bool *async, bool write_fault,
-+			       bool *writable, hva_t *hva)
-+{
-+	struct page *page;
-+	kvm_pfn_t pfn;
-+
-+	pfn = __gfn_to_pfn_page_memslot(slot, gfn, atomic, async,
-+					write_fault, writable, hva, &page);
-+
-+	return ensure_pfn_ref(page, pfn);
- }
- EXPORT_SYMBOL_GPL(__gfn_to_pfn_memslot);
+ 	level = kvm_mmu_hugepage_adjust(vcpu, gw->gfn, max_level, &pfn,
+-					huge_page_disallowed, &req_level);
++					page, huge_page_disallowed,
++					&req_level);
  
- kvm_pfn_t gfn_to_pfn_prot(struct kvm *kvm, gfn_t gfn, bool write_fault,
- 		      bool *writable)
+ 	trace_kvm_mmu_spte_requested(addr, gw->level, pfn);
+ 
+@@ -830,6 +833,7 @@ static int FNAME(page_fault)(struct kvm_vcpu *vcpu, gpa_t addr, u32 error_code,
+ 	struct guest_walker walker;
+ 	int r;
+ 	kvm_pfn_t pfn;
++	struct page *page;
+ 	hva_t hva;
+ 	unsigned long mmu_seq;
+ 	bool map_writable, is_self_change_mapping;
+@@ -882,7 +886,7 @@ static int FNAME(page_fault)(struct kvm_vcpu *vcpu, gpa_t addr, u32 error_code,
+ 	smp_rmb();
+ 
+ 	if (try_async_pf(vcpu, prefault, walker.gfn, addr, &pfn, &hva,
+-			 write_fault, &map_writable))
++			 write_fault, &map_writable, &page))
+ 		return RET_PF_RETRY;
+ 
+ 	if (handle_abnormal_pfn(vcpu, addr, walker.gfn, pfn, walker.pte_access, &r))
+@@ -916,13 +920,14 @@ static int FNAME(page_fault)(struct kvm_vcpu *vcpu, gpa_t addr, u32 error_code,
+ 	r = make_mmu_pages_available(vcpu);
+ 	if (r)
+ 		goto out_unlock;
+-	r = FNAME(fetch)(vcpu, addr, &walker, error_code, max_level, pfn,
++	r = FNAME(fetch)(vcpu, addr, &walker, error_code, max_level, pfn, page,
+ 			 map_writable, prefault);
+ 	kvm_mmu_audit(vcpu, AUDIT_POST_PAGE_FAULT);
+ 
+ out_unlock:
+ 	write_unlock(&vcpu->kvm->mmu_lock);
+-	kvm_release_pfn_clean(pfn);
++	if (page)
++		put_page(page);
+ 	return r;
+ }
+ 
+diff --git a/arch/x86/kvm/mmu/tdp_mmu.c b/arch/x86/kvm/mmu/tdp_mmu.c
+index caac4ddb46df..10572af6fe91 100644
+--- a/arch/x86/kvm/mmu/tdp_mmu.c
++++ b/arch/x86/kvm/mmu/tdp_mmu.c
+@@ -966,8 +966,8 @@ static int tdp_mmu_map_handle_target_level(struct kvm_vcpu *vcpu, int write,
+  * page tables and SPTEs to translate the faulting guest physical address.
+  */
+ int kvm_tdp_mmu_map(struct kvm_vcpu *vcpu, gpa_t gpa, u32 error_code,
+-		    int map_writable, int max_level, kvm_pfn_t pfn,
+-		    bool prefault)
++		    int map_writable, int max_level,
++		    kvm_pfn_t pfn, struct page *page, bool prefault)
  {
--	return __gfn_to_pfn_memslot(gfn_to_memslot(kvm, gfn), gfn, false, NULL,
--				    write_fault, writable, NULL);
-+	struct page *page;
-+	kvm_pfn_t pfn;
-+
-+	pfn = gfn_to_pfn_page_prot(kvm, gfn, write_fault, writable, &page);
-+
-+	return ensure_pfn_ref(page, pfn);
- }
- EXPORT_SYMBOL_GPL(gfn_to_pfn_prot);
+ 	bool nx_huge_page_workaround_enabled = is_nx_huge_page_enabled();
+ 	bool write = error_code & PFERR_WRITE_MASK;
+@@ -983,7 +983,7 @@ int kvm_tdp_mmu_map(struct kvm_vcpu *vcpu, gpa_t gpa, u32 error_code,
+ 	int level;
+ 	int req_level;
  
- kvm_pfn_t gfn_to_pfn_memslot(struct kvm_memory_slot *slot, gfn_t gfn)
+-	level = kvm_mmu_hugepage_adjust(vcpu, gfn, max_level, &pfn,
++	level = kvm_mmu_hugepage_adjust(vcpu, gfn, max_level, &pfn, page,
+ 					huge_page_disallowed, &req_level);
+ 
+ 	trace_kvm_mmu_spte_requested(gpa, level, pfn);
+diff --git a/arch/x86/kvm/mmu/tdp_mmu.h b/arch/x86/kvm/mmu/tdp_mmu.h
+index 1cae4485b3bc..3afaf73adfe7 100644
+--- a/arch/x86/kvm/mmu/tdp_mmu.h
++++ b/arch/x86/kvm/mmu/tdp_mmu.h
+@@ -52,8 +52,8 @@ void kvm_tdp_mmu_invalidate_all_roots(struct kvm *kvm);
+ void kvm_tdp_mmu_zap_invalidated_roots(struct kvm *kvm);
+ 
+ int kvm_tdp_mmu_map(struct kvm_vcpu *vcpu, gpa_t gpa, u32 error_code,
+-		    int map_writable, int max_level, kvm_pfn_t pfn,
+-		    bool prefault);
++		    int map_writable, int max_level,
++		    kvm_pfn_t pfn, struct page *page, bool prefault);
+ 
+ bool kvm_tdp_mmu_unmap_gfn_range(struct kvm *kvm, struct kvm_gfn_range *range,
+ 				 bool flush);
+diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
+index 17468d983fbd..1a21b6702de5 100644
+--- a/arch/x86/kvm/x86.c
++++ b/arch/x86/kvm/x86.c
+@@ -7511,6 +7511,7 @@ static bool reexecute_instruction(struct kvm_vcpu *vcpu, gpa_t cr2_or_gpa,
  {
--	return __gfn_to_pfn_memslot(slot, gfn, false, NULL, true, NULL, NULL);
+ 	gpa_t gpa = cr2_or_gpa;
+ 	kvm_pfn_t pfn;
 +	struct page *page;
-+	kvm_pfn_t pfn;
-+
-+	pfn = gfn_to_pfn_page_memslot(slot, gfn, &page);
-+
-+	return ensure_pfn_ref(page, pfn);
- }
- EXPORT_SYMBOL_GPL(gfn_to_pfn_memslot);
  
- kvm_pfn_t gfn_to_pfn_memslot_atomic(struct kvm_memory_slot *slot, gfn_t gfn)
- {
--	return __gfn_to_pfn_memslot(slot, gfn, true, NULL, true, NULL, NULL);
-+	struct page *page;
-+	kvm_pfn_t pfn;
-+
-+	pfn = gfn_to_pfn_page_memslot_atomic(slot, gfn, &page);
-+
-+	return ensure_pfn_ref(page, pfn);
- }
- EXPORT_SYMBOL_GPL(gfn_to_pfn_memslot_atomic);
+ 	if (!(emulation_type & EMULTYPE_ALLOW_RETRY_PF))
+ 		return false;
+@@ -7540,7 +7541,7 @@ static bool reexecute_instruction(struct kvm_vcpu *vcpu, gpa_t cr2_or_gpa,
+ 	 * retry instruction -> write #PF -> emulation fail -> retry
+ 	 * instruction -> ...
+ 	 */
+-	pfn = gfn_to_pfn(vcpu->kvm, gpa_to_gfn(gpa));
++	pfn = gfn_to_pfn_page(vcpu->kvm, gpa_to_gfn(gpa), &page);
  
- kvm_pfn_t kvm_vcpu_gfn_to_pfn_atomic(struct kvm_vcpu *vcpu, gfn_t gfn)
- {
--	return gfn_to_pfn_memslot_atomic(kvm_vcpu_gfn_to_memslot(vcpu, gfn), gfn);
-+	struct page *page;
-+	kvm_pfn_t pfn;
-+
-+	pfn = kvm_vcpu_gfn_to_pfn_page_atomic(vcpu, gfn, &page);
-+
-+	return ensure_pfn_ref(page, pfn);
- }
- EXPORT_SYMBOL_GPL(kvm_vcpu_gfn_to_pfn_atomic);
+ 	/*
+ 	 * If the instruction failed on the error pfn, it can not be fixed,
+@@ -7549,7 +7550,8 @@ static bool reexecute_instruction(struct kvm_vcpu *vcpu, gpa_t cr2_or_gpa,
+ 	if (is_error_noslot_pfn(pfn))
+ 		return false;
  
- kvm_pfn_t gfn_to_pfn(struct kvm *kvm, gfn_t gfn)
- {
--	return gfn_to_pfn_memslot(gfn_to_memslot(kvm, gfn), gfn);
-+	struct page *page;
-+	kvm_pfn_t pfn;
-+
-+	pfn = gfn_to_pfn_page(kvm, gfn, &page);
-+
-+	return ensure_pfn_ref(page, pfn);
- }
- EXPORT_SYMBOL_GPL(gfn_to_pfn);
+-	kvm_release_pfn_clean(pfn);
++	if (page)
++		put_page(page);
  
- kvm_pfn_t kvm_vcpu_gfn_to_pfn(struct kvm_vcpu *vcpu, gfn_t gfn)
- {
--	return gfn_to_pfn_memslot(kvm_vcpu_gfn_to_memslot(vcpu, gfn), gfn);
-+	struct page *page;
-+	kvm_pfn_t pfn;
-+
-+	pfn = kvm_vcpu_gfn_to_pfn_page(vcpu, gfn, &page);
-+
-+	return ensure_pfn_ref(page, pfn);
- }
- EXPORT_SYMBOL_GPL(kvm_vcpu_gfn_to_pfn);
- 
+ 	/* The instructions are well-emulated on direct mmu. */
+ 	if (vcpu->arch.mmu->direct_map) {
 -- 
 2.32.0.93.g670b81a890-goog
 
