@@ -2,19 +2,19 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 501C93B3AB2
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Jun 2021 04:04:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 899CA3B3AEE
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Jun 2021 04:33:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E39156E12D;
-	Fri, 25 Jun 2021 02:03:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 02FC96EA73;
+	Fri, 25 Jun 2021 02:33:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from lucky1.263xmail.com (lucky1.263xmail.com [211.157.147.135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F0ED96E12D
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Jun 2021 02:03:56 +0000 (UTC)
-Received: from localhost (unknown [192.168.167.235])
- by lucky1.263xmail.com (Postfix) with ESMTP id 86DD1B1916;
- Fri, 25 Jun 2021 10:03:49 +0800 (CST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9390B6EA73
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Jun 2021 02:33:33 +0000 (UTC)
+Received: from localhost (unknown [192.168.167.225])
+ by lucky1.263xmail.com (Postfix) with ESMTP id 7CB96AFF1D;
+ Fri, 25 Jun 2021 10:33:31 +0800 (CST)
 X-MAIL-GRAY: 0
 X-MAIL-DELIVERY: 1
 X-ADDR-CHECKED: 0
@@ -22,10 +22,10 @@ X-SKE-CHECKED: 1
 X-ANTISPAM-LEVEL: 2
 Received: from localhost.localdomain (unknown [58.240.82.166])
  by smtp.263.net (postfix) whith ESMTP id
- P1334T140034502022912S1624586622420447_; 
- Fri, 25 Jun 2021 10:03:49 +0800 (CST)
+ P31196T139969978935040S1624588406684274_; 
+ Fri, 25 Jun 2021 10:33:31 +0800 (CST)
 X-IP-DOMAINF: 1
-X-UNIQUE-TAG: <7e806d5e61b4e62798b4abb7502b1da4>
+X-UNIQUE-TAG: <82ebafcd2d8448668e02a058c521561b>
 X-RL-SENDER: huqiqiao@uniontech.com
 X-SENDER: huqiqiao@uniontech.com
 X-LOGIN-NAME: huqiqiao@uniontech.com
@@ -37,9 +37,9 @@ X-System-Flag: 0
 From: huqiqiao <huqiqiao@uniontech.com>
 To: alexander.deucher@amd.com,
 	christian.koenig@amd.com
-Subject: [PATCH] drm/amdgpu: use kvcalloc for entry->entries
-Date: Fri, 25 Jun 2021 10:03:44 +0800
-Message-Id: <20210625020344.30979-1-huqiqiao@uniontech.com>
+Subject: [PATCH] drm/amdgpu: use kvcalloc for entry->entries.
+Date: Fri, 25 Jun 2021 10:33:30 +0800
+Message-Id: <20210625023330.17463-1-huqiqiao@uniontech.com>
 X-Mailer: git-send-email 2.11.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -58,22 +58,23 @@ Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-malloc_array + __GFP_ZERO is the same with kvcalloc.
+kmalloc_array + __GFP_ZERO is the same with kvcalloc.
 
 Signed-off-by: huqiqiao <huqiqiao@uniontech.com>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-index b8c31e3469c0..5cadfadc625f 100644
+index 9acee4a5b2ba..5a012321d09e 100644
 --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
 +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-@@ -909,7 +909,7 @@ static int amdgpu_vm_alloc_pts(struct amdgpu_device *adev,
+@@ -909,8 +909,7 @@ static int amdgpu_vm_alloc_pts(struct amdgpu_device *adev,
  
  		num_entries = amdgpu_vm_num_entries(adev, cursor->level);
- 		entry->entries = kvcalloc(num_entries,
--					sizeof(*entry->entries), GFP_KERNEL);
+ 		entry->entries = kvmalloc_array(num_entries,
+-						sizeof(*entry->entries),
+-						GFP_KERNEL | __GFP_ZERO);
 +			sizeof(*entry->entries), GFP_KERNEL);
  		if (!entry->entries)
  			return -ENOMEM;
