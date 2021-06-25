@@ -1,100 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 547EA3B3FC9
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Jun 2021 10:52:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EC6393B3FAD
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Jun 2021 10:44:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 611B96ED10;
-	Fri, 25 Jun 2021 08:52:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C0A0C6E0F6;
+	Fri, 25 Jun 2021 08:44:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com
- [148.163.158.5])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B57EE6ED0E;
- Fri, 25 Jun 2021 08:52:06 +0000 (UTC)
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 15P7YTqX061945; Fri, 25 Jun 2021 03:44:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=1RqvYvHqS+g8GAhL7EUAfBHKQHRxaUMGXuw/IwCXA00=;
- b=Nmb11u4f/JhMKk+ivMs7oA1Ku85DovZ4LdaLOgwfNrDLH0a/wz5mI0aLrLO3Altwv4N4
- LMTZyz/WDveZjxrU5tD5PPo68pDirAd4Gfrex52xiqR0TujC5LdTRYi0ri1ge/eDHmSN
- JQJ8rK/jOMjr3THp/ok9RkvIdn/4KtjecaWiJfeTOER6nglHE+EZicixc1c1BnhsB+1Y
- g5DWwvan20xvxygDIi3MEZQ7H/GwZDVcHzVEGz2iIjsiJgKnoZ7U+TUpyPDhD5O2Zekw
- xJiAEI7Z0lyxcZgGi3MCDrgB0acHr+cDdUAyjJoQ4I+2kOZz0Z9ex/2nv4xilwCqOw4H ZA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 39d8cn51sy-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 25 Jun 2021 03:44:39 -0400
-Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 15P7YRo0061765;
- Fri, 25 Jun 2021 03:44:38 -0400
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0b-001b2d01.pphosted.com with ESMTP id 39d8cn51s5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 25 Jun 2021 03:44:38 -0400
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 15P7g5SF017198;
- Fri, 25 Jun 2021 07:44:36 GMT
-Received: from b06avi18878370.portsmouth.uk.ibm.com
- (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
- by ppma06ams.nl.ibm.com with ESMTP id 3997uhaw6x-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 25 Jun 2021 07:44:35 +0000
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
- [9.149.105.62])
- by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 15P7h6UA14352728
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 25 Jun 2021 07:43:06 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 6193DAE056;
- Fri, 25 Jun 2021 07:44:33 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 9D274AE051;
- Fri, 25 Jun 2021 07:44:31 +0000 (GMT)
-Received: from oc7455500831.ibm.com (unknown [9.171.31.44])
- by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Fri, 25 Jun 2021 07:44:31 +0000 (GMT)
-Subject: Re: [PATCH 0/6] KVM: Remove uses of struct page from x86 and arm64 MMU
-To: Nicholas Piggin <npiggin@gmail.com>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Huacai Chen <chenhuacai@kernel.org>, Marc Zyngier <maz@kernel.org>,
- Paul Mackerras <paulus@ozlabs.org>, Paolo Bonzini <pbonzini@redhat.com>,
- David Stevens <stevensd@chromium.org>, Zhenyu Wang
- <zhenyuw@linux.intel.com>, Zhi Wang <zhi.a.wang@intel.com>
-References: <20210624035749.4054934-1-stevensd@google.com>
- <1624530624.8jff1f4u11.astroid@bobo.none>
- <1624534759.nj0ylor2eh.astroid@bobo.none>
- <0d3a699a-15eb-9f1b-0735-79d14736f38c@redhat.com>
- <1624539354.6zggpdrdbw.astroid@bobo.none>
-From: Christian Borntraeger <borntraeger@de.ibm.com>
-Message-ID: <19c4e392-fbab-ee2c-7039-c88d1ae5775d@de.ibm.com>
-Date: Fri, 25 Jun 2021 09:44:31 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
+ [IPv6:2a00:1450:4864:20::429])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1FF836E0F6
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Jun 2021 08:44:48 +0000 (UTC)
+Received: by mail-wr1-x429.google.com with SMTP id m18so9698015wrv.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Jun 2021 01:44:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=CeLIgK7phntxuaeQvPCnk2ZyJcdGeb6jadwfkvYxxgM=;
+ b=vXsFLLSmooZPxNu5MeItcer3hbOrLr7vuzPntpRAKSJDQDP50GigF6mB/+YGJPQ6Qi
+ q1xJXzWsnJlQE0sI+cTJKDCoFYFrF2u0gxI15ckp7cr9XDrQM9FjRPO51PvEeANGHL1W
+ 46c3eofsBeTcqCUoHry7gzKMde/py9SMCq9y8LCibLzMpAR6UDrxTG3Aksl/fn1abUG/
+ qUT7DM8SNwJEhV2KbJNUQ0P/2BbSZaHL8wFYyJ8oys9wC+qeOLtaoFk3ghxsxzP5wd6y
+ arVd0bXMxsiUM1cpGDMlcgxxz3KUoNrNgi0ieNE6NFRSld3h1RCFuj1QoZU6nmKgiA6v
+ EZ8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=CeLIgK7phntxuaeQvPCnk2ZyJcdGeb6jadwfkvYxxgM=;
+ b=ry818DgKFicjJUJE/olYWKkYN7DE3rQLWXOs5rdnKE+qLbLJGFpGP2i/noMsYCF2AS
+ 2wnE6DDJZ7IhSFxxibBmIohNTH46JysNbfUsPCd54Nl8ISYm6UUWr8Y3Rwz3bLEAgiBm
+ g3CO8eZHkomn8NRk3+p2vbeqOtGBTdpjfsYGwIfP034GS6ZrtSAOMQERmbIWAwHANdD5
+ rct7Go6g9mJ78AbU1rX5y4HTiP57112UT8ehqO18Lxr6wOwAg26INVgbdpdLX/9OJMgu
+ gJwrf9KUt6Rrf2I8dZKOrxuDZb1W4gsnUlFtmvk4k8jf7HVvDN84fI2cM9nEau/7jR6/
+ MBsQ==
+X-Gm-Message-State: AOAM530YrHVwfNmqDwYW9HwU8pP1+r+9ElI7symoVdopUZQCTKWr7Y1i
+ SQpEYamQJl1obaBekpH47mDbeg==
+X-Google-Smtp-Source: ABdhPJy6QPvA46rrabm8WK7MpmyNlT70x3mmpSQDGdKnjvoL839Qo+4WZsph4rnpzLh8DptMMKfy6A==
+X-Received: by 2002:a5d:4983:: with SMTP id r3mr9484655wrq.184.1624610686789; 
+ Fri, 25 Jun 2021 01:44:46 -0700 (PDT)
+Received: from dell (92.40.180.154.threembb.co.uk. [92.40.180.154])
+ by smtp.gmail.com with ESMTPSA id o17sm9632530wmh.19.2021.06.25.01.44.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 25 Jun 2021 01:44:46 -0700 (PDT)
+Date: Fri, 25 Jun 2021 09:44:43 +0100
+From: Lee Jones <lee.jones@linaro.org>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
+Subject: Re: [PATCH v3 2/2] backlight: lm3630a: convert to atomic PWM API and
+ check for errors
+Message-ID: <YNWXe9OhS3o4iRGi@dell>
+References: <20210621122148.116863-1-u.kleine-koenig@pengutronix.de>
+ <20210621122148.116863-3-u.kleine-koenig@pengutronix.de>
+ <YNHh2cdcyzLWSCkK@dell>
+ <20210624201009.5se7o27b7m6bff4g@pengutronix.de>
 MIME-Version: 1.0
-In-Reply-To: <1624539354.6zggpdrdbw.astroid@bobo.none>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: Xd2p2n2e6jxdPlNvwSbyIgmg3LPAQMfs
-X-Proofpoint-ORIG-GUID: 6q0X_bUItmYJaGkAxPmmRfj9zzu6NsL2
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
- definitions=2021-06-25_02:2021-06-24,
- 2021-06-25 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 suspectscore=0
- malwarescore=0 lowpriorityscore=0 adultscore=0 mlxlogscore=999
- impostorscore=0 bulkscore=0 priorityscore=1501 clxscore=1011 mlxscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104190000 definitions=main-2106250043
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210624201009.5se7o27b7m6bff4g@pengutronix.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,130 +73,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Wanpeng Li <wanpengli@tencent.com>, kvm@vger.kernel.org,
- David Stevens <stevensd@google.com>,
- Alexandru Elisei <alexandru.elisei@arm.com>, intel-gfx@lists.freedesktop.org,
- linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, kvmarm@lists.cs.columbia.edu,
- Will Deacon <will@kernel.org>, Suzuki K Poulose <suzuki.poulose@arm.com>,
- James Morse <james.morse@arm.com>, kvm-ppc@vger.kernel.org,
- Sean Christopherson <seanjc@google.com>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, linux-mips@vger.kernel.org,
- intel-gvt-dev@lists.freedesktop.org, Joerg Roedel <joro@8bytes.org>,
- linux-arm-kernel@lists.infradead.org, Jim Mattson <jmattson@google.com>
+Cc: Daniel Thompson <daniel.thompson@linaro.org>,
+ Jingoo Han <jingoohan1@gmail.com>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
+ kernel@pengutronix.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, 24 Jun 2021, Uwe Kleine-König wrote:
 
+> Hi Lee,
+> 
+> On Tue, Jun 22, 2021 at 02:12:57PM +0100, Lee Jones wrote:
+> > On Mon, 21 Jun 2021, Uwe Kleine-König wrote:
+> > 
+> > > The practical upside here is that this only needs a single API call to
+> > > program the hardware which (depending on the underlaying hardware) can
+> > > be more effective and prevents glitches.
+> > > 
+> > > Up to now the return value of the pwm functions was ignored. Fix this
+> > > and propagate the error to the caller.
+> > > 
+> > > Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+> > > ---
+> > >  drivers/video/backlight/lm3630a_bl.c | 42 +++++++++++++---------------
+> > >  1 file changed, 19 insertions(+), 23 deletions(-)
+> > 
+> > Fixed the subject line and applied, thanks.
+> 
+> It's not obvious to me what needed fixing here, and I don't find where
+> you the patches, neither in next nor in
+> https://git.kernel.org/pub/scm/linux/kernel/git/lee/backlight.git; so I
+> cannot check what you actually changed.
+> 
+> I assume you did s/lm3630a/lm3630a_bl/ ? I didn't because it felt
+> tautological.
 
-On 24.06.21 14:57, Nicholas Piggin wrote:
-> Excerpts from Paolo Bonzini's message of June 24, 2021 10:41 pm:
->> On 24/06/21 13:42, Nicholas Piggin wrote:
->>> Excerpts from Nicholas Piggin's message of June 24, 2021 8:34 pm:
->>>> Excerpts from David Stevens's message of June 24, 2021 1:57 pm:
->>>>> KVM supports mapping VM_IO and VM_PFNMAP memory into the guest by using
->>>>> follow_pte in gfn_to_pfn. However, the resolved pfns may not have
->>>>> assoicated struct pages, so they should not be passed to pfn_to_page.
->>>>> This series removes such calls from the x86 and arm64 secondary MMU. To
->>>>> do this, this series modifies gfn_to_pfn to return a struct page in
->>>>> addition to a pfn, if the hva was resolved by gup. This allows the
->>>>> caller to call put_page only when necessated by gup.
->>>>>
->>>>> This series provides a helper function that unwraps the new return type
->>>>> of gfn_to_pfn to provide behavior identical to the old behavior. As I
->>>>> have no hardware to test powerpc/mips changes, the function is used
->>>>> there for minimally invasive changes. Additionally, as gfn_to_page and
->>>>> gfn_to_pfn_cache are not integrated with mmu notifier, they cannot be
->>>>> easily changed over to only use pfns.
->>>>>
->>>>> This addresses CVE-2021-22543 on x86 and arm64.
->>>>
->>>> Does this fix the problem? (untested I don't have a POC setup at hand,
->>>> but at least in concept)
->>>
->>> This one actually compiles at least. Unfortunately I don't have much
->>> time in the near future to test, and I only just found out about this
->>> CVE a few hours ago.
->>
->> And it also works (the reproducer gets an infinite stream of userspace
->> exits and especially does not crash).  We can still go for David's
->> solution later since MMU notifiers are able to deal with this pages, but
->> it's a very nice patch for stable kernels.
-> 
-> Oh nice, thanks for testing. How's this?
-> 
-> Thanks,
-> Nick
-> 
-> ---
-> 
-> KVM: Fix page ref underflow for regions with valid but non-refcounted pages
-> 
-> It's possible to create a region which maps valid but non-refcounted
-> pages (e.g., tail pages of non-compound higher order allocations). These
-> host pages can then be returned by gfn_to_page, gfn_to_pfn, etc., family
-> of APIs, which take a reference to the page, which takes it from 0 to 1.
-> When the reference is dropped, this will free the page incorrectly.
-> 
-> Fix this by only taking a reference on the page if it was non-zero,
-> which indicates it is participating in normal refcounting (and can be
-> released with put_page).
-> 
-> Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
-> ---
->   virt/kvm/kvm_main.c | 19 +++++++++++++++++--
->   1 file changed, 17 insertions(+), 2 deletions(-)
-> 
-> diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-> index 6a6bc7af0e28..46fb042837d2 100644
-> --- a/virt/kvm/kvm_main.c
-> +++ b/virt/kvm/kvm_main.c
-> @@ -2055,6 +2055,13 @@ static bool vma_is_valid(struct vm_area_struct *vma, bool write_fault)
->   	return true;
->   }
->   
-> +static int kvm_try_get_pfn(kvm_pfn_t pfn)
-> +{
-> +	if (kvm_is_reserved_pfn(pfn))
-> +		return 1;
-> +	return get_page_unless_zero(pfn_to_page(pfn));
-> +}
-> +
->   static int hva_to_pfn_remapped(struct vm_area_struct *vma,
->   			       unsigned long addr, bool *async,
->   			       bool write_fault, bool *writable,
-> @@ -2104,13 +2111,21 @@ static int hva_to_pfn_remapped(struct vm_area_struct *vma,
->   	 * Whoever called remap_pfn_range is also going to call e.g.
->   	 * unmap_mapping_range before the underlying pages are freed,
->   	 * causing a call to our MMU notifier.
-> +	 *
-> +	 * Certain IO or PFNMAP mappings can be backed with valid
-> +	 * struct pages, but be allocated without refcounting e.g.,
-> +	 * tail pages of non-compound higher order allocations, which
-> +	 * would then underflow the refcount when the caller does the
-> +	 * required put_page. Don't allow those pages here.
->   	 */
-> -	kvm_get_pfn(pfn);
-> +	if (!kvm_try_get_pfn(pfn))
-> +		r = -EFAULT;
->   
+No, but perhaps I should have.  Format goes:
 
-Right. That should also take care of s390 (pin_guest_page in vsie.c
-which calls gfn_to_page).
-FWIW, the current API is really hard to follow as it does not tell
-which functions take a reference and which dont.
+<backlight>: <driver_file_name>: <Subject starting with uppercase>
 
-Anyway, this patch (with cc stable?)
+Where <driver_file_name> has the file extension removed.
 
-Reviewed-by: Christian Borntraeger <borntraeger@de.ibm.com>
-
->   out:
->   	pte_unmap_unlock(ptep, ptl);
->   	*p_pfn = pfn;
-> -	return 0;
-> +
-> +	return r;
->   }
->   
->   /*
-> 
+-- 
+Lee Jones [李琼斯]
+Senior Technical Lead - Developer Services
+Linaro.org │ Open source software for Arm SoCs
+Follow Linaro: Facebook | Twitter | Blog
