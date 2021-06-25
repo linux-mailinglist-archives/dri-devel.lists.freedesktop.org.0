@@ -1,68 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CF583B3D57
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Jun 2021 09:28:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F3F413B3D83
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Jun 2021 09:37:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC6C56E0BE;
-	Fri, 25 Jun 2021 07:28:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 69BB96ECDF;
+	Fri, 25 Jun 2021 07:37:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
- [IPv6:2a00:1450:4864:20::331])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 947BC6E096
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Jun 2021 23:13:41 +0000 (UTC)
-Received: by mail-wm1-x331.google.com with SMTP id o22so4113472wms.0
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Jun 2021 16:13:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=6zyJubaI7jmIklMw5VtrnMCnmEJ/7YKY0fPlXYHDlPM=;
- b=mgumS2FDOw1v8FdMm3+0c7dzQz/qB727+WyJwN3YTYtt9WzrdjDgOADcIPm4NRIOuU
- tlz+jCHlq2r9gvyzlgar7o5moTjd8rP3L340F5ipMQ9THtuQaU5zudXGMlwC7vXMtMOS
- OVKGkFVjRQdliZLBUnVY4omDJy/8gyD4IJwQifbq6X1kdPaiepgMubgCa+xIDzEnvxq7
- lRraMsTy9PZGqZX+VE7wFGHTHv1ctszIP5ncA2Tv/Tcb/NPxjgqqXFQ+WPIi22X4nULs
- aXJ+A2X9EzcTwfyLJRqvR+67ZfYbUHVXiiAL/GOeXsNH04uLPUYtTJVFBv6uC0lMXxSU
- iTXA==
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com
+ [IPv6:2607:f8b0:4864:20::632])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 149DB6ECDA
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Jun 2021 07:37:18 +0000 (UTC)
+Received: by mail-pl1-x632.google.com with SMTP id y21so4294482plb.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Jun 2021 00:37:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=arS0mKVzVlqtqVfiVwhtHqUqhLwMsArq/fcDdatjRgU=;
+ b=dHO26QDY5LUMI+Tc2XZzsgpXZDpORNAX7YyZkCQ5xy7oSytr1O3oUF01CG9gH6yL5q
+ Y3La01kqEVPP9WWTMrMPMSLK8aydIT/ocZATNuL06J51ec4Okfq4Nv5ekqNB14ZWBhjL
+ tL88LfPKWlydh9eprQr48AASmItpc0PiVGEJE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=6zyJubaI7jmIklMw5VtrnMCnmEJ/7YKY0fPlXYHDlPM=;
- b=a22XELRlWPHgmD+2SUFyCzhZctB40R4+CDARdW1GbzUEtHo6xu+ZGt98gftKx2A8w3
- NQ5SOMrjnRsLkqxdDESUfDlehjhksxDQsdpNBJdqYFTyPtfFLpHAV3gBZaIuxnptODgm
- IrVL0iAaW3iLUxbol63XVDo9jFR7qHo8MlUHvEq5ErQYT0pP7qIJQgmb7ck6mhh8MfLY
- oT6Hl9v9H7QneKCsM/tBqa1wBxWlF2qtroQFuUUbt3s3dL0oXg+2GDc7wpmL4qYoyCcS
- v/Tf/X5CiOnjFdiukAZPApLLNGUBCCyDTeheRB7O4aGpjAL2+qaNqO1Lf8gR/qVvpEDl
- eoWA==
-X-Gm-Message-State: AOAM532qW6eZl3vCJIOyS1vDbKhfGQKViyQyitP1uxFnwk8fq5odj0ba
- /ta3tykMTqEmMbdIDwIfsg==
-X-Google-Smtp-Source: ABdhPJyVekguF76rQyEM/xY2RG6RZhDgaFrWaRAuRIOLJit2uHpFEhKoCkvkHzXhLkao2VSN1L/IHw==
-X-Received: by 2002:a1c:7901:: with SMTP id l1mr7041877wme.95.1624576420249;
- Thu, 24 Jun 2021 16:13:40 -0700 (PDT)
-Received: from [192.168.200.247] (ip5b434b8b.dynamic.kabel-deutschland.de.
- [91.67.75.139])
- by smtp.gmail.com with ESMTPSA id i18sm778948wrw.55.2021.06.24.16.13.39
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=arS0mKVzVlqtqVfiVwhtHqUqhLwMsArq/fcDdatjRgU=;
+ b=Mutr1Jzq0S4AFQCbiDmPHhf99I+xEM4IRJQyzXj771a0C2tOVYg5Bg7prOpSKk5eS4
+ EhW5FdBoPBH2Scvzua+Il38rz/ea+Sf3vKKn6+kRx6f8Bd+e18tTaeYNnMLnaZNw8qlM
+ BMa+1PxKOoBAFB3XLp/dDl9KSNEx+eKTmGUpmmIel8DW93nse6SBRiZOZSBvrJAAvC6e
+ ZG1XSluE4wra+fYFYRL/9/x94M2SmKae20jZ/MZjFP5Aq5qeDL3bmOc/TI7EyA+YyJLW
+ 8+idCcZco0MxPXdRTmehKg51PbmsENNsW2QAgSR0oXJQCXNp71difKAQIyPcJkUgB7OX
+ q0Fg==
+X-Gm-Message-State: AOAM5326V4tmrgUqIySFnJG/IWViogFG3X43/8NPI/Ga/GWTOYkkNnB0
+ PFe/M6OLqvzuJG0vw30KSgkEBA==
+X-Google-Smtp-Source: ABdhPJzJyYhoE1B9Fk5Wy7zlre5sRlAATH1Tds+i1SalCyUSMMBey0lep4anSoEg3on5gb5KkCMm2Q==
+X-Received: by 2002:a17:902:c947:b029:125:34d4:249d with SMTP id
+ i7-20020a170902c947b029012534d4249dmr7925026pla.3.1624606637340; 
+ Fri, 25 Jun 2021 00:37:17 -0700 (PDT)
+Received: from localhost ([2401:fa00:8f:203:1492:9d4f:19fa:df61])
+ by smtp.gmail.com with UTF8SMTPSA id a9sm9986991pjm.51.2021.06.25.00.37.11
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 24 Jun 2021 16:13:39 -0700 (PDT)
-Subject: Re: [PATCH 09/12] media: hantro: Enable H.264 on Rockchip VDPU2
-To: Ezequiel Garcia <ezequiel@collabora.com>, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-References: <20210624182612.177969-1-ezequiel@collabora.com>
- <20210624182612.177969-10-ezequiel@collabora.com>
-From: Alex Bee <knaerzche@gmail.com>
-Message-ID: <2ae869f3-7f3a-f184-93cc-61fca0f9022f@gmail.com>
-Date: Fri, 25 Jun 2021 01:13:39 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ Fri, 25 Jun 2021 00:37:16 -0700 (PDT)
+From: David Stevens <stevensd@chromium.org>
+X-Google-Original-From: David Stevens <stevensd@google.com>
+To: Marc Zyngier <maz@kernel.org>, Huacai Chen <chenhuacai@kernel.org>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ Paul Mackerras <paulus@ozlabs.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ Nick Piggin <npiggin@gmail.com>
+Subject: [PATCH v2 0/5] Remove uses of struct page from x86 and arm64 MMU
+Date: Fri, 25 Jun 2021 16:36:11 +0900
+Message-Id: <20210625073616.2184426-1-stevensd@google.com>
+X-Mailer: git-send-email 2.32.0.93.g670b81a890-goog
 MIME-Version: 1.0
-In-Reply-To: <20210624182612.177969-10-ezequiel@collabora.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Mailman-Approved-At: Fri, 25 Jun 2021 07:28:22 +0000
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,101 +67,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
- David Airlie <airlied@linux.ie>, Hans Verkuil <hverkuil@xs4all.nl>,
- Thierry Reding <thierry.reding@gmail.com>, kernel@collabora.com,
- Sam Ravnborg <sam@ravnborg.org>, Chris Healy <cphealy@gmail.com>,
- maccraft123mc@gmail.com
+Cc: Wanpeng Li <wanpengli@tencent.com>, kvm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mips@vger.kernel.org,
+ Will Deacon <will@kernel.org>, kvmarm@lists.cs.columbia.edu,
+ Alexandru Elisei <alexandru.elisei@arm.com>, Joerg Roedel <joro@8bytes.org>,
+ David Stevens <stevensd@google.com>, Zhi Wang <zhi.a.wang@intel.com>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>, intel-gfx@lists.freedesktop.org,
+ kvm-ppc@vger.kernel.org, intel-gvt-dev@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, Jim Mattson <jmattson@google.com>,
+ Sean Christopherson <seanjc@google.com>, linux-kernel@vger.kernel.org,
+ James Morse <james.morse@arm.com>, Vitaly Kuznetsov <vkuznets@redhat.com>,
+ linuxppc-dev@lists.ozlabs.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Ezequiel,
+KVM supports mapping VM_IO and VM_PFNMAP memory into the guest by using
+follow_pte in gfn_to_pfn. However, the resolved pfns may not have
+assoicated struct pages, so they should not be passed to pfn_to_page.
+This series removes such calls from the x86 and arm64 secondary MMU. To
+do this, this series introduces gfn_to_pfn_page functions that parallel
+the gfn_to_pfn functions. These functions take an extra out parameter
+which  contains the page if the hva was resovled by gup. This allows the
+caller to call put_page only when necessated by gup.
 
-Am 24.06.21 um 20:26 schrieb Ezequiel Garcia:
-> Given H.264 support for VDPU2 was just added, let's enable it.
-> For now, this is only enabled on platform that don't have
-> an RKVDEC core, such as RK3328.
+The gfn_to_pfn functions are depreciated. For now the functions remain
+with identical behavior to before, but callers should be migrated to the
+new gfn_to_pfn_page functions. I added new functions instead of simply
+adding another parameter to the existing functions to make it easier to
+track down users of the deprecated functions.
 
-Is there any reason, you do not want to enabe H.264 on RK3399? I know 
-H.264 can be done by by rkvdec already, but from what I understand that 
-shouldn't be an issue: The first decoder found that meets the 
-requirements will be taken.
+I have migrated the x86 and arm64 secondary MMUs to the new
+gfn_to_pfn_page functions.
 
-RK3328 has a variant (mpp calls it vdpu341) of rkvdec also which also 
-supports H.264 (and HEVC/VP9). rkvdec driver needs a (much simpler) 
-variant implementation in order to support it there also, since its has 
-some additional registers.
+This addresses CVE-2021-22543 on x86 and arm64.
 
-Thanks,
+v1 -> v2:
+ - Introduce new gfn_to_pfn_page functions instead of modifying the
+   behavior of existing gfn_to_pfn functions, to make the change less
+   invasive.
+ - Drop changes to mmu_audit.c
+ - Include Nicholas Piggin's patch to avoid corrupting refcount in the
+   follow_pte case, and use it in depreciated gfn_to_pfn functions.
+ - Rebase on kvm/next
 
-Alex
+David Stevens (4):
+  KVM: mmu: introduce new gfn_to_pfn_page functions
+  KVM: x86/mmu: use gfn_to_pfn_page
+  KVM: arm64/mmu: use gfn_to_pfn_page
+  KVM: mmu: remove over-aggressive warnings
 
->
-> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-> ---
->   .../staging/media/hantro/rockchip_vpu_hw.c    | 26 ++++++++++++++++++-
->   1 file changed, 25 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/staging/media/hantro/rockchip_vpu_hw.c b/drivers/staging/media/hantro/rockchip_vpu_hw.c
-> index 3ccc16413f42..e4e3b5e7689b 100644
-> --- a/drivers/staging/media/hantro/rockchip_vpu_hw.c
-> +++ b/drivers/staging/media/hantro/rockchip_vpu_hw.c
-> @@ -162,6 +162,19 @@ static const struct hantro_fmt rk3399_vpu_dec_fmts[] = {
->   		.fourcc = V4L2_PIX_FMT_NV12,
->   		.codec_mode = HANTRO_MODE_NONE,
->   	},
-> +	{
-> +		.fourcc = V4L2_PIX_FMT_H264_SLICE,
-> +		.codec_mode = HANTRO_MODE_H264_DEC,
-> +		.max_depth = 2,
-> +		.frmsize = {
-> +			.min_width = 48,
-> +			.max_width = 1920,
-> +			.step_width = MB_DIM,
-> +			.min_height = 48,
-> +			.max_height = 1088,
-> +			.step_height = MB_DIM,
-> +		},
-> +	},
->   	{
->   		.fourcc = V4L2_PIX_FMT_MPEG2_SLICE,
->   		.codec_mode = HANTRO_MODE_MPEG2_DEC,
-> @@ -388,6 +401,12 @@ static const struct hantro_codec_ops rk3399_vpu_codec_ops[] = {
->   		.init = hantro_jpeg_enc_init,
->   		.exit = hantro_jpeg_enc_exit,
->   	},
-> +	[HANTRO_MODE_H264_DEC] = {
-> +		.run = rockchip_vpu2_h264_dec_run,
-> +		.reset = rockchip_vpu2_dec_reset,
-> +		.init = hantro_h264_dec_init,
-> +		.exit = hantro_h264_dec_exit,
-> +	},
->   	[HANTRO_MODE_MPEG2_DEC] = {
->   		.run = rockchip_vpu2_mpeg2_dec_run,
->   		.reset = rockchip_vpu2_dec_reset,
-> @@ -433,6 +452,8 @@ static const char * const rockchip_vpu_clk_names[] = {
->   	"aclk", "hclk"
->   };
->   
-> +/* VDPU1/VEPU1 */
-> +
->   const struct hantro_variant rk3036_vpu_variant = {
->   	.dec_offset = 0x400,
->   	.dec_fmts = rk3066_vpu_dec_fmts,
-> @@ -495,11 +516,14 @@ const struct hantro_variant rk3288_vpu_variant = {
->   	.num_clocks = ARRAY_SIZE(rockchip_vpu_clk_names)
->   };
->   
-> +/* VDPU2/VEPU2 */
-> +
->   const struct hantro_variant rk3328_vpu_variant = {
->   	.dec_offset = 0x400,
->   	.dec_fmts = rk3399_vpu_dec_fmts,
->   	.num_dec_fmts = ARRAY_SIZE(rk3399_vpu_dec_fmts),
-> -	.codec = HANTRO_MPEG2_DECODER | HANTRO_VP8_DECODER,
-> +	.codec = HANTRO_MPEG2_DECODER | HANTRO_VP8_DECODER |
-> +		 HANTRO_H264_DECODER,
->   	.codec_ops = rk3399_vpu_codec_ops,
->   	.irqs = rockchip_vdpu2_irqs,
->   	.num_irqs = ARRAY_SIZE(rockchip_vdpu2_irqs),
+Nicholas Piggin (1):
+  KVM: do not allow mapping valid but non-refcounted pages
+
+ arch/arm64/kvm/mmu.c            |  26 +++--
+ arch/x86/kvm/mmu/mmu.c          |  50 ++++-----
+ arch/x86/kvm/mmu/mmu_internal.h |   3 +-
+ arch/x86/kvm/mmu/paging_tmpl.h  |  23 +++--
+ arch/x86/kvm/mmu/tdp_mmu.c      |   6 +-
+ arch/x86/kvm/mmu/tdp_mmu.h      |   4 +-
+ arch/x86/kvm/x86.c              |   6 +-
+ include/linux/kvm_host.h        |  17 +++
+ virt/kvm/kvm_main.c             | 177 +++++++++++++++++++++++++-------
+ 9 files changed, 222 insertions(+), 90 deletions(-)
+
+-- 
+2.32.0.93.g670b81a890-goog
+
