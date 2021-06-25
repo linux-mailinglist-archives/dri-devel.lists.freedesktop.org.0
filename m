@@ -2,28 +2,27 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDDB23B4490
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Jun 2021 15:34:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AA0C3B4488
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Jun 2021 15:33:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E6E376EDCF;
-	Fri, 25 Jun 2021 13:34:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4CD436EDD3;
+	Fri, 25 Jun 2021 13:33:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 595FF6EDD4
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 56DBD6EDD3
  for <dri-devel@lists.freedesktop.org>; Fri, 25 Jun 2021 13:33:47 +0000 (UTC)
 Received: from localhost.localdomain (unknown
  [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 32BF61F40FE1;
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 905251F40FF9;
  Fri, 25 Jun 2021 14:33:40 +0100 (BST)
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 13/15] drm/panfrost: Don't reset the GPU on job faults
- unless we really have to
-Date: Fri, 25 Jun 2021 15:33:25 +0200
-Message-Id: <20210625133327.2598825-14-boris.brezillon@collabora.com>
+Subject: [PATCH v3 14/15] drm/panfrost: Kill in-flight jobs on FD close
+Date: Fri, 25 Jun 2021 15:33:26 +0200
+Message-Id: <20210625133327.2598825-15-boris.brezillon@collabora.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210625133327.2598825-1-boris.brezillon@collabora.com>
 References: <20210625133327.2598825-1-boris.brezillon@collabora.com>
@@ -49,87 +48,92 @@ Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If we can recover from a fault without a reset there's no reason to
-issue one.
+If the process who submitted these jobs decided to close the FD before
+the jobs are done it probably means it doesn't care about the result.
 
 v3:
-* Drop the mention of Valhall requiring a reset on JOB_BUS_FAULT
-* Set the fence error to -EINVAL instead of having per-exception
-  error codes
+* Set fence error to ECANCELED when a TERMINATED exception is received
 
 Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 ---
- drivers/gpu/drm/panfrost/panfrost_device.c |  9 +++++++++
- drivers/gpu/drm/panfrost/panfrost_device.h |  2 ++
- drivers/gpu/drm/panfrost/panfrost_job.c    | 16 ++++++++++++++--
- 3 files changed, 25 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/panfrost/panfrost_job.c | 43 +++++++++++++++++++++----
+ 1 file changed, 37 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/panfrost/panfrost_device.c b/drivers/gpu/drm/panfrost/panfrost_device.c
-index 736854542b05..f4e42009526d 100644
---- a/drivers/gpu/drm/panfrost/panfrost_device.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_device.c
-@@ -379,6 +379,15 @@ const char *panfrost_exception_name(u32 exception_code)
- 	return panfrost_exception_infos[exception_code].name;
- }
- 
-+bool panfrost_exception_needs_reset(const struct panfrost_device *pfdev,
-+				    u32 exception_code)
-+{
-+	/* Right now, none of the GPU we support need a reset, but this
-+	 * might change.
-+	 */
-+	return false;
-+}
-+
- void panfrost_device_reset(struct panfrost_device *pfdev)
- {
- 	panfrost_gpu_soft_reset(pfdev);
-diff --git a/drivers/gpu/drm/panfrost/panfrost_device.h b/drivers/gpu/drm/panfrost/panfrost_device.h
-index efe9a675b614..ecbc79ad0006 100644
---- a/drivers/gpu/drm/panfrost/panfrost_device.h
-+++ b/drivers/gpu/drm/panfrost/panfrost_device.h
-@@ -175,6 +175,8 @@ int panfrost_device_resume(struct device *dev);
- int panfrost_device_suspend(struct device *dev);
- 
- const char *panfrost_exception_name(u32 exception_code);
-+bool panfrost_exception_needs_reset(const struct panfrost_device *pfdev,
-+				    u32 exception_code);
- 
- static inline void
- panfrost_device_schedule_reset(struct panfrost_device *pfdev)
 diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
-index 0566e2f7e84a..948bd174ff99 100644
+index 948bd174ff99..aa1e6542adde 100644
 --- a/drivers/gpu/drm/panfrost/panfrost_job.c
 +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
-@@ -497,14 +497,26 @@ static void panfrost_job_handle_irq(struct panfrost_device *pfdev, u32 status)
- 		job_write(pfdev, JOB_INT_CLEAR, mask);
+@@ -498,14 +498,21 @@ static void panfrost_job_handle_irq(struct panfrost_device *pfdev, u32 status)
  
  		if (status & JOB_INT_MASK_ERR(j)) {
-+			u32 js_status = job_read(pfdev, JS_STATUS(j));
-+
+ 			u32 js_status = job_read(pfdev, JS_STATUS(j));
++			const char *exception_name = panfrost_exception_name(js_status);
+ 
  			job_write(pfdev, JS_COMMAND_NEXT(j), JS_COMMAND_NOP);
  
- 			dev_err(pfdev->dev, "js fault, js=%d, status=%s, head=0x%x, tail=0x%x",
- 				j,
--				panfrost_exception_name(job_read(pfdev, JS_STATUS(j))),
-+				panfrost_exception_name(js_status),
- 				job_read(pfdev, JS_HEAD_LO(j)),
- 				job_read(pfdev, JS_TAIL_LO(j)));
--			drm_sched_fault(&pfdev->js->queue[j].sched);
-+
-+			/* If we need a reset, signal it to the timeout
-+			 * handler, otherwise, update the fence error field and
-+			 * signal the job fence.
-+			 */
-+			if (panfrost_exception_needs_reset(pfdev, js_status)) {
-+				drm_sched_fault(&pfdev->js->queue[j].sched);
+-			dev_err(pfdev->dev, "js fault, js=%d, status=%s, head=0x%x, tail=0x%x",
+-				j,
+-				panfrost_exception_name(js_status),
+-				job_read(pfdev, JS_HEAD_LO(j)),
+-				job_read(pfdev, JS_TAIL_LO(j)));
++			if (js_status < DRM_PANFROST_EXCEPTION_JOB_CONFIG_FAULT) {
++				dev_dbg(pfdev->dev, "js interrupt, js=%d, status=%s, head=0x%x, tail=0x%x",
++					j, exception_name,
++					job_read(pfdev, JS_HEAD_LO(j)),
++					job_read(pfdev, JS_TAIL_LO(j)));
 +			} else {
-+				dma_fence_set_error(pfdev->jobs[j]->done_fence, -EINVAL);
-+				status |= JOB_INT_MASK_DONE(j);
++				dev_err(pfdev->dev, "js fault, js=%d, status=%s, head=0x%x, tail=0x%x",
++					j, exception_name,
++					job_read(pfdev, JS_HEAD_LO(j)),
++					job_read(pfdev, JS_TAIL_LO(j)));
 +			}
- 		}
  
- 		if (status & JOB_INT_MASK_DONE(j)) {
+ 			/* If we need a reset, signal it to the timeout
+ 			 * handler, otherwise, update the fence error field and
+@@ -514,7 +521,16 @@ static void panfrost_job_handle_irq(struct panfrost_device *pfdev, u32 status)
+ 			if (panfrost_exception_needs_reset(pfdev, js_status)) {
+ 				drm_sched_fault(&pfdev->js->queue[j].sched);
+ 			} else {
+-				dma_fence_set_error(pfdev->jobs[j]->done_fence, -EINVAL);
++				int error = 0;
++
++				if (js_status == DRM_PANFROST_EXCEPTION_TERMINATED)
++					error = -ECANCELED;
++				else if (js_status >= DRM_PANFROST_EXCEPTION_JOB_CONFIG_FAULT)
++					error = -EINVAL;
++
++				if (error)
++					dma_fence_set_error(pfdev->jobs[j]->done_fence, error);
++
+ 				status |= JOB_INT_MASK_DONE(j);
+ 			}
+ 		}
+@@ -673,10 +689,25 @@ int panfrost_job_open(struct panfrost_file_priv *panfrost_priv)
+ 
+ void panfrost_job_close(struct panfrost_file_priv *panfrost_priv)
+ {
++	struct panfrost_device *pfdev = panfrost_priv->pfdev;
++	unsigned long flags;
+ 	int i;
+ 
+ 	for (i = 0; i < NUM_JOB_SLOTS; i++)
+ 		drm_sched_entity_destroy(&panfrost_priv->sched_entity[i]);
++
++	/* Kill in-flight jobs */
++	spin_lock_irqsave(&pfdev->js->job_lock, flags);
++	for (i = 0; i < NUM_JOB_SLOTS; i++) {
++		struct drm_sched_entity *entity = &panfrost_priv->sched_entity[i];
++		struct panfrost_job *job = pfdev->jobs[i];
++
++		if (!job || job->base.entity != entity)
++			continue;
++
++		job_write(pfdev, JS_COMMAND(i), JS_COMMAND_HARD_STOP);
++	}
++	spin_unlock_irqrestore(&pfdev->js->job_lock, flags);
+ }
+ 
+ int panfrost_job_is_idle(struct panfrost_device *pfdev)
 -- 
 2.31.1
 
