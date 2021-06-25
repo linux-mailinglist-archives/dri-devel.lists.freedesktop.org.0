@@ -1,63 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 882A03B3A95
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Jun 2021 03:45:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id ED3F73B3AA6
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Jun 2021 03:55:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F22466E9D8;
-	Fri, 25 Jun 2021 01:45:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D3CD6E108;
+	Fri, 25 Jun 2021 01:55:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 531 seconds by postgrey-1.36 at gabe;
- Fri, 25 Jun 2021 01:45:51 UTC
-Received: from smtphy.263.net (syd-smtp02.263.net [13.237.61.158])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B211F6E9D8;
- Fri, 25 Jun 2021 01:45:51 +0000 (UTC)
-Received: from smtp.263.net (unknown [211.157.147.162])
- by smtphy.263.net (Postfix) with ESMTPS id 0C92E1200A1;
- Fri, 25 Jun 2021 09:36:59 +0800 (CST)
-Received: from regular1.263xmail.com (unknown [192.168.165.182])
- by smtp.263.net (Postfix) with ESMTP id 613B9231;
- Fri, 25 Jun 2021 09:36:50 +0800 (CST)
-Received: from localhost (unknown [192.168.167.137])
- by regular1.263xmail.com (Postfix) with ESMTP id 9BE94E65;
- Fri, 25 Jun 2021 09:36:45 +0800 (CST)
-X-MAIL-GRAY: 0
-X-MAIL-DELIVERY: 1
-X-ADDR-CHECKED: 0
-X-SKE-CHECKED: 1
-X-ABS-CHECKED: 1
-X-ANTISPAM-LEVEL: 2
-Received: from bj-wm-cp-9 (unknown [192.168.167.113])
- by smtp.263.net (postfix) whith ESMTP id
- P14259T140505477224192S1624585005531423_; 
- Fri, 25 Jun 2021 09:36:45 +0800 (CST)
-X-UNIQUE-TAG: <5dc28952703ead30559dc3583043fc9e>
-X-RL-SENDER: huqiqiao@uniontech.com
-X-SENDER: huqiqiao@uniontech.com
-X-LOGIN-NAME: wmsendmail@net263.com
-X-FST-TO: ckoenig.leichtzumerken@gmail.com
-X-RCPT-COUNT: 6
-X-SENDER-IP: 192.168.167.113
-X-ATTACHMENT-NUM: 0
-X-System-Flag: 0
-Date: Fri, 25 Jun 2021 09:36:45 +0800 (CST)
-From: =?UTF-8?B?6IOh5aWH5ben?= <huqiqiao@uniontech.com>
-To: =?UTF-8?B?Q2hyaXN0aWFuIEvDtm5pZyA=?= <ckoenig.leichtzumerken@gmail.com>, 
- =?UTF-8?B?YWlybGllZCA=?= <airlied@linux.ie>, 
- =?UTF-8?B?ZGFuaWVsIA==?= <daniel@ffwll.ch>
-Message-ID: <1588518222.11998.1624585005279.JavaMail.xmail@bj-wm-cp-9>
-References: <20210623091242.12861-1-huqiqiao@uniontech.com>,
- <e18c2147-cc19-7493-5feb-de28e3102d3f@gmail.com>
-Subject: =?UTF-8?B?UmU6UmU6IFtQQVRDSF0gZHJtL2FtZGdwdTp1c2Uga3ZjYWxsb2MgaW5zdGVhZCBvZiBrdm1hbGxvY19hcnJheQ==?=
+Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com
+ [IPv6:2607:f8b0:4864:20::434])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB0416E108
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Jun 2021 01:55:26 +0000 (UTC)
+Received: by mail-pf1-x434.google.com with SMTP id t32so6785057pfg.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Jun 2021 18:55:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=igel-co-jp.20150623.gappssmtp.com; s=20150623;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=DgvXn3PwiL33+V2MPigrwm2vtPfix09cjVm/yIwhB0s=;
+ b=s504KnWSPBnvlcVjrEkj0svXJJPV6FPA89XUVCkhTJUFi3FXCxXk0vrr+kE/IWAQLw
+ COILHQO/0uk6k4XjWfxli245zRoL5KQrd3PzK9eyzyl69Dc44ZS90zepOBMSuPFKqNdC
+ NPqrg9y7CMaLdTSygxpqPWstw4cIfQtBJp5qV50EzWtU6QgDeUdyik0NdWC4dBXlYf+7
+ XsGa0Nsow2vmK8WHFEroSERvbLoGgxq15Fn02eSDy+uiO2b5cvI6duDNHv4e3KTBmMFE
+ mHesyVocr9PpxKjE4gWng4Wxb3CbAKBGZuf53Xc8lK4WGIWUyIdBedPkVn0kVV2qe21z
+ FXSg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=DgvXn3PwiL33+V2MPigrwm2vtPfix09cjVm/yIwhB0s=;
+ b=ElQTyStpPkjO7IHp8lM9+8dH6yTm6U56vrS2NxknrmFmO286Xy4K2ViXCFu+CIt735
+ sX5Z6UwsrkAmATZSq3+zRYLN7Z9PwThXObCj41cOoWiipyUoYHvNs9QpRcajwY1K6njN
+ DlDzU4SFQrdq8b1I0I1zh+fDo/K9fECafgFDF3h1nYL43VmUu+ix04KK3b3srMh85eJk
+ f58e7kPNF1aZpuXK0YPDBMK7+xreG5RDvM07mYLHvtiLOGq8685UBlQn25ngCXhrTWIX
+ qh9rGr3Y6eeBv0PcIQdQCi/vHj2ocqBgM5EdtAPEzFWGF5jez6zqfAToTIx+tk/7sM3v
+ Xn3Q==
+X-Gm-Message-State: AOAM533E6B2Mi/hOBv/UjkwWwy4ndNmnGgIUoSLjt3xALfV5s3nC1npH
+ 9xnmPxzMm3rT8PCjuqKWHHNwWA==
+X-Google-Smtp-Source: ABdhPJyEk9Rv3KTOVxXC0NHAHj1jU5hyD7crHmZ2gsBN42qlG53UAeVEt8i2HW6LabaIKUQoWsPqjw==
+X-Received: by 2002:a62:5444:0:b029:2e9:c69d:dc64 with SMTP id
+ i65-20020a6254440000b02902e9c69ddc64mr7771482pfb.32.1624586126291; 
+ Thu, 24 Jun 2021 18:55:26 -0700 (PDT)
+Received: from ?IPv6:240b:10:c9a0:ca00:55ca:cffa:65dd:ae53?
+ ([240b:10:c9a0:ca00:55ca:cffa:65dd:ae53])
+ by smtp.gmail.com with ESMTPSA id n69sm4037663pfd.132.2021.06.24.18.55.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 24 Jun 2021 18:55:25 -0700 (PDT)
+Subject: Re: [PATH 0/4] [RFC] Support virtual DRM
+To: Pekka Paalanen <ppaalanen@gmail.com>
+References: <20210621062742.26073-1-etom@igel.co.jp>
+ <7cde82a9-c60c-e527-eeac-eaad0c5842a1@metux.net>
+ <1cfab5f9-f275-aa53-00de-5da3fcea71c5@igel.co.jp>
+ <20210622111239.73aa87aa@eldfell>
+ <ee0161b5-c88b-40ce-c02f-86e0927b70bb@igel.co.jp>
+ <20210623113922.1e603139@eldfell>
+ <ab816c34-ff98-911f-e53d-b91cd3be6f2b@igel.co.jp>
+ <20210623144115.1bc55db1@eldfell>
+From: Esaki Tomohito <etom@igel.co.jp>
+Message-ID: <b212df8e-4e71-9cb5-d796-7f5d1e193b7e@igel.co.jp>
+Date: Fri, 25 Jun 2021 10:55:20 +0900
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/html;  charset=utf-8
-Content-Transfer-Encoding: base64
-X-Send-Individually: 0
-X-Reply-Previous-EmailId: 
-X-SENDER-IP: 58.240.82.166
-X-Priority: 3
+In-Reply-To: <20210623144115.1bc55db1@eldfell>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,58 +81,116 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?B?YW1kLWdmeCA=?= <amd-gfx@lists.freedesktop.org>,
- =?UTF-8?B?ZHJpLWRldmVsIA==?= <dri-devel@lists.freedesktop.org>,
- =?UTF-8?B?bGludXgta2VybmVsIA==?= <linux-kernel@vger.kernel.org>
+Cc: devicetree@vger.kernel.org, Takanari Hayama <taki@igel.co.jp>,
+ linux-doc@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-renesas-soc@vger.kernel.org,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, "Enrico Weigelt,
+ metux IT consult" <lkml@metux.net>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Damian Hobson-Garcia <dhobsong@igel.co.jp>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-PHN0eWxlPnRhYmxlLmN1c3RvbVRhYmxlQ2xhc3NOYW1lIHttYXJnaW4tYm90dG9tOiAxMHB4O2Jv
-cmRlci1jb2xsYXBzZTogY29sbGFwc2U7ZGlzcGxheTogdGFibGU7fS5jdXN0b21UYWJsZUNsYXNz
-TmFtZSB0ZCwgLmN1c3RvbVRhYmxlQ2xhc3NOYW1lIHRoIHtib3JkZXI6IDFweCBzb2xpZCAjZGRk
-O308L3N0eWxlPjxwIHN0eWxlPSJtYXJnaW46MHB4OyI+PGJyPjwvcD48cCBzdHlsZT0ibWFyZ2lu
-OjBweDsiPk9LLCBJJ2xsIHJldmlzZSBpdCBhbmQgc3VibWl0IGl0IGFnYWluPC9wPjxwIHN0eWxl
-PSJtYXJnaW46MHB4OyI+PGJyPjwvcD48cCBzdHlsZT0ibWFyZ2luOjBweDsiPkdlb3JnZS48L3A+
-PHAgc3R5bGU9Im1hcmdpbjowcHg7Ij48YnI+DQogJm5ic3A7PC9wPjxkaXYgc3R5bGU9InBhZGRp
-bmc6NXB4O3BhZGRpbmctbGVmdDowcHg7Ym9yZGVyLXRvcDpzb2xpZCAjOTk5IDEuMHB0O2ZvbnQt
-ZmFtaWx5OiBhcmlhbDsgZm9udC1zaXplOjEycHg7bWFyZ2luLWJvdHRvbToyMHB4OyI+PHAgc3R5
-bGU9Im1hcmdpbjowcHg7Ij48c3Ryb25nPkZyb206PC9zdHJvbmc+ICJDaHJpc3RpYW4gS8O2bmln
-ICZsdDtja29lbmlnLmxlaWNodHp1bWVya2VuQGdtYWlsLmNvbSZndDsiPC9wPjxwIHN0eWxlPSJt
-YXJnaW46MHB4OyI+PHN0cm9uZz5Ubzo8L3N0cm9uZz4gImh1cWlxaWFvICZsdDtodXFpcWlhb0B1
-bmlvbnRlY2guY29tJmd0OyIsImFpcmxpZWQgJmx0O2FpcmxpZWRAbGludXguaWUmZ3Q7IiwiZGFu
-aWVsICZsdDtkYW5pZWxAZmZ3bGwuY2gmZ3Q7IjwvcD48cCBzdHlsZT0ibWFyZ2luOjBweDsiPjxz
-dHJvbmc+Q0M6PC9zdHJvbmc+ICJkcmktZGV2ZWwgJmx0O2RyaS1kZXZlbEBsaXN0cy5mcmVlZGVz
-a3RvcC5vcmcmZ3Q7IiwiYW1kLWdmeCAmbHQ7YW1kLWdmeEBsaXN0cy5mcmVlZGVza3RvcC5vcmcm
-Z3Q7IiwibGludXgta2VybmVsICZsdDtsaW51eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnJmd0OyI8
-L3A+PHAgc3R5bGU9Im1hcmdpbjowcHg7Ij48c3Ryb25nPlNlbnQ6PC9zdHJvbmc+IDIwMjEtMDYt
-MjQgMjE6MTQ8L3A+PHAgc3R5bGU9Im1hcmdpbjowcHg7Ij48c3Ryb25nPlN1YmplY3Q6PC9zdHJv
-bmc+IFJlOiBbUEFUQ0hdIGRybS9hbWRncHU6dXNlIGt2Y2FsbG9jIGluc3RlYWQgb2Yga3ZtYWxs
-b2NfYXJyYXk8L3A+PC9kaXY+PHAgc3R5bGU9Im1hcmdpbjowcHg7Ij48YnI+DQogJm5ic3A7PGJy
-PkFtIDIzLjA2LjIxIHVtIDExOjEyIHNjaHJpZWIgaHVxaXFpYW86ICZuYnNwOzxicj4mZ3Q7IGt2
-bWFsbG9jX2FycmF5ICsgX19HRlBfWkVSTyBpcyB0aGUgc2FtZSB3aXRoIGt2Y2FsbG9jLiAmbmJz
-cDs8YnI+Jmd0OyAmbmJzcDs8YnI+Jmd0OyBTaWduZWQtb2ZmLWJ5OiBodXFpcWlhbyAmbHQ7aHVx
-aXFpYW9AdW5pb250ZWNoLmNvbSZndDsgJm5ic3A7PGJyPiZndDsgLS0tICZuYnNwOzxicj4mZ3Q7
-IGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV92bS5jIHwgNSArKy0tLSAmbmJzcDs8
-YnI+Jmd0OyAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAzIGRlbGV0aW9ucygtKSAm
-bmJzcDs8YnI+Jmd0OyAmbmJzcDs8YnI+Jmd0OyBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJt
-L2FtZC9hbWRncHUvYW1kZ3B1X3ZtLmMgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRn
-cHVfdm0uYyAmbmJzcDs8YnI+Jmd0OyBpbmRleCA5YWNlZTRhNWIyYmEuLjUwZWRjNzM1MjViMCAx
-MDA2NDQgJm5ic3A7PGJyPiZndDsgLS0tIGEvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1k
-Z3B1X3ZtLmMgJm5ic3A7PGJyPiZndDsgKysrIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUv
-YW1kZ3B1X3ZtLmMgJm5ic3A7PGJyPiZndDsgQEAgLTkwOCw5ICs5MDgsOCBAQCBzdGF0aWMgaW50
-IGFtZGdwdV92bV9hbGxvY19wdHMoc3RydWN0IGFtZGdwdV9kZXZpY2UgKmFkZXYsICZuYnNwOzxi
-cj4mZ3Q7IHVuc2lnbmVkIG51bV9lbnRyaWVzOyAmbmJzcDs8YnI+Jmd0OyANCiAmbmJzcDs8YnI+
-Jmd0OyBudW1fZW50cmllcyA9IGFtZGdwdV92bV9udW1fZW50cmllcyhhZGV2LCBjdXJzb3ItJmd0
-O2xldmVsKTsgJm5ic3A7PGJyPiZndDsgLSBlbnRyeS0mZ3Q7ZW50cmllcyA9IGt2bWFsbG9jX2Fy
-cmF5KG51bV9lbnRyaWVzLCAmbmJzcDs8YnI+Jmd0OyAtIHNpemVvZigqZW50cnktJmd0O2VudHJp
-ZXMpLCAmbmJzcDs8YnI+Jmd0OyAtIEdGUF9LRVJORUwgfCBfX0dGUF9aRVJPKTsgJm5ic3A7PGJy
-PiZndDsgKyBlbnRyeS0mZ3Q7ZW50cmllcyA9IGt2Y2FsbG9jKG51bV9lbnRyaWVzLCAmbmJzcDs8
-YnI+Jmd0OyArIHNpemVvZigqZW50cnktJmd0O2VudHJpZXMpLCBHRlBfS0VSTkVMKTsgJm5ic3A7
-PGJyPg0KICZuYnNwOzxicj5Tb3VuZHMgbGlrZSBhIGdvb2QgaWRlYSBpbiBnZW5lcmFsLCBidXQg
-dGhlIGluZGVudGF0aW9uIG9uIHRoZSBzZWNvbmQgDQogJm5ic3A7PGJyPmxpbmUgc2VlbXMgdG8g
-YmUgb2YuICZuYnNwOzxicj4NCiAmbmJzcDs8YnI+Q2hyaXN0aWFuLiAmbmJzcDs8YnI+DQogJm5i
-c3A7PGJyPiZndDsgaWYgKCFlbnRyeS0mZ3Q7ZW50cmllcykgJm5ic3A7PGJyPiZndDsgcmV0dXJu
-IC1FTk9NRU07ICZuYnNwOzxicj4mZ3Q7IH0gJm5ic3A7PGJyPg0KICZuYnNwOzxicj4NCiAmbmJz
-cDs8YnI+DQogJm5ic3A7PGJyPg0KIDwvcD4=
 
 
+On 2021/06/23 20:41, Pekka Paalanen wrote:
+> On Wed, 23 Jun 2021 18:22:47 +0900
+> Esaki Tomohito <etom@igel.co.jp> wrote:
+> 
+>> On 2021/06/23 17:39, Pekka Paalanen wrote:
+>>> On Wed, 23 Jun 2021 15:56:05 +0900
+>>> Esaki Tomohito <etom@igel.co.jp> wrote:
+>>>   
+>>>> Hi,
+>>>> Thank you all for your comments.
+>>>>
+>>>> On 2021/06/22 17:12, Pekka Paalanen wrote:  
+>>>>> On Tue, 22 Jun 2021 13:03:39 +0900
+>>>>> Esaki Tomohito <etom@igel.co.jp> wrote:
+>>>>>     
+>>>>>> Hi, Enrico Weigelt
+>>>>>> Thank you for reply.
+>>>>>>
+>>>>>> On 2021/06/22 1:05, Enrico Weigelt, metux IT consult wrote:    
+>>>>>>> On 21.06.21 08:27, Tomohito Esaki wrote:
+>>>>>>>
+>>>>>>> Hi,
+>>>>>>>       
+>>>>>>>> Virtual DRM splits the overlay planes of a display controller into multiple
+>>>>>>>> virtual devices to allow each plane to be accessed by each process.
+>>>>>>>>
+>>>>>>>> This makes it possible to overlay images output from multiple processes on a
+>>>>>>>> display. For example, one process displays the camera image without compositor
+>>>>>>>> while another process overlays the UI.      
+>>>>>>>
+>>>>>>> Are you attempting to create an simple in-kernel compositor ?      
+>>>>>>
+>>>>>> I think the basic idea is the same as DRMlease.    
+>>>>>
+>>>>> Hi,
+>>>>>
+>>>>> indeed. Why not use DRM leases instead?
+>>>>>     
+>>>>
+>>>> In this use case, I understand that this is not possible with DRM lease,
+>>>> am I wrong?
+>>>> I understand that it’s not possible to lease a plane and update planes
+>>>> on the same output independently from different processes in current DRM
+>>>> lease.
+>>>>
+>>>> If this is correct, what do you think of adding support for plane leases
+>>>> to the DRM lease to handle this case?  
+>>>
+>>> Hi,
+>>>
+>>> I would love to see support added for leasing individual planes,
+>>> especially to replace the virtual DRM proposal which seems to be
+>>> eradicating everything that atomic modesetting and nuclear pageflip
+>>> have built over the many years.
+>>>
+>>> However, please note that "on the same output independently" is
+>>> physically impossible. Semantically, the planes define what a CRTC
+>>> scans out, and the CRTC defines the scanout timings. Therefore it is not
+>>> possible to update individual planes independently, they will all
+>>> always share the timings of the CRTC.
+>>>
+>>> That combined with KMS not allowing multiple updates to be queued at
+>>> the same time for the same CRTC (atomic commits and legacy pageflips
+>>> returning EBUSY) makes the plane updates very much inter-dependent.
+>>>
+>>> If you want to avoid EBUSY and have planes update on the vblank you
+>>> intended, you really need a userspace compositor to pull everything
+>>> together *before* submitting anything to the kernel.  
+>>
+>> Hi,
+>>
+>> Thank you for your comments and advice.
+>> I will consider leasing a plane.
+> 
+> Hi,
+> 
+> I wish you considered a userspace compositor first, once more, with
+> passion.
+> 
+> It does not need to be Weston, and it does not need to use Wayland.
+> Just a userspace daemon that owns the whole display device and somehow
+> talks to whatever else wants stuff on screen.
+> 
+> I have not seen any evidence that leasing individual planes would do
+> you any good. I can easily see it doing you harm. I'm only saying that
+> it would be better than the virtual DRM proposal if you absolutely have
+> to go there. Please, consider not going there at all.
+> 
+> "On the same output independently" is not possible for the very simple
+> reason that the pixel data needs to be streamed serially to a monitor.
+> 
+
+Hi,
+
+Thank you for your advice.
+Once again, I'll consider a userspace compositor first.
+
+Best regards
+Esaki
