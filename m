@@ -2,64 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E8633B3A32
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Jun 2021 02:42:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 838133B3A60
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Jun 2021 03:06:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA23C6E9D2;
-	Fri, 25 Jun 2021 00:42:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0557C6E9D3;
+	Fri, 25 Jun 2021 01:06:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x12e.google.com (mail-il1-x12e.google.com
- [IPv6:2607:f8b0:4864:20::12e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A332D6E9D2
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Jun 2021 00:42:00 +0000 (UTC)
-Received: by mail-il1-x12e.google.com with SMTP id i17so8194568ilj.11
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Jun 2021 17:42:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=EqlrFHdkETA6GW6RTp23OD25mZ9+t6ZRMvVFoaOPoUc=;
- b=bWcnQFoaV8XnWx2CmMqEub8uZpXzFMse4FkKs/6K7fAcmnfM33tj2MQVZVMqk8lHor
- cnCu5fEy9K2Coqappl8ZOF4ctPyliF3MamPmCDoyKpou7w8OAoAQjHS8393soCVU2vwe
- MHeea8kRyeqRwy1slhC35EkQWOKLuZs+gqotQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=EqlrFHdkETA6GW6RTp23OD25mZ9+t6ZRMvVFoaOPoUc=;
- b=kZ2pqvwiJrLIOXwWthBN2wAIH9/5B3rqPv2jpDu9LN1CAsxWK9U/6Tr8JymF3r7PtU
- zXcqiamVqk3SNEhOe1IKGLVEZ6opDU2aL1IA2yv8/N3Vpjf06Q9qLhcurTyUsXPNTghI
- sgJAuaw7jZ10TQ8cdGKi3Vyu/nFRM8fLhWKHfzhW+6yZCQgxSrruxzNHRo+lWVWojeOn
- BhRg+wh2IdDw+59aHor2rzUYYXDuJjGkFe54EIoGdLyXS+kU3u3GuPONSPSIXOORhunA
- 9mXfxqJwfpsa+51z1iRXrnRPodRERBr+X7KgL++e6M8+zFk0PCQpbsjxq+EG2u1YVTSL
- yzCQ==
-X-Gm-Message-State: AOAM533AVRHnTKN9G9d/pCUNo9qjMGmEQQUYSFUZwhtmnW64ScHADvgx
- hhjGjxCb7dKus67OxqVDSYzep9m3gBBgNg==
-X-Google-Smtp-Source: ABdhPJy39t8t/0rcyOKYFw93nzqO1ibFOZV4CK1bIdWK+BuF6USZ6ETrci+QPPKi1HwflhLPBLlGzA==
-X-Received: by 2002:a05:6e02:4a1:: with SMTP id
- e1mr5369809ils.133.1624581719775; 
- Thu, 24 Jun 2021 17:41:59 -0700 (PDT)
-Received: from mail-il1-f170.google.com (mail-il1-f170.google.com.
- [209.85.166.170])
- by smtp.gmail.com with ESMTPSA id b25sm2411746ios.36.2021.06.24.17.41.58
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 24 Jun 2021 17:41:59 -0700 (PDT)
-Received: by mail-il1-f170.google.com with SMTP id z1so8268408ils.0
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Jun 2021 17:41:58 -0700 (PDT)
-X-Received: by 2002:a05:6602:1546:: with SMTP id
- h6mr6334034iow.34.1624581707960; 
- Thu, 24 Jun 2021 17:41:47 -0700 (PDT)
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 217086E9D3;
+ Fri, 25 Jun 2021 01:06:23 +0000 (UTC)
+IronPort-SDR: 5mVdEHrUCQAL+caF/vNErSk91Vp10d4nYBQBQ4u9bmmKkWkkwtMZoaUgFeHAFNWq0TW4ZFGtta
+ x9/6Hcb0cvhQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,10025"; a="229180385"
+X-IronPort-AV: E=Sophos;i="5.83,297,1616482800"; d="scan'208";a="229180385"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Jun 2021 18:06:22 -0700
+IronPort-SDR: +JtTuOpPAoX802D5KxWYpu8lG4xElAaD+0/X5Fx/ayXB0nkdbiEQq0c0G69R1twnti4VucNkPX
+ 3MisGcWDvwMA==
+X-IronPort-AV: E=Sophos;i="5.83,297,1616482800"; d="scan'208";a="445493948"
+Received: from unknown (HELO sdutt-i7) ([10.165.21.147])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Jun 2021 18:06:22 -0700
+Date: Thu, 24 Jun 2021 17:59:41 -0700
+From: Matthew Brost <matthew.brost@intel.com>
+To: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: Re: [Intel-gfx] [PATCH 43/47] drm/i915/guc: Hook GuC scheduling
+ policies up
+Message-ID: <20210625005940.GA3833@sdutt-i7>
+References: <20210624070516.21893-1-matthew.brost@intel.com>
+ <20210624070516.21893-44-matthew.brost@intel.com>
 MIME-Version: 1.0
-References: <20210624155526.2775863-1-tientzu@chromium.org>
- <YNTa1C5uvz+qWryf@char.us.oracle.com>
-In-Reply-To: <YNTa1C5uvz+qWryf@char.us.oracle.com>
-From: Claire Chang <tientzu@chromium.org>
-Date: Fri, 25 Jun 2021 08:41:37 +0800
-X-Gmail-Original-Message-ID: <CALiNf297ep9C8-3s=F-xRDud=QB9geMfCMKTqLzPJKEdYnfbXQ@mail.gmail.com>
-Message-ID: <CALiNf297ep9C8-3s=F-xRDud=QB9geMfCMKTqLzPJKEdYnfbXQ@mail.gmail.com>
-Subject: Re: [PATCH v15 00/12] Restricted DMA
-To: Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210624070516.21893-44-matthew.brost@intel.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,75 +50,176 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: heikki.krogerus@linux.intel.com, thomas.hellstrom@linux.intel.com,
- peterz@infradead.org, dri-devel@lists.freedesktop.org,
- chris@chris-wilson.co.uk, grant.likely@arm.com, paulus@samba.org,
- Frank Rowand <frowand.list@gmail.com>, mingo@kernel.org,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Saravana Kannan <saravanak@google.com>, mpe@ellerman.id.au,
- Joerg Roedel <joro@8bytes.org>,
- "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
- Christoph Hellwig <hch@lst.de>,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>, bskeggs@redhat.com,
- linux-pci@vger.kernel.org, xen-devel@lists.xenproject.org,
- Thierry Reding <treding@nvidia.com>, intel-gfx@lists.freedesktop.org,
- matthew.auld@intel.com, linux-devicetree <devicetree@vger.kernel.org>,
- Jianxiong Gao <jxgao@google.com>, Will Deacon <will@kernel.org>,
- airlied@linux.ie, Dan Williams <dan.j.williams@intel.com>,
- linuxppc-dev@lists.ozlabs.org, Rob Herring <robh+dt@kernel.org>,
- rodrigo.vivi@intel.com, Bjorn Helgaas <bhelgaas@google.com>,
- boris.ostrovsky@oracle.com,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>, jgross@suse.com,
- Nicolas Boichat <drinkcat@chromium.org>, Greg KH <gregkh@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, Qian Cai <quic_qiancai@quicinc.com>,
- lkml <linux-kernel@vger.kernel.org>, Tomasz Figa <tfiga@chromium.org>,
- "list@263.net:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
- Jim Quinlan <james.quinlan@broadcom.com>, xypron.glpk@gmx.de,
- Tom Lendacky <thomas.lendacky@amd.com>, Robin Murphy <robin.murphy@arm.com>,
- bauerman@linux.ibm.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jun 25, 2021 at 3:20 AM Konrad Rzeszutek Wilk
-<konrad.wilk@oracle.com> wrote:
->
-> On Thu, Jun 24, 2021 at 11:55:14PM +0800, Claire Chang wrote:
-> > This series implements mitigations for lack of DMA access control on
-> > systems without an IOMMU, which could result in the DMA accessing the
-> > system memory at unexpected times and/or unexpected addresses, possibly
-> > leading to data leakage or corruption.
-> >
-> > For example, we plan to use the PCI-e bus for Wi-Fi and that PCI-e bus is
-> > not behind an IOMMU. As PCI-e, by design, gives the device full access to
-> > system memory, a vulnerability in the Wi-Fi firmware could easily escalate
-> > to a full system exploit (remote wifi exploits: [1a], [1b] that shows a
-> > full chain of exploits; [2], [3]).
-> >
-> > To mitigate the security concerns, we introduce restricted DMA. Restricted
-> > DMA utilizes the existing swiotlb to bounce streaming DMA in and out of a
-> > specially allocated region and does memory allocation from the same region.
-> > The feature on its own provides a basic level of protection against the DMA
-> > overwriting buffer contents at unexpected times. However, to protect
-> > against general data leakage and system memory corruption, the system needs
-> > to provide a way to restrict the DMA to a predefined memory region (this is
-> > usually done at firmware level, e.g. MPU in ATF on some ARM platforms [4]).
-> >
-> > [1a] https://googleprojectzero.blogspot.com/2017/04/over-air-exploiting-broadcoms-wi-fi_4.html
-> > [1b] https://googleprojectzero.blogspot.com/2017/04/over-air-exploiting-broadcoms-wi-fi_11.html
-> > [2] https://blade.tencent.com/en/advisories/qualpwn/
-> > [3] https://www.bleepingcomputer.com/news/security/vulnerabilities-found-in-highly-popular-firmware-for-wifi-chips/
-> > [4] https://github.com/ARM-software/arm-trusted-firmware/blob/master/plat/mediatek/mt8183/drivers/emi_mpu/emi_mpu.c#L132
-> >
-> > v15:
-> > - Apply Will's diff (https://lore.kernel.org/patchwork/patch/1448957/#1647521)
-> >   to fix the crash reported by Qian.
-> > - Add Stefano's Acked-by tag for patch 01/12 from v14
->
-> That all should be now be on
->
-> https://git.kernel.org/pub/scm/linux/kernel/git/konrad/swiotlb.git/
-> devel/for-linus-5.14 (and linux-next)
->
+On Thu, Jun 24, 2021 at 12:05:12AM -0700, Matthew Brost wrote:
+> From: John Harrison <John.C.Harrison@Intel.com>
+> 
+> Use the official driver default scheduling policies for configuring
+> the GuC scheduler rather than a bunch of hardcoded values.
+> 
+> Signed-off-by: John Harrison <john.c.harrison@intel.com>
+> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> Cc: Jose Souza <jose.souza@intel.com>
+> ---
+>  drivers/gpu/drm/i915/gt/intel_engine_types.h  |  1 +
+>  drivers/gpu/drm/i915/gt/uc/intel_guc.h        |  2 +
+>  drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c    | 44 ++++++++++++++++++-
+>  .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 11 +++--
+>  4 files changed, 53 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_types.h b/drivers/gpu/drm/i915/gt/intel_engine_types.h
+> index 0ceffa2be7a7..37db857bb56c 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_engine_types.h
+> +++ b/drivers/gpu/drm/i915/gt/intel_engine_types.h
+> @@ -455,6 +455,7 @@ struct intel_engine_cs {
+>  #define I915_ENGINE_IS_VIRTUAL       BIT(5)
+>  #define I915_ENGINE_HAS_RELATIVE_MMIO BIT(6)
+>  #define I915_ENGINE_REQUIRES_CMD_PARSER BIT(7)
+> +#define I915_ENGINE_WANT_FORCED_PREEMPTION BIT(8)
+>  	unsigned int flags;
+>  
+>  	/*
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
+> index c38365cd5fab..905ecbc7dbe3 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc.h
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
+> @@ -270,6 +270,8 @@ int intel_guc_engine_failure_process_msg(struct intel_guc *guc,
+>  
+>  void intel_guc_find_hung_context(struct intel_engine_cs *engine);
+>  
+> +int intel_guc_global_policies_update(struct intel_guc *guc);
+> +
+>  void intel_guc_submission_reset_prepare(struct intel_guc *guc);
+>  void intel_guc_submission_reset(struct intel_guc *guc, bool stalled);
+>  void intel_guc_submission_reset_finish(struct intel_guc *guc);
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
+> index d3e86ab7508f..2ad5fcd4e1b7 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
+> @@ -77,14 +77,54 @@ static u32 guc_ads_blob_size(struct intel_guc *guc)
+>  	       guc_ads_private_data_size(guc);
+>  }
+>  
+> -static void guc_policies_init(struct guc_policies *policies)
+> +static void guc_policies_init(struct intel_guc *guc, struct guc_policies *policies)
+>  {
+> +	struct intel_gt *gt = guc_to_gt(guc);
+> +	struct drm_i915_private *i915 = gt->i915;
+> +
+>  	policies->dpc_promote_time = GLOBAL_POLICY_DEFAULT_DPC_PROMOTE_TIME_US;
+>  	policies->max_num_work_items = GLOBAL_POLICY_MAX_NUM_WI;
+> +
+>  	policies->global_flags = 0;
+> +	if (i915->params.reset < 2)
+> +		policies->global_flags |= GLOBAL_POLICY_DISABLE_ENGINE_RESET;
+> +
+>  	policies->is_valid = 1;
+>  }
+>  
+> +static int guc_action_policies_update(struct intel_guc *guc, u32 policy_offset)
+> +{
+> +	u32 action[] = {
+> +		INTEL_GUC_ACTION_GLOBAL_SCHED_POLICY_CHANGE,
+> +		policy_offset
+> +	};
+> +
+> +	return intel_guc_send(guc, action, ARRAY_SIZE(action));
+> +}
+> +
+> +int intel_guc_global_policies_update(struct intel_guc *guc)
+> +{
+> +	struct __guc_ads_blob *blob = guc->ads_blob;
+> +	struct intel_gt *gt = guc_to_gt(guc);
+> +	intel_wakeref_t wakeref;
+> +	int ret;
+> +
+> +	if (!blob)
+> +		return -ENOTSUPP;
+> +
+> +	GEM_BUG_ON(!blob->ads.scheduler_policies);
+> +
+> +	guc_policies_init(guc, &blob->policies);
+> +
+> +	if (!intel_guc_is_ready(guc))
+> +		return 0;
+> +
+> +	with_intel_runtime_pm(&gt->i915->runtime_pm, wakeref)
+> +		ret = guc_action_policies_update(guc, blob->ads.scheduler_policies);
+> +
+> +	return ret;
+> +}
+> +
+>  static void guc_mapping_table_init(struct intel_gt *gt,
+>  				   struct guc_gt_system_info *system_info)
+>  {
+> @@ -281,7 +321,7 @@ static void __guc_ads_init(struct intel_guc *guc)
+>  	u8 engine_class, guc_class;
+>  
+>  	/* GuC scheduling policies */
+> -	guc_policies_init(&blob->policies);
+> +	guc_policies_init(guc, &blob->policies);
+>  
+>  	/*
+>  	 * GuC expects a per-engine-class context image and size
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> index 6188189314d5..a427336ce916 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> @@ -873,6 +873,7 @@ void intel_guc_submission_reset_finish(struct intel_guc *guc)
+>  	GEM_WARN_ON(atomic_read(&guc->outstanding_submission_g2h));
+>  	atomic_set(&guc->outstanding_submission_g2h, 0);
+>  
+> +	intel_guc_global_policies_update(guc);
+>  	enable_submission(guc);
+>  	intel_gt_unpark_heartbeats(guc_to_gt(guc));
+>  }
+> @@ -1161,8 +1162,12 @@ static void guc_context_policy_init(struct intel_engine_cs *engine,
+>  {
+>  	desc->policy_flags = 0;
+>  
+> -	desc->execution_quantum = CONTEXT_POLICY_DEFAULT_EXECUTION_QUANTUM_US;
+> -	desc->preemption_timeout = CONTEXT_POLICY_DEFAULT_PREEMPTION_TIME_US;
+> +	if (engine->flags & I915_ENGINE_WANT_FORCED_PREEMPTION)
 
-devel/for-linus-5.14 looks good. Thanks!
+I can't see where we set this in this series, although I do see a
+selftest we need to fixup that sets this. Perhaps we drop this until we
+fix that selftest? Or at minimum add a comment saying it will be used in
+the future by selftests. What do you think John?
+
+> +		desc->policy_flags |= CONTEXT_POLICY_FLAG_PREEMPT_TO_IDLE;
+> +
+> +	/* NB: For both of these, zero means disabled. */
+> +	desc->execution_quantum = engine->props.timeslice_duration_ms * 1000;
+> +	desc->preemption_timeout = engine->props.preempt_timeout_ms * 1000;
+>  }
+>  
+>  static int guc_lrc_desc_pin(struct intel_context *ce, bool loop)
+> @@ -1945,13 +1950,13 @@ static void guc_default_vfuncs(struct intel_engine_cs *engine)
+>  	engine->set_default_submission = guc_set_default_submission;
+>  
+>  	engine->flags |= I915_ENGINE_HAS_PREEMPTION;
+> +	engine->flags |= I915_ENGINE_HAS_TIMESLICES;
+>  
+>  	/*
+>  	 * TODO: GuC supports timeslicing and semaphores as well, but they're
+
+Nit, we now support timeslicing. I can fix that up in next rev.
+
+Matt
+
+>  	 * handled by the firmware so some minor tweaks are required before
+>  	 * enabling.
+>  	 *
+> -	 * engine->flags |= I915_ENGINE_HAS_TIMESLICES;
+>  	 * engine->flags |= I915_ENGINE_HAS_SEMAPHORES;
+>  	 */
+>  
+> -- 
+> 2.28.0
+> 
+> _______________________________________________
+> Intel-gfx mailing list
+> Intel-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
