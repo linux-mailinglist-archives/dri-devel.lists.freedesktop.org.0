@@ -1,121 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C43283B49B2
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Jun 2021 22:14:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FC1B3B49C9
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Jun 2021 22:35:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 893136EE3F;
-	Fri, 25 Jun 2021 20:14:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5DC546EE42;
+	Fri, 25 Jun 2021 20:35:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam08on2060.outbound.protection.outlook.com [40.107.101.60])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8DE376EE1C;
- Fri, 25 Jun 2021 20:14:40 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EOiOf6gomi8O8eyHXGjoUE5zRtk9PHCbI0glqTSbBCfvAOEfQAhejvvvNK/zbVg0Sf/iVGENni2pdpdkD7PzrUwYEBBHwMLnrJ0v264aaGtgzcty/8fcsC055vIIwBz/4usQ47YYoMpUfgsLGjRByLwQ3VIyvUvSxCjmjtwr8T+zFmsmq5pBjvKExW5YB+qi/w/VgZl7MBJ3/16cCn354Fwct+VqSgVc9aPh1uyYfOiCh3jV6oZfU+DNL0MKZpAgHnbZrBSRtN0Qs6FEXCpGzei77XxSVoUo6Ke7JPuc4zrHW4p2DSME26k7xJmmNLxSKthf1dF2x9fjnDOdeU+8Tw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=P1lNDXB7DY7R/SRLGX2rQjbJwy0Pdz7RjWiQLYk8aic=;
- b=IsM0YSWvU+vGiRnlmry3PtEPR9YH9L/SVMMCBMJF+5NQo/7O8q07aBPtza3DDfWd+gfkSSzY/ckz0GmvWe+ixlAAYkkYWArvsFPYwxoJOVMBXe+YwW+Fg5i8iLkoSVjw/DCeGoxooMwjvcyjcaZrd5pVQbH0z5n0mEBjGEZc20nN8NZcapbDQVNY6YQ3F3vim/O9J8OXkC1gLxF3EMvqKXGMGow+dRrQk44xy+P1UmSI1ejXNQaFYk3CbC+FGEwpiyLnMkB1vPcHGN/LoyHy06GcnxDkdvqcM78XuEsvRGeHDUC3YpJPmfQkdwVOYGD0373wLrnY4TZR/2p17/JjvQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=P1lNDXB7DY7R/SRLGX2rQjbJwy0Pdz7RjWiQLYk8aic=;
- b=Mu7TcJcZNiJ/1vNMMMtpDscp3TxjMrhDiLW8gFt8EbuZLYV8Jw8jkV+R0IxcMIcM26ousHuncG4kKmANSbykEW2ReLhwINOugKBdwdbi25I+UKzcykdGra7j3pfZ5xh7LblUpfFHoMEhj0XULmvKkJHDp8wthQVvEbUGjZn/B9U=
-Authentication-Results: vger.kernel.org; dkim=none (message not signed)
- header.d=none;vger.kernel.org; dmarc=none action=none header.from=amd.com;
-Received: from CO6PR12MB5427.namprd12.prod.outlook.com (2603:10b6:5:358::13)
- by CO6PR12MB5444.namprd12.prod.outlook.com (2603:10b6:5:35e::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4264.18; Fri, 25 Jun
- 2021 20:14:38 +0000
-Received: from CO6PR12MB5427.namprd12.prod.outlook.com
- ([fe80::401d:c7a2:6495:650b]) by CO6PR12MB5427.namprd12.prod.outlook.com
- ([fe80::401d:c7a2:6495:650b%3]) with mapi id 15.20.4264.019; Fri, 25 Jun 2021
- 20:14:38 +0000
-Subject: Re: [PATCH] drm/amdgpu/dc: Really fix DCN3.1 Makefile for PPC64
-To: Michal Suchanek <msuchanek@suse.de>,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>
-References: <20210623103039.9881-1-msuchanek@suse.de>
-From: Harry Wentland <harry.wentland@amd.com>
-Message-ID: <6ae69103-b01f-4f16-7cd2-845ea991ae95@amd.com>
-Date: Fri, 25 Jun 2021 16:14:33 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-In-Reply-To: <20210623103039.9881-1-msuchanek@suse.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [198.200.67.154]
-X-ClientProxiedBy: YQBPR01CA0050.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:c01:2::22) To CO6PR12MB5427.namprd12.prod.outlook.com
- (2603:10b6:5:358::13)
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9B9EB6EE41;
+ Fri, 25 Jun 2021 20:35:38 +0000 (UTC)
+IronPort-SDR: NNKbx/iE8l70jZQPlLHfmPQQBx5kgkQ3LrPSJ45LLBeQx+XXvy9a19KhaGuqisgpTpwJaVf6ar
+ Le8rkCM+Fzmw==
+X-IronPort-AV: E=McAfee;i="6200,9189,10026"; a="268870105"
+X-IronPort-AV: E=Sophos;i="5.83,299,1616482800"; d="scan'208";a="268870105"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Jun 2021 13:35:36 -0700
+IronPort-SDR: 184EgKaw+JMQOHL/e1C0E9kerU+jhPh/fOD5QLHXum4MRpX8ZMb3zKc0zkOT7WUcBjousG4WY3
+ UhnrFYpQW5Jw==
+X-IronPort-AV: E=Sophos;i="5.83,299,1616482800"; d="scan'208";a="474985325"
+Received: from unknown (HELO sdutt-i7) ([10.165.21.147])
+ by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Jun 2021 13:35:36 -0700
+Date: Fri, 25 Jun 2021 13:28:55 -0700
+From: Matthew Brost <matthew.brost@intel.com>
+To: Michal Wajdeczko <michal.wajdeczko@intel.com>
+Subject: Re: [Intel-gfx] [PATCH 06/47] drm/i915/guc: Optimize CTB writes and
+ reads
+Message-ID: <20210625202855.GA1250@sdutt-i7>
+References: <20210624070516.21893-1-matthew.brost@intel.com>
+ <20210624070516.21893-7-matthew.brost@intel.com>
+ <a44cf19c-d84d-6408-5571-b9a35bb2b3ce@intel.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.50.3] (198.200.67.154) by
- YQBPR01CA0050.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:c01:2::22) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4264.18 via Frontend Transport; Fri, 25 Jun 2021 20:14:36 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 6e79b07d-92c7-443e-7315-08d93815db7a
-X-MS-TrafficTypeDiagnostic: CO6PR12MB5444:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <CO6PR12MB544446CF3CF6F9BDCD7138088C069@CO6PR12MB5444.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3513;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: TPxOYLosezUw4s2mTp3i7R1F/KNxYXdL0i1LhvXvLoacpVtOwDQEHziamwD3fUzMMmLjYyBGQKrx+nn2zzfLqwoXcHMMUmex9MOFoeZ4e6Z9IIgmaJvzesn8k0FKtXmZAkNEctglIsbDGEHkUPb52kVjuLuhop1rXq4ssl3fGqYLI6EjzoeN3nWznpDhJRITXS0DHOG996ISXAxv/oCXlpAUQG1tgqZ/jUbacOX8umsgSGffe/dEc0ro8be9IQLytz8bGREpZtzu4vEeNyGG3xcUbLd5ERnZTUf0SdoB6Qo/DpE2oQId2w2+HYM4TRIxntGPqKgkSf6CLShdiX0v5qpA57EJ3a7z+cSDwNwMXT7OmF13UMZjsEql8qC1Io3sBj64UcSkqIIjp1kA/3/FVWfntBwhztky6gSO2sEBVFXghcUs5SWjHXtYXwvvVts64F80/H2wlP1nbO7y+yBO9Z2hZ72Tu64PUrSM71R6zQAaB9ZI5C/xPVs1CNZykEBIh5Bxg+spqtLSD+vovdAJevoHpuSzf1d9qpVtRCqwtMM2LIJWjTdpEl72XpE2fDbB5R3SFJM4+gxgklG1Ei+FtYy5DZhfEW36aRLJP+bKg/hXIl4DBKpxLhWteFo5hmLDjAyZZFNlU9fS4fzje0zDeGNjd6DlxMFB/LeJgmY4KiB3HV+7/qZpeGt7zCsNte/y
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CO6PR12MB5427.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(366004)(39860400002)(136003)(396003)(376002)(8676002)(316002)(16576012)(110136005)(8936002)(478600001)(4326008)(26005)(53546011)(38100700002)(66946007)(66556008)(66476007)(16526019)(86362001)(956004)(2616005)(31686004)(186003)(31696002)(5660300002)(54906003)(6636002)(6666004)(6486002)(2906002)(36756003)(44832011)(83380400001)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UmgrelYxVXdxZklZWmRWdDc5a28wT2hsZXJ2MTI5OTBXNkJJSjcxM2R5NFB2?=
- =?utf-8?B?RFNuN1ZraWF2MGdtNE9uMGdDeTZCZHhZcWZibzBIOUtWREtuMU8rM0V4aEYr?=
- =?utf-8?B?MW5HU0tGUGY0RXg0NXdqNWpSWWFsdTJsVnV4T1FLNEZmY3EyalMzcDdMOFpG?=
- =?utf-8?B?RTd3elp6V2FOVW40b1JWeXRjblIyRE9EZzdDNXRGd01HMzRwWHVjUElzcGhz?=
- =?utf-8?B?dTRjcmVJaEtHRTA5M2ExL3U3NkVEUGZOakxJTXlsQzh3RXV3MkZ5bHMrbDFL?=
- =?utf-8?B?L0VMSmlqZHJzQkxHdmN4OVVEWnFCemZ1eUVzVWwzM0NZUVBQOWUwTFZvWXZs?=
- =?utf-8?B?aDlPVHM5Z1VOQllPbXhwSmNkS0IrY3NhN0JwZ3NWak9kTG0vcmE1UDVrTEth?=
- =?utf-8?B?S1NjbGNFc1ZTWFpkUHh0UVBuam5aaktoa254TU9lZjQ5L2RhRjhJdURCTFJY?=
- =?utf-8?B?ZU1HaGRvVzI2SlZGMWs3Wkk2QU9UQ3NhYnhIYk9naVErSTBtZEppa21NTTZ5?=
- =?utf-8?B?WUtmQUNBOWNqekY3TGFqV0ZYQjkxZ1hMZGtNNXlKUnh0ZU9vV2ZnNUt1L0J5?=
- =?utf-8?B?TXE0SEVsQlNVYmM1djJMd3g5djhnTnh5Vy9WMUg3Q3VXQU1seU4wK3JHVVR1?=
- =?utf-8?B?Mk40T0I4OFBSa29WZ213QWdKc0ozR3l5VkdNcG5YL1I5SUxWaXFlT3hzdmc5?=
- =?utf-8?B?QzhlMWsxNGNTYldxZzk0Tzg5bXVvY1c0cUhoUXIyV0g4RndjZEhHSUhiOENL?=
- =?utf-8?B?WVVLLzJLKzMyQ1dNc3ZWY0lFSUV3Yzg2Ulhlb1VXaVQ2R21HcnFKZXo4RGN6?=
- =?utf-8?B?RzJnV1BIM2QzbWNzVnlsUklLNWtEUWI3blZVV29UeTRSU1Q3dE5vWUhVTiti?=
- =?utf-8?B?dzFoK3ZFR2RabUd6RGdsb2J2YkVmQ1BtZmpPcVNwZDVBcHJRR2Y1bDE1WENW?=
- =?utf-8?B?RGVIcGJPdmUzWDJoeXpzbU5RWGYzTkd4dE5aVk5nTVBiMWJrVjlWVGwybmJB?=
- =?utf-8?B?aFpUOEdjejd5NHVzdmsvaFdKVHl3OGhEN2hKa3QzQ0pvRU5oQkp0dXFtLytX?=
- =?utf-8?B?NTVnMW5nNDlXNVFhQnR3QlpSVmJsK3RMd2Z6QXZKMXZDOGtnV01DVitoVVFD?=
- =?utf-8?B?dTdDVzNmRGtXWEliVzRlZXh3V2cydW91UHVXalhuVU03YTJkSFVRdGo4ajYw?=
- =?utf-8?B?dlNNU05YQnExdjNGY0J2ZzJuQ1pWTjcwbFBlTDZIQ3R1a3FIYjJ4TW9aQ1Jn?=
- =?utf-8?B?U0N5SGpLd3cvVEorS2F4TFdrc2ZyYTFodDRLWGVZdmFLQ0VrUG5NRXFPbXg2?=
- =?utf-8?B?dDFtNmdvdEZZeEI5YUhGaWo3OGVxcG9BMjlTVTFQUWhMSlkwazkvUTV2K2Uv?=
- =?utf-8?B?eFVTQSt0cWhjRWVMa2dwdkFCemVNUTQ0VWRDQzNMRjFra3ByWUJNTC9PcTdl?=
- =?utf-8?B?NlAzeGxBWmVnWTJqaU5uYWpHUVdIUXgyZnhYTkxUdStDUW8xNi9EWHFGN3k3?=
- =?utf-8?B?dnpOU1A0QXJFM25rVFFoYmZya0MyYk0yUituUDlrTy8rcnRzeHh4N2NaMjNi?=
- =?utf-8?B?SS9mVW1IbVJVeTRQbHBuS2RFK1dkWkJqbUo0VWcra2ZaS3FLWktScEZucmJK?=
- =?utf-8?B?QVhQVER5SXJRaDBUOVZONzUrQXUwSHNLTmFjeWV5UWhBbkpFWFZub1ZIcElS?=
- =?utf-8?B?S3RKZDhuUXBGSGJHWHJIV3VYQ1RxalRwL0xCZWJtU2txbndDTWFUSVlpVVFq?=
- =?utf-8?Q?lzG3z5RuG0UTc5nqIJVUcer8ZtA12u6gEvL0eFx?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6e79b07d-92c7-443e-7315-08d93815db7a
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5427.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jun 2021 20:14:38.0226 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: pe39Lrumz985PWcZxF4l/P1d+pJZa4teo85Wj4TB6LYrC03ETSaBKokyPgNwN9bTCeLl0mvQFQCnlPFqrz2tHw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR12MB5444
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a44cf19c-d84d-6408-5571-b9a35bb2b3ce@intel.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -128,52 +51,296 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Arnd Bergmann <arnd@arndb.de>, Leo Li <sunpeng.li@amd.com>,
- Will Deacon <will@kernel.org>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- David Airlie <airlied@linux.ie>, Huang Rui <ray.huang@amd.com>,
- dri-devel@lists.freedesktop.org, Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021-06-23 6:30 a.m., Michal Suchanek wrote:
-> Also copy over the part that makes old gcc handling cross-platform.
+On Fri, Jun 25, 2021 at 03:09:29PM +0200, Michal Wajdeczko wrote:
 > 
-> Fixes: df7a1658f257 ("drm/amdgpu/dc: fix DCN3.1 Makefile for PPC64")
-> Fixes: 926d6972efb6 ("drm/amd/display: Add DCN3.1 blocks to the DC Makefile")
-> Signed-off-by: Michal Suchanek <msuchanek@suse.de>
-
-Reviewed-by: Harry Wentland <harry.wentland@amd.com>
-
-Harry
-
-> ---
-> The fact that the old gcc handling triggers on gcc 10 and 11 is another
-> story I don't want to delve into.
-> ---
->  drivers/gpu/drm/amd/display/dc/dcn31/Makefile | 2 ++
->  1 file changed, 2 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/amd/display/dc/dcn31/Makefile b/drivers/gpu/drm/amd/display/dc/dcn31/Makefile
-> index 5dcdc5a858fe..4bab97acb155 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dcn31/Makefile
-> +++ b/drivers/gpu/drm/amd/display/dc/dcn31/Makefile
-> @@ -28,6 +28,7 @@ endif
->  CFLAGS_$(AMDDALPATH)/dc/dcn31/dcn31_resource.o += -mhard-float
->  endif
->  
-> +ifdef CONFIG_X86
->  ifdef IS_OLD_GCC
->  # Stack alignment mismatch, proceed with caution.
->  # GCC < 7.1 cannot compile code using `double` and -mpreferred-stack-boundary=3
-> @@ -36,6 +37,7 @@ CFLAGS_$(AMDDALPATH)/dc/dcn31/dcn31_resource.o += -mpreferred-stack-boundary=4
->  else
->  CFLAGS_$(AMDDALPATH)/dc/dcn31/dcn31_resource.o += -msse2
->  endif
-> +endif
->  
->  AMD_DAL_DCN31 = $(addprefix $(AMDDALPATH)/dc/dcn31/,$(DCN31))
->  
+> On 24.06.2021 09:04, Matthew Brost wrote:
+> > CTB writes are now in the path of command submission and should be
+> > optimized for performance. Rather than reading CTB descriptor values
+> > (e.g. head, tail) which could result in accesses across the PCIe bus,
+> > store shadow local copies and only read/write the descriptor values when
+> > absolutely necessary. Also store the current space in the each channel
+> > locally.
+> > 
+
+Missed two comments, addressed below.
+
+> > Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+> > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> > ---
+> >  drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c | 76 ++++++++++++++---------
+> >  drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h |  6 ++
+> >  2 files changed, 51 insertions(+), 31 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+> > index 27ec30b5ef47..1fd5c69358ef 100644
+> > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+> > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+> > @@ -130,6 +130,10 @@ static void guc_ct_buffer_desc_init(struct guc_ct_buffer_desc *desc)
+> >  static void guc_ct_buffer_reset(struct intel_guc_ct_buffer *ctb)
+> >  {
+> >  	ctb->broken = false;
+> > +	ctb->tail = 0;
+> > +	ctb->head = 0;
+> > +	ctb->space = CIRC_SPACE(ctb->tail, ctb->head, ctb->size);
+> > +
+> >  	guc_ct_buffer_desc_init(ctb->desc);
+> >  }
+> >  
+> > @@ -383,10 +387,8 @@ static int ct_write(struct intel_guc_ct *ct,
+> >  {
+> >  	struct intel_guc_ct_buffer *ctb = &ct->ctbs.send;
+> >  	struct guc_ct_buffer_desc *desc = ctb->desc;
+> > -	u32 head = desc->head;
+> > -	u32 tail = desc->tail;
+> > +	u32 tail = ctb->tail;
+> >  	u32 size = ctb->size;
+> > -	u32 used;
+> >  	u32 header;
+> >  	u32 hxg;
+> >  	u32 *cmds = ctb->cmds;
+> > @@ -398,25 +400,14 @@ static int ct_write(struct intel_guc_ct *ct,
+> >  	if (unlikely(desc->status))
+> >  		goto corrupted;
+> >  
+> > -	if (unlikely((tail | head) >= size)) {
+> > +#ifdef CONFIG_DRM_I915_DEBUG_GUC
+> 
+> since we are caching tail, we may want to check if it's sill correct:
+> 
+> 	tail = READ_ONCE(desc->tail);
+> 	if (unlikely(tail != ctb->tail)) {
+>   		CT_ERROR(ct, "Tail was modified %u != %u\n",
+> 			 tail, ctb->tail);
+>   		desc->status |= GUC_CTB_STATUS_MISMATCH;
+>   		goto corrupted;
+> 	}
+> 
+> and since we own the tail then we can be more strict:
+> 
+> 	GEM_BUG_ON(tail > size);
+> 
+> and then finally just check GuC head:
+> 
+> 	head = READ_ONCE(desc->head);
+> 	if (unlikely(head >= size)) {
+> 		...
+> 
+> > +	if (unlikely((desc->tail | desc->head) >= size)) {
+> >  		CT_ERROR(ct, "Invalid offsets head=%u tail=%u (size=%u)\n",
+> > -			 head, tail, size);
+> > +			 desc->head, desc->tail, size);
+> >  		desc->status |= GUC_CTB_STATUS_OVERFLOW;
+> >  		goto corrupted;
+> >  	}
+> > -
+> > -	/*
+> > -	 * tail == head condition indicates empty. GuC FW does not support
+> > -	 * using up the entire buffer to get tail == head meaning full.
+> > -	 */
+> > -	if (tail < head)
+> > -		used = (size - head) + tail;
+> > -	else
+> > -		used = tail - head;
+> > -
+> > -	/* make sure there is a space including extra dw for the fence */
+> > -	if (unlikely(used + len + 1 >= size))
+> > -		return -ENOSPC;
+> > +#endif
+> >  
+> >  	/*
+> >  	 * dw0: CT header (including fence)
+> > @@ -457,7 +448,9 @@ static int ct_write(struct intel_guc_ct *ct,
+> >  	write_barrier(ct);
+> >  
+> >  	/* now update descriptor */
+> > +	ctb->tail = tail;
+> >  	WRITE_ONCE(desc->tail, tail);
+> > +	ctb->space -= len + 1;
+> 
+> this magic "1" is likely GUC_CTB_MSG_MIN_LEN, right ?
+> 
+> >  
+> >  	return 0;
+> >  
+> > @@ -473,7 +466,7 @@ static int ct_write(struct intel_guc_ct *ct,
+> >   * @req:	pointer to pending request
+> >   * @status:	placeholder for status
+> >   *
+> > - * For each sent request, Guc shall send bac CT response message.
+> > + * For each sent request, GuC shall send back CT response message.
+> >   * Our message handler will update status of tracked request once
+> >   * response message with given fence is received. Wait here and
+> >   * check for valid response status value.
+> > @@ -520,24 +513,35 @@ static inline bool ct_deadlocked(struct intel_guc_ct *ct)
+> >  	return ret;
+> >  }
+> >  
+> > -static inline bool h2g_has_room(struct intel_guc_ct_buffer *ctb, u32 len_dw)
+> > +static inline bool h2g_has_room(struct intel_guc_ct *ct, u32 len_dw)
+> >  {
+> > -	struct guc_ct_buffer_desc *desc = ctb->desc;
+> > -	u32 head = READ_ONCE(desc->head);
+> > +	struct intel_guc_ct_buffer *ctb = &ct->ctbs.send;
+> > +	u32 head;
+> >  	u32 space;
+> >  
+> > -	space = CIRC_SPACE(desc->tail, head, ctb->size);
+> > +	if (ctb->space >= len_dw)
+> > +		return true;
+> > +
+> > +	head = READ_ONCE(ctb->desc->head);
+> > +	if (unlikely(head > ctb->size)) {
+> > +		CT_ERROR(ct, "Corrupted descriptor head=%u tail=%u size=%u\n",
+> > +			  ctb->desc->head, ctb->desc->tail, ctb->size);
+> > +		ctb->desc->status |= GUC_CTB_STATUS_OVERFLOW;
+> > +		ctb->broken = true;
+> > +		return false;
+> > +	}
+> > +
+> > +	space = CIRC_SPACE(ctb->tail, head, ctb->size);
+> > +	ctb->space = space;
+> 
+> maybe here we could mark stall_time ?
+> 
+>  	if (space >= len_dw)
+> 		return true;
+> 
+> 	if (ct->stall_time == KTIME_MAX)
+> 		ct->stall_time = ktime_get();
+> 	return false;
+> 
+> >  
+> >  	return space >= len_dw;
+> 
+> btw, maybe to avoid filling CTB to the last dword, this should be
+> 
+> 	space > len_dw
+> 
+> note the earlier comment:
+> 
+> /*
+>  * tail == head condition indicates empty. GuC FW does not support
+>  * using up the entire buffer to get tail == head meaning full.
+>  */
+> 
+> >  }
+> >  
+> >  static int has_room_nb(struct intel_guc_ct *ct, u32 len_dw)
+> >  {
+> > -	struct intel_guc_ct_buffer *ctb = &ct->ctbs.send;
+> > -
+> >  	lockdep_assert_held(&ct->ctbs.send.lock);
+> >  
+> > -	if (unlikely(!h2g_has_room(ctb, len_dw))) {
+> > +	if (unlikely(!h2g_has_room(ct, len_dw))) {
+> >  		if (ct->stall_time == KTIME_MAX)
+> >  			ct->stall_time = ktime_get();
+> >  
+> > @@ -606,10 +610,10 @@ static int ct_send(struct intel_guc_ct *ct,
+> >  	 */
+> >  retry:
+> >  	spin_lock_irqsave(&ct->ctbs.send.lock, flags);
+> > -	if (unlikely(!h2g_has_room(ctb, len + 1))) {
+> > +	if (unlikely(!h2g_has_room(ct, len + 1))) {
+> >  		if (ct->stall_time == KTIME_MAX)
+> >  			ct->stall_time = ktime_get();
+> > -		spin_unlock_irqrestore(&ct->ctbs.send.lock, flags);
+> > +		spin_unlock_irqrestore(&ctb->lock, flags);
+> >  
+> >  		if (unlikely(ct_deadlocked(ct)))
+> >  			return -EIO;
+> > @@ -632,7 +636,7 @@ static int ct_send(struct intel_guc_ct *ct,
+> >  
+> >  	err = ct_write(ct, action, len, fence, 0);
+> >  
+> > -	spin_unlock_irqrestore(&ct->ctbs.send.lock, flags);
+> > +	spin_unlock_irqrestore(&ctb->lock, flags);
+> >  
+> >  	if (unlikely(err))
+> >  		goto unlink;
+> > @@ -720,7 +724,7 @@ static int ct_read(struct intel_guc_ct *ct, struct ct_incoming_msg **msg)
+> >  {
+> >  	struct intel_guc_ct_buffer *ctb = &ct->ctbs.recv;
+> >  	struct guc_ct_buffer_desc *desc = ctb->desc;
+> > -	u32 head = desc->head;
+> > +	u32 head = ctb->head;
+> >  	u32 tail = desc->tail;
+> >  	u32 size = ctb->size;
+> >  	u32 *cmds = ctb->cmds;
+> > @@ -735,12 +739,21 @@ static int ct_read(struct intel_guc_ct *ct, struct ct_incoming_msg **msg)
+> >  	if (unlikely(desc->status))
+> >  		goto corrupted;
+> >  
+> > -	if (unlikely((tail | head) >= size)) {
+> > +#ifdef CONFIG_DRM_I915_DEBUG_GUC
+> 
+> as above we may want to check if our cached head was not modified
+>
+
+Sure.
+ 
+> > +	if (unlikely((desc->tail | desc->head) >= size)) {
+> >  		CT_ERROR(ct, "Invalid offsets head=%u tail=%u (size=%u)\n",
+> >  			 head, tail, size);
+> >  		desc->status |= GUC_CTB_STATUS_OVERFLOW;
+> >  		goto corrupted;
+> >  	}
+> > +#else
+> > +	if (unlikely((tail | ctb->head) >= size)) {
+> > +		CT_ERROR(ct, "Invalid offsets head=%u tail=%u (size=%u)\n",
+> > +			 head, tail, size);
+> > +		desc->status |= GUC_CTB_STATUS_OVERFLOW;
+> > +		goto corrupted;
+> > +	}
+> > +#endif
+> >  
+> >  	/* tail == head condition indicates empty */
+> >  	available = tail - head;
+> > @@ -790,6 +803,7 @@ static int ct_read(struct intel_guc_ct *ct, struct ct_incoming_msg **msg)
+> >  	}
+> >  	CT_DEBUG(ct, "received %*ph\n", 4 * len, (*msg)->msg);
+> >  
+> > +	ctb->head = head;
+> >  	/* now update descriptor */
+> >  	WRITE_ONCE(desc->head, head);
+> >  
+> > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
+> > index 55ef7c52472f..9924335e2ee6 100644
+> > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
+> > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
+> > @@ -33,6 +33,9 @@ struct intel_guc;
+> >   * @desc: pointer to the buffer descriptor
+> >   * @cmds: pointer to the commands buffer
+> >   * @size: size of the commands buffer in dwords
+> > + * @head: local shadow copy of head in dwords
+> > + * @tail: local shadow copy of tail in dwords
+> > + * @space: local shadow copy of space in dwords
+> >   * @broken: flag to indicate if descriptor data is broken
+> >   */
+> >  struct intel_guc_ct_buffer {
+> > @@ -40,6 +43,9 @@ struct intel_guc_ct_buffer {
+> >  	struct guc_ct_buffer_desc *desc;
+> >  	u32 *cmds;
+> >  	u32 size;
+> > +	u32 tail;
+> > +	u32 head;
+> > +	u32 space;
+> 
+> in later patch this is changing to atomic_t
+> maybe we can start with it ?
 > 
 
+I'd rather leave this as is. It doesn't make to use an atomic here but
+G2H credits patch makes it clear why we need an atomic.
+
+Matt 
+
+> >  	bool broken;
+> >  };
+> >  
+> > 
