@@ -1,30 +1,28 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F15643B448B
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Jun 2021 15:34:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 480183B4494
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Jun 2021 15:34:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 843CA6EDD7;
-	Fri, 25 Jun 2021 13:33:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C6666EDD2;
+	Fri, 25 Jun 2021 13:34:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E11B6EDD1
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Jun 2021 13:33:42 +0000 (UTC)
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8CB346EDC1
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Jun 2021 13:33:45 +0000 (UTC)
 Received: from localhost.localdomain (unknown
  [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 9CFC81F40C6F;
- Fri, 25 Jun 2021 14:33:36 +0100 (BST)
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 173801F40CA2;
+ Fri, 25 Jun 2021 14:33:37 +0100 (BST)
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 04/15] drm/panfrost: Drop the pfdev argument passed to
- panfrost_exception_name()
-Date: Fri, 25 Jun 2021 15:33:16 +0200
-Message-Id: <20210625133327.2598825-5-boris.brezillon@collabora.com>
+Subject: [PATCH v3 05/15] drm/panfrost: Expose exception types to userspace
+Date: Fri, 25 Jun 2021 15:33:17 +0200
+Message-Id: <20210625133327.2598825-6-boris.brezillon@collabora.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210625133327.2598825-1-boris.brezillon@collabora.com>
 References: <20210625133327.2598825-1-boris.brezillon@collabora.com>
@@ -50,82 +48,100 @@ Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently unused. We'll add it back if we need per-GPU definitions.
+Job headers contain an exception type field which might be read and
+converted to a human readable string by tracing tools. Let's expose
+the exception type as an enum so we share the same definition.
+
+v3:
+* Add missing values
 
 Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-Reviewed-by: Steven Price <steven.price@arm.com>
 ---
- drivers/gpu/drm/panfrost/panfrost_device.c | 2 +-
- drivers/gpu/drm/panfrost/panfrost_device.h | 2 +-
- drivers/gpu/drm/panfrost/panfrost_gpu.c    | 2 +-
- drivers/gpu/drm/panfrost/panfrost_job.c    | 2 +-
- drivers/gpu/drm/panfrost/panfrost_mmu.c    | 2 +-
- 5 files changed, 5 insertions(+), 5 deletions(-)
+ include/uapi/drm/panfrost_drm.h | 71 +++++++++++++++++++++++++++++++++
+ 1 file changed, 71 insertions(+)
 
-diff --git a/drivers/gpu/drm/panfrost/panfrost_device.c b/drivers/gpu/drm/panfrost/panfrost_device.c
-index fbcf5edbe367..bce6b0aff05e 100644
---- a/drivers/gpu/drm/panfrost/panfrost_device.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_device.c
-@@ -292,7 +292,7 @@ void panfrost_device_fini(struct panfrost_device *pfdev)
- 	panfrost_clk_fini(pfdev);
+diff --git a/include/uapi/drm/panfrost_drm.h b/include/uapi/drm/panfrost_drm.h
+index ec19db1eead8..899cd6d952d4 100644
+--- a/include/uapi/drm/panfrost_drm.h
++++ b/include/uapi/drm/panfrost_drm.h
+@@ -223,6 +223,77 @@ struct drm_panfrost_madvise {
+ 	__u32 retained;       /* out, whether backing store still exists */
+ };
+ 
++/* The exception types */
++
++enum drm_panfrost_exception_type {
++	DRM_PANFROST_EXCEPTION_OK = 0x00,
++	DRM_PANFROST_EXCEPTION_DONE = 0x01,
++	DRM_PANFROST_EXCEPTION_INTERRUPTED = 0x02,
++	DRM_PANFROST_EXCEPTION_STOPPED = 0x03,
++	DRM_PANFROST_EXCEPTION_TERMINATED = 0x04,
++	DRM_PANFROST_EXCEPTION_KABOOM = 0x05,
++	DRM_PANFROST_EXCEPTION_EUREKA = 0x06,
++	DRM_PANFROST_EXCEPTION_ACTIVE = 0x08,
++	DRM_PANFROST_EXCEPTION_JOB_CONFIG_FAULT = 0x40,
++	DRM_PANFROST_EXCEPTION_JOB_POWER_FAULT = 0x41,
++	DRM_PANFROST_EXCEPTION_JOB_READ_FAULT = 0x42,
++	DRM_PANFROST_EXCEPTION_JOB_WRITE_FAULT = 0x43,
++	DRM_PANFROST_EXCEPTION_JOB_AFFINITY_FAULT = 0x44,
++	DRM_PANFROST_EXCEPTION_JOB_BUS_FAULT = 0x48,
++	DRM_PANFROST_EXCEPTION_INSTR_INVALID_PC = 0x50,
++	DRM_PANFROST_EXCEPTION_INSTR_INVALID_ENC = 0x51,
++	DRM_PANFROST_EXCEPTION_INSTR_TYPE_MISMATCH = 0x52,
++	DRM_PANFROST_EXCEPTION_INSTR_OPERAND_FAULT = 0x53,
++	DRM_PANFROST_EXCEPTION_INSTR_TLS_FAULT = 0x54,
++	DRM_PANFROST_EXCEPTION_INSTR_BARRIER_FAULT = 0x55,
++	DRM_PANFROST_EXCEPTION_INSTR_ALIGN_FAULT = 0x56,
++	DRM_PANFROST_EXCEPTION_DATA_INVALID_FAULT = 0x58,
++	DRM_PANFROST_EXCEPTION_TILE_RANGE_FAULT = 0x59,
++	DRM_PANFROST_EXCEPTION_ADDR_RANGE_FAULT = 0x5a,
++	DRM_PANFROST_EXCEPTION_IMPRECISE_FAULT = 0x5b,
++	DRM_PANFROST_EXCEPTION_OOM = 0x60,
++	DRM_PANFROST_EXCEPTION_OOM_AFBC = 0x61,
++	DRM_PANFROST_EXCEPTION_UNKNOWN = 0x7f,
++	DRM_PANFROST_EXCEPTION_DELAYED_BUS_FAULT = 0x80,
++	DRM_PANFROST_EXCEPTION_GPU_SHAREABILITY_FAULT = 0x88,
++	DRM_PANFROST_EXCEPTION_SYS_SHAREABILITY_FAULT = 0x89,
++	DRM_PANFROST_EXCEPTION_GPU_CACHEABILITY_FAULT = 0x8a,
++	DRM_PANFROST_EXCEPTION_TRANSLATION_FAULT_0 = 0xc0,
++	DRM_PANFROST_EXCEPTION_TRANSLATION_FAULT_1 = 0xc1,
++	DRM_PANFROST_EXCEPTION_TRANSLATION_FAULT_2 = 0xc2,
++	DRM_PANFROST_EXCEPTION_TRANSLATION_FAULT_3 = 0xc3,
++	DRM_PANFROST_EXCEPTION_TRANSLATION_FAULT_4 = 0xc4,
++	DRM_PANFROST_EXCEPTION_TRANSLATION_FAULT_IDENTITY = 0xc7,
++	DRM_PANFROST_EXCEPTION_PERM_FAULT_0 = 0xc8,
++	DRM_PANFROST_EXCEPTION_PERM_FAULT_1 = 0xc9,
++	DRM_PANFROST_EXCEPTION_PERM_FAULT_2 = 0xca,
++	DRM_PANFROST_EXCEPTION_PERM_FAULT_3 = 0xcb,
++	DRM_PANFROST_EXCEPTION_TRANSTAB_BUS_FAULT_0 = 0xd0,
++	DRM_PANFROST_EXCEPTION_TRANSTAB_BUS_FAULT_1 = 0xd1,
++	DRM_PANFROST_EXCEPTION_TRANSTAB_BUS_FAULT_2 = 0xd2,
++	DRM_PANFROST_EXCEPTION_TRANSTAB_BUS_FAULT_3 = 0xd3,
++	DRM_PANFROST_EXCEPTION_ACCESS_FLAG_0 = 0xd8,
++	DRM_PANFROST_EXCEPTION_ACCESS_FLAG_1 = 0xd9,
++	DRM_PANFROST_EXCEPTION_ACCESS_FLAG_2 = 0xda,
++	DRM_PANFROST_EXCEPTION_ACCESS_FLAG_3 = 0xdb,
++	DRM_PANFROST_EXCEPTION_ADDR_SIZE_FAULT_IN0 = 0xe0,
++	DRM_PANFROST_EXCEPTION_ADDR_SIZE_FAULT_IN1 = 0xe1,
++	DRM_PANFROST_EXCEPTION_ADDR_SIZE_FAULT_IN2 = 0xe2,
++	DRM_PANFROST_EXCEPTION_ADDR_SIZE_FAULT_IN3 = 0xe3,
++	DRM_PANFROST_EXCEPTION_ADDR_SIZE_FAULT_OUT0 = 0xe4,
++	DRM_PANFROST_EXCEPTION_ADDR_SIZE_FAULT_OUT1 = 0xe5,
++	DRM_PANFROST_EXCEPTION_ADDR_SIZE_FAULT_OUT2 = 0xe6,
++	DRM_PANFROST_EXCEPTION_ADDR_SIZE_FAULT_OUT3 = 0xe7,
++	DRM_PANFROST_EXCEPTION_MEM_ATTR_FAULT_0 = 0xe8,
++	DRM_PANFROST_EXCEPTION_MEM_ATTR_FAULT_1 = 0xe9,
++	DRM_PANFROST_EXCEPTION_MEM_ATTR_FAULT_2 = 0xea,
++	DRM_PANFROST_EXCEPTION_MEM_ATTR_FAULT_3 = 0xeb,
++	DRM_PANFROST_EXCEPTION_MEM_ATTR_NONCACHE_0 = 0xec,
++	DRM_PANFROST_EXCEPTION_MEM_ATTR_NONCACHE_1 = 0xed,
++	DRM_PANFROST_EXCEPTION_MEM_ATTR_NONCACHE_2 = 0xee,
++	DRM_PANFROST_EXCEPTION_MEM_ATTR_NONCACHE_3 = 0xef,
++};
++
+ #if defined(__cplusplus)
  }
- 
--const char *panfrost_exception_name(struct panfrost_device *pfdev, u32 exception_code)
-+const char *panfrost_exception_name(u32 exception_code)
- {
- 	switch (exception_code) {
- 		/* Non-Fault Status code */
-diff --git a/drivers/gpu/drm/panfrost/panfrost_device.h b/drivers/gpu/drm/panfrost/panfrost_device.h
-index 4c6bdea5537b..ade8a1974ee9 100644
---- a/drivers/gpu/drm/panfrost/panfrost_device.h
-+++ b/drivers/gpu/drm/panfrost/panfrost_device.h
-@@ -172,6 +172,6 @@ void panfrost_device_reset(struct panfrost_device *pfdev);
- int panfrost_device_resume(struct device *dev);
- int panfrost_device_suspend(struct device *dev);
- 
--const char *panfrost_exception_name(struct panfrost_device *pfdev, u32 exception_code);
-+const char *panfrost_exception_name(u32 exception_code);
- 
  #endif
-diff --git a/drivers/gpu/drm/panfrost/panfrost_gpu.c b/drivers/gpu/drm/panfrost/panfrost_gpu.c
-index 2aae636f1cf5..ec59f15940fb 100644
---- a/drivers/gpu/drm/panfrost/panfrost_gpu.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_gpu.c
-@@ -33,7 +33,7 @@ static irqreturn_t panfrost_gpu_irq_handler(int irq, void *data)
- 		address |= gpu_read(pfdev, GPU_FAULT_ADDRESS_LO);
- 
- 		dev_warn(pfdev->dev, "GPU Fault 0x%08x (%s) at 0x%016llx\n",
--			 fault_status & 0xFF, panfrost_exception_name(pfdev, fault_status),
-+			 fault_status & 0xFF, panfrost_exception_name(fault_status),
- 			 address);
- 
- 		if (state & GPU_IRQ_MULTIPLE_FAULT)
-diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
-index d6c9698bca3b..3cd1aec6c261 100644
---- a/drivers/gpu/drm/panfrost/panfrost_job.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_job.c
-@@ -500,7 +500,7 @@ static irqreturn_t panfrost_job_irq_handler(int irq, void *data)
- 
- 			dev_err(pfdev->dev, "js fault, js=%d, status=%s, head=0x%x, tail=0x%x",
- 				j,
--				panfrost_exception_name(pfdev, job_read(pfdev, JS_STATUS(j))),
-+				panfrost_exception_name(job_read(pfdev, JS_STATUS(j))),
- 				job_read(pfdev, JS_HEAD_LO(j)),
- 				job_read(pfdev, JS_TAIL_LO(j)));
- 
-diff --git a/drivers/gpu/drm/panfrost/panfrost_mmu.c b/drivers/gpu/drm/panfrost/panfrost_mmu.c
-index d76dff201ea6..b4f0c673cd7f 100644
---- a/drivers/gpu/drm/panfrost/panfrost_mmu.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_mmu.c
-@@ -676,7 +676,7 @@ static irqreturn_t panfrost_mmu_irq_handler_thread(int irq, void *data)
- 				"TODO",
- 				fault_status,
- 				(fault_status & (1 << 10) ? "DECODER FAULT" : "SLAVE FAULT"),
--				exception_type, panfrost_exception_name(pfdev, exception_type),
-+				exception_type, panfrost_exception_name(exception_type),
- 				access_type, access_type_name(pfdev, fault_status),
- 				source_id);
- 
 -- 
 2.31.1
 
