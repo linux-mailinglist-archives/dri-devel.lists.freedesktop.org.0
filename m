@@ -1,79 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A61E3B4767
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Jun 2021 18:27:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 23EA93B4788
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Jun 2021 18:42:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5ABCC6EE14;
-	Fri, 25 Jun 2021 16:27:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C1C706EDF4;
+	Fri, 25 Jun 2021 16:42:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E1296EDF4
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Jun 2021 16:27:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1624638433;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=U5o+qfP6GHLfIPfnq02TmNaEHiucEY8RMLS1UO4vZ+s=;
- b=D0zFbwKuAXBltJ0CyDOOPDCLkicehizQLEnbHUBFuHTgAv/L9kRECge7d4CL3q09IMIFtZ
- m19DHtSujYHf1Rgtwnh4bmKWWjmHRZjw0t4Totiasd4yH1iaFKJn8VXx8joY2XE2oDQP+/
- uVY838Uy9i+4A8SfKIZnMBetXMN0u8k=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-263-fJAJ-JZYMXeBTFpqpwpH_A-1; Fri, 25 Jun 2021 12:27:11 -0400
-X-MC-Unique: fJAJ-JZYMXeBTFpqpwpH_A-1
-Received: by mail-qv1-f72.google.com with SMTP id
- s20-20020a0ce3140000b0290268773fc36bso10266934qvl.10
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Jun 2021 09:27:11 -0700 (PDT)
+Received: from mail-qv1-xf34.google.com (mail-qv1-xf34.google.com
+ [IPv6:2607:f8b0:4864:20::f34])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3980B6EDF4
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Jun 2021 16:42:17 +0000 (UTC)
+Received: by mail-qv1-xf34.google.com with SMTP id f5so5485961qvu.8
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Jun 2021 09:42:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=fsozG1UsXB2tqec6xjxXbUbC1wkoz0cK0Wz9twWzXrE=;
+ b=F1Px+J58uFH8y7P+rEv+X4VWjH7cFC1cbLejg11LMon62y5NIkwpKcPlpLqI8QX2+B
+ UEyvysbgADqkiWRTwZq4c2vt0WL2SXKMRQW+qP6CgPXDpdJUjypEriQI8hGuolCnZTHX
+ Br0mCzH4qazhAne4TFOTtmFpJERhGa5R8ydOQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:organization:user-agent:mime-version
- :content-transfer-encoding;
- bh=U5o+qfP6GHLfIPfnq02TmNaEHiucEY8RMLS1UO4vZ+s=;
- b=r5NuKNWFpFK+jV2vaT/6ohVIEM6afWmWzc8z+qA/OvaNcZHXc3/l0Qkgs37pvigjul
- oRgI0oy+wh0rGIhqjGUXqmoIyDL0hkJCjlPlqQG8F0r3OuF5hXf0cQDkbGEFyaDa3mde
- pBBT+S/FYUsxb9fnE62Ai3B0cX1yn3oQKp55RyxkxkeEC64ZOiwNbvfjLqtdvVSMH9i6
- 5SXNd86q5OPTzj3dqSXnCbb6mMBjOxksf0FGn3qTdGYy/fGCcuU5PiC7BdDRvltlelEG
- uX7bQaL1agWiVfpUW5IASq1uSeXNOerJc1xBi1EGhH3xo8IPrr7US2XOZjpr6gPSwY8l
- +NBA==
-X-Gm-Message-State: AOAM533318dk+sTA7aMT2o/zWVa5J+5bPfzQttIyIpFitVZuS2ujJy0A
- Ca+VHlA6SLdrjZN1rxXAUBUBrFuzoH1xtKZ5TSmnK9dA6du1eAAoUjkqNSoV5PVFeND9ImpjVUq
- Z3EG+t7C366iVf4+3de3AMFP89Ytq
-X-Received: by 2002:a0c:c3d1:: with SMTP id p17mr11777574qvi.44.1624638431614; 
- Fri, 25 Jun 2021 09:27:11 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyNCXBo3wDqEwZBbeZJgLcThoweJoirnmT4pfoxXYsxbDiSqWO1f6DFrN67Lv8a1Xvc6DS5QA==
-X-Received: by 2002:a0c:c3d1:: with SMTP id p17mr11777554qvi.44.1624638431416; 
- Fri, 25 Jun 2021 09:27:11 -0700 (PDT)
-Received: from Ruby.lyude.net (pool-108-49-102-102.bstnma.fios.verizon.net.
- [108.49.102.102])
- by smtp.gmail.com with ESMTPSA id t62sm5240494qkc.26.2021.06.25.09.27.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Jun 2021 09:27:11 -0700 (PDT)
-Message-ID: <a48763801f0e903a227283a12cf881dc143034ff.camel@redhat.com>
-Subject: Re: [PATCH] drm/msm/dp: Add missing drm_device backpointer
-From: Lyude Paul <lyude@redhat.com>
-To: Bjorn Andersson <bjorn.andersson@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, David Airlie
- <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, Dave Airlie
- <airlied@redhat.com>
-Date: Fri, 25 Jun 2021 12:27:09 -0400
-In-Reply-To: <20210625034721.1287948-1-bjorn.andersson@linaro.org>
-References: <20210625034721.1287948-1-bjorn.andersson@linaro.org>
-Organization: Red Hat
-User-Agent: Evolution 3.38.4 (3.38.4-1.fc33)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=fsozG1UsXB2tqec6xjxXbUbC1wkoz0cK0Wz9twWzXrE=;
+ b=W14/xeqPa1eWnyBJQ3K1pntqBrl5W6EyV2rPMZr/YG5yoE+qdaSYnfuxIA9GfxOxan
+ 2nH6mHC6+Kuy7M49jYRPwnihg5ba7pJcktFE0jRsSJOgW6+MQLtUUihBPeX1G4UFOcUP
+ BUvswi6UFEVWcsUgjGklt8GifxZV9Euc89/uEnAS346u0uALC78w+zcz7glvxXWU1Uko
+ OQCn3Lvmf3gDq0bY9G24YgonXdbVWHPwRKM5FM/0x/5kyosBYfuoq40c71gupFtgSqqU
+ NfkjLaenrKGeJ2oBA4DEBNRBNj6SOoOzjBDNephZQ7uoXp4mhKLq4gadymN/6a2EXKtT
+ gpsw==
+X-Gm-Message-State: AOAM532sDbael7+S1dfJ5FoR5z72OvETdtdbezjW0oa/61yoraIqvJwi
+ zBrl3f5vFpn2BacPbxqTTsY7dBEpNm940A==
+X-Google-Smtp-Source: ABdhPJw75QAQfwjw91P4bWITLi96mIetKSfi4DFyRL4EqrXY42YuZELVeCcCXeLiz5Zm45+JwZu5pg==
+X-Received: by 2002:ad4:598f:: with SMTP id ek15mr12010630qvb.15.1624639336082; 
+ Fri, 25 Jun 2021 09:42:16 -0700 (PDT)
+Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com.
+ [209.85.219.173])
+ by smtp.gmail.com with ESMTPSA id g19sm4109970qtg.36.2021.06.25.09.42.15
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 25 Jun 2021 09:42:15 -0700 (PDT)
+Received: by mail-yb1-f173.google.com with SMTP id t8so5530003ybt.10
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Jun 2021 09:42:15 -0700 (PDT)
+X-Received: by 2002:a25:60c1:: with SMTP id
+ u184mr13311344ybb.343.1624639334895; 
+ Fri, 25 Jun 2021 09:42:14 -0700 (PDT)
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+References: <20210624224458.2486701-1-linus.walleij@linaro.org>
+In-Reply-To: <20210624224458.2486701-1-linus.walleij@linaro.org>
+From: Doug Anderson <dianders@chromium.org>
+Date: Fri, 25 Jun 2021 09:42:02 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=UdaGnUk8E9JobeTfS4nQdHxXbc++T2UtCmyzRLu5eeJA@mail.gmail.com>
+Message-ID: <CAD=FV=UdaGnUk8E9JobeTfS4nQdHxXbc++T2UtCmyzRLu5eeJA@mail.gmail.com>
+Subject: Re: [PATCH] drm/panel: ws2401: Add driver for WideChips WS2401
+To: Linus Walleij <linus.walleij@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,82 +70,151 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>,
+ Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, phone-devel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Ah - must have missed this when I added this. Thanks for the fix!
+Hi,
 
-Reviewed-by: Lyude Paul <lyude@redhat.com>
+On Thu, Jun 24, 2021 at 3:47 PM Linus Walleij <linus.walleij@linaro.org> wrote:
+>
+> @@ -5946,6 +5946,13 @@ S:       Maintained
+>  T:     git git://anongit.freedesktop.org/drm/drm-misc
+>  F:     drivers/gpu/drm/vboxvideo/
+>
+> +DRM DRIVER FOR WIDECHIPS WS2401 PANELS
+> +M:     Linus Walleij <linus.walleij@linaro.org>
+> +S:     Maintained
+> +T:     git git://anongit.freedesktop.org/drm/drm-misc
+> +F:     Documentation/devicetree/bindings/display/panel/samsung,lms380kf01.yaml
+> +F:     drivers/gpu/drm/panel/panel-widechips-ws2401.c
+> +
+>  DRM DRIVER FOR VMWARE VIRTUAL GPU
 
-On Thu, 2021-06-24 at 20:47 -0700, Bjorn Andersson wrote:
-> '6cba3fe43341 ("drm/dp: Add backpointer to drm_device in drm_dp_aux")'
-> introduced a mandator drm_device backpointer in struct drm_dp_aux, but
-> missed the msm DP driver. Fix this.
-> 
-> Fixes: 6cba3fe43341 ("drm/dp: Add backpointer to drm_device in drm_dp_aux")
-> Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-> ---
->  drivers/gpu/drm/msm/dp/dp_aux.c     | 3 ++-
->  drivers/gpu/drm/msm/dp/dp_aux.h     | 2 +-
->  drivers/gpu/drm/msm/dp/dp_display.c | 2 +-
->  3 files changed, 4 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/dp/dp_aux.c
-> b/drivers/gpu/drm/msm/dp/dp_aux.c
-> index 4a3293b590b0..88659ed200b9 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_aux.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_aux.c
-> @@ -441,7 +441,7 @@ void dp_aux_deinit(struct drm_dp_aux *dp_aux)
->         dp_catalog_aux_enable(aux->catalog, false);
->  }
->  
-> -int dp_aux_register(struct drm_dp_aux *dp_aux)
-> +int dp_aux_register(struct drm_dp_aux *dp_aux, struct drm_device *drm_dev)
->  {
->         struct dp_aux_private *aux;
->         int ret;
-> @@ -455,6 +455,7 @@ int dp_aux_register(struct drm_dp_aux *dp_aux)
->  
->         aux->dp_aux.name = "dpu_dp_aux";
->         aux->dp_aux.dev = aux->dev;
-> +       aux->dp_aux.drm_dev = drm_dev;
->         aux->dp_aux.transfer = dp_aux_transfer;
->         ret = drm_dp_aux_register(&aux->dp_aux);
->         if (ret) {
-> diff --git a/drivers/gpu/drm/msm/dp/dp_aux.h
-> b/drivers/gpu/drm/msm/dp/dp_aux.h
-> index 0728cc09c9ec..7ef0d83b483a 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_aux.h
-> +++ b/drivers/gpu/drm/msm/dp/dp_aux.h
-> @@ -9,7 +9,7 @@
->  #include "dp_catalog.h"
->  #include <drm/drm_dp_helper.h>
->  
-> -int dp_aux_register(struct drm_dp_aux *dp_aux);
-> +int dp_aux_register(struct drm_dp_aux *dp_aux, struct drm_device *drm_dev);
->  void dp_aux_unregister(struct drm_dp_aux *dp_aux);
->  void dp_aux_isr(struct drm_dp_aux *dp_aux);
->  void dp_aux_init(struct drm_dp_aux *dp_aux);
-> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c
-> b/drivers/gpu/drm/msm/dp/dp_display.c
-> index c26562bd85fe..2f0a5c13f251 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_display.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-> @@ -259,7 +259,7 @@ static int dp_display_bind(struct device *dev, struct
-> device *master,
->                 return rc;
->         }
->  
-> -       rc = dp_aux_register(dp->aux);
-> +       rc = dp_aux_register(dp->aux, drm);
->         if (rc) {
->                 DRM_ERROR("DRM DP AUX register failed\n");
->                 return rc;
+nit: I assume this is supposed to be alphabetized? If so, [W]IDECHIPS
+comes after [V]MWARE
 
--- 
-Cheers,
- Lyude Paul (she/her)
- Software Engineer at Red Hat
 
+> @@ -0,0 +1,404 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Panel driver for the WideChips WS2401 480x800 DPI RGB panel, used in
+> + * the Samsung Mobile Display (SMD) LMS380KF01.
+> + * Found in the Samsung Galaxy Ace 2 GT-I8160 mobile phone.
+> + * Linus Walleij <linus.walleij@linaro.org>
+> + * Inspired by code and know-how in the vendor driver by Gareth Phillips.
+> + */
+> +#include <drm/drm_modes.h>
+> +#include <drm/drm_mipi_dbi.h>
+
+nit: m[o]des sorts after m[i]pi
+
+
+> +#define ws2401_command(ws, cmd, seq...) \
+> +({ \
+> +       struct mipi_dbi *dbi = &ws->dbi; \
+> +       int ret; \
+> +       ret = mipi_dbi_command(dbi, cmd, seq);  \
+> +       if (ret) { \
+> +               dev_err(ws->dev, "failure in writing command %02x\n", cmd); \
+> +       } \
+
+nit: don't need braces for the "if", right?
+
+optional nit: use %#02x instead of %02x
+
+
+> +})
+> +
+> +static void ws2401_read_mtp_id(struct ws2401 *ws)
+> +{
+> +       struct mipi_dbi *dbi = &ws->dbi;
+> +       u8 id1, id2, id3;
+> +       int ret;
+> +
+> +       ret = mipi_dbi_command_read(dbi, WS2401_READ_ID1, &id1);
+> +       if (ret) {
+> +               dev_err(ws->dev, "unable to read MTP ID 1\n");
+> +               return;
+> +       }
+> +       ret = mipi_dbi_command_read(dbi, WS2401_READ_ID2, &id1);
+> +       if (ret) {
+> +               dev_err(ws->dev, "unable to read MTP ID 2\n");
+> +               return;
+> +       }
+> +       ret = mipi_dbi_command_read(dbi, WS2401_READ_ID3, &id1);
+> +       if (ret) {
+> +               dev_err(ws->dev, "unable to read MTP ID 3\n");
+> +               return;
+> +       }
+> +       dev_info(ws->dev, "MTP ID: %02x %02x %02x\n", id1, id2, id3);
+
+Does this need to be printed every time you power on the panel? Seems
+like it's going to spam up the logs... I'm not sure what it's used
+for.
+
+
+> +static int ws2401_power_off(struct ws2401 *ws)
+> +{
+> +       /* Disable backlight */
+> +       if (ws->bl)
+> +               ws2401_command(ws, WS2401_WRCTRLD, 0x00);
+
+I don't have any real knowledge here, but the location of this seems a
+little odd. Just based on inspection of the rest of the driver, I
+almost would have thought it would need to be sent _before_ entering
+sleep mode, but I certainly could be wrong.
+
+
+> +static int ws2401_disable(struct drm_panel *panel)
+> +{
+> +       struct ws2401 *ws = to_ws2401(panel);
+> +
+> +       ws2401_command(ws, MIPI_DCS_SET_DISPLAY_OFF);
+> +       msleep(25);
+
+It feels weird / arbitrary the split between "disable" and "unprepare"
+on this panel driver compared to the "db7430.c" one. In the other
+driver you put the sleep mode here and in this driver you put the
+sleep mode un "unpreapre". Is that for a reason, or just arbitrary?
+Can it be consistent between the two drivers?
+
+I guess maybe this is because in "db7430" the power up order was
+slightly different?
+
+
+> +static const struct backlight_ops ws2401_bl_ops = {
+> +       .update_status = ws2401_set_brightness,
+> +};
+> +
+> +const struct backlight_properties ws2401_bl_props = {
+
+"static const" instead of "const"?
+
+
+> +       ret = drm_panel_of_backlight(&ws->panel);
+> +       if (ret) {
+> +               dev_info(dev, "no external backlight, using internal backlight\n");
+> +               ws->bl = devm_backlight_device_register(dev, "ws2401", dev, ws,
+> +                                                       &ws2401_bl_ops, &ws2401_bl_props);
+> +               if (IS_ERR(ws->bl)) {
+> +                       ret = PTR_ERR(ws->bl);
+> +                       return dev_err_probe(dev, ret,
+> +                                            "failed to register backlight device\n");
+
+nit: probably didn't need the separate assignment to "ret". Just pass
+"PTR_ERR(ws->bl)" to the function. Then no need for braces for your
+"if" too.
+
+> +               }
+> +               ws->panel.backlight = ws->bl;
+> +       } else {
+> +               dev_info(dev, "using external backlight\n");
+
+This (and the other "no extenal backlight") feels a bit chatty to me.
+If you really want them and want them at "info" level then I won't
+object, but I guess I like short logs even with "info" enabled.
+
+-Doug
