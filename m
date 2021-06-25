@@ -2,42 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 551DD3B3A6E
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Jun 2021 03:17:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 882A03B3A95
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Jun 2021 03:45:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B738D6E05A;
-	Fri, 25 Jun 2021 01:17:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F22466E9D8;
+	Fri, 25 Jun 2021 01:45:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 19A896E05A;
- Fri, 25 Jun 2021 01:16:59 +0000 (UTC)
-IronPort-SDR: Om+2/cEepsQX40mxqnPJYxQbkWWA7hbbY6Oc+9ueSbnuJaMqL4o43Te5O7ESHlpEfR0Ut8vSFY
- 4rQNJ3LpniwQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,10025"; a="207625350"
-X-IronPort-AV: E=Sophos;i="5.83,297,1616482800"; d="scan'208";a="207625350"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Jun 2021 18:16:58 -0700
-IronPort-SDR: k0HJX2ry/6MeSwx0kdSg3/NX+anG7tsJfPrwh2KjZwVgwHiWZsugk0Ijz9k57OOZfDYYiuYLcV
- uiRb8pOaXrLA==
-X-IronPort-AV: E=Sophos;i="5.83,297,1616482800"; d="scan'208";a="406829518"
-Received: from unknown (HELO sdutt-i7) ([10.165.21.147])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Jun 2021 18:16:58 -0700
-Date: Thu, 24 Jun 2021 18:10:17 -0700
-From: Matthew Brost <matthew.brost@intel.com>
-To: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: Re: [Intel-gfx] [PATCH 44/47] drm/i915/guc: Connect reset modparam
- updates to GuC policy flags
-Message-ID: <20210625011016.GA5572@sdutt-i7>
-References: <20210624070516.21893-1-matthew.brost@intel.com>
- <20210624070516.21893-45-matthew.brost@intel.com>
+X-Greylist: delayed 531 seconds by postgrey-1.36 at gabe;
+ Fri, 25 Jun 2021 01:45:51 UTC
+Received: from smtphy.263.net (syd-smtp02.263.net [13.237.61.158])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B211F6E9D8;
+ Fri, 25 Jun 2021 01:45:51 +0000 (UTC)
+Received: from smtp.263.net (unknown [211.157.147.162])
+ by smtphy.263.net (Postfix) with ESMTPS id 0C92E1200A1;
+ Fri, 25 Jun 2021 09:36:59 +0800 (CST)
+Received: from regular1.263xmail.com (unknown [192.168.165.182])
+ by smtp.263.net (Postfix) with ESMTP id 613B9231;
+ Fri, 25 Jun 2021 09:36:50 +0800 (CST)
+Received: from localhost (unknown [192.168.167.137])
+ by regular1.263xmail.com (Postfix) with ESMTP id 9BE94E65;
+ Fri, 25 Jun 2021 09:36:45 +0800 (CST)
+X-MAIL-GRAY: 0
+X-MAIL-DELIVERY: 1
+X-ADDR-CHECKED: 0
+X-SKE-CHECKED: 1
+X-ABS-CHECKED: 1
+X-ANTISPAM-LEVEL: 2
+Received: from bj-wm-cp-9 (unknown [192.168.167.113])
+ by smtp.263.net (postfix) whith ESMTP id
+ P14259T140505477224192S1624585005531423_; 
+ Fri, 25 Jun 2021 09:36:45 +0800 (CST)
+X-UNIQUE-TAG: <5dc28952703ead30559dc3583043fc9e>
+X-RL-SENDER: huqiqiao@uniontech.com
+X-SENDER: huqiqiao@uniontech.com
+X-LOGIN-NAME: wmsendmail@net263.com
+X-FST-TO: ckoenig.leichtzumerken@gmail.com
+X-RCPT-COUNT: 6
+X-SENDER-IP: 192.168.167.113
+X-ATTACHMENT-NUM: 0
+X-System-Flag: 0
+Date: Fri, 25 Jun 2021 09:36:45 +0800 (CST)
+From: =?UTF-8?B?6IOh5aWH5ben?= <huqiqiao@uniontech.com>
+To: =?UTF-8?B?Q2hyaXN0aWFuIEvDtm5pZyA=?= <ckoenig.leichtzumerken@gmail.com>, 
+ =?UTF-8?B?YWlybGllZCA=?= <airlied@linux.ie>, 
+ =?UTF-8?B?ZGFuaWVsIA==?= <daniel@ffwll.ch>
+Message-ID: <1588518222.11998.1624585005279.JavaMail.xmail@bj-wm-cp-9>
+References: <20210623091242.12861-1-huqiqiao@uniontech.com>,
+ <e18c2147-cc19-7493-5feb-de28e3102d3f@gmail.com>
+Subject: =?UTF-8?B?UmU6UmU6IFtQQVRDSF0gZHJtL2FtZGdwdTp1c2Uga3ZjYWxsb2MgaW5zdGVhZCBvZiBrdm1hbGxvY19hcnJheQ==?=
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210624070516.21893-45-matthew.brost@intel.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Type: text/html;  charset=utf-8
+Content-Transfer-Encoding: base64
+X-Send-Individually: 0
+X-Reply-Previous-EmailId: 
+X-SENDER-IP: 58.240.82.166
+X-Priority: 3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,124 +70,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: =?UTF-8?B?YW1kLWdmeCA=?= <amd-gfx@lists.freedesktop.org>,
+ =?UTF-8?B?ZHJpLWRldmVsIA==?= <dri-devel@lists.freedesktop.org>,
+ =?UTF-8?B?bGludXgta2VybmVsIA==?= <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 24, 2021 at 12:05:13AM -0700, Matthew Brost wrote:
-> From: John Harrison <John.C.Harrison@Intel.com>
-> 
-> Changing the reset module parameter has no effect on a running GuC.
-> The corresponding entry in the ADS must be updated and then the GuC
-> informed via a Host2GuC message.
-> 
-> The new debugfs interface to module parameters allows this to happen.
-> However, connecting the parameter data address back to anything useful
-> is messy. One option would be to pass a new private data structure
-> address through instead of just the parameter pointer. However, that
-> means having a new (and different) data structure for each parameter
-> and a new (and different) write function for each parameter. This
-> method keeps everything generic by instead using a string lookup on
-> the directory entry name.
-> 
-> Signed-off-by: John Harrison <john.c.harrison@intel.com>
-> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> ---
->  drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c |  2 +-
->  drivers/gpu/drm/i915/i915_debugfs_params.c | 31 ++++++++++++++++++++++
->  2 files changed, 32 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
-> index 2ad5fcd4e1b7..c6d0b762d82c 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
-> @@ -99,7 +99,7 @@ static int guc_action_policies_update(struct intel_guc *guc, u32 policy_offset)
->  		policy_offset
->  	};
->  
-> -	return intel_guc_send(guc, action, ARRAY_SIZE(action));
-> +	return intel_guc_send_busy_loop(guc, action, ARRAY_SIZE(action), 0, true);
->  }
->  
->  int intel_guc_global_policies_update(struct intel_guc *guc)
-> diff --git a/drivers/gpu/drm/i915/i915_debugfs_params.c b/drivers/gpu/drm/i915/i915_debugfs_params.c
-> index 4e2b077692cb..8ecd8b42f048 100644
-> --- a/drivers/gpu/drm/i915/i915_debugfs_params.c
-> +++ b/drivers/gpu/drm/i915/i915_debugfs_params.c
-> @@ -6,9 +6,20 @@
->  #include <linux/kernel.h>
->  
->  #include "i915_debugfs_params.h"
-> +#include "gt/intel_gt.h"
-> +#include "gt/uc/intel_guc.h"
->  #include "i915_drv.h"
->  #include "i915_params.h"
->  
-> +#define MATCH_DEBUGFS_NODE_NAME(_file, _name)	(strcmp((_file)->f_path.dentry->d_name.name, (_name)) == 0)
-> +
-> +#define GET_I915(i915, name, ptr)	\
-> +	do {	\
-> +		struct i915_params *params;	\
-> +		params = container_of(((void *) (ptr)), typeof(*params), name);	\
-> +		(i915) = container_of(params, typeof(*(i915)), params);	\
-> +	} while(0)
-> +
->  /* int param */
->  static int i915_param_int_show(struct seq_file *m, void *data)
->  {
-> @@ -24,6 +35,16 @@ static int i915_param_int_open(struct inode *inode, struct file *file)
->  	return single_open(file, i915_param_int_show, inode->i_private);
->  }
->  
-> +static int notify_guc(struct drm_i915_private *i915)
-> +{
-> +	int ret = 0;
-> +
-> +	if (intel_uc_uses_guc_submission(&i915->gt.uc))
-> +		ret = intel_guc_global_policies_update(&i915->gt.uc.guc);
-> +
-> +	return ret;
-> +}
-> +
->  static ssize_t i915_param_int_write(struct file *file,
->  				    const char __user *ubuf, size_t len,
->  				    loff_t *offp)
-> @@ -81,8 +102,10 @@ static ssize_t i915_param_uint_write(struct file *file,
->  				     const char __user *ubuf, size_t len,
->  				     loff_t *offp)
->  {
-> +	struct drm_i915_private *i915;
->  	struct seq_file *m = file->private_data;
->  	unsigned int *value = m->private;
-> +	unsigned int old = *value;
->  	int ret;
->  
->  	ret = kstrtouint_from_user(ubuf, len, 0, value);
-> @@ -95,6 +118,14 @@ static ssize_t i915_param_uint_write(struct file *file,
->  			*value = b;
->  	}
->  
-> +	if (!ret && MATCH_DEBUGFS_NODE_NAME(file, "reset")) {
-> +		GET_I915(i915, reset, value);
+PHN0eWxlPnRhYmxlLmN1c3RvbVRhYmxlQ2xhc3NOYW1lIHttYXJnaW4tYm90dG9tOiAxMHB4O2Jv
+cmRlci1jb2xsYXBzZTogY29sbGFwc2U7ZGlzcGxheTogdGFibGU7fS5jdXN0b21UYWJsZUNsYXNz
+TmFtZSB0ZCwgLmN1c3RvbVRhYmxlQ2xhc3NOYW1lIHRoIHtib3JkZXI6IDFweCBzb2xpZCAjZGRk
+O308L3N0eWxlPjxwIHN0eWxlPSJtYXJnaW46MHB4OyI+PGJyPjwvcD48cCBzdHlsZT0ibWFyZ2lu
+OjBweDsiPk9LLCBJJ2xsIHJldmlzZSBpdCBhbmQgc3VibWl0IGl0IGFnYWluPC9wPjxwIHN0eWxl
+PSJtYXJnaW46MHB4OyI+PGJyPjwvcD48cCBzdHlsZT0ibWFyZ2luOjBweDsiPkdlb3JnZS48L3A+
+PHAgc3R5bGU9Im1hcmdpbjowcHg7Ij48YnI+DQogJm5ic3A7PC9wPjxkaXYgc3R5bGU9InBhZGRp
+bmc6NXB4O3BhZGRpbmctbGVmdDowcHg7Ym9yZGVyLXRvcDpzb2xpZCAjOTk5IDEuMHB0O2ZvbnQt
+ZmFtaWx5OiBhcmlhbDsgZm9udC1zaXplOjEycHg7bWFyZ2luLWJvdHRvbToyMHB4OyI+PHAgc3R5
+bGU9Im1hcmdpbjowcHg7Ij48c3Ryb25nPkZyb206PC9zdHJvbmc+ICJDaHJpc3RpYW4gS8O2bmln
+ICZsdDtja29lbmlnLmxlaWNodHp1bWVya2VuQGdtYWlsLmNvbSZndDsiPC9wPjxwIHN0eWxlPSJt
+YXJnaW46MHB4OyI+PHN0cm9uZz5Ubzo8L3N0cm9uZz4gImh1cWlxaWFvICZsdDtodXFpcWlhb0B1
+bmlvbnRlY2guY29tJmd0OyIsImFpcmxpZWQgJmx0O2FpcmxpZWRAbGludXguaWUmZ3Q7IiwiZGFu
+aWVsICZsdDtkYW5pZWxAZmZ3bGwuY2gmZ3Q7IjwvcD48cCBzdHlsZT0ibWFyZ2luOjBweDsiPjxz
+dHJvbmc+Q0M6PC9zdHJvbmc+ICJkcmktZGV2ZWwgJmx0O2RyaS1kZXZlbEBsaXN0cy5mcmVlZGVz
+a3RvcC5vcmcmZ3Q7IiwiYW1kLWdmeCAmbHQ7YW1kLWdmeEBsaXN0cy5mcmVlZGVza3RvcC5vcmcm
+Z3Q7IiwibGludXgta2VybmVsICZsdDtsaW51eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnJmd0OyI8
+L3A+PHAgc3R5bGU9Im1hcmdpbjowcHg7Ij48c3Ryb25nPlNlbnQ6PC9zdHJvbmc+IDIwMjEtMDYt
+MjQgMjE6MTQ8L3A+PHAgc3R5bGU9Im1hcmdpbjowcHg7Ij48c3Ryb25nPlN1YmplY3Q6PC9zdHJv
+bmc+IFJlOiBbUEFUQ0hdIGRybS9hbWRncHU6dXNlIGt2Y2FsbG9jIGluc3RlYWQgb2Yga3ZtYWxs
+b2NfYXJyYXk8L3A+PC9kaXY+PHAgc3R5bGU9Im1hcmdpbjowcHg7Ij48YnI+DQogJm5ic3A7PGJy
+PkFtIDIzLjA2LjIxIHVtIDExOjEyIHNjaHJpZWIgaHVxaXFpYW86ICZuYnNwOzxicj4mZ3Q7IGt2
+bWFsbG9jX2FycmF5ICsgX19HRlBfWkVSTyBpcyB0aGUgc2FtZSB3aXRoIGt2Y2FsbG9jLiAmbmJz
+cDs8YnI+Jmd0OyAmbmJzcDs8YnI+Jmd0OyBTaWduZWQtb2ZmLWJ5OiBodXFpcWlhbyAmbHQ7aHVx
+aXFpYW9AdW5pb250ZWNoLmNvbSZndDsgJm5ic3A7PGJyPiZndDsgLS0tICZuYnNwOzxicj4mZ3Q7
+IGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV92bS5jIHwgNSArKy0tLSAmbmJzcDs8
+YnI+Jmd0OyAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAzIGRlbGV0aW9ucygtKSAm
+bmJzcDs8YnI+Jmd0OyAmbmJzcDs8YnI+Jmd0OyBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJt
+L2FtZC9hbWRncHUvYW1kZ3B1X3ZtLmMgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRn
+cHVfdm0uYyAmbmJzcDs8YnI+Jmd0OyBpbmRleCA5YWNlZTRhNWIyYmEuLjUwZWRjNzM1MjViMCAx
+MDA2NDQgJm5ic3A7PGJyPiZndDsgLS0tIGEvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1k
+Z3B1X3ZtLmMgJm5ic3A7PGJyPiZndDsgKysrIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUv
+YW1kZ3B1X3ZtLmMgJm5ic3A7PGJyPiZndDsgQEAgLTkwOCw5ICs5MDgsOCBAQCBzdGF0aWMgaW50
+IGFtZGdwdV92bV9hbGxvY19wdHMoc3RydWN0IGFtZGdwdV9kZXZpY2UgKmFkZXYsICZuYnNwOzxi
+cj4mZ3Q7IHVuc2lnbmVkIG51bV9lbnRyaWVzOyAmbmJzcDs8YnI+Jmd0OyANCiAmbmJzcDs8YnI+
+Jmd0OyBudW1fZW50cmllcyA9IGFtZGdwdV92bV9udW1fZW50cmllcyhhZGV2LCBjdXJzb3ItJmd0
+O2xldmVsKTsgJm5ic3A7PGJyPiZndDsgLSBlbnRyeS0mZ3Q7ZW50cmllcyA9IGt2bWFsbG9jX2Fy
+cmF5KG51bV9lbnRyaWVzLCAmbmJzcDs8YnI+Jmd0OyAtIHNpemVvZigqZW50cnktJmd0O2VudHJp
+ZXMpLCAmbmJzcDs8YnI+Jmd0OyAtIEdGUF9LRVJORUwgfCBfX0dGUF9aRVJPKTsgJm5ic3A7PGJy
+PiZndDsgKyBlbnRyeS0mZ3Q7ZW50cmllcyA9IGt2Y2FsbG9jKG51bV9lbnRyaWVzLCAmbmJzcDs8
+YnI+Jmd0OyArIHNpemVvZigqZW50cnktJmd0O2VudHJpZXMpLCBHRlBfS0VSTkVMKTsgJm5ic3A7
+PGJyPg0KICZuYnNwOzxicj5Tb3VuZHMgbGlrZSBhIGdvb2QgaWRlYSBpbiBnZW5lcmFsLCBidXQg
+dGhlIGluZGVudGF0aW9uIG9uIHRoZSBzZWNvbmQgDQogJm5ic3A7PGJyPmxpbmUgc2VlbXMgdG8g
+YmUgb2YuICZuYnNwOzxicj4NCiAmbmJzcDs8YnI+Q2hyaXN0aWFuLiAmbmJzcDs8YnI+DQogJm5i
+c3A7PGJyPiZndDsgaWYgKCFlbnRyeS0mZ3Q7ZW50cmllcykgJm5ic3A7PGJyPiZndDsgcmV0dXJu
+IC1FTk9NRU07ICZuYnNwOzxicj4mZ3Q7IH0gJm5ic3A7PGJyPg0KICZuYnNwOzxicj4NCiAmbmJz
+cDs8YnI+DQogJm5ic3A7PGJyPg0KIDwvcD4=
 
-We might want to make this into a macro in case we need to update more
-than just "reset" with the GuC going forward but that is not a blocker.
 
-With that:
-Reviewed-by: Matthew Brost <matthew.brost@intel.com> 
-
-> +
-> +		ret = notify_guc(i915);
-> +		if (ret)
-> +			*value = old;
-> +	}
-> +
->  	return ret ?: len;
->  }
->  
-> -- 
-> 2.28.0
-> 
-> _______________________________________________
-> Intel-gfx mailing list
-> Intel-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
