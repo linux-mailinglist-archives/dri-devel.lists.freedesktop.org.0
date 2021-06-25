@@ -2,49 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22ADA3B4416
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Jun 2021 15:09:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 087B23B4418
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Jun 2021 15:10:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C22226EDB4;
-	Fri, 25 Jun 2021 13:09:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A6CD6EDB7;
+	Fri, 25 Jun 2021 13:10:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C6886ED88;
- Fri, 25 Jun 2021 13:09:34 +0000 (UTC)
-IronPort-SDR: 5tCVwS945GT759tIZyES/NKpQ9eHk8SJz14wADNd4fwnEHKGDhxc/ZKMQF2/RcTAIsg+n68vA7
- yIEy5NXhCnEQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,10025"; a="205838686"
-X-IronPort-AV: E=Sophos;i="5.83,298,1616482800"; d="scan'208";a="205838686"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Jun 2021 06:09:33 -0700
-IronPort-SDR: r0uyrPHrOaSe9Mkjtjf3Sf7WIO1YEWMBrTiRtXssRIuDokFkqAuzst/P5BYmrKVMPOis88g9Dx
- 2BtmBURJEJ+w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.83,298,1616482800"; d="scan'208";a="445645161"
-Received: from irvmail001.ir.intel.com ([10.43.11.63])
- by orsmga007.jf.intel.com with ESMTP; 25 Jun 2021 06:09:32 -0700
-Received: from [10.249.158.233] (mwajdecz-MOBL.ger.corp.intel.com
- [10.249.158.233])
- by irvmail001.ir.intel.com (8.14.3/8.13.6/MailSET/Hub) with ESMTP id
- 15PD9TTe009701; Fri, 25 Jun 2021 14:09:30 +0100
-Subject: Re: [Intel-gfx] [PATCH 06/47] drm/i915/guc: Optimize CTB writes and
- reads
-To: Matthew Brost <matthew.brost@intel.com>, intel-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org
-References: <20210624070516.21893-1-matthew.brost@intel.com>
- <20210624070516.21893-7-matthew.brost@intel.com>
-From: Michal Wajdeczko <michal.wajdeczko@intel.com>
-Message-ID: <a44cf19c-d84d-6408-5571-b9a35bb2b3ce@intel.com>
-Date: Fri, 25 Jun 2021 15:09:29 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7CEE96EDB7
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Jun 2021 13:10:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1624626601;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=vvZL1fz2dwOb7Upqb55JPmmwYtiHqp1yiqdJ6Cauu30=;
+ b=EMaJEE6wB18iKZ0uv1cItRWrPD44MjroslgN9lwXBrD+qHCTNuiSYPSL0wvsPYGPakxk3J
+ n9VN+Dld2lMUykDKRcTnC30NP4mUWXCCSWpsykpfp8ufu1m8xoB1x778DaItfMtZEycRmB
+ YRVAQftuA+eo+qdvFPTbmjS5FJ84WdQ=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-423-9PAxrfHHPtq1O8XLqaAtmg-1; Fri, 25 Jun 2021 09:10:00 -0400
+X-MC-Unique: 9PAxrfHHPtq1O8XLqaAtmg-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ p22-20020a7bcc960000b02901de8f2ae18aso2690497wma.8
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Jun 2021 06:10:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=vvZL1fz2dwOb7Upqb55JPmmwYtiHqp1yiqdJ6Cauu30=;
+ b=byoO6rskQ6bMlBDVRZx+08oYpsnoB/dUDugzS5zmTyZWtKd3m58f8lSUaVjTRBnfJr
+ CDDuFF6YT6jTgtP1/4Fvh6EqoxUJPPRi7p+Hmit6p8q9ZIo7SQ0YfGAwDYkhJzESwukJ
+ 67Bid0Y1g8lZWwVe4pTo3vVVroUYIWsCpN2U+vzX48OekxnwmDpBUV3KQxUyLWcC5Crb
+ Nc01t3vOps9FTfEx5MFfozM/NeQbGNgznxyrIeqF7mL7EqXhNcwqU+9l4OD+7rqxxPio
+ CmQAyp5UpcqHOimioGLLiPGzrY7s4nYWOUVTGqllAuP/KwEYLya59pyIv02xGXhMkep6
+ Q2jQ==
+X-Gm-Message-State: AOAM530MoC7O2rniEvKM3ucFPo0kc7cRuHJBGOhtsOq2bNPlBPTP/Y4P
+ dBfEC4n3/h3RLDt8fiYYPudhTwdImyjss6sd7sWyPPNm/BzODwWbzLesv4K2pZ+SJPeckbIHnv8
+ aI+i/0r53cS4MBw6yJeWQNSlvhpoU
+X-Received: by 2002:a5d:4b88:: with SMTP id b8mr10869830wrt.95.1624626599107; 
+ Fri, 25 Jun 2021 06:09:59 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxac5aAuPdj78okqR8e93aZVHiRH/QUWQDePxg/s70gh/LhsMF19zX80NB6m3SpVsyLwyMfkA==
+X-Received: by 2002:a5d:4b88:: with SMTP id b8mr10869804wrt.95.1624626598911; 
+ Fri, 25 Jun 2021 06:09:58 -0700 (PDT)
+Received: from minerva.redhat.com ([92.176.231.106])
+ by smtp.gmail.com with ESMTPSA id x7sm5995864wre.8.2021.06.25.06.09.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 25 Jun 2021 06:09:58 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH v3 0/2] allow simple{fb,
+ drm} drivers to be used on non-x86 EFI platforms
+Date: Fri, 25 Jun 2021 15:09:45 +0200
+Message-Id: <20210625130947.1803678-1-javierm@redhat.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <20210624070516.21893-7-matthew.brost@intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,282 +78,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: linux-efi@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ Catalin Marinas <catalin.marinas@arm.com>, dri-devel@lists.freedesktop.org,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Atish Patra <atish.patra@wdc.com>, linux-riscv@lists.infradead.org,
+ Will Deacon <will@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
+ x86@kernel.org, Russell King <linux@armlinux.org.uk>,
+ Ingo Molnar <mingo@redhat.com>, Peter Robinson <pbrobinson@gmail.com>,
+ Borislav Petkov <bp@suse.de>, Albert Ou <aou@eecs.berkeley.edu>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Hans de Goede <hdegoede@redhat.com>,
+ Paul Walmsley <paul.walmsley@sifive.com>, Thomas Gleixner <tglx@linutronix.de>,
+ linux-arm-kernel@lists.infradead.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+The simplefb and simpledrm drivers match against a "simple-framebuffer"
+device, but for aarch64 this is only registered when using Device Trees
+and there's a node with a "simple-framebuffer" compatible string.
 
+There is no code to register a "simple-framebuffer" platform device when
+using EFI instead. In fact, the only platform device that's registered in
+this case is an "efi-framebuffer", which means that the efifb driver is
+the only driver supported to have an early console with EFI on aarch64.
 
-On 24.06.2021 09:04, Matthew Brost wrote:
-> CTB writes are now in the path of command submission and should be
-> optimized for performance. Rather than reading CTB descriptor values
-> (e.g. head, tail) which could result in accesses across the PCIe bus,
-> store shadow local copies and only read/write the descriptor values when
-> absolutely necessary. Also store the current space in the each channel
-> locally.
-> 
-> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
-> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> ---
->  drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c | 76 ++++++++++++++---------
->  drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h |  6 ++
->  2 files changed, 51 insertions(+), 31 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-> index 27ec30b5ef47..1fd5c69358ef 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-> @@ -130,6 +130,10 @@ static void guc_ct_buffer_desc_init(struct guc_ct_buffer_desc *desc)
->  static void guc_ct_buffer_reset(struct intel_guc_ct_buffer *ctb)
->  {
->  	ctb->broken = false;
-> +	ctb->tail = 0;
-> +	ctb->head = 0;
-> +	ctb->space = CIRC_SPACE(ctb->tail, ctb->head, ctb->size);
-> +
->  	guc_ct_buffer_desc_init(ctb->desc);
->  }
->  
-> @@ -383,10 +387,8 @@ static int ct_write(struct intel_guc_ct *ct,
->  {
->  	struct intel_guc_ct_buffer *ctb = &ct->ctbs.send;
->  	struct guc_ct_buffer_desc *desc = ctb->desc;
-> -	u32 head = desc->head;
-> -	u32 tail = desc->tail;
-> +	u32 tail = ctb->tail;
->  	u32 size = ctb->size;
-> -	u32 used;
->  	u32 header;
->  	u32 hxg;
->  	u32 *cmds = ctb->cmds;
-> @@ -398,25 +400,14 @@ static int ct_write(struct intel_guc_ct *ct,
->  	if (unlikely(desc->status))
->  		goto corrupted;
->  
-> -	if (unlikely((tail | head) >= size)) {
-> +#ifdef CONFIG_DRM_I915_DEBUG_GUC
+The x86 architecture platform has a Generic System Framebuffers (sysfb)
+support, that register a system frambuffer platform device. It either
+registers a "simple-framebuffer" for the simple{fb,drm} drivers or legacy
+VGA/EFI FB devices for the vgafb/efifb drivers.
 
-since we are caching tail, we may want to check if it's sill correct:
+The sysfb is generic enough to be reused by other architectures and can be
+moved out of the arch/x86 directory to drivers/firmware, allowing the EFI
+logic used by non-x86 architectures to be folded into sysfb as well.
 
-	tail = READ_ONCE(desc->tail);
-	if (unlikely(tail != ctb->tail)) {
-  		CT_ERROR(ct, "Tail was modified %u != %u\n",
-			 tail, ctb->tail);
-  		desc->status |= GUC_CTB_STATUS_MISMATCH;
-  		goto corrupted;
-	}
+Patch #1 in this series do the former while patch #2 do the latter. It has
+been tested on x86_64 and aarch64 machines using the efifb, simplefb and
+simpledrm drivers. But more testing will be highly appreciated, to make
+sure that no regressions are being introduced by these changes.
 
-and since we own the tail then we can be more strict:
+The series touches different subystems and will need coordination between
+maintainers but the patches have already been acked by the x86 folks. Ard
+Biesheuvel said that these could be merged through the EFI tree if needed.
 
-	GEM_BUG_ON(tail > size);
+Best regards,
+Javier
 
-and then finally just check GuC head:
+Changes in v3:
+- Add Borislav and Greg Acked-by tags.
+- Also update the SYSFB_SIMPLEFB symbol name in drivers/gpu/drm/tiny/Kconfig.
+- We have a a max 100 char limit now, use it to avoid multi-line statements.
+- Figure out the platform device name before allocating the platform device.
 
-	head = READ_ONCE(desc->head);
-	if (unlikely(head >= size)) {
-		...
+Changes in v2:
+- Use default y and depends on X86 instead doing a select in arch/x86/Kconfig.
+- Also enable the SYSFB Kconfig option when COMPILE_TEST.
+- Improve commit message to explain why is useful for other arches to use this.
+- Use "depends on" for the supported architectures instead of selecting it.
+- Improve commit message to explain the benefits of reusing sysfb for !X86.
 
-> +	if (unlikely((desc->tail | desc->head) >= size)) {
->  		CT_ERROR(ct, "Invalid offsets head=%u tail=%u (size=%u)\n",
-> -			 head, tail, size);
-> +			 desc->head, desc->tail, size);
->  		desc->status |= GUC_CTB_STATUS_OVERFLOW;
->  		goto corrupted;
->  	}
-> -
-> -	/*
-> -	 * tail == head condition indicates empty. GuC FW does not support
-> -	 * using up the entire buffer to get tail == head meaning full.
-> -	 */
-> -	if (tail < head)
-> -		used = (size - head) + tail;
-> -	else
-> -		used = tail - head;
-> -
-> -	/* make sure there is a space including extra dw for the fence */
-> -	if (unlikely(used + len + 1 >= size))
-> -		return -ENOSPC;
-> +#endif
->  
->  	/*
->  	 * dw0: CT header (including fence)
-> @@ -457,7 +448,9 @@ static int ct_write(struct intel_guc_ct *ct,
->  	write_barrier(ct);
->  
->  	/* now update descriptor */
-> +	ctb->tail = tail;
->  	WRITE_ONCE(desc->tail, tail);
-> +	ctb->space -= len + 1;
+Javier Martinez Canillas (2):
+  drivers/firmware: move x86 Generic System Framebuffers support
+  drivers/firmware: consolidate EFI framebuffer setup for all arches
 
-this magic "1" is likely GUC_CTB_MSG_MIN_LEN, right ?
+ arch/arm/include/asm/efi.h                    |  5 +-
+ arch/arm64/include/asm/efi.h                  |  5 +-
+ arch/riscv/include/asm/efi.h                  |  5 +-
+ arch/x86/Kconfig                              | 26 ------
+ arch/x86/kernel/Makefile                      |  3 -
+ drivers/firmware/Kconfig                      | 32 +++++++
+ drivers/firmware/Makefile                     |  2 +
+ drivers/firmware/efi/Makefile                 |  2 +
+ drivers/firmware/efi/efi-init.c               | 90 -------------------
+ .../firmware/efi}/sysfb_efi.c                 | 78 +++++++++++++++-
+ {arch/x86/kernel => drivers/firmware}/sysfb.c | 37 +++++---
+ .../firmware}/sysfb_simplefb.c                | 33 ++++---
+ drivers/gpu/drm/tiny/Kconfig                  |  4 +-
+ .../x86/include/asm => include/linux}/sysfb.h | 32 +++----
+ 14 files changed, 180 insertions(+), 174 deletions(-)
+ rename {arch/x86/kernel => drivers/firmware/efi}/sysfb_efi.c (84%)
+ rename {arch/x86/kernel => drivers/firmware}/sysfb.c (75%)
+ rename {arch/x86/kernel => drivers/firmware}/sysfb_simplefb.c (81%)
+ rename {arch/x86/include/asm => include/linux}/sysfb.h (70%)
 
->  
->  	return 0;
->  
-> @@ -473,7 +466,7 @@ static int ct_write(struct intel_guc_ct *ct,
->   * @req:	pointer to pending request
->   * @status:	placeholder for status
->   *
-> - * For each sent request, Guc shall send bac CT response message.
-> + * For each sent request, GuC shall send back CT response message.
->   * Our message handler will update status of tracked request once
->   * response message with given fence is received. Wait here and
->   * check for valid response status value.
-> @@ -520,24 +513,35 @@ static inline bool ct_deadlocked(struct intel_guc_ct *ct)
->  	return ret;
->  }
->  
-> -static inline bool h2g_has_room(struct intel_guc_ct_buffer *ctb, u32 len_dw)
-> +static inline bool h2g_has_room(struct intel_guc_ct *ct, u32 len_dw)
->  {
-> -	struct guc_ct_buffer_desc *desc = ctb->desc;
-> -	u32 head = READ_ONCE(desc->head);
-> +	struct intel_guc_ct_buffer *ctb = &ct->ctbs.send;
-> +	u32 head;
->  	u32 space;
->  
-> -	space = CIRC_SPACE(desc->tail, head, ctb->size);
-> +	if (ctb->space >= len_dw)
-> +		return true;
-> +
-> +	head = READ_ONCE(ctb->desc->head);
-> +	if (unlikely(head > ctb->size)) {
-> +		CT_ERROR(ct, "Corrupted descriptor head=%u tail=%u size=%u\n",
-> +			  ctb->desc->head, ctb->desc->tail, ctb->size);
-> +		ctb->desc->status |= GUC_CTB_STATUS_OVERFLOW;
-> +		ctb->broken = true;
-> +		return false;
-> +	}
-> +
-> +	space = CIRC_SPACE(ctb->tail, head, ctb->size);
-> +	ctb->space = space;
+-- 
+2.31.1
 
-maybe here we could mark stall_time ?
-
- 	if (space >= len_dw)
-		return true;
-
-	if (ct->stall_time == KTIME_MAX)
-		ct->stall_time = ktime_get();
-	return false;
-
->  
->  	return space >= len_dw;
-
-btw, maybe to avoid filling CTB to the last dword, this should be
-
-	space > len_dw
-
-note the earlier comment:
-
-/*
- * tail == head condition indicates empty. GuC FW does not support
- * using up the entire buffer to get tail == head meaning full.
- */
-
->  }
->  
->  static int has_room_nb(struct intel_guc_ct *ct, u32 len_dw)
->  {
-> -	struct intel_guc_ct_buffer *ctb = &ct->ctbs.send;
-> -
->  	lockdep_assert_held(&ct->ctbs.send.lock);
->  
-> -	if (unlikely(!h2g_has_room(ctb, len_dw))) {
-> +	if (unlikely(!h2g_has_room(ct, len_dw))) {
->  		if (ct->stall_time == KTIME_MAX)
->  			ct->stall_time = ktime_get();
->  
-> @@ -606,10 +610,10 @@ static int ct_send(struct intel_guc_ct *ct,
->  	 */
->  retry:
->  	spin_lock_irqsave(&ct->ctbs.send.lock, flags);
-> -	if (unlikely(!h2g_has_room(ctb, len + 1))) {
-> +	if (unlikely(!h2g_has_room(ct, len + 1))) {
->  		if (ct->stall_time == KTIME_MAX)
->  			ct->stall_time = ktime_get();
-> -		spin_unlock_irqrestore(&ct->ctbs.send.lock, flags);
-> +		spin_unlock_irqrestore(&ctb->lock, flags);
->  
->  		if (unlikely(ct_deadlocked(ct)))
->  			return -EIO;
-> @@ -632,7 +636,7 @@ static int ct_send(struct intel_guc_ct *ct,
->  
->  	err = ct_write(ct, action, len, fence, 0);
->  
-> -	spin_unlock_irqrestore(&ct->ctbs.send.lock, flags);
-> +	spin_unlock_irqrestore(&ctb->lock, flags);
->  
->  	if (unlikely(err))
->  		goto unlink;
-> @@ -720,7 +724,7 @@ static int ct_read(struct intel_guc_ct *ct, struct ct_incoming_msg **msg)
->  {
->  	struct intel_guc_ct_buffer *ctb = &ct->ctbs.recv;
->  	struct guc_ct_buffer_desc *desc = ctb->desc;
-> -	u32 head = desc->head;
-> +	u32 head = ctb->head;
->  	u32 tail = desc->tail;
->  	u32 size = ctb->size;
->  	u32 *cmds = ctb->cmds;
-> @@ -735,12 +739,21 @@ static int ct_read(struct intel_guc_ct *ct, struct ct_incoming_msg **msg)
->  	if (unlikely(desc->status))
->  		goto corrupted;
->  
-> -	if (unlikely((tail | head) >= size)) {
-> +#ifdef CONFIG_DRM_I915_DEBUG_GUC
-
-as above we may want to check if our cached head was not modified
-
-> +	if (unlikely((desc->tail | desc->head) >= size)) {
->  		CT_ERROR(ct, "Invalid offsets head=%u tail=%u (size=%u)\n",
->  			 head, tail, size);
->  		desc->status |= GUC_CTB_STATUS_OVERFLOW;
->  		goto corrupted;
->  	}
-> +#else
-> +	if (unlikely((tail | ctb->head) >= size)) {
-> +		CT_ERROR(ct, "Invalid offsets head=%u tail=%u (size=%u)\n",
-> +			 head, tail, size);
-> +		desc->status |= GUC_CTB_STATUS_OVERFLOW;
-> +		goto corrupted;
-> +	}
-> +#endif
->  
->  	/* tail == head condition indicates empty */
->  	available = tail - head;
-> @@ -790,6 +803,7 @@ static int ct_read(struct intel_guc_ct *ct, struct ct_incoming_msg **msg)
->  	}
->  	CT_DEBUG(ct, "received %*ph\n", 4 * len, (*msg)->msg);
->  
-> +	ctb->head = head;
->  	/* now update descriptor */
->  	WRITE_ONCE(desc->head, head);
->  
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
-> index 55ef7c52472f..9924335e2ee6 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
-> @@ -33,6 +33,9 @@ struct intel_guc;
->   * @desc: pointer to the buffer descriptor
->   * @cmds: pointer to the commands buffer
->   * @size: size of the commands buffer in dwords
-> + * @head: local shadow copy of head in dwords
-> + * @tail: local shadow copy of tail in dwords
-> + * @space: local shadow copy of space in dwords
->   * @broken: flag to indicate if descriptor data is broken
->   */
->  struct intel_guc_ct_buffer {
-> @@ -40,6 +43,9 @@ struct intel_guc_ct_buffer {
->  	struct guc_ct_buffer_desc *desc;
->  	u32 *cmds;
->  	u32 size;
-> +	u32 tail;
-> +	u32 head;
-> +	u32 space;
-
-in later patch this is changing to atomic_t
-maybe we can start with it ?
-
->  	bool broken;
->  };
->  
-> 
