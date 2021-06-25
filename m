@@ -2,48 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA1423B4893
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Jun 2021 20:00:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 927653B4887
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Jun 2021 19:57:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 07DD76EE37;
-	Fri, 25 Jun 2021 18:00:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 54F526EE35;
+	Fri, 25 Jun 2021 17:57:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B03A06EE37;
- Fri, 25 Jun 2021 17:59:58 +0000 (UTC)
-IronPort-SDR: 4RXlafypxRS7TcQ3Lg5ypm6jlm7XDTwWhJY+Ibey7JP0erAbivBSA0l5zyn2xEsFBTn8YV0o/I
- pkBNS9H5PUJw==
-X-IronPort-AV: E=McAfee;i="6200,9189,10026"; a="187407062"
-X-IronPort-AV: E=Sophos;i="5.83,299,1616482800"; d="scan'208";a="187407062"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Jun 2021 10:59:55 -0700
-IronPort-SDR: SMv9G0LG2py4k8bGmKyB+tevgnwuMRpzoLJlO1r1xis5rgdeiJ98u3lxgYVSMJvKmjafHxGz63
- CFVsqHY/WbVg==
-X-IronPort-AV: E=Sophos;i="5.83,299,1616482800"; d="scan'208";a="418467853"
-Received: from unknown (HELO sdutt-i7) ([10.165.21.147])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Jun 2021 10:59:54 -0700
-Date: Fri, 25 Jun 2021 10:53:13 -0700
-From: Matthew Brost <matthew.brost@intel.com>
-To: Michal Wajdeczko <michal.wajdeczko@intel.com>
-Subject: Re: [Intel-gfx] [PATCH 04/47] drm/i915/guc: Add non blocking CTB
- send function
-Message-ID: <20210625175313.GB13390@sdutt-i7>
-References: <20210624070516.21893-1-matthew.brost@intel.com>
- <20210624070516.21893-5-matthew.brost@intel.com>
- <761f2063-7fe6-518b-d05e-67f8fadb9a9c@intel.com>
- <20210624154947.GB1629@sdutt-i7>
- <c871b051-59f7-a56a-fba3-261a5450e0b5@intel.com>
- <20210624224119.GA19733@sdutt-i7>
- <1d250e86-1d2e-53b3-4ae1-ef126a05c617@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 76DF46EE35;
+ Fri, 25 Jun 2021 17:57:25 +0000 (UTC)
+IronPort-SDR: 5n/QmXN8muALUqhKa2HfBeVJS9Xko1W+VRzQVUpx4fc/CUIY1BExv6Essz3bKxXEtkc3tE+9Mw
+ wZ/37asBukkw==
+X-IronPort-AV: E=McAfee;i="6200,9189,10026"; a="204710508"
+X-IronPort-AV: E=Sophos;i="5.83,299,1616482800"; d="scan'208";a="204710508"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Jun 2021 10:57:24 -0700
+IronPort-SDR: qEha1oXclJS5d/Dn0nFNdLzBGz6OGmGUpbbmFLRockpP6pOO4G/RcHWGQgIQXorteSf9vPIMi4
+ C7zAyeFPK2LQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.83,299,1616482800"; d="scan'208";a="491637860"
+Received: from irsmsx604.ger.corp.intel.com ([163.33.146.137])
+ by fmsmga002.fm.intel.com with ESMTP; 25 Jun 2021 10:57:23 -0700
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ IRSMSX604.ger.corp.intel.com (163.33.146.137) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.4; Fri, 25 Jun 2021 18:57:22 +0100
+Received: from orsmsx611.amr.corp.intel.com ([10.22.229.24]) by
+ ORSMSX611.amr.corp.intel.com ([10.22.229.24]) with mapi id 15.01.2242.008;
+ Fri, 25 Jun 2021 10:57:20 -0700
+From: "Ruhl, Michael J" <michael.j.ruhl@intel.com>
+To: =?utf-8?B?VGhvbWFzIEhlbGxzdHLDtm0=?= <thomas.hellstrom@linux.intel.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Subject: RE: [PATCH 4/4] drm/i915/gem: Migrate to system at dma-buf map time
+Thread-Topic: [PATCH 4/4] drm/i915/gem: Migrate to system at dma-buf map time
+Thread-Index: AQHXaSc1dzuN1f3cQESNhHfcl61w5ask2PrggACFU4D//5sZkIAAf14A//+K6tA=
+Date: Fri, 25 Jun 2021 17:57:20 +0000
+Message-ID: <6ca4bd4f3fde427ea8e2b0de61bbde65@intel.com>
+References: <20210624183110.22582-1-thomas.hellstrom@linux.intel.com>
+ <20210624183110.22582-5-thomas.hellstrom@linux.intel.com>
+ <5304ae661abb43a0816a485db9d3bbb5@intel.com>
+ <cd90ba70-15f8-af0a-8810-2ee7939622a2@linux.intel.com>
+ <5e9a46340f254928be6264e4e61eeab8@intel.com>
+ <8cffb2f2-4401-2cdf-1ab3-98cc2d879b00@linux.intel.com>
+In-Reply-To: <8cffb2f2-4401-2cdf-1ab3-98cc2d879b00@linux.intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-reaction: no-action
+dlp-version: 11.6.0.76
+x-originating-ip: [10.1.200.100]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <1d250e86-1d2e-53b3-4ae1-ef126a05c617@intel.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,328 +71,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: "Auld, Matthew" <matthew.auld@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jun 25, 2021 at 01:50:21PM +0200, Michal Wajdeczko wrote:
-> 
-> 
-> On 25.06.2021 00:41, Matthew Brost wrote:
-> > On Thu, Jun 24, 2021 at 07:02:18PM +0200, Michal Wajdeczko wrote:
-> >>
-> >>
-> >> On 24.06.2021 17:49, Matthew Brost wrote:
-> >>> On Thu, Jun 24, 2021 at 04:48:32PM +0200, Michal Wajdeczko wrote:
-> >>>>
-> >>>>
-> >>>> On 24.06.2021 09:04, Matthew Brost wrote:
-> >>>>> Add non blocking CTB send function, intel_guc_send_nb. GuC submission
-> >>>>> will send CTBs in the critical path and does not need to wait for these
-> >>>>> CTBs to complete before moving on, hence the need for this new function.
-> >>>>>
-> >>>>> The non-blocking CTB now must have a flow control mechanism to ensure
-> >>>>> the buffer isn't overrun. A lazy spin wait is used as we believe the
-> >>>>> flow control condition should be rare with a properly sized buffer.
-> >>>>>
-> >>>>> The function, intel_guc_send_nb, is exported in this patch but unused.
-> >>>>> Several patches later in the series make use of this function.
-> >>>>>
-> >>>>> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
-> >>>>> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> >>>>> ---
-> >>>>>  drivers/gpu/drm/i915/gt/uc/intel_guc.h    | 12 +++-
-> >>>>>  drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c | 77 +++++++++++++++++++++--
-> >>>>>  drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h |  3 +-
-> >>>>>  3 files changed, 82 insertions(+), 10 deletions(-)
-> >>>>>
-> >>>>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-> >>>>> index 4abc59f6f3cd..24b1df6ad4ae 100644
-> >>>>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-> >>>>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-> >>>>> @@ -74,7 +74,15 @@ static inline struct intel_guc *log_to_guc(struct intel_guc_log *log)
-> >>>>>  static
-> >>>>>  inline int intel_guc_send(struct intel_guc *guc, const u32 *action, u32 len)
-> >>>>>  {
-> >>>>> -	return intel_guc_ct_send(&guc->ct, action, len, NULL, 0);
-> >>>>> +	return intel_guc_ct_send(&guc->ct, action, len, NULL, 0, 0);
-> >>>>> +}
-> >>>>> +
-> >>>>> +#define INTEL_GUC_SEND_NB		BIT(31)
-> >>>>
-> >>>> hmm, this flag really belongs to intel_guc_ct_send() so it should be
-> >>>> defined as CTB flag near that function declaration
-> >>>>
-> >>>
-> >>> I can move this up a few lines.
-> >>>
-> >>>>> +static
-> >>>>> +inline int intel_guc_send_nb(struct intel_guc *guc, const u32 *action, u32 len)
-> >>>>> +{
-> >>>>> +	return intel_guc_ct_send(&guc->ct, action, len, NULL, 0,
-> >>>>> +				 INTEL_GUC_SEND_NB);
-> >>>>>  }
-> >>>>>  
-> >>>>>  static inline int
-> >>>>> @@ -82,7 +90,7 @@ intel_guc_send_and_receive(struct intel_guc *guc, const u32 *action, u32 len,
-> >>>>>  			   u32 *response_buf, u32 response_buf_size)
-> >>>>>  {
-> >>>>>  	return intel_guc_ct_send(&guc->ct, action, len,
-> >>>>> -				 response_buf, response_buf_size);
-> >>>>> +				 response_buf, response_buf_size, 0);
-> >>>>>  }
-> >>>>>  
-> >>>>>  static inline void intel_guc_to_host_event_handler(struct intel_guc *guc)
-> >>>>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-> >>>>> index a17215920e58..c9a65d05911f 100644
-> >>>>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-> >>>>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-> >>>>> @@ -3,6 +3,11 @@
-> >>>>>   * Copyright © 2016-2019 Intel Corporation
-> >>>>>   */
-> >>>>>  
-> >>>>> +#include <linux/circ_buf.h>
-> >>>>> +#include <linux/ktime.h>
-> >>>>> +#include <linux/time64.h>
-> >>>>> +#include <linux/timekeeping.h>
-> >>>>> +
-> >>>>>  #include "i915_drv.h"
-> >>>>>  #include "intel_guc_ct.h"
-> >>>>>  #include "gt/intel_gt.h"
-> >>>>> @@ -373,7 +378,7 @@ static void write_barrier(struct intel_guc_ct *ct)
-> >>>>>  static int ct_write(struct intel_guc_ct *ct,
-> >>>>>  		    const u32 *action,
-> >>>>>  		    u32 len /* in dwords */,
-> >>>>> -		    u32 fence)
-> >>>>> +		    u32 fence, u32 flags)
-> >>>>>  {
-> >>>>>  	struct intel_guc_ct_buffer *ctb = &ct->ctbs.send;
-> >>>>>  	struct guc_ct_buffer_desc *desc = ctb->desc;
-> >>>>> @@ -421,9 +426,13 @@ static int ct_write(struct intel_guc_ct *ct,
-> >>>>>  		 FIELD_PREP(GUC_CTB_MSG_0_NUM_DWORDS, len) |
-> >>>>>  		 FIELD_PREP(GUC_CTB_MSG_0_FENCE, fence);
-> >>>>>  
-> >>>>> -	hxg = FIELD_PREP(GUC_HXG_MSG_0_TYPE, GUC_HXG_TYPE_REQUEST) |
-> >>>>> -	      FIELD_PREP(GUC_HXG_REQUEST_MSG_0_ACTION |
-> >>>>> -			 GUC_HXG_REQUEST_MSG_0_DATA0, action[0]);
-> >>>>> +	hxg = (flags & INTEL_GUC_SEND_NB) ?
-> >>>>> +		(FIELD_PREP(GUC_HXG_MSG_0_TYPE, GUC_HXG_TYPE_EVENT) |
-> >>>>> +		 FIELD_PREP(GUC_HXG_EVENT_MSG_0_ACTION |
-> >>>>> +			    GUC_HXG_EVENT_MSG_0_DATA0, action[0])) :
-> >>>>> +		(FIELD_PREP(GUC_HXG_MSG_0_TYPE, GUC_HXG_TYPE_REQUEST) |
-> >>>>> +		 FIELD_PREP(GUC_HXG_REQUEST_MSG_0_ACTION |
-> >>>>> +			    GUC_HXG_REQUEST_MSG_0_DATA0, action[0]));
-> >>>>
-> >>>> or as we already switched to accept and return whole HXG messages in
-> >>>> guc_send_mmio() maybe we should do the same for CTB variant too and
-> >>>> instead of using extra flag just let caller to prepare proper HXG header
-> >>>> with HXG_EVENT type and then in CTB code just look at this type to make
-> >>>> decision which code path to use
-> >>>>
-> >>>
-> >>> Not sure I follow. Anyways could this be done in a follow up by you if
-> >>> want this change.
-> >>>  
-> >>>> note that existing callers should not be impacted, as full HXG header
-> >>>> for the REQUEST message looks exactly the same as "action" code alone.
-> >>>>
-> >>>>>  
-> >>>>>  	CT_DEBUG(ct, "writing (tail %u) %*ph %*ph %*ph\n",
-> >>>>>  		 tail, 4, &header, 4, &hxg, 4 * (len - 1), &action[1]);
-> >>>>> @@ -498,6 +507,46 @@ static int wait_for_ct_request_update(struct ct_request *req, u32 *status)
-> >>>>>  	return err;
-> >>>>>  }
-> >>>>>  
-> >>>>> +static inline bool h2g_has_room(struct intel_guc_ct_buffer *ctb, u32 len_dw)
-> >>>>> +{
-> >>>>> +	struct guc_ct_buffer_desc *desc = ctb->desc;
-> >>>>> +	u32 head = READ_ONCE(desc->head);
-> >>>>> +	u32 space;
-> >>>>> +
-> >>>>> +	space = CIRC_SPACE(desc->tail, head, ctb->size);
-> >>>>> +
-> >>>>> +	return space >= len_dw;
-> >>>>
-> >>>> here you are returning true(1) as has room
-> >>>>
-> >>>
-> >>> See below.
-> >>>  
-> >>>>> +}
-> >>>>> +
-> >>>>> +static int ct_send_nb(struct intel_guc_ct *ct,
-> >>>>> +		      const u32 *action,
-> >>>>> +		      u32 len,
-> >>>>> +		      u32 flags)
-> >>>>> +{
-> >>>>> +	struct intel_guc_ct_buffer *ctb = &ct->ctbs.send;
-> >>>>> +	unsigned long spin_flags;
-> >>>>> +	u32 fence;
-> >>>>> +	int ret;
-> >>>>> +
-> >>>>> +	spin_lock_irqsave(&ctb->lock, spin_flags);
-> >>>>> +
-> >>>>> +	ret = h2g_has_room(ctb, len + 1);
-> >>>>
-> >>>> but here you treat "1" it as en error
-> >>>>
-> >>>
-> >>> Yes, this patch is broken but fixed in a follow up one. Regardless I'll
-> >>> fix this patch in place.
-> >>>
-> >>>> and this "1" is GUC_HXG_MSG_MIN_LEN, right ?
-> >>>>
-> >>>
-> >>> Not exactly. This is following how ct_send() uses the action + len
-> >>> field. Action[0] field goes in the HXG header and extra + 1 is for the
-> >>> CT header.
-> >>
-> >> well, "len" already counts "action" so by treating input as full HXG
-> >> message (including HXG header) will make it cleaner
-> >>
-> > 
-> > Yes, I know. See above. To me GUC_HXG_MSG_MIN_LEN makes zero sense and
-> > it is worse than adding + 1. This + 1 accounts for the CT header not the
-> > HXG header. If any we add a new define, GUC_CT_HDR_LEN, and add that.
-> 
-> you mean GUC_CTB_MSG_MIN_LEN ? it's already there [1]
-> 
-
-Kinda? I think we should have a define GUC_CTB_HDR_LEN which is 1 and
-GUC_CTB_MSG_MIN_LEN is defined as GUC_CTB_HDR_LEN. 'GUC_CTB_HDR_LEN'
-makes it clear that the + 1 is referring to the header. I've done this
-branch of these patches already.
-
-Matt
-
-> [1]
-> https://cgit.freedesktop.org/drm/drm-tip/tree/drivers/gpu/drm/i915/gt/uc/abi/guc_communication_ctb_abi.h#n82
-> 
-> > 
-> > Matt
-> > 
-> >> we can try do it later but by doing it right now we would avoid
-> >> introducing this send_nb() function and deprecating them long term again
-> >>
-> >>>
-> >>>>> +	if (unlikely(ret))
-> >>>>> +		goto out;
-> >>>>> +
-> >>>>> +	fence = ct_get_next_fence(ct);
-> >>>>> +	ret = ct_write(ct, action, len, fence, flags);
-> >>>>> +	if (unlikely(ret))
-> >>>>> +		goto out;
-> >>>>> +
-> >>>>> +	intel_guc_notify(ct_to_guc(ct));
-> >>>>> +
-> >>>>> +out:
-> >>>>> +	spin_unlock_irqrestore(&ctb->lock, spin_flags);
-> >>>>> +
-> >>>>> +	return ret;
-> >>>>> +}
-> >>>>> +
-> >>>>>  static int ct_send(struct intel_guc_ct *ct,
-> >>>>>  		   const u32 *action,
-> >>>>>  		   u32 len,
-> >>>>> @@ -505,6 +554,7 @@ static int ct_send(struct intel_guc_ct *ct,
-> >>>>>  		   u32 response_buf_size,
-> >>>>>  		   u32 *status)
-> >>>>>  {
-> >>>>> +	struct intel_guc_ct_buffer *ctb = &ct->ctbs.send;
-> >>>>>  	struct ct_request request;
-> >>>>>  	unsigned long flags;
-> >>>>>  	u32 fence;
-> >>>>> @@ -514,8 +564,20 @@ static int ct_send(struct intel_guc_ct *ct,
-> >>>>>  	GEM_BUG_ON(!len);
-> >>>>>  	GEM_BUG_ON(len & ~GUC_CT_MSG_LEN_MASK);
-> >>>>>  	GEM_BUG_ON(!response_buf && response_buf_size);
-> >>>>> +	might_sleep();
-> >>>>>  
-> >>>>> +	/*
-> >>>>> +	 * We use a lazy spin wait loop here as we believe that if the CT
-> >>>>> +	 * buffers are sized correctly the flow control condition should be
-> >>>>> +	 * rare.
-> >>>>
-> >>>> shouldn't we at least try to log such cases with RATE_LIMITED to find
-> >>>> out how "rare" it is, or if really unlikely just return -EBUSY as in
-> >>>> case of non-blocking send ?
-> >>>>
-> >>>
-> >>> Definitely not return -EBUSY as this a blocking call. Perhaps we can log
-> >>
-> >> blocking calls still can fail for various reasons, full CTB is one of
-> >> them, and if we return error (now broken) for non-blocking variant then
-> >> we should do the same for blocking variant as well and let the caller
-> >> decide about next steps
-> >>
-> >>> this, but IGTs likely can hit rather easily. It really is only
-> >>> interesting if real workloads hit this. Regardless that can be a follow
-> >>> up.
-> >>
-> >> if we hide retry in a silent loop then we will not find it out if we hit
-> >> this condition (IGT or real WL) or not
-> >>
-> >>>
-> >>> Matt
-> >>>  
-> >>>>> +	 */
-> >>>>> +retry:
-> >>>>>  	spin_lock_irqsave(&ct->ctbs.send.lock, flags);
-> >>>>> +	if (unlikely(!h2g_has_room(ctb, len + 1))) {
-> >>>>> +		spin_unlock_irqrestore(&ct->ctbs.send.lock, flags);
-> >>>>> +		cond_resched();
-> >>>>> +		goto retry;
-> >>>>> +	}
-> >>>>>  
-> >>>>>  	fence = ct_get_next_fence(ct);
-> >>>>>  	request.fence = fence;
-> >>>>> @@ -527,7 +589,7 @@ static int ct_send(struct intel_guc_ct *ct,
-> >>>>>  	list_add_tail(&request.link, &ct->requests.pending);
-> >>>>>  	spin_unlock(&ct->requests.lock);
-> >>>>>  
-> >>>>> -	err = ct_write(ct, action, len, fence);
-> >>>>> +	err = ct_write(ct, action, len, fence, 0);
-> >>>>>  
-> >>>>>  	spin_unlock_irqrestore(&ct->ctbs.send.lock, flags);
-> >>>>>  
-> >>>>> @@ -569,7 +631,7 @@ static int ct_send(struct intel_guc_ct *ct,
-> >>>>>   * Command Transport (CT) buffer based GuC send function.
-> >>>>>   */
-> >>>>>  int intel_guc_ct_send(struct intel_guc_ct *ct, const u32 *action, u32 len,
-> >>>>> -		      u32 *response_buf, u32 response_buf_size)
-> >>>>> +		      u32 *response_buf, u32 response_buf_size, u32 flags)
-> >>>>>  {
-> >>>>>  	u32 status = ~0; /* undefined */
-> >>>>>  	int ret;
-> >>>>> @@ -579,6 +641,9 @@ int intel_guc_ct_send(struct intel_guc_ct *ct, const u32 *action, u32 len,
-> >>>>>  		return -ENODEV;
-> >>>>>  	}
-> >>>>>  
-> >>>>> +	if (flags & INTEL_GUC_SEND_NB)
-> >>>>> +		return ct_send_nb(ct, action, len, flags);
-> >>>>> +
-> >>>>>  	ret = ct_send(ct, action, len, response_buf, response_buf_size, &status);
-> >>>>>  	if (unlikely(ret < 0)) {
-> >>>>>  		CT_ERROR(ct, "Sending action %#x failed (err=%d status=%#X)\n",
-> >>>>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
-> >>>>> index 1ae2dde6db93..eb69263324ba 100644
-> >>>>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
-> >>>>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
-> >>>>> @@ -42,7 +42,6 @@ struct intel_guc_ct_buffer {
-> >>>>>  	bool broken;
-> >>>>>  };
-> >>>>>  
-> >>>>> -
-> >>>>>  /** Top-level structure for Command Transport related data
-> >>>>>   *
-> >>>>>   * Includes a pair of CT buffers for bi-directional communication and tracking
-> >>>>> @@ -88,7 +87,7 @@ static inline bool intel_guc_ct_enabled(struct intel_guc_ct *ct)
-> >>>>>  }
-> >>>>>  
-> >>>>>  int intel_guc_ct_send(struct intel_guc_ct *ct, const u32 *action, u32 len,
-> >>>>> -		      u32 *response_buf, u32 response_buf_size);
-> >>>>> +		      u32 *response_buf, u32 response_buf_size, u32 flags);
-> >>>>>  void intel_guc_ct_event_handler(struct intel_guc_ct *ct);
-> >>>>>  
-> >>>>>  #endif /* _INTEL_GUC_CT_H_ */
-> >>>>>
+Pi0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+RnJvbTogVGhvbWFzIEhlbGxzdHLDtm0gPHRo
+b21hcy5oZWxsc3Ryb21AbGludXguaW50ZWwuY29tPg0KPlNlbnQ6IEZyaWRheSwgSnVuZSAyNSwg
+MjAyMSAxOjUyIFBNDQo+VG86IFJ1aGwsIE1pY2hhZWwgSiA8bWljaGFlbC5qLnJ1aGxAaW50ZWwu
+Y29tPjsgaW50ZWwtDQo+Z2Z4QGxpc3RzLmZyZWVkZXNrdG9wLm9yZzsgZHJpLWRldmVsQGxpc3Rz
+LmZyZWVkZXNrdG9wLm9yZw0KPkNjOiBBdWxkLCBNYXR0aGV3IDxtYXR0aGV3LmF1bGRAaW50ZWwu
+Y29tPg0KPlN1YmplY3Q6IFJlOiBbUEFUQ0ggNC80XSBkcm0vaTkxNS9nZW06IE1pZ3JhdGUgdG8g
+c3lzdGVtIGF0IGRtYS1idWYgbWFwDQo+dGltZQ0KPg0KPg0KPk9uIDYvMjUvMjEgNzozOCBQTSwg
+UnVobCwgTWljaGFlbCBKIHdyb3RlOg0KPj4+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+
+Pj4gRnJvbTogVGhvbWFzIEhlbGxzdHLDtm0gPHRob21hcy5oZWxsc3Ryb21AbGludXguaW50ZWwu
+Y29tPg0KPj4+IFNlbnQ6IEZyaWRheSwgSnVuZSAyNSwgMjAyMSAxMjoxOCBQTQ0KPj4+IFRvOiBS
+dWhsLCBNaWNoYWVsIEogPG1pY2hhZWwuai5ydWhsQGludGVsLmNvbT47IGludGVsLQ0KPj4+IGdm
+eEBsaXN0cy5mcmVlZGVza3RvcC5vcmc7IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcN
+Cj4+PiBDYzogQXVsZCwgTWF0dGhldyA8bWF0dGhldy5hdWxkQGludGVsLmNvbT4NCj4+PiBTdWJq
+ZWN0OiBSZTogW1BBVENIIDQvNF0gZHJtL2k5MTUvZ2VtOiBNaWdyYXRlIHRvIHN5c3RlbSBhdCBk
+bWEtYnVmDQo+bWFwDQo+Pj4gdGltZQ0KPj4+DQo+Pj4gSGksIE1pY2hhZWwsDQo+Pj4NCj4+PiB0
+aGFua3MgZm9yIGxvb2tpbmcgYXQgdGhpcy4NCj4+Pg0KPj4+IE9uIDYvMjUvMjEgNjowMiBQTSwg
+UnVobCwgTWljaGFlbCBKIHdyb3RlOg0KPj4+Pj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0N
+Cj4+Pj4+IEZyb206IGRyaS1kZXZlbCA8ZHJpLWRldmVsLWJvdW5jZXNAbGlzdHMuZnJlZWRlc2t0
+b3Aub3JnPiBPbiBCZWhhbGYNCj5PZg0KPj4+Pj4gVGhvbWFzIEhlbGxzdHLDtm0NCj4+Pj4+IFNl
+bnQ6IFRodXJzZGF5LCBKdW5lIDI0LCAyMDIxIDI6MzEgUE0NCj4+Pj4+IFRvOiBpbnRlbC1nZnhA
+bGlzdHMuZnJlZWRlc2t0b3Aub3JnOyBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnDQo+
+Pj4+PiBDYzogVGhvbWFzIEhlbGxzdHLDtm0gPHRob21hcy5oZWxsc3Ryb21AbGludXguaW50ZWwu
+Y29tPjsgQXVsZCwNCj4+PiBNYXR0aGV3DQo+Pj4+PiA8bWF0dGhldy5hdWxkQGludGVsLmNvbT4N
+Cj4+Pj4+IFN1YmplY3Q6IFtQQVRDSCA0LzRdIGRybS9pOTE1L2dlbTogTWlncmF0ZSB0byBzeXN0
+ZW0gYXQgZG1hLWJ1ZiBtYXANCj4+PiB0aW1lDQo+Pj4+PiBVbnRpbCB3ZSBzdXBwb3J0IHAycCBk
+bWEgb3IgYXMgYSBjb21wbGVtZW50IHRvIHRoYXQsIG1pZ3JhdGUgZGF0YQ0KPj4+Pj4gdG8gc3lz
+dGVtIG1lbW9yeSBhdCBkbWEtYnVmIG1hcCB0aW1lIGlmIHBvc3NpYmxlLg0KPj4+Pj4NCj4+Pj4+
+IFNpZ25lZC1vZmYtYnk6IFRob21hcyBIZWxsc3Ryw7ZtIDx0aG9tYXMuaGVsbHN0cm9tQGxpbnV4
+LmludGVsLmNvbT4NCj4+Pj4+IC0tLQ0KPj4+Pj4gZHJpdmVycy9ncHUvZHJtL2k5MTUvZ2VtL2k5
+MTVfZ2VtX2RtYWJ1Zi5jIHwgOSArKysrKysrKy0NCj4+Pj4+IDEgZmlsZSBjaGFuZ2VkLCA4IGlu
+c2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkNCj4+Pj4+DQo+Pj4+PiBkaWZmIC0tZ2l0IGEvZHJp
+dmVycy9ncHUvZHJtL2k5MTUvZ2VtL2k5MTVfZ2VtX2RtYWJ1Zi5jDQo+Pj4+PiBiL2RyaXZlcnMv
+Z3B1L2RybS9pOTE1L2dlbS9pOTE1X2dlbV9kbWFidWYuYw0KPj4+Pj4gaW5kZXggNjE2YzNhMmYx
+YmFmLi5hNTJmODg1YmMwOWEgMTAwNjQ0DQo+Pj4+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vaTkx
+NS9nZW0vaTkxNV9nZW1fZG1hYnVmLmMNCj4+Pj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1
+L2dlbS9pOTE1X2dlbV9kbWFidWYuYw0KPj4+Pj4gQEAgLTI1LDcgKzI1LDE0IEBAIHN0YXRpYyBz
+dHJ1Y3Qgc2dfdGFibGUNCj4+PiAqaTkxNV9nZW1fbWFwX2RtYV9idWYoc3RydWN0DQo+Pj4+PiBk
+bWFfYnVmX2F0dGFjaG1lbnQgKmF0dGFjaG1lDQo+Pj4+PiAJc3RydWN0IHNjYXR0ZXJsaXN0ICpz
+cmMsICpkc3Q7DQo+Pj4+PiAJaW50IHJldCwgaTsNCj4+Pj4+DQo+Pj4+PiAtCXJldCA9IGk5MTVf
+Z2VtX29iamVjdF9waW5fcGFnZXNfdW5sb2NrZWQob2JqKTsNCj4+Pj4+ICsJcmV0ID0gaTkxNV9n
+ZW1fb2JqZWN0X2xvY2tfaW50ZXJydXB0aWJsZShvYmosIE5VTEwpOw0KPj4+PiBIbW0sIEkgYmVs
+aWV2ZSBpbiBtb3N0IGNhc2VzIHRoYXQgdGhlIGNhbGxlciBzaG91bGQgYmUgaG9sZGluZyB0aGUN
+Cj4+Pj4gbG9jayAob2JqZWN0IGRtYS1yZXN2KSBvbiB0aGlzIG9iamVjdCBhbHJlYWR5Lg0KPj4+
+IFllcywgSSBhZ3JlZSwgSW4gcGFydGljdWxhciBmb3Igb3RoZXIgaW5zdGFuY2VzIG9mIG91ciBv
+d24gZHJpdmVyLMKgIGF0DQo+Pj4gbGVhc3Qgc2luY2UgdGhlIGRtYV9yZXN2IGludHJvZHVjdGlv
+bi4NCj4+Pg0KPj4+IEJ1dCBJIGFsc28gdGhpbmsgdGhhdCdzIGEgcHJlLWV4aXN0aW5nIGJ1Zywg
+c2luY2UNCj4+PiBpOTE1X2dlbV9vYmplY3RfcGluX3BhZ2VzX3VubG9ja2VkKCkgd2lsbCBhbHNv
+IHRha2UgdGhlIGxvY2suDQo+PiBPdWNoIHllcy4gIE1pc3NlZCB0aGF0Lg0KPj4NCj4+PiBJIFRo
+aW5rIHdlIG5lZWQgdG8gaW5pdGlhbGx5IG1ha2UgdGhlIGV4cG9ydGVyIGR5bmFtaWMtY2FwYWJs
+ZSB0bw0KPj4+IHJlc29sdmUgdGhpcywgYW5kIGRyb3AgdGhlIGxvY2tpbmcgaGVyZSBjb21wbGV0
+ZWx5LCBhcyBkbWEtYnVmIGRvY3Mgc2F5cw0KPj4+IHRoYXQgd2UncmUgdGhlbiBndWFyYW50ZWVk
+IHRvIGdldCBjYWxsZWQgd2l0aCB0aGUgb2JqZWN0IGxvY2sgaGVsZC4NCj4+Pg0KPj4+IEkgZmln
+dXJlIGlmIHdlIG1ha2UgdGhlIGV4cG9ydGVyIGR5bmFtaWMsIHdlIG5lZWQgdG8gbWlncmF0ZSBh
+bHJlYWR5IGF0DQo+Pj4gZG1hX2J1Zl9waW4gdGltZSBzbyB3ZSBkb24ndCBwaW4gdGhlIG9iamVj
+dCBpbiB0aGUgd3JvbmcgbG9jYXRpb24uDQo+PiBUaGUgZXhwb3J0ZXIgYXMgZHluYW1pYyAgKG9w
+cy0+cGluIGlzIGF2YWlsYWJsZSkgaXMgb3B0aW9uYWwsIGJ1dCBpbXBvcnRlcg0KPj4gZHluYW1p
+YyAob3BzLT5tb3ZlX25vdGlmeSkgaXMgcmVxdWlyZWQuDQo+Pg0KPj4gV2l0aCB0aGF0IGluIG1p
+bmQsIGl0IHdvdWxkIHNlZW0gdGhhdCB0aGVyZSBhcmUgdGhyZWUgcG9zc2libGUgY29tYmluYXRp
+b25zDQo+PiBmb3IgdGhlIG1pZ3JhdGUgdG8gYmUgYXR0ZW1wdGVkOg0KPj4NCj4+IDEpIGluIHRo
+ZSBvcHMtPnBpbiBmdW5jdGlvbiAoZXhwb3J0X2R5bmFtaWMgIT0gaW1wb3J0X2R5bmFtaWMsIGR1
+cmluZw0KPmF0dGFjaCkNCj4+IDIpIGluIHRoZSBvcHMtPnBpbiBmdW5jdGlvbiAoZXhwb3J0X2R5
+bmFtaWMgYW5kDQo+IUNPTkZJR19ETUFCVUZfTU9WRV9OT1RJRlkpIGR1cmluZyBtYXBwaW5nDQo+
+PiAzKSBhbmQgcG9zc2libHkgaW4gb3BzLT5tYXBfZG1hX2J1ZiAoZXhvcnRfZHluYW1pYyBpYW5k
+DQo+Q09ORklHX0RNQUJVRl9NT1ZFX05PVElGWSkNCj4+DQo+PiBTaW5jZSBvbmUgcG9zc2liaWxp
+dHkgaGFzIHRvIGJlIGluIHRoZSBtYXBwaW5nIGZ1bmN0aW9uLCBpdCBzZWVtcyB0aGF0IGlmIHdl
+DQo+PiBjYW4gZmlndXJlIG91dCB0aGUgbG9ja2luZywgdGhhdCB0aGUgbWlncmF0ZSBzaG91bGQg
+cHJvYmFibHkgYmUgYXZhaWxhYmxlDQo+aGVyZS4NCj4+DQo+PiBNaWtlDQo+DQo+U28gcGVyaGFw
+cyBqdXN0IHRvIGluaXRpYWxseSBmaXggdGhlIGJ1Zywgd2UgY291bGQganVzdCBpbXBsZW1lbnQg
+Tk9QDQo+cGluKCkgYW5kIHVucGluKCkgY2FsbGJhY2tzIGFuZCBkcm9wIHRoZSBsb2NraW5nIGlu
+IG1hcF9hdHRhY2goKSBhbmQNCj5yZXBsYWNlIGl0IHdpdGggYW4gYXNzZXJ0X29iamVjdF9oZWxk
+KCk7DQoNClRoYXQgaXMgdGhlIHN0aWNreSBwYXJ0IG9mIHRoZSBtb3ZlIG5vdGlmeSBBUEkuDQoN
+CklmIHlvdSBkbyB0aGUgYXR0YWNoX2R5bmFtaWMgeW91IGhhdmUgdG8gaGF2ZSBhbiBvcHMgd2l0
+aCBtb3ZlX25vdGlmeS4NCg0KKGh0dHBzOi8vZWxpeGlyLmJvb3RsaW4uY29tL2xpbnV4L3Y1LjEz
+LXJjNy9zb3VyY2UvZHJpdmVycy9kbWEtYnVmL2RtYS1idWYuYyNMNzMwKQ0KDQpJZiB5b3UgZG9u
+J3QgaGF2ZSB0aGF0LCBpLmUuIGp1c3QgdGhlIHBpbiBpbnRlcmZhY2UsIHRoZSBhdHRhY2ggd2ls
+bCBiZQ0KcmVqZWN0ZWQsIGFuZCB5b3Ugd2lsbCBub3QgZ2V0IHRoZSBjYWxsYmFja3MuDQoNClNv
+IEkgdGhpbmsgdGhhdCB0aGUgb25seSB0aGluZyB3ZSBjYW4gZG8gZm9yIG5vdyBpcyB0byBkb3Ag
+dGhlIGxvY2tpbmcgYW5kIGFkZCB0aGUgDQoNCmFzc2VydF9vYmplY3RfaGVsZCgpOw0KDQpNDQoN
+Cj4vVGhvbWFzDQo+DQoNCg==
