@@ -2,32 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FBBB3B44AB
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Jun 2021 15:42:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48DA53B44B0
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Jun 2021 15:43:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 705166EDE0;
-	Fri, 25 Jun 2021 13:42:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 78AA36EDE1;
+	Fri, 25 Jun 2021 13:43:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 322576EDE0
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Jun 2021 13:42:19 +0000 (UTC)
-Received: from maud (unknown [IPv6:2600:8800:8c04:8c00::912b])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested) (Authenticated sender: alyssa)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 8641B1F44361;
- Fri, 25 Jun 2021 14:42:14 +0100 (BST)
-Date: Fri, 25 Jun 2021 09:42:08 -0400
-From: Alyssa Rosenzweig <alyssa@collabora.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Subject: Re: [PATCH v3 05/15] drm/panfrost: Expose exception types to userspace
-Message-ID: <YNXdMK//ENHdQKUN@maud>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A36176EDE1
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Jun 2021 13:43:48 +0000 (UTC)
+Received: from gallifrey.ext.pengutronix.de
+ ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1lwm7X-0003lh-3G; Fri, 25 Jun 2021 15:43:47 +0200
+Message-ID: <595cfd158a03c0c22af8bb6d186da43fd12c99ac.camel@pengutronix.de>
+Subject: Re: [PATCH v3 14/15] drm/panfrost: Kill in-flight jobs on FD close
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Boris Brezillon <boris.brezillon@collabora.com>, 
+ dri-devel@lists.freedesktop.org
+Date: Fri, 25 Jun 2021 15:43:45 +0200
+In-Reply-To: <20210625133327.2598825-15-boris.brezillon@collabora.com>
 References: <20210625133327.2598825-1-boris.brezillon@collabora.com>
- <20210625133327.2598825-6-boris.brezillon@collabora.com>
+ <20210625133327.2598825-15-boris.brezillon@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.1 (3.40.1-1.fc34) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210625133327.2598825-6-boris.brezillon@collabora.com>
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -40,112 +49,106 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>, dri-devel@lists.freedesktop.org,
+Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>,
  Steven Price <steven.price@arm.com>, Rob Herring <robh+dt@kernel.org>,
  Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
  Robin Murphy <robin.murphy@arm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-I'm not convinced. Right now most of our UABI is pleasantly
-GPU-agnostic. With this suddenly there's divergence between Midgard and
-Bifrost uABI. With that drawback in mind, could you explain the benefit?
-
-On Fri, Jun 25, 2021 at 03:33:17PM +0200, Boris Brezillon wrote:
-> Job headers contain an exception type field which might be read and
-> converted to a human readable string by tracing tools. Let's expose
-> the exception type as an enum so we share the same definition.
+Am Freitag, dem 25.06.2021 um 15:33 +0200 schrieb Boris Brezillon:
+> If the process who submitted these jobs decided to close the FD before
+> the jobs are done it probably means it doesn't care about the result.
 > 
 > v3:
-> * Add missing values
+> * Set fence error to ECANCELED when a TERMINATED exception is received
 > 
 > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 > ---
->  include/uapi/drm/panfrost_drm.h | 71 +++++++++++++++++++++++++++++++++
->  1 file changed, 71 insertions(+)
+>  drivers/gpu/drm/panfrost/panfrost_job.c | 43 +++++++++++++++++++++----
+>  1 file changed, 37 insertions(+), 6 deletions(-)
 > 
-> diff --git a/include/uapi/drm/panfrost_drm.h b/include/uapi/drm/panfrost_drm.h
-> index ec19db1eead8..899cd6d952d4 100644
-> --- a/include/uapi/drm/panfrost_drm.h
-> +++ b/include/uapi/drm/panfrost_drm.h
-> @@ -223,6 +223,77 @@ struct drm_panfrost_madvise {
->  	__u32 retained;       /* out, whether backing store still exists */
->  };
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
+> index 948bd174ff99..aa1e6542adde 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
+> @@ -498,14 +498,21 @@ static void panfrost_job_handle_irq(struct panfrost_device *pfdev, u32 status)
 >  
-> +/* The exception types */
+>  		if (status & JOB_INT_MASK_ERR(j)) {
+>  			u32 js_status = job_read(pfdev, JS_STATUS(j));
+> +			const char *exception_name = panfrost_exception_name(js_status);
+>  
+>  			job_write(pfdev, JS_COMMAND_NEXT(j), JS_COMMAND_NOP);
+>  
+> -			dev_err(pfdev->dev, "js fault, js=%d, status=%s, head=0x%x, tail=0x%x",
+> -				j,
+> -				panfrost_exception_name(js_status),
+> -				job_read(pfdev, JS_HEAD_LO(j)),
+> -				job_read(pfdev, JS_TAIL_LO(j)));
+> +			if (js_status < DRM_PANFROST_EXCEPTION_JOB_CONFIG_FAULT) {
+> +				dev_dbg(pfdev->dev, "js interrupt, js=%d, status=%s, head=0x%x, tail=0x%x",
+> +					j, exception_name,
+> +					job_read(pfdev, JS_HEAD_LO(j)),
+> +					job_read(pfdev, JS_TAIL_LO(j)));
+> +			} else {
+> +				dev_err(pfdev->dev, "js fault, js=%d, status=%s, head=0x%x, tail=0x%x",
+> +					j, exception_name,
+> +					job_read(pfdev, JS_HEAD_LO(j)),
+> +					job_read(pfdev, JS_TAIL_LO(j)));
+> +			}
+>  
+>  			/* If we need a reset, signal it to the timeout
+>  			 * handler, otherwise, update the fence error field and
+> @@ -514,7 +521,16 @@ static void panfrost_job_handle_irq(struct panfrost_device *pfdev, u32 status)
+>  			if (panfrost_exception_needs_reset(pfdev, js_status)) {
+>  				drm_sched_fault(&pfdev->js->queue[j].sched);
+>  			} else {
+> -				dma_fence_set_error(pfdev->jobs[j]->done_fence, -EINVAL);
+> +				int error = 0;
 > +
-> +enum drm_panfrost_exception_type {
-> +	DRM_PANFROST_EXCEPTION_OK = 0x00,
-> +	DRM_PANFROST_EXCEPTION_DONE = 0x01,
-> +	DRM_PANFROST_EXCEPTION_INTERRUPTED = 0x02,
-> +	DRM_PANFROST_EXCEPTION_STOPPED = 0x03,
-> +	DRM_PANFROST_EXCEPTION_TERMINATED = 0x04,
-> +	DRM_PANFROST_EXCEPTION_KABOOM = 0x05,
-> +	DRM_PANFROST_EXCEPTION_EUREKA = 0x06,
-> +	DRM_PANFROST_EXCEPTION_ACTIVE = 0x08,
-> +	DRM_PANFROST_EXCEPTION_JOB_CONFIG_FAULT = 0x40,
-> +	DRM_PANFROST_EXCEPTION_JOB_POWER_FAULT = 0x41,
-> +	DRM_PANFROST_EXCEPTION_JOB_READ_FAULT = 0x42,
-> +	DRM_PANFROST_EXCEPTION_JOB_WRITE_FAULT = 0x43,
-> +	DRM_PANFROST_EXCEPTION_JOB_AFFINITY_FAULT = 0x44,
-> +	DRM_PANFROST_EXCEPTION_JOB_BUS_FAULT = 0x48,
-> +	DRM_PANFROST_EXCEPTION_INSTR_INVALID_PC = 0x50,
-> +	DRM_PANFROST_EXCEPTION_INSTR_INVALID_ENC = 0x51,
-> +	DRM_PANFROST_EXCEPTION_INSTR_TYPE_MISMATCH = 0x52,
-> +	DRM_PANFROST_EXCEPTION_INSTR_OPERAND_FAULT = 0x53,
-> +	DRM_PANFROST_EXCEPTION_INSTR_TLS_FAULT = 0x54,
-> +	DRM_PANFROST_EXCEPTION_INSTR_BARRIER_FAULT = 0x55,
-> +	DRM_PANFROST_EXCEPTION_INSTR_ALIGN_FAULT = 0x56,
-> +	DRM_PANFROST_EXCEPTION_DATA_INVALID_FAULT = 0x58,
-> +	DRM_PANFROST_EXCEPTION_TILE_RANGE_FAULT = 0x59,
-> +	DRM_PANFROST_EXCEPTION_ADDR_RANGE_FAULT = 0x5a,
-> +	DRM_PANFROST_EXCEPTION_IMPRECISE_FAULT = 0x5b,
-> +	DRM_PANFROST_EXCEPTION_OOM = 0x60,
-> +	DRM_PANFROST_EXCEPTION_OOM_AFBC = 0x61,
-> +	DRM_PANFROST_EXCEPTION_UNKNOWN = 0x7f,
-> +	DRM_PANFROST_EXCEPTION_DELAYED_BUS_FAULT = 0x80,
-> +	DRM_PANFROST_EXCEPTION_GPU_SHAREABILITY_FAULT = 0x88,
-> +	DRM_PANFROST_EXCEPTION_SYS_SHAREABILITY_FAULT = 0x89,
-> +	DRM_PANFROST_EXCEPTION_GPU_CACHEABILITY_FAULT = 0x8a,
-> +	DRM_PANFROST_EXCEPTION_TRANSLATION_FAULT_0 = 0xc0,
-> +	DRM_PANFROST_EXCEPTION_TRANSLATION_FAULT_1 = 0xc1,
-> +	DRM_PANFROST_EXCEPTION_TRANSLATION_FAULT_2 = 0xc2,
-> +	DRM_PANFROST_EXCEPTION_TRANSLATION_FAULT_3 = 0xc3,
-> +	DRM_PANFROST_EXCEPTION_TRANSLATION_FAULT_4 = 0xc4,
-> +	DRM_PANFROST_EXCEPTION_TRANSLATION_FAULT_IDENTITY = 0xc7,
-> +	DRM_PANFROST_EXCEPTION_PERM_FAULT_0 = 0xc8,
-> +	DRM_PANFROST_EXCEPTION_PERM_FAULT_1 = 0xc9,
-> +	DRM_PANFROST_EXCEPTION_PERM_FAULT_2 = 0xca,
-> +	DRM_PANFROST_EXCEPTION_PERM_FAULT_3 = 0xcb,
-> +	DRM_PANFROST_EXCEPTION_TRANSTAB_BUS_FAULT_0 = 0xd0,
-> +	DRM_PANFROST_EXCEPTION_TRANSTAB_BUS_FAULT_1 = 0xd1,
-> +	DRM_PANFROST_EXCEPTION_TRANSTAB_BUS_FAULT_2 = 0xd2,
-> +	DRM_PANFROST_EXCEPTION_TRANSTAB_BUS_FAULT_3 = 0xd3,
-> +	DRM_PANFROST_EXCEPTION_ACCESS_FLAG_0 = 0xd8,
-> +	DRM_PANFROST_EXCEPTION_ACCESS_FLAG_1 = 0xd9,
-> +	DRM_PANFROST_EXCEPTION_ACCESS_FLAG_2 = 0xda,
-> +	DRM_PANFROST_EXCEPTION_ACCESS_FLAG_3 = 0xdb,
-> +	DRM_PANFROST_EXCEPTION_ADDR_SIZE_FAULT_IN0 = 0xe0,
-> +	DRM_PANFROST_EXCEPTION_ADDR_SIZE_FAULT_IN1 = 0xe1,
-> +	DRM_PANFROST_EXCEPTION_ADDR_SIZE_FAULT_IN2 = 0xe2,
-> +	DRM_PANFROST_EXCEPTION_ADDR_SIZE_FAULT_IN3 = 0xe3,
-> +	DRM_PANFROST_EXCEPTION_ADDR_SIZE_FAULT_OUT0 = 0xe4,
-> +	DRM_PANFROST_EXCEPTION_ADDR_SIZE_FAULT_OUT1 = 0xe5,
-> +	DRM_PANFROST_EXCEPTION_ADDR_SIZE_FAULT_OUT2 = 0xe6,
-> +	DRM_PANFROST_EXCEPTION_ADDR_SIZE_FAULT_OUT3 = 0xe7,
-> +	DRM_PANFROST_EXCEPTION_MEM_ATTR_FAULT_0 = 0xe8,
-> +	DRM_PANFROST_EXCEPTION_MEM_ATTR_FAULT_1 = 0xe9,
-> +	DRM_PANFROST_EXCEPTION_MEM_ATTR_FAULT_2 = 0xea,
-> +	DRM_PANFROST_EXCEPTION_MEM_ATTR_FAULT_3 = 0xeb,
-> +	DRM_PANFROST_EXCEPTION_MEM_ATTR_NONCACHE_0 = 0xec,
-> +	DRM_PANFROST_EXCEPTION_MEM_ATTR_NONCACHE_1 = 0xed,
-> +	DRM_PANFROST_EXCEPTION_MEM_ATTR_NONCACHE_2 = 0xee,
-> +	DRM_PANFROST_EXCEPTION_MEM_ATTR_NONCACHE_3 = 0xef,
-> +};
+> +				if (js_status == DRM_PANFROST_EXCEPTION_TERMINATED)
+> +					error = -ECANCELED;
+> +				else if (js_status >= DRM_PANFROST_EXCEPTION_JOB_CONFIG_FAULT)
+> +					error = -EINVAL;
 > +
->  #if defined(__cplusplus)
+> +				if (error)
+> +					dma_fence_set_error(pfdev->jobs[j]->done_fence, error);
+> +
+>  				status |= JOB_INT_MASK_DONE(j);
+>  			}
+>  		}
+> @@ -673,10 +689,25 @@ int panfrost_job_open(struct panfrost_file_priv *panfrost_priv)
+>  
+>  void panfrost_job_close(struct panfrost_file_priv *panfrost_priv)
+>  {
+> +	struct panfrost_device *pfdev = panfrost_priv->pfdev;
+> +	unsigned long flags;
+>  	int i;
+>  
+>  	for (i = 0; i < NUM_JOB_SLOTS; i++)
+>  		drm_sched_entity_destroy(&panfrost_priv->sched_entity[i]);
+> +
+> +	/* Kill in-flight jobs */
+> +	spin_lock_irqsave(&pfdev->js->job_lock, flags);
+
+Micro-optimization, but this code is never called from IRQ context, so
+a spin_lock_irq would do here, no need to save/restore flags.
+
+Regards,
+Lucas
+
+> +	for (i = 0; i < NUM_JOB_SLOTS; i++) {
+> +		struct drm_sched_entity *entity = &panfrost_priv->sched_entity[i];
+> +		struct panfrost_job *job = pfdev->jobs[i];
+> +
+> +		if (!job || job->base.entity != entity)
+> +			continue;
+> +
+> +		job_write(pfdev, JS_COMMAND(i), JS_COMMAND_HARD_STOP);
+> +	}
+> +	spin_unlock_irqrestore(&pfdev->js->job_lock, flags);
 >  }
->  #endif
-> -- 
-> 2.31.1
-> 
+>  
+>  int panfrost_job_is_idle(struct panfrost_device *pfdev)
+
+
