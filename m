@@ -2,61 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD9AD3B4719
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Jun 2021 17:59:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19AD03B4721
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Jun 2021 18:02:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B3F66EE09;
-	Fri, 25 Jun 2021 15:59:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A2CB96EE0D;
+	Fri, 25 Jun 2021 16:02:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x731.google.com (mail-qk1-x731.google.com
- [IPv6:2607:f8b0:4864:20::731])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 753C96EE09
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Jun 2021 15:59:03 +0000 (UTC)
-Received: by mail-qk1-x731.google.com with SMTP id q190so19592786qkd.2
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Jun 2021 08:59:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=CMFqRamqkQgCF+ySIQhnWpXoURw1WLNbTY9bNZn+W38=;
- b=ciq0fyJCwg5/hK+oj/CXsEPQ74Dr1RLsBVZh4+AuAUDQH8M9HyGelwOrWBcBE8ev5l
- t8nYqFeRr3jN7EmUqoRa6Day9kVuUCvo0MK/+3x/SbtOyInz+5B5+iTMU8SvD2yqSxlv
- bSQp7Uv9ewlRA/0BHRPSkC4W8ju2ek50oD8Og=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=CMFqRamqkQgCF+ySIQhnWpXoURw1WLNbTY9bNZn+W38=;
- b=nk6mAsgnbPDC/6y0DPHa8iPPD1C7ZMTB+rVV3WVtLV2W/DkFmIwc2HCUGsIru4PTgJ
- sQN7iPXi3gOzlEPTBI6wA+t1Xa4pQl/kwbqDneQy8uJmnHQek4K6KUXOzeyyT/gAvuQR
- xuqTIPJgUGvg+3/3MEjUWMTcOl85z7hwusRG6jgH+SYoaJU1QHY1wNqjiosjsLo9G1GG
- E/V4tH1CK4rsF+P0mYD2+PTy+BZoI2NSwRWkbiG/FX6vxhWHQDuu8dnG2L35zguryzYI
- liN6lmASm/LJeJysmOHLbKr63Eu2PWUtfRpydiBKZ3IGYG7kesnesB8xIDstEU7sk3+D
- JraA==
-X-Gm-Message-State: AOAM533Khsi+uD8102ujeYcJ+QS7A94AjTbUGPbKWrdMqnlObLCvVtSg
- faeSmE6bA0hPFprUOc1TeFeI5lVj9bmQUg==
-X-Google-Smtp-Source: ABdhPJy/ZHbjickWxV0ZjWk8/LaAeVGAL+gUnZxJri4DoUh5+KrQRjLN8JNUNNTx9FmHXr3obOl7Cw==
-X-Received: by 2002:a37:6d07:: with SMTP id i7mr12511382qkc.472.1624636742393; 
- Fri, 25 Jun 2021 08:59:02 -0700 (PDT)
-Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com.
- [209.85.219.182])
- by smtp.gmail.com with ESMTPSA id u184sm898865qkd.53.2021.06.25.08.59.01
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 25 Jun 2021 08:59:02 -0700 (PDT)
-Received: by mail-yb1-f182.google.com with SMTP id t8so5331628ybt.10
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Jun 2021 08:59:01 -0700 (PDT)
-X-Received: by 2002:a25:2405:: with SMTP id k5mr13449716ybk.405.1624636741419; 
- Fri, 25 Jun 2021 08:59:01 -0700 (PDT)
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F03EB6EE0D
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Jun 2021 16:02:13 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+ bits)) (No client certificate requested)
+ (Authenticated sender: bbrezillon)
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 85AFD1F4444D;
+ Fri, 25 Jun 2021 17:02:12 +0100 (BST)
+Date: Fri, 25 Jun 2021 18:02:07 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Steven Price <steven.price@arm.com>
+Subject: Re: [PATCH v3 10/15] drm/panfrost: Make sure job interrupts are
+ masked before resetting
+Message-ID: <20210625180207.329b1956@collabora.com>
+In-Reply-To: <49a60b4f-911e-2c03-29ce-4b1b9f605b3d@arm.com>
+References: <20210625133327.2598825-1-boris.brezillon@collabora.com>
+ <20210625133327.2598825-11-boris.brezillon@collabora.com>
+ <49a60b4f-911e-2c03-29ce-4b1b9f605b3d@arm.com>
+Organization: Collabora
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20210624223743.2486302-1-linus.walleij@linaro.org>
-In-Reply-To: <20210624223743.2486302-1-linus.walleij@linaro.org>
-From: Doug Anderson <dianders@chromium.org>
-Date: Fri, 25 Jun 2021 08:58:49 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=Un00zNuCQ=f5BV0dvi6gSMXgfC_e94OD5ZpS5ad3wJUg@mail.gmail.com>
-Message-ID: <CAD=FV=Un00zNuCQ=f5BV0dvi6gSMXgfC_e94OD5ZpS5ad3wJUg@mail.gmail.com>
-Subject: Re: [PATCH] drm/panel: Add DT bindings for Samsung LMS380KF01
-To: Linus Walleij <linus.walleij@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,58 +46,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>,
- =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Rob Herring <robh+dt@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>, phone-devel@vger.kernel.org,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>, dri-devel@lists.freedesktop.org,
+ Rob Herring <robh+dt@kernel.org>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Robin Murphy <robin.murphy@arm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Fri, 25 Jun 2021 16:55:12 +0100
+Steven Price <steven.price@arm.com> wrote:
 
-On Thu, Jun 24, 2021 at 3:40 PM Linus Walleij <linus.walleij@linaro.org> wrote:
->
-> +  spi-cpha:
-> +    $ref: /schemas/types.yaml#/definitions/flag
-> +    description: inherited as a SPI client node. Must be set.
-> +
-> +  spi-cpol:
-> +    $ref: /schemas/types.yaml#/definitions/flag
-> +    description: inherited as a SPI client node. Must be set.
+> On 25/06/2021 14:33, Boris Brezillon wrote:
+> > This is not yet needed because we let active jobs be killed during by
+> > the reset and we don't really bother making sure they can be restarted.
+> > But once we start adding soft-stop support, controlling when we deal
+> > with the remaining interrrupts and making sure those are handled before
+> > the reset is issued gets tricky if we keep job interrupts active.
+> > 
+> > Let's prepare for that and mask+flush job IRQs before issuing a reset.
+> > 
+> > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> > ---
+> >  drivers/gpu/drm/panfrost/panfrost_job.c | 21 +++++++++++++++------
+> >  1 file changed, 15 insertions(+), 6 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
+> > index 88d34fd781e8..0566e2f7e84a 100644
+> > --- a/drivers/gpu/drm/panfrost/panfrost_job.c
+> > +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
+> > @@ -34,6 +34,7 @@ struct panfrost_queue_state {
+> >  struct panfrost_job_slot {
+> >  	struct panfrost_queue_state queue[NUM_JOB_SLOTS];
+> >  	spinlock_t job_lock;
+> > +	int irq;
+> >  };
+> >  
+> >  static struct panfrost_job *
+> > @@ -400,7 +401,15 @@ static void panfrost_reset(struct panfrost_device *pfdev,
+> >  	if (bad)
+> >  		drm_sched_increase_karma(bad);
+> >  
+> > -	spin_lock(&pfdev->js->job_lock);  
+> 
+> I'm not sure it's safe to remove this lock as this protects the
+> pfdev->jobs array: I can't see what would prevent panfrost_job_close()
+> running at the same time without the lock. Am I missing something?
 
-I will defer to Rob Herring (added to CC) to confirm if we really need
-all that stuff for spi-cpha and spi-cpol. I would have expected just:
+Ah, you're right, I'll add it back.
 
-spi-cpha: true
-spi-cpol: true
+> 
+> > +	/* Mask job interrupts and synchronize to make sure we won't be
+> > +	 * interrupted during our reset.
+> > +	 */
+> > +	job_write(pfdev, JOB_INT_MASK, 0);
+> > +	synchronize_irq(pfdev->js->irq);
+> > +
+> > +	/* Schedulers are stopped and interrupts are masked+flushed, we don't
+> > +	 * need to protect the 'evict unfinished jobs' lock with the job_lock.
+> > +	 */
+> >  	for (i = 0; i < NUM_JOB_SLOTS; i++) {
+> >  		if (pfdev->jobs[i]) {
+> >  			pm_runtime_put_noidle(pfdev->dev);
+> > @@ -408,7 +417,6 @@ static void panfrost_reset(struct panfrost_device *pfdev,
+> >  			pfdev->jobs[i] = NULL;
+> >  		}
+> >  	}
+> > -	spin_unlock(&pfdev->js->job_lock);
+> >  
+> >  	panfrost_device_reset(pfdev);
+> >  
+> > @@ -504,6 +512,7 @@ static void panfrost_job_handle_irq(struct panfrost_device *pfdev, u32 status)
+> >  
+> >  			job = pfdev->jobs[j];
+> >  			/* Only NULL if job timeout occurred */
+> > +			WARN_ON(!job);  
+> 
+> Was this WARN_ON intentional?
 
-As I understand it, the fact that they are flags will already be
-validated as part of the "spi-controller.yaml" so you don't need to
-specify that. ...and the fact that you have them listed as "required"
-properties documents the fact that they must be set for your device,
-so I don't think you need more.
-
-NOTE: if you're testing this using your "example" below I think you
-will find that you could set this to something other than just a flag
-and it won't yell at you. However, that's because your example has a
-bogus SPI controller node in it. I think if you put a real SPI
-controller in the example then it'll pull in the "spi-controller.yaml"
-bindings and magically start validating everything.
-
-
-> +  spi-max-frequency:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-
-You don't need the "$ref" line here either, right? Again it'll be
-validated as part of the "spi-controller.yaml".
-
-
-> +required:
-> +  - compatible
-> +  - reg
-> +  - spi-cpha
-> +  - spi-cpol
-
-Does "port" need to be listed as required too?
+Yes, now that we mask and synchronize the irq in the reset I don't see
+any reason why we would end up with an event but no job to attach this
+even to, but maybe I missed something.
