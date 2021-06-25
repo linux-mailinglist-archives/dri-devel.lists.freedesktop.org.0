@@ -2,72 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1627B3B41A9
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Jun 2021 12:28:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BA423B41D3
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Jun 2021 12:38:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B0CA6E0F2;
-	Fri, 25 Jun 2021 10:28:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 827A06ED42;
+	Fri, 25 Jun 2021 10:38:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from youngberry.canonical.com (youngberry.canonical.com
- [91.189.89.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5CA8E6E0F2
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Jun 2021 10:28:00 +0000 (UTC)
-Received: from mail-ej1-f72.google.com ([209.85.218.72])
- by youngberry.canonical.com with esmtps (TLS1.2) tls
- TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.93)
- (envelope-from <krzysztof.kozlowski@canonical.com>)
- id 1lwj42-0003Nc-Ew
- for dri-devel@lists.freedesktop.org; Fri, 25 Jun 2021 10:27:58 +0000
-Received: by mail-ej1-f72.google.com with SMTP id
- l6-20020a1709062a86b029046ec0ceaf5cso2982053eje.8
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Jun 2021 03:27:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ooQ/bpan+0/tVSYEdf4mZkzEEyxm1PiIoniVSmhDjiE=;
- b=OyvjwICvF04LIty2VoBb8iu02eTSZaw4kD6oW4DRD6e3A6+HjEXf4cm6HogPfCb6as
- VoY43bTqQ4NAomr+GV8FXBeFwd2+YLECC+1FVRj2wOAn8L9eDICCkIoaP5hQ0x38MSkK
- 5oxEmeRXznNV+ZXv7yYe0pFXYnbJWUyPyB71bvSuVM+0rUM4kaMwweu1GImqfoYs8bnt
- cqQMWXvPb4lyZ3Rj7FdLuwvvRWQuXAH9NR5iAXicNw7/8pJWgobWzaeZvX/aT+G9h7Hb
- 12rjVRgwaHE9VQBIsOvDisWFfe6BPzXPX+3mwJkNNN6hlF+NvqrmvUxm34ZlhyGf2Ihy
- BS6w==
-X-Gm-Message-State: AOAM532q7BtYxX5mXE01eR8D52vcu3EK6zz31DvBEs1Zh1LdgT/qqAU9
- HYfZZym/5hzzOwzL9zp8N2NI8diebegjSQJ0u8WotyHrSxytUl/1D8u0kqwUkp6Gvfi7vGIK+9o
- /QJt6bCR3XxotmLM9lPUztTdeWu98OnWMmyTOTOCe37HjWg==
-X-Received: by 2002:aa7:dad2:: with SMTP id x18mr2475691eds.319.1624616878247; 
- Fri, 25 Jun 2021 03:27:58 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy3cVNg6WpHcCXQbDGMr5Bh35AfaEmUsyMepbsDA9xjQrFf3dK49GpbzPfo/R2byKacwC1C9g==
-X-Received: by 2002:aa7:dad2:: with SMTP id x18mr2475662eds.319.1624616878073; 
- Fri, 25 Jun 2021 03:27:58 -0700 (PDT)
-Received: from [192.168.1.115] (xdsl-188-155-177-222.adslplus.ch.
- [188.155.177.222])
- by smtp.gmail.com with ESMTPSA id p18sm2712783edu.8.2021.06.25.03.27.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 25 Jun 2021 03:27:57 -0700 (PDT)
-Subject: Re: [RFC PATCH 2/9] drm: bridge: Add Samsung SEC MIPI DSIM bridge
- driver
-To: Jagan Teki <jagan@amarulasolutions.com>
-References: <20210621072424.111733-1-jagan@amarulasolutions.com>
- <20210621072424.111733-3-jagan@amarulasolutions.com>
- <YNO0LHNVSWjrh1ZS@pendragon.ideasonboard.com>
- <CAOMZO5Ahbu4mohtMDOQOv_y5B_TDesbdYEUZTF1RL7_y-bS+RA@mail.gmail.com>
- <CAMty3ZAtObU-bf6FuxvSBaZn2cotj_NxASW9g9on-kBJ7iW3OA@mail.gmail.com>
- <YNR37NWkxq0mZyq5@pendragon.ideasonboard.com>
- <fdd446c6-c8ce-9dae-f7ac-e06241f76250@canonical.com>
- <CAMty3ZCEQeRi53yuLYyWVU8o=Lo2ZKy+kgjU+9PC33QJEq2LQg@mail.gmail.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-Message-ID: <ff421d53-7308-7959-ea4a-9cf94efe63b2@canonical.com>
-Date: Fri, 25 Jun 2021 12:27:56 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 262F06ED1B;
+ Fri, 25 Jun 2021 10:38:46 +0000 (UTC)
+IronPort-SDR: JubIoe0OJJPL26YqkbC2fqRyJ56RsZS/WIWlFKy4U5Rt7YjvDfIn1tpRnNykfnGsZW7UK4P0hz
+ E7wCVPVsvIwQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,10025"; a="207466383"
+X-IronPort-AV: E=Sophos;i="5.83,298,1616482800"; d="scan'208";a="207466383"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Jun 2021 03:38:45 -0700
+IronPort-SDR: bS+6Ps3K+pm70TrKxfES2Xhm2eXf0TTTRhTVn4XUHu7RTyBkLLiov7aSs4oS8eUII9gOgWif+/
+ I8/e6sDCfnoA==
+X-IronPort-AV: E=Sophos;i="5.83,298,1616482800"; d="scan'208";a="488139134"
+Received: from adalyx-mobl1.ger.corp.intel.com (HELO mwauld-desk1.intel.com)
+ ([10.252.15.48])
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Jun 2021 03:38:43 -0700
+From: Matthew Auld <matthew.auld@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH v3 1/2] drm/i915: support forcing the page size with lmem
+Date: Fri, 25 Jun 2021 11:38:23 +0100
+Message-Id: <20210625103824.558481-1-matthew.auld@intel.com>
+X-Mailer: git-send-email 2.26.3
 MIME-Version: 1.0
-In-Reply-To: <CAMty3ZCEQeRi53yuLYyWVU8o=Lo2ZKy+kgjU+9PC33QJEq2LQg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,84 +47,532 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Peng Fan <peng.fan@nxp.com>,
- Francis Laniel <francis.laniel@amarulasolutions.com>,
- Matteo Lisi <matteo.lisi@engicam.com>,
- Neil Armstrong <narmstrong@baylibre.com>,
- linux-amarula <linux-amarula@amarulasolutions.com>,
- DRI mailing list <dri-devel@lists.freedesktop.org>,
- Michael Tretter <m.tretter@pengutronix.de>,
- Robert Foss <robert.foss@linaro.org>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- Andrzej Hajda <a.hajda@samsung.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Milco Pratesi <milco.pratesi@engicam.com>,
- Anthony Brandon <anthony@amarulasolutions.com>, linux-phy@lists.infradead.org,
- Shawn Guo <shawnguo@kernel.org>, Fancy Fang <chen.fang@nxp.com>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
- <linux-arm-kernel@lists.infradead.org>, NXP Linux Team <linux-imx@nxp.com>
+Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 25/06/2021 12:08, Jagan Teki wrote:
-> Hi Krzysztof,
-> 
-> On Fri, Jun 25, 2021 at 2:51 PM Krzysztof Kozlowski
-> <krzysztof.kozlowski@canonical.com> wrote:
->>
->> On Thu, 24 Jun 2021 at 14:19, Laurent Pinchart
->> <laurent.pinchart@ideasonboard.com> wrote:
->>>
->>> Hi Jagan,
->>>
->>> On Thu, Jun 24, 2021 at 05:42:43PM +0530, Jagan Teki wrote:
->>>> On Thu, Jun 24, 2021 at 8:18 AM Fabio Estevam wrote:
->>>>> On Wed, Jun 23, 2021 at 7:23 PM Laurent Pinchart wrote:
->>>>>
->>>>>> Looking at the register set, it seems to match the Exynos 5433,
->>>>>> supported by drivers/gpu/drm/exynos/exynos_drm_dsi.c. Can we leverage
->>>>>> that driver instead of adding a new one for the same IP core ?
->>>>>
->>>>> Yes. there was an attempt from Michael in this direction:
->>>>> https://patchwork.kernel.org/project/dri-devel/cover/20200911135413.3654800-1-m.tretter@pengutronix.de/
->>>>
->>>> Thanks for the reference, I will check it out and see I can send any
->>>> updated versions wrt my i.MX8MM platform.
->>>
->>> Thanks.
->>>
->>> I had a brief look at the exynos driver, and I think it should be turned
->>> into a DRM bridge as part of this rework to be used with the i.MX8MM.
->>>
->>> Is there someone from Samsung who could assist, at least to test the
->>> changes ?
->>
->> Yes, I mentioned few guys in reply to PHY. Around the DRM drivers you
->> can get in touch with:
->> Inki Dae <inki.dae@samsung.com>
->> Seung-Woo Kim <sw0312.kim@samsung.com>
->> Marek Szyprowski <m.szyprowski@samsung.com>
->> Andrzej Hajda <a.hajda@samsung.com>
-> 
-> Thanks for the information.
-> 
->>
->> The easiest testing of the display stack would be on Hardkernel's Odroid
->> XU4 (https://www.hardkernel.com/shop/odroid-xu4-special-price/) however
->> you will not test the DSI/DSIM directly (it has only HDMI port).
-> 
-> Look like I found one board with Exynos5430 with DSI. Does this SoC is
-> same as mainline Exynos5433?
+For some specialised objects we might need something larger than the
+regions min_page_size due to some hw restriction, and slightly more
+hairy is needing something smaller with the guarantee that such objects
+will never be inserted into any GTT, which is the case for the paging
+structures.
 
-No, Exynos5430 is ARMv7. Looks like improvement over Exynos5422.
-Exynos5422 has a very good support in mainline while Exynso5430 was
-never touched at all.
+This also fixes how we setup the BO page_alignment, if we later migrate
+the object somewhere else. For example if the placements are {SMEM,
+LMEM}, then we might get this wrong. Pushing the min_page_size behaviour
+into the manager should fix this.
 
-Exynos5433 is ARMv8, although many things are shared with 5422. About
-DSI I have no clue.
+v2(Thomas): push the default page size behaviour into buddy_man, and let
+the user override it with the page-alignment, which looks cleaner
 
+v3: rebase on ttm sys changes
 
-Best regards,
-Krzysztof
+Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+---
+ drivers/gpu/drm/i915/gem/i915_gem_create.c    |  2 +-
+ drivers/gpu/drm/i915/gem/i915_gem_lmem.c      | 33 +++++++++-
+ drivers/gpu/drm/i915/gem/i915_gem_lmem.h      |  5 ++
+ drivers/gpu/drm/i915/gem/i915_gem_region.c    | 13 +++-
+ drivers/gpu/drm/i915/gem/i915_gem_region.h    |  1 +
+ drivers/gpu/drm/i915/gem/i915_gem_shmem.c     |  3 +-
+ drivers/gpu/drm/i915/gem/i915_gem_stolen.c    |  3 +-
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.c       |  6 +-
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.h       |  1 +
+ .../gpu/drm/i915/gem/selftests/huge_pages.c   |  3 +-
+ .../drm/i915/gem/selftests/i915_gem_mman.c    |  8 +--
+ drivers/gpu/drm/i915/i915_ttm_buddy_manager.c | 14 ++++-
+ drivers/gpu/drm/i915/i915_ttm_buddy_manager.h |  2 +-
+ drivers/gpu/drm/i915/intel_memory_region.h    |  1 +
+ drivers/gpu/drm/i915/intel_region_ttm.c       |  4 +-
+ .../drm/i915/selftests/intel_memory_region.c  | 63 ++++++++++++++++++-
+ drivers/gpu/drm/i915/selftests/mock_region.c  |  1 +
+ 17 files changed, 143 insertions(+), 20 deletions(-)
+
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_create.c b/drivers/gpu/drm/i915/gem/i915_gem_create.c
+index 93bf63bbaff1..51f92e4b1a69 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_create.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_create.c
+@@ -90,7 +90,7 @@ i915_gem_setup(struct drm_i915_gem_object *obj, u64 size)
+ 	 */
+ 	flags = I915_BO_ALLOC_USER;
+ 
+-	ret = mr->ops->init_object(mr, obj, size, flags);
++	ret = mr->ops->init_object(mr, obj, size, 0, flags);
+ 	if (ret)
+ 		return ret;
+ 
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_lmem.c b/drivers/gpu/drm/i915/gem/i915_gem_lmem.c
+index 41d5182cd367..a795dd38aca7 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_lmem.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_lmem.c
+@@ -93,11 +93,42 @@ bool __i915_gem_object_is_lmem(struct drm_i915_gem_object *obj)
+ 		      mr->type == INTEL_MEMORY_STOLEN_LOCAL);
+ }
+ 
++/**
++ * __i915_gem_object_create_lmem_with_ps - Create lmem object and force the
++ * minimum page size for the backing pages.
++ * @i915: The i915 instance.
++ * @size: The size in bytes for the object. Note that we need to round the size
++ * up depending on the @page_size. The final object size can be fished out from
++ * the drm GEM object.
++ * @page_size: The requested minimum page size in bytes for this object. This is
++ * useful if we need something bigger than the regions min_page_size due to some
++ * hw restriction, or in some very specialised cases where it needs to be
++ * smaller, where the internal fragmentation cost is too great when rounding up
++ * the object size.
++ * @flags: The optional BO allocation flags.
++ *
++ * Note that this interface assumes you know what you are doing when forcing the
++ * @page_size. If this is smaller than the regions min_page_size then it can
++ * never be inserted into any GTT, otherwise it might lead to undefined
++ * behaviour.
++ *
++ * Return: The object pointer, which might be an ERR_PTR in the case of failure.
++ */
++struct drm_i915_gem_object *
++__i915_gem_object_create_lmem_with_ps(struct drm_i915_private *i915,
++				      resource_size_t size,
++				      resource_size_t page_size,
++				      unsigned int flags)
++{
++	return i915_gem_object_create_region(i915->mm.regions[INTEL_REGION_LMEM],
++					     size, page_size, flags);
++}
++
+ struct drm_i915_gem_object *
+ i915_gem_object_create_lmem(struct drm_i915_private *i915,
+ 			    resource_size_t size,
+ 			    unsigned int flags)
+ {
+ 	return i915_gem_object_create_region(i915->mm.regions[INTEL_REGION_LMEM],
+-					     size, flags);
++					     size, 0, flags);
+ }
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_lmem.h b/drivers/gpu/drm/i915/gem/i915_gem_lmem.h
+index 27a611deba47..4ee81fc66302 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_lmem.h
++++ b/drivers/gpu/drm/i915/gem/i915_gem_lmem.h
+@@ -23,6 +23,11 @@ bool i915_gem_object_is_lmem(struct drm_i915_gem_object *obj);
+ 
+ bool __i915_gem_object_is_lmem(struct drm_i915_gem_object *obj);
+ 
++struct drm_i915_gem_object *
++__i915_gem_object_create_lmem_with_ps(struct drm_i915_private *i915,
++				      resource_size_t size,
++				      resource_size_t page_size,
++				      unsigned int flags);
+ struct drm_i915_gem_object *
+ i915_gem_object_create_lmem(struct drm_i915_private *i915,
+ 			    resource_size_t size,
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_region.c b/drivers/gpu/drm/i915/gem/i915_gem_region.c
+index 4925563018b4..1f557b2178ed 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_region.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_region.c
+@@ -32,9 +32,11 @@ void i915_gem_object_release_memory_region(struct drm_i915_gem_object *obj)
+ struct drm_i915_gem_object *
+ i915_gem_object_create_region(struct intel_memory_region *mem,
+ 			      resource_size_t size,
++			      resource_size_t page_size,
+ 			      unsigned int flags)
+ {
+ 	struct drm_i915_gem_object *obj;
++	resource_size_t default_page_size;
+ 	int err;
+ 
+ 	/*
+@@ -48,7 +50,14 @@ i915_gem_object_create_region(struct intel_memory_region *mem,
+ 	if (!mem)
+ 		return ERR_PTR(-ENODEV);
+ 
+-	size = round_up(size, mem->min_page_size);
++	default_page_size = mem->min_page_size;
++	if (page_size)
++		default_page_size = page_size;
++
++	GEM_BUG_ON(!is_power_of_2_u64(default_page_size));
++	GEM_BUG_ON(default_page_size < PAGE_SIZE);
++
++	size = round_up(size, default_page_size);
+ 
+ 	GEM_BUG_ON(!size);
+ 	GEM_BUG_ON(!IS_ALIGNED(size, I915_GTT_MIN_ALIGNMENT));
+@@ -60,7 +69,7 @@ i915_gem_object_create_region(struct intel_memory_region *mem,
+ 	if (!obj)
+ 		return ERR_PTR(-ENOMEM);
+ 
+-	err = mem->ops->init_object(mem, obj, size, flags);
++	err = mem->ops->init_object(mem, obj, size, page_size, flags);
+ 	if (err)
+ 		goto err_object_free;
+ 
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_region.h b/drivers/gpu/drm/i915/gem/i915_gem_region.h
+index 84fcb3297400..1008e580a89a 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_region.h
++++ b/drivers/gpu/drm/i915/gem/i915_gem_region.h
+@@ -19,6 +19,7 @@ void i915_gem_object_release_memory_region(struct drm_i915_gem_object *obj);
+ struct drm_i915_gem_object *
+ i915_gem_object_create_region(struct intel_memory_region *mem,
+ 			      resource_size_t size,
++			      resource_size_t page_size,
+ 			      unsigned int flags);
+ 
+ #endif
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
+index e9ac913b923a..6a04cce188fc 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
+@@ -490,6 +490,7 @@ static int __create_shmem(struct drm_i915_private *i915,
+ static int shmem_object_init(struct intel_memory_region *mem,
+ 			     struct drm_i915_gem_object *obj,
+ 			     resource_size_t size,
++			     resource_size_t page_size,
+ 			     unsigned int flags)
+ {
+ 	static struct lock_class_key lock_class;
+@@ -548,7 +549,7 @@ i915_gem_object_create_shmem(struct drm_i915_private *i915,
+ 			     resource_size_t size)
+ {
+ 	return i915_gem_object_create_region(i915->mm.regions[INTEL_REGION_SMEM],
+-					     size, 0);
++					     size, 0, 0);
+ }
+ 
+ /* Allocate a new GEM object and fill it with the supplied data */
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c b/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
+index b0c3a7dc60d1..90708de27684 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
+@@ -670,6 +670,7 @@ static int __i915_gem_object_create_stolen(struct intel_memory_region *mem,
+ static int _i915_gem_object_stolen_init(struct intel_memory_region *mem,
+ 					struct drm_i915_gem_object *obj,
+ 					resource_size_t size,
++					resource_size_t page_size,
+ 					unsigned int flags)
+ {
+ 	struct drm_i915_private *i915 = mem->i915;
+@@ -708,7 +709,7 @@ struct drm_i915_gem_object *
+ i915_gem_object_create_stolen(struct drm_i915_private *i915,
+ 			      resource_size_t size)
+ {
+-	return i915_gem_object_create_region(i915->mm.stolen_region, size, 0);
++	return i915_gem_object_create_region(i915->mm.stolen_region, size, 0, 0);
+ }
+ 
+ static int init_stolen_smem(struct intel_memory_region *mem)
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+index c39d982c4fa6..15d1379dc7b8 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+@@ -840,6 +840,7 @@ void i915_ttm_bo_destroy(struct ttm_buffer_object *bo)
+ int __i915_gem_ttm_object_init(struct intel_memory_region *mem,
+ 			       struct drm_i915_gem_object *obj,
+ 			       resource_size_t size,
++			       resource_size_t page_size,
+ 			       unsigned int flags)
+ {
+ 	static struct lock_class_key lock_class;
+@@ -862,6 +863,9 @@ int __i915_gem_ttm_object_init(struct intel_memory_region *mem,
+ 
+ 	obj->base.vma_node.driver_private = i915_gem_to_ttm(obj);
+ 
++	/* Forcing the page size is kernel internal only */
++	GEM_BUG_ON(page_size && obj->mm.n_placements);
++
+ 	/*
+ 	 * If this function fails, it will call the destructor, but
+ 	 * our caller still owns the object. So no freeing in the
+@@ -871,7 +875,7 @@ int __i915_gem_ttm_object_init(struct intel_memory_region *mem,
+ 	 */
+ 	ret = ttm_bo_init_reserved(&i915->bdev, i915_gem_to_ttm(obj), size,
+ 				   bo_type, &i915_sys_placement,
+-				   mem->min_page_size >> PAGE_SHIFT,
++				   page_size >> PAGE_SHIFT,
+ 				   &ctx, NULL, NULL, i915_ttm_bo_destroy);
+ 	if (ret)
+ 		return i915_ttm_err_to_gem(ret);
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.h b/drivers/gpu/drm/i915/gem/i915_gem_ttm.h
+index b8d3dcbb50df..40927f67b6d9 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.h
++++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.h
+@@ -44,5 +44,6 @@ i915_ttm_to_gem(struct ttm_buffer_object *bo)
+ int __i915_gem_ttm_object_init(struct intel_memory_region *mem,
+ 			       struct drm_i915_gem_object *obj,
+ 			       resource_size_t size,
++			       resource_size_t page_size,
+ 			       unsigned int flags);
+ #endif
+diff --git a/drivers/gpu/drm/i915/gem/selftests/huge_pages.c b/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
+index ccc67ed1a84b..a094f3ce1a90 100644
+--- a/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
++++ b/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
+@@ -496,7 +496,8 @@ static int igt_mock_memory_region_huge_pages(void *arg)
+ 		int i;
+ 
+ 		for (i = 0; i < ARRAY_SIZE(flags); ++i) {
+-			obj = i915_gem_object_create_region(mem, page_size,
++			obj = i915_gem_object_create_region(mem,
++							    page_size, page_size,
+ 							    flags[i]);
+ 			if (IS_ERR(obj)) {
+ 				err = PTR_ERR(obj);
+diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
+index 607b7d2d4c29..1da8bd675e54 100644
+--- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
++++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
+@@ -958,7 +958,7 @@ static int igt_mmap(void *arg)
+ 			struct drm_i915_gem_object *obj;
+ 			int err;
+ 
+-			obj = i915_gem_object_create_region(mr, sizes[i], I915_BO_ALLOC_USER);
++			obj = i915_gem_object_create_region(mr, sizes[i], 0, I915_BO_ALLOC_USER);
+ 			if (obj == ERR_PTR(-ENODEV))
+ 				continue;
+ 
+@@ -1084,7 +1084,7 @@ static int igt_mmap_access(void *arg)
+ 		struct drm_i915_gem_object *obj;
+ 		int err;
+ 
+-		obj = i915_gem_object_create_region(mr, PAGE_SIZE, I915_BO_ALLOC_USER);
++		obj = i915_gem_object_create_region(mr, PAGE_SIZE, 0, I915_BO_ALLOC_USER);
+ 		if (obj == ERR_PTR(-ENODEV))
+ 			continue;
+ 
+@@ -1229,7 +1229,7 @@ static int igt_mmap_gpu(void *arg)
+ 		struct drm_i915_gem_object *obj;
+ 		int err;
+ 
+-		obj = i915_gem_object_create_region(mr, PAGE_SIZE, I915_BO_ALLOC_USER);
++		obj = i915_gem_object_create_region(mr, PAGE_SIZE, 0, I915_BO_ALLOC_USER);
+ 		if (obj == ERR_PTR(-ENODEV))
+ 			continue;
+ 
+@@ -1384,7 +1384,7 @@ static int igt_mmap_revoke(void *arg)
+ 		struct drm_i915_gem_object *obj;
+ 		int err;
+ 
+-		obj = i915_gem_object_create_region(mr, PAGE_SIZE, I915_BO_ALLOC_USER);
++		obj = i915_gem_object_create_region(mr, PAGE_SIZE, 0, I915_BO_ALLOC_USER);
+ 		if (obj == ERR_PTR(-ENODEV))
+ 			continue;
+ 
+diff --git a/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c b/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c
+index fc7ad5c035b8..2c143034cbd9 100644
+--- a/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c
++++ b/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c
+@@ -18,6 +18,7 @@ struct i915_ttm_buddy_manager {
+ 	struct i915_buddy_mm mm;
+ 	struct list_head reserved;
+ 	struct mutex lock;
++	u64 default_page_size;
+ };
+ 
+ static struct i915_ttm_buddy_manager *
+@@ -53,7 +54,10 @@ static int i915_ttm_buddy_man_alloc(struct ttm_resource_manager *man,
+ 	GEM_BUG_ON(!bman_res->base.num_pages);
+ 	size = bman_res->base.num_pages << PAGE_SHIFT;
+ 
+-	min_page_size = bo->page_alignment << PAGE_SHIFT;
++	min_page_size = bman->default_page_size;
++	if (bo->page_alignment)
++		min_page_size = bo->page_alignment << PAGE_SHIFT;
++
+ 	GEM_BUG_ON(min_page_size < mm->chunk_size);
+ 	min_order = ilog2(min_page_size) - ilog2(mm->chunk_size);
+ 	if (place->flags & TTM_PL_FLAG_CONTIGUOUS) {
+@@ -134,6 +138,9 @@ static const struct ttm_resource_manager_func i915_ttm_buddy_manager_func = {
+  * @type: Memory type we want to manage
+  * @use_tt: Set use_tt for the manager
+  * @size: The size in bytes to manage
++ * @default_page_size: The default minimum page size in bytes for allocations,
++ * this must be at least as large as @chunk_size, and can be overriden by
++ * setting the BO page_alignment, to be larger or smaller as needed.
+  * @chunk_size: The minimum page size in bytes for our allocations i.e
+  * order-zero
+  *
+@@ -154,7 +161,8 @@ static const struct ttm_resource_manager_func i915_ttm_buddy_manager_func = {
+  */
+ int i915_ttm_buddy_man_init(struct ttm_device *bdev,
+ 			    unsigned int type, bool use_tt,
+-			    u64 size, u64 chunk_size)
++			    u64 size, u64 default_page_size,
++			    u64 chunk_size)
+ {
+ 	struct ttm_resource_manager *man;
+ 	struct i915_ttm_buddy_manager *bman;
+@@ -170,6 +178,8 @@ int i915_ttm_buddy_man_init(struct ttm_device *bdev,
+ 
+ 	mutex_init(&bman->lock);
+ 	INIT_LIST_HEAD(&bman->reserved);
++	GEM_BUG_ON(default_page_size < chunk_size);
++	bman->default_page_size = default_page_size;
+ 
+ 	man = &bman->manager;
+ 	man->use_tt = use_tt;
+diff --git a/drivers/gpu/drm/i915/i915_ttm_buddy_manager.h b/drivers/gpu/drm/i915/i915_ttm_buddy_manager.h
+index 26026213e20a..0722d33f3e14 100644
+--- a/drivers/gpu/drm/i915/i915_ttm_buddy_manager.h
++++ b/drivers/gpu/drm/i915/i915_ttm_buddy_manager.h
+@@ -46,7 +46,7 @@ to_ttm_buddy_resource(struct ttm_resource *res)
+ 
+ int i915_ttm_buddy_man_init(struct ttm_device *bdev,
+ 			    unsigned type, bool use_tt,
+-			    u64 size, u64 chunk_size);
++			    u64 size, u64 default_page_size, u64 chunk_size);
+ int i915_ttm_buddy_man_fini(struct ttm_device *bdev,
+ 			    unsigned int type);
+ 
+diff --git a/drivers/gpu/drm/i915/intel_memory_region.h b/drivers/gpu/drm/i915/intel_memory_region.h
+index b1b9e461d53b..1f2b96efa69d 100644
+--- a/drivers/gpu/drm/i915/intel_memory_region.h
++++ b/drivers/gpu/drm/i915/intel_memory_region.h
+@@ -55,6 +55,7 @@ struct intel_memory_region_ops {
+ 	int (*init_object)(struct intel_memory_region *mem,
+ 			   struct drm_i915_gem_object *obj,
+ 			   resource_size_t size,
++			   resource_size_t page_size,
+ 			   unsigned int flags);
+ };
+ 
+diff --git a/drivers/gpu/drm/i915/intel_region_ttm.c b/drivers/gpu/drm/i915/intel_region_ttm.c
+index 4cd10f364e84..98c7339bf8ba 100644
+--- a/drivers/gpu/drm/i915/intel_region_ttm.c
++++ b/drivers/gpu/drm/i915/intel_region_ttm.c
+@@ -86,7 +86,8 @@ int intel_region_ttm_init(struct intel_memory_region *mem)
+ 	int ret;
+ 
+ 	ret = i915_ttm_buddy_man_init(bdev, mem_type, false,
+-				      resource_size(&mem->region), PAGE_SIZE);
++				      resource_size(&mem->region),
++				      mem->min_page_size, PAGE_SIZE);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -167,7 +168,6 @@ intel_region_ttm_resource_alloc(struct intel_memory_region *mem,
+ 	int ret;
+ 
+ 	mock_bo.base.size = size;
+-	mock_bo.page_alignment = mem->min_page_size >> PAGE_SHIFT;
+ 	place.flags = flags;
+ 
+ 	ret = man->func->alloc(man, &mock_bo, &place, &res);
+diff --git a/drivers/gpu/drm/i915/selftests/intel_memory_region.c b/drivers/gpu/drm/i915/selftests/intel_memory_region.c
+index ecc3b9e6c22b..1aaccb9841a0 100644
+--- a/drivers/gpu/drm/i915/selftests/intel_memory_region.c
++++ b/drivers/gpu/drm/i915/selftests/intel_memory_region.c
+@@ -68,7 +68,7 @@ static int igt_mock_fill(void *arg)
+ 		resource_size_t size = page_num * page_size;
+ 		struct drm_i915_gem_object *obj;
+ 
+-		obj = i915_gem_object_create_region(mem, size, 0);
++		obj = i915_gem_object_create_region(mem, size, 0, 0);
+ 		if (IS_ERR(obj)) {
+ 			err = PTR_ERR(obj);
+ 			break;
+@@ -110,7 +110,7 @@ igt_object_create(struct intel_memory_region *mem,
+ 	struct drm_i915_gem_object *obj;
+ 	int err;
+ 
+-	obj = i915_gem_object_create_region(mem, size, flags);
++	obj = i915_gem_object_create_region(mem, size, 0, flags);
+ 	if (IS_ERR(obj))
+ 		return obj;
+ 
+@@ -647,6 +647,62 @@ static int igt_lmem_create(void *arg)
+ 	return err;
+ }
+ 
++static int igt_lmem_create_with_ps(void *arg)
++{
++	struct drm_i915_private *i915 = arg;
++	int err = 0;
++	u32 ps;
++
++	for (ps = PAGE_SIZE; ps <= SZ_1G; ps <<= 1) {
++		struct drm_i915_gem_object *obj;
++		dma_addr_t daddr;
++
++		obj = __i915_gem_object_create_lmem_with_ps(i915, ps, ps, 0);
++		if (IS_ERR(obj)) {
++			err = PTR_ERR(obj);
++			if (err == -ENXIO || err == -E2BIG) {
++				pr_info("%s not enough lmem for ps(%u) err=%d\n",
++					__func__, ps, err);
++				err = 0;
++			}
++
++			break;
++		}
++
++		if (obj->base.size != ps) {
++			pr_err("%s size(%zu) != ps(%u)\n",
++			       __func__, obj->base.size, ps);
++			err = -EINVAL;
++			goto out_put;
++		}
++
++		i915_gem_object_lock(obj, NULL);
++		err = i915_gem_object_pin_pages(obj);
++		if (err)
++			goto out_put;
++
++		daddr = i915_gem_object_get_dma_address(obj, 0);
++		if (!IS_ALIGNED(daddr, ps)) {
++			pr_err("%s daddr(%pa) not aligned with ps(%u)\n",
++			       __func__, &daddr, ps);
++			err = -EINVAL;
++			goto out_unpin;
++		}
++
++out_unpin:
++		i915_gem_object_unpin_pages(obj);
++		__i915_gem_object_put_pages(obj);
++out_put:
++		i915_gem_object_unlock(obj);
++		i915_gem_object_put(obj);
++
++		if (err)
++			break;
++	}
++
++	return err;
++}
++
+ static int igt_lmem_create_cleared_cpu(void *arg)
+ {
+ 	struct drm_i915_private *i915 = arg;
+@@ -932,7 +988,7 @@ create_region_for_mapping(struct intel_memory_region *mr, u64 size, u32 type,
+ 	struct drm_i915_gem_object *obj;
+ 	void *addr;
+ 
+-	obj = i915_gem_object_create_region(mr, size, 0);
++	obj = i915_gem_object_create_region(mr, size, 0, 0);
+ 	if (IS_ERR(obj)) {
+ 		if (PTR_ERR(obj) == -ENOSPC) /* Stolen memory */
+ 			return ERR_PTR(-ENODEV);
+@@ -1149,6 +1205,7 @@ int intel_memory_region_live_selftests(struct drm_i915_private *i915)
+ {
+ 	static const struct i915_subtest tests[] = {
+ 		SUBTEST(igt_lmem_create),
++		SUBTEST(igt_lmem_create_with_ps),
+ 		SUBTEST(igt_lmem_create_cleared_cpu),
+ 		SUBTEST(igt_lmem_write_cpu),
+ 		SUBTEST(igt_lmem_write_gpu),
+diff --git a/drivers/gpu/drm/i915/selftests/mock_region.c b/drivers/gpu/drm/i915/selftests/mock_region.c
+index fa786dede608..efa86dffe3c6 100644
+--- a/drivers/gpu/drm/i915/selftests/mock_region.c
++++ b/drivers/gpu/drm/i915/selftests/mock_region.c
+@@ -63,6 +63,7 @@ static const struct drm_i915_gem_object_ops mock_region_obj_ops = {
+ static int mock_object_init(struct intel_memory_region *mem,
+ 			    struct drm_i915_gem_object *obj,
+ 			    resource_size_t size,
++			    resource_size_t page_size,
+ 			    unsigned int flags)
+ {
+ 	static struct lock_class_key lock_class;
+-- 
+2.26.3
+
