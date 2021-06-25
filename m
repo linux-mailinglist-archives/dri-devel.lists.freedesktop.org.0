@@ -2,27 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 480183B4494
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Jun 2021 15:34:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F87E3B4491
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Jun 2021 15:34:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C6666EDD2;
-	Fri, 25 Jun 2021 13:34:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 732C36EDD9;
+	Fri, 25 Jun 2021 13:34:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8CB346EDC1
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Jun 2021 13:33:45 +0000 (UTC)
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA9626EDC1
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Jun 2021 13:33:44 +0000 (UTC)
 Received: from localhost.localdomain (unknown
  [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 173801F40CA2;
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 757451F40F3F;
  Fri, 25 Jun 2021 14:33:37 +0100 (BST)
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 05/15] drm/panfrost: Expose exception types to userspace
-Date: Fri, 25 Jun 2021 15:33:17 +0200
-Message-Id: <20210625133327.2598825-6-boris.brezillon@collabora.com>
+Subject: [PATCH v3 06/15] drm/panfrost: Do the exception -> string translation
+ using a table
+Date: Fri, 25 Jun 2021 15:33:18 +0200
+Message-Id: <20210625133327.2598825-7-boris.brezillon@collabora.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210625133327.2598825-1-boris.brezillon@collabora.com>
 References: <20210625133327.2598825-1-boris.brezillon@collabora.com>
@@ -48,100 +50,161 @@ Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Job headers contain an exception type field which might be read and
-converted to a human readable string by tracing tools. Let's expose
-the exception type as an enum so we share the same definition.
+Do the exception -> string translation using a table. This way we get
+rid of those magic numbers and can easily add new fields if we need
+to attach extra information to exception types.
 
 v3:
-* Add missing values
+* Drop the error field
 
 Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 ---
- include/uapi/drm/panfrost_drm.h | 71 +++++++++++++++++++++++++++++++++
- 1 file changed, 71 insertions(+)
+ drivers/gpu/drm/panfrost/panfrost_device.c | 130 +++++++++++++--------
+ 1 file changed, 83 insertions(+), 47 deletions(-)
 
-diff --git a/include/uapi/drm/panfrost_drm.h b/include/uapi/drm/panfrost_drm.h
-index ec19db1eead8..899cd6d952d4 100644
---- a/include/uapi/drm/panfrost_drm.h
-+++ b/include/uapi/drm/panfrost_drm.h
-@@ -223,6 +223,77 @@ struct drm_panfrost_madvise {
- 	__u32 retained;       /* out, whether backing store still exists */
- };
+diff --git a/drivers/gpu/drm/panfrost/panfrost_device.c b/drivers/gpu/drm/panfrost/panfrost_device.c
+index bce6b0aff05e..736854542b05 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_device.c
++++ b/drivers/gpu/drm/panfrost/panfrost_device.c
+@@ -292,55 +292,91 @@ void panfrost_device_fini(struct panfrost_device *pfdev)
+ 	panfrost_clk_fini(pfdev);
+ }
  
-+/* The exception types */
-+
-+enum drm_panfrost_exception_type {
-+	DRM_PANFROST_EXCEPTION_OK = 0x00,
-+	DRM_PANFROST_EXCEPTION_DONE = 0x01,
-+	DRM_PANFROST_EXCEPTION_INTERRUPTED = 0x02,
-+	DRM_PANFROST_EXCEPTION_STOPPED = 0x03,
-+	DRM_PANFROST_EXCEPTION_TERMINATED = 0x04,
-+	DRM_PANFROST_EXCEPTION_KABOOM = 0x05,
-+	DRM_PANFROST_EXCEPTION_EUREKA = 0x06,
-+	DRM_PANFROST_EXCEPTION_ACTIVE = 0x08,
-+	DRM_PANFROST_EXCEPTION_JOB_CONFIG_FAULT = 0x40,
-+	DRM_PANFROST_EXCEPTION_JOB_POWER_FAULT = 0x41,
-+	DRM_PANFROST_EXCEPTION_JOB_READ_FAULT = 0x42,
-+	DRM_PANFROST_EXCEPTION_JOB_WRITE_FAULT = 0x43,
-+	DRM_PANFROST_EXCEPTION_JOB_AFFINITY_FAULT = 0x44,
-+	DRM_PANFROST_EXCEPTION_JOB_BUS_FAULT = 0x48,
-+	DRM_PANFROST_EXCEPTION_INSTR_INVALID_PC = 0x50,
-+	DRM_PANFROST_EXCEPTION_INSTR_INVALID_ENC = 0x51,
-+	DRM_PANFROST_EXCEPTION_INSTR_TYPE_MISMATCH = 0x52,
-+	DRM_PANFROST_EXCEPTION_INSTR_OPERAND_FAULT = 0x53,
-+	DRM_PANFROST_EXCEPTION_INSTR_TLS_FAULT = 0x54,
-+	DRM_PANFROST_EXCEPTION_INSTR_BARRIER_FAULT = 0x55,
-+	DRM_PANFROST_EXCEPTION_INSTR_ALIGN_FAULT = 0x56,
-+	DRM_PANFROST_EXCEPTION_DATA_INVALID_FAULT = 0x58,
-+	DRM_PANFROST_EXCEPTION_TILE_RANGE_FAULT = 0x59,
-+	DRM_PANFROST_EXCEPTION_ADDR_RANGE_FAULT = 0x5a,
-+	DRM_PANFROST_EXCEPTION_IMPRECISE_FAULT = 0x5b,
-+	DRM_PANFROST_EXCEPTION_OOM = 0x60,
-+	DRM_PANFROST_EXCEPTION_OOM_AFBC = 0x61,
-+	DRM_PANFROST_EXCEPTION_UNKNOWN = 0x7f,
-+	DRM_PANFROST_EXCEPTION_DELAYED_BUS_FAULT = 0x80,
-+	DRM_PANFROST_EXCEPTION_GPU_SHAREABILITY_FAULT = 0x88,
-+	DRM_PANFROST_EXCEPTION_SYS_SHAREABILITY_FAULT = 0x89,
-+	DRM_PANFROST_EXCEPTION_GPU_CACHEABILITY_FAULT = 0x8a,
-+	DRM_PANFROST_EXCEPTION_TRANSLATION_FAULT_0 = 0xc0,
-+	DRM_PANFROST_EXCEPTION_TRANSLATION_FAULT_1 = 0xc1,
-+	DRM_PANFROST_EXCEPTION_TRANSLATION_FAULT_2 = 0xc2,
-+	DRM_PANFROST_EXCEPTION_TRANSLATION_FAULT_3 = 0xc3,
-+	DRM_PANFROST_EXCEPTION_TRANSLATION_FAULT_4 = 0xc4,
-+	DRM_PANFROST_EXCEPTION_TRANSLATION_FAULT_IDENTITY = 0xc7,
-+	DRM_PANFROST_EXCEPTION_PERM_FAULT_0 = 0xc8,
-+	DRM_PANFROST_EXCEPTION_PERM_FAULT_1 = 0xc9,
-+	DRM_PANFROST_EXCEPTION_PERM_FAULT_2 = 0xca,
-+	DRM_PANFROST_EXCEPTION_PERM_FAULT_3 = 0xcb,
-+	DRM_PANFROST_EXCEPTION_TRANSTAB_BUS_FAULT_0 = 0xd0,
-+	DRM_PANFROST_EXCEPTION_TRANSTAB_BUS_FAULT_1 = 0xd1,
-+	DRM_PANFROST_EXCEPTION_TRANSTAB_BUS_FAULT_2 = 0xd2,
-+	DRM_PANFROST_EXCEPTION_TRANSTAB_BUS_FAULT_3 = 0xd3,
-+	DRM_PANFROST_EXCEPTION_ACCESS_FLAG_0 = 0xd8,
-+	DRM_PANFROST_EXCEPTION_ACCESS_FLAG_1 = 0xd9,
-+	DRM_PANFROST_EXCEPTION_ACCESS_FLAG_2 = 0xda,
-+	DRM_PANFROST_EXCEPTION_ACCESS_FLAG_3 = 0xdb,
-+	DRM_PANFROST_EXCEPTION_ADDR_SIZE_FAULT_IN0 = 0xe0,
-+	DRM_PANFROST_EXCEPTION_ADDR_SIZE_FAULT_IN1 = 0xe1,
-+	DRM_PANFROST_EXCEPTION_ADDR_SIZE_FAULT_IN2 = 0xe2,
-+	DRM_PANFROST_EXCEPTION_ADDR_SIZE_FAULT_IN3 = 0xe3,
-+	DRM_PANFROST_EXCEPTION_ADDR_SIZE_FAULT_OUT0 = 0xe4,
-+	DRM_PANFROST_EXCEPTION_ADDR_SIZE_FAULT_OUT1 = 0xe5,
-+	DRM_PANFROST_EXCEPTION_ADDR_SIZE_FAULT_OUT2 = 0xe6,
-+	DRM_PANFROST_EXCEPTION_ADDR_SIZE_FAULT_OUT3 = 0xe7,
-+	DRM_PANFROST_EXCEPTION_MEM_ATTR_FAULT_0 = 0xe8,
-+	DRM_PANFROST_EXCEPTION_MEM_ATTR_FAULT_1 = 0xe9,
-+	DRM_PANFROST_EXCEPTION_MEM_ATTR_FAULT_2 = 0xea,
-+	DRM_PANFROST_EXCEPTION_MEM_ATTR_FAULT_3 = 0xeb,
-+	DRM_PANFROST_EXCEPTION_MEM_ATTR_NONCACHE_0 = 0xec,
-+	DRM_PANFROST_EXCEPTION_MEM_ATTR_NONCACHE_1 = 0xed,
-+	DRM_PANFROST_EXCEPTION_MEM_ATTR_NONCACHE_2 = 0xee,
-+	DRM_PANFROST_EXCEPTION_MEM_ATTR_NONCACHE_3 = 0xef,
+-const char *panfrost_exception_name(u32 exception_code)
+-{
+-	switch (exception_code) {
+-		/* Non-Fault Status code */
+-	case 0x00: return "NOT_STARTED/IDLE/OK";
+-	case 0x01: return "DONE";
+-	case 0x02: return "INTERRUPTED";
+-	case 0x03: return "STOPPED";
+-	case 0x04: return "TERMINATED";
+-	case 0x08: return "ACTIVE";
+-		/* Job exceptions */
+-	case 0x40: return "JOB_CONFIG_FAULT";
+-	case 0x41: return "JOB_POWER_FAULT";
+-	case 0x42: return "JOB_READ_FAULT";
+-	case 0x43: return "JOB_WRITE_FAULT";
+-	case 0x44: return "JOB_AFFINITY_FAULT";
+-	case 0x48: return "JOB_BUS_FAULT";
+-	case 0x50: return "INSTR_INVALID_PC";
+-	case 0x51: return "INSTR_INVALID_ENC";
+-	case 0x52: return "INSTR_TYPE_MISMATCH";
+-	case 0x53: return "INSTR_OPERAND_FAULT";
+-	case 0x54: return "INSTR_TLS_FAULT";
+-	case 0x55: return "INSTR_BARRIER_FAULT";
+-	case 0x56: return "INSTR_ALIGN_FAULT";
+-	case 0x58: return "DATA_INVALID_FAULT";
+-	case 0x59: return "TILE_RANGE_FAULT";
+-	case 0x5A: return "ADDR_RANGE_FAULT";
+-	case 0x60: return "OUT_OF_MEMORY";
+-		/* GPU exceptions */
+-	case 0x80: return "DELAYED_BUS_FAULT";
+-	case 0x88: return "SHAREABILITY_FAULT";
+-		/* MMU exceptions */
+-	case 0xC1: return "TRANSLATION_FAULT_LEVEL1";
+-	case 0xC2: return "TRANSLATION_FAULT_LEVEL2";
+-	case 0xC3: return "TRANSLATION_FAULT_LEVEL3";
+-	case 0xC4: return "TRANSLATION_FAULT_LEVEL4";
+-	case 0xC8: return "PERMISSION_FAULT";
+-	case 0xC9 ... 0xCF: return "PERMISSION_FAULT";
+-	case 0xD1: return "TRANSTAB_BUS_FAULT_LEVEL1";
+-	case 0xD2: return "TRANSTAB_BUS_FAULT_LEVEL2";
+-	case 0xD3: return "TRANSTAB_BUS_FAULT_LEVEL3";
+-	case 0xD4: return "TRANSTAB_BUS_FAULT_LEVEL4";
+-	case 0xD8: return "ACCESS_FLAG";
+-	case 0xD9 ... 0xDF: return "ACCESS_FLAG";
+-	case 0xE0 ... 0xE7: return "ADDRESS_SIZE_FAULT";
+-	case 0xE8 ... 0xEF: return "MEMORY_ATTRIBUTES_FAULT";
++#define PANFROST_EXCEPTION(id) \
++	[DRM_PANFROST_EXCEPTION_ ## id] = { \
++		.name = #id, \
+ 	}
+ 
+-	return "UNKNOWN";
++struct panfrost_exception_info {
++	const char *name;
 +};
 +
- #if defined(__cplusplus)
++static const struct panfrost_exception_info panfrost_exception_infos[] = {
++	PANFROST_EXCEPTION(OK),
++	PANFROST_EXCEPTION(DONE),
++	PANFROST_EXCEPTION(INTERRUPTED),
++	PANFROST_EXCEPTION(STOPPED),
++	PANFROST_EXCEPTION(TERMINATED),
++	PANFROST_EXCEPTION(KABOOM),
++	PANFROST_EXCEPTION(EUREKA),
++	PANFROST_EXCEPTION(ACTIVE),
++	PANFROST_EXCEPTION(JOB_CONFIG_FAULT),
++	PANFROST_EXCEPTION(JOB_POWER_FAULT),
++	PANFROST_EXCEPTION(JOB_READ_FAULT),
++	PANFROST_EXCEPTION(JOB_WRITE_FAULT),
++	PANFROST_EXCEPTION(JOB_AFFINITY_FAULT),
++	PANFROST_EXCEPTION(JOB_BUS_FAULT),
++	PANFROST_EXCEPTION(INSTR_INVALID_PC),
++	PANFROST_EXCEPTION(INSTR_INVALID_ENC),
++	PANFROST_EXCEPTION(INSTR_TYPE_MISMATCH),
++	PANFROST_EXCEPTION(INSTR_OPERAND_FAULT),
++	PANFROST_EXCEPTION(INSTR_TLS_FAULT),
++	PANFROST_EXCEPTION(INSTR_BARRIER_FAULT),
++	PANFROST_EXCEPTION(INSTR_ALIGN_FAULT),
++	PANFROST_EXCEPTION(DATA_INVALID_FAULT),
++	PANFROST_EXCEPTION(TILE_RANGE_FAULT),
++	PANFROST_EXCEPTION(ADDR_RANGE_FAULT),
++	PANFROST_EXCEPTION(IMPRECISE_FAULT),
++	PANFROST_EXCEPTION(OOM),
++	PANFROST_EXCEPTION(OOM_AFBC),
++	PANFROST_EXCEPTION(UNKNOWN),
++	PANFROST_EXCEPTION(DELAYED_BUS_FAULT),
++	PANFROST_EXCEPTION(GPU_SHAREABILITY_FAULT),
++	PANFROST_EXCEPTION(SYS_SHAREABILITY_FAULT),
++	PANFROST_EXCEPTION(GPU_CACHEABILITY_FAULT),
++	PANFROST_EXCEPTION(TRANSLATION_FAULT_0),
++	PANFROST_EXCEPTION(TRANSLATION_FAULT_1),
++	PANFROST_EXCEPTION(TRANSLATION_FAULT_2),
++	PANFROST_EXCEPTION(TRANSLATION_FAULT_3),
++	PANFROST_EXCEPTION(TRANSLATION_FAULT_4),
++	PANFROST_EXCEPTION(TRANSLATION_FAULT_IDENTITY),
++	PANFROST_EXCEPTION(PERM_FAULT_0),
++	PANFROST_EXCEPTION(PERM_FAULT_1),
++	PANFROST_EXCEPTION(PERM_FAULT_2),
++	PANFROST_EXCEPTION(PERM_FAULT_3),
++	PANFROST_EXCEPTION(TRANSTAB_BUS_FAULT_0),
++	PANFROST_EXCEPTION(TRANSTAB_BUS_FAULT_1),
++	PANFROST_EXCEPTION(TRANSTAB_BUS_FAULT_2),
++	PANFROST_EXCEPTION(TRANSTAB_BUS_FAULT_3),
++	PANFROST_EXCEPTION(ACCESS_FLAG_0),
++	PANFROST_EXCEPTION(ACCESS_FLAG_1),
++	PANFROST_EXCEPTION(ACCESS_FLAG_2),
++	PANFROST_EXCEPTION(ACCESS_FLAG_3),
++	PANFROST_EXCEPTION(ADDR_SIZE_FAULT_IN0),
++	PANFROST_EXCEPTION(ADDR_SIZE_FAULT_IN1),
++	PANFROST_EXCEPTION(ADDR_SIZE_FAULT_IN2),
++	PANFROST_EXCEPTION(ADDR_SIZE_FAULT_IN3),
++	PANFROST_EXCEPTION(ADDR_SIZE_FAULT_OUT0),
++	PANFROST_EXCEPTION(ADDR_SIZE_FAULT_OUT1),
++	PANFROST_EXCEPTION(ADDR_SIZE_FAULT_OUT2),
++	PANFROST_EXCEPTION(ADDR_SIZE_FAULT_OUT3),
++	PANFROST_EXCEPTION(MEM_ATTR_FAULT_0),
++	PANFROST_EXCEPTION(MEM_ATTR_FAULT_1),
++	PANFROST_EXCEPTION(MEM_ATTR_FAULT_2),
++	PANFROST_EXCEPTION(MEM_ATTR_FAULT_3),
++	PANFROST_EXCEPTION(MEM_ATTR_NONCACHE_0),
++	PANFROST_EXCEPTION(MEM_ATTR_NONCACHE_1),
++	PANFROST_EXCEPTION(MEM_ATTR_NONCACHE_2),
++	PANFROST_EXCEPTION(MEM_ATTR_NONCACHE_3),
++};
++
++const char *panfrost_exception_name(u32 exception_code)
++{
++	if (WARN_ON(exception_code >= ARRAY_SIZE(panfrost_exception_infos) ||
++		    !panfrost_exception_infos[exception_code].name))
++		return "Unknown exception type";
++
++	return panfrost_exception_infos[exception_code].name;
  }
- #endif
+ 
+ void panfrost_device_reset(struct panfrost_device *pfdev)
 -- 
 2.31.1
 
