@@ -2,33 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E3713B4FA3
-	for <lists+dri-devel@lfdr.de>; Sat, 26 Jun 2021 18:52:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAC743B4FA6
+	for <lists+dri-devel@lfdr.de>; Sat, 26 Jun 2021 18:52:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8859C6E03C;
-	Sat, 26 Jun 2021 16:52:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 08BA26E05F;
+	Sat, 26 Jun 2021 16:52:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from alexa-out.qualcomm.com (unknown [129.46.98.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E7BC16E027;
- Sat, 26 Jun 2021 16:52:12 +0000 (UTC)
-Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
- by alexa-out.qualcomm.com with ESMTP; 26 Jun 2021 09:52:02 -0700
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 76D8F6E03C;
+ Sat, 26 Jun 2021 16:52:13 +0000 (UTC)
+Received: from ironmsg08-lv.qualcomm.com ([10.47.202.152])
+ by alexa-out.qualcomm.com with ESMTP; 26 Jun 2021 09:52:05 -0700
 X-QCInternal: smtphost
 Received: from ironmsg01-blr.qualcomm.com ([10.86.208.130])
- by ironmsg09-lv.qualcomm.com with ESMTP/TLS/AES256-SHA;
- 26 Jun 2021 09:52:00 -0700
+ by ironmsg08-lv.qualcomm.com with ESMTP/TLS/AES256-SHA;
+ 26 Jun 2021 09:52:04 -0700
 X-QCInternal: smtphost
 Received: from rajeevny-linux.qualcomm.com ([10.204.66.121])
- by ironmsg01-blr.qualcomm.com with ESMTP; 26 Jun 2021 22:21:30 +0530
+ by ironmsg01-blr.qualcomm.com with ESMTP; 26 Jun 2021 22:21:33 +0530
 Received: by rajeevny-linux.qualcomm.com (Postfix, from userid 2363605)
- id 2215021478; Sat, 26 Jun 2021 22:21:28 +0530 (IST)
+ id A295721478; Sat, 26 Jun 2021 22:21:30 +0530 (IST)
 From: Rajeev Nandan <rajeevny@codeaurora.org>
 To: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
  freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
-Subject: [v8 5/6] dt-bindings: display: simple: Add Samsung ATNA33XC20
-Date: Sat, 26 Jun 2021 22:21:07 +0530
-Message-Id: <1624726268-14869-6-git-send-email-rajeevny@codeaurora.org>
+Subject: [v8 6/6] drm/panel-simple: Add Samsung ATNA33XC20
+Date: Sat, 26 Jun 2021 22:21:08 +0530
+Message-Id: <1624726268-14869-7-git-send-email-rajeevny@codeaurora.org>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1624726268-14869-1-git-send-email-rajeevny@codeaurora.org>
 References: <1624726268-14869-1-git-send-email-rajeevny@codeaurora.org>
@@ -57,30 +57,73 @@ Add Samsung 13.3" FHD eDP AMOLED panel.
 
 Signed-off-by: Rajeev Nandan <rajeevny@codeaurora.org>
 Reviewed-by: Douglas Anderson <dianders@chromium.org>
-Acked-by: Rob Herring <robh@kernel.org>
 ---
 
-(no changes since v4)
+(No changes since v7)
 
 Changes in v4:
 - New
 
- Documentation/devicetree/bindings/display/panel/panel-simple.yaml | 2 ++
- 1 file changed, 2 insertions(+)
+Changes in v5:
+- Remove "uses_dpcd_backlight" property, not required now. (Douglas)
 
-diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-index 4a0a5e1..f5acfd6 100644
---- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-@@ -242,6 +242,8 @@ properties:
-       - rocktech,rk101ii01d-ct
-         # Rocktech Display Ltd. RK070ER9427 800(RGB)x480 TFT LCD panel
-       - rocktech,rk070er9427
-+        # Samsung 13.3" FHD (1920x1080 pixels) eDP AMOLED panel
-+      - samsung,atna33xc20
-         # Samsung 12.2" (2560x1600 pixels) TFT LCD panel
-       - samsung,lsn122dl01-c01
-         # Samsung Electronics 10.1" WSVGA TFT LCD panel
+Changes in v7:
+- Update disable_to_power_off and power_to_enable delays. (Douglas)
+
+ drivers/gpu/drm/panel/panel-simple.c | 33 +++++++++++++++++++++++++++++++++
+ 1 file changed, 33 insertions(+)
+
+diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+index f966b562..e541257 100644
+--- a/drivers/gpu/drm/panel/panel-simple.c
++++ b/drivers/gpu/drm/panel/panel-simple.c
+@@ -3560,6 +3560,36 @@ static const struct panel_desc rocktech_rk101ii01d_ct = {
+ 	.connector_type = DRM_MODE_CONNECTOR_LVDS,
+ };
+ 
++static const struct drm_display_mode samsung_atna33xc20_mode = {
++	.clock = 138770,
++	.hdisplay = 1920,
++	.hsync_start = 1920 + 48,
++	.hsync_end = 1920 + 48 + 32,
++	.htotal = 1920 + 48 + 32 + 80,
++	.vdisplay = 1080,
++	.vsync_start = 1080 + 8,
++	.vsync_end = 1080 + 8 + 8,
++	.vtotal = 1080 + 8 + 8 + 16,
++	.flags = DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_NVSYNC,
++};
++
++static const struct panel_desc samsung_atna33xc20 = {
++	.modes = &samsung_atna33xc20_mode,
++	.num_modes = 1,
++	.bpc = 10,
++	.size = {
++		.width = 294,
++		.height = 165,
++	},
++	.delay = {
++		.disable_to_power_off = 200,
++		.power_to_enable = 400,
++		.hpd_absent_delay = 200,
++		.unprepare = 500,
++	},
++	.connector_type = DRM_MODE_CONNECTOR_eDP,
++};
++
+ static const struct drm_display_mode samsung_lsn122dl01_c01_mode = {
+ 	.clock = 271560,
+ 	.hdisplay = 2560,
+@@ -4561,6 +4591,9 @@ static const struct of_device_id platform_of_match[] = {
+ 		.compatible = "rocktech,rk101ii01d-ct",
+ 		.data = &rocktech_rk101ii01d_ct,
+ 	}, {
++		.compatible = "samsung,atna33xc20",
++		.data = &samsung_atna33xc20,
++	}, {
+ 		.compatible = "samsung,lsn122dl01-c01",
+ 		.data = &samsung_lsn122dl01_c01,
+ 	}, {
 -- 
 2.7.4
 
