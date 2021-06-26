@@ -2,70 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9EB73B5973
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Jun 2021 09:06:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CE183B5976
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Jun 2021 09:06:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 20ECD6E0C9;
-	Mon, 28 Jun 2021 07:06:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB14C6E117;
+	Mon, 28 Jun 2021 07:06:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
- [IPv6:2a00:1450:4864:20::32f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 59A356E9CA
- for <dri-devel@lists.freedesktop.org>; Sat, 26 Jun 2021 08:49:15 +0000 (UTC)
-Received: by mail-wm1-x32f.google.com with SMTP id
- o35-20020a05600c5123b02901e6a7a3266cso4960062wms.1
- for <dri-devel@lists.freedesktop.org>; Sat, 26 Jun 2021 01:49:15 -0700 (PDT)
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com
+ [IPv6:2a00:1450:4864:20::332])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E76726EBFF
+ for <dri-devel@lists.freedesktop.org>; Sat, 26 Jun 2021 09:17:32 +0000 (UTC)
+Received: by mail-wm1-x332.google.com with SMTP id r3so3229303wmq.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 26 Jun 2021 02:17:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:subject:to:cc:references:message-id:date:user-agent
+ h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=8hyjQG/8ZtR+zruu+pHjSC1nQQI21DGhQRwkVFXoSLs=;
- b=XmeXV5K1USPCFgWA/8f13fc1KVYPgTnaaUeQi6N6ZwayImqP42h7MRLmFwpmlBuZO+
- so98kwpLh9Ifkq0TwJkz4aBxdzubgwlHvTeeKXw/kvzhX99Br9fPxtd79BpDK9GqWM2U
- 9CF4LMNLvNvusSUcQQLQYKa4B76XOaU7MwJiI/66/1sEvBf6luhD0Hjzxy80iAqmGLoR
- SaQ7MYGE6qrxFsjSmNre0lIAYgUoDfgSu32cQn9uVpvscyeHomu0zajomV6kOYX6OVJL
- UJkE465HnJtJ1yP2VyrjkYNHhaDL9CsOy6iVjFHfQS1xuLDk9EscxW2UGpBoOANlVUf9
- bRfQ==
+ bh=LDhw70Yt6exlhcSv9Afxjx3HSFu7MiB5l0gKPfTwVSY=;
+ b=H1L+9kK5x2xDfD4+ac6jvpBBlKEBrPfMnVFKtFc67B60aavZwq7To5ljsFPD5Nj7ve
+ rbhEohxu98kStOog/G5sidu42+NAMVG4xEiqKPwHovsY2Qvv5jombxa7qs/2WL9csCrd
+ oI4GIQ2j1MZKexR3D7bW9Pd+U5kamhOj6riC9HAia/x0QsgC/DkCTfR0c35QmlgKwu7g
+ x50O7Wob3t0T6E9euXInfAkuPcjIDXs9tLuqE408zhfVxXAnGvRC8VP6ZvpJCgfcrElZ
+ +v4sfa2skP9krOkj88XLVoV8itniXJzadspK6crZZeKlolyRNqZZaqhBga8u3FIFHkW+
+ nRqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:subject:to:cc:references:message-id:date
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-transfer-encoding
  :content-language;
- bh=8hyjQG/8ZtR+zruu+pHjSC1nQQI21DGhQRwkVFXoSLs=;
- b=B1xH0wfY1UujrcMe04hkkL5CaE5BT/XmniQUQUD9QvwC8/fFVQrD+qC4EoXJ5VCG75
- WIlEespkE+i5ygA4Ut/zTbWYY1uZ+avA44g/27CfkTTtlLhIdBdD/emEMKffRiVPeB2D
- gwUKl5fCTujIoKQzLCU7lhitGAP62d23u9FLihnDIvG5mrMVVtiiC0Vq4+URVnZ9aoFr
- ixFS9nhdqFMv/SGK3aIi/UjhoPFdzCA9gGlzX+wcyFsZwr8qKZm1mGxhN8LEPNzdpfjt
- wueYxrpD6hbeJ0wMIn94oUHWi9a0F1fhuEZBMgFKIzl0e2FphJKSweo1q0cOETWS0Lqr
- yzBg==
-X-Gm-Message-State: AOAM530GImW6aALg5yFjTJDVogvLjqVXeZ76XbnKEDy1tC5P0/m6x3KV
- NapRY+rV+ikU35WMcNs3Vw==
-X-Google-Smtp-Source: ABdhPJyMocTcpeFQS+yBf05Omw7Y8Z4YKA7ZhlBw7Emox3gLjmdxe1H1PtGJF2w/epn05UHPytCPaw==
-X-Received: by 2002:a1c:df09:: with SMTP id w9mr15326740wmg.91.1624697354057; 
- Sat, 26 Jun 2021 01:49:14 -0700 (PDT)
+ bh=LDhw70Yt6exlhcSv9Afxjx3HSFu7MiB5l0gKPfTwVSY=;
+ b=ts3eyTaOyo3a+SHiormIeYikKiu0sNWR2iPVvgIJRjGM5Yy3ijrdATwxD5YyuYkH3q
+ rSfoEpTxekcxImLF/CsNhYYJIA8oolEdofOjaCdIjTxEfz4mr0FaZLkZIvq6sWWEzNVY
+ co1J9ynMc+P8vw5exZqfCNVLNDv00MokPmd6AS8hXZhgFZyWaGy9l80yPsx7E5/vhQH5
+ T5Sva2P3O5TL8oRqF+iHtRlsAEjRwSroQ4XMWmMHS8kdf14J5EuNkczyC9K9zjqxSZ4h
+ Kb9biFhw8JlhZCKwXZcxG3GA+pzZv7s0SLW1KO5TlPD9nlLVyZnFPxJ2kfL+5YXjO16A
+ Y20Q==
+X-Gm-Message-State: AOAM530nl/pAGYH9ERPSL387E+24lktFSwAyE7OVeCFm1cdXGJwnnw2Z
+ XYe721CmuRKH9WC7BQBXeg==
+X-Google-Smtp-Source: ABdhPJwEgPRMkMpbegQwnIrmpL866N7XdcNLXf7aA10ISebqBYaS89SGrO07eG8kEkK8VzbJqZ/p7A==
+X-Received: by 2002:a05:600c:21c4:: with SMTP id
+ x4mr15593320wmj.30.1624699051638; 
+ Sat, 26 Jun 2021 02:17:31 -0700 (PDT)
 Received: from [192.168.200.247] (ip5b434b8b.dynamic.kabel-deutschland.de.
  [91.67.75.139])
- by smtp.gmail.com with ESMTPSA id q6sm13412798wma.16.2021.06.26.01.49.13
+ by smtp.gmail.com with ESMTPSA id r1sm13379774wmn.10.2021.06.26.02.17.30
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 26 Jun 2021 01:49:13 -0700 (PDT)
-From: Alex Bee <knaerzche@gmail.com>
-Subject: Re: [PATCH 10/12] dt-bindings: media: rockchip-vpu: Add PX30
- compatible
-To: Ezequiel Garcia <ezequiel@collabora.com>,
- Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org
+ Sat, 26 Jun 2021 02:17:31 -0700 (PDT)
+Subject: Re: [PATCH 00/12] hantro: Enable H.264 VDPU2 (Odroid Advance Go)
+To: Ezequiel Garcia <ezequiel@collabora.com>, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 References: <20210624182612.177969-1-ezequiel@collabora.com>
- <20210624182612.177969-11-ezequiel@collabora.com>
- <176dce10-8e8c-b34b-8b9c-1a0a6a5501ba@collabora.com>
- <4445849f5c93b886db207a190d4931fba0ef6b14.camel@collabora.com>
-Message-ID: <aedc8b01-f891-ba8f-b1f3-82918cb87f09@gmail.com>
-Date: Sat, 26 Jun 2021 10:49:12 +0200
+From: Alex Bee <knaerzche@gmail.com>
+Message-ID: <125998a1-e521-bcf6-2905-20204c38d5a7@gmail.com>
+Date: Sat, 26 Jun 2021 11:17:30 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <4445849f5c93b886db207a190d4931fba0ef6b14.camel@collabora.com>
+In-Reply-To: <20210624182612.177969-1-ezequiel@collabora.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Content-Language: en-US
 X-Mailman-Approved-At: Mon, 28 Jun 2021 07:06:06 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -89,54 +84,82 @@ Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Ezequiel,
 
-Am 26.06.21 um 02:47 schrieb Ezequiel Garcia:
-> Hey Dafna,
+Am 24.06.21 um 20:26 schrieb Ezequiel Garcia:
+> This series adds support for H.264 decoding on the PX30, RK3328
+> and RK3326 platforms, enabling the VDPU2 core.
 >
-> Thanks a lot for reviewing this.
+> Given it's tested on the Odroid Advance Go, patches 1 and 2
+> add the basic support to report the panel orientation to
+> userspace (Heiko, if you like them, feel free to pick them).
+> Weston (for instance) picks up the orientation automagically
+> and rotates the render.
 >
-> On Fri, 2021-06-25 at 12:21 +0300, Dafna Hirschfeld wrote:
->> Hi,
->>
->> On 24.06.21 21:26, Ezequiel Garcia wrote:
->>> From: Paul Kocialkowski<paul.kocialkowski@bootlin.com>
->>>
->>> The Rockchip PX30 SoC has a Hantro VPU that features a decoder (VDPU2)
->>> and an encoder (VEPU2).
->>>
->>> Signed-off-by: Paul Kocialkowski<paul.kocialkowski@bootlin.com>
->>> Signed-off-by: Ezequiel Garcia<ezequiel@collabora.com>
->>> ---
->>>    Documentation/devicetree/bindings/media/rockchip-vpu.yaml | 3 +++
->>>    1 file changed, 3 insertions(+)
->>>
->>> diff --git a/Documentation/devicetree/bindings/media/rockchip-vpu.yaml b/Documentation/devicetree/bindings/media/rockchip-vpu.yaml
->>> index b88172a59de7..3b9c5aa91fcc 100644
->>> --- a/Documentation/devicetree/bindings/media/rockchip-vpu.yaml
->>> +++ b/Documentation/devicetree/bindings/media/rockchip-vpu.yaml
->>> @@ -28,6 +28,9 @@ properties:
->>>          - items:
->>>              - const: rockchip,rk3228-vpu
->>>              - const: rockchip,rk3399-vpu
->>> +      - items:
->>> +          - const: rockchip,px30-vpu
->>> +          - const: rockchip,rk3399-vpu
->> This rk3399 compatible is already mentioned in the last 'items' list, should we add it again?
->>
-> What we are mandating here is that "rockchip,px30-vpu" can only be used
-> with "rockchip,rk3399-vpu".
+> Patches 3 and 4 are just low-hanging fruit that was on my backlog.
 >
-> I.e.:
+> Patches 5, 6 and 7 add some helpers to avoid duplicating some processes
+> between Hantro G1 and VDPU2. Patches 8 and 9 enable the VDPU2 H.264.
+> The implementation is based on a patch from Jonas Karlman [1], which
+> I forwarded ported to mainline.
 >
->    compatible = "rockchip,px30-vpu", "rockchip,rk3399-vpu";
+> Finally, patches 10 to 12 add support for the VPU on Rockchip PX30 SoCs.
+> These patches are based on patches submitted by Paul Kocialkowski [2],
+> which I ported and adjusted a bit.
 >
-So why not making the already existing to:
+> Tested on i.MX8MQ EVK and RK3326 Odroid Advance Go, the latter
+> is able to decode a 1080p sample at ~100fps nicely.
+>
+> Fluster conformance testing is looking good as well, and producing
+> expected results:
+>
+> RK3326:
+>    Ran 135 tests in 480.067s
+>    FAILED (failures=9, errors=54)
+>
+> i.MX8MQ:
+>    Ran 135 tests in 337.491s
+>    FAILED (failures=9, errors=54)
+>
+> [1] https://lore.kernel.org/linux-media/HE1PR06MB40119DE07D38060F531D1070ACBF0@HE1PR06MB4011.eurprd06.prod.outlook.com/
+> [2] https://lore.kernel.org/patchwork/cover/1361795/
 
-       - items:
-           - enum:
-               - rockchip,px30-vpu
-               - rockchip,rk3228-vpu
-           - const: rockchip,rk3399-vpu
+FWIW: Patches 03/12 - 09/12 are
 
-Alex
+Tested-by: Alex Bee <knaerzche@gmail.com>
+
+> Ezequiel Garcia (8):
+>    drm/panel: kd35t133: Add panel orientation support
+>    arm64: dts: rockchip: Add panel orientation to Odroid Go Advance
+>    hantro: vp8: Move noisy WARN_ON to vpu_debug
+>    hantro: Make struct hantro_variant.init() optional
+>    media: hantro: Avoid redundant hantro_get_{dst,src}_buf() calls
+>    media: hantro: h264: Move DPB valid and long-term bitmaps
+>    media: hantro: h264: Move reference picture number to a helper
+>    media: hantro: Enable H.264 on Rockchip VDPU2
+>
+> Jonas Karlman (1):
+>    media: hantro: Add H.264 support for Rockchip VDPU2
+>
+> Paul Kocialkowski (3):
+>    dt-bindings: media: rockchip-vpu: Add PX30 compatible
+>    arm64: dts: rockchip: Add VPU support for the PX30
+>    media: hantro: Add support for the Rockchip PX30
+>
+>   .../bindings/media/rockchip-vpu.yaml          |   3 +
+>   arch/arm64/boot/dts/rockchip/px30.dtsi        |  23 +
+>   .../boot/dts/rockchip/rk3326-odroid-go2.dts   |   1 +
+>   drivers/gpu/drm/panel/panel-elida-kd35t133.c  |   8 +
+>   drivers/staging/media/hantro/Makefile         |   1 +
+>   drivers/staging/media/hantro/hantro.h         |   4 +-
+>   drivers/staging/media/hantro/hantro_drv.c     |  11 +-
+>   .../staging/media/hantro/hantro_g1_h264_dec.c |  48 +-
+>   .../staging/media/hantro/hantro_g1_vp8_dec.c  |  31 +-
+>   drivers/staging/media/hantro/hantro_h264.c    |  24 +
+>   drivers/staging/media/hantro/hantro_hw.h      |   8 +
+>   .../media/hantro/rockchip_vpu2_hw_h264_dec.c  | 491 ++++++++++++++++++
+>   .../media/hantro/rockchip_vpu2_hw_vp8_dec.c   |  32 +-
+>   .../staging/media/hantro/rockchip_vpu_hw.c    |  54 +-
+>   .../staging/media/hantro/sama5d4_vdec_hw.c    |   6 -
+>   15 files changed, 671 insertions(+), 74 deletions(-)
+>   create mode 100644 drivers/staging/media/hantro/rockchip_vpu2_hw_h264_dec.c
+>
