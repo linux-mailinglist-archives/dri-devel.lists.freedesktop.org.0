@@ -2,113 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C08A13B4C0A
-	for <lists+dri-devel@lfdr.de>; Sat, 26 Jun 2021 04:41:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14A393B4D1E
+	for <lists+dri-devel@lfdr.de>; Sat, 26 Jun 2021 08:35:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 209086E9BF;
-	Sat, 26 Jun 2021 02:41:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 791836E9C0;
+	Sat, 26 Jun 2021 06:35:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam12on2054.outbound.protection.outlook.com [40.107.244.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D891A6E9BD;
- Sat, 26 Jun 2021 02:41:20 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HXOlnE1eYVOXmjT2wWRGK097aKX7y7zri5eCEKFUMgkBUQVbLoN0ukerIMPR39xaCj/5/p8uNfqYlyJgpuKZu25yd1fnfdMQZgAeWGIPAkfF6JzEWv/kRdOvcSFAAOmCgVuNH+4NKxtbO0Gjt9jPE/76g9rdUFZjXYHYUQm1nILYbzcf85uKolJcn6wbIY/VqIZag6dLYfsI7pfC7L+CzWlE2eoHLu9YpwbvjhXhxXMvIYPlL9yIbeVAPdhafxcqRG2CgyzDJ1OcQtuGclj5GJfRd8jXrr15qE+lM30zxcr9UeDsLJqvm+HA3G/YmX+SVfEVqPPav94SBLsVKbM3jg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DY1EwPTlX2oQTM9JUbNIyIFbIIHh3X6kPkNgZnuutdQ=;
- b=U/V9M8f82trjEtEybbp+71NTEdMG1f2xHCq5nILDl9buydMft60ZM3yGyvj1MFhj+sjEUPR6TBtpocx8XU/A/YtwSGW3RLHPJFJUh4OoGtAh1ZL023nOO/4N25bXUICcCkqY3WNkvd/d4nUisoqjl8L2axv0PXRC4D5ssmJt+Ch27qIXgrM9qYqmktkAY8EoG29Cl48PmWlyM3hTevqiOKAN5WRM9ww4YFZdrwV+aNAlNw7z4hWr60143MEnF4qQ/FygOeeuPrqHiFhTgZIYqyZrJcaI/XxTvqN1LDhCviMzQRqModel7dRJe0KYKckv31G5HD80SNUAnemSRmqagA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vmware.com; dmarc=pass action=none header.from=vmware.com;
- dkim=pass header.d=vmware.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vmware.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DY1EwPTlX2oQTM9JUbNIyIFbIIHh3X6kPkNgZnuutdQ=;
- b=PwtSKmWlcpy66jYlSfY/6733zXD1RHz4VOaIM6HFiqPf0E+OLrzE1X48292+hJzsSAppNueC2X2mU1yrm/+knEzv4MInoj5s7YkbSS9orzU2HmbT1TSrkfT5V3OxtJvnSDOPv0b2K2MMOqsvJlz8SW47yxK9tL6j9m+riPi75uU=
-Received: from MN2PR05MB6624.namprd05.prod.outlook.com (2603:10b6:208:d8::18)
- by MN2PR05MB6671.namprd05.prod.outlook.com (2603:10b6:208:d7::30)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4264.7; Sat, 26 Jun
- 2021 02:41:07 +0000
-Received: from MN2PR05MB6624.namprd05.prod.outlook.com
- ([fe80::45fe:a746:21e9:e8fc]) by MN2PR05MB6624.namprd05.prod.outlook.com
- ([fe80::45fe:a746:21e9:e8fc%6]) with mapi id 15.20.4264.023; Sat, 26 Jun 2021
- 02:41:07 +0000
-From: Zack Rusin <zackr@vmware.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v4 25/27] drm/vmwgfx: Don't set struct
- drm_device.irq_enabled
-Thread-Topic: [PATCH v4 25/27] drm/vmwgfx: Don't set struct
- drm_device.irq_enabled
-Thread-Index: AQHXaZtTePw5ruzrRkKIZ2BFLdAIq6slljUA
-Date: Sat, 26 Jun 2021 02:41:07 +0000
-Message-ID: <F2415B80-87BE-42B5-958A-E947CE693674@vmware.com>
-References: <20210625082222.3845-1-tzimmermann@suse.de>
- <20210625082222.3845-26-tzimmermann@suse.de>
-In-Reply-To: <20210625082222.3845-26-tzimmermann@suse.de>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3654.40.0.2.32)
-authentication-results: suse.de; dkim=none (message not signed)
- header.d=none;suse.de; dmarc=none action=none header.from=vmware.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 8d724b7c-f3c9-4351-1544-08d9384bd99c
-x-ms-traffictypediagnostic: MN2PR05MB6671:
-x-ld-processed: b39138ca-3cee-4b4a-a4d6-cd83d9dd62f0,ExtAddr
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <MN2PR05MB66716FE697D757755DFEDA7ECE059@MN2PR05MB6671.namprd05.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:3631;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 9YwUGa9F59jPW5t10bxqwgTENH6AhjpdXJ+hkBSc8kZzyGF7/zC37JgtM+Cxxyx+6z0NQt6t8CHGK4bW33KkWjsq4cJHoVuDNrcEsLJwIe+vw+yIEHh1BcPslTXdJc9fiEpeG+8zH5lMua74e8KIa2CgUt8Vi8naVBRXP9rYTsGCfBOvbqKpNuP7u6dtIK+iv8cmu1oto1pm0FsAaLaJCUe4EVJH/REr4a/n0bfB6tLEulICwfm9uDdA/sSCYY0nOWQ2YOaXcCZeMmbzdBxInBaxpPA8jaoFZc2N3Rj8/fx01GdJI4CqzMNNz3SbKKWXyG/+A360NWea4hHyZZnu7smyeFJLSPKY//aELvoiSVrP3KLcNg1Djqubdr4iema9cl20/oLLYQuaaqXixKYoMbMMCW+Gxlfghg62kGYByjqfoWXdlQTHi9gk/Svgw+PgXByt52m5U2cFMT7gPRSyHhzoJAkweCKC78LLrmEQZ+nfaj/Vmlxwa1aubD49QhYs2W/8kbTp+Ooh31t6OdX6CIhrYetaqmbGWO3DrXapH6+89PKh8j1KG31roqqb4WEEVnOYiDSKGb8L5E4RDk0AAlA7KDrZZwvdTbtpj2HFcIdsn8r4bhco9xUrsTqwi7Ht5YJXua6hHyKV3NbAX9Xs4LWkZvyg/yfPNHpU89R0dao+qnHw3SXA/RC8xJrv7hBqQSCBPJuxPgJMN/ePdOU4tQ==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR05MB6624.namprd05.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(376002)(136003)(366004)(396003)(39860400002)(86362001)(6916009)(66946007)(8676002)(7406005)(6506007)(66446008)(186003)(76116006)(53546011)(64756008)(8936002)(38100700002)(7416002)(71200400001)(66556008)(33656002)(122000001)(6512007)(26005)(66476007)(7366002)(4326008)(4744005)(316002)(5660300002)(36756003)(6486002)(54906003)(2616005)(2906002)(478600001)(45980500001);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?U+rMibFYRBMdXU+oi3q9RiPhFagWoXjHonBkzopt9w0kphcIf4jeVA+4No?=
- =?iso-8859-1?Q?HXoSpYlOujO6tpBtssela6Tf9QR5SxnmUPdWErTd6vkK9S8Y9GYHQvsS4r?=
- =?iso-8859-1?Q?aE3nzPCe7rLyOqjqVngWbhEgj/5GSs/UO8HE2uZW2S9Pmzse7mpJb7uS2C?=
- =?iso-8859-1?Q?rLM1M0h27X1z3o9QYHvPkiEmdoGrA373LYxZQ1JWCOikbRhfOZ31NE7zNR?=
- =?iso-8859-1?Q?Juwy1JYx4GjB7NjG9m/BBhnGlHkxRTYadxcrLasHp5n+Z6axjN88MyWyO7?=
- =?iso-8859-1?Q?N5/v4kYzWEVeu9y7pNKaIb/GXnrgBlRG1oVpuqP3HtMvKHT873S1y0gUqZ?=
- =?iso-8859-1?Q?Uiy0DzfrOE+9IoZxnytXDZNcwre/d/k5EtTdLl5LMQpACJazHCxgRtryKD?=
- =?iso-8859-1?Q?i064Tw19WeB971bguW05vGo1/W0UNHRLTCR10q9ZjsLadyaLSTzaa8zchX?=
- =?iso-8859-1?Q?G0lSSZzklWhixMxb+pUDjTAb9bineBr6QWFAPR5EBnB6xy1OaJfKr5CZ9m?=
- =?iso-8859-1?Q?S3BZD896Tf4T1hJOcN5RHvO+rbwqtC3Ftezelw7Crb/s3hJ95DjubP3DHI?=
- =?iso-8859-1?Q?MBrRWQYRcKK1+J+7W1981KUIr2oRriPfcIlwYjdrD/dMt1bvXo8QdAYp8N?=
- =?iso-8859-1?Q?xCkCLqRaxRTwxynQHRfV9z49sIgWjnHjs0aJGmIB7KnXezBN6PvRagi2Am?=
- =?iso-8859-1?Q?uVVEcONly7tbGrHb1nhxYJ2ojw+uFxZ2x3crvIRehgoSHYm9DvCUIsOBA/?=
- =?iso-8859-1?Q?J+Et6PklWQBUK5xMuxh17PnoMZ8slnXbN8EjsCCI8vXnbPk/X5UVPorCb4?=
- =?iso-8859-1?Q?SLQeIveFuivg91hUAE/t9whNRlZoV2p47kDVxDAhbXZCHVuNSI4kDggahv?=
- =?iso-8859-1?Q?szYbHe+siHPKxwfEYxNL6l2oQOiUgrb/n5P7pywGl6kfU9Ex/w8Z7OmtX1?=
- =?iso-8859-1?Q?IGxvDJpqjo69qugsECPd1j5slNbGUogyKPFwMCg2eSworyw01i0nXjQQnX?=
- =?iso-8859-1?Q?1L9rJosonI2rg1dIVoBp73KTjos7On16viqaegD2slZLoZ1TNkPRWblU4l?=
- =?iso-8859-1?Q?ohqACT+20hz9ffgEsmp6E6A9c4RcomfIzsqc/4S8ga6ZJaDpmFJw1t6pqr?=
- =?iso-8859-1?Q?akewLh4659I42N8LwxWEKXK4O/kNKOQ8aQksheGf8zhsBOjgynzbMaA2kZ?=
- =?iso-8859-1?Q?EpiIKxW8CPjunBsRPW+UFHichncWALIBa1JvuC1pTHu20/3Z1xEOZEU9KK?=
- =?iso-8859-1?Q?XgueKNNuD73uSkM/5PoDvn8lSXQsHED7v9qEwNfqkDTRVhLM0xRy2Kpfk1?=
- =?iso-8859-1?Q?nfLtjUyQRkYguq2vB1DX7rE7vgDwQVJx23APhyrglT4Bu63JQlhyDYBk6q?=
- =?iso-8859-1?Q?hAIass/APC?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <3A63C24550FCA2459958757D0D6BF16F@namprd05.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+Received: from fanzine.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 890766E9B6;
+ Sat, 26 Jun 2021 06:35:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+ s=20170329; 
+ h=MIME-Version:Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID;
+ bh=ccSBQjSdQ0yyRGKtd2TN6frnfy5qFmhpR4DjfGkepkE=; 
+ b=YaJ+LNitNLTcPjZP3ob9seOFY7b65vc0hq8Re1L4MYfp4gvEqbQ1c7pXOVTEH9L+HXmr1mrMHlsOMkRbb7EcpErU9vArDwAUargOOUXVZ/kC815UjA2ZQB+V5gL3kfpN+s1GhPTU1j4nCm24C7GhTAPm34dDa9cxvah+JoLo5hCb7zeVVzmddExLrQV/Dx6oIBHOLWR3YP31RbIVP8dBFfUWj5dXncKHBpWJjHSkmXFbDE7Fx3BWJ/6i+PDqP0L2r52huDerwXNkehSup0GsnYvSQV4MQ5HwYuiREbnZpWqc6noxTpWPlBR/qGJNmzIa1iiHPVMpfuAtf79xPlplpA==;
+Received: from 1.pool85-50-22.dynamic.orange.es ([85.50.22.1]
+ helo=[192.168.1.119]) by fanzine.igalia.com with esmtpsa 
+ (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
+ id 1lx1ui-0005dT-TN; Sat, 26 Jun 2021 08:35:37 +0200
+Message-ID: <0032ceefa7c39bdd03907565ab9762ad6007eb80.camel@igalia.com>
+Subject: Re: [Mesa-dev] XDC 2021: Registration & Call for Proposals now open!
+From: Samuel Iglesias =?ISO-8859-1?Q?Gons=E1lvez?= <siglesias@igalia.com>
+To: "Szwichtenberg, Radoslaw" <radoslaw.szwichtenberg@intel.com>, 
+ "events@lists.x.org"
+ <events@lists.x.org>, "xorg-devel@lists.freedesktop.org"
+ <xorg-devel@lists.freedesktop.org>, "wayland-devel@lists.freedesktop.org"
+ <wayland-devel@lists.freedesktop.org>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>, "mesa-dev@lists.freedesktop.org"
+ <mesa-dev@lists.freedesktop.org>, "amd-gfx@lists.freedesktop.org"
+ <amd-gfx@lists.freedesktop.org>, "etnaviv@lists.freedesktop.org"
+ <etnaviv@lists.freedesktop.org>, "freedreno@lists.freedesktop.org"
+ <freedreno@lists.freedesktop.org>, "nouveau@lists.freedesktop.org"
+ <nouveau@lists.freedesktop.org>, "intel-gfx@lists.freedesktop.org"
+ <intel-gfx@lists.freedesktop.org>
+Date: Sat, 26 Jun 2021 08:35:26 +0200
+In-Reply-To: <380e8cb0f18c6f4b21c20b382668316b8962159a.camel@igalia.com>
+References: <790BA4EE-E3F0-40B9-BE18-3646492F1CAE@intel.com>
+ <380e8cb0f18c6f4b21c20b382668316b8962159a.camel@igalia.com>
+Content-Type: multipart/signed; micalg="pgp-sha256";
+ protocol="application/pgp-signature"; boundary="=-01vBJSSMux+wzjjp4LED"
+User-Agent: Evolution 3.40.2 (3.40.2-1.fc34) 
 MIME-Version: 1.0
-X-OriginatorOrg: vmware.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR05MB6624.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8d724b7c-f3c9-4351-1544-08d9384bd99c
-X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Jun 2021 02:41:07.2954 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b39138ca-3cee-4b4a-a4d6-cd83d9dd62f0
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: kXajZkRq1RXi8dgbD+grNfudub+URT9yuj36Xk1Wc1au/eF13alcvNqGA9P8wju6slkYTIH+W6BxsPZD7KS2Dw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR05MB6671
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -121,78 +56,137 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "hamohammed.sa@gmail.com" <hamohammed.sa@gmail.com>,
- "emma@anholt.net" <emma@anholt.net>, David Airlie <airlied@linux.ie>,
- "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- "liviu.dudau@arm.com" <liviu.dudau@arm.com>,
- "alexandre.torgue@foss.st.com" <alexandre.torgue@foss.st.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- "michal.simek@xilinx.com" <michal.simek@xilinx.com>,
- "melissa.srw@gmail.com" <melissa.srw@gmail.com>,
- "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
- "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
- "laurent.pinchart@ideasonboard.com" <laurent.pinchart@ideasonboard.com>,
- "linux@armlinux.org.uk" <linux@armlinux.org.uk>,
- "mihail.atanassov@arm.com" <mihail.atanassov@arm.com>,
- "linux-stm32@st-md-mailman.stormreply.com"
- <linux-stm32@st-md-mailman.stormreply.com>,
- "linux-samsung-soc@vger.kernel.org" <linux-samsung-soc@vger.kernel.org>,
- "jy0922.shim@samsung.com" <jy0922.shim@samsung.com>,
- "krzysztof.kozlowski@canonical.com" <krzysztof.kozlowski@canonical.com>,
- "linux-rockchip@lists.infradead.org" <linux-rockchip@lists.infradead.org>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "wens@csie.org" <wens@csie.org>,
- "jernej.skrabec@gmail.com" <jernej.skrabec@gmail.com>,
- "jonathanh@nvidia.com" <jonathanh@nvidia.com>,
- "xinliang.liu@linaro.org" <xinliang.liu@linaro.org>,
- "kong.kongxinwei@hisilicon.com" <kong.kongxinwei@hisilicon.com>,
- "james.qian.wang@arm.com" <james.qian.wang@arm.com>,
- "linux-imx@nxp.com" <linux-imx@nxp.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- Linux-graphics-maintainer <Linux-graphics-maintainer@vmware.com>,
- "linux-sunxi@lists.linux.dev" <linux-sunxi@lists.linux.dev>,
- Ben Skeggs <bskeggs@redhat.com>,
- "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>,
- "puck.chen@hisilicon.com" <puck.chen@hisilicon.com>,
- "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- "rodrigosiqueiramelo@gmail.com" <rodrigosiqueiramelo@gmail.com>,
- "laurentiu.palcu@oss.nxp.com" <laurentiu.palcu@oss.nxp.com>,
- "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
- "kernel@pengutronix.de" <kernel@pengutronix.de>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- "mcoquelin.stm32@gmail.com" <mcoquelin.stm32@gmail.com>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- "hyun.kwon@xilinx.com" <hyun.kwon@xilinx.com>,
- "tomba@kernel.org" <tomba@kernel.org>, "jyri.sarha@iki.fi" <jyri.sarha@iki.fi>,
- "yannick.fertre@foss.st.com" <yannick.fertre@foss.st.com>,
- "Xinhui.Pan@amd.com" <Xinhui.Pan@amd.com>,
- "sw0312.kim@samsung.com" <sw0312.kim@samsung.com>,
- "hjc@rock-chips.com" <hjc@rock-chips.com>,
- =?iso-8859-1?Q?Christian_K=F6nig?= <christian.koenig@amd.com>,
- "kyungmin.park@samsung.com" <kyungmin.park@samsung.com>,
- "kieran.bingham+renesas@ideasonboard.com"
- <kieran.bingham+renesas@ideasonboard.com>,
- "philippe.cornu@foss.st.com" <philippe.cornu@foss.st.com>,
- "alexander.deucher@amd.com" <alexander.deucher@amd.com>,
- "tiantao6@hisilicon.com" <tiantao6@hisilicon.com>,
- "shawnguo@kernel.org" <shawnguo@kernel.org>
+Cc: "board@foundation.x.org" <board@foundation.x.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-> On Jun 25, 2021, at 04:22, Thomas Zimmermann <tzimmermann@suse.de> wrote:
->=20
-> The field drm_device.irq_enabled is only used by legacy drivers
-> with userspace modesetting. Don't set it in vmxgfx. All usage of
-> the field within vmwgfx can safely be removed.
->=20
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+--=-01vBJSSMux+wzjjp4LED
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Looks good.
+One week!
 
-Reviewed-by: Zack Rusin <zackr@vmware.com>
+Don't forget to submit your proposals!
+
+Sam
+
+On Tue, 2021-06-08 at 12:38 +0200, Samuel Iglesias Gons=C3=A1lvez wrote:
+> Kind reminder. Deadline is Sunday, 4 July 2021 :-)
+>=20
+> Sam
+>=20
+> On Thu, 2021-05-20 at 10:01 +0000, Szwichtenberg, Radoslaw wrote:
+> > Hello!
+> > =C2=A0
+> > Registration & Call for Proposals are now open for XDC 2021, which
+> > will
+> > take place on September 15-17, 2021. This year we will repeat as
+> > virtual event.
+> > =C2=A0
+> > https://indico.freedesktop.org/event/1/
+> > =C2=A0
+> > As usual, the conference is free of charge and open to the general
+> > public. If you plan on attending, please make sure to register as
+> > early
+> > as possible!
+> > =C2=A0
+> > In order to register as attendee, you will therefore need to
+> > register
+> > via the XDC website. As XDC moved to a new Indico infrastructure,
+> > if
+> > you previously registered on the XDC website, you need to create a
+> > new
+> > account again.
+> > =C2=A0
+> > https://indico.freedesktop.org/event/1/registrations/1/
+> > =C2=A0
+> > In addition to registration, the CfP is now open for talks,
+> > workshops
+> > and demos at XDC 2021. While any serious proposal will be
+> > gratefully
+> > considered, topics of interest to X.Org and freedesktop.org
+> > developers
+> > are encouraged. The program focus is on new development, ongoing
+> > challenges and anything else that will spark discussions among
+> > attendees in the hallway track.
+> > =C2=A0
+> > We are open to talks across all layers of the graphics stack, from
+> > the
+> > kernel to desktop environments / graphical applications and about
+> > how
+> > to make things better for the developers who build them. Head to
+> > the
+> > CfP page to learn more:=C2=A0
+> > =C2=A0
+> > https://indico.freedesktop.org/event/1/abstracts/
+> > =C2=A0
+> > The deadline for submissions is Sunday, 4 July 2021.
+> > =C2=A0
+> > Last year we modified our Reimbursement Policy to accept speaker
+> > expenses for X.Org virtual events like XDC 2021. Check it out here:
+> > =C2=A0
+> > https://www.x.org/wiki/XorgFoundation/Policies/Reimbursement/
+> > =C2=A0
+> > If you have any questions, please send me an email to
+> > radoslaw.szwichtenberg@intel.com,=C2=A0=C2=A0adding on CC the X.org boa=
+rd
+> > (board
+> > at foundation.x.org).
+> > =C2=A0
+> > And don't forget, you can follow us on Twitter for all the latest
+> > updates and to stay connected:
+> > =C2=A0
+> > =C2=A0
+> > https://twitter.com/XOrgDevConf
+> > =C2=A0
+> > Best,
+> > =C2=A0
+> > Radek
+> > =C2=A0
+> > P.S: a DNS redirection (xdc2021.x.org) is work in progress. Please
+> > use
+> > the mentioned links for the moment.
+> > =C2=A0
+> > =C2=A0
+> > Rados=C5=82aw Szwichtenberg
+> > -------------------------------------------------
+> > Intel Technology Poland sp. z o.o.
+> > ul. Slowackiego 173, 80-298 Gdansk
+> > KRS 101882 - NIP 957-07-52-316
+> > =C2=A0
+> > _______________________________________________
+> > mesa-dev mailing list
+> > mesa-dev@lists.freedesktop.org
+> > https://lists.freedesktop.org/mailman/listinfo/mesa-dev
+>=20
+> _______________________________________________
+> mesa-dev mailing list
+> mesa-dev@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/mesa-dev
+
+
+--=-01vBJSSMux+wzjjp4LED
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEQP+ZAvaXWkfuKXiEf/S6MvF9w0MFAmDWyq4ACgkQf/S6MvF9
+w0NeCA/+NKJD5cvxuz9Kgx4Q3zeKFaiT5K6l1uYCeoJhhftn5RejAoMTX/eChdoS
+ryG9w4LYKrplDwk2qDSKsrmUudxP8uoMJvtCXr8tkBwAwFwSKh0hUakr5sEOboCF
++r1QnA9+pO+RTte3mTI0fkBRHQpE+iuit6ajL6VklzKHL3JR7bXd14YQDOllHBLo
+2m4fnT2552jAFB564Ws+c532MS5wOzSxmn1KCTmonscCD7ibawtImz9AkFrKO6H2
+prTX2lceXZEfNKUVBe2GdGTKY3b5IgprYGHezzTQ2OEB7ahuLgkCJhhybhtJgDBZ
+4PHSndp41jMF9ppg4PDch5VDkjuN5xxzeDgATdAt1aNaYqr1QuaMdQg5bGmYVWxA
+i8y9JstwBwrStSa2PlVDxHU4kYl8H2v3A4Bh40yO8euunb1kWYjMfjNvE2/4b7iM
+Ypnx4XRI3RV19HtAxjUvx67syWBzqSUYEr+DhmerikOmE7rA8a2rGSTpOJRJjYFt
+ziEcDgJbMrzbOE/+EYf93+FRotnBY7g7pzAq7WEOKx7fb9gB0nghpWD7GYxEIRn0
+cHkgj3huK4joxPgz3ezvOfN8v9LzW8xzf0g7KXCrgxzRwFjBv+O22mNgz4SgsTnd
+j9Ha/GpoZUxn4knkiuBIU+De8dCdIDUuvRKVIJlsMQVMAj2aNkI=
+=9mIJ
+-----END PGP SIGNATURE-----
+
+--=-01vBJSSMux+wzjjp4LED--
 
