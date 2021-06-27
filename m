@@ -1,54 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 471A43B5263
-	for <lists+dri-devel@lfdr.de>; Sun, 27 Jun 2021 09:11:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A3763B5264
+	for <lists+dri-devel@lfdr.de>; Sun, 27 Jun 2021 09:14:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 43BE96E07D;
-	Sun, 27 Jun 2021 07:11:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C7816E10C;
+	Sun, 27 Jun 2021 07:14:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 69C296E10C
- for <dri-devel@lists.freedesktop.org>; Sun, 27 Jun 2021 07:11:00 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 3429261C35
- for <dri-devel@lists.freedesktop.org>; Sun, 27 Jun 2021 07:11:00 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7CE2A6E10C
+ for <dri-devel@lists.freedesktop.org>; Sun, 27 Jun 2021 07:14:51 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 51DB4619D1
+ for <dri-devel@lists.freedesktop.org>; Sun, 27 Jun 2021 07:14:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1624777860;
- bh=T2QhkcYWHZ3MMIV6ceqODzJsSl2mMsGYsQRyDyOUAQ8=;
+ s=k20201202; t=1624778091;
+ bh=jlg0TYSnxdBo3672vvsMu59s/3Tj7FXikJYupHEkWHE=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=hw5A4R0wxBZzQsus3zEaHn3B51NewxLnwC29ermPrOGI1Uty93WvQe/iDxvL4KKIL
- KeRy7QQjpKxbh4Wv2cqDNUqjcDmvEgKi8eRzm4+o0nAKFU7o0t7YvrHnVz4tKLkZud
- XSJqRTu1Nva93Vc/I9gNgbjeaxPIIjiOkBp2AnDReIqR+NAA11GjMrQ/EjQhIzcRvk
- 3DUJVPytXxHSTCvcDpzn/GcocH9NIqg0Xrx8AIAITIoheswhqicqqEDP8qUmzGm7eY
- gVaPngfKxJcjsK8O1Kb8jqSqvAk0DxF6mIiYiP8VjLEvES3SRF9Im/MUPtKeuUsJyG
- cCkDA7SToegxw==
+ b=gunYQIqvLY8pGwIGvPH/9DVFlOkXB5bXHF/fKAPxAuysBVm6OC/ZqeyBVMpCUqTAD
+ 9+7c22G8Lp7ix1B0Jdu5xvs5RBVGXBjmBWIllvWzIDibAw0pXY6rvWbrojfoLf48WF
+ /5611qeONfQUwSYRg8dJnNaNt346+XOZMuclT2mAlcaPEmsfp0zvZvuZxGNYweSGWg
+ /2ta9sfdGXc+yinaHSR0MhbPNwHxT0/X04TNLHqHcbQVKQHHQqwZWPwBMbOBNadFxi
+ caO87+T7OXAqztXW75b1IvIoZ5PJUtYlXfKgG0bhWbUbIXxoCzSGA1Uor4TYG5qgkg
+ pvpZvsh7pqkcw==
 Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 27A5561246; Sun, 27 Jun 2021 07:11:00 +0000 (UTC)
+ id 465A261246; Sun, 27 Jun 2021 07:14:51 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 213599] amdgpu: navi RX 5500XT Very high idle power consumption
- (22 Watts)
-Date: Sun, 27 Jun 2021 07:10:59 +0000
+Subject: [Bug 213569] Amdgpu temperature reaching dangerous levels
+Date: Sun, 27 Jun 2021 07:14:50 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Product: Drivers
 X-Bugzilla-Component: Video(DRI - non Intel)
 X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: trivial
-X-Bugzilla-Severity: high
-X-Bugzilla-Who: yuya@tcha.org
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: blocking
+X-Bugzilla-Who: fkrueger@mailbox.org
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-213599-2300-dgqVke6BDI@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-213599-2300@https.bugzilla.kernel.org/>
-References: <bug-213599-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-213569-2300-XebLQJugIu@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-213569-2300@https.bugzilla.kernel.org/>
+References: <bug-213569-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -69,12 +68,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D213599
+https://bugzilla.kernel.org/show_bug.cgi?id=3D213569
 
---- Comment #4 from Yuya Nishihara (yuya@tcha.org) ---
-Yep. In my case, it's gfx9 but both gfx9/10 should be affected according to=
- Bug
-213561. LTS branches will need backport of these patches.
+Frank Kruger (fkrueger@mailbox.org) changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |fkrueger@mailbox.org
+
+--- Comment #4 from Frank Kruger (fkrueger@mailbox.org) ---
+(In reply to miloog from comment #1)
+> I can confirm.
+>=20
+> But in a different scenario. I'm using debian bullseye with lts kernel and
+> latest amdgpu firmware. I don't change any fan control mechanism.
+>=20
+> 5.10.44 and 5.10.45 works fine but 5.10.46 if i'm only start sway (wayland
+> window manager) my gpu usage is at 100% without doing anything.
+>=20
+> It's a vega 56.
+
+You are probably hit by a recent regression introduced with kernel 5.10.46 =
+and
+5.12.13 (cf. https://bugzilla.kernel.org/show_bug.cgi?id=3D213561), where p=
+atches
+are on its way
+(https://lists.freedesktop.org/archives/amd-gfx/2021-June/065612.html). Thi=
+s is
+not related to the original bug report here, I presume.
 
 --=20
 You may reply to this email to add a comment.
