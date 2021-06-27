@@ -1,54 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 759133B51A9
-	for <lists+dri-devel@lfdr.de>; Sun, 27 Jun 2021 06:35:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F02DA3B5248
+	for <lists+dri-devel@lfdr.de>; Sun, 27 Jun 2021 08:09:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 451336E030;
-	Sun, 27 Jun 2021 04:35:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C28A26E067;
+	Sun, 27 Jun 2021 06:09:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 281186E030
- for <dri-devel@lists.freedesktop.org>; Sun, 27 Jun 2021 04:35:11 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 42BB6619C3
- for <dri-devel@lists.freedesktop.org>; Sun, 27 Jun 2021 04:35:10 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2BEC66E067
+ for <dri-devel@lists.freedesktop.org>; Sun, 27 Jun 2021 06:09:04 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id D7B3761C34
+ for <dri-devel@lists.freedesktop.org>; Sun, 27 Jun 2021 06:09:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1624768510;
- bh=Z4tE3sPbRzHn3wdthqYa2kgkNd86cROtUpLmOsVNcNY=;
+ s=k20201202; t=1624774143;
+ bh=jpHB8StJo30SiY2Yu1HgoHSEGkfI6+MCh17T7okmNEU=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=J88CQDPVF+EJgeytFIT6eEkAVLZ/3g1mYVGCoEKnMui3sGebCMpoi+TKHu6RuDcPK
- pUHG0WG2aVQxfZrb5nnvXxbU8H3JmRhdPvofeTlpV63fCMYqFy2j2Ax+oEBsqFBUiw
- Ht7DneX1ynyhF2FSe7siAVa8hPWx9nQIAC5VgWRMdlP/z3XEMrWaBoV+DNgg6RXu9d
- +xFAYVyhp+LGCSsNasv//ClFsEyPu/JnxE/WKp2t79DVOqai6VkKYqLZd6EDfatNxg
- Oi72A7VbzpoKuJSTH348MejJHckzZAEAXjtXy0x4tIwawS4aJVqwH396Gx689MxMdc
- ww++Hfw59swjA==
+ b=fyVx7AX9CgKq0XXRUcbrAEFKFArUFyNW1oEbvVtSTo6R039qxuI4QUjcG9I1/iKzW
+ yfBmHA/uX5GCs2Inpk9VJLjaSonXh3AxxapHMwaWYtaeQR9vCpu4RJnA6U0A93HaYL
+ sWp2OqkwypzCO0YSABCisIy9N513K8F/Un4936zAQ8yjBWVEy9oVH8D+R20Nc+RhUH
+ IhrkBOcLbp8cQ2YtKSBFzeNJOjo7Ayi9VN7fS6AnycPjauyTlxwM1eWjjM/u8JY58m
+ LTl1p5fLmzQ0fzzXj3m+1keMRHfR06SeyQISfNvY6wQRTIHggoKIh2SX5YeYw+l9Ko
+ jvMP9vbIgHDbQ==
 Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 340D761182; Sun, 27 Jun 2021 04:35:10 +0000 (UTC)
+ id C7AEC61222; Sun, 27 Jun 2021 06:09:03 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 213599] amdgpu: navi RX 5500XT Very high idle power consumption
- (22 Watts)
-Date: Sun, 27 Jun 2021 04:35:09 +0000
+Subject: [Bug 213569] Amdgpu temperature reaching dangerous levels
+Date: Sun, 27 Jun 2021 06:09:03 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Product: Drivers
 X-Bugzilla-Component: Video(DRI - non Intel)
 X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: trivial
-X-Bugzilla-Severity: high
-X-Bugzilla-Who: yuya@tcha.org
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: blocking
+X-Bugzilla-Who: mrjameshennig@gmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-213599-2300-OkGcSOUVD7@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-213599-2300@https.bugzilla.kernel.org/>
-References: <bug-213599-2300@https.bugzilla.kernel.org/>
+Message-ID: <bug-213569-2300-LEBrGRxYBT@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-213569-2300@https.bugzilla.kernel.org/>
+References: <bug-213569-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -69,26 +68,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D213599
+https://bugzilla.kernel.org/show_bug.cgi?id=3D213569
 
-Yuya Nishihara (yuya@tcha.org) changed:
+James (mrjameshennig@gmail.com) changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-                 CC|                            |yuya@tcha.org
+                 CC|                            |mrjameshennig@gmail.com
 
---- Comment #2 from Yuya Nishihara (yuya@tcha.org) ---
-I have similar issue on ThinkPad T14 AMD Gen 1 after upgrading to 5.10.46.
+--- Comment #3 from James (mrjameshennig@gmail.com) ---
+This is a legitimate bug which is present starting 5.12.13 and the issue was
+said to have been fixed starting 5.13-rc8. I wanted to comment out of
+reassurance that 70=C2=B0C edge temperature for that GPU cannot damage it. =
+Notice
+"crit =3D +97.0=C2=B0C" which is the throttle temperature.
 
-Apparently the first bad revision in 5.10.y branch is:
-
-   41984d4fbe21 drm/amdgpu/gfx9: fix the doorbell missing when in CGPG issu=
-e.
-
-Downgrading to bc58ec307ce9 fixed the problem.
-
-There's also a bugreport in Debian BTS:
-https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D990312
+The computer should shut down at the "emerg" temperature which is not prese=
+nt
+in your sensors output, but should be +5.0=C2=B0C over "crit" for your GPU.
 
 --=20
 You may reply to this email to add a comment.
