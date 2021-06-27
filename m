@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0D613B5067
-	for <lists+dri-devel@lfdr.de>; Sun, 27 Jun 2021 01:02:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 759133B51A9
+	for <lists+dri-devel@lfdr.de>; Sun, 27 Jun 2021 06:35:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F8E86E118;
-	Sat, 26 Jun 2021 23:02:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 451336E030;
+	Sun, 27 Jun 2021 04:35:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E3F86E118
- for <dri-devel@lists.freedesktop.org>; Sat, 26 Jun 2021 23:02:42 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 4DEAA61C31
- for <dri-devel@lists.freedesktop.org>; Sat, 26 Jun 2021 23:02:42 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 281186E030
+ for <dri-devel@lists.freedesktop.org>; Sun, 27 Jun 2021 04:35:11 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 42BB6619C3
+ for <dri-devel@lists.freedesktop.org>; Sun, 27 Jun 2021 04:35:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1624748562;
- bh=FXeKfqO6Ue6frcUDUovmCaBPe1ufPJTPlza/nY7v93U=;
+ s=k20201202; t=1624768510;
+ bh=Z4tE3sPbRzHn3wdthqYa2kgkNd86cROtUpLmOsVNcNY=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=FARNlIXqQ3SZu3Aj/4YLuR8Jn4Lx9ph7nXcCfru89767hyBnt5yGztlTj4V2snZNy
- TTaSilCJ2bN6LRPhl4cgqUIp800ZdQqfzkwleKRb2NqaaB/o5DHJQMbxmPUHLpavgp
- 1AXPqOLBwhJNBtrhr5C87jgNzVy0J04RxV5UJ+opR1+jbjUxCsNzt9f9+aCRh2/RzY
- p/Fg3BfF9i3DQEvSZjYecEGRrz2BB6t1Tkl0YUom6o3OMj/BplHpELmpbTJNTIrHbz
- KjPHt9ooIUzc3bA5MiNjz+UK/7NuSGpbxW37y4ykoTZ9GFuoAfojZB+0CK+qvD9TRu
- 7DGl7ilraTcqA==
+ b=J88CQDPVF+EJgeytFIT6eEkAVLZ/3g1mYVGCoEKnMui3sGebCMpoi+TKHu6RuDcPK
+ pUHG0WG2aVQxfZrb5nnvXxbU8H3JmRhdPvofeTlpV63fCMYqFy2j2Ax+oEBsqFBUiw
+ Ht7DneX1ynyhF2FSe7siAVa8hPWx9nQIAC5VgWRMdlP/z3XEMrWaBoV+DNgg6RXu9d
+ +xFAYVyhp+LGCSsNasv//ClFsEyPu/JnxE/WKp2t79DVOqai6VkKYqLZd6EDfatNxg
+ Oi72A7VbzpoKuJSTH348MejJHckzZAEAXjtXy0x4tIwawS4aJVqwH396Gx689MxMdc
+ ww++Hfw59swjA==
 Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 422156115A; Sat, 26 Jun 2021 23:02:42 +0000 (UTC)
+ id 340D761182; Sun, 27 Jun 2021 04:35:10 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 213599] amdgpu: navi RX 5500XT Very high idle power consumption
  (22 Watts)
-Date: Sat, 26 Jun 2021 23:02:42 +0000
+Date: Sun, 27 Jun 2021 04:35:09 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -39,14 +39,14 @@ X-Bugzilla-Component: Video(DRI - non Intel)
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: trivial
 X-Bugzilla-Severity: high
-X-Bugzilla-Who: contato-myghi63@protonmail.com
+X-Bugzilla-Who: yuya@tcha.org
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: keywords
-Message-ID: <bug-213599-2300-COKni0VFfM@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-213599-2300-OkGcSOUVD7@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-213599-2300@https.bugzilla.kernel.org/>
 References: <bug-213599-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -71,16 +71,24 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D213599
 
-Paulo Marcos de Souza Arruda do Nascimento (contato-myghi63@protonmail.com)=
- changed:
+Yuya Nishihara (yuya@tcha.org) changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-           Keywords|                            |trivial
+                 CC|                            |yuya@tcha.org
 
---- Comment #1 from Paulo Marcos de Souza Arruda do Nascimento (contato-myg=
-hi63@protonmail.com) ---
-Downgrading linux-5.12.13 to linux-5.12.12 fixes the problem.
+--- Comment #2 from Yuya Nishihara (yuya@tcha.org) ---
+I have similar issue on ThinkPad T14 AMD Gen 1 after upgrading to 5.10.46.
+
+Apparently the first bad revision in 5.10.y branch is:
+
+   41984d4fbe21 drm/amdgpu/gfx9: fix the doorbell missing when in CGPG issu=
+e.
+
+Downgrading to bc58ec307ce9 fixed the problem.
+
+There's also a bugreport in Debian BTS:
+https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D990312
 
 --=20
 You may reply to this email to add a comment.
