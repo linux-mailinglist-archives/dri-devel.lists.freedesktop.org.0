@@ -2,40 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4022A3B5B99
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Jun 2021 11:48:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A80253B5B9B
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Jun 2021 11:49:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4AD986E3F5;
-	Mon, 28 Jun 2021 09:48:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC1496E3F7;
+	Mon, 28 Jun 2021 09:49:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF3C16E3F2;
- Mon, 28 Jun 2021 09:48:00 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10028"; a="293558331"
-X-IronPort-AV: E=Sophos;i="5.83,305,1616482800"; d="scan'208";a="293558331"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Jun 2021 02:48:00 -0700
-X-IronPort-AV: E=Sophos;i="5.83,305,1616482800"; d="scan'208";a="454452410"
-Received: from danielmi-mobl2.ger.corp.intel.com (HELO [10.249.254.242])
- ([10.249.254.242])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Jun 2021 02:47:58 -0700
-Subject: Re: [PATCH v2 1/5] drm/i915/gem: Implement object migration
-To: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-References: <20210628090943.45690-1-thomas.hellstrom@linux.intel.com>
- <20210628090943.45690-2-thomas.hellstrom@linux.intel.com>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
-Message-ID: <bc70ed00-e5a9-e892-c8b2-3c01bd562017@linux.intel.com>
-Date: Mon, 28 Jun 2021 11:47:56 +0200
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id C8F906E3F7
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Jun 2021 09:49:08 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 329211FB;
+ Mon, 28 Jun 2021 02:49:08 -0700 (PDT)
+Received: from [10.57.89.43] (unknown [10.57.89.43])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id F0C5A3F694;
+ Mon, 28 Jun 2021 02:49:06 -0700 (PDT)
+Subject: Re: [PATCH v4 12/14] drm/panfrost: Don't reset the GPU on job faults
+ unless we really have to
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ dri-devel@lists.freedesktop.org
+References: <20210628074210.2695399-1-boris.brezillon@collabora.com>
+ <20210628074210.2695399-13-boris.brezillon@collabora.com>
+From: Steven Price <steven.price@arm.com>
+Message-ID: <cada3a3d-5afe-08d2-f81b-ae39ec0f8f3c@arm.com>
+Date: Mon, 28 Jun 2021 10:49:05 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210628090943.45690-2-thomas.hellstrom@linux.intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+In-Reply-To: <20210628074210.2695399-13-boris.brezillon@collabora.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,73 +46,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: matthew.auld@intel.com
+Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>, Rob Herring <robh+dt@kernel.org>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Robin Murphy <robin.murphy@arm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 28/06/2021 08:42, Boris Brezillon wrote:
+> If we can recover from a fault without a reset there's no reason to
+> issue one.
+> 
+> v3:
+> * Drop the mention of Valhall requiring a reset on JOB_BUS_FAULT
+> * Set the fence error to -EINVAL instead of having per-exception
+>   error codes
+> 
+> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 
-On 6/28/21 11:09 AM, Thomas Hellström wrote:
-> Introduce an interface to migrate objects between regions.
-> This is primarily intended to migrate objects to LMEM for display and
-> to SYSTEM for dma-buf, but might be reused in one form or another for
-> performande-based migration.
->
-> v2:
-> - Verify that the memory region given as an id really exists.
->    (Reported by Matthew Auld)
-> - Call i915_gem_object_{init,release}_memory_region() when switching region
->    to handle also switching region lists. (Reported by Matthew Auld)
->
-> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Reviewed-by: Steven Price <steven.price@arm.com>
+
 > ---
->   drivers/gpu/drm/i915/gem/i915_gem_object.c    | 96 +++++++++++++++++++
->   drivers/gpu/drm/i915/gem/i915_gem_object.h    | 12 +++
->   .../gpu/drm/i915/gem/i915_gem_object_types.h  |  9 ++
->   drivers/gpu/drm/i915/gem/i915_gem_ttm.c       | 69 +++++++++----
->   drivers/gpu/drm/i915/gem/i915_gem_wait.c      | 19 ++++
->   5 files changed, 188 insertions(+), 17 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.c b/drivers/gpu/drm/i915/gem/i915_gem_object.c
-> index 07e8ff9a8aae..52a37619054d 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_object.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_object.c
-> @@ -513,6 +513,102 @@ bool i915_gem_object_has_iomem(const struct drm_i915_gem_object *obj)
->   	return obj->mem_flags & I915_BO_FLAG_IOMEM;
->   }
->   
-> +/**
-> + * i915_gem_object_can_migrate - Whether an object likely can be migrated
-> + *
-> + * @obj: The object to migrate
-> + * @id: The region intended to migrate to
-> + *
-> + * Check whether the object backend supports migration to the
-> + * given region. Note that pinning may affect the ability to migrate.
-> + *
-> + * Return: true if migration is possible, false otherwise.
-> + */
-> +bool i915_gem_object_can_migrate(struct drm_i915_gem_object *obj,
-> +				 enum intel_region_id id)
+>  drivers/gpu/drm/panfrost/panfrost_device.c |  9 +++++++++
+>  drivers/gpu/drm/panfrost/panfrost_device.h |  2 ++
+>  drivers/gpu/drm/panfrost/panfrost_job.c    | 16 ++++++++++++++--
+>  3 files changed, 25 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_device.c b/drivers/gpu/drm/panfrost/panfrost_device.c
+> index 736854542b05..f4e42009526d 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_device.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_device.c
+> @@ -379,6 +379,15 @@ const char *panfrost_exception_name(u32 exception_code)
+>  	return panfrost_exception_infos[exception_code].name;
+>  }
+>  
+> +bool panfrost_exception_needs_reset(const struct panfrost_device *pfdev,
+> +				    u32 exception_code)
 > +{
-> +	struct drm_i915_private *i915 = to_i915(obj->base.dev);
-> +	unsigned int num_allowed = obj->mm.n_placements;
-> +	struct intel_memory_region *mr;
-> +	unsigned int i;
+> +	/* Right now, none of the GPU we support need a reset, but this
+> +	 * might change.
+> +	 */
+> +	return false;
+> +}
 > +
-> +	GEM_BUG_ON(id >= INTEL_REGION_UNKNOWN);
-> +	GEM_BUG_ON(obj->mm.madv != I915_MADV_WILLNEED);
+>  void panfrost_device_reset(struct panfrost_device *pfdev)
+>  {
+>  	panfrost_gpu_soft_reset(pfdev);
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_device.h b/drivers/gpu/drm/panfrost/panfrost_device.h
+> index 2dc8c0d1d987..d91f71366214 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_device.h
+> +++ b/drivers/gpu/drm/panfrost/panfrost_device.h
+> @@ -244,6 +244,8 @@ enum drm_panfrost_exception_type {
+>  };
+>  
+>  const char *panfrost_exception_name(u32 exception_code);
+> +bool panfrost_exception_needs_reset(const struct panfrost_device *pfdev,
+> +				    u32 exception_code);
+>  
+>  static inline void
+>  panfrost_device_schedule_reset(struct panfrost_device *pfdev)
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
+> index 4bd4d11377b7..b0f4857ca084 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
+> @@ -498,14 +498,26 @@ static void panfrost_job_handle_irq(struct panfrost_device *pfdev, u32 status)
+>  		job_write(pfdev, JOB_INT_CLEAR, mask);
+>  
+>  		if (status & JOB_INT_MASK_ERR(j)) {
+> +			u32 js_status = job_read(pfdev, JS_STATUS(j));
 > +
-> +	if (!obj->ops->migrate)
-> +		return false;
+>  			job_write(pfdev, JS_COMMAND_NEXT(j), JS_COMMAND_NOP);
+>  
+>  			dev_err(pfdev->dev, "js fault, js=%d, status=%s, head=0x%x, tail=0x%x",
+>  				j,
+> -				panfrost_exception_name(job_read(pfdev, JS_STATUS(j))),
+> +				panfrost_exception_name(js_status),
+>  				job_read(pfdev, JS_HEAD_LO(j)),
+>  				job_read(pfdev, JS_TAIL_LO(j)));
+> -			drm_sched_fault(&pfdev->js->queue[j].sched);
 > +
-> +	mr = i915->mm.regions[id];
-> +	if (!mr)
-> +		return false;
-
-
-Hmm. Should probably switch order between these two, otherwise 
-can_migrate will always return false on !TTM
-
-/Thomas
-
+> +			/* If we need a reset, signal it to the timeout
+> +			 * handler, otherwise, update the fence error field and
+> +			 * signal the job fence.
+> +			 */
+> +			if (panfrost_exception_needs_reset(pfdev, js_status)) {
+> +				drm_sched_fault(&pfdev->js->queue[j].sched);
+> +			} else {
+> +				dma_fence_set_error(pfdev->jobs[j]->done_fence, -EINVAL);
+> +				status |= JOB_INT_MASK_DONE(j);
+> +			}
+>  		}
+>  
+>  		if (status & JOB_INT_MASK_DONE(j)) {
+> 
 
