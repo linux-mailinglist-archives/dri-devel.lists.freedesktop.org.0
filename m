@@ -1,37 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 870013B5D11
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Jun 2021 13:18:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AA3103B5D17
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Jun 2021 13:21:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 556B76E433;
-	Mon, 28 Jun 2021 11:18:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7CE396E432;
+	Mon, 28 Jun 2021 11:21:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D61B26E431
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Jun 2021 11:18:16 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- (Authenticated sender: bbrezillon)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 699321F4241C;
- Mon, 28 Jun 2021 12:18:15 +0100 (BST)
-Date: Mon, 28 Jun 2021 13:18:11 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Lucas Stach <l.stach@pengutronix.de>
-Subject: Re: [PATCH] drm/sched: Declare entity idle only after HW submission
-Message-ID: <20210628131811.792d4cad@collabora.com>
-In-Reply-To: <daf5e20d60c967d57d0a32e782cc3c294ed11de4.camel@pengutronix.de>
-References: <20210624140850.2229697-1-boris.brezillon@collabora.com>
- <daf5e20d60c967d57d0a32e782cc3c294ed11de4.camel@pengutronix.de>
-Organization: Collabora
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 641566E432;
+ Mon, 28 Jun 2021 11:21:19 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10028"; a="207876410"
+X-IronPort-AV: E=Sophos;i="5.83,305,1616482800"; d="scan'208";a="207876410"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Jun 2021 04:21:18 -0700
+X-IronPort-AV: E=Sophos;i="5.83,305,1616482800"; d="scan'208";a="454469636"
+Received: from danielmi-mobl2.ger.corp.intel.com (HELO [10.249.254.242])
+ ([10.249.254.242])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Jun 2021 04:21:17 -0700
+Subject: Re: [PATCH 2/2] drm/ttm, drm/i915: Update ttm_move_memcpy for async
+ use
+To: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+References: <20210624193045.5087-1-thomas.hellstrom@linux.intel.com>
+ <20210624193045.5087-3-thomas.hellstrom@linux.intel.com>
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
+Message-ID: <ce389058-2ec8-3aa8-b332-ff34705e8b2c@linux.intel.com>
+Date: Mon, 28 Jun 2021 13:21:14 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <20210624193045.5087-3-thomas.hellstrom@linux.intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,72 +50,130 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>, dri-devel@lists.freedesktop.org,
- Steven Price <steven.price@arm.com>, Rob Herring <robh+dt@kernel.org>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Robin Murphy <robin.murphy@arm.com>
+Cc: matthew.auld@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 28 Jun 2021 11:46:08 +0200
-Lucas Stach <l.stach@pengutronix.de> wrote:
 
-> Am Donnerstag, dem 24.06.2021 um 16:08 +0200 schrieb Boris Brezillon:
-> > The panfrost driver tries to kill in-flight jobs on FD close after
-> > destroying the FD scheduler entities. For this to work properly, we
-> > need to make sure the jobs popped from the scheduler entities have
-> > been queued at the HW level before declaring the entity idle, otherwise
-> > we might iterate over a list that doesn't contain those jobs.
-> > 
-> > Suggested-by: Lucas Stach <l.stach@pengutronix.de>
-> > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> > Cc: Lucas Stach <l.stach@pengutronix.de>  
-> 
-> Not sure how much it's worth to review my own suggestion, but the
-> implementation looks correct to me.
-> I don't see any downsides for the existing drivers and it solves the
-> race window for drivers that want to cancel jobs on the HW submission
-> queue, without introducing yet another synchronization point.
-> 
-> Reviewed-by: Lucas Stach <l.stach@pengutronix.de>
+On 6/24/21 9:30 PM, Thomas Hellström wrote:
+> The buffer object argument to ttm_move_memcpy was only used to
+> determine whether the destination memory should be cleared only
+> or whether we should copy data. Replace it with a "clear" bool, and
+> update the callers.
+>
+> The intention here is to be able to use ttm_move_memcpy() async under
+> a dma-fence as a fallback if an accelerated blit fails in a security-
+> critical path where data might leak if the blit is not properly
+> performed. For that purpose the bo is an unsuitable argument since
+> its relevant members might already have changed at call time.
+>
+> Finally, update the ttm_move_memcpy kerneldoc that seems to have
+> ended up with a stale version.
 
-Queued to drm-misc-next.
+Hmm,
 
-Thanks,
+Not sure where the Cc: Christian König ended up, but in any case 
+Christian if you find this patch ok, Ack to merge through drm_intel_gt_next?
 
-Boris
+/Thomas
 
-> 
-> > ---
-> >  drivers/gpu/drm/scheduler/sched_main.c | 7 ++++---
-> >  1 file changed, 4 insertions(+), 3 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-> > index 81496ae2602e..aa776ebe326a 100644
-> > --- a/drivers/gpu/drm/scheduler/sched_main.c
-> > +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> > @@ -811,10 +811,10 @@ static int drm_sched_main(void *param)
-> >  
-> >  		sched_job = drm_sched_entity_pop_job(entity);
-> >  
-> > -		complete(&entity->entity_idle);
-> > -
-> > -		if (!sched_job)
-> > +		if (!sched_job) {
-> > +			complete(&entity->entity_idle);
-> >  			continue;
-> > +		}
-> >  
-> >  		s_fence = sched_job->s_fence;
-> >  
-> > @@ -823,6 +823,7 @@ static int drm_sched_main(void *param)
-> >  
-> >  		trace_drm_run_job(sched_job, entity);
-> >  		fence = sched->ops->run_job(sched_job);
-> > +		complete(&entity->entity_idle);
-> >  		drm_sched_fence_scheduled(s_fence);
-> >  
-> >  		if (!IS_ERR_OR_NULL(fence)) {  
-> 
-> 
 
+
+
+>
+> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> ---
+>   drivers/gpu/drm/i915/gem/i915_gem_ttm.c |  2 +-
+>   drivers/gpu/drm/ttm/ttm_bo_util.c       | 20 ++++++++++----------
+>   include/drm/ttm/ttm_bo_driver.h         |  2 +-
+>   3 files changed, 12 insertions(+), 12 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> index 4e529adcdfc7..f19847abe856 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> @@ -517,7 +517,7 @@ static void __i915_ttm_move(struct ttm_buffer_object *bo, bool clear,
+>   						 obj->ttm.cached_io_st,
+>   						 src_reg->region.start);
+>   
+> -		ttm_move_memcpy(bo, dst_mem->num_pages, dst_iter, src_iter);
+> +		ttm_move_memcpy(clear, dst_mem->num_pages, dst_iter, src_iter);
+>   	}
+>   }
+>   
+> diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_bo_util.c
+> index 2f57f824e6db..e3747f069674 100644
+> --- a/drivers/gpu/drm/ttm/ttm_bo_util.c
+> +++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
+> @@ -75,22 +75,21 @@ void ttm_mem_io_free(struct ttm_device *bdev,
+>   
+>   /**
+>    * ttm_move_memcpy - Helper to perform a memcpy ttm move operation.
+> - * @bo: The struct ttm_buffer_object.
+> - * @new_mem: The struct ttm_resource we're moving to (copy destination).
+> - * @new_iter: A struct ttm_kmap_iter representing the destination resource.
+> + * @clear: Whether to clear rather than copy.
+> + * @num_pages: Number of pages of the operation.
+> + * @dst_iter: A struct ttm_kmap_iter representing the destination resource.
+>    * @src_iter: A struct ttm_kmap_iter representing the source resource.
+>    *
+>    * This function is intended to be able to move out async under a
+>    * dma-fence if desired.
+>    */
+> -void ttm_move_memcpy(struct ttm_buffer_object *bo,
+> +void ttm_move_memcpy(bool clear,
+>   		     u32 num_pages,
+>   		     struct ttm_kmap_iter *dst_iter,
+>   		     struct ttm_kmap_iter *src_iter)
+>   {
+>   	const struct ttm_kmap_iter_ops *dst_ops = dst_iter->ops;
+>   	const struct ttm_kmap_iter_ops *src_ops = src_iter->ops;
+> -	struct ttm_tt *ttm = bo->ttm;
+>   	struct dma_buf_map src_map, dst_map;
+>   	pgoff_t i;
+>   
+> @@ -99,10 +98,7 @@ void ttm_move_memcpy(struct ttm_buffer_object *bo,
+>   		return;
+>   
+>   	/* Don't move nonexistent data. Clear destination instead. */
+> -	if (src_ops->maps_tt && (!ttm || !ttm_tt_is_populated(ttm))) {
+> -		if (ttm && !(ttm->page_flags & TTM_PAGE_FLAG_ZERO_ALLOC))
+> -			return;
+> -
+> +	if (clear) {
+>   		for (i = 0; i < num_pages; ++i) {
+>   			dst_ops->map_local(dst_iter, &dst_map, i);
+>   			if (dst_map.is_iomem)
+> @@ -146,6 +142,7 @@ int ttm_bo_move_memcpy(struct ttm_buffer_object *bo,
+>   		struct ttm_kmap_iter_linear_io io;
+>   	} _dst_iter, _src_iter;
+>   	struct ttm_kmap_iter *dst_iter, *src_iter;
+> +	bool clear;
+>   	int ret = 0;
+>   
+>   	if (ttm && ((ttm->page_flags & TTM_PAGE_FLAG_SWAPPED) ||
+> @@ -169,7 +166,10 @@ int ttm_bo_move_memcpy(struct ttm_buffer_object *bo,
+>   		goto out_src_iter;
+>   	}
+>   
+> -	ttm_move_memcpy(bo, dst_mem->num_pages, dst_iter, src_iter);
+> +	clear = src_iter->ops->maps_tt && (!ttm || !ttm_tt_is_populated(ttm));
+> +	if (!(clear && ttm && !(ttm->page_flags & TTM_PAGE_FLAG_ZERO_ALLOC)))
+> +		ttm_move_memcpy(clear, dst_mem->num_pages, dst_iter, src_iter);
+> +
+>   	src_copy = *src_mem;
+>   	ttm_bo_move_sync_cleanup(bo, dst_mem);
+>   
+> diff --git a/include/drm/ttm/ttm_bo_driver.h b/include/drm/ttm/ttm_bo_driver.h
+> index 68d6069572aa..5f087575194b 100644
+> --- a/include/drm/ttm/ttm_bo_driver.h
+> +++ b/include/drm/ttm/ttm_bo_driver.h
+> @@ -322,7 +322,7 @@ int ttm_bo_tt_bind(struct ttm_buffer_object *bo, struct ttm_resource *mem);
+>    */
+>   void ttm_bo_tt_destroy(struct ttm_buffer_object *bo);
+>   
+> -void ttm_move_memcpy(struct ttm_buffer_object *bo,
+> +void ttm_move_memcpy(bool clear,
+>   		     u32 num_pages,
+>   		     struct ttm_kmap_iter *dst_iter,
+>   		     struct ttm_kmap_iter *src_iter);
