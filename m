@@ -1,43 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E2E93B5BD3
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Jun 2021 11:57:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 73FE83B5C15
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Jun 2021 12:05:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D7886E40D;
-	Mon, 28 Jun 2021 09:57:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B4E06E413;
+	Mon, 28 Jun 2021 10:05:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C9A36E40D
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Jun 2021 09:57:03 +0000 (UTC)
-Received: from gallifrey.ext.pengutronix.de
- ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1lxo0j-000164-PE; Mon, 28 Jun 2021 11:57:01 +0200
-Message-ID: <b02932bea299b4c7959fa19d2c6856ff98ab0dec.camel@pengutronix.de>
-Subject: Re: [PATCH v4 01/14] drm/sched: Allow using a dedicated workqueue
- for the timeout/fault tdr
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Boris Brezillon <boris.brezillon@collabora.com>, 
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id EE7906E413
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Jun 2021 10:05:01 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6E0CD1FB;
+ Mon, 28 Jun 2021 03:05:01 -0700 (PDT)
+Received: from [10.57.89.43] (unknown [10.57.89.43])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 31E123F694;
+ Mon, 28 Jun 2021 03:05:00 -0700 (PDT)
+Subject: Re: [PATCH v4 13/14] drm/panfrost: Kill in-flight jobs on FD close
+To: Boris Brezillon <boris.brezillon@collabora.com>,
  dri-devel@lists.freedesktop.org
-Date: Mon, 28 Jun 2021 11:57:00 +0200
-In-Reply-To: <20210628074210.2695399-2-boris.brezillon@collabora.com>
 References: <20210628074210.2695399-1-boris.brezillon@collabora.com>
- <20210628074210.2695399-2-boris.brezillon@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.1 (3.40.1-1.fc34) 
+ <20210628074210.2695399-14-boris.brezillon@collabora.com>
+From: Steven Price <steven.price@arm.com>
+Message-ID: <6bd1b6b9-077a-1ea8-7ca1-b061f77979c4@arm.com>
+Date: Mon, 28 Jun 2021 11:04:58 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
+In-Reply-To: <20210628074210.2695399-14-boris.brezillon@collabora.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,243 +45,124 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- Steven Price <steven.price@arm.com>, Rob Herring <robh+dt@kernel.org>,
+Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>, Rob Herring <robh+dt@kernel.org>,
  Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
  Robin Murphy <robin.murphy@arm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Montag, dem 28.06.2021 um 09:41 +0200 schrieb Boris Brezillon:
-> Mali Midgard/Bifrost GPUs have 3 hardware queues but only a global GPU
-> reset. This leads to extra complexity when we need to synchronize timeout
-> works with the reset work. One solution to address that is to have an
-> ordered workqueue at the driver level that will be used by the different
-> schedulers to queue their timeout work. Thanks to the serialization
-> provided by the ordered workqueue we are guaranteed that timeout
-> handlers are executed sequentially, and can thus easily reset the GPU
-> from the timeout handler without extra synchronization.
-> 
-> v3:
-> * New patch
+On 28/06/2021 08:42, Boris Brezillon wrote:
+> If the process who submitted these jobs decided to close the FD before
+> the jobs are done it probably means it doesn't care about the result.
 > 
 > v4:
-> * Actually use the timeout_wq to queue the timeout work
+> * Don't disable/restore irqs when taking the job_lock (not needed since
+>   this lock is never taken from an interrupt context)
+> 
+> v3:
+> * Set fence error to ECANCELED when a TERMINATED exception is received
 > 
 > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-
-Reviewed-by: Lucas Stach <l.stach@pengutronix.de>
-
 > ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c |  2 +-
->  drivers/gpu/drm/etnaviv/etnaviv_sched.c   |  3 ++-
->  drivers/gpu/drm/lima/lima_sched.c         |  3 ++-
->  drivers/gpu/drm/panfrost/panfrost_job.c   |  3 ++-
->  drivers/gpu/drm/scheduler/sched_main.c    | 14 +++++++++-----
->  drivers/gpu/drm/v3d/v3d_sched.c           | 10 +++++-----
->  include/drm/gpu_scheduler.h               |  5 ++++-
->  7 files changed, 25 insertions(+), 15 deletions(-)
+>  drivers/gpu/drm/panfrost/panfrost_job.c | 42 +++++++++++++++++++++----
+>  1 file changed, 36 insertions(+), 6 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
-> index 47ea46859618..532636ea20bc 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
-> @@ -488,7 +488,7 @@ int amdgpu_fence_driver_init_ring(struct amdgpu_ring *ring,
->  
->  	r = drm_sched_init(&ring->sched, &amdgpu_sched_ops,
->  			   num_hw_submission, amdgpu_job_hang_limit,
-> -			   timeout, sched_score, ring->name);
-> +			   timeout, NULL, sched_score, ring->name);
->  	if (r) {
->  		DRM_ERROR("Failed to create scheduler on ring %s.\n",
->  			  ring->name);
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_sched.c b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
-> index 19826e504efc..feb6da1b6ceb 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_sched.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
-> @@ -190,7 +190,8 @@ int etnaviv_sched_init(struct etnaviv_gpu *gpu)
->  
->  	ret = drm_sched_init(&gpu->sched, &etnaviv_sched_ops,
->  			     etnaviv_hw_jobs_limit, etnaviv_job_hang_limit,
-> -			     msecs_to_jiffies(500), NULL, dev_name(gpu->dev));
-> +			     msecs_to_jiffies(500), NULL, NULL,
-> +			     dev_name(gpu->dev));
->  	if (ret)
->  		return ret;
->  
-> diff --git a/drivers/gpu/drm/lima/lima_sched.c b/drivers/gpu/drm/lima/lima_sched.c
-> index ecf3267334ff..dba8329937a3 100644
-> --- a/drivers/gpu/drm/lima/lima_sched.c
-> +++ b/drivers/gpu/drm/lima/lima_sched.c
-> @@ -508,7 +508,8 @@ int lima_sched_pipe_init(struct lima_sched_pipe *pipe, const char *name)
->  	INIT_WORK(&pipe->recover_work, lima_sched_recover_work);
->  
->  	return drm_sched_init(&pipe->base, &lima_sched_ops, 1,
-> -			      lima_job_hang_limit, msecs_to_jiffies(timeout),
-> +			      lima_job_hang_limit,
-> +			      msecs_to_jiffies(timeout), NULL,
->  			      NULL, name);
->  }
->  
 > diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
-> index 682f2161b999..8ff79fd49577 100644
+> index b0f4857ca084..979108dbc323 100644
 > --- a/drivers/gpu/drm/panfrost/panfrost_job.c
 > +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
-> @@ -626,7 +626,8 @@ int panfrost_job_init(struct panfrost_device *pfdev)
+> @@ -499,14 +499,21 @@ static void panfrost_job_handle_irq(struct panfrost_device *pfdev, u32 status)
 >  
->  		ret = drm_sched_init(&js->queue[j].sched,
->  				     &panfrost_sched_ops,
-> -				     1, 0, msecs_to_jiffies(JOB_TIMEOUT_MS),
-> +				     1, 0,
-> +				     msecs_to_jiffies(JOB_TIMEOUT_MS), NULL,
->  				     NULL, "pan_js");
->  		if (ret) {
->  			dev_err(pfdev->dev, "Failed to create scheduler: %d.", ret);
-> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-> index c0a2f8f8d472..3e180f0d4305 100644
-> --- a/drivers/gpu/drm/scheduler/sched_main.c
-> +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> @@ -232,7 +232,7 @@ static void drm_sched_start_timeout(struct drm_gpu_scheduler *sched)
->  {
->  	if (sched->timeout != MAX_SCHEDULE_TIMEOUT &&
->  	    !list_empty(&sched->pending_list))
-> -		schedule_delayed_work(&sched->work_tdr, sched->timeout);
-> +		queue_delayed_work(sched->timeout_wq, &sched->work_tdr, sched->timeout);
->  }
+>  		if (status & JOB_INT_MASK_ERR(j)) {
+>  			u32 js_status = job_read(pfdev, JS_STATUS(j));
+> +			const char *exception_name = panfrost_exception_name(js_status);
 >  
->  /**
-> @@ -244,7 +244,7 @@ static void drm_sched_start_timeout(struct drm_gpu_scheduler *sched)
->   */
->  void drm_sched_fault(struct drm_gpu_scheduler *sched)
->  {
-> -	mod_delayed_work(system_wq, &sched->work_tdr, 0);
-> +	mod_delayed_work(sched->timeout_wq, &sched->work_tdr, 0);
->  }
->  EXPORT_SYMBOL(drm_sched_fault);
+>  			job_write(pfdev, JS_COMMAND_NEXT(j), JS_COMMAND_NOP);
 >  
-> @@ -270,7 +270,7 @@ unsigned long drm_sched_suspend_timeout(struct drm_gpu_scheduler *sched)
->  	 * Modify the timeout to an arbitrarily large value. This also prevents
->  	 * the timeout to be restarted when new submissions arrive
->  	 */
-> -	if (mod_delayed_work(system_wq, &sched->work_tdr, MAX_SCHEDULE_TIMEOUT)
-> +	if (mod_delayed_work(sched->timeout_wq, &sched->work_tdr, MAX_SCHEDULE_TIMEOUT)
->  			&& time_after(sched_timeout, now))
->  		return sched_timeout - now;
->  	else
-> @@ -294,7 +294,7 @@ void drm_sched_resume_timeout(struct drm_gpu_scheduler *sched,
->  	if (list_empty(&sched->pending_list))
->  		cancel_delayed_work(&sched->work_tdr);
->  	else
-> -		mod_delayed_work(system_wq, &sched->work_tdr, remaining);
-> +		mod_delayed_work(sched->timeout_wq, &sched->work_tdr, remaining);
->  
->  	spin_unlock(&sched->job_list_lock);
->  }
-> @@ -837,6 +837,8 @@ static int drm_sched_main(void *param)
->   * @hw_submission: number of hw submissions that can be in flight
->   * @hang_limit: number of times to allow a job to hang before dropping it
->   * @timeout: timeout value in jiffies for the scheduler
-> + * @timeout_wq: workqueue to use for timeout work. If NULL, the system_wq is
-> + *		used
->   * @score: optional score atomic shared with other schedulers
->   * @name: name used for debugging
->   *
-> @@ -844,7 +846,8 @@ static int drm_sched_main(void *param)
->   */
->  int drm_sched_init(struct drm_gpu_scheduler *sched,
->  		   const struct drm_sched_backend_ops *ops,
-> -		   unsigned hw_submission, unsigned hang_limit, long timeout,
-> +		   unsigned hw_submission, unsigned hang_limit,
-> +		   long timeout, struct workqueue_struct *timeout_wq,
->  		   atomic_t *score, const char *name)
->  {
->  	int i, ret;
-> @@ -852,6 +855,7 @@ int drm_sched_init(struct drm_gpu_scheduler *sched,
->  	sched->hw_submission_limit = hw_submission;
->  	sched->name = name;
->  	sched->timeout = timeout;
-> +	sched->timeout_wq = timeout_wq ? : system_wq;
->  	sched->hang_limit = hang_limit;
->  	sched->score = score ? score : &sched->_score;
->  	for (i = DRM_SCHED_PRIORITY_MIN; i < DRM_SCHED_PRIORITY_COUNT; i++)
-> diff --git a/drivers/gpu/drm/v3d/v3d_sched.c b/drivers/gpu/drm/v3d/v3d_sched.c
-> index 8992480c88fa..a39bdd5cfc4f 100644
-> --- a/drivers/gpu/drm/v3d/v3d_sched.c
-> +++ b/drivers/gpu/drm/v3d/v3d_sched.c
-> @@ -402,7 +402,7 @@ v3d_sched_init(struct v3d_dev *v3d)
->  	ret = drm_sched_init(&v3d->queue[V3D_BIN].sched,
->  			     &v3d_bin_sched_ops,
->  			     hw_jobs_limit, job_hang_limit,
-> -			     msecs_to_jiffies(hang_limit_ms),
-> +			     msecs_to_jiffies(hang_limit_ms), NULL,
->  			     NULL, "v3d_bin");
->  	if (ret) {
->  		dev_err(v3d->drm.dev, "Failed to create bin scheduler: %d.", ret);
-> @@ -412,7 +412,7 @@ v3d_sched_init(struct v3d_dev *v3d)
->  	ret = drm_sched_init(&v3d->queue[V3D_RENDER].sched,
->  			     &v3d_render_sched_ops,
->  			     hw_jobs_limit, job_hang_limit,
-> -			     msecs_to_jiffies(hang_limit_ms),
-> +			     msecs_to_jiffies(hang_limit_ms), NULL,
->  			     NULL, "v3d_render");
->  	if (ret) {
->  		dev_err(v3d->drm.dev, "Failed to create render scheduler: %d.",
-> @@ -424,7 +424,7 @@ v3d_sched_init(struct v3d_dev *v3d)
->  	ret = drm_sched_init(&v3d->queue[V3D_TFU].sched,
->  			     &v3d_tfu_sched_ops,
->  			     hw_jobs_limit, job_hang_limit,
-> -			     msecs_to_jiffies(hang_limit_ms),
-> +			     msecs_to_jiffies(hang_limit_ms), NULL,
->  			     NULL, "v3d_tfu");
->  	if (ret) {
->  		dev_err(v3d->drm.dev, "Failed to create TFU scheduler: %d.",
-> @@ -437,7 +437,7 @@ v3d_sched_init(struct v3d_dev *v3d)
->  		ret = drm_sched_init(&v3d->queue[V3D_CSD].sched,
->  				     &v3d_csd_sched_ops,
->  				     hw_jobs_limit, job_hang_limit,
-> -				     msecs_to_jiffies(hang_limit_ms),
-> +				     msecs_to_jiffies(hang_limit_ms), NULL,
->  				     NULL, "v3d_csd");
->  		if (ret) {
->  			dev_err(v3d->drm.dev, "Failed to create CSD scheduler: %d.",
-> @@ -449,7 +449,7 @@ v3d_sched_init(struct v3d_dev *v3d)
->  		ret = drm_sched_init(&v3d->queue[V3D_CACHE_CLEAN].sched,
->  				     &v3d_cache_clean_sched_ops,
->  				     hw_jobs_limit, job_hang_limit,
-> -				     msecs_to_jiffies(hang_limit_ms),
-> +				     msecs_to_jiffies(hang_limit_ms), NULL,
->  				     NULL, "v3d_cache_clean");
->  		if (ret) {
->  			dev_err(v3d->drm.dev, "Failed to create CACHE_CLEAN scheduler: %d.",
-> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-> index 10225a0a35d0..d4cdc906709e 100644
-> --- a/include/drm/gpu_scheduler.h
-> +++ b/include/drm/gpu_scheduler.h
-> @@ -269,6 +269,7 @@ struct drm_sched_backend_ops {
->   *                 finished.
->   * @hw_rq_count: the number of jobs currently in the hardware queue.
->   * @job_id_count: used to assign unique id to the each job.
-> + * @timeout_wq: workqueue used to queue @work_tdr
->   * @work_tdr: schedules a delayed call to @drm_sched_job_timedout after the
->   *            timeout interval is over.
->   * @thread: the kthread on which the scheduler which run.
-> @@ -293,6 +294,7 @@ struct drm_gpu_scheduler {
->  	wait_queue_head_t		job_scheduled;
->  	atomic_t			hw_rq_count;
->  	atomic64_t			job_id_count;
-> +	struct workqueue_struct		*timeout_wq;
->  	struct delayed_work		work_tdr;
->  	struct task_struct		*thread;
->  	struct list_head		pending_list;
-> @@ -306,7 +308,8 @@ struct drm_gpu_scheduler {
->  
->  int drm_sched_init(struct drm_gpu_scheduler *sched,
->  		   const struct drm_sched_backend_ops *ops,
-> -		   uint32_t hw_submission, unsigned hang_limit, long timeout,
-> +		   uint32_t hw_submission, unsigned hang_limit,
-> +		   long timeout, struct workqueue_struct *timeout_wq,
->  		   atomic_t *score, const char *name);
->  
->  void drm_sched_fini(struct drm_gpu_scheduler *sched);
+> -			dev_err(pfdev->dev, "js fault, js=%d, status=%s, head=0x%x, tail=0x%x",
+> -				j,
+> -				panfrost_exception_name(js_status),
+> -				job_read(pfdev, JS_HEAD_LO(j)),
+> -				job_read(pfdev, JS_TAIL_LO(j)));
+> +			if (js_status < DRM_PANFROST_EXCEPTION_JOB_CONFIG_FAULT) {
 
+I can see what your trying to do here, but the code isn't very readable
+(it's not clear what JOB_CONFIG_FAULT has to do with the decision).
+
+I think there's two options here:
+
+ 1. (In Midgard) Bits 7:6 are the "exception class" and are 0 for
+"non-fault status codes". So we could rewrite it as ((js_status & 0xC0)
+== 0) - or even better with appropriate macros.
+
+ 2. Provide a macro definition for DRM_PANFROST_MAX_NON_FAULT_CODE which
+(at least currently) just happens to equal JOB_CONFIG_FAULT - 1 and use
+that instead.
+
+(1) is nice, but sadly Bifrost doesn't define things in terms of
+exception class any more and the exception type is described as just an
+8-bit enumeration. Of course we're entirely relying on any new non-fault
+status codes being ordered nicely, and option 1 and 2 are actually
+exactly the same check.
+
+> +				dev_dbg(pfdev->dev, "js interrupt, js=%d, status=%s, head=0x%x, tail=0x%x",
+> +					j, exception_name,
+> +					job_read(pfdev, JS_HEAD_LO(j)),
+> +					job_read(pfdev, JS_TAIL_LO(j)));
+> +			} else {
+> +				dev_err(pfdev->dev, "js fault, js=%d, status=%s, head=0x%x, tail=0x%x",
+> +					j, exception_name,
+> +					job_read(pfdev, JS_HEAD_LO(j)),
+> +					job_read(pfdev, JS_TAIL_LO(j)));
+> +			}
+>  
+>  			/* If we need a reset, signal it to the timeout
+>  			 * handler, otherwise, update the fence error field and
+> @@ -515,7 +522,16 @@ static void panfrost_job_handle_irq(struct panfrost_device *pfdev, u32 status)
+>  			if (panfrost_exception_needs_reset(pfdev, js_status)) {
+>  				drm_sched_fault(&pfdev->js->queue[j].sched);
+>  			} else {
+> -				dma_fence_set_error(pfdev->jobs[j]->done_fence, -EINVAL);
+> +				int error = 0;
+> +
+> +				if (js_status == DRM_PANFROST_EXCEPTION_TERMINATED)
+> +					error = -ECANCELED;
+> +				else if (js_status >= DRM_PANFROST_EXCEPTION_JOB_CONFIG_FAULT)
+
+As above.
+
+> +					error = -EINVAL;
+> +
+> +				if (error)
+> +					dma_fence_set_error(pfdev->jobs[j]->done_fence, error);
+> +
+>  				status |= JOB_INT_MASK_DONE(j);
+>  			}
+>  		}
+> @@ -681,10 +697,24 @@ int panfrost_job_open(struct panfrost_file_priv *panfrost_priv)
+>  
+>  void panfrost_job_close(struct panfrost_file_priv *panfrost_priv)
+>  {
+> +	struct panfrost_device *pfdev = panfrost_priv->pfdev;
+>  	int i;
+>  
+>  	for (i = 0; i < NUM_JOB_SLOTS; i++)
+>  		drm_sched_entity_destroy(&panfrost_priv->sched_entity[i]);
+> +
+> +	/* Kill in-flight jobs */
+> +	spin_lock(&pfdev->js->job_lock);
+> +	for (i = 0; i < NUM_JOB_SLOTS; i++) {
+> +		struct drm_sched_entity *entity = &panfrost_priv->sched_entity[i];
+> +		struct panfrost_job *job = pfdev->jobs[i];
+> +
+> +		if (!job || job->base.entity != entity)
+> +			continue;
+> +
+> +		job_write(pfdev, JS_COMMAND(i), JS_COMMAND_HARD_STOP);
+> +	}
+> +	spin_unlock(&pfdev->js->job_lock);
+>  }
+>  
+>  int panfrost_job_is_idle(struct panfrost_device *pfdev)
+> 
 
