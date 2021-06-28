@@ -1,33 +1,94 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D67013B59EA
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Jun 2021 09:42:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 43B673B5A26
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Jun 2021 09:55:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD4E36E270;
-	Mon, 28 Jun 2021 07:42:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A4F56E2BC;
+	Mon, 28 Jun 2021 07:55:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E513B6E047
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Jun 2021 07:42:23 +0000 (UTC)
-Received: from localhost.localdomain (unknown
- [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 4EE701F4259D;
- Mon, 28 Jun 2021 08:42:22 +0100 (BST)
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v4 14/14] drm/panfrost: Queue jobs on the hardware
-Date: Mon, 28 Jun 2021 09:42:10 +0200
-Message-Id: <20210628074210.2695399-15-boris.brezillon@collabora.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210628074210.2695399-1-boris.brezillon@collabora.com>
-References: <20210628074210.2695399-1-boris.brezillon@collabora.com>
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2081.outbound.protection.outlook.com [40.107.243.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 74C186E2B8;
+ Mon, 28 Jun 2021 07:55:06 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=jUPTra7mY5g576b9n7q2NOPQKb/3DgHsZI1NP5ObNd/s741LzcrqxunBdWLazCJS9SmrbXtZbMnTGNStmIyPShltcA9mbDLugIkoa/RaptPULjtXGygUyIfv5Y+vI6XkEMvl5EIDH/Yh6jAmZWJK29MGF+zPrVGDqGLIvAXsoq3rCQuU3y+Egfku3mIXfiWnDE2Nif6dGOnnHrcaETD/V09jz+BrnbKyJ3Sg0sIEq59MrG/rCPLIQ+vkflCO4OZA5Lq297fDNqKktO5pfoHBicVIGWXZhT6wVyoKguGp2c29BXumWn2IHQR/P4ncQATi3RlIC/tV3a/XCOTTn14GyQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=N9MthPqgelYcSJ89FybXUeSq2AWTfj3bsegm14Q7REc=;
+ b=JDrrW/BBPrl9TdiMEEtuNniNhXudJOVwsp0UK4fBnVwD7OrApBQa6Nju4xQnZWN1zhWE/eU5Ab1Dz/g4fW6sVB3ipnC86HCP+/d+PRvN5i4/WS+3I90KErcNSe3uVunhPI9yur1hdnvDY6LRrfoEJ/PnK57x7442oY0p/OXYd6di6+qpv8tTW6d9OSHRGDEar6XJUO7ltbO83apq9sx+jClBHoLEN563Tin3CXkBaW8H5NugIT64lGpqe1R9a3a/pbReAElTvs3qAH5tVPElXmGl98omScuASY9kPc3xUiMDT8vdjqTIw2dqJJU54weoTtal2rzqZ4s+ll/xBcuXSw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=linux.ie smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=N9MthPqgelYcSJ89FybXUeSq2AWTfj3bsegm14Q7REc=;
+ b=bdnWQ1SUClYzlaLFJJutkli5FkQ76x77SLwxkLq2foUCQB3Y6W20ReMxaMQYqVRONh5yF5LOcewFSt4mV8lf2pff4NFsSTsQ/KTqzmQ2zACzpljCKOGipQthDRvW8uejmUuKr3Jh2DO3I27ldAK5wfxsnC8W9TVLjSzsADstUzk=
+Received: from BN6PR16CA0034.namprd16.prod.outlook.com (2603:10b6:405:14::20)
+ by BL0PR12MB4898.namprd12.prod.outlook.com (2603:10b6:208:1c7::17)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4264.18; Mon, 28 Jun
+ 2021 07:55:04 +0000
+Received: from BN8NAM11FT016.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:405:14:cafe::18) by BN6PR16CA0034.outlook.office365.com
+ (2603:10b6:405:14::20) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4264.19 via Frontend
+ Transport; Mon, 28 Jun 2021 07:55:04 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; linux.ie; dkim=none (message not signed)
+ header.d=none;linux.ie; dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BN8NAM11FT016.mail.protection.outlook.com (10.13.176.97) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.4264.18 via Frontend Transport; Mon, 28 Jun 2021 07:55:04 +0000
+Received: from jatayu.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4; Mon, 28 Jun
+ 2021 02:55:00 -0500
+From: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+To: <alexander.deucher@amd.com>, <christian.koenig@amd.com>,
+ <airlied@linux.ie>, <daniel@ffwll.ch>, <ray.huang@amd.com>,
+ <Xiaomeng.Hou@amd.com>, <aaron.liu@amd.com>
+Subject: [PATCH] drm/amd/pm: skip PrepareMp1ForUnload message in s0ix
+Date: Mon, 28 Jun 2021 13:24:40 +0530
+Message-ID: <20210628075440.3692236-1-Shyam-sundar.S-k@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: f8e25765-e013-41f3-c078-08d93a0a0a2b
+X-MS-TrafficTypeDiagnostic: BL0PR12MB4898:
+X-Microsoft-Antispam-PRVS: <BL0PR12MB4898ECFB1DE6C3BC28C49A9A9A039@BL0PR12MB4898.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: mEiJ8Q2DRX6OhhA9gqzE4ibGXxhgRPyYVFXYjW9ucrm39RGHOUFVUW2VHPfWvBydwdfIqslppUuHgVWXI3bDaJzQivlVCm30ChxDw00rdCiY0RmQmoPyGBouZYQIAshZabsoeRVM9Ixzqxn04KIUCeFe9mIhwwTVaSbIDMWVkhfYK+qp+j2v9yVUINcRGs5txpz9S1292vCQsfc+vAGn7GXq8wvqGhRaKpNR3BSsw3grTFLP9Yc+z+Wim9pZJ84bAF9Dc/aZRKQD0h/jGwHV37Gso3mJ28p0ShmRnPbjeJRatpHlg4jQvcYVCacowlyUmGY3a+E9cF0/MwFH1yTJD9InL9+HhlCKLnJTqwukeaafxX2UGXXXzZCVAcUcBswWsUzQXGpbfQvTX9BrvutpulXmBngSUF/4X2ZcQlEv+v/b4aWaZBx4oMmbIFdj4/jGfui1b2vAOiEfpoUgNixi2ijHntDxjiM1C7ouJgSbv15t4smwVi6sB/1AqufoQH10TuA9y3oOLDpPmH5aTRvKfpFkB6CXty8jrHo1gwZc9fBCjTtEPcQuk6tu/0Npk9qaMEloiNWHn79aN+RKwbfrOcoKQKZjVD1Mr0AZ8bUoeXOVyr5cBlkH8MdGNsXGJCQYhTT1c8Ggt4kEGFrKsYULKkaJahLLdbRV0EkWNzSmBAolxYFiDs2t8Rpw0bp07ctprZHfrPxPD0uS6tSTu3Kur37O9s1OZm/BTjUAc0M5S3GZeslHXzVWR2f032zLKEwo6AVkWc1TVRE0ylQIgEKBJg==
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(4636009)(39860400002)(136003)(346002)(396003)(376002)(46966006)(36840700001)(36756003)(82740400003)(81166007)(356005)(5660300002)(83380400001)(47076005)(26005)(70586007)(186003)(16526019)(82310400003)(70206006)(7696005)(86362001)(36860700001)(4326008)(1076003)(2616005)(8676002)(478600001)(6666004)(110136005)(54906003)(2906002)(8936002)(316002)(426003)(19627235002)(15650500001)(6636002)(336012)(32563001)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jun 2021 07:55:04.3799 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: f8e25765-e013-41f3-c078-08d93a0a0a2b
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT016.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB4898
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -40,651 +101,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- Steven Price <steven.price@arm.com>, Rob Herring <robh+dt@kernel.org>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Robin Murphy <robin.murphy@arm.com>
+Cc: Shyam
+ Sundar S K <Shyam-sundar.S-k@amd.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Steven Price <steven.price@arm.com>
+The documentation around PrepareMp1ForUnload message says that
+anything sent to SMU after this command would be stalled as the
+PMFW would not be in a state to take further job requests.
 
-The hardware has a set of '_NEXT' registers that can hold a second job
-while the first is executing. Make use of these registers to enqueue a
-second job per slot.
+Technically this is right in case of S3 scenario. But, this might
+not be the case during s0ix as the PMC driver would be the last
+to send the SMU on the OS_HINT. If SMU gets a PrepareMp1ForUnload
+message before the OS_HINT, this would stall the entire S0ix process.
 
-v3:
-* Fix the done/err job dequeuing logic to get a valid active state
-* Only enable the second slot on GPUs supporting jobchain disambiguation
-* Split interrupt handling in sub-functions
+Results show that, this message to SMU is not required during S0ix
+and hence skip it.
 
-Signed-off-by: Steven Price <steven.price@arm.com>
-Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+Acked-by: Huang Rui <ray.huang@amd.com>
 ---
- drivers/gpu/drm/panfrost/panfrost_device.h |   2 +-
- drivers/gpu/drm/panfrost/panfrost_job.c    | 468 +++++++++++++++------
- 2 files changed, 351 insertions(+), 119 deletions(-)
+ drivers/gpu/drm/amd/pm/swsmu/smu13/yellow_carp_ppt.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/panfrost/panfrost_device.h b/drivers/gpu/drm/panfrost/panfrost_device.h
-index d91f71366214..81f81fc8650e 100644
---- a/drivers/gpu/drm/panfrost/panfrost_device.h
-+++ b/drivers/gpu/drm/panfrost/panfrost_device.h
-@@ -101,7 +101,7 @@ struct panfrost_device {
- 
- 	struct panfrost_job_slot *js;
- 
--	struct panfrost_job *jobs[NUM_JOB_SLOTS];
-+	struct panfrost_job *jobs[NUM_JOB_SLOTS][2];
- 	struct list_head scheduled_jobs;
- 
- 	struct panfrost_perfcnt *perfcnt;
-diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
-index 979108dbc323..b965669a1fed 100644
---- a/drivers/gpu/drm/panfrost/panfrost_job.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_job.c
-@@ -4,6 +4,7 @@
- #include <linux/delay.h>
- #include <linux/interrupt.h>
- #include <linux/io.h>
-+#include <linux/iopoll.h>
- #include <linux/platform_device.h>
- #include <linux/pm_runtime.h>
- #include <linux/dma-resv.h>
-@@ -140,9 +141,52 @@ static void panfrost_job_write_affinity(struct panfrost_device *pfdev,
- 	job_write(pfdev, JS_AFFINITY_NEXT_HI(js), affinity >> 32);
- }
- 
-+static u32
-+panfrost_get_job_chain_flag(const struct panfrost_job *job)
-+{
-+	struct panfrost_fence *f = to_panfrost_fence(job->done_fence);
-+
-+	if (!panfrost_has_hw_feature(job->pfdev, HW_FEATURE_JOBCHAIN_DISAMBIGUATION))
-+		return 0;
-+
-+	return (f->seqno & 1) ? JS_CONFIG_JOB_CHAIN_FLAG : 0;
-+}
-+
-+static struct panfrost_job *
-+panfrost_dequeue_job(struct panfrost_device *pfdev, int slot)
-+{
-+	struct panfrost_job *job = pfdev->jobs[slot][0];
-+
-+	WARN_ON(!job);
-+	pfdev->jobs[slot][0] = pfdev->jobs[slot][1];
-+	pfdev->jobs[slot][1] = NULL;
-+
-+	return job;
-+}
-+
-+static unsigned int
-+panfrost_enqueue_job(struct panfrost_device *pfdev, int slot,
-+		     struct panfrost_job *job)
-+{
-+	if (WARN_ON(!job))
-+		return 0;
-+
-+	if (!pfdev->jobs[slot][0]) {
-+		pfdev->jobs[slot][0] = job;
-+		return 0;
-+	}
-+
-+	WARN_ON(pfdev->jobs[slot][1]);
-+	pfdev->jobs[slot][1] = job;
-+	WARN_ON(panfrost_get_job_chain_flag(job) ==
-+		panfrost_get_job_chain_flag(pfdev->jobs[slot][0]));
-+	return 1;
-+}
-+
- static void panfrost_job_hw_submit(struct panfrost_job *job, int js)
+diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu13/yellow_carp_ppt.c b/drivers/gpu/drm/amd/pm/swsmu/smu13/yellow_carp_ppt.c
+index 7664334d8144..18a1ffdca227 100644
+--- a/drivers/gpu/drm/amd/pm/swsmu/smu13/yellow_carp_ppt.c
++++ b/drivers/gpu/drm/amd/pm/swsmu/smu13/yellow_carp_ppt.c
+@@ -189,10 +189,11 @@ static int yellow_carp_init_smc_tables(struct smu_context *smu)
+ static int yellow_carp_system_features_control(struct smu_context *smu, bool en)
  {
- 	struct panfrost_device *pfdev = job->pfdev;
-+	unsigned int subslot;
- 	u32 cfg;
- 	u64 jc_head = job->jc;
- 	int ret;
-@@ -168,7 +212,8 @@ static void panfrost_job_hw_submit(struct panfrost_job *job, int js)
- 	 * start */
- 	cfg |= JS_CONFIG_THREAD_PRI(8) |
- 		JS_CONFIG_START_FLUSH_CLEAN_INVALIDATE |
--		JS_CONFIG_END_FLUSH_CLEAN_INVALIDATE;
-+		JS_CONFIG_END_FLUSH_CLEAN_INVALIDATE |
-+		panfrost_get_job_chain_flag(job);
+ 	struct smu_feature *feature = &smu->smu_feature;
++	struct amdgpu_device *adev = smu->adev;
+ 	uint32_t feature_mask[2];
+ 	int ret = 0;
  
- 	if (panfrost_has_hw_feature(pfdev, HW_FEATURE_FLUSH_REDUCTION))
- 		cfg |= JS_CONFIG_ENABLE_FLUSH_REDUCTION;
-@@ -182,10 +227,17 @@ static void panfrost_job_hw_submit(struct panfrost_job *job, int js)
- 		job_write(pfdev, JS_FLUSH_ID_NEXT(js), job->flush_id);
+-	if (!en)
++	if (!en && !adev->in_s0ix)
+ 		ret = smu_cmn_send_smc_msg(smu, SMU_MSG_PrepareMp1ForUnload, NULL);
  
- 	/* GO ! */
--	dev_dbg(pfdev->dev, "JS: Submitting atom %p to js[%d] with head=0x%llx",
--				job, js, jc_head);
- 
--	job_write(pfdev, JS_COMMAND_NEXT(js), JS_COMMAND_START);
-+	spin_lock(&pfdev->js->job_lock);
-+	subslot = panfrost_enqueue_job(pfdev, js, job);
-+	/* Don't queue the job if a reset is in progress */
-+	if (!atomic_read(&pfdev->reset.pending)) {
-+		job_write(pfdev, JS_COMMAND_NEXT(js), JS_COMMAND_START);
-+		dev_dbg(pfdev->dev,
-+			"JS: Submitting atom %p to js[%d][%d] with head=0x%llx AS %d",
-+			job, js, subslot, jc_head, cfg & 0xf);
-+	}
-+	spin_unlock(&pfdev->js->job_lock);
- }
- 
- static void panfrost_acquire_object_fences(struct drm_gem_object **bos,
-@@ -343,7 +395,11 @@ static struct dma_fence *panfrost_job_run(struct drm_sched_job *sched_job)
- 	if (unlikely(job->base.s_fence->finished.error))
- 		return NULL;
- 
--	pfdev->jobs[slot] = job;
-+	/* Nothing to execute: can happen if the job has finished while
-+	 * we were resetting the GPU.
-+	 */
-+	if (!job->jc)
-+		return NULL;
- 
- 	fence = panfrost_fence_create(pfdev, slot);
- 	if (IS_ERR(fence))
-@@ -371,11 +427,218 @@ void panfrost_job_enable_interrupts(struct panfrost_device *pfdev)
- 	job_write(pfdev, JOB_INT_MASK, irq_mask);
- }
- 
--static void panfrost_reset(struct panfrost_device *pfdev,
--			   struct drm_sched_job *bad)
-+static void panfrost_job_handle_err(struct panfrost_device *pfdev,
-+				    struct panfrost_job *job,
-+				    unsigned int js)
- {
--	unsigned int i;
-+	u32 js_status = job_read(pfdev, JS_STATUS(js));
-+	const char *exception_name = panfrost_exception_name(js_status);
-+	bool signal_fence = true;
-+
-+	if (js_status < DRM_PANFROST_EXCEPTION_JOB_CONFIG_FAULT) {
-+		dev_dbg(pfdev->dev, "js event, js=%d, status=%s, head=0x%x, tail=0x%x",
-+			js, exception_name,
-+			job_read(pfdev, JS_HEAD_LO(js)),
-+			job_read(pfdev, JS_TAIL_LO(js)));
-+	} else {
-+		dev_err(pfdev->dev, "js fault, js=%d, status=%s, head=0x%x, tail=0x%x",
-+			js, exception_name,
-+			job_read(pfdev, JS_HEAD_LO(js)),
-+			job_read(pfdev, JS_TAIL_LO(js)));
-+	}
-+
-+	if (js_status == DRM_PANFROST_EXCEPTION_STOPPED) {
-+		/* Update the job head so we can resume */
-+		job->jc = job_read(pfdev, JS_TAIL_LO(js)) |
-+			  ((u64)job_read(pfdev, JS_TAIL_HI(js)) << 32);
-+
-+		/* The job will be resumed, don't signal the fence */
-+		signal_fence = false;
-+	} else if (js_status == DRM_PANFROST_EXCEPTION_TERMINATED) {
-+		/* Job has been hard-stopped, flag it as canceled */
-+		dma_fence_set_error(job->done_fence, -ECANCELED);
-+		job->jc = 0;
-+	} else if (js_status >= DRM_PANFROST_EXCEPTION_JOB_CONFIG_FAULT) {
-+		/* We might want to provide finer-grained error code based on
-+		 * the exception type, but unconditionally setting to EINVAL
-+		 * is good enough for now.
-+		 */
-+		dma_fence_set_error(job->done_fence, -EINVAL);
-+		job->jc = 0;
-+	}
-+
-+	panfrost_mmu_as_put(pfdev, job->file_priv->mmu);
-+	panfrost_devfreq_record_idle(&pfdev->pfdevfreq);
-+
-+	if (signal_fence)
-+		dma_fence_signal_locked(job->done_fence);
-+
-+	pm_runtime_put_autosuspend(pfdev->dev);
-+
-+	if (panfrost_exception_needs_reset(pfdev, js_status)) {
-+		atomic_set(&pfdev->reset.pending, 1);
-+		drm_sched_fault(&pfdev->js->queue[js].sched);
-+	}
-+}
-+
-+static void panfrost_job_handle_done(struct panfrost_device *pfdev,
-+				     struct panfrost_job *job)
-+{
-+	/* Set ->jc to 0 to avoid re-submitting an already finished job (can
-+	 * happen when we receive the DONE interrupt while doing a GPU reset).
-+	 */
-+	job->jc = 0;
-+	panfrost_mmu_as_put(pfdev, job->file_priv->mmu);
-+	panfrost_devfreq_record_idle(&pfdev->pfdevfreq);
-+
-+	dma_fence_signal_locked(job->done_fence);
-+	pm_runtime_put_autosuspend(pfdev->dev);
-+}
-+
-+static void panfrost_job_handle_irq(struct panfrost_device *pfdev, u32 status)
-+{
-+	struct panfrost_job *done[NUM_JOB_SLOTS][2] = {};
-+	struct panfrost_job *failed[NUM_JOB_SLOTS] = {};
-+	u32 js_state = 0, js_events = 0;
-+	unsigned int i, j;
-+
-+	/* First we collect all failed/done jobs. */
-+	while (status) {
-+		u32 js_state_mask = 0;
-+
-+		for (j = 0; j < NUM_JOB_SLOTS; j++) {
-+			if (status & MK_JS_MASK(j))
-+				js_state_mask |= MK_JS_MASK(j);
-+
-+			if (status & JOB_INT_MASK_DONE(j)) {
-+				if (done[j][0])
-+					done[j][1] = panfrost_dequeue_job(pfdev, j);
-+				else
-+					done[j][0] = panfrost_dequeue_job(pfdev, j);
-+			}
-+
-+			if (status & JOB_INT_MASK_ERR(j)) {
-+				/* Cancel the next submission. Will be submitted
-+				 * after we're done handling this failure if
-+				 * there's no reset pending.
-+				 */
-+				job_write(pfdev, JS_COMMAND_NEXT(j), JS_COMMAND_NOP);
-+				failed[j] = panfrost_dequeue_job(pfdev, j);
-+			}
-+		}
-+
-+		/* JS_STATE is sampled when JOB_INT_CLEAR is written.
-+		 * For each BIT(slot) or BIT(slot + 16) bit written to
-+		 * JOB_INT_CLEAR, the corresponding bits in JS_STATE
-+		 * (BIT(slot) and BIT(slot + 16)) are updated, but this
-+		 * is racy. If we only have one job done at the time we
-+		 * read JOB_INT_RAWSTAT but the second job fails before we
-+		 * clear the status, we end up with a status containing
-+		 * only the DONE bit and consider both jobs as DONE since
-+		 * JS_STATE reports both NEXT and CURRENT as inactive.
-+		 * To prevent that, let's repeat this clear+read steps
-+		 * until status is 0.
-+		 */
-+		job_write(pfdev, JOB_INT_CLEAR, status);
-+		js_state &= ~js_state_mask;
-+		js_state |= job_read(pfdev, JOB_INT_JS_STATE) & js_state_mask;
-+		js_events |= status;
-+		status = job_read(pfdev, JOB_INT_RAWSTAT);
-+	}
-+
-+	/* Then we handle the dequeued jobs. */
-+	for (j = 0; j < NUM_JOB_SLOTS; j++) {
-+		if (!(js_events & MK_JS_MASK(j)))
-+			continue;
-+
-+		if (failed[j]) {
-+			panfrost_job_handle_err(pfdev, failed[j], j);
-+		} else if (pfdev->jobs[j][0] && !(js_state & MK_JS_MASK(j))) {
-+			/* When the current job doesn't fail, the JM dequeues
-+			 * the next job without waiting for an ACK, this means
-+			 * we can have 2 jobs dequeued and only catch the
-+			 * interrupt when the second one is done. If both slots
-+			 * are inactive, but one job remains in pfdev->jobs[j],
-+			 * consider it done. Of course that doesn't apply if a
-+			 * failure happened since we cancelled execution of the
-+			 * job in _NEXT (see above).
-+			 */
-+			if (WARN_ON(!done[j][0]))
-+				done[j][0] = panfrost_dequeue_job(pfdev, j);
-+			else
-+				done[j][1] = panfrost_dequeue_job(pfdev, j);
-+		}
-+
-+		for (i = 0; i < ARRAY_SIZE(done[0]) && done[j][i]; i++)
-+			panfrost_job_handle_done(pfdev, done[j][i]);
-+	}
-+
-+	/* And finally we requeue jobs that were waiting in the second slot
-+	 * and have been stopped if we detected a failure on the first slot.
-+	 */
-+	for (j = 0; j < NUM_JOB_SLOTS; j++) {
-+		if (!(js_events & MK_JS_MASK(j)))
-+			continue;
-+
-+		if (!failed[j] || !pfdev->jobs[j][0])
-+			continue;
-+
-+		if (pfdev->jobs[j][0]->jc == 0) {
-+			/* The job was cancelled, signal the fence now */
-+			struct panfrost_job *canceled = panfrost_dequeue_job(pfdev, j);
-+
-+			dma_fence_set_error(canceled->done_fence, -ECANCELED);
-+			panfrost_job_handle_done(pfdev, canceled);
-+		} else if (!atomic_read(&pfdev->reset.pending)) {
-+			/* Requeue the job we removed if no reset is pending */
-+			job_write(pfdev, JS_COMMAND_NEXT(j), JS_COMMAND_START);
-+		}
-+	}
-+}
-+
-+static void panfrost_job_handle_irqs(struct panfrost_device *pfdev)
-+{
-+	u32 status = job_read(pfdev, JOB_INT_RAWSTAT);
-+
-+	while (status) {
-+		pm_runtime_mark_last_busy(pfdev->dev);
-+
-+		spin_lock(&pfdev->js->job_lock);
-+		panfrost_job_handle_irq(pfdev, status);
-+		spin_unlock(&pfdev->js->job_lock);
-+		status = job_read(pfdev, JOB_INT_RAWSTAT);
-+	}
-+}
-+
-+static u32 panfrost_active_slots(struct panfrost_device *pfdev,
-+				 u32 *js_state_mask, u32 js_state)
-+{
-+	u32 rawstat;
-+
-+	if (!(js_state & *js_state_mask))
-+		return 0;
-+
-+	rawstat = job_read(pfdev, JOB_INT_RAWSTAT);
-+	if (rawstat) {
-+		unsigned int i;
-+
-+		for (i = 0; i < NUM_JOB_SLOTS; i++) {
-+			if (rawstat & MK_JS_MASK(i))
-+				*js_state_mask &= ~MK_JS_MASK(i);
-+		}
-+	}
-+
-+	return js_state & *js_state_mask;
-+}
-+
-+static void
-+panfrost_reset(struct panfrost_device *pfdev,
-+	       struct drm_sched_job *bad)
-+{
-+	u32 js_state, js_state_mask = 0xffffffff;
-+	unsigned int i, j;
- 	bool cookie;
-+	int ret;
- 
- 	if (!atomic_read(&pfdev->reset.pending))
- 		return;
-@@ -407,21 +670,46 @@ static void panfrost_reset(struct panfrost_device *pfdev,
- 	job_write(pfdev, JOB_INT_MASK, 0);
- 	synchronize_irq(pfdev->js->irq);
- 
--	/* Schedulers are stopped and interrupts are masked+flushed, we don't
--	 * need to protect the 'evict unfinished jobs' lock with the job_lock.
-+	for (i = 0; i < NUM_JOB_SLOTS; i++) {
-+		/* Cancel the next job and soft-stop the running job. */
-+		job_write(pfdev, JS_COMMAND_NEXT(i), JS_COMMAND_NOP);
-+		job_write(pfdev, JS_COMMAND(i), JS_COMMAND_SOFT_STOP);
-+	}
-+
-+	/* Wait at most 10ms for soft-stops to complete */
-+	ret = readl_poll_timeout(pfdev->iomem + JOB_INT_JS_STATE, js_state,
-+				 !panfrost_active_slots(pfdev, &js_state_mask, js_state),
-+				 10, 10000);
-+
-+	if (ret)
-+		dev_err(pfdev->dev, "Soft-stop failed\n");
-+
-+	/* Handle the remaining interrupts before we reset. */
-+	panfrost_job_handle_irqs(pfdev);
-+
-+	/* Remaining interrupts have been handled, but we might still have
-+	 * stuck jobs. Let's make sure the PM counters stay balanced by
-+	 * manually calling pm_runtime_put_noidle() and
-+	 * panfrost_devfreq_record_idle() for each stuck job.
- 	 */
- 	spin_lock(&pfdev->js->job_lock);
- 	for (i = 0; i < NUM_JOB_SLOTS; i++) {
--		if (pfdev->jobs[i]) {
-+		for (j = 0; j < ARRAY_SIZE(pfdev->jobs[0]) && pfdev->jobs[i][j]; j++) {
- 			pm_runtime_put_noidle(pfdev->dev);
- 			panfrost_devfreq_record_idle(&pfdev->pfdevfreq);
--			pfdev->jobs[i] = NULL;
- 		}
- 	}
-+	memset(pfdev->jobs, 0, sizeof(pfdev->jobs));
- 	spin_unlock(&pfdev->js->job_lock);
- 
-+	/* Proceed with reset now. */
- 	panfrost_device_reset(pfdev);
- 
-+	/* panfrost_device_reset() unmasks job interrupts, but we want to
-+	 * keep them masked a bit longer.
-+	 */
-+	job_write(pfdev, JOB_INT_MASK, 0);
-+
- 	/* GPU has been reset, we can cancel timeout/fault work that may have
- 	 * been queued in the meantime and clear the reset pending bit.
- 	 */
-@@ -429,7 +717,6 @@ static void panfrost_reset(struct panfrost_device *pfdev,
- 	for (i = 0; i < NUM_JOB_SLOTS; i++)
- 		cancel_delayed_work(&pfdev->js->queue[i].sched.work_tdr);
- 
--
- 	/* Now resubmit jobs that were previously queued but didn't have a
- 	 * chance to finish.
- 	 * FIXME: We temporarily get out of the DMA fence signalling section
-@@ -442,9 +729,15 @@ static void panfrost_reset(struct panfrost_device *pfdev,
- 		drm_sched_resubmit_jobs(&pfdev->js->queue[i].sched);
- 	cookie = dma_fence_begin_signalling();
- 
-+	/* Restart the schedulers */
- 	for (i = 0; i < NUM_JOB_SLOTS; i++)
- 		drm_sched_start(&pfdev->js->queue[i].sched, true);
- 
-+	/* Re-enable job interrupts now that everything has been restarted. */
-+	job_write(pfdev, JOB_INT_MASK,
-+		  GENMASK(16 + NUM_JOB_SLOTS - 1, 16) |
-+		  GENMASK(NUM_JOB_SLOTS - 1, 0));
-+
- 	dma_fence_end_signalling(cookie);
- }
- 
-@@ -476,6 +769,14 @@ static enum drm_gpu_sched_stat panfrost_job_timedout(struct drm_sched_job
- 	return DRM_GPU_SCHED_STAT_NOMINAL;
- }
- 
-+static void panfrost_reset_work(struct work_struct *work)
-+{
-+	struct panfrost_device *pfdev;
-+
-+	pfdev = container_of(work, struct panfrost_device, reset.work);
-+	panfrost_reset(pfdev, NULL);
-+}
-+
- static const struct drm_sched_backend_ops panfrost_sched_ops = {
- 	.dependency = panfrost_job_dependency,
- 	.run_job = panfrost_job_run,
-@@ -483,100 +784,11 @@ static const struct drm_sched_backend_ops panfrost_sched_ops = {
- 	.free_job = panfrost_job_free
- };
- 
--static void panfrost_job_handle_irq(struct panfrost_device *pfdev, u32 status)
--{
--	int j;
--
--	dev_dbg(pfdev->dev, "jobslot irq status=%x\n", status);
--
--	for (j = 0; status; j++) {
--		u32 mask = MK_JS_MASK(j);
--
--		if (!(status & mask))
--			continue;
--
--		job_write(pfdev, JOB_INT_CLEAR, mask);
--
--		if (status & JOB_INT_MASK_ERR(j)) {
--			u32 js_status = job_read(pfdev, JS_STATUS(j));
--			const char *exception_name = panfrost_exception_name(js_status);
--
--			job_write(pfdev, JS_COMMAND_NEXT(j), JS_COMMAND_NOP);
--
--			if (js_status < DRM_PANFROST_EXCEPTION_JOB_CONFIG_FAULT) {
--				dev_dbg(pfdev->dev, "js interrupt, js=%d, status=%s, head=0x%x, tail=0x%x",
--					j, exception_name,
--					job_read(pfdev, JS_HEAD_LO(j)),
--					job_read(pfdev, JS_TAIL_LO(j)));
--			} else {
--				dev_err(pfdev->dev, "js fault, js=%d, status=%s, head=0x%x, tail=0x%x",
--					j, exception_name,
--					job_read(pfdev, JS_HEAD_LO(j)),
--					job_read(pfdev, JS_TAIL_LO(j)));
--			}
--
--			/* If we need a reset, signal it to the timeout
--			 * handler, otherwise, update the fence error field and
--			 * signal the job fence.
--			 */
--			if (panfrost_exception_needs_reset(pfdev, js_status)) {
--				drm_sched_fault(&pfdev->js->queue[j].sched);
--			} else {
--				int error = 0;
--
--				if (js_status == DRM_PANFROST_EXCEPTION_TERMINATED)
--					error = -ECANCELED;
--				else if (js_status >= DRM_PANFROST_EXCEPTION_JOB_CONFIG_FAULT)
--					error = -EINVAL;
--
--				if (error)
--					dma_fence_set_error(pfdev->jobs[j]->done_fence, error);
--
--				status |= JOB_INT_MASK_DONE(j);
--			}
--		}
--
--		if (status & JOB_INT_MASK_DONE(j)) {
--			struct panfrost_job *job;
--
--			job = pfdev->jobs[j];
--			/* The only reason this job could be NULL is if the
--			 * job IRQ handler is called just after the
--			 * in-flight job eviction in the reset path, and
--			 * this shouldn't happen because the job IRQ has
--			 * been masked and synchronized when this eviction
--			 * happens.
--			 */
--			WARN_ON(!job);
--			if (job) {
--				pfdev->jobs[j] = NULL;
--
--				panfrost_mmu_as_put(pfdev, job->file_priv->mmu);
--				panfrost_devfreq_record_idle(&pfdev->pfdevfreq);
--
--				dma_fence_signal_locked(job->done_fence);
--				pm_runtime_put_autosuspend(pfdev->dev);
--			}
--		}
--
--		status &= ~mask;
--	}
--}
--
- static irqreturn_t panfrost_job_irq_handler_thread(int irq, void *data)
- {
- 	struct panfrost_device *pfdev = data;
--	u32 status = job_read(pfdev, JOB_INT_RAWSTAT);
--
--	while (status) {
--		pm_runtime_mark_last_busy(pfdev->dev);
--
--		spin_lock(&pfdev->js->job_lock);
--		panfrost_job_handle_irq(pfdev, status);
--		spin_unlock(&pfdev->js->job_lock);
--		status = job_read(pfdev, JOB_INT_RAWSTAT);
--	}
- 
-+	panfrost_job_handle_irqs(pfdev);
- 	job_write(pfdev, JOB_INT_MASK,
- 		  GENMASK(16 + NUM_JOB_SLOTS - 1, 16) |
- 		  GENMASK(NUM_JOB_SLOTS - 1, 0));
-@@ -595,26 +807,24 @@ static irqreturn_t panfrost_job_irq_handler(int irq, void *data)
- 	return IRQ_WAKE_THREAD;
- }
- 
--static void panfrost_reset_work(struct work_struct *work)
--{
--	struct panfrost_device *pfdev = container_of(work,
--						     struct panfrost_device,
--						     reset.work);
--
--	panfrost_reset(pfdev, NULL);
--}
--
- int panfrost_job_init(struct panfrost_device *pfdev)
- {
- 	struct panfrost_job_slot *js;
-+	unsigned int nslots = 2;
- 	int ret, j;
- 
--	INIT_WORK(&pfdev->reset.work, panfrost_reset_work);
-+	/* All GPUs have twnslotsueue, but without jobchain
-+	 * disambiguation stopping the right job in the close path is tricky,
-+	 * so let's just advertize one slot in that case.
-+	 */
-+	if (!panfrost_has_hw_feature(pfdev, HW_FEATURE_JOBCHAIN_DISAMBIGUATION))
-+		nslots = 1;
- 
- 	pfdev->js = js = devm_kzalloc(pfdev->dev, sizeof(*js), GFP_KERNEL);
- 	if (!js)
- 		return -ENOMEM;
- 
-+	INIT_WORK(&pfdev->reset.work, panfrost_reset_work);
- 	spin_lock_init(&js->job_lock);
- 
- 	js->irq = platform_get_irq_byname(to_platform_device(pfdev->dev), "job");
-@@ -640,7 +850,7 @@ int panfrost_job_init(struct panfrost_device *pfdev)
- 
- 		ret = drm_sched_init(&js->queue[j].sched,
- 				     &panfrost_sched_ops,
--				     1, 0,
-+				     nslots, 0,
- 				     msecs_to_jiffies(JOB_TIMEOUT_MS),
- 				     pfdev->reset.wq,
- 				     NULL, "pan_js");
-@@ -707,12 +917,34 @@ void panfrost_job_close(struct panfrost_file_priv *panfrost_priv)
- 	spin_lock(&pfdev->js->job_lock);
- 	for (i = 0; i < NUM_JOB_SLOTS; i++) {
- 		struct drm_sched_entity *entity = &panfrost_priv->sched_entity[i];
--		struct panfrost_job *job = pfdev->jobs[i];
-+		int j;
- 
--		if (!job || job->base.entity != entity)
--			continue;
-+		for (j = ARRAY_SIZE(pfdev->jobs[0]) - 1; j >= 0; j--) {
-+			struct panfrost_job *job = pfdev->jobs[i][j];
-+			u32 cmd;
- 
--		job_write(pfdev, JS_COMMAND(i), JS_COMMAND_HARD_STOP);
-+			if (!job || job->base.entity != entity)
-+				continue;
-+
-+			if (j == 1) {
-+				/* Try to cancel the job before it starts */
-+				job_write(pfdev, JS_COMMAND_NEXT(i), JS_COMMAND_NOP);
-+				/* Reset the job head so it doesn't get restarted if
-+				 * the job in the first slot failed.
-+				 */
-+				job->jc = 0;
-+			}
-+
-+			if (panfrost_has_hw_feature(pfdev, HW_FEATURE_JOBCHAIN_DISAMBIGUATION)) {
-+				cmd = panfrost_get_job_chain_flag(job) ?
-+				      JS_COMMAND_HARD_STOP_1 :
-+				      JS_COMMAND_HARD_STOP_0;
-+			} else {
-+				cmd = JS_COMMAND_HARD_STOP;
-+			}
-+
-+			job_write(pfdev, JS_COMMAND(i), cmd);
-+		}
- 	}
- 	spin_unlock(&pfdev->js->job_lock);
- }
+ 	bitmap_zero(feature->enabled, feature->feature_num);
 -- 
-2.31.1
+2.25.1
 
