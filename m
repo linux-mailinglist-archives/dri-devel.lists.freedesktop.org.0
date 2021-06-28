@@ -2,51 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBDAB3B5C67
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Jun 2021 12:18:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9E523B5C6E
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Jun 2021 12:20:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7BA286E419;
-	Mon, 28 Jun 2021 10:18:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 932476E422;
+	Mon, 28 Jun 2021 10:20:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A2D8B6E417;
- Mon, 28 Jun 2021 10:18:19 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10028"; a="293561775"
-X-IronPort-AV: E=Sophos;i="5.83,305,1616482800"; d="scan'208";a="293561775"
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 135CC6E41D;
+ Mon, 28 Jun 2021 10:20:48 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10028"; a="206100739"
+X-IronPort-AV: E=Sophos;i="5.83,305,1616482800"; d="scan'208";a="206100739"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Jun 2021 03:18:19 -0700
-X-IronPort-AV: E=Sophos;i="5.83,305,1616482800"; d="scan'208";a="419117739"
-Received: from sankeeth-mobl.ger.corp.intel.com (HELO [10.213.225.79])
- ([10.213.225.79])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Jun 2021 03:20:47 -0700
+X-IronPort-AV: E=Sophos;i="5.83,305,1616482800"; d="scan'208";a="419118257"
+Received: from vipulcha-mobl.ger.corp.intel.com (HELO [10.213.225.54])
+ ([10.213.225.54])
  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Jun 2021 03:18:17 -0700
-Subject: Re: [PATCH 0/7] Per client engine busyness
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- "Nieto, David M" <David.Nieto@amd.com>, Alex Deucher <alexdeucher@gmail.com>
-References: <20210513110002.3641705-1-tvrtko.ursulin@linux.intel.com>
- <CADnq5_NEg4s2AWBTkjW7NXoBe+WB=qQUHCMPP6DcpGSLbBF-rg@mail.gmail.com>
- <c6c61179-5b4b-4e0b-6e57-ec4839ca3268@linux.intel.com>
- <CADnq5_N03pz6GmptzhRnCRQH=qkd4eWuAbuUysHp-A9NZHQMHg@mail.gmail.com>
- <BYAPR12MB2840AA68BCAEBD9279C6184FF4509@BYAPR12MB2840.namprd12.prod.outlook.com>
- <39ccc2ef-05d1-d9f0-0639-ea86bef58b80@amd.com>
- <7d6d09fe-ec85-6aaf-9834-37a49ec7d6c5@linux.intel.com>
- <9144f63b-953d-2019-742d-6553e09f5b40@amd.com>
- <22e7d6ea-f2dd-26da-f264-b17aad25af95@linux.intel.com>
- <b2203d34-2de3-7c58-de2f-bf6fafc3f67c@amd.com>
- <6cf2f14a-6a16-5ea3-d307-004faad4cc79@linux.intel.com>
- <a2b03603-eb3e-7bef-a799-c15cfb1a8e0b@amd.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-Message-ID: <52dc8610-de57-a5a8-9a1d-0efebb29b881@linux.intel.com>
-Date: Mon, 28 Jun 2021 11:16:59 +0100
+ 28 Jun 2021 03:20:45 -0700
+Subject: Re: [PATCH v2 2/2] drm/i915/gem: only allow WB for smem only
+ placements
+To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org
+References: <20210625122751.590289-1-matthew.auld@intel.com>
+ <20210625122751.590289-2-matthew.auld@intel.com>
+ <b6ee3701-2662-315c-3c2a-c4d92623fbbc@linux.intel.com>
+ <a7722f16-2f7b-b213-8a2d-27d5f02d893f@intel.com>
+ <d19caf7e-ed3b-5cfe-632a-46536aac03f4@linux.intel.com>
+From: Matthew Auld <matthew.auld@intel.com>
+Message-ID: <55e1981f-8945-1370-8753-d5749e0d69ba@intel.com>
+Date: Mon, 28 Jun 2021 11:20:43 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <a2b03603-eb3e-7bef-a799-c15cfb1a8e0b@amd.com>
+In-Reply-To: <d19caf7e-ed3b-5cfe-632a-46536aac03f4@linux.intel.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Language: en-GB
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -60,55 +53,142 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel Graphics Development <Intel-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 14/05/2021 16:10, Christian König wrote:
-> Am 14.05.21 um 17:03 schrieb Tvrtko Ursulin:
->>
->> On 14/05/2021 15:56, Christian König wrote:
->>> Am 14.05.21 um 16:47 schrieb Tvrtko Ursulin:
->>>>
->>>> On 14/05/2021 14:53, Christian König wrote:
->>>>>>
->>>>>> David also said that you considered sysfs but were wary of 
->>>>>> exposing process info in there. To clarify, my patch is not 
->>>>>> exposing sysfs entry per process, but one per open drm fd.
->>>>>>
->>>>>
->>>>> Yes, we discussed this as well, but then rejected the approach.
->>>>>
->>>>> To have useful information related to the open drm fd you need to 
->>>>> related that to process(es) which have that file descriptor open. 
->>>>> Just tracking who opened it first like DRM does is pretty useless 
->>>>> on modern systems.
->>>>
->>>> We do update the pid/name for fds passed over unix sockets.
->>>
->>> Well I just double checked and that is not correct.
->>>
->>> Could be that i915 has some special code for that, but on my laptop I 
->>> only see the X server under the "clients" debugfs file.
->>
->> Yes we have special code in i915 for this. Part of this series we are 
->> discussing here.
+On 28/06/2021 10:38, Thomas Hellström wrote:
+> Hi,
 > 
-> Ah, yeah you should mention that. Could we please separate that into 
-> common code instead? Cause I really see that as a bug in the current 
-> handling independent of the discussion here.
+> On 6/28/21 11:12 AM, Matthew Auld wrote:
+>> On 28/06/2021 08:41, Thomas Hellström wrote:
+>>>
+>>> On 6/25/21 2:27 PM, Matthew Auld wrote:
+>>>> We only support single mode and this should be immutable. For smem only
+>>>> placements on DGFX this should be WB. On DG1 everything is snooped,
+>>>> always, and so should be coherent.
+>>>>
+>>>> I915_GEM_DOMAIN_GTT looks like it's for the aperture which is now gone
+>>>> for DGFX, so hopefully can also be safely rejected.
+>>>>
+>>>> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+>>>> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+>>>> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+>>>> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+>>>> ---
+>>>>   drivers/gpu/drm/i915/gem/i915_gem_domain.c |  7 +++++++
+>>>>   drivers/gpu/drm/i915/gem/i915_gem_mman.c   | 10 ++++++++++
+>>>>   2 files changed, 17 insertions(+)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_domain.c 
+>>>> b/drivers/gpu/drm/i915/gem/i915_gem_domain.c
+>>>> index d0c91697bb22..e3459a524e64 100644
+>>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_domain.c
+>>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_domain.c
+>>>> @@ -577,6 +577,13 @@ i915_gem_set_domain_ioctl(struct drm_device 
+>>>> *dev, void *data,
+>>>>           goto out_unpin;
+>>>>       }
+>>>> +    if (IS_DGFX(to_i915(obj->base.dev)) && obj->mm.n_placements == 
+>>>> 1 &&
+>>>> +        i915_gem_object_placements_contain_type(obj, 
+>>>> INTEL_MEMORY_SYSTEM) &&
+>>>> +        read_domains != I915_GEM_DOMAIN_CPU) {
+>>>> +        err = -EINVAL;
+>>>> +        goto out_unpin;
+>>>> +    }
+>>>> +
+>>>>       if (read_domains & I915_GEM_DOMAIN_WC)
+>>>>           err = i915_gem_object_set_to_wc_domain(obj, write_domain);
+>>>>       else if (read_domains & I915_GEM_DOMAIN_GTT)
+>>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_mman.c 
+>>>> b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
+>>>> index f3586b36dd53..afc9f3dc38b9 100644
+>>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_mman.c
+>>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
+>>>> @@ -673,6 +673,7 @@ __assign_mmap_offset(struct drm_i915_gem_object 
+>>>> *obj,
+>>>>                enum i915_mmap_type mmap_type,
+>>>>                u64 *offset, struct drm_file *file)
+>>>>   {
+>>>> +    struct drm_i915_private *i915 = to_i915(obj->base.dev);
+>>>>       struct i915_mmap_offset *mmo;
+>>>>       if (i915_gem_object_never_mmap(obj))
+>>>> @@ -697,6 +698,15 @@ __assign_mmap_offset(struct drm_i915_gem_object 
+>>>> *obj,
+>>>>           i915_gem_object_placements_contain_type(obj, 
+>>>> INTEL_MEMORY_LOCAL))
+>>>>           return -ENODEV;
+>>>> +    /*
+>>>> +     * For smem only placements on DGFX we need to default to WB. 
+>>>> On DG1
+>>>> +     * everything is snooped always, so should always be coherent.
+>>>> +     */
+>>>> +     if (IS_DGFX(i915) &&
+>>>> +         mmap_type != I915_MMAP_TYPE_WB && obj->mm.n_placements == 
+>>>> 1 &&
+>>>> +         i915_gem_object_placements_contain_type(obj, 
+>>>> INTEL_MEMORY_SYSTEM))
+>>>> +        return -ENODEV;
+>>>> +
+>>>
+>>> Same thing here as in the previous patch.
+>>>
+>>> Also do we need to modify i915_coherent_map_type() to also include 
+>>> HAS_SNOOP()?
+>>>
+>>> While we're at it, that "always_coherent" argument to 
+>>> i915_coherent_map_type() appears scary to me and probably needs some 
+>>> documentation. It seems used for page-tables. Is it because we know 
+>>> those are always snooped?
+>>
+>> Yeah, it's either because the caller has/will mark the pages as 
+>> coherent(which translates to some special ppGTT bits), or we manually 
+>> flush ourselves. In i915_coherent_map_type() we should account for DG1 
+>> somehow.
+>>
+>> Historically I don't think we enabled snooping by default since it's 
+>> considered slow compared to shared LLC. On DG1 this is a different 
+>> story though.
+>>
+>> Also the pin_map() interface is pretty much only for kernel internal 
+>> objects, so I don't think we have any users which try to map userspace 
+>> objects with that interface. Ok, except for vm_access it seems, but 
+>> that should hopefully be a simple fix to use the correct caching mode? 
+>> We can maybe add some sanity checking there if someone tries to map a 
+>> userspace object?
+> I'm not fully sure that's sufficient, see below.
+>>
+>> For all the other callers of pin_map() which should all be kernel 
+>> internal do we still need to force WB for system memory? By design we 
+>> only support a single mm.mapping there. For lmem we already use WC only.
+> 
+> We're only allowed to map with the same caching mode as the linear 
+> kernel mapping for discrete. Otherwise things may blow up on non-intel 
+> architectures. We can probably update 195_ttm_select_tt_caching to 
+> always use WB for system pages for kernel objects, but then we must make 
+> sure we don't try to map these WC.
 
-What we do in i915 is update the pid and name when a task different to 
-the one which opened the fd does a GEM context create ioctl.
+Ok, do you think that should be a separate series? It looks like our 
+internal objects don't use ttm(?). Should it? If so should we make a 
+region for it, or can we just make create_internal use the ttm system 
+region? It should be pretty much the same, except we don't want 
+swapping, clearing or eviction, and ideally we would have some way of 
+marking the pages as volatile(I think we can just keep IS_SHRINKABLE for 
+that).
 
-Moving that to DRM core would be along the lines of doing the same check 
-and update on every ioctl. Maybe allow the update to be one time only if 
-that would work. Would this be desirable and acceptable? If so I can 
-definitely sketch it out.
+Or can we keep create_internal as is and then it's just a case of 
+dealing with all the pin_map() callers?
 
-Regards,
-
-Tvrtko
+> 
+> /Thomas
+> 
+> 
+>>
+>>>
+>>> /Thomas
+>>>
+>>>
+>>>>       mmo = mmap_offset_attach(obj, mmap_type, file);
+>>>>       if (IS_ERR(mmo))
+>>>>           return PTR_ERR(mmo);
