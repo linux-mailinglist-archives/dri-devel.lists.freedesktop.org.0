@@ -1,75 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BC063B5A94
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Jun 2021 10:42:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 55AFA3B5AB8
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Jun 2021 10:50:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E734F6E2EF;
-	Mon, 28 Jun 2021 08:42:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F4FA89F45;
+	Mon, 28 Jun 2021 08:50:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 902 seconds by postgrey-1.36 at gabe;
- Mon, 28 Jun 2021 08:42:31 UTC
-Received: from mickerik.phytec.de (mickerik.phytec.de [195.145.39.210])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D2066E2EF
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Jun 2021 08:42:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; d=phytec.de; s=a1; c=relaxed/simple;
- q=dns/txt; i=@phytec.de; t=1624868847; x=1627460847;
- h=From:Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
- Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:Resent-From:
- Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
- List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=rbN59BDoyCxbK2z73YbVaHq8eKmFB6AcBl1RBQvtgvw=;
- b=jVK1jal+m5yc62e46iBir2J4jovsRBuD16zSCLz/m20qBvpyvYTDXnFw2msXPNOp
- eYUIAAboHBpybnnSUzhaS933G/9F1vRAtIHhZ9PIvPy4esn22mdUqoUn3j7hZJl5
- StGbpxgBoeW8jpzAl8vFx31LRZmtxo/dmbQTN/xnoOw=;
-X-AuditID: c39127d2-a77bc70000001c5e-af-60d987ef564d
-Received: from berlix.phytec.de (Berlix.phytec.de [172.16.0.117])
- (using TLS with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (Client did not present a certificate)
- by mickerik.phytec.de (PHYTEC Mail Gateway) with SMTP id CD.BB.07262.FE789D06;
- Mon, 28 Jun 2021 10:27:27 +0200 (CEST)
-Received: from Berlix.phytec.de (172.16.0.117) by Berlix.phytec.de
- (172.16.0.117) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.2; Mon, 28 Jun
- 2021 10:27:27 +0200
-Received: from Berlix.phytec.de ([fe80::343f:7618:c7ce:97c9]) by
- berlix.phytec.de ([fe80::343f:7618:c7ce:97c9%3]) with mapi id 15.01.2176.009; 
- Mon, 28 Jun 2021 10:27:27 +0200
-From: Yunus Bas <Y.Bas@phytec.de>
-To: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "airlied@linux.ie" <airlied@linux.ie>, "sam@ravnborg.org" <sam@ravnborg.org>, 
- "thierry.reding@gmail.com" <thierry.reding@gmail.com>
-Subject: Re: [PATCH v2 2/2] drm/panel: simple: Add support for EDT
- ETM0350G0DH6 panel
-Thread-Topic: [PATCH v2 2/2] drm/panel: simple: Add support for EDT
- ETM0350G0DH6 panel
-Thread-Index: AQHXa/dt9W3ZVjAU7kWb0UZyILNcFw==
-Date: Mon, 28 Jun 2021 08:27:27 +0000
-Message-ID: <ad9d186062abc3c02f7094cd57159e5af4fdda7b.camel@phytec.de>
-In-Reply-To: <20210331180757.463479-2-y.bas@phytec.de>
-Accept-Language: de-DE, en-US
-Content-Language: de-DE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.16.0.116]
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <D8881F6EC22E9A4A81B2D37325B8C6C0@phytec.de>
-Content-Transfer-Encoding: base64
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
+ [IPv6:2a00:1450:4864:20::42f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E8A7989F45
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Jun 2021 08:50:54 +0000 (UTC)
+Received: by mail-wr1-x42f.google.com with SMTP id g7so15633347wri.7
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Jun 2021 01:50:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ivMWyakmLeaYuI23t/O2pRde3mjJQDvPIshj9I2/bxk=;
+ b=U5RttCDInB3rDob0B5Dcq6/Xyhvc9wz8sZ8N+wWaNMXZOvdChN7mX6a/FDT7jGGO5B
+ Km08kaThC7gGa7Q83XjZak1i6z/RUGIPGFY6Et94LmQhCb/TH3SyeqANgL3dLiju9Gb0
+ oSy9HN6XaHnxH34/zes1RTu2PV04E6PCf+iVrePfIvhosLHN4um3c6ZNYTUzQIJ8EOTR
+ 6VLle0zILlHPxBxIVW6mNzi7UdE4lqdQd/NkPjeOKZvE5y4huA81pvsVgRCU00UEsFow
+ +NVfKlCppBxpRDEcNt9jpnTQ7XpYM9ZVZPcJESh+dYu/1GpjO6hLNa3Qs9nkbVwhsbj1
+ EQQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ivMWyakmLeaYuI23t/O2pRde3mjJQDvPIshj9I2/bxk=;
+ b=uap6kfrU6In8QL7W4x3EIIMCrWDho08lNwpjBVlqMSEs9rwrZNQDDFvRQpVVKq8poh
+ Nf9uZ8FG7p2kNUJp+ZPvX8DGAglVEL0zBBZYM7HvK2kn7HIGUjafUt3NKqPVyPgWVQhk
+ XjmpRDCHRymCWKiaTwdElmbgMDpuU/lTRu+ORMXCoktSett68mGu6S54AZR0Y2yBR5UF
+ /XIinkwr39pYaxtqku5u7+pgrefLasAbIiZktw8cGSHMQoXGJdcidcyxuAbrSVkM8BwI
+ 5RBHpZftYVbb6u0fsL8lLisOY1CmiBDsKu10oys99oaxVe3W8Tewy33axyCJih1Wls9q
+ 9iQg==
+X-Gm-Message-State: AOAM532PLhshqPEDErChGwgSXR7N6ZMNQIfrfqDxSb/hcpTzHozHi99c
+ xQxQBarfrLHHgyomUeRlGAaNAA==
+X-Google-Smtp-Source: ABdhPJx5O2B7LqCOPQfcupkEEJVd6rGqE+bx5F0HEMmyXyLyhRTJwjgwPYZa2H8Ud0EveatM7tT/kQ==
+X-Received: by 2002:adf:f384:: with SMTP id m4mr25707885wro.12.1624870253640; 
+ Mon, 28 Jun 2021 01:50:53 -0700 (PDT)
+Received: from xps7590.fritz.box ([2a02:2454:3e5:b700:b773:c98e:f11:e83f])
+ by smtp.gmail.com with ESMTPSA id j35sm7379565wms.7.2021.06.28.01.50.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 28 Jun 2021 01:50:53 -0700 (PDT)
+From: Robert Foss <robert.foss@linaro.org>
+To: robdclark@gmail.com, sean@poorly.run, airlied@linux.ie, daniel@ffwll.ch,
+ jonathan@marek.ca, dmitry.baryshkov@linaro.org,
+ angelogioacchino.delregno@somainline.org, lee.jones@linaro.org,
+ kalyan_t@codeaurora.org, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH v1] drm/msm/dpu: Fix sm8250_mdp register length
+Date: Mon, 28 Jun 2021 10:50:33 +0200
+Message-Id: <20210628085033.9905-1-robert.foss@linaro.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupikeLIzCtJLcpLzFFi42JZI8BQqvu+/WaCwa5Tmha9504yWVz5+p7N
- YsXPrYwWP3fNY3Fg8dg56y67x/ZvD1g97ncfZ/JYMu0qWwBLFJdNSmpOZllqkb5dAlfGmQnf
- WQse8VbcnnGHuYFxC28XIweHhICJxPMN0l2MXBxCAsuZJDY3P2eCcB4yShx9OZsdwtnEKPH6
- ykRGkA42AUWJK7fyQeIiAhcYJdbNPQnUwckhLBAuce/Zb2YQW0QgQuJJWxMThK0nMeHQH0YQ
- m0VAVaK7az+YzSvgJnFkwwswm1PATOLs+69gvYwCshIbNpwHs5kFxCU2PfvOCmJLCAhILNkD
- EZcQEJV4+fgfVFxBoq2nkwnkNmYBTYn1u/QhWi0kLvatZ4WwFSWmdD9kh1grKHFy5hOWCYyi
- s5BsmIXQPQtJ9ywk3bOQdC9gZF3FKJSbmZydWpSZrVeQUVmSmqyXkrqJERhfhyeqX9rB2DfH
- 4xAjEwfjIUYJDmYlEV6xqmsJQrwpiZVVqUX58UWlOanFhxilOViUxHk38JaECQmkJ5akZqem
- FqQWwWSZODilGhhnTb925RZHmjaLUp3L6c9PX0yZb/85bMHzgJUGl+e4TU9gixM3apt09Pmm
- utBp+fEtGpnLPZYX7lwbfyps713my6qhwXHGnB8qLq5NPXnj4MF/RnY+hbFZFxnFvhn8f/2T
- 93P2Az+PieXNt0y6gtX571zYWr5ybdyFM7VKpbfZHXgsTho/DN6oxFKckWioxVxUnAgAbATJ
- HJ0CAAA=
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,29 +70,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Robert Foss <robert.foss@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkuIFRoaXMgcGF0Y2ggaGFzIGJlZW4gd2FpdGluZyBpbiB0aGUgbGlzdCBmb3IgcXVpdGUgc29t
-ZSB0aW1lIG5vdy4NCkNhbiBzb21lb25lIHJldmlldyB0aGlzIHBhdGNoPw0KDQpTYW1lIGdvZXMg
-Zm9yIHRoZSBmb2xsb3dpbmc6DQpodHRwczovL2xvcmUua2VybmVsLm9yZy9kcmktZGV2ZWwvMjAy
-MTAzMzExODA3NTcuNDYzNDc5LTEteS5iYXNAcGh5dGVjLmRlLw0KDQpUaGUgY29ycmVzcG9uZGlu
-ZyBkdC1iaW5kaW5ncyBhcmUgYWxyZWFkeSBhY2tlZCBieSBSb2IgSGVycmluZzoNCmh0dHBzOi8v
-bG9yZS5rZXJuZWwub3JnL2xpbnV4LWRldmljZXRyZWUvMjAyMTA0MDkxNDI2NTIuR0EzNTk5OTQ0
-QHJvYmguYXQua2VybmVsLm9yZy8NCmh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2xpbnV4LWRldmlj
-ZXRyZWUvMjAyMTA0MDkxNDI2MjYuR0EzNTk5MzQ0QHJvYmguYXQua2VybmVsLm9yZy8NCg0KVGhh
-bmtzIGluIGFkdmFuY2UuDQoNClJlZ2FyZHMsDQpZdW51cyBCYXMNCg0KLS0gDQpNaXQgZnJldW5k
-bGljaGVuIEdyw7zDn2VuDQpZdW51cyBCYXMNCg0KLVNvZnR3YXJlIEVuZ2luZWVyLQ0KUEhZVEVD
-IE1lc3N0ZWNobmlrIEdtYkgNClJvYmVydC1Lb2NoLVN0ci4gMzkNCjU1MTI5IE1haW56DQpHZXJt
-YW55DQpUZWwuOiArNDkgKDApNjEzMSA5MjIxLSA0NjYNCldlYjogd3d3LnBoeXRlYy5kZQ0KDQpT
-aWUgZmluZGVuIHVucyBhdWNoIGF1ZjogRmFjZWJvb2ssIExpbmtlZEluLCBYaW5nLCBZb3VUdWJl
-DQoNClBIWVRFQyBNZXNzdGVjaG5payBHbWJIIHwgUm9iZXJ0LUtvY2gtU3RyLiAzOSB8IDU1MTI5
-IE1haW56LCBHZXJtYW55DQpHZXNjaMOkZnRzZsO8aHJlcjogRGlwbC4tSW5nLiBNaWNoYWVsIE1p
-dGV6a2ksIERpcGwuLUluZy4gQm9kbyBIdWJlciB8DQpIYW5kZWxzcmVnaXN0ZXIgTWFpbnogSFJC
-IDQ2NTYgfCBGaW5hbnphbXQgTWFpbnogfCBTdC5Oci4gMjY2NTAwNjA4LCBERQ0KMTQ5MDU5ODU1
-DQpUaGlzIEUtTWFpbCBtYXkgY29udGFpbiBjb25maWRlbnRpYWwgb3IgcHJpdmlsZWdlZCBpbmZv
-cm1hdGlvbi4gSWYgeW91DQphcmUgbm90IHRoZSBpbnRlbmRlZCByZWNpcGllbnQgKG9yIGhhdmUg
-cmVjZWl2ZWQgdGhpcyBFLU1haWwgaW4gZXJyb3IpDQpwbGVhc2Ugbm90aWZ5IHRoZSBzZW5kZXIg
-aW1tZWRpYXRlbHkgYW5kIGRlc3Ryb3kgdGhpcyBFLU1haWwuIEFueQ0KdW5hdXRob3JpemVkIGNv
-cHlpbmcsIGRpc2Nsb3N1cmUgb3IgZGlzdHJpYnV0aW9uIG9mIHRoZSBtYXRlcmlhbCBpbg0KdGhp
-cyBFLU1haWwgaXMgc3RyaWN0bHkgZm9yYmlkZGVuLg0K
+The downstream dts lists this value as 0x494, and not
+0x45c.
+
+Fixes: af776a3e1c30 ("drm/msm/dpu: add SM8250 to hw catalog")
+Signed-off-by: Robert Foss <robert.foss@linaro.org>
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+index 189f3533525c..5d30c7f33930 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+@@ -244,7 +244,7 @@ static const struct dpu_mdp_cfg sc7180_mdp[] = {
+ static const struct dpu_mdp_cfg sm8250_mdp[] = {
+ 	{
+ 	.name = "top_0", .id = MDP_TOP,
+-	.base = 0x0, .len = 0x45C,
++	.base = 0x0, .len = 0x494,
+ 	.features = 0,
+ 	.highest_bank_bit = 0x3, /* TODO: 2 for LP_DDR4 */
+ 	.clk_ctrls[DPU_CLK_CTRL_VIG0] = {
+-- 
+2.30.2
+
