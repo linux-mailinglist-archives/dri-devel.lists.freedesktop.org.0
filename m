@@ -2,44 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91B503B6634
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Jun 2021 17:53:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 093B83B6665
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Jun 2021 18:05:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A95756E49F;
-	Mon, 28 Jun 2021 15:53:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EFBDD6E4C4;
+	Mon, 28 Jun 2021 16:05:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bombadil.infradead.org (bombadil.infradead.org
- [IPv6:2607:7c80:54:e::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 541DF6E49F
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Jun 2021 15:53:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
- Subject:Sender:Reply-To:Content-ID:Content-Description;
- bh=DDSYK3q7WkwGOU/fE4Ul6NNgA9L+t+kmkbABPG7mL/I=; b=RAELPFVjGPRefTYMZ2kMVG8s/d
- DH8w9/1y1tOOjBkbkxmzkzuWiEtJHIt2HMw7ZJXhXY4FuN3LkO8cN8SZNijulHCD9I4UXYSOAOyll
- 6FMBusc8n/wav8saPbWQPLiXcz5nqlcpGo9MHwkRxidpt7omirpxrknFvddKRwIwAm2H/4ubDxJsP
- HQOokJiWQkTWn+40AcMzV5b66qDyQE7e0wCiIbAJ+vwUFtmPE97mY5SvvCLjCDI8U5lad+mY5YXpW
- GqgmFArzE6t2/G3W3P8v4GgSAgzwvVkU0xtWBchJSJQdSV/xF1LXWMaeKM6ObO+WhxXXcmxzk4Ocw
- t4eAZD6A==;
-Received: from [2601:1c0:6280:3f0::aefb]
- by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1lxtZO-008Vir-2C; Mon, 28 Jun 2021 15:53:10 +0000
-Subject: Re: linux-next: Tree for Jun 28 (drm/vmwgfx/)
-To: Stephen Rothwell <sfr@canb.auug.org.au>,
- Linux Next Mailing List <linux-next@vger.kernel.org>
-References: <20210628205732.4c2a0abf@canb.auug.org.au>
-From: Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <e99431bc-676e-29a6-e6ee-ea5fa18f0ea4@infradead.org>
-Date: Mon, 28 Jun 2021 08:53:08 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF4566E4C9
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Jun 2021 16:05:41 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 9ED7061C7D
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Jun 2021 16:05:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1624896341;
+ bh=J/fvCZD/v7DhVMwuhmZV+IZsWcMa6pqnhuI/J04r51w=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=RSBpgK0/U0+afNM2B+mCTr1Z7/VFQMpEK7xdUe6KCo4Y2pMZ8hO3x58MtD4ZddAgh
+ CjUX8dJlvQTrs/1lS8kKTwL8lOfOotEDmfoWmy4F9uFRIRFczTTQKx3SMSM5lJDBYr
+ CtKgGrgaAWm2Xn07827QU6DqyUMSobUd3cwJiS1SDokKf4U1An32JuJhdlBns9nn12
+ eXEnrs8QGjHF108622Q5UTANZoQfXfpVK3rymm5GsbLdDMr51vbGwOMei0oACkYFsv
+ k/gin2S2+H8qRLw5xvqk9xde3wGvhRCO7jobShw12QubtBJTgwd/3N5act3X9Je+pC
+ xYb/FFjNPk/eQ==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id 99F0C61242; Mon, 28 Jun 2021 16:05:41 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 213561] [bisected][regression] GFX10 AMDGPUs can no longer
+ enter idle state after commit. Commit has been pushed to stable branches too.
+Date: Mon, 28 Jun 2021 16:05:41 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: marco@scardovi.com
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: CODE_FIX
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-213561-2300-9qL9dd8M26@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-213561-2300@https.bugzilla.kernel.org/>
+References: <bug-213561-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <20210628205732.4c2a0abf@canb.auug.org.au>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,40 +66,17 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Roland Scheidegger <sroland@vmware.com>,
- VMware Graphics <linux-graphics-maintainer@vmware.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6/28/21 3:57 AM, Stephen Rothwell wrote:
-> Hi all,
-> 
-> Changes since 20210625:
-> 
+https://bugzilla.kernel.org/show_bug.cgi?id=3D213561
 
-on i386 or 86_64:
+--- Comment #14 from Marco Scardovi (marco@scardovi.com) ---
+Can confirm on kernel 5.13-final is fixed. 44=C2=B0C instead of 73=C2=B0C o=
+n idle
 
-../drivers/gpu/drm/vmwgfx/vmwgfx_drv.c: In function 'vmw_vram_manager_init':
-../drivers/gpu/drm/vmwgfx/vmwgfx_drv.c:678:8: error: implicit declaration of function 'ttm_range_man_init'; did you mean 'ttm_tt_mgr_init'? [-Werror=implicit-function-declaration]
-  ret = ttm_range_man_init(&dev_priv->bdev, TTM_PL_VRAM, false,
-        ^~~~~~~~~~~~~~~~~~
-        ttm_tt_mgr_init
-../drivers/gpu/drm/vmwgfx/vmwgfx_drv.c: In function 'vmw_vram_manager_fini':
-../drivers/gpu/drm/vmwgfx/vmwgfx_drv.c:690:2: error: implicit declaration of function 'ttm_range_man_fini'; did you mean 'ttm_pool_mgr_fini'? [-Werror=implicit-function-declaration]
-  ttm_range_man_fini(&dev_priv->bdev, TTM_PL_VRAM);
-  ^~~~~~~~~~~~~~~~~~
-  ttm_pool_mgr_fini
+--=20
+You may reply to this email to add a comment.
 
-
-The randconfig seed for this build is:
-KCONFIG_SEED=0x96D160F4
-
-or do you want the full randconfig file?
-
-
--- 
-~Randy
-Reported-by: Randy Dunlap <rdunlap@infradead.org>
-
+You are receiving this mail because:
+You are watching the assignee of the bug.=
