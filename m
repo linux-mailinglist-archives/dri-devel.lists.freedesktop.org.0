@@ -1,39 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8373F3B6A3A
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Jun 2021 23:21:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AE7CD3B6A3D
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Jun 2021 23:21:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4818B6E58E;
-	Mon, 28 Jun 2021 21:21:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BDA1B6E595;
+	Mon, 28 Jun 2021 21:21:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C88F6E58E;
- Mon, 28 Jun 2021 21:21:21 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 18F1B61CF1;
- Mon, 28 Jun 2021 21:21:20 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9AD3E6E598;
+ Mon, 28 Jun 2021 21:21:24 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id BF52361D0B;
+ Mon, 28 Jun 2021 21:21:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1624915280;
- bh=mhQaTVy8s+F/kumuxowScws01H/8UkfLxvLYMWg9T48=;
+ s=k20201202; t=1624915284;
+ bh=cwwtqavFK7tU7JXzqiqwlEYlXq2bfP6ekDHIVIt8nIE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=O57lK0vVGtZvBGdmHzTykv3edAiBMHY3TYWA424k/Xbm53+nB5nSXkxNuxc6rBvRR
- qFzLlffp6qNCTqbPzuZE8QP6/Ofv2H2y9RCFoT+HlaKjhtVncYXramjB3qGQb4N3au
- 9a6puzbTawllLTlBQZrXKe8EBOfEpETv67nIRJILzasM4mG9094ac6D3FWsuo4sfE6
- lgRSHltkJGckyP97PeOFPeKnmwpYpr0Td8qmgZPd1u2qkhitFRJsi0iQvxFtyHjAwx
- 7BVKDl29z2lBXChJEROWS79sAKs9I2m0tL8UQwPz2sWfBe9FrZZR1AgJC+vymY+CI5
- cdKyXOzi1yvWA==
+ b=EKkOWJ6dqG837vdtnS3J2t3k575q4aWV/DyPo0qug3DS8T8oU6kMyVuzXrc5IfzKx
+ qzegfCLvGfFnS7dxRABc4r7FvIzt+CK4cKkocttmPnt33GOSf6AMUjvT0jkVJWNxIm
+ Sdc7hW8MB7GTAHOnH+/qnJGT39uRRGiwNjjXAS+HCbaYXcZeAFlvY/Hw8k1V1J3j9E
+ OcZb6xa/xKL38bdq1ksN3dv45RWfjeQMjdXEZ4W94W613wkwwgQAU8VTTIqs5S5LZW
+ ViAuRc92WRjDpX4eqIjOv5S1qryRD3D0LicUVOKJzdygBQ7cH3Mp1ZWy+H8BGWvs9N
+ mIgRu6thocDwQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 2/2] drm/nouveau: fix dma_address check for
+Subject: [PATCH AUTOSEL 4.4 2/2] drm/nouveau: fix dma_address check for
  CPU/GPU sync
-Date: Mon, 28 Jun 2021 17:21:17 -0400
-Message-Id: <20210628212117.43676-2-sashal@kernel.org>
+Date: Mon, 28 Jun 2021 17:21:21 -0400
+Message-Id: <20210628212121.43749-2-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210628212117.43676-1-sashal@kernel.org>
-References: <20210628212117.43676-1-sashal@kernel.org>
+In-Reply-To: <20210628212121.43749-1-sashal@kernel.org>
+References: <20210628212121.43749-1-sashal@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-stable: review
@@ -72,10 +72,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c b/drivers/gpu/drm/nouveau/nouveau_bo.c
-index a2e6a81669e7..94b7798bdea4 100644
+index 78f520d05de9..58c310930bf2 100644
 --- a/drivers/gpu/drm/nouveau/nouveau_bo.c
 +++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
-@@ -447,7 +447,7 @@ nouveau_bo_sync_for_device(struct nouveau_bo *nvbo)
+@@ -458,7 +458,7 @@ nouveau_bo_sync_for_device(struct nouveau_bo *nvbo)
  	struct ttm_dma_tt *ttm_dma = (struct ttm_dma_tt *)nvbo->bo.ttm;
  	int i;
  
@@ -84,7 +84,7 @@ index a2e6a81669e7..94b7798bdea4 100644
  		return;
  
  	/* Don't waste time looping if the object is coherent */
-@@ -467,7 +467,7 @@ nouveau_bo_sync_for_cpu(struct nouveau_bo *nvbo)
+@@ -478,7 +478,7 @@ nouveau_bo_sync_for_cpu(struct nouveau_bo *nvbo)
  	struct ttm_dma_tt *ttm_dma = (struct ttm_dma_tt *)nvbo->bo.ttm;
  	int i;
  
