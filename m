@@ -2,46 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A58233B6925
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Jun 2021 21:32:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F2CC3B6942
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Jun 2021 21:45:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C9B1B6E52A;
-	Mon, 28 Jun 2021 19:32:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E6B346E52E;
+	Mon, 28 Jun 2021 19:45:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A06F26E529;
- Mon, 28 Jun 2021 19:32:22 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10029"; a="187707535"
-X-IronPort-AV: E=Sophos;i="5.83,306,1616482800"; d="scan'208";a="187707535"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Jun 2021 12:32:22 -0700
-X-IronPort-AV: E=Sophos;i="5.83,306,1616482800"; d="scan'208";a="641027457"
-Received: from danielmi-mobl2.ger.corp.intel.com (HELO [10.249.254.242])
- ([10.249.254.242])
- by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Jun 2021 12:32:21 -0700
-Subject: Re: [Intel-gfx] [PATCH v3 2/5] drm/i915/gem: Introduce a selftest for
- the gem object migrate functionality
-To: "Ruhl, Michael J" <michael.j.ruhl@intel.com>,
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E9CB96E52E;
+ Mon, 28 Jun 2021 19:45:33 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10029"; a="229643860"
+X-IronPort-AV: E=Sophos;i="5.83,306,1616482800"; d="scan'208";a="229643860"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Jun 2021 12:45:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.83,306,1616482800"; d="scan'208";a="625365868"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+ by orsmga005.jf.intel.com with ESMTP; 28 Jun 2021 12:45:33 -0700
+Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.4; Mon, 28 Jun 2021 12:45:32 -0700
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.4; Mon, 28 Jun 2021 12:45:32 -0700
+Received: from orsmsx611.amr.corp.intel.com ([10.22.229.24]) by
+ ORSMSX611.amr.corp.intel.com ([10.22.229.24]) with mapi id 15.01.2242.008;
+ Mon, 28 Jun 2021 12:45:32 -0700
+From: "Ruhl, Michael J" <michael.j.ruhl@intel.com>
+To: =?utf-8?B?VGhvbWFzIEhlbGxzdHLDtm0=?= <thomas.hellstrom@linux.intel.com>,
  "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
  "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Subject: RE: [PATCH v3 4/5] drm/i915/gem: Fix same-driver-another-instance
+ dma-buf export
+Thread-Topic: [PATCH v3 4/5] drm/i915/gem: Fix same-driver-another-instance
+ dma-buf export
+Thread-Index: AQHXbCxrzBWYtTLkx0Sohazkm2xEhqspyXLQ
+Date: Mon, 28 Jun 2021 19:45:31 +0000
+Message-ID: <cf307e287b904ed6bdaeb3f3c9d34095@intel.com>
 References: <20210628144626.76126-1-thomas.hellstrom@linux.intel.com>
- <20210628144626.76126-3-thomas.hellstrom@linux.intel.com>
- <1cd06e51484c44a985e4a467007d1752@intel.com>
- <dc6d8ca6ac4d63807582d2a08c75be4dc5086ced.camel@linux.intel.com>
- <661d41530ae0406b89d07286e0cb384e@intel.com>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
-Message-ID: <b564e299-88ec-0378-0748-da205beb2f63@linux.intel.com>
-Date: Mon, 28 Jun 2021 21:32:19 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
-MIME-Version: 1.0
-In-Reply-To: <661d41530ae0406b89d07286e0cb384e@intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+ <20210628144626.76126-5-thomas.hellstrom@linux.intel.com>
+In-Reply-To: <20210628144626.76126-5-thomas.hellstrom@linux.intel.com>
+Accept-Language: en-US
 Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-reaction: no-action
+dlp-version: 11.6.0.76
+x-originating-ip: [10.1.200.100]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,211 +69,146 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Auld, Matthew" <matthew.auld@intel.com>
+Cc: "Ruhl, Michael J" <michael.j.ruhl@intel.com>, "Auld,
+ Matthew" <matthew.auld@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 6/28/21 9:27 PM, Ruhl, Michael J wrote:
->> -----Original Message-----
->> From: Thomas Hellström <thomas.hellstrom@linux.intel.com>
->> Sent: Monday, June 28, 2021 3:15 PM
->> To: Ruhl, Michael J <michael.j.ruhl@intel.com>; intel-
->> gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org
->> Cc: Auld, Matthew <matthew.auld@intel.com>
->> Subject: Re: [Intel-gfx] [PATCH v3 2/5] drm/i915/gem: Introduce a selftest for
->> the gem object migrate functionality
->>
->> On Mon, 2021-06-28 at 18:53 +0000, Ruhl, Michael J wrote:
->>>> -----Original Message-----
->>>> From: Intel-gfx <intel-gfx-bounces@lists.freedesktop.org> On Behalf
->>>> Of
->>>> Thomas Hellström
->>>> Sent: Monday, June 28, 2021 10:46 AM
->>>> To: intel-gfx@lists.freedesktop.org;
->>>> dri-devel@lists.freedesktop.org
->>>> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>; Auld,
->>>> Matthew
->>>> <matthew.auld@intel.com>
->>>> Subject: [Intel-gfx] [PATCH v3 2/5] drm/i915/gem: Introduce a
->>>> selftest for the
->>>> gem object migrate functionality
->>>>
->>>> From: Matthew Auld <matthew.auld@intel.com>
->>>>
->>>> A selftest for the gem object migrate functionality. Slightly
->>>> adapted
->>>> from the original by Matthew to the new interface and new fill blit
->>>> code.
->>>>
->>>> Co-developed-by: Thomas Hellström
->>>> <thomas.hellstrom@linux.intel.com>
->>>> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
->>>> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
->>>> ---
->>>> drivers/gpu/drm/i915/gem/i915_gem_object.c    |   1 +
->>>> .../drm/i915/gem/selftests/i915_gem_migrate.c | 237
->>>> ++++++++++++++++++
->>>> .../drm/i915/selftests/i915_live_selftests.h  |   1 +
->>>> 3 files changed, 239 insertions(+)
->>>> create mode 100644
->>>> drivers/gpu/drm/i915/gem/selftests/i915_gem_migrate.c
->>>>
->>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.c
->>>> b/drivers/gpu/drm/i915/gem/i915_gem_object.c
->>>> index 1c18be067b58..ff147fd59874 100644
->>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_object.c
->>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_object.c
->>>> @@ -649,6 +649,7 @@ static const struct drm_gem_object_funcs
->>>> i915_gem_object_funcs = {
->>>> #if IS_ENABLED(CONFIG_DRM_I915_SELFTEST)
->>>> #include "selftests/huge_gem_object.c"
->>>> #include "selftests/huge_pages.c"
->>>> +#include "selftests/i915_gem_migrate.c"
->>>> #include "selftests/i915_gem_object.c"
->>>> #include "selftests/i915_gem_coherency.c"
->>>> #endif
->>>> diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_migrate.c
->>>> b/drivers/gpu/drm/i915/gem/selftests/i915_gem_migrate.c
->>>> new file mode 100644
->>>> index 000000000000..a437b66f64d9
->>>> --- /dev/null
->>>> +++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_migrate.c
->>>> @@ -0,0 +1,237 @@
->>>> +// SPDX-License-Identifier: MIT
->>>> +/*
->>>> + * Copyright © 2020-2021 Intel Corporation
->>>> + */
->>>> +
->>>> +#include "gt/intel_migrate.h"
->>>> +
->>>> +static int igt_smem_create_migrate(void *arg)
->>>> +{
->>>> +       struct intel_gt *gt = arg;
->>>> +       struct drm_i915_private *i915 = gt->i915;
->>>> +       struct drm_i915_gem_object *obj;
->>>> +       struct i915_gem_ww_ctx ww;
->>>> +       int err = 0;
->>>> +
->>>> +       /* Switch object backing-store on create */
->>>> +       obj = i915_gem_object_create_lmem(i915, PAGE_SIZE, 0);
->>>> +       if (IS_ERR(obj))
->>>> +               return PTR_ERR(obj);
->>>> +
->>>> +       for_i915_gem_ww(&ww, err, true) {
->>>> +               err = i915_gem_object_lock(obj, &ww);
->>>> +               if (err)
->>>> +                       continue;
->>>> +
->>>> +               if (!i915_gem_object_can_migrate(obj,
->>>> INTEL_REGION_SMEM)) {
->>>> +                       err = -EINVAL;
->>>> +                       continue;
->>>> +               }
->>>> +
->>>> +               err = i915_gem_object_migrate(obj, &ww,
->>>> INTEL_REGION_SMEM);
->>>> +               if (err)
->>>> +                       continue;
->>>> +
->>>> +               err = i915_gem_object_pin_pages(obj);
->>>> +               if (err)
->>>> +                       continue;
->>>> +
->>>> +               if (i915_gem_object_can_migrate(obj,
->>>> INTEL_REGION_LMEM))
->>>> +                       err = -EINVAL;
->>>> +
->>>> +               i915_gem_object_unpin_pages(obj);
->>>> +       }
->>>> +       i915_gem_object_put(obj);
->>>> +
->>>> +       return err;
->>>> +}
->>>> +
->>>> +static int igt_lmem_create_migrate(void *arg)
->>>> +{
->>>> +       struct intel_gt *gt = arg;
->>>> +       struct drm_i915_private *i915 = gt->i915;
->>>> +       struct drm_i915_gem_object *obj;
->>>> +       struct i915_gem_ww_ctx ww;
->>>> +       int err = 0;
->>>> +
->>>> +       /* Switch object backing-store on create */
->>>> +       obj = i915_gem_object_create_shmem(i915, PAGE_SIZE);
->>>> +       if (IS_ERR(obj))
->>>> +               return PTR_ERR(obj);
->>>> +
->>>> +       for_i915_gem_ww(&ww, err, true) {
->>>> +               err = i915_gem_object_lock(obj, &ww);
->>>> +               if (err)
->>>> +                       continue;
->>>> +
->>>> +               if (!i915_gem_object_can_migrate(obj,
->>>> INTEL_REGION_LMEM)) {
->>>> +                       err = -EINVAL;
->>>> +                       continue;
->>>> +               }
->>>> +
->>>> +               err = i915_gem_object_migrate(obj, &ww,
->>>> INTEL_REGION_LMEM);
->>>> +               if (err)
->>>> +                       continue;
->>>> +
->>>> +               err = i915_gem_object_pin_pages(obj);
->>>> +               if (err)
->>>> +                       continue;
->>>> +
->>>> +               if (i915_gem_object_can_migrate(obj,
->>>> INTEL_REGION_SMEM))
->>>> +                       err = -EINVAL;
->>>> +
->>>> +               i915_gem_object_unpin_pages(obj);
->>>> +       }
->>>> +       i915_gem_object_put(obj);
->>>> +
->>>> +       return err;
->>>> +}
->>>> +
->>>> +static int lmem_pages_migrate_one(struct i915_gem_ww_ctx *ww,
->>>> +                                 struct drm_i915_gem_object *obj)
->>>> +{
->>>> +       int err;
->>>> +
->>>> +       err = i915_gem_object_lock(obj, ww);
->>>> +       if (err)
->>>> +               return err;
->>>> +
->>>> +       err = i915_gem_object_wait(obj,
->>>> +                                  I915_WAIT_INTERRUPTIBLE |
->>>> +                                  I915_WAIT_PRIORITY |
->>>> +                                  I915_WAIT_ALL,
->>>> +                                  MAX_SCHEDULE_TIMEOUT);
->>>> +       if (err)
->>>> +               return err;
->>>> +
->>>> +       if (i915_gem_object_is_lmem(obj)) {
->>>> +               if (!i915_gem_object_can_migrate(obj,
->>>> INTEL_REGION_SMEM)) {
->>> I don't see any  testing of the parameter num_allowed.
->>>
->>> Is that done somewhere else?
->>>
->>> Mike
->> That's a user-space submitted parameter only, dictating what region the
->> object is allowed in when bound to the GPU. It's not exercised in this
->> selftest.
-> Got it.
->
-> Reviewed-by: Michael J. Ruhl <michael.j.ruhl@intel.com>
->
-> M
-
-Thanks!
-
-Thomas
-
-
->> Thanks,
->> Thomas
->>
+Pi0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+RnJvbTogVGhvbWFzIEhlbGxzdHLDtm0gPHRo
+b21hcy5oZWxsc3Ryb21AbGludXguaW50ZWwuY29tPg0KPlNlbnQ6IE1vbmRheSwgSnVuZSAyOCwg
+MjAyMSAxMDo0NiBBTQ0KPlRvOiBpbnRlbC1nZnhAbGlzdHMuZnJlZWRlc2t0b3Aub3JnOyBkcmkt
+ZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnDQo+Q2M6IEF1bGQsIE1hdHRoZXcgPG1hdHRoZXcu
+YXVsZEBpbnRlbC5jb20+Ow0KPm1hYXJ0ZW4ubGFua2hvcnN0QGxpbnV4LmludGVsLmNvbTsgVGhv
+bWFzIEhlbGxzdHLDtm0NCj48dGhvbWFzLmhlbGxzdHJvbUBsaW51eC5pbnRlbC5jb20+OyBSdWhs
+OyBSdWhsLCBNaWNoYWVsIEoNCj48bWljaGFlbC5qLnJ1aGxAaW50ZWwuY29tPg0KPlN1YmplY3Q6
+IFtQQVRDSCB2MyA0LzVdIGRybS9pOTE1L2dlbTogRml4IHNhbWUtZHJpdmVyLWFub3RoZXItaW5z
+dGFuY2UNCj5kbWEtYnVmIGV4cG9ydA0KPg0KPklmIG91ciBleHBvcnRlZCBkbWEtYnVmcyBhcmUg
+aW1wb3J0ZWQgYnkgYW5vdGhlciBpbnN0YW5jZSBvZiBvdXIgZHJpdmVyLA0KPnRoYXQgaW5zdGFu
+Y2Ugd2lsbCB0eXBpY2FsbHkgaGF2ZSB0aGUgaW1wb3J0ZWQgZG1hLWJ1ZnMgbG9ja2VkIGR1cmlu
+Zw0KPm1hcF9hdHRhY2htZW50KCkuIEJ1dCB0aGUgZXhwb3J0ZXIgYWxzbyBsb2NrcyB0aGUgc2Ft
+ZSByZXNlcnZhdGlvbg0KPm9iamVjdCBpbiB0aGUgbWFwX2RtYV9idWYoKSBjYWxsYmFjaywgd2hp
+Y2ggbGVhZHMgdG8gcmVjdXJzaXZlIGxvY2tpbmcuDQo+DQo+QWRkIGEgbGl2ZSBzZWxmdGVzdCB0
+byBjYXRjaCB0aGlzIGNhc2UsIGFuZCBhcyBhIHdvcmthcm91bmQgdW50aWwNCj53ZSBmdWxseSBz
+dXBwb3J0IGR5bmFtaWMgaW1wb3J0IGFuZCBleHBvcnQsIGRlY2xhcmUgdGhlIGV4cG9ydGVyIGR5
+bmFtaWMNCj5ieSBwcm92aWRpbmcgTk9QIHBpbigpIGFuZCB1bnBpbigpIGZ1bmN0aW9ucy4gVGhp
+cyBtZWFucyBvdXIgbWFwX2RtYV9idWYoKQ0KPmNhbGxiYWNrIHdpbGwgKmFsd2F5cyogZ2V0IGNh
+bGxlZCBsb2NrZWQsIGFuZCBieSBwaW5uaW5nIHVuY29uZGl0aW9uYWxseQ0KPmluIGk5MTVfZ2Vt
+X21hcF9kbWFfYnVmKCkgd2UgbWFrZSBzdXJlIHdlIGRvbid0IG5lZWQgdG8gdXNlIHRoZQ0KPm1v
+dmVfbm90aWZ5KCkgZnVuY3Rpb25hbGl0eSB3aGljaCBpcyBub3QgeWV0IGltcGxlbWVudGVkLg0K
+DQpBbiBpbnRlcmVzdGluZyBhYnVzZSBvZiB0aGUgaW50ZXJmYWNlLCBidXQgaXQgc2VlbXMgcmVh
+c29uYWJsZSAoZm9yIG5vdykgdG8gbWUuDQoNClJldmlld2VkLWJ5OiBNaWNoYWVsIEouIFJ1aGwg
+PG1pY2hhZWwuai5ydWhsQGludGVsLmNvbT4NCg0KTWlrZQ0KDQo+UmVwb3J0ZWQtYnk6IFJ1aGws
+IE1pY2hhZWwgSiA8bWljaGFlbC5qLnJ1aGxAaW50ZWwuY29tPg0KPkNjOiBSdWhsLCBNaWNoYWVs
+IEogPG1pY2hhZWwuai5ydWhsQGludGVsLmNvbT4NCj5TaWduZWQtb2ZmLWJ5OiBUaG9tYXMgSGVs
+bHN0csO2bSA8dGhvbWFzLmhlbGxzdHJvbUBsaW51eC5pbnRlbC5jb20+DQo+LS0tDQo+IGRyaXZl
+cnMvZ3B1L2RybS9pOTE1L2dlbS9pOTE1X2dlbV9kbWFidWYuYyAgICB8IDMxICsrKysrKy0NCj4g
+Li4uL2RybS9pOTE1L2dlbS9zZWxmdGVzdHMvaTkxNV9nZW1fZG1hYnVmLmMgIHwgODENCj4rKysr
+KysrKysrKysrKysrKystDQo+IDIgZmlsZXMgY2hhbmdlZCwgMTA4IGluc2VydGlvbnMoKyksIDQg
+ZGVsZXRpb25zKC0pDQo+DQo+ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2dlbS9p
+OTE1X2dlbV9kbWFidWYuYw0KPmIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZ2VtL2k5MTVfZ2VtX2Rt
+YWJ1Zi5jDQo+aW5kZXggNjE2YzNhMmYxYmFmLi4xZDFlZWIxNjdkMjggMTAwNjQ0DQo+LS0tIGEv
+ZHJpdmVycy9ncHUvZHJtL2k5MTUvZ2VtL2k5MTVfZ2VtX2RtYWJ1Zi5jDQo+KysrIGIvZHJpdmVy
+cy9ncHUvZHJtL2k5MTUvZ2VtL2k5MTVfZ2VtX2RtYWJ1Zi5jDQo+QEAgLTEyLDYgKzEyLDggQEAN
+Cj4gI2luY2x1ZGUgImk5MTVfZ2VtX29iamVjdC5oIg0KPiAjaW5jbHVkZSAiaTkxNV9zY2F0dGVy
+bGlzdC5oIg0KPg0KPitJOTE1X1NFTEZURVNUX0RFQ0xBUkUoc3RhdGljIGJvb2wgZm9yY2VfZGlm
+ZmVyZW50X2RldmljZXM7KQ0KPisNCj4gc3RhdGljIHN0cnVjdCBkcm1faTkxNV9nZW1fb2JqZWN0
+ICpkbWFfYnVmX3RvX29iaihzdHJ1Y3QgZG1hX2J1ZiAqYnVmKQ0KPiB7DQo+IAlyZXR1cm4gdG9f
+aW50ZWxfYm8oYnVmLT5wcml2KTsNCj5AQCAtMjUsNyArMjcsOSBAQCBzdGF0aWMgc3RydWN0IHNn
+X3RhYmxlICppOTE1X2dlbV9tYXBfZG1hX2J1ZihzdHJ1Y3QNCj5kbWFfYnVmX2F0dGFjaG1lbnQg
+KmF0dGFjaG1lDQo+IAlzdHJ1Y3Qgc2NhdHRlcmxpc3QgKnNyYywgKmRzdDsNCj4gCWludCByZXQs
+IGk7DQo+DQo+LQlyZXQgPSBpOTE1X2dlbV9vYmplY3RfcGluX3BhZ2VzX3VubG9ja2VkKG9iaik7
+DQo+Kwlhc3NlcnRfb2JqZWN0X2hlbGQob2JqKTsNCj4rDQo+KwlyZXQgPSBpOTE1X2dlbV9vYmpl
+Y3RfcGluX3BhZ2VzKG9iaik7DQo+IAlpZiAocmV0KQ0KPiAJCWdvdG8gZXJyOw0KPg0KPkBAIC0x
+NjgsNiArMTcyLDI2IEBAIHN0YXRpYyBpbnQgaTkxNV9nZW1fZW5kX2NwdV9hY2Nlc3Moc3RydWN0
+IGRtYV9idWYNCj4qZG1hX2J1ZiwgZW51bSBkbWFfZGF0YV9kaXJlY3QNCj4gCXJldHVybiBlcnI7
+DQo+IH0NCj4NCj4rLyoNCj4rICogQXMgYSB3b3JrYXJvdW5kIHVudGlsIHdlIGZ1bGx5IHN1cHBv
+cnQgZHluYW1pYyBpbXBvcnQgYW5kIGV4cG9ydCwNCj4rICogZGVjbGFyZSB0aGUgZXhwb3J0ZXIg
+ZHluYW1pYyBieSBwcm92aWRpbmcgTk9QIHBpbigpIGFuZCB1bnBpbigpDQo+ZnVuY3Rpb25zLg0K
+PisgKiBUaGlzIG1lYW5zIG91ciBpOTE1X2dlbV9tYXBfZG1hX2J1ZigpIGNhbGxiYWNrIHdpbGwg
+KmFsd2F5cyogZ2V0DQo+Y2FsbGVkDQo+KyAqIGxvY2tlZCwgYW5kIGJ5IHBpbm5pbmcgdW5jb25k
+aXRpb25hbGx5IGluIGk5MTVfZ2VtX21hcF9kbWFfYnVmKCkgd2UNCj5tYWtlDQo+KyAqIHN1cmUg
+d2UgZG9uJ3QgbmVlZCB0byB1c2UgdGhlIG1vdmVfbm90aWZ5KCkgZnVuY3Rpb25hbGl0eSB3aGlj
+aCBpcw0KPisgKiBub3QgeWV0IGltcGxlbWVudGVkLiBUeXBpY2FsbHkgZm9yIHRoZSBzYW1lLWRy
+aXZlci1hbm90aGVyLWluc3RhbmNlIGNhc2UsDQo+KyAqIGk5MTVfZ2VtX21hcF9kbWFfYnVmKCkg
+d2lsbCBiZSBjYWxsZWQgYXQgaW1wb3J0ZXIgYXR0YWNoIHRpbWUgYW5kIHRoZQ0KPisgKiBtYXBw
+ZWQgc2dfbGlzdCB3aWxsIGJlIGNhY2hlZCBieSB0aGUgZG1hLWJ1ZiBjb3JlIGZvciB0aGUNCj4r
+ICogZHVyYXRpb24gb2YgdGhlIGF0dGFjaG1lbnQuDQo+KyAqLw0KPitzdGF0aWMgaW50IGk5MTVf
+Z2VtX2RtYWJ1Zl9waW4oc3RydWN0IGRtYV9idWZfYXR0YWNobWVudCAqYXR0YWNoKQ0KPit7DQo+
+KwlyZXR1cm4gMDsNCj4rfQ0KPisNCj4rc3RhdGljIHZvaWQgaTkxNV9nZW1fZG1hYnVmX3VucGlu
+KHN0cnVjdCBkbWFfYnVmX2F0dGFjaG1lbnQgKmF0dGFjaCkNCj4rew0KPit9DQo+Kw0KPiBzdGF0
+aWMgY29uc3Qgc3RydWN0IGRtYV9idWZfb3BzIGk5MTVfZG1hYnVmX29wcyA9ICB7DQo+IAkubWFw
+X2RtYV9idWYgPSBpOTE1X2dlbV9tYXBfZG1hX2J1ZiwNCj4gCS51bm1hcF9kbWFfYnVmID0gaTkx
+NV9nZW1fdW5tYXBfZG1hX2J1ZiwNCj5AQCAtMTc3LDYgKzIwMSw4IEBAIHN0YXRpYyBjb25zdCBz
+dHJ1Y3QgZG1hX2J1Zl9vcHMgaTkxNV9kbWFidWZfb3BzID0gIHsNCj4gCS52dW5tYXAgPSBpOTE1
+X2dlbV9kbWFidWZfdnVubWFwLA0KPiAJLmJlZ2luX2NwdV9hY2Nlc3MgPSBpOTE1X2dlbV9iZWdp
+bl9jcHVfYWNjZXNzLA0KPiAJLmVuZF9jcHVfYWNjZXNzID0gaTkxNV9nZW1fZW5kX2NwdV9hY2Nl
+c3MsDQo+KwkucGluID0gaTkxNV9nZW1fZG1hYnVmX3BpbiwNCj4rCS51bnBpbiA9IGk5MTVfZ2Vt
+X2RtYWJ1Zl91bnBpbiwNCj4gfTsNCj4NCj4gc3RydWN0IGRtYV9idWYgKmk5MTVfZ2VtX3ByaW1l
+X2V4cG9ydChzdHJ1Y3QgZHJtX2dlbV9vYmplY3QNCj4qZ2VtX29iaiwgaW50IGZsYWdzKQ0KPkBA
+IC0yNDEsNyArMjY3LDggQEAgc3RydWN0IGRybV9nZW1fb2JqZWN0DQo+Kmk5MTVfZ2VtX3ByaW1l
+X2ltcG9ydChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LA0KPiAJaWYgKGRtYV9idWYtPm9wcyA9PSAm
+aTkxNV9kbWFidWZfb3BzKSB7DQo+IAkJb2JqID0gZG1hX2J1Zl90b19vYmooZG1hX2J1Zik7DQo+
+IAkJLyogaXMgaXQgZnJvbSBvdXIgZGV2aWNlPyAqLw0KPi0JCWlmIChvYmotPmJhc2UuZGV2ID09
+IGRldikgew0KPisJCWlmIChvYmotPmJhc2UuZGV2ID09IGRldiAmJg0KPisJCSAgICAhSTkxNV9T
+RUxGVEVTVF9PTkxZKGZvcmNlX2RpZmZlcmVudF9kZXZpY2VzKSkgew0KPiAJCQkvKg0KPiAJCQkg
+KiBJbXBvcnRpbmcgZG1hYnVmIGV4cG9ydGVkIGZyb20gb3V0IG93biBnZW0NCj5pbmNyZWFzZXMN
+Cj4gCQkJICogcmVmY291bnQgb24gZ2VtIGl0c2VsZiBpbnN0ZWFkIG9mIGZfY291bnQgb2YNCj5k
+bWFidWYuDQo+ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2dlbS9zZWxmdGVzdHMv
+aTkxNV9nZW1fZG1hYnVmLmMNCj5iL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2dlbS9zZWxmdGVzdHMv
+aTkxNV9nZW1fZG1hYnVmLmMNCj5pbmRleCBkZDc0YmMwOWVjODguLjI0NzM1ZDZjMTJhMiAxMDA2
+NDQNCj4tLS0gYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9nZW0vc2VsZnRlc3RzL2k5MTVfZ2VtX2Rt
+YWJ1Zi5jDQo+KysrIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZ2VtL3NlbGZ0ZXN0cy9pOTE1X2dl
+bV9kbWFidWYuYw0KPkBAIC0zNSw3ICszNSw3IEBAIHN0YXRpYyBpbnQgaWd0X2RtYWJ1Zl9leHBv
+cnQodm9pZCAqYXJnKQ0KPiBzdGF0aWMgaW50IGlndF9kbWFidWZfaW1wb3J0X3NlbGYodm9pZCAq
+YXJnKQ0KPiB7DQo+IAlzdHJ1Y3QgZHJtX2k5MTVfcHJpdmF0ZSAqaTkxNSA9IGFyZzsNCj4tCXN0
+cnVjdCBkcm1faTkxNV9nZW1fb2JqZWN0ICpvYmo7DQo+KwlzdHJ1Y3QgZHJtX2k5MTVfZ2VtX29i
+amVjdCAqb2JqLCAqaW1wb3J0X29iajsNCj4gCXN0cnVjdCBkcm1fZ2VtX29iamVjdCAqaW1wb3J0
+Ow0KPiAJc3RydWN0IGRtYV9idWYgKmRtYWJ1ZjsNCj4gCWludCBlcnI7DQo+QEAgLTY1LDE0ICs2
+NSw5MCBAQCBzdGF0aWMgaW50IGlndF9kbWFidWZfaW1wb3J0X3NlbGYodm9pZCAqYXJnKQ0KPiAJ
+CWVyciA9IC1FSU5WQUw7DQo+IAkJZ290byBvdXRfaW1wb3J0Ow0KPiAJfQ0KPisJaW1wb3J0X29i
+aiA9IHRvX2ludGVsX2JvKGltcG9ydCk7DQo+Kw0KPisJaTkxNV9nZW1fb2JqZWN0X2xvY2soaW1w
+b3J0X29iaiwgTlVMTCk7DQo+KwllcnIgPSBfX19faTkxNV9nZW1fb2JqZWN0X2dldF9wYWdlcyhp
+bXBvcnRfb2JqKTsNCj4rCWk5MTVfZ2VtX29iamVjdF91bmxvY2soaW1wb3J0X29iaik7DQo+Kwlp
+ZiAoZXJyKSB7DQo+KwkJcHJfZXJyKCJTYW1lIG9iamVjdCBkbWEtYnVmIGdldF9wYWdlcyBmYWls
+ZWQhXG4iKTsNCj4rCQlnb3RvIG91dF9pbXBvcnQ7DQo+Kwl9DQo+DQo+IAllcnIgPSAwOw0KPiBv
+dXRfaW1wb3J0Og0KPi0JaTkxNV9nZW1fb2JqZWN0X3B1dCh0b19pbnRlbF9ibyhpbXBvcnQpKTsN
+Cj4rCWk5MTVfZ2VtX29iamVjdF9wdXQoaW1wb3J0X29iaik7DQo+K291dF9kbWFidWY6DQo+Kwlk
+bWFfYnVmX3B1dChkbWFidWYpOw0KPitvdXQ6DQo+KwlpOTE1X2dlbV9vYmplY3RfcHV0KG9iaik7
+DQo+KwlyZXR1cm4gZXJyOw0KPit9DQo+Kw0KPitzdGF0aWMgaW50IGlndF9kbWFidWZfaW1wb3J0
+X3NhbWVfZHJpdmVyKHZvaWQgKmFyZykNCj4rew0KPisJc3RydWN0IGRybV9pOTE1X3ByaXZhdGUg
+Kmk5MTUgPSBhcmc7DQo+KwlzdHJ1Y3QgZHJtX2k5MTVfZ2VtX29iamVjdCAqb2JqLCAqaW1wb3J0
+X29iajsNCj4rCXN0cnVjdCBkcm1fZ2VtX29iamVjdCAqaW1wb3J0Ow0KPisJc3RydWN0IGRtYV9i
+dWYgKmRtYWJ1ZjsNCj4rCWludCBlcnI7DQo+Kw0KPisJZm9yY2VfZGlmZmVyZW50X2RldmljZXMg
+PSB0cnVlOw0KPisJb2JqID0gaTkxNV9nZW1fb2JqZWN0X2NyZWF0ZV9zaG1lbShpOTE1LCBQQUdF
+X1NJWkUpOw0KPisJaWYgKElTX0VSUihvYmopKQ0KPisJCWdvdG8gb3V0X3JldDsNCj4rDQo+Kwlk
+bWFidWYgPSBpOTE1X2dlbV9wcmltZV9leHBvcnQoJm9iai0+YmFzZSwgMCk7DQo+KwlpZiAoSVNf
+RVJSKGRtYWJ1ZikpIHsNCj4rCQlwcl9lcnIoImk5MTVfZ2VtX3ByaW1lX2V4cG9ydCBmYWlsZWQg
+d2l0aCBlcnI9JWRcbiIsDQo+KwkJICAgICAgIChpbnQpUFRSX0VSUihkbWFidWYpKTsNCj4rCQll
+cnIgPSBQVFJfRVJSKGRtYWJ1Zik7DQo+KwkJZ290byBvdXQ7DQo+Kwl9DQo+Kw0KPisJaW1wb3J0
+ID0gaTkxNV9nZW1fcHJpbWVfaW1wb3J0KCZpOTE1LT5kcm0sIGRtYWJ1Zik7DQo+KwlpZiAoSVNf
+RVJSKGltcG9ydCkpIHsNCj4rCQlwcl9lcnIoImk5MTVfZ2VtX3ByaW1lX2ltcG9ydCBmYWlsZWQg
+d2l0aCBlcnI9JWRcbiIsDQo+KwkJICAgICAgIChpbnQpUFRSX0VSUihpbXBvcnQpKTsNCj4rCQll
+cnIgPSBQVFJfRVJSKGltcG9ydCk7DQo+KwkJZ290byBvdXRfZG1hYnVmOw0KPisJfQ0KPisNCj4r
+CWlmIChpbXBvcnQgPT0gJm9iai0+YmFzZSkgew0KPisJCXByX2VycigiaTkxNV9nZW1fcHJpbWVf
+aW1wb3J0IHJldXNlZCBnZW0gb2JqZWN0IVxuIik7DQo+KwkJZXJyID0gLUVJTlZBTDsNCj4rCQln
+b3RvIG91dF9pbXBvcnQ7DQo+Kwl9DQo+Kw0KPisJaW1wb3J0X29iaiA9IHRvX2ludGVsX2JvKGlt
+cG9ydCk7DQo+Kw0KPisJaTkxNV9nZW1fb2JqZWN0X2xvY2soaW1wb3J0X29iaiwgTlVMTCk7DQo+
+KwllcnIgPSBfX19faTkxNV9nZW1fb2JqZWN0X2dldF9wYWdlcyhpbXBvcnRfb2JqKTsNCj4rCWlm
+IChlcnIpIHsNCj4rCQlwcl9lcnIoIkRpZmZlcmVudCBvYmplY3RzIGRtYS1idWYgZ2V0X3BhZ2Vz
+IGZhaWxlZCFcbiIpOw0KPisJCWk5MTVfZ2VtX29iamVjdF91bmxvY2soaW1wb3J0X29iaik7DQo+
+KwkJZ290byBvdXRfaW1wb3J0Ow0KPisJfQ0KPisNCj4rCS8qDQo+KwkgKiBJZiB0aGUgZXhwb3J0
+ZWQgb2JqZWN0IGlzIG5vdCBpbiBzeXN0ZW0gbWVtb3J5LCBzb21ldGhpbmcNCj4rCSAqIHdlaXJk
+IGlzIGdvaW5nIG9uLiBUT0RPOiBXaGVuIHAycCBpcyBzdXBwb3J0ZWQsIHRoaXMgaXMgbm8NCj4r
+CSAqIGxvbmdlciBjb25zaWRlcmVkIHdlaXJkLg0KPisJICovDQo+KwlpZiAob2JqLT5tbS5yZWdp
+b24gIT0gaTkxNS0+bW0ucmVnaW9uc1tJTlRFTF9SRUdJT05fU01FTV0pIHsNCj4rCQlwcl9lcnIo
+IkV4cG9ydGVkIGRtYS1idWYgaXMgbm90IGluIHN5c3RlbSBtZW1vcnlcbiIpOw0KPisJCWVyciA9
+IC1FSU5WQUw7DQo+Kwl9DQo+KwlpOTE1X2dlbV9vYmplY3RfdW5sb2NrKGltcG9ydF9vYmopOw0K
+PisNCj4rb3V0X2ltcG9ydDoNCj4rCWk5MTVfZ2VtX29iamVjdF9wdXQoaW1wb3J0X29iaik7DQo+
+IG91dF9kbWFidWY6DQo+IAlkbWFfYnVmX3B1dChkbWFidWYpOw0KPiBvdXQ6DQo+IAlpOTE1X2dl
+bV9vYmplY3RfcHV0KG9iaik7DQo+K291dF9yZXQ6DQo+Kwlmb3JjZV9kaWZmZXJlbnRfZGV2aWNl
+cyA9IGZhbHNlOw0KPiAJcmV0dXJuIGVycjsNCj4gfQ0KPg0KPkBAIC0yODYsNiArMzYyLDcgQEAg
+aW50IGk5MTVfZ2VtX2RtYWJ1Zl9saXZlX3NlbGZ0ZXN0cyhzdHJ1Y3QNCj5kcm1faTkxNV9wcml2
+YXRlICppOTE1KQ0KPiB7DQo+IAlzdGF0aWMgY29uc3Qgc3RydWN0IGk5MTVfc3VidGVzdCB0ZXN0
+c1tdID0gew0KPiAJCVNVQlRFU1QoaWd0X2RtYWJ1Zl9leHBvcnQpLA0KPisJCVNVQlRFU1QoaWd0
+X2RtYWJ1Zl9pbXBvcnRfc2FtZV9kcml2ZXIpLA0KPiAJfTsNCj4NCj4gCXJldHVybiBpOTE1X3N1
+YnRlc3RzKHRlc3RzLCBpOTE1KTsNCj4tLQ0KPjIuMzEuMQ0KDQo=
