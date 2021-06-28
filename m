@@ -2,38 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E6AF3B5B37
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Jun 2021 11:26:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 659B83B5B4B
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Jun 2021 11:30:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3966E6E3AC;
-	Mon, 28 Jun 2021 09:26:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E8866E3B2;
+	Mon, 28 Jun 2021 09:30:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 1B26089F9F
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Jun 2021 09:26:43 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7C7881FB;
- Mon, 28 Jun 2021 02:26:42 -0700 (PDT)
-Received: from [10.57.89.43] (unknown [10.57.89.43])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4C38E3F694;
- Mon, 28 Jun 2021 02:26:41 -0700 (PDT)
-Subject: Re: [PATCH v4 07/14] drm/panfrost: Use a threaded IRQ for job
- interrupts
-To: Boris Brezillon <boris.brezillon@collabora.com>,
+Received: from smtp.domeneshop.no (smtp.domeneshop.no
+ [IPv6:2a01:5b40:0:3005::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 19F916E3B2
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Jun 2021 09:30:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+ ; s=ds202012;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
+ MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=P7K4qB/yrQ2EoW+RSXh2al0SDXCW/M7yQIF8cpspe6I=; b=AIfiysXwWX0P+pc7Qdsawkpf1L
+ I4H/fCw+yLcp5eLNGSIBedhGyPfjlLH28+lJFCd7tft5nimvpqjxPkxCwwLvpcdMZAQ/TJQoEtOce
+ BGj4KnOrJtE/r7R1KDuaO87IvoxebcQzi7WmL5M2uF0Ftw3WSezSBDvhxVAFEB6rQuMYUAbhUqbFP
+ JkwtgekNQlr+tOgeiRuRO4WNj9kkLwKhCqkxGuREmEqISA2CxvTrEeyd1hFYETAKZ+TJMzxCuRBvr
+ CWSFWyaxA8Yuzfh5FUA8tVRw6UkSQsv8sJ5xu2mTVEdxjLARlMEXP1JzVB/zYAdAmg9RglLnEfyZL
+ PaC7akmA==;
+Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:62436
+ helo=[192.168.10.61])
+ by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <noralf@tronnes.org>)
+ id 1lxnb6-0004Rp-J5; Mon, 28 Jun 2021 11:30:32 +0200
+Subject: Re: [PATCH] drm/panel: ws2401: Add driver for WideChips WS2401
+To: Linus Walleij <linus.walleij@linaro.org>,
+ Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
  dri-devel@lists.freedesktop.org
-References: <20210628074210.2695399-1-boris.brezillon@collabora.com>
- <20210628074210.2695399-8-boris.brezillon@collabora.com>
-From: Steven Price <steven.price@arm.com>
-Message-ID: <ba0b5a88-d853-ee66-4ec5-58781e2469fe@arm.com>
-Date: Mon, 28 Jun 2021 10:26:39 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+References: <20210624224458.2486701-1-linus.walleij@linaro.org>
+From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+Message-ID: <d7dc8987-60ab-41c2-0200-a7f6a8ae837c@tronnes.org>
+Date: Mon, 28 Jun 2021 11:30:30 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210628074210.2695399-8-boris.brezillon@collabora.com>
+In-Reply-To: <20210624224458.2486701-1-linus.walleij@linaro.org>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,146 +57,199 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>, Rob Herring <robh+dt@kernel.org>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Robin Murphy <robin.murphy@arm.com>
+Cc: phone-devel@vger.kernel.org, Douglas Anderson <dianders@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 28/06/2021 08:42, Boris Brezillon wrote:
-> This should avoid switching to interrupt context when the GPU is under
-> heavy use.
+
+
+Den 25.06.2021 00.44, skrev Linus Walleij:
+> This adds a driver for panels based on the WideChips WS2401 display
+> controller. This display controller is used in the Samsung LMS380KF01
+> display found in the Samsung GT-I8160 (Codina) mobile phone and
+> possibly others.
 > 
-> v3:
-> * Don't take the job_lock in panfrost_job_handle_irq()
+> As is common with Samsung displays manufacturer commands are necessary
+> to configure the display to a working state.
 > 
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> Acked-by: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
-
-I thought I'd already reviewed this one, but anyway:
-
-Reviewed-by: Steven Price <steven.price@arm.com>
-
+> The display optionally supports internal backlight control, but can
+> also use an external backlight.
+> 
+> This driver re-uses the DBI infrastructure to communicate with the
+> display.
+> 
+> Cc: phone-devel@vger.kernel.org
+> Cc: Douglas Anderson <dianders@chromium.org>
+> Cc: Noralf Trønnes <noralf@tronnes.org>
+> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
 > ---
->  drivers/gpu/drm/panfrost/panfrost_job.c | 53 ++++++++++++++++++-------
->  1 file changed, 38 insertions(+), 15 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
-> index be8f68f63974..e0c479e67304 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
-> @@ -470,19 +470,12 @@ static const struct drm_sched_backend_ops panfrost_sched_ops = {
->  	.free_job = panfrost_job_free
->  };
+
+> diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
+> index 4894913936e9..f4fe1dba9912 100644
+> --- a/drivers/gpu/drm/panel/Kconfig
+> +++ b/drivers/gpu/drm/panel/Kconfig
+> @@ -552,6 +552,15 @@ config DRM_PANEL_VISIONOX_RM69299
+>  	  Say Y here if you want to enable support for Visionox
+>  	  RM69299  DSI Video Mode panel.
 >  
-> -static irqreturn_t panfrost_job_irq_handler(int irq, void *data)
-> +static void panfrost_job_handle_irq(struct panfrost_device *pfdev, u32 status)
->  {
-> -	struct panfrost_device *pfdev = data;
-> -	u32 status = job_read(pfdev, JOB_INT_STAT);
->  	int j;
->  
->  	dev_dbg(pfdev->dev, "jobslot irq status=%x\n", status);
->  
-> -	if (!status)
-> -		return IRQ_NONE;
-> -
-> -	pm_runtime_mark_last_busy(pfdev->dev);
-> -
->  	for (j = 0; status; j++) {
->  		u32 mask = MK_JS_MASK(j);
->  
-> @@ -519,7 +512,6 @@ static irqreturn_t panfrost_job_irq_handler(int irq, void *data)
->  		if (status & JOB_INT_MASK_DONE(j)) {
->  			struct panfrost_job *job;
->  
-> -			spin_lock(&pfdev->js->job_lock);
->  			job = pfdev->jobs[j];
->  			/* Only NULL if job timeout occurred */
->  			if (job) {
-> @@ -531,21 +523,49 @@ static irqreturn_t panfrost_job_irq_handler(int irq, void *data)
->  				dma_fence_signal_locked(job->done_fence);
->  				pm_runtime_put_autosuspend(pfdev->dev);
->  			}
-> -			spin_unlock(&pfdev->js->job_lock);
->  		}
->  
->  		status &= ~mask;
->  	}
-> +}
->  
-> +static irqreturn_t panfrost_job_irq_handler_thread(int irq, void *data)
+> +config DRM_PANEL_WIDECHIPS_WS2401
+> +	tristate "Widechips WS2401 DPI panel driver"
+> +	depends on OF && SPI && GPIOLIB
+
+I couldn't find any OF dependency in the driver?
+
+> +	depends on BACKLIGHT_CLASS_DEVICE
+> +	select DRM_MIPI_DBI
+> +	help
+> +	  Say Y here if you want to enable support for the Widechips
+> +	  WS2401 DPI 480x800 display controller.
+> +
+>  config DRM_PANEL_XINPENG_XPP055C272
+>  	tristate "Xinpeng XPP055C272 panel driver"
+>  	depends on OF
+
+> diff --git a/drivers/gpu/drm/panel/panel-widechips-ws2401.c b/drivers/gpu/drm/panel/panel-widechips-ws2401.c
+> new file mode 100644
+> index 000000000000..d15870301174
+> --- /dev/null
+> +++ b/drivers/gpu/drm/panel/panel-widechips-ws2401.c
+> @@ -0,0 +1,404 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Panel driver for the WideChips WS2401 480x800 DPI RGB panel, used in
+> + * the Samsung Mobile Display (SMD) LMS380KF01.
+> + * Found in the Samsung Galaxy Ace 2 GT-I8160 mobile phone.
+> + * Linus Walleij <linus.walleij@linaro.org>
+> + * Inspired by code and know-how in the vendor driver by Gareth Phillips.
+> + */
+> +#include <drm/drm_modes.h>
+> +#include <drm/drm_mipi_dbi.h>
+> +#include <drm/drm_panel.h>
+> +
+> +#include <linux/backlight.h>
+> +#include <linux/delay.h>
+> +#include <linux/gpio/consumer.h>
+> +#include <linux/init.h>
+> +#include <linux/kernel.h>
+> +#include <linux/media-bus-format.h>
+> +#include <linux/module.h>
+> +#include <linux/of.h>
+
+AFAICS there are no users of this header.
+
+> +#include <linux/regulator/consumer.h>
+> +#include <linux/spi/spi.h>
+> +
+> +#include <video/mipi_display.h>
+> +
+
+> +static const u8 ws2401_dbi_read_commands[] = {
+> +	WS2401_READ_ID1,
+> +	WS2401_READ_ID2,
+> +	WS2401_READ_ID3,
+> +	0, /* sentinel */
+> +};
+> +
+
+> +static void ws2401_read_mtp_id(struct ws2401 *ws)
 > +{
-> +	struct panfrost_device *pfdev = data;
-> +	u32 status = job_read(pfdev, JOB_INT_RAWSTAT);
+> +	struct mipi_dbi *dbi = &ws->dbi;
+> +	u8 id1, id2, id3;
+> +	int ret;
 > +
-> +	while (status) {
-> +		pm_runtime_mark_last_busy(pfdev->dev);
+> +	ret = mipi_dbi_command_read(dbi, WS2401_READ_ID1, &id1);
+> +	if (ret) {
+> +		dev_err(ws->dev, "unable to read MTP ID 1\n");
+> +		return;
+> +	}
+> +	ret = mipi_dbi_command_read(dbi, WS2401_READ_ID2, &id1);
+> +	if (ret) {
+> +		dev_err(ws->dev, "unable to read MTP ID 2\n");
+> +		return;
+> +	}
+> +	ret = mipi_dbi_command_read(dbi, WS2401_READ_ID3, &id1);
+> +	if (ret) {
+> +		dev_err(ws->dev, "unable to read MTP ID 3\n");
+> +		return;
+> +	}
+> +	dev_info(ws->dev, "MTP ID: %02x %02x %02x\n", id1, id2, id3);
+> +}
+
+Why do you read these id's on every power on, it doesn't look like you
+use them?
+
+If they're just informational, they should be available through debugfs,
+see mipi_dbi_debugfs_init().
+
+> +static int ws2401_probe(struct spi_device *spi)
+> +{
+> +	struct device *dev = &spi->dev;
+> +	struct ws2401 *ws;
+> +	int ret;
 > +
-> +		spin_lock(&pfdev->js->job_lock);
-> +		panfrost_job_handle_irq(pfdev, status);
-> +		spin_unlock(&pfdev->js->job_lock);
-> +		status = job_read(pfdev, JOB_INT_RAWSTAT);
+> +	ws = devm_kzalloc(dev, sizeof(*ws), GFP_KERNEL);
+> +	if (!ws)
+> +		return -ENOMEM;
+> +	ws->dev = dev;
+> +
+> +	/*
+> +	 * VCI   is the analog voltage supply
+> +	 * VCCIO is the digital I/O voltage supply
+> +	 */
+> +	ws->regulators[0].supply = "vci";
+> +	ws->regulators[1].supply = "vccio";
+> +	ret = devm_regulator_bulk_get(dev,
+> +				      ARRAY_SIZE(ws->regulators),
+> +				      ws->regulators);
+> +	if (ret)
+> +		return dev_err_probe(dev, ret, "failed to get regulators\n");
+> +
+> +	ws->reset = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
+> +	if (IS_ERR(ws->reset)) {
+> +		ret = PTR_ERR(ws->reset);
+> +		return dev_err_probe(dev, ret, "no RESET GPIO\n");
 > +	}
 > +
-> +	job_write(pfdev, JOB_INT_MASK,
-> +		  GENMASK(16 + NUM_JOB_SLOTS - 1, 16) |
-> +		  GENMASK(NUM_JOB_SLOTS - 1, 0));
->  	return IRQ_HANDLED;
->  }
->  
-> +static irqreturn_t panfrost_job_irq_handler(int irq, void *data)
-> +{
-> +	struct panfrost_device *pfdev = data;
-> +	u32 status = job_read(pfdev, JOB_INT_STAT);
+> +	ret = mipi_dbi_spi_init(spi, &ws->dbi, NULL);
+> +	if (ret)
+> +		return dev_err_probe(dev, ret, "MIPI DBI init failed\n");
+> +	ws->dbi.read_commands = ws2401_dbi_read_commands;
 > +
-> +	if (!status)
-> +		return IRQ_NONE;
+> +	drm_panel_init(&ws->panel, dev, &ws2401_drm_funcs,
+> +		       DRM_MODE_CONNECTOR_DPI);
 > +
-> +	job_write(pfdev, JOB_INT_MASK, 0);
-> +	return IRQ_WAKE_THREAD;
-> +}
-> +
->  static void panfrost_reset(struct work_struct *work)
->  {
->  	struct panfrost_device *pfdev = container_of(work,
->  						     struct panfrost_device,
->  						     reset.work);
-> -	unsigned long flags;
->  	unsigned int i;
->  	bool cookie;
->  
-> @@ -575,7 +595,7 @@ static void panfrost_reset(struct work_struct *work)
->  	/* All timers have been stopped, we can safely reset the pending state. */
->  	atomic_set(&pfdev->reset.pending, 0);
->  
-> -	spin_lock_irqsave(&pfdev->js->job_lock, flags);
-> +	spin_lock(&pfdev->js->job_lock);
->  	for (i = 0; i < NUM_JOB_SLOTS; i++) {
->  		if (pfdev->jobs[i]) {
->  			pm_runtime_put_noidle(pfdev->dev);
-> @@ -583,7 +603,7 @@ static void panfrost_reset(struct work_struct *work)
->  			pfdev->jobs[i] = NULL;
->  		}
->  	}
-> -	spin_unlock_irqrestore(&pfdev->js->job_lock, flags);
-> +	spin_unlock(&pfdev->js->job_lock);
->  
->  	panfrost_device_reset(pfdev);
->  
-> @@ -610,8 +630,11 @@ int panfrost_job_init(struct panfrost_device *pfdev)
->  	if (irq <= 0)
->  		return -ENODEV;
->  
-> -	ret = devm_request_irq(pfdev->dev, irq, panfrost_job_irq_handler,
-> -			       IRQF_SHARED, KBUILD_MODNAME "-job", pfdev);
-> +	ret = devm_request_threaded_irq(pfdev->dev, irq,
-> +					panfrost_job_irq_handler,
-> +					panfrost_job_irq_handler_thread,
-> +					IRQF_SHARED, KBUILD_MODNAME "-job",
-> +					pfdev);
->  	if (ret) {
->  		dev_err(pfdev->dev, "failed to request job irq");
->  		return ret;
-> 
+> +	ret = drm_panel_of_backlight(&ws->panel);
+> +	if (ret) {
 
+I fail to understand how to use internal backlight. If there's no
+backlight DT property, ret will be zero, right?
+
+of_find_backlight() can return -EPROBE_DEFER which will also end up here...
+
+> +		dev_info(dev, "no external backlight, using internal backlight\n");
+
+Like Doug I'm not a fan of these backlight info messages, things like
+these clutter up the boot log. It should be possible to glean this info
+from the backlight sysfs node should it be important for debugging.
+
+Noralf.
+
+> +		ws->bl = devm_backlight_device_register(dev, "ws2401", dev, ws,
+> +							&ws2401_bl_ops, &ws2401_bl_props);
+> +		if (IS_ERR(ws->bl)) {
+> +			ret = PTR_ERR(ws->bl);
+> +			return dev_err_probe(dev, ret,
+> +					     "failed to register backlight device\n");
+> +		}
+> +		ws->panel.backlight = ws->bl;
+> +	} else {
+> +		dev_info(dev, "using external backlight\n");
+> +	}
+> +
+> +	spi_set_drvdata(spi, ws);
+> +
+> +	drm_panel_add(&ws->panel);
+> +	dev_dbg(dev, "added panel\n");
+> +
+> +	return 0;
+> +}
