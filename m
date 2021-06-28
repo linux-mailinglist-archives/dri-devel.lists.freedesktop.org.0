@@ -1,38 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 998D93B565E
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Jun 2021 02:40:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B6F3A3B5661
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Jun 2021 02:40:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC8D36E1F1;
-	Mon, 28 Jun 2021 00:39:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E19A86E218;
+	Mon, 28 Jun 2021 00:40:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bombadil.infradead.org (bombadil.infradead.org
  [IPv6:2607:7c80:54:e::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9FDB86E1F1
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Jun 2021 00:39:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 85FCE6E218
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Jun 2021 00:40:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+ Content-Type:MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
  Content-ID:Content-Description:In-Reply-To:References;
- bh=vT5MOL85OD3uCD6pHmG/cA0FIka8DTN+aoVuSZv8xvY=; b=KC5xK9pp7yov9VZkLVaVvSpGzP
- tqgXnPO4xkgz8Xsx7O6Cb16vwx6GxBtu0rpa7F6DwV9lE1p74TyV9aDmF+SpLa38FmLHgp3K67SDl
- ykmb82F2M2iwaQtoegDWyH0RdADDBqe8Nl1WyHjA7M18j+jOHsjzYP1VMfAOUwUnKp6BV+qmf3SQP
- TcFsAfMcrI4fyxqOzTICIzywp2N0nwejD7UjU/fFz5FWNGqneAvG7k+cZ4SGZfgQ3d178AL4qcMHr
- L1BIL6Za1bapbvGXiVQVU0/yiQDcV8vg64EUwE/eRrIeQr/yrAxGCc1GG2VBCFKp2Tzz90jf7lYQL
- zZMMCizg==;
+ bh=lra+cUKfxwndGLkV7ZWKLMN4hPRlMGF3o/8Xt0/nRac=; b=bJx5T8WWjr/W2k/br2OI9ZqEsE
+ iwsRP2qCtB7KQOjyszj+otTS5KTtffDEDByBCOWoJK+Cf61AV5EbBcajb0eneIRrF1b13b4AqK7Ed
+ YjoQEeeSQzswxHSwWoa7RS4l4wmvV/rEvrb/XUM0AqdpHXRQwTSkGpXu6ZWYM+boeeTtdNQp8RcVe
+ MirbaL5h84zzr3BfCSQTJQm3uzQQlwSrcMEQvYW+GxtTvTBxy0udL50t9BxzF0lEvxQ/RNFAxDFjj
+ 7zPcuvZbL8KIYbT9AKkz5EApJRNUMQneccicByPk4JVsy7yMmR8CMP6LbQ8DAMvfRrhoGyfdWAJ3s
+ WyHgmAGQ==;
 Received: from [2601:1c0:6280:3f0::aefb] (helo=bombadil.infradead.org)
  by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1lxfJd-006MU1-5e; Mon, 28 Jun 2021 00:39:57 +0000
+ id 1lxfJt-006MWD-LC; Mon, 28 Jun 2021 00:40:13 +0000
 From: Randy Dunlap <rdunlap@infradead.org>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH] host1x: bus.c: drop excess kernel-doc entry @key
-Date: Sun, 27 Jun 2021 17:39:53 -0700
-Message-Id: <20210628003953.5456-1-rdunlap@infradead.org>
+Subject: [PATCH -next] <linux/dma-resv.h>: correct a function name in
+ kernel-doc
+Date: Sun, 27 Jun 2021 17:40:12 -0700
+Message-Id: <20210628004012.6792-1-rdunlap@infradead.org>
 X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -46,31 +48,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
- Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org
+Cc: Randy Dunlap <rdunlap@infradead.org>, dri-devel@lists.freedesktop.org,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix kernel-doc warning in host1x:
+Fix kernel-doc function name warning:
 
-../drivers/gpu/host1x/bus.c:774: warning: Excess function parameter 'key' description in '__host1x_client_register'
+../include/linux/dma-resv.h:227: warning: expecting prototype for dma_resv_exclusive(). Prototype was for dma_resv_excl_fence() instead
 
-Fixes: 0cfe5a6e758f ("gpu: host1x: Split up client initalization and registration")
+Fixes: 6edbd6abb783d ("ma-buf: rename and cleanup dma_resv_get_excl v3")
 Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Thierry Reding <thierry.reding@gmail.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: Christian König <christian.koenig@amd.com>
+Cc: linux-media@vger.kernel.org
 Cc: dri-devel@lists.freedesktop.org
-Cc: linux-tegra@vger.kernel.org
+Cc: linaro-mm-sig@lists.linaro.org
 ---
- drivers/gpu/host1x/bus.c |    1 -
- 1 file changed, 1 deletion(-)
+ include/linux/dma-resv.h |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
---- linux-next-20210625.orig/drivers/gpu/host1x/bus.c
-+++ linux-next-20210625/drivers/gpu/host1x/bus.c
-@@ -761,7 +761,6 @@ EXPORT_SYMBOL(host1x_client_exit);
+--- linux-next-20210625.orig/include/linux/dma-resv.h
++++ linux-next-20210625/include/linux/dma-resv.h
+@@ -212,7 +212,7 @@ static inline void dma_resv_unlock(struc
+ }
+ 
  /**
-  * __host1x_client_register() - register a host1x client
-  * @client: host1x client
-- * @key: lock class key for the client-specific mutex
+- * dma_resv_exclusive - return the object's exclusive fence
++ * dma_resv_excl_fence - return the object's exclusive fence
+  * @obj: the reservation object
   *
-  * Registers a host1x client with each host1x controller instance. Note that
-  * each client will only match their parent host1x controller and will only be
+  * Returns the exclusive fence (if any). Caller must either hold the objects
