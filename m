@@ -1,56 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBBE83B5CC0
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Jun 2021 12:53:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DEC633B5CC7
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Jun 2021 12:56:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D389C88E14;
-	Mon, 28 Jun 2021 10:53:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC7396E0A8;
+	Mon, 28 Jun 2021 10:56:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com
- [IPv6:2a00:1450:4864:20::62d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 414BD89356;
- Mon, 28 Jun 2021 10:53:52 +0000 (UTC)
-Received: by mail-ej1-x62d.google.com with SMTP id gn32so29270738ejc.2;
- Mon, 28 Jun 2021 03:53:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=3Svg4KufCMlleknRn+roGXHhdXYCmQgMOGxfVQBcqsk=;
- b=FdL9PinA+EMwomx1qeVTKbZghLZHrs004PW1HUN5/75/45TLyQsgRTM8M3xT8nqRx9
- 5VUpD3UPcdNyMzuEWObp0MYmfE6CcCqhSmLc50yBl83OTDK196HO66oBWo6QO6rC7cQi
- vD4E99b4Gb0E5WErLT3gzbk+wVl2FG2PJSofy9+8anJYf60Tf33Yd+GZwI1c2J6ChsCK
- Bm04ntyc4mOVa8uPH0Ak40YgLOuU8gqvwQGKt1twAmuflMMhAq3eFvv883tkfUwLbZfT
- Pw+DF340mfgx5kwuCVAxFp6kVbczCfRL5xCQXfa/TMgmNOs4u6+IBvHdtmp94CguXaTU
- JsLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=3Svg4KufCMlleknRn+roGXHhdXYCmQgMOGxfVQBcqsk=;
- b=ljk3nplrVfZMo21vj1ZVV4nqnPJ1+XkSL/3gGzNFiNOSOlk3NCqFJXP3bQ6tHlqRrR
- 3ZjWWwPW9zTCj3mCE0cAWBzITdTUD10zIPRhyO09hqXDY2ZKathxTrgqeIkGbaoVFnqM
- /rruQX7xLHK9m23uUR98exy6rxeBqGrtc6APNFEIYG4D8/T8osBGu9gmUM3QtY/UJKVi
- qs6og7aQl9rcengw8PNpSMyZ0BaxKsitHfT15L8yjIf3IloKqsrzjviOamR1c8jOIWcf
- 6ck+M2EPO/nNd9eY+4aAFlNBJNhjSSzyTcQ3p6XGbFnkk9QGCSwQJ08NbJM58EziiRkM
- BFZw==
-X-Gm-Message-State: AOAM532MXW0MCynOJjQlskDV3USrKPBoUT5mH3UcN/T2HCEBtUmey139
- qTCe2P25mpUwHaEgaR85j3KlTRtLfy15lA==
-X-Google-Smtp-Source: ABdhPJykEhM1KoD/Xx2epu5bd851AuS4I3TCanGsKJu1PbQUdIBjbiRWxevFAFxXbGLT3Dm0Ep/wew==
-X-Received: by 2002:a17:906:c108:: with SMTP id
- do8mr23964506ejc.74.1624877630716; 
- Mon, 28 Jun 2021 03:53:50 -0700 (PDT)
-Received: from felia.fritz.box ([2001:16b8:2dc2:cc00:2831:3317:971d:3f75])
- by smtp.gmail.com with ESMTPSA id o9sm4668875edc.91.2021.06.28.03.53.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 28 Jun 2021 03:53:50 -0700 (PDT)
-From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-To: John Clements <john.clements@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>
-Subject: [PATCH] drm/amdgpu: rectify line endings in umc v8_7_0 IP headers
-Date: Mon, 28 Jun 2021 12:53:34 +0200
-Message-Id: <20210628105334.27559-1-lukas.bulwahn@gmail.com>
-X-Mailer: git-send-email 2.17.1
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 178B26E0A8;
+ Mon, 28 Jun 2021 10:56:02 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10028"; a="271787905"
+X-IronPort-AV: E=Sophos;i="5.83,305,1616482800"; d="scan'208";a="271787905"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Jun 2021 03:56:01 -0700
+X-IronPort-AV: E=Sophos;i="5.83,305,1616482800"; d="scan'208";a="454464450"
+Received: from danielmi-mobl2.ger.corp.intel.com (HELO [10.249.254.242])
+ ([10.249.254.242])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Jun 2021 03:55:59 -0700
+Subject: Re: [PATCH v2 2/2] drm/i915/gem: only allow WB for smem only
+ placements
+To: Matthew Auld <matthew.auld@intel.com>, intel-gfx@lists.freedesktop.org
+References: <20210625122751.590289-1-matthew.auld@intel.com>
+ <20210625122751.590289-2-matthew.auld@intel.com>
+ <b6ee3701-2662-315c-3c2a-c4d92623fbbc@linux.intel.com>
+ <a7722f16-2f7b-b213-8a2d-27d5f02d893f@intel.com>
+ <d19caf7e-ed3b-5cfe-632a-46536aac03f4@linux.intel.com>
+ <55e1981f-8945-1370-8753-d5749e0d69ba@intel.com>
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
+Message-ID: <03645a57-f044-ed25-61b4-a95a40a3f714@linux.intel.com>
+Date: Mon, 28 Jun 2021 12:55:57 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
+MIME-Version: 1.0
+In-Reply-To: <55e1981f-8945-1370-8753-d5749e0d69ba@intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,192 +53,158 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dwaipayan Ray <dwaipayanray1@gmail.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- Lukas Bulwahn <lukas.bulwahn@gmail.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Hawking Zhang <Hawking.Zhang@amd.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Commit 6b36fa6143f6 ("drm/amdgpu: add umc v8_7_0 IP headers") adds the new
-file ./drivers/gpu/drm/amd/include/asic_reg/umc/umc_8_7_0_sh_mask.h with
-DOS line endings, which is very uncommon for the kernel repository.
 
-Rectify the line endings in this file with dos2unix.
+On 6/28/21 12:20 PM, Matthew Auld wrote:
+> On 28/06/2021 10:38, Thomas Hellström wrote:
+>> Hi,
+>>
+>> On 6/28/21 11:12 AM, Matthew Auld wrote:
+>>> On 28/06/2021 08:41, Thomas Hellström wrote:
+>>>>
+>>>> On 6/25/21 2:27 PM, Matthew Auld wrote:
+>>>>> We only support single mode and this should be immutable. For smem 
+>>>>> only
+>>>>> placements on DGFX this should be WB. On DG1 everything is snooped,
+>>>>> always, and so should be coherent.
+>>>>>
+>>>>> I915_GEM_DOMAIN_GTT looks like it's for the aperture which is now 
+>>>>> gone
+>>>>> for DGFX, so hopefully can also be safely rejected.
+>>>>>
+>>>>> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+>>>>> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+>>>>> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+>>>>> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+>>>>> ---
+>>>>>   drivers/gpu/drm/i915/gem/i915_gem_domain.c |  7 +++++++
+>>>>>   drivers/gpu/drm/i915/gem/i915_gem_mman.c   | 10 ++++++++++
+>>>>>   2 files changed, 17 insertions(+)
+>>>>>
+>>>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_domain.c 
+>>>>> b/drivers/gpu/drm/i915/gem/i915_gem_domain.c
+>>>>> index d0c91697bb22..e3459a524e64 100644
+>>>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_domain.c
+>>>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_domain.c
+>>>>> @@ -577,6 +577,13 @@ i915_gem_set_domain_ioctl(struct drm_device 
+>>>>> *dev, void *data,
+>>>>>           goto out_unpin;
+>>>>>       }
+>>>>> +    if (IS_DGFX(to_i915(obj->base.dev)) && obj->mm.n_placements 
+>>>>> == 1 &&
+>>>>> +        i915_gem_object_placements_contain_type(obj, 
+>>>>> INTEL_MEMORY_SYSTEM) &&
+>>>>> +        read_domains != I915_GEM_DOMAIN_CPU) {
+>>>>> +        err = -EINVAL;
+>>>>> +        goto out_unpin;
+>>>>> +    }
+>>>>> +
+>>>>>       if (read_domains & I915_GEM_DOMAIN_WC)
+>>>>>           err = i915_gem_object_set_to_wc_domain(obj, write_domain);
+>>>>>       else if (read_domains & I915_GEM_DOMAIN_GTT)
+>>>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_mman.c 
+>>>>> b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
+>>>>> index f3586b36dd53..afc9f3dc38b9 100644
+>>>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_mman.c
+>>>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
+>>>>> @@ -673,6 +673,7 @@ __assign_mmap_offset(struct 
+>>>>> drm_i915_gem_object *obj,
+>>>>>                enum i915_mmap_type mmap_type,
+>>>>>                u64 *offset, struct drm_file *file)
+>>>>>   {
+>>>>> +    struct drm_i915_private *i915 = to_i915(obj->base.dev);
+>>>>>       struct i915_mmap_offset *mmo;
+>>>>>       if (i915_gem_object_never_mmap(obj))
+>>>>> @@ -697,6 +698,15 @@ __assign_mmap_offset(struct 
+>>>>> drm_i915_gem_object *obj,
+>>>>>           i915_gem_object_placements_contain_type(obj, 
+>>>>> INTEL_MEMORY_LOCAL))
+>>>>>           return -ENODEV;
+>>>>> +    /*
+>>>>> +     * For smem only placements on DGFX we need to default to WB. 
+>>>>> On DG1
+>>>>> +     * everything is snooped always, so should always be coherent.
+>>>>> +     */
+>>>>> +     if (IS_DGFX(i915) &&
+>>>>> +         mmap_type != I915_MMAP_TYPE_WB && obj->mm.n_placements 
+>>>>> == 1 &&
+>>>>> +         i915_gem_object_placements_contain_type(obj, 
+>>>>> INTEL_MEMORY_SYSTEM))
+>>>>> +        return -ENODEV;
+>>>>> +
+>>>>
+>>>> Same thing here as in the previous patch.
+>>>>
+>>>> Also do we need to modify i915_coherent_map_type() to also include 
+>>>> HAS_SNOOP()?
+>>>>
+>>>> While we're at it, that "always_coherent" argument to 
+>>>> i915_coherent_map_type() appears scary to me and probably needs 
+>>>> some documentation. It seems used for page-tables. Is it because we 
+>>>> know those are always snooped?
+>>>
+>>> Yeah, it's either because the caller has/will mark the pages as 
+>>> coherent(which translates to some special ppGTT bits), or we 
+>>> manually flush ourselves. In i915_coherent_map_type() we should 
+>>> account for DG1 somehow.
+>>>
+>>> Historically I don't think we enabled snooping by default since it's 
+>>> considered slow compared to shared LLC. On DG1 this is a different 
+>>> story though.
+>>>
+>>> Also the pin_map() interface is pretty much only for kernel internal 
+>>> objects, so I don't think we have any users which try to map 
+>>> userspace objects with that interface. Ok, except for vm_access it 
+>>> seems, but that should hopefully be a simple fix to use the correct 
+>>> caching mode? We can maybe add some sanity checking there if someone 
+>>> tries to map a userspace object?
+>> I'm not fully sure that's sufficient, see below.
+>>>
+>>> For all the other callers of pin_map() which should all be kernel 
+>>> internal do we still need to force WB for system memory? By design 
+>>> we only support a single mm.mapping there. For lmem we already use 
+>>> WC only.
+>>
+>> We're only allowed to map with the same caching mode as the linear 
+>> kernel mapping for discrete. Otherwise things may blow up on 
+>> non-intel architectures. We can probably update 
+>> 195_ttm_select_tt_caching to always use WB for system pages for 
+>> kernel objects, but then we must make sure we don't try to map these WC.
+>
+> Ok, do you think that should be a separate series? It looks like our 
+> internal objects don't use ttm(?). Should it? If so should we make a 
+> region for it, or can we just make create_internal use the ttm system 
+> region? It should be pretty much the same, except we don't want 
+> swapping, clearing or eviction, and ideally we would have some way of 
+> marking the pages as volatile(I think we can just keep IS_SHRINKABLE 
+> for that).
+>
+> Or can we keep create_internal as is and then it's just a case of 
+> dealing with all the pin_map() callers?
+>
+For now, I think, the internal objects don't really need to use ttm, and 
+if we want to move them over, as you say, it's just a matter of reusing 
+the SYSTEM region with suitable flags. I think we should restrict this 
+to deal with pin_map() for now, and a separate series would work fine.
 
-Identified by a checkpatch evaluation on the whole kernel repository and
-spot-checking for really unexpected checkpatch rule violations.
+Although there seem to be callers, at least in selftests, that use 
+pin_map with create_shmem() which maps to TTM system on discrete.
 
-Reported-by: Dwaipayan Ray <dwaipayanray1@gmail.com>
-Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
----
- .../include/asic_reg/umc/umc_8_7_0_sh_mask.h  | 158 +++++++++---------
- 1 file changed, 79 insertions(+), 79 deletions(-)
+/Thomas
 
-diff --git a/drivers/gpu/drm/amd/include/asic_reg/umc/umc_8_7_0_sh_mask.h b/drivers/gpu/drm/amd/include/asic_reg/umc/umc_8_7_0_sh_mask.h
-index 4c5097fa0c09..d5ef91d3c391 100644
---- a/drivers/gpu/drm/amd/include/asic_reg/umc/umc_8_7_0_sh_mask.h
-+++ b/drivers/gpu/drm/amd/include/asic_reg/umc/umc_8_7_0_sh_mask.h
-@@ -1,79 +1,79 @@
--#ifndef _umc_8_7_0_SH_MASK_HEADER
--#define _umc_8_7_0_SH_MASK_HEADER
--
--//UMCCH0_0_GeccErrCntSel
--#define UMCCH0_0_GeccErrCntSel__GeccErrCntCsSel__SHIFT                                                        0x0
--#define UMCCH0_0_GeccErrCntSel__GeccErrInt__SHIFT                                                             0xc
--#define UMCCH0_0_GeccErrCntSel__GeccErrCntEn__SHIFT                                                           0xf
--#define UMCCH0_0_GeccErrCntSel__PoisonCntEn__SHIFT                                                            0x10
--#define UMCCH0_0_GeccErrCntSel__GeccErrCntCsSel_MASK                                                          0x0000000FL
--#define UMCCH0_0_GeccErrCntSel__GeccErrInt_MASK                                                               0x00003000L
--#define UMCCH0_0_GeccErrCntSel__GeccErrCntEn_MASK                                                             0x00008000L
--#define UMCCH0_0_GeccErrCntSel__PoisonCntEn_MASK                                                              0x00030000L
--//UMCCH0_0_GeccErrCnt
--#define UMCCH0_0_GeccErrCnt__GeccErrCnt__SHIFT                                                                0x0
--#define UMCCH0_0_GeccErrCnt__GeccUnCorrErrCnt__SHIFT                                                          0x10
--#define UMCCH0_0_GeccErrCnt__GeccErrCnt_MASK                                                                  0x0000FFFFL
--#define UMCCH0_0_GeccErrCnt__GeccUnCorrErrCnt_MASK                                                            0xFFFF0000L
--//MCA_UMC_UMC0_MCUMC_STATUST0
--#define MCA_UMC_UMC0_MCUMC_STATUST0__ErrorCode__SHIFT                                                         0x0
--#define MCA_UMC_UMC0_MCUMC_STATUST0__ErrorCodeExt__SHIFT                                                      0x10
--#define MCA_UMC_UMC0_MCUMC_STATUST0__RESERV22__SHIFT                                                          0x16
--#define MCA_UMC_UMC0_MCUMC_STATUST0__AddrLsb__SHIFT                                                           0x18
--#define MCA_UMC_UMC0_MCUMC_STATUST0__RESERV30__SHIFT                                                          0x1e
--#define MCA_UMC_UMC0_MCUMC_STATUST0__ErrCoreId__SHIFT                                                         0x20
--#define MCA_UMC_UMC0_MCUMC_STATUST0__RESERV38__SHIFT                                                          0x26
--#define MCA_UMC_UMC0_MCUMC_STATUST0__Scrub__SHIFT                                                             0x28
--#define MCA_UMC_UMC0_MCUMC_STATUST0__RESERV41__SHIFT                                                          0x29
--#define MCA_UMC_UMC0_MCUMC_STATUST0__Poison__SHIFT                                                            0x2b
--#define MCA_UMC_UMC0_MCUMC_STATUST0__Deferred__SHIFT                                                          0x2c
--#define MCA_UMC_UMC0_MCUMC_STATUST0__UECC__SHIFT                                                              0x2d
--#define MCA_UMC_UMC0_MCUMC_STATUST0__CECC__SHIFT                                                              0x2e
--#define MCA_UMC_UMC0_MCUMC_STATUST0__RESERV47__SHIFT                                                          0x2f
--#define MCA_UMC_UMC0_MCUMC_STATUST0__Transparent__SHIFT                                                       0x34
--#define MCA_UMC_UMC0_MCUMC_STATUST0__SyndV__SHIFT                                                             0x35
--#define MCA_UMC_UMC0_MCUMC_STATUST0__RESERV54__SHIFT                                                          0x36
--#define MCA_UMC_UMC0_MCUMC_STATUST0__TCC__SHIFT                                                               0x37
--#define MCA_UMC_UMC0_MCUMC_STATUST0__ErrCoreIdVal__SHIFT                                                      0x38
--#define MCA_UMC_UMC0_MCUMC_STATUST0__PCC__SHIFT                                                               0x39
--#define MCA_UMC_UMC0_MCUMC_STATUST0__AddrV__SHIFT                                                             0x3a
--#define MCA_UMC_UMC0_MCUMC_STATUST0__MiscV__SHIFT                                                             0x3b
--#define MCA_UMC_UMC0_MCUMC_STATUST0__En__SHIFT                                                                0x3c
--#define MCA_UMC_UMC0_MCUMC_STATUST0__UC__SHIFT                                                                0x3d
--#define MCA_UMC_UMC0_MCUMC_STATUST0__Overflow__SHIFT                                                          0x3e
--#define MCA_UMC_UMC0_MCUMC_STATUST0__Val__SHIFT                                                               0x3f
--#define MCA_UMC_UMC0_MCUMC_STATUST0__ErrorCode_MASK                                                           0x000000000000FFFFL
--#define MCA_UMC_UMC0_MCUMC_STATUST0__ErrorCodeExt_MASK                                                        0x00000000003F0000L
--#define MCA_UMC_UMC0_MCUMC_STATUST0__RESERV22_MASK                                                            0x0000000000C00000L
--#define MCA_UMC_UMC0_MCUMC_STATUST0__AddrLsb_MASK                                                             0x000000003F000000L
--#define MCA_UMC_UMC0_MCUMC_STATUST0__RESERV30_MASK                                                            0x00000000C0000000L
--#define MCA_UMC_UMC0_MCUMC_STATUST0__ErrCoreId_MASK                                                           0x0000003F00000000L
--#define MCA_UMC_UMC0_MCUMC_STATUST0__RESERV38_MASK                                                            0x000000C000000000L
--#define MCA_UMC_UMC0_MCUMC_STATUST0__Scrub_MASK                                                               0x0000010000000000L
--#define MCA_UMC_UMC0_MCUMC_STATUST0__RESERV41_MASK                                                            0x0000060000000000L
--#define MCA_UMC_UMC0_MCUMC_STATUST0__Poison_MASK                                                              0x0000080000000000L
--#define MCA_UMC_UMC0_MCUMC_STATUST0__Deferred_MASK                                                            0x0000100000000000L
--#define MCA_UMC_UMC0_MCUMC_STATUST0__UECC_MASK                                                                0x0000200000000000L
--#define MCA_UMC_UMC0_MCUMC_STATUST0__CECC_MASK                                                                0x0000400000000000L
--#define MCA_UMC_UMC0_MCUMC_STATUST0__RESERV47_MASK                                                            0x000F800000000000L
--#define MCA_UMC_UMC0_MCUMC_STATUST0__Transparent_MASK                                                         0x0010000000000000L
--#define MCA_UMC_UMC0_MCUMC_STATUST0__SyndV_MASK                                                               0x0020000000000000L
--#define MCA_UMC_UMC0_MCUMC_STATUST0__RESERV54_MASK                                                            0x0040000000000000L
--#define MCA_UMC_UMC0_MCUMC_STATUST0__TCC_MASK                                                                 0x0080000000000000L
--#define MCA_UMC_UMC0_MCUMC_STATUST0__ErrCoreIdVal_MASK                                                        0x0100000000000000L
--#define MCA_UMC_UMC0_MCUMC_STATUST0__PCC_MASK                                                                 0x0200000000000000L
--#define MCA_UMC_UMC0_MCUMC_STATUST0__AddrV_MASK                                                               0x0400000000000000L
--#define MCA_UMC_UMC0_MCUMC_STATUST0__MiscV_MASK                                                               0x0800000000000000L
--#define MCA_UMC_UMC0_MCUMC_STATUST0__En_MASK                                                                  0x1000000000000000L
--#define MCA_UMC_UMC0_MCUMC_STATUST0__UC_MASK                                                                  0x2000000000000000L
--#define MCA_UMC_UMC0_MCUMC_STATUST0__Overflow_MASK                                                            0x4000000000000000L
--#define MCA_UMC_UMC0_MCUMC_STATUST0__Val_MASK                                                                 0x8000000000000000L
--//MCA_UMC_UMC0_MCUMC_ADDRT0
--#define MCA_UMC_UMC0_MCUMC_ADDRT0__ErrorAddr__SHIFT                                                           0x0
--#define MCA_UMC_UMC0_MCUMC_ADDRT0__LSB__SHIFT                                                                 0x38
--#define MCA_UMC_UMC0_MCUMC_ADDRT0__Reserved__SHIFT                                                            0x3e
--#define MCA_UMC_UMC0_MCUMC_ADDRT0__ErrorAddr_MASK                                                             0x00FFFFFFFFFFFFFFL
--#define MCA_UMC_UMC0_MCUMC_ADDRT0__LSB_MASK                                                                   0x3F00000000000000L
--#define MCA_UMC_UMC0_MCUMC_ADDRT0__Reserved_MASK                                                              0xC000000000000000L
--
--#endif
-+#ifndef _umc_8_7_0_SH_MASK_HEADER
-+#define _umc_8_7_0_SH_MASK_HEADER
-+
-+//UMCCH0_0_GeccErrCntSel
-+#define UMCCH0_0_GeccErrCntSel__GeccErrCntCsSel__SHIFT                                                        0x0
-+#define UMCCH0_0_GeccErrCntSel__GeccErrInt__SHIFT                                                             0xc
-+#define UMCCH0_0_GeccErrCntSel__GeccErrCntEn__SHIFT                                                           0xf
-+#define UMCCH0_0_GeccErrCntSel__PoisonCntEn__SHIFT                                                            0x10
-+#define UMCCH0_0_GeccErrCntSel__GeccErrCntCsSel_MASK                                                          0x0000000FL
-+#define UMCCH0_0_GeccErrCntSel__GeccErrInt_MASK                                                               0x00003000L
-+#define UMCCH0_0_GeccErrCntSel__GeccErrCntEn_MASK                                                             0x00008000L
-+#define UMCCH0_0_GeccErrCntSel__PoisonCntEn_MASK                                                              0x00030000L
-+//UMCCH0_0_GeccErrCnt
-+#define UMCCH0_0_GeccErrCnt__GeccErrCnt__SHIFT                                                                0x0
-+#define UMCCH0_0_GeccErrCnt__GeccUnCorrErrCnt__SHIFT                                                          0x10
-+#define UMCCH0_0_GeccErrCnt__GeccErrCnt_MASK                                                                  0x0000FFFFL
-+#define UMCCH0_0_GeccErrCnt__GeccUnCorrErrCnt_MASK                                                            0xFFFF0000L
-+//MCA_UMC_UMC0_MCUMC_STATUST0
-+#define MCA_UMC_UMC0_MCUMC_STATUST0__ErrorCode__SHIFT                                                         0x0
-+#define MCA_UMC_UMC0_MCUMC_STATUST0__ErrorCodeExt__SHIFT                                                      0x10
-+#define MCA_UMC_UMC0_MCUMC_STATUST0__RESERV22__SHIFT                                                          0x16
-+#define MCA_UMC_UMC0_MCUMC_STATUST0__AddrLsb__SHIFT                                                           0x18
-+#define MCA_UMC_UMC0_MCUMC_STATUST0__RESERV30__SHIFT                                                          0x1e
-+#define MCA_UMC_UMC0_MCUMC_STATUST0__ErrCoreId__SHIFT                                                         0x20
-+#define MCA_UMC_UMC0_MCUMC_STATUST0__RESERV38__SHIFT                                                          0x26
-+#define MCA_UMC_UMC0_MCUMC_STATUST0__Scrub__SHIFT                                                             0x28
-+#define MCA_UMC_UMC0_MCUMC_STATUST0__RESERV41__SHIFT                                                          0x29
-+#define MCA_UMC_UMC0_MCUMC_STATUST0__Poison__SHIFT                                                            0x2b
-+#define MCA_UMC_UMC0_MCUMC_STATUST0__Deferred__SHIFT                                                          0x2c
-+#define MCA_UMC_UMC0_MCUMC_STATUST0__UECC__SHIFT                                                              0x2d
-+#define MCA_UMC_UMC0_MCUMC_STATUST0__CECC__SHIFT                                                              0x2e
-+#define MCA_UMC_UMC0_MCUMC_STATUST0__RESERV47__SHIFT                                                          0x2f
-+#define MCA_UMC_UMC0_MCUMC_STATUST0__Transparent__SHIFT                                                       0x34
-+#define MCA_UMC_UMC0_MCUMC_STATUST0__SyndV__SHIFT                                                             0x35
-+#define MCA_UMC_UMC0_MCUMC_STATUST0__RESERV54__SHIFT                                                          0x36
-+#define MCA_UMC_UMC0_MCUMC_STATUST0__TCC__SHIFT                                                               0x37
-+#define MCA_UMC_UMC0_MCUMC_STATUST0__ErrCoreIdVal__SHIFT                                                      0x38
-+#define MCA_UMC_UMC0_MCUMC_STATUST0__PCC__SHIFT                                                               0x39
-+#define MCA_UMC_UMC0_MCUMC_STATUST0__AddrV__SHIFT                                                             0x3a
-+#define MCA_UMC_UMC0_MCUMC_STATUST0__MiscV__SHIFT                                                             0x3b
-+#define MCA_UMC_UMC0_MCUMC_STATUST0__En__SHIFT                                                                0x3c
-+#define MCA_UMC_UMC0_MCUMC_STATUST0__UC__SHIFT                                                                0x3d
-+#define MCA_UMC_UMC0_MCUMC_STATUST0__Overflow__SHIFT                                                          0x3e
-+#define MCA_UMC_UMC0_MCUMC_STATUST0__Val__SHIFT                                                               0x3f
-+#define MCA_UMC_UMC0_MCUMC_STATUST0__ErrorCode_MASK                                                           0x000000000000FFFFL
-+#define MCA_UMC_UMC0_MCUMC_STATUST0__ErrorCodeExt_MASK                                                        0x00000000003F0000L
-+#define MCA_UMC_UMC0_MCUMC_STATUST0__RESERV22_MASK                                                            0x0000000000C00000L
-+#define MCA_UMC_UMC0_MCUMC_STATUST0__AddrLsb_MASK                                                             0x000000003F000000L
-+#define MCA_UMC_UMC0_MCUMC_STATUST0__RESERV30_MASK                                                            0x00000000C0000000L
-+#define MCA_UMC_UMC0_MCUMC_STATUST0__ErrCoreId_MASK                                                           0x0000003F00000000L
-+#define MCA_UMC_UMC0_MCUMC_STATUST0__RESERV38_MASK                                                            0x000000C000000000L
-+#define MCA_UMC_UMC0_MCUMC_STATUST0__Scrub_MASK                                                               0x0000010000000000L
-+#define MCA_UMC_UMC0_MCUMC_STATUST0__RESERV41_MASK                                                            0x0000060000000000L
-+#define MCA_UMC_UMC0_MCUMC_STATUST0__Poison_MASK                                                              0x0000080000000000L
-+#define MCA_UMC_UMC0_MCUMC_STATUST0__Deferred_MASK                                                            0x0000100000000000L
-+#define MCA_UMC_UMC0_MCUMC_STATUST0__UECC_MASK                                                                0x0000200000000000L
-+#define MCA_UMC_UMC0_MCUMC_STATUST0__CECC_MASK                                                                0x0000400000000000L
-+#define MCA_UMC_UMC0_MCUMC_STATUST0__RESERV47_MASK                                                            0x000F800000000000L
-+#define MCA_UMC_UMC0_MCUMC_STATUST0__Transparent_MASK                                                         0x0010000000000000L
-+#define MCA_UMC_UMC0_MCUMC_STATUST0__SyndV_MASK                                                               0x0020000000000000L
-+#define MCA_UMC_UMC0_MCUMC_STATUST0__RESERV54_MASK                                                            0x0040000000000000L
-+#define MCA_UMC_UMC0_MCUMC_STATUST0__TCC_MASK                                                                 0x0080000000000000L
-+#define MCA_UMC_UMC0_MCUMC_STATUST0__ErrCoreIdVal_MASK                                                        0x0100000000000000L
-+#define MCA_UMC_UMC0_MCUMC_STATUST0__PCC_MASK                                                                 0x0200000000000000L
-+#define MCA_UMC_UMC0_MCUMC_STATUST0__AddrV_MASK                                                               0x0400000000000000L
-+#define MCA_UMC_UMC0_MCUMC_STATUST0__MiscV_MASK                                                               0x0800000000000000L
-+#define MCA_UMC_UMC0_MCUMC_STATUST0__En_MASK                                                                  0x1000000000000000L
-+#define MCA_UMC_UMC0_MCUMC_STATUST0__UC_MASK                                                                  0x2000000000000000L
-+#define MCA_UMC_UMC0_MCUMC_STATUST0__Overflow_MASK                                                            0x4000000000000000L
-+#define MCA_UMC_UMC0_MCUMC_STATUST0__Val_MASK                                                                 0x8000000000000000L
-+//MCA_UMC_UMC0_MCUMC_ADDRT0
-+#define MCA_UMC_UMC0_MCUMC_ADDRT0__ErrorAddr__SHIFT                                                           0x0
-+#define MCA_UMC_UMC0_MCUMC_ADDRT0__LSB__SHIFT                                                                 0x38
-+#define MCA_UMC_UMC0_MCUMC_ADDRT0__Reserved__SHIFT                                                            0x3e
-+#define MCA_UMC_UMC0_MCUMC_ADDRT0__ErrorAddr_MASK                                                             0x00FFFFFFFFFFFFFFL
-+#define MCA_UMC_UMC0_MCUMC_ADDRT0__LSB_MASK                                                                   0x3F00000000000000L
-+#define MCA_UMC_UMC0_MCUMC_ADDRT0__Reserved_MASK                                                              0xC000000000000000L
-+
-+#endif
--- 
-2.17.1
 
+>>
+>> /Thomas
+>>
+>>
+>>>
+>>>>
+>>>> /Thomas
+>>>>
+>>>>
+>>>>>       mmo = mmap_offset_attach(obj, mmap_type, file);
+>>>>>       if (IS_ERR(mmo))
+>>>>>           return PTR_ERR(mmo);
