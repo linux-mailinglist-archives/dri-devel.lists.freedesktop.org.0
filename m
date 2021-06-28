@@ -1,58 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C0A23B68B9
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Jun 2021 20:53:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 266063B68C7
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Jun 2021 21:02:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 626876E516;
-	Mon, 28 Jun 2021 18:53:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 682876E51A;
+	Mon, 28 Jun 2021 19:02:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1AA8B6E512;
- Mon, 28 Jun 2021 18:53:10 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10029"; a="195310143"
-X-IronPort-AV: E=Sophos;i="5.83,306,1616482800"; d="scan'208";a="195310143"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Jun 2021 11:53:09 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.83,306,1616482800"; d="scan'208";a="407851781"
-Received: from irsmsx605.ger.corp.intel.com ([163.33.146.138])
- by orsmga006.jf.intel.com with ESMTP; 28 Jun 2021 11:53:08 -0700
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- IRSMSX605.ger.corp.intel.com (163.33.146.138) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.4; Mon, 28 Jun 2021 19:53:06 +0100
-Received: from orsmsx611.amr.corp.intel.com ([10.22.229.24]) by
- ORSMSX611.amr.corp.intel.com ([10.22.229.24]) with mapi id 15.01.2242.008;
- Mon, 28 Jun 2021 11:53:05 -0700
-From: "Ruhl, Michael J" <michael.j.ruhl@intel.com>
-To: =?utf-8?B?VGhvbWFzIEhlbGxzdHLDtm0=?= <thomas.hellstrom@linux.intel.com>,
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C41F6E519;
+ Mon, 28 Jun 2021 19:02:48 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10029"; a="206192827"
+X-IronPort-AV: E=Sophos;i="5.83,306,1616482800"; d="scan'208";a="206192827"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Jun 2021 12:02:47 -0700
+X-IronPort-AV: E=Sophos;i="5.83,306,1616482800"; d="scan'208";a="641019295"
+Received: from danielmi-mobl2.ger.corp.intel.com (HELO [10.249.254.242])
+ ([10.249.254.242])
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Jun 2021 12:02:45 -0700
+Subject: Re: [PATCH v3 1/5] drm/i915/gem: Implement object migration
+To: "Ruhl, Michael J" <michael.j.ruhl@intel.com>,
  "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
  "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Subject: RE: [Intel-gfx] [PATCH v3 2/5] drm/i915/gem: Introduce a selftest for
- the gem object migrate functionality
-Thread-Topic: [Intel-gfx] [PATCH v3 2/5] drm/i915/gem: Introduce a selftest
- for the gem object migrate functionality
-Thread-Index: AQHXbCx2h4vTIXdAe0CmFOHUE8JUOqspxM0Q
-Date: Mon, 28 Jun 2021 18:53:05 +0000
-Message-ID: <1cd06e51484c44a985e4a467007d1752@intel.com>
 References: <20210628144626.76126-1-thomas.hellstrom@linux.intel.com>
- <20210628144626.76126-3-thomas.hellstrom@linux.intel.com>
-In-Reply-To: <20210628144626.76126-3-thomas.hellstrom@linux.intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-dlp-version: 11.6.0.76
-x-originating-ip: [10.1.200.100]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ <20210628144626.76126-2-thomas.hellstrom@linux.intel.com>
+ <edf2dc5e698a4ac6b16f9447e7f83794@intel.com>
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
+Message-ID: <6ea416ea-b2d8-1485-6375-52810699f838@linux.intel.com>
+Date: Mon, 28 Jun 2021 21:02:43 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
+In-Reply-To: <edf2dc5e698a4ac6b16f9447e7f83794@intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,162 +51,434 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Auld, Matthew" <matthew.auld@intel.com>
+Cc: "Auld, Matthew" <matthew.auld@intel.com>, lkp <lkp@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Pi0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+RnJvbTogSW50ZWwtZ2Z4IDxpbnRlbC1nZngt
-Ym91bmNlc0BsaXN0cy5mcmVlZGVza3RvcC5vcmc+IE9uIEJlaGFsZiBPZg0KPlRob21hcyBIZWxs
-c3Ryw7ZtDQo+U2VudDogTW9uZGF5LCBKdW5lIDI4LCAyMDIxIDEwOjQ2IEFNDQo+VG86IGludGVs
-LWdmeEBsaXN0cy5mcmVlZGVza3RvcC5vcmc7IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
-cmcNCj5DYzogVGhvbWFzIEhlbGxzdHLDtm0gPHRob21hcy5oZWxsc3Ryb21AbGludXguaW50ZWwu
-Y29tPjsgQXVsZCwgTWF0dGhldw0KPjxtYXR0aGV3LmF1bGRAaW50ZWwuY29tPg0KPlN1YmplY3Q6
-IFtJbnRlbC1nZnhdIFtQQVRDSCB2MyAyLzVdIGRybS9pOTE1L2dlbTogSW50cm9kdWNlIGEgc2Vs
-ZnRlc3QgZm9yIHRoZQ0KPmdlbSBvYmplY3QgbWlncmF0ZSBmdW5jdGlvbmFsaXR5DQo+DQo+RnJv
-bTogTWF0dGhldyBBdWxkIDxtYXR0aGV3LmF1bGRAaW50ZWwuY29tPg0KPg0KPkEgc2VsZnRlc3Qg
-Zm9yIHRoZSBnZW0gb2JqZWN0IG1pZ3JhdGUgZnVuY3Rpb25hbGl0eS4gU2xpZ2h0bHkgYWRhcHRl
-ZA0KPmZyb20gdGhlIG9yaWdpbmFsIGJ5IE1hdHRoZXcgdG8gdGhlIG5ldyBpbnRlcmZhY2UgYW5k
-IG5ldyBmaWxsIGJsaXQNCj5jb2RlLg0KPg0KPkNvLWRldmVsb3BlZC1ieTogVGhvbWFzIEhlbGxz
-dHLDtm0gPHRob21hcy5oZWxsc3Ryb21AbGludXguaW50ZWwuY29tPg0KPlNpZ25lZC1vZmYtYnk6
-IFRob21hcyBIZWxsc3Ryw7ZtIDx0aG9tYXMuaGVsbHN0cm9tQGxpbnV4LmludGVsLmNvbT4NCj5T
-aWduZWQtb2ZmLWJ5OiBNYXR0aGV3IEF1bGQgPG1hdHRoZXcuYXVsZEBpbnRlbC5jb20+DQo+LS0t
-DQo+IGRyaXZlcnMvZ3B1L2RybS9pOTE1L2dlbS9pOTE1X2dlbV9vYmplY3QuYyAgICB8ICAgMSAr
-DQo+IC4uLi9kcm0vaTkxNS9nZW0vc2VsZnRlc3RzL2k5MTVfZ2VtX21pZ3JhdGUuYyB8IDIzNw0K
-PisrKysrKysrKysrKysrKysrKw0KPiAuLi4vZHJtL2k5MTUvc2VsZnRlc3RzL2k5MTVfbGl2ZV9z
-ZWxmdGVzdHMuaCAgfCAgIDEgKw0KPiAzIGZpbGVzIGNoYW5nZWQsIDIzOSBpbnNlcnRpb25zKCsp
-DQo+IGNyZWF0ZSBtb2RlIDEwMDY0NA0KPmRyaXZlcnMvZ3B1L2RybS9pOTE1L2dlbS9zZWxmdGVz
-dHMvaTkxNV9nZW1fbWlncmF0ZS5jDQo+DQo+ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9p
-OTE1L2dlbS9pOTE1X2dlbV9vYmplY3QuYw0KPmIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZ2VtL2k5
-MTVfZ2VtX29iamVjdC5jDQo+aW5kZXggMWMxOGJlMDY3YjU4Li5mZjE0N2ZkNTk4NzQgMTAwNjQ0
-DQo+LS0tIGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZ2VtL2k5MTVfZ2VtX29iamVjdC5jDQo+Kysr
-IGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZ2VtL2k5MTVfZ2VtX29iamVjdC5jDQo+QEAgLTY0OSw2
-ICs2NDksNyBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IGRybV9nZW1fb2JqZWN0X2Z1bmNzDQo+aTkx
-NV9nZW1fb2JqZWN0X2Z1bmNzID0gew0KPiAjaWYgSVNfRU5BQkxFRChDT05GSUdfRFJNX0k5MTVf
-U0VMRlRFU1QpDQo+ICNpbmNsdWRlICJzZWxmdGVzdHMvaHVnZV9nZW1fb2JqZWN0LmMiDQo+ICNp
-bmNsdWRlICJzZWxmdGVzdHMvaHVnZV9wYWdlcy5jIg0KPisjaW5jbHVkZSAic2VsZnRlc3RzL2k5
-MTVfZ2VtX21pZ3JhdGUuYyINCj4gI2luY2x1ZGUgInNlbGZ0ZXN0cy9pOTE1X2dlbV9vYmplY3Qu
-YyINCj4gI2luY2x1ZGUgInNlbGZ0ZXN0cy9pOTE1X2dlbV9jb2hlcmVuY3kuYyINCj4gI2VuZGlm
-DQo+ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2dlbS9zZWxmdGVzdHMvaTkxNV9n
-ZW1fbWlncmF0ZS5jDQo+Yi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9nZW0vc2VsZnRlc3RzL2k5MTVf
-Z2VtX21pZ3JhdGUuYw0KPm5ldyBmaWxlIG1vZGUgMTAwNjQ0DQo+aW5kZXggMDAwMDAwMDAwMDAw
-Li5hNDM3YjY2ZjY0ZDkNCj4tLS0gL2Rldi9udWxsDQo+KysrIGIvZHJpdmVycy9ncHUvZHJtL2k5
-MTUvZ2VtL3NlbGZ0ZXN0cy9pOTE1X2dlbV9taWdyYXRlLmMNCj5AQCAtMCwwICsxLDIzNyBAQA0K
-PisvLyBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjogTUlUDQo+Ky8qDQo+KyAqIENvcHlyaWdodCDC
-qSAyMDIwLTIwMjEgSW50ZWwgQ29ycG9yYXRpb24NCj4rICovDQo+Kw0KPisjaW5jbHVkZSAiZ3Qv
-aW50ZWxfbWlncmF0ZS5oIg0KPisNCj4rc3RhdGljIGludCBpZ3Rfc21lbV9jcmVhdGVfbWlncmF0
-ZSh2b2lkICphcmcpDQo+K3sNCj4rCXN0cnVjdCBpbnRlbF9ndCAqZ3QgPSBhcmc7DQo+KwlzdHJ1
-Y3QgZHJtX2k5MTVfcHJpdmF0ZSAqaTkxNSA9IGd0LT5pOTE1Ow0KPisJc3RydWN0IGRybV9pOTE1
-X2dlbV9vYmplY3QgKm9iajsNCj4rCXN0cnVjdCBpOTE1X2dlbV93d19jdHggd3c7DQo+KwlpbnQg
-ZXJyID0gMDsNCj4rDQo+KwkvKiBTd2l0Y2ggb2JqZWN0IGJhY2tpbmctc3RvcmUgb24gY3JlYXRl
-ICovDQo+KwlvYmogPSBpOTE1X2dlbV9vYmplY3RfY3JlYXRlX2xtZW0oaTkxNSwgUEFHRV9TSVpF
-LCAwKTsNCj4rCWlmIChJU19FUlIob2JqKSkNCj4rCQlyZXR1cm4gUFRSX0VSUihvYmopOw0KPisN
-Cj4rCWZvcl9pOTE1X2dlbV93dygmd3csIGVyciwgdHJ1ZSkgew0KPisJCWVyciA9IGk5MTVfZ2Vt
-X29iamVjdF9sb2NrKG9iaiwgJnd3KTsNCj4rCQlpZiAoZXJyKQ0KPisJCQljb250aW51ZTsNCj4r
-DQo+KwkJaWYgKCFpOTE1X2dlbV9vYmplY3RfY2FuX21pZ3JhdGUob2JqLA0KPklOVEVMX1JFR0lP
-Tl9TTUVNKSkgew0KPisJCQllcnIgPSAtRUlOVkFMOw0KPisJCQljb250aW51ZTsNCj4rCQl9DQo+
-Kw0KPisJCWVyciA9IGk5MTVfZ2VtX29iamVjdF9taWdyYXRlKG9iaiwgJnd3LA0KPklOVEVMX1JF
-R0lPTl9TTUVNKTsNCj4rCQlpZiAoZXJyKQ0KPisJCQljb250aW51ZTsNCj4rDQo+KwkJZXJyID0g
-aTkxNV9nZW1fb2JqZWN0X3Bpbl9wYWdlcyhvYmopOw0KPisJCWlmIChlcnIpDQo+KwkJCWNvbnRp
-bnVlOw0KPisNCj4rCQlpZiAoaTkxNV9nZW1fb2JqZWN0X2Nhbl9taWdyYXRlKG9iaiwNCj5JTlRF
-TF9SRUdJT05fTE1FTSkpDQo+KwkJCWVyciA9IC1FSU5WQUw7DQo+Kw0KPisJCWk5MTVfZ2VtX29i
-amVjdF91bnBpbl9wYWdlcyhvYmopOw0KPisJfQ0KPisJaTkxNV9nZW1fb2JqZWN0X3B1dChvYmop
-Ow0KPisNCj4rCXJldHVybiBlcnI7DQo+K30NCj4rDQo+K3N0YXRpYyBpbnQgaWd0X2xtZW1fY3Jl
-YXRlX21pZ3JhdGUodm9pZCAqYXJnKQ0KPit7DQo+KwlzdHJ1Y3QgaW50ZWxfZ3QgKmd0ID0gYXJn
-Ow0KPisJc3RydWN0IGRybV9pOTE1X3ByaXZhdGUgKmk5MTUgPSBndC0+aTkxNTsNCj4rCXN0cnVj
-dCBkcm1faTkxNV9nZW1fb2JqZWN0ICpvYmo7DQo+KwlzdHJ1Y3QgaTkxNV9nZW1fd3dfY3R4IHd3
-Ow0KPisJaW50IGVyciA9IDA7DQo+Kw0KPisJLyogU3dpdGNoIG9iamVjdCBiYWNraW5nLXN0b3Jl
-IG9uIGNyZWF0ZSAqLw0KPisJb2JqID0gaTkxNV9nZW1fb2JqZWN0X2NyZWF0ZV9zaG1lbShpOTE1
-LCBQQUdFX1NJWkUpOw0KPisJaWYgKElTX0VSUihvYmopKQ0KPisJCXJldHVybiBQVFJfRVJSKG9i
-aik7DQo+Kw0KPisJZm9yX2k5MTVfZ2VtX3d3KCZ3dywgZXJyLCB0cnVlKSB7DQo+KwkJZXJyID0g
-aTkxNV9nZW1fb2JqZWN0X2xvY2sob2JqLCAmd3cpOw0KPisJCWlmIChlcnIpDQo+KwkJCWNvbnRp
-bnVlOw0KPisNCj4rCQlpZiAoIWk5MTVfZ2VtX29iamVjdF9jYW5fbWlncmF0ZShvYmosDQo+SU5U
-RUxfUkVHSU9OX0xNRU0pKSB7DQo+KwkJCWVyciA9IC1FSU5WQUw7DQo+KwkJCWNvbnRpbnVlOw0K
-PisJCX0NCj4rDQo+KwkJZXJyID0gaTkxNV9nZW1fb2JqZWN0X21pZ3JhdGUob2JqLCAmd3csDQo+
-SU5URUxfUkVHSU9OX0xNRU0pOw0KPisJCWlmIChlcnIpDQo+KwkJCWNvbnRpbnVlOw0KPisNCj4r
-CQllcnIgPSBpOTE1X2dlbV9vYmplY3RfcGluX3BhZ2VzKG9iaik7DQo+KwkJaWYgKGVycikNCj4r
-CQkJY29udGludWU7DQo+Kw0KPisJCWlmIChpOTE1X2dlbV9vYmplY3RfY2FuX21pZ3JhdGUob2Jq
-LA0KPklOVEVMX1JFR0lPTl9TTUVNKSkNCj4rCQkJZXJyID0gLUVJTlZBTDsNCj4rDQo+KwkJaTkx
-NV9nZW1fb2JqZWN0X3VucGluX3BhZ2VzKG9iaik7DQo+Kwl9DQo+KwlpOTE1X2dlbV9vYmplY3Rf
-cHV0KG9iaik7DQo+Kw0KPisJcmV0dXJuIGVycjsNCj4rfQ0KPisNCj4rc3RhdGljIGludCBsbWVt
-X3BhZ2VzX21pZ3JhdGVfb25lKHN0cnVjdCBpOTE1X2dlbV93d19jdHggKnd3LA0KPisJCQkJICBz
-dHJ1Y3QgZHJtX2k5MTVfZ2VtX29iamVjdCAqb2JqKQ0KPit7DQo+KwlpbnQgZXJyOw0KPisNCj4r
-CWVyciA9IGk5MTVfZ2VtX29iamVjdF9sb2NrKG9iaiwgd3cpOw0KPisJaWYgKGVycikNCj4rCQly
-ZXR1cm4gZXJyOw0KPisNCj4rCWVyciA9IGk5MTVfZ2VtX29iamVjdF93YWl0KG9iaiwNCj4rCQkJ
-CSAgIEk5MTVfV0FJVF9JTlRFUlJVUFRJQkxFIHwNCj4rCQkJCSAgIEk5MTVfV0FJVF9QUklPUklU
-WSB8DQo+KwkJCQkgICBJOTE1X1dBSVRfQUxMLA0KPisJCQkJICAgTUFYX1NDSEVEVUxFX1RJTUVP
-VVQpOw0KPisJaWYgKGVycikNCj4rCQlyZXR1cm4gZXJyOw0KPisNCj4rCWlmIChpOTE1X2dlbV9v
-YmplY3RfaXNfbG1lbShvYmopKSB7DQo+KwkJaWYgKCFpOTE1X2dlbV9vYmplY3RfY2FuX21pZ3Jh
-dGUob2JqLA0KPklOVEVMX1JFR0lPTl9TTUVNKSkgew0KDQpJIGRvbid0IHNlZSBhbnkgIHRlc3Rp
-bmcgb2YgdGhlIHBhcmFtZXRlciBudW1fYWxsb3dlZC4NCg0KSXMgdGhhdCBkb25lIHNvbWV3aGVy
-ZSBlbHNlPw0KDQpNaWtlDQoNCj4rCQkJcHJfZXJyKCJvYmplY3QgY2FuJ3QgbWlncmF0ZSB0byBz
-bWVtLlxuIik7DQo+KwkJCXJldHVybiAtRUlOVkFMOw0KPisJCX0NCj4rDQo+KwkJZXJyID0gaTkx
-NV9nZW1fb2JqZWN0X21pZ3JhdGUob2JqLCB3dywNCj5JTlRFTF9SRUdJT05fU01FTSk7DQo+KwkJ
-aWYgKGVycikgew0KPisJCQlwcl9lcnIoIk9iamVjdCBmYWlsZWQgbWlncmF0aW9uIHRvIHNtZW1c
-biIpOw0KPisJCQlpZiAoZXJyKQ0KPisJCQkJcmV0dXJuIGVycjsNCj4rCQl9DQo+Kw0KPisJCWlm
-IChpOTE1X2dlbV9vYmplY3RfaXNfbG1lbShvYmopKSB7DQo+KwkJCXByX2Vycigib2JqZWN0IHN0
-aWxsIGJhY2tlZCBieSBsbWVtXG4iKTsNCj4rCQkJZXJyID0gLUVJTlZBTDsNCj4rCQl9DQo+Kw0K
-PisJCWlmICghaTkxNV9nZW1fb2JqZWN0X2hhc19zdHJ1Y3RfcGFnZShvYmopKSB7DQo+KwkJCXBy
-X2Vycigib2JqZWN0IG5vdCBiYWNrZWQgYnkgc3RydWN0IHBhZ2VcbiIpOw0KPisJCQllcnIgPSAt
-RUlOVkFMOw0KPisJCX0NCj4rDQo+Kwl9IGVsc2Ugew0KPisJCWlmICghaTkxNV9nZW1fb2JqZWN0
-X2Nhbl9taWdyYXRlKG9iaiwNCj5JTlRFTF9SRUdJT05fTE1FTSkpIHsNCj4rCQkJcHJfZXJyKCJv
-YmplY3QgY2FuJ3QgbWlncmF0ZSB0byBsbWVtLlxuIik7DQo+KwkJCXJldHVybiAtRUlOVkFMOw0K
-PisJCX0NCj4rDQo+KwkJZXJyID0gaTkxNV9nZW1fb2JqZWN0X21pZ3JhdGUob2JqLCB3dywNCj5J
-TlRFTF9SRUdJT05fTE1FTSk7DQo+KwkJaWYgKGVycikgew0KPisJCQlwcl9lcnIoIk9iamVjdCBm
-YWlsZWQgbWlncmF0aW9uIHRvIGxtZW1cbiIpOw0KPisJCQlpZiAoZXJyKQ0KPisJCQkJcmV0dXJu
-IGVycjsNCj4rCQl9DQo+Kw0KPisJCWlmIChpOTE1X2dlbV9vYmplY3RfaGFzX3N0cnVjdF9wYWdl
-KG9iaikpIHsNCj4rCQkJcHJfZXJyKCJvYmplY3Qgc3RpbGwgYmFja2VkIGJ5IHN0cnVjdCBwYWdl
-XG4iKTsNCj4rCQkJZXJyID0gLUVJTlZBTDsNCj4rCQl9DQo+Kw0KPisJCWlmICghaTkxNV9nZW1f
-b2JqZWN0X2lzX2xtZW0ob2JqKSkgew0KPisJCQlwcl9lcnIoIm9iamVjdCBub3QgYmFja2VkIGJ5
-IGxtZW1cbiIpOw0KPisJCQllcnIgPSAtRUlOVkFMOw0KPisJCX0NCj4rCX0NCj4rDQo+KwlyZXR1
-cm4gZXJyOw0KPit9DQo+Kw0KPitzdGF0aWMgaW50IGlndF9sbWVtX3BhZ2VzX21pZ3JhdGUodm9p
-ZCAqYXJnKQ0KPit7DQo+KwlzdHJ1Y3QgaW50ZWxfZ3QgKmd0ID0gYXJnOw0KPisJc3RydWN0IGRy
-bV9pOTE1X3ByaXZhdGUgKmk5MTUgPSBndC0+aTkxNTsNCj4rCXN0cnVjdCBkcm1faTkxNV9nZW1f
-b2JqZWN0ICpvYmo7DQo+KwlzdHJ1Y3QgaTkxNV9nZW1fd3dfY3R4IHd3Ow0KPisJc3RydWN0IGk5
-MTVfcmVxdWVzdCAqcnE7DQo+KwlpbnQgZXJyOw0KPisJaW50IGk7DQo+Kw0KPisJLyogRnJvbSBM
-TUVNIHRvIHNobWVtIGFuZCBiYWNrIGFnYWluICovDQo+Kw0KPisJb2JqID0gaTkxNV9nZW1fb2Jq
-ZWN0X2NyZWF0ZV9sbWVtKGk5MTUsIFNaXzJNLCAwKTsNCj4rCWlmIChJU19FUlIob2JqKSkNCj4r
-CQlyZXR1cm4gUFRSX0VSUihvYmopOw0KPisNCj4rCWVyciA9IGk5MTVfZ2VtX29iamVjdF9sb2Nr
-KG9iaiwgTlVMTCk7DQo+KwlpZiAoZXJyKQ0KPisJCWdvdG8gb3V0X3B1dDsNCj4rDQo+KwllcnIg
-PSBfX19faTkxNV9nZW1fb2JqZWN0X2dldF9wYWdlcyhvYmopOw0KPisJaWYgKGVycikgew0KPisJ
-CWk5MTVfZ2VtX29iamVjdF91bmxvY2sob2JqKTsNCj4rCQlnb3RvIG91dF9wdXQ7DQo+Kwl9DQo+
-Kw0KPisJZXJyID0gaW50ZWxfY29udGV4dF9taWdyYXRlX2NsZWFyKGd0LT5taWdyYXRlLmNvbnRl
-eHQsIE5VTEwsDQo+KwkJCQkJICBvYmotPm1tLnBhZ2VzLT5zZ2wsIG9iai0NCj4+Y2FjaGVfbGV2
-ZWwsDQo+KwkJCQkJICBpOTE1X2dlbV9vYmplY3RfaXNfbG1lbShvYmopLA0KPisJCQkJCSAgMCwg
-JnJxKTsNCj4rCWlmIChycSkgew0KPisJCWRtYV9yZXN2X2FkZF9leGNsX2ZlbmNlKG9iai0+YmFz
-ZS5yZXN2LCAmcnEtPmZlbmNlKTsNCj4rCQlpOTE1X3JlcXVlc3RfcHV0KHJxKTsNCj4rCX0NCj4r
-CWk5MTVfZ2VtX29iamVjdF91bmxvY2sob2JqKTsNCj4rCWlmIChlcnIpDQo+KwkJZ290byBvdXRf
-cHV0Ow0KPisNCj4rCWZvciAoaSA9IDE7IGkgPD0gNDsgKytpKSB7DQo+KwkJZm9yX2k5MTVfZ2Vt
-X3d3KCZ3dywgZXJyLCB0cnVlKSB7DQo+KwkJCWVyciA9IGxtZW1fcGFnZXNfbWlncmF0ZV9vbmUo
-Jnd3LCBvYmopOw0KPisJCQlpZiAoZXJyKQ0KPisJCQkJY29udGludWU7DQo+Kw0KPisJCQllcnIg
-PSBpOTE1X2dlbV9vYmplY3Rfd2FpdF9taWdyYXRpb24ob2JqLCB0cnVlKTsNCj4rCQkJaWYgKGVy
-cikNCj4rCQkJCWNvbnRpbnVlOw0KPisNCj4rCQkJZXJyID0gaW50ZWxfbWlncmF0ZV9jbGVhcigm
-Z3QtPm1pZ3JhdGUsICZ3dywgTlVMTCwNCj4rCQkJCQkJICBvYmotPm1tLnBhZ2VzLT5zZ2wsDQo+
-KwkJCQkJCSAgb2JqLT5jYWNoZV9sZXZlbCwNCj4rDQo+aTkxNV9nZW1fb2JqZWN0X2lzX2xtZW0o
-b2JqKSwNCj4rCQkJCQkJICAweGRlYWRiZWFmLCAmcnEpOw0KPisJCQlpZiAocnEpIHsNCj4rCQkJ
-CWRtYV9yZXN2X2FkZF9leGNsX2ZlbmNlKG9iai0+YmFzZS5yZXN2LA0KPisJCQkJCQkJJnJxLT5m
-ZW5jZSk7DQo+KwkJCQlpOTE1X3JlcXVlc3RfcHV0KHJxKTsNCj4rCQkJfQ0KPisJCX0NCj4rCQlp
-ZiAoZXJyKQ0KPisJCQlicmVhazsNCj4rCX0NCj4rb3V0X3B1dDoNCj4rCWk5MTVfZ2VtX29iamVj
-dF9wdXQob2JqKTsNCj4rDQo+KwlyZXR1cm4gZXJyOw0KPit9DQo+Kw0KPitpbnQgaTkxNV9nZW1f
-bWlncmF0ZV9saXZlX3NlbGZ0ZXN0cyhzdHJ1Y3QgZHJtX2k5MTVfcHJpdmF0ZSAqaTkxNSkNCj4r
-ew0KPisJc3RhdGljIGNvbnN0IHN0cnVjdCBpOTE1X3N1YnRlc3QgdGVzdHNbXSA9IHsNCj4rCQlT
-VUJURVNUKGlndF9zbWVtX2NyZWF0ZV9taWdyYXRlKSwNCj4rCQlTVUJURVNUKGlndF9sbWVtX2Ny
-ZWF0ZV9taWdyYXRlKSwNCj4rCQlTVUJURVNUKGlndF9sbWVtX3BhZ2VzX21pZ3JhdGUpLA0KPisJ
-fTsNCj4rDQo+KwlpZiAoIUhBU19MTUVNKGk5MTUpKQ0KPisJCXJldHVybiAwOw0KPisNCj4rCXJl
-dHVybiBpbnRlbF9ndF9saXZlX3N1YnRlc3RzKHRlc3RzLCAmaTkxNS0+Z3QpOw0KPit9DQo+ZGlm
-ZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L3NlbGZ0ZXN0cy9pOTE1X2xpdmVfc2VsZnRl
-c3RzLmgNCj5iL2RyaXZlcnMvZ3B1L2RybS9pOTE1L3NlbGZ0ZXN0cy9pOTE1X2xpdmVfc2VsZnRl
-c3RzLmgNCj5pbmRleCBhNjgxOTdjZjEwNDQuLmUyZmQxYjYxYWY3MSAxMDA2NDQNCj4tLS0gYS9k
-cml2ZXJzL2dwdS9kcm0vaTkxNS9zZWxmdGVzdHMvaTkxNV9saXZlX3NlbGZ0ZXN0cy5oDQo+Kysr
-IGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvc2VsZnRlc3RzL2k5MTVfbGl2ZV9zZWxmdGVzdHMuaA0K
-PkBAIC00MCw2ICs0MCw3IEBAIHNlbGZ0ZXN0KGh1Z2VwYWdlcywNCj5pOTE1X2dlbV9odWdlX3Bh
-Z2VfbGl2ZV9zZWxmdGVzdHMpDQo+IHNlbGZ0ZXN0KGdlbV9jb250ZXh0cywgaTkxNV9nZW1fY29u
-dGV4dF9saXZlX3NlbGZ0ZXN0cykNCj4gc2VsZnRlc3QoZ2VtX2V4ZWNidWYsIGk5MTVfZ2VtX2V4
-ZWNidWZmZXJfbGl2ZV9zZWxmdGVzdHMpDQo+IHNlbGZ0ZXN0KGNsaWVudCwgaTkxNV9nZW1fY2xp
-ZW50X2JsdF9saXZlX3NlbGZ0ZXN0cykNCj4rc2VsZnRlc3QoZ2VtX21pZ3JhdGUsIGk5MTVfZ2Vt
-X21pZ3JhdGVfbGl2ZV9zZWxmdGVzdHMpDQo+IHNlbGZ0ZXN0KHJlc2V0LCBpbnRlbF9yZXNldF9s
-aXZlX3NlbGZ0ZXN0cykNCj4gc2VsZnRlc3QobWVtb3J5X3JlZ2lvbiwgaW50ZWxfbWVtb3J5X3Jl
-Z2lvbl9saXZlX3NlbGZ0ZXN0cykNCj4gc2VsZnRlc3QoaGFuZ2NoZWNrLCBpbnRlbF9oYW5nY2hl
-Y2tfbGl2ZV9zZWxmdGVzdHMpDQo+LS0NCj4yLjMxLjENCj4NCj5fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fXw0KPkludGVsLWdmeCBtYWlsaW5nIGxpc3QNCj5J
-bnRlbC1nZnhAbGlzdHMuZnJlZWRlc2t0b3Aub3JnDQo+aHR0cHM6Ly9saXN0cy5mcmVlZGVza3Rv
-cC5vcmcvbWFpbG1hbi9saXN0aW5mby9pbnRlbC1nZngNCg==
+
+On 6/28/21 8:11 PM, Ruhl, Michael J wrote:
+>> -----Original Message-----
+>> From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf Of
+>> Thomas Hellström
+>> Sent: Monday, June 28, 2021 10:46 AM
+>> To: intel-gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org
+>> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>; Auld, Matthew
+>> <matthew.auld@intel.com>; lkp <lkp@intel.com>
+>> Subject: [PATCH v3 1/5] drm/i915/gem: Implement object migration
+>>
+>> Introduce an interface to migrate objects between regions.
+>> This is primarily intended to migrate objects to LMEM for display and
+>> to SYSTEM for dma-buf, but might be reused in one form or another for
+>> performance-based migration.
+>>
+>> v2:
+>> - Verify that the memory region given as an id really exists.
+>>   (Reported by Matthew Auld)
+>> - Call i915_gem_object_{init,release}_memory_region() when switching
+>> region
+>>   to handle also switching region lists. (Reported by Matthew Auld)
+>> v3:
+>> - Fix i915_gem_object_can_migrate() to return true if object is already in
+>>   the correct region, even if the object ops doesn't have a migrate()
+>>   callback.
+>> - Update typo in commit message.
+>> - Fix kerneldoc of i915_gem_object_wait_migration().
+>>
+>> Reported-by: kernel test robot <lkp@intel.com>
+>> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+>> ---
+>> drivers/gpu/drm/i915/gem/i915_gem_object.c    | 96
+>> +++++++++++++++++++
+>> drivers/gpu/drm/i915/gem/i915_gem_object.h    | 12 +++
+>> .../gpu/drm/i915/gem/i915_gem_object_types.h  |  9 ++
+>> drivers/gpu/drm/i915/gem/i915_gem_ttm.c       | 69 +++++++++----
+>> drivers/gpu/drm/i915/gem/i915_gem_wait.c      | 19 ++++
+>> 5 files changed, 188 insertions(+), 17 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.c
+>> b/drivers/gpu/drm/i915/gem/i915_gem_object.c
+>> index 07e8ff9a8aae..1c18be067b58 100644
+>> --- a/drivers/gpu/drm/i915/gem/i915_gem_object.c
+>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_object.c
+>> @@ -513,6 +513,102 @@ bool i915_gem_object_has_iomem(const struct
+>> drm_i915_gem_object *obj)
+>> 	return obj->mem_flags & I915_BO_FLAG_IOMEM;
+>> }
+>>
+>> +/**
+>> + * i915_gem_object_can_migrate - Whether an object likely can be migrated
+>> + *
+>> + * @obj: The object to migrate
+>> + * @id: The region intended to migrate to
+>> + *
+>> + * Check whether the object backend supports migration to the
+>> + * given region. Note that pinning may affect the ability to migrate.
+>> + *
+>> + * Return: true if migration is possible, false otherwise.
+>> + */
+>> +bool i915_gem_object_can_migrate(struct drm_i915_gem_object *obj,
+>> +				 enum intel_region_id id)
+>> +{
+>> +	struct drm_i915_private *i915 = to_i915(obj->base.dev);
+>> +	unsigned int num_allowed = obj->mm.n_placements;
+>> +	struct intel_memory_region *mr;
+>> +	unsigned int i;
+>> +
+>> +	GEM_BUG_ON(id >= INTEL_REGION_UNKNOWN);
+>> +	GEM_BUG_ON(obj->mm.madv != I915_MADV_WILLNEED);
+>> +
+>> +	mr = i915->mm.regions[id];
+>> +	if (!mr)
+>> +		return false;
+>> +
+>> +	if (obj->mm.region == mr)
+>> +		return true;
+>> +
+>> +	if (!i915_gem_object_evictable(obj))
+>> +		return false;
+>> +
+>> +	if (!obj->ops->migrate)
+>> +		return false;
+>> +
+>> +	if (!(obj->flags & I915_BO_ALLOC_USER))
+>> +		return true;
+>> +
+>> +	if (num_allowed == 0)
+>> +		return false;
+>> +
+>> +	for (i = 0; i < num_allowed; ++i) {
+>> +		if (mr == obj->mm.placements[i])
+>> +			return true;
+>> +	}
+> Hi Thomas,
+>
+> I am a little confused over the difference in checks between this function
+> and i915_gem_object_migrate().
+>
+> Why is the lack of an mr a BUG_ON in _object_migrate(), but here it just
+> false?
+>
+> So that means that under certain circumstances, you could not have a mr?
+>
+> If that is the case, when?
+>
+> Would that be when the I915_BO_ALLOC_USER is set?
+>
+> If so, should there be a check for "non" user vs user?
+>
+> Or maybe document this function pointing out why there are differences
+> and why?
+
+Yes, I'll give it some more documentation. The basic idea is that the 
+above function also could be
+used to validate user supplied data, whereas there might be cases where 
+we want to use the gem_object_migrate() function and override the above.
+
+
+>
+>> +	return false;
+>> +}
+>> +
+>> +/**
+>> + * i915_gem_object_migrate - Migrate an object to the desired region id
+>> + * @obj: The object to migrate.
+>> + * @ww: An optional struct i915_gem_ww_ctx. If NULL, the backend may
+>> + * not be successful in evicting other objects to make room for this object.
+> Is the ww for future consideration?  (I don't see any use of it in the patch).
+
+Yes, but it will remain optional.
+
+
+>
+>> + * @id: The region id to migrate to.
+>> + *
+>> + * Attempt to migrate the object to the desired memory region. The
+>> + * object backend must support migration and the object may not be
+>> + * pinned, (explicitly pinned pages or pinned vmas). The object must
+>> + * be locked.
+>> + * On successful completion, the object will have pages pointing to
+>> + * memory in the new region, but an async migration task may not have
+>> + * completed yet, and to accomplish that,
+>> i915_gem_object_wait_migration()
+>> + * must be called.
+>> + *
+>> + * Return: 0 on success. Negative error code on failure. In particular may
+>> + * return -ENXIO on lack of region space, -EDEADLK for deadlock avoidance
+>> + * if @ww is set, -EINTR or -ERESTARTSYS if signal pending, and
+>> + * -EBUSY if the object is pinned.
+>> + */
+>> +int i915_gem_object_migrate(struct drm_i915_gem_object *obj,
+>> +			    struct i915_gem_ww_ctx *ww,
+>> +			    enum intel_region_id id)
+>> +{
+>> +	struct drm_i915_private *i915 = to_i915(obj->base.dev);
+>> +	struct intel_memory_region *mr;
+>> +
+>> +	GEM_BUG_ON(id >= INTEL_REGION_UNKNOWN);
+>> +	GEM_BUG_ON(obj->mm.madv != I915_MADV_WILLNEED);
+>> +	assert_object_held(obj);
+>> +
+>> +	mr = i915->mm.regions[id];
+>> +	GEM_BUG_ON(!mr);
+>> +
+>> +	if (obj->mm.region == mr)
+>> +		return 0;
+>> +
+>> +	if (!i915_gem_object_evictable(obj))
+>> +		return -EBUSY;
+>> +
+>> +	if (!obj->ops->migrate)
+>> +		return -EOPNOTSUPP;
+> Why aren't you using _can_migrate here?
+
+It's just in case we want to override. I'll add some more comments about 
+this.
+
+>
+>> +	return obj->ops->migrate(obj, mr);
+>> +}
+>> +
+>> void i915_gem_init__objects(struct drm_i915_private *i915)
+>> {
+>> 	INIT_WORK(&i915->mm.free_work, __i915_gem_free_work);
+>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h
+>> b/drivers/gpu/drm/i915/gem/i915_gem_object.h
+>> index ea3224a480c4..8cbd7a5334e2 100644
+>> --- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
+>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
+>> @@ -17,6 +17,8 @@
+>> #include "i915_gem_ww.h"
+>> #include "i915_vma_types.h"
+>>
+>> +enum intel_region_id;
+>> +
+>> /*
+>>   * XXX: There is a prevalence of the assumption that we fit the
+>>   * object's page count inside a 32bit _signed_ variable. Let's document
+>> @@ -597,6 +599,16 @@ bool i915_gem_object_migratable(struct
+>> drm_i915_gem_object *obj);
+>>
+>> bool i915_gem_object_validates_to_lmem(struct drm_i915_gem_object
+>> *obj);
+>>
+>> +int i915_gem_object_migrate(struct drm_i915_gem_object *obj,
+>> +			    struct i915_gem_ww_ctx *ww,
+>> +			    enum intel_region_id id);
+>> +
+>> +bool i915_gem_object_can_migrate(struct drm_i915_gem_object *obj,
+>> +				 enum intel_region_id id);
+>> +
+>> +int i915_gem_object_wait_migration(struct drm_i915_gem_object *obj,
+>> +				   unsigned int flags);
+>> +
+>> #ifdef CONFIG_MMU_NOTIFIER
+>> static inline bool
+>> i915_gem_object_is_userptr(struct drm_i915_gem_object *obj)
+>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
+>> b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
+>> index 441f913c87e6..ef3de2ae9723 100644
+>> --- a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
+>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
+>> @@ -18,6 +18,7 @@
+>>
+>> struct drm_i915_gem_object;
+>> struct intel_fronbuffer;
+>> +struct intel_memory_region;
+>>
+>> /*
+>>   * struct i915_lut_handle tracks the fast lookups from handle to vma used
+>> @@ -77,6 +78,14 @@ struct drm_i915_gem_object_ops {
+>> 	 * delayed_free - Override the default delayed free implementation
+>> 	 */
+>> 	void (*delayed_free)(struct drm_i915_gem_object *obj);
+>> +
+>> +	/**
+>> +	 * migrate - Migrate object to a different region either for
+>> +	 * pinning or for as long as the object lock is held.
+>> +	 */
+>> +	int (*migrate)(struct drm_i915_gem_object *obj,
+>> +		       struct intel_memory_region *mr);
+>> +
+>> 	void (*release)(struct drm_i915_gem_object *obj);
+>>
+>> 	const struct vm_operations_struct *mmap_ops;
+>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+>> b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+>> index c39d982c4fa6..8f89185b6507 100644
+>> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+>> @@ -617,7 +617,8 @@ struct ttm_device_funcs *i915_ttm_driver(void)
+>> 	return &i915_ttm_bo_driver;
+>> }
+>>
+>> -static int i915_ttm_get_pages(struct drm_i915_gem_object *obj)
+>> +static int __i915_ttm_get_pages(struct drm_i915_gem_object *obj,
+>> +				struct ttm_placement *placement)
+>> {
+>> 	struct ttm_buffer_object *bo = i915_gem_to_ttm(obj);
+>> 	struct ttm_operation_ctx ctx = {
+>> @@ -625,19 +626,12 @@ static int i915_ttm_get_pages(struct
+>> drm_i915_gem_object *obj)
+>> 		.no_wait_gpu = false,
+>> 	};
+>> 	struct sg_table *st;
+>> -	struct ttm_place requested, busy[I915_TTM_MAX_PLACEMENTS];
+>> -	struct ttm_placement placement;
+>> 	int real_num_busy;
+>> 	int ret;
+>>
+>> -	GEM_BUG_ON(obj->mm.n_placements >
+>> I915_TTM_MAX_PLACEMENTS);
+>> -
+>> -	/* Move to the requested placement. */
+>> -	i915_ttm_placement_from_obj(obj, &requested, busy, &placement);
+>> -
+>> 	/* First try only the requested placement. No eviction. */
+>> -	real_num_busy =
+>> fetch_and_zero(&placement.num_busy_placement);
+>> -	ret = ttm_bo_validate(bo, &placement, &ctx);
+>> +	real_num_busy = fetch_and_zero(&placement-
+>>> num_busy_placement);
+>> +	ret = ttm_bo_validate(bo, placement, &ctx);
+>> 	if (ret) {
+>> 		ret = i915_ttm_err_to_gem(ret);
+>> 		/*
+>> @@ -652,8 +646,8 @@ static int i915_ttm_get_pages(struct
+>> drm_i915_gem_object *obj)
+>> 		 * If the initial attempt fails, allow all accepted placements,
+>> 		 * evicting if necessary.
+>> 		 */
+>> -		placement.num_busy_placement = real_num_busy;
+>> -		ret = ttm_bo_validate(bo, &placement, &ctx);
+>> +		placement->num_busy_placement = real_num_busy;
+>> +		ret = ttm_bo_validate(bo, placement, &ctx);
+>> 		if (ret)
+>> 			return i915_ttm_err_to_gem(ret);
+>> 	}
+>> @@ -668,16 +662,56 @@ static int i915_ttm_get_pages(struct
+>> drm_i915_gem_object *obj)
+>> 		i915_ttm_adjust_gem_after_move(obj);
+>> 	}
+>>
+>> -	/* Object either has a page vector or is an iomem object */
+>> -	st = bo->ttm ? i915_ttm_tt_get_st(bo->ttm) : obj->ttm.cached_io_st;
+>> -	if (IS_ERR(st))
+>> -		return PTR_ERR(st);
+>> +	if (!obj->mm.pages) {
+>> +		/* Object either has a page vector or is an iomem object */
+>> +		st = bo->ttm ? i915_ttm_tt_get_st(bo->ttm) : obj-
+>>> ttm.cached_io_st;
+>> +		if (IS_ERR(st))
+>> +			return PTR_ERR(st);
+>>
+>> -	__i915_gem_object_set_pages(obj, st, i915_sg_dma_sizes(st->sgl));
+>> +		__i915_gem_object_set_pages(obj, st,
+>> i915_sg_dma_sizes(st->sgl));
+>> +	}
+>>
+>> 	return ret;
+>> }
+>>
+>> +static int i915_ttm_get_pages(struct drm_i915_gem_object *obj)
+>> +{
+>> +	struct ttm_place requested, busy[I915_TTM_MAX_PLACEMENTS];
+>> +	struct ttm_placement placement;
+>> +
+>> +	GEM_BUG_ON(obj->mm.n_placements >
+>> I915_TTM_MAX_PLACEMENTS);
+>> +
+>> +	/* Move to the requested placement. */
+>> +	i915_ttm_placement_from_obj(obj, &requested, busy, &placement);
+>> +
+>> +	return __i915_ttm_get_pages(obj, &placement);
+>> +}
+>> +
+>> +static int i915_ttm_migrate(struct drm_i915_gem_object *obj,
+>> +			    struct intel_memory_region *mr)
+>> +{
+>> +	struct ttm_place requested;
+>> +	struct ttm_placement placement;
+>> +	int ret;
+>> +
+>> +	i915_ttm_place_from_region(mr, &requested, obj->flags);
+>> +	placement.num_placement = 1;
+>> +	placement.num_busy_placement = 1;
+>> +	placement.placement = &requested;
+>> +	placement.busy_placement = &requested;
+>> +
+>> +	ret = __i915_ttm_get_pages(obj, &placement);
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +	if (obj->mm.region != mr) {
+>> +		i915_gem_object_release_memory_region(obj);
+>> +		i915_gem_object_init_memory_region(obj, mr);
+>> +	}
+> Perhaps a minor nit:
+>
+> Doing this after we have done the _get_pages() just doesn't seem right.
+>
+> I.e. we do work on the object, and then we init some portion of it.
+>
+> Do we need to do this incase the migration/placement fails?  If so,
+> maybe a comment to that effect?
+
+This is simply switching memory region under the lock, and to also move 
+to another memory region list. Is it the naming _release_ and _init_ 
+that is confusing?
+
+/Thomas
+
+
+>
+> Thanks,
+>
+> Mike
+>
+>> +	return 0;
+>> +}
+>> +
+>> static void i915_ttm_put_pages(struct drm_i915_gem_object *obj,
+>> 			       struct sg_table *st)
+>> {
+>> @@ -814,6 +848,7 @@ static const struct drm_i915_gem_object_ops
+>> i915_gem_ttm_obj_ops = {
+>> 	.truncate = i915_ttm_purge,
+>> 	.adjust_lru = i915_ttm_adjust_lru,
+>> 	.delayed_free = i915_ttm_delayed_free,
+>> +	.migrate = i915_ttm_migrate,
+>> 	.mmap_offset = i915_ttm_mmap_offset,
+>> 	.mmap_ops = &vm_ops_ttm,
+>> };
+>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_wait.c
+>> b/drivers/gpu/drm/i915/gem/i915_gem_wait.c
+>> index 1070d3afdce7..f909aaa09d9c 100644
+>> --- a/drivers/gpu/drm/i915/gem/i915_gem_wait.c
+>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_wait.c
+>> @@ -290,3 +290,22 @@ i915_gem_wait_ioctl(struct drm_device *dev, void
+>> *data, struct drm_file *file)
+>> 	i915_gem_object_put(obj);
+>> 	return ret;
+>> }
+>> +
+>> +/**
+>> + * i915_gem_object_wait_migration - Sync an accelerated migration
+>> operation
+>> + * @obj: The migrating object.
+>> + * @flags: waiting flags. Currently supports only I915_WAIT_INTERRUPTIBLE.
+>> + *
+>> + * Wait for any pending async migration operation on the object,
+>> + * whether it's explicitly (i915_gem_object_migrate()) or implicitly
+>> + * (swapin, initial clearing) initiated.
+>> + *
+>> + * Return: 0 if successful, -ERESTARTSYS if a signal was hit during waiting.
+>> + */
+>> +int i915_gem_object_wait_migration(struct drm_i915_gem_object *obj,
+>> +				   unsigned int flags)
+>> +{
+>> +	might_sleep();
+>> +	/* NOP for now. */
+>> +	return 0;
+>> +}
+>> --
+>> 2.31.1
