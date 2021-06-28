@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33DDE3B6A35
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Jun 2021 23:21:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BEAB3B6A37
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Jun 2021 23:21:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BAE9B6E584;
-	Mon, 28 Jun 2021 21:21:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 471726E58A;
+	Mon, 28 Jun 2021 21:21:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F4C96E580;
- Mon, 28 Jun 2021 21:21:08 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 971D961D05;
- Mon, 28 Jun 2021 21:21:07 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A5F9C6E581;
+ Mon, 28 Jun 2021 21:21:13 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 9873561D06;
+ Mon, 28 Jun 2021 21:21:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1624915268;
- bh=C/HLHG6Av8lXqimOwroFa0oITaX+axl/LT1kTAHBQKg=;
+ s=k20201202; t=1624915273;
+ bh=kIaYFbU2EySHbd7T6advKyzdNKMGLNOuQMH/Y3eXtBs=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=foCe8AjheKgWrQCKP4Yka6knjjeqAzFwgpHXXblqlCWeBE9W7TRPtxMelNJNPyvAL
- m9WdtAHOfRqE/vj7cpRzLgZmb0Da8c2k9r303I5i93NG2M6k+MA6LBBeWdwKvHHxaf
- Y4ckcwmGABhU9BTndfEJIMznYC/y5VnzbQualY/T1J8hgwgbvLQb34nvdPhvlnHErO
- 41QWgxMABP4Vi7q3Lwd/wTe2xfaFkfhKzIZbUIUvmqevbaD54uoTUR6/3y6u+hLKYL
- IRlXQGFPH26Lo+Fleiedk3CE0BmJoQH7HGm8nmgZ/tO4Q1Y0GAb0XHZwSo8OLpOIXz
- BVhHp7yoAtsag==
+ b=hDXti1R28+9gUFormnM2qaOGXuJXLxx4wY/vDGFczXiSryedPWD5AJxqBOsNoIYGT
+ C29xVeXq8NV5bZJk5r6dZRUGmtLWFohfCsSF7n8oOKE/nJI/XJ8v26Km+aoVP9YGfP
+ jmn2cMXE7YyqCYLsHSBtcRtQFl0SsNkToVCw0u9A1a6jlZpR1n9iAxpvRIOqR3Vofy
+ GxwDnfQ4jHbPEhMj7kOL8J+UXWPSP9Gy3J8F0wKq0HpNsk4RGB0b8LDWAo5uwhp6+v
+ TB5V3NehlRqCRzNxSJ1KaxqazEbPMBiPBxJqzPO+Lb+2LllCBpn5qXEkAIyVYOova5
+ y8sn8lh/3WajQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 2/3] drm/nouveau: fix dma_address check for
+Subject: [PATCH AUTOSEL 4.19 2/2] drm/nouveau: fix dma_address check for
  CPU/GPU sync
-Date: Mon, 28 Jun 2021 17:21:04 -0400
-Message-Id: <20210628212105.43449-2-sashal@kernel.org>
+Date: Mon, 28 Jun 2021 17:21:10 -0400
+Message-Id: <20210628212110.43532-2-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210628212105.43449-1-sashal@kernel.org>
-References: <20210628212105.43449-1-sashal@kernel.org>
+In-Reply-To: <20210628212110.43532-1-sashal@kernel.org>
+References: <20210628212110.43532-1-sashal@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-stable: review
@@ -72,10 +72,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c b/drivers/gpu/drm/nouveau/nouveau_bo.c
-index f8015e0318d7..f7603be569fc 100644
+index 7214022dfb91..d230536e7086 100644
 --- a/drivers/gpu/drm/nouveau/nouveau_bo.c
 +++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
-@@ -542,7 +542,7 @@ nouveau_bo_sync_for_device(struct nouveau_bo *nvbo)
+@@ -512,7 +512,7 @@ nouveau_bo_sync_for_device(struct nouveau_bo *nvbo)
  	struct ttm_dma_tt *ttm_dma = (struct ttm_dma_tt *)nvbo->bo.ttm;
  	int i;
  
@@ -84,7 +84,7 @@ index f8015e0318d7..f7603be569fc 100644
  		return;
  
  	/* Don't waste time looping if the object is coherent */
-@@ -562,7 +562,7 @@ nouveau_bo_sync_for_cpu(struct nouveau_bo *nvbo)
+@@ -532,7 +532,7 @@ nouveau_bo_sync_for_cpu(struct nouveau_bo *nvbo)
  	struct ttm_dma_tt *ttm_dma = (struct ttm_dma_tt *)nvbo->bo.ttm;
  	int i;
  
