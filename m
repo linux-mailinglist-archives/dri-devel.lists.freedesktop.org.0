@@ -1,76 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B0C73B5C2D
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Jun 2021 12:11:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 801953B5C3B
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Jun 2021 12:12:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 411576E415;
-	Mon, 28 Jun 2021 10:11:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 94BA26E416;
+	Mon, 28 Jun 2021 10:12:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com
  [64.147.123.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9AF0D6E415
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Jun 2021 10:11:10 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 380476E416
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Jun 2021 10:12:11 +0000 (UTC)
 Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.west.internal (Postfix) with ESMTP id CA8F92B00873;
- Mon, 28 Jun 2021 06:11:06 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute6.internal (MEProxy); Mon, 28 Jun 2021 06:11:07 -0400
+ by mailnew.west.internal (Postfix) with ESMTP id D1C692B00828;
+ Mon, 28 Jun 2021 06:12:09 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute6.internal (MEProxy); Mon, 28 Jun 2021 06:12:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm3; bh=plgjL9DAPOj+IJveFhfJC/nWlW8
- yqlKjHxjWHKswgTY=; b=dHpm6JF8XTDHNKuetck3J/8jJbiTaSqNQ7PzuUvBDnu
- apDZj5dq/mNOEVIeZ99HjOd12zVWNnYTKLdTaR6tq4FpRgxhZwhx+HkK92a2KZlu
- kPi6jColnmgeDXf7KlqKNGrR0C45z0u35ImhL1bx8LeykjGwm9F4T1Wa76B/N5tv
- Jjdxc0VZCxEpiPyBsLrc2hxNO9icbGNsPM+udn4WXBuIqFeIbj70HYs+Srzw9bm+
- 4U8gSxMAviJkKX2WP2crv5lS/TcAQ15SuB82tjdKoiQZYjL/lElAo/6GW5ZWoOp5
- PfUhFIB0x7+uAD7NyhSU9XmnqreJ0YtEarT6Iv4mviA==
+ :content-type:in-reply-to; s=fm3; bh=G1ta7c/5/ThX06wXTeoCB5eCgJv
+ sZJNMAJ9Re7t/XCY=; b=zqK0dOCuCE1noPGpc5CJksQS/smvQGb8Jolv2knBnCE
+ ZlMy8mWmE7m0uknVyNTvOVsTxSbsGGCm9cn2b1rk/olrODnaczcN+T6bT766957N
+ fDwTL8yWcU1NZb/9ayjpe9XI4Zatz7AZUyrLAvEmULb2hUgc+xiO941tXHi1x2JB
+ jskcKAK7RLx3hNUUE4tos9TSCFKgftS/fFJw8TbARbRSMqqDvuhp0Pd83nwvK/BS
+ i7FB697n6KHVXTlFCJ4YdSSg1k57217XtZtEk4JaqloWzVs/e1H2Vu0VLc8xjsKY
+ PD2lRyxW5Nnny+5BN8JfXK0WrBHgJmXmPCj1bCZ7MfA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=plgjL9
- DAPOj+IJveFhfJC/nWlW8yqlKjHxjWHKswgTY=; b=HzQbRG9j6qI7UwV0Om93PM
- f1gD6MaVceY+aoxPGGSzdakrVsYQK3DRdItk8rR6Bm4ntDeb7MVtoaV5kREuI2un
- xKMyF0FyLhHNpBnzsyg1PwW+pfrIacx/52ZpBL68TB6X7qN4o4bLMF7+01AVKeJ1
- eEEO0ZRqgreNJ+7mgtVkBRlUHl60mRG/tG1rt6sIxKxqrYfpdj+8Px3Y4Z0Cx663
- JN1nfvPSTUXrlo8oYsxHrDmJshaI/w4mUz29jlF89yGIuIaMk397U+ylgsQKqpBT
- Lk/oB4vGN7Gr8rxOLnatDGB5VZtCSy3fAldxDMmJ0Qeu13ke2RlpxyqpEePC8vPA
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=G1ta7c
+ /5/ThX06wXTeoCB5eCgJvsZJNMAJ9Re7t/XCY=; b=WfbrO0P+LWj1h60MSG1mJM
+ 1C7/kdqiLuWZRDHHGZZrg+SXS2ZUOg0zjb8RhUgnNt0dlG3OwVUOwdcXLTakQ/JM
+ 4bKW3bbrnk96s1Z3wBUcfyt60jq1bpN96GNfXJINW10OcJVWYxsLknxEKDGr35xl
+ FRQhSyEnslD5D2qTHZvyuMXarn0NvzO+lj2W+QPblPcp4GMmgmJaX4toLt60e6eK
+ Mc+wiM2hW/a90BPLw0TA8EiHXMhbnOIpU1oyKJ37/kbn/DYyipbBNeyZuz8LmNPC
+ ngM4lQjLUYbBxYHx7BPUxG/0oIYA8Jjac4EOy4JO15WlW8ie8InSTdXts0TO4qPg
  ==
-X-ME-Sender: <xms:OaDZYL-qVZFb9taWay3mI4NGfAaTLsxUAOPKnvw2a4zLDWCwP53hMw>
- <xme:OaDZYHtp6yo38wpADEdsPQlhsDP1nPVT9YJiOkpCCPdCXBPvs5myatE7R-APhTvRn
- 2XO0351s_LO0ySj_QI>
-X-ME-Received: <xmr:OaDZYJDDxKVVVWHdLsRtF8jQM6CpdQdcpuOSWhmr_MllmKfHdYnwcfKdJEIzNuv_I0_YOQ8uT8Tw8r0NO7OEFjniAiWwF4dhvjTy>
+X-ME-Sender: <xms:d6DZYDls6_6Dhd4TzTjS-0pGkA_W4h5ixrfOPZSrjBMP3wGnH8deCA>
+ <xme:d6DZYG1m-odd59MuYjIiV9aDdEN_X0syhjTrqzNBhQx1NMyf9MrChweG8VQ4-yVkn
+ t28brE5HYI-hmnUOuE>
+X-ME-Received: <xmr:d6DZYJrif8c1Xtan_uLx2s_SnmCQNnIyKVh6seeLPCOtJBpvtFGG8IqhaP4t5bg_ZUxBG6VL3F5wQH40wKrXjSZrvJRTT8vdjb5K>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfeehgedgvdefucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
  vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepveevfeffudeviedtgeethffhteeuffetfeffvdehvedvheetteehvdelfffg
- jedvnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpe
- dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:OaDZYHcQHsrY2zDoihnbpo7-qtAP6bTD45eexLT15RTbvVlTTTJCXw>
- <xmx:OaDZYAOxj604zesZ7jQcL7YDpubImUNDBeYNW2uQmZ7crqzKGFMqqA>
- <xmx:OaDZYJms4UiHIL36bhVZpH1KFxgAXbbN4rAWQ8JBYN030BFNVQeJXA>
- <xmx:OqDZYJkXkBh6ARTMMez2w6qOfzjbkdtWZspHPl3N-1AfPFNL7rWuLCb_ML0>
+ htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
+ gedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+ grgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:d6DZYLlD5Y0AAC-8KzB4noid8ZdJZDJZm5yG9FyQZAuvmPoR03-StA>
+ <xmx:d6DZYB3QRX7pgZTQ0WygVpsaakizD5GWWiYiyP__Tho-PY3rpLEpKg>
+ <xmx:d6DZYKtGVv6xmcHiF4-JGDUzawMBiT3gV03TdxSbsb0bzWJG6ajXEQ>
+ <xmx:eaDZYA3m0edaLtUq34ARbFlM4Qx7VA_V4F_a4l7NHXfIeshH-_ralAzmtOk>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 28 Jun 2021 06:11:04 -0400 (EDT)
-Date: Mon, 28 Jun 2021 12:11:02 +0200
+ 28 Jun 2021 06:12:07 -0400 (EDT)
+Date: Mon, 28 Jun 2021 12:12:05 +0200
 From: Maxime Ripard <maxime@cerno.tech>
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: Re: [PATCH] drm/vc4: dsi: Only register our component once a DSI
- device is attached
-Message-ID: <20210628101102.nunllcc7rog2nkc4@gilmour>
-References: <20200707101912.571531-1-maxime@cerno.tech>
- <YM6dgVb12oITNfc0@pendragon.ideasonboard.com>
- <20210621160517.5fptdj4tkbzgqn76@gilmour>
- <CAPY8ntA0dsNwiyEiSHR7AuL1ESyPvTpKWAAg=MK3Gx9HKhq5qg@mail.gmail.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH] drm/bridge: dw-mipi-dsi: Move drm_bridge_add into probe
+Message-ID: <20210628101205.bul2iwwljxtd24tb@gilmour>
+References: <20210203091306.140518-1-jagan@amarulasolutions.com>
+ <CANwerB1Bev8Ljta9OyO6vAKsQqHHmaJnjV1YRGmY4bVk_J6xZA@mail.gmail.com>
+ <CAMty3ZAY7Ez9UYvfftSmqLEVWgN7xE5HevqfWirmrExZH=RMWA@mail.gmail.com>
+ <CANwerB1AiiT3oXCpwP83M1=ES9M-yQoLuZO5f=eVxA42MkEbiA@mail.gmail.com>
+ <YNR/uQrS75s5BILs@pendragon.ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="qpwle5uhkiiqkop7"
+ protocol="application/pgp-signature"; boundary="pxsrq5bk7iavnx3y"
 Content-Disposition: inline
-In-Reply-To: <CAPY8ntA0dsNwiyEiSHR7AuL1ESyPvTpKWAAg=MK3Gx9HKhq5qg@mail.gmail.com>
+In-Reply-To: <YNR/uQrS75s5BILs@pendragon.ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,97 +83,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Tim Gover <tim.gover@raspberrypi.com>,
- Andrzej Hajda <a.hajda@samsung.com>, linux-arm-kernel@lists.infradead.org,
- LKML <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Eric Anholt <eric@anholt.net>, bcm-kernel-feedback-list@broadcom.com,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Phil Elwell <phil@raspberrypi.com>,
- Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
- linux-rpi-kernel@lists.infradead.org
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Jonathan Liu <net147@gmail.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Jonas Karlman <jonas@kwiboo.se>, Sandy Huang <hjc@rock-chips.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Philippe Cornu <philippe.cornu@st.com>, Yannick Fertre <yannick.fertre@st.com>,
+ Andrzej Hajda <a.hajda@samsung.com>, Jagan Teki <jagan@amarulasolutions.com>,
+ Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+ Vincent Abriou <vincent.abriou@st.com>,
+ linux-amarula <linux-amarula@amarulasolutions.com>,
+ linux-kernel <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---qpwle5uhkiiqkop7
+--pxsrq5bk7iavnx3y
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
 Hi,
 
-On Mon, Jun 21, 2021 at 05:18:22PM +0100, Dave Stevenson wrote:
-> Hi Maxime
+On Thu, Jun 24, 2021 at 03:51:05PM +0300, Laurent Pinchart wrote:
+> CC'ing Maxime Ripard.
 >=20
-> On Mon, 21 Jun 2021 at 17:05, Maxime Ripard <maxime@cerno.tech> wrote:
-> >
-> > Hi Laurent,
-> >
-> > On Sun, Jun 20, 2021 at 04:44:33AM +0300, Laurent Pinchart wrote:
-> > > Hi Maxime,
+> Maxime, is this similar to the issue we've recently discussed with the
+> VC4 DSI encoder ?
+>=20
+> On Thu, Jun 24, 2021 at 10:39:48PM +1000, Jonathan Liu wrote:
+> > On Thu, 24 Jun 2021 at 22:34, Jagan Teki wrote:
+> > > On Fri, Jun 18, 2021 at 6:40 PM Jonathan Liu wrote:
+> > > > On Wed, 3 Feb 2021 at 09:13, Jagan Teki wrote:
+> > > > > @@ -1167,6 +1151,20 @@ __dw_mipi_dsi_probe(struct platform_device=
+ *pdev,
+> > > > >         dw_mipi_dsi_debugfs_init(dsi);
+> > > > >         pm_runtime_enable(dev);
+> > > > >
+> > > > > +       ret =3D drm_of_find_panel_or_bridge(dev->of_node, 1, 0,
+> > > > > +                                         &panel, &bridge);
+> > > > > +       if (ret)
+> > > > > +               return ERR_PTR(ret);
+> > > >
+> > > > On RK3399 if the error is EPROBE_DEFER, __dw_mipi_dsi_probe can be
+> > > > called again and result in the following errors:
+> > > > [    0.717589] debugfs: Directory 'ff960000.mipi' with parent '/' a=
+lready present!
+> > > > [    0.717601] dw-mipi-dsi-rockchip ff960000.mipi: failed to create=
+ debugfs root
+> > > > [    0.717606] dw-mipi-dsi-rockchip ff960000.mipi: Unbalanced pm_ru=
+ntime_enable!
 > > >
-> > > I'm testing this, and I'm afraid it causes an issue with all the
-> > > I2C-controlled bridges. I'm focussing on the newly merged ti-sn65dsi83
-> > > driver at the moment, but other are affected the same way.
-> > >
-> > > With this patch, the DSI component is only added when the DSI device =
-is
-> > > attached to the host with mipi_dsi_attach(). In the ti-sn65dsi83 driv=
-er,
-> > > this happens in the bridge attach callback, which is called when the
-> > > bridge is attached by a call to drm_bridge_attach() in vc4_dsi_bind().
-> > > This creates a circular dependency, and the DRM/KMS device is never
-> > > created.
-> >
-> > We discussed it on IRC, but it makes more sense here.
-> >
-> > The thing is, that patch is fixing a circular dependency we discussed
-> > with Andrzej a year ago:
-> >
-> > https://lore.kernel.org/dri-devel/20200630132711.ezywhvoiuv3swo57@gilmo=
-ur.lan/
-> >
-> > It seems like we have to choose between having the panels or bridges
-> > working :/
->=20
-> The Pi panel using the panel-raspberrypi-touchscreen driver is flawed
-> as it controls the power to the FT5406 touchscreen element as well as
-> the display. If DRM powers down the display, power goes to the
-> touchscreen too, but the edt-ft5x06 touchscreen driver has no notion
-> of this :-(
->=20
-> The two parts have been broken into bridge/tc358762 and
-> regulator/rpi-panel-attiny-regulator which then allows the edt-ft5x06
-> driver to keep control over power. I haven't had it be 100% reliable
-> though, so I'm still investigating as time allows, but this seems like
-> the better solution than panel-raspberrypi-touchscreen.
->=20
-> With the tc358762 node back under the DSI host node, I think that
-> circular dependency you were trying to solve goes away.
-> However with sn65dsi83 being I2C configured, is that an issue again?
+> > > Is this when you test bridge on rk3399 or panel?
+> >=20
+> > MIPI-DSI to LVDS bridge.
 
-Even though getting rid of the old driver make it less likely and
-reverting that commit make it less likely, we still have the same
-fundamental issue.
-
-One thing we could do would be to always register the DSI encoder and
-report the connector as connected if the panel has probed. However, I'm
-not sure how it helps with a bridge.
-
-Bridges over i2c don't seem too far-fetched to consider too.
+It looks more like a driver that doesn't free its resources properly on EPR=
+OBE_DEFER?
 
 Maxime
 
---qpwle5uhkiiqkop7
+--pxsrq5bk7iavnx3y
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYNmgNgAKCRDj7w1vZxhR
-xbCSAQDhJXOKSKI7tHoYRtt5y+gQnDIL8yc75+P6M808aYJvPAEAynmyr1AOeqFC
-SLL/qDqyjb4DPXRaAHHgn587rXB5LQo=
-=oZSV
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYNmgdQAKCRDj7w1vZxhR
+xR8DAP94cJXuHL0Y5IP7BYZbO+0AfSWavVR1bJBD81CtyTet5AEAzxOwqJgZ0od3
+0W8wv1CYlqMx3P/bxlmTi9qwOAuJIwU=
+=kLbL
 -----END PGP SIGNATURE-----
 
---qpwle5uhkiiqkop7--
+--pxsrq5bk7iavnx3y--
