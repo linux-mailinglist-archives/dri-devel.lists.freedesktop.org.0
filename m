@@ -2,58 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FEAD3B5D92
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Jun 2021 14:06:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A37093B5DCB
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Jun 2021 14:16:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4003F6E045;
-	Mon, 28 Jun 2021 12:06:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C6C446E439;
+	Mon, 28 Jun 2021 12:16:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0DB3E6E045
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Jun 2021 12:06:29 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id D5E8161C75
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Jun 2021 12:06:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1624881988;
- bh=n8iJ2FlzCTrKajodwG8ZHXbTcC6T2ayGsJ0RS5/tAH4=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=OcrClMaD5iJyEj8dQqqc4HypvoXawK3QHaFVL/uxL+LadsqRmaIQu4HDinLevhvoB
- zC8vvIhDkK0bXbo8MOTugD/p4/+2L5348GefOhFguT8/DUyCoq0Ioxly2yRiYpiSK5
- vuL+Wd9fciYmh2ATul1MJWTCNv4uN9BOT578+W04/5AeS5bhaKLymjfc64ja3KEvrE
- T/YCvQow2ugN9E3b9LhhM444VKz/fxlD/YBh0u5GDq1m3jJPHh93Qrn7nwHgJYs9eK
- 7hc/SAI2UYWqFTtQHI25x6XtyeYuLP/uZTAu47QQIiUd09W3/FqvtuHs3ege5CNIJq
- ctrvJ8viV9+zw==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id D32286125F; Mon, 28 Jun 2021 12:06:28 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 213561] [bisected][regression] GFX10 AMDGPUs can no longer
- enter idle state after commit. Commit has been pushed to stable branches too.
-Date: Mon, 28 Jun 2021 12:06:28 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: marco@scardovi.com
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: CODE_FIX
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-213561-2300-dzWKcxIHfi@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-213561-2300@https.bugzilla.kernel.org/>
-References: <bug-213561-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8BD356E439
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Jun 2021 12:16:28 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1624882588; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=eOk428q47G9JECgI305p0YfOtLH88pZzKPZeMrWmwQs=;
+ b=cHnKzb5KT111nPf15JpmJwpGjJqVgEE+ZbOKQvhqo+mUgsipxyC0txUfOTZQA4DJ1fVwEmkk
+ 3mRnAvL24EivksJUamT0akuY4LH2Np0XnvbguTBj3frOUgkMD7wzqSaE+PpBTT9aBx1yayNT
+ 8S4/PNfPz836yxhXvv2qSlDgvg0=
+X-Mailgun-Sending-Ip: 198.61.254.9
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n06.prod.us-east-1.postgun.com with SMTP id
+ 60d9bd9a5e3e57240b82f390 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 28 Jun 2021 12:16:26
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 1259BC43217; Mon, 28 Jun 2021 12:16:26 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+ URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ (No client certificate requested) (Authenticated sender: rajeevny)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id ABA76C433D3;
+ Mon, 28 Jun 2021 12:16:24 +0000 (UTC)
 MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date: Mon, 28 Jun 2021 17:46:24 +0530
+From: rajeevny@codeaurora.org
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [v8 4/6] drm/panel-simple: Update validation warnings for eDP
+ panel description
+In-Reply-To: <YNjA+jg9Khn+a9K+@pendragon.ideasonboard.com>
+References: <1624726268-14869-1-git-send-email-rajeevny@codeaurora.org>
+ <1624726268-14869-5-git-send-email-rajeevny@codeaurora.org>
+ <YNjA+jg9Khn+a9K+@pendragon.ideasonboard.com>
+Message-ID: <d75afefac48229657d36e12b6bac0e9f@codeaurora.org>
+X-Sender: rajeevny@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,49 +68,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: devicetree@vger.kernel.org, daniel.thompson@linaro.org,
+ mkrishn@codeaurora.org, sam@ravnborg.org, jani.nikula@intel.com,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, dianders@chromium.org, a.hajda@samsung.com,
+ thierry.reding@gmail.com, seanpaul@chromium.org, abhinavk@codeaurora.org,
+ kalyan_t@codeaurora.org, hoegsberg@chromium.org,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D213561
+Hi Laurent,
 
---- Comment #13 from Marco Scardovi (marco@scardovi.com) ---
-(In reply to Linux_Chemist from comment #12)
-> (In reply to Marco Scardovi from comment #11)
-> > Hi everyone, I'm facing same issue here on kernel 5.12.13 with the AMD
-> 3200U
-> > in an HP-15s laptop. Can you confirm these commits will fix for iGPU to=
-o?
->=20
-> Hi Marco, it should do if it's the same issue. Your choice of actions are=
- to
-> either:
->=20
-> 1) Downgrade to or use kernel 5.12.12 (I don't know which distro you're
-> using, but it should be available somewhere).
-> 2) Build your own kernel from mainline (currently latest version is 5.13
-> final)
-> 3) Wait until kernel 5.12.14 or later is available for you (at this time,=
- I
-> don't think it's been released yet).
-> 4) Download and run a kernel from a 3rd party source that doesn't contain
-> these commits.
->=20
-> As you're on a laptop (and thus probably on battery power), I would just
-> pick an earlier kernel for now (option 1).=20
-> If you've got grub for your bootloader (for example), just install an
-> earlier kernel (or use another one if there's one installed), by choosing=
- it
-> at grub's menu when you boot up, then once you're logged in and confirm
-> you're not on 5.12.13 (confirm with the command 'uname -a'),
-> remove/uninstall 5.12.13 and then return things to how you like it.
+On 27-06-2021 23:48, Laurent Pinchart wrote:
+> Hi Rajeev,
+> 
+> On Sat, Jun 26, 2021 at 10:21:06PM +0530, Rajeev Nandan wrote:
+>> Do not give a warning for the eDP panels if the "bus_format" is
+>> not specified, since most eDP panels can support more than one
+>> bus formats and this can be auto-detected.
+>> Also, update the check to include bpc=10 for the eDP panel.
+>> 
+>> Signed-off-by: Rajeev Nandan <rajeevny@codeaurora.org>
+>> ---
+>> 
+>> Changes in v8:
+>> - New patch, to address the review comments of Sam Ravnborg [1]
+>> 
+>> [1] 
+>> https://lore.kernel.org/dri-devel/20210621184157.GB918146@ravnborg.org/
+>> 
+>>  drivers/gpu/drm/panel/panel-simple.c | 6 ++----
+>>  1 file changed, 2 insertions(+), 4 deletions(-)
+>> 
+>> diff --git a/drivers/gpu/drm/panel/panel-simple.c 
+>> b/drivers/gpu/drm/panel/panel-simple.c
+>> index 86e5a45..f966b562 100644
+>> --- a/drivers/gpu/drm/panel/panel-simple.c
+>> +++ b/drivers/gpu/drm/panel/panel-simple.c
+>> @@ -772,10 +772,8 @@ static int panel_simple_probe(struct device *dev, 
+>> const struct panel_desc *desc,
+>>  			desc->bpc != 8);
+>>  		break;
+>>  	case DRM_MODE_CONNECTOR_eDP:
+>> -		if (desc->bus_format == 0)
+>> -			dev_warn(dev, "Specify missing bus_format\n");
+>> -		if (desc->bpc != 6 && desc->bpc != 8)
+>> -			dev_warn(dev, "Expected bpc in {6,8} but got: %u\n", desc->bpc);
+>> +		if (desc->bpc != 6 && desc->bpc != 8 && desc->bpc != 10)
+>> +			dev_warn(dev, "Expected bpc in {6,8,10} but got: %u\n", 
+>> desc->bpc);
+> 
+> You'll still get a warning is bpc == 0, is that intentional ?
 
-Hi and thank for the answer. I'm using Gentoo and waiting for 5.13 release =
-(it
-has been released today upstream). I hope this will help as my laptop is
-running at 73=C2=B0C on idle
+This was not intentional, I missed considering bpc=0 case. As we are 
+removing the warning for bus_format=0 then a similar thing can be done 
+for the bpc=0 also. The bpc value should be a valid one if it is 
+specified. Unlike the bus_format, bpc has few possible values that can 
+be checked here along with 0. Please correct me if I misunderstood the 
+concept.
+I will fix this.
 
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+Thanks,
+Rajeev
