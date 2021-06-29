@@ -1,56 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 485503B7A98
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Jun 2021 01:08:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 025BE3B7AD4
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Jun 2021 01:55:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A22AE6E091;
-	Tue, 29 Jun 2021 23:08:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0281A6E0D0;
+	Tue, 29 Jun 2021 23:55:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 458486E0C6
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Jun 2021 23:08:05 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1625008087; h=Message-Id: Date: Subject: Cc: To: From:
- Sender; bh=4MVe6HXC8G/ylS4AZcL9Y5Wq96e1GHDpzevUWYQSF3g=;
- b=cRf+VTtjPBjDWCK2hGXfCXtobrmceNUO3kn8W5GCI5QoFt2lfYoNTGe0dWeZk1WOeJFiOosg
- rRPhRCuPqCD0qU17rTy3yhhyWwjOHbWOB0ChG4nLyTNbS95mSKZOMT/gcjtKogAcnGP41Yxk
- oRwpAipU6tbNuYaDLbbMPwFyL7M=
-X-Mailgun-Sending-Ip: 198.61.254.9
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n03.prod.us-east-1.postgun.com with SMTP id
- 60dba7cd4ca9face3416b59b (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 29 Jun 2021 23:07:57
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 083EAC43144; Tue, 29 Jun 2021 23:07:57 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
- SPF_FAIL autolearn=no autolearn_force=no version=3.4.0
-Received: from khsieh-linux1.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: khsieh)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id E1BCBC433D3;
- Tue, 29 Jun 2021 23:07:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org E1BCBC433D3
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=fail smtp.mailfrom=khsieh@codeaurora.org
-From: Kuogee Hsieh <khsieh@codeaurora.org>
-To: robdclark@gmail.com, sean@poorly.run, swboyd@chromium.org, lyude@redhat.com
-Subject: [PATCH v2] drm/dp_mst: Fix return code on sideband message failure
-Date: Tue, 29 Jun 2021 16:07:48 -0700
-Message-Id: <1625008068-16458-1-git-send-email-khsieh@codeaurora.org>
-X-Mailer: git-send-email 2.7.4
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A33B6E0D0
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Jun 2021 23:55:12 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 2E94661CB1
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Jun 2021 23:55:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1625010912;
+ bh=0T0r/75xqf4IzFbUTPBA5xTl7oBmgvzZVBYK8O4PBSY=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=bJkN4yXRqlBG6dzP/vsocu0xEw1QpX+v6la3X/cHU6WtB59XuyiPP2H7RheicUAUO
+ 5EqnvPHNb5g+TrCUq4FM5himxnk0xGADPWqoPq4QFE0x/d2N6WAM5Gh3m6hhhEUO5U
+ QbcjNLuY5H+BfGCWOjTd1U6pcLaA+UId90vGZjPgiNGQIHjyoRkE0WRnxgQxHo6zo7
+ HFt8rSryJdb22l8LnnjEJK+7ZSfdsxKfbG0cIgVhNf9IUy7L4kUz1ruf3YxbB8N4d/
+ BR5dU17T4/yGc55sdiyrcUvdqqzodJ0S+mLWWm+fiXGI8t4jSNv7Z9kwHUgSP3x+1E
+ bnL4LeEu1FfQw==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id 29DB6610C8; Tue, 29 Jun 2021 23:55:12 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 213391] AMDGPU retries page fault with some specific processes
+ amdgpu and sometimes followed [gfxhub0] retry page fault until *ERROR* ring
+ gfx timeout, but soft recovered
+Date: Tue, 29 Jun 2021 23:55:11 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: low
+X-Bugzilla-Who: samy@lahfa.xyz
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-213391-2300-BkqQ1QYtFx@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-213391-2300@https.bugzilla.kernel.org/>
+References: <bug-213391-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,61 +67,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: rnayak@codeaurora.org, tzimmermann@suse.de, airlied@linux.ie,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- abhinavk@codeaurora.org, khsieh@codeaurora.org, aravindh@codeaurora.org,
- freedreno@lists.freedesktop.org, rsubbia@codeaurora.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rajkumar Subbiah <rsubbia@codeaurora.org>
+https://bugzilla.kernel.org/show_bug.cgi?id=3D213391
 
-Commit 2f015ec6eab6 ("drm/dp_mst: Add sideband down request tracing +
-selftests") added some debug code for sideband message tracing. But
-it seems to have unintentionally changed the behavior on sideband message
-failure. It catches and returns failure only if DRM_UT_DP is enabled.
-Otherwise it ignores the error code and returns success. So on an MST
-unplug, the caller is unaware that the clear payload message failed and
-ends up waiting for 4 seconds for the response. Fixes the issue by
-returning the proper error code.
+--- Comment #26 from Lahfa Samy (samy@lahfa.xyz) ---
+Created attachment 297669
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D297669&action=3Dedit
+amdgpu-xorg-page-faults-screen-blackout-when-memory-heavily-used
 
-Changes in V2:
--- Revise commit text as review comment
--- add Fixes text
+Here are other logs. I have seen that when triggering the bug yet again on =
+the
+5.12.10-arch1-1 linux kernel running on ArchLinux, the computer didn't free=
+ze
+this time like before, it just stopped displaying anything (Xorg was affect=
+ed
+so I guess that's why).=20
+I'm using this version of the linux-firmware package under Arch :
+linux-firmware-20210511.7685cf4-1=20
 
-Fixes: 2f015ec6eab6 ("drm/dp_mst: Add sideband down request tracing + selftests")
+I have not yet downgraded to test with a downgraded linux-firmware package,=
+ may
+try this soon, if I get affected by the issue too frequently.
 
-Signed-off-by: Rajkumar Subbiah <rsubbia@codeaurora.org>
-Signed-off-by: Kuogee Hsieh <khsieh@codeaurora.org>
+--=20
+You may reply to this email to add a comment.
 
-Reviewed-by: Stephen Boyd <swboyd@chromium.org>
----
- drivers/gpu/drm/drm_dp_mst_topology.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_dp_mst_topology.c
-index 1590144..8d97430 100644
---- a/drivers/gpu/drm/drm_dp_mst_topology.c
-+++ b/drivers/gpu/drm/drm_dp_mst_topology.c
-@@ -2887,11 +2887,13 @@ static int process_single_tx_qlock(struct drm_dp_mst_topology_mgr *mgr,
- 	idx += tosend + 1;
- 
- 	ret = drm_dp_send_sideband_msg(mgr, up, chunk, idx);
--	if (unlikely(ret) && drm_debug_enabled(DRM_UT_DP)) {
--		struct drm_printer p = drm_debug_printer(DBG_PREFIX);
-+	if (unlikely(ret)) {
-+		if (drm_debug_enabled(DRM_UT_DP)) {
-+			struct drm_printer p = drm_debug_printer(DBG_PREFIX);
- 
--		drm_printf(&p, "sideband msg failed to send\n");
--		drm_dp_mst_dump_sideband_msg_tx(&p, txmsg);
-+			drm_printf(&p, "sideband msg failed to send\n");
-+			drm_dp_mst_dump_sideband_msg_tx(&p, txmsg);
-+		}
- 		return ret;
- 	}
- 
--- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
-
+You are receiving this mail because:
+You are watching the assignee of the bug.=
