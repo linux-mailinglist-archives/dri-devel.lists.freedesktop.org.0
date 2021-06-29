@@ -2,72 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90F043B72C1
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Jun 2021 14:57:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99FDB3B72C2
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Jun 2021 14:57:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0921189C83;
-	Tue, 29 Jun 2021 12:57:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CDDA86E899;
+	Tue, 29 Jun 2021 12:57:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
  [66.111.4.229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF65989C83
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Jun 2021 12:57:43 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id 4CF6558042D;
- Tue, 29 Jun 2021 08:57:41 -0400 (EDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 600D789C83
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Jun 2021 12:57:44 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.nyi.internal (Postfix) with ESMTP id BBB4858042E;
+ Tue, 29 Jun 2021 08:57:43 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute6.internal (MEProxy); Tue, 29 Jun 2021 08:57:41 -0400
+ by compute4.internal (MEProxy); Tue, 29 Jun 2021 08:57:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- from:to:cc:subject:date:message-id:content-type:mime-version
- :content-transfer-encoding; s=fm3; bh=ImpdMfm6rY8i7IauUUBmjht3SN
- FjYJewqKyRyx5rljc=; b=ikvRPDe+ErZPg9bHLBrJwdOtmZfM/5bXV1j1I4nDT2
- Gaece65IN0fN4kcBuqgRl9qKXj+qTx84aMhwFJmV2F/65yJu4xau+dMA7bPPEgYB
- lQ2ZCF9TfdBLVawVQoGWM65k/1QLpWyWT3srhzTpzZA83e/HDFN/wq3e9uBgAqvB
- qirtHyIpLZlh1zoHEpNQ6vpOyKolFtkp9RSm1IqvyiHwMDe2TOQOf6flQYm3Yymy
- WFTUSJ9r4m7kDbY7O8AKhxrw5KPCqmqOjI2h0aRvxALDJdjzjIt0+yOIReV5Xw+q
- XbzEKVZAu9iI44x8hu4a4Ceo//3etcVMBNFlp8R4Ag4Q==
+ from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding; s=fm3; bh=8b4rI7H3LEGAz
+ Zdj8qtTTwwQEqbOukcatoXp5Tb/9DA=; b=V2mTBl4+o1b4ZeIJN1hBzJVG5D6UA
+ VUyVqjxYC6xW2BEXagamq0HgRrhO/lrr/qKET12D1KrXG93UQw+L/BeiKF8B90xR
+ wLNB9Turo+j+VWjPpYNQVoI6XxaOcLdENk1Gl1kpDS90q138RoouYgShW1+1GYDg
+ SOXTdyu9Gyx9at7ErCt/ZBkHSGNQMvY5ya0WNlLYsWkLhPftweb25paHNFt4ulp/
+ DuiwwwjCNmdt2jHj3TiU64jx5na/gDW+8LXHSZfWPL+TfMxnC1eTFyPwHPMKdquf
+ MdQKa1mZTWTIGqgRQnEENxQXHSC1USlZvIyHwToWeSRD9y3qQ3cRTv4GQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:content-type
- :date:from:message-id:mime-version:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=ImpdMf
- m6rY8i7IauUUBmjht3SNFjYJewqKyRyx5rljc=; b=f1TqrvFTK7YAPaCpRBeOLE
- CGp723eZkkH1dki4pGC5NUrJjwcfynXNIql94nuWIsBXvjti9BQV2WiO3dFxuG0i
- baKYDG7yOasaPGyRM/JhMyxcIeA+MV9QI3jk7XW0znWWfW/ONePyWUwYiEaeD63B
- EqGYQwh2TWChd4cqCIbw1jBzIQaWSWT+ABiWUz24CD53KVzMn8znix95bbQd93LV
- eXrXHYtL1oS3FMmnTjAvYIwfQB5AS/3eGVFPDkqubcP/HaAUbPZ4rFaLh66H0sQE
- f9XbEcaJqKAAMSx6pwHeAiZl6x2sZaGY03/zs7UmOz22JmT9uIQg46KHSc3COv7A
- ==
-X-ME-Sender: <xms:wxjbYF0H9Nk8yngRH3DCb9dduf0PdS6kwoo-AfQ-7KJNxBX9N9dkvQ>
- <xme:wxjbYMHMNsPLEdJeOsG33Jb7AQ2Xb-rVh9kXGV1Z2Rik3_1TUdcyIV3wRU8I6OiXi
- lyxtCXKwfGQUFVKqzE>
-X-ME-Received: <xmr:wxjbYF7slnF-f56UcNNNTi-ydDQHdCRuUmifaujBHBaKv5CpLvn1zneJcue-5m_WnpzJCPphqXVWn-aatZmZkWjk36Y2rxQwQtRR>
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :in-reply-to:message-id:mime-version:references:subject:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm3; bh=8b4rI7H3LEGAzZdj8qtTTwwQEqbOukcatoXp5Tb/9DA=; b=aAQ7Yf83
+ aDu1zNNYD7RT99hvah3eGsw8I8/7R9qYEiGK3jDU5XIj6lSRg8DQHxmz3yH1hit4
+ GDIZ6ck7rUeqzs+dXZz+CNAr8SKyn6HJGs1dyKoIv8LgaQAqL9GPV42vJw8N/6Jl
+ X2tnzigtuEKVLe83ywQe4vA+vskG/0opV4avo08mqIAu9qnvY1BpOY6sGkybNmcP
+ ZPDGOhAmjxgEXsqK0uVoUCw53Pai2QwRfz/Xog10VbNEc4fKO7AsOrIUspLdwk6v
+ 57yGsYuXaxZHwOLA7udcPIf9cSVwB6MiOyR1iCb+h6k6SI6XwRguPxq7yAMgsNZi
+ 5lNkukWd4O1DbQ==
+X-ME-Sender: <xms:xxjbYFr5JkRMbvtmtyJobyakgOb0wqwHCYavqLEMNOVqqRNeDpMwiA>
+ <xme:xxjbYHojjTuzrBm_zGLpl2gSLPlwMPVOBMCDlu1pPNDs35KeN4taLjEPfNF-S377W
+ AoL6q2fdyDb9uPnCFE>
+X-ME-Received: <xmr:xxjbYCMP0KBFi1lDJwR3E0Vx412QyVC-Wiu0YUF-XK5AQG_UDZCt9nfeG-oTf-n_r800kRj9jLMHAsZaRxDjfbFQPF0Z1tF8qv2B>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfeeitddgvdeiucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvufffkffotggggfesthhqredtredtjeenucfhrhhomhepofgrgihimhgv
- ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
- gvrhhnpeetieekgfffkeegkeeltdehudetteejgfekueevhffhteegudfgkedtueegfffg
- feenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
- igihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:wxjbYC2EKqWW6yf7IUbmvgImBUBXpCHCam338-7u6N1HPaYw9Lq3wQ>
- <xmx:wxjbYIF5mqHltSKZzvOsbSG0rPCGjG561KtlhNxUqtDBDCUlilPOgw>
- <xmx:wxjbYD8-wvk0yRalLKJrqGSAFTLChoMyt4Bq3PzmTNmdrGx5bIEvXQ>
- <xmx:xRjbYGV5oi9e1X88EJkfoUfRKRbfTQTkpkVEJEEz5DfYF30wz12_-A>
+ cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpeforgigihhm
+ vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+ htvghrnhepvdekleevfeffkeejhfffueelteelfeduieefheduudfggffhhfffheevveeh
+ hedvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+ grgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:xxjbYA5QV_mTfj_NidqobPWdQ3HV9UhJ3Q3yFIAaKBnWTcS_QmcwSQ>
+ <xmx:xxjbYE5uRclylD-UE_b4GWcZ_9CQHWzExruYsndF_uwu06LXpFasvQ>
+ <xmx:xxjbYIineOj6udaovyDuzrJ3PHQNuI2b-zAToxCnXzP_R_Itl3bsIw>
+ <xmx:xxjbYAqzNyNt3V4ornUo1btPESZvdLljwkKsZRewAtKF8SxxQuMeqQ>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 29 Jun 2021 08:57:38 -0400 (EDT)
+ 29 Jun 2021 08:57:42 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@intel.com>,
  David Airlie <airlied@linux.ie>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>
-Subject: [PATCH 0/4] drm/vc4: hdmi: Fix CEC access while disabled
-Date: Tue, 29 Jun 2021 14:57:32 +0200
-Message-Id: <20210629125736.414467-1-maxime@cerno.tech>
+Subject: [PATCH 1/4] drm/vc4: hdmi: Mark the device as active if running
+Date: Tue, 29 Jun 2021 14:57:33 +0200
+Message-Id: <20210629125736.414467-2-maxime@cerno.tech>
 X-Mailer: git-send-email 2.31.1
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20210629125736.414467-1-maxime@cerno.tech>
+References: <20210629125736.414467-1-maxime@cerno.tech>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,34 +91,28 @@ Cc: Nicolas Saenz Julienne <nsaenz@kernel.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,=0D
-=0D
-This series aims at fixing a complete and silent hang when one tries to use=
- CEC=0D
-while the display output is off.=0D
-=0D
-This can be tested with:=0D
-=0D
-echo off > /sys/class/drm/card0-HDMI-A-1/status=0D
-cec-ctl --tuner -p 1.0.0.0=0D
-cec-compliance=0D
-=0D
-This series addresses it by making sure the HDMI controller is powered up a=
-s=0D
-soon as the CEC device is opened by the userspace.=0D
-=0D
-Let me know what you think,=0D
-Maxime=0D
-=0D
-Maxime Ripard (4):=0D
-  drm/vc4: hdmi: Mark the device as active if running=0D
-  drm/vc4: hdmi: Put the device on error in pre_crtc_configure=0D
-  drm/vc4: hdmi: Split the CEC disable / enable functions in two=0D
-  drm/vc4: hdmi: Make sure the device is powered with CEC=0D
-=0D
- drivers/gpu/drm/vc4/vc4_hdmi.c | 85 ++++++++++++++++++++++------------=0D
- 1 file changed, 55 insertions(+), 30 deletions(-)=0D
-=0D
--- =0D
-2.31.1=0D
-=0D
+If we detect the device as running we make sure we get the reference
+count right for clocks, but we don't do as such for the runtime PM
+count, let's call pm_runtime_enable to make sure it's accurate.
+
+Fixes: 5b0060004236 ("drm/vc4: hdmi: Prevent clock unbalance")
+Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+---
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
+index aab1b36ceb3c..707fe43ffeea 100644
+--- a/drivers/gpu/drm/vc4/vc4_hdmi.c
++++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+@@ -2182,6 +2182,7 @@ static int vc4_hdmi_bind(struct device *dev, struct device *master, void *data)
+ 	if ((of_device_is_compatible(dev->of_node, "brcm,bcm2711-hdmi0") ||
+ 	     of_device_is_compatible(dev->of_node, "brcm,bcm2711-hdmi1")) &&
+ 	    HDMI_READ(HDMI_VID_CTL) & VC4_HD_VID_CTL_ENABLE) {
++		pm_runtime_set_active(dev);
+ 		clk_prepare_enable(vc4_hdmi->pixel_clock);
+ 		clk_prepare_enable(vc4_hdmi->hsm_clock);
+ 		clk_prepare_enable(vc4_hdmi->pixel_bvb_clock);
+-- 
+2.31.1
+
