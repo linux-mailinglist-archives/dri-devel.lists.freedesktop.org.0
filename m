@@ -1,38 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 480EB3B6FC8
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Jun 2021 10:58:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E243C3B6FDC
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Jun 2021 11:05:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 63E876E82F;
-	Tue, 29 Jun 2021 08:58:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C4DB36E831;
+	Tue, 29 Jun 2021 09:05:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1195E6E82F
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Jun 2021 08:58:10 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- (Authenticated sender: bbrezillon)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 19DBE1F42F22;
- Tue, 29 Jun 2021 09:58:08 +0100 (BST)
-Date: Tue, 29 Jun 2021 10:58:04 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH v5 02/16] drm/sched: Allow using a dedicated workqueue
- for the timeout/fault tdr
-Message-ID: <20210629105804.5c9504cb@collabora.com>
-In-Reply-To: <YNre3JOtQvvoQWBI@phenom.ffwll.local>
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
+ [IPv6:2a00:1450:4864:20::42a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8643B6E831
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Jun 2021 09:05:47 +0000 (UTC)
+Received: by mail-wr1-x42a.google.com with SMTP id m18so24875186wrv.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Jun 2021 02:05:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=XPks+2TMR5KziSg2KQQmIFbCybcjT3FN3c06ZXQ9tVM=;
+ b=R4/bJGDZ4yR8kNc1lw5fWfXYqrEhb2viouVNqTFPbYRChhO+gj7iX1jlsQc3xAnOJJ
+ wnwJwG3skav1xiY4mOqhKNz3vT2QbOEHb7x+JUTLaW1m4rB4/hMkk2x6BtGcLg/GG1nh
+ 3/maFtNYGLXO75Otw4ZPzKH3P6rG8bKcSwibw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=XPks+2TMR5KziSg2KQQmIFbCybcjT3FN3c06ZXQ9tVM=;
+ b=LVR/M7IZtZC0k3xD3mpTS1CEWiPYGx2cDWaIiA4rFJz3l5yM6FkYlp5zvraZ/d7bfM
+ 96HZxdzJ45Y6GCT+7PkXy3NR1MJyse+3ojF8gZKhfGmxY0vxXD6OSlH9Al+2Cx/TYFUU
+ gFOfco2/z8eRPfj1XSTVcEnkked6Phy9DZ6QzpwEfTEBplJuN9CLAHrRonWYKQ6Xaek8
+ yax8AWidG/XsNWDXT+FSnhoI5Qx4G+ceU/iQ8fBxtbUMOf4alSeJF7Dq9VgRRqeM9LO7
+ YHQtM0Mqi1HBZsmCODvHZCO0LKpX/VF8CGyfZnhvSoHo866FSC59EBOxlTtHaLQNrv/+
+ 4dUA==
+X-Gm-Message-State: AOAM5328nArQBja6QUNM2uZuameig47NACL0TA28n3/yMoxpWjSBUP75
+ HaE0MRW2w75c+8ItX2gZfmdZYQ==
+X-Google-Smtp-Source: ABdhPJymGncmAtxnAjwPTgjrFP92WAqwcvlNvpwKjgSnjtXglPMuCDyJX9RpnEzfhTRUeLSOeQwMfw==
+X-Received: by 2002:a05:6000:1a85:: with SMTP id
+ f5mr24799852wry.210.1624957546231; 
+ Tue, 29 Jun 2021 02:05:46 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id k4sm9307105wmj.19.2021.06.29.02.05.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 29 Jun 2021 02:05:45 -0700 (PDT)
+Date: Tue, 29 Jun 2021 11:05:43 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Subject: Re: [PATCH v5 01/16] drm/sched: Document what the timedout_job
+ method should do
+Message-ID: <YNriZzHcNQkmt9zh@phenom.ffwll.local>
 References: <20210629073510.2764391-1-boris.brezillon@collabora.com>
- <20210629073510.2764391-3-boris.brezillon@collabora.com>
- <YNre3JOtQvvoQWBI@phenom.ffwll.local>
-Organization: Collabora
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+ <20210629073510.2764391-2-boris.brezillon@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210629073510.2764391-2-boris.brezillon@collabora.com>
+X-Operating-System: Linux phenom 5.10.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,55 +68,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Emma Anholt <emma@anholt.net>, Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- dri-devel@lists.freedesktop.org, Steven Price <steven.price@arm.com>,
- Rob Herring <robh+dt@kernel.org>,
+Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ Steven Price <steven.price@arm.com>, Rob Herring <robh+dt@kernel.org>,
  Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Alex Deucher <alexander.deucher@amd.com>, Qiang Yu <yuq825@gmail.com>,
- Robin Murphy <robin.murphy@arm.com>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
+ Robin Murphy <robin.murphy@arm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 29 Jun 2021 10:50:36 +0200
-Daniel Vetter <daniel@ffwll.ch> wrote:
+On Tue, Jun 29, 2021 at 09:34:55AM +0200, Boris Brezillon wrote:
+> The documentation is a bit vague and doesn't really describe what the
+> ->timedout_job() is expected to do. Let's add a few more details.
+> 
+> v5:
+> * New patch
+> 
+> Suggested-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 
-> On Tue, Jun 29, 2021 at 09:34:56AM +0200, Boris Brezillon wrote:
-> > Mali Midgard/Bifrost GPUs have 3 hardware queues but only a global GPU
-> > reset. This leads to extra complexity when we need to synchronize timeo=
-ut
-> > works with the reset work. One solution to address that is to have an
-> > ordered workqueue at the driver level that will be used by the different
-> > schedulers to queue their timeout work. Thanks to the serialization
-> > provided by the ordered workqueue we are guaranteed that timeout
-> > handlers are executed sequentially, and can thus easily reset the GPU
-> > from the timeout handler without extra synchronization.
-> >=20
-> > v5:
-> > * Add a new paragraph to the timedout_job() method
-> >=20
-> > v3:
-> > * New patch
-> >=20
-> > v4:
-> > * Actually use the timeout_wq to queue the timeout work
-> >=20
-> > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> > Reviewed-by: Steven Price <steven.price@arm.com>
-> > Reviewed-by: Lucas Stach <l.stach@pengutronix.de>
-> > Cc: Qiang Yu <yuq825@gmail.com>
-> > Cc: Emma Anholt <emma@anholt.net>
-> > Cc: Alex Deucher <alexander.deucher@amd.com>
-> > Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com> =20
->=20
-> Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
->=20
-> Also since I'm occasionally blinded by my own pride, add suggested-by: me?
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
-Duh, it's an oversight (I thought I had that 'Suggested-by: Daniel
-Vetter ...' already).
+> ---
+>  include/drm/gpu_scheduler.h | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
+> 
+> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+> index 10225a0a35d0..65700511e074 100644
+> --- a/include/drm/gpu_scheduler.h
+> +++ b/include/drm/gpu_scheduler.h
+> @@ -239,6 +239,20 @@ struct drm_sched_backend_ops {
+>  	 * @timedout_job: Called when a job has taken too long to execute,
+>  	 * to trigger GPU recovery.
+>  	 *
+> +	 * This method is called in a workqueue context.
+> +	 *
+> +	 * Drivers typically issue a reset to recover from GPU hangs, and this
+> +	 * procedure usually follows the following workflow:
+> +	 *
+> +	 * 1. Stop the scheduler using drm_sched_stop(). This will park the
+> +	 *    scheduler thread and cancel the timeout work, guaranteeing that
+> +	 *    nothing is queued while we reset the hardware queue
+> +	 * 2. Try to gracefully stop non-faulty jobs (optional)
+> +	 * 3. Issue a GPU reset (driver-specific)
+> +	 * 4. Re-submit jobs using drm_sched_resubmit_jobs()
+> +	 * 5. Restart the scheduler using drm_sched_start(). At that point, new
+> +	 *    jobs can be queued, and the scheduler thread is unblocked
+> +	 *
+>  	 * Return DRM_GPU_SCHED_STAT_NOMINAL, when all is normal,
+>  	 * and the underlying driver has started or completed recovery.
+>  	 *
+> -- 
+> 2.31.1
+> 
 
-> I did spend quite a bit pondering how to untangle your various lockdep
-> splats in the trd handler :-)
-
-And I'm grateful for your help ;-).
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
