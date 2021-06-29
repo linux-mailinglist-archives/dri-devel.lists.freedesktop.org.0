@@ -2,47 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D2443B6F0E
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Jun 2021 10:03:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2970D3B6F1A
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Jun 2021 10:13:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6875489CE2;
-	Tue, 29 Jun 2021 08:03:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9FF1F89CD8;
+	Tue, 29 Jun 2021 08:13:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C545589CE2
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Jun 2021 08:03:01 +0000 (UTC)
-Received: from gallifrey.ext.pengutronix.de
- ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1ly8hw-0003aH-2U; Tue, 29 Jun 2021 10:03:00 +0200
-Message-ID: <b5d6fb4a8a85f64af3b25a4155d71e5d95c01523.camel@pengutronix.de>
-Subject: Re: [PATCH] drm: mxsfb: Clear FIFO_CLEAR bit
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Marek Vasut <marex@denx.de>, dri-devel@lists.freedesktop.org
-Date: Tue, 29 Jun 2021 10:02:58 +0200
-In-Reply-To: <eddfaedf-cfbf-ad47-441a-11460d83d476@denx.de>
-References: <20210620224946.189524-1-marex@denx.de>
- <be290a3283ecadeb9269bd00e85adac99434eb82.camel@pengutronix.de>
- <85372867-2b5b-e97f-aa04-ed976db1eddb@denx.de>
- <07f58c1181e2e66277d0355055ff794fb091991d.camel@pengutronix.de>
- <d539afbd-c101-6a30-0a61-c52696521be7@denx.de>
- <fc2eeee51e5ef448aa814e572c27bf7f225078a7.camel@pengutronix.de>
- <6e1b79de-d748-000c-fd47-72ff7c265d9c@denx.de>
- <cbabc18803d241516137f1c8f45733ebb6f576a8.camel@pengutronix.de>
- <eddfaedf-cfbf-ad47-441a-11460d83d476@denx.de>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.1 (3.40.1-1.fc34) 
+Received: from mail-4316.protonmail.ch (mail-4316.protonmail.ch [185.70.43.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B52889CD8
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Jun 2021 08:12:59 +0000 (UTC)
+Date: Tue, 29 Jun 2021 08:12:54 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail3; t=1624954376;
+ bh=Wt1VzxpUKhVa3HzTLpE5SfzFn/YP4YxfPtnwrLRl/ko=;
+ h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
+ b=kT+JW4ZQ/XLWZcl11bQR37x0+KSRaeQZh+kE4omXiV6BfWIXtXDd9WyZtDYY/JY9Q
+ 1zd79RntcYijrdG1waxiPh2nou/ZvBfvcZypHdKrnM3PwLNucQr0OzCcTVrq4rh8Ni
+ m00QGUE0GcaCzer16iFx8ghVLePzrSLxcbmBR4jKdOIvbVxdAc9OX7/52DB/6bp8/J
+ 0WoLL0L4vGQIbORx3tk9vDc6XpknNlwi+5ZDIdukmY8s898XGiSCv8U8BfB9vVj2WN
+ cqt8zTHmvFnErL8LXt3H3nz10WMmR/gSmecxKqQLAOoPnTlcU59248/yhsU0VgsSln
+ j3LySWnSFt73Q==
+To: Pekka Paalanen <ppaalanen@gmail.com>
+From: Simon Ser <contact@emersion.fr>
+Subject: Re: [PATCH v4 12/17] drm/uAPI: Add "preferred color format" drm
+ property as setting for userspace
+Message-ID: <jIDQ2rRRMWlhDDPf08Z8xZlEE8HTBx7fHsylFdK0joSSFVyES8D444Giyiji9zbIm7dU4QpbsXZLvIDTbGW0wEoUWKsMEI4evizn0UdGMvM=@emersion.fr>
+In-Reply-To: <20210622101516.6a53831c@eldfell>
+References: <20210618091116.14428-1-wse@tuxedocomputers.com>
+ <20210618091116.14428-13-wse@tuxedocomputers.com>
+ <20210622101516.6a53831c@eldfell>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+ DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
+ autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
+ mailout.protonmail.ch
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,81 +52,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Abrecht <public@danielabrecht.ch>,
- Emil Velikov <emil.l.velikov@gmail.com>, ch@denx.de,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Reply-To: Simon Ser <contact@emersion.fr>
+Cc: Werner Sembach <wse@tuxedocomputers.com>, sunpeng.li@amd.com,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, airlied@linux.ie,
+ amd-gfx@lists.freedesktop.org, tzimmermann@suse.de, rodrigo.vivi@intel.com,
+ alexander.deucher@amd.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Dienstag, dem 29.06.2021 um 05:04 +0200 schrieb Marek Vasut:
-> On 6/28/21 10:09 AM, Lucas Stach wrote:
-> > Am Samstag, dem 26.06.2021 um 20:15 +0200 schrieb Marek Vasut:
-> > > On 6/24/21 2:01 PM, Lucas Stach wrote:
-> > > > Am Dienstag, dem 22.06.2021 um 11:33 +0200 schrieb Marek Vasut:
-> > > > > On 6/22/21 9:28 AM, Lucas Stach wrote:
-> > > > > > Am Montag, dem 21.06.2021 um 18:30 +0200 schrieb Marek Vasut:
-> > > > > > > On 6/21/21 2:14 PM, Lucas Stach wrote:
-> > > > > > > 
-> > > > > > > [...]
-> > > > > > > 
-> > > > > > > > > diff --git a/drivers/gpu/drm/mxsfb/mxsfb_kms.c b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
-> > > > > > > > > index 98d8ba0bae84..22cb749fc9bc 100644
-> > > > > > > > > --- a/drivers/gpu/drm/mxsfb/mxsfb_kms.c
-> > > > > > > > > +++ b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
-> > > > > > > > > @@ -241,6 +241,9 @@ static void mxsfb_crtc_mode_set_nofb(struct mxsfb_drm_private *mxsfb,
-> > > > > > > > >      
-> > > > > > > > >      	/* Clear the FIFOs */
-> > > > > > > > >      	writel(CTRL1_FIFO_CLEAR, mxsfb->base + LCDC_CTRL1 + REG_SET);
-> > > > > > > > > +	readl(mxsfb->base + LCDC_CTRL1);
-> > > > > > > > 
-> > > > > > > > Do you really need those readbacks? As both writes are targeting the
-> > > > > > > > same slave interface, the memory barrier in the clear write should push
-> > > > > > > > the set write.
-> > > > > > > 
-> > > > > > > What would push the clear write then ? We can drop one of the readl()s,
-> > > > > > > but not the last one.
-> > > > > > 
-> > > > > > There are a lot of more writes with barriers to the controller slave
-> > > > > > interface in that function after clearing the FIFO. I don't see why
-> > > > > > this readback would be required.
-> > > > > 
-> > > > > Because you really do want to make sure the fifo is cleared before you
-> > > > > start doing any of those other writes or configuring the controller in
-> > > > > any way.
-> > > > 
-> > > > I still don't see the reason. What additional properties do you think
-> > > > the readback provides that isn't already provided by the barriers in
-> > > > the following writes?
-> > > 
-> > > See the paragraph above -- we have to make sure the writes that trigger
-> > > the FIFO clearing really take place before any other writes do.
-> > 
-> > And they do, as there are write barriers prepended to the writes
-> > following the FIFO clear. The readback just lets the CPU wait until the
-> > write reached the peripheral, which I don't see a reason to do here.
-> > The ordering of the writes from the perspective of the peripheral is
-> > completely the same with or without the readback. The later writes can
-> > not overtake the FIFO clear writes due to the barriers.
-> > 
-> > I'm strongly against adding stuff because it "might have an effect", if
-> > it isn't required by architectural rules. It clutters the code and some
-> > months/years down the line nobody dares to cleanup/remove this stuff
-> > anymore, because everyone assumes that there was a good reason for
-> > adding those things.
-> 
-> Since there is no RTL for any of the iMXes or their IPs, how do you 
-> propose anyone except NXP can validate what is and what is not required ?
-> 
-> This patch helps with a problem where I sporadically observe shifted 
-> image on boot on mx8mm.
+On Tuesday, June 22nd, 2021 at 09:15, Pekka Paalanen <ppaalanen@gmail.com> =
+wrote:
 
-The order of writes to a device mapped region are defined by the ARM
-architecture and the AMBA bus standard, not the peripheral. I'm not
-saying this patch isn't needed. I'm saying the readbacks look bogus.
+> yes, I think this makes sense, even if it is a property that one can't
+> tell for sure what it does before hand.
+>
+> Using a pair of properties, preference and active, to ask for something
+> and then check what actually worked is good for reducing the
+> combinatorial explosion caused by needing to "atomic TEST_ONLY commit"
+> test different KMS configurations. Userspace has a better chance of
+> finding a configuration that is possible.
+>
+> OTOH, this has the problem than in UI one cannot tell the user in
+> advance which options are truly possible. Given that KMS properties are
+> rarely completely independent, and in this case known to depend on
+> several other KMS properties, I think it is good enough to know after
+> the fact.
+>
+> If a driver does not use what userspace prefers, there is no way to
+> understand why, or what else to change to make it happen. That problem
+> exists anyway, because TEST_ONLY commits do not give useful feedback
+> but only a yes/no.
 
-Have you checked that just adding the write to the REG_CLR doesn't fix
-your issue?
+By submitting incremental atomic reqs with TEST_ONLY (i.e. only changing on=
+e
+property at a time), user-space can discover which property makes the atomi=
+c
+commit fail.
 
-Regards,
-Lucas
+I'm not a fan of this "preference" property approach. The only way to find =
+out
+whether it's possible to change the color format is to perform a user-visib=
+le
+change (with a regular atomic commit) and check whether it worked
+after-the-fact. This is unlike all other existing KMS properties.
 
+I'd much rather see a more general approach to fix this combinatorial explo=
+sion
+than to add special-cases like this.
