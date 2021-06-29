@@ -1,61 +1,91 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E243C3B6FDC
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Jun 2021 11:05:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 84E113B7005
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Jun 2021 11:19:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C4DB36E831;
-	Tue, 29 Jun 2021 09:05:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C98D89EAC;
+	Tue, 29 Jun 2021 09:19:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
- [IPv6:2a00:1450:4864:20::42a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8643B6E831
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Jun 2021 09:05:47 +0000 (UTC)
-Received: by mail-wr1-x42a.google.com with SMTP id m18so24875186wrv.2
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Jun 2021 02:05:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=XPks+2TMR5KziSg2KQQmIFbCybcjT3FN3c06ZXQ9tVM=;
- b=R4/bJGDZ4yR8kNc1lw5fWfXYqrEhb2viouVNqTFPbYRChhO+gj7iX1jlsQc3xAnOJJ
- wnwJwG3skav1xiY4mOqhKNz3vT2QbOEHb7x+JUTLaW1m4rB4/hMkk2x6BtGcLg/GG1nh
- 3/maFtNYGLXO75Otw4ZPzKH3P6rG8bKcSwibw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=XPks+2TMR5KziSg2KQQmIFbCybcjT3FN3c06ZXQ9tVM=;
- b=LVR/M7IZtZC0k3xD3mpTS1CEWiPYGx2cDWaIiA4rFJz3l5yM6FkYlp5zvraZ/d7bfM
- 96HZxdzJ45Y6GCT+7PkXy3NR1MJyse+3ojF8gZKhfGmxY0vxXD6OSlH9Al+2Cx/TYFUU
- gFOfco2/z8eRPfj1XSTVcEnkked6Phy9DZ6QzpwEfTEBplJuN9CLAHrRonWYKQ6Xaek8
- yax8AWidG/XsNWDXT+FSnhoI5Qx4G+ceU/iQ8fBxtbUMOf4alSeJF7Dq9VgRRqeM9LO7
- YHQtM0Mqi1HBZsmCODvHZCO0LKpX/VF8CGyfZnhvSoHo866FSC59EBOxlTtHaLQNrv/+
- 4dUA==
-X-Gm-Message-State: AOAM5328nArQBja6QUNM2uZuameig47NACL0TA28n3/yMoxpWjSBUP75
- HaE0MRW2w75c+8ItX2gZfmdZYQ==
-X-Google-Smtp-Source: ABdhPJymGncmAtxnAjwPTgjrFP92WAqwcvlNvpwKjgSnjtXglPMuCDyJX9RpnEzfhTRUeLSOeQwMfw==
-X-Received: by 2002:a05:6000:1a85:: with SMTP id
- f5mr24799852wry.210.1624957546231; 
- Tue, 29 Jun 2021 02:05:46 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id k4sm9307105wmj.19.2021.06.29.02.05.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Jun 2021 02:05:45 -0700 (PDT)
-Date: Tue, 29 Jun 2021 11:05:43 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Subject: Re: [PATCH v5 01/16] drm/sched: Document what the timedout_job
- method should do
-Message-ID: <YNriZzHcNQkmt9zh@phenom.ffwll.local>
-References: <20210629073510.2764391-1-boris.brezillon@collabora.com>
- <20210629073510.2764391-2-boris.brezillon@collabora.com>
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
+ [185.132.182.106])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A70A489EAC
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Jun 2021 09:19:36 +0000 (UTC)
+Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 15T9CNdD011848; Tue, 29 Jun 2021 11:18:52 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=selector1;
+ bh=X80iUh6QaVW3Kbhqm1Aj0gKrTFwcCwrTAiEMB/p3SAE=;
+ b=M/Gpy87EawNbKSyujei9NTa2BHd1JzRtJKVCH/vGpuB6iraaPrj9PBwQUVfPYsXuEi4b
+ U89GAVJiC3lC/DeWbQZw4SzKasVUu1BcPrrJ7NZxZM/Smb2odqyFeMS6jULMOgYVGCCC
+ 7shI7zTjLrdvIi8p8jGiR0A6FaS4SklEqli6BK9D/Mj3iOJjHrxGKf+6SCFwQH4pwaNm
+ FIfKIo1Zm3wn5NTvQkCPDKPrXkwNoscqO+xFO6IthXTt+0IG3S0BxM/PWWed4gkPPOVt
+ ebi8/NeZQMSpte6HtHZ0b399eEymWAv+MRO6617GH2iDTs8JEBlA/XIWEgcBFur5uiNf 4w== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+ by mx07-00178001.pphosted.com with ESMTP id 39fc116d9j-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 29 Jun 2021 11:18:52 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+ by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id C74F710002A;
+ Tue, 29 Jun 2021 11:18:46 +0200 (CEST)
+Received: from Webmail-eu.st.com (sfhdag2node3.st.com [10.75.127.6])
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 5D8BF21BF75;
+ Tue, 29 Jun 2021 11:18:46 +0200 (CEST)
+Received: from lmecxl0951.lme.st.com (10.75.127.49) by SFHDAG2NODE3.st.com
+ (10.75.127.6) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 29 Jun
+ 2021 11:18:43 +0200
+Subject: Re: [PATCH v4 19/27] drm/stm: Don't set struct drm_device.irq_enabled
+To: Thomas Zimmermann <tzimmermann@suse.de>, <daniel@ffwll.ch>,
+ <airlied@linux.ie>, <alexander.deucher@amd.com>,
+ <christian.koenig@amd.com>, <Xinhui.Pan@amd.com>,
+ <james.qian.wang@arm.com>, <liviu.dudau@arm.com>,
+ <mihail.atanassov@arm.com>, <brian.starkey@arm.com>,
+ <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+ <inki.dae@samsung.com>, <jy0922.shim@samsung.com>,
+ <sw0312.kim@samsung.com>, <kyungmin.park@samsung.com>,
+ <krzysztof.kozlowski@canonical.com>, <xinliang.liu@linaro.org>,
+ <tiantao6@hisilicon.com>, <john.stultz@linaro.org>,
+ <kong.kongxinwei@hisilicon.com>, <puck.chen@hisilicon.com>,
+ <laurentiu.palcu@oss.nxp.com>, <l.stach@pengutronix.de>,
+ <p.zabel@pengutronix.de>, <shawnguo@kernel.org>,
+ <s.hauer@pengutronix.de>, <kernel@pengutronix.de>,
+ <festevam@gmail.com>, <linux-imx@nxp.com>, <chunkuang.hu@kernel.org>,
+ <matthias.bgg@gmail.com>, <bskeggs@redhat.com>, <tomba@kernel.org>,
+ <hjc@rock-chips.com>, <heiko@sntech.de>, <philippe.cornu@foss.st.com>,
+ <mcoquelin.stm32@gmail.com>, <alexandre.torgue@foss.st.com>,
+ <wens@csie.org>, <jernej.skrabec@gmail.com>,
+ <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
+ <jyri.sarha@iki.fi>, <emma@anholt.net>,
+ <linux-graphics-maintainer@vmware.com>, <zackr@vmware.com>,
+ <hyun.kwon@xilinx.com>, <laurent.pinchart@ideasonboard.com>,
+ <michal.simek@xilinx.com>, <jani.nikula@linux.intel.com>,
+ <rodrigo.vivi@intel.com>, <linux@armlinux.org.uk>,
+ <kieran.bingham+renesas@ideasonboard.com>,
+ <rodrigosiqueiramelo@gmail.com>, <melissa.srw@gmail.com>,
+ <hamohammed.sa@gmail.com>
+References: <20210625082222.3845-1-tzimmermann@suse.de>
+ <20210625082222.3845-20-tzimmermann@suse.de>
+From: yannick Fertre <yannick.fertre@foss.st.com>
+Message-ID: <1c946098-bf82-4028-1543-ba9e4f960aa3@foss.st.com>
+Date: Tue, 29 Jun 2021 11:18:42 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210629073510.2764391-2-boris.brezillon@collabora.com>
-X-Operating-System: Linux phenom 5.10.0-7-amd64 
+In-Reply-To: <20210625082222.3845-20-tzimmermann@suse.de>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.75.127.49]
+X-ClientProxiedBy: SFHDAG2NODE1.st.com (10.75.127.4) To SFHDAG2NODE3.st.com
+ (10.75.127.6)
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
+ definitions=2021-06-29_05:2021-06-25,
+ 2021-06-29 signatures=0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,60 +98,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
- Steven Price <steven.price@arm.com>, Rob Herring <robh+dt@kernel.org>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Robin Murphy <robin.murphy@arm.com>
+Cc: linux-samsung-soc@vger.kernel.org, nouveau@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-sunxi@lists.linux.dev, linux-rockchip@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, amd-gfx@lists.freedesktop.org,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, linux-tegra@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 29, 2021 at 09:34:55AM +0200, Boris Brezillon wrote:
-> The documentation is a bit vague and doesn't really describe what the
-> ->timedout_job() is expected to do. Let's add a few more details.
-> 
-> v5:
-> * New patch
-> 
-> Suggested-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+Hello Thomas,
+thanks for the patch.
 
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Tested-by: Yannick Fertre <yannick.fertre@foss.st.com>
 
+Best regards
+
+
+On 6/25/21 10:22 AM, Thomas Zimmermann wrote:
+> The field drm_device.irq_enabled is only used by legacy drivers
+> with userspace modesetting. Don't set it in stm.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 > ---
->  include/drm/gpu_scheduler.h | 14 ++++++++++++++
->  1 file changed, 14 insertions(+)
+>   drivers/gpu/drm/stm/ltdc.c | 3 ---
+>   1 file changed, 3 deletions(-)
 > 
-> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-> index 10225a0a35d0..65700511e074 100644
-> --- a/include/drm/gpu_scheduler.h
-> +++ b/include/drm/gpu_scheduler.h
-> @@ -239,6 +239,20 @@ struct drm_sched_backend_ops {
->  	 * @timedout_job: Called when a job has taken too long to execute,
->  	 * to trigger GPU recovery.
->  	 *
-> +	 * This method is called in a workqueue context.
-> +	 *
-> +	 * Drivers typically issue a reset to recover from GPU hangs, and this
-> +	 * procedure usually follows the following workflow:
-> +	 *
-> +	 * 1. Stop the scheduler using drm_sched_stop(). This will park the
-> +	 *    scheduler thread and cancel the timeout work, guaranteeing that
-> +	 *    nothing is queued while we reset the hardware queue
-> +	 * 2. Try to gracefully stop non-faulty jobs (optional)
-> +	 * 3. Issue a GPU reset (driver-specific)
-> +	 * 4. Re-submit jobs using drm_sched_resubmit_jobs()
-> +	 * 5. Restart the scheduler using drm_sched_start(). At that point, new
-> +	 *    jobs can be queued, and the scheduler thread is unblocked
-> +	 *
->  	 * Return DRM_GPU_SCHED_STAT_NOMINAL, when all is normal,
->  	 * and the underlying driver has started or completed recovery.
->  	 *
-> -- 
-> 2.31.1
+> diff --git a/drivers/gpu/drm/stm/ltdc.c b/drivers/gpu/drm/stm/ltdc.c
+> index 08b71248044d..e9c5a52f041a 100644
+> --- a/drivers/gpu/drm/stm/ltdc.c
+> +++ b/drivers/gpu/drm/stm/ltdc.c
+> @@ -1339,9 +1339,6 @@ int ltdc_load(struct drm_device *ddev)
+>   		goto err;
+>   	}
+>   
+> -	/* Allow usage of vblank without having to call drm_irq_install */
+> -	ddev->irq_enabled = 1;
+> -
+>   	clk_disable_unprepare(ldev->pixel_clk);
+>   
+>   	pinctrl_pm_select_sleep_state(ddev->dev);
 > 
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
