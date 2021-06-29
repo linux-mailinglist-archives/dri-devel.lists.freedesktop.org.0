@@ -2,66 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4915C3B73C2
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Jun 2021 16:05:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 274633B740A
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Jun 2021 16:14:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D46F76E846;
-	Tue, 29 Jun 2021 14:05:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A17A89AAE;
+	Tue, 29 Jun 2021 14:13:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
- [IPv6:2a00:1450:4864:20::335])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D8E1D6E846
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Jun 2021 14:05:34 +0000 (UTC)
-Received: by mail-wm1-x335.google.com with SMTP id
- j11-20020a05600c1c0bb02901e23d4c0977so1928038wms.0
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Jun 2021 07:05:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=g6Uq9Wei+2viOIoJaR3Iu4chtk74RFCGSk6LTvjSyfc=;
- b=EWf8QjOGVwnXzyPmQH1hxEXkoGxfsFP+VIFNYUbdYpLpIgA3vx+Y1F/AHlUuhGDLa/
- J6LWebJo+bC5C6tV5K2ac+tPwOwCmu1bNdGnJw0TSn8fVyf5MpHGlOZ68sQjAFvEnU30
- qxHCVqdRx3/Hn4BTJa3xN3LJUPfKbj3PJi3sQ=
+Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com
+ [IPv6:2607:f8b0:4864:20::229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C477889A6D;
+ Tue, 29 Jun 2021 14:13:55 +0000 (UTC)
+Received: by mail-oi1-x229.google.com with SMTP id w127so26399318oig.12;
+ Tue, 29 Jun 2021 07:13:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=9S74JOYKz4LXepAVSvI+OSnTg73GPaPI8C818Hw5YPk=;
+ b=ShXSPy8YMVhdt22psjM2H/xzDJHwTrwFTtKnFd5gNVvcP1+y/mFrTJKiMCoAsCEB+z
+ C0nKQBL+gsQTXwKtGcYYS5ZmaFpeUyctoGMgmQCoW+fgTnGyAs2uxcpCwfeG1aqm4HpE
+ fObBt7t0faOt9criSYFEiYmXwA4kkSEFCCH2aYI/bxkSMpvNwBNTWqhekgqfD/zkPK+F
+ XrlUsrmDUVI3CHHthYm9Bs/qtX9C6Tnk3AUlq8JJDfKL23rmTT5+ryArU8hqTMFrfnLY
+ NVE/WrjBduyEErUfWLnUGF8EiMnTsIEVwNic93YNwhRmUGrRTQ4WVavJqucxhq9zxoCY
+ AJ+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=g6Uq9Wei+2viOIoJaR3Iu4chtk74RFCGSk6LTvjSyfc=;
- b=F8gzbucbOvLUNRglMX9bhA1uFjHNtYg2OIlW5tlOPceylSRjXqMmsiBk5VEK2vQC4k
- xH+V4TxQQlrMv6aJ6HxU8tvE4paBEiYkqvEKEUR9Fk8Me0DTahnmXAptxRiUozZNBLC1
- UhAMHxwf0iTm++cXFM+LgWiJyqrA/vkqDffvLJHo3KNgNcDwq8Nh0cww1OC11EatEnh9
- hY2BMIYueP2/Vs/torA1tJQHIMgj+cakYORUfUjPOBkBbp9DhYie1L1UmrGeeZCTRe/O
- c7rxraCV30yQ+AVjbEzqCoPuTugHtlhaXgBZgKqGTYuFz95CZWqj8uep1M8olI66BsWH
- Uq8w==
-X-Gm-Message-State: AOAM533Zpt+Uq+641BPJ8x2jW1WCipJAuxZnleqFw33X0QF1C1flLUtS
- 6SzE72bakS55fm83sH9tqa9ENw==
-X-Google-Smtp-Source: ABdhPJx8GDsQupWbWT4exlxkiCSGAV94HTpvxJxQ8RnZCTqVU10c9NiBNDfChjZ847AJa2WWXB5sPg==
-X-Received: by 2002:a05:600c:2243:: with SMTP id
- a3mr33139586wmm.86.1624975533510; 
- Tue, 29 Jun 2021 07:05:33 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id u15sm2756175wmq.1.2021.06.29.07.05.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Jun 2021 07:05:32 -0700 (PDT)
-Date: Tue, 29 Jun 2021 16:05:30 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Subject: Re: [PATCH v5 02/16] drm/sched: Allow using a dedicated workqueue
- for the timeout/fault tdr
-Message-ID: <YNsoqiGKMCRzhOfx@phenom.ffwll.local>
-References: <20210629073510.2764391-1-boris.brezillon@collabora.com>
- <20210629073510.2764391-3-boris.brezillon@collabora.com>
- <5b619624-ca5d-6b9a-0600-f122a4d68c58@amd.com>
- <20210629131858.1a598182@collabora.com>
- <532d1f9d-1092-18c3-c87d-463cfda60ed7@amd.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=9S74JOYKz4LXepAVSvI+OSnTg73GPaPI8C818Hw5YPk=;
+ b=IUDmmRWGTHMebMCoxhwSk/cQzBUSNc0AdBjpTbt4Pl1v12vmIb4sSHFFof2kq2spkT
+ YA2YboWXGgWbCOKA/X8JQyBGnXakrEkAIhdOQbJZsk8Hv6Rq036gF4iL3RnPd48BxZKd
+ tg8BTKPGSzLVrftpnpC1h7R3fVEkaBtgkBLkpYwpEFWhai2rRXz+0nyVbZ2Ua7ckAyKp
+ KgXTWEM7jo6krS8X2Hq/8fDpQMn8mBDyY+fvOQS3SIeeSjaJxv8Sug4A6xbb/+8uWVQJ
+ 15W1F/fRJBUBbqJ+S7ltnj8giTiqWDFmz78WHUTJ0rTN75hZJdJMEn/0bQHFTdsAMRkb
+ KllA==
+X-Gm-Message-State: AOAM530ru/J/QHaDJnEhlMtkdmgfiL6F7Qa2+laG0IoZi3mlGG3YSvYt
+ rGFIzNUTne7/fNfyg+Fi85sf+bNKcdWtx3d+Jyk=
+X-Google-Smtp-Source: ABdhPJzCdYX0N4mTrzK7aUZy7qMqiG6PLxkKbsaTfO7H+HsBUvBayQ0BzLqCi+DthYsgFHsoYAjTiFDKGiob8LBFffo=
+X-Received: by 2002:aca:3446:: with SMTP id b67mr11009940oia.120.1624976035000; 
+ Tue, 29 Jun 2021 07:13:55 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <532d1f9d-1092-18c3-c87d-463cfda60ed7@amd.com>
-X-Operating-System: Linux phenom 5.10.0-7-amd64 
+References: <20210628105334.27559-1-lukas.bulwahn@gmail.com>
+In-Reply-To: <20210628105334.27559-1-lukas.bulwahn@gmail.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 29 Jun 2021 10:13:43 -0400
+Message-ID: <CADnq5_Nqhr756=kzFSkDExyP-OQJopPmjz5Bnia1bbOWp2b7xg@mail.gmail.com>
+Subject: Re: [PATCH] drm/amdgpu: rectify line endings in umc v8_7_0 IP headers
+To: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,77 +61,201 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Emma Anholt <emma@anholt.net>, Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- dri-devel@lists.freedesktop.org, Steven Price <steven.price@arm.com>,
- Rob Herring <robh+dt@kernel.org>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Alex Deucher <alexander.deucher@amd.com>, Qiang Yu <yuq825@gmail.com>,
- Robin Murphy <robin.murphy@arm.com>
+Cc: Dwaipayan Ray <dwaipayanray1@gmail.com>,
+ LKML <linux-kernel@vger.kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ John Clements <john.clements@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Hawking Zhang <Hawking.Zhang@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 29, 2021 at 01:24:53PM +0200, Christian König wrote:
-> Am 29.06.21 um 13:18 schrieb Boris Brezillon:
-> > Hi Christian,
-> > 
-> > On Tue, 29 Jun 2021 13:03:58 +0200
-> > Christian König <christian.koenig@amd.com> wrote:
-> > 
-> > > Am 29.06.21 um 09:34 schrieb Boris Brezillon:
-> > > > Mali Midgard/Bifrost GPUs have 3 hardware queues but only a global GPU
-> > > > reset. This leads to extra complexity when we need to synchronize timeout
-> > > > works with the reset work. One solution to address that is to have an
-> > > > ordered workqueue at the driver level that will be used by the different
-> > > > schedulers to queue their timeout work. Thanks to the serialization
-> > > > provided by the ordered workqueue we are guaranteed that timeout
-> > > > handlers are executed sequentially, and can thus easily reset the GPU
-> > > > from the timeout handler without extra synchronization.
-> > > Well, we had already tried this and it didn't worked the way it is expected.
-> > > 
-> > > The major problem is that you not only want to serialize the queue, but
-> > > rather have a single reset for all queues.
-> > > 
-> > > Otherwise you schedule multiple resets for each hardware queue. E.g. for
-> > > your 3 hardware queues you would reset the GPU 3 times if all of them
-> > > time out at the same time (which is rather likely).
-> > > 
-> > > Using a single delayed work item doesn't work either because you then
-> > > only have one timeout.
-> > > 
-> > > What could be done is to cancel all delayed work items from all stopped
-> > > schedulers.
-> > drm_sched_stop() does that already, and since we call drm_sched_stop()
-> > on all queues in the timeout handler, we end up with only one global
-> > reset happening even if several queues report a timeout at the same
-> > time.
-> 
-> Ah, nice. Yeah, in this case it should indeed work as expected.
-> 
-> Feel free to add an Acked-by: Christian König <christian.koenig@amd.com> to
-> it.
+Applied.  Thanks.
 
-Yeah this is also what we want for the case where you have cascading
-reset. Like if you have per-engine reset, but if that fails, have to reset
-the entire chip. That's similar but not quite to the soft recover, then
-chip reset amdgpu does since for the engine reset you do have to stop the
-scheduler. For full context the i915 reset cascade:
+Alex
 
-- try to evict the offending work with preemption (similar in it's impact
-  to amdgpu's soft recovery I think), other requests on the same engine
-  are unaffected here.
-
-- reset the affected engine
-
-- reset the entire chip
-
-So my plan at least is that we'd only call drm_sched_stop as we escalate.
-Also on earlier chips first and second might not be available.
-
-Lucky for us chip reset only resets the render side of things, display
-survives on gen4+, so we don't have the nasty locking issue amdgpu has.
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+On Mon, Jun 28, 2021 at 6:53 AM Lukas Bulwahn <lukas.bulwahn@gmail.com> wrote:
+>
+> Commit 6b36fa6143f6 ("drm/amdgpu: add umc v8_7_0 IP headers") adds the new
+> file ./drivers/gpu/drm/amd/include/asic_reg/umc/umc_8_7_0_sh_mask.h with
+> DOS line endings, which is very uncommon for the kernel repository.
+>
+> Rectify the line endings in this file with dos2unix.
+>
+> Identified by a checkpatch evaluation on the whole kernel repository and
+> spot-checking for really unexpected checkpatch rule violations.
+>
+> Reported-by: Dwaipayan Ray <dwaipayanray1@gmail.com>
+> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+> ---
+>  .../include/asic_reg/umc/umc_8_7_0_sh_mask.h  | 158 +++++++++---------
+>  1 file changed, 79 insertions(+), 79 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/include/asic_reg/umc/umc_8_7_0_sh_mask.h b/drivers/gpu/drm/amd/include/asic_reg/umc/umc_8_7_0_sh_mask.h
+> index 4c5097fa0c09..d5ef91d3c391 100644
+> --- a/drivers/gpu/drm/amd/include/asic_reg/umc/umc_8_7_0_sh_mask.h
+> +++ b/drivers/gpu/drm/amd/include/asic_reg/umc/umc_8_7_0_sh_mask.h
+> @@ -1,79 +1,79 @@
+> -#ifndef _umc_8_7_0_SH_MASK_HEADER
+> -#define _umc_8_7_0_SH_MASK_HEADER
+> -
+> -//UMCCH0_0_GeccErrCntSel
+> -#define UMCCH0_0_GeccErrCntSel__GeccErrCntCsSel__SHIFT                                                        0x0
+> -#define UMCCH0_0_GeccErrCntSel__GeccErrInt__SHIFT                                                             0xc
+> -#define UMCCH0_0_GeccErrCntSel__GeccErrCntEn__SHIFT                                                           0xf
+> -#define UMCCH0_0_GeccErrCntSel__PoisonCntEn__SHIFT                                                            0x10
+> -#define UMCCH0_0_GeccErrCntSel__GeccErrCntCsSel_MASK                                                          0x0000000FL
+> -#define UMCCH0_0_GeccErrCntSel__GeccErrInt_MASK                                                               0x00003000L
+> -#define UMCCH0_0_GeccErrCntSel__GeccErrCntEn_MASK                                                             0x00008000L
+> -#define UMCCH0_0_GeccErrCntSel__PoisonCntEn_MASK                                                              0x00030000L
+> -//UMCCH0_0_GeccErrCnt
+> -#define UMCCH0_0_GeccErrCnt__GeccErrCnt__SHIFT                                                                0x0
+> -#define UMCCH0_0_GeccErrCnt__GeccUnCorrErrCnt__SHIFT                                                          0x10
+> -#define UMCCH0_0_GeccErrCnt__GeccErrCnt_MASK                                                                  0x0000FFFFL
+> -#define UMCCH0_0_GeccErrCnt__GeccUnCorrErrCnt_MASK                                                            0xFFFF0000L
+> -//MCA_UMC_UMC0_MCUMC_STATUST0
+> -#define MCA_UMC_UMC0_MCUMC_STATUST0__ErrorCode__SHIFT                                                         0x0
+> -#define MCA_UMC_UMC0_MCUMC_STATUST0__ErrorCodeExt__SHIFT                                                      0x10
+> -#define MCA_UMC_UMC0_MCUMC_STATUST0__RESERV22__SHIFT                                                          0x16
+> -#define MCA_UMC_UMC0_MCUMC_STATUST0__AddrLsb__SHIFT                                                           0x18
+> -#define MCA_UMC_UMC0_MCUMC_STATUST0__RESERV30__SHIFT                                                          0x1e
+> -#define MCA_UMC_UMC0_MCUMC_STATUST0__ErrCoreId__SHIFT                                                         0x20
+> -#define MCA_UMC_UMC0_MCUMC_STATUST0__RESERV38__SHIFT                                                          0x26
+> -#define MCA_UMC_UMC0_MCUMC_STATUST0__Scrub__SHIFT                                                             0x28
+> -#define MCA_UMC_UMC0_MCUMC_STATUST0__RESERV41__SHIFT                                                          0x29
+> -#define MCA_UMC_UMC0_MCUMC_STATUST0__Poison__SHIFT                                                            0x2b
+> -#define MCA_UMC_UMC0_MCUMC_STATUST0__Deferred__SHIFT                                                          0x2c
+> -#define MCA_UMC_UMC0_MCUMC_STATUST0__UECC__SHIFT                                                              0x2d
+> -#define MCA_UMC_UMC0_MCUMC_STATUST0__CECC__SHIFT                                                              0x2e
+> -#define MCA_UMC_UMC0_MCUMC_STATUST0__RESERV47__SHIFT                                                          0x2f
+> -#define MCA_UMC_UMC0_MCUMC_STATUST0__Transparent__SHIFT                                                       0x34
+> -#define MCA_UMC_UMC0_MCUMC_STATUST0__SyndV__SHIFT                                                             0x35
+> -#define MCA_UMC_UMC0_MCUMC_STATUST0__RESERV54__SHIFT                                                          0x36
+> -#define MCA_UMC_UMC0_MCUMC_STATUST0__TCC__SHIFT                                                               0x37
+> -#define MCA_UMC_UMC0_MCUMC_STATUST0__ErrCoreIdVal__SHIFT                                                      0x38
+> -#define MCA_UMC_UMC0_MCUMC_STATUST0__PCC__SHIFT                                                               0x39
+> -#define MCA_UMC_UMC0_MCUMC_STATUST0__AddrV__SHIFT                                                             0x3a
+> -#define MCA_UMC_UMC0_MCUMC_STATUST0__MiscV__SHIFT                                                             0x3b
+> -#define MCA_UMC_UMC0_MCUMC_STATUST0__En__SHIFT                                                                0x3c
+> -#define MCA_UMC_UMC0_MCUMC_STATUST0__UC__SHIFT                                                                0x3d
+> -#define MCA_UMC_UMC0_MCUMC_STATUST0__Overflow__SHIFT                                                          0x3e
+> -#define MCA_UMC_UMC0_MCUMC_STATUST0__Val__SHIFT                                                               0x3f
+> -#define MCA_UMC_UMC0_MCUMC_STATUST0__ErrorCode_MASK                                                           0x000000000000FFFFL
+> -#define MCA_UMC_UMC0_MCUMC_STATUST0__ErrorCodeExt_MASK                                                        0x00000000003F0000L
+> -#define MCA_UMC_UMC0_MCUMC_STATUST0__RESERV22_MASK                                                            0x0000000000C00000L
+> -#define MCA_UMC_UMC0_MCUMC_STATUST0__AddrLsb_MASK                                                             0x000000003F000000L
+> -#define MCA_UMC_UMC0_MCUMC_STATUST0__RESERV30_MASK                                                            0x00000000C0000000L
+> -#define MCA_UMC_UMC0_MCUMC_STATUST0__ErrCoreId_MASK                                                           0x0000003F00000000L
+> -#define MCA_UMC_UMC0_MCUMC_STATUST0__RESERV38_MASK                                                            0x000000C000000000L
+> -#define MCA_UMC_UMC0_MCUMC_STATUST0__Scrub_MASK                                                               0x0000010000000000L
+> -#define MCA_UMC_UMC0_MCUMC_STATUST0__RESERV41_MASK                                                            0x0000060000000000L
+> -#define MCA_UMC_UMC0_MCUMC_STATUST0__Poison_MASK                                                              0x0000080000000000L
+> -#define MCA_UMC_UMC0_MCUMC_STATUST0__Deferred_MASK                                                            0x0000100000000000L
+> -#define MCA_UMC_UMC0_MCUMC_STATUST0__UECC_MASK                                                                0x0000200000000000L
+> -#define MCA_UMC_UMC0_MCUMC_STATUST0__CECC_MASK                                                                0x0000400000000000L
+> -#define MCA_UMC_UMC0_MCUMC_STATUST0__RESERV47_MASK                                                            0x000F800000000000L
+> -#define MCA_UMC_UMC0_MCUMC_STATUST0__Transparent_MASK                                                         0x0010000000000000L
+> -#define MCA_UMC_UMC0_MCUMC_STATUST0__SyndV_MASK                                                               0x0020000000000000L
+> -#define MCA_UMC_UMC0_MCUMC_STATUST0__RESERV54_MASK                                                            0x0040000000000000L
+> -#define MCA_UMC_UMC0_MCUMC_STATUST0__TCC_MASK                                                                 0x0080000000000000L
+> -#define MCA_UMC_UMC0_MCUMC_STATUST0__ErrCoreIdVal_MASK                                                        0x0100000000000000L
+> -#define MCA_UMC_UMC0_MCUMC_STATUST0__PCC_MASK                                                                 0x0200000000000000L
+> -#define MCA_UMC_UMC0_MCUMC_STATUST0__AddrV_MASK                                                               0x0400000000000000L
+> -#define MCA_UMC_UMC0_MCUMC_STATUST0__MiscV_MASK                                                               0x0800000000000000L
+> -#define MCA_UMC_UMC0_MCUMC_STATUST0__En_MASK                                                                  0x1000000000000000L
+> -#define MCA_UMC_UMC0_MCUMC_STATUST0__UC_MASK                                                                  0x2000000000000000L
+> -#define MCA_UMC_UMC0_MCUMC_STATUST0__Overflow_MASK                                                            0x4000000000000000L
+> -#define MCA_UMC_UMC0_MCUMC_STATUST0__Val_MASK                                                                 0x8000000000000000L
+> -//MCA_UMC_UMC0_MCUMC_ADDRT0
+> -#define MCA_UMC_UMC0_MCUMC_ADDRT0__ErrorAddr__SHIFT                                                           0x0
+> -#define MCA_UMC_UMC0_MCUMC_ADDRT0__LSB__SHIFT                                                                 0x38
+> -#define MCA_UMC_UMC0_MCUMC_ADDRT0__Reserved__SHIFT                                                            0x3e
+> -#define MCA_UMC_UMC0_MCUMC_ADDRT0__ErrorAddr_MASK                                                             0x00FFFFFFFFFFFFFFL
+> -#define MCA_UMC_UMC0_MCUMC_ADDRT0__LSB_MASK                                                                   0x3F00000000000000L
+> -#define MCA_UMC_UMC0_MCUMC_ADDRT0__Reserved_MASK                                                              0xC000000000000000L
+> -
+> -#endif
+> +#ifndef _umc_8_7_0_SH_MASK_HEADER
+> +#define _umc_8_7_0_SH_MASK_HEADER
+> +
+> +//UMCCH0_0_GeccErrCntSel
+> +#define UMCCH0_0_GeccErrCntSel__GeccErrCntCsSel__SHIFT                                                        0x0
+> +#define UMCCH0_0_GeccErrCntSel__GeccErrInt__SHIFT                                                             0xc
+> +#define UMCCH0_0_GeccErrCntSel__GeccErrCntEn__SHIFT                                                           0xf
+> +#define UMCCH0_0_GeccErrCntSel__PoisonCntEn__SHIFT                                                            0x10
+> +#define UMCCH0_0_GeccErrCntSel__GeccErrCntCsSel_MASK                                                          0x0000000FL
+> +#define UMCCH0_0_GeccErrCntSel__GeccErrInt_MASK                                                               0x00003000L
+> +#define UMCCH0_0_GeccErrCntSel__GeccErrCntEn_MASK                                                             0x00008000L
+> +#define UMCCH0_0_GeccErrCntSel__PoisonCntEn_MASK                                                              0x00030000L
+> +//UMCCH0_0_GeccErrCnt
+> +#define UMCCH0_0_GeccErrCnt__GeccErrCnt__SHIFT                                                                0x0
+> +#define UMCCH0_0_GeccErrCnt__GeccUnCorrErrCnt__SHIFT                                                          0x10
+> +#define UMCCH0_0_GeccErrCnt__GeccErrCnt_MASK                                                                  0x0000FFFFL
+> +#define UMCCH0_0_GeccErrCnt__GeccUnCorrErrCnt_MASK                                                            0xFFFF0000L
+> +//MCA_UMC_UMC0_MCUMC_STATUST0
+> +#define MCA_UMC_UMC0_MCUMC_STATUST0__ErrorCode__SHIFT                                                         0x0
+> +#define MCA_UMC_UMC0_MCUMC_STATUST0__ErrorCodeExt__SHIFT                                                      0x10
+> +#define MCA_UMC_UMC0_MCUMC_STATUST0__RESERV22__SHIFT                                                          0x16
+> +#define MCA_UMC_UMC0_MCUMC_STATUST0__AddrLsb__SHIFT                                                           0x18
+> +#define MCA_UMC_UMC0_MCUMC_STATUST0__RESERV30__SHIFT                                                          0x1e
+> +#define MCA_UMC_UMC0_MCUMC_STATUST0__ErrCoreId__SHIFT                                                         0x20
+> +#define MCA_UMC_UMC0_MCUMC_STATUST0__RESERV38__SHIFT                                                          0x26
+> +#define MCA_UMC_UMC0_MCUMC_STATUST0__Scrub__SHIFT                                                             0x28
+> +#define MCA_UMC_UMC0_MCUMC_STATUST0__RESERV41__SHIFT                                                          0x29
+> +#define MCA_UMC_UMC0_MCUMC_STATUST0__Poison__SHIFT                                                            0x2b
+> +#define MCA_UMC_UMC0_MCUMC_STATUST0__Deferred__SHIFT                                                          0x2c
+> +#define MCA_UMC_UMC0_MCUMC_STATUST0__UECC__SHIFT                                                              0x2d
+> +#define MCA_UMC_UMC0_MCUMC_STATUST0__CECC__SHIFT                                                              0x2e
+> +#define MCA_UMC_UMC0_MCUMC_STATUST0__RESERV47__SHIFT                                                          0x2f
+> +#define MCA_UMC_UMC0_MCUMC_STATUST0__Transparent__SHIFT                                                       0x34
+> +#define MCA_UMC_UMC0_MCUMC_STATUST0__SyndV__SHIFT                                                             0x35
+> +#define MCA_UMC_UMC0_MCUMC_STATUST0__RESERV54__SHIFT                                                          0x36
+> +#define MCA_UMC_UMC0_MCUMC_STATUST0__TCC__SHIFT                                                               0x37
+> +#define MCA_UMC_UMC0_MCUMC_STATUST0__ErrCoreIdVal__SHIFT                                                      0x38
+> +#define MCA_UMC_UMC0_MCUMC_STATUST0__PCC__SHIFT                                                               0x39
+> +#define MCA_UMC_UMC0_MCUMC_STATUST0__AddrV__SHIFT                                                             0x3a
+> +#define MCA_UMC_UMC0_MCUMC_STATUST0__MiscV__SHIFT                                                             0x3b
+> +#define MCA_UMC_UMC0_MCUMC_STATUST0__En__SHIFT                                                                0x3c
+> +#define MCA_UMC_UMC0_MCUMC_STATUST0__UC__SHIFT                                                                0x3d
+> +#define MCA_UMC_UMC0_MCUMC_STATUST0__Overflow__SHIFT                                                          0x3e
+> +#define MCA_UMC_UMC0_MCUMC_STATUST0__Val__SHIFT                                                               0x3f
+> +#define MCA_UMC_UMC0_MCUMC_STATUST0__ErrorCode_MASK                                                           0x000000000000FFFFL
+> +#define MCA_UMC_UMC0_MCUMC_STATUST0__ErrorCodeExt_MASK                                                        0x00000000003F0000L
+> +#define MCA_UMC_UMC0_MCUMC_STATUST0__RESERV22_MASK                                                            0x0000000000C00000L
+> +#define MCA_UMC_UMC0_MCUMC_STATUST0__AddrLsb_MASK                                                             0x000000003F000000L
+> +#define MCA_UMC_UMC0_MCUMC_STATUST0__RESERV30_MASK                                                            0x00000000C0000000L
+> +#define MCA_UMC_UMC0_MCUMC_STATUST0__ErrCoreId_MASK                                                           0x0000003F00000000L
+> +#define MCA_UMC_UMC0_MCUMC_STATUST0__RESERV38_MASK                                                            0x000000C000000000L
+> +#define MCA_UMC_UMC0_MCUMC_STATUST0__Scrub_MASK                                                               0x0000010000000000L
+> +#define MCA_UMC_UMC0_MCUMC_STATUST0__RESERV41_MASK                                                            0x0000060000000000L
+> +#define MCA_UMC_UMC0_MCUMC_STATUST0__Poison_MASK                                                              0x0000080000000000L
+> +#define MCA_UMC_UMC0_MCUMC_STATUST0__Deferred_MASK                                                            0x0000100000000000L
+> +#define MCA_UMC_UMC0_MCUMC_STATUST0__UECC_MASK                                                                0x0000200000000000L
+> +#define MCA_UMC_UMC0_MCUMC_STATUST0__CECC_MASK                                                                0x0000400000000000L
+> +#define MCA_UMC_UMC0_MCUMC_STATUST0__RESERV47_MASK                                                            0x000F800000000000L
+> +#define MCA_UMC_UMC0_MCUMC_STATUST0__Transparent_MASK                                                         0x0010000000000000L
+> +#define MCA_UMC_UMC0_MCUMC_STATUST0__SyndV_MASK                                                               0x0020000000000000L
+> +#define MCA_UMC_UMC0_MCUMC_STATUST0__RESERV54_MASK                                                            0x0040000000000000L
+> +#define MCA_UMC_UMC0_MCUMC_STATUST0__TCC_MASK                                                                 0x0080000000000000L
+> +#define MCA_UMC_UMC0_MCUMC_STATUST0__ErrCoreIdVal_MASK                                                        0x0100000000000000L
+> +#define MCA_UMC_UMC0_MCUMC_STATUST0__PCC_MASK                                                                 0x0200000000000000L
+> +#define MCA_UMC_UMC0_MCUMC_STATUST0__AddrV_MASK                                                               0x0400000000000000L
+> +#define MCA_UMC_UMC0_MCUMC_STATUST0__MiscV_MASK                                                               0x0800000000000000L
+> +#define MCA_UMC_UMC0_MCUMC_STATUST0__En_MASK                                                                  0x1000000000000000L
+> +#define MCA_UMC_UMC0_MCUMC_STATUST0__UC_MASK                                                                  0x2000000000000000L
+> +#define MCA_UMC_UMC0_MCUMC_STATUST0__Overflow_MASK                                                            0x4000000000000000L
+> +#define MCA_UMC_UMC0_MCUMC_STATUST0__Val_MASK                                                                 0x8000000000000000L
+> +//MCA_UMC_UMC0_MCUMC_ADDRT0
+> +#define MCA_UMC_UMC0_MCUMC_ADDRT0__ErrorAddr__SHIFT                                                           0x0
+> +#define MCA_UMC_UMC0_MCUMC_ADDRT0__LSB__SHIFT                                                                 0x38
+> +#define MCA_UMC_UMC0_MCUMC_ADDRT0__Reserved__SHIFT                                                            0x3e
+> +#define MCA_UMC_UMC0_MCUMC_ADDRT0__ErrorAddr_MASK                                                             0x00FFFFFFFFFFFFFFL
+> +#define MCA_UMC_UMC0_MCUMC_ADDRT0__LSB_MASK                                                                   0x3F00000000000000L
+> +#define MCA_UMC_UMC0_MCUMC_ADDRT0__Reserved_MASK                                                              0xC000000000000000L
+> +
+> +#endif
+> --
+> 2.17.1
+>
