@@ -1,65 +1,120 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FA5F3B749F
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Jun 2021 16:46:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C6E213B74EE
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Jun 2021 17:10:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B117389E8C;
-	Tue, 29 Jun 2021 14:46:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3FEF06E8A6;
+	Tue, 29 Jun 2021 15:10:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc36.google.com (mail-oo1-xc36.google.com
- [IPv6:2607:f8b0:4864:20::c36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C419289E8C
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Jun 2021 14:46:07 +0000 (UTC)
-Received: by mail-oo1-xc36.google.com with SMTP id
- 128-20020a4a11860000b029024b19a4d98eso5748101ooc.5
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Jun 2021 07:46:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=W2Ntt0LT4z/1elLySVWMmlMXipsIpCl6r1V3lH3DwEE=;
- b=EGeSkS7JW6EtUMDXLA6LoUTd4e7U32ADZX6Y27+Hrm66f0S58vWf/N1ztWMSPRRS3H
- 33jFMo7nq5GUQoz0kojUxM6JtTngYeG+Ni9DY5IcWIX0F0jwvfZJiWkNvbY1CZR/Ncpf
- Xy179mvbppePNBKx4BUPycvQaaewZ/nOO+VF+/492iI4rdTtAxknFKCOJnjpDnIezAsX
- zolRBUqdfOSy2nQJm+lqFHFabChODfct7fYoAucnkm42vDGaOGtEODELZ8TZv/d7cmlA
- 6DPqzVLPQO+KUMh2ZrvTxVBAFLFhQ5/y87GbvebTLrt62/GhZu3iE2OT0NMM/sNGjvOg
- fhsw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=W2Ntt0LT4z/1elLySVWMmlMXipsIpCl6r1V3lH3DwEE=;
- b=CCoyMmpYSGotwt3b7Vm4Z2rZ4iHYA85HQawq4m69B9BxSeNmgd+J35Dl7UDtzj2cfl
- vTZh+KuAJnWrM0noy1/39/atNhlPtH2OCa2prlMw2G9Tx0sSyTgQs+CXKPpwX6GeU6+a
- Lpk5VciIU0/gDrAGYykAflr6U9Ga2Mw72jQbFjrgVpaz4aiNUGlwajRHpE36pvySS7Q6
- uK4LDcJVXPR3R2Geg8MdYKMsXR6pGpxvux5qibu6uj0HElQrydsGuYJvhV5wsXAHQmpW
- j+QAW5fJpviZe4PLyxpBeiS4yxXEXurMXVY+TWaTEGiikt/Pfm/vR+3KPdoOFUKNV4Ob
- 2pPg==
-X-Gm-Message-State: AOAM530YE5SGhkI+6AJQHUipoM4bLLtR75FwtWLMocK3TyqOeA/zg5Jz
- OkkuHRJVNrhsHsuV1ryw0NGjMg==
-X-Google-Smtp-Source: ABdhPJwuPka4W9yOMDvrX6GUrWsbedu8EBEiJblO9SsbN8jZivaLELaiLeHMRVIpdlT/EvGXh8p5kw==
-X-Received: by 2002:a4a:ae8c:: with SMTP id u12mr4341303oon.3.1624977966886;
- Tue, 29 Jun 2021 07:46:06 -0700 (PDT)
-Received: from yoga (104-57-184-186.lightspeed.austtx.sbcglobal.net.
- [104.57.184.186])
- by smtp.gmail.com with ESMTPSA id c4sm904642ots.15.2021.06.29.07.46.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Jun 2021 07:46:06 -0700 (PDT)
-Date: Tue, 29 Jun 2021 09:46:04 -0500
-From: Bjorn Andersson <bjorn.andersson@linaro.org>
-To: abhinavk@codeaurora.org
-Subject: Re: [PATCH] drm/msm/dp: Make it possible to enable the test pattern
-Message-ID: <YNsyLNeSvQlEQLcw@yoga>
-References: <20210629002234.1787149-1-bjorn.andersson@linaro.org>
- <b3456d3e4376ae1e9776f03e14513a35@codeaurora.org>
- <YNpvf8rpWoMFTcBt@yoga>
- <2d922441927d1c2a757b5b197f496906@codeaurora.org>
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2088.outbound.protection.outlook.com [40.107.220.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A7B956E8A9;
+ Tue, 29 Jun 2021 15:10:05 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=JmUyhpNQWLjVHSTpJuhZniho52UzKMDPbYNy2BrniLGHaj8H9hMHyQ0v0NOuYejT/OeObDjEVpcRrN+GIyruZ+FubSpyf0CwVOk74AZb1T+OfBydqiz5ti0JV7HjmXBROYbd+thnxu9mr9f7v2Wfm+9XuR9dwkhEhjSVyWb7459syNJ6rIotOevQ4yrfH3oOxorXAxoyD/vfhdSkLSVYUeSP9R/yXPPdnYOBw3Ww+rXU9UBc9Unja9qedVWBJIFxBxiAJ2X7CS6qtu9YnIWZANVJg6suRIf2F5fcWItXt1czJZyAhrA2ukvET/Pwf2WcWYP/htV/fPMNG1bhjnQ5tw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=xb4qnCXMRkAtwTPAG0K71dqY6nzHVjaS4tCH3xBZGX0=;
+ b=jJvYSmxky226woxRjQw/xHdH6xPNwhXD3D2s/s40MInsRpqK4J4aD+Ihe1/s4TE+xR8DGHsFUfCboj++xzdSWhxxrm1ch7DzIHNlicDGJnGVnDeBPy5sFywO3KSta4FwXffxheGwGQkKK7Gf5mVBCjxbikHCtwKz3YVIFcGy8H9y/ByWdx9SBYQoTpXIM7m7vd0mChvMogieuUQZf+Ui3A/owT6zg7fG94B+Ntl3m95yTUNUTLApdIMFlL6+sol4ll7n9ltQy3Q57z0RNgzHaY61k7nsa7t+UJpbeXneBiOJ2iM2yUIjUFbb2WtqACmPTFZjnZaXuUQ0kpmPH2+o/Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=xb4qnCXMRkAtwTPAG0K71dqY6nzHVjaS4tCH3xBZGX0=;
+ b=HDK2HZ3sKOBuYCOAAHfFCZkBmy3mPOlxsLayuEvYmiphlmHig0hnVfI21U639PDO4XL0/KDFJUTQlsLPigEDMsd9LqtbonQ9Z0Rmha934O6HQc36PD52VXq5LMeUIVJTxVhuR1cq0cg8BgySwHGA+2XoT5QDwC7eMt2iwO8OVN0=
+Authentication-Results: vger.kernel.org; dkim=none (message not signed)
+ header.d=none;vger.kernel.org; dmarc=none action=none header.from=amd.com;
+Received: from CO6PR12MB5427.namprd12.prod.outlook.com (2603:10b6:5:358::13)
+ by CO6PR12MB5396.namprd12.prod.outlook.com (2603:10b6:303:139::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4287.22; Tue, 29 Jun
+ 2021 15:10:03 +0000
+Received: from CO6PR12MB5427.namprd12.prod.outlook.com
+ ([fe80::401d:c7a2:6495:650b]) by CO6PR12MB5427.namprd12.prod.outlook.com
+ ([fe80::401d:c7a2:6495:650b%3]) with mapi id 15.20.4264.019; Tue, 29 Jun 2021
+ 15:10:03 +0000
+Subject: Re: [PATCH] drm/amd/display: Respect CONFIG_FRAME_WARN=0 in dml
+ Makefile
+To: Reka Norman <rekanorman@chromium.org>, amd-gfx@lists.freedesktop.org
+References: <20210629112647.1.I7813d8e7298aa1a1c6bee84e6fd44a82ca24805c@changeid>
+From: Harry Wentland <harry.wentland@amd.com>
+Message-ID: <9e21a922-38d2-3d03-4524-c122965f7db3@amd.com>
+Date: Tue, 29 Jun 2021 11:09:59 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
+In-Reply-To: <20210629112647.1.I7813d8e7298aa1a1c6bee84e6fd44a82ca24805c@changeid>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [198.200.67.154]
+X-ClientProxiedBy: YQBPR01CA0128.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c01:1::28) To CO6PR12MB5427.namprd12.prod.outlook.com
+ (2603:10b6:5:358::13)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2d922441927d1c2a757b5b197f496906@codeaurora.org>
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.50.3] (198.200.67.154) by
+ YQBPR01CA0128.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:c01:1::28) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4287.22 via Frontend Transport; Tue, 29 Jun 2021 15:10:01 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: d357c19a-1853-4ba2-89fe-08d93b0ff8cd
+X-MS-TrafficTypeDiagnostic: CO6PR12MB5396:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <CO6PR12MB5396C80B7E98D467E0B1FABC8C029@CO6PR12MB5396.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4303;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: SJa0GSrxoaO3l9Cykdl05Euvr5AqjIgWnDv8tdMzLsnBWf/NtVVmM16osTTWmEwWlsZJ3b76ajRuywm9Ap8A3tIfTUtf/AUAVuh7CBATS3BNRdKseVpJI2r8ohU8qe5Ii3Jd8tpTjc/pNNF946taX6loojqarw4iPJuslvYyK1FyV9ndSJ0+h8wM8imUCWucc/J0tvZZ/qVKG+yn098FLYoHuSlDxZNZyoOzwouPAx96bZxdcUenwBT1CboDqFci89INXK9FsqS1kMbuQeJgpVHJIapdrG+m8ch+Uy3rt5HjqGYZj+S2gr/mqT6y32aEvKcRE2qaAZQE2OzHQjfMSN+nIt+2wiYgnzeTVQ2KkpuBN3ZZA8fkJa2aQS2SgiPQWQzHsn/hOvadQLhWt0rtGesTZgW3iH353/bLXBsyDbBYKJqj0l/z/Kf/xSiHxKvHokdeZhNreuPhD5CvMfV5Ousk3+1Oqqz/f4aJVVXRa2G1/qp3IrcNFOklPdwjwmvOse14DYAmxt0OPM79wM78JOgoxyLfyllOo6T+yplZxLYXRoYklEnsrjHxcTqsR3CheA4mOL1uef7XVIDlOFU/cSgf9WKdPGt+Jx1SQNBMFqEoh3k96NQSvdWROecQE/Wbp5XH4C1qH6qf9il/1c1H1pm7UjzKAvnS9SEQrgfGE8XbU6nuV09Z/QpQdnd1vnOm7nmXrsGgm00qvzE7vS6HBtIcyZy8lYq84LHAkiGfVK0=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CO6PR12MB5427.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(346002)(366004)(376002)(396003)(39860400002)(136003)(2906002)(31686004)(316002)(16576012)(44832011)(53546011)(4326008)(8676002)(36756003)(66946007)(54906003)(8936002)(83380400001)(66556008)(66476007)(16526019)(86362001)(2616005)(38100700002)(186003)(956004)(6486002)(31696002)(5660300002)(26005)(478600001)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UXFwZHlTWXdFV3BKQm0vamtidUVtcmFMU3prQWJKdHp1Y0VxMVZrdDBDVTIx?=
+ =?utf-8?B?YUxCU1JDUGFyeUVaS2IvTWVoTEFjeVRod3kvU25zS3RsVDU2NGx0NkhHYVpZ?=
+ =?utf-8?B?UE9MSlBuQm51cW1ZMnVwenhqQ0lZRzl3NjVmOUJiT0hEbHNGUWxXdWp4aTVk?=
+ =?utf-8?B?cDRUK3gzT2IvMk1vYytWdktYeUMvOUw1d3lVbUJETFBDeWduUU5vdEluY0hY?=
+ =?utf-8?B?dlVQTkFwa3pFYS80djFZcXFwVWcwQU05SGhXaFlOQVAyZVZod0J4R3p0V1NK?=
+ =?utf-8?B?cUF2eWFMNDNLaHk3aDZTa0xGb1k5b1J4dFpCTjE5WXM1STdwRjgwVmxmajg2?=
+ =?utf-8?B?S2V4OFNtcEx3TTBaWVpUdk40UGlNMjVVYUlvaTd2Y0VrZitHdzRSMWVMVHFl?=
+ =?utf-8?B?MHNIb3VPT0E3WXNST2pGV1JXZGpnMFZWSkRuNm54SmdoWEJwYUc2OFhqVEFZ?=
+ =?utf-8?B?THFWYnJwZWMyS1JqaUJRdm14MVF0VGQ1RUxTYVNNSmYybE9mT2M4R2FuRkor?=
+ =?utf-8?B?L3piSlU4QzMzWEIzOUlwUW9pbExvaUZLUlkyNS9xaWRXU3lTL3BhaUM5M0Uy?=
+ =?utf-8?B?VnNlemttL3R6V1VOTmxJeUwrN1ZQb3h5b2RwVmIrcWp5UlJCbDJjYkU0bE5E?=
+ =?utf-8?B?VEQ1TFpwWkRJOFoyZTBNdzlVQnVZejFNa1J6ZGg0dFROUDI1Nk13dEluTk43?=
+ =?utf-8?B?TCtlUzRuRlkyQVNlMTdaMDg1aU5tM012bzVwSUlmREYrWnpTOEZNRUg4SEdp?=
+ =?utf-8?B?MFFMeEw2RzVic1RwenVTY0l0VjNxZEpvWGJCRVlyQUQ4RXhXNmZQaDk3RFln?=
+ =?utf-8?B?OW9QVHlwOWd4emZDZmNpdlpDUkdGN2k4MVMzSGV2Mjc5akxEZm1mMDFnT3BK?=
+ =?utf-8?B?cXVQK3VlcnVlNVpkeWpEVjIya0ROUDIyazJGaHZZSjJMOTc3M3hxeFhua1pz?=
+ =?utf-8?B?dW5USVhJbDlZS1czZ1ZCS2VUUDBjNUZ6NzVjTmlCWW9uMm9tTk41T2Z4Z01w?=
+ =?utf-8?B?ditPSUZ2TzhuV05OVmNFR1NjOGdHOVBZUVdaMVVwUGRXTVBNYll4MUxHczNB?=
+ =?utf-8?B?blRYOUZQYzUwSTQ2ZmxOZFNjWHhKRURsMGYyb01ta0ZBU3NDK2NOeElISXhy?=
+ =?utf-8?B?Wkh2VkpYaFJ6TzFGY2FGRUhqMnVUd3pLWmh1cC9JZ3JRZXY4cy9OaDZiUDN0?=
+ =?utf-8?B?NE1wZjExMGQ0cG85UFhnMllwdnJmaTg1VG83WkN4SEk5NGZPZGdHeUVpZDFl?=
+ =?utf-8?B?amtEbWd3a2hjMFZqSVY0M1JHVGV3bFZhSDRHSDZwc1loT0k4d3N3SXdVTXdW?=
+ =?utf-8?B?OWJrZm5lMGlSSlhhdFJhNFpwRlVKNTU5bnY1cGw5ZDU2N3JkektGOHl1UHVh?=
+ =?utf-8?B?eHNERVZHOW1QZzJudWJTckVFd3FpZFBFWjJUMUdveUpqQytucGhic3B2N1JW?=
+ =?utf-8?B?S3lYZFR0Ky8rK3FEYUZPYTViV2lYNjFGZ1J1bkNUbTZ0UjdRdWtNMWV4WUg5?=
+ =?utf-8?B?cHpIcmpVVUJQVzJMRHNyQi9pL0lnc3FISFpmbElHTmp2eWJnWHRtL0dwZVkw?=
+ =?utf-8?B?UXNqMDhPa09ucHhUVU0valJzZWNzcElzWk9tSUNzWjlnY05HVENCbjFkeTMr?=
+ =?utf-8?B?dkNFenkvNGhlTFBoc2k0Y0hDeEowZHpTYnJDOHo5Ni9uSjBXNFI0VmcyaFpZ?=
+ =?utf-8?B?cmowUG9XUTZwV0ZKT25VdXlQd0FzVjlSMWNEcUJjd2VSVTJIVjFMRXBwQlhP?=
+ =?utf-8?Q?LdBFr4G0eU1Gmo0Le7AVAgOEu4Ujjilf1d2Iqqr?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d357c19a-1853-4ba2-89fe-08d93b0ff8cd
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5427.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jun 2021 15:10:03.6305 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: jt/j8ugsK5w1jTvvOD55CEj6d8l9vKTL8H2sVSE+uywaDX14oOGcPlfs/dPhKIU8gRmG7aVGN5941nsHNJD3gg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR12MB5396
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,127 +127,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
- Sean Paul <sean@poorly.run>
+Cc: Reka Norman <rekanorman@google.com>, Will Deacon <will@kernel.org>,
+ David Airlie <airlied@linux.ie>, Daniel Kolesa <daniel@octaforge.org>, "Pan,
+ Xinhui" <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Huang Rui <ray.huang@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
+ Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon 28 Jun 20:07 CDT 2021, abhinavk@codeaurora.org wrote:
+On 2021-06-28 9:27 p.m., Reka Norman wrote:
+> Setting CONFIG_FRAME_WARN=0 should disable 'stack frame larger than'
+> warnings. This is useful for example in KASAN builds. Make the dml
+> Makefile respect this config.
+> 
+> Fixes the following build warnings with CONFIG_KASAN=y and
+> CONFIG_FRAME_WARN=0:
+> 
+> drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn30/display_mode_vba_30.c:3642:6:
+> warning: stack frame size of 2216 bytes in function
+> 'dml30_ModeSupportAndSystemConfigurationFull' [-Wframe-larger-than=]
+> drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn31/display_mode_vba_31.c:3957:6:
+> warning: stack frame size of 2568 bytes in function
+> 'dml31_ModeSupportAndSystemConfigurationFull' [-Wframe-larger-than=]
+> 
+> Signed-off-by: Reka Norman <rekanorman@google.com>
 
-> On 2021-06-28 17:55, Bjorn Andersson wrote:
-> > On Mon 28 Jun 19:31 CDT 2021, abhinavk@codeaurora.org wrote:
-> > 
-> > > Hi Bjorn
-> > > 
-> > > On 2021-06-28 17:22, Bjorn Andersson wrote:
-> > > > The debugfs interface contains the knobs to make the DisplayPort
-> > > > controller output a test pattern, unfortunately there's nothing
-> > > > currently that actually enables the defined test pattern.
-> > > >
-> > > > Fixes: de3ee25473ba ("drm/msm/dp: add debugfs nodes for video pattern
-> > > > tests")
-> > > > Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-> > > 
-> > > This is not how this debugfs node works. This is meant to be used
-> > > while
-> > > running
-> > > DP compliance video pattern test.
-> > > 
-> > > https://gitlab.freedesktop.org/drm/igt-gpu-tools/-/blob/master/tools/msm_dp_compliance.c
-> > > 
-> > > While the compliance test is being run with this msm_dp_compliance app
-> > > running,
-> > > it will draw the test pattern when it gets the "test_active" from the
-> > > driver.
-> > > 
-> > > The test pattern which this app draws is as per the requirements of
-> > > the
-> > > compliance test
-> > > as the test equipment will match the CRC of the pattern which is
-> > > drawn.
-> > > 
-> > > The API dp_panel_tpg_config() which you are trying to call here
-> > > draws the DP
-> > > test pattern
-> > > from the DP controller hardware but not the pattern which the
-> > > compliance
-> > > test expects.
-> > > 
-> > 
-> > So clearly not an oversight, but rather me not understanding how to use
-> > the test pattern.
-> > 
-> > You say that I should run msm_dp_compliance while the test is running,
-> > so how do I run the test?
+Reviewed-by: Harry Wentland <harry.wentland@amd.com>
+
+Harry
+
+> ---
 > 
-> There are two test patterns with different purposes. The one which the
-> msm_dp_compliance
-> draws is strictly for the DP compliance test and it needs even the DPU to
-> draw the frame because
-> it sets up the display pipeline and just draws the buffer.
+>  drivers/gpu/drm/amd/display/dc/dml/Makefile | 8 ++++++--
+>  1 file changed, 6 insertions(+), 2 deletions(-)
 > 
-> That is not what you are looking for here.
-> 
-> So rather than trying to run msm_dp_compliance on your setup, just try
-> calling dp_panel_tpg_config().
-> We typically just call this API, right after the link training is done.
-> But if you really need a debugfs node for this, you can write up a separate
-> debugfs for it
-> Something like:
-> 
-> echo 1 > dp/tpg/en
+> diff --git a/drivers/gpu/drm/amd/display/dc/dml/Makefile b/drivers/gpu/drm/amd/display/dc/dml/Makefile
+> index d34024fd798a..45862167e6ce 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dml/Makefile
+> +++ b/drivers/gpu/drm/amd/display/dc/dml/Makefile
+> @@ -50,6 +50,10 @@ dml_ccflags += -msse2
+>  endif
+>  endif
+>  
+> +ifneq ($(CONFIG_FRAME_WARN),0)
+> +frame_warn_flag := -Wframe-larger-than=2048
+> +endif
+> +
+>  CFLAGS_$(AMDDALPATH)/dc/dml/display_mode_lib.o := $(dml_ccflags)
+>  
+>  ifdef CONFIG_DRM_AMD_DC_DCN
+> @@ -60,9 +64,9 @@ CFLAGS_$(AMDDALPATH)/dc/dml/dcn20/display_mode_vba_20v2.o := $(dml_ccflags)
+>  CFLAGS_$(AMDDALPATH)/dc/dml/dcn20/display_rq_dlg_calc_20v2.o := $(dml_ccflags)
+>  CFLAGS_$(AMDDALPATH)/dc/dml/dcn21/display_mode_vba_21.o := $(dml_ccflags)
+>  CFLAGS_$(AMDDALPATH)/dc/dml/dcn21/display_rq_dlg_calc_21.o := $(dml_ccflags)
+> -CFLAGS_$(AMDDALPATH)/dc/dml/dcn30/display_mode_vba_30.o := $(dml_ccflags) -Wframe-larger-than=2048
+> +CFLAGS_$(AMDDALPATH)/dc/dml/dcn30/display_mode_vba_30.o := $(dml_ccflags) $(frame_warn_flag)
+>  CFLAGS_$(AMDDALPATH)/dc/dml/dcn30/display_rq_dlg_calc_30.o := $(dml_ccflags)
+> -CFLAGS_$(AMDDALPATH)/dc/dml/dcn31/display_mode_vba_31.o := $(dml_ccflags) -Wframe-larger-than=2048
+> +CFLAGS_$(AMDDALPATH)/dc/dml/dcn31/display_mode_vba_31.o := $(dml_ccflags) $(frame_warn_flag)
+>  CFLAGS_$(AMDDALPATH)/dc/dml/dcn31/display_rq_dlg_calc_31.o := $(dml_ccflags)
+>  CFLAGS_$(AMDDALPATH)/dc/dml/display_mode_lib.o := $(dml_ccflags)
+>  CFLAGS_REMOVE_$(AMDDALPATH)/dc/dml/display_mode_vba.o := $(dml_rcflags)
 > 
 
-Having the ability to turn on the test pattern was very useful to me and
-I would use this next time I'm adding DP support on a new platform. So
-adding some way of invoking that API without a lot of extra effort seems
-useful.
-
-> Lets not disturb this one.
-> 
-
-Agreed.
-
-Thanks,
-Bjorn
-
-> > 
-> > > Its just a debug API to call when required during bringup/debug
-> > > purposes.
-> > > 
-> > 
-> > Yes, I was trying to isolate the DP code from some misconfiguration in
-> > the DPU during bringup and with this fix the debugfs interface became
-> > useful.
-> 
-> > 
-> > Regards,
-> > Bjorn
-> > 
-> > > Hence this is not the place to call it as it will end up breaking CTS.
-> > > 
-> > > Thanks
-> > > 
-> > > Abhinav
-> > > 
-> > > > ---
-> > > >  drivers/gpu/drm/msm/dp/dp_debug.c | 2 ++
-> > > >  1 file changed, 2 insertions(+)
-> > > >
-> > > > diff --git a/drivers/gpu/drm/msm/dp/dp_debug.c
-> > > > b/drivers/gpu/drm/msm/dp/dp_debug.c
-> > > > index 2f6247e80e9d..82911af44905 100644
-> > > > --- a/drivers/gpu/drm/msm/dp/dp_debug.c
-> > > > +++ b/drivers/gpu/drm/msm/dp/dp_debug.c
-> > > > @@ -305,6 +305,8 @@ static ssize_t dp_test_active_write(struct file
-> > > > *file,
-> > > >  				debug->panel->video_test = true;
-> > > >  			else
-> > > >  				debug->panel->video_test = false;
-> > > > +
-> > > > +			dp_panel_tpg_config(debug->panel, debug->panel->video_test);
-> > > >  		}
-> > > >  	}
-> > > >  	drm_connector_list_iter_end(&conn_iter);
