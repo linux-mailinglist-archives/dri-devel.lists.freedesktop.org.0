@@ -2,37 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE59B3B7877
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Jun 2021 21:17:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0E9B3B7917
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Jun 2021 22:09:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 87C3F6E8F1;
-	Tue, 29 Jun 2021 19:17:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 458BC6E8EA;
+	Tue, 29 Jun 2021 20:09:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E86C6E8EF;
- Tue, 29 Jun 2021 19:17:20 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10030"; a="195372668"
-X-IronPort-AV: E=Sophos;i="5.83,309,1616482800"; d="scan'208";a="195372668"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Jun 2021 12:17:19 -0700
-X-IronPort-AV: E=Sophos;i="5.83,309,1616482800"; d="scan'208";a="425589409"
-Received: from dhiatt-server.jf.intel.com ([10.54.81.3])
- by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Jun 2021 12:17:19 -0700
-From: Matthew Brost <matthew.brost@intel.com>
-To: <intel-gfx@lists.freedesktop.org>,
-	<dri-devel@lists.freedesktop.org>
-Subject: [PATCH 2/2] drm/doc/rfc: i915 new parallel submission uAPI plan
-Date: Tue, 29 Jun 2021 12:35:11 -0700
-Message-Id: <20210629193511.124099-3-matthew.brost@intel.com>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20210629193511.124099-1-matthew.brost@intel.com>
-References: <20210629193511.124099-1-matthew.brost@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 689176E8EA
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Jun 2021 20:09:17 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1624997360; h=Message-Id: Date: Subject: Cc: To: From:
+ Sender; bh=Dhc0W9vUgT2dL4RFtAFw6gqKf7r7LCHzbli6TwXb/Gc=;
+ b=i7I+tmldo9xLYSkhO8fgurwWdid+o5OlAmAfifnivGoVGcxqwrbZzMbbr8EcYJ8fUbxw3LtB
+ W6uSv5lSFpYgLTRnNxp5RjfUvreQKLwSqd4GGvhO99+G39wrzi8J+ZvPiFBBRyxXwgnSybdP
+ qbz+3bJmjdO2dj6ZKcUQjpXSPCw=
+X-Mailgun-Sending-Ip: 198.61.254.9
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n05.prod.us-east-1.postgun.com with SMTP id
+ 60db7de74ca9face349ef902 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 29 Jun 2021 20:09:11
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 9CD81C433D3; Tue, 29 Jun 2021 20:09:10 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
+ SPF_FAIL autolearn=no autolearn_force=no version=3.4.0
+Received: from khsieh-linux1.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: khsieh)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id C8D04C433F1;
+ Tue, 29 Jun 2021 20:09:08 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org C8D04C433F1
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=fail smtp.mailfrom=khsieh@codeaurora.org
+From: Kuogee Hsieh <khsieh@codeaurora.org>
+To: robdclark@gmail.com,
+	sean@poorly.run,
+	swboyd@chromium.org
+Subject: [PATCH] drm/dp_mst: Fix return code on sideband message failure
+Date: Tue, 29 Jun 2021 13:08:56 -0700
+Message-Id: <1624997336-2245-1-git-send-email-khsieh@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,244 +65,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: rnayak@codeaurora.org, tzimmermann@suse.de, airlied@linux.ie,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ abhinavk@codeaurora.org, khsieh@codeaurora.org, aravindh@codeaurora.org,
+ freedreno@lists.freedesktop.org, rsubbia@codeaurora.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add entry for i915 new parallel submission uAPI plan.
+From: Rajkumar Subbiah <rsubbia@codeaurora.org>
 
-v2:
- (Daniel Vetter):
-  - Expand logical order explaination
-  - Add dummy header
-  - Only allow N BBs in execbuf IOCTL
-  - Configure parallel submission per slot not per gem context
-v3:
- (Marcin Ślusarz):
-  - Lot's of typos / bad english fixed
- (Tvrtko Ursulin):
-  - Consistent pseudo code, clean up wording in descriptions
-v4:
- (Daniel Vetter)
-  - Drop flags
-  - Add kernel doc
-  - Reword a few things / fix typos
- (Tvrtko)
-  - Reword a few things / fix typos
-v5:
- (Checkpatch)
-  - Fix typos
- (Docs)
-  - Fix warning
+The commit 2f015ec6eab69301fdcf54d397810d72362d7223 added some debug
+code for sideband message tracing. But it seems to have unintentionally
+changed the behavior on sideband message failure. It catches and returns
+failure only if DRM_UT_DP is enabled. Otherwise it ignores the error code
+and returns success. So on an MST unplug, the caller is unaware that the
+clear payload message failed and ends up waiting for 4 seconds for the
+response.
 
-Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-Cc: Tony Ye <tony.ye@intel.com>
-CC: Carl Zhang <carl.zhang@intel.com>
-Cc: Daniel Vetter <daniel.vetter@intel.com>
-Cc: Jason Ekstrand <jason@jlekstrand.net>
-Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-Acked-by: Tony Ye <tony.ye@intel.com>
+This change fixes the issue by returning the proper error code.
+
+Change-Id: I2887b7ca21355fe84a7968f7619d5e8199cbb0c6
+Signed-off-by: Rajkumar Subbiah <rsubbia@codeaurora.org>
 ---
- Documentation/gpu/rfc/i915_parallel_execbuf.h | 122 ++++++++++++++++++
- Documentation/gpu/rfc/i915_scheduler.rst      |  59 ++++++++-
- 2 files changed, 180 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/gpu/rfc/i915_parallel_execbuf.h
+ drivers/gpu/drm/drm_dp_mst_topology.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/gpu/rfc/i915_parallel_execbuf.h b/Documentation/gpu/rfc/i915_parallel_execbuf.h
-new file mode 100644
-index 000000000000..8cbe2c4e0172
---- /dev/null
-+++ b/Documentation/gpu/rfc/i915_parallel_execbuf.h
-@@ -0,0 +1,122 @@
-+/* SPDX-License-Identifier: MIT */
-+/*
-+ * Copyright © 2021 Intel Corporation
-+ */
-+
-+#define I915_CONTEXT_ENGINES_EXT_PARALLEL_SUBMIT 2 /* see i915_context_engines_parallel_submit */
-+
-+/**
-+ * struct drm_i915_context_engines_parallel_submit - Configure engine for
-+ * parallel submission.
-+ *
-+ * Setup a slot in the context engine map to allow multiple BBs to be submitted
-+ * in a single execbuf IOCTL. Those BBs will then be scheduled to run on the GPU
-+ * in parallel. Multiple hardware contexts are created internally in the i915
-+ * run these BBs. Once a slot is configured for N BBs only N BBs can be
-+ * submitted in each execbuf IOCTL and this is implicit behavior e.g. The user
-+ * doesn't tell the execbuf IOCTL there are N BBs, the execbuf IOCTL knows how
-+ * many BBs there are based on the slot's configuration. The N BBs are the last
-+ * N buffer objects or first N if I915_EXEC_BATCH_FIRST is set.
-+ *
-+ * The default placement behavior is to create implicit bonds between each
-+ * context if each context maps to more than 1 physical engine (e.g. context is
-+ * a virtual engine). Also we only allow contexts of same engine class and these
-+ * contexts must be in logically contiguous order. Examples of the placement
-+ * behavior described below. Lastly, the default is to not allow BBs to
-+ * preempted mid BB rather insert coordinated preemption on all hardware
-+ * contexts between each set of BBs. Flags may be added in the future to change
-+ * both of these default behaviors.
-+ *
-+ * Returns -EINVAL if hardware context placement configuration is invalid or if
-+ * the placement configuration isn't supported on the platform / submission
-+ * interface.
-+ * Returns -ENODEV if extension isn't supported on the platform / submission
-+ * interface.
-+ *
-+ * .. code-block:: none
-+ *
-+ *	Example 1 pseudo code:
-+ *	CS[X] = generic engine of same class, logical instance X
-+ *	INVALID = I915_ENGINE_CLASS_INVALID, I915_ENGINE_CLASS_INVALID_NONE
-+ *	set_engines(INVALID)
-+ *	set_parallel(engine_index=0, width=2, num_siblings=1,
-+ *		     engines=CS[0],CS[1])
-+ *
-+ *	Results in the following valid placement:
-+ *	CS[0], CS[1]
-+ *
-+ *	Example 2 pseudo code:
-+ *	CS[X] = generic engine of same class, logical instance X
-+ *	INVALID = I915_ENGINE_CLASS_INVALID, I915_ENGINE_CLASS_INVALID_NONE
-+ *	set_engines(INVALID)
-+ *	set_parallel(engine_index=0, width=2, num_siblings=2,
-+ *		     engines=CS[0],CS[2],CS[1],CS[3])
-+ *
-+ *	Results in the following valid placements:
-+ *	CS[0], CS[1]
-+ *	CS[2], CS[3]
-+ *
-+ *	This can also be thought of as 2 virtual engines described by 2-D array
-+ *	in the engines the field with bonds placed between each index of the
-+ *	virtual engines. e.g. CS[0] is bonded to CS[1], CS[2] is bonded to
-+ *	CS[3].
-+ *	VE[0] = CS[0], CS[2]
-+ *	VE[1] = CS[1], CS[3]
-+ *
-+ *	Example 3 pseudo code:
-+ *	CS[X] = generic engine of same class, logical instance X
-+ *	INVALID = I915_ENGINE_CLASS_INVALID, I915_ENGINE_CLASS_INVALID_NONE
-+ *	set_engines(INVALID)
-+ *	set_parallel(engine_index=0, width=2, num_siblings=2,
-+ *		     engines=CS[0],CS[1],CS[1],CS[3])
-+ *
-+ *	Results in the following valid and invalid placements:
-+ *	CS[0], CS[1]
-+ *	CS[1], CS[3] - Not logical contiguous, return -EINVAL
-+ */
-+struct drm_i915_context_engines_parallel_submit {
-+	/**
-+	 * @base: base user extension.
-+	 */
-+	struct i915_user_extension base;
-+
-+	/**
-+	 * @engine_index: slot for parallel engine
-+	 */
-+	__u16 engine_index;
-+
-+	/**
-+	 * @width: number of contexts per parallel engine
-+	 */
-+	__u16 width;
-+
-+	/**
-+	 * @num_siblings: number of siblings per context
-+	 */
-+	__u16 num_siblings;
-+
-+	/**
-+	 * @mbz16: reserved for future use; must be zero
-+	 */
-+	__u16 mbz16;
-+
-+	/**
-+	 * @flags: all undefined flags must be zero, currently not defined flags
-+	 */
-+	__u64 flags;
-+
-+	/**
-+	 * @mbz64: reserved for future use; must be zero
-+	 */
-+	__u64 mbz64[3];
-+
-+	/**
-+	 * @engines: 2-d array of engine instances to configure parallel engine
-+	 *
-+	 * length = width (i) * num_siblings (j)
-+	 * index = j + i * num_siblings
-+	 */
-+	struct i915_engine_class_instance engines[0];
-+
-+} __packed;
-+
-diff --git a/Documentation/gpu/rfc/i915_scheduler.rst b/Documentation/gpu/rfc/i915_scheduler.rst
-index 7acd386a6b49..cbda75065dad 100644
---- a/Documentation/gpu/rfc/i915_scheduler.rst
-+++ b/Documentation/gpu/rfc/i915_scheduler.rst
-@@ -88,4 +88,61 @@ Spec references:
+diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_dp_mst_topology.c
+index 1590144..8d97430 100644
+--- a/drivers/gpu/drm/drm_dp_mst_topology.c
++++ b/drivers/gpu/drm/drm_dp_mst_topology.c
+@@ -2887,11 +2887,13 @@ static int process_single_tx_qlock(struct drm_dp_mst_topology_mgr *mgr,
+ 	idx += tosend + 1;
  
- New parallel submission uAPI
- ============================
--Details to come in a following patch.
-+The existing bonding uAPI is completely broken with GuC submission because
-+whether a submission is a single context submit or parallel submit isn't known
-+until execbuf time activated via the I915_SUBMIT_FENCE. To submit multiple
-+contexts in parallel with the GuC the context must be explicitly registered with
-+N contexts and all N contexts must be submitted in a single command to the GuC.
-+The GuC interfaces do not support dynamically changing between N contexts as the
-+bonding uAPI does. Hence the need for a new parallel submission interface. Also
-+the legacy bonding uAPI is quite confusing and not intuitive at all. Furthermore
-+I915_SUBMIT_FENCE is by design a future fence, so not really something we should
-+continue to support.
-+
-+The new parallel submission uAPI consists of 3 parts:
-+
-+* Export engines logical mapping
-+* A 'set_parallel' extension to configure contexts for parallel
-+  submission
-+* Extend execbuf2 IOCTL to support submitting N BBs in a single IOCTL
-+
-+Export engines logical mapping
-+------------------------------
-+Certain use cases require BBs to be placed on engine instances in logical order
-+(e.g. split-frame on gen11+). The logical mapping of engine instances can change
-+based on fusing. Rather than making UMDs be aware of fusing, simply expose the
-+logical mapping with the existing query engine info IOCTL. Also the GuC
-+submission interface currently only supports submitting multiple contexts to
-+engines in logical order which is a new requirement compared to execlists.
-+Lastly, all current platforms have at most 2 engine instances and the logical
-+order is the same as uAPI order. This will change on platforms with more than 2
-+engine instances.
-+
-+A single bit will be added to drm_i915_engine_info.flags indicating that the
-+logical instance has been returned and a new field,
-+drm_i915_engine_info.logical_instance, returns the logical instance.
-+
-+A 'set_parallel' extension to configure contexts for parallel submission
-+------------------------------------------------------------------------
-+The 'set_parallel' extension configures a slot for parallel submission of N BBs.
-+It is a setup step that must be called before using any of the contexts. See
-+I915_CONTEXT_ENGINES_EXT_LOAD_BALANCE or I915_CONTEXT_ENGINES_EXT_BOND for
-+similar existing examples. Once a slot is configured for parallel submission the
-+execbuf2 IOCTL can be called submitting N BBs in a single IOCTL. Initially only
-+supports GuC submission. Execlists supports can be added later if needed.
-+
-+Add I915_CONTEXT_ENGINES_EXT_PARALLEL_SUBMIT and
-+drm_i915_context_engines_parallel_submit to the uAPI to implement this
-+extension.
-+
-+.. kernel-doc:: Documentation/gpu/rfc/i915_parallel_execbuf.h
-+        :functions: drm_i915_context_engines_parallel_submit
-+
-+Extend execbuf2 IOCTL to support submitting N BBs in a single IOCTL
-+-------------------------------------------------------------------
-+Contexts that have been configured with the 'set_parallel' extension can only
-+submit N BBs in a single execbuf2 IOCTL. The BBs are either the last N objects
-+in the drm_i915_gem_exec_object2 list or the first N if I915_EXEC_BATCH_FIRST is
-+set. The number of BBs is implicit based on the slot submitted and how it has
-+been configured by 'set_parallel' or other extensions. No uAPI changes are
-+required to the execbuf2 IOCTL.
+ 	ret = drm_dp_send_sideband_msg(mgr, up, chunk, idx);
+-	if (unlikely(ret) && drm_debug_enabled(DRM_UT_DP)) {
+-		struct drm_printer p = drm_debug_printer(DBG_PREFIX);
++	if (unlikely(ret)) {
++		if (drm_debug_enabled(DRM_UT_DP)) {
++			struct drm_printer p = drm_debug_printer(DBG_PREFIX);
+ 
+-		drm_printf(&p, "sideband msg failed to send\n");
+-		drm_dp_mst_dump_sideband_msg_tx(&p, txmsg);
++			drm_printf(&p, "sideband msg failed to send\n");
++			drm_dp_mst_dump_sideband_msg_tx(&p, txmsg);
++		}
+ 		return ret;
+ 	}
+ 
 -- 
-2.28.0
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
 
