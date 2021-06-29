@@ -2,33 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CF623B7A8A
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Jun 2021 00:56:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 485503B7A98
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Jun 2021 01:08:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F0B116E05C;
-	Tue, 29 Jun 2021 22:56:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A22AE6E091;
+	Tue, 29 Jun 2021 23:08:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B2DA6E05C
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Jun 2021 22:56:06 +0000 (UTC)
+Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 458486E0C6
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Jun 2021 23:08:05 +0000 (UTC)
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
  q=dns/txt; 
- s=smtp; t=1625007368; h=Message-Id: Date: Subject: Cc: To: From:
- Sender; bh=2XKltI963TYarBka5wo9iwIlMsY088bWUtNMkfjxIKo=;
- b=KO1tvwssi7FPh4lYhFS1H7toYfQiwxzhTmCqUMXIqwZJ8opYc6YiVmmkTczr+BRhSLpoVpG9
- F4QkJXJurqGy0ektxtD3ltjMsh1pPS6occa1dinPbBIV3pe3LxSpL3Yj+t0MYY8AqVWCFMrl
- 5vlLyoLhdHmcl0WhiojEzcFLTZk=
-X-Mailgun-Sending-Ip: 69.72.43.7
+ s=smtp; t=1625008087; h=Message-Id: Date: Subject: Cc: To: From:
+ Sender; bh=4MVe6HXC8G/ylS4AZcL9Y5Wq96e1GHDpzevUWYQSF3g=;
+ b=cRf+VTtjPBjDWCK2hGXfCXtobrmceNUO3kn8W5GCI5QoFt2lfYoNTGe0dWeZk1WOeJFiOosg
+ rRPhRCuPqCD0qU17rTy3yhhyWwjOHbWOB0ChG4nLyTNbS95mSKZOMT/gcjtKogAcnGP41Yxk
+ oRwpAipU6tbNuYaDLbbMPwFyL7M=
+X-Mailgun-Sending-Ip: 198.61.254.9
 X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
 Received: from smtp.codeaurora.org
  (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n07.prod.us-west-2.postgun.com with SMTP id
- 60dba4f82a2a9a9761750237 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 29 Jun 2021 22:55:52
+ smtp-out-n03.prod.us-east-1.postgun.com with SMTP id
+ 60dba7cd4ca9face3416b59b (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 29 Jun 2021 23:07:57
  GMT
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 8B1F1C4338A; Tue, 29 Jun 2021 22:55:52 +0000 (UTC)
+ id 083EAC43144; Tue, 29 Jun 2021 23:07:57 +0000 (UTC)
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
  aws-us-west-2-caf-mail-1.web.codeaurora.org
 X-Spam-Level: 
@@ -38,20 +38,18 @@ Received: from khsieh-linux1.qualcomm.com (i-global254.qualcomm.com
  [199.106.103.254])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
  (No client certificate requested) (Authenticated sender: khsieh)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 988B0C433D3;
- Tue, 29 Jun 2021 22:55:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 988B0C433D3
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id E1BCBC433D3;
+ Tue, 29 Jun 2021 23:07:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org E1BCBC433D3
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
  dmarc=none (p=none dis=none) header.from=codeaurora.org
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
  spf=fail smtp.mailfrom=khsieh@codeaurora.org
 From: Kuogee Hsieh <khsieh@codeaurora.org>
-To: robdclark@gmail.com,
-	sean@poorly.run,
-	swboyd@chromium.org
+To: robdclark@gmail.com, sean@poorly.run, swboyd@chromium.org, lyude@redhat.com
 Subject: [PATCH v2] drm/dp_mst: Fix return code on sideband message failure
-Date: Tue, 29 Jun 2021 15:55:42 -0700
-Message-Id: <1625007342-9559-1-git-send-email-khsieh@codeaurora.org>
+Date: Tue, 29 Jun 2021 16:07:48 -0700
+Message-Id: <1625008068-16458-1-git-send-email-khsieh@codeaurora.org>
 X-Mailer: git-send-email 2.7.4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -80,9 +78,8 @@ it seems to have unintentionally changed the behavior on sideband message
 failure. It catches and returns failure only if DRM_UT_DP is enabled.
 Otherwise it ignores the error code and returns success. So on an MST
 unplug, the caller is unaware that the clear payload message failed and
-ends up waiting for 4 seconds for the response.
-
-This change fixes the issue by returning the proper error code.
+ends up waiting for 4 seconds for the response. Fixes the issue by
+returning the proper error code.
 
 Changes in V2:
 -- Revise commit text as review comment
