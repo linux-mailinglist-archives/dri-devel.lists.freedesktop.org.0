@@ -1,29 +1,30 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F02683B6ED4
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Jun 2021 09:35:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B0E223B6EDB
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Jun 2021 09:35:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E7686E7F5;
-	Tue, 29 Jun 2021 07:35:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B1AAA6E81C;
+	Tue, 29 Jun 2021 07:35:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 23E7B6E7EF
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9EDFE6E7F5
  for <dri-devel@lists.freedesktop.org>; Tue, 29 Jun 2021 07:35:23 +0000 (UTC)
 Received: from localhost.localdomain (unknown
  [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 8CDDC1F42EB4;
- Tue, 29 Jun 2021 08:35:21 +0100 (BST)
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 1F5241F42EB6;
+ Tue, 29 Jun 2021 08:35:22 +0100 (BST)
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v5 12/16] drm/panfrost: Reset the GPU when the AS_ACTIVE bit
- is stuck
-Date: Tue, 29 Jun 2021 09:35:06 +0200
-Message-Id: <20210629073510.2764391-13-boris.brezillon@collabora.com>
+Subject: [PATCH v5 13/16] drm/panfrost: Don't reset the GPU on job faults
+ unless we really have to
+Date: Tue, 29 Jun 2021 09:35:07 +0200
+Message-Id: <20210629073510.2764391-14-boris.brezillon@collabora.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210629073510.2764391-1-boris.brezillon@collabora.com>
 References: <20210629073510.2764391-1-boris.brezillon@collabora.com>
@@ -49,32 +50,88 @@ Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Things are unlikely to resolve until we reset the GPU. Let's not wait
-for other faults/timeout to happen to trigger this reset.
+If we can recover from a fault without a reset there's no reason to
+issue one.
+
+v3:
+* Drop the mention of Valhall requiring a reset on JOB_BUS_FAULT
+* Set the fence error to -EINVAL instead of having per-exception
+  error codes
 
 Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 Reviewed-by: Steven Price <steven.price@arm.com>
 ---
- drivers/gpu/drm/panfrost/panfrost_mmu.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/panfrost/panfrost_device.c |  9 +++++++++
+ drivers/gpu/drm/panfrost/panfrost_device.h |  2 ++
+ drivers/gpu/drm/panfrost/panfrost_job.c    | 16 ++++++++++++++--
+ 3 files changed, 25 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/panfrost/panfrost_mmu.c b/drivers/gpu/drm/panfrost/panfrost_mmu.c
-index 65e98c51cb66..5267c3a1f02f 100644
---- a/drivers/gpu/drm/panfrost/panfrost_mmu.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_mmu.c
-@@ -36,8 +36,11 @@ static int wait_ready(struct panfrost_device *pfdev, u32 as_nr)
- 	ret = readl_relaxed_poll_timeout_atomic(pfdev->iomem + AS_STATUS(as_nr),
- 		val, !(val & AS_STATUS_AS_ACTIVE), 10, 1000);
- 
--	if (ret)
-+	if (ret) {
-+		/* The GPU hung, let's trigger a reset */
-+		panfrost_device_schedule_reset(pfdev);
- 		dev_err(pfdev->dev, "AS_ACTIVE bit stuck\n");
-+	}
- 
- 	return ret;
+diff --git a/drivers/gpu/drm/panfrost/panfrost_device.c b/drivers/gpu/drm/panfrost/panfrost_device.c
+index 736854542b05..f4e42009526d 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_device.c
++++ b/drivers/gpu/drm/panfrost/panfrost_device.c
+@@ -379,6 +379,15 @@ const char *panfrost_exception_name(u32 exception_code)
+ 	return panfrost_exception_infos[exception_code].name;
  }
+ 
++bool panfrost_exception_needs_reset(const struct panfrost_device *pfdev,
++				    u32 exception_code)
++{
++	/* Right now, none of the GPU we support need a reset, but this
++	 * might change.
++	 */
++	return false;
++}
++
+ void panfrost_device_reset(struct panfrost_device *pfdev)
+ {
+ 	panfrost_gpu_soft_reset(pfdev);
+diff --git a/drivers/gpu/drm/panfrost/panfrost_device.h b/drivers/gpu/drm/panfrost/panfrost_device.h
+index 2dc8c0d1d987..d91f71366214 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_device.h
++++ b/drivers/gpu/drm/panfrost/panfrost_device.h
+@@ -244,6 +244,8 @@ enum drm_panfrost_exception_type {
+ };
+ 
+ const char *panfrost_exception_name(u32 exception_code);
++bool panfrost_exception_needs_reset(const struct panfrost_device *pfdev,
++				    u32 exception_code);
+ 
+ static inline void
+ panfrost_device_schedule_reset(struct panfrost_device *pfdev)
+diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
+index 4bd4d11377b7..b0f4857ca084 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_job.c
++++ b/drivers/gpu/drm/panfrost/panfrost_job.c
+@@ -498,14 +498,26 @@ static void panfrost_job_handle_irq(struct panfrost_device *pfdev, u32 status)
+ 		job_write(pfdev, JOB_INT_CLEAR, mask);
+ 
+ 		if (status & JOB_INT_MASK_ERR(j)) {
++			u32 js_status = job_read(pfdev, JS_STATUS(j));
++
+ 			job_write(pfdev, JS_COMMAND_NEXT(j), JS_COMMAND_NOP);
+ 
+ 			dev_err(pfdev->dev, "js fault, js=%d, status=%s, head=0x%x, tail=0x%x",
+ 				j,
+-				panfrost_exception_name(job_read(pfdev, JS_STATUS(j))),
++				panfrost_exception_name(js_status),
+ 				job_read(pfdev, JS_HEAD_LO(j)),
+ 				job_read(pfdev, JS_TAIL_LO(j)));
+-			drm_sched_fault(&pfdev->js->queue[j].sched);
++
++			/* If we need a reset, signal it to the timeout
++			 * handler, otherwise, update the fence error field and
++			 * signal the job fence.
++			 */
++			if (panfrost_exception_needs_reset(pfdev, js_status)) {
++				drm_sched_fault(&pfdev->js->queue[j].sched);
++			} else {
++				dma_fence_set_error(pfdev->jobs[j]->done_fence, -EINVAL);
++				status |= JOB_INT_MASK_DONE(j);
++			}
+ 		}
+ 
+ 		if (status & JOB_INT_MASK_DONE(j)) {
 -- 
 2.31.1
 
