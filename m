@@ -1,39 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D74B13B71A5
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Jun 2021 13:55:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A684B3B71BC
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Jun 2021 14:05:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 66EAC6E87A;
-	Tue, 29 Jun 2021 11:55:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4FC746E882;
+	Tue, 29 Jun 2021 12:05:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DDA206E876
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Jun 2021 11:52:17 +0000 (UTC)
-Received: from dggeme764-chm.china.huawei.com (unknown [172.30.72.56])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4GDjRn4hZVz75lx;
- Tue, 29 Jun 2021 19:48:53 +0800 (CST)
-Received: from localhost.localdomain.localdomain (10.175.113.25) by
- dggeme764-chm.china.huawei.com (10.3.19.110) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2176.2; Tue, 29 Jun 2021 19:52:14 +0800
-From: Jing Xiangfeng <jingxiangfeng@huawei.com>
-To: <patrik.r.jakobsson@gmail.com>, <airlied@linux.ie>, <daniel@ffwll.ch>
-Subject: [PATCH] drm/gma500: Add the missed drm_gem_object_put() in
- psb_user_framebuffer_create()
-Date: Tue, 29 Jun 2021 19:59:56 +0800
-Message-ID: <20210629115956.15160-1-jingxiangfeng@huawei.com>
-X-Mailer: git-send-email 2.20.1
+Received: from mail-qk1-x72a.google.com (mail-qk1-x72a.google.com
+ [IPv6:2607:f8b0:4864:20::72a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1AD816E87F;
+ Tue, 29 Jun 2021 12:05:24 +0000 (UTC)
+Received: by mail-qk1-x72a.google.com with SMTP id bj15so30700946qkb.11;
+ Tue, 29 Jun 2021 05:05:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=NaP02YVlfj2XBRA8PgGnBFZ3ZkjkK4tSn4ikEhyWjkU=;
+ b=NxPHGs268DtEsLLScel2wFobjKUflhI1hKtq4NOnsGs9O4YHg4Zb8IPMM+VKsKRoJu
+ qlpUjZxoBp2NYGdBGRCqqggWfNuMqP6GIESf7XvuSAKEOaRC3B8cRZRSF9IudZ0c4FmC
+ TuWfSY1zHacyWk91MDISt5Uw/h2ZMcCJLS2OZTBT+6ytVXrsYbbAjpcGYeYxeb8UihMf
+ /Q6WbrSVvegl1EhPXJa+2P0rtoFACyZV8CbptKlGrHzC1Qfa2F+lNrgUYYMy1S51+ytv
+ b3vnxgtnskj+xVrGdCW7w5CXJblvC2m5IBp2R1IysjQUwwVBQ1rWZ0vFTNTTU6uvvesx
+ ISoQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=NaP02YVlfj2XBRA8PgGnBFZ3ZkjkK4tSn4ikEhyWjkU=;
+ b=SiDex1V82RQeEi4uYCtjhtG3Jtv/FYTsg9sikNJC5poTJP1MZEVS4uooTabtpXSRg/
+ +ujaVLs1eUWsP8YRJP5xDLim/gUgrF291mKmSwMLk+CH2au4AVM/hBOX/kSEn11CZ9SE
+ oEYabb4LXm9frW5vHtUqNplxRc9dnvhxeDPydeJzXhllVEg622vEurJ3huhsMdGh69yn
+ vIlYv9lET9MR1XrPjGKP22PQ2S+qQz/oh/0lZT7LmUEgpOmWpPXXm22hPD5bsuTX1WQF
+ sUpX3nKG1MGK+7drWH067J5MR2mVLjI5feg6g1GeYbAtQ78yMpoB4FylEZBj1be9pQhc
+ jJ/Q==
+X-Gm-Message-State: AOAM531JrQGs9jvu80YI6trQrpTwJhC0U4AyRGYQcQVhITZW4AJaQL08
+ DUPDW3VhuzqwMVwFb+Ezyv91awu2uoRLvJVlVUI=
+X-Google-Smtp-Source: ABdhPJzT86vSkD6VIYzMvGrGRTjA2OptahzF2oMcY8ey0pqVmD0MxfeaHwIhPJ2fxhyo46Q0pAZXiM5Utt8AIYAOQNQ=
+X-Received: by 2002:ae9:dcc3:: with SMTP id
+ q186mr30343512qkf.426.1624968323149; 
+ Tue, 29 Jun 2021 05:05:23 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.175.113.25]
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- dggeme764-chm.china.huawei.com (10.3.19.110)
-X-CFilter-Loop: Reflected
-X-Mailman-Approved-At: Tue, 29 Jun 2021 11:54:54 +0000
+References: <20210629113713.154654-1-thomas.hellstrom@linux.intel.com>
+ <20210629113713.154654-2-thomas.hellstrom@linux.intel.com>
+In-Reply-To: <20210629113713.154654-2-thomas.hellstrom@linux.intel.com>
+From: Matthew Auld <matthew.william.auld@gmail.com>
+Date: Tue, 29 Jun 2021 13:04:56 +0100
+Message-ID: <CAM0jSHONtvX8yUdWzPFgMw340JzdChffVZ_BhMcMYoszzOOfuA@mail.gmail.com>
+Subject: Re: [PATCH v4 1/3] drm/i915/gem: Implement object migration
+To: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,44 +65,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- jingxiangfeng@huawei.com
+Cc: "Michael J . Ruhl" <michael.j.ruhl@intel.com>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Matthew Auld <matthew.auld@intel.com>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ kernel test robot <lkp@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-psb_user_framebuffer_create() misses to call drm_gem_object_put() in an
-error path. Add the missed function call to fix it.
-
-Signed-off-by: Jing Xiangfeng <jingxiangfeng@huawei.com>
----
- drivers/gpu/drm/gma500/framebuffer.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/gma500/framebuffer.c b/drivers/gpu/drm/gma500/framebuffer.c
-index ebe9dccf2d83..0b8648396fb2 100644
---- a/drivers/gpu/drm/gma500/framebuffer.c
-+++ b/drivers/gpu/drm/gma500/framebuffer.c
-@@ -352,6 +352,7 @@ static struct drm_framebuffer *psb_user_framebuffer_create
- 			 const struct drm_mode_fb_cmd2 *cmd)
- {
- 	struct drm_gem_object *obj;
-+	struct drm_framebuffer *fb;
- 
- 	/*
- 	 *	Find the GEM object and thus the gtt range object that is
-@@ -362,7 +363,11 @@ static struct drm_framebuffer *psb_user_framebuffer_create
- 		return ERR_PTR(-ENOENT);
- 
- 	/* Let the core code do all the work */
--	return psb_framebuffer_create(dev, cmd, obj);
-+	fb = psb_framebuffer_create(dev, cmd, obj);
-+	if (IS_ERR(fb))
-+		drm_gem_object_put(obj);
-+
-+	return fb;
- }
- 
- static int psbfb_probe(struct drm_fb_helper *fb_helper,
--- 
-2.26.0.106.g9fadedd
-
+On Tue, 29 Jun 2021 at 12:37, Thomas Hellstr=C3=B6m
+<thomas.hellstrom@linux.intel.com> wrote:
+>
+> Introduce an interface to migrate objects between regions.
+> This is primarily intended to migrate objects to LMEM for display and
+> to SYSTEM for dma-buf, but might be reused in one form or another for
+> performance-based migration.
+>
+> v2:
+> - Verify that the memory region given as an id really exists.
+>   (Reported by Matthew Auld)
+> - Call i915_gem_object_{init,release}_memory_region() when switching regi=
+on
+>   to handle also switching region lists. (Reported by Matthew Auld)
+> v3:
+> - Fix i915_gem_object_can_migrate() to return true if object is already i=
+n
+>   the correct region, even if the object ops doesn't have a migrate()
+>   callback.
+> - Update typo in commit message.
+> - Fix kerneldoc of i915_gem_object_wait_migration().
+> v4:
+> - Improve documentation (Suggested by Mattew Auld and Michael Ruhl)
+> - Always assume TTM migration hits a TTM move and unsets the pages throug=
+h
+>   move_notify. (Reported by Matthew Auld)
+> - Add a dma_fence_might_wait() annotation to
+>   i915_gem_object_wait_migration() (Suggested by Daniel Vetter)
+>
+> Reported-by: kernel test robot <lkp@intel.com>
+> Signed-off-by: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
+> Reviewed-by: Michael J. Ruhl <michael.j.ruhl@intel.com>
+Reviewed-by: Matthew Auld <matthew.auld@intel.com>
