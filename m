@@ -2,37 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5908C3B720F
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Jun 2021 14:29:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90F043B72C1
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Jun 2021 14:57:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C803289762;
-	Tue, 29 Jun 2021 12:28:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0921189C83;
+	Tue, 29 Jun 2021 12:57:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7687289762
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Jun 2021 12:28:56 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: ezequiel) with ESMTPSA id 9049A1F42F46
-Message-ID: <454371a3c93cf2fccad868fee431124429837f18.camel@collabora.com>
-Subject: Re: [PATCH 09/12] media: hantro: Enable H.264 on Rockchip VDPU2
-From: Ezequiel Garcia <ezequiel@collabora.com>
-To: Alex Bee <knaerzche@gmail.com>, linux-media@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, Nicolas Dufresne
- <nicolas.dufresne@collabora.com>
-Date: Tue, 29 Jun 2021 09:28:44 -0300
-In-Reply-To: <1979d843-129a-8b48-2926-0f50157974ec@gmail.com>
-References: <20210624182612.177969-1-ezequiel@collabora.com>
- <20210624182612.177969-10-ezequiel@collabora.com>
- <2ae869f3-7f3a-f184-93cc-61fca0f9022f@gmail.com>
- <c882d9c4f9eacd9d0f82e6e4ce3b33c383087d8c.camel@collabora.com>
- <1979d843-129a-8b48-2926-0f50157974ec@gmail.com>
-Organization: Collabora
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.3-1 
+Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
+ [66.111.4.229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF65989C83
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Jun 2021 12:57:43 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 4CF6558042D;
+ Tue, 29 Jun 2021 08:57:41 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute6.internal (MEProxy); Tue, 29 Jun 2021 08:57:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ from:to:cc:subject:date:message-id:content-type:mime-version
+ :content-transfer-encoding; s=fm3; bh=ImpdMfm6rY8i7IauUUBmjht3SN
+ FjYJewqKyRyx5rljc=; b=ikvRPDe+ErZPg9bHLBrJwdOtmZfM/5bXV1j1I4nDT2
+ Gaece65IN0fN4kcBuqgRl9qKXj+qTx84aMhwFJmV2F/65yJu4xau+dMA7bPPEgYB
+ lQ2ZCF9TfdBLVawVQoGWM65k/1QLpWyWT3srhzTpzZA83e/HDFN/wq3e9uBgAqvB
+ qirtHyIpLZlh1zoHEpNQ6vpOyKolFtkp9RSm1IqvyiHwMDe2TOQOf6flQYm3Yymy
+ WFTUSJ9r4m7kDbY7O8AKhxrw5KPCqmqOjI2h0aRvxALDJdjzjIt0+yOIReV5Xw+q
+ XbzEKVZAu9iI44x8hu4a4Ceo//3etcVMBNFlp8R4Ag4Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:message-id:mime-version:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=ImpdMf
+ m6rY8i7IauUUBmjht3SNFjYJewqKyRyx5rljc=; b=f1TqrvFTK7YAPaCpRBeOLE
+ CGp723eZkkH1dki4pGC5NUrJjwcfynXNIql94nuWIsBXvjti9BQV2WiO3dFxuG0i
+ baKYDG7yOasaPGyRM/JhMyxcIeA+MV9QI3jk7XW0znWWfW/ONePyWUwYiEaeD63B
+ EqGYQwh2TWChd4cqCIbw1jBzIQaWSWT+ABiWUz24CD53KVzMn8znix95bbQd93LV
+ eXrXHYtL1oS3FMmnTjAvYIwfQB5AS/3eGVFPDkqubcP/HaAUbPZ4rFaLh66H0sQE
+ f9XbEcaJqKAAMSx6pwHeAiZl6x2sZaGY03/zs7UmOz22JmT9uIQg46KHSc3COv7A
+ ==
+X-ME-Sender: <xms:wxjbYF0H9Nk8yngRH3DCb9dduf0PdS6kwoo-AfQ-7KJNxBX9N9dkvQ>
+ <xme:wxjbYMHMNsPLEdJeOsG33Jb7AQ2Xb-rVh9kXGV1Z2Rik3_1TUdcyIV3wRU8I6OiXi
+ lyxtCXKwfGQUFVKqzE>
+X-ME-Received: <xmr:wxjbYF7slnF-f56UcNNNTi-ydDQHdCRuUmifaujBHBaKv5CpLvn1zneJcue-5m_WnpzJCPphqXVWn-aatZmZkWjk36Y2rxQwQtRR>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfeeitddgvdeiucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhephffvufffkffotggggfesthhqredtredtjeenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+ gvrhhnpeetieekgfffkeegkeeltdehudetteejgfekueevhffhteegudfgkedtueegfffg
+ feenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
+ igihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:wxjbYC2EKqWW6yf7IUbmvgImBUBXpCHCam338-7u6N1HPaYw9Lq3wQ>
+ <xmx:wxjbYIF5mqHltSKZzvOsbSG0rPCGjG561KtlhNxUqtDBDCUlilPOgw>
+ <xmx:wxjbYD8-wvk0yRalLKJrqGSAFTLChoMyt4Bq3PzmTNmdrGx5bIEvXQ>
+ <xmx:xRjbYGV5oi9e1X88EJkfoUfRKRbfTQTkpkVEJEEz5DfYF30wz12_-A>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 29 Jun 2021 08:57:38 -0400 (EDT)
+From: Maxime Ripard <maxime@cerno.tech>
+To: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@intel.com>,
+ David Airlie <airlied@linux.ie>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>
+Subject: [PATCH 0/4] drm/vc4: hdmi: Fix CEC access while disabled
+Date: Tue, 29 Jun 2021 14:57:32 +0200
+Message-Id: <20210629125736.414467-1-maxime@cerno.tech>
+X-Mailer: git-send-email 2.31.1
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,60 +80,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
- David Airlie <airlied@linux.ie>, Hans Verkuil <hverkuil@xs4all.nl>,
- Thierry Reding <thierry.reding@gmail.com>, kernel@collabora.com,
- Sam Ravnborg <sam@ravnborg.org>, Chris Healy <cphealy@gmail.com>,
- maccraft123mc@gmail.com
+Cc: Nicolas Saenz Julienne <nsaenz@kernel.org>,
+ Tim Gover <tim.gover@raspberrypi.com>, Emma Anholt <emma@anholt.net>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Boris Brezillon <bbrezillon@kernel.org>, linux-kernel@vger.kernel.org,
+ bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>, Phil Elwell <phil@raspberrypi.com>,
+ Dom Cobley <dom@raspberrypi.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Alex,
-
-On Sat, 2021-06-26 at 10:33 +0200, Alex Bee wrote:
-> Hi Ezequiel,
-> 
-> Am 26.06.21 um 02:46 schrieb Ezequiel Garcia:
-> > (Adding Nicolas)
-> > 
-> > Hi Alex,
-> > 
-> > On Fri, 2021-06-25 at 01:13 +0200, Alex Bee wrote:
-> > > Hi Ezequiel,
-> > > 
-> > > Am 24.06.21 um 20:26 schrieb Ezequiel Garcia:
-> > > > Given H.264 support for VDPU2 was just added, let's enable it.
-> > > > For now, this is only enabled on platform that don't have
-> > > > an RKVDEC core, such as RK3328.
-> > > Is there any reason, you do not want to enabe H.264 on RK3399? I know
-> > > H.264 can be done by by rkvdec already, but from what I understand that
-> > > shouldn't be an issue: The first decoder found that meets the
-> > > requirements will be taken.
-> > > 
-> > Thanks a lot the review.
-> > 
-> > I really doubt userspace stacks are readily supporting that strategy.
-> > 
-> > The first decoder device supporting the codec format will be selected,
-> > I doubt features such as profile and levels are checked to decide
-> > which decoder to use.
-> > 
-> > I'd rather play safe on the kernel side and avoid offering
-> > two competing devices for the same codec.
-> 
-> I wasn't aware of that. Current ffmpeg v4l2_request implementation seems 
-> to not do VIDIOC_ENUM_FRAMESIZES - so we might end up being able to 
-> decode up to 1920x1088 only if hantro decoder is picked/checked first.
-> 
-
-Speaking of ffmpeg, now that MPEG-2, VP8 and H.264 control interfaces
-are stable, I think one of the next priorities would be to push Jonas'
-ffmpeg patches.
-
-It would be really cool if someone could take the lead on that front,
-as it would reduce kodi's out of tree stack, enable mpv, and so on.
--- 
-Kindly,
-Ezequiel
-
+Hi,=0D
+=0D
+This series aims at fixing a complete and silent hang when one tries to use=
+ CEC=0D
+while the display output is off.=0D
+=0D
+This can be tested with:=0D
+=0D
+echo off > /sys/class/drm/card0-HDMI-A-1/status=0D
+cec-ctl --tuner -p 1.0.0.0=0D
+cec-compliance=0D
+=0D
+This series addresses it by making sure the HDMI controller is powered up a=
+s=0D
+soon as the CEC device is opened by the userspace.=0D
+=0D
+Let me know what you think,=0D
+Maxime=0D
+=0D
+Maxime Ripard (4):=0D
+  drm/vc4: hdmi: Mark the device as active if running=0D
+  drm/vc4: hdmi: Put the device on error in pre_crtc_configure=0D
+  drm/vc4: hdmi: Split the CEC disable / enable functions in two=0D
+  drm/vc4: hdmi: Make sure the device is powered with CEC=0D
+=0D
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 85 ++++++++++++++++++++++------------=0D
+ 1 file changed, 55 insertions(+), 30 deletions(-)=0D
+=0D
+-- =0D
+2.31.1=0D
+=0D
