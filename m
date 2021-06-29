@@ -2,32 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 201833B74F9
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Jun 2021 17:12:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D42763B74F8
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Jun 2021 17:12:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F94E6E8AB;
-	Tue, 29 Jun 2021 15:12:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 89E626E8A9;
+	Tue, 29 Jun 2021 15:12:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 73B396E8A9;
- Tue, 29 Jun 2021 15:12:29 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10030"; a="195318916"
-X-IronPort-AV: E=Sophos;i="5.83,309,1616482800"; d="scan'208";a="195318916"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF96E6E8A9;
+ Tue, 29 Jun 2021 15:12:31 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10030"; a="195318931"
+X-IronPort-AV: E=Sophos;i="5.83,309,1616482800"; d="scan'208";a="195318931"
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Jun 2021 08:12:29 -0700
-X-IronPort-AV: E=Sophos;i="5.83,309,1616482800"; d="scan'208";a="408203406"
+ 29 Jun 2021 08:12:31 -0700
+X-IronPort-AV: E=Sophos;i="5.83,309,1616482800"; d="scan'208";a="408203436"
 Received: from ettammin-mobl1.ger.corp.intel.com (HELO
  thellst-mobl1.intel.com) ([10.249.254.141])
  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Jun 2021 08:12:27 -0700
+ 29 Jun 2021 08:12:29 -0700
 From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH v5 1/3] drm/i915/gem: Implement object migration
-Date: Tue, 29 Jun 2021 17:12:01 +0200
-Message-Id: <20210629151203.209465-2-thomas.hellstrom@linux.intel.com>
+Subject: [PATCH v5 2/3] drm/i915/gem: Introduce a selftest for the gem object
+ migrate functionality
+Date: Tue, 29 Jun 2021 17:12:02 +0200
+Message-Id: <20210629151203.209465-3-thomas.hellstrom@linux.intel.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210629151203.209465-1-thomas.hellstrom@linux.intel.com>
 References: <20210629151203.209465-1-thomas.hellstrom@linux.intel.com>
@@ -47,385 +48,322 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- "Michael J . Ruhl" <michael.j.ruhl@intel.com>, matthew.auld@intel.com,
- kernel test robot <lkp@intel.com>
+ matthew.auld@intel.com, "Michael J . Ruhl" <michael.j.ruhl@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Introduce an interface to migrate objects between regions.
-This is primarily intended to migrate objects to LMEM for display and
-to SYSTEM for dma-buf, but might be reused in one form or another for
-performance-based migration.
+From: Matthew Auld <matthew.auld@intel.com>
 
-v2:
-- Verify that the memory region given as an id really exists.
-  (Reported by Matthew Auld)
-- Call i915_gem_object_{init,release}_memory_region() when switching region
-  to handle also switching region lists. (Reported by Matthew Auld)
-v3:
-- Fix i915_gem_object_can_migrate() to return true if object is already in
-  the correct region, even if the object ops doesn't have a migrate()
-  callback.
-- Update typo in commit message.
-- Fix kerneldoc of i915_gem_object_wait_migration().
+A selftest for the gem object migrate functionality. Slightly adapted
+from the original by Matthew to the new interface and new fill blit
+code.
+
 v4:
-- Improve documentation (Suggested by Mattew Auld and Michael Ruhl)
-- Always assume TTM migration hits a TTM move and unsets the pages through
-  move_notify. (Reported by Matthew Auld)
-- Add a dma_fence_might_wait() annotation to
-  i915_gem_object_wait_migration() (Suggested by Daniel Vetter)
-v5:
-- Re-add might_sleep() instead of __dma_fence_might_wait(), Sent
-  v4 with the wrong version, didn't compile and __dma_fence_might_wait()
-  is not exported.
-- Added an R-B.
+- Initialize buffers and check contents after migration
+  (Suggested by Matthew Auld)
+- Perform async migration (if implemented) in the igt_lmem_pages_migrate
+  test
+- Test also migration to the current region.
 
-Reported-by: kernel test robot <lkp@intel.com>
+Co-developed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Reviewed-by: Michael J. Ruhl <michael.j.ruhl@intel.com>
-Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+Reviewed-by: Michael J. Ruhl <michael.j.ruhl@intel.com> #v3
 ---
- drivers/gpu/drm/i915/gem/i915_gem_object.c    | 112 ++++++++++++++++++
- drivers/gpu/drm/i915/gem/i915_gem_object.h    |  12 ++
- .../gpu/drm/i915/gem/i915_gem_object_types.h  |   9 ++
- drivers/gpu/drm/i915/gem/i915_gem_ttm.c       |  77 ++++++++++--
- drivers/gpu/drm/i915/gem/i915_gem_wait.c      |  19 +++
- 5 files changed, 217 insertions(+), 12 deletions(-)
+ drivers/gpu/drm/i915/gem/i915_gem_object.c    |   1 +
+ .../drm/i915/gem/selftests/i915_gem_migrate.c | 258 ++++++++++++++++++
+ .../drm/i915/selftests/i915_live_selftests.h  |   1 +
+ 3 files changed, 260 insertions(+)
+ create mode 100644 drivers/gpu/drm/i915/gem/selftests/i915_gem_migrate.c
 
 diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.c b/drivers/gpu/drm/i915/gem/i915_gem_object.c
-index 07e8ff9a8aae..225b77fb4314 100644
+index 225b77fb4314..547cc9dad90d 100644
 --- a/drivers/gpu/drm/i915/gem/i915_gem_object.c
 +++ b/drivers/gpu/drm/i915/gem/i915_gem_object.c
-@@ -513,6 +513,118 @@ bool i915_gem_object_has_iomem(const struct drm_i915_gem_object *obj)
- 	return obj->mem_flags & I915_BO_FLAG_IOMEM;
- }
- 
-+/**
-+ * i915_gem_object_can_migrate - Whether an object likely can be migrated
-+ *
-+ * @obj: The object to migrate
-+ * @id: The region intended to migrate to
-+ *
-+ * Check whether the object backend supports migration to the
-+ * given region. Note that pinning may affect the ability to migrate as
-+ * returned by this function.
-+ *
-+ * This function is primarily intended as a helper for checking the
-+ * possibility to migrate objects and might be slightly less permissive
-+ * than i915_gem_object_migrate() when it comes to objects with the
-+ * I915_BO_ALLOC_USER flag set.
-+ *
-+ * Return: true if migration is possible, false otherwise.
+@@ -665,6 +665,7 @@ static const struct drm_gem_object_funcs i915_gem_object_funcs = {
+ #if IS_ENABLED(CONFIG_DRM_I915_SELFTEST)
+ #include "selftests/huge_gem_object.c"
+ #include "selftests/huge_pages.c"
++#include "selftests/i915_gem_migrate.c"
+ #include "selftests/i915_gem_object.c"
+ #include "selftests/i915_gem_coherency.c"
+ #endif
+diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_migrate.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_migrate.c
+new file mode 100644
+index 000000000000..ced6e3a814a2
+--- /dev/null
++++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_migrate.c
+@@ -0,0 +1,258 @@
++// SPDX-License-Identifier: MIT
++/*
++ * Copyright © 2020-2021 Intel Corporation
 + */
-+bool i915_gem_object_can_migrate(struct drm_i915_gem_object *obj,
-+				 enum intel_region_id id)
++
++#include "gt/intel_migrate.h"
++
++static int igt_fill_check_buffer(struct drm_i915_gem_object *obj,
++				 bool fill)
 +{
 +	struct drm_i915_private *i915 = to_i915(obj->base.dev);
-+	unsigned int num_allowed = obj->mm.n_placements;
-+	struct intel_memory_region *mr;
-+	unsigned int i;
++	unsigned int i, count = obj->base.size / sizeof(u32);
++	enum i915_map_type map_type =
++		i915_coherent_map_type(i915, obj, false);
++	u32 *cur;
++	int err = 0;
 +
-+	GEM_BUG_ON(id >= INTEL_REGION_UNKNOWN);
-+	GEM_BUG_ON(obj->mm.madv != I915_MADV_WILLNEED);
++	assert_object_held(obj);
++	cur = i915_gem_object_pin_map(obj, map_type);
++	if (IS_ERR(cur))
++		return PTR_ERR(cur);
 +
-+	mr = i915->mm.regions[id];
-+	if (!mr)
-+		return false;
++	if (fill)
++		for (i = 0; i < count; ++i)
++			*cur++ = i;
++	else
++		for (i = 0; i < count; ++i)
++			if (*cur++ != i) {
++				pr_err("Object content mismatch at location %d of %d\n", i, count);
++				err = -EINVAL;
++				break;
++			}
 +
-+	if (obj->mm.region == mr)
-+		return true;
++	i915_gem_object_unpin_map(obj);
 +
-+	if (!i915_gem_object_evictable(obj))
-+		return false;
++	return err;
++}
 +
-+	if (!obj->ops->migrate)
-+		return false;
++static int igt_create_migrate(struct intel_gt *gt, enum intel_region_id src,
++			      enum intel_region_id dst)
++{
++	struct drm_i915_private *i915 = gt->i915;
++	struct intel_memory_region *src_mr = i915->mm.regions[src];
++	struct drm_i915_gem_object *obj;
++	struct i915_gem_ww_ctx ww;
++	int err = 0;
 +
-+	if (!(obj->flags & I915_BO_ALLOC_USER))
-+		return true;
++	GEM_BUG_ON(!src_mr);
 +
-+	if (num_allowed == 0)
-+		return false;
++	/* Switch object backing-store on create */
++	obj = i915_gem_object_create_region(src_mr, PAGE_SIZE, 0);
++	if (IS_ERR(obj))
++		return PTR_ERR(obj);
 +
-+	for (i = 0; i < num_allowed; ++i) {
-+		if (mr == obj->mm.placements[i])
-+			return true;
++	for_i915_gem_ww(&ww, err, true) {
++		err = i915_gem_object_lock(obj, &ww);
++		if (err)
++			continue;
++
++		err = igt_fill_check_buffer(obj, true);
++		if (err)
++			continue;
++
++		if (!i915_gem_object_can_migrate(obj, dst)) {
++			err = -EINVAL;
++			continue;
++		}
++
++		err = i915_gem_object_migrate(obj, &ww, dst);
++		if (err)
++			continue;
++
++		err = i915_gem_object_pin_pages(obj);
++		if (err)
++			continue;
++
++		if (i915_gem_object_can_migrate(obj, src))
++			err = -EINVAL;
++
++		i915_gem_object_unpin_pages(obj);
++		err = i915_gem_object_wait_migration(obj, true);
++		if (err)
++			continue;
++
++		err = igt_fill_check_buffer(obj, false);
++	}
++	i915_gem_object_put(obj);
++
++	return err;
++}
++
++static int igt_smem_create_migrate(void *arg)
++{
++	return igt_create_migrate(arg, INTEL_REGION_LMEM, INTEL_REGION_SMEM);
++}
++
++static int igt_lmem_create_migrate(void *arg)
++{
++	return igt_create_migrate(arg, INTEL_REGION_SMEM, INTEL_REGION_LMEM);
++}
++
++static int igt_same_create_migrate(void *arg)
++{
++	return igt_create_migrate(arg, INTEL_REGION_LMEM, INTEL_REGION_LMEM);
++}
++
++static int lmem_pages_migrate_one(struct i915_gem_ww_ctx *ww,
++				  struct drm_i915_gem_object *obj)
++{
++	int err;
++
++	err = i915_gem_object_lock(obj, ww);
++	if (err)
++		return err;
++
++	if (i915_gem_object_is_lmem(obj)) {
++		if (!i915_gem_object_can_migrate(obj, INTEL_REGION_SMEM)) {
++			pr_err("object can't migrate to smem.\n");
++			return -EINVAL;
++		}
++
++		err = i915_gem_object_migrate(obj, ww, INTEL_REGION_SMEM);
++		if (err) {
++			pr_err("Object failed migration to smem\n");
++			if (err)
++				return err;
++		}
++
++		if (i915_gem_object_is_lmem(obj)) {
++			pr_err("object still backed by lmem\n");
++			err = -EINVAL;
++		}
++
++		if (!i915_gem_object_has_struct_page(obj)) {
++			pr_err("object not backed by struct page\n");
++			err = -EINVAL;
++		}
++
++	} else {
++		if (!i915_gem_object_can_migrate(obj, INTEL_REGION_LMEM)) {
++			pr_err("object can't migrate to lmem.\n");
++			return -EINVAL;
++		}
++
++		err = i915_gem_object_migrate(obj, ww, INTEL_REGION_LMEM);
++		if (err) {
++			pr_err("Object failed migration to lmem\n");
++			if (err)
++				return err;
++		}
++
++		if (i915_gem_object_has_struct_page(obj)) {
++			pr_err("object still backed by struct page\n");
++			err = -EINVAL;
++		}
++
++		if (!i915_gem_object_is_lmem(obj)) {
++			pr_err("object not backed by lmem\n");
++			err = -EINVAL;
++		}
 +	}
 +
-+	return false;
++	return err;
 +}
 +
-+/**
-+ * i915_gem_object_migrate - Migrate an object to the desired region id
-+ * @obj: The object to migrate.
-+ * @ww: An optional struct i915_gem_ww_ctx. If NULL, the backend may
-+ * not be successful in evicting other objects to make room for this object.
-+ * @id: The region id to migrate to.
-+ *
-+ * Attempt to migrate the object to the desired memory region. The
-+ * object backend must support migration and the object may not be
-+ * pinned, (explicitly pinned pages or pinned vmas). The object must
-+ * be locked.
-+ * On successful completion, the object will have pages pointing to
-+ * memory in the new region, but an async migration task may not have
-+ * completed yet, and to accomplish that, i915_gem_object_wait_migration()
-+ * must be called.
-+ *
-+ * This function is a bit more permissive than i915_gem_object_can_migrate()
-+ * to allow for migrating objects where the caller knows exactly what is
-+ * happening. For example within selftests. More specifically this
-+ * function allows migrating I915_BO_ALLOC_USER objects to regions
-+ * that are not in the list of allowable regions.
-+ *
-+ * Note: the @ww parameter is not used yet, but included to make sure
-+ * callers put some effort into obtaining a valid ww ctx if one is
-+ * available.
-+ *
-+ * Return: 0 on success. Negative error code on failure. In particular may
-+ * return -ENXIO on lack of region space, -EDEADLK for deadlock avoidance
-+ * if @ww is set, -EINTR or -ERESTARTSYS if signal pending, and
-+ * -EBUSY if the object is pinned.
-+ */
-+int i915_gem_object_migrate(struct drm_i915_gem_object *obj,
-+			    struct i915_gem_ww_ctx *ww,
-+			    enum intel_region_id id)
++static int igt_lmem_pages_migrate(void *arg)
 +{
-+	struct drm_i915_private *i915 = to_i915(obj->base.dev);
-+	struct intel_memory_region *mr;
++	struct intel_gt *gt = arg;
++	struct drm_i915_private *i915 = gt->i915;
++	struct drm_i915_gem_object *obj;
++	struct i915_gem_ww_ctx ww;
++	struct i915_request *rq;
++	int err;
++	int i;
 +
-+	GEM_BUG_ON(id >= INTEL_REGION_UNKNOWN);
-+	GEM_BUG_ON(obj->mm.madv != I915_MADV_WILLNEED);
-+	assert_object_held(obj);
++	/* From LMEM to shmem and back again */
 +
-+	mr = i915->mm.regions[id];
-+	GEM_BUG_ON(!mr);
++	obj = i915_gem_object_create_lmem(i915, SZ_2M, 0);
++	if (IS_ERR(obj))
++		return PTR_ERR(obj);
 +
-+	if (obj->mm.region == mr)
-+		return 0;
++	/* Initial GPU fill, sync, CPU initialization. */
++	for_i915_gem_ww(&ww, err, true) {
++		err = i915_gem_object_lock(obj, &ww);
++		if (err)
++			continue;
 +
-+	if (!i915_gem_object_evictable(obj))
-+		return -EBUSY;
++		err = ____i915_gem_object_get_pages(obj);
++		if (err)
++			continue;
 +
-+	if (!obj->ops->migrate)
-+		return -EOPNOTSUPP;
++		err = intel_migrate_clear(&gt->migrate, &ww, NULL,
++					  obj->mm.pages->sgl, obj->cache_level,
++					  i915_gem_object_is_lmem(obj),
++					  0xdeadbeaf, &rq);
++		if (rq) {
++			dma_resv_add_excl_fence(obj->base.resv, &rq->fence);
++			i915_request_put(rq);
++		}
++		if (err)
++			continue;
 +
-+	return obj->ops->migrate(obj, mr);
-+}
++		err = i915_gem_object_wait(obj, I915_WAIT_INTERRUPTIBLE,
++					   5 * HZ);
++		if (err)
++			continue;
 +
- void i915_gem_init__objects(struct drm_i915_private *i915)
- {
- 	INIT_WORK(&i915->mm.free_work, __i915_gem_free_work);
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h b/drivers/gpu/drm/i915/gem/i915_gem_object.h
-index ea3224a480c4..8cbd7a5334e2 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
-@@ -17,6 +17,8 @@
- #include "i915_gem_ww.h"
- #include "i915_vma_types.h"
- 
-+enum intel_region_id;
-+
- /*
-  * XXX: There is a prevalence of the assumption that we fit the
-  * object's page count inside a 32bit _signed_ variable. Let's document
-@@ -597,6 +599,16 @@ bool i915_gem_object_migratable(struct drm_i915_gem_object *obj);
- 
- bool i915_gem_object_validates_to_lmem(struct drm_i915_gem_object *obj);
- 
-+int i915_gem_object_migrate(struct drm_i915_gem_object *obj,
-+			    struct i915_gem_ww_ctx *ww,
-+			    enum intel_region_id id);
-+
-+bool i915_gem_object_can_migrate(struct drm_i915_gem_object *obj,
-+				 enum intel_region_id id);
-+
-+int i915_gem_object_wait_migration(struct drm_i915_gem_object *obj,
-+				   unsigned int flags);
-+
- #ifdef CONFIG_MMU_NOTIFIER
- static inline bool
- i915_gem_object_is_userptr(struct drm_i915_gem_object *obj)
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
-index 441f913c87e6..ef3de2ae9723 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
-@@ -18,6 +18,7 @@
- 
- struct drm_i915_gem_object;
- struct intel_fronbuffer;
-+struct intel_memory_region;
- 
- /*
-  * struct i915_lut_handle tracks the fast lookups from handle to vma used
-@@ -77,6 +78,14 @@ struct drm_i915_gem_object_ops {
- 	 * delayed_free - Override the default delayed free implementation
- 	 */
- 	void (*delayed_free)(struct drm_i915_gem_object *obj);
-+
-+	/**
-+	 * migrate - Migrate object to a different region either for
-+	 * pinning or for as long as the object lock is held.
-+	 */
-+	int (*migrate)(struct drm_i915_gem_object *obj,
-+		       struct intel_memory_region *mr);
-+
- 	void (*release)(struct drm_i915_gem_object *obj);
- 
- 	const struct vm_operations_struct *mmap_ops;
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-index c39d982c4fa6..521ab740001a 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-@@ -617,7 +617,8 @@ struct ttm_device_funcs *i915_ttm_driver(void)
- 	return &i915_ttm_bo_driver;
- }
- 
--static int i915_ttm_get_pages(struct drm_i915_gem_object *obj)
-+static int __i915_ttm_get_pages(struct drm_i915_gem_object *obj,
-+				struct ttm_placement *placement)
- {
- 	struct ttm_buffer_object *bo = i915_gem_to_ttm(obj);
- 	struct ttm_operation_ctx ctx = {
-@@ -625,19 +626,12 @@ static int i915_ttm_get_pages(struct drm_i915_gem_object *obj)
- 		.no_wait_gpu = false,
- 	};
- 	struct sg_table *st;
--	struct ttm_place requested, busy[I915_TTM_MAX_PLACEMENTS];
--	struct ttm_placement placement;
- 	int real_num_busy;
- 	int ret;
- 
--	GEM_BUG_ON(obj->mm.n_placements > I915_TTM_MAX_PLACEMENTS);
--
--	/* Move to the requested placement. */
--	i915_ttm_placement_from_obj(obj, &requested, busy, &placement);
--
- 	/* First try only the requested placement. No eviction. */
--	real_num_busy = fetch_and_zero(&placement.num_busy_placement);
--	ret = ttm_bo_validate(bo, &placement, &ctx);
-+	real_num_busy = fetch_and_zero(&placement->num_busy_placement);
-+	ret = ttm_bo_validate(bo, placement, &ctx);
- 	if (ret) {
- 		ret = i915_ttm_err_to_gem(ret);
- 		/*
-@@ -652,8 +646,8 @@ static int i915_ttm_get_pages(struct drm_i915_gem_object *obj)
- 		 * If the initial attempt fails, allow all accepted placements,
- 		 * evicting if necessary.
- 		 */
--		placement.num_busy_placement = real_num_busy;
--		ret = ttm_bo_validate(bo, &placement, &ctx);
-+		placement->num_busy_placement = real_num_busy;
-+		ret = ttm_bo_validate(bo, placement, &ctx);
- 		if (ret)
- 			return i915_ttm_err_to_gem(ret);
- 	}
-@@ -668,6 +662,7 @@ static int i915_ttm_get_pages(struct drm_i915_gem_object *obj)
- 		i915_ttm_adjust_gem_after_move(obj);
- 	}
- 
-+	GEM_WARN_ON(obj->mm.pages);
- 	/* Object either has a page vector or is an iomem object */
- 	st = bo->ttm ? i915_ttm_tt_get_st(bo->ttm) : obj->ttm.cached_io_st;
- 	if (IS_ERR(st))
-@@ -678,6 +673,63 @@ static int i915_ttm_get_pages(struct drm_i915_gem_object *obj)
- 	return ret;
- }
- 
-+static int i915_ttm_get_pages(struct drm_i915_gem_object *obj)
-+{
-+	struct ttm_place requested, busy[I915_TTM_MAX_PLACEMENTS];
-+	struct ttm_placement placement;
-+
-+	GEM_BUG_ON(obj->mm.n_placements > I915_TTM_MAX_PLACEMENTS);
-+
-+	/* Move to the requested placement. */
-+	i915_ttm_placement_from_obj(obj, &requested, busy, &placement);
-+
-+	return __i915_ttm_get_pages(obj, &placement);
-+}
-+
-+/**
-+ * DOC: Migration vs eviction
-+ *
-+ * GEM migration may not be the same as TTM migration / eviction. If
-+ * the TTM core decides to evict an object it may be evicted to a
-+ * TTM memory type that is not in the object's allowable GEM regions, or
-+ * in fact theoretically to a TTM memory type that doesn't correspond to
-+ * a GEM memory region. In that case the object's GEM region is not
-+ * updated, and the data is migrated back to the GEM region at
-+ * get_pages time. TTM may however set up CPU ptes to the object even
-+ * when it is evicted.
-+ * Gem forced migration using the i915_ttm_migrate() op, is allowed even
-+ * to regions that are not in the object's list of allowable placements.
-+ */
-+static int i915_ttm_migrate(struct drm_i915_gem_object *obj,
-+			    struct intel_memory_region *mr)
-+{
-+	struct ttm_place requested;
-+	struct ttm_placement placement;
-+	int ret;
-+
-+	i915_ttm_place_from_region(mr, &requested, obj->flags);
-+	placement.num_placement = 1;
-+	placement.num_busy_placement = 1;
-+	placement.placement = &requested;
-+	placement.busy_placement = &requested;
-+
-+	ret = __i915_ttm_get_pages(obj, &placement);
-+	if (ret)
-+		return ret;
++		err = igt_fill_check_buffer(obj, true);
++		if (err)
++			continue;
++	}
++	if (err)
++		goto out_put;
 +
 +	/*
-+	 * Reinitialize the region bindings. This is primarily
-+	 * required for objects where the new region is not in
-+	 * its allowable placements.
++	 * Migrate to and from smem without explicitly syncing.
++	 * Finalize with data in smem for fast readout.
 +	 */
-+	if (obj->mm.region != mr) {
-+		i915_gem_object_release_memory_region(obj);
-+		i915_gem_object_init_memory_region(obj, mr);
++	for (i = 1; i <= 5; ++i) {
++		for_i915_gem_ww(&ww, err, true)
++			err = lmem_pages_migrate_one(&ww, obj);
++		if (err)
++			goto out_put;
 +	}
 +
-+	return 0;
++	err = i915_gem_object_lock_interruptible(obj, NULL);
++	if (err)
++		goto out_put;
++
++	/* Finally sync migration and check content. */
++	err = i915_gem_object_wait_migration(obj, true);
++	if (err)
++		goto out_unlock;
++
++	err = igt_fill_check_buffer(obj, false);
++
++out_unlock:
++	i915_gem_object_unlock(obj);
++out_put:
++	i915_gem_object_put(obj);
++
++	return err;
 +}
 +
- static void i915_ttm_put_pages(struct drm_i915_gem_object *obj,
- 			       struct sg_table *st)
- {
-@@ -814,6 +866,7 @@ static const struct drm_i915_gem_object_ops i915_gem_ttm_obj_ops = {
- 	.truncate = i915_ttm_purge,
- 	.adjust_lru = i915_ttm_adjust_lru,
- 	.delayed_free = i915_ttm_delayed_free,
-+	.migrate = i915_ttm_migrate,
- 	.mmap_offset = i915_ttm_mmap_offset,
- 	.mmap_ops = &vm_ops_ttm,
- };
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_wait.c b/drivers/gpu/drm/i915/gem/i915_gem_wait.c
-index 1070d3afdce7..f909aaa09d9c 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_wait.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_wait.c
-@@ -290,3 +290,22 @@ i915_gem_wait_ioctl(struct drm_device *dev, void *data, struct drm_file *file)
- 	i915_gem_object_put(obj);
- 	return ret;
- }
-+
-+/**
-+ * i915_gem_object_wait_migration - Sync an accelerated migration operation
-+ * @obj: The migrating object.
-+ * @flags: waiting flags. Currently supports only I915_WAIT_INTERRUPTIBLE.
-+ *
-+ * Wait for any pending async migration operation on the object,
-+ * whether it's explicitly (i915_gem_object_migrate()) or implicitly
-+ * (swapin, initial clearing) initiated.
-+ *
-+ * Return: 0 if successful, -ERESTARTSYS if a signal was hit during waiting.
-+ */
-+int i915_gem_object_wait_migration(struct drm_i915_gem_object *obj,
-+				   unsigned int flags)
++int i915_gem_migrate_live_selftests(struct drm_i915_private *i915)
 +{
-+	might_sleep();
-+	/* NOP for now. */
-+	return 0;
++	static const struct i915_subtest tests[] = {
++		SUBTEST(igt_smem_create_migrate),
++		SUBTEST(igt_lmem_create_migrate),
++		SUBTEST(igt_same_create_migrate),
++		SUBTEST(igt_lmem_pages_migrate),
++	};
++
++	if (!HAS_LMEM(i915))
++		return 0;
++
++	return intel_gt_live_subtests(tests, &i915->gt);
 +}
+diff --git a/drivers/gpu/drm/i915/selftests/i915_live_selftests.h b/drivers/gpu/drm/i915/selftests/i915_live_selftests.h
+index a68197cf1044..e2fd1b61af71 100644
+--- a/drivers/gpu/drm/i915/selftests/i915_live_selftests.h
++++ b/drivers/gpu/drm/i915/selftests/i915_live_selftests.h
+@@ -40,6 +40,7 @@ selftest(hugepages, i915_gem_huge_page_live_selftests)
+ selftest(gem_contexts, i915_gem_context_live_selftests)
+ selftest(gem_execbuf, i915_gem_execbuffer_live_selftests)
+ selftest(client, i915_gem_client_blt_live_selftests)
++selftest(gem_migrate, i915_gem_migrate_live_selftests)
+ selftest(reset, intel_reset_live_selftests)
+ selftest(memory_region, intel_memory_region_live_selftests)
+ selftest(hangcheck, intel_hangcheck_live_selftests)
 -- 
 2.31.1
 
