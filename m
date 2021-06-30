@@ -1,30 +1,30 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B3DC3B8615
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Jun 2021 17:11:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E64A03B8609
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Jun 2021 17:11:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 77AE46EA23;
-	Wed, 30 Jun 2021 15:10:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8BB196EA3C;
+	Wed, 30 Jun 2021 15:10:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from srv6.fidu.org (srv6.fidu.org [IPv6:2a01:4f8:231:de0::2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3295B6EA16;
- Wed, 30 Jun 2021 15:10:29 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3EA466EA23;
+ Wed, 30 Jun 2021 15:10:30 +0000 (UTC)
 Received: from localhost (localhost.localdomain [127.0.0.1])
- by srv6.fidu.org (Postfix) with ESMTP id E9049C80091;
- Wed, 30 Jun 2021 17:10:27 +0200 (CEST)
+ by srv6.fidu.org (Postfix) with ESMTP id 05F60C80098;
+ Wed, 30 Jun 2021 17:10:29 +0200 (CEST)
 X-Virus-Scanned: Debian amavisd-new at srv6.fidu.org
 Received: from srv6.fidu.org ([127.0.0.1])
  by localhost (srv6.fidu.org [127.0.0.1]) (amavisd-new, port 10026)
- with LMTP id 7AKlkCiZ2qq5; Wed, 30 Jun 2021 17:10:27 +0200 (CEST)
+ with LMTP id 8hAfmwTSdxuI; Wed, 30 Jun 2021 17:10:28 +0200 (CEST)
 Received: from wsembach-tuxedo.fritz.box
  (p200300e37F394900095779a208783f8e.dip0.t-ipconnect.de
  [IPv6:2003:e3:7f39:4900:957:79a2:878:3f8e])
  (Authenticated sender: wse@tuxedocomputers.com)
- by srv6.fidu.org (Postfix) with ESMTPA id DD0D9C80099;
- Wed, 30 Jun 2021 17:10:26 +0200 (CEST)
+ by srv6.fidu.org (Postfix) with ESMTPA id 1E668C8009A;
+ Wed, 30 Jun 2021 17:10:27 +0200 (CEST)
 From: Werner Sembach <wse@tuxedocomputers.com>
 To: harry.wentland@amd.com, sunpeng.li@amd.com, alexander.deucher@amd.com,
  christian.koenig@amd.com, airlied@linux.ie, daniel@ffwll.ch,
@@ -33,10 +33,10 @@ To: harry.wentland@amd.com, sunpeng.li@amd.com, alexander.deucher@amd.com,
  rodrigo.vivi@intel.com, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  intel-gfx@lists.freedesktop.org, emil.l.velikov@gmail.com
-Subject: [PATCH v5 14/17] drm/i915/display: Add handling for new "preferred
- color format" property
-Date: Wed, 30 Jun 2021 17:10:15 +0200
-Message-Id: <20210630151018.330354-15-wse@tuxedocomputers.com>
+Subject: [PATCH v5 15/17] drm/uAPI: Move "Broadcast RGB" property from driver
+ specific to general context
+Date: Wed, 30 Jun 2021 17:10:16 +0200
+Message-Id: <20210630151018.330354-16-wse@tuxedocomputers.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210630151018.330354-1-wse@tuxedocomputers.com>
 References: <20210630151018.330354-1-wse@tuxedocomputers.com>
@@ -58,87 +58,180 @@ Cc: Werner Sembach <wse@tuxedocomputers.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This commit implements the "preferred color format" drm property for the
-Intel GPU driver.
+Add "Broadcast RGB" to general drm context so that more drivers besides
+i915 and gma500 can implement it without duplicating code.
+
+Userspace can use this property to tell the graphic driver to use full or
+limited color range for a given connector, overwriting the default
+behaviour/automatic detection.
+
+Possible options are:
+    - Automatic (default/current behaviour)
+    - Full
+    - Limited 16:235
+
+In theory the driver should be able to automatically detect the monitors
+capabilities, but because of flawed standard implementations in Monitors,
+this might fail. In this case a manual overwrite is required to not have
+washed out colors or lose details in very dark or bright scenes.
 
 Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
 ---
- drivers/gpu/drm/i915/display/intel_dp.c     | 7 ++++++-
- drivers/gpu/drm/i915/display/intel_dp_mst.c | 5 +++++
- drivers/gpu/drm/i915/display/intel_hdmi.c   | 6 ++++++
- 3 files changed, 17 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/drm_atomic_helper.c |  4 +++
+ drivers/gpu/drm/drm_atomic_uapi.c   |  4 +++
+ drivers/gpu/drm/drm_connector.c     | 46 +++++++++++++++++++++++++++++
+ include/drm/drm_connector.h         | 16 ++++++++++
+ 4 files changed, 70 insertions(+)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-index fd33f753244d..29bb181ec4be 100644
---- a/drivers/gpu/drm/i915/display/intel_dp.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp.c
-@@ -616,9 +616,12 @@ intel_dp_output_format(struct drm_connector *connector,
- {
- 	struct intel_dp *intel_dp = intel_attached_dp(to_intel_connector(connector));
- 	const struct drm_display_info *info = &connector->display_info;
-+	const struct drm_connector_state *connector_state = connector->state;
- 
- 	if (!connector->ycbcr_420_allowed ||
--	    !drm_mode_is_420_only(info, mode))
-+	    !(drm_mode_is_420_only(info, mode) ||
-+	    (drm_mode_is_420_also(info, mode) && connector_state &&
-+	    connector_state->preferred_color_format == DRM_COLOR_FORMAT_YCRCB420)))
- 		return INTEL_OUTPUT_FORMAT_RGB;
- 
- 	if (intel_dp->dfp.rgb_to_ycbcr &&
-@@ -4692,10 +4695,12 @@ intel_dp_add_properties(struct intel_dp *intel_dp, struct drm_connector *connect
- 	if (HAS_GMCH(dev_priv)) {
- 		drm_connector_attach_max_bpc_property(connector, 6, 10);
- 		drm_connector_attach_active_bpc_property(connector, 6, 10);
-+		drm_connector_attach_preferred_color_format_property(connector);
- 		drm_connector_attach_active_color_format_property(connector);
- 	} else if (DISPLAY_VER(dev_priv) >= 5) {
- 		drm_connector_attach_max_bpc_property(connector, 6, 12);
- 		drm_connector_attach_active_bpc_property(connector, 6, 12);
-+		drm_connector_attach_preferred_color_format_property(connector);
- 		drm_connector_attach_active_color_format_property(connector);
- 	}
- 
-diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-index cb876175258f..67f0fb649876 100644
---- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-@@ -856,6 +856,11 @@ static struct drm_connector *intel_dp_add_mst_connector(struct drm_dp_mst_topolo
- 	if (connector->active_bpc_property)
- 		drm_connector_attach_active_bpc_property(connector, 6, 12);
- 
-+	connector->preferred_color_format_property =
-+		intel_dp->attached_connector->base.preferred_color_format_property;
-+	if (connector->preferred_color_format_property)
-+		drm_connector_attach_preferred_color_format_property(connector);
+diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
+index 90d62f305257..0c89d32efbd0 100644
+--- a/drivers/gpu/drm/drm_atomic_helper.c
++++ b/drivers/gpu/drm/drm_atomic_helper.c
+@@ -691,6 +691,10 @@ drm_atomic_helper_check_modeset(struct drm_device *dev,
+ 			if (old_connector_state->preferred_color_format !=
+ 			    new_connector_state->preferred_color_format)
+ 				new_crtc_state->connectors_changed = true;
 +
- 	connector->active_color_format_property =
- 		intel_dp->attached_connector->base.active_color_format_property;
- 	if (connector->active_color_format_property)
-diff --git a/drivers/gpu/drm/i915/display/intel_hdmi.c b/drivers/gpu/drm/i915/display/intel_hdmi.c
-index 3ee25e0cc3b9..a7b85cd13227 100644
---- a/drivers/gpu/drm/i915/display/intel_hdmi.c
-+++ b/drivers/gpu/drm/i915/display/intel_hdmi.c
-@@ -2153,6 +2153,11 @@ static int intel_hdmi_compute_output_format(struct intel_encoder *encoder,
- 		crtc_state->output_format = INTEL_OUTPUT_FORMAT_RGB;
- 	}
++			if (old_connector_state->preferred_color_range !=
++			    new_connector_state->preferred_color_range)
++				new_crtc_state->connectors_changed = true;
+ 		}
  
-+	if (connector->ycbcr_420_allowed &&
-+	    conn_state->preferred_color_format == DRM_COLOR_FORMAT_YCRCB420 &&
-+	    drm_mode_is_420_also(&connector->display_info, adjusted_mode))
-+		crtc_state->output_format = INTEL_OUTPUT_FORMAT_YCBCR420;
+ 		if (funcs->atomic_check)
+diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
+index c536f5e22016..c589bb1a8163 100644
+--- a/drivers/gpu/drm/drm_atomic_uapi.c
++++ b/drivers/gpu/drm/drm_atomic_uapi.c
+@@ -798,6 +798,8 @@ static int drm_atomic_connector_set_property(struct drm_connector *connector,
+ 		state->max_requested_bpc = val;
+ 	} else if (property == connector->preferred_color_format_property) {
+ 		state->preferred_color_format = val;
++	} else if (property == connector->preferred_color_range_property) {
++		state->preferred_color_range = val;
+ 	} else if (connector->funcs->atomic_set_property) {
+ 		return connector->funcs->atomic_set_property(connector,
+ 				state, property, val);
+@@ -877,6 +879,8 @@ drm_atomic_connector_get_property(struct drm_connector *connector,
+ 		*val = state->max_requested_bpc;
+ 	} else if (property == connector->preferred_color_format_property) {
+ 		*val = state->preferred_color_format;
++	} else if (property == connector->preferred_color_range_property) {
++		*val = state->preferred_color_range;
+ 	} else if (connector->funcs->atomic_get_property) {
+ 		return connector->funcs->atomic_get_property(connector,
+ 				state, property, val);
+diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+index 67dd59b12258..20ae2e6d907b 100644
+--- a/drivers/gpu/drm/drm_connector.c
++++ b/drivers/gpu/drm/drm_connector.c
+@@ -905,6 +905,12 @@ static const struct drm_prop_enum_list drm_active_color_format_enum_list[] = {
+ 	{ DRM_COLOR_FORMAT_YCRCB420, "ycbcr420" },
+ };
+ 
++static const struct drm_prop_enum_list drm_preferred_color_range_enum_list[] = {
++	{ DRM_MODE_COLOR_RANGE_UNSET, "Automatic" },
++	{ DRM_MODE_COLOR_RANGE_FULL, "Full" },
++	{ DRM_MODE_COLOR_RANGE_LIMITED_16_235, "Limited 16:235" },
++};
 +
- 	ret = intel_hdmi_compute_clock(encoder, crtc_state);
- 	if (ret) {
- 		if (crtc_state->output_format != INTEL_OUTPUT_FORMAT_YCBCR420 &&
-@@ -2517,6 +2522,7 @@ intel_hdmi_add_properties(struct intel_hdmi *intel_hdmi, struct drm_connector *c
- 	if (!HAS_GMCH(dev_priv)) {
- 		drm_connector_attach_max_bpc_property(connector, 8, 12);
- 		drm_connector_attach_active_bpc_property(connector, 8, 12);
-+		drm_connector_attach_preferred_color_format_property(connector);
- 		drm_connector_attach_active_color_format_property(connector);
- 	}
+ static const struct drm_prop_enum_list drm_active_color_range_enum_list[] = {
+ 	{ DRM_MODE_COLOR_RANGE_UNSET, "Not Applicable" },
+ 	{ DRM_MODE_COLOR_RANGE_FULL, "Full" },
+@@ -1246,6 +1252,15 @@ static const struct drm_prop_enum_list dp_colorspaces[] = {
+  *	property. Possible values are "not applicable", "rgb", "ycbcr444",
+  *	"ycbcr422", and "ycbcr420".
+  *
++ * Broadcast RGB:
++ *	This property is used by userspace to change the used color range. This
++ *	property affects the RGB color format as well as the Y'CbCr color
++ *	formats, if the driver supports both full and limited Y'CbCr. Drivers to
++ *	use the function drm_connector_attach_preferred_color_format_property()
++ *	to create and attach the property to the connector during
++ *	initialization. Possible values are "Automatic", "Full", and "Limited
++ *	16:235".
++ *
+  * active color range:
+  *	This read-only property tells userspace the color range actually used by
+  *	the hardware display engine "on the cable" on a connector. The chosen
+@@ -2331,6 +2346,37 @@ void drm_connector_set_active_color_format_property(struct drm_connector *connec
  }
+ EXPORT_SYMBOL(drm_connector_set_active_color_format_property);
+ 
++/**
++ * drm_connector_attach_preferred_color_range_property - attach "Broadcast RGB" property
++ * @connector: connector to attach preferred color range property on.
++ *
++ * This is used to add support for selecting a color range on a connector.
++ *
++ * Returns:
++ * Zero on success, negative errno on failure.
++ */
++int drm_connector_attach_preferred_color_range_property(struct drm_connector *connector)
++{
++	struct drm_device *dev = connector->dev;
++	struct drm_property *prop;
++
++	if (!connector->preferred_color_range_property) {
++		prop = drm_property_create_enum(dev, 0, "Broadcast RGB",
++						drm_preferred_color_range_enum_list,
++						ARRAY_SIZE(drm_preferred_color_range_enum_list));
++		if (!prop)
++			return -ENOMEM;
++
++		connector->preferred_color_range_property = prop;
++	}
++
++	drm_object_attach_property(&connector->base, prop, DRM_MODE_COLOR_RANGE_UNSET);
++	connector->state->preferred_color_range = DRM_MODE_COLOR_RANGE_UNSET;
++
++	return 0;
++}
++EXPORT_SYMBOL(drm_connector_attach_preferred_color_range_property);
++
+ /**
+  * drm_connector_attach_active_color_range_property - attach "active color range" property
+  * @connector: connector to attach active color range property on.
+diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+index 0dd7ece375c5..028bfb831abb 100644
+--- a/include/drm/drm_connector.h
++++ b/include/drm/drm_connector.h
+@@ -809,6 +809,15 @@ struct drm_connector_state {
+ 	 */
+ 	u32 preferred_color_format;
+ 
++	/**
++	 * preferred_color_range: Property set by userspace via "Broadcast RGB"
++	 * property to tell the GPU driver which color range to use. It
++	 * overwrites existing automatic detection mechanisms, if set and valid
++	 * for the current color format. Userspace can check for (un-)successful
++	 * application via the "active color range" property.
++	 */
++	enum drm_mode_color_range preferred_color_range;
++
+ 	/**
+ 	 * @hdr_output_metadata:
+ 	 * DRM blob property for HDR output metadata
+@@ -1426,6 +1435,12 @@ struct drm_connector {
+ 	 */
+ 	struct drm_property *active_color_format_property;
+ 
++	/**
++	 * @preferred_color_range_property: Default connector property for the
++	 * preferred color range to be driven out of the connector.
++	 */
++	struct drm_property *preferred_color_range_property;
++
+ 	/**
+ 	 * @active_color_range_property: Default connector property for the
+ 	 * active color range to be driven out of the connector.
+@@ -1760,6 +1775,7 @@ int drm_connector_attach_preferred_color_format_property(struct drm_connector *c
+ int drm_connector_attach_active_color_format_property(struct drm_connector *connector);
+ void drm_connector_set_active_color_format_property(struct drm_connector *connector,
+ 						    u32 active_color_format);
++int drm_connector_attach_preferred_color_range_property(struct drm_connector *connector);
+ int drm_connector_attach_active_color_range_property(struct drm_connector *connector);
+ void drm_connector_set_active_color_range_property(struct drm_connector *connector,
+ 						   enum drm_mode_color_range active_color_range);
 -- 
 2.25.1
 
