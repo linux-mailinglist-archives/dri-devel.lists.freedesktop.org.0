@@ -1,29 +1,28 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18BAA3B7D6B
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Jun 2021 08:28:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BC3E3B7D68
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Jun 2021 08:28:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 286CA6E936;
-	Wed, 30 Jun 2021 06:28:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 436B26E93A;
+	Wed, 30 Jun 2021 06:28:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 941C96E92D
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Jun 2021 06:28:07 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B98B6E92D
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Jun 2021 06:28:08 +0000 (UTC)
 Received: from localhost.localdomain (unknown
  [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 06BB91F42510;
- Wed, 30 Jun 2021 07:28:05 +0100 (BST)
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 929821F4313E;
+ Wed, 30 Jun 2021 07:28:06 +0100 (BST)
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v6 10/16] drm/panfrost: Make sure job interrupts are masked
- before resetting
-Date: Wed, 30 Jun 2021 08:27:45 +0200
-Message-Id: <20210630062751.2832545-11-boris.brezillon@collabora.com>
+Subject: [PATCH v6 11/16] drm/panfrost: Disable the AS on unhandled page faults
+Date: Wed, 30 Jun 2021 08:27:46 +0200
+Message-Id: <20210630062751.2832545-12-boris.brezillon@collabora.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210630062751.2832545-1-boris.brezillon@collabora.com>
 References: <20210630062751.2832545-1-boris.brezillon@collabora.com>
@@ -49,95 +48,111 @@ Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is not yet needed because we let active jobs be killed during by
-the reset and we don't really bother making sure they can be restarted.
-But once we start adding soft-stop support, controlling when we deal
-with the remaining interrrupts and making sure those are handled before
-the reset is issued gets tricky if we keep job interrupts active.
-
-Let's prepare for that and mask+flush job IRQs before issuing a reset.
-
-v4:
-* Add a comment explaining why we WARN_ON(!job) in the irq handler
-* Keep taking the job_lock when evicting stalled jobs
+If we don't do that, we have to wait for the job timeout to expire
+before the fault jobs gets killed.
 
 v3:
-* New patch
+* Make sure the AS is re-enabled when new jobs are submitted to the
+  context
 
 Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 Reviewed-by: Steven Price <steven.price@arm.com>
 ---
- drivers/gpu/drm/panfrost/panfrost_job.c | 27 ++++++++++++++++++++-----
- 1 file changed, 22 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/panfrost/panfrost_device.h |  1 +
+ drivers/gpu/drm/panfrost/panfrost_mmu.c    | 34 ++++++++++++++++++++--
+ 2 files changed, 32 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
-index 59c23c91e47c..11ff33841caf 100644
---- a/drivers/gpu/drm/panfrost/panfrost_job.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_job.c
-@@ -34,6 +34,7 @@ struct panfrost_queue_state {
- struct panfrost_job_slot {
- 	struct panfrost_queue_state queue[NUM_JOB_SLOTS];
- 	spinlock_t job_lock;
-+	int irq;
+diff --git a/drivers/gpu/drm/panfrost/panfrost_device.h b/drivers/gpu/drm/panfrost/panfrost_device.h
+index d37bc09809e8..cb5aadf7ae90 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_device.h
++++ b/drivers/gpu/drm/panfrost/panfrost_device.h
+@@ -97,6 +97,7 @@ struct panfrost_device {
+ 	spinlock_t as_lock;
+ 	unsigned long as_in_use_mask;
+ 	unsigned long as_alloc_mask;
++	unsigned long as_faulty_mask;
+ 	struct list_head as_lru_list;
+ 
+ 	struct panfrost_job_slot *js;
+diff --git a/drivers/gpu/drm/panfrost/panfrost_mmu.c b/drivers/gpu/drm/panfrost/panfrost_mmu.c
+index 2a9bf30edc9d..959da770295c 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_mmu.c
++++ b/drivers/gpu/drm/panfrost/panfrost_mmu.c
+@@ -154,6 +154,7 @@ u32 panfrost_mmu_as_get(struct panfrost_device *pfdev, struct panfrost_mmu *mmu)
+ 	as = mmu->as;
+ 	if (as >= 0) {
+ 		int en = atomic_inc_return(&mmu->as_count);
++		u32 mask = BIT(as) | BIT(16 + as);
+ 
+ 		/*
+ 		 * AS can be retained by active jobs or a perfcnt context,
+@@ -162,6 +163,18 @@ u32 panfrost_mmu_as_get(struct panfrost_device *pfdev, struct panfrost_mmu *mmu)
+ 		WARN_ON(en >= (NUM_JOB_SLOTS + 1));
+ 
+ 		list_move(&mmu->list, &pfdev->as_lru_list);
++
++		if (pfdev->as_faulty_mask & mask) {
++			/* Unhandled pagefault on this AS, the MMU was
++			 * disabled. We need to re-enable the MMU after
++			 * clearing+unmasking the AS interrupts.
++			 */
++			mmu_write(pfdev, MMU_INT_CLEAR, mask);
++			mmu_write(pfdev, MMU_INT_MASK, ~pfdev->as_faulty_mask);
++			pfdev->as_faulty_mask &= ~mask;
++			panfrost_mmu_enable(pfdev, mmu);
++		}
++
+ 		goto out;
+ 	}
+ 
+@@ -211,6 +224,7 @@ void panfrost_mmu_reset(struct panfrost_device *pfdev)
+ 	spin_lock(&pfdev->as_lock);
+ 
+ 	pfdev->as_alloc_mask = 0;
++	pfdev->as_faulty_mask = 0;
+ 
+ 	list_for_each_entry_safe(mmu, mmu_tmp, &pfdev->as_lru_list, list) {
+ 		mmu->as = -1;
+@@ -661,7 +675,7 @@ static irqreturn_t panfrost_mmu_irq_handler_thread(int irq, void *data)
+ 		if ((status & mask) == BIT(as) && (exception_type & 0xF8) == 0xC0)
+ 			ret = panfrost_mmu_map_fault_addr(pfdev, as, addr);
+ 
+-		if (ret)
++		if (ret) {
+ 			/* terminal fault, print info about the fault */
+ 			dev_err(pfdev->dev,
+ 				"Unhandled Page fault in AS%d at VA 0x%016llX\n"
+@@ -679,14 +693,28 @@ static irqreturn_t panfrost_mmu_irq_handler_thread(int irq, void *data)
+ 				access_type, access_type_name(pfdev, fault_status),
+ 				source_id);
+ 
++			spin_lock(&pfdev->as_lock);
++			/* Ignore MMU interrupts on this AS until it's been
++			 * re-enabled.
++			 */
++			pfdev->as_faulty_mask |= mask;
++
++			/* Disable the MMU to kill jobs on this AS. */
++			panfrost_mmu_disable(pfdev, as);
++			spin_unlock(&pfdev->as_lock);
++		}
++
+ 		status &= ~mask;
+ 
+ 		/* If we received new MMU interrupts, process them before returning. */
+ 		if (!status)
+-			status = mmu_read(pfdev, MMU_INT_RAWSTAT);
++			status = mmu_read(pfdev, MMU_INT_RAWSTAT) & ~pfdev->as_faulty_mask;
+ 	}
+ 
+-	mmu_write(pfdev, MMU_INT_MASK, ~0);
++	spin_lock(&pfdev->as_lock);
++	mmu_write(pfdev, MMU_INT_MASK, ~pfdev->as_faulty_mask);
++	spin_unlock(&pfdev->as_lock);
++
+ 	return IRQ_HANDLED;
  };
  
- static struct panfrost_job *
-@@ -389,6 +390,15 @@ static void panfrost_reset(struct panfrost_device *pfdev,
- 	if (bad)
- 		drm_sched_increase_karma(bad);
- 
-+	/* Mask job interrupts and synchronize to make sure we won't be
-+	 * interrupted during our reset.
-+	 */
-+	job_write(pfdev, JOB_INT_MASK, 0);
-+	synchronize_irq(pfdev->js->irq);
-+
-+	/* Schedulers are stopped and interrupts are masked+flushed, we don't
-+	 * need to protect the 'evict unfinished jobs' lock with the job_lock.
-+	 */
- 	spin_lock(&pfdev->js->job_lock);
- 	for (i = 0; i < NUM_JOB_SLOTS; i++) {
- 		if (pfdev->jobs[i]) {
-@@ -486,7 +496,14 @@ static void panfrost_job_handle_irq(struct panfrost_device *pfdev, u32 status)
- 			struct panfrost_job *job;
- 
- 			job = pfdev->jobs[j];
--			/* Only NULL if job timeout occurred */
-+			/* The only reason this job could be NULL is if the
-+			 * job IRQ handler is called just after the
-+			 * in-flight job eviction in the reset path, and
-+			 * this shouldn't happen because the job IRQ has
-+			 * been masked and synchronized when this eviction
-+			 * happens.
-+			 */
-+			WARN_ON(!job);
- 			if (job) {
- 				pfdev->jobs[j] = NULL;
- 
-@@ -546,7 +563,7 @@ static void panfrost_reset_work(struct work_struct *work)
- int panfrost_job_init(struct panfrost_device *pfdev)
- {
- 	struct panfrost_job_slot *js;
--	int ret, j, irq;
-+	int ret, j;
- 
- 	INIT_WORK(&pfdev->reset.work, panfrost_reset_work);
- 
-@@ -556,11 +573,11 @@ int panfrost_job_init(struct panfrost_device *pfdev)
- 
- 	spin_lock_init(&js->job_lock);
- 
--	irq = platform_get_irq_byname(to_platform_device(pfdev->dev), "job");
--	if (irq <= 0)
-+	js->irq = platform_get_irq_byname(to_platform_device(pfdev->dev), "job");
-+	if (js->irq <= 0)
- 		return -ENODEV;
- 
--	ret = devm_request_threaded_irq(pfdev->dev, irq,
-+	ret = devm_request_threaded_irq(pfdev->dev, js->irq,
- 					panfrost_job_irq_handler,
- 					panfrost_job_irq_handler_thread,
- 					IRQF_SHARED, KBUILD_MODNAME "-job",
 -- 
 2.31.1
 
