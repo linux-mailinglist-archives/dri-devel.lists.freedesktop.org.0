@@ -1,59 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD9203B8587
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Jun 2021 16:55:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 122A43B858B
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Jun 2021 16:56:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 112236E9F6;
-	Wed, 30 Jun 2021 14:55:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2668C6E9F8;
+	Wed, 30 Jun 2021 14:56:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com
- [IPv6:2607:f8b0:4864:20::1030])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F1AD6E9F6;
- Wed, 30 Jun 2021 14:55:52 +0000 (UTC)
-Received: by mail-pj1-x1030.google.com with SMTP id
- g24-20020a17090ace98b029017225d0c013so3190621pju.1; 
- Wed, 30 Jun 2021 07:55:52 -0700 (PDT)
+Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com
+ [IPv6:2607:f8b0:4864:20::1029])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 456616E9F8;
+ Wed, 30 Jun 2021 14:55:59 +0000 (UTC)
+Received: by mail-pj1-x1029.google.com with SMTP id l11so1912278pji.5;
+ Wed, 30 Jun 2021 07:55:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=7TptsW5OQ3GR+u/tITdCBbefhDZ5KPjgj9kl0duGn/0=;
- b=jQMcYfmo4WOy762+XlXq7rREStvEn1K/QbSMcETHOaImZDMR6TV8ygdhXa4cDZQhA2
- SFEOD/Ken2OZVNKzwUGscD4H1Wn0L6dYPUVM3B+ON0AfnAhbAEeh8lb4Wu8C36bsnU59
- SA0z3caBP7tlt9vECTP+aPMUnQlX37E5u4gu0vG7NEn7J5zFwhqgVf+biiNr8aCnVBln
- bzCgj9RFB/v0jMtUFdOgjkhanDDI6HmeUoKdFqohEWrZKz8tf01y6CI/yXjVhp6OMaef
- 3CwRMFzak934JJTSNqZdrAnmp3iTkOHLfRpmQhpmffIbDOtF8LQgDL8nJdEHtAWdbQAb
- mXlg==
+ bh=CtdxbqSeV/2csKmNSvUS45gYT6/rPtvycxiemXQFqoE=;
+ b=PN6u8eiDV5DESHx+RsGe9Co74bFfrnP5XFh9U/KxoIUqISzrMtaU//FSpndLXYaEqO
+ OPpVb6Qnlf0NNoNtmSX04iiIdE/1duZpMXrBLDCHq3At7L7bmbsFZOpBkifbO05YhCmt
+ tDyhD3PUKSnBSIUZfOHjnrs9+QdlUdUjkStg4R+6kZmP+2F+auyDszxxwYOp3jg/VKXr
+ CsDay4+9a9xTXQDIa3mbw9h9WekB4bFnjHOk3Ks4doCy4dRagcNZQHPjKVlMAKuv7RJF
+ 2MORgECv93S+0LPXLTWkWQjzxTTHFqOoTC3x5zy4cVRTPLGEkRJSVjh7wiiftXVPs/5E
+ R7Mg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=7TptsW5OQ3GR+u/tITdCBbefhDZ5KPjgj9kl0duGn/0=;
- b=bMRqclXmaoEdYr6pqTEmRBg77ntrPGO5Z0Bn5Hfar8v+11i9v+E7aJpHQKtjcsJlvr
- rsjKdfIMYS3r1OwBuoMJTxubGciQb39OLatns9ukEJlIPE0glnBGpDK9vLI0bIzGJxih
- ioO/G8LhZ7z3F+pwQPLxKj17mCKztbFkACQWQs84OB67+muqQyfqJncC0xsvUyW66UKf
- UR2PseYDSjgTTUFwPa1gcqHEl2h7AnyxavxoZijwDU3N7jPf0NWkbCyYCzvZvtdr4ehq
- ewUcdPC58LA/ltGDTszhGFAi2v0z89UeOcXCr/gKv7j0q6K5Axx93Xk/7g+tC65bzjag
- AEBw==
-X-Gm-Message-State: AOAM533h64w2ik9EkNFbDxMI6+jFnemO8KeBe66RBiquIEAB82fjgtKi
- /Z9v93yd6j6BSbgCJyuIMbs=
-X-Google-Smtp-Source: ABdhPJzlakShd++NdtFkoi8/aMmEkS+Gpz+BqRr8GgeXQvHyNR1eldpRvcZf+RI+EEcYEAP/mljnpw==
-X-Received: by 2002:a17:90b:19d4:: with SMTP id
- nm20mr4798973pjb.134.1625064951982; 
- Wed, 30 Jun 2021 07:55:51 -0700 (PDT)
+ bh=CtdxbqSeV/2csKmNSvUS45gYT6/rPtvycxiemXQFqoE=;
+ b=ZgN3y5THuLr4UgClZxMkL6J2zyF/g8o7UzKG3q6LzbAl2sid9axh1b+TVyz1fXVeSO
+ ZMKI2C910HM1J3aN5TVEVafs43etLQw8Q0owmqg5W8e2lJXzz0HZyD7UwM8Lm7CEpkhO
+ udnrIjrTiF9JMdHaTgxBnDdlzKieg84rJB/GNC6AgVfMGiPB4gtEwgg5pUfAqDNNIHeh
+ 1UO7XKX3aPSKdj3HkKVvjvI/+oijBcxf9QTnzPqNDwYR/IP9qwhHDBxReAlgvpR0QqIr
+ WYLZcP98aDfNjo2aE7NsmqyrV/NETZzlJ6QY6hV+0JxTANk5Fha4b7EkE5Qi77hPOSKX
+ PxDA==
+X-Gm-Message-State: AOAM533noyK91nMTbjEQvf9E9Sk94L8NwxTCna6k8FojHaXC7qmF+Cp8
+ tdH6OXb/qzf/YZJgqxnGvV8=
+X-Google-Smtp-Source: ABdhPJw8QsA5Ov2ap/McNShIZ3+kvdZIh2SptPjBMN/D7nE5je4eczXEAJ8ur1RuJs5yWKKQVsAeDg==
+X-Received: by 2002:a17:902:b210:b029:11a:bf7b:1a83 with SMTP id
+ t16-20020a170902b210b029011abf7b1a83mr32636110plr.84.1625064958876; 
+ Wed, 30 Jun 2021 07:55:58 -0700 (PDT)
 Received: from localhost.localdomain ([118.200.190.93])
- by smtp.gmail.com with ESMTPSA id d13sm7157234pjr.49.2021.06.30.07.55.47
+ by smtp.gmail.com with ESMTPSA id d13sm7157234pjr.49.2021.06.30.07.55.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 30 Jun 2021 07:55:51 -0700 (PDT)
+ Wed, 30 Jun 2021 07:55:58 -0700 (PDT)
 From: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
 To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
  airlied@linux.ie, daniel@ffwll.ch, sumit.semwal@linaro.org,
  christian.koenig@amd.com
-Subject: [PATCH v6 2/4] drm: avoid circular locks in __drm_mode_object_find
-Date: Wed, 30 Jun 2021 22:54:02 +0800
-Message-Id: <20210630145404.5958-3-desmondcheongzx@gmail.com>
+Subject: [PATCH v6 3/4] drm: add a locked version of drm_is_current_master
+Date: Wed, 30 Jun 2021 22:54:03 +0800
+Message-Id: <20210630145404.5958-4-desmondcheongzx@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210630145404.5958-1-desmondcheongzx@gmail.com>
 References: <20210630145404.5958-1-desmondcheongzx@gmail.com>
@@ -71,56 +70,125 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: gregkh@linuxfoundation.org, intel-gfx@lists.freedesktop.org,
- emil.l.velikov@gmail.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- skhan@linuxfoundation.org, Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, gregkh@linuxfoundation.org,
+ intel-gfx@lists.freedesktop.org, emil.l.velikov@gmail.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, skhan@linuxfoundation.org,
+ Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
  linux-kernel-mentees@lists.linuxfoundation.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In a future patch, _drm_lease_held will dereference drm_file->master
-only after making a call to drm_file_get_master which increments the
-reference count of drm_file->master while holding a lock on
-drm_device.master_mutex.
+While checking the master status of the DRM file in
+drm_is_current_master(), the device's master mutex should be
+held. Without the mutex, the pointer fpriv->master may be freed
+concurrently by another process calling drm_setmaster_ioctl(). This
+could lead to use-after-free errors when the pointer is subsequently
+dereferenced in drm_lease_owner().
 
-In preparation for this, the call to _drm_lease_held should be moved
-out from the section locked by &dev->mode_config.idr_mutex. This
-avoids inverting the lock hierarchy for
-&dev->master_mutex --> &dev->mode_config.idr_mutex
+The callers of drm_is_current_master() from drm_auth.c hold the
+device's master mutex, but external callers do not. Hence, we implement
+drm_is_current_master_locked() to be used within drm_auth.c, and
+modify drm_is_current_master() to grab the device's master mutex
+before checking the master status.
 
+Reported-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
 ---
- drivers/gpu/drm/drm_mode_object.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/drm_auth.c | 51 ++++++++++++++++++++++++--------------
+ 1 file changed, 32 insertions(+), 19 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_mode_object.c b/drivers/gpu/drm/drm_mode_object.c
-index b26588b52795..63d35f1f98dd 100644
---- a/drivers/gpu/drm/drm_mode_object.c
-+++ b/drivers/gpu/drm/drm_mode_object.c
-@@ -146,16 +146,18 @@ struct drm_mode_object *__drm_mode_object_find(struct drm_device *dev,
- 	if (obj && obj->id != id)
- 		obj = NULL;
+diff --git a/drivers/gpu/drm/drm_auth.c b/drivers/gpu/drm/drm_auth.c
+index f00e5abdbbf4..ab1863c5a5a0 100644
+--- a/drivers/gpu/drm/drm_auth.c
++++ b/drivers/gpu/drm/drm_auth.c
+@@ -61,6 +61,35 @@
+  * trusted clients.
+  */
  
--	if (obj && drm_mode_object_lease_required(obj->type) &&
--	    !_drm_lease_held(file_priv, obj->id))
--		obj = NULL;
--
- 	if (obj && obj->free_cb) {
- 		if (!kref_get_unless_zero(&obj->refcount))
- 			obj = NULL;
- 	}
- 	mutex_unlock(&dev->mode_config.idr_mutex);
- 
-+	if (obj && drm_mode_object_lease_required(obj->type) &&
-+		!_drm_lease_held(file_priv, obj->id)) {
-+		drm_mode_object_put(obj);
-+		obj = NULL;
-+	}
++static bool drm_is_current_master_locked(struct drm_file *fpriv)
++{
++	lockdep_assert_held_once(&fpriv->minor->dev->master_mutex);
 +
- 	return obj;
++	return fpriv->is_master && drm_lease_owner(fpriv->master) == fpriv->minor->dev->master;
++}
++
++/**
++ * drm_is_current_master - checks whether @priv is the current master
++ * @fpriv: DRM file private
++ *
++ * Checks whether @fpriv is current master on its device. This decides whether a
++ * client is allowed to run DRM_MASTER IOCTLs.
++ *
++ * Most of the modern IOCTL which require DRM_MASTER are for kernel modesetting
++ * - the current master is assumed to own the non-shareable display hardware.
++ */
++bool drm_is_current_master(struct drm_file *fpriv)
++{
++	bool ret;
++
++	mutex_lock(&fpriv->minor->dev->master_mutex);
++	ret = drm_is_current_master_locked(fpriv);
++	mutex_unlock(&fpriv->minor->dev->master_mutex);
++
++	return ret;
++}
++EXPORT_SYMBOL(drm_is_current_master);
++
+ int drm_getmagic(struct drm_device *dev, void *data, struct drm_file *file_priv)
+ {
+ 	struct drm_auth *auth = data;
+@@ -223,7 +252,7 @@ int drm_setmaster_ioctl(struct drm_device *dev, void *data,
+ 	if (ret)
+ 		goto out_unlock;
+ 
+-	if (drm_is_current_master(file_priv))
++	if (drm_is_current_master_locked(file_priv))
+ 		goto out_unlock;
+ 
+ 	if (dev->master) {
+@@ -272,7 +301,7 @@ int drm_dropmaster_ioctl(struct drm_device *dev, void *data,
+ 	if (ret)
+ 		goto out_unlock;
+ 
+-	if (!drm_is_current_master(file_priv)) {
++	if (!drm_is_current_master_locked(file_priv)) {
+ 		ret = -EINVAL;
+ 		goto out_unlock;
+ 	}
+@@ -321,7 +350,7 @@ void drm_master_release(struct drm_file *file_priv)
+ 	if (file_priv->magic)
+ 		idr_remove(&file_priv->master->magic_map, file_priv->magic);
+ 
+-	if (!drm_is_current_master(file_priv))
++	if (!drm_is_current_master_locked(file_priv))
+ 		goto out;
+ 
+ 	drm_legacy_lock_master_cleanup(dev, master);
+@@ -342,22 +371,6 @@ void drm_master_release(struct drm_file *file_priv)
+ 	mutex_unlock(&dev->master_mutex);
  }
  
+-/**
+- * drm_is_current_master - checks whether @priv is the current master
+- * @fpriv: DRM file private
+- *
+- * Checks whether @fpriv is current master on its device. This decides whether a
+- * client is allowed to run DRM_MASTER IOCTLs.
+- *
+- * Most of the modern IOCTL which require DRM_MASTER are for kernel modesetting
+- * - the current master is assumed to own the non-shareable display hardware.
+- */
+-bool drm_is_current_master(struct drm_file *fpriv)
+-{
+-	return fpriv->is_master && drm_lease_owner(fpriv->master) == fpriv->minor->dev->master;
+-}
+-EXPORT_SYMBOL(drm_is_current_master);
+-
+ /**
+  * drm_master_get - reference a master pointer
+  * @master: &struct drm_master
 -- 
 2.25.1
 
