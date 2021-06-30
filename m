@@ -2,49 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E110D3B8960
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Jun 2021 21:59:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4543E3B89C0
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Jun 2021 22:33:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EDE3D6EA7D;
-	Wed, 30 Jun 2021 19:59:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB0206EA7E;
+	Wed, 30 Jun 2021 20:32:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.domeneshop.no (smtp.domeneshop.no
- [IPv6:2a01:5b40:0:3005::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8668E6EA7D
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Jun 2021 19:59:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
- ; s=ds202012;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
- MIME-Version:Date:Message-ID:References:Cc:To:From:Subject:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=gniu9/FZ6cvmuO/jn4dEOj+DPU+0okN7CZ9zNcrb4Lw=; b=rn+S+m4Q4VsxaL2nKRgES7Du8z
- SYSeqGxLqLfgwPsS6jth/xg1qaCdEanSthdo+gtQTYSCHN5+JCSyV8Ma6+tz6gXEA+1U7NpnMCNOE
- i16bSzS93cFdvpdygOXJRtzPip94McnNtdhiYIHM3kkTy+bahCBQ4b6eSXhL0I3iW/PUmzRdNUxzK
- PPYLjfkJk4HdXUbkD/KWGpYcRaqjWlgkIlCoPTIX8U7qgEPwfgR6f8zR/ODE+DUpqaslShIqsDEp6
- 8DKiZscdTg/hhEpWt+a0jwil7k7NNw26VnWbXVzeUiPZUy/60KLFwnRRwi4xgtm3XmVo75JClB6d2
- WWU5psXA==;
-Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:60205
- helo=[192.168.10.61])
- by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <noralf@tronnes.org>)
- id 1lygMM-00055p-Dr; Wed, 30 Jun 2021 21:58:58 +0200
-Subject: Re: [PATCH] drm/panel: db7430: Improve error reporting
-From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-To: Linus Walleij <linus.walleij@linaro.org>,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- dri-devel@lists.freedesktop.org
-References: <20210630191301.3664478-1-linus.walleij@linaro.org>
- <94207150-5b2b-36d6-3d40-339ec1c3f4e4@tronnes.org>
-Message-ID: <43680ac6-ca86-f5a6-915e-4867b549bdba@tronnes.org>
-Date: Wed, 30 Jun 2021 21:58:56 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+Received: from bombadil.infradead.org (bombadil.infradead.org
+ [IPv6:2607:7c80:54:e::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 307EB6EA7E
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Jun 2021 20:32:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+ Content-Type:MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
+ Content-ID:Content-Description:In-Reply-To:References;
+ bh=xTIvq7JeERaP44xmsJM3Rl+J9yNC0I1vFHCkU0Gk1ls=; b=ZAk/0tshkV3bIKnweqX8zlrT5B
+ 6qqMrqdo+EG92wpGBZ3aOmd0tq5oHvXAW/rirIH/pAD13jDZZ59nxGvdmcLJhmwuBW/lRqohfWlWa
+ b2JwaCb4QlvURfGocqQ4ZuE9DFC/BM90pGzhPPMITeYjg6un4Z8c1BqvY9+CedgxxDLE7EsNTahxA
+ cpEEud7AVAeOLakhN9Li2qCzJhCEHeCzPxWzWrUlF/H6GVwA/f66A4kySze/4gbBJm7h11aHzfQ10
+ 1Jq1I9ODqY+OSxW+gzVRC8ALYavtYjJyJ7YL8iToAsT6V1StyPRBKIJxxIDE0jcBcxxEQObGIHc5P
+ RT4Wlv4Q==;
+Received: from [2601:1c0:6280:3f0::aefb] (helo=bombadil.infradead.org)
+ by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1lygtB-00FDiE-NU; Wed, 30 Jun 2021 20:32:53 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH -next] drm: vmwgfx: add header file for ttm_range_manager
+Date: Wed, 30 Jun 2021 13:32:52 -0700
+Message-Id: <20210630203252.32471-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <94207150-5b2b-36d6-3d40-339ec1c3f4e4@tronnes.org>
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -58,56 +47,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Douglas Anderson <dianders@chromium.org>
+Cc: Randy Dunlap <rdunlap@infradead.org>,
+ Roland Scheidegger <sroland@vmware.com>, dri-devel@lists.freedesktop.org,
+ VMware Graphics <linux-graphics-maintainer@vmware.com>,
+ Dave Airlie <airlied@redhat.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Add a header file for ttm_range_manager function prototypes to
+eliminate build errors:
 
+../drivers/gpu/drm/vmwgfx/vmwgfx_drv.c: In function ‘vmw_vram_manager_init’:
+../drivers/gpu/drm/vmwgfx/vmwgfx_drv.c:678:8: error: implicit declaration of function ‘ttm_range_man_init’; did you mean ‘ttm_tt_mgr_init’? [-Werror=implicit-function-declaration]
+  ret = ttm_range_man_init(&dev_priv->bdev, TTM_PL_VRAM, false,
+../drivers/gpu/drm/vmwgfx/vmwgfx_drv.c: In function ‘vmw_vram_manager_fini’:
+../drivers/gpu/drm/vmwgfx/vmwgfx_drv.c:690:2: error: implicit declaration of function ‘ttm_range_man_fini’; did you mean ‘ttm_pool_mgr_fini’? [-Werror=implicit-function-declaration]
+  ttm_range_man_fini(&dev_priv->bdev, TTM_PL_VRAM);
 
-Den 30.06.2021 21.46, skrev Noralf Trønnes:
-> 
-> 
-> Den 30.06.2021 21.13, skrev Linus Walleij:
->> This creates a macro wrapping mipi_dbi_command() such that we get
->> some explicit error reporting if something goes wrong.
->>
->> Cc: Noralf Trønnes <noralf@tronnes.org>
->> Suggested-by: Douglas Anderson <dianders@chromium.org>
->> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
->> ---
->>  drivers/gpu/drm/panel/panel-samsung-db7430.c | 66 +++++++++++---------
->>  1 file changed, 36 insertions(+), 30 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/panel/panel-samsung-db7430.c b/drivers/gpu/drm/panel/panel-samsung-db7430.c
->> index fe58263bd9cd..c42d43ab6a4f 100644
->> --- a/drivers/gpu/drm/panel/panel-samsung-db7430.c
->> +++ b/drivers/gpu/drm/panel/panel-samsung-db7430.c
->> @@ -90,9 +90,17 @@ static inline struct db7430 *to_db7430(struct drm_panel *panel)
->>  	return container_of(panel, struct db7430, panel);
->>  }
->>  
->> +#define db7430_command(db, cmd, seq...) \
->> +({ \
->> +	struct mipi_dbi *dbi = &db->dbi;	\
->> +	int ret;				\
->> +	ret = mipi_dbi_command(dbi, cmd, seq);  \
->> +	if (ret)							\
->> +		dev_err(db->dev, "failure in writing command %#02x\n", cmd); \
->> +})
->> +
-> 
-> I did a grep and there's only one mipi_dbi_command() caller that checks
-> the return code: mipi_dbi_poweron_reset_conditional().
-> 
-> Can you add the error reporting to mipi_dbi_command() instead? Instead
-> of drivers adding their own similar macros.
-> 
-> In that case I think you need to add a plain 'ret' at the end of the
-> macro for it to return the error code.
-> 
+Fixes: 9c3006a4cc1b ("drm/ttm: remove available_caching")
+Fixes: a343160235f5 ("drm/vmwgfx/ttm: fix the non-THP cleanup path.")
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: "VMware Graphics" <linux-graphics-maintainer@vmware.com>
+Cc: Roland Scheidegger <sroland@vmware.com>
+Cc: Zack Rusin <zackr@vmware.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: Dave Airlie <airlied@redhat.com>
+Cc: Christian König <christian.koenig@amd.com>
+---
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.c |    1 +
+ 1 file changed, 1 insertion(+)
 
-I think the error reporting needs to ratelimited if added to
-mipi_dbi_command() because worst case a blinking fbcon cursor will
-trigger 10 errors a second for the framebuffer drivers.
-
-Noralf.
+--- linux-next-20210630.orig/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
++++ linux-next-20210630/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+@@ -37,6 +37,7 @@
+ #include <drm/drm_sysfs.h>
+ #include <drm/ttm/ttm_bo_driver.h>
+ #include <drm/ttm/ttm_placement.h>
++#include <drm/ttm/ttm_range_manager.h>
+ #include <generated/utsrelease.h>
+ 
+ #include "ttm_object.h"
