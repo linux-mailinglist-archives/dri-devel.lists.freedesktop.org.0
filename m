@@ -2,44 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9C0A3B8A98
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Jul 2021 00:49:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C7073B8A9E
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Jul 2021 00:50:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C2DA46EA8C;
-	Wed, 30 Jun 2021 22:49:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 37B156EA8D;
+	Wed, 30 Jun 2021 22:50:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from phobos.denx.de (phobos.denx.de
  [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 12B286EA8C
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Jun 2021 22:49:06 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B5B536EA8D
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Jun 2021 22:50:05 +0000 (UTC)
 Received: from [IPv6:::1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
  (No client certificate requested)
  (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 15468831D4;
- Thu,  1 Jul 2021 00:49:03 +0200 (CEST)
+ by phobos.denx.de (Postfix) with ESMTPSA id ED415831D4;
+ Thu,  1 Jul 2021 00:50:03 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1625093343;
- bh=P9GoBMnasqQdt0sVPBC95QnShX6GIQNuUJcPq54Negs=;
+ s=phobos-20191101; t=1625093404;
+ bh=KfQ+uHNpsb8lWq1hgu1r0YZFfD57+v51UOgAiCNdoT4=;
  h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=C39tuFKWkVa0Vk2gWN/+h/CHar/TYYiubgFbuYAttuRD7eFt+SjRp6yAXjsKBHHPG
- PPDHCsEaeb+5W9fLi8h6/meEv5rytVc5bfGh9DxfS2/kRX0mZfMVd0gJdvvIzrIwpx
- 6dbJWFPPzDMlu+vQpB2b2FndyMkwNi5/lQO+HzMDrhHs3rzEXdulTRfrZc6NbfJTfk
- CULkiOJot0Co4DGBDql/CsHsmIHNg542oo/xQRJ6z+2iSkERRerRRtIIFyJaCK4vcp
- Kr8AMR3ke75FHxhIR2dR4hKbgTEE1q7SVuiIJ+Ld1a/CqsRgOlrIGIv2SDGFQcgdeC
- D9MemEMYDqm2g==
-Subject: Re: [PATCH] drm: mxsfb: Enable recovery on underflow
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <20210620224701.189289-1-marex@denx.de>
- <YNCCgCWA8KdkS/df@pendragon.ideasonboard.com>
+ b=gvwSQybH1XQpwqFqdBNhQdsNRJOofXILRds4lYUMbDd4MzE28RGaNWRibS0C2NXt9
+ Bt7V/ri06tNh3Uaw29lk1zXGA4foiz+kBVtBVd27nl26MKnkJpKQkgH+EUO/6APHYK
+ vf/Q+byGBCwegNH/kD0BTxEAdQJu2huCEdOJwCfJrmA5lZfvOeTCzKViy/6dMlKHiI
+ +iV3vNlAGusGH53Si2v47W04GyrYSAM/SzuvkxfYDLsReZgaQaO0f4jxYk0GF37E17
+ 4syxeH0YmvqMV0I29aww4EzETQQ+A4Ix46QSmolp6pikwq6FODcm8c/2AJtD00tPcn
+ exjuibIzO7P0g==
+Subject: Re: [PATCH] drm: mxsfb: Clear FIFO_CLEAR bit
+To: Lucas Stach <l.stach@pengutronix.de>, dri-devel@lists.freedesktop.org
+References: <20210620224946.189524-1-marex@denx.de>
+ <be290a3283ecadeb9269bd00e85adac99434eb82.camel@pengutronix.de>
+ <85372867-2b5b-e97f-aa04-ed976db1eddb@denx.de>
+ <07f58c1181e2e66277d0355055ff794fb091991d.camel@pengutronix.de>
+ <d539afbd-c101-6a30-0a61-c52696521be7@denx.de>
+ <fc2eeee51e5ef448aa814e572c27bf7f225078a7.camel@pengutronix.de>
+ <6e1b79de-d748-000c-fd47-72ff7c265d9c@denx.de>
+ <cbabc18803d241516137f1c8f45733ebb6f576a8.camel@pengutronix.de>
+ <eddfaedf-cfbf-ad47-441a-11460d83d476@denx.de>
+ <b5d6fb4a8a85f64af3b25a4155d71e5d95c01523.camel@pengutronix.de>
 From: Marek Vasut <marex@denx.de>
-Message-ID: <6326d213-548c-0c80-5e35-cd7a76dacade@denx.de>
-Date: Thu, 1 Jul 2021 00:49:02 +0200
+Message-ID: <6ec45690-e85b-b267-b189-ee54de673692@denx.de>
+Date: Thu, 1 Jul 2021 00:50:03 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <YNCCgCWA8KdkS/df@pendragon.ideasonboard.com>
+In-Reply-To: <b5d6fb4a8a85f64af3b25a4155d71e5d95c01523.camel@pengutronix.de>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -57,92 +65,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ch@denx.de, Robert Foss <robert.foss@linaro.org>,
- Emil Velikov <emil.l.velikov@gmail.com>,
- Daniel Abrecht <public@danielabrecht.ch>, dri-devel@lists.freedesktop.org
+Cc: Daniel Abrecht <public@danielabrecht.ch>,
+ Emil Velikov <emil.l.velikov@gmail.com>, ch@denx.de,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6/21/21 2:13 PM, Laurent Pinchart wrote:
-> Hi Marek,
-> 
-> Thank you for the patch.
-> 
-> On Mon, Jun 21, 2021 at 12:47:01AM +0200, Marek Vasut wrote:
->> There is some sort of corner case behavior of the controller,
->> which could rarely be triggered at least on i.MX6SX connected
->> to 800x480 DPI panel and i.MX8MM connected to DPI->DSI->LVDS
->> bridged 1920x1080 panel (and likely on other setups too), where
->> the image on the panel shifts to the right and wraps around.
->> This happens either when the controller is enabled on boot or
->> even later during run time. The condition does not correct
->> itself automatically, i.e. the display image remains shifted.
+On 6/29/21 10:02 AM, Lucas Stach wrote:
+> Am Dienstag, dem 29.06.2021 um 05:04 +0200 schrieb Marek Vasut:
+>> On 6/28/21 10:09 AM, Lucas Stach wrote:
+>>> Am Samstag, dem 26.06.2021 um 20:15 +0200 schrieb Marek Vasut:
+>>>> On 6/24/21 2:01 PM, Lucas Stach wrote:
+>>>>> Am Dienstag, dem 22.06.2021 um 11:33 +0200 schrieb Marek Vasut:
+>>>>>> On 6/22/21 9:28 AM, Lucas Stach wrote:
+>>>>>>> Am Montag, dem 21.06.2021 um 18:30 +0200 schrieb Marek Vasut:
+>>>>>>>> On 6/21/21 2:14 PM, Lucas Stach wrote:
+>>>>>>>>
+>>>>>>>> [...]
+>>>>>>>>
+>>>>>>>>>> diff --git a/drivers/gpu/drm/mxsfb/mxsfb_kms.c b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
+>>>>>>>>>> index 98d8ba0bae84..22cb749fc9bc 100644
+>>>>>>>>>> --- a/drivers/gpu/drm/mxsfb/mxsfb_kms.c
+>>>>>>>>>> +++ b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
+>>>>>>>>>> @@ -241,6 +241,9 @@ static void mxsfb_crtc_mode_set_nofb(struct mxsfb_drm_private *mxsfb,
+>>>>>>>>>>       
+>>>>>>>>>>       	/* Clear the FIFOs */
+>>>>>>>>>>       	writel(CTRL1_FIFO_CLEAR, mxsfb->base + LCDC_CTRL1 + REG_SET);
+>>>>>>>>>> +	readl(mxsfb->base + LCDC_CTRL1);
+>>>>>>>>>
+>>>>>>>>> Do you really need those readbacks? As both writes are targeting the
+>>>>>>>>> same slave interface, the memory barrier in the clear write should push
+>>>>>>>>> the set write.
+>>>>>>>>
+>>>>>>>> What would push the clear write then ? We can drop one of the readl()s,
+>>>>>>>> but not the last one.
+>>>>>>>
+>>>>>>> There are a lot of more writes with barriers to the controller slave
+>>>>>>> interface in that function after clearing the FIFO. I don't see why
+>>>>>>> this readback would be required.
+>>>>>>
+>>>>>> Because you really do want to make sure the fifo is cleared before you
+>>>>>> start doing any of those other writes or configuring the controller in
+>>>>>> any way.
+>>>>>
+>>>>> I still don't see the reason. What additional properties do you think
+>>>>> the readback provides that isn't already provided by the barriers in
+>>>>> the following writes?
+>>>>
+>>>> See the paragraph above -- we have to make sure the writes that trigger
+>>>> the FIFO clearing really take place before any other writes do.
+>>>
+>>> And they do, as there are write barriers prepended to the writes
+>>> following the FIFO clear. The readback just lets the CPU wait until the
+>>> write reached the peripheral, which I don't see a reason to do here.
+>>> The ordering of the writes from the perspective of the peripheral is
+>>> completely the same with or without the readback. The later writes can
+>>> not overtake the FIFO clear writes due to the barriers.
+>>>
+>>> I'm strongly against adding stuff because it "might have an effect", if
+>>> it isn't required by architectural rules. It clutters the code and some
+>>> months/years down the line nobody dares to cleanup/remove this stuff
+>>> anymore, because everyone assumes that there was a good reason for
+>>> adding those things.
 >>
->> It seems this problem is known and is due to sporadic underflows
->> of the LCDIF FIFO. While the LCDIF IP does have underflow/overflow
->> IRQs, neither of the IRQs trigger and neither IRQ status bit is
->> asserted when this condition occurs.
+>> Since there is no RTL for any of the iMXes or their IPs, how do you
+>> propose anyone except NXP can validate what is and what is not required ?
 >>
->> All known revisions of the LCDIF IP have CTRL1 RECOVER_ON_UNDERFLOW
->> bit, which is described in the reference manual since i.MX23 as
->> "
->>    Set this bit to enable the LCDIF block to recover in the next
->>    field/frame if there was an underflow in the current field/frame.
->> "
->> Enable this bit to mitigate the sporadic underflows.
->>
->> Fixes: 45d59d704080 ("drm: Add new driver for MXSFB controller")
->> Signed-off-by: Marek Vasut <marex@denx.de>
->> Cc: Daniel Abrecht <public@danielabrecht.ch>
->> Cc: Emil Velikov <emil.l.velikov@gmail.com>
->> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->> Cc: Lucas Stach <l.stach@pengutronix.de>
->> Cc: Stefan Agner <stefan@agner.ch>
->> ---
->>   drivers/gpu/drm/mxsfb/mxsfb_kms.c  | 29 +++++++++++++++++++++++++++++
->>   drivers/gpu/drm/mxsfb/mxsfb_regs.h |  1 +
->>   2 files changed, 30 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/mxsfb/mxsfb_kms.c b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
->> index 300e7bab0f43..01e0f525360f 100644
->> --- a/drivers/gpu/drm/mxsfb/mxsfb_kms.c
->> +++ b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
->> @@ -115,6 +115,35 @@ static void mxsfb_enable_controller(struct mxsfb_drm_private *mxsfb)
->>   	reg |= VDCTRL4_SYNC_SIGNALS_ON;
->>   	writel(reg, mxsfb->base + LCDC_VDCTRL4);
->>   
->> +	/*
->> +	 * Enable recovery on underflow.
->> +	 *
->> +	 * There is some sort of corner case behavior of the controller,
->> +	 * which could rarely be triggered at least on i.MX6SX connected
->> +	 * to 800x480 DPI panel and i.MX8MM connected to DPI->DSI->LVDS
->> +	 * bridged 1920x1080 panel (and likely on other setups too), where
->> +	 * the image on the panel shifts to the right and wraps around.
->> +	 * This happens either when the controller is enabled on boot or
->> +	 * even later during run time. The condition does not correct
->> +	 * itself automatically, i.e. the display image remains shifted.
->> +	 *
->> +	 * It seems this problem is known and is due to sporadic underflows
->> +	 * of the LCDIF FIFO. While the LCDIF IP does have underflow/overflow
->> +	 * IRQs, neither of the IRQs trigger and neither IRQ status bit is
->> +	 * asserted when this condition occurs.
->> +	 *
->> +	 * All known revisions of the LCDIF IP have CTRL1 RECOVER_ON_UNDERFLOW
->> +	 * bit, which is described in the reference manual since i.MX23 as
->> +	 * "
->> +	 *   Set this bit to enable the LCDIF block to recover in the next
->> +	 *   field/frame if there was an underflow in the current field/frame.
->> +	 * "
->> +	 * Enable this bit to mitigate the sporadic underflows.
->> +	 */
->> +	reg = readl(mxsfb->base + LCDC_CTRL1);
->> +	reg |= CTRL1_RECOVER_ON_UNDERFLOW;
->> +	writel(reg, mxsfb->base + LCDC_CTRL1);
+>> This patch helps with a problem where I sporadically observe shifted
+>> image on boot on mx8mm.
 > 
-> Looks good to me. Thanks for the detailed explanation.
+> The order of writes to a device mapped region are defined by the ARM
+> architecture and the AMBA bus standard, not the peripheral. I'm not
+> saying this patch isn't needed. I'm saying the readbacks look bogus.
 > 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Have you checked that just adding the write to the REG_CLR doesn't fix
+> your issue?
 
-So who do I CC to pick it? Robert ? There are a few more mxsfb fixes 
-which are RB'd and would be nice if they were picked too.
+No, it does not help with the issue.
