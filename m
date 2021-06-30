@@ -2,62 +2,132 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D303F3B8245
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Jun 2021 14:36:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E61B03B8262
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Jun 2021 14:46:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 181566E9C2;
-	Wed, 30 Jun 2021 12:36:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D17EC6E9C1;
+	Wed, 30 Jun 2021 12:46:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
- [IPv6:2a00:1450:4864:20::62b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E71336E9C2
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Jun 2021 12:36:20 +0000 (UTC)
-Received: by mail-ej1-x62b.google.com with SMTP id l24so3904778ejq.11
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Jun 2021 05:36:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ONPP3A7h1QzoKUEHb9ycxrhEc1spTHM+puvCaYqxhho=;
- b=WoHixG/P3n9BdGi+7I4ZXwXagVEF8as/wsR1zyzAEYnGdeuWR5l8+xPMEwh/KlnjQw
- DqPzjnoZLQCS8MqPpACLwCSX0v/uLF5suA0hum/r2c/Zpqp9dl6sK1rGhMiFwZTOogv4
- a+J9p7rXYFGW6Ls26C6+IcJFkjBV3htzrSRC4sJ1il7XEGlPS4hyrdYO2LbEuxCpqLN8
- ihZYs8GosLw83ZQ9KL0JdWt7lQQGruLC7IJsZSVmutWIcthcMYRU/0DMxm+nnK1ovPwW
- SPN/CNSXDjU0LI3p9PFhIAh5Nl0gvtkhz0mnqm2C9icj0H2mm+lEBAN4I6k0DwOnBqKG
- 7dzw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ONPP3A7h1QzoKUEHb9ycxrhEc1spTHM+puvCaYqxhho=;
- b=ln8vWvTgr1xmmGVb3UNHXAD9TrJ5x0kyvDC0IHX2ppZaNCi3ySdh3Wd1jZVxYJ7oEX
- aV5jLLL/3rxo42zuZf0n80u6T6k0MYiKAob2yA86ldCjSx0i0jJYITyhiXK8cPoXzgov
- NysRMs2gbwSt9hgie2fp9OLtG2yGrmT1LRPinQHRVPVY2+pwcVB4Umyl2rnKgOWtvqgF
- jjghRvylkMLNp2SeGijm2AghsYFB7tLPLMwDGjwmHbbXcs39W1dcGBeIsJhSZxRA/FkO
- ToBHelUQ58DX9YySaTa6loTxoFAPmAPg1+6y1X8B70vs1P5L7qVdjxd91NQvx+IyfMCD
- 02sA==
-X-Gm-Message-State: AOAM5327LOWoI8uxE/RhirfMWemLatjuaHssVG5T09OvgCbz9GaYT4QH
- nhyJd23f7xJJoI+45e8HqsM3GGk2eL0=
-X-Google-Smtp-Source: ABdhPJxKSqexHW2d4q6DWHjpj8FOJy2iaWa757lhciWmnWjRNwF2eFIL7S40sfpoSI3sC72RtcPEXA==
-X-Received: by 2002:a17:907:9c9:: with SMTP id
- bx9mr35063706ejc.72.1625056579546; 
- Wed, 30 Jun 2021 05:36:19 -0700 (PDT)
-Received: from abel.fritz.box ([2a02:908:1252:fb60:6bc9:f229:6d3c:d7ad])
- by smtp.gmail.com with ESMTPSA id e13sm7883952ejl.98.2021.06.30.05.36.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 30 Jun 2021 05:36:19 -0700 (PDT)
-From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
- <christian.koenig@amd.com>
-To: dri-devel@lists.freedesktop.org,
-	daniel.vetter@ffwll.ch
-Subject: [PATCH] dma-buf: fix and rework dma_buf_poll v4
-Date: Wed, 30 Jun 2021 14:36:18 +0200
-Message-Id: <20210630123618.97534-1-christian.koenig@amd.com>
-X-Mailer: git-send-email 2.25.1
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 733446E116;
+ Wed, 30 Jun 2021 12:46:34 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10030"; a="229977505"
+X-IronPort-AV: E=Sophos;i="5.83,312,1616482800"; d="scan'208";a="229977505"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Jun 2021 05:46:30 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.83,312,1616482800"; d="scan'208";a="408547716"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+ by orsmga006.jf.intel.com with ESMTP; 30 Jun 2021 05:46:29 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.4; Wed, 30 Jun 2021 05:46:29 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4
+ via Frontend Transport; Wed, 30 Jun 2021 05:46:29 -0700
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.49) by
+ edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2242.4; Wed, 30 Jun 2021 05:46:29 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=AmjqannLdQpfBtgnofhme9H8aX+zDgHoFUcC358fdSVRKDCqPBuKaGSJB6/b4kPPX+3rozibfYJuC47bjBlv51NB9I4aYz8kyJluYFhcHkjuoluEuNCl1+vt7dwy4MAxQBXPUo2ryTHmJyRKFeXMdfoX4WuGVvUfFCksBaEgTOosOWSa3C7+LJ7aAU+ohb/sVj/hkWpY42JpgzziVcnJ5a1FvxG0oPO/gu3Z06cMVYrR3/hu9BAFZBrWi9Q81NaNTrHKIVPyb/84r5T1GiBCN505TnMhFp7dNIH5aYlaRVS81EdsZOm9sETE2j2PyT5XeG3+wrEYKHgNwaPSJGldqQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=EijW8681IFNAECgz5++VnJ1Zbu05Csuz6jF4hh8rXgQ=;
+ b=YSyQiHBAL7P089eeWFdqy8MOk2t/Rv4+m/3HmEW6na4gpRqKvd2OVymjPtAaORafbd29bGUQlGdzjB6OiF1h7RzqPeJTBmOtYu7cdIKSYX93m1iZlpjqmrNLS6frnqYmRI8zJgmhoKxVJVdedijO69cPmMjW4YEWL1A4RqZnnxhrhiIh+gJclDg590LINjBUeNoG6kZaOgSd1Jq4ceIgQuz7SNiuWJMNq8EKjnAu2r7U+q+/MKGS+YOAxqJk+jNqEg+v1uKyakAo5MFM1NP1CKhv6dQDHOVPHJzTYapFrc4jCfcFu4J/v6eO3/24aEBbVM6CodHwzAdovQ2p/3GyNg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
+ s=selector2-intel-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=EijW8681IFNAECgz5++VnJ1Zbu05Csuz6jF4hh8rXgQ=;
+ b=P9XT32ONnO9ICDFrX5Mgxli/rw2rAAOUN6mWfIkoMc3fWo06vG/9Y4FU0wbiZ/BYTS8KtypvyHVfVvRJ1bvdQhkXR51I4sNJ7OHjXL8ZfyuYI/9nyG2mAuq/YNG4+729ejMo3DCI17tpFAKR0K0Qt3ZsDhIEtKd8dJDKMDrSfJI=
+Received: from SN6PR11MB3421.namprd11.prod.outlook.com (2603:10b6:805:cd::27)
+ by SN6PR11MB3022.namprd11.prod.outlook.com (2603:10b6:805:d8::22)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4264.23; Wed, 30 Jun
+ 2021 12:46:27 +0000
+Received: from SN6PR11MB3421.namprd11.prod.outlook.com
+ ([fe80::5c0d:c982:3e51:d948]) by SN6PR11MB3421.namprd11.prod.outlook.com
+ ([fe80::5c0d:c982:3e51:d948%4]) with mapi id 15.20.4264.027; Wed, 30 Jun 2021
+ 12:46:27 +0000
+From: "Surendrakumar Upadhyay, TejaskumarX"
+ <tejaskumarx.surendrakumar.upadhyay@intel.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: RE: [Intel-gfx] [PATCH] drm/vgem: Use 256B aligned pitch
+Thread-Topic: [Intel-gfx] [PATCH] drm/vgem: Use 256B aligned pitch
+Thread-Index: AQHXbakVRM4wImWfdUKyyJp8VPDkpKsseaSAgAAF3jA=
+Date: Wed, 30 Jun 2021 12:46:27 +0000
+Message-ID: <SN6PR11MB3421C4C9144583F681277273DF019@SN6PR11MB3421.namprd11.prod.outlook.com>
+References: <20210630120215.930829-1-tejaskumarx.surendrakumar.upadhyay@intel.com>
+ <YNxh1UZew73jE0vb@phenom.ffwll.local>
+In-Reply-To: <YNxh1UZew73jE0vb@phenom.ffwll.local>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-version: 11.5.1.3
+dlp-product: dlpe-windows
+dlp-reaction: no-action
+authentication-results: ffwll.ch; dkim=none (message not signed)
+ header.d=none;ffwll.ch; dmarc=none action=none header.from=intel.com;
+x-originating-ip: [103.240.169.72]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: cec8d04a-0913-4ca0-3df9-08d93bc513ec
+x-ms-traffictypediagnostic: SN6PR11MB3022:
+x-microsoft-antispam-prvs: <SN6PR11MB3022A5297FE37C7CE0CB1888DF019@SN6PR11MB3022.namprd11.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:169;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: E5knGAO8K7avy/QKgJmb0DzBx4rSQpTtR+2i06OQwUspS1qzaNOLYEbcM5//CmJlr6e0E9gesMvfZKWiVlF02D/M0fo134ZSixgAk2Om5MpAnE08985JQy0uIhN/2ZlTbi7Nj2AakIfFApcWKnvWtclHn9Xz+xKWTlro3Apy3S/iC46RvLlLyaoQvWnoz8/FwkDGBAXAx0UUqAU2b85TpaAypsjx1NMDCS6WcbIRhq7TUmf+bDZkJz3NENUkBNTZiwomn7sti0aqqV6MRUQhQ0/qmA5+RXQm/IylK+RDZzV2gRnO2tadl2P3FT3HGcSUyZmygZ3H3mJuoyuCpvL5Uw5dcw/8ZBIKjvGjmclr5kWA65tvnJqUEP7aBhtlJ2x+01mVsJeuzNZeHQR3Ks8Idvp0iJarr1rioe1p8WuXTJq2hqJx3AOyLeH6BnetghRIPOp/lHxdEyaTvk4EEykHZ2bkmpWgnDvDjUtQalGQFDvMcaTGzvaW4jctGsufPHYOgPUNilWXuSbgw4iqwRecQ/0P4TjobZc5eEOSv0KrhELks7OzaPHpajKhHmYzYLsMbSzilutq3lO5qWhrCc2fXjlbZ3BMGO0rZVGKJ6zgwZLxpbYYZYp/AGoQA49RGV2ZuyJ4kjKYZS2I9yk/yEiyuwfAKTd2qw10yB/wyGv0lA+ETDd+5YLnOs54R9Ei45/dLAGdDVwqEsa2M2TBrQLyBMhFWQoia48dQs2xGkFYm1Uj0uvA+VIsSf7ylxxI1ekyHxc2p2GgZI2tkn929VMejg==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN6PR11MB3421.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(39860400002)(396003)(376002)(366004)(346002)(136003)(9686003)(71200400001)(86362001)(7696005)(54906003)(66556008)(66476007)(66446008)(6506007)(64756008)(5660300002)(55016002)(53546011)(316002)(8936002)(8676002)(76116006)(122000001)(38100700002)(66946007)(186003)(26005)(83380400001)(966005)(2906002)(478600001)(52536014)(6916009)(4326008)(33656002);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?xi7eH7YmZx3PCA4tMwnMEtfPxzjhHZBgOFqDxXirAhx4irz4eueOk43yagIX?=
+ =?us-ascii?Q?mpKDHy1DFhJ3OuLeTO6OcNwDAcCSTYdm2oc6S7S1Xvw6EwD6Q92M/1jFRs+D?=
+ =?us-ascii?Q?qqKRD/p5ba06NY1/09+NAPJsBYoI7OinxftnxFVdkbxoHiL48DFAQwQnosM5?=
+ =?us-ascii?Q?ypJvuEI7TbTaIX7LeCQxOdeU2QPtjIwNygxUx0EKRhhSUv22ys5SwjWhrWm5?=
+ =?us-ascii?Q?encQg7TpR/p63GylfpErtmbVYhw+udoDu6xRq1kli7MviFspjVyeUcmZmwi3?=
+ =?us-ascii?Q?y1a/qD3NX0FzRbGgchsVw9XKDWGlaFJOzm2fy0w80fPJuL33p8nWJNLgie7X?=
+ =?us-ascii?Q?2T0lm7Og/lI6emzxpGJ9/aD0i55CADQ7GM30t67ym1CLqm4Vbm+4tT7Xd0Ls?=
+ =?us-ascii?Q?gwtQFpkBUN+eShmNpb4RDsz9sK1m0tvu8/2UlDXRHuLQBn/pLh6wzmY1PyNJ?=
+ =?us-ascii?Q?E0jvsHHPityp19PFEROQBVijHa+YOr1ZGPxBi6rdERi84kY4KWWK77X0R0wW?=
+ =?us-ascii?Q?4nV3PEu+S4RjyksjM7f7sm35pHHHzpIq6PokETq+6yA4UQ9Pn3JVinUb9yOD?=
+ =?us-ascii?Q?L4rYr4igxGOvFeH6kEEsFFHhw0/QDpUp2wyNGqSKCHbzu9r17dQ6oT7idRHp?=
+ =?us-ascii?Q?E4qQYjjHgM2WWuwXM3dn7p5gKK04kPfDhMqYEOLFLbGLyxOKP5hDSJ0WjtJc?=
+ =?us-ascii?Q?MtOaUDj4UmN0aSpz5uvHGAsTZSkdvV7MIZ0nNi70uCPs6QVBHbJhqSOxwdHZ?=
+ =?us-ascii?Q?baGvFPqhpp6YaXCOrk2JKkhAaVFqxwj2nRheg7FWjw+qfNeDk8MXG65DjPqF?=
+ =?us-ascii?Q?qOmlQxKDuDw/hmxha1c6uWDMYWd59wh6wxtmighICtOv3FjjS9ToN/6UiYOK?=
+ =?us-ascii?Q?T+9zD1pFx/On+wo4FyC+lQ+7EEIJQc8F4rvuUdWDRDXrGDFldqnshS66sVcs?=
+ =?us-ascii?Q?pZ1jB8zXCiMZF9ea2ruwNxWn8Z2irAFCKdh9WVumtvDWQVSWoyz70I9J2b3o?=
+ =?us-ascii?Q?2wflM6IV2pLlnL5AJkz7m3Gb5Kk78vtnHf1hjPzMDKlqXzeLzshvUnpScrGn?=
+ =?us-ascii?Q?HWybp93j2O9OztM0mFbD3sBsqENQL5JU6eZZ3jXC+EsQvorDcnZrIyoDYSpY?=
+ =?us-ascii?Q?EgDauQXVco/TPbYD3S4Y/jrm05J74PzcPbu2PYw/BnWzcTDC+XZgn3n0rN1X?=
+ =?us-ascii?Q?o72NpN/mUkVNM4nIYkG8xd/6vcQOdr+uh+iAixTN5r/kmPNetCUR+L1U3Qie?=
+ =?us-ascii?Q?DvnNKRnEguuTaaIHfl1c4giUZ17pnx/e56F6CzJDohuj7FPKihYPsWX69uM7?=
+ =?us-ascii?Q?qFxLj5IdImIjqV6yUzFUhvMi?=
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR11MB3421.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: cec8d04a-0913-4ca0-3df9-08d93bc513ec
+X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Jun 2021 12:46:27.7551 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 044erP3AjFKM2nHyOsTy2y8KwH9czUm+vfomAQVDD+Pb/0qD75DNPZQC7C4OR6I+JauwyioWTf4UeBNQNClcdtdkv4cYY6hfF874HjREwVmxERxbfho9jF4c8y2bxPhAtc7sEAy8x5PlP4y1PUXe1A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR11MB3022
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,238 +140,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "chris@chris-wilson.co.uk" <chris@chris-wilson.co.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Daniel pointed me towards this function and there are multiple obvious problems
-in the implementation.
 
-First of all the retry loop is not working as intended. In general the retry
-makes only sense if you grab the reference first and then check the sequence
-values.
 
-Then we should always also wait for the exclusive fence.
+> -----Original Message-----
+> From: Daniel Vetter <daniel@ffwll.ch>
+> Sent: 30 June 2021 17:52
+> To: Surendrakumar Upadhyay, TejaskumarX
+> <tejaskumarx.surendrakumar.upadhyay@intel.com>
+> Cc: dri-devel@lists.freedesktop.org; intel-gfx@lists.freedesktop.org;
+> chris@chris-wilson.co.uk
+> Subject: Re: [Intel-gfx] [PATCH] drm/vgem: Use 256B aligned pitch
+>=20
+> On Wed, Jun 30, 2021 at 05:32:15PM +0530, Tejas Upadhyay wrote:
+> > Having different alignment requirement by different drivers, 256B
+> > aligned should work for all drm drivers.
+>=20
+> What.
+>=20
+> Like yes vgem abuses dumb_create, but it's not a kms driver. Pitch is
+> meaningless, and that's why we align it minimally to 1 byte (bpp =3D bits=
+ per
+> pixel here).
+>=20
+> Maybe start with explaining what you're trying to do here.
+> -Daniel
+> >
 
-It's also good practice to keep the reference around when installing callbacks
-to fences you don't own.
+Igt tool tests which are trying to exercise tests through VGEM are getting =
+failure (if not 64B aligned) on Intel platforms in creating framebuffer as =
+they need them to be 64B aligned. Then 64B alignment is not=20
+A requirement for all drm drivers.
 
-And last the whole implementation was unnecessary complex and rather hard to
-understand which could lead to probably unexpected behavior of the IOCTL.
+Thanks,
+Tejas
 
-Fix all this by reworking the implementation from scratch. Dropping the
-whole RCU approach and taking the lock instead.
-
-Only mildly tested and needs a thoughtful review of the code.
-
-v2: fix the reference counting as well
-v3: keep the excl fence handling as is for stable
-v4: back to testing all fences, drop RCU
-
-Signed-off-by: Christian König <christian.koenig@amd.com>
-CC: stable@vger.kernel.org
----
- drivers/dma-buf/dma-buf.c | 132 +++++++++++++-------------------------
- include/linux/dma-buf.h   |   2 +-
- 2 files changed, 46 insertions(+), 88 deletions(-)
-
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index eadd1eaa2fb5..192c4d34704b 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -72,7 +72,7 @@ static void dma_buf_release(struct dentry *dentry)
- 	 * If you hit this BUG() it means someone dropped their ref to the
- 	 * dma-buf while still having pending operation to the buffer.
- 	 */
--	BUG_ON(dmabuf->cb_shared.active || dmabuf->cb_excl.active);
-+	BUG_ON(dmabuf->cb_in.active || dmabuf->cb_out.active);
- 
- 	dmabuf->ops->release(dmabuf);
- 
-@@ -202,16 +202,19 @@ static void dma_buf_poll_cb(struct dma_fence *fence, struct dma_fence_cb *cb)
- 	wake_up_locked_poll(dcb->poll, dcb->active);
- 	dcb->active = 0;
- 	spin_unlock_irqrestore(&dcb->poll->lock, flags);
-+	dma_fence_put(fence);
- }
- 
- static __poll_t dma_buf_poll(struct file *file, poll_table *poll)
- {
-+	struct dma_buf_poll_cb_t *dcb;
- 	struct dma_buf *dmabuf;
- 	struct dma_resv *resv;
- 	struct dma_resv_list *fobj;
--	struct dma_fence *fence_excl;
-+	struct dma_fence *fence;
-+	unsigned shared_count;
- 	__poll_t events;
--	unsigned shared_count, seq;
-+	int r, i;
- 
- 	dmabuf = file->private_data;
- 	if (!dmabuf || !dmabuf->resv)
-@@ -225,101 +228,56 @@ static __poll_t dma_buf_poll(struct file *file, poll_table *poll)
- 	if (!events)
- 		return 0;
- 
--retry:
--	seq = read_seqcount_begin(&resv->seq);
--	rcu_read_lock();
-+	dcb = events & EPOLLOUT ? &dmabuf->cb_out : &dmabuf->cb_in;
-+
-+	/* Only queue a new one if we are not still waiting for the old one */
-+	spin_lock_irq(&dmabuf->poll.lock);
-+	if (dcb->active)
-+		events = 0;
-+	else
-+		dcb->active = events;
-+	spin_unlock_irq(&dmabuf->poll.lock);
-+	if (!events)
-+		return 0;
-+
-+	dma_resv_lock(resv, NULL);
- 
--	fobj = rcu_dereference(resv->fence);
--	if (fobj)
-+	fobj = dma_resv_get_list(resv);
-+	if (fobj && events & EPOLLOUT)
- 		shared_count = fobj->shared_count;
- 	else
- 		shared_count = 0;
--	fence_excl = rcu_dereference(resv->fence_excl);
--	if (read_seqcount_retry(&resv->seq, seq)) {
--		rcu_read_unlock();
--		goto retry;
--	}
- 
--	if (fence_excl && (!(events & EPOLLOUT) || shared_count == 0)) {
--		struct dma_buf_poll_cb_t *dcb = &dmabuf->cb_excl;
--		__poll_t pevents = EPOLLIN;
--
--		if (shared_count == 0)
--			pevents |= EPOLLOUT;
--
--		spin_lock_irq(&dmabuf->poll.lock);
--		if (dcb->active) {
--			dcb->active |= pevents;
--			events &= ~pevents;
--		} else
--			dcb->active = pevents;
--		spin_unlock_irq(&dmabuf->poll.lock);
--
--		if (events & pevents) {
--			if (!dma_fence_get_rcu(fence_excl)) {
--				/* force a recheck */
--				events &= ~pevents;
--				dma_buf_poll_cb(NULL, &dcb->cb);
--			} else if (!dma_fence_add_callback(fence_excl, &dcb->cb,
--							   dma_buf_poll_cb)) {
--				events &= ~pevents;
--				dma_fence_put(fence_excl);
--			} else {
--				/*
--				 * No callback queued, wake up any additional
--				 * waiters.
--				 */
--				dma_fence_put(fence_excl);
--				dma_buf_poll_cb(NULL, &dcb->cb);
--			}
-+	for (i = 0; i < shared_count; ++i) {
-+		fence = rcu_dereference_protected(fobj->shared[i],
-+						  dma_resv_held(resv));
-+		dma_fence_get(fence);
-+		r = dma_fence_add_callback(fence, &dcb->cb, dma_buf_poll_cb);
-+		if (!r) {
-+			/* Callback queued */
-+			events = 0;
-+			goto out;
- 		}
-+		dma_fence_put(fence);
- 	}
- 
--	if ((events & EPOLLOUT) && shared_count > 0) {
--		struct dma_buf_poll_cb_t *dcb = &dmabuf->cb_shared;
--		int i;
--
--		/* Only queue a new callback if no event has fired yet */
--		spin_lock_irq(&dmabuf->poll.lock);
--		if (dcb->active)
--			events &= ~EPOLLOUT;
--		else
--			dcb->active = EPOLLOUT;
--		spin_unlock_irq(&dmabuf->poll.lock);
--
--		if (!(events & EPOLLOUT))
-+	fence = dma_resv_get_excl(resv);
-+	if (fence) {
-+		dma_fence_get(fence);
-+		r = dma_fence_add_callback(fence, &dcb->cb, dma_buf_poll_cb);
-+		if (!r) {
-+			/* Callback queued */
-+			events = 0;
- 			goto out;
--
--		for (i = 0; i < shared_count; ++i) {
--			struct dma_fence *fence = rcu_dereference(fobj->shared[i]);
--
--			if (!dma_fence_get_rcu(fence)) {
--				/*
--				 * fence refcount dropped to zero, this means
--				 * that fobj has been freed
--				 *
--				 * call dma_buf_poll_cb and force a recheck!
--				 */
--				events &= ~EPOLLOUT;
--				dma_buf_poll_cb(NULL, &dcb->cb);
--				break;
--			}
--			if (!dma_fence_add_callback(fence, &dcb->cb,
--						    dma_buf_poll_cb)) {
--				dma_fence_put(fence);
--				events &= ~EPOLLOUT;
--				break;
--			}
--			dma_fence_put(fence);
- 		}
--
--		/* No callback queued, wake up any additional waiters. */
--		if (i == shared_count)
--			dma_buf_poll_cb(NULL, &dcb->cb);
-+		dma_fence_put(fence);
- 	}
- 
-+	/* No callback queued, wake up any additional waiters. */
-+	dma_buf_poll_cb(NULL, &dcb->cb);
-+
- out:
--	rcu_read_unlock();
-+	dma_resv_unlock(resv);
- 	return events;
- }
- 
-@@ -562,8 +520,8 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
- 	dmabuf->owner = exp_info->owner;
- 	spin_lock_init(&dmabuf->name_lock);
- 	init_waitqueue_head(&dmabuf->poll);
--	dmabuf->cb_excl.poll = dmabuf->cb_shared.poll = &dmabuf->poll;
--	dmabuf->cb_excl.active = dmabuf->cb_shared.active = 0;
-+	dmabuf->cb_in.poll = dmabuf->cb_out.poll = &dmabuf->poll;
-+	dmabuf->cb_in.active = dmabuf->cb_out.active = 0;
- 
- 	if (!resv) {
- 		resv = (struct dma_resv *)&dmabuf[1];
-diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-index efdc56b9d95f..7e747ad54c81 100644
---- a/include/linux/dma-buf.h
-+++ b/include/linux/dma-buf.h
-@@ -329,7 +329,7 @@ struct dma_buf {
- 		wait_queue_head_t *poll;
- 
- 		__poll_t active;
--	} cb_excl, cb_shared;
-+	} cb_in, cb_out;
- };
- 
- /**
--- 
-2.25.1
-
+> > Signed-off-by: Tejas Upadhyay
+> > <tejaskumarx.surendrakumar.upadhyay@intel.com>
+> > ---
+> >  drivers/gpu/drm/vgem/vgem_drv.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/gpu/drm/vgem/vgem_drv.c
+> > b/drivers/gpu/drm/vgem/vgem_drv.c index bf38a7e319d1..1da6df5e256a
+> > 100644
+> > --- a/drivers/gpu/drm/vgem/vgem_drv.c
+> > +++ b/drivers/gpu/drm/vgem/vgem_drv.c
+> > @@ -215,7 +215,7 @@ static int vgem_gem_dumb_create(struct drm_file
+> *file, struct drm_device *dev,
+> >  	struct drm_gem_object *gem_object;
+> >  	u64 pitch, size;
+> >
+> > -	pitch =3D args->width * DIV_ROUND_UP(args->bpp, 8);
+> > +	pitch =3D ALIGN(args->width * DIV_ROUND_UP(args->bpp, 8), 256);
+> >  	size =3D args->height * pitch;
+> >  	if (size =3D=3D 0)
+> >  		return -EINVAL;
+> > --
+> > 2.31.1
+> >
+> > _______________________________________________
+> > Intel-gfx mailing list
+> > Intel-gfx@lists.freedesktop.org
+> > https://lists.freedesktop.org/mailman/listinfo/intel-gfx
+>=20
+> --
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
