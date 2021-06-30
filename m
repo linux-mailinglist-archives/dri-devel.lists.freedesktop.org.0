@@ -2,57 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B1373B7B47
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Jun 2021 03:34:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99A4B3B7B4A
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Jun 2021 03:34:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 506B96E0DF;
-	Wed, 30 Jun 2021 01:34:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 95CFE6E917;
+	Wed, 30 Jun 2021 01:34:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com
- [IPv6:2607:f8b0:4864:20::62e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD8A66E0DF
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Jun 2021 01:34:34 +0000 (UTC)
-Received: by mail-pl1-x62e.google.com with SMTP id i13so516694plb.10
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Jun 2021 18:34:34 -0700 (PDT)
+Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com
+ [IPv6:2607:f8b0:4864:20::52d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2742B6E917
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Jun 2021 01:34:36 +0000 (UTC)
+Received: by mail-pg1-x52d.google.com with SMTP id m26so578823pgb.8
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Jun 2021 18:34:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=7lwmLoDhSeUynyw9WpwUoeXd78SHIQUhC9+ggRtjsFY=;
- b=HBlk9uLZFBTPmMPZXa1DY3yBqmvzmoLq9Ga/hS6DV3Y3+0uu6Cm9LR/zISXJR6fOeZ
- 2MV8mIa2ielnvbs7nQz61soPcBst2ko+p169WKQAV9uGEe4EwPZ9oOpXACSwlTTk3NFQ
- O1vj4a+RurTq2Ka/FeTf/1mYe+EKjH3Jq+4//h3Wy3gMamx6gpGvk/jWd3dTZ/Ike12A
- bGHPqmy85MbuzF4v5xM+psqE8xDBcv0VTT2gs6X/Y23lHNgsX92PZV+dt3XuZmZXFP/i
- HqZ1uMOuBPYk+T8NWnglX/M0CeHZjgJEsocYYOa1vY6Fjat5gILcJ0r0gUdVM9GrsFB1
- 3ODA==
+ bh=aWRozxEZbZiEAkUcrsi4H8KZcPOe7QSabHgZIf7aL7Y=;
+ b=Da6F842aFiiJPMknoXqgJWMwKzz5M/o97rrB+COxWjuTsD9IrcbHN6yM2wBE1zidOj
+ PP4BqMx/KJSaXO69vhBiPMRp99ydGeIRCqky4kRx6lAgW9YEmee51H3uX6XBuZIi9wxt
+ 0Umg0zdZPwvdBwfPYrdAsfgVfpAi+WOrB5+h23Rl61pBzEE70J8Wa/E7zfoJe18S/iZx
+ MvGdMTXCsndySLPEu8e3v/RbASUn023YASvM5kX89tT3FAtsMrtBcDk7IWlzEhdpZCBn
+ ovDSNnfTSWbmfxNyzX4kawYvweEHm1BXPPVSQz8U5BqQYPn8JNc8z4z54NWE+5vQ9EKJ
+ xxew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=7lwmLoDhSeUynyw9WpwUoeXd78SHIQUhC9+ggRtjsFY=;
- b=irur8F/egr8DNADShug9mQJLbzh5fxn4o808pbcu7lw+PARhOJBj57jgSyRGbtGgHH
- dl9houoNK/VhLjIz179sECaxHT3kp4uswEyPc5MrXkyliDgf59hiMja7rO9wTqPVRkbp
- MQtvivCbyV1N8/sgKNNpyuCgr8uSvfhgWFa2THHxlUlaAn/PGEuQtp5ImfKlQZNRR1JZ
- K1mV+OQEE8gtmFMDMpqG+feGpZ54zT7rsp6bsBf6r2CVxM9WBu7BdQGvLkhgWXjMNsYV
- OFfQORwMSmU4R0xBKHi1ocTUXmJ/cymf4ygtvGKBneiGdRhfv429X0dC9gDo1jDt/ZO9
- KMAA==
-X-Gm-Message-State: AOAM532k1Dt/BN1upfEI9Fdo8ZW9MerC85Y3Is8Y6rEHfgQvWTVZUpet
- U1MZvNSzQN6LChDph0BGvr6VIw==
-X-Google-Smtp-Source: ABdhPJxMWCmXP/0OjhKqFlMasVLKq7rLdoTzTd5HNImYqVgNkNOOmmOdq+gMPC9r1CKc6CFEJnq2fQ==
-X-Received: by 2002:a17:90a:5889:: with SMTP id
- j9mr36864843pji.234.1625016874317; 
- Tue, 29 Jun 2021 18:34:34 -0700 (PDT)
+ bh=aWRozxEZbZiEAkUcrsi4H8KZcPOe7QSabHgZIf7aL7Y=;
+ b=mQCtSvc6QLnPJwIG3txp33PIvhD1pLsmJq2z241kQT+s/AgbKzvF8ynxUncwRpNWVz
+ AFm1U/7/c3TcUP7WyqAIrUi3GVf10KEbeN0gzfAOMS5yd3LZvxPTPX5TrK408EJ3WI6h
+ z37DXnbaGXUXE3CgD9a0WoCXnZIuv4QuIeuIo45q/SApex8VChKVP8n47mV8v0LCJ89a
+ b7mhRr1ZHrsyViC/21mKz/q4sBjTVhhD577Dx4QGU3tZnoOuDlnwOnen4bKvB9q1RxTr
+ UeK4Ry7s5CEBZaLyd6DV3+pennvF/lGOxNXizWu/ZxbES0jTmI/sA9GcvnqZ3hOZ6zTm
+ RCAA==
+X-Gm-Message-State: AOAM530u+VboKZUEj4YtnngdO81ciQ7MGp3BRxl51lYmqdMCelacsVgu
+ iyDgZKXW36kU1FAi499oP0HhFQ==
+X-Google-Smtp-Source: ABdhPJxoBxKKikgU3Z/Fu8P1ar70mlUUjSCGePfCookEsRkfPjRE/u3WGIlnshh7FdbV9iash/WBiA==
+X-Received: by 2002:aa7:8e19:0:b029:30c:3dbc:8d0f with SMTP id
+ c25-20020aa78e190000b029030c3dbc8d0fmr14041514pfr.27.1625016875788; 
+ Tue, 29 Jun 2021 18:34:35 -0700 (PDT)
 Received: from localhost.localdomain ([2601:1c2:680:1319:692:26ff:feda:3a81])
  by smtp.gmail.com with ESMTPSA id
- g8sm20252901pja.14.2021.06.29.18.34.33
+ g8sm20252901pja.14.2021.06.29.18.34.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Jun 2021 18:34:33 -0700 (PDT)
+ Tue, 29 Jun 2021 18:34:35 -0700 (PDT)
 From: John Stultz <john.stultz@linaro.org>
 To: lkml <linux-kernel@vger.kernel.org>
-Subject: [PATCH v9 3/5] dma-buf: system_heap: Add drm pagepool support to
- system heap
-Date: Wed, 30 Jun 2021 01:34:19 +0000
-Message-Id: <20210630013421.735092-4-john.stultz@linaro.org>
+Subject: [PATCH v9 4/5] dma-buf: heaps: Add deferred-free-helper library code
+Date: Wed, 30 Jun 2021 01:34:20 +0000
+Message-Id: <20210630013421.735092-5-john.stultz@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210630013421.735092-1-john.stultz@linaro.org>
 References: <20210630013421.735092-1-john.stultz@linaro.org>
@@ -83,11 +82,16 @@ Cc: dri-devel@lists.freedesktop.org, Sandeep Patil <sspatil@google.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Utilize the drm pagepool code to speed up allocation
-performance.
+This patch provides infrastructure for deferring buffer frees.
 
-This is similar to the ION pagepool usage, but tries to
-utilize generic code instead of a custom implementation.
+This is a feature ION provided which when used with some form
+of a page pool, provides a nice performance boost in an
+allocation microbenchmark. The reason it helps is it allows the
+page-zeroing to be done out of the normal allocation/free path,
+and pushed off to a kthread.
+
+As not all heaps will find this useful, its implemented as
+a optional helper library that heaps can utilize.
 
 Cc: Daniel Vetter <daniel@ffwll.ch>
 Cc: Christian Koenig <christian.koenig@amd.com>
@@ -110,116 +114,255 @@ Cc: dri-devel@lists.freedesktop.org
 Signed-off-by: John Stultz <john.stultz@linaro.org>
 ---
 v2:
-* Fix build issue caused by selecting PAGE_POOL w/o NET
-  as Reported-by: kernel test robot <lkp@intel.com>
+* Fix sleep in atomic issue from using a mutex, by switching
+  to a spinlock as Reported-by: kernel test robot <oliver.sang@intel.com>
+* Cleanup API to use a reason enum for clarity and add some documentation
+  comments as suggested by Suren Baghdasaryan.
 v3:
-* Simplify the page zeroing logic a bit by using kmap_atomic
-  instead of vmap as suggested by Daniel Mentz
+* Minor tweaks so it can be built as a module
+* A few small fixups suggested by Daniel Mentz
+v4:
+* Tweak from Daniel Mentz to make sure the shrinker
+  count/freed values are tracked in pages not bytes
 v5:
-* Shift away from networking page pool completely to
-  dmabuf page pool implementation
-v6:
-* Switch again to using the drm_page_pool code shared w/
-  ttm_pool
+* Fix up page count tracking as suggested by Suren Baghdasaryan
 v7:
-* Slight rework for drm_page_pool changes
-v8:
-* Rework to use the rewritten drm_page_pool logic
-* Drop explicit buffer zeroing, as the drm_page_pool handles that
-v9:
-* Fix compiler warning Reported-by: kernel test robot <lkp@intel.com>
+* Rework accounting to use nr_pages rather then size, as suggested
+  by Suren Baghdasaryan
 ---
- drivers/dma-buf/heaps/Kconfig       |  1 +
- drivers/dma-buf/heaps/system_heap.c | 26 +++++++++++++++++++++++---
- 2 files changed, 24 insertions(+), 3 deletions(-)
+ drivers/dma-buf/heaps/Kconfig                |   3 +
+ drivers/dma-buf/heaps/Makefile               |   1 +
+ drivers/dma-buf/heaps/deferred-free-helper.c | 138 +++++++++++++++++++
+ drivers/dma-buf/heaps/deferred-free-helper.h |  55 ++++++++
+ 4 files changed, 197 insertions(+)
+ create mode 100644 drivers/dma-buf/heaps/deferred-free-helper.c
+ create mode 100644 drivers/dma-buf/heaps/deferred-free-helper.h
 
 diff --git a/drivers/dma-buf/heaps/Kconfig b/drivers/dma-buf/heaps/Kconfig
-index a5eef06c4226..f19bf1f82bc2 100644
+index f19bf1f82bc2..7e28934e0def 100644
 --- a/drivers/dma-buf/heaps/Kconfig
 +++ b/drivers/dma-buf/heaps/Kconfig
-@@ -1,6 +1,7 @@
+@@ -1,3 +1,6 @@
++config DMABUF_HEAPS_DEFERRED_FREE
++	tristate
++
  config DMABUF_HEAPS_SYSTEM
  	bool "DMA-BUF System Heap"
  	depends on DMABUF_HEAPS
-+	select DRM_PAGE_POOL
- 	help
- 	  Choose this option to enable the system dmabuf heap. The system heap
- 	  is backed by pages from the buddy allocator. If in doubt, say Y.
-diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/system_heap.c
-index f57a39ddd063..85ceca2ed61d 100644
---- a/drivers/dma-buf/heaps/system_heap.c
-+++ b/drivers/dma-buf/heaps/system_heap.c
-@@ -21,6 +21,8 @@
- #include <linux/slab.h>
- #include <linux/vmalloc.h>
- 
-+#include <drm/page_pool.h>
+diff --git a/drivers/dma-buf/heaps/Makefile b/drivers/dma-buf/heaps/Makefile
+index 974467791032..4e7839875615 100644
+--- a/drivers/dma-buf/heaps/Makefile
++++ b/drivers/dma-buf/heaps/Makefile
+@@ -1,3 +1,4 @@
+ # SPDX-License-Identifier: GPL-2.0
++obj-$(CONFIG_DMABUF_HEAPS_DEFERRED_FREE) += deferred-free-helper.o
+ obj-$(CONFIG_DMABUF_HEAPS_SYSTEM)	+= system_heap.o
+ obj-$(CONFIG_DMABUF_HEAPS_CMA)		+= cma_heap.o
+diff --git a/drivers/dma-buf/heaps/deferred-free-helper.c b/drivers/dma-buf/heaps/deferred-free-helper.c
+new file mode 100644
+index 000000000000..e19c8b68dfeb
+--- /dev/null
++++ b/drivers/dma-buf/heaps/deferred-free-helper.c
+@@ -0,0 +1,138 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Deferred dmabuf freeing helper
++ *
++ * Copyright (C) 2020 Linaro, Ltd.
++ *
++ * Based on the ION page pool code
++ * Copyright (C) 2011 Google, Inc.
++ */
 +
- static struct dma_heap *sys_heap;
- 
- struct system_heap_buffer {
-@@ -54,6 +56,7 @@ static gfp_t order_flags[] = {HIGH_ORDER_GFP, MID_ORDER_GFP, LOW_ORDER_GFP};
-  */
- static const unsigned int orders[] = {8, 4, 0};
- #define NUM_ORDERS ARRAY_SIZE(orders)
-+struct drm_page_pool pools[NUM_ORDERS];
- 
- static struct sg_table *dup_sg_table(struct sg_table *table)
- {
-@@ -282,18 +285,27 @@ static void system_heap_vunmap(struct dma_buf *dmabuf, struct dma_buf_map *map)
- 	dma_buf_map_clear(map);
- }
- 
-+static void system_heap_free_pages(struct drm_page_pool *pool, struct page *p)
++#include <linux/freezer.h>
++#include <linux/list.h>
++#include <linux/slab.h>
++#include <linux/swap.h>
++#include <linux/sched/signal.h>
++
++#include "deferred-free-helper.h"
++
++static LIST_HEAD(free_list);
++static size_t list_nr_pages;
++wait_queue_head_t freelist_waitqueue;
++struct task_struct *freelist_task;
++static DEFINE_SPINLOCK(free_list_lock);
++
++void deferred_free(struct deferred_freelist_item *item,
++		   void (*free)(struct deferred_freelist_item*,
++				enum df_reason),
++		   size_t nr_pages)
 +{
-+	__free_pages(p, pool->order);
++	unsigned long flags;
++
++	INIT_LIST_HEAD(&item->list);
++	item->nr_pages = nr_pages;
++	item->free = free;
++
++	spin_lock_irqsave(&free_list_lock, flags);
++	list_add(&item->list, &free_list);
++	list_nr_pages += nr_pages;
++	spin_unlock_irqrestore(&free_list_lock, flags);
++	wake_up(&freelist_waitqueue);
++}
++EXPORT_SYMBOL_GPL(deferred_free);
++
++static size_t free_one_item(enum df_reason reason)
++{
++	unsigned long flags;
++	size_t nr_pages;
++	struct deferred_freelist_item *item;
++
++	spin_lock_irqsave(&free_list_lock, flags);
++	if (list_empty(&free_list)) {
++		spin_unlock_irqrestore(&free_list_lock, flags);
++		return 0;
++	}
++	item = list_first_entry(&free_list, struct deferred_freelist_item, list);
++	list_del(&item->list);
++	nr_pages = item->nr_pages;
++	list_nr_pages -= nr_pages;
++	spin_unlock_irqrestore(&free_list_lock, flags);
++
++	item->free(item, reason);
++	return nr_pages;
 +}
 +
- static void system_heap_dma_buf_release(struct dma_buf *dmabuf)
- {
- 	struct system_heap_buffer *buffer = dmabuf->priv;
- 	struct sg_table *table;
- 	struct scatterlist *sg;
--	int i;
-+	int i, j;
- 
- 	table = &buffer->sg_table;
- 	for_each_sg(table->sgl, sg, table->nents, i) {
- 		struct page *page = sg_page(sg);
- 
--		__free_pages(page, compound_order(page));
-+		for (j = 0; j < NUM_ORDERS; j++) {
-+			if (compound_order(page) == orders[j])
-+				break;
-+		}
-+		drm_page_pool_add(&pools[j], page);
- 	}
- 	sg_free_table(table);
- 	kfree(buffer);
-@@ -324,7 +336,9 @@ static struct page *alloc_largest_available(unsigned long size,
- 		if (max_order < orders[i])
- 			continue;
- 
--		page = alloc_pages(order_flags[i], orders[i]);
-+		page = drm_page_pool_remove(&pools[i]);
-+		if (!page)
-+			page = alloc_pages(order_flags[i], orders[i]);
- 		if (!page)
- 			continue;
- 		return page;
-@@ -425,6 +439,12 @@ static const struct dma_heap_ops system_heap_ops = {
- static int system_heap_create(void)
- {
- 	struct dma_heap_export_info exp_info;
-+	int i;
++static unsigned long get_freelist_nr_pages(void)
++{
++	unsigned long nr_pages;
++	unsigned long flags;
 +
-+	for (i = 0; i < NUM_ORDERS; i++) {
-+		drm_page_pool_init(&pools[i], orders[i],
-+				   system_heap_free_pages);
++	spin_lock_irqsave(&free_list_lock, flags);
++	nr_pages = list_nr_pages;
++	spin_unlock_irqrestore(&free_list_lock, flags);
++	return nr_pages;
++}
++
++static unsigned long freelist_shrink_count(struct shrinker *shrinker,
++					   struct shrink_control *sc)
++{
++	return get_freelist_nr_pages();
++}
++
++static unsigned long freelist_shrink_scan(struct shrinker *shrinker,
++					  struct shrink_control *sc)
++{
++	unsigned long total_freed = 0;
++
++	if (sc->nr_to_scan == 0)
++		return 0;
++
++	while (total_freed < sc->nr_to_scan) {
++		size_t pages_freed = free_one_item(DF_UNDER_PRESSURE);
++
++		if (!pages_freed)
++			break;
++
++		total_freed += pages_freed;
 +	}
- 
- 	exp_info.name = "system";
- 	exp_info.ops = &system_heap_ops;
++
++	return total_freed;
++}
++
++static struct shrinker freelist_shrinker = {
++	.count_objects = freelist_shrink_count,
++	.scan_objects = freelist_shrink_scan,
++	.seeks = DEFAULT_SEEKS,
++	.batch = 0,
++};
++
++static int deferred_free_thread(void *data)
++{
++	while (true) {
++		wait_event_freezable(freelist_waitqueue,
++				     get_freelist_nr_pages() > 0);
++
++		free_one_item(DF_NORMAL);
++	}
++
++	return 0;
++}
++
++static int deferred_freelist_init(void)
++{
++	list_nr_pages = 0;
++
++	init_waitqueue_head(&freelist_waitqueue);
++	freelist_task = kthread_run(deferred_free_thread, NULL,
++				    "%s", "dmabuf-deferred-free-worker");
++	if (IS_ERR(freelist_task)) {
++		pr_err("Creating thread for deferred free failed\n");
++		return -1;
++	}
++	sched_set_normal(freelist_task, 19);
++
++	return register_shrinker(&freelist_shrinker);
++}
++module_init(deferred_freelist_init);
++MODULE_LICENSE("GPL v2");
++
+diff --git a/drivers/dma-buf/heaps/deferred-free-helper.h b/drivers/dma-buf/heaps/deferred-free-helper.h
+new file mode 100644
+index 000000000000..11940328ce3f
+--- /dev/null
++++ b/drivers/dma-buf/heaps/deferred-free-helper.h
+@@ -0,0 +1,55 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++
++#ifndef DEFERRED_FREE_HELPER_H
++#define DEFERRED_FREE_HELPER_H
++
++/**
++ * df_reason - enum for reason why item was freed
++ *
++ * This provides a reason for why the free function was called
++ * on the item. This is useful when deferred_free is used in
++ * combination with a pagepool, so under pressure the page can
++ * be immediately freed.
++ *
++ * DF_NORMAL:         Normal deferred free
++ *
++ * DF_UNDER_PRESSURE: Free was called because the system
++ *                    is under memory pressure. Usually
++ *                    from a shrinker. Avoid allocating
++ *                    memory in the free call, as it may
++ *                    fail.
++ */
++enum df_reason {
++	DF_NORMAL,
++	DF_UNDER_PRESSURE,
++};
++
++/**
++ * deferred_freelist_item - item structure for deferred freelist
++ *
++ * This is to be added to the structure for whatever you want to
++ * defer freeing on.
++ *
++ * @nr_pages: number of pages used by item to be freed
++ * @free: function pointer to be called when freeing the item
++ * @list: list entry for the deferred list
++ */
++struct deferred_freelist_item {
++	size_t nr_pages;
++	void (*free)(struct deferred_freelist_item *i,
++		     enum df_reason reason);
++	struct list_head list;
++};
++
++/**
++ * deferred_free - call to add item to the deferred free list
++ *
++ * @item: Pointer to deferred_freelist_item field of a structure
++ * @free: Function pointer to the free call
++ * @nr_pages: number of pages to be freed
++ */
++void deferred_free(struct deferred_freelist_item *item,
++		   void (*free)(struct deferred_freelist_item *i,
++				enum df_reason reason),
++		   size_t nr_pages);
++#endif
 -- 
 2.25.1
 
