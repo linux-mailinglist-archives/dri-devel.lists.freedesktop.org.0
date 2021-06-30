@@ -1,38 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E29B3B8092
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Jun 2021 12:06:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EE2A33B809D
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Jun 2021 12:08:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E65546E981;
-	Wed, 30 Jun 2021 10:06:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D4016E983;
+	Wed, 30 Jun 2021 10:08:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D0F2E6E980;
- Wed, 30 Jun 2021 10:06:22 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 19F6661D0C;
- Wed, 30 Jun 2021 10:06:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1625047582;
- bh=avnkog7DAWHGE/DDPBwmxyAibvw4Gdlte4dEESCVyoo=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=udOpBZzVB4JN0HTHVvrO3eSvnwimfuvMyyr+nIaiE9fMU5868YxXBlpFGBWl+jvYl
- XNgb7Sg904LwLnqu4UWSmwKUnyd6PlkLPwPMARE8fgHpm6t1k4yt2JD9n5GJD0v7BE
- PcbmgK+YE/poI/xZfbc45WpiErOJU74fyjWXXbhE=
-Date: Wed, 30 Jun 2021 12:06:20 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v3 2/2] drm/i915: Drop all references to DRM IRQ midlayer
-Message-ID: <YNxCHDGA+x2Xe9pM@kroah.com>
-References: <20210630095228.6665-1-tzimmermann@suse.de>
- <20210630095228.6665-3-tzimmermann@suse.de>
+Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 018B26E982
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Jun 2021 10:08:19 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1625047703; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=V2ANtGMjJP031vwtea0cvuT0DcS61OO8FRdPjBQ676g=;
+ b=nE3fi14tsM6QttDih2ox6Qkd7EMh8HRns8PjZujky8AoQGZkUJX1/06/UEbiQkj9KBbveTSb
+ GrccMIZUQHArm3m5LMFMX+Xb6NXYPO8e3+Cvi8C1bTopeLnJOPRmTYFhwpMlBwS9h4eVnL5L
+ YkHfioWOF7srGwO+fveBjVl7WNE=
+X-Mailgun-Sending-Ip: 198.61.254.9
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n06.prod.us-west-2.postgun.com with SMTP id
+ 60dc4280ad0600eede606bf9 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 30 Jun 2021 10:08:00
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 5AB60C4338A; Wed, 30 Jun 2021 10:08:00 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00
+ autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: saiprakash.ranjan)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 17A87C433D3;
+ Wed, 30 Jun 2021 10:07:59 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210630095228.6665-3-tzimmermann@suse.de>
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date: Wed, 30 Jun 2021 15:37:59 +0530
+From: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
+To: Will Deacon <will@kernel.org>
+Subject: Re: [PATCH 2/3] iommu/io-pgtable-arm: Add IOMMU_LLC page protection
+ flag
+In-Reply-To: <20210325173311.GA15504@willie-the-truck>
+References: <3f589e7de3f9fa93e84c83420c5270c546a0c368.1610372717.git.saiprakash.ranjan@codeaurora.org>
+ <20210129090516.GB3998@willie-the-truck>
+ <5d23fce629323bcda71594010824aad0@codeaurora.org>
+ <20210201111556.GA7172@willie-the-truck>
+ <CAF6AEGsARmkAFsjaQLfa2miMgeijo183MWDKGtW_ti-UCpzBqA@mail.gmail.com>
+ <20210201182016.GA21629@jcrouse1-lnx.qualcomm.com>
+ <7e9aade14d0b7f69285852ade4a5a9f4@codeaurora.org>
+ <20210203214612.GB19847@willie-the-truck>
+ <4988e2ef35f76a0c2f1fe3f66f023a3b@codeaurora.org>
+ <9362873a3bcf37cdd073a6128f29c683@codeaurora.org>
+ <20210325173311.GA15504@willie-the-truck>
+Message-ID: <21239ba603d0bdc4e4c696588a905f88@codeaurora.org>
+X-Sender: saiprakash.ranjan@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,77 +77,142 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: matthew.brost@intel.com, airlied@linux.ie, mika.kuoppala@linux.intel.com,
- intel-gfx@lists.freedesktop.org, chris@chris-wilson.co.uk,
- dri-devel@lists.freedesktop.org, rodrigo.vivi@intel.com,
- stable@vger.kernel.org, lucas.demarchi@intel.com
+Cc: "Isaac J. Manjarres" <isaacm@codeaurora.org>,
+ David Airlie <airlied@linux.ie>, Sean Paul <sean@poorly.run>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Akhil P Oommen <akhilpo@codeaurora.org>, "list@263.net:IOMMU
+ DRIVERS , Joerg Roedel <joro@8bytes.org>, " <iommu@lists.linux-foundation.org>,
+ Kristian H Kristensen <hoegsberg@google.com>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ freedreno <freedreno@lists.freedesktop.org>,
+ linux-arm-kernel@lists.infradead.org, Robin Murphy <robin.murphy@arm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 30, 2021 at 11:52:28AM +0200, Thomas Zimmermann wrote:
-> Remove all references to DRM's IRQ midlayer. i915 uses Linux' interrupt
-> functions directly.
+Hi Will,
+
+On 2021-03-25 23:03, Will Deacon wrote:
+> On Tue, Mar 09, 2021 at 12:10:44PM +0530, Sai Prakash Ranjan wrote:
+>> On 2021-02-05 17:38, Sai Prakash Ranjan wrote:
+>> > On 2021-02-04 03:16, Will Deacon wrote:
+>> > > On Tue, Feb 02, 2021 at 11:56:27AM +0530, Sai Prakash Ranjan wrote:
+>> > > > On 2021-02-01 23:50, Jordan Crouse wrote:
+>> > > > > On Mon, Feb 01, 2021 at 08:20:44AM -0800, Rob Clark wrote:
+>> > > > > > On Mon, Feb 1, 2021 at 3:16 AM Will Deacon <will@kernel.org> wrote:
+>> > > > > > > On Fri, Jan 29, 2021 at 03:12:59PM +0530, Sai Prakash Ranjan wrote:
+>> > > > > > > > On 2021-01-29 14:35, Will Deacon wrote:
+>> > > > > > > > > On Mon, Jan 11, 2021 at 07:45:04PM +0530, Sai Prakash Ranjan wrote:
+>> > > > > > > > > > +#define IOMMU_LLC        (1 << 6)
+>> > > > > > > > >
+>> > > > > > > > > On reflection, I'm a bit worried about exposing this because I think it
+>> > > > > > > > > will
+>> > > > > > > > > introduce a mismatched virtual alias with the CPU (we don't even have a
+>> > > > > > > > > MAIR
+>> > > > > > > > > set up for this memory type). Now, we also have that issue for the PTW,
+>> > > > > > > > > but
+>> > > > > > > > > since we always use cache maintenance (i.e. the streaming API) for
+>> > > > > > > > > publishing the page-tables to a non-coheren walker, it works out.
+>> > > > > > > > > However,
+>> > > > > > > > > if somebody expects IOMMU_LLC to be coherent with a DMA API coherent
+>> > > > > > > > > allocation, then they're potentially in for a nasty surprise due to the
+>> > > > > > > > > mismatched outer-cacheability attributes.
+>> > > > > > > > >
+>> > > > > > > >
+>> > > > > > > > Can't we add the syscached memory type similar to what is done on android?
+>> > > > > > >
+>> > > > > > > Maybe. How does the GPU driver map these things on the CPU side?
+>> > > > > >
+>> > > > > > Currently we use writecombine mappings for everything, although there
+>> > > > > > are some cases that we'd like to use cached (but have not merged
+>> > > > > > patches that would give userspace a way to flush/invalidate)
+>> > > > > >
+>> > > > >
+>> > > > > LLC/system cache doesn't have a relationship with the CPU cache.  Its
+>> > > > > just a
+>> > > > > little accelerator that sits on the connection from the GPU to DDR and
+>> > > > > caches
+>> > > > > accesses. The hint that Sai is suggesting is used to mark the buffers as
+>> > > > > 'no-write-allocate' to prevent GPU write operations from being cached in
+>> > > > > the LLC
+>> > > > > which a) isn't interesting and b) takes up cache space for read
+>> > > > > operations.
+>> > > > >
+>> > > > > Its easiest to think of the LLC as a bonus accelerator that has no cost
+>> > > > > for
+>> > > > > us to use outside of the unfortunate per buffer hint.
+>> > > > >
+>> > > > > We do have to worry about the CPU cache w.r.t I/O coherency (which is a
+>> > > > > different hint) and in that case we have all of concerns that Will
+>> > > > > identified.
+>> > > > >
+>> > > >
+>> > > > For mismatched outer cacheability attributes which Will
+>> > > > mentioned, I was
+>> > > > referring to [1] in android kernel.
+>> > >
+>> > > I've lost track of the conversation here :/
+>> > >
+>> > > When the GPU has a buffer mapped with IOMMU_LLC, is the buffer also
+>> > > mapped
+>> > > into the CPU and with what attributes? Rob said "writecombine for
+>> > > everything" -- does that mean ioremap_wc() / MEMREMAP_WC?
+>> > >
+>> >
+>> > Rob answered this.
+>> >
+>> > > Finally, we need to be careful when we use the word "hint" as
+>> > > "allocation
+>> > > hint" has a specific meaning in the architecture, and if we only
+>> > > mismatch on
+>> > > those then we're actually ok. But I think IOMMU_LLC is more than
+>> > > just a
+>> > > hint, since it actually drives eviction policy (i.e. it enables
+>> > > writeback).
+>> > >
+>> > > Sorry for the pedantry, but I just want to make sure we're all talking
+>> > > about the same things!
+>> > >
+>> >
+>> > Sorry for the confusion which probably was caused by my mentioning of
+>> > android, NWA(no write allocate) is an allocation hint which we can
+>> > ignore
+>> > for now as it is not introduced yet in upstream.
+>> >
+>> 
+>> Any chance of taking this forward? We do not want to miss out on small 
+>> fps
+>> gain when the product gets released.
 > 
-> v2:
-> 	* also remove an outdated comment
-> 	* move IRQ fix into separate patch
-> 	* update Fixes tag (Daniel)
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Fixes: b318b82455bd ("drm/i915: Nuke drm_driver irq vfuncs")
-> Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> Cc: Chris Wilson <chris@chris-wilson.co.uk>
-> Cc: Jani Nikula <jani.nikula@linux.intel.com>
-> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> Cc: intel-gfx@lists.freedesktop.org
-> Cc: <stable@vger.kernel.org> # v5.4+
-> ---
->  drivers/gpu/drm/i915/i915_drv.c | 1 -
->  drivers/gpu/drm/i915/i915_irq.c | 5 -----
->  2 files changed, 6 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/i915_drv.c b/drivers/gpu/drm/i915/i915_drv.c
-> index 850b499c71c8..73de45472f60 100644
-> --- a/drivers/gpu/drm/i915/i915_drv.c
-> +++ b/drivers/gpu/drm/i915/i915_drv.c
-> @@ -42,7 +42,6 @@
->  #include <drm/drm_aperture.h>
->  #include <drm/drm_atomic_helper.h>
->  #include <drm/drm_ioctl.h>
-> -#include <drm/drm_irq.h>
->  #include <drm/drm_managed.h>
->  #include <drm/drm_probe_helper.h>
->  
-> diff --git a/drivers/gpu/drm/i915/i915_irq.c b/drivers/gpu/drm/i915/i915_irq.c
-> index 2203dca19895..1d4c683c9de9 100644
-> --- a/drivers/gpu/drm/i915/i915_irq.c
-> +++ b/drivers/gpu/drm/i915/i915_irq.c
-> @@ -33,7 +33,6 @@
->  #include <linux/sysrq.h>
->  
->  #include <drm/drm_drv.h>
-> -#include <drm/drm_irq.h>
->  
->  #include "display/intel_de.h"
->  #include "display/intel_display_types.h"
-> @@ -4564,10 +4563,6 @@ void intel_runtime_pm_enable_interrupts(struct drm_i915_private *dev_priv)
->  
->  bool intel_irqs_enabled(struct drm_i915_private *dev_priv)
->  {
-> -	/*
-> -	 * We only use drm_irq_uninstall() at unload and VT switch, so
-> -	 * this is the only thing we need to check.
-> -	 */
->  	return dev_priv->runtime_pm.irqs_enabled;
->  }
->  
-> -- 
-> 2.32.0
+> Do we have a solution to the mismatched virtual alias?
 > 
 
-How is this a stable-kernel-related fix?
+Sorry for the long delay on this thread.
 
-thanks,
+For mismatched virtual alias question, wasn't this already discussed in 
+stretch
+when initial support for system cache [1] (which was reverted by you) 
+was added?
 
-greg k-h
+Excerpt from there,
+
+"As seen in downstream kernels there are few non-coherent devices which
+would not want to allocate in system cache, and therefore would want
+Inner/Outer non-cached memory. So, we may want to either override the
+attributes per-device, or as you suggested we may want to introduce
+another memory type 'sys-cached' that can be added with its separate
+infra."
+
+As for DMA API usage, we do not have any upstream users (video will be
+one if they decide to upstream that).
+
+[1] 
+https://patchwork.kernel.org/project/linux-arm-msm/patch/20180615105329.26800-1-vivek.gautam@codeaurora.org/
+
+Thanks,
+Sai
+
+-- 
+QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a 
+member
+of Code Aurora Forum, hosted by The Linux Foundation
