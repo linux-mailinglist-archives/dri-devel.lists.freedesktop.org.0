@@ -1,49 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 436B53B7B06
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Jun 2021 02:35:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A10803B7B0C
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Jun 2021 02:36:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B3876E90C;
-	Wed, 30 Jun 2021 00:35:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD5A26E910;
+	Wed, 30 Jun 2021 00:36:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de
- [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 35F3F6E90C
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Jun 2021 00:35:09 +0000 (UTC)
-Received: from [IPv6:::1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id DB8E08318C;
- Wed, 30 Jun 2021 02:35:05 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1625013307;
- bh=7d+hvafjNqkuLN4l9EGDgvyWp865HKjDqji5vD6RecM=;
- h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=XaaIg08GyrpafgYTDYiZY3MYc4mI7Bgolmdb0ksmBVgQwLMkUIvHqf1+cUDFumHiM
- zL2FhNG/tvaZZsgGcnTrPq/77X8kNUGN4r/n5NP53N7fqFMkzQT1GhbBXqBBaV6k24
- KC/cQ6AyQ4kS9WQaCIP2jlmrtQXvrgwaz5qpN3WBsUPeuLbJRp1Wov1NoEWjke3tzK
- L8DrbtszwVK+km/EA1nAhW3Q8ByETdVM02oC62H5HxYpf3bb8mk26SYp9m8pz7zSIs
- 1E7xVvdvTeXDQCrgeGgvLja05Aia6HvPpO8B+ac4wO/4l6KMIHbHec5z61x6AZnATD
- lLsW1y3k3NdOw==
-Subject: Re: [PATCH] drm/stm: ltdc: improve pm_runtime to stop clocks
-To: Raphael GALLAIS-POU - foss <raphael.gallais-pou@foss.st.com>
-References: <20210629115709.16145-1-raphael.gallais-pou@foss.st.com>
-From: Marek Vasut <marex@denx.de>
-Message-ID: <420e243d-7541-a07e-177b-d2db11c26aef@denx.de>
-Date: Wed, 30 Jun 2021 02:35:05 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
+ [IPv6:2a00:1450:4864:20::136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 91AEA6E90F
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Jun 2021 00:36:41 +0000 (UTC)
+Received: by mail-lf1-x136.google.com with SMTP id w19so1688064lfk.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Jun 2021 17:36:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=jtVW5NMocB6oVI0WMovmBROwRBfdKl6IUOMqibW9evQ=;
+ b=PfDwdfd658Y+9K8gvsYqLkb06cvO9vPX5vmZFKpgJfEU1JV8IJOHOPB/fT9gQgKia4
+ CkwaR7y+3Y3sRHa1Ei3aG16+gGPQ8ellOWAofRnxXTxEphjDYqv1CvVWGiY1H2QyxJlO
+ LNN65ZIV4H4+qPr/vzxELakfbfrYCNxdUuw8FlW01wdyTO9QgR55wE2WFhtmfVqmraX1
+ 6dsMXQqqoSbmasHFViuFkp9x9AiAQBLFBuy8aCFxO5dfncSXXyX55TVezt+pCUhXsQ8J
+ 9lI0d6qy92Ma9mvUYjuBxQjQw4ace0MWZURMPTZr0T5fK/9N6n3m5y70GsyXUxOFlmCr
+ SukQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=jtVW5NMocB6oVI0WMovmBROwRBfdKl6IUOMqibW9evQ=;
+ b=SftnuJaU+uv+4eWHjunJRUhJSoj6pyXPr+jLK9PCpDxAB3UrxvO6X5XKM4ChHjgPzd
+ LDE00oRpki3jf+x+cJwloXKbCCS16Xzx7Qw4fy4D8a/LJGwS0dJWMKOKsmJXLVqCqSgX
+ CFMIa16Sq8j7HfFQUHCbWoucKaBsonTlgdKj21WQRvjNn4Ip+ItdiMLfsRIt/dVBrfUG
+ SP1+asJ7s9sQQUpDsu7pnC+w2aH5sAp9DkNYV2FHYjhseQhjoLL1NkFIQnxhVfV1OZCs
+ 9+/1mhjpNFQRaX9BKcjFlBv39nGANzWXAPnzVNWpp28ZRKIM18TUIA7/SgerEiYaWEQj
+ 2iaQ==
+X-Gm-Message-State: AOAM530K8IARp4eV1L82keJISPHh1ug86BhDH3tw2gCAvMe88BRESSfP
+ qx8k1MbKj4fmoVd0Jq56mT3Ui4M3cexLbbAyTKx9mg==
+X-Google-Smtp-Source: ABdhPJz8oylr1QBk4wbq+S09hbJVugu5jPx8c6IPCGHmiauvztZvUu2BOO8drcRIghnbm2IY/6t/MC8MygbdQHfkED4=
+X-Received: by 2002:a05:6512:3c9f:: with SMTP id
+ h31mr15414133lfv.465.1625013399992; 
+ Tue, 29 Jun 2021 17:36:39 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210629115709.16145-1-raphael.gallais-pou@foss.st.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.103.2 at phobos.denx.de
-X-Virus-Status: Clean
+References: <20210629074703.v2.1.I629b2366a6591410359c7fcf6d385b474b705ca2@changeid>
+In-Reply-To: <20210629074703.v2.1.I629b2366a6591410359c7fcf6d385b474b705ca2@changeid>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Wed, 30 Jun 2021 02:36:28 +0200
+Message-ID: <CACRpkdbRjg1PMMWPc_5fW+PKG4SQGkaesK4++MHUWTw0MdMkxg@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/dsi: Add _NO_ to MIPI_DSI_* flags disabling
+ features
+To: Nicolas Boichat <drinkcat@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,41 +63,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Raphael GALLAIS-POU <raphael.gallais-pou@st.com>,
- David Airlie <airlied@linux.ie>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Yannick FERTRE - foss <yannick.fertre@foss.st.com>,
- Philippe CORNU <philippe.cornu@st.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Alexandre TORGUE - foss <alexandre.torgue@foss.st.com>,
- Yannick FERTRE <yannick.fertre@st.com>,
- Philippe CORNU - foss <philippe.cornu@foss.st.com>,
- Benjamin Gaignard <benjamin.gaignard@linaro.org>,
- Stephen Boyd <swboyd@chromium.org>,
- "linux-stm32@st-md-mailman.stormreply.com"
- <linux-stm32@st-md-mailman.stormreply.com>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Cc: Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ Viresh Kumar <viresh.kumar@linaro.org>,
+ "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Jordan Crouse <jordan@cosmicpenguin.net>, Andrzej Hajda <a.hajda@samsung.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Sam Ravnborg <sam@ravnborg.org>,
+ linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
+ Joonyoung Shim <jy0922.shim@samsung.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Tzung-Bi Shih <tzungbi@google.com>,
+ Adrien Grassein <adrien.grassein@gmail.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+ MSM <linux-arm-msm@vger.kernel.org>, Yangtao Li <tiny.windzz@gmail.com>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Abhinav Kumar <abhinavk@codeaurora.org>, Pi-Hsun Shih <pihsun@chromium.org>,
+ Hsin-Yi Wang <hsinyi@chromium.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ Sean Paul <sean@poorly.run>, Xin Ji <xji@analogixsemi.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Rajendra Nayak <rnayak@codeaurora.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ Robert Foss <robert.foss@linaro.org>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno <freedreno@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6/29/21 1:58 PM, Raphael GALLAIS-POU - foss wrote:
+On Tue, Jun 29, 2021 at 1:47 AM Nicolas Boichat <drinkcat@chromium.org> wrote:
 
-[...]
+> Many of the DSI flags have names opposite to their actual effects,
+> e.g. MIPI_DSI_MODE_EOT_PACKET means that EoT packets will actually
+> be disabled. Fix this by including _NO_ in the flag names, e.g.
+> MIPI_DSI_MODE_NO_EOT_PACKET.
+>
+> Signed-off-by: Nicolas Boichat <drinkcat@chromium.org>
 
-> +++ b/drivers/gpu/drm/stm/ltdc.c
-> @@ -425,10 +425,17 @@ static void ltdc_crtc_atomic_enable(struct drm_crtc *crtc,
->   {
->   	struct ltdc_device *ldev = crtc_to_ltdc(crtc);
->   	struct drm_device *ddev = crtc->dev;
-> +	int ret;
->   
->   	DRM_DEBUG_DRIVER("\n");
->   
-> -	pm_runtime_get_sync(ddev->dev);
-> +	if (!pm_runtime_active(ddev->dev)) {
-> +		ret = pm_runtime_get_sync(ddev->dev);
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
-All these if (!pm_runtime_active()) then pm_runtime_get_sync() calls 
-look like workaround for some larger issue. Shouldn't the pm_runtime do 
-some refcounting on its own , so this shouldn't be needed ?
+Yours,
+Linus Walleij
