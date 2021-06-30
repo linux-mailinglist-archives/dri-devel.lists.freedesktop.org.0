@@ -2,56 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2B483B8680
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Jun 2021 17:49:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A1583B869B
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Jun 2021 17:57:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 48C086EA28;
-	Wed, 30 Jun 2021 15:49:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4ED8E6EA34;
+	Wed, 30 Jun 2021 15:56:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
- [IPv6:2a00:1450:4864:20::12e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F28A6EA28
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Jun 2021 15:49:19 +0000 (UTC)
-Received: by mail-lf1-x12e.google.com with SMTP id a11so5919522lfg.11
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Jun 2021 08:49:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=CBLEdCNsKL/DEmzbZarmUYfKxCM0YWrJ43uCB3rc4OQ=;
- b=AUuZnHOjslNRB3LgR9mL5FD3aj4xdBmXgqnleB5Xt+zw9w8KmhzeCOoyBKSLTk0QY7
- P4LPhv2mDvFL84eEAG45TVUozAs9N5WRFVqrBRt6uMZXHP5+sUUHEuOoAAcEY+C06LWc
- RXnzLXO72vOzWFAa2S02rZ/pIKtjgK0ri0KAbBbfTyrNi44wTHPgOa5e6rkF/HRDRw6y
- 5qEOypbbciof/93fQGnZBisXbVpGyDaSocws3DAKhTdFHh13bK59F27Z/TlKiy7Ujvd6
- DqWKs5twR2k4LTM7hIBLDqkkd7WCvMT3Il+2vXzDX9zh3/bYMfsyFffM/1W4PLdFEaVy
- LKbw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=CBLEdCNsKL/DEmzbZarmUYfKxCM0YWrJ43uCB3rc4OQ=;
- b=Lkav+h7a/yD/5jeNQYiFh0QuBDk0g2ILCNgauw+0OUdWdAecb70oN2GtM81WXmpVNZ
- FMpcs5QemAguqddZeQfXd5WFpytzKB3Pct3Jex2FHZIn68VqSb55rLV8VUqeZUF4z8fc
- lRIUjLEO82yr9dQR1rXRWQo5OAxDfUJ3RO+ANmBMPosQS/OTLoeYLpu1x8av3M4KNfbk
- rOOjeO/XT/1ZLfJsf/J2YkwTNelp0q2voa7dMMkclfsT4OPstVvpHrcmaHbSdOKnUkY9
- FCVV1CiB00p9CZIG5ru25cDoAJeG1wLxGR3nElLAVGDWhu5byFIgSo+oOvKCb/s6N7N2
- DtHw==
-X-Gm-Message-State: AOAM533LFVb22yTBT+xgIQd/FVZrLmOJkv1AUmxGUv3oq3tEnXw5i8U4
- ry84q+ruRN8KaTINdSm+45zMcwMcHrWxsI1T93ywdw==
-X-Google-Smtp-Source: ABdhPJwgNjE9V41fvcIyXXDd3XXUbOL1DY0RiunHeYzLZIF3cHjFud3J1eazy5yDAgcRfIbo+2+RjXzgJG/Kl69HiSM=
-X-Received: by 2002:a19:c141:: with SMTP id r62mr2148574lff.157.1625068157573; 
- Wed, 30 Jun 2021 08:49:17 -0700 (PDT)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 379406EA34;
+ Wed, 30 Jun 2021 15:56:56 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3EC0061396;
+ Wed, 30 Jun 2021 15:56:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1625068615;
+ bh=t4c1D/KrdZudddoFFMreAQi55GnAG0OUL4mpRujr/+8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=nFQR+NYjpCrpMIj0+9nBAj35wlj1qXRWbFKtyhNDLpJTAm3BAAOI+jIUn7QIQ6LMC
+ /D08b/Wyq1LKmfD6NJJYuuUXm1XpHRMF+bzag+U7SE0Xnf1l+0yaFFUCUoKE4yB6Fx
+ KHCUGF9UUbr1kSihYQ7S2P6QTrW/0sw9J8RiF/5y7S55QWGDrjBUVqbIJpceKtB839
+ 13XYMsllNYSyOsjMPZqtEclitRsqTPicPLIWpPGvJ9tnj6RZjijLVBtTMriTuGUDnx
+ pujXO32GnzzUvzSsthpj3FxbtH2/lBtbWkeBfV4uT8mpQQ+qjMcUVFz7XO5LQkzFA7
+ Ko9guip4RPSmA==
+Date: Wed, 30 Jun 2021 08:56:51 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Will Deacon <will@kernel.org>
+Subject: Re: [PATCH v15 06/12] swiotlb: Use is_swiotlb_force_bounce for
+ swiotlb data bouncing
+Message-ID: <YNyUQwiagNeZ9YeJ@Ryzen-9-3900X.localdomain>
+References: <20210624155526.2775863-1-tientzu@chromium.org>
+ <20210624155526.2775863-7-tientzu@chromium.org>
+ <YNvMDFWKXSm4LRfZ@Ryzen-9-3900X.localdomain>
+ <CALiNf2-a-haQN0-4+gX8+wa++52-0CnO2O4BEkxrQCxoTa_47w@mail.gmail.com>
+ <20210630114348.GA8383@willie-the-truck>
 MIME-Version: 1.0
-References: <20210624224458.2486701-1-linus.walleij@linaro.org>
- <d7dc8987-60ab-41c2-0200-a7f6a8ae837c@tronnes.org>
-In-Reply-To: <d7dc8987-60ab-41c2-0200-a7f6a8ae837c@tronnes.org>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Wed, 30 Jun 2021 17:49:06 +0200
-Message-ID: <CACRpkda-si+D=Q7=nuy+NjrQEixVQRhHt=o615N4xY7f03DkwQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/panel: ws2401: Add driver for WideChips WS2401
-To: =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210630114348.GA8383@willie-the-truck>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,37 +51,112 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- Douglas Anderson <dianders@chromium.org>,
- "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
- phone-devel@vger.kernel.org
+Cc: heikki.krogerus@linux.intel.com, thomas.hellstrom@linux.intel.com,
+ peterz@infradead.org, dri-devel@lists.freedesktop.org,
+ chris@chris-wilson.co.uk, grant.likely@arm.com, paulus@samba.org,
+ Frank Rowand <frowand.list@gmail.com>, mingo@kernel.org,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Saravana Kannan <saravanak@google.com>, mpe@ellerman.id.au,
+ Joerg Roedel <joro@8bytes.org>,
+ "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
+ Christoph Hellwig <hch@lst.de>,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>, bskeggs@redhat.com,
+ linux-pci@vger.kernel.org, xen-devel@lists.xenproject.org,
+ Thierry Reding <treding@nvidia.com>, intel-gfx@lists.freedesktop.org,
+ matthew.auld@intel.com, linux-devicetree <devicetree@vger.kernel.org>,
+ Jianxiong Gao <jxgao@google.com>,
+ Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>, airlied@linux.ie,
+ Dan Williams <dan.j.williams@intel.com>, linuxppc-dev@lists.ozlabs.org,
+ Rob Herring <robh+dt@kernel.org>, rodrigo.vivi@intel.com,
+ Bjorn Helgaas <bhelgaas@google.com>, Claire Chang <tientzu@chromium.org>,
+ boris.ostrovsky@oracle.com,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>, jgross@suse.com,
+ Nicolas Boichat <drinkcat@chromium.org>, Greg KH <gregkh@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>, Qian Cai <quic_qiancai@quicinc.com>,
+ lkml <linux-kernel@vger.kernel.org>, Tomasz Figa <tfiga@chromium.org>,
+ "list@263.net:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
+ Jim Quinlan <james.quinlan@broadcom.com>, xypron.glpk@gmx.de,
+ Tom Lendacky <thomas.lendacky@amd.com>, Robin Murphy <robin.murphy@arm.com>,
+ bauerman@linux.ibm.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 28, 2021 at 11:30 AM Noralf Tr=C3=B8nnes <noralf@tronnes.org> w=
-rote:
+Hi Will and Claire,
 
-> > +     dev_info(ws->dev, "MTP ID: %02x %02x %02x\n", id1, id2, id3);
-> > +}
->
-> Why do you read these id's on every power on, it doesn't look like you
-> use them?
->
-> If they're just informational, they should be available through debugfs,
-> see mipi_dbi_debugfs_init().
+On Wed, Jun 30, 2021 at 12:43:48PM +0100, Will Deacon wrote:
+> On Wed, Jun 30, 2021 at 05:17:27PM +0800, Claire Chang wrote:
+> > On Wed, Jun 30, 2021 at 9:43 AM Nathan Chancellor <nathan@kernel.org> wrote:
+> > >
+> > > On Thu, Jun 24, 2021 at 11:55:20PM +0800, Claire Chang wrote:
+> > > > Propagate the swiotlb_force into io_tlb_default_mem->force_bounce and
+> > > > use it to determine whether to bounce the data or not. This will be
+> > > > useful later to allow for different pools.
+> > > >
+> > > > Signed-off-by: Claire Chang <tientzu@chromium.org>
+> > > > Reviewed-by: Christoph Hellwig <hch@lst.de>
+> > > > Tested-by: Stefano Stabellini <sstabellini@kernel.org>
+> > > > Tested-by: Will Deacon <will@kernel.org>
+> > > > Acked-by: Stefano Stabellini <sstabellini@kernel.org>
+> > >
+> > > This patch as commit af452ec1b1a3 ("swiotlb: Use is_swiotlb_force_bounce
+> > > for swiotlb data bouncing") causes my Ryzen 3 4300G system to fail to
+> > > get to an X session consistently (although not every single time),
+> > > presumably due to a crash in the AMDGPU driver that I see in dmesg.
+> > >
+> > > I have attached logs at af452ec1b1a3 and f127c9556a8e and I am happy
+> > > to provide any further information, debug, or test patches as necessary.
+> > 
+> > Are you using swiotlb=force? or the swiotlb_map is called because of
+> > !dma_capable? (https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/kernel/dma/direct.h#n93)
+> 
+> The command line is in the dmesg:
+> 
+>   | Kernel command line: initrd=\amd-ucode.img initrd=\initramfs-linux-next-llvm.img root=PARTUUID=8680aa0c-cf09-4a69-8cf3-970478040ee7 rw intel_pstate=no_hwp irqpoll
+> 
+> but I worry that this looks _very_ similar to the issue reported by Qian
+> Cai which we thought we had fixed. Nathan -- is the failure deterministic?
 
-I moved them to probe. I actually really want to print this into
-dmesg so we learn to understand these MTP values better,
-if for nothing else so for the fact that they will turn up in google
-searches.
+Yes, for the most part. It does not happen every single boot so when I
+was bisecting, I did a series of seven boots and only considered the
+revision good when all seven of them made it to LightDM's greeter. My
+results that I notated show most bad revisions failed anywhere from four
+to six times.
 
-The actual display controller vendor comes out in the first
-MTP byte, and by collecting this data we can figure out to
-some extent what kind of hardware is actually inside some
-of these displays. In this case 0xDA is 0x40 so that is
-widechips manufacturer ID.
+> > `BUG: unable to handle page fault for address: 00000000003a8290` and
+> > the fact it crashed at `_raw_spin_lock_irqsave` look like the memory
+> > (maybe dev->dma_io_tlb_mem) was corrupted?
+> > The dev->dma_io_tlb_mem should be set here
+> > (https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/drivers/pci/probe.c#n2528)
+> > through device_initialize.
+> 
+> I'm less sure about this. 'dma_io_tlb_mem' should be pointing at
+> 'io_tlb_default_mem', which is a page-aligned allocation from memblock.
+> The spinlock is at offset 0x24 in that structure, and looking at the
+> register dump from the crash:
+> 
+> Jun 29 18:28:42 hp-4300G kernel: RSP: 0018:ffffadb4013db9e8 EFLAGS: 00010006
+> Jun 29 18:28:42 hp-4300G kernel: RAX: 00000000003a8290 RBX: 0000000000000000 RCX: ffff8900572ad580
+> Jun 29 18:28:42 hp-4300G kernel: RDX: ffff89005653f024 RSI: 00000000000c0000 RDI: 0000000000001d17
+> Jun 29 18:28:42 hp-4300G kernel: RBP: 000000000a20d000 R08: 00000000000c0000 R09: 0000000000000000
+> Jun 29 18:28:42 hp-4300G kernel: R10: 000000000a20d000 R11: ffff89005653f000 R12: 0000000000000212
+> Jun 29 18:28:42 hp-4300G kernel: R13: 0000000000001000 R14: 0000000000000002 R15: 0000000000200000
+> Jun 29 18:28:42 hp-4300G kernel: FS:  00007f1f8898ea40(0000) GS:ffff890057280000(0000) knlGS:0000000000000000
+> Jun 29 18:28:42 hp-4300G kernel: CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> Jun 29 18:28:42 hp-4300G kernel: CR2: 00000000003a8290 CR3: 00000001020d0000 CR4: 0000000000350ee0
+> Jun 29 18:28:42 hp-4300G kernel: Call Trace:
+> Jun 29 18:28:42 hp-4300G kernel:  _raw_spin_lock_irqsave+0x39/0x50
+> Jun 29 18:28:42 hp-4300G kernel:  swiotlb_tbl_map_single+0x12b/0x4c0
+> 
+> Then that correlates with R11 holding the 'dma_io_tlb_mem' pointer and
+> RDX pointing at the spinlock. Yet RAX is holding junk :/
+> 
+> I agree that enabling KASAN would be a good idea, but I also think we
+> probably need to get some more information out of swiotlb_tbl_map_single()
+> to see see what exactly is going wrong in there.
 
-I fixed the rest of the comments!
+I can certainly enable KASAN and if there is any debug print I can add
+or dump anything, let me know!
 
-Yours,
-Linus Walleij
+Cheers,
+Nathan
