@@ -1,39 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88CB43B882B
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Jun 2021 20:07:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 723AB3B8876
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Jun 2021 20:30:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 287616EA65;
-	Wed, 30 Jun 2021 18:07:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 949816EA6A;
+	Wed, 30 Jun 2021 18:30:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2AD8D6EA63;
- Wed, 30 Jun 2021 18:07:29 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10031"; a="272260113"
-X-IronPort-AV: E=Sophos;i="5.83,312,1616482800"; d="scan'208";a="272260113"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Jun 2021 11:07:28 -0700
-X-IronPort-AV: E=Sophos;i="5.83,312,1616482800"; d="scan'208";a="626101141"
-Received: from unknown (HELO sdutt-i7) ([10.165.21.147])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Jun 2021 11:07:28 -0700
-Date: Wed, 30 Jun 2021 11:00:52 -0700
-From: Matthew Brost <matthew.brost@intel.com>
-To: Martin Peres <martin.peres@free.fr>
-Subject: Re: [PATCH 47/47] drm/i915/guc: Unblock GuC submission on Gen11+
-Message-ID: <20210630180052.GA8283@sdutt-i7>
-References: <20210624070516.21893-1-matthew.brost@intel.com>
- <20210624070516.21893-48-matthew.brost@intel.com>
- <88cbe963-7188-f4ae-5acf-01a80bd2fe25@free.fr>
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com
+ [IPv6:2a00:1450:4864:20::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 48C486EA6A
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Jun 2021 18:30:17 +0000 (UTC)
+Received: by mail-lf1-x133.google.com with SMTP id q16so6886187lfr.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Jun 2021 11:30:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=R0zkcKp841s0XqP9/v6DKydNJDudXDrtFk9F38hA3kg=;
+ b=iAvhLjlbRgIbfVOrvgRi4yXYup9sGDtgenU4nw6ewl8lfQKpxPbFvmboEJAhl41Qj3
+ ICfE97Y7bocbBzwVpez4SbsWKkr+6R3AitZ4IeF3a6D+C6Ldot65Psq+drJ+uN67SFJR
+ Hxni+3zVPreqATXYrOh00A8e4xQ5yNEo72u2Kggr/ThPtmoScsM4bXr5l9xeKh0mvWAe
+ VACANg7IOjrQzIXP05Zv2El2QN4KCpVPaDfzIWxoBvt7sUYQ7V4e4yUnATbnukxhmfzl
+ QXCQuSlyyQUbZ0Su/hBO2zR1lrmcGrphMtr2jTqsSlBHECE1VULFLfxbg1V6k9C2riUw
+ DoAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=R0zkcKp841s0XqP9/v6DKydNJDudXDrtFk9F38hA3kg=;
+ b=kZJdzDN0Ux3RF7xddLmpMgSYRERgZeNUuF5GfZ6jT9Ed4pxNtScBQCMwFXQH4UgPb6
+ VN8XvfAzkoAp/UCM8AuUWJnqT0hE+64lznPGHAzgNmIdb6GrKuP9vyVBDXRIG1BmUvz5
+ UHHa66F4/QMFaIRpC/d8D0nq5yWDdIVcrRNm89SWQM2h22XbCy1lcHqBAzF41yvzxzVL
+ 9TYGSM7uyMR5+VUS7vzuXqiyYUO1FxKQ9Ft7v8E5KK4MWTfKudqJl2+cz8AglAETrev5
+ iAoHRNWTGkNqWKPrVXcuD+V0OFy8JgfzfYPjKBd5zxXsTtfd2nvPMiXM0P5n2Wjdr+Da
+ A4+A==
+X-Gm-Message-State: AOAM5338cehF+9hr93/zhU03FG0neVreiNvnaGMGCCfMdZmbx2lWCGzf
+ aXAKDcc/zm0DtCQOVkiF136Tng==
+X-Google-Smtp-Source: ABdhPJyX9dZzrJsmWrEgOlPJEtznkY+F9X3mNV59i3DMz+jgLtHpZHuAM2qCFzPCSvDVK00de1gsAQ==
+X-Received: by 2002:a05:6512:1c7:: with SMTP id
+ f7mr28590543lfp.181.1625077815537; 
+ Wed, 30 Jun 2021 11:30:15 -0700 (PDT)
+Received: from localhost.localdomain
+ (c-fdcc225c.014-348-6c756e10.bbcust.telenor.se. [92.34.204.253])
+ by smtp.gmail.com with ESMTPSA id o142sm1986251lfa.299.2021.06.30.11.30.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 30 Jun 2021 11:30:15 -0700 (PDT)
+From: Linus Walleij <linus.walleij@linaro.org>
+To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH 1/2 v2] drm/panel: Add DT bindings for Samsung LMS380KF01
+Date: Wed, 30 Jun 2021 20:28:03 +0200
+Message-Id: <20210630182804.3628410-1-linus.walleij@linaro.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <88cbe963-7188-f4ae-5acf-01a80bd2fe25@free.fr>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,145 +69,135 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, daniele.ceraolospurio@intel.com,
- john.c.harrison@intel.com, dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, phone-devel@vger.kernel.org,
+ Douglas Anderson <dianders@chromium.org>,
+ =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 30, 2021 at 11:22:38AM +0300, Martin Peres wrote:
-> 
-> 
-> On 24/06/2021 10:05, Matthew Brost wrote:
-> > From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-> > 
-> > Unblock GuC submission on Gen11+ platforms.
-> > 
-> > Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
-> > Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-> > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> > ---
-> >   drivers/gpu/drm/i915/gt/uc/intel_guc.h            |  1 +
-> >   drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c |  8 ++++++++
-> >   drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h |  3 +--
-> >   drivers/gpu/drm/i915/gt/uc/intel_uc.c             | 14 +++++++++-----
-> >   4 files changed, 19 insertions(+), 7 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-> > index fae01dc8e1b9..77981788204f 100644
-> > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-> > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-> > @@ -54,6 +54,7 @@ struct intel_guc {
-> >   	struct ida guc_ids;
-> >   	struct list_head guc_id_list;
-> > +	bool submission_supported;
-> >   	bool submission_selected;
-> >   	struct i915_vma *ads_vma;
-> > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> > index a427336ce916..405339202280 100644
-> > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> > @@ -2042,6 +2042,13 @@ void intel_guc_submission_disable(struct intel_guc *guc)
-> >   	/* Note: By the time we're here, GuC may have already been reset */
-> >   }
-> > +static bool __guc_submission_supported(struct intel_guc *guc)
-> > +{
-> > +	/* GuC submission is unavailable for pre-Gen11 */
-> > +	return intel_guc_is_supported(guc) &&
-> > +	       INTEL_GEN(guc_to_gt(guc)->i915) >= 11;
-> > +}
-> > +
-> >   static bool __guc_submission_selected(struct intel_guc *guc)
-> >   {
-> >   	struct drm_i915_private *i915 = guc_to_gt(guc)->i915;
-> > @@ -2054,6 +2061,7 @@ static bool __guc_submission_selected(struct intel_guc *guc)
-> >   void intel_guc_submission_init_early(struct intel_guc *guc)
-> >   {
-> > +	guc->submission_supported = __guc_submission_supported(guc);
-> >   	guc->submission_selected = __guc_submission_selected(guc);
-> >   }
-> > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h
-> > index a2a3fad72be1..be767eb6ff71 100644
-> > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h
-> > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h
-> > @@ -37,8 +37,7 @@ int intel_guc_wait_for_pending_msg(struct intel_guc *guc,
-> >   static inline bool intel_guc_submission_is_supported(struct intel_guc *guc)
-> >   {
-> > -	/* XXX: GuC submission is unavailable for now */
-> > -	return false;
-> > +	return guc->submission_supported;
-> >   }
-> >   static inline bool intel_guc_submission_is_wanted(struct intel_guc *guc)
-> > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc.c b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-> > index 7a69c3c027e9..61be0aa81492 100644
-> > --- a/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-> > +++ b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-> > @@ -34,8 +34,15 @@ static void uc_expand_default_options(struct intel_uc *uc)
-> >   		return;
-> >   	}
-> > -	/* Default: enable HuC authentication only */
-> > -	i915->params.enable_guc = ENABLE_GUC_LOAD_HUC;
-> > +	/* Intermediate platforms are HuC authentication only */
-> > +	if (IS_DG1(i915) || IS_ALDERLAKE_S(i915)) {
-> > +		drm_dbg(&i915->drm, "Disabling GuC only due to old platform\n");
-> 
-> This comment does not seem accurate, given that DG1 is barely out, and ADL
-> is not out yet. How about:
-> 
-> "Disabling GuC on untested platforms"?
+This adds device tree bindings for the Samsung Mobile Displays
+LMS380KF01 RGB DPI display panel.
 
-This isn't my comment but it seems right to me. AFAIK this describes the
-current PR but it is subject to change (i.e. we may enable GuC on DG1 by
-default at some point).
+Cc: devicetree@vger.kernel.org
+Cc: phone-devel@vger.kernel.org
+Cc: Douglas Anderson <dianders@chromium.org>
+Cc: Noralf Trønnes <noralf@tronnes.org>
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+---
+ChangeLog v1->v2:
+- Expect SPI bindings to be pulled in for the client and state
+  spi-cpha: true etc.
+- Make port a required node.
+- Update the example to use a proper SPI controller (spi-gpio)
+  so we get full validation of the example.
+---
+ .../display/panel/samsung,lms380kf01.yaml     | 97 +++++++++++++++++++
+ 1 file changed, 97 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/samsung,lms380kf01.yaml
 
-> 
-> > +		i915->params.enable_guc = ENABLE_GUC_LOAD_HUC;
-> > +		return;
-> > +	}
-> > +
-> > +	/* Default: enable HuC authentication and GuC submission */
-> > +	i915->params.enable_guc = ENABLE_GUC_LOAD_HUC | ENABLE_GUC_SUBMISSION;
-> 
-> This seems to be in contradiction with the GuC submission plan which states:
-> 
-> "Not enabled by default on any current platforms but can be enabled via
-> modparam enable_guc".
-> 
+diff --git a/Documentation/devicetree/bindings/display/panel/samsung,lms380kf01.yaml b/Documentation/devicetree/bindings/display/panel/samsung,lms380kf01.yaml
+new file mode 100644
+index 000000000000..ebc33c36c124
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/panel/samsung,lms380kf01.yaml
+@@ -0,0 +1,97 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/panel/samsung,lms380kf01.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Samsung LMS380KF01 display panel
++
++description: The LMS380KF01 is a 480x800 DPI display panel from Samsung Mobile
++  Displays (SMD) utilizing the WideChips WS2401 display controller. It can be
++  used with internal or external backlight control.
++
++maintainers:
++  - Linus Walleij <linus.walleij@linaro.org>
++
++allOf:
++  - $ref: panel-common.yaml#
++
++properties:
++  compatible:
++    const: samsung,lms380kf01
++
++  reg: true
++
++  interrupts:
++    description: provides an optional ESD (electrostatic discharge)
++      interrupt that signals abnormalities in the display hardware.
++      This can also be raised for other reasons like erroneous
++      configuration.
++    maxItems: 1
++
++  reset-gpios: true
++
++  vci-supply:
++    description: regulator that supplies the VCI analog voltage
++      usually around 3.0 V
++
++  vccio-supply:
++    description: regulator that supplies the VCCIO voltage usually
++      around 1.8 V
++
++  backlight: true
++
++  spi-cpha: true
++
++  spi-cpol: true
++
++  spi-max-frequency:
++    maximum: 1200000
++
++  port: true
++
++required:
++  - compatible
++  - reg
++  - spi-cpha
++  - spi-cpol
++  - port
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++    #include <dt-bindings/interrupt-controller/irq.h>
++
++    spi {
++      compatible = "spi-gpio";
++      sck-gpios = <&gpio 0 GPIO_ACTIVE_HIGH>;
++      miso-gpios = <&gpio 1 GPIO_ACTIVE_HIGH>;
++      mosi-gpios = <&gpio 2 GPIO_ACTIVE_HIGH>;
++      cs-gpios = <&gpio 3 GPIO_ACTIVE_HIGH>;
++      num-chipselects = <1>;
++      #address-cells = <1>;
++      #size-cells = <0>;
++
++      panel@0 {
++        compatible = "samsung,lms380kf01";
++        spi-max-frequency = <1200000>;
++        spi-cpha;
++        spi-cpol;
++        reg = <0>;
++        vci-supply = <&lcd_3v0_reg>;
++        vccio-supply = <&lcd_1v8_reg>;
++        reset-gpios = <&gpio 4 GPIO_ACTIVE_LOW>;
++        interrupt-parent = <&gpio>;
++        interrupts = <5 IRQ_TYPE_EDGE_RISING>;
++
++        port {
++          panel_in: endpoint {
++            remote-endpoint = <&display_out>;
++          };
++        };
++      };
++    };
++
++...
+-- 
+2.31.1
 
-I don't believe any current platform gets this point where GuC
-submission would be enabled by default. The first would be ADL-P which
-isn't out yet. 
-
-> When you rework the patch, could you please add a warning when the user
-> force-enables the GuC Command Submission? Something like:
-> 
-> "WARNING: The user force-enabled the experimental GuC command submission
-> backend using i915.enable_guc. Please disable it if experiencing stability
-> issues. No bug reports will be accepted on this backend".
-> 
-> This should allow you to work on the backend, while communicating clearly to
-> users that it is not ready just yet. Once it has matured, the warning can be
-> removed.
-
-This is a good idea but the only issue I see this message blowing up CI.
-We plan to enable GuC submission, via a modparam, on several platforms
-(e.g. TGL) where TGL isn't the PR in CI. I think if is a debug level
-message CI should be happy but I'll double check on this. 
-
-Matt
-
-> 
-> Cheers,
-> Martin
-> 
-> >   }
-> >   /* Reset GuC providing us with fresh state for both GuC and HuC.
-> > @@ -313,9 +320,6 @@ static int __uc_init(struct intel_uc *uc)
-> >   	if (i915_inject_probe_failure(uc_to_gt(uc)->i915))
-> >   		return -ENOMEM;
-> > -	/* XXX: GuC submission is unavailable for now */
-> > -	GEM_BUG_ON(intel_uc_uses_guc_submission(uc));
-> > -
-> >   	ret = intel_guc_init(guc);
-> >   	if (ret)
-> >   		return ret;
-> > 
