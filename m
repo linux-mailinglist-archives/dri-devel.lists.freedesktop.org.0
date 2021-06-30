@@ -1,29 +1,29 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8B503B85DD
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Jun 2021 17:10:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F5713B85E4
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Jun 2021 17:10:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 47A806EA07;
+	by gabe.freedesktop.org (Postfix) with ESMTP id DBC8E6EA10;
 	Wed, 30 Jun 2021 15:10:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from srv6.fidu.org (srv6.fidu.org [IPv6:2a01:4f8:231:de0::2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2DA6E6EA05;
+Received: from srv6.fidu.org (srv6.fidu.org [159.69.62.71])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2FBA86EA07;
  Wed, 30 Jun 2021 15:10:26 +0000 (UTC)
 Received: from localhost (localhost.localdomain [127.0.0.1])
- by srv6.fidu.org (Postfix) with ESMTP id 77EDAC80068;
+ by srv6.fidu.org (Postfix) with ESMTP id B24B0C80089;
  Wed, 30 Jun 2021 17:10:24 +0200 (CEST)
 X-Virus-Scanned: Debian amavisd-new at srv6.fidu.org
 Received: from srv6.fidu.org ([127.0.0.1])
  by localhost (srv6.fidu.org [127.0.0.1]) (amavisd-new, port 10026)
- with LMTP id TBGbVrtUKNB0; Wed, 30 Jun 2021 17:10:24 +0200 (CEST)
+ with LMTP id 1QzYT2rvIurU; Wed, 30 Jun 2021 17:10:24 +0200 (CEST)
 Received: from wsembach-tuxedo.fritz.box
  (p200300e37F394900095779a208783f8e.dip0.t-ipconnect.de
  [IPv6:2003:e3:7f39:4900:957:79a2:878:3f8e])
  (Authenticated sender: wse@tuxedocomputers.com)
- by srv6.fidu.org (Postfix) with ESMTPA id 1D42DC8007C;
+ by srv6.fidu.org (Postfix) with ESMTPA id 53111C80085;
  Wed, 30 Jun 2021 17:10:24 +0200 (CEST)
 From: Werner Sembach <wse@tuxedocomputers.com>
 To: harry.wentland@amd.com, sunpeng.li@amd.com, alexander.deucher@amd.com,
@@ -33,10 +33,10 @@ To: harry.wentland@amd.com, sunpeng.li@amd.com, alexander.deucher@amd.com,
  rodrigo.vivi@intel.com, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  intel-gfx@lists.freedesktop.org, emil.l.velikov@gmail.com
-Subject: [PATCH v5 01/17] drm/amd/display: Remove unnecessary
- SIGNAL_TYPE_HDMI_TYPE_A check
-Date: Wed, 30 Jun 2021 17:10:02 +0200
-Message-Id: <20210630151018.330354-2-wse@tuxedocomputers.com>
+Subject: [PATCH v5 02/17] drm/amd/display: Add missing cases
+ convert_dc_color_depth_into_bpc
+Date: Wed, 30 Jun 2021 17:10:03 +0200
+Message-Id: <20210630151018.330354-3-wse@tuxedocomputers.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210630151018.330354-1-wse@tuxedocomputers.com>
 References: <20210630151018.330354-1-wse@tuxedocomputers.com>
@@ -58,38 +58,30 @@ Cc: Werner Sembach <wse@tuxedocomputers.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Remove unnecessary SIGNAL_TYPE_HDMI_TYPE_A check that was performed in the
-drm_mode_is_420_only() case, but not in the drm_mode_is_420_also() &&
-force_yuv420_output case.
-
-Without further knowledge if YCbCr 4:2:0 is supported outside of HDMI,
-there is no reason to use RGB when the display
-reports drm_mode_is_420_only() even on a non HDMI connection.
-
-This patch also moves both checks in the same if-case. This  eliminates an
-extra else-if-case.
+convert_dc_color_depth_into_bpc() that converts the enum dc_color_depth to
+an integer had the casses for COLOR_DEPTH_999 and COLOR_DEPTH_111111
+missing.
 
 Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
 ---
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 10f878910e55..e081dd3ffb5f 100644
+index e081dd3ffb5f..f4abb5f215d1 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -5348,10 +5348,7 @@ static void fill_stream_properties_from_drm_display_mode(
- 	timing_out->v_border_bottom = 0;
- 	/* TODO: un-hardcode */
- 	if (drm_mode_is_420_only(info, mode_in)
--			&& stream->signal == SIGNAL_TYPE_HDMI_TYPE_A)
--		timing_out->pixel_encoding = PIXEL_ENCODING_YCBCR420;
--	else if (drm_mode_is_420_also(info, mode_in)
--			&& aconnector->force_yuv420_output)
-+			|| (drm_mode_is_420_also(info, mode_in) && aconnector->force_yuv420_output))
- 		timing_out->pixel_encoding = PIXEL_ENCODING_YCBCR420;
- 	else if ((connector->display_info.color_formats & DRM_COLOR_FORMAT_YCRCB444)
- 			&& stream->signal == SIGNAL_TYPE_HDMI_TYPE_A)
+@@ -6700,6 +6700,10 @@ static int convert_dc_color_depth_into_bpc (enum dc_color_depth display_color_de
+ 			return 14;
+ 		case COLOR_DEPTH_161616:
+ 			return 16;
++		case COLOR_DEPTH_999:
++			return 9;
++		case COLOR_DEPTH_111111:
++			return 11;
+ 		default:
+ 			break;
+ 		}
 -- 
 2.25.1
 
