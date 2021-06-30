@@ -1,63 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 634843B815A
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Jun 2021 13:36:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B5FE43B816A
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Jun 2021 13:44:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D3D7B6E0F2;
-	Wed, 30 Jun 2021 11:36:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 102E86E993;
+	Wed, 30 Jun 2021 11:44:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C54A46E0F2;
- Wed, 30 Jun 2021 11:36:16 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10030"; a="205323835"
-X-IronPort-AV: E=Sophos;i="5.83,311,1616482800"; d="scan'208";a="205323835"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Jun 2021 04:36:15 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.83,311,1616482800"; d="scan'208";a="558269236"
-Received: from fmsmsx604.amr.corp.intel.com ([10.18.126.84])
- by orsmga004.jf.intel.com with ESMTP; 30 Jun 2021 04:36:15 -0700
-Received: from bgsmsx603.gar.corp.intel.com (10.109.78.82) by
- fmsmsx604.amr.corp.intel.com (10.18.126.84) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.4; Wed, 30 Jun 2021 04:36:14 -0700
-Received: from bgsmsx604.gar.corp.intel.com (10.67.234.6) by
- BGSMSX603.gar.corp.intel.com (10.109.78.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.4; Wed, 30 Jun 2021 17:06:12 +0530
-Received: from bgsmsx604.gar.corp.intel.com ([10.67.234.6]) by
- BGSMSX604.gar.corp.intel.com ([10.67.234.6]) with mapi id 15.01.2242.008;
- Wed, 30 Jun 2021 17:06:12 +0530
-From: "Shankar, Uma" <uma.shankar@intel.com>
-To: Harry Wentland <harry.wentland@amd.com>, "intel-gfx@lists.freedesktop.org"
- <intel-gfx@lists.freedesktop.org>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>
-Subject: RE: [PATCH 04/21] drm/i915/xelpd: Define Degamma Lut range struct for
- HDR planes
-Thread-Topic: [PATCH 04/21] drm/i915/xelpd: Define Degamma Lut range struct
- for HDR planes
-Thread-Index: AQHXVs8kUUeAmGLzREqUBbFHfmv9YqspVtkAgAM8z2A=
-Date: Wed, 30 Jun 2021 11:36:11 +0000
-Message-ID: <bce1077600544c3d93ee045ddf9b9bfd@intel.com>
-References: <20210601105218.29185-1-uma.shankar@intel.com>
- <20210601105218.29185-5-uma.shankar@intel.com>
- <cac45158-a7b9-c92e-eaf6-1067c29497e5@amd.com>
-In-Reply-To: <cac45158-a7b9-c92e-eaf6-1067c29497e5@amd.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-dlp-version: 11.5.1.3
-x-originating-ip: [10.22.254.132]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B90589E9B;
+ Wed, 30 Jun 2021 11:44:01 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 658936191E;
+ Wed, 30 Jun 2021 11:43:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1625053440;
+ bh=T1naDXZ4KL7jQSaB561jHvJlgBOMGMQ3/1PtLxSRV3U=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Vw8LJOu5KCD34mYOTCMTaQTWi8sHKQiF+Cb+FRKyG+InGjsh4w5CH8gnw31a5qAII
+ fdxwWup5a6Ngr850taEcU9ZCSLqJ9xB2i8TJhh5jtbhjxfDnOyNmjKcCavn+Lg4tkH
+ BT4r0W8tudkIUpIlaA5qcnegOAtKQcX6CJcSCUAclVHoKv4x47CJbH5I8ALtxpamjf
+ y69MeQSUFUeisr4w4Nt7M+WH4SJ7ztkfgf6rb2x4qemdLyCnbXEMIuY+1x1gvjyIVN
+ oskCC9GD49xMtxzkxb+rjm1PqbzB1n44Y73LgO/3einGNWpmSI/rVZcsQyguvuwKPI
+ LyjS1rkSbdFqQ==
+Date: Wed, 30 Jun 2021 12:43:48 +0100
+From: Will Deacon <will@kernel.org>
+To: Claire Chang <tientzu@chromium.org>
+Subject: Re: [PATCH v15 06/12] swiotlb: Use is_swiotlb_force_bounce for
+ swiotlb data bouncing
+Message-ID: <20210630114348.GA8383@willie-the-truck>
+References: <20210624155526.2775863-1-tientzu@chromium.org>
+ <20210624155526.2775863-7-tientzu@chromium.org>
+ <YNvMDFWKXSm4LRfZ@Ryzen-9-3900X.localdomain>
+ <CALiNf2-a-haQN0-4+gX8+wa++52-0CnO2O4BEkxrQCxoTa_47w@mail.gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CALiNf2-a-haQN0-4+gX8+wa++52-0CnO2O4BEkxrQCxoTa_47w@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,78 +51,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Modem, Bhanuprakash" <bhanuprakash.modem@intel.com>
+Cc: heikki.krogerus@linux.intel.com, thomas.hellstrom@linux.intel.com,
+ peterz@infradead.org, dri-devel@lists.freedesktop.org,
+ chris@chris-wilson.co.uk, grant.likely@arm.com, paulus@samba.org,
+ Frank Rowand <frowand.list@gmail.com>, mingo@kernel.org,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Saravana Kannan <saravanak@google.com>, mpe@ellerman.id.au,
+ Joerg Roedel <joro@8bytes.org>,
+ "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
+ Christoph Hellwig <hch@lst.de>,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>, bskeggs@redhat.com,
+ linux-pci@vger.kernel.org, xen-devel@lists.xenproject.org,
+ Thierry Reding <treding@nvidia.com>, intel-gfx@lists.freedesktop.org,
+ matthew.auld@intel.com, linux-devicetree <devicetree@vger.kernel.org>,
+ Jianxiong Gao <jxgao@google.com>,
+ Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>, airlied@linux.ie,
+ Dan Williams <dan.j.williams@intel.com>, linuxppc-dev@lists.ozlabs.org,
+ Nathan Chancellor <nathan@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ rodrigo.vivi@intel.com, Bjorn Helgaas <bhelgaas@google.com>,
+ boris.ostrovsky@oracle.com,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>, jgross@suse.com,
+ Nicolas Boichat <drinkcat@chromium.org>, Greg KH <gregkh@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>, Qian Cai <quic_qiancai@quicinc.com>,
+ lkml <linux-kernel@vger.kernel.org>, Tomasz Figa <tfiga@chromium.org>,
+ "list@263.net:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
+ Jim Quinlan <james.quinlan@broadcom.com>, xypron.glpk@gmx.de,
+ Tom Lendacky <thomas.lendacky@amd.com>, Robin Murphy <robin.murphy@arm.com>,
+ bauerman@linux.ibm.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogZHJpLWRldmVsIDxkcmkt
-ZGV2ZWwtYm91bmNlc0BsaXN0cy5mcmVlZGVza3RvcC5vcmc+IE9uIEJlaGFsZiBPZiBIYXJyeQ0K
-PiBXZW50bGFuZA0KPiBTZW50OiBNb25kYXksIEp1bmUgMjgsIDIwMjEgODo0NSBQTQ0KPiBUbzog
-U2hhbmthciwgVW1hIDx1bWEuc2hhbmthckBpbnRlbC5jb20+OyBpbnRlbC1nZnhAbGlzdHMuZnJl
-ZWRlc2t0b3Aub3JnOyBkcmktDQo+IGRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZw0KPiBDYzog
-TW9kZW0sIEJoYW51cHJha2FzaCA8YmhhbnVwcmFrYXNoLm1vZGVtQGludGVsLmNvbT4NCj4gU3Vi
-amVjdDogUmU6IFtQQVRDSCAwNC8yMV0gZHJtL2k5MTUveGVscGQ6IERlZmluZSBEZWdhbW1hIEx1
-dCByYW5nZSBzdHJ1Y3QgZm9yDQo+IEhEUiBwbGFuZXMNCj4gDQo+IE9uIDIwMjEtMDYtMDEgNjo1
-MiBhLm0uLCBVbWEgU2hhbmthciB3cm90ZToNCj4gPiBEZWZpbmUgdGhlIHN0cnVjdHVyZSB3aXRo
-IFhFX0xQRCBkZWdhbW1hIGx1dCByYW5nZXMuIEhEUiBhbmQgU0RSDQo+ID4gcGxhbmVzIGhhdmUg
-ZGlmZmVyZW50IGNhcGFiaWxpdGllcywgaW1wbGVtZW50ZWQgcmVzcGVjdGl2ZSBzdHJ1Y3R1cmUN
-Cj4gPiBmb3IgdGhlIEhEUiBwbGFuZXMuDQo+ID4NCj4gPiBTaWduZWQtb2ZmLWJ5OiBVbWEgU2hh
-bmthciA8dW1hLnNoYW5rYXJAaW50ZWwuY29tPg0KPiA+IC0tLQ0KPiA+ICBkcml2ZXJzL2dwdS9k
-cm0vaTkxNS9kaXNwbGF5L2ludGVsX2NvbG9yLmMgfCA1Mg0KPiA+ICsrKysrKysrKysrKysrKysr
-KysrKysNCj4gPiAgMSBmaWxlIGNoYW5nZWQsIDUyIGluc2VydGlvbnMoKykNCj4gPg0KPiA+IGRp
-ZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2NvbG9yLmMNCj4g
-PiBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfY29sb3IuYw0KPiA+IGluZGV4
-IGRhYjg5MmQyMjUxYi4uYzczNWQwNmE2YjU0IDEwMDY0NA0KPiA+IC0tLSBhL2RyaXZlcnMvZ3B1
-L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfY29sb3IuYw0KPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2Ry
-bS9pOTE1L2Rpc3BsYXkvaW50ZWxfY29sb3IuYw0KPiA+IEBAIC0yMDkzLDYgKzIwOTMsNTggQEAg
-c3RhdGljIHZvaWQgaWNsX3JlYWRfbHV0cyhzdHJ1Y3QgaW50ZWxfY3J0Y19zdGF0ZQ0KPiAqY3J0
-Y19zdGF0ZSkNCj4gPiAgCX0NCj4gPiAgfQ0KPiA+DQo+ID4gKyAvKiBGSVhNRSBpbnB1dCBicGM/
-ICovDQo+ID4gK19fbWF5YmVfdW51c2VkDQo+ID4gK3N0YXRpYyBjb25zdCBzdHJ1Y3QgZHJtX2Nv
-bG9yX2x1dF9yYW5nZSBkMTNfZGVnYW1tYV9oZHJbXSA9IHsNCj4gPiArCS8qIHNlZ21lbnQgMSAq
-Lw0KPiA+ICsJew0KPiA+ICsJCS5mbGFncyA9IChEUk1fTU9ERV9MVVRfR0FNTUEgfA0KPiANCj4g
-V2h5IGFyZSB0aGVzZSB1c2luZyBEUk1fTU9ERV9MVVRfR0FNTUEgYW5kIG5vdA0KPiBEUk1fTU9E
-RV9MVVRfREVHQU1NQSB3aGVuIHRoZSBsdXRfdHlwZSBmb3IgdGhpcyBMVVQgaXMNCj4gTFVUX1RZ
-UEVfREVHQU1NQT8NCg0KVGhhbmtzIEhhcnJ5IGZvciB0aGUgY29tbWVudHMuDQoNClllYWggdGhp
-cyBpcyBhbiBvdmVyc2lnaHQsIHdpbGwgZml4IHRoaXMuDQo+IA0KPiANCj4gPiArCQkJICBEUk1f
-TU9ERV9MVVRfUkVGTEVDVF9ORUdBVElWRSB8DQo+ID4gKwkJCSAgRFJNX01PREVfTFVUX0lOVEVS
-UE9MQVRFIHwNCj4gPiArCQkJICBEUk1fTU9ERV9MVVRfTk9OX0RFQ1JFQVNJTkcpLA0KPiA+ICsJ
-CS5jb3VudCA9IDEyOCwNCj4gPiArCQkuaW5wdXRfYnBjID0gMjQsIC5vdXRwdXRfYnBjID0gMTYs
-DQo+IA0KPiBXaHkgZG8gd2UgbmVlZCBtb3JlIHRoYW4gMTYgYnBjIGZvciBMVVQ/IEZQMTYgaXMg
-ZW5vdWdoIHRvIHJlcHJlc2VudCBIRFIgaW4NCj4gbGluZWFyIHNwYWNlLiBXb3VsZG4ndCAxNiBi
-cGMgYmUgZW5vdWdoPw0KDQpQaXBlIHNvbWV0aW1lcyB3b3JrcyBpbnRlcm5hbGx5IG9uIGhpZ2hl
-ciBwcmVjaXNpb24gKGp1c3QgdG8gdGFrZSBjYXJlIG9mIHJvdW5kaW5nIGV0Yy4pLCBsYXRlciB0
-aGUNCmV4dHJhIGRhdGEgZ2V0cyBkcm9wcGVkIGF0IHRoZSBlbmQgb2YgdGhlIHBpcGUuIFNvIGZy
-b20gc291cmNlIHNpZGUgeW91IGFyZSByaWdodCwgMTZicGMgaXMgZW5vdWdoDQpidXQgdGhlIGx1
-dCBwcmVjaXNpb24gY2FuIGdvIGhpZ2hlci4NCg0KPiANCj4gPiArCQkuc3RhcnQgPSAwLCAuZW5k
-ID0gKDEgPDwgMjQpIC0gMSwNCj4gPiArCQkubWluID0gMCwgLm1heCA9ICgxIDw8IDI0KSAtIDEs
-DQo+ID4gKwl9LA0KPiA+ICsJLyogc2VnbWVudCAyICovDQo+ID4gKwl7DQo+ID4gKwkJLmZsYWdz
-ID0gKERSTV9NT0RFX0xVVF9HQU1NQSB8DQo+ID4gKwkJCSAgRFJNX01PREVfTFVUX1JFRkxFQ1Rf
-TkVHQVRJVkUgfA0KPiA+ICsJCQkgIERSTV9NT0RFX0xVVF9JTlRFUlBPTEFURSB8DQo+ID4gKwkJ
-CSAgRFJNX01PREVfTFVUX1JFVVNFX0xBU1QgfA0KPiA+ICsJCQkgIERSTV9NT0RFX0xVVF9OT05f
-REVDUkVBU0lORyksDQo+ID4gKwkJLmNvdW50ID0gMSwNCj4gPiArCQkuaW5wdXRfYnBjID0gMjQs
-IC5vdXRwdXRfYnBjID0gMTYsDQo+ID4gKwkJLnN0YXJ0ID0gKDEgPDwgMjQpIC0gMSwgLmVuZCA9
-IDEgPDwgMjQsDQo+ID4gKwkJLm1pbiA9IDAsIC5tYXggPSAoMSA8PCAyNykgLSAxLA0KPiANCj4g
-SG93IGNhbiBtYXggYmUgMSA8PCAyNyBpZiBpbnB1dF9icGMgaXMgMjQ/DQoNClRoaXMgaXMgdG8g
-dGFrZSBjYXJlIG9mID4gMS4wIHNlY3Rpb24uIDEuMCB0byAzLjAgYW5kIDMuMCB0byA3LjAuDQpT
-byB3ZSBoYXZlIDMuMjQgZm9ybWF0IGZvciBMdXQgdG8gdGFrZSBjYXJlIG9mIHRoaXMuIA0KDQpB
-bHNvLCBJIGhhdmUgYW4gYWN0aW9uIHRvIHVwZGF0ZSB0aGUgc2VyaWVzIHdpdGggVUFQSSBkb2Mg
-YW5kIG5ldyBuYW1pbmcgZm9yIHRoZSBwcm9wZXJ0eS4NCk15IGFwb2xvZ2llcyBmb3IgYmVpbmcg
-bGF0ZSBvbiB0aGF0IG9uZS4gV2lsbCB1cGRhdGUgYW5kIHNlbmQgdGhhdCBvdXQgc29vbi4NCg0K
-VGhhbmtzICYgUmVnYXJkcywNClVtYSBTaGFua2FyDQo+IA0KPiBIYXJyeQ0KPiANCj4gPiArCX0s
-DQo+ID4gKwkvKiBTZWdtZW50IDMgKi8NCj4gPiArCXsNCj4gPiArCQkuZmxhZ3MgPSAoRFJNX01P
-REVfTFVUX0dBTU1BIHwNCj4gPiArCQkJICBEUk1fTU9ERV9MVVRfUkVGTEVDVF9ORUdBVElWRSB8
-DQo+ID4gKwkJCSAgRFJNX01PREVfTFVUX0lOVEVSUE9MQVRFIHwNCj4gPiArCQkJICBEUk1fTU9E
-RV9MVVRfUkVVU0VfTEFTVCB8DQo+ID4gKwkJCSAgRFJNX01PREVfTFVUX05PTl9ERUNSRUFTSU5H
-KSwNCj4gPiArCQkuY291bnQgPSAxLA0KPiA+ICsJCS5pbnB1dF9icGMgPSAyNCwgLm91dHB1dF9i
-cGMgPSAxNiwNCj4gPiArCQkuc3RhcnQgPSAxIDw8IDI0LCAuZW5kID0gMyA8PCAyNCwNCj4gPiAr
-CQkubWluID0gMCwgLm1heCA9ICgxIDw8IDI3KSAtIDEsDQo+ID4gKwl9LA0KPiA+ICsJLyogU2Vn
-bWVudCA0ICovDQo+ID4gKwl7DQo+ID4gKwkJLmZsYWdzID0gKERSTV9NT0RFX0xVVF9HQU1NQSB8
-DQo+ID4gKwkJCSAgRFJNX01PREVfTFVUX1JFRkxFQ1RfTkVHQVRJVkUgfA0KPiA+ICsJCQkgIERS
-TV9NT0RFX0xVVF9JTlRFUlBPTEFURSB8DQo+ID4gKwkJCSAgRFJNX01PREVfTFVUX1JFVVNFX0xB
-U1QgfA0KPiA+ICsJCQkgIERSTV9NT0RFX0xVVF9OT05fREVDUkVBU0lORyksDQo+ID4gKwkJLmNv
-dW50ID0gMSwNCj4gPiArCQkuaW5wdXRfYnBjID0gMjQsIC5vdXRwdXRfYnBjID0gMTYsDQo+ID4g
-KwkJLnN0YXJ0ID0gMyA8PCAyNCwgLmVuZCA9IDcgPDwgMjQsDQo+ID4gKwkJLm1pbiA9IDAsIC5t
-YXggPSAoMSA8PCAyNykgLSAxLA0KPiA+ICsJfSwNCj4gPiArfTsNCj4gPiArDQo+ID4gIHZvaWQg
-aW50ZWxfY29sb3JfaW5pdChzdHJ1Y3QgaW50ZWxfY3J0YyAqY3J0YykNCj4gPiAgew0KPiA+ICAJ
-c3RydWN0IGRybV9pOTE1X3ByaXZhdGUgKmRldl9wcml2ID0gdG9faTkxNShjcnRjLT5iYXNlLmRl
-dik7DQo+ID4NCg0K
+On Wed, Jun 30, 2021 at 05:17:27PM +0800, Claire Chang wrote:
+> On Wed, Jun 30, 2021 at 9:43 AM Nathan Chancellor <nathan@kernel.org> wrote:
+> >
+> > On Thu, Jun 24, 2021 at 11:55:20PM +0800, Claire Chang wrote:
+> > > Propagate the swiotlb_force into io_tlb_default_mem->force_bounce and
+> > > use it to determine whether to bounce the data or not. This will be
+> > > useful later to allow for different pools.
+> > >
+> > > Signed-off-by: Claire Chang <tientzu@chromium.org>
+> > > Reviewed-by: Christoph Hellwig <hch@lst.de>
+> > > Tested-by: Stefano Stabellini <sstabellini@kernel.org>
+> > > Tested-by: Will Deacon <will@kernel.org>
+> > > Acked-by: Stefano Stabellini <sstabellini@kernel.org>
+> >
+> > This patch as commit af452ec1b1a3 ("swiotlb: Use is_swiotlb_force_bounce
+> > for swiotlb data bouncing") causes my Ryzen 3 4300G system to fail to
+> > get to an X session consistently (although not every single time),
+> > presumably due to a crash in the AMDGPU driver that I see in dmesg.
+> >
+> > I have attached logs at af452ec1b1a3 and f127c9556a8e and I am happy
+> > to provide any further information, debug, or test patches as necessary.
+> 
+> Are you using swiotlb=force? or the swiotlb_map is called because of
+> !dma_capable? (https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/kernel/dma/direct.h#n93)
+
+The command line is in the dmesg:
+
+  | Kernel command line: initrd=\amd-ucode.img initrd=\initramfs-linux-next-llvm.img root=PARTUUID=8680aa0c-cf09-4a69-8cf3-970478040ee7 rw intel_pstate=no_hwp irqpoll
+
+but I worry that this looks _very_ similar to the issue reported by Qian
+Cai which we thought we had fixed. Nathan -- is the failure deterministic?
+
+> `BUG: unable to handle page fault for address: 00000000003a8290` and
+> the fact it crashed at `_raw_spin_lock_irqsave` look like the memory
+> (maybe dev->dma_io_tlb_mem) was corrupted?
+> The dev->dma_io_tlb_mem should be set here
+> (https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/drivers/pci/probe.c#n2528)
+> through device_initialize.
+
+I'm less sure about this. 'dma_io_tlb_mem' should be pointing at
+'io_tlb_default_mem', which is a page-aligned allocation from memblock.
+The spinlock is at offset 0x24 in that structure, and looking at the
+register dump from the crash:
+
+Jun 29 18:28:42 hp-4300G kernel: RSP: 0018:ffffadb4013db9e8 EFLAGS: 00010006
+Jun 29 18:28:42 hp-4300G kernel: RAX: 00000000003a8290 RBX: 0000000000000000 RCX: ffff8900572ad580
+Jun 29 18:28:42 hp-4300G kernel: RDX: ffff89005653f024 RSI: 00000000000c0000 RDI: 0000000000001d17
+Jun 29 18:28:42 hp-4300G kernel: RBP: 000000000a20d000 R08: 00000000000c0000 R09: 0000000000000000
+Jun 29 18:28:42 hp-4300G kernel: R10: 000000000a20d000 R11: ffff89005653f000 R12: 0000000000000212
+Jun 29 18:28:42 hp-4300G kernel: R13: 0000000000001000 R14: 0000000000000002 R15: 0000000000200000
+Jun 29 18:28:42 hp-4300G kernel: FS:  00007f1f8898ea40(0000) GS:ffff890057280000(0000) knlGS:0000000000000000
+Jun 29 18:28:42 hp-4300G kernel: CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+Jun 29 18:28:42 hp-4300G kernel: CR2: 00000000003a8290 CR3: 00000001020d0000 CR4: 0000000000350ee0
+Jun 29 18:28:42 hp-4300G kernel: Call Trace:
+Jun 29 18:28:42 hp-4300G kernel:  _raw_spin_lock_irqsave+0x39/0x50
+Jun 29 18:28:42 hp-4300G kernel:  swiotlb_tbl_map_single+0x12b/0x4c0
+
+Then that correlates with R11 holding the 'dma_io_tlb_mem' pointer and
+RDX pointing at the spinlock. Yet RAX is holding junk :/
+
+I agree that enabling KASAN would be a good idea, but I also think we
+probably need to get some more information out of swiotlb_tbl_map_single()
+to see see what exactly is going wrong in there.
+
+Will
