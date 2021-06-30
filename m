@@ -1,70 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE2A33B809D
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Jun 2021 12:08:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id ABE963B80C8
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Jun 2021 12:21:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D4016E983;
-	Wed, 30 Jun 2021 10:08:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A49F89DC7;
+	Wed, 30 Jun 2021 10:21:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 018B26E982
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Jun 2021 10:08:19 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1625047703; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=V2ANtGMjJP031vwtea0cvuT0DcS61OO8FRdPjBQ676g=;
- b=nE3fi14tsM6QttDih2ox6Qkd7EMh8HRns8PjZujky8AoQGZkUJX1/06/UEbiQkj9KBbveTSb
- GrccMIZUQHArm3m5LMFMX+Xb6NXYPO8e3+Cvi8C1bTopeLnJOPRmTYFhwpMlBwS9h4eVnL5L
- YkHfioWOF7srGwO+fveBjVl7WNE=
-X-Mailgun-Sending-Ip: 198.61.254.9
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n06.prod.us-west-2.postgun.com with SMTP id
- 60dc4280ad0600eede606bf9 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 30 Jun 2021 10:08:00
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 5AB60C4338A; Wed, 30 Jun 2021 10:08:00 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00
- autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: saiprakash.ranjan)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 17A87C433D3;
- Wed, 30 Jun 2021 10:07:59 +0000 (UTC)
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
+ [IPv6:2a00:1450:4864:20::62b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 630B689DC7
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Jun 2021 10:21:47 +0000 (UTC)
+Received: by mail-ej1-x62b.google.com with SMTP id yy20so3366327ejb.6
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Jun 2021 03:21:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=pRd6pcMdNebp+pN5HMRRgF54QAuGLj+u/RVF3wGoo18=;
+ b=ATKO+gmm4xEc6zgEP7S6/Z+diDreHx/sUxeSyYuhtT7zwrtOsR0ZtMcFTiDUA8ZlOu
+ JX/hOLoFLa8O29+0/knSdMZQB3/yImsXIvJjt86mYMGf9u0OexWOBu65f8ZHwyBpAxzX
+ Cu5psuErLV+VoTcyFiT/zThG5MBdf/A632cx8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=pRd6pcMdNebp+pN5HMRRgF54QAuGLj+u/RVF3wGoo18=;
+ b=Cye34sGEJowPAIkppdkGWDCvCiU5KWc3COTKOBeETT6ml+7QInH7q3orCsga4xBPss
+ JLPtjl2+xT2LYAqZ4yDe9b4QXd9Q47fAyr8r5Iy66LUg0qfEwmn9T6B9ragCPJQ0KuON
+ gpggEA9mqLuNnIeulcKG0/X41A9lMaKayq+1AJi/fQEfVUNOuF1nIjrgLuOjkgQWA4yo
+ yTzlNKskxXe74j5Z7XiqgkeNoXW7Z4OMg6PgnEj1+7ILMeIMZNYEGI1KuDYBgCP2XEa6
+ rHLZrgpIDsc1l15N1SieYnpCPe1XpetUOvvdp+PCzmOyo/dt/UxymJc2Uj2tibR6O9sE
+ RtWA==
+X-Gm-Message-State: AOAM533mYN+MD7JJb5NxfiEB56FIU5QjhaU/CHS4l+EcIGT364K1+Jy7
+ XbA2C8SMFgGBV3KwWeKoWhOPvivX6/hMoxaRw+jNjQ==
+X-Google-Smtp-Source: ABdhPJywNEi1yzvhH5/eMxuTSgQsZfHFd6bpKgnli8ZWpww+T6iw62Wvl6+Irx61qHcOCFQlQ5wjQ3GqF0XI0jyTfjM=
+X-Received: by 2002:a17:906:bb10:: with SMTP id
+ jz16mr31357635ejb.252.1625048505958; 
+ Wed, 30 Jun 2021 03:21:45 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date: Wed, 30 Jun 2021 15:37:59 +0530
-From: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
-To: Will Deacon <will@kernel.org>
-Subject: Re: [PATCH 2/3] iommu/io-pgtable-arm: Add IOMMU_LLC page protection
- flag
-In-Reply-To: <20210325173311.GA15504@willie-the-truck>
-References: <3f589e7de3f9fa93e84c83420c5270c546a0c368.1610372717.git.saiprakash.ranjan@codeaurora.org>
- <20210129090516.GB3998@willie-the-truck>
- <5d23fce629323bcda71594010824aad0@codeaurora.org>
- <20210201111556.GA7172@willie-the-truck>
- <CAF6AEGsARmkAFsjaQLfa2miMgeijo183MWDKGtW_ti-UCpzBqA@mail.gmail.com>
- <20210201182016.GA21629@jcrouse1-lnx.qualcomm.com>
- <7e9aade14d0b7f69285852ade4a5a9f4@codeaurora.org>
- <20210203214612.GB19847@willie-the-truck>
- <4988e2ef35f76a0c2f1fe3f66f023a3b@codeaurora.org>
- <9362873a3bcf37cdd073a6128f29c683@codeaurora.org>
- <20210325173311.GA15504@willie-the-truck>
-Message-ID: <21239ba603d0bdc4e4c696588a905f88@codeaurora.org>
-X-Sender: saiprakash.ranjan@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+References: <20210621072424.111733-1-jagan@amarulasolutions.com>
+ <20210621072424.111733-3-jagan@amarulasolutions.com>
+ <YNO0LHNVSWjrh1ZS@pendragon.ideasonboard.com>
+ <CAOMZO5Ahbu4mohtMDOQOv_y5B_TDesbdYEUZTF1RL7_y-bS+RA@mail.gmail.com>
+ <2decfea3-3659-2a3b-7706-326c97f57f8e@canonical.com>
+ <3aa47f60-94ab-cf0f-3777-3a872dd0e6d4@kontron.de>
+In-Reply-To: <3aa47f60-94ab-cf0f-3777-3a872dd0e6d4@kontron.de>
+From: Jagan Teki <jagan@amarulasolutions.com>
+Date: Wed, 30 Jun 2021 15:51:34 +0530
+Message-ID: <CAMty3ZBnj6AwdrGXKx1jsqVnrk9abShzamM4H++WE7mcU09sYA@mail.gmail.com>
+Subject: Re: [RFC PATCH 2/9] drm: bridge: Add Samsung SEC MIPI DSIM bridge
+ driver
+To: Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Daniel Vetter <daniel.vetter@intel.com>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,142 +70,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Isaac J. Manjarres" <isaacm@codeaurora.org>,
- David Airlie <airlied@linux.ie>, Sean Paul <sean@poorly.run>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Akhil P Oommen <akhilpo@codeaurora.org>, "list@263.net:IOMMU
- DRIVERS , Joerg Roedel <joro@8bytes.org>, " <iommu@lists.linux-foundation.org>,
- Kristian H Kristensen <hoegsberg@google.com>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- freedreno <freedreno@lists.freedesktop.org>,
- linux-arm-kernel@lists.infradead.org, Robin Murphy <robin.murphy@arm.com>
+Cc: Peng Fan <peng.fan@nxp.com>, Neil Armstrong <narmstrong@baylibre.com>,
+ Tomasz Figa <t.figa@samsung.com>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ Andrzej Hajda <a.hajda@samsung.com>, Milco Pratesi <milco.pratesi@engicam.com>,
+ linux-phy@lists.infradead.org, Fancy Fang <chen.fang@nxp.com>,
+ "marex@denx.de" <marex@denx.de>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+ NXP Linux Team <linux-imx@nxp.com>,
+ Anthony Brandon <anthony@amarulasolutions.com>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Matteo Lisi <matteo.lisi@engicam.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
+ <linux-arm-kernel@lists.infradead.org>,
+ Francis Laniel <francis.laniel@amarulasolutions.com>,
+ Shawn Guo <shawnguo@kernel.org>, Michael Tretter <m.tretter@pengutronix.de>,
+ Robert Foss <robert.foss@linaro.org>,
+ linux-amarula <linux-amarula@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Will,
+Hi Frieder,
 
-On 2021-03-25 23:03, Will Deacon wrote:
-> On Tue, Mar 09, 2021 at 12:10:44PM +0530, Sai Prakash Ranjan wrote:
->> On 2021-02-05 17:38, Sai Prakash Ranjan wrote:
->> > On 2021-02-04 03:16, Will Deacon wrote:
->> > > On Tue, Feb 02, 2021 at 11:56:27AM +0530, Sai Prakash Ranjan wrote:
->> > > > On 2021-02-01 23:50, Jordan Crouse wrote:
->> > > > > On Mon, Feb 01, 2021 at 08:20:44AM -0800, Rob Clark wrote:
->> > > > > > On Mon, Feb 1, 2021 at 3:16 AM Will Deacon <will@kernel.org> wrote:
->> > > > > > > On Fri, Jan 29, 2021 at 03:12:59PM +0530, Sai Prakash Ranjan wrote:
->> > > > > > > > On 2021-01-29 14:35, Will Deacon wrote:
->> > > > > > > > > On Mon, Jan 11, 2021 at 07:45:04PM +0530, Sai Prakash Ranjan wrote:
->> > > > > > > > > > +#define IOMMU_LLC        (1 << 6)
->> > > > > > > > >
->> > > > > > > > > On reflection, I'm a bit worried about exposing this because I think it
->> > > > > > > > > will
->> > > > > > > > > introduce a mismatched virtual alias with the CPU (we don't even have a
->> > > > > > > > > MAIR
->> > > > > > > > > set up for this memory type). Now, we also have that issue for the PTW,
->> > > > > > > > > but
->> > > > > > > > > since we always use cache maintenance (i.e. the streaming API) for
->> > > > > > > > > publishing the page-tables to a non-coheren walker, it works out.
->> > > > > > > > > However,
->> > > > > > > > > if somebody expects IOMMU_LLC to be coherent with a DMA API coherent
->> > > > > > > > > allocation, then they're potentially in for a nasty surprise due to the
->> > > > > > > > > mismatched outer-cacheability attributes.
->> > > > > > > > >
->> > > > > > > >
->> > > > > > > > Can't we add the syscached memory type similar to what is done on android?
->> > > > > > >
->> > > > > > > Maybe. How does the GPU driver map these things on the CPU side?
->> > > > > >
->> > > > > > Currently we use writecombine mappings for everything, although there
->> > > > > > are some cases that we'd like to use cached (but have not merged
->> > > > > > patches that would give userspace a way to flush/invalidate)
->> > > > > >
->> > > > >
->> > > > > LLC/system cache doesn't have a relationship with the CPU cache.  Its
->> > > > > just a
->> > > > > little accelerator that sits on the connection from the GPU to DDR and
->> > > > > caches
->> > > > > accesses. The hint that Sai is suggesting is used to mark the buffers as
->> > > > > 'no-write-allocate' to prevent GPU write operations from being cached in
->> > > > > the LLC
->> > > > > which a) isn't interesting and b) takes up cache space for read
->> > > > > operations.
->> > > > >
->> > > > > Its easiest to think of the LLC as a bonus accelerator that has no cost
->> > > > > for
->> > > > > us to use outside of the unfortunate per buffer hint.
->> > > > >
->> > > > > We do have to worry about the CPU cache w.r.t I/O coherency (which is a
->> > > > > different hint) and in that case we have all of concerns that Will
->> > > > > identified.
->> > > > >
->> > > >
->> > > > For mismatched outer cacheability attributes which Will
->> > > > mentioned, I was
->> > > > referring to [1] in android kernel.
->> > >
->> > > I've lost track of the conversation here :/
->> > >
->> > > When the GPU has a buffer mapped with IOMMU_LLC, is the buffer also
->> > > mapped
->> > > into the CPU and with what attributes? Rob said "writecombine for
->> > > everything" -- does that mean ioremap_wc() / MEMREMAP_WC?
->> > >
->> >
->> > Rob answered this.
->> >
->> > > Finally, we need to be careful when we use the word "hint" as
->> > > "allocation
->> > > hint" has a specific meaning in the architecture, and if we only
->> > > mismatch on
->> > > those then we're actually ok. But I think IOMMU_LLC is more than
->> > > just a
->> > > hint, since it actually drives eviction policy (i.e. it enables
->> > > writeback).
->> > >
->> > > Sorry for the pedantry, but I just want to make sure we're all talking
->> > > about the same things!
->> > >
->> >
->> > Sorry for the confusion which probably was caused by my mentioning of
->> > android, NWA(no write allocate) is an allocation hint which we can
->> > ignore
->> > for now as it is not introduced yet in upstream.
->> >
->> 
->> Any chance of taking this forward? We do not want to miss out on small 
->> fps
->> gain when the product gets released.
-> 
-> Do we have a solution to the mismatched virtual alias?
-> 
+Thanks for sharing the details.
 
-Sorry for the long delay on this thread.
+On Mon, Jun 28, 2021 at 1:49 PM Frieder Schrempf
+<frieder.schrempf@kontron.de> wrote:
+>
+> Hi Jagan,
+>
+> On 24.06.21 10:30, Krzysztof Kozlowski wrote:
+> > On 24/06/2021 04:48, Fabio Estevam wrote:
+> >> Hi Jagan/Laurent,
+> >>
+> >> On Wed, Jun 23, 2021 at 7:23 PM Laurent Pinchart
+> >> <laurent.pinchart@ideasonboard.com> wrote:
+> >>
+> >>> Looking at the register set, it seems to match the Exynos 5433,
+> >>> supported by drivers/gpu/drm/exynos/exynos_drm_dsi.c. Can we leverage
+> >>> that driver instead of adding a new one for the same IP core ?
+> >>
+> >> Yes. there was an attempt from Michael in this direction:
+> >> https://eur04.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fpa=
+tchwork.kernel.org%2Fproject%2Fdri-devel%2Fcover%2F20200911135413.3654800-1=
+-m.tretter%40pengutronix.de%2F&amp;data=3D04%7C01%7Cfrieder.schrempf%40kont=
+ron.de%7C52db05459ef0462d5a9b08d936eab1ba%7C8c9d3c973fd941c8a2b1646f3942daf=
+1%7C0%7C0%7C637601203901391193%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAi=
+LCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=3DLTYk9kpUe=
+B9bgfRITQT6wIij3XTOIk37AHXbzQ2UI4Y%3D&amp;reserved=3D0
+> >
+> > That's the proper direction (maybe as Marek suggested - sharing common
+> > code like for Analogix DP), not duplicating a driver.
+> >
+>
+> Just to make sure that you are aware of the previous patches and discussi=
+ons here are some additional pointers:
+>
+> * i.MX8MM glue code from Marek (+ Cc): [1]
+> * DPHY driver from Marek: [2]
+> * General discussion about driver implementation: [3]
+> * Daniel's (+ Cc) suggested direction to move forward: [4]
 
-For mismatched virtual alias question, wasn't this already discussed in 
-stretch
-when initial support for system cache [1] (which was reverted by you) 
-was added?
+It Looks like Daniel's suggestion is to have a common bridge driver
+without sharing a code between platforms. It makes sense and clean but
+the key issues lie on the exynos side, the exynos drm drives require
+potential changes and tests, which indeed are hard but possible -
+IMHO. However there is another issue with component_ops the i.MX8M
+side MXSFB doesn't use any component_ops but the exynos are fully
+component aware.
 
-Excerpt from there,
+>
+> It looks like you already did a fork of the Exynos driver, so your approa=
+ch might be generally in line with what Daniel suggested.
 
-"As seen in downstream kernels there are few non-coherent devices which
-would not want to allocate in system cache, and therefore would want
-Inner/Outer non-cached memory. So, we may want to either override the
-attributes per-device, or as you suggested we may want to introduce
-another memory type 'sys-cached' that can be added with its separate
-infra."
+I did use PMS computation from exynos and reference driver from imx8
+tree. Last 2 days I worked on exynos_drm_dsi.c (with some additions)
+and converted a bridge driver and it worked on my i.MX8MM platform.
 
-As for DMA API usage, we do not have any upstream users (video will be
-one if they decide to upstream that).
+Right now, I'm checking the possible implementations and will come
+back to my approach for further comments.
 
-[1] 
-https://patchwork.kernel.org/project/linux-arm-msm/patch/20180615105329.26800-1-vivek.gautam@codeaurora.org/
-
-Thanks,
-Sai
-
--- 
-QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a 
-member
-of Code Aurora Forum, hosted by The Linux Foundation
+Jagan.
