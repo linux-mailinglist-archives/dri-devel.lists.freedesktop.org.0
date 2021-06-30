@@ -2,52 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F8B83B84BB
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Jun 2021 16:07:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 629F43B84C1
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Jun 2021 16:09:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AAC596E9DF;
-	Wed, 30 Jun 2021 14:07:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D84F6E9DE;
+	Wed, 30 Jun 2021 14:09:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x232.google.com (mail-oi1-x232.google.com
- [IPv6:2607:f8b0:4864:20::232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C4EBD6E9DF
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Jun 2021 14:07:35 +0000 (UTC)
-Received: by mail-oi1-x232.google.com with SMTP id 22so3125815oix.10
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Jun 2021 07:07:35 -0700 (PDT)
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com
+ [IPv6:2a00:1450:4864:20::433])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 56C8389E11
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Jun 2021 14:09:45 +0000 (UTC)
+Received: by mail-wr1-x433.google.com with SMTP id g7so3809807wri.7
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Jun 2021 07:09:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=a+oKkrTev0KMUowcfMo5m/4I8U8rMZfJzHYdHp+lGFc=;
- b=F4SMdi41to6kHeXP4nv3TUW/vcKnOq2jVmobfvypUiK/i35s5H3oYSYqX7vuFm75r/
- vgW6FSzM7plRyD6dKkqmlQn2r0NHA3vONe6qNWkr1Fe6Xz9wtgYP30ObhUoZgjqv/r++
- 9S+ckBT/KgBE/VH5Ebt9S80KbrBT4v12ONU9k=
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=r3GeVDKfDg2IdtSNKJjgP4w0tnW1nQSFfENAB3hC2hA=;
+ b=efj4BZpTE1NnvdNo1r1yAHcjpEEhsj3CxMhScvKgcf2I2qUzpBBbxspSU38w7WUFSl
+ ljeDSZuDZnd/NI6853QDhT+n/4IyN7N740kj3gUKFed4KlbCo3XtG7HtnzNBZBfzJPaM
+ zq69opGBIlUN72ADmYoPHHxA5phKC4PCC9k7E=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=a+oKkrTev0KMUowcfMo5m/4I8U8rMZfJzHYdHp+lGFc=;
- b=l19uU+YBxxdw+nbokDy9M8Gj5Zj60aDZSI7efiS5c4fXEjxw4o8KQnXZXFYc0CIFq7
- 3lQBOCfDOWsN6o+wwPD0Z0c3AP2u8GisECu2GP99MpD17W4dwAnv27Jd4RVuli44VBzo
- b7YGjVU9v5nHJot6cpS6a+qDolWgZqGLAdK7SVzyEZl+r7yjFUUVUXrc1FWk0as4ku0G
- cjOpzbMj3S1ZXv5euBstji6FhuQvJ7pYAHeGfNa6efi+N77Yio1Ega3T5ef6rY+xxN7Y
- I+6VIgN1qiufKa+puSLD1qsAuj2WUZZfzxeVPF4DhqqNyee8sdA6ztuCkfrIPmb8MOjC
- RSqg==
-X-Gm-Message-State: AOAM530InB8FEORiMqmqMpx77V3akn0nGIkTWOWu3pegPFy8FaOcJvxT
- TTx0Nv0FBunA1KFShFGemgZzZ0urwi+NIajFel40BQ==
-X-Google-Smtp-Source: ABdhPJw2N1mOH2jYzUgxCjqKqdACUe7ZUY+QcMI8TjfiCFyIXSSMLDQTbOZ7Lot0tv5XO8q6LFzm8IMijMZsDBAHBKM=
-X-Received: by 2002:aca:4dc5:: with SMTP id a188mr4213359oib.128.1625062054984; 
- Wed, 30 Jun 2021 07:07:34 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=r3GeVDKfDg2IdtSNKJjgP4w0tnW1nQSFfENAB3hC2hA=;
+ b=eYoMaTFQOY1e62GQNqNr7jk7IMP0hNrsRQ3HiQolzdh0KHv++fyK08mhS5+RmV/M4E
+ fM+HRqkWBPLhUEyuwPDaC4VTRTTPNSUttirjxQIv6qL6Qa2BInE02Au3eGBsLK3Lw2uj
+ WhQTGnN6Lo7kxUx8nF0oht5vyoie4NEMQBugY/guipSVM3kXLKeb8VUW/o43L5mEpU6p
+ +hMvuCdacpRTod6zcbM6iF1HF6aXk9ErIta8YW2B9lZPpJcZdoJkLdBSi6CPV2RcnBTt
+ NT7W3Ru+zjTikz21xwXaHJ+Xj7iIRqhw3re4N9bPJucLY+8Hj0uo4/QR21yoS89MMrlO
+ STRA==
+X-Gm-Message-State: AOAM532xBDYXvbGlqIHWlzLWSjZRHnB2h2QRQnQVYA9xuF3uTuPoTuF8
+ 9qpwMVFbILuGEc2Gr+hd79KUnx5kScCTMg==
+X-Google-Smtp-Source: ABdhPJykYKWAJKrmjWnfa0zM9PIpg66M6rb1Gq95fP4RbvuyyWtZD4eFUkMVuhyJCMYEEb4EcZ9tsg==
+X-Received: by 2002:adf:f808:: with SMTP id s8mr38773987wrp.270.1625062183838; 
+ Wed, 30 Jun 2021 07:09:43 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id w9sm3304418wmc.19.2021.06.30.07.09.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 30 Jun 2021 07:09:43 -0700 (PDT)
+Date: Wed, 30 Jun 2021 16:09:41 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 1/3] drm/bochs: Move to tiny/
+Message-ID: <YNx7JRexWX8rdQS+@phenom.ffwll.local>
+References: <20210630140659.17623-1-tzimmermann@suse.de>
+ <20210630140659.17623-2-tzimmermann@suse.de>
 MIME-Version: 1.0
-References: <20210630123618.97534-1-christian.koenig@amd.com>
-In-Reply-To: <20210630123618.97534-1-christian.koenig@amd.com>
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Wed, 30 Jun 2021 16:07:23 +0200
-Message-ID: <CAKMK7uFSzDv-ZPNECjQMzmF9PDHzYE0ovgMfP44AUkJCcm=7kw@mail.gmail.com>
-Subject: Re: [PATCH] dma-buf: fix and rework dma_buf_poll v4
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210630140659.17623-2-tzimmermann@suse.de>
+X-Operating-System: Linux phenom 5.10.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,284 +66,1791 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>
+Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org, kraxel@redhat.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 30, 2021 at 2:36 PM Christian K=C3=B6nig
-<ckoenig.leichtzumerken@gmail.com> wrote:
->
-> Daniel pointed me towards this function and there are multiple obvious pr=
-oblems
-> in the implementation.
->
-> First of all the retry loop is not working as intended. In general the re=
-try
-> makes only sense if you grab the reference first and then check the seque=
-nce
-> values.
->
-> Then we should always also wait for the exclusive fence.
->
-> It's also good practice to keep the reference around when installing call=
-backs
-> to fences you don't own.
->
-> And last the whole implementation was unnecessary complex and rather hard=
- to
-> understand which could lead to probably unexpected behavior of the IOCTL.
->
-> Fix all this by reworking the implementation from scratch. Dropping the
-> whole RCU approach and taking the lock instead.
->
-> Only mildly tested and needs a thoughtful review of the code.
+On Wed, Jun 30, 2021 at 04:06:57PM +0200, Thomas Zimmermann wrote:
+> The bochs driver is only ~600 lines of code. Putting it into tiny/
+> cleans up the DRM directory slightly. Some style problems were fixed
+> and unneeded include statements were removed. No functional changes.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-prime_vgem.c has some basic stuff, but it might actually encoding the
-broken behaviour. Would be good to extend/fix that I think so we don't
-entirely rely on review. We can't really build easily on top of the
-testcase Jason created for import/export, since for implicit sync we
-need some driver that attaches the fences for us.
+Really nice! On the series:
 
-There's also a vc4 one, but I guess that's less useful for us :-)
+Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
-> v2: fix the reference counting as well
-> v3: keep the excl fence handling as is for stable
-> v4: back to testing all fences, drop RCU
->
-> Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-> CC: stable@vger.kernel.org
-> ---
->  drivers/dma-buf/dma-buf.c | 132 +++++++++++++-------------------------
->  include/linux/dma-buf.h   |   2 +-
->  2 files changed, 46 insertions(+), 88 deletions(-)
->
-> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> index eadd1eaa2fb5..192c4d34704b 100644
-> --- a/drivers/dma-buf/dma-buf.c
-> +++ b/drivers/dma-buf/dma-buf.c
-> @@ -72,7 +72,7 @@ static void dma_buf_release(struct dentry *dentry)
->          * If you hit this BUG() it means someone dropped their ref to th=
-e
->          * dma-buf while still having pending operation to the buffer.
->          */
-> -       BUG_ON(dmabuf->cb_shared.active || dmabuf->cb_excl.active);
-> +       BUG_ON(dmabuf->cb_in.active || dmabuf->cb_out.active);
->
->         dmabuf->ops->release(dmabuf);
->
-> @@ -202,16 +202,19 @@ static void dma_buf_poll_cb(struct dma_fence *fence=
-, struct dma_fence_cb *cb)
->         wake_up_locked_poll(dcb->poll, dcb->active);
->         dcb->active =3D 0;
->         spin_unlock_irqrestore(&dcb->poll->lock, flags);
-> +       dma_fence_put(fence);
->  }
->
->  static __poll_t dma_buf_poll(struct file *file, poll_table *poll)
->  {
-> +       struct dma_buf_poll_cb_t *dcb;
->         struct dma_buf *dmabuf;
->         struct dma_resv *resv;
->         struct dma_resv_list *fobj;
-> -       struct dma_fence *fence_excl;
-> +       struct dma_fence *fence;
-> +       unsigned shared_count;
->         __poll_t events;
-> -       unsigned shared_count, seq;
-> +       int r, i;
->
->         dmabuf =3D file->private_data;
->         if (!dmabuf || !dmabuf->resv)
-> @@ -225,101 +228,56 @@ static __poll_t dma_buf_poll(struct file *file, po=
-ll_table *poll)
->         if (!events)
->                 return 0;
->
-> -retry:
-> -       seq =3D read_seqcount_begin(&resv->seq);
-> -       rcu_read_lock();
-> +       dcb =3D events & EPOLLOUT ? &dmabuf->cb_out : &dmabuf->cb_in;
-> +
-> +       /* Only queue a new one if we are not still waiting for the old o=
-ne */
-> +       spin_lock_irq(&dmabuf->poll.lock);
-> +       if (dcb->active)
-> +               events =3D 0;
-> +       else
-> +               dcb->active =3D events;
-> +       spin_unlock_irq(&dmabuf->poll.lock);
-> +       if (!events)
-> +               return 0;
-> +
-> +       dma_resv_lock(resv, NULL);
->
-> -       fobj =3D rcu_dereference(resv->fence);
-> -       if (fobj)
-> +       fobj =3D dma_resv_get_list(resv);
-> +       if (fobj && events & EPOLLOUT)
->                 shared_count =3D fobj->shared_count;
->         else
->                 shared_count =3D 0;
-> -       fence_excl =3D rcu_dereference(resv->fence_excl);
-> -       if (read_seqcount_retry(&resv->seq, seq)) {
-> -               rcu_read_unlock();
-> -               goto retry;
-> -       }
->
-> -       if (fence_excl && (!(events & EPOLLOUT) || shared_count =3D=3D 0)=
-) {
-> -               struct dma_buf_poll_cb_t *dcb =3D &dmabuf->cb_excl;
-> -               __poll_t pevents =3D EPOLLIN;
-> -
-> -               if (shared_count =3D=3D 0)
-> -                       pevents |=3D EPOLLOUT;
-> -
-> -               spin_lock_irq(&dmabuf->poll.lock);
-> -               if (dcb->active) {
-> -                       dcb->active |=3D pevents;
-> -                       events &=3D ~pevents;
-> -               } else
-> -                       dcb->active =3D pevents;
-> -               spin_unlock_irq(&dmabuf->poll.lock);
-> -
-> -               if (events & pevents) {
-> -                       if (!dma_fence_get_rcu(fence_excl)) {
-> -                               /* force a recheck */
-> -                               events &=3D ~pevents;
-> -                               dma_buf_poll_cb(NULL, &dcb->cb);
-> -                       } else if (!dma_fence_add_callback(fence_excl, &d=
-cb->cb,
-> -                                                          dma_buf_poll_c=
-b)) {
-> -                               events &=3D ~pevents;
-> -                               dma_fence_put(fence_excl);
-> -                       } else {
-> -                               /*
-> -                                * No callback queued, wake up any additi=
-onal
-> -                                * waiters.
-> -                                */
-> -                               dma_fence_put(fence_excl);
-> -                               dma_buf_poll_cb(NULL, &dcb->cb);
-> -                       }
-> +       for (i =3D 0; i < shared_count; ++i) {
-> +               fence =3D rcu_dereference_protected(fobj->shared[i],
-> +                                                 dma_resv_held(resv));
-> +               dma_fence_get(fence);
-> +               r =3D dma_fence_add_callback(fence, &dcb->cb, dma_buf_pol=
-l_cb);
-> +               if (!r) {
-> +                       /* Callback queued */
-> +                       events =3D 0;
-
-Why do you clear events here? There's more than EPOLLIN/OUT, and I
-think you can also set both (and then we should be able to queue
-both). I think a few more testcases for this would be really good. I
-think the old code all handled that like I'd expect it to.
+I think I've found one missing static below.
 
 Cheers, Daniel
 
-> +                       goto out;
->                 }
-> +               dma_fence_put(fence);
->         }
->
-> -       if ((events & EPOLLOUT) && shared_count > 0) {
-> -               struct dma_buf_poll_cb_t *dcb =3D &dmabuf->cb_shared;
-> -               int i;
+> ---
+>  MAINTAINERS                       |   2 +-
+>  drivers/gpu/drm/Kconfig           |   2 -
+>  drivers/gpu/drm/Makefile          |   1 -
+>  drivers/gpu/drm/bochs/Kconfig     |  11 -
+>  drivers/gpu/drm/bochs/Makefile    |   4 -
+>  drivers/gpu/drm/bochs/bochs.h     |  98 ----
+>  drivers/gpu/drm/bochs/bochs_drv.c | 205 --------
+>  drivers/gpu/drm/bochs/bochs_hw.c  | 323 -------------
+>  drivers/gpu/drm/bochs/bochs_kms.c | 178 -------
+>  drivers/gpu/drm/bochs/bochs_mm.c  |  24 -
+>  drivers/gpu/drm/tiny/Kconfig      |  13 +
+>  drivers/gpu/drm/tiny/Makefile     |   1 +
+>  drivers/gpu/drm/tiny/bochs.c      | 768 ++++++++++++++++++++++++++++++
+>  13 files changed, 783 insertions(+), 847 deletions(-)
+>  delete mode 100644 drivers/gpu/drm/bochs/Kconfig
+>  delete mode 100644 drivers/gpu/drm/bochs/Makefile
+>  delete mode 100644 drivers/gpu/drm/bochs/bochs.h
+>  delete mode 100644 drivers/gpu/drm/bochs/bochs_drv.c
+>  delete mode 100644 drivers/gpu/drm/bochs/bochs_hw.c
+>  delete mode 100644 drivers/gpu/drm/bochs/bochs_kms.c
+>  delete mode 100644 drivers/gpu/drm/bochs/bochs_mm.c
+>  create mode 100644 drivers/gpu/drm/tiny/bochs.c
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index dcb5f0d32303..95bad8d45200 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -5680,7 +5680,7 @@ M:	Gerd Hoffmann <kraxel@redhat.com>
+>  L:	virtualization@lists.linux-foundation.org
+>  S:	Maintained
+>  T:	git git://anongit.freedesktop.org/drm/drm-misc
+> -F:	drivers/gpu/drm/bochs/
+> +F:	drivers/gpu/drm/tiny/bochs.c
+>  
+>  DRM DRIVER FOR BOE HIMAX8279D PANELS
+>  M:	Jerry Han <hanxu5@huaqin.corp-partner.google.com>
+> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+> index 1366d8d4610a..0d372354c2d0 100644
+> --- a/drivers/gpu/drm/Kconfig
+> +++ b/drivers/gpu/drm/Kconfig
+> @@ -322,8 +322,6 @@ source "drivers/gpu/drm/tilcdc/Kconfig"
+>  
+>  source "drivers/gpu/drm/qxl/Kconfig"
+>  
+> -source "drivers/gpu/drm/bochs/Kconfig"
 > -
-> -               /* Only queue a new callback if no event has fired yet */
-> -               spin_lock_irq(&dmabuf->poll.lock);
-> -               if (dcb->active)
-> -                       events &=3D ~EPOLLOUT;
-> -               else
-> -                       dcb->active =3D EPOLLOUT;
-> -               spin_unlock_irq(&dmabuf->poll.lock);
+>  source "drivers/gpu/drm/virtio/Kconfig"
+>  
+>  source "drivers/gpu/drm/msm/Kconfig"
+> diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+> index 12e6f4e485ed..ad1112154898 100644
+> --- a/drivers/gpu/drm/Makefile
+> +++ b/drivers/gpu/drm/Makefile
+> @@ -98,7 +98,6 @@ obj-y			+= omapdrm/
+>  obj-$(CONFIG_DRM_SUN4I) += sun4i/
+>  obj-y			+= tilcdc/
+>  obj-$(CONFIG_DRM_QXL) += qxl/
+> -obj-$(CONFIG_DRM_BOCHS) += bochs/
+>  obj-$(CONFIG_DRM_VIRTIO_GPU) += virtio/
+>  obj-$(CONFIG_DRM_MSM) += msm/
+>  obj-$(CONFIG_DRM_TEGRA) += tegra/
+> diff --git a/drivers/gpu/drm/bochs/Kconfig b/drivers/gpu/drm/bochs/Kconfig
+> deleted file mode 100644
+> index 7bcdf294fed8..000000000000
+> --- a/drivers/gpu/drm/bochs/Kconfig
+> +++ /dev/null
+> @@ -1,11 +0,0 @@
+> -# SPDX-License-Identifier: GPL-2.0-only
+> -config DRM_BOCHS
+> -	tristate "DRM Support for bochs dispi vga interface (qemu stdvga)"
+> -	depends on DRM && PCI && MMU
+> -	select DRM_KMS_HELPER
+> -	select DRM_VRAM_HELPER
+> -	select DRM_TTM
+> -	select DRM_TTM_HELPER
+> -	help
+> -	  Choose this option for qemu.
+> -	  If M is selected the module will be called bochs-drm.
+> diff --git a/drivers/gpu/drm/bochs/Makefile b/drivers/gpu/drm/bochs/Makefile
+> deleted file mode 100644
+> index 55473371300f..000000000000
+> --- a/drivers/gpu/drm/bochs/Makefile
+> +++ /dev/null
+> @@ -1,4 +0,0 @@
+> -# SPDX-License-Identifier: GPL-2.0-only
+> -bochs-drm-y := bochs_drv.o bochs_mm.o bochs_kms.o bochs_hw.o
 > -
-> -               if (!(events & EPOLLOUT))
-> +       fence =3D dma_resv_get_excl(resv);
-> +       if (fence) {
-> +               dma_fence_get(fence);
-> +               r =3D dma_fence_add_callback(fence, &dcb->cb, dma_buf_pol=
-l_cb);
-> +               if (!r) {
-> +                       /* Callback queued */
-> +                       events =3D 0;
->                         goto out;
+> -obj-$(CONFIG_DRM_BOCHS)	+= bochs-drm.o
+> diff --git a/drivers/gpu/drm/bochs/bochs.h b/drivers/gpu/drm/bochs/bochs.h
+> deleted file mode 100644
+> index e9645c612aff..000000000000
+> --- a/drivers/gpu/drm/bochs/bochs.h
+> +++ /dev/null
+> @@ -1,98 +0,0 @@
+> -/* SPDX-License-Identifier: GPL-2.0 */
 > -
-> -               for (i =3D 0; i < shared_count; ++i) {
-> -                       struct dma_fence *fence =3D rcu_dereference(fobj-=
->shared[i]);
+> -#include <linux/io.h>
+> -#include <linux/console.h>
 > -
-> -                       if (!dma_fence_get_rcu(fence)) {
-> -                               /*
-> -                                * fence refcount dropped to zero, this m=
-eans
-> -                                * that fobj has been freed
-> -                                *
-> -                                * call dma_buf_poll_cb and force a reche=
-ck!
-> -                                */
-> -                               events &=3D ~EPOLLOUT;
-> -                               dma_buf_poll_cb(NULL, &dcb->cb);
-> -                               break;
-> -                       }
-> -                       if (!dma_fence_add_callback(fence, &dcb->cb,
-> -                                                   dma_buf_poll_cb)) {
-> -                               dma_fence_put(fence);
-> -                               events &=3D ~EPOLLOUT;
-> -                               break;
-> -                       }
-> -                       dma_fence_put(fence);
->                 }
+> -#include <drm/drm_crtc.h>
+> -#include <drm/drm_crtc_helper.h>
+> -#include <drm/drm_encoder.h>
+> -#include <drm/drm_fb_helper.h>
+> -#include <drm/drm_gem.h>
+> -#include <drm/drm_gem_vram_helper.h>
+> -#include <drm/drm_simple_kms_helper.h>
 > -
-> -               /* No callback queued, wake up any additional waiters. */
-> -               if (i =3D=3D shared_count)
-> -                       dma_buf_poll_cb(NULL, &dcb->cb);
-> +               dma_fence_put(fence);
->         }
->
-> +       /* No callback queued, wake up any additional waiters. */
-> +       dma_buf_poll_cb(NULL, &dcb->cb);
+> -/* ---------------------------------------------------------------------- */
+> -
+> -#define VBE_DISPI_IOPORT_INDEX           0x01CE
+> -#define VBE_DISPI_IOPORT_DATA            0x01CF
+> -
+> -#define VBE_DISPI_INDEX_ID               0x0
+> -#define VBE_DISPI_INDEX_XRES             0x1
+> -#define VBE_DISPI_INDEX_YRES             0x2
+> -#define VBE_DISPI_INDEX_BPP              0x3
+> -#define VBE_DISPI_INDEX_ENABLE           0x4
+> -#define VBE_DISPI_INDEX_BANK             0x5
+> -#define VBE_DISPI_INDEX_VIRT_WIDTH       0x6
+> -#define VBE_DISPI_INDEX_VIRT_HEIGHT      0x7
+> -#define VBE_DISPI_INDEX_X_OFFSET         0x8
+> -#define VBE_DISPI_INDEX_Y_OFFSET         0x9
+> -#define VBE_DISPI_INDEX_VIDEO_MEMORY_64K 0xa
+> -
+> -#define VBE_DISPI_ID0                    0xB0C0
+> -#define VBE_DISPI_ID1                    0xB0C1
+> -#define VBE_DISPI_ID2                    0xB0C2
+> -#define VBE_DISPI_ID3                    0xB0C3
+> -#define VBE_DISPI_ID4                    0xB0C4
+> -#define VBE_DISPI_ID5                    0xB0C5
+> -
+> -#define VBE_DISPI_DISABLED               0x00
+> -#define VBE_DISPI_ENABLED                0x01
+> -#define VBE_DISPI_GETCAPS                0x02
+> -#define VBE_DISPI_8BIT_DAC               0x20
+> -#define VBE_DISPI_LFB_ENABLED            0x40
+> -#define VBE_DISPI_NOCLEARMEM             0x80
+> -
+> -/* ---------------------------------------------------------------------- */
+> -
+> -enum bochs_types {
+> -	BOCHS_QEMU_STDVGA,
+> -	BOCHS_UNKNOWN,
+> -};
+> -
+> -struct bochs_device {
+> -	/* hw */
+> -	void __iomem   *mmio;
+> -	int            ioports;
+> -	void __iomem   *fb_map;
+> -	unsigned long  fb_base;
+> -	unsigned long  fb_size;
+> -	unsigned long  qext_size;
+> -
+> -	/* mode */
+> -	u16 xres;
+> -	u16 yres;
+> -	u16 yres_virtual;
+> -	u32 stride;
+> -	u32 bpp;
+> -	struct edid *edid;
+> -
+> -	/* drm */
+> -	struct drm_device *dev;
+> -	struct drm_simple_display_pipe pipe;
+> -	struct drm_connector connector;
+> -};
+> -
+> -/* ---------------------------------------------------------------------- */
+> -
+> -/* bochs_hw.c */
+> -int bochs_hw_init(struct drm_device *dev);
+> -void bochs_hw_fini(struct drm_device *dev);
+> -
+> -void bochs_hw_blank(struct bochs_device *bochs, bool blank);
+> -void bochs_hw_setmode(struct bochs_device *bochs,
+> -		      struct drm_display_mode *mode);
+> -void bochs_hw_setformat(struct bochs_device *bochs,
+> -			const struct drm_format_info *format);
+> -void bochs_hw_setbase(struct bochs_device *bochs,
+> -		      int x, int y, int stride, u64 addr);
+> -int bochs_hw_load_edid(struct bochs_device *bochs);
+> -
+> -/* bochs_mm.c */
+> -int bochs_mm_init(struct bochs_device *bochs);
+> -void bochs_mm_fini(struct bochs_device *bochs);
+> -
+> -/* bochs_kms.c */
+> -int bochs_kms_init(struct bochs_device *bochs);
+> -
+> -/* bochs_fbdev.c */
+> -extern const struct drm_mode_config_funcs bochs_mode_funcs;
+> diff --git a/drivers/gpu/drm/bochs/bochs_drv.c b/drivers/gpu/drm/bochs/bochs_drv.c
+> deleted file mode 100644
+> index c828cadbabff..000000000000
+> --- a/drivers/gpu/drm/bochs/bochs_drv.c
+> +++ /dev/null
+> @@ -1,205 +0,0 @@
+> -// SPDX-License-Identifier: GPL-2.0-or-later
+> -/*
+> - */
+> -
+> -#include <linux/module.h>
+> -#include <linux/pci.h>
+> -
+> -#include <drm/drm_drv.h>
+> -#include <drm/drm_aperture.h>
+> -#include <drm/drm_atomic_helper.h>
+> -#include <drm/drm_managed.h>
+> -
+> -#include "bochs.h"
+> -
+> -static int bochs_modeset = -1;
+> -module_param_named(modeset, bochs_modeset, int, 0444);
+> -MODULE_PARM_DESC(modeset, "enable/disable kernel modesetting");
+> -
+> -/* ---------------------------------------------------------------------- */
+> -/* drm interface                                                          */
+> -
+> -static void bochs_unload(struct drm_device *dev)
+> -{
+> -	struct bochs_device *bochs = dev->dev_private;
+> -
+> -	bochs_mm_fini(bochs);
+> -}
+> -
+> -static int bochs_load(struct drm_device *dev)
+> -{
+> -	struct bochs_device *bochs;
+> -	int ret;
+> -
+> -	bochs = drmm_kzalloc(dev, sizeof(*bochs), GFP_KERNEL);
+> -	if (bochs == NULL)
+> -		return -ENOMEM;
+> -	dev->dev_private = bochs;
+> -	bochs->dev = dev;
+> -
+> -	ret = bochs_hw_init(dev);
+> -	if (ret)
+> -		goto err;
+> -
+> -	ret = bochs_mm_init(bochs);
+> -	if (ret)
+> -		goto err;
+> -
+> -	ret = bochs_kms_init(bochs);
+> -	if (ret)
+> -		goto err;
+> -
+> -	return 0;
+> -
+> -err:
+> -	bochs_unload(dev);
+> -	return ret;
+> -}
+> -
+> -DEFINE_DRM_GEM_FOPS(bochs_fops);
+> -
+> -static const struct drm_driver bochs_driver = {
+> -	.driver_features	= DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
+> -	.fops			= &bochs_fops,
+> -	.name			= "bochs-drm",
+> -	.desc			= "bochs dispi vga interface (qemu stdvga)",
+> -	.date			= "20130925",
+> -	.major			= 1,
+> -	.minor			= 0,
+> -	DRM_GEM_VRAM_DRIVER,
+> -	.release                = bochs_unload,
+> -};
+> -
+> -/* ---------------------------------------------------------------------- */
+> -/* pm interface                                                           */
+> -
+> -#ifdef CONFIG_PM_SLEEP
+> -static int bochs_pm_suspend(struct device *dev)
+> -{
+> -	struct drm_device *drm_dev = dev_get_drvdata(dev);
+> -
+> -	return drm_mode_config_helper_suspend(drm_dev);
+> -}
+> -
+> -static int bochs_pm_resume(struct device *dev)
+> -{
+> -	struct drm_device *drm_dev = dev_get_drvdata(dev);
+> -
+> -	return drm_mode_config_helper_resume(drm_dev);
+> -}
+> -#endif
+> -
+> -static const struct dev_pm_ops bochs_pm_ops = {
+> -	SET_SYSTEM_SLEEP_PM_OPS(bochs_pm_suspend,
+> -				bochs_pm_resume)
+> -};
+> -
+> -/* ---------------------------------------------------------------------- */
+> -/* pci interface                                                          */
+> -
+> -static int bochs_pci_probe(struct pci_dev *pdev,
+> -			   const struct pci_device_id *ent)
+> -{
+> -	struct drm_device *dev;
+> -	unsigned long fbsize;
+> -	int ret;
+> -
+> -	fbsize = pci_resource_len(pdev, 0);
+> -	if (fbsize < 4 * 1024 * 1024) {
+> -		DRM_ERROR("less than 4 MB video memory, ignoring device\n");
+> -		return -ENOMEM;
+> -	}
+> -
+> -	ret = drm_aperture_remove_conflicting_pci_framebuffers(pdev, "bochsdrmfb");
+> -	if (ret)
+> -		return ret;
+> -
+> -	dev = drm_dev_alloc(&bochs_driver, &pdev->dev);
+> -	if (IS_ERR(dev))
+> -		return PTR_ERR(dev);
+> -
+> -	ret = pci_enable_device(pdev);
+> -	if (ret)
+> -		goto err_free_dev;
+> -
+> -	pci_set_drvdata(pdev, dev);
+> -
+> -	ret = bochs_load(dev);
+> -	if (ret)
+> -		goto err_free_dev;
+> -
+> -	ret = drm_dev_register(dev, 0);
+> -	if (ret)
+> -		goto err_unload;
+> -
+> -	drm_fbdev_generic_setup(dev, 32);
+> -	return ret;
+> -
+> -err_unload:
+> -	bochs_unload(dev);
+> -err_free_dev:
+> -	drm_dev_put(dev);
+> -	return ret;
+> -}
+> -
+> -static void bochs_pci_remove(struct pci_dev *pdev)
+> -{
+> -	struct drm_device *dev = pci_get_drvdata(pdev);
+> -
+> -	drm_dev_unplug(dev);
+> -	drm_atomic_helper_shutdown(dev);
+> -	bochs_hw_fini(dev);
+> -	drm_dev_put(dev);
+> -}
+> -
+> -static const struct pci_device_id bochs_pci_tbl[] = {
+> -	{
+> -		.vendor      = 0x1234,
+> -		.device      = 0x1111,
+> -		.subvendor   = PCI_SUBVENDOR_ID_REDHAT_QUMRANET,
+> -		.subdevice   = PCI_SUBDEVICE_ID_QEMU,
+> -		.driver_data = BOCHS_QEMU_STDVGA,
+> -	},
+> -	{
+> -		.vendor      = 0x1234,
+> -		.device      = 0x1111,
+> -		.subvendor   = PCI_ANY_ID,
+> -		.subdevice   = PCI_ANY_ID,
+> -		.driver_data = BOCHS_UNKNOWN,
+> -	},
+> -	{ /* end of list */ }
+> -};
+> -
+> -static struct pci_driver bochs_pci_driver = {
+> -	.name =		"bochs-drm",
+> -	.id_table =	bochs_pci_tbl,
+> -	.probe =	bochs_pci_probe,
+> -	.remove =	bochs_pci_remove,
+> -	.driver.pm =    &bochs_pm_ops,
+> -};
+> -
+> -/* ---------------------------------------------------------------------- */
+> -/* module init/exit                                                       */
+> -
+> -static int __init bochs_init(void)
+> -{
+> -	if (vgacon_text_force() && bochs_modeset == -1)
+> -		return -EINVAL;
+> -
+> -	if (bochs_modeset == 0)
+> -		return -EINVAL;
+> -
+> -	return pci_register_driver(&bochs_pci_driver);
+> -}
+> -
+> -static void __exit bochs_exit(void)
+> -{
+> -	pci_unregister_driver(&bochs_pci_driver);
+> -}
+> -
+> -module_init(bochs_init);
+> -module_exit(bochs_exit);
+> -
+> -MODULE_DEVICE_TABLE(pci, bochs_pci_tbl);
+> -MODULE_AUTHOR("Gerd Hoffmann <kraxel@redhat.com>");
+> -MODULE_LICENSE("GPL");
+> diff --git a/drivers/gpu/drm/bochs/bochs_hw.c b/drivers/gpu/drm/bochs/bochs_hw.c
+> deleted file mode 100644
+> index 7d3426d8cc69..000000000000
+> --- a/drivers/gpu/drm/bochs/bochs_hw.c
+> +++ /dev/null
+> @@ -1,323 +0,0 @@
+> -// SPDX-License-Identifier: GPL-2.0-or-later
+> -/*
+> - */
+> -
+> -#include <linux/pci.h>
+> -
+> -#include <drm/drm_drv.h>
+> -#include <drm/drm_fourcc.h>
+> -
+> -#include <video/vga.h>
+> -#include "bochs.h"
+> -
+> -/* ---------------------------------------------------------------------- */
+> -
+> -static void bochs_vga_writeb(struct bochs_device *bochs, u16 ioport, u8 val)
+> -{
+> -	if (WARN_ON(ioport < 0x3c0 || ioport > 0x3df))
+> -		return;
+> -
+> -	if (bochs->mmio) {
+> -		int offset = ioport - 0x3c0 + 0x400;
+> -		writeb(val, bochs->mmio + offset);
+> -	} else {
+> -		outb(val, ioport);
+> -	}
+> -}
+> -
+> -static u8 bochs_vga_readb(struct bochs_device *bochs, u16 ioport)
+> -{
+> -	if (WARN_ON(ioport < 0x3c0 || ioport > 0x3df))
+> -		return 0xff;
+> -
+> -	if (bochs->mmio) {
+> -		int offset = ioport - 0x3c0 + 0x400;
+> -		return readb(bochs->mmio + offset);
+> -	} else {
+> -		return inb(ioport);
+> -	}
+> -}
+> -
+> -static u16 bochs_dispi_read(struct bochs_device *bochs, u16 reg)
+> -{
+> -	u16 ret = 0;
+> -
+> -	if (bochs->mmio) {
+> -		int offset = 0x500 + (reg << 1);
+> -		ret = readw(bochs->mmio + offset);
+> -	} else {
+> -		outw(reg, VBE_DISPI_IOPORT_INDEX);
+> -		ret = inw(VBE_DISPI_IOPORT_DATA);
+> -	}
+> -	return ret;
+> -}
+> -
+> -static void bochs_dispi_write(struct bochs_device *bochs, u16 reg, u16 val)
+> -{
+> -	if (bochs->mmio) {
+> -		int offset = 0x500 + (reg << 1);
+> -		writew(val, bochs->mmio + offset);
+> -	} else {
+> -		outw(reg, VBE_DISPI_IOPORT_INDEX);
+> -		outw(val, VBE_DISPI_IOPORT_DATA);
+> -	}
+> -}
+> -
+> -static void bochs_hw_set_big_endian(struct bochs_device *bochs)
+> -{
+> -	if (bochs->qext_size < 8)
+> -		return;
+> -
+> -	writel(0xbebebebe, bochs->mmio + 0x604);
+> -}
+> -
+> -static void bochs_hw_set_little_endian(struct bochs_device *bochs)
+> -{
+> -	if (bochs->qext_size < 8)
+> -		return;
+> -
+> -	writel(0x1e1e1e1e, bochs->mmio + 0x604);
+> -}
+> -
+> -#ifdef __BIG_ENDIAN
+> -#define bochs_hw_set_native_endian(_b) bochs_hw_set_big_endian(_b)
+> -#else
+> -#define bochs_hw_set_native_endian(_b) bochs_hw_set_little_endian(_b)
+> -#endif
+> -
+> -static int bochs_get_edid_block(void *data, u8 *buf,
+> -				unsigned int block, size_t len)
+> -{
+> -	struct bochs_device *bochs = data;
+> -	size_t i, start = block * EDID_LENGTH;
+> -
+> -	if (start + len > 0x400 /* vga register offset */)
+> -		return -1;
+> -
+> -	for (i = 0; i < len; i++) {
+> -		buf[i] = readb(bochs->mmio + start + i);
+> -	}
+> -	return 0;
+> -}
+> -
+> -int bochs_hw_load_edid(struct bochs_device *bochs)
+> -{
+> -	u8 header[8];
+> -
+> -	if (!bochs->mmio)
+> -		return -1;
+> -
+> -	/* check header to detect whenever edid support is enabled in qemu */
+> -	bochs_get_edid_block(bochs, header, 0, ARRAY_SIZE(header));
+> -	if (drm_edid_header_is_valid(header) != 8)
+> -		return -1;
+> -
+> -	kfree(bochs->edid);
+> -	bochs->edid = drm_do_get_edid(&bochs->connector,
+> -				      bochs_get_edid_block, bochs);
+> -	if (bochs->edid == NULL)
+> -		return -1;
+> -
+> -	return 0;
+> -}
+> -
+> -int bochs_hw_init(struct drm_device *dev)
+> -{
+> -	struct bochs_device *bochs = dev->dev_private;
+> -	struct pci_dev *pdev = to_pci_dev(dev->dev);
+> -	unsigned long addr, size, mem, ioaddr, iosize;
+> -	u16 id;
+> -
+> -	if (pdev->resource[2].flags & IORESOURCE_MEM) {
+> -		/* mmio bar with vga and bochs registers present */
+> -		if (pci_request_region(pdev, 2, "bochs-drm") != 0) {
+> -			DRM_ERROR("Cannot request mmio region\n");
+> -			return -EBUSY;
+> -		}
+> -		ioaddr = pci_resource_start(pdev, 2);
+> -		iosize = pci_resource_len(pdev, 2);
+> -		bochs->mmio = ioremap(ioaddr, iosize);
+> -		if (bochs->mmio == NULL) {
+> -			DRM_ERROR("Cannot map mmio region\n");
+> -			return -ENOMEM;
+> -		}
+> -	} else {
+> -		ioaddr = VBE_DISPI_IOPORT_INDEX;
+> -		iosize = 2;
+> -		if (!request_region(ioaddr, iosize, "bochs-drm")) {
+> -			DRM_ERROR("Cannot request ioports\n");
+> -			return -EBUSY;
+> -		}
+> -		bochs->ioports = 1;
+> -	}
+> -
+> -	id = bochs_dispi_read(bochs, VBE_DISPI_INDEX_ID);
+> -	mem = bochs_dispi_read(bochs, VBE_DISPI_INDEX_VIDEO_MEMORY_64K)
+> -		* 64 * 1024;
+> -	if ((id & 0xfff0) != VBE_DISPI_ID0) {
+> -		DRM_ERROR("ID mismatch\n");
+> -		return -ENODEV;
+> -	}
+> -
+> -	if ((pdev->resource[0].flags & IORESOURCE_MEM) == 0)
+> -		return -ENODEV;
+> -	addr = pci_resource_start(pdev, 0);
+> -	size = pci_resource_len(pdev, 0);
+> -	if (addr == 0)
+> -		return -ENODEV;
+> -	if (size != mem) {
+> -		DRM_ERROR("Size mismatch: pci=%ld, bochs=%ld\n",
+> -			size, mem);
+> -		size = min(size, mem);
+> -	}
+> -
+> -	if (pci_request_region(pdev, 0, "bochs-drm") != 0)
+> -		DRM_WARN("Cannot request framebuffer, boot fb still active?\n");
+> -
+> -	bochs->fb_map = ioremap(addr, size);
+> -	if (bochs->fb_map == NULL) {
+> -		DRM_ERROR("Cannot map framebuffer\n");
+> -		return -ENOMEM;
+> -	}
+> -	bochs->fb_base = addr;
+> -	bochs->fb_size = size;
+> -
+> -	DRM_INFO("Found bochs VGA, ID 0x%x.\n", id);
+> -	DRM_INFO("Framebuffer size %ld kB @ 0x%lx, %s @ 0x%lx.\n",
+> -		 size / 1024, addr,
+> -		 bochs->ioports ? "ioports" : "mmio",
+> -		 ioaddr);
+> -
+> -	if (bochs->mmio && pdev->revision >= 2) {
+> -		bochs->qext_size = readl(bochs->mmio + 0x600);
+> -		if (bochs->qext_size < 4 || bochs->qext_size > iosize) {
+> -			bochs->qext_size = 0;
+> -			goto noext;
+> -		}
+> -		DRM_DEBUG("Found qemu ext regs, size %ld\n",
+> -			  bochs->qext_size);
+> -		bochs_hw_set_native_endian(bochs);
+> -	}
+> -
+> -noext:
+> -	return 0;
+> -}
+> -
+> -void bochs_hw_fini(struct drm_device *dev)
+> -{
+> -	struct bochs_device *bochs = dev->dev_private;
+> -
+> -	/* TODO: shot down existing vram mappings */
+> -
+> -	if (bochs->mmio)
+> -		iounmap(bochs->mmio);
+> -	if (bochs->ioports)
+> -		release_region(VBE_DISPI_IOPORT_INDEX, 2);
+> -	if (bochs->fb_map)
+> -		iounmap(bochs->fb_map);
+> -	pci_release_regions(to_pci_dev(dev->dev));
+> -	kfree(bochs->edid);
+> -}
+> -
+> -void bochs_hw_blank(struct bochs_device *bochs, bool blank)
+> -{
+> -	DRM_DEBUG_DRIVER("hw_blank %d\n", blank);
+> -	/* discard ar_flip_flop */
+> -	(void)bochs_vga_readb(bochs, VGA_IS1_RC);
+> -	/* blank or unblank; we need only update index and set 0x20 */
+> -	bochs_vga_writeb(bochs, VGA_ATT_W, blank ? 0 : 0x20);
+> -}
+> -
+> -void bochs_hw_setmode(struct bochs_device *bochs,
+> -		      struct drm_display_mode *mode)
+> -{
+> -	int idx;
+> -
+> -	if (!drm_dev_enter(bochs->dev, &idx))
+> -		return;
+> -
+> -	bochs->xres = mode->hdisplay;
+> -	bochs->yres = mode->vdisplay;
+> -	bochs->bpp = 32;
+> -	bochs->stride = mode->hdisplay * (bochs->bpp / 8);
+> -	bochs->yres_virtual = bochs->fb_size / bochs->stride;
+> -
+> -	DRM_DEBUG_DRIVER("%dx%d @ %d bpp, vy %d\n",
+> -			 bochs->xres, bochs->yres, bochs->bpp,
+> -			 bochs->yres_virtual);
+> -
+> -	bochs_hw_blank(bochs, false);
+> -
+> -	bochs_dispi_write(bochs, VBE_DISPI_INDEX_ENABLE,      0);
+> -	bochs_dispi_write(bochs, VBE_DISPI_INDEX_BPP,         bochs->bpp);
+> -	bochs_dispi_write(bochs, VBE_DISPI_INDEX_XRES,        bochs->xres);
+> -	bochs_dispi_write(bochs, VBE_DISPI_INDEX_YRES,        bochs->yres);
+> -	bochs_dispi_write(bochs, VBE_DISPI_INDEX_BANK,        0);
+> -	bochs_dispi_write(bochs, VBE_DISPI_INDEX_VIRT_WIDTH,  bochs->xres);
+> -	bochs_dispi_write(bochs, VBE_DISPI_INDEX_VIRT_HEIGHT,
+> -			  bochs->yres_virtual);
+> -	bochs_dispi_write(bochs, VBE_DISPI_INDEX_X_OFFSET,    0);
+> -	bochs_dispi_write(bochs, VBE_DISPI_INDEX_Y_OFFSET,    0);
+> -
+> -	bochs_dispi_write(bochs, VBE_DISPI_INDEX_ENABLE,
+> -			  VBE_DISPI_ENABLED | VBE_DISPI_LFB_ENABLED);
+> -
+> -	drm_dev_exit(idx);
+> -}
+> -
+> -void bochs_hw_setformat(struct bochs_device *bochs,
+> -			const struct drm_format_info *format)
+> -{
+> -	int idx;
+> -
+> -	if (!drm_dev_enter(bochs->dev, &idx))
+> -		return;
+> -
+> -	DRM_DEBUG_DRIVER("format %c%c%c%c\n",
+> -			 (format->format >>  0) & 0xff,
+> -			 (format->format >>  8) & 0xff,
+> -			 (format->format >> 16) & 0xff,
+> -			 (format->format >> 24) & 0xff);
+> -
+> -	switch (format->format) {
+> -	case DRM_FORMAT_XRGB8888:
+> -		bochs_hw_set_little_endian(bochs);
+> -		break;
+> -	case DRM_FORMAT_BGRX8888:
+> -		bochs_hw_set_big_endian(bochs);
+> -		break;
+> -	default:
+> -		/* should not happen */
+> -		DRM_ERROR("%s: Huh? Got framebuffer format 0x%x",
+> -			  __func__, format->format);
+> -		break;
+> -	}
+> -
+> -	drm_dev_exit(idx);
+> -}
+> -
+> -void bochs_hw_setbase(struct bochs_device *bochs,
+> -		      int x, int y, int stride, u64 addr)
+> -{
+> -	unsigned long offset;
+> -	unsigned int vx, vy, vwidth, idx;
+> -
+> -	if (!drm_dev_enter(bochs->dev, &idx))
+> -		return;
+> -
+> -	bochs->stride = stride;
+> -	offset = (unsigned long)addr +
+> -		y * bochs->stride +
+> -		x * (bochs->bpp / 8);
+> -	vy = offset / bochs->stride;
+> -	vx = (offset % bochs->stride) * 8 / bochs->bpp;
+> -	vwidth = stride * 8 / bochs->bpp;
+> -
+> -	DRM_DEBUG_DRIVER("x %d, y %d, addr %llx -> offset %lx, vx %d, vy %d\n",
+> -			 x, y, addr, offset, vx, vy);
+> -	bochs_dispi_write(bochs, VBE_DISPI_INDEX_VIRT_WIDTH, vwidth);
+> -	bochs_dispi_write(bochs, VBE_DISPI_INDEX_X_OFFSET, vx);
+> -	bochs_dispi_write(bochs, VBE_DISPI_INDEX_Y_OFFSET, vy);
+> -
+> -	drm_dev_exit(idx);
+> -}
+> diff --git a/drivers/gpu/drm/bochs/bochs_kms.c b/drivers/gpu/drm/bochs/bochs_kms.c
+> deleted file mode 100644
+> index 99410e77d51a..000000000000
+> --- a/drivers/gpu/drm/bochs/bochs_kms.c
+> +++ /dev/null
+> @@ -1,178 +0,0 @@
+> -// SPDX-License-Identifier: GPL-2.0-or-later
+> -/*
+> - */
+> -
+> -#include <linux/moduleparam.h>
+> -
+> -#include <drm/drm_atomic_helper.h>
+> -#include <drm/drm_gem_framebuffer_helper.h>
+> -#include <drm/drm_probe_helper.h>
+> -
+> -#include "bochs.h"
+> -
+> -static int defx = 1024;
+> -static int defy = 768;
+> -
+> -module_param(defx, int, 0444);
+> -module_param(defy, int, 0444);
+> -MODULE_PARM_DESC(defx, "default x resolution");
+> -MODULE_PARM_DESC(defy, "default y resolution");
+> -
+> -/* ---------------------------------------------------------------------- */
+> -
+> -static const uint32_t bochs_formats[] = {
+> -	DRM_FORMAT_XRGB8888,
+> -	DRM_FORMAT_BGRX8888,
+> -};
+> -
+> -static void bochs_plane_update(struct bochs_device *bochs,
+> -			       struct drm_plane_state *state)
+> -{
+> -	struct drm_gem_vram_object *gbo;
+> -	s64 gpu_addr;
+> -
+> -	if (!state->fb || !bochs->stride)
+> -		return;
+> -
+> -	gbo = drm_gem_vram_of_gem(state->fb->obj[0]);
+> -	gpu_addr = drm_gem_vram_offset(gbo);
+> -	if (WARN_ON_ONCE(gpu_addr < 0))
+> -		return; /* Bug: we didn't pin the BO to VRAM in prepare_fb. */
+> -
+> -	bochs_hw_setbase(bochs,
+> -			 state->crtc_x,
+> -			 state->crtc_y,
+> -			 state->fb->pitches[0],
+> -			 state->fb->offsets[0] + gpu_addr);
+> -	bochs_hw_setformat(bochs, state->fb->format);
+> -}
+> -
+> -static void bochs_pipe_enable(struct drm_simple_display_pipe *pipe,
+> -			      struct drm_crtc_state *crtc_state,
+> -			      struct drm_plane_state *plane_state)
+> -{
+> -	struct bochs_device *bochs = pipe->crtc.dev->dev_private;
+> -
+> -	bochs_hw_setmode(bochs, &crtc_state->mode);
+> -	bochs_plane_update(bochs, plane_state);
+> -}
+> -
+> -static void bochs_pipe_disable(struct drm_simple_display_pipe *pipe)
+> -{
+> -	struct bochs_device *bochs = pipe->crtc.dev->dev_private;
+> -
+> -	bochs_hw_blank(bochs, true);
+> -}
+> -
+> -static void bochs_pipe_update(struct drm_simple_display_pipe *pipe,
+> -			      struct drm_plane_state *old_state)
+> -{
+> -	struct bochs_device *bochs = pipe->crtc.dev->dev_private;
+> -
+> -	bochs_plane_update(bochs, pipe->plane.state);
+> -}
+> -
+> -static const struct drm_simple_display_pipe_funcs bochs_pipe_funcs = {
+> -	.enable	    = bochs_pipe_enable,
+> -	.disable    = bochs_pipe_disable,
+> -	.update	    = bochs_pipe_update,
+> -	.prepare_fb = drm_gem_vram_simple_display_pipe_prepare_fb,
+> -	.cleanup_fb = drm_gem_vram_simple_display_pipe_cleanup_fb,
+> -};
+> -
+> -static int bochs_connector_get_modes(struct drm_connector *connector)
+> -{
+> -	struct bochs_device *bochs =
+> -		container_of(connector, struct bochs_device, connector);
+> -	int count = 0;
+> -
+> -	if (bochs->edid)
+> -		count = drm_add_edid_modes(connector, bochs->edid);
+> -
+> -	if (!count) {
+> -		count = drm_add_modes_noedid(connector, 8192, 8192);
+> -		drm_set_preferred_mode(connector, defx, defy);
+> -	}
+> -	return count;
+> -}
+> -
+> -static const struct drm_connector_helper_funcs bochs_connector_connector_helper_funcs = {
+> -	.get_modes = bochs_connector_get_modes,
+> -};
+> -
+> -static const struct drm_connector_funcs bochs_connector_connector_funcs = {
+> -	.fill_modes = drm_helper_probe_single_connector_modes,
+> -	.destroy = drm_connector_cleanup,
+> -	.reset = drm_atomic_helper_connector_reset,
+> -	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
+> -	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
+> -};
+> -
+> -static void bochs_connector_init(struct drm_device *dev)
+> -{
+> -	struct bochs_device *bochs = dev->dev_private;
+> -	struct drm_connector *connector = &bochs->connector;
+> -
+> -	drm_connector_init(dev, connector, &bochs_connector_connector_funcs,
+> -			   DRM_MODE_CONNECTOR_VIRTUAL);
+> -	drm_connector_helper_add(connector,
+> -				 &bochs_connector_connector_helper_funcs);
+> -
+> -	bochs_hw_load_edid(bochs);
+> -	if (bochs->edid) {
+> -		DRM_INFO("Found EDID data blob.\n");
+> -		drm_connector_attach_edid_property(connector);
+> -		drm_connector_update_edid_property(connector, bochs->edid);
+> -	}
+> -}
+> -
+> -static struct drm_framebuffer *
+> -bochs_gem_fb_create(struct drm_device *dev, struct drm_file *file,
+> -		    const struct drm_mode_fb_cmd2 *mode_cmd)
+> -{
+> -	if (mode_cmd->pixel_format != DRM_FORMAT_XRGB8888 &&
+> -	    mode_cmd->pixel_format != DRM_FORMAT_BGRX8888)
+> -		return ERR_PTR(-EINVAL);
+> -
+> -	return drm_gem_fb_create(dev, file, mode_cmd);
+> -}
+> -
+> -const struct drm_mode_config_funcs bochs_mode_funcs = {
+> -	.fb_create = bochs_gem_fb_create,
+> -	.mode_valid = drm_vram_helper_mode_valid,
+> -	.atomic_check = drm_atomic_helper_check,
+> -	.atomic_commit = drm_atomic_helper_commit,
+> -};
+> -
+> -int bochs_kms_init(struct bochs_device *bochs)
+> -{
+> -	int ret;
+> -
+> -	ret = drmm_mode_config_init(bochs->dev);
+> -	if (ret)
+> -		return ret;
+> -
+> -	bochs->dev->mode_config.max_width = 8192;
+> -	bochs->dev->mode_config.max_height = 8192;
+> -
+> -	bochs->dev->mode_config.fb_base = bochs->fb_base;
+> -	bochs->dev->mode_config.preferred_depth = 24;
+> -	bochs->dev->mode_config.prefer_shadow = 0;
+> -	bochs->dev->mode_config.prefer_shadow_fbdev = 1;
+> -	bochs->dev->mode_config.quirk_addfb_prefer_host_byte_order = true;
+> -
+> -	bochs->dev->mode_config.funcs = &bochs_mode_funcs;
+> -
+> -	bochs_connector_init(bochs->dev);
+> -	drm_simple_display_pipe_init(bochs->dev,
+> -				     &bochs->pipe,
+> -				     &bochs_pipe_funcs,
+> -				     bochs_formats,
+> -				     ARRAY_SIZE(bochs_formats),
+> -				     NULL,
+> -				     &bochs->connector);
+> -
+> -	drm_mode_config_reset(bochs->dev);
+> -
+> -	return 0;
+> -}
+> diff --git a/drivers/gpu/drm/bochs/bochs_mm.c b/drivers/gpu/drm/bochs/bochs_mm.c
+> deleted file mode 100644
+> index 1b74f530b07c..000000000000
+> --- a/drivers/gpu/drm/bochs/bochs_mm.c
+> +++ /dev/null
+> @@ -1,24 +0,0 @@
+> -// SPDX-License-Identifier: GPL-2.0-or-later
+> -/*
+> - */
+> -
+> -#include "bochs.h"
+> -
+> -/* ---------------------------------------------------------------------- */
+> -
+> -int bochs_mm_init(struct bochs_device *bochs)
+> -{
+> -	struct drm_vram_mm *vmm;
+> -
+> -	vmm = drm_vram_helper_alloc_mm(bochs->dev, bochs->fb_base,
+> -				       bochs->fb_size);
+> -	return PTR_ERR_OR_ZERO(vmm);
+> -}
+> -
+> -void bochs_mm_fini(struct bochs_device *bochs)
+> -{
+> -	if (!bochs->dev->vram_mm)
+> -		return;
+> -
+> -	drm_vram_helper_release_mm(bochs->dev);
+> -}
+> diff --git a/drivers/gpu/drm/tiny/Kconfig b/drivers/gpu/drm/tiny/Kconfig
+> index d46f95d9196d..5593128eeff9 100644
+> --- a/drivers/gpu/drm/tiny/Kconfig
+> +++ b/drivers/gpu/drm/tiny/Kconfig
+> @@ -10,6 +10,19 @@ config DRM_ARCPGU
+>  
+>  	  If M is selected the module will be called arcpgu.
+>  
+> +config DRM_BOCHS
+> +	tristate "DRM Support for bochs dispi vga interface (qemu stdvga)"
+> +	depends on DRM && PCI && MMU
+> +	select DRM_KMS_HELPER
+> +	select DRM_VRAM_HELPER
+> +	select DRM_TTM
+> +	select DRM_TTM_HELPER
+> +	help
+> +	  This is a KMS driver for qemu's stdvga output. Choose this option
+> +	  for qemu.
 > +
->  out:
-> -       rcu_read_unlock();
-> +       dma_resv_unlock(resv);
->         return events;
->  }
->
-> @@ -562,8 +520,8 @@ struct dma_buf *dma_buf_export(const struct dma_buf_e=
-xport_info *exp_info)
->         dmabuf->owner =3D exp_info->owner;
->         spin_lock_init(&dmabuf->name_lock);
->         init_waitqueue_head(&dmabuf->poll);
-> -       dmabuf->cb_excl.poll =3D dmabuf->cb_shared.poll =3D &dmabuf->poll=
-;
-> -       dmabuf->cb_excl.active =3D dmabuf->cb_shared.active =3D 0;
-> +       dmabuf->cb_in.poll =3D dmabuf->cb_out.poll =3D &dmabuf->poll;
-> +       dmabuf->cb_in.active =3D dmabuf->cb_out.active =3D 0;
->
->         if (!resv) {
->                 resv =3D (struct dma_resv *)&dmabuf[1];
-> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-> index efdc56b9d95f..7e747ad54c81 100644
-> --- a/include/linux/dma-buf.h
-> +++ b/include/linux/dma-buf.h
-> @@ -329,7 +329,7 @@ struct dma_buf {
->                 wait_queue_head_t *poll;
->
->                 __poll_t active;
-> -       } cb_excl, cb_shared;
-> +       } cb_in, cb_out;
->  };
->
->  /**
-> --
-> 2.25.1
->
+> +	  If M is selected the module will be called bochs.
+> +
+>  config DRM_CIRRUS_QEMU
+>  	tristate "Cirrus driver for QEMU emulated device"
+>  	depends on DRM && PCI && MMU
+> diff --git a/drivers/gpu/drm/tiny/Makefile b/drivers/gpu/drm/tiny/Makefile
+> index 9cc847e756da..e09942895c77 100644
+> --- a/drivers/gpu/drm/tiny/Makefile
+> +++ b/drivers/gpu/drm/tiny/Makefile
+> @@ -1,6 +1,7 @@
+>  # SPDX-License-Identifier: GPL-2.0-only
+>  
+>  obj-$(CONFIG_DRM_ARCPGU)		+= arcpgu.o
+> +obj-$(CONFIG_DRM_BOCHS)			+= bochs.o
+>  obj-$(CONFIG_DRM_CIRRUS_QEMU)		+= cirrus.o
+>  obj-$(CONFIG_DRM_GM12U320)		+= gm12u320.o
+>  obj-$(CONFIG_DRM_SIMPLEDRM)		+= simpledrm.o
+> diff --git a/drivers/gpu/drm/tiny/bochs.c b/drivers/gpu/drm/tiny/bochs.c
+> new file mode 100644
+> index 000000000000..edcd31db5b9c
+> --- /dev/null
+> +++ b/drivers/gpu/drm/tiny/bochs.c
+> @@ -0,0 +1,768 @@
+> +// SPDX-License-Identifier: GPL-2.0-or-later
+> +
+> +#include <linux/console.h>
+> +#include <linux/pci.h>
+> +
+> +#include <drm/drm_aperture.h>
+> +#include <drm/drm_atomic_helper.h>
+> +#include <drm/drm_drv.h>
+> +#include <drm/drm_fb_helper.h>
+> +#include <drm/drm_fourcc.h>
+> +#include <drm/drm_gem_framebuffer_helper.h>
+> +#include <drm/drm_gem_vram_helper.h>
+> +#include <drm/drm_managed.h>
+> +#include <drm/drm_probe_helper.h>
+> +#include <drm/drm_simple_kms_helper.h>
+> +
+> +#include <video/vga.h>
+> +
+> +/* ---------------------------------------------------------------------- */
+> +
+> +#define VBE_DISPI_IOPORT_INDEX           0x01CE
+> +#define VBE_DISPI_IOPORT_DATA            0x01CF
+> +
+> +#define VBE_DISPI_INDEX_ID               0x0
+> +#define VBE_DISPI_INDEX_XRES             0x1
+> +#define VBE_DISPI_INDEX_YRES             0x2
+> +#define VBE_DISPI_INDEX_BPP              0x3
+> +#define VBE_DISPI_INDEX_ENABLE           0x4
+> +#define VBE_DISPI_INDEX_BANK             0x5
+> +#define VBE_DISPI_INDEX_VIRT_WIDTH       0x6
+> +#define VBE_DISPI_INDEX_VIRT_HEIGHT      0x7
+> +#define VBE_DISPI_INDEX_X_OFFSET         0x8
+> +#define VBE_DISPI_INDEX_Y_OFFSET         0x9
+> +#define VBE_DISPI_INDEX_VIDEO_MEMORY_64K 0xa
+> +
+> +#define VBE_DISPI_ID0                    0xB0C0
+> +#define VBE_DISPI_ID1                    0xB0C1
+> +#define VBE_DISPI_ID2                    0xB0C2
+> +#define VBE_DISPI_ID3                    0xB0C3
+> +#define VBE_DISPI_ID4                    0xB0C4
+> +#define VBE_DISPI_ID5                    0xB0C5
+> +
+> +#define VBE_DISPI_DISABLED               0x00
+> +#define VBE_DISPI_ENABLED                0x01
+> +#define VBE_DISPI_GETCAPS                0x02
+> +#define VBE_DISPI_8BIT_DAC               0x20
+> +#define VBE_DISPI_LFB_ENABLED            0x40
+> +#define VBE_DISPI_NOCLEARMEM             0x80
+> +
+> +static int bochs_modeset = -1;
+> +static int defx = 1024;
+> +static int defy = 768;
+> +
+> +module_param_named(modeset, bochs_modeset, int, 0444);
+> +MODULE_PARM_DESC(modeset, "enable/disable kernel modesetting");
+> +
+> +module_param(defx, int, 0444);
+> +module_param(defy, int, 0444);
+> +MODULE_PARM_DESC(defx, "default x resolution");
+> +MODULE_PARM_DESC(defy, "default y resolution");
+> +
+> +/* ---------------------------------------------------------------------- */
+> +
+> +enum bochs_types {
+> +	BOCHS_QEMU_STDVGA,
+> +	BOCHS_UNKNOWN,
+> +};
+> +
+> +struct bochs_device {
+> +	/* hw */
+> +	void __iomem   *mmio;
+> +	int            ioports;
+> +	void __iomem   *fb_map;
+> +	unsigned long  fb_base;
+> +	unsigned long  fb_size;
+> +	unsigned long  qext_size;
+> +
+> +	/* mode */
+> +	u16 xres;
+> +	u16 yres;
+> +	u16 yres_virtual;
+> +	u32 stride;
+> +	u32 bpp;
+> +	struct edid *edid;
+> +
+> +	/* drm */
+> +	struct drm_device *dev;
+> +	struct drm_simple_display_pipe pipe;
+> +	struct drm_connector connector;
+> +};
+> +
+> +/* ---------------------------------------------------------------------- */
+> +
+> +static void bochs_vga_writeb(struct bochs_device *bochs, u16 ioport, u8 val)
+> +{
+> +	if (WARN_ON(ioport < 0x3c0 || ioport > 0x3df))
+> +		return;
+> +
+> +	if (bochs->mmio) {
+> +		int offset = ioport - 0x3c0 + 0x400;
+> +
+> +		writeb(val, bochs->mmio + offset);
+> +	} else {
+> +		outb(val, ioport);
+> +	}
+> +}
+> +
+> +static u8 bochs_vga_readb(struct bochs_device *bochs, u16 ioport)
+> +{
+> +	if (WARN_ON(ioport < 0x3c0 || ioport > 0x3df))
+> +		return 0xff;
+> +
+> +	if (bochs->mmio) {
+> +		int offset = ioport - 0x3c0 + 0x400;
+> +
+> +		return readb(bochs->mmio + offset);
+> +	} else {
+> +		return inb(ioport);
+> +	}
+> +}
+> +
+> +static u16 bochs_dispi_read(struct bochs_device *bochs, u16 reg)
+> +{
+> +	u16 ret = 0;
+> +
+> +	if (bochs->mmio) {
+> +		int offset = 0x500 + (reg << 1);
+> +
+> +		ret = readw(bochs->mmio + offset);
+> +	} else {
+> +		outw(reg, VBE_DISPI_IOPORT_INDEX);
+> +		ret = inw(VBE_DISPI_IOPORT_DATA);
+> +	}
+> +	return ret;
+> +}
+> +
+> +static void bochs_dispi_write(struct bochs_device *bochs, u16 reg, u16 val)
+> +{
+> +	if (bochs->mmio) {
+> +		int offset = 0x500 + (reg << 1);
+> +
+> +		writew(val, bochs->mmio + offset);
+> +	} else {
+> +		outw(reg, VBE_DISPI_IOPORT_INDEX);
+> +		outw(val, VBE_DISPI_IOPORT_DATA);
+> +	}
+> +}
+> +
+> +static void bochs_hw_set_big_endian(struct bochs_device *bochs)
+> +{
+> +	if (bochs->qext_size < 8)
+> +		return;
+> +
+> +	writel(0xbebebebe, bochs->mmio + 0x604);
+> +}
+> +
+> +static void bochs_hw_set_little_endian(struct bochs_device *bochs)
+> +{
+> +	if (bochs->qext_size < 8)
+> +		return;
+> +
+> +	writel(0x1e1e1e1e, bochs->mmio + 0x604);
+> +}
+> +
+> +#ifdef __BIG_ENDIAN
+> +#define bochs_hw_set_native_endian(_b) bochs_hw_set_big_endian(_b)
+> +#else
+> +#define bochs_hw_set_native_endian(_b) bochs_hw_set_little_endian(_b)
+> +#endif
+> +
+> +static int bochs_get_edid_block(void *data, u8 *buf,
+> +				unsigned int block, size_t len)
+> +{
+> +	struct bochs_device *bochs = data;
+> +	size_t i, start = block * EDID_LENGTH;
+> +
+> +	if (start + len > 0x400 /* vga register offset */)
+> +		return -1;
+> +
+> +	for (i = 0; i < len; i++)
+> +		buf[i] = readb(bochs->mmio + start + i);
+> +
+> +	return 0;
+> +}
+> +
+> +static int bochs_hw_load_edid(struct bochs_device *bochs)
+> +{
+> +	u8 header[8];
+> +
+> +	if (!bochs->mmio)
+> +		return -1;
+> +
+> +	/* check header to detect whenever edid support is enabled in qemu */
+> +	bochs_get_edid_block(bochs, header, 0, ARRAY_SIZE(header));
+> +	if (drm_edid_header_is_valid(header) != 8)
+> +		return -1;
+> +
+> +	kfree(bochs->edid);
+> +	bochs->edid = drm_do_get_edid(&bochs->connector,
+> +				      bochs_get_edid_block, bochs);
+> +	if (bochs->edid == NULL)
+> +		return -1;
+> +
+> +	return 0;
+> +}
+> +
+> +static int bochs_hw_init(struct drm_device *dev)
+> +{
+> +	struct bochs_device *bochs = dev->dev_private;
+> +	struct pci_dev *pdev = to_pci_dev(dev->dev);
+> +	unsigned long addr, size, mem, ioaddr, iosize;
+> +	u16 id;
+> +
+> +	if (pdev->resource[2].flags & IORESOURCE_MEM) {
+> +		/* mmio bar with vga and bochs registers present */
+> +		if (pci_request_region(pdev, 2, "bochs-drm") != 0) {
+> +			DRM_ERROR("Cannot request mmio region\n");
+> +			return -EBUSY;
+> +		}
+> +		ioaddr = pci_resource_start(pdev, 2);
+> +		iosize = pci_resource_len(pdev, 2);
+> +		bochs->mmio = ioremap(ioaddr, iosize);
+> +		if (bochs->mmio == NULL) {
+> +			DRM_ERROR("Cannot map mmio region\n");
+> +			return -ENOMEM;
+> +		}
+> +	} else {
+> +		ioaddr = VBE_DISPI_IOPORT_INDEX;
+> +		iosize = 2;
+> +		if (!request_region(ioaddr, iosize, "bochs-drm")) {
+> +			DRM_ERROR("Cannot request ioports\n");
+> +			return -EBUSY;
+> +		}
+> +		bochs->ioports = 1;
+> +	}
+> +
+> +	id = bochs_dispi_read(bochs, VBE_DISPI_INDEX_ID);
+> +	mem = bochs_dispi_read(bochs, VBE_DISPI_INDEX_VIDEO_MEMORY_64K)
+> +		* 64 * 1024;
+> +	if ((id & 0xfff0) != VBE_DISPI_ID0) {
+> +		DRM_ERROR("ID mismatch\n");
+> +		return -ENODEV;
+> +	}
+> +
+> +	if ((pdev->resource[0].flags & IORESOURCE_MEM) == 0)
+> +		return -ENODEV;
+> +	addr = pci_resource_start(pdev, 0);
+> +	size = pci_resource_len(pdev, 0);
+> +	if (addr == 0)
+> +		return -ENODEV;
+> +	if (size != mem) {
+> +		DRM_ERROR("Size mismatch: pci=%ld, bochs=%ld\n",
+> +			size, mem);
+> +		size = min(size, mem);
+> +	}
+> +
+> +	if (pci_request_region(pdev, 0, "bochs-drm") != 0)
+> +		DRM_WARN("Cannot request framebuffer, boot fb still active?\n");
+> +
+> +	bochs->fb_map = ioremap(addr, size);
+> +	if (bochs->fb_map == NULL) {
+> +		DRM_ERROR("Cannot map framebuffer\n");
+> +		return -ENOMEM;
+> +	}
+> +	bochs->fb_base = addr;
+> +	bochs->fb_size = size;
+> +
+> +	DRM_INFO("Found bochs VGA, ID 0x%x.\n", id);
+> +	DRM_INFO("Framebuffer size %ld kB @ 0x%lx, %s @ 0x%lx.\n",
+> +		 size / 1024, addr,
+> +		 bochs->ioports ? "ioports" : "mmio",
+> +		 ioaddr);
+> +
+> +	if (bochs->mmio && pdev->revision >= 2) {
+> +		bochs->qext_size = readl(bochs->mmio + 0x600);
+> +		if (bochs->qext_size < 4 || bochs->qext_size > iosize) {
+> +			bochs->qext_size = 0;
+> +			goto noext;
+> +		}
+> +		DRM_DEBUG("Found qemu ext regs, size %ld\n",
+> +			  bochs->qext_size);
+> +		bochs_hw_set_native_endian(bochs);
+> +	}
+> +
+> +noext:
+> +	return 0;
+> +}
+> +
+> +static void bochs_hw_fini(struct drm_device *dev)
+> +{
+> +	struct bochs_device *bochs = dev->dev_private;
+> +
+> +	/* TODO: shot down existing vram mappings */
+> +
+> +	if (bochs->mmio)
+> +		iounmap(bochs->mmio);
+> +	if (bochs->ioports)
+> +		release_region(VBE_DISPI_IOPORT_INDEX, 2);
+> +	if (bochs->fb_map)
+> +		iounmap(bochs->fb_map);
+> +	pci_release_regions(to_pci_dev(dev->dev));
+> +	kfree(bochs->edid);
+> +}
+> +
+> +static void bochs_hw_blank(struct bochs_device *bochs, bool blank)
+> +{
+> +	DRM_DEBUG_DRIVER("hw_blank %d\n", blank);
+> +	/* discard ar_flip_flop */
+> +	(void)bochs_vga_readb(bochs, VGA_IS1_RC);
+> +	/* blank or unblank; we need only update index and set 0x20 */
+> +	bochs_vga_writeb(bochs, VGA_ATT_W, blank ? 0 : 0x20);
+> +}
+> +
+> +static void bochs_hw_setmode(struct bochs_device *bochs, struct drm_display_mode *mode)
+> +{
+> +	int idx;
+> +
+> +	if (!drm_dev_enter(bochs->dev, &idx))
+> +		return;
+> +
+> +	bochs->xres = mode->hdisplay;
+> +	bochs->yres = mode->vdisplay;
+> +	bochs->bpp = 32;
+> +	bochs->stride = mode->hdisplay * (bochs->bpp / 8);
+> +	bochs->yres_virtual = bochs->fb_size / bochs->stride;
+> +
+> +	DRM_DEBUG_DRIVER("%dx%d @ %d bpp, vy %d\n",
+> +			 bochs->xres, bochs->yres, bochs->bpp,
+> +			 bochs->yres_virtual);
+> +
+> +	bochs_hw_blank(bochs, false);
+> +
+> +	bochs_dispi_write(bochs, VBE_DISPI_INDEX_ENABLE,      0);
+> +	bochs_dispi_write(bochs, VBE_DISPI_INDEX_BPP,         bochs->bpp);
+> +	bochs_dispi_write(bochs, VBE_DISPI_INDEX_XRES,        bochs->xres);
+> +	bochs_dispi_write(bochs, VBE_DISPI_INDEX_YRES,        bochs->yres);
+> +	bochs_dispi_write(bochs, VBE_DISPI_INDEX_BANK,        0);
+> +	bochs_dispi_write(bochs, VBE_DISPI_INDEX_VIRT_WIDTH,  bochs->xres);
+> +	bochs_dispi_write(bochs, VBE_DISPI_INDEX_VIRT_HEIGHT,
+> +			  bochs->yres_virtual);
+> +	bochs_dispi_write(bochs, VBE_DISPI_INDEX_X_OFFSET,    0);
+> +	bochs_dispi_write(bochs, VBE_DISPI_INDEX_Y_OFFSET,    0);
+> +
+> +	bochs_dispi_write(bochs, VBE_DISPI_INDEX_ENABLE,
+> +			  VBE_DISPI_ENABLED | VBE_DISPI_LFB_ENABLED);
+> +
+> +	drm_dev_exit(idx);
+> +}
+> +
+> +static void bochs_hw_setformat(struct bochs_device *bochs, const struct drm_format_info *format)
+> +{
+> +	int idx;
+> +
+> +	if (!drm_dev_enter(bochs->dev, &idx))
+> +		return;
+> +
+> +	DRM_DEBUG_DRIVER("format %c%c%c%c\n",
+> +			 (format->format >>  0) & 0xff,
+> +			 (format->format >>  8) & 0xff,
+> +			 (format->format >> 16) & 0xff,
+> +			 (format->format >> 24) & 0xff);
+> +
+> +	switch (format->format) {
+> +	case DRM_FORMAT_XRGB8888:
+> +		bochs_hw_set_little_endian(bochs);
+> +		break;
+> +	case DRM_FORMAT_BGRX8888:
+> +		bochs_hw_set_big_endian(bochs);
+> +		break;
+> +	default:
+> +		/* should not happen */
+> +		DRM_ERROR("%s: Huh? Got framebuffer format 0x%x",
+> +			  __func__, format->format);
+> +		break;
+> +	}
+> +
+> +	drm_dev_exit(idx);
+> +}
+> +
+> +static void bochs_hw_setbase(struct bochs_device *bochs, int x, int y, int stride, u64 addr)
+> +{
+> +	unsigned long offset;
+> +	unsigned int vx, vy, vwidth, idx;
+> +
+> +	if (!drm_dev_enter(bochs->dev, &idx))
+> +		return;
+> +
+> +	bochs->stride = stride;
+> +	offset = (unsigned long)addr +
+> +		y * bochs->stride +
+> +		x * (bochs->bpp / 8);
+> +	vy = offset / bochs->stride;
+> +	vx = (offset % bochs->stride) * 8 / bochs->bpp;
+> +	vwidth = stride * 8 / bochs->bpp;
+> +
+> +	DRM_DEBUG_DRIVER("x %d, y %d, addr %llx -> offset %lx, vx %d, vy %d\n",
+> +			 x, y, addr, offset, vx, vy);
+> +	bochs_dispi_write(bochs, VBE_DISPI_INDEX_VIRT_WIDTH, vwidth);
+> +	bochs_dispi_write(bochs, VBE_DISPI_INDEX_X_OFFSET, vx);
+> +	bochs_dispi_write(bochs, VBE_DISPI_INDEX_Y_OFFSET, vy);
+> +
+> +	drm_dev_exit(idx);
+> +}
+> +
+> +/* ---------------------------------------------------------------------- */
+> +
+> +static int bochs_mm_init(struct bochs_device *bochs)
+> +{
+> +	struct drm_vram_mm *vmm;
+> +
+> +	vmm = drm_vram_helper_alloc_mm(bochs->dev, bochs->fb_base,
+> +				       bochs->fb_size);
+> +	return PTR_ERR_OR_ZERO(vmm);
+> +}
+> +
+> +static void bochs_mm_fini(struct bochs_device *bochs)
+> +{
+> +	if (!bochs->dev->vram_mm)
+> +		return;
+> +
+> +	drm_vram_helper_release_mm(bochs->dev);
+> +}
+> +
+> +/* ---------------------------------------------------------------------- */
+> +
+> +static const uint32_t bochs_formats[] = {
+> +	DRM_FORMAT_XRGB8888,
+> +	DRM_FORMAT_BGRX8888,
+> +};
+> +
+> +static void bochs_plane_update(struct bochs_device *bochs,
+> +			       struct drm_plane_state *state)
+> +{
+> +	struct drm_gem_vram_object *gbo;
+> +	s64 gpu_addr;
+> +
+> +	if (!state->fb || !bochs->stride)
+> +		return;
+> +
+> +	gbo = drm_gem_vram_of_gem(state->fb->obj[0]);
+> +	gpu_addr = drm_gem_vram_offset(gbo);
+> +	if (WARN_ON_ONCE(gpu_addr < 0))
+> +		return; /* Bug: we didn't pin the BO to VRAM in prepare_fb. */
+> +
+> +	bochs_hw_setbase(bochs,
+> +			 state->crtc_x,
+> +			 state->crtc_y,
+> +			 state->fb->pitches[0],
+> +			 state->fb->offsets[0] + gpu_addr);
+> +	bochs_hw_setformat(bochs, state->fb->format);
+> +}
+> +
+> +static void bochs_pipe_enable(struct drm_simple_display_pipe *pipe,
+> +			      struct drm_crtc_state *crtc_state,
+> +			      struct drm_plane_state *plane_state)
+> +{
+> +	struct bochs_device *bochs = pipe->crtc.dev->dev_private;
+> +
+> +	bochs_hw_setmode(bochs, &crtc_state->mode);
+> +	bochs_plane_update(bochs, plane_state);
+> +}
+> +
+> +static void bochs_pipe_disable(struct drm_simple_display_pipe *pipe)
+> +{
+> +	struct bochs_device *bochs = pipe->crtc.dev->dev_private;
+> +
+> +	bochs_hw_blank(bochs, true);
+> +}
+> +
+> +static void bochs_pipe_update(struct drm_simple_display_pipe *pipe,
+> +			      struct drm_plane_state *old_state)
+> +{
+> +	struct bochs_device *bochs = pipe->crtc.dev->dev_private;
+> +
+> +	bochs_plane_update(bochs, pipe->plane.state);
+> +}
+> +
+> +static const struct drm_simple_display_pipe_funcs bochs_pipe_funcs = {
+> +	.enable	    = bochs_pipe_enable,
+> +	.disable    = bochs_pipe_disable,
+> +	.update	    = bochs_pipe_update,
+> +	.prepare_fb = drm_gem_vram_simple_display_pipe_prepare_fb,
+> +	.cleanup_fb = drm_gem_vram_simple_display_pipe_cleanup_fb,
+> +};
+> +
+> +static int bochs_connector_get_modes(struct drm_connector *connector)
+> +{
+> +	struct bochs_device *bochs =
+> +		container_of(connector, struct bochs_device, connector);
+> +	int count = 0;
+> +
+> +	if (bochs->edid)
+> +		count = drm_add_edid_modes(connector, bochs->edid);
+> +
+> +	if (!count) {
+> +		count = drm_add_modes_noedid(connector, 8192, 8192);
+> +		drm_set_preferred_mode(connector, defx, defy);
+> +	}
+> +	return count;
+> +}
+> +
+> +static const struct drm_connector_helper_funcs bochs_connector_connector_helper_funcs = {
+> +	.get_modes = bochs_connector_get_modes,
+> +};
+> +
+> +static const struct drm_connector_funcs bochs_connector_connector_funcs = {
+> +	.fill_modes = drm_helper_probe_single_connector_modes,
+> +	.destroy = drm_connector_cleanup,
+> +	.reset = drm_atomic_helper_connector_reset,
+> +	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
+> +	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
+> +};
+> +
+> +static void bochs_connector_init(struct drm_device *dev)
+> +{
+> +	struct bochs_device *bochs = dev->dev_private;
+> +	struct drm_connector *connector = &bochs->connector;
+> +
+> +	drm_connector_init(dev, connector, &bochs_connector_connector_funcs,
+> +			   DRM_MODE_CONNECTOR_VIRTUAL);
+> +	drm_connector_helper_add(connector, &bochs_connector_connector_helper_funcs);
+> +
+> +	bochs_hw_load_edid(bochs);
+> +	if (bochs->edid) {
+> +		DRM_INFO("Found EDID data blob.\n");
+> +		drm_connector_attach_edid_property(connector);
+> +		drm_connector_update_edid_property(connector, bochs->edid);
+> +	}
+> +}
+> +
+> +static struct drm_framebuffer *
+> +bochs_gem_fb_create(struct drm_device *dev, struct drm_file *file,
+> +		    const struct drm_mode_fb_cmd2 *mode_cmd)
+> +{
+> +	if (mode_cmd->pixel_format != DRM_FORMAT_XRGB8888 &&
+> +	    mode_cmd->pixel_format != DRM_FORMAT_BGRX8888)
+> +		return ERR_PTR(-EINVAL);
+> +
+> +	return drm_gem_fb_create(dev, file, mode_cmd);
+> +}
+> +
+> +const struct drm_mode_config_funcs bochs_mode_funcs = {
 
+static missing?
 
---=20
+> +	.fb_create = bochs_gem_fb_create,
+> +	.mode_valid = drm_vram_helper_mode_valid,
+> +	.atomic_check = drm_atomic_helper_check,
+> +	.atomic_commit = drm_atomic_helper_commit,
+> +};
+> +
+> +static int bochs_kms_init(struct bochs_device *bochs)
+> +{
+> +	int ret;
+> +
+> +	ret = drmm_mode_config_init(bochs->dev);
+> +	if (ret)
+> +		return ret;
+> +
+> +	bochs->dev->mode_config.max_width = 8192;
+> +	bochs->dev->mode_config.max_height = 8192;
+> +
+> +	bochs->dev->mode_config.fb_base = bochs->fb_base;
+> +	bochs->dev->mode_config.preferred_depth = 24;
+> +	bochs->dev->mode_config.prefer_shadow = 0;
+> +	bochs->dev->mode_config.prefer_shadow_fbdev = 1;
+> +	bochs->dev->mode_config.quirk_addfb_prefer_host_byte_order = true;
+> +
+> +	bochs->dev->mode_config.funcs = &bochs_mode_funcs;
+> +
+> +	bochs_connector_init(bochs->dev);
+> +	drm_simple_display_pipe_init(bochs->dev,
+> +				     &bochs->pipe,
+> +				     &bochs_pipe_funcs,
+> +				     bochs_formats,
+> +				     ARRAY_SIZE(bochs_formats),
+> +				     NULL,
+> +				     &bochs->connector);
+> +
+> +	drm_mode_config_reset(bochs->dev);
+> +
+> +	return 0;
+> +}
+> +
+> +/* ---------------------------------------------------------------------- */
+> +/* drm interface                                                          */
+> +
+> +static void bochs_unload(struct drm_device *dev)
+> +{
+> +	struct bochs_device *bochs = dev->dev_private;
+> +
+> +	bochs_mm_fini(bochs);
+> +}
+> +
+> +static int bochs_load(struct drm_device *dev)
+> +{
+> +	struct bochs_device *bochs;
+> +	int ret;
+> +
+> +	bochs = drmm_kzalloc(dev, sizeof(*bochs), GFP_KERNEL);
+> +	if (bochs == NULL)
+> +		return -ENOMEM;
+> +	dev->dev_private = bochs;
+> +	bochs->dev = dev;
+> +
+> +	ret = bochs_hw_init(dev);
+> +	if (ret)
+> +		goto err;
+> +
+> +	ret = bochs_mm_init(bochs);
+> +	if (ret)
+> +		goto err;
+> +
+> +	ret = bochs_kms_init(bochs);
+> +	if (ret)
+> +		goto err;
+> +
+> +	return 0;
+> +
+> +err:
+> +	bochs_unload(dev);
+> +	return ret;
+> +}
+> +
+> +DEFINE_DRM_GEM_FOPS(bochs_fops);
+> +
+> +static const struct drm_driver bochs_driver = {
+> +	.driver_features	= DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
+> +	.fops			= &bochs_fops,
+> +	.name			= "bochs-drm",
+> +	.desc			= "bochs dispi vga interface (qemu stdvga)",
+> +	.date			= "20130925",
+> +	.major			= 1,
+> +	.minor			= 0,
+> +	DRM_GEM_VRAM_DRIVER,
+> +	.release                = bochs_unload,
+> +};
+> +
+> +/* ---------------------------------------------------------------------- */
+> +/* pm interface                                                           */
+> +
+> +#ifdef CONFIG_PM_SLEEP
+> +static int bochs_pm_suspend(struct device *dev)
+> +{
+> +	struct drm_device *drm_dev = dev_get_drvdata(dev);
+> +
+> +	return drm_mode_config_helper_suspend(drm_dev);
+> +}
+> +
+> +static int bochs_pm_resume(struct device *dev)
+> +{
+> +	struct drm_device *drm_dev = dev_get_drvdata(dev);
+> +
+> +	return drm_mode_config_helper_resume(drm_dev);
+> +}
+> +#endif
+> +
+> +static const struct dev_pm_ops bochs_pm_ops = {
+> +	SET_SYSTEM_SLEEP_PM_OPS(bochs_pm_suspend,
+> +				bochs_pm_resume)
+> +};
+> +
+> +/* ---------------------------------------------------------------------- */
+> +/* pci interface                                                          */
+> +
+> +static int bochs_pci_probe(struct pci_dev *pdev,
+> +			   const struct pci_device_id *ent)
+> +{
+> +	struct drm_device *dev;
+> +	unsigned long fbsize;
+> +	int ret;
+> +
+> +	fbsize = pci_resource_len(pdev, 0);
+> +	if (fbsize < 4 * 1024 * 1024) {
+> +		DRM_ERROR("less than 4 MB video memory, ignoring device\n");
+> +		return -ENOMEM;
+> +	}
+> +
+> +	ret = drm_aperture_remove_conflicting_pci_framebuffers(pdev, "bochsdrmfb");
+> +	if (ret)
+> +		return ret;
+> +
+> +	dev = drm_dev_alloc(&bochs_driver, &pdev->dev);
+> +	if (IS_ERR(dev))
+> +		return PTR_ERR(dev);
+> +
+> +	ret = pci_enable_device(pdev);
+> +	if (ret)
+> +		goto err_free_dev;
+> +
+> +	pci_set_drvdata(pdev, dev);
+> +
+> +	ret = bochs_load(dev);
+> +	if (ret)
+> +		goto err_free_dev;
+> +
+> +	ret = drm_dev_register(dev, 0);
+> +	if (ret)
+> +		goto err_unload;
+> +
+> +	drm_fbdev_generic_setup(dev, 32);
+> +	return ret;
+> +
+> +err_unload:
+> +	bochs_unload(dev);
+> +err_free_dev:
+> +	drm_dev_put(dev);
+> +	return ret;
+> +}
+> +
+> +static void bochs_pci_remove(struct pci_dev *pdev)
+> +{
+> +	struct drm_device *dev = pci_get_drvdata(pdev);
+> +
+> +	drm_dev_unplug(dev);
+> +	drm_atomic_helper_shutdown(dev);
+> +	bochs_hw_fini(dev);
+> +	drm_dev_put(dev);
+> +}
+> +
+> +static const struct pci_device_id bochs_pci_tbl[] = {
+> +	{
+> +		.vendor      = 0x1234,
+> +		.device      = 0x1111,
+> +		.subvendor   = PCI_SUBVENDOR_ID_REDHAT_QUMRANET,
+> +		.subdevice   = PCI_SUBDEVICE_ID_QEMU,
+> +		.driver_data = BOCHS_QEMU_STDVGA,
+> +	},
+> +	{
+> +		.vendor      = 0x1234,
+> +		.device      = 0x1111,
+> +		.subvendor   = PCI_ANY_ID,
+> +		.subdevice   = PCI_ANY_ID,
+> +		.driver_data = BOCHS_UNKNOWN,
+> +	},
+> +	{ /* end of list */ }
+> +};
+> +
+> +static struct pci_driver bochs_pci_driver = {
+> +	.name =		"bochs-drm",
+> +	.id_table =	bochs_pci_tbl,
+> +	.probe =	bochs_pci_probe,
+> +	.remove =	bochs_pci_remove,
+> +	.driver.pm =    &bochs_pm_ops,
+> +};
+> +
+> +/* ---------------------------------------------------------------------- */
+> +/* module init/exit                                                       */
+> +
+> +static int __init bochs_init(void)
+> +{
+> +	if (vgacon_text_force() && bochs_modeset == -1)
+> +		return -EINVAL;
+> +
+> +	if (bochs_modeset == 0)
+> +		return -EINVAL;
+> +
+> +	return pci_register_driver(&bochs_pci_driver);
+> +}
+> +
+> +static void __exit bochs_exit(void)
+> +{
+> +	pci_unregister_driver(&bochs_pci_driver);
+> +}
+> +
+> +module_init(bochs_init);
+> +module_exit(bochs_exit);
+> +
+> +MODULE_DEVICE_TABLE(pci, bochs_pci_tbl);
+> +MODULE_AUTHOR("Gerd Hoffmann <kraxel@redhat.com>");
+> +MODULE_LICENSE("GPL");
+> -- 
+> 2.32.0
+> 
+
+-- 
 Daniel Vetter
 Software Engineer, Intel Corporation
 http://blog.ffwll.ch
