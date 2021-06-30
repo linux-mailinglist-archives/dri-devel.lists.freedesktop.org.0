@@ -1,44 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5FE43B816A
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Jun 2021 13:44:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 48A5E3B8172
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Jun 2021 13:46:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 102E86E993;
-	Wed, 30 Jun 2021 11:44:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D4BB6E999;
+	Wed, 30 Jun 2021 11:46:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B90589E9B;
- Wed, 30 Jun 2021 11:44:01 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 658936191E;
- Wed, 30 Jun 2021 11:43:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1625053440;
- bh=T1naDXZ4KL7jQSaB561jHvJlgBOMGMQ3/1PtLxSRV3U=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Vw8LJOu5KCD34mYOTCMTaQTWi8sHKQiF+Cb+FRKyG+InGjsh4w5CH8gnw31a5qAII
- fdxwWup5a6Ngr850taEcU9ZCSLqJ9xB2i8TJhh5jtbhjxfDnOyNmjKcCavn+Lg4tkH
- BT4r0W8tudkIUpIlaA5qcnegOAtKQcX6CJcSCUAclVHoKv4x47CJbH5I8ALtxpamjf
- y69MeQSUFUeisr4w4Nt7M+WH4SJ7ztkfgf6rb2x4qemdLyCnbXEMIuY+1x1gvjyIVN
- oskCC9GD49xMtxzkxb+rjm1PqbzB1n44Y73LgO/3einGNWpmSI/rVZcsQyguvuwKPI
- LyjS1rkSbdFqQ==
-Date: Wed, 30 Jun 2021 12:43:48 +0100
-From: Will Deacon <will@kernel.org>
-To: Claire Chang <tientzu@chromium.org>
-Subject: Re: [PATCH v15 06/12] swiotlb: Use is_swiotlb_force_bounce for
- swiotlb data bouncing
-Message-ID: <20210630114348.GA8383@willie-the-truck>
-References: <20210624155526.2775863-1-tientzu@chromium.org>
- <20210624155526.2775863-7-tientzu@chromium.org>
- <YNvMDFWKXSm4LRfZ@Ryzen-9-3900X.localdomain>
- <CALiNf2-a-haQN0-4+gX8+wa++52-0CnO2O4BEkxrQCxoTa_47w@mail.gmail.com>
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 486956E998;
+ Wed, 30 Jun 2021 11:46:38 +0000 (UTC)
+Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
+ (using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id F068C1FE78;
+ Wed, 30 Jun 2021 11:46:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1625053596; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=mJlJKRCeEkCggsWzP6gvoOKOja7JUXFm1Gs9/8pxrws=;
+ b=tJGnx50LItyXg+3ay7yc5RxaubPmuUJ2C6VEeJRSmR7KVoZd3twsQqmIILl5q5yHqjUNSc
+ bPo/EVCReukxBjMnFenqiIGIXyoKJK3KnEt8zSEBB0DUjNtK0D9XuGGcpomqaRfwUkwT3p
+ GXU6EwCx+BWRNBgQnxMU9sESnysLWV0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1625053596;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=mJlJKRCeEkCggsWzP6gvoOKOja7JUXFm1Gs9/8pxrws=;
+ b=BH/5z9IcCR4lrwkENCPdTwZF+sspQ8TL9VzmrE61rdFbANMPsJSNuyx5UMJBtSnn267tGv
+ aZw6yqAABSPwQ/AA==
+Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
+ by imap.suse.de (Postfix) with ESMTP id BED97118DD;
+ Wed, 30 Jun 2021 11:46:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1625053596; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=mJlJKRCeEkCggsWzP6gvoOKOja7JUXFm1Gs9/8pxrws=;
+ b=tJGnx50LItyXg+3ay7yc5RxaubPmuUJ2C6VEeJRSmR7KVoZd3twsQqmIILl5q5yHqjUNSc
+ bPo/EVCReukxBjMnFenqiIGIXyoKJK3KnEt8zSEBB0DUjNtK0D9XuGGcpomqaRfwUkwT3p
+ GXU6EwCx+BWRNBgQnxMU9sESnysLWV0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1625053596;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=mJlJKRCeEkCggsWzP6gvoOKOja7JUXFm1Gs9/8pxrws=;
+ b=BH/5z9IcCR4lrwkENCPdTwZF+sspQ8TL9VzmrE61rdFbANMPsJSNuyx5UMJBtSnn267tGv
+ aZw6yqAABSPwQ/AA==
+Received: from director2.suse.de ([192.168.254.72]) by imap3-int with ESMTPSA
+ id 3PCMLZxZ3GC3OQAALh3uQQ
+ (envelope-from <tzimmermann@suse.de>); Wed, 30 Jun 2021 11:46:36 +0000
+Subject: Re: [PATCH v3 2/2] drm/i915: Drop all references to DRM IRQ midlayer
+To: Greg KH <gregkh@linuxfoundation.org>
+References: <20210630095228.6665-1-tzimmermann@suse.de>
+ <20210630095228.6665-3-tzimmermann@suse.de> <YNxCHDGA+x2Xe9pM@kroah.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <f705e5a3-b7fb-fe56-f125-f14205c50fbc@suse.de>
+Date: Wed, 30 Jun 2021 13:46:36 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CALiNf2-a-haQN0-4+gX8+wa++52-0CnO2O4BEkxrQCxoTa_47w@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <YNxCHDGA+x2Xe9pM@kroah.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="AhhbWt4vrssvgdxfMnbJHBB34rATnM0Rf"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,99 +81,146 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: heikki.krogerus@linux.intel.com, thomas.hellstrom@linux.intel.com,
- peterz@infradead.org, dri-devel@lists.freedesktop.org,
- chris@chris-wilson.co.uk, grant.likely@arm.com, paulus@samba.org,
- Frank Rowand <frowand.list@gmail.com>, mingo@kernel.org,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Saravana Kannan <saravanak@google.com>, mpe@ellerman.id.au,
- Joerg Roedel <joro@8bytes.org>,
- "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
- Christoph Hellwig <hch@lst.de>,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>, bskeggs@redhat.com,
- linux-pci@vger.kernel.org, xen-devel@lists.xenproject.org,
- Thierry Reding <treding@nvidia.com>, intel-gfx@lists.freedesktop.org,
- matthew.auld@intel.com, linux-devicetree <devicetree@vger.kernel.org>,
- Jianxiong Gao <jxgao@google.com>,
- Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>, airlied@linux.ie,
- Dan Williams <dan.j.williams@intel.com>, linuxppc-dev@lists.ozlabs.org,
- Nathan Chancellor <nathan@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- rodrigo.vivi@intel.com, Bjorn Helgaas <bhelgaas@google.com>,
- boris.ostrovsky@oracle.com,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>, jgross@suse.com,
- Nicolas Boichat <drinkcat@chromium.org>, Greg KH <gregkh@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, Qian Cai <quic_qiancai@quicinc.com>,
- lkml <linux-kernel@vger.kernel.org>, Tomasz Figa <tfiga@chromium.org>,
- "list@263.net:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
- Jim Quinlan <james.quinlan@broadcom.com>, xypron.glpk@gmx.de,
- Tom Lendacky <thomas.lendacky@amd.com>, Robin Murphy <robin.murphy@arm.com>,
- bauerman@linux.ibm.com
+Cc: matthew.brost@intel.com, airlied@linux.ie, mika.kuoppala@linux.intel.com,
+ intel-gfx@lists.freedesktop.org, lucas.demarchi@intel.com,
+ dri-devel@lists.freedesktop.org, chris@chris-wilson.co.uk,
+ stable@vger.kernel.org, rodrigo.vivi@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 30, 2021 at 05:17:27PM +0800, Claire Chang wrote:
-> On Wed, Jun 30, 2021 at 9:43 AM Nathan Chancellor <nathan@kernel.org> wrote:
-> >
-> > On Thu, Jun 24, 2021 at 11:55:20PM +0800, Claire Chang wrote:
-> > > Propagate the swiotlb_force into io_tlb_default_mem->force_bounce and
-> > > use it to determine whether to bounce the data or not. This will be
-> > > useful later to allow for different pools.
-> > >
-> > > Signed-off-by: Claire Chang <tientzu@chromium.org>
-> > > Reviewed-by: Christoph Hellwig <hch@lst.de>
-> > > Tested-by: Stefano Stabellini <sstabellini@kernel.org>
-> > > Tested-by: Will Deacon <will@kernel.org>
-> > > Acked-by: Stefano Stabellini <sstabellini@kernel.org>
-> >
-> > This patch as commit af452ec1b1a3 ("swiotlb: Use is_swiotlb_force_bounce
-> > for swiotlb data bouncing") causes my Ryzen 3 4300G system to fail to
-> > get to an X session consistently (although not every single time),
-> > presumably due to a crash in the AMDGPU driver that I see in dmesg.
-> >
-> > I have attached logs at af452ec1b1a3 and f127c9556a8e and I am happy
-> > to provide any further information, debug, or test patches as necessary.
-> 
-> Are you using swiotlb=force? or the swiotlb_map is called because of
-> !dma_capable? (https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/kernel/dma/direct.h#n93)
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--AhhbWt4vrssvgdxfMnbJHBB34rATnM0Rf
+Content-Type: multipart/mixed; boundary="3S6GyhA9ETC7gdifDc31QiS0vgvwdsfJb";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: matthew.brost@intel.com, airlied@linux.ie, mika.kuoppala@linux.intel.com,
+ intel-gfx@lists.freedesktop.org, chris@chris-wilson.co.uk,
+ dri-devel@lists.freedesktop.org, rodrigo.vivi@intel.com,
+ stable@vger.kernel.org, lucas.demarchi@intel.com
+Message-ID: <f705e5a3-b7fb-fe56-f125-f14205c50fbc@suse.de>
+Subject: Re: [PATCH v3 2/2] drm/i915: Drop all references to DRM IRQ midlayer
+References: <20210630095228.6665-1-tzimmermann@suse.de>
+ <20210630095228.6665-3-tzimmermann@suse.de> <YNxCHDGA+x2Xe9pM@kroah.com>
+In-Reply-To: <YNxCHDGA+x2Xe9pM@kroah.com>
 
-The command line is in the dmesg:
+--3S6GyhA9ETC7gdifDc31QiS0vgvwdsfJb
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-  | Kernel command line: initrd=\amd-ucode.img initrd=\initramfs-linux-next-llvm.img root=PARTUUID=8680aa0c-cf09-4a69-8cf3-970478040ee7 rw intel_pstate=no_hwp irqpoll
+Hi
 
-but I worry that this looks _very_ similar to the issue reported by Qian
-Cai which we thought we had fixed. Nathan -- is the failure deterministic?
+Am 30.06.21 um 12:06 schrieb Greg KH:
+> On Wed, Jun 30, 2021 at 11:52:28AM +0200, Thomas Zimmermann wrote:
+>> Remove all references to DRM's IRQ midlayer. i915 uses Linux' interrup=
+t
+>> functions directly.
+>>
+>> v2:
+>> 	* also remove an outdated comment
+>> 	* move IRQ fix into separate patch
+>> 	* update Fixes tag (Daniel)
+>>
+>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> Fixes: b318b82455bd ("drm/i915: Nuke drm_driver irq vfuncs")
+>> Cc: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
+>> Cc: Chris Wilson <chris@chris-wilson.co.uk>
+>> Cc: Jani Nikula <jani.nikula@linux.intel.com>
+>> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+>> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+>> Cc: intel-gfx@lists.freedesktop.org
+>> Cc: <stable@vger.kernel.org> # v5.4+
+>> ---
+>>   drivers/gpu/drm/i915/i915_drv.c | 1 -
+>>   drivers/gpu/drm/i915/i915_irq.c | 5 -----
+>>   2 files changed, 6 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/i915/i915_drv.c b/drivers/gpu/drm/i915/i9=
+15_drv.c
+>> index 850b499c71c8..73de45472f60 100644
+>> --- a/drivers/gpu/drm/i915/i915_drv.c
+>> +++ b/drivers/gpu/drm/i915/i915_drv.c
+>> @@ -42,7 +42,6 @@
+>>   #include <drm/drm_aperture.h>
+>>   #include <drm/drm_atomic_helper.h>
+>>   #include <drm/drm_ioctl.h>
+>> -#include <drm/drm_irq.h>
+>>   #include <drm/drm_managed.h>
+>>   #include <drm/drm_probe_helper.h>
+>>  =20
+>> diff --git a/drivers/gpu/drm/i915/i915_irq.c b/drivers/gpu/drm/i915/i9=
+15_irq.c
+>> index 2203dca19895..1d4c683c9de9 100644
+>> --- a/drivers/gpu/drm/i915/i915_irq.c
+>> +++ b/drivers/gpu/drm/i915/i915_irq.c
+>> @@ -33,7 +33,6 @@
+>>   #include <linux/sysrq.h>
+>>  =20
+>>   #include <drm/drm_drv.h>
+>> -#include <drm/drm_irq.h>
+>>  =20
+>>   #include "display/intel_de.h"
+>>   #include "display/intel_display_types.h"
+>> @@ -4564,10 +4563,6 @@ void intel_runtime_pm_enable_interrupts(struct =
+drm_i915_private *dev_priv)
+>>  =20
+>>   bool intel_irqs_enabled(struct drm_i915_private *dev_priv)
+>>   {
+>> -	/*
+>> -	 * We only use drm_irq_uninstall() at unload and VT switch, so
+>> -	 * this is the only thing we need to check.
+>> -	 */
+>>   	return dev_priv->runtime_pm.irqs_enabled;
+>>   }
+>>  =20
+>> --=20
+>> 2.32.0
+>>
+>=20
+> How is this a stable-kernel-related fix?
 
-> `BUG: unable to handle page fault for address: 00000000003a8290` and
-> the fact it crashed at `_raw_spin_lock_irqsave` look like the memory
-> (maybe dev->dma_io_tlb_mem) was corrupted?
-> The dev->dma_io_tlb_mem should be set here
-> (https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/drivers/pci/probe.c#n2528)
-> through device_initialize.
+Sorry, it isn't. I forgot to remove the rsp Cc tag.
 
-I'm less sure about this. 'dma_io_tlb_mem' should be pointing at
-'io_tlb_default_mem', which is a page-aligned allocation from memblock.
-The spinlock is at offset 0x24 in that structure, and looking at the
-register dump from the crash:
+Best regards
+Thomas
 
-Jun 29 18:28:42 hp-4300G kernel: RSP: 0018:ffffadb4013db9e8 EFLAGS: 00010006
-Jun 29 18:28:42 hp-4300G kernel: RAX: 00000000003a8290 RBX: 0000000000000000 RCX: ffff8900572ad580
-Jun 29 18:28:42 hp-4300G kernel: RDX: ffff89005653f024 RSI: 00000000000c0000 RDI: 0000000000001d17
-Jun 29 18:28:42 hp-4300G kernel: RBP: 000000000a20d000 R08: 00000000000c0000 R09: 0000000000000000
-Jun 29 18:28:42 hp-4300G kernel: R10: 000000000a20d000 R11: ffff89005653f000 R12: 0000000000000212
-Jun 29 18:28:42 hp-4300G kernel: R13: 0000000000001000 R14: 0000000000000002 R15: 0000000000200000
-Jun 29 18:28:42 hp-4300G kernel: FS:  00007f1f8898ea40(0000) GS:ffff890057280000(0000) knlGS:0000000000000000
-Jun 29 18:28:42 hp-4300G kernel: CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-Jun 29 18:28:42 hp-4300G kernel: CR2: 00000000003a8290 CR3: 00000001020d0000 CR4: 0000000000350ee0
-Jun 29 18:28:42 hp-4300G kernel: Call Trace:
-Jun 29 18:28:42 hp-4300G kernel:  _raw_spin_lock_irqsave+0x39/0x50
-Jun 29 18:28:42 hp-4300G kernel:  swiotlb_tbl_map_single+0x12b/0x4c0
+>=20
+> thanks,
+>=20
+> greg k-h
+>=20
 
-Then that correlates with R11 holding the 'dma_io_tlb_mem' pointer and
-RDX pointing at the spinlock. Yet RAX is holding junk :/
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
-I agree that enabling KASAN would be a good idea, but I also think we
-probably need to get some more information out of swiotlb_tbl_map_single()
-to see see what exactly is going wrong in there.
 
-Will
+--3S6GyhA9ETC7gdifDc31QiS0vgvwdsfJb--
+
+--AhhbWt4vrssvgdxfMnbJHBB34rATnM0Rf
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmDcWZwFAwAAAAAACgkQlh/E3EQov+A2
+ew/+Mj6/gdeqqVkIBhzsJb9KT8UBkWGzxg38FP4FNtE1dzU/3Ej3cZqns09ga7Jgx7CJQNkDDmVk
+DT4IVotp6d+0vUjm4IrBHf4YrfM1HFfWb0xlwPz5Ku7GbAfwL7JVEoOc/zx7oJyWwx5xmwOWpoQ6
+SUynEmC4/G9Hwd8YpH66u+26bVNb/94ungvIT1ag7wwMSmNZTHHPAz3MXLEMW7ExCNRXhaAR+ELm
+CH4Qu3KUO1BgAuS7bAs4xBWq+S7SEnL3cj5XJ56GQYJYtILhSQ5coIjY5Py9Rkw4niQQMBNaYrh9
+/TLUTDtPjXOkTNhEbb2wD6MvzxgTx42nV0oVjNDYpqefMxdAvs3GHfsWL73Q/Pe35B6WRzsYZ8ie
+L3A9wIrdrwoR945Gpp+iepECiiM6bDyWsLOFg9I2IHuYhsaAQmXJN1OCFe6EqNOT/Nm+i3I9HAGw
++SG1ufL3CjxBvMI5DinnmeKHIaQIo7Zjc8uXjj8zJeLJgzMZ9Y5pe/UYf2d7haMZ3HdUfq6pNTPE
+GU+7t0+jOB1hQhWtJbmTrOqyNNFT50g+woAPjEU/GzNxzk4ufwkr1v6IGM4bfA09/lFQ9XgKIV/0
+89LwaGDgDdv1LsR4oTvUBjuSUt1IKdijI0Bdw90zE30EThRSF4wz4ugIvrwzAmWjdEsW4A0bO/zu
+fUA=
+=RLlo
+-----END PGP SIGNATURE-----
+
+--AhhbWt4vrssvgdxfMnbJHBB34rATnM0Rf--
