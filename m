@@ -1,53 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 484F13B8715
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Jun 2021 18:30:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C31EA3B8749
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Jun 2021 18:54:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 91E4C6EA06;
-	Wed, 30 Jun 2021 16:29:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E04026EA52;
+	Wed, 30 Jun 2021 16:54:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x233.google.com (mail-oi1-x233.google.com
- [IPv6:2607:f8b0:4864:20::233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 41C086EA40
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Jun 2021 16:29:54 +0000 (UTC)
-Received: by mail-oi1-x233.google.com with SMTP id w127so3662561oig.12
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Jun 2021 09:29:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+Received: from mail-qk1-x72b.google.com (mail-qk1-x72b.google.com
+ [IPv6:2607:f8b0:4864:20::72b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 94AA46EA51;
+ Wed, 30 Jun 2021 16:54:46 +0000 (UTC)
+Received: by mail-qk1-x72b.google.com with SMTP id b2so3111987qka.7;
+ Wed, 30 Jun 2021 09:54:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=AiVOFJ4mK9DwfACSL2mwvmlenSe9Kdtaickp3diBABQ=;
- b=hHHe3Gz8CKTXgOWnIW83jh/oADW7xjeqH54WqWXHDkE4PXO8Dp1i2IBnXtbAZU2gK3
- yGJDDhphwf1VF3hZ/n7lJbA/UuY43XUlDcjj/8eYTVcaZsxiYRwLtQalZfWbE61zFSe/
- UMpmiy7CeKgOHzc8rfVi5L4jMCU2zsr7KGqwA=
+ bh=Nv/sfFdXK4pjU9qCxCDHMjLejOMZRWYWsYHchTSu3x8=;
+ b=pxkUnlR9ilrQhUXsYfhC5Jnpnx1sxIz1rzNZ58ERVmC1uxckL1me/2n4meOmwH40Sq
+ cZn/G76Nz2cMsvL7WW14Do0UoO6Y2K9iXDQn8RpvYQCUU3yLjovEISdYVQbUSluqwZDE
+ Dg595mq/QpCu79gD/pei/z5mcmIlSXNY3QVDaFc4mel9e1dua00GRPys3uY7x9ivoLxD
+ bsGVCMj2uYABhY8z/TFadn26jl/3notgPBqHYO/12Cz1pU+tTpykZPDsfBEvFHl3xcij
+ NnNGCuqaH1UlWRY7cyGxcCBUY93rhhgcoOxYK2m62FxDuNfFCN45vXNOK8NID5cypbMl
+ xLwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=AiVOFJ4mK9DwfACSL2mwvmlenSe9Kdtaickp3diBABQ=;
- b=mx6p7Af0jfqZfucf8VjfjCHuuThMZX8n8glm7jmh7Epwu1vI/5ProV32IGYCVXcElB
- Rmnmr4zRk7QaA55rP3H9m6ubxtn+P/V1RtcD5Rp0s1kTr/Excp1k+2JiOKsr/sQxzwh3
- v7kP8y4lhOk2h2FHkT9Wm1r/QaXhFBOLaUhwTM+kLDxMbW8G3O5YbcBJKvwsEVyyob/+
- yg/o4q3abhDpTtJi+OY9BX/bynIZHuECUDZinqOzr++KRNIAwfuHvaYpfstA2tC68EkE
- OdN3aY30bDFHHAlF9gu8q3mzme4cKKFtSoPOeAKX36MrMMaUnT1qoIpiGeo00ymPbLQx
- Xtcg==
-X-Gm-Message-State: AOAM53314X4TxItVVAyFwq86YoCZO782GDu++BZwVcD358+O1JKYp5oc
- n6/dfcgmowMIoQX9xSJFc9Fli1HbCr9Sfax8s+qCfM1v2z7tAQ==
-X-Google-Smtp-Source: ABdhPJxwRiGKARe6qisL4U0hqNwtbImMRoR7pv+/4bT0DASCce2NcIz/pssUa76WF88/VOURkkWx8dTm2TbBRhVbBw4=
-X-Received: by 2002:aca:1a0c:: with SMTP id a12mr3562610oia.14.1625070593664; 
- Wed, 30 Jun 2021 09:29:53 -0700 (PDT)
+ bh=Nv/sfFdXK4pjU9qCxCDHMjLejOMZRWYWsYHchTSu3x8=;
+ b=AUbObT3eoOZI7INb8Cn50m+p2T4gJwofA0zN0K8XvZglX3FcQpQxz8Jc5SpDFfXDMc
+ NX9ND3knlHxkB0xkedwHqGmsmVqAknGYKkRq8wU8XvvvaT37Z+wuYSatYr+9R7qQIAHU
+ immQ6/TSDhoL0jhf1tv8xp7/r71MmBSEJtn5MegGRaBkDCGaK5VdBwxDoU+aokIYnVcL
+ iHus9iNdTfOzkm75frqQMw1+NwktRT+r/Fc99lgtgxTtbkryjQIIrP/HIbJOsdGg4dps
+ 11/R1iyyZnLjXQLehXPuK+xHZ23KfEQaaDcUX+Ut1rCpXHo5AvOrI0DcHHpOvA1lPc7g
+ hUzQ==
+X-Gm-Message-State: AOAM530mJQ0cFV2PPqW9EFs1gruZemTVhYTDqABYpx0uZQ+f4QawBpCB
+ Y6h0WxkEIuUd/5ZriLmXJ7iPMR782B4mGkQTX8pR2m0clOzFFA==
+X-Google-Smtp-Source: ABdhPJyZqwmpuOBX3ejh7V1fi+OtOygYG6krV/XWHOrsRUEjZz1iqZZ/jHDtf/+6Jhj5TNkBeO+KSvCmlue2a/VHBt8=
+X-Received: by 2002:a37:4388:: with SMTP id
+ q130mr36683137qka.460.1625072085534; 
+ Wed, 30 Jun 2021 09:54:45 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210630123618.97534-1-christian.koenig@amd.com>
- <CAKMK7uFSzDv-ZPNECjQMzmF9PDHzYE0ovgMfP44AUkJCcm=7kw@mail.gmail.com>
- <9b4213b4-e11b-7b2a-e651-01ccceea132d@gmail.com>
-In-Reply-To: <9b4213b4-e11b-7b2a-e651-01ccceea132d@gmail.com>
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Wed, 30 Jun 2021 18:29:42 +0200
-Message-ID: <CAKMK7uFowuBQSL4--b_CPaNEBT=M9bqeGYMaEQHZ=aUiXU4TRQ@mail.gmail.com>
-Subject: Re: [PATCH] dma-buf: fix and rework dma_buf_poll v4
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+References: <20210624193045.5087-1-thomas.hellstrom@linux.intel.com>
+ <20210624193045.5087-2-thomas.hellstrom@linux.intel.com>
+ <CAM0jSHMbhYs5u7eV-Adjo1d=qB69WNuh-Z1gY-wfH31_=F7czg@mail.gmail.com>
+ <7593b3ba63007323679472f5120f7d72a96f71c1.camel@linux.intel.com>
+In-Reply-To: <7593b3ba63007323679472f5120f7d72a96f71c1.camel@linux.intel.com>
+From: Matthew Auld <matthew.william.auld@gmail.com>
+Date: Wed, 30 Jun 2021 17:54:19 +0100
+Message-ID: <CAM0jSHNyHH2emeOXS4m6-7cAexD626pkQM_Qa6PP5Q-A6bnsaA@mail.gmail.com>
+Subject: Re: [PATCH 1/2] drm/i915/ttm: Reorganize the ttm move code somewhat
+To: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -62,324 +67,239 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Matthew Auld <matthew.auld@intel.com>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 30, 2021 at 4:22 PM Christian K=C3=B6nig
-<ckoenig.leichtzumerken@gmail.com> wrote:
+On Wed, 30 Jun 2021 at 16:27, Thomas Hellstr=C3=B6m
+<thomas.hellstrom@linux.intel.com> wrote:
 >
-> Am 30.06.21 um 16:07 schrieb Daniel Vetter:
-> > On Wed, Jun 30, 2021 at 2:36 PM Christian K=C3=B6nig
-> > <ckoenig.leichtzumerken@gmail.com> wrote:
-> >> Daniel pointed me towards this function and there are multiple obvious=
- problems
-> >> in the implementation.
-> >>
-> >> First of all the retry loop is not working as intended. In general the=
- retry
-> >> makes only sense if you grab the reference first and then check the se=
-quence
-> >> values.
-> >>
-> >> Then we should always also wait for the exclusive fence.
-> >>
-> >> It's also good practice to keep the reference around when installing c=
-allbacks
-> >> to fences you don't own.
-> >>
-> >> And last the whole implementation was unnecessary complex and rather h=
-ard to
-> >> understand which could lead to probably unexpected behavior of the IOC=
-TL.
-> >>
-> >> Fix all this by reworking the implementation from scratch. Dropping th=
-e
-> >> whole RCU approach and taking the lock instead.
-> >>
-> >> Only mildly tested and needs a thoughtful review of the code.
-> > prime_vgem.c has some basic stuff, but it might actually encoding the
-> > broken behaviour. Would be good to extend/fix that I think so we don't
-> > entirely rely on review. We can't really build easily on top of the
-> > testcase Jason created for import/export, since for implicit sync we
-> > need some driver that attaches the fences for us.
+> On Wed, 2021-06-30 at 15:19 +0100, Matthew Auld wrote:
+> > On Thu, 24 Jun 2021 at 20:31, Thomas Hellstr=C3=B6m
+> > <thomas.hellstrom@linux.intel.com> wrote:
+> > >
+> > > In order to make the code a bit more readable and to facilitate
+> > > async memcpy moves, reorganize the move code a little. Determine
+> > > at an early stage whether to copy or to clear.
+> > >
+> > > Signed-off-by: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.co=
+m>
+> > > ---
+> > >  drivers/gpu/drm/i915/gem/i915_gem_ttm.c | 70 ++++++++++++++-------
+> > > ----
+> > >  1 file changed, 40 insertions(+), 30 deletions(-)
+> > >
+> > > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> > > b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> > > index c39d982c4fa6..4e529adcdfc7 100644
+> > > --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> > > +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> > > @@ -431,6 +431,7 @@ i915_ttm_resource_get_st(struct
+> > > drm_i915_gem_object *obj,
+> > >  }
+> > >
+> > >  static int i915_ttm_accel_move(struct ttm_buffer_object *bo,
+> > > +                              bool clear,
+> > >                                struct ttm_resource *dst_mem,
+> > >                                struct sg_table *dst_st)
+> > >  {
+> > > @@ -449,13 +450,10 @@ static int i915_ttm_accel_move(struct
+> > > ttm_buffer_object *bo,
+> > >                 return -EINVAL;
+> > >
+> > >         dst_level =3D i915_ttm_cache_level(i915, dst_mem, ttm);
+> > > -       if (!ttm || !ttm_tt_is_populated(ttm)) {
+> > > +       if (clear) {
+> > >                 if (bo->type =3D=3D ttm_bo_type_kernel)
+> > >                         return -EINVAL;
+> >
+> > Was that meant to be:
+> > return 0:
+> >
+> > ?
+> >
+> > Also does that mean we are incorrectly falling back to memset, for
+> > non-userspace objects, instead of making it a noop?
 >
-> My question is if I can just send that to
-> intel-gfx@lists.freedesktop.org and the CI will pick it up?
-
-We do run all the prime_vgem tests.
-
-Btw if you do an igt patch, you can tell CI to run that igt patch
-series together with your kernel submission. Pretty useful for hackery
-like this, documented how it works here:
-
-https://intel-gfx-ci.01.org/test-with.html
-
+> No, we're deliberately falling back to memset for non-userspace
+> objects, but the logic only memsets in the BO_ALLOC_CPU_CLEAR case if
+> everything is implemented correctly.
 >
 > >
-> > There's also a vc4 one, but I guess that's less useful for us :-)
+> > >
+> > > -               if (ttm && !(ttm->page_flags &
+> > > TTM_PAGE_FLAG_ZERO_ALLOC))
+> > > -                       return 0;
+> > > -
+> > >                 intel_engine_pm_get(i915->gt.migrate.context-
+> > > >engine);
+> > >                 ret =3D intel_context_migrate_clear(i915-
+> > > >gt.migrate.context, NULL,
+> > >                                                   dst_st->sgl,
+> > > dst_level,
+> > > @@ -489,27 +487,53 @@ static int i915_ttm_accel_move(struct
+> > > ttm_buffer_object *bo,
+> > >         return ret;
+> > >  }
+> > >
+> > > -static int i915_ttm_move(struct ttm_buffer_object *bo, bool evict,
+> > > -                        struct ttm_operation_ctx *ctx,
+> > > -                        struct ttm_resource *dst_mem,
+> > > -                        struct ttm_place *hop)
+> > > +static void __i915_ttm_move(struct ttm_buffer_object *bo, bool
+> > > clear,
+> > > +                           struct ttm_resource *dst_mem,
+> > > +                           struct sg_table *dst_st)
+> > >  {
+> > >         struct drm_i915_gem_object *obj =3D i915_ttm_to_gem(bo);
+> > > -       struct ttm_resource_manager *dst_man =3D
+> > > -               ttm_manager_type(bo->bdev, dst_mem->mem_type);
+> > >         struct intel_memory_region *dst_reg, *src_reg;
+> > >         union {
+> > >                 struct ttm_kmap_iter_tt tt;
+> > >                 struct ttm_kmap_iter_iomap io;
+> > >         } _dst_iter, _src_iter;
+> > >         struct ttm_kmap_iter *dst_iter, *src_iter;
+> > > -       struct sg_table *dst_st;
+> > >         int ret;
+> > >
+> > >         dst_reg =3D i915_ttm_region(bo->bdev, dst_mem->mem_type);
+> > >         src_reg =3D i915_ttm_region(bo->bdev, bo->resource-
+> > > >mem_type);
+> > >         GEM_BUG_ON(!dst_reg || !src_reg);
+> > >
+> > > +       ret =3D i915_ttm_accel_move(bo, clear, dst_mem, dst_st);
+> > > +       if (ret) {
 > >
-> >> v2: fix the reference counting as well
-> >> v3: keep the excl fence handling as is for stable
-> >> v4: back to testing all fences, drop RCU
-> >>
-> >> Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-> >> CC: stable@vger.kernel.org
-> >> ---
-> >>   drivers/dma-buf/dma-buf.c | 132 +++++++++++++-----------------------=
---
-> >>   include/linux/dma-buf.h   |   2 +-
-> >>   2 files changed, 46 insertions(+), 88 deletions(-)
-> >>
-> >> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> >> index eadd1eaa2fb5..192c4d34704b 100644
-> >> --- a/drivers/dma-buf/dma-buf.c
-> >> +++ b/drivers/dma-buf/dma-buf.c
-> >> @@ -72,7 +72,7 @@ static void dma_buf_release(struct dentry *dentry)
-> >>           * If you hit this BUG() it means someone dropped their ref t=
-o the
-> >>           * dma-buf while still having pending operation to the buffer=
-.
-> >>           */
-> >> -       BUG_ON(dmabuf->cb_shared.active || dmabuf->cb_excl.active);
-> >> +       BUG_ON(dmabuf->cb_in.active || dmabuf->cb_out.active);
-> >>
-> >>          dmabuf->ops->release(dmabuf);
-> >>
-> >> @@ -202,16 +202,19 @@ static void dma_buf_poll_cb(struct dma_fence *fe=
-nce, struct dma_fence_cb *cb)
-> >>          wake_up_locked_poll(dcb->poll, dcb->active);
-> >>          dcb->active =3D 0;
-> >>          spin_unlock_irqrestore(&dcb->poll->lock, flags);
-> >> +       dma_fence_put(fence);
-> >>   }
-> >>
-> >>   static __poll_t dma_buf_poll(struct file *file, poll_table *poll)
-> >>   {
-> >> +       struct dma_buf_poll_cb_t *dcb;
-> >>          struct dma_buf *dmabuf;
-> >>          struct dma_resv *resv;
-> >>          struct dma_resv_list *fobj;
-> >> -       struct dma_fence *fence_excl;
-> >> +       struct dma_fence *fence;
-> >> +       unsigned shared_count;
-> >>          __poll_t events;
-> >> -       unsigned shared_count, seq;
-> >> +       int r, i;
-> >>
-> >>          dmabuf =3D file->private_data;
-> >>          if (!dmabuf || !dmabuf->resv)
-> >> @@ -225,101 +228,56 @@ static __poll_t dma_buf_poll(struct file *file,=
- poll_table *poll)
-> >>          if (!events)
-> >>                  return 0;
-> >>
-> >> -retry:
-> >> -       seq =3D read_seqcount_begin(&resv->seq);
-> >> -       rcu_read_lock();
-> >> +       dcb =3D events & EPOLLOUT ? &dmabuf->cb_out : &dmabuf->cb_in;
-> >> +
-> >> +       /* Only queue a new one if we are not still waiting for the ol=
-d one */
-> >> +       spin_lock_irq(&dmabuf->poll.lock);
-> >> +       if (dcb->active)
-> >> +               events =3D 0;
-> >> +       else
-> >> +               dcb->active =3D events;
-> >> +       spin_unlock_irq(&dmabuf->poll.lock);
-> >> +       if (!events)
-> >> +               return 0;
-> >> +
-> >> +       dma_resv_lock(resv, NULL);
-> >>
-> >> -       fobj =3D rcu_dereference(resv->fence);
-> >> -       if (fobj)
-> >> +       fobj =3D dma_resv_get_list(resv);
-> >> +       if (fobj && events & EPOLLOUT)
-> >>                  shared_count =3D fobj->shared_count;
-> >>          else
-> >>                  shared_count =3D 0;
-> >> -       fence_excl =3D rcu_dereference(resv->fence_excl);
-> >> -       if (read_seqcount_retry(&resv->seq, seq)) {
-> >> -               rcu_read_unlock();
-> >> -               goto retry;
-> >> -       }
-> >>
-> >> -       if (fence_excl && (!(events & EPOLLOUT) || shared_count =3D=3D=
- 0)) {
-> >> -               struct dma_buf_poll_cb_t *dcb =3D &dmabuf->cb_excl;
-> >> -               __poll_t pevents =3D EPOLLIN;
-> >> -
-> >> -               if (shared_count =3D=3D 0)
-> >> -                       pevents |=3D EPOLLOUT;
-> >> -
-> >> -               spin_lock_irq(&dmabuf->poll.lock);
-> >> -               if (dcb->active) {
-> >> -                       dcb->active |=3D pevents;
-> >> -                       events &=3D ~pevents;
-> >> -               } else
-> >> -                       dcb->active =3D pevents;
-> >> -               spin_unlock_irq(&dmabuf->poll.lock);
-> >> -
-> >> -               if (events & pevents) {
-> >> -                       if (!dma_fence_get_rcu(fence_excl)) {
-> >> -                               /* force a recheck */
-> >> -                               events &=3D ~pevents;
-> >> -                               dma_buf_poll_cb(NULL, &dcb->cb);
-> >> -                       } else if (!dma_fence_add_callback(fence_excl,=
- &dcb->cb,
-> >> -                                                          dma_buf_pol=
-l_cb)) {
-> >> -                               events &=3D ~pevents;
-> >> -                               dma_fence_put(fence_excl);
-> >> -                       } else {
-> >> -                               /*
-> >> -                                * No callback queued, wake up any add=
-itional
-> >> -                                * waiters.
-> >> -                                */
-> >> -                               dma_fence_put(fence_excl);
-> >> -                               dma_buf_poll_cb(NULL, &dcb->cb);
-> >> -                       }
-> >> +       for (i =3D 0; i < shared_count; ++i) {
-> >> +               fence =3D rcu_dereference_protected(fobj->shared[i],
-> >> +                                                 dma_resv_held(resv))=
-;
-> >> +               dma_fence_get(fence);
-> >> +               r =3D dma_fence_add_callback(fence, &dcb->cb, dma_buf_=
-poll_cb);
-> >> +               if (!r) {
-> >> +                       /* Callback queued */
-> >> +                       events =3D 0;
-> > Why do you clear events here? There's more than EPOLLIN/OUT, and I
-> > think you can also set both (and then we should be able to queue
-> > both). I think a few more testcases for this would be really good. I
-> > think the old code all handled that like I'd expect it to.
+> > One future consideration is flat CCS where I don't think we can
+> > easily
+> > fall back to memcpy for userspace objects. Maybe we can make this
+> > fallback conditional on DG1 or !ALLOC_USER for now, or just add a
+> > TODO?
 >
-> Yeah, that's exactly the stuff I was wondering about since I'm not so
-> familiar with the poll interface.
+> Ugh. Is that true for both clearing and copying, or is it only copying?
 
-tbh I don't have much clue either, I think we need to decide this with
-some testcases. The poll support in the kernel is pretty impressive
-amounts of magic since it works for all variants of poll. At least I
-think it's rather much clever and tricky to understand as an outsider
-...
--Daniel
+With clearing I think we are required to nuke the aux CCS state using
+some special blitter command.
 
-> Going to fix that.
+For copying/moving I think it's a similar story, where special care
+might be needed for the aux state, which likely requires the blitter.
+Although tbh I don't really remember all the details.
+
 >
-> Thanks,
-> Christian.
+> Problem is if we hit an engine reset and fence error during initial
+> clearing / swapin, the plan moving forward is to intercept that and
+> resort to cpu clearing / copying for security reasons. In the worst
+> case we at least need to be able to clear.
+>
+> /Thomas
+>
 >
 > >
-> > Cheers, Daniel
+> > > +               dst_iter =3D !cpu_maps_iomem(dst_mem) ?
+> > > +                       ttm_kmap_iter_tt_init(&_dst_iter.tt, bo-
+> > > >ttm) :
+> > > +                       ttm_kmap_iter_iomap_init(&_dst_iter.io,
+> > > &dst_reg->iomap,
+> > > +                                                dst_st, dst_reg-
+> > > >region.start);
+> > > +
+> > > +               src_iter =3D !cpu_maps_iomem(bo->resource) ?
+> > > +                       ttm_kmap_iter_tt_init(&_src_iter.tt, bo-
+> > > >ttm) :
+> > > +                       ttm_kmap_iter_iomap_init(&_src_iter.io,
+> > > &src_reg->iomap,
+> > > +                                                obj-
+> > > >ttm.cached_io_st,
+> > > +                                                src_reg-
+> > > >region.start);
+> > > +
+> > > +               ttm_move_memcpy(bo, dst_mem->num_pages, dst_iter,
+> > > src_iter);
+> > > +       }
+> > > +}
+> > > +
+> > > +static int i915_ttm_move(struct ttm_buffer_object *bo, bool evict,
+> > > +                        struct ttm_operation_ctx *ctx,
+> > > +                        struct ttm_resource *dst_mem,
+> > > +                        struct ttm_place *hop)
+> > > +{
+> > > +       struct drm_i915_gem_object *obj =3D i915_ttm_to_gem(bo);
+> > > +       struct ttm_resource_manager *dst_man =3D
+> > > +               ttm_manager_type(bo->bdev, dst_mem->mem_type);
+> > > +       struct ttm_tt *ttm =3D bo->ttm;
+> > > +       struct sg_table *dst_st;
+> > > +       bool clear;
+> > > +       int ret;
+> > > +
+> > >         /* Sync for now. We could do the actual copy async. */
+> > >         ret =3D ttm_bo_wait_ctx(bo, ctx);
+> > >         if (ret)
+> > > @@ -526,9 +550,8 @@ static int i915_ttm_move(struct
+> > > ttm_buffer_object *bo, bool evict,
+> > >         }
+> > >
+> > >         /* Populate ttm with pages if needed. Typically system
+> > > memory. */
+> > > -       if (bo->ttm && (dst_man->use_tt ||
+> > > -                       (bo->ttm->page_flags &
+> > > TTM_PAGE_FLAG_SWAPPED))) {
+> > > -               ret =3D ttm_tt_populate(bo->bdev, bo->ttm, ctx);
+> > > +       if (ttm && (dst_man->use_tt || (ttm->page_flags &
+> > > TTM_PAGE_FLAG_SWAPPED))) {
+> > > +               ret =3D ttm_tt_populate(bo->bdev, ttm, ctx);
+> > >                 if (ret)
+> > >                         return ret;
+> > >         }
+> > > @@ -537,23 +560,10 @@ static int i915_ttm_move(struct
+> > > ttm_buffer_object *bo, bool evict,
+> > >         if (IS_ERR(dst_st))
+> > >                 return PTR_ERR(dst_st);
+> > >
+> > > -       ret =3D i915_ttm_accel_move(bo, dst_mem, dst_st);
+> > > -       if (ret) {
+> > > -               /* If we start mapping GGTT, we can no longer use
+> > > man::use_tt here. */
+> > > -               dst_iter =3D !cpu_maps_iomem(dst_mem) ?
+> > > -                       ttm_kmap_iter_tt_init(&_dst_iter.tt, bo-
+> > > >ttm) :
+> > > -                       ttm_kmap_iter_iomap_init(&_dst_iter.io,
+> > > &dst_reg->iomap,
+> > > -                                                dst_st, dst_reg-
+> > > >region.start);
+> > > -
+> > > -               src_iter =3D !cpu_maps_iomem(bo->resource) ?
+> > > -                       ttm_kmap_iter_tt_init(&_src_iter.tt, bo-
+> > > >ttm) :
+> > > -                       ttm_kmap_iter_iomap_init(&_src_iter.io,
+> > > &src_reg->iomap,
+> > > -                                                obj-
+> > > >ttm.cached_io_st,
+> > > -                                                src_reg-
+> > > >region.start);
+> > > +       clear =3D !cpu_maps_iomem(bo->resource) && (!ttm ||
+> > > !ttm_tt_is_populated(ttm));
+> > > +       if (!(clear && ttm && !(ttm->page_flags &
+> > > TTM_PAGE_FLAG_ZERO_ALLOC)))
 > >
-> >> +                       goto out;
-> >>                  }
-> >> +               dma_fence_put(fence);
-> >>          }
-> >>
-> >> -       if ((events & EPOLLOUT) && shared_count > 0) {
-> >> -               struct dma_buf_poll_cb_t *dcb =3D &dmabuf->cb_shared;
-> >> -               int i;
-> >> -
-> >> -               /* Only queue a new callback if no event has fired yet=
- */
-> >> -               spin_lock_irq(&dmabuf->poll.lock);
-> >> -               if (dcb->active)
-> >> -                       events &=3D ~EPOLLOUT;
-> >> -               else
-> >> -                       dcb->active =3D EPOLLOUT;
-> >> -               spin_unlock_irq(&dmabuf->poll.lock);
-> >> -
-> >> -               if (!(events & EPOLLOUT))
-> >> +       fence =3D dma_resv_get_excl(resv);
-> >> +       if (fence) {
-> >> +               dma_fence_get(fence);
-> >> +               r =3D dma_fence_add_callback(fence, &dcb->cb, dma_buf_=
-poll_cb);
-> >> +               if (!r) {
-> >> +                       /* Callback queued */
-> >> +                       events =3D 0;
-> >>                          goto out;
-> >> -
-> >> -               for (i =3D 0; i < shared_count; ++i) {
-> >> -                       struct dma_fence *fence =3D rcu_dereference(fo=
-bj->shared[i]);
-> >> -
-> >> -                       if (!dma_fence_get_rcu(fence)) {
-> >> -                               /*
-> >> -                                * fence refcount dropped to zero, thi=
-s means
-> >> -                                * that fobj has been freed
-> >> -                                *
-> >> -                                * call dma_buf_poll_cb and force a re=
-check!
-> >> -                                */
-> >> -                               events &=3D ~EPOLLOUT;
-> >> -                               dma_buf_poll_cb(NULL, &dcb->cb);
-> >> -                               break;
-> >> -                       }
-> >> -                       if (!dma_fence_add_callback(fence, &dcb->cb,
-> >> -                                                   dma_buf_poll_cb)) =
-{
-> >> -                               dma_fence_put(fence);
-> >> -                               events &=3D ~EPOLLOUT;
-> >> -                               break;
-> >> -                       }
-> >> -                       dma_fence_put(fence);
-> >>                  }
-> >> -
-> >> -               /* No callback queued, wake up any additional waiters.=
- */
-> >> -               if (i =3D=3D shared_count)
-> >> -                       dma_buf_poll_cb(NULL, &dcb->cb);
-> >> +               dma_fence_put(fence);
-> >>          }
-> >>
-> >> +       /* No callback queued, wake up any additional waiters. */
-> >> +       dma_buf_poll_cb(NULL, &dcb->cb);
-> >> +
-> >>   out:
-> >> -       rcu_read_unlock();
-> >> +       dma_resv_unlock(resv);
-> >>          return events;
-> >>   }
-> >>
-> >> @@ -562,8 +520,8 @@ struct dma_buf *dma_buf_export(const struct dma_bu=
-f_export_info *exp_info)
-> >>          dmabuf->owner =3D exp_info->owner;
-> >>          spin_lock_init(&dmabuf->name_lock);
-> >>          init_waitqueue_head(&dmabuf->poll);
-> >> -       dmabuf->cb_excl.poll =3D dmabuf->cb_shared.poll =3D &dmabuf->p=
-oll;
-> >> -       dmabuf->cb_excl.active =3D dmabuf->cb_shared.active =3D 0;
-> >> +       dmabuf->cb_in.poll =3D dmabuf->cb_out.poll =3D &dmabuf->poll;
-> >> +       dmabuf->cb_in.active =3D dmabuf->cb_out.active =3D 0;
-> >>
-> >>          if (!resv) {
-> >>                  resv =3D (struct dma_resv *)&dmabuf[1];
-> >> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-> >> index efdc56b9d95f..7e747ad54c81 100644
-> >> --- a/include/linux/dma-buf.h
-> >> +++ b/include/linux/dma-buf.h
-> >> @@ -329,7 +329,7 @@ struct dma_buf {
-> >>                  wait_queue_head_t *poll;
-> >>
-> >>                  __poll_t active;
-> >> -       } cb_excl, cb_shared;
-> >> +       } cb_in, cb_out;
-> >>   };
-> >>
-> >>   /**
-> >> --
-> >> 2.25.1
-> >>
+> > Seems quite hard to read?
 > >
+> > Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+> >
+> >
+> > > +               __i915_ttm_move(bo, clear, dst_mem, dst_st);
+> > >
+> > > -               ttm_move_memcpy(bo, dst_mem->num_pages, dst_iter,
+> > > src_iter);
+> > > -       }
+> > > -       /* Below dst_mem becomes bo->resource. */
+> > >         ttm_bo_move_sync_cleanup(bo, dst_mem);
+> > >         i915_ttm_adjust_domains_after_move(obj);
+> > >         i915_ttm_free_cached_io_st(obj);
+> > > --
+> > > 2.31.1
+> > >
 >
-
-
---=20
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+>
