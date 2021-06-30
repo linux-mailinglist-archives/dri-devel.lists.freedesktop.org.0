@@ -1,31 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41B533B7D5F
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Jun 2021 08:28:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D5DD63B7D5E
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Jun 2021 08:28:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C843D6E92C;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F9506E92A;
 	Wed, 30 Jun 2021 06:28:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6BF3B6E92B
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6BA036E92A
  for <dri-devel@lists.freedesktop.org>; Wed, 30 Jun 2021 06:28:02 +0000 (UTC)
 Received: from localhost.localdomain (unknown
  [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id D609A1F42510;
- Wed, 30 Jun 2021 07:27:59 +0100 (BST)
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 8F0911F4313E;
+ Wed, 30 Jun 2021 07:28:00 +0100 (BST)
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v6 00/16] drm/panfrost
-Date: Wed, 30 Jun 2021 08:27:35 +0200
-Message-Id: <20210630062751.2832545-1-boris.brezillon@collabora.com>
+Subject: [PATCH v6 01/16] drm/sched: Document what the timedout_job method
+ should do
+Date: Wed, 30 Jun 2021 08:27:36 +0200
+Message-Id: <20210630062751.2832545-2-boris.brezillon@collabora.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210630062751.2832545-1-boris.brezillon@collabora.com>
+References: <20210630062751.2832545-1-boris.brezillon@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -40,73 +43,52 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- Steven Price <steven.price@arm.com>, Rob Herring <robh+dt@kernel.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Steven Price <steven.price@arm.com>,
+ Rob Herring <robh+dt@kernel.org>,
  Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
  Boris Brezillon <boris.brezillon@collabora.com>,
  Robin Murphy <robin.murphy@arm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
+The documentation is a bit vague and doesn't really describe what the
+->timedout_job() is expected to do. Let's add a few more details.
 
-Bunch of improvements to make the panfrost driver more robust and allow
-queuing jobs at the HW level.
+v5:
+* New patch
 
-Changes in v6:
-* Collected acks/reviews
-* Got rid of the cancel_delayed_work() calls in the reset path
+Suggested-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+---
+ include/drm/gpu_scheduler.h | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-Changes in this v5:
-* Document what's excepted in the ->timedout_job() hook
-* Add a patch increasing the AS_ACTIVE polling timeout
-* Fix a few minor things here and there (see each commit for a detailed
-  changelog) and collect R-b/A-b tags
-
-Changes in this v4:
-* fixing the reset serialization
-* fixing a deadlock in the reset path
-* moving the exception enum to a private header
-
-Regards,
-
-Boris
-
-Boris Brezillon (15):
-  drm/sched: Document what the timedout_job method should do
-  drm/sched: Allow using a dedicated workqueue for the timeout/fault tdr
-  drm/panfrost: Make ->run_job() return an ERR_PTR() when appropriate
-  drm/panfrost: Get rid of the unused JS_STATUS_EVENT_ACTIVE definition
-  drm/panfrost: Drop the pfdev argument passed to
-    panfrost_exception_name()
-  drm/panfrost: Do the exception -> string translation using a table
-  drm/panfrost: Expose a helper to trigger a GPU reset
-  drm/panfrost: Use a threaded IRQ for job interrupts
-  drm/panfrost: Simplify the reset serialization logic
-  drm/panfrost: Make sure job interrupts are masked before resetting
-  drm/panfrost: Disable the AS on unhandled page faults
-  drm/panfrost: Reset the GPU when the AS_ACTIVE bit is stuck
-  drm/panfrost: Don't reset the GPU on job faults unless we really have
-    to
-  drm/panfrost: Kill in-flight jobs on FD close
-  drm/panfrost: Increase the AS_ACTIVE polling timeout
-
-Steven Price (1):
-  drm/panfrost: Queue jobs on the hardware
-
- drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c  |   2 +-
- drivers/gpu/drm/etnaviv/etnaviv_sched.c    |   3 +-
- drivers/gpu/drm/lima/lima_sched.c          |   3 +-
- drivers/gpu/drm/panfrost/panfrost_device.c | 139 +++--
- drivers/gpu/drm/panfrost/panfrost_device.h |  91 ++-
- drivers/gpu/drm/panfrost/panfrost_gpu.c    |   2 +-
- drivers/gpu/drm/panfrost/panfrost_job.c    | 626 +++++++++++++++------
- drivers/gpu/drm/panfrost/panfrost_mmu.c    |  43 +-
- drivers/gpu/drm/panfrost/panfrost_regs.h   |   3 -
- drivers/gpu/drm/scheduler/sched_main.c     |  14 +-
- drivers/gpu/drm/v3d/v3d_sched.c            |  10 +-
- include/drm/gpu_scheduler.h                |  37 +-
- 12 files changed, 717 insertions(+), 256 deletions(-)
-
+diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+index d18af49fd009..aa90ed1f1b2b 100644
+--- a/include/drm/gpu_scheduler.h
++++ b/include/drm/gpu_scheduler.h
+@@ -239,6 +239,20 @@ struct drm_sched_backend_ops {
+ 	 * @timedout_job: Called when a job has taken too long to execute,
+ 	 * to trigger GPU recovery.
+ 	 *
++	 * This method is called in a workqueue context.
++	 *
++	 * Drivers typically issue a reset to recover from GPU hangs, and this
++	 * procedure usually follows the following workflow:
++	 *
++	 * 1. Stop the scheduler using drm_sched_stop(). This will park the
++	 *    scheduler thread and cancel the timeout work, guaranteeing that
++	 *    nothing is queued while we reset the hardware queue
++	 * 2. Try to gracefully stop non-faulty jobs (optional)
++	 * 3. Issue a GPU reset (driver-specific)
++	 * 4. Re-submit jobs using drm_sched_resubmit_jobs()
++	 * 5. Restart the scheduler using drm_sched_start(). At that point, new
++	 *    jobs can be queued, and the scheduler thread is unblocked
++	 *
+ 	 * Return DRM_GPU_SCHED_STAT_NOMINAL, when all is normal,
+ 	 * and the underlying driver has started or completed recovery.
+ 	 *
 -- 
 2.31.1
 
