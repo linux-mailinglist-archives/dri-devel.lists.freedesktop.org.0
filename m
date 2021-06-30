@@ -2,38 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 901A93B808A
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Jun 2021 12:05:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E29B3B8092
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Jun 2021 12:06:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B7036E97D;
-	Wed, 30 Jun 2021 10:05:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E65546E981;
+	Wed, 30 Jun 2021 10:06:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3196C6E97D;
- Wed, 30 Jun 2021 10:05:46 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10030"; a="208271095"
-X-IronPort-AV: E=Sophos;i="5.83,311,1616482800"; d="scan'208";a="208271095"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Jun 2021 03:05:43 -0700
-X-IronPort-AV: E=Sophos;i="5.83,311,1616482800"; d="scan'208";a="457157823"
-Received: from teutenbb-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.61.253])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Jun 2021 03:05:38 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Rodrigo Vivi <rodrigo.vivi@intel.com>, Dave Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [PULL] drm-intel-next-fixes
-In-Reply-To: <YNtsfguvCRSROBUZ@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <YNtsfguvCRSROBUZ@intel.com>
-Date: Wed, 30 Jun 2021 13:05:35 +0300
-Message-ID: <87zgv7r7kg.fsf@intel.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D0F2E6E980;
+ Wed, 30 Jun 2021 10:06:22 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 19F6661D0C;
+ Wed, 30 Jun 2021 10:06:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1625047582;
+ bh=avnkog7DAWHGE/DDPBwmxyAibvw4Gdlte4dEESCVyoo=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=udOpBZzVB4JN0HTHVvrO3eSvnwimfuvMyyr+nIaiE9fMU5868YxXBlpFGBWl+jvYl
+ XNgb7Sg904LwLnqu4UWSmwKUnyd6PlkLPwPMARE8fgHpm6t1k4yt2JD9n5GJD0v7BE
+ PcbmgK+YE/poI/xZfbc45WpiErOJU74fyjWXXbhE=
+Date: Wed, 30 Jun 2021 12:06:20 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v3 2/2] drm/i915: Drop all references to DRM IRQ midlayer
+Message-ID: <YNxCHDGA+x2Xe9pM@kroah.com>
+References: <20210630095228.6665-1-tzimmermann@suse.de>
+ <20210630095228.6665-3-tzimmermann@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210630095228.6665-3-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,89 +45,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dim-tools@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Sean Paul <sean@poorly.run>
+Cc: matthew.brost@intel.com, airlied@linux.ie, mika.kuoppala@linux.intel.com,
+ intel-gfx@lists.freedesktop.org, chris@chris-wilson.co.uk,
+ dri-devel@lists.freedesktop.org, rodrigo.vivi@intel.com,
+ stable@vger.kernel.org, lucas.demarchi@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 29 Jun 2021, Rodrigo Vivi <rodrigo.vivi@intel.com> wrote:
-> Hi Dave and Daniel,
->
-> Here goes drm-intel-next-fixes-2021-06-29:
->
-> The biggest fix is the restoration of mmap ioctl for gen12 integrated par=
-ts
-> which lack was breaking ADL-P with media stack.
-> Besides that a small selftest fix and a theoretical overflow on
-> i915->pipe_to_crtc_mapping.
+On Wed, Jun 30, 2021 at 11:52:28AM +0200, Thomas Zimmermann wrote:
+> Remove all references to DRM's IRQ midlayer. i915 uses Linux' interrupt
+> functions directly.
+> 
+> v2:
+> 	* also remove an outdated comment
+> 	* move IRQ fix into separate patch
+> 	* update Fixes tag (Daniel)
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Fixes: b318b82455bd ("drm/i915: Nuke drm_driver irq vfuncs")
+> Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> Cc: Chris Wilson <chris@chris-wilson.co.uk>
+> Cc: Jani Nikula <jani.nikula@linux.intel.com>
+> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> Cc: intel-gfx@lists.freedesktop.org
+> Cc: <stable@vger.kernel.org> # v5.4+
+> ---
+>  drivers/gpu/drm/i915/i915_drv.c | 1 -
+>  drivers/gpu/drm/i915/i915_irq.c | 5 -----
+>  2 files changed, 6 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/i915_drv.c b/drivers/gpu/drm/i915/i915_drv.c
+> index 850b499c71c8..73de45472f60 100644
+> --- a/drivers/gpu/drm/i915/i915_drv.c
+> +++ b/drivers/gpu/drm/i915/i915_drv.c
+> @@ -42,7 +42,6 @@
+>  #include <drm/drm_aperture.h>
+>  #include <drm/drm_atomic_helper.h>
+>  #include <drm/drm_ioctl.h>
+> -#include <drm/drm_irq.h>
+>  #include <drm/drm_managed.h>
+>  #include <drm/drm_probe_helper.h>
+>  
+> diff --git a/drivers/gpu/drm/i915/i915_irq.c b/drivers/gpu/drm/i915/i915_irq.c
+> index 2203dca19895..1d4c683c9de9 100644
+> --- a/drivers/gpu/drm/i915/i915_irq.c
+> +++ b/drivers/gpu/drm/i915/i915_irq.c
+> @@ -33,7 +33,6 @@
+>  #include <linux/sysrq.h>
+>  
+>  #include <drm/drm_drv.h>
+> -#include <drm/drm_irq.h>
+>  
+>  #include "display/intel_de.h"
+>  #include "display/intel_display_types.h"
+> @@ -4564,10 +4563,6 @@ void intel_runtime_pm_enable_interrupts(struct drm_i915_private *dev_priv)
+>  
+>  bool intel_irqs_enabled(struct drm_i915_private *dev_priv)
+>  {
+> -	/*
+> -	 * We only use drm_irq_uninstall() at unload and VT switch, so
+> -	 * this is the only thing we need to check.
+> -	 */
+>  	return dev_priv->runtime_pm.irqs_enabled;
+>  }
+>  
+> -- 
+> 2.32.0
+> 
 
-My last fixes pull for v5.13 fell between the cracks [1]. There was one
-stable worthy fix, but since it was still in drm-intel-fixes when you
-ran dim cherry-pick-next-fixes, it was skipped for drm-intel-next-fixes.
+How is this a stable-kernel-related fix?
 
-I've now dropped the commit and pushed v5.13 to drm-intel-fixes, as
-we're past that point. Subsequent dim cherry-pick-next-fixes should pick
-it up now.
+thanks,
 
-Please do another next fixes pull request with that. (It's okay to pull
-this one already though, doesn't make a difference.)
-
-
-BR,
-Jani.
-
-
-[1] https://lore.kernel.org/r/87czsbu15r.fsf@intel.com
-
-
-
->
-> Thanks,
-> Rodrigo.
->
-> The following changes since commit 1bd8a7dc28c1c410f1ceefae1f2a97c06d1a67=
-c2:
->
->   Merge tag 'exynos-drm-next-for-v5.14' of git://git.kernel.org/pub/scm/l=
-inux/kernel/git/daeinki/drm-exynos into drm-next (2021-06-11 14:19:12 +1000)
->
-> are available in the Git repository at:
->
->   git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-next-fixes-2=
-021-06-29
->
-> for you to fetch changes up to c90c4c6574f3feaf2203b5671db1907a1e15c653:
->
->   drm/i915: Reinstate the mmap ioctl for some platforms (2021-06-28 07:43=
-:56 -0400)
->
-> ----------------------------------------------------------------
-> The biggest fix is the restoration of mmap ioctl for gen12 integrated par=
-ts
-> which lack was breaking ADL-P with media stack.
-> Besides that a small selftest fix and a theoretical overflow on
-> i915->pipe_to_crtc_mapping.
->
-> ----------------------------------------------------------------
-> Chris Wilson (1):
->       drm/i915/selftests: Reorder tasklet_disable vs local_bh_disable
->
-> Jani Nikula (1):
->       drm/i915/dsc: abstract helpers to get bigjoiner primary/secondary c=
-rtc
->
-> Thomas Hellstr=C3=B6m (1):
->       drm/i915: Reinstate the mmap ioctl for some platforms
->
->  drivers/gpu/drm/i915/display/intel_display.c       |  7 ++-
->  drivers/gpu/drm/i915/display/intel_display_types.h |  8 ++++
->  drivers/gpu/drm/i915/display/intel_vdsc.c          | 40 +++++++++++-----
->  drivers/gpu/drm/i915/display/intel_vdsc.h          |  1 +
->  drivers/gpu/drm/i915/gem/i915_gem_mman.c           |  7 +--
->  drivers/gpu/drm/i915/gt/selftest_execlists.c       | 55 +++++++++++++---=
-------
->  6 files changed, 76 insertions(+), 42 deletions(-)
-
---=20
-Jani Nikula, Intel Open Source Graphics Center
+greg k-h
