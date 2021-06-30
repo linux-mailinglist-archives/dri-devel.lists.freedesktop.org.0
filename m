@@ -1,39 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF8DA3B85AA
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Jun 2021 17:01:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7373F3B85D1
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Jun 2021 17:10:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE29E6EA02;
-	Wed, 30 Jun 2021 15:01:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 221936EA05;
+	Wed, 30 Jun 2021 15:10:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 26C7E6EA04
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Jun 2021 15:01:17 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7AF091FB;
- Wed, 30 Jun 2021 08:01:16 -0700 (PDT)
-Received: from [192.168.1.179] (unknown [172.31.20.19])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 077F33F718;
- Wed, 30 Jun 2021 08:01:14 -0700 (PDT)
-Subject: Re: [PATCH v6 16/16] drm/panfrost: Increase the AS_ACTIVE polling
- timeout
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- dri-devel@lists.freedesktop.org
-References: <20210630062751.2832545-1-boris.brezillon@collabora.com>
- <20210630062751.2832545-17-boris.brezillon@collabora.com>
-From: Steven Price <steven.price@arm.com>
-Message-ID: <56cba9eb-32a9-6227-a8fb-79e585c5dd1e@arm.com>
-Date: Wed, 30 Jun 2021 16:01:13 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+Received: from srv6.fidu.org (srv6.fidu.org [159.69.62.71])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 30B356EA08;
+ Wed, 30 Jun 2021 15:10:26 +0000 (UTC)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+ by srv6.fidu.org (Postfix) with ESMTP id 55B84C80086;
+ Wed, 30 Jun 2021 17:10:24 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at srv6.fidu.org
+Received: from srv6.fidu.org ([127.0.0.1])
+ by localhost (srv6.fidu.org [127.0.0.1]) (amavisd-new, port 10026)
+ with LMTP id PR1NKElp0h6k; Wed, 30 Jun 2021 17:10:24 +0200 (CEST)
+Received: from wsembach-tuxedo.fritz.box
+ (p200300e37F394900095779a208783f8e.dip0.t-ipconnect.de
+ [IPv6:2003:e3:7f39:4900:957:79a2:878:3f8e])
+ (Authenticated sender: wse@tuxedocomputers.com)
+ by srv6.fidu.org (Postfix) with ESMTPA id 3A283C80068;
+ Wed, 30 Jun 2021 17:10:23 +0200 (CEST)
+From: Werner Sembach <wse@tuxedocomputers.com>
+To: harry.wentland@amd.com, sunpeng.li@amd.com, alexander.deucher@amd.com,
+ christian.koenig@amd.com, airlied@linux.ie, daniel@ffwll.ch,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
+ rodrigo.vivi@intel.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, emil.l.velikov@gmail.com
+Subject: [PATCH v5 00/17] New uAPI drm properties for color management
+Date: Wed, 30 Jun 2021 17:10:01 +0200
+Message-Id: <20210630151018.330354-1-wse@tuxedocomputers.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20210630062751.2832545-17-boris.brezillon@collabora.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,44 +51,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>, Rob Herring <robh+dt@kernel.org>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Robin Murphy <robin.murphy@arm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 30/06/2021 07:27, Boris Brezillon wrote:
-> Experience has shown that 1ms is sometimes not enough, even when the GPU
-> is running at its maximum frequency, not to mention that an MMU operation
-> might take longer if the GPU is running at a lower frequency, which is
-> likely to be the case if devfreq is active.
-> 
-> Let's pick a significantly bigger timeout value (1ms -> 100ms) to be on
-> the safe side.
-> 
-> v5:
-> * New patch
-> 
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+Implementation of https://lkml.org/lkml/2021/5/12/764 now feature complete
+albeit not fully tested.
 
-Reviewed-by: Steven Price <steven.price@arm.com>
+I have now corrected the DSC behavior, but still no wait to test it.
 
-> ---
->  drivers/gpu/drm/panfrost/panfrost_mmu.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_mmu.c b/drivers/gpu/drm/panfrost/panfrost_mmu.c
-> index e0356e68e768..0da5b3100ab1 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_mmu.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_mmu.c
-> @@ -34,7 +34,7 @@ static int wait_ready(struct panfrost_device *pfdev, u32 as_nr)
->  	/* Wait for the MMU status to indicate there is no active command, in
->  	 * case one is pending. */
->  	ret = readl_relaxed_poll_timeout_atomic(pfdev->iomem + AS_STATUS(as_nr),
-> -		val, !(val & AS_STATUS_AS_ACTIVE), 10, 1000);
-> +		val, !(val & AS_STATUS_AS_ACTIVE), 10, 100000);
->  
->  	if (ret) {
->  		/* The GPU hung, let's trigger a reset */
-> 
+Exact dithering behavior remains a mistery so in case dithering is active it's
+not 100% clear what "active bpc" means, or where the "max bpc" limit is applied.
+
+I have no DP MST splitter at hand. I tried my best to not break anything,
+but if one who has one could test it would be very helpful.
+
+Things on my TODO list:
+    - add "min bpc" property
+    - rewrite "preferred color format" to "force color format"
+    - make "Broadcast RGB" only affect RGB on AMD too
+    - remove unreachable enums of "active/preferred/force color format"
+
 
