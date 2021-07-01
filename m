@@ -1,41 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 733303B9554
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Jul 2021 19:17:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C1DFA3B9591
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Jul 2021 19:36:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 725A36E03D;
-	Thu,  1 Jul 2021 17:16:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 56E0B6EB78;
+	Thu,  1 Jul 2021 17:36:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asav22.altibox.net (asav22.altibox.net [109.247.116.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 861D76E05F
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Jul 2021 17:16:58 +0000 (UTC)
-Received: from localhost.localdomain (211.81-166-168.customer.lyse.net
- [81.166.168.211])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B1C9A6E027;
+ Thu,  1 Jul 2021 17:36:21 +0000 (UTC)
+Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
+ (using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- (Authenticated sender: noralf.tronnes@ebnett.no)
- by asav22.altibox.net (Postfix) with ESMTPSA id 4921820855;
- Thu,  1 Jul 2021 19:08:13 +0200 (CEST)
-From: =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 2/2] drm/gud: Use scatter-gather USB bulk transfer
-Date: Thu,  1 Jul 2021 19:07:48 +0200
-Message-Id: <20210701170748.58009-2-noralf@tronnes.org>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20210701170748.58009-1-noralf@tronnes.org>
-References: <20210701170748.58009-1-noralf@tronnes.org>
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 54941204FD;
+ Thu,  1 Jul 2021 17:36:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1625160980; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=JhufIsRTh0WyDQp1rAM6FPRIfn8Aoj2dtNDDh3KyPzU=;
+ b=PhkEi4ACjxk3S//STKJei2UjBCS1P4YhMypRfv0dzN9Na4Oi//ibZyP//HBZjWh9RhV3Yj
+ 6RyfQUpDaQW7C2I3U7Uu6OAO5fDvqJLbn+UrdgMbXjPw4VvzO1GnPaqZQnQzV5oUuau7kc
+ 5n70ReZsZwjBjEmGGMHOIKlhGDA6SJE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1625160980;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=JhufIsRTh0WyDQp1rAM6FPRIfn8Aoj2dtNDDh3KyPzU=;
+ b=ii1lQAKOZ+lgvXyNbaiYIfZkv342+GDUBbkFWHiPzbO2Z1Ve7qWWGcpIiix+6FXmv9dbNv
+ sNi/jInclX1FjfCg==
+Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
+ by imap.suse.de (Postfix) with ESMTP id 0D66B11CD6;
+ Thu,  1 Jul 2021 17:36:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1625160980; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=JhufIsRTh0WyDQp1rAM6FPRIfn8Aoj2dtNDDh3KyPzU=;
+ b=PhkEi4ACjxk3S//STKJei2UjBCS1P4YhMypRfv0dzN9Na4Oi//ibZyP//HBZjWh9RhV3Yj
+ 6RyfQUpDaQW7C2I3U7Uu6OAO5fDvqJLbn+UrdgMbXjPw4VvzO1GnPaqZQnQzV5oUuau7kc
+ 5n70ReZsZwjBjEmGGMHOIKlhGDA6SJE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1625160980;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=JhufIsRTh0WyDQp1rAM6FPRIfn8Aoj2dtNDDh3KyPzU=;
+ b=ii1lQAKOZ+lgvXyNbaiYIfZkv342+GDUBbkFWHiPzbO2Z1Ve7qWWGcpIiix+6FXmv9dbNv
+ sNi/jInclX1FjfCg==
+Received: from director2.suse.de ([192.168.254.72]) by imap3-int with ESMTPSA
+ id 81HJART93WCcSwAALh3uQQ
+ (envelope-from <tzimmermann@suse.de>); Thu, 01 Jul 2021 17:36:20 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
+ rodrigo.vivi@intel.com, airlied@linux.ie, daniel@ffwll.ch,
+ chris@chris-wilson.co.uk, mika.kuoppala@linux.intel.com,
+ matthew.brost@intel.com, maarten.lankhorst@linux.intel.com,
+ lucas.demarchi@intel.com, ville.syrjala@linux.intel.com
+Subject: [PATCH v5 0/2] drm/i915: IRQ fixes
+Date: Thu,  1 Jul 2021 19:36:16 +0200
+Message-Id: <20210701173618.10718-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=fOAXI6Se c=1 sm=1 tr=0
- a=OYZzhG0JTxDrWp/F2OJbnw==:117 a=OYZzhG0JTxDrWp/F2OJbnw==:17
- a=IkcTkHD0fZMA:10 a=M51BFTxLslgA:10 a=KKAkSRfTAAAA:8 a=SJz97ENfAAAA:8
- a=R9llIbJOWVpwbuPDVz8A:9 a=wni8LWtO-K76hLLZ:21 a=ZOTHAswvuk933zv7:21
- a=QEXdDO2ut3YA:10 a=cvBusfyB2V15izCimMoJ:22 a=vFet0B0WnEQeilDPIY6i:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,209 +80,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>, peter@stuge.se
+Cc: intel-gfx@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There'a limit to how big a kmalloc buffer can be, and as memory gets
-fragmented it becomes more difficult to get big buffers. The downside of
-smaller buffers is that the driver has to split the transfer up which
-hampers performance. Compression might also take a hit because of the
-splitting.
+Fix a bug in the usage of IRQs and cleanup references to the DRM
+IRQ midlayer.
 
-Solve this by allocating the transfer buffer using vmalloc and create a
-SG table to be passed on to the USB subsystem. vmalloc_32() is used to
-avoid DMA bounce buffers on USB controllers that can only access 32-bit
-addresses.
+Preferably this patchset would be merged through drm-misc-next.
 
-This also solves the problem that split transfers can give host side
-tearing since flushing is decoupled from rendering.
-
-usb_sg_wait() doesn't have timeout handling builtin, so it is wrapped in
-a timer like 4 out of 6 users in the kernel have done.
-
+v5:
+	* go back to _hardirq() after CI tests reported atomic
+	  context in PCI probe; add rsp comment
+v4:
+	* switch IRQ code to intel_synchronize_irq() (Daniel)
+v3:
+	* also use intel_synchronize_hardirq() from other callsite
 v2:
-- Use DIV_ROUND_UP (Linus)
-- Add timeout note to the commit log (Linus)
-- Expand note about upper buffer limit (Linus)
-- Change var name s/timer/ctx/ in gud_usb_bulk_timeout()
+	* split patch
+	* also fix comment
+	* add intel_synchronize_hardirq() (Ville)
+	* update Fixes tag (Daniel)
 
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-Signed-off-by: Noralf Trønnes <noralf@tronnes.org>
----
- drivers/gpu/drm/gud/gud_drv.c      | 50 +++++++++++++++++++++---------
- drivers/gpu/drm/gud/gud_internal.h |  2 ++
- drivers/gpu/drm/gud/gud_pipe.c     | 47 ++++++++++++++++++++++++----
- 3 files changed, 78 insertions(+), 21 deletions(-)
+Thomas Zimmermann (2):
+  drm/i915: Use the correct IRQ during resume
+  drm/i915: Drop all references to DRM IRQ midlayer
 
-diff --git a/drivers/gpu/drm/gud/gud_drv.c b/drivers/gpu/drm/gud/gud_drv.c
-index 45427c73587f..b39a54f17063 100644
---- a/drivers/gpu/drm/gud/gud_drv.c
-+++ b/drivers/gpu/drm/gud/gud_drv.c
-@@ -394,13 +394,40 @@ static const struct drm_driver gud_drm_driver = {
- 	.minor			= 0,
- };
- 
-+static int gud_alloc_bulk_buffer(struct gud_device *gdrm)
-+{
-+	unsigned int i, num_pages;
-+	struct page **pages;
-+	void *ptr;
-+	int ret;
-+
-+	gdrm->bulk_buf = vmalloc_32(gdrm->bulk_len);
-+	if (!gdrm->bulk_buf)
-+		return -ENOMEM;
-+
-+	num_pages = DIV_ROUND_UP(gdrm->bulk_len, PAGE_SIZE);
-+	pages = kmalloc_array(num_pages, sizeof(struct page *), GFP_KERNEL);
-+	if (!pages)
-+		return -ENOMEM;
-+
-+	for (i = 0, ptr = gdrm->bulk_buf; i < num_pages; i++, ptr += PAGE_SIZE)
-+		pages[i] = vmalloc_to_page(ptr);
-+
-+	ret = sg_alloc_table_from_pages(&gdrm->bulk_sgt, pages, num_pages,
-+					0, gdrm->bulk_len, GFP_KERNEL);
-+	kfree(pages);
-+
-+	return ret;
-+}
-+
- static void gud_free_buffers_and_mutex(void *data)
- {
- 	struct gud_device *gdrm = data;
- 
- 	vfree(gdrm->compress_buf);
- 	gdrm->compress_buf = NULL;
--	kfree(gdrm->bulk_buf);
-+	sg_free_table(&gdrm->bulk_sgt);
-+	vfree(gdrm->bulk_buf);
- 	gdrm->bulk_buf = NULL;
- 	mutex_destroy(&gdrm->ctrl_lock);
- }
-@@ -537,24 +564,17 @@ static int gud_probe(struct usb_interface *intf, const struct usb_device_id *id)
- 
- 	if (desc.max_buffer_size)
- 		max_buffer_size = le32_to_cpu(desc.max_buffer_size);
--retry:
--	/*
--	 * Use plain kmalloc here since devm_kmalloc() places struct devres at the beginning
--	 * of the buffer it allocates. This wastes a lot of memory when allocating big buffers.
--	 * Asking for 2M would actually allocate 4M. This would also prevent getting the biggest
--	 * possible buffer potentially leading to split transfers.
--	 */
--	gdrm->bulk_buf = kmalloc(max_buffer_size, GFP_KERNEL | __GFP_NOWARN);
--	if (!gdrm->bulk_buf) {
--		max_buffer_size = roundup_pow_of_two(max_buffer_size) / 2;
--		if (max_buffer_size < SZ_512K)
--			return -ENOMEM;
--		goto retry;
--	}
-+	/* Prevent a misbehaving device from allocating loads of RAM. 4096x4096@XRGB8888 = 64 MB */
-+	if (max_buffer_size > SZ_64M)
-+		max_buffer_size = SZ_64M;
- 
- 	gdrm->bulk_pipe = usb_sndbulkpipe(interface_to_usbdev(intf), usb_endpoint_num(bulk_out));
- 	gdrm->bulk_len = max_buffer_size;
- 
-+	ret = gud_alloc_bulk_buffer(gdrm);
-+	if (ret)
-+		return ret;
-+
- 	if (gdrm->compression & GUD_COMPRESSION_LZ4) {
- 		gdrm->lz4_comp_mem = devm_kmalloc(dev, LZ4_MEM_COMPRESS, GFP_KERNEL);
- 		if (!gdrm->lz4_comp_mem)
-diff --git a/drivers/gpu/drm/gud/gud_internal.h b/drivers/gpu/drm/gud/gud_internal.h
-index de2f2d2dbc60..1bb65a46c347 100644
---- a/drivers/gpu/drm/gud/gud_internal.h
-+++ b/drivers/gpu/drm/gud/gud_internal.h
-@@ -5,6 +5,7 @@
- 
- #include <linux/list.h>
- #include <linux/mutex.h>
-+#include <linux/scatterlist.h>
- #include <linux/usb.h>
- #include <linux/workqueue.h>
- #include <uapi/drm/drm_fourcc.h>
-@@ -26,6 +27,7 @@ struct gud_device {
- 	unsigned int bulk_pipe;
- 	void *bulk_buf;
- 	size_t bulk_len;
-+	struct sg_table bulk_sgt;
- 
- 	u8 compression;
- 	void *lz4_comp_mem;
-diff --git a/drivers/gpu/drm/gud/gud_pipe.c b/drivers/gpu/drm/gud/gud_pipe.c
-index 2f83ab6b8e61..e0fb6cc969a3 100644
---- a/drivers/gpu/drm/gud/gud_pipe.c
-+++ b/drivers/gpu/drm/gud/gud_pipe.c
-@@ -220,13 +220,51 @@ static int gud_prep_flush(struct gud_device *gdrm, struct drm_framebuffer *fb,
- 	return ret;
- }
- 
-+struct gud_usb_bulk_context {
-+	struct timer_list timer;
-+	struct usb_sg_request sgr;
-+};
-+
-+static void gud_usb_bulk_timeout(struct timer_list *t)
-+{
-+	struct gud_usb_bulk_context *ctx = from_timer(ctx, t, timer);
-+
-+	usb_sg_cancel(&ctx->sgr);
-+}
-+
-+static int gud_usb_bulk(struct gud_device *gdrm, size_t len)
-+{
-+	struct gud_usb_bulk_context ctx;
-+	int ret;
-+
-+	ret = usb_sg_init(&ctx.sgr, gud_to_usb_device(gdrm), gdrm->bulk_pipe, 0,
-+			  gdrm->bulk_sgt.sgl, gdrm->bulk_sgt.nents, len, GFP_KERNEL);
-+	if (ret)
-+		return ret;
-+
-+	timer_setup_on_stack(&ctx.timer, gud_usb_bulk_timeout, 0);
-+	mod_timer(&ctx.timer, jiffies + msecs_to_jiffies(3000));
-+
-+	usb_sg_wait(&ctx.sgr);
-+
-+	if (!del_timer_sync(&ctx.timer))
-+		ret = -ETIMEDOUT;
-+	else if (ctx.sgr.status < 0)
-+		ret = ctx.sgr.status;
-+	else if (ctx.sgr.bytes != len)
-+		ret = -EIO;
-+
-+	destroy_timer_on_stack(&ctx.timer);
-+
-+	return ret;
-+}
-+
- static int gud_flush_rect(struct gud_device *gdrm, struct drm_framebuffer *fb,
- 			  const struct drm_format_info *format, struct drm_rect *rect)
- {
--	struct usb_device *usb = gud_to_usb_device(gdrm);
- 	struct gud_set_buffer_req req;
--	int ret, actual_length;
- 	size_t len, trlen;
-+	int ret;
- 
- 	drm_dbg(&gdrm->drm, "Flushing [FB:%d] " DRM_RECT_FMT "\n", fb->base.id, DRM_RECT_ARG(rect));
- 
-@@ -255,10 +293,7 @@ static int gud_flush_rect(struct gud_device *gdrm, struct drm_framebuffer *fb,
- 			return ret;
- 	}
- 
--	ret = usb_bulk_msg(usb, gdrm->bulk_pipe, gdrm->bulk_buf, trlen,
--			   &actual_length, msecs_to_jiffies(3000));
--	if (!ret && trlen != actual_length)
--		ret = -EIO;
-+	ret = gud_usb_bulk(gdrm, trlen);
- 	if (ret)
- 		gdrm->stats_num_errors++;
- 
--- 
-2.23.0
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c       |  2 +-
+ drivers/gpu/drm/i915/gt/intel_ring_submission.c |  7 +++++--
+ drivers/gpu/drm/i915/i915_drv.c                 |  1 -
+ drivers/gpu/drm/i915/i915_irq.c                 | 10 +++++-----
+ drivers/gpu/drm/i915/i915_irq.h                 |  1 +
+ 5 files changed, 12 insertions(+), 9 deletions(-)
+
+
+base-commit: 67f5a18128770817e4218a9e496d2bf5047c51e8
+prerequisite-patch-id: c2b2f08f0eccc9f5df0c0da49fa1d36267deb11d
+prerequisite-patch-id: c67e5d886a47b7d0266d81100837557fda34cb24
+prerequisite-patch-id: 0cca17365e65370fa95d193ed2f1c88917ee1aef
+prerequisite-patch-id: 12b9894350a0b56579d29542943465ef5134751c
+prerequisite-patch-id: 3e1c37d3425f4820fe36ea3da57c65e166fe0ee5
+prerequisite-patch-id: 1017c860a0bf95ce370d82b8db1745f5548fb321
+prerequisite-patch-id: dcc022baab7c172978de9809702c2f4f54323047
+prerequisite-patch-id: 0d05ee247042b43d5ab8f3af216e708a8e09bee8
+prerequisite-patch-id: 110c411161bed6072c32185940fcd052d0bdb09a
+prerequisite-patch-id: d2d1aeccffdfadf2b951487b8605f59c795d84cf
+prerequisite-patch-id: 85fe31e27ca13adc0d1bcc7c19b1ce238a77ee6a
+prerequisite-patch-id: c61fdacbe035ba5c17f1ff393bc9087f16aaea7b
+prerequisite-patch-id: c4821af5dbba4d121769f1da85d91fbb53020ec0
+prerequisite-patch-id: 0b20ef3302abfe6dc123dbc54b9dd087865f935b
+prerequisite-patch-id: d34eb96cbbdeb91870ace4250ea75920b1653dc2
+prerequisite-patch-id: 7f64fce347d15232134d7636ca7a8d9f5bf1a3a0
+prerequisite-patch-id: c83be7a285eb6682cdae0df401ab5d4c208f036b
+prerequisite-patch-id: eb1a44d2eb2685cea154dd3f17f5f463dfafd39a
+prerequisite-patch-id: 92a8c37dae4b8394fd6702f4af58ac7815ac3069
+prerequisite-patch-id: f0237988fe4ae6eba143432d1ace8beb52d935f8
+prerequisite-patch-id: bcf4d29437ed7cb78225dec4c99249eb40c18302
+prerequisite-patch-id: 6407b4c7f1b80af8d329d5f796b30da11959e936
+prerequisite-patch-id: 4a69e6e49d691b555f0e0874d638cd204dcb0c48
+prerequisite-patch-id: be09cfa8a67dd435a25103b85bd4b1649c5190a3
+prerequisite-patch-id: 813ecc9f94251c3d669155faf64c0c9e6a458393
+prerequisite-patch-id: beb2b5000a1682cbd74a7e2ab1566fcae5bccbf0
+prerequisite-patch-id: 754c8878611864475a0b75fd49ff38e71a21c795
+prerequisite-patch-id: d7d4bac3c19f94ba9593143b3c147d83d82cb71f
+prerequisite-patch-id: 983d1efbe060743f5951e474961fa431d886d757
+prerequisite-patch-id: 3c78b20c3b9315cd39e0ae9ea1510c6121bf9ca9
+--
+2.32.0
 
