@@ -1,36 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 544F83B94E3
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Jul 2021 18:53:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 380953B94E5
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Jul 2021 18:54:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 92BB88995F;
-	Thu,  1 Jul 2021 16:53:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 72A366EADD;
+	Thu,  1 Jul 2021 16:54:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5AB5F88635;
- Thu,  1 Jul 2021 16:53:29 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10032"; a="208524743"
-X-IronPort-AV: E=Sophos;i="5.83,315,1616482800"; d="scan'208";a="208524743"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Jul 2021 09:53:27 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.83,315,1616482800"; d="scan'208";a="426222744"
-Received: from irvmail001.ir.intel.com ([10.43.11.63])
- by orsmga002.jf.intel.com with ESMTP; 01 Jul 2021 09:53:25 -0700
-Received: from mwajdecz-MOBL.ger.corp.intel.com
- (mwajdecz-MOBL.ger.corp.intel.com [10.249.146.9])
- by irvmail001.ir.intel.com (8.14.3/8.13.6/MailSET/Hub) with ESMTP id
- 161GrOor018728; Thu, 1 Jul 2021 17:53:24 +0100
-From: Michal Wajdeczko <michal.wajdeczko@intel.com>
-To: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/i915/guc: Improve GuC CTB ABI
-Date: Thu,  1 Jul 2021 18:53:21 +0200
-Message-Id: <20210701165321.2067-1-michal.wajdeczko@intel.com>
-X-Mailer: git-send-email 2.21.0
+Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com
+ [IPv6:2607:f8b0:4864:20::62c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD2206EADD;
+ Thu,  1 Jul 2021 16:54:22 +0000 (UTC)
+Received: by mail-pl1-x62c.google.com with SMTP id z4so3987960plg.8;
+ Thu, 01 Jul 2021 09:54:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=KSrQtrkS57Wd8RUtiIlSXmn1PXYteCewAUlvuTiLz9k=;
+ b=CeJdWLaXxP5TiRpTjobL5+89BvtG4a0XGRdyggpWjHRV1RqlTP3SvbmU+Uz39rS2vO
+ +P9x3/NK4yus1l9oFzWeWDo9UptZnVNR5VASEkowxSTJpJPuQvyFDb2sD+52sPPMrO0d
+ 9ZB1fq0anCWrgtg0rjdSFT+fy3AdoogP20fbZK+VjRIdmaOhVpvhdaLuk6Jwzf8q7X6b
+ S93/NauMkuTXZHHKmSrxD9559sM5GzLHYKcXiMD0pi5LP0XRoLk6H52iQLGEvS4utWQq
+ uQ1dQnJPzligC9/d2sNaB4/pF1fY+gwEprhiizwozhOrGefBj3cKYo2UW3ukSglbszUG
+ WgyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=KSrQtrkS57Wd8RUtiIlSXmn1PXYteCewAUlvuTiLz9k=;
+ b=OiGh/X8HVa9KBvvH5Jb1U2on6/BRlk5VB91LtFlWANKYq3LU65S65LW2BifkXtEkuQ
+ rexh+5F0WoY9YXqILrDtZPstYdqI1VIRa6VcslXt2vJujlbPGIPLmZB51H9SL2TmhEHH
+ XV2J1Y0cmoHEn2KIdXlFq0Ey92iUdJZqI71o8ETAl2xhCsEwmim3Zn8RuosQALglYPi1
+ zGe7SAHnQkHx3zsKeSkWZQbOIsLtA1z61Pjmcqe3DL5//hLTbOAZ+7ep5yVH4mvBnh8W
+ 3AS1u13tdph7HB2YU+Yfg370W+mnPBrbLiWOJGukAVkMHzwrogaepcEJlxe8oeIvw5PM
+ jseA==
+X-Gm-Message-State: AOAM531ddJxOMwfHlxzRhlGiioEfaWEkiKjP8AV5Yv5U9IISAaGnhXva
+ X0ppWhQEZWrcPyi2CnbIzdY=
+X-Google-Smtp-Source: ABdhPJz45rBGKDpouGSS1yrk5efAnEw697BBt+81Exjeub/g9QFgrl7iQu4qWRNxbgHX9POqP3DxJA==
+X-Received: by 2002:a17:902:fe0a:b029:11d:81c9:3adf with SMTP id
+ g10-20020a170902fe0ab029011d81c93adfmr741720plj.0.1625158462323; 
+ Thu, 01 Jul 2021 09:54:22 -0700 (PDT)
+Received: from localhost.localdomain ([118.200.190.93])
+ by smtp.gmail.com with ESMTPSA id s20sm398738pgv.1.2021.07.01.09.54.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 01 Jul 2021 09:54:21 -0700 (PDT)
+From: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@linux.ie, daniel@ffwll.ch, sumit.semwal@linaro.org,
+ christian.koenig@amd.com
+Subject: [PATCH v7 0/5] drm: address potential UAF bugs with drm_master ptrs
+Date: Fri,  2 Jul 2021 00:53:53 +0800
+Message-Id: <20210701165358.19053-1-desmondcheongzx@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -45,177 +68,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matthew Brost <matthew.brost@intel.com>,
- Michal Wajdeczko <michal.wajdeczko@intel.com>
+Cc: gregkh@linuxfoundation.org, intel-gfx@lists.freedesktop.org,
+ emil.l.velikov@gmail.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ skhan@linuxfoundation.org, Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Make CTB Header explicit and separate from CTB Message.
+This patch series addresses potential use-after-free errors when dereferencing pointers to struct drm_master. These were identified after one such bug was caught by Syzbot in drm_getunique():
+https://syzkaller.appspot.com/bug?id=148d2f1dfac64af52ffd27b661981a540724f803
 
-Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
-Cc: Matthew Brost <matthew.brost@intel.com>
----
- .../gt/uc/abi/guc_communication_ctb_abi.h     | 51 +++++++++++--------
- drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c     | 24 ++++-----
- 2 files changed, 43 insertions(+), 32 deletions(-)
+The series is broken up into five patches:
 
-diff --git a/drivers/gpu/drm/i915/gt/uc/abi/guc_communication_ctb_abi.h b/drivers/gpu/drm/i915/gt/uc/abi/guc_communication_ctb_abi.h
-index e933ca02d0eb..90a86759e108 100644
---- a/drivers/gpu/drm/i915/gt/uc/abi/guc_communication_ctb_abi.h
-+++ b/drivers/gpu/drm/i915/gt/uc/abi/guc_communication_ctb_abi.h
-@@ -56,8 +56,9 @@ struct guc_ct_buffer_desc {
- } __packed;
- static_assert(sizeof(struct guc_ct_buffer_desc) == 64);
- 
-+
- /**
-- * DOC: CTB Message
-+ * DOC: CTB Header
-  *
-  *  +---+-------+--------------------------------------------------------------+
-  *  |   | Bits  | Description                                                  |
-@@ -71,21 +72,34 @@ static_assert(sizeof(struct guc_ct_buffer_desc) == 64);
-  *  |   +-------+--------------------------------------------------------------+
-  *  |   |   7:0 | **NUM_DWORDS** - length of the CTB message (w/o header)      |
-  *  +---+-------+--------------------------------------------------------------+
-- *  | 1 |  31:0 | optional (depends on FORMAT)                                 |
-- *  +---+-------+                                                              |
-- *  |...|       |                                                              |
-- *  +---+-------+                                                              |
-- *  | n |  31:0 |                                                              |
-+ */
-+
-+#define GUC_CTB_HDR_LEN					1u
-+#define GUC_CTB_HDR_0_FENCE				(0xffff << 16)
-+#define GUC_CTB_HDR_0_FORMAT				(0xf << 12)
-+#define   GUC_CTB_FORMAT_HXG				0u
-+#define GUC_CTB_HDR_0_RESERVED				(0xf << 8)
-+#define GUC_CTB_HDR_0_NUM_DWORDS			(0xff << 0)
-+#define   GUC_CTB_MAX_DWORDS				255u
-+
-+/**
-+ * DOC: CTB Message
-+ *
-+ *  +---+-------+--------------------------------------------------------------+
-+ *  |   | Bits  | Description                                                  |
-+ *  +===+=======+==============================================================+
-+ *  | 0 |  31:0 | `CTB Header`_                                                |
-+ *  +---+-------+--------------------------------------------------------------+
-+ *  | 1 |  31:0 |  +--------------------------------------------------------+  |
-+ *  +---+-------+  |                                                        |  |
-+ *  |...|       |  |  optional payload (depends on FORMAT)                  |  |
-+ *  +---+-------+  |                                                        |  |
-+ *  | n |  31:0 |  +--------------------------------------------------------+  |
-  *  +---+-------+--------------------------------------------------------------+
-  */
- 
--#define GUC_CTB_MSG_MIN_LEN			1u
--#define GUC_CTB_MSG_MAX_LEN			256u
--#define GUC_CTB_MSG_0_FENCE			(0xffff << 16)
--#define GUC_CTB_MSG_0_FORMAT			(0xf << 12)
--#define   GUC_CTB_FORMAT_HXG			0u
--#define GUC_CTB_MSG_0_RESERVED			(0xf << 8)
--#define GUC_CTB_MSG_0_NUM_DWORDS		(0xff << 0)
-+#define GUC_CTB_MSG_MIN_LEN		GUC_CTB_HDR_LEN
-+#define GUC_CTB_MSG_MAX_LEN		(GUC_CTB_HDR_LEN + GUC_CTB_MAX_DWORDS)
- 
- /**
-  * DOC: CTB HXG Message
-@@ -93,13 +107,10 @@ static_assert(sizeof(struct guc_ct_buffer_desc) == 64);
-  *  +---+-------+--------------------------------------------------------------+
-  *  |   | Bits  | Description                                                  |
-  *  +===+=======+==============================================================+
-- *  | 0 | 31:16 | FENCE                                                        |
-- *  |   +-------+--------------------------------------------------------------+
-- *  |   | 15:12 | FORMAT = GUC_CTB_FORMAT_HXG_                                 |
-- *  |   +-------+--------------------------------------------------------------+
-- *  |   |  11:8 | RESERVED = MBZ                                               |
-- *  |   +-------+--------------------------------------------------------------+
-- *  |   |   7:0 | NUM_DWORDS = length (in dwords) of the embedded HXG message  |
-+ *  | 0 |  31:0 | `CTB Header`_ with:                                          |
-+ *  |   |       |                                                              |
-+ *  |   |       |  - FORMAT = GUC_CTB_FORMAT_HXG_                              |
-+ *  |   |       |  - NUM_DWORDS = **n**                                        |
-  *  +---+-------+--------------------------------------------------------------+
-  *  | 1 |  31:0 |  +--------------------------------------------------------+  |
-  *  +---+-------+  |                                                        |  |
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-index 43409044528e..4236fc33d293 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-@@ -412,9 +412,9 @@ static int ct_write(struct intel_guc_ct *ct,
- 	 * dw1: HXG header (including action code)
- 	 * dw2+: action data
- 	 */
--	header = FIELD_PREP(GUC_CTB_MSG_0_FORMAT, GUC_CTB_FORMAT_HXG) |
--		 FIELD_PREP(GUC_CTB_MSG_0_NUM_DWORDS, len) |
--		 FIELD_PREP(GUC_CTB_MSG_0_FENCE, fence);
-+	header = FIELD_PREP(GUC_CTB_HDR_0_FORMAT, GUC_CTB_FORMAT_HXG) |
-+		 FIELD_PREP(GUC_CTB_HDR_0_NUM_DWORDS, len) |
-+		 FIELD_PREP(GUC_CTB_HDR_0_FENCE, fence);
- 
- 	hxg = FIELD_PREP(GUC_HXG_MSG_0_TYPE, GUC_HXG_TYPE_REQUEST) |
- 	      FIELD_PREP(GUC_HXG_REQUEST_MSG_0_ACTION |
-@@ -646,7 +646,7 @@ static int ct_read(struct intel_guc_ct *ct, struct ct_incoming_msg **msg)
- 	head = (head + 1) % size;
- 
- 	/* message len with header */
--	len = FIELD_GET(GUC_CTB_MSG_0_NUM_DWORDS, header) + GUC_CTB_MSG_MIN_LEN;
-+	len = FIELD_GET(GUC_CTB_HDR_0_NUM_DWORDS, header) + GUC_CTB_HDR_LEN;
- 	if (unlikely(len > (u32)available)) {
- 		CT_ERROR(ct, "Incomplete message %*ph %*ph %*ph\n",
- 			 4, &header,
-@@ -691,9 +691,9 @@ static int ct_read(struct intel_guc_ct *ct, struct ct_incoming_msg **msg)
- 
- static int ct_handle_response(struct intel_guc_ct *ct, struct ct_incoming_msg *response)
- {
--	u32 len = FIELD_GET(GUC_CTB_MSG_0_NUM_DWORDS, response->msg[0]);
--	u32 fence = FIELD_GET(GUC_CTB_MSG_0_FENCE, response->msg[0]);
--	const u32 *hxg = &response->msg[GUC_CTB_MSG_MIN_LEN];
-+	u32 len = FIELD_GET(GUC_CTB_HDR_0_NUM_DWORDS, response->msg[0]);
-+	u32 fence = FIELD_GET(GUC_CTB_HDR_0_FENCE, response->msg[0]);
-+	const u32 *hxg = &response->msg[GUC_CTB_HDR_LEN];
- 	const u32 *data = &hxg[GUC_HXG_MSG_MIN_LEN];
- 	u32 datalen = len - GUC_HXG_MSG_MIN_LEN;
- 	struct ct_request *req;
-@@ -750,8 +750,8 @@ static int ct_process_request(struct intel_guc_ct *ct, struct ct_incoming_msg *r
- 	u32 hxg_len, action, len;
- 	int ret;
- 
--	hxg = &request->msg[GUC_CTB_MSG_MIN_LEN];
--	hxg_len = request->size - GUC_CTB_MSG_MIN_LEN;
-+	hxg = &request->msg[GUC_CTB_HDR_LEN];
-+	hxg_len = request->size - GUC_CTB_HDR_LEN;
- 	payload = &hxg[GUC_HXG_MSG_MIN_LEN];
- 	action = FIELD_GET(GUC_HXG_EVENT_MSG_0_ACTION, hxg[0]);
- 	len = hxg_len - GUC_HXG_MSG_MIN_LEN;
-@@ -818,7 +818,7 @@ static void ct_incoming_request_worker_func(struct work_struct *w)
- 
- static int ct_handle_event(struct intel_guc_ct *ct, struct ct_incoming_msg *request)
- {
--	const u32 *hxg = &request->msg[GUC_CTB_MSG_MIN_LEN];
-+	const u32 *hxg = &request->msg[GUC_CTB_HDR_LEN];
- 	unsigned long flags;
- 
- 	GEM_BUG_ON(FIELD_GET(GUC_HXG_MSG_0_TYPE, hxg[0]) != GUC_HXG_TYPE_EVENT);
-@@ -840,7 +840,7 @@ static int ct_handle_hxg(struct intel_guc_ct *ct, struct ct_incoming_msg *msg)
- 	if (unlikely(msg->size < GUC_CTB_HXG_MSG_MIN_LEN))
- 		return -EBADMSG;
- 
--	hxg = &msg->msg[GUC_CTB_MSG_MIN_LEN];
-+	hxg = &msg->msg[GUC_CTB_HDR_LEN];
- 
- 	origin = FIELD_GET(GUC_HXG_MSG_0_ORIGIN, hxg[0]);
- 	if (unlikely(origin != GUC_HXG_ORIGIN_GUC)) {
-@@ -871,7 +871,7 @@ static int ct_handle_hxg(struct intel_guc_ct *ct, struct ct_incoming_msg *msg)
- 
- static void ct_handle_msg(struct intel_guc_ct *ct, struct ct_incoming_msg *msg)
- {
--	u32 format = FIELD_GET(GUC_CTB_MSG_0_FORMAT, msg->msg[0]);
-+	u32 format = FIELD_GET(GUC_CTB_HDR_0_FORMAT, msg->msg[0]);
- 	int err;
- 
- 	if (format == GUC_CTB_FORMAT_HXG)
+1. Move a call to drm_is_current_master() out from a section locked by &dev->mode_config.mutex in drm_mode_getconnector(). This patch does not apply to stable.
+
+2. Move a call to _drm_lease_held() out from the section locked by &dev->mode_config.idr_mutex in __drm_mode_object_find().
+
+3. Implement a locked version of drm_is_current_master() function that's used within drm_auth.c.
+
+4. Serialize drm_file.master by introducing a new lock that's held whenever the value of drm_file.master changes.
+
+5. Identify areas in drm_lease.c where pointers to struct drm_master are dereferenced, and ensure that the master pointers are not freed during use.
+
+Changes in v6 -> v7:
+- Patch 2:
+Modify code alignment as suggested by the intel-gfx CI.
+
+Update commit message based on the changes to patch 5.
+
+- Patch 4:
+Add patch 4 to the series. This patch adds a new lock to serialize drm_file.master, in response to the lockdep splat by the intel-gfx CI.
+
+- Patch 5:
+Move kerneldoc comment about protecting drm_file.master with drm_device.master_mutex into patch 4.
+
+Update drm_file_get_master to use the new drm_file.master_lock instead of drm_device.master_mutex, in response to the lockdep splat by the intel-gfx CI.
+
+Changes in v5 -> v6:
+- Patch 2:
+Add patch 2 to the series. This patch moves the call to _drm_lease_held out from the section locked by &dev->mode_config.idr_mutex in __drm_mode_object_find.
+
+- Patch 5:
+Clarify the kerneldoc for dereferencing drm_file.master, as suggested by Daniel Vetter.
+
+Refactor error paths with goto labels so that each function only has a single drm_master_put(), as suggested by Emil Velikov.
+
+Modify comparison to NULL into "!master", as suggested by the intel-gfx CI.
+
+Changes in v4 -> v5:
+- Patch 1:
+Add patch 1 to the series. The changes in patch 1 do not apply to stable because they apply to new changes in the drm-misc-next branch. This patch moves the call to drm_is_current_master in drm_mode_getconnector out from the section locked by &dev->mode_config.mutex.
+
+Additionally, added a missing semicolon to the patch, caught by the intel-gfx CI.
+
+- Patch 3:
+Move changes to drm_connector.c into patch 1.
+
+Changes in v3 -> v4:
+- Patch 3:
+Move the call to drm_is_current_master in drm_mode_getconnector out from the section locked by &dev->mode_config.mutex. As suggested by Daniel Vetter. This avoids a circular lock lock dependency as reported here https://patchwork.freedesktop.org/patch/440406/
+
+Additionally, inside drm_is_current_master, instead of grabbing &fpriv->master->dev->master_mutex, we grab &fpriv->minor->dev->master_mutex to avoid dereferencing a null ptr if fpriv->master is not set.
+
+- Patch 5:
+Modify kerneldoc formatting.
+
+Additionally, add a file_priv->master NULL check inside drm_file_get_master, and handle the NULL result accordingly in drm_lease.c. As suggested by Daniel Vetter.
+
+Changes in v2 -> v3:
+- Patch 3:
+Move the definition of drm_is_current_master and the _locked version higher up in drm_auth.c to avoid needing a forward declaration of drm_is_current_master_locked. As suggested by Daniel Vetter.
+
+- Patch 5:
+Instead of leaking drm_device.master_mutex into drm_lease.c to protect drm_master pointers, add a new drm_file_get_master() function that returns drm_file->master while increasing its reference count, to prevent drm_file->master from being freed. As suggested by Daniel Vetter.
+
+Changes in v1 -> v2:
+- Patch 5:
+Move the lock and assignment before the DRM_DEBUG_LEASE in drm_mode_get_lease_ioctl, as suggested by Emil Velikov.
+
+Desmond Cheong Zhi Xi (5):
+  drm: avoid circular locks in drm_mode_getconnector
+  drm: separate locks in __drm_mode_object_find
+  drm: add a locked version of drm_is_current_master
+  drm: serialize drm_file.master with a master lock
+  drm: protect drm_master pointers in drm_lease.c
+
+ drivers/gpu/drm/drm_auth.c        | 86 +++++++++++++++++++++++--------
+ drivers/gpu/drm/drm_connector.c   |  5 +-
+ drivers/gpu/drm/drm_file.c        |  1 +
+ drivers/gpu/drm/drm_lease.c       | 81 ++++++++++++++++++++++-------
+ drivers/gpu/drm/drm_mode_object.c | 10 ++--
+ include/drm/drm_auth.h            |  1 +
+ include/drm/drm_file.h            | 18 +++++--
+ 7 files changed, 153 insertions(+), 49 deletions(-)
+
 -- 
 2.25.1
 
