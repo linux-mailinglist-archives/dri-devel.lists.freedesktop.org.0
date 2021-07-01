@@ -1,31 +1,31 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55ADF3B974A
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Jul 2021 22:26:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 44D613B9784
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Jul 2021 22:26:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 21D7B6EC30;
-	Thu,  1 Jul 2021 20:25:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F5136EC39;
+	Thu,  1 Jul 2021 20:25:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F5A56EBA2;
- Thu,  1 Jul 2021 20:25:22 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10032"; a="188998657"
-X-IronPort-AV: E=Sophos;i="5.83,315,1616482800"; d="scan'208";a="188998657"
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A221C6EC02;
+ Thu,  1 Jul 2021 20:25:23 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10032"; a="208436163"
+X-IronPort-AV: E=Sophos;i="5.83,315,1616482800"; d="scan'208";a="208436163"
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  01 Jul 2021 13:25:21 -0700
-X-IronPort-AV: E=Sophos;i="5.83,315,1616482800"; d="scan'208";a="644564484"
+X-IronPort-AV: E=Sophos;i="5.83,315,1616482800"; d="scan'208";a="644564497"
 Received: from mdroper-desk1.fm.intel.com ([10.1.27.134])
  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  01 Jul 2021 13:25:20 -0700
 From: Matt Roper <matthew.d.roper@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 28/53] drm/i915/dg2: Add SQIDI steering
-Date: Thu,  1 Jul 2021 13:24:02 -0700
-Message-Id: <20210701202427.1547543-29-matthew.d.roper@intel.com>
+Subject: [PATCH 29/53] drm/i915/dg2: Add new LRI reg offsets
+Date: Thu,  1 Jul 2021 13:24:03 -0700
+Message-Id: <20210701202427.1547543-30-matthew.d.roper@intel.com>
 X-Mailer: git-send-email 2.25.4
 In-Reply-To: <20210701202427.1547543-1-matthew.d.roper@intel.com>
 References: <20210701202427.1547543-1-matthew.d.roper@intel.com>
@@ -43,111 +43,145 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org,
- Radhakrishna Sripada <radhakrishna.sripada@intel.com>
+Cc: Akeem G Abodunrin <akeem.g.abodunrin@intel.com>,
+ Prathap Kumar Valsan <prathap.kumar.valsan@intel.com>,
+ Chris P Wilson <chris.p.wilson@intel.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Although DG2_G10 platforms will always have all SQIDI's present and
-don't need steering for registers in a SQIDI MMIO range, this isn't true
-for DG2_G11 platforms; only SQIDI's 2 and 3 can be used on those.
+From: Akeem G Abodunrin <akeem.g.abodunrin@intel.com>
 
-We handle SQIDI ranges a bit differently from other types of explicit
-steering.  The SQIDI ranges belong to either the MCFG unit or the SF
-unit, both of which have their own dedicated steering registers and do
-not use the typical 0xFDC steering control that all other types of
-ranges use.  Thus we only need to worry about picking a valid initial
-value for the MCFG and SF steering registers (0xFD0 and 0xFD8
-resepectively) at driver init; they won't change after we set them up so
-we don't need to worry about re-steering them explicitly at runtime.
+New LRI register offsets were introduced for DG2, this patch adds
+those extra registers, and create new register table for setting offsets
+to compare with HW generated context image - especially for gt_lrc test.
+Also updates general purpose register with scratch offset for DG2, in
+order to use it for live_lrc_fixed selftest.
 
-Given that any SQIDI value should work fine for DG2-G10 and XeHP SDV,
-while only values of 2 and 3 are valid for DG2-G11, we'll just
-initialize the MCFG and SF steering registers to a constant value of "2"
-for all XeHP-based platforms for simplicity --- that will work in all
-cases.
-
-Bspec: 66534
-Cc: Radhakrishna Sripada <radhakrishna.sripada@intel.com>
+Cc: Chris P Wilson <chris.p.wilson@intel.com>
+Cc: Prathap Kumar Valsan <prathap.kumar.valsan@intel.com>
+Signed-off-by: Akeem G Abodunrin <akeem.g.abodunrin@intel.com>
 Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
 ---
- drivers/gpu/drm/i915/gt/intel_workarounds.c | 28 +++++++++++++++++----
- drivers/gpu/drm/i915/i915_reg.h             |  2 ++
- 2 files changed, 25 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/i915/gt/intel_lrc.c | 85 ++++++++++++++++++++++++++++-
+ 1 file changed, 83 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_workarounds.c b/drivers/gpu/drm/i915/gt/intel_workarounds.c
-index 4302dc1b728e..f97ff2848122 100644
---- a/drivers/gpu/drm/i915/gt/intel_workarounds.c
-+++ b/drivers/gpu/drm/i915/gt/intel_workarounds.c
-@@ -944,17 +944,24 @@ cfl_gt_workarounds_init(struct drm_i915_private *i915, struct i915_wa_list *wal)
- 		    GAMT_ECO_ENABLE_IN_PLACE_DECOMPRESS);
- }
+diff --git a/drivers/gpu/drm/i915/gt/intel_lrc.c b/drivers/gpu/drm/i915/gt/intel_lrc.c
+index fee735e2a524..da7ac1d970af 100644
+--- a/drivers/gpu/drm/i915/gt/intel_lrc.c
++++ b/drivers/gpu/drm/i915/gt/intel_lrc.c
+@@ -226,6 +226,40 @@ static const u8 gen12_xcs_offsets[] = {
+ 	END
+ };
  
--static void __add_mcr_wa(struct drm_i915_private *i915, struct i915_wa_list *wal,
--			 unsigned slice, unsigned subslice)
-+static void __set_mcr_steering(struct i915_wa_list *wal,
-+			       i915_reg_t steering_reg,
-+			       unsigned int slice, unsigned int subslice)
- {
- 	u32 mcr, mcr_mask;
- 
- 	mcr = GEN11_MCR_SLICE(slice) | GEN11_MCR_SUBSLICE(subslice);
- 	mcr_mask = GEN11_MCR_SLICE_MASK | GEN11_MCR_SUBSLICE_MASK;
- 
--	drm_dbg(&i915->drm, "MCR slice/subslice = %x\n", mcr);
-+	wa_write_clr_set(wal, steering_reg, mcr_mask, mcr);
-+}
++static const u8 dg2_xcs_offsets[] = {
++	NOP(1),
++	LRI(15, POSTED),
++	REG16(0x244),
++	REG(0x034),
++	REG(0x030),
++	REG(0x038),
++	REG(0x03c),
++	REG(0x168),
++	REG(0x140),
++	REG(0x110),
++	REG(0x1c0),
++	REG(0x1c4),
++	REG(0x1c8),
++	REG(0x180),
++	REG16(0x2b4),
++	REG(0x120),
++	REG(0x124),
 +
-+static void __add_mcr_wa(struct drm_i915_private *i915, struct i915_wa_list *wal,
-+			 unsigned int slice, unsigned int subslice)
-+{
-+	drm_dbg(&i915->drm, "MCR slice=0x%x, subslice=0x%x\n", slice, subslice);
- 
--	wa_write_clr_set(wal, GEN8_MCR_SELECTOR, mcr_mask, mcr);
-+	__set_mcr_steering(wal, GEN8_MCR_SELECTOR, slice, subslice);
- }
- 
- static void
-@@ -1008,7 +1015,6 @@ xehp_init_mcr(struct intel_gt *gt, struct i915_wa_list *wal)
- 	 * - L3 Bank (fusable)
- 	 * - MSLICE (fusable)
- 	 * - LNCF (sub-unit within mslice; always present if mslice is present)
--	 * - SQIDI (always on)
- 	 *
- 	 * We'll do our default/implicit steering based on GSLICE (in the
- 	 * sliceid field) and DSS (in the subsliceid field).  If we can
-@@ -1058,6 +1064,18 @@ xehp_init_mcr(struct intel_gt *gt, struct i915_wa_list *wal)
- 	WARN_ON(dss_mask >> (slice * GEN_DSS_PER_GSLICE) == 0);
- 
- 	__add_mcr_wa(i915, wal, slice, subslice);
++	NOP(1),
++	LRI(9, POSTED),
++	REG16(0x3a8),
++	REG16(0x28c),
++	REG16(0x288),
++	REG16(0x284),
++	REG16(0x280),
++	REG16(0x27c),
++	REG16(0x278),
++	REG16(0x274),
++	REG16(0x270),
 +
-+	/*
-+	 * SQIDI ranges are special because they use different steering
-+	 * registers than everything else we work with.  On XeHP SDV and
-+	 * DG2-G10, any value in the steering registers will work fine since
-+	 * all instances are present, but DG2-G11 only has SQIDI instances at
-+	 * ID's 2 and 3, so we need to steer to one of those.  For simplicity
-+	 * we'll just steer to a hardcoded "2" since that value will work
-+	 * everywhere.
-+	 */
-+	__set_mcr_steering(wal, MCFG_MCR_SELECTOR, 0, 2);
-+	__set_mcr_steering(wal, SF_MCR_SELECTOR, 0, 2);
- }
++	END
++};
++
+ static const u8 gen8_rcs_offsets[] = {
+ 	NOP(1),
+ 	LRI(14, POSTED),
+@@ -525,6 +559,49 @@ static const u8 xehp_rcs_offsets[] = {
+ 	END
+ };
  
- static void
-diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
-index 2992e8585399..b19d102e0a01 100644
---- a/drivers/gpu/drm/i915/i915_reg.h
-+++ b/drivers/gpu/drm/i915/i915_reg.h
-@@ -2686,6 +2686,8 @@ static inline bool i915_mmio_reg_valid(i915_reg_t reg)
- #define GEN12_SC_INSTDONE_EXTRA2	_MMIO(0x7108)
- #define GEN7_SAMPLER_INSTDONE	_MMIO(0xe160)
- #define GEN7_ROW_INSTDONE	_MMIO(0xe164)
-+#define MCFG_MCR_SELECTOR		_MMIO(0xfd0)
-+#define SF_MCR_SELECTOR			_MMIO(0xfd8)
- #define GEN8_MCR_SELECTOR		_MMIO(0xfdc)
- #define   GEN8_MCR_SLICE(slice)		(((slice) & 3) << 26)
- #define   GEN8_MCR_SLICE_MASK		GEN8_MCR_SLICE(3)
++static const u8 dg2_rcs_offsets[] = {
++	NOP(1),
++	LRI(15, POSTED),
++	REG16(0x244),
++	REG(0x034),
++	REG(0x030),
++	REG(0x038),
++	REG(0x03c),
++	REG(0x168),
++	REG(0x140),
++	REG(0x110),
++	REG(0x1c0),
++	REG(0x1c4),
++	REG(0x1c8),
++	REG(0x180),
++	REG16(0x2b4),
++	REG(0x120),
++	REG(0x124),
++
++	NOP(1),
++	LRI(9, POSTED),
++	REG16(0x3a8),
++	REG16(0x28c),
++	REG16(0x288),
++	REG16(0x284),
++	REG16(0x280),
++	REG16(0x27c),
++	REG16(0x278),
++	REG16(0x274),
++	REG16(0x270),
++
++	LRI(3, POSTED),
++	REG(0x1b0),
++	REG16(0x5a8),
++	REG16(0x5ac),
++
++	NOP(6),
++	LRI(1, 0),
++	REG(0x0c8),
++
++	END
++};
++
+ #undef END
+ #undef REG16
+ #undef REG
+@@ -543,7 +620,9 @@ static const u8 *reg_offsets(const struct intel_engine_cs *engine)
+ 		   !intel_engine_has_relative_mmio(engine));
+ 
+ 	if (engine->class == RENDER_CLASS) {
+-		if (GRAPHICS_VER_FULL(engine->i915) >= IP_VER(12, 50))
++		if (GRAPHICS_VER_FULL(engine->i915) >= IP_VER(12, 55))
++			return dg2_rcs_offsets;
++		else if (GRAPHICS_VER_FULL(engine->i915) >= IP_VER(12, 50))
+ 			return xehp_rcs_offsets;
+ 		else if (GRAPHICS_VER(engine->i915) >= 12)
+ 			return gen12_rcs_offsets;
+@@ -554,7 +633,9 @@ static const u8 *reg_offsets(const struct intel_engine_cs *engine)
+ 		else
+ 			return gen8_rcs_offsets;
+ 	} else {
+-		if (GRAPHICS_VER(engine->i915) >= 12)
++		if (GRAPHICS_VER_FULL(engine->i915) >= IP_VER(12, 55))
++			return dg2_xcs_offsets;
++		else if (GRAPHICS_VER(engine->i915) >= 12)
+ 			return gen12_xcs_offsets;
+ 		else if (GRAPHICS_VER(engine->i915) >= 9)
+ 			return gen9_xcs_offsets;
 -- 
 2.25.4
 
