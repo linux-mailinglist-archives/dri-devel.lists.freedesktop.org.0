@@ -1,31 +1,31 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 115CB3B9769
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Jul 2021 22:26:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DC2E63B979B
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Jul 2021 22:27:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E16546EBF6;
-	Thu,  1 Jul 2021 20:25:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 218026EC5F;
+	Thu,  1 Jul 2021 20:25:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC2B46EB9A;
- Thu,  1 Jul 2021 20:25:23 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10032"; a="188998667"
-X-IronPort-AV: E=Sophos;i="5.83,315,1616482800"; d="scan'208";a="188998667"
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A35F26EC1E;
+ Thu,  1 Jul 2021 20:25:24 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10032"; a="208436167"
+X-IronPort-AV: E=Sophos;i="5.83,315,1616482800"; d="scan'208";a="208436167"
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  01 Jul 2021 13:25:21 -0700
-X-IronPort-AV: E=Sophos;i="5.83,315,1616482800"; d="scan'208";a="644564518"
+X-IronPort-AV: E=Sophos;i="5.83,315,1616482800"; d="scan'208";a="644564521"
 Received: from mdroper-desk1.fm.intel.com ([10.1.27.134])
  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  01 Jul 2021 13:25:20 -0700
 From: Matt Roper <matthew.d.roper@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 39/53] drm/i915/dg2: Don't program BW_BUDDY registers
-Date: Thu,  1 Jul 2021 13:24:13 -0700
-Message-Id: <20210701202427.1547543-40-matthew.d.roper@intel.com>
+Subject: [PATCH 40/53] drm/i915/dg2: Don't read DRAM info
+Date: Thu,  1 Jul 2021 13:24:14 -0700
+Message-Id: <20210701202427.1547543-41-matthew.d.roper@intel.com>
 X-Mailer: git-send-email 2.25.4
 In-Reply-To: <20210701202427.1547543-1-matthew.d.roper@intel.com>
 References: <20210701202427.1547543-1-matthew.d.roper@intel.com>
@@ -43,35 +43,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Anusha Srivatsa <anusha.srivatsa@intel.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Although the BW_BUDDY registers still exist, they are not used for
-anything on DG2.  This change is expected to hold true for future dgpu's
-too.
+DG2 does not use system DRAM information for BW_BUDDY programming or
+watermark workarounds, so there's no need to read this out at startup.
 
-Bspec: 49218
+Cc: Anusha Srivatsa <anusha.srivatsa@intel.com>
 Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
 ---
- drivers/gpu/drm/i915/display/intel_display_power.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/gpu/drm/i915/intel_dram.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_display_power.c b/drivers/gpu/drm/i915/display/intel_display_power.c
-index c34ff0947b85..df6358638fee 100644
---- a/drivers/gpu/drm/i915/display/intel_display_power.c
-+++ b/drivers/gpu/drm/i915/display/intel_display_power.c
-@@ -5814,6 +5814,10 @@ static void tgl_bw_buddy_init(struct drm_i915_private *dev_priv)
- 	unsigned long abox_mask = INTEL_INFO(dev_priv)->abox_mask;
- 	int config, i;
+diff --git a/drivers/gpu/drm/i915/intel_dram.c b/drivers/gpu/drm/i915/intel_dram.c
+index 879b0f007be3..9675bb94b70b 100644
+--- a/drivers/gpu/drm/i915/intel_dram.c
++++ b/drivers/gpu/drm/i915/intel_dram.c
+@@ -494,15 +494,15 @@ void intel_dram_detect(struct drm_i915_private *i915)
+ 	struct dram_info *dram_info = &i915->dram_info;
+ 	int ret;
  
-+	/* BW_BUDDY registers are not used on dgpu's beyond DG1 */
-+	if (IS_DGFX(dev_priv) && !IS_DG1(dev_priv))
++	if (GRAPHICS_VER(i915) < 9 || IS_DG2(i915) || !HAS_DISPLAY(i915))
 +		return;
 +
- 	if (IS_ALDERLAKE_S(dev_priv) ||
- 	    IS_DG1_REVID(dev_priv, DG1_REVID_A0, DG1_REVID_A0) ||
- 	    IS_TGL_DISPLAY_STEP(dev_priv, STEP_A0, STEP_B0))
+ 	/*
+ 	 * Assume level 0 watermark latency adjustment is needed until proven
+ 	 * otherwise, this w/a is not needed by bxt/glk.
+ 	 */
+ 	dram_info->wm_lv_0_adjust_needed = !IS_GEN9_LP(i915);
+ 
+-	if (GRAPHICS_VER(i915) < 9 || !HAS_DISPLAY(i915))
+-		return;
+-
+ 	if (GRAPHICS_VER(i915) >= 12)
+ 		ret = gen12_get_dram_info(i915);
+ 	else if (GRAPHICS_VER(i915) >= 11)
 -- 
 2.25.4
 
