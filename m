@@ -1,39 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FB303B9694
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Jul 2021 21:31:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C26DD3B9712
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Jul 2021 22:15:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF2306EBA3;
-	Thu,  1 Jul 2021 19:30:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C7686E06E;
+	Thu,  1 Jul 2021 20:15:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C0F986EB91;
- Thu,  1 Jul 2021 19:30:57 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10032"; a="205599329"
-X-IronPort-AV: E=Sophos;i="5.83,315,1616482800"; d="scan'208";a="205599329"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Jul 2021 12:30:48 -0700
-X-IronPort-AV: E=Sophos;i="5.83,315,1616482800"; d="scan'208";a="457794047"
-Received: from josefeth-mobl.amr.corp.intel.com (HELO intel.com)
- ([10.212.93.40])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Jul 2021 12:30:47 -0700
-Date: Thu, 1 Jul 2021 15:30:45 -0400
-From: Rodrigo Vivi <rodrigo.vivi@intel.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Subject: Re: [Intel-gfx] [PULL] drm-intel-next-fixes
-Message-ID: <YN4X5STOzppt9yAj@intel.com>
-References: <YNtsfguvCRSROBUZ@intel.com> <87zgv7r7kg.fsf@intel.com>
- <YNzAViVC1l4hE/uG@intel.com> <87k0maqulq.fsf@intel.com>
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com
+ [IPv6:2a00:1450:4864:20::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 14EAA6E06E
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Jul 2021 20:15:27 +0000 (UTC)
+Received: by mail-lf1-x133.google.com with SMTP id n14so13995232lfu.8
+ for <dri-devel@lists.freedesktop.org>; Thu, 01 Jul 2021 13:15:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linux-foundation.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=2iNcNOPlfT+qWPK+b3Uy11X2JBFYAgrqY9VVeV4ulS8=;
+ b=H8D4sU0qi8I8AexpK1PssC7DU2czpDwmWVt+gaksX9V0+4qrhKVDeAU4WC8yrVExYC
+ M4yjFLQXLHVEUWOJxmw4kTbvDus+9qR26Lidx/Zsz9UWn9KtkLtY1eQ68x/nntopJt5V
+ MkXIhnFBYxdh8Ujqznp+zti9Rs1/SumlGyZC4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=2iNcNOPlfT+qWPK+b3Uy11X2JBFYAgrqY9VVeV4ulS8=;
+ b=TGKPOeNPuor5LTBnBlHB2ogGCJqQBLou5Lt8DNQGNM3R0jQzHmbJEMICd7dJwTn9FW
+ 3Awp5Za6WaV5nkPQu+WMhmFCz/p3ntVfuBhWaNzDxIvPkNL0CqxAaOMJqYWiIHj1nXOi
+ rpa3td5icg0opICtIRZWpYkSUBklWQB28xflXmECLZfEoL66Dom/bX7++iJQY3g8F06r
+ lRLXWkFwnd001gaPRYJPxlAmDkdypr+JydVdm9xGU88Lx3Iv0WpPcYuKxmZ/GflvBmOs
+ wkgA0wm9ahnYMe0u+vdzVEA9p82xkwosv+NHvNClYDxAMoXw7GGgd8UKE52JupfnyzQb
+ rx5Q==
+X-Gm-Message-State: AOAM533bsEDkliUklztPBMGT91qCJ/wPjkpTOF3xt2cdKhTuUY4LkM80
+ LNdN5ZLQ0wP9FX/FjHoD0q+4XaKVY70b9lLjh80=
+X-Google-Smtp-Source: ABdhPJzeMObDU47q+tC/SZ0m/Qkit3KNsephdmhRYt9VyFR5C08wFqnXG4/On8zNRc6Nvd3TP+9nVw==
+X-Received: by 2002:a19:4c54:: with SMTP id z81mr1024750lfa.28.1625170525303; 
+ Thu, 01 Jul 2021 13:15:25 -0700 (PDT)
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com.
+ [209.85.208.180])
+ by smtp.gmail.com with ESMTPSA id i5sm114288ljm.120.2021.07.01.13.15.24
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 01 Jul 2021 13:15:24 -0700 (PDT)
+Received: by mail-lj1-f180.google.com with SMTP id h6so10157300ljl.8
+ for <dri-devel@lists.freedesktop.org>; Thu, 01 Jul 2021 13:15:24 -0700 (PDT)
+X-Received: by 2002:a05:651c:32e:: with SMTP id
+ b14mr965880ljp.251.1625170523672; 
+ Thu, 01 Jul 2021 13:15:23 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <87k0maqulq.fsf@intel.com>
+References: <CAPM=9tzR4BqTtamrTy4T_XV7E0fUNyduaVtH5zAi=sqwX_3udg@mail.gmail.com>
+In-Reply-To: <CAPM=9tzR4BqTtamrTy4T_XV7E0fUNyduaVtH5zAi=sqwX_3udg@mail.gmail.com>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Thu, 1 Jul 2021 13:15:07 -0700
+X-Gmail-Original-Message-ID: <CAHk-=whgcN6MEyZBgK3UZRw=vwd1CAAK9+rafmZ2vsOiGpsMSA@mail.gmail.com>
+Message-ID: <CAHk-=whgcN6MEyZBgK3UZRw=vwd1CAAK9+rafmZ2vsOiGpsMSA@mail.gmail.com>
+Subject: Re: [git pull] drm for 5.14-rc1
+To: Dave Airlie <airlied@gmail.com>, Philip Yang <Philip.Yang@amd.com>, 
+ Felix Kuehling <Felix.Kuehling@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,114 +73,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dim-tools@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 01, 2021 at 11:57:53AM +0300, Jani Nikula wrote:
-> On Wed, 30 Jun 2021, Rodrigo Vivi <rodrigo.vivi@intel.com> wrote:
-> > On Wed, Jun 30, 2021 at 01:05:35PM +0300, Jani Nikula wrote:
-> >> On Tue, 29 Jun 2021, Rodrigo Vivi <rodrigo.vivi@intel.com> wrote:
-> >> > Hi Dave and Daniel,
-> >> >
-> >> > Here goes drm-intel-next-fixes-2021-06-29:
-> >> >
-> >> > The biggest fix is the restoration of mmap ioctl for gen12 integrated parts
-> >> > which lack was breaking ADL-P with media stack.
-> >> > Besides that a small selftest fix and a theoretical overflow on
-> >> > i915->pipe_to_crtc_mapping.
-> >> 
-> >> My last fixes pull for v5.13 fell between the cracks [1]. There was one
-> >> stable worthy fix, but since it was still in drm-intel-fixes when you
-> >> ran dim cherry-pick-next-fixes, it was skipped for drm-intel-next-fixes.
-> >> 
-> >> I've now dropped the commit and pushed v5.13 to drm-intel-fixes, as
-> >> we're past that point. Subsequent dim cherry-pick-next-fixes should pick
-> >> it up now.
-> >
-> > it didn't, probably because the Fixes hash not being part of the drm-next yet?!
-> 
-> Odd, should be.
+On Wed, Jun 30, 2021 at 9:34 PM Dave Airlie <airlied@gmail.com> wrote:
+>
+> Hi Linus,
+>
+> This is the main drm pull request for 5.14-rc1.
+>
+> I've done a test pull into your current tree, and hit two conflicts
+> (one in vc4, one in amdgpu), both seem pretty trivial, the amdgpu one
+> is recent and sfr sent out a resolution for it today.
 
-indeed...
+Well, the resolutions may be trivial, but the conflict made me look at
+the code, and it's buggy.
 
-> 
-> > I can cherry-pick that directly. Please let me know the commit id.
-> 
-> c88e2647c5bb ("drm/i915/display: Do not zero past infoframes.vsc")
+Commit 04d8d73dbcbe ("drm/amdgpu: add common HMM get pages function")
+is broken. It made the code do
 
-pushed to drm-intel-next-queue... will wait for CI results and send another PR.
-I hope there's still time, otherwise it can wait for the -fixes flow
+        mmap_read_lock(mm);
+        vma = find_vma(mm, start);
+        mmap_read_unlock(mm);
 
-> 
-> Thanks,
-> Jani.
-> 
-> 
-> >
-> > Thanks,
-> > Rodrigo.
-> >
-> >> 
-> >> Please do another next fixes pull request with that. (It's okay to pull
-> >> this one already though, doesn't make a difference.)
-> >> 
-> >> 
-> >> BR,
-> >> Jani.
-> >> 
-> >> 
-> >> [1] https://lore.kernel.org/r/87czsbu15r.fsf@intel.com
-> >> 
-> >> 
-> >> 
-> >> >
-> >> > Thanks,
-> >> > Rodrigo.
-> >> >
-> >> > The following changes since commit 1bd8a7dc28c1c410f1ceefae1f2a97c06d1a67c2:
-> >> >
-> >> >   Merge tag 'exynos-drm-next-for-v5.14' of git://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos into drm-next (2021-06-11 14:19:12 +1000)
-> >> >
-> >> > are available in the Git repository at:
-> >> >
-> >> >   git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-next-fixes-2021-06-29
-> >> >
-> >> > for you to fetch changes up to c90c4c6574f3feaf2203b5671db1907a1e15c653:
-> >> >
-> >> >   drm/i915: Reinstate the mmap ioctl for some platforms (2021-06-28 07:43:56 -0400)
-> >> >
-> >> > ----------------------------------------------------------------
-> >> > The biggest fix is the restoration of mmap ioctl for gen12 integrated parts
-> >> > which lack was breaking ADL-P with media stack.
-> >> > Besides that a small selftest fix and a theoretical overflow on
-> >> > i915->pipe_to_crtc_mapping.
-> >> >
-> >> > ----------------------------------------------------------------
-> >> > Chris Wilson (1):
-> >> >       drm/i915/selftests: Reorder tasklet_disable vs local_bh_disable
-> >> >
-> >> > Jani Nikula (1):
-> >> >       drm/i915/dsc: abstract helpers to get bigjoiner primary/secondary crtc
-> >> >
-> >> > Thomas Hellström (1):
-> >> >       drm/i915: Reinstate the mmap ioctl for some platforms
-> >> >
-> >> >  drivers/gpu/drm/i915/display/intel_display.c       |  7 ++-
-> >> >  drivers/gpu/drm/i915/display/intel_display_types.h |  8 ++++
-> >> >  drivers/gpu/drm/i915/display/intel_vdsc.c          | 40 +++++++++++-----
-> >> >  drivers/gpu/drm/i915/display/intel_vdsc.h          |  1 +
-> >> >  drivers/gpu/drm/i915/gem/i915_gem_mman.c           |  7 +--
-> >> >  drivers/gpu/drm/i915/gt/selftest_execlists.c       | 55 +++++++++++++---------
-> >> >  6 files changed, 76 insertions(+), 42 deletions(-)
-> >> 
-> >> -- 
-> >> Jani Nikula, Intel Open Source Graphics Center
-> 
-> -- 
-> Jani Nikula, Intel Open Source Graphics Center
-> _______________________________________________
-> Intel-gfx mailing list
-> Intel-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
+and then it *uses* that "vma" after it has dropped the lock.
+
+That's a big no-no - once you've dropped the lock, the vma contents
+simply aren't reliable any more. That mapping could now be unmapped
+and removed at any time.
+
+Now, the conflict actually made one of the uses go away (switching to
+vma_lookup() means that the subsequent code no longer needs to look at
+"vm_start" to verify we're actually _inside_ the vma), but it still
+checks for vma->vm_file afterwards.
+
+So those locking changes in commit 04d8d73dbcbe are completely bogus.
+
+I tried to fix up that bug while handling the conflict, but who knows
+what else similar is going on elsewhere.
+
+So I would ask people to
+
+ (a) verify that I didn't make things worse as I fixed things up (note
+how I had to change the last argument to amdgpu_hmm_range_get_pages()
+from false to true etc).
+
+ (b) go and look at their vma lookup code: you can't just look up a
+vma under the lock, and then drop the lock, and then think things stay
+stable.
+
+In particular for that (b) case: it is *NOT* enough to look up
+vma->vm_file inside the lock and cache that. No - if the test is about
+"no backing file before looking up pages", then you have to *keep*
+holding the lock until after you've actually looked up the pages!
+
+Because otherwise any test for "vma->vm_file" is entirely pointless,
+for the same reason it's buggy to even look at it after dropping the
+lock: because once you've dropped the lock, the thing you just tested
+for might not be true any more.
+
+So no, it's not valid to do
+
+    bool has_file = vma && vma->vm_file;
+
+and then drop the lock, because you don't use 'vma' any more as a
+pointer, and then use 'has_file' outside the lock. Because after
+you've dropped the lock, 'has_file' is now meaningless.
+
+So it's not just about "you can't look at vma->vm_file after dropping
+the lock". It's more fundamental than that. Any *decision* you make
+based on the vma is entirely pointless and moot after the lock is
+dropped!
+
+Did I fix it up correctly? Who knows. The code makes more sense to me
+now and seems valid. But I really *really* want to stress how locking
+is important.
+
+You also can't just unlock in the middle of an operation - even if you
+then take the lock *again* later (as amdgpu_hmm_range_get_pages() then
+did), the fact that you unlocked in the middle means that all the
+earlier tests you did are simply no longer valid when you re-take the
+lock.
+
+                 Linus
