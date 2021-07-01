@@ -1,40 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31E9F3B987B
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Jul 2021 00:06:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9366A3B9889
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Jul 2021 00:19:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 90C106EC69;
-	Thu,  1 Jul 2021 22:06:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 153906EC6C;
+	Thu,  1 Jul 2021 22:19:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C7766EC55;
- Thu,  1 Jul 2021 22:06:43 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10032"; a="195920705"
-X-IronPort-AV: E=Sophos;i="5.83,315,1616482800"; d="scan'208";a="195920705"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Jul 2021 15:06:41 -0700
-X-IronPort-AV: E=Sophos;i="5.83,315,1616482800"; d="scan'208";a="626532115"
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 263B66EC6A;
+ Thu,  1 Jul 2021 22:19:18 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10032"; a="208585793"
+X-IronPort-AV: E=Sophos;i="5.83,315,1616482800"; d="scan'208";a="208585793"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Jul 2021 15:19:17 -0700
+X-IronPort-AV: E=Sophos;i="5.83,315,1616482800"; d="scan'208";a="420593294"
 Received: from aebanas-mobl.amr.corp.intel.com (HELO ldmartin-desk2)
  ([10.254.38.1])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Jul 2021 15:06:41 -0700
-Date: Thu, 1 Jul 2021 15:06:35 -0700
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Jul 2021 15:19:16 -0700
+Date: Thu, 1 Jul 2021 15:19:10 -0700
 From: Lucas De Marchi <lucas.demarchi@intel.com>
 To: Matt Roper <matthew.d.roper@intel.com>
-Subject: Re: [PATCH 04/53] drm/i915/xehp: VDBOX/VEBOX fusing registers are
- enable-based
-Message-ID: <20210701220635.e3ukhvoqsenroxpy@ldmartin-desk2>
+Subject: Re: [Intel-gfx] [PATCH 05/53] drm/i915/gen12: Use fuse info to
+ enable SFC
+Message-ID: <20210701221910.szs35oqn4mxdhocf@ldmartin-desk2>
 X-Patchwork-Hint: comment
 References: <20210701202427.1547543-1-matthew.d.roper@intel.com>
- <20210701202427.1547543-5-matthew.d.roper@intel.com>
+ <20210701202427.1547543-6-matthew.d.roper@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-In-Reply-To: <20210701202427.1547543-5-matthew.d.roper@intel.com>
+In-Reply-To: <20210701202427.1547543-6-matthew.d.roper@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,63 +47,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- dri-devel@lists.freedesktop.org, Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 01, 2021 at 01:23:38PM -0700, Matt Roper wrote:
->From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+On Thu, Jul 01, 2021 at 01:23:39PM -0700, Matt Roper wrote:
+>From: Venkata Sandeep Dhanalakota <venkata.s.dhanalakota@intel.com>
 >
->On Xe_HP the fusing register is renamed and changed to have the "enable"
->semantics, but otherwise remains compatible (mmio address, bitmask
->ranges) with older platforms.
+>In Gen12 there are various fuse combinations and in each configuration
+>vdbox engine may be connected to SFC depending on which engines are
+>available, so we need to set the SFC capability based on fuse value from
+>the hardware. Even numbered phyical instance always have SFC, odd
+>numbered physical instances have SFC only if previous even instance is
+>fused off.
 >
->To simplify things we do not add a new register definition but just stop
->inverting the fusing masks before processing them.
->
->Bspec: 33288
+>Bspec: 48028
 
-This is now:
+considering that in TGL we have physical instances 0 and 2 (both even),
+we can use this logic, so it's correct correct for GRAPHICS_VER(i915) == 12.
+Although I wonder ifwe should be using MEDIA_VER(i915) here.
 
-Bspec: 52615
 
+>Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 >Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
->Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>Signed-off-by: Venkata Sandeep Dhanalakota <venkata.s.dhanalakota@intel.com>
 >Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
 
-
-this change above,
 
 Reviewed-by: Lucas De Marchi <lucas.demarchi@intel.com>
 
 Lucas De Marchi
 
 >---
-> drivers/gpu/drm/i915/gt/intel_engine_cs.c | 9 ++++++++-
-> 1 file changed, 8 insertions(+), 1 deletion(-)
+> drivers/gpu/drm/i915/gt/intel_engine_cs.c | 30 ++++++++++++++++++-----
+> 1 file changed, 24 insertions(+), 6 deletions(-)
 >
 >diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
->index 88694822716a..151870d8fdd3 100644
+>index 151870d8fdd3..4ab2c9abb943 100644
 >--- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
 >+++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
->@@ -468,7 +468,14 @@ static intel_engine_mask_t init_engine_mask(struct intel_gt *gt)
-> 	if (GRAPHICS_VER(i915) < 11)
-> 		return info->engine_mask;
+>@@ -442,6 +442,28 @@ void intel_engines_free(struct intel_gt *gt)
+> 	}
+> }
 >
->-	media_fuse = ~intel_uncore_read(uncore, GEN11_GT_VEBOX_VDBOX_DISABLE);
+>+static inline
+>+bool vdbox_has_sfc(struct drm_i915_private *i915, unsigned int physical_vdbox,
+>+		   unsigned int logical_vdbox, u16 vdbox_mask)
+>+{
 >+	/*
->+	 * On newer platforms the fusing register is called 'enable' and has
->+	 * enable semantics, while on older platforms it is called 'disable'
->+	 * and bits have disable semantices.
+>+	 * In Gen11, only even numbered logical VDBOXes are hooked
+>+	 * up to an SFC (Scaler & Format Converter) unit.
+>+	 * In Gen12, Even numbered phyical instance always are connected
+>+	 * to an SFC. Odd numbered physical instances have SFC only if
+>+	 * previous even instance is fused off.
 >+	 */
->+	media_fuse = intel_uncore_read(uncore, GEN11_GT_VEBOX_VDBOX_DISABLE);
->+	if (GRAPHICS_VER_FULL(i915) < IP_VER(12, 50))
->+		media_fuse = ~media_fuse;
+>+	if (GRAPHICS_VER(i915) == 12) {
+>+		return (physical_vdbox % 2 == 0) ||
+>+			!(BIT(physical_vdbox - 1) & vdbox_mask);
+>+	} else if (GRAPHICS_VER(i915) == 11) {
+>+		return logical_vdbox % 2 == 0;
+>+	}
+>+
+>+	MISSING_CASE(GRAPHICS_VER(i915));
+>+	return false;
+>+}
+>+
+> /*
+>  * Determine which engines are fused off in our particular hardware.
+>  * Note that we have a catch-22 situation where we need to be able to access
+>@@ -493,13 +515,9 @@ static intel_engine_mask_t init_engine_mask(struct intel_gt *gt)
+> 			continue;
+> 		}
 >
-> 	vdbox_mask = media_fuse & GEN11_GT_VDBOX_DISABLE_MASK;
-> 	vebox_mask = (media_fuse & GEN11_GT_VEBOX_DISABLE_MASK) >>
+>-		/*
+>-		 * In Gen11, only even numbered logical VDBOXes are
+>-		 * hooked up to an SFC (Scaler & Format Converter) unit.
+>-		 * In TGL each VDBOX has access to an SFC.
+>-		 */
+>-		if (GRAPHICS_VER(i915) >= 12 || logical_vdbox++ % 2 == 0)
+>+		if (vdbox_has_sfc(i915, i, logical_vdbox, vdbox_mask))
+> 			gt->info.vdbox_sfc_access |= BIT(i);
+>+		logical_vdbox++;
+> 	}
+> 	drm_dbg(&i915->drm, "vdbox enable: %04x, instances: %04lx\n",
+> 		vdbox_mask, VDBOX_MASK(gt));
 >-- 
 >2.25.4
 >
+>_______________________________________________
+>Intel-gfx mailing list
+>Intel-gfx@lists.freedesktop.org
+>https://lists.freedesktop.org/mailman/listinfo/intel-gfx
