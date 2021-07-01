@@ -2,30 +2,30 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 294A63B9799
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Jul 2021 22:27:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DC8D3B9794
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Jul 2021 22:27:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 97E396EC60;
-	Thu,  1 Jul 2021 20:25:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0042E6EC4B;
+	Thu,  1 Jul 2021 20:25:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 52A8A6EC13;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 246B86EC0C;
  Thu,  1 Jul 2021 20:25:24 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10032"; a="208436164"
-X-IronPort-AV: E=Sophos;i="5.83,315,1616482800"; d="scan'208";a="208436164"
+X-IronPort-AV: E=McAfee;i="6200,9189,10032"; a="208436165"
+X-IronPort-AV: E=Sophos;i="5.83,315,1616482800"; d="scan'208";a="208436165"
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  01 Jul 2021 13:25:21 -0700
-X-IronPort-AV: E=Sophos;i="5.83,315,1616482800"; d="scan'208";a="644564506"
+X-IronPort-AV: E=Sophos;i="5.83,315,1616482800"; d="scan'208";a="644564509"
 Received: from mdroper-desk1.fm.intel.com ([10.1.27.134])
  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  01 Jul 2021 13:25:20 -0700
 From: Matt Roper <matthew.d.roper@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 35/53] drm/i915/dg2: Skip shared DPLL handling
-Date: Thu,  1 Jul 2021 13:24:09 -0700
-Message-Id: <20210701202427.1547543-36-matthew.d.roper@intel.com>
+Subject: [PATCH 36/53] drm/i915/dg2: Don't wait for AUX power well enable ACKs
+Date: Thu,  1 Jul 2021 13:24:10 -0700
+Message-Id: <20210701202427.1547543-37-matthew.d.roper@intel.com>
 X-Mailer: git-send-email 2.25.4
 In-Reply-To: <20210701202427.1547543-1-matthew.d.roper@intel.com>
 References: <20210701202427.1547543-1-matthew.d.roper@intel.com>
@@ -43,78 +43,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mohammed Khajapasha <mohammed.khajapasha@intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>, dri-devel@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DG2 has no shared DPLL's or DDI clock muxing.  The Port PLL is embedded
-within the PHY.
+On DG2 we're supposed to just wait 600us after programming the well
+before moving on; there won't be an ack from the hardware.
 
-Bspec: 54032
-Bspec: 54034
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>
-Cc: Mohammed Khajapasha <mohammed.khajapasha@intel.com>
+Bspec: 49296
 Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
 ---
- drivers/gpu/drm/i915/display/intel_display.c  | 10 +++++++---
- drivers/gpu/drm/i915/display/intel_dpll_mgr.c |  5 ++++-
- 2 files changed, 11 insertions(+), 4 deletions(-)
+ .../gpu/drm/i915/display/intel_display_power.c   | 16 ++++++++++++++++
+ .../gpu/drm/i915/display/intel_display_power.h   |  6 ++++++
+ 2 files changed, 22 insertions(+)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
-index 026c28c612f0..c673d0c8fb4a 100644
---- a/drivers/gpu/drm/i915/display/intel_display.c
-+++ b/drivers/gpu/drm/i915/display/intel_display.c
-@@ -3474,7 +3474,8 @@ static void icl_ddi_bigjoiner_pre_enable(struct intel_atomic_state *state,
- 		 * Enable sequence steps 1-7 on bigjoiner master
- 		 */
- 		intel_encoders_pre_pll_enable(state, master);
--		intel_enable_shared_dpll(master_crtc_state);
-+		if (master_crtc_state->shared_dpll)
-+			intel_enable_shared_dpll(master_crtc_state);
- 		intel_encoders_pre_enable(state, master);
- 
- 		/* and DSC on slave */
-@@ -8633,10 +8634,11 @@ intel_pipe_config_compare(const struct intel_crtc_state *current_config,
- 
- 	PIPE_CONF_CHECK_BOOL(double_wide);
- 
--	PIPE_CONF_CHECK_P(shared_dpll);
-+	if (dev_priv->dpll.mgr)
-+		PIPE_CONF_CHECK_P(shared_dpll);
- 
- 	/* FIXME do the readout properly and get rid of this quirk */
--	if (!PIPE_CONF_QUIRK(PIPE_CONFIG_QUIRK_BIGJOINER_SLAVE)) {
-+	if (dev_priv->dpll.mgr && !PIPE_CONF_QUIRK(PIPE_CONFIG_QUIRK_BIGJOINER_SLAVE)) {
- 		PIPE_CONF_CHECK_X(dpll_hw_state.dpll);
- 		PIPE_CONF_CHECK_X(dpll_hw_state.dpll_md);
- 		PIPE_CONF_CHECK_X(dpll_hw_state.fp0);
-@@ -8668,7 +8670,9 @@ intel_pipe_config_compare(const struct intel_crtc_state *current_config,
- 		PIPE_CONF_CHECK_X(dpll_hw_state.mg_pll_ssc);
- 		PIPE_CONF_CHECK_X(dpll_hw_state.mg_pll_bias);
- 		PIPE_CONF_CHECK_X(dpll_hw_state.mg_pll_tdc_coldst_bias);
+diff --git a/drivers/gpu/drm/i915/display/intel_display_power.c b/drivers/gpu/drm/i915/display/intel_display_power.c
+index 285380079aab..c34ff0947b85 100644
+--- a/drivers/gpu/drm/i915/display/intel_display_power.c
++++ b/drivers/gpu/drm/i915/display/intel_display_power.c
+@@ -341,6 +341,17 @@ static void hsw_wait_for_power_well_enable(struct drm_i915_private *dev_priv,
+ {
+ 	const struct i915_power_well_regs *regs = power_well->desc->hsw.regs;
+ 	int pw_idx = power_well->desc->hsw.idx;
++	int enable_delay = power_well->desc->hsw.fixed_enable_delay;
++
++	/*
++	 * For some power wells we're not supposed to watch the status bit for
++	 * an ack, but rather just wait a fixed amount of time and then
++	 * proceed.  This is only used on DG2.
++	 */
++	if (IS_DG2(dev_priv) && enable_delay) {
++		usleep_range(enable_delay, 2 * enable_delay);
++		return;
 +	}
  
-+	if (!PIPE_CONF_QUIRK(PIPE_CONFIG_QUIRK_BIGJOINER_SLAVE)) {
- 		PIPE_CONF_CHECK_X(dsi_pll.ctrl);
- 		PIPE_CONF_CHECK_X(dsi_pll.div);
- 
-diff --git a/drivers/gpu/drm/i915/display/intel_dpll_mgr.c b/drivers/gpu/drm/i915/display/intel_dpll_mgr.c
-index 882bfd499e55..5688d9704636 100644
---- a/drivers/gpu/drm/i915/display/intel_dpll_mgr.c
-+++ b/drivers/gpu/drm/i915/display/intel_dpll_mgr.c
-@@ -4462,7 +4462,10 @@ void intel_shared_dpll_init(struct drm_device *dev)
- 	const struct dpll_info *dpll_info;
- 	int i;
- 
--	if (IS_ALDERLAKE_P(dev_priv))
-+	if (IS_DG2(dev_priv))
-+		/* No shared DPLLs on DG2; port PLLs are part of the PHY */
-+		dpll_mgr = NULL;
-+	else if (IS_ALDERLAKE_P(dev_priv))
- 		dpll_mgr = &adlp_pll_mgr;
- 	else if (IS_ALDERLAKE_S(dev_priv))
- 		dpll_mgr = &adls_pll_mgr;
+ 	/* Timeout for PW1:10 us, AUX:not specified, other PWs:20 us. */
+ 	if (intel_de_wait_for_set(dev_priv, regs->driver,
+@@ -4828,6 +4839,7 @@ static const struct i915_power_well_desc xelpd_power_wells[] = {
+ 		{
+ 			.hsw.regs = &icl_aux_power_well_regs,
+ 			.hsw.idx = ICL_PW_CTL_IDX_AUX_A,
++			.hsw.fixed_enable_delay = 600,
+ 		},
+ 	},
+ 	{
+@@ -4838,6 +4850,7 @@ static const struct i915_power_well_desc xelpd_power_wells[] = {
+ 		{
+ 			.hsw.regs = &icl_aux_power_well_regs,
+ 			.hsw.idx = ICL_PW_CTL_IDX_AUX_B,
++			.hsw.fixed_enable_delay = 600,
+ 		},
+ 	},
+ 	{
+@@ -4848,6 +4861,7 @@ static const struct i915_power_well_desc xelpd_power_wells[] = {
+ 		{
+ 			.hsw.regs = &icl_aux_power_well_regs,
+ 			.hsw.idx = ICL_PW_CTL_IDX_AUX_C,
++			.hsw.fixed_enable_delay = 600,
+ 		},
+ 	},
+ 	{
+@@ -4858,6 +4872,7 @@ static const struct i915_power_well_desc xelpd_power_wells[] = {
+ 		{
+ 			.hsw.regs = &icl_aux_power_well_regs,
+ 			.hsw.idx = XELPD_PW_CTL_IDX_AUX_D,
++			.hsw.fixed_enable_delay = 600,
+ 		},
+ 	},
+ 	{
+@@ -4878,6 +4893,7 @@ static const struct i915_power_well_desc xelpd_power_wells[] = {
+ 		{
+ 			.hsw.regs = &icl_aux_power_well_regs,
+ 			.hsw.idx = TGL_PW_CTL_IDX_AUX_TC1,
++			.hsw.fixed_enable_delay = 600,
+ 		},
+ 	},
+ 	{
+diff --git a/drivers/gpu/drm/i915/display/intel_display_power.h b/drivers/gpu/drm/i915/display/intel_display_power.h
+index 4f0917df4375..22367b5cba96 100644
+--- a/drivers/gpu/drm/i915/display/intel_display_power.h
++++ b/drivers/gpu/drm/i915/display/intel_display_power.h
+@@ -223,6 +223,12 @@ struct i915_power_well_desc {
+ 			u8 idx;
+ 			/* Mask of pipes whose IRQ logic is backed by the pw */
+ 			u8 irq_pipe_mask;
++			/*
++			 * Instead of waiting for the status bit to ack enables,
++			 * just wait a specific amount of time and then consider
++			 * the well enabled.
++			 */
++			u16 fixed_enable_delay;
+ 			/* The pw is backing the VGA functionality */
+ 			bool has_vga:1;
+ 			bool has_fuses:1;
 -- 
 2.25.4
 
