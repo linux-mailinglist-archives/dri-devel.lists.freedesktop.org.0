@@ -1,46 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62F1C3B8AEE
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Jul 2021 01:23:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 875403B8B0C
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Jul 2021 02:00:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6AAE96EA04;
-	Wed, 30 Jun 2021 23:23:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8703E6E9A4;
+	Thu,  1 Jul 2021 00:00:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 90BD66EA04;
- Wed, 30 Jun 2021 23:23:40 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10031"; a="294078272"
-X-IronPort-AV: E=Sophos;i="5.83,312,1616482800"; d="scan'208";a="294078272"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Jun 2021 16:23:40 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.83,312,1616482800"; d="scan'208";a="447661658"
-Received: from irvmail001.ir.intel.com ([10.43.11.63])
- by orsmga007.jf.intel.com with ESMTP; 30 Jun 2021 16:23:38 -0700
-Received: from [10.249.131.154] (mwajdecz-MOBL.ger.corp.intel.com
- [10.249.131.154])
- by irvmail001.ir.intel.com (8.14.3/8.13.6/MailSET/Hub) with ESMTP id
- 15UNNbiW029801; Thu, 1 Jul 2021 00:23:37 +0100
-Subject: Re: [PATCH 5/7] drm/i915/guc: Add stall timer to non blocking CTB
- send function
-To: Matthew Brost <matthew.brost@intel.com>, intel-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org
-References: <20210627231439.138612-1-matthew.brost@intel.com>
- <20210627231439.138612-6-matthew.brost@intel.com>
-From: Michal Wajdeczko <michal.wajdeczko@intel.com>
-Message-ID: <288500ea-3be3-7499-8a33-0d36d10cb76a@intel.com>
-Date: Thu, 1 Jul 2021 01:23:36 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
+ [IPv6:2a00:1450:4864:20::129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB3966E9A4
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Jul 2021 00:00:17 +0000 (UTC)
+Received: by mail-lf1-x129.google.com with SMTP id bu19so8341055lfb.9
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Jun 2021 17:00:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=eAmFKeCfkBrGj9sGlPMlMBljPTZNyMpy6Rq9bQdBGEw=;
+ b=rhy3+VWT3Ngutvw+LPCiFR0kDw1e3bd9ZTGWOLQCgmUPBOyX9xWx2F8hL/R/SYbl11
+ 0nwszCsxwqEqBYc4mk0gkANE0ZgiCCA6trS4HW8+VVBtdoWb4WyxUKAcbkT+R+WUz8UU
+ S6f6s5AeCAL6kbtb7fDf5Yn5Pe9LNZGyOXg7m+AJzCEeCwCB/WA0rnnNCnE54uxB2FTF
+ v58AwRvhd2dc6jZiBCG42TdMkgWg5VdL4u+fYmrax6HS4+S8/A1OTj7HovB5IH9bpcaX
+ bSAWFTMK1lBJKar9tH94xSXNtEIZ9r9EWhQLRlq1CmD0r6JunfFnj+jDi/yaHYSjKj3V
+ 3yTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=eAmFKeCfkBrGj9sGlPMlMBljPTZNyMpy6Rq9bQdBGEw=;
+ b=na9/MEo73ZqqWiIOw7O8WOhqtwx6ivG2ughCvZtcmZGmy668oVftfvogvNtUTzAVCf
+ VsXqpHkC3BNt6qd3KrcdDHjyNM1IgnSG6Qbvk4P92NvqS9F+malGQuCVIyHng9HAYsBC
+ ossh42BCpVgPl8HO47tMZDpeYW37/1ROPANZhufB5ruga2ZHMcxO3OHyrGVcw1+dlOnp
+ sqkNFnfzN8AMmrg39bghLCPwoKVSx7WnDL2ivhAA3rgPnPsu2r8yyhwltIoEX0h4J9mf
+ rO80WOD04oEvw5rwjsbAs/COtb5mcj9Yg2N7n90dVdwxDoCtVH/fAqirHsABOjrkHteZ
+ mOqg==
+X-Gm-Message-State: AOAM5339SPpXZ7nkgE5uloaOqjm2JmtkQ9dmXBRYvXM5Q4fijZ59QrKc
+ cRulocGsLSRa22TfPM6uz/Yu2Q==
+X-Google-Smtp-Source: ABdhPJx9dGodM/43P/RMFAKwYhVCOXeL46b+R5KWtcJ/r79KzPf4ma6qhYyv0hsEj0zL3a5P6YX7Ww==
+X-Received: by 2002:ac2:5e86:: with SMTP id b6mr29737245lfq.241.1625097616333; 
+ Wed, 30 Jun 2021 17:00:16 -0700 (PDT)
+Received: from eriador.lan ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id a12sm2059539lfi.286.2021.06.30.17.00.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 30 Jun 2021 17:00:15 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <abhinavk@codeaurora.org>
+Subject: [PATCH] drm/msm/dsi: drop gdsc regulator handling
+Date: Thu,  1 Jul 2021 03:00:15 +0300
+Message-Id: <20210701000015.3347713-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-In-Reply-To: <20210627231439.138612-6-matthew.brost@intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,219 +67,125 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniele.ceraolospurio@intel.com, john.c.harrison@intel.com
+Cc: Jonathan Marek <jonathan@marek.ca>, Stephen Boyd <sboyd@kernel.org>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ David Airlie <airlied@linux.ie>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+None of supported devies uses "gdsc" regulator for DSI. GDSC support is
+now implemented as a power domain. Drop old code and config handling
+gdsc regulator requesting and enabling.
 
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+ drivers/gpu/drm/msm/dsi/dsi_cfg.c  | 12 ++++--------
+ drivers/gpu/drm/msm/dsi/dsi_host.c | 22 +++-------------------
+ 2 files changed, 7 insertions(+), 27 deletions(-)
 
-On 28.06.2021 01:14, Matthew Brost wrote:
-> Implement a stall timer which fails H2G CTBs once a period of time
-> with no forward progress is reached to prevent deadlock.
-> 
-> v2:
->  (Michal)
->   - Improve error message in ct_deadlock()
->   - Set broken when ct_deadlock() returns true
->   - Return -EPIPE on ct_deadlock()
-> 
-> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
-> Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> ---
->  drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c | 62 ++++++++++++++++++++---
->  drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h |  4 ++
->  2 files changed, 59 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-> index 90ee95a240e8..8f553f7f9619 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-> @@ -319,6 +319,7 @@ int intel_guc_ct_enable(struct intel_guc_ct *ct)
->  		goto err_deregister;
->  
->  	ct->enabled = true;
-> +	ct->stall_time = KTIME_MAX;
->  
->  	return 0;
->  
-> @@ -391,9 +392,6 @@ static int ct_write(struct intel_guc_ct *ct,
->  	u32 *cmds = ctb->cmds;
->  	unsigned int i;
->  
-> -	if (unlikely(ctb->broken))
-> -		return -EPIPE;
-> -
->  	if (unlikely(desc->status))
->  		goto corrupted;
->  
-> @@ -509,6 +507,25 @@ static int wait_for_ct_request_update(struct ct_request *req, u32 *status)
->  	return err;
->  }
->  
-> +#define GUC_CTB_TIMEOUT_MS	1500
-> +static inline bool ct_deadlocked(struct intel_guc_ct *ct)
-> +{
-> +	long timeout = GUC_CTB_TIMEOUT_MS;
-> +	bool ret = ktime_ms_delta(ktime_get(), ct->stall_time) > timeout;
-> +
-> +	if (unlikely(ret)) {
-> +		struct guc_ct_buffer_desc *send = ct->ctbs.send.desc;
-> +		struct guc_ct_buffer_desc *recv = ct->ctbs.send.desc;
-> +
-> +		CT_ERROR(ct, "Communication stalled for %lld, desc status=%#x,%#x\n",
+diff --git a/drivers/gpu/drm/msm/dsi/dsi_cfg.c b/drivers/gpu/drm/msm/dsi/dsi_cfg.c
+index f3f1c03c7db9..32c37d7c2109 100644
+--- a/drivers/gpu/drm/msm/dsi/dsi_cfg.c
++++ b/drivers/gpu/drm/msm/dsi/dsi_cfg.c
+@@ -32,9 +32,8 @@ static const char * const dsi_6g_bus_clk_names[] = {
+ static const struct msm_dsi_config msm8974_apq8084_dsi_cfg = {
+ 	.io_offset = DSI_6G_REG_SHIFT,
+ 	.reg_cfg = {
+-		.num = 4,
++		.num = 3,
+ 		.regs = {
+-			{"gdsc", -1, -1},
+ 			{"vdd", 150000, 100},	/* 3.0 V */
+ 			{"vdda", 100000, 100},	/* 1.2 V */
+ 			{"vddio", 100000, 100},	/* 1.8 V */
+@@ -53,9 +52,8 @@ static const char * const dsi_8916_bus_clk_names[] = {
+ static const struct msm_dsi_config msm8916_dsi_cfg = {
+ 	.io_offset = DSI_6G_REG_SHIFT,
+ 	.reg_cfg = {
+-		.num = 3,
++		.num = 2,
+ 		.regs = {
+-			{"gdsc", -1, -1},
+ 			{"vdda", 100000, 100},	/* 1.2 V */
+ 			{"vddio", 100000, 100},	/* 1.8 V */
+ 		},
+@@ -73,9 +71,8 @@ static const char * const dsi_8976_bus_clk_names[] = {
+ static const struct msm_dsi_config msm8976_dsi_cfg = {
+ 	.io_offset = DSI_6G_REG_SHIFT,
+ 	.reg_cfg = {
+-		.num = 3,
++		.num = 2,
+ 		.regs = {
+-			{"gdsc", -1, -1},
+ 			{"vdda", 100000, 100},	/* 1.2 V */
+ 			{"vddio", 100000, 100},	/* 1.8 V */
+ 		},
+@@ -89,9 +86,8 @@ static const struct msm_dsi_config msm8976_dsi_cfg = {
+ static const struct msm_dsi_config msm8994_dsi_cfg = {
+ 	.io_offset = DSI_6G_REG_SHIFT,
+ 	.reg_cfg = {
+-		.num = 7,
++		.num = 6,
+ 		.regs = {
+-			{"gdsc", -1, -1},
+ 			{"vdda", 100000, 100},	/* 1.25 V */
+ 			{"vddio", 100000, 100},	/* 1.8 V */
+ 			{"vcca", 10000, 100},	/* 1.0 V */
+diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
+index ed504fe5074f..66c425d4159c 100644
+--- a/drivers/gpu/drm/msm/dsi/dsi_host.c
++++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
+@@ -203,35 +203,22 @@ static const struct msm_dsi_cfg_handler *dsi_get_config(
+ {
+ 	const struct msm_dsi_cfg_handler *cfg_hnd = NULL;
+ 	struct device *dev = &msm_host->pdev->dev;
+-	struct regulator *gdsc_reg;
+ 	struct clk *ahb_clk;
+ 	int ret;
+ 	u32 major = 0, minor = 0;
+ 
+-	gdsc_reg = regulator_get(dev, "gdsc");
+-	if (IS_ERR(gdsc_reg)) {
+-		pr_err("%s: cannot get gdsc\n", __func__);
+-		goto exit;
+-	}
+-
+ 	ahb_clk = msm_clk_get(msm_host->pdev, "iface");
+ 	if (IS_ERR(ahb_clk)) {
+ 		pr_err("%s: cannot get interface clock\n", __func__);
+-		goto put_gdsc;
++		goto exit;
+ 	}
+ 
+ 	pm_runtime_get_sync(dev);
+ 
+-	ret = regulator_enable(gdsc_reg);
+-	if (ret) {
+-		pr_err("%s: unable to enable gdsc\n", __func__);
+-		goto put_gdsc;
+-	}
+-
+ 	ret = clk_prepare_enable(ahb_clk);
+ 	if (ret) {
+ 		pr_err("%s: unable to enable ahb_clk\n", __func__);
+-		goto disable_gdsc;
++		goto runtime_put;
+ 	}
+ 
+ 	ret = dsi_get_version(msm_host->ctrl_base, &major, &minor);
+@@ -246,11 +233,8 @@ static const struct msm_dsi_cfg_handler *dsi_get_config(
+ 
+ disable_clks:
+ 	clk_disable_unprepare(ahb_clk);
+-disable_gdsc:
+-	regulator_disable(gdsc_reg);
++runtime_put:
+ 	pm_runtime_put_sync(dev);
+-put_gdsc:
+-	regulator_put(gdsc_reg);
+ exit:
+ 	return cfg_hnd;
+ }
+-- 
+2.30.2
 
-nit: missing unit in "stalled for ... ms"
-                                     ^^^^
-
-> +			 ktime_ms_delta(ktime_get(), ct->stall_time),
-> +			 send->status, recv->status);
-> +		ct->ctbs.send.broken = true;
-> +	}
-> +
-> +	return ret;
-> +}
-> +
->  static inline bool h2g_has_room(struct intel_guc_ct_buffer *ctb, u32 len_dw)
->  {
->  	struct guc_ct_buffer_desc *desc = ctb->desc;
-> @@ -520,6 +537,26 @@ static inline bool h2g_has_room(struct intel_guc_ct_buffer *ctb, u32 len_dw)
->  	return space >= len_dw;
->  }
->  
-> +static int has_room_nb(struct intel_guc_ct *ct, u32 len_dw)
-> +{
-> +	struct intel_guc_ct_buffer *ctb = &ct->ctbs.send;
-> +
-> +	lockdep_assert_held(&ct->ctbs.send.lock);
-> +
-> +	if (unlikely(!h2g_has_room(ctb, len_dw))) {
-> +		if (ct->stall_time == KTIME_MAX)
-> +			ct->stall_time = ktime_get();
-> +
-> +		if (unlikely(ct_deadlocked(ct)))
-> +			return -EPIPE;
-> +		else
-> +			return -EBUSY;
-> +	}
-> +
-> +	ct->stall_time = KTIME_MAX;
-> +	return 0;
-> +}
-> +
->  static int ct_send_nb(struct intel_guc_ct *ct,
->  		      const u32 *action,
->  		      u32 len,
-> @@ -530,13 +567,14 @@ static int ct_send_nb(struct intel_guc_ct *ct,
->  	u32 fence;
->  	int ret;
->  
-> +	if (unlikely(ctb->broken))
-> +		return -EPIPE;
-> +
->  	spin_lock_irqsave(&ctb->lock, spin_flags);
->  
-> -	ret = h2g_has_room(ctb, len + GUC_CTB_HDR_LEN);
-> -	if (unlikely(!ret)) {
-> -		ret = -EBUSY;
-> +	ret = has_room_nb(ct, len + GUC_CTB_HDR_LEN);
-> +	if (unlikely(ret))
->  		goto out;
-> -	}
->  
->  	fence = ct_get_next_fence(ct);
->  	ret = ct_write(ct, action, len, fence, flags);
-> @@ -571,6 +609,9 @@ static int ct_send(struct intel_guc_ct *ct,
->  	GEM_BUG_ON(!response_buf && response_buf_size);
->  	might_sleep();
->  
-> +	if (unlikely(ctb->broken))
-> +		return -EPIPE;
-
-ok, but likely could be part of ct_can_send/has_room
-
-> +
->  	/*
->  	 * We use a lazy spin wait loop here as we believe that if the CT
->  	 * buffers are sized correctly the flow control condition should be
-> @@ -579,8 +620,13 @@ static int ct_send(struct intel_guc_ct *ct,
->  retry:
->  	spin_lock_irqsave(&ctb->lock, flags);
->  	if (unlikely(!h2g_has_room(ctb, len + GUC_CTB_HDR_LEN))) {
-> +		if (ct->stall_time == KTIME_MAX)
-> +			ct->stall_time = ktime_get();
->  		spin_unlock_irqrestore(&ctb->lock, flags);
->  
-> +		if (unlikely(ct_deadlocked(ct)))
-> +			return -EPIPE;
-> +
-
-can't we really put all this into one place?
-
-static int ct_can_send(struct intel_guc_ct *ct, u32 len_dw, bool wait)
-{
-	struct intel_guc_ct_buffer *ctb = &ct->ctbs.send;
-
-	lockdep_assert_held(&ct->ctbs.send.lock);
-
-retry:
-	if (ct->broken)
-		return -EPIPE;
-
-	if (unlikely(!ctb_has_room(ctb, len_dw + GUC_CTB_HDR_LEN))) {
-		if (ct->stall_time == KTIME_MAX)
-			ct->stall_time = ktime_get();
-
-		if (unlikely(ct_deadlocked(ct)))
-			return -EPIPE;
-		if (!wait)
-			return -EBUSY;
-
-		spin_unlock_irqrestore(&ctb->lock, flags);
-		...
-		spin_lock_irqrestore(&ctb->lock, flags);
-
-		goto retry;
-	}
-
-	ct->stall_time = KTIME_MAX;
-	return 0;
-}
-
-Michal
-
->  		if (msleep_interruptible(sleep_period_ms))
->  			return -EINTR;
->  		sleep_period_ms = sleep_period_ms << 1;
-> @@ -588,6 +634,8 @@ static int ct_send(struct intel_guc_ct *ct,
->  		goto retry;
->  	}
->  
-> +	ct->stall_time = KTIME_MAX;
-> +
->  	fence = ct_get_next_fence(ct);
->  	request.fence = fence;
->  	request.status = 0;
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
-> index f6a4d5b33467..c9d6ae7848a7 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
-> @@ -9,6 +9,7 @@
->  #include <linux/interrupt.h>
->  #include <linux/spinlock.h>
->  #include <linux/workqueue.h>
-> +#include <linux/ktime.h>
->  
->  #include "intel_guc_fwif.h"
->  
-> @@ -68,6 +69,9 @@ struct intel_guc_ct {
->  		struct list_head incoming; /* incoming requests */
->  		struct work_struct worker; /* handler for incoming requests */
->  	} requests;
-> +
-> +	/** @stall_time: time of first time a CTB submission is stalled */
-> +	ktime_t stall_time;
->  };
->  
->  void intel_guc_ct_init_early(struct intel_guc_ct *ct);
-> 
