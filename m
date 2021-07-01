@@ -2,38 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA7AA3B9444
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Jul 2021 17:48:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 345A63B9465
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Jul 2021 17:56:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EACF26E039;
-	Thu,  1 Jul 2021 15:48:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D0AB56EB4B;
+	Thu,  1 Jul 2021 15:56:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B51F6E039;
- Thu,  1 Jul 2021 15:48:06 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10032"; a="205554370"
-X-IronPort-AV: E=Sophos;i="5.83,314,1616482800"; d="scan'208";a="205554370"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Jul 2021 08:48:05 -0700
-X-IronPort-AV: E=Sophos;i="5.83,314,1616482800"; d="scan'208";a="447938295"
-Received: from awvttdev-05.aw.intel.com ([10.228.212.156])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Jul 2021 08:48:04 -0700
-From: "Michael J. Ruhl" <michael.j.ruhl@intel.com>
-To: michael.j.ruhl@intel.com, daniel@ffwll.ch,
- thomas.hellstrom@linux.intel.com, ckoenig.leichtzumerken@gmail.com,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- matthew.auld@intel.com, maarten.lankhorst@linux.intel.com
-Subject: [PATCH 2/2] drm/i915/gem: Migrate to system at dma-buf attach time
-Date: Thu,  1 Jul 2021 11:47:54 -0400
-Message-Id: <20210701154754.665034-2-michael.j.ruhl@intel.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210701154754.665034-1-michael.j.ruhl@intel.com>
-References: <20210701154754.665034-1-michael.j.ruhl@intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4159A6EB46;
+ Thu,  1 Jul 2021 15:56:06 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10032"; a="294194385"
+X-IronPort-AV: E=Sophos;i="5.83,314,1616482800"; d="scan'208";a="294194385"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Jul 2021 08:56:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.83,314,1616482800"; d="scan'208";a="455635570"
+Received: from irvmail001.ir.intel.com ([10.43.11.63])
+ by orsmga008.jf.intel.com with ESMTP; 01 Jul 2021 08:56:02 -0700
+Received: from mwajdecz-MOBL.ger.corp.intel.com
+ (mwajdecz-MOBL.ger.corp.intel.com [10.249.146.9])
+ by irvmail001.ir.intel.com (8.14.3/8.13.6/MailSET/Hub) with ESMTP id
+ 161Fu0L7001058; Thu, 1 Jul 2021 16:56:01 +0100
+From: Michal Wajdeczko <michal.wajdeczko@intel.com>
+To: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH 0/4] drm/i915/guc: Improve CTB error handling
+Date: Thu,  1 Jul 2021 17:55:09 +0200
+Message-Id: <20210701155513.2024-1-michal.wajdeczko@intel.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -47,69 +45,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Michal Wajdeczko <michal.wajdeczko@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+There was a gap in handling MMIO result from CTB (de)registration
+and while fixing it improve some other error reports.
 
-Until we support p2p dma or as a complement to that, migrate data
-to system memory at dma-buf attach time if possible.
+Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
 
-v2:
-- Rebase on dynamic exporter. Update the igt_dmabuf_import_same_driver
-  selftest to migrate if we are LMEM capable.
-v3:
-- Migrate also in the pin() callback.
-v4:
-- Migrate in attach
+Michal Wajdeczko (4):
+  drm/i915/guc: Verify result from CTB (de)register action
+  drm/i915/guc: Print error name on CTB (de)registration failure
+  drm/i915/guc: Print error name on CTB send failure
+  drm/i915/guc: Move and improve error message for missed CTB reply
 
-Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Signed-off-by: Michael J. Ruhl <michael.j.ruhl@intel.com>
----
- drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c           | 12 +++++++++++-
- drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c |  4 +++-
- 2 files changed, 14 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c | 30 ++++++++++++++---------
+ 1 file changed, 18 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
-index 8c528b693a30..a325f33f35b8 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
-@@ -170,9 +170,19 @@ static int i915_gem_dmabuf_attach(struct dma_buf *dmabuf,
- 				  struct dma_buf_attachment *attach)
- {
- 	struct drm_i915_gem_object *obj = dma_buf_to_obj(dmabuf);
-+	int ret;
- 
- 	assert_object_held(obj);
--	return i915_gem_object_pin_pages(obj);
-+
-+	if (!i915_gem_object_can_migrate(obj, INTEL_REGION_SMEM))
-+		return -EOPNOTSUPP;
-+	ret = i915_gem_object_migrate(obj, NULL, INTEL_REGION_SMEM);
-+	if (!ret)
-+		ret = i915_gem_object_wait_migration(obj, 0);
-+	if (!ret)
-+		ret = i915_gem_object_pin_pages(obj);
-+
-+	return ret;
- }
- 
- static void i915_gem_dmabuf_detach(struct dma_buf *dmabuf,
-diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c
-index 868b3469ecbd..b1e87ec08741 100644
---- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c
-+++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c
-@@ -106,7 +106,9 @@ static int igt_dmabuf_import_same_driver(void *arg)
- 	int err;
- 
- 	force_different_devices = true;
--	obj = i915_gem_object_create_shmem(i915, PAGE_SIZE);
-+	obj = i915_gem_object_create_lmem(i915, PAGE_SIZE, 0);
-+	if (IS_ERR(obj))
-+		obj = i915_gem_object_create_shmem(i915, PAGE_SIZE);
- 	if (IS_ERR(obj))
- 		goto out_ret;
- 
 -- 
-2.31.1
+2.25.1
 
