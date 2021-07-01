@@ -2,34 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AF383B93C0
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Jul 2021 17:10:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 802083B9447
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Jul 2021 17:48:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DCD896EB3A;
-	Thu,  1 Jul 2021 15:10:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E5C56EB3F;
+	Thu,  1 Jul 2021 15:48:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5CEA56EB3B;
- Thu,  1 Jul 2021 15:10:39 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10032"; a="188234867"
-X-IronPort-AV: E=Sophos;i="5.83,314,1616482800"; d="scan'208";a="188234867"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Jul 2021 08:10:39 -0700
-X-IronPort-AV: E=Sophos;i="5.83,314,1616482800"; d="scan'208";a="457693588"
-Received: from dfdonlon-mobl.ger.corp.intel.com (HELO mwauld-desk1.intel.com)
- ([10.252.21.173])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Jul 2021 08:10:36 -0700
-From: Matthew Auld <matthew.auld@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v2 3/3] drm/i915/uapi: reject set_domain for discrete
-Date: Thu,  1 Jul 2021 16:10:19 +0100
-Message-Id: <20210701151019.1103315-3-matthew.auld@intel.com>
-X-Mailer: git-send-email 2.26.3
-In-Reply-To: <20210701151019.1103315-1-matthew.auld@intel.com>
-References: <20210701151019.1103315-1-matthew.auld@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 48DBE6EADA;
+ Thu,  1 Jul 2021 15:48:06 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10032"; a="205554364"
+X-IronPort-AV: E=Sophos;i="5.83,314,1616482800"; d="scan'208";a="205554364"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Jul 2021 08:48:04 -0700
+X-IronPort-AV: E=Sophos;i="5.83,314,1616482800"; d="scan'208";a="447938285"
+Received: from awvttdev-05.aw.intel.com ([10.228.212.156])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Jul 2021 08:48:03 -0700
+From: "Michael J. Ruhl" <michael.j.ruhl@intel.com>
+To: michael.j.ruhl@intel.com, daniel@ffwll.ch,
+ thomas.hellstrom@linux.intel.com, ckoenig.leichtzumerken@gmail.com,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ matthew.auld@intel.com, maarten.lankhorst@linux.intel.com
+Subject: [PATCH 1/2] drm/i915/gem: Correct the locking and pin pattern for
+ dma-buf
+Date: Thu,  1 Jul 2021 11:47:53 -0400
+Message-Id: <20210701154754.665034-1-michael.j.ruhl@intel.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -45,55 +46,305 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Jason Ekstrand <jason@jlekstrand.net>,
- Jordan Justen <jordan.l.justen@intel.com>, dri-devel@lists.freedesktop.org,
- Kenneth Graunke <kenneth@whitecape.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The CPU domain should be static for discrete, and on DG1 we don't need
-any flushing since everything is already coherent, so really all this
-does is an object wait, for which we have an ioctl. Longer term the
-desired caching should be an immutable creation time property for the
-BO, which can be set with something like gem_create_ext.
+From: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 
-One other user is iris + userptr, which uses the set_domain to probe all
-the pages to check if the GUP succeeds, however keeping the set_domain
-around just for that seems rather scuffed. We could equally just submit
-a dummy batch, which should hopefully be good enough, otherwise adding a
-new creation time flag for userptr might be an option. Although longer
-term we will also have vm_bind, which should also be a nice fit for
-this, so adding a whole new flag is likely overkill.
+If our exported dma-bufs are imported by another instance of our driver,
+that instance will typically have the imported dma-bufs locked during
+dma_buf_map_attachment(). But the exporter also locks the same reservation
+object in the map_dma_buf() callback, which leads to recursive locking.
 
-Suggested-by: Daniel Vetter <daniel@ffwll.ch>
-Signed-off-by: Matthew Auld <matthew.auld@intel.com>
-Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Jordan Justen <jordan.l.justen@intel.com>
-Cc: Kenneth Graunke <kenneth@whitecape.org>
-Cc: Jason Ekstrand <jason@jlekstrand.net>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Ramalingam C <ramalingam.c@intel.com>
+So taking the lock inside _pin_pages_unlocked() is incorrect.
+
+Additionally, the current pinning code path is contrary to the defined
+way that pinning should occur.
+
+Remove the explicit pin/unpin from the map/umap functions and move them
+to the attach/detach allowing correct locking to occur, and to match
+the static dma-buf drm_prime pattern.
+
+Add a live selftest to exercise both dynamic and non-dynamic
+exports.
+
+v2:
+- Extend the selftest with a fake dynamic importer.
+- Provide real pin and unpin callbacks to not abuse the interface.
+v3: (ruhl)
+- Remove the dynamic export support and move the pinning into the
+  attach/detach path.
+
+Reported-by: Michael J. Ruhl <michael.j.ruhl@intel.com>
+Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Signed-off-by: Michael J. Ruhl <michael.j.ruhl@intel.com>
 ---
- drivers/gpu/drm/i915/gem/i915_gem_domain.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c    |  46 +++++--
+ .../drm/i915/gem/selftests/i915_gem_dmabuf.c  | 116 +++++++++++++++++-
+ 2 files changed, 148 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_domain.c b/drivers/gpu/drm/i915/gem/i915_gem_domain.c
-index 43004bef55cb..b684a62bf3b0 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_domain.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_domain.c
-@@ -490,6 +490,9 @@ i915_gem_set_domain_ioctl(struct drm_device *dev, void *data,
- 	u32 write_domain = args->write_domain;
- 	int err;
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
+index 616c3a2f1baf..8c528b693a30 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
+@@ -12,6 +12,8 @@
+ #include "i915_gem_object.h"
+ #include "i915_scatterlist.h"
  
-+	if (IS_DGFX(to_i915(dev)))
-+		return -ENODEV;
++I915_SELFTEST_DECLARE(static bool force_different_devices;)
 +
- 	/* Only handle setting domains to types used by the CPU. */
- 	if ((write_domain | read_domains) & I915_GEM_GPU_DOMAINS)
- 		return -EINVAL;
+ static struct drm_i915_gem_object *dma_buf_to_obj(struct dma_buf *buf)
+ {
+ 	return to_intel_bo(buf->priv);
+@@ -25,15 +27,11 @@ static struct sg_table *i915_gem_map_dma_buf(struct dma_buf_attachment *attachme
+ 	struct scatterlist *src, *dst;
+ 	int ret, i;
+ 
+-	ret = i915_gem_object_pin_pages_unlocked(obj);
+-	if (ret)
+-		goto err;
+-
+ 	/* Copy sg so that we make an independent mapping */
+ 	st = kmalloc(sizeof(struct sg_table), GFP_KERNEL);
+ 	if (st == NULL) {
+ 		ret = -ENOMEM;
+-		goto err_unpin_pages;
++		goto err;
+ 	}
+ 
+ 	ret = sg_alloc_table(st, obj->mm.pages->nents, GFP_KERNEL);
+@@ -58,8 +56,6 @@ static struct sg_table *i915_gem_map_dma_buf(struct dma_buf_attachment *attachme
+ 	sg_free_table(st);
+ err_free:
+ 	kfree(st);
+-err_unpin_pages:
+-	i915_gem_object_unpin_pages(obj);
+ err:
+ 	return ERR_PTR(ret);
+ }
+@@ -68,13 +64,9 @@ static void i915_gem_unmap_dma_buf(struct dma_buf_attachment *attachment,
+ 				   struct sg_table *sg,
+ 				   enum dma_data_direction dir)
+ {
+-	struct drm_i915_gem_object *obj = dma_buf_to_obj(attachment->dmabuf);
+-
+ 	dma_unmap_sgtable(attachment->dev, sg, dir, DMA_ATTR_SKIP_CPU_SYNC);
+ 	sg_free_table(sg);
+ 	kfree(sg);
+-
+-	i915_gem_object_unpin_pages(obj);
+ }
+ 
+ static int i915_gem_dmabuf_vmap(struct dma_buf *dma_buf, struct dma_buf_map *map)
+@@ -168,7 +160,32 @@ static int i915_gem_end_cpu_access(struct dma_buf *dma_buf, enum dma_data_direct
+ 	return err;
+ }
+ 
++/**
++ * i915_gem_dmabuf_attach - Do any extra attach work necessary
++ * @dmabuf: imported dma-buf
++ * @attach: new attach to do work on
++ *
++ */
++static int i915_gem_dmabuf_attach(struct dma_buf *dmabuf,
++				  struct dma_buf_attachment *attach)
++{
++	struct drm_i915_gem_object *obj = dma_buf_to_obj(dmabuf);
++
++	assert_object_held(obj);
++	return i915_gem_object_pin_pages(obj);
++}
++
++static void i915_gem_dmabuf_detach(struct dma_buf *dmabuf,
++				   struct dma_buf_attachment *attach)
++{
++	struct drm_i915_gem_object *obj = dma_buf_to_obj(dmabuf);
++
++	i915_gem_object_unpin_pages(obj);
++}
++
+ static const struct dma_buf_ops i915_dmabuf_ops =  {
++	.attach = i915_gem_dmabuf_attach,
++	.detach = i915_gem_dmabuf_detach,
+ 	.map_dma_buf = i915_gem_map_dma_buf,
+ 	.unmap_dma_buf = i915_gem_unmap_dma_buf,
+ 	.release = drm_gem_dmabuf_release,
+@@ -204,6 +221,8 @@ static int i915_gem_object_get_pages_dmabuf(struct drm_i915_gem_object *obj)
+ 	struct sg_table *pages;
+ 	unsigned int sg_page_sizes;
+ 
++	assert_object_held(obj);
++
+ 	pages = dma_buf_map_attachment(obj->base.import_attach,
+ 				       DMA_BIDIRECTIONAL);
+ 	if (IS_ERR(pages))
+@@ -219,6 +238,8 @@ static int i915_gem_object_get_pages_dmabuf(struct drm_i915_gem_object *obj)
+ static void i915_gem_object_put_pages_dmabuf(struct drm_i915_gem_object *obj,
+ 					     struct sg_table *pages)
+ {
++	assert_object_held(obj);
++
+ 	dma_buf_unmap_attachment(obj->base.import_attach, pages,
+ 				 DMA_BIDIRECTIONAL);
+ }
+@@ -241,7 +262,8 @@ struct drm_gem_object *i915_gem_prime_import(struct drm_device *dev,
+ 	if (dma_buf->ops == &i915_dmabuf_ops) {
+ 		obj = dma_buf_to_obj(dma_buf);
+ 		/* is it from our device? */
+-		if (obj->base.dev == dev) {
++		if (obj->base.dev == dev &&
++		    !I915_SELFTEST_ONLY(force_different_devices)) {
+ 			/*
+ 			 * Importing dmabuf exported from out own gem increases
+ 			 * refcount on gem itself instead of f_count of dmabuf.
+diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c
+index dd74bc09ec88..868b3469ecbd 100644
+--- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c
++++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c
+@@ -35,7 +35,7 @@ static int igt_dmabuf_export(void *arg)
+ static int igt_dmabuf_import_self(void *arg)
+ {
+ 	struct drm_i915_private *i915 = arg;
+-	struct drm_i915_gem_object *obj;
++	struct drm_i915_gem_object *obj, *import_obj;
+ 	struct drm_gem_object *import;
+ 	struct dma_buf *dmabuf;
+ 	int err;
+@@ -65,14 +65,125 @@ static int igt_dmabuf_import_self(void *arg)
+ 		err = -EINVAL;
+ 		goto out_import;
+ 	}
++	import_obj = to_intel_bo(import);
++
++	i915_gem_object_lock(import_obj, NULL);
++	err = ____i915_gem_object_get_pages(import_obj);
++	i915_gem_object_unlock(import_obj);
++	if (err) {
++		pr_err("Same object dma-buf get_pages failed!\n");
++		goto out_import;
++	}
+ 
+ 	err = 0;
+ out_import:
+-	i915_gem_object_put(to_intel_bo(import));
++	i915_gem_object_put(import_obj);
++out_dmabuf:
++	dma_buf_put(dmabuf);
++out:
++	i915_gem_object_put(obj);
++	return err;
++}
++
++static void igt_dmabuf_move_notify(struct dma_buf_attachment *attach)
++{
++	GEM_WARN_ON(1);
++}
++
++static const struct dma_buf_attach_ops igt_dmabuf_attach_ops = {
++	.move_notify = igt_dmabuf_move_notify,
++};
++
++static int igt_dmabuf_import_same_driver(void *arg)
++{
++	struct drm_i915_private *i915 = arg;
++	struct drm_i915_gem_object *obj, *import_obj;
++	struct drm_gem_object *import;
++	struct dma_buf *dmabuf;
++	struct dma_buf_attachment *import_attach;
++	struct sg_table *st;
++	long timeout;
++	int err;
++
++	force_different_devices = true;
++	obj = i915_gem_object_create_shmem(i915, PAGE_SIZE);
++	if (IS_ERR(obj))
++		goto out_ret;
++
++	dmabuf = i915_gem_prime_export(&obj->base, 0);
++	if (IS_ERR(dmabuf)) {
++		pr_err("i915_gem_prime_export failed with err=%d\n",
++		       (int)PTR_ERR(dmabuf));
++		err = PTR_ERR(dmabuf);
++		goto out;
++	}
++
++	import = i915_gem_prime_import(&i915->drm, dmabuf);
++	if (IS_ERR(import)) {
++		pr_err("i915_gem_prime_import failed with err=%d\n",
++		       (int)PTR_ERR(import));
++		err = PTR_ERR(import);
++		goto out_dmabuf;
++	}
++
++	if (import == &obj->base) {
++		pr_err("i915_gem_prime_import reused gem object!\n");
++		err = -EINVAL;
++		goto out_import;
++	}
++
++	import_obj = to_intel_bo(import);
++
++	i915_gem_object_lock(import_obj, NULL);
++	err = ____i915_gem_object_get_pages(import_obj);
++	if (err) {
++		pr_err("Different objects dma-buf get_pages failed!\n");
++		i915_gem_object_unlock(import_obj);
++		goto out_import;
++	}
++
++	/*
++	 * If the exported object is not in system memory, something
++	 * weird is going on. TODO: When p2p is supported, this is no
++	 * longer considered weird.
++	 */
++	if (obj->mm.region != i915->mm.regions[INTEL_REGION_SMEM]) {
++		pr_err("Exported dma-buf is not in system memory\n");
++		err = -EINVAL;
++	}
++
++	i915_gem_object_unlock(import_obj);
++
++	/* Now try a fake dynamic importer */
++	import_attach = dma_buf_dynamic_attach(dmabuf, obj->base.dev->dev,
++					       &igt_dmabuf_attach_ops,
++					       NULL);
++	if (IS_ERR(import_attach))
++		goto out_import;
++
++	dma_resv_lock(dmabuf->resv, NULL);
++	st = dma_buf_map_attachment(import_attach, DMA_BIDIRECTIONAL);
++	dma_resv_unlock(dmabuf->resv);
++	if (IS_ERR(st))
++		goto out_detach;
++
++	timeout = dma_resv_wait_timeout(dmabuf->resv, false, true, 5 * HZ);
++	if (!timeout) {
++		pr_err("dmabuf wait for exclusive fence timed out.\n");
++		timeout = -ETIME;
++	}
++	err = timeout > 0 ? 0 : timeout;
++	dma_buf_unmap_attachment(import_attach, st, DMA_BIDIRECTIONAL);
++out_detach:
++	dma_buf_detach(dmabuf, import_attach);
++out_import:
++	i915_gem_object_put(import_obj);
+ out_dmabuf:
+ 	dma_buf_put(dmabuf);
+ out:
+ 	i915_gem_object_put(obj);
++out_ret:
++	force_different_devices = false;
+ 	return err;
+ }
+ 
+@@ -286,6 +397,7 @@ int i915_gem_dmabuf_live_selftests(struct drm_i915_private *i915)
+ {
+ 	static const struct i915_subtest tests[] = {
+ 		SUBTEST(igt_dmabuf_export),
++		SUBTEST(igt_dmabuf_import_same_driver),
+ 	};
+ 
+ 	return i915_subtests(tests, i915);
 -- 
-2.26.3
+2.31.1
 
