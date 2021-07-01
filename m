@@ -2,45 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 797003B8E46
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Jul 2021 09:41:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 209C83B8E50
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Jul 2021 09:43:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 47A1788089;
-	Thu,  1 Jul 2021 07:41:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 265066E1EC;
+	Thu,  1 Jul 2021 07:43:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8EB8088089;
- Thu,  1 Jul 2021 07:41:00 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0BF8F61490;
- Thu,  1 Jul 2021 07:40:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1625125258;
- bh=V3O+3W7jB9kkeE64PRRWE2Y3UpoZf8XatBMI8/4BWL4=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=F47xX0udIB6iAhzJO4OCoYXustVjtbNDusBM6+5rMT4M3Jwb59Ij6VbvwwiLyzT6q
- lVI9XKD0neOgmCNGZhPOuPRmgvUtcJwOJudRhNq8QU0qAxfZtInwaJU1ov8QiZuLeT
- DSyGO4DRrv/TOQGPwoVHvv2mYwNhMKcCDaJwQuNmTPf97jcrOnjcpDKJmqwAzkdem5
- hHvVa4UcTux22+QKhFYM3yrVmN1Vb2rSgrqmfY6qt7l9uLrocYxekS5t84/HB7q0FV
- t30L31wv/VRZpgr/tSPS/Ve7LY6CjYBHT4Q7WRQAtBhB8uvBHYNybLCcdlqWGz6LE7
- dIvbEvT0BuNHw==
-Date: Thu, 1 Jul 2021 08:40:46 +0100
-From: Will Deacon <will@kernel.org>
-To: Nathan Chancellor <nathan@kernel.org>
-Subject: Re: [PATCH v15 06/12] swiotlb: Use is_swiotlb_force_bounce for
- swiotlb data bouncing
-Message-ID: <20210701074045.GA9436@willie-the-truck>
-References: <20210624155526.2775863-1-tientzu@chromium.org>
- <20210624155526.2775863-7-tientzu@chromium.org>
- <YNvMDFWKXSm4LRfZ@Ryzen-9-3900X.localdomain>
- <CALiNf2-a-haQN0-4+gX8+wa++52-0CnO2O4BEkxrQCxoTa_47w@mail.gmail.com>
- <20210630114348.GA8383@willie-the-truck>
- <YNyUQwiagNeZ9YeJ@Ryzen-9-3900X.localdomain>
+Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com
+ [IPv6:2a00:1450:4864:20::231])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB8FE6E128;
+ Thu,  1 Jul 2021 07:43:01 +0000 (UTC)
+Received: by mail-lj1-x231.google.com with SMTP id d25so7101293lji.7;
+ Thu, 01 Jul 2021 00:43:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:in-reply-to:references
+ :mime-version; bh=86fg6Rbv0H4obf+NEmfkAFzvKVFGPFNF5jnQX0dZ9+A=;
+ b=BTOe2hfqzNkT6K9j/lZYv9Kdf6MQ3/OsNjdGl2yZ7Z31LctMhYTDI/zs9fQ6OoDlUJ
+ UwSgOFAMnNKseD3zitV3hFEEabnp7JUl/WymrnNiuWWL/kKg9uXGHlaEKtmiTpjPtRKb
+ ZYgiZvZJxzO3v0HgnGksZ+vc7X6zbloRDuKK6ggJbGC0M4QXPkBcfoAcfQ2OUxd3vBKF
+ UIfdw25sepjd5Vn2SHkHZ6/UzOSvK6V0x6q60PozSI8b4pxJO+Y50pQ89fKyt1ByrV09
+ KlELsmaCL9GM5YEKHP3KCxq4jhaRLjk6mVO+H/BObKwTO/bXAB5uWS0dZwglE3VEWdPs
+ 7Bng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version;
+ bh=86fg6Rbv0H4obf+NEmfkAFzvKVFGPFNF5jnQX0dZ9+A=;
+ b=F9g+32jw1vSDYVRZVwCjofkECp0rCfP8McEopj03HDioKvO3mucTn/Il5zw6VHNC0B
+ /J99BlKqZFsMh/Z9hwZKOpSpCED2Aws9gWNZaUo/lnWk1dQZtaUnQOyJRGYZbTurxa+A
+ NR19s+GwQc0MQ0pKQB2KjYAVmbPTS1Ly1HRVb+WE2yZZjlU7YrvXmgeC35MYRoKHNsjC
+ 87YpcU3celnN2Ez4Kzm0nyr0+JV66dBKvt14DP7zZmyq/B5XTR+9aM/ZIU1saqBGTBAE
+ k8WzIKL3SJpxZ2dhAl4ip8kveg61YQMJfdB1HQElTER6qKpnF9cPsESKnoQVPim3YuEk
+ nVZw==
+X-Gm-Message-State: AOAM531ll05APH112uh1hxcOuZpadqO9uQxyuqhtBwfzbrTSI5Ax8Fw0
+ rnUoDFb2ID3AYKMKN2Ud8LQ=
+X-Google-Smtp-Source: ABdhPJyrCAB1ssNtOWMJQjeY++hYK1PzMSyxhJtJEk/tbiLr69okcSuV8LGtTxYWMw+6g1Y55/pViA==
+X-Received: by 2002:a2e:2201:: with SMTP id i1mr10989452lji.61.1625125380078; 
+ Thu, 01 Jul 2021 00:43:00 -0700 (PDT)
+Received: from eldfell ([194.136.85.206])
+ by smtp.gmail.com with ESMTPSA id q2sm2141849lfn.177.2021.07.01.00.42.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 01 Jul 2021 00:42:59 -0700 (PDT)
+Date: Thu, 1 Jul 2021 10:42:56 +0300
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Werner Sembach <wse@tuxedocomputers.com>
+Subject: Re: [PATCH v4 03/17] drm/uAPI: Add "active bpc" as feedback channel
+ for "max bpc" drm property
+Message-ID: <20210701104256.247538e1@eldfell>
+In-Reply-To: <ca2827b5-9f6f-164b-6b3f-3f01898d3202@tuxedocomputers.com>
+References: <20210618091116.14428-1-wse@tuxedocomputers.com>
+ <20210618091116.14428-4-wse@tuxedocomputers.com>
+ <18bbd0cf-4c37-ce9d-eb63-de4131a201e1@tuxedocomputers.com>
+ <11cd3340-46a1-9a6a-88f5-95c225863509@tuxedocomputers.com>
+ <20210630112141.319f67eb@eldfell>
+ <ca2827b5-9f6f-164b-6b3f-3f01898d3202@tuxedocomputers.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YNyUQwiagNeZ9YeJ@Ryzen-9-3900X.localdomain>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: multipart/signed; boundary="Sig_/Fu6jgclirlZepxXxOgXeMNK";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,78 +73,194 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: heikki.krogerus@linux.intel.com, thomas.hellstrom@linux.intel.com,
- peterz@infradead.org, dri-devel@lists.freedesktop.org,
- chris@chris-wilson.co.uk, grant.likely@arm.com, paulus@samba.org,
- Frank Rowand <frowand.list@gmail.com>, mingo@kernel.org,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Saravana Kannan <saravanak@google.com>, mpe@ellerman.id.au,
- Joerg Roedel <joro@8bytes.org>,
- "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
- Christoph Hellwig <hch@lst.de>,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>, bskeggs@redhat.com,
- linux-pci@vger.kernel.org, xen-devel@lists.xenproject.org,
- Thierry Reding <treding@nvidia.com>, intel-gfx@lists.freedesktop.org,
- matthew.auld@intel.com, linux-devicetree <devicetree@vger.kernel.org>,
- Jianxiong Gao <jxgao@google.com>,
- Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>, airlied@linux.ie,
- Dan Williams <dan.j.williams@intel.com>, linuxppc-dev@lists.ozlabs.org,
- Rob Herring <robh+dt@kernel.org>, rodrigo.vivi@intel.com,
- Bjorn Helgaas <bhelgaas@google.com>, Claire Chang <tientzu@chromium.org>,
- boris.ostrovsky@oracle.com,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>, jgross@suse.com,
- Nicolas Boichat <drinkcat@chromium.org>, Greg KH <gregkh@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, Qian Cai <quic_qiancai@quicinc.com>,
- lkml <linux-kernel@vger.kernel.org>, Tomasz Figa <tfiga@chromium.org>,
- "list@263.net:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
- Jim Quinlan <james.quinlan@broadcom.com>, xypron.glpk@gmx.de,
- Tom Lendacky <thomas.lendacky@amd.com>, Robin Murphy <robin.murphy@arm.com>,
- bauerman@linux.ibm.com
+Cc: sunpeng.li@amd.com, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ airlied@linux.ie, amd-gfx@lists.freedesktop.org, tzimmermann@suse.de,
+ rodrigo.vivi@intel.com, alexander.deucher@amd.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 30, 2021 at 08:56:51AM -0700, Nathan Chancellor wrote:
-> On Wed, Jun 30, 2021 at 12:43:48PM +0100, Will Deacon wrote:
-> > On Wed, Jun 30, 2021 at 05:17:27PM +0800, Claire Chang wrote:
-> > > `BUG: unable to handle page fault for address: 00000000003a8290` and
-> > > the fact it crashed at `_raw_spin_lock_irqsave` look like the memory
-> > > (maybe dev->dma_io_tlb_mem) was corrupted?
-> > > The dev->dma_io_tlb_mem should be set here
-> > > (https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/drivers/pci/probe.c#n2528)
-> > > through device_initialize.
-> > 
-> > I'm less sure about this. 'dma_io_tlb_mem' should be pointing at
-> > 'io_tlb_default_mem', which is a page-aligned allocation from memblock.
-> > The spinlock is at offset 0x24 in that structure, and looking at the
-> > register dump from the crash:
-> > 
-> > Jun 29 18:28:42 hp-4300G kernel: RSP: 0018:ffffadb4013db9e8 EFLAGS: 00010006
-> > Jun 29 18:28:42 hp-4300G kernel: RAX: 00000000003a8290 RBX: 0000000000000000 RCX: ffff8900572ad580
-> > Jun 29 18:28:42 hp-4300G kernel: RDX: ffff89005653f024 RSI: 00000000000c0000 RDI: 0000000000001d17
-> > Jun 29 18:28:42 hp-4300G kernel: RBP: 000000000a20d000 R08: 00000000000c0000 R09: 0000000000000000
-> > Jun 29 18:28:42 hp-4300G kernel: R10: 000000000a20d000 R11: ffff89005653f000 R12: 0000000000000212
-> > Jun 29 18:28:42 hp-4300G kernel: R13: 0000000000001000 R14: 0000000000000002 R15: 0000000000200000
-> > Jun 29 18:28:42 hp-4300G kernel: FS:  00007f1f8898ea40(0000) GS:ffff890057280000(0000) knlGS:0000000000000000
-> > Jun 29 18:28:42 hp-4300G kernel: CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> > Jun 29 18:28:42 hp-4300G kernel: CR2: 00000000003a8290 CR3: 00000001020d0000 CR4: 0000000000350ee0
-> > Jun 29 18:28:42 hp-4300G kernel: Call Trace:
-> > Jun 29 18:28:42 hp-4300G kernel:  _raw_spin_lock_irqsave+0x39/0x50
-> > Jun 29 18:28:42 hp-4300G kernel:  swiotlb_tbl_map_single+0x12b/0x4c0
-> > 
-> > Then that correlates with R11 holding the 'dma_io_tlb_mem' pointer and
-> > RDX pointing at the spinlock. Yet RAX is holding junk :/
-> > 
-> > I agree that enabling KASAN would be a good idea, but I also think we
-> > probably need to get some more information out of swiotlb_tbl_map_single()
-> > to see see what exactly is going wrong in there.
-> 
-> I can certainly enable KASAN and if there is any debug print I can add
-> or dump anything, let me know!
+--Sig_/Fu6jgclirlZepxXxOgXeMNK
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-I bit the bullet and took v5.13 with swiotlb/for-linus-5.14 merged in, built
-x86 defconfig and ran it on my laptop. However, it seems to work fine!
+On Wed, 30 Jun 2021 11:42:10 +0200
+Werner Sembach <wse@tuxedocomputers.com> wrote:
 
-Please can you share your .config?
+> Am 30.06.21 um 10:21 schrieb Pekka Paalanen:
+> > On Tue, 29 Jun 2021 13:02:05 +0200
+> > Werner Sembach <wse@tuxedocomputers.com> wrote:
+> > =20
+> >> Am 28.06.21 um 19:03 schrieb Werner Sembach: =20
+> >>> Am 18.06.21 um 11:11 schrieb Werner Sembach: =20
+> >>>> Add a new general drm property "active bpc" which can be used by gra=
+phic
+> >>>> drivers to report the applied bit depth per pixel back to userspace.
+> >>>>
+> >>>> While "max bpc" can be used to change the color depth, there was no =
+way to
+> >>>> check which one actually got used. While in theory the driver choose=
+s the
+> >>>> best/highest color depth within the max bpc setting a user might not=
+ be
+> >>>> fully aware what his hardware is or isn't capable off. This is meant=
+ as a
+> >>>> quick way to double check the setup.
+> >>>>
+> >>>> In the future, automatic color calibration for screens might also de=
+pend on
+> >>>> this information being available.
+> >>>>
+> >>>> Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
+> >>>> ---
+> >>>>   drivers/gpu/drm/drm_connector.c | 51 +++++++++++++++++++++++++++++=
+++++
+> >>>>   include/drm/drm_connector.h     |  8 ++++++
+> >>>>   2 files changed, 59 insertions(+)
+> >>>>
+> >>>> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_c=
+onnector.c
+> >>>> index da39e7ff6965..943f6b61053b 100644
+> >>>> --- a/drivers/gpu/drm/drm_connector.c
+> >>>> +++ b/drivers/gpu/drm/drm_connector.c
+> >>>> @@ -1197,6 +1197,14 @@ static const struct drm_prop_enum_list dp_col=
+orspaces[] =3D {
+> >>>>    *	drm_connector_attach_max_bpc_property() to create and attach the
+> >>>>    *	property to the connector during initialization.
+> >>>>    *
+> >>>> + * active bpc:
+> >>>> + *	This read-only range property tells userspace the pixel color bi=
+t depth
+> >>>> + *	actually used by the hardware display engine on "the cable" on a
+> >>>> + *	connector. The chosen value depends on hardware capabilities, bo=
+th
+> >>>> + *	display engine and connected monitor, and the "max bpc" property.
+> >>>> + *	Drivers shall use drm_connector_attach_active_bpc_property() to =
+install
+> >>>> + *	this property.
+> >>>> + * =20
+> >>> Regarding "on the cable" and dithering: As far as I can tell, what th=
+e dithering option does, is setting a hardware
+> >>> register here:
+> >>>
+> >>> - https://elixir.bootlin.com/linux/v5.13/source/drivers/gpu/drm/i915/=
+display/intel_display.c#L4534
+> >>>
+> >>> - https://elixir.bootlin.com/linux/v5.13/source/drivers/gpu/drm/i915/=
+display/intel_display.c#L4571
+> >>>
+> >>> So dithering seems to be calculated by fixed purpose hardware/firmwar=
+e outside of the driver?
+> >>>
+> >>> The Intel driver does not seem to set a target bpc/bpp for this hardw=
+are so I guess it defaults to 6 or 8 bpc? =20
+> >> Never mind it does. This switch-case does affect the dithering output:
+> >> https://elixir.bootlin.com/linux/v5.13/source/drivers/gpu/drm/i915/dis=
+play/intel_display.c#L4537 =20
+> > Hi,
+> >
+> > I obviously do not know the intel driver or hardware at all, but
+> > to me that just looks like translating from bits per pixel to bits per
+> > channel in RGB mapping? =20
+> No, if i understand the documentation correctly: Writing bit depth here=20
+> with dithering enabled sets the dithering target bpc.
+> > =20
+> >> As found in this documentation p.548:
+> >> https://01.org/sites/default/files/documentation/intel-gfx-prm-osrc-lk=
+f-vol02c-commandreference-registers-part2.pdf
+> >>
+> >> So max bpc and active bpc are affecting/affected by the bpc after dith=
+ering. =20
+> > By definition, if the cable carries N bpc, then dithering does not
+> > change that. The cable still carries N bpc, but due to spatial or
+> > temporal dithering, the *observed* color resolution may or may not be
+> > higher than the cable bpc. =20
+> Yes, and max bpc and active bpc tell the cable bpc ist not the=20
+> *observed* bpc.
+> >
+> > Of course, if the cable bpc is 8, and dithering targets 6 bpc, then 2
+> > LSB on the cable are always zero, right? =20
+> I would assume that in this case only 6 bpc are actually send? Isn't the=
+=20
+> whole thing of dithering that you can't send, for example, 8 bpc?
+> >
+> > Maybe one would want to do that if the monitor has a 6 bit panel and it
+> > simply ignored the 2 LSB, and the cable cannot go down to 6 bpc. =20
+>=20
+> Is there dithering actually doing this? aka is my assumption above wrong?
+>=20
+> AMD code that confused me before, is hinting that you might be right:=20
+> https://elixir.bootlin.com/linux/v5.13/source/drivers/gpu/drm/amd/display=
+/dc/dce/dce_transform.c#L826
+>=20
+> there is a set_clamp depth and a separate DCP_SPATIAL_DITHER_DEPTH_30BPP
+>=20
+> >
+> > So, what does "max bpc" mean right now?
+> >
+> > It seems like dither on/off is insufficient information, one would also
+> > need to control the dithering target bpc. I suppose the driver has a
+> > policy on how it chooses the target bpc, but what is that policy? Is
+> > the dither target bpc the cable bpc or the sink bpc?
+> >
+> > Needless to say, I'm quite confused. =20
+>=20
+> ... We need someone who knows what dithering on intel and amd gpu=20
+> actually means.
+>=20
+> But I don't want this to become a blocker for this patchset, because if=20
+> there is no dithering, which seems to be the norm, the active bpc=20
+> property is already really usefull as it is. So add a note to the docs=20
+> that the value might be invalid when dithering is active for now?
 
-Will
+Hi,
+
+not necessarily invalid. It all depends on how "max bpc" and "active
+bpc" are defined.
+
+If they are defined and implemented as "on the cable", then they are
+both well-defined and always valid, regardless of what dithering or bit
+clamping does, so this is the semantics I'd would prefer. It's clear,
+but of course does not tell full story.
+
+When better properties for dithering are added, those can then define
+how it works on top of cable bpc, with no impact on "max bpc" or
+"active bpc" properties.
+
+So if we cannot tell what "max bpc" is, then "active bpc" should just
+be defined as the same thing as "max bpc" affects, and leave the
+precise definition of both for later.
+
+If the definition was observed bpc, then we would have problems and
+would need to know everything right now. But you can't really make
+promises of observed bpc anyway, because you don't know what the
+monitor does to the video signal I suppose. Unless you define it "as if
+observed through an ideal theoretical monitor" which then gets awkward
+to explain.
+
+
+Thanks,
+pq
+
+--Sig_/Fu6jgclirlZepxXxOgXeMNK
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmDdcgAACgkQI1/ltBGq
+qqeWhg/9FK/E/9LnSGoCvVBJgu/c23ik9dfaLY4Oic7sSiuSn6/aDlkR8W7mX/CH
+sQ8sauzFzyGAc9luJRdBKM7KAz+omKgsHVxKyFjbQom0cTz90AHWFr58JQW9+lMg
+CkXVMxJsvQAfV8aDh6sVs6JQKof52AhLQ91CGRnT31j7ENIstMF6IO8FBTfaEGi+
+vXwP4JSv6Nr/6ul9SCaIgnhiTBBQm9hIz10MuQ/Mwe5/CGamK/LuX51HLiJonsVh
+g+IyerSFOAf/CRMeMyQdzTjFRhMEZdFqrs7N0Awbo86sW7XLlPyIXR/F0/Sk7zSe
+1aAH928HjZnm6ksQ7e9tG5fblR6pffJSa4ANaZNz/uxkxQZcsGTR8XuKZyO58sva
+ADt3J1PrPLsl6+AKqkV8sV4Zz5rLx8d7IjInlBTSbmhAnzZZs61OCo7KUCwJbipn
+DCxAGoTXE2qAwlTCxuIirUYzy5DvE1t/+X+byXCtzBk9wCfkBx0rVkm8uCs3iztU
+yTeO2L+FDDgYjHNftu0HhnBddnR5sKyOqSvlgfImIzrgX2waNTpfKZAXpkASqZlj
+QiM8ZH3o5yAyI9T67foJ+/kEJP1gL8crLeSA6e4crDnzsNwNpt81E3f4UcZzVaoe
+5ksfd+ZQG/mEO8BFfhBHPdUE1G6I19Y2jI/O8GeKy9pKKhsL9G0=
+=vVMn
+-----END PGP SIGNATURE-----
+
+--Sig_/Fu6jgclirlZepxXxOgXeMNK--
