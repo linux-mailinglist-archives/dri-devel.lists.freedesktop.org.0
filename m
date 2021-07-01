@@ -1,40 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8BEA3B8B60
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Jul 2021 02:43:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E821A3B8B70
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Jul 2021 02:52:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6EDDA6EAA2;
-	Thu,  1 Jul 2021 00:43:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E6226EAA4;
+	Thu,  1 Jul 2021 00:52:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8299B6E0BA;
- Thu,  1 Jul 2021 00:43:03 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10031"; a="269581861"
-X-IronPort-AV: E=Sophos;i="5.83,312,1616482800"; d="scan'208";a="269581861"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Jun 2021 17:43:01 -0700
-X-IronPort-AV: E=Sophos;i="5.83,312,1616482800"; d="scan'208";a="420209154"
-Received: from unknown (HELO sdutt-i7) ([10.165.21.147])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Jun 2021 17:43:01 -0700
-Date: Wed, 30 Jun 2021 17:36:24 -0700
-From: Matthew Brost <matthew.brost@intel.com>
-To: Michal Wajdeczko <michal.wajdeczko@intel.com>
-Subject: Re: [PATCH 5/7] drm/i915/guc: Add stall timer to non blocking CTB
- send function
-Message-ID: <20210701003624.GB24965@sdutt-i7>
-References: <20210627231439.138612-1-matthew.brost@intel.com>
- <20210627231439.138612-6-matthew.brost@intel.com>
- <288500ea-3be3-7499-8a33-0d36d10cb76a@intel.com>
+Received: from ozlabs.org (bilbo.ozlabs.org [203.11.71.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 733066EAA4
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Jul 2021 00:52:08 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4GFfn06TsLz9sWX;
+ Thu,  1 Jul 2021 10:52:04 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
+ s=201702; t=1625100726;
+ bh=vBawSk9xFZNGIsWWYfV1txmbn3bh40tDg1X6Pjsy0j0=;
+ h=Date:From:To:Cc:Subject:From;
+ b=CMYnOv8oHQl/wUFiGoCpPeS1egCVvcVGdvtkLNcXiBuxIduLX8ebacxwiSljTZpGc
+ ItykRWSAbBhtEOqUp9HcnHf/xDJJ23x2DUizKxhCXQeX9qt4y2mBgqUaVDPWt7NtQY
+ ED3tbtJVstx0zLi9qOg9iS0O5O/0L8TKh4+T8IqCjp5IqIAUJuMd62xjP8AIUXkV/E
+ BCKfYUAJzFCa9QN5qYAzva0cwGLJ1qhwGKUwjUZGGTG2mABgjEXf1u8mIAtllzFscp
+ XGD0w3DUPEIcV6czTNoUqonD7oKyTI5YwpxJAuFpAwdF9o81sfX8xS0bZDKbnjnAFo
+ Z2NrK2B9bEMhQ==
+Date: Thu, 1 Jul 2021 10:52:02 +1000
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Dave Airlie <airlied@linux.ie>, DRI <dri-devel@lists.freedesktop.org>
+Subject: linux-next: manual merge of the drm tree with Linus' tree
+Message-ID: <20210701105202.7b196b68@canb.auug.org.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <288500ea-3be3-7499-8a33-0d36d10cb76a@intel.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Type: multipart/signed; boundary="Sig_/X3p=+W8Q0B6UxxE/7MsD1pv";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,235 +48,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, daniele.ceraolospurio@intel.com,
- john.c.harrison@intel.com, dri-devel@lists.freedesktop.org
+Cc: Philip Yang <Philip.Yang@amd.com>, Felix Kuehling <Felix.Kuehling@amd.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Liam Howlett <liam.howlett@oracle.com>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 01, 2021 at 01:23:36AM +0200, Michal Wajdeczko wrote:
-> 
-> 
-> On 28.06.2021 01:14, Matthew Brost wrote:
-> > Implement a stall timer which fails H2G CTBs once a period of time
-> > with no forward progress is reached to prevent deadlock.
-> > 
-> > v2:
-> >  (Michal)
-> >   - Improve error message in ct_deadlock()
-> >   - Set broken when ct_deadlock() returns true
-> >   - Return -EPIPE on ct_deadlock()
-> > 
-> > Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
-> > Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-> > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> > ---
-> >  drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c | 62 ++++++++++++++++++++---
-> >  drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h |  4 ++
-> >  2 files changed, 59 insertions(+), 7 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-> > index 90ee95a240e8..8f553f7f9619 100644
-> > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-> > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-> > @@ -319,6 +319,7 @@ int intel_guc_ct_enable(struct intel_guc_ct *ct)
-> >  		goto err_deregister;
-> >  
-> >  	ct->enabled = true;
-> > +	ct->stall_time = KTIME_MAX;
-> >  
-> >  	return 0;
-> >  
-> > @@ -391,9 +392,6 @@ static int ct_write(struct intel_guc_ct *ct,
-> >  	u32 *cmds = ctb->cmds;
-> >  	unsigned int i;
-> >  
-> > -	if (unlikely(ctb->broken))
-> > -		return -EPIPE;
-> > -
-> >  	if (unlikely(desc->status))
-> >  		goto corrupted;
-> >  
-> > @@ -509,6 +507,25 @@ static int wait_for_ct_request_update(struct ct_request *req, u32 *status)
-> >  	return err;
-> >  }
-> >  
-> > +#define GUC_CTB_TIMEOUT_MS	1500
-> > +static inline bool ct_deadlocked(struct intel_guc_ct *ct)
-> > +{
-> > +	long timeout = GUC_CTB_TIMEOUT_MS;
-> > +	bool ret = ktime_ms_delta(ktime_get(), ct->stall_time) > timeout;
-> > +
-> > +	if (unlikely(ret)) {
-> > +		struct guc_ct_buffer_desc *send = ct->ctbs.send.desc;
-> > +		struct guc_ct_buffer_desc *recv = ct->ctbs.send.desc;
-> > +
-> > +		CT_ERROR(ct, "Communication stalled for %lld, desc status=%#x,%#x\n",
-> 
-> nit: missing unit in "stalled for ... ms"
->                                      ^^^^
+--Sig_/X3p=+W8Q0B6UxxE/7MsD1pv
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Yep, will fix.
+Hi all,
 
-> 
-> > +			 ktime_ms_delta(ktime_get(), ct->stall_time),
-> > +			 send->status, recv->status);
-> > +		ct->ctbs.send.broken = true;
-> > +	}
-> > +
-> > +	return ret;
-> > +}
-> > +
-> >  static inline bool h2g_has_room(struct intel_guc_ct_buffer *ctb, u32 len_dw)
-> >  {
-> >  	struct guc_ct_buffer_desc *desc = ctb->desc;
-> > @@ -520,6 +537,26 @@ static inline bool h2g_has_room(struct intel_guc_ct_buffer *ctb, u32 len_dw)
-> >  	return space >= len_dw;
-> >  }
-> >  
-> > +static int has_room_nb(struct intel_guc_ct *ct, u32 len_dw)
-> > +{
-> > +	struct intel_guc_ct_buffer *ctb = &ct->ctbs.send;
-> > +
-> > +	lockdep_assert_held(&ct->ctbs.send.lock);
-> > +
-> > +	if (unlikely(!h2g_has_room(ctb, len_dw))) {
-> > +		if (ct->stall_time == KTIME_MAX)
-> > +			ct->stall_time = ktime_get();
-> > +
-> > +		if (unlikely(ct_deadlocked(ct)))
-> > +			return -EPIPE;
-> > +		else
-> > +			return -EBUSY;
-> > +	}
-> > +
-> > +	ct->stall_time = KTIME_MAX;
-> > +	return 0;
-> > +}
-> > +
-> >  static int ct_send_nb(struct intel_guc_ct *ct,
-> >  		      const u32 *action,
-> >  		      u32 len,
-> > @@ -530,13 +567,14 @@ static int ct_send_nb(struct intel_guc_ct *ct,
-> >  	u32 fence;
-> >  	int ret;
-> >  
-> > +	if (unlikely(ctb->broken))
-> > +		return -EPIPE;
-> > +
-> >  	spin_lock_irqsave(&ctb->lock, spin_flags);
-> >  
-> > -	ret = h2g_has_room(ctb, len + GUC_CTB_HDR_LEN);
-> > -	if (unlikely(!ret)) {
-> > -		ret = -EBUSY;
-> > +	ret = has_room_nb(ct, len + GUC_CTB_HDR_LEN);
-> > +	if (unlikely(ret))
-> >  		goto out;
-> > -	}
-> >  
-> >  	fence = ct_get_next_fence(ct);
-> >  	ret = ct_write(ct, action, len, fence, flags);
-> > @@ -571,6 +609,9 @@ static int ct_send(struct intel_guc_ct *ct,
-> >  	GEM_BUG_ON(!response_buf && response_buf_size);
-> >  	might_sleep();
-> >  
-> > +	if (unlikely(ctb->broken))
-> > +		return -EPIPE;
-> 
-> ok, but likely could be part of ct_can_send/has_room
-> 
+Today's linux-next merge of the drm tree got a conflict in:
 
-No, this actually should be apart of 'intel_guc_ct_send'.
+  drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
 
-> > +
-> >  	/*
-> >  	 * We use a lazy spin wait loop here as we believe that if the CT
-> >  	 * buffers are sized correctly the flow control condition should be
-> > @@ -579,8 +620,13 @@ static int ct_send(struct intel_guc_ct *ct,
-> >  retry:
-> >  	spin_lock_irqsave(&ctb->lock, flags);
-> >  	if (unlikely(!h2g_has_room(ctb, len + GUC_CTB_HDR_LEN))) {
-> > +		if (ct->stall_time == KTIME_MAX)
-> > +			ct->stall_time = ktime_get();
-> >  		spin_unlock_irqrestore(&ctb->lock, flags);
-> >  
-> > +		if (unlikely(ct_deadlocked(ct)))
-> > +			return -EPIPE;
-> > +
-> 
-> can't we really put all this into one place?
->
+between commit:
 
-Maybe? IMO a helper with arguments might be worse that inline code
-depending on how it looks in the end. Now that you mention this I
-realize the patch that handles G2H credits is wrong as we really need to
-reserve credits here too. When I rework that patch, I'll revisit this.
+  da68547d3692 ("drm/amdgpu: use vma_lookup() in amdgpu_ttm_tt_get_user_pag=
+es()")
 
-Matt
- 
-> static int ct_can_send(struct intel_guc_ct *ct, u32 len_dw, bool wait)
-> {
-> 	struct intel_guc_ct_buffer *ctb = &ct->ctbs.send;
-> 
-> 	lockdep_assert_held(&ct->ctbs.send.lock);
-> 
-> retry:
-> 	if (ct->broken)
-> 		return -EPIPE;
-> 
-> 	if (unlikely(!ctb_has_room(ctb, len_dw + GUC_CTB_HDR_LEN))) {
-> 		if (ct->stall_time == KTIME_MAX)
-> 			ct->stall_time = ktime_get();
-> 
-> 		if (unlikely(ct_deadlocked(ct)))
-> 			return -EPIPE;
-> 		if (!wait)
-> 			return -EBUSY;
-> 
-> 		spin_unlock_irqrestore(&ctb->lock, flags);
-> 		...
-> 		spin_lock_irqrestore(&ctb->lock, flags);
-> 
-> 		goto retry;
-> 	}
-> 
-> 	ct->stall_time = KTIME_MAX;
-> 	return 0;
-> }
-> 
-> Michal
-> 
-> >  		if (msleep_interruptible(sleep_period_ms))
-> >  			return -EINTR;
-> >  		sleep_period_ms = sleep_period_ms << 1;
-> > @@ -588,6 +634,8 @@ static int ct_send(struct intel_guc_ct *ct,
-> >  		goto retry;
-> >  	}
-> >  
-> > +	ct->stall_time = KTIME_MAX;
-> > +
-> >  	fence = ct_get_next_fence(ct);
-> >  	request.fence = fence;
-> >  	request.status = 0;
-> > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
-> > index f6a4d5b33467..c9d6ae7848a7 100644
-> > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
-> > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
-> > @@ -9,6 +9,7 @@
-> >  #include <linux/interrupt.h>
-> >  #include <linux/spinlock.h>
-> >  #include <linux/workqueue.h>
-> > +#include <linux/ktime.h>
-> >  
-> >  #include "intel_guc_fwif.h"
-> >  
-> > @@ -68,6 +69,9 @@ struct intel_guc_ct {
-> >  		struct list_head incoming; /* incoming requests */
-> >  		struct work_struct worker; /* handler for incoming requests */
-> >  	} requests;
-> > +
-> > +	/** @stall_time: time of first time a CTB submission is stalled */
-> > +	ktime_t stall_time;
-> >  };
-> >  
-> >  void intel_guc_ct_init_early(struct intel_guc_ct *ct);
-> > 
+from Linus' tree and commit:
+
+  04d8d73dbcbe ("drm/amdgpu: add common HMM get pages function")
+
+from the drm tree.
+
+I fixed it up (see below) and can carry the fix as necessary. This
+is now fixed as far as linux-next is concerned, but any non trivial
+conflicts should be mentioned to your upstream maintainer when your tree
+is submitted for merging.  You may also want to consider cooperating
+with the maintainer of the conflicting tree to minimise any particularly
+complex conflicts.
+
+--=20
+Cheers,
+Stephen Rothwell
+
+diff --cc drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+index 61c4fb1b87fe,6a214a4dfe04..000000000000
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+@@@ -689,30 -680,12 +680,12 @@@ int amdgpu_ttm_tt_get_user_pages(struc
+  	if (!mmget_not_zero(mm)) /* Happens during process shutdown */
+  		return -ESRCH;
+ =20
+- 	range =3D kzalloc(sizeof(*range), GFP_KERNEL);
+- 	if (unlikely(!range)) {
+- 		r =3D -ENOMEM;
+- 		goto out;
+- 	}
+- 	range->notifier =3D &bo->notifier;
+- 	range->start =3D bo->notifier.interval_tree.start;
+- 	range->end =3D bo->notifier.interval_tree.last + 1;
+- 	range->default_flags =3D HMM_PFN_REQ_FAULT;
+- 	if (!amdgpu_ttm_tt_is_readonly(ttm))
+- 		range->default_flags |=3D HMM_PFN_REQ_WRITE;
+-=20
+- 	range->hmm_pfns =3D kvmalloc_array(ttm->num_pages,
+- 					 sizeof(*range->hmm_pfns), GFP_KERNEL);
+- 	if (unlikely(!range->hmm_pfns)) {
+- 		r =3D -ENOMEM;
+- 		goto out_free_ranges;
+- 	}
+-=20
+  	mmap_read_lock(mm);
+ -	vma =3D find_vma(mm, start);
+ +	vma =3D vma_lookup(mm, start);
++ 	mmap_read_unlock(mm);
+ -	if (unlikely(!vma || start < vma->vm_start)) {
+ +	if (unlikely(!vma)) {
+  		r =3D -EFAULT;
+- 		goto out_unlock;
++ 		goto out_putmm;
+  	}
+  	if (unlikely((gtt->userflags & AMDGPU_GEM_USERPTR_ANONONLY) &&
+  		vma->vm_file)) {
+
+--Sig_/X3p=+W8Q0B6UxxE/7MsD1pv
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmDdEbIACgkQAVBC80lX
+0GxSvwf+IL2PYbMAiuZK6d1MjKyh9F+xFQ2Ktr8v/y4AAZs9wjeLSJGGFtufdnQw
+Q0IinnFZqbyM9W/USX6A/SEoP6HYEjw1jd73GD8RIwyldQnDt33yXX0q2SNu3o6M
+inX/7WV3/EmPeSWPBbjepn52jO7yYDKncDmRRP+paeJHYQ3b9Z7a9o7yk1jOg/E1
+R/okvAH6oVviPAupXrB0IpY3nAz2mvNsONNxl7/sjJu9ZhVLP2GFbHe7sZolD0NK
+AeS3FZK3T8ij6UqiY3tAV7Uh2TgyL3N+4uBiKItwg4ThyQ0wd9OltvUNkoz1Fm6C
+ajhoS0Narr2HMT49L4+jQY1kYA2OYg==
+=Grkw
+-----END PGP SIGNATURE-----
+
+--Sig_/X3p=+W8Q0B6UxxE/7MsD1pv--
