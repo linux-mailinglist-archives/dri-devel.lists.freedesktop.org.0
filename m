@@ -1,31 +1,31 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0EE43B9758
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Jul 2021 22:26:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7797C3B9785
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Jul 2021 22:26:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F15FE6EC37;
-	Thu,  1 Jul 2021 20:25:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 661586EC44;
+	Thu,  1 Jul 2021 20:25:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 891726EBA4;
- Thu,  1 Jul 2021 20:25:22 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10032"; a="208567516"
-X-IronPort-AV: E=Sophos;i="5.83,315,1616482800"; d="scan'208";a="208567516"
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EEAD76EC06;
+ Thu,  1 Jul 2021 20:25:23 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10032"; a="188998669"
+X-IronPort-AV: E=Sophos;i="5.83,315,1616482800"; d="scan'208";a="188998669"
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  01 Jul 2021 13:25:21 -0700
-X-IronPort-AV: E=Sophos;i="5.83,315,1616482800"; d="scan'208";a="644564529"
+X-IronPort-AV: E=Sophos;i="5.83,315,1616482800"; d="scan'208";a="644564533"
 Received: from mdroper-desk1.fm.intel.com ([10.1.27.134])
  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  01 Jul 2021 13:25:20 -0700
 From: Matt Roper <matthew.d.roper@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 42/53] drm/i915/dg2: Add MPLLB programming for SNPS PHY
-Date: Thu,  1 Jul 2021 13:24:16 -0700
-Message-Id: <20210701202427.1547543-43-matthew.d.roper@intel.com>
+Subject: [PATCH 43/53] drm/i915/dg2: Add MPLLB programming for HDMI
+Date: Thu,  1 Jul 2021 13:24:17 -0700
+Message-Id: <20210701202427.1547543-44-matthew.d.roper@intel.com>
 X-Mailer: git-send-email 2.25.4
 In-Reply-To: <20210701202427.1547543-1-matthew.d.roper@intel.com>
 References: <20210701202427.1547543-1-matthew.d.roper@intel.com>
@@ -44,420 +44,234 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jani Nikula <jani.nikula@intel.com>, Nidhi Gupta <nidhi1.gupta@intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>, dri-devel@lists.freedesktop.org,
+Cc: Matt Atwood <matthew.s.atwood@intel.com>, dri-devel@lists.freedesktop.org,
  Vandita Kulkarni <vandita.kulkarni@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DG2's SNPS PHYs incorporate a dedicated port PLL called MPLLB which
-takes the place of the shared DPLLs we've used on past platforms.  Let's
-add the MPLLB programming sequences; they'll be plugged into the rest of
-the code in future patches.
+At the moment we don't have a proper algorithm that can be used to
+calculate PHY settings for arbitrary HDMI link rates.  The PHY tables
+here should support the regular modes of real-world HDMI monitors.
 
 Bspec: 54032
-Bspec: 53881
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>
+Cc: Matt Atwood <matthew.s.atwood@intel.com>
 Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
 Signed-off-by: Vandita Kulkarni <vandita.kulkarni@intel.com>
-Signed-off-by: Jani Nikula <jani.nikula@intel.com>
-Signed-off-by: Nidhi Gupta <nidhi1.gupta@intel.com>
 ---
- drivers/gpu/drm/i915/Makefile                 |   1 +
- drivers/gpu/drm/i915/display/intel_display.c  |   1 +
- .../drm/i915/display/intel_display_types.h    |  17 +-
- drivers/gpu/drm/i915/display/intel_dpll.c     |  12 +-
- drivers/gpu/drm/i915/display/intel_snps_phy.c | 517 ++++++++++++++++++
- drivers/gpu/drm/i915/display/intel_snps_phy.h |  18 +
- drivers/gpu/drm/i915/i915_reg.h               |  56 ++
- 7 files changed, 616 insertions(+), 6 deletions(-)
- create mode 100644 drivers/gpu/drm/i915/display/intel_snps_phy.c
- create mode 100644 drivers/gpu/drm/i915/display/intel_snps_phy.h
+ drivers/gpu/drm/i915/display/intel_ddi.c      |  14 +-
+ drivers/gpu/drm/i915/display/intel_display.c  |  47 +++
+ drivers/gpu/drm/i915/display/intel_hdmi.c     |  11 +
+ drivers/gpu/drm/i915/display/intel_snps_phy.c | 286 +++++++++++++++++-
+ drivers/gpu/drm/i915/display/intel_snps_phy.h |   7 +
+ drivers/gpu/drm/i915/i915_reg.h               |   3 +
+ 6 files changed, 355 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
-index 01f28ad5ea57..6b6c1e5a72d5 100644
---- a/drivers/gpu/drm/i915/Makefile
-+++ b/drivers/gpu/drm/i915/Makefile
-@@ -268,6 +268,7 @@ i915-y += \
- 	display/intel_pps.o \
- 	display/intel_qp_tables.o \
- 	display/intel_sdvo.o \
-+	display/intel_snps_phy.o \
- 	display/intel_tv.o \
- 	display/intel_vdsc.o \
- 	display/intel_vrr.o \
+diff --git a/drivers/gpu/drm/i915/display/intel_ddi.c b/drivers/gpu/drm/i915/display/intel_ddi.c
+index 26a3aa73fcc4..929a95ddb316 100644
+--- a/drivers/gpu/drm/i915/display/intel_ddi.c
++++ b/drivers/gpu/drm/i915/display/intel_ddi.c
+@@ -51,6 +51,7 @@
+ #include "intel_panel.h"
+ #include "intel_pps.h"
+ #include "intel_psr.h"
++#include "intel_snps_phy.h"
+ #include "intel_sprite.h"
+ #include "intel_tc.h"
+ #include "intel_vdsc.h"
+@@ -3745,6 +3746,15 @@ void intel_ddi_get_clock(struct intel_encoder *encoder,
+ 						     &crtc_state->dpll_hw_state);
+ }
+ 
++static void dg2_ddi_get_config(struct intel_encoder *encoder,
++				struct intel_crtc_state *crtc_state)
++{
++	intel_mpllb_readout_hw_state(encoder, &crtc_state->mpllb_state);
++	crtc_state->port_clock = intel_mpllb_calc_port_clock(encoder, &crtc_state->mpllb_state);
++
++	intel_ddi_get_config(encoder, crtc_state);
++}
++
+ static void adls_ddi_get_config(struct intel_encoder *encoder,
+ 				struct intel_crtc_state *crtc_state)
+ {
+@@ -4606,7 +4616,9 @@ void intel_ddi_init(struct drm_i915_private *dev_priv, enum port port)
+ 	encoder->cloneable = 0;
+ 	encoder->pipe_mask = ~0;
+ 
+-	if (IS_ALDERLAKE_S(dev_priv)) {
++	if (IS_DG2(dev_priv)) {
++		encoder->get_config = dg2_ddi_get_config;
++	} else if (IS_ALDERLAKE_S(dev_priv)) {
+ 		encoder->enable_clock = adls_ddi_enable_clock;
+ 		encoder->disable_clock = adls_ddi_disable_clock;
+ 		encoder->is_clock_enabled = adls_ddi_is_clock_enabled;
 diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
-index dc2b943a4e72..91f6964ec406 100644
+index 91f6964ec406..cce520b6dfcf 100644
 --- a/drivers/gpu/drm/i915/display/intel_display.c
 +++ b/drivers/gpu/drm/i915/display/intel_display.c
-@@ -59,6 +59,7 @@
- #include "display/intel_hdmi.h"
- #include "display/intel_lvds.h"
- #include "display/intel_sdvo.h"
-+#include "display/intel_snps_phy.h"
- #include "display/intel_tv.h"
- #include "display/intel_vdsc.h"
- #include "display/intel_vrr.h"
-diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
-index d94f361b548b..29ae1d9b5abc 100644
---- a/drivers/gpu/drm/i915/display/intel_display_types.h
-+++ b/drivers/gpu/drm/i915/display/intel_display_types.h
-@@ -884,6 +884,18 @@ enum intel_output_format {
- 	INTEL_OUTPUT_FORMAT_YCBCR444,
+@@ -9113,6 +9113,52 @@ verify_shared_dpll_state(struct intel_crtc *crtc,
+ 	}
+ }
+ 
++static void
++verify_mpllb_state(struct intel_atomic_state *state,
++		   struct intel_crtc_state *new_crtc_state)
++{
++	struct drm_i915_private *i915 = to_i915(state->base.dev);
++	struct intel_mpllb_state mpllb_hw_state = { 0 };
++	struct intel_mpllb_state *mpllb_sw_state = &new_crtc_state->mpllb_state;
++	struct intel_crtc *crtc = to_intel_crtc(new_crtc_state->uapi.crtc);
++	struct intel_encoder *encoder;
++
++	if (!IS_DG2(i915))
++		return;
++
++	if (!new_crtc_state->hw.active)
++		return;
++
++	encoder = intel_get_crtc_new_encoder(state, new_crtc_state);
++	intel_mpllb_readout_hw_state(encoder, &mpllb_hw_state);
++
++#define MPLLB_CHECK(name) do { \
++	if (mpllb_sw_state->name != mpllb_hw_state.name) { \
++		pipe_config_mismatch(false, crtc, "MPLLB:" __stringify(name), \
++				     "(expected 0x%08x, found 0x%08x)", \
++				     mpllb_sw_state->name, \
++				     mpllb_hw_state.name); \
++	} \
++} while (0)
++
++	MPLLB_CHECK(mpllb_cp);
++	MPLLB_CHECK(mpllb_div);
++	MPLLB_CHECK(mpllb_div2);
++	MPLLB_CHECK(mpllb_fracn1);
++	MPLLB_CHECK(mpllb_fracn2);
++	MPLLB_CHECK(mpllb_sscen);
++	MPLLB_CHECK(mpllb_sscstep);
++
++	/*
++	 * ref_control is handled by the hardware/firemware and never
++	 * programmed by the software, but the proper values are supplied
++	 * in the bspec for verification purposes.
++	 */
++	MPLLB_CHECK(ref_control);
++
++#undef MPLLB_CHECK
++}
++
+ static void
+ intel_modeset_verify_crtc(struct intel_crtc *crtc,
+ 			  struct intel_atomic_state *state,
+@@ -9126,6 +9172,7 @@ intel_modeset_verify_crtc(struct intel_crtc *crtc,
+ 	verify_connector_state(state, crtc);
+ 	verify_crtc_state(crtc, old_crtc_state, new_crtc_state);
+ 	verify_shared_dpll_state(crtc, old_crtc_state, new_crtc_state);
++	verify_mpllb_state(state, new_crtc_state);
+ }
+ 
+ static void
+diff --git a/drivers/gpu/drm/i915/display/intel_hdmi.c b/drivers/gpu/drm/i915/display/intel_hdmi.c
+index 852af2b23540..b04685bb6439 100644
+--- a/drivers/gpu/drm/i915/display/intel_hdmi.c
++++ b/drivers/gpu/drm/i915/display/intel_hdmi.c
+@@ -51,6 +51,7 @@
+ #include "intel_hdmi.h"
+ #include "intel_lspcon.h"
+ #include "intel_panel.h"
++#include "intel_snps_phy.h"
+ 
+ static struct drm_device *intel_hdmi_to_dev(struct intel_hdmi *intel_hdmi)
+ {
+@@ -1850,6 +1851,16 @@ hdmi_port_clock_valid(struct intel_hdmi *hdmi,
+ 	if (IS_CHERRYVIEW(dev_priv) && clock > 216000 && clock < 240000)
+ 		return MODE_CLOCK_RANGE;
+ 
++	/*
++	 * SNPS PHYs' MPLLB table-based programming can only handle a fixed
++	 * set of link rates.
++	 *
++	 * FIXME: We will hopefully get an algorithmic way of programming
++	 * the MPLLB for HDMI in the future.
++	 */
++	if (IS_DG2(dev_priv))
++		return intel_snps_phy_check_hdmi_link_rate(clock);
++
+ 	return MODE_OK;
+ }
+ 
+diff --git a/drivers/gpu/drm/i915/display/intel_snps_phy.c b/drivers/gpu/drm/i915/display/intel_snps_phy.c
+index 6d9205906595..1317b4e94b50 100644
+--- a/drivers/gpu/drm/i915/display/intel_snps_phy.c
++++ b/drivers/gpu/drm/i915/display/intel_snps_phy.c
+@@ -3,6 +3,8 @@
+  * Copyright © 2019 Intel Corporation
+  */
+ 
++#include <linux/util_macros.h>
++
+ #include "intel_de.h"
+ #include "intel_display_types.h"
+ #include "intel_snps_phy.h"
+@@ -375,14 +377,172 @@ static const struct intel_mpllb_state *dg2_edp_tables[] = {
+ 	NULL,
  };
  
-+struct intel_mpllb_state {
-+	u32 clock; /* in KHz */
-+	u32 ref_control;
-+	u32 mpllb_cp;
-+	u32 mpllb_div;
-+	u32 mpllb_div2;
-+	u32 mpllb_fracn1;
-+	u32 mpllb_fracn2;
-+	u32 mpllb_sscen;
-+	u32 mpllb_sscstep;
-+};
-+
- struct intel_crtc_state {
- 	/*
- 	 * uapi (drm) state. This is the software state shown to userspace.
-@@ -1018,7 +1030,10 @@ struct intel_crtc_state {
- 	struct intel_shared_dpll *shared_dpll;
- 
- 	/* Actual register state of the dpll, for shared dpll cross-checking. */
--	struct intel_dpll_hw_state dpll_hw_state;
-+	union {
-+		struct intel_dpll_hw_state dpll_hw_state;
-+		struct intel_mpllb_state mpllb_state;
-+	};
- 
- 	/*
- 	 * ICL reserved DPLLs for the CRTC/port. The active PLL is selected by
-diff --git a/drivers/gpu/drm/i915/display/intel_dpll.c b/drivers/gpu/drm/i915/display/intel_dpll.c
-index 89635da9f6f6..14515e62c05e 100644
---- a/drivers/gpu/drm/i915/display/intel_dpll.c
-+++ b/drivers/gpu/drm/i915/display/intel_dpll.c
-@@ -11,6 +11,7 @@
- #include "intel_lvds.h"
- #include "intel_panel.h"
- #include "intel_sideband.h"
-+#include "display/intel_snps_phy.h"
- 
- struct intel_limit {
- 	struct {
-@@ -923,12 +924,13 @@ static int hsw_crtc_compute_clock(struct intel_crtc *crtc,
- 	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
- 	struct intel_atomic_state *state =
- 		to_intel_atomic_state(crtc_state->uapi.state);
-+	struct intel_encoder *encoder =
-+		intel_get_crtc_new_encoder(state, crtc_state);
- 
--	if (!intel_crtc_has_type(crtc_state, INTEL_OUTPUT_DSI) ||
--	    DISPLAY_VER(dev_priv) >= 11) {
--		struct intel_encoder *encoder =
--			intel_get_crtc_new_encoder(state, crtc_state);
--
-+	if (IS_DG2(dev_priv)) {
-+		return intel_mpllb_calc_state(crtc_state, encoder);
-+	} else if (!intel_crtc_has_type(crtc_state, INTEL_OUTPUT_DSI) ||
-+		   DISPLAY_VER(dev_priv) >= 11) {
- 		if (!intel_reserve_shared_dplls(state, crtc, encoder)) {
- 			drm_dbg_kms(&dev_priv->drm,
- 				    "failed to find PLL for pipe %c\n",
-diff --git a/drivers/gpu/drm/i915/display/intel_snps_phy.c b/drivers/gpu/drm/i915/display/intel_snps_phy.c
-new file mode 100644
-index 000000000000..6d9205906595
---- /dev/null
-+++ b/drivers/gpu/drm/i915/display/intel_snps_phy.c
-@@ -0,0 +1,517 @@
-+// SPDX-License-Identifier: MIT
+-int intel_mpllb_calc_state(struct intel_crtc_state *crtc_state,
+-			   struct intel_encoder *encoder)
+-{
+-	const struct intel_mpllb_state **tables;
+-	int i;
 +/*
-+ * Copyright © 2019 Intel Corporation
++ * HDMI link rates with 100 MHz reference clock.
 + */
 +
-+#include "intel_de.h"
-+#include "intel_display_types.h"
-+#include "intel_snps_phy.h"
-+
-+/**
-+ * DOC: Synopsis PHY support
-+ *
-+ * Synopsis PHYs are primarily programmed by looking up magic register values
-+ * in tables rather than calculating the necessary values at runtime.
-+ *
-+ * Of special note is that the SNPS PHYs include a dedicated port PLL, known as
-+ * an "MPLLB."  The MPLLB replaces the shared DPLL functionality used on other
-+ * platforms and must be programming directly during the modeset sequence
-+ * since it is not handled by the shared DPLL framework as on other platforms.
-+ */
-+
-+/*
-+ * Basic DP link rates with 100 MHz reference clock.
-+ */
-+
-+static const struct intel_mpllb_state dg2_dp_rbr_100 = {
-+	.clock = 162000,
++static const struct intel_mpllb_state dg2_hdmi_25_175 = {
++	.clock = 25175,
 +	.ref_control =
 +		REG_FIELD_PREP(SNPS_PHY_REF_CONTROL_REF_RANGE, 3),
-+	.mpllb_cp =
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_CP_INT, 4) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_CP_PROP, 20) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_CP_INT_GS, 65) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_CP_PROP_GS, 127),
-+	.mpllb_div =
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_DIV5_CLK_EN, 1) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_TX_CLK_DIV, 2) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_PMIX_EN, 1) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_V2I, 2) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_FREQ_VCO, 2),
-+	.mpllb_div2 =
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_REF_CLK_DIV, 2) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_MULTIPLIER, 226),
-+	.mpllb_fracn1 =
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_FRACN_CGG_UPDATE_EN, 1) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_FRACN_EN, 1) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_FRACN_DEN, 5),
-+	.mpllb_fracn2 =
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_FRACN_QUOT, 39321) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_FRACN_REM, 3),
-+};
-+
-+static const struct intel_mpllb_state dg2_dp_hbr1_100 = {
-+	.clock = 270000,
-+	.ref_control =
-+		REG_FIELD_PREP(SNPS_PHY_REF_CONTROL_REF_RANGE, 3),
-+	.mpllb_cp =
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_CP_INT, 4) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_CP_PROP, 20) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_CP_INT_GS, 65) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_CP_PROP_GS, 127),
-+	.mpllb_div =
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_DIV5_CLK_EN, 1) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_TX_CLK_DIV, 1) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_V2I, 2) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_FREQ_VCO, 3),
-+	.mpllb_div2 =
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_REF_CLK_DIV, 2) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_MULTIPLIER, 184),
-+	.mpllb_fracn1 =
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_FRACN_CGG_UPDATE_EN, 1) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_FRACN_DEN, 1),
-+};
-+
-+static const struct intel_mpllb_state dg2_dp_hbr2_100 = {
-+	.clock = 540000,
-+	.ref_control =
-+		REG_FIELD_PREP(SNPS_PHY_REF_CONTROL_REF_RANGE, 3),
-+	.mpllb_cp =
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_CP_INT, 4) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_CP_PROP, 20) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_CP_INT_GS, 65) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_CP_PROP_GS, 127),
-+	.mpllb_div =
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_DIV5_CLK_EN, 1) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_V2I, 2) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_FREQ_VCO, 3),
-+	.mpllb_div2 =
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_REF_CLK_DIV, 2) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_MULTIPLIER, 184),
-+	.mpllb_fracn1 =
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_FRACN_CGG_UPDATE_EN, 1) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_FRACN_DEN, 1),
-+};
-+
-+static const struct intel_mpllb_state dg2_dp_hbr3_100 = {
-+	.clock = 810000,
-+	.ref_control =
-+		REG_FIELD_PREP(SNPS_PHY_REF_CONTROL_REF_RANGE, 3),
-+	.mpllb_cp =
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_CP_INT, 4) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_CP_PROP, 19) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_CP_INT_GS, 65) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_CP_PROP_GS, 127),
-+	.mpllb_div =
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_DIV5_CLK_EN, 1) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_V2I, 2),
-+	.mpllb_div2 =
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_REF_CLK_DIV, 2) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_MULTIPLIER, 292),
-+	.mpllb_fracn1 =
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_FRACN_CGG_UPDATE_EN, 1) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_FRACN_DEN, 1),
-+};
-+
-+static const struct intel_mpllb_state *dg2_dp_100_tables[] = {
-+	&dg2_dp_rbr_100,
-+	&dg2_dp_hbr1_100,
-+	&dg2_dp_hbr2_100,
-+	&dg2_dp_hbr3_100,
-+	NULL,
-+};
-+
-+/*
-+ * Basic DP link rates with 38.4 MHz reference clock.
-+ */
-+
-+static const struct intel_mpllb_state dg2_dp_rbr_38_4 = {
-+	.clock = 162000,
-+	.ref_control =
-+		REG_FIELD_PREP(SNPS_PHY_REF_CONTROL_REF_RANGE, 1),
 +	.mpllb_cp =
 +		REG_FIELD_PREP(SNPS_PHY_MPLLB_CP_INT, 5) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_CP_PROP, 25) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_CP_INT_GS, 65) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_CP_PROP_GS, 127),
++		REG_FIELD_PREP(SNPS_PHY_MPLLB_CP_PROP, 15) |
++		REG_FIELD_PREP(SNPS_PHY_MPLLB_CP_INT_GS, 64) |
++		REG_FIELD_PREP(SNPS_PHY_MPLLB_CP_PROP_GS, 124),
 +	.mpllb_div =
 +		REG_FIELD_PREP(SNPS_PHY_MPLLB_DIV5_CLK_EN, 1) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_TX_CLK_DIV, 2) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_PMIX_EN, 1) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_V2I, 2) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_FREQ_VCO, 2),
-+	.mpllb_div2 =
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_REF_CLK_DIV, 1) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_MULTIPLIER, 304),
-+	.mpllb_fracn1 =
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_FRACN_CGG_UPDATE_EN, 1) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_FRACN_EN, 1) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_FRACN_DEN, 1),
-+	.mpllb_fracn2 =
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_FRACN_QUOT, 49152),
-+};
-+
-+static const struct intel_mpllb_state dg2_dp_hbr1_38_4 = {
-+	.clock = 270000,
-+	.ref_control =
-+		REG_FIELD_PREP(SNPS_PHY_REF_CONTROL_REF_RANGE, 1),
-+	.mpllb_cp =
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_CP_INT, 5) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_CP_PROP, 25) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_CP_INT_GS, 65) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_CP_PROP_GS, 127),
-+	.mpllb_div =
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_DIV5_CLK_EN, 1) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_TX_CLK_DIV, 1) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_PMIX_EN, 1) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_V2I, 2) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_FREQ_VCO, 3),
-+	.mpllb_div2 =
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_REF_CLK_DIV, 1) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_MULTIPLIER, 248),
-+	.mpllb_fracn1 =
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_FRACN_CGG_UPDATE_EN, 1) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_FRACN_EN, 1) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_FRACN_DEN, 1),
-+	.mpllb_fracn2 =
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_FRACN_QUOT, 40960),
-+};
-+
-+static const struct intel_mpllb_state dg2_dp_hbr2_38_4 = {
-+	.clock = 540000,
-+	.ref_control =
-+		REG_FIELD_PREP(SNPS_PHY_REF_CONTROL_REF_RANGE, 1),
-+	.mpllb_cp =
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_CP_INT, 5) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_CP_PROP, 25) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_CP_INT_GS, 65) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_CP_PROP_GS, 127),
-+	.mpllb_div =
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_DIV5_CLK_EN, 1) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_PMIX_EN, 1) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_V2I, 2) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_FREQ_VCO, 3),
-+	.mpllb_div2 =
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_REF_CLK_DIV, 1) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_MULTIPLIER, 248),
-+	.mpllb_fracn1 =
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_FRACN_CGG_UPDATE_EN, 1) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_FRACN_EN, 1) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_FRACN_DEN, 1),
-+	.mpllb_fracn2 =
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_FRACN_QUOT, 40960),
-+};
-+
-+static const struct intel_mpllb_state dg2_dp_hbr3_38_4 = {
-+	.clock = 810000,
-+	.ref_control =
-+		REG_FIELD_PREP(SNPS_PHY_REF_CONTROL_REF_RANGE, 1),
-+	.mpllb_cp =
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_CP_INT, 6) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_CP_PROP, 26) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_CP_INT_GS, 65) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_CP_PROP_GS, 127),
-+	.mpllb_div =
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_DIV5_CLK_EN, 1) |
++		REG_FIELD_PREP(SNPS_PHY_MPLLB_TX_CLK_DIV, 5) |
 +		REG_FIELD_PREP(SNPS_PHY_MPLLB_PMIX_EN, 1) |
 +		REG_FIELD_PREP(SNPS_PHY_MPLLB_V2I, 2),
 +	.mpllb_div2 =
 +		REG_FIELD_PREP(SNPS_PHY_MPLLB_REF_CLK_DIV, 1) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_MULTIPLIER, 388),
++		REG_FIELD_PREP(SNPS_PHY_MPLLB_MULTIPLIER, 128) |
++		REG_FIELD_PREP(SNPS_PHY_MPLLB_HDMI_DIV, 1),
 +	.mpllb_fracn1 =
 +		REG_FIELD_PREP(SNPS_PHY_MPLLB_FRACN_CGG_UPDATE_EN, 1) |
 +		REG_FIELD_PREP(SNPS_PHY_MPLLB_FRACN_EN, 1) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_FRACN_DEN, 1),
++		REG_FIELD_PREP(SNPS_PHY_MPLLB_FRACN_DEN, 143),
 +	.mpllb_fracn2 =
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_FRACN_QUOT, 61440),
-+};
-+
-+static const struct intel_mpllb_state *dg2_dp_38_4_tables[] = {
-+	&dg2_dp_rbr_38_4,
-+	&dg2_dp_hbr1_38_4,
-+	&dg2_dp_hbr2_38_4,
-+	&dg2_dp_hbr3_38_4,
-+	NULL,
-+};
-+
-+/*
-+ * eDP link rates with 100 MHz reference clock.
-+ */
-+
-+static const struct intel_mpllb_state dg2_edp_r216 = {
-+	.clock = 216000,
-+	.ref_control =
-+		REG_FIELD_PREP(SNPS_PHY_REF_CONTROL_REF_RANGE, 3),
-+	.mpllb_cp =
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_CP_INT, 4) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_CP_PROP, 19) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_CP_INT_GS, 65) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_CP_PROP_GS, 127),
-+	.mpllb_div =
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_DIV5_CLK_EN, 1) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_TX_CLK_DIV, 2) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_PMIX_EN, 1) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_V2I, 2),
-+	.mpllb_div2 =
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_REF_CLK_DIV, 2) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_MULTIPLIER, 312),
-+	.mpllb_fracn1 =
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_FRACN_CGG_UPDATE_EN, 1) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_FRACN_EN, 1) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_FRACN_DEN, 5),
-+	.mpllb_fracn2 =
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_FRACN_QUOT, 52428) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_FRACN_REM, 4),
++		REG_FIELD_PREP(SNPS_PHY_MPLLB_FRACN_QUOT, 36663) |
++		REG_FIELD_PREP(SNPS_PHY_MPLLB_FRACN_REM, 71),
 +	.mpllb_sscen =
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_SSC_EN, 1) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_SSC_PEAK, 50961),
-+	.mpllb_sscstep =
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_SSC_STEPSIZE, 65752),
++		REG_FIELD_PREP(SNPS_PHY_MPLLB_SSC_UP_SPREAD, 1),
 +};
 +
-+static const struct intel_mpllb_state dg2_edp_r243 = {
-+	.clock = 243000,
++static const struct intel_mpllb_state dg2_hdmi_27_0 = {
++	.clock = 27000,
 +	.ref_control =
 +		REG_FIELD_PREP(SNPS_PHY_REF_CONTROL_REF_RANGE, 3),
 +	.mpllb_cp =
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_CP_INT, 4) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_CP_PROP, 20) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_CP_INT_GS, 65) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_CP_PROP_GS, 127),
++		REG_FIELD_PREP(SNPS_PHY_MPLLB_CP_INT, 5) |
++		REG_FIELD_PREP(SNPS_PHY_MPLLB_CP_PROP, 15) |
++		REG_FIELD_PREP(SNPS_PHY_MPLLB_CP_INT_GS, 64) |
++		REG_FIELD_PREP(SNPS_PHY_MPLLB_CP_PROP_GS, 124),
 +	.mpllb_div =
 +		REG_FIELD_PREP(SNPS_PHY_MPLLB_DIV5_CLK_EN, 1) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_TX_CLK_DIV, 2) |
++		REG_FIELD_PREP(SNPS_PHY_MPLLB_TX_CLK_DIV, 5) |
 +		REG_FIELD_PREP(SNPS_PHY_MPLLB_PMIX_EN, 1) |
 +		REG_FIELD_PREP(SNPS_PHY_MPLLB_V2I, 2),
 +	.mpllb_div2 =
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_REF_CLK_DIV, 2) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_MULTIPLIER, 356),
++		REG_FIELD_PREP(SNPS_PHY_MPLLB_REF_CLK_DIV, 1) |
++		REG_FIELD_PREP(SNPS_PHY_MPLLB_MULTIPLIER, 140) |
++		REG_FIELD_PREP(SNPS_PHY_MPLLB_HDMI_DIV, 1),
 +	.mpllb_fracn1 =
 +		REG_FIELD_PREP(SNPS_PHY_MPLLB_FRACN_CGG_UPDATE_EN, 1) |
 +		REG_FIELD_PREP(SNPS_PHY_MPLLB_FRACN_EN, 1) |
@@ -466,86 +280,137 @@ index 000000000000..6d9205906595
 +		REG_FIELD_PREP(SNPS_PHY_MPLLB_FRACN_QUOT, 26214) |
 +		REG_FIELD_PREP(SNPS_PHY_MPLLB_FRACN_REM, 2),
 +	.mpllb_sscen =
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_SSC_EN, 1) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_SSC_PEAK, 57331),
-+	.mpllb_sscstep =
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_SSC_STEPSIZE, 73971),
++		REG_FIELD_PREP(SNPS_PHY_MPLLB_SSC_UP_SPREAD, 1),
 +};
 +
-+static const struct intel_mpllb_state dg2_edp_r324 = {
-+	.clock = 324000,
++static const struct intel_mpllb_state dg2_hdmi_74_25 = {
++	.clock = 74250,
 +	.ref_control =
 +		REG_FIELD_PREP(SNPS_PHY_REF_CONTROL_REF_RANGE, 3),
 +	.mpllb_cp =
 +		REG_FIELD_PREP(SNPS_PHY_MPLLB_CP_INT, 4) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_CP_PROP, 20) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_CP_INT_GS, 65) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_CP_PROP_GS, 127),
++		REG_FIELD_PREP(SNPS_PHY_MPLLB_CP_PROP, 15) |
++		REG_FIELD_PREP(SNPS_PHY_MPLLB_CP_INT_GS, 64) |
++		REG_FIELD_PREP(SNPS_PHY_MPLLB_CP_PROP_GS, 124),
 +	.mpllb_div =
 +		REG_FIELD_PREP(SNPS_PHY_MPLLB_DIV5_CLK_EN, 1) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_TX_CLK_DIV, 1) |
++		REG_FIELD_PREP(SNPS_PHY_MPLLB_TX_CLK_DIV, 3) |
 +		REG_FIELD_PREP(SNPS_PHY_MPLLB_PMIX_EN, 1) |
 +		REG_FIELD_PREP(SNPS_PHY_MPLLB_V2I, 2) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_FREQ_VCO, 2),
++		REG_FIELD_PREP(SNPS_PHY_MPLLB_FREQ_VCO, 3),
 +	.mpllb_div2 =
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_REF_CLK_DIV, 2) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_MULTIPLIER, 226),
++		REG_FIELD_PREP(SNPS_PHY_MPLLB_REF_CLK_DIV, 1) |
++		REG_FIELD_PREP(SNPS_PHY_MPLLB_MULTIPLIER, 86) |
++		REG_FIELD_PREP(SNPS_PHY_MPLLB_HDMI_DIV, 1),
 +	.mpllb_fracn1 =
 +		REG_FIELD_PREP(SNPS_PHY_MPLLB_FRACN_CGG_UPDATE_EN, 1) |
 +		REG_FIELD_PREP(SNPS_PHY_MPLLB_FRACN_EN, 1) |
 +		REG_FIELD_PREP(SNPS_PHY_MPLLB_FRACN_DEN, 5),
 +	.mpllb_fracn2 =
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_FRACN_QUOT, 39321) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_FRACN_REM, 3),
++		REG_FIELD_PREP(SNPS_PHY_MPLLB_FRACN_QUOT, 26214) |
++		REG_FIELD_PREP(SNPS_PHY_MPLLB_FRACN_REM, 2),
 +	.mpllb_sscen =
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_SSC_EN, 1) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_SSC_PEAK, 38221),
-+	.mpllb_sscstep =
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_SSC_STEPSIZE, 49314),
++		REG_FIELD_PREP(SNPS_PHY_MPLLB_SSC_UP_SPREAD, 1),
 +};
 +
-+static const struct intel_mpllb_state dg2_edp_r432 = {
-+	.clock = 432000,
++static const struct intel_mpllb_state dg2_hdmi_148_5 = {
++	.clock = 148500,
 +	.ref_control =
 +		REG_FIELD_PREP(SNPS_PHY_REF_CONTROL_REF_RANGE, 3),
 +	.mpllb_cp =
 +		REG_FIELD_PREP(SNPS_PHY_MPLLB_CP_INT, 4) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_CP_PROP, 19) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_CP_INT_GS, 65) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_CP_PROP_GS, 127),
++		REG_FIELD_PREP(SNPS_PHY_MPLLB_CP_PROP, 15) |
++		REG_FIELD_PREP(SNPS_PHY_MPLLB_CP_INT_GS, 64) |
++		REG_FIELD_PREP(SNPS_PHY_MPLLB_CP_PROP_GS, 124),
 +	.mpllb_div =
 +		REG_FIELD_PREP(SNPS_PHY_MPLLB_DIV5_CLK_EN, 1) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_TX_CLK_DIV, 1) |
++		REG_FIELD_PREP(SNPS_PHY_MPLLB_TX_CLK_DIV, 2) |
 +		REG_FIELD_PREP(SNPS_PHY_MPLLB_PMIX_EN, 1) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_V2I, 2),
++		REG_FIELD_PREP(SNPS_PHY_MPLLB_V2I, 2) |
++		REG_FIELD_PREP(SNPS_PHY_MPLLB_FREQ_VCO, 3),
 +	.mpllb_div2 =
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_REF_CLK_DIV, 2) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_MULTIPLIER, 312),
++		REG_FIELD_PREP(SNPS_PHY_MPLLB_REF_CLK_DIV, 1) |
++		REG_FIELD_PREP(SNPS_PHY_MPLLB_MULTIPLIER, 86) |
++		REG_FIELD_PREP(SNPS_PHY_MPLLB_HDMI_DIV, 1),
 +	.mpllb_fracn1 =
 +		REG_FIELD_PREP(SNPS_PHY_MPLLB_FRACN_CGG_UPDATE_EN, 1) |
 +		REG_FIELD_PREP(SNPS_PHY_MPLLB_FRACN_EN, 1) |
 +		REG_FIELD_PREP(SNPS_PHY_MPLLB_FRACN_DEN, 5),
 +	.mpllb_fracn2 =
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_FRACN_QUOT, 52428) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_FRACN_REM, 4),
++		REG_FIELD_PREP(SNPS_PHY_MPLLB_FRACN_QUOT, 26214) |
++		REG_FIELD_PREP(SNPS_PHY_MPLLB_FRACN_REM, 2),
 +	.mpllb_sscen =
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_SSC_EN, 1) |
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_SSC_PEAK, 50961),
-+	.mpllb_sscstep =
-+		REG_FIELD_PREP(SNPS_PHY_MPLLB_SSC_STEPSIZE, 65752),
++		REG_FIELD_PREP(SNPS_PHY_MPLLB_SSC_UP_SPREAD, 1),
 +};
 +
-+static const struct intel_mpllb_state *dg2_edp_tables[] = {
-+	&dg2_dp_rbr_100,
-+	&dg2_edp_r216,
-+	&dg2_edp_r243,
-+	&dg2_dp_hbr1_100,
-+	&dg2_edp_r324,
-+	&dg2_edp_r432,
-+	&dg2_dp_hbr2_100,
-+	&dg2_dp_hbr3_100,
++static const struct intel_mpllb_state dg2_hdmi_594 = {
++	.clock = 594000,
++	.ref_control =
++		REG_FIELD_PREP(SNPS_PHY_REF_CONTROL_REF_RANGE, 3),
++	.mpllb_cp =
++		REG_FIELD_PREP(SNPS_PHY_MPLLB_CP_INT, 4) |
++		REG_FIELD_PREP(SNPS_PHY_MPLLB_CP_PROP, 15) |
++		REG_FIELD_PREP(SNPS_PHY_MPLLB_CP_INT_GS, 64) |
++		REG_FIELD_PREP(SNPS_PHY_MPLLB_CP_PROP_GS, 124),
++	.mpllb_div =
++		REG_FIELD_PREP(SNPS_PHY_MPLLB_DIV5_CLK_EN, 1) |
++		REG_FIELD_PREP(SNPS_PHY_MPLLB_PMIX_EN, 1) |
++		REG_FIELD_PREP(SNPS_PHY_MPLLB_V2I, 2) |
++		REG_FIELD_PREP(SNPS_PHY_MPLLB_FREQ_VCO, 3),
++	.mpllb_div2 =
++		REG_FIELD_PREP(SNPS_PHY_MPLLB_REF_CLK_DIV, 1) |
++		REG_FIELD_PREP(SNPS_PHY_MPLLB_MULTIPLIER, 86) |
++		REG_FIELD_PREP(SNPS_PHY_MPLLB_HDMI_DIV, 1),
++	.mpllb_fracn1 =
++		REG_FIELD_PREP(SNPS_PHY_MPLLB_FRACN_CGG_UPDATE_EN, 1) |
++		REG_FIELD_PREP(SNPS_PHY_MPLLB_FRACN_EN, 1) |
++		REG_FIELD_PREP(SNPS_PHY_MPLLB_FRACN_DEN, 5),
++	.mpllb_fracn2 =
++		REG_FIELD_PREP(SNPS_PHY_MPLLB_FRACN_QUOT, 26214) |
++		REG_FIELD_PREP(SNPS_PHY_MPLLB_FRACN_REM, 2),
++	.mpllb_sscen =
++		REG_FIELD_PREP(SNPS_PHY_MPLLB_SSC_UP_SPREAD, 1),
++};
+ 
++static const struct intel_mpllb_state *dg2_hdmi_tables[] = {
++	&dg2_hdmi_25_175,
++	&dg2_hdmi_27_0,
++	&dg2_hdmi_74_25,
++	&dg2_hdmi_148_5,
++	&dg2_hdmi_594,
 +	NULL,
 +};
++
++static const struct intel_mpllb_state **
++intel_mpllb_tables_get(struct intel_crtc_state *crtc_state,
++		       struct intel_encoder *encoder)
++{
+ 	if (intel_crtc_has_type(crtc_state, INTEL_OUTPUT_EDP)) {
+-		tables = dg2_edp_tables;
++		return dg2_edp_tables;
+ 	} else if (intel_crtc_has_dp_encoder(crtc_state)) {
+ 		/*
+ 		 * FIXME: Initially we're just enabling the "combo" outputs on
+@@ -397,15 +557,41 @@ int intel_mpllb_calc_state(struct intel_crtc_state *crtc_state,
+ 		 * that to determine which table to use.
+ 		 */
+ 		if (0)
+-			tables = dg2_dp_38_4_tables;
++			return dg2_dp_38_4_tables;
+ 		else
+-			tables = dg2_dp_100_tables;
+-	} else {
+-		/* TODO: Add HDMI support */
+-		MISSING_CASE(encoder->type);
+-		return -EINVAL;
++			return dg2_dp_100_tables;
++	} else if (intel_crtc_has_type(crtc_state, INTEL_OUTPUT_HDMI)) {
++		return dg2_hdmi_tables;
+ 	}
+ 
++	MISSING_CASE(encoder->type);
++	return NULL;
++}
 +
 +int intel_mpllb_calc_state(struct intel_crtc_state *crtc_state,
 +			   struct intel_encoder *encoder)
@@ -553,238 +418,150 @@ index 000000000000..6d9205906595
 +	const struct intel_mpllb_state **tables;
 +	int i;
 +
-+	if (intel_crtc_has_type(crtc_state, INTEL_OUTPUT_EDP)) {
-+		tables = dg2_edp_tables;
-+	} else if (intel_crtc_has_dp_encoder(crtc_state)) {
-+		/*
-+		 * FIXME: Initially we're just enabling the "combo" outputs on
-+		 * port A-D.  The MPLLB for those ports takes an input from the
-+		 * "Display Filter PLL" which always has an output frequency
-+		 * of 100 MHz, hence the use of the _100 tables below.
-+		 *
-+		 * Once we enable port TC1 it will either use the same 100 MHz
-+		 * "Display Filter PLL" (when strapped to support a native
-+		 * display connection) or different 38.4 MHz "Filter PLL" when
-+		 * strapped to support a USB connection, so we'll need to check
-+		 * that to determine which table to use.
-+		 */
-+		if (0)
-+			tables = dg2_dp_38_4_tables;
-+		else
-+			tables = dg2_dp_100_tables;
-+	} else {
-+		/* TODO: Add HDMI support */
-+		MISSING_CASE(encoder->type);
-+		return -EINVAL;
-+	}
-+
-+	for (i = 0; tables[i]; i++) {
-+		if (crtc_state->port_clock <= tables[i]->clock) {
-+			crtc_state->mpllb_state = *tables[i];
-+			return 0;
++	if (intel_crtc_has_type(crtc_state, INTEL_OUTPUT_HDMI)) {
++		if (intel_snps_phy_check_hdmi_link_rate(crtc_state->port_clock)
++		    != MODE_OK) {
++			/*
++			 * FIXME: Can only support fixed HDMI frequencies
++			 * until we have a proper algorithm under a valid
++			 * license.
++			 */
++			DRM_DEBUG_KMS("Can't support HDMI link rate %d\n",
++				      crtc_state->port_clock);
++			return -EINVAL;
 +		}
 +	}
 +
-+	return -EINVAL;
-+}
++	tables = intel_mpllb_tables_get(crtc_state, encoder);
++	if (!tables)
++		return -EINVAL;
 +
-+void intel_mpllb_enable(struct intel_encoder *encoder,
-+			const struct intel_crtc_state *crtc_state)
+ 	for (i = 0; tables[i]; i++) {
+ 		if (crtc_state->port_clock <= tables[i]->clock) {
+ 			crtc_state->mpllb_state = *tables[i];
+@@ -515,3 +701,79 @@ void intel_mpllb_disable(struct intel_encoder *encoder)
+ 	 * We handle this step in bxt_set_cdclk().
+ 	 */
+ }
++
++int intel_mpllb_calc_port_clock(struct intel_encoder *encoder,
++				const struct intel_mpllb_state *pll_state)
 +{
-+	struct drm_i915_private *dev_priv = to_i915(encoder->base.dev);
-+	const struct intel_mpllb_state *pll_state = &crtc_state->mpllb_state;
-+	enum phy phy = intel_port_to_phy(dev_priv, encoder->port);
-+	i915_reg_t enable_reg = (phy <= PHY_D ?
-+				 DG2_PLL_ENABLE(phy) : MG_PLL_ENABLE(0));
++	unsigned int frac_quot = 0, frac_rem = 0, frac_den = 1;
++	unsigned int multiplier, tx_clk_div, refclk;
++	bool frac_en;
 +
-+	/*
-+	 * 3. Software programs the following PLL registers for the desired
-+	 * frequency.
-+	 */
-+	intel_de_write(dev_priv, SNPS_PHY_MPLLB_CP(phy), pll_state->mpllb_cp);
-+	intel_de_write(dev_priv, SNPS_PHY_MPLLB_DIV(phy), pll_state->mpllb_div);
-+	intel_de_write(dev_priv, SNPS_PHY_MPLLB_DIV2(phy), pll_state->mpllb_div2);
-+	intel_de_write(dev_priv, SNPS_PHY_MPLLB_SSCEN(phy), pll_state->mpllb_sscen);
-+	intel_de_write(dev_priv, SNPS_PHY_MPLLB_SSCSTEP(phy), pll_state->mpllb_sscstep);
-+	intel_de_write(dev_priv, SNPS_PHY_MPLLB_FRACN1(phy), pll_state->mpllb_fracn1);
-+	intel_de_write(dev_priv, SNPS_PHY_MPLLB_FRACN2(phy), pll_state->mpllb_fracn2);
++	if (0)
++		refclk = 38400;
++	else
++		refclk = 100000;
 +
-+	/*
-+	 * 4. If the frequency will result in a change to the voltage
-+	 * requirement, follow the Display Voltage Frequency Switching -
-+	 * Sequence Before Frequency Change.
-+	 *
-+	 * We handle this step in bxt_set_cdclk().
-+	 */
++	refclk >>= REG_FIELD_GET(SNPS_PHY_MPLLB_REF_CLK_DIV, pll_state->mpllb_div2) - 1;
 +
-+	/* 5. Software sets DPLL_ENABLE [PLL Enable] to "1". */
-+	intel_uncore_rmw(&dev_priv->uncore, enable_reg, 0, PLL_ENABLE);
++	frac_en = REG_FIELD_GET(SNPS_PHY_MPLLB_FRACN_EN, pll_state->mpllb_fracn1);
 +
-+	/*
-+	 * 9. Software sets SNPS_PHY_MPLLB_DIV dp_mpllb_force_en to "1". This
-+	 * will keep the PLL running during the DDI lane programming and any
-+	 * typeC DP cable disconnect. Do not set the force before enabling the
-+	 * PLL because that will start the PLL before it has sampled the
-+	 * divider values.
-+	 */
-+	intel_de_write(dev_priv, SNPS_PHY_MPLLB_DIV(phy),
-+		       pll_state->mpllb_div | SNPS_PHY_MPLLB_FORCE_EN);
++	if (frac_en) {
++		frac_quot = REG_FIELD_GET(SNPS_PHY_MPLLB_FRACN_QUOT, pll_state->mpllb_fracn2);
++		frac_rem = REG_FIELD_GET(SNPS_PHY_MPLLB_FRACN_REM, pll_state->mpllb_fracn2);
++		frac_den = REG_FIELD_GET(SNPS_PHY_MPLLB_FRACN_DEN, pll_state->mpllb_fracn1);
++	}
 +
-+	/*
-+	 * 10. Software polls on register DPLL_ENABLE [PLL Lock] to confirm PLL
-+	 * is locked at new settings. This register bit is sampling PHY
-+	 * dp_mpllb_state interface signal.
-+	 */
-+	if (intel_de_wait_for_set(dev_priv, enable_reg, PLL_LOCK, 5))
-+		DRM_ERROR("Port %c PLL not locked\n", phy_name(phy));
++	multiplier = REG_FIELD_GET(SNPS_PHY_MPLLB_MULTIPLIER, pll_state->mpllb_div2) / 2 + 16;
 +
-+	/*
-+	 * 11. If the frequency will result in a change to the voltage
-+	 * requirement, follow the Display Voltage Frequency Switching -
-+	 * Sequence After Frequency Change.
-+	 *
-+	 * We handle this step in bxt_set_cdclk().
-+	 */
++	tx_clk_div = REG_FIELD_GET(SNPS_PHY_MPLLB_TX_CLK_DIV, pll_state->mpllb_div);
++
++	return DIV_ROUND_CLOSEST_ULL(mul_u32_u32(refclk, (multiplier << 16) + frac_quot) +
++				     DIV_ROUND_CLOSEST(refclk * frac_rem, frac_den),
++				     10 << (tx_clk_div + 16));
 +}
 +
-+void intel_mpllb_disable(struct intel_encoder *encoder)
++void intel_mpllb_readout_hw_state(struct intel_encoder *encoder,
++				  struct intel_mpllb_state *pll_state)
 +{
 +	struct drm_i915_private *dev_priv = to_i915(encoder->base.dev);
 +	enum phy phy = intel_port_to_phy(dev_priv, encoder->port);
-+	i915_reg_t enable_reg = (phy <= PHY_D ?
-+				 DG2_PLL_ENABLE(phy) : MG_PLL_ENABLE(0));
++
++	pll_state->mpllb_cp = intel_de_read(dev_priv, SNPS_PHY_MPLLB_CP(phy));
++	pll_state->mpllb_div = intel_de_read(dev_priv, SNPS_PHY_MPLLB_DIV(phy));
++	pll_state->mpllb_div2 = intel_de_read(dev_priv, SNPS_PHY_MPLLB_DIV2(phy));
++	pll_state->mpllb_sscen = intel_de_read(dev_priv, SNPS_PHY_MPLLB_SSCEN(phy));
++	pll_state->mpllb_sscstep = intel_de_read(dev_priv, SNPS_PHY_MPLLB_SSCSTEP(phy));
++	pll_state->mpllb_fracn1 = intel_de_read(dev_priv, SNPS_PHY_MPLLB_FRACN1(phy));
++	pll_state->mpllb_fracn2 = intel_de_read(dev_priv, SNPS_PHY_MPLLB_FRACN2(phy));
 +
 +	/*
-+	 * 1. If the frequency will result in a change to the voltage
-+	 * requirement, follow the Display Voltage Frequency Switching -
-+	 * Sequence Before Frequency Change.
-+	 *
-+	 * We handle this step in bxt_set_cdclk().
++	 * REF_CONTROL is under firmware control and never programmed by the
++	 * driver; we read it only for sanity checking purposes.  The bspec
++	 * only tells us the expected value for one field in this register,
++	 * so we'll only read out those specific bits here.
 +	 */
-+
-+	/* 2. Software programs DPLL_ENABLE [PLL Enable] to "0" */
-+	intel_uncore_rmw(&dev_priv->uncore, enable_reg, PLL_ENABLE, 0);
++	pll_state->ref_control = intel_de_read(dev_priv, SNPS_PHY_REF_CONTROL(phy)) &
++		SNPS_PHY_REF_CONTROL_REF_RANGE;
 +
 +	/*
-+	 * 4. Software programs SNPS_PHY_MPLLB_DIV dp_mpllb_force_en to "0".
-+	 * This will allow the PLL to stop running.
++	 * MPLLB_DIV is programmed twice, once with the software-computed
++	 * state, then again with the MPLLB_FORCE_EN bit added.  Drop that
++	 * extra bit during readout so that we return the actual expected
++	 * software state.
 +	 */
-+	intel_uncore_rmw(&dev_priv->uncore, SNPS_PHY_MPLLB_DIV(phy),
-+			 SNPS_PHY_MPLLB_FORCE_EN, 0);
++	pll_state->mpllb_div &= ~SNPS_PHY_MPLLB_FORCE_EN;
++}
 +
-+	/*
-+	 * 5. Software polls DPLL_ENABLE [PLL Lock] for PHY acknowledgment
-+	 * (dp_txX_ack) that the new transmitter setting request is completed.
-+	 */
-+	if (intel_de_wait_for_clear(dev_priv, enable_reg, PLL_LOCK, 5))
-+		DRM_ERROR("Port %c PLL not locked\n", phy_name(phy));
++int intel_snps_phy_check_hdmi_link_rate(int clock)
++{
++	const struct intel_mpllb_state **tables = dg2_hdmi_tables;
++	int i;
 +
-+	/*
-+	 * 6. If the frequency will result in a change to the voltage
-+	 * requirement, follow the Display Voltage Frequency Switching -
-+	 * Sequence After Frequency Change.
-+	 *
-+	 * We handle this step in bxt_set_cdclk().
-+	 */
++	for (i = 0; tables[i]; i++) {
++		if (clock == tables[i]->clock)
++			return MODE_OK;
++	}
++
++	return MODE_CLOCK_RANGE;
 +}
 diff --git a/drivers/gpu/drm/i915/display/intel_snps_phy.h b/drivers/gpu/drm/i915/display/intel_snps_phy.h
-new file mode 100644
-index 000000000000..205ab46f0b67
---- /dev/null
+index 205ab46f0b67..ca4c2a25182b 100644
+--- a/drivers/gpu/drm/i915/display/intel_snps_phy.h
 +++ b/drivers/gpu/drm/i915/display/intel_snps_phy.h
-@@ -0,0 +1,18 @@
-+/* SPDX-License-Identifier: MIT */
-+/*
-+ * Copyright © 2019 Intel Corporation
-+ */
+@@ -8,11 +8,18 @@
+ 
+ struct intel_encoder;
+ struct intel_crtc_state;
++struct intel_mpllb_state;
+ 
+ int intel_mpllb_calc_state(struct intel_crtc_state *crtc_state,
+ 			   struct intel_encoder *encoder);
+ void intel_mpllb_enable(struct intel_encoder *encoder,
+ 			const struct intel_crtc_state *crtc_state);
+ void intel_mpllb_disable(struct intel_encoder *encoder);
++void intel_mpllb_readout_hw_state(struct intel_encoder *encoder,
++				  struct intel_mpllb_state *pll_state);
++int intel_mpllb_calc_port_clock(struct intel_encoder *encoder,
++				const struct intel_mpllb_state *pll_state);
 +
-+#ifndef __INTEL_SNPS_PHY_H__
-+#define __INTEL_SNPS_PHY_H__
-+
-+struct intel_encoder;
-+struct intel_crtc_state;
-+
-+int intel_mpllb_calc_state(struct intel_crtc_state *crtc_state,
-+			   struct intel_encoder *encoder);
-+void intel_mpllb_enable(struct intel_encoder *encoder,
-+			const struct intel_crtc_state *crtc_state);
-+void intel_mpllb_disable(struct intel_encoder *encoder);
-+
-+#endif /* __INTEL_SNPS_PHY_H__ */
++int intel_snps_phy_check_hdmi_link_rate(int clock);
+ 
+ #endif /* __INTEL_SNPS_PHY_H__ */
 diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
-index d58864c7adc6..c0417c994b97 100644
+index c0417c994b97..15465f9cf9ab 100644
 --- a/drivers/gpu/drm/i915/i915_reg.h
 +++ b/drivers/gpu/drm/i915/i915_reg.h
-@@ -2286,6 +2286,57 @@ static inline bool i915_mmio_reg_valid(i915_reg_t reg)
- #define   MG_DP_MODE_CFG_DP_X2_MODE			(1 << 7)
- #define   MG_DP_MODE_CFG_DP_X1_MODE			(1 << 6)
+@@ -2325,12 +2325,15 @@ static inline bool i915_mmio_reg_valid(i915_reg_t reg)
  
-+/*
-+ * DG2 SNPS PHY registers (TC1 = PHY_E)
-+ */
-+#define _SNPS_PHY_A_BASE			0x168000
-+#define _SNPS_PHY_B_BASE			0x169000
-+#define _SNPS_PHY(phy)				_PHY(phy, \
-+						     _SNPS_PHY_A_BASE, \
-+						     _SNPS_PHY_B_BASE)
-+#define _SNPS2(phy, reg)			(_SNPS_PHY(phy) - \
-+						 _SNPS_PHY_A_BASE + (reg))
-+#define _MMIO_SNPS(phy, reg)			_MMIO(_SNPS2(phy, reg))
-+#define _MMIO_SNPS_LN(ln, phy, reg)		_MMIO(_SNPS2(phy, \
-+							     (reg) + (ln) * 0x10))
-+
-+#define SNPS_PHY_MPLLB_CP(phy)			_MMIO_SNPS(phy, 0x168000)
-+#define   SNPS_PHY_MPLLB_CP_INT			REG_GENMASK(31, 25)
-+#define   SNPS_PHY_MPLLB_CP_INT_GS		REG_GENMASK(23, 17)
-+#define   SNPS_PHY_MPLLB_CP_PROP		REG_GENMASK(15, 9)
-+#define   SNPS_PHY_MPLLB_CP_PROP_GS		REG_GENMASK(7, 1)
-+
-+#define SNPS_PHY_MPLLB_DIV(phy)			_MMIO_SNPS(phy, 0x168004)
-+#define   SNPS_PHY_MPLLB_FORCE_EN		REG_BIT(31)
-+#define   SNPS_PHY_MPLLB_DIV5_CLK_EN		REG_BIT(29)
-+#define   SNPS_PHY_MPLLB_V2I			REG_GENMASK(27, 26)
-+#define   SNPS_PHY_MPLLB_FREQ_VCO		REG_GENMASK(25, 24)
-+#define   SNPS_PHY_MPLLB_PMIX_EN		REG_BIT(10)
-+#define   SNPS_PHY_MPLLB_TX_CLK_DIV		REG_GENMASK(7, 5)
-+
-+#define SNPS_PHY_MPLLB_FRACN1(phy)		_MMIO_SNPS(phy, 0x168008)
-+#define   SNPS_PHY_MPLLB_FRACN_EN		REG_BIT(31)
-+#define   SNPS_PHY_MPLLB_FRACN_CGG_UPDATE_EN	REG_BIT(30)
-+#define   SNPS_PHY_MPLLB_FRACN_DEN		REG_GENMASK(15, 0)
-+
-+#define SNPS_PHY_MPLLB_FRACN2(phy)		_MMIO_SNPS(phy, 0x16800C)
-+#define   SNPS_PHY_MPLLB_FRACN_REM		REG_GENMASK(31, 16)
-+#define   SNPS_PHY_MPLLB_FRACN_QUOT		REG_GENMASK(15, 0)
-+
-+#define SNPS_PHY_MPLLB_SSCEN(phy)		_MMIO_SNPS(phy, 0x168014)
-+#define   SNPS_PHY_MPLLB_SSC_EN			REG_BIT(31)
-+#define   SNPS_PHY_MPLLB_SSC_PEAK		REG_GENMASK(29, 10)
-+
-+#define SNPS_PHY_MPLLB_SSCSTEP(phy)		_MMIO_SNPS(phy, 0x168018)
-+#define   SNPS_PHY_MPLLB_SSC_STEPSIZE		REG_GENMASK(31, 11)
-+
-+#define SNPS_PHY_MPLLB_DIV2(phy)		_MMIO_SNPS(phy, 0x16801C)
-+#define   SNPS_PHY_MPLLB_REF_CLK_DIV		REG_GENMASK(14, 12)
-+#define   SNPS_PHY_MPLLB_MULTIPLIER		REG_GENMASK(11, 0)
-+
-+#define SNPS_PHY_REF_CONTROL(phy)		_MMIO_SNPS(phy, 0x168188)
-+#define   SNPS_PHY_REF_CONTROL_REF_RANGE	REG_GENMASK(31, 27)
-+
- /* The spec defines this only for BXT PHY0, but lets assume that this
-  * would exist for PHY1 too if it had a second channel.
-  */
-@@ -10601,6 +10652,11 @@ enum skl_power_gate {
- #define CNL_DPLL_ENABLE(pll)	_MMIO_PLL3(pll, DPLL0_ENABLE, DPLL1_ENABLE, \
- 					   _ADLS_DPLL2_ENABLE, _ADLS_DPLL3_ENABLE)
+ #define SNPS_PHY_MPLLB_SSCEN(phy)		_MMIO_SNPS(phy, 0x168014)
+ #define   SNPS_PHY_MPLLB_SSC_EN			REG_BIT(31)
++#define   SNPS_PHY_MPLLB_SSC_UP_SPREAD		REG_BIT(30)
+ #define   SNPS_PHY_MPLLB_SSC_PEAK		REG_GENMASK(29, 10)
  
-+#define _DG2_PLL3_ENABLE	0x4601C
-+
-+#define DG2_PLL_ENABLE(pll) _MMIO_PLL3(pll, DPLL0_ENABLE, DPLL1_ENABLE, \
-+				       _ADLS_DPLL2_ENABLE, _DG2_PLL3_ENABLE)
-+
- #define TBT_PLL_ENABLE		_MMIO(0x46020)
+ #define SNPS_PHY_MPLLB_SSCSTEP(phy)		_MMIO_SNPS(phy, 0x168018)
+ #define   SNPS_PHY_MPLLB_SSC_STEPSIZE		REG_GENMASK(31, 11)
  
- #define _MG_PLL1_ENABLE		0x46030
+ #define SNPS_PHY_MPLLB_DIV2(phy)		_MMIO_SNPS(phy, 0x16801C)
++#define   SNPS_PHY_MPLLB_HDMI_PIXEL_CLK_DIV	REG_GENMASK(19, 18)
++#define   SNPS_PHY_MPLLB_HDMI_DIV		REG_GENMASK(17, 15)
+ #define   SNPS_PHY_MPLLB_REF_CLK_DIV		REG_GENMASK(14, 12)
+ #define   SNPS_PHY_MPLLB_MULTIPLIER		REG_GENMASK(11, 0)
+ 
 -- 
 2.25.4
 
