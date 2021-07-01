@@ -2,31 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A94283B8F8D
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Jul 2021 11:12:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 536013B8F8E
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Jul 2021 11:12:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B1E2F6EAB7;
+	by gabe.freedesktop.org (Postfix) with ESMTP id DAAB56EABB;
 	Thu,  1 Jul 2021 09:12:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
  [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 848FD6EAAD
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA00E6EAB5
  for <dri-devel@lists.freedesktop.org>; Thu,  1 Jul 2021 09:12:31 +0000 (UTC)
 Received: from localhost.localdomain (unknown
  [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 0B7BC1F40CA7;
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 77A121F40D36;
  Thu,  1 Jul 2021 10:12:30 +0100 (BST)
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: Rob Herring <robh+dt@kernel.org>,
  Tomeu Vizoso <tomeu.vizoso@collabora.com>,
  Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
  Steven Price <steven.price@arm.com>, Robin Murphy <robin.murphy@arm.com>
-Subject: [PATCH v2 4/7] drm/panfrost: Add the ability to create submit queues
-Date: Thu,  1 Jul 2021 11:12:21 +0200
-Message-Id: <20210701091224.3209803-5-boris.brezillon@collabora.com>
+Subject: [PATCH v2 5/7] drm/panfrost: Add a new ioctl to submit batches
+Date: Thu,  1 Jul 2021 11:12:22 +0200
+Message-Id: <20210701091224.3209803-6-boris.brezillon@collabora.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210701091224.3209803-1-boris.brezillon@collabora.com>
 References: <20210701091224.3209803-1-boris.brezillon@collabora.com>
@@ -49,537 +49,463 @@ Cc: Jason Ekstrand <jason@jlekstrand.net>, dri-devel@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Needed to keep VkQueues isolated from each other.
+This should help limit the number of ioctls when submitting multiple
+jobs. The new ioctl also supports syncobj timelines and BO access flags.
 
 Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 ---
- drivers/gpu/drm/panfrost/Makefile             |   3 +-
- drivers/gpu/drm/panfrost/panfrost_device.h    |   2 +-
- drivers/gpu/drm/panfrost/panfrost_drv.c       |  69 ++++++++--
- drivers/gpu/drm/panfrost/panfrost_job.c       |  47 ++-----
- drivers/gpu/drm/panfrost/panfrost_job.h       |   9 +-
- .../gpu/drm/panfrost/panfrost_submitqueue.c   | 130 ++++++++++++++++++
- .../gpu/drm/panfrost/panfrost_submitqueue.h   |  27 ++++
- include/uapi/drm/panfrost_drm.h               |  17 +++
- 8 files changed, 258 insertions(+), 46 deletions(-)
- create mode 100644 drivers/gpu/drm/panfrost/panfrost_submitqueue.c
- create mode 100644 drivers/gpu/drm/panfrost/panfrost_submitqueue.h
+ drivers/gpu/drm/panfrost/panfrost_drv.c | 305 ++++++++++++++++++++++++
+ drivers/gpu/drm/panfrost/panfrost_job.c |   3 +
+ include/uapi/drm/panfrost_drm.h         |  84 +++++++
+ 3 files changed, 392 insertions(+)
 
-diff --git a/drivers/gpu/drm/panfrost/Makefile b/drivers/gpu/drm/panfrost/Makefile
-index b71935862417..e99192b66ec9 100644
---- a/drivers/gpu/drm/panfrost/Makefile
-+++ b/drivers/gpu/drm/panfrost/Makefile
-@@ -9,6 +9,7 @@ panfrost-y := \
- 	panfrost_gpu.o \
- 	panfrost_job.o \
- 	panfrost_mmu.o \
--	panfrost_perfcnt.o
-+	panfrost_perfcnt.o \
-+	panfrost_submitqueue.o
- 
- obj-$(CONFIG_DRM_PANFROST) += panfrost.o
-diff --git a/drivers/gpu/drm/panfrost/panfrost_device.h b/drivers/gpu/drm/panfrost/panfrost_device.h
-index 8b25278f34c8..51c0ba4e50f5 100644
---- a/drivers/gpu/drm/panfrost/panfrost_device.h
-+++ b/drivers/gpu/drm/panfrost/panfrost_device.h
-@@ -137,7 +137,7 @@ struct panfrost_mmu {
- struct panfrost_file_priv {
- 	struct panfrost_device *pfdev;
- 
--	struct drm_sched_entity sched_entity[NUM_JOB_SLOTS];
-+	struct idr queues;
- 
- 	struct panfrost_mmu *mmu;
- };
 diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
-index b6b5997c9366..6529e5972b47 100644
+index 6529e5972b47..7ed0773a5c19 100644
 --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
 +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-@@ -19,6 +19,7 @@
- #include "panfrost_job.h"
- #include "panfrost_gpu.h"
- #include "panfrost_perfcnt.h"
-+#include "panfrost_submitqueue.h"
- 
- static bool unstable_ioctls;
- module_param_unsafe(unstable_ioctls, bool, 0600);
-@@ -250,6 +251,7 @@ static int panfrost_ioctl_submit(struct drm_device *dev, void *data,
- 	struct panfrost_device *pfdev = dev->dev_private;
- 	struct drm_panfrost_submit *args = data;
- 	struct drm_syncobj *sync_out = NULL;
-+	struct panfrost_submitqueue *queue;
- 	struct panfrost_job *job;
- 	int ret = 0;
- 
-@@ -259,10 +261,16 @@ static int panfrost_ioctl_submit(struct drm_device *dev, void *data,
- 	if (args->requirements && args->requirements != PANFROST_JD_REQ_FS)
- 		return -EINVAL;
- 
-+	queue = panfrost_submitqueue_get(file->driver_priv, 0);
-+	if (IS_ERR(queue))
-+		return PTR_ERR(queue);
-+
- 	if (args->out_sync > 0) {
- 		sync_out = drm_syncobj_find(file, args->out_sync);
--		if (!sync_out)
--			return -ENODEV;
-+		if (!sync_out) {
-+			ret = -ENODEV;
-+			goto fail_put_queue;
-+		}
- 	}
- 
- 	job = kzalloc(sizeof(*job), GFP_KERNEL);
-@@ -289,7 +297,7 @@ static int panfrost_ioctl_submit(struct drm_device *dev, void *data,
- 	if (ret)
- 		goto fail_job;
- 
--	ret = panfrost_job_push(job);
-+	ret = panfrost_job_push(queue, job);
- 	if (ret)
- 		goto fail_job;
- 
-@@ -302,6 +310,8 @@ static int panfrost_ioctl_submit(struct drm_device *dev, void *data,
- fail_out_sync:
- 	if (sync_out)
- 		drm_syncobj_put(sync_out);
-+fail_put_queue:
-+	panfrost_submitqueue_put(queue);
- 
- 	return ret;
- }
-@@ -451,6 +461,36 @@ static int panfrost_ioctl_madvise(struct drm_device *dev, void *data,
- 	return ret;
+@@ -491,6 +491,310 @@ panfrost_ioctl_destroy_submitqueue(struct drm_device *dev, void *data,
+ 	return panfrost_submitqueue_destroy(priv, id);
  }
  
 +static int
-+panfrost_ioctl_create_submitqueue(struct drm_device *dev, void *data,
-+				  struct drm_file *file_priv)
++panfrost_get_job_in_syncs(struct drm_file *file_priv,
++			  u64 refs, u32 ref_stride,
++			  u32 count, struct panfrost_job *job)
 +{
-+	struct panfrost_file_priv *priv = file_priv->driver_priv;
-+	struct drm_panfrost_create_submitqueue *args = data;
-+	struct panfrost_submitqueue *queue;
++	const void __user *in = u64_to_user_ptr(refs);
++	unsigned int i;
++	int ret;
 +
-+	queue = panfrost_submitqueue_create(priv, args->priority, args->flags);
-+	if (IS_ERR(queue))
-+		return PTR_ERR(queue);
++	if (!count)
++		return 0;
 +
-+	args->id = queue->id;
++	for (i = 0; i < count; i++) {
++		struct drm_panfrost_syncobj_ref ref = { };
++		struct dma_fence *fence;
++
++		ret = copy_struct_from_user(&ref, sizeof(ref),
++					    in + (i * ref_stride),
++					    ref_stride);
++		if (ret)
++			return ret;
++
++		if (ref.pad)
++			return -EINVAL;
++
++		ret = drm_syncobj_find_fence(file_priv, ref.handle, ref.point,
++					     0, &fence);
++		if (ret)
++			return ret;
++
++		ret = drm_gem_fence_array_add(&job->deps, fence);
++		if (ret)
++			return ret;
++	}
++
 +	return 0;
 +}
 +
-+static int
-+panfrost_ioctl_destroy_submitqueue(struct drm_device *dev, void *data,
-+				   struct drm_file *file_priv)
++struct panfrost_job_out_sync {
++	struct drm_syncobj *syncobj;
++	struct dma_fence_chain *chain;
++	u64 point;
++};
++
++static void
++panfrost_put_job_out_syncs(struct panfrost_job_out_sync *out_syncs, u32 count)
 +{
-+	struct panfrost_file_priv *priv = file_priv->driver_priv;
-+	u32 id = *((u32 *)data);
++	unsigned int i;
 +
-+	/* Default queue can't be destroyed. */
-+	if (!id)
-+		return -ENOENT;
++	for (i = 0; i < count; i++) {
++		if (!out_syncs[i].syncobj)
++			break;
 +
-+	return panfrost_submitqueue_destroy(priv, id);
++		drm_syncobj_put(out_syncs[i].syncobj);
++		kvfree(out_syncs[i].chain);
++	}
++
++	kvfree(out_syncs);
++}
++
++static struct panfrost_job_out_sync *
++panfrost_get_job_out_syncs(struct drm_file *file_priv,
++			   u64 refs, u32 ref_stride,
++			   u32 count)
++{
++	void __user *in = u64_to_user_ptr(refs);
++	struct panfrost_job_out_sync *out_syncs;
++	unsigned int i;
++	int ret;
++
++	if (!count)
++		return NULL;
++
++	out_syncs = kvmalloc_array(count, sizeof(*out_syncs),
++				   GFP_KERNEL | __GFP_ZERO);
++	if (!out_syncs)
++		return ERR_PTR(-ENOMEM);
++
++	for (i = 0; i < count; i++) {
++		struct drm_panfrost_syncobj_ref ref = { };
++
++		ret = copy_struct_from_user(&ref, sizeof(ref),
++					    in + (i * ref_stride),
++					    ref_stride);
++		if (ret)
++			goto err_free_out_syncs;
++
++		if (ref.pad) {
++			ret = -EINVAL;
++			goto err_free_out_syncs;
++		}
++
++		out_syncs[i].syncobj = drm_syncobj_find(file_priv, ref.handle);
++		if (!out_syncs[i].syncobj) {
++			ret = -EINVAL;
++			goto err_free_out_syncs;
++		}
++
++		out_syncs[i].point = ref.point;
++		if (!out_syncs[i].point)
++			continue;
++
++		out_syncs[i].chain = kmalloc(sizeof(*out_syncs[i].chain),
++					     GFP_KERNEL);
++		if (!out_syncs[i].chain) {
++			ret = -ENOMEM;
++			goto err_free_out_syncs;
++		}
++	}
++
++	return out_syncs;
++
++err_free_out_syncs:
++	panfrost_put_job_out_syncs(out_syncs, count);
++	return ERR_PTR(ret);
++}
++
++static void
++panfrost_set_job_out_fence(struct panfrost_job_out_sync *out_syncs,
++			   unsigned int count, struct dma_fence *fence)
++{
++	unsigned int i;
++
++	for (i = 0; i < count; i++) {
++		if (out_syncs[i].chain) {
++			drm_syncobj_add_point(out_syncs[i].syncobj,
++					      out_syncs[i].chain,
++					      fence, out_syncs[i].point);
++			out_syncs[i].chain = NULL;
++		} else {
++			drm_syncobj_replace_fence(out_syncs[i].syncobj,
++						  fence);
++		}
++	}
++}
++
++#define PANFROST_BO_REF_ALLOWED_FLAGS \
++	(PANFROST_BO_REF_EXCLUSIVE | PANFROST_BO_REF_NO_IMPLICIT_DEP)
++
++static int
++panfrost_get_job_bos(struct drm_file *file_priv,
++		     u64 refs, u32 ref_stride, u32 count,
++		     struct panfrost_job *job)
++{
++	void __user *in = u64_to_user_ptr(refs);
++	unsigned int i;
++
++	job->bo_count = count;
++
++	if (!count)
++		return 0;
++
++	job->bos = kvmalloc_array(job->bo_count, sizeof(*job->bos),
++				  GFP_KERNEL | __GFP_ZERO);
++	job->bo_flags = kvmalloc_array(job->bo_count,
++				       sizeof(*job->bo_flags),
++				       GFP_KERNEL | __GFP_ZERO);
++	if (!job->bos || !job->bo_flags)
++		return -ENOMEM;
++
++	for (i = 0; i < count; i++) {
++		struct drm_panfrost_bo_ref ref = { };
++		int ret;
++
++		ret = copy_struct_from_user(&ref, sizeof(ref),
++					    in + (i * ref_stride),
++					    ref_stride);
++		if (ret)
++			return ret;
++
++		if ((ref.flags & ~PANFROST_BO_REF_ALLOWED_FLAGS))
++			return -EINVAL;
++
++		job->bos[i] = drm_gem_object_lookup(file_priv, ref.handle);
++		if (!job->bos[i])
++			return -EINVAL;
++
++		job->bo_flags[i] = ref.flags;
++	}
++
++	return 0;
++}
++
++#define PANFROST_JD_ALLOWED_REQS PANFROST_JD_REQ_FS
++
++static int
++panfrost_submit_job(struct drm_device *dev, struct drm_file *file_priv,
++		    struct panfrost_submitqueue *queue,
++		    const struct drm_panfrost_job *args,
++		    u32 bo_stride, u32 syncobj_stride)
++{
++	struct panfrost_device *pfdev = dev->dev_private;
++	struct panfrost_job_out_sync *out_syncs;
++	struct panfrost_job *job;
++	int ret;
++
++	if (!args->head)
++		return -EINVAL;
++
++	if (args->requirements & ~PANFROST_JD_ALLOWED_REQS)
++		return -EINVAL;
++
++	job = kzalloc(sizeof(*job), GFP_KERNEL);
++	if (!job)
++		return -ENOMEM;
++
++	kref_init(&job->refcount);
++
++	job->pfdev = pfdev;
++	job->jc = args->head;
++	job->requirements = args->requirements;
++	job->flush_id = panfrost_gpu_get_latest_flush_id(pfdev);
++	job->file_priv = file_priv->driver_priv;
++	xa_init_flags(&job->deps, XA_FLAGS_ALLOC);
++
++	ret = panfrost_get_job_in_syncs(file_priv,
++					args->in_syncs,
++					syncobj_stride,
++					args->in_sync_count,
++					job);
++	if (ret)
++		goto err_put_job;
++
++	out_syncs = panfrost_get_job_out_syncs(file_priv,
++					       args->out_syncs,
++					       syncobj_stride,
++					       args->out_sync_count);
++	if (IS_ERR(out_syncs)) {
++		ret = PTR_ERR(out_syncs);
++		goto err_put_job;
++	}
++
++	ret = panfrost_get_job_bos(file_priv, args->bos, bo_stride,
++				   args->bo_count, job);
++	if (ret)
++		goto err_put_job;
++
++	ret = panfrost_get_job_mappings(file_priv, job);
++	if (ret)
++		goto err_put_job;
++
++	ret = panfrost_job_push(queue, job);
++	if (ret) {
++		panfrost_put_job_out_syncs(out_syncs, args->out_sync_count);
++		goto err_put_job;
++	}
++
++	panfrost_set_job_out_fence(out_syncs, args->out_sync_count,
++				   job->render_done_fence);
++	panfrost_put_job_out_syncs(out_syncs, args->out_sync_count);
++	return 0;
++
++err_put_job:
++	panfrost_job_put(job);
++	return ret;
++}
++
++static int
++panfrost_ioctl_batch_submit(struct drm_device *dev, void *data,
++			    struct drm_file *file_priv)
++{
++	struct drm_panfrost_batch_submit *args = data;
++	void __user *jobs_args = u64_to_user_ptr(args->jobs);
++	struct panfrost_submitqueue *queue;
++	unsigned int i;
++	int ret;
++
++	/* Relax this test if new fields are added to
++	 * drm_panfrost_{bo_ref,syncobj_ref,job}.
++	 */
++	if (args->job_stride < sizeof(struct drm_panfrost_job) ||
++	    args->bo_ref_stride < sizeof(struct drm_panfrost_bo_ref) ||
++	    args->syncobj_ref_stride < sizeof(struct drm_panfrost_syncobj_ref))
++		return -EINVAL;
++
++	queue = panfrost_submitqueue_get(file_priv->driver_priv, args->queue);
++	if (IS_ERR(queue))
++		return PTR_ERR(queue);
++
++	for (i = 0; i < args->job_count; i++) {
++		struct drm_panfrost_job job_args = { };
++
++		ret = copy_struct_from_user(&job_args, sizeof(job_args),
++					    jobs_args + (i * args->job_stride),
++					    args->job_stride);
++		if (ret) {
++			args->fail_idx = i;
++			goto out_put_queue;
++		}
++
++		ret = panfrost_submit_job(dev, file_priv, queue, &job_args,
++					  args->bo_ref_stride,
++					  args->syncobj_ref_stride);
++		if (ret) {
++			args->fail_idx = i;
++			goto out_put_queue;
++		}
++	}
++
++out_put_queue:
++	panfrost_submitqueue_put(queue);
++	return 0;
 +}
 +
  int panfrost_unstable_ioctl_check(void)
  {
  	if (!unstable_ioctls)
-@@ -465,6 +505,7 @@ panfrost_open(struct drm_device *dev, struct drm_file *file)
- 	int ret;
- 	struct panfrost_device *pfdev = dev->dev_private;
- 	struct panfrost_file_priv *panfrost_priv;
-+	struct panfrost_submitqueue *defaultqueue;
- 
- 	panfrost_priv = kzalloc(sizeof(*panfrost_priv), GFP_KERNEL);
- 	if (!panfrost_priv)
-@@ -479,13 +520,19 @@ panfrost_open(struct drm_device *dev, struct drm_file *file)
- 		goto err_free;
- 	}
- 
--	ret = panfrost_job_open(panfrost_priv);
--	if (ret)
--		goto err_job;
-+	idr_init(&panfrost_priv->queues);
-+	defaultqueue = panfrost_submitqueue_create(panfrost_priv,
-+						   PANFROST_SUBMITQUEUE_PRIORITY_MEDIUM,
-+						   0);
-+	if (IS_ERR(defaultqueue)) {
-+		ret = PTR_ERR(defaultqueue);
-+		goto err_destroy_idr;
-+	}
- 
- 	return 0;
- 
--err_job:
-+err_destroy_idr:
-+	idr_destroy(&panfrost_priv->queues);
- 	panfrost_mmu_ctx_put(panfrost_priv->mmu);
- err_free:
- 	kfree(panfrost_priv);
-@@ -496,11 +543,15 @@ static void
- panfrost_postclose(struct drm_device *dev, struct drm_file *file)
- {
- 	struct panfrost_file_priv *panfrost_priv = file->driver_priv;
-+	u32 id;
- 
- 	panfrost_perfcnt_close(file);
--	panfrost_job_close(panfrost_priv);
-+
-+	for (id = 0; idr_get_next(&panfrost_priv->queues, &id); id++)
-+		panfrost_submitqueue_destroy(panfrost_priv, id);
- 
- 	panfrost_mmu_ctx_put(panfrost_priv->mmu);
-+	idr_destroy(&panfrost_priv->queues);
- 	kfree(panfrost_priv);
- }
- 
-@@ -517,6 +568,8 @@ static const struct drm_ioctl_desc panfrost_drm_driver_ioctls[] = {
- 	PANFROST_IOCTL(PERFCNT_ENABLE,	perfcnt_enable,	DRM_RENDER_ALLOW),
- 	PANFROST_IOCTL(PERFCNT_DUMP,	perfcnt_dump,	DRM_RENDER_ALLOW),
+@@ -570,6 +874,7 @@ static const struct drm_ioctl_desc panfrost_drm_driver_ioctls[] = {
  	PANFROST_IOCTL(MADVISE,		madvise,	DRM_RENDER_ALLOW),
-+	PANFROST_IOCTL(CREATE_SUBMITQUEUE, create_submitqueue, DRM_RENDER_ALLOW),
-+	PANFROST_IOCTL(DESTROY_SUBMITQUEUE, destroy_submitqueue, DRM_RENDER_ALLOW),
+ 	PANFROST_IOCTL(CREATE_SUBMITQUEUE, create_submitqueue, DRM_RENDER_ALLOW),
+ 	PANFROST_IOCTL(DESTROY_SUBMITQUEUE, destroy_submitqueue, DRM_RENDER_ALLOW),
++	PANFROST_IOCTL(BATCH_SUBMIT,	batch_submit,	DRM_RENDER_ALLOW),
  };
  
  DEFINE_DRM_GEM_FOPS(panfrost_drm_driver_fops);
 diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
-index 152245b122be..56ae89272e19 100644
+index 56ae89272e19..4e1540bce865 100644
 --- a/drivers/gpu/drm/panfrost/panfrost_job.c
 +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
-@@ -20,6 +20,7 @@
- #include "panfrost_regs.h"
- #include "panfrost_gpu.h"
- #include "panfrost_mmu.h"
-+#include "panfrost_submitqueue.h"
- 
- #define JOB_TIMEOUT_MS 500
- 
-@@ -276,15 +277,15 @@ static void panfrost_attach_object_fences(struct panfrost_job *job)
- 	}
- }
- 
--int panfrost_job_push(struct panfrost_job *job)
-+int panfrost_job_push(struct panfrost_submitqueue *queue,
-+		      struct panfrost_job *job)
- {
- 	struct panfrost_device *pfdev = job->pfdev;
- 	int slot = panfrost_job_get_slot(job);
--	struct drm_sched_entity *entity = &job->file_priv->sched_entity[slot];
-+	struct drm_sched_entity *entity = &queue->sched_entity[slot];
- 	struct ww_acquire_ctx acquire_ctx;
- 	int ret = 0;
- 
--
- 	ret = drm_gem_lock_reservations(job->bos, job->bo_count,
- 					    &acquire_ctx);
- 	if (ret)
-@@ -881,43 +882,18 @@ void panfrost_job_fini(struct panfrost_device *pfdev)
- 	destroy_workqueue(pfdev->reset.wq);
- }
- 
--int panfrost_job_open(struct panfrost_file_priv *panfrost_priv)
-+void panfrost_job_kill_queue(struct panfrost_submitqueue *queue)
- {
--	struct panfrost_device *pfdev = panfrost_priv->pfdev;
--	struct panfrost_job_slot *js = pfdev->js;
--	struct drm_gpu_scheduler *sched;
--	int ret, i;
-+	struct panfrost_device *pfdev = queue->pfdev;
-+	int i, j;
- 
--	for (i = 0; i < NUM_JOB_SLOTS; i++) {
--		sched = &js->queue[i].sched;
--		ret = drm_sched_entity_init(&panfrost_priv->sched_entity[i],
--					    DRM_SCHED_PRIORITY_NORMAL, &sched,
--					    1, NULL);
--		if (WARN_ON(ret))
--			return ret;
--	}
--	return 0;
--}
--
--void panfrost_job_close(struct panfrost_file_priv *panfrost_priv)
--{
--	struct panfrost_device *pfdev = panfrost_priv->pfdev;
--	int i;
--
--	for (i = 0; i < NUM_JOB_SLOTS; i++)
--		drm_sched_entity_destroy(&panfrost_priv->sched_entity[i]);
--
--	/* Kill in-flight jobs */
- 	spin_lock(&pfdev->js->job_lock);
- 	for (i = 0; i < NUM_JOB_SLOTS; i++) {
--		struct drm_sched_entity *entity = &panfrost_priv->sched_entity[i];
--		int j;
--
- 		for (j = ARRAY_SIZE(pfdev->jobs[0]) - 1; j >= 0; j--) {
- 			struct panfrost_job *job = pfdev->jobs[i][j];
- 			u32 cmd;
- 
--			if (!job || job->base.entity != entity)
-+			if (!job || job->base.entity != &queue->sched_entity[i])
- 				continue;
- 
- 			if (j == 1) {
-@@ -936,7 +912,6 @@ void panfrost_job_close(struct panfrost_file_priv *panfrost_priv)
- 			} else {
- 				cmd = JS_COMMAND_HARD_STOP;
- 			}
--
- 			job_write(pfdev, JS_COMMAND(i), cmd);
+@@ -254,6 +254,9 @@ static int panfrost_acquire_object_fences(struct panfrost_job *job)
+ 				return ret;
  		}
- 	}
-@@ -956,3 +931,9 @@ int panfrost_job_is_idle(struct panfrost_device *pfdev)
  
- 	return true;
- }
++		if (job->bo_flags[i] & PANFROST_BO_REF_NO_IMPLICIT_DEP)
++			continue;
 +
-+struct drm_gpu_scheduler *
-+panfrost_job_get_sched(struct panfrost_device *pfdev, unsigned int js)
-+{
-+	return &pfdev->js->queue[js].sched;
-+}
-diff --git a/drivers/gpu/drm/panfrost/panfrost_job.h b/drivers/gpu/drm/panfrost/panfrost_job.h
-index 1cbc3621b663..5c228bb431c0 100644
---- a/drivers/gpu/drm/panfrost/panfrost_job.h
-+++ b/drivers/gpu/drm/panfrost/panfrost_job.h
-@@ -10,6 +10,7 @@
- struct panfrost_device;
- struct panfrost_gem_object;
- struct panfrost_file_priv;
-+struct panfrost_submitqueue;
- 
- struct panfrost_job {
- 	struct drm_sched_job base;
-@@ -41,11 +42,13 @@ struct panfrost_job {
- 
- int panfrost_job_init(struct panfrost_device *pfdev);
- void panfrost_job_fini(struct panfrost_device *pfdev);
--int panfrost_job_open(struct panfrost_file_priv *panfrost_priv);
--void panfrost_job_close(struct panfrost_file_priv *panfrost_priv);
--int panfrost_job_push(struct panfrost_job *job);
-+int panfrost_job_push(struct panfrost_submitqueue *queue,
-+		      struct panfrost_job *job);
- void panfrost_job_put(struct panfrost_job *job);
- void panfrost_job_enable_interrupts(struct panfrost_device *pfdev);
- int panfrost_job_is_idle(struct panfrost_device *pfdev);
-+void panfrost_job_kill_queue(struct panfrost_submitqueue *queue);
-+struct drm_gpu_scheduler *
-+panfrost_job_get_sched(struct panfrost_device *pfdev, unsigned int js);
- 
- #endif
-diff --git a/drivers/gpu/drm/panfrost/panfrost_submitqueue.c b/drivers/gpu/drm/panfrost/panfrost_submitqueue.c
-new file mode 100644
-index 000000000000..98050f7690df
---- /dev/null
-+++ b/drivers/gpu/drm/panfrost/panfrost_submitqueue.c
-@@ -0,0 +1,130 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/* Copyright 2021 Collabora ltd. */
-+
-+#include <linux/idr.h>
-+
-+#include "panfrost_device.h"
-+#include "panfrost_job.h"
-+#include "panfrost_submitqueue.h"
-+
-+static enum drm_sched_priority
-+to_sched_prio(enum panfrost_submitqueue_priority priority)
-+{
-+	switch (priority) {
-+	case PANFROST_SUBMITQUEUE_PRIORITY_LOW:
-+		return DRM_SCHED_PRIORITY_MIN;
-+	case PANFROST_SUBMITQUEUE_PRIORITY_MEDIUM:
-+		return DRM_SCHED_PRIORITY_NORMAL;
-+	case PANFROST_SUBMITQUEUE_PRIORITY_HIGH:
-+		return DRM_SCHED_PRIORITY_HIGH;
-+	default:
-+		break;
-+	}
-+
-+	return DRM_SCHED_PRIORITY_UNSET;
-+}
-+
-+static void
-+panfrost_submitqueue_cleanup(struct kref *ref)
-+{
-+	struct panfrost_submitqueue *queue;
-+	unsigned int i;
-+
-+	queue = container_of(ref, struct panfrost_submitqueue, refcount);
-+
-+	for (i = 0; i < NUM_JOB_SLOTS; i++)
-+		drm_sched_entity_destroy(&queue->sched_entity[i]);
-+
-+	/* Kill in-flight jobs */
-+	panfrost_job_kill_queue(queue);
-+
-+	kfree(queue);
-+}
-+
-+void panfrost_submitqueue_put(struct panfrost_submitqueue *queue)
-+{
-+	if (!IS_ERR_OR_NULL(queue))
-+		kref_put(&queue->refcount, panfrost_submitqueue_cleanup);
-+}
-+
-+struct panfrost_submitqueue *
-+panfrost_submitqueue_create(struct panfrost_file_priv *ctx,
-+			    enum panfrost_submitqueue_priority priority,
-+			    u32 flags)
-+{
-+	struct panfrost_submitqueue *queue;
-+	enum drm_sched_priority sched_prio;
-+	int ret, i;
-+
-+	if (flags || priority >= PANFROST_SUBMITQUEUE_PRIORITY_COUNT)
-+		return ERR_PTR(-EINVAL);
-+
-+	queue = kzalloc(sizeof(*queue), GFP_KERNEL);
-+	if (!queue)
-+		return ERR_PTR(-ENOMEM);
-+
-+	queue->pfdev = ctx->pfdev;
-+	sched_prio = to_sched_prio(priority);
-+	for (i = 0; i < NUM_JOB_SLOTS; i++) {
-+		struct drm_gpu_scheduler *sched;
-+
-+		sched = panfrost_job_get_sched(ctx->pfdev, i);
-+		ret = drm_sched_entity_init(&queue->sched_entity[i],
-+					    sched_prio, &sched, 1, NULL);
-+		if (ret)
-+			break;
-+	}
-+
-+	if (ret) {
-+		for (i--; i >= 0; i--)
-+			drm_sched_entity_destroy(&queue->sched_entity[i]);
-+
-+		return ERR_PTR(ret);
-+	}
-+
-+	kref_init(&queue->refcount);
-+	idr_lock(&ctx->queues);
-+	ret = idr_alloc(&ctx->queues, queue, 0, INT_MAX, GFP_KERNEL);
-+	if (ret >= 0)
-+		queue->id = ret;
-+	idr_unlock(&ctx->queues);
-+
-+	if (ret < 0) {
-+		panfrost_submitqueue_put(queue);
-+		return ERR_PTR(ret);
-+	}
-+
-+	return queue;
-+}
-+
-+int panfrost_submitqueue_destroy(struct panfrost_file_priv *ctx, u32 id)
-+{
-+	struct panfrost_submitqueue *queue;
-+
-+	idr_lock(&ctx->queues);
-+	queue = idr_remove(&ctx->queues, id);
-+	idr_unlock(&ctx->queues);
-+
-+	if (!queue)
-+		return -ENOENT;
-+
-+	panfrost_submitqueue_put(queue);
-+	return 0;
-+}
-+
-+struct panfrost_submitqueue *
-+panfrost_submitqueue_get(struct panfrost_file_priv *ctx, u32 id)
-+{
-+	struct panfrost_submitqueue *queue;
-+
-+	idr_lock(&ctx->queues);
-+	queue = idr_find(&ctx->queues, id);
-+	if (queue)
-+		kref_get(&queue->refcount);
-+	idr_unlock(&ctx->queues);
-+
-+	if (!queue)
-+		return ERR_PTR(-ENOENT);
-+
-+	return queue;
-+}
-diff --git a/drivers/gpu/drm/panfrost/panfrost_submitqueue.h b/drivers/gpu/drm/panfrost/panfrost_submitqueue.h
-new file mode 100644
-index 000000000000..cde736d97cf6
---- /dev/null
-+++ b/drivers/gpu/drm/panfrost/panfrost_submitqueue.h
-@@ -0,0 +1,27 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/* Copyright 2032 Collabora ltd. */
-+
-+#ifndef __PANFROST_SUBMITQUEUE_H__
-+#define __PANFROST_SUBMITQUEUE_H__
-+
-+#include <drm/panfrost_drm.h>
-+
-+struct panfrost_submitqueue {
-+	struct kref refcount;
-+	struct panfrost_device *pfdev;
-+	u32 id;
-+	struct drm_sched_entity sched_entity[NUM_JOB_SLOTS];
-+};
-+
-+struct panfrost_file_priv;
-+
-+struct panfrost_submitqueue *
-+panfrost_submitqueue_create(struct panfrost_file_priv *ctx,
-+			    enum panfrost_submitqueue_priority priority,
-+			    u32 flags);
-+int panfrost_submitqueue_destroy(struct panfrost_file_priv *ctx, u32 id);
-+struct panfrost_submitqueue *
-+panfrost_submitqueue_get(struct panfrost_file_priv *ctx, u32 id);
-+void panfrost_submitqueue_put(struct panfrost_submitqueue *queue);
-+
-+#endif
+ 		ret = drm_gem_fence_array_add_implicit(&job->deps, job->bos[i],
+ 						       exclusive);
+ 		if (ret)
 diff --git a/include/uapi/drm/panfrost_drm.h b/include/uapi/drm/panfrost_drm.h
-index 45d6c600475c..7ee02fd1ac75 100644
+index 7ee02fd1ac75..ce0c1b96a58c 100644
 --- a/include/uapi/drm/panfrost_drm.h
 +++ b/include/uapi/drm/panfrost_drm.h
-@@ -21,6 +21,8 @@ extern "C" {
- #define DRM_PANFROST_PERFCNT_ENABLE		0x06
- #define DRM_PANFROST_PERFCNT_DUMP		0x07
+@@ -23,6 +23,7 @@ extern "C" {
  #define DRM_PANFROST_MADVISE			0x08
-+#define DRM_PANFROST_CREATE_SUBMITQUEUE		0x09
-+#define DRM_PANFROST_DESTROY_SUBMITQUEUE	0x0a
+ #define DRM_PANFROST_CREATE_SUBMITQUEUE		0x09
+ #define DRM_PANFROST_DESTROY_SUBMITQUEUE	0x0a
++#define DRM_PANFROST_BATCH_SUBMIT		0x0b
  
  #define DRM_IOCTL_PANFROST_SUBMIT		DRM_IOW(DRM_COMMAND_BASE + DRM_PANFROST_SUBMIT, struct drm_panfrost_submit)
  #define DRM_IOCTL_PANFROST_WAIT_BO		DRM_IOW(DRM_COMMAND_BASE + DRM_PANFROST_WAIT_BO, struct drm_panfrost_wait_bo)
-@@ -29,6 +31,8 @@ extern "C" {
- #define DRM_IOCTL_PANFROST_GET_PARAM		DRM_IOWR(DRM_COMMAND_BASE + DRM_PANFROST_GET_PARAM, struct drm_panfrost_get_param)
- #define DRM_IOCTL_PANFROST_GET_BO_OFFSET	DRM_IOWR(DRM_COMMAND_BASE + DRM_PANFROST_GET_BO_OFFSET, struct drm_panfrost_get_bo_offset)
+@@ -33,6 +34,7 @@ extern "C" {
  #define DRM_IOCTL_PANFROST_MADVISE		DRM_IOWR(DRM_COMMAND_BASE + DRM_PANFROST_MADVISE, struct drm_panfrost_madvise)
-+#define DRM_IOCTL_PANFROST_CREATE_SUBMITQUEUE	DRM_IOWR(DRM_COMMAND_BASE + DRM_PANFROST_CREATE_SUBMITQUEUE, struct drm_panfrost_create_submitqueue)
-+#define DRM_IOCTL_PANFROST_DESTROY_SUBMITQUEUE	DRM_IOWR(DRM_COMMAND_BASE + DRM_PANFROST_DESTROY_SUBMITQUEUE, __u32)
+ #define DRM_IOCTL_PANFROST_CREATE_SUBMITQUEUE	DRM_IOWR(DRM_COMMAND_BASE + DRM_PANFROST_CREATE_SUBMITQUEUE, struct drm_panfrost_create_submitqueue)
+ #define DRM_IOCTL_PANFROST_DESTROY_SUBMITQUEUE	DRM_IOWR(DRM_COMMAND_BASE + DRM_PANFROST_DESTROY_SUBMITQUEUE, __u32)
++#define DRM_IOCTL_PANFROST_BATCH_SUBMIT		DRM_IOWR(DRM_COMMAND_BASE + DRM_PANFROST_BATCH_SUBMIT, struct drm_panfrost_batch_submit)
  
  /*
   * Unstable ioctl(s): only exposed when the unsafe unstable_ioctls module
-@@ -224,6 +228,19 @@ struct drm_panfrost_madvise {
- 	__u32 retained;       /* out, whether backing store still exists */
+@@ -241,7 +243,89 @@ struct drm_panfrost_create_submitqueue {
+ 	__u32 id;	/* out, identifier */
  };
  
-+enum panfrost_submitqueue_priority {
-+	PANFROST_SUBMITQUEUE_PRIORITY_LOW = 0,
-+	PANFROST_SUBMITQUEUE_PRIORITY_MEDIUM,
-+	PANFROST_SUBMITQUEUE_PRIORITY_HIGH,
-+	PANFROST_SUBMITQUEUE_PRIORITY_COUNT,
-+};
-+
-+struct drm_panfrost_create_submitqueue {
-+	__u32 flags;	/* in, PANFROST_SUBMITQUEUE_x */
-+	__u32 priority;	/* in, enum panfrost_submitqueue_priority */
-+	__u32 id;	/* out, identifier */
++/* Syncobj reference passed at job submission time to encode explicit
++ * input/output fences.
++ */
++struct drm_panfrost_syncobj_ref {
++	__u32 handle;
++	__u32 pad;
++	__u64 point;
 +};
 +
  #define PANFROST_BO_REF_EXCLUSIVE	0x1
++#define PANFROST_BO_REF_NO_IMPLICIT_DEP	0x2
++
++/* Describes a BO referenced by a job and the type of access. */
++struct drm_panfrost_bo_ref {
++	__u32 handle;
++	__u32 flags;
++};
++
++/* Describes a GPU job and the resources attached to it. */
++struct drm_panfrost_job {
++	/** GPU pointer to the head of the job chain. */
++	__u64 head;
++
++	/**
++	 * Array of drm_panfrost_bo_ref objects describing the BOs referenced
++	 * by this job.
++	 */
++	__u64 bos;
++
++	/**
++	 * Arrays of drm_panfrost_syncobj_ref objects describing the input
++	 * and output fences.
++	 */
++	__u64 in_syncs;
++	__u64 out_syncs;
++
++	/** Syncobj reference array sizes. */
++	__u32 in_sync_count;
++	__u32 out_sync_count;
++
++	/** BO reference array size. */
++	__u32 bo_count;
++
++	/** Combination of PANFROST_JD_REQ_* flags. */
++	__u32 requirements;
++};
++
++/* Used to submit multiple jobs in one call */
++struct drm_panfrost_batch_submit {
++	/**
++	 * Stride of the jobs array (needed to ease extension of the
++	 * BATCH_SUBMIT ioctl). Should be set to
++	 * sizeof(struct drm_panfrost_job).
++	 */
++	__u32 job_stride;
++
++	/** Number of jobs to submit. */
++	__u32 job_count;
++
++	/* Pointer to a job array. */
++	__u64 jobs;
++
++	/**
++	 * Stride of the BO and syncobj reference arrays (needed to ease
++	 * extension of the BATCH_SUBMIT ioctl). Should be set to
++	 * sizeof(struct drm_panfrost_bo_ref).
++	 */
++	__u32 bo_ref_stride;
++	__u32 syncobj_ref_stride;
++
++	/**
++	 * If the submission fails, this encodes the index of the job
++	 * failed.
++	 */
++	__u32 fail_idx;
++
++	/**
++	 * ID of the queue to submit those jobs to. 0 is the default
++	 * submit queue and should always exists. If you need a dedicated
++	 * queue, create it with DRM_IOCTL_PANFROST_CREATE_SUBMITQUEUE.
++	 */
++	__u32 queue;
++};
  
  #if defined(__cplusplus)
+ }
 -- 
 2.31.1
 
