@@ -1,35 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44A483B937A
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Jul 2021 16:38:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id ED8723B93BD
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Jul 2021 17:10:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B7ADB895B2;
-	Thu,  1 Jul 2021 14:38:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6DF666EB36;
+	Thu,  1 Jul 2021 15:10:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A02766EB31;
- Thu,  1 Jul 2021 14:38:27 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10032"; a="208363573"
-X-IronPort-AV: E=Sophos;i="5.83,314,1616482800"; d="scan'208";a="208363573"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Jul 2021 07:38:27 -0700
-X-IronPort-AV: E=Sophos;i="5.83,314,1616482800"; d="scan'208";a="420426115"
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 170546EB35;
+ Thu,  1 Jul 2021 15:10:34 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10032"; a="188234848"
+X-IronPort-AV: E=Sophos;i="5.83,314,1616482800"; d="scan'208";a="188234848"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Jul 2021 08:10:33 -0700
+X-IronPort-AV: E=Sophos;i="5.83,314,1616482800"; d="scan'208";a="457693530"
 Received: from dfdonlon-mobl.ger.corp.intel.com (HELO mwauld-desk1.intel.com)
  ([10.252.21.173])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Jul 2021 07:38:25 -0700
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Jul 2021 08:10:31 -0700
 From: Matthew Auld <matthew.auld@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 3/3] drm/i915/uapi: reject set_domain for discrete
-Date: Thu,  1 Jul 2021 15:36:50 +0100
-Message-Id: <20210701143650.1094468-3-matthew.auld@intel.com>
+Subject: [PATCH v2 1/3] drm/i915: use consistent CPU mappings for pin_map users
+Date: Thu,  1 Jul 2021 16:10:17 +0100
+Message-Id: <20210701151019.1103315-1-matthew.auld@intel.com>
 X-Mailer: git-send-email 2.26.3
-In-Reply-To: <20210701143650.1094468-1-matthew.auld@intel.com>
-References: <20210701143650.1094468-1-matthew.auld@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -46,51 +44,134 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
- Kenneth Graunke <kenneth@whitecape.org>, Jason Ekstrand <jason@jlekstrand.net>
+ dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The CPU domain should be static for discrete, and on DG1 we don't need
-any flushing since everything is already coherent, so really all this
-does is an object wait, for which we have an ioctl. Longer term the
-desired caching should be an immutable creation time property for the
-BO.
+For discrete, users of pin_map() needs to obey the same rules at the TTM
+backend, where we map system only objects as WB, and everything else as
+WC. The simplest for now is to just force the correct mapping type as
+per the new rules for discrete.
 
-One other user is iris + userptr, which uses the set_domain to probe all
-the pages to check if the GUP succeeds, however keeping the set_domain
-around just for that seems rather scuffed. We could equally just submit
-a dummy batch, which should hopefully be good enough, otherwise adding a
-new creation time flag for userptr might be an option. Although longer
-term we will also have vm_bind, which should also be a nice fit for
-this, so adding a whole new flag is likely overkill.
-
-Suggested-by: Daniel Vetter <daniel@ffwll.ch>
+Suggested-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 Signed-off-by: Matthew Auld <matthew.auld@intel.com>
 Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Kenneth Graunke <kenneth@whitecape.org>
-Cc: Jason Ekstrand <jason@jlekstrand.net>
 Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
 Cc: Ramalingam C <ramalingam.c@intel.com>
 ---
- drivers/gpu/drm/i915/gem/i915_gem_domain.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/gpu/drm/i915/gem/i915_gem_object.c | 34 ++++++++++++++++++++++
+ drivers/gpu/drm/i915/gem/i915_gem_object.h |  4 +++
+ drivers/gpu/drm/i915/gem/i915_gem_pages.c  | 22 ++++++++++++--
+ 3 files changed, 58 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_domain.c b/drivers/gpu/drm/i915/gem/i915_gem_domain.c
-index 43004bef55cb..b684a62bf3b0 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_domain.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_domain.c
-@@ -490,6 +490,9 @@ i915_gem_set_domain_ioctl(struct drm_device *dev, void *data,
- 	u32 write_domain = args->write_domain;
- 	int err;
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.c b/drivers/gpu/drm/i915/gem/i915_gem_object.c
+index 547cc9dad90d..9da7b288b7ed 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_object.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_object.c
+@@ -625,6 +625,40 @@ int i915_gem_object_migrate(struct drm_i915_gem_object *obj,
+ 	return obj->ops->migrate(obj, mr);
+ }
  
-+	if (IS_DGFX(to_i915(dev)))
-+		return -ENODEV;
++/**
++ * i915_gem_object_placement_possible - Check whether the object can be
++ * placed at certain memory type
++ * @obj: Pointer to the object
++ * @type: The memory type to check
++ *
++ * Return: True if the object can be placed in @type. False otherwise.
++ */
++bool i915_gem_object_placement_possible(struct drm_i915_gem_object *obj,
++					enum intel_memory_type type)
++{
++	unsigned int i;
 +
- 	/* Only handle setting domains to types used by the CPU. */
- 	if ((write_domain | read_domains) & I915_GEM_GPU_DOMAINS)
- 		return -EINVAL;
++	if (!obj->mm.n_placements) {
++		switch (type) {
++		case INTEL_MEMORY_LOCAL:
++			return i915_gem_object_has_iomem(obj);
++		case INTEL_MEMORY_SYSTEM:
++			return i915_gem_object_has_pages(obj);
++		default:
++			/* Ignore stolen for now */
++			GEM_BUG_ON(1);
++			return false;
++		}
++	}
++
++	for (i = 0; i < obj->mm.n_placements; i++) {
++		if (obj->mm.placements[i]->type == type)
++			return true;
++	}
++
++	return false;
++}
++
+ void i915_gem_init__objects(struct drm_i915_private *i915)
+ {
+ 	INIT_WORK(&i915->mm.free_work, __i915_gem_free_work);
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h b/drivers/gpu/drm/i915/gem/i915_gem_object.h
+index d423d8cac4f2..8be4fadeee48 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
++++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
+@@ -12,6 +12,7 @@
+ #include <drm/drm_device.h>
+ 
+ #include "display/intel_frontbuffer.h"
++#include "intel_memory_region.h"
+ #include "i915_gem_object_types.h"
+ #include "i915_gem_gtt.h"
+ #include "i915_gem_ww.h"
+@@ -607,6 +608,9 @@ bool i915_gem_object_can_migrate(struct drm_i915_gem_object *obj,
+ int i915_gem_object_wait_migration(struct drm_i915_gem_object *obj,
+ 				   unsigned int flags);
+ 
++bool i915_gem_object_placement_possible(struct drm_i915_gem_object *obj,
++					enum intel_memory_type type);
++
+ #ifdef CONFIG_MMU_NOTIFIER
+ static inline bool
+ i915_gem_object_is_userptr(struct drm_i915_gem_object *obj)
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_pages.c b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
+index f2f850e31b8e..810a157a18f8 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_pages.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
+@@ -321,8 +321,7 @@ static void *i915_gem_object_map_pfn(struct drm_i915_gem_object *obj,
+ 	dma_addr_t addr;
+ 	void *vaddr;
+ 
+-	if (type != I915_MAP_WC)
+-		return ERR_PTR(-ENODEV);
++	GEM_BUG_ON(type != I915_MAP_WC);
+ 
+ 	if (n_pfn > ARRAY_SIZE(stack)) {
+ 		/* Too big for stack -- allocate temporary array instead */
+@@ -374,6 +373,25 @@ void *i915_gem_object_pin_map(struct drm_i915_gem_object *obj,
+ 	}
+ 	GEM_BUG_ON(!i915_gem_object_has_pages(obj));
+ 
++	/*
++	 * For discrete our CPU mappings needs to be consistent in order to
++	 * function correctly on !x86. When mapping things through TTM, we use
++	 * the same rules to determine the caching type.
++	 *
++	 * Internal users of lmem are already expected to get this right, so no
++	 * fudging needed there.
++	 */
++	if (i915_gem_object_placement_possible(obj, INTEL_MEMORY_LOCAL)) {
++		if (type != I915_MAP_WC && !obj->mm.n_placements) {
++			ptr = ERR_PTR(-ENODEV);
++			goto err_unpin;
++		}
++
++		type = I915_MAP_WC;
++	} else if (IS_DGFX(to_i915(obj->base.dev))) {
++		type = I915_MAP_WB;
++	}
++
+ 	ptr = page_unpack_bits(obj->mm.mapping, &has_type);
+ 	if (ptr && has_type != type) {
+ 		if (pinned) {
 -- 
 2.26.3
 
