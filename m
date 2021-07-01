@@ -2,70 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2947B3B91C0
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Jul 2021 14:43:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5F053B91C1
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Jul 2021 14:43:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 228636EAD8;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 829416EAD9;
 	Thu,  1 Jul 2021 12:43:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 268196EAD6
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 505D56EAD7
  for <dri-devel@lists.freedesktop.org>; Thu,  1 Jul 2021 12:43:21 +0000 (UTC)
 Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
  (using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id BB96E204C9;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id EA198204CA;
  Thu,  1 Jul 2021 12:43:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1625143399; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=15Vxp76bwwSHaCy8e1gc/AvDJzw/mW/aJUZMOvkp0ew=;
- b=Ov6YHv2R7vIBTxKpQYeVpdy8uAPJwBIdUzD41d6GdV9WAlNx63GqZB+c23WqCII1gpSDcd
- kiYG40sz96ZhDGPUOakddZ2I4plieSOxP93yREOxl70rWHC14cz5I45XczzZVEhwnk51Bb
- khSD9xhTysP1gDIiMMNcV2aGYDxrHkQ=
+ bh=flowueWeGn04FlH5BEjFLTRoziYYj3NllM6A0SoU/wQ=;
+ b=2CQcD8Yu/KlkERm6fa080mjdFvCS6HKfqwHhZZfLaoq7P+FxSxzYyRy/15ytrEFOp7HQNO
+ SgcyXm8B+PvHNEDNfiBzlrLa8rWCGZDAzee9rPNyKLw1wCBv0dHKPuuYGgYZx0IYsS5DI3
+ +vWvJkP7bSlQsu8djp1FtHjpguKRyE4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1625143399;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=15Vxp76bwwSHaCy8e1gc/AvDJzw/mW/aJUZMOvkp0ew=;
- b=QS4Xut4AK6qCnq8KExA/S+cRQdRbGMR12rncj7evFXKvNapSIbLz8j7XNuR/Dfhet3w16h
- stXbK24tnf+k0MDg==
+ bh=flowueWeGn04FlH5BEjFLTRoziYYj3NllM6A0SoU/wQ=;
+ b=WR+w1CKTW8wOKNWOk05z/k3Fsp8cwgpCReh7y5uaa5Yp9P7XVMGvm3GR5ujx+2fs6uuRqG
+ 93O2cdoZGcmuXPAQ==
 Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
- by imap.suse.de (Postfix) with ESMTP id 9331E11CC0;
+ by imap.suse.de (Postfix) with ESMTP id BE4C111CD4;
  Thu,  1 Jul 2021 12:43:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1625143399; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=15Vxp76bwwSHaCy8e1gc/AvDJzw/mW/aJUZMOvkp0ew=;
- b=Ov6YHv2R7vIBTxKpQYeVpdy8uAPJwBIdUzD41d6GdV9WAlNx63GqZB+c23WqCII1gpSDcd
- kiYG40sz96ZhDGPUOakddZ2I4plieSOxP93yREOxl70rWHC14cz5I45XczzZVEhwnk51Bb
- khSD9xhTysP1gDIiMMNcV2aGYDxrHkQ=
+ bh=flowueWeGn04FlH5BEjFLTRoziYYj3NllM6A0SoU/wQ=;
+ b=2CQcD8Yu/KlkERm6fa080mjdFvCS6HKfqwHhZZfLaoq7P+FxSxzYyRy/15ytrEFOp7HQNO
+ SgcyXm8B+PvHNEDNfiBzlrLa8rWCGZDAzee9rPNyKLw1wCBv0dHKPuuYGgYZx0IYsS5DI3
+ +vWvJkP7bSlQsu8djp1FtHjpguKRyE4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1625143399;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=15Vxp76bwwSHaCy8e1gc/AvDJzw/mW/aJUZMOvkp0ew=;
- b=QS4Xut4AK6qCnq8KExA/S+cRQdRbGMR12rncj7evFXKvNapSIbLz8j7XNuR/Dfhet3w16h
- stXbK24tnf+k0MDg==
+ bh=flowueWeGn04FlH5BEjFLTRoziYYj3NllM6A0SoU/wQ=;
+ b=WR+w1CKTW8wOKNWOk05z/k3Fsp8cwgpCReh7y5uaa5Yp9P7XVMGvm3GR5ujx+2fs6uuRqG
+ 93O2cdoZGcmuXPAQ==
 Received: from director2.suse.de ([192.168.254.72]) by imap3-int with ESMTPSA
- id qM0WI2e43WAmKwAALh3uQQ
+ id YPt7LWe43WAmKwAALh3uQQ
  (envelope-from <tzimmermann@suse.de>); Thu, 01 Jul 2021 12:43:19 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch,
 	airlied@redhat.com
-Subject: [PATCH 3/4] drm/mgag200: Extract device type and flags in
- mgag200_pci_probe()
-Date: Thu,  1 Jul 2021 14:43:15 +0200
-Message-Id: <20210701124316.20818-4-tzimmermann@suse.de>
+Subject: [PATCH 4/4] drm/mgag200: Constify LUT for programming bpp
+Date: Thu,  1 Jul 2021 14:43:16 +0200
+Message-Id: <20210701124316.20818-5-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210701124316.20818-1-tzimmermann@suse.de>
 References: <20210701124316.20818-1-tzimmermann@suse.de>
@@ -87,94 +86,77 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The type and flags values are stored in the PCI ID list. Extract them
-in the probe function. Makes the device initialization more readable.
+Declare constant LUT for bpp programming as static const. Removes mutable
+data from device structure.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/mgag200/mgag200_drv.c | 21 +++++++++++++++++----
- drivers/gpu/drm/mgag200/mgag200_drv.h | 12 ------------
- 2 files changed, 17 insertions(+), 16 deletions(-)
+ drivers/gpu/drm/mgag200/mgag200_drv.h  |  2 --
+ drivers/gpu/drm/mgag200/mgag200_mode.c | 16 ++++++----------
+ 2 files changed, 6 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.c b/drivers/gpu/drm/mgag200/mgag200_drv.c
-index 2bbbf7d537a9..6b9243713b3c 100644
---- a/drivers/gpu/drm/mgag200/mgag200_drv.c
-+++ b/drivers/gpu/drm/mgag200/mgag200_drv.c
-@@ -263,7 +263,7 @@ static void mgag200_g200se_init_unique_id(struct mga_device *mdev)
- }
- 
- static struct mga_device *
--mgag200_device_create(struct pci_dev *pdev, unsigned long flags)
-+mgag200_device_create(struct pci_dev *pdev, enum mga_type type, unsigned long flags)
- {
- 	struct mga_device *mdev;
- 	struct drm_device *dev;
-@@ -276,8 +276,8 @@ mgag200_device_create(struct pci_dev *pdev, unsigned long flags)
- 
- 	pci_set_drvdata(pdev, dev);
- 
--	mdev->flags = mgag200_flags_from_driver_data(flags);
--	mdev->type = mgag200_type_from_driver_data(flags);
-+	mdev->flags = flags;
-+	mdev->type = type;
- 
- 	ret = mgag200_regs_init(mdev);
- 	if (ret)
-@@ -320,9 +320,22 @@ static const struct pci_device_id mgag200_pciidlist[] = {
- 
- MODULE_DEVICE_TABLE(pci, mgag200_pciidlist);
- 
-+static enum mga_type mgag200_type_from_driver_data(kernel_ulong_t driver_data)
-+{
-+	return (enum mga_type)(driver_data & MGAG200_TYPE_MASK);
-+}
-+
-+static unsigned long mgag200_flags_from_driver_data(kernel_ulong_t driver_data)
-+{
-+	return driver_data & MGAG200_FLAG_MASK;
-+}
-+
- static int
- mgag200_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
- {
-+	kernel_ulong_t driver_data = ent->driver_data;
-+	enum mga_type type = mgag200_type_from_driver_data(driver_data);
-+	unsigned long flags = mgag200_flags_from_driver_data(driver_data);
- 	struct mga_device *mdev;
- 	struct drm_device *dev;
- 	int ret;
-@@ -335,7 +348,7 @@ mgag200_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
- 	if (ret)
- 		return ret;
- 
--	mdev = mgag200_device_create(pdev, ent->driver_data);
-+	mdev = mgag200_device_create(pdev, type, flags);
- 	if (IS_ERR(mdev))
- 		return PTR_ERR(mdev);
- 	dev = &mdev->base;
 diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.h b/drivers/gpu/drm/mgag200/mgag200_drv.h
-index 749a075fe9e4..75ae1809fb5a 100644
+index 75ae1809fb5a..f7a0537c0d0a 100644
 --- a/drivers/gpu/drm/mgag200/mgag200_drv.h
 +++ b/drivers/gpu/drm/mgag200/mgag200_drv.h
-@@ -192,18 +192,6 @@ static inline struct mga_device *to_mga_device(struct drm_device *dev)
- 	return container_of(dev, struct mga_device, base);
+@@ -166,8 +166,6 @@ struct mga_device {
+ 
+ 	enum mga_type			type;
+ 
+-	int bpp_shifts[4];
+-
+ 	int fb_mtrr;
+ 
+ 	union {
+diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c b/drivers/gpu/drm/mgag200/mgag200_mode.c
+index 9d576240faed..3b3059f471c2 100644
+--- a/drivers/gpu/drm/mgag200/mgag200_mode.c
++++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
+@@ -1137,10 +1137,11 @@ static void mgag200_set_mode_regs(struct mga_device *mdev,
+ 	WREG8(MGA_MISC_OUT, misc);
  }
  
--static inline enum mga_type
--mgag200_type_from_driver_data(kernel_ulong_t driver_data)
--{
--	return (enum mga_type)(driver_data & MGAG200_TYPE_MASK);
--}
--
--static inline unsigned long
--mgag200_flags_from_driver_data(kernel_ulong_t driver_data)
--{
--	return driver_data & MGAG200_FLAG_MASK;
--}
--
- 				/* mgag200_mode.c */
- int mgag200_modeset_init(struct mga_device *mdev);
+-static u8 mgag200_get_bpp_shift(struct mga_device *mdev,
+-				const struct drm_format_info *format)
++static u8 mgag200_get_bpp_shift(const struct drm_format_info *format)
+ {
+-	return mdev->bpp_shifts[format->cpp[0] - 1];
++	static const u8 bpp_shift[] = {0, 1, 0, 2};
++
++	return bpp_shift[format->cpp[0] - 1];
+ }
  
+ /*
+@@ -1152,7 +1153,7 @@ static u32 mgag200_calculate_offset(struct mga_device *mdev,
+ 				    const struct drm_framebuffer *fb)
+ {
+ 	u32 offset = fb->pitches[0] / fb->format->cpp[0];
+-	u8 bppshift = mgag200_get_bpp_shift(mdev, fb->format);
++	u8 bppshift = mgag200_get_bpp_shift(fb->format);
+ 
+ 	if (fb->format->cpp[0] * 8 == 24)
+ 		offset = (offset * 3) >> (4 - bppshift);
+@@ -1189,7 +1190,7 @@ static void mgag200_set_format_regs(struct mga_device *mdev,
+ 
+ 	bpp = format->cpp[0] * 8;
+ 
+-	bppshift = mgag200_get_bpp_shift(mdev, format);
++	bppshift = mgag200_get_bpp_shift(format);
+ 	switch (bpp) {
+ 	case 24:
+ 		scale = ((1 << bppshift) * 3) - 1;
+@@ -1699,11 +1700,6 @@ int mgag200_modeset_init(struct mga_device *mdev)
+ 	size_t format_count = ARRAY_SIZE(mgag200_simple_display_pipe_formats);
+ 	int ret;
+ 
+-	mdev->bpp_shifts[0] = 0;
+-	mdev->bpp_shifts[1] = 1;
+-	mdev->bpp_shifts[2] = 0;
+-	mdev->bpp_shifts[3] = 2;
+-
+ 	mgag200_init_regs(mdev);
+ 
+ 	ret = drmm_mode_config_init(dev);
 -- 
 2.32.0
 
