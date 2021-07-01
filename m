@@ -2,30 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDFFC3B9786
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Jul 2021 22:26:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 692223B978F
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Jul 2021 22:27:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 783E16EC1A;
-	Thu,  1 Jul 2021 20:25:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF09D6EC4A;
+	Thu,  1 Jul 2021 20:25:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 342CE6EC0F;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 571C96EC14;
  Thu,  1 Jul 2021 20:25:24 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10032"; a="188998672"
-X-IronPort-AV: E=Sophos;i="5.83,315,1616482800"; d="scan'208";a="188998672"
+X-IronPort-AV: E=McAfee;i="6200,9189,10032"; a="188998673"
+X-IronPort-AV: E=Sophos;i="5.83,315,1616482800"; d="scan'208";a="188998673"
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  01 Jul 2021 13:25:21 -0700
-X-IronPort-AV: E=Sophos;i="5.83,315,1616482800"; d="scan'208";a="644564542"
+X-IronPort-AV: E=Sophos;i="5.83,315,1616482800"; d="scan'208";a="644564545"
 Received: from mdroper-desk1.fm.intel.com ([10.1.27.134])
  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  01 Jul 2021 13:25:20 -0700
 From: Matt Roper <matthew.d.roper@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 46/53] drm/i915/dg2: Classify DG2 PHY types
-Date: Thu,  1 Jul 2021 13:24:20 -0700
-Message-Id: <20210701202427.1547543-47-matthew.d.roper@intel.com>
+Subject: [PATCH 47/53] drm/i915/dg2: Wait for SNPS PHY calibration during
+ display init
+Date: Thu,  1 Jul 2021 13:24:21 -0700
+Message-Id: <20210701202427.1547543-48-matthew.d.roper@intel.com>
 X-Mailer: git-send-email 2.25.4
 In-Reply-To: <20210701202427.1547543-1-matthew.d.roper@intel.com>
 References: <20210701202427.1547543-1-matthew.d.roper@intel.com>
@@ -43,89 +44,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matt Atwood <matthew.s.atwood@intel.com>,
- Anusha Srivatsa <anusha.srivatsa@intel.com>, dri-devel@lists.freedesktop.org
+Cc: Matt Atwood <matthew.s.atwood@intel.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Although the bspec labels four of DG2's outputs as "combo PHY," the
-underlying PHYs in both cases are actually Synopsys PHYs that are
-programmed completely differently than the traditional Intel "combo" PHY
-units.  As such, we don't want intel_phy_is_combo to take us down legacy
-programming paths, so just return false from it on DG2.  Instead add a
-new intel_phy_is_snps() that will return true for all DG2 PHYs.
+Initialization of the PHY is handled by the hardware/firmware, but the
+driver should wait up to 25ms for the PHY to report that its calibration
+has completed.
 
-Cc: Anusha Srivatsa <anusha.srivatsa@intel.com>
+Bspec: 49189
+Bspec: 50107
 Cc: Matt Atwood <matthew.s.atwood@intel.com>
 Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
 ---
- drivers/gpu/drm/i915/display/intel_display.c | 26 +++++++++++++++++++-
- drivers/gpu/drm/i915/display/intel_display.h |  1 +
- 2 files changed, 26 insertions(+), 1 deletion(-)
+ .../gpu/drm/i915/display/intel_display_power.c    |  5 +++++
+ drivers/gpu/drm/i915/display/intel_snps_phy.c     | 15 +++++++++++++++
+ drivers/gpu/drm/i915/display/intel_snps_phy.h     |  3 +++
+ drivers/gpu/drm/i915/i915_reg.h                   |  1 +
+ 4 files changed, 24 insertions(+)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
-index cce520b6dfcf..9655f1b1b41b 100644
---- a/drivers/gpu/drm/i915/display/intel_display.c
-+++ b/drivers/gpu/drm/i915/display/intel_display.c
-@@ -3698,6 +3698,13 @@ bool intel_phy_is_combo(struct drm_i915_private *dev_priv, enum phy phy)
- {
- 	if (phy == PHY_NONE)
- 		return false;
-+	else if (IS_DG2(dev_priv))
-+		/*
-+		 * DG2 outputs labelled as "combo PHY" in the bspec use
-+		 * SNPS PHYs with completely different programming,
-+		 * hence we always return false here.
-+		 */
-+		return false;
- 	else if (IS_ALDERLAKE_S(dev_priv))
- 		return phy <= PHY_E;
- 	else if (IS_DG1(dev_priv) || IS_ROCKETLAKE(dev_priv))
-@@ -3712,7 +3719,10 @@ bool intel_phy_is_combo(struct drm_i915_private *dev_priv, enum phy phy)
+diff --git a/drivers/gpu/drm/i915/display/intel_display_power.c b/drivers/gpu/drm/i915/display/intel_display_power.c
+index df6358638fee..83bc2e691560 100644
+--- a/drivers/gpu/drm/i915/display/intel_display_power.c
++++ b/drivers/gpu/drm/i915/display/intel_display_power.c
+@@ -18,6 +18,7 @@
+ #include "intel_pm.h"
+ #include "intel_pps.h"
+ #include "intel_sideband.h"
++#include "intel_snps_phy.h"
+ #include "intel_tc.h"
+ #include "intel_vga.h"
  
- bool intel_phy_is_tc(struct drm_i915_private *dev_priv, enum phy phy)
- {
--	if (IS_ALDERLAKE_P(dev_priv))
+@@ -5899,6 +5900,10 @@ static void icl_display_core_init(struct drm_i915_private *dev_priv,
+ 	if (DISPLAY_VER(dev_priv) >= 12)
+ 		tgl_bw_buddy_init(dev_priv);
+ 
++	/* 8. Ensure PHYs have completed calibration and adaptation */
 +	if (IS_DG2(dev_priv))
-+		/* DG2's "TC1" output uses a SNPS PHY */
-+		return false;
-+	else if (IS_ALDERLAKE_P(dev_priv))
- 		return phy >= PHY_F && phy <= PHY_I;
- 	else if (IS_TIGERLAKE(dev_priv))
- 		return phy >= PHY_D && phy <= PHY_I;
-@@ -3722,6 +3732,20 @@ bool intel_phy_is_tc(struct drm_i915_private *dev_priv, enum phy phy)
- 		return false;
- }
- 
-+bool intel_phy_is_snps(struct drm_i915_private *dev_priv, enum phy phy)
-+{
-+	if (phy == PHY_NONE)
-+		return false;
-+	else if (IS_DG2(dev_priv))
-+		/*
-+		 * All four "combo" ports and the TC1 port (PHY E) use
-+		 * Synopsis PHYs.
-+		 */
-+		return phy <= PHY_E;
++		intel_snps_phy_wait_for_calibration(dev_priv);
 +
-+	return false;
+ 	if (resume && intel_dmc_has_payload(dev_priv))
+ 		intel_dmc_load_program(dev_priv);
+ 
+diff --git a/drivers/gpu/drm/i915/display/intel_snps_phy.c b/drivers/gpu/drm/i915/display/intel_snps_phy.c
+index 77759bda98a4..f0c30d3d2dfb 100644
+--- a/drivers/gpu/drm/i915/display/intel_snps_phy.c
++++ b/drivers/gpu/drm/i915/display/intel_snps_phy.c
+@@ -21,6 +21,21 @@
+  * since it is not handled by the shared DPLL framework as on other platforms.
+  */
+ 
++void intel_snps_phy_wait_for_calibration(struct drm_i915_private *dev_priv)
++{
++	enum phy phy;
++
++	for_each_phy_masked(phy, ~0) {
++		if (!intel_phy_is_snps(dev_priv, phy))
++			continue;
++
++		if (intel_de_wait_for_clear(dev_priv, ICL_PHY_MISC(phy),
++					    DG2_PHY_DP_TX_ACK_MASK, 25))
++			DRM_ERROR("SNPS PHY %c failed to calibrate after 25ms.\n",
++				  phy);
++	}
 +}
 +
- enum phy intel_port_to_phy(struct drm_i915_private *i915, enum port port)
- {
- 	if (DISPLAY_VER(i915) >= 13 && port >= PORT_D_XELPD)
-diff --git a/drivers/gpu/drm/i915/display/intel_display.h b/drivers/gpu/drm/i915/display/intel_display.h
-index c9dbaf074d77..284936f0ddab 100644
---- a/drivers/gpu/drm/i915/display/intel_display.h
-+++ b/drivers/gpu/drm/i915/display/intel_display.h
-@@ -561,6 +561,7 @@ struct drm_display_mode *
- intel_encoder_current_mode(struct intel_encoder *encoder);
- bool intel_phy_is_combo(struct drm_i915_private *dev_priv, enum phy phy);
- bool intel_phy_is_tc(struct drm_i915_private *dev_priv, enum phy phy);
-+bool intel_phy_is_snps(struct drm_i915_private *dev_priv, enum phy phy);
- enum tc_port intel_port_to_tc(struct drm_i915_private *dev_priv,
- 			      enum port port);
- int intel_get_pipe_from_crtc_id_ioctl(struct drm_device *dev, void *data,
+ static const u32 dg2_ddi_translations[] = {
+ 	/* VS 0, pre-emph 0 */
+ 	REG_FIELD_PREP(SNPS_PHY_TX_EQ_MAIN, 26),
+diff --git a/drivers/gpu/drm/i915/display/intel_snps_phy.h b/drivers/gpu/drm/i915/display/intel_snps_phy.h
+index 3ce92d424f66..6aa33ff729ec 100644
+--- a/drivers/gpu/drm/i915/display/intel_snps_phy.h
++++ b/drivers/gpu/drm/i915/display/intel_snps_phy.h
+@@ -8,10 +8,13 @@
+ 
+ #include <linux/types.h>
+ 
++struct drm_i915_private;
+ struct intel_encoder;
+ struct intel_crtc_state;
+ struct intel_mpllb_state;
+ 
++void intel_snps_phy_wait_for_calibration(struct drm_i915_private *dev_priv);
++
+ int intel_mpllb_calc_state(struct intel_crtc_state *crtc_state,
+ 			   struct intel_encoder *encoder);
+ void intel_mpllb_enable(struct intel_encoder *encoder,
+diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
+index 203056b9f02c..e3a165eb4fb6 100644
+--- a/drivers/gpu/drm/i915/i915_reg.h
++++ b/drivers/gpu/drm/i915/i915_reg.h
+@@ -12442,6 +12442,7 @@ enum skl_power_gate {
+ 						 _ICL_PHY_MISC_B)
+ #define  ICL_PHY_MISC_MUX_DDID			(1 << 28)
+ #define  ICL_PHY_MISC_DE_IO_COMP_PWR_DOWN	(1 << 23)
++#define  DG2_PHY_DP_TX_ACK_MASK			REG_GENMASK(23, 20)
+ 
+ /* Icelake Display Stream Compression Registers */
+ #define DSCA_PICTURE_PARAMETER_SET_0		_MMIO(0x6B200)
 -- 
 2.25.4
 
