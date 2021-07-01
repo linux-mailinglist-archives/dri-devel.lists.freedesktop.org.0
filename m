@@ -2,39 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9366A3B9889
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Jul 2021 00:19:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CC6C3B9894
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Jul 2021 00:27:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 153906EC6C;
-	Thu,  1 Jul 2021 22:19:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 086046EC6D;
+	Thu,  1 Jul 2021 22:27:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 263B66EC6A;
- Thu,  1 Jul 2021 22:19:18 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10032"; a="208585793"
-X-IronPort-AV: E=Sophos;i="5.83,315,1616482800"; d="scan'208";a="208585793"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Jul 2021 15:19:17 -0700
-X-IronPort-AV: E=Sophos;i="5.83,315,1616482800"; d="scan'208";a="420593294"
-Received: from aebanas-mobl.amr.corp.intel.com (HELO ldmartin-desk2)
- ([10.254.38.1])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Jul 2021 15:19:16 -0700
-Date: Thu, 1 Jul 2021 15:19:10 -0700
-From: Lucas De Marchi <lucas.demarchi@intel.com>
-To: Matt Roper <matthew.d.roper@intel.com>
-Subject: Re: [Intel-gfx] [PATCH 05/53] drm/i915/gen12: Use fuse info to
- enable SFC
-Message-ID: <20210701221910.szs35oqn4mxdhocf@ldmartin-desk2>
-X-Patchwork-Hint: comment
-References: <20210701202427.1547543-1-matthew.d.roper@intel.com>
- <20210701202427.1547543-6-matthew.d.roper@intel.com>
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
+ [IPv6:2a00:1450:4864:20::12b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9590D6EC6D
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Jul 2021 22:27:22 +0000 (UTC)
+Received: by mail-lf1-x12b.google.com with SMTP id a11so14541549lfg.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 01 Jul 2021 15:27:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=nYq5B2eCjHaLj+NviWCnlDjQJJ2Evn2WlQpXkMJEiog=;
+ b=SIt34orSu2HmTfN+acJyw7AUW/E3pZIIJ+idzW64FXXjqQJ4JRhtHwQmeHwnisgxqQ
+ djrWumQVoDXjAIEMv3QAyewsy1zZqvTC5WGaCetB5FJpNIoltk+/ArWXwitFwhYASKuf
+ YBQk1aqzmOHMCmx4IIKnv7lhbXj7Ig6798/c9GwB38+IyAuWunSzgvqNf7lhvIL9VEDT
+ AzHEOuOHnlMC9sM5hIdmP9D67b5o7BTtPx9acIAuFeFL6ibmti7qtB0J1zxP9SoRcLLK
+ lBpoyunFFiipVM0o3xb4YncKDwhExd1xbgLzJpTRWFP2OrDc7s6kWZjsTu+Ewd+5c+Kt
+ h/ow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=nYq5B2eCjHaLj+NviWCnlDjQJJ2Evn2WlQpXkMJEiog=;
+ b=mJI1pceuUX4iqdOSBm81WKHAITp/zZumJDH3SrpMRM2Rft2xgfqW1WZrXyxONEo3MZ
+ oAJYC7C4B54P01/bP+4VUpLvUg1UqPZFDcKjh7aBoVaFQUrdvh+r8x9PxUxX1jcBp0DP
+ dq2GpP28TPsnIdkeZS7hn5bzN7bat5A/RxrK8vCPYP42X8+7ycEfXasx4xHvFEtlH/8k
+ 7Mb/Il58b3In2gamOCssfnl9oELWahsrVgqs/x0RrtUIaIDU+IIKIBlE3gnSqRjf2srT
+ qcnUf9jqvsYdx7EOWBO9VKq1TnQ2TGTx/KcyVx5suQd8uv2m5Q04KhpV556qRSYf0GV/
+ hXHQ==
+X-Gm-Message-State: AOAM533F92tQ0/fU2uSqbsL0TcuqENo5v7hOeQlY9nIDu2LWzBKF2w5Z
+ /H3bsn3Wk7hqeJuZ9Qf9AET6Gw==
+X-Google-Smtp-Source: ABdhPJyt4VsDo1nIt0rH487VFwTxtI3gbxMsPc0tcWnAhDNMnscyp3mhedRaSCueXDHZbQaYJK4e9Q==
+X-Received: by 2002:a05:6512:3b8c:: with SMTP id
+ g12mr1383492lfv.551.1625178440891; 
+ Thu, 01 Jul 2021 15:27:20 -0700 (PDT)
+Received: from localhost.localdomain
+ (c-fdcc225c.014-348-6c756e10.bbcust.telenor.se. [92.34.204.253])
+ by smtp.gmail.com with ESMTPSA id i1sm95719ljn.40.2021.07.01.15.27.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 01 Jul 2021 15:27:20 -0700 (PDT)
+From: Linus Walleij <linus.walleij@linaro.org>
+To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/dbi: Print errors for mipi_dbi_command()
+Date: Fri,  2 Jul 2021 00:25:18 +0200
+Message-Id: <20210701222518.3895552-1-linus.walleij@linaro.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20210701202427.1547543-6-matthew.d.roper@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,94 +69,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>,
+ Douglas Anderson <dianders@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 01, 2021 at 01:23:39PM -0700, Matt Roper wrote:
->From: Venkata Sandeep Dhanalakota <venkata.s.dhanalakota@intel.com>
->
->In Gen12 there are various fuse combinations and in each configuration
->vdbox engine may be connected to SFC depending on which engines are
->available, so we need to set the SFC capability based on fuse value from
->the hardware. Even numbered phyical instance always have SFC, odd
->numbered physical instances have SFC only if previous even instance is
->fused off.
->
->Bspec: 48028
+The macro mipi_dbi_command() does not report errors unless you wrap it
+in another macro to do the error reporting.
 
-considering that in TGL we have physical instances 0 and 2 (both even),
-we can use this logic, so it's correct correct for GRAPHICS_VER(i915) == 12.
-Although I wonder ifwe should be using MEDIA_VER(i915) here.
+Report a rate-limited error so we know what is going on.
 
+Drop the only user in DRM using mipi_dbi_command() and actually checking
+the error explicitly, let it use mipi_dbi_command_buf() directly
+instead.
 
->Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
->Signed-off-by: Venkata Sandeep Dhanalakota <venkata.s.dhanalakota@intel.com>
->Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
+After this any code wishing to send command arrays can rely on
+mipi_dbi_command() providing an appropriate error message if something
+goes wrong.
 
+Suggested-by: Noralf Trønnes <noralf@tronnes.org>
+Suggested-by: Douglas Anderson <dianders@chromium.org>
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+---
+ drivers/gpu/drm/drm_mipi_dbi.c | 2 +-
+ include/drm/drm_mipi_dbi.h     | 5 ++++-
+ 2 files changed, 5 insertions(+), 2 deletions(-)
 
-Reviewed-by: Lucas De Marchi <lucas.demarchi@intel.com>
+diff --git a/drivers/gpu/drm/drm_mipi_dbi.c b/drivers/gpu/drm/drm_mipi_dbi.c
+index 3854fb9798e9..c7c1b75df190 100644
+--- a/drivers/gpu/drm/drm_mipi_dbi.c
++++ b/drivers/gpu/drm/drm_mipi_dbi.c
+@@ -645,7 +645,7 @@ static int mipi_dbi_poweron_reset_conditional(struct mipi_dbi_dev *dbidev, bool
+ 		return 1;
+ 
+ 	mipi_dbi_hw_reset(dbi);
+-	ret = mipi_dbi_command(dbi, MIPI_DCS_SOFT_RESET);
++	ret = mipi_dbi_command_buf(dbi, MIPI_DCS_SOFT_RESET, NULL, 0);
+ 	if (ret) {
+ 		DRM_DEV_ERROR(dev, "Failed to send reset command (%d)\n", ret);
+ 		if (dbidev->regulator)
+diff --git a/include/drm/drm_mipi_dbi.h b/include/drm/drm_mipi_dbi.h
+index f543d6e3e822..2057ad32760c 100644
+--- a/include/drm/drm_mipi_dbi.h
++++ b/include/drm/drm_mipi_dbi.h
+@@ -183,7 +183,10 @@ int mipi_dbi_buf_copy(void *dst, struct drm_framebuffer *fb,
+ #define mipi_dbi_command(dbi, cmd, seq...) \
+ ({ \
+ 	const u8 d[] = { seq }; \
+-	mipi_dbi_command_stackbuf(dbi, cmd, d, ARRAY_SIZE(d)); \
++	int ret; \
++	ret = mipi_dbi_command_stackbuf(dbi, cmd, d, ARRAY_SIZE(d)); \
++	if (ret) \
++		pr_err_ratelimited("MIPI DBI: error %d when sending command\n", ret); \
+ })
+ 
+ #ifdef CONFIG_DEBUG_FS
+-- 
+2.31.1
 
-Lucas De Marchi
-
->---
-> drivers/gpu/drm/i915/gt/intel_engine_cs.c | 30 ++++++++++++++++++-----
-> 1 file changed, 24 insertions(+), 6 deletions(-)
->
->diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
->index 151870d8fdd3..4ab2c9abb943 100644
->--- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
->+++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
->@@ -442,6 +442,28 @@ void intel_engines_free(struct intel_gt *gt)
-> 	}
-> }
->
->+static inline
->+bool vdbox_has_sfc(struct drm_i915_private *i915, unsigned int physical_vdbox,
->+		   unsigned int logical_vdbox, u16 vdbox_mask)
->+{
->+	/*
->+	 * In Gen11, only even numbered logical VDBOXes are hooked
->+	 * up to an SFC (Scaler & Format Converter) unit.
->+	 * In Gen12, Even numbered phyical instance always are connected
->+	 * to an SFC. Odd numbered physical instances have SFC only if
->+	 * previous even instance is fused off.
->+	 */
->+	if (GRAPHICS_VER(i915) == 12) {
->+		return (physical_vdbox % 2 == 0) ||
->+			!(BIT(physical_vdbox - 1) & vdbox_mask);
->+	} else if (GRAPHICS_VER(i915) == 11) {
->+		return logical_vdbox % 2 == 0;
->+	}
->+
->+	MISSING_CASE(GRAPHICS_VER(i915));
->+	return false;
->+}
->+
-> /*
->  * Determine which engines are fused off in our particular hardware.
->  * Note that we have a catch-22 situation where we need to be able to access
->@@ -493,13 +515,9 @@ static intel_engine_mask_t init_engine_mask(struct intel_gt *gt)
-> 			continue;
-> 		}
->
->-		/*
->-		 * In Gen11, only even numbered logical VDBOXes are
->-		 * hooked up to an SFC (Scaler & Format Converter) unit.
->-		 * In TGL each VDBOX has access to an SFC.
->-		 */
->-		if (GRAPHICS_VER(i915) >= 12 || logical_vdbox++ % 2 == 0)
->+		if (vdbox_has_sfc(i915, i, logical_vdbox, vdbox_mask))
-> 			gt->info.vdbox_sfc_access |= BIT(i);
->+		logical_vdbox++;
-> 	}
-> 	drm_dbg(&i915->drm, "vdbox enable: %04x, instances: %04lx\n",
-> 		vdbox_mask, VDBOX_MASK(gt));
->-- 
->2.25.4
->
->_______________________________________________
->Intel-gfx mailing list
->Intel-gfx@lists.freedesktop.org
->https://lists.freedesktop.org/mailman/listinfo/intel-gfx
