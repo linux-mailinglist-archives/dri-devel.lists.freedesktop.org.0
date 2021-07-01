@@ -1,78 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDFDB3B8F46
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Jul 2021 10:58:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DDB83B8F82
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Jul 2021 11:09:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB4E06E9D4;
-	Thu,  1 Jul 2021 08:58:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A5256EAB0;
+	Thu,  1 Jul 2021 09:09:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 260A76EA81;
- Thu,  1 Jul 2021 08:58:47 +0000 (UTC)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E167C6EAAD;
+ Thu,  1 Jul 2021 09:09:02 +0000 (UTC)
 Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
  (using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id C54B91FF8B;
- Thu,  1 Jul 2021 08:58:45 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 8C6C1227FB;
+ Thu,  1 Jul 2021 09:09:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1625129925; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1625130541; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=pCxv0yfjaANquWqomeqUkvuDxC7BCGfFD+RKVELDnoc=;
- b=hHl0v69vZDu3+EwZ+MG1OgMyolUXpQbDAAj9rehWCna07XOCjyXN9QZbQ1RJeOQDrpCTSj
- yp4RVIVhusmBAbxj642I0qrjLaUnNS5b4FdakrH32dL6iX5u+VTvbUk44VrtqpPZuA4blv
- 7Nle9nVF0FGjJ18Sp3Tls1AXEHR68To=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=2ZkAhHualJpXvHlhErO3vffMp9/Q0lg7AVNAbWuLZI4=;
+ b=jZ+T9/d8Tv40cx3Gfbjs4CnOND8QC7AnNxL7j2RmPyWfAwLiE3oB3ZbAqdRua/r1YBb/bW
+ Y2YZ4b3hbBRy+wyVpx5OA6B7FUSOvUicnbAycR9VqZh31PvRwdrGFSazSaIXjwy5LYapQ8
+ PkoQnziAOaY1BEBTdBq2xFprz4bzlwY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1625129925;
+ s=susede2_ed25519; t=1625130541;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=pCxv0yfjaANquWqomeqUkvuDxC7BCGfFD+RKVELDnoc=;
- b=ItAenV+ULDVpA5NtXIbwQM9VaUgRbSKQx4I6US/y7XO3JU6nIHOvByS5EFwT67qWK7UgrE
- FqTBYERBMyYi48CQ==
+ content-transfer-encoding:content-transfer-encoding;
+ bh=2ZkAhHualJpXvHlhErO3vffMp9/Q0lg7AVNAbWuLZI4=;
+ b=7rw2LrYVeR2gaE0jy7Ke80917hyYiKtfFL6tmKuNGX6P6jes/RdTdiyba7OcV/Q5yPYKVZ
+ xBgP96FJo72Z3wDQ==
 Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
- by imap.suse.de (Postfix) with ESMTP id 7CDBC11CC0;
- Thu,  1 Jul 2021 08:58:45 +0000 (UTC)
+ by imap.suse.de (Postfix) with ESMTP id 55AD611CC0;
+ Thu,  1 Jul 2021 09:09:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1625129925; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1625130541; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=pCxv0yfjaANquWqomeqUkvuDxC7BCGfFD+RKVELDnoc=;
- b=hHl0v69vZDu3+EwZ+MG1OgMyolUXpQbDAAj9rehWCna07XOCjyXN9QZbQ1RJeOQDrpCTSj
- yp4RVIVhusmBAbxj642I0qrjLaUnNS5b4FdakrH32dL6iX5u+VTvbUk44VrtqpPZuA4blv
- 7Nle9nVF0FGjJ18Sp3Tls1AXEHR68To=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=2ZkAhHualJpXvHlhErO3vffMp9/Q0lg7AVNAbWuLZI4=;
+ b=jZ+T9/d8Tv40cx3Gfbjs4CnOND8QC7AnNxL7j2RmPyWfAwLiE3oB3ZbAqdRua/r1YBb/bW
+ Y2YZ4b3hbBRy+wyVpx5OA6B7FUSOvUicnbAycR9VqZh31PvRwdrGFSazSaIXjwy5LYapQ8
+ PkoQnziAOaY1BEBTdBq2xFprz4bzlwY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1625129925;
+ s=susede2_ed25519; t=1625130541;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=pCxv0yfjaANquWqomeqUkvuDxC7BCGfFD+RKVELDnoc=;
- b=ItAenV+ULDVpA5NtXIbwQM9VaUgRbSKQx4I6US/y7XO3JU6nIHOvByS5EFwT67qWK7UgrE
- FqTBYERBMyYi48CQ==
+ content-transfer-encoding:content-transfer-encoding;
+ bh=2ZkAhHualJpXvHlhErO3vffMp9/Q0lg7AVNAbWuLZI4=;
+ b=7rw2LrYVeR2gaE0jy7Ke80917hyYiKtfFL6tmKuNGX6P6jes/RdTdiyba7OcV/Q5yPYKVZ
+ xBgP96FJo72Z3wDQ==
 Received: from director2.suse.de ([192.168.254.72]) by imap3-int with ESMTPSA
- id CJWpHcWD3WA0IgAALh3uQQ
- (envelope-from <tzimmermann@suse.de>); Thu, 01 Jul 2021 08:58:45 +0000
+ id ZeQPFC2G3WDGKAAALh3uQQ
+ (envelope-from <tzimmermann@suse.de>); Thu, 01 Jul 2021 09:09:01 +0000
+Date: Thu, 1 Jul 2021 11:08:59 +0200
 From: Thomas Zimmermann <tzimmermann@suse.de>
-To: jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
- rodrigo.vivi@intel.com, airlied@linux.ie, daniel@ffwll.ch,
- chris@chris-wilson.co.uk, mika.kuoppala@linux.intel.com,
- matthew.brost@intel.com, maarten.lankhorst@linux.intel.com,
- lucas.demarchi@intel.com, ville.syrjala@linux.intel.com
-Subject: [PATCH v4 2/2] drm/i915: Drop all references to DRM IRQ midlayer
-Date: Thu,  1 Jul 2021 10:58:33 +0200
-Message-Id: <20210701085833.26566-3-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20210701085833.26566-1-tzimmermann@suse.de>
-References: <20210701085833.26566-1-tzimmermann@suse.de>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PULL] drm-misc-next-fixes
+Message-ID: <YN2GK2SH64yqXqh9@linux-uq9g>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -86,67 +76,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org
+Cc: dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
+ intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Remove all references to DRM's IRQ midlayer. i915 uses Linux' interrupt
-functions directly.
+Hi Dave and Daniel,
 
-v2:
-	* also remove an outdated comment
-	* move IRQ fix into separate patch
-	* update Fixes tag (Daniel)
+this week's PR for drm-misc-next-fixes contains a number of BO-related
+fixes in amdgpu, gma500 and radeon, and a documentation fix for dma-buf.
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Fixes: b318b82455bd ("drm/i915: Nuke drm_driver irq vfuncs")
-Cc: Ville SyrjÃ¤lÃ¤ <ville.syrjala@linux.intel.com>
-Cc: Chris Wilson <chris@chris-wilson.co.uk>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: intel-gfx@lists.freedesktop.org
----
- drivers/gpu/drm/i915/i915_drv.c | 1 -
- drivers/gpu/drm/i915/i915_irq.c | 5 -----
- 2 files changed, 6 deletions(-)
+Best regards
+Thomas
 
-diff --git a/drivers/gpu/drm/i915/i915_drv.c b/drivers/gpu/drm/i915/i915_drv.c
-index 850b499c71c8..73de45472f60 100644
---- a/drivers/gpu/drm/i915/i915_drv.c
-+++ b/drivers/gpu/drm/i915/i915_drv.c
-@@ -42,7 +42,6 @@
- #include <drm/drm_aperture.h>
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_ioctl.h>
--#include <drm/drm_irq.h>
- #include <drm/drm_managed.h>
- #include <drm/drm_probe_helper.h>
- 
-diff --git a/drivers/gpu/drm/i915/i915_irq.c b/drivers/gpu/drm/i915/i915_irq.c
-index 7d0ce8b9f8ed..2de51ea83e09 100644
---- a/drivers/gpu/drm/i915/i915_irq.c
-+++ b/drivers/gpu/drm/i915/i915_irq.c
-@@ -33,7 +33,6 @@
- #include <linux/sysrq.h>
- 
- #include <drm/drm_drv.h>
--#include <drm/drm_irq.h>
- 
- #include "display/intel_de.h"
- #include "display/intel_display_types.h"
-@@ -4564,10 +4563,6 @@ void intel_runtime_pm_enable_interrupts(struct drm_i915_private *dev_priv)
- 
- bool intel_irqs_enabled(struct drm_i915_private *dev_priv)
- {
--	/*
--	 * We only use drm_irq_uninstall() at unload and VT switch, so
--	 * this is the only thing we need to check.
--	 */
- 	return dev_priv->runtime_pm.irqs_enabled;
- }
- 
--- 
-2.32.0
+drm-misc-next-fixes-2021-07-01:
+Short summary of fixes pull:
 
+ * amdgpu: TTM fixes
+ * dma-buf: Doc fixes
+ * gma500: Fix potential BO leaks in error handling
+ * radeon: Fix NULL-ptr deref
+The following changes since commit eed75ce7c8260e0d5612ced4a88180ab991e207c:
+
+  drm/amdgpu: fix amdgpu_preempt_mgr_new() (2021-06-21 15:24:29 +0200)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-next-fixes-2021-07-01
+
+for you to fetch changes up to f18f58012ee894039cd59ee8c889bf499d7a3943:
+
+  drm/radeon: Fix NULL dereference when updating memory stats (2021-06-30 11:56:21 +0200)
+
+----------------------------------------------------------------
+Short summary of fixes pull:
+
+ * amdgpu: TTM fixes
+ * dma-buf: Doc fixes
+ * gma500: Fix potential BO leaks in error handling
+ * radeon: Fix NULL-ptr deref
+
+----------------------------------------------------------------
+Jing Xiangfeng (1):
+      drm/gma500: Add the missed drm_gem_object_put() in psb_user_framebuffer_create()
+
+Mikel Rychliski (1):
+      drm/radeon: Fix NULL dereference when updating memory stats
+
+Nirmoy Das (1):
+      drm/amdgpu: return early for non-TTM_PL_TT type BOs
+
+Randy Dunlap (1):
+      <linux/dma-resv.h>: correct a function name in kernel-doc
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c |  3 ++-
+ drivers/gpu/drm/gma500/framebuffer.c    |  7 ++++++-
+ drivers/gpu/drm/radeon/radeon_object.c  | 29 ++++++++++++-----------------
+ drivers/gpu/drm/radeon/radeon_object.h  |  2 +-
+ drivers/gpu/drm/radeon/radeon_ttm.c     | 13 ++++++++++---
+ include/linux/dma-resv.h                |  2 +-
+ 6 files changed, 32 insertions(+), 24 deletions(-)
+
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 Nürnberg, Germany
+(HRB 36809, AG Nürnberg)
+Geschäftsführer: Felix Imendörffer
