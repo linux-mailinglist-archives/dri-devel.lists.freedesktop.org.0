@@ -2,65 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C26DD3B9712
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Jul 2021 22:15:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94B683B9724
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Jul 2021 22:20:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C7686E06E;
-	Thu,  1 Jul 2021 20:15:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 80EE06EB37;
+	Thu,  1 Jul 2021 20:20:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com
- [IPv6:2a00:1450:4864:20::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 14EAA6E06E
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Jul 2021 20:15:27 +0000 (UTC)
-Received: by mail-lf1-x133.google.com with SMTP id n14so13995232lfu.8
- for <dri-devel@lists.freedesktop.org>; Thu, 01 Jul 2021 13:15:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linux-foundation.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=2iNcNOPlfT+qWPK+b3Uy11X2JBFYAgrqY9VVeV4ulS8=;
- b=H8D4sU0qi8I8AexpK1PssC7DU2czpDwmWVt+gaksX9V0+4qrhKVDeAU4WC8yrVExYC
- M4yjFLQXLHVEUWOJxmw4kTbvDus+9qR26Lidx/Zsz9UWn9KtkLtY1eQ68x/nntopJt5V
- MkXIhnFBYxdh8Ujqznp+zti9Rs1/SumlGyZC4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=2iNcNOPlfT+qWPK+b3Uy11X2JBFYAgrqY9VVeV4ulS8=;
- b=TGKPOeNPuor5LTBnBlHB2ogGCJqQBLou5Lt8DNQGNM3R0jQzHmbJEMICd7dJwTn9FW
- 3Awp5Za6WaV5nkPQu+WMhmFCz/p3ntVfuBhWaNzDxIvPkNL0CqxAaOMJqYWiIHj1nXOi
- rpa3td5icg0opICtIRZWpYkSUBklWQB28xflXmECLZfEoL66Dom/bX7++iJQY3g8F06r
- lRLXWkFwnd001gaPRYJPxlAmDkdypr+JydVdm9xGU88Lx3Iv0WpPcYuKxmZ/GflvBmOs
- wkgA0wm9ahnYMe0u+vdzVEA9p82xkwosv+NHvNClYDxAMoXw7GGgd8UKE52JupfnyzQb
- rx5Q==
-X-Gm-Message-State: AOAM533bsEDkliUklztPBMGT91qCJ/wPjkpTOF3xt2cdKhTuUY4LkM80
- LNdN5ZLQ0wP9FX/FjHoD0q+4XaKVY70b9lLjh80=
-X-Google-Smtp-Source: ABdhPJzeMObDU47q+tC/SZ0m/Qkit3KNsephdmhRYt9VyFR5C08wFqnXG4/On8zNRc6Nvd3TP+9nVw==
-X-Received: by 2002:a19:4c54:: with SMTP id z81mr1024750lfa.28.1625170525303; 
- Thu, 01 Jul 2021 13:15:25 -0700 (PDT)
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com.
- [209.85.208.180])
- by smtp.gmail.com with ESMTPSA id i5sm114288ljm.120.2021.07.01.13.15.24
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 01 Jul 2021 13:15:24 -0700 (PDT)
-Received: by mail-lj1-f180.google.com with SMTP id h6so10157300ljl.8
- for <dri-devel@lists.freedesktop.org>; Thu, 01 Jul 2021 13:15:24 -0700 (PDT)
-X-Received: by 2002:a05:651c:32e:: with SMTP id
- b14mr965880ljp.251.1625170523672; 
- Thu, 01 Jul 2021 13:15:23 -0700 (PDT)
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A4D116E0B8;
+ Thu,  1 Jul 2021 20:20:23 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10032"; a="272469696"
+X-IronPort-AV: E=Sophos;i="5.83,315,1616482800"; d="scan'208";a="272469696"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Jul 2021 13:20:21 -0700
+X-IronPort-AV: E=Sophos;i="5.83,315,1616482800"; d="scan'208";a="448041870"
+Received: from awvttdev-05.aw.intel.com ([10.228.212.156])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Jul 2021 13:20:20 -0700
+From: "Michael J. Ruhl" <michael.j.ruhl@intel.com>
+To: michael.j.ruhl@intel.com, daniel@ffwll.ch,
+ thomas.hellstrom@linux.intel.com, ckoenig.leichtzumerken@gmail.com,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ matthew.auld@intel.com, maarten.lankhorst@linux.intel.com
+Subject: [PATCH v1 1/2] drm/i915/gem: Correct the locking and pin pattern for
+ dma-buf
+Date: Thu,  1 Jul 2021 16:20:13 -0400
+Message-Id: <20210701202014.910098-1-michael.j.ruhl@intel.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-References: <CAPM=9tzR4BqTtamrTy4T_XV7E0fUNyduaVtH5zAi=sqwX_3udg@mail.gmail.com>
-In-Reply-To: <CAPM=9tzR4BqTtamrTy4T_XV7E0fUNyduaVtH5zAi=sqwX_3udg@mail.gmail.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Thu, 1 Jul 2021 13:15:07 -0700
-X-Gmail-Original-Message-ID: <CAHk-=whgcN6MEyZBgK3UZRw=vwd1CAAK9+rafmZ2vsOiGpsMSA@mail.gmail.com>
-Message-ID: <CAHk-=whgcN6MEyZBgK3UZRw=vwd1CAAK9+rafmZ2vsOiGpsMSA@mail.gmail.com>
-Subject: Re: [git pull] drm for 5.14-rc1
-To: Dave Airlie <airlied@gmail.com>, Philip Yang <Philip.Yang@amd.com>, 
- Felix Kuehling <Felix.Kuehling@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,88 +46,298 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 30, 2021 at 9:34 PM Dave Airlie <airlied@gmail.com> wrote:
->
-> Hi Linus,
->
-> This is the main drm pull request for 5.14-rc1.
->
-> I've done a test pull into your current tree, and hit two conflicts
-> (one in vc4, one in amdgpu), both seem pretty trivial, the amdgpu one
-> is recent and sfr sent out a resolution for it today.
+From: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 
-Well, the resolutions may be trivial, but the conflict made me look at
-the code, and it's buggy.
+If our exported dma-bufs are imported by another instance of our driver,
+that instance will typically have the imported dma-bufs locked during
+dma_buf_map_attachment(). But the exporter also locks the same reservation
+object in the map_dma_buf() callback, which leads to recursive locking.
 
-Commit 04d8d73dbcbe ("drm/amdgpu: add common HMM get pages function")
-is broken. It made the code do
+So taking the lock inside _pin_pages_unlocked() is incorrect.
 
-        mmap_read_lock(mm);
-        vma = find_vma(mm, start);
-        mmap_read_unlock(mm);
+Additionally, the current pinning code path is contrary to the defined
+way that pinning should occur.
 
-and then it *uses* that "vma" after it has dropped the lock.
+Remove the explicit pin/unpin from the map/umap functions and move them
+to the attach/detach allowing correct locking to occur, and to match
+the static dma-buf drm_prime pattern.
 
-That's a big no-no - once you've dropped the lock, the vma contents
-simply aren't reliable any more. That mapping could now be unmapped
-and removed at any time.
+Add a live selftest to exercise both dynamic and non-dynamic
+exports.
 
-Now, the conflict actually made one of the uses go away (switching to
-vma_lookup() means that the subsequent code no longer needs to look at
-"vm_start" to verify we're actually _inside_ the vma), but it still
-checks for vma->vm_file afterwards.
+v2:
+- Extend the selftest with a fake dynamic importer.
+- Provide real pin and unpin callbacks to not abuse the interface.
+v3: (ruhl)
+- Remove the dynamic export support and move the pinning into the
+  attach/detach path.
+v4: (ruhl)
+- Put pages does not need to assert on the dma-resv
 
-So those locking changes in commit 04d8d73dbcbe are completely bogus.
+Reported-by: Michael J. Ruhl <michael.j.ruhl@intel.com>
+Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Signed-off-by: Michael J. Ruhl <michael.j.ruhl@intel.com>
+---
+ drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c    |  44 +++++--
+ .../drm/i915/gem/selftests/i915_gem_dmabuf.c  | 116 +++++++++++++++++-
+ 2 files changed, 146 insertions(+), 14 deletions(-)
 
-I tried to fix up that bug while handling the conflict, but who knows
-what else similar is going on elsewhere.
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
+index 616c3a2f1baf..ccae17d5f441 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
+@@ -12,6 +12,8 @@
+ #include "i915_gem_object.h"
+ #include "i915_scatterlist.h"
+ 
++I915_SELFTEST_DECLARE(static bool force_different_devices;)
++
+ static struct drm_i915_gem_object *dma_buf_to_obj(struct dma_buf *buf)
+ {
+ 	return to_intel_bo(buf->priv);
+@@ -25,15 +27,11 @@ static struct sg_table *i915_gem_map_dma_buf(struct dma_buf_attachment *attachme
+ 	struct scatterlist *src, *dst;
+ 	int ret, i;
+ 
+-	ret = i915_gem_object_pin_pages_unlocked(obj);
+-	if (ret)
+-		goto err;
+-
+ 	/* Copy sg so that we make an independent mapping */
+ 	st = kmalloc(sizeof(struct sg_table), GFP_KERNEL);
+ 	if (st == NULL) {
+ 		ret = -ENOMEM;
+-		goto err_unpin_pages;
++		goto err;
+ 	}
+ 
+ 	ret = sg_alloc_table(st, obj->mm.pages->nents, GFP_KERNEL);
+@@ -58,8 +56,6 @@ static struct sg_table *i915_gem_map_dma_buf(struct dma_buf_attachment *attachme
+ 	sg_free_table(st);
+ err_free:
+ 	kfree(st);
+-err_unpin_pages:
+-	i915_gem_object_unpin_pages(obj);
+ err:
+ 	return ERR_PTR(ret);
+ }
+@@ -68,13 +64,9 @@ static void i915_gem_unmap_dma_buf(struct dma_buf_attachment *attachment,
+ 				   struct sg_table *sg,
+ 				   enum dma_data_direction dir)
+ {
+-	struct drm_i915_gem_object *obj = dma_buf_to_obj(attachment->dmabuf);
+-
+ 	dma_unmap_sgtable(attachment->dev, sg, dir, DMA_ATTR_SKIP_CPU_SYNC);
+ 	sg_free_table(sg);
+ 	kfree(sg);
+-
+-	i915_gem_object_unpin_pages(obj);
+ }
+ 
+ static int i915_gem_dmabuf_vmap(struct dma_buf *dma_buf, struct dma_buf_map *map)
+@@ -168,7 +160,32 @@ static int i915_gem_end_cpu_access(struct dma_buf *dma_buf, enum dma_data_direct
+ 	return err;
+ }
+ 
++/**
++ * i915_gem_dmabuf_attach - Do any extra attach work necessary
++ * @dmabuf: imported dma-buf
++ * @attach: new attach to do work on
++ *
++ */
++static int i915_gem_dmabuf_attach(struct dma_buf *dmabuf,
++				  struct dma_buf_attachment *attach)
++{
++	struct drm_i915_gem_object *obj = dma_buf_to_obj(dmabuf);
++
++	assert_object_held(obj);
++	return i915_gem_object_pin_pages(obj);
++}
++
++static void i915_gem_dmabuf_detach(struct dma_buf *dmabuf,
++				   struct dma_buf_attachment *attach)
++{
++	struct drm_i915_gem_object *obj = dma_buf_to_obj(dmabuf);
++
++	i915_gem_object_unpin_pages(obj);
++}
++
+ static const struct dma_buf_ops i915_dmabuf_ops =  {
++	.attach = i915_gem_dmabuf_attach,
++	.detach = i915_gem_dmabuf_detach,
+ 	.map_dma_buf = i915_gem_map_dma_buf,
+ 	.unmap_dma_buf = i915_gem_unmap_dma_buf,
+ 	.release = drm_gem_dmabuf_release,
+@@ -204,6 +221,8 @@ static int i915_gem_object_get_pages_dmabuf(struct drm_i915_gem_object *obj)
+ 	struct sg_table *pages;
+ 	unsigned int sg_page_sizes;
+ 
++	assert_object_held(obj);
++
+ 	pages = dma_buf_map_attachment(obj->base.import_attach,
+ 				       DMA_BIDIRECTIONAL);
+ 	if (IS_ERR(pages))
+@@ -241,7 +260,8 @@ struct drm_gem_object *i915_gem_prime_import(struct drm_device *dev,
+ 	if (dma_buf->ops == &i915_dmabuf_ops) {
+ 		obj = dma_buf_to_obj(dma_buf);
+ 		/* is it from our device? */
+-		if (obj->base.dev == dev) {
++		if (obj->base.dev == dev &&
++		    !I915_SELFTEST_ONLY(force_different_devices)) {
+ 			/*
+ 			 * Importing dmabuf exported from out own gem increases
+ 			 * refcount on gem itself instead of f_count of dmabuf.
+diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c
+index dd74bc09ec88..868b3469ecbd 100644
+--- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c
++++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c
+@@ -35,7 +35,7 @@ static int igt_dmabuf_export(void *arg)
+ static int igt_dmabuf_import_self(void *arg)
+ {
+ 	struct drm_i915_private *i915 = arg;
+-	struct drm_i915_gem_object *obj;
++	struct drm_i915_gem_object *obj, *import_obj;
+ 	struct drm_gem_object *import;
+ 	struct dma_buf *dmabuf;
+ 	int err;
+@@ -65,14 +65,125 @@ static int igt_dmabuf_import_self(void *arg)
+ 		err = -EINVAL;
+ 		goto out_import;
+ 	}
++	import_obj = to_intel_bo(import);
++
++	i915_gem_object_lock(import_obj, NULL);
++	err = ____i915_gem_object_get_pages(import_obj);
++	i915_gem_object_unlock(import_obj);
++	if (err) {
++		pr_err("Same object dma-buf get_pages failed!\n");
++		goto out_import;
++	}
+ 
+ 	err = 0;
+ out_import:
+-	i915_gem_object_put(to_intel_bo(import));
++	i915_gem_object_put(import_obj);
++out_dmabuf:
++	dma_buf_put(dmabuf);
++out:
++	i915_gem_object_put(obj);
++	return err;
++}
++
++static void igt_dmabuf_move_notify(struct dma_buf_attachment *attach)
++{
++	GEM_WARN_ON(1);
++}
++
++static const struct dma_buf_attach_ops igt_dmabuf_attach_ops = {
++	.move_notify = igt_dmabuf_move_notify,
++};
++
++static int igt_dmabuf_import_same_driver(void *arg)
++{
++	struct drm_i915_private *i915 = arg;
++	struct drm_i915_gem_object *obj, *import_obj;
++	struct drm_gem_object *import;
++	struct dma_buf *dmabuf;
++	struct dma_buf_attachment *import_attach;
++	struct sg_table *st;
++	long timeout;
++	int err;
++
++	force_different_devices = true;
++	obj = i915_gem_object_create_shmem(i915, PAGE_SIZE);
++	if (IS_ERR(obj))
++		goto out_ret;
++
++	dmabuf = i915_gem_prime_export(&obj->base, 0);
++	if (IS_ERR(dmabuf)) {
++		pr_err("i915_gem_prime_export failed with err=%d\n",
++		       (int)PTR_ERR(dmabuf));
++		err = PTR_ERR(dmabuf);
++		goto out;
++	}
++
++	import = i915_gem_prime_import(&i915->drm, dmabuf);
++	if (IS_ERR(import)) {
++		pr_err("i915_gem_prime_import failed with err=%d\n",
++		       (int)PTR_ERR(import));
++		err = PTR_ERR(import);
++		goto out_dmabuf;
++	}
++
++	if (import == &obj->base) {
++		pr_err("i915_gem_prime_import reused gem object!\n");
++		err = -EINVAL;
++		goto out_import;
++	}
++
++	import_obj = to_intel_bo(import);
++
++	i915_gem_object_lock(import_obj, NULL);
++	err = ____i915_gem_object_get_pages(import_obj);
++	if (err) {
++		pr_err("Different objects dma-buf get_pages failed!\n");
++		i915_gem_object_unlock(import_obj);
++		goto out_import;
++	}
++
++	/*
++	 * If the exported object is not in system memory, something
++	 * weird is going on. TODO: When p2p is supported, this is no
++	 * longer considered weird.
++	 */
++	if (obj->mm.region != i915->mm.regions[INTEL_REGION_SMEM]) {
++		pr_err("Exported dma-buf is not in system memory\n");
++		err = -EINVAL;
++	}
++
++	i915_gem_object_unlock(import_obj);
++
++	/* Now try a fake dynamic importer */
++	import_attach = dma_buf_dynamic_attach(dmabuf, obj->base.dev->dev,
++					       &igt_dmabuf_attach_ops,
++					       NULL);
++	if (IS_ERR(import_attach))
++		goto out_import;
++
++	dma_resv_lock(dmabuf->resv, NULL);
++	st = dma_buf_map_attachment(import_attach, DMA_BIDIRECTIONAL);
++	dma_resv_unlock(dmabuf->resv);
++	if (IS_ERR(st))
++		goto out_detach;
++
++	timeout = dma_resv_wait_timeout(dmabuf->resv, false, true, 5 * HZ);
++	if (!timeout) {
++		pr_err("dmabuf wait for exclusive fence timed out.\n");
++		timeout = -ETIME;
++	}
++	err = timeout > 0 ? 0 : timeout;
++	dma_buf_unmap_attachment(import_attach, st, DMA_BIDIRECTIONAL);
++out_detach:
++	dma_buf_detach(dmabuf, import_attach);
++out_import:
++	i915_gem_object_put(import_obj);
+ out_dmabuf:
+ 	dma_buf_put(dmabuf);
+ out:
+ 	i915_gem_object_put(obj);
++out_ret:
++	force_different_devices = false;
+ 	return err;
+ }
+ 
+@@ -286,6 +397,7 @@ int i915_gem_dmabuf_live_selftests(struct drm_i915_private *i915)
+ {
+ 	static const struct i915_subtest tests[] = {
+ 		SUBTEST(igt_dmabuf_export),
++		SUBTEST(igt_dmabuf_import_same_driver),
+ 	};
+ 
+ 	return i915_subtests(tests, i915);
+-- 
+2.31.1
 
-So I would ask people to
-
- (a) verify that I didn't make things worse as I fixed things up (note
-how I had to change the last argument to amdgpu_hmm_range_get_pages()
-from false to true etc).
-
- (b) go and look at their vma lookup code: you can't just look up a
-vma under the lock, and then drop the lock, and then think things stay
-stable.
-
-In particular for that (b) case: it is *NOT* enough to look up
-vma->vm_file inside the lock and cache that. No - if the test is about
-"no backing file before looking up pages", then you have to *keep*
-holding the lock until after you've actually looked up the pages!
-
-Because otherwise any test for "vma->vm_file" is entirely pointless,
-for the same reason it's buggy to even look at it after dropping the
-lock: because once you've dropped the lock, the thing you just tested
-for might not be true any more.
-
-So no, it's not valid to do
-
-    bool has_file = vma && vma->vm_file;
-
-and then drop the lock, because you don't use 'vma' any more as a
-pointer, and then use 'has_file' outside the lock. Because after
-you've dropped the lock, 'has_file' is now meaningless.
-
-So it's not just about "you can't look at vma->vm_file after dropping
-the lock". It's more fundamental than that. Any *decision* you make
-based on the vma is entirely pointless and moot after the lock is
-dropped!
-
-Did I fix it up correctly? Who knows. The code makes more sense to me
-now and seems valid. But I really *really* want to stress how locking
-is important.
-
-You also can't just unlock in the middle of an operation - even if you
-then take the lock *again* later (as amdgpu_hmm_range_get_pages() then
-did), the fact that you unlocked in the middle means that all the
-earlier tests you did are simply no longer valid when you re-take the
-lock.
-
-                 Linus
