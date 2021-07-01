@@ -2,67 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DDB83B8F82
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Jul 2021 11:09:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E60103B8F8B
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Jul 2021 11:12:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A5256EAB0;
-	Thu,  1 Jul 2021 09:09:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E35276EAAD;
+	Thu,  1 Jul 2021 09:12:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E167C6EAAD;
- Thu,  1 Jul 2021 09:09:02 +0000 (UTC)
-Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
- (using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 8C6C1227FB;
- Thu,  1 Jul 2021 09:09:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1625130541; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=2ZkAhHualJpXvHlhErO3vffMp9/Q0lg7AVNAbWuLZI4=;
- b=jZ+T9/d8Tv40cx3Gfbjs4CnOND8QC7AnNxL7j2RmPyWfAwLiE3oB3ZbAqdRua/r1YBb/bW
- Y2YZ4b3hbBRy+wyVpx5OA6B7FUSOvUicnbAycR9VqZh31PvRwdrGFSazSaIXjwy5LYapQ8
- PkoQnziAOaY1BEBTdBq2xFprz4bzlwY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1625130541;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=2ZkAhHualJpXvHlhErO3vffMp9/Q0lg7AVNAbWuLZI4=;
- b=7rw2LrYVeR2gaE0jy7Ke80917hyYiKtfFL6tmKuNGX6P6jes/RdTdiyba7OcV/Q5yPYKVZ
- xBgP96FJo72Z3wDQ==
-Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
- by imap.suse.de (Postfix) with ESMTP id 55AD611CC0;
- Thu,  1 Jul 2021 09:09:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1625130541; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=2ZkAhHualJpXvHlhErO3vffMp9/Q0lg7AVNAbWuLZI4=;
- b=jZ+T9/d8Tv40cx3Gfbjs4CnOND8QC7AnNxL7j2RmPyWfAwLiE3oB3ZbAqdRua/r1YBb/bW
- Y2YZ4b3hbBRy+wyVpx5OA6B7FUSOvUicnbAycR9VqZh31PvRwdrGFSazSaIXjwy5LYapQ8
- PkoQnziAOaY1BEBTdBq2xFprz4bzlwY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1625130541;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=2ZkAhHualJpXvHlhErO3vffMp9/Q0lg7AVNAbWuLZI4=;
- b=7rw2LrYVeR2gaE0jy7Ke80917hyYiKtfFL6tmKuNGX6P6jes/RdTdiyba7OcV/Q5yPYKVZ
- xBgP96FJo72Z3wDQ==
-Received: from director2.suse.de ([192.168.254.72]) by imap3-int with ESMTPSA
- id ZeQPFC2G3WDGKAAALh3uQQ
- (envelope-from <tzimmermann@suse.de>); Thu, 01 Jul 2021 09:09:01 +0000
-Date: Thu, 1 Jul 2021 11:08:59 +0200
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-misc-next-fixes
-Message-ID: <YN2GK2SH64yqXqh9@linux-uq9g>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 013496EAAD
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Jul 2021 09:12:29 +0000 (UTC)
+Received: from localhost.localdomain (unknown
+ [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 5BB8C1F40485;
+ Thu,  1 Jul 2021 10:12:28 +0100 (BST)
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Rob Herring <robh+dt@kernel.org>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Steven Price <steven.price@arm.com>, Robin Murphy <robin.murphy@arm.com>
+Subject: [PATCH v2 0/7] drm/panfrost: drm/panfrost: Add a new submit ioctl
+Date: Thu,  1 Jul 2021 11:12:17 +0200
+Message-Id: <20210701091224.3209803-1-boris.brezillon@collabora.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -76,72 +42,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
- intel-gfx@lists.freedesktop.org
+Cc: Jason Ekstrand <jason@jlekstrand.net>, dri-devel@lists.freedesktop.org,
+ Boris Brezillon <boris.brezillon@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave and Daniel,
+Hello,
 
-this week's PR for drm-misc-next-fixes contains a number of BO-related
-fixes in amdgpu, gma500 and radeon, and a documentation fix for dma-buf.
+This is an attempt at providing a new submit ioctl that's more
+Vulkan-friendly than the existing one. This ioctl
 
-Best regards
-Thomas
+1/ allows passing several out syncobjs so we can easily update
+   several fence/semaphore in a single ioctl() call
+2/ allows passing several jobs so we don't have to have one ioctl
+   per job-chain recorded in the command buffer
+3/ supports disabling implicit dependencies as well as 
+   non-exclusive access to BOs, thus removing unnecessary
+   synchronization
 
-drm-misc-next-fixes-2021-07-01:
-Short summary of fixes pull:
+I've also been looking at adding {IN,OUT}_FENCE_FD support (allowing
+one to pass at most one sync_file object in input and/or creating a
+sync_file FD embedding the render out fence), but it's not entirely
+clear to me when that's useful. Indeed, we can already do the
+sync_file <-> syncobj conversion using the
+SYNCOBJ_{FD_TO_HANDLE,HANDLE_TO_FD} ioctls if we have to.
+Note that, unlike Turnip, PanVk is using syncobjs to implement
+vkQueueWaitIdle(), so the syncobj -> sync_file conversion doesn't
+have to happen for each submission, but maybe there's a good reason
+to use sync_files for that too. Any feedback on that aspect would
+be useful I guess.
 
- * amdgpu: TTM fixes
- * dma-buf: Doc fixes
- * gma500: Fix potential BO leaks in error handling
- * radeon: Fix NULL-ptr deref
-The following changes since commit eed75ce7c8260e0d5612ced4a88180ab991e207c:
+Any feedback on this new ioctl is welcome, in particular, do you
+think other things are missing/would be nice to have for Vulkan?
 
-  drm/amdgpu: fix amdgpu_preempt_mgr_new() (2021-06-21 15:24:29 +0200)
+Regards,
 
-are available in the Git repository at:
+Boris
 
-  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-next-fixes-2021-07-01
+P.S.: basic igt tests for these new ioctls re available there [1]
 
-for you to fetch changes up to f18f58012ee894039cd59ee8c889bf499d7a3943:
+[1]https://gitlab.freedesktop.org/bbrezillon/igt-gpu-tools/-/tree/panfrost-batch-submit
 
-  drm/radeon: Fix NULL dereference when updating memory stats (2021-06-30 11:56:21 +0200)
+Boris Brezillon (7):
+  drm/panfrost: Pass a job to panfrost_{acquire,attach_object_fences}()
+  drm/panfrost: Move the mappings collection out of
+    panfrost_lookup_bos()
+  drm/panfrost: Add BO access flags to relax dependencies between jobs
+  drm/panfrost: Add the ability to create submit queues
+  drm/panfrost: Add a new ioctl to submit batches
+  drm/panfrost: Advertise the SYNCOBJ_TIMELINE feature
+  drm/panfrost: Bump minor version to reflect the feature additions
 
-----------------------------------------------------------------
-Short summary of fixes pull:
+ drivers/gpu/drm/panfrost/Makefile             |   3 +-
+ drivers/gpu/drm/panfrost/panfrost_device.h    |   2 +-
+ drivers/gpu/drm/panfrost/panfrost_drv.c       | 442 ++++++++++++++++--
+ drivers/gpu/drm/panfrost/panfrost_job.c       |  89 ++--
+ drivers/gpu/drm/panfrost/panfrost_job.h       |  10 +-
+ .../gpu/drm/panfrost/panfrost_submitqueue.c   | 130 ++++++
+ .../gpu/drm/panfrost/panfrost_submitqueue.h   |  27 ++
+ include/uapi/drm/panfrost_drm.h               | 103 ++++
+ 8 files changed, 720 insertions(+), 86 deletions(-)
+ create mode 100644 drivers/gpu/drm/panfrost/panfrost_submitqueue.c
+ create mode 100644 drivers/gpu/drm/panfrost/panfrost_submitqueue.h
 
- * amdgpu: TTM fixes
- * dma-buf: Doc fixes
- * gma500: Fix potential BO leaks in error handling
- * radeon: Fix NULL-ptr deref
+-- 
+2.31.1
 
-----------------------------------------------------------------
-Jing Xiangfeng (1):
-      drm/gma500: Add the missed drm_gem_object_put() in psb_user_framebuffer_create()
-
-Mikel Rychliski (1):
-      drm/radeon: Fix NULL dereference when updating memory stats
-
-Nirmoy Das (1):
-      drm/amdgpu: return early for non-TTM_PL_TT type BOs
-
-Randy Dunlap (1):
-      <linux/dma-resv.h>: correct a function name in kernel-doc
-
- drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c |  3 ++-
- drivers/gpu/drm/gma500/framebuffer.c    |  7 ++++++-
- drivers/gpu/drm/radeon/radeon_object.c  | 29 ++++++++++++-----------------
- drivers/gpu/drm/radeon/radeon_object.h  |  2 +-
- drivers/gpu/drm/radeon/radeon_ttm.c     | 13 ++++++++++---
- include/linux/dma-resv.h                |  2 +-
- 6 files changed, 32 insertions(+), 24 deletions(-)
-
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 Nürnberg, Germany
-(HRB 36809, AG Nürnberg)
-Geschäftsführer: Felix Imendörffer
