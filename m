@@ -2,43 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78C0F3B8EDF
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Jul 2021 10:33:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7950A3B8F3A
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Jul 2021 10:58:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E75289D79;
-	Thu,  1 Jul 2021 08:33:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF3976E9B6;
+	Thu,  1 Jul 2021 08:58:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 89CB089CE0;
- Thu,  1 Jul 2021 08:33:34 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0C9426144B;
- Thu,  1 Jul 2021 08:33:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1625128414;
- bh=esVTnd8ExDuxBM3XS/RqhLAB72n8t3bLQh1uiKPdLE8=;
- h=Date:From:To:cc:Subject:In-Reply-To:References:From;
- b=RVXcb9Y4hUyG6hVcMc90ECxIdciJOzCd38Lw9Vs1lv/WfoH6hBCnSswNUJsCCjF+i
- 8XiJi00gtlipOP9DXE7A/GlVz+RvCtR+u3kNXtT7CIwLVYwK0dVa9S1ywiYom96gzO
- ZNrmxskfD7C/NqWg/xv2Z/YTX99zWVDSIo7wgpj4Xw9Yls8RuaNxO+V5Kx47tOU49a
- VFyQ+1zpsO8SUuMMmI427TMJSyv2jj7+Lzlyak0Ki8fDQz5cLamq6+xAUBgOy49B5N
- ohuLBTwe/TJUHHnOju378Kz5PFz2HZuuflnNYzaFoS85NVF95LYVOXFoDbb/Q40tWk
- xJttm41WUyo5A==
-Date: Thu, 1 Jul 2021 10:33:31 +0200 (CEST)
-From: Jiri Kosina <jikos@kernel.org>
-To: Alex Deucher <alexander.deucher@amd.com>, 
- =?ISO-8859-15?Q?Christian_K=F6nig?= <christian.koenig@amd.com>, 
- David Airlie <airlied@linux.ie>
-Subject: Re: [PATCH v2] drm/amdgpu: Avoid printing of stack contents on
- firmware load error
-In-Reply-To: <nycvar.YFH.7.76.2106241310000.18969@cbobk.fhfr.pm>
-Message-ID: <nycvar.YFH.7.76.2107011032520.18969@cbobk.fhfr.pm>
-References: <nycvar.YFH.7.76.2106241135440.18969@cbobk.fhfr.pm>
- <YNRnDTD1fdpZOXB8@suse.com>
- <nycvar.YFH.7.76.2106241310000.18969@cbobk.fhfr.pm>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F2FA6E96D;
+ Thu,  1 Jul 2021 08:58:04 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10031"; a="272352991"
+X-IronPort-AV: E=Sophos;i="5.83,313,1616482800"; d="scan'208";a="272352991"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Jul 2021 01:58:02 -0700
+X-IronPort-AV: E=Sophos;i="5.83,313,1616482800"; d="scan'208";a="447810806"
+Received: from vgoluben-mobl.ccr.corp.intel.com (HELO localhost)
+ ([10.252.43.77])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Jul 2021 01:57:57 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Subject: Re: [PULL] drm-intel-next-fixes
+In-Reply-To: <YNzAViVC1l4hE/uG@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <YNtsfguvCRSROBUZ@intel.com> <87zgv7r7kg.fsf@intel.com>
+ <YNzAViVC1l4hE/uG@intel.com>
+Date: Thu, 01 Jul 2021 11:57:53 +0300
+Message-ID: <87k0maqulq.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,90 +46,115 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Vojtech Pavlik <vojtech@ucw.cz>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: dim-tools@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 24 Jun 2021, Jiri Kosina wrote:
+On Wed, 30 Jun 2021, Rodrigo Vivi <rodrigo.vivi@intel.com> wrote:
+> On Wed, Jun 30, 2021 at 01:05:35PM +0300, Jani Nikula wrote:
+>> On Tue, 29 Jun 2021, Rodrigo Vivi <rodrigo.vivi@intel.com> wrote:
+>> > Hi Dave and Daniel,
+>> >
+>> > Here goes drm-intel-next-fixes-2021-06-29:
+>> >
+>> > The biggest fix is the restoration of mmap ioctl for gen12 integrated =
+parts
+>> > which lack was breaking ADL-P with media stack.
+>> > Besides that a small selftest fix and a theoretical overflow on
+>> > i915->pipe_to_crtc_mapping.
+>>=20
+>> My last fixes pull for v5.13 fell between the cracks [1]. There was one
+>> stable worthy fix, but since it was still in drm-intel-fixes when you
+>> ran dim cherry-pick-next-fixes, it was skipped for drm-intel-next-fixes.
+>>=20
+>> I've now dropped the commit and pushed v5.13 to drm-intel-fixes, as
+>> we're past that point. Subsequent dim cherry-pick-next-fixes should pick
+>> it up now.
+>
+> it didn't, probably because the Fixes hash not being part of the drm-next=
+ yet?!
 
-> From: Jiri Kosina <jkosina@suse.cz>
-> 
-> In case when psp_init_asd_microcode() fails to load ASD microcode file, 
-> psp_v12_0_init_microcode() tries to print the firmware filename that 
-> failed to load before bailing out.
-> 
-> This is wrong because:
-> 
-> - the firmware filename it would want it print is an incorrect one as
->   psp_init_asd_microcode() and psp_v12_0_init_microcode() are loading
->   different filenames
-> - it tries to print fw_name, but that's not yet been initialized by that
->   time, so it prints random stack contents, e.g.
-> 
->     amdgpu 0000:04:00.0: Direct firmware load for amdgpu/renoir_asd.bin failed with error -2
->     amdgpu 0000:04:00.0: amdgpu: fail to initialize asd microcode
->     amdgpu 0000:04:00.0: amdgpu: psp v12.0: Failed to load firmware "\xfeTO\x8e\xff\xff"
-> 
-> Fix that by bailing out immediately, instead of priting the bogus error
-> message.
+Odd, should be.
 
-Friendly ping on this one too; priting a few bytes of stack is not a 
-*huge* info leak, but I believe it should be fixed nevertheless.
+> I can cherry-pick that directly. Please let me know the commit id.
 
-Thanks.
+c88e2647c5bb ("drm/i915/display: Do not zero past infoframes.vsc")
 
-> 
-> Reported-by: Vojtech Pavlik <vojtech@ucw.cz>
-> Signed-off-by: Jiri Kosina <jkosina@suse.cz>
+Thanks,
+Jani.
 
 
-> ---
-> 
-> v1 -> v2: remove now-unused label
-> 
->  drivers/gpu/drm/amd/amdgpu/psp_v12_0.c | 7 +++----
->  1 file changed, 3 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/amd/amdgpu/psp_v12_0.c b/drivers/gpu/drm/amd/amdgpu/psp_v12_0.c
-> index c4828bd3264b..b0ee77ee80b9 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/psp_v12_0.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/psp_v12_0.c
-> @@ -67,7 +67,7 @@ static int psp_v12_0_init_microcode(struct psp_context *psp)
->  
->  	err = psp_init_asd_microcode(psp, chip_name);
->  	if (err)
-> -		goto out;
-> +		return err;
->  
->  	snprintf(fw_name, sizeof(fw_name), "amdgpu/%s_ta.bin", chip_name);
->  	err = request_firmware(&adev->psp.ta_fw, fw_name, adev->dev);
-> @@ -80,7 +80,7 @@ static int psp_v12_0_init_microcode(struct psp_context *psp)
->  	} else {
->  		err = amdgpu_ucode_validate(adev->psp.ta_fw);
->  		if (err)
-> -			goto out2;
-> +			goto out;
->  
->  		ta_hdr = (const struct ta_firmware_header_v1_0 *)
->  				 adev->psp.ta_fw->data;
-> @@ -105,10 +105,9 @@ static int psp_v12_0_init_microcode(struct psp_context *psp)
->  
->  	return 0;
->  
-> -out2:
-> +out:
->  	release_firmware(adev->psp.ta_fw);
->  	adev->psp.ta_fw = NULL;
-> -out:
->  	if (err) {
->  		dev_err(adev->dev,
->  			"psp v12.0: Failed to load firmware \"%s\"\n",
-> -- 
-> 2.12.3
-> 
+>
+> Thanks,
+> Rodrigo.
+>
+>>=20
+>> Please do another next fixes pull request with that. (It's okay to pull
+>> this one already though, doesn't make a difference.)
+>>=20
+>>=20
+>> BR,
+>> Jani.
+>>=20
+>>=20
+>> [1] https://lore.kernel.org/r/87czsbu15r.fsf@intel.com
+>>=20
+>>=20
+>>=20
+>> >
+>> > Thanks,
+>> > Rodrigo.
+>> >
+>> > The following changes since commit 1bd8a7dc28c1c410f1ceefae1f2a97c06d1=
+a67c2:
+>> >
+>> >   Merge tag 'exynos-drm-next-for-v5.14' of git://git.kernel.org/pub/sc=
+m/linux/kernel/git/daeinki/drm-exynos into drm-next (2021-06-11 14:19:12 +1=
+000)
+>> >
+>> > are available in the Git repository at:
+>> >
+>> >   git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-next-fixe=
+s-2021-06-29
+>> >
+>> > for you to fetch changes up to c90c4c6574f3feaf2203b5671db1907a1e15c65=
+3:
+>> >
+>> >   drm/i915: Reinstate the mmap ioctl for some platforms (2021-06-28 07=
+:43:56 -0400)
+>> >
+>> > ----------------------------------------------------------------
+>> > The biggest fix is the restoration of mmap ioctl for gen12 integrated =
+parts
+>> > which lack was breaking ADL-P with media stack.
+>> > Besides that a small selftest fix and a theoretical overflow on
+>> > i915->pipe_to_crtc_mapping.
+>> >
+>> > ----------------------------------------------------------------
+>> > Chris Wilson (1):
+>> >       drm/i915/selftests: Reorder tasklet_disable vs local_bh_disable
+>> >
+>> > Jani Nikula (1):
+>> >       drm/i915/dsc: abstract helpers to get bigjoiner primary/secondar=
+y crtc
+>> >
+>> > Thomas Hellstr=C3=B6m (1):
+>> >       drm/i915: Reinstate the mmap ioctl for some platforms
+>> >
+>> >  drivers/gpu/drm/i915/display/intel_display.c       |  7 ++-
+>> >  drivers/gpu/drm/i915/display/intel_display_types.h |  8 ++++
+>> >  drivers/gpu/drm/i915/display/intel_vdsc.c          | 40 +++++++++++--=
+---
+>> >  drivers/gpu/drm/i915/display/intel_vdsc.h          |  1 +
+>> >  drivers/gpu/drm/i915/gem/i915_gem_mman.c           |  7 +--
+>> >  drivers/gpu/drm/i915/gt/selftest_execlists.c       | 55 +++++++++++++=
+---------
+>> >  6 files changed, 76 insertions(+), 42 deletions(-)
+>>=20
+>> --=20
+>> Jani Nikula, Intel Open Source Graphics Center
 
--- 
-Jiri Kosina
-SUSE Labs
-
+--=20
+Jani Nikula, Intel Open Source Graphics Center
