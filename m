@@ -1,60 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 819013B92F0
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Jul 2021 16:11:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CECDE3B933D
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Jul 2021 16:24:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 687CD6EB1A;
-	Thu,  1 Jul 2021 14:11:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2394F6EB26;
+	Thu,  1 Jul 2021 14:24:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x332.google.com (mail-ot1-x332.google.com
- [IPv6:2607:f8b0:4864:20::332])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 64FDE6EB1A;
- Thu,  1 Jul 2021 14:10:59 +0000 (UTC)
-Received: by mail-ot1-x332.google.com with SMTP id
- d21-20020a9d72d50000b02904604cda7e66so6610231otk.7; 
- Thu, 01 Jul 2021 07:10:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=jz622EkPDOO0jRJK6nnuecEbMpbzVkwpMk8xLpE5AT8=;
- b=Lu5njjPFq9UfLbuRn1qgwP4Iz8FoX7Ll2EoFKuj/WQdaOp8U46OTib7P4B4WF7yoON
- 6nJ6bv1J1jpm94gqMyb6oPn/2KAblFztx+vfSHeCrMGCY93nXFy27qqnKBUdj+/6f5Xk
- 42gXKcU4sLuXQvd+fygybp4+z/VthEnK/JgyXoGaS1tZZhzbqvpf5lS8uxGhX8aha5mv
- T8tlS9FFbFCcMcWj4AkOd64YWm158w3ijhSBZk08FbpkbtzfpRt64D/6n0auBk8a45Tz
- I0Q43Qi5GaNK2BIVKuOsTDrNtIS/1LcwiTWw1/BeUs8l0FwAogJ+KXdmmL4WYjKs5i4l
- LJzw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=jz622EkPDOO0jRJK6nnuecEbMpbzVkwpMk8xLpE5AT8=;
- b=EmHQ068SDjZHwLyRy0viZv9D/8gd9g/cKoUGOMi5DFesk9FWtP0xgKlkZQ365spNRK
- 3ClrWpjr0QWjDamvQ6c2ezC4LSxnUxQo83zc5i0ROLmPikx1BkbXN8AC+IGlcF92B4ZO
- LJ3V7fNsB2C+0STltDn+uqoCDdmmf2A30Xp9edg6728TEx9DzMUZrEGYiDxmXKJ1u5Jh
- 9dh6VFgK/ibb6xq2z/ssbUHUwL6JnQEduFyz+T5PBVxUpnFFOsufXacKsxnMSRFOIRuZ
- iAP/rsmyiN2ztI5jf1b2kP2MCtMQ7ZMwNYj83Oa26OlGa/LOUoqyC6SJRd8sL3SIneba
- zbYw==
-X-Gm-Message-State: AOAM533vERgkFogbGi41l5pTfv4YFhLNcfgcS+cJfi4NRj/DZdpIaJRk
- EZGoVrd0aSYvIKM2JgWDS/MH0SHU/9obYtm9b1Q=
-X-Google-Smtp-Source: ABdhPJyqxV1ouPcVCCqvimMHLIoYJqGBXrxpF+udZDiUtYj/Xs7kCt/u/5BQEvKlmZA4X31sV0/ItEVk1wbgovomWwA=
-X-Received: by 2002:a05:6830:14cd:: with SMTP id
- t13mr162668otq.23.1625148658790; 
- Thu, 01 Jul 2021 07:10:58 -0700 (PDT)
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D381F6EB25;
+ Thu,  1 Jul 2021 14:24:20 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10032"; a="208582266"
+X-IronPort-AV: E=Sophos;i="5.83,314,1616482800"; d="scan'208";a="208582266"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Jul 2021 07:24:18 -0700
+X-IronPort-AV: E=Sophos;i="5.83,314,1616482800"; d="scan'208";a="408948919"
+Received: from awvttdev-05.aw.intel.com ([10.228.212.156])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Jul 2021 07:24:17 -0700
+From: "Michael J. Ruhl" <michael.j.ruhl@intel.com>
+To: michael.j.ruhl@intel.com, daniel@ffwll.ch,
+ thomas.hellstrom@linux.intel.com, ckoenig.leichtzumerken@gmail.com,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ matthew.auld@intel.com, maarten.lankhorst@linux.intel.com
+Subject: [PATCH 1/2] drm/i915/gem: Correct the locking and pin pattern for
+ dma-buf
+Date: Thu,  1 Jul 2021 10:24:06 -0400
+Message-Id: <20210701142407.458836-1-michael.j.ruhl@intel.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-References: <nycvar.YFH.7.76.2106241135440.18969@cbobk.fhfr.pm>
- <YNRnDTD1fdpZOXB8@suse.com>
- <nycvar.YFH.7.76.2106241310000.18969@cbobk.fhfr.pm>
- <nycvar.YFH.7.76.2107011032520.18969@cbobk.fhfr.pm>
-In-Reply-To: <nycvar.YFH.7.76.2107011032520.18969@cbobk.fhfr.pm>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 1 Jul 2021 10:10:47 -0400
-Message-ID: <CADnq5_PCZGH=CB5+7kDcpX-7X-uxzB-OeGPavJ3=3tnpyeU54w@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/amdgpu: Avoid printing of stack contents on
- firmware load error
-To: Jiri Kosina <jikos@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,104 +46,300 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Vojtech Pavlik <vojtech@ucw.cz>,
- LKML <linux-kernel@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
+From: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 
-Alex
+If our exported dma-bufs are imported by another instance of our driver,
+that instance will typically have the imported dma-bufs locked during
+dma_buf_map_attachment(). But the exporter also locks the same reservation
+object in the map_dma_buf() callback, which leads to recursive locking.
 
-On Thu, Jul 1, 2021 at 4:33 AM Jiri Kosina <jikos@kernel.org> wrote:
->
-> On Thu, 24 Jun 2021, Jiri Kosina wrote:
->
-> > From: Jiri Kosina <jkosina@suse.cz>
-> >
-> > In case when psp_init_asd_microcode() fails to load ASD microcode file,
-> > psp_v12_0_init_microcode() tries to print the firmware filename that
-> > failed to load before bailing out.
-> >
-> > This is wrong because:
-> >
-> > - the firmware filename it would want it print is an incorrect one as
-> >   psp_init_asd_microcode() and psp_v12_0_init_microcode() are loading
-> >   different filenames
-> > - it tries to print fw_name, but that's not yet been initialized by that
-> >   time, so it prints random stack contents, e.g.
-> >
-> >     amdgpu 0000:04:00.0: Direct firmware load for amdgpu/renoir_asd.bin failed with error -2
-> >     amdgpu 0000:04:00.0: amdgpu: fail to initialize asd microcode
-> >     amdgpu 0000:04:00.0: amdgpu: psp v12.0: Failed to load firmware "\xfeTO\x8e\xff\xff"
-> >
-> > Fix that by bailing out immediately, instead of priting the bogus error
-> > message.
->
-> Friendly ping on this one too; priting a few bytes of stack is not a
-> *huge* info leak, but I believe it should be fixed nevertheless.
->
-> Thanks.
->
-> >
-> > Reported-by: Vojtech Pavlik <vojtech@ucw.cz>
-> > Signed-off-by: Jiri Kosina <jkosina@suse.cz>
->
->
-> > ---
-> >
-> > v1 -> v2: remove now-unused label
-> >
-> >  drivers/gpu/drm/amd/amdgpu/psp_v12_0.c | 7 +++----
-> >  1 file changed, 3 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/amd/amdgpu/psp_v12_0.c b/drivers/gpu/drm/amd/amdgpu/psp_v12_0.c
-> > index c4828bd3264b..b0ee77ee80b9 100644
-> > --- a/drivers/gpu/drm/amd/amdgpu/psp_v12_0.c
-> > +++ b/drivers/gpu/drm/amd/amdgpu/psp_v12_0.c
-> > @@ -67,7 +67,7 @@ static int psp_v12_0_init_microcode(struct psp_context *psp)
-> >
-> >       err = psp_init_asd_microcode(psp, chip_name);
-> >       if (err)
-> > -             goto out;
-> > +             return err;
-> >
-> >       snprintf(fw_name, sizeof(fw_name), "amdgpu/%s_ta.bin", chip_name);
-> >       err = request_firmware(&adev->psp.ta_fw, fw_name, adev->dev);
-> > @@ -80,7 +80,7 @@ static int psp_v12_0_init_microcode(struct psp_context *psp)
-> >       } else {
-> >               err = amdgpu_ucode_validate(adev->psp.ta_fw);
-> >               if (err)
-> > -                     goto out2;
-> > +                     goto out;
-> >
-> >               ta_hdr = (const struct ta_firmware_header_v1_0 *)
-> >                                adev->psp.ta_fw->data;
-> > @@ -105,10 +105,9 @@ static int psp_v12_0_init_microcode(struct psp_context *psp)
-> >
-> >       return 0;
-> >
-> > -out2:
-> > +out:
-> >       release_firmware(adev->psp.ta_fw);
-> >       adev->psp.ta_fw = NULL;
-> > -out:
-> >       if (err) {
-> >               dev_err(adev->dev,
-> >                       "psp v12.0: Failed to load firmware \"%s\"\n",
-> > --
-> > 2.12.3
-> >
->
-> --
-> Jiri Kosina
-> SUSE Labs
->
-> _______________________________________________
-> amd-gfx mailing list
-> amd-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
+So taking the lock inside _pin_pages_unlocked() is incorrect.
+
+Additionally, the current pinning code path is contrary to the defined
+way that pinning should occur.
+
+Remove the explicit pin/unpin from the map/umap functions and move them
+to the attach/detach allowing correct locking to occur, and to match
+the static dma-buf drm_prime pattern.
+
+Add a live selftest to exercise both dynamic and non-dynamic
+exports.
+
+v2:
+- Extend the selftest with a fake dynamic importer.
+- Provide real pin and unpin callbacks to not abuse the interface.
+v3: (ruhl)
+- Remove the dynamic export support and move the pinning into the
+  attach/detach path.
+
+Reported-by: Michael J. Ruhl <michael.j.ruhl@intel.com>
+Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Signed-off-by: Michael J. Ruhl <michael.j.ruhl@intel.com>
+---
+ drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c    |  46 ++++++--
+ .../drm/i915/gem/selftests/i915_gem_dmabuf.c  | 111 +++++++++++++++++-
+ 2 files changed, 143 insertions(+), 14 deletions(-)
+
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
+index 616c3a2f1baf..00338c8d3739 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
+@@ -12,6 +12,8 @@
+ #include "i915_gem_object.h"
+ #include "i915_scatterlist.h"
+ 
++I915_SELFTEST_DECLARE(static bool force_different_devices;)
++
+ static struct drm_i915_gem_object *dma_buf_to_obj(struct dma_buf *buf)
+ {
+ 	return to_intel_bo(buf->priv);
+@@ -25,15 +27,11 @@ static struct sg_table *i915_gem_map_dma_buf(struct dma_buf_attachment *attachme
+ 	struct scatterlist *src, *dst;
+ 	int ret, i;
+ 
+-	ret = i915_gem_object_pin_pages_unlocked(obj);
+-	if (ret)
+-		goto err;
+-
+ 	/* Copy sg so that we make an independent mapping */
+ 	st = kmalloc(sizeof(struct sg_table), GFP_KERNEL);
+ 	if (st == NULL) {
+ 		ret = -ENOMEM;
+-		goto err_unpin_pages;
++		goto err;
+ 	}
+ 
+ 	ret = sg_alloc_table(st, obj->mm.pages->nents, GFP_KERNEL);
+@@ -58,8 +56,6 @@ static struct sg_table *i915_gem_map_dma_buf(struct dma_buf_attachment *attachme
+ 	sg_free_table(st);
+ err_free:
+ 	kfree(st);
+-err_unpin_pages:
+-	i915_gem_object_unpin_pages(obj);
+ err:
+ 	return ERR_PTR(ret);
+ }
+@@ -68,13 +64,9 @@ static void i915_gem_unmap_dma_buf(struct dma_buf_attachment *attachment,
+ 				   struct sg_table *sg,
+ 				   enum dma_data_direction dir)
+ {
+-	struct drm_i915_gem_object *obj = dma_buf_to_obj(attachment->dmabuf);
+-
+ 	dma_unmap_sgtable(attachment->dev, sg, dir, DMA_ATTR_SKIP_CPU_SYNC);
+ 	sg_free_table(sg);
+ 	kfree(sg);
+-
+-	i915_gem_object_unpin_pages(obj);
+ }
+ 
+ static int i915_gem_dmabuf_vmap(struct dma_buf *dma_buf, struct dma_buf_map *map)
+@@ -168,7 +160,32 @@ static int i915_gem_end_cpu_access(struct dma_buf *dma_buf, enum dma_data_direct
+ 	return err;
+ }
+ 
++/**
++ * i915_gem_dmabuf_attach - Do any extra attach work necessary
++ * @dmabuf: imported dma-buf
++ * @attach: new attach to do work on
++ *
++ */
++static int i915_gem_dmabuf_attach(struct dma_buf *dmabuf,
++				  struct dma_buf_attachment *attach)
++{
++	struct drm_i915_gem_object *obj = dma_buf_to_obj(dmabuf);
++
++	assert_object_held(obj);
++	return i915_gem_object_pin_pages(obj);
++}
++
++static void i915_gem_dmabuf_detach(struct dma_buf *dmabuf,
++				  struct dma_buf_attachment *attach)
++{
++	struct drm_i915_gem_object *obj = dma_buf_to_obj(dmabuf);
++
++	i915_gem_object_unpin_pages(obj);
++}
++
+ static const struct dma_buf_ops i915_dmabuf_ops =  {
++	.attach = i915_gem_dmabuf_attach,
++	.detach = i915_gem_dmabuf_detach,
+ 	.map_dma_buf = i915_gem_map_dma_buf,
+ 	.unmap_dma_buf = i915_gem_unmap_dma_buf,
+ 	.release = drm_gem_dmabuf_release,
+@@ -204,6 +221,8 @@ static int i915_gem_object_get_pages_dmabuf(struct drm_i915_gem_object *obj)
+ 	struct sg_table *pages;
+ 	unsigned int sg_page_sizes;
+ 
++	assert_object_held(obj);
++
+ 	pages = dma_buf_map_attachment(obj->base.import_attach,
+ 				       DMA_BIDIRECTIONAL);
+ 	if (IS_ERR(pages))
+@@ -219,6 +238,8 @@ static int i915_gem_object_get_pages_dmabuf(struct drm_i915_gem_object *obj)
+ static void i915_gem_object_put_pages_dmabuf(struct drm_i915_gem_object *obj,
+ 					     struct sg_table *pages)
+ {
++	assert_object_held(obj);
++
+ 	dma_buf_unmap_attachment(obj->base.import_attach, pages,
+ 				 DMA_BIDIRECTIONAL);
+ }
+@@ -241,7 +262,8 @@ struct drm_gem_object *i915_gem_prime_import(struct drm_device *dev,
+ 	if (dma_buf->ops == &i915_dmabuf_ops) {
+ 		obj = dma_buf_to_obj(dma_buf);
+ 		/* is it from our device? */
+-		if (obj->base.dev == dev) {
++		if (obj->base.dev == dev &&
++		    !I915_SELFTEST_ONLY(force_differnt_devices)) {
+ 			/*
+ 			 * Importing dmabuf exported from out own gem increases
+ 			 * refcount on gem itself instead of f_count of dmabuf.
+diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c
+index dd74bc09ec88..10a113cc00a5 100644
+--- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c
++++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c
+@@ -35,7 +35,7 @@ static int igt_dmabuf_export(void *arg)
+ static int igt_dmabuf_import_self(void *arg)
+ {
+ 	struct drm_i915_private *i915 = arg;
+-	struct drm_i915_gem_object *obj;
++	struct drm_i915_gem_object *obj, *import_obj;
+ 	struct drm_gem_object *import;
+ 	struct dma_buf *dmabuf;
+ 	int err;
+@@ -65,14 +65,120 @@ static int igt_dmabuf_import_self(void *arg)
+ 		err = -EINVAL;
+ 		goto out_import;
+ 	}
++	import_obj = to_intel_bo(import);
++
++	i915_gem_object_lock(import_obj, NULL);
++	err = ____i915_gem_object_get_pages(import_obj);
++	i915_gem_object_unlock(import_obj);
++	if (err) {
++		pr_err("Same object dma-buf get_pages failed!\n");
++		goto out_import;
++	}
+ 
+ 	err = 0;
+ out_import:
+-	i915_gem_object_put(to_intel_bo(import));
++	i915_gem_object_put(import_obj);
++out_dmabuf:
++	dma_buf_put(dmabuf);
++out:
++	i915_gem_object_put(obj);
++	return err;
++}
++
++static const struct dma_buf_attach_ops igt_dmabuf_attach_ops = {
++	.move_notify = igt_dmabuf_move_notify,
++};
++
++static int igt_dmabuf_import_same_driver(void *arg)
++{
++	struct drm_i915_private *i915 = arg;
++	struct drm_i915_gem_object *obj, *import_obj;
++	struct drm_gem_object *import;
++	struct dma_buf *dmabuf;
++	struct dma_buf_attachment *import_attach;
++	struct sg_table *st;
++	long timeout;
++	int err;
++
++	force_different_devices = true;
++	obj = i915_gem_object_create_shmem(i915, PAGE_SIZE);
++	if (IS_ERR(obj))
++		goto out_ret;
++
++	dmabuf = i915_gem_prime_export(&obj->base, 0);
++	if (IS_ERR(dmabuf)) {
++		pr_err("i915_gem_prime_export failed with err=%d\n",
++		       (int)PTR_ERR(dmabuf));
++		err = PTR_ERR(dmabuf);
++		goto out;
++	}
++
++	import = i915_gem_prime_import(&i915->drm, dmabuf);
++	if (IS_ERR(import)) {
++		pr_err("i915_gem_prime_import failed with err=%d\n",
++		       (int)PTR_ERR(import));
++		err = PTR_ERR(import);
++		goto out_dmabuf;
++	}
++
++	if (import == &obj->base) {
++		pr_err("i915_gem_prime_import reused gem object!\n");
++		err = -EINVAL;
++		goto out_import;
++	}
++
++	import_obj = to_intel_bo(import);
++
++	i915_gem_object_lock(import_obj, NULL);
++	err = ____i915_gem_object_get_pages(import_obj);
++	if (err) {
++		pr_err("Different objects dma-buf get_pages failed!\n");
++		i915_gem_object_unlock(import_obj);
++		goto out_import;
++	}
++
++	/*
++	 * If the exported object is not in system memory, something
++	 * weird is going on. TODO: When p2p is supported, this is no
++	 * longer considered weird.
++	 */
++	if (obj->mm.region != i915->mm.regions[INTEL_REGION_SMEM]) {
++		pr_err("Exported dma-buf is not in system memory\n");
++		err = -EINVAL;
++	}
++
++	i915_gem_object_unlock(import_obj);
++
++	/* Now try a fake dynamic importer */
++	import_attach = dma_buf_dynamic_attach(dmabuf, obj->base.dev->dev,
++					       &igt_dmabuf_attach_ops,
++					       NULL);
++	if (IS_ERR(import_attach))
++		goto out_import;
++
++	dma_resv_lock(dmabuf->resv, NULL);
++	st = dma_buf_map_attachment(import_attach, DMA_BIDIRECTIONAL);
++	dma_resv_unlock(dmabuf->resv);
++	if (IS_ERR(st))
++		goto out_detach;
++
++	timeout = dma_resv_wait_timeout(dmabuf->resv, false, true, 5 * HZ);
++	if (!timeout) {
++		pr_err("dmabuf wait for exclusive fence timed out.\n");
++		timeout = -ETIME;
++	}
++	err = timeout > 0 ? 0 : timeout;
++	dma_buf_unmap_attachment(import_attach, st, DMA_BIDIRECTIONAL);
++out_detach:
++	dma_buf_detach(dmabuf, import_attach);
++out_import:
++	i915_gem_object_put(import_obj);
+ out_dmabuf:
+ 	dma_buf_put(dmabuf);
+ out:
+ 	i915_gem_object_put(obj);
++out_ret:
++	force_different_devices = false;
+ 	return err;
+ }
+ 
+@@ -286,6 +392,7 @@ int i915_gem_dmabuf_live_selftests(struct drm_i915_private *i915)
+ {
+ 	static const struct i915_subtest tests[] = {
+ 		SUBTEST(igt_dmabuf_export),
++		SUBTEST(igt_dmabuf_import_same_driver),
+ 	};
+ 
+ 	return i915_subtests(tests, i915);
+-- 
+2.31.1
+
