@@ -2,57 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5393D3B94F0
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Jul 2021 18:54:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 315573B94F3
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Jul 2021 18:54:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 796366EB5D;
-	Thu,  1 Jul 2021 16:54:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 68B286EB5E;
+	Thu,  1 Jul 2021 16:54:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com
- [IPv6:2607:f8b0:4864:20::429])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD4A96EB5D;
- Thu,  1 Jul 2021 16:54:47 +0000 (UTC)
-Received: by mail-pf1-x429.google.com with SMTP id 17so6200117pfz.4;
- Thu, 01 Jul 2021 09:54:47 -0700 (PDT)
+Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com
+ [IPv6:2607:f8b0:4864:20::430])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E341A6EB5E;
+ Thu,  1 Jul 2021 16:54:53 +0000 (UTC)
+Received: by mail-pf1-x430.google.com with SMTP id j24so6398408pfi.12;
+ Thu, 01 Jul 2021 09:54:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=CtdxbqSeV/2csKmNSvUS45gYT6/rPtvycxiemXQFqoE=;
- b=beHRMuc24lHXasbRdKRDNS6aTDyIugj8sUzTKr2eEW+qWKPqqi3KWacrdE0QS/QoG0
- uqEXXfqmxcMCBnDnffQC2FkpcxwXIBBxibZQOYhnOXncI5/Rc8FXjLz9l9PwPHH2iQ9l
- LpMhtimOJpvhODJbfnhRoicACZnkaF+y+9BK4kO+14Bw6WmZeVFmLLmN+Z4WSD3/lFeb
- 16dqF7RxxdReZLPDhBWlAv5HQ3fkbsAQFuSg0tkOtJdXM4o3zBziNk26dE+v85gBV8Au
- Zdcv2R70XOt4pjLJ1VPEnBoU9MiG6BEzgDGxUC5P08t80hhiPqsuC1bDTyckyEblS3Yd
- g5aA==
+ bh=a/frhO6FmtYyjDjb4pEipIaBwOJXfhDMByIQ78NnCHs=;
+ b=TCW+FmOiZG+i+Z/ZlOr4Z4hcJh9xukuhv0/R3u0l56bjD/mt47x8ru3BiFnaysVube
+ BOUcvz1JQgMxOHNt0IWw3jlnPvMxWXA1DfutI6KdoBQhgOpDF3ctqkcr+4i+xDB4xu5b
+ yYgdSENSWRrO1Auokd1gD8y1w94GkqMSBdWRsTXZuJqY3x9dtRRLYuZ5nCZBiN2LiT/w
+ 9Rfo9A9aw1K0zLKHVq5WupUS16wTSTwPpmesf8COEpqYZULJvGvTyrK1CnWv/V+OaPvC
+ mWaDw6zsuAuTEjutPfyaN3GDLdFd/GuWlGJ1zdqrLedQT3+rppzgkjbzWV+C+xPnWSL+
+ xZ/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=CtdxbqSeV/2csKmNSvUS45gYT6/rPtvycxiemXQFqoE=;
- b=O/z8tDdoze7aol+6FV8nyemG2FJBsv2UTe6zrVpdpaP3J/g9vuYmrTu8L9E3Xbg5p0
- Hg1HmDLp8Ay6QtkIJLzYdHMGY7a5mgBPZ/OtCWcAPsmo17Kv6dWHlGrnYoMGPHaKkFGk
- SIXHaN/oOubMkWEV67PMX//KDBILvmFnEW+jfHGeJRf1NPDNZpBuvPkl9HsbfBG/fvt6
- gdZMB2gGviSAwIimMaL+W50MdbShULHWcchp0wwOkss0THLxUg3GoNaU5KZBfL6jPd3+
- iXRAZXXK1Fn2EWtyHUoxucvoSXAW5f6uECOZ4TSXc482hl84lwoABxJJ5eguLh12o9rn
- qI+g==
-X-Gm-Message-State: AOAM5309z0NgxKS7/6on2l20C+KavB3edPCMnFFuIq/5zIpNT52+IUHw
- Uf45ZnrlzmenSrfTTmnUI30=
-X-Google-Smtp-Source: ABdhPJzMfvlwjsGsSNrV3D8bUwQtMWd3aUbOVXuVu70zAOCZMlf8NcIq+j9ejdz5XIkAecpW/kVAOA==
-X-Received: by 2002:a05:6a00:2162:b029:308:9346:2f55 with SMTP id
- r2-20020a056a002162b029030893462f55mr624241pff.49.1625158487473; 
- Thu, 01 Jul 2021 09:54:47 -0700 (PDT)
+ bh=a/frhO6FmtYyjDjb4pEipIaBwOJXfhDMByIQ78NnCHs=;
+ b=LKv880jHGyluvawQY4y6u1zMON0/YnYW4cH9MonVPpQHUePVTlNkk9tNgKGYBsMQnF
+ ea+DH/LikxpvTZmYTbOzoww8mlWV6YiAxjhLflv1tF2oAY7E0dk+T0qqSwik7bdU3nlJ
+ wbYgxW7jTq8wj61sUNyz8wv3QBS/jN8ahdKtXiTI1dLG4z5E5lVtnQgzgW0zEkamr2S/
+ FCUdd05ScqQYvTwXbY+XbDywumCIJBE0DnUcFfuLVhVvhZjjk2bbBSkpx7Ik7L8AT1VH
+ hARNc7qpQw81FuI+6on4lYKd8llVCmiaLw0WohJvD1tCAfh9emxmgFnp6Iu23D0HgNrU
+ A8xA==
+X-Gm-Message-State: AOAM5308SXZQddAlQZ0RfXPOmhiJFqX1SXJfgCJcEy0PuhQjV3f81X4i
+ saQPhTuY6g6qeNxzoX/TepI=
+X-Google-Smtp-Source: ABdhPJwE3OxMy8uOFmjcS/bajY7yrTC64aL5hOZ8sTBWSSVzlSL/vKTNf2leR7iswBH2WOcYCpq88g==
+X-Received: by 2002:a63:65c5:: with SMTP id z188mr555583pgb.174.1625158493587; 
+ Thu, 01 Jul 2021 09:54:53 -0700 (PDT)
 Received: from localhost.localdomain ([118.200.190.93])
- by smtp.gmail.com with ESMTPSA id s20sm398738pgv.1.2021.07.01.09.54.42
+ by smtp.gmail.com with ESMTPSA id s20sm398738pgv.1.2021.07.01.09.54.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 01 Jul 2021 09:54:47 -0700 (PDT)
+ Thu, 01 Jul 2021 09:54:53 -0700 (PDT)
 From: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
 To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
  airlied@linux.ie, daniel@ffwll.ch, sumit.semwal@linaro.org,
  christian.koenig@amd.com
-Subject: [PATCH v7 3/5] drm: add a locked version of drm_is_current_master
-Date: Fri,  2 Jul 2021 00:53:56 +0800
-Message-Id: <20210701165358.19053-4-desmondcheongzx@gmail.com>
+Subject: [PATCH v7 4/5] drm: serialize drm_file.master with a master lock
+Date: Fri,  2 Jul 2021 00:53:57 +0800
+Message-Id: <20210701165358.19053-5-desmondcheongzx@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210701165358.19053-1-desmondcheongzx@gmail.com>
 References: <20210701165358.19053-1-desmondcheongzx@gmail.com>
@@ -79,116 +78,125 @@ Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, gregkh@linuxfoundation.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-While checking the master status of the DRM file in
-drm_is_current_master(), the device's master mutex should be
-held. Without the mutex, the pointer fpriv->master may be freed
-concurrently by another process calling drm_setmaster_ioctl(). This
-could lead to use-after-free errors when the pointer is subsequently
-dereferenced in drm_lease_owner().
+Currently, drm_file.master pointers should be protected by
+drm_device.master_mutex when being dereferenced. This is because
+drm_file.master is not invariant for the lifetime of drm_file. If
+drm_file is not the creator of master, then drm_file.is_master is
+false, and a call to drm_setmaster_ioctl will invoke
+drm_new_set_master, which then allocates a new master for drm_file and
+puts the old master.
 
-The callers of drm_is_current_master() from drm_auth.c hold the
-device's master mutex, but external callers do not. Hence, we implement
-drm_is_current_master_locked() to be used within drm_auth.c, and
-modify drm_is_current_master() to grab the device's master mutex
-before checking the master status.
+Thus, without holding drm_device.master_mutex, the old value of
+drm_file.master could be freed while it is being used by another
+concurrent process.
+
+However, it is not always possible to lock drm_device.master_mutex to
+dereference drm_file.master. Through the fbdev emulation code, this
+might occur in a deep nest of other locks. But drm_device.master_mutex
+is also the outermost lock in the nesting hierarchy, so this leads to
+potential deadlocks.
+
+To address this, we introduce a new mutex at the bottom of the lock
+hierarchy that only serializes drm_file.master. With this change, the
+value of drm_file.master changes only when both
+drm_device.master_mutex and drm_file.master_lock are held. Hence, any
+process holding either of those locks can ensure that the value of
+drm_file.master will not change concurrently.
+
+Since no lock depends on the new drm_file.master_lock, when
+drm_file.master is dereferenced, but drm_device.master_mutex cannot be
+held, we can safely protect the master pointer with
+drm_file.master_lock.
 
 Reported-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
-Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
 ---
- drivers/gpu/drm/drm_auth.c | 51 ++++++++++++++++++++++++--------------
- 1 file changed, 32 insertions(+), 19 deletions(-)
+
+Since our lock inversions were a result of dev->master_mutex being
+used to serialize many other things, perhaps a finer grained lock will
+solve the lockdep issues.
+
+ drivers/gpu/drm/drm_auth.c | 10 ++++++++--
+ drivers/gpu/drm/drm_file.c |  1 +
+ include/drm/drm_file.h     | 12 +++++++++---
+ 3 files changed, 18 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_auth.c b/drivers/gpu/drm/drm_auth.c
-index f00e5abdbbf4..ab1863c5a5a0 100644
+index ab1863c5a5a0..fe5b6adc6133 100644
 --- a/drivers/gpu/drm/drm_auth.c
 +++ b/drivers/gpu/drm/drm_auth.c
-@@ -61,6 +61,35 @@
-  * trusted clients.
-  */
+@@ -169,11 +169,14 @@ static int drm_new_set_master(struct drm_device *dev, struct drm_file *fpriv)
  
-+static bool drm_is_current_master_locked(struct drm_file *fpriv)
-+{
-+	lockdep_assert_held_once(&fpriv->minor->dev->master_mutex);
-+
-+	return fpriv->is_master && drm_lease_owner(fpriv->master) == fpriv->minor->dev->master;
-+}
-+
-+/**
-+ * drm_is_current_master - checks whether @priv is the current master
-+ * @fpriv: DRM file private
-+ *
-+ * Checks whether @fpriv is current master on its device. This decides whether a
-+ * client is allowed to run DRM_MASTER IOCTLs.
-+ *
-+ * Most of the modern IOCTL which require DRM_MASTER are for kernel modesetting
-+ * - the current master is assumed to own the non-shareable display hardware.
-+ */
-+bool drm_is_current_master(struct drm_file *fpriv)
-+{
-+	bool ret;
-+
-+	mutex_lock(&fpriv->minor->dev->master_mutex);
-+	ret = drm_is_current_master_locked(fpriv);
-+	mutex_unlock(&fpriv->minor->dev->master_mutex);
-+
-+	return ret;
-+}
-+EXPORT_SYMBOL(drm_is_current_master);
-+
- int drm_getmagic(struct drm_device *dev, void *data, struct drm_file *file_priv)
- {
- 	struct drm_auth *auth = data;
-@@ -223,7 +252,7 @@ int drm_setmaster_ioctl(struct drm_device *dev, void *data,
- 	if (ret)
- 		goto out_unlock;
- 
--	if (drm_is_current_master(file_priv))
-+	if (drm_is_current_master_locked(file_priv))
- 		goto out_unlock;
- 
- 	if (dev->master) {
-@@ -272,7 +301,7 @@ int drm_dropmaster_ioctl(struct drm_device *dev, void *data,
- 	if (ret)
- 		goto out_unlock;
- 
--	if (!drm_is_current_master(file_priv)) {
-+	if (!drm_is_current_master_locked(file_priv)) {
- 		ret = -EINVAL;
- 		goto out_unlock;
+ 	WARN_ON(fpriv->is_master);
+ 	old_master = fpriv->master;
++	mutex_lock(&fpriv->master_lock);
+ 	fpriv->master = drm_master_create(dev);
+ 	if (!fpriv->master) {
+ 		fpriv->master = old_master;
++		mutex_unlock(&fpriv->master_lock);
+ 		return -ENOMEM;
  	}
-@@ -321,7 +350,7 @@ void drm_master_release(struct drm_file *file_priv)
- 	if (file_priv->magic)
- 		idr_remove(&file_priv->master->magic_map, file_priv->magic);
++	mutex_unlock(&fpriv->master_lock);
  
--	if (!drm_is_current_master(file_priv))
-+	if (!drm_is_current_master_locked(file_priv))
- 		goto out;
- 
- 	drm_legacy_lock_master_cleanup(dev, master);
-@@ -342,22 +371,6 @@ void drm_master_release(struct drm_file *file_priv)
+ 	fpriv->is_master = 1;
+ 	fpriv->authenticated = 1;
+@@ -332,10 +335,13 @@ int drm_master_open(struct drm_file *file_priv)
+ 	 * any master object for render clients
+ 	 */
+ 	mutex_lock(&dev->master_mutex);
+-	if (!dev->master)
++	if (!dev->master) {
+ 		ret = drm_new_set_master(dev, file_priv);
+-	else
++	} else {
++		mutex_lock(&file_priv->master_lock);
+ 		file_priv->master = drm_master_get(dev->master);
++		mutex_unlock(&file_priv->master_lock);
++	}
  	mutex_unlock(&dev->master_mutex);
- }
  
--/**
-- * drm_is_current_master - checks whether @priv is the current master
-- * @fpriv: DRM file private
-- *
-- * Checks whether @fpriv is current master on its device. This decides whether a
-- * client is allowed to run DRM_MASTER IOCTLs.
-- *
-- * Most of the modern IOCTL which require DRM_MASTER are for kernel modesetting
-- * - the current master is assumed to own the non-shareable display hardware.
-- */
--bool drm_is_current_master(struct drm_file *fpriv)
--{
--	return fpriv->is_master && drm_lease_owner(fpriv->master) == fpriv->minor->dev->master;
--}
--EXPORT_SYMBOL(drm_is_current_master);
--
- /**
-  * drm_master_get - reference a master pointer
-  * @master: &struct drm_master
+ 	return ret;
+diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
+index d4f0bac6f8f8..8ccadfa1c752 100644
+--- a/drivers/gpu/drm/drm_file.c
++++ b/drivers/gpu/drm/drm_file.c
+@@ -176,6 +176,7 @@ struct drm_file *drm_file_alloc(struct drm_minor *minor)
+ 	init_waitqueue_head(&file->event_wait);
+ 	file->event_space = 4096; /* set aside 4k for event buffer */
+ 
++	mutex_init(&file->master_lock);
+ 	mutex_init(&file->event_read_lock);
+ 
+ 	if (drm_core_check_feature(dev, DRIVER_GEM))
+diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
+index b81b3bfb08c8..88539f93fc8e 100644
+--- a/include/drm/drm_file.h
++++ b/include/drm/drm_file.h
+@@ -226,15 +226,21 @@ struct drm_file {
+ 	/**
+ 	 * @master:
+ 	 *
+-	 * Master this node is currently associated with. Only relevant if
+-	 * drm_is_primary_client() returns true. Note that this only
+-	 * matches &drm_device.master if the master is the currently active one.
++	 * Master this node is currently associated with. Protected by struct
++	 * &drm_device.master_mutex, and serialized by @master_lock.
++	 *
++	 * Only relevant if drm_is_primary_client() returns true. Note that
++	 * this only matches &drm_device.master if the master is the currently
++	 * active one.
+ 	 *
+ 	 * See also @authentication and @is_master and the :ref:`section on
+ 	 * primary nodes and authentication <drm_primary_node>`.
+ 	 */
+ 	struct drm_master *master;
+ 
++	/** @master_lock: Serializes @master. */
++	struct mutex master_lock;
++
+ 	/** @pid: Process that opened this file. */
+ 	struct pid *pid;
+ 
 -- 
 2.25.1
 
