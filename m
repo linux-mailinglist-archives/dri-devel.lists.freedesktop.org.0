@@ -2,60 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DE6D3B983F
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Jul 2021 23:38:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B91153B9840
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Jul 2021 23:41:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 13DCE6EC0C;
-	Thu,  1 Jul 2021 21:38:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B543C6EC57;
+	Thu,  1 Jul 2021 21:41:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com
- [IPv6:2a00:1450:4864:20::231])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D70F06EC0C
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Jul 2021 21:38:22 +0000 (UTC)
-Received: by mail-lj1-x231.google.com with SMTP id w11so10560229ljh.0
- for <dri-devel@lists.freedesktop.org>; Thu, 01 Jul 2021 14:38:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=QiNn8WEhtCBIq1rsfM6PoISeVVaGraw5Z7kWHh+wx5o=;
- b=JqmwLN2M2erNRkHR+GXtJfvqyKLZCwbSMepixBsR2CIDgF8LoS6jgUdesNvivpmlmq
- HkhlQCEarlKUijpESJEUmIvl0MYHstzrIDlJ63kIb230fuohVlE//5H2osICvaNprZTA
- D0XC/c9ako4ddjeCiyqk3BJ88SY529kbayITCcbhDIC/BQBLjWznrtF+5XIIRpfC150n
- fSvl75+pomMtvRMAsk5y1dYmKYb9UDGpNBptVkYCBigxqWkrejI7kZFWBtgwwm8IgBq3
- wE5x8dKGaO8R4S6sPbVTj6s/D4vS4CIbjMOphhpLq3UjPJ6Xypem7H08cGz3SxCfLSjf
- 4ArA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=QiNn8WEhtCBIq1rsfM6PoISeVVaGraw5Z7kWHh+wx5o=;
- b=EJbaSpJjaKwJJC1qLfAkpN0LpqX3RZe2H53RAK5jGO8aFCq0/3nfAN7qTmLePxcbJj
- zK0DXgRWGB79n/JVEfhk50zPgHS4ZaCeJLifv7knE8WN5cWKS49eKvK4hiMkewCjBLYF
- 1JMfxwSNYTj2OYGp3gVu3TpYgpmf5u4ki/wiJBkd5CedZEUskGAFt80F2sXvJsvQZU60
- rHPdcNiqDQP5xJDte2pSFin2T7Ml0poI9XRVZ1zeFfsY5ekEohAfTVFYyaAEMpXQRVVL
- VjyVgYTm1fIa5mmgvLuPBFvJP2TnXavlGGUClg6F7H+LYcjCHCo0+EutC15580gKf+Y5
- Gu1g==
-X-Gm-Message-State: AOAM530rhqMIKg2qYGr+w1qnK9Lf06WZphRic9fwUCgDTMwFJ4fqbie1
- yVHZ6WJCO2Si9cpFLdUxm2sarw==
-X-Google-Smtp-Source: ABdhPJxKSdwxg0SzbXr+B8xUxCSKmlJMTm1pbvTFWn5twYlTEE9rwrRIT9RFDou0o0sZwpudYNqmew==
-X-Received: by 2002:a2e:a276:: with SMTP id k22mr1148638ljm.465.1625175501296; 
- Thu, 01 Jul 2021 14:38:21 -0700 (PDT)
-Received: from localhost.localdomain
- (c-fdcc225c.014-348-6c756e10.bbcust.telenor.se. [92.34.204.253])
- by smtp.gmail.com with ESMTPSA id b5sm81131lfv.3.2021.07.01.14.38.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 01 Jul 2021 14:38:20 -0700 (PDT)
-From: Linus Walleij <linus.walleij@linaro.org>
-To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/panel: Fix up DT bindings for Samsung lms397kf04
-Date: Thu,  1 Jul 2021 23:36:18 +0200
-Message-Id: <20210701213618.3818821-1-linus.walleij@linaro.org>
-X-Mailer: git-send-email 2.31.1
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BCB546EC5E;
+ Thu,  1 Jul 2021 21:41:15 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10032"; a="208448733"
+X-IronPort-AV: E=Sophos;i="5.83,315,1616482800"; d="scan'208";a="208448733"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Jul 2021 14:41:15 -0700
+X-IronPort-AV: E=Sophos;i="5.83,315,1616482800"; d="scan'208";a="642239628"
+Received: from josefeth-mobl.amr.corp.intel.com (HELO intel.com)
+ ([10.212.93.40])
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Jul 2021 14:41:14 -0700
+Date: Thu, 1 Jul 2021 17:41:13 -0400
+From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: Matt Roper <matthew.d.roper@intel.com>
+Subject: Re: [PATCH 23/53] drm/i915/xehpsdv: Read correct RP_STATE_CAP register
+Message-ID: <YN42eTTe2f9SeYhU@intel.com>
+References: <20210701202427.1547543-1-matthew.d.roper@intel.com>
+ <20210701202427.1547543-24-matthew.d.roper@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210701202427.1547543-24-matthew.d.roper@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,83 +45,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>,
- Douglas Anderson <dianders@chromium.org>
+Cc: intel-gfx@lists.freedesktop.org, Lucas De Marchi <lucas.demarchi@intel.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Improve the bindings and make them more usable:
+On Thu, Jul 01, 2021 at 01:23:57PM -0700, Matt Roper wrote:
+> The RP_STATE_CAP register is no longer part of the MCHBAR on XEHPSDV; this
+> register is now a per-tile register at GTTMMADDR offset 0x250014.
+> 
+> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
+> Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
 
-- Pick in spi-cpha and spi-cpol from the SPI node parent,
-  this will specify that we are "type 3" in the device tree
-  rather than hardcoding it in the operating system.
-- Drop the u32 ref from the SPI frequency: comes in from
-  the SPI host bindings.
-- Make spi-cpha, spi-cpol and port compulsory.
-- Update the example with a real-world SPI controller,
-  spi-gpio.
+Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
 
-Cc: Douglas Anderson <dianders@chromium.org>
-Cc: Noralf Trønnes <noralf@tronnes.org>
-Cc: devicetree@vger.kernel.org
-Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
----
- .../display/panel/samsung,lms397kf04.yaml      | 18 ++++++++++++++++--
- 1 file changed, 16 insertions(+), 2 deletions(-)
-
-diff --git a/Documentation/devicetree/bindings/display/panel/samsung,lms397kf04.yaml b/Documentation/devicetree/bindings/display/panel/samsung,lms397kf04.yaml
-index 4cb75a5f2e3a..cd62968426fb 100644
---- a/Documentation/devicetree/bindings/display/panel/samsung,lms397kf04.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/samsung,lms397kf04.yaml
-@@ -33,8 +33,11 @@ properties:
- 
-   backlight: true
- 
-+  spi-cpha: true
-+
-+  spi-cpol: true
-+
-   spi-max-frequency:
--    $ref: /schemas/types.yaml#/definitions/uint32
-     description: inherited as a SPI client node, the datasheet specifies
-       maximum 300 ns minimum cycle which gives around 3 MHz max frequency
-     maximum: 3000000
-@@ -44,6 +47,9 @@ properties:
- required:
-   - compatible
-   - reg
-+  - spi-cpha
-+  - spi-cpol
-+  - port
- 
- additionalProperties: false
- 
-@@ -52,15 +58,23 @@ examples:
-     #include <dt-bindings/gpio/gpio.h>
- 
-     spi {
-+      compatible = "spi-gpio";
-+      sck-gpios = <&gpio 0 GPIO_ACTIVE_HIGH>;
-+      miso-gpios = <&gpio 1 GPIO_ACTIVE_HIGH>;
-+      mosi-gpios = <&gpio 2 GPIO_ACTIVE_HIGH>;
-+      cs-gpios = <&gpio 3 GPIO_ACTIVE_HIGH>;
-+      num-chipselects = <1>;
-       #address-cells = <1>;
-       #size-cells = <0>;
-       panel@0 {
-         compatible = "samsung,lms397kf04";
-         spi-max-frequency = <3000000>;
-+        spi-cpha;
-+        spi-cpol;
-         reg = <0>;
-         vci-supply = <&lcd_3v0_reg>;
-         vccio-supply = <&lcd_1v8_reg>;
--        reset-gpios = <&gpio 1 GPIO_ACTIVE_LOW>;
-+        reset-gpios = <&gpio 4 GPIO_ACTIVE_LOW>;
-         backlight = <&ktd259>;
- 
-         port {
--- 
-2.31.1
-
+> ---
+>  drivers/gpu/drm/i915/gt/intel_rps.c | 4 +++-
+>  drivers/gpu/drm/i915/i915_reg.h     | 1 +
+>  2 files changed, 4 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/intel_rps.c b/drivers/gpu/drm/i915/gt/intel_rps.c
+> index 490bc1513480..8e7b70248392 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_rps.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_rps.c
+> @@ -1937,7 +1937,9 @@ u32 intel_rps_read_state_cap(struct intel_rps *rps)
+>  	struct drm_i915_private *i915 = rps_to_i915(rps);
+>  	struct intel_uncore *uncore = rps_to_uncore(rps);
+>  
+> -	if (IS_GEN9_LP(i915))
+> +	if (IS_XEHPSDV(i915))
+> +		return intel_uncore_read(uncore, XEHPSDV_RP_STATE_CAP);
+> +	else if (IS_GEN9_LP(i915))
+>  		return intel_uncore_read(uncore, BXT_RP_STATE_CAP);
+>  	else
+>  		return intel_uncore_read(uncore, GEN6_RP_STATE_CAP);
+> diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
+> index 0231f42226db..2992e8585399 100644
+> --- a/drivers/gpu/drm/i915/i915_reg.h
+> +++ b/drivers/gpu/drm/i915/i915_reg.h
+> @@ -4110,6 +4110,7 @@ static inline bool i915_mmio_reg_valid(i915_reg_t reg)
+>  #define GEN6_RP_STATE_CAP	_MMIO(MCHBAR_MIRROR_BASE_SNB + 0x5998)
+>  #define BXT_RP_STATE_CAP        _MMIO(0x138170)
+>  #define GEN9_RP_STATE_LIMITS	_MMIO(0x138148)
+> +#define XEHPSDV_RP_STATE_CAP	_MMIO(0x250014)
+>  
+>  /*
+>   * Logical Context regs
+> -- 
+> 2.25.4
+> 
