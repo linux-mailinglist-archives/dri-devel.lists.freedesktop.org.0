@@ -2,53 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B55C63B9C05
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Jul 2021 07:28:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 797523B9C0A
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Jul 2021 07:45:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CDE2F89AB5;
-	Fri,  2 Jul 2021 05:28:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AAFE58987A;
+	Fri,  2 Jul 2021 05:45:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
- [IPv6:2a00:1450:4864:20::62a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F122089AB5
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Jul 2021 05:28:39 +0000 (UTC)
-Received: by mail-ej1-x62a.google.com with SMTP id gt10so12876999ejc.5
- for <dri-devel@lists.freedesktop.org>; Thu, 01 Jul 2021 22:28:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=OfQHxzo83zLbcvyp3l11o4o45GcwyCdrdu5e4fL5CV8=;
- b=K87Fquje6odx6fh0t3Z3kpYJhDV8J5NCT85XefSxglrv0QoqZRDZccoQ85zy0pzZNV
- B/wZbrJxXr5FYzU0dFXIs0JgAj0xZiaOt25NyemcKRzCsFOnQShj9vL/OlwbZ/dt+w9N
- jVlqV5ShfYZPYWz9A7/M10w2QVXQAPPXgPQoo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=OfQHxzo83zLbcvyp3l11o4o45GcwyCdrdu5e4fL5CV8=;
- b=BBHA79c6yijjSXMkdF/rfmsfC1N6pWryt7+RTISIErY+YZgrB90wNQXtxlu69cbUr1
- 3N7LtsfaoPSPJGihCsWB4/Sr6xmy3HDSktyBBoz/NOzQC1uMscnYFlGWIH/X9+Z1l3dS
- la5SizMOUvUrEVT1cPkONXZIAKki7vMelQ114t5AuZsnGFacJa7y7uRA1+wUM2zb4ueu
- T86gCezmxfxuQdFdAMUzS3Iyt3wqF9RMYF7vZKXly8NL8acyhzojmV7CJgNGSA+93s9d
- EY4chzTTNzXoOyPufqWwoE53DFJoF/Djp0l7qduCkiXqrHFDEi5F6qeAmweRV9ZvgWk2
- MpqA==
-X-Gm-Message-State: AOAM532fKbHC49IdHzpPerBPq8l5xrnr/h5znb0GhZrgeaJL5/54kLtR
- hRIWpdUH33NldaWBlwUqJJPP6Wx8q1LjgR9NEOdQMw==
-X-Google-Smtp-Source: ABdhPJxrQSQn3GKuokaclwYT7Jrsb5n9LGKVoAahBuBiqBm0o3+Ylpe4HxYzRq8EE3svqcIp7ocrjD9DUtCGbJpzYvw=
-X-Received: by 2002:a17:907:1c9b:: with SMTP id
- nb27mr3596069ejc.336.1625203718480; 
- Thu, 01 Jul 2021 22:28:38 -0700 (PDT)
+Received: from mx2.smtp.larsendata.com (mx2.smtp.larsendata.com
+ [91.221.196.228])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F75F8987A
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Jul 2021 05:45:12 +0000 (UTC)
+Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
+ by mx2.smtp.larsendata.com (Halon) with ESMTPS
+ id aad77b8e-daf8-11eb-8d1a-0050568cd888;
+ Fri, 02 Jul 2021 05:45:11 +0000 (UTC)
+Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
+ [80.162.45.141])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: sam@ravnborg.org)
+ by mail01.mxhotel.dk (Postfix) with ESMTPSA id D4AB9194B00;
+ Fri,  2 Jul 2021 07:45:14 +0200 (CEST)
+Date: Fri, 2 Jul 2021 07:45:08 +0200
+X-Report-Abuse-To: abuse@mxhotel.dk
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Linus Walleij <linus.walleij@linaro.org>
+Subject: Re: [PATCH] drm/dbi: Print errors for mipi_dbi_command()
+Message-ID: <YN6n5MzuwDNuJyW8@ravnborg.org>
+References: <20210701222518.3895552-1-linus.walleij@linaro.org>
 MIME-Version: 1.0
-References: <20210524184226.3064621-1-jagan@amarulasolutions.com>
-In-Reply-To: <20210524184226.3064621-1-jagan@amarulasolutions.com>
-From: Jagan Teki <jagan@amarulasolutions.com>
-Date: Fri, 2 Jul 2021 10:58:27 +0530
-Message-ID: <CAMty3ZDt8L70xHH5pMy0M-3ATt9jAXAy3VVeRV_iMkcoebn99w@mail.gmail.com>
-Subject: Re: [PATCH] drm/panel: panel-simple: Fix proper bpc for
- ytc700tlag_05_201c
-To: Sam Ravnborg <sam@ravnborg.org>, Thierry Reding <thierry.reding@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210701222518.3895552-1-linus.walleij@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,38 +48,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- linux-amarula <linux-amarula@amarulasolutions.com>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Thierry Reding <thierry.reding@gmail.com>,
+ Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
+ Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sam and Thierry,
+Hi Linus,
 
-On Tue, May 25, 2021 at 12:12 AM Jagan Teki <jagan@amarulasolutions.com> wrote:
->
-> ytc700tlag_05_201c panel support 8 bpc not 6 bpc as per
-> recent testing in i.MX8MM platform.
->
-> Fix it.
->
-> Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
+On Fri, Jul 02, 2021 at 12:25:18AM +0200, Linus Walleij wrote:
+> The macro mipi_dbi_command() does not report errors unless you wrap it
+> in another macro to do the error reporting.
+> 
+> Report a rate-limited error so we know what is going on.
+> 
+> Drop the only user in DRM using mipi_dbi_command() and actually checking
+> the error explicitly, let it use mipi_dbi_command_buf() directly
+> instead.
+> 
+> After this any code wishing to send command arrays can rely on
+> mipi_dbi_command() providing an appropriate error message if something
+> goes wrong.
+> 
+> Suggested-by: Noralf Trønnes <noralf@tronnes.org>
+> Suggested-by: Douglas Anderson <dianders@chromium.org>
+> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
 > ---
->  drivers/gpu/drm/panel/panel-simple.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-> index 9be050ab372f..6f4151729fb7 100644
-> --- a/drivers/gpu/drm/panel/panel-simple.c
-> +++ b/drivers/gpu/drm/panel/panel-simple.c
-> @@ -4164,7 +4164,7 @@ static const struct drm_display_mode yes_optoelectronics_ytc700tlag_05_201c_mode
->  static const struct panel_desc yes_optoelectronics_ytc700tlag_05_201c = {
->         .modes = &yes_optoelectronics_ytc700tlag_05_201c_mode,
->         .num_modes = 1,
-> -       .bpc = 6,
-> +       .bpc = 8,
+>  drivers/gpu/drm/drm_mipi_dbi.c | 2 +-
+>  include/drm/drm_mipi_dbi.h     | 5 ++++-
+>  2 files changed, 5 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_mipi_dbi.c b/drivers/gpu/drm/drm_mipi_dbi.c
+> index 3854fb9798e9..c7c1b75df190 100644
+> --- a/drivers/gpu/drm/drm_mipi_dbi.c
+> +++ b/drivers/gpu/drm/drm_mipi_dbi.c
+> @@ -645,7 +645,7 @@ static int mipi_dbi_poweron_reset_conditional(struct mipi_dbi_dev *dbidev, bool
+>  		return 1;
+>  
+>  	mipi_dbi_hw_reset(dbi);
+> -	ret = mipi_dbi_command(dbi, MIPI_DCS_SOFT_RESET);
+> +	ret = mipi_dbi_command_buf(dbi, MIPI_DCS_SOFT_RESET, NULL, 0);
+>  	if (ret) {
+>  		DRM_DEV_ERROR(dev, "Failed to send reset command (%d)\n", ret);
+>  		if (dbidev->regulator)
+I do not see the value in this change??
+There are many other mipi_dbi_command() users and the error return
+continues to be checked?!??!
 
-Can you pick this, if all okay.
 
-Jagan.
+> diff --git a/include/drm/drm_mipi_dbi.h b/include/drm/drm_mipi_dbi.h
+> index f543d6e3e822..2057ad32760c 100644
+> --- a/include/drm/drm_mipi_dbi.h
+> +++ b/include/drm/drm_mipi_dbi.h
+> @@ -183,7 +183,10 @@ int mipi_dbi_buf_copy(void *dst, struct drm_framebuffer *fb,
+>  #define mipi_dbi_command(dbi, cmd, seq...) \
+>  ({ \
+>  	const u8 d[] = { seq }; \
+> -	mipi_dbi_command_stackbuf(dbi, cmd, d, ARRAY_SIZE(d)); \
+> +	int ret; \
+> +	ret = mipi_dbi_command_stackbuf(dbi, cmd, d, ARRAY_SIZE(d)); \
+> +	if (ret) \
+> +		pr_err_ratelimited("MIPI DBI: error %d when sending command\n", ret); \
+>  })
+Coud this be more informative if the spi device was printed, it is
+available? Maybe in 99% of the cases there is only one user anyway so it
+will not help?
+
+	Sam
