@@ -2,39 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0099B3B9B08
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Jul 2021 05:29:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F2063B9BBB
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Jul 2021 06:59:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 113876EC84;
-	Fri,  2 Jul 2021 03:29:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8619E6E030;
+	Fri,  2 Jul 2021 04:59:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 965366EC84
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Jul 2021 03:29:39 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0DAF9613D6;
- Fri,  2 Jul 2021 03:29:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1625196579;
- bh=6nJgAHxobBNh+qHTCsGxe4N62dWVAzhzZ6xFRFsU7C4=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=UcS2bHAPu2oXaGHqNrmz7bR3MKPTI7WRx9pTG1LyfMigE2mouH+GpNXjLxWvL8j9J
- S5RAyBnvGlEauVCanobOO4pol4RPI3FDfhfPF3SP13AlEWpxox2HyBxLyE+ayZB7xf
- GV8GYW5EaZv/m5psNE7owGXz1+We5BobpE9BlnWlUwaOifYIR29AAYVu3acy0IU/i4
- +hBqBSxcIzJZVXNabKAfg5jbSDg99fV0Bnv4KH+YSVbNF+B5f1RKvwsWS/hYdDWfG2
- 1wmM+HGjx2dKhilaw4D5F8OrwAIXPPb/oD2hQR++/0vcQmdbXQSPXCUElL/qfg9xz5
- 0ov4hymTBycqg==
-Date: Thu, 1 Jul 2021 20:29:34 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Maxime Ripard <maxime@cerno.tech>
-Subject: Re: [PATCH 2/2] drm/vc4: hdmi: Convert to gpiod
-Message-ID: <YN6IHun9G3Kfzf8G@Ryzen-9-3900X.localdomain>
-References: <20210524131852.263883-1-maxime@cerno.tech>
- <20210524131852.263883-2-maxime@cerno.tech>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 362B26E030
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Jul 2021 04:59:04 +0000 (UTC)
+Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
+ (using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id A1025228DF;
+ Fri,  2 Jul 2021 04:59:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1625201942; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Tv3QKjDKtCRFFICcO+FIzCWvXOARvMa8Bztz5cXka+Q=;
+ b=qKHW1op8BcST2lZ6jmbS251zKGfcOynr/ON0eL2pA2DTHi4fob0XIRoqMi1qwYqhuocUZ+
+ VIzF/Np0Z2SqRzlZNP8Q+iaucIAowab4rWYsItu/IDfkd9+4wsCQtD702AVUEfLZrZXHTn
+ +6BwSVHdJIUxWBdwGqWAJWKUDbsDWzU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1625201942;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Tv3QKjDKtCRFFICcO+FIzCWvXOARvMa8Bztz5cXka+Q=;
+ b=1OTj68DudBLsZNB0LSbrIbHfmupGEJ/Saq7Pzzpw06rGD8wriN/R91YxeJSGhzZPeUcfW4
+ MlSeOg5BcjNELXDg==
+Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
+ by imap.suse.de (Postfix) with ESMTP id 7D3D011CD6;
+ Fri,  2 Jul 2021 04:59:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1625201942; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Tv3QKjDKtCRFFICcO+FIzCWvXOARvMa8Bztz5cXka+Q=;
+ b=qKHW1op8BcST2lZ6jmbS251zKGfcOynr/ON0eL2pA2DTHi4fob0XIRoqMi1qwYqhuocUZ+
+ VIzF/Np0Z2SqRzlZNP8Q+iaucIAowab4rWYsItu/IDfkd9+4wsCQtD702AVUEfLZrZXHTn
+ +6BwSVHdJIUxWBdwGqWAJWKUDbsDWzU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1625201942;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Tv3QKjDKtCRFFICcO+FIzCWvXOARvMa8Bztz5cXka+Q=;
+ b=1OTj68DudBLsZNB0LSbrIbHfmupGEJ/Saq7Pzzpw06rGD8wriN/R91YxeJSGhzZPeUcfW4
+ MlSeOg5BcjNELXDg==
+Received: from director2.suse.de ([192.168.254.72]) by imap3-int with ESMTPSA
+ id sjbvHBad3mB4QgAALh3uQQ
+ (envelope-from <tzimmermann@suse.de>); Fri, 02 Jul 2021 04:59:02 +0000
+Subject: Re: [PATCH 0/4] mgag200: Various cleanups
+To: Sam Ravnborg <sam@ravnborg.org>
+References: <20210701124316.20818-1-tzimmermann@suse.de>
+ <YN4CRegcRH0B1iQF@ravnborg.org>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <517e1b3d-3e0f-e396-acc7-10b6ed8b5fd9@suse.de>
+Date: Fri, 2 Jul 2021 06:59:01 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210524131852.263883-2-maxime@cerno.tech>
+In-Reply-To: <YN4CRegcRH0B1iQF@ravnborg.org>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="Wj68rWiylgFPPdDxIwo2JkQbTnLQaGwdl"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,102 +81,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Eric Anholt <eric@anholt.net>,
- Hans Verkuil <hans.verkuil@cisco.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>, Phil Elwell <phil@raspberrypi.com>
+Cc: airlied@redhat.com, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 24, 2021 at 03:18:52PM +0200, Maxime Ripard wrote:
-> The new gpiod interface takes care of parsing the GPIO flags and to
-> return the logical value when accessing an active-low GPIO, so switching
-> to it simplifies a lot the driver.
-> 
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> ---
->  drivers/gpu/drm/vc4/vc4_hdmi.c | 24 +++++++-----------------
->  drivers/gpu/drm/vc4/vc4_hdmi.h |  3 +--
->  2 files changed, 8 insertions(+), 19 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> index ccc6c8079dc6..34622c59f6a7 100644
-> --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> @@ -159,10 +159,9 @@ vc4_hdmi_connector_detect(struct drm_connector *connector, bool force)
->  	struct vc4_hdmi *vc4_hdmi = connector_to_vc4_hdmi(connector);
->  	bool connected = false;
->  
-> -	if (vc4_hdmi->hpd_gpio) {
-> -		if (gpio_get_value_cansleep(vc4_hdmi->hpd_gpio) ^
-> -		    vc4_hdmi->hpd_active_low)
-> -			connected = true;
-> +	if (vc4_hdmi->hpd_gpio &&
-> +	    gpiod_get_value_cansleep(vc4_hdmi->hpd_gpio)) {
-> +		connected = true;
->  	} else if (drm_probe_ddc(vc4_hdmi->ddc)) {
->  		connected = true;
->  	} else if (HDMI_READ(HDMI_HOTPLUG) & VC4_HDMI_HOTPLUG_CONNECTED) {
-> @@ -1993,7 +1992,6 @@ static int vc4_hdmi_bind(struct device *dev, struct device *master, void *data)
->  	struct vc4_hdmi *vc4_hdmi;
->  	struct drm_encoder *encoder;
->  	struct device_node *ddc_node;
-> -	u32 value;
->  	int ret;
->  
->  	vc4_hdmi = devm_kzalloc(dev, sizeof(*vc4_hdmi), GFP_KERNEL);
-> @@ -2031,18 +2029,10 @@ static int vc4_hdmi_bind(struct device *dev, struct device *master, void *data)
->  	/* Only use the GPIO HPD pin if present in the DT, otherwise
->  	 * we'll use the HDMI core's register.
->  	 */
-> -	if (of_find_property(dev->of_node, "hpd-gpios", &value)) {
-> -		enum of_gpio_flags hpd_gpio_flags;
-> -
-> -		vc4_hdmi->hpd_gpio = of_get_named_gpio_flags(dev->of_node,
-> -							     "hpd-gpios", 0,
-> -							     &hpd_gpio_flags);
-> -		if (vc4_hdmi->hpd_gpio < 0) {
-> -			ret = vc4_hdmi->hpd_gpio;
-> -			goto err_put_ddc;
-> -		}
-> -
-> -		vc4_hdmi->hpd_active_low = hpd_gpio_flags & OF_GPIO_ACTIVE_LOW;
-> +	vc4_hdmi->hpd_gpio = devm_gpiod_get_optional(dev, "hpd", GPIOD_IN);
-> +	if (IS_ERR(vc4_hdmi->hpd_gpio)) {
-> +		ret = PTR_ERR(vc4_hdmi->hpd_gpio);
-> +		goto err_put_ddc;
->  	}
->  
->  	vc4_hdmi->disable_wifi_frequencies =
-> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.h b/drivers/gpu/drm/vc4/vc4_hdmi.h
-> index 060bcaefbeb5..2688a55461d6 100644
-> --- a/drivers/gpu/drm/vc4/vc4_hdmi.h
-> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.h
-> @@ -146,8 +146,7 @@ struct vc4_hdmi {
->  	/* VC5 Only */
->  	void __iomem *rm_regs;
->  
-> -	int hpd_gpio;
-> -	bool hpd_active_low;
-> +	struct gpio_desc *hpd_gpio;
->  
->  	/*
->  	 * On some systems (like the RPi4), some modes are in the same
-> -- 
-> 2.31.1
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--Wj68rWiylgFPPdDxIwo2JkQbTnLQaGwdl
+Content-Type: multipart/mixed; boundary="1rDxerqSPrDMVHzbYEWkSPsygtFn7YBIT";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Sam Ravnborg <sam@ravnborg.org>
+Cc: daniel@ffwll.ch, airlied@redhat.com, dri-devel@lists.freedesktop.org
+Message-ID: <517e1b3d-3e0f-e396-acc7-10b6ed8b5fd9@suse.de>
+Subject: Re: [PATCH 0/4] mgag200: Various cleanups
+References: <20210701124316.20818-1-tzimmermann@suse.de>
+ <YN4CRegcRH0B1iQF@ravnborg.org>
+In-Reply-To: <YN4CRegcRH0B1iQF@ravnborg.org>
 
-Hi Maxime,
+--1rDxerqSPrDMVHzbYEWkSPsygtFn7YBIT
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-This patch as commit 6800234ceee0 ("drm/vc4: hdmi: Convert to gpiod")
-causes my Raspberry Pi 3 to lock up shortly after boot in combination
-with commit 411efa18e4b0 ("drm/vc4: hdmi: Move the HSM clock enable to
-runtime_pm"). The serial console and ssh are completely unresponsive and
-I do not see any messages in dmesg with "debug ignore_loglevel". The
-device is running with a 32-bit kernel (multi_v7_defconfig) with 32-bit
-userspace. If there is any further information that I can provide,
-please let me know.
+Hi Sam
 
-Cheers,
-Nathan
+Am 01.07.21 um 19:58 schrieb Sam Ravnborg:
+> Hi Thomas,
+>=20
+> On Thu, Jul 01, 2021 at 02:43:12PM +0200, Thomas Zimmermann wrote:
+>> Cleanup several nits in the driver's init code. Also move constant
+>> data into the RO data segment. No functional changes.
+>>
+>> Tested on mgag200 HW.
+>>
+>> Thomas Zimmermann (4):
+>>    drm/mgag200: Don't pass flags to drm_dev_register()
+>>    drm/mgag200: Inline mgag200_device_init()
+> This patch drop a redundant error message too - it had helped me if the=
+
+> changelog had said so but whatever.
+
+Sure, I'll add it to the log.
+
+>=20
+>>    drm/mgag200: Extract device type and flags in mgag200_pci_probe()
+>>    drm/mgag200: Constify LUT for programming bpp
+>=20
+> Full serie is:
+> Acked-by: Sam Ravnborg <sam@ravnborg.org>
+
+Thanks for the review.
+
+Best regards
+Thomas
+
+>=20
+> 	Sam
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--1rDxerqSPrDMVHzbYEWkSPsygtFn7YBIT--
+
+--Wj68rWiylgFPPdDxIwo2JkQbTnLQaGwdl
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmDenRYFAwAAAAAACgkQlh/E3EQov+D+
+7Q//cdfQ27SzDZrOSfCfa+IXnEpHuJWl29S+sUFXKAMUWvdbC2f7SunHnhhku5b3cz1QF2UWaMjP
+WbzbIPfB5gYFIWLQzekTs1AEbPwhClVxdP4IxRPGIKR38+pMfF6MPGblyryMuOhyULG0ACdevszD
+6ysauoUAMr+4y47GdHNTL4UqeD1CKrZRfVwM9fRxLk/C/jTkopWxpXXuMvEx3bP/wavx0vUjs+82
+ka2QObOVLkKrgtpHJj4ROZ1mjWrHlavjuePeQ68YDcBhcLPwLW8N7NLHuxDl3Z6b0t86ka601npj
+cY+roLu2JR77ELZGNTTeHcLfkBCNmz8qEDRCub6Ts7L5otAlc1PZDU7JcAORUlG32qLhXU++YJMS
+O188Hko/ME8miCMICFJffoGk+mQueVzLQXshxPCf55zEf1zZ6ZEO/AhBz+xbBDV4gG/MuGZwobFA
+KLze04kIG8lm25o1TrOrn75PE/YHz/9+uXhB7jgufZU1NN1ZOpZoyNALrRdwFaxHKkdN2IjW6++D
+4r/1j+QXVJx6uyQTsjU1t9kofFL1qwGxataDbOQmsDBzjO5k1g6p7b+tc657ajDJBIy3mF+C1EGI
+pS9QtIeYTOBkrXLydKTSaiVM+1c9Fjo45sA+l4TG7ur8kBGlHMOnsuWcMb/rkAfxrG5mXWpxBxtm
+qMM=
+=Hlta
+-----END PGP SIGNATURE-----
+
+--Wj68rWiylgFPPdDxIwo2JkQbTnLQaGwdl--
