@@ -2,59 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29DF83B9F6C
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Jul 2021 13:02:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A0233B9F70
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Jul 2021 13:03:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5CF2F6E0FF;
-	Fri,  2 Jul 2021 11:02:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 88B4589CCB;
+	Fri,  2 Jul 2021 11:03:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
  [IPv6:2a00:1450:4864:20::32f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A2586E0FF
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Jul 2021 11:02:36 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 29BBC89CCB
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Jul 2021 11:03:49 +0000 (UTC)
 Received: by mail-wm1-x32f.google.com with SMTP id
- a5-20020a7bc1c50000b02901e3bbe0939bso6126091wmj.0
- for <dri-devel@lists.freedesktop.org>; Fri, 02 Jul 2021 04:02:36 -0700 (PDT)
+ r9-20020a7bc0890000b02901f347b31d55so5925711wmh.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 02 Jul 2021 04:03:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fooishbar-org.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=v/tOHuJnex4NuJG8cJcaUr1WTjdeZ2K6FMjObN092Po=;
- b=EparL/SUZPUi99pitv7Ag9SThP2SKnGTV72bSfvlFu5APBaU6e+u+TRfySgsahA1Jl
- 1IeT3dmFutwRE5LIJR7vmDHYOevdYbfICgVsEAhY2WxZNmeEmnJJWN3UaEDtROlrykaO
- 656l00VXfbkHkHqpS2TrdL4zC5dD/Uze8JSv5ocPcE92gkXr5KwpBf02guAb3MoNO9O5
- 5YNjMrfaNlMpZj4299GuIPuD0cs7Jofw7MTWzfWRaImcxBHGLmU2T3W9ldj1bStxzjOD
- qCtentRi8Qb5GVu/EeNxdveHqF9gkncrcB8+JkAvynE6gXUtlgoqOJgcM7KdzNK5T9xc
- ofmg==
+ d=raspberrypi.com; s=google;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=YPxjaHKeXihxK4iZwt1dYOvPhkmUp1HzDC1gwPSw/vg=;
+ b=mEPeXHwAM90stqL1NuPyaIB4ScEmtyABadkajk37ioVAHpg7FxT6iuM8GK2QNulyVn
+ 8HjMv/iqRf3XBLXhq/YfSPj3E2cTmF+kH1kEh5Ix6LYHJ4WxZNNt+PFSuIsjKnlROWzG
+ LaRf3CbRpZs5BktLh/xf5TiMyYYrK1xcWjGRp0fvVUV11mG8yPf5lMIfwPVAxXh3piG5
+ VI23kVTfloKGvTB72guAaQtbMlV+7Thm3k49C9ekmaDaEEpEcNAFbaFHA4M2uI1ic4GX
+ XCtrapthPdM5ScxYoXklcDrZ6+MTi4f/C6FmcZ7HNfmiawj812dDoemG7B7kiSbfWJGS
+ unOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=v/tOHuJnex4NuJG8cJcaUr1WTjdeZ2K6FMjObN092Po=;
- b=QnDZhBzUQfFOKMLZsLeYyGi8ZB0AofREjlAzQouSal49S7ciorJuAjkayJk6IjjwTO
- EbYqfac+CViRkd5DlIoZpq54Q8WH9B16S4mbb0pYck4Br/3izE2r1WcQ13VCuN4ijVQE
- zPYJUSdwFofM1ZCm4ccnOud/Df/GqDIxacL8/IdzUnywoHRQ5rh8IK4tEDQl6wZW31Sa
- kl2FQCKCI15Hse192Ap8jHm5tJU0J480eoXy/6sdxEijjFp6yH0XaeRAewD0gMGaDqbN
- QyD6hYjSvL0sBYIfrSOo5HYaQU+ZjlCxcUnmYaUTrBkSiBzTuYejID4YGjY03v+PWqgW
- GXgg==
-X-Gm-Message-State: AOAM5320VLSrQQ0Kw+cizRbdHs+cWfdAtmjJJtk4cL3yw/hC+Qu8AV6X
- +bPkezzYK2i/xG42yYsRHEFZlJDvqEHDbDAVIuUX0w==
-X-Google-Smtp-Source: ABdhPJwEdS2E4outtUt417w9cX1dGKZUi6QwO6Bs8VhHb0EgIA3Zeg2KKSgixdn/C/rbXFJZNWl9hPQ//ZDgQSkFgKs=
-X-Received: by 2002:a7b:c0d6:: with SMTP id s22mr15853440wmh.52.1625223755075; 
- Fri, 02 Jul 2021 04:02:35 -0700 (PDT)
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=YPxjaHKeXihxK4iZwt1dYOvPhkmUp1HzDC1gwPSw/vg=;
+ b=Bk1RWLoOFdPgvFwpZ35YCgCp9Xg9kiXw44sKXDzY2o6mOJsIcfk5wJIXqC20rwB52D
+ BDaCC6ZUIpy94ZWsFSScxriD7SZzXK0xCROmM8I8jvBqmBkSHZ1SZGoe/jzhPfRXntND
+ s7+Tm0fRFdxdeNEl1AI0AxPe+IIgBgo5zsLGcAXZwj08Nl3IVfOFt12qTHjOrg3n7Mdz
+ htypLW7wZhejWPzfeCHWjrWrh+nM5LRbcq25KVmpHIP8WW/zgmd/KXx042ZcNx6ovCHv
+ XiT7hSH3tJAQb6otUYWIwH3W4snI8lDb1ly1bJxbRGLPqRmHCM73kXcfJ4IM0bm6U2if
+ p12g==
+X-Gm-Message-State: AOAM533haP4AKL7fXHTqVFjedbJFxUrBFkntfImbdTY95rdsr3rF6qAs
+ 1UfSBpo0upQ8MONsrU6Gyx8VQzlCG3JDSPnM8XxwPE77X4NO5Q4Z
+X-Google-Smtp-Source: ABdhPJwrXcvmCq7An3qKWr8ol1tKBbo7APzt9DJXk834fEILqKMbHK71dr2C+L5/sBR86U12FJ9d77gVeUUNUCGHPnk=
+X-Received: by 2002:a1c:b485:: with SMTP id d127mr16209639wmf.82.1625223827610; 
+ Fri, 02 Jul 2021 04:03:47 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210701091224.3209803-1-boris.brezillon@collabora.com>
- <20210701091224.3209803-5-boris.brezillon@collabora.com>
- <b277ce22-f2d2-35e5-30cd-c851a7896b44@arm.com>
- <20210702124320.1bd0f228@collabora.com>
- <3955f63e-40af-bcb3-0214-2d1f22dbfdec@arm.com>
-In-Reply-To: <3955f63e-40af-bcb3-0214-2d1f22dbfdec@arm.com>
-From: Daniel Stone <daniel@fooishbar.org>
-Date: Fri, 2 Jul 2021 12:02:23 +0100
-Message-ID: <CAPj87rNX56TkmC4mYQrWGw6jLYv37zb67f5F-t8ryyoAAXKfVQ@mail.gmail.com>
-Subject: Re: [PATCH v2 4/7] drm/panfrost: Add the ability to create submit
- queues
-To: Steven Price <steven.price@arm.com>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Fri, 2 Jul 2021 12:03:31 +0100
+Message-ID: <CAPY8ntBUKRkSam59Y+72dW_6XOeKVswPWffzPj3uvgE6pV4ZGQ@mail.gmail.com>
+Subject: Questions over DSI within DRM.
+To: DRI Development <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,71 +60,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jason Ekstrand <jason@jlekstrand.net>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- dri-devel <dri-devel@lists.freedesktop.org>, Rob Herring <robh+dt@kernel.org>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Robin Murphy <robin.murphy@arm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi All
 
-On Fri, 2 Jul 2021 at 11:55, Steven Price <steven.price@arm.com> wrote:
-> On 02/07/2021 11:43, Boris Brezillon wrote:
-> > On Fri, 2 Jul 2021 10:56:29 +0100
-> > Steven Price <steven.price@arm.com> wrote:
-> >> My Vulkan knowledge is limited so I'm not sure whether this is the right
-> >> approach or not. In particular is it correct that an application can
-> >> create a high priority queue which could affect other (normal priority)
-> >> applications?
-> >
-> > That's what msm does (with no extra CAPS check AFAICT), and the
-> > freedreno driver can already create high priority queues if
-> > PIPE_CONTEXT_HIGH_PRIORITY is passed. Not saying that's okay to allow
-> > userspace to tweak the priority, but if that's a problem, other drivers
-> > are in trouble too ;-).
->
-> Oh well I guess if others are doing the same ;) I have to admit kbase
-> has always struggled with how to identify a "privileged" process - it's
-> something that makes a bit of sense on Android but for other userspaces
-> there really doesn't seem to be a good way of identifying what should or
-> should not be allowed to create high priority queues.
+I'm trying to get DSI devices working reliably on the Raspberry Pi,
+but I'm hitting a number of places where it isn't clear as to the
+expected behaviour within DRM.
 
-Yeah, it's a platform-specific question. Some might want to say
-compositor-only, some might want to let foreground apps ramp, etc.
+Power on state. Many devices want the DSI clock and/or data lanes in
+LP-11 state when they are powered up. With the normal calling sequence
+of:
+- panel/bridge pre_enable calls from connector towards the encoder.
+- encoder enable which also enables video.
+- panel/bridge enable calls from encoder to connector.
+there is no point at which the DSI tx is initialised but not
+transmitting video. What DSI states are expected to be adopted at each
+point?
 
-Thankfully, Vulkan is pretty clear that it's just a hint and the
-results might be anything or nothing.
+On a similar theme, some devices want the clock lane in HS mode early
+so they can use it in place of an external oscillator, but the data
+lanes still in LP-11. There appears to be no way for the
+display/bridge to signal this requirement or it be achieved.
 
-> >> Also does it really make sense to allow user space to create an
-> >> unlimited number of queues? It feels like an ideal way for an malicious
-> >> application to waste kernel memory.
-> >
-> > Same here, I see no limit on the number of queues the msm driver can
-> > create. I can definitely pick an arbitrary limit of 2^16 (or 2^8 if
-> > 2^16 is too high) if you prefer, but I feel like there's plenty of ways
-> > to force kernel allocations already, like allocating a gazillion of 4k
-> > GEM buffers (cgroup can probably limit the total amount of memory
-> > allocated, but you'd still have all gem-buf meta data in kernel memory).
->
-> I guess the real problem is picking a sensible limit ;) My main concern
-> here is that there doesn't appear to be any memory accounted against the
-> process. For GEM buffers at least there is some cost to the application
-> - so an unbounded allocation isn't possible, even if the bounds are
-> likely to be very high.
->
-> With kbase we found that syzcaller was good at finding ways of using up
-> all the memory on the platform - and if it wasn't accounted to the right
-> process that meant the OOM-killer knocked out the wrong process and
-> produced a bug report to investigate. Perhaps I'm just scarred by that
-> history ;)
+host_transfer calls can supposedly be made at any time, however unless
+MIPI_DSI_MSG_USE_LPM is set in the message then we're meant to send it
+in high speed mode. If this is before a mode has been set, what
+defines the link frequency parameters at this point? Adopting a random
+default sounds like a good way to get undefined behaviour.
 
-Yep, cgroup accounting and restriction is still very much unsolved.
-GEM buffers let you make an outsize impact on the whole system at
-little to no cost to yourself. You can also create a million syncobjs
-if you want. Oh well.
+DSI burst mode needs to set the DSI link frequency independently of
+the display mode. How is that meant to be configured? I would have
+expected it to come from DT due to link frequency often being chosen
+based on EMC restrictions, but I don't see such a thing in any
+binding.
 
-Cheers,
-Daniel
+As a follow on, bridge devices can support burst mode (eg TI's
+SN65DSI83 that's just been merged), so it needs to know the desired
+panel timings for the output side of the bridge, but the DSI link
+timings to set up the bridge's PLL. What's the correct way for
+signalling that? drm_crtc_state->adjusted_mode vs
+drm_crtc_state->mode? Except mode is userspace's request, not what has
+been validated/updated by the panel/bridge.
+
+vc4 has constraints that the DSI host interface is fed off an integer
+divider from a typically 3GHz clock, so the host interface needs to
+signal that burst mode is in use even if the panel/bridge doesn't need
+to run in burst mode. (This does mean that displays that require a
+very precise link frequency can not be supported).
+It currently updates the adjusted_mode via drm_encoder_helper_funcs
+mode_fixup, but is that the correct thing to do, or is there a better
+solution?
+I'd have expected the DSI tx to be responsible for configuring burst
+mode parameters anyway, so the mechanism required would seem to be
+just the normal approach for adopting burst mode if that is defined.
+
+Some DSI host interfaces are implemented as bridges, others are
+encoders. Pro's and con's of each? I suspect I'm just missing the
+history here.
+
+When it comes to the MIPI_DSI_MODE_* flags, which ones are mutually
+exclusive, or are assumed based on others? Does a burst mode DSI sink
+set both MIPI_DSI_MODE_VIDEO and MIPI_DSI_MODE_VIDEO_BURST, or just
+the latter?
+Presumably !MIPI_DSI_MODE_VIDEO signals the of use command mode for
+conveying video. So looking at panel-ilitek-ili9881c where it sets
+just MIPI_DSI_MODE_VIDEO_SYNC_PULSE means command mode video with sync
+pulses? That sounds unlikely.
+
+I have looked for any information that covers this, but failed to find
+such, hence calling on all your expertise.
+
+Many thanks for your time,
+  Dave
