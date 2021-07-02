@@ -2,31 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C45B43BA23D
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Jul 2021 16:32:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1AE13BA23E
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Jul 2021 16:32:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F133D6E19B;
-	Fri,  2 Jul 2021 14:32:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 238C86E19A;
+	Fri,  2 Jul 2021 14:32:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 721B66E19A
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD32E6E19A
  for <dri-devel@lists.freedesktop.org>; Fri,  2 Jul 2021 14:32:31 +0000 (UTC)
 Received: from localhost.localdomain (unknown
  [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id AA1A91F44CB0;
- Fri,  2 Jul 2021 15:32:29 +0100 (BST)
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 31D4A1F44EBD;
+ Fri,  2 Jul 2021 15:32:30 +0100 (BST)
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: Rob Herring <robh+dt@kernel.org>,
  Tomeu Vizoso <tomeu.vizoso@collabora.com>,
  Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
  Steven Price <steven.price@arm.com>, Robin Murphy <robin.murphy@arm.com>
-Subject: [PATCH v3 0/7] drm/panfrost: drm/panfrost: Add a new submit ioctl
-Date: Fri,  2 Jul 2021 16:32:18 +0200
-Message-Id: <20210702143225.3347980-1-boris.brezillon@collabora.com>
+Subject: [PATCH v3 1/7] drm/panfrost: Pass a job to panfrost_{acquire,
+ attach}_object_fences()
+Date: Fri,  2 Jul 2021 16:32:19 +0200
+Message-Id: <20210702143225.3347980-2-boris.brezillon@collabora.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210702143225.3347980-1-boris.brezillon@collabora.com>
+References: <20210702143225.3347980-1-boris.brezillon@collabora.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -46,68 +49,78 @@ Cc: Jason Ekstrand <jason@jlekstrand.net>, dri-devel@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
+So we don't have to change the prototype if we extend the function.
 
-This is an attempt at providing a new submit ioctl that's more
-Vulkan-friendly than the existing one. This ioctl
+v3:
+* Fix subject
 
-1/ allows passing several out syncobjs so we can easily update
-   several fence/semaphore in a single ioctl() call
-2/ allows passing several jobs so we don't have to have one ioctl
-   per job-chain recorded in the command buffer
-3/ supports disabling implicit dependencies as well as 
-   non-exclusive access to BOs, thus removing unnecessary
-   synchronization
+Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+Reviewed-by: Steven Price <steven.price@arm.com>
+---
+ drivers/gpu/drm/panfrost/panfrost_job.c | 22 ++++++++--------------
+ 1 file changed, 8 insertions(+), 14 deletions(-)
 
-I've also been looking at adding {IN,OUT}_FENCE_FD support (allowing
-one to pass at most one sync_file object in input and/or creating a
-sync_file FD embedding the render out fence), but it's not entirely
-clear to me when that's useful. Indeed, we can already do the
-sync_file <-> syncobj conversion using the
-SYNCOBJ_{FD_TO_HANDLE,HANDLE_TO_FD} ioctls if we have to.
-Note that, unlike Turnip, PanVk is using syncobjs to implement
-vkQueueWaitIdle(), so the syncobj -> sync_file conversion doesn't
-have to happen for each submission, but maybe there's a good reason
-to use sync_files for that too. Any feedback on that aspect would
-be useful I guess.
-
-Any feedback on this new ioctl is welcome, in particular, do you
-think other things are missing/would be nice to have for Vulkan?
-
-Regards,
-
-Boris
-
-P.S.: basic igt tests for these new ioctls re available there [1]
-
-[1]https://gitlab.freedesktop.org/bbrezillon/igt-gpu-tools/-/tree/panfrost-batch-submit
-
-Changes in v3:
-* Fix a deadlock in the submitqueue logic
-* Limit the number of submitqueue per context to 16
-
-Boris Brezillon (7):
-  drm/panfrost: Pass a job to panfrost_{acquire,attach}_object_fences()
-  drm/panfrost: Move the mappings collection out of
-    panfrost_lookup_bos()
-  drm/panfrost: Add BO access flags to relax dependencies between jobs
-  drm/panfrost: Add the ability to create submit queues
-  drm/panfrost: Add a new ioctl to submit batches
-  drm/panfrost: Advertise the SYNCOBJ_TIMELINE feature
-  drm/panfrost: Bump minor version to reflect the feature additions
-
- drivers/gpu/drm/panfrost/Makefile             |   3 +-
- drivers/gpu/drm/panfrost/panfrost_device.h    |   2 +-
- drivers/gpu/drm/panfrost/panfrost_drv.c       | 463 ++++++++++++++----
- drivers/gpu/drm/panfrost/panfrost_job.c       |  89 ++--
- drivers/gpu/drm/panfrost/panfrost_job.h       |  10 +-
- .../gpu/drm/panfrost/panfrost_submitqueue.c   | 136 +++++
- .../gpu/drm/panfrost/panfrost_submitqueue.h   |  27 +
- include/uapi/drm/panfrost_drm.h               | 103 ++++
- 8 files changed, 689 insertions(+), 144 deletions(-)
- create mode 100644 drivers/gpu/drm/panfrost/panfrost_submitqueue.c
- create mode 100644 drivers/gpu/drm/panfrost/panfrost_submitqueue.h
-
+diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
+index 71a72fb50e6b..fdc1bd7ecf12 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_job.c
++++ b/drivers/gpu/drm/panfrost/panfrost_job.c
+@@ -240,15 +240,13 @@ static void panfrost_job_hw_submit(struct panfrost_job *job, int js)
+ 	spin_unlock(&pfdev->js->job_lock);
+ }
+ 
+-static int panfrost_acquire_object_fences(struct drm_gem_object **bos,
+-					  int bo_count,
+-					  struct xarray *deps)
++static int panfrost_acquire_object_fences(struct panfrost_job *job)
+ {
+ 	int i, ret;
+ 
+-	for (i = 0; i < bo_count; i++) {
++	for (i = 0; i < job->bo_count; i++) {
+ 		/* panfrost always uses write mode in its current uapi */
+-		ret = drm_gem_fence_array_add_implicit(deps, bos[i], true);
++		ret = drm_gem_fence_array_add_implicit(&job->deps, job->bos[i], true);
+ 		if (ret)
+ 			return ret;
+ 	}
+@@ -256,14 +254,12 @@ static int panfrost_acquire_object_fences(struct drm_gem_object **bos,
+ 	return 0;
+ }
+ 
+-static void panfrost_attach_object_fences(struct drm_gem_object **bos,
+-					  int bo_count,
+-					  struct dma_fence *fence)
++static void panfrost_attach_object_fences(struct panfrost_job *job)
+ {
+ 	int i;
+ 
+-	for (i = 0; i < bo_count; i++)
+-		dma_resv_add_excl_fence(bos[i]->resv, fence);
++	for (i = 0; i < job->bo_count; i++)
++		dma_resv_add_excl_fence(job->bos[i]->resv, job->render_done_fence);
+ }
+ 
+ int panfrost_job_push(struct panfrost_job *job)
+@@ -290,8 +286,7 @@ int panfrost_job_push(struct panfrost_job *job)
+ 
+ 	job->render_done_fence = dma_fence_get(&job->base.s_fence->finished);
+ 
+-	ret = panfrost_acquire_object_fences(job->bos, job->bo_count,
+-					     &job->deps);
++	ret = panfrost_acquire_object_fences(job);
+ 	if (ret) {
+ 		mutex_unlock(&pfdev->sched_lock);
+ 		goto unlock;
+@@ -303,8 +298,7 @@ int panfrost_job_push(struct panfrost_job *job)
+ 
+ 	mutex_unlock(&pfdev->sched_lock);
+ 
+-	panfrost_attach_object_fences(job->bos, job->bo_count,
+-				      job->render_done_fence);
++	panfrost_attach_object_fences(job);
+ 
+ unlock:
+ 	drm_gem_unlock_reservations(job->bos, job->bo_count, &acquire_ctx);
 -- 
 2.31.1
 
