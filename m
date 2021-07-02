@@ -2,50 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79CE53BA1F9
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Jul 2021 16:08:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4F893BA1FB
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Jul 2021 16:09:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C6DF89DC9;
-	Fri,  2 Jul 2021 14:08:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1CCD089F6D;
+	Fri,  2 Jul 2021 14:09:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B6B089DC9;
- Fri,  2 Jul 2021 14:08:41 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10033"; a="206912978"
-X-IronPort-AV: E=Sophos;i="5.83,317,1616482800"; d="scan'208";a="206912978"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Jul 2021 07:08:40 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.83,317,1616482800"; d="scan'208";a="409322413"
-Received: from irvmail001.ir.intel.com ([10.43.11.63])
- by orsmga006.jf.intel.com with ESMTP; 02 Jul 2021 07:08:38 -0700
-Received: from [10.249.132.69] (mwajdecz-MOBL.ger.corp.intel.com
- [10.249.132.69])
- by irvmail001.ir.intel.com (8.14.3/8.13.6/MailSET/Hub) with ESMTP id
- 162E8bWs017763; Fri, 2 Jul 2021 15:08:37 +0100
-Subject: Re: [PATCH 47/47] drm/i915/guc: Unblock GuC submission on Gen11+
-To: Martin Peres <martin.peres@free.fr>,
- Matthew Brost <matthew.brost@intel.com>
-References: <20210624070516.21893-1-matthew.brost@intel.com>
- <20210624070516.21893-48-matthew.brost@intel.com>
- <88cbe963-7188-f4ae-5acf-01a80bd2fe25@free.fr>
- <20210630180052.GA8283@sdutt-i7>
- <7c3e1d46-74eb-6f2d-53ca-d73ce9e61c03@free.fr>
- <d9e31651-dd97-fb39-0045-7cd62650bd03@free.fr>
- <2d649c1a-82fc-cced-4020-f7d9d96c3bc4@intel.com>
- <040272cf-cbd5-73ef-c763-71948474be82@free.fr>
-From: Michal Wajdeczko <michal.wajdeczko@intel.com>
-Message-ID: <9a9dbff8-6d92-fc92-4cf3-26679f2cb27c@intel.com>
-Date: Fri, 2 Jul 2021 16:08:36 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5254B89F6D
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Jul 2021 14:09:26 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+ bits)) (No client certificate requested)
+ (Authenticated sender: bbrezillon)
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id B42861F44C5D;
+ Fri,  2 Jul 2021 15:09:24 +0100 (BST)
+Date: Fri, 2 Jul 2021 16:09:21 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Alyssa Rosenzweig <alyssa@collabora.com>
+Subject: Re: [PATCH v2 4/7] drm/panfrost: Add the ability to create submit
+ queues
+Message-ID: <20210702160921.31fbe935@collabora.com>
+In-Reply-To: <YN8bbhHA74joPggh@maud>
+References: <20210701091224.3209803-1-boris.brezillon@collabora.com>
+ <20210701091224.3209803-5-boris.brezillon@collabora.com>
+ <b277ce22-f2d2-35e5-30cd-c851a7896b44@arm.com>
+ <20210702124320.1bd0f228@collabora.com> <YN8bbhHA74joPggh@maud>
+Organization: Collabora
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <040272cf-cbd5-73ef-c763-71948474be82@free.fr>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,91 +47,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, daniele.ceraolospurio@intel.com,
- john.c.harrison@intel.com, dri-devel@lists.freedesktop.org
+Cc: Jason Ekstrand <jason@jlekstrand.net>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>, dri-devel@lists.freedesktop.org,
+ Steven Price <steven.price@arm.com>, Rob Herring <robh+dt@kernel.org>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Robin Murphy <robin.murphy@arm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, 2 Jul 2021 09:58:06 -0400
+Alyssa Rosenzweig <alyssa@collabora.com> wrote:
 
-
-On 02.07.2021 15:12, Martin Peres wrote:
-> On 02/07/2021 16:06, Michal Wajdeczko wrote:
->>
->>
->> On 02.07.2021 10:13, Martin Peres wrote:
->>> On 01/07/2021 21:24, Martin Peres wrote:
->>> [...]
->>>>>
->>>>>>
->>>>>>> +        i915->params.enable_guc = ENABLE_GUC_LOAD_HUC;
->>>>>>> +        return;
->>>>>>> +    }
->>>>>>> +
->>>>>>> +    /* Default: enable HuC authentication and GuC submission */
->>>>>>> +    i915->params.enable_guc = ENABLE_GUC_LOAD_HUC |
->>>>>>> ENABLE_GUC_SUBMISSION;
->>>>>>
->>>>>> This seems to be in contradiction with the GuC submission plan which
->>>>>> states:
->>>>>>
->>>>>> "Not enabled by default on any current platforms but can be
->>>>>> enabled via
->>>>>> modparam enable_guc".
->>>>>>
->>>>>
->>>>> I don't believe any current platform gets this point where GuC
->>>>> submission would be enabled by default. The first would be ADL-P which
->>>>> isn't out yet.
->>>>
->>>> Isn't that exactly what the line above does?
->>>
->>> In case you missed this crucial part of the review. Please answer the
->>> above question.
->>
->> I guess there is some misunderstanding here, and I must admit I had
->> similar doubt, but if you look beyond patch diff and check function code
->> you will find that the very condition is:
->>
->>     /* Don't enable GuC/HuC on pre-Gen12 */
->>     if (GRAPHICS_VER(i915) < 12) {
->>         i915->params.enable_guc = 0;
->>         return;
->>     }
->>
->> so all pre-Gen12 platforms will continue to have GuC/HuC disabled.
+> > > My Vulkan knowledge is limited so I'm not sure whether this is the right
+> > > approach or not. In particular is it correct that an application can
+> > > create a high priority queue which could affect other (normal priority)
+> > > applications?  
+> > 
+> > That's what msm does (with no extra CAPS check AFAICT), and the
+> > freedreno driver can already create high priority queues if
+> > PIPE_CONTEXT_HIGH_PRIORITY is passed. Not saying that's okay to allow
+> > userspace to tweak the priority, but if that's a problem, other drivers
+> > are in trouble too ;-).  
 > 
-> Thanks Michal, but then the problem is the other way: how can one enable
-> it on gen11?
+> Speaking of, how will PIPE_CONTEXT_HIGH_PRIORITY be implemented with the
+> new ioctl()? I envisioned something much simpler (for the old ioctl),
+> just adding a "high priority?" flag to the submit and internally
+> creating the two queues of normal/high priority for drm_sched to work
+> out. Is this juggling now moved to userspace?
 
-this code here converts default GuC auto mode (enable_guc=-1) into per
-platform desired (tested) GuC/HuC enables.
-
-to override that default, you may still use enable_guc=1 to explicitly
-enable GuC submission and since we also have this code:
-
-+static bool __guc_submission_supported(struct intel_guc *guc)
-+{
-+	/* GuC submission is unavailable for pre-Gen11 */
-+	return intel_guc_is_supported(guc) &&
-+	       INTEL_GEN(guc_to_gt(guc)->i915) >= 11;
-+}
-
-it should work on any Gen11+.
-
-Michal
-
-> 
-> I like what Daniele was going for here: separating the capability from
-> the user-requested value, but then it seems the patch stopped half way.
-> How about never touching the parameter, and having a AND between the two
-> values to get the effective enable_guc?
-> 
-> Right now, the code is really confusing :s
-> 
-> Thanks,
-> Martin
-> 
->>
->> Thanks,
->> Michal
->>
+That's what freedreno does. I guess we could create 2 default queues
+(one normal and one high prio) and extend the old submit ioctl() to do
+what you suggest if you see a good reason to not switch to the new
+ioctl() directly. I mean, we'll have to keep support for both anyway,
+but switching to the new ioctl()) shouldn't be that hard (I can prepare
+a MR transitioning the gallium driver to BATCH_SUBMIT if you want).
