@@ -1,53 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A0233B9F70
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Jul 2021 13:03:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D83DD3B9F6F
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Jul 2021 13:03:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 88B4589CCB;
-	Fri,  2 Jul 2021 11:03:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0331F89C99;
+	Fri,  2 Jul 2021 11:03:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
- [IPv6:2a00:1450:4864:20::32f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 29BBC89CCB
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Jul 2021 11:03:49 +0000 (UTC)
-Received: by mail-wm1-x32f.google.com with SMTP id
- r9-20020a7bc0890000b02901f347b31d55so5925711wmh.2
- for <dri-devel@lists.freedesktop.org>; Fri, 02 Jul 2021 04:03:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google;
- h=mime-version:from:date:message-id:subject:to;
- bh=YPxjaHKeXihxK4iZwt1dYOvPhkmUp1HzDC1gwPSw/vg=;
- b=mEPeXHwAM90stqL1NuPyaIB4ScEmtyABadkajk37ioVAHpg7FxT6iuM8GK2QNulyVn
- 8HjMv/iqRf3XBLXhq/YfSPj3E2cTmF+kH1kEh5Ix6LYHJ4WxZNNt+PFSuIsjKnlROWzG
- LaRf3CbRpZs5BktLh/xf5TiMyYYrK1xcWjGRp0fvVUV11mG8yPf5lMIfwPVAxXh3piG5
- VI23kVTfloKGvTB72guAaQtbMlV+7Thm3k49C9ekmaDaEEpEcNAFbaFHA4M2uI1ic4GX
- XCtrapthPdM5ScxYoXklcDrZ6+MTi4f/C6FmcZ7HNfmiawj812dDoemG7B7kiSbfWJGS
- unOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=YPxjaHKeXihxK4iZwt1dYOvPhkmUp1HzDC1gwPSw/vg=;
- b=Bk1RWLoOFdPgvFwpZ35YCgCp9Xg9kiXw44sKXDzY2o6mOJsIcfk5wJIXqC20rwB52D
- BDaCC6ZUIpy94ZWsFSScxriD7SZzXK0xCROmM8I8jvBqmBkSHZ1SZGoe/jzhPfRXntND
- s7+Tm0fRFdxdeNEl1AI0AxPe+IIgBgo5zsLGcAXZwj08Nl3IVfOFt12qTHjOrg3n7Mdz
- htypLW7wZhejWPzfeCHWjrWrh+nM5LRbcq25KVmpHIP8WW/zgmd/KXx042ZcNx6ovCHv
- XiT7hSH3tJAQb6otUYWIwH3W4snI8lDb1ly1bJxbRGLPqRmHCM73kXcfJ4IM0bm6U2if
- p12g==
-X-Gm-Message-State: AOAM533haP4AKL7fXHTqVFjedbJFxUrBFkntfImbdTY95rdsr3rF6qAs
- 1UfSBpo0upQ8MONsrU6Gyx8VQzlCG3JDSPnM8XxwPE77X4NO5Q4Z
-X-Google-Smtp-Source: ABdhPJwrXcvmCq7An3qKWr8ol1tKBbo7APzt9DJXk834fEILqKMbHK71dr2C+L5/sBR86U12FJ9d77gVeUUNUCGHPnk=
-X-Received: by 2002:a1c:b485:: with SMTP id d127mr16209639wmf.82.1625223827610; 
- Fri, 02 Jul 2021 04:03:47 -0700 (PDT)
+Received: from smtp.domeneshop.no (smtp.domeneshop.no
+ [IPv6:2a01:5b40:0:3005::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 83BCC89C96
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Jul 2021 11:03:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+ ; s=ds202012;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
+ MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=IvLgbPADdaEhabUlOo62i+twDYxle9LZKDhA5H+YLhw=; b=mi1Di69C++aXFeMQzc9E4eWIh8
+ 7/zsMrt9yHREMF/UuSq8o8TMvh6c54vfesifs9s6pmWyLZ0umF8X3P3ioXRFyuNGKVmOn3N9YoDiO
+ myB1WIygMb+RvUUY3sD/4Yy3ysCe1Q5wYPdoP7oiHzuRVK4I7CNG25PkmKer/9DGDy6LOIZnyi4C8
+ E11SmwA83ZOWWA/2NigUj7xedtRbmt1DAJlRroKDiovsTfANhOKt7txFUIhfMRqUR/UjUjjwTPsa1
+ SsIaAy2gZCRucOZGU3vH2ef26fx8tKIsmA27v7erBbDEHCOZJqVuRmqwNjGOyb3YIbdrU8LplkamB
+ VZIlo25w==;
+Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:52202
+ helo=[192.168.10.61])
+ by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <noralf@tronnes.org>)
+ id 1lzGxM-0001rY-9b; Fri, 02 Jul 2021 13:03:36 +0200
+Subject: Re: [PATCH v2] drm/dbi: Print errors for mipi_dbi_command()
+To: Linus Walleij <linus.walleij@linaro.org>,
+ Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ dri-devel@lists.freedesktop.org
+References: <20210702100455.3928920-1-linus.walleij@linaro.org>
+From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+Message-ID: <9f853dd6-ecdd-c587-7a48-4257a9eae110@tronnes.org>
+Date: Fri, 2 Jul 2021 13:03:34 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Fri, 2 Jul 2021 12:03:31 +0100
-Message-ID: <CAPY8ntBUKRkSam59Y+72dW_6XOeKVswPWffzPj3uvgE6pV4ZGQ@mail.gmail.com>
-Subject: Questions over DSI within DRM.
-To: DRI Development <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20210702100455.3928920-1-linus.walleij@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,77 +57,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Douglas Anderson <dianders@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi All
 
-I'm trying to get DSI devices working reliably on the Raspberry Pi,
-but I'm hitting a number of places where it isn't clear as to the
-expected behaviour within DRM.
 
-Power on state. Many devices want the DSI clock and/or data lanes in
-LP-11 state when they are powered up. With the normal calling sequence
-of:
-- panel/bridge pre_enable calls from connector towards the encoder.
-- encoder enable which also enables video.
-- panel/bridge enable calls from encoder to connector.
-there is no point at which the DSI tx is initialised but not
-transmitting video. What DSI states are expected to be adopted at each
-point?
+Den 02.07.2021 12.04, skrev Linus Walleij:
+> The macro mipi_dbi_command() does not report errors unless you wrap it
+> in another macro to do the error reporting.
+> 
+> Report a rate-limited error so we know what is going on.
+> 
+> Drop the only user in DRM using mipi_dbi_command() and actually checking
+> the error explicitly, let it use mipi_dbi_command_buf() directly
+> instead.
+> 
+> After this any code wishing to send command arrays can rely on
+> mipi_dbi_command() providing an appropriate error message if something
+> goes wrong.
+> 
+> Suggested-by: Noralf Trønnes <noralf@tronnes.org>
+> Suggested-by: Douglas Anderson <dianders@chromium.org>
+> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+> ---
+> ChangeLog v1->v2:
+> - Fish out the struct device * from the DBI SPI client and use
+>   that to print the errors associated with the SPI device.
+> ---
+>  drivers/gpu/drm/drm_mipi_dbi.c | 2 +-
+>  include/drm/drm_mipi_dbi.h     | 6 +++++-
+>  2 files changed, 6 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_mipi_dbi.c b/drivers/gpu/drm/drm_mipi_dbi.c
+> index 3854fb9798e9..c7c1b75df190 100644
+> --- a/drivers/gpu/drm/drm_mipi_dbi.c
+> +++ b/drivers/gpu/drm/drm_mipi_dbi.c
+> @@ -645,7 +645,7 @@ static int mipi_dbi_poweron_reset_conditional(struct mipi_dbi_dev *dbidev, bool
+>  		return 1;
+>  
+>  	mipi_dbi_hw_reset(dbi);
+> -	ret = mipi_dbi_command(dbi, MIPI_DCS_SOFT_RESET);
+> +	ret = mipi_dbi_command_buf(dbi, MIPI_DCS_SOFT_RESET, NULL, 0);
+>  	if (ret) {
+>  		DRM_DEV_ERROR(dev, "Failed to send reset command (%d)\n", ret);
+>  		if (dbidev->regulator)
+> diff --git a/include/drm/drm_mipi_dbi.h b/include/drm/drm_mipi_dbi.h
+> index f543d6e3e822..f00cb9690cf2 100644
+> --- a/include/drm/drm_mipi_dbi.h
+> +++ b/include/drm/drm_mipi_dbi.h
+> @@ -183,7 +183,11 @@ int mipi_dbi_buf_copy(void *dst, struct drm_framebuffer *fb,
+>  #define mipi_dbi_command(dbi, cmd, seq...) \
+>  ({ \
+>  	const u8 d[] = { seq }; \
+> -	mipi_dbi_command_stackbuf(dbi, cmd, d, ARRAY_SIZE(d)); \
+> +	struct device *dev = &dbi->spi->dev; \
+> +	int ret; \
+> +	ret = mipi_dbi_command_stackbuf(dbi, cmd, d, ARRAY_SIZE(d)); \
+> +	if (ret) \
+> +		dev_err_ratelimited(dev, "error %d when sending command\n", ret); \
 
-On a similar theme, some devices want the clock lane in HS mode early
-so they can use it in place of an external oscillator, but the data
-lanes still in LP-11. There appears to be no way for the
-display/bridge to signal this requirement or it be achieved.
+Nit: Printing the failing command would have been useful, like you did
+in the driver macro.
 
-host_transfer calls can supposedly be made at any time, however unless
-MIPI_DSI_MSG_USE_LPM is set in the message then we're meant to send it
-in high speed mode. If this is before a mode has been set, what
-defines the link frequency parameters at this point? Adopting a random
-default sounds like a good way to get undefined behaviour.
+>  })
 
-DSI burst mode needs to set the DSI link frequency independently of
-the display mode. How is that meant to be configured? I would have
-expected it to come from DT due to link frequency often being chosen
-based on EMC restrictions, but I don't see such a thing in any
-binding.
+I would have preferred if mipi_dbi_command could have returned the error
+code. This indicates that it should be possible:
+https://stackoverflow.com/questions/3532621/using-and-returning-output-in-c-macro
 
-As a follow on, bridge devices can support burst mode (eg TI's
-SN65DSI83 that's just been merged), so it needs to know the desired
-panel timings for the output side of the bridge, but the DSI link
-timings to set up the bridge's PLL. What's the correct way for
-signalling that? drm_crtc_state->adjusted_mode vs
-drm_crtc_state->mode? Except mode is userspace's request, not what has
-been validated/updated by the panel/bridge.
+But I can live with this, but if drivers want to start checking the
+error code we might have to rethink this.
 
-vc4 has constraints that the DSI host interface is fed off an integer
-divider from a typically 3GHz clock, so the host interface needs to
-signal that burst mode is in use even if the panel/bridge doesn't need
-to run in burst mode. (This does mean that displays that require a
-very precise link frequency can not be supported).
-It currently updates the adjusted_mode via drm_encoder_helper_funcs
-mode_fixup, but is that the correct thing to do, or is there a better
-solution?
-I'd have expected the DSI tx to be responsible for configuring burst
-mode parameters anyway, so the mechanism required would seem to be
-just the normal approach for adopting burst mode if that is defined.
+But this works as things are now:
 
-Some DSI host interfaces are implemented as bridges, others are
-encoders. Pro's and con's of each? I suspect I'm just missing the
-history here.
-
-When it comes to the MIPI_DSI_MODE_* flags, which ones are mutually
-exclusive, or are assumed based on others? Does a burst mode DSI sink
-set both MIPI_DSI_MODE_VIDEO and MIPI_DSI_MODE_VIDEO_BURST, or just
-the latter?
-Presumably !MIPI_DSI_MODE_VIDEO signals the of use command mode for
-conveying video. So looking at panel-ilitek-ili9881c where it sets
-just MIPI_DSI_MODE_VIDEO_SYNC_PULSE means command mode video with sync
-pulses? That sounds unlikely.
-
-I have looked for any information that covers this, but failed to find
-such, hence calling on all your expertise.
-
-Many thanks for your time,
-  Dave
+Reviewed-by: Noralf Trønnes <noralf@tronnes.org>
