@@ -2,70 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AB713BA19C
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Jul 2021 15:49:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C4523BA1C8
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Jul 2021 15:58:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 42C3B6E174;
-	Fri,  2 Jul 2021 13:49:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 53D756E187;
+	Fri,  2 Jul 2021 13:58:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x330.google.com (mail-ot1-x330.google.com
- [IPv6:2607:f8b0:4864:20::330])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3FCFC6E174;
- Fri,  2 Jul 2021 13:49:01 +0000 (UTC)
-Received: by mail-ot1-x330.google.com with SMTP id
- m6-20020a9d1d060000b029044e2d8e855eso10066569otm.8; 
- Fri, 02 Jul 2021 06:49:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=9x+juvDeOlaCtKmozneQfrCt9yo0Whbh1MNkOy7JJZU=;
- b=UEjOTwG3dEw4BMs9zskTAlB/qyEqwJyHyp2F3uc3IEyjANLR6uP1/H9KR/MbGUoN+q
- uXXp5fn/iI8ZGaLxshXE1VQxeK5/3UWORkO2pNxSV6JX6TB55C98dgtqR+ifQCzwR/+E
- tWXw5g4HJNLzPOLmN5ZESxRdKK1SlSI9vIjSxu/oxrzoNqDVDJAp6devlE/I9vjje1jl
- UriRs+KKNlto9yhu5Cc6j3zBlDtCEQbiH6DoyRIcLxwtvRuZjbkzbi0yal/mv3qJLt2a
- 3fiDvGnsl5Hudqdx9BEktUwL9MS3wAY6jCzLNb0Q5Ly1c+F45rGX3brSqu3cPed6aviv
- JOqw==
+Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com
+ [IPv6:2a00:1450:4864:20::22e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D6EE6E187
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Jul 2021 13:58:05 +0000 (UTC)
+Received: by mail-lj1-x22e.google.com with SMTP id u25so13384292ljj.11
+ for <dri-devel@lists.freedesktop.org>; Fri, 02 Jul 2021 06:58:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=k0Qf8LnRzgJKGYnwaG9Xn2vyU5JdJZJXYA+9GZcR0qQ=;
+ b=SFZAEuMwq885wgiySUSkwZaWFS6KdfmllRvo2GqlVc0E46Gcj9z3SONVjHNnvKONaX
+ RSXowlTb0gj8BZIpQCdiZAzA49p+7Pm3yFCX7n2uzKQRsfqYvc+NV4dFIp6JNqEqFfih
+ Fxgg2gQidRD+EJXqDcy9rly7TmIMZWn7R0XTw8V4i3wgJHzgVHvkST8TwfezjzuP21PY
+ /SZWP+XAmcP3Jm82cUGJw0U5y3hq5UAgwct8wC/rhyTPobguoEjJBE0/lgJcYJV7wlIh
+ GT9jb7TMc8Tr5XN0zjSDCIcnELLmJoW67eYz0qsiwx1vo+diNKXsjE3UfRIfByyDUKdv
+ S3jg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=9x+juvDeOlaCtKmozneQfrCt9yo0Whbh1MNkOy7JJZU=;
- b=J4OdMN89ZwmeGqjtxKt6FGLbxJNl6yxZys3JfRksUe30jnpZcz2+NiuGKpnNohNCg4
- HiSg7PRwAbKMCpXnmivamzAP3AJcoGKEpQMAonH12rg9KzKa4e3YtClTbI7BPO/8KAZ/
- 7LVMth1YyHAl4OyhOYGE7U1S4M+mVydxLdRqiyZOm1+4WHJKGUx+kbAyvbX3Zv4S9tq7
- dhIcev4q2/xnDpcorvFy05o4KxLMJ9QtsmQr8l8FFiPKUSwSlwfnxy3A4u+cVLfTiTuT
- AEYDj3L00/JtSdkM47L8zwUKmqSsy3zw5bES6RQha35DEMkyWgZA5P23XjjQKUZOPrCf
- YisA==
-X-Gm-Message-State: AOAM5302AIrBlGD0pNH48keeqS2/SvSR6TqMMitei2LtTZF6Xz3XYAPs
- P6R0dcWu3ubISqybenaxGUE=
-X-Google-Smtp-Source: ABdhPJzlnGPxxKYZSXkVHHmfsdkLH9E7ecEfVsvBHCQZR82klKUBGGO/PYD4fEoEphoBmS1gKABKng==
-X-Received: by 2002:a05:6830:823:: with SMTP id
- t3mr4518459ots.334.1625233740480; 
- Fri, 02 Jul 2021 06:49:00 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id
- n26sm599488oos.14.2021.07.02.06.48.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 02 Jul 2021 06:48:59 -0700 (PDT)
-Subject: Re: [PATCH v15 12/12] of: Add plumbing for restricted DMA pool
-To: Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>
-References: <20210624155526.2775863-1-tientzu@chromium.org>
- <20210624155526.2775863-13-tientzu@chromium.org>
- <20210702030807.GA2685166@roeck-us.net>
- <87ca3ada-22ed-f40c-0089-ca6fffc04f24@arm.com>
- <20210702131829.GA11132@willie-the-truck>
-From: Guenter Roeck <linux@roeck-us.net>
-Message-ID: <2f2d6633-2457-f7eb-81c1-355f56dc34ce@roeck-us.net>
-Date: Fri, 2 Jul 2021 06:48:54 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ bh=k0Qf8LnRzgJKGYnwaG9Xn2vyU5JdJZJXYA+9GZcR0qQ=;
+ b=fpcBtavS6I0KbZnhsDXOKqOS+8W2jIgP6V0k2IOUSWucFFcbAGagAt1jB9w0AVpkgW
+ Iev0JLpdvVaesylciNnp4j4JqF+gj1hRbIyuOOwJ69cbxx+fp5wTvHF9OZj080WpUPEM
+ zkqnXsqfUO0lcDHStyZMSxNVIO7CAJDZpYkd1mGJOL0OoTQcM0m79OqfvyBLcX3GEESG
+ wV53N3+XwW86Q6JNb6C5W7QbstEO7AYjSNpmRFgU/8MrEznyyd8iCh+GtouhLLhivuTY
+ 9RH9TMvGMjgePQOtmxwz14AWfcpOC/GK3rhCPj2PYWxCGzrX5WYkpSRekImgrmQfB6hD
+ 4wsQ==
+X-Gm-Message-State: AOAM533OUGNAt/g9m8MmVUKI1viwOXHohlYLXivf0sRA4EkFYODa6zRg
+ uiSa+mFZ5Z7gL1sdOVT5bqYBVw==
+X-Google-Smtp-Source: ABdhPJz4USwKSxn12WOwJ7Notppd2/yhMu+HDtTqun5SfxeweusCVqypSAex/NvXZdUJal/UYKC37Q==
+X-Received: by 2002:a2e:5c2:: with SMTP id 185mr4174770ljf.25.1625234283414;
+ Fri, 02 Jul 2021 06:58:03 -0700 (PDT)
+Received: from localhost.localdomain
+ (c-fdcc225c.014-348-6c756e10.bbcust.telenor.se. [92.34.204.253])
+ by smtp.gmail.com with ESMTPSA id j17sm282058lfb.111.2021.07.02.06.58.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 02 Jul 2021 06:58:03 -0700 (PDT)
+From: Linus Walleij <linus.walleij@linaro.org>
+To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH v3] drm/dbi: Print errors for mipi_dbi_command()
+Date: Fri,  2 Jul 2021 15:56:01 +0200
+Message-Id: <20210702135601.3952726-1-linus.walleij@linaro.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <20210702131829.GA11132@willie-the-truck>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,99 +68,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: heikki.krogerus@linux.intel.com,
- linux-devicetree <devicetree@vger.kernel.org>, peterz@infradead.org,
- linux-pci@vger.kernel.org, dri-devel@lists.freedesktop.org,
- chris@chris-wilson.co.uk, grant.likely@arm.com, paulus@samba.org,
- Frank Rowand <frowand.list@gmail.com>, mingo@kernel.org, jxgao@google.com,
- sstabellini@kernel.org, Saravana Kannan <saravanak@google.com>,
- mpe@ellerman.id.au, Joerg Roedel <joro@8bytes.org>,
- "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
- Christoph Hellwig <hch@lst.de>,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>, bskeggs@redhat.com,
- xen-devel@lists.xenproject.org, Marek Szyprowski <m.szyprowski@samsung.com>,
- matthew.auld@intel.com, Nicolas Boichat <drinkcat@chromium.org>,
- thomas.hellstrom@linux.intel.com,
- Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
- intel-gfx@lists.freedesktop.org, Dan Williams <dan.j.williams@intel.com>,
- Rob Herring <robh+dt@kernel.org>, rodrigo.vivi@intel.com, bhelgaas@google.com,
- Claire Chang <tientzu@chromium.org>, boris.ostrovsky@oracle.com,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>, jgross@suse.com,
- airlied@linux.ie, Thierry Reding <treding@nvidia.com>,
- Greg KH <gregkh@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>,
- quic_qiancai@quicinc.com, lkml <linux-kernel@vger.kernel.org>,
- tfiga@chromium.org,
- "list@263.net:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
- Jim Quinlan <james.quinlan@broadcom.com>, xypron.glpk@gmx.de,
- thomas.lendacky@amd.com, linuxppc-dev@lists.ozlabs.org, bauerman@linux.ibm.com
+Cc: =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>,
+ Douglas Anderson <dianders@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/2/21 6:18 AM, Will Deacon wrote:
-> On Fri, Jul 02, 2021 at 12:39:41PM +0100, Robin Murphy wrote:
->> On 2021-07-02 04:08, Guenter Roeck wrote:
->>> On Thu, Jun 24, 2021 at 11:55:26PM +0800, Claire Chang wrote:
->>>> If a device is not behind an IOMMU, we look up the device node and set
->>>> up the restricted DMA when the restricted-dma-pool is presented.
->>>>
->>>> Signed-off-by: Claire Chang <tientzu@chromium.org>
->>>> Tested-by: Stefano Stabellini <sstabellini@kernel.org>
->>>> Tested-by: Will Deacon <will@kernel.org>
->>>
->>> With this patch in place, all sparc and sparc64 qemu emulations
->>> fail to boot. Symptom is that the root file system is not found.
->>> Reverting this patch fixes the problem. Bisect log is attached.
->>
->> Ah, OF_ADDRESS depends on !SPARC, so of_dma_configure_id() is presumably
->> returning an unexpected -ENODEV from the of_dma_set_restricted_buffer()
->> stub. That should probably be returning 0 instead, since either way it's not
->> an error condition for it to simply do nothing.
-> 
-> Something like below?
-> 
+The macro mipi_dbi_command() does not report errors unless you wrap it
+in another macro to do the error reporting.
 
-Yes, that does the trick.
+Report a rate-limited error so we know what is going on.
 
-> Will
-> 
-> --->8
-> 
->>From 4d9dcb9210c1f37435b6088284e04b6b36ee8c4d Mon Sep 17 00:00:00 2001
-> From: Will Deacon <will@kernel.org>
-> Date: Fri, 2 Jul 2021 14:13:28 +0100
-> Subject: [PATCH] of: Return success from of_dma_set_restricted_buffer() when
->   !OF_ADDRESS
-> 
-> When CONFIG_OF_ADDRESS=n, of_dma_set_restricted_buffer() returns -ENODEV
-> and breaks the boot for sparc[64] machines. Return 0 instead, since the
-> function is essentially a glorified NOP in this configuration.
-> 
-> Cc: Claire Chang <tientzu@chromium.org>
-> Cc: Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
-> Reported-by: Guenter Roeck <linux@roeck-us.net>
-> Suggested-by: Robin Murphy <robin.murphy@arm.com>
-> Link: https://lore.kernel.org/r/20210702030807.GA2685166@roeck-us.net
-> Signed-off-by: Will Deacon <will@kernel.org>
+Drop the only user in DRM using mipi_dbi_command() and actually checking
+the error explicitly, let it use mipi_dbi_command_buf() directly
+instead.
 
-Tested-by: Guenter Roeck <linux@roeck-us.net>
+After this any code wishing to send command arrays can rely on
+mipi_dbi_command() providing an appropriate error message if something
+goes wrong.
 
-> ---
->   drivers/of/of_private.h | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/of/of_private.h b/drivers/of/of_private.h
-> index 8fde97565d11..34dd548c5eac 100644
-> --- a/drivers/of/of_private.h
-> +++ b/drivers/of/of_private.h
-> @@ -173,7 +173,8 @@ static inline int of_dma_get_range(struct device_node *np,
->   static inline int of_dma_set_restricted_buffer(struct device *dev,
->   					       struct device_node *np)
->   {
-> -	return -ENODEV;
-> +	/* Do nothing, successfully. */
-> +	return 0;
->   }
->   #endif
->   
-> 
+Suggested-by: Noralf Trønnes <noralf@tronnes.org>
+Suggested-by: Douglas Anderson <dianders@chromium.org>
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+---
+ChangeLog v2->v3:
+- Make the macro actually return the error value if need be, by
+  putting a single ret; at the end of the macro. (Neat trick from
+  StackOverflow!)
+- Switch the site where I switched mipi_dbi_command() to
+  mipi_dbi_command_buf() back to what it was.
+- Print the failed command in the error message.
+- Put the dbi in (parens) since drivers/gpu/drm/tiny/st7586.c was
+  passing &dbidev->dbi as parameter to mipi_dbi_command()
+  and this would expand to
+  struct device *dev = &&dbidev->dbi->spi->dev
+  which can't be parsed but
+  struct device *dev = &(&dbidev->dbi)->spi-dev;
+  should work. I hope.
+ChangeLog v1->v2:
+- Fish out the struct device * from the DBI SPI client and use
+  that to print the errors associated with the SPI device.
+---
+ include/drm/drm_mipi_dbi.h | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/include/drm/drm_mipi_dbi.h b/include/drm/drm_mipi_dbi.h
+index f543d6e3e822..05e194958265 100644
+--- a/include/drm/drm_mipi_dbi.h
++++ b/include/drm/drm_mipi_dbi.h
+@@ -183,7 +183,12 @@ int mipi_dbi_buf_copy(void *dst, struct drm_framebuffer *fb,
+ #define mipi_dbi_command(dbi, cmd, seq...) \
+ ({ \
+ 	const u8 d[] = { seq }; \
+-	mipi_dbi_command_stackbuf(dbi, cmd, d, ARRAY_SIZE(d)); \
++	struct device *dev = &(dbi)->spi->dev;	\
++	int ret; \
++	ret = mipi_dbi_command_stackbuf(dbi, cmd, d, ARRAY_SIZE(d)); \
++	if (ret) \
++		dev_err_ratelimited(dev, "error %d when sending command %#02x\n", ret, cmd); \
++	ret; \
+ })
+ 
+ #ifdef CONFIG_DEBUG_FS
+-- 
+2.31.1
 
