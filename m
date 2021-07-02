@@ -2,40 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97DB73B9EDB
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Jul 2021 12:09:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 066443B9F13
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Jul 2021 12:27:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 677C56E0B9;
-	Fri,  2 Jul 2021 10:09:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 658D86E0C4;
+	Fri,  2 Jul 2021 10:27:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id E7C4D6E0B7
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Jul 2021 10:09:01 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 53EFF1FB;
- Fri,  2 Jul 2021 03:09:01 -0700 (PDT)
-Received: from [192.168.1.179] (unknown [172.31.20.19])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 09D013F718;
- Fri,  2 Jul 2021 03:08:59 -0700 (PDT)
-Subject: Re: [PATCH v2 4/7] drm/panfrost: Add the ability to create submit
- queues
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- Rob Herring <robh+dt@kernel.org>, Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Robin Murphy <robin.murphy@arm.com>
-References: <20210701091224.3209803-1-boris.brezillon@collabora.com>
- <20210701091224.3209803-5-boris.brezillon@collabora.com>
-From: Steven Price <steven.price@arm.com>
-Message-ID: <700919f1-a0d0-d8fb-e871-915b56260f83@arm.com>
-Date: Fri, 2 Jul 2021 11:08:58 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+Received: from mx2.smtp.larsendata.com (mx2.smtp.larsendata.com
+ [91.221.196.228])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C1796E0C4
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Jul 2021 10:27:00 +0000 (UTC)
+Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
+ by mx2.smtp.larsendata.com (Halon) with ESMTPS
+ id 09107fc0-db20-11eb-8d1a-0050568cd888;
+ Fri, 02 Jul 2021 10:27:00 +0000 (UTC)
+Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
+ [80.162.45.141])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: sam@ravnborg.org)
+ by mail01.mxhotel.dk (Postfix) with ESMTPSA id 512D5194B05;
+ Fri,  2 Jul 2021 12:27:03 +0200 (CEST)
+Date: Fri, 2 Jul 2021 12:26:56 +0200
+X-Report-Abuse-To: abuse@mxhotel.dk
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Linus Walleij <linus.walleij@linaro.org>
+Subject: Re: [PATCH] drm/dbi: Print errors for mipi_dbi_command()
+Message-ID: <YN7p8M9t5vHgyHCz@ravnborg.org>
+References: <20210701222518.3895552-1-linus.walleij@linaro.org>
+ <YN6n5MzuwDNuJyW8@ravnborg.org>
+ <CACRpkdaJ6JPMFYud154gLm6nKjv8SbS4CfhnqcijCJMz0B3smQ@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210701091224.3209803-5-boris.brezillon@collabora.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CACRpkdaJ6JPMFYud154gLm6nKjv8SbS4CfhnqcijCJMz0B3smQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,56 +49,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jason Ekstrand <jason@jlekstrand.net>, dri-devel@lists.freedesktop.org
+Cc: Thierry Reding <thierry.reding@gmail.com>,
+ Douglas Anderson <dianders@chromium.org>,
+ "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 01/07/2021 10:12, Boris Brezillon wrote:
-> Needed to keep VkQueues isolated from each other.
+Hi Linus,
 
-One more comment I noticed when I tried this out:
+On Fri, Jul 02, 2021 at 11:58:52AM +0200, Linus Walleij wrote:
+> On Fri, Jul 2, 2021 at 7:45 AM Sam Ravnborg <sam@ravnborg.org> wrote:
+> 
+> > > -     ret = mipi_dbi_command(dbi, MIPI_DCS_SOFT_RESET);
+> > > +     ret = mipi_dbi_command_buf(dbi, MIPI_DCS_SOFT_RESET, NULL, 0);
+> > >       if (ret) {
+> > >               DRM_DEV_ERROR(dev, "Failed to send reset command (%d)\n", ret);
+> > >               if (dbidev->regulator)
+> >
+> > I do not see the value in this change??
+> > There are many other mipi_dbi_command() users and the error return
+> > continues to be checked?!??!
+> 
+> When we change the mipi_dbi_command() macro to check the error
+> value we can no longer retrieve the return value from the macro
+> so we need to use the call the command buf directly so that we
+> can obtain the return code.
+Thanks, got it now.
 
-[...]
-> +struct panfrost_submitqueue *
-> +panfrost_submitqueue_create(struct panfrost_file_priv *ctx,
-> +			    enum panfrost_submitqueue_priority priority,
-> +			    u32 flags)
-> +{
-> +	struct panfrost_submitqueue *queue;
-> +	enum drm_sched_priority sched_prio;
-> +	int ret, i;
-> +
-> +	if (flags || priority >= PANFROST_SUBMITQUEUE_PRIORITY_COUNT)
-> +		return ERR_PTR(-EINVAL);
-> +
-> +	queue = kzalloc(sizeof(*queue), GFP_KERNEL);
-> +	if (!queue)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	queue->pfdev = ctx->pfdev;
-> +	sched_prio = to_sched_prio(priority);
-> +	for (i = 0; i < NUM_JOB_SLOTS; i++) {
-> +		struct drm_gpu_scheduler *sched;
-> +
-> +		sched = panfrost_job_get_sched(ctx->pfdev, i);
-> +		ret = drm_sched_entity_init(&queue->sched_entity[i],
-> +					    sched_prio, &sched, 1, NULL);
-> +		if (ret)
-> +			break;
-> +	}
-> +
-> +	if (ret) {
-> +		for (i--; i >= 0; i--)
-> +			drm_sched_entity_destroy(&queue->sched_entity[i]);
-> +
-> +		return ERR_PTR(ret);
-> +	}
-> +
-> +	kref_init(&queue->refcount);
-> +	idr_lock(&ctx->queues);
-> +	ret = idr_alloc(&ctx->queues, queue, 0, INT_MAX, GFP_KERNEL);
-
-This makes lockdep complain. idr_lock() is a spinlock and GFP_KERNEL can
-sleep. So either we need to bring our own mutex here or not use GFP_KERNEL.
-
-Steve
+	Sam
