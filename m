@@ -2,56 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2308D3BA12B
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Jul 2021 15:22:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AB713BA19C
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Jul 2021 15:49:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 96C066E16F;
-	Fri,  2 Jul 2021 13:22:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 42C3B6E174;
+	Fri,  2 Jul 2021 13:49:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x82d.google.com (mail-qt1-x82d.google.com
- [IPv6:2607:f8b0:4864:20::82d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C2A06E16F;
- Fri,  2 Jul 2021 13:22:12 +0000 (UTC)
-Received: by mail-qt1-x82d.google.com with SMTP id g12so6558129qtb.2;
- Fri, 02 Jul 2021 06:22:12 -0700 (PDT)
+Received: from mail-ot1-x330.google.com (mail-ot1-x330.google.com
+ [IPv6:2607:f8b0:4864:20::330])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3FCFC6E174;
+ Fri,  2 Jul 2021 13:49:01 +0000 (UTC)
+Received: by mail-ot1-x330.google.com with SMTP id
+ m6-20020a9d1d060000b029044e2d8e855eso10066569otm.8; 
+ Fri, 02 Jul 2021 06:49:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=Mv4J5ys30flflh2mN4ouLTrG+fC9KjOKtKl2MgOZP7k=;
- b=aHlgSvHtbsWbQUbthyuKCOzCBbdub0GZz3JTB5QWk6s7di+wEXBwWmrvvXbcgEsixx
- aoW47sITiPWMQwWrB3n9tZEyfyr69Xn2QT5ibdiCPTVCAp3x5n+4tZc4CbbwWeymVD0z
- DPQXLqkw2qedDhWJ/eE/H8UnprdwBfUduq7R8LQnu3RGn2z7HFQ5/JoDhGDRTJhDUI3Y
- Yg/pchWniMRtmeLjG/DpvwevJlbSMm5jx4HA9SbSxlir9CjqArQLzOjSMpRtogEnpIEj
- EuqJ/PzJDMbmVMSqmTIVdoYNDm4siJmF5ySMFDFw+3zMgS1hOcwt2w8pdwmNto6OkX1h
- 6sDg==
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=9x+juvDeOlaCtKmozneQfrCt9yo0Whbh1MNkOy7JJZU=;
+ b=UEjOTwG3dEw4BMs9zskTAlB/qyEqwJyHyp2F3uc3IEyjANLR6uP1/H9KR/MbGUoN+q
+ uXXp5fn/iI8ZGaLxshXE1VQxeK5/3UWORkO2pNxSV6JX6TB55C98dgtqR+ifQCzwR/+E
+ tWXw5g4HJNLzPOLmN5ZESxRdKK1SlSI9vIjSxu/oxrzoNqDVDJAp6devlE/I9vjje1jl
+ UriRs+KKNlto9yhu5Cc6j3zBlDtCEQbiH6DoyRIcLxwtvRuZjbkzbi0yal/mv3qJLt2a
+ 3fiDvGnsl5Hudqdx9BEktUwL9MS3wAY6jCzLNb0Q5Ly1c+F45rGX3brSqu3cPed6aviv
+ JOqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Mv4J5ys30flflh2mN4ouLTrG+fC9KjOKtKl2MgOZP7k=;
- b=gK/OcFq4l8EpGvD3jhaI4x32dwbBs7v/6aBkpof5c6iH1eX5u1jHrdt2d5FCRMKhRw
- NXYxJm7f2+ZtDRlnnRQhVIHmY6BkAlwWwRroTgw7Q/kU+75UFUPv594LRAw7OoCvxVWg
- mfUeUmLl30TuChv2HSf3M34ZID7gBkyjc3R2gxtn3ykF7/zaGoN4VQu63DLHZSdCuQVQ
- ol7SnKhnRlvGMKfhQYl4rh9Cv8/P7wwGrggDv1gzUfWgBe6BTgfFgoqNi62bnjvSlieA
- B9A6M7GGjdybeGtlLX2vYvMPbadRXlvIR6D5wT2sZAwvCeyicYC5s01pOTxzX4y8akG8
- 0M5w==
-X-Gm-Message-State: AOAM532Q/Qly2gz+nEuCpYxcHQ807BaMUFkFQ9XjWlwyJGv0gc5KBLNf
- WFcu2ich3mW/LzdESGSsn9ANZXjoQYrPE5JsWAHlrFzxl7SS1g==
-X-Google-Smtp-Source: ABdhPJwdQ1WbiOGCCmfH0VCB1c//Ptzt0p0kc112cythdINB9yMhPqP+3C0qVtt3ccQPVBC8JjwFeh/z3fQWVJvPLCk=
-X-Received: by 2002:ac8:60d:: with SMTP id d13mr5083948qth.223.1625232131188; 
- Fri, 02 Jul 2021 06:22:11 -0700 (PDT)
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=9x+juvDeOlaCtKmozneQfrCt9yo0Whbh1MNkOy7JJZU=;
+ b=J4OdMN89ZwmeGqjtxKt6FGLbxJNl6yxZys3JfRksUe30jnpZcz2+NiuGKpnNohNCg4
+ HiSg7PRwAbKMCpXnmivamzAP3AJcoGKEpQMAonH12rg9KzKa4e3YtClTbI7BPO/8KAZ/
+ 7LVMth1YyHAl4OyhOYGE7U1S4M+mVydxLdRqiyZOm1+4WHJKGUx+kbAyvbX3Zv4S9tq7
+ dhIcev4q2/xnDpcorvFy05o4KxLMJ9QtsmQr8l8FFiPKUSwSlwfnxy3A4u+cVLfTiTuT
+ AEYDj3L00/JtSdkM47L8zwUKmqSsy3zw5bES6RQha35DEMkyWgZA5P23XjjQKUZOPrCf
+ YisA==
+X-Gm-Message-State: AOAM5302AIrBlGD0pNH48keeqS2/SvSR6TqMMitei2LtTZF6Xz3XYAPs
+ P6R0dcWu3ubISqybenaxGUE=
+X-Google-Smtp-Source: ABdhPJzlnGPxxKYZSXkVHHmfsdkLH9E7ecEfVsvBHCQZR82klKUBGGO/PYD4fEoEphoBmS1gKABKng==
+X-Received: by 2002:a05:6830:823:: with SMTP id
+ t3mr4518459ots.334.1625233740480; 
+ Fri, 02 Jul 2021 06:49:00 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+ by smtp.gmail.com with ESMTPSA id
+ n26sm599488oos.14.2021.07.02.06.48.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 02 Jul 2021 06:48:59 -0700 (PDT)
+Subject: Re: [PATCH v15 12/12] of: Add plumbing for restricted DMA pool
+To: Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>
+References: <20210624155526.2775863-1-tientzu@chromium.org>
+ <20210624155526.2775863-13-tientzu@chromium.org>
+ <20210702030807.GA2685166@roeck-us.net>
+ <87ca3ada-22ed-f40c-0089-ca6fffc04f24@arm.com>
+ <20210702131829.GA11132@willie-the-truck>
+From: Guenter Roeck <linux@roeck-us.net>
+Message-ID: <2f2d6633-2457-f7eb-81c1-355f56dc34ce@roeck-us.net>
+Date: Fri, 2 Jul 2021 06:48:54 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210701151019.1103315-1-matthew.auld@intel.com>
- <20210701151019.1103315-3-matthew.auld@intel.com>
-In-Reply-To: <20210701151019.1103315-3-matthew.auld@intel.com>
-From: Matthew Auld <matthew.william.auld@gmail.com>
-Date: Fri, 2 Jul 2021 14:21:44 +0100
-Message-ID: <CAM0jSHOjukUd0gu-VE49RT3zf-Uvh6ehypR1x9r12iBcDOUUYQ@mail.gmail.com>
-Subject: Re: [PATCH v2 3/3] drm/i915/uapi: reject set_domain for discrete
-To: Matthew Auld <matthew.auld@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20210702131829.GA11132@willie-the-truck>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,65 +78,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- kenneth.w.graunke@intel.com, Jordan Justen <jordan.l.justen@intel.com>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- Kenneth Graunke <kenneth@whitecape.org>, Jason Ekstrand <jason@jlekstrand.net>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: heikki.krogerus@linux.intel.com,
+ linux-devicetree <devicetree@vger.kernel.org>, peterz@infradead.org,
+ linux-pci@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ chris@chris-wilson.co.uk, grant.likely@arm.com, paulus@samba.org,
+ Frank Rowand <frowand.list@gmail.com>, mingo@kernel.org, jxgao@google.com,
+ sstabellini@kernel.org, Saravana Kannan <saravanak@google.com>,
+ mpe@ellerman.id.au, Joerg Roedel <joro@8bytes.org>,
+ "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
+ Christoph Hellwig <hch@lst.de>,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>, bskeggs@redhat.com,
+ xen-devel@lists.xenproject.org, Marek Szyprowski <m.szyprowski@samsung.com>,
+ matthew.auld@intel.com, Nicolas Boichat <drinkcat@chromium.org>,
+ thomas.hellstrom@linux.intel.com,
+ Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+ intel-gfx@lists.freedesktop.org, Dan Williams <dan.j.williams@intel.com>,
+ Rob Herring <robh+dt@kernel.org>, rodrigo.vivi@intel.com, bhelgaas@google.com,
+ Claire Chang <tientzu@chromium.org>, boris.ostrovsky@oracle.com,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>, jgross@suse.com,
+ airlied@linux.ie, Thierry Reding <treding@nvidia.com>,
+ Greg KH <gregkh@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>,
+ quic_qiancai@quicinc.com, lkml <linux-kernel@vger.kernel.org>,
+ tfiga@chromium.org,
+ "list@263.net:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
+ Jim Quinlan <james.quinlan@broadcom.com>, xypron.glpk@gmx.de,
+ thomas.lendacky@amd.com, linuxppc-dev@lists.ozlabs.org, bauerman@linux.ibm.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 1 Jul 2021 at 16:10, Matthew Auld <matthew.auld@intel.com> wrote:
->
-> The CPU domain should be static for discrete, and on DG1 we don't need
-> any flushing since everything is already coherent, so really all this
-> does is an object wait, for which we have an ioctl. Longer term the
-> desired caching should be an immutable creation time property for the
-> BO, which can be set with something like gem_create_ext.
->
-> One other user is iris + userptr, which uses the set_domain to probe all
-> the pages to check if the GUP succeeds, however keeping the set_domain
-> around just for that seems rather scuffed. We could equally just submit
-> a dummy batch, which should hopefully be good enough, otherwise adding a
-> new creation time flag for userptr might be an option. Although longer
-> term we will also have vm_bind, which should also be a nice fit for
-> this, so adding a whole new flag is likely overkill.
+On 7/2/21 6:18 AM, Will Deacon wrote:
+> On Fri, Jul 02, 2021 at 12:39:41PM +0100, Robin Murphy wrote:
+>> On 2021-07-02 04:08, Guenter Roeck wrote:
+>>> On Thu, Jun 24, 2021 at 11:55:26PM +0800, Claire Chang wrote:
+>>>> If a device is not behind an IOMMU, we look up the device node and set
+>>>> up the restricted DMA when the restricted-dma-pool is presented.
+>>>>
+>>>> Signed-off-by: Claire Chang <tientzu@chromium.org>
+>>>> Tested-by: Stefano Stabellini <sstabellini@kernel.org>
+>>>> Tested-by: Will Deacon <will@kernel.org>
+>>>
+>>> With this patch in place, all sparc and sparc64 qemu emulations
+>>> fail to boot. Symptom is that the root file system is not found.
+>>> Reverting this patch fixes the problem. Bisect log is attached.
+>>
+>> Ah, OF_ADDRESS depends on !SPARC, so of_dma_configure_id() is presumably
+>> returning an unexpected -ENODEV from the of_dma_set_restricted_buffer()
+>> stub. That should probably be returning 0 instead, since either way it's not
+>> an error condition for it to simply do nothing.
+> 
+> Something like below?
+> 
 
-Kenneth, do you have a preference for the iris + userptr use case?
-Adding the flag shouldn't be much work, if you feel the dummy batch is
-too ugly. I don't mind either way.
+Yes, that does the trick.
 
->
-> Suggested-by: Daniel Vetter <daniel@ffwll.ch>
-> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
-> Cc: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Jordan Justen <jordan.l.justen@intel.com>
-> Cc: Kenneth Graunke <kenneth@whitecape.org>
-> Cc: Jason Ekstrand <jason@jlekstrand.net>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: Ramalingam C <ramalingam.c@intel.com>
+> Will
+> 
+> --->8
+> 
+>>From 4d9dcb9210c1f37435b6088284e04b6b36ee8c4d Mon Sep 17 00:00:00 2001
+> From: Will Deacon <will@kernel.org>
+> Date: Fri, 2 Jul 2021 14:13:28 +0100
+> Subject: [PATCH] of: Return success from of_dma_set_restricted_buffer() when
+>   !OF_ADDRESS
+> 
+> When CONFIG_OF_ADDRESS=n, of_dma_set_restricted_buffer() returns -ENODEV
+> and breaks the boot for sparc[64] machines. Return 0 instead, since the
+> function is essentially a glorified NOP in this configuration.
+> 
+> Cc: Claire Chang <tientzu@chromium.org>
+> Cc: Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
+> Reported-by: Guenter Roeck <linux@roeck-us.net>
+> Suggested-by: Robin Murphy <robin.murphy@arm.com>
+> Link: https://lore.kernel.org/r/20210702030807.GA2685166@roeck-us.net
+> Signed-off-by: Will Deacon <will@kernel.org>
+
+Tested-by: Guenter Roeck <linux@roeck-us.net>
+
 > ---
->  drivers/gpu/drm/i915/gem/i915_gem_domain.c | 3 +++
->  1 file changed, 3 insertions(+)
->
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_domain.c b/drivers/gpu/drm=
-/i915/gem/i915_gem_domain.c
-> index 43004bef55cb..b684a62bf3b0 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_domain.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_domain.c
-> @@ -490,6 +490,9 @@ i915_gem_set_domain_ioctl(struct drm_device *dev, voi=
-d *data,
->         u32 write_domain =3D args->write_domain;
->         int err;
->
-> +       if (IS_DGFX(to_i915(dev)))
-> +               return -ENODEV;
-> +
->         /* Only handle setting domains to types used by the CPU. */
->         if ((write_domain | read_domains) & I915_GEM_GPU_DOMAINS)
->                 return -EINVAL;
-> --
-> 2.26.3
->
+>   drivers/of/of_private.h | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/of/of_private.h b/drivers/of/of_private.h
+> index 8fde97565d11..34dd548c5eac 100644
+> --- a/drivers/of/of_private.h
+> +++ b/drivers/of/of_private.h
+> @@ -173,7 +173,8 @@ static inline int of_dma_get_range(struct device_node *np,
+>   static inline int of_dma_set_restricted_buffer(struct device *dev,
+>   					       struct device_node *np)
+>   {
+> -	return -ENODEV;
+> +	/* Do nothing, successfully. */
+> +	return 0;
+>   }
+>   #endif
+>   
+> 
+
