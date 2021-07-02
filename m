@@ -1,69 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82EA33BA386
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Jul 2021 19:10:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 308383BA3BB
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Jul 2021 19:44:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A002B6E15D;
-	Fri,  2 Jul 2021 17:10:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 457956E171;
+	Fri,  2 Jul 2021 17:44:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com
- [IPv6:2a00:1450:4864:20::234])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EDB7B6E15D
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Jul 2021 17:10:56 +0000 (UTC)
-Received: by mail-lj1-x234.google.com with SMTP id p24so14273234ljj.1
- for <dri-devel@lists.freedesktop.org>; Fri, 02 Jul 2021 10:10:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Duy3caGWRiqtspSeoRd/eLYAXg+vpa8U+Q/BY/elT0A=;
- b=X35agdGnNvJjL4KKE+vVeaGJbV6krK67e0MMNnesY23dPJGklIK0i+KvIT+LCAwnFG
- xikg4My2PZZlwuxUETlc6CN6/MQ1zDlpHRiwWrT2BAyrLJjaKzHLCjoPoM13gud+iCMX
- P9Wnpi85tIMchgB/fe221uikUmoUJbXbabRRpP7Mtv4rWeA5fmLkdUKqwusFiJQEirMt
- UuM9oIxcK+FUI2t1uL9RsTLNX0qj0V+w4gPsZMZHk0VWPiFV6+jq6NxmYGq4IC4yKchG
- 3f/iSMAS5V5ZS9xzCeONnUzuMbGFiRFroQ86v03qTlBgxDHla7X9oG8ZdQLD7OVMWI2R
- 8ehQ==
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com
+ [IPv6:2a00:1450:4864:20::332])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E32876E171
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Jul 2021 17:44:40 +0000 (UTC)
+Received: by mail-wm1-x332.google.com with SMTP id
+ q18-20020a1ce9120000b02901f259f3a250so6896213wmc.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 02 Jul 2021 10:44:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=raspberrypi.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=+RepJf9ECUmBMkI5WjyG+s9QdRcdbVPpCEHIihTBWZs=;
+ b=ZXjZ1QYgOcUDOjpYAUHC55p5URXRZYcCOS+iNN4B8BwMaVvtjvZQY0y0s+u0sta3uk
+ VvulMzxEwBAVPYPmP8JWRh1lC4JtSAJ+clhFj7d3VDAzDAyWkyNQuUMzHfl9cKdUqrUM
+ 6MGP8ZvyHoROxrPce4jDlNsiT7N6TlRyxVZyCf0C1ZYtKDGoXmZCZnTOXCruzgho8dsK
+ z8TxxOTpTIB8aNgJ1M0aVAdyGkKJgQfJetYPMgwGKV1l3hJ9YraXePW69U6qg+GSY6HH
+ tBc2LEr+6Zi3adx0dj+q/yf/WLTmIygGSqK7zfxQtCXsSkUadZ3vdlpVbMUGro1DCHkb
+ GeBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Duy3caGWRiqtspSeoRd/eLYAXg+vpa8U+Q/BY/elT0A=;
- b=St+UIl2ERTUtjVmRQWCw8qDzjmrZv61xrwwptkNNeQ8GG0H8vxvVccwJBTeFrz5sut
- 19vsZ1GJjag5xp4J+n6kz8vXG7r3n/v7ACoXY+jTcNbHPb9tbgaWEmrzFRksT3A51gvx
- jTGyVybHTz0hzww+zAVDJ1K4tzJQjw3gA2fM0U0k2uVGOKOAXTcqafZeUMQPbAezOe2c
- Pf05tq1Gd+drQGDk8ZhNziTqXMJWvjwd3+LY3cX+DHPIoVe4rLZTHIJ/1PxFaXF3tpT+
- IDr1Mwq6GvH/QloiJDSvjLjybFMbeKdMb68fFTHxXmiNfvEQRLyPbRisjPlU/mq971J/
- usmg==
-X-Gm-Message-State: AOAM5330pZWyD5Q2mPhFUZGjkPvuPYpenBrvoVsftFN07UMQfu/Vck6V
- A6sJ8T8PJWXbKBLgHKMz4HlbUw==
-X-Google-Smtp-Source: ABdhPJw351OsHevATLmKmGqh1yBpqFNlfYHp1NOA1I/XOk6i7WKuaVIJo7j/m309dr983h4DiTho0A==
-X-Received: by 2002:a2e:9b0b:: with SMTP id u11mr377144lji.384.1625245855319; 
- Fri, 02 Jul 2021 10:10:55 -0700 (PDT)
-Received: from [192.168.1.211] ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id t24sm409945ljj.97.2021.07.02.10.10.54
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 02 Jul 2021 10:10:54 -0700 (PDT)
-Subject: Re: [Freedreno] [RFC 2/6] drm/msm/dpu: support setting up two
- independent DSI connectors
-To: abhinavk@codeaurora.org
-References: <20210609211723.2565105-1-dmitry.baryshkov@linaro.org>
- <20210609211723.2565105-3-dmitry.baryshkov@linaro.org>
- <73c474d067bd1f63e6d3457b01de4e2c@codeaurora.org>
- <9ead5725-4c2d-5ab8-26db-badd31d3ed58@linaro.org>
- <aec26f0a7f59908a508d74d4025a6122@codeaurora.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Message-ID: <bad57ca7-cc5a-048e-1065-524804e95753@linaro.org>
-Date: Fri, 2 Jul 2021 20:10:54 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=+RepJf9ECUmBMkI5WjyG+s9QdRcdbVPpCEHIihTBWZs=;
+ b=IVXLi5lGF6i13rm3mhmq9mhUcTlXp3jVbFx4vr0lxbZ/eL5fKNnmOZBQltXWqpiduI
+ B9e1Iswzeg9ZBn/76L/COD+oKbhsJEeGFUNISDBOBi6ENoJnHKzeMjBTPTzt09Ve2/5W
+ 3Pz3Qf5+GM7bDMyAMB9m28x0+opHo/Ic7qpEZdS2GuKIGKOYR7ki/HQiHN48892LbZp3
+ 9ueVZgxLxRrFRKpyXvnhU5Ri46/tG4nldz8OelMZul0KUqECQmrnkOA59y7S9lyiNReC
+ wjFUnQ9nvRo66NCwLXn+fCVzc9j6/KHZYD8cASQ+YbddCwRhX30yWKFB5PkV6xrAtssf
+ xkAw==
+X-Gm-Message-State: AOAM5300f+LnAmyz2BrkG72LuSoCRV2jIEEV24RZg/mrj3vD8no2IkQs
+ Ehl9FWtkd65asefHhcvEUDH1bdFn2v2712ZQF5TRsg==
+X-Google-Smtp-Source: ABdhPJz+oilXA52eVyzW4o7NgteH6hrX5bEmGEVRmbLdJBVts6/XjW3OE4vztUD8t+5Xuj2MJqofmbZx1703NwEY8co=
+X-Received: by 2002:a1c:7411:: with SMTP id p17mr993755wmc.116.1625247879411; 
+ Fri, 02 Jul 2021 10:44:39 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <aec26f0a7f59908a508d74d4025a6122@codeaurora.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 8bit
+References: <20200707101912.571531-1-maxime@cerno.tech>
+ <YM6dgVb12oITNfc0@pendragon.ideasonboard.com>
+ <CAPY8ntC+hzmfrJwWW0ytNdHSXruMKMi7N3K6tdJbp9gDBbJ3Qw@mail.gmail.com>
+ <YM+MEsKjdkYAVI5X@pendragon.ideasonboard.com>
+ <YM/FwVkkQXX8VrzV@pendragon.ideasonboard.com>
+ <CAPY8ntCbzFkbM5fZmo3RVw5okQkVKFcR8TCHOo+xkW7wNk8MQA@mail.gmail.com>
+ <YNCMbw6B6OL4Gho3@pendragon.ideasonboard.com>
+ <YNCPcbJTEZVLJyCF@pendragon.ideasonboard.com>
+ <YNCbVtIFcryw6wO5@pendragon.ideasonboard.com>
+ <YN9DBX0QVbjtbwFE@pendragon.ideasonboard.com>
+In-Reply-To: <YN9DBX0QVbjtbwFE@pendragon.ideasonboard.com>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Fri, 2 Jul 2021 18:44:22 +0100
+Message-ID: <CAPY8ntCiw=28ay5VmARG55q00L1fj9aTKCbHi+sp=FTPUqZLVA@mail.gmail.com>
+Subject: Re: [PATCH] drm/vc4: dsi: Only register our component once a DSI
+ device is attached
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,370 +73,362 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, Jonathan Marek <jonathan@marek.ca>,
- Stephen Boyd <sboyd@kernel.org>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
- David Airlie <airlied@linux.ie>, freedreno@lists.freedesktop.org
+Cc: Marek Vasut <marex@denx.de>, Tim Gover <tim.gover@raspberrypi.com>,
+ Andrzej Hajda <a.hajda@samsung.com>,
+ Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
+ LKML <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Eric Anholt <eric@anholt.net>, bcm-kernel-feedback-list@broadcom.com,
+ Maxime Ripard <maxime@cerno.tech>, Phil Elwell <phil@raspberrypi.com>,
+ linux-arm-kernel@lists.infradead.org, linux-rpi-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 02/07/2021 18:52, abhinavk@codeaurora.org wrote:
-> On 2021-07-02 02:20, Dmitry Baryshkov wrote:
->> On 02/07/2021 00:12, abhinavk@codeaurora.org wrote:
->>> On 2021-06-09 14:17, Dmitry Baryshkov wrote:
->>>> Move setting up encoders from set_encoder_mode to
->>>> _dpu_kms_initialize_dsi() / _dpu_kms_initialize_displayport(). This
->>>> allows us to support not only "single DSI" and "dual DSI" but also "two
->>>> independent DSI" configurations. In future this would also help adding
->>>> support for multiple DP connectors.
->>>>
->>>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>> I will have to see Bjorn's changes to check why it was dependent on 
->>> this cleanup.
->>> Is the plan to call _dpu_kms_initialize_displayport() twice?
->>
->> Yes. He needs to initialize several displayport interfaces. With the
->> current code he has to map ids in the set_encoder_mode, using encoder
->> ids (to fill up the info.h_tile_instance, which is hardcoded to 0 for
->> DP in the current code).
->>
->>> But still I am not able to put together where is the dependency on 
->>> that series
->>> with this one. Can you please elaborate on that a little bit?
->>
->> It is possible to support independent outputs with the current code. I
->> did that for DSI, Bjorn did for DP. However it results in quite an
->> ugly code to map received encoder in set_encoder_mode back to the DSI
->> (DP) instances to fill the h_tiles. If we drop the whole
->> set_encoder_mode story and call dpu_encoder_setup right from the
->> _dpu_kms_initialize_dsi() (or _dpu_kms_initialize_displayport()),
->> supporting multiple outputs becomes an easy task.
->>
-> Okay got it, I think it will become more clear once he posts.
->>>
->>>> ---
->>>>  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c | 89 ++++++++++++-------------
->>>>  1 file changed, 44 insertions(+), 45 deletions(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
->>>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
->>>> index 1d3a4f395e74..b63e1c948ff2 100644
->>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
->>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
->>>> @@ -471,30 +471,55 @@ static int _dpu_kms_initialize_dsi(struct 
->>>> drm_device *dev,
->>>>                      struct dpu_kms *dpu_kms)
->>>>  {
->>>>      struct drm_encoder *encoder = NULL;
->>>> +    struct msm_display_info info;
->>>>      int i, rc = 0;
->>>>
->>>>      if (!(priv->dsi[0] || priv->dsi[1]))
->>>>          return rc;
->>>>
->>>> -    /*TODO: Support two independent DSI connectors */
->>>> -    encoder = dpu_encoder_init(dev, DRM_MODE_ENCODER_DSI);
->>>> -    if (IS_ERR(encoder)) {
->>>> -        DPU_ERROR("encoder init failed for dsi display\n");
->>>> -        return PTR_ERR(encoder);
->>>> -    }
->>>> -
->>>> -    priv->encoders[priv->num_encoders++] = encoder;
->>>> -
->>>>      for (i = 0; i < ARRAY_SIZE(priv->dsi); i++) {
->>>>          if (!priv->dsi[i])
->>>>              continue;
->>>>
->>>> +        if (!encoder) {
->>>> +            encoder = dpu_encoder_init(dev, DRM_MODE_ENCODER_DSI);
->>>> +            if (IS_ERR(encoder)) {
->>>> +                DPU_ERROR("encoder init failed for dsi display\n");
->>>> +                return PTR_ERR(encoder);
->>>> +            }
->>>> +
->>>> +            priv->encoders[priv->num_encoders++] = encoder;
->>>> +
->>>> +            memset(&info, 0, sizeof(info));
->>>> +            info.intf_type = encoder->encoder_type;
->>>> +            info.capabilities = msm_dsi_is_cmd_mode(priv->dsi[i]) ?
->>>> +                MSM_DISPLAY_CAP_CMD_MODE :
->>>> +                MSM_DISPLAY_CAP_VID_MODE;
->>>> +        }
->>>> +
->>>>          rc = msm_dsi_modeset_init(priv->dsi[i], dev, encoder);
->>>>          if (rc) {
->>>>              DPU_ERROR("modeset_init failed for dsi[%d], rc = %d\n",
->>>>                  i, rc);
->>>>              break;
->>>>          }
->>>> +
->>>> +        info.h_tile_instance[info.num_of_h_tiles++] = i;
->>>> +
->>>> +        if (!msm_dsi_is_dual_dsi(priv->dsi[i])) {
->>>
->>> I would like to clarify the terminology of dual_dsi in the current 
->>> DSI driver before the rest of the reviews.
->>> Today IS_DUAL_DSI() means that two DSIs are driving the same display 
->>> and the two DSIs are operating in master-slave mode
->>> and are being driven by the same PLL.
->>
->> Yes
->>
->>> Usually, dual independent DSI means two DSIs driving two separate 
->>> panels using two separate PLLs ( DSI0 with PLL0 and DSI1 with PLL1)
->>
->> Let's stop calling it 'dual'. I'd suggest to continue using what was
->> there in the source file: 'two independent DSI'.
->>
->>> I assume thats happening due to the foll logic and both DSI PHYs are 
->>> operating in STANDALONE mode:
->>>
->>>      if (!IS_DUAL_DSI()) {
->>>          ret = msm_dsi_host_register(msm_dsi->host, true);
->>>          if (ret)
->>>              return ret;
->>>
->>>          msm_dsi_phy_set_usecase(msm_dsi->phy, MSM_DSI_PHY_STANDALONE);
->>>          ret = msm_dsi_host_set_src_pll(msm_dsi->host, msm_dsi->phy);
->>
->> Yes. If we have two independent DSI outputs, we'd like them to work in
->> STANDALONE mode.
->>
->>
->>>> +            rc = dpu_encoder_setup(dev, encoder, &info);
->>>> +            if (rc)
->>>> +                DPU_ERROR("failed to setup DPU encoder %d: rc:%d\n",
->>>> +                        encoder->base.id, rc);
->>>> +            encoder = NULL;
->>>> +        }
->>>> +    }
->>>> +
->>>> +    if (encoder) {
->>>
->>> We will hit this case only for split-DSI right? ( that is two DSIs 
->>> driving the same panel ).
->>
->> Yes, only in this case.
->>
->>> Even single DSI will be created in the above loop now. So this looks 
->>> a bit confusing at the moment.
->>
->> What is so confusing? I can probably add a comment there. If the
->> encoder drivers single DSI output, we setup it after creating the DSI.
->> If the encoder drives dual DSI outpu, we have to setup it after
->> creating both DSI outputs.
-> Its not just this loop and this small piece of code. Lets look at 
-> dsi_manager.c.
-> 
-> static int dsi_mgr_setup_components(int id)
-> {
->      struct msm_dsi *msm_dsi = dsi_mgr_get_dsi(id);
->      struct msm_dsi *other_dsi = dsi_mgr_get_other_dsi(id);
->      struct msm_dsi *clk_master_dsi = dsi_mgr_get_dsi(DSI_CLOCK_MASTER);
->      struct msm_dsi *clk_slave_dsi = dsi_mgr_get_dsi(DSI_CLOCK_SLAVE);
->      int ret;
-> 
->      if (!IS_DUAL_DSI()) {
->          ret = msm_dsi_host_register(msm_dsi->host, true);
->          if (ret)
->              return ret;
-> 
->          msm_dsi_phy_set_usecase(msm_dsi->phy, MSM_DSI_PHY_STANDALONE);
->          ret = msm_dsi_host_set_src_pll(msm_dsi->host, msm_dsi->phy);
->      } else if (!other_dsi) {
-> 
-> Here you are actually hitting this condition even though you are 
-> operating in dual dsi mode.
+Hi Laurent
 
-Please correct me if I'm wrong. I'm not operating in dual DSI mode. With 
-two independent DSIs I'm operating both DSIs in standalone modes. There 
-should be no master/slave relationship, etc.
+On Fri, 2 Jul 2021 at 17:47, Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> Hi Dave,
+>
+> On Mon, Jun 21, 2021 at 04:59:51PM +0300, Laurent Pinchart wrote:
+> > On Mon, Jun 21, 2021 at 04:09:05PM +0300, Laurent Pinchart wrote:
+> > > On Mon, Jun 21, 2021 at 03:56:16PM +0300, Laurent Pinchart wrote:
+> > > > On Mon, Jun 21, 2021 at 12:49:14PM +0100, Dave Stevenson wrote:
+> > > > > On Sun, 20 Jun 2021 at 23:49, Laurent Pinchart wrote:
+> > > > > > On Sun, Jun 20, 2021 at 09:42:27PM +0300, Laurent Pinchart wrote:
+> > > > > > > On Sun, Jun 20, 2021 at 03:29:03PM +0100, Dave Stevenson wrote:
+> > > > > > > > On Sun, 20 Jun 2021 at 04:26, Laurent Pinchart wrote:
+> > > > > > > > >
+> > > > > > > > > Hi Maxime,
+> > > > > > > > >
+> > > > > > > > > I'm testing this, and I'm afraid it causes an issue with all the
+> > > > > > > > > I2C-controlled bridges. I'm focussing on the newly merged ti-sn65dsi83
+> > > > > > > > > driver at the moment, but other are affected the same way.
+> > > > > > > > >
+> > > > > > > > > With this patch, the DSI component is only added when the DSI device is
+> > > > > > > > > attached to the host with mipi_dsi_attach(). In the ti-sn65dsi83 driver,
+> > > > > > > > > this happens in the bridge attach callback, which is called when the
+> > > > > > > > > bridge is attached by a call to drm_bridge_attach() in vc4_dsi_bind().
+> > > > > > > > > This creates a circular dependency, and the DRM/KMS device is never
+> > > > > > > > > created.
+> > > > > > > > >
+> > > > > > > > > How should this be solved ? Dave, I think you have shown an interest in
+> > > > > > > > > the sn65dsi83 recently, any help would be appreciated. On a side note,
+> > > > > > > > > I've tested the ti-sn65dsi83 driver on a v5.10 RPi kernel, without much
+> > > > > > > > > success (on top of commit e1499baa0b0c I get a very weird frame rate -
+> > > > > > > > > 147 fps of 99 fps instead of 60 fps - and nothing on the screen, and on
+> > > > > > > > > top of the latest v5.10 RPi branch, I get lock-related warnings at every
+> > > > > > > > > page flip), which is why I tried v5.12 and noticed this patch. Is it
+> > > > > > > > > worth trying to bring up the display on the v5.10 RPi kernel in parallel
+> > > > > > > > > to fixing the issue introduced in this patch, or is DSI known to be
+> > > > > > > > > broken there ?
+> > > > > > > >
+> > > > > > > > I've been looking at SN65DSI83/4, but as I don't have any hardware
+> > > > > > > > I've largely been suggesting things to try to those on the forums who
+> > > > > > > > do [1].
+> > > > > > > >
+> > > > > > > > My branch at https://github.com/6by9/linux/tree/rpi-5.10.y-sn65dsi8x-marek
+> > > > > > > > is the latest one I've worked on. It's rpi-5.10.y with Marek's driver
+> > > > > > > > cherry-picked, and an overlay and simple-panel definition by others.
+> > > > > > > > It also has a rework for vc4_dsi to use pm_runtime, instead of
+> > > > > > > > breaking up the DSI bridge chain (which is flawed as it never calls
+> > > > > > > > the bridge mode_set or mode_valid functions which sn65dsi83 relies
+> > > > > > > > on).
+> >
+> > I've looked at that, and I'm afraid it doesn't go in the right
+> > direction. The drm_encoder.crtc field is deprecated and documented as
+> > only meaningful for non-atomic drivers. You're not introducing its
+> > usage, but moving the configuration code from .enable() to the runtime
+> > PM resume handler will make it impossible to fix this. The driver should
+> > instead move to the .atomic_enable() function. If you need
+> > enable/pre_enable in the DSI encoder, then you should turn it into a
+> > drm_bridge.
+>
+> Is this something you're looking at by any chance ? I'm testing the
+> ti-sn65dsi83 driver with VC4. I've spent a couple of hours debugging,
+> only to realise that the vc4_dsi driver (before the rework you mention
+> above) doesn't call .mode_set() on the bridges... Applying my sn65dsi83
+> series that removes .mode_set() didn't help much as vc4_dsi doesn't call
+> the atomic operations either :-) I'll test your branch now.
 
-I have two dsi interfaces, neither of them having "qcom,dual-dsi" property.
+This is one of the reasons for my email earlier today - thank you for
+your reply.
 
-> But because of the current terminology, it seems like this use-case is 
-> not dual DSI but it actually is.
+The current mainline vc4_dsi driver deliberately breaks the bridge
+chain so that it gets called before the panel/bridge pre_enable and
+can power everything up, therefore pre_enable can call host_transfer
+to configure the panel/bridge over the DSI interface.
+However we've both noted that it doesn't forward on the mode_set and
+mode_valid calls, and my investigations say that it doesn't have
+enough information to make those calls.
 
-Why?
+My branch returns the chain to normal, and tries to use pm_runtime to
+power up the PHY at the first usage (host_transfer or _enable). The
+PHY enable needs to know the link frequency to use, hence my question
+over how that should be determined.
+Currently it's coming from drm_encoder.crtc, but you say that's
+deprecated. If a mode hasn't been set then we have no clock
+information and bad things will happen.
 
-> So the confusion is more in the DSI driver than in this loop where you 
-> are calling dpu_encoder_setup()
-> For this loop a comment should be good enough.
-> 
->>
->> I have tried calling dpu_encoder_setup from a separate if/loop
->> condition, but it resulted in even uglier code.
->>
->>> I think we need to be more clear on dual-DSI Vs split-DSI to avoid 
->>> confusion in the code about which one means what and the one
->>> which we are currently using. So what about having IS_DUAL_DSI() and 
->>> IS_SPLIT_DSI() to distinguish the terminologies and chaging
->>> DSI driver accordingly.
->>
->> The word 'SPLIT' is already overloaded in my opinion. I'd prefer to
->> keep on using 'dual DSI' for the master/slave case and not to use
->> 'dual' for just two standalone DSI interfaces.
-> Ok, if SPLIT is overloaded how about using IS_DUAL_DSI() and adding one 
-> more condition like IS_DUAL_DSI_SYNC()
-> to emphasize that both the DSIs are not independent and are operating in 
-> sync.
+On the Pi forums one person has DSI83 working with an 800x1280 panel
+(Google Nexus 7 Gen 1 AIUI) using my branch, but only on 3 lanes
+rather than 4. I have a suspicion it's because the mode_fixup for
+burst mode has moved the panel timings too far outside the panel's
+spec, hence my other question about how bridges should pick up the
+panel timings independent of burst mode timings. The SN65DSI83 driver
+currently programs the output LVDS side with the DSI timings and
+doesn't account for burst mode.
 
-Coul you please describe, why would you like to have additional 
-conditions? I did not have to add any conditional code. dsi_manager 
-perfectly handles everything.
+If you want a call or to discuss your setup in more detail, then give
+me a shout.
+We have a DSI analyser on order now (3-4 week lead time), so hopefully
+I'll soon be able to get some better visibility of what the block is
+doing.
 
-> Like the above condition i mentioned in dsi_manager there are many more 
-> places where identifying two independent DSIs
-> and two DSIs operating together for a single panel will be useful in my 
-> opinion.
+  Dave
 
-What for?
-
-> So rather than leaving comments everywhere in the dsi code, I was 
-> suggesting a different terminology.
-> In this series, the only change which will happen will be that this API 
-> will change a bit but I dont think its a big change.
-> 
-> +bool msm_dsi_is_dual_dsi(struct msm_dsi *msm_dsi)
-> +{
-> +    return IS_DUAL_DSI();
-> +}
-> 
->>
->>>
->>>> +        rc = dpu_encoder_setup(dev, encoder, &info);
->>>> +        if (rc)
->>>> +            DPU_ERROR("failed to setup DPU encoder %d: rc:%d\n",
->>>> +                    encoder->base.id, rc);
->>>>      }
->>>>
->>>>      return rc;
->>>> @@ -505,6 +530,7 @@ static int _dpu_kms_initialize_displayport(struct
->>>> drm_device *dev,
->>>>                          struct dpu_kms *dpu_kms)
->>>>  {
->>>>      struct drm_encoder *encoder = NULL;
->>>> +    struct msm_display_info info;
->>>>      int rc = 0;
->>>>
->>>>      if (!priv->dp)
->>>> @@ -516,6 +542,7 @@ static int _dpu_kms_initialize_displayport(struct
->>>> drm_device *dev,
->>>>          return PTR_ERR(encoder);
->>>>      }
->>>>
->>>> +    memset(&info, 0, sizeof(info));
->>>>      rc = msm_dp_modeset_init(priv->dp, dev, encoder);
->>>>      if (rc) {
->>>>          DPU_ERROR("modeset_init failed for DP, rc = %d\n", rc);
->>>> @@ -524,6 +551,14 @@ static int _dpu_kms_initialize_displayport(struct
->>>> drm_device *dev,
->>>>      }
->>>>
->>>>      priv->encoders[priv->num_encoders++] = encoder;
->>>> +
->>>> +    info.num_of_h_tiles = 1;
->>>> +    info.capabilities = MSM_DISPLAY_CAP_VID_MODE;
->>>> +    info.intf_type = encoder->encoder_type;
->>>> +    rc = dpu_encoder_setup(dev, encoder, &info);
->>>> +    if (rc)
->>>> +        DPU_ERROR("failed to setup DPU encoder %d: rc:%d\n",
->>>> +            encoder->base.id, rc);
->>>>      return rc;
->>>>  }
->>>>
->>>> @@ -726,41 +761,6 @@ static void dpu_kms_destroy(struct msm_kms *kms)
->>>>      msm_kms_destroy(&dpu_kms->base);
->>>>  }
->>>>
->>>> -static void _dpu_kms_set_encoder_mode(struct msm_kms *kms,
->>>> -                 struct drm_encoder *encoder,
->>>> -                 bool cmd_mode)
->>>> -{
->>>> -    struct msm_display_info info;
->>>> -    struct msm_drm_private *priv = encoder->dev->dev_private;
->>>> -    int i, rc = 0;
->>>> -
->>>> -    memset(&info, 0, sizeof(info));
->>>> -
->>>> -    info.intf_type = encoder->encoder_type;
->>>> -    info.capabilities = cmd_mode ? MSM_DISPLAY_CAP_CMD_MODE :
->>>> -            MSM_DISPLAY_CAP_VID_MODE;
->>>> -
->>>> -    switch (info.intf_type) {
->>>> -    case DRM_MODE_ENCODER_DSI:
->>>> -        /* TODO: No support for DSI swap */
->>>> -        for (i = 0; i < ARRAY_SIZE(priv->dsi); i++) {
->>>> -            if (priv->dsi[i]) {
->>>> -                info.h_tile_instance[info.num_of_h_tiles] = i;
->>>> -                info.num_of_h_tiles++;
->>>> -            }
->>>> -        }
->>>> -        break;
->>>> -    case DRM_MODE_ENCODER_TMDS:
->>>> -        info.num_of_h_tiles = 1;
->>>> -        break;
->>>> -    }
->>>> -
->>>> -    rc = dpu_encoder_setup(encoder->dev, encoder, &info);
->>>> -    if (rc)
->>>> -        DPU_ERROR("failed to setup DPU encoder %d: rc:%d\n",
->>>> -            encoder->base.id, rc);
->>>> -}
->>>> -
->>> It seems we can get rid of set_encoder_mode for DP because the way we 
->>> are using it today seems not right.
->>> Ideally, the purpose was that once we read the EDID, the information 
->>> we read like the tile group etc
->>> can be used when we are setting up the encoder. But today, we are 
->>> just hard-coding the number of tiles.
->>> But I just think whether looking ahead, we should still have some 
->>> callback which can be called after
->>> EDID has been read instead of doing it in 
->>> _dpu_kms_initialize_displayport. Perhaps that can be a separate patch.
->>
->> For the MST support? It is definitely a separate patch. For now we
->> want to be able to drive a much simpler config: SST on several
->> connected DPs.
->>
-> Agreed on this.
->>>
->>>>  static irqreturn_t dpu_irq(struct msm_kms *kms)
->>>>  {
->>>>      struct dpu_kms *dpu_kms = to_dpu_kms(kms);
->>>> @@ -863,7 +863,6 @@ static const struct msm_kms_funcs kms_funcs = {
->>>>      .get_format      = dpu_get_msm_format,
->>>>      .round_pixclk    = dpu_kms_round_pixclk,
->>>>      .destroy         = dpu_kms_destroy,
->>>> -    .set_encoder_mode = _dpu_kms_set_encoder_mode,
->>> I would like to get Rob's comment on why we had set_encoder_mode in 
->>> the first place. Its there even in mdp5.
->>>
->>> in current msm dsi, the dsi bind will happen only after the panel has 
->>> attached
->>> and the msm_drv's bind will happen only after that since its the 
->>> component master
->>> in that case what was the need for set_encoder_mode  because we will 
->>> know the panel's video/cmd mode in the dsi_bind call
->>> am i missing something about why mdp5 had this?
-> As discussed with Rob on IRC, we both dont fully recall why this 
-> set_encoder_mode callback was added for mdp5.
-> DPU just carried this forward from mdp5.
-> So to be safe, maybe we can just validate this once on mdp5 to make sure 
-> it doesnt break.
-> Otherwise this part of removing the set_encoder_mode seems fine with me.
-
-Yes, fine with me.
-
-
->>>
->>>  From the dpu perspective, since dsi_bind() happens only once panel 
->>> has attached.
->>>>      .snapshot        = dpu_kms_mdp_snapshot,
->>>>  #ifdef CONFIG_DEBUG_FS
->>>>      .debugfs_init    = dpu_kms_debugfs_init,
-
-
--- 
-With best wishes
-Dmitry
+> > > > > > > > I ran it on Friday in the lab and encountered an issue with vc4_dsi
+> > > > > > > > should vc4_dsi_encoder_mode_fixup wish for a divider of 7 (required
+> > > > > > > > for this 800x1280 panel over 4 lanes) where it resulted in an invalid
+> > > > > > > > mode configuration. That resulted in patch [2] which then gave me
+> > > > > > > > sensible numbers.
+> >
+> > I have that commit in my branch, but still get 125 fps instead of 60 fps
+> > with kmstest --flip (after reverting commit 1c3834201272 "drm/vc4:
+> > Increase the core clock based on HVS load"). I'm not sure if [2] is the
+> > cause of this, but there seems to be an improvement: in my previous
+> > tests, the mode was fixed up every time I would start the application,
+> > with the timings getting more and more bizarre at every run :-)
+> >
+> > > > > > > > That branch with dtoverlay=vc4-kms-v3d and
+> > > > > > > > dtoverlay=vc4-kms-dsi-ti-sn65dsi83 created all the expected devices,
+> > > > > > > > and everything came up normally.
+> > > > > > > > It was a busy day, but I think I even stuck a scope on the clock lanes
+> > > > > > > > at that point and confirmed that they were at the link frequency
+> > > > > > > > expected.
+> > > > > > >
+> > > > > > > Thanks, I'll test your branch and will report the results.
+> > > > > >
+> > > > > > I had to apply the following diff to work around a crash:
+> > > > > >
+> > > > > > diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+> > > > > > index 55b6c53207f5..647426aa793a 100644
+> > > > > > --- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+> > > > > > +++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+> > > > > > @@ -525,6 +525,9 @@ static bool sn65dsi83_mode_fixup(struct drm_bridge *bridge,
+> > > > > >
+> > > > > >         /* The DSI format is always RGB888_1X24 */
+> > > > > >         list_for_each_entry(connector, &ddev->mode_config.connector_list, head) {
+> > > > > > +               if (!connector->display_info.bus_formats)
+> > > > > > +                       continue;
+> > > > > > +
+> > > > > >                 switch (connector->display_info.bus_formats[0]) {
+> > > > > >                 case MEDIA_BUS_FMT_RGB666_1X7X3_SPWG:
+> > > > > >                         ctx->lvds_format_24bpp = false;
+> > > > > >
+> > > > > > connector->display_info.bus_formats is NULL for the HDMI connectors, as
+> > > > > > I have nothing connected to them, as well as for the writeback
+> > > > > > connector.
+> > > > >
+> > > > > I'm now confused as to what I'm doing as my branch appears NOT to have
+> > > > > Marek's latest version of the driver as it doesn't have
+> > > > > sn65dsi83_mode_fixup.
+> > > > > I need to have another look at what's going on - I think I've got
+> > > > > branches confused when switching between machines :-( Remaking that
+> > > > > branch now.
+> > > > >
+> > > > > I do see that Marek has sent another patch around
+> > > > > sn65dsi83_mode_fixup, but it'll still dereference
+> > > > > connector->display_info.bus_formats[0] on all connectors. Shouldn't it
+> > > > > only be switching on the one connector that is connected to this
+> > > > > bridge, not HDMI or writeback connectors? I'm not totally clear on
+> > > > > which connectors are in that list.
+> > > > > https://patchwork.freedesktop.org/patch/440175/
+> > > >
+> > > > The following series should fix the issue:
+> > > >
+> > > > [PATCH] drm/bridge: ti-sn65dsi83: Replace connector format patching with atomic_get_input_bus_fmts
+> > > > [PATCH 0/5] ti-sn65dsi83: Finalize transition to atomic operations
+> > > >
+> > > > > > Then, when running kmstest --flip, I get one warning per frame:
+> > > > > >
+> > > > > > [   29.762089] [drm:vc4_dsi_runtime_resume] *ERROR* vc4_dsi_runtime_resume:
+> > > > > > [   29.763200] [drm:vc4_dsi_runtime_resume] *ERROR* vc4_dsi_runtime_resume: All good
+> > > > > > [   29.793861] ------------[ cut here ]------------
+> > > > > > [   29.798572] WARNING: CPU: 2 PID: 249 at drivers/gpu/drm/drm_modeset_lock.c:246 drm_modeset_lock+0xd0/0x100
+> > > > > > [   29.808365] Modules linked in: ipv6 bcm2835_codec(C) bcm2835_unicam bcm2835_v4l2(C) bcm2835_isp(C) bcm2835_mmal_vchiq(C) v4l2_mem2mem v4l2_dv_timings imx296 rtc_ds1307 videobuf2_vmallom
+> > > > > > [   29.855284] CPU: 2 PID: 249 Comm: kworker/u8:10 Tainted: G         C        5.10.44-v8+ #23
+> > > > > > [   29.863756] Hardware name: Raspberry Pi Compute Module 4 Rev 1.0 (DT)
+> > > > > > [   29.870297] Workqueue: events_unbound commit_work
+> > > > > > [   29.875077] pstate: 80000005 (Nzcv daif -PAN -UAO -TCO BTYPE=--)
+> > > > > > [   29.881172] pc : drm_modeset_lock+0xd0/0x100
+> > > > > > [   29.885506] lr : drm_atomic_get_new_or_current_crtc_state+0x6c/0x110
+> > > > > > [   29.891950] sp : ffffffc011fcbcb0
+> > > > > > [   29.895308] x29: ffffffc011fcbcb0 x28: ffffff80403fe780
+> > > > > > [   29.900705] x27: ffffff80415a2000 x26: ffffffc0106f0000
+> > > > > > [   29.906100] x25: 0000000000000000 x24: ffffff80420d3c80
+> > > > > > [   29.911495] x23: ffffff8042174080 x22: 0000000000000038
+> > > > > > [   29.916890] x21: 0000000000000000 x20: ffffff80421740a8
+> > > > > > [   29.922284] x19: ffffffc011f8bc50 x18: 0000000000000000
+> > > > > > [   29.927678] x17: 0000000000000000 x16: 0000000000000000
+> > > > > > [   29.933072] x15: 0000000000000000 x14: 0000000000000000
+> > > > > > [   29.938466] x13: 0048000000000329 x12: 0326032303290320
+> > > > > > [   29.943860] x11: 03200000020301f4 x10: 00000000000019e0
+> > > > > > [   29.949255] x9 : ffffffc0106efd8c x8 : ffffff804390d5c0
+> > > > > > [   29.954649] x7 : 7fffffffffffffff x6 : 0000000000000001
+> > > > > > [   29.960043] x5 : 0000000000000001 x4 : 0000000000000001
+> > > > > > [   29.965436] x3 : ffffff80415a2000 x2 : ffffff804199b200
+> > > > > > [   29.970830] x1 : 00000000000000bc x0 : ffffffc011f8bc98
+> > > > > > [   29.976225] Call trace:
+> > > > > > [   29.978708]  drm_modeset_lock+0xd0/0x100
+> > > > > > [   29.982687]  drm_atomic_get_new_or_current_crtc_state+0x6c/0x110
+> > > > > > [   29.988781]  vc4_atomic_complete_commit+0x4e4/0x860
+> > > > > > [   29.993729]  commit_work+0x18/0x20
+> > > > > > [   29.997181]  process_one_work+0x1c4/0x4a0
+> > > > > > [   30.001248]  worker_thread+0x50/0x420
+> > > > > > [   30.004965]  kthread+0x11c/0x150
+> > > > > > [   30.008239]  ret_from_fork+0x10/0x20
+> > > > > > [   30.011865] ---[ end trace f44ae6b09cda951a ]---
+> > > > > >
+> > > > > > Does it ring any bell ?
+> > > > >
+> > > > > kmstest --flip is a new one on me. kmstest from
+> > > > > https://cgit.freedesktop.org/drm/libdrm/tree/tests/kmstest doesn't
+> > > > > have such an option.
+> > > > > Based on Google, I'm guessing at
+> > > > > https://github.com/tomba/kmsxx/blob/master/utils/kmstest.cpp. Multiple
+> > > > > apps with the same name is always fun.
+> > > >
+> > > > Correct.
+> > > >
+> > > > > > In case this is useful information, the problem didn't occur on top of
+> > > > > > commit e1499baa0b0c.
+> > > > >
+> > > > > e1499baa0b0c is from back in March by the looks of it.
+> > > > > Maxime has done a number of reworks to accessor functions since then,
+> > > > > so it's quite possible there's a locking issue lurking. I'll let him
+> > > > > comment though.
+> > > >
+> > > > Maybe there's a reason why the patch the introduced
+> > > > drm_atomic_get_new_or_current_crtc_state() in your branch hasn't made it
+> > > > to mainline yet :-)
+> > >
+> > > Any chance this could be reverted from the RPi kernel v5.10 branch in
+> > > the meantime ?
+> > >
+> > > > > > > > Coming back to this patch though, it isn't in 5.10 so I'm not seeing
+> > > > > > > > the issues. As to the exact ordering of attaches, I can't claim
+> > > > > > > > sufficient knowledge on that front.
+> > > > > > > > I can try a cherry-pick of this patch to see what goes on, but it
+> > > > > > > > won't be for a day or two.
+> > > > > > >
+> > > > > > > Let's see if Maxime has an opinion :-)
+> > > > > > >
+> > > > > > > > [1] Largely https://www.raspberrypi.org/forums/viewtopic.php?f=44&t=305690,
+> > > > > > > > but ignore about the first 5 pages of the thread as different driver
+> > > > > > > > versions were floating about. Most stuff after that is based on
+> > > > > > > > Marek's driver.
+> > > > > > > > [2] https://github.com/6by9/linux/commit/c3c774136a1e946109048711d16974be8d520aaa
+> > > > > > > >
+> > > > > > > > > On Tue, Jul 07, 2020 at 12:19:12PM +0200, Maxime Ripard wrote:
+> > > > > > > > > > If the DSI driver is the last to probe, component_add will try to run all
+> > > > > > > > > > the bind callbacks straight away and return the error code.
+> > > > > > > > > >
+> > > > > > > > > > However, since we depend on a power domain, we're pretty much guaranteed to
+> > > > > > > > > > be in that case on the BCM2711, and are just lucky on the previous SoCs
+> > > > > > > > > > since the v3d also depends on that power domain and is further in the probe
+> > > > > > > > > > order.
+> > > > > > > > > >
+> > > > > > > > > > In that case, the DSI host will not stick around in the system: the DSI
+> > > > > > > > > > bind callback will be executed, will not find any DSI device attached and
+> > > > > > > > > > will return EPROBE_DEFER, and we will then remove the DSI host and ask to
+> > > > > > > > > > be probed later on.
+> > > > > > > > > >
+> > > > > > > > > > But since that host doesn't stick around, DSI devices like the RaspberryPi
+> > > > > > > > > > touchscreen whose probe is not linked to the DSI host (unlike the usual DSI
+> > > > > > > > > > devices that will be probed through the call to mipi_dsi_host_register)
+> > > > > > > > > > cannot attach to the DSI host, and we thus end up in a situation where the
+> > > > > > > > > > DSI host cannot probe because the panel hasn't probed yet, and the panel
+> > > > > > > > > > cannot probe because the DSI host hasn't yet.
+> > > > > > > > > >
+> > > > > > > > > > In order to break this cycle, let's wait until there's a DSI device that
+> > > > > > > > > > attaches to the DSI host to register the component and allow to progress
+> > > > > > > > > > further.
+> > > > > > > > > >
+> > > > > > > > > > Suggested-by: Andrzej Hajda <a.hajda@samsung.com>
+> > > > > > > > > > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> > > > > > > > > > ---
+> > > > > > > > > >  drivers/gpu/drm/vc4/vc4_dsi.c | 25 ++++++++-----------------
+> > > > > > > > > >  1 file changed, 8 insertions(+), 17 deletions(-)
+> > > > > > > > > >
+> > > > > > > > > > diff --git a/drivers/gpu/drm/vc4/vc4_dsi.c b/drivers/gpu/drm/vc4/vc4_dsi.c
+> > > > > > > > > > index eaf276978ee7..19aab4e7e209 100644
+> > > > > > > > > > --- a/drivers/gpu/drm/vc4/vc4_dsi.c
+> > > > > > > > > > +++ b/drivers/gpu/drm/vc4/vc4_dsi.c
+> > > > > > > > > > @@ -1246,10 +1246,12 @@ static ssize_t vc4_dsi_host_transfer(struct mipi_dsi_host *host,
+> > > > > > > > > >       return ret;
+> > > > > > > > > >  }
+> > > > > > > > > >
+> > > > > > > > > > +static const struct component_ops vc4_dsi_ops;
+> > > > > > > > > >  static int vc4_dsi_host_attach(struct mipi_dsi_host *host,
+> > > > > > > > > >                              struct mipi_dsi_device *device)
+> > > > > > > > > >  {
+> > > > > > > > > >       struct vc4_dsi *dsi = host_to_dsi(host);
+> > > > > > > > > > +     int ret;
+> > > > > > > > > >
+> > > > > > > > > >       dsi->lanes = device->lanes;
+> > > > > > > > > >       dsi->channel = device->channel;
+> > > > > > > > > > @@ -1284,6 +1286,12 @@ static int vc4_dsi_host_attach(struct mipi_dsi_host *host,
+> > > > > > > > > >               return 0;
+> > > > > > > > > >       }
+> > > > > > > > > >
+> > > > > > > > > > +     ret = component_add(&dsi->pdev->dev, &vc4_dsi_ops);
+> > > > > > > > > > +     if (ret) {
+> > > > > > > > > > +             mipi_dsi_host_unregister(&dsi->dsi_host);
+> > > > > > > > > > +             return ret;
+> > > > > > > > > > +     }
+> > > > > > > > > > +
+> > > > > > > > > >       return 0;
+> > > > > > > > > >  }
+> > > > > > > > > >
+> > > > > > > > > > @@ -1662,7 +1670,6 @@ static int vc4_dsi_dev_probe(struct platform_device *pdev)
+> > > > > > > > > >  {
+> > > > > > > > > >       struct device *dev = &pdev->dev;
+> > > > > > > > > >       struct vc4_dsi *dsi;
+> > > > > > > > > > -     int ret;
+> > > > > > > > > >
+> > > > > > > > > >       dsi = devm_kzalloc(dev, sizeof(*dsi), GFP_KERNEL);
+> > > > > > > > > >       if (!dsi)
+> > > > > > > > > > @@ -1670,26 +1677,10 @@ static int vc4_dsi_dev_probe(struct platform_device *pdev)
+> > > > > > > > > >       dev_set_drvdata(dev, dsi);
+> > > > > > > > > >
+> > > > > > > > > >       dsi->pdev = pdev;
+> > > > > > > > > > -
+> > > > > > > > > > -     /* Note, the initialization sequence for DSI and panels is
+> > > > > > > > > > -      * tricky.  The component bind above won't get past its
+> > > > > > > > > > -      * -EPROBE_DEFER until the panel/bridge probes.  The
+> > > > > > > > > > -      * panel/bridge will return -EPROBE_DEFER until it has a
+> > > > > > > > > > -      * mipi_dsi_host to register its device to.  So, we register
+> > > > > > > > > > -      * the host during pdev probe time, so vc4 as a whole can then
+> > > > > > > > > > -      * -EPROBE_DEFER its component bind process until the panel
+> > > > > > > > > > -      * successfully attaches.
+> > > > > > > > > > -      */
+> > > > > > > > > >       dsi->dsi_host.ops = &vc4_dsi_host_ops;
+> > > > > > > > > >       dsi->dsi_host.dev = dev;
+> > > > > > > > > >       mipi_dsi_host_register(&dsi->dsi_host);
+> > > > > > > > > >
+> > > > > > > > > > -     ret = component_add(&pdev->dev, &vc4_dsi_ops);
+> > > > > > > > > > -     if (ret) {
+> > > > > > > > > > -             mipi_dsi_host_unregister(&dsi->dsi_host);
+> > > > > > > > > > -             return ret;
+> > > > > > > > > > -     }
+> > > > > > > > > > -
+> > > > > > > > > >       return 0;
+> > > > > > > > > >  }
+> > > > > > > > > >
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
