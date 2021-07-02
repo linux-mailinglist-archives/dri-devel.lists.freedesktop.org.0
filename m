@@ -2,42 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 577773BA036
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Jul 2021 14:08:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6343C3BA041
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Jul 2021 14:19:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 79A4A89170;
-	Fri,  2 Jul 2021 12:08:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC75D6E159;
+	Fri,  2 Jul 2021 12:19:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1187A6E154;
- Fri,  2 Jul 2021 12:08:28 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10032"; a="196010109"
-X-IronPort-AV: E=Sophos;i="5.83,317,1616482800"; d="scan'208";a="196010109"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Jul 2021 05:08:25 -0700
-X-IronPort-AV: E=Sophos;i="5.83,317,1616482800"; d="scan'208";a="455931353"
-Received: from juanniex-mobl.ger.corp.intel.com (HELO [10.213.253.90])
- ([10.213.253.90])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Jul 2021 05:08:24 -0700
-Subject: Re: [Intel-gfx] [PATCH 05/53] drm/i915/gen12: Use fuse info to enable
- SFC
-To: Matt Roper <matthew.d.roper@intel.com>, intel-gfx@lists.freedesktop.org
-References: <20210701202427.1547543-1-matthew.d.roper@intel.com>
- <20210701202427.1547543-6-matthew.d.roper@intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-Message-ID: <bc1afd40-23be-2f8a-2d97-9bbe9507449c@linux.intel.com>
-Date: Fri, 2 Jul 2021 13:08:22 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com
+ [205.220.177.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC8DF6E153;
+ Fri,  2 Jul 2021 12:19:31 +0000 (UTC)
+Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 162CBPZE017259; Fri, 2 Jul 2021 12:19:22 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=Bm1Vb4PRIp8lyHUbwdjT462tG7M9FjVHVCCO3OaoUGY=;
+ b=ntMosZg45V/25BZpftG9/Gdu4OjAcj02RLNyc4P0hBMNgcPmTYqio/Obcx11s72IrzVg
+ vVPXUvnYTEf+lgAKYaCGRD9+1ncnBU5Pk3EAyTeAGgioSj3GcSv05xY2BHvoLHU+SaEx
+ QSZo6NwEhrseoQxW4kx9VLoVRXmUG9Q0EXUNDBNT+G037ZK7L0tPsc8aAUO+UgPW1sfj
+ zaPo68N8Wk84rLI3XWB1n46OoyaG7AI+sb8LE1a7Tck83gH/Mppdt1QAy2RhFkHnwBPQ
+ 72hJdeFdPokJU36ctFOjBxznS9OJKhOPfzVPJ3x5/4XA/xS3+6qE/k9oGV9DtbLSIzU1 xg== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+ by mx0b-00069f02.pphosted.com with ESMTP id 39htf6rt9u-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 02 Jul 2021 12:19:22 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+ by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 162CAFui124654;
+ Fri, 2 Jul 2021 12:19:21 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+ by aserp3030.oracle.com with ESMTP id 39dt9nrcnd-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 02 Jul 2021 12:19:21 +0000
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 162CJKka152057;
+ Fri, 2 Jul 2021 12:19:20 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+ by aserp3030.oracle.com with ESMTP id 39dt9nrcmn-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 02 Jul 2021 12:19:20 +0000
+Received: from abhmp0003.oracle.com (abhmp0003.oracle.com [141.146.116.9])
+ by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 162CJIDh010626;
+ Fri, 2 Jul 2021 12:19:18 GMT
+Received: from kadam (/102.222.70.252) by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Fri, 02 Jul 2021 12:19:18 +0000
+Date: Fri, 2 Jul 2021 15:19:10 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Matthew Auld <matthew.william.auld@gmail.com>
+Subject: Re: [Intel-gfx] [drm-intel:drm-intel-gt-next 8/14]
+ drivers/gpu/drm/i915/gt/selftest_migrate.c:102 copy() error: uninitialized
+ symbol 'rq'.
+Message-ID: <20210702121910.GX1983@kadam>
+References: <202107020708.XXwacDfG-lkp@intel.com>
+ <CAM0jSHOb0bGWMt-tmUn62R_FpiM5TL2HFLbBqxhpqk1gH0qSUA@mail.gmail.com>
+ <20210702110727.GT1983@kadam>
+ <CAM0jSHMyXEdS9wgkypKdvW1BNdUgcLxZR8Pd8nxSpPQHtiX+yA@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210701202427.1547543-6-matthew.d.roper@intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAM0jSHMyXEdS9wgkypKdvW1BNdUgcLxZR8Pd8nxSpPQHtiX+yA@mail.gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-GUID: 0_myu9kthiNk5ND7SttQSzaGH3CrbGWf
+X-Proofpoint-ORIG-GUID: 0_myu9kthiNk5ND7SttQSzaGH3CrbGWf
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,103 +79,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ kbuild-all@lists.01.org, kbuild@lists.01.org,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ Chris Wilson <chris@chris-wilson.co.uk>, Matthew Auld <matthew.auld@intel.com>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 01/07/2021 21:23, Matt Roper wrote:
-> From: Venkata Sandeep Dhanalakota <venkata.s.dhanalakota@intel.com>
+On Fri, Jul 02, 2021 at 12:34:33PM +0100, Matthew Auld wrote:
+> > > > cf586021642d80 Chris Wilson 2021-06-17   85             err = fn(migrate, &ww, src, dst, &rq);
+> > > > cf586021642d80 Chris Wilson 2021-06-17   86             if (!err)
+> > > > cf586021642d80 Chris Wilson 2021-06-17   87                     continue;
+> > > >
+> > > > Does fn() initialize "rq" on the success path?  Anyway Smatch would
+> > > > complain anyway because it thinks the list could be empty or that we
+> > > > might hit and early continue for everything.
+> > >
+> > > The fn() will always first initialize the rq to NULL. If it returns
+> > > success then rq will always be a valid rq. If it returns an err then
+> > > the rq might be NULL, or a valid rq depending on how far the copy/fn
+> > > got.
+> > >
+> > > And for_i915_gem_ww() will always run at least once, since ww->loop =
+> > > true, so this looks like a false positive?
+> >
+> > You don't think i915_gem_object_lock(), i915_gem_object_pin_map() or
+> > i915_gem_object_pin_map() can fail?
 > 
-> In Gen12 there are various fuse combinations and in each configuration
-> vdbox engine may be connected to SFC depending on which engines are
-> available, so we need to set the SFC capability based on fuse value from
-> the hardware. Even numbered phyical instance always have SFC, odd
-
-physical
-
-> numbered physical instances have SFC only if previous even instance is
-> fused off.
-
-Just a few nits.
-
-> Bspec: 48028
-> Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-> Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-> Signed-off-by: Venkata Sandeep Dhanalakota <venkata.s.dhanalakota@intel.com>
-> Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
-> ---
->   drivers/gpu/drm/i915/gt/intel_engine_cs.c | 30 ++++++++++++++++++-----
->   1 file changed, 24 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-> index 151870d8fdd3..4ab2c9abb943 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-> @@ -442,6 +442,28 @@ void intel_engines_free(struct intel_gt *gt)
->   	}
->   }
->   
-> +static inline
-
-Inline is not desired here.
-
-> +bool vdbox_has_sfc(struct drm_i915_private *i915, unsigned int physical_vdbox,
-> +		   unsigned int logical_vdbox, u16 vdbox_mask)
-> +{
-
-I'd be tempted to prefix the function name with gen11_ so it is clearer 
-it does not apply to earlier gens. Because if looking just at the diff 
-out of context below, one can wonder if there is a functional change or 
-not. There isn't, because there is a bailout for gen < 11 early in 
-init_engine_mask(), but perhaps gen11 function name prefix would make 
-this a bit more self-documenting.
-
-> +	/*
-> +	 * In Gen11, only even numbered logical VDBOXes are hooked
-> +	 * up to an SFC (Scaler & Format Converter) unit.
-> +	 * In Gen12, Even numbered phyical instance always are connected
-
-physical
-
-> +	 * to an SFC. Odd numbered physical instances have SFC only if
-> +	 * previous even instance is fused off.
-> +	 */
-> +	if (GRAPHICS_VER(i915) == 12) {
-> +		return (physical_vdbox % 2 == 0) ||
-> +			!(BIT(physical_vdbox - 1) & vdbox_mask);
-> +	} else if (GRAPHICS_VER(i915) == 11) {
-> +		return logical_vdbox % 2 == 0;
-> +	}
-
-Not need for curlies on these branches.
-
-> +
-> +	MISSING_CASE(GRAPHICS_VER(i915));
-> +	return false;
-> +}
-> +
->   /*
->    * Determine which engines are fused off in our particular hardware.
->    * Note that we have a catch-22 situation where we need to be able to access
-> @@ -493,13 +515,9 @@ static intel_engine_mask_t init_engine_mask(struct intel_gt *gt)
->   			continue;
->   		}
->   
-> -		/*
-> -		 * In Gen11, only even numbered logical VDBOXes are
-> -		 * hooked up to an SFC (Scaler & Format Converter) unit.
-> -		 * In TGL each VDBOX has access to an SFC.
-> -		 */
-> -		if (GRAPHICS_VER(i915) >= 12 || logical_vdbox++ % 2 == 0)
-> +		if (vdbox_has_sfc(i915, i, logical_vdbox, vdbox_mask))
->   			gt->info.vdbox_sfc_access |= BIT(i);
-> +		logical_vdbox++;
->   	}
->   	drm_dbg(&i915->drm, "vdbox enable: %04x, instances: %04lx\n",
->   		vdbox_mask, VDBOX_MASK(gt));
+> Yeah, they can totally fail but then we mostly likely just hit the
+> err_out. The for_i915_gem_ww() is a little strange since it's not
+> really looping over anything, it's just about retrying the block if we
+> see -EDEADLK(which involves dropping some locks), if we see any other
+> error then the loop is terminated with ww->loop = false, which then
+> hits the goto err_out.
 > 
 
-Regards,
+Ah, yeah, you're right.  False positive.
 
-Tvrtko
+I hadn't looked at this code in context (I only had reviewed the email).
+Now that I've pulled the tree and looked at the code, then I'm sort of
+surprised that Smatch generates a warning...  I will investigate some
+more.  Thanks!
+
+regards,
+dan carpenter
+
