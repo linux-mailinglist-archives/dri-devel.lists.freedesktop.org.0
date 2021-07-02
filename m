@@ -1,70 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71F393BA43E
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Jul 2021 21:10:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 745FC3BA448
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Jul 2021 21:12:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA11F6E104;
-	Fri,  2 Jul 2021 19:10:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C9C86E11A;
+	Fri,  2 Jul 2021 19:12:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
- [IPv6:2a00:1450:4864:20::331])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 18CC26E104
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Jul 2021 19:10:23 +0000 (UTC)
-Received: by mail-wm1-x331.google.com with SMTP id o22so7297438wms.0
- for <dri-devel@lists.freedesktop.org>; Fri, 02 Jul 2021 12:10:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to; bh=Pmanh/l4RYPiMz9vtWN5vGxol6i2zbYeNRxTf6wlNo0=;
- b=h8lOkcy0Z6seVHPg996JrP6IqrpLp4pAriwUYYdNa41UYfO45lrwbhOoZ80NJRfQM6
- B2vXzas48bRn8XDOJMDNXxWs982fIRZvkU+9UArz0OnA/Qmp0ZhZsgRGgeYql9soQlaV
- BC8yeinu9wCkIMe04pvuj0eWLTY/yxagfdqUQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :content-transfer-encoding:in-reply-to;
- bh=Pmanh/l4RYPiMz9vtWN5vGxol6i2zbYeNRxTf6wlNo0=;
- b=C6JRm8ZGNcCieufFqCbxqtxas4Ea43Z+E4v57+a+vP1wofJraVJvNw5gxNG75RqJgv
- BoQYoZVeJ0Be/QwZgS9KTgc4sseEcpLLM0/VKqQNjMxMAHRAEPUf9wHooMAI8TB9wejQ
- D7QJQlyM9HBvOAWY9qQOb7lLCzhgs7aL87zOnL/Crk8ZJ3xG2iLlSr3nFUeEbeeppnJ/
- Kz0C0wfFxjkekwGenqmWEliID/8EvCOyrcF/0PmfxYy/3QgXdgfR6yA8Q3gbu5frNX0g
- m0B3sGNzBmS5pyVrY9VXnCsNHUhH2nPosC8TiPrTfl9GlFGKa0tnhp7uYDQOdmt5VRv/
- qobw==
-X-Gm-Message-State: AOAM5336HaM0W0m9Qus9hGHKQpdgKrxxrtFDrabhuMP3bh+sI8547UHp
- KUa9GP1EwZ+764vPNWtdEXosbg==
-X-Google-Smtp-Source: ABdhPJy5BNnqGN0Fwpl5zTTbBdeJYST9zgAK6VB4zEBH02UqccbbJZ0NAQLXspAuKwm4Ob8x7p3meQ==
-X-Received: by 2002:a05:600c:4f09:: with SMTP id
- l9mr1368996wmq.114.1625253021638; 
- Fri, 02 Jul 2021 12:10:21 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id d24sm9110479wmb.42.2021.07.02.12.10.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 02 Jul 2021 12:10:20 -0700 (PDT)
-Date: Fri, 2 Jul 2021 21:10:19 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Zack Rusin <zackr@vmware.com>
-Subject: Re: [PATCH -next] drm: vmwgfx: add header file for ttm_range_manager
-Message-ID: <YN9km1dVs5Z1YDXJ@phenom.ffwll.local>
-Mail-Followup-To: Zack Rusin <zackr@vmware.com>,
- Randy Dunlap <rdunlap@infradead.org>,
- Roland Scheidegger <sroland@vmware.com>,
- LKML <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Linux-graphics-maintainer <Linux-graphics-maintainer@vmware.com>,
- Dave Airlie <airlied@redhat.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-References: <20210630203252.32471-1-rdunlap@infradead.org>
- <8CB463FC-BF27-48CD-8843-975AE600DE35@vmware.com>
+Received: from phobos.denx.de (phobos.denx.de
+ [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C2526E11A
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Jul 2021 19:12:48 +0000 (UTC)
+Received: from [IPv6:::1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id 2327980098;
+ Fri,  2 Jul 2021 21:12:46 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1625253166;
+ bh=kBJjHGnY+bvKhbCOqxqeN8yDhZs7b2P9wgFhhObcueE=;
+ h=Subject:From:To:Cc:References:Date:In-Reply-To:From;
+ b=Md+ztX/YkdHhUzRJPnO5x+W9d/xxyz2Ua/NAYgbD4ZCG/Idr9E02nboT+4jp4yaeO
+ dI0YmjSJeQFASF2lIKIXl5C1toFo9keWGIRT0sSID01FuD00LlT3hsFGirmsRkz0WZ
+ RIz/Gkfj/QqxIExcilPbakcia93LW9qqbTPx9CBxeSkaEhBrMt5Cbn14h32HWDcl8N
+ gGIfClvaORVP2QUc0hTX/2/c8Z+Z3Pj7yLymhWU340ylTYdmvxFDuGMCXU2O2yY2qh
+ 4M3qK7nXu29VZV5xmn8ocEJEFs/9yuS8etmnqZ2mSHIasvRI9NeQo1hVUsdgO575cR
+ g6OjbSOWo5rnQ==
+Subject: Re: [PATCH] drm: mxsfb: Enable recovery on underflow
+From: Marek Vasut <marex@denx.de>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20210620224701.189289-1-marex@denx.de>
+ <YNCCgCWA8KdkS/df@pendragon.ideasonboard.com>
+ <6326d213-548c-0c80-5e35-cd7a76dacade@denx.de>
+Message-ID: <07e32619-242a-5fc8-dfe3-607adc61699a@denx.de>
+Date: Fri, 2 Jul 2021 21:12:45 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+In-Reply-To: <6326d213-548c-0c80-5e35-cd7a76dacade@denx.de>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <8CB463FC-BF27-48CD-8843-975AE600DE35@vmware.com>
-X-Operating-System: Linux phenom 5.10.0-7-amd64 
+X-Virus-Scanned: clamav-milter 0.103.2 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,51 +58,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Randy Dunlap <rdunlap@infradead.org>,
- Roland Scheidegger <sroland@vmware.com>, LKML <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Linux-graphics-maintainer <Linux-graphics-maintainer@vmware.com>,
- Dave Airlie <airlied@redhat.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: ch@denx.de, Robert Foss <robert.foss@linaro.org>,
+ Emil Velikov <emil.l.velikov@gmail.com>,
+ Daniel Abrecht <public@danielabrecht.ch>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 30, 2021 at 08:36:29PM +0000, Zack Rusin wrote:
+On 7/1/21 12:49 AM, Marek Vasut wrote:
+> On 6/21/21 2:13 PM, Laurent Pinchart wrote:
+>> Hi Marek,
+>>
+>> Thank you for the patch.
+>>
+>> On Mon, Jun 21, 2021 at 12:47:01AM +0200, Marek Vasut wrote:
+>>> There is some sort of corner case behavior of the controller,
+>>> which could rarely be triggered at least on i.MX6SX connected
+>>> to 800x480 DPI panel and i.MX8MM connected to DPI->DSI->LVDS
+>>> bridged 1920x1080 panel (and likely on other setups too), where
+>>> the image on the panel shifts to the right and wraps around.
+>>> This happens either when the controller is enabled on boot or
+>>> even later during run time. The condition does not correct
+>>> itself automatically, i.e. the display image remains shifted.
+>>>
+>>> It seems this problem is known and is due to sporadic underflows
+>>> of the LCDIF FIFO. While the LCDIF IP does have underflow/overflow
+>>> IRQs, neither of the IRQs trigger and neither IRQ status bit is
+>>> asserted when this condition occurs.
+>>>
+>>> All known revisions of the LCDIF IP have CTRL1 RECOVER_ON_UNDERFLOW
+>>> bit, which is described in the reference manual since i.MX23 as
+>>> "
+>>>    Set this bit to enable the LCDIF block to recover in the next
+>>>    field/frame if there was an underflow in the current field/frame.
+>>> "
+>>> Enable this bit to mitigate the sporadic underflows.
+>>>
+>>> Fixes: 45d59d704080 ("drm: Add new driver for MXSFB controller")
+>>> Signed-off-by: Marek Vasut <marex@denx.de>
+>>> Cc: Daniel Abrecht <public@danielabrecht.ch>
+>>> Cc: Emil Velikov <emil.l.velikov@gmail.com>
+>>> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>>> Cc: Lucas Stach <l.stach@pengutronix.de>
+>>> Cc: Stefan Agner <stefan@agner.ch>
+>>> ---
+>>>   drivers/gpu/drm/mxsfb/mxsfb_kms.c  | 29 +++++++++++++++++++++++++++++
+>>>   drivers/gpu/drm/mxsfb/mxsfb_regs.h |  1 +
+>>>   2 files changed, 30 insertions(+)
+>>>
+>>> diff --git a/drivers/gpu/drm/mxsfb/mxsfb_kms.c 
+>>> b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
+>>> index 300e7bab0f43..01e0f525360f 100644
+>>> --- a/drivers/gpu/drm/mxsfb/mxsfb_kms.c
+>>> +++ b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
+>>> @@ -115,6 +115,35 @@ static void mxsfb_enable_controller(struct 
+>>> mxsfb_drm_private *mxsfb)
+>>>       reg |= VDCTRL4_SYNC_SIGNALS_ON;
+>>>       writel(reg, mxsfb->base + LCDC_VDCTRL4);
+>>> +    /*
+>>> +     * Enable recovery on underflow.
+>>> +     *
+>>> +     * There is some sort of corner case behavior of the controller,
+>>> +     * which could rarely be triggered at least on i.MX6SX connected
+>>> +     * to 800x480 DPI panel and i.MX8MM connected to DPI->DSI->LVDS
+>>> +     * bridged 1920x1080 panel (and likely on other setups too), where
+>>> +     * the image on the panel shifts to the right and wraps around.
+>>> +     * This happens either when the controller is enabled on boot or
+>>> +     * even later during run time. The condition does not correct
+>>> +     * itself automatically, i.e. the display image remains shifted.
+>>> +     *
+>>> +     * It seems this problem is known and is due to sporadic underflows
+>>> +     * of the LCDIF FIFO. While the LCDIF IP does have 
+>>> underflow/overflow
+>>> +     * IRQs, neither of the IRQs trigger and neither IRQ status bit is
+>>> +     * asserted when this condition occurs.
+>>> +     *
+>>> +     * All known revisions of the LCDIF IP have CTRL1 
+>>> RECOVER_ON_UNDERFLOW
+>>> +     * bit, which is described in the reference manual since i.MX23 as
+>>> +     * "
+>>> +     *   Set this bit to enable the LCDIF block to recover in the next
+>>> +     *   field/frame if there was an underflow in the current 
+>>> field/frame.
+>>> +     * "
+>>> +     * Enable this bit to mitigate the sporadic underflows.
+>>> +     */
+>>> +    reg = readl(mxsfb->base + LCDC_CTRL1);
+>>> +    reg |= CTRL1_RECOVER_ON_UNDERFLOW;
+>>> +    writel(reg, mxsfb->base + LCDC_CTRL1);
+>>
+>> Looks good to me. Thanks for the detailed explanation.
+>>
+>> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > 
-> 
-> > On Jun 30, 2021, at 16:32, Randy Dunlap <rdunlap@infradead.org> wrote:
-> > 
-> > Add a header file for ttm_range_manager function prototypes to
-> > eliminate build errors:
-> > 
-> > ../drivers/gpu/drm/vmwgfx/vmwgfx_drv.c: In function ‘vmw_vram_manager_init’:
-> > ../drivers/gpu/drm/vmwgfx/vmwgfx_drv.c:678:8: error: implicit declaration of function ‘ttm_range_man_init’; did you mean ‘ttm_tt_mgr_init’? [-Werror=implicit-function-declaration]
-> >  ret = ttm_range_man_init(&dev_priv->bdev, TTM_PL_VRAM, false,
-> > ../drivers/gpu/drm/vmwgfx/vmwgfx_drv.c: In function ‘vmw_vram_manager_fini’:
-> > ../drivers/gpu/drm/vmwgfx/vmwgfx_drv.c:690:2: error: implicit declaration of function ‘ttm_range_man_fini’; did you mean ‘ttm_pool_mgr_fini’? [-Werror=implicit-function-declaration]
-> >  ttm_range_man_fini(&dev_priv->bdev, TTM_PL_VRAM);
-> > 
-> > Fixes: 9c3006a4cc1b ("drm/ttm: remove available_caching")
-> > Fixes: a343160235f5 ("drm/vmwgfx/ttm: fix the non-THP cleanup path.")
-> > Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> > Cc: "VMware Graphics" <linux-graphics-maintainer@vmware.com>
-> > Cc: Roland Scheidegger <sroland@vmware.com>
-> > Cc: Zack Rusin <zackr@vmware.com>
-> > Cc: dri-devel@lists.freedesktop.org
-> > Cc: Dave Airlie <airlied@redhat.com>
-> > Cc: Christian König <christian.koenig@amd.com>
-> 
-> Thank you. That change has been part of drm-misc for a few weeks now:
-> https://cgit.freedesktop.org/drm/drm-misc/commit/?id=352a81b71ea0a3ce8f929aa60afe369d738a0c6a
-> I think it should be part of the next merge of drm-misc to linux-next. If not I’ll port it to drm-misc-fixes.
+> So who do I CC to pick it? Robert ? There are a few more mxsfb fixes 
+> which are RB'd and would be nice if they were picked too.
 
-It should probably be in drm-misc-next-fixes. drm-misc-next is for 5.15.
-drm-misc-fixes was for 5.14 and will only reopen after -rc1.
-
-See  https://drm.pages.freedesktop.org/maintainer-tools/committer-drm-misc.html#where-do-i-apply-my-patch
-
-Cheers, Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
++CC Daniel, can those RB'd mxsfb patches be picked ?
