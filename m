@@ -1,37 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78D463B9F3D
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Jul 2021 12:46:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C23B3B9F51
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Jul 2021 12:52:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 225266E0ED;
-	Fri,  2 Jul 2021 10:46:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 834D36E0F7;
+	Fri,  2 Jul 2021 10:52:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0DAAF6E0ED;
- Fri,  2 Jul 2021 10:46:53 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10032"; a="208666601"
-X-IronPort-AV: E=Sophos;i="5.83,317,1616482800"; d="scan'208";a="208666601"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Jul 2021 03:46:52 -0700
-X-IronPort-AV: E=Sophos;i="5.83,317,1616482800"; d="scan'208";a="482276946"
-Received: from salle-mobl1.ger.corp.intel.com (HELO mwauld-desk1.intel.com)
- ([10.213.224.112])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Jul 2021 03:46:51 -0700
-From: Matthew Auld <matthew.auld@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 2/2] drm/i915/selftests: fix smatch warning in mock_reserve
-Date: Fri,  2 Jul 2021 11:46:42 +0100
-Message-Id: <20210702104642.1189978-2-matthew.auld@intel.com>
-X-Mailer: git-send-email 2.26.3
-In-Reply-To: <20210702104642.1189978-1-matthew.auld@intel.com>
-References: <20210702104642.1189978-1-matthew.auld@intel.com>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B0CD6E0F7
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Jul 2021 10:52:38 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+ bits)) (No client certificate requested)
+ (Authenticated sender: bbrezillon)
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 1E89D1F40752;
+ Fri,  2 Jul 2021 11:52:37 +0100 (BST)
+Date: Fri, 2 Jul 2021 12:52:34 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Steven Price <steven.price@arm.com>
+Subject: Re: [PATCH v2 4/7] drm/panfrost: Add the ability to create submit
+ queues
+Message-ID: <20210702125234.14ab19fb@collabora.com>
+In-Reply-To: <700919f1-a0d0-d8fb-e871-915b56260f83@arm.com>
+References: <20210701091224.3209803-1-boris.brezillon@collabora.com>
+ <20210701091224.3209803-5-boris.brezillon@collabora.com>
+ <700919f1-a0d0-d8fb-e871-915b56260f83@arm.com>
+Organization: Collabora
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,48 +46,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dan Carpenter <dan.carpenter@oracle.com>, kernel test robot <lkp@intel.com>,
- dri-devel@lists.freedesktop.org
+Cc: Jason Ekstrand <jason@jlekstrand.net>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>, dri-devel@lists.freedesktop.org,
+ Rob Herring <robh+dt@kernel.org>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Robin Murphy <robin.murphy@arm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If mock_region_create fails then mem will be an error pointer. Instead
-we just need to use the correct ordering for the onion unwind.
+On Fri, 2 Jul 2021 11:08:58 +0100
+Steven Price <steven.price@arm.com> wrote:
 
-igt_mock_reserve() error: 'mem' dereferencing possible ERR_PTR()
+> On 01/07/2021 10:12, Boris Brezillon wrote:
+> > Needed to keep VkQueues isolated from each other.  
+> 
+> One more comment I noticed when I tried this out:
+> 
+> [...]
+> > +struct panfrost_submitqueue *
+> > +panfrost_submitqueue_create(struct panfrost_file_priv *ctx,
+> > +			    enum panfrost_submitqueue_priority priority,
+> > +			    u32 flags)
+> > +{
+> > +	struct panfrost_submitqueue *queue;
+> > +	enum drm_sched_priority sched_prio;
+> > +	int ret, i;
+> > +
+> > +	if (flags || priority >= PANFROST_SUBMITQUEUE_PRIORITY_COUNT)
+> > +		return ERR_PTR(-EINVAL);
+> > +
+> > +	queue = kzalloc(sizeof(*queue), GFP_KERNEL);
+> > +	if (!queue)
+> > +		return ERR_PTR(-ENOMEM);
+> > +
+> > +	queue->pfdev = ctx->pfdev;
+> > +	sched_prio = to_sched_prio(priority);
+> > +	for (i = 0; i < NUM_JOB_SLOTS; i++) {
+> > +		struct drm_gpu_scheduler *sched;
+> > +
+> > +		sched = panfrost_job_get_sched(ctx->pfdev, i);
+> > +		ret = drm_sched_entity_init(&queue->sched_entity[i],
+> > +					    sched_prio, &sched, 1, NULL);
+> > +		if (ret)
+> > +			break;
+> > +	}
+> > +
+> > +	if (ret) {
+> > +		for (i--; i >= 0; i--)
+> > +			drm_sched_entity_destroy(&queue->sched_entity[i]);
+> > +
+> > +		return ERR_PTR(ret);
+> > +	}
+> > +
+> > +	kref_init(&queue->refcount);
+> > +	idr_lock(&ctx->queues);
+> > +	ret = idr_alloc(&ctx->queues, queue, 0, INT_MAX, GFP_KERNEL);  
+> 
+> This makes lockdep complain. idr_lock() is a spinlock and GFP_KERNEL can
+> sleep. So either we need to bring our own mutex here or not use GFP_KERNEL.
+> 
 
-Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-Signed-off-by: Matthew Auld <matthew.auld@intel.com>
----
- drivers/gpu/drm/i915/selftests/intel_memory_region.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+Ouch! I wonder why I don't see that (I have lockdep enabled, and the
+igt tests should have exercised this path).
 
-diff --git a/drivers/gpu/drm/i915/selftests/intel_memory_region.c b/drivers/gpu/drm/i915/selftests/intel_memory_region.c
-index 1aaccb9841a0..418caae84759 100644
---- a/drivers/gpu/drm/i915/selftests/intel_memory_region.c
-+++ b/drivers/gpu/drm/i915/selftests/intel_memory_region.c
-@@ -173,7 +173,7 @@ static int igt_mock_reserve(void *arg)
- 	if (IS_ERR(mem)) {
- 		pr_err("failed to create memory region\n");
- 		err = PTR_ERR(mem);
--		goto out_close;
-+		goto out_free_order;
- 	}
- 
- 	/* Reserve a bunch of ranges within the region */
-@@ -224,9 +224,10 @@ static int igt_mock_reserve(void *arg)
- 	}
- 
- out_close:
--	kfree(order);
- 	close_objects(mem, &objects);
- 	intel_memory_region_put(mem);
-+out_free_order:
-+	kfree(order);
- 	return err;
- }
- 
--- 
-2.26.3
+> Steve
 
