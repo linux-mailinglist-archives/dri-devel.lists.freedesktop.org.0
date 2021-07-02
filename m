@@ -1,51 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51A6B3BA0FD
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Jul 2021 15:12:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D77F3BA116
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Jul 2021 15:16:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A64F6E17E;
-	Fri,  2 Jul 2021 13:12:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 07DA76E17C;
+	Fri,  2 Jul 2021 13:16:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp5-g21.free.fr (smtp5-g21.free.fr [IPv6:2a01:e0c:1:1599::14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 70CC26E17C;
- Fri,  2 Jul 2021 13:12:35 +0000 (UTC)
-Received: from [192.168.1.190] (unknown [91.155.165.229])
- (Authenticated sender: martin.peres@free.fr)
- by smtp5-g21.free.fr (Postfix) with ESMTPSA id 9332E5FF3F;
- Fri,  2 Jul 2021 15:12:22 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=free.fr;
- s=smtp-20201208; t=1625231554;
- bh=vKUM2f1Cw/W/uNwyZOwCq0u1SM1S7vnk+jenXPOPh3c=;
- h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=MA3M9rghZtdIeCSraQN7EgQdKLPUoH0cqhwwEDs5p4+hDQjPV+fhIafFJzPvohke5
- /KCriOnAzznOlrkGjkl0Eo1cjVRvCu5TntcPu3HOxNUlQ2AGvW5nfDx+KQSp7f8idA
- Q9wJiEc+yoi0G7EbIrr8k7corACi+PYNP48l+05k5/F6a0Zqc6A9ApCHO4nt3wRneC
- 3dkWX6e8QEItoCJ91zvvk+b13SOYs50s6VnsX4THWVbf5x/dhQIfosnq2cRM8etbqd
- WZja12cglcWEoqHcSRf6f7qw+tDUwcxSbnOLQRTjFtXQ8j+L6Q/kMDn/19N3Oork29
- YIT/lPYcGPd7A==
-Subject: Re: [PATCH 47/47] drm/i915/guc: Unblock GuC submission on Gen11+
-To: Michal Wajdeczko <michal.wajdeczko@intel.com>,
- Matthew Brost <matthew.brost@intel.com>
-References: <20210624070516.21893-1-matthew.brost@intel.com>
- <20210624070516.21893-48-matthew.brost@intel.com>
- <88cbe963-7188-f4ae-5acf-01a80bd2fe25@free.fr>
- <20210630180052.GA8283@sdutt-i7>
- <7c3e1d46-74eb-6f2d-53ca-d73ce9e61c03@free.fr>
- <d9e31651-dd97-fb39-0045-7cd62650bd03@free.fr>
- <2d649c1a-82fc-cced-4020-f7d9d96c3bc4@intel.com>
-From: Martin Peres <martin.peres@free.fr>
-Message-ID: <040272cf-cbd5-73ef-c763-71948474be82@free.fr>
-Date: Fri, 2 Jul 2021 16:12:21 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
+ [66.111.4.229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EACBE6E17C
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Jul 2021 13:16:53 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 4B12F5806EC;
+ Fri,  2 Jul 2021 09:16:51 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute2.internal (MEProxy); Fri, 02 Jul 2021 09:16:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm3; bh=Dpuka6kF6XJQ8HuE+RA/cLQlHqm
+ /fSxaBerKlZi46o8=; b=3S6at3Gsjrp9YrocUHCqBIuwYjFMEHY/smi2fQsekGT
+ rX6fYdA9A/WDZiD9f6+p/qgmA1+VwSzRTtDhgcqiFCxPlIgWDxC2HRXAbD3knMxL
+ OyRbxMxATt0NtyNwjg0l4KpfLNl1ASKRDtcZ+/rn0Z+coMsO+pKovFyAulWrYz4e
+ s5ujwtgvcwqCK1290mfBChyIySA2yIc0xHaf2luRuCmn9tIS4y3TdqiNIIG6IwVe
+ YyAO5xwQb/a4ivkDnH3joylYvcX5skk2CTmU3WbOLvlq7f3Kr0PoTDdn0COGTPVJ
+ cD5aiKDte7GA2Fq3N3QkjCKdxmzOV2xpfmZAz4/FWcQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=Dpuka6
+ kF6XJQ8HuE+RA/cLQlHqm/fSxaBerKlZi46o8=; b=YA0+2Q902H4gta16BCA6Ly
+ sB7rfgywSke8xqTExtE7gZNxD8tM1Zey4NnXPGXJUWZSx/LAUXRDRlLvmQLAevjf
+ K0rZ7sz/6ZK5VfizRov+cL0zK0LQizF8MYFFqvhWOlC1BDC5ZETciCDKi8KcJl2F
+ LHXxkGks2EkkPXRaIjYj8uFtfUQkyCxFWlqzHI1JuDy0tilUxMw8+Jq3dHje+XYt
+ bjjuiM03V9FDjgBvsUOw8k8WFB0J/U4U4uK6W2GhRrYZam9Urq7Q3ZM3edbztmZc
+ Ub2YD63iXS7mr0yLEruN1+pBQgn7TI515wCbylGvytU2F4aPIWT8Fx71mfCj+kag
+ ==
+X-ME-Sender: <xms:wRHfYHLFCWfedbyM0BHYT4EmLa5E4OB0VU5mx3p8MdG0Dl7cTD0JYg>
+ <xme:wRHfYLKZm8_-JTfq7dWGwU_Xba6k1oJ8G7MIxi7tSfysdtFoL7peDcOme32Rvk9dC
+ d9vfvS8niyhCs-dCQg>
+X-ME-Received: <xmr:wRHfYPu0zjS_chbU5AFjShifSu5HCOBLKt1mzPd2bN8LegwY6HyTFMXmlIjh2dRmGcczQifOfC3_DR0X6CAMmzq6jUmMfympIO9U>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfeeikedgieduucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
+ vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+ htvghrnhepveegudetkeethfetgffgtdekkefghefhffefgeduleehgeehieeuveefgedv
+ ieegnecuffhomhgrihhnpehgihhthhhusgdrtghomhenucevlhhushhtvghrufhiiigvpe
+ dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:wRHfYAb94_jwajsGsNk9IvwauGSK8dMVjH0_wV4fGaA4_HofzQYI6A>
+ <xmx:wRHfYObjMYAGVJ2sz7rqU-X1uCF1nhcZgbDU5h5gvC3rsH37vetLPA>
+ <xmx:wRHfYEBJ7XSD0j3SjT9cRUNdl965HU_TaAsapaMWny71pL5D_XIcfA>
+ <xmx:wxHfYGrsglQAQqaqug4g7AUnLM-76_gfqaYLS1KEDcUnsUAePhIasQ>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 2 Jul 2021 09:16:48 -0400 (EDT)
+Date: Fri, 2 Jul 2021 15:16:46 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Nathan Chancellor <nathan@kernel.org>
+Subject: Re: [PATCH 2/2] drm/vc4: hdmi: Convert to gpiod
+Message-ID: <20210702131646.ppb5i7uz7kmmqs7g@gilmour>
+References: <20210524131852.263883-1-maxime@cerno.tech>
+ <20210524131852.263883-2-maxime@cerno.tech>
+ <YN6IHun9G3Kfzf8G@Ryzen-9-3900X.localdomain>
 MIME-Version: 1.0
-In-Reply-To: <2d649c1a-82fc-cced-4020-f7d9d96c3bc4@intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="rcwmvrtgglhsawrs"
+Content-Disposition: inline
+In-Reply-To: <YN6IHun9G3Kfzf8G@Ryzen-9-3900X.localdomain>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,69 +81,137 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, daniele.ceraolospurio@intel.com,
- john.c.harrison@intel.com, dri-devel@lists.freedesktop.org
+Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Eric Anholt <eric@anholt.net>,
+ Hans Verkuil <hans.verkuil@cisco.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>, Phil Elwell <phil@raspberrypi.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 02/07/2021 16:06, Michal Wajdeczko wrote:
-> 
-> 
-> On 02.07.2021 10:13, Martin Peres wrote:
->> On 01/07/2021 21:24, Martin Peres wrote:
->> [...]
->>>>
->>>>>
->>>>>> +        i915->params.enable_guc = ENABLE_GUC_LOAD_HUC;
->>>>>> +        return;
->>>>>> +    }
->>>>>> +
->>>>>> +    /* Default: enable HuC authentication and GuC submission */
->>>>>> +    i915->params.enable_guc = ENABLE_GUC_LOAD_HUC |
->>>>>> ENABLE_GUC_SUBMISSION;
->>>>>
->>>>> This seems to be in contradiction with the GuC submission plan which
->>>>> states:
->>>>>
->>>>> "Not enabled by default on any current platforms but can be enabled via
->>>>> modparam enable_guc".
->>>>>
->>>>
->>>> I don't believe any current platform gets this point where GuC
->>>> submission would be enabled by default. The first would be ADL-P which
->>>> isn't out yet.
->>>
->>> Isn't that exactly what the line above does?
->>
->> In case you missed this crucial part of the review. Please answer the
->> above question.
-> 
-> I guess there is some misunderstanding here, and I must admit I had
-> similar doubt, but if you look beyond patch diff and check function code
-> you will find that the very condition is:
-> 
-> 	/* Don't enable GuC/HuC on pre-Gen12 */
-> 	if (GRAPHICS_VER(i915) < 12) {
-> 		i915->params.enable_guc = 0;
-> 		return;
-> 	}
-> 
-> so all pre-Gen12 platforms will continue to have GuC/HuC disabled.
 
-Thanks Michal, but then the problem is the other way: how can one enable 
-it on gen11?
+--rcwmvrtgglhsawrs
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I like what Daniele was going for here: separating the capability from 
-the user-requested value, but then it seems the patch stopped half way. 
-How about never touching the parameter, and having a AND between the two 
-values to get the effective enable_guc?
+Hi Nathan,
 
-Right now, the code is really confusing :s
+On Thu, Jul 01, 2021 at 08:29:34PM -0700, Nathan Chancellor wrote:
+> On Mon, May 24, 2021 at 03:18:52PM +0200, Maxime Ripard wrote:
+> > The new gpiod interface takes care of parsing the GPIO flags and to
+> > return the logical value when accessing an active-low GPIO, so switching
+> > to it simplifies a lot the driver.
+> >=20
+> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> > ---
+> >  drivers/gpu/drm/vc4/vc4_hdmi.c | 24 +++++++-----------------
+> >  drivers/gpu/drm/vc4/vc4_hdmi.h |  3 +--
+> >  2 files changed, 8 insertions(+), 19 deletions(-)
+> >=20
+> > diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_h=
+dmi.c
+> > index ccc6c8079dc6..34622c59f6a7 100644
+> > --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
+> > +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+> > @@ -159,10 +159,9 @@ vc4_hdmi_connector_detect(struct drm_connector *co=
+nnector, bool force)
+> >  	struct vc4_hdmi *vc4_hdmi =3D connector_to_vc4_hdmi(connector);
+> >  	bool connected =3D false;
+> > =20
+> > -	if (vc4_hdmi->hpd_gpio) {
+> > -		if (gpio_get_value_cansleep(vc4_hdmi->hpd_gpio) ^
+> > -		    vc4_hdmi->hpd_active_low)
+> > -			connected =3D true;
+> > +	if (vc4_hdmi->hpd_gpio &&
+> > +	    gpiod_get_value_cansleep(vc4_hdmi->hpd_gpio)) {
+> > +		connected =3D true;
+> >  	} else if (drm_probe_ddc(vc4_hdmi->ddc)) {
+> >  		connected =3D true;
+> >  	} else if (HDMI_READ(HDMI_HOTPLUG) & VC4_HDMI_HOTPLUG_CONNECTED) {
+> > @@ -1993,7 +1992,6 @@ static int vc4_hdmi_bind(struct device *dev, stru=
+ct device *master, void *data)
+> >  	struct vc4_hdmi *vc4_hdmi;
+> >  	struct drm_encoder *encoder;
+> >  	struct device_node *ddc_node;
+> > -	u32 value;
+> >  	int ret;
+> > =20
+> >  	vc4_hdmi =3D devm_kzalloc(dev, sizeof(*vc4_hdmi), GFP_KERNEL);
+> > @@ -2031,18 +2029,10 @@ static int vc4_hdmi_bind(struct device *dev, st=
+ruct device *master, void *data)
+> >  	/* Only use the GPIO HPD pin if present in the DT, otherwise
+> >  	 * we'll use the HDMI core's register.
+> >  	 */
+> > -	if (of_find_property(dev->of_node, "hpd-gpios", &value)) {
+> > -		enum of_gpio_flags hpd_gpio_flags;
+> > -
+> > -		vc4_hdmi->hpd_gpio =3D of_get_named_gpio_flags(dev->of_node,
+> > -							     "hpd-gpios", 0,
+> > -							     &hpd_gpio_flags);
+> > -		if (vc4_hdmi->hpd_gpio < 0) {
+> > -			ret =3D vc4_hdmi->hpd_gpio;
+> > -			goto err_put_ddc;
+> > -		}
+> > -
+> > -		vc4_hdmi->hpd_active_low =3D hpd_gpio_flags & OF_GPIO_ACTIVE_LOW;
+> > +	vc4_hdmi->hpd_gpio =3D devm_gpiod_get_optional(dev, "hpd", GPIOD_IN);
+> > +	if (IS_ERR(vc4_hdmi->hpd_gpio)) {
+> > +		ret =3D PTR_ERR(vc4_hdmi->hpd_gpio);
+> > +		goto err_put_ddc;
+> >  	}
+> > =20
+> >  	vc4_hdmi->disable_wifi_frequencies =3D
+> > diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.h b/drivers/gpu/drm/vc4/vc4_h=
+dmi.h
+> > index 060bcaefbeb5..2688a55461d6 100644
+> > --- a/drivers/gpu/drm/vc4/vc4_hdmi.h
+> > +++ b/drivers/gpu/drm/vc4/vc4_hdmi.h
+> > @@ -146,8 +146,7 @@ struct vc4_hdmi {
+> >  	/* VC5 Only */
+> >  	void __iomem *rm_regs;
+> > =20
+> > -	int hpd_gpio;
+> > -	bool hpd_active_low;
+> > +	struct gpio_desc *hpd_gpio;
+> > =20
+> >  	/*
+> >  	 * On some systems (like the RPi4), some modes are in the same
+> > --=20
+> > 2.31.1
+>=20
+> This patch as commit 6800234ceee0 ("drm/vc4: hdmi: Convert to gpiod")
+> causes my Raspberry Pi 3 to lock up shortly after boot in combination
+> with commit 411efa18e4b0 ("drm/vc4: hdmi: Move the HSM clock enable to
+> runtime_pm"). The serial console and ssh are completely unresponsive and
+> I do not see any messages in dmesg with "debug ignore_loglevel". The
+> device is running with a 32-bit kernel (multi_v7_defconfig) with 32-bit
+> userspace. If there is any further information that I can provide,
+> please let me know.
 
-Thanks,
-Martin
+Thanks for reporting this. The same bug has been reported on wednesday
+on the RPi repo here:
+https://github.com/raspberrypi/linux/pull/4418
 
-> 
-> Thanks,
-> Michal
-> 
+More specifically, this commit should fix it:
+https://github.com/raspberrypi/linux/pull/4418/commits/6d404373c20a794da3d6=
+a7b4f1373903183bb5d0
+
+Even though it's based on the 5.10 kernel, it should apply without any
+warning on a mainline tree. Let me know if it fixes your issue too
+
+Maxime
+
+--rcwmvrtgglhsawrs
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYN8RvgAKCRDj7w1vZxhR
+xQVBAP97XJGM5EXHAqX3r9z23hyLX+90jvE7y+6kla0uKDZDugEAlwhmAhpsIQsb
+OG6qCX3NhuD4kRjLNAKEZJnL7OCinwc=
+=Ea6S
+-----END PGP SIGNATURE-----
+
+--rcwmvrtgglhsawrs--
