@@ -1,52 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D1DA3BA52E
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Jul 2021 23:38:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A37373BA52F
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Jul 2021 23:38:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4167F6E207;
+	by gabe.freedesktop.org (Postfix) with ESMTP id E96BF89BEC;
 	Fri,  2 Jul 2021 21:38:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
- [IPv6:2a00:1450:4864:20::434])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0743289D99
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
+ [IPv6:2a00:1450:4864:20::42d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE34B89FDD
  for <dri-devel@lists.freedesktop.org>; Fri,  2 Jul 2021 21:38:32 +0000 (UTC)
-Received: by mail-wr1-x434.google.com with SMTP id t15so10689849wry.11
- for <dri-devel@lists.freedesktop.org>; Fri, 02 Jul 2021 14:38:31 -0700 (PDT)
+Received: by mail-wr1-x42d.google.com with SMTP id v5so14064666wrt.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 02 Jul 2021 14:38:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Aq+Ijv7C9daTM0EcdaIv+YFfJaleCeNjPIDM8wzQUzw=;
- b=bdsHBFt3k8J1Ekh/NG+ZDU3xpSBfmJZMPPhLZfa2j1RfyCTK7Wz5wPh4gOtDUOfz98
- uZ5ZzWkC92p58XPqfc0am7gV3wxzePWZKFsXk0JZWyQA9gfKfHwufkmszOYY45oLHl9b
- MiG710cjuojzM9353TyLcds9KZAFhlG5hhTU4=
+ bh=Z46U7iLTFi0yXehsGxlE3ofdOKYitcZKrvFOhmdKh68=;
+ b=TopjMaysAbnnJdNEvpBTUTdcICmtClLEr7k9f50lTHN4meXjjHS8+TqHtiaJGotjSl
+ ecD+XGDoF99fFvKWzXHqrzCQCuc35AbfRjhJMbd5Mq5Fz/Pz1CLuuHDSavvcc5Lo+2fT
+ fr0+MninltLMml0QFZ/EIUfjaJLWgILx8A9TI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Aq+Ijv7C9daTM0EcdaIv+YFfJaleCeNjPIDM8wzQUzw=;
- b=svhUxW8BPbhey8huaXFI0PvCJEgUdOKHFrIYGa+WmNR17ibGGd5tWbLfwEmTMoah48
- fRU0uZfelVpLH8RtX/9T7L7FB3NMTDxKkuxGoOANB3m5q2lfsJTeGp15ZsTsCpRB29pe
- MJ5VPGTLZK1MjmnjjRJ8WK5W+iEU0vwnhasokdt0PQMrDkTWAqAy9EkyoFqI/OtUiCgN
- XHY6ubC2W9pgsWjOB87Hn55klxa56MrKJU02AaiDh3xzCnywmQvEFdLhtQY1Thftx5Fw
- Gl6+RwXAg6poYofOCJRD2Bua1J4eqkHOuQezNy3Nknm6/q6nEkdNAzl/Yzhv3hwIEdLF
- a2VQ==
-X-Gm-Message-State: AOAM531Lpz4uXTc2PuowIeZYASHjucXE9Z8XW90usGPq/TJBZlH78L2z
- XcLRseiifNMhAFMXr4eTA8M2mM+Mk+VpYg==
-X-Google-Smtp-Source: ABdhPJxpsnuRlF+5B04GUwH21HSjlFZq4zFTfo2fhrdll6/AtzLsLMtuM4/pYdiKgNq0RDOsrudNgQ==
-X-Received: by 2002:a5d:668e:: with SMTP id l14mr1790677wru.227.1625261910814; 
- Fri, 02 Jul 2021 14:38:30 -0700 (PDT)
+ bh=Z46U7iLTFi0yXehsGxlE3ofdOKYitcZKrvFOhmdKh68=;
+ b=RPJ1I57ZsMt+ndC/UzA/dgz9JrnhsJX1OeakvGcUND8yuv92d4gOr/eCRO7wJTjmOG
+ WLCijI07NkbgmBEvuHqLAbYYysQCiRY+sZ4jOXf4n6Cbh+lGdAy2E/uKgJ/+RK9cnpPv
+ n9VRxtsS2T6/isaBsy59Wg8qk5OvGIBpB2psDAZ1R1MM9XIpEn6md+jr6v3gdj6PnyYO
+ 072ngqZ1AkkGUpPmTyHLpdrW+XoVMZWn32TLQQfr0pG1k/sZANXyH2Cth6HP807n2280
+ Bq4Ao3k6nIlqIk/CyC/SaApfggriTaCPn2hMx0rgDNaAc86Gv/AofirAYLiH3VKWUPwe
+ VlKQ==
+X-Gm-Message-State: AOAM530Sm/cLCxLUi+DE1SRj9S5w02Cy4LwCGdTJz39TYYgK05pDy1FQ
+ QPOxF0eCuSQMznXu95y0mXb8+KO7Soc+dQ==
+X-Google-Smtp-Source: ABdhPJxxN1u/0/BCju7IxlxXRXWmrz/jYv3k9mftgzntS9lBCe39gscDmYsWFwYmlehTeFDX1D7UVw==
+X-Received: by 2002:a05:6000:120e:: with SMTP id
+ e14mr1777285wrx.139.1625261911686; 
+ Fri, 02 Jul 2021 14:38:31 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
  by smtp.gmail.com with ESMTPSA id n19sm4007222wms.4.2021.07.02.14.38.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 02 Jul 2021 14:38:30 -0700 (PDT)
+ Fri, 02 Jul 2021 14:38:31 -0700 (PDT)
 From: Daniel Vetter <daniel.vetter@ffwll.ch>
 To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v2 10/11] drm/sched: Don't store self-dependencies
-Date: Fri,  2 Jul 2021 23:38:14 +0200
-Message-Id: <20210702213815.2249499-11-daniel.vetter@ffwll.ch>
+Subject: [PATCH v2 11/11] drm/sched: Check locking in
+ drm_sched_job_await_implicit
+Date: Fri,  2 Jul 2021 23:38:15 +0200
+Message-Id: <20210702213815.2249499-12-daniel.vetter@ffwll.ch>
 X-Mailer: git-send-email 2.32.0.rc2
 In-Reply-To: <20210702213815.2249499-1-daniel.vetter@ffwll.ch>
 References: <20210702213815.2249499-1-daniel.vetter@ffwll.ch>
@@ -72,19 +74,10 @@ Cc: Jack Zhang <Jack.Zhang1@amd.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is essentially part of drm_sched_dependency_optimized(), which
-only amdgpu seems to make use of. Use it a bit more.
+You really need to hold the reservation here or all kinds of funny
+things can happen between grabbing the dependencies and inserting the
+new fences.
 
-This would mean that as-is amdgpu can't use the dependency helpers, at
-least not with the current approach amdgpu has for deciding whether a
-vm_flush is needed. Since amdgpu also has very special rules around
-implicit fencing it can't use those helpers either, and adding a
-drm_sched_job_await_fence_always or similar for amdgpu wouldn't be too
-onerous. That way the special case handling for amdgpu sticks even
-more out and we have higher chances that reviewers that go across all
-drivers wont miss it.
-
-Reviewed-by: Lucas Stach <l.stach@pengutronix.de>
 Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
 Cc: "Christian König" <christian.koenig@amd.com>
 Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
@@ -93,27 +86,22 @@ Cc: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
 Cc: Alex Deucher <alexander.deucher@amd.com>
 Cc: Jack Zhang <Jack.Zhang1@amd.com>
 ---
- drivers/gpu/drm/scheduler/sched_main.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ drivers/gpu/drm/scheduler/sched_main.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-index 12d533486518..de76f7e14e0d 100644
+index de76f7e14e0d..47f869aff335 100644
 --- a/drivers/gpu/drm/scheduler/sched_main.c
 +++ b/drivers/gpu/drm/scheduler/sched_main.c
-@@ -651,6 +651,13 @@ int drm_sched_job_await_fence(struct drm_sched_job *job,
- 	if (!fence)
- 		return 0;
+@@ -705,6 +705,8 @@ int drm_sched_job_await_implicit(struct drm_sched_job *job,
+ 	struct dma_fence **fences;
+ 	unsigned int i, fence_count;
  
-+	/* if it's a fence from us it's guaranteed to be earlier */
-+	if (fence->context == job->entity->fence_context ||
-+	    fence->context == job->entity->fence_context + 1) {
-+		dma_fence_put(fence);
-+		return 0;
-+	}
++	dma_resv_assert_held(obj->resv);
 +
- 	/* Deduplicate if we already depend on a fence from the same context.
- 	 * This lets the size of the array of deps scale with the number of
- 	 * engines involved, rather than the number of BOs.
+ 	if (!write) {
+ 		struct dma_fence *fence = dma_resv_get_excl_unlocked(obj->resv);
+ 
 -- 
 2.32.0.rc2
 
