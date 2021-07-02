@@ -1,35 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0DEB3BA2CE
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Jul 2021 17:34:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 537D03BA2DB
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Jul 2021 17:38:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 070096E0D7;
-	Fri,  2 Jul 2021 15:34:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9033089B55;
+	Fri,  2 Jul 2021 15:38:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
  [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 689896E13C
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Jul 2021 15:34:13 +0000 (UTC)
-Received: from maud (unknown [IPv6:2600:8800:8c04:8c00::912b])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested) (Authenticated sender: alyssa)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 5B6ED1F44F53;
- Fri,  2 Jul 2021 16:34:08 +0100 (BST)
-Date: Fri, 2 Jul 2021 11:34:01 -0400
-From: Alyssa Rosenzweig <alyssa@collabora.com>
-To: Steven Price <steven.price@arm.com>
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B3B9A89B55
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Jul 2021 15:38:50 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+ bits)) (No client certificate requested)
+ (Authenticated sender: bbrezillon)
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 26D421F44F59;
+ Fri,  2 Jul 2021 16:38:49 +0100 (BST)
+Date: Fri, 2 Jul 2021 17:38:43 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Alyssa Rosenzweig <alyssa@collabora.com>
 Subject: Re: [PATCH v3 5/7] drm/panfrost: Add a new ioctl to submit batches
-Message-ID: <YN8x6ZaBdI5Cahuv@maud>
+Message-ID: <20210702173843.44b3e322@collabora.com>
+In-Reply-To: <YN8tDD6tRF85cR4z@maud>
 References: <20210702143225.3347980-1-boris.brezillon@collabora.com>
  <20210702143225.3347980-6-boris.brezillon@collabora.com>
- <e8f60552-5e7a-199e-7642-cdadf8c9a1a1@arm.com>
+ <YN8tDD6tRF85cR4z@maud>
+Organization: Collabora
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e8f60552-5e7a-199e-7642-cdadf8c9a1a1@arm.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,42 +47,94 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Jason Ekstrand <jason@jlekstrand.net>,
  Tomeu Vizoso <tomeu.vizoso@collabora.com>, dri-devel@lists.freedesktop.org,
- Rob Herring <robh+dt@kernel.org>,
- Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>, Rob Herring <robh+dt@kernel.org>,
  Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
  Robin Murphy <robin.murphy@arm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> Better, but I was hoping we can mostly delete panfrost_ioctl_submit(),
-> leaving something along the lines of:
-> 
-> static int panfrost_ioctl_submit(struct drm_device *dev, void *data,
-> 		struct drm_file *file)
-> {
-> 	struct panfrost_submitqueue *queue;
-> 	struct drm_panfrost_submit *args = data;
-> 	struct drm_panfrost_job submit_args = {
-> 		.head = args->jc,
-> 		.bos = args->bo_handles,
-> 		.in_syncs = args->in_syncs,
-> 		.out_syncs = &args->out_sync, // FIXME
-> 		.in_sync_count = args->in_sync_count,
-> 		.out_sync_count = args->out_sync > 0 ? 1 : 0,
-> 		.bo_count = args->bo_handle_count,
-> 		.requirements = args->requirements
-> 	};
-> 	int ret;
-> 
-> 	queue = panfrost_submitqueue_get(file->driver_priv, 0);
-> 
-> 	ret = panfrost_submit_job(dev, file, queue, &submit_args,
-> 				  sizeof(u32), ...);
-> 
-> 	return ret;
-> }
-> 
-> But obviously the out_sync part needs special handling as we can't just
-> pass a kernel pointer in like that ;)
+On Fri, 2 Jul 2021 11:13:16 -0400
+Alyssa Rosenzweig <alyssa@collabora.com> wrote:
 
-This, a dozen times this.
+> ```
+> > +/* Syncobj reference passed at job submission time to encode explicit
+> > + * input/output fences.
+> > + */
+> > +struct drm_panfrost_syncobj_ref {
+> > +	__u32 handle;
+> > +	__u32 pad;
+> > +	__u64 point;
+> > +};  
+> ```
+> 
+> What is handle? What is point?
+
+Handle is a syncobj handle, point is the point in a syncobj timeline.
+I'll document those fields.
+
+> Why is there padding instead of putting point first?
+
+We can move the point field first, but we need to keep the explicit
+padding: the struct has to be 64bit aligned because of the __u64 field
+(which the compiler takes care of) but if we don't have an explicit
+padding, the unused 32bits are undefined, which might cause trouble if
+we extend the struct at some point, since we sort of expect that old
+userspace keep this unused 32bit slot to 0, while new users set
+non-zero values if they have to.
+
+> 
+> ```
+> >  #define PANFROST_BO_REF_EXCLUSIVE	0x1
+> > +#define PANFROST_BO_REF_NO_IMPLICIT_DEP	0x2  
+> ```
+> 
+> This seems logically backwards. NO_IMPLICIT_DEP makes sense if we're
+> trying to keep backwards compatibility, but here you're crafting a new
+> interface totally from scratch. If anything, isn't BO_REF_IMPLICIT_DEP
+> the flag you'd want?
+
+AFAICT, all other drivers make the no-implicit-dep an opt-in, and I
+didn't want to do things differently in panfrost. But if that's really
+an issue, I can make it an opt-out.
+
+> 
+> ```
+> > +	/**
+> > +	 * Stride of the jobs array (needed to ease extension of the
+> > +	 * BATCH_SUBMIT ioctl). Should be set to
+> > +	 * sizeof(struct drm_panfrost_job).
+> > +	 */
+> > +	__u32 job_stride;  
+> ...
+> > +	/**
+> > +	 * Stride of the BO and syncobj reference arrays (needed to ease
+> > +	 * extension of the BATCH_SUBMIT ioctl). Should be set to
+> > +	 * sizeof(struct drm_panfrost_bo_ref).
+> > +	 */
+> > +	__u32 bo_ref_stride;
+> > +	__u32 syncobj_ref_stride;  
+> ```
+> 
+> Hmm. I'm not /opposed/ and I know kbase uses strides but it seems like
+> somewhat unwarranted complexity, and there is a combinatoric explosion
+> here (if jobs, bo refs, and syncobj refs use 3 different versions, as
+> this encoding permits... as opposed to just specifying a UABI version or
+> something like that)
+
+Sounds like a good idea. I'll add a version field and map that
+to a <job_stride,bo_ref_stride,syncobj_ref_stride> tuple.
+
+> 
+> ```
+> > +	/**
+> > +	 * If the submission fails, this encodes the index of the job
+> > +	 * failed.
+> > +	 */
+> > +	__u32 fail_idx;  
+> ```
+> 
+> What if multiple jobs fail?
+
+We stop at the first failure. Note that it's not an execution failure,
+but a submission failure (AKA, userspace passed wrong params, like
+invalid BO or synobj handles).
