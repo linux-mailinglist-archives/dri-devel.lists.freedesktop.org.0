@@ -2,59 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A37373BA52F
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Jul 2021 23:38:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4AFF3BA5EE
+	for <lists+dri-devel@lfdr.de>; Sat,  3 Jul 2021 00:17:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E96BF89BEC;
-	Fri,  2 Jul 2021 21:38:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 537FF6E209;
+	Fri,  2 Jul 2021 22:16:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
- [IPv6:2a00:1450:4864:20::42d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE34B89FDD
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Jul 2021 21:38:32 +0000 (UTC)
-Received: by mail-wr1-x42d.google.com with SMTP id v5so14064666wrt.3
- for <dri-devel@lists.freedesktop.org>; Fri, 02 Jul 2021 14:38:32 -0700 (PDT)
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
+ [IPv6:2a00:1450:4864:20::32b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3859D6E209
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Jul 2021 22:16:56 +0000 (UTC)
+Received: by mail-wm1-x32b.google.com with SMTP id
+ j39-20020a05600c1c27b029020028e48b8fso1625605wms.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 02 Jul 2021 15:16:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=Z46U7iLTFi0yXehsGxlE3ofdOKYitcZKrvFOhmdKh68=;
- b=TopjMaysAbnnJdNEvpBTUTdcICmtClLEr7k9f50lTHN4meXjjHS8+TqHtiaJGotjSl
- ecD+XGDoF99fFvKWzXHqrzCQCuc35AbfRjhJMbd5Mq5Fz/Pz1CLuuHDSavvcc5Lo+2fT
- fr0+MninltLMml0QFZ/EIUfjaJLWgILx8A9TI=
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=nWA+t/6vsRwy8BncoPKwbgbu4AU5038aIzazbpBSKkA=;
+ b=VOsPfgKM+gDfZeGN6XE6Fg8S/miHlH49u35uI8mYZyKNCWXoM7J3OWBTw7gP/yQhej
+ 4v89GrwiKL8poOOD39TefY6yHK8w526oKXWqZq+r6VrSxob1YJkf8NbvHuHWLLJXBvyz
+ pLFX9zfTYUausJfeukBlWF3AG9+8Nyq4WJjgU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Z46U7iLTFi0yXehsGxlE3ofdOKYitcZKrvFOhmdKh68=;
- b=RPJ1I57ZsMt+ndC/UzA/dgz9JrnhsJX1OeakvGcUND8yuv92d4gOr/eCRO7wJTjmOG
- WLCijI07NkbgmBEvuHqLAbYYysQCiRY+sZ4jOXf4n6Cbh+lGdAy2E/uKgJ/+RK9cnpPv
- n9VRxtsS2T6/isaBsy59Wg8qk5OvGIBpB2psDAZ1R1MM9XIpEn6md+jr6v3gdj6PnyYO
- 072ngqZ1AkkGUpPmTyHLpdrW+XoVMZWn32TLQQfr0pG1k/sZANXyH2Cth6HP807n2280
- Bq4Ao3k6nIlqIk/CyC/SaApfggriTaCPn2hMx0rgDNaAc86Gv/AofirAYLiH3VKWUPwe
- VlKQ==
-X-Gm-Message-State: AOAM530Sm/cLCxLUi+DE1SRj9S5w02Cy4LwCGdTJz39TYYgK05pDy1FQ
- QPOxF0eCuSQMznXu95y0mXb8+KO7Soc+dQ==
-X-Google-Smtp-Source: ABdhPJxxN1u/0/BCju7IxlxXRXWmrz/jYv3k9mftgzntS9lBCe39gscDmYsWFwYmlehTeFDX1D7UVw==
-X-Received: by 2002:a05:6000:120e:: with SMTP id
- e14mr1777285wrx.139.1625261911686; 
- Fri, 02 Jul 2021 14:38:31 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=nWA+t/6vsRwy8BncoPKwbgbu4AU5038aIzazbpBSKkA=;
+ b=ILEv+NHdhN5dalBwTXKvtfhA9WCPQXWuGoHQcSQcIjz+Q6NxwN2XDpUZTW9kZkDSQ9
+ RFQLGt0QM78N4NRaNMziMGDMQS0VZ0QQC2cHp2yOmbI+Zu6u+ioxeD2wg3ywO22BkNMo
+ 56O4cjO5jo6P3znjlsz7O51tcMfUHe49enOMFqmLYD0XEJS3IJwZTl5qjc+ae/AY7M5i
+ pMZEfnBrJMPJNJyxpElVy8mnyiZBk8xm3FPzL3wNgkCAUodmrpvV56xZzF2aOnGNcslW
+ rE6Z1+EQ4xoaDaHGvItwzfgwB6NQWC1GLRoi0FdeZLlUy6FfhIyPnZWZm9mzRKOWLnxk
+ yy6w==
+X-Gm-Message-State: AOAM532MxNqDAG4JXeyrcz+oOpoXx1nrBOdMR2dHbcbV/GlBPHl/i2C6
+ FkwoaeqoBPBabpB2hol4GWNuog==
+X-Google-Smtp-Source: ABdhPJyb57pEez8qLJ9SRuCmnAOiwJviFwqRZcGnkHoJ8oUaMi06LFvxNjNwkA7RgkCaqYTMJk4u2g==
+X-Received: by 2002:a1c:7314:: with SMTP id d20mr1952681wmb.156.1625264215016; 
+ Fri, 02 Jul 2021 15:16:55 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id n19sm4007222wms.4.2021.07.02.14.38.30
+ by smtp.gmail.com with ESMTPSA id p187sm4417702wmp.28.2021.07.02.15.16.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 02 Jul 2021 14:38:31 -0700 (PDT)
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v2 11/11] drm/sched: Check locking in
- drm_sched_job_await_implicit
-Date: Fri,  2 Jul 2021 23:38:15 +0200
-Message-Id: <20210702213815.2249499-12-daniel.vetter@ffwll.ch>
-X-Mailer: git-send-email 2.32.0.rc2
-In-Reply-To: <20210702213815.2249499-1-daniel.vetter@ffwll.ch>
-References: <20210702213815.2249499-1-daniel.vetter@ffwll.ch>
+ Fri, 02 Jul 2021 15:16:54 -0700 (PDT)
+Date: Sat, 3 Jul 2021 00:16:52 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
+Subject: Re: [PATCH 1/4] dma-buf: add some more kerneldoc to
+ dma_resv_add_shared_fence
+Message-ID: <YN+QVF6E/4OcbltF@phenom.ffwll.local>
+References: <20210702111642.17259-1-christian.koenig@amd.com>
+ <20210702111642.17259-2-christian.koenig@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210702111642.17259-2-christian.koenig@amd.com>
+X-Operating-System: Linux phenom 5.10.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,41 +70,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jack Zhang <Jack.Zhang1@amd.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Luben Tuikov <luben.tuikov@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
- Daniel Vetter <daniel.vetter@intel.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: daniel.vetter@ffwll.ch, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-You really need to hold the reservation here or all kinds of funny
-things can happen between grabbing the dependencies and inserting the
-new fences.
+On Fri, Jul 02, 2021 at 01:16:39PM +0200, Christian König wrote:
+> Explicitly document that code can't assume that shared fences
+> signal after the exclusive fence.
+> 
+> Signed-off-by: Christian König <christian.koenig@amd.com>
+> ---
+>  drivers/dma-buf/dma-resv.c | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
+> index f26c71747d43..4ab02b6c387a 100644
+> --- a/drivers/dma-buf/dma-resv.c
+> +++ b/drivers/dma-buf/dma-resv.c
+> @@ -235,7 +235,10 @@ EXPORT_SYMBOL(dma_resv_reset_shared_max);
+>   * @fence: the shared fence to add
+>   *
+>   * Add a fence to a shared slot, obj->lock must be held, and
+> - * dma_resv_reserve_shared() has been called.
+> + * dma_resv_reserve_shared() has been called. The shared fences can signal in
+> + * any order and there is especially no guarantee that shared fences signal
+> + * after the exclusive one. Code relying on any signaling order is broken and
+> + * needs to be fixed.
 
-Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-Cc: "Christian KÃ¶nig" <christian.koenig@amd.com>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Luben Tuikov <luben.tuikov@amd.com>
-Cc: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Cc: Jack Zhang <Jack.Zhang1@amd.com>
----
- drivers/gpu/drm/scheduler/sched_main.c | 2 ++
- 1 file changed, 2 insertions(+)
+This feels like the last place I'd go look for how I should handle
+dependencies. It's the function for adding shared fences after all, has
+absolutely nothing to do with whether we should wait for them.
 
-diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-index de76f7e14e0d..47f869aff335 100644
---- a/drivers/gpu/drm/scheduler/sched_main.c
-+++ b/drivers/gpu/drm/scheduler/sched_main.c
-@@ -705,6 +705,8 @@ int drm_sched_job_await_implicit(struct drm_sched_job *job,
- 	struct dma_fence **fences;
- 	unsigned int i, fence_count;
- 
-+	dma_resv_assert_held(obj->resv);
-+
- 	if (!write) {
- 		struct dma_fence *fence = dma_resv_get_excl_unlocked(obj->resv);
- 
+I'll type up something else.
+-Daniel
+
+>   */
+>  void dma_resv_add_shared_fence(struct dma_resv *obj, struct dma_fence *fence)
+>  {
+> -- 
+> 2.25.1
+> 
+
 -- 
-2.32.0.rc2
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
