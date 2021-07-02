@@ -1,72 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6343C3BA041
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Jul 2021 14:19:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 49CE53BA048
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Jul 2021 14:23:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC75D6E159;
-	Fri,  2 Jul 2021 12:19:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 98DC06E152;
+	Fri,  2 Jul 2021 12:23:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com
- [205.220.177.32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC8DF6E153;
- Fri,  2 Jul 2021 12:19:31 +0000 (UTC)
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 162CBPZE017259; Fri, 2 Jul 2021 12:19:22 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=Bm1Vb4PRIp8lyHUbwdjT462tG7M9FjVHVCCO3OaoUGY=;
- b=ntMosZg45V/25BZpftG9/Gdu4OjAcj02RLNyc4P0hBMNgcPmTYqio/Obcx11s72IrzVg
- vVPXUvnYTEf+lgAKYaCGRD9+1ncnBU5Pk3EAyTeAGgioSj3GcSv05xY2BHvoLHU+SaEx
- QSZo6NwEhrseoQxW4kx9VLoVRXmUG9Q0EXUNDBNT+G037ZK7L0tPsc8aAUO+UgPW1sfj
- zaPo68N8Wk84rLI3XWB1n46OoyaG7AI+sb8LE1a7Tck83gH/Mppdt1QAy2RhFkHnwBPQ
- 72hJdeFdPokJU36ctFOjBxznS9OJKhOPfzVPJ3x5/4XA/xS3+6qE/k9oGV9DtbLSIzU1 xg== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by mx0b-00069f02.pphosted.com with ESMTP id 39htf6rt9u-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 02 Jul 2021 12:19:22 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 162CAFui124654;
- Fri, 2 Jul 2021 12:19:21 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
- by aserp3030.oracle.com with ESMTP id 39dt9nrcnd-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 02 Jul 2021 12:19:21 +0000
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 162CJKka152057;
- Fri, 2 Jul 2021 12:19:20 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
- by aserp3030.oracle.com with ESMTP id 39dt9nrcmn-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 02 Jul 2021 12:19:20 +0000
-Received: from abhmp0003.oracle.com (abhmp0003.oracle.com [141.146.116.9])
- by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 162CJIDh010626;
- Fri, 2 Jul 2021 12:19:18 GMT
-Received: from kadam (/102.222.70.252) by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Fri, 02 Jul 2021 12:19:18 +0000
-Date: Fri, 2 Jul 2021 15:19:10 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Matthew Auld <matthew.william.auld@gmail.com>
-Subject: Re: [Intel-gfx] [drm-intel:drm-intel-gt-next 8/14]
- drivers/gpu/drm/i915/gt/selftest_migrate.c:102 copy() error: uninitialized
- symbol 'rq'.
-Message-ID: <20210702121910.GX1983@kadam>
-References: <202107020708.XXwacDfG-lkp@intel.com>
- <CAM0jSHOb0bGWMt-tmUn62R_FpiM5TL2HFLbBqxhpqk1gH0qSUA@mail.gmail.com>
- <20210702110727.GT1983@kadam>
- <CAM0jSHMyXEdS9wgkypKdvW1BNdUgcLxZR8Pd8nxSpPQHtiX+yA@mail.gmail.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 455676E152;
+ Fri,  2 Jul 2021 12:23:03 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10032"; a="208545814"
+X-IronPort-AV: E=Sophos;i="5.83,317,1616482800"; d="scan'208";a="208545814"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Jul 2021 05:23:02 -0700
+X-IronPort-AV: E=Sophos;i="5.83,317,1616482800"; d="scan'208";a="455936282"
+Received: from juanniex-mobl.ger.corp.intel.com (HELO [10.213.253.90])
+ ([10.213.253.90])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Jul 2021 05:23:01 -0700
+Subject: Re: [Intel-gfx] [PATCH 07/53] drm/i915/xehp: Extra media engines -
+ Part 1 (engine definitions)
+To: Matt Roper <matthew.d.roper@intel.com>, intel-gfx@lists.freedesktop.org
+References: <20210701202427.1547543-1-matthew.d.roper@intel.com>
+ <20210701202427.1547543-8-matthew.d.roper@intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+Message-ID: <01bcc598-8ebd-cc3f-1aa4-9d4dcc6f51f1@linux.intel.com>
+Date: Fri, 2 Jul 2021 13:22:59 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAM0jSHMyXEdS9wgkypKdvW1BNdUgcLxZR8Pd8nxSpPQHtiX+yA@mail.gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-GUID: 0_myu9kthiNk5ND7SttQSzaGH3CrbGWf
-X-Proofpoint-ORIG-GUID: 0_myu9kthiNk5ND7SttQSzaGH3CrbGWf
+In-Reply-To: <20210701202427.1547543-8-matthew.d.roper@intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,49 +50,211 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- kbuild-all@lists.01.org, kbuild@lists.01.org,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- Chris Wilson <chris@chris-wilson.co.uk>, Matthew Auld <matthew.auld@intel.com>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>
+Cc: Tomas Winkler <tomas.winkler@intel.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jul 02, 2021 at 12:34:33PM +0100, Matthew Auld wrote:
-> > > > cf586021642d80 Chris Wilson 2021-06-17   85             err = fn(migrate, &ww, src, dst, &rq);
-> > > > cf586021642d80 Chris Wilson 2021-06-17   86             if (!err)
-> > > > cf586021642d80 Chris Wilson 2021-06-17   87                     continue;
-> > > >
-> > > > Does fn() initialize "rq" on the success path?  Anyway Smatch would
-> > > > complain anyway because it thinks the list could be empty or that we
-> > > > might hit and early continue for everything.
-> > >
-> > > The fn() will always first initialize the rq to NULL. If it returns
-> > > success then rq will always be a valid rq. If it returns an err then
-> > > the rq might be NULL, or a valid rq depending on how far the copy/fn
-> > > got.
-> > >
-> > > And for_i915_gem_ww() will always run at least once, since ww->loop =
-> > > true, so this looks like a false positive?
-> >
-> > You don't think i915_gem_object_lock(), i915_gem_object_pin_map() or
-> > i915_gem_object_pin_map() can fail?
+
+On 01/07/2021 21:23, Matt Roper wrote:
+> From: John Harrison <John.C.Harrison@Intel.com>
 > 
-> Yeah, they can totally fail but then we mostly likely just hit the
-> err_out. The for_i915_gem_ww() is a little strange since it's not
-> really looping over anything, it's just about retrying the block if we
-> see -EDEADLK(which involves dropping some locks), if we see any other
-> error then the loop is terminated with ww->loop = false, which then
-> hits the goto err_out.
+> Xe_HP can have a lot of extra media engines. This patch adds the basic
+> definitions for them.
 > 
+> Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+> Signed-off-by: Tomas Winkler <tomas.winkler@intel.com>
+> Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
+> ---
+>   drivers/gpu/drm/i915/gt/gen8_engine_cs.c     |  7 ++-
+>   drivers/gpu/drm/i915/gt/intel_engine_cs.c    | 50 ++++++++++++++++++++
+>   drivers/gpu/drm/i915/gt/intel_engine_types.h | 14 ++++--
+>   drivers/gpu/drm/i915/i915_reg.h              |  6 +++
+>   4 files changed, 69 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
+> index 87b06572fd2e..35edc55720f4 100644
+> --- a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
+> +++ b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
+> @@ -279,7 +279,7 @@ int gen12_emit_flush_xcs(struct i915_request *rq, u32 mode)
+>   	if (mode & EMIT_INVALIDATE)
+>   		aux_inv = rq->engine->mask & ~BIT(BCS0);
+>   	if (aux_inv)
+> -		cmd += 2 * hweight8(aux_inv) + 2;
+> +		cmd += 2 * hweight32(aux_inv) + 2;
+>   
+>   	cs = intel_ring_begin(rq, cmd);
+>   	if (IS_ERR(cs))
+> @@ -313,9 +313,8 @@ int gen12_emit_flush_xcs(struct i915_request *rq, u32 mode)
+>   		struct intel_engine_cs *engine;
+>   		unsigned int tmp;
+>   
+> -		*cs++ = MI_LOAD_REGISTER_IMM(hweight8(aux_inv));
+> -		for_each_engine_masked(engine, rq->engine->gt,
+> -				       aux_inv, tmp) {
+> +		*cs++ = MI_LOAD_REGISTER_IMM(hweight32(aux_inv));
+> +		for_each_engine_masked(engine, rq->engine->gt, aux_inv, tmp) {
+>   			*cs++ = i915_mmio_reg_offset(aux_inv_reg(engine));
+>   			*cs++ = AUX_INV;
+>   		}
+> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+> index 4ab2c9abb943..6e2aa1acc4d4 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+> @@ -104,6 +104,38 @@ static const struct engine_info intel_engines[] = {
+>   			{ .graphics_ver = 11, .base = GEN11_BSD4_RING_BASE }
+>   		},
+>   	},
+> +	[VCS4] = {
+> +		.hw_id = 0, /* not used in GEN12+, see MI_SEMAPHORE_SIGNAL */
+> +		.class = VIDEO_DECODE_CLASS,
+> +		.instance = 4,
+> +		.mmio_bases = {
+> +			{ .graphics_ver = 11, .base = XEHP_BSD5_RING_BASE }
+> +		},
+> +	},
+> +	[VCS5] = {
+> +		.hw_id = 0, /* not used in GEN12+, see MI_SEMAPHORE_SIGNAL */
+> +		.class = VIDEO_DECODE_CLASS,
+> +		.instance = 5,
+> +		.mmio_bases = {
+> +			{ .graphics_ver = 12, .base = XEHP_BSD6_RING_BASE }
+> +		},
+> +	},
+> +	[VCS6] = {
+> +		.hw_id = 0, /* not used in GEN12+, see MI_SEMAPHORE_SIGNAL */
+> +		.class = VIDEO_DECODE_CLASS,
+> +		.instance = 6,
+> +		.mmio_bases = {
+> +			{ .graphics_ver = 12, .base = XEHP_BSD7_RING_BASE }
+> +		},
+> +	},
+> +	[VCS7] = {
+> +		.hw_id = 0, /* not used in GEN12+, see MI_SEMAPHORE_SIGNAL */
+> +		.class = VIDEO_DECODE_CLASS,
+> +		.instance = 7,
+> +		.mmio_bases = {
+> +			{ .graphics_ver = 12, .base = XEHP_BSD8_RING_BASE }
+> +		},
+> +	},
+>   	[VECS0] = {
+>   		.hw_id = VECS0_HW,
+>   		.class = VIDEO_ENHANCEMENT_CLASS,
+> @@ -121,6 +153,22 @@ static const struct engine_info intel_engines[] = {
+>   			{ .graphics_ver = 11, .base = GEN11_VEBOX2_RING_BASE }
+>   		},
+>   	},
+> +	[VECS2] = {
+> +		.hw_id = 0, /* not used in GEN12+, see MI_SEMAPHORE_SIGNAL */
+> +		.class = VIDEO_ENHANCEMENT_CLASS,
+> +		.instance = 2,
+> +		.mmio_bases = {
+> +			{ .graphics_ver = 12, .base = XEHP_VEBOX3_RING_BASE }
+> +		},
+> +	},
+> +	[VECS3] = {
+> +		.hw_id = 0, /* not used in GEN12+, see MI_SEMAPHORE_SIGNAL */
+> +		.class = VIDEO_ENHANCEMENT_CLASS,
+> +		.instance = 3,
+> +		.mmio_bases = {
+> +			{ .graphics_ver = 12, .base = XEHP_VEBOX4_RING_BASE }
+> +		},
+> +	},
+>   };
+>   
+>   /**
+> @@ -269,6 +317,8 @@ static int intel_engine_setup(struct intel_gt *gt, enum intel_engine_id id)
+>   
+>   	BUILD_BUG_ON(MAX_ENGINE_CLASS >= BIT(GEN11_ENGINE_CLASS_WIDTH));
+>   	BUILD_BUG_ON(MAX_ENGINE_INSTANCE >= BIT(GEN11_ENGINE_INSTANCE_WIDTH));
+> +	BUILD_BUG_ON(I915_MAX_VCS > (MAX_ENGINE_INSTANCE + 1));
+> +	BUILD_BUG_ON(I915_MAX_VECS > (MAX_ENGINE_INSTANCE + 1));
+>   
+>   	if (GEM_DEBUG_WARN_ON(id >= ARRAY_SIZE(gt->engine)))
+>   		return -EINVAL;
+> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_types.h b/drivers/gpu/drm/i915/gt/intel_engine_types.h
+> index 5b91068ab277..b25f594a7e4b 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_engine_types.h
+> +++ b/drivers/gpu/drm/i915/gt/intel_engine_types.h
+> @@ -46,7 +46,7 @@
+>   #define COPY_ENGINE_CLASS	3
+>   #define OTHER_CLASS		4
+>   #define MAX_ENGINE_CLASS	4
+> -#define MAX_ENGINE_INSTANCE	3
+> +#define MAX_ENGINE_INSTANCE	7
+>   
+>   #define I915_MAX_SLICES	3
+>   #define I915_MAX_SUBSLICES 8
+> @@ -64,7 +64,7 @@ struct intel_gt;
+>   struct intel_ring;
+>   struct intel_uncore;
+>   
+> -typedef u8 intel_engine_mask_t;
+> +typedef u32 intel_engine_mask_t;
 
-Ah, yeah, you're right.  False positive.
+u16 would be enough but it's probably pointless unless it makes it 
+better considering what I'll write next.
 
-I hadn't looked at this code in context (I only had reviewed the email).
-Now that I've pulled the tree and looked at the code, then I'm sort of
-surprised that Smatch generates a warning...  I will investigate some
-more.  Thanks!
+What I'd do is reorder the fields in struct intel_gt_info to avoid 
+padding, probably just pulling l3bank_mask up to be second is best.
 
-regards,
-dan carpenter
+Similar for struct intel_device_info because there's a ton of those and 
+so historically we were actually laying it out with care. A perfect 
+solution while keeping logical grouping might not be possible but worth 
+having a look.
 
+Regards,
+
+Tvrtko
+
+>   #define ALL_ENGINES ((intel_engine_mask_t)~0ul)
+>   
+>   struct intel_hw_status_page {
+> @@ -101,8 +101,8 @@ struct i915_ctx_workarounds {
+>   	struct i915_vma *vma;
+>   };
+>   
+> -#define I915_MAX_VCS	4
+> -#define I915_MAX_VECS	2
+> +#define I915_MAX_VCS	8
+> +#define I915_MAX_VECS	4
+>   
+>   /*
+>    * Engine IDs definitions.
+> @@ -115,9 +115,15 @@ enum intel_engine_id {
+>   	VCS1,
+>   	VCS2,
+>   	VCS3,
+> +	VCS4,
+> +	VCS5,
+> +	VCS6,
+> +	VCS7,
+>   #define _VCS(n) (VCS0 + (n))
+>   	VECS0,
+>   	VECS1,
+> +	VECS2,
+> +	VECS3,
+>   #define _VECS(n) (VECS0 + (n))
+>   	I915_NUM_ENGINES
+>   #define INVALID_ENGINE ((enum intel_engine_id)-1)
+> diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
+> index f7dad8541417..d4546e871833 100644
+> --- a/drivers/gpu/drm/i915/i915_reg.h
+> +++ b/drivers/gpu/drm/i915/i915_reg.h
+> @@ -2516,9 +2516,15 @@ static inline bool i915_mmio_reg_valid(i915_reg_t reg)
+>   #define GEN11_BSD2_RING_BASE	0x1c4000
+>   #define GEN11_BSD3_RING_BASE	0x1d0000
+>   #define GEN11_BSD4_RING_BASE	0x1d4000
+> +#define XEHP_BSD5_RING_BASE	0x1e0000
+> +#define XEHP_BSD6_RING_BASE	0x1e4000
+> +#define XEHP_BSD7_RING_BASE	0x1f0000
+> +#define XEHP_BSD8_RING_BASE	0x1f4000
+>   #define VEBOX_RING_BASE		0x1a000
+>   #define GEN11_VEBOX_RING_BASE		0x1c8000
+>   #define GEN11_VEBOX2_RING_BASE		0x1d8000
+> +#define XEHP_VEBOX3_RING_BASE		0x1e8000
+> +#define XEHP_VEBOX4_RING_BASE		0x1f8000
+>   #define BLT_RING_BASE		0x22000
+>   #define RING_TAIL(base)		_MMIO((base) + 0x30)
+>   #define RING_HEAD(base)		_MMIO((base) + 0x34)
+> 
