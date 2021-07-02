@@ -2,37 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03F0D3B9D33
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Jul 2021 09:58:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE1C83B9D55
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Jul 2021 10:10:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BAB6989FDE;
-	Fri,  2 Jul 2021 07:58:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E96A689FF7;
+	Fri,  2 Jul 2021 08:09:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 735A489FD7;
- Fri,  2 Jul 2021 07:58:03 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10032"; a="294338663"
-X-IronPort-AV: E=Sophos;i="5.83,316,1616482800"; d="scan'208";a="294338663"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Jul 2021 00:58:02 -0700
-X-IronPort-AV: E=Sophos;i="5.83,316,1616482800"; d="scan'208";a="482209269"
-Received: from flast-mobl.ger.corp.intel.com (HELO localhost) ([10.252.43.116])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Jul 2021 00:57:58 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Matt Roper <matthew.d.roper@intel.com>, intel-gfx@lists.freedesktop.org
-Subject: Re: [PATCH 16/53] drm/i915/xehpsdv: add initial XeHP SDV definitions
-In-Reply-To: <20210701202427.1547543-17-matthew.d.roper@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20210701202427.1547543-1-matthew.d.roper@intel.com>
- <20210701202427.1547543-17-matthew.d.roper@intel.com>
-Date: Fri, 02 Jul 2021 10:57:55 +0300
-Message-ID: <87bl7lqha4.fsf@intel.com>
+Received: from smtp5-g21.free.fr (smtp5-g21.free.fr [IPv6:2a01:e0c:1:1599::14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB25489FF6;
+ Fri,  2 Jul 2021 08:09:55 +0000 (UTC)
+Received: from [192.168.1.71] (unknown [91.155.165.229])
+ (Authenticated sender: martin.peres@free.fr)
+ by smtp5-g21.free.fr (Postfix) with ESMTPSA id 825135FFCA;
+ Fri,  2 Jul 2021 10:09:43 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=free.fr;
+ s=smtp-20201208; t=1625213393;
+ bh=6ZgF9aZ6prdbYkVu58icJFP+9DLuPqjk2lTqE0RxLtA=;
+ h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+ b=M7YlAlsfM53BAw9DHnwNw4MgGjigBpNob92nkMutTdTVZZ3w0e2ZYv7iRxwH4wfaU
+ 2mbspNriCbMkYxi85dTFWJD6Lg+iwYqRY7UVRiPq8cKx9vGvxKmpZgb/+hae2hf8C5
+ 2zZvCTPuyAWQHTd3IcEqxkFBI1VCHwnfulEgRyo7jTWF9+svzIw8VJZu5VA35hXC4k
+ bmoUJ9P0BdIT1XBXHRPhGiaRXgFPircZfa+dnQyLkyJojaW6CHxSx+lQPk+Pex2dtF
+ yE8IAynVoZ0Pl11FOjlLek9qfRJ6YjVAJphnFJUrfnU8b+vh05lLOJk2lHVNSQKw/T
+ BhdXpJ8w2GjNw==
+Subject: Re: [Intel-gfx] [PATCH 47/47] drm/i915/guc: Unblock GuC submission on
+ Gen11+
+To: Pekka Paalanen <ppaalanen@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+References: <20210624070516.21893-1-matthew.brost@intel.com>
+ <20210624070516.21893-48-matthew.brost@intel.com>
+ <88cbe963-7188-f4ae-5acf-01a80bd2fe25@free.fr>
+ <05e1d462-57ae-888a-888c-3ad486150821@intel.com>
+ <20210701111410.3fc6551e@eldfell>
+ <050296b9-8958-353a-9f76-699bfbafa1c1@free.fr>
+ <CAKMK7uH1svoSEGa=sv+BsU4_BMou2sEJQWddQgy1XDMYtz7-Dw@mail.gmail.com>
+ <20210702102944.3a8c4915@eldfell>
+From: Martin Peres <martin.peres@free.fr>
+Message-ID: <2d3b06c3-5f69-5045-191f-3fd705a3fb40@free.fr>
+Date: Fri, 2 Jul 2021 11:09:43 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20210702102944.3a8c4915@eldfell>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,135 +59,107 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>, dri-devel@lists.freedesktop.org,
- Stuart Summers <stuart.summers@intel.com>,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- =?utf-8?Q?Jos=C3=A9?= Roberto de Souza <jose.souza@intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Tomas Winkler <tomas.winkler@intel.com>
+Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ John Harrison <john.c.harrison@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 01 Jul 2021, Matt Roper <matthew.d.roper@intel.com> wrote:
-> From: Lucas De Marchi <lucas.demarchi@intel.com>
->
-> XeHP SDV is a Intel=C2=AE dGPU without display. This is just the definiti=
-on
-> of some basic platform macros, by large a copy of current state of
-> Tigerlake which does not reflect the end state of this platform.
->
-> Bspec: 44467, 48077
-> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
-> Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-> Signed-off-by: Jos=C3=A9 Roberto de Souza <jose.souza@intel.com>
-> Signed-off-by: Stuart Summers <stuart.summers@intel.com>
-> Signed-off-by: Tomas Winkler <tomas.winkler@intel.com>
-> Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
-> ---
->  drivers/gpu/drm/i915/i915_drv.h          | 10 ++++++++++
->  drivers/gpu/drm/i915/i915_pci.c          | 20 ++++++++++++++++++++
->  drivers/gpu/drm/i915/intel_device_info.c |  1 +
->  drivers/gpu/drm/i915/intel_device_info.h |  1 +
->  4 files changed, 32 insertions(+)
->
-> diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_=
-drv.h
-> index c02600850246..63bed18a2be7 100644
-> --- a/drivers/gpu/drm/i915/i915_drv.h
-> +++ b/drivers/gpu/drm/i915/i915_drv.h
-> @@ -1406,6 +1406,7 @@ IS_SUBPLATFORM(const struct drm_i915_private *i915,
->  #define IS_DG1(dev_priv)        IS_PLATFORM(dev_priv, INTEL_DG1)
->  #define IS_ALDERLAKE_S(dev_priv) IS_PLATFORM(dev_priv, INTEL_ALDERLAKE_S)
->  #define IS_ALDERLAKE_P(dev_priv) IS_PLATFORM(dev_priv, INTEL_ALDERLAKE_P)
-> +#define IS_XEHPSDV(dev_priv) IS_PLATFORM(dev_priv, INTEL_XEHPSDV)
->  #define IS_HSW_EARLY_SDV(dev_priv) (IS_HASWELL(dev_priv) && \
->  				    (INTEL_DEVID(dev_priv) & 0xFF00) =3D=3D 0x0C00)
->  #define IS_BDW_ULT(dev_priv) \
-> @@ -1564,6 +1565,15 @@ IS_SUBPLATFORM(const struct drm_i915_private *i915,
->  	(IS_ALDERLAKE_P(__i915) && \
->  	 IS_GT_STEP(__i915, since, until))
->=20=20
-> +#define XEHPSDV_REVID_A0		0x0
-> +#define XEHPSDV_REVID_A1		0x1
-> +#define XEHPSDV_REVID_A_LAST	XEHPSDV_REVID_A1
-> +#define XEHPSDV_REVID_B0		0x4
-> +#define XEHPSDV_REVID_C0		0x8
-> +
-> +#define IS_XEHPSDV_REVID(p, since, until) \
-> +	(IS_XEHPSDV(p) && IS_REVID(p, since, until))
+On 02/07/2021 10:29, Pekka Paalanen wrote:
+> On Thu, 1 Jul 2021 21:28:06 +0200
+> Daniel Vetter <daniel@ffwll.ch> wrote:
+> 
+>> On Thu, Jul 1, 2021 at 8:27 PM Martin Peres <martin.peres@free.fr> wrote:
+>>>
+>>> On 01/07/2021 11:14, Pekka Paalanen wrote:
+>>>> On Wed, 30 Jun 2021 11:58:25 -0700
+>>>> John Harrison <john.c.harrison@intel.com> wrote:
+>>>>   
+>>>>> On 6/30/2021 01:22, Martin Peres wrote:
+>>>>>> On 24/06/2021 10:05, Matthew Brost wrote:
+>>>>>>> From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+>>>>>>>
+>>>>>>> Unblock GuC submission on Gen11+ platforms.
+>>>>>>>
+>>>>>>> Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
+>>>>>>> Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+>>>>>>> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+>>>>>>> ---
+>>>>>>>     drivers/gpu/drm/i915/gt/uc/intel_guc.h            |  1 +
+>>>>>>>     drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c |  8 ++++++++
+>>>>>>>     drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h |  3 +--
+>>>>>>>     drivers/gpu/drm/i915/gt/uc/intel_uc.c             | 14 +++++++++-----
+>>>>>>>     4 files changed, 19 insertions(+), 7 deletions(-)
+>>>>>>>   
+>>>>
+>>>> ...
+>>>>   
+>>>>>>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc.c
+>>>>>>> b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
+>>>>>>> index 7a69c3c027e9..61be0aa81492 100644
+>>>>>>> --- a/drivers/gpu/drm/i915/gt/uc/intel_uc.c
+>>>>>>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
+>>>>>>> @@ -34,8 +34,15 @@ static void uc_expand_default_options(struct
+>>>>>>> intel_uc *uc)
+>>>>>>>             return;
+>>>>>>>         }
+>>>>>>>     -    /* Default: enable HuC authentication only */
+>>>>>>> -    i915->params.enable_guc = ENABLE_GUC_LOAD_HUC;
+>>>>>>> +    /* Intermediate platforms are HuC authentication only */
+>>>>>>> +    if (IS_DG1(i915) || IS_ALDERLAKE_S(i915)) {
+>>>>>>> +        drm_dbg(&i915->drm, "Disabling GuC only due to old
+>>>>>>> platform\n");
+>>>>>>
+>>>>>> This comment does not seem accurate, given that DG1 is barely out, and
+>>>>>> ADL is not out yet. How about:
+>>>>>>
+>>>>>> "Disabling GuC on untested platforms"?
+>>>>>>   
+>>>>> Just because something is not in the shops yet does not mean it is new.
+>>>>> Technology is always obsolete by the time it goes on sale.
+>>>>
+>>>> That is a very good reason to not use terminology like "new", "old",
+>>>> "current", "modern" etc. at all.
+>>>>
+>>>> End users like me definitely do not share your interpretation of "old".
+>>>
+>>> Yep, old and new is relative. In the end, what matters is the validation
+>>> effort, which is why I was proposing "untested platforms".
+>>>
+>>> Also, remember that you are not writing these messages for Intel
+>>> engineers, but instead are writing for Linux *users*.
+>>
+>> It's drm_dbg. Users don't read this stuff, at least not users with no
+>> clue what the driver does and stuff like that.
+> 
+> If I had a problem, I would read it, and I have no clue what anything
+> of that is.
 
-For new platforms we should be using the mechanisms in
-intel_step.[ch]. As well as converting the old ones.
+Exactly.
 
+This level of defense for what is clearly a bad *debug* message (at the 
+very least, the grammar) makes no sense at all!
 
-BR,
-Jani.
+I don't want to hear arguments like "Not my patch" from a developer 
+literally sending the patch to the ML and who added his SoB to the 
+patch, playing with words, or minimizing the problem of having such a 
+message.
 
+All of the above are just clear signals for the community to get off 
+your playground, which is frankly unacceptable. Your email address does 
+not matter.
 
-> +
->  #define IS_LP(dev_priv)		(INTEL_INFO(dev_priv)->is_lp)
->  #define IS_GEN9_LP(dev_priv)	(GRAPHICS_VER(dev_priv) =3D=3D 9 && IS_LP(d=
-ev_priv))
->  #define IS_GEN9_BC(dev_priv)	(GRAPHICS_VER(dev_priv) =3D=3D 9 && !IS_LP(=
-dev_priv))
-> diff --git a/drivers/gpu/drm/i915/i915_pci.c b/drivers/gpu/drm/i915/i915_=
-pci.c
-> index 88b279452b87..046309e95f43 100644
-> --- a/drivers/gpu/drm/i915/i915_pci.c
-> +++ b/drivers/gpu/drm/i915/i915_pci.c
-> @@ -1020,6 +1020,26 @@ static const struct intel_device_info adl_p_info =
-=3D {
->  	.ppgtt_size =3D 48, \
->  	.ppgtt_type =3D INTEL_PPGTT_FULL
->=20=20
-> +#define XE_HPM_FEATURES \
-> +	.media_ver =3D 12, \
-> +	.media_ver_release =3D 50
-> +
-> +__maybe_unused
-> +static const struct intel_device_info xehpsdv_info =3D {
-> +	XE_HP_FEATURES,
-> +	XE_HPM_FEATURES,
-> +	DGFX_FEATURES,
-> +	PLATFORM(INTEL_XEHPSDV),
-> +	.display =3D { },
-> +	.pipe_mask =3D 0,
-> +	.platform_engine_mask =3D
-> +		BIT(RCS0) | BIT(BCS0) |
-> +		BIT(VECS0) | BIT(VECS1) | BIT(VECS2) | BIT(VECS3) |
-> +		BIT(VCS0) | BIT(VCS1) | BIT(VCS2) | BIT(VCS3) |
-> +		BIT(VCS4) | BIT(VCS5) | BIT(VCS6) | BIT(VCS7),
-> +	.require_force_probe =3D 1,
-> +};
-> +
->  #undef PLATFORM
->=20=20
->  /*
-> diff --git a/drivers/gpu/drm/i915/intel_device_info.c b/drivers/gpu/drm/i=
-915/intel_device_info.c
-> index e8ad14f002c1..7b37b68f4548 100644
-> --- a/drivers/gpu/drm/i915/intel_device_info.c
-> +++ b/drivers/gpu/drm/i915/intel_device_info.c
-> @@ -68,6 +68,7 @@ static const char * const platform_names[] =3D {
->  	PLATFORM_NAME(DG1),
->  	PLATFORM_NAME(ALDERLAKE_S),
->  	PLATFORM_NAME(ALDERLAKE_P),
-> +	PLATFORM_NAME(XEHPSDV),
->  };
->  #undef PLATFORM_NAME
->=20=20
-> diff --git a/drivers/gpu/drm/i915/intel_device_info.h b/drivers/gpu/drm/i=
-915/intel_device_info.h
-> index f824de632cfe..e8684199b0c9 100644
-> --- a/drivers/gpu/drm/i915/intel_device_info.h
-> +++ b/drivers/gpu/drm/i915/intel_device_info.h
-> @@ -88,6 +88,7 @@ enum intel_platform {
->  	INTEL_DG1,
->  	INTEL_ALDERLAKE_S,
->  	INTEL_ALDERLAKE_P,
-> +	INTEL_XEHPSDV,
->  	INTEL_MAX_PLATFORMS
->  };
+In the spirit of collaboration, your response should have been "Good 
+catch, how about XXXX or YYYY?". This would not have wasted everyone's 
+time in an attempt to just have it your way.
 
---=20
-Jani Nikula, Intel Open Source Graphics Center
+My level of confidence in this GuC transition was already low, but you 
+guys are working hard to shoot yourself in the foot. Trust should be earned!
+
+Martin
+
+> 
+> 
+> Thanks,
+> pq
+> 
