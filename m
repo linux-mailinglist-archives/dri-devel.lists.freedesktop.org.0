@@ -2,54 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 848053BA7B1
-	for <lists+dri-devel@lfdr.de>; Sat,  3 Jul 2021 09:57:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7850C3BA7C4
+	for <lists+dri-devel@lfdr.de>; Sat,  3 Jul 2021 10:28:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D515F6E0C9;
-	Sat,  3 Jul 2021 07:57:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 17BA789D2E;
+	Sat,  3 Jul 2021 08:28:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de
- [85.215.255.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 69BD16E0BC;
- Sat,  3 Jul 2021 07:57:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1625299062;
- s=strato-dkim-0002; d=xenosoft.de;
- h=In-Reply-To:Date:Message-ID:References:Cc:To:From:Subject:Cc:Date:
- From:Subject:Sender;
- bh=ijKT050o1peryL1ya6WUMCod2HenR4Vlu88sznv9JII=;
- b=eA8cosycdX3N30gdkGUdMbes/otDB0QQ+XeLzRsN1EhqG1t8QZKS/4tmuPCH8z3b5I
- nt4pePeV6GDGptPSZVXlVY/fM/RlzDldNBhCKSpO+DLhEHZjPdTq7qw/FGfwIYvzPK59
- H9RMM3K2hbUXAOBwkYn47ZuKr4dZF0EOwRj+vmE3DSJkh7MZGMgpEvisuzY8/cgN7e9n
- z7t4/RhbYLBeWuoda5VBdfOd64jjYq8ERfsKE31ksCdliBZR0tQsq8EvI2m0/O99UIXU
- t8UrDKRr0f4h6r3dqSadn/5tVP7fa3qv5gsBdGJsq/fPufUZpoJ5BKkpgSlvDqHYCUVC
- 6OuA==
-Authentication-Results: strato.com;
-    dkim=none
-X-RZG-AUTH: ":L2QefEenb+UdBJSdRCXu93KJ1bmSGnhMdmOod1DhGM4l4Hio94KKxRySfLxnHfJ+Dkjp5DdBJSrwuuqxvPgCJnFfqE+HCxgJwda1d5cv1r7diQ=="
-X-RZG-CLASS-ID: mo00
-Received: from Christians-iMac.fritz.box by smtp.strato.de (RZmta 47.28.1 AUTH)
- with ESMTPSA id D02c3ax637vfBaM
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
- (Client did not present a certificate);
- Sat, 3 Jul 2021 09:57:41 +0200 (CEST)
-Subject: Re: Xorg doesn't work anymore after the latest DRM updates
-From: Christian Zigotzky <chzigotzky@xenosoft.de>
-To: Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-References: <20210509224926.GA31035@embeddedor>
- <CADnq5_OWk+rXK5xrwu0YOMVC45WyQgFQBTUNkcF8oO3ucp+=XQ@mail.gmail.com>
- <ba5f2a73-58e8-6b3e-4048-bb19f238be51@embeddedor.com>
- <4e0a3130-4c20-aa8a-f32a-6c3f0d9cd6f8@xenosoft.de>
-Message-ID: <86de3024-c025-ec65-a45a-264585730c4a@xenosoft.de>
-Date: Sat, 3 Jul 2021 09:57:41 +0200
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.11.0
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com
+ [IPv6:2607:f8b0:4864:20::1030])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C91B96E0C9;
+ Sat,  3 Jul 2021 07:25:09 +0000 (UTC)
+Received: by mail-pj1-x1030.google.com with SMTP id
+ x21-20020a17090aa395b029016e25313bfcso7765545pjp.2; 
+ Sat, 03 Jul 2021 00:25:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=MIgwSNCLuBQs+cwAtmi0/COfPG7Xp5I02ys9HkOg0tY=;
+ b=Zbsf3AQlfTFHr5ZjD1TkVnN2R1+5bZKeKX75HGW6KGEM05jlF/mb9uh+0CE46Ge5Ak
+ UxGnEAz8Uy644cIRI/Mhg+HlXYsO6Th6qzK6jJOivOIqELSi/ARAVQq8ubftdSQyvWZV
+ BbaRxZX+6/H94ncKjkU6v9HfUP3fUJRu4eykRVWL/XoNaCCdlB+Br5CmKtEvJhHlk9IB
+ hxZhQQG99HVXjY1kzMe/TMWSZi2sUOY+vIuj0yNl0tJxSMSCRyNLl7dkb2x53Kwiqmvg
+ EE9h0w4wZ9fLGvCb2AnZtsQN9GPuhs77ciktEQlP946kDTp/h2QNqhkKA4q3aAktTwrb
+ 3DsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=MIgwSNCLuBQs+cwAtmi0/COfPG7Xp5I02ys9HkOg0tY=;
+ b=rcukUs+l5VyCkgbWYz2I6uw9+ll46lK6IqWEIbOqUK6fB1/wnGvu7eghbIAM4zFzHC
+ bOJI2MOHbZX7l92nx/wW539grKP2ap3J9hA8IbNtNlc+A0ihW20XPFgjOjjT9CFlCUzr
+ 0+AZ0gzs6BH0USP0u5UDCBZPO29wELLKTGNfyw6NElQ6c/MBmEsCR69mOyZxFBS5Kywj
+ VrbhIocHH9q5gvf9WNUGrrWsZzo6ATVlNLHMlAanUE0wXOfaqAKoalYOsHCiXXnSaaQP
+ oTdO5n0q+4b/nenbWiJMsRpkArBywCcPtSiYW4BM05KcE0+bgU+UPZGxq45DDpFG8vRy
+ cDjA==
+X-Gm-Message-State: AOAM531fCuHMtFGUGRWGVIBa5C5+k0fNsyUseL5CV9deFWR0ScCKBlwK
+ SGTZcNyLZmcAzUeHRqtsk+U=
+X-Google-Smtp-Source: ABdhPJwPF63ZZ1EbelrVHjC8zLNNOkAxEYxRNj2Gf18dQ+jrkBcIz+PrFaQ9AvLMMSH31i1CHkRL9Q==
+X-Received: by 2002:a17:90a:9308:: with SMTP id
+ p8mr3467470pjo.119.1625297109313; 
+ Sat, 03 Jul 2021 00:25:09 -0700 (PDT)
+Received: from ubuntu.localdomain ([103.220.76.197])
+ by smtp.gmail.com with ESMTPSA id cp11sm1221152pjb.16.2021.07.03.00.25.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 03 Jul 2021 00:25:08 -0700 (PDT)
+From: gushengxian <gushengxian507419@gmail.com>
+To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@linux.ie, daniel@ffwll.ch, yuq825@gmail.com
+Subject: [PATCH] include/uapi/drm: fix spelling mistakes in header files
+Date: Sat,  3 Jul 2021 00:25:02 -0700
+Message-Id: <20210703072502.646239-1-gushengxian507419@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <4e0a3130-4c20-aa8a-f32a-6c3f0d9cd6f8@xenosoft.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Language: de-DE
+X-Mailman-Approved-At: Sat, 03 Jul 2021 08:28:38 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,166 +69,173 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Darren Stevens <darren@stevens-zone.net>, "R.T.Dickinson" <rtd2@xtra.co.nz>,
- LKML <linux-kernel@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- mad skateman <madskateman@gmail.com>,
- linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
- Christian Zigotzky <info@xenosoft.de>
+Cc: linux-samsung-soc@vger.kernel.org, lima@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ gushengxian <gushengxian@yulong.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Oh dear, there is another issue after the latest PowerPC updates. The 
-X5000 doesn't boot anymore.
+From: gushengxian <gushengxian@yulong.com>
 
-Error messages:
+Fix some spelling mistakes in comments found by "codespell":
+cordinate ==> coordinate
+vertial ==> vertical
+horizonta ==> horizontal
+tranformation ==> transformation
+performend ==> performed
+synhronisation ==> synchronisation
+absulute ==> absolute
+successfuly ==> successfully
+privlege ==> privilege
+suface ==> surface
+automaticaly ==> automatically
 
-Oops: Exeption in kernel node, sig: 4 [#1]
-...
-Kernel panic - not syncing: Attempted to kill init! exitcode=0x00000004
-
+Signed-off-by: gushengxian <gushengxian@yulong.com>
 ---
+ include/uapi/drm/drm_mode.h    | 8 ++++----
+ include/uapi/drm/exynos_drm.h  | 6 +++---
+ include/uapi/drm/i915_drm.h    | 4 ++--
+ include/uapi/drm/lima_drm.h    | 2 +-
+ include/uapi/drm/nouveau_drm.h | 2 +-
+ include/uapi/drm/vc4_drm.h     | 2 +-
+ include/uapi/drm/vmwgfx_drm.h  | 4 ++--
+ 7 files changed, 14 insertions(+), 14 deletions(-)
 
-Unfortunately we have two issues at the same time. We are knocked out 
-and unfortunately I don't have any time for bisecting.
-
-- Christian
-
-
-On 03 July 2021 at 09:30 am, Christian Zigotzky wrote:
-> Hi All,
->
-> Xorg doesn't work anymore after the latest DRM updates. [1]
->
-> Error messages:
->
-> Jul 03 08:54:51 Fienix systemd[1]: Starting Light Display Manager...
-> Jul 03 08:54:51 Fienix systemd[1]: Started Light Display Manager.
-> Jul 03 08:54:51 Fienix kernel: BUG: Kernel NULL pointer dereference on 
-> read at 0x00000010
-> Jul 03 08:54:51 Fienix kernel: Faulting instruction address: 
-> 0xc000000000630750
-> Jul 03 08:54:51 Fienix kernel: Oops: Kernel access of bad area, sig: 
-> 11 [#1]
-> Jul 03 08:54:51 Fienix kernel: BE PAGE_SIZE=4K PREEMPT SMP NR_CPUS=4 
-> CoreNet Generic
-> Jul 03 08:54:51 Fienix kernel: Modules linked in: algif_skcipher bnep 
-> tuner_simple tuner_types tea5767 tuner tda7432 tvaudio msp3400 bttv 
-> tea575x tveeprom videobuf_dma_sg videobuf_core rc_core videodev mc 
-> btusb btrtl btbcm btintel bluetooth ecdh_generic ecc uio_pdrv_genirq uio
-> Jul 03 08:54:51 Fienix kernel: CPU: 3 PID: 4300 Comm: Xorg.wrap Not 
-> tainted 5.14.0-a3_A-EON_X5000-07637-g3dbdb38e2869-dirty #1
-> Jul 03 08:54:51 Fienix kernel: NIP:  c000000000630750 LR: 
-> c00000000060fedc CTR: c000000000630728
-> Jul 03 08:54:51 Fienix kernel: REGS: c00000008d903470 TRAP: 0300 Not 
-> tainted  (5.14.0-a3_A-EON_X5000-07637-g3dbdb38e2869-dirty)
-> Jul 03 08:54:51 Fienix kernel: MSR:  0000000080029002 <CE,EE,ME>  CR: 
-> 20000222  XER: 20000000
-> Jul 03 08:54:51 Fienix kernel: DEAR: 0000000000000010 ESR: 
-> 0000000000000000 IRQMASK: 0
->                                GPR00: c00000000060fedc 
-> c00000008d903710 c00000000190c400 c000000085d59c00
->                                GPR04: c00000008d9035b8 
-> ffffffffffffffff c0000000870a4900 c000000085b62d00
->                                GPR08: 000000000000000f 
-> 0000000000000000 c000000000630728 0000000000000003
->                                GPR12: 0000000020000222 
-> c00000003fffeac0 00000000ffe51070 000000000086007c
->                                GPR16: 0000000000862820 
-> 00000000ffb7ec68 0000000000000000 00000000ffffffff
->                                GPR20: 00000000c04064a0 
-> 0000000000450088 00000000ffca79e4 5deadbeef0000122
->                                GPR24: 5deadbeef0000100 
-> 0000000000000000 c0000000876028f0 c000000080bd4000
->                                GPR28: c000000087603c48 
-> c000000085d59d78 c000000085d59c00 c000000085d59c78
-> Jul 03 08:54:51 Fienix kernel: NIP [c000000000630750] 
-> .radeon_ttm_bo_destroy+0x28/0xc0
-> Jul 03 08:54:51 Fienix kernel: LR [c00000000060fedc] 
-> .ttm_bo_put+0x2ec/0x344
-> Jul 03 08:54:51 Fienix kernel: Call Trace:
-> Jul 03 08:54:51 Fienix kernel: [c00000008d903710] [c00000000060fbe4] 
-> .ttm_bo_cleanup_memtype_use+0x54/0x60 (unreliable)
-> Jul 03 08:54:51 Fienix kernel: [c00000008d903790] [c00000000060fedc] 
-> .ttm_bo_put+0x2ec/0x344
-> Jul 03 08:54:51 Fienix kernel: [c00000008d903820] [c000000000630b50] 
-> .radeon_bo_unref+0x28/0x3c
-> Jul 03 08:54:51 Fienix kernel: [c00000008d9038a0] [c0000000006d1f6c] 
-> .radeon_vm_fini+0x1b0/0x1b8
-> Jul 03 08:54:51 Fienix kernel: [c00000008d903940] [c000000000618e38] 
-> .radeon_driver_postclose_kms+0x128/0x178
-> Jul 03 08:54:51 Fienix kernel: [c00000008d9039e0] [c0000000005deb14] 
-> .drm_file_free+0x1d8/0x278
-> Jul 03 08:54:51 Fienix kernel: [c00000008d903aa0] [c0000000005def00] 
-> .drm_release+0x64/0xc8
-> Jul 03 08:54:51 Fienix kernel: [c00000008d903b30] [c00000000017636c] 
-> .__fput+0x11c/0x25c
-> Jul 03 08:54:51 Fienix kernel: [c00000008d903bd0] [c00000000008b1e8] 
-> .task_work_run+0xa4/0xbc
-> Jul 03 08:54:51 Fienix kernel: [c00000008d903c70] [c000000000004bf4] 
-> .do_notify_resume+0x144/0x2f0
-> Jul 03 08:54:51 Fienix kernel: [c00000008d903d70] [c00000000000b380] 
-> .syscall_exit_prepare+0x110/0x130
-> Jul 03 08:54:51 Fienix kernel: [c00000008d903e10] [c000000000000688] 
-> system_call_common+0x100/0x1fc
-> Jul 03 08:54:51 Fienix kernel: --- interrupt: c00 at 0x3f4f58
-> Jul 03 08:54:51 Fienix kernel: NIP:  00000000003f4f58 LR: 
-> 00000000003f4f2c CTR: 0000000000000000
-> Jul 03 08:54:51 Fienix kernel: REGS: c00000008d903e80 TRAP: 0c00 Not 
-> tainted  (5.14.0-a3_A-EON_X5000-07637-g3dbdb38e2869-dirty)
-> Jul 03 08:54:51 Fienix kernel: MSR:  000000000002d002 <CE,EE,PR,ME>  
-> CR: 20000420  XER: 00000000
-> Jul 03 08:54:51 Fienix kernel: IRQMASK: 0
->                                GPR00: 0000000000000006 
-> 00000000ffca66a0 00000000f798a310 0000000000000000
->                                GPR04: 0000000000000000 
-> 0000000000000000 0000000000000000 0000000000000000
->                                GPR08: 0000000000000000 
-> 0000000000000000 0000000000000000 0000000000000000
->                                GPR12: 0000000000000000 
-> 000000000044fff4 00000000ffe51070 000000000086007c
->                                GPR16: 0000000000862820 
-> 00000000ffb7ec68 0000000000000000 00000000ffffffff
->                                GPR20: 00000000c04064a0 
-> 0000000000450088 00000000ffca79e4 00000000004317ac
->                                GPR24: 00000000004317b8 
-> 00000000ffca66d0 0000000000000001 00000000ffca673c
->                                GPR28: 0000000000000001 
-> 0000000000000000 000000000041cff4 0000000000000003
-> Jul 03 08:54:51 Fienix kernel: NIP [00000000003f4f58] 0x3f4f58
-> Jul 03 08:54:51 Fienix kernel: LR [00000000003f4f2c] 0x3f4f2c
-> Jul 03 08:54:51 Fienix kernel: --- interrupt: c00
-> Jul 03 08:54:51 Fienix kernel: Instruction dump:
-> Jul 03 08:54:51 Fienix kernel: 40c2fff4 4e800020 7c0802a6 fbc1fff0 
-> f8010010 3bc3ff88 fbe1fff8 38a0ffff
-> Jul 03 08:54:51 Fienix kernel: f821ff81 7c7f1b78 e9230168 7fc3f378 
-> <80890010> 4bffff51 e87f0208 38631df8
-> Jul 03 08:54:51 Fienix kernel: ---[ end trace ddf73d2d70058380 ]---
-> Jul 03 08:54:51 Fienix kernel:
-> Jul 03 08:54:51 Fienix systemd[1]: lightdm.service: Main process 
-> exited, code=exited, status=1/FAILURE
-> Jul 03 08:54:51 Fienix systemd[1]: lightdm.service: Failed with result 
-> 'exit-code'.
-> Jul 03 08:54:51 Fienix avahi-daemon[3857]: Registering new address 
-> record for 2a02:8109:89c0:ebfc:d372:f06c:9247:7d54 on enP4096p4s4.*.
-> Jul 03 08:54:51 Fienix systemd[1]: lightdm.service: Scheduled restart 
-> job, restart counter is at 1.
-> Jul 03 08:54:51 Fienix systemd[1]: Stopped Light Display Manager.
->
-> ----
-> Systems: A-EON AmigaOne X1000 and X5000 with Radeon HD6970 graphics 
-> cards. [2] [3] [4]
->
-> The biggest problem is, that I don't have time for bisecting and 
-> fixing this issue.
->
-> Cheers,
-> Christian
->
-> [1] 
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=e058a84bfddc42ba356a2316f2cf1141974625c9
-> [2] http://wiki.amiga.org/index.php?title=X5000
-> [3] https://en.wikipedia.org/wiki/AmigaOne_X1000
-> [4] https://forum.hyperion-entertainment.com/viewtopic.php?f=58&t=4378
+diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
+index 9b6722d45f36..8619c7dbb50d 100644
+--- a/include/uapi/drm/drm_mode.h
++++ b/include/uapi/drm/drm_mode.h
+@@ -757,8 +757,8 @@ struct hdr_metadata_infoframe {
+ 	 * These are coded as unsigned 16-bit values in units of
+ 	 * 0.00002, where 0x0000 represents zero and 0xC350
+ 	 * represents 1.0000.
+-	 * @display_primaries.x: X cordinate of color primary.
+-	 * @display_primaries.y: Y cordinate of color primary.
++	 * @display_primaries.x: X coordinate of color primary.
++	 * @display_primaries.y: Y coordinate of color primary.
+ 	 */
+ 	struct {
+ 		__u16 x, y;
+@@ -768,8 +768,8 @@ struct hdr_metadata_infoframe {
+ 	 * These are coded as unsigned 16-bit values in units of
+ 	 * 0.00002, where 0x0000 represents zero and 0xC350
+ 	 * represents 1.0000.
+-	 * @white_point.x: X cordinate of whitepoint of color primary.
+-	 * @white_point.y: Y cordinate of whitepoint of color primary.
++	 * @white_point.x: X coordinate of whitepoint of color primary.
++	 * @white_point.y: Y coordinate of whitepoint of color primary.
+ 	 */
+ 	struct {
+ 		__u16 x, y;
+diff --git a/include/uapi/drm/exynos_drm.h b/include/uapi/drm/exynos_drm.h
+index a51aa1c618c1..27daea06a78e 100644
+--- a/include/uapi/drm/exynos_drm.h
++++ b/include/uapi/drm/exynos_drm.h
+@@ -187,9 +187,9 @@ struct drm_exynos_ioctl_ipp_get_caps {
+ };
+ 
+ enum drm_exynos_ipp_limit_type {
+-	/* size (horizontal/vertial) limits, in pixels (min, max, alignment) */
++	/* size (horizontal/vertical) limits, in pixels (min, max, alignment) */
+ 	DRM_EXYNOS_IPP_LIMIT_TYPE_SIZE		= 0x0001,
+-	/* scale ratio (horizonta/vertial), 16.16 fixed point (min, max) */
++	/* scale ratio (horizontal/vertical), 16.16 fixed point (min, max) */
+ 	DRM_EXYNOS_IPP_LIMIT_TYPE_SCALE		= 0x0002,
+ 
+ 	/* image buffer area */
+@@ -295,7 +295,7 @@ struct drm_exynos_ipp_task_rect {
+ };
+ 
+ /**
+- * Image tranformation description.
++ * Image transformation description.
+  *
+  * @id: must be DRM_EXYNOS_IPP_TASK_TRANSFORM
+  * @rotation: DRM_MODE_ROTATE_* and DRM_MODE_REFLECT_* values
+diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
+index c2c7759b7d2e..1ad8c1998693 100644
+--- a/include/uapi/drm/i915_drm.h
++++ b/include/uapi/drm/i915_drm.h
+@@ -995,7 +995,7 @@ struct drm_i915_gem_exec_object {
+ struct drm_i915_gem_execbuffer {
+ 	/**
+ 	 * List of buffers to be validated with their relocations to be
+-	 * performend on them.
++	 * performed on them.
+ 	 *
+ 	 * This is a pointer to an array of struct drm_i915_gem_validate_entry.
+ 	 *
+@@ -1067,7 +1067,7 @@ struct drm_i915_gem_exec_object2 {
+  * used by the GPU - this flag only disables the synchronisation prior to
+  * rendering with this object in this execbuf.
+  *
+- * Opting out of implicit synhronisation requires the user to do its own
++ * Opting out of implicit synchronisation requires the user to do its own
+  * explicit tracking to avoid rendering corruption. See, for example,
+  * I915_PARAM_HAS_EXEC_FENCE to order execbufs and execute them asynchronously.
+  */
+diff --git a/include/uapi/drm/lima_drm.h b/include/uapi/drm/lima_drm.h
+index 1ec58d652a5a..4a38ac3442c8 100644
+--- a/include/uapi/drm/lima_drm.h
++++ b/include/uapi/drm/lima_drm.h
+@@ -134,7 +134,7 @@ struct drm_lima_gem_submit {
+ struct drm_lima_gem_wait {
+ 	__u32 handle;      /* in, GEM buffer handle */
+ 	__u32 op;          /* in, CPU want to read/write this buffer */
+-	__s64 timeout_ns;  /* in, wait timeout in absulute time */
++	__s64 timeout_ns;  /* in, wait timeout in absolute time */
+ };
+ 
+ /**
+diff --git a/include/uapi/drm/nouveau_drm.h b/include/uapi/drm/nouveau_drm.h
+index 853a327433d3..1fab2431df49 100644
+--- a/include/uapi/drm/nouveau_drm.h
++++ b/include/uapi/drm/nouveau_drm.h
+@@ -178,7 +178,7 @@ struct drm_nouveau_svm_bind {
+ 
+ /*
+  * NOUVEAU_BIND_COMMAND__MIGRATE: synchronous migrate to target memory.
+- * result: number of page successfuly migrate to the target memory.
++ * result: number of page successfully migrate to the target memory.
+  */
+ #define NOUVEAU_SVM_BIND_COMMAND__MIGRATE               0
+ 
+diff --git a/include/uapi/drm/vc4_drm.h b/include/uapi/drm/vc4_drm.h
+index 2cac6277a1d7..8de7a98ca6ec 100644
+--- a/include/uapi/drm/vc4_drm.h
++++ b/include/uapi/drm/vc4_drm.h
+@@ -261,7 +261,7 @@ struct drm_vc4_mmap_bo {
+  * shader BOs.
+  *
+  * Since allowing a shader to be overwritten while it's also being
+- * executed from would allow privlege escalation, shaders must be
++ * executed from would allow privilege escalation, shaders must be
+  * created using this ioctl, and they can't be mmapped later.
+  */
+ struct drm_vc4_create_shader_bo {
+diff --git a/include/uapi/drm/vmwgfx_drm.h b/include/uapi/drm/vmwgfx_drm.h
+index 02e917507479..a46ba95f4e5a 100644
+--- a/include/uapi/drm/vmwgfx_drm.h
++++ b/include/uapi/drm/vmwgfx_drm.h
+@@ -165,7 +165,7 @@ struct drm_vmw_context_arg {
+ 
+ /*************************************************************************/
+ /**
+- * DRM_VMW_CREATE_SURFACE - Create a host suface.
++ * DRM_VMW_CREATE_SURFACE - Create a host surface.
+  *
+  * Allocates a device unique surface id, and queues a create surface command
+  * for the host. Does not wait for host completion. The surface ID can be
+@@ -442,7 +442,7 @@ union drm_vmw_alloc_bo_arg {
+  *
+  * This IOCTL controls the overlay units of the svga device.
+  * The SVGA overlay units does not work like regular hardware units in
+- * that they do not automaticaly read back the contents of the given dma
++ * that they do not automatically read back the contents of the given dma
+  * buffer. But instead only read back for each call to this ioctl, and
+  * at any point between this call being made and a following call that
+  * either changes the buffer or disables the stream.
+-- 
+2.25.1
 
