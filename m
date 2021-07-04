@@ -1,60 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 461F63BAD46
-	for <lists+dri-devel@lfdr.de>; Sun,  4 Jul 2021 15:59:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C51413BAD51
+	for <lists+dri-devel@lfdr.de>; Sun,  4 Jul 2021 16:03:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 40DFD89B95;
-	Sun,  4 Jul 2021 13:59:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5CA0589BAB;
+	Sun,  4 Jul 2021 14:03:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com
- [IPv6:2607:f8b0:4864:20::1035])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A22D89B95
- for <dri-devel@lists.freedesktop.org>; Sun,  4 Jul 2021 13:59:30 +0000 (UTC)
-Received: by mail-pj1-x1035.google.com with SMTP id
- b14-20020a17090a7aceb029017261c7d206so6694907pjl.5
- for <dri-devel@lists.freedesktop.org>; Sun, 04 Jul 2021 06:59:30 -0700 (PDT)
+Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com
+ [IPv6:2607:f8b0:4864:20::536])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8181989BAB
+ for <dri-devel@lists.freedesktop.org>; Sun,  4 Jul 2021 14:03:23 +0000 (UTC)
+Received: by mail-pg1-x536.google.com with SMTP id w15so15344858pgk.13
+ for <dri-devel@lists.freedesktop.org>; Sun, 04 Jul 2021 07:03:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amarulasolutions.com; s=google;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=vZchmjbZcuG8d79fGOuJrTm3zKZcJ0x4q/PTaiXaZWo=;
- b=WQmWODfaTpdwEd7USiDiriTpaY76zXQhP0ffAl16+LJ4j8HIgjGmJghZkHu1DWawvc
- nl7cs7+rF1LhOZdVrrWyxJKVA+LEbHHN/r1WyUjBpYBGqRmkMc5yqPYUTRWu1CtSDzkU
- MfR0RVFUlLLgROhfe2A+zMhqo2glKxYpGEQoE=
+ bh=+Z0/vjCqF693Bx9z202XXmy8AdxNcGN9GiK+na2KyxM=;
+ b=nwsr4bkyjL2hJYXRSn2eLVyPffnb44rQCZTovXnNcLeP26GGT7dqeEdyQB/eTmshf4
+ 8qgYgrskb3tFXr9sw3yEqQJiv/kKD2s2O2UDG6MpopQeRk8ea6G4OQTd7VT2uYnVpUyN
+ wezeOgUsRpDNmO4axh23POdzQwEgLZ0HvSSME=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=vZchmjbZcuG8d79fGOuJrTm3zKZcJ0x4q/PTaiXaZWo=;
- b=Serdl2nOr+7FZeRxEBs6TnZcXvhD4EW0vnIE3OltZ6Ltd93K69MLWuH893DoRXZ/K6
- rufhCbAQ5K5+Z9j9P68BwFZLbsARCC/55a4YQwHLyVm/xN2l0FDnsrfT5QfkkPkMjbPd
- hFs0muBPgh2yWCEdEAosZCkRwy5JzjbF1YSnhDK/Ffv81IGls/H7bdIUDS/DE84BiyMK
- GU0okT8XupO3Z0TFbRR5/KFnu3SxglawIigUInSGzk8TzAHH6LtwZ5Al00TFjT3A/jVi
- 8+SlJEyvJQEfRqkVujB3PHfUFgZUV7Q2paU0QvUshpM9aReF4A2lZL/o3L+Bzr+Km2+X
- ysVg==
-X-Gm-Message-State: AOAM530PlRkxftHjb/MGmtzJb75NN0YTvgztck6BOgz3S7ugbS9flhbS
- d7mUFP68dfrUUkP/lj4cVOIU3w==
-X-Google-Smtp-Source: ABdhPJxVPwt4Nb6yxv4YmtH20r1DKBZ1WMc9WPqPhleaq0VHERawfSzARi/+Gq7kPy5Z6bh6THv/mQ==
-X-Received: by 2002:a17:90a:c916:: with SMTP id
- v22mr9950407pjt.47.1625407170239; 
- Sun, 04 Jul 2021 06:59:30 -0700 (PDT)
+ bh=+Z0/vjCqF693Bx9z202XXmy8AdxNcGN9GiK+na2KyxM=;
+ b=R/E6etx8KnB1BplViBcJcgMnl2ihPLKnjtREsqXKh2dOvx31o0BCHTORaq+DJNoBOG
+ S/u1eu7cUQv/Q0O5yK845MwKheJCLpDsXvzfShLsXXWaIgmOhlNPGdbmtnS19AAnJy/+
+ hQgGXQnDAUP6ngXJQSN3pMO43izVeEjEmRVWEguc0o777fBjLdddWMep1HL03/I6puOi
+ bTi/pbkonL45iXwv2ZeHBQ2iP38L7v4I3SHUiCGsCW6ZWG+cDSlGa/7V+iSqFM5bJJMH
+ XF1Ap7NJw3Qp5YLwLb3bZgfZetp1jFk0daiPwVvO14cXmudA8vogLIfzLIiXeNQINCxw
+ pASw==
+X-Gm-Message-State: AOAM531evqi31kAUsYoGdg7YpWod50Ed7tCYgPIo7LeKYtzO6v5oVl32
+ bcDM7PGyIuZMXEceswf4RVRwQQ==
+X-Google-Smtp-Source: ABdhPJzSgK3KCZeOuvnRKbiyAMKw5W/TWJQaIieY9vxdOakRdngKabRlxvfRpV/h2pwhkAgxGf1FHQ==
+X-Received: by 2002:a05:6a00:1c45:b029:31c:5106:e354 with SMTP id
+ s5-20020a056a001c45b029031c5106e354mr4080591pfw.15.1625407403123; 
+ Sun, 04 Jul 2021 07:03:23 -0700 (PDT)
 Received: from localhost.localdomain ([2405:201:c00a:a884:1ae9:772f:6f0f:3e24])
- by smtp.gmail.com with ESMTPSA id r29sm8387993pfq.177.2021.07.04.06.59.26
+ by smtp.gmail.com with ESMTPSA id t14sm11719253pgm.9.2021.07.04.07.03.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 04 Jul 2021 06:59:29 -0700 (PDT)
+ Sun, 04 Jul 2021 07:03:22 -0700 (PDT)
 From: Jagan Teki <jagan@amarulasolutions.com>
-To: Yannick Fertre <yannick.fertre@foss.st.com>,
- Philippe Cornu <philippe.cornu@foss.st.com>,
- Benjamin Gaignard <benjamin.gaignard@linaro.org>
-Subject: [PATCH] drm/stm: ltdc: Silence -EPROBE_DEFER till bridge attached
-Date: Sun,  4 Jul 2021 19:29:14 +0530
-Message-Id: <20210704135914.268308-1-jagan@amarulasolutions.com>
+To: Heiko Stubner <heiko@sntech.de>, Andrzej Hajda <a.hajda@samsung.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Robert Foss <robert.foss@linaro.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonathan Liu <net147@gmail.com>,
+ Yannick Fertre <yannick.fertre@foss.st.com>
+Subject: [PATCH] drm/bridge: dw-mipi-dsi: Find the possible DSI devices
+Date: Sun,  4 Jul 2021 19:33:09 +0530
+Message-Id: <20210704140309.268469-1-jagan@amarulasolutions.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,57 +69,162 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-kernel@lists.infradead.org, linux-amarula@amarulasolutions.com,
+Cc: linux-amarula@amarulasolutions.com,
  linux-stm32@st-md-mailman.stormreply.com, dri-devel@lists.freedesktop.org,
  Jagan Teki <jagan@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As dw-mipi-dsi supported all possible ways to find the DSI
-devices. It can take multiple iterations for ltdc to find
-all components attached to the DSI bridge.
+Finding panel_or_bridge might vary based on associated
+DSI devices like DSI panel, bridge, and I2C based DSI
+bridge.
 
-The current ltdc driver failed to find the endpoint as
-it returned -EINVAL for the first iteration itself. This leads
-to following error:
+1. DSI panels and bridges will invoke the host attach
+   from probe in order to find the panel_or_bridge.
 
-[    3.099289] [drm:ltdc_load] *ERROR* init encoder endpoint 0
+   chipone_probe()
+       dw_mipi_dsi_host_attach().start
+	   dw_mipi_dsi_panel_or_bridge()
+		...found the panel_or_bridge...
 
-So, check the return value and cleanup the encoder only if it's
-not -EPROBE_DEFER. This make all components in the attached DSI
-bridge found properly.
+   ltdc_encoder_init().start
+       dw_mipi_dsi_bridge_attach().start
+		   dw_mipi_dsi_host_attach().start
+		       chipone_attach(). start
+
+	               chipone_attach(). done
+		   dw_mipi_dsi_host_attach().done
+       dw_mipi_dsi_bridge_attach(). done
+   ltdc_encoder_init().done
+
+2. I2C based DSI bridge will invoke the drm_bridge_attach
+   from bridge attach in order to find the panel_or_bridge.
+
+   ltdc_encoder_init().start
+       dw_mipi_dsi_bridge_attach().start
+	   dw_mipi_dsi_panel_or_bridge()
+		...found the panel_or_bridge...
+		   dw_mipi_dsi_host_attach().start
+		       sn65dsi83_attach(). start
+
+	               sn65dsi83_attach(). done
+		   dw_mipi_dsi_host_attach().done
+       dw_mipi_dsi_bridge_attach(). done
+   ltdc_encoder_init().done
+
+So, invoke the panel_or_bridge from host attach and
+bridge attach in order to find all possible DSI devices.
 
 Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
 ---
- drivers/gpu/drm/stm/ltdc.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c | 58 ++++++++++++++-----
+ 1 file changed, 43 insertions(+), 15 deletions(-)
 
-diff --git a/drivers/gpu/drm/stm/ltdc.c b/drivers/gpu/drm/stm/ltdc.c
-index 08b71248044d..95e983d3ffb5 100644
---- a/drivers/gpu/drm/stm/ltdc.c
-+++ b/drivers/gpu/drm/stm/ltdc.c
-@@ -1122,8 +1122,9 @@ static int ltdc_encoder_init(struct drm_device *ddev, struct drm_bridge *bridge)
+diff --git a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
+index 6b268f9445b3..45f4515dda00 100644
+--- a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
++++ b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
+@@ -246,6 +246,7 @@ struct dw_mipi_dsi {
  
- 	ret = drm_bridge_attach(encoder, bridge, NULL, 0);
- 	if (ret) {
--		drm_encoder_cleanup(encoder);
--		return -EINVAL;
-+		if (ret != -EPROBE_DEFER)
-+			drm_encoder_cleanup(encoder);
+ 	struct clk *pclk;
+ 
++	bool device_found;
+ 	unsigned int lane_mbps; /* per lane */
+ 	u32 channel;
+ 	u32 lanes;
+@@ -309,13 +310,37 @@ static inline u32 dsi_read(struct dw_mipi_dsi *dsi, u32 reg)
+ 	return readl(dsi->base + reg);
+ }
+ 
++static int dw_mipi_dsi_panel_or_bridge(struct dw_mipi_dsi *dsi,
++				       struct device_node *node)
++{
++	struct drm_bridge *bridge;
++	struct drm_panel *panel;
++	int ret;
++
++	ret = drm_of_find_panel_or_bridge(node, 1, 0, &panel, &bridge);
++	if (ret)
 +		return ret;
++
++	if (panel) {
++		bridge = drm_panel_bridge_add_typed(panel,
++						    DRM_MODE_CONNECTOR_DSI);
++		if (IS_ERR(bridge))
++			return PTR_ERR(bridge);
++	}
++
++	dsi->panel_bridge = bridge;
++
++	if (!dsi->panel_bridge)
++		return -EPROBE_DEFER;
++
++	return 0;
++}
++
+ static int dw_mipi_dsi_host_attach(struct mipi_dsi_host *host,
+ 				   struct mipi_dsi_device *device)
+ {
+ 	struct dw_mipi_dsi *dsi = host_to_dsi(host);
+ 	const struct dw_mipi_dsi_plat_data *pdata = dsi->plat_data;
+-	struct drm_bridge *bridge;
+-	struct drm_panel *panel;
+ 	int ret;
+ 
+ 	if (device->lanes > dsi->plat_data->max_data_lanes) {
+@@ -329,22 +354,14 @@ static int dw_mipi_dsi_host_attach(struct mipi_dsi_host *host,
+ 	dsi->format = device->format;
+ 	dsi->mode_flags = device->mode_flags;
+ 
+-	ret = drm_of_find_panel_or_bridge(host->dev->of_node, 1, 0,
+-					  &panel, &bridge);
+-	if (ret)
+-		return ret;
++	if (!dsi->device_found) {
++		ret = dw_mipi_dsi_panel_or_bridge(dsi, host->dev->of_node);
++		if (ret)
++			return ret;
+ 
+-	if (panel) {
+-		bridge = drm_panel_bridge_add_typed(panel,
+-						    DRM_MODE_CONNECTOR_DSI);
+-		if (IS_ERR(bridge))
+-			return PTR_ERR(bridge);
++		dsi->device_found = true;
  	}
  
- 	DRM_DEBUG_DRIVER("Bridge encoder:%d created\n", encoder->base.id);
-@@ -1266,7 +1267,8 @@ int ltdc_load(struct drm_device *ddev)
- 		if (bridge) {
- 			ret = ltdc_encoder_init(ddev, bridge);
- 			if (ret) {
--				DRM_ERROR("init encoder endpoint %d\n", i);
-+				if (ret != -EPROBE_DEFER)
-+					DRM_ERROR("init encoder endpoint %d\n", i);
- 				goto err;
- 			}
- 		}
+-	dsi->panel_bridge = bridge;
+-
+-	drm_bridge_add(&dsi->bridge);
+-
+ 	if (pdata->host_ops && pdata->host_ops->attach) {
+ 		ret = pdata->host_ops->attach(pdata->priv_data, device);
+ 		if (ret < 0)
+@@ -999,6 +1016,16 @@ static int dw_mipi_dsi_bridge_attach(struct drm_bridge *bridge,
+ 	/* Set the encoder type as caller does not know it */
+ 	bridge->encoder->encoder_type = DRM_MODE_ENCODER_DSI;
+ 
++	if (!dsi->device_found) {
++		int ret;
++
++		ret = dw_mipi_dsi_panel_or_bridge(dsi, dsi->dev->of_node);
++		if (ret)
++			return ret;
++
++		dsi->device_found = true;
++	}
++
+ 	/* Attach the panel-bridge to the dsi bridge */
+ 	return drm_bridge_attach(bridge->encoder, dsi->panel_bridge, bridge,
+ 				 flags);
+@@ -1181,6 +1208,7 @@ __dw_mipi_dsi_probe(struct platform_device *pdev,
+ #ifdef CONFIG_OF
+ 	dsi->bridge.of_node = pdev->dev.of_node;
+ #endif
++	drm_bridge_add(&dsi->bridge);
+ 
+ 	return dsi;
+ }
 -- 
 2.25.1
 
