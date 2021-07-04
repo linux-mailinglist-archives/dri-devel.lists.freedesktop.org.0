@@ -2,49 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3845E3BAC54
-	for <lists+dri-devel@lfdr.de>; Sun,  4 Jul 2021 11:05:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AF5D3BAC57
+	for <lists+dri-devel@lfdr.de>; Sun,  4 Jul 2021 11:05:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E6CD89D8D;
-	Sun,  4 Jul 2021 09:05:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD85189DA4;
+	Sun,  4 Jul 2021 09:05:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com
- [IPv6:2607:f8b0:4864:20::102f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 16A4B89D8D
- for <dri-devel@lists.freedesktop.org>; Sun,  4 Jul 2021 09:05:18 +0000 (UTC)
-Received: by mail-pj1-x102f.google.com with SMTP id
- cx9-20020a17090afd89b0290170a3e085edso9496769pjb.0
- for <dri-devel@lists.freedesktop.org>; Sun, 04 Jul 2021 02:05:18 -0700 (PDT)
+Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com
+ [IPv6:2607:f8b0:4864:20::436])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5EBCF89DA4
+ for <dri-devel@lists.freedesktop.org>; Sun,  4 Jul 2021 09:05:24 +0000 (UTC)
+Received: by mail-pf1-x436.google.com with SMTP id w22so10024806pff.5
+ for <dri-devel@lists.freedesktop.org>; Sun, 04 Jul 2021 02:05:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amarulasolutions.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=hL+MLrJHBCEnouqDulLM6emOyYNPKN/7WWcJffUZVgI=;
- b=Ox7OeoxRhsCb8+mFylAYS173jFpOscjCTjnvDIGRdJMYounC5wKIgTpSP7XnVg6xAC
- raQssnG27OHHwoo4hz6T2qjygVeAqh3HXvS+HJMRwVeeW5DhzGewSdUD7BEygrqp0kmC
- oVtikcLRGUxzib5wVnpfq3lHqX/Oe7x+NPzK8=
+ bh=Zfs9GH2yaBtMHWGozT8LK4EDRSgQ+jOLmdRPGev0590=;
+ b=hokU7Y/0CfgaXcV0HQX7ATdBqtWrKnwP3DLSgmdh3IsBlE5dLGEufFkyVMqJfGFcHW
+ XlXuTBLp0OJYLcGD5OPYev+l6+1SsEQ11msmeXTqCP69AY8U9zOQpc94kI23VHzC3zEF
+ rwuLGFzO8kT+ceuT+OIAoBsi5ZvXX9kyNoyDg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=hL+MLrJHBCEnouqDulLM6emOyYNPKN/7WWcJffUZVgI=;
- b=Qme2z2TDuHKHInAPImHXhf2fbvsKzDsZANXpqiXUADZq5Shm/HevAj/Yh4Ujm3nnQO
- FUFIJ6Wgm4gjOGnUFT8eWVetd/MC+lBZoP01/pj7vVqnK43tVYSQHzrsm77QQ4vs8mfo
- Y5r0SzoU+nm9qNxNXNWgfVUIOasBCJu2dMOsKs9tYihaDyank+I053ke4hey89mK5c9+
- MhPumXh5SI7yMHyhs2MU4V0kPOs13eWeljAd90NH5Mw0mxN2eoLZTDuhYTvu2Oumxq9n
- AIBfi5y28nF6Wz/aQc/my2dkvNCRLWMsh/oyZLXADTQVteaeFjIL2weUlSIWrRK8yiY7
- FLGA==
-X-Gm-Message-State: AOAM530lQBXmiGEnuL5WMkNMQYT2cZH4j2Vc0haerOb4qaM/aOJHQubj
- lfgnmMnGjwaCBrnY8QgefmfKHQ==
-X-Google-Smtp-Source: ABdhPJyVk/7w3gX4oYTDufJRP1VggAbeuygq98DTjeKrWXsuGHlnrvYPSoR5wfCpShhHU3GcMAL8IQ==
-X-Received: by 2002:a17:90b:14a:: with SMTP id
- em10mr8827443pjb.154.1625389517778; 
- Sun, 04 Jul 2021 02:05:17 -0700 (PDT)
+ bh=Zfs9GH2yaBtMHWGozT8LK4EDRSgQ+jOLmdRPGev0590=;
+ b=pTWHzrgUkUHhUS1KNMfdFdfM57VBJWemIzZGtNpcrdGBsRkayErGalGGTIpOSai6q7
+ 3S7QN5DwH1fMkWmMj50ljahnlNvpHefG7Udp+7T5d9XHjaJFvMQeT1nWS8K7XHFUlBXF
+ AUT8R7xiz+CbrhFhAgbDkAcZZygpkW4adBNJUfHkOAmpPY6AUqQeqGFTrUZyLssPw0Q/
+ nSG2tAPpmBxD4B2jOoNcKk5X7K+4TPx5+396xhtn7/pcXy/UhdRKlJsONXpD/rEXcLo6
+ 3IvBsdX00ZIQLTvcoQ11eUKBUuSgKsPL3K3C/nnUCwopKM+4SXbVXDm+E8YVm5xXtmX/
+ n55A==
+X-Gm-Message-State: AOAM532hNpb2p++jXAi76Sstaxpk5XfPKjjJSQUsmk0egcrqWpJLCYbo
+ Wuw+MNP+/AEebXWHlHKRU4eeGA==
+X-Google-Smtp-Source: ABdhPJylFxgAaZUHAxrnfv37PiMrZYviDifzRPGliCtQwUUOVDI6SGf0gutg/rm0zOGwLGg9TQTw3A==
+X-Received: by 2002:a65:684d:: with SMTP id q13mr3023080pgt.163.1625389524019; 
+ Sun, 04 Jul 2021 02:05:24 -0700 (PDT)
 Received: from localhost.localdomain ([2405:201:c00a:a884:1ae9:772f:6f0f:3e24])
- by smtp.gmail.com with ESMTPSA id m24sm3360793pgd.60.2021.07.04.02.05.12
+ by smtp.gmail.com with ESMTPSA id m24sm3360793pgd.60.2021.07.04.02.05.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 04 Jul 2021 02:05:17 -0700 (PDT)
+ Sun, 04 Jul 2021 02:05:23 -0700 (PDT)
 From: Jagan Teki <jagan@amarulasolutions.com>
 To: Inki Dae <inki.dae@samsung.com>, Joonyoung Shim <jy0922.shim@samsung.com>,
  Seung-Woo Kim <sw0312.kim@samsung.com>,
@@ -57,10 +55,10 @@ To: Inki Dae <inki.dae@samsung.com>, Joonyoung Shim <jy0922.shim@samsung.com>,
  Daniel Vetter <daniel.vetter@intel.com>, Marek Vasut <marex@denx.de>,
  Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
  Fabio Estevam <festevam@gmail.com>
-Subject: [RFC PATCH 11/17] drm: bridge: samsung-dsim: Find the possible DSI
- devices
-Date: Sun,  4 Jul 2021 14:32:24 +0530
-Message-Id: <20210704090230.26489-12-jagan@amarulasolutions.com>
+Subject: [RFC PATCH 12/17] dt-bindings: display: bridge: samsung,
+ mipi-dsim: Add i.MX8MM support
+Date: Sun,  4 Jul 2021 14:32:25 +0530
+Message-Id: <20210704090230.26489-13-jagan@amarulasolutions.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210704090230.26489-1-jagan@amarulasolutions.com>
 References: <20210704090230.26489-1-jagan@amarulasolutions.com>
@@ -79,77 +77,146 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: devicetree@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
- dri-devel@lists.freedesktop.org, NXP Linux Team <linux-imx@nxp.com>,
+ dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
+ NXP Linux Team <linux-imx@nxp.com>,
  linux-amarula <linux-amarula@amarulasolutions.com>,
  linux-arm-kernel@lists.infradead.org, Jagan Teki <jagan@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Finding panel_or_bridge might vary based on associated
-DSI device drivers like DSI panel, bridge, and I2C based
-DSI bridge.
+Samsung MIPI DSIM bridge can also be found in i.MX8MM SoC.
 
-All of these DSI drivers will invoke the DSI host in order
-to find the panel_or_bridge from probe to host attach and
-bridge_attach to host bridge attach.
+Add dt-bingings for it.
 
-So, in order to handle all these cases of finding the
-panel_or_bridge invoke the finding API in host attach and
-bridge attach with the DSIM_STATE_DEVICE_FOUND flag.
-
-This way we can handle all possible cases of finding the
-DSI devices.
-
+Cc: Rob Herring <robh+dt@kernel.org>
 Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
 ---
- drivers/gpu/drm/bridge/samsung-dsim.c | 20 +++++++++++++++++---
- 1 file changed, 17 insertions(+), 3 deletions(-)
+ .../display/bridge/samsung,mipi-dsim.yaml     | 84 ++++++++++++++++++-
+ 1 file changed, 83 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bridge/samsung-dsim.c
-index 2222c27feffd..9a2df1212d0f 100644
---- a/drivers/gpu/drm/bridge/samsung-dsim.c
-+++ b/drivers/gpu/drm/bridge/samsung-dsim.c
-@@ -248,6 +248,7 @@ struct samsung_dsim_transfer {
- #define DSIM_STATE_INITIALIZED		BIT(1)
- #define DSIM_STATE_CMD_LPM		BIT(2)
- #define DSIM_STATE_VIDOUT_AVAILABLE	BIT(3)
-+#define DSIM_STATE_DEVICE_FOUND		BIT(4)
+diff --git a/Documentation/devicetree/bindings/display/bridge/samsung,mipi-dsim.yaml b/Documentation/devicetree/bindings/display/bridge/samsung,mipi-dsim.yaml
+index b2970734ffd7..bd12d5706291 100644
+--- a/Documentation/devicetree/bindings/display/bridge/samsung,mipi-dsim.yaml
++++ b/Documentation/devicetree/bindings/display/bridge/samsung,mipi-dsim.yaml
+@@ -26,6 +26,7 @@ properties:
+       - samsung,exynos5410-mipi-dsi
+       - samsung,exynos5422-mipi-dsi
+       - samsung,exynos5433-mipi-dsi
++      - fsl,imx8mm-mipi-dsim
  
- struct samsung_dsim_driver_data {
- 	const unsigned int *reg_ofs;
-@@ -1475,6 +1476,15 @@ static int samsung_dsim_bridge_attach(struct drm_bridge *bridge,
- 				      enum drm_bridge_attach_flags flags)
- {
- 	struct samsung_dsim *dsi = bridge_to_dsi(bridge);
-+	int ret;
+   reg:
+     maxItems: 1
+@@ -39,6 +40,10 @@ properties:
+   '#size-cells':
+     const: 0
+ 
++  assigned-clock-parents: true
++  assigned-clock-rates: true
++  assigned-clocks: true
 +
-+	if (!(dsi->state & DSIM_STATE_DEVICE_FOUND)) {
-+		ret = samsung_dsim_panel_or_bridge(dsi, dsi->dev->of_node);
-+		if (ret)
-+			return ret;
+   clocks:
+     minItems: 2
+     maxItems: 5
+@@ -102,7 +107,7 @@ properties:
+         properties:
+           endpoint@0:
+             $ref: /schemas/graph.yaml#/properties/endpoint
+-            description: sub-node describing the input from MIC
++            description: sub-node describing the input from MIC or LCDIF
+ 
+         unevaluatedProperties: false
+ 
+@@ -128,6 +133,30 @@ required:
+ 
+ allOf:
+   - $ref: ../dsi-controller.yaml#
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: fsl,imx8mm-mipi-dsim
 +
-+		dsi->state |= DSIM_STATE_DEVICE_FOUND;
-+	}
- 
- 	dsi->drm = bridge->dev;
- 
-@@ -1498,9 +1508,13 @@ static int samsung_dsim_host_attach(struct mipi_dsi_host *host,
- 	struct drm_device *drm = dsi->drm;
- 	int ret;
- 
--	ret = samsung_dsim_panel_or_bridge(dsi, device->dev.of_node);
--	if (ret)
--		return ret;
-+	if (!(dsi->state & DSIM_STATE_DEVICE_FOUND)) {
-+		ret = samsung_dsim_panel_or_bridge(dsi, device->dev.of_node);
-+		if (ret)
-+			return ret;
++    then:
++      properties:
++        clocks:
++          minItems: 2
 +
-+		dsi->state |= DSIM_STATE_DEVICE_FOUND;
-+	}
++        clock-names:
++          items:
++            - const: bus_clk
++            - const: sclk_mipi
++
++        ports:
++          required:
++            - port@0
++            - port@1
++
++      required:
++        - ports
++
+   - if:
+       properties:
+         compatible:
+@@ -221,6 +250,59 @@ additionalProperties:
+   type: object
  
- 	/*
- 	 * This is a temporary solution and should be made by more generic way.
+ examples:
++  - |
++    #include <dt-bindings/clock/imx8mm-clock.h>
++    #include <dt-bindings/power/imx8mm-power.h>
++    #include <dt-bindings/gpio/gpio.h>
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++
++    dsi@32e10000 {
++       compatible = "fsl,imx8mm-mipi-dsim";
++       reg = <0x32e10000 0x400>;
++       clocks = <&clk IMX8MM_CLK_DSI_CORE>,
++                <&clk IMX8MM_CLK_DSI_PHY_REF>;
++       clock-names = "bus_clk", "sclk_mipi";
++       assigned-clocks = <&clk IMX8MM_CLK_DSI_CORE>,
++                         <&clk IMX8MM_VIDEO_PLL1_OUT>,
++                         <&clk IMX8MM_CLK_DSI_PHY_REF>;
++       assigned-clock-parents = <&clk IMX8MM_SYS_PLL1_266M>,
++                         <&clk IMX8MM_VIDEO_PLL1_BYPASS>,
++                         <&clk IMX8MM_VIDEO_PLL1_OUT>;
++       assigned-clock-rates = <266000000>, <594000000>, <27000000>;
++       interrupts = <GIC_SPI 18 IRQ_TYPE_LEVEL_HIGH>;
++       phys = <&mipi_phy 0>;
++       phy-names = "dsim";
++       power-domains = <&dispmix_blk_ctl IMX8MM_BLK_CTL_PD_DISPMIX_MIPI_DSI>;
++       samsung,burst-clock-frequency = <891000000>;
++       samsung,esc-clock-frequency = <54000000>;
++       samsung,pll-clock-frequency = <27000000>;
++       status = "disabled";
++
++       ports {
++          #address-cells = <1>;
++          #size-cells = <0>;
++
++          port@0 {
++             reg = <0>;
++             #address-cells = <1>;
++             #size-cells = <0>;
++
++             dsi_in_lcdif: endpoint@0 {
++                reg = <0>;
++                remote-endpoint = <&lcdif_out_dsi>;
++             };
++          };
++
++          port@1 {
++             reg = <1>;
++
++             dsi_out_panel: endpoint {
++                remote-endpoint = <&panel_in_dsi>;
++             };
++          };
++       };
++    };
++
+   - |
+     #include <dt-bindings/clock/exynos5433.h>
+     #include <dt-bindings/gpio/gpio.h>
 -- 
 2.25.1
 
