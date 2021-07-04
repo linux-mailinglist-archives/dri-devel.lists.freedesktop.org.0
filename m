@@ -2,48 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99B873BAC63
-	for <lists+dri-devel@lfdr.de>; Sun,  4 Jul 2021 11:05:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA3A13BAC66
+	for <lists+dri-devel@lfdr.de>; Sun,  4 Jul 2021 11:05:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D11B489DBC;
-	Sun,  4 Jul 2021 09:05:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0DE8689DE5;
+	Sun,  4 Jul 2021 09:05:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com
- [IPv6:2607:f8b0:4864:20::533])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 906B989DBC
- for <dri-devel@lists.freedesktop.org>; Sun,  4 Jul 2021 09:05:48 +0000 (UTC)
-Received: by mail-pg1-x533.google.com with SMTP id u14so15016598pga.11
- for <dri-devel@lists.freedesktop.org>; Sun, 04 Jul 2021 02:05:48 -0700 (PDT)
+Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com
+ [IPv6:2607:f8b0:4864:20::42e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E887689DE5
+ for <dri-devel@lists.freedesktop.org>; Sun,  4 Jul 2021 09:05:54 +0000 (UTC)
+Received: by mail-pf1-x42e.google.com with SMTP id w22so10025302pff.5
+ for <dri-devel@lists.freedesktop.org>; Sun, 04 Jul 2021 02:05:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amarulasolutions.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=aJdI93oojpMn0nmBw0byENsNpHTqetQ5XzeFD+Y1dMM=;
- b=HIC3CFFn0vS1e370h213jn3zDi+M3Ddrte2z3oq+x++llXbfE5O8YuH+JOxCOW3pU+
- THTYpqayA2z5pjwVuLKCoqE12PjvwU/fid5MqXEmJy3fgPMkbXRKY/pPkfWlBNc4UCpm
- JTyFApgkQ0OjHWnVnfnCMCNWucKivRLxFacPI=
+ bh=NPJDGg5FUIlGKxFIr3cHBiKXJApkbS5HOtFGL2ZFtnI=;
+ b=Y5vOqA5VOi+FrwY2NKDcz7f743/FfVMilz2a7ydOaqlPDwHXGJjXCnQvNZTUZG/VAJ
+ 0BEywGa25xiOVnSMvFN7wTdpafQeHwxBu142wKYTkUutW6p/tf4wc4vO4Nx3curO3sw1
+ +8tiTqWBXHMVJq18XEJ+M59Ivjsq64+kwcAeQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=aJdI93oojpMn0nmBw0byENsNpHTqetQ5XzeFD+Y1dMM=;
- b=qm0CqNqfj7mkLZjd4ZlEsKgyWa4wDD87tlJuUY5h2e4eyHGPMjrB/aHC3oLzox59OF
- UJR26JL7TaeSwUNuiGNPdybXDC8ypioRWtVyO5ifuD2wZLwi4gWEp0lDlesd36X/thY0
- meMgt9bVOB1u0Kj59k1qTM6NPvNdCWp0VHK482D3ORlbLga/GLwDLEIt6bkogq3etNON
- kjr1Imb6Jl+9tYLx6F4JmLZ4Uh9/Hdg0BhSHYttvYnQxEulkBYO1bQ8KA1/uJzCrbos+
- ihbyHfSDmsG3kAIQRvZGGHt+ugt4YAuDiBdqhxdcEokT0At+3bkQ63t8Sd1FHRfbgdyn
- Jjxw==
-X-Gm-Message-State: AOAM53140V57Gf53yJi4NK79KohKX5W5+xLRJ3dZbnmRCQs7j/fK4SZq
- cftqE+IYj4jTqKjGtHd5uT1+sA==
-X-Google-Smtp-Source: ABdhPJyum/75t7uYJYVgJ+9CL9Ygq72rLafT9zJlpg7FjBTB4lGy3JyqiAgmnlU0OHd8ojPYrY1vdQ==
-X-Received: by 2002:a62:7b8d:0:b029:30f:2089:25df with SMTP id
- w135-20020a627b8d0000b029030f208925dfmr8899915pfc.22.1625389548229; 
- Sun, 04 Jul 2021 02:05:48 -0700 (PDT)
+ bh=NPJDGg5FUIlGKxFIr3cHBiKXJApkbS5HOtFGL2ZFtnI=;
+ b=STg96MZQYCtOu3gHuTB6baBsEvMVRuCLSELdDSKHPyu6f/oh4hYbIUkWYUMOiX6DoM
+ 4IwnWS72eDUy7+77HUznMaaSa447/48GF4Sb0IUu+z4TDk9RanIQKKz4BKk3rU26qHT2
+ 44SdWq1uJFxOGbpwgC8E6p+r4M1bB+5rew/oLBwI3/wb/ekI8V1BfZmc1rwBTvNiGnTq
+ akSqnSHFmd6uSGnoFKiJnllubGFEhXuwactSvB0ugAgKtOl9VUidaNc1oHA9lSDpc6If
+ jHYMniswIkltX1+pmkq09DBn80eaBxV96bKeYhHQgUKU8vB21mqbH0+NG+ueLK717JqZ
+ GJ4w==
+X-Gm-Message-State: AOAM531VhAfpfTRQcbpeNbTIe3Py/4fOj7gMi8mDf/n8gwQ94t8kj5AA
+ VdS3RAb+vsWmRO4bRyldCtwK2g==
+X-Google-Smtp-Source: ABdhPJzkHWVdOK7EaakstBIyQU5sd1VI/Q64M2LP26zyXubUC+ZrLsxppnNHkOOSw62DRzm7TEhTUg==
+X-Received: by 2002:a63:4b23:: with SMTP id y35mr9529467pga.179.1625389554638; 
+ Sun, 04 Jul 2021 02:05:54 -0700 (PDT)
 Received: from localhost.localdomain ([2405:201:c00a:a884:1ae9:772f:6f0f:3e24])
- by smtp.gmail.com with ESMTPSA id m24sm3360793pgd.60.2021.07.04.02.05.42
+ by smtp.gmail.com with ESMTPSA id m24sm3360793pgd.60.2021.07.04.02.05.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 04 Jul 2021 02:05:47 -0700 (PDT)
+ Sun, 04 Jul 2021 02:05:54 -0700 (PDT)
 From: Jagan Teki <jagan@amarulasolutions.com>
 To: Inki Dae <inki.dae@samsung.com>, Joonyoung Shim <jy0922.shim@samsung.com>,
  Seung-Woo Kim <sw0312.kim@samsung.com>,
@@ -56,9 +55,9 @@ To: Inki Dae <inki.dae@samsung.com>, Joonyoung Shim <jy0922.shim@samsung.com>,
  Daniel Vetter <daniel.vetter@intel.com>, Marek Vasut <marex@denx.de>,
  Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
  Fabio Estevam <festevam@gmail.com>
-Subject: [RFC PATCH 16/17] drm: bridge: samsung-dsim: Fix PLL_P offset
-Date: Sun,  4 Jul 2021 14:32:29 +0530
-Message-Id: <20210704090230.26489-17-jagan@amarulasolutions.com>
+Subject: [RFC PATCH 17/17] drm: bridge: samsung-dsim: Add bridge mode_fixup
+Date: Sun,  4 Jul 2021 14:32:30 +0530
+Message-Id: <20210704090230.26489-18-jagan@amarulasolutions.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210704090230.26489-1-jagan@amarulasolutions.com>
 References: <20210704090230.26489-1-jagan@amarulasolutions.com>
@@ -83,100 +82,45 @@ Cc: devicetree@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-PMS_P offset value in existing driver is not compatible
-with i.MX8MM.
+Fixing up the mode flags are required in order to correlate
+the correct sync flags in i.MX8MM eLCDIF.
 
-However the i.MX8M Mini Application Reference manual shows
-the PMS_P offset is the same in the driver, but the i.MX8MM
-downstream driver uses a different one.
-
-So, handle the PMS_P offset via driver_data and use the
-offset value for i.MX8MM from the downstream driver.
+So, handle the mode flags via bridge, mode_fixup.
 
 Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
 ---
- drivers/gpu/drm/bridge/samsung-dsim.c | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/bridge/samsung-dsim.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
 diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bridge/samsung-dsim.c
-index 54767cbf231c..0ed218f5eefc 100644
+index 0ed218f5eefc..c2a76ee5ac4e 100644
 --- a/drivers/gpu/drm/bridge/samsung-dsim.c
 +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
-@@ -184,7 +184,7 @@
- /* DSIM_PLLCTRL */
- #define DSIM_FREQ_BAND(x)		((x) << 24)
- #define DSIM_PLL_EN			(1 << 23)
--#define DSIM_PLL_P(x)			((x) << 13)
-+#define DSIM_PLL_P(x, offset)		((x) << (offset))
- #define DSIM_PLL_M(x)			((x) << 4)
- #define DSIM_PLL_S(x)			((x) << 1)
+@@ -1474,6 +1474,16 @@ static void samsung_dsim_bridge_disable(struct drm_bridge *bridge)
+ 	pm_runtime_put_sync(dsi->dev);
+ }
  
-@@ -259,6 +259,7 @@ struct samsung_dsim_driver_data {
- 	unsigned int max_freq;
- 	unsigned int wait_for_reset;
- 	unsigned int num_bits_resol;
-+	unsigned int pll_p_offset;
- 	const unsigned int *reg_values;
- 	bool exynos_specific;
- };
-@@ -487,6 +488,7 @@ static const struct samsung_dsim_driver_data exynos3_dsi_driver_data = {
- 	.max_freq = 1000,
- 	.wait_for_reset = 1,
- 	.num_bits_resol = 11,
-+	.pll_p_offset = 13,
- 	.reg_values = reg_values,
- 	.exynos_specific = true,
- };
-@@ -500,6 +502,7 @@ static const struct samsung_dsim_driver_data exynos4_dsi_driver_data = {
- 	.max_freq = 1000,
- 	.wait_for_reset = 1,
- 	.num_bits_resol = 11,
-+	.pll_p_offset = 13,
- 	.reg_values = reg_values,
- 	.exynos_specific = true,
- };
-@@ -511,6 +514,7 @@ static const struct samsung_dsim_driver_data exynos5_dsi_driver_data = {
- 	.max_freq = 1000,
- 	.wait_for_reset = 1,
- 	.num_bits_resol = 11,
-+	.pll_p_offset = 13,
- 	.reg_values = reg_values,
- 	.exynos_specific = true,
- };
-@@ -523,6 +527,7 @@ static const struct samsung_dsim_driver_data exynos5433_dsi_driver_data = {
- 	.max_freq = 1500,
- 	.wait_for_reset = 0,
- 	.num_bits_resol = 12,
-+	.pll_p_offset = 13,
- 	.reg_values = exynos5433_reg_values,
- 	.exynos_specific = true,
- };
-@@ -535,6 +540,7 @@ static const struct samsung_dsim_driver_data exynos5422_dsi_driver_data = {
- 	.max_freq = 1500,
- 	.wait_for_reset = 1,
- 	.num_bits_resol = 12,
-+	.pll_p_offset = 13,
- 	.reg_values = exynos5422_reg_values,
- 	.exynos_specific = true,
- };
-@@ -547,6 +553,7 @@ static const struct samsung_dsim_driver_data imx8mm_dsi_driver_data = {
- 	.max_freq = 2100,
- 	.wait_for_reset = 0,
- 	.num_bits_resol = 12,
-+	.pll_p_offset = 14,
- 	.reg_values = imx8mm_dsim_reg_values,
++static bool samsung_dsim_bridge_mode_fixup(struct drm_bridge *bridge,
++					   const struct drm_display_mode *mode,
++					   struct drm_display_mode *adjusted_mode)
++{
++	adjusted_mode->flags |= (DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC);
++	adjusted_mode->flags &= ~(DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC);
++
++	return true;
++}
++
+ static void samsung_dsim_bridge_mode_set(struct drm_bridge *bridge,
+ 					 const struct drm_display_mode *mode,
+ 					 const struct drm_display_mode *adjusted_mode)
+@@ -1542,6 +1552,7 @@ static const struct drm_bridge_funcs samsung_dsim_bridge_funcs = {
+ 	.enable = samsung_dsim_bridge_enable,
+ 	.disable = samsung_dsim_bridge_disable,
+ 	.mode_set = samsung_dsim_bridge_mode_set,
++	.mode_fixup = samsung_dsim_bridge_mode_fixup,
+ 	.attach = samsung_dsim_bridge_attach,
  };
  
-@@ -662,7 +669,8 @@ static unsigned long samsung_dsim_set_pll(struct samsung_dsim *dsi,
- 	writel(driver_data->reg_values[PLL_TIMER],
- 			dsi->reg_base + driver_data->plltmr_reg);
- 
--	reg = DSIM_PLL_EN | DSIM_PLL_P(p) | DSIM_PLL_M(m) | DSIM_PLL_S(s);
-+	reg = DSIM_PLL_EN | DSIM_PLL_P(p, driver_data->pll_p_offset) |
-+	      DSIM_PLL_M(m) | DSIM_PLL_S(s);
- 
- 	if (driver_data->has_freqband) {
- 		static const unsigned long freq_bands[] = {
 -- 
 2.25.1
 
