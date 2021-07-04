@@ -1,49 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 876CB3BAC5D
-	for <lists+dri-devel@lfdr.de>; Sun,  4 Jul 2021 11:05:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F0EB73BAC60
+	for <lists+dri-devel@lfdr.de>; Sun,  4 Jul 2021 11:05:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CFE7989DB2;
-	Sun,  4 Jul 2021 09:05:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4421A89DB7;
+	Sun,  4 Jul 2021 09:05:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com
- [IPv6:2607:f8b0:4864:20::62e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B89AE89DB2
- for <dri-devel@lists.freedesktop.org>; Sun,  4 Jul 2021 09:05:36 +0000 (UTC)
-Received: by mail-pl1-x62e.google.com with SMTP id z13so1045084plg.8
- for <dri-devel@lists.freedesktop.org>; Sun, 04 Jul 2021 02:05:36 -0700 (PDT)
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com
+ [IPv6:2607:f8b0:4864:20::632])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 853B189DB7
+ for <dri-devel@lists.freedesktop.org>; Sun,  4 Jul 2021 09:05:42 +0000 (UTC)
+Received: by mail-pl1-x632.google.com with SMTP id m15so3708490plx.7
+ for <dri-devel@lists.freedesktop.org>; Sun, 04 Jul 2021 02:05:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amarulasolutions.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=A427+AfnA1Ioz/bXS+gNjyx5ot8Nzh0o3fQKGaVpLAE=;
- b=KaxmMRYPEmdg54XavvkHjZ8mq4QksxD0N/CQJqpLUYFA+3J4uv90DR4ptLg++WDirj
- L51kBA2kO+b20UX1/tQZGklUb5FbtcJOmoNn52QBOJ+phq9sKEhp2AoZexc116ZUJlFO
- 5bEUXUhGnvVypx5REzbRYtOaMT2a/sTa7L7Tc=
+ bh=5qWzL2bKwutF1snBeXJY/GnIGl0Ar3EOZLIKhQCIAh4=;
+ b=Oo3Nk58YdvdURePtE0A7QW6obKZfXKex7+wBc9i8v5TQENN/LUYRIJUSlbNHgEnkON
+ abd5uo+wxuBwtinmgxUVoLRV0Ho70wBjkOtlvN+rYI/1SGCkcEZcqR3J3Rr1QWXSdjJI
+ n/0NwutFDWwsnfswCl28VErN0Y6ONWtmdprzc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=A427+AfnA1Ioz/bXS+gNjyx5ot8Nzh0o3fQKGaVpLAE=;
- b=d66Z+60++PXuUyJD2G4Wff3d7lgpJPen7JsvuRWAw7jbsoGJOsXiocP5dBGx/S0QIt
- ityTaLtr1Tm3TByAoF4waxJvTruNL1JNoXTO31F0ETI8ShS8VzPnZRACWBW8yWvpDLrG
- huPwzc1+/qn4syW0jLGJVrToP9+k7sD7kBVaaq27V28RQ9bvFmrVSe+tZ8R+ygu9ymsP
- OjKtXhmTZyzWF4MKr6q3wn2QYaDrXej7pSp9YXLTwqxVL4VADHHOAmOlTfSStygoraJk
- 682kCd/sv6cctZ0mE7pIDmQf4Q6xGdifgtQJtnkL+Vr9EdglatT8wv61rZccKeowksyz
- gs9w==
-X-Gm-Message-State: AOAM531FiL28kqIB78YN5T/qflvgzZ8/QBN/F7OqOscnr8TYELt2g1CN
- CfzdLj5G4RTZMvvZDTuzKlfxCw==
-X-Google-Smtp-Source: ABdhPJzF0gwFjaSFBGpjxUR1GLBewbvTOx45N662kaGKe4lbYN/xyidAjUEaurcx8R0MQht34Y4E7Q==
-X-Received: by 2002:a17:90a:ae0c:: with SMTP id
- t12mr8483517pjq.149.1625389536434; 
- Sun, 04 Jul 2021 02:05:36 -0700 (PDT)
+ bh=5qWzL2bKwutF1snBeXJY/GnIGl0Ar3EOZLIKhQCIAh4=;
+ b=Bu87suFCKtjxVvnFvme8mfmneCFJ/Hy9S1aUv3C6plSQKfk9T9jws4XpdUNGfXMtDz
+ I+4/D0nH1/ck5ipL84xzlz+eKIzHwh9uoztKmwri1AUkrNWxBfYWrcE7VopfAwtEt0k/
+ vLFe27p0TH/ZzIdkVcE9p3vM9W9uaFd+XGmNl9jztMim1elbQhmNspB+iZlKtBV6QsMP
+ 4Evkdx12RM8ZjbPW922IYbGe4VHb7j/IY0w1RMBkLjkCAeGbYNL3hvpglHB5LhGlm599
+ az6uGiL0ky8nIcbIDaGCOq0Pzedzlj8PIIyEf1YnFEzzCqTltYugE/9RcyhbJnNr7M1m
+ tueg==
+X-Gm-Message-State: AOAM5323+GAh/0NN0augw1LR5rkmh0oP4VNKOl2tTX7nvPbcuVj0WDQB
+ ogc3m0Ps0Q69Ox9HUOrCRpT3zw==
+X-Google-Smtp-Source: ABdhPJwrr2bLufFMR1N9V6dDMRURHUV45B3uXg9T7mcdXyFKlOG+lid6Z/lIEpZKE9V5Cq0fISQDEw==
+X-Received: by 2002:a17:902:b210:b029:11a:bf7b:1a83 with SMTP id
+ t16-20020a170902b210b029011abf7b1a83mr7353036plr.84.1625389542152; 
+ Sun, 04 Jul 2021 02:05:42 -0700 (PDT)
 Received: from localhost.localdomain ([2405:201:c00a:a884:1ae9:772f:6f0f:3e24])
- by smtp.gmail.com with ESMTPSA id m24sm3360793pgd.60.2021.07.04.02.05.30
+ by smtp.gmail.com with ESMTPSA id m24sm3360793pgd.60.2021.07.04.02.05.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 04 Jul 2021 02:05:36 -0700 (PDT)
+ Sun, 04 Jul 2021 02:05:41 -0700 (PDT)
 From: Jagan Teki <jagan@amarulasolutions.com>
 To: Inki Dae <inki.dae@samsung.com>, Joonyoung Shim <jy0922.shim@samsung.com>,
  Seung-Woo Kim <sw0312.kim@samsung.com>,
@@ -56,9 +56,10 @@ To: Inki Dae <inki.dae@samsung.com>, Joonyoung Shim <jy0922.shim@samsung.com>,
  Daniel Vetter <daniel.vetter@intel.com>, Marek Vasut <marex@denx.de>,
  Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
  Fabio Estevam <festevam@gmail.com>
-Subject: [RFC PATCH 14/17] drm: bridge: samsung-dsim: Add input_bus_flags
-Date: Sun,  4 Jul 2021 14:32:27 +0530
-Message-Id: <20210704090230.26489-15-jagan@amarulasolutions.com>
+Subject: [RFC PATCH 15/17] drm: bridge: samsung-dsim: Move DSI init in bridge
+ enable
+Date: Sun,  4 Jul 2021 14:32:28 +0530
+Message-Id: <20210704090230.26489-16-jagan@amarulasolutions.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210704090230.26489-1-jagan@amarulasolutions.com>
 References: <20210704090230.26489-1-jagan@amarulasolutions.com>
@@ -83,40 +84,55 @@ Cc: devicetree@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-eLCDIF is expecting to have input_bus_flags as DE_LOW
-in order to set active low during valid data transfer
-on each horizontal line.
+Host transfer in DSI master will invoke only when the DSI
+commands sent from DSI devices like DSI Panel or DSI bridges
+and this host transfer wouldn't invoke I2C based DSI
+bridge drivers.
 
-Add DE_LOW flag via drm bridge timings.
+Handling DSI host initialization in transfer calls might miss
+the controller setup for I2C based DSI bridges.
+
+So, move the DSI initialization from transfer to bridge enable
+as the bridge enable API as it is common across all classes
+of DSI device drivers.
 
 Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
 ---
- drivers/gpu/drm/bridge/samsung-dsim.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/gpu/drm/bridge/samsung-dsim.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bridge/samsung-dsim.c
-index ea379cb0cc32..bc845ae100d4 100644
+index bc845ae100d4..54767cbf231c 100644
 --- a/drivers/gpu/drm/bridge/samsung-dsim.c
 +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
-@@ -1723,6 +1723,10 @@ static const struct component_ops samsung_dsim_component_ops = {
- 	.unbind	= samsung_dsim_unbind,
- };
+@@ -1437,6 +1437,13 @@ static void samsung_dsim_bridge_enable(struct drm_bridge *bridge)
  
-+static const struct drm_bridge_timings samsung_dsim_bridge_timings = {
-+	.input_bus_flags = DRM_BUS_FLAG_DE_LOW,
-+};
+ 	dsi->state |= DSIM_STATE_ENABLED;
+ 
++	if (!(dsi->state & DSIM_STATE_INITIALIZED)) {
++		ret = samsung_dsim_init(dsi);
++		if (ret)
++			return;
++		dsi->state |= DSIM_STATE_INITIALIZED;
++	}
 +
- static int samsung_dsim_probe(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
-@@ -1819,6 +1823,7 @@ static int samsung_dsim_probe(struct platform_device *pdev)
+ 	samsung_dsim_set_display_mode(dsi);
+ 	samsung_dsim_set_display_enable(dsi, true);
  
- 	dsi->bridge.funcs = &samsung_dsim_bridge_funcs;
- 	dsi->bridge.of_node = dev->of_node;
-+	dsi->bridge.timings = &samsung_dsim_bridge_timings;
- 	dsi->bridge.type = DRM_MODE_CONNECTOR_DSI;
+@@ -1602,13 +1609,6 @@ static ssize_t samsung_dsim_host_transfer(struct mipi_dsi_host *host,
+ 	if (!(dsi->state & DSIM_STATE_ENABLED))
+ 		return -EINVAL;
  
- 	drm_bridge_add(&dsi->bridge);
+-	if (!(dsi->state & DSIM_STATE_INITIALIZED)) {
+-		ret = samsung_dsim_init(dsi);
+-		if (ret)
+-			return ret;
+-		dsi->state |= DSIM_STATE_INITIALIZED;
+-	}
+-
+ 	ret = mipi_dsi_create_packet(&xfer.packet, msg);
+ 	if (ret < 0)
+ 		return ret;
 -- 
 2.25.1
 
