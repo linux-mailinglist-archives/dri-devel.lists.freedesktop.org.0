@@ -1,50 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EDE13BC2F2
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Jul 2021 21:04:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B67D33BC3A8
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Jul 2021 23:30:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D22FC89944;
-	Mon,  5 Jul 2021 19:04:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C5FF898BC;
+	Mon,  5 Jul 2021 21:29:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D8AE789944;
- Mon,  5 Jul 2021 19:04:04 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 3D07161978;
- Mon,  5 Jul 2021 19:03:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1625511844;
- bh=o012umLuvyjggdb73nB1nx1kOYsPv1SNeUIs18hDcAw=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=GRwf1cGaUQnGNSK48BMiS8/L53RP5G/QW+0L7WarqJg3vdXhPi76IMHEfxJBcIPa3
- O/IVWGS61Gw63qZ6P/lu+E1G7lOjBRQgMMYZUlxciRBcXpXeaEm0Nt8VlI20vyORW0
- 5Yt77iWQoVMzfxA0eNrndYooJS41ndFVzjZWCxmusBkktvSuT3rDjxcvXFg+FyE3zq
- Tiys8WKwLxyKU0wwkmXs/VX0V/xsNc/cZvd76dhCDw80UkiEfPmHKQyUCziEG4n9+X
- zngjj2Bp6GquWJbjoHo8XOCLo60dYdheBX5hvWTEA+kb21c5xQf9Khdj2j/E3DZMQq
- mzeeqFIjv4raA==
-Date: Mon, 5 Jul 2021 20:03:52 +0100
-From: Will Deacon <will@kernel.org>
-To: Nathan Chancellor <nathan@kernel.org>
-Subject: Re: [PATCH v15 06/12] swiotlb: Use is_swiotlb_force_bounce for
- swiotlb data bouncing
-Message-ID: <20210705190352.GA19461@willie-the-truck>
-References: <20210624155526.2775863-7-tientzu@chromium.org>
- <YNvMDFWKXSm4LRfZ@Ryzen-9-3900X.localdomain>
- <CALiNf2-a-haQN0-4+gX8+wa++52-0CnO2O4BEkxrQCxoTa_47w@mail.gmail.com>
- <20210630114348.GA8383@willie-the-truck>
- <YNyUQwiagNeZ9YeJ@Ryzen-9-3900X.localdomain>
- <20210701074045.GA9436@willie-the-truck>
- <ea28db1f-846e-4f0a-4f13-beb67e66bbca@kernel.org>
- <20210702135856.GB11132@willie-the-truck>
- <0f7bd903-e309-94a0-21d7-f0e8e9546018@arm.com>
- <YN/7xcxt/XGAKceZ@Ryzen-9-3900X.localdomain>
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com
+ [IPv6:2a00:1450:4864:20::334])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 65B61898BC
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Jul 2021 21:29:56 +0000 (UTC)
+Received: by mail-wm1-x334.google.com with SMTP id w13so12210502wmc.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 05 Jul 2021 14:29:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=DTN8bCbDwjO89bPKxxvXHBdJS09GqhwSe1EkHMOagRk=;
+ b=G3HKjdYiuP0q+kmPsoBvi49hjHdop6kq67iBuL3kc1L8obIRQxR/fg+SpbTln6sast
+ JLmLxn+V2lPu8iHY4Xy4/1wcckQsB0rOXDOUN+qFIzuOddw/UxZ8tzevUMZK+Y5rRSze
+ 2uwh+hs+RFpBqqI7P43Kmo2ZMraHRsIAfkZOMYQ6ezSkn0JwCQrhCLekB2D0CM2GjlaA
+ XBMr/k+bGwQZymlQbcnm5R2MA0pgXqqF2N/yVDxUVTcs07akJ9UUGvbzBy3ZFSr8YwS0
+ Dz++ZQdXmiPWpcFUhCfccyA4aFlA+8nz7/XzEJm9kwm+a1/wj7WrXkUqcGSywQla2RMb
+ r0Uw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=DTN8bCbDwjO89bPKxxvXHBdJS09GqhwSe1EkHMOagRk=;
+ b=Qd6C5MWkqIB17oK8Yg+CPNzq+giry7C+mQYCEctiY1G7ynFEKqJnPVAmWe9Ar6ZE4o
+ HtlKGSWXHMZeC/Qym9UMwk6uOS+nZ6ZADMOYutUQsFbjf2StsfNlg6oRcTtkijwr6bTd
+ z4hsBQYJdQLt20hIlUGHrHOu7Z+1Kt0DLqGh8lHc0tJdOxBTI7r+HvlICVIEYRFGgP2P
+ 1tmAhZlDdSvMxWXiZscBj9ZfFuCK8PQh5T174PRmTa80uvMlUc4uvfXpi5O39FCIyX5Q
+ YZFbXnqx0/fOvd9m9/eAGv9Ktf9gUSWCDXcHiYvaY0FChl4z+vzcpjSFObY/9P2y+PUn
+ 3xyA==
+X-Gm-Message-State: AOAM531MYP7pkcvtQi/Rk1DIcBgtPu5+AO8VAuaOG3Zv9P7byCHTJSVl
+ uPVtD+z6qIZpLXCOVdWADdY=
+X-Google-Smtp-Source: ABdhPJxP5ChjlE1m2vy5/kOWGLSJPYzmx+l61b21887Q+rbjstNRrHdeK76zeWh5couRO+oZVCanPw==
+X-Received: by 2002:a05:600c:1c93:: with SMTP id
+ k19mr15154734wms.125.1625520595011; 
+ Mon, 05 Jul 2021 14:29:55 -0700 (PDT)
+Received: from smtp.gmail.com (a95-92-181-29.cpe.netcabo.pt. [95.92.181.29])
+ by smtp.gmail.com with ESMTPSA id g15sm14181433wrs.50.2021.07.05.14.29.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 05 Jul 2021 14:29:54 -0700 (PDT)
+Date: Mon, 5 Jul 2021 22:29:45 +0100
+From: Melissa Wen <melissa.srw@gmail.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH 0/4] vkms: Switch to shadow-buffered plane state
+Message-ID: <20210705212945.qwwrrbxe5ygotycf@smtp.gmail.com>
+References: <20210705074633.9425-1-tzimmermann@suse.de>
+ <YOLQbp7m7ggecg05@phenom.ffwll.local>
+ <246a3772-b632-c7c1-c1ec-5ac1277f7525@suse.de>
+ <YOMVFi3q/JSoZ+p9@phenom.ffwll.local>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YN/7xcxt/XGAKceZ@Ryzen-9-3900X.localdomain>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <YOMVFi3q/JSoZ+p9@phenom.ffwll.local>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,69 +71,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: heikki.krogerus@linux.intel.com, thomas.hellstrom@linux.intel.com,
- peterz@infradead.org, dri-devel@lists.freedesktop.org,
- chris@chris-wilson.co.uk, grant.likely@arm.com, paulus@samba.org,
- Frank Rowand <frowand.list@gmail.com>, mingo@kernel.org,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Saravana Kannan <saravanak@google.com>, xypron.glpk@gmx.de,
- Joerg Roedel <joro@8bytes.org>,
- "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
- Christoph Hellwig <hch@lst.de>,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>, bskeggs@redhat.com,
- linux-pci@vger.kernel.org, xen-devel@lists.xenproject.org,
- Thierry Reding <treding@nvidia.com>, intel-gfx@lists.freedesktop.org,
- matthew.auld@intel.com, linux-devicetree <devicetree@vger.kernel.org>,
- Jianxiong Gao <jxgao@google.com>,
- Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>, airlied@linux.ie,
- Dan Williams <dan.j.williams@intel.com>, linuxppc-dev@lists.ozlabs.org,
- Rob Herring <robh+dt@kernel.org>, rodrigo.vivi@intel.com,
- Bjorn Helgaas <bhelgaas@google.com>, Claire Chang <tientzu@chromium.org>,
- boris.ostrovsky@oracle.com,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>, jgross@suse.com,
- Nicolas Boichat <drinkcat@chromium.org>, Greg KH <gregkh@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, Qian Cai <quic_qiancai@quicinc.com>,
- lkml <linux-kernel@vger.kernel.org>, Tomasz Figa <tfiga@chromium.org>,
- "list@263.net:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
- Jim Quinlan <james.quinlan@broadcom.com>, mpe@ellerman.id.au,
- Tom Lendacky <thomas.lendacky@amd.com>, Robin Murphy <robin.murphy@arm.com>,
- bauerman@linux.ibm.com
+Cc: airlied@linux.ie, hamohammed.sa@gmail.com, dri-devel@lists.freedesktop.org,
+ rodrigosiqueiramelo@gmail.com, Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Nathan,
+On 07/05, Daniel Vetter wrote:
+> On Mon, Jul 05, 2021 at 12:05:28PM +0200, Thomas Zimmermann wrote:
+> > Hi
+> > 
+> > Am 05.07.21 um 11:27 schrieb Daniel Vetter:
+> > > On Mon, Jul 05, 2021 at 09:46:29AM +0200, Thomas Zimmermann wrote:
+> > > > Vkms copies each plane's framebuffer into the output buffer; essentially
+> > > > using a shadow buffer. DRM provides struct drm_shadow_plane_state, which
+> > > > handles the details of mapping/unmapping shadow buffers into memory for
+> > > > active planes.
+> > > > 
+> > > > Convert vkms to the helpers. Makes vkms use shared code and gives more
+> > > > test exposure to shadow-plane helpers.
+> > > > 
+> > > > Thomas Zimmermann (4):
+> > > >    drm/gem: Export implementation of shadow-plane helpers
+> > > >    drm/vkms: Inherit plane state from struct drm_shadow_plane_state
+> > > >    drm/vkms: Let shadow-plane helpers prepare the plane's FB
+> > > >    drm/vkms: Use dma-buf mapping from shadow-plane state for composing
+> > > 
+> > > So I think right now this fits, but I think it'll mismit going forward: We
+> > > don't really have a shadow-plane that we then toss to the hw, it's a
+> > > shadow-crtc-area. Right now there's no difference, because we don't
+> > > support positioning/scaling the primary plane. But that's all kinda stuff
+> > > that's on the table.
+> > > 
+> > > But conceptually at least the compositioning buffer should bet part of the
+> > > crtc, not of the primary plane.
+> > > 
+> > > So not sure what to do, but also coffee hasn't kicked in yet, so maybe I'm
+> > > just confused.
+> > 
+> > I'm not sure if I understand your concern. Can you elaborate? The
+> > compositing output buffer is not affected by this patchset. Only the input
+> > frambuffers of the planes. Those are shadow buffers. AFAICT the composer
+> > code memcpy's the primary plane and then blends the other planes on top.
+> > Supporting transformation of the primary plane doesn't really change much
+> > wrt to the vmaping of input fbs.
+> 
+> Yeah that's the current implementation, because that's easier. But
+> fundamentally we don't need a copy of the input shadow plane, we need a
+> scratch area that's sized for the crtc.
 
-I may have just spotted something in these logs...
+Maybe I'm missing something, but I am not sure the relevance for vkms to
+switch to shadow-buffered plane. (?)
 
-On Fri, Jul 02, 2021 at 10:55:17PM -0700, Nathan Chancellor wrote:
-> [    2.340956] pci 0000:0c:00.1: Adding to iommu group 4
-> [    2.340996] pci 0000:0c:00.2: Adding to iommu group 4
-> [    2.341038] pci 0000:0c:00.3: Adding to iommu group 4
-> [    2.341078] pci 0000:0c:00.4: Adding to iommu group 4
-> [    2.341122] pci 0000:0c:00.6: Adding to iommu group 4
-> [    2.341163] pci 0000:0d:00.0: Adding to iommu group 4
-> [    2.341203] pci 0000:0d:00.1: Adding to iommu group 4
-> [    2.361821] pci 0000:00:00.2: AMD-Vi: Found IOMMU cap 0x40
-> [    2.361839] pci 0000:00:00.2: AMD-Vi: Extended features (0x206d73ef22254ade):
-> [    2.361846]  PPR X2APIC NX GT IA GA PC GA_vAPIC
-> [    2.361861] AMD-Vi: Interrupt remapping enabled
-> [    2.361865] AMD-Vi: Virtual APIC enabled
-> [    2.361870] AMD-Vi: X2APIC enabled
-> [    2.362272] AMD-Vi: Lazy IO/TLB flushing enabled
+Btw, in terms of code changes, it works well and also vmap error stops
+to happen (reported in the last update of todo list). This fix seems to
+be a side-effect because it replaces the vkms_prepare_fb that got
+problematic since (I guess) the last switch to shmem. 
 
-So at this point, the AMD IOMMU driver does:
+Thanks,
+Melissa
 
-	swiotlb        = (iommu_default_passthrough() || sme_me_mask) ? 1 : 0;
-
-where 'swiotlb' is a global variable indicating whether or not swiotlb
-is in use. It's picked up a bit later on by pci_swiotlb_late_init(), which
-will call swiotlb_exit() if 'swiotlb' is false.
-
-Now, that used to work fine, because swiotlb_exit() clears
-'io_tlb_default_mem' to NULL, but now with the restricted DMA changes, I
-think that all the devices which have successfully probed beforehand will
-have stale pointers to the freed structure in their 'dev->dma_io_tlb_mem'
-field.
-
-Will
+> So if the primary plane is smaller than the crtc window (because we use
+> plane hw for compositing, or maybe primary plane shows a vidoe with black
+> borders or whatever), then the primary plane shadow isn't the right size.
+> 
+> And yes this means some surgery, vkms isn't there yet at all. But still it
+> would mean we're going right here, but then have to backtrack before we
+> can go left again. So a detour.
+> 
+> Also I don't think any other driver will ever need this, you really only
+> need it when you want to composite planes in software - which defeats the
+> purpose of planes. Except when the goal of your driver is to be a software
+> model.
+> -Daniel
+> -- 
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
