@@ -1,54 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D88E83BBCFE
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Jul 2021 14:45:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 344363BBD00
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Jul 2021 14:45:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D61289862;
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC97D89AB3;
 	Mon,  5 Jul 2021 12:45:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B02D897EE
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 88B5689862
  for <dri-devel@lists.freedesktop.org>; Mon,  5 Jul 2021 12:45:18 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 063431FE6D;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 391A5225E6;
  Mon,  5 Jul 2021 12:45:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1625489117; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=DrjLbgR68JkIiWllke+ZVdy/oK2BKZmLmBWdUHlDpPc=;
- b=Quy1yCvSVfTFxX++D2CJ1/wk9t/4P2ZpmbegStFvsAb+Kvl3EQPaUzasAZaxMK+GYy+CKX
- oqka7QTJaqMWtokGQ5xKkY6u1A4O9CVJJCDk0q6j84gDggC5Zd11NPlfQ/z1Rnsn1HRSGU
- 8GojDhUclShgP/g3T0DgQ0B2H9T1a6A=
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=qkix/MuBeaAucqA02/qtk3Y8Hdui/c9rKLpTFt2ykBw=;
+ b=LkJQx+ddyN6izZIXOb1HMR9lu30V6etFzdUGo/p0X9MXhFMF7I0RVBbFeBABSBLAsNQwXX
+ pW0Eo3n8DIZxCbwGBkHmCelG44WpqWe6RemiPGB3xDfjHTUsaf9p+35L4k2AyQKahbiXMG
+ V+qEEMd/T0KC8rYS13NvBfcQyvjrR7Y=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1625489117;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=DrjLbgR68JkIiWllke+ZVdy/oK2BKZmLmBWdUHlDpPc=;
- b=lC2iHVYTcrWDm0nXzP0JhixOtrAm4w/rw17Dz3kwRs1zMs1HXH3hFWMnEmABVaTyXQs4sr
- xfbC3Y0ZE37T6cDg==
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=qkix/MuBeaAucqA02/qtk3Y8Hdui/c9rKLpTFt2ykBw=;
+ b=elfIQrMRXqdeAOuAsSvPziBDivWjLkEFxoSRfnhGP2+W4LANYZ4n/JQnxRP/HmtmucwWoP
+ /fECSQAsWUobGqDA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C4F3D139F6;
- Mon,  5 Jul 2021 12:45:16 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 048F013A7E;
+ Mon,  5 Jul 2021 12:45:17 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id ehl0Ltz+4mDkcAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Mon, 05 Jul 2021 12:45:16 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id EKc+AN3+4mDkcAAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Mon, 05 Jul 2021 12:45:17 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch, airlied@redhat.com, sam@ravnborg.org,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org,
  emil.velikov@collabora.com, John.p.donnelly@oracle.com
-Subject: [PATCH 00/12] mgag200: Refactor PLL setup
-Date: Mon,  5 Jul 2021 14:45:03 +0200
-Message-Id: <20210705124515.27253-1-tzimmermann@suse.de>
+Subject: [PATCH 01/12] drm/mgag200: Select clock in PLL update functions
+Date: Mon,  5 Jul 2021 14:45:04 +0200
+Message-Id: <20210705124515.27253-2-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20210705124515.27253-1-tzimmermann@suse.de>
+References: <20210705124515.27253-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -63,48 +69,178 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
+Cc: stable@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Split the PLL setup code into computation and update functions; compute
-the PLL values during atomic checks, update the PLL during atomic commits;
-cleanup the whole thing.
+Put the clock-selection code into each of the PLL-update functions to
+make them select the correct pixel clock.
 
-The current PLL setup code for mgag200 mixes up computation if the PLL
-values and programming the HW. Both is done during atomic commits. As the
-computation phase can fail, the patch splits the functions and moves
-the computation to atomic-check phase. The PLL values are stores as part
-of the CRTC's atomic state.
+The pixel clock for video output was not actually set before programming
+the clock's values. It worked because the device had the correct clock
+pre-set.
 
-As the PLL code is currently unmaintainable, apply various cleanups. For
-example, split functions that handle multiple HW revisions, constify values,
-move compute and update code to distict locations, and unify the
-representation of the PLL's values.
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Fixes: db05f8d3dc87 ("drm/mgag200: Split MISC register update into PLL selection, SYNC and I/O")
+Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: Emil Velikov <emil.velikov@collabora.com>
+Cc: Dave Airlie <airlied@redhat.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: <stable@vger.kernel.org> # v5.9+
+---
+ drivers/gpu/drm/mgag200/mgag200_mode.c | 47 ++++++++++++++++++++------
+ 1 file changed, 37 insertions(+), 10 deletions(-)
 
-Tested on G200EH by setting modes in Weston, fbdev, and Xorg. Further
-testing is welcome.
-
-Thomas Zimmermann (12):
-  drm/mgag200: Select clock in PLL update functions
-  drm/mgag200: Return errno codes from PLL compute functions
-  drm/mgag200: Remove P_ARRAY_SIZE
-  drm/mgag200: Split PLL setup into compute and update functions
-  drm/mgag200: Introduce separate variable for PLL S parameter
-  drm/mgag200: Store values (not bits) in struct mgag200_pll_values
-  drm/mgag200: Split several PLL functions by device type
-  drm/mgag200: Separate PLL compute and update functions from each other
-  drm/mgag200: Split PLL computation for G200SE
-  drm/mgag200: Declare PLL clock constants static const
-  drm/mgag200: Introduce custom CRTC state
-  drm/mgag200: Compute PLL values during atomic check
-
- drivers/gpu/drm/drm_simple_kms_helper.c |  39 +-
- drivers/gpu/drm/mgag200/mgag200_drv.h   |  28 +
- drivers/gpu/drm/mgag200/mgag200_mode.c  | 965 +++++++++++++++---------
- include/drm/drm_simple_kms_helper.h     |  27 +
- 4 files changed, 720 insertions(+), 339 deletions(-)
-
---
+diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c b/drivers/gpu/drm/mgag200/mgag200_mode.c
+index 3b3059f471c2..482843ebb69f 100644
+--- a/drivers/gpu/drm/mgag200/mgag200_mode.c
++++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
+@@ -130,6 +130,7 @@ static int mgag200_g200_set_plls(struct mga_device *mdev, long clock)
+ 	long ref_clk = mdev->model.g200.ref_clk;
+ 	long p_clk_min = mdev->model.g200.pclk_min;
+ 	long p_clk_max =  mdev->model.g200.pclk_max;
++	u8 misc;
+ 
+ 	if (clock > p_clk_max) {
+ 		drm_err(dev, "Pixel Clock %ld too high\n", clock);
+@@ -174,6 +175,11 @@ static int mgag200_g200_set_plls(struct mga_device *mdev, long clock)
+ 	drm_dbg_kms(dev, "clock: %ld vco: %ld m: %d n: %d p: %d s: %d\n",
+ 		    clock, f_vco, m, n, p, s);
+ 
++	misc = RREG8(MGA_MISC_IN);
++	misc &= ~MGAREG_MISC_CLK_SEL_MASK;
++	misc |= MGAREG_MISC_CLK_SEL_MGA_MSK;
++	WREG8(MGA_MISC_OUT, misc);
++
+ 	WREG_DAC(MGA1064_PIX_PLLC_M, m);
+ 	WREG_DAC(MGA1064_PIX_PLLC_N, n);
+ 	WREG_DAC(MGA1064_PIX_PLLC_P, (p | (s << 3)));
+@@ -194,6 +200,7 @@ static int mga_g200se_set_plls(struct mga_device *mdev, long clock)
+ 	unsigned int pvalues_e4[P_ARRAY_SIZE] = {16, 14, 12, 10, 8, 6, 4, 2, 1};
+ 	unsigned int fvv;
+ 	unsigned int i;
++	u8 misc;
+ 
+ 	if (unique_rev_id <= 0x03) {
+ 
+@@ -289,6 +296,11 @@ static int mga_g200se_set_plls(struct mga_device *mdev, long clock)
+ 		return 1;
+ 	}
+ 
++	misc = RREG8(MGA_MISC_IN);
++	misc &= ~MGAREG_MISC_CLK_SEL_MASK;
++	misc |= MGAREG_MISC_CLK_SEL_MGA_MSK;
++	WREG8(MGA_MISC_OUT, misc);
++
+ 	WREG_DAC(MGA1064_PIX_PLLC_M, m);
+ 	WREG_DAC(MGA1064_PIX_PLLC_N, n);
+ 	WREG_DAC(MGA1064_PIX_PLLC_P, p);
+@@ -312,7 +324,7 @@ static int mga_g200wb_set_plls(struct mga_device *mdev, long clock)
+ 	unsigned int computed;
+ 	int i, j, tmpcount, vcount;
+ 	bool pll_locked = false;
+-	u8 tmp;
++	u8 tmp, misc;
+ 
+ 	m = n = p = 0;
+ 
+@@ -385,6 +397,11 @@ static int mga_g200wb_set_plls(struct mga_device *mdev, long clock)
+ 		}
+ 	}
+ 
++	misc = RREG8(MGA_MISC_IN);
++	misc &= ~MGAREG_MISC_CLK_SEL_MASK;
++	misc |= MGAREG_MISC_CLK_SEL_MGA_MSK;
++	WREG8(MGA_MISC_OUT, misc);
++
+ 	for (i = 0; i <= 32 && pll_locked == false; i++) {
+ 		if (i > 0) {
+ 			WREG8(MGAREG_CRTC_INDEX, 0x1e);
+@@ -489,7 +506,7 @@ static int mga_g200ev_set_plls(struct mga_device *mdev, long clock)
+ 	unsigned int testp, testm, testn;
+ 	unsigned int p, m, n;
+ 	unsigned int computed;
+-	u8 tmp;
++	u8 tmp, misc;
+ 
+ 	m = n = p = 0;
+ 	vcomax = 550000;
+@@ -522,6 +539,11 @@ static int mga_g200ev_set_plls(struct mga_device *mdev, long clock)
+ 		}
+ 	}
+ 
++	misc = RREG8(MGA_MISC_IN);
++	misc &= ~MGAREG_MISC_CLK_SEL_MASK;
++	misc |= MGAREG_MISC_CLK_SEL_MGA_MSK;
++	WREG8(MGA_MISC_OUT, misc);
++
+ 	WREG8(DAC_INDEX, MGA1064_PIX_CLK_CTL);
+ 	tmp = RREG8(DAC_DATA);
+ 	tmp |= MGA1064_PIX_CLK_CTL_CLK_DIS;
+@@ -583,7 +605,7 @@ static int mga_g200eh_set_plls(struct mga_device *mdev, long clock)
+ 	unsigned int p, m, n;
+ 	unsigned int computed;
+ 	int i, j, tmpcount, vcount;
+-	u8 tmp;
++	u8 tmp, misc;
+ 	bool pll_locked = false;
+ 
+ 	m = n = p = 0;
+@@ -654,6 +676,12 @@ static int mga_g200eh_set_plls(struct mga_device *mdev, long clock)
+ 			}
+ 		}
+ 	}
++
++	misc = RREG8(MGA_MISC_IN);
++	misc &= ~MGAREG_MISC_CLK_SEL_MASK;
++	misc |= MGAREG_MISC_CLK_SEL_MGA_MSK;
++	WREG8(MGA_MISC_OUT, misc);
++
+ 	for (i = 0; i <= 32 && pll_locked == false; i++) {
+ 		WREG8(DAC_INDEX, MGA1064_PIX_CLK_CTL);
+ 		tmp = RREG8(DAC_DATA);
+@@ -714,6 +742,7 @@ static int mga_g200er_set_plls(struct mga_device *mdev, long clock)
+ 	unsigned int p, m, n;
+ 	unsigned int computed, vco;
+ 	int tmp;
++	u8 misc;
+ 
+ 	m = n = p = 0;
+ 	vcomax = 1488000;
+@@ -754,6 +783,11 @@ static int mga_g200er_set_plls(struct mga_device *mdev, long clock)
+ 		}
+ 	}
+ 
++	misc = RREG8(MGA_MISC_IN);
++	misc &= ~MGAREG_MISC_CLK_SEL_MASK;
++	misc |= MGAREG_MISC_CLK_SEL_MGA_MSK;
++	WREG8(MGA_MISC_OUT, misc);
++
+ 	WREG8(DAC_INDEX, MGA1064_PIX_CLK_CTL);
+ 	tmp = RREG8(DAC_DATA);
+ 	tmp |= MGA1064_PIX_CLK_CTL_CLK_DIS;
+@@ -787,8 +821,6 @@ static int mga_g200er_set_plls(struct mga_device *mdev, long clock)
+ 
+ static int mgag200_crtc_set_plls(struct mga_device *mdev, long clock)
+ {
+-	u8 misc;
+-
+ 	switch(mdev->type) {
+ 	case G200_PCI:
+ 	case G200_AGP:
+@@ -808,11 +840,6 @@ static int mgag200_crtc_set_plls(struct mga_device *mdev, long clock)
+ 		return mga_g200er_set_plls(mdev, clock);
+ 	}
+ 
+-	misc = RREG8(MGA_MISC_IN);
+-	misc &= ~MGAREG_MISC_CLK_SEL_MASK;
+-	misc |= MGAREG_MISC_CLK_SEL_MGA_MSK;
+-	WREG8(MGA_MISC_OUT, misc);
+-
+ 	return 0;
+ }
+ 
+-- 
 2.32.0
 
