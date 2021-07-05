@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D3C43BB4DA
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Jul 2021 03:25:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5CF13BB4D8
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Jul 2021 03:25:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BDA8389C0A;
-	Mon,  5 Jul 2021 01:25:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA5D589BF0;
+	Mon,  5 Jul 2021 01:25:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
- [IPv6:2a00:1450:4864:20::134])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 60EA789B84
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Jul 2021 01:25:18 +0000 (UTC)
-Received: by mail-lf1-x134.google.com with SMTP id f30so29524406lfj.1
- for <dri-devel@lists.freedesktop.org>; Sun, 04 Jul 2021 18:25:18 -0700 (PDT)
+Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com
+ [IPv6:2a00:1450:4864:20::22c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 30EDE89BAE
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Jul 2021 01:25:19 +0000 (UTC)
+Received: by mail-lj1-x22c.google.com with SMTP id r16so22346206ljk.9
+ for <dri-devel@lists.freedesktop.org>; Sun, 04 Jul 2021 18:25:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=xCufV74cVFpYl4htm82Uz1EE39i1hYbo9BTJwhrKLwg=;
- b=OvBcZ6Do7nwdVGMZVuKtGiUeq/7TfbHthDpSGdTmuG/cD0v8YWHL3+8FwhulnvLZuJ
- 5xAlP20TjriDk30bLWu4zz6qdBbHcp8NyUbC9mQnvZVEqqNG9H5PmoQVh3HdMVztDVez
- /YyvlsWrbpGaW1EbLIxOBK4ZNYAAEDFmbaSrcafhRJG+IW0815BzGvYsbVgmqPtqPwvq
- TaT5v8SbIG95vAdi5y3jvaJbgO7lAqaBig6Mv2RrJY7C+6OxNkttO8VepO5nX/eDOAc7
- VnVt2lWeTHnW5XmAmYQhlXwrTA2ZXJf+KuOfV52MlXBmestJth0uUe+mULcrf2Id91Bn
- jfEg==
+ bh=tDsHX0hxp/QVNOmO09ufPm+XNBvCicnDs8mQ30Y15QQ=;
+ b=w3dDSLN3s6dj6Eu0RsDo+s3MXu59YHHkVWukQHMb3jMNoaH5ZOPh01bXrgyaEOf/ee
+ JrgKMnuSjLxehp+t0zFU4/IU48Z7bzVQN6Zs1dXiLgSDxH679bwn4ggDs80xy1Sr8apJ
+ PMU8K0pqi/NH7GnQ+7O5sZT5P05kZ6ukJu2RhjH5R20d29Ozu2o6WMMIZ5VlEgYyGixq
+ t1mHyNU2gQAM6lucsoDzVrr/xWI6zlCe3YWauAMHgLHU15qvNIUAyNYnFOoRnB97qPEg
+ a4PjQOkaspcoqm2kzEUnezIonjCIA1K2m9qmlgpkC9vxA/NZYwN8XhOS8Gn8Yzheqp0l
+ RTsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=xCufV74cVFpYl4htm82Uz1EE39i1hYbo9BTJwhrKLwg=;
- b=qiuyQ++dtdY9uFBPB7XAeMtt29PeZphqRXu15jyfU8q5pRyZKjxG8nh3E4FC7FgRPJ
- mp80C9iHdISch5j21G4+HWVjmje6dxeCNjp4s9rv9OGy7z89GXIh2DHQRSIvfpBZPqdR
- ZOay9IgJkcHhBHEZwwqNot6BZVW35/4eoxlsRFFytu45Pa/WjVbRBxuibVKuLP0EJAgN
- 4v3xF79RjJOe2hnrO+bIVwT1Nk5CFjy33ftywrdUE71WMsOInhM93AtNyFfeGXCBmzPO
- WbAdM4VVF8ZCMgvQNvv6GtBGfWqE2Zsa9mxcj6FFwHRksIvfMv3tLUtS/38ry+SalgYl
- kEuQ==
-X-Gm-Message-State: AOAM533em3UuzRwEtumN/dnv72nh1d3pwmNmap2qCRwC1djBgxl1Zzbs
- JEfrhY0JdugMDcCQDO0KZSYCNQ==
-X-Google-Smtp-Source: ABdhPJyZhGYx6fZck6AKm28q8H3l8mLrs3I+HdT6ROdfkLL4LpyQmGRO9KR/g0fayp0mEdku8zwUOQ==
-X-Received: by 2002:ac2:4475:: with SMTP id y21mr6861692lfl.133.1625448316857; 
- Sun, 04 Jul 2021 18:25:16 -0700 (PDT)
+ bh=tDsHX0hxp/QVNOmO09ufPm+XNBvCicnDs8mQ30Y15QQ=;
+ b=PC8yP+HUEwbupQqv2sU+y3D9e0ik3F9ozoBK+jhZ5+K3qY8NpxpuFuDbefzcnx4jER
+ NivakI67MTlnfbMq6PT9FdsGVnVxw3M9vK44YUzKlk6B90QFSyErKmESDkNIu0XYMlZD
+ JZpEWmCAvmNCp5xZWEB2iIO3nTchjI0XjJz5KUO/mKoaYTbz0OM1TugCu/9ITZtOTOtJ
+ cPw1aOW3tzriD4RTQETQnPEA0Y528hNms+ZHj0s+YG50GUskvvcvA10cyGvDWkqCRW7U
+ 3ITe4jKxA9AuWVFpu1n9u2uu2Ua/dD1xRYhO13jCoQ9rqsGXROkW2cwFg0cyDlCdKW+G
+ efvg==
+X-Gm-Message-State: AOAM5333yLVSzTvS0T7h5o6KN9uEelFh4RepLLrKO+a6OpnYNei9DC5r
+ 8Oo+ZSXvMLbuBQwL9vl3Mrvm2ke3tCEABA==
+X-Google-Smtp-Source: ABdhPJyBgJHrsLnImuBCvXevidlUx106HBbkf4d9I/VRlJgvxqrzm35g/QnBhWAaTj9rmTGB74lX4Q==
+X-Received: by 2002:a2e:958b:: with SMTP id w11mr8919899ljh.55.1625448317628; 
+ Sun, 04 Jul 2021 18:25:17 -0700 (PDT)
 Received: from eriador.lan ([37.153.55.125])
  by smtp.gmail.com with ESMTPSA id c7sm1004345lfm.50.2021.07.04.18.25.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 04 Jul 2021 18:25:16 -0700 (PDT)
+ Sun, 04 Jul 2021 18:25:17 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Bjorn Andersson <bjorn.andersson@linaro.org>,
  Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Abhinav Kumar <abhinavk@codeaurora.org>
-Subject: [PATCH v2 13/22] drm/msm/dpu: drop src_split and multirect check from
- dpu_crtc_atomic_check
-Date: Mon,  5 Jul 2021 04:21:06 +0300
-Message-Id: <20210705012115.4179824-14-dmitry.baryshkov@linaro.org>
+Subject: [PATCH v2 14/22] drm/msm/dpu: add list of supported formats to the
+ DPU caps
+Date: Mon,  5 Jul 2021 04:21:07 +0300
+Message-Id: <20210705012115.4179824-15-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210705012115.4179824-1-dmitry.baryshkov@linaro.org>
 References: <20210705012115.4179824-1-dmitry.baryshkov@linaro.org>
@@ -76,201 +76,88 @@ Cc: Jonathan Marek <jonathan@marek.ca>, Stephen Boyd <sboyd@kernel.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Neither source split nor multirect are properly supported at this
-moment. Both of these checks depend on zpos being equal for several
-planes (which is a clear userspace bug). Drop these checks to simplify
-dpu_crtc_atomic_check(). The actual support for either of these features
-is not removed from the backend code (sspp, ctl, etc).
+As we are going to add virtual planes, add the list of supported formats
+to the hw catalog entry. It will be used to setup universal planes, with
+later selecting a pipe depending on whether the YUV format is used for
+the framebuffer.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c | 128 +----------------------
- 1 file changed, 4 insertions(+), 124 deletions(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 10 ++++++++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h |  4 ++++
+ 2 files changed, 14 insertions(+)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-index 6fe0af9ffc23..f311cdbfe7d2 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-@@ -895,12 +895,8 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
- 	struct drm_plane *plane;
- 	struct drm_display_mode *mode;
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+index d01c4c919504..b8e0fece1f0b 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+@@ -195,6 +195,8 @@ static const struct dpu_caps sdm845_dpu_caps = {
+ 	.pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
+ 	.max_hdeci_exp = MAX_HORZ_DECIMATION,
+ 	.max_vdeci_exp = MAX_VERT_DECIMATION,
++	.format_list = plane_formats_yuv,
++	.num_formats = ARRAY_SIZE(plane_formats_yuv),
+ };
  
--	int cnt = 0, rc = 0, mixer_width = 0, i, z_pos;
-+	int cnt = 0, rc = 0, i;
+ static const struct dpu_caps sc7180_dpu_caps = {
+@@ -207,6 +209,8 @@ static const struct dpu_caps sc7180_dpu_caps = {
+ 	.has_idle_pc = true,
+ 	.max_linewidth = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
+ 	.pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
++	.format_list = plane_formats_yuv,
++	.num_formats = ARRAY_SIZE(plane_formats_yuv),
+ };
  
--	struct dpu_multirect_plane_states multirect_plane[DPU_STAGE_MAX * 2];
--	int multirect_count = 0;
--	const struct drm_plane_state *pipe_staged[SSPP_MAX];
--	int left_zpos_cnt = 0, right_zpos_cnt = 0;
- 	struct drm_rect crtc_rect = { 0 };
+ static const struct dpu_caps sm8150_dpu_caps = {
+@@ -223,6 +227,8 @@ static const struct dpu_caps sm8150_dpu_caps = {
+ 	.pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
+ 	.max_hdeci_exp = MAX_HORZ_DECIMATION,
+ 	.max_vdeci_exp = MAX_VERT_DECIMATION,
++	.format_list = plane_formats_yuv,
++	.num_formats = ARRAY_SIZE(plane_formats_yuv),
+ };
  
- 	pstates = kzalloc(sizeof(*pstates) * DPU_STAGE_MAX * 4, GFP_KERNEL);
-@@ -920,13 +916,8 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
- 	if (crtc_state->active_changed)
- 		crtc_state->mode_changed = true;
+ static const struct dpu_caps sm8250_dpu_caps = {
+@@ -237,6 +243,8 @@ static const struct dpu_caps sm8250_dpu_caps = {
+ 	.has_3d_merge = true,
+ 	.max_linewidth = 4096,
+ 	.pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
++	.format_list = plane_formats_yuv,
++	.num_formats = ARRAY_SIZE(plane_formats_yuv),
+ };
  
--	memset(pipe_staged, 0, sizeof(pipe_staged));
--
--	if (cstate->num_mixers) {
--		mixer_width = mode->hdisplay / cstate->num_mixers;
--
-+	if (cstate->num_mixers)
- 		_dpu_crtc_setup_lm_bounds(crtc, crtc_state);
--	}
+ static const struct dpu_caps sc7280_dpu_caps = {
+@@ -249,6 +257,8 @@ static const struct dpu_caps sc7280_dpu_caps = {
+ 	.has_idle_pc = true,
+ 	.max_linewidth = 2400,
+ 	.pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
++	.format_list = plane_formats_yuv,
++	.num_formats = ARRAY_SIZE(plane_formats_yuv),
+ };
  
- 	crtc_rect.x2 = mode->hdisplay;
- 	crtc_rect.y2 = mode->vdisplay;
-@@ -947,18 +938,8 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
- 		pstates[cnt].dpu_pstate = to_dpu_plane_state(pstate);
- 		pstates[cnt].drm_pstate = pstate;
- 		pstates[cnt].stage = pstate->normalized_zpos;
--		pstates[cnt].pipe_id = dpu_plane_pipe(plane);
+ static const struct dpu_mdp_cfg sdm845_mdp[] = {
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+index d2a945a27cfa..f3c5aa3f4b3f 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+@@ -324,6 +324,8 @@ struct dpu_qos_lut_tbl {
+  * @pixel_ram_size     size of latency hiding and de-tiling buffer in bytes
+  * @max_hdeci_exp      max horizontal decimation supported (max is 2^value)
+  * @max_vdeci_exp      max vertical decimation supported (max is 2^value)
++ * @format_list: Pointer to list of supported formats
++ * @num_formats: Number of supported formats
+  */
+ struct dpu_caps {
+ 	u32 max_mixer_width;
+@@ -340,6 +342,8 @@ struct dpu_caps {
+ 	u32 pixel_ram_size;
+ 	u32 max_hdeci_exp;
+ 	u32 max_vdeci_exp;
++	const u32 *format_list;
++	u32 num_formats;
+ };
  
--		if (pipe_staged[pstates[cnt].pipe_id]) {
--			multirect_plane[multirect_count].r0 =
--				pipe_staged[pstates[cnt].pipe_id];
--			multirect_plane[multirect_count].r1 = pstate;
--			multirect_count++;
--
--			pipe_staged[pstates[cnt].pipe_id] = NULL;
--		} else {
--			pipe_staged[pstates[cnt].pipe_id] = pstate;
--		}
-+		dpu_plane_clear_multirect(pstate);
- 
- 		cnt++;
- 
-@@ -973,19 +954,8 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
- 		}
- 	}
- 
--	for (i = 1; i < SSPP_MAX; i++) {
--		if (pipe_staged[i])
--			dpu_plane_clear_multirect(pipe_staged[i]);
--	}
--
--	z_pos = -1;
- 	for (i = 0; i < cnt; i++) {
--		/* reset counts at every new blend stage */
--		if (pstates[i].stage != z_pos) {
--			left_zpos_cnt = 0;
--			right_zpos_cnt = 0;
--			z_pos = pstates[i].stage;
--		}
-+		int z_pos = pstates[i].stage;
- 
- 		/* verify z_pos setting before using it */
- 		if (z_pos >= DPU_STAGE_MAX - DPU_STAGE_0) {
-@@ -993,40 +963,12 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
- 					DPU_STAGE_MAX - DPU_STAGE_0);
- 			rc = -EINVAL;
- 			goto end;
--		} else if (pstates[i].drm_pstate->crtc_x < mixer_width) {
--			if (left_zpos_cnt == 2) {
--				DPU_ERROR("> 2 planes @ stage %d on left\n",
--					z_pos);
--				rc = -EINVAL;
--				goto end;
--			}
--			left_zpos_cnt++;
--
--		} else {
--			if (right_zpos_cnt == 2) {
--				DPU_ERROR("> 2 planes @ stage %d on right\n",
--					z_pos);
--				rc = -EINVAL;
--				goto end;
--			}
--			right_zpos_cnt++;
- 		}
- 
- 		pstates[i].dpu_pstate->stage = z_pos + DPU_STAGE_0;
- 		DRM_DEBUG_ATOMIC("%s: zpos %d\n", dpu_crtc->name, z_pos);
- 	}
- 
--	for (i = 0; i < multirect_count; i++) {
--		if (dpu_plane_validate_multirect_v2(&multirect_plane[i])) {
--			DPU_ERROR(
--			"multirect validation failed for planes (%d - %d)\n",
--					multirect_plane[i].r0->plane->base.id,
--					multirect_plane[i].r1->plane->base.id);
--			rc = -EINVAL;
--			goto end;
--		}
--	}
--
- 	atomic_inc(&_dpu_crtc_get_kms(crtc)->bandwidth_ref);
- 
- 	rc = dpu_core_perf_crtc_check(crtc, crtc_state);
-@@ -1036,68 +978,6 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
- 		goto end;
- 	}
- 
--	/* validate source split:
--	 * use pstates sorted by stage to check planes on same stage
--	 * we assume that all pipes are in source split so its valid to compare
--	 * without taking into account left/right mixer placement
--	 */
--	for (i = 1; i < cnt; i++) {
--		struct plane_state *prv_pstate, *cur_pstate;
--		struct drm_rect left_rect, right_rect;
--		int32_t left_pid, right_pid;
--		int32_t stage;
--
--		prv_pstate = &pstates[i - 1];
--		cur_pstate = &pstates[i];
--		if (prv_pstate->stage != cur_pstate->stage)
--			continue;
--
--		stage = cur_pstate->stage;
--
--		left_pid = prv_pstate->dpu_pstate->base.plane->base.id;
--		left_rect = drm_plane_state_dest(prv_pstate->drm_pstate);
--
--		right_pid = cur_pstate->dpu_pstate->base.plane->base.id;
--		right_rect = drm_plane_state_dest(cur_pstate->drm_pstate);
--
--		if (right_rect.x1 < left_rect.x1) {
--			swap(left_pid, right_pid);
--			swap(left_rect, right_rect);
--		}
--
--		/**
--		 * - planes are enumerated in pipe-priority order such that
--		 *   planes with lower drm_id must be left-most in a shared
--		 *   blend-stage when using source split.
--		 * - planes in source split must be contiguous in width
--		 * - planes in source split must have same dest yoff and height
--		 */
--		if (right_pid < left_pid) {
--			DPU_ERROR(
--				"invalid src split cfg. priority mismatch. stage: %d left: %d right: %d\n",
--				stage, left_pid, right_pid);
--			rc = -EINVAL;
--			goto end;
--		} else if (right_rect.x1 != drm_rect_width(&left_rect)) {
--			DPU_ERROR("non-contiguous coordinates for src split. "
--				  "stage: %d left: " DRM_RECT_FMT " right: "
--				  DRM_RECT_FMT "\n", stage,
--				  DRM_RECT_ARG(&left_rect),
--				  DRM_RECT_ARG(&right_rect));
--			rc = -EINVAL;
--			goto end;
--		} else if (left_rect.y1 != right_rect.y1 ||
--			   drm_rect_height(&left_rect) != drm_rect_height(&right_rect)) {
--			DPU_ERROR("source split at stage: %d. invalid "
--				  "yoff/height: left: " DRM_RECT_FMT " right: "
--				  DRM_RECT_FMT "\n", stage,
--				  DRM_RECT_ARG(&left_rect),
--				  DRM_RECT_ARG(&right_rect));
--			rc = -EINVAL;
--			goto end;
--		}
--	}
--
- end:
- 	kfree(pstates);
- 	return rc;
+ /**
 -- 
 2.30.2
 
