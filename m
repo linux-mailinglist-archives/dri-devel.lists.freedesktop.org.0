@@ -1,56 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBA893BC0DE
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Jul 2021 17:36:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EE803BC134
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Jul 2021 17:49:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D737489733;
-	Mon,  5 Jul 2021 15:36:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3DBAC89993;
+	Mon,  5 Jul 2021 15:49:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
- [IPv6:2a00:1450:4864:20::42c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5DCCB89733
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Jul 2021 15:36:43 +0000 (UTC)
-Received: by mail-wr1-x42c.google.com with SMTP id i8so9688345wrp.12
- for <dri-devel@lists.freedesktop.org>; Mon, 05 Jul 2021 08:36:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=iAR7IbfO/ByOuSAYCAZlXWlTO/uAo5g0ryMzTohqIlw=;
- b=IrzmPVjIBQy5VJONOO4JR2KfNz9bOCVVXmPmuB/N5eSLvTHWkhwm9yiE/odqCAlgpS
- YkKbfUxC6io2EEH0KZY0amRQqNuLLXdlMgQbSI1eQaTGebH/nGgKJdmw6HWbrtvq8kDB
- SDBVgyOpQyJJ335nZT3VaWeGs+Fa6uhSXXSdNN/d2xH5SwOl/KMriqIFnNw9x0THevWy
- 6om24hMR14NJWnDQ8cVAMd/FIM4EIcmFa2JO6dG79AXwo9ZAjmg00z14IaOXA6RlkSQA
- Sz/F43Vc8eoGoBdgGfNQthOsspXFcxgTTpJLUzmLU0K1BfhNLj8upOcml3NucRxFh/3o
- 9yYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=iAR7IbfO/ByOuSAYCAZlXWlTO/uAo5g0ryMzTohqIlw=;
- b=Q6+de6PmvNP2vKDf0JGSglt91twJ1OLgFJB2KzoEvZkQyGv/HBZonnpsZO9X4aERu1
- TZEkvdeUxrtgds7fShEkWyPm8vDwfFRIqjLe19ZOA7pj+pNGFTScvi98puVYkRvLScDp
- x5xGnR2IjkW+9Yvelez44BpXUQxtGoQ72nmgUfY8CFGo0ufnGFg62a+qydnH43ijdn79
- uXiMplj47wIXWUd7kKXvs3sX3jLeZjpEJiGfjkBxavGirc8puLOAF70RMpMREuGNPp5p
- Nf5emhFsGGM403xUqnn1FmZtNw7cUZuHQ/j+V9gyxJMguLadZChn6Vyw/FcK35N4yq1w
- Pk/g==
-X-Gm-Message-State: AOAM530eWAt4xIayfPGlo3awhQiFTvH6lB2mpJLwGAJ8me1W25Vl9+0j
- xtdEEUC2HW1YDLimGhh0IMEIDUSbkrp0jpjU2aslyQ==
-X-Google-Smtp-Source: ABdhPJxl6FpQUILr1o6o5CBSrn/HkvqCZy1UixrQLZB0tqalSy0xhAhX6LXzEXk8w1zmOsQZi4JE2onBuT3yQDvOcQg=
-X-Received: by 2002:a5d:4351:: with SMTP id u17mr16176213wrr.47.1625499401858; 
- Mon, 05 Jul 2021 08:36:41 -0700 (PDT)
+Received: from srv6.fidu.org (srv6.fidu.org [IPv6:2a01:4f8:231:de0::2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E7EC8989C;
+ Mon,  5 Jul 2021 15:49:44 +0000 (UTC)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+ by srv6.fidu.org (Postfix) with ESMTP id E5B5BC800A0;
+ Mon,  5 Jul 2021 17:49:42 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at srv6.fidu.org
+Received: from srv6.fidu.org ([127.0.0.1])
+ by localhost (srv6.fidu.org [127.0.0.1]) (amavisd-new, port 10024)
+ with LMTP id JvsjUy3tFcaD; Mon,  5 Jul 2021 17:49:42 +0200 (CEST)
+Received: from [IPv6:2003:e3:7f39:4900:3bb7:60d3:9bbf:a050]
+ (p200300E37F3949003BB760d39bBFa050.dip0.t-ipconnect.de
+ [IPv6:2003:e3:7f39:4900:3bb7:60d3:9bbf:a050])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: wse@tuxedocomputers.com)
+ by srv6.fidu.org (Postfix) with ESMTPSA id 3FDC4C80091;
+ Mon,  5 Jul 2021 17:49:42 +0200 (CEST)
+Subject: Re: [PATCH v4 12/17] drm/uAPI: Add "preferred color format" drm
+ property as setting for userspace
+To: Pekka Paalanen <ppaalanen@gmail.com>
+References: <20210618091116.14428-1-wse@tuxedocomputers.com>
+ <20210618091116.14428-13-wse@tuxedocomputers.com>
+ <20210622101516.6a53831c@eldfell>
+ <jIDQ2rRRMWlhDDPf08Z8xZlEE8HTBx7fHsylFdK0joSSFVyES8D444Giyiji9zbIm7dU4QpbsXZLvIDTbGW0wEoUWKsMEI4evizn0UdGMvM=@emersion.fr>
+ <20210629141712.21f00c38@eldfell>
+ <6d8716e0-e68a-e7b7-a341-a7471c413e9c@tuxedocomputers.com>
+ <20210630114133.47397e2f@eldfell>
+ <d3674d49-8bca-7ecf-1735-7bff2d9d526e@tuxedocomputers.com>
+ <20210701110714.61f3e2af@eldfell>
+ <b7144386-a98b-faf9-b425-c1157d9d0241@tuxedocomputers.com>
+ <20210701162446.14f4f577@eldfell>
+From: Werner Sembach <wse@tuxedocomputers.com>
+Message-ID: <102bf05f-7081-c53b-ab0b-f2698c7540e9@tuxedocomputers.com>
+Date: Mon, 5 Jul 2021 17:49:42 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <CAPY8ntBUKRkSam59Y+72dW_6XOeKVswPWffzPj3uvgE6pV4ZGQ@mail.gmail.com>
- <YN9BxNP5IfhbJGGk@pendragon.ideasonboard.com>
-In-Reply-To: <YN9BxNP5IfhbJGGk@pendragon.ideasonboard.com>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Mon, 5 Jul 2021 16:36:25 +0100
-Message-ID: <CAPY8ntDRKcq0V_q04q25_EemsBiT4xHKNv1260Fr8kKGtZDpxw@mail.gmail.com>
-Subject: Re: Questions over DSI within DRM.
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20210701162446.14f4f577@eldfell>
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,230 +63,231 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maxime Ripard <maxime@cerno.tech>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc: sunpeng.li@amd.com, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ airlied@linux.ie, amd-gfx@lists.freedesktop.org, tzimmermann@suse.de,
+ rodrigo.vivi@intel.com, alexander.deucher@amd.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Laurent.
 
-Thanks to you, Jani, and Jagan for your replies.
-I'm replying to Laurent's email as it has the greatest number of
-discussion points.
-
-Noted that NWL DSI and Exynos DSI have undergone the conversion to
-bridges - hopefully I can take those as vague examples.
-
-On Fri, 2 Jul 2021 at 17:42, Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
+Am 01.07.21 um 15:24 schrieb Pekka Paalanen:
+> On Thu, 1 Jul 2021 14:50:13 +0200
+> Werner Sembach <wse@tuxedocomputers.com> wrote:
 >
-> Hi Dave,
+>> Am 01.07.21 um 10:07 schrieb Pekka Paalanen:
+>>
+>>> On Wed, 30 Jun 2021 11:20:18 +0200
+>>> Werner Sembach <wse@tuxedocomputers.com> wrote:
+>>>  
+>>>> Am 30.06.21 um 10:41 schrieb Pekka Paalanen:
+>>>>  
+>>>>> On Tue, 29 Jun 2021 13:39:18 +0200
+>>>>> Werner Sembach <wse@tuxedocomputers.com> wrote:
+>>>>>    
+>>>>>> Am 29.06.21 um 13:17 schrieb Pekka Paalanen:    
+>>>>>>> On Tue, 29 Jun 2021 08:12:54 +0000
+>>>>>>> Simon Ser <contact@emersion.fr> wrote:
+>>>>>>>       
+>>>>>>>> On Tuesday, June 22nd, 2021 at 09:15, Pekka Paalanen <ppaalanen@gmail.com> wrote:
+>>>>>>>>       
+>>>>>>>>> yes, I think this makes sense, even if it is a property that one can't
+>>>>>>>>> tell for sure what it does before hand.
+>>>>>>>>>
+>>>>>>>>> Using a pair of properties, preference and active, to ask for something
+>>>>>>>>> and then check what actually worked is good for reducing the
+>>>>>>>>> combinatorial explosion caused by needing to "atomic TEST_ONLY commit"
+>>>>>>>>> test different KMS configurations. Userspace has a better chance of
+>>>>>>>>> finding a configuration that is possible.
+>>>>>>>>>
+>>>>>>>>> OTOH, this has the problem than in UI one cannot tell the user in
+>>>>>>>>> advance which options are truly possible. Given that KMS properties are
+>>>>>>>>> rarely completely independent, and in this case known to depend on
+>>>>>>>>> several other KMS properties, I think it is good enough to know after
+>>>>>>>>> the fact.
+>>>>>>>>>
+>>>>>>>>> If a driver does not use what userspace prefers, there is no way to
+>>>>>>>>> understand why, or what else to change to make it happen. That problem
+>>>>>>>>> exists anyway, because TEST_ONLY commits do not give useful feedback
+>>>>>>>>> but only a yes/no.    
+>>>>>>>> By submitting incremental atomic reqs with TEST_ONLY (i.e. only changing one
+>>>>>>>> property at a time), user-space can discover which property makes the atomic
+>>>>>>>> commit fail.    
+>>>>>>> That works if the properties are independent of each other. Color
+>>>>>>> range, color format, bpc and more may all be interconnected,
+>>>>>>> allowing only certain combinations to work.
+>>>>>>>
+>>>>>>> If all these properties have "auto" setting too, then it would be
+>>>>>>> possible to probe each property individually, but that still does not
+>>>>>>> tell which combinations are valid.
+>>>>>>>
+>>>>>>> If you probe towards a certain configuration by setting the properties
+>>>>>>> one by one, then depending on the order you pick the properties, you
+>>>>>>> may come to a different conclusion on which property breaks the
+>>>>>>> configuration.    
+>>>>>> My mind crossed another point that must be considered: When plugin in
+>>>>>> a Monitor a list of possible Resolutions+Framerate combinations is
+>>>>>> created for xrandr and other userspace (I guess by atomic checks? but
+>>>>>> I don't know).    
+>>>>> Hi,
+>>>>>
+>>>>> I would not think so, but I hope to be corrected if I'm wrong.
+>>>>>
+>>>>> My belief is that the driver collects a list of modes from EDID, some
+>>>>> standard modes, and maybe some other hardcoded modes, and then
+>>>>> validates each entry against all the known limitations like vertical
+>>>>> and horizontal frequency limits, discarding modes that do not fit.
+>>>>>
+>>>>> Not all limitations are known during that phase, which is why KMS
+>>>>> property "link-status" exists. When userspace actually programs a mode
+>>>>> (not a TEST_ONLY commit), the link training may fail. The kernel prunes
+>>>>> the mode from the list and sets the link status property to signal
+>>>>> failure, and sends a hotplug uevent. Userspace needs to re-check the
+>>>>> mode list and try again.
+>>>>>
+>>>>> That is a generic escape hatch for when TEST_ONLY commit succeeds, but
+>>>>> in reality the hardware cannot do it, you just cannot know until you
+>>>>> actually try for real. It causes end user visible flicker if it happens
+>>>>> on an already running connector, but since it usually happens when
+>>>>> turning a connector on to begin with, there is no flicker to be seen,
+>>>>> just a small delay in finding a mode that works.
+>>>>>    
+>>>>>> During this drm
+>>>>>> properties are already considered, which is no problem atm because as
+>>>>>> far as i can tell there is currently no drm property that would make
+>>>>>> a certain Resolutions+Framerate combination unreachable that would be
+>>>>>> possible with everything on default.    
+>>>>> I would not expect KMS properties to be considered at all. It would
+>>>>> reject modes that are actually possible if the some KMS properties were
+>>>>> changed. So at least going forward, current KMS property values cannot
+>>>>> factor in.    
+>>>> At least the debugfs variable "force_yuv420_output" did change the 
+>>>> available modes here: 
+>>>> https://elixir.bootlin.com/linux/v5.13/source/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c#L5165 
+>>>> before my patch 
+>>>> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=68eb3ae3c63708f823aeeb63bb15197c727bd9bf  
+>>> Hi,
+>>>
+>>> debugfs is not proper UAPI, so we can just ignore it. Display servers
+>>> cannot be expected to poke in debugfs. Debugfs is not even supposed to
+>>> exist in production systems, but I'm sure people use it for hacking
+>>> stuff. But that's all it is for: developer testing and hacking.  
+>> e.g. Ubuntu has it active by default, but only read (and writable) by root.
+> Hi,
 >
-> (Expanding the CC list a bit)
+> that's normal, yes. Root can do damage anyway, and it's useful for
+> debugging. KMS clients OTOH often do not run as root.
 >
-> On Fri, Jul 02, 2021 at 12:03:31PM +0100, Dave Stevenson wrote:
-> > Hi All
-> >
-> > I'm trying to get DSI devices working reliably on the Raspberry Pi,
-> > but I'm hitting a number of places where it isn't clear as to the
-> > expected behaviour within DRM.
+>>>  
+>>>> Forcing a color format via a DRM property in this function would 
+>>>> reintroduce the problem.  
+>>> The property would need to be defined differently because its presence
+>>> could otherwise break existing userspace. Well, I suppose it could
+>>> break existing userspace no matter what, so we would need the generic
+>>> "reset to sane defaults" mechanism first IMO.
+>>>
+>>> DRM has client caps for exposing video modes that old userspace might
+>>> not expect, to avoid breaking old userspace. Care needs to be taken
+>>> with all new UAPI, because if a kernel upgrade makes something wrong,
+>>> it's the kernel's fault no matter what userspace is doing, in principle.  
+>> Can you give me a link describing how I define this caps?
+> I don't have any, but you can find all the existing ones by grepping
+> for DRM_CLIENT_CAP_.
 >
-> Not a surprise. I dread reading the rest of this e-mail though :-)
+> I'm not saying that we need it, but mentioning them as a possible
+> workaround if userspace breakage seems imminent or is proven.
 >
-> > Power on state. Many devices want the DSI clock and/or data lanes in
-> > LP-11 state when they are powered up.
+>>> Debugfs has no problem breaking userspace AFAIU, since it's not proper
+>>> UAPI.
+>>>  
+>>>> And I think i915 driver works similar in this regard.
+>>>>  
+>>>>>    
+>>>>>> However for example forcing YCbCr420 encoding would limit the
+>>>>>> available resolutions (my screen for example only supports YCbCr420
+>>>>>> on 4k@60 and @50Hz and on no other resolution or frequency (native is
+>>>>>> 2560x1440@144Hz).
+>>>>>>
+>>>>>> So would a "force color format" that does not get resetted on
+>>>>>> repluging/reenabling a monitor break the output, for example, of an
+>>>>>> not updated xrandr, unaware of this new property?    
+>>>>> Yes, not because the mode list would be missing the mode, but because
+>>>>> actually setting the mode would fail.    
+>>>> Well, like described above, I think the mode would actually be missing, 
+>>>> which is also an unexpected behavior from a user perspective.  
+>>> I think that is not how the property should work.
+>>>
+>>> If KMS properties would affect the list of modes, then userspace would
+>>> need to set the properties for real (TEST_ONLY cannot change anything)
+>>> and re-fetch the mode lists (maybe there is a hotplug event, maybe
+>>> not). That workflow just doesn't work.  
+>> The properties are set before the list is created in the first place.
+>> Because, in my example, the properties get set before the monitor is
+>> plugged in and the list can only be created as soon as the monitor is
+>> plugged in.
+> That's just an accident, it's not what I mean.
 >
-> When they are powered up, or when they are enabled ?
-
-Generally powered on, so it wants to be in before pre_enable.
-
-Taking SN65DSI83 as an example, the datasheet section 7.4.2
-Initialization Sequence says
-"After power is applied and stable, the DSI CLK lanes MUST be in HS
-state and the DSI data lanes MUST be driven to LP11 state"
-
-It was discussed when Marek's was developing the merged driver that it
-seems to be happy to violate this initialisation sequence by starting
-video on the data lanes before configuring the DSI83, but is that more
-luck than anything else?
-
-Reading the functional spec for Toshiba TC358762 (DSI to DPI bridge
-used on the Pi 7" DSI panel), it says:
-"1.HW:  Put  D-PHY  data  lane  0 to  ULPS  state
-  a)  D-PHY  clock  lane  must  continue  to  supply  clock  for
-minimum  20  clocks  before put  the  clock  lane  to  idle
-2. HW:  Enable  Clock  Lane  and  Data  Lane  0 D-PHYs
-3. HW:  Disable  Data  Lane  1 D-PHY
-4. HW:  Transition  to  Operation  mode  when  Data  Lane  0 D-PHY  is
- not  in  ULPS  state.
-  a) D-PHY clock lane must supply before Data Lane 0 D-PHY changes to LP state
-  b) Host must wait minimum 5200 HSBCLK clock for CORE2 Power to be
-stable before transfer any DSI packets."
-
-So there we have a timing constraint from pushing the clock lane into
-HS before we can do anything else. Quick calcs do appear to say this
-is around 0.5msecs, so possibly it can be ignored.
-
-> > With the normal calling sequence of:
-> > - panel/bridge pre_enable calls from connector towards the encoder.
-> > - encoder enable which also enables video.
-> > - panel/bridge enable calls from encoder to connector.
-> > there is no point at which the DSI tx is initialised but not
-> > transmitting video. What DSI states are expected to be adopted at each
-> > point?
+> What I mean is, we cannot have the KMS properties affect the list of
+> modes, because then userspace that want to use specific values on those
+> properties would have to program those properties first, and then get
+> the list of modes. KMS UAPI does not work that way AFAIK.
 >
-> That's undefined I'm afraid, and it should be documented. The upside is
-> that you can propose the behaviour that you need :-)
+> If the initial mode list is created on hotplug like you say, then the
+> initial list could already be missing some modes that would be valid if
+> some KMS properties had different values.
 
-Can we reduce it to one behaviour that is valid for all devices? I
-suspect we need at least some set of options :-/
+Depends if the mode list is created by TEST_ONLY:
 
-> > On a similar theme, some devices want the clock lane in HS mode early
-> > so they can use it in place of an external oscillator, but the data
-> > lanes still in LP-11. There appears to be no way for the
-> > display/bridge to signal this requirement or it be achieved.
+- The force properties should return false on TEST_ONLY
+
+- The force properties should not prevent the mode from showing up in the list
+
+If the list is created by TEST_ONLY both things can't be fulfilled at the same time obviously.
+
+I hope some can give more insights or has an idea how the properties could work best.
+
 >
-> You're right. A loooong time ago, the omapdrm driver had an internal
-> infrastructure that didn't use drm_bridge or drm_panel and instead
-> required omapdrm-specific drivers for those components. It used to model
-> the display pipeline in a different way than drm_bridge, with the sync
-> explicitly setting the source state. A DSI sink could thus control its
-> enable sequence, interleaving programming of the sink with control of
-> the source.
+>>> A very interesting question is when should link-status failure not drop
+>>> the current mode from the mode list, if other KMS properties affect the
+>>> bandwidth etc. requirements of the mode. That mechanism is engineered
+>>> for old userspace that doesn't actually handle link-status but does
+>>> handle hotplug, so the hotplug triggers re-fetching the mode list and
+>>> userspace maybe trying again with a better luck since the offending
+>>> mode is gone. How to keep that working when introducing KMS properties
+>>> forcing the cable format, I don't know.
+>>>
+>>> As long as the other affecting KMS properties are all "auto", the
+>>> driver will probably exhaust all possibilities to make the mode work
+>>> before signalling link-status failure and pruning the mode.
+>>> Theoretically, as I have no idea what drivers actually do.  
+>> Isn't that exactly how the "preferred color format" property works in
+>> my patchset now?
+> There was an argument that "preferred" with no guarantees is not
+> useful enough. So I'm considering the force property instead.
+> The problem is, "auto" is not the only possible value.
 >
-> Migrating omapdrm to the drm_bridge model took a really large effort,
-> which makes me believe that transitioning the whole subsystem to
-> sink-controlled sources would be close to impossible. We could add
-> DSI-specific operations, or add another enable bridge operation
-> (post_pre_enable ? :-D). Neither would scale, but it may be enough.
-
-I haven't thought it through for all generic cases, but I suspect it's
-more a pre_pre_enable that is needed to initialise the PHY etc,
-probably from source to sink.
-If the panel/bridge can set a flag that can be checked at this point
-for whether an early clock is required or not, I think that allows us
-to comply with the requirements for a large number of panels/bridges
-(LP-11 vs HS config for clock and or data lanes before pre_enable is
-called).
-
-pre_enable retains the current behaviour (initialise the chain from
-sink to source).
-enable then actually starts sending video and enabling outputs.
-
-When I discussed this briefly with Maxime there was a suggestion of
-using pm_runtime to be able to power up the pipeline as a whole. If
-the bridge driver can use pm_runtime to power up the PHY when
-required, then that may solve the issue, however I know too little of
-the details to say whether that is actually practical.
-
-> > host_transfer calls can supposedly be made at any time, however unless
-> > MIPI_DSI_MSG_USE_LPM is set in the message then we're meant to send it
-> > in high speed mode. If this is before a mode has been set, what
-> > defines the link frequency parameters at this point? Adopting a random
-> > default sounds like a good way to get undefined behaviour.
-> >
-> > DSI burst mode needs to set the DSI link frequency independently of
-> > the display mode. How is that meant to be configured? I would have
-> > expected it to come from DT due to link frequency often being chosen
-> > based on EMC restrictions, but I don't see such a thing in any
-> > binding.
+> When the value is not "auto", should link failure drop the mode or not?
+> Userspace might change the value back to "auto" next time. If you
+> dropped the mode, it would be gone. If you didn't drop the mode,
+> userspace might be stuck picking the same non-working mode again and
+> again if it doesn't know about the force mode property.
 >
-> Undefined too. DSI support was added to DRM without any design effort,
-> it's more a hack than a real solution. The issue with devices that can
-> be controlled over both DSI and I2C is completely unhandled. So far
-> nobody has really cared about implementing DSI right as far as I can
-> tell.
-
-:-(
-
-Thinking aloud, does having the option to set a burst link frequency
-from DT (or ACPI) have any issue for other platforms?
-Looking at the handling of MIPI_DSI_MODE_VIDEO_BURST in the various
-drivers, all except stm/dw_mipi_dsi-stm.c appear to take it as a "use
-all the defined timings, but drop to LP during blanking" option. The
-link frequency has therefore remained a property of the
-display/bridge.
-dw_mipi_dsi-stm.c cranks the PLL up by 20%, but I haven't followed
-through the full detail of the parameters it computes from there.
-
-DSI and I2C controlled devices is yet another issue that I haven't
-even looked at.
-I think it's more that vc4 wants to ignore DSI should the DSI host
-node be enabled in DT, but there's no panel bound to it. One could say
-that is a DT error and tough luck, but from a user's perspective that
-is a bit harsh.
-
-> > As a follow on, bridge devices can support burst mode (eg TI's
-> > SN65DSI83 that's just been merged), so it needs to know the desired
-> > panel timings for the output side of the bridge, but the DSI link
-> > timings to set up the bridge's PLL. What's the correct way for
-> > signalling that? drm_crtc_state->adjusted_mode vs
-> > drm_crtc_state->mode? Except mode is userspace's request, not what has
-> > been validated/updated by the panel/bridge.
+> You could argue that changing the value back to "auto" needs to reset
+> the mode list, but that only gets us back to the "need to set
+> properties before getting mode list".
 >
-> adjusted_mode is also a bit of a hack, it solves very specific issues,
-> and its design assumes a single encoder in the chain with no extra
-> bridges. We should instead add modes to the bridge state, and negotiate
-> modes along the pipeline the same way we negotiate formats.
-
-So as I understand it we already have format negotiation between
-bridges via atomic_get_output_bus_fmts and atomic_get_input_bus_fmts,
-so is it possible to extend that to modes?
-Are you thinking bridge state that is owned by the framework, or by
-the individual bridge drivers?
-
-> > vc4 has constraints that the DSI host interface is fed off an integer
-> > divider from a typically 3GHz clock, so the host interface needs to
-> > signal that burst mode is in use even if the panel/bridge doesn't need
-> > to run in burst mode. (This does mean that displays that require a
-> > very precise link frequency can not be supported).
-> > It currently updates the adjusted_mode via drm_encoder_helper_funcs
-> > mode_fixup, but is that the correct thing to do, or is there a better
-> > solution?
-> > I'd have expected the DSI tx to be responsible for configuring burst
-> > mode parameters anyway, so the mechanism required would seem to be
-> > just the normal approach for adopting burst mode if that is defined.
-> >
-> > Some DSI host interfaces are implemented as bridges, others are
-> > encoders. Pro's and con's of each? I suspect I'm just missing the
-> > history here.
+> Maybe there needs to be an assumption that if "force color format" is
+> not "auto", then link failure does not drop modes and userspace knows
+> to handle this. Messy.
 >
-> It's indeed history. drm_encoder can't go away as it has been erronously
-> exposed to userspace, but going forward, everything should be a bridge.
-> The drm_encoder will still be required, but should just be a dummy,
-> representing the chain of bridges.
-
-Thanks to the links from Jagan I can have a look at what is required
-to make that change.
-I'm not certain it solves any of my issues at present, but at least
-brings it into line with the intended implementation.
-
-> > When it comes to the MIPI_DSI_MODE_* flags, which ones are mutually
-> > exclusive, or are assumed based on others? Does a burst mode DSI sink
-> > set both MIPI_DSI_MODE_VIDEO and MIPI_DSI_MODE_VIDEO_BURST, or just
-> > the latter?
-> > Presumably !MIPI_DSI_MODE_VIDEO signals the of use command mode for
-> > conveying video. So looking at panel-ilitek-ili9881c where it sets
-> > just MIPI_DSI_MODE_VIDEO_SYNC_PULSE means command mode video with sync
-> > pulses? That sounds unlikely.
+> I'm afraid I just don't know to give any clear answer. It's also
+> possible that, as I'm not a kernel dev, I have some false assumptions
+> here.
 >
-> I haven't looked at that, I'm afraid I don't know.
-
-I have a suspicion it's been a bit of a scatter-gun in setting flags,
-but it'd be nice to have it written down as to the expected behaviour.
-
-> > I have looked for any information that covers this, but failed to find
-> > such, hence calling on all your expertise.
 >
-> I'm sorry for the lack of solutions to your issues. I can try to help
-> solving them though.
-
-Any help would be most gratefully received.
-I can attack the Pi specific stuff, and delegate framework sections to
-Maxime via our contract with him (sorry Maxime!), but having a clear
-statement of how this should be achieved is the bit that I'm afraid I
-don't have the patience to bat around ad infinitum.
-
-Thanks again.
-  Dave
+> Thanks,
+> pq
+> _______________________________________________
+> amd-gfx mailing list
+> amd-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
