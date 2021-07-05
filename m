@@ -2,35 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B29563BBD43
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Jul 2021 15:03:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50D1C3BBD44
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Jul 2021 15:03:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8CB9489CD5;
-	Mon,  5 Jul 2021 13:03:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 579C489450;
+	Mon,  5 Jul 2021 13:03:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BFE56890B6;
- Mon,  5 Jul 2021 13:03:21 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 681BD61447;
- Mon,  5 Jul 2021 13:03:17 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 484C589450;
+ Mon,  5 Jul 2021 13:03:32 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B57D46144E;
+ Mon,  5 Jul 2021 13:03:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1625490201;
- bh=JAhM9uLnVQdWyUIJvWzQUlT2ptJXIZ6NsbSZCd1vRmw=;
- h=From:To:Cc:Subject:Date:From;
- b=joYZP1uH+TarU+TSon38rp2wt+bjwtNuJciGpFjdb3F1K3fX3tezOnUFc8Ios6DNY
- obi/Cbw3FuWNceIPuQebcJ1j2whR8GVHHpwvg6UWRL3aa9ZL+d9Btb1Ye+sCPDHrga
- y2b1NOizE+V2lzA7/2Tm9JYAAxXQaajaD/JbktNOmRmAe6gUywNXk7BwbZIzeLSwGY
- UQcS+bTw3qcin+aDxqzBTlSZwA1WUPe1oNAN43pAZ9AQLQvyl1afov3v8a2s4j/HFw
- ljIvlxl3lmPfo9n4YWXx0ToIwJ7KHaAYHEjfLTo5CkCxZOloaTU0ZxtZ06YYrSElFR
- c+iJniV0iYxHA==
+ s=k20201202; t=1625490212;
+ bh=O9tVDHLp82fxI8fp4sMu7i3QoMxUxxqqvrdNLqZSB4Q=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=RJb2d9bAZPcATE7ZkmAgKxPie7inq7+8E7R7lygyLai9dkK8trzjd0dyLEwICJ2qh
+ ni6advReSuykJSlS9P1XylPPeV+FYHuFsunmaPicFSHF8y8qyT0/YWho83oOfO630f
+ KejUpdsmj35ghZLZHA3U0J/zodkRBCpLtilpZxLKYUt3GvD8gIuq0MRqcSak5F6YxK
+ ZPG/ZVWA+bQEzfDo0WXd8uIpKEvvTQ9fypDDkZwPOUhebEslDweEfELtQdr2goFKbN
+ KM6PVxUAl7nBCyc7TTcGVhARPqE/idoN4xFLd4vGXOYa8Gr84Q6V1acrp6ZFxMsNH0
+ Zd08u93kl0xAg==
 From: Oded Gabbay <ogabbay@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	gregkh@linuxfoundation.org
-Subject: [PATCH v4 0/2] Add p2p via dmabuf to habanalabs
-Date: Mon,  5 Jul 2021 16:03:12 +0300
-Message-Id: <20210705130314.11519-1-ogabbay@kernel.org>
+Subject: [PATCH v4 1/2] habanalabs: define uAPI to export FD for DMA-BUF
+Date: Mon,  5 Jul 2021 16:03:13 +0300
+Message-Id: <20210705130314.11519-2-ogabbay@kernel.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210705130314.11519-1-ogabbay@kernel.org>
+References: <20210705130314.11519-1-ogabbay@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -48,51 +50,90 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: linux-rdma@vger.kernel.org, daniel.vetter@ffwll.ch, sleybo@amazon.com,
  galpress@amazon.com, dri-devel@lists.freedesktop.org, christian.koenig@amd.com,
  linaro-mm-sig@lists.linaro.org, jgg@ziepe.ca, dledford@redhat.com, hch@lst.de,
- amd-gfx@lists.freedesktop.org, alexander.deucher@amd.com, leonro@nvidia.com,
- linux-media@vger.kernel.org
+ amd-gfx@lists.freedesktop.org, alexander.deucher@amd.com,
+ Tomer Tayar <ttayar@habana.ai>, leonro@nvidia.com, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-I'm sending v4 of this patch-set following the long email thread.
-I want to thank Jason for reviewing v3 and pointing out the errors, saving
-us time later to debug it :)
+User process might want to share the device memory with another
+driver/device, and to allow it to access it over PCIe (P2P).
 
-I consulted with Christian on how to fix patch 2 (the implementation) and
-at the end of the day I shamelessly copied the relevant content from
-amdgpu_vram_mgr_alloc_sgt() and amdgpu_dma_buf_attach(), regarding the
-usage of dma_map_resource() and pci_p2pdma_distance_many(), respectively.
+To enable this, we utilize the dma-buf mechanism and add a dma-buf
+exporter support, so the other driver can import the device memory and
+access it.
 
-I also made a few improvements after looking at the relevant code in amdgpu.
-The details are in the changelog of patch 2.
+The device memory is allocated using our existing allocation uAPI,
+where the user will get a handle that represents the allocation.
 
-I took the time to write an import code into the driver, allowing me to
-check real P2P with two Gaudi devices, one as exporter and the other as
-importer. I'm not going to include the import code in the product, it was
-just for testing purposes (although I can share it if anyone wants).
+The user will then need to call the new
+uAPI (HL_MEM_OP_EXPORT_DMABUF_FD) and give the handle as a parameter.
 
-I run it on a bare-metal environment with IOMMU enabled, on a sky-lake CPU
-with a white-listed PCIe bridge (to make the pci_p2pdma_distance_many happy).
+The driver will return a FD that represents the DMA-BUF object that
+was created to match that allocation.
 
-Greg, I hope this will be good enough for you to merge this code.
+Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
+Reviewed-by: Tomer Tayar <ttayar@habana.ai>
+---
+ include/uapi/misc/habanalabs.h | 28 +++++++++++++++++++++++++++-
+ 1 file changed, 27 insertions(+), 1 deletion(-)
 
-Thanks,
-Oded
-
-Oded Gabbay (1):
-  habanalabs: define uAPI to export FD for DMA-BUF
-
-Tomer Tayar (1):
-  habanalabs: add support for dma-buf exporter
-
- drivers/misc/habanalabs/Kconfig             |   1 +
- drivers/misc/habanalabs/common/habanalabs.h |  26 ++
- drivers/misc/habanalabs/common/memory.c     | 480 +++++++++++++++++++-
- drivers/misc/habanalabs/gaudi/gaudi.c       |   1 +
- drivers/misc/habanalabs/goya/goya.c         |   1 +
- include/uapi/misc/habanalabs.h              |  28 +-
- 6 files changed, 532 insertions(+), 5 deletions(-)
-
+diff --git a/include/uapi/misc/habanalabs.h b/include/uapi/misc/habanalabs.h
+index 18765eb75b65..c5cbd60696d7 100644
+--- a/include/uapi/misc/habanalabs.h
++++ b/include/uapi/misc/habanalabs.h
+@@ -808,6 +808,10 @@ union hl_wait_cs_args {
+ #define HL_MEM_OP_UNMAP			3
+ /* Opcode to map a hw block */
+ #define HL_MEM_OP_MAP_BLOCK		4
++/* Opcode to create DMA-BUF object for an existing device memory allocation
++ * and to export an FD of that DMA-BUF back to the caller
++ */
++#define HL_MEM_OP_EXPORT_DMABUF_FD	5
+ 
+ /* Memory flags */
+ #define HL_MEM_CONTIGUOUS	0x1
+@@ -879,11 +883,26 @@ struct hl_mem_in {
+ 			/* Virtual address returned from HL_MEM_OP_MAP */
+ 			__u64 device_virt_addr;
+ 		} unmap;
++
++		/* HL_MEM_OP_EXPORT_DMABUF_FD */
++		struct {
++			/* Handle returned from HL_MEM_OP_ALLOC. In Gaudi,
++			 * where we don't have MMU for the device memory, the
++			 * driver expects a physical address (instead of
++			 * a handle) in the device memory space.
++			 */
++			__u64 handle;
++			/* Size of memory allocation. Relevant only for GAUDI */
++			__u64 mem_size;
++		} export_dmabuf_fd;
+ 	};
+ 
+ 	/* HL_MEM_OP_* */
+ 	__u32 op;
+-	/* HL_MEM_* flags */
++	/* HL_MEM_* flags.
++	 * For the HL_MEM_OP_EXPORT_DMABUF_FD opcode, this field holds the
++	 * DMA-BUF file/FD flags.
++	 */
+ 	__u32 flags;
+ 	/* Context ID - Currently not in use */
+ 	__u32 ctx_id;
+@@ -920,6 +939,13 @@ struct hl_mem_out {
+ 
+ 			__u32 pad;
+ 		};
++
++		/* Returned in HL_MEM_OP_EXPORT_DMABUF_FD. Represents the
++		 * DMA-BUF object that was created to describe a memory
++		 * allocation on the device's memory space. The FD should be
++		 * passed to the importer driver
++		 */
++		__u64 fd;
+ 	};
+ };
+ 
 -- 
 2.25.1
 
