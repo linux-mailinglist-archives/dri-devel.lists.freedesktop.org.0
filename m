@@ -2,60 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EE143BBA32
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Jul 2021 11:32:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40CEA3BBA6E
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Jul 2021 11:42:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E189C89A67;
-	Mon,  5 Jul 2021 09:32:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E32018916A;
+	Mon,  5 Jul 2021 09:42:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
- [IPv6:2a00:1450:4864:20::431])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4176C89A67
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Jul 2021 09:32:16 +0000 (UTC)
-Received: by mail-wr1-x431.google.com with SMTP id a8so9569688wrp.5
- for <dri-devel@lists.freedesktop.org>; Mon, 05 Jul 2021 02:32:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=pAur7LAZbKxZdW8+F4Q2evTnkVPhWHqFY1YFaGDUdj4=;
- b=MMkn1bRKD0so2axYwTSZbEWhKGlOmSqgccAnUrRaUIhl+36BHLhQsrJOKUostAode+
- XkYIxb294R8DWPseGoUqJZP0afSrFCXtny1ESeclVYm13UEDYUj4JqfRRKoAfEHw0SPF
- l5GE63G4rnD2HsWrdlgmf1XThNZBpg8y+Y86Q=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=pAur7LAZbKxZdW8+F4Q2evTnkVPhWHqFY1YFaGDUdj4=;
- b=WbdExGk/ls9+QjB4FysriZjDiHE7YiqghRJd0xRfjCHFJdcTnRCmZtpMSKWDBZKQXK
- xKPdKy6n2SMXsv1kdF6Ss+a1u1OSKEoUoTZ7MrGoEeT2PYaTAABgF6YwJfQy0cuEagF7
- 0Rpe2u+c/0k7z2SeOgW9wf4mOhrQxt4h+sgjDarmSvh/5POCxOrEBLrGXaDcamOv/4Sx
- YLem5F3Y186CT97hKdHj8+wi+m6vCW2USNYT6M+pw/rygDtY/B47aZNARd5rOLmKIUa+
- kUu1QKj9obFegMEXpkhoTOHg311Expg0AZkiYN5qln06NjdxwWi1unjocbeOzGW5vR2b
- yyVw==
-X-Gm-Message-State: AOAM533PPmBG1037p9SlatttnNWJjORuNr+cYSo6WeeZyW6NloXdRbF1
- Yfj9Clyxax0IXdA/nEc83W5LRdPzLW427A==
-X-Google-Smtp-Source: ABdhPJzynLMNlACZuD1bvZocox+l8CSKO216V/McwA7stFWbHbSPtXpLFUBFVeDjlC7BRiumLh1aXA==
-X-Received: by 2002:adf:f48e:: with SMTP id l14mr10728880wro.28.1625477534723; 
- Mon, 05 Jul 2021 02:32:14 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id b8sm22454707wmb.20.2021.07.05.02.32.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 05 Jul 2021 02:32:14 -0700 (PDT)
-Date: Mon, 5 Jul 2021 11:32:12 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Boris Brezillon <boris.brezillon@collabora.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 505378916A
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Jul 2021 09:42:06 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 858AB1063;
+ Mon,  5 Jul 2021 02:42:04 -0700 (PDT)
+Received: from [192.168.1.179] (unknown [172.31.20.19])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EE5E53F5A1;
+ Mon,  5 Jul 2021 02:42:02 -0700 (PDT)
 Subject: Re: [PATCH v4 5/7] drm/panfrost: Add a new ioctl to submit batches
-Message-ID: <YOLRnPjCDkc9DRxE@phenom.ffwll.local>
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ Rob Herring <robh+dt@kernel.org>, Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Robin Murphy <robin.murphy@arm.com>
 References: <20210705082950.3573841-1-boris.brezillon@collabora.com>
  <20210705082950.3573841-6-boris.brezillon@collabora.com>
+From: Steven Price <steven.price@arm.com>
+Message-ID: <81701d19-bb70-bb1c-ae72-565366cf5acb@arm.com>
+Date: Mon, 5 Jul 2021 10:42:01 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 In-Reply-To: <20210705082950.3573841-6-boris.brezillon@collabora.com>
-X-Operating-System: Linux phenom 5.10.0-7-amd64 
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,17 +47,11 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jason Ekstrand <jason@jlekstrand.net>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
- dri-devel@lists.freedesktop.org, Steven Price <steven.price@arm.com>,
- Rob Herring <robh+dt@kernel.org>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Robin Murphy <robin.murphy@arm.com>
+Cc: Jason Ekstrand <jason@jlekstrand.net>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jul 05, 2021 at 10:29:48AM +0200, Boris Brezillon wrote:
+On 05/07/2021 09:29, Boris Brezillon wrote:
 > This should help limit the number of ioctls when submitting multiple
 > jobs. The new ioctl also supports syncobj timelines and BO access flags.
 > 
@@ -511,6 +484,18 @@ On Mon, Jul 05, 2021 at 10:29:48AM +0200, Boris Brezillon wrote:
 > +	/* BATCH_SUBMIT v1 */
 > +	[1] = { 48, 8, 16 },
 > +};
+
+It might be worth putting something like this in:
+
+ 	BUILD_BUG_ON(sizeof(struct drm_panfrost_job) !=
+ 		     submit_versions[PANFROST_SUBMIT_BATCH_VERSION].job_stride);
+ 	BUILD_BUG_ON(sizeof(struct drm_panfrost_bo_ref) !=
+ 		     submit_versions[PANFROST_SUBMIT_BATCH_VERSION].bo_ref_stride);
+ 	BUILD_BUG_ON(sizeof(struct drm_panfrost_syncobj_ref) !=
+ 		     submit_versions[PANFROST_SUBMIT_BATCH_VERSION].syncobj_ref_stride);
+
+That way we won't accidentally let it get out of sync.
+
 > +
 > +#define PANFROST_JD_ALLOWED_REQS PANFROST_JD_REQ_FS
 > +
@@ -668,11 +653,29 @@ On Mon, Jul 05, 2021 at 10:29:48AM +0200, Boris Brezillon wrote:
 > +			args->fail_idx = i;
 > +			goto out_put_queue;
 > +		}
+
+NIT: You could avoid the repeated code with something like:
+
+	ret = copy_struct_from_user(...)
+
+	if (!ret)
+		ret = panfrost_submit_job(...)
+	if (ret){
+		args->fail_idx = i;
+		goto out_out_queue;
+	}
+
 > +	}
 > +
 > +out_put_queue:
 > +	panfrost_submitqueue_put(queue);
 > +	return 0;
+
+Shouldn't this be "return ret" so that it returns an error if any job
+fails? (You will also need to init ret for the case where job_count==0).
+Otherwise user space would need to set fail_idx to something invalid and
+check if it's been modified to know about the failure.
+
 > +}
 > +
 >  int panfrost_unstable_ioctl_check(void)
@@ -696,14 +699,6 @@ On Mon, Jul 05, 2021 at 10:29:48AM +0200, Boris Brezillon wrote:
 >  
 > +		if (job->bo_flags[i] & PANFROST_BO_REF_NO_IMPLICIT_DEP)
 > +			continue;
-
-This breaks dma_resv rules. I'll send out patch set fixing this pattern in
-other drivers, I'll ping you on that for what you need to change. Should
-go out today or so.
-
-Also cc: Christian König.
--Daniel
-
 > +
 >  		ret = drm_gem_fence_array_add_implicit(&job->deps, job->bos[i],
 >  						       exclusive);
@@ -754,6 +749,9 @@ Also cc: Christian König.
 >  #define PANFROST_BO_REF_EXCLUSIVE	0x1
 >  
 > +/* Disable the implicit depency on the BO fence */
+
+NIT: s/depency/dependency/
+
 > +#define PANFROST_BO_REF_NO_IMPLICIT_DEP	0x2
 > +
 > +/* Describes a BO referenced by a job and the type of access. */
@@ -821,6 +819,11 @@ Also cc: Christian König.
 > +	/**
 > +	 * If the submission fails, this encodes the index of the job
 > +	 * failed.
+
+NIT: "the index of the first job that failed"
+
+Steve
+
 > +	 */
 > +	__u32 fail_idx;
 > +};
@@ -828,11 +831,5 @@ Also cc: Christian König.
 >  #if defined(__cplusplus)
 >  }
 >  #endif
-> -- 
-> 2.31.1
 > 
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
