@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69A053BB4E9
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Jul 2021 03:25:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09D773BB4E4
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Jul 2021 03:25:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA56B89C6A;
-	Mon,  5 Jul 2021 01:25:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 18FD789AC3;
+	Mon,  5 Jul 2021 01:25:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com
- [IPv6:2a00:1450:4864:20::232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF74B89BF1
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Jul 2021 01:25:19 +0000 (UTC)
-Received: by mail-lj1-x232.google.com with SMTP id u25so22343267ljj.11
- for <dri-devel@lists.freedesktop.org>; Sun, 04 Jul 2021 18:25:19 -0700 (PDT)
+Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com
+ [IPv6:2a00:1450:4864:20::235])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE8AD89C14
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Jul 2021 01:25:20 +0000 (UTC)
+Received: by mail-lj1-x235.google.com with SMTP id b40so2605768ljf.12
+ for <dri-devel@lists.freedesktop.org>; Sun, 04 Jul 2021 18:25:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=snkgCap2/o+t1vAhQA7ejk+jLYgLsqxsKE9XwxD0MqU=;
- b=IvgCxZnnqkj6jpVv26mUCMCyj0Ppp/tYAeYIJV6jII6VZLGVnD6K678YUW2Jc0pf/T
- vVJGreFEZswIdOSgc586nMF69YnubrSI+pjdXRLcK2gYaE/nihcNmhVOWOz/Lp81aq+5
- MlbSwVie1A9EvjUPQhICUhS+DjcH8HxIvUUymM8rjalSBZCjvnmmYEOWom0ORkiQodHy
- xzo54MfJKG2eu9kQ5iRPoDs9ejgdANFVXagBRzYNouffpU2HAsLkRPH8ZrL6UIE1v62f
- xq3Z5ZXc8y9ExWHtDwv9zCJJ/KVaiLcBv/fdcp+WscBkunleIgJXCWElwdnR9RkAZzoT
- wSZg==
+ bh=2n+O1n3MjobMyODgFgXeqymGpOIdBepgLh9Gjje/d/0=;
+ b=KgGxMdEA+VY7xzyZ5I0yedEdw8+REG8vuVi/1htoTppTW0P+Gdv9u5R+blkHi3G3Aj
+ Cx9YlQ0q/KFtWF0+yUK4VaFL5uQi/OEvLjiU6aHFVNtFsbbKcsfz3UJ+YdX1A1XlfYr1
+ tzwXgGr+anC0gr7nfIkrM108XFOziIf1W+WCcro3p0ITUnBC1GaiUABTuK40H+q1/X69
+ 0h/I81/SzhDRJC1q+DNjnp8wlqQErRO9RVkRto7BxFAsUcra+O4FLf511g1DY2SO3pv0
+ 71QvsgbXASBBXScII4IUzR+p050IZnORLQfSJHHDU/8KP7eUU/LxH9uLJPO0tExxNvDW
+ mckg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=snkgCap2/o+t1vAhQA7ejk+jLYgLsqxsKE9XwxD0MqU=;
- b=NzC9UqvDVWNzTyiuXmj2yF8eFVdAd3tOult3b4dD2u2LqhZNH1+dXpmZB9YT3T4Y8q
- esoN0W2DQ+RH8HIfShxGD3H5paP1sEyPHcPqwnX1sFQOY1IsT/vYc2nRS9xf0YQMczd6
- iBLl2zTfhLBm1YxZP0Y9Hw714nFn69Ucv7qtDpN8/riKDgMAKP9LBsMW6yHCvFEt2bqS
- L8id0dsOF9nt9a8B7QecMZsePqo2qlnqsawPZiRR1B6k0cexS0PxbBlrz89dMSwlKtZN
- 5T5q05keKMQuanUfxeJsCDhu77TtmhrNMZhVUF4kIOBjyEjvknHVb7JewezaI3pK8txQ
- o2ag==
-X-Gm-Message-State: AOAM530SeW8ABTOEnXmsTctunVjTD1EavYcxktN3iOh5lEeoA9wqA/Kl
- SBmhmS8W/q0QcnjzWjBHSZop3Q==
-X-Google-Smtp-Source: ABdhPJzqSbuQXY8AuNYnpl2n5dnz/hQsn3pC3iPnUQC9x7lbHbSjxCdLD7wa6cS/YHAbYNLUEZ8q1Q==
-X-Received: by 2002:a2e:6e0b:: with SMTP id j11mr9134456ljc.464.1625448318432; 
- Sun, 04 Jul 2021 18:25:18 -0700 (PDT)
+ bh=2n+O1n3MjobMyODgFgXeqymGpOIdBepgLh9Gjje/d/0=;
+ b=DZog+tL5jvVN9B72gxWbLC3dsZ1IW5VD41OS/DVBsC260cd5tpiXZ633v6pen5vBoa
+ ettWLflfI29y2i5zvRwHBerBbt3Pw1YwdnLeJ2SGrvK4LzfaIWxW7RrfFp0M1D8Ofds7
+ zY+CpSO2X/JvLo2AsZ+DOuIviWVYgUl5zbPOXRD6kxmU6K0t17TJV6ROns92etwZH4tB
+ 93Y/sSer3ACjMrj+hYIWxqcYQYq8D3go8Y9hA/B32yIlRn/enGrtkDcqc/5SO8Q7WtFD
+ OKjQJnaOfHESlumSKN8d7Q1p9tRg/bGhuv7VnQ4AyFYINjZLQn2s3f9TL72RUlALahqc
+ 7CUQ==
+X-Gm-Message-State: AOAM531p6TSwyAubxlTzAmYffZHmVjaU6C2Ng7pBDT1aDax3ePtF8yE3
+ BwcVC8fL/6F/cTj50zXOxlI4ug==
+X-Google-Smtp-Source: ABdhPJyk0MnE4sbF8fIDz4NEvdOqd8wfgkcMZH9utOBO7M+fLQoKlektvvwLWM/9Npk69CmzaFvCxA==
+X-Received: by 2002:a2e:a583:: with SMTP id m3mr9152522ljp.305.1625448319208; 
+ Sun, 04 Jul 2021 18:25:19 -0700 (PDT)
 Received: from eriador.lan ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id c7sm1004345lfm.50.2021.07.04.18.25.17
+ by smtp.gmail.com with ESMTPSA id c7sm1004345lfm.50.2021.07.04.18.25.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Sun, 04 Jul 2021 18:25:18 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Bjorn Andersson <bjorn.andersson@linaro.org>,
  Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Abhinav Kumar <abhinavk@codeaurora.org>
-Subject: [PATCH v2 15/22] drm/msm/dpu: simplify DPU_SSPP features checks
-Date: Mon,  5 Jul 2021 04:21:08 +0300
-Message-Id: <20210705012115.4179824-16-dmitry.baryshkov@linaro.org>
+Subject: [PATCH v2 16/22] drm/msm/dpu: do not limit the zpos property
+Date: Mon,  5 Jul 2021 04:21:09 +0300
+Message-Id: <20210705012115.4179824-17-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210705012115.4179824-1-dmitry.baryshkov@linaro.org>
 References: <20210705012115.4179824-1-dmitry.baryshkov@linaro.org>
@@ -75,57 +75,51 @@ Cc: Jonathan Marek <jonathan@marek.ca>, Stephen Boyd <sboyd@kernel.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add DPU_SSPP_CSC_ANY denoting any CSC block. As we are at it, rewrite
-DPU_SSPP_SCALER (any scaler) to use BIT(x) instead of hand-coded
-bitshifts.
+Stop limiting zpos property values, we use normalized_zpos anyway. And
+nothing stops userspace from assigning several planes to a single zpos
+(it is a userspace bug, but the kernel is forgiving about it).
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h | 16 +++++++++++-----
- drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c   |  3 +--
- 2 files changed, 12 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 11 +----------
+ 1 file changed, 1 insertion(+), 10 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
-index 264a9d0d5fca..00098e33391e 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
-@@ -25,11 +25,17 @@ struct dpu_hw_pipe;
- /**
-  * Define all scaler feature bits in catalog
-  */
--#define DPU_SSPP_SCALER ((1UL << DPU_SSPP_SCALER_RGB) | \
--	(1UL << DPU_SSPP_SCALER_QSEED2) | \
--	 (1UL << DPU_SSPP_SCALER_QSEED3) | \
--	 (1UL << DPU_SSPP_SCALER_QSEED3LITE) | \
--	  (1UL << DPU_SSPP_SCALER_QSEED4))
-+#define DPU_SSPP_SCALER (BIT(DPU_SSPP_SCALER_RGB) | \
-+			 BIT(DPU_SSPP_SCALER_QSEED2) | \
-+			 BIT(DPU_SSPP_SCALER_QSEED3) | \
-+			 BIT(DPU_SSPP_SCALER_QSEED3LITE) | \
-+			 BIT(DPU_SSPP_SCALER_QSEED4))
-+
-+/*
-+ * Define all CSC feature bits in catalog
-+ */
-+#define DPU_SSPP_CSC_ANY (BIT(DPU_SSPP_CSC) | \
-+			  BIT(DPU_SSPP_CSC_10BIT))
- 
- /**
-  * Component indices
 diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-index 34ecd971cbbb..8ed7b8f0db69 100644
+index 8ed7b8f0db69..3850f2714bf3 100644
 --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
 +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-@@ -983,8 +983,7 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
+@@ -44,7 +44,6 @@
+ #define DPU_NAME_SIZE  12
  
- 	if (DPU_FORMAT_IS_YUV(fmt) &&
- 		(!(pdpu->pipe_hw->cap->features & DPU_SSPP_SCALER) ||
--		 !(pdpu->pipe_hw->cap->features & (BIT(DPU_SSPP_CSC)
--		 | BIT(DPU_SSPP_CSC_10BIT))))) {
-+		 !(pdpu->pipe_hw->cap->features & DPU_SSPP_CSC_ANY))) {
- 		DPU_DEBUG_PLANE(pdpu,
- 				"plane doesn't have scaler/csc for yuv\n");
- 		return -EINVAL;
+ #define DPU_PLANE_COLOR_FILL_FLAG	BIT(31)
+-#define DPU_ZPOS_MAX 255
+ 
+ /* multirect rect index */
+ enum {
+@@ -1374,7 +1373,6 @@ struct drm_plane *dpu_plane_init(struct drm_device *dev,
+ 	struct dpu_plane *pdpu;
+ 	struct msm_drm_private *priv = dev->dev_private;
+ 	struct dpu_kms *kms = to_dpu_kms(priv->kms);
+-	int zpos_max = DPU_ZPOS_MAX;
+ 	uint32_t num_formats;
+ 	int ret = -EINVAL;
+ 
+@@ -1412,14 +1410,7 @@ struct drm_plane *dpu_plane_init(struct drm_device *dev,
+ 
+ 	pdpu->catalog = kms->catalog;
+ 
+-	if (kms->catalog->mixer_count &&
+-		kms->catalog->mixer[0].sblk->maxblendstages) {
+-		zpos_max = kms->catalog->mixer[0].sblk->maxblendstages - 1;
+-		if (zpos_max > DPU_STAGE_MAX - DPU_STAGE_0 - 1)
+-			zpos_max = DPU_STAGE_MAX - DPU_STAGE_0 - 1;
+-	}
+-
+-	ret = drm_plane_create_zpos_property(plane, 0, 0, zpos_max);
++	ret = drm_plane_create_zpos_property(plane, 0, 0, 255);
+ 	if (ret)
+ 		DPU_ERROR("failed to install zpos property, rc = %d\n", ret);
+ 
 -- 
 2.30.2
 
