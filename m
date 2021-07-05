@@ -2,37 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97F903BBDE6
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Jul 2021 15:53:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B8DA3BBE18
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Jul 2021 16:20:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D9A5895CA;
-	Mon,  5 Jul 2021 13:53:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7054289CCE;
+	Mon,  5 Jul 2021 14:20:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 76CE2897DC;
- Mon,  5 Jul 2021 13:53:37 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10035"; a="207154308"
-X-IronPort-AV: E=Sophos;i="5.83,325,1616482800"; d="scan'208";a="207154308"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Jul 2021 06:53:37 -0700
-X-IronPort-AV: E=Sophos;i="5.83,325,1616482800"; d="scan'208";a="562596270"
-Received: from ricrossl-mobl.ger.corp.intel.com (HELO mwauld-desk1.intel.com)
- ([10.252.23.185])
- by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Jul 2021 06:53:34 -0700
-From: Matthew Auld <matthew.auld@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v3 5/5] drm/i915/uapi: reject set_domain for discrete
-Date: Mon,  5 Jul 2021 14:53:10 +0100
-Message-Id: <20210705135310.1502437-5-matthew.auld@intel.com>
-X-Mailer: git-send-email 2.26.3
-In-Reply-To: <20210705135310.1502437-1-matthew.auld@intel.com>
-References: <20210705135310.1502437-1-matthew.auld@intel.com>
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com
+ [IPv6:2a00:1450:4864:20::430])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB9E589CCE
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Jul 2021 14:20:10 +0000 (UTC)
+Received: by mail-wr1-x430.google.com with SMTP id f14so21931636wrs.6
+ for <dri-devel@lists.freedesktop.org>; Mon, 05 Jul 2021 07:20:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=T63OsSTvv4MCqVjykBgp52RPqWWcO02zY+OmefcqPZk=;
+ b=bZ/BoTQ0j7NdE7+1ucDydvc1uJLmn84D27HPnsKMMakSqe9kxQq/uYZhvo5cm4iID4
+ yuRG8y6Wrpqq5m7WaKCd29OdwtwgF16TAzG3ckEQPcgnuYRQ5iq2r6gq2qpSK2K5P8PE
+ siYP6vUE2U3xSLtIOwNGFbNZKR3RXWGwZDwZk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=T63OsSTvv4MCqVjykBgp52RPqWWcO02zY+OmefcqPZk=;
+ b=c80bZxLZ++RA++Rrxq/BWKN4khaV3eO0AHen2c+29lFG2fc2iOSTE4QFTymwPPqJcl
+ z5FbG6ngDv4x4Y5DVtJs1ziOGHq2K3OX6ho1/JuHdDQ40Euw7LbuUmvYfbFZK2K9pmu9
+ PSHqmCiEZnerK+YnyJgZOPq4SOIMQUTo1yuD7VMOi3LUeUfopoVzuXf1sHcqYK3rdzE2
+ Y+kd93uA8Cpg/fAx8W3bdcnSXOZESgx1p64VpbBXf+BalTaMcuFUgkM81yyL6tMabcGI
+ jpKu1IXXhS/QNouHgwEoO/us4Ogq+l2LtWJQDY1o2oGFLIu68jjG16QLFhwfag8No+/o
+ cHDA==
+X-Gm-Message-State: AOAM530M6ssuFywYmFp4u/unj/EYCPfc4ioA9r/01NUVPjwHkJebQrmL
+ 9S4SeysqXv65amP0Gm5bw+ZpZ9Kt4l0b+g==
+X-Google-Smtp-Source: ABdhPJzQLDIDRcO6zfbqg7jJf+k65uhmxrkE+HUKAFhVxh8K3xxEzdJqlmcvqgaPOrbR6hOmvU69ig==
+X-Received: by 2002:adf:e385:: with SMTP id e5mr16056944wrm.264.1625494809374; 
+ Mon, 05 Jul 2021 07:20:09 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id i2sm6527659wmq.43.2021.07.05.07.20.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 05 Jul 2021 07:20:08 -0700 (PDT)
+Date: Mon, 5 Jul 2021 16:20:06 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 0/4] vkms: Switch to shadow-buffered plane state
+Message-ID: <YOMVFi3q/JSoZ+p9@phenom.ffwll.local>
+References: <20210705074633.9425-1-tzimmermann@suse.de>
+ <YOLQbp7m7ggecg05@phenom.ffwll.local>
+ <246a3772-b632-c7c1-c1ec-5ac1277f7525@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <246a3772-b632-c7c1-c1ec-5ac1277f7525@suse.de>
+X-Operating-System: Linux phenom 5.10.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,89 +67,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Jason Ekstrand <jason@jlekstrand.net>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Jordan Justen <jordan.l.justen@intel.com>, dri-devel@lists.freedesktop.org,
- Kenneth Graunke <kenneth@whitecape.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: hamohammed.sa@gmail.com, rodrigosiqueiramelo@gmail.com, airlied@linux.ie,
+ dri-devel@lists.freedesktop.org, melissa.srw@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The CPU domain should be static for discrete, and on DG1 we don't need
-any flushing since everything is already coherent, so really all this
-does is an object wait, for which we have an ioctl. Longer term the
-desired caching should be an immutable creation time property for the
-BO, which can be set with something like gem_create_ext.
+On Mon, Jul 05, 2021 at 12:05:28PM +0200, Thomas Zimmermann wrote:
+> Hi
+> 
+> Am 05.07.21 um 11:27 schrieb Daniel Vetter:
+> > On Mon, Jul 05, 2021 at 09:46:29AM +0200, Thomas Zimmermann wrote:
+> > > Vkms copies each plane's framebuffer into the output buffer; essentially
+> > > using a shadow buffer. DRM provides struct drm_shadow_plane_state, which
+> > > handles the details of mapping/unmapping shadow buffers into memory for
+> > > active planes.
+> > > 
+> > > Convert vkms to the helpers. Makes vkms use shared code and gives more
+> > > test exposure to shadow-plane helpers.
+> > > 
+> > > Thomas Zimmermann (4):
+> > >    drm/gem: Export implementation of shadow-plane helpers
+> > >    drm/vkms: Inherit plane state from struct drm_shadow_plane_state
+> > >    drm/vkms: Let shadow-plane helpers prepare the plane's FB
+> > >    drm/vkms: Use dma-buf mapping from shadow-plane state for composing
+> > 
+> > So I think right now this fits, but I think it'll mismit going forward: We
+> > don't really have a shadow-plane that we then toss to the hw, it's a
+> > shadow-crtc-area. Right now there's no difference, because we don't
+> > support positioning/scaling the primary plane. But that's all kinda stuff
+> > that's on the table.
+> > 
+> > But conceptually at least the compositioning buffer should bet part of the
+> > crtc, not of the primary plane.
+> > 
+> > So not sure what to do, but also coffee hasn't kicked in yet, so maybe I'm
+> > just confused.
+> 
+> I'm not sure if I understand your concern. Can you elaborate? The
+> compositing output buffer is not affected by this patchset. Only the input
+> frambuffers of the planes. Those are shadow buffers. AFAICT the composer
+> code memcpy's the primary plane and then blends the other planes on top.
+> Supporting transformation of the primary plane doesn't really change much
+> wrt to the vmaping of input fbs.
 
-One other user is iris + userptr, which uses the set_domain to probe all
-the pages to check if the GUP succeeds, however keeping the set_domain
-around just for that seems rather scuffed. We could equally just submit
-a dummy batch, which should hopefully be good enough, otherwise adding a
-new creation time flag for userptr might be an option. Although longer
-term we will also have vm_bind, which should also be a nice fit for
-this, so adding a whole new flag is likely overkill.
+Yeah that's the current implementation, because that's easier. But
+fundamentally we don't need a copy of the input shadow plane, we need a
+scratch area that's sized for the crtc.
 
-v2: add some more kernel doc, also add the implicit rules with caching
+So if the primary plane is smaller than the crtc window (because we use
+plane hw for compositing, or maybe primary plane shows a vidoe with black
+borders or whatever), then the primary plane shadow isn't the right size.
 
-Suggested-by: Daniel Vetter <daniel@ffwll.ch>
-Signed-off-by: Matthew Auld <matthew.auld@intel.com>
-Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Cc: Jordan Justen <jordan.l.justen@intel.com>
-Cc: Kenneth Graunke <kenneth@whitecape.org>
-Cc: Jason Ekstrand <jason@jlekstrand.net>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Ramalingam C <ramalingam.c@intel.com>
----
- drivers/gpu/drm/i915/gem/i915_gem_domain.c |  3 +++
- include/uapi/drm/i915_drm.h                | 18 ++++++++++++++++++
- 2 files changed, 21 insertions(+)
+And yes this means some surgery, vkms isn't there yet at all. But still it
+would mean we're going right here, but then have to backtrack before we
+can go left again. So a detour.
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_domain.c b/drivers/gpu/drm/i915/gem/i915_gem_domain.c
-index 43004bef55cb..b684a62bf3b0 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_domain.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_domain.c
-@@ -490,6 +490,9 @@ i915_gem_set_domain_ioctl(struct drm_device *dev, void *data,
- 	u32 write_domain = args->write_domain;
- 	int err;
- 
-+	if (IS_DGFX(to_i915(dev)))
-+		return -ENODEV;
-+
- 	/* Only handle setting domains to types used by the CPU. */
- 	if ((write_domain | read_domains) & I915_GEM_GPU_DOMAINS)
- 		return -EINVAL;
-diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
-index 6f94e5e7569a..fd1a9878730c 100644
---- a/include/uapi/drm/i915_drm.h
-+++ b/include/uapi/drm/i915_drm.h
-@@ -900,6 +900,24 @@ struct drm_i915_gem_mmap_offset {
-  *
-  * All other domains are rejected.
-  *
-+ * Note that for discrete, starting from DG1, this is no longer supported, and
-+ * is instead rejected. On such platforms the CPU domain is effectively static,
-+ * where we also only support a single &drm_i915_gem_mmap_offset cache mode,
-+ * which can't be set explicitly and instead depends on the object placements,
-+ * as per the below.
-+ *
-+ * Implicit caching rules, starting from DG1:
-+ *
-+ *	- If any of the object placements (see &drm_i915_gem_create_ext_memory_regions)
-+ *	  contain I915_MEMORY_CLASS_DEVICE then the object will be allocated and
-+ *	  mapped as write-combined only.
-+ *
-+ *	- Everything else is always allocated and mapped as write-back, with the
-+ *	  guarantee that everything is also coherent with the GPU.
-+ *
-+ * Note that this is likely to change in the future again, where we might need
-+ * more flexibility on future devices, so making this all explicit as part of a
-+ * new &drm_i915_gem_create_ext extension is probable.
-  */
- struct drm_i915_gem_set_domain {
- 	/** @handle: Handle for the object. */
+Also I don't think any other driver will ever need this, you really only
+need it when you want to composite planes in software - which defeats the
+purpose of planes. Except when the goal of your driver is to be a software
+model.
+-Daniel
 -- 
-2.26.3
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
