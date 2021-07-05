@@ -2,57 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E5A93BB4B7
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Jul 2021 03:25:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45C6C3BB4BC
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Jul 2021 03:25:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 40E9189B03;
+	by gabe.freedesktop.org (Postfix) with ESMTP id B573D89B06;
 	Mon,  5 Jul 2021 01:25:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
- [IPv6:2a00:1450:4864:20::131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 65F2689AEA
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Jul 2021 01:25:09 +0000 (UTC)
-Received: by mail-lf1-x131.google.com with SMTP id p16so2030231lfc.5
- for <dri-devel@lists.freedesktop.org>; Sun, 04 Jul 2021 18:25:09 -0700 (PDT)
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
+ [IPv6:2a00:1450:4864:20::134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5CC2489AEE
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Jul 2021 01:25:10 +0000 (UTC)
+Received: by mail-lf1-x134.google.com with SMTP id a18so29464363lfs.10
+ for <dri-devel@lists.freedesktop.org>; Sun, 04 Jul 2021 18:25:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=TUMTyMrUgUh3fG+Mf/N14gZsUnvHUSJ7GKGw9bXuGME=;
- b=NgWbkKtQYMlotdEQMAfW3L67nOB3jPS3iG68f6NOncYUkKua/OHgPJsaoApKimLCVv
- W8Qbo6pgZnoma1ICd0yyeJ8nuAEynR2I8Vh+E/v+hFGxbuhvcXSpYgqcOrzmzJ69zk/2
- c3q039uG4GIeaH9NxPg8I7HOlIwtA8jkmHwGrr85kJzhzxz9JkM9i5Janf4l8vobz1Pa
- CoBbYYNXQO+8ng5OiYO0p3XbSX0oKgYc5idmTTGHeK8Bx1FYquyR2mWpcxY9O2omE6gI
- 9ZJJunfhiwLz0m3wPkXEJuOADsMOPkNzvy3i0mmMs8RS7s0z55KGFR71cR0Rk4n/cLzt
- /+1A==
+ bh=GdDMjhCpUMomtdmjludjL5DxnUY1JT83cC3CTovzo2Y=;
+ b=H40YMwnG9yvl+IaF7LJbiLiZYbSv1lgwmyZVv123DAdm9e2glx1fo77kcuLtUJxRUX
+ B5o055pt1/okMiavLp8lyvu3t5rGzd4WDZ+zKvSSVSNGH/rexn/grDkjHVTzS995VrcK
+ QmX5u7vbISmXHyJk8IvXmnh+Uc3qeN++wxGr3imuDcGZbHGHJyLDG9TKZWqHlmibfMdY
+ bpnJr+lFNeDWEmrzIvpED8RRUGVKrltjOvkaELfyTnwL2uEh2DalUNjU0MXPKAgXLP6o
+ pHlDXtexlA1dbEum4fpifvWg0gCz5gl2h0gJWOoFZAa0bsBb7MfsL23cowetZiECPSuC
+ cIhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=TUMTyMrUgUh3fG+Mf/N14gZsUnvHUSJ7GKGw9bXuGME=;
- b=fZ5YtIZqEmN8MCnzfMBQLyu46PxRlWVzcYAPimz+Up0rLARKtdd3nkayxolts7d3fM
- gwH94XNzVYfWprClKbJYgXln8jp7A0/l30tQ+xA/lkGKXwGZvhRZai1bDayTfAhYjKPG
- c/g3w4FPv84NXLBzClG5PxDKwFExuSR4UbuH++xus+35zmXvHSnwkRStBshVZE3Yrxs8
- g+Qh1HfzdeMegRMQOe4B1scrzN43D/5WkJOHRmSg1oDCgtqZasPeG2SPT81+fQqvuDpF
- lXBqLNapgm1GD2sTWcfKwdtIZazHcynMyOg/kL6EZ66B5FicmTkxs5TKN3i/jM0tSsxp
- 17Iw==
-X-Gm-Message-State: AOAM532WOdX20uTEvzh6YQtUK2JwgG0CDiOpPoFe9sbtXK61cgnfLuVl
- rRLfV2nJ8orAQzz65vNLEHF9dg==
-X-Google-Smtp-Source: ABdhPJxUc04KVSa22R0+UdPYrCWXrsIWLwihbisSbViNo/f1m9IFgKR/x0ITyhwG1Esb2Pu/hbZQOg==
-X-Received: by 2002:ac2:4189:: with SMTP id z9mr3853198lfh.516.1625448307751; 
- Sun, 04 Jul 2021 18:25:07 -0700 (PDT)
+ bh=GdDMjhCpUMomtdmjludjL5DxnUY1JT83cC3CTovzo2Y=;
+ b=HzDJ5efgXWMckoOQBJtFSTMt97deLoVhF2+Hc7NERtVDm6nw4nbOOA6c7S8iWH1qTt
+ jHpVT5ibebqs6fkujcFALc5FOu+cSRwbHzl5Kd8J1qkBkMCQ4SCsjXbvpNImpx0hL5Bu
+ wM0bSAxPVot+EZpIMBcawuI4yHyrAGh+FjDHugQzt5Zca9LUSHvROWOs6HB1Wq85F6q3
+ AbWmiY2FFstV+AD16QOqiFoGxAx6sRqjsD5i2800tHUkILPEJw7QA7y3MzW9KiD8xQ/L
+ /eSXzc83FexFEtPRBa6lHjaEHbFrDFGpZHlMt4h65cv2mpNFcIi/8/mkjoPm+Gvqbu3f
+ pdeg==
+X-Gm-Message-State: AOAM5325IhY4CSbzsXoVg1uFIH0mTn2a3yJLnyEumkWMD/6jQjPpvCLR
+ YCOAd90U3hC1zijYZc5iLJsr3A==
+X-Google-Smtp-Source: ABdhPJz6j+jbe+RM4gULFuaTO5I+5RKKIMHiK1GqnIycLILEJV/DCDCczpaagYsAo/MCW6hAFC7+dw==
+X-Received: by 2002:ac2:4208:: with SMTP id y8mr8460788lfh.27.1625448308857;
+ Sun, 04 Jul 2021 18:25:08 -0700 (PDT)
 Received: from eriador.lan ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id c7sm1004345lfm.50.2021.07.04.18.25.06
+ by smtp.gmail.com with ESMTPSA id c7sm1004345lfm.50.2021.07.04.18.25.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 04 Jul 2021 18:25:07 -0700 (PDT)
+ Sun, 04 Jul 2021 18:25:08 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Bjorn Andersson <bjorn.andersson@linaro.org>,
  Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Abhinav Kumar <abhinavk@codeaurora.org>
-Subject: [PATCH v2 02/22] drm/msm/dpu: remove pipe_qos_cfg from struct
- dpu_plane
-Date: Mon,  5 Jul 2021 04:20:55 +0300
-Message-Id: <20210705012115.4179824-3-dmitry.baryshkov@linaro.org>
+Subject: [PATCH v2 03/22] drm/msm/dpu: drop pipe_name from struct dpu_plane
+Date: Mon,  5 Jul 2021 04:20:56 +0300
+Message-Id: <20210705012115.4179824-4-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210705012115.4179824-1-dmitry.baryshkov@linaro.org>
 References: <20210705012115.4179824-1-dmitry.baryshkov@linaro.org>
@@ -76,81 +75,48 @@ Cc: Jonathan Marek <jonathan@marek.ca>, Stephen Boyd <sboyd@kernel.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The pipe_qos_cfg is used only in _dpu_plane_set_qos_ctrl(), so remove it
-from the dpu_plane struct and allocate it on stack when necessary.
+Use plane->name instead of artificial pipe_name.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 30 ++++++++++++-----------
- 1 file changed, 16 insertions(+), 14 deletions(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-index 1e2c53a3f47b..20ff1832c958 100644
+index 20ff1832c958..97507e25f4f3 100644
 --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
 +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-@@ -105,7 +105,6 @@ struct dpu_plane {
+@@ -115,7 +115,6 @@ struct dpu_plane {
+ 	struct dpu_csc_cfg *csc_ptr;
  
- 	struct dpu_hw_pipe *pipe_hw;
- 	struct dpu_hw_pipe_cfg pipe_cfg;
--	struct dpu_hw_pipe_qos_cfg pipe_qos_cfg;
- 	uint32_t color_fill;
- 	bool is_error;
- 	bool is_rt_pipe;
-@@ -422,38 +421,41 @@ static void _dpu_plane_set_qos_ctrl(struct drm_plane *plane,
- 	bool enable, u32 flags)
- {
- 	struct dpu_plane *pdpu = to_dpu_plane(plane);
-+	struct dpu_hw_pipe_qos_cfg pipe_qos_cfg;
-+
-+	memset(&pipe_qos_cfg, 0, sizeof(pipe_qos_cfg));
+ 	const struct dpu_sspp_sub_blks *pipe_sblk;
+-	char pipe_name[DPU_NAME_SIZE];
  
- 	if (flags & DPU_PLANE_QOS_VBLANK_CTRL) {
--		pdpu->pipe_qos_cfg.creq_vblank = pdpu->pipe_sblk->creq_vblank;
--		pdpu->pipe_qos_cfg.danger_vblank =
-+		pipe_qos_cfg.creq_vblank = pdpu->pipe_sblk->creq_vblank;
-+		pipe_qos_cfg.danger_vblank =
- 				pdpu->pipe_sblk->danger_vblank;
--		pdpu->pipe_qos_cfg.vblank_en = enable;
-+		pipe_qos_cfg.vblank_en = enable;
- 	}
+ 	/* debugfs related stuff */
+ 	struct dentry *debugfs_root;
+@@ -1431,7 +1430,7 @@ static int _dpu_plane_init_debugfs(struct drm_plane *plane)
  
- 	if (flags & DPU_PLANE_QOS_VBLANK_AMORTIZE) {
- 		/* this feature overrules previous VBLANK_CTRL */
--		pdpu->pipe_qos_cfg.vblank_en = false;
--		pdpu->pipe_qos_cfg.creq_vblank = 0; /* clear vblank bits */
-+		pipe_qos_cfg.vblank_en = false;
-+		pipe_qos_cfg.creq_vblank = 0; /* clear vblank bits */
- 	}
+ 	/* create overall sub-directory for the pipe */
+ 	pdpu->debugfs_root =
+-		debugfs_create_dir(pdpu->pipe_name,
++		debugfs_create_dir(plane->name,
+ 				plane->dev->primary->debugfs_root);
  
- 	if (flags & DPU_PLANE_QOS_PANIC_CTRL)
--		pdpu->pipe_qos_cfg.danger_safe_en = enable;
-+		pipe_qos_cfg.danger_safe_en = enable;
+ 	/* don't error check these */
+@@ -1656,12 +1655,9 @@ struct drm_plane *dpu_plane_init(struct drm_device *dev,
+ 	/* success! finalize initialization */
+ 	drm_plane_helper_add(plane, &dpu_plane_helper_funcs);
  
- 	if (!pdpu->is_rt_pipe) {
--		pdpu->pipe_qos_cfg.vblank_en = false;
--		pdpu->pipe_qos_cfg.danger_safe_en = false;
-+		pipe_qos_cfg.vblank_en = false;
-+		pipe_qos_cfg.danger_safe_en = false;
- 	}
+-	/* save user friendly pipe name for later */
+-	snprintf(pdpu->pipe_name, DPU_NAME_SIZE, "plane%u", plane->base.id);
+-
+ 	mutex_init(&pdpu->lock);
  
- 	DPU_DEBUG_PLANE(pdpu, "pnum:%d ds:%d vb:%d pri[0x%x, 0x%x] is_rt:%d\n",
- 		pdpu->pipe - SSPP_VIG0,
--		pdpu->pipe_qos_cfg.danger_safe_en,
--		pdpu->pipe_qos_cfg.vblank_en,
--		pdpu->pipe_qos_cfg.creq_vblank,
--		pdpu->pipe_qos_cfg.danger_vblank,
-+		pipe_qos_cfg.danger_safe_en,
-+		pipe_qos_cfg.vblank_en,
-+		pipe_qos_cfg.creq_vblank,
-+		pipe_qos_cfg.danger_vblank,
- 		pdpu->is_rt_pipe);
+-	DPU_DEBUG("%s created for pipe:%u id:%u virtual:%u\n", pdpu->pipe_name,
++	DPU_DEBUG("%s created for pipe:%u id:%u virtual:%u\n", plane->name,
+ 					pipe, plane->base.id, master_plane_id);
+ 	return plane;
  
- 	pdpu->pipe_hw->ops.setup_qos_ctrl(pdpu->pipe_hw,
--			&pdpu->pipe_qos_cfg);
-+			&pipe_qos_cfg);
- }
- 
- /**
 -- 
 2.30.2
 
