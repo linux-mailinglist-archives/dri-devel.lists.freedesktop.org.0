@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E65563BBD0B
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Jul 2021 14:45:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D86CB3BBD08
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Jul 2021 14:45:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4405F89CA1;
-	Mon,  5 Jul 2021 12:45:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC95889BE8;
+	Mon,  5 Jul 2021 12:45:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B640689C19
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Jul 2021 12:45:20 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 03117897EE
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Jul 2021 12:45:21 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 65C2A22656;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id A628822658;
  Mon,  5 Jul 2021 12:45:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1625489119; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Eqrsw/YQQF05SJ4Vu9j4dLFqHw02VW3UZd5Pc56hDjk=;
- b=rpFvxpOGlTrAnbXXwgu7AUC/JDhxn7RbSiWFtVePN87v6RxQsDAc0iNeJjzSuIOC9k6xTU
- FcuxTxmPykoanNq1bVEHwVvr0RLe5CUmnxkZ330l5SDTgWic29eUaDYZH44lKQ5Gka6g++
- /Je1+eQ5vclxUtrRPJnt4fdcgSox+PI=
+ bh=jC6wRcUqyY1WYOMeFysjz4Fk5fPGCDLbkvUmj+CVGhg=;
+ b=MGxy+1nGtINcG9lLfPb5ClVdolvc2jN/I8GKCS/Jby7s6KpRpcGcWMDa6q3NOmrC7m+sIG
+ kvcOAZbyTCJ+RMFGSVPD4TKe2mUPYqvfnduCJ3NEmFHYj3uAes4I3oxT8f7LzrILZUcO2A
+ dBovpF+2fF/JrV1xD6v6XlBs3+hCOfI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1625489119;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Eqrsw/YQQF05SJ4Vu9j4dLFqHw02VW3UZd5Pc56hDjk=;
- b=PQE9C6hZ/4f6uejF8smI/k+Vb1w9xy0Po726o8Vc8WFDXzP8qcxS8hcJQDKS/5SQf8D0qZ
- DTA0VNJxZ/zrMmCQ==
+ bh=jC6wRcUqyY1WYOMeFysjz4Fk5fPGCDLbkvUmj+CVGhg=;
+ b=p4MeutykCd7P7NDhcN3FYyiWJ59khiYd3eZIgyc6Q/amAsjxx2jPkTniYEaCrBEFDwXsc1
+ Wrr7l5YQIHjkIYAA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 21E16139F6;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 6898813A7E;
  Mon,  5 Jul 2021 12:45:19 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id CCYHB9/+4mDkcAAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id SGOWGN/+4mDkcAAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Mon, 05 Jul 2021 12:45:19 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch, airlied@redhat.com, sam@ravnborg.org,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org,
  emil.velikov@collabora.com, John.p.donnelly@oracle.com
-Subject: [PATCH 10/12] drm/mgag200: Declare PLL clock constants static const
-Date: Mon,  5 Jul 2021 14:45:13 +0200
-Message-Id: <20210705124515.27253-11-tzimmermann@suse.de>
+Subject: [PATCH 11/12] drm/mgag200: Introduce custom CRTC state
+Date: Mon,  5 Jul 2021 14:45:14 +0200
+Message-Id: <20210705124515.27253-12-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210705124515.27253-1-tzimmermann@suse.de>
 References: <20210705124515.27253-1-tzimmermann@suse.de>
@@ -73,199 +73,200 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Move the PLL constants to the RO data section by declaring them as
-static const. No functional changes.
+The CRTC state in mgag200 will hold PLL values for modeset operations.
+Simple KMS helpers already support custom state for planes. Extend the
+helpers to support custom CRTC state as well.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/mgag200/mgag200_mode.c | 70 ++++++++++++--------------
- 1 file changed, 31 insertions(+), 39 deletions(-)
+ drivers/gpu/drm/drm_simple_kms_helper.c | 39 +++++++++++++++++++--
+ drivers/gpu/drm/mgag200/mgag200_drv.h   |  9 +++++
+ drivers/gpu/drm/mgag200/mgag200_mode.c  | 46 +++++++++++++++++++++++++
+ include/drm/drm_simple_kms_helper.h     | 27 +++++++++++++++
+ 4 files changed, 118 insertions(+), 3 deletions(-)
 
+diff --git a/drivers/gpu/drm/drm_simple_kms_helper.c b/drivers/gpu/drm/drm_simple_kms_helper.c
+index 735f4f34bcc4..72989ed1baba 100644
+--- a/drivers/gpu/drm/drm_simple_kms_helper.c
++++ b/drivers/gpu/drm/drm_simple_kms_helper.c
+@@ -145,6 +145,39 @@ static const struct drm_crtc_helper_funcs drm_simple_kms_crtc_helper_funcs = {
+ 	.atomic_disable = drm_simple_kms_crtc_disable,
+ };
+ 
++static void drm_simple_kms_crtc_reset(struct drm_crtc *crtc)
++{
++	struct drm_simple_display_pipe *pipe;
++
++	pipe = container_of(crtc, struct drm_simple_display_pipe, crtc);
++	if (!pipe->funcs || !pipe->funcs->reset_crtc)
++		return drm_atomic_helper_crtc_reset(crtc);
++
++	return pipe->funcs->reset_crtc(pipe);
++}
++
++static struct drm_crtc_state *drm_simple_kms_crtc_duplicate_state(struct drm_crtc *crtc)
++{
++	struct drm_simple_display_pipe *pipe;
++
++	pipe = container_of(crtc, struct drm_simple_display_pipe, crtc);
++	if (!pipe->funcs || !pipe->funcs->duplicate_crtc_state)
++		return drm_atomic_helper_crtc_duplicate_state(crtc);
++
++	return pipe->funcs->duplicate_crtc_state(pipe);
++}
++
++static void drm_simple_kms_crtc_destroy_state(struct drm_crtc *crtc, struct drm_crtc_state *state)
++{
++	struct drm_simple_display_pipe *pipe;
++
++	pipe = container_of(crtc, struct drm_simple_display_pipe, crtc);
++	if (!pipe->funcs || !pipe->funcs->destroy_crtc_state)
++		drm_atomic_helper_crtc_destroy_state(crtc, state);
++	else
++		pipe->funcs->destroy_crtc_state(pipe, state);
++}
++
+ static int drm_simple_kms_crtc_enable_vblank(struct drm_crtc *crtc)
+ {
+ 	struct drm_simple_display_pipe *pipe;
+@@ -168,12 +201,12 @@ static void drm_simple_kms_crtc_disable_vblank(struct drm_crtc *crtc)
+ }
+ 
+ static const struct drm_crtc_funcs drm_simple_kms_crtc_funcs = {
+-	.reset = drm_atomic_helper_crtc_reset,
++	.reset = drm_simple_kms_crtc_reset,
+ 	.destroy = drm_crtc_cleanup,
+ 	.set_config = drm_atomic_helper_set_config,
+ 	.page_flip = drm_atomic_helper_page_flip,
+-	.atomic_duplicate_state = drm_atomic_helper_crtc_duplicate_state,
+-	.atomic_destroy_state = drm_atomic_helper_crtc_destroy_state,
++	.atomic_duplicate_state = drm_simple_kms_crtc_duplicate_state,
++	.atomic_destroy_state = drm_simple_kms_crtc_destroy_state,
+ 	.enable_vblank = drm_simple_kms_crtc_enable_vblank,
+ 	.disable_vblank = drm_simple_kms_crtc_disable_vblank,
+ };
+diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.h b/drivers/gpu/drm/mgag200/mgag200_drv.h
+index fca3904fde0c..c813d6c15f70 100644
+--- a/drivers/gpu/drm/mgag200/mgag200_drv.h
++++ b/drivers/gpu/drm/mgag200/mgag200_drv.h
+@@ -127,6 +127,15 @@ struct mgag200_pll_values {
+ 	unsigned int s;
+ };
+ 
++struct mgag200_crtc_state {
++	struct drm_crtc_state base;
++};
++
++static inline struct mgag200_crtc_state *to_mgag200_crtc_state(struct drm_crtc_state *base)
++{
++	return container_of(base, struct mgag200_crtc_state, base);
++}
++
+ #define to_mga_connector(x) container_of(x, struct mga_connector, base)
+ 
+ struct mga_i2c_chan {
 diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c b/drivers/gpu/drm/mgag200/mgag200_mode.c
-index 99b35e4f9353..5da72ebd8a7f 100644
+index 5da72ebd8a7f..6a5c419c6641 100644
 --- a/drivers/gpu/drm/mgag200/mgag200_mode.c
 +++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
-@@ -187,7 +187,10 @@ static int mgag200_compute_pixpll_values_g200(struct mga_device *mdev, long cloc
- static int mgag200_compute_pixpll_values_g200se_00(struct mga_device *mdev, long clock,
- 						   struct mgag200_pll_values *pixpllc)
- {
--	unsigned int vcomax, vcomin, pllreffreq;
-+	static const unsigned int vcomax = 320000;
-+	static const unsigned int vcomin = 160000;
-+	static const unsigned int pllreffreq = 25000;
+@@ -1886,6 +1886,49 @@ mgag200_simple_display_pipe_update(struct drm_simple_display_pipe *pipe,
+ 		mgag200_handle_damage(mdev, fb, &damage, &shadow_plane_state->map[0]);
+ }
+ 
++static struct drm_crtc_state *
++mgag200_simple_display_pipe_duplicate_crtc_state(struct drm_simple_display_pipe *pipe)
++{
++	struct drm_crtc *crtc = &pipe->crtc;
++	struct drm_crtc_state *crtc_state = crtc->state;
++	struct mgag200_crtc_state *new_mgag200_crtc_state;
 +
- 	unsigned int delta, tmpdelta, permitteddelta;
- 	unsigned int testp, testm, testn;
- 	unsigned int p, m, n, s;
-@@ -196,9 +199,6 @@ static int mgag200_compute_pixpll_values_g200se_00(struct mga_device *mdev, long
- 	m = n = p = s = 0;
- 	delta = 0xffffffff;
- 
--	vcomax = 320000;
--	vcomin = 160000;
--	pllreffreq = 25000;
- 	permitteddelta = clock * 5 / 1000;
- 
- 	for (testp = 8; testp > 0; testp /= 2) {
-@@ -241,8 +241,10 @@ static int mgag200_compute_pixpll_values_g200se_04(struct mga_device *mdev, long
- 						   struct mgag200_pll_values *pixpllc)
- {
- 	static const unsigned int pvalues_e4[] = {16, 14, 12, 10, 8, 6, 4, 2, 1};
-+	static const unsigned int vcomax = 1600000;
-+	static const unsigned int vcomin = 800000;
-+	static const unsigned int pllreffreq = 25000;
- 
--	unsigned int vcomax, vcomin, pllreffreq;
- 	unsigned int delta, tmpdelta, permitteddelta;
- 	unsigned int testp, testm, testn;
- 	unsigned int p, m, n, s;
-@@ -253,10 +255,6 @@ static int mgag200_compute_pixpll_values_g200se_04(struct mga_device *mdev, long
- 	m = n = p = s = 0;
- 	delta = 0xffffffff;
- 
--	vcomax        = 1600000;
--	vcomin        = 800000;
--	pllreffreq    = 25000;
--
- 	if (clock < 25000)
- 		clock = 25000;
- 	clock = clock * 2;
-@@ -323,7 +321,10 @@ static int mgag200_compute_pixpll_values_g200se(struct mga_device *mdev, long cl
- static int mgag200_compute_pixpll_values_g200wb(struct mga_device *mdev, long clock,
- 						struct mgag200_pll_values *pixpllc)
- {
--	unsigned int vcomax, vcomin, pllreffreq;
-+	static const unsigned int vcomax = 550000;
-+	static const unsigned int vcomin = 150000;
-+	static const unsigned int pllreffreq = 48000;
++	if (!crtc_state)
++		return NULL;
 +
- 	unsigned int delta, tmpdelta;
- 	unsigned int testp, testm, testn;
- 	unsigned int p, m, n, s;
-@@ -332,10 +333,6 @@ static int mgag200_compute_pixpll_values_g200wb(struct mga_device *mdev, long cl
- 	m = n = p = s = 0;
- 	delta = 0xffffffff;
- 
--	vcomax = 550000;
--	vcomin = 150000;
--	pllreffreq = 48000;
--
- 	for (testp = 1; testp < 9; testp++) {
- 		if (clock * testp > vcomax)
- 			continue;
-@@ -371,7 +368,10 @@ static int mgag200_compute_pixpll_values_g200wb(struct mga_device *mdev, long cl
- static int mgag200_compute_pixpll_values_g200ev(struct mga_device *mdev, long clock,
- 						struct mgag200_pll_values *pixpllc)
- {
--	unsigned int vcomax, vcomin, pllreffreq;
-+	static const unsigned int vcomax = 550000;
-+	static const unsigned int vcomin = 150000;
-+	static const unsigned int pllreffreq = 50000;
++	new_mgag200_crtc_state = kzalloc(sizeof(*new_mgag200_crtc_state), GFP_KERNEL);
++	if (!new_mgag200_crtc_state)
++		return NULL;
++	__drm_atomic_helper_crtc_duplicate_state(crtc, &new_mgag200_crtc_state->base);
 +
- 	unsigned int delta, tmpdelta;
- 	unsigned int testp, testm, testn;
- 	unsigned int p, m, n, s;
-@@ -380,10 +380,6 @@ static int mgag200_compute_pixpll_values_g200ev(struct mga_device *mdev, long cl
- 	m = n = p = s = 0;
- 	delta = 0xffffffff;
- 
--	vcomax = 550000;
--	vcomin = 150000;
--	pllreffreq = 50000;
--
- 	for (testp = 16; testp > 0; testp--) {
- 		if (clock * testp > vcomax)
- 			continue;
-@@ -419,7 +415,10 @@ static int mgag200_compute_pixpll_values_g200ev(struct mga_device *mdev, long cl
- static int mgag200_compute_pixpll_values_g200eh(struct mga_device *mdev, long clock,
- 						struct mgag200_pll_values *pixpllc)
- {
--	unsigned int vcomax, vcomin, pllreffreq;
-+	static const unsigned int vcomax = 800000;
-+	static const unsigned int vcomin = 400000;
-+	static const unsigned int pllreffreq = 33333;
++	return &new_mgag200_crtc_state->base;
++}
 +
- 	unsigned int delta, tmpdelta;
- 	unsigned int testp, testm, testn;
- 	unsigned int p, m, n, s;
-@@ -428,10 +427,6 @@ static int mgag200_compute_pixpll_values_g200eh(struct mga_device *mdev, long cl
- 	m = n = p = s = 0;
- 	delta = 0xffffffff;
- 
--	vcomax = 800000;
--	vcomin = 400000;
--	pllreffreq = 33333;
--
- 	for (testp = 16; testp > 0; testp >>= 1) {
- 		if (clock * testp > vcomax)
- 			continue;
-@@ -466,7 +461,10 @@ static int mgag200_compute_pixpll_values_g200eh(struct mga_device *mdev, long cl
- static int mgag200_compute_pixpll_values_g200eh3(struct mga_device *mdev, long clock,
- 						 struct mgag200_pll_values *pixpllc)
- {
--	unsigned int vcomax, vcomin, pllreffreq;
-+	static const unsigned int vcomax = 3000000;
-+	static const unsigned int vcomin = 1500000;
-+	static const unsigned int pllreffreq = 25000;
++static void mgag200_simple_display_pipe_destroy_crtc_state(struct drm_simple_display_pipe *pipe,
++							   struct drm_crtc_state *crtc_state)
++{
++	struct mgag200_crtc_state *mgag200_crtc_state = to_mgag200_crtc_state(crtc_state);
 +
- 	unsigned int delta, tmpdelta;
- 	unsigned int testp, testm, testn;
- 	unsigned int p, m, n, s;
-@@ -476,10 +474,6 @@ static int mgag200_compute_pixpll_values_g200eh3(struct mga_device *mdev, long c
- 	delta = 0xffffffff;
- 	testp = 0;
- 
--	vcomax = 3000000;
--	vcomin = 1500000;
--	pllreffreq = 25000;
--
- 	for (testm = 150; testm >= 6; testm--) {
- 		if (clock * testm > vcomax)
- 			continue;
-@@ -516,16 +510,15 @@ static int mgag200_compute_pixpll_values_g200er(struct mga_device *mdev, long cl
- 						struct mgag200_pll_values *pixpllc)
- {
- 	static const unsigned int m_div_val[] = { 1, 2, 4, 8 };
--	unsigned int vcomax, vcomin, pllreffreq;
-+	static const unsigned int vcomax = 1488000;
-+	static const unsigned int vcomin = 1056000;
-+	static const unsigned int pllreffreq = 48000;
++	__drm_atomic_helper_crtc_destroy_state(&mgag200_crtc_state->base);
++	kfree(mgag200_crtc_state);
++}
 +
- 	unsigned int delta, tmpdelta;
- 	int testr, testn, testm, testo;
- 	unsigned int p, m, n, s;
- 	unsigned int computed, vco;
- 
--	vcomax = 1488000;
--	vcomin = 1056000;
--	pllreffreq = 48000;
--
- 	m = n = p = s = 0;
- 	delta = 0xffffffff;
- 
-@@ -573,7 +566,10 @@ static int mgag200_compute_pixpll_values_g200er(struct mga_device *mdev, long cl
- static int mgag200_compute_pixpll_values_g200ew3(struct mga_device *mdev, long clock,
- 						 struct mgag200_pll_values *pixpllc)
- {
--	unsigned int vcomax, vcomin, pllreffreq;
-+	static const unsigned int vcomax = 800000;
-+	static const unsigned int vcomin = 400000;
-+	static const unsigned int pllreffreq = 25000;
++static void mgag200_simple_display_pipe_reset_crtc(struct drm_simple_display_pipe *pipe)
++{
++	struct drm_crtc *crtc = &pipe->crtc;
++	struct mgag200_crtc_state *mgag200_crtc_state;
 +
- 	unsigned int delta, tmpdelta;
- 	unsigned int testp, testm, testn, testp2;
- 	unsigned int p, m, n, s;
-@@ -582,10 +578,6 @@ static int mgag200_compute_pixpll_values_g200ew3(struct mga_device *mdev, long c
- 	m = n = p = s = 0;
- 	delta = 0xffffffff;
++	if (crtc->state) {
++		mgag200_simple_display_pipe_destroy_crtc_state(pipe, crtc->state);
++		crtc->state = NULL; /* must be set to NULL here */
++	}
++
++	mgag200_crtc_state = kzalloc(sizeof(*mgag200_crtc_state), GFP_KERNEL);
++	if (!mgag200_crtc_state)
++		return;
++	__drm_atomic_helper_crtc_reset(crtc, &mgag200_crtc_state->base);
++}
++
+ static const struct drm_simple_display_pipe_funcs
+ mgag200_simple_display_pipe_funcs = {
+ 	.mode_valid = mgag200_simple_display_pipe_mode_valid,
+@@ -1893,6 +1936,9 @@ mgag200_simple_display_pipe_funcs = {
+ 	.disable    = mgag200_simple_display_pipe_disable,
+ 	.check	    = mgag200_simple_display_pipe_check,
+ 	.update	    = mgag200_simple_display_pipe_update,
++	.reset_crtc = mgag200_simple_display_pipe_reset_crtc,
++	.duplicate_crtc_state = mgag200_simple_display_pipe_duplicate_crtc_state,
++	.destroy_crtc_state = mgag200_simple_display_pipe_destroy_crtc_state,
+ 	DRM_GEM_SIMPLE_DISPLAY_PIPE_SHADOW_PLANE_FUNCS,
+ };
  
--	vcomax = 800000;
--	vcomin = 400000;
--	pllreffreq = 25000;
--
- 	for (testp = 1; testp < 8; testp++) {
- 		for (testp2 = 1; testp2 < 8; testp2++) {
- 			if (testp < testp2)
+diff --git a/include/drm/drm_simple_kms_helper.h b/include/drm/drm_simple_kms_helper.h
+index cf07132d4ee8..0b3647e614dd 100644
+--- a/include/drm/drm_simple_kms_helper.h
++++ b/include/drm/drm_simple_kms_helper.h
+@@ -153,6 +153,33 @@ struct drm_simple_display_pipe_funcs {
+ 	 */
+ 	void (*disable_vblank)(struct drm_simple_display_pipe *pipe);
+ 
++	/**
++	 * @reset_crtc:
++	 *
++	 * Optional, called by &drm_crtc_funcs.reset. Please read the
++	 * documentation for the &drm_crtc_funcs.reset hook for more details.
++	 */
++	void (*reset_crtc)(struct drm_simple_display_pipe *pipe);
++
++	/**
++	 * @duplicate_crtc_state:
++	 *
++	 * Optional, called by &drm_crtc_funcs.atomic_duplicate_state. Please
++	 * read the documentation for the &drm_crtc_funcs.atomic_duplicate_state
++	 * hook for more details.
++	 */
++	struct drm_crtc_state * (*duplicate_crtc_state)(struct drm_simple_display_pipe *pipe);
++
++	/**
++	 * @destroy_crtc_state:
++	 *
++	 * Optional, called by &drm_crtc_funcs.atomic_destroy_state. Please
++	 * read the documentation for the &drm_crtc_funcs.atomic_destroy_state
++	 * hook for more details.
++	 */
++	void (*destroy_crtc_state)(struct drm_simple_display_pipe *pipe,
++				   struct drm_crtc_state *crtc_state);
++
+ 	/**
+ 	 * @reset_plane:
+ 	 *
 -- 
 2.32.0
 
