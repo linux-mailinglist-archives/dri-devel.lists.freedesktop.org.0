@@ -1,37 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D22CB3BB9DF
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Jul 2021 11:07:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BEFF63BBA28
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Jul 2021 11:27:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A37289838;
-	Mon,  5 Jul 2021 09:07:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7862689B29;
+	Mon,  5 Jul 2021 09:27:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0DEF589838;
- Mon,  5 Jul 2021 09:07:49 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10035"; a="196232574"
-X-IronPort-AV: E=Sophos;i="5.83,325,1616482800"; d="scan'208";a="196232574"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Jul 2021 02:07:47 -0700
-X-IronPort-AV: E=Sophos;i="5.83,325,1616482800"; d="scan'208";a="485435002"
-Received: from elang-mobl.ger.corp.intel.com (HELO localhost) ([10.252.59.138])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Jul 2021 02:07:41 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Kuogee Hsieh <khsieh@codeaurora.org>, robdclark@gmail.com, sean@poorly.run,
- swboyd@chromium.org, lyude@redhat.com
-Subject: Re: [PATCH v2] drm/dp_mst: Fix return code on sideband message failure
-In-Reply-To: <1625008068-16458-1-git-send-email-khsieh@codeaurora.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <1625008068-16458-1-git-send-email-khsieh@codeaurora.org>
-Date: Mon, 05 Jul 2021 12:07:38 +0300
-Message-ID: <87czrx9lid.fsf@intel.com>
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com
+ [IPv6:2a00:1450:4864:20::334])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A43D989B29
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Jul 2021 09:27:14 +0000 (UTC)
+Received: by mail-wm1-x334.google.com with SMTP id
+ i2-20020a05600c3542b02902058529ea07so3106060wmq.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 05 Jul 2021 02:27:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=uVicueVP1pnL9PsVfO1wH0yVMtf3GKlKt9m/epQPcew=;
+ b=lcqPjWfhErfFz9d3EuQFXcHOJPNq2xcYWEqNvuBTrpyAKfb61oqwY6rA9TY3wWH/Uz
+ g/197MCxeRbYdsSdX2EdHemGc+2sH6wSO1sgUMGmDBVAUJLSg0IvReqtdM1ct0g3c6yA
+ mdn2eXhvAP2IIhpojLS6cxfQkgD8iinSGWqKk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=uVicueVP1pnL9PsVfO1wH0yVMtf3GKlKt9m/epQPcew=;
+ b=jOuGq2oc9zaMC3f0/FR+g4oIcI0B7R7+ZSMtc0j7NfYttqE3R2LY7wpyfzujKhi2Af
+ BBOOzDfWJcytGHFWfD5ovYgsZzA/vhCO9lUy/ne7MbpxCieAwX92xJFwHf34i+Gt4Sw3
+ v1hdgcY4I+N4qKI4trIc6nJeATU5t9+j3814WCBd6MyKlaIHfsS50shL2xP34vM3Fq99
+ zVkgdAJ9+3v/zSEiyYF9ns6KsOV7ThTO7ZhBlvESxdM/1hRi8+854Ra3Q6rzIogt9b6j
+ y/Put4g0BrRCyK/uhi4TTejc4Ab10S0Ysw+QpQTte+L/lolo0Nwiuw5Ib084/k1Pqxxe
+ MGCg==
+X-Gm-Message-State: AOAM53295Exi78ycTGZTX+uBERIM405inwEcmJLUhCz/WnqqZk2c7Mex
+ 26M5mtNvPlDIFXbGkzTg7qcgAye16bv3rA==
+X-Google-Smtp-Source: ABdhPJzFpYwK9kFJsd39FVneyNM3buxB8Ur5UvKxq5vVAHTJuD6Cq5QSyzwk795MzmYGy/gwxhBtDA==
+X-Received: by 2002:a1c:9884:: with SMTP id a126mr14086800wme.59.1625477233025; 
+ Mon, 05 Jul 2021 02:27:13 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id p3sm20345391wmq.17.2021.07.05.02.27.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 05 Jul 2021 02:27:12 -0700 (PDT)
+Date: Mon, 5 Jul 2021 11:27:10 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 0/4] vkms: Switch to shadow-buffered plane state
+Message-ID: <YOLQbp7m7ggecg05@phenom.ffwll.local>
+References: <20210705074633.9425-1-tzimmermann@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210705074633.9425-1-tzimmermann@suse.de>
+X-Operating-System: Linux phenom 5.10.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,68 +66,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: rnayak@codeaurora.org, airlied@linux.ie, linux-kernel@vger.kernel.org,
- abhinavk@codeaurora.org, khsieh@codeaurora.org,
- dri-devel@lists.freedesktop.org, tzimmermann@suse.de, aravindh@codeaurora.org,
- freedreno@lists.freedesktop.org, rsubbia@codeaurora.org
+Cc: hamohammed.sa@gmail.com, rodrigosiqueiramelo@gmail.com, airlied@linux.ie,
+ melissa.srw@gmail.com, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 29 Jun 2021, Kuogee Hsieh <khsieh@codeaurora.org> wrote:
-> From: Rajkumar Subbiah <rsubbia@codeaurora.org>
->
-> Commit 2f015ec6eab6 ("drm/dp_mst: Add sideband down request tracing +
-> selftests") added some debug code for sideband message tracing. But
-> it seems to have unintentionally changed the behavior on sideband message
-> failure. It catches and returns failure only if DRM_UT_DP is enabled.
-> Otherwise it ignores the error code and returns success. So on an MST
-> unplug, the caller is unaware that the clear payload message failed and
-> ends up waiting for 4 seconds for the response. Fixes the issue by
-> returning the proper error code.
->
-> Changes in V2:
-> -- Revise commit text as review comment
-> -- add Fixes text
->
-> Fixes: 2f015ec6eab6 ("drm/dp_mst: Add sideband down request tracing + selftests")
->
-> Signed-off-by: Rajkumar Subbiah <rsubbia@codeaurora.org>
-> Signed-off-by: Kuogee Hsieh <khsieh@codeaurora.org>
->
-> Reviewed-by: Stephen Boyd <swboyd@chromium.org>
-> ---
->  drivers/gpu/drm/drm_dp_mst_topology.c | 10 ++++++----
->  1 file changed, 6 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_dp_mst_topology.c
-> index 1590144..8d97430 100644
-> --- a/drivers/gpu/drm/drm_dp_mst_topology.c
-> +++ b/drivers/gpu/drm/drm_dp_mst_topology.c
-> @@ -2887,11 +2887,13 @@ static int process_single_tx_qlock(struct drm_dp_mst_topology_mgr *mgr,
->  	idx += tosend + 1;
->  
->  	ret = drm_dp_send_sideband_msg(mgr, up, chunk, idx);
-> -	if (unlikely(ret) && drm_debug_enabled(DRM_UT_DP)) {
-> -		struct drm_printer p = drm_debug_printer(DBG_PREFIX);
-> +	if (unlikely(ret)) {
-> +		if (drm_debug_enabled(DRM_UT_DP)) {
-> +			struct drm_printer p = drm_debug_printer(DBG_PREFIX);
->  
-> -		drm_printf(&p, "sideband msg failed to send\n");
-> -		drm_dp_mst_dump_sideband_msg_tx(&p, txmsg);
-> +			drm_printf(&p, "sideband msg failed to send\n");
-> +			drm_dp_mst_dump_sideband_msg_tx(&p, txmsg);
-> +		}
->  		return ret;
->  	}
+On Mon, Jul 05, 2021 at 09:46:29AM +0200, Thomas Zimmermann wrote:
+> Vkms copies each plane's framebuffer into the output buffer; essentially
+> using a shadow buffer. DRM provides struct drm_shadow_plane_state, which
+> handles the details of mapping/unmapping shadow buffers into memory for
+> active planes.
+> 
+> Convert vkms to the helpers. Makes vkms use shared code and gives more
+> test exposure to shadow-plane helpers.
+> 
+> Thomas Zimmermann (4):
+>   drm/gem: Export implementation of shadow-plane helpers
+>   drm/vkms: Inherit plane state from struct drm_shadow_plane_state
+>   drm/vkms: Let shadow-plane helpers prepare the plane's FB
+>   drm/vkms: Use dma-buf mapping from shadow-plane state for composing
 
-Seems like a sensible thing to do.
+So I think right now this fits, but I think it'll mismit going forward: We
+don't really have a shadow-plane that we then toss to the hw, it's a
+shadow-crtc-area. Right now there's no difference, because we don't
+support positioning/scaling the primary plane. But that's all kinda stuff
+that's on the table.
 
-(I'd probably rip out the "unlikely" while at it, as it feels like
-unnecessary optimization, but *shrug*.)
+But conceptually at least the compositioning buffer should bet part of the
+crtc, not of the primary plane.
 
-Reviewed-by: Jani Nikula <jani.nikula@intel.com>
-
-
+So not sure what to do, but also coffee hasn't kicked in yet, so maybe I'm
+just confused.
+-Daniel
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
