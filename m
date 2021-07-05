@@ -2,38 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D77473BB8FD
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Jul 2021 10:21:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 935A43BB906
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Jul 2021 10:23:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A94EB89A77;
-	Mon,  5 Jul 2021 08:21:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B88DD89A7A;
+	Mon,  5 Jul 2021 08:23:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 92C4A89A77
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Jul 2021 08:21:34 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10035"; a="294585663"
-X-IronPort-AV: E=Sophos;i="5.83,325,1616482800"; d="scan'208";a="294585663"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Jul 2021 01:21:30 -0700
-X-IronPort-AV: E=Sophos;i="5.83,325,1616482800"; d="scan'208";a="485423753"
-Received: from elang-mobl.ger.corp.intel.com (HELO localhost) ([10.252.59.138])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Jul 2021 01:21:25 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Corentin Labbe <clabbe.montjoie@gmail.com>, mripard@kernel.org,
- tzimmermann@suse.de, airlied@linux.ie, daniel@ffwll.ch,
- dri-devel@lists.freedesktop.org, maarten.lankhorst@linux.intel.com
-Subject: Re: drm: screen stuck since commit f611b1e7624c: drm: Avoid circular
- dependencies for CONFIG_FB
-In-Reply-To: <YODLGdC73lLPpTL3@Red>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <YODLGdC73lLPpTL3@Red>
-Date: Mon, 05 Jul 2021 11:21:22 +0300
-Message-ID: <87lf6l9nnh.fsf@intel.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 1817B89A7A
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Jul 2021 08:23:07 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5FFC1D6E;
+ Mon,  5 Jul 2021 01:23:05 -0700 (PDT)
+Received: from [192.168.1.179] (unknown [172.31.20.19])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DFE033F694;
+ Mon,  5 Jul 2021 01:23:03 -0700 (PDT)
+Subject: Re: [PATCH v3 5/7] drm/panfrost: Add a new ioctl to submit batches
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ Alyssa Rosenzweig <alyssa@collabora.com>
+References: <20210702143225.3347980-1-boris.brezillon@collabora.com>
+ <20210702143225.3347980-6-boris.brezillon@collabora.com>
+ <YN8tDD6tRF85cR4z@maud> <20210702173843.44b3e322@collabora.com>
+ <YN9DsztrsMWY1rv+@maud> <20210702201112.4c07c2c7@collabora.com>
+From: Steven Price <steven.price@arm.com>
+Message-ID: <a059fc1a-2596-314c-ace8-c3bd44d1b052@arm.com>
+Date: Mon, 5 Jul 2021 09:22:39 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain
+In-Reply-To: <20210702201112.4c07c2c7@collabora.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,161 +47,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, Arnd Bergmann <arnd@kernel.org>,
- linux-kernel@vger.kernel.org, Kees Cook <keescook@chromium.org>
+Cc: Jason Ekstrand <jason@jlekstrand.net>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>, dri-devel@lists.freedesktop.org,
+ Rob Herring <robh+dt@kernel.org>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Robin Murphy <robin.murphy@arm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 03 Jul 2021, Corentin Labbe <clabbe.montjoie@gmail.com> wrote:
-> Hello
->
-> On next-20210701, my screen is stuck (see attached photo).
-> I bisect the problem to:
-> git bisect start
-> # good: [62fb9874f5da54fdb243003b386128037319b219] Linux 5.13
-> git bisect good 62fb9874f5da54fdb243003b386128037319b219
-> # bad: [fb0ca446157a86b75502c1636b0d81e642fe6bf1] Add linux-next specific files for 20210701
-> git bisect bad fb0ca446157a86b75502c1636b0d81e642fe6bf1
-> # good: [f63c4fda987a19b1194cc45cb72fd5bf968d9d90] Merge remote-tracking branch 'rdma/for-next'
-> git bisect good f63c4fda987a19b1194cc45cb72fd5bf968d9d90
-> # bad: [49c8769be0b910d4134eba07cae5d9c71b861c4a] Merge remote-tracking branch 'drm/drm-next'
-> git bisect bad 49c8769be0b910d4134eba07cae5d9c71b861c4a
-> # good: [4e3db44a242a4e2afe33b59793898ecbb61d478e] Merge tag 'wireless-drivers-next-2021-06-25' of git://git.kernel.org/pub/scm/linux/kernel/git/kvalo/wireless-drivers-next
-> git bisect good 4e3db44a242a4e2afe33b59793898ecbb61d478e
-> # good: [5745d647d5563d3e9d32013ad4e5c629acff04d7] Merge tag 'amd-drm-next-5.14-2021-06-02' of https://gitlab.freedesktop.org/agd5f/linux into drm-next
-> git bisect good 5745d647d5563d3e9d32013ad4e5c629acff04d7
-> # bad: [8fe44c080a53ac0ccbe88053a2e40f9acca33091] drm/amdgpu/display: fold DRM_AMD_DC_DCN3_1 into DRM_AMD_DC_DCN
-> git bisect bad 8fe44c080a53ac0ccbe88053a2e40f9acca33091
-> # good: [2c1b1ac7084edf477309d27c02d9da7f79b33cec] drm/amdgpu/vcn: drop gfxoff control for VCN2+
-> git bisect good 2c1b1ac7084edf477309d27c02d9da7f79b33cec
-> # good: [2c1b1ac7084edf477309d27c02d9da7f79b33cec] drm/amdgpu/vcn: drop gfxoff control for VCN2+
-> git bisect good 2c1b1ac7084edf477309d27c02d9da7f79b33cec
-> # bad: [d4c9b03ff6a9914b55e4e23fcac11339a2706cc6] drm/amd/pm: Add renoir throttler translation
-> git bisect bad d4c9b03ff6a9914b55e4e23fcac11339a2706cc6
-> # bad: [691cf8cd7a531dbfcc29d09a23c509a86fd9b24f] drm/amdgpu: use correct rounding macro for 64-bit
-> git bisect bad 691cf8cd7a531dbfcc29d09a23c509a86fd9b24f
-> # bad: [2fdcb55dfc86835e4845e3f422180b5596d23cb4] drm/amdkfd: use resource cursor in svm_migrate_copy_to_vram v2
-> git bisect bad 2fdcb55dfc86835e4845e3f422180b5596d23cb4
-> # bad: [6c3f953381e526a1623d4575660afae8b19ffa20] drm/sti/sti_hqvdp: Fix incorrectly named function 'sti_hqvdp_vtg_cb()'
-> git bisect bad 6c3f953381e526a1623d4575660afae8b19ffa20
-> # bad: [5ea4dba68305d9648b9dba30036cc36d4e877bca] drm/msm/a6xx: add CONFIG_QCOM_LLCC dependency
-> git bisect bad 5ea4dba68305d9648b9dba30036cc36d4e877bca
-> # good: [4a888ba03fd97d1cb0253581973533965bf348c4] drm/vgem/vgem_drv: Standard comment blocks should not use kernel-doc format
-> git bisect good 4a888ba03fd97d1cb0253581973533965bf348c4
-> # good: [c5ef15ae09637fb51ae43e1d1d98329d67dd4fd6] video: fbdev: atyfb: mach64_cursor.c: deleted the repeated word
-> git bisect good c5ef15ae09637fb51ae43e1d1d98329d67dd4fd6
-> # bad: [f611b1e7624ccdbd495c19e9805629e22265aa16] drm: Avoid circular dependencies for CONFIG_FB
-> git bisect bad f611b1e7624ccdbd495c19e9805629e22265aa16
-> # good: [ff323d6d72e1e4971c8ba9e2f3cf8afc48f22383] video: fbdev: mb862xx: use DEVICE_ATTR_RO macro
-> git bisect good ff323d6d72e1e4971c8ba9e2f3cf8afc48f22383
-> # first bad commit: [f611b1e7624ccdbd495c19e9805629e22265aa16] drm: Avoid circular dependencies for CONFIG_FB
->
-> reverting ff323d6d72e1e4971c8ba9e2f3cf8afc48f22383 lead to a correct boot (I got a viewable login prompt).
+On 02/07/2021 19:11, Boris Brezillon wrote:
+> On Fri, 2 Jul 2021 12:49:55 -0400
+> Alyssa Rosenzweig <alyssa@collabora.com> wrote:
+> 
+>>>> ```  
+>>>>>  #define PANFROST_BO_REF_EXCLUSIVE	0x1
+>>>>> +#define PANFROST_BO_REF_NO_IMPLICIT_DEP	0x2    
+>>>> ```
+>>>>
+>>>> This seems logically backwards. NO_IMPLICIT_DEP makes sense if we're
+>>>> trying to keep backwards compatibility, but here you're crafting a new
+>>>> interface totally from scratch. If anything, isn't BO_REF_IMPLICIT_DEP
+>>>> the flag you'd want?  
+>>>
+>>> AFAICT, all other drivers make the no-implicit-dep an opt-in, and I
+>>> didn't want to do things differently in panfrost. But if that's really
+>>> an issue, I can make it an opt-out.  
+>>
+>> I don't have strong feelings either way. I was just under the
+>> impressions other drivers did this for b/w compat reasons which don't
+>> apply here.
+> 
+> Okay, I think I'll keep it like that unless there's a strong reason to
+> make no-implicit dep the default. It's safer to oversync than the skip
+> the synchronization, so it does feel like something the user should
+> explicitly enable.
 
-I presume that's a copy-paste error, and you mean
-f611b1e7624ccdbd495c19e9805629e22265aa16, the first bad commit, i.e.
+I don't have strong feelings - ultimately the number of projects caring
+about the uABI is so limited the "default" is pretty irrelevant (it's
+not as if we are needing to guide random developers who are new to the
+interface). But a conservative default seems sensible.
 
-commit f611b1e7624ccdbd495c19e9805629e22265aa16
-Author: Kees Cook <keescook@chromium.org>
-Date:   Wed Jun 2 14:52:50 2021 -0700
+>>
+>>>> Hmm. I'm not /opposed/ and I know kbase uses strides but it seems like
+>>>> somewhat unwarranted complexity, and there is a combinatoric explosion
+>>>> here (if jobs, bo refs, and syncobj refs use 3 different versions, as
+>>>> this encoding permits... as opposed to just specifying a UABI version or
+>>>> something like that)  
+>>>
+>>> Sounds like a good idea. I'll add a version field and map that
+>>> to a <job_stride,bo_ref_stride,syncobj_ref_stride> tuple.  
+>>
+>> Cc Steven, does this make sense?
+> 
+> I have this approach working, and I must admit I prefer it to the
+> per-object stride field passed to the submit struct.
+> 
 
-    drm: Avoid circular dependencies for CONFIG_FB
+There are benefits both ways:
 
-> So ff323d6d72e1 cause this config change when compiling my defconfig:
-> --- config.fbok	2021-07-03 21:31:08.527260693 +0200
-> +++ config.fbko	2021-07-03 21:39:51.604275703 +0200
-> -CONFIG_VT_HW_CONSOLE_BINDING=y
-> +# CONFIG_VT_HW_CONSOLE_BINDING is not set
-> -CONFIG_DRM_FBDEV_EMULATION=y
-> -CONFIG_DRM_FBDEV_OVERALLOC=100
-> -CONFIG_FB_NOTIFY=y
-> -CONFIG_FB=y
-> -# CONFIG_FIRMWARE_EDID is not set
-> -CONFIG_FB_CFB_FILLRECT=y
-> -CONFIG_FB_CFB_COPYAREA=y
-> -CONFIG_FB_CFB_IMAGEBLIT=y
-> -CONFIG_FB_SYS_FILLRECT=y
-> -CONFIG_FB_SYS_COPYAREA=y
-> -CONFIG_FB_SYS_IMAGEBLIT=y
-> -# CONFIG_FB_FOREIGN_ENDIAN is not set
-> -CONFIG_FB_SYS_FOPS=y
-> -CONFIG_FB_DEFERRED_IO=y
-> -CONFIG_FB_MODE_HELPERS=y
-> -CONFIG_FB_TILEBLITTING=y
-> -
-> -#
-> -# Frame buffer hardware drivers
-> -#
-> -# CONFIG_FB_CIRRUS is not set
-> -# CONFIG_FB_PM2 is not set
-> -# CONFIG_FB_CYBER2000 is not set
-> -# CONFIG_FB_ARC is not set
-> -# CONFIG_FB_ASILIANT is not set
-> -# CONFIG_FB_IMSTT is not set
-> -# CONFIG_FB_VGA16 is not set
-> -# CONFIG_FB_UVESA is not set
-> -# CONFIG_FB_VESA is not set
-> -CONFIG_FB_EFI=y
-> -# CONFIG_FB_N411 is not set
-> -# CONFIG_FB_HGA is not set
-> -# CONFIG_FB_OPENCORES is not set
-> -# CONFIG_FB_S1D13XXX is not set
-> -# CONFIG_FB_NVIDIA is not set
-> -# CONFIG_FB_RIVA is not set
-> -# CONFIG_FB_I740 is not set
-> -# CONFIG_FB_LE80578 is not set
-> -# CONFIG_FB_MATROX is not set
-> -# CONFIG_FB_RADEON is not set
-> -# CONFIG_FB_ATY128 is not set
-> -# CONFIG_FB_ATY is not set
-> -# CONFIG_FB_S3 is not set
-> -# CONFIG_FB_SAVAGE is not set
-> -# CONFIG_FB_SIS is not set
-> -# CONFIG_FB_NEOMAGIC is not set
-> -# CONFIG_FB_KYRO is not set
-> -# CONFIG_FB_3DFX is not set
-> -# CONFIG_FB_VOODOO1 is not set
-> -# CONFIG_FB_VT8623 is not set
-> -# CONFIG_FB_TRIDENT is not set
-> -# CONFIG_FB_ARK is not set
-> -# CONFIG_FB_PM3 is not set
-> -# CONFIG_FB_CARMINE is not set
-> -# CONFIG_FB_SMSCUFX is not set
-> -# CONFIG_FB_UDL is not set
-> -# CONFIG_FB_IBM_GXT4500 is not set
-> -# CONFIG_FB_VIRTUAL is not set
-> -# CONFIG_FB_METRONOME is not set
-> -# CONFIG_FB_MB862XX is not set
-> -# CONFIG_FB_SIMPLE is not set
-> -# CONFIG_FB_SM712 is not set
-> +# CONFIG_FB is not set
-> -CONFIG_FRAMEBUFFER_CONSOLE=y
-> -CONFIG_FRAMEBUFFER_CONSOLE_DETECT_PRIMARY=y
-> -# CONFIG_FRAMEBUFFER_CONSOLE_ROTATION is not set
-> -# CONFIG_FRAMEBUFFER_CONSOLE_DEFERRED_TAKEOVER is not set
-> -
-> -CONFIG_LOGO=y
-> -# CONFIG_LOGO_LINUX_MONO is not set
-> -# CONFIG_LOGO_LINUX_VGA16 is not set
-> -CONFIG_LOGO_LINUX_CLUT224=y
-> -# CONFIG_FB_SM750 is not set
-> -# CONFIG_FONTS is not set
-> -CONFIG_FONT_8x8=y
-> +CONFIG_FONT_AUTOSELECT=y
->
-> Adding CONFIG_FB to my defconfig fix also my boot.
+ * Version number: easier to think about, and less worries about
+combinatorial explosion of possible options to test.
 
-Then you should do that. It's not like kconfig is UABI.
+ * Explicit structure sizes/strides: much harder to accidentally forgot
+to change, clients 'naturally' move to newer versions just with recompiling.
 
-> But I still dont understand why the absence of CONFIG_FB led my screen stuck like this.
+For now I'd be tempted to go for the version number, but I suspect we
+should also ensure there's a generic 'flags' field in there. That would
+allow us to introduce new features/behaviours in a way which can be
+backported more easily if necessary.
 
-That's another question, and one uncovered, not caused, by the kconfig
-change.
+The main benefit of structure sizes/strides is if you can break binary
+backwards compatibility after a few years - because source compatibility
+can easily be maintained while dropping the code for the shorter/older
+structs. But Linux tries to maintain binary compatibility so this isn't
+so relevant.
 
-
-BR,
-Jani.
-
-
--- 
-Jani Nikula, Intel Open Source Graphics Center
+Steve
