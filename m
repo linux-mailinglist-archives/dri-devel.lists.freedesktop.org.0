@@ -2,42 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFE363BDD2A
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 20:28:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 750843BDD32
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 20:31:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A9BD46E581;
-	Tue,  6 Jul 2021 18:27:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 24E706E580;
+	Tue,  6 Jul 2021 18:31:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 940F56E580;
- Tue,  6 Jul 2021 18:27:57 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10037"; a="206161450"
-X-IronPort-AV: E=Sophos;i="5.83,329,1616482800"; d="scan'208";a="206161450"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Jul 2021 11:27:56 -0700
-X-IronPort-AV: E=Sophos;i="5.83,329,1616482800"; d="scan'208";a="457167097"
-Received: from johnharr-mobl1.amr.corp.intel.com (HELO [10.212.151.177])
- ([10.212.151.177])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Jul 2021 11:27:56 -0700
-Subject: Re: [PATCH 5/7] drm/i915/guc: Add stall timer to non blocking CTB
- send function
-To: Matthew Brost <matthew.brost@intel.com>, intel-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org
-References: <20210701171550.49353-1-matthew.brost@intel.com>
- <20210701171550.49353-6-matthew.brost@intel.com>
-From: John Harrison <john.c.harrison@intel.com>
-Message-ID: <6d1007b2-1f84-80e5-a598-81c7e0f4727d@intel.com>
-Date: Tue, 6 Jul 2021 11:27:55 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com
+ [IPv6:2607:f8b0:4864:20::52d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C6B06E580
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Jul 2021 18:31:48 +0000 (UTC)
+Received: by mail-pg1-x52d.google.com with SMTP id w15so22189001pgk.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 06 Jul 2021 11:31:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=xS4jmUfoYf+qsHEX1NkazSuwR3nlQAXkZMVvUw/VAUw=;
+ b=WvzI34BCNFC58UqM62eaC15I3Yl4gCH/I8Ta5Ki1kdgAdDX/cqsF343tDXX9SeXxjE
+ a8pdPzapSJ/sQt5ALbN0TSo27XMUHAhF+ez6o1TqVZ0w34FyFoB2xXLpSFnx+kAoI1Oa
+ /2QK4caLLF12JWPBYN7cBaevzABXzTT6p2tWO4RfsWJPrgJzAY9QsaEw4MwwoHGjZjND
+ H+aa1hpGfvT+9YIcsPNAoK1a9s92DpckoP2b2Wv7OA4c2l3ABp1equdZgsXeTEcw/jWG
+ mVVlxVe1jSXOTMYW+Th87k0OQhmUJk8cdCf+SRPXnXQsphxTzFJuGNNuThCnpUmmJqv3
+ 6b6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=xS4jmUfoYf+qsHEX1NkazSuwR3nlQAXkZMVvUw/VAUw=;
+ b=K2fCrs/EtYTu10lVUid7q6JRLHqmup49glJdEAB+2o38FJ/2fCaC70Xc/vYWR3WgW4
+ stWY3XB9JNyT1lnrwtkuE/7qYItK3SKL6B41FU5WlPQ/KeJdLreVVLJXStcqUW/cTWM8
+ tRfjlQZQ1e9UCHdiLMF2qAf9t++A2K/kqa5JenpVc1LQwsTht4js4ggTV1WKT7TD6MWt
+ JZt0ZiNr8o3IJpGSQTZgG9URiilSwxRFoCQd1hK0ZPbDr+qPyXSrnFxsjrF3KcYpa9xW
+ w4FaQcbIkLf6LuyomJogCkdDdPNt74WoERGIGbIAgqlnjp+uFCJyK0A4osAQG+v0BYVP
+ ym1g==
+X-Gm-Message-State: AOAM531C/pdMmECWEVyyWOjR87G0ubucmcG8ARiLiAksxNbMwTca7eY2
+ thIpWdg5jBgt+voYDNws9RTAXA==
+X-Google-Smtp-Source: ABdhPJxCLr3QP1MrQQwgN3RYMUf8nARhv0A5jCkgz/6YUMgwNC9ne4TbUPIgRuDm3nikL4Z47miuFA==
+X-Received: by 2002:a63:5a59:: with SMTP id k25mr10017534pgm.423.1625596307999; 
+ Tue, 06 Jul 2021 11:31:47 -0700 (PDT)
+Received: from ziepe.ca ([206.223.160.26])
+ by smtp.gmail.com with ESMTPSA id n33sm19327390pgm.55.2021.07.06.11.31.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 06 Jul 2021 11:31:47 -0700 (PDT)
+Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
+ id 1m0prF-004Wdb-Bw; Tue, 06 Jul 2021 15:31:45 -0300
+Date: Tue, 6 Jul 2021 15:31:45 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: Re: [PATCH v4 0/2] Add p2p via dmabuf to habanalabs
+Message-ID: <20210706183145.GT4604@ziepe.ca>
+References: <20210705130314.11519-1-ogabbay@kernel.org>
+ <YOQXBWpo3whVjOyh@phenom.ffwll.local>
+ <CAFCwf10_rTYL2Fy6tCRVAUCf4-6_TtcWCv5gEEkGnQ0KxqMUBg@mail.gmail.com>
+ <CAKMK7uEAJZUHNLreBB839BZOfnTGNU4rCx-0k55+67Nbxtdx3A@mail.gmail.com>
+ <20210706142357.GN4604@ziepe.ca>
+ <CAKMK7uELNzwUe+hhVWRg=Pk5Wt_vOOX922H48Kd6dTyO2PeBbg@mail.gmail.com>
+ <20210706152542.GP4604@ziepe.ca>
+ <CAKMK7uH7Ar6+uAOU_Sj-mf89V9WCru+66CV5bO9h-WAAv7Mgdg@mail.gmail.com>
+ <20210706162953.GQ4604@ziepe.ca>
+ <CAKMK7uGXUgjyjch57J3UnC7SA3-4g87Ft7tLjj9fFkgyKkKdrg@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210701171550.49353-6-matthew.brost@intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-GB
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAKMK7uGXUgjyjch57J3UnC7SA3-4g87Ft7tLjj9fFkgyKkKdrg@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,189 +78,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Michal.Wajdeczko@intel.com
+Cc: Gal Pressman <galpress@amazon.com>, sleybo@amazon.com,
+ linux-rdma <linux-rdma@vger.kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Oded Gabbay <ogabbay@kernel.org>,
+ "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Doug Ledford <dledford@redhat.com>, Christoph Hellwig <hch@lst.de>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Leon Romanovsky <leonro@nvidia.com>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/1/2021 10:15, Matthew Brost wrote:
-> Implement a stall timer which fails H2G CTBs once a period of time
-> with no forward progress is reached to prevent deadlock.
->
-> v2:
->   (Michal)
->    - Improve error message in ct_deadlock()
->    - Set broken when ct_deadlock() returns true
->    - Return -EPIPE on ct_deadlock()
-> v3:
->   (Michal)
->    - Add ms to stall timer comment
->   (Matthew)
->    - Move broken check to intel_guc_ct_send()
->
-> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
-> Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-Looks plausible to me.
+On Tue, Jul 06, 2021 at 07:35:55PM +0200, Daniel Vetter wrote:
 
-Reviewed-by: John Harrison <John.C.Harrison@Intel.com>
+> Yup. We dont care about any of the fancy pieces you build on top, nor
+> does the compiler need to be the optimizing one. Just something that's
+> good enough to drive the hw in some demons to see how it works and all
+> that. Generally that's also not that hard to reverse engineer, if
+> someone is bored enough, the real fancy stuff tends to be in how you
+> optimize the generated code. And make it fit into the higher levels
+> properly.
 
-> ---
->   drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c | 62 ++++++++++++++++++++---
->   drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h |  4 ++
->   2 files changed, 59 insertions(+), 7 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-> index fb825cc1d090..a9cb7b608520 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-> @@ -4,6 +4,9 @@
->    */
->   
->   #include <linux/circ_buf.h>
-> +#include <linux/ktime.h>
-> +#include <linux/time64.h>
-> +#include <linux/timekeeping.h>
->   
->   #include "i915_drv.h"
->   #include "intel_guc_ct.h"
-> @@ -316,6 +319,7 @@ int intel_guc_ct_enable(struct intel_guc_ct *ct)
->   		goto err_deregister;
->   
->   	ct->enabled = true;
-> +	ct->stall_time = KTIME_MAX;
->   
->   	return 0;
->   
-> @@ -388,9 +392,6 @@ static int ct_write(struct intel_guc_ct *ct,
->   	u32 *cmds = ctb->cmds;
->   	unsigned int i;
->   
-> -	if (unlikely(ctb->broken))
-> -		return -EPIPE;
-> -
->   	if (unlikely(desc->status))
->   		goto corrupted;
->   
-> @@ -506,6 +507,25 @@ static int wait_for_ct_request_update(struct ct_request *req, u32 *status)
->   	return err;
->   }
->   
-> +#define GUC_CTB_TIMEOUT_MS	1500
-> +static inline bool ct_deadlocked(struct intel_guc_ct *ct)
-> +{
-> +	long timeout = GUC_CTB_TIMEOUT_MS;
-> +	bool ret = ktime_ms_delta(ktime_get(), ct->stall_time) > timeout;
-> +
-> +	if (unlikely(ret)) {
-> +		struct guc_ct_buffer_desc *send = ct->ctbs.send.desc;
-> +		struct guc_ct_buffer_desc *recv = ct->ctbs.send.desc;
-> +
-> +		CT_ERROR(ct, "Communication stalled for %lld ms, desc status=%#x,%#x\n",
-> +			 ktime_ms_delta(ktime_get(), ct->stall_time),
-> +			 send->status, recv->status);
-> +		ct->ctbs.send.broken = true;
-> +	}
-> +
-> +	return ret;
-> +}
-> +
->   static inline bool h2g_has_room(struct intel_guc_ct_buffer *ctb, u32 len_dw)
->   {
->   	struct guc_ct_buffer_desc *desc = ctb->desc;
-> @@ -517,6 +537,26 @@ static inline bool h2g_has_room(struct intel_guc_ct_buffer *ctb, u32 len_dw)
->   	return space >= len_dw;
->   }
->   
-> +static int has_room_nb(struct intel_guc_ct *ct, u32 len_dw)
-> +{
-> +	struct intel_guc_ct_buffer *ctb = &ct->ctbs.send;
-> +
-> +	lockdep_assert_held(&ct->ctbs.send.lock);
-> +
-> +	if (unlikely(!h2g_has_room(ctb, len_dw))) {
-> +		if (ct->stall_time == KTIME_MAX)
-> +			ct->stall_time = ktime_get();
-> +
-> +		if (unlikely(ct_deadlocked(ct)))
-> +			return -EPIPE;
-> +		else
-> +			return -EBUSY;
-> +	}
-> +
-> +	ct->stall_time = KTIME_MAX;
-> +	return 0;
-> +}
-> +
->   static int ct_send_nb(struct intel_guc_ct *ct,
->   		      const u32 *action,
->   		      u32 len,
-> @@ -529,11 +569,9 @@ static int ct_send_nb(struct intel_guc_ct *ct,
->   
->   	spin_lock_irqsave(&ctb->lock, spin_flags);
->   
-> -	ret = h2g_has_room(ctb, len + GUC_CTB_HDR_LEN);
-> -	if (unlikely(!ret)) {
-> -		ret = -EBUSY;
-> +	ret = has_room_nb(ct, len + GUC_CTB_HDR_LEN);
-> +	if (unlikely(ret))
->   		goto out;
-> -	}
->   
->   	fence = ct_get_next_fence(ct);
->   	ret = ct_write(ct, action, len, fence, flags);
-> @@ -576,8 +614,13 @@ static int ct_send(struct intel_guc_ct *ct,
->   retry:
->   	spin_lock_irqsave(&ctb->lock, flags);
->   	if (unlikely(!h2g_has_room(ctb, len + GUC_CTB_HDR_LEN))) {
-> +		if (ct->stall_time == KTIME_MAX)
-> +			ct->stall_time = ktime_get();
->   		spin_unlock_irqrestore(&ctb->lock, flags);
->   
-> +		if (unlikely(ct_deadlocked(ct)))
-> +			return -EPIPE;
-> +
->   		if (msleep_interruptible(sleep_period_ms))
->   			return -EINTR;
->   		sleep_period_ms = sleep_period_ms << 1;
-> @@ -585,6 +628,8 @@ static int ct_send(struct intel_guc_ct *ct,
->   		goto retry;
->   	}
->   
-> +	ct->stall_time = KTIME_MAX;
-> +
->   	fence = ct_get_next_fence(ct);
->   	request.fence = fence;
->   	request.status = 0;
-> @@ -647,6 +692,9 @@ int intel_guc_ct_send(struct intel_guc_ct *ct, const u32 *action, u32 len,
->   		return -ENODEV;
->   	}
->   
-> +	if (unlikely(ct->ctbs.send.broken))
-> +		return -EPIPE;
-> +
->   	if (flags & INTEL_GUC_CT_SEND_NB)
->   		return ct_send_nb(ct, action, len, flags);
->   
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
-> index 5bb8bef024c8..bee03794c1eb 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
-> @@ -9,6 +9,7 @@
->   #include <linux/interrupt.h>
->   #include <linux/spinlock.h>
->   #include <linux/workqueue.h>
-> +#include <linux/ktime.h>
->   
->   #include "intel_guc_fwif.h"
->   
-> @@ -68,6 +69,9 @@ struct intel_guc_ct {
->   		struct list_head incoming; /* incoming requests */
->   		struct work_struct worker; /* handler for incoming requests */
->   	} requests;
-> +
-> +	/** @stall_time: time of first time a CTB submission is stalled */
-> +	ktime_t stall_time;
->   };
->   
->   void intel_guc_ct_init_early(struct intel_guc_ct *ct);
+Seems reasonable to me
 
+> And it's not just nvidia, it's pretty much everyone. Like a soc
+> company I don't want to know started collaborating with upstream and
+> the reverse-engineered mesa team on a kernel driver, seems to work
+> pretty well for current hardware. 
+
+What I've seen is that this only works with customer demand. Companies
+need to hear from their customers that upstream is what is needed, and
+companies cannot properly hear that until they are at least already
+partially invested in the upstream process and have the right
+customers that are sophisticated enough to care.
+
+Embedded makes everything 10x worse because too many customers just
+don't care about upstream, you can hack your way through everything,
+and indulge in single generation thinking. Fork the whole kernel for 3
+years, EOL, no problem!
+
+It is the enterprise world, particularly with an opinionated company
+like RH saying NO stuck in the middle that really seems to drive
+things toward upstream.
+
+Yes, vendors can work around Red Hat's No (and NVIDIA GPU is such an
+example) but it is incredibly time consuming, expensive and becoming
+more and more difficult every year.
+
+The big point is this:
+
+> But also nvidia is never going to sell you that as the officially
+> supported thing, unless your ask comes back with enormous amounts of
+> sold hardware.
+
+I think this is at the core of Linux's success in the enterprise
+world. Big customers who care demanding open source. Any vendor, even
+nvidia will want to meet customer demands.
+
+IHMO upstream success is found by motivating the customer to demand
+and make it "easy" for the vendor to supply it.
+
+Jason
