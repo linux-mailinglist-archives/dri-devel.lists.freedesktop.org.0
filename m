@@ -2,41 +2,121 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85A853BDF7F
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Jul 2021 00:51:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68C0D3BDFA3
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Jul 2021 01:09:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0743F6E4AA;
-	Tue,  6 Jul 2021 22:51:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE7136E5C5;
+	Tue,  6 Jul 2021 23:09:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 03B9D6E4AA;
- Tue,  6 Jul 2021 22:51:01 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10037"; a="294849764"
-X-IronPort-AV: E=Sophos;i="5.83,329,1616482800"; d="scan'208";a="294849764"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Jul 2021 15:51:01 -0700
-X-IronPort-AV: E=Sophos;i="5.83,329,1616482800"; d="scan'208";a="457235844"
-Received: from johnharr-mobl1.amr.corp.intel.com (HELO [10.212.151.177])
- ([10.212.151.177])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Jul 2021 15:51:00 -0700
-Subject: Re: [PATCH 6/7] drm/i915/guc: Optimize CTB writes and reads
-To: Matthew Brost <matthew.brost@intel.com>, intel-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org
-References: <20210706222010.101522-1-matthew.brost@intel.com>
- <20210706222010.101522-7-matthew.brost@intel.com>
-From: John Harrison <john.c.harrison@intel.com>
-Message-ID: <9834f3c0-a1a3-9b1a-d291-732501b7a013@intel.com>
-Date: Tue, 6 Jul 2021 15:51:00 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2049.outbound.protection.outlook.com [40.107.236.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D4B36E02B;
+ Tue,  6 Jul 2021 23:09:41 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=LuEdnYzhjqSlCH5uIDNz+inMOUUUtMsA5VTl9YorNCiHvRUK7+LoeAbgotZVJW/v/Azi/dXxXsyHixrkUbATgR7iUuWZXJDPw2QnSOT/0B9ZRswwz9uZBNCNgO/JRcQXor780ZNqCN04c/R8q9J50vEMuqsJOu8QBnHYBku/RR23wbVxe/JVe8COvRuEsmYbgqxueQvFHLX1HGBLTttp8h4QWdJVLvjtwvYZ5hJiCjnIR8cJPcSxR/gqk+xnKi1E7sygj4zqbOI9Sji+b8gW1VvZ99OGboFYkNIOc0sv8jm9jGsgXctArgHIsT6mqqGdODGJiuhcS1NAteVbNaZUng==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ozySP9ht8oQlxBoRaUiW+aODSD/gLWF6BHdCACNZGOo=;
+ b=GiFmn0spZ643FWZx+JoLx2lTCnqqh8yGjTkFORsWSgfeJcn0Ykndm9goCCKbJbafUjbt+calGJsTz34e6bEpiSnIl9r1uPPj+mPZwhbcXIXCfKYaYCTxKxfKPKDyxcPgBT/QS/7STvJeG3MKWtmLf5ZRAy2XdtYf4WEf90xzmeY3pce9jL8eGudt57gydMKvKkZMiWkWlU6fue+aTumD3/2N2rYij46iMzvtMm8CD4pEWQQTOZGiicnl2Ey7flbgzrl2tjiSaj0XzyCmMZh798CjGgqrmD0h96eqzAyIZ9+Ritm4T7IF52hdGv73Tqik0RZOgxEnHFgpd1LBi/5QdA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ozySP9ht8oQlxBoRaUiW+aODSD/gLWF6BHdCACNZGOo=;
+ b=Ehb47tjsFoGMxb5EYIGhaUBXjOEf/63hVDftUkDAo/IFFHG9GhbAZm093XEOrwwswcoRKBcxfL8T0Jpg9fp00gM+C0S9Dkar6EQFK4+xyGiVqD/qUQXI8WI7L1g5NQLFS+xu/H1SnTEV2w2xJkv5zrUs4WoYGgHYCLBlQ4JHsCM=
+Authentication-Results: amd.com; dkim=none (message not signed)
+ header.d=none;amd.com; dmarc=none action=none header.from=amd.com;
+Received: from BN9PR12MB5129.namprd12.prod.outlook.com (2603:10b6:408:136::12)
+ by BN9PR12MB5132.namprd12.prod.outlook.com (2603:10b6:408:119::7)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4287.27; Tue, 6 Jul
+ 2021 23:09:39 +0000
+Received: from BN9PR12MB5129.namprd12.prod.outlook.com
+ ([fe80::b891:a906:28f0:fdb]) by BN9PR12MB5129.namprd12.prod.outlook.com
+ ([fe80::b891:a906:28f0:fdb%3]) with mapi id 15.20.4287.033; Tue, 6 Jul 2021
+ 23:09:39 +0000
+Subject: Re: [PATCH AUTOSEL 5.13 113/189] drm/amdgpu/gfx9: fix the doorbell
+ missing when in CGPG issue.
+To: Alex Deucher <alexdeucher@gmail.com>, Sasha Levin <sashal@kernel.org>
+References: <20210706111409.2058071-1-sashal@kernel.org>
+ <20210706111409.2058071-113-sashal@kernel.org>
+ <CADnq5_ObmVRjwUB5Lw0bLZLL-+=CqvGkJZ+2DY5ZDh+uN-oo0g@mail.gmail.com>
+From: Felix Kuehling <felix.kuehling@amd.com>
+Message-ID: <affee955-54bc-11c3-8ccd-5678f7aee687@amd.com>
+Date: Tue, 6 Jul 2021 19:09:37 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
+In-Reply-To: <CADnq5_ObmVRjwUB5Lw0bLZLL-+=CqvGkJZ+2DY5ZDh+uN-oo0g@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-ClientProxiedBy: YTOPR0101CA0071.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b00:14::48) To BN9PR12MB5129.namprd12.prod.outlook.com
+ (2603:10b6:408:136::12)
 MIME-Version: 1.0
-In-Reply-To: <20210706222010.101522-7-matthew.brost@intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-GB
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.2.100] (142.186.84.51) by
+ YTOPR0101CA0071.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b00:14::48) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4308.19 via Frontend
+ Transport; Tue, 6 Jul 2021 23:09:38 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 95b2201b-86c2-40ef-5e7d-08d940d32136
+X-MS-TrafficTypeDiagnostic: BN9PR12MB5132:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <BN9PR12MB5132B734E60EBE9FDFBB74FD921B9@BN9PR12MB5132.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:165;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: QFOJDBtKSwaDma0Nh14lwT+A4BJiRvHXv4XKH2c3RL/J+AvQVcjHPkKhqusLHx1w8wsI/IJhN5MGxHWF3J7EkAFp+hcJRKBEXsJNcac/UtEfUDDC8tds6R1LqjbARqHek1RXvX23YXRZbCEYuyCEMmG41uy5VMSECnH3YBSlISDFAVwIk/o6zt4CmNNQNzXVUXaHBvoWvMSchJpJDAXvyJZ/LgbBedX6Fg6E1zwdvM/GVrl8Z91PJL46IShNpua6fJgwzjTlqTHYIz0V+SLEycZewnp3KEYFe8Vo6FOUIdQSAqNgheV7+MP4bPfbM49SV6npAgPibwh29RhwRp8BiwOjfoSYIv8t7zWCzZNfdKFT+lR1cN84hOp3uEVwu+mxLHqg7K3XszpAFG5DbILJuPRaKTI1W+mtDtd1//e/TRQ773pbVq4vHJGM2f3a9ZKqWUL8SogG3s+khVeW8j7Tq/YW3h5wyNTpE94L5oMd9vEY3698lnAQOeru5DXrK38EZva0fBrzKvmR80cphssTEbKNw9e2IPA2PtlooHfO6dsj8tHxWO/LOR8DL89fwdIwF7DsuNQ3JJYZfQ4RrvPyWd7o73xncjzWeS/SmAGxv4J9/YVnNV9J+og7OXgDT2O7q7OT8cnQy0QP9cBdXAwFPcG06mUjqzkzNirG2OrrSseH98Dcvf13Ff0W9l7lGQavjGMm0abnwz2hc+r9KNJEu5zfRNgy6zPwWDHeM6o/Zg8=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN9PR12MB5129.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(396003)(346002)(39860400002)(376002)(136003)(8676002)(5660300002)(186003)(2906002)(2616005)(38100700002)(66556008)(53546011)(86362001)(36756003)(478600001)(8936002)(316002)(83380400001)(16576012)(31696002)(31686004)(6486002)(110136005)(66946007)(44832011)(966005)(26005)(66476007)(54906003)(956004)(4326008)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NWtCakJCdXFHenA2MWRFT0dvSVVsZ2RKRWx0THQ3amFSY1I0RUpJUEZNajRE?=
+ =?utf-8?B?WENPUUtsS3p2SER5U2p1NTJ0UUQyczFBZjR2by9Genh5WCtTdnd3bTRZZG1s?=
+ =?utf-8?B?OFZQRi9ZRFBJdVBEbUpsS2c1dUhmR25qNzZ6RDdueE5vZy84RGZURGtVWTZu?=
+ =?utf-8?B?MmFFd1dlVHIyRVdRSGpsM3VxMjlLMDErOVlncGs1RXF5bmF5RDl6WWN6Qlpz?=
+ =?utf-8?B?SENCRzNmenJsNjlMTXBpUFh6YVF0KzI5R010c01XcFM5WTJ5UkNJUGJpK0pD?=
+ =?utf-8?B?c2hHYlN3UlNRbjcwcC9MbTBKN2szd2ZQS1dPMnErb09FOXhvOFBaMEFSdE5n?=
+ =?utf-8?B?MUpvcTgxcGFRMjJxWUg0T2JkR0pqR0gvRlQ2cjJER2luQitqWmtaYnJrY0Qz?=
+ =?utf-8?B?MFk1NTFiUmRqNUxiQm9XNzVubFFNWnlTckdVSmxnQ0pFR2Vjd3VNbEN3UEdD?=
+ =?utf-8?B?RUxTWlBwY05DcHIrTjkycDcxcDZmbjU3bzN6RE05UmFCR1hJdnBvaEcveW5I?=
+ =?utf-8?B?TTZkc01mTVgxeHl2WlkrREh3T3BiQ3ZrSWRWR1JhS1piSkJ0SjNzdUpySmFh?=
+ =?utf-8?B?cE9VaVgzc0FBaHRaV1lRNVpYZXZ2MGVkYjNzRXhDUGZFb0NHeDd3dHFTZTdj?=
+ =?utf-8?B?YVRpNkxOWktTbkFwTlJ5dHV6STRxME0vL1RIVnVPSzNWOFFnSGhRVTdTREx4?=
+ =?utf-8?B?SEhZYnBhSGdQSElBQ2g2RzM1N2FHOHR1R08weFJQMFIrTFFNNU84K3RTRlBE?=
+ =?utf-8?B?cG5Pd1RRUnJFQ1N3aVJ3eGhydWRxM3g4SThDbjJFY05IcUpOSGZrMFJrSDhD?=
+ =?utf-8?B?OEo3S1gyV25oSEZRVmtld21rNjZ5M2xhdFhBdTg5eFljNERrNUNaMmpUNjBw?=
+ =?utf-8?B?TWJ1RjRuVWp4Nmp3UnpCa2REQ3ZYSlVMMjMrRzlkSXQ2dDd0OUhITmFOU01P?=
+ =?utf-8?B?WEF4N3owYUk2RVNRYXh2ZUdBcElFMWtyaTVWZ1UwcW1HU041SHJyRFBLcm5Q?=
+ =?utf-8?B?bmNhMXpmbU9XLy80SFdQNGx1cmJZbHB2RHVuUmFvMCtrZ3dBeDk2bi8vWmtt?=
+ =?utf-8?B?K1VLeS9vQ05jay9qdWVudWFBTC9Ua3ozMGkyUGxoZ0I0YmtsMVprT3M0djRu?=
+ =?utf-8?B?QXJmS0FzSWowWWFIemsrZEVpdFE5YmxCWW9qVEpYdThkMTlXTGJqaC9GeGJZ?=
+ =?utf-8?B?N0tiaktvRzVvWjVqMis2NHVOMGd5MEZCdEZsSk50MllHdEFFR1cxZFF3cmhH?=
+ =?utf-8?B?UU5QQjhFYVBRSnlYOS9HSjJyRWE2MDd5Y3pqbG1iZ003d1E3UUdUSjZsNk1J?=
+ =?utf-8?B?ck5DbDB1ZExFR1N5WjQ2TEFLU2N0OVVtNng2ZE9GbytvRktvNUNQVmZtUmRP?=
+ =?utf-8?B?WGI5Q3NVeHRlYWZ4dUduL3ZnZ1Q2aDl1YW5HMkxOeFFGbUpXRk42SjFFM2pY?=
+ =?utf-8?B?a2FrLzR2am5VS2VXY2kveFZvSEdNTzlhQ2UzbERhNnNRMm1ITElXMStSUUtR?=
+ =?utf-8?B?bEppSW5jVDVZcHRlaVRaUFN5WmlKTWI2dzRPZDV6YkREU1ZmenJmV040NXdq?=
+ =?utf-8?B?Z1k0VUgxSGt0RldQUTVGTEthcFFweFc2VUtCZTAybU5YMHVjUitQc1lBek94?=
+ =?utf-8?B?My9BRVI1QUlQd3BqZVZWOTVweTlOSHpkN1dnSGR3akVaY3pYSlhZYVJSSVB5?=
+ =?utf-8?B?OHl3K3lzQjRKRmJaVEdLenBGWEtQVllnZ3BDaFJab3JCeFl1UlF6QnhFbDRU?=
+ =?utf-8?Q?fKU01XowQSbP7rnIl+xvbaonVRS9ddxOTEFr+Dg?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 95b2201b-86c2-40ef-5e7d-08d940d32136
+X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5129.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jul 2021 23:09:39.0796 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: OZp7UWEVMszyZAhcOt4Bkdt6Ko6PpRrKhON5lItFLU+2hrQY/NAfXhst5BY5+wz3RHjvwnrfEnrdwXEDvUAwiA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR12MB5132
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,247 +129,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Michal.Wajdeczko@intel.com
+Cc: Yifan Zhang <yifan1.zhang@amd.com>, LKML <linux-kernel@vger.kernel.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>, "for 3.8" <stable@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/6/2021 15:20, Matthew Brost wrote:
-> CTB writes are now in the path of command submission and should be
-> optimized for performance. Rather than reading CTB descriptor values
-> (e.g. head, tail) which could result in accesses across the PCIe bus,
-> store shadow local copies and only read/write the descriptor values when
-> absolutely necessary. Also store the current space in the each channel
-> locally.
->
-> v2:
->   (Michal)
->    - Add additional sanity checks for head / tail pointers
->    - Use GUC_CTB_HDR_LEN rather than magic 1
-> v3:
->   (Michal / John H)
->    - Drop redundant check of head value
->
-> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
-> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> ---
->   drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c | 88 +++++++++++++++--------
->   drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h |  6 ++
->   2 files changed, 65 insertions(+), 29 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-> index db3e85b89573..4a73a1f03a9b 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-> @@ -130,6 +130,10 @@ static void guc_ct_buffer_desc_init(struct guc_ct_buffer_desc *desc)
->   static void guc_ct_buffer_reset(struct intel_guc_ct_buffer *ctb)
->   {
->   	ctb->broken = false;
-> +	ctb->tail = 0;
-> +	ctb->head = 0;
-> +	ctb->space = CIRC_SPACE(ctb->tail, ctb->head, ctb->size);
-> +
->   	guc_ct_buffer_desc_init(ctb->desc);
->   }
->   
-> @@ -383,10 +387,8 @@ static int ct_write(struct intel_guc_ct *ct,
->   {
->   	struct intel_guc_ct_buffer *ctb = &ct->ctbs.send;
->   	struct guc_ct_buffer_desc *desc = ctb->desc;
-> -	u32 head = desc->head;
-> -	u32 tail = desc->tail;
-> +	u32 tail = ctb->tail;
->   	u32 size = ctb->size;
-> -	u32 used;
->   	u32 header;
->   	u32 hxg;
->   	u32 type;
-> @@ -396,25 +398,22 @@ static int ct_write(struct intel_guc_ct *ct,
->   	if (unlikely(desc->status))
->   		goto corrupted;
->   
-> -	if (unlikely((tail | head) >= size)) {
-> +	GEM_BUG_ON(tail > size);
-> +
-> +#ifdef CONFIG_DRM_I915_DEBUG_GUC
-> +	if (unlikely(tail != READ_ONCE(desc->tail))) {
-> +		CT_ERROR(ct, "Tail was modified %u != %u\n",
-> +			 desc->tail, ctb->tail);
-> +		desc->status |= GUC_CTB_STATUS_MISMATCH;
-> +		goto corrupted;
-> +	}
-> +	if (unlikely((desc->tail | desc->head) >= size)) {
-Same arguments below about head apply to tail here. Also, there is no 
-#else check on ctb->head?
+Am 2021-07-06 um 5:44 p.m. schrieb Alex Deucher:
+> On Tue, Jul 6, 2021 at 7:16 AM Sasha Levin <sashal@kernel.org> wrote:
+>> From: Yifan Zhang <yifan1.zhang@amd.com>
+>>
+>> [ Upstream commit 631003101c516ea29a74aee59666708857b9a805 ]
+>>
+>> If GC has entered CGPG, ringing doorbell > first page doesn't wakeup GC.
+>> Enlarge CP_MEC_DOORBELL_RANGE_UPPER to workaround this issue.
+>>
+>> Signed-off-by: Yifan Zhang <yifan1.zhang@amd.com>
+>> Reviewed-by: Felix Kuehling <Felix.Kuehling@amd.com>
+>> Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
+>> Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+>> Signed-off-by: Sasha Levin <sashal@kernel.org>
+> This should be dropped.  It was already reverted.
 
->   		CT_ERROR(ct, "Invalid offsets head=%u tail=%u (size=%u)\n",
-> -			 head, tail, size);
-> +			 desc->head, desc->tail, size);
->   		desc->status |= GUC_CTB_STATUS_OVERFLOW;
->   		goto corrupted;
->   	}
-> -
-> -	/*
-> -	 * tail == head condition indicates empty. GuC FW does not support
-> -	 * using up the entire buffer to get tail == head meaning full.
-> -	 */
-> -	if (tail < head)
-> -		used = (size - head) + tail;
-> -	else
-> -		used = tail - head;
-> -
-> -	/* make sure there is a space including extra dw for the header */
-> -	if (unlikely(used + len + GUC_CTB_HDR_LEN >= size))
-> -		return -ENOSPC;
-> +#endif
->   
->   	/*
->   	 * dw0: CT header (including fence)
-> @@ -453,7 +452,9 @@ static int ct_write(struct intel_guc_ct *ct,
->   	write_barrier(ct);
->   
->   	/* now update descriptor */
-> +	ctb->tail = tail;
->   	WRITE_ONCE(desc->tail, tail);
-> +	ctb->space -= len + GUC_CTB_HDR_LEN;
->   
->   	return 0;
->   
-> @@ -469,7 +470,7 @@ static int ct_write(struct intel_guc_ct *ct,
->    * @req:	pointer to pending request
->    * @status:	placeholder for status
->    *
-> - * For each sent request, Guc shall send bac CT response message.
-> + * For each sent request, GuC shall send back CT response message.
->    * Our message handler will update status of tracked request once
->    * response message with given fence is received. Wait here and
->    * check for valid response status value.
-> @@ -525,24 +526,35 @@ static inline bool ct_deadlocked(struct intel_guc_ct *ct)
->   	return ret;
->   }
->   
-> -static inline bool h2g_has_room(struct intel_guc_ct_buffer *ctb, u32 len_dw)
-> +static inline bool h2g_has_room(struct intel_guc_ct *ct, u32 len_dw)
->   {
-> -	struct guc_ct_buffer_desc *desc = ctb->desc;
-> -	u32 head = READ_ONCE(desc->head);
-> +	struct intel_guc_ct_buffer *ctb = &ct->ctbs.send;
-> +	u32 head;
->   	u32 space;
->   
-> -	space = CIRC_SPACE(desc->tail, head, ctb->size);
-> +	if (ctb->space >= len_dw)
-> +		return true;
-> +
-> +	head = READ_ONCE(ctb->desc->head);
-> +	if (unlikely(head > ctb->size)) {
-> +		CT_ERROR(ct, "Corrupted descriptor head=%u tail=%u size=%u\n",
-> +			 ctb->desc->head, ctb->desc->tail, ctb->size);
-> +		ctb->desc->status |= GUC_CTB_STATUS_OVERFLOW;
-> +		ctb->broken = true;
-> +		return false;
-> +	}
-> +
-> +	space = CIRC_SPACE(ctb->tail, head, ctb->size);
-> +	ctb->space = space;
->   
->   	return space >= len_dw;
->   }
->   
->   static int has_room_nb(struct intel_guc_ct *ct, u32 len_dw)
->   {
-> -	struct intel_guc_ct_buffer *ctb = &ct->ctbs.send;
-> -
->   	lockdep_assert_held(&ct->ctbs.send.lock);
->   
-> -	if (unlikely(!h2g_has_room(ctb, len_dw))) {
-> +	if (unlikely(!h2g_has_room(ct, len_dw))) {
->   		if (ct->stall_time == KTIME_MAX)
->   			ct->stall_time = ktime_get();
->   
-> @@ -612,7 +624,7 @@ static int ct_send(struct intel_guc_ct *ct,
->   	 */
->   retry:
->   	spin_lock_irqsave(&ctb->lock, flags);
-> -	if (unlikely(!h2g_has_room(ctb, len + GUC_CTB_HDR_LEN))) {
-> +	if (unlikely(!h2g_has_room(ct, len + GUC_CTB_HDR_LEN))) {
->   		if (ct->stall_time == KTIME_MAX)
->   			ct->stall_time = ktime_get();
->   		spin_unlock_irqrestore(&ctb->lock, flags);
-> @@ -732,7 +744,7 @@ static int ct_read(struct intel_guc_ct *ct, struct ct_incoming_msg **msg)
->   {
->   	struct intel_guc_ct_buffer *ctb = &ct->ctbs.recv;
->   	struct guc_ct_buffer_desc *desc = ctb->desc;
-> -	u32 head = desc->head;
-> +	u32 head = ctb->head;
->   	u32 tail = desc->tail;
->   	u32 size = ctb->size;
->   	u32 *cmds = ctb->cmds;
-> @@ -747,12 +759,29 @@ static int ct_read(struct intel_guc_ct *ct, struct ct_incoming_msg **msg)
->   	if (unlikely(desc->status))
->   		goto corrupted;
->   
-> -	if (unlikely((tail | head) >= size)) {
-> +	GEM_BUG_ON(head > size);
-> +
-> +#ifdef CONFIG_DRM_I915_DEBUG_GUC
-> +	if (unlikely(head != READ_ONCE(desc->head))) {
-> +		CT_ERROR(ct, "Head was modified %u != %u\n",
-> +			 desc->head, ctb->head);
-> +		desc->status |= GUC_CTB_STATUS_MISMATCH;
-> +		goto corrupted;
-> +	}
-> +	if (unlikely((desc->tail | desc->head) >= size)) {
-As per comment in other thread, the check on head here is redundant 
-because you have already hit a BUG_ON(ctb->head > size) followed by 
-CT_ERROR(ctb->head != desc->head). Therefore, you can't get here if 
-'desc->head > size'.
+Patch 146 of this series is the corresponding revert.
 
->   		CT_ERROR(ct, "Invalid offsets head=%u tail=%u (size=%u)\n",
->   			 head, tail, size);
->   		desc->status |= GUC_CTB_STATUS_OVERFLOW;
->   		goto corrupted;
->   	}
-> +#else
-> +	if (unlikely(tail >= size)) {
-> +		CT_ERROR(ct, "Invalid offsets tail=%u (size=%u)\n",
-> +			 tail, size);
-> +		desc->status |= GUC_CTB_STATUS_OVERFLOW;
-> +		goto corrupted;
-> +	}
-> +#endif
->   
->   	/* tail == head condition indicates empty */
->   	available = tail - head;
-> @@ -802,6 +831,7 @@ static int ct_read(struct intel_guc_ct *ct, struct ct_incoming_msg **msg)
->   	}
->   	CT_DEBUG(ct, "received %*ph\n", 4 * len, (*msg)->msg);
->   
-> +	ctb->head = head;
->   	/* now update descriptor */
->   	WRITE_ONCE(desc->head, head);
->   
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
-> index bee03794c1eb..edd1bba0445d 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
-> @@ -33,6 +33,9 @@ struct intel_guc;
->    * @desc: pointer to the buffer descriptor
->    * @cmds: pointer to the commands buffer
->    * @size: size of the commands buffer in dwords
-> + * @head: local shadow copy of head in dwords
-> + * @tail: local shadow copy of tail in dwords
-> + * @space: local shadow copy of space in dwords
->    * @broken: flag to indicate if descriptor data is broken
->    */
->   struct intel_guc_ct_buffer {
-> @@ -40,6 +43,9 @@ struct intel_guc_ct_buffer {
->   	struct guc_ct_buffer_desc *desc;
->   	u32 *cmds;
->   	u32 size;
-> +	u32 tail;
-> +	u32 head;
-> +	u32 space;
->   	bool broken;
->   };
->   
+Regards,
+  Felix
 
+
+>
+> Alex
+>
+>
+>> ---
+>>  drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c | 6 +++++-
+>>  1 file changed, 5 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c b/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
+>> index 516467e962b7..c09225d065c2 100644
+>> --- a/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
+>> +++ b/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
+>> @@ -3673,8 +3673,12 @@ static int gfx_v9_0_kiq_init_register(struct amdgpu_ring *ring)
+>>         if (ring->use_doorbell) {
+>>                 WREG32_SOC15(GC, 0, mmCP_MEC_DOORBELL_RANGE_LOWER,
+>>                                         (adev->doorbell_index.kiq * 2) << 2);
+>> +               /* If GC has entered CGPG, ringing doorbell > first page doesn't
+>> +                * wakeup GC. Enlarge CP_MEC_DOORBELL_RANGE_UPPER to workaround
+>> +                * this issue.
+>> +                */
+>>                 WREG32_SOC15(GC, 0, mmCP_MEC_DOORBELL_RANGE_UPPER,
+>> -                                       (adev->doorbell_index.userqueue_end * 2) << 2);
+>> +                                       (adev->doorbell.size - 4));
+>>         }
+>>
+>>         WREG32_SOC15_RLC(GC, 0, mmCP_HQD_PQ_DOORBELL_CONTROL,
+>> --
+>> 2.30.2
+>>
+>> _______________________________________________
+>> amd-gfx mailing list
+>> amd-gfx@lists.freedesktop.org
+>> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
