@@ -1,70 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C24DC3BD5A8
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 14:23:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D6D93BD72A
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 14:50:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8434989DAB;
-	Tue,  6 Jul 2021 12:23:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 934B16E497;
+	Tue,  6 Jul 2021 12:50:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com
- [IPv6:2a00:1450:4864:20::433])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 00F4B89DF7
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Jul 2021 12:23:46 +0000 (UTC)
-Received: by mail-wr1-x433.google.com with SMTP id f17so1258653wrt.6
- for <dri-devel@lists.freedesktop.org>; Tue, 06 Jul 2021 05:23:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=uNyqHLQRNkYk8ghNPCyy058MytEY7ye/Hosx5rgh6L0=;
- b=I861MRXnVEJLWhlPliO+jitKdknn/PB69GvRAM/Y4b8ranu/45I6eMeXTNi9dKuJ0j
- WYk89i6CPtBnGLN6nluhfnivHJjMYYzeqUVC8YHPJKGLDAkmLUXMmITr5S5TPlVgR6z+
- pWlut4ORszisRKb8vPQRzvBskW4VntzJL5DP8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=uNyqHLQRNkYk8ghNPCyy058MytEY7ye/Hosx5rgh6L0=;
- b=riCixkYLmKVm3JMq6ZpWILq5LiBCnSvV01g9eRAdQ0rw7U0YXMuxobR94fYSIPOqb8
- 1PSblQgnNDpDEPTLwtZyiThs/tWPpcFRZKtDFfhjjVp5L0s0esM2jZDbaq65MDVEdQgJ
- GECtfuHssCkCu2vF9oIGh7TY3NUwM7yd3oIhXjmQMzAW2EPZGN3GmxoXEd/G5EKpYOCO
- 71bXSP0DygGJ9j40c1xwhqwJdrhNtFgw7/ZW4RfTrWBzHhqBPtzcT0z/V91Fgi+hJSGO
- JBOZiUbc/XK09r0zNCr89AmAxHsHEA8O4ZCQRbeF4tduqFS9ijyLzOTgiVDqC2y2VE5n
- sQig==
-X-Gm-Message-State: AOAM533TvXN9of04wZSVyuBKsVIodz2mMaGZITEQBhPd4jR3ShlTxeKu
- 4u79XQmwaoeDd9hqFzo73lFNPg==
-X-Google-Smtp-Source: ABdhPJxolizhwmybAQ3VsffOuvUoyS5FTxRrVw3O2VuBLsJFS1lJdSAYSr7mbyMR8j36zn3HCunCMA==
-X-Received: by 2002:adf:a41e:: with SMTP id d30mr3249053wra.10.1625574225475; 
- Tue, 06 Jul 2021 05:23:45 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id 31sm18348673wrs.79.2021.07.06.05.23.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Jul 2021 05:23:44 -0700 (PDT)
-Date: Tue, 6 Jul 2021 14:23:42 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Christoph Hellwig <hch@lst.de>
-Subject: Re: [Linaro-mm-sig] [PATCH v4 0/2] Add p2p via dmabuf to habanalabs
-Message-ID: <YORLTmyoXDtoM9Ta@phenom.ffwll.local>
-Mail-Followup-To: Christoph Hellwig <hch@lst.de>,
- Oded Gabbay <ogabbay@kernel.org>, linux-kernel@vger.kernel.org,
- gregkh@linuxfoundation.org, sumit.semwal@linaro.org,
- christian.koenig@amd.com, galpress@amazon.com, sleybo@amazon.com,
- dri-devel@lists.freedesktop.org, jgg@ziepe.ca,
- linux-rdma@vger.kernel.org, linux-media@vger.kernel.org,
- dledford@redhat.com, airlied@gmail.com, alexander.deucher@amd.com,
- leonro@nvidia.com, amd-gfx@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org
-References: <20210705130314.11519-1-ogabbay@kernel.org>
- <YOQXBWpo3whVjOyh@phenom.ffwll.local>
- <20210706122110.GA18273@lst.de>
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A99F689DD5
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Jul 2021 10:00:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1625565617;
+ bh=HfI1fnAl8yXB7R6zw/6uGgLzJrfs1z8CTgu8YasTu8A=;
+ h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
+ b=BkOnxp9T9Wh0P6eG47ytj74qUAyy4+KKSnP2TxWwxNaND0RUQ0ZWih0ETAusZdgev
+ Jt/PZWBNVZKLipwhG/yc7RsasJqNyItH2xIo5V3GPhxyE+qRw92dmWAXefI471/f/L
+ 60fj5CUVRxtN5n7ALEbX0qN7DOcYHU1Btc9/uzcs=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [80.245.79.159] ([80.245.79.159]) by web-mail.gmx.net
+ (3c-app-gmx-bs60.server.lan [172.19.170.144]) (via HTTP); Tue, 6 Jul 2021
+ 11:54:39 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210706122110.GA18273@lst.de>
-X-Operating-System: Linux phenom 5.10.0-7-amd64 
+Message-ID: <trinity-cc8f5927-9aaf-43ae-a107-6a6229f1b481-1625565279264@3c-app-gmx-bs60>
+From: Frank Wunderlich <frank-w@public-files.de>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
+Subject: BUG: MTK DRM/HDMI broken on 5.13 (mt7623/bpi-r2)
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 6 Jul 2021 11:54:39 +0200
+Importance: normal
+Sensitivity: Normal
+X-Priority: 3
+X-Provags-ID: V03:K1:OoEQiM/tnR+cNPyCdrhP49bAjgvwQ+lcL2OS2XXYultpQRZ3iKmx2n0JXV3n3Fd/VHVP9
+ URFMBbMlD29B8YWbPuG94J3F5zWccIqeUBT1b3/QLw7EcLA1JrI3PjO+FQx3imeyC8zgfU+KOerU
+ SBvcaufgt9H7rbyrAH7vebZLBS9lGqXs77pGRfMkntQEsAfeL8lO7PqFYuVKbfqsm2saOSxPGiZz
+ 1ywjhxyBlAPnO/j9ixwng5+18VP/dFCoD3JyS/5IHrvnwd1vKJnHRUax54UOu+AonufbuKYhQFcx
+ Nc=
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:F4fG2MG21Jo=:J0alOiYmF7ITdOOv8po0LL
+ ZrKSa9p8mWuv6+DjbsPXm/yvezinz6Ap0EBQ6z16UJf9QdulLQ39rEm27vMbYMIudy0WRH5Eq
+ 2EZ2JfRlcCYs9eEno7UN3FFSI04mT+cf916KEZxavx/U4etfjnV058NYEAh/c5LTria1Lqxow
+ FxWCalDuMjuWl+/hmztyDzt34jTquW26FOxgLU1/ji7ciNI0B5KmjrZzgUw0Qpdo/XDUeatsa
+ mIXwmZg+UUufIVx9y1ReynZ5XAgnamwgI30KO3YRaDaSMxImt9dF6qGo4VhhglA2d2WCbEwHb
+ APJ4bxC0IaOq9+Ba/16hYAQDtQ727d2QPZDCHNweFh9FxXjIkC9Np9G1CtbdGnfbBNfq+WsTk
+ Vww5nA08mhN80Wc/8Qw9/nEEOY43BuRbQsZJmx7pA0zaFO2EuVPCs84zgKK+4HzlJIWB9f2rH
+ GSkFjsL7vHGLfe5AUgYEmSrp9AUKxYtIdY8rP71lno8LM0VU7atiJ7Q7Pb4KGLNwKjD5IATUI
+ UA3xw+IvqdPIUNRKkwJiofyJqVxHRJga7AiBj3qf8WL0d4Nzh4o6wWYqNkxWrUqjH4C5XbZSK
+ 6pJLZzC7PxU3HhtQmkmox2MiZ1XxAomKko48VEaDr9rk6ZCXR1QyoqyCRHPz+hlDArObxwBKh
+ f4j54y3svSGVTBVatFxJyKz8vJoBI0TL79whA1vYKjoSEW6WJKNuXcPMmL9eJK7zq/l4C98he
+ sjih16hzLhOO8eiU3aCrChmfiSBmlzXMZpKleQfTOEd+aAn3nNyXpgTEgXgvEJvkoPIt5cJYj
+ h20cUnyq1xOBhBQO12bx/cUJKvcagXizxHKfRcYhju0k98fkZ0=
+Content-Transfer-Encoding: quoted-printable
+X-Mailman-Approved-At: Tue, 06 Jul 2021 12:50:24 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,51 +68,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: sleybo@amazon.com, linux-rdma@vger.kernel.org, gregkh@linuxfoundation.org,
- Oded Gabbay <ogabbay@kernel.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, galpress@amazon.com,
- linaro-mm-sig@lists.linaro.org, jgg@ziepe.ca, dledford@redhat.com,
- amd-gfx@lists.freedesktop.org, alexander.deucher@amd.com,
- christian.koenig@amd.com, leonro@nvidia.com, linux-media@vger.kernel.org
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ Matthias Brugger <matthias.bgg@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 06, 2021 at 02:21:10PM +0200, Christoph Hellwig wrote:
-> On Tue, Jul 06, 2021 at 10:40:37AM +0200, Daniel Vetter wrote:
-> > > Greg, I hope this will be good enough for you to merge this code.
-> > 
-> > So we're officially going to use dri-devel for technical details review
-> > and then Greg for merging so we don't have to deal with other merge
-> > criteria dri-devel folks have?
-> > 
-> > I don't expect anything less by now, but it does make the original claim
-> > that drivers/misc will not step all over accelerators folks a complete
-> > farce under the totally-not-a-gpu banner.
-> > 
-> > This essentially means that for any other accelerator stack that doesn't
-> > fit the dri-devel merge criteria, even if it's acting like a gpu and uses
-> > other gpu driver stuff, you can just send it to Greg and it's good to go.
-> > 
-> > There's quite a lot of these floating around actually (and many do have
-> > semi-open runtimes, like habanalabs have now too, just not open enough to
-> > be actually useful). It's going to be absolutely lovely having to explain
-> > to these companies in background chats why habanalabs gets away with their
-> > stack and they don't.
-> 
-> FYI, I fully agree with Daniel here.  Habanlabs needs to open up their
-> runtime if they want to push any additional feature in the kernel.
-> The current situation is not sustainable.
+Hi,
 
-Before anyone replies: The runtime is open, the compiler is still closed.
-This has become the new default for accel driver submissions, I think
-mostly because all the interesting bits for non-3d accelerators are in the
-accel ISA, and no longer in the runtime. So vendors are fairly happy to
-throw in the runtime as a freebie.
+i've noticed that HDMI is broken at least on my board (Bananapi-r2,mt7623)=
+ on 5.13.
 
-It's still incomplete, and it's still useless if you want to actually hack
-on the driver stack.
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+after some research i noticed that it is working till
+
+commit 2e477391522354e763aa62ee3e281c1ad9e8eb1b
+Author: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Date:   Tue Mar 30 13:09:02 2021 +0200
+
+    drm/mediatek: Don't support hdmi connector creation
+
+
+which is the last of mtk-drm-next-5.13 [1] so i guess a problem with core-=
+patches
+
+dmesg shows the following:
+
+[    7.071342] mediatek-drm mediatek-drm.1.auto: bound 14007000.ovl (ops m=
+tk_dis
+p_ovl_component_ops)
+[    7.080330] mediatek-drm mediatek-drm.1.auto: bound 14008000.rdma (ops =
+mtk_di
+sp_rdma_component_ops)
+[    7.089429] mediatek-drm mediatek-drm.1.auto: bound 1400b000.color (ops=
+ mtk_d
+isp_color_component_ops)
+[    7.098689] mediatek-drm mediatek-drm.1.auto: bound 14012000.rdma (ops =
+mtk_di
+sp_rdma_component_ops)
+[    7.107814] mediatek-drm mediatek-drm.1.auto: bound 14014000.dpi (ops m=
+tk_dpi
+_component_ops)
+[    7.116338] mediatek-drm mediatek-drm.1.auto: Not creating crtc 1 becau=
+se com
+ponent 9 is disabled or missing
+....
+[   38.403957] Console: switching to colour frame buffer device 160x64
+[   48.516398] [drm:drm_crtc_commit_wait] *ERROR* flip_done timed out
+[   48.516422] [drm:drm_atomic_helper_wait_for_dependencies] *ERROR* [CRTC=
+:41:cr
+tc-0] commit wait timed out
+[   58.756384] [drm:drm_crtc_commit_wait] *ERROR* flip_done timed out
+[   58.756399] [drm:drm_atomic_helper_wait_for_dependencies] *ERROR* [CONN=
+ECTOR:
+32:HDMI-A-1] commit wait timed out
+[   68.996384] [drm:drm_crtc_commit_wait] *ERROR* flip_done timed out
+[   68.996399] [drm:drm_atomic_helper_wait_for_dependencies] *ERROR* [PLAN=
+E:33:p
+lane-0] commit wait timed out
+[   68.996423] [drm:mtk_drm_crtc_atomic_begin] *ERROR* new event while the=
+re is
+still a pending event
+[   69.106385] ------------[ cut here ]------------
+[   69.106392] WARNING: CPU: 2 PID: 7 at drivers/gpu/drm/drm_atomic_helper=
+.c:151
+1 drm_atomic_helper_wait_for_vblanks.part.0+0x2a0/0x2a8
+[   69.106414] [CRTC:41:crtc-0] vblank wait timed out
+
+so i guess the breaking commit may be this:
+
+$ git logone -S"drm_crtc_commit_wait" -- drivers/gpu/drm/
+b99c2c95412c 2021-01-11 drm: Introduce a drm_crtc_commit_wait helper
+
+in drivers/gpu/drm/drm_atomic{,_helper}.c
+
+but i cannot confirm it because my git bisect does strange things (after d=
+efining 5.13 as bad and the 2e4773915223 as good, second step is before th=
+e good commit till the end, last steps are 5.11...). sorry, i'm still new =
+to bisect.
+
+the fix is targeting to 5.12-rc2, is guess because CK Hu's tree is based o=
+n this...but the fix was not included in 5.12-rc2 (only after 5.12.0...got=
+ it by merging 5.12.14)
+
+maybe you can help me?
+
+regards Frank
+
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git=
+/log/?h=3Dmediatek-drm-next-5.13
