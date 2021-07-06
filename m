@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 569FA3BCBDB
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 13:15:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E86173BCBE1
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 13:15:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 13A986E0AA;
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA5106E0CD;
 	Tue,  6 Jul 2021 11:15:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 901076E0C1;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DDC806E0AA;
+ Tue,  6 Jul 2021 11:15:42 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E0A9A61C28;
  Tue,  6 Jul 2021 11:15:41 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id A51FD61C4E;
- Tue,  6 Jul 2021 11:15:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1625570141;
- bh=FGDvieCdZUvRXaq+SoPPGIBddDqrEwFMckzntCzx+sA=;
+ s=k20201202; t=1625570142;
+ bh=MO40KtTCzKgw6sjeqzbXc98VsztHqIQAJjBSUAiLKnc=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=uGbl7yOH7OOaiMD9lHJ7AS75jWZcdOo7eXmNnGg16SHQ5b7ky8u/+qxma2fZsG8m+
- uYxZhVaySO8nN+M6BUrVbCeZ20MQKlY9c6KwPJk61laJtgrpEksCUoGMrUiUB0XXlZ
- fTW4KKxAzphtCt1ba6jUysVLtZYuWy25T9eKNV2D0Wpch8X7G6XwxYn5xXs4YOdThz
- 7I+2Ge+qAKLFEr/6c7MWnyOJXuNIIGtSN4loCH1gWlLwjxCjtzRNTo56S3y567so+t
- OQLJiL7Ig+urNgJW8+bvhSAh4AaLLg1r3P9DYpLMrnfrNrjvTMCXL3MX+ckeGJlPdH
- MVjkxzv+hmz8g==
+ b=RD+7Kv6kH/l0O7qAPNY5I2bbcx2Brxw5dvkwnVefshVdnYKhmNylk4mBE5n5V2tTL
+ TsIR/+YFhlmRTc2bKdftll13IsDFc4P2A5DqBpY+yefnS3+UUMUR6Taxw0A00azGqx
+ 9JQBlNP6l5lOVoQ9ZXAIRP7JJn+ecqiopq40ukM9szNstOk73bu2yiFWWBz1aW8SAc
+ VFJ7uKJj9qSfL+XvbsXi9lZXq1KuSkwVpSDc2fI9mCAc8eldohAufG+1VjYaJZm0XX
+ GQNJSS6cxTGIhZzXe067nPj4ytH3u+gTS1O/i+TxmcEZXvhyUw9apmfFDEquGuDTbW
+ 4VqKMkUKojGVA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.13 066/189] drm/amdgpu: fix metadata_size for ubo
- ioctl queries
-Date: Tue,  6 Jul 2021 07:12:06 -0400
-Message-Id: <20210706111409.2058071-66-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.13 067/189] drm/amdgpu: fix sdma firmware version
+ error in sriov
+Date: Tue,  6 Jul 2021 07:12:07 -0400
+Message-Id: <20210706111409.2058071-67-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210706111409.2058071-1-sashal@kernel.org>
 References: <20210706111409.2058071-1-sashal@kernel.org>
@@ -50,49 +50,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, dri-devel@lists.freedesktop.org,
- Shiwu Zhang <shiwu.zhang@amd.com>, Nirmoy Das <nirmoy.das@amd.com>,
+Cc: Sasha Levin <sashal@kernel.org>, Kevin Wang <kevin1.wang@amd.com>,
+ dri-devel@lists.freedesktop.org, "Stanley . Yang" <Stanley.Yang@amd.com>,
  amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Shiwu Zhang <shiwu.zhang@amd.com>
+From: Kevin Wang <kevin1.wang@amd.com>
 
-[ Upstream commit eba98523724be7ad3539f2c975de1527e0c99dd6 ]
+[ Upstream commit 2b8f731849800e3948763ccaff31cceac526789b ]
 
-Although the kfd_ioctl_get_dmabuf_info() still fail it will indicate
-the caller right metadat_size useful for the same kfd ioctl next time.
+Re-adjust the function return order to avoid empty sdma version in the
+sriov environment. (read amdgpu_firmware_info)
 
-Signed-off-by: Shiwu Zhang <shiwu.zhang@amd.com>
-Reviewed-by: Nirmoy Das <nirmoy.das@amd.com>
+Signed-off-by: Kevin Wang <kevin1.wang@amd.com>
+Reviewed-by: Stanley.Yang <Stanley.Yang@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_object.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/sdma_v5_2.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-index f9434bc2f9b2..db00de33caa3 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-@@ -1246,6 +1246,9 @@ int amdgpu_bo_get_metadata(struct amdgpu_bo *bo, void *buffer,
+diff --git a/drivers/gpu/drm/amd/amdgpu/sdma_v5_2.c b/drivers/gpu/drm/amd/amdgpu/sdma_v5_2.c
+index 240596b25fe4..9ab23947a151 100644
+--- a/drivers/gpu/drm/amd/amdgpu/sdma_v5_2.c
++++ b/drivers/gpu/drm/amd/amdgpu/sdma_v5_2.c
+@@ -145,9 +145,6 @@ static int sdma_v5_2_init_microcode(struct amdgpu_device *adev)
+ 	struct amdgpu_firmware_info *info = NULL;
+ 	const struct common_firmware_header *header = NULL;
  
- 	BUG_ON(bo->tbo.type == ttm_bo_type_kernel);
- 	ubo = to_amdgpu_bo_user(bo);
-+	if (metadata_size)
-+		*metadata_size = ubo->metadata_size;
+-	if (amdgpu_sriov_vf(adev) && (adev->asic_type == CHIP_SIENNA_CICHLID))
+-		return 0;
+-
+ 	DRM_DEBUG("\n");
+ 
+ 	switch (adev->asic_type) {
+@@ -182,6 +179,9 @@ static int sdma_v5_2_init_microcode(struct amdgpu_device *adev)
+ 		       (void *)&adev->sdma.instance[0],
+ 		       sizeof(struct amdgpu_sdma_instance));
+ 
++	if (amdgpu_sriov_vf(adev) && (adev->asic_type == CHIP_SIENNA_CICHLID))
++		return 0;
 +
- 	if (buffer) {
- 		if (buffer_size < ubo->metadata_size)
- 			return -EINVAL;
-@@ -1254,8 +1257,6 @@ int amdgpu_bo_get_metadata(struct amdgpu_bo *bo, void *buffer,
- 			memcpy(buffer, ubo->metadata, ubo->metadata_size);
- 	}
- 
--	if (metadata_size)
--		*metadata_size = ubo->metadata_size;
- 	if (flags)
- 		*flags = ubo->metadata_flags;
+ 	DRM_DEBUG("psp_load == '%s'\n",
+ 		  adev->firmware.load_type == AMDGPU_FW_LOAD_PSP ? "true" : "false");
  
 -- 
 2.30.2
