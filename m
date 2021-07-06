@@ -1,38 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7805B3BCFA7
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 13:29:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4360A3BCFF7
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 13:29:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A648B6E45D;
-	Tue,  6 Jul 2021 11:29:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F0BC6E461;
+	Tue,  6 Jul 2021 11:29:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B0716E452
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Jul 2021 11:29:00 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 6833761F64;
- Tue,  6 Jul 2021 11:28:59 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E8046E461
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Jul 2021 11:29:42 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id C52AF61F45;
+ Tue,  6 Jul 2021 11:29:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1625570940;
- bh=vrjFcGvdhjIHAj0ae1tUmwWO/MM/7oRP9kzxKYi0bNU=;
+ s=k20201202; t=1625570982;
+ bh=2cP6HYPMtPVu7Ubwu2OuPXW6uDmh/dY1DWdA5sj8Tww=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=VAo9BMb5o58Wh5uMI224kL/O/ul/0wxfHRxFX90bkSGH6AtqGmnGJSBbYFDjmC+AR
- Kqcysl348G+pQ5eQwNYbk5l4xICOPBi8bF7Occqj+TmzpW8gcIKywBYuPheuRWTjin
- Skoh6abV/j8gQ76ZJWL4rB9LZoz9J2SSnOimyHNXpp0Xn0ZMabqGpiWh6zvn9Fr5P7
- UGRMev48UwzCljyHHzaSp0Y42JFJFQ2itWrwp/Hb/RpD76gh1lUQXiuEUKtQ6J0QKm
- RV6brj7arUm17zoat4gUNoCizRdgx7r+6o2yxxrDoeeauemxE+GVcN9rqvDG1WA348
- WKAEVq9SjV24Q==
+ b=G5CvV7SoNiQCeTDJ/E+Bib6Qej5z7TeuEo1sFYN79gle03xXIokj0KgZ+BoC80vGZ
+ aLAaWafyJxaNELq0KwzE87dES9xOVIQxw+fz19OD5JQHiim9ZCVN744r8D7hbdkYT8
+ QXGVg7G6lXMJPy7y7T1IkedGLpUsEIYMmvzRIIJyvoFYACWKovi5E9Olv7DmPmInbf
+ T9Ib0e87oImSOE5qv3sU41MLpOo0+KcZUJblw47NZ88jJaIJMuuS8uKqnROPY5jr88
+ 088j0Nq1FePGdGIYWB4K/oKdKQi03EuOORVO5t5pQamJ7bKVljsUiFOj+Zu31MvajW
+ 0OY/jzrfujPSQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 09/35] drm/virtio: Fix double free on probe failure
-Date: Tue,  6 Jul 2021 07:28:21 -0400
-Message-Id: <20210706112848.2066036-9-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.4 08/31] drm/virtio: Fixes a potential NULL pointer
+ dereference on probe failure
+Date: Tue,  6 Jul 2021 07:29:08 -0400
+Message-Id: <20210706112931.2066397-8-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210706112848.2066036-1-sashal@kernel.org>
-References: <20210706112848.2066036-1-sashal@kernel.org>
+In-Reply-To: <20210706112931.2066397-1-sashal@kernel.org>
+References: <20210706112931.2066397-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -57,34 +58,34 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Xie Yongji <xieyongji@bytedance.com>
 
-[ Upstream commit cec7f1774605a5ef47c134af62afe7c75c30b0ee ]
+[ Upstream commit 17f46f488a5d82c5568e6e786cd760bba1c2ee09 ]
 
-The virtio_gpu_init() will free vgdev and vgdev->vbufs on failure.
-But such failure will be caught by virtio_gpu_probe() and then
-virtio_gpu_release() will be called to do some cleanup which
-will free vgdev and vgdev->vbufs again. So let's set dev->dev_private
-to NULL to avoid double free.
+The dev->dev_private might not be allocated if virtio_gpu_pci_quirk()
+or virtio_gpu_init() failed. In this case, we should avoid the cleanup
+in virtio_gpu_release().
 
 Signed-off-by: Xie Yongji <xieyongji@bytedance.com>
-Link: http://patchwork.freedesktop.org/patch/msgid/20210517084913.403-2-xieyongji@bytedance.com
+Link: http://patchwork.freedesktop.org/patch/msgid/20210517084913.403-1-xieyongji@bytedance.com
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/virtio/virtgpu_kms.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/virtio/virtgpu_kms.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/drivers/gpu/drm/virtio/virtgpu_kms.c b/drivers/gpu/drm/virtio/virtgpu_kms.c
-index d8b2027730d0..cde38e14232c 100644
+index 476b9993b068..88ed5e235e55 100644
 --- a/drivers/gpu/drm/virtio/virtgpu_kms.c
 +++ b/drivers/gpu/drm/virtio/virtgpu_kms.c
-@@ -234,6 +234,7 @@ int virtio_gpu_driver_load(struct drm_device *dev, unsigned long flags)
- err_vbufs:
+@@ -257,6 +257,9 @@ int virtio_gpu_driver_unload(struct drm_device *dev)
+ 	flush_work(&vgdev->config_changed_work);
  	vgdev->vdev->config->del_vqs(vgdev->vdev);
- err_vqs:
-+	dev->dev_private = NULL;
- 	kfree(vgdev);
- 	return ret;
- }
+ 
++	if (!vgdev)
++		return;
++
+ 	virtio_gpu_modeset_fini(vgdev);
+ 	virtio_gpu_ttm_fini(vgdev);
+ 	virtio_gpu_free_vbufs(vgdev);
 -- 
 2.30.2
 
