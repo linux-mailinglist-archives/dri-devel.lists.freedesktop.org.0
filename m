@@ -1,61 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 205253BDEAE
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 23:04:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D57F3BDEC4
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 23:09:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7ACFE6E06E;
-	Tue,  6 Jul 2021 21:04:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D3566E5A9;
+	Tue,  6 Jul 2021 21:09:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
- [IPv6:2a00:1450:4864:20::129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 797DF6E06E
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Jul 2021 21:04:08 +0000 (UTC)
-Received: by mail-lf1-x129.google.com with SMTP id p16so185057lfc.5
- for <dri-devel@lists.freedesktop.org>; Tue, 06 Jul 2021 14:04:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=GCr9dR1B9S9xq9AszxUseP+SiyvelPfjfJ3LYfvLk30=;
- b=YTZ+5+qz57rgaRvigWO+axhDE6L/fF5mjwph4prQN7ju5u0+amqQ6czi4/Lc1SYQgW
- NqJSaAtqLmUdy8IVyuzwtoZseQ/lsl+IiAJNIxZh8f8E29qlGqzpT8p9JvVVgB5V+ZuU
- o1Nij7KOqASObEvNoHQs+3O2lwNLhXoD7kzX5vwAGyjSOPo3gUsP+w6XVlsfAEfJ7k71
- m75lkW/tKPnRDOYBIq5OqMw1O1CQAiYkIU2p/nWps+4ksrY9sjg430sZxv6g31tDjPxi
- NpzMR2/4Fi1nMHGF0FDovSfD/ybOh4GKFxE1OdRd63nznPPlJbMWSiI/zQdmDFVHwhP/
- m1aw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=GCr9dR1B9S9xq9AszxUseP+SiyvelPfjfJ3LYfvLk30=;
- b=lMs6gSZT3ovToKBp/nz9cWsIRqf7X4LLk9gA9+HYa9TcSh0MTanr1nSEOKBlSsKglC
- w5XnSekEpyTwRTDMEKbDTIiQ2P1oEodXOHrU28K+r9YwPP5u2CXF9Owxp1+K7zKuv2N2
- l3b93qZeB9n7meFE9hXwgHOkIkWZElGa1Qab2PuZbnnwSIHR4uJZcHXxjb8uec7CBI/7
- 6Yfj+lYlRHdrc6rJXoH2BBJCTjqfnmI5jGVY+MPrPt6fayJlH2yWaBSJFRu6jNn1rIHH
- pFcj3IWnVVqLMzqczBnVySe0fFQs/HdqDn8TamDC1lUsl+hSCj4CXPW1M7IOJlwk7tN0
- tTgQ==
-X-Gm-Message-State: AOAM5330K6spkm3jkBw/odHTVjnS2Q9H/zVXVUCa/ubTt5ZLON6jaAcT
- KrAGpUvjIL6wCZzWwn17lmedFRxbZbnPbL4rY0A2NA==
-X-Google-Smtp-Source: ABdhPJyQY/P067tXLBOneScrLN2H7JnhxkuJjO0A7ZDRwnec+6MHaVd2CnVvcnLxIBIeYHDuBCOWVBUBBIjPebRPw6o=
-X-Received: by 2002:a05:6512:22cc:: with SMTP id
- g12mr8444627lfu.535.1625605446875; 
- Tue, 06 Jul 2021 14:04:06 -0700 (PDT)
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F14F6E5A5;
+ Tue,  6 Jul 2021 21:09:29 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10037"; a="196362300"
+X-IronPort-AV: E=Sophos;i="5.83,329,1616482800"; d="scan'208";a="196362300"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Jul 2021 14:09:28 -0700
+X-IronPort-AV: E=Sophos;i="5.83,329,1616482800"; d="scan'208";a="486530466"
+Received: from pbarbago-mobl.amr.corp.intel.com (HELO ldmartin-desk2)
+ ([10.251.131.218])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Jul 2021 14:09:27 -0700
+Date: Tue, 6 Jul 2021 14:09:26 -0700
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Subject: Re: [Intel-gfx] [PATCH 01/53] drm/i915: Add "release id" version
+Message-ID: <20210706210926.yo3edlztgeoitqul@ldmartin-desk2>
+X-Patchwork-Hint: comment
+References: <20210701202427.1547543-1-matthew.d.roper@intel.com>
+ <20210701202427.1547543-2-matthew.d.roper@intel.com>
+ <e15c0271-8663-6122-f7af-80c642fd2a4f@linux.intel.com>
+ <87wnq57zb4.fsf@intel.com>
 MIME-Version: 1.0
-References: <20210630013421.735092-1-john.stultz@linaro.org>
- <20210630013421.735092-2-john.stultz@linaro.org>
- <ab35ed32-ead4-3dc4-550d-55f288810220@amd.com>
- <CALAqxLXWDKp3BZJdO3nVd9vSVV6B+bWnTy+oP6bzBB6H3Yf4eA@mail.gmail.com>
- <6a472a24-a40f-1160-70dd-5cb9e9ae85f1@amd.com>
-In-Reply-To: <6a472a24-a40f-1160-70dd-5cb9e9ae85f1@amd.com>
-From: John Stultz <john.stultz@linaro.org>
-Date: Tue, 6 Jul 2021 14:03:58 -0700
-Message-ID: <CALAqxLXrCto31uie37Y4HjaD=2XyqkeR=HH5A6Z+drQtyYBKFg@mail.gmail.com>
-Subject: Re: [PATCH v9 1/5] drm: Add a sharable drm page-pool implementation
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <87wnq57zb4.fsf@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,97 +48,121 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
- Sandeep Patil <sspatil@google.com>, Ezequiel Garcia <ezequiel@collabora.com>,
- Robin Murphy <robin.murphy@arm.com>, James Jones <jajones@nvidia.com>,
- lkml <linux-kernel@vger.kernel.org>, Liam Mark <lmark@codeaurora.org>,
- Laura Abbott <labbott@kernel.org>, Chris Goldsworthy <cgoldswo@codeaurora.org>,
- Hridya Valsaraju <hridya@google.com>,
- =?UTF-8?Q?=C3=98rjan_Eide?= <orjan.eide@arm.com>,
- linux-media <linux-media@vger.kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Daniel Mentz <danielmentz@google.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 30, 2021 at 11:52 PM Christian K=C3=B6nig
-<christian.koenig@amd.com> wrote:
+On Mon, Jul 05, 2021 at 02:52:31PM +0300, Jani Nikula wrote:
+>On Fri, 02 Jul 2021, Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com> wrote:
+>> On 01/07/2021 21:23, Matt Roper wrote:
+>>> From: Lucas De Marchi <lucas.demarchi@intel.com>
+>>>
+>>> Besides the arch version returned by GRAPHICS_VER(), new platforms
+>>> contain a "release id" to make clear the difference from one platform to
+>>> another. Although for the first ones we may use them as if they were a
+>>
+>> What does "first ones" refer to here?
+>>
+>>> major/minor version, that is not true for all platforms: we may have a
+>>> `release_id == n` that is closer to `n - 2` than to `n - 1`.
+>>
+>> Hm this is a bit confusing. Is the sentence simply trying to say that,
+>> as the release id number is growing, hw capabilities are not simply
+>> accumulating but can be removed as well? Otherwise I am not sure how the
+>> user of these macros is supposed to act on this sentence.
+>>
+>>> However the release id number is not defined by hardware until we start
+>>> using the GMD_ID register. For the platforms before that register is
+>>> useful we will set the values in software and we can set them as we
+>>> please. So the plan is to set them so we can group different features
+>>> under a single GRAPHICS_VER_FULL() check.
+>>>
+>>> After GMD_ID is used, the usefulness of a "full version check" will be
+>>> greatly reduced and will be mostly used for deciding workarounds and a
+>>> few code paths. So it makes sense to keep it as a separate field from
+>>> graphics_ver.
+>>>
+>>> Also, currently there is not much use for the release id in media and
+>>> display, so keep them out.
+>>>
+>>> This is a mix of 2 independent changes: one by me and the other by Matt
+>>> Roper.
+>>>
+>>> Cc: Matt Roper <matthew.d.roper@intel.com>
+>>> Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
+>>> Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
+>>> ---
+>>>   drivers/gpu/drm/i915/i915_drv.h          | 6 ++++++
+>>>   drivers/gpu/drm/i915/intel_device_info.c | 2 ++
+>>>   drivers/gpu/drm/i915/intel_device_info.h | 2 ++
+>>>   3 files changed, 10 insertions(+)
+>>>
+>>> diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
+>>> index 6dff4ca01241..9639800485b9 100644
+>>> --- a/drivers/gpu/drm/i915/i915_drv.h
+>>> +++ b/drivers/gpu/drm/i915/i915_drv.h
+>>> @@ -1258,11 +1258,17 @@ static inline struct drm_i915_private *pdev_to_i915(struct pci_dev *pdev)
+>>>    */
+>>>   #define IS_GEN(dev_priv, n)		(GRAPHICS_VER(dev_priv) == (n))
+>>>
+>>> +#define IP_VER(ver, release)		((ver) << 8 | (release))
+>>> +
+>>>   #define GRAPHICS_VER(i915)		(INTEL_INFO(i915)->graphics_ver)
+>>> +#define GRAPHICS_VER_FULL(i915)		IP_VER(INTEL_INFO(i915)->graphics_ver, \
+>>> +					       INTEL_INFO(i915)->graphics_ver_release)
+>>>   #define IS_GRAPHICS_VER(i915, from, until) \
+>>>   	(GRAPHICS_VER(i915) >= (from) && GRAPHICS_VER(i915) <= (until))
+>>>
+>>>   #define MEDIA_VER(i915)			(INTEL_INFO(i915)->media_ver)
+>>> +#define MEDIA_VER_FULL(i915)		IP_VER(INTEL_INFO(i915)->media_ver, \
+>>> +					       INTEL_INFO(i915)->media_ver_release)
+>>>   #define IS_MEDIA_VER(i915, from, until) \
+>>>   	(MEDIA_VER(i915) >= (from) && MEDIA_VER(i915) <= (until))
+>>>
+>>> diff --git a/drivers/gpu/drm/i915/intel_device_info.c b/drivers/gpu/drm/i915/intel_device_info.c
+>>> index 7eaa92fee421..e8ad14f002c1 100644
+>>> --- a/drivers/gpu/drm/i915/intel_device_info.c
+>>> +++ b/drivers/gpu/drm/i915/intel_device_info.c
+>>> @@ -97,7 +97,9 @@ void intel_device_info_print_static(const struct intel_device_info *info,
+>>>   				    struct drm_printer *p)
+>>>   {
+>>>   	drm_printf(p, "graphics_ver: %u\n", info->graphics_ver);
+>>> +	drm_printf(p, "graphics_ver_release: %u\n", info->graphics_ver_release);
+>>
+>> I get the VER and VER_FULL in the macros but could 'ver' and
+>> 'ver_release' here and in the code simply be renamed to 'ver'/'version'
+>> and 'release'? Maybe it is just me but don't think I encountered the
+>> term "version release" before.
 >
-> Am 01.07.21 um 00:24 schrieb John Stultz:
-> > On Wed, Jun 30, 2021 at 2:10 AM Christian K=C3=B6nig
-> > <christian.koenig@amd.com> wrote:
-> >> Am 30.06.21 um 03:34 schrieb John Stultz:
-> >>> +static unsigned long page_pool_size; /* max size of the pool */
-> >>> +
-> >>> +MODULE_PARM_DESC(page_pool_size, "Number of pages in the drm page po=
-ol");
-> >>> +module_param(page_pool_size, ulong, 0644);
-> >>> +
-> >>> +static atomic_long_t nr_managed_pages;
-> >>> +
-> >>> +static struct mutex shrinker_lock;
-> >>> +static struct list_head shrinker_list;
-> >>> +static struct shrinker mm_shrinker;
-> >>> +
-> >>> +/**
-> >>> + * drm_page_pool_set_max - Sets maximum size of all pools
-> >>> + *
-> >>> + * Sets the maximum number of pages allows in all pools.
-> >>> + * This can only be set once, and the first caller wins.
-> >>> + */
-> >>> +void drm_page_pool_set_max(unsigned long max)
-> >>> +{
-> >>> +     if (!page_pool_size)
-> >>> +             page_pool_size =3D max;
-> >>> +}
-> >>> +
-> >>> +/**
-> >>> + * drm_page_pool_get_max - Maximum size of all pools
-> >>> + *
-> >>> + * Return the maximum number of pages allows in all pools
-> >>> + */
-> >>> +unsigned long drm_page_pool_get_max(void)
-> >>> +{
-> >>> +     return page_pool_size;
-> >>> +}
-> >> Well in general I don't think it is a good idea to have getters/setter=
-s
-> >> for one line functionality, similar applies to locking/unlocking the
-> >> mutex below.
-> >>
-> >> Then in this specific case what those functions do is to aid
-> >> initializing the general pool manager and that in turn should absolute=
-ly
-> >> not be exposed.
-> >>
-> >> The TTM pool manager exposes this as function because initializing the
-> >> pool manager is done in one part of the module and calculating the
-> >> default value for the pages in another one. But that is not something =
-I
-> >> would like to see here.
-> > So, I guess I'm not quite clear on what you'd like to see...
-> >
-> > Part of what I'm balancing here is the TTM subsystem normally sets a
-> > global max size, whereas the old ION pool didn't have caps (instead
-> > just relying on the shrinker when needed).
-> > So I'm trying to come up with a solution that can serve both uses. So
-> > I've got this drm_page_pool_set_max() function to optionally set the
-> > maximum value, which is called in the TTM initialization path or set
-> > the boot argument. But for systems that use the dmabuf system heap,
-> > but don't use TTM, no global limit is enforced.
+>Just bikeshedding here, but I thought of:
 >
-> Yeah, exactly that's what I'm trying to prevent.
->
-> See if we have the same functionality used by different use cases we
-> should not have different behavior depending on what drivers are loaded.
->
-> Is it a problem if we restrict the ION pool to 50% of system memory as
-> well? If yes than I would rather drop the limit from TTM and only rely
-> on the shrinker there as well.
+>	if (info->grapics_ver_release)
+>		drm_printf(p, "graphics_ver: %u.%u\n", info->graphics_ver, info->graphics_ver_release);
+>	else
+>		drm_printf(p, "graphics_ver: %u\n", info->graphics_ver);
 
-Would having the default value as a config option (still overridable
-via boot argument) be an acceptable solution?
+humn... a suggestion that I got internally a few week ago and I forgot
+to update this was that this doesn't need to be abbreviated in debugfs
+and could very well be:
 
-Thanks again for the feedback!
+	drm_printf(p, "graphics version: %u\n", info->graphics_ver);
+	drm_printf(p, "graphics release: %u\n", info->graphics_ver_release);
+>
+>Also, I thought "x_ver" and "x_ver_release" sounds a bit odd, perhaps
+>having "x_ver" and "x_rel" is more natural?
+
+Not sure what direction to go now though. Maybe trying to put all
+suggestions together:
+
+	if (info->graphics_rel)
+		drm_printf(p, "graphics version: %u.%u\n", info->graphics_ver, info->graphics_rel);
+	else
+		drm_printf(p, "graphics version: %u\n", info->graphics_ver);
+
+One thing  I like is that doing `| grep "graphics version"`
+gives all info you are searching for.
+
 
 thanks
--john
+Lucas De Marchi
