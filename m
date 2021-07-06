@@ -1,36 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29B283BCE3F
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 13:24:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3743B3BCE42
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 13:24:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C85E6E420;
-	Tue,  6 Jul 2021 11:24:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0235B6E1B2;
+	Tue,  6 Jul 2021 11:24:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C366B6E423;
- Tue,  6 Jul 2021 11:24:06 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id BA71E61E3E;
- Tue,  6 Jul 2021 11:24:05 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 202126E423;
+ Tue,  6 Jul 2021 11:24:08 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 1D82361E32;
+ Tue,  6 Jul 2021 11:24:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1625570646;
- bh=+cgxu2ErfEUHA2P6PmWEGiulRbq/+byzMvEXiYLvCDw=;
+ s=k20201202; t=1625570648;
+ bh=ywqNzcJWC1iCcLtLuxp5/Cii7zk7uyXau/bWP/zwWdU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Ozd1FBQ5Dg83sRTwF1HNSKlWs+yL8EeZjWCER8dtTT20tuLbzBu1y2Ob2XAz2RMfx
- 2iuQ8LBGwVL96SH6XzujOYFKdnDibB059gIx4asMnq4JJotk4bDU5SSS1EFi0nTG1Z
- y7mme1QtWtrkUVYNLLUZqatmNjj3KFbVzG41kjAI/clcUqDcQE0panF2V/EacxVKIA
- FYlesNkaepVzMGFgqu4RRTtUHLzvr/SfolORqWqFpv9mJoZnfrSBqy2rvq+6VMwUxH
- xdXMKubOJxl5l9z4IPezJ42jqZaa4l+JpwwnhtyVYat9xbNof2lYCIDDCT+p/rkFTy
- 0SxnE8tnrvTAA==
+ b=AGnbFEpPClTebDZ0ltgXwnEg+IcMEgMr7YpAmYuJtUYYlR5xZGWn3/V53M8ol2EV9
+ 1wT8DVsukaHiO4FHEBrxuzhW12a0yfdK/z184rbsth68McSBj01sQR/FQmUC8d3z2c
+ q+fvz1nwDB/Z4Eu7Rcpnmla3dpj4nE4REkR04ELoHpzn0aGfpwCMYfAm+GcRLSeXVQ
+ LjHEoemqRmL5g/jAW3Bzy0Md4NVqK3j7FaYJB3IloCKD6n2OkLNBkUccbKzrIF86Fl
+ SbVtScmUbgDrh93di+uI2rn1cPmWtCK545wk3dZY4kLzVui4/R7oL2xSP6uUQoCYTZ
+ +dbaoj0AZWxKA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 095/137] drm/amdgpu: fix bad address translation
- for sienna_cichlid
-Date: Tue,  6 Jul 2021 07:21:21 -0400
-Message-Id: <20210706112203.2062605-95-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 096/137] drm/amdkfd: Walk through list with dqm
+ lock hold
+Date: Tue,  6 Jul 2021 07:21:22 -0400
+Message-Id: <20210706112203.2062605-96-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210706112203.2062605-1-sashal@kernel.org>
 References: <20210706112203.2062605-1-sashal@kernel.org>
@@ -50,55 +50,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, dri-devel@lists.freedesktop.org,
- "Stanley.Yang" <Stanley.Yang@amd.com>, amd-gfx@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>,
- Hawking Zhang <Hawking.Zhang@amd.com>
+Cc: Sasha Levin <sashal@kernel.org>, Felix Kuehling <Felix.Kuehling@amd.com>,
+ xinhui pan <xinhui.pan@amd.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: "Stanley.Yang" <Stanley.Yang@amd.com>
+From: xinhui pan <xinhui.pan@amd.com>
 
-[ Upstream commit 6ec598cc9dfbf40433e94a2ed1a622e3ef80268b ]
+[ Upstream commit 56f221b6389e7ab99c30bbf01c71998ae92fc584 ]
 
-Signed-off-by: Stanley.Yang <Stanley.Yang@amd.com>
-Reviewed-by: Hawking Zhang <Hawking.Zhang@amd.com>
+To avoid any list corruption.
+
+Signed-off-by: xinhui pan <xinhui.pan@amd.com>
+Reviewed-by: Felix Kuehling <Felix.Kuehling@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_umc.h | 5 +++++
- drivers/gpu/drm/amd/amdgpu/umc_v8_7.c   | 2 +-
- 2 files changed, 6 insertions(+), 1 deletion(-)
+ .../drm/amd/amdkfd/kfd_device_queue_manager.c | 22 ++++++++++---------
+ 1 file changed, 12 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_umc.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_umc.h
-index 183814493658..bda4438c3925 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_umc.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_umc.h
-@@ -21,6 +21,11 @@
- #ifndef __AMDGPU_UMC_H__
- #define __AMDGPU_UMC_H__
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
+index ffb3d37881a8..352a32dc609b 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
+@@ -1712,7 +1712,7 @@ static int process_termination_cpsch(struct device_queue_manager *dqm,
+ 		struct qcm_process_device *qpd)
+ {
+ 	int retval;
+-	struct queue *q, *next;
++	struct queue *q;
+ 	struct kernel_queue *kq, *kq_next;
+ 	struct mqd_manager *mqd_mgr;
+ 	struct device_process_node *cur, *next_dpn;
+@@ -1769,24 +1769,26 @@ static int process_termination_cpsch(struct device_queue_manager *dqm,
+ 		qpd->reset_wavefronts = false;
+ 	}
  
-+/*
-+ * (addr / 256) * 4096, the higher 26 bits in ErrorAddr
-+ * is the index of 4KB block
-+ */
-+#define ADDR_OF_4KB_BLOCK(addr)			(((addr) & ~0xffULL) << 4)
- /*
-  * (addr / 256) * 8192, the higher 26 bits in ErrorAddr
-  * is the index of 8KB block
-diff --git a/drivers/gpu/drm/amd/amdgpu/umc_v8_7.c b/drivers/gpu/drm/amd/amdgpu/umc_v8_7.c
-index 5665c77a9d58..afbbe9f05d5e 100644
---- a/drivers/gpu/drm/amd/amdgpu/umc_v8_7.c
-+++ b/drivers/gpu/drm/amd/amdgpu/umc_v8_7.c
-@@ -233,7 +233,7 @@ static void umc_v8_7_query_error_address(struct amdgpu_device *adev,
- 		err_addr &= ~((0x1ULL << lsb) - 1);
+-	dqm_unlock(dqm);
+-
+-	/* Outside the DQM lock because under the DQM lock we can't do
+-	 * reclaim or take other locks that others hold while reclaiming.
+-	 */
+-	if (found)
+-		kfd_dec_compute_active(dqm->dev);
+-
+ 	/* Lastly, free mqd resources.
+ 	 * Do free_mqd() after dqm_unlock to avoid circular locking.
+ 	 */
+-	list_for_each_entry_safe(q, next, &qpd->queues_list, list) {
++	while (!list_empty(&qpd->queues_list)) {
++		q = list_first_entry(&qpd->queues_list, struct queue, list);
+ 		mqd_mgr = dqm->mqd_mgrs[get_mqd_type_from_queue_type(
+ 				q->properties.type)];
+ 		list_del(&q->list);
+ 		qpd->queue_count--;
++		dqm_unlock(dqm);
+ 		mqd_mgr->free_mqd(mqd_mgr, q->mqd, q->mqd_mem_obj);
++		dqm_lock(dqm);
+ 	}
++	dqm_unlock(dqm);
++
++	/* Outside the DQM lock because under the DQM lock we can't do
++	 * reclaim or take other locks that others hold while reclaiming.
++	 */
++	if (found)
++		kfd_dec_compute_active(dqm->dev);
  
- 		/* translate umc channel address to soc pa, 3 parts are included */
--		retired_page = ADDR_OF_8KB_BLOCK(err_addr) |
-+		retired_page = ADDR_OF_4KB_BLOCK(err_addr) |
- 				ADDR_OF_256B_BLOCK(channel_index) |
- 				OFFSET_IN_256B_BLOCK(err_addr);
- 
+ 	return retval;
+ }
 -- 
 2.30.2
 
