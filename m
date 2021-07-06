@@ -1,36 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A898D3BCB96
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 13:14:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id ACB3E3BCB97
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 13:14:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA7CC6E02E;
-	Tue,  6 Jul 2021 11:14:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A57516E02C;
+	Tue,  6 Jul 2021 11:14:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E62236E02C
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Jul 2021 11:14:49 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 1D12861C27;
- Tue,  6 Jul 2021 11:14:49 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D9ED76E02C
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Jul 2021 11:14:52 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 0F4D0619C5;
+ Tue,  6 Jul 2021 11:14:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1625570089;
- bh=VJ8P4Ab1nZCdjjRelUX3TpNPd6Tpk7LP2DA5BWQnWO0=;
+ s=k20201202; t=1625570092;
+ bh=dwjCJhT1HGXtnEmZtAYdiTk+mnxlKa0LmxCkHY4vptI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=R7JYqZTjYYhkrtY6NgateibNNTztyjis3sH35dnpV26dy6ynM65XjrvA8LEJJHkpu
- UTDE4TyB0bs0JL9PDi9seChaFE/AaGbBKlWnacpbfll/p/iJqcLg5WqZsQ6D/vP+L7
- EV6cp9eWIWPHvaRyLAYNQ95u56V1+ey3A4ZkLpEfgdRFdP4xRK4Fia9j2NrTMXyT1w
- YAGvCpuK7ZuNodrUok4lwV8jpxMX8kSfyfk34th1EcMefPEiAUx7eXv9XhsvJ1quVZ
- V3k9EIousoyehEpttTdDEe5iWurEUzTq6AzEBo5LObRUzG5HK1nLirYHIAftmQ2QRY
- ILx9dKN+1KaxQ==
+ b=nxd2X5zRQdnKZDDHW5OsfAqFvohZ2gu+2+i5NbhFVc2tD2699Q3IzA5Q9FDxcqHQT
+ rB1+K4nfF7NSIGEQIaj+lLFScAdG86m7611ZY3jbHEW/XdNUc+tzgTWAGE5LgaJSej
+ xA3JeOmUdCK6K+ZKaSPLyZSHn0waULASzLEvwQXBWNgT32GkPOLnRlWp/vSNAH4krL
+ jvsVMXjlQ1XODoOqI77aosXohNTL74KtXFUuhPf/FzpYSKH9NUYCONbGQ9ZkMuIVNC
+ fmMRT8tyCYXEcjzDLbHCMbHVG+oyGeBKaqtAkstRfWZH7N6P0I9XCwbMyieTdYgH3R
+ WEgmEf92GujIw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.13 028/189] drm/bridge: lt9611: Add missing
- MODULE_DEVICE_TABLE
-Date: Tue,  6 Jul 2021 07:11:28 -0400
-Message-Id: <20210706111409.2058071-28-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.13 030/189] drm/virtio: Fixes a potential NULL
+ pointer dereference on probe failure
+Date: Tue,  6 Jul 2021 07:11:30 -0400
+Message-Id: <20210706111409.2058071-30-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210706111409.2058071-1-sashal@kernel.org>
 References: <20210706111409.2058071-1-sashal@kernel.org>
@@ -50,42 +50,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Hulk Robot <hulkci@huawei.com>,
- Zou Wei <zou_wei@huawei.com>, dri-devel@lists.freedesktop.org,
- Robert Foss <robert.foss@linaro.org>
+Cc: Sasha Levin <sashal@kernel.org>, Xie Yongji <xieyongji@bytedance.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Zou Wei <zou_wei@huawei.com>
+From: Xie Yongji <xieyongji@bytedance.com>
 
-[ Upstream commit 8d0b1fe81e18eb66a2d4406386760795fe0d77d9 ]
+[ Upstream commit 17f46f488a5d82c5568e6e786cd760bba1c2ee09 ]
 
-This patch adds missing MODULE_DEVICE_TABLE definition which generates
-correct modalias for automatic loading of this driver when it is built
-as an external module.
+The dev->dev_private might not be allocated if virtio_gpu_pci_quirk()
+or virtio_gpu_init() failed. In this case, we should avoid the cleanup
+in virtio_gpu_release().
 
-Reported-by: Hulk Robot <hulkci@huawei.com>
-Signed-off-by: Zou Wei <zou_wei@huawei.com>
-Reviewed-by: Robert Foss <robert.foss@linaro.org>
-Signed-off-by: Robert Foss <robert.foss@linaro.org>
-Link: https://patchwork.freedesktop.org/patch/msgid/1620801955-19188-1-git-send-email-zou_wei@huawei.com
+Signed-off-by: Xie Yongji <xieyongji@bytedance.com>
+Link: http://patchwork.freedesktop.org/patch/msgid/20210517084913.403-1-xieyongji@bytedance.com
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/bridge/lontium-lt9611.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/virtio/virtgpu_kms.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/gpu/drm/bridge/lontium-lt9611.c b/drivers/gpu/drm/bridge/lontium-lt9611.c
-index e8eb8deb444b..29b1ce2140ab 100644
---- a/drivers/gpu/drm/bridge/lontium-lt9611.c
-+++ b/drivers/gpu/drm/bridge/lontium-lt9611.c
-@@ -1215,6 +1215,7 @@ static struct i2c_device_id lt9611_id[] = {
- 	{ "lontium,lt9611", 0 },
- 	{}
- };
-+MODULE_DEVICE_TABLE(i2c, lt9611_id);
+diff --git a/drivers/gpu/drm/virtio/virtgpu_kms.c b/drivers/gpu/drm/virtio/virtgpu_kms.c
+index b375394193be..aa532ad31a23 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_kms.c
++++ b/drivers/gpu/drm/virtio/virtgpu_kms.c
+@@ -264,6 +264,9 @@ void virtio_gpu_release(struct drm_device *dev)
+ {
+ 	struct virtio_gpu_device *vgdev = dev->dev_private;
  
- static const struct of_device_id lt9611_match_table[] = {
- 	{ .compatible = "lontium,lt9611" },
++	if (!vgdev)
++		return;
++
+ 	virtio_gpu_modeset_fini(vgdev);
+ 	virtio_gpu_free_vbufs(vgdev);
+ 	virtio_gpu_cleanup_cap_cache(vgdev);
 -- 
 2.30.2
 
