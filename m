@@ -1,40 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 377733BCCB3
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 13:17:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D68363BCCB9
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 13:18:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 071EC6E217;
-	Tue,  6 Jul 2021 11:17:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE72C6E235;
+	Tue,  6 Jul 2021 11:18:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A4746E22B;
- Tue,  6 Jul 2021 11:17:28 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 7659D61CC9;
- Tue,  6 Jul 2021 11:17:27 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A37A6E235;
+ Tue,  6 Jul 2021 11:18:29 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 6E91261CC8;
+ Tue,  6 Jul 2021 11:18:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1625570248;
- bh=mXwlMuW0g/A827FHrU+Qjyu7yJ5jVBo9vfc3hkHvuwU=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=EKY944oMR4W6nM5tAM1ZWsNwiLWYkmsNt5EAd74VcxJfQZ44YTlVp8rKhRazcxnd2
- tkCI8bILRTOOnlIEmMdW3b4sS1zNSnGuz5UmZ2jTNaJrzIUZyDX9bRm8dK7TiwkOdp
- l7CQ7oKCn1hq4/OhQ82kVJcGULIruv4NZ3ByuoA5FNYDH42T+QV0hGImqAW+XnhD1H
- GzVoBjVJWh4pqXxSvA+UepIq+RLaOgcAHq4O3w37Ebf4QEhDsCmWkiOsF/uMEblWF0
- Qa1yvq4maDbNkjO2mi0cMumoMjnegowg4eAQq/3qqIrIWgWiOPFRxd9ODS+BWtwBJS
- xjNIjXuduOghw==
+ s=k20201202; t=1625570309;
+ bh=LfGM5sFaMdk8HgCqOUksC356f/Tvj0fPbKK+2H6H4OY=;
+ h=From:To:Cc:Subject:Date:From;
+ b=Ps/+4GQxSz0L7IPE3f/sgCsYbqO7y3lckoNg0GaOJfvZZr3ynPoZasBErR+vjVXLk
+ ncyANhyLFeW0lhP9Hka2Ek4Ss9L+Viu+r1E9Ln4SUTCXb8oYeleB87uDmnfp9ETAgA
+ LPuf03RcJ9zRQWYYA4OvawCAyrkoKjqQVXT2GnMevj+XDNXzhI/FHgeYn+fZzfczh4
+ G3rRyZVbjRlMI3GoduYdbgtnzksL1WIT/hmL6Ldwhijn8m1KcKJwgMWkPF50X1aL64
+ dg2LWAVIAUPnati3Eg1hTT7iYYR5ry6WKg5MMd+WYrkVVTQiO3UBJOgsYvKYVnVc4S
+ tSbN4Cml02UPA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.13 147/189] drm/amd/display: Fix edp_bootup_bl_level
- initialization issue
-Date: Tue,  6 Jul 2021 07:13:27 -0400
-Message-Id: <20210706111409.2058071-147-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.12 001/160] drm/etnaviv: fix NULL check before some
+ freeing functions is not needed
+Date: Tue,  6 Jul 2021 07:15:47 -0400
+Message-Id: <20210706111827.2060499-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210706111409.2058071-1-sashal@kernel.org>
-References: <20210706111409.2058071-1-sashal@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -50,43 +49,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Logush Oliver <ollogush@amd.com>, Charlene Liu <Charlene.Liu@amd.com>,
- Sasha Levin <sashal@kernel.org>, amd-gfx@lists.freedesktop.org,
- Daniel Wheeler <daniel.wheeler@amd.com>, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>, Bindu Ramamurthy <bindu.r@amd.com>
+Cc: Sasha Levin <sashal@kernel.org>, etnaviv@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Tian Tao <tiantao6@hisilicon.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Logush Oliver <ollogush@amd.com>
+From: Tian Tao <tiantao6@hisilicon.com>
 
-[ Upstream commit eeb90e26ed05dd44553d557057bf35f08f853af8 ]
+[ Upstream commit 7d614ab2f20503ed8766363d41f8607337571adf ]
 
-[why]
-Updating the file to fix the missing line
+fixed the below warning:
+drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c:84:2-8: WARNING: NULL check
+before some freeing functions is not needed.
 
-Signed-off-by: Logush Oliver <ollogush@amd.com>
-Reviewed-by: Charlene Liu <Charlene.Liu@amd.com>
-Acked-by: Bindu Ramamurthy <bindu.r@amd.com>
-Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
+Acked-by: Christian König <christian.koenig@amd.com>
+Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c b/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c
-index d79f4fe06c47..4812a72f8aad 100644
---- a/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c
-+++ b/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c
-@@ -2131,7 +2131,7 @@ static enum bp_result get_integrated_info_v2_1(
- 		info_v2_1->edp1_info.edp_pwr_down_bloff_to_vary_bloff;
- 	info->edp1_info.edp_panel_bpc =
- 		info_v2_1->edp1_info.edp_panel_bpc;
--	info->edp1_info.edp_bootup_bl_level =
-+	info->edp1_info.edp_bootup_bl_level = info_v2_1->edp1_info.edp_bootup_bl_level;
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
+index b390dd4d60b7..d741b1d735f7 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
+@@ -80,8 +80,7 @@ static void etnaviv_gem_prime_release(struct etnaviv_gem_object *etnaviv_obj)
+ 	/* Don't drop the pages for imported dmabuf, as they are not
+ 	 * ours, just free the array we allocated:
+ 	 */
+-	if (etnaviv_obj->pages)
+-		kvfree(etnaviv_obj->pages);
++	kvfree(etnaviv_obj->pages);
  
- 	info->edp2_info.edp_backlight_pwm_hz =
- 	le16_to_cpu(info_v2_1->edp2_info.edp_backlight_pwm_hz);
+ 	drm_prime_gem_destroy(&etnaviv_obj->base, etnaviv_obj->sgt);
+ }
 -- 
 2.30.2
 
