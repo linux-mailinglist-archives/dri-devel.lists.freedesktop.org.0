@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10B5E3BCE23
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 13:23:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB0323BCE26
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 13:23:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 738286E406;
-	Tue,  6 Jul 2021 11:23:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 73A8789337;
+	Tue,  6 Jul 2021 11:23:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A047E6E406;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 14FCD897E4;
+ Tue,  6 Jul 2021 11:23:31 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E961261E22;
  Tue,  6 Jul 2021 11:23:29 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 6E59461E26;
- Tue,  6 Jul 2021 11:23:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1625570609;
- bh=lBtxayU5MQUqd5z8mO58cgz+6zShZmI9FjPnSv/4xbU=;
+ s=k20201202; t=1625570610;
+ bh=L17UFAspUTCO0gRT7U4oHgDHhix9ix38wj65IZrqjqg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Tb29brxt3klypTlM2GhnhlFI2EJn4IKQtORLXR6KnFCywtD0qX2+XA3lgfnQ/y3qR
- F3S1/H7CN3oHefjmmorGdRmr1ZtDFfBFLFahBjmExaslWbpKh7QuVJcvPC9s/0qOry
- YPJu+hrg9rCJ4THSNbYblrNvmuFmA0ZBL28k+M7IdTQp/C/gxkO5ey9aI7fSxXbGoh
- TbCPBs5IEU5NEnnmuVikZ58gD91i9t1ID5S+GFXSGIwgcEjfMFFwdGxZDs8D81GSPD
- 3Y6QWLTtOSCvcPDY313nIv/Cv8v0pDFNKr1cgPtcwDcEpQDqzdCMwhpJUZqmEJFzoi
- FOm8YQb8w3oMQ==
+ b=VhgXRIDVYAUzqt7G0vJTo/ijhSwDSdHLQoMxwAHf558XQTEn4t1eZoTt/FiHLmQgw
+ xpaIT5aGiIH+P1zE8rgCgIt9+ytiBSj8l14g9aBvrwAKetPKZqK/fL3eV7HsFbkWOQ
+ zp1dFHQE+jgL2u8HcKJQ5RJ5nOrNhNwe2j+L9/lL3wb0tP7rqiV1/4NvIu9MKksIdH
+ k6pPHQM59B90MopO2mHONJT1kM5VCziMNQr3hsRbXNttTffNcKgANX9Yfqn/G6DVUK
+ QLkAofjCoy/0pJ4gVWkGDpCVpmwmN9t56ysIygjzFSKiBjBwppuoVkeqinGwiHHdr6
+ XBS9lIHkW3tXQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 067/137] drm/amd/display: Fix DCN 3.01 DSCCLK
- validation
-Date: Tue,  6 Jul 2021 07:20:53 -0400
-Message-Id: <20210706112203.2062605-67-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 068/137] drm/amd/display: Update scaling settings
+ on modeset
+Date: Tue,  6 Jul 2021 07:20:54 -0400
+Message-Id: <20210706112203.2062605-68-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210706112203.2062605-1-sashal@kernel.org>
 References: <20210706112203.2062605-1-sashal@kernel.org>
@@ -51,139 +51,49 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Stylon Wang <stylon.wang@amd.com>, Sasha Levin <sashal@kernel.org>,
- amd-gfx@lists.freedesktop.org, Nikola Cornij <nikola.cornij@amd.com>,
- Daniel Wheeler <daniel.wheeler@amd.com>,
- Dmytro Laktyushkin <Dmytro.Laktyushkin@amd.com>,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>
+ Roman Li <roman.li@amd.com>, amd-gfx@lists.freedesktop.org,
+ Daniel Wheeler <daniel.wheeler@amd.com>, dri-devel@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Nicholas Kazlauskas <Nicholas.Kazlauskas@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Nikola Cornij <nikola.cornij@amd.com>
+From: Roman Li <roman.li@amd.com>
 
-[ Upstream commit 346cf627fb27c0fea63a041cedbaa4f31784e504 ]
+[ Upstream commit c521fc316d12fb9ea7b7680e301d673bceda922e ]
 
-[why]
-DSCCLK validation is not necessary because DSCCLK is derrived from
-DISPCLK, therefore if DISPCLK validation passes, DSCCLK is valid, too.
-Doing DSCLK validation in addition to DISPCLK leads to modes being
-wrongly rejected when DSCCLK was incorrectly set outside of DML.
+[Why]
+We update scaling settings when scaling mode has been changed.
+However when changing mode from native resolution the scaling mode previously
+set gets ignored.
 
-[how]
-Remove DSCCLK validation because it's implicitly validated under DISPCLK
+[How]
+Perform scaling settings update on modeset.
 
-Signed-off-by: Nikola Cornij <nikola.cornij@amd.com>
-Reviewed-by: Dmytro Laktyushkin <Dmytro.Laktyushkin@amd.com>
+Signed-off-by: Roman Li <roman.li@amd.com>
+Reviewed-by: Nicholas Kazlauskas <Nicholas.Kazlauskas@amd.com>
 Acked-by: Stylon Wang <stylon.wang@amd.com>
 Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- .../dc/dml/dcn30/display_mode_vba_30.c        | 64 ++++++-------------
- 1 file changed, 21 insertions(+), 43 deletions(-)
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.c b/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.c
-index 9e0ae18e71fa..d66e89283c48 100644
---- a/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.c
-+++ b/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.c
-@@ -64,6 +64,7 @@ typedef struct {
- #define BPP_INVALID 0
- #define BPP_BLENDED_PIPE 0xffffffff
- #define DCN30_MAX_DSC_IMAGE_WIDTH 5184
-+#define DCN30_MAX_FMT_420_BUFFER_WIDTH 4096
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index df26c07cb912..b413a7a2e92f 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -8291,7 +8291,8 @@ static int dm_update_crtc_state(struct amdgpu_display_manager *dm,
+ 	BUG_ON(dm_new_crtc_state->stream == NULL);
  
- static void DisplayPipeConfiguration(struct display_mode_lib *mode_lib);
- static void DISPCLKDPPCLKDCFCLKDeepSleepPrefetchParametersWatermarksAndPerformanceCalculation(
-@@ -3987,19 +3988,30 @@ void dml30_ModeSupportAndSystemConfigurationFull(struct display_mode_lib *mode_l
- 				} else if (v->PlaneRequiredDISPCLKWithoutODMCombine > v->MaxDispclkRoundedDownToDFSGranularity) {
- 					v->ODMCombineEnablePerState[i][k] = dm_odm_combine_mode_2to1;
- 					v->PlaneRequiredDISPCLK = v->PlaneRequiredDISPCLKWithODMCombine2To1;
--				} else if (v->DSCEnabled[k] && (v->HActive[k] > DCN30_MAX_DSC_IMAGE_WIDTH)) {
--					v->ODMCombineEnablePerState[i][k] = dm_odm_combine_mode_2to1;
--					v->PlaneRequiredDISPCLK = v->PlaneRequiredDISPCLKWithODMCombine2To1;
- 				} else {
- 					v->ODMCombineEnablePerState[i][k] = dm_odm_combine_mode_disabled;
- 					v->PlaneRequiredDISPCLK = v->PlaneRequiredDISPCLKWithoutODMCombine;
--					/*420 format workaround*/
--					if (v->HActive[k] > 4096 && v->OutputFormat[k] == dm_420) {
-+				}
-+				if (v->DSCEnabled[k] && v->HActive[k] > DCN30_MAX_DSC_IMAGE_WIDTH
-+						&& v->ODMCombineEnablePerState[i][k] != dm_odm_combine_mode_4to1) {
-+					if (v->HActive[k] / 2 > DCN30_MAX_DSC_IMAGE_WIDTH) {
-+						v->ODMCombineEnablePerState[i][k] = dm_odm_combine_mode_4to1;
-+						v->PlaneRequiredDISPCLK = v->PlaneRequiredDISPCLKWithODMCombine4To1;
-+					} else {
-+						v->ODMCombineEnablePerState[i][k] = dm_odm_combine_mode_2to1;
-+						v->PlaneRequiredDISPCLK = v->PlaneRequiredDISPCLKWithODMCombine2To1;
-+					}
-+				}
-+				if (v->OutputFormat[k] == dm_420 && v->HActive[k] > DCN30_MAX_FMT_420_BUFFER_WIDTH
-+						&& v->ODMCombineEnablePerState[i][k] != dm_odm_combine_mode_4to1) {
-+					if (v->HActive[k] / 2 > DCN30_MAX_FMT_420_BUFFER_WIDTH) {
-+						v->ODMCombineEnablePerState[i][k] = dm_odm_combine_mode_4to1;
-+						v->PlaneRequiredDISPCLK = v->PlaneRequiredDISPCLKWithODMCombine4To1;
-+					} else {
- 						v->ODMCombineEnablePerState[i][k] = dm_odm_combine_mode_2to1;
- 						v->PlaneRequiredDISPCLK = v->PlaneRequiredDISPCLKWithODMCombine2To1;
- 					}
- 				}
--
- 				if (v->ODMCombineEnablePerState[i][k] == dm_odm_combine_mode_4to1) {
- 					v->MPCCombine[i][j][k] = false;
- 					v->NoOfDPP[i][j][k] = 4;
-@@ -4281,42 +4293,8 @@ void dml30_ModeSupportAndSystemConfigurationFull(struct display_mode_lib *mode_l
- 		}
- 	}
+ 	/* Scaling or underscan settings */
+-	if (is_scaling_state_different(dm_old_conn_state, dm_new_conn_state))
++	if (is_scaling_state_different(dm_old_conn_state, dm_new_conn_state) ||
++				drm_atomic_crtc_needs_modeset(new_crtc_state))
+ 		update_stream_scaling_settings(
+ 			&new_crtc_state->mode, dm_new_conn_state, dm_new_crtc_state->stream);
  
--	for (i = 0; i < v->soc.num_states; i++) {
--		v->DSCCLKRequiredMoreThanSupported[i] = false;
--		for (k = 0; k <= v->NumberOfActivePlanes - 1; k++) {
--			if (v->BlendingAndTiming[k] == k) {
--				if (v->Output[k] == dm_dp || v->Output[k] == dm_edp) {
--					if (v->OutputFormat[k] == dm_420) {
--						v->DSCFormatFactor = 2;
--					} else if (v->OutputFormat[k] == dm_444) {
--						v->DSCFormatFactor = 1;
--					} else if (v->OutputFormat[k] == dm_n422) {
--						v->DSCFormatFactor = 2;
--					} else {
--						v->DSCFormatFactor = 1;
--					}
--					if (v->RequiresDSC[i][k] == true) {
--						if (v->ODMCombineEnablePerState[i][k] == dm_odm_combine_mode_4to1) {
--							if (v->PixelClockBackEnd[k] / 12.0 / v->DSCFormatFactor
--									> (1.0 - v->DISPCLKDPPCLKDSCCLKDownSpreading / 100.0) * v->MaxDSCCLK[i]) {
--								v->DSCCLKRequiredMoreThanSupported[i] = true;
--							}
--						} else if (v->ODMCombineEnablePerState[i][k] == dm_odm_combine_mode_2to1) {
--							if (v->PixelClockBackEnd[k] / 6.0 / v->DSCFormatFactor
--									> (1.0 - v->DISPCLKDPPCLKDSCCLKDownSpreading / 100.0) * v->MaxDSCCLK[i]) {
--								v->DSCCLKRequiredMoreThanSupported[i] = true;
--							}
--						} else {
--							if (v->PixelClockBackEnd[k] / 3.0 / v->DSCFormatFactor
--									> (1.0 - v->DISPCLKDPPCLKDSCCLKDownSpreading / 100.0) * v->MaxDSCCLK[i]) {
--								v->DSCCLKRequiredMoreThanSupported[i] = true;
--							}
--						}
--					}
--				}
--			}
--		}
--	}
-+	/* Skip dscclk validation: as long as dispclk is supported, dscclk is also implicitly supported */
-+
- 	for (i = 0; i < v->soc.num_states; i++) {
- 		v->NotEnoughDSCUnits[i] = false;
- 		v->TotalDSCUnitsRequired = 0.0;
-@@ -5319,7 +5297,7 @@ void dml30_ModeSupportAndSystemConfigurationFull(struct display_mode_lib *mode_l
- 		for (j = 0; j < 2; j++) {
- 			if (v->ScaleRatioAndTapsSupport == 1 && v->SourceFormatPixelAndScanSupport == 1 && v->ViewportSizeSupport[i][j] == 1
- 					&& v->DIOSupport[i] == 1 && v->ODMCombine4To1SupportCheckOK[i] == 1
--					&& v->NotEnoughDSCUnits[i] == 0 && v->DSCCLKRequiredMoreThanSupported[i] == 0
-+					&& v->NotEnoughDSCUnits[i] == 0
- 					&& v->DTBCLKRequiredMoreThanSupported[i] == 0
- 					&& v->ROBSupport[i][j] == 1 && v->DISPCLK_DPPCLK_Support[i][j] == 1 && v->TotalAvailablePipesSupport[i][j] == 1
- 					&& EnoughWritebackUnits == 1 && WritebackModeSupport == 1
 -- 
 2.30.2
 
