@@ -2,65 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 926AE3BDDD4
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 21:09:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C9783BDDE0
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 21:12:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C0626E595;
-	Tue,  6 Jul 2021 19:09:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 59DDF6E5A2;
+	Tue,  6 Jul 2021 19:12:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x335.google.com (mail-ot1-x335.google.com
- [IPv6:2607:f8b0:4864:20::335])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A86836E0F5;
- Tue,  6 Jul 2021 19:09:20 +0000 (UTC)
-Received: by mail-ot1-x335.google.com with SMTP id
- t24-20020a9d7f980000b029046f4a1a5ec4so22701531otp.1; 
- Tue, 06 Jul 2021 12:09:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=RMq2M4n/8G9joj1/fKzknwNfEb3Och+oaBZy1vpsqNk=;
- b=u5t3SzlPBuZ7kxA4R+Q9uEDCV/k/WI9AahppzXD5e+PtZ6ubJV2HKEseHSj0x5NaYu
- k9zSTwO+7ZLrfYvzFE10Ye4cXIylQ9aU+Irx3QMybgiJ+6KH1MEzuadRNRhCoMSW70jU
- UPmVzcY4Mr0gpgTl2Vr1Dgw/eGKfyFR8G+rppi6rtgYYwsbOrrSdjZiOvay6ZS9SAtcZ
- EsRg/lJDTlkDdKRp9E50obeCJsCG3zkxWq5Zxs5ws6TB6rzJKoFyIghAL+9N4iMdvudx
- nTEfeQACROazrLe6LnLogkA1DbrkE/44HhfrjDt6npDbyU7pGEdhN+WcteCmzK1CyJRt
- Wfaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=RMq2M4n/8G9joj1/fKzknwNfEb3Och+oaBZy1vpsqNk=;
- b=IerOhPR5C4up7N5DHcNL/t4PO6dmiY8/WTEvEuV/ZPgmwEtskIvfVHDESOlqrqO/JQ
- YkSjGb9iPmIy1p0ww4Ej/2pTxsl39P4tgm+k99Z7bNn6rs7avkEeQ4ViaZizn+R4Kn49
- q47swYYejhgRKjbRTLFSX6bsQ7KKDAhejb4ND2TpFq4FNopWCzWeS5K6OwJnrddf/7rR
- 5u3PjBF8RS2obU+63vWqlFMglb8E07PHWR2nQPcfSPXpQsM56hC7b3GMh0hJomwFHAsP
- 0VcpvwEbRt5LnFr5RD78rvR53ZgoZycU5JjyRT4vpbWLWLa4ulW1PB0oPp7fTvJrxH6o
- 7DfQ==
-X-Gm-Message-State: AOAM533kzV+cnGqyU0vqNac1K6qe5X3vK67dQui+q1ZRGRvWDWmbja41
- zMhOSbv+mfV6LEl8KZCMkwmQYvO0Kxe/NwKvISY=
-X-Google-Smtp-Source: ABdhPJyLpn/Denq9D9uHdx73/8YwQSIZY5Ozg7ZymqbObwdA3ulC3UM5xsQZ0IVJAYJMGH6zXWQRmXGXRh7rAeiRNss=
-X-Received: by 2002:a05:6830:4119:: with SMTP id
- w25mr16836757ott.132.1625598559910; 
- Tue, 06 Jul 2021 12:09:19 -0700 (PDT)
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C73B6E5A2;
+ Tue,  6 Jul 2021 19:12:42 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10037"; a="196346214"
+X-IronPort-AV: E=Sophos;i="5.83,329,1616482800"; d="scan'208";a="196346214"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Jul 2021 12:12:39 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.83,329,1616482800"; d="scan'208";a="563415009"
+Received: from irvmail001.ir.intel.com ([10.43.11.63])
+ by fmsmga001.fm.intel.com with ESMTP; 06 Jul 2021 12:12:38 -0700
+Received: from [10.213.14.241] (mwajdecz-MOBL.ger.corp.intel.com
+ [10.213.14.241])
+ by irvmail001.ir.intel.com (8.14.3/8.13.6/MailSET/Hub) with ESMTP id
+ 166JCabu029759; Tue, 6 Jul 2021 20:12:37 +0100
+Subject: Re: [PATCH 6/7] drm/i915/guc: Optimize CTB writes and reads
+To: John Harrison <john.c.harrison@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+References: <20210701171550.49353-1-matthew.brost@intel.com>
+ <20210701171550.49353-7-matthew.brost@intel.com>
+ <3147114d-4b4b-1a42-c40b-8d8be870e633@intel.com>
+From: Michal Wajdeczko <michal.wajdeczko@intel.com>
+Message-ID: <b7bb636f-edd4-dbc0-a0e6-c00cfbb25cf1@intel.com>
+Date: Tue, 6 Jul 2021 21:12:36 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210705130314.11519-1-ogabbay@kernel.org>
- <YOQXBWpo3whVjOyh@phenom.ffwll.local>
- <CAFCwf10_rTYL2Fy6tCRVAUCf4-6_TtcWCv5gEEkGnQ0KxqMUBg@mail.gmail.com>
- <CAKMK7uEAJZUHNLreBB839BZOfnTGNU4rCx-0k55+67Nbxtdx3A@mail.gmail.com>
- <20210706142357.GN4604@ziepe.ca>
- <CAKMK7uELNzwUe+hhVWRg=Pk5Wt_vOOX922H48Kd6dTyO2PeBbg@mail.gmail.com>
- <20210706152542.GP4604@ziepe.ca>
- <CAKMK7uH7Ar6+uAOU_Sj-mf89V9WCru+66CV5bO9h-WAAv7Mgdg@mail.gmail.com>
- <20210706162953.GQ4604@ziepe.ca>
- <CAKMK7uGXUgjyjch57J3UnC7SA3-4g87Ft7tLjj9fFkgyKkKdrg@mail.gmail.com>
- <20210706183145.GT4604@ziepe.ca>
-In-Reply-To: <20210706183145.GT4604@ziepe.ca>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 6 Jul 2021 15:09:08 -0400
-Message-ID: <CADnq5_My3h=2BK5Kb8FHcDE9NjsXmrAF2auhgnugnmPyHSbb3g@mail.gmail.com>
-Subject: Re: [PATCH v4 0/2] Add p2p via dmabuf to habanalabs
-To: Jason Gunthorpe <jgg@ziepe.ca>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <3147114d-4b4b-1a42-c40b-8d8be870e633@intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,90 +54,248 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- linux-rdma <linux-rdma@vger.kernel.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, sleybo@amazon.com,
- Gal Pressman <galpress@amazon.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Doug Ledford <dledford@redhat.com>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Alex Deucher <alexander.deucher@amd.com>, Christoph Hellwig <hch@lst.de>,
- Oded Gabbay <ogabbay@kernel.org>, Leon Romanovsky <leonro@nvidia.com>,
- Linux Media Mailing List <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 6, 2021 at 2:31 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
->
-> On Tue, Jul 06, 2021 at 07:35:55PM +0200, Daniel Vetter wrote:
->
-> > Yup. We dont care about any of the fancy pieces you build on top, nor
-> > does the compiler need to be the optimizing one. Just something that's
-> > good enough to drive the hw in some demons to see how it works and all
-> > that. Generally that's also not that hard to reverse engineer, if
-> > someone is bored enough, the real fancy stuff tends to be in how you
-> > optimize the generated code. And make it fit into the higher levels
-> > properly.
->
-> Seems reasonable to me
->
-> > And it's not just nvidia, it's pretty much everyone. Like a soc
-> > company I don't want to know started collaborating with upstream and
-> > the reverse-engineered mesa team on a kernel driver, seems to work
-> > pretty well for current hardware.
->
-> What I've seen is that this only works with customer demand. Companies
-> need to hear from their customers that upstream is what is needed, and
-> companies cannot properly hear that until they are at least already
-> partially invested in the upstream process and have the right
-> customers that are sophisticated enough to care.
->
-> Embedded makes everything 10x worse because too many customers just
-> don't care about upstream, you can hack your way through everything,
-> and indulge in single generation thinking. Fork the whole kernel for 3
-> years, EOL, no problem!
->
-> It is the enterprise world, particularly with an opinionated company
-> like RH saying NO stuck in the middle that really seems to drive
-> things toward upstream.
->
-> Yes, vendors can work around Red Hat's No (and NVIDIA GPU is such an
-> example) but it is incredibly time consuming, expensive and becoming
-> more and more difficult every year.
->
-> The big point is this:
->
-> > But also nvidia is never going to sell you that as the officially
-> > supported thing, unless your ask comes back with enormous amounts of
-> > sold hardware.
->
-> I think this is at the core of Linux's success in the enterprise
-> world. Big customers who care demanding open source. Any vendor, even
-> nvidia will want to meet customer demands.
->
-> IHMO upstream success is found by motivating the customer to demand
-> and make it "easy" for the vendor to supply it.
 
-I think this is one of the last big challenges on Linux.  It's REALLY
-hard to align new products with Linux kernel releases and distro
-kernels.  Hardware cycles are too short and drivers (at least for
-GPUs) are too big to really fit well with the current Linux release
-model.  In many cases enterprise distros have locked down on a kernel
-version around the same time we are doing new chip bring up.  You are
-almost always off by one when it comes to kernel version alignment.
-Even if you can get the initial code upstream in the right kernel
-version, it tends to be aligned to such early silicon that you end up
-needing a pile of additional patches to make production cards work.
-Those changes are often deemed "too big" for stable kernel fixes.  The
-only real way to deal with that effectively is with vendor provided
-packaged drivers using something like dkms to cover launch.  Thus you
-need to do your bring up against latest upstream and then backport, or
-do your bring up against some older kernel and forward port for
-upstream.  You end up doing everything twice.  Things get better with
-sustaining support in subsequent distro releases, but it doesn't help
-at product launch.  I don't know what the right solution for this is.
 
-Alex
+On 06.07.2021 21:00, John Harrison wrote:
+> On 7/1/2021 10:15, Matthew Brost wrote:
+>> CTB writes are now in the path of command submission and should be
+>> optimized for performance. Rather than reading CTB descriptor values
+>> (e.g. head, tail) which could result in accesses across the PCIe bus,
+>> store shadow local copies and only read/write the descriptor values when
+>> absolutely necessary. Also store the current space in the each channel
+>> locally.
+>>
+>> v2:
+>>   (Michel)
+>>    - Add additional sanity checks for head / tail pointers
+>>    - Use GUC_CTB_HDR_LEN rather than magic 1
+>>
+>> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+>> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+>> ---
+>>   drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c | 88 +++++++++++++++--------
+>>   drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h |  6 ++
+>>   2 files changed, 65 insertions(+), 29 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+>> b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+>> index a9cb7b608520..5b8b4ff609e2 100644
+>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+>> @@ -130,6 +130,10 @@ static void guc_ct_buffer_desc_init(struct
+>> guc_ct_buffer_desc *desc)
+>>   static void guc_ct_buffer_reset(struct intel_guc_ct_buffer *ctb)
+>>   {
+>>       ctb->broken = false;
+>> +    ctb->tail = 0;
+>> +    ctb->head = 0;
+>> +    ctb->space = CIRC_SPACE(ctb->tail, ctb->head, ctb->size);
+>> +
+>>       guc_ct_buffer_desc_init(ctb->desc);
+>>   }
+>>   @@ -383,10 +387,8 @@ static int ct_write(struct intel_guc_ct *ct,
+>>   {
+>>       struct intel_guc_ct_buffer *ctb = &ct->ctbs.send;
+>>       struct guc_ct_buffer_desc *desc = ctb->desc;
+>> -    u32 head = desc->head;
+>> -    u32 tail = desc->tail;
+>> +    u32 tail = ctb->tail;
+>>       u32 size = ctb->size;
+>> -    u32 used;
+>>       u32 header;
+>>       u32 hxg;
+>>       u32 *cmds = ctb->cmds;
+>> @@ -395,25 +397,22 @@ static int ct_write(struct intel_guc_ct *ct,
+>>       if (unlikely(desc->status))
+>>           goto corrupted;
+>>   -    if (unlikely((tail | head) >= size)) {
+>> +    GEM_BUG_ON(tail > size);
+>> +
+>> +#ifdef CONFIG_DRM_I915_DEBUG_GUC
+>> +    if (unlikely(tail != READ_ONCE(desc->tail))) {
+>> +        CT_ERROR(ct, "Tail was modified %u != %u\n",
+>> +             desc->tail, ctb->tail);
+>> +        desc->status |= GUC_CTB_STATUS_MISMATCH;
+>> +        goto corrupted;
+>> +    }
+>> +    if (unlikely((desc->tail | desc->head) >= size)) {
+>>           CT_ERROR(ct, "Invalid offsets head=%u tail=%u (size=%u)\n",
+>> -             head, tail, size);
+>> +             desc->head, desc->tail, size);
+>>           desc->status |= GUC_CTB_STATUS_OVERFLOW;
+>>           goto corrupted;
+>>       }
+>> -
+>> -    /*
+>> -     * tail == head condition indicates empty. GuC FW does not support
+>> -     * using up the entire buffer to get tail == head meaning full.
+>> -     */
+>> -    if (tail < head)
+>> -        used = (size - head) + tail;
+>> -    else
+>> -        used = tail - head;
+>> -
+>> -    /* make sure there is a space including extra dw for the fence */
+>> -    if (unlikely(used + len + GUC_CTB_HDR_LEN >= size))
+>> -        return -ENOSPC;
+>> +#endif
+>>         /*
+>>        * dw0: CT header (including fence)
+>> @@ -454,7 +453,9 @@ static int ct_write(struct intel_guc_ct *ct,
+>>       write_barrier(ct);
+>>         /* now update descriptor */
+>> +    ctb->tail = tail;
+>>       WRITE_ONCE(desc->tail, tail);
+>> +    ctb->space -= len + GUC_CTB_HDR_LEN;
+>>         return 0;
+>>   @@ -470,7 +471,7 @@ static int ct_write(struct intel_guc_ct *ct,
+>>    * @req:    pointer to pending request
+>>    * @status:    placeholder for status
+>>    *
+>> - * For each sent request, Guc shall send bac CT response message.
+>> + * For each sent request, GuC shall send back CT response message.
+>>    * Our message handler will update status of tracked request once
+>>    * response message with given fence is received. Wait here and
+>>    * check for valid response status value.
+>> @@ -526,24 +527,35 @@ static inline bool ct_deadlocked(struct
+>> intel_guc_ct *ct)
+>>       return ret;
+>>   }
+>>   -static inline bool h2g_has_room(struct intel_guc_ct_buffer *ctb,
+>> u32 len_dw)
+>> +static inline bool h2g_has_room(struct intel_guc_ct *ct, u32 len_dw)
+>>   {
+>> -    struct guc_ct_buffer_desc *desc = ctb->desc;
+>> -    u32 head = READ_ONCE(desc->head);
+>> +    struct intel_guc_ct_buffer *ctb = &ct->ctbs.send;
+>> +    u32 head;
+>>       u32 space;
+>>   -    space = CIRC_SPACE(desc->tail, head, ctb->size);
+>> +    if (ctb->space >= len_dw)
+>> +        return true;
+>> +
+>> +    head = READ_ONCE(ctb->desc->head);
+>> +    if (unlikely(head > ctb->size)) {
+>> +        CT_ERROR(ct, "Corrupted descriptor head=%u tail=%u size=%u\n",
+>> +             ctb->desc->head, ctb->desc->tail, ctb->size);
+>> +        ctb->desc->status |= GUC_CTB_STATUS_OVERFLOW;
+>> +        ctb->broken = true;
+>> +        return false;
+>> +    }
+>> +
+>> +    space = CIRC_SPACE(ctb->tail, head, ctb->size);
+>> +    ctb->space = space;
+>>         return space >= len_dw;
+>>   }
+>>     static int has_room_nb(struct intel_guc_ct *ct, u32 len_dw)
+>>   {
+>> -    struct intel_guc_ct_buffer *ctb = &ct->ctbs.send;
+>> -
+>>       lockdep_assert_held(&ct->ctbs.send.lock);
+>>   -    if (unlikely(!h2g_has_room(ctb, len_dw))) {
+>> +    if (unlikely(!h2g_has_room(ct, len_dw))) {
+>>           if (ct->stall_time == KTIME_MAX)
+>>               ct->stall_time = ktime_get();
+>>   @@ -613,7 +625,7 @@ static int ct_send(struct intel_guc_ct *ct,
+>>        */
+>>   retry:
+>>       spin_lock_irqsave(&ctb->lock, flags);
+>> -    if (unlikely(!h2g_has_room(ctb, len + GUC_CTB_HDR_LEN))) {
+>> +    if (unlikely(!h2g_has_room(ct, len + GUC_CTB_HDR_LEN))) {
+>>           if (ct->stall_time == KTIME_MAX)
+>>               ct->stall_time = ktime_get();
+>>           spin_unlock_irqrestore(&ctb->lock, flags);
+>> @@ -733,7 +745,7 @@ static int ct_read(struct intel_guc_ct *ct, struct
+>> ct_incoming_msg **msg)
+>>   {
+>>       struct intel_guc_ct_buffer *ctb = &ct->ctbs.recv;
+>>       struct guc_ct_buffer_desc *desc = ctb->desc;
+>> -    u32 head = desc->head;
+>> +    u32 head = ctb->head;
+>>       u32 tail = desc->tail;
+>>       u32 size = ctb->size;
+>>       u32 *cmds = ctb->cmds;
+>> @@ -748,12 +760,29 @@ static int ct_read(struct intel_guc_ct *ct,
+>> struct ct_incoming_msg **msg)
+>>       if (unlikely(desc->status))
+>>           goto corrupted;
+>>   -    if (unlikely((tail | head) >= size)) {
+>> +    GEM_BUG_ON(head > size);
+> Is the BUG_ON necessary given that both options below do the same check
+> but as a corrupted buffer test (with subsequent recovery by GT reset?)
+> rather than killing the driver.
+
+"head" and "size" are now fully owned by the driver.
+BUGON here is to make sure driver is coded correctly.
+
+> 
+>> +
+>> +#ifdef CONFIG_DRM_I915_DEBUG_GUC
+>> +    if (unlikely(head != READ_ONCE(desc->head))) {
+>> +        CT_ERROR(ct, "Head was modified %u != %u\n",
+>> +             desc->head, ctb->head);
+>> +        desc->status |= GUC_CTB_STATUS_MISMATCH;
+>> +        goto corrupted;
+>> +    }
+>> +    if (unlikely((desc->tail | desc->head) >= size)) {
+>> +        CT_ERROR(ct, "Invalid offsets head=%u tail=%u (size=%u)\n",
+>> +             head, tail, size);
+>> +        desc->status |= GUC_CTB_STATUS_OVERFLOW;
+>> +        goto corrupted;
+>> +    }
+>> +#else
+>> +    if (unlikely((tail | ctb->head) >= size)) {
+> Could just be 'head' rather than 'ctb->head'.
+
+or drop "ctb->head" completely since this is driver owned field and
+above you already have BUGON to test it
+
+Michal
+
+> 
+> John.
+> 
+>>           CT_ERROR(ct, "Invalid offsets head=%u tail=%u (size=%u)\n",
+>>                head, tail, size);
+>>           desc->status |= GUC_CTB_STATUS_OVERFLOW;
+>>           goto corrupted;
+>>       }
+>> +#endif
+>>         /* tail == head condition indicates empty */
+>>       available = tail - head;
+>> @@ -803,6 +832,7 @@ static int ct_read(struct intel_guc_ct *ct, struct
+>> ct_incoming_msg **msg)
+>>       }
+>>       CT_DEBUG(ct, "received %*ph\n", 4 * len, (*msg)->msg);
+>>   +    ctb->head = head;
+>>       /* now update descriptor */
+>>       WRITE_ONCE(desc->head, head);
+>>   diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
+>> b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
+>> index bee03794c1eb..edd1bba0445d 100644
+>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
+>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
+>> @@ -33,6 +33,9 @@ struct intel_guc;
+>>    * @desc: pointer to the buffer descriptor
+>>    * @cmds: pointer to the commands buffer
+>>    * @size: size of the commands buffer in dwords
+>> + * @head: local shadow copy of head in dwords
+>> + * @tail: local shadow copy of tail in dwords
+>> + * @space: local shadow copy of space in dwords
+>>    * @broken: flag to indicate if descriptor data is broken
+>>    */
+>>   struct intel_guc_ct_buffer {
+>> @@ -40,6 +43,9 @@ struct intel_guc_ct_buffer {
+>>       struct guc_ct_buffer_desc *desc;
+>>       u32 *cmds;
+>>       u32 size;
+>> +    u32 tail;
+>> +    u32 head;
+>> +    u32 space;
+>>       bool broken;
+>>   };
+>>   
+> 
