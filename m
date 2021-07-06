@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 698893BCB9E
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 13:15:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 370F83BCBA0
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 13:15:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5FA316E042;
-	Tue,  6 Jul 2021 11:15:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E10FA6E04A;
+	Tue,  6 Jul 2021 11:15:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 96AE26E04A
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Jul 2021 11:15:06 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id A9F5561C28;
- Tue,  6 Jul 2021 11:15:05 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 682516E047;
+ Tue,  6 Jul 2021 11:15:10 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 4D45061C31;
+ Tue,  6 Jul 2021 11:15:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1625570106;
- bh=cUqT5HGXumM4TBFcuqG8XVP4oJ3+IBDFlH7m3Z1t154=;
+ s=k20201202; t=1625570110;
+ bh=Ct3Y7jkwoKYSQltROAjqMjbfy7zwRvvP9DDxZboJejs=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=hwbyngXl1YJLoEsZ0eolRbLa5tMeWuxPkZywP8RFwD7IfEuVRt69yOfZvyCLYD7JB
- aBMepA1/mKFtzQb0Mjj7cQ6vnkqFv1BIqLZKBN55lCtk2Gvs8PH61oGNW/f658wZOT
- Q5ygrGm4qpUhu12VYRubxvjSeXrHyh1I4atQfFC1O7fj3ugUUUD290VtJPAoUBDznR
- hBdUY6cpfo28cEJN9aTu2P/071foosx5RRw2QROrR56n3h80qvWdlBreGVWXtfJRzy
- H4KN5aZSuyCq58s4yDVWD6sgboGbdKYcfs5YbhJPR0j9ByzreCGzJEvkZcUcr8AYPo
- HuXymxGhaF99Q==
+ b=uVXUZ9OuLwcb4l5EUVj5qm0Uhp4fkUJzcKQyin/OesamvS9Ettk0x4rb7kpYlsb7B
+ pf1d8xyXqgYaDag73ZBsNGZhwsp8JCIAYzg0QeFuv7udrwh8R6XqPGNiZf9d/hSQoo
+ YjIIv6c45D4FVlDzNNYpTpEJ7DVjWVKehnY5bq5w/DYur7YjVsaHUAP6iquf02ewdy
+ KESZD2Ceu4QJmrcdfznLwSl2upkRKTmw12zdBBsIb9NkEC2mz3Uzdqr0FDkbxbDziq
+ KV5WuJaOswN42HRniwVpiYOThfgQ7S3/vieNwBSOZBmj1Ed5u8mC2xlsKq5iLTHLR8
+ HtV1Z3iYK9aTw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.13 039/189] drm/sched: Avoid data corruptions
-Date: Tue,  6 Jul 2021 07:11:39 -0400
-Message-Id: <20210706111409.2058071-39-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.13 042/189] drm/amd/pm: fix return value in
+ aldebaran_set_mp1_state()
+Date: Tue,  6 Jul 2021 07:11:42 -0400
+Message-Id: <20210706111409.2058071-42-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210706111409.2058071-1-sashal@kernel.org>
 References: <20210706111409.2058071-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -50,49 +50,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- linux-media@vger.kernel.org
+Cc: Sasha Levin <sashal@kernel.org>, Feifei Xu <Feifei.Xu@amd.com>,
+ Lijo Lazar <lijo.lazar@amd.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+From: Feifei Xu <Feifei.Xu@amd.com>
 
-[ Upstream commit 0b10ab80695d61422337ede6ff496552d8ace99d ]
+[ Upstream commit 5051cb794ac5d92154e186d87cdc12cba613f4f6 ]
 
-Wait for all dependencies of a job  to complete before
-killing it to avoid data corruptions.
+For default cases,we should return 0. Otherwise resume will
+abort because of the wrong return value.
 
-Signed-off-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
-Reviewed-by: Christian König <christian.koenig@amd.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20210519141407.88444-1-andrey.grodzovsky@amd.com
+Signed-off-by: Feifei Xu <Feifei.Xu@amd.com>
+Reviewed-by: Lijo Lazar <lijo.lazar@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/scheduler/sched_entity.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/gpu/drm/amd/pm/swsmu/smu13/aldebaran_ppt.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
-index cb58f692dad9..86a4209d8c77 100644
---- a/drivers/gpu/drm/scheduler/sched_entity.c
-+++ b/drivers/gpu/drm/scheduler/sched_entity.c
-@@ -222,11 +222,16 @@ static void drm_sched_entity_kill_jobs_cb(struct dma_fence *f,
- static void drm_sched_entity_kill_jobs(struct drm_sched_entity *entity)
- {
- 	struct drm_sched_job *job;
-+	struct dma_fence *f;
- 	int r;
+diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu13/aldebaran_ppt.c b/drivers/gpu/drm/amd/pm/swsmu/smu13/aldebaran_ppt.c
+index dcbe3a72da09..16ad4683eb69 100644
+--- a/drivers/gpu/drm/amd/pm/swsmu/smu13/aldebaran_ppt.c
++++ b/drivers/gpu/drm/amd/pm/swsmu/smu13/aldebaran_ppt.c
+@@ -1779,10 +1779,8 @@ static int aldebaran_set_mp1_state(struct smu_context *smu,
+ 	case PP_MP1_STATE_UNLOAD:
+ 		return smu_cmn_set_mp1_state(smu, mp1_state);
+ 	default:
+-		return -EINVAL;
++		return 0;
+ 	}
+-
+-	return 0;
+ }
  
- 	while ((job = to_drm_sched_job(spsc_queue_pop(&entity->job_queue)))) {
- 		struct drm_sched_fence *s_fence = job->s_fence;
- 
-+		/* Wait for all dependencies to avoid data corruptions */
-+		while ((f = job->sched->ops->dependency(job, entity)))
-+			dma_fence_wait(f, false);
-+
- 		drm_sched_fence_scheduled(s_fence);
- 		dma_fence_set_error(&s_fence->finished, -ESRCH);
- 
+ static const struct pptable_funcs aldebaran_ppt_funcs = {
 -- 
 2.30.2
 
