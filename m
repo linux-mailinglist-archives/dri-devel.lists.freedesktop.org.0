@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F3403BCE10
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 13:23:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3EB23BCE16
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 13:23:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B711D6E3F5;
-	Tue,  6 Jul 2021 11:22:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E83B6E3FC;
+	Tue,  6 Jul 2021 11:23:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D5C416E3FC
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Jul 2021 11:22:55 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D1B5461D1B;
- Tue,  6 Jul 2021 11:22:54 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 71DBB6E3FC
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Jul 2021 11:23:02 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 99CDA61E0D;
+ Tue,  6 Jul 2021 11:23:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1625570575;
- bh=fkdniDa+xDCETYQggD9oaebwsk6k8b5LwB+FE25nR24=;
+ s=k20201202; t=1625570582;
+ bh=vRhNXClf9Vk824eWZ0E1A24JGfsQynC8Y7DYt02HcVI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=kUhVgvI/BLoF7raQZLrIgHfD/TJtS6WMyLRdvdZpzVsyA3oBb83tEN85Gjuc9xyT2
- VDyWiBgY4PSgUzssz/MwNUhSZaonARyPrrcoj7DTBn58Vt7sirWW4bcjSLg1rAUVWS
- wbFjD7Boh/YL3QzD22ACQgAhUX2rjYKF7TyjQbRhhdgGz1nF35q9I541nNzEFhdZMK
- 0v60Q+YFgHVpZ65tDBMxVgvR+wLTYE/bkWm8y3xn/XXR+T5INUTlfhw/g1kDrRdANC
- IQsdV+44ScjucIdeNx2eafv9l4+nMzdLTKpqewgWnJvvUYqh4B4jkIMQGYPlwx24Db
- PsQGD3gpKYoAQ==
+ b=T4qSspVczqEpaGKhsrNyQ+Mc/2WmQCDyjQM3kfrx2MP2z5KJ2mg+jl7BCSp/90YmS
+ j2wZJsT7hgjAqXtxEDncZoaxcLKGaG59VEvTHJjMc3742iPczohx4adgmUUt5DViFC
+ 7JfF/H7QX8K0XMVVtrmH9vJbUQu2O8LGTJwyeQa9JCQqlZy18EOtfcHFpBzJ5uVVr9
+ FRBPo6nonC9gyBIS0fX3STAmApiwbmPG6QOB3RIw/yUhpJSfHAnGjuV7ERfWTHpTbb
+ 9iLiQaR9My5SUJvqU5hy5cE7/jyiny3+n8uowzlGz5MnFhaJjgdh7qa96EBkyS8jJh
+ zIp9Li/lr4KAQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 040/137] drm: rockchip: add missing registers for
- RK3066
-Date: Tue,  6 Jul 2021 07:20:26 -0400
-Message-Id: <20210706112203.2062605-40-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 045/137] drm: bridge: cdns-mhdp8546: Fix PM
+ reference leak in
+Date: Tue,  6 Jul 2021 07:20:31 -0400
+Message-Id: <20210706112203.2062605-45-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210706112203.2062605-1-sashal@kernel.org>
 References: <20210706112203.2062605-1-sashal@kernel.org>
@@ -50,84 +50,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Alex Bee <knaerzche@gmail.com>,
- dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org
+Cc: Sasha Levin <sashal@kernel.org>, Yu Kuai <yukuai3@huawei.com>,
+ dri-devel@lists.freedesktop.org, Robert Foss <robert.foss@linaro.org>,
+ Hulk Robot <hulkci@huawei.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Alex Bee <knaerzche@gmail.com>
+From: Yu Kuai <yukuai3@huawei.com>
 
-[ Upstream commit 742203cd56d150eb7884eb45abb7d9dbc2bdbf04 ]
+[ Upstream commit f674555ee5444c8987dfea0922f1cf6bf0c12847 ]
 
-Add dither_up, dsp_lut_en and data_blank registers to enable their
-respective functionality for RK3066's VOP.
+pm_runtime_get_sync will increment pm usage counter even it failed.
+Forgetting to putting operation will result in reference leak here.
+Fix it by replacing it with pm_runtime_resume_and_get to keep usage
+counter balanced.
 
-While at that also fix .rb_swap and .format registers for all windows,
-which have to be set though RK3066_SYS_CTRL1 register.
-Also remove .scl from win1: Scaling is only supported on the primary
-plane.
-
-Signed-off-by: Alex Bee <knaerzche@gmail.com>
-Signed-off-by: Heiko Stuebner <heiko@sntech.de>
-Link: https://patchwork.freedesktop.org/patch/msgid/20210528130554.72191-4-knaerzche@gmail.com
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Signed-off-by: Yu Kuai <yukuai3@huawei.com>
+Reviewed-by: Robert Foss <robert.foss@linaro.org>
+Signed-off-by: Robert Foss <robert.foss@linaro.org>
+Link: https://patchwork.freedesktop.org/patch/msgid/20210531135622.3348252-1-yukuai3@huawei.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/rockchip/rockchip_vop_reg.c | 16 +++++++++-------
- 1 file changed, 9 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/rockchip/rockchip_vop_reg.c b/drivers/gpu/drm/rockchip/rockchip_vop_reg.c
-index b8dcee64a1f7..a6fe03c3748a 100644
---- a/drivers/gpu/drm/rockchip/rockchip_vop_reg.c
-+++ b/drivers/gpu/drm/rockchip/rockchip_vop_reg.c
-@@ -349,8 +349,8 @@ static const struct vop_win_phy rk3066_win0_data = {
- 	.nformats = ARRAY_SIZE(formats_win_full),
- 	.format_modifiers = format_modifiers_win_full,
- 	.enable = VOP_REG(RK3066_SYS_CTRL1, 0x1, 0),
--	.format = VOP_REG(RK3066_SYS_CTRL0, 0x7, 4),
--	.rb_swap = VOP_REG(RK3066_SYS_CTRL0, 0x1, 19),
-+	.format = VOP_REG(RK3066_SYS_CTRL1, 0x7, 4),
-+	.rb_swap = VOP_REG(RK3066_SYS_CTRL1, 0x1, 19),
- 	.act_info = VOP_REG(RK3066_WIN0_ACT_INFO, 0x1fff1fff, 0),
- 	.dsp_info = VOP_REG(RK3066_WIN0_DSP_INFO, 0x0fff0fff, 0),
- 	.dsp_st = VOP_REG(RK3066_WIN0_DSP_ST, 0x1fff1fff, 0),
-@@ -361,13 +361,12 @@ static const struct vop_win_phy rk3066_win0_data = {
- };
+diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+index d0c65610ebb5..f56ff97c9899 100644
+--- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
++++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+@@ -2369,9 +2369,9 @@ static int cdns_mhdp_probe(struct platform_device *pdev)
+ 	clk_prepare_enable(clk);
  
- static const struct vop_win_phy rk3066_win1_data = {
--	.scl = &rk3066_win_scl,
- 	.data_formats = formats_win_full,
- 	.nformats = ARRAY_SIZE(formats_win_full),
- 	.format_modifiers = format_modifiers_win_full,
- 	.enable = VOP_REG(RK3066_SYS_CTRL1, 0x1, 1),
--	.format = VOP_REG(RK3066_SYS_CTRL0, 0x7, 7),
--	.rb_swap = VOP_REG(RK3066_SYS_CTRL0, 0x1, 23),
-+	.format = VOP_REG(RK3066_SYS_CTRL1, 0x7, 7),
-+	.rb_swap = VOP_REG(RK3066_SYS_CTRL1, 0x1, 23),
- 	.act_info = VOP_REG(RK3066_WIN1_ACT_INFO, 0x1fff1fff, 0),
- 	.dsp_info = VOP_REG(RK3066_WIN1_DSP_INFO, 0x0fff0fff, 0),
- 	.dsp_st = VOP_REG(RK3066_WIN1_DSP_ST, 0x1fff1fff, 0),
-@@ -382,8 +381,8 @@ static const struct vop_win_phy rk3066_win2_data = {
- 	.nformats = ARRAY_SIZE(formats_win_lite),
- 	.format_modifiers = format_modifiers_win_lite,
- 	.enable = VOP_REG(RK3066_SYS_CTRL1, 0x1, 2),
--	.format = VOP_REG(RK3066_SYS_CTRL0, 0x7, 10),
--	.rb_swap = VOP_REG(RK3066_SYS_CTRL0, 0x1, 27),
-+	.format = VOP_REG(RK3066_SYS_CTRL1, 0x7, 10),
-+	.rb_swap = VOP_REG(RK3066_SYS_CTRL1, 0x1, 27),
- 	.dsp_info = VOP_REG(RK3066_WIN2_DSP_INFO, 0x0fff0fff, 0),
- 	.dsp_st = VOP_REG(RK3066_WIN2_DSP_ST, 0x1fff1fff, 0),
- 	.yrgb_mst = VOP_REG(RK3066_WIN2_MST, 0xffffffff, 0),
-@@ -408,6 +407,9 @@ static const struct vop_common rk3066_common = {
- 	.dither_down_en = VOP_REG(RK3066_DSP_CTRL0, 0x1, 11),
- 	.dither_down_mode = VOP_REG(RK3066_DSP_CTRL0, 0x1, 10),
- 	.dsp_blank = VOP_REG(RK3066_DSP_CTRL1, 0x1, 24),
-+	.dither_up = VOP_REG(RK3066_DSP_CTRL0, 0x1, 9),
-+	.dsp_lut_en = VOP_REG(RK3066_SYS_CTRL1, 0x1, 31),
-+	.data_blank = VOP_REG(RK3066_DSP_CTRL1, 0x1, 25),
- };
- 
- static const struct vop_win_data rk3066_vop_win_data[] = {
+ 	pm_runtime_enable(dev);
+-	ret = pm_runtime_get_sync(dev);
++	ret = pm_runtime_resume_and_get(dev);
+ 	if (ret < 0) {
+-		dev_err(dev, "pm_runtime_get_sync failed\n");
++		dev_err(dev, "pm_runtime_resume_and_get failed\n");
+ 		pm_runtime_disable(dev);
+ 		goto clk_disable;
+ 	}
 -- 
 2.30.2
 
