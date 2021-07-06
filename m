@@ -1,40 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A2C93BDF20
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 23:47:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 867A53BDF21
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 23:49:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A3F76E5BD;
-	Tue,  6 Jul 2021 21:47:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C85E46E5BF;
+	Tue,  6 Jul 2021 21:49:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7170A6E5BD;
- Tue,  6 Jul 2021 21:47:51 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10037"; a="273045419"
-X-IronPort-AV: E=Sophos;i="5.83,329,1616482800"; d="scan'208";a="273045419"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Jul 2021 14:47:49 -0700
-X-IronPort-AV: E=Sophos;i="5.83,329,1616482800"; d="scan'208";a="645181699"
-Received: from pbarbago-mobl.amr.corp.intel.com (HELO ldmartin-desk2)
- ([10.251.131.218])
- by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Jul 2021 14:47:48 -0700
-Date: Tue, 6 Jul 2021 14:47:48 -0700
-From: Lucas De Marchi <lucas.demarchi@intel.com>
-To: Matt Roper <matthew.d.roper@intel.com>
-Subject: Re: [PATCH 33/53] drm/i915/dg2: Add fake PCH
-Message-ID: <20210706214748.q3pugg2q7mdtjdm4@ldmartin-desk2>
-X-Patchwork-Hint: comment
-References: <20210701202427.1547543-1-matthew.d.roper@intel.com>
- <20210701202427.1547543-34-matthew.d.roper@intel.com>
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
+ [IPv6:2a00:1450:4864:20::435])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A05B6E5BF
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Jul 2021 21:49:00 +0000 (UTC)
+Received: by mail-wr1-x435.google.com with SMTP id l5so630436wrv.7
+ for <dri-devel@lists.freedesktop.org>; Tue, 06 Jul 2021 14:49:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=OsCogNNhwhio6JYdPBw8QXS8xWHflA728fjLuzDRTYc=;
+ b=D/dJq6ZBOJdh60YHB3H/OQ0Ubysii+ui+PiVQb4bXGVXMK7svprZgZtv8eB1+yNcSH
+ n7mrI6Dmc1oqxyYzFi+eABvpHqvnkUDCvs15RFA62J9rCbCb1ppJjDgGhrowoayyy+xy
+ A8gfmA5XTNdr7R6PE6WMdVVvadJB+SQj0cHZc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=OsCogNNhwhio6JYdPBw8QXS8xWHflA728fjLuzDRTYc=;
+ b=s1yGSARl7CwWOSjsz8U9X7JL5kX2GFTjPa3aSH5DcjyBtKFhrL19etVgSjydBI7A+J
+ Re3o3VAYoQkJ5/qS74L3Q7rP4RjH8leqbytxPhZYctZEMQ5iokpg7LXZujvmaoLm8XAp
+ bojgR0ma32KeMrPU80a/zWehLW3gcNwFXALy7kJuBvc7uzY49eVPliHVY1QMBvLhLMoY
+ vURezExWBQiQ0JeG42QVZBKMM+XbqtgS2hk85FrdVmM+pbQCz8Mg3l4Dh0U+hFmF3nrY
+ DSrVCimA0D3iNxdPfGeiHAi2M54SAQ9IcS1GVam+4MPE6RLz4m7aDee28AHisofzmjyK
+ ae6g==
+X-Gm-Message-State: AOAM533L+7Y3/0EakEA71owa5Pk4FpCUdkTht8aPLkCUtXZlzoRxDSm3
+ Oeq4HEfJ8TdjBwQLgJ1YZ+wOKw==
+X-Google-Smtp-Source: ABdhPJwov6/2lXCO0iYiktITu+/Av5dNsT3c7SfReqalZm0I1JNQHJR2F9UU3VxAbNcjHRnQP2jijw==
+X-Received: by 2002:a5d:528d:: with SMTP id c13mr24226057wrv.343.1625608139317; 
+ Tue, 06 Jul 2021 14:48:59 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id x17sm2548898wru.6.2021.07.06.14.48.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 06 Jul 2021 14:48:58 -0700 (PDT)
+Date: Tue, 6 Jul 2021 23:48:56 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Beatriz Martins de Carvalho <martinsdecarvalhobeatriz@gmail.com>
+Subject: Re: [PATCH] drm/vkms: replace macro in vkms_release()
+Message-ID: <YOTPyGPY/WwteE9x@phenom.ffwll.local>
+References: <20210706154510.224695-1-martinsdecarvalhobeatriz@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210701202427.1547543-34-matthew.d.roper@intel.com>
+In-Reply-To: <20210706154510.224695-1-martinsdecarvalhobeatriz@gmail.com>
+X-Operating-System: Linux phenom 5.10.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,82 +65,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- Aditya Swarup <aditya.swarup@intel.com>,
- =?utf-8?B?Sm9zw6k=?= Roberto de Souza <jose.souza@intel.com>
+Cc: melissa.srw@gmail.com, bcarvalho.ic@gmail.com,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 01, 2021 at 01:24:07PM -0700, Matt Roper wrote:
->As with DG1, DG2 has an ICL-style south display interface provided on
->the same PCI device.  Add a fake PCH to ensure DG2 takes the appropriate
->codepaths for south display handling.
->
->Bspec: 54871, 50062, 49961, 53673
->Cc: Lucas De Marchi <lucas.demarchi@intel.com>
->Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
->Signed-off-by: Aditya Swarup <aditya.swarup@intel.com>
->Signed-off-by: José Roberto de Souza <jose.souza@intel.com>
+On Tue, Jul 06, 2021 at 04:45:10PM +0100, Beatriz Martins de Carvalho wrote:
+> Replace macro in vkms_release()
+> 
+> Signed-off-by: Beatriz Martins de Carvalho <martinsdecarvalhobeatriz@gmail.com>
 
+Applied to drm-misc-next, thanks for the patch.
+-Daniel
 
-Reviewed-by: Lucas De Marchi <lucas.demarchi@intel.com>
+> ---
+>  drivers/gpu/drm/vkms/vkms_drv.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
+> index 496de38ad983..e806958027c2 100644
+> --- a/drivers/gpu/drm/vkms/vkms_drv.c
+> +++ b/drivers/gpu/drm/vkms/vkms_drv.c
+> @@ -52,7 +52,7 @@ DEFINE_DRM_GEM_FOPS(vkms_driver_fops);
+>  
+>  static void vkms_release(struct drm_device *dev)
+>  {
+> -	struct vkms_device *vkms = container_of(dev, struct vkms_device, drm);
+> +	struct vkms_device *vkms = drm_device_to_vkms_device(dev);
+>  
+>  	destroy_workqueue(vkms->output.composer_workq);
+>  }
+> -- 
+> 2.25.1
+> 
 
-Lucas De Marchi
-
-
->---
-> drivers/gpu/drm/i915/i915_irq.c  | 2 +-
-> drivers/gpu/drm/i915/intel_pch.c | 3 +++
-> drivers/gpu/drm/i915/intel_pch.h | 2 ++
-> 3 files changed, 6 insertions(+), 1 deletion(-)
->
->diff --git a/drivers/gpu/drm/i915/i915_irq.c b/drivers/gpu/drm/i915/i915_irq.c
->index 9d47ffa39093..34a0d49e760e 100644
->--- a/drivers/gpu/drm/i915/i915_irq.c
->+++ b/drivers/gpu/drm/i915/i915_irq.c
->@@ -208,7 +208,7 @@ static void intel_hpd_init_pins(struct drm_i915_private *dev_priv)
-> 	    (!HAS_PCH_SPLIT(dev_priv) || HAS_PCH_NOP(dev_priv)))
-> 		return;
->
->-	if (HAS_PCH_DG1(dev_priv))
->+	if (INTEL_PCH_TYPE(dev_priv) >= PCH_DG1)
-> 		hpd->pch_hpd = hpd_sde_dg1;
-> 	else if (INTEL_PCH_TYPE(dev_priv) >= PCH_ICP)
-> 		hpd->pch_hpd = hpd_icp;
->diff --git a/drivers/gpu/drm/i915/intel_pch.c b/drivers/gpu/drm/i915/intel_pch.c
->index 4e92ae19189e..cc44164e242b 100644
->--- a/drivers/gpu/drm/i915/intel_pch.c
->+++ b/drivers/gpu/drm/i915/intel_pch.c
->@@ -211,6 +211,9 @@ void intel_detect_pch(struct drm_i915_private *dev_priv)
-> 	if (IS_DG1(dev_priv)) {
-> 		dev_priv->pch_type = PCH_DG1;
-> 		return;
->+	} else if (IS_DG2(dev_priv)) {
->+		dev_priv->pch_type = PCH_DG2;
->+		return;
-> 	}
->
-> 	/*
->diff --git a/drivers/gpu/drm/i915/intel_pch.h b/drivers/gpu/drm/i915/intel_pch.h
->index e2f3f30c6445..7c0d83d292dc 100644
->--- a/drivers/gpu/drm/i915/intel_pch.h
->+++ b/drivers/gpu/drm/i915/intel_pch.h
->@@ -30,6 +30,7 @@ enum intel_pch {
->
-> 	/* Fake PCHs, functionality handled on the same PCI dev */
-> 	PCH_DG1 = 1024,
->+	PCH_DG2,
-> };
->
-> #define INTEL_PCH_DEVICE_ID_MASK		0xff80
->@@ -62,6 +63,7 @@ enum intel_pch {
->
-> #define INTEL_PCH_TYPE(dev_priv)		((dev_priv)->pch_type)
-> #define INTEL_PCH_ID(dev_priv)			((dev_priv)->pch_id)
->+#define HAS_PCH_DG2(dev_priv)			(INTEL_PCH_TYPE(dev_priv) == PCH_DG2)
-> #define HAS_PCH_ADP(dev_priv)			(INTEL_PCH_TYPE(dev_priv) == PCH_ADP)
-> #define HAS_PCH_DG1(dev_priv)			(INTEL_PCH_TYPE(dev_priv) == PCH_DG1)
-> #define HAS_PCH_JSP(dev_priv)			(INTEL_PCH_TYPE(dev_priv) == PCH_JSP)
->-- 
->2.25.4
->
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
