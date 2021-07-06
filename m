@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3EB23BCE16
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 13:23:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 067E33BCE19
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 13:23:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E83B6E3FC;
-	Tue,  6 Jul 2021 11:23:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2DA586E3FE;
+	Tue,  6 Jul 2021 11:23:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 71DBB6E3FC
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Jul 2021 11:23:02 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 99CDA61E0D;
- Tue,  6 Jul 2021 11:23:01 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7FB8E6E3FE;
+ Tue,  6 Jul 2021 11:23:08 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id A4E2261E0B;
+ Tue,  6 Jul 2021 11:23:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1625570582;
- bh=vRhNXClf9Vk824eWZ0E1A24JGfsQynC8Y7DYt02HcVI=;
+ s=k20201202; t=1625570588;
+ bh=kCdTWq7fWYA1GEGr+aSKfE6tn0rSyjfSV023TumUpz4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=T4qSspVczqEpaGKhsrNyQ+Mc/2WmQCDyjQM3kfrx2MP2z5KJ2mg+jl7BCSp/90YmS
- j2wZJsT7hgjAqXtxEDncZoaxcLKGaG59VEvTHJjMc3742iPczohx4adgmUUt5DViFC
- 7JfF/H7QX8K0XMVVtrmH9vJbUQu2O8LGTJwyeQa9JCQqlZy18EOtfcHFpBzJ5uVVr9
- FRBPo6nonC9gyBIS0fX3STAmApiwbmPG6QOB3RIw/yUhpJSfHAnGjuV7ERfWTHpTbb
- 9iLiQaR9My5SUJvqU5hy5cE7/jyiny3+n8uowzlGz5MnFhaJjgdh7qa96EBkyS8jJh
- zIp9Li/lr4KAQ==
+ b=WfHda4bEKP4jBM/M2+ZJENrT46aYh1+g8hujnPFm4Kw+mqVBeiox9wtvAnlWqjws1
+ 0aN5gtkvH3iB3DZl5QETQwoxzfGobsRJAA9CTCiN773oZ655+4/QZW3GU2PusdfkFJ
+ QoBZ8aUq0eBKkxIsG+X+8pY0jKqdZJR+S5GJNNBYIdqwR8ioz1UXVsONJ9pqcTa5lu
+ KMhnE5P5wtLpLpJGPv1RB+ZGNKz8CRL/JlBMYb/67nwDj0S6HmDIZXbX5qD6QakKwb
+ 8GMNDIsGYj3qn9q9dP2wCmoGEJQDJi2T5BZvip9Dmu6rJmzvTv2Cw2wSloV+Osmrs8
+ pDyN4MDkltRiQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 045/137] drm: bridge: cdns-mhdp8546: Fix PM
- reference leak in
-Date: Tue,  6 Jul 2021 07:20:31 -0400
-Message-Id: <20210706112203.2062605-45-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 050/137] drm/amd/display: Avoid HDCP over-read
+ and corruption
+Date: Tue,  6 Jul 2021 07:20:36 -0400
+Message-Id: <20210706112203.2062605-50-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210706112203.2062605-1-sashal@kernel.org>
 References: <20210706112203.2062605-1-sashal@kernel.org>
@@ -50,47 +50,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Yu Kuai <yukuai3@huawei.com>,
- dri-devel@lists.freedesktop.org, Robert Foss <robert.foss@linaro.org>,
- Hulk Robot <hulkci@huawei.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
+ dri-devel@lists.freedesktop.org, Kees Cook <keescook@chromium.org>,
+ amd-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Yu Kuai <yukuai3@huawei.com>
+From: Kees Cook <keescook@chromium.org>
 
-[ Upstream commit f674555ee5444c8987dfea0922f1cf6bf0c12847 ]
+[ Upstream commit 06888d571b513cbfc0b41949948def6cb81021b2 ]
 
-pm_runtime_get_sync will increment pm usage counter even it failed.
-Forgetting to putting operation will result in reference leak here.
-Fix it by replacing it with pm_runtime_resume_and_get to keep usage
-counter balanced.
+Instead of reading the desired 5 bytes of the actual target field,
+the code was reading 8. This could result in a corrupted value if the
+trailing 3 bytes were non-zero, so instead use an appropriately sized
+and zero-initialized bounce buffer, and read only 5 bytes before casting
+to u64.
 
-Reported-by: Hulk Robot <hulkci@huawei.com>
-Signed-off-by: Yu Kuai <yukuai3@huawei.com>
-Reviewed-by: Robert Foss <robert.foss@linaro.org>
-Signed-off-by: Robert Foss <robert.foss@linaro.org>
-Link: https://patchwork.freedesktop.org/patch/msgid/20210531135622.3348252-1-yukuai3@huawei.com
+Signed-off-by: Kees Cook <keescook@chromium.org>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/amd/display/modules/hdcp/hdcp1_execution.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-index d0c65610ebb5..f56ff97c9899 100644
---- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-+++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-@@ -2369,9 +2369,9 @@ static int cdns_mhdp_probe(struct platform_device *pdev)
- 	clk_prepare_enable(clk);
+diff --git a/drivers/gpu/drm/amd/display/modules/hdcp/hdcp1_execution.c b/drivers/gpu/drm/amd/display/modules/hdcp/hdcp1_execution.c
+index f244b72e74e0..53eab2b8e2c8 100644
+--- a/drivers/gpu/drm/amd/display/modules/hdcp/hdcp1_execution.c
++++ b/drivers/gpu/drm/amd/display/modules/hdcp/hdcp1_execution.c
+@@ -29,8 +29,10 @@ static inline enum mod_hdcp_status validate_bksv(struct mod_hdcp *hdcp)
+ {
+ 	uint64_t n = 0;
+ 	uint8_t count = 0;
++	u8 bksv[sizeof(n)] = { };
  
- 	pm_runtime_enable(dev);
--	ret = pm_runtime_get_sync(dev);
-+	ret = pm_runtime_resume_and_get(dev);
- 	if (ret < 0) {
--		dev_err(dev, "pm_runtime_get_sync failed\n");
-+		dev_err(dev, "pm_runtime_resume_and_get failed\n");
- 		pm_runtime_disable(dev);
- 		goto clk_disable;
- 	}
+-	memcpy(&n, hdcp->auth.msg.hdcp1.bksv, sizeof(uint64_t));
++	memcpy(bksv, hdcp->auth.msg.hdcp1.bksv, sizeof(hdcp->auth.msg.hdcp1.bksv));
++	n = *(uint64_t *)bksv;
+ 
+ 	while (n) {
+ 		count++;
 -- 
 2.30.2
 
