@@ -2,71 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D8AA3BC7A4
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 10:09:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD28E3BC7AA
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 10:11:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E86189BAC;
-	Tue,  6 Jul 2021 08:09:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F61689BD2;
+	Tue,  6 Jul 2021 08:11:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
- [66.111.4.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 805B689BAC
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Jul 2021 08:09:24 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id 29F155C0166;
- Tue,  6 Jul 2021 04:09:21 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Tue, 06 Jul 2021 04:09:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm3; bh=0eF3aO0rWXJxqOIRQ7c6N70jgEl
- 9mZdTDN3IAaEzJ3I=; b=KA1EFVptEbXLuH50/scJXDMVVF1bt9j5h+C/5fBB7HN
- AkfqbpDMUxeBmqAYF0s/VpMg9lLTnP/5rp4kyy2lj41EztqABwCFnP+pjsqtYiFX
- X1hTfM3wPvcd06SyliAeVyc1V2atgu3cAZ69bppJ/zTg1F9TM+YMVYyIuXTdeLMg
- B5Ej3+OYDqsS729NMKOWkTHJkPdDULMWTkuiaufD9aH32p/C3dBmKxWZtyTwkNZx
- 8WFefJ6bugQ/wEgTeZLKRrLNy8Jqfs7hcu0H4IZ4o85l4SvmNfUxlZ84332V0Fhs
- aFUh1BtNtpekyL4Izhk+SFzcL3QwNTWJ6rI53WHcseQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=0eF3aO
- 0rWXJxqOIRQ7c6N70jgEl9mZdTDN3IAaEzJ3I=; b=KVlXh/OcGdWqa72GjGXfqa
- 1Fpm9/e9pPOZAIHF8PR4T4nU3IpwrP7bHRX8ZPKEYL8gVKRDVVOPjKmRtQ6BMgvc
- rL35h4K8J3g59Xo2GYzRyxw8FbjYZYwFmhNhVbj5GmkqBifxIm1SZrpcOI2ddqFP
- bGgkJsAlXX4J/ao9aTn52E8bpOPsd3yz4zk/j/Nh4fXCNcBQF7gYd2Fflfa6IKF4
- sgW3Q79q9qZxleglAr6cCARTkrGR/Ub5uKaFTOgR5y139J7rESlNFwjeTh+AB3Tm
- SWfFRGVWDP/7NGBRFnqAy5FhyM1L3gmdfRsblMwtazc+6uAG8c3yT/tIjFxRgmcw
- ==
-X-ME-Sender: <xms:rw_kYPEyeTUNyeL0y3b3PHQt9XGgUJX5uo4GlIPKFb7pxCUeMUksJw>
- <xme:rw_kYMVSgeSFrEC4w2JCy3Qg2XNjRFtMbGWJtk5wwq8f88vFyblFWP7yCINT40Sat
- 8cUa4OLw7DgKLSUCKg>
-X-ME-Received: <xmr:rw_kYBKUaZZ-id7KMmosLXbqL6BKFiUtFSwT9VH9X2-hFsOJDj1UU32KMLfIobFsDhk7xN8xLWYYRO2rMAlvowijiPVsUN1k9uKJ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfeejhedguddvfecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
- mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
- htthgvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheei
- heegudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
- hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:rw_kYNGjd0eYt9DKyRbCPq4-Ik5MdzDypqljitPJCwhGO89yjm3h8w>
- <xmx:rw_kYFVKDmr_f_1nC32pV5OPjU4DXlbTSkWZddzOc_ZRSYjYrZe_0g>
- <xmx:rw_kYIOgILzC5CDVbS4lcqx23BdNnUkuRBOycCtaEjPVnraIZFLbaw>
- <xmx:sQ_kYBqlzRPpae82KTawqBCMeazv1-g-14xE-dqPhbwCVSn5BKRVgw>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 6 Jul 2021 04:09:18 -0400 (EDT)
-Date: Tue, 6 Jul 2021 10:09:17 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH] drm/hisilicon/hibmc: Convert to Linux IRQ interfaces
-Message-ID: <20210706080917.t4g5yxxflgbqnd3d@gilmour>
-References: <20210706075425.9257-1-tzimmermann@suse.de>
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
+ [IPv6:2a00:1450:4864:20::42e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6714089BB2
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Jul 2021 08:11:19 +0000 (UTC)
+Received: by mail-wr1-x42e.google.com with SMTP id a8so13287071wrp.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 06 Jul 2021 01:11:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=ajbZA7MbtoT3nE34N4/HGLBeKz92y1HEALR7LZXvD+E=;
+ b=IxLHk30B7XpkLA+4xZNhio8ww93sIlWFVosSEy5fK98A7CfqcnenakxTQUkISYllki
+ xNy6w2nFL2DxMoDJ6X15t1G2cjJ5/ZVBWP7OdBl9AZfXIaPP1i6XdYdEibvOB3C01LMn
+ ovgklRy81ZQd1yzrMrTFjUKpvc67VK6eNsf6A=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=ajbZA7MbtoT3nE34N4/HGLBeKz92y1HEALR7LZXvD+E=;
+ b=ny156I603RHf2nlnjmLmuHHgX9i7mx+AdQly45+N3mEl5MpQO9eDFbVOQ1x7sbXSnF
+ OeeDNv2zJxvOJ3/qqOPGP+a2DlBF8TJZrVbVgqRyZpW0ujlxXwj9Vb1ZDGRqY0viMB9W
+ I7fcabekOe44ZlEf9lFZgaG2hugoeouEFne/6lVhZ0xXUKhNbCah11E+nnki6Awg7hH7
+ qxie4Z22INW5GKMGzRUmyEJn2V/IG4fo1kToD9n8XRfESxRCvouhVDIuSAXc5XByMn5b
+ SoqfmgSH3ULsY6osLIRk+QM+NrrjOcprYDZSCw5Lqv64wrYbcMxnYdvW7D+vUvkcgMhJ
+ uQYA==
+X-Gm-Message-State: AOAM530xNRqiz2X3mkdF5/Rplbujw5CwbkuY2WmiTbtFeb8g2zT9KWQ2
+ UlGinFWGEKBTwjvHJdkMhKdeYg==
+X-Google-Smtp-Source: ABdhPJzZQYbqCCkPx66cXji+1Gi+XALE+SWLe0p/Zi79AXSNuPMO6fojyntZ6xEpfuEUARi8GZtQqQ==
+X-Received: by 2002:adf:a404:: with SMTP id d4mr20382707wra.156.1625559078123; 
+ Tue, 06 Jul 2021 01:11:18 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id z3sm18563410wrv.45.2021.07.06.01.11.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 06 Jul 2021 01:11:17 -0700 (PDT)
+Date: Tue, 6 Jul 2021 10:11:15 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Subject: Re: [PATCH] drm/i915: Improve debug Kconfig texts a bit
+Message-ID: <YOQQIyAlLbbC+hmd@phenom.ffwll.local>
+References: <20210702201708.2075793-1-daniel.vetter@ffwll.ch>
+ <162548570352.15289.12980604779254635228@jlahtine-mobl.ger.corp.intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="xql2w4uhie57d2rg"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210706075425.9257-1-tzimmermann@suse.de>
+In-Reply-To: <162548570352.15289.12980604779254635228@jlahtine-mobl.ger.corp.intel.com>
+X-Operating-System: Linux phenom 5.10.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,38 +66,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: xinliang.liu@linaro.org, puck.chen@hisilicon.com,
- dri-devel@lists.freedesktop.org, airlied@linux.ie,
- kong.kongxinwei@hisilicon.com, tiantao6@hisilicon.com, sam@ravnborg.org
+Cc: Matthew Brost <matthew.brost@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, Jul 05, 2021 at 02:48:23PM +0300, Joonas Lahtinen wrote:
+> Quoting Daniel Vetter (2021-07-02 23:17:08)
+> > We're not consistently recommending these for developers only.
+> > 
+> > I stumbled over this due to DRM_I915_LOW_LEVEL_TRACEPOINTS, which was
+> > added in
+> > 
+> > commit 354d036fcf70654cff2e2cbdda54a835d219b9d2
+> > Author: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> > Date:   Tue Feb 21 11:01:42 2017 +0000
+> > 
+> >     drm/i915/tracepoints: Add request submit and execute tracepoints
+> > 
+> > to "alleviate the performance impact concerns."
+> > 
+> > Which is nonsense.
+> 
+> I think that was the original reason why the patch was developed and
+> it got merged primarily for the latter reason. Unfortunately the patch
+> commit messages don't always get rewritten.
+> 
+> > Tvrtko and Joonas pointed out on irc that the real (but undocumented
+> > reason) was stable abi concerns for tracepoints, see
+> > 
+> > https://lwn.net/Articles/705270/
+> > 
+> > and the specific change that was blocked around tracepoints:
+> > 
+> > https://lwn.net/Articles/442113/
+> > 
+> > Anyway to make it a notch clearer why we have this Kconfig option
+> > consistly add the "Recommended for driver developers only." to it and
+> > all the other debug options we have.
+> > 
+> > Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> > Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+> > Cc: Matthew Brost <matthew.brost@intel.com>
+> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> 
+> Reviewed-by: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
 
---xql2w4uhie57d2rg
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Pushed to drm-intel-gt-next, thanks for taking a look.
+-Daniel
 
-On Tue, Jul 06, 2021 at 09:54:25AM +0200, Thomas Zimmermann wrote:
-> Drop the DRM IRQ midlayer in favor of Linux IRQ interfaces. DRM's
-> IRQ helpers are mostly useful for UMS drivers. Modern KMS drivers
-> don't benefit from using it.
->=20
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> 
+> Regards, Joonas
+> 
+> > ---
+> >  drivers/gpu/drm/i915/Kconfig.debug | 6 ++++++
+> >  1 file changed, 6 insertions(+)
+> > 
+> > diff --git a/drivers/gpu/drm/i915/Kconfig.debug b/drivers/gpu/drm/i915/Kconfig.debug
+> > index 2ca88072d30f..f27c0b5873f7 100644
+> > --- a/drivers/gpu/drm/i915/Kconfig.debug
+> > +++ b/drivers/gpu/drm/i915/Kconfig.debug
+> > @@ -215,6 +215,8 @@ config DRM_I915_LOW_LEVEL_TRACEPOINTS
+> >           This provides the ability to precisely monitor engine utilisation
+> >           and also analyze the request dependency resolving timeline.
+> >  
+> > +         Recommended for driver developers only.
+> > +
+> >           If in doubt, say "N".
+> >  
+> >  config DRM_I915_DEBUG_VBLANK_EVADE
+> > @@ -228,6 +230,8 @@ config DRM_I915_DEBUG_VBLANK_EVADE
+> >           is exceeded, even if there isn't an actual risk of missing
+> >           the vblank.
+> >  
+> > +         Recommended for driver developers only.
+> > +
+> >           If in doubt, say "N".
+> >  
+> >  config DRM_I915_DEBUG_RUNTIME_PM
+> > @@ -240,4 +244,6 @@ config DRM_I915_DEBUG_RUNTIME_PM
+> >           runtime PM functionality. This may introduce overhead during
+> >           driver loading, suspend and resume operations.
+> >  
+> > +         Recommended for driver developers only.
+> > +
+> >           If in doubt, say "N"
+> > -- 
+> > 2.32.0.rc2
+> > 
 
-Reviewed-by: Maxime Ripard <maxime@cerno.tech>
-
-Maxime
-
---xql2w4uhie57d2rg
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYOQPrQAKCRDj7w1vZxhR
-xTx7AQCwS64N6yBwKFF7TMKlvLQlmuNowxjNrPmXQNfdqfYu4wEAgU+KF/b4cp87
-PGiNvNSO9mLx0F0o6/5vdPlA04GtFQE=
-=OKpw
------END PGP SIGNATURE-----
-
---xql2w4uhie57d2rg--
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
