@@ -2,42 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88C443BDEEA
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 23:29:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6D353BDEF6
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 23:36:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 87AB66E0DE;
-	Tue,  6 Jul 2021 21:29:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 30D616E5B4;
+	Tue,  6 Jul 2021 21:36:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A828893E8;
- Tue,  6 Jul 2021 21:29:20 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10037"; a="207373501"
-X-IronPort-AV: E=Sophos;i="5.83,329,1616482800"; d="scan'208";a="207373501"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Jul 2021 14:29:19 -0700
-X-IronPort-AV: E=Sophos;i="5.83,329,1616482800"; d="scan'208";a="491475583"
-Received: from unknown (HELO sdutt-i7) ([10.165.21.147])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Jul 2021 14:29:19 -0700
-Date: Tue, 6 Jul 2021 14:22:48 -0700
-From: Matthew Brost <matthew.brost@intel.com>
-To: Michal Wajdeczko <michal.wajdeczko@intel.com>
-Subject: Re: [PATCH 6/7] drm/i915/guc: Optimize CTB writes and reads
-Message-ID: <20210706212248.GA16491@sdutt-i7>
-References: <20210701171550.49353-1-matthew.brost@intel.com>
- <20210701171550.49353-7-matthew.brost@intel.com>
- <3147114d-4b4b-1a42-c40b-8d8be870e633@intel.com>
- <b7bb636f-edd4-dbc0-a0e6-c00cfbb25cf1@intel.com>
- <e0f48e7b-b7e8-15f5-5ed3-704c89b884d4@intel.com>
- <ef6fb113-c921-0d71-0ced-91194cd18d87@intel.com>
+Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com
+ [IPv6:2607:f8b0:4864:20::230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CCCAE6E5B4
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Jul 2021 21:36:30 +0000 (UTC)
+Received: by mail-oi1-x230.google.com with SMTP id u11so964838oiv.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 06 Jul 2021 14:36:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=g1JVJiy081ll+MGQFYrIQnx64nTijHCUrQkv8Wk47Uc=;
+ b=SyDsjtI7l4Qry4skD2wvLmbuIkvNN1DlMY1bPGWVilUzHBLHLszzbhcD+3jRO1BOeL
+ lPlxDNr9OBbxW7Z4hlnB9l48IidslH2YiYqrethULXiC1PNWksDnRHAeao6WJawnXMNd
+ 1CCd7Akwq1gi9MNdYTkbDsmSHc0mGNT0DCDNTAOSAUbdYORIfQAqrlv+kEyM+BltHMrD
+ lwqGEKx+C7f4LfErjREh2fdktEV49PtQKKMkYjan0SLl4E4KU/d2PUfDCskbx3eEj3Vc
+ Rx7q4Tj40TD2dFd/+OuyoTCY1cDXjN/i4QianJReUl7zhzm2mzMaWDbTrh9HtraTluUN
+ ntjg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=g1JVJiy081ll+MGQFYrIQnx64nTijHCUrQkv8Wk47Uc=;
+ b=JMEruDfF7cMxfAbZpcgJHSImfA9SHWvJ5DiK4Bm0gadaBUCBfX2ttgIs4TqIg8eBgn
+ YKTFjKxJRBOP11yg6/HyB95lpaZtBKH4Uv5QdKYWbPLAKpiyW7JZiCrcvKwQ70V+yMRV
+ +4MP6JswWL5O/1bMevakhKpu36I+8++yVpabcri1MCB0wCSm76ENN5m/5OnRAbL4bQqJ
+ 7sW+5c1wj0xvtbrIgYEhTRPh77NRhPfUdWW/KeBjjuKOZQPqTiQRDM7qKc7tmDXVj3Fp
+ dxm9EqS3cEvOnrWgAzVz/ahCiWaDqUdCSe7hReAytCJGlmzu3L9bo9pHC8AFY4g5d57G
+ lotg==
+X-Gm-Message-State: AOAM530jQXN2oIhlN++1Ezhtozcn4Ml4V9TW/guRIJzVTKwhDP28uPgw
+ fdtnuM0BvuCrovrydaY3fPzyfg==
+X-Google-Smtp-Source: ABdhPJxF6cWhxvYgLYDEaV3IFuw7TC+iaZZc2k3kqPOFIabTy82sv63HUgNyNOI+CBJ6updHj0tIvA==
+X-Received: by 2002:a05:6808:f0a:: with SMTP id
+ m10mr302995oiw.145.1625607390057; 
+ Tue, 06 Jul 2021 14:36:30 -0700 (PDT)
+Received: from yoga (104-57-184-186.lightspeed.austtx.sbcglobal.net.
+ [104.57.184.186])
+ by smtp.gmail.com with ESMTPSA id v134sm289352oie.28.2021.07.06.14.36.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 06 Jul 2021 14:36:29 -0700 (PDT)
+Date: Tue, 6 Jul 2021 16:36:26 -0500
+From: Bjorn Andersson <bjorn.andersson@linaro.org>
+To: Rob Clark <robdclark@gmail.com>
+Subject: Re: [PATCH v5 0/5] iommu/arm-smmu: adreno-smmu page fault handling
+Message-ID: <YOTM2g9t0/gvNxuh@yoga>
+References: <20210610214431.539029-1-robdclark@gmail.com>
+ <2016473f-2b38-f049-1e8d-04bdf5af6cea@linaro.org>
+ <CAF6AEGu6Wt+FDh_Kp8GrZB9TV7ufTuidmqBfkzA9rcCJc7zSQQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ef6fb113-c921-0d71-0ced-91194cd18d87@intel.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <CAF6AEGu6Wt+FDh_Kp8GrZB9TV7ufTuidmqBfkzA9rcCJc7zSQQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,285 +71,119 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- John Harrison <john.c.harrison@intel.com>
+Cc: Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Akhil P Oommen <akhilpo@codeaurora.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ open list <linux-kernel@vger.kernel.org>, Eric Anholt <eric@anholt.net>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Lee Jones <lee.jones@linaro.org>, Rob Clark <robdclark@chromium.org>,
+ Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
+ Jonathan Marek <jonathan@marek.ca>, Will Deacon <will@kernel.org>,
+ Zhenzhong Duan <zhenzhong.duan@gmail.com>, Joerg Roedel <jroedel@suse.de>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Sharat Masetty <smasetty@codeaurora.org>, Krishna Reddy <vdumpa@nvidia.com>,
+ Jordan Crouse <jordan@cosmicpenguin.net>,
+ "moderated list:ARM SMMU DRIVERS" <linux-arm-kernel@lists.infradead.org>,
+ "Isaac J. Manjarres" <isaacm@codeaurora.org>,
+ Robin Murphy <robin.murphy@arm.com>, Douglas Anderson <dianders@chromium.org>,
+ "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
+ Joerg Roedel <joro@8bytes.org>, " <iommu@lists.linux-foundation.org>,
+ "Kristian H. Kristensen" <hoegsberg@google.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno <freedreno@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 06, 2021 at 09:33:23PM +0200, Michal Wajdeczko wrote:
-> 
-> 
-> On 06.07.2021 21:19, John Harrison wrote:
-> > On 7/6/2021 12:12, Michal Wajdeczko wrote:
-> >> On 06.07.2021 21:00, John Harrison wrote:
-> >>> On 7/1/2021 10:15, Matthew Brost wrote:
-> >>>> CTB writes are now in the path of command submission and should be
-> >>>> optimized for performance. Rather than reading CTB descriptor values
-> >>>> (e.g. head, tail) which could result in accesses across the PCIe bus,
-> >>>> store shadow local copies and only read/write the descriptor values
-> >>>> when
-> >>>> absolutely necessary. Also store the current space in the each channel
-> >>>> locally.
-> >>>>
-> >>>> v2:
-> >>>>    (Michel)
-> >>>>     - Add additional sanity checks for head / tail pointers
-> >>>>     - Use GUC_CTB_HDR_LEN rather than magic 1
-> >>>>
-> >>>> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
-> >>>> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> >>>> ---
-> >>>>    drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c | 88
-> >>>> +++++++++++++++--------
-> >>>>    drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h |  6 ++
-> >>>>    2 files changed, 65 insertions(+), 29 deletions(-)
-> >>>>
-> >>>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-> >>>> b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-> >>>> index a9cb7b608520..5b8b4ff609e2 100644
-> >>>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-> >>>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-> >>>> @@ -130,6 +130,10 @@ static void guc_ct_buffer_desc_init(struct
-> >>>> guc_ct_buffer_desc *desc)
-> >>>>    static void guc_ct_buffer_reset(struct intel_guc_ct_buffer *ctb)
-> >>>>    {
-> >>>>        ctb->broken = false;
-> >>>> +    ctb->tail = 0;
-> >>>> +    ctb->head = 0;
-> >>>> +    ctb->space = CIRC_SPACE(ctb->tail, ctb->head, ctb->size);
-> >>>> +
-> >>>>        guc_ct_buffer_desc_init(ctb->desc);
-> >>>>    }
-> >>>>    @@ -383,10 +387,8 @@ static int ct_write(struct intel_guc_ct *ct,
-> >>>>    {
-> >>>>        struct intel_guc_ct_buffer *ctb = &ct->ctbs.send;
-> >>>>        struct guc_ct_buffer_desc *desc = ctb->desc;
-> >>>> -    u32 head = desc->head;
-> >>>> -    u32 tail = desc->tail;
-> >>>> +    u32 tail = ctb->tail;
-> >>>>        u32 size = ctb->size;
-> >>>> -    u32 used;
-> >>>>        u32 header;
-> >>>>        u32 hxg;
-> >>>>        u32 *cmds = ctb->cmds;
-> >>>> @@ -395,25 +397,22 @@ static int ct_write(struct intel_guc_ct *ct,
-> >>>>        if (unlikely(desc->status))
-> >>>>            goto corrupted;
-> >>>>    -    if (unlikely((tail | head) >= size)) {
-> >>>> +    GEM_BUG_ON(tail > size);
-> >>>> +
-> >>>> +#ifdef CONFIG_DRM_I915_DEBUG_GUC
-> >>>> +    if (unlikely(tail != READ_ONCE(desc->tail))) {
-> >>>> +        CT_ERROR(ct, "Tail was modified %u != %u\n",
-> >>>> +             desc->tail, ctb->tail);
-> >>>> +        desc->status |= GUC_CTB_STATUS_MISMATCH;
-> >>>> +        goto corrupted;
-> >>>> +    }
-> >>>> +    if (unlikely((desc->tail | desc->head) >= size)) {
-> >>>>            CT_ERROR(ct, "Invalid offsets head=%u tail=%u (size=%u)\n",
-> >>>> -             head, tail, size);
-> >>>> +             desc->head, desc->tail, size);
-> >>>>            desc->status |= GUC_CTB_STATUS_OVERFLOW;
-> >>>>            goto corrupted;
-> >>>>        }
-> >>>> -
-> >>>> -    /*
-> >>>> -     * tail == head condition indicates empty. GuC FW does not support
-> >>>> -     * using up the entire buffer to get tail == head meaning full.
-> >>>> -     */
-> >>>> -    if (tail < head)
-> >>>> -        used = (size - head) + tail;
-> >>>> -    else
-> >>>> -        used = tail - head;
-> >>>> -
-> >>>> -    /* make sure there is a space including extra dw for the fence */
-> >>>> -    if (unlikely(used + len + GUC_CTB_HDR_LEN >= size))
-> >>>> -        return -ENOSPC;
-> >>>> +#endif
-> >>>>          /*
-> >>>>         * dw0: CT header (including fence)
-> >>>> @@ -454,7 +453,9 @@ static int ct_write(struct intel_guc_ct *ct,
-> >>>>        write_barrier(ct);
-> >>>>          /* now update descriptor */
-> >>>> +    ctb->tail = tail;
-> >>>>        WRITE_ONCE(desc->tail, tail);
-> >>>> +    ctb->space -= len + GUC_CTB_HDR_LEN;
-> >>>>          return 0;
-> >>>>    @@ -470,7 +471,7 @@ static int ct_write(struct intel_guc_ct *ct,
-> >>>>     * @req:    pointer to pending request
-> >>>>     * @status:    placeholder for status
-> >>>>     *
-> >>>> - * For each sent request, Guc shall send bac CT response message.
-> >>>> + * For each sent request, GuC shall send back CT response message.
-> >>>>     * Our message handler will update status of tracked request once
-> >>>>     * response message with given fence is received. Wait here and
-> >>>>     * check for valid response status value.
-> >>>> @@ -526,24 +527,35 @@ static inline bool ct_deadlocked(struct
-> >>>> intel_guc_ct *ct)
-> >>>>        return ret;
-> >>>>    }
-> >>>>    -static inline bool h2g_has_room(struct intel_guc_ct_buffer *ctb,
-> >>>> u32 len_dw)
-> >>>> +static inline bool h2g_has_room(struct intel_guc_ct *ct, u32 len_dw)
-> >>>>    {
-> >>>> -    struct guc_ct_buffer_desc *desc = ctb->desc;
-> >>>> -    u32 head = READ_ONCE(desc->head);
-> >>>> +    struct intel_guc_ct_buffer *ctb = &ct->ctbs.send;
-> >>>> +    u32 head;
-> >>>>        u32 space;
-> >>>>    -    space = CIRC_SPACE(desc->tail, head, ctb->size);
-> >>>> +    if (ctb->space >= len_dw)
-> >>>> +        return true;
-> >>>> +
-> >>>> +    head = READ_ONCE(ctb->desc->head);
-> >>>> +    if (unlikely(head > ctb->size)) {
-> >>>> +        CT_ERROR(ct, "Corrupted descriptor head=%u tail=%u size=%u\n",
-> >>>> +             ctb->desc->head, ctb->desc->tail, ctb->size);
-> >>>> +        ctb->desc->status |= GUC_CTB_STATUS_OVERFLOW;
-> >>>> +        ctb->broken = true;
-> >>>> +        return false;
-> >>>> +    }
-> >>>> +
-> >>>> +    space = CIRC_SPACE(ctb->tail, head, ctb->size);
-> >>>> +    ctb->space = space;
-> >>>>          return space >= len_dw;
-> >>>>    }
-> >>>>      static int has_room_nb(struct intel_guc_ct *ct, u32 len_dw)
-> >>>>    {
-> >>>> -    struct intel_guc_ct_buffer *ctb = &ct->ctbs.send;
-> >>>> -
-> >>>>        lockdep_assert_held(&ct->ctbs.send.lock);
-> >>>>    -    if (unlikely(!h2g_has_room(ctb, len_dw))) {
-> >>>> +    if (unlikely(!h2g_has_room(ct, len_dw))) {
-> >>>>            if (ct->stall_time == KTIME_MAX)
-> >>>>                ct->stall_time = ktime_get();
-> >>>>    @@ -613,7 +625,7 @@ static int ct_send(struct intel_guc_ct *ct,
-> >>>>         */
-> >>>>    retry:
-> >>>>        spin_lock_irqsave(&ctb->lock, flags);
-> >>>> -    if (unlikely(!h2g_has_room(ctb, len + GUC_CTB_HDR_LEN))) {
-> >>>> +    if (unlikely(!h2g_has_room(ct, len + GUC_CTB_HDR_LEN))) {
-> >>>>            if (ct->stall_time == KTIME_MAX)
-> >>>>                ct->stall_time = ktime_get();
-> >>>>            spin_unlock_irqrestore(&ctb->lock, flags);
-> >>>> @@ -733,7 +745,7 @@ static int ct_read(struct intel_guc_ct *ct, struct
-> >>>> ct_incoming_msg **msg)
-> >>>>    {
-> >>>>        struct intel_guc_ct_buffer *ctb = &ct->ctbs.recv;
-> >>>>        struct guc_ct_buffer_desc *desc = ctb->desc;
-> >>>> -    u32 head = desc->head;
-> >>>> +    u32 head = ctb->head;
-> >>>>        u32 tail = desc->tail;
-> >>>>        u32 size = ctb->size;
-> >>>>        u32 *cmds = ctb->cmds;
-> >>>> @@ -748,12 +760,29 @@ static int ct_read(struct intel_guc_ct *ct,
-> >>>> struct ct_incoming_msg **msg)
-> >>>>        if (unlikely(desc->status))
-> >>>>            goto corrupted;
-> >>>>    -    if (unlikely((tail | head) >= size)) {
-> >>>> +    GEM_BUG_ON(head > size);
+On Sun 04 Jul 13:20 CDT 2021, Rob Clark wrote:
 
-This is driver owned field so I think a GEM_BUG_ON is correct as if this
-blows the driver apart we have a bug in the i915. 
+> I suspect you are getting a dpu fault, and need:
+> 
+> https://lore.kernel.org/linux-arm-msm/CAF6AEGvTjTUQXqom-xhdh456tdLscbVFPQ+iud1H1gHc8A2=hA@mail.gmail.com/
+> 
+> I suppose Bjorn was expecting me to send that patch
+> 
 
-> >>> Is the BUG_ON necessary given that both options below do the same check
-> >>> but as a corrupted buffer test (with subsequent recovery by GT reset?)
-> >>> rather than killing the driver.
-> >> "head" and "size" are now fully owned by the driver.
-> >> BUGON here is to make sure driver is coded correctly.
-> > The point is that both sides of the #if below also validate head. So
-> 
-> but not the same "head"
-> 
-> under DEBUG we are validating the one from descriptor (together with
-> tail) - and that should be recoverable as if this fails it was clearly
-> not our fault.
-> 
-> but under non-DEBUG we were attempting to validate again the local one,
-> pretending that this is recoverable, but it is not, as this is our fault
-> (elsewhere in i915 we don't attempt to recover from obvious coding errors).
->
-> > first there is a BUG_ON, then there is the same test but without blowing
-> > the driver apart. One or the other is not required. My vote would be to
-> > keep the recoverable test rather than the BUG_ON.
-> 
-> IMHO we should keep GEMBUGON and drop redundant check in non-DEBUG.
-> 
-> But let Matt decide.
->
+No, I left that discussion with the same understanding as you... But I
+ended up side tracked by some other craziness.
 
-I think I'll drop the testing of the head value and keep the BUG_ON.
+Did you post this somewhere or would you still like me to test it and
+spin a patch?
 
-Matt
- 
-> Michal
+Regards,
+Bjorn
+
+> BR,
+> -R
 > 
-> > 
-> > John.
-> > 
-> >>
-> >>>> +
-> >>>> +#ifdef CONFIG_DRM_I915_DEBUG_GUC
-> >>>> +    if (unlikely(head != READ_ONCE(desc->head))) {
-> >>>> +        CT_ERROR(ct, "Head was modified %u != %u\n",
-> >>>> +             desc->head, ctb->head);
-> >>>> +        desc->status |= GUC_CTB_STATUS_MISMATCH;
-> >>>> +        goto corrupted;
-> >>>> +    }
-> >>>> +    if (unlikely((desc->tail | desc->head) >= size)) {
-> >>>> +        CT_ERROR(ct, "Invalid offsets head=%u tail=%u (size=%u)\n",
-> >>>> +             head, tail, size);
-> >>>> +        desc->status |= GUC_CTB_STATUS_OVERFLOW;
-> >>>> +        goto corrupted;
-> >>>> +    }
-> >>>> +#else
-> >>>> +    if (unlikely((tail | ctb->head) >= size)) {
-> >>> Could just be 'head' rather than 'ctb->head'.
-> >> or drop "ctb->head" completely since this is driver owned field and
-> >> above you already have BUGON to test it
-> >>
-> >> Michal
-> >>
-> >>> John.
-> >>>
-> >>>>            CT_ERROR(ct, "Invalid offsets head=%u tail=%u (size=%u)\n",
-> >>>>                 head, tail, size);
-> >>>>            desc->status |= GUC_CTB_STATUS_OVERFLOW;
-> >>>>            goto corrupted;
-> >>>>        }
-> >>>> +#endif
-> >>>>          /* tail == head condition indicates empty */
-> >>>>        available = tail - head;
-> >>>> @@ -803,6 +832,7 @@ static int ct_read(struct intel_guc_ct *ct, struct
-> >>>> ct_incoming_msg **msg)
-> >>>>        }
-> >>>>        CT_DEBUG(ct, "received %*ph\n", 4 * len, (*msg)->msg);
-> >>>>    +    ctb->head = head;
-> >>>>        /* now update descriptor */
-> >>>>        WRITE_ONCE(desc->head, head);
-> >>>>    diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
-> >>>> b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
-> >>>> index bee03794c1eb..edd1bba0445d 100644
-> >>>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
-> >>>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
-> >>>> @@ -33,6 +33,9 @@ struct intel_guc;
-> >>>>     * @desc: pointer to the buffer descriptor
-> >>>>     * @cmds: pointer to the commands buffer
-> >>>>     * @size: size of the commands buffer in dwords
-> >>>> + * @head: local shadow copy of head in dwords
-> >>>> + * @tail: local shadow copy of tail in dwords
-> >>>> + * @space: local shadow copy of space in dwords
-> >>>>     * @broken: flag to indicate if descriptor data is broken
-> >>>>     */
-> >>>>    struct intel_guc_ct_buffer {
-> >>>> @@ -40,6 +43,9 @@ struct intel_guc_ct_buffer {
-> >>>>        struct guc_ct_buffer_desc *desc;
-> >>>>        u32 *cmds;
-> >>>>        u32 size;
-> >>>> +    u32 tail;
-> >>>> +    u32 head;
-> >>>> +    u32 space;
-> >>>>        bool broken;
-> >>>>    };
-> >>>>    
-> > 
+> On Sun, Jul 4, 2021 at 5:53 AM Dmitry Baryshkov
+> <dmitry.baryshkov@linaro.org> wrote:
+> >
+> > Hi,
+> >
+> > I've had splash screen disabled on my RB3. However once I've enabled it,
+> > I've got the attached crash during the boot on the msm/msm-next. It
+> > looks like it is related to this particular set of changes.
+> >
+> > On 11/06/2021 00:44, Rob Clark wrote:
+> > > From: Rob Clark <robdclark@chromium.org>
+> > >
+> > > This picks up an earlier series[1] from Jordan, and adds additional
+> > > support needed to generate GPU devcore dumps on iova faults.  Original
+> > > description:
+> > >
+> > > This is a stack to add an Adreno GPU specific handler for pagefaults. The first
+> > > patch starts by wiring up report_iommu_fault for arm-smmu. The next patch adds
+> > > a adreno-smmu-priv function hook to capture a handful of important debugging
+> > > registers such as TTBR0, CONTEXTIDR, FSYNR0 and others. This is used by the
+> > > third patch to print more detailed information on page fault such as the TTBR0
+> > > for the pagetable that caused the fault and the source of the fault as
+> > > determined by a combination of the FSYNR1 register and an internal GPU
+> > > register.
+> > >
+> > > This code provides a solid base that we can expand on later for even more
+> > > extensive GPU side page fault debugging capabilities.
+> > >
+> > > v5: [Rob] Use RBBM_STATUS3.SMMU_STALLED_ON_FAULT to detect case where
+> > >      GPU snapshotting needs to avoid crashdumper, and check the
+> > >      RBBM_STATUS3.SMMU_STALLED_ON_FAULT in GPU hang irq paths
+> > > v4: [Rob] Add support to stall SMMU on fault, and let the GPU driver
+> > >      resume translation after it has had a chance to snapshot the GPUs
+> > >      state
+> > > v3: Always clear FSR even if the target driver is going to handle resume
+> > > v2: Fix comment wording and function pointer check per Rob Clark
+> > >
+> > > [1] https://lore.kernel.org/dri-devel/20210225175135.91922-1-jcrouse@codeaurora.org/
+> > >
+> > > Jordan Crouse (3):
+> > >    iommu/arm-smmu: Add support for driver IOMMU fault handlers
+> > >    iommu/arm-smmu-qcom: Add an adreno-smmu-priv callback to get pagefault
+> > >      info
+> > >    drm/msm: Improve the a6xx page fault handler
+> > >
+> > > Rob Clark (2):
+> > >    iommu/arm-smmu-qcom: Add stall support
+> > >    drm/msm: devcoredump iommu fault support
+> > >
+> > >   drivers/gpu/drm/msm/adreno/a5xx_gpu.c       |  23 +++-
+> > >   drivers/gpu/drm/msm/adreno/a6xx_gpu.c       | 110 +++++++++++++++++++-
+> > >   drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c |  42 ++++++--
+> > >   drivers/gpu/drm/msm/adreno/adreno_gpu.c     |  15 +++
+> > >   drivers/gpu/drm/msm/msm_gem.h               |   1 +
+> > >   drivers/gpu/drm/msm/msm_gem_submit.c        |   1 +
+> > >   drivers/gpu/drm/msm/msm_gpu.c               |  48 +++++++++
+> > >   drivers/gpu/drm/msm/msm_gpu.h               |  17 +++
+> > >   drivers/gpu/drm/msm/msm_gpummu.c            |   5 +
+> > >   drivers/gpu/drm/msm/msm_iommu.c             |  22 +++-
+> > >   drivers/gpu/drm/msm/msm_mmu.h               |   5 +-
+> > >   drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c  |  50 +++++++++
+> > >   drivers/iommu/arm/arm-smmu/arm-smmu.c       |   9 +-
+> > >   drivers/iommu/arm/arm-smmu/arm-smmu.h       |   2 +
+> > >   include/linux/adreno-smmu-priv.h            |  38 ++++++-
+> > >   15 files changed, 367 insertions(+), 21 deletions(-)
+> > >
+> >
+> >
+> > --
+> > With best wishes
+> > Dmitry
