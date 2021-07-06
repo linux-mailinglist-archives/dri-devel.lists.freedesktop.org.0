@@ -2,64 +2,121 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92B813BC5DA
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 07:02:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B56D3BC6E9
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 08:58:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2912189930;
-	Tue,  6 Jul 2021 05:02:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 193158984F;
+	Tue,  6 Jul 2021 06:58:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4072789930
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Jul 2021 05:02:43 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id AF02C223CF;
- Tue,  6 Jul 2021 05:02:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1625547761; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=2SIpMdj2nbAzsadWbJAqGlwYINQ6qoVirdKhNxMUwOc=;
- b=PXA8dYMMSFWV/QYjHnqTr7ntgcBxbJAbo18yuO5h6jqRVl8JCo7W53Uuv+uM9UsVMG12Dr
- ciXsJ5tlKDp2aCn8Ive34bK69oHHEPqziVLV3UuuUhv6hBJNlYbsRr91eqG7TJk9B2kZqq
- kOMQ0ZHKX/T/3Z5RW25x0xMJvhd85lw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1625547761;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=2SIpMdj2nbAzsadWbJAqGlwYINQ6qoVirdKhNxMUwOc=;
- b=i5J0T3p4x1ka+H22EMLZmujFzXKix/1naDnf0z/zyXUIZTVQjBuJ8yrU9Wk3QNu2TSD82W
- BBKwjdgkmoH+MlCg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 87E5413480;
- Tue,  6 Jul 2021 05:02:41 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id lAQaIPHj42CpSQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Tue, 06 Jul 2021 05:02:41 +0000
-Subject: Re: [PATCH 0/4] vkms: Switch to shadow-buffered plane state
-To: Melissa Wen <melissa.srw@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-References: <20210705074633.9425-1-tzimmermann@suse.de>
- <YOLQbp7m7ggecg05@phenom.ffwll.local>
- <246a3772-b632-c7c1-c1ec-5ac1277f7525@suse.de>
- <YOMVFi3q/JSoZ+p9@phenom.ffwll.local>
- <20210705212945.qwwrrbxe5ygotycf@smtp.gmail.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <4c2dac42-672d-bbf2-32bc-592799be0963@suse.de>
-Date: Tue, 6 Jul 2021 07:02:40 +0200
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2044.outbound.protection.outlook.com [40.107.220.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E7AA68984F;
+ Tue,  6 Jul 2021 06:58:43 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=U0jhU7aH8eAMaAR2XUwL05PGj1p5LPEAaLvxs9eGga5ZPweX4rr//FaUBK0jhekqVv9DaNGaZRWyJaVKlpihe2HsXASQ+BPH7YEn9ZHsB0Fm8aZ89QwY7jrCBbt/vjzgKDqNAPBDj8gia1dN0ItuJBmb7YMBSPqzbJUMFqP7x3Ea3fKAE1m15IOFyVnSoJhyoiflnnnUOiZmlRnBbU87fNxcq1UMQGiy+lBaizBg5JP4C6pPNTWKz705oua+sZnckR6drvlxidJ4BxFJQRBQtaLbv55GwpDOybF96yiXkhgly4GfKczCfJPd+EFgP5wMxumZCCUKbMDxC0YowO+Qqg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=kv0gk3N4gxPK8ACVCIPiQCdWxDfcv6ueT9whWXdBWRs=;
+ b=l7bMnonotPT2l5P/U8Hqw9w5OsdxBC57TkKMJGaIO9H6FMhND6HSG8J4nJ+PIficgOnZ9/SI7seZbdTwi1JKbfFxGeKNv9pORQdztgBAdWJvtyIZgkKMfiggLk49iaTAk4JmN7bFNvStlzXjbJcV7qH4SppHKh73p3aCCbg37Odh1kFa/XfDlc1AdGuEauQtUNDdlQ1c1b9Bntzr96g05GnHy/WSeC4lnZMWB5Jmq9v0dU+xXrYYcGM5xyrCjLofUp37yyg670wdUaN4jF1EV8dX3Ls5ueDNZwrfGySxGW4pMk9y5yyv4zN/6Of2+TN4CEHZ8qeGryTfQj28OpPKQQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=kv0gk3N4gxPK8ACVCIPiQCdWxDfcv6ueT9whWXdBWRs=;
+ b=tB45OC9HxG2s0kYzGyWQTdapX/n0S1Of8Eq6W8Z41vardOF1A3IVrWrwHsh1o9OmYSmLN/OTT8TtPJwPqI+EQCuPfV1tG4PLYGPZTSQRiryqYYVWHSGkwKKoYUQOCp6ZhRe8Y3LgpvUcG+9fsaO8lfmsEEFo4hU0pTd/nzcWl+I=
+Authentication-Results: vger.kernel.org; dkim=none (message not signed)
+ header.d=none;vger.kernel.org; dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
+ by BL0PR12MB4739.namprd12.prod.outlook.com (2603:10b6:208:81::29)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4287.32; Tue, 6 Jul
+ 2021 06:58:41 +0000
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::6c9e:1e08:7617:f756]) by MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::6c9e:1e08:7617:f756%5]) with mapi id 15.20.4287.033; Tue, 6 Jul 2021
+ 06:58:41 +0000
+Subject: Re: nouveau: failed to initialise sync
+To: Alistair Popple <apopple@nvidia.com>,
+ Corentin Labbe <clabbe.montjoie@gmail.com>
+References: <YOC4uekpD7iA3xPi@Red> <1682547.0nLxAY2a9E@nvdebian>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <dace0dea-7ca9-99cb-ad80-106824cb5e3f@amd.com>
+Date: Tue, 6 Jul 2021 08:58:37 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
+In-Reply-To: <1682547.0nLxAY2a9E@nvdebian>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-Originating-IP: [2a02:908:1252:fb60:753c:5dff:bd23:5cf4]
+X-ClientProxiedBy: AM0PR10CA0096.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:208:15::49) To MN2PR12MB3775.namprd12.prod.outlook.com
+ (2603:10b6:208:159::19)
 MIME-Version: 1.0
-In-Reply-To: <20210705212945.qwwrrbxe5ygotycf@smtp.gmail.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="eKk3Odes9FafvFP73Z1qmUifN3FslQapi"
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2a02:908:1252:fb60:753c:5dff:bd23:5cf4]
+ (2a02:908:1252:fb60:753c:5dff:bd23:5cf4) by
+ AM0PR10CA0096.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:15::49) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4287.22 via Frontend Transport; Tue, 6 Jul 2021 06:58:40 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 0be9c259-748d-4728-32c0-08d9404b7d14
+X-MS-TrafficTypeDiagnostic: BL0PR12MB4739:
+X-Microsoft-Antispam-PRVS: <BL0PR12MB47391BF63BD361826AC2970F831B9@BL0PR12MB4739.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:196;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 0x2E3GNPOY7YU7/8gMh9BywIdJHzO7L9v43uJ65eHx55qTafiSf0nhalhLsOWvbtHmd6kgANe2r3GkraaORSwx8fGgTlpD6lu/rRA3pLWRIo+9GOF56r6ZQNlDa2Vf16r4i8lxawmAjNGIuaHkfYxLIpmpm3gtWbpkVSRSsPj2SprGmLfXoGybR9jdi4LJgLheY3fWi00U0dhezmaQXFbLdG3ieYUlhB2gdlQLw0IHCnFJoaOyDi9nTFVbZy3dntvd0U+1bohlRp79MVhJ7GZf/qZTleAQPTEC247eX0hdlZOLg7Dt/JI6C0GhO2wfFqsAXEI3xFmBDkUT4GcNDIY8JpColGmd+huy8pG6JAiJhU2ewc7DPlZoHS4efqxUM6NVS9wqxXJB2hW870J84bjV3jkHiPzuT8rJpjB54gthaGvhtllyRMzqXxk2rBgj+c+KdytZf9icvgWC4umsXqPRmzoVqb2q9KZjVM0srXssValPvqIiaUqJvuaHwnzbOhFbC0AkCwlk+0yDMwPf3bEzAYnLpQi6v2VSCGYMVu2GA1YZ7qBX7j14+eYePIrcK5FQWRAPpduhk3kaHnpHrhBsjPrabnTCe18SNrTFPOb10PBIev63UZoHfnpJoAOoEysMHPL/V2XAXiejxa5z30N7baYDR7tP/3gMUE5i2x+HuSLXuHoUgTNGiYsZsrdttMNOToBJh0Zym39RPTb3emAUiIVvBiL49nv2uUwW232+O/oGBYD2ypm5/pTFpdaDfU
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(136003)(396003)(39860400002)(346002)(366004)(376002)(186003)(83380400001)(478600001)(316002)(16526019)(2616005)(966005)(8936002)(66574015)(38100700002)(66556008)(6666004)(86362001)(45080400002)(2906002)(31696002)(110136005)(4326008)(5660300002)(8676002)(31686004)(66476007)(66946007)(36756003)(6486002)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZCs5RDRyMDhqUTdPcVpFWkpSYmdGTFNCeEplbUNGWHcxVWs0dmNEdXlxN1VV?=
+ =?utf-8?B?VkFZeTNtRWZObnVvL1h0OG9xWEZsZzFQaVczQlFlWU1aanFRdUNaQ1VPOTR0?=
+ =?utf-8?B?ZzlrcHRDYzV5d2ZiaVZ5RWVQRWRMK1Fwa1FKcGxZd2RUbncxVWZVeEtMaDgz?=
+ =?utf-8?B?OGFuWCtNYzZreDBQeUVtcWlvelR0dTFucEFoRGZobFErVjlTcXdkV0ZkNlBr?=
+ =?utf-8?B?NTRzKzN5TDRkV0F6VTZzRG9EMkk0SmFKR2I3bHJwVmsydVhweFR2S2ZqY3pK?=
+ =?utf-8?B?dGtMN0wvMDMwM2dpckFFK1IxTkkvalFZNkx1SDBNTnhqNFV4L0lZb1FFT0pm?=
+ =?utf-8?B?Y05RTnRIL1B0T0Ywc3gweE5WMUo0QlZwSXhtc2s4WTZxdU1mY1ZHUm51ZXFz?=
+ =?utf-8?B?dW1oVGQ4MkdWRlhRSDVVQ29CbTZYc1JaaW1MZmh0bWFtMVQybHlNWFhyM2Nm?=
+ =?utf-8?B?eHkwbVUyQ0NTeTJ1VC8vV3hucDk3MXRrN1FqN0JHNkp1elpxS0dHTmpIQ0xa?=
+ =?utf-8?B?ZlJta3Y1a29QWWdsRFRhZ2EyL01nMXRoN3E3RE1UcFdZcTBSQ2FtN0xZcklH?=
+ =?utf-8?B?a1RHR2F6LzBGeHJvRU9EMzF5UTVCT2d0WnRURGZHSUFuOWJsd2JxWkVRMnJL?=
+ =?utf-8?B?d1FqRnIzTXh6aGIyL0JLL2hTMGdHK1RHNEhvL0ZUL2V0bmdvVTZWRXV2VlNH?=
+ =?utf-8?B?S3VYbGt4cVhYWFR5bVU4c0M3OGZBaW4zamd5emVleFVyVURQS09lZ0RsbHNL?=
+ =?utf-8?B?bm5uUUVYdC85WjR6NU9jdTM4bWFNVm1FODNPbjN6NWVlRkFoeHhBRE1kbXJu?=
+ =?utf-8?B?K21CK3BNQkMvanphR3J2eWN3UHRtTFM4S2F2ZHRtb0tCTDl5Y1N5Y2VHK0VO?=
+ =?utf-8?B?dlZaNlBqZzJ5QndZVXJBaWt4MWxoeFlXZ0N5WTNoNEt4SmNzZFdtM1FUMkhJ?=
+ =?utf-8?B?elZ0QzFaSTZ2SjNvMW5RSy9NMytKQ1d2NGlxaVlsRWJwbVF3QkNvS3FqZTZw?=
+ =?utf-8?B?L1hCcTBKa0ZEQTBHNE1MYUhURS94azJ5SStaRmdudUdobXE1SlhuYk10ckRv?=
+ =?utf-8?B?Nlp3bjBhaUhPMzU4QlFTSjhNaXkyRGoyUFF6NFJyaytHSllLVTFUQWRVbjBn?=
+ =?utf-8?B?cXlRNGMvaTg5eVZSZTJsck5hQ1EwYmVqQ01pNWtkQStsdzhZVzJMUmpsR3R2?=
+ =?utf-8?B?L0lDZUVZN3ZDTkVXUnJYTURjK1dXY3VtK2d0c3JGWnpUU0Npc2UvK3NTYm5U?=
+ =?utf-8?B?U2Znb1hLUzBtUXI1NDNzYmNTWldYSmRuMGpwY1g1YWZxLy9oYXljaVhoMldQ?=
+ =?utf-8?B?eWpyV3M3QlkzT1dnMFl5emd2OTZqRytWVkhFdG81Y2M1L3FKd0pXRzVVSDdP?=
+ =?utf-8?B?SnlNUVNuUHFRUWh6WW5yZTl4c2F4MmhtQ3JxZ3BhN3Eyb0pQdDNBMks4NVRW?=
+ =?utf-8?B?T0dyUHFNUlNRZE1lZnhKbW1pM1hoQTdkS29GWjVsTzUxaUlDb1c1aGkzS0Jh?=
+ =?utf-8?B?QURod2lGSzBSZWpwMGJkUnFlbmwwMlNjOFpMRWVUVHFUNzIxc0JaYm9PamUy?=
+ =?utf-8?B?eFAzSmFRSWtBV1Z5aW1LR2h0dlI4clJ6bzE0YTdZc0FPZWZYWEJvZEJyYSti?=
+ =?utf-8?B?OEY1T01hbzE2SkM0ZkUvWExXQnFKSmgrMDZjTllqZzMwRitFMUcyMmpvMTNy?=
+ =?utf-8?B?ZEdlKzdLeVNvYU9nYTFINnFub1hUUVVrdmVyNTVTN1lwK2VJdGM4Zy9WckhU?=
+ =?utf-8?B?OXFJZFhPQjhIb0JCL3VIZVI0azdhaEZDWHBWc3RPOEJiWjBaS2FjRm1FMy9K?=
+ =?utf-8?B?UGpvakNGZ0VOYTJqSGNodDk0QmtFL0l3dmM0U2FEUEVLRGJYZFU3STdJa3Rm?=
+ =?utf-8?Q?yfE5sEOpV9fd0?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0be9c259-748d-4728-32c0-08d9404b7d14
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jul 2021 06:58:41.6575 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: AC+S63f1HJv2a+ycfkq+KN6SEJo6FwzuSXlA0YbFhcVAbbTo/2JDZR5QtipciyAI
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB4739
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,138 +129,127 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, hamohammed.sa@gmail.com, rodrigosiqueiramelo@gmail.com,
- dri-devel@lists.freedesktop.org
+Cc: airlied@linux.ie, nouveau@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ bskeggs@redhat.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---eKk3Odes9FafvFP73Z1qmUifN3FslQapi
-Content-Type: multipart/mixed; boundary="mxdqxGyuYFQdB1RB5mHA2EoWxJBxyVVa1";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Melissa Wen <melissa.srw@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Cc: airlied@linux.ie, hamohammed.sa@gmail.com,
- dri-devel@lists.freedesktop.org, rodrigosiqueiramelo@gmail.com
-Message-ID: <4c2dac42-672d-bbf2-32bc-592799be0963@suse.de>
-Subject: Re: [PATCH 0/4] vkms: Switch to shadow-buffered plane state
-References: <20210705074633.9425-1-tzimmermann@suse.de>
- <YOLQbp7m7ggecg05@phenom.ffwll.local>
- <246a3772-b632-c7c1-c1ec-5ac1277f7525@suse.de>
- <YOMVFi3q/JSoZ+p9@phenom.ffwll.local>
- <20210705212945.qwwrrbxe5ygotycf@smtp.gmail.com>
-In-Reply-To: <20210705212945.qwwrrbxe5ygotycf@smtp.gmail.com>
+Hi guys,
 
---mxdqxGyuYFQdB1RB5mHA2EoWxJBxyVVa1
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+yes nouveau was using the same functionality for internal BOs without 
+noticing it. This is fixes by the following commit:
 
-Hi
+commit d098775ed44021293b1962dea61efb19297b8d02
+Author: Christian König <christian.koenig@amd.com>
+Date:   Wed Jun 9 19:25:56 2021 +0200
 
-Am 05.07.21 um 23:29 schrieb Melissa Wen:
-> On 07/05, Daniel Vetter wrote:
->> On Mon, Jul 05, 2021 at 12:05:28PM +0200, Thomas Zimmermann wrote:
->>> Hi
->>>
->>> Am 05.07.21 um 11:27 schrieb Daniel Vetter:
->>>> On Mon, Jul 05, 2021 at 09:46:29AM +0200, Thomas Zimmermann wrote:
->>>>> Vkms copies each plane's framebuffer into the output buffer; essent=
-ially
->>>>> using a shadow buffer. DRM provides struct drm_shadow_plane_state, =
-which
->>>>> handles the details of mapping/unmapping shadow buffers into memory=
- for
->>>>> active planes.
->>>>>
->>>>> Convert vkms to the helpers. Makes vkms use shared code and gives m=
-ore
->>>>> test exposure to shadow-plane helpers.
->>>>>
->>>>> Thomas Zimmermann (4):
->>>>>     drm/gem: Export implementation of shadow-plane helpers
->>>>>     drm/vkms: Inherit plane state from struct drm_shadow_plane_stat=
-e
->>>>>     drm/vkms: Let shadow-plane helpers prepare the plane's FB
->>>>>     drm/vkms: Use dma-buf mapping from shadow-plane state for compo=
-sing
->>>>
->>>> So I think right now this fits, but I think it'll mismit going forwa=
-rd: We
->>>> don't really have a shadow-plane that we then toss to the hw, it's a=
+     drm/nouveau: init the base GEM fields for internal BOs
 
->>>> shadow-crtc-area. Right now there's no difference, because we don't
->>>> support positioning/scaling the primary plane. But that's all kinda =
-stuff
->>>> that's on the table.
->>>>
->>>> But conceptually at least the compositioning buffer should bet part =
-of the
->>>> crtc, not of the primary plane.
->>>>
->>>> So not sure what to do, but also coffee hasn't kicked in yet, so may=
-be I'm
->>>> just confused.
->>>
->>> I'm not sure if I understand your concern. Can you elaborate? The
->>> compositing output buffer is not affected by this patchset. Only the =
-input
->>> frambuffers of the planes. Those are shadow buffers. AFAICT the compo=
-ser
->>> code memcpy's the primary plane and then blends the other planes on t=
-op.
->>> Supporting transformation of the primary plane doesn't really change =
-much
->>> wrt to the vmaping of input fbs.
+     TTMs buffer objects are based on GEM objects for quite a while
+     and rely on initializing those fields before initializing the TTM BO.
+
+     Nouveau now doesn't init the GEM object for internally allocated BOs,
+     so make sure that we at least initialize some necessary fields.
+
+Could be that the patch needs to be send to stable as well.
+
+Regards,
+Christian.
+
+Am 06.07.21 um 04:44 schrieb Alistair Popple:
+> I am also hitting this with upstream. Reverting d02117f8efaa ("drm/ttm: remove
+> special handling for non GEM drivers") also fixed it for me.
+>
+> The change log for that commit reads:
+>
+>      drm/ttm: remove special handling for non GEM drivers
+>      
+>      vmwgfx is the only driver actually using this. Move the handling into
+>      the driver instead.
+>
+> I wonder if Nouveau might actually have been using this somehow too?
+>
+>   - Alistair
+>
+> On Sunday, 4 July 2021 5:21:29 AM AEST Corentin Labbe wrote:
+>> Hello
 >>
->> Yeah that's the current implementation, because that's easier. But
->> fundamentally we don't need a copy of the input shadow plane, we need =
-a
->> scratch area that's sized for the crtc.
->=20
-> Maybe I'm missing something, but I am not sure the relevance for vkms t=
-o
-> switch to shadow-buffered plane. (?)
+>> Since some days on next, nouveau fail to load:
+>> [    2.754087] nouveau 0000:02:00.0: vgaarb: deactivate vga console
+>> [    2.761260] Console: switching to colour dummy device 80x25
+>> [    2.766888] nouveau 0000:02:00.0: NVIDIA MCP77/MCP78 (0aa480a2)
+>> [    2.783954] nouveau 0000:02:00.0: bios: version 62.77.2a.00.04
+>> [    2.810122] nouveau 0000:02:00.0: fb: 256 MiB stolen system memory
+>> [    3.484031] nouveau 0000:02:00.0: DRM: VRAM: 256 MiB
+>> [    3.488993] nouveau 0000:02:00.0: DRM: GART: 1048576 MiB
+>> [    3.494308] nouveau 0000:02:00.0: DRM: TMDS table version 2.0
+>> [    3.500052] nouveau 0000:02:00.0: DRM: DCB version 4.0
+>> [    3.505192] nouveau 0000:02:00.0: DRM: DCB outp 00: 01000300 0000001e
+>> [    3.511632] nouveau 0000:02:00.0: DRM: DCB outp 01: 01011332 00020010
+>> [    3.518074] nouveau 0000:02:00.0: DRM: DCB conn 00: 00000100
+>> [    3.523728] nouveau 0000:02:00.0: DRM: DCB conn 01: 00001261
+>> [    3.529455] nouveau 0000:02:00.0: DRM: failed to initialise sync
+> subsystem, -28
+>> [    3.545946] nouveau: probe of 0000:02:00.0 failed with error -28
+>>
+>> I bisected it to:
+>> git bisect start
+>> # good: [62fb9874f5da54fdb243003b386128037319b219] Linux 5.13
+>> git bisect good 62fb9874f5da54fdb243003b386128037319b219
+>> # bad: [fb0ca446157a86b75502c1636b0d81e642fe6bf1] Add linux-next specific
+> files for 20210701
+>> git bisect bad fb0ca446157a86b75502c1636b0d81e642fe6bf1
+>> # good: [f63c4fda987a19b1194cc45cb72fd5bf968d9d90] Merge remote-tracking
+> branch 'rdma/for-next'
+>> git bisect good f63c4fda987a19b1194cc45cb72fd5bf968d9d90
+>> # bad: [49c8769be0b910d4134eba07cae5d9c71b861c4a] Merge remote-tracking
+> branch 'drm/drm-next'
+>> git bisect bad 49c8769be0b910d4134eba07cae5d9c71b861c4a
+>> # good: [4e3db44a242a4e2afe33b59793898ecbb61d478e] Merge tag 'wireless-
+> drivers-next-2021-06-25' of git://git.kernel.org/pub/scm/linux/kernel/git/
+> kvalo/wireless-drivers-next
+>> git bisect good 4e3db44a242a4e2afe33b59793898ecbb61d478e
+>> # bad: [5745d647d5563d3e9d32013ad4e5c629acff04d7] Merge tag 'amd-drm-
+> next-5.14-2021-06-02' of https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgitlab.freedesktop.org%2Fagd5f%2Flinux&amp;data=04%7C01%7Cchristian.koenig%40amd.com%7C5f05fa59cd3b4432e71108d94027ede6%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637611362989756089%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&amp;sdata=gJ98NtSRf3IyVfsCzw3DKydeMTGKIkHJNzUUhUfsWzY%3D&amp;reserved=0 into drm-
+> next
+>> git bisect bad 5745d647d5563d3e9d32013ad4e5c629acff04d7
+>> # bad: [c99c4d0ca57c978dcc2a2f41ab8449684ea154cc] Merge tag 'amd-drm-
+> next-5.14-2021-05-19' of https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgitlab.freedesktop.org%2Fagd5f%2Flinux&amp;data=04%7C01%7Cchristian.koenig%40amd.com%7C5f05fa59cd3b4432e71108d94027ede6%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637611362989756089%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&amp;sdata=gJ98NtSRf3IyVfsCzw3DKydeMTGKIkHJNzUUhUfsWzY%3D&amp;reserved=0 into drm-
+> next
+>> git bisect bad c99c4d0ca57c978dcc2a2f41ab8449684ea154cc
+>> # bad: [ae25ec2fc6c5a9e5767bf1922cd648501d0f914c] Merge tag 'drm-misc-
+> next-2021-05-17' of git://anongit.freedesktop.org/drm/drm-misc into drm-next
+>> git bisect bad ae25ec2fc6c5a9e5767bf1922cd648501d0f914c
+>> # bad: [cac80e71cfb0b00202d743c6e90333c45ba77cc5] drm/vkms: rename cursor to
+> plane on ops of planes composition
+>> git bisect bad cac80e71cfb0b00202d743c6e90333c45ba77cc5
+>> # good: [178bdba84c5f0ad14de384fc7f15fba0e272919d] drm/ttm/ttm_device:
+> Demote kernel-doc abuses
+>> git bisect good 178bdba84c5f0ad14de384fc7f15fba0e272919d
+>> # bad: [3f3a6524f6065fd3d130515e012f63eac74d96da] drm/dp: Clarify DP AUX
+> registration time
+>> git bisect bad 3f3a6524f6065fd3d130515e012f63eac74d96da
+>> # bad: [6dd7efc437611db16d432e0030f72d0c7e890127] drm/gud: cleanup coding
+> style a bit
+>> git bisect bad 6dd7efc437611db16d432e0030f72d0c7e890127
+>> # bad: [13b29cc3a722c2c0bc9ab9f72f9047d55d08a2f9] drm/mxsfb: Don't select
+> DRM_KMS_FB_HELPER
+>> git bisect bad 13b29cc3a722c2c0bc9ab9f72f9047d55d08a2f9
+>> # bad: [d02117f8efaa5fbc37437df1ae955a147a2a424a] drm/ttm: remove special
+> handling for non GEM drivers
+>> git bisect bad d02117f8efaa5fbc37437df1ae955a147a2a424a
+>> # good: [13ea9aa1e7d891e950230e82f1dd2c84e5debcff] drm/ttm: fix error
+> handling if no BO can be swapped out v4
+>> git bisect good 13ea9aa1e7d891e950230e82f1dd2c84e5debcff
+>> # first bad commit: [d02117f8efaa5fbc37437df1ae955a147a2a424a] drm/ttm:
+> remove special handling for non GEM drivers
+>> Reverting the patch permit to have nouveau works again.
+>>
+>> Regards
+>>
+>>
+>
+>
+>
 
-It replaces the vkms code with shared code. Nothing else. For the shared =
-
-shadow-buffer code it means more testing. If vkms ever supports color=20
-formats that use multiple planes, the new code will be ready.
-
-Best regards
-Thomas
-
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---mxdqxGyuYFQdB1RB5mHA2EoWxJBxyVVa1--
-
---eKk3Odes9FafvFP73Z1qmUifN3FslQapi
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmDj4/EFAwAAAAAACgkQlh/E3EQov+BL
-2g//Z716qz37+0pZPn5rBrKDO5JWMFXj9ib0D5c4JnBAobhRK2ZwWU0RZBwmzasCyyxnI4lxgJEN
-oz1JkzNQI54juO0xMHh4JVnLokWrSo9mR++w3FOiqGem0GrazQ7I2SWD8VQgElMxwYQLVziTSniS
-96Bnt2jrswfg6h9/5GqvCkmJHe0P2JjjZsHrE4+DPXHzUlXm2ReeU3sFcpPFxz1oppQ3n2/bNXrn
-U18jTRKufcBBYKCM7SYrmg3jk5Fc5OGCuP1KUX7aovGDF5xzwHjv1pWdRKGaGpzf4hlCyu/H77z1
-N7D4hsLcx2uDfMVrzawGf2P+UrV5yxeU9A+2z41EC3WCE5KeFhLQsjufw0/7aQIKuX3PmWvKyXmW
-CyWV5wHCFlIci9OsxvaDPwx7w0h6ii9kRKMdBuG3yqCREmae7xZdVjndNnPMkth8jlMSTQy+Lla+
-TTcPXEJRK1RwQQ1rxGicuyq820CjEKXqEz0b/h7FpJh0N+cqZMfPQ2lhj5NLySLScGo1kcP3a4ug
-46n/LCfkVUlGk6uiy8ecAxyjImyGCjBzEfNU0K9296C+t+yE66aGwoqyQs8yVEwfOWaZcZ8nJIWV
-3tbSNoBmPZHypizbPUt1MkFWN+i7EVzdOrY9WamFgXTb8CIxlTCIrOSRCVm9MHChltQcu4mxN5IQ
-OYs=
-=nDWq
------END PGP SIGNATURE-----
-
---eKk3Odes9FafvFP73Z1qmUifN3FslQapi--
