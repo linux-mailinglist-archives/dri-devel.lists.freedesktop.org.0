@@ -1,73 +1,122 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEB6E3BDA05
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 17:21:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BA883BDA18
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 17:23:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CED216E02D;
-	Tue,  6 Jul 2021 15:21:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 522196E4F8;
+	Tue,  6 Jul 2021 15:23:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com
- [91.207.212.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 737546E02D
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Jul 2021 15:21:15 +0000 (UTC)
-Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 166F6dNG025235; Tue, 6 Jul 2021 17:21:07 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=selector1;
- bh=lLGR8C8rrnqtM2RD7BZasUGPpC8PxB8+w4cxLfW4Uq4=;
- b=tSDbaBK/81YI+n/PD1miwCO7NPWX/60hIbjZxNkPQ/LqsLqWVXQxH67ZBY0WsKMbPs3k
- DdXewsocnRWz0SBY3UVw0yPc9g7GGO5MfUbROJpb+Vyrxd2wceFKI5XqSXy5TlArOJhl
- fC3C4P4infB9Aof1zyEdQai5CHmteGc1ZiR5VFf/T0GQtA91gNwy8JFZY8tTlspsmQvZ
- ggqIDDg9K+P4EZAnHi0PxocE0fFU15C8adoHfyEwa7jPL/1O4g+F4XuAcl9g5FqnpjaG
- l9WlIv+OByPh9kRs4+Z6Dg2LtvqTuelJ615eZatsLhNZXOQTLX8DNoXt8Cizq3NreBsg Ig== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
- by mx07-00178001.pphosted.com with ESMTP id 39mneb9f4k-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 06 Jul 2021 17:21:07 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id C1CFC10002A;
- Tue,  6 Jul 2021 17:21:04 +0200 (CEST)
-Received: from Webmail-eu.st.com (sfhdag2node3.st.com [10.75.127.6])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id A430621BF5A;
- Tue,  6 Jul 2021 17:21:04 +0200 (CEST)
-Received: from lmecxl0951.lme.st.com (10.75.127.50) by SFHDAG2NODE3.st.com
- (10.75.127.6) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 6 Jul
- 2021 17:21:03 +0200
-Subject: Re: [PATCH] drm/stm: ltdc: improve pm_runtime to stop clocks
-To: Raphael GALLAIS-POU - foss <raphael.gallais-pou@foss.st.com>, "Philippe
- CORNU - foss" <philippe.cornu@foss.st.com>, Benjamin Gaignard
- <benjamin.gaignard@linaro.org>, David Airlie <airlied@linux.ie>, "Daniel
- Vetter" <daniel@ffwll.ch>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre TORGUE - foss <alexandre.torgue@foss.st.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-stm32@st-md-mailman.stormreply.com"
- <linux-stm32@st-md-mailman.stormreply.com>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>
-References: <20210629115709.16145-1-raphael.gallais-pou@foss.st.com>
-From: yannick Fertre <yannick.fertre@foss.st.com>
-Message-ID: <40f82de6-5340-347a-ae37-32c0928a5536@foss.st.com>
-Date: Tue, 6 Jul 2021 17:21:03 +0200
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2087.outbound.protection.outlook.com [40.107.244.87])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3CA666E4F8
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Jul 2021 15:23:37 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=DcUbU0fF6iV0jCHvF4Oq9NryKNTd3mKLkPoOCAALLg2dAFhDRmzZpuZ/fv7AWZIKCgElpTmH75asW/MurHnMo6f8wsLUtSkgOlgdEc+KLiC3aS5C/ELH2C9J2TlIDESxzoReBxyE+Z53tuqvTuuTFddsGDaFTZPNA+O5nzQD3bG+Fbk3wrQ7aq+9ABl+Z0SQKHd9wgsvIcld8gYAnGnGdloaJJtVymtYGrGmz0grU4DkbJgn4Nrn2Q3ArfltdbPUVS1h5RZczetke43udXEAAN4jwvbmPvCAt5OsPJuY+UIJMpU1N7qA++knTuGVf+a1DXB71Mj28t66ZJgSsl1rRg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5JfvcJAiEra6wcoTiJNGNAiCkuY7F4bwLe39nBLg2dk=;
+ b=CW3/okyXmuERz54cY5doIEUpjd35/0s+Fiqh7TM/ieLIN+lYo1EFXAPj7BLGDVuHa2hPrGcS5euo45nw7N/IxywIS1q6iC7DuYGxKIZWvF+H7CEHHuRp65H6vwpnk/z9RltYUX7gECbEvg+iXDJvd9kqRbhXkz9pZX7yRmJK5V6Tc91WKNcn0KBANCvt2scqNW4twFNdmOi6f/jmeXInHu8RMKZ2RkFdf567y4NpFoX5636GpFr/Ciqvke6WVq0h/A3QD+m9q4yEyir4ea344qP6yBE9M68oD0mtxdhXvIvgsZmCdAbfhcWWUteFgtA18VwgIpecfUg4xznz20k+fA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vmware.com; dmarc=pass action=none header.from=vmware.com;
+ dkim=pass header.d=vmware.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vmware.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5JfvcJAiEra6wcoTiJNGNAiCkuY7F4bwLe39nBLg2dk=;
+ b=bAQLTVThkcfL7+Bz2jRpt5NyQO2eEZST/kFdtbRawAdjdRdlP7Tpy/+YrJHNGrh0E/UkJejXjSlSY3U3rfNVJfSUi/3kpdAdQUxAqiB9dzoOEeEIoQvy6jRUAjH5XIrNdp5hBYQACntByNk7+rPXPt0EM4nvT2jL64XseIwu7+c=
+Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
+ header.d=none; lists.freedesktop.org;
+ dmarc=none action=none header.from=vmware.com;
+Received: from MN2PR05MB6624.namprd05.prod.outlook.com (2603:10b6:208:d8::18)
+ by MN2PR05MB6496.namprd05.prod.outlook.com (2603:10b6:208:da::28)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4308.17; Tue, 6 Jul
+ 2021 15:23:34 +0000
+Received: from MN2PR05MB6624.namprd05.prod.outlook.com
+ ([fe80::f55f:1a1e:7d62:8c8c]) by MN2PR05MB6624.namprd05.prod.outlook.com
+ ([fe80::f55f:1a1e:7d62:8c8c%5]) with mapi id 15.20.4308.020; Tue, 6 Jul 2021
+ 15:23:34 +0000
+Subject: Re: [PATCH] drm/vmwgfx: Convert to Linux IRQ interfaces
+To: Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-graphics-maintainer@vmware.com, airlied@linux.ie, daniel@ffwll.ch
+References: <20210706072253.6844-1-tzimmermann@suse.de>
+From: Zack Rusin <zackr@vmware.com>
+Message-ID: <03713285-6e55-0a2c-0123-cdb8b796bf22@vmware.com>
+Date: Tue, 6 Jul 2021 11:23:30 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
-MIME-Version: 1.0
-In-Reply-To: <20210629115709.16145-1-raphael.gallais-pou@foss.st.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
+In-Reply-To: <20210706072253.6844-1-tzimmermann@suse.de>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.75.127.50]
-X-ClientProxiedBy: SFHDAG2NODE1.st.com (10.75.127.4) To SFHDAG2NODE3.st.com
- (10.75.127.6)
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
- definitions=2021-07-06_07:2021-07-06,
- 2021-07-06 signatures=0
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BN7PR02CA0013.namprd02.prod.outlook.com
+ (2603:10b6:408:20::26) To MN2PR05MB6624.namprd05.prod.outlook.com
+ (2603:10b6:208:d8::18)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.0.193] (108.36.85.85) by
+ BN7PR02CA0013.namprd02.prod.outlook.com (2603:10b6:408:20::26) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4287.23 via Frontend Transport; Tue, 6 Jul 2021 15:23:33 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 80b3610e-b708-4773-2ff6-08d940920487
+X-MS-TrafficTypeDiagnostic: MN2PR05MB6496:
+X-LD-Processed: b39138ca-3cee-4b4a-a4d6-cd83d9dd62f0,ExtAddr
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <MN2PR05MB649670B731D0CA387EE49908CE1B9@MN2PR05MB6496.namprd05.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3276;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: smG0l89tK5LsFzk9UK5/t2u97o7vuxxlgqlqUin11XevUMFrMXqkgI3dDOQavLLIBfkw0c/9lIVM6Vir9ZOQ9yIr3lzxShI8uEiMwHYeKT8biOYxkeN7pFc504ikSh+0KFSm0JUSMSLD1/DJb7xilI3LliCc/xa1D60kquWz42+gKKDJjBSaCiWX4IyCoSWVtSVq3xgfLHNcv6Z3I/5RvD0Nhuz9ji4HOsA+xnLSupMGgwQ7MMONIqGIc0PXWehMDpRD8j/xKzBoE1GetQQXs3jhZjJi9bzaVrbCgInwHiEbl2jHGVfzHUK/LN1mz7ZcUyOP0ANtlalKWcnAPaNqsM+MQBqQWeNuSWjMzOQP6Ynmu4pzHxAOrGBKen7KfTQ43m2YeTf2ptIkh9Kf4mQ6umHx7EK0wFHajofkAVGTkvTav3ELmnPNDu95IUSpn+TPhrIVJtoydnu5jNgHrEaXpnKDjPyERfsQarPblU0/bURQqEyA3f8/uQdqiG8rtWKaDV3pHxn1755JbQ4NrojEVwp3XXB1wIBfguNtN+mGyG92WDNL0Hlvesq55Amz+Rg09AgRI/5XmuyMVmOySuFcwjtG6hHqSsoU5qRGTIpXTEWoAraHKw49WM7htVttkBmb+L2zedDcVtWj+39XdmzqiijO42aEJVlBCqG7UXK/OXyLLuPR6kosayAcZIHZUp8j5fConTSmWm4MURFDA71R4MgVFpT0Fv8qdGWruB/iatA=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR05MB6624.namprd05.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(376002)(346002)(396003)(136003)(39860400002)(366004)(5660300002)(2616005)(6486002)(86362001)(31696002)(186003)(4326008)(66556008)(2906002)(66476007)(66946007)(53546011)(26005)(38100700002)(956004)(478600001)(8676002)(316002)(31686004)(36756003)(8936002)(16576012)(4744005)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?a1BEbVlONVkzWXMzTFFIL3NYYVJVMis5ZVFkbUpiMzQ1bUtKNThHUmphM2ps?=
+ =?utf-8?B?ZmxHaGNnZ3VaWkZjWDQydHlpd2J4b3dac20zTFVYeGh4T0JwQXJ5SGFsRkNx?=
+ =?utf-8?B?SDR4czBGdWJtU2RIeE9TSDRxM2N5dGNFcGlTd0tHS0ZaNGEwUjI1SDlSU1JD?=
+ =?utf-8?B?RUFwbzhGdWNEaW12Wms4WlYyOXEvNzZOeFo5amJ3SDB4RnRJOG9BQ2E5UmxD?=
+ =?utf-8?B?VENDcEczMW5tVHpySjRzMEFSWVArMUFpUEk3QWgwWm5zbkF2Z2FRcmlGY010?=
+ =?utf-8?B?aXdZM0loWXlsQ0VHazdxU3R0VUl2cXV0QzlsOE9Cd2Y2NW1DMkErR0RmeVRU?=
+ =?utf-8?B?eXV4bGQ2ZnFOaGUwakFYNTUzZnNCbXowdDl3alpYcnl0QUtYblBRS3FOZGN6?=
+ =?utf-8?B?Y0swOVJ3NUdkYS8ydGFnMUxXMmxRSG16SlVqUVExWHdDbThIcTN2UUVTRmds?=
+ =?utf-8?B?Z0h2KzhPLzBaK3JTV2N5VXh0VW5HbFdKelM5M1N2ZXdDTmlrTDI4TmJ3MUdu?=
+ =?utf-8?B?VG85MDNDaE42cER0YzdiNTJLVjgzR3BDeEZUcjVlRDMwbDBzL0hXM09xYjcv?=
+ =?utf-8?B?QXFiUnF3bTJDaG1PQ0F5cXlzdHFXSU4wUnl3a0E1dzBWbktadDlTY1d2a043?=
+ =?utf-8?B?SUlOTE5nWDFRMTZMVUxDKzlYZGZkZENVTEV1SFVtM2o0b2ozbGV5WmM2SElC?=
+ =?utf-8?B?SXgwRlp3N1lzZlI0MTJaU1NXYyt0cHBmeFYxaWNPckVXTFFReElQNlMzeWhH?=
+ =?utf-8?B?MjgxMnFOalFEU1h1b0pTellLbHRSRm1WNnRoYTdSZFNJU2RMbnFubTBwT0gy?=
+ =?utf-8?B?U094bHVLVjlJMWRjaGh5bmQrRHg0ZCtIcjg0MDFiUnl1MHE5ZCtPNk1QNGNS?=
+ =?utf-8?B?ZkFJSW1Ia2prd2g3UnNzNkNIL2ZCcm4yRWdCVjdzOTJ0M2FwNldvdnlJbGdr?=
+ =?utf-8?B?cUo0b0NBVUJka1pGbkNWaEh4V3RYUVhKN1k1Qkt1cWo4OHNsWTU3dTd5UXBp?=
+ =?utf-8?B?ZndFd3hQVlhRTnlNZWYzaW8vdDJrM2syTzVMSHN3bExJbWNleVFXT3E1VlRm?=
+ =?utf-8?B?WE52NXRmSk91ejhReDNENTN5cjlSZ25SVFoxVDlGV2dNZE93ZmNGRUFqeDN3?=
+ =?utf-8?B?cG1kUDZZQ1hRdURJdzhkWEpLc2lJMEZrblVuVVpZeFVBSTN6QWMybVVaTGRJ?=
+ =?utf-8?B?QTNIS3Q0RWRZZEVFOVc5WEdrVWdrc21vNjZkZmFybS9SMitXMEVVS0NLVytI?=
+ =?utf-8?B?RWpmY0NsaFF4WGJXZi9hUXVSdHBTem10ZDRML0lXU1plS1Rpc05sLzFKa3BX?=
+ =?utf-8?B?RTVkN1VqNnU1eHBTb21sL0k0RDBXNk5FSDdxZjc5WjQyMXA5bjNOM09jMmo3?=
+ =?utf-8?B?VmdLL0MzNXNMemVQVlh5eXEyVFRIeTkrTG5tUGRpenZmVkU4UmZwYTRKYWJh?=
+ =?utf-8?B?dFhWV3FBUU5RL3hjdzBMcmlWNW00aDFCL0hxaTJiRXp3NXkvdHNnYnFkYzNW?=
+ =?utf-8?B?MnhUMWZNS3U4dHZYb29sTlJYblgwcTFMazUxWnJRUm83RWJnaUpVUXNHSlN2?=
+ =?utf-8?B?QTdHWGdpZEdoWm9HNHNNZXFqN1p3Ty9oVEVaaUV6M0hmeHlaWHE5VjZQYUtW?=
+ =?utf-8?B?RlUxUWpCVkpESVRrQ0RxSStmdDNkeTJQTEsrUWQwTUFzcjhFdmMvdUNSRi84?=
+ =?utf-8?B?Rjl4ZHlRcElUcFBmSzNpNFBaRmtMcjExc2doY21OdEpvWmYvc3NhRkJoWTlt?=
+ =?utf-8?Q?V+N6Uj3DE4a9WcHLAd/XbFglsiVyv2kGKteTGjn?=
+X-OriginatorOrg: vmware.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 80b3610e-b708-4773-2ff6-08d940920487
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR05MB6624.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jul 2021 15:23:33.9224 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: b39138ca-3cee-4b4a-a4d6-cd83d9dd62f0
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: AZBHFKp8Ns2tWp7OUQu9NuueOrmhU0B1ZZlQzf6fjwSM7MW+jcrVx/RQibb20VOZh12E2drbP26Q6gC0K5kA/g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR05MB6496
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,109 +129,21 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Yannick FERTRE <yannick.fertre@st.com>, Marek Vasut <marex@denx.de>,
- Philippe CORNU <philippe.cornu@st.com>,
- Raphael GALLAIS-POU <raphael.gallais-pou@st.com>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Raphaël,
+On 7/6/21 3:22 AM, Thomas Zimmermann wrote:
+> Drop the DRM IRQ midlayer in favor of Linux IRQ interfaces. DRM's
+> IRQ helpers are mostly useful for UMS drivers. Modern KMS drivers
+> don't benefit from using it.
+> 
+> Vmwgfx already uses Linux IRQ functions. All that's left to replace
+> is the reference to struct drm_device.irq. Use irq value of struct
+> pci_dev instead.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-thanks for the patch.
+Looks great. Thank you.
 
-Tested-by: Yannick Fertre <yannick.fertre@foss.st.com>
-
-
-
-On 6/29/21 1:58 PM, Raphael GALLAIS-POU - foss wrote:
-> Bugzilla ticket: https://intbugzilla.st.com/show_bug.cgi?id=60620
-> Gerrit patch: https://gerrit.st.com/c/mpu/oe/st/linux-stm32/+/208093/
-> 
-> In the LTDC driver, pm_runtime_get_sync was wrongly used and caused the
-> LTDC pixel clock to be systematically enabled in the clock summary.
-> 
-> After one simple use of the LTDC by activating and deactivating,
-> the clock summary results as below:
-> 
-> ~# cat /sys/kernel/debug/clk/clk_summary | grep ltdc
->          ltdc_px               1        1        0    29700000          0     0  50000         N
->                ltdc            0        0        0   133250000          0     0  50000         N
-> 
-> By doing so, pm_runtime_get_sync only increments the clock counter when
-> the driver was in not active, displaying the right information when the
-> LTDC is not in use, resulting of the below clock summary after deactivation
-> of the LTDC.
-> 
-> ~# cat /sys/kernel/debug/clk/clk_summary | grep ltdc
->          ltdc_px               0        0        0    29700000          0     0  50000         N
->                ltdc            0        0        0   133250000          0     0  50000         N
-> 
-> The clocks are activated either by the crtc_set_nofb function or
-> by the crtc_atomic_enable function. A check of pm_runtime activity must
-> be done before set clocks on. This check must also be done for others
-> functions which access registers.
-> 
-> Signed-off-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
-> ---
->   drivers/gpu/drm/stm/ltdc.c | 21 ++++++++++++++++++++-
->   1 file changed, 20 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/stm/ltdc.c b/drivers/gpu/drm/stm/ltdc.c
-> index 08b71248044d..bf9d18023698 100644
-> --- a/drivers/gpu/drm/stm/ltdc.c
-> +++ b/drivers/gpu/drm/stm/ltdc.c
-> @@ -425,10 +425,17 @@ static void ltdc_crtc_atomic_enable(struct drm_crtc *crtc,
->   {
->   	struct ltdc_device *ldev = crtc_to_ltdc(crtc);
->   	struct drm_device *ddev = crtc->dev;
-> +	int ret;
->   
->   	DRM_DEBUG_DRIVER("\n");
->   
-> -	pm_runtime_get_sync(ddev->dev);
-> +	if (!pm_runtime_active(ddev->dev)) {
-> +		ret = pm_runtime_get_sync(ddev->dev);
-> +		if (ret) {
-> +			DRM_ERROR("Failed to set mode, cannot get sync\n");
-> +			return;
-> +		}
-> +	}
->   
->   	/* Sets the background color value */
->   	reg_write(ldev->regs, LTDC_BCCR, BCCR_BCBLACK);
-> @@ -783,6 +790,7 @@ static void ltdc_plane_atomic_update(struct drm_plane *plane,
->   	struct drm_plane_state *newstate = drm_atomic_get_new_plane_state(state,
->   									  plane);
->   	struct drm_framebuffer *fb = newstate->fb;
-> +	struct drm_device *ddev = plane->dev;
->   	u32 lofs = plane->index * LAY_OFS;
->   	u32 x0 = newstate->crtc_x;
->   	u32 x1 = newstate->crtc_x + newstate->crtc_w - 1;
-> @@ -792,6 +800,11 @@ static void ltdc_plane_atomic_update(struct drm_plane *plane,
->   	u32 val, pitch_in_bytes, line_length, paddr, ahbp, avbp, bpcr;
->   	enum ltdc_pix_fmt pf;
->   
-> +	if (!pm_runtime_active(ddev->dev)) {
-> +		DRM_DEBUG_DRIVER("crtc not activated");
-> +		return;
-> +	}
-> +
->   	if (!newstate->crtc || !fb) {
->   		DRM_DEBUG_DRIVER("fb or crtc NULL");
->   		return;
-> @@ -897,8 +910,14 @@ static void ltdc_plane_atomic_disable(struct drm_plane *plane,
->   	struct drm_plane_state *oldstate = drm_atomic_get_old_plane_state(state,
->   									  plane);
->   	struct ltdc_device *ldev = plane_to_ltdc(plane);
-> +	struct drm_device *ddev = plane->dev;
->   	u32 lofs = plane->index * LAY_OFS;
->   
-> +	if (!pm_runtime_active(ddev->dev)) {
-> +		DRM_DEBUG_DRIVER("crtc already deactivated");
-> +		return;
-> +	}
-> +
->   	/* disable layer */
->   	reg_clear(ldev->regs, LTDC_L1CR + lofs, LXCR_LEN);
->   
-> 
+Reviewed-by: Zack Rusin <zackr@vmware.com>
