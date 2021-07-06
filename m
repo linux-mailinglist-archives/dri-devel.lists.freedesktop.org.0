@@ -1,40 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD6163BCC4E
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 13:16:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 061BB3BCC4F
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 13:16:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 596C66E0E6;
-	Tue,  6 Jul 2021 11:16:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C5236E10A;
+	Tue,  6 Jul 2021 11:16:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 66A386E0E6;
- Tue,  6 Jul 2021 11:16:17 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 381FE61C6E;
- Tue,  6 Jul 2021 11:16:16 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A17246E0FD;
+ Tue,  6 Jul 2021 11:16:22 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 89A0D61C68;
+ Tue,  6 Jul 2021 11:16:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1625570177;
- bh=ZtR6uqjh9r46IYe5YwSQZB+ViQIJ6CXVhQ+5mOkRKOI=;
+ s=k20201202; t=1625570182;
+ bh=Tfh6DbfihezcnpoZW0Us+LUNS/1aFfBJ0MFWIvIOQco=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=T0cuG8Gx5RD8KMnz7xijg015vsmKopfCCNqm4WpQDyWvq0C2AyYmcta7sYwCRnp6B
- 47TpJOHxnFtxUTVJIKOIZaMkQNcZZMF7CfOB3wxhObUDJ1Mb1Qqmvc1unE8/STSo8t
- USC5TX+6WOzzFzTWQPc3lrYwYRpxL1LPUuJwVuOXxFzSV9ze9PAW1GaC71ncXTBY/B
- C9KQOV75OsF0/nZCkQk5++hlln/wCheVXfqCdVlkvqyMXi4v7cM6+xVXp43dUa7+rp
- YpcklkNF08LqWHSK0RsxhQ8LoRZxHuw7Sw9EljUUjU0sgaSWwX3rnVBpcU6GYUswuv
- viwEgdqd1CFVg==
+ b=ATU2kNfmxc6ppJiCFuj6J9MeMLN2id6An1McNGl6EFjppORaMk4CV52BCzoHNDZsc
+ v5jwe8uItlJayXBPbzqCklavZBHGSjD5WSuubiUOovF6cK5W6hHx+pdlhu6wqnnCFZ
+ MHPuIbTXYBWAu3gSBaSH+oidHlmVyBEfVsVQWOoBBkSe3SXPv5+kDFpqsOUivcMTLE
+ mMFJJ8d0KwPeg4jdF4N5v8BsLPAGU8WHMe91m5eebocXo278CG93k0/YFBPvbbnqTu
+ 3R5mjRBw0nvO8XR5k5mXkFQPYzKGzWuuBXnQlxf7Cz60+7cjBRIqFZlXiIpRG7DDxj
+ QDam+x3ftFjrA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.13 094/189] drm/amd/display: Fix crash during MPO +
- ODM combine mode recalculation
-Date: Tue,  6 Jul 2021 07:12:34 -0400
-Message-Id: <20210706111409.2058071-94-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.13 098/189] drm/amdkfd: use allowed domain for vmbo
+ validation
+Date: Tue,  6 Jul 2021 07:12:38 -0400
+Message-Id: <20210706111409.2058071-98-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210706111409.2058071-1-sashal@kernel.org>
 References: <20210706111409.2058071-1-sashal@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -50,52 +51,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stylon Wang <stylon.wang@amd.com>, Sasha Levin <sashal@kernel.org>,
- Krunoslav Kovac <Krunoslav.Kovac@amd.com>, amd-gfx@lists.freedesktop.org,
- Daniel Wheeler <daniel.wheeler@amd.com>, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>
+Cc: Sasha Levin <sashal@kernel.org>, Felix Kuehling <Felix.Kuehling@amd.com>,
+ amd-gfx@lists.freedesktop.org, Nirmoy Das <nirmoy.das@amd.com>,
+ dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Aric Cyr <aric.cyr@amd.com>
+From: Nirmoy Das <nirmoy.das@amd.com>
 
-[ Upstream commit 665f28507a2a3d8d72ed9afa9a2b9b17fd43add1 ]
+[ Upstream commit bc05716d4fdd065013633602c5960a2bf1511b9c ]
 
-[Why]
-When calculating recout width for an MPO plane on a mode that's using
-ODM combine, driver can calculate a negative value, resulting in a
-crash.
+Fixes handling when page tables are in system memory.
 
-[How]
-For negative widths, use zero such that validation will prune the
-configuration correctly and disallow MPO.
+v3: remove struct amdgpu_vm_parser.
+v2: remove unwanted variable.
+    change amdgpu_amdkfd_validate instead of amdgpu_amdkfd_bo_validate.
 
-Signed-off-by: Aric Cyr <aric.cyr@amd.com>
-Reviewed-by: Krunoslav Kovac <Krunoslav.Kovac@amd.com>
-Acked-by: Stylon Wang <stylon.wang@amd.com>
-Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
+Signed-off-by: Nirmoy Das <nirmoy.das@amd.com>
+Reviewed-by: Christian König <christian.koenig@amd.com>
+Reviewed-by: Felix Kuehling <Felix.Kuehling@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/core/dc_resource.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ .../gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c  | 21 ++++---------------
+ 1 file changed, 4 insertions(+), 17 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_resource.c b/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
-index 78278a10d899..3b1068a09095 100644
---- a/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
-+++ b/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
-@@ -776,6 +776,11 @@ static void calculate_recout(struct pipe_ctx *pipe_ctx)
- 			if (split_idx == split_count) {
- 				/* rightmost pipe is the remainder recout */
- 				data->recout.width -= data->h_active * split_count - data->recout.x;
-+
-+				/* ODM combine cases with MPO we can get negative widths */
-+				if (data->recout.width < 0)
-+					data->recout.width = 0;
-+
- 				data->recout.x = 0;
- 			} else
- 				data->recout.width = data->h_active - data->recout.x;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
+index 7d4118c8128a..5e69b5b50a19 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
+@@ -50,12 +50,6 @@ static struct {
+ 	spinlock_t mem_limit_lock;
+ } kfd_mem_limit;
+ 
+-/* Struct used for amdgpu_amdkfd_bo_validate */
+-struct amdgpu_vm_parser {
+-	uint32_t        domain;
+-	bool            wait;
+-};
+-
+ static const char * const domain_bit_to_string[] = {
+ 		"CPU",
+ 		"GTT",
+@@ -346,11 +340,9 @@ static int amdgpu_amdkfd_bo_validate(struct amdgpu_bo *bo, uint32_t domain,
+ 	return ret;
+ }
+ 
+-static int amdgpu_amdkfd_validate(void *param, struct amdgpu_bo *bo)
++static int amdgpu_amdkfd_validate_vm_bo(void *_unused, struct amdgpu_bo *bo)
+ {
+-	struct amdgpu_vm_parser *p = param;
+-
+-	return amdgpu_amdkfd_bo_validate(bo, p->domain, p->wait);
++	return amdgpu_amdkfd_bo_validate(bo, bo->allowed_domains, false);
+ }
+ 
+ /* vm_validate_pt_pd_bos - Validate page table and directory BOs
+@@ -364,20 +356,15 @@ static int vm_validate_pt_pd_bos(struct amdgpu_vm *vm)
+ {
+ 	struct amdgpu_bo *pd = vm->root.base.bo;
+ 	struct amdgpu_device *adev = amdgpu_ttm_adev(pd->tbo.bdev);
+-	struct amdgpu_vm_parser param;
+ 	int ret;
+ 
+-	param.domain = AMDGPU_GEM_DOMAIN_VRAM;
+-	param.wait = false;
+-
+-	ret = amdgpu_vm_validate_pt_bos(adev, vm, amdgpu_amdkfd_validate,
+-					&param);
++	ret = amdgpu_vm_validate_pt_bos(adev, vm, amdgpu_amdkfd_validate_vm_bo, NULL);
+ 	if (ret) {
+ 		pr_err("failed to validate PT BOs\n");
+ 		return ret;
+ 	}
+ 
+-	ret = amdgpu_amdkfd_validate(&param, pd);
++	ret = amdgpu_amdkfd_validate_vm_bo(NULL, pd);
+ 	if (ret) {
+ 		pr_err("failed to validate PD\n");
+ 		return ret;
 -- 
 2.30.2
 
