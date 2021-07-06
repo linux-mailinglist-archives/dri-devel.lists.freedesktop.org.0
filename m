@@ -1,35 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F6C53BCECE
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 13:26:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BFB963BCED5
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 13:26:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 21FBE6E448;
-	Tue,  6 Jul 2021 11:26:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 030D66E446;
+	Tue,  6 Jul 2021 11:26:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 241406E444
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Jul 2021 11:26:42 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 328EB61C75;
- Tue,  6 Jul 2021 11:26:41 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2DF696E44A
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Jul 2021 11:26:43 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 6E0E661EEF;
+ Tue,  6 Jul 2021 11:26:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1625570802;
- bh=MfhOHP9+n0LI8xfLnM2mS/CsEj2P2NLk0DnPZEVhPb8=;
+ s=k20201202; t=1625570803;
+ bh=VsUJo/G01m795u2MCdAiXc6gQHD+pp3Da68q0lsOLzg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ug/nZFY1QC4z396BQi9VMLRYcFvgHI3Hxeirw+8bphlzDn8ZS//6VCmapC3S4el8w
- 5kL0U+PHSp/00HvEU47Qhn2gOYpXIJwxW938MLTxsa6lrooie1oD6VhvXvoE6KIHFz
- ZOmk8wV7DoE1+dbwy7TRNEVvLbeXd2u1Y5RaGeqpRA7A0tt0fmKaBmQIbEkxWUDybj
- vC2tNf58djuxEi4WigI3Miz5XDAa97L1xl0KolaGvY21HLwFtE0OGORDOepuVp1hRi
- 05N6Tc/BVVRopXFI3Ot1coSQ1GNf5SF57uupiuG9MzACC/FpDnusxctIDH2RSkER06
- rgbrQ47cFqHtQ==
+ b=jvR2GX9xoaYjuP41YeD0pMCm7rxf0CRafyhV6RYqMOe/s8Ez9cop2xZwznBOc3Pe7
+ gt9ornTmEh+kYHNc/U0/SyTMrNWehTL9JO7nsuKDF6V7Sl0KRXj3Z7L7iBDlF62i6M
+ nxZCI4m/joOFRTyJz/9FW0se9OFECKozZ2KtYQFk3DfWSLz0rLI4TiCablu7t8qzfI
+ lc8PTPG/ehObQWqF5Sv+sMuiMZ7Cyz0oJs6k+VutY3PTodKh/Rda4gVgScfsOFP+iX
+ 9JTxwrrpjll0ssxHhK1RcewfZeWZ21iry8HERcfU5q3+0/tBTURDCzNPWkgFmrRj8V
+ RX3uH/anZTbbA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 02/55] drm/mxsfb: Don't select DRM_KMS_FB_HELPER
-Date: Tue,  6 Jul 2021 07:25:45 -0400
-Message-Id: <20210706112638.2065023-2-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 03/55] drm/zte: Don't select DRM_KMS_FB_HELPER
+Date: Tue,  6 Jul 2021 07:25:46 -0400
+Message-Id: <20210706112638.2065023-3-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210706112638.2065023-1-sashal@kernel.org>
 References: <20210706112638.2065023-1-sashal@kernel.org>
@@ -50,39 +50,37 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Sasha Levin <sashal@kernel.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- linux-arm-kernel@lists.infradead.org
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Thomas Zimmermann <tzimmermann@suse.de>
 
-[ Upstream commit 13b29cc3a722c2c0bc9ab9f72f9047d55d08a2f9 ]
+[ Upstream commit a50e74bec1d17e95275909660c6b43ffe11ebcf0 ]
 
 Selecting DRM_FBDEV_EMULATION will include the correct settings for
 fbdev emulation. Drivers should not override this.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Acked-by: Stefan Agner <stefan@agner.ch>
 Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-Link: https://patchwork.freedesktop.org/patch/msgid/20210415110040.23525-3-tzimmermann@suse.de
+Link: https://patchwork.freedesktop.org/patch/msgid/20210415110040.23525-4-tzimmermann@suse.de
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/mxsfb/Kconfig | 1 -
+ drivers/gpu/drm/zte/Kconfig | 1 -
  1 file changed, 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/mxsfb/Kconfig b/drivers/gpu/drm/mxsfb/Kconfig
-index e9a8d90e6723..3ed6849d63cb 100644
---- a/drivers/gpu/drm/mxsfb/Kconfig
-+++ b/drivers/gpu/drm/mxsfb/Kconfig
-@@ -9,7 +9,6 @@ config DRM_MXSFB
- 	depends on COMMON_CLK
- 	select DRM_MXS
- 	select DRM_KMS_HELPER
--	select DRM_KMS_FB_HELPER
+diff --git a/drivers/gpu/drm/zte/Kconfig b/drivers/gpu/drm/zte/Kconfig
+index 5b36421ef3e5..75b70126d2d3 100644
+--- a/drivers/gpu/drm/zte/Kconfig
++++ b/drivers/gpu/drm/zte/Kconfig
+@@ -2,7 +2,6 @@ config DRM_ZTE
+ 	tristate "DRM Support for ZTE SoCs"
+ 	depends on DRM && ARCH_ZX
  	select DRM_KMS_CMA_HELPER
- 	select DRM_PANEL
- 	help
+-	select DRM_KMS_FB_HELPER
+ 	select DRM_KMS_HELPER
+ 	select SND_SOC_HDMI_CODEC if SND_SOC
+ 	select VIDEOMODE_HELPERS
 -- 
 2.30.2
 
