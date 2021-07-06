@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE73C3BCCC5
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 13:18:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 999AE3BCCC8
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 13:18:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 08BAC6E247;
-	Tue,  6 Jul 2021 11:18:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A4F336E250;
+	Tue,  6 Jul 2021 11:18:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F6C86E249
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Jul 2021 11:18:40 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 4416761D06;
- Tue,  6 Jul 2021 11:18:39 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 37DF66E24D;
+ Tue,  6 Jul 2021 11:18:43 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D79F861C65;
+ Tue,  6 Jul 2021 11:18:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1625570320;
- bh=y6z0+aKNZ1HSjDGs74IirbkHZSxxDP6hcwBliJXkb/Q=;
+ s=k20201202; t=1625570323;
+ bh=Ix9/zcKoy7BIBKCHzKGocvecCkbEtmdiGceJiXA6MVc=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=GzpO78KjefyZPTjh2u/4PReBB4eLSbVJ26xTjXk3HXEEXVhNDUxlrnB+jLDZaGErU
- uwGrULiWc+4940th+eaUrGQz03jZKkTy2KAo4w+S0n2T2hmcBn2p5RcmSDIxZGWKk3
- a/tSYFyULzYq/lNk05F51BF+2zFXpYBeBLXCLCG+2ycnAwc+F9xWqUiftLnjeygJdj
- GmDTyFKRv2xHMiP4b5I1pXl+ih405YJOERlAeti09fZNizgPLNrpeivC6umRKhtcTy
- qafnaGDNVijvgSe/fky9GhI8SMWhmSClWnBADouiJjySODqn4Co/AXC4gnpZ/iyJq8
- TPKSSFIL9MNAw==
+ b=Toh/4HmmAV2kLJ4hGcs9RcyP+z0y25WbC5zePCru5fGLL+xx8/Ak8/gRRVx526Xg6
+ 8hmKo+EYS2w2KfI1hknNwXCA28aHLPiDkpSyKpyFj+j0JajIvbKoyZEuJCuHlRR78O
+ f7sqv4fPfgojzDzVzGF4yFsihL5fAac0TNlVykvPiyi0oF0JcCCnd1RoJL+wVN6o3C
+ di5z1jm4j+Nk1AcrI8SzBXFfXD+xFi9DyTNT3qmfbhowAcGJuJFM5lmM6Y2ijR5hBq
+ yhE66eW7QlDN6mzLPu2ho7inhWwOBXkdyPTw6qQ52f7XvezcKQ9eeUMcRSM6wEwn/D
+ xPq16gshuaNMA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.12 009/160] drm/imx: ipuv3-plane: do not advertise
- YUV formats on planes without CSC
-Date: Tue,  6 Jul 2021 07:15:55 -0400
-Message-Id: <20210706111827.2060499-9-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.12 011/160] drm/amd/display: fix potential gpu reset
+ deadlock
+Date: Tue,  6 Jul 2021 07:15:57 -0400
+Message-Id: <20210706111827.2060499-11-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210706111827.2060499-1-sashal@kernel.org>
 References: <20210706111827.2060499-1-sashal@kernel.org>
@@ -50,99 +50,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org
+Cc: Sasha Levin <sashal@kernel.org>, Qingqing Zhuo <Qingqing.Zhuo@amd.com>,
+ Roman Li <Roman.Li@amd.com>, amd-gfx@lists.freedesktop.org,
+ Daniel Wheeler <daniel.wheeler@amd.com>, dri-devel@lists.freedesktop.org,
+ Wayne Lin <Wayne.Lin@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
+ Lang Yu <Lang.Yu@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Philipp Zabel <p.zabel@pengutronix.de>
+From: Roman Li <Roman.Li@amd.com>
 
-[ Upstream commit 06841148c570832d4d247b0f6befc1922a84120b ]
+[ Upstream commit cf8b92a75646735136053ce51107bfa8cfc23191 ]
 
-Only planes that are displayed via the Display Processor (DP) path
-support color space conversion. Limit formats on planes that are
-shown via the direct Display Controller (DC) path to RGB.
+[Why]
+In gpu reset dc_lock acquired in dm_suspend().
+Asynchronously handle_hpd_rx_irq can also be called
+through amdgpu_dm_irq_suspend->flush_work, which also
+tries to acquire dc_lock. That causes a deadlock.
 
-Reported-by: Fabio Estevam <festevam@gmail.com>
-Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
+[How]
+Check if amdgpu executing reset before acquiring dc_lock.
+
+Signed-off-by: Lang Yu <Lang.Yu@amd.com>
+Signed-off-by: Roman Li <Roman.Li@amd.com>
+Reviewed-by: Qingqing Zhuo <Qingqing.Zhuo@amd.com>
+Acked-by: Wayne Lin <Wayne.Lin@amd.com>
+Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/imx/ipuv3-plane.c | 41 ++++++++++++++++++++++++++++---
- 1 file changed, 37 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/imx/ipuv3-plane.c b/drivers/gpu/drm/imx/ipuv3-plane.c
-index 075508051b5f..c5ff966e2ceb 100644
---- a/drivers/gpu/drm/imx/ipuv3-plane.c
-+++ b/drivers/gpu/drm/imx/ipuv3-plane.c
-@@ -35,7 +35,7 @@ static inline struct ipu_plane *to_ipu_plane(struct drm_plane *p)
- 	return container_of(p, struct ipu_plane, base);
- }
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index eed494630583..d95569e0e53a 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -2624,13 +2624,15 @@ static void handle_hpd_rx_irq(void *param)
+ 		}
+ 	}
  
--static const uint32_t ipu_plane_formats[] = {
-+static const uint32_t ipu_plane_all_formats[] = {
- 	DRM_FORMAT_ARGB1555,
- 	DRM_FORMAT_XRGB1555,
- 	DRM_FORMAT_ABGR1555,
-@@ -72,6 +72,31 @@ static const uint32_t ipu_plane_formats[] = {
- 	DRM_FORMAT_BGRX8888_A8,
- };
+-	mutex_lock(&adev->dm.dc_lock);
++	if (!amdgpu_in_reset(adev))
++		mutex_lock(&adev->dm.dc_lock);
+ #ifdef CONFIG_DRM_AMD_DC_HDCP
+ 	result = dc_link_handle_hpd_rx_irq(dc_link, &hpd_irq_data, NULL);
+ #else
+ 	result = dc_link_handle_hpd_rx_irq(dc_link, NULL, NULL);
+ #endif
+-	mutex_unlock(&adev->dm.dc_lock);
++	if (!amdgpu_in_reset(adev))
++		mutex_unlock(&adev->dm.dc_lock);
  
-+static const uint32_t ipu_plane_rgb_formats[] = {
-+	DRM_FORMAT_ARGB1555,
-+	DRM_FORMAT_XRGB1555,
-+	DRM_FORMAT_ABGR1555,
-+	DRM_FORMAT_XBGR1555,
-+	DRM_FORMAT_RGBA5551,
-+	DRM_FORMAT_BGRA5551,
-+	DRM_FORMAT_ARGB4444,
-+	DRM_FORMAT_ARGB8888,
-+	DRM_FORMAT_XRGB8888,
-+	DRM_FORMAT_ABGR8888,
-+	DRM_FORMAT_XBGR8888,
-+	DRM_FORMAT_RGBA8888,
-+	DRM_FORMAT_RGBX8888,
-+	DRM_FORMAT_BGRA8888,
-+	DRM_FORMAT_BGRX8888,
-+	DRM_FORMAT_RGB565,
-+	DRM_FORMAT_RGB565_A8,
-+	DRM_FORMAT_BGR565_A8,
-+	DRM_FORMAT_RGB888_A8,
-+	DRM_FORMAT_BGR888_A8,
-+	DRM_FORMAT_RGBX8888_A8,
-+	DRM_FORMAT_BGRX8888_A8,
-+};
-+
- static const uint64_t ipu_format_modifiers[] = {
- 	DRM_FORMAT_MOD_LINEAR,
- 	DRM_FORMAT_MOD_INVALID
-@@ -822,16 +847,24 @@ struct ipu_plane *ipu_plane_init(struct drm_device *dev, struct ipu_soc *ipu,
- 	struct ipu_plane *ipu_plane;
- 	const uint64_t *modifiers = ipu_format_modifiers;
- 	unsigned int zpos = (type == DRM_PLANE_TYPE_PRIMARY) ? 0 : 1;
-+	unsigned int format_count;
-+	const uint32_t *formats;
- 	int ret;
- 
- 	DRM_DEBUG_KMS("channel %d, dp flow %d, possible_crtcs=0x%x\n",
- 		      dma, dp, possible_crtcs);
- 
-+	if (dp == IPU_DP_FLOW_SYNC_BG || dp == IPU_DP_FLOW_SYNC_FG) {
-+		formats = ipu_plane_all_formats;
-+		format_count = ARRAY_SIZE(ipu_plane_all_formats);
-+	} else {
-+		formats = ipu_plane_rgb_formats;
-+		format_count = ARRAY_SIZE(ipu_plane_rgb_formats);
-+	}
- 	ipu_plane = drmm_universal_plane_alloc(dev, struct ipu_plane, base,
- 					       possible_crtcs, &ipu_plane_funcs,
--					       ipu_plane_formats,
--					       ARRAY_SIZE(ipu_plane_formats),
--					       modifiers, type, NULL);
-+					       formats, format_count, modifiers,
-+					       type, NULL);
- 	if (IS_ERR(ipu_plane)) {
- 		DRM_ERROR("failed to allocate and initialize %s plane\n",
- 			  zpos ? "overlay" : "primary");
+ out:
+ 	if (result && !is_mst_root_connector) {
 -- 
 2.30.2
 
