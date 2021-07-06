@@ -1,40 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A3273BCDFA
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 13:22:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D249C3BCDFE
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 13:22:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 79C0F6E3EC;
-	Tue,  6 Jul 2021 11:22:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB13E6E3F0;
+	Tue,  6 Jul 2021 11:22:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 752DC6E3EC
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Jul 2021 11:22:33 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 9C35D61D00;
- Tue,  6 Jul 2021 11:22:32 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF47B6E3EF
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Jul 2021 11:22:39 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 263F161C66;
+ Tue,  6 Jul 2021 11:22:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1625570553;
- bh=t+WR/nCFP0tngsNLIaNM1FbBfFvCfQ7k0s1hVT10z28=;
+ s=k20201202; t=1625570559;
+ bh=jH8NKxFTKwNu/qUdPjPesAKZszR0sQ/EmNDNJP5FCcs=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=DEL0Cou3XpAhGqLg4kX6XmOVZ9sEOGO25Vw4J90BwvH2sL2Yn+xonYoorZeXYiFrl
- 9gHagRAsJ9N0U8xrZsUey13vyxYfbzgKkAyHsekHzvOto3cMNkVJBbL4ymyoZit8B1
- Wx7SES2Yn/TXLtu1PRn3d8LG+nryjUkgjC4WzuJKtJWgATzQZRHRQYMTjb9hkaR2w9
- jo8ufqw7ITWn9fw2EZnoPFssgRW/eHo4NpwZohVHABclcyOnchVMecRZbSBbEmeZVw
- vu3UX5wpx/AQrUlQooM5BBe+ceuizhGMXXoej//aXnGrc7/Opplov0skdo5hLjfvAv
- 8wNGDR61uVl9A==
+ b=BG+xCv6bsUOBEQ4UiEf7oK7LhqgPQ/afvPkOEQ3bbuI6pZiFpfBpnpPMW/moJNgvn
+ DnNXFNZVemsK/6ULieEVOF499GPiaSOo4XyXCwr6speDQ9LY+kDjax+/K1tl/kRpTS
+ S0Oq2f4rVQPW7d1dXQO1J6+4t661LNMd4APdvWFNkkbRDiMwWvaXxoQKNXWaYvzS4y
+ YG7o52jwCFHOwLSg5jQYzKIdQoS+UWT8ECTjoJ/ZJoo+ylu+3AfijXXbT7ZfSCMW9O
+ luU52zTOn0utKXdGhqJAcqFS2HpqI3YTi9s97qm1Q9osswMnmVviJN3JoVLreycxfF
+ Bn5s6Rcn570qw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 022/137] drm/virtio: Fix double free on probe
- failure
-Date: Tue,  6 Jul 2021 07:20:08 -0400
-Message-Id: <20210706112203.2062605-22-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 027/137] drm/scheduler: Fix hang when
+ sched_entity released
+Date: Tue,  6 Jul 2021 07:20:13 -0400
+Message-Id: <20210706112203.2062605-27-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210706112203.2062605-1-sashal@kernel.org>
 References: <20210706112203.2062605-1-sashal@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -50,42 +51,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Xie Yongji <xieyongji@bytedance.com>,
- Gerd Hoffmann <kraxel@redhat.com>, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org
+Cc: Sasha Levin <sashal@kernel.org>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Xie Yongji <xieyongji@bytedance.com>
+From: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
 
-[ Upstream commit cec7f1774605a5ef47c134af62afe7c75c30b0ee ]
+[ Upstream commit c61cdbdbffc169dc7f1e6fe94dfffaf574fe672a ]
 
-The virtio_gpu_init() will free vgdev and vgdev->vbufs on failure.
-But such failure will be caught by virtio_gpu_probe() and then
-virtio_gpu_release() will be called to do some cleanup which
-will free vgdev and vgdev->vbufs again. So let's set dev->dev_private
-to NULL to avoid double free.
+Problem: If scheduler is already stopped by the time sched_entity
+is released and entity's job_queue not empty I encountred
+a hang in drm_sched_entity_flush. This is because drm_sched_entity_is_idle
+never becomes false.
 
-Signed-off-by: Xie Yongji <xieyongji@bytedance.com>
-Link: http://patchwork.freedesktop.org/patch/msgid/20210517084913.403-2-xieyongji@bytedance.com
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+Fix: In drm_sched_fini detach all sched_entities from the
+scheduler's run queues. This will satisfy drm_sched_entity_is_idle.
+Also wakeup all those processes stuck in sched_entity flushing
+as the scheduler main thread which wakes them up is stopped by now.
+
+v2:
+Reverse order of drm_sched_rq_remove_entity and marking
+s_entity as stopped to prevent reinserion back to rq due
+to race.
+
+v3:
+Drop drm_sched_rq_remove_entity, only modify entity->stopped
+and check for it in drm_sched_entity_is_idle
+
+Signed-off-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+Reviewed-by: Christian König <christian.koenig@amd.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20210512142648.666476-14-andrey.grodzovsky@amd.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/virtio/virtgpu_kms.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/scheduler/sched_entity.c |  3 ++-
+ drivers/gpu/drm/scheduler/sched_main.c   | 24 ++++++++++++++++++++++++
+ 2 files changed, 26 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_kms.c b/drivers/gpu/drm/virtio/virtgpu_kms.c
-index 5e716199ccee..618e46afcfc7 100644
---- a/drivers/gpu/drm/virtio/virtgpu_kms.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_kms.c
-@@ -209,6 +209,7 @@ int virtio_gpu_init(struct drm_device *dev)
- err_vbufs:
- 	vgdev->vdev->config->del_vqs(vgdev->vdev);
- err_vqs:
-+	dev->dev_private = NULL;
- 	kfree(vgdev);
- 	return ret;
- }
+diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
+index 146380118962..2006cc057f99 100644
+--- a/drivers/gpu/drm/scheduler/sched_entity.c
++++ b/drivers/gpu/drm/scheduler/sched_entity.c
+@@ -113,7 +113,8 @@ static bool drm_sched_entity_is_idle(struct drm_sched_entity *entity)
+ 	rmb(); /* for list_empty to work without lock */
+ 
+ 	if (list_empty(&entity->list) ||
+-	    spsc_queue_count(&entity->job_queue) == 0)
++	    spsc_queue_count(&entity->job_queue) == 0 ||
++	    entity->stopped)
+ 		return true;
+ 
+ 	return false;
+diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+index 7111e0f527b0..b6c2757c3d83 100644
+--- a/drivers/gpu/drm/scheduler/sched_main.c
++++ b/drivers/gpu/drm/scheduler/sched_main.c
+@@ -887,9 +887,33 @@ EXPORT_SYMBOL(drm_sched_init);
+  */
+ void drm_sched_fini(struct drm_gpu_scheduler *sched)
+ {
++	struct drm_sched_entity *s_entity;
++	int i;
++
+ 	if (sched->thread)
+ 		kthread_stop(sched->thread);
+ 
++	for (i = DRM_SCHED_PRIORITY_COUNT - 1; i >= DRM_SCHED_PRIORITY_MIN; i--) {
++		struct drm_sched_rq *rq = &sched->sched_rq[i];
++
++		if (!rq)
++			continue;
++
++		spin_lock(&rq->lock);
++		list_for_each_entry(s_entity, &rq->entities, list)
++			/*
++			 * Prevents reinsertion and marks job_queue as idle,
++			 * it will removed from rq in drm_sched_entity_fini
++			 * eventually
++			 */
++			s_entity->stopped = true;
++		spin_unlock(&rq->lock);
++
++	}
++
++	/* Wakeup everyone stuck in drm_sched_entity_flush for this scheduler */
++	wake_up_all(&sched->job_scheduled);
++
+ 	/* Confirm no work left behind accessing device structures */
+ 	cancel_delayed_work_sync(&sched->work_tdr);
+ 
 -- 
 2.30.2
 
