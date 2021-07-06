@@ -1,36 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B40D83BCD4B
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 13:20:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AD5E3BCD51
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 13:20:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D26D6E342;
-	Tue,  6 Jul 2021 11:20:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A6386E364;
+	Tue,  6 Jul 2021 11:20:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C1B46E332;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1BC3F6E342;
+ Tue,  6 Jul 2021 11:20:35 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 1329B61D6F;
  Tue,  6 Jul 2021 11:20:33 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 982A961CCA;
- Tue,  6 Jul 2021 11:20:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1625570433;
- bh=RDbpPRpPUHIEKUJqvm9HdxzVT2iLNoTodQeRLLStWfI=;
+ s=k20201202; t=1625570434;
+ bh=DdM/QtZXD7pf1Ou7w+R2eAax2FtnYf4YG/2ZosDBU5k=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=FwCJoJwgKpAbgiPuLR6XOYx1OLSRtWb0cwfBl9WXg21RsQ5tTj+HnP8E7Rswv+bE7
- aLSdR+D3jnPt/txusR/KfWYj1oq1HOvqRL8X738WnS1O/yMma8hwVx7eQeLnZ1qdiX
- DmxaEjSAZ+A+PRBSKfwXuP3zw05J3q209AYB+avV/YYGWdAZrhrpukhki6QsSIMRwb
- pdzGPPVzAyrDaJTs+AepBXl8sv6KEQlFrz5qgFzqmzF5xR8RKmWMtYF+JSnMEcifkH
- sNv7R485YZ6AMrEMaBQmtNaP/t7rRdvLQfDCajw9kcbTs3AjymOZtKZMM174TKQ+gO
- Zk/FVbHnJl39w==
+ b=tGYx6F0XNQz0xy+024tA8BtMteFrOiJGs4be3fKWNHiPbEuKFQ4qXIECHbxg0izyd
+ g1thPgDB8KWIpVcV9stBRqXsf74CP/fAB++bNVR8GBo+FzqLdN5yhH/g8pBUmXNYC1
+ A/76r/IrYm9PJW3+Lpdw+sLoKzWJoL9cyDLYbvJkGJyFjWn2/wLfKghOLbaRXduYSX
+ Cr41PAMum8W4CwJOpH8ok0SWHToxkfoBjx3A2AzIuTaRtjBGuovWq7bgYLer72EPst
+ Bwh7Pk1S4nr26zHRIYhP8Nv/TTChSGhnAAc1Tsv99FI4ayNpSsaGdfzU1NE+PLQsyJ
+ VsHi9NwmkNPsQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.12 095/160] drm/amdkfd: fix circular locking on
- get_wave_state
-Date: Tue,  6 Jul 2021 07:17:21 -0400
-Message-Id: <20210706111827.2060499-95-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.12 096/160] drm/amdkfd: Fix circular lock in nocpsch
+ path
+Date: Tue,  6 Jul 2021 07:17:22 -0400
+Message-Id: <20210706111827.2060499-96-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210706111827.2060499-1-sashal@kernel.org>
 References: <20210706111827.2060499-1-sashal@kernel.org>
@@ -50,77 +50,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Jonathan Kim <jonathan.kim@amd.com>,
- Felix Kuehling <felix.kuehling@amd.com>, dri-devel@lists.freedesktop.org,
+Cc: Sasha Levin <sashal@kernel.org>, Amber Lin <Amber.Lin@amd.com>,
+ Felix Kuehling <Felix.Kuehling@amd.com>, dri-devel@lists.freedesktop.org,
  amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Jonathan Kim <jonathan.kim@amd.com>
+From: Amber Lin <Amber.Lin@amd.com>
 
-[ Upstream commit 63f6e01237257e7226efc5087f3f0b525d320f54 ]
+[ Upstream commit a7b2451d31cfa2e8aeccf3b35612ce33f02371fc ]
 
-get_wave_state acquires the mmap_lock on copy_to_user but so do
-mmu_notifiers.  mmu_notifiers allows dqm locking so do get_wave_state
-outside the dqm_lock to prevent circular locking.
+Calling free_mqd inside of destroy_queue_nocpsch_locked can cause a
+circular lock. destroy_queue_nocpsch_locked is called under a DQM lock,
+which is taken in MMU notifiers, potentially in FS reclaim context.
+Taking another lock, which is BO reservation lock from free_mqd, while
+causing an FS reclaim inside the DQM lock creates a problematic circular
+lock dependency. Therefore move free_mqd out of
+destroy_queue_nocpsch_locked and call it after unlocking DQM.
 
-v2: squash in unused variable removal.
-
-Signed-off-by: Jonathan Kim <jonathan.kim@amd.com>
-Reviewed-by: Felix Kuehling <felix.kuehling@amd.com>
+Signed-off-by: Amber Lin <Amber.Lin@amd.com>
+Reviewed-by: Felix Kuehling <Felix.Kuehling@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- .../drm/amd/amdkfd/kfd_device_queue_manager.c | 28 +++++++++----------
- 1 file changed, 13 insertions(+), 15 deletions(-)
+ .../drm/amd/amdkfd/kfd_device_queue_manager.c  | 18 +++++++++++++-----
+ 1 file changed, 13 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
-index a4266c4bca13..df05eca73275 100644
+index df05eca73275..3d66565a618f 100644
 --- a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
 +++ b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
-@@ -1677,29 +1677,27 @@ static int get_wave_state(struct device_queue_manager *dqm,
- 			  u32 *save_area_used_size)
- {
- 	struct mqd_manager *mqd_mgr;
--	int r;
+@@ -486,9 +486,6 @@ static int destroy_queue_nocpsch_locked(struct device_queue_manager *dqm,
+ 	if (retval == -ETIME)
+ 		qpd->reset_wavefronts = true;
  
- 	dqm_lock(dqm);
- 
--	if (q->properties.type != KFD_QUEUE_TYPE_COMPUTE ||
--	    q->properties.is_active || !q->device->cwsr_enabled) {
--		r = -EINVAL;
--		goto dqm_unlock;
--	}
 -
- 	mqd_mgr = dqm->mqd_mgrs[KFD_MQD_TYPE_CP];
- 
--	if (!mqd_mgr->get_wave_state) {
--		r = -EINVAL;
--		goto dqm_unlock;
-+	if (q->properties.type != KFD_QUEUE_TYPE_COMPUTE ||
-+	    q->properties.is_active || !q->device->cwsr_enabled ||
-+	    !mqd_mgr->get_wave_state) {
-+		dqm_unlock(dqm);
-+		return -EINVAL;
- 	}
- 
--	r = mqd_mgr->get_wave_state(mqd_mgr, q->mqd, ctl_stack,
--			ctl_stack_used_size, save_area_used_size);
+-	mqd_mgr->free_mqd(mqd_mgr, q->mqd, q->mqd_mem_obj);
 -
--dqm_unlock:
+ 	list_del(&q->list);
+ 	if (list_empty(&qpd->queues_list)) {
+ 		if (qpd->reset_wavefronts) {
+@@ -523,6 +520,8 @@ static int destroy_queue_nocpsch(struct device_queue_manager *dqm,
+ 	int retval;
+ 	uint64_t sdma_val = 0;
+ 	struct kfd_process_device *pdd = qpd_to_pdd(qpd);
++	struct mqd_manager *mqd_mgr =
++		dqm->mqd_mgrs[get_mqd_type_from_queue_type(q->properties.type)];
+ 
+ 	/* Get the SDMA queue stats */
+ 	if ((q->properties.type == KFD_QUEUE_TYPE_SDMA) ||
+@@ -540,6 +539,8 @@ static int destroy_queue_nocpsch(struct device_queue_manager *dqm,
+ 		pdd->sdma_past_activity_counter += sdma_val;
  	dqm_unlock(dqm);
--	return r;
+ 
++	mqd_mgr->free_mqd(mqd_mgr, q->mqd, q->mqd_mem_obj);
 +
-+	/*
-+	 * get_wave_state is outside the dqm lock to prevent circular locking
-+	 * and the queue should be protected against destruction by the process
-+	 * lock.
-+	 */
-+	return mqd_mgr->get_wave_state(mqd_mgr, q->mqd, ctl_stack,
-+			ctl_stack_used_size, save_area_used_size);
+ 	return retval;
  }
  
- static int process_termination_cpsch(struct device_queue_manager *dqm,
+@@ -1632,7 +1633,7 @@ static int set_trap_handler(struct device_queue_manager *dqm,
+ static int process_termination_nocpsch(struct device_queue_manager *dqm,
+ 		struct qcm_process_device *qpd)
+ {
+-	struct queue *q, *next;
++	struct queue *q;
+ 	struct device_process_node *cur, *next_dpn;
+ 	int retval = 0;
+ 	bool found = false;
+@@ -1640,12 +1641,19 @@ static int process_termination_nocpsch(struct device_queue_manager *dqm,
+ 	dqm_lock(dqm);
+ 
+ 	/* Clear all user mode queues */
+-	list_for_each_entry_safe(q, next, &qpd->queues_list, list) {
++	while (!list_empty(&qpd->queues_list)) {
++		struct mqd_manager *mqd_mgr;
+ 		int ret;
+ 
++		q = list_first_entry(&qpd->queues_list, struct queue, list);
++		mqd_mgr = dqm->mqd_mgrs[get_mqd_type_from_queue_type(
++				q->properties.type)];
+ 		ret = destroy_queue_nocpsch_locked(dqm, qpd, q);
+ 		if (ret)
+ 			retval = ret;
++		dqm_unlock(dqm);
++		mqd_mgr->free_mqd(mqd_mgr, q->mqd, q->mqd_mem_obj);
++		dqm_lock(dqm);
+ 	}
+ 
+ 	/* Unregister process */
 -- 
 2.30.2
 
