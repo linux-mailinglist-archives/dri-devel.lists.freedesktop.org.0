@@ -2,54 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 595473BC815
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 10:48:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D97AF3BC81F
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 10:52:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9ED8D89D43;
-	Tue,  6 Jul 2021 08:47:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 69572898AA;
+	Tue,  6 Jul 2021 08:52:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BEBFF89D02;
- Tue,  6 Jul 2021 08:47:56 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 745E31FF34;
- Tue,  6 Jul 2021 08:47:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1625561275; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=jhBCujPABZPNUH3fBBFSxVuzrudipOZC/VeSlBUNZGs=;
- b=tCSAPs0SnB2OiPsJETed+5QRiaW6k4ag2fZFC4OSut+GaHlGFJao2B9MShfG/GhXNLE0Bj
- NVteb7TVd93d2tM5pJqiHf5jcul1I00n0oegdvklHVOhynNOrSzrX6VmJSfOU+wykKkija
- 1F9LC2PVW4QuuaBZIs4aozzztnqg+8s=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1625561275;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=jhBCujPABZPNUH3fBBFSxVuzrudipOZC/VeSlBUNZGs=;
- b=QPeY/90fe2QVkyBl6oYrUDDWzt/dJkc21IhOjzeNp+0lC5eabr4oF6iVGeXSS6KEE/7yJE
- Ios9YN9NPnK2ruDA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 24B7A13A70;
- Tue,  6 Jul 2021 08:47:55 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id lhv1B7sY5GCYfQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Tue, 06 Jul 2021 08:47:55 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: robdclark@gmail.com, sean@poorly.run, airlied@linux.ie, daniel@ffwll.ch,
- jonathan@marek.ca, jordan@cosmicpenguin.net
-Subject: [PATCH v2] drm/msm: Implement mmap as GEM object function
-Date: Tue,  6 Jul 2021 10:47:53 +0200
-Message-Id: <20210706084753.8194-1-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.32.0
+Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
+ [66.111.4.221])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 23920898AA
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Jul 2021 08:52:13 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 19983580670;
+ Tue,  6 Jul 2021 04:52:12 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Tue, 06 Jul 2021 04:52:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm3; bh=xb1ShrMpK8ostpGwMFZCsoZYETx
+ HiphoxAX6Pb3wC5k=; b=ZCV9iuaTvRyGFKWCMmtOelU+0kN6oMjQWnrxYPOn9i4
+ RnwWxv9mEXtN+0RJu18PNOBzJgVvzoBeWNwM9jMNRCjLRr8INbHTSt6opquohGIl
+ 5oBW/Hn42adUViFWQij+8AIFNLcs7HTMJjjxlymaKh0Bsv9OCL0z6djxAte4inHe
+ +t99cn/L/XCmrl62a9umObf6+07FqOhaChCDgcBR9MNQGBwUo5DYMIOF8ogjlbyJ
+ 8Wtyq2kEK5HcEw0u8/EFTrNeq2c1NPcrIxsR29QJU9h8wX0f1KXzX9x6CiSE2JNz
+ 4h1G1VOFatfKkI5bc5WsxFflYQJUn7nOJf4uARLoxOw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=xb1Shr
+ MpK8ostpGwMFZCsoZYETxHiphoxAX6Pb3wC5k=; b=gUTumXogpffvEC9hNM2J6U
+ BrjncaXbkURl4CGhFCpJpCodRU5Vd8hUraRWgIA/Uy3Y3VqsIL8swZjRHMFbHN+l
+ Jp2k0AyhghnEA7ipboW5OJ3I0Cuo6BkUZ+2pOe535Rii5MSA9ab8U4j3ptT2Oe+f
+ /TLgYXEiwbGGaPkRwboljNoaJXFBFNM9383aB/g9l+5QUsecwe87EHjGqo/WWPwS
+ PVRow+Y2N8HcKw7OqH4V356Uts9Ky6ueym8qyVz3daR/59mSRDN1msUC+C1M/MUw
+ nk3FUK/oMMRhRwlnd1EpuqOjtkNSAMoPOafrYbKe4cJoofrW00FPF1eUqCLC4Igg
+ ==
+X-ME-Sender: <xms:tBnkYBomkBuLOg4ypCiohcBXCiR_Y2SE4siRkZWvlyy3wyD-ZsIS_g>
+ <xme:tBnkYDqxiTL8b9cOOfv1vpERv8pBUmQyt3OveP7GS1zi7LKuKZ8P-67aloVqcH6Bm
+ AaR25CDLGIxz_T6c0g>
+X-ME-Received: <xmr:tBnkYOPpst5nNafKnVjCa8wp4kEf3E8nvHi1nHDs4mXU8uwELi2SEdDofDR515_Ly-SARQcMNXr2YRqYfiqgfhnlKHbL3bK9PZnD>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfeejiedgtdeiucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddunecuhfhrohhmpeforgigihhm
+ vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+ htvghrnhepuddvudfhkeekhefgffetffelgffftdehffduffegveetffehueeivddvjedv
+ gfevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+ grgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:tBnkYM7zdkz8uMexSI4n-jf-VxjW_meQHicZ3bfHVhuvsp9ESzO6YA>
+ <xmx:tBnkYA6n3A8UT5HPNAj8cAVDCtzmBQp37Qsp5Y01QYkroRWRhJbFLQ>
+ <xmx:tBnkYEhR2KRRptb8iUcYhR9pNndzh00gJcl5TuPDInjbphdCKXd9zQ>
+ <xmx:vBnkYLegO4CmrCiqvYRm4sMf3NJLo2OMhXiUso2RgyIS--Oc1a8Y4g>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 6 Jul 2021 04:52:03 -0400 (EDT)
+Date: Tue, 6 Jul 2021 10:52:02 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Pekka Paalanen <ppaalanen@gmail.com>
+Subject: Re: [PATCH v4] Documentation: gpu: Mention the requirements for new
+ properties
+Message-ID: <20210706085202.6o4fapfmq7osj5wf@gilmour>
+References: <20210616143842.632829-1-maxime@cerno.tech>
+ <20210617112036.7373fdab@eldfell>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="rwvg6s6irn2y2r5k"
+Content-Disposition: inline
+In-Reply-To: <20210617112036.7373fdab@eldfell>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,210 +81,291 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
+Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, linux-doc@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Edmund Dea <edmund.j.dea@intel.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ dri-devel@lists.freedesktop.org, Russell King <linux@armlinux.org.uk>,
+ Melissa Wen <melissa.srw@gmail.com>, Eric Anholt <eric@anholt.net>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+ Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
+ Daniel Vetter <daniel.vetter@intel.com>, Steven Price <steven.price@arm.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Jyri Sarha <jyri.sarha@iki.fi>,
+ Jerome Brunet <jbrunet@baylibre.com>, Paul Cercueil <paul@crapouillou.net>,
+ Marek Vasut <marex@denx.de>, Joonyoung Shim <jy0922.shim@samsung.com>,
+ Qiang Yu <yuq825@gmail.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+ Kevin Hilman <khilman@baylibre.com>, Tomi Valkeinen <tomba@kernel.org>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Xinliang Liu <xinliang.liu@linaro.org>,
+ Ludovic Desroches <ludovic.desroches@microchip.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ VMware Graphics <linux-graphics-maintainer@vmware.com>,
+ NXP Linux Team <linux-imx@nxp.com>, Chen Feng <puck.chen@hisilicon.com>,
+ Liviu Dudau <liviu.dudau@arm.com>, Ben Skeggs <bskeggs@redhat.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Jonas Karlman <jonas@kwiboo.se>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Roland Scheidegger <sroland@vmware.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Alison Wang <alison.wang@nxp.com>, Andrzej Hajda <a.hajda@samsung.com>,
+ Hans de Goede <hdegoede@redhat.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>, Chen-Yu Tsai <wens@csie.org>,
+ Sean Paul <sean@poorly.run>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Jernej Skrabec <jernej.skrabec@siol.net>,
+ Pekka Paalanen <pekka.paalanen@collabora.com>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Hyun Kwon <hyun.kwon@xilinx.com>, Boris Brezillon <bbrezillon@kernel.org>,
+ Andrew Jeffery <andrew@aj.id.au>, Huang Rui <ray.huang@amd.com>,
+ Yannick Fertre <yannick.fertre@foss.st.com>, Jonathan Corbet <corbet@lwn.net>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>, Sandy Huang <hjc@rock-chips.com>,
+ Robert Foss <robert.foss@linaro.org>, Joel Stanley <joel@jms.id.au>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
+ Philippe Cornu <philippe.cornu@foss.st.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Alex Deucher <alexander.deucher@amd.com>, Tian Tao <tiantao6@hisilicon.com>,
+ Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
+ Shawn Guo <shawnguo@kernel.org>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Moving the driver-specific mmap code into a GEM object function allows
-for using DRM helpers for various mmap callbacks.
 
-The respective msm functions are being removed. The file_operations
-structure fops is now being created by the helper macro
-DEFINE_DRM_GEM_FOPS().
+--rwvg6s6irn2y2r5k
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-v2:
-	* rebase onto latest upstream
-	* remove declaration of msm_gem_mmap_obj() from msm_fbdev.c
+Hi Pekka,
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- drivers/gpu/drm/msm/msm_drv.c       | 14 ++---------
- drivers/gpu/drm/msm/msm_drv.h       |  1 -
- drivers/gpu/drm/msm/msm_fbdev.c     | 12 ++--------
- drivers/gpu/drm/msm/msm_gem.c       | 37 ++++++++++-------------------
- drivers/gpu/drm/msm/msm_gem.h       |  3 ---
- drivers/gpu/drm/msm/msm_gem_prime.c | 11 ---------
- 6 files changed, 16 insertions(+), 62 deletions(-)
+On Thu, Jun 17, 2021 at 11:20:36AM +0300, Pekka Paalanen wrote:
+> On Wed, 16 Jun 2021 16:38:42 +0200
+> Maxime Ripard <maxime@cerno.tech> wrote:
+>=20
+> > New KMS properties come with a bunch of requirements to avoid each
+> > driver from running their own, inconsistent, set of properties,
+> > eventually leading to issues like property conflicts, inconsistencies
+> > between drivers and semantics, etc.
+> >=20
+> > Let's document what we expect.
+> >=20
+> > Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
+> > Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>
+> > Cc: Alex Deucher <alexander.deucher@amd.com>
+> > Cc: Alison Wang <alison.wang@nxp.com>
+> > Cc: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+> > Cc: Andrew Jeffery <andrew@aj.id.au>
+> > Cc: Andrzej Hajda <a.hajda@samsung.com>
+> > Cc: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
+> > Cc: Benjamin Gaignard <benjamin.gaignard@linaro.org>
+> > Cc: Ben Skeggs <bskeggs@redhat.com>
+> > Cc: Boris Brezillon <bbrezillon@kernel.org>
+> > Cc: Brian Starkey <brian.starkey@arm.com>
+> > Cc: Chen Feng <puck.chen@hisilicon.com>
+> > Cc: Chen-Yu Tsai <wens@csie.org>
+> > Cc: Christian Gmeiner <christian.gmeiner@gmail.com>
+> > Cc: "Christian K=F6nig" <christian.koenig@amd.com>
+> > Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+> > Cc: Edmund Dea <edmund.j.dea@intel.com>
+> > Cc: Eric Anholt <eric@anholt.net>
+> > Cc: Fabio Estevam <festevam@gmail.com>
+> > Cc: Gerd Hoffmann <kraxel@redhat.com>
+> > Cc: Haneen Mohammed <hamohammed.sa@gmail.com>
+> > Cc: Hans de Goede <hdegoede@redhat.com>
+> > Cc: "Heiko St=FCbner" <heiko@sntech.de>
+> > Cc: Huang Rui <ray.huang@amd.com>
+> > Cc: Hyun Kwon <hyun.kwon@xilinx.com>
+> > Cc: Inki Dae <inki.dae@samsung.com>
+> > Cc: Jani Nikula <jani.nikula@linux.intel.com>
+> > Cc: Jernej Skrabec <jernej.skrabec@siol.net>
+> > Cc: Jerome Brunet <jbrunet@baylibre.com>
+> > Cc: Joel Stanley <joel@jms.id.au>
+> > Cc: John Stultz <john.stultz@linaro.org>
+> > Cc: Jonas Karlman <jonas@kwiboo.se>
+> > Cc: Jonathan Hunter <jonathanh@nvidia.com>
+> > Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+> > Cc: Joonyoung Shim <jy0922.shim@samsung.com>
+> > Cc: Jyri Sarha <jyri.sarha@iki.fi>
+> > Cc: Kevin Hilman <khilman@baylibre.com>
+> > Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> > Cc: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+> > Cc: Kyungmin Park <kyungmin.park@samsung.com>
+> > Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> > Cc: Linus Walleij <linus.walleij@linaro.org>
+> > Cc: Liviu Dudau <liviu.dudau@arm.com>
+> > Cc: Lucas Stach <l.stach@pengutronix.de>
+> > Cc: Ludovic Desroches <ludovic.desroches@microchip.com>
+> > Cc: Marek Vasut <marex@denx.de>
+> > Cc: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+> > Cc: Matthias Brugger <matthias.bgg@gmail.com>
+> > Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>
+> > Cc: Maxime Ripard <mripard@kernel.org>
+> > Cc: Melissa Wen <melissa.srw@gmail.com>
+> > Cc: Neil Armstrong <narmstrong@baylibre.com>
+> > Cc: Nicolas Ferre <nicolas.ferre@microchip.com>
+> > Cc: "Noralf Tr=F8nnes" <noralf@tronnes.org>
+> > Cc: NXP Linux Team <linux-imx@nxp.com>
+> > Cc: Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>
+> > Cc: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+> > Cc: Paul Cercueil <paul@crapouillou.net>
+> > Cc: Pekka Paalanen <pekka.paalanen@collabora.com>
+> > Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+> > Cc: Philippe Cornu <philippe.cornu@foss.st.com>
+> > Cc: Philipp Zabel <p.zabel@pengutronix.de>
+> > Cc: Qiang Yu <yuq825@gmail.com>
+> > Cc: Rob Clark <robdclark@gmail.com>
+> > Cc: Robert Foss <robert.foss@linaro.org>
+> > Cc: Rob Herring <robh@kernel.org>
+> > Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
+> > Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> > Cc: Roland Scheidegger <sroland@vmware.com>
+> > Cc: Russell King <linux@armlinux.org.uk>
+> > Cc: Sam Ravnborg <sam@ravnborg.org>
+> > Cc: Sandy Huang <hjc@rock-chips.com>
+> > Cc: Sascha Hauer <s.hauer@pengutronix.de>
+> > Cc: Sean Paul <sean@poorly.run>
+> > Cc: Seung-Woo Kim <sw0312.kim@samsung.com>
+> > Cc: Shawn Guo <shawnguo@kernel.org>
+> > Cc: Simon Ser <contact@emersion.fr>
+> > Cc: Stefan Agner <stefan@agner.ch>
+> > Cc: Steven Price <steven.price@arm.com>
+> > Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> > Cc: Thierry Reding <thierry.reding@gmail.com>
+> > Cc: Tian Tao <tiantao6@hisilicon.com>
+> > Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>
+> > Cc: Tomi Valkeinen <tomba@kernel.org>
+> > Cc: VMware Graphics <linux-graphics-maintainer@vmware.com>
+> > Cc: Xinliang Liu <xinliang.liu@linaro.org>
+> > Cc: Xinwei Kong <kong.kongxinwei@hisilicon.com>
+> > Cc: Yannick Fertre <yannick.fertre@foss.st.com>
+> > Cc: Zack Rusin <zackr@vmware.com>
+> > Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> >=20
+> > ---
+> >=20
+> > Changes from v3:
+> >   - Roll back to the v2
+> >   - Add Simon and Pekka in Cc
+> >=20
+> > Changes from v2:
+> >   - Take into account the feedback from Laurent and Lidiu to no longer
+> >     force generic properties, but prefix vendor-specific properties with
+> >     the vendor name
+> >=20
+> > Changes from v1:
+> >   - Typos and wording reported by Daniel and Alex
+> > ---
+> >  Documentation/gpu/drm-kms.rst | 19 +++++++++++++++++++
+> >  1 file changed, 19 insertions(+)
+> >=20
+> > diff --git a/Documentation/gpu/drm-kms.rst b/Documentation/gpu/drm-kms.=
+rst
+> > index 87e5023e3f55..c28b464dd397 100644
+> > --- a/Documentation/gpu/drm-kms.rst
+> > +++ b/Documentation/gpu/drm-kms.rst
+> > @@ -463,6 +463,25 @@ KMS Properties
+> >  This section of the documentation is primarily aimed at user-space dev=
+elopers.
+> >  For the driver APIs, see the other sections.
+> > =20
+> > +Requirements
+> > +------------
+> > +
+> > +KMS drivers might need to add extra properties to support new features.
+> > +Each new property introduced in a driver need to meet a few
+> > +requirements, in addition to the one mentioned above.:
+> > +
+> > +- It must be standardized, with some documentation to describe how the
+> > +  property can be used.
+>=20
+> Hi,
+>=20
+> I might replace "some" with "full" documentation. Also not only how it
+> can be used but also what it does.
+>=20
+> FYI, some common things that tend to be forgotten IME:
+> - Spell out exactly the name string for the property in the
+>   documentation so that it is unambiguous what string userspace should
+>   look for.
+> - The same for string names of enum values.
+> - Explicitly document what each enum value means, do not trust that the
+>   value name describes it well enough.
+> - Explain how the property interacts with other, existing properties.
+>=20
+> Not sure if these should be written down here or anywhere though.
+> Interaction with other properties is kind of important.
+>=20
+> > +
+> > +- It must provide a generic helper in the core code to register that
+> > +  property on the object it attaches to.
+> > +
+> > +- Its content must be decoded by the core and provided in the object's
+> > +  associated state structure. That includes anything drivers might wan=
+t to
+> > +  precompute, like :c:type:`struct drm_clip_rect <drm_clip_rect>` for =
+planes.
+> > +
+> > +- An IGT test must be submitted where reasonable.
+>=20
+> Would it be too much to replace "where reasonable" with "if it is at
+> all possible to write a test."?
+>=20
+> > +
+>=20
+> How about adding the following somewhere?
+>=20
+> - The initial state of the property (set during driver initialization)
+>   must match how the driver+hardware behaved before introducing this
+>   property. It may be some fixed value or it may be inherited from e.g.
+>   the firmware that booted the system. How the initial state is
+>   determined must also be documented, that is, where does it come from.
+>=20
+> The initial state must not be called "default", because I want to
+> reserve the term default for something else if possible: the phrase
+> "reset everything to defaults", which is a whole another discussion.
 
-diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
-index 9b8fa2ad0d84..a4d238e8d377 100644
---- a/drivers/gpu/drm/msm/msm_drv.c
-+++ b/drivers/gpu/drm/msm/msm_drv.c
-@@ -1004,17 +1004,7 @@ static const struct drm_ioctl_desc msm_ioctls[] = {
- 	DRM_IOCTL_DEF_DRV(MSM_SUBMITQUEUE_QUERY, msm_ioctl_submitqueue_query, DRM_RENDER_ALLOW),
- };
+I've taken into account your previous comments, thanks
 
--static const struct file_operations fops = {
--	.owner              = THIS_MODULE,
--	.open               = drm_open,
--	.release            = drm_release,
--	.unlocked_ioctl     = drm_ioctl,
--	.compat_ioctl       = drm_compat_ioctl,
--	.poll               = drm_poll,
--	.read               = drm_read,
--	.llseek             = no_llseek,
--	.mmap               = msm_gem_mmap,
--};
-+DEFINE_DRM_GEM_FOPS(fops);
+> How about also saying that fbcon/fbdev must set this property when
+> taking over? That sounds to be like a common omission leading to funky
+> KMS state in fbcon. The value fbdev sets it to only needs to make
+> sense to fbdev, and it does not need to be ~~the initial value~~ nor the
+> default value. Or are we hoping to kill fbcon in favor of a userspace
+> kmscon soon? ;-)
+>=20
+> Ooh, maybe the KMS property documentation should also say what value
+> fbdev will set the property to. That's kind of UABI, because userspace
+> probably implicitly relies on it in many cases. ...which means fbdev
+> should set the property to its initial value, otherwise userspace will
+> break.
 
- static const struct drm_driver msm_driver = {
- 	.driver_features    = DRIVER_GEM |
-@@ -1034,7 +1024,7 @@ static const struct drm_driver msm_driver = {
- 	.prime_handle_to_fd = drm_gem_prime_handle_to_fd,
- 	.prime_fd_to_handle = drm_gem_prime_fd_to_handle,
- 	.gem_prime_import_sg_table = msm_gem_prime_import_sg_table,
--	.gem_prime_mmap     = msm_gem_prime_mmap,
-+	.gem_prime_mmap     = drm_gem_prime_mmap,
- #ifdef CONFIG_DEBUG_FS
- 	.debugfs_init       = msm_debugfs_init,
- #endif
-diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
-index 1a48a709ffb3..1a42903db347 100644
---- a/drivers/gpu/drm/msm/msm_drv.h
-+++ b/drivers/gpu/drm/msm/msm_drv.h
-@@ -309,7 +309,6 @@ void msm_gem_shrinker_cleanup(struct drm_device *dev);
- struct sg_table *msm_gem_prime_get_sg_table(struct drm_gem_object *obj);
- int msm_gem_prime_vmap(struct drm_gem_object *obj, struct dma_buf_map *map);
- void msm_gem_prime_vunmap(struct drm_gem_object *obj, struct dma_buf_map *map);
--int msm_gem_prime_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma);
- struct drm_gem_object *msm_gem_prime_import_sg_table(struct drm_device *dev,
- 		struct dma_buf_attachment *attach, struct sg_table *sg);
- int msm_gem_prime_pin(struct drm_gem_object *obj);
-diff --git a/drivers/gpu/drm/msm/msm_fbdev.c b/drivers/gpu/drm/msm/msm_fbdev.c
-index 67fae60f2fa5..0daaeb54ff6f 100644
---- a/drivers/gpu/drm/msm/msm_fbdev.c
-+++ b/drivers/gpu/drm/msm/msm_fbdev.c
-@@ -8,13 +8,12 @@
- #include <drm/drm_crtc.h>
- #include <drm/drm_fb_helper.h>
- #include <drm/drm_fourcc.h>
-+#include <drm/drm_prime.h>
+I'm not sure about this one: fbdev and fbcon are still optional features
+of the kernel and can be disabled at the user discretion. Having any
+part of the user-space rely on the fbdev behavior seems a bit broken,
+especially when we have a mechanism to retrieve the state when the
+application starts.
 
- #include "msm_drv.h"
- #include "msm_gem.h"
- #include "msm_kms.h"
+Maxime
 
--extern int msm_gem_mmap_obj(struct drm_gem_object *obj,
--					struct vm_area_struct *vma);
- static int msm_fbdev_mmap(struct fb_info *info, struct vm_area_struct *vma);
+--rwvg6s6irn2y2r5k
+Content-Type: application/pgp-signature; name="signature.asc"
 
- /*
-@@ -48,15 +47,8 @@ static int msm_fbdev_mmap(struct fb_info *info, struct vm_area_struct *vma)
- 	struct drm_fb_helper *helper = (struct drm_fb_helper *)info->par;
- 	struct msm_fbdev *fbdev = to_msm_fbdev(helper);
- 	struct drm_gem_object *bo = msm_framebuffer_bo(fbdev->fb, 0);
--	int ret = 0;
+-----BEGIN PGP SIGNATURE-----
 
--	ret = drm_gem_mmap_obj(bo, bo->size, vma);
--	if (ret) {
--		pr_err("%s:drm_gem_mmap_obj fail\n", __func__);
--		return ret;
--	}
--
--	return msm_gem_mmap_obj(bo, vma);
-+	return drm_gem_prime_mmap(bo, vma);
- }
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYOQZsQAKCRDj7w1vZxhR
+xcAOAQDgiPmqHT2po3pKn0nOdvI8OHOSf965Rdk+pXb4g0/FYAD/QiqJF39WtEjQ
+HH/6r47VwthjKZxzENH4ZoYQwPDddQo=
+=GIQI
+-----END PGP SIGNATURE-----
 
- static int msm_fbdev_create(struct drm_fb_helper *helper,
-diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
-index 141178754231..519a9601b219 100644
---- a/drivers/gpu/drm/msm/msm_gem.c
-+++ b/drivers/gpu/drm/msm/msm_gem.c
-@@ -218,31 +218,6 @@ static pgprot_t msm_gem_pgprot(struct msm_gem_object *msm_obj, pgprot_t prot)
- 	return prot;
- }
-
--int msm_gem_mmap_obj(struct drm_gem_object *obj,
--		struct vm_area_struct *vma)
--{
--	struct msm_gem_object *msm_obj = to_msm_bo(obj);
--
--	vma->vm_flags &= ~VM_PFNMAP;
--	vma->vm_flags |= VM_MIXEDMAP;
--	vma->vm_page_prot = msm_gem_pgprot(msm_obj, vm_get_page_prot(vma->vm_flags));
--
--	return 0;
--}
--
--int msm_gem_mmap(struct file *filp, struct vm_area_struct *vma)
--{
--	int ret;
--
--	ret = drm_gem_mmap(filp, vma);
--	if (ret) {
--		DBG("mmap failed: %d", ret);
--		return ret;
--	}
--
--	return msm_gem_mmap_obj(vma->vm_private_data, vma);
--}
--
- static vm_fault_t msm_gem_fault(struct vm_fault *vmf)
- {
- 	struct vm_area_struct *vma = vmf->vma;
-@@ -1114,6 +1089,17 @@ void msm_gem_free_object(struct drm_gem_object *obj)
- 	kfree(msm_obj);
- }
-
-+static int msm_gem_object_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma)
-+{
-+	struct msm_gem_object *msm_obj = to_msm_bo(obj);
-+
-+	vma->vm_flags &= ~VM_PFNMAP;
-+	vma->vm_flags |= VM_MIXEDMAP;
-+	vma->vm_page_prot = msm_gem_pgprot(msm_obj, vm_get_page_prot(vma->vm_flags));
-+
-+	return 0;
-+}
-+
- /* convenience method to construct a GEM buffer object, and userspace handle */
- int msm_gem_new_handle(struct drm_device *dev, struct drm_file *file,
- 		uint32_t size, uint32_t flags, uint32_t *handle,
-@@ -1151,6 +1137,7 @@ static const struct drm_gem_object_funcs msm_gem_object_funcs = {
- 	.get_sg_table = msm_gem_prime_get_sg_table,
- 	.vmap = msm_gem_prime_vmap,
- 	.vunmap = msm_gem_prime_vunmap,
-+	.mmap = msm_gem_object_mmap,
- 	.vm_ops = &vm_ops,
- };
-
-diff --git a/drivers/gpu/drm/msm/msm_gem.h b/drivers/gpu/drm/msm/msm_gem.h
-index 405f8411e395..aab548720bee 100644
---- a/drivers/gpu/drm/msm/msm_gem.h
-+++ b/drivers/gpu/drm/msm/msm_gem.h
-@@ -112,9 +112,6 @@ struct msm_gem_object {
- };
- #define to_msm_bo(x) container_of(x, struct msm_gem_object, base)
-
--int msm_gem_mmap_obj(struct drm_gem_object *obj,
--			struct vm_area_struct *vma);
--int msm_gem_mmap(struct file *filp, struct vm_area_struct *vma);
- uint64_t msm_gem_mmap_offset(struct drm_gem_object *obj);
- int msm_gem_get_iova(struct drm_gem_object *obj,
- 		struct msm_gem_address_space *aspace, uint64_t *iova);
-diff --git a/drivers/gpu/drm/msm/msm_gem_prime.c b/drivers/gpu/drm/msm/msm_gem_prime.c
-index 9880348a4dc7..fc94e061d6a7 100644
---- a/drivers/gpu/drm/msm/msm_gem_prime.c
-+++ b/drivers/gpu/drm/msm/msm_gem_prime.c
-@@ -39,17 +39,6 @@ void msm_gem_prime_vunmap(struct drm_gem_object *obj, struct dma_buf_map *map)
- 	msm_gem_put_vaddr(obj);
- }
-
--int msm_gem_prime_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma)
--{
--	int ret;
--
--	ret = drm_gem_mmap_obj(obj, obj->size, vma);
--	if (ret < 0)
--		return ret;
--
--	return msm_gem_mmap_obj(vma->vm_private_data, vma);
--}
--
- struct drm_gem_object *msm_gem_prime_import_sg_table(struct drm_device *dev,
- 		struct dma_buf_attachment *attach, struct sg_table *sg)
- {
---
-2.32.0
-
+--rwvg6s6irn2y2r5k--
