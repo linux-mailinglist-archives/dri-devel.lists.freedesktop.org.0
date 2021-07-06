@@ -1,71 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 374B23BD6DE
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 14:46:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 38D6B3BD701
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 14:47:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 72F076E069;
-	Tue,  6 Jul 2021 12:46:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3BB126E1D5;
+	Tue,  6 Jul 2021 12:47:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x331.google.com (mail-ot1-x331.google.com
- [IPv6:2607:f8b0:4864:20::331])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 51FDC6E069;
- Tue,  6 Jul 2021 12:46:17 +0000 (UTC)
-Received: by mail-ot1-x331.google.com with SMTP id
- t24-20020a9d7f980000b029046f4a1a5ec4so21461754otp.1; 
- Tue, 06 Jul 2021 05:46:17 -0700 (PDT)
+Received: from mail-qk1-x732.google.com (mail-qk1-x732.google.com
+ [IPv6:2607:f8b0:4864:20::732])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 347216E1D5;
+ Tue,  6 Jul 2021 12:47:39 +0000 (UTC)
+Received: by mail-qk1-x732.google.com with SMTP id s4so1296901qkm.13;
+ Tue, 06 Jul 2021 05:47:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
- bh=sCjXp3xF1YSalO2+qz5OYyZixLhy0ty98Vfkg+SLNfU=;
- b=NebIVlImsk/VQNEBC9xhHI8KKnEPayGZn2ZyIMxFnPx0YDhqtNAWoIKAXIXd7A6yI1
- Z/ZqdKIIzbjxYaq/e/KIf4Ty2v8ZKxhCT2fZu+d5f+oLC5pZRukodlHjEJ63d9cYEnZH
- Z8FGRRxvPytz47HM1SRivXkHFZHPHo67ltwBZfLhKd4wvK1s2l09//DgjYPbQ2QzlM1w
- UwYRJ80jYqhAcKo/vKem03qSyf3ye/3jPTBdjCxDdMDf4kgNIN0M8pNZTgQviynWgyra
- a1HZFz50KvOSjqacuprw+IsW3+7YMHolQy0dGBV0wg4zyt0xWwtlY8NdkbeuXI9GWgZ1
- H/8w==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=+sEo+Ifpse8bLv4D5nk0jAr29bqXGXbxp11f7D2ypjo=;
+ b=iUpwZcp+aNrbM6zeyvqFriNx13Q9LMedd+mlVbO2I1H7fP/g0Auax69brpXmDvRKd/
+ aaUmQOUq1VKVcpYGLBqjMtQL3xKzDvBsWQQX7u5+lJ/YTy6gXDkBgFqYPk3/wRdAXSqz
+ t57BCPbaOl3BB6TE4C7xpgBrvpw5+49Wn80v5nA59RFanRl0GuJorS02Ttbw1mG050de
+ wejk0LkUa+YI5tsfNCxcg1tv1DAPoQAxqPcmzj8zcCbROE6vbP2DHWFQYjGL3mChgnYN
+ e1Y5caW+V07+PWL1N5J33Nm6+SrGoOqsJdmrPe+WIc/B4D+EpkRFQRsYZOvzS3+q/8Y+
+ oEoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to;
- bh=sCjXp3xF1YSalO2+qz5OYyZixLhy0ty98Vfkg+SLNfU=;
- b=kFjKT5FFCCjhHTaIPpw1aa1/zCrxDn+lg7NlDKuyWj386Qqs327bpFfFIxm1x3HCYi
- QDLDDNuqsNNBV2BLbBbqTvqYpixgpX7TA67Zc2OJxRjF+mYGWVNWE7H5Kfusz5dCMb36
- h4DqVqgyYXz3ieN1v12LGMytWKVDJn1NHINFMM9IhjtJLaFNvkH6s96kYwicU5XM0g7r
- CCxxKtRJuxxgGyoxoquolJLUKHGkIJHB/YwuoketqurwI8fOwHoJrUrDScjI/yKibXfU
- t/Mom9E3kXb3+lsPLS/JWDWqFV5EVCpPfl9uflJ949ICetmNbEeIBgWjFKJWDgKXAyLL
- 41JA==
-X-Gm-Message-State: AOAM533gexpDUgdINlPEQwuLCxzj7m7Dr4+nnjkR4CHog9KlGg6DI2DG
- aC4i5YqIuqgsXc7xzh2byyW9QhcRRV71tQETaio=
-X-Google-Smtp-Source: ABdhPJzKl+ncA9+SgwqYnKj9X6RvPNw8/DFp4We+uboCS13WvUQF4K4WE0yutJoNe8KTfvhc9SuTE16Alt3g9Wb5p6M=
-X-Received: by 2002:a05:6830:159a:: with SMTP id
- i26mr5598551otr.339.1625575576243; 
- Tue, 06 Jul 2021 05:46:16 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=+sEo+Ifpse8bLv4D5nk0jAr29bqXGXbxp11f7D2ypjo=;
+ b=iwiJ2PSpXs5oLNyFGWnF0FWXh56f8+blb+b3OgTMiKFPnY69q69FKdhMZXdL0KNhEE
+ ZhnNPx0dxiKHY4GQCeIK/v12m/wAbPehHcoPvG8aJ48j7IUMhMrvuN2DEmsu0payTWH7
+ cTxr9D4IOdGIOy/6NU2GJgLOp0Oo8KmJHaLg3oe222CJvMJL/LI8AVG/Ba7+PY7xCGXB
+ M1H+RWfa4N6aSS9pxWHHMYV6lPvvfjia1cSaT7dtNckfz6rkGc5maib8/hG/Ls6CDU4N
+ acJgpPlaJXqlTSTVDTjG9mwgEA75vK4WTOoaFLbeoqKwrCQcn+ZDJDR+ym/UMu2iG+rZ
+ G+6g==
+X-Gm-Message-State: AOAM533B/g2l3gD8+9jAvLiyjl0ch/1E31+Tvwwa7GOt89eB3lpTqpeU
+ J/wNPqaTpIiGx/1JlHdM2i/tHFZcfj59j/6FSY8=
+X-Google-Smtp-Source: ABdhPJwMoBvULgiEfVZzWuUUKkxYKT+XZkzlQAAK+FylzWkJDVPSxErrOYlOE0ZWarKPudpXpiH3pTdgOIWoyMhDNGs=
+X-Received: by 2002:a05:620a:1479:: with SMTP id
+ j25mr19587051qkl.426.1625575658359; 
+ Tue, 06 Jul 2021 05:47:38 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210705130314.11519-1-ogabbay@kernel.org>
- <YOQXBWpo3whVjOyh@phenom.ffwll.local>
- <20210706122110.GA18273@lst.de> <YORLTmyoXDtoM9Ta@phenom.ffwll.local>
-In-Reply-To: <YORLTmyoXDtoM9Ta@phenom.ffwll.local>
-From: Oded Gabbay <oded.gabbay@gmail.com>
-Date: Tue, 6 Jul 2021 15:45:49 +0300
-Message-ID: <CAFCwf114KEH-kO6w+nmbqKKdaGuqy3iOpHJi=5ZWqT3cgDm4Cw@mail.gmail.com>
-Subject: Re: [Linaro-mm-sig] [PATCH v4 0/2] Add p2p via dmabuf to habanalabs
-To: Christoph Hellwig <hch@lst.de>, Oded Gabbay <ogabbay@kernel.org>, 
- "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Sumit Semwal <sumit.semwal@linaro.org>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Gal Pressman <galpress@amazon.com>, sleybo@amazon.com, 
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Jason Gunthorpe <jgg@ziepe.ca>, linux-rdma <linux-rdma@vger.kernel.org>, 
- Linux Media Mailing List <linux-media@vger.kernel.org>,
- Doug Ledford <dledford@redhat.com>, 
- Dave Airlie <airlied@gmail.com>, Alex Deucher <alexander.deucher@amd.com>, 
- Leon Romanovsky <leonro@nvidia.com>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>, 
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>
+References: <20210706101209.3034092-1-daniel.vetter@ffwll.ch>
+ <20210706101209.3034092-6-daniel.vetter@ffwll.ch>
+In-Reply-To: <20210706101209.3034092-6-daniel.vetter@ffwll.ch>
+From: Matthew Auld <matthew.william.auld@gmail.com>
+Date: Tue, 6 Jul 2021 13:47:11 +0100
+Message-ID: <CAM0jSHPqCQ58hnCkShZVq93k3y6J6cNJsyfagXdu5Y1zEN7NtA@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH 5/7] drm/i915: Always wait for the exclusive
+ fence
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,62 +66,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 6, 2021 at 3:23 PM Daniel Vetter <daniel@ffwll.ch> wrote:
+On Tue, 6 Jul 2021 at 11:12, Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
 >
-> On Tue, Jul 06, 2021 at 02:21:10PM +0200, Christoph Hellwig wrote:
-> > On Tue, Jul 06, 2021 at 10:40:37AM +0200, Daniel Vetter wrote:
-> > > > Greg, I hope this will be good enough for you to merge this code.
-> > >
-> > > So we're officially going to use dri-devel for technical details review
-> > > and then Greg for merging so we don't have to deal with other merge
-> > > criteria dri-devel folks have?
-> > >
-> > > I don't expect anything less by now, but it does make the original claim
-> > > that drivers/misc will not step all over accelerators folks a complete
-> > > farce under the totally-not-a-gpu banner.
-> > >
-> > > This essentially means that for any other accelerator stack that doesn't
-> > > fit the dri-devel merge criteria, even if it's acting like a gpu and uses
-> > > other gpu driver stuff, you can just send it to Greg and it's good to go.
-> > >
-> > > There's quite a lot of these floating around actually (and many do have
-> > > semi-open runtimes, like habanalabs have now too, just not open enough to
-> > > be actually useful). It's going to be absolutely lovely having to explain
-> > > to these companies in background chats why habanalabs gets away with their
-> > > stack and they don't.
-> >
-> > FYI, I fully agree with Daniel here.  Habanlabs needs to open up their
-> > runtime if they want to push any additional feature in the kernel.
-> > The current situation is not sustainable.
-Well, that's like, your opinion...
+> We're lifting, or well, clarifying that the restriction that shared
+> fences have to be strictly after the exclusive one doesn't apply
+> anymore.
+>
+> So adjust the code to always also wait for the exclusive fence.
+>
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: "Thomas Hellstr=C3=B6m" <thomas.hellstrom@linux.intel.com>
+> Cc: Jason Ekstrand <jason@jlekstrand.net>
+> ---
+>  drivers/gpu/drm/i915/i915_sw_fence.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/i915_sw_fence.c b/drivers/gpu/drm/i915/=
+i915_sw_fence.c
+> index 91711a46b1c7..271d321cea83 100644
+> --- a/drivers/gpu/drm/i915/i915_sw_fence.c
+> +++ b/drivers/gpu/drm/i915/i915_sw_fence.c
+> @@ -601,10 +601,10 @@ int i915_sw_fence_await_reservation(struct i915_sw_=
+fence *fence,
+>                 for (i =3D 0; i < count; i++)
+>                         dma_fence_put(shared[i]);
+>                 kfree(shared);
+> -       } else {
+> -               excl =3D dma_resv_get_excl_unlocked(resv);
+>         }
+>
+> +       excl =3D dma_resv_get_excl_unlocked(resv);
+> +
 
->
-> Before anyone replies: The runtime is open, the compiler is still closed.
-> This has become the new default for accel driver submissions, I think
-> mostly because all the interesting bits for non-3d accelerators are in the
-> accel ISA, and no longer in the runtime. So vendors are fairly happy to
-> throw in the runtime as a freebie.
->
-> It's still incomplete, and it's still useless if you want to actually hack
-> on the driver stack.
-> -Daniel
+The dma_resv_get_fences() call looks like it already fishes out the
+exclusive fence. Does this not leak the extra ref now?
+
+>         if (ret >=3D 0 && excl) {
+>                 pending =3D i915_sw_fence_await_dma_fence(fence,
+>                                                         excl,
 > --
-I don't understand what's not sustainable here.
-
-There is zero code inside the driver that communicates or interacts
-with our TPC code (TPC is the Tensor Processing Core).
-Even submitting works to the TPC is done via a generic queue
-interface. And that queue IP is common between all our engines
-(TPC/DMA/NIC). The driver provides all the specs of that queue IP,
-because the driver's code is handling that queue. But why is the TPC
-compiler code even relevant here ?
-
-btw, you can today see our TPC code at
-https://github.com/HabanaAI/Habana_Custom_Kernel
-There is a link there to the TPC user guide and link to download the
-LLVM compiler.
-
-Oded
+> 2.32.0
+>
+> _______________________________________________
+> Intel-gfx mailing list
+> Intel-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
