@@ -1,41 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46C513BCE2E
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 13:23:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CA5173BCE31
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 13:23:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3EBF86E413;
-	Tue,  6 Jul 2021 11:23:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C93616E419;
+	Tue,  6 Jul 2021 11:23:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F1956E413;
- Tue,  6 Jul 2021 11:23:41 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 03F3361D3F;
- Tue,  6 Jul 2021 11:23:39 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC4926E418;
+ Tue,  6 Jul 2021 11:23:46 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id A8F0C61E31;
+ Tue,  6 Jul 2021 11:23:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1625570621;
- bh=QY8pEEkS5Zjx/I8JGlZYIXkWO2XqkalzvJBoNKtlX48=;
+ s=k20201202; t=1625570626;
+ bh=sw1Mjaqo8v/gCUu1GMZxhFsM9wftk0TLQ674ix8g2fA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ru05MAC4BUgKv/NrDpf6c5dCDlzAso0tupwoAWgpi3xL2sBKIIRVfKgAQEGHkP2Cm
- a9V1JzUCWyBrFA/eLZ477TpFJbJBqbcrpEjntKJFg73AGlmxsbgddIgHhVNFXppYId
- AK+6GW2xxIClUXDW0Lxx+hPIXjU6XEUkHtgQV22poCe/Z75rjxhfY6wN4axdeI4oq3
- um6hKLVvgLh04aHEXFv1txNRfaTc2eg4GQXI5vdGGbetq2bNIlatD3zSZ5ehRjylP0
- hjQrYOmReDjedlddfbeQGfS7QWyb+1pK468PWpzEOMuqShopfnfn6cq2NyPiaGEdxL
- +C35xBb7ATeFw==
+ b=RWOQ4siMonaL9VXPZFhR/7DFg/z1G606s4NXLEiwnOtuf2HjhXBWxYCMkM8PO8iA/
+ oK0r1MWuvjzxGv0uwuvZe0jlJVbA37DRYWLHufjHej07YOPd1I/QHwWmzWaVT064Ht
+ qbLKrdB3lVkBc8yFU2eEY2YQe+2uEudex+fNQzHJ5ztXEYH48jYXQYzw0qOHD2rRwU
+ 3/PS0vtnVp9RGKjRl4uOXbIlfHl0KBo9d1E1S58oGPUZ4OHcXvoPOJFnvs1DTSLGaF
+ nrJ7JaORvVHwViPSpYsM2tcsDU+6Slz6A6ZGQYCOfwwTc/0rfPTdHJl8TvHffggOv8
+ eBQJ4eFYm+7bg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 075/137] drm/amdkfd: use allowed domain for vmbo
- validation
-Date: Tue,  6 Jul 2021 07:21:01 -0400
-Message-Id: <20210706112203.2062605-75-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 079/137] drm/amd/display: Verify Gamma & Degamma
+ LUT sizes in amdgpu_dm_atomic_check
+Date: Tue,  6 Jul 2021 07:21:05 -0400
+Message-Id: <20210706112203.2062605-79-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210706112203.2062605-1-sashal@kernel.org>
 References: <20210706112203.2062605-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -51,86 +50,121 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Felix Kuehling <Felix.Kuehling@amd.com>,
- amd-gfx@lists.freedesktop.org, Nirmoy Das <nirmoy.das@amd.com>,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Sasha Levin <sashal@kernel.org>, Mark Yacoub <markyacoub@chromium.org>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Nirmoy Das <nirmoy.das@amd.com>
+From: Mark Yacoub <markyacoub@chromium.org>
 
-[ Upstream commit bc05716d4fdd065013633602c5960a2bf1511b9c ]
+[ Upstream commit 03fc4cf45d30533d54f0f4ebc02aacfa12f52ce2 ]
 
-Fixes handling when page tables are in system memory.
+For each CRTC state, check the size of Gamma and Degamma LUTs  so
+unexpected and larger sizes wouldn't slip through.
 
-v3: remove struct amdgpu_vm_parser.
-v2: remove unwanted variable.
-    change amdgpu_amdkfd_validate instead of amdgpu_amdkfd_bo_validate.
+TEST: IGT:kms_color::pipe-invalid-gamma-lut-sizes
 
-Signed-off-by: Nirmoy Das <nirmoy.das@amd.com>
-Reviewed-by: Christian König <christian.koenig@amd.com>
-Reviewed-by: Felix Kuehling <Felix.Kuehling@amd.com>
+v2: fix assignments in if clauses, Mark's email.
+
+Reviewed-by: Harry Wentland <harry.wentland@amd.com>
+Signed-off-by: Mark Yacoub <markyacoub@chromium.org>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- .../gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c  | 21 ++++---------------
- 1 file changed, 4 insertions(+), 17 deletions(-)
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  4 ++
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h |  1 +
+ .../amd/display/amdgpu_dm/amdgpu_dm_color.c   | 41 ++++++++++++++++---
+ 3 files changed, 40 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-index 5da487b64a66..26f8a2138377 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-@@ -48,12 +48,6 @@ static struct {
- 	spinlock_t mem_limit_lock;
- } kfd_mem_limit;
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index b413a7a2e92f..bdcec5b3f5e5 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -8745,6 +8745,10 @@ static int amdgpu_dm_atomic_check(struct drm_device *dev,
+ 		    old_crtc_state->vrr_enabled == new_crtc_state->vrr_enabled)
+ 			continue;
  
--/* Struct used for amdgpu_amdkfd_bo_validate */
--struct amdgpu_vm_parser {
--	uint32_t        domain;
--	bool            wait;
--};
--
- static const char * const domain_bit_to_string[] = {
- 		"CPU",
- 		"GTT",
-@@ -337,11 +331,9 @@ static int amdgpu_amdkfd_bo_validate(struct amdgpu_bo *bo, uint32_t domain,
- 	return ret;
++		ret = amdgpu_dm_verify_lut_sizes(new_crtc_state);
++		if (ret)
++			goto fail;
++
+ 		if (!new_crtc_state->enable)
+ 			continue;
+ 
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+index 1df7f1b18049..6c7235bb2f41 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+@@ -498,6 +498,7 @@ void amdgpu_dm_trigger_timing_sync(struct drm_device *dev);
+ #define MAX_COLOR_LEGACY_LUT_ENTRIES 256
+ 
+ void amdgpu_dm_init_color_mod(void);
++int amdgpu_dm_verify_lut_sizes(const struct drm_crtc_state *crtc_state);
+ int amdgpu_dm_update_crtc_color_mgmt(struct dm_crtc_state *crtc);
+ int amdgpu_dm_update_plane_color_mgmt(struct dm_crtc_state *crtc,
+ 				      struct dc_plane_state *dc_plane_state);
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
+index 5df05f0d18bc..179ff4b42f20 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
+@@ -284,6 +284,37 @@ static int __set_input_tf(struct dc_transfer_func *func,
+ 	return res ? 0 : -ENOMEM;
  }
  
--static int amdgpu_amdkfd_validate(void *param, struct amdgpu_bo *bo)
-+static int amdgpu_amdkfd_validate_vm_bo(void *_unused, struct amdgpu_bo *bo)
- {
--	struct amdgpu_vm_parser *p = param;
--
--	return amdgpu_amdkfd_bo_validate(bo, p->domain, p->wait);
-+	return amdgpu_amdkfd_bo_validate(bo, bo->allowed_domains, false);
- }
++/**
++ * Verifies that the Degamma and Gamma LUTs attached to the |crtc_state| are of
++ * the expected size.
++ * Returns 0 on success.
++ */
++int amdgpu_dm_verify_lut_sizes(const struct drm_crtc_state *crtc_state)
++{
++	const struct drm_color_lut *lut = NULL;
++	uint32_t size = 0;
++
++	lut = __extract_blob_lut(crtc_state->degamma_lut, &size);
++	if (lut && size != MAX_COLOR_LUT_ENTRIES) {
++		DRM_DEBUG_DRIVER(
++			"Invalid Degamma LUT size. Should be %u but got %u.\n",
++			MAX_COLOR_LUT_ENTRIES, size);
++		return -EINVAL;
++	}
++
++	lut = __extract_blob_lut(crtc_state->gamma_lut, &size);
++	if (lut && size != MAX_COLOR_LUT_ENTRIES &&
++	    size != MAX_COLOR_LEGACY_LUT_ENTRIES) {
++		DRM_DEBUG_DRIVER(
++			"Invalid Gamma LUT size. Should be %u (or %u for legacy) but got %u.\n",
++			MAX_COLOR_LUT_ENTRIES, MAX_COLOR_LEGACY_LUT_ENTRIES,
++			size);
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
+ /**
+  * amdgpu_dm_update_crtc_color_mgmt: Maps DRM color management to DC stream.
+  * @crtc: amdgpu_dm crtc state
+@@ -317,14 +348,12 @@ int amdgpu_dm_update_crtc_color_mgmt(struct dm_crtc_state *crtc)
+ 	bool is_legacy;
+ 	int r;
  
- /* vm_validate_pt_pd_bos - Validate page table and directory BOs
-@@ -355,20 +347,15 @@ static int vm_validate_pt_pd_bos(struct amdgpu_vm *vm)
- {
- 	struct amdgpu_bo *pd = vm->root.base.bo;
- 	struct amdgpu_device *adev = amdgpu_ttm_adev(pd->tbo.bdev);
--	struct amdgpu_vm_parser param;
- 	int ret;
+-	degamma_lut = __extract_blob_lut(crtc->base.degamma_lut, &degamma_size);
+-	if (degamma_lut && degamma_size != MAX_COLOR_LUT_ENTRIES)
+-		return -EINVAL;
++	r = amdgpu_dm_verify_lut_sizes(&crtc->base);
++	if (r)
++		return r;
  
--	param.domain = AMDGPU_GEM_DOMAIN_VRAM;
--	param.wait = false;
--
--	ret = amdgpu_vm_validate_pt_bos(adev, vm, amdgpu_amdkfd_validate,
--					&param);
-+	ret = amdgpu_vm_validate_pt_bos(adev, vm, amdgpu_amdkfd_validate_vm_bo, NULL);
- 	if (ret) {
- 		pr_err("failed to validate PT BOs\n");
- 		return ret;
- 	}
++	degamma_lut = __extract_blob_lut(crtc->base.degamma_lut, &degamma_size);
+ 	regamma_lut = __extract_blob_lut(crtc->base.gamma_lut, &regamma_size);
+-	if (regamma_lut && regamma_size != MAX_COLOR_LUT_ENTRIES &&
+-	    regamma_size != MAX_COLOR_LEGACY_LUT_ENTRIES)
+-		return -EINVAL;
  
--	ret = amdgpu_amdkfd_validate(&param, pd);
-+	ret = amdgpu_amdkfd_validate_vm_bo(NULL, pd);
- 	if (ret) {
- 		pr_err("failed to validate PD\n");
- 		return ret;
+ 	has_degamma =
+ 		degamma_lut && !__is_lut_linear(degamma_lut, degamma_size);
 -- 
 2.30.2
 
