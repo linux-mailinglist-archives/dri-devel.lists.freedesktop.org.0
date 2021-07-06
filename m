@@ -1,40 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90D2E3BCCD4
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 13:19:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C949F3BCCD5
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 13:19:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A9FC96E288;
-	Tue,  6 Jul 2021 11:19:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D53C76E29D;
+	Tue,  6 Jul 2021 11:19:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 86DBB6E2B6
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Jul 2021 11:19:09 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 98F2261C79;
- Tue,  6 Jul 2021 11:19:08 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C7AE6E29D
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Jul 2021 11:19:13 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 36B3E61D2F;
+ Tue,  6 Jul 2021 11:19:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1625570349;
- bh=ntt+QbwwZjDylx63TgbvU9XSa74tzKkwq5pUAK4TrhE=;
+ s=k20201202; t=1625570352;
+ bh=jsq9Lm87mEaGrOMSoJNKmgrmnj6vOX9jZw1y6QOjEsk=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=gLGIviZT+mFxvSFun0mmPy4mZeZu8hmUxqkyE9qCDNJyuA8Ho+sph70bEdU8TqnFR
- iXwScehYLGdgx+D+YQG+fhLewjqP2HIF9PiAB5GzpQdFhiXYJil+7l/Tb9P5WVOBv9
- 6IOAbTSGOJMmW7L/s8pzaveGgTiLT7uB8QFwLUaQgAMFh25FEUNroDnw9422rPnxiK
- 1+1eEbQ+WtBjGtP/Ic89asCe/qpUT/wd9EbDCm/3a5G5oTiLxOK0eO2dX1vQ2iQaxE
- Zk52omqnz6D7POmAm579N30J/n0k57CtgrBRu0T0VWMITaHH0LqSRenGigMot8a/je
- tOHg8kPjL4Hxg==
+ b=VIzSFby6c8AR8/z8wnI6IjnRy+FnhloF/yDAYXm/fOsVyOU8Bpgtu2i+wLYZMKQ7X
+ 5ahqFJ7IGOwqpFh/wNXqg0docs23PWXWlrQXxeVi/A/uNRYJUfj6p0IA9e4kT9EfrM
+ AvHbpx7mEq6xxaBcqS3NcJgIE94trQ7vvTv/ab3I3xVWfjWgQNywQpT2pKkC2D54S9
+ 132ZOzkYCLfKaXZ6lf/HRt0VlXt1kEXOvjbFJMwa8puK4/RdQmOyz+EncNjZjG0Q8x
+ pJaO2AHiHj9h9aLCqyrIxXXxAlJ8ntIQ6py7O9Zlq5yuXekpsH1Fw+ePUB6YEvcWUn
+ vGZooZdYkNDCA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.12 031/160] drm/sched: Avoid data corruptions
-Date: Tue,  6 Jul 2021 07:16:17 -0400
-Message-Id: <20210706111827.2060499-31-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.12 034/160] drm/vc4: Fix clock source for VEC
+ PixelValve on BCM2711
+Date: Tue,  6 Jul 2021 07:16:20 -0400
+Message-Id: <20210706111827.2060499-34-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210706111827.2060499-1-sashal@kernel.org>
 References: <20210706111827.2060499-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -50,48 +50,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- linux-media@vger.kernel.org
+Cc: Sasha Levin <sashal@kernel.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Maxime Ripard <maxime@cerno.tech>, dri-devel@lists.freedesktop.org,
+ Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+From: Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>
 
-[ Upstream commit 0b10ab80695d61422337ede6ff496552d8ace99d ]
+[ Upstream commit fc7a8abcee2225d6279ff785d33e24d70c738c6e ]
 
-Wait for all dependencies of a job  to complete before
-killing it to avoid data corruptions.
+On the BCM2711 (Raspberry Pi 4), the VEC is actually connected to
+output 2 of pixelvalve3.
 
-Signed-off-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
-Reviewed-by: Christian König <christian.koenig@amd.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20210519141407.88444-1-andrey.grodzovsky@amd.com
+NOTE: This contradicts the Broadcom docs, but has been empirically
+tested and confirmed by Raspberry Pi firmware devs.
+
+Signed-off-by: Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>
+Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20210520150344.273900-2-maxime@cerno.tech
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/scheduler/sched_entity.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/gpu/drm/vc4/vc4_crtc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
-index 72c39608236b..1b2fdf7f3ccd 100644
---- a/drivers/gpu/drm/scheduler/sched_entity.c
-+++ b/drivers/gpu/drm/scheduler/sched_entity.c
-@@ -222,11 +222,16 @@ static void drm_sched_entity_kill_jobs_cb(struct dma_fence *f,
- static void drm_sched_entity_kill_jobs(struct drm_sched_entity *entity)
- {
- 	struct drm_sched_job *job;
-+	struct dma_fence *f;
- 	int r;
- 
- 	while ((job = to_drm_sched_job(spsc_queue_pop(&entity->job_queue)))) {
- 		struct drm_sched_fence *s_fence = job->s_fence;
- 
-+		/* Wait for all dependencies to avoid data corruptions */
-+		while ((f = job->sched->ops->dependency(job, entity)))
-+			dma_fence_wait(f, false);
-+
- 		drm_sched_fence_scheduled(s_fence);
- 		dma_fence_set_error(&s_fence->finished, -ESRCH);
+diff --git a/drivers/gpu/drm/vc4/vc4_crtc.c b/drivers/gpu/drm/vc4/vc4_crtc.c
+index 76657dcdf9b0..665ddf8f347f 100644
+--- a/drivers/gpu/drm/vc4/vc4_crtc.c
++++ b/drivers/gpu/drm/vc4/vc4_crtc.c
+@@ -994,7 +994,7 @@ static const struct vc4_pv_data bcm2711_pv3_data = {
+ 	.fifo_depth = 64,
+ 	.pixels_per_clock = 1,
+ 	.encoder_types = {
+-		[0] = VC4_ENCODER_TYPE_VEC,
++		[PV_CONTROL_CLK_SELECT_VEC] = VC4_ENCODER_TYPE_VEC,
+ 	},
+ };
  
 -- 
 2.30.2
