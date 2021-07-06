@@ -2,69 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FFE83BCD8F
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 13:20:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10B5E3BCE23
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 13:23:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C55656E3AC;
-	Tue,  6 Jul 2021 11:20:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 738286E406;
+	Tue,  6 Jul 2021 11:23:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com
- [IPv6:2a00:1450:4864:20::32a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7B5426E3AC
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Jul 2021 11:20:54 +0000 (UTC)
-Received: by mail-wm1-x32a.google.com with SMTP id
- i2-20020a05600c3542b02902058529ea07so1988065wmq.3
- for <dri-devel@lists.freedesktop.org>; Tue, 06 Jul 2021 04:20:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=jy7B1eNocEomHYb8Q2ONw/tio4h/NyFzZ4ujY4LjXSg=;
- b=Q54tcSgwVwzQfNcMewf3KLLck3MfQ5g9qHYgEqOW7xKjh3VZLSssHbR3i/nwnA6iwA
- ti6CIAD02mte+bGvVkh5FPnyoaSu+9EexjAQCDvgcmmLY6SJFqvAA9AFdY91AbKflcPO
- g1Dr4k8lKrw3SIPKnDeZvopgkM4moOlfVv1pk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=jy7B1eNocEomHYb8Q2ONw/tio4h/NyFzZ4ujY4LjXSg=;
- b=gxml51upXrEdFYNbSwTKzQPI2txQushAQV4cpjwQ5MeEOVCYNOUSZNnKevYp3ZNeya
- xt8GT1ZlBqm4G1kVN2Lr7HuY2w+NdIcK8Ier/gznmhg5mlschp4yt4GEfqCJSZsz4YEG
- vwBHKm+bTAqf/UOaaALdKRXnh7psddGgJXvg9vF0cEjkG2DiAyVmksRv7TgMt5aD1M5H
- pV3NX31eH85ZQkBcls4Rc6oAuSEFWda4lr5l5NjdB0k9KsEcHY6RreL+i8bnns1dw5ob
- zoLUy7T6sBp2KL5Q04vAXYXVW31WYMZLgcX8YvmVF1CBFzJqjSfduW6Cx1pspqeHD/Uy
- FI2Q==
-X-Gm-Message-State: AOAM530wB3df2n7fWXXUog7/ACnRFTy1T7CgUhlZfSZ5JUbRvGDWhbsf
- y7V5fksIjkKIBIeQagiEUCiWvA==
-X-Google-Smtp-Source: ABdhPJwIUmMewDo0npWJUD3aDGWq7wQ1eq3cuVj7WQOGwB2f1W0doPqcB/ahrPnxocjCEhqZnlaKvQ==
-X-Received: by 2002:a7b:c0c1:: with SMTP id s1mr17752031wmh.70.1625570453124; 
- Tue, 06 Jul 2021 04:20:53 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id r18sm18222326wmh.23.2021.07.06.04.20.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Jul 2021 04:20:52 -0700 (PDT)
-Date: Tue, 6 Jul 2021 13:20:50 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Frank Wunderlich <frank-w@public-files.de>
-Subject: Re: BUG: MTK DRM/HDMI broken on 5.13 (mt7623/bpi-r2)
-Message-ID: <YOQ8ktv1MypezrEy@phenom.ffwll.local>
-Mail-Followup-To: Frank Wunderlich <frank-w@public-files.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- linux-mediatek@lists.infradead.org,
- Matthias Brugger <matthias.bgg@gmail.com>
-References: <trinity-cc8f5927-9aaf-43ae-a107-6a6229f1b481-1625565279264@3c-app-gmx-bs60>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A047E6E406;
+ Tue,  6 Jul 2021 11:23:29 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 6E59461E26;
+ Tue,  6 Jul 2021 11:23:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1625570609;
+ bh=lBtxayU5MQUqd5z8mO58cgz+6zShZmI9FjPnSv/4xbU=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=Tb29brxt3klypTlM2GhnhlFI2EJn4IKQtORLXR6KnFCywtD0qX2+XA3lgfnQ/y3qR
+ F3S1/H7CN3oHefjmmorGdRmr1ZtDFfBFLFahBjmExaslWbpKh7QuVJcvPC9s/0qOry
+ YPJu+hrg9rCJ4THSNbYblrNvmuFmA0ZBL28k+M7IdTQp/C/gxkO5ey9aI7fSxXbGoh
+ TbCPBs5IEU5NEnnmuVikZ58gD91i9t1ID5S+GFXSGIwgcEjfMFFwdGxZDs8D81GSPD
+ 3Y6QWLTtOSCvcPDY313nIv/Cv8v0pDFNKr1cgPtcwDcEpQDqzdCMwhpJUZqmEJFzoi
+ FOm8YQb8w3oMQ==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.10 067/137] drm/amd/display: Fix DCN 3.01 DSCCLK
+ validation
+Date: Tue,  6 Jul 2021 07:20:53 -0400
+Message-Id: <20210706112203.2062605-67-sashal@kernel.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210706112203.2062605-1-sashal@kernel.org>
+References: <20210706112203.2062605-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <trinity-cc8f5927-9aaf-43ae-a107-6a6229f1b481-1625565279264@3c-app-gmx-bs60>
-X-Operating-System: Linux phenom 5.10.0-7-amd64 
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,99 +50,140 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>
+Cc: Stylon Wang <stylon.wang@amd.com>, Sasha Levin <sashal@kernel.org>,
+ amd-gfx@lists.freedesktop.org, Nikola Cornij <nikola.cornij@amd.com>,
+ Daniel Wheeler <daniel.wheeler@amd.com>,
+ Dmytro Laktyushkin <Dmytro.Laktyushkin@amd.com>,
+ dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 06, 2021 at 11:54:39AM +0200, Frank Wunderlich wrote:
-> Hi,
-> 
-> i've noticed that HDMI is broken at least on my board (Bananapi-r2,mt7623) on 5.13.
-> 
-> after some research i noticed that it is working till
-> 
-> commit 2e477391522354e763aa62ee3e281c1ad9e8eb1b
-> Author: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-> Date:   Tue Mar 30 13:09:02 2021 +0200
-> 
->     drm/mediatek: Don't support hdmi connector creation
-> 
-> 
-> which is the last of mtk-drm-next-5.13 [1] so i guess a problem with core-patches
-> 
-> dmesg shows the following:
-> 
-> [    7.071342] mediatek-drm mediatek-drm.1.auto: bound 14007000.ovl (ops mtk_dis
-> p_ovl_component_ops)
-> [    7.080330] mediatek-drm mediatek-drm.1.auto: bound 14008000.rdma (ops mtk_di
-> sp_rdma_component_ops)
-> [    7.089429] mediatek-drm mediatek-drm.1.auto: bound 1400b000.color (ops mtk_d
-> isp_color_component_ops)
-> [    7.098689] mediatek-drm mediatek-drm.1.auto: bound 14012000.rdma (ops mtk_di
-> sp_rdma_component_ops)
-> [    7.107814] mediatek-drm mediatek-drm.1.auto: bound 14014000.dpi (ops mtk_dpi
-> _component_ops)
-> [    7.116338] mediatek-drm mediatek-drm.1.auto: Not creating crtc 1 because com
-> ponent 9 is disabled or missing
-> ....
-> [   38.403957] Console: switching to colour frame buffer device 160x64
-> [   48.516398] [drm:drm_crtc_commit_wait] *ERROR* flip_done timed out
-> [   48.516422] [drm:drm_atomic_helper_wait_for_dependencies] *ERROR* [CRTC:41:cr
-> tc-0] commit wait timed out
-> [   58.756384] [drm:drm_crtc_commit_wait] *ERROR* flip_done timed out
-> [   58.756399] [drm:drm_atomic_helper_wait_for_dependencies] *ERROR* [CONNECTOR:
-> 32:HDMI-A-1] commit wait timed out
-> [   68.996384] [drm:drm_crtc_commit_wait] *ERROR* flip_done timed out
-> [   68.996399] [drm:drm_atomic_helper_wait_for_dependencies] *ERROR* [PLANE:33:p
-> lane-0] commit wait timed out
-> [   68.996423] [drm:mtk_drm_crtc_atomic_begin] *ERROR* new event while there is
-> still a pending event
-> [   69.106385] ------------[ cut here ]------------
-> [   69.106392] WARNING: CPU: 2 PID: 7 at drivers/gpu/drm/drm_atomic_helper.c:151
-> 1 drm_atomic_helper_wait_for_vblanks.part.0+0x2a0/0x2a8
-> [   69.106414] [CRTC:41:crtc-0] vblank wait timed out
-> 
-> so i guess the breaking commit may be this:
-> 
-> $ git logone -S"drm_crtc_commit_wait" -- drivers/gpu/drm/
-> b99c2c95412c 2021-01-11 drm: Introduce a drm_crtc_commit_wait helper
-> 
-> in drivers/gpu/drm/drm_atomic{,_helper}.c
-> 
-> but i cannot confirm it because my git bisect does strange things (after
-> defining 5.13 as bad and the 2e4773915223 as good, second step is before
-> the good commit till the end, last steps are 5.11...). sorry, i'm still
-> new to bisect.
+From: Nikola Cornij <nikola.cornij@amd.com>
 
-drm history runs in parallel with the main tree, so occasionally the
-version that's reported as baseline is confusing and older than what you
-might expect. Just trust git bisect, it's doing the right thing, and make
-sure you test exactly the kernel you're supposed to test. Compiling with
-CONFIG_LOCALVERSION_AUTO helps a lot to make sure you're really booting
-into the right sha1.
+[ Upstream commit 346cf627fb27c0fea63a041cedbaa4f31784e504 ]
 
-> the fix is targeting to 5.12-rc2, is guess because CK Hu's tree is based
-> on this...but the fix was not included in 5.12-rc2 (only after
-> 5.12.0...got it by merging 5.12.14)
+[why]
+DSCCLK validation is not necessary because DSCCLK is derrived from
+DISPCLK, therefore if DISPCLK validation passes, DSCCLK is valid, too.
+Doing DSCLK validation in addition to DISPCLK leads to modes being
+wrongly rejected when DSCCLK was incorrectly set outside of DML.
 
-Yeah that can also happen because of all the non-linear trees involved in
-linux development.
+[how]
+Remove DSCCLK validation because it's implicitly validated under DISPCLK
 
-> maybe you can help me?
+Signed-off-by: Nikola Cornij <nikola.cornij@amd.com>
+Reviewed-by: Dmytro Laktyushkin <Dmytro.Laktyushkin@amd.com>
+Acked-by: Stylon Wang <stylon.wang@amd.com>
+Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ .../dc/dml/dcn30/display_mode_vba_30.c        | 64 ++++++-------------
+ 1 file changed, 21 insertions(+), 43 deletions(-)
 
-So now I'm confused, you're talking about a fix, or is it still broken in
-latest upstream?
--Daniel
-
-> 
-> regards Frank
-> 
-> [1] https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git/log/?h=mediatek-drm-next-5.13
-
+diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.c b/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.c
+index 9e0ae18e71fa..d66e89283c48 100644
+--- a/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.c
++++ b/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.c
+@@ -64,6 +64,7 @@ typedef struct {
+ #define BPP_INVALID 0
+ #define BPP_BLENDED_PIPE 0xffffffff
+ #define DCN30_MAX_DSC_IMAGE_WIDTH 5184
++#define DCN30_MAX_FMT_420_BUFFER_WIDTH 4096
+ 
+ static void DisplayPipeConfiguration(struct display_mode_lib *mode_lib);
+ static void DISPCLKDPPCLKDCFCLKDeepSleepPrefetchParametersWatermarksAndPerformanceCalculation(
+@@ -3987,19 +3988,30 @@ void dml30_ModeSupportAndSystemConfigurationFull(struct display_mode_lib *mode_l
+ 				} else if (v->PlaneRequiredDISPCLKWithoutODMCombine > v->MaxDispclkRoundedDownToDFSGranularity) {
+ 					v->ODMCombineEnablePerState[i][k] = dm_odm_combine_mode_2to1;
+ 					v->PlaneRequiredDISPCLK = v->PlaneRequiredDISPCLKWithODMCombine2To1;
+-				} else if (v->DSCEnabled[k] && (v->HActive[k] > DCN30_MAX_DSC_IMAGE_WIDTH)) {
+-					v->ODMCombineEnablePerState[i][k] = dm_odm_combine_mode_2to1;
+-					v->PlaneRequiredDISPCLK = v->PlaneRequiredDISPCLKWithODMCombine2To1;
+ 				} else {
+ 					v->ODMCombineEnablePerState[i][k] = dm_odm_combine_mode_disabled;
+ 					v->PlaneRequiredDISPCLK = v->PlaneRequiredDISPCLKWithoutODMCombine;
+-					/*420 format workaround*/
+-					if (v->HActive[k] > 4096 && v->OutputFormat[k] == dm_420) {
++				}
++				if (v->DSCEnabled[k] && v->HActive[k] > DCN30_MAX_DSC_IMAGE_WIDTH
++						&& v->ODMCombineEnablePerState[i][k] != dm_odm_combine_mode_4to1) {
++					if (v->HActive[k] / 2 > DCN30_MAX_DSC_IMAGE_WIDTH) {
++						v->ODMCombineEnablePerState[i][k] = dm_odm_combine_mode_4to1;
++						v->PlaneRequiredDISPCLK = v->PlaneRequiredDISPCLKWithODMCombine4To1;
++					} else {
++						v->ODMCombineEnablePerState[i][k] = dm_odm_combine_mode_2to1;
++						v->PlaneRequiredDISPCLK = v->PlaneRequiredDISPCLKWithODMCombine2To1;
++					}
++				}
++				if (v->OutputFormat[k] == dm_420 && v->HActive[k] > DCN30_MAX_FMT_420_BUFFER_WIDTH
++						&& v->ODMCombineEnablePerState[i][k] != dm_odm_combine_mode_4to1) {
++					if (v->HActive[k] / 2 > DCN30_MAX_FMT_420_BUFFER_WIDTH) {
++						v->ODMCombineEnablePerState[i][k] = dm_odm_combine_mode_4to1;
++						v->PlaneRequiredDISPCLK = v->PlaneRequiredDISPCLKWithODMCombine4To1;
++					} else {
+ 						v->ODMCombineEnablePerState[i][k] = dm_odm_combine_mode_2to1;
+ 						v->PlaneRequiredDISPCLK = v->PlaneRequiredDISPCLKWithODMCombine2To1;
+ 					}
+ 				}
+-
+ 				if (v->ODMCombineEnablePerState[i][k] == dm_odm_combine_mode_4to1) {
+ 					v->MPCCombine[i][j][k] = false;
+ 					v->NoOfDPP[i][j][k] = 4;
+@@ -4281,42 +4293,8 @@ void dml30_ModeSupportAndSystemConfigurationFull(struct display_mode_lib *mode_l
+ 		}
+ 	}
+ 
+-	for (i = 0; i < v->soc.num_states; i++) {
+-		v->DSCCLKRequiredMoreThanSupported[i] = false;
+-		for (k = 0; k <= v->NumberOfActivePlanes - 1; k++) {
+-			if (v->BlendingAndTiming[k] == k) {
+-				if (v->Output[k] == dm_dp || v->Output[k] == dm_edp) {
+-					if (v->OutputFormat[k] == dm_420) {
+-						v->DSCFormatFactor = 2;
+-					} else if (v->OutputFormat[k] == dm_444) {
+-						v->DSCFormatFactor = 1;
+-					} else if (v->OutputFormat[k] == dm_n422) {
+-						v->DSCFormatFactor = 2;
+-					} else {
+-						v->DSCFormatFactor = 1;
+-					}
+-					if (v->RequiresDSC[i][k] == true) {
+-						if (v->ODMCombineEnablePerState[i][k] == dm_odm_combine_mode_4to1) {
+-							if (v->PixelClockBackEnd[k] / 12.0 / v->DSCFormatFactor
+-									> (1.0 - v->DISPCLKDPPCLKDSCCLKDownSpreading / 100.0) * v->MaxDSCCLK[i]) {
+-								v->DSCCLKRequiredMoreThanSupported[i] = true;
+-							}
+-						} else if (v->ODMCombineEnablePerState[i][k] == dm_odm_combine_mode_2to1) {
+-							if (v->PixelClockBackEnd[k] / 6.0 / v->DSCFormatFactor
+-									> (1.0 - v->DISPCLKDPPCLKDSCCLKDownSpreading / 100.0) * v->MaxDSCCLK[i]) {
+-								v->DSCCLKRequiredMoreThanSupported[i] = true;
+-							}
+-						} else {
+-							if (v->PixelClockBackEnd[k] / 3.0 / v->DSCFormatFactor
+-									> (1.0 - v->DISPCLKDPPCLKDSCCLKDownSpreading / 100.0) * v->MaxDSCCLK[i]) {
+-								v->DSCCLKRequiredMoreThanSupported[i] = true;
+-							}
+-						}
+-					}
+-				}
+-			}
+-		}
+-	}
++	/* Skip dscclk validation: as long as dispclk is supported, dscclk is also implicitly supported */
++
+ 	for (i = 0; i < v->soc.num_states; i++) {
+ 		v->NotEnoughDSCUnits[i] = false;
+ 		v->TotalDSCUnitsRequired = 0.0;
+@@ -5319,7 +5297,7 @@ void dml30_ModeSupportAndSystemConfigurationFull(struct display_mode_lib *mode_l
+ 		for (j = 0; j < 2; j++) {
+ 			if (v->ScaleRatioAndTapsSupport == 1 && v->SourceFormatPixelAndScanSupport == 1 && v->ViewportSizeSupport[i][j] == 1
+ 					&& v->DIOSupport[i] == 1 && v->ODMCombine4To1SupportCheckOK[i] == 1
+-					&& v->NotEnoughDSCUnits[i] == 0 && v->DSCCLKRequiredMoreThanSupported[i] == 0
++					&& v->NotEnoughDSCUnits[i] == 0
+ 					&& v->DTBCLKRequiredMoreThanSupported[i] == 0
+ 					&& v->ROBSupport[i][j] == 1 && v->DISPCLK_DPPCLK_Support[i][j] == 1 && v->TotalAvailablePipesSupport[i][j] == 1
+ 					&& EnoughWritebackUnits == 1 && WritebackModeSupport == 1
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.30.2
+
