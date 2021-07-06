@@ -1,35 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FBEB3BCB8B
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 13:14:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 848213BCB8C
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 13:14:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A2E589FAC;
-	Tue,  6 Jul 2021 11:14:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 30F5589FC0;
+	Tue,  6 Jul 2021 11:14:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F17EF89FA5
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Jul 2021 11:14:27 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id EC29A61C24;
- Tue,  6 Jul 2021 11:14:26 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0EE1189FC8;
+ Tue,  6 Jul 2021 11:14:31 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id C281861C23;
+ Tue,  6 Jul 2021 11:14:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1625570067;
- bh=CusJK7HuqIlVU8zbgoKcUohqVv9NTx9HCD0kJbrvln0=;
+ s=k20201202; t=1625570070;
+ bh=fNfMGwQJKU7xCENjJix6Hk1CGW1bNKsCjIkjIHa08ig=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=lBld7+t6MqIzfj1ycHmHbpEq71tYuyM+0zrXuRsAq1/YfVCWOnTZeAM1gFwmtTcKt
- fHxPCqAL8TgiA6v58gjil/C5vaBUq3t2grNhx+xtCcnq+cuCpU9mIgHw3NTR8TmgCB
- esXDV7qCwXltp0eZApdx734hjE8+RkCu6H6pipfn9bm65a9SD/w4yoDJGlMPCVpU2p
- ccKIsJv+/WxW7KFvd7ZNto0CQus2iFK3HUERZ49yAvnqIS5FNi41/L717vXaaYHOUK
- EIpCd5jby8pM6dU+TAeFnAcZo3YC8pxoBnJgjTZP9KkUiYFZ59hmPdm4gcn8q7cVr4
- tFKg5AJrkYsPQ==
+ b=soq133w7u44iyNTKeNJzrhxOmzhswxmGAfVW5uuAzdpve1mLn7XnxGrC/VroiMlpF
+ qPf/Pgq46bMcCh4wqHhbjN2xqyXTekcpmmv6GhVMkqwnXjTgLrl/yZMLLDYZFxddR3
+ 56VfcWTFnlyOMPVBHjMhcgHdCIBvdwNwqAJTN9JJWHNvoNdzdpj5VYLaVRT0cjYmCH
+ FjbcLs7n3phpbmoito4IKb2RqbDyHKZ6fiD7FwiqY6B8BH+lh34KEOe0i7yOYhsuOR
+ ZzfmBN8QR/mEgcxm+HvF+M07IEASZXnRuJpexS8Mtn/oagjUPUPnuE5vFYkKJOnOTh
+ OAGdkCG2IT/og==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.13 012/189] drm/imx: Add 8 pixel alignment fix
-Date: Tue,  6 Jul 2021 07:11:12 -0400
-Message-Id: <20210706111409.2058071-12-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.13 014/189] drm/amd/display: fix potential gpu reset
+ deadlock
+Date: Tue,  6 Jul 2021 07:11:14 -0400
+Message-Id: <20210706111409.2058071-14-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210706111409.2058071-1-sashal@kernel.org>
 References: <20210706111409.2058071-1-sashal@kernel.org>
@@ -49,210 +50,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- dri-devel@lists.freedesktop.org,
- Boris Brezillon <boris.brezillon@collabora.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: Sasha Levin <sashal@kernel.org>, Qingqing Zhuo <Qingqing.Zhuo@amd.com>,
+ Roman Li <Roman.Li@amd.com>, amd-gfx@lists.freedesktop.org,
+ Daniel Wheeler <daniel.wheeler@amd.com>, dri-devel@lists.freedesktop.org,
+ Wayne Lin <Wayne.Lin@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
+ Lang Yu <Lang.Yu@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Sebastian Reichel <sebastian.reichel@collabora.com>
+From: Roman Li <Roman.Li@amd.com>
 
-[ Upstream commit 94dfec48fca756cef90263a03e81f24dae24a5c6 ]
+[ Upstream commit cf8b92a75646735136053ce51107bfa8cfc23191 ]
 
-Some standard resolutions like 1366x768 do not work properly with
-i.MX6 SoCs, since the horizontal resolution needs to be aligned
-to 8 pixels (so 1360x768 or 1368x768 would work).
+[Why]
+In gpu reset dc_lock acquired in dm_suspend().
+Asynchronously handle_hpd_rx_irq can also be called
+through amdgpu_dm_irq_suspend->flush_work, which also
+tries to acquire dc_lock. That causes a deadlock.
 
-This patch allocates framebuffers allocated to 8 pixels. The extra
-time required to send the extra pixels are removed from the blank
-time. In order to expose the correct display size to userspace,
-the stride is increased without increasing the width.
+[How]
+Check if amdgpu executing reset before acquiring dc_lock.
 
-Without this patch systems with this display resolution hang
-indefinitely during boot up.
-
-Suggested-by: Boris Brezillon <boris.brezillon@collabora.com>
-Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
-Link: https://lore.kernel.org/r/20210428222953.235280-3-sebastian.reichel@collabora.com
-Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
+Signed-off-by: Lang Yu <Lang.Yu@amd.com>
+Signed-off-by: Roman Li <Roman.Li@amd.com>
+Reviewed-by: Qingqing Zhuo <Qingqing.Zhuo@amd.com>
+Acked-by: Wayne Lin <Wayne.Lin@amd.com>
+Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/imx/imx-drm-core.c | 19 ++++++++++++++++++-
- drivers/gpu/drm/imx/imx-ldb.c      |  5 +++++
- drivers/gpu/drm/imx/ipuv3-crtc.c   | 11 ++++++++++-
- drivers/gpu/drm/imx/ipuv3-plane.c  | 19 +++++++++++++++----
- drivers/gpu/ipu-v3/ipu-dc.c        |  5 +++++
- drivers/gpu/ipu-v3/ipu-di.c        |  7 +++++++
- 6 files changed, 60 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/imx/imx-drm-core.c b/drivers/gpu/drm/imx/imx-drm-core.c
-index e6a88c8cbd69..8457b9788cda 100644
---- a/drivers/gpu/drm/imx/imx-drm-core.c
-+++ b/drivers/gpu/drm/imx/imx-drm-core.c
-@@ -145,9 +145,26 @@ static const struct drm_ioctl_desc imx_drm_ioctls[] = {
- 	/* none so far */
- };
- 
-+static int imx_drm_dumb_create(struct drm_file *file_priv,
-+			       struct drm_device *drm,
-+			       struct drm_mode_create_dumb *args)
-+{
-+	u32 width = args->width;
-+	int ret;
-+
-+	args->width = ALIGN(width, 8);
-+
-+	ret = drm_gem_cma_dumb_create(file_priv, drm, args);
-+	if (ret)
-+		return ret;
-+
-+	args->width = width;
-+	return ret;
-+}
-+
- static const struct drm_driver imx_drm_driver = {
- 	.driver_features	= DRIVER_MODESET | DRIVER_GEM | DRIVER_ATOMIC,
--	DRM_GEM_CMA_DRIVER_OPS,
-+	DRM_GEM_CMA_DRIVER_OPS_WITH_DUMB_CREATE(imx_drm_dumb_create),
- 	.ioctls			= imx_drm_ioctls,
- 	.num_ioctls		= ARRAY_SIZE(imx_drm_ioctls),
- 	.fops			= &imx_drm_driver_fops,
-diff --git a/drivers/gpu/drm/imx/imx-ldb.c b/drivers/gpu/drm/imx/imx-ldb.c
-index ffdc492c5bc5..53132ddf9587 100644
---- a/drivers/gpu/drm/imx/imx-ldb.c
-+++ b/drivers/gpu/drm/imx/imx-ldb.c
-@@ -274,6 +274,11 @@ imx_ldb_encoder_atomic_mode_set(struct drm_encoder *encoder,
- 			 "%s: mode exceeds 85 MHz pixel clock\n", __func__);
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index 652cc1a0e450..875fd187463e 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -2726,13 +2726,15 @@ static void handle_hpd_rx_irq(void *param)
+ 		}
  	}
  
-+	if (!IS_ALIGNED(mode->hdisplay, 8)) {
-+		dev_warn(ldb->dev,
-+			 "%s: hdisplay does not align to 8 byte\n", __func__);
-+	}
-+
- 	if (dual) {
- 		serial_clk = 3500UL * mode->clock;
- 		imx_ldb_set_clock(ldb, mux, 0, serial_clk, di_clk);
-diff --git a/drivers/gpu/drm/imx/ipuv3-crtc.c b/drivers/gpu/drm/imx/ipuv3-crtc.c
-index e6431a227feb..9c8829f945b2 100644
---- a/drivers/gpu/drm/imx/ipuv3-crtc.c
-+++ b/drivers/gpu/drm/imx/ipuv3-crtc.c
-@@ -305,10 +305,19 @@ static void ipu_crtc_mode_set_nofb(struct drm_crtc *crtc)
- 	sig_cfg.vsync_pin = imx_crtc_state->di_vsync_pin;
+-	mutex_lock(&adev->dm.dc_lock);
++	if (!amdgpu_in_reset(adev))
++		mutex_lock(&adev->dm.dc_lock);
+ #ifdef CONFIG_DRM_AMD_DC_HDCP
+ 	result = dc_link_handle_hpd_rx_irq(dc_link, &hpd_irq_data, NULL);
+ #else
+ 	result = dc_link_handle_hpd_rx_irq(dc_link, NULL, NULL);
+ #endif
+-	mutex_unlock(&adev->dm.dc_lock);
++	if (!amdgpu_in_reset(adev))
++		mutex_unlock(&adev->dm.dc_lock);
  
- 	drm_display_mode_to_videomode(mode, &sig_cfg.mode);
-+	if (!IS_ALIGNED(sig_cfg.mode.hactive, 8)) {
-+		unsigned int new_hactive = ALIGN(sig_cfg.mode.hactive, 8);
-+
-+		dev_warn(ipu_crtc->dev, "8-pixel align hactive %d -> %d\n",
-+			 sig_cfg.mode.hactive, new_hactive);
-+
-+		sig_cfg.mode.hfront_porch = new_hactive - sig_cfg.mode.hactive;
-+		sig_cfg.mode.hactive = new_hactive;
-+	}
- 
- 	ipu_dc_init_sync(ipu_crtc->dc, ipu_crtc->di,
- 			 mode->flags & DRM_MODE_FLAG_INTERLACE,
--			 imx_crtc_state->bus_format, mode->hdisplay);
-+			 imx_crtc_state->bus_format, sig_cfg.mode.hactive);
- 	ipu_di_init_sync_panel(ipu_crtc->di, &sig_cfg);
- }
- 
-diff --git a/drivers/gpu/drm/imx/ipuv3-plane.c b/drivers/gpu/drm/imx/ipuv3-plane.c
-index fc8f4834ed7b..9a7150ac34a6 100644
---- a/drivers/gpu/drm/imx/ipuv3-plane.c
-+++ b/drivers/gpu/drm/imx/ipuv3-plane.c
-@@ -30,6 +30,11 @@ to_ipu_plane_state(struct drm_plane_state *p)
- 	return container_of(p, struct ipu_plane_state, base);
- }
- 
-+static unsigned int ipu_src_rect_width(const struct drm_plane_state *state)
-+{
-+	return ALIGN(drm_rect_width(&state->src) >> 16, 8);
-+}
-+
- static inline struct ipu_plane *to_ipu_plane(struct drm_plane *p)
- {
- 	return container_of(p, struct ipu_plane, base);
-@@ -440,6 +445,12 @@ static int ipu_plane_atomic_check(struct drm_plane *plane,
- 	if (old_fb && fb->pitches[0] != old_fb->pitches[0])
- 		crtc_state->mode_changed = true;
- 
-+	if (ALIGN(fb->width, 8) * fb->format->cpp[0] >
-+	    fb->pitches[0] + fb->offsets[0]) {
-+		dev_warn(dev, "pitch is not big enough for 8 pixels alignment");
-+		return -EINVAL;
-+	}
-+
- 	switch (fb->format->format) {
- 	case DRM_FORMAT_YUV420:
- 	case DRM_FORMAT_YVU420:
-@@ -615,7 +626,7 @@ static void ipu_plane_atomic_update(struct drm_plane *plane,
- 	if (ipu_state->use_pre) {
- 		axi_id = ipu_chan_assign_axi_id(ipu_plane->dma);
- 		ipu_prg_channel_configure(ipu_plane->ipu_ch, axi_id,
--					  drm_rect_width(&new_state->src) >> 16,
-+					  ipu_src_rect_width(new_state),
- 					  drm_rect_height(&new_state->src) >> 16,
- 					  fb->pitches[0], fb->format->format,
- 					  fb->modifier, &eba);
-@@ -648,9 +659,9 @@ static void ipu_plane_atomic_update(struct drm_plane *plane,
- 		break;
- 	}
- 
--	ipu_dmfc_config_wait4eot(ipu_plane->dmfc, drm_rect_width(dst));
-+	ipu_dmfc_config_wait4eot(ipu_plane->dmfc, ALIGN(drm_rect_width(dst), 8));
- 
--	width = drm_rect_width(&new_state->src) >> 16;
-+	width = ipu_src_rect_width(new_state);
- 	height = drm_rect_height(&new_state->src) >> 16;
- 	info = drm_format_info(fb->format->format);
- 	ipu_calculate_bursts(width, info->cpp[0], fb->pitches[0],
-@@ -715,7 +726,7 @@ static void ipu_plane_atomic_update(struct drm_plane *plane,
- 
- 		ipu_cpmem_zero(ipu_plane->alpha_ch);
- 		ipu_cpmem_set_resolution(ipu_plane->alpha_ch,
--					 drm_rect_width(&new_state->src) >> 16,
-+					 ipu_src_rect_width(new_state),
- 					 drm_rect_height(&new_state->src) >> 16);
- 		ipu_cpmem_set_format_passthrough(ipu_plane->alpha_ch, 8);
- 		ipu_cpmem_set_high_priority(ipu_plane->alpha_ch);
-diff --git a/drivers/gpu/ipu-v3/ipu-dc.c b/drivers/gpu/ipu-v3/ipu-dc.c
-index 34b4075a6a8e..ca96b235491a 100644
---- a/drivers/gpu/ipu-v3/ipu-dc.c
-+++ b/drivers/gpu/ipu-v3/ipu-dc.c
-@@ -167,6 +167,11 @@ int ipu_dc_init_sync(struct ipu_dc *dc, struct ipu_di *di, bool interlaced,
- 
- 	dc->di = ipu_di_get_num(di);
- 
-+	if (!IS_ALIGNED(width, 8)) {
-+		dev_warn(priv->dev,
-+			 "%s: hactive does not align to 8 byte\n", __func__);
-+	}
-+
- 	map = ipu_bus_format_to_map(bus_format);
- 
- 	/*
-diff --git a/drivers/gpu/ipu-v3/ipu-di.c b/drivers/gpu/ipu-v3/ipu-di.c
-index e617f60afeea..666223c6bec4 100644
---- a/drivers/gpu/ipu-v3/ipu-di.c
-+++ b/drivers/gpu/ipu-v3/ipu-di.c
-@@ -506,6 +506,13 @@ int ipu_di_adjust_videomode(struct ipu_di *di, struct videomode *mode)
- {
- 	u32 diff;
- 
-+	if (!IS_ALIGNED(mode->hactive, 8) &&
-+	    mode->hfront_porch < ALIGN(mode->hactive, 8) - mode->hactive) {
-+		dev_err(di->ipu->dev, "hactive %d is not aligned to 8 and front porch is too small to compensate\n",
-+			mode->hactive);
-+		return -EINVAL;
-+	}
-+
- 	if (mode->vfront_porch >= 2)
- 		return 0;
- 
+ out:
+ 	if (result && !is_mst_root_connector) {
 -- 
 2.30.2
 
