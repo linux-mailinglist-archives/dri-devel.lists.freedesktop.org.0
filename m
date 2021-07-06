@@ -1,36 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA5173BCE31
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 13:23:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A0D03BCE34
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 13:23:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C93616E419;
-	Tue,  6 Jul 2021 11:23:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0EE356E41A;
+	Tue,  6 Jul 2021 11:23:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC4926E418;
- Tue,  6 Jul 2021 11:23:46 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id A8F0C61E31;
- Tue,  6 Jul 2021 11:23:45 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF54D6E418;
+ Tue,  6 Jul 2021 11:23:53 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id DA7C461D41;
+ Tue,  6 Jul 2021 11:23:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1625570626;
- bh=sw1Mjaqo8v/gCUu1GMZxhFsM9wftk0TLQ674ix8g2fA=;
+ s=k20201202; t=1625570633;
+ bh=18JrPegVgdlgr50MO0CVXnGeUnuBf0s/SDlzkj9hRcc=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=RWOQ4siMonaL9VXPZFhR/7DFg/z1G606s4NXLEiwnOtuf2HjhXBWxYCMkM8PO8iA/
- oK0r1MWuvjzxGv0uwuvZe0jlJVbA37DRYWLHufjHej07YOPd1I/QHwWmzWaVT064Ht
- qbLKrdB3lVkBc8yFU2eEY2YQe+2uEudex+fNQzHJ5ztXEYH48jYXQYzw0qOHD2rRwU
- 3/PS0vtnVp9RGKjRl4uOXbIlfHl0KBo9d1E1S58oGPUZ4OHcXvoPOJFnvs1DTSLGaF
- nrJ7JaORvVHwViPSpYsM2tcsDU+6Slz6A6ZGQYCOfwwTc/0rfPTdHJl8TvHffggOv8
- eBQJ4eFYm+7bg==
+ b=EuooLIQShWvHQRiINAAyZuzdMnaBsi23EnDAbGz/KZa7+mfp0pVHHKktoHlQxvO7I
+ O+af/HPNRmoiMeL9QYb4In9quAlw1KdbCKvNFboy69gafF/xAfQnxIdlzQKnVCtDPk
+ 9DTBihf+AvScCkUAWIncYGcTLVZOLltmDgFV1jehhdjbkLSAAZvbpCRPWTOxRFM20E
+ HjmpPI24a541y3jvAbL7PMm5MCCMnisgZrNT3xvrjpofrxpz6GMvpz/wr2W80VwifG
+ 30iytARvnNqRlyITlEu/aa2NBC5VAFSf6ByWKzbOpdW8u8EK/0sWcVf0px9tpj2zen
+ 05RQH/YMo7mBw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 079/137] drm/amd/display: Verify Gamma & Degamma
- LUT sizes in amdgpu_dm_atomic_check
-Date: Tue,  6 Jul 2021 07:21:05 -0400
-Message-Id: <20210706112203.2062605-79-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 085/137] drm/amdkfd: fix circular locking on
+ get_wave_state
+Date: Tue,  6 Jul 2021 07:21:11 -0400
+Message-Id: <20210706112203.2062605-85-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210706112203.2062605-1-sashal@kernel.org>
 References: <20210706112203.2062605-1-sashal@kernel.org>
@@ -50,121 +50,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Mark Yacoub <markyacoub@chromium.org>,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>
+Cc: Sasha Levin <sashal@kernel.org>, Jonathan Kim <jonathan.kim@amd.com>,
+ Felix Kuehling <felix.kuehling@amd.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Mark Yacoub <markyacoub@chromium.org>
+From: Jonathan Kim <jonathan.kim@amd.com>
 
-[ Upstream commit 03fc4cf45d30533d54f0f4ebc02aacfa12f52ce2 ]
+[ Upstream commit 63f6e01237257e7226efc5087f3f0b525d320f54 ]
 
-For each CRTC state, check the size of Gamma and Degamma LUTs  so
-unexpected and larger sizes wouldn't slip through.
+get_wave_state acquires the mmap_lock on copy_to_user but so do
+mmu_notifiers.  mmu_notifiers allows dqm locking so do get_wave_state
+outside the dqm_lock to prevent circular locking.
 
-TEST: IGT:kms_color::pipe-invalid-gamma-lut-sizes
+v2: squash in unused variable removal.
 
-v2: fix assignments in if clauses, Mark's email.
-
-Reviewed-by: Harry Wentland <harry.wentland@amd.com>
-Signed-off-by: Mark Yacoub <markyacoub@chromium.org>
+Signed-off-by: Jonathan Kim <jonathan.kim@amd.com>
+Reviewed-by: Felix Kuehling <felix.kuehling@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  4 ++
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h |  1 +
- .../amd/display/amdgpu_dm/amdgpu_dm_color.c   | 41 ++++++++++++++++---
- 3 files changed, 40 insertions(+), 6 deletions(-)
+ .../drm/amd/amdkfd/kfd_device_queue_manager.c | 28 +++++++++----------
+ 1 file changed, 13 insertions(+), 15 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index b413a7a2e92f..bdcec5b3f5e5 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -8745,6 +8745,10 @@ static int amdgpu_dm_atomic_check(struct drm_device *dev,
- 		    old_crtc_state->vrr_enabled == new_crtc_state->vrr_enabled)
- 			continue;
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
+index 6ea8a4b6efde..b971532e69eb 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
+@@ -1677,29 +1677,27 @@ static int get_wave_state(struct device_queue_manager *dqm,
+ 			  u32 *save_area_used_size)
+ {
+ 	struct mqd_manager *mqd_mgr;
+-	int r;
  
-+		ret = amdgpu_dm_verify_lut_sizes(new_crtc_state);
-+		if (ret)
-+			goto fail;
+ 	dqm_lock(dqm);
+ 
+-	if (q->properties.type != KFD_QUEUE_TYPE_COMPUTE ||
+-	    q->properties.is_active || !q->device->cwsr_enabled) {
+-		r = -EINVAL;
+-		goto dqm_unlock;
+-	}
+-
+ 	mqd_mgr = dqm->mqd_mgrs[KFD_MQD_TYPE_CP];
+ 
+-	if (!mqd_mgr->get_wave_state) {
+-		r = -EINVAL;
+-		goto dqm_unlock;
++	if (q->properties.type != KFD_QUEUE_TYPE_COMPUTE ||
++	    q->properties.is_active || !q->device->cwsr_enabled ||
++	    !mqd_mgr->get_wave_state) {
++		dqm_unlock(dqm);
++		return -EINVAL;
+ 	}
+ 
+-	r = mqd_mgr->get_wave_state(mqd_mgr, q->mqd, ctl_stack,
+-			ctl_stack_used_size, save_area_used_size);
+-
+-dqm_unlock:
+ 	dqm_unlock(dqm);
+-	return r;
 +
- 		if (!new_crtc_state->enable)
- 			continue;
- 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-index 1df7f1b18049..6c7235bb2f41 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-@@ -498,6 +498,7 @@ void amdgpu_dm_trigger_timing_sync(struct drm_device *dev);
- #define MAX_COLOR_LEGACY_LUT_ENTRIES 256
- 
- void amdgpu_dm_init_color_mod(void);
-+int amdgpu_dm_verify_lut_sizes(const struct drm_crtc_state *crtc_state);
- int amdgpu_dm_update_crtc_color_mgmt(struct dm_crtc_state *crtc);
- int amdgpu_dm_update_plane_color_mgmt(struct dm_crtc_state *crtc,
- 				      struct dc_plane_state *dc_plane_state);
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
-index 5df05f0d18bc..179ff4b42f20 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
-@@ -284,6 +284,37 @@ static int __set_input_tf(struct dc_transfer_func *func,
- 	return res ? 0 : -ENOMEM;
++	/*
++	 * get_wave_state is outside the dqm lock to prevent circular locking
++	 * and the queue should be protected against destruction by the process
++	 * lock.
++	 */
++	return mqd_mgr->get_wave_state(mqd_mgr, q->mqd, ctl_stack,
++			ctl_stack_used_size, save_area_used_size);
  }
  
-+/**
-+ * Verifies that the Degamma and Gamma LUTs attached to the |crtc_state| are of
-+ * the expected size.
-+ * Returns 0 on success.
-+ */
-+int amdgpu_dm_verify_lut_sizes(const struct drm_crtc_state *crtc_state)
-+{
-+	const struct drm_color_lut *lut = NULL;
-+	uint32_t size = 0;
-+
-+	lut = __extract_blob_lut(crtc_state->degamma_lut, &size);
-+	if (lut && size != MAX_COLOR_LUT_ENTRIES) {
-+		DRM_DEBUG_DRIVER(
-+			"Invalid Degamma LUT size. Should be %u but got %u.\n",
-+			MAX_COLOR_LUT_ENTRIES, size);
-+		return -EINVAL;
-+	}
-+
-+	lut = __extract_blob_lut(crtc_state->gamma_lut, &size);
-+	if (lut && size != MAX_COLOR_LUT_ENTRIES &&
-+	    size != MAX_COLOR_LEGACY_LUT_ENTRIES) {
-+		DRM_DEBUG_DRIVER(
-+			"Invalid Gamma LUT size. Should be %u (or %u for legacy) but got %u.\n",
-+			MAX_COLOR_LUT_ENTRIES, MAX_COLOR_LEGACY_LUT_ENTRIES,
-+			size);
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
- /**
-  * amdgpu_dm_update_crtc_color_mgmt: Maps DRM color management to DC stream.
-  * @crtc: amdgpu_dm crtc state
-@@ -317,14 +348,12 @@ int amdgpu_dm_update_crtc_color_mgmt(struct dm_crtc_state *crtc)
- 	bool is_legacy;
- 	int r;
- 
--	degamma_lut = __extract_blob_lut(crtc->base.degamma_lut, &degamma_size);
--	if (degamma_lut && degamma_size != MAX_COLOR_LUT_ENTRIES)
--		return -EINVAL;
-+	r = amdgpu_dm_verify_lut_sizes(&crtc->base);
-+	if (r)
-+		return r;
- 
-+	degamma_lut = __extract_blob_lut(crtc->base.degamma_lut, &degamma_size);
- 	regamma_lut = __extract_blob_lut(crtc->base.gamma_lut, &regamma_size);
--	if (regamma_lut && regamma_size != MAX_COLOR_LUT_ENTRIES &&
--	    regamma_size != MAX_COLOR_LEGACY_LUT_ENTRIES)
--		return -EINVAL;
- 
- 	has_degamma =
- 		degamma_lut && !__is_lut_linear(degamma_lut, degamma_size);
+ static int process_termination_cpsch(struct device_queue_manager *dqm,
 -- 
 2.30.2
 
