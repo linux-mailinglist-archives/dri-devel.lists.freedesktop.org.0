@@ -2,71 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 784523BC861
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 11:15:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 006C13BC862
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 11:16:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD00389D02;
-	Tue,  6 Jul 2021 09:15:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 13EFD89D6C;
+	Tue,  6 Jul 2021 09:15:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
- [66.111.4.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CEEEC89D02
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Jul 2021 09:15:40 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 6AFA45C015E;
- Tue,  6 Jul 2021 05:15:38 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Tue, 06 Jul 2021 05:15:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm3; bh=48vfVUC0kax3M2am+zLH+pUycfW
- DdICUD8aQ9fF4L6o=; b=aVHqpnJ1+5By/6nnWox6m+pTsSy/MY8Y6f2ZOjRLKZX
- 1Nv7dqrhClG1bmZgeRxRkAIb5Zp3GDhQykyG1dAFpzrZs0jo1aUp2L3GgXw+Vs/p
- CPV19bOFcq1J5S5O+EYrKnx4uyL6kocIGPk0BN49lFyYDNzLUhaCDjO5XEQZaJN5
- ddw1TTUmjNYztjxUrKzX5ev3Xd4hwVZFmY6cHuMFuqJiFQKxMlgDiaddT8cFLb7p
- kk595jXJsmYXa9UJjeJFIY1ZAxol6AiNv30939EDn2s2RNZUVxoNG1sA06hIkxhx
- byUcrBSEQbOyIi+U1Hh7CvgNMQQmkF2l2+mxuT64RLg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=48vfVU
- C0kax3M2am+zLH+pUycfWDdICUD8aQ9fF4L6o=; b=ff1+7Iz+J36EiOzgMJPfth
- duJzJ24FuEMCaGcwm+/t75epGmkuQmcLRolbVQYydJFyYtbLqM3l8YchX5c3IBcP
- PCHqIldStLjUa2KfFmzx61zfFsPFiOIzmGxXZTRdNTBTU7xqlRE1OE1vEpS9iBQZ
- DGu+zr7WOdCfpupiEGAhefniFxbljaJZVImNBgIJMVf6w16OkTYHMQ1JGTi/N5ZG
- gWw5qiL1gaqdaV2XtQvfJF8qZqlBE4SxJ1VRS5tYrc/uE6rpRdQALwOq3b4FgG7b
- s26CdAOb/ARIBttlXAEwGPSKexXN6rQdbGSJKcy789oUED+WCpKXaoHxQ7xnazlw
- ==
-X-ME-Sender: <xms:OR_kYD3C98irnpTSJZogm39l6GRREOl2pnvadsiHWekihbcB1TJQug>
- <xme:OR_kYCGeMmgsO59vLdcSC6B8sGypuDq56gXdigKnLFiNjqGAwOUUAPqxkYo94P_Ib
- ff1cdI9EHNHf29KQTI>
-X-ME-Received: <xmr:OR_kYD5SazNhB--FiuF7Bq6udRZxv1Felkkwx0QhWqWIOtunUanGuyD7-FovnPSsGBr27PspsUj5c5Dv7ZON0TNafE8m1I-4mhYw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfeejiedgudduucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucenucfjughrpeffhffvuffkfhggtggujgesghdtre
- ertddtvdenucfhrhhomhepofgrgihimhgvucftihhprghrugcuoehmrgigihhmvgestggv
- rhhnohdrthgvtghhqeenucggtffrrghtthgvrhhnpeelkeeghefhuddtleejgfeljeffhe
- ffgfeijefhgfeufefhtdevteegheeiheegudenucevlhhushhtvghrufhiiigvpedtnecu
- rfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:OR_kYI0koSq-GldDyWYV_n5gTtbyVIqpNy-x7-OtsKu7Dxw76qrYrQ>
- <xmx:OR_kYGECsyE-NZu9d6ZPPsxnRCHqRsJKTlEtOZ04ZgUAmAFvlG-Zdw>
- <xmx:OR_kYJ_Frf2j23PV6vr9n5RthLuMaM6Ejex7Vm4JVkyLTFw5Nmu7ag>
- <xmx:Oh_kYDMA-ubPTmPS3euDhXImj7YCK-KpyrYlSKSwLhCQ0NJZXut54w>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 6 Jul 2021 05:15:37 -0400 (EDT)
-Date: Tue, 6 Jul 2021 11:15:35 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Nicolas Saenz Julienne <nsaenzju@redhat.com>
-Subject: Re: [PATCH] drm/vc4: hdmi: Limit noise when deferring snd card
- registration
-Message-ID: <20210706091535.vstqragvgj7upspg@gilmour>
-References: <20210629121723.11523-1-nsaenzju@redhat.com>
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
+ [IPv6:2a00:1450:4864:20::436])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D5A8A89D79
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Jul 2021 09:15:56 +0000 (UTC)
+Received: by mail-wr1-x436.google.com with SMTP id a8so13519119wrp.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 06 Jul 2021 02:15:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=P7sCJq4DV3ugOnwMZYw92lBF+HR7Q04tRqU4WzqTPIA=;
+ b=ZtJpInGE3VXePl1XeRiH6VtqseoQx8VuAjDX1gtL/1QTw0KBHMCfLe1Ws+iQg2YWp5
+ 6XkQdeoBM22++/5vKlF37qXH+/IJ6RC/u81KSGXbJWZtVk8P7VouUrGZZmwIFHRDkn01
+ tHl+kgxoWb1FtggOVD+WYqHHO9Eint66UnJ1E=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=P7sCJq4DV3ugOnwMZYw92lBF+HR7Q04tRqU4WzqTPIA=;
+ b=Lgs67n2H6MoBjJYiyZ0/FNIIU9gSMKSm3HkckZVhTNeHUegRthokJwtTBhAssrzLcV
+ MDXnoD283tVJqxUrg0GuMnecEU8rqfviZ5PnVaezPqBQe765vW/MhOWyc1Yk61jI/SXw
+ Ek2Lx5+PdY2sOCtJ3Dg9q3N8wuQLK50gmlj0fjJCY6oV7/ynofQeXnRjae6CS44VRxCH
+ PQD4DjcEvRNOkVNkPT0WnxBs/Sq6LkHMHa8D7oEbr9C10vz27s5xoXhxbJAwAZZBUA7K
+ XbdjvSlnzEUDyCnN8GEJc+qHniV4dI/EYFzFS3/UhlKKGmhDMufhOu7l4hM3LbpxyHk3
+ wsXA==
+X-Gm-Message-State: AOAM533dWlLOKoBXBUFJTSas8UjSJCZtYg+tTV4AWMZrU+etcf6MRBml
+ fPzA0QGJIw/wH9eIyvKgqvl6MQ==
+X-Google-Smtp-Source: ABdhPJyvm9oRw4NYGiZhdPDfmpi9RvL2dWKLRPdaSmSRkgwF8i0H2V/sgupJOwbHJIfR35ZTdsvNPw==
+X-Received: by 2002:a5d:554e:: with SMTP id g14mr20544903wrw.48.1625562955429; 
+ Tue, 06 Jul 2021 02:15:55 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id n12sm17882194wmq.5.2021.07.06.02.15.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 06 Jul 2021 02:15:55 -0700 (PDT)
+Date: Tue, 6 Jul 2021 11:15:53 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Matthew Auld <matthew.auld@intel.com>
+Subject: Re: [PATCH 1/2] dma-fence: export dma_fence_might_wait
+Message-ID: <YOQfSWv0X6dFopPa@phenom.ffwll.local>
+References: <20210706090559.1589544-1-matthew.auld@intel.com>
+ <YOQe2fdqTzqyyV9L@phenom.ffwll.local>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="lkfucjtgrfhp3gma"
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20210629121723.11523-1-nsaenzju@redhat.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <YOQe2fdqTzqyyV9L@phenom.ffwll.local>
+X-Operating-System: Linux phenom 5.10.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,38 +68,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: emma@anholt.net, airlied@linux.ie, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-rpi-kernel@lists.infradead.org
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, Jul 06, 2021 at 11:14:01AM +0200, Daniel Vetter wrote:
+> On Tue, Jul 06, 2021 at 10:05:58AM +0100, Matthew Auld wrote:
+> > It might be useful for drivers to annotate a path where hitting the
+> > actual wait path might be difficult or unlikely through normal testing.
+> > 
+> > Suggested-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> > Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+> > Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> > ---
+> >  drivers/dma-buf/dma-fence.c | 19 ++++++++++++++++---
+> >  include/linux/dma-fence.h   |  2 ++
+> >  2 files changed, 18 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
+> > index ce0f5eff575d..f2cd036b5243 100644
+> > --- a/drivers/dma-buf/dma-fence.c
+> > +++ b/drivers/dma-buf/dma-fence.c
+> > @@ -335,6 +335,21 @@ void __dma_fence_might_wait(void)
+> >  }
+> >  #endif
+> >  
+> > +/**
+> > + * dma_fence_might_wait - entering a section which might wait on DMA fence
+> > + * critical section.
+> > + *
+> > + * This is also potentially useful for drivers to call directly, when annotating
+> > + * a path where hitting the actual wait path might be difficult or unlikely
+> > + * through normal testing.
+> 
+> Maybe also add a
+> 
+> "See also dma_fence_begin_signalling() and dma_fence_end_signalling."
+> 
+> here and a similar note the these two functions pointing at
+> dma_fence_might_wait()? I do like to link things together when there's a
+> group of functions.
+> 
+> With that: Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
---lkfucjtgrfhp3gma
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Also ack for merging through drm-intel-gt-next, I don't think anything in
+drm-misc plans to use this anytime soon. But please add the dma-buf Cc:
+lines for the next round (dim add-missing-cc should cover you).
+-Daniel
 
-On Tue, Jun 29, 2021 at 02:17:23PM +0200, Nicolas Saenz Julienne wrote:
-> We don't want to print an error message each time
-> devm_snd_soc_register_card() returns -EPROBE_DEFER, the function will
-> most likely succeed some time in the future, once the missing resources
-> are available. So use dev_err_probe(), which will redirect the messages
-> to the debug log level in such case.
->=20
-> Signed-off-by: Nicolas Saenz Julienne <nsaenzju@redhat.com>
+> 
+> > + */
+> > +void dma_fence_might_wait(void)
+> > +{
+> > +	might_sleep();
+> > +	__dma_fence_might_wait();
+> > +}
+> > +EXPORT_SYMBOL(dma_fence_might_wait);
+> > +
+> >  
+> >  /**
+> >   * dma_fence_signal_timestamp_locked - signal completion of a fence
+> > @@ -495,9 +510,7 @@ dma_fence_wait_timeout(struct dma_fence *fence, bool intr, signed long timeout)
+> >  	if (WARN_ON(timeout < 0))
+> >  		return -EINVAL;
+> >  
+> > -	might_sleep();
+> > -
+> > -	__dma_fence_might_wait();
+> > +	dma_fence_might_wait();
+> >  
+> >  	trace_dma_fence_wait_start(fence);
+> >  	if (fence->ops->wait)
+> > diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
+> > index 6ffb4b2c6371..37bf4beed93f 100644
+> > --- a/include/linux/dma-fence.h
+> > +++ b/include/linux/dma-fence.h
+> > @@ -370,6 +370,8 @@ static inline void dma_fence_end_signalling(bool cookie) {}
+> >  static inline void __dma_fence_might_wait(void) {}
+> >  #endif
+> >  
+> > +void dma_fence_might_wait(void);
+> > +
+> >  int dma_fence_signal(struct dma_fence *fence);
+> >  int dma_fence_signal_locked(struct dma_fence *fence);
+> >  int dma_fence_signal_timestamp(struct dma_fence *fence, ktime_t timestamp);
+> > -- 
+> > 2.26.3
+> > 
+> 
+> -- 
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
 
-Applied, thanks
-Maxime
-
---lkfucjtgrfhp3gma
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYOQfNwAKCRDj7w1vZxhR
-xWMuAP4r6Wvi1HAnDqMSYIt0qoz1TV1NnQxzcM7Dl2gpIi8sKgEAwYd6ZGeDAvhT
-haavcV61qlzcNE/nqiUsJxh7CMCS4Qg=
-=guzd
------END PGP SIGNATURE-----
-
---lkfucjtgrfhp3gma--
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
