@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B57D3BCD05
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 13:20:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 236FD3BCD10
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 13:20:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2AA6B6E301;
-	Tue,  6 Jul 2021 11:20:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A06336E314;
+	Tue,  6 Jul 2021 11:20:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 76C826E30D;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 13BB06E30D;
+ Tue,  6 Jul 2021 11:20:13 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id DE91D61D69;
  Tue,  6 Jul 2021 11:20:11 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 5913361D61;
- Tue,  6 Jul 2021 11:20:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1625570411;
- bh=t7IX/liNxtfiQqvMD8EFK1F85fVu6JNRUVWXiziupok=;
+ s=k20201202; t=1625570412;
+ bh=HzkaqJ8ahqU9OYMbMKA/VgYQ5vYmkdZj/qJKBcpRqV4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=HzT4s6zxWeG9wAR7NDINY3WwEJs9j1PaOU6arNKEG1u5o/XEPh5BsdVnzjKgYpUCy
- ME0p7urvwV7u/kK5K2K4qpZA4e1wGthWFjtHDBD4JKFUEEBj0lDnOuhZr1kDkPKl36
- ySvzFiBvk6FS6GaIiZiSZCFu4J9rymYDgmJKbwznu20ObF2esGSRTaQbMMCz8JsvKa
- a985kKSaGJ70Lt3689HRCVCBFKkq64Cz6jDGPTgET7+/WjtRw0CqqHt5i5TttQXMCX
- DEMAfKkALG6jN5fAbk86sa9qH2p1JXc7PQzZD2G1NHEo0LNY3bixdkTWi5ym0rkxti
- Ybg3f0L//b8vQ==
+ b=iUyeRknb3dzOYkL2hskydAU13uC5RvcfikEgn+BdfY1iH3AdAVoNg+3L59ShVt4s7
+ 9AWJAPjD8MkqOQsktNQhWeWFZ/Q9VqN1vrQytqxAUA3I6wHOuUr3Ms4AtXe0d8J4db
+ Qfq7suFcvoXDR6TmRpc0/vQTLRwkJA7I3WCSa2gib+k50wUmXZc7Lf2/xEcRZzxnM5
+ QwtXWKCx/qgb4piMIYJjN8zuqNcVYXEjGDeFwKNPxrZlGVVqUOr6yLirlOwYLFb8iL
+ k+3Ko+78EwT9cUKV3XB3+CFuBDHTnhQlMwwU6MbAVLrBSpiUlX0SdgMTJIqiWJiFnY
+ K14PpBQhZxG/g==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.12 078/160] drm/amd/display: Set
- DISPCLK_MAX_ERRDET_CYCLES to 7
-Date: Tue,  6 Jul 2021 07:17:04 -0400
-Message-Id: <20210706111827.2060499-78-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.12 079/160] drm/amd/display: Fix off-by-one error in
+ DML
+Date: Tue,  6 Jul 2021 07:17:05 -0400
+Message-Id: <20210706111827.2060499-79-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210706111827.2060499-1-sashal@kernel.org>
 References: <20210706111827.2060499-1-sashal@kernel.org>
@@ -60,11 +60,11 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Wesley Chalmers <Wesley.Chalmers@amd.com>
 
-[ Upstream commit 3577e1678772ce3ede92af3a75b44a4b76f9b4ad ]
+[ Upstream commit e4e3678260e9734f6f41b4325aac0b171833a618 ]
 
 [WHY]
-DISPCLK_MAX_ERRDET_CYCLES must be 7 to prevent connection loss when
-changing DENTIST_DISPCLK_WDIVIDER from 126 to 127 and back.
+For DCN30 and later, there is no data in DML arrays indexed by state at
+index num_states.
 
 Signed-off-by: Wesley Chalmers <Wesley.Chalmers@amd.com>
 Reviewed-by: Dmytro Laktyushkin <Dmytro.Laktyushkin@amd.com>
@@ -73,22 +73,49 @@ Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/dcn20/dcn20_hwseq.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../amd/display/dc/dml/dcn30/display_mode_vba_30.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_hwseq.c b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_hwseq.c
-index aece1103331d..d8a03d825623 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_hwseq.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_hwseq.c
-@@ -243,7 +243,7 @@ void dcn20_dccg_init(struct dce_hwseq *hws)
- 	REG_WRITE(MILLISECOND_TIME_BASE_DIV, 0x1186a0);
+diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.c b/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.c
+index da93694ec7cf..6e326290f214 100644
+--- a/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.c
++++ b/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.c
+@@ -2053,7 +2053,7 @@ static void DISPCLKDPPCLKDCFCLKDeepSleepPrefetchParametersWatermarksAndPerforman
+ 			v->DISPCLKWithoutRamping,
+ 			v->DISPCLKDPPCLKVCOSpeed);
+ 	v->MaxDispclkRoundedToDFSGranularity = RoundToDFSGranularityDown(
+-			v->soc.clock_limits[mode_lib->soc.num_states].dispclk_mhz,
++			v->soc.clock_limits[mode_lib->soc.num_states - 1].dispclk_mhz,
+ 			v->DISPCLKDPPCLKVCOSpeed);
+ 	if (v->DISPCLKWithoutRampingRoundedToDFSGranularity
+ 			> v->MaxDispclkRoundedToDFSGranularity) {
+@@ -3958,20 +3958,20 @@ void dml30_ModeSupportAndSystemConfigurationFull(struct display_mode_lib *mode_l
+ 			for (k = 0; k <= v->NumberOfActivePlanes - 1; k++) {
+ 				v->PlaneRequiredDISPCLKWithoutODMCombine = v->PixelClock[k] * (1.0 + v->DISPCLKDPPCLKDSCCLKDownSpreading / 100.0)
+ 						* (1.0 + v->DISPCLKRampingMargin / 100.0);
+-				if ((v->PlaneRequiredDISPCLKWithoutODMCombine >= v->MaxDispclk[i] && v->MaxDispclk[i] == v->MaxDispclk[mode_lib->soc.num_states]
+-						&& v->MaxDppclk[i] == v->MaxDppclk[mode_lib->soc.num_states])) {
++				if ((v->PlaneRequiredDISPCLKWithoutODMCombine >= v->MaxDispclk[i] && v->MaxDispclk[i] == v->MaxDispclk[mode_lib->soc.num_states - 1]
++						&& v->MaxDppclk[i] == v->MaxDppclk[mode_lib->soc.num_states - 1])) {
+ 					v->PlaneRequiredDISPCLKWithoutODMCombine = v->PixelClock[k] * (1 + v->DISPCLKDPPCLKDSCCLKDownSpreading / 100.0);
+ 				}
+ 				v->PlaneRequiredDISPCLKWithODMCombine2To1 = v->PixelClock[k] / 2 * (1 + v->DISPCLKDPPCLKDSCCLKDownSpreading / 100.0)
+ 						* (1 + v->DISPCLKRampingMargin / 100.0);
+-				if ((v->PlaneRequiredDISPCLKWithODMCombine2To1 >= v->MaxDispclk[i] && v->MaxDispclk[i] == v->MaxDispclk[mode_lib->soc.num_states]
+-						&& v->MaxDppclk[i] == v->MaxDppclk[mode_lib->soc.num_states])) {
++				if ((v->PlaneRequiredDISPCLKWithODMCombine2To1 >= v->MaxDispclk[i] && v->MaxDispclk[i] == v->MaxDispclk[mode_lib->soc.num_states - 1]
++						&& v->MaxDppclk[i] == v->MaxDppclk[mode_lib->soc.num_states - 1])) {
+ 					v->PlaneRequiredDISPCLKWithODMCombine2To1 = v->PixelClock[k] / 2 * (1 + v->DISPCLKDPPCLKDSCCLKDownSpreading / 100.0);
+ 				}
+ 				v->PlaneRequiredDISPCLKWithODMCombine4To1 = v->PixelClock[k] / 4 * (1 + v->DISPCLKDPPCLKDSCCLKDownSpreading / 100.0)
+ 						* (1 + v->DISPCLKRampingMargin / 100.0);
+-				if ((v->PlaneRequiredDISPCLKWithODMCombine4To1 >= v->MaxDispclk[i] && v->MaxDispclk[i] == v->MaxDispclk[mode_lib->soc.num_states]
+-						&& v->MaxDppclk[i] == v->MaxDppclk[mode_lib->soc.num_states])) {
++				if ((v->PlaneRequiredDISPCLKWithODMCombine4To1 >= v->MaxDispclk[i] && v->MaxDispclk[i] == v->MaxDispclk[mode_lib->soc.num_states - 1]
++						&& v->MaxDppclk[i] == v->MaxDppclk[mode_lib->soc.num_states - 1])) {
+ 					v->PlaneRequiredDISPCLKWithODMCombine4To1 = v->PixelClock[k] / 4 * (1 + v->DISPCLKDPPCLKDSCCLKDownSpreading / 100.0);
+ 				}
  
- 	/* This value is dependent on the hardware pipeline delay so set once per SOC */
--	REG_WRITE(DISPCLK_FREQ_CHANGE_CNTL, 0x801003c);
-+	REG_WRITE(DISPCLK_FREQ_CHANGE_CNTL, 0xe01003c);
- }
- 
- void dcn20_disable_vga(
 -- 
 2.30.2
 
