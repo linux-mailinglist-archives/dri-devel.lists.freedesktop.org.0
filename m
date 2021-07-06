@@ -1,40 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 156EC3BCE2D
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 13:23:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 46C513BCE2E
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 13:23:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E077C6E40F;
-	Tue,  6 Jul 2021 11:23:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3EBF86E413;
+	Tue,  6 Jul 2021 11:23:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 956FD6E413;
- Tue,  6 Jul 2021 11:23:35 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 5C82A61E2F;
- Tue,  6 Jul 2021 11:23:34 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F1956E413;
+ Tue,  6 Jul 2021 11:23:41 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 03F3361D3F;
+ Tue,  6 Jul 2021 11:23:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1625570615;
- bh=FpXv05j5ov1KxBl3Y58dYnCzDu2V3IJY+Ifx2h/hag4=;
+ s=k20201202; t=1625570621;
+ bh=QY8pEEkS5Zjx/I8JGlZYIXkWO2XqkalzvJBoNKtlX48=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=OkajYKkYFvQtuHMl70v/PoyBWg654SdPVo0IyVISCaqvOByOlDynZHrrnbISS+H9N
- T8uP8KwBUogcaV5OcCHNL8r+52+EVpqyGFTremZPPv5YuPvnX2LNdnIgJFGL1j2mvP
- Iuh+7TLUNCQScFpMD98yxcDqr9+ygM0FPsju8DGI3O1ZgvPbYPls1VijBo9Kzb2KQ/
- 040oFH85u3saZgTYfFf4QC82cKQ6Dl2m5hyfFOWdq9tvKchUPO9GJgfqmRMbCENFJg
- q7dQuNsaYiemMr8COEzADCG1qMJiNWQGVBsUzqkqm14UJowIgUjfVhoCkhETvcl3VL
- ZRbXge9VaYiwg==
+ b=ru05MAC4BUgKv/NrDpf6c5dCDlzAso0tupwoAWgpi3xL2sBKIIRVfKgAQEGHkP2Cm
+ a9V1JzUCWyBrFA/eLZ477TpFJbJBqbcrpEjntKJFg73AGlmxsbgddIgHhVNFXppYId
+ AK+6GW2xxIClUXDW0Lxx+hPIXjU6XEUkHtgQV22poCe/Z75rjxhfY6wN4axdeI4oq3
+ um6hKLVvgLh04aHEXFv1txNRfaTc2eg4GQXI5vdGGbetq2bNIlatD3zSZ5ehRjylP0
+ hjQrYOmReDjedlddfbeQGfS7QWyb+1pK468PWpzEOMuqShopfnfn6cq2NyPiaGEdxL
+ +C35xBb7ATeFw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 071/137] drm/amd/display: Fix off-by-one error in
- DML
-Date: Tue,  6 Jul 2021 07:20:57 -0400
-Message-Id: <20210706112203.2062605-71-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 075/137] drm/amdkfd: use allowed domain for vmbo
+ validation
+Date: Tue,  6 Jul 2021 07:21:01 -0400
+Message-Id: <20210706112203.2062605-75-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210706112203.2062605-1-sashal@kernel.org>
 References: <20210706112203.2062605-1-sashal@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -50,72 +51,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stylon Wang <stylon.wang@amd.com>, Sasha Levin <sashal@kernel.org>,
- Wesley Chalmers <Wesley.Chalmers@amd.com>, amd-gfx@lists.freedesktop.org,
- Daniel Wheeler <daniel.wheeler@amd.com>,
- Dmytro Laktyushkin <Dmytro.Laktyushkin@amd.com>,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>
+Cc: Sasha Levin <sashal@kernel.org>, Felix Kuehling <Felix.Kuehling@amd.com>,
+ amd-gfx@lists.freedesktop.org, Nirmoy Das <nirmoy.das@amd.com>,
+ dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Wesley Chalmers <Wesley.Chalmers@amd.com>
+From: Nirmoy Das <nirmoy.das@amd.com>
 
-[ Upstream commit e4e3678260e9734f6f41b4325aac0b171833a618 ]
+[ Upstream commit bc05716d4fdd065013633602c5960a2bf1511b9c ]
 
-[WHY]
-For DCN30 and later, there is no data in DML arrays indexed by state at
-index num_states.
+Fixes handling when page tables are in system memory.
 
-Signed-off-by: Wesley Chalmers <Wesley.Chalmers@amd.com>
-Reviewed-by: Dmytro Laktyushkin <Dmytro.Laktyushkin@amd.com>
-Acked-by: Stylon Wang <stylon.wang@amd.com>
-Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
+v3: remove struct amdgpu_vm_parser.
+v2: remove unwanted variable.
+    change amdgpu_amdkfd_validate instead of amdgpu_amdkfd_bo_validate.
+
+Signed-off-by: Nirmoy Das <nirmoy.das@amd.com>
+Reviewed-by: Christian König <christian.koenig@amd.com>
+Reviewed-by: Felix Kuehling <Felix.Kuehling@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- .../amd/display/dc/dml/dcn30/display_mode_vba_30.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ .../gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c  | 21 ++++---------------
+ 1 file changed, 4 insertions(+), 17 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.c b/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.c
-index d66e89283c48..2663f1b31842 100644
---- a/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.c
-+++ b/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.c
-@@ -2053,7 +2053,7 @@ static void DISPCLKDPPCLKDCFCLKDeepSleepPrefetchParametersWatermarksAndPerforman
- 			v->DISPCLKWithoutRamping,
- 			v->DISPCLKDPPCLKVCOSpeed);
- 	v->MaxDispclkRoundedToDFSGranularity = RoundToDFSGranularityDown(
--			v->soc.clock_limits[mode_lib->soc.num_states].dispclk_mhz,
-+			v->soc.clock_limits[mode_lib->soc.num_states - 1].dispclk_mhz,
- 			v->DISPCLKDPPCLKVCOSpeed);
- 	if (v->DISPCLKWithoutRampingRoundedToDFSGranularity
- 			> v->MaxDispclkRoundedToDFSGranularity) {
-@@ -3958,20 +3958,20 @@ void dml30_ModeSupportAndSystemConfigurationFull(struct display_mode_lib *mode_l
- 			for (k = 0; k <= v->NumberOfActivePlanes - 1; k++) {
- 				v->PlaneRequiredDISPCLKWithoutODMCombine = v->PixelClock[k] * (1.0 + v->DISPCLKDPPCLKDSCCLKDownSpreading / 100.0)
- 						* (1.0 + v->DISPCLKRampingMargin / 100.0);
--				if ((v->PlaneRequiredDISPCLKWithoutODMCombine >= v->MaxDispclk[i] && v->MaxDispclk[i] == v->MaxDispclk[mode_lib->soc.num_states]
--						&& v->MaxDppclk[i] == v->MaxDppclk[mode_lib->soc.num_states])) {
-+				if ((v->PlaneRequiredDISPCLKWithoutODMCombine >= v->MaxDispclk[i] && v->MaxDispclk[i] == v->MaxDispclk[mode_lib->soc.num_states - 1]
-+						&& v->MaxDppclk[i] == v->MaxDppclk[mode_lib->soc.num_states - 1])) {
- 					v->PlaneRequiredDISPCLKWithoutODMCombine = v->PixelClock[k] * (1 + v->DISPCLKDPPCLKDSCCLKDownSpreading / 100.0);
- 				}
- 				v->PlaneRequiredDISPCLKWithODMCombine2To1 = v->PixelClock[k] / 2 * (1 + v->DISPCLKDPPCLKDSCCLKDownSpreading / 100.0)
- 						* (1 + v->DISPCLKRampingMargin / 100.0);
--				if ((v->PlaneRequiredDISPCLKWithODMCombine2To1 >= v->MaxDispclk[i] && v->MaxDispclk[i] == v->MaxDispclk[mode_lib->soc.num_states]
--						&& v->MaxDppclk[i] == v->MaxDppclk[mode_lib->soc.num_states])) {
-+				if ((v->PlaneRequiredDISPCLKWithODMCombine2To1 >= v->MaxDispclk[i] && v->MaxDispclk[i] == v->MaxDispclk[mode_lib->soc.num_states - 1]
-+						&& v->MaxDppclk[i] == v->MaxDppclk[mode_lib->soc.num_states - 1])) {
- 					v->PlaneRequiredDISPCLKWithODMCombine2To1 = v->PixelClock[k] / 2 * (1 + v->DISPCLKDPPCLKDSCCLKDownSpreading / 100.0);
- 				}
- 				v->PlaneRequiredDISPCLKWithODMCombine4To1 = v->PixelClock[k] / 4 * (1 + v->DISPCLKDPPCLKDSCCLKDownSpreading / 100.0)
- 						* (1 + v->DISPCLKRampingMargin / 100.0);
--				if ((v->PlaneRequiredDISPCLKWithODMCombine4To1 >= v->MaxDispclk[i] && v->MaxDispclk[i] == v->MaxDispclk[mode_lib->soc.num_states]
--						&& v->MaxDppclk[i] == v->MaxDppclk[mode_lib->soc.num_states])) {
-+				if ((v->PlaneRequiredDISPCLKWithODMCombine4To1 >= v->MaxDispclk[i] && v->MaxDispclk[i] == v->MaxDispclk[mode_lib->soc.num_states - 1]
-+						&& v->MaxDppclk[i] == v->MaxDppclk[mode_lib->soc.num_states - 1])) {
- 					v->PlaneRequiredDISPCLKWithODMCombine4To1 = v->PixelClock[k] / 4 * (1 + v->DISPCLKDPPCLKDSCCLKDownSpreading / 100.0);
- 				}
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
+index 5da487b64a66..26f8a2138377 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
+@@ -48,12 +48,6 @@ static struct {
+ 	spinlock_t mem_limit_lock;
+ } kfd_mem_limit;
  
+-/* Struct used for amdgpu_amdkfd_bo_validate */
+-struct amdgpu_vm_parser {
+-	uint32_t        domain;
+-	bool            wait;
+-};
+-
+ static const char * const domain_bit_to_string[] = {
+ 		"CPU",
+ 		"GTT",
+@@ -337,11 +331,9 @@ static int amdgpu_amdkfd_bo_validate(struct amdgpu_bo *bo, uint32_t domain,
+ 	return ret;
+ }
+ 
+-static int amdgpu_amdkfd_validate(void *param, struct amdgpu_bo *bo)
++static int amdgpu_amdkfd_validate_vm_bo(void *_unused, struct amdgpu_bo *bo)
+ {
+-	struct amdgpu_vm_parser *p = param;
+-
+-	return amdgpu_amdkfd_bo_validate(bo, p->domain, p->wait);
++	return amdgpu_amdkfd_bo_validate(bo, bo->allowed_domains, false);
+ }
+ 
+ /* vm_validate_pt_pd_bos - Validate page table and directory BOs
+@@ -355,20 +347,15 @@ static int vm_validate_pt_pd_bos(struct amdgpu_vm *vm)
+ {
+ 	struct amdgpu_bo *pd = vm->root.base.bo;
+ 	struct amdgpu_device *adev = amdgpu_ttm_adev(pd->tbo.bdev);
+-	struct amdgpu_vm_parser param;
+ 	int ret;
+ 
+-	param.domain = AMDGPU_GEM_DOMAIN_VRAM;
+-	param.wait = false;
+-
+-	ret = amdgpu_vm_validate_pt_bos(adev, vm, amdgpu_amdkfd_validate,
+-					&param);
++	ret = amdgpu_vm_validate_pt_bos(adev, vm, amdgpu_amdkfd_validate_vm_bo, NULL);
+ 	if (ret) {
+ 		pr_err("failed to validate PT BOs\n");
+ 		return ret;
+ 	}
+ 
+-	ret = amdgpu_amdkfd_validate(&param, pd);
++	ret = amdgpu_amdkfd_validate_vm_bo(NULL, pd);
+ 	if (ret) {
+ 		pr_err("failed to validate PD\n");
+ 		return ret;
 -- 
 2.30.2
 
