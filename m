@@ -1,35 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 018533BDC1F
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 19:21:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 036A83BDC22
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 19:21:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 674756E56D;
-	Tue,  6 Jul 2021 17:21:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 18DCC6E55E;
+	Tue,  6 Jul 2021 17:21:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B2BD6E56A
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Jul 2021 17:20:54 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2425D6E54C
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Jul 2021 17:20:59 +0000 (UTC)
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
  q=dns/txt; 
- s=smtp; t=1625592060; h=References: In-Reply-To: Message-Id: Date:
+ s=smtp; t=1625592064; h=References: In-Reply-To: Message-Id: Date:
  Subject: Cc: To: From: Sender;
- bh=VGIy1W6ivYT8sZ3EiOYv0LQr/+OaguC7PuT4KKQp+Q8=;
- b=B6AAJj1Lsie9jXnRsM4J0BTtAFN5uE9i6nUKEBvpBYfQy5NrN/LOT6++W5gupp92yop+A+lS
- iFzjAdnfxei4Mc5v8OI1a6JMBkeaMOopCYy7Vin7byQ1hGVsMdRQXbdx3hsum8plTwc8NcUo
- DcUYU3cZoeuR6IGFgcrzrDUIj3s=
+ bh=xy4ZvYhsvO9FQlRMkSv7dJTwcvw9Xjfm9z8CIXSRBZ4=;
+ b=EtHde8EEjA/OYw6sIkXTmxuufB+8oxd3cK7vNRc/aZuCEujMZIUZBrRqmFR3Aketi4oLPGCi
+ PrTM5cS3fKI2XFf8yepyde/g4QmuyMc5UkWVPQV89g1ZgNnCbF9zOqny9Pf7/6hNf6aFU8yP
+ AF+EdsJx8tuyCFMZM/naA/SeyoE=
 X-Mailgun-Sending-Ip: 69.72.43.7
 X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
 Received: from smtp.codeaurora.org
  (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n05.prod.us-east-1.postgun.com with SMTP id
- 60e490ec4ca9face34308f13 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 06 Jul 2021 17:20:44
+ smtp-out-n04.prod.us-east-1.postgun.com with SMTP id
+ 60e490eff3042986143276e3 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 06 Jul 2021 17:20:47
  GMT
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id DE98BC4338A; Tue,  6 Jul 2021 17:20:43 +0000 (UTC)
+ id 8A3D2C43145; Tue,  6 Jul 2021 17:20:46 +0000 (UTC)
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
  aws-us-west-2-caf-mail-1.web.codeaurora.org
 X-Spam-Level: 
@@ -40,9 +40,9 @@ Received: from khsieh-linux1.qualcomm.com (i-global254.qualcomm.com
  [199.106.103.254])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
  (No client certificate requested) (Authenticated sender: khsieh)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 0306EC43217;
- Tue,  6 Jul 2021 17:20:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 0306EC43217
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 0B265C4338A;
+ Tue,  6 Jul 2021 17:20:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 0B265C4338A
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
  dmarc=none (p=none dis=none) header.from=codeaurora.org
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
@@ -50,10 +50,10 @@ Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
 From: Kuogee Hsieh <khsieh@codeaurora.org>
 To: dri-devel@lists.freedesktop.org, robdclark@gmail.com, sean@poorly.run,
  swboyd@chromium.org
-Subject: [PATCH 3/7] drm/msm/dp: reset aux controller after
- dp_aux_cmd_fifo_tx() failed.
-Date: Tue,  6 Jul 2021 10:20:16 -0700
-Message-Id: <1625592020-22658-4-git-send-email-khsieh@codeaurora.org>
+Subject: [PATCH 4/7] drm/msm/dp: replug event is converted into an unplug
+ followed by an plug events
+Date: Tue,  6 Jul 2021 10:20:17 -0700
+Message-Id: <1625592020-22658-5-git-send-email-khsieh@codeaurora.org>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1625592020-22658-1-git-send-email-khsieh@codeaurora.org>
 References: <1625592020-22658-1-git-send-email-khsieh@codeaurora.org>
@@ -76,32 +76,54 @@ Cc: airlied@linux.ie, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Aux hardware calibration sequence requires resetting the aux controller
-in order for the new setting to take effect. However resetting the AUX
-controller will also clear HPD interrupt status which may accidentally
-cause pending unplug interrupt to get lost. Therefore reset aux
-controller only when link is in connection state when dp_aux_cmd_fifo_tx()
-fail. This fixes Link Layer CTS cases 4.2.1.1 and 4.2.1.2.
+Remove special handling of replug interrupt and instead treat replug event
+as a sequential unplug followed by a plugin event. This is needed to meet
+the requirements of DP Link Layer CTS test case 4.2.1.3.
 
 Signed-off-by: Kuogee Hsieh <khsieh@codeaurora.org>
 ---
- drivers/gpu/drm/msm/dp/dp_aux.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/gpu/drm/msm/dp/dp_display.c | 13 +++++--------
+ 1 file changed, 5 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/dp/dp_aux.c b/drivers/gpu/drm/msm/dp/dp_aux.c
-index 4a3293b..eb40d84 100644
---- a/drivers/gpu/drm/msm/dp/dp_aux.c
-+++ b/drivers/gpu/drm/msm/dp/dp_aux.c
-@@ -353,6 +353,9 @@ static ssize_t dp_aux_transfer(struct drm_dp_aux *dp_aux,
- 			if (!(aux->retry_cnt % MAX_AUX_RETRIES))
- 				dp_catalog_aux_update_cfg(aux->catalog);
+diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+index 78c5301..d089ada 100644
+--- a/drivers/gpu/drm/msm/dp/dp_display.c
++++ b/drivers/gpu/drm/msm/dp/dp_display.c
+@@ -1146,9 +1146,6 @@ static int hpd_event_thread(void *data)
+ 		case EV_IRQ_HPD_INT:
+ 			dp_irq_hpd_handle(dp_priv, todo->data);
+ 			break;
+-		case EV_HPD_REPLUG_INT:
+-			/* do nothing */
+-			break;
+ 		case EV_USER_NOTIFICATION:
+ 			dp_display_send_hpd_notification(dp_priv,
+ 						todo->data);
+@@ -1192,10 +1189,8 @@ static irqreturn_t dp_display_irq_handler(int irq, void *dev_id)
+ 
+ 	if (hpd_isr_status & 0x0F) {
+ 		/* hpd related interrupts */
+-		if (hpd_isr_status & DP_DP_HPD_PLUG_INT_MASK ||
+-			hpd_isr_status & DP_DP_HPD_REPLUG_INT_MASK) {
++		if (hpd_isr_status & DP_DP_HPD_PLUG_INT_MASK)
+ 			dp_add_event(dp, EV_HPD_PLUG_INT, 0, 0);
+-		}
+ 
+ 		if (hpd_isr_status & DP_DP_IRQ_HPD_INT_MASK) {
+ 			/* stop sentinel connect pending checking */
+@@ -1203,8 +1198,10 @@ static irqreturn_t dp_display_irq_handler(int irq, void *dev_id)
+ 			dp_add_event(dp, EV_IRQ_HPD_INT, 0, 0);
  		}
-+		/* reset aux if link is in connected state */
-+		if (dp_catalog_link_is_connected(aux->catalog))
-+			dp_catalog_aux_reset(aux->catalog);
- 	} else {
- 		aux->retry_cnt = 0;
- 		switch (aux->aux_error_num) {
+ 
+-		if (hpd_isr_status & DP_DP_HPD_REPLUG_INT_MASK)
+-			dp_add_event(dp, EV_HPD_REPLUG_INT, 0, 0);
++		if (hpd_isr_status & DP_DP_HPD_REPLUG_INT_MASK) {
++			dp_add_event(dp, EV_HPD_UNPLUG_INT, 0, 0);
++			dp_add_event(dp, EV_HPD_PLUG_INT, 0, 3);
++		}
+ 
+ 		if (hpd_isr_status & DP_DP_HPD_UNPLUG_INT_MASK)
+ 			dp_add_event(dp, EV_HPD_UNPLUG_INT, 0, 0);
 -- 
 The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
 a Linux Foundation Collaborative Project
