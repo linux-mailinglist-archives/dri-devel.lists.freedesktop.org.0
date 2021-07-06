@@ -1,122 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68C0D3BDFA3
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Jul 2021 01:09:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E3D353BDFD6
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Jul 2021 01:47:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE7136E5C5;
-	Tue,  6 Jul 2021 23:09:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D0486E5CE;
+	Tue,  6 Jul 2021 23:47:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2049.outbound.protection.outlook.com [40.107.236.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D4B36E02B;
- Tue,  6 Jul 2021 23:09:41 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LuEdnYzhjqSlCH5uIDNz+inMOUUUtMsA5VTl9YorNCiHvRUK7+LoeAbgotZVJW/v/Azi/dXxXsyHixrkUbATgR7iUuWZXJDPw2QnSOT/0B9ZRswwz9uZBNCNgO/JRcQXor780ZNqCN04c/R8q9J50vEMuqsJOu8QBnHYBku/RR23wbVxe/JVe8COvRuEsmYbgqxueQvFHLX1HGBLTttp8h4QWdJVLvjtwvYZ5hJiCjnIR8cJPcSxR/gqk+xnKi1E7sygj4zqbOI9Sji+b8gW1VvZ99OGboFYkNIOc0sv8jm9jGsgXctArgHIsT6mqqGdODGJiuhcS1NAteVbNaZUng==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ozySP9ht8oQlxBoRaUiW+aODSD/gLWF6BHdCACNZGOo=;
- b=GiFmn0spZ643FWZx+JoLx2lTCnqqh8yGjTkFORsWSgfeJcn0Ykndm9goCCKbJbafUjbt+calGJsTz34e6bEpiSnIl9r1uPPj+mPZwhbcXIXCfKYaYCTxKxfKPKDyxcPgBT/QS/7STvJeG3MKWtmLf5ZRAy2XdtYf4WEf90xzmeY3pce9jL8eGudt57gydMKvKkZMiWkWlU6fue+aTumD3/2N2rYij46iMzvtMm8CD4pEWQQTOZGiicnl2Ey7flbgzrl2tjiSaj0XzyCmMZh798CjGgqrmD0h96eqzAyIZ9+Ritm4T7IF52hdGv73Tqik0RZOgxEnHFgpd1LBi/5QdA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ozySP9ht8oQlxBoRaUiW+aODSD/gLWF6BHdCACNZGOo=;
- b=Ehb47tjsFoGMxb5EYIGhaUBXjOEf/63hVDftUkDAo/IFFHG9GhbAZm093XEOrwwswcoRKBcxfL8T0Jpg9fp00gM+C0S9Dkar6EQFK4+xyGiVqD/qUQXI8WI7L1g5NQLFS+xu/H1SnTEV2w2xJkv5zrUs4WoYGgHYCLBlQ4JHsCM=
-Authentication-Results: amd.com; dkim=none (message not signed)
- header.d=none;amd.com; dmarc=none action=none header.from=amd.com;
-Received: from BN9PR12MB5129.namprd12.prod.outlook.com (2603:10b6:408:136::12)
- by BN9PR12MB5132.namprd12.prod.outlook.com (2603:10b6:408:119::7)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4287.27; Tue, 6 Jul
- 2021 23:09:39 +0000
-Received: from BN9PR12MB5129.namprd12.prod.outlook.com
- ([fe80::b891:a906:28f0:fdb]) by BN9PR12MB5129.namprd12.prod.outlook.com
- ([fe80::b891:a906:28f0:fdb%3]) with mapi id 15.20.4287.033; Tue, 6 Jul 2021
- 23:09:39 +0000
-Subject: Re: [PATCH AUTOSEL 5.13 113/189] drm/amdgpu/gfx9: fix the doorbell
- missing when in CGPG issue.
-To: Alex Deucher <alexdeucher@gmail.com>, Sasha Levin <sashal@kernel.org>
-References: <20210706111409.2058071-1-sashal@kernel.org>
- <20210706111409.2058071-113-sashal@kernel.org>
- <CADnq5_ObmVRjwUB5Lw0bLZLL-+=CqvGkJZ+2DY5ZDh+uN-oo0g@mail.gmail.com>
-From: Felix Kuehling <felix.kuehling@amd.com>
-Message-ID: <affee955-54bc-11c3-8ccd-5678f7aee687@amd.com>
-Date: Tue, 6 Jul 2021 19:09:37 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-In-Reply-To: <CADnq5_ObmVRjwUB5Lw0bLZLL-+=CqvGkJZ+2DY5ZDh+uN-oo0g@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-ClientProxiedBy: YTOPR0101CA0071.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b00:14::48) To BN9PR12MB5129.namprd12.prod.outlook.com
- (2603:10b6:408:136::12)
+Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com
+ [IPv6:2607:f8b0:4864:20::b36])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ACA896E5D1
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Jul 2021 23:47:26 +0000 (UTC)
+Received: by mail-yb1-xb36.google.com with SMTP id r135so380771ybc.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 06 Jul 2021 16:47:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=TwUey6TjxNXmQXSd4B3Hqb84O2CpvgKuDFe7RXWzgjA=;
+ b=Rtz4OUxRhybUHwKHTI5zD7/FkhNktB+1b/XOG/RNbnqoTDWbxDIizs/bXvs2DTrsV9
+ iFIFOXNrlPdTdbNXA0BA4ugiy04xP6Dg14SNwAdTq5yBNzygg5A8wjXBL02a6flF+EzL
+ IOr6CfDQdfaadxYev5bspy/D69a1rt5e3TK01wdjvIY/WHVZq28wG9Uqjpl4BwjIMstx
+ Flz9ueLTbttKdi9qe2yZLcyAI6cYmwdowxBJnfjLt+cQo5tb7Qwfgn65kk7CVPoPlZOG
+ tCukbIq+9Yapi/JA2jqZz5RdiMaz8W8iftDTrqxYyUP03yeUR5B/fDASRaxe6jUXWIqF
+ Xedg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=TwUey6TjxNXmQXSd4B3Hqb84O2CpvgKuDFe7RXWzgjA=;
+ b=ObOxTWBw0yGL/GDVNCrApeaKuDZodO3femex/FtXR+BqqFCXIONxqR2teiiKD/5ezv
+ 6S4UZHxYCqamRPpaD0ZarBU5Qsx946i8Cxj0h2tqKEVoi7RgqY26a26tCuOXVQs1uWkE
+ deEnhOvXdEuJ7QLIwKt+m2SkfBVI74p/hv2VnvJ3yQSS4J00Pz1Jii/ejBNcQKwd2fB+
+ gck/LFf+wKYTIPQiF1qFfT3VUuzWy1P0SMznZUWzyOFuTSrFakwW9NRujaWnJnlawZm6
+ 3p1LFzMjqjZjg3n2/7ZnxJaSeA22S6tcCGT+0xo8TrPI+SPCno20Z25g+bAmTULJH5rR
+ mvHw==
+X-Gm-Message-State: AOAM532e0tWCxd/GZRfxtE5IsnmfEN3j3HemkXDAAw9243vSUB9P0hiu
+ 3kOmQtvG3ucTZhe4FZ+B2+p3Plitd329utM7IrRFMA==
+X-Google-Smtp-Source: ABdhPJz0Qmr05kADkkAww6z4+81uzDkOOJDrx3TdP7O9MIu38x2sNjognuVFUzfj3MX5Vj9oTJI87ql1oiEpu1Rz8dM=
+X-Received: by 2002:a25:81c5:: with SMTP id n5mr28240878ybm.323.1625615245540; 
+ Tue, 06 Jul 2021 16:47:25 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.2.100] (142.186.84.51) by
- YTOPR0101CA0071.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b00:14::48) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4308.19 via Frontend
- Transport; Tue, 6 Jul 2021 23:09:38 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 95b2201b-86c2-40ef-5e7d-08d940d32136
-X-MS-TrafficTypeDiagnostic: BN9PR12MB5132:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BN9PR12MB5132B734E60EBE9FDFBB74FD921B9@BN9PR12MB5132.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:165;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: QFOJDBtKSwaDma0Nh14lwT+A4BJiRvHXv4XKH2c3RL/J+AvQVcjHPkKhqusLHx1w8wsI/IJhN5MGxHWF3J7EkAFp+hcJRKBEXsJNcac/UtEfUDDC8tds6R1LqjbARqHek1RXvX23YXRZbCEYuyCEMmG41uy5VMSECnH3YBSlISDFAVwIk/o6zt4CmNNQNzXVUXaHBvoWvMSchJpJDAXvyJZ/LgbBedX6Fg6E1zwdvM/GVrl8Z91PJL46IShNpua6fJgwzjTlqTHYIz0V+SLEycZewnp3KEYFe8Vo6FOUIdQSAqNgheV7+MP4bPfbM49SV6npAgPibwh29RhwRp8BiwOjfoSYIv8t7zWCzZNfdKFT+lR1cN84hOp3uEVwu+mxLHqg7K3XszpAFG5DbILJuPRaKTI1W+mtDtd1//e/TRQ773pbVq4vHJGM2f3a9ZKqWUL8SogG3s+khVeW8j7Tq/YW3h5wyNTpE94L5oMd9vEY3698lnAQOeru5DXrK38EZva0fBrzKvmR80cphssTEbKNw9e2IPA2PtlooHfO6dsj8tHxWO/LOR8DL89fwdIwF7DsuNQ3JJYZfQ4RrvPyWd7o73xncjzWeS/SmAGxv4J9/YVnNV9J+og7OXgDT2O7q7OT8cnQy0QP9cBdXAwFPcG06mUjqzkzNirG2OrrSseH98Dcvf13Ff0W9l7lGQavjGMm0abnwz2hc+r9KNJEu5zfRNgy6zPwWDHeM6o/Zg8=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN9PR12MB5129.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(396003)(346002)(39860400002)(376002)(136003)(8676002)(5660300002)(186003)(2906002)(2616005)(38100700002)(66556008)(53546011)(86362001)(36756003)(478600001)(8936002)(316002)(83380400001)(16576012)(31696002)(31686004)(6486002)(110136005)(66946007)(44832011)(966005)(26005)(66476007)(54906003)(956004)(4326008)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NWtCakJCdXFHenA2MWRFT0dvSVVsZ2RKRWx0THQ3amFSY1I0RUpJUEZNajRE?=
- =?utf-8?B?WENPUUtsS3p2SER5U2p1NTJ0UUQyczFBZjR2by9Genh5WCtTdnd3bTRZZG1s?=
- =?utf-8?B?OFZQRi9ZRFBJdVBEbUpsS2c1dUhmR25qNzZ6RDdueE5vZy84RGZURGtVWTZu?=
- =?utf-8?B?MmFFd1dlVHIyRVdRSGpsM3VxMjlLMDErOVlncGs1RXF5bmF5RDl6WWN6Qlpz?=
- =?utf-8?B?SENCRzNmenJsNjlMTXBpUFh6YVF0KzI5R010c01XcFM5WTJ5UkNJUGJpK0pD?=
- =?utf-8?B?c2hHYlN3UlNRbjcwcC9MbTBKN2szd2ZQS1dPMnErb09FOXhvOFBaMEFSdE5n?=
- =?utf-8?B?MUpvcTgxcGFRMjJxWUg0T2JkR0pqR0gvRlQ2cjJER2luQitqWmtaYnJrY0Qz?=
- =?utf-8?B?MFk1NTFiUmRqNUxiQm9XNzVubFFNWnlTckdVSmxnQ0pFR2Vjd3VNbEN3UEdD?=
- =?utf-8?B?RUxTWlBwY05DcHIrTjkycDcxcDZmbjU3bzN6RE05UmFCR1hJdnBvaEcveW5I?=
- =?utf-8?B?TTZkc01mTVgxeHl2WlkrREh3T3BiQ3ZrSWRWR1JhS1piSkJ0SjNzdUpySmFh?=
- =?utf-8?B?cE9VaVgzc0FBaHRaV1lRNVpYZXZ2MGVkYjNzRXhDUGZFb0NHeDd3dHFTZTdj?=
- =?utf-8?B?YVRpNkxOWktTbkFwTlJ5dHV6STRxME0vL1RIVnVPSzNWOFFnSGhRVTdTREx4?=
- =?utf-8?B?SEhZYnBhSGdQSElBQ2g2RzM1N2FHOHR1R08weFJQMFIrTFFNNU84K3RTRlBE?=
- =?utf-8?B?cG5Pd1RRUnJFQ1N3aVJ3eGhydWRxM3g4SThDbjJFY05IcUpOSGZrMFJrSDhD?=
- =?utf-8?B?OEo3S1gyV25oSEZRVmtld21rNjZ5M2xhdFhBdTg5eFljNERrNUNaMmpUNjBw?=
- =?utf-8?B?TWJ1RjRuVWp4Nmp3UnpCa2REQ3ZYSlVMMjMrRzlkSXQ2dDd0OUhITmFOU01P?=
- =?utf-8?B?WEF4N3owYUk2RVNRYXh2ZUdBcElFMWtyaTVWZ1UwcW1HU041SHJyRFBLcm5Q?=
- =?utf-8?B?bmNhMXpmbU9XLy80SFdQNGx1cmJZbHB2RHVuUmFvMCtrZ3dBeDk2bi8vWmtt?=
- =?utf-8?B?K1VLeS9vQ05jay9qdWVudWFBTC9Ua3ozMGkyUGxoZ0I0YmtsMVprT3M0djRu?=
- =?utf-8?B?QXJmS0FzSWowWWFIemsrZEVpdFE5YmxCWW9qVEpYdThkMTlXTGJqaC9GeGJZ?=
- =?utf-8?B?N0tiaktvRzVvWjVqMis2NHVOMGd5MEZCdEZsSk50MllHdEFFR1cxZFF3cmhH?=
- =?utf-8?B?UU5QQjhFYVBRSnlYOS9HSjJyRWE2MDd5Y3pqbG1iZ003d1E3UUdUSjZsNk1J?=
- =?utf-8?B?ck5DbDB1ZExFR1N5WjQ2TEFLU2N0OVVtNng2ZE9GbytvRktvNUNQVmZtUmRP?=
- =?utf-8?B?WGI5Q3NVeHRlYWZ4dUduL3ZnZ1Q2aDl1YW5HMkxOeFFGbUpXRk42SjFFM2pY?=
- =?utf-8?B?a2FrLzR2am5VS2VXY2kveFZvSEdNTzlhQ2UzbERhNnNRMm1ITElXMStSUUtR?=
- =?utf-8?B?bEppSW5jVDVZcHRlaVRaUFN5WmlKTWI2dzRPZDV6YkREU1ZmenJmV040NXdq?=
- =?utf-8?B?Z1k0VUgxSGt0RldQUTVGTEthcFFweFc2VUtCZTAybU5YMHVjUitQc1lBek94?=
- =?utf-8?B?My9BRVI1QUlQd3BqZVZWOTVweTlOSHpkN1dnSGR3akVaY3pYSlhZYVJSSVB5?=
- =?utf-8?B?OHl3K3lzQjRKRmJaVEdLenBGWEtQVllnZ3BDaFJab3JCeFl1UlF6QnhFbDRU?=
- =?utf-8?Q?fKU01XowQSbP7rnIl+xvbaonVRS9ddxOTEFr+Dg?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 95b2201b-86c2-40ef-5e7d-08d940d32136
-X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5129.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jul 2021 23:09:39.0796 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: OZp7UWEVMszyZAhcOt4Bkdt6Ko6PpRrKhON5lItFLU+2hrQY/NAfXhst5BY5+wz3RHjvwnrfEnrdwXEDvUAwiA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR12MB5132
+References: <20210706101209.3034092-1-daniel.vetter@ffwll.ch>
+ <20210706101209.3034092-8-daniel.vetter@ffwll.ch>
+In-Reply-To: <20210706101209.3034092-8-daniel.vetter@ffwll.ch>
+From: Jason Ekstrand <jason@jlekstrand.net>
+Date: Tue, 6 Jul 2021 18:47:14 -0500
+Message-ID: <CAOFGe97RzY0-m-vwTEDSoTOPFvdgqgk-_NhzJ5mQEqhLUpCUUA@mail.gmail.com>
+Subject: Re: [PATCH 7/7] dma-resv: Give the docs a do-over
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -129,65 +65,352 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Yifan Zhang <yifan1.zhang@amd.com>, LKML <linux-kernel@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>, "for 3.8" <stable@vger.kernel.org>
+Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 2021-07-06 um 5:44 p.m. schrieb Alex Deucher:
-> On Tue, Jul 6, 2021 at 7:16 AM Sasha Levin <sashal@kernel.org> wrote:
->> From: Yifan Zhang <yifan1.zhang@amd.com>
->>
->> [ Upstream commit 631003101c516ea29a74aee59666708857b9a805 ]
->>
->> If GC has entered CGPG, ringing doorbell > first page doesn't wakeup GC.
->> Enlarge CP_MEC_DOORBELL_RANGE_UPPER to workaround this issue.
->>
->> Signed-off-by: Yifan Zhang <yifan1.zhang@amd.com>
->> Reviewed-by: Felix Kuehling <Felix.Kuehling@amd.com>
->> Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
->> Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
->> Signed-off-by: Sasha Levin <sashal@kernel.org>
-> This should be dropped.  It was already reverted.
-
-Patch 146 of this series is the corresponding revert.
-
-Regards,
-  Felix
-
-
+On Tue, Jul 6, 2021 at 5:12 AM Daniel Vetter <daniel.vetter@ffwll.ch> wrote=
+:
 >
-> Alex
+> Specifically document the new/clarified rules around how the shared
+> fences do not have any ordering requirements against the exclusive
+> fence.
 >
+> But also document all the things a bit better, given how central
+> struct dma_resv to dynamic buffer management the docs have been very
+> inadequat.
 >
->> ---
->>  drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c | 6 +++++-
->>  1 file changed, 5 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c b/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
->> index 516467e962b7..c09225d065c2 100644
->> --- a/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
->> +++ b/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
->> @@ -3673,8 +3673,12 @@ static int gfx_v9_0_kiq_init_register(struct amdgpu_ring *ring)
->>         if (ring->use_doorbell) {
->>                 WREG32_SOC15(GC, 0, mmCP_MEC_DOORBELL_RANGE_LOWER,
->>                                         (adev->doorbell_index.kiq * 2) << 2);
->> +               /* If GC has entered CGPG, ringing doorbell > first page doesn't
->> +                * wakeup GC. Enlarge CP_MEC_DOORBELL_RANGE_UPPER to workaround
->> +                * this issue.
->> +                */
->>                 WREG32_SOC15(GC, 0, mmCP_MEC_DOORBELL_RANGE_UPPER,
->> -                                       (adev->doorbell_index.userqueue_end * 2) << 2);
->> +                                       (adev->doorbell.size - 4));
->>         }
->>
->>         WREG32_SOC15_RLC(GC, 0, mmCP_HQD_PQ_DOORBELL_CONTROL,
->> --
->> 2.30.2
->>
->> _______________________________________________
->> amd-gfx mailing list
->> amd-gfx@lists.freedesktop.org
->> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
+> - Lots more links to other pieces of the puzzle. Unfortunately
+>   ttm_buffer_object has no docs, so no links :-(
+>
+> - Explain/complain a bit about dma_resv_locking_ctx(). I still don't
+>   like that one, but fixing the ttm call chains is going to be
+>   horrible. Plus we want to plug in real slowpath locking when we do
+>   that anyway.
+>
+> - Main part of the patch is some actual docs for struct dma_resv.
+>
+> Overall I think we still have a lot of bad naming in this area (e.g.
+> dma_resv.fence is singular, but contains the multiple shared fences),
+> but I think that's more indicative of how the semantics and rules are
+> just not great.
+>
+> Another thing that's real awkard is how chaining exclusive fences
+> right now means direct dma_resv.exclusive_fence pointer access with an
+> rcu_assign_pointer. Not so great either.
+>
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
+> Cc: linux-media@vger.kernel.org
+> Cc: linaro-mm-sig@lists.linaro.org
+> ---
+>  drivers/dma-buf/dma-resv.c |  22 ++++++--
+>  include/linux/dma-resv.h   | 104 +++++++++++++++++++++++++++++++++++--
+>  2 files changed, 116 insertions(+), 10 deletions(-)
+>
+> diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
+> index f26c71747d43..898f8d894bbd 100644
+> --- a/drivers/dma-buf/dma-resv.c
+> +++ b/drivers/dma-buf/dma-resv.c
+> @@ -48,6 +48,8 @@
+>   * write operations) or N shared fences (read operations).  The RCU
+>   * mechanism is used to protect read access to fences from locked
+>   * write-side updates.
+> + *
+> + * See struct dma_resv for more details.
+>   */
+>
+>  DEFINE_WD_CLASS(reservation_ww_class);
+> @@ -137,7 +139,11 @@ EXPORT_SYMBOL(dma_resv_fini);
+>   * @num_fences: number of fences we want to add
+>   *
+>   * Should be called before dma_resv_add_shared_fence().  Must
+> - * be called with obj->lock held.
+> + * be called with @obj locked through dma_resv_lock().
+> + *
+> + * Note that the preallocated slots need to be re-reserved if @obj is un=
+locked
+> + * at any time before callind dma_resv_add_shared_fence(). This is valid=
+ate when
+
+validated
+
+> + * CONFIG_DEBUG_MUTEXES is enabled.
+>   *
+>   * RETURNS
+>   * Zero for success, or -errno
+> @@ -234,8 +240,10 @@ EXPORT_SYMBOL(dma_resv_reset_shared_max);
+>   * @obj: the reservation object
+>   * @fence: the shared fence to add
+>   *
+> - * Add a fence to a shared slot, obj->lock must be held, and
+> + * Add a fence to a shared slot, @obj must be locked with dma_resv_lock(=
+), and
+>   * dma_resv_reserve_shared() has been called.
+> + *
+> + * See also &dma_resv.fence for a discussion of the semantics.
+>   */
+>  void dma_resv_add_shared_fence(struct dma_resv *obj, struct dma_fence *f=
+ence)
+>  {
+> @@ -280,7 +288,9 @@ EXPORT_SYMBOL(dma_resv_add_shared_fence);
+>   * @obj: the reservation object
+>   * @fence: the shared fence to add
+>   *
+> - * Add a fence to the exclusive slot.  The obj->lock must be held.
+> + * Add a fence to the exclusive slot. @obj must be locked with dma_resv_=
+lock().
+> + * Note that this function replaces all fences attached to @obj, see als=
+o
+> + * &dma_resv.fence_excl for a discussion of the semantics.
+>   */
+>  void dma_resv_add_excl_fence(struct dma_resv *obj, struct dma_fence *fen=
+ce)
+>  {
+> @@ -609,9 +619,11 @@ static inline int dma_resv_test_signaled_single(stru=
+ct dma_fence *passed_fence)
+>   * fence
+>   *
+>   * Callers are not required to hold specific locks, but maybe hold
+> - * dma_resv_lock() already
+> + * dma_resv_lock() already.
+> + *
+>   * RETURNS
+> - * true if all fences signaled, else false
+> + *
+> + * True if all fences signaled, else false.
+>   */
+>  bool dma_resv_test_signaled(struct dma_resv *obj, bool test_all)
+>  {
+> diff --git a/include/linux/dma-resv.h b/include/linux/dma-resv.h
+> index e1ca2080a1ff..c77fd54d033f 100644
+> --- a/include/linux/dma-resv.h
+> +++ b/include/linux/dma-resv.h
+> @@ -62,16 +62,90 @@ struct dma_resv_list {
+>
+>  /**
+>   * struct dma_resv - a reservation object manages fences for a buffer
+> - * @lock: update side lock
+> - * @seq: sequence count for managing RCU read-side synchronization
+> - * @fence_excl: the exclusive fence, if there is one currently
+> - * @fence: list of current shared fences
+> + *
+> + * There are multiple uses for this, with sometimes slightly different r=
+ules in
+> + * how the fence slots are used.
+> + *
+> + * One use is to synchronize cross-driver access to a struct dma_buf, ei=
+ther for
+> + * dynamic buffer management or just to handle implicit synchronization =
+between
+> + * different users of the buffer in userspace. See &dma_buf.resv for a m=
+ore
+> + * in-depth discussion.
+> + *
+> + * The other major use is to manage access and locking within a driver i=
+n a
+> + * buffer based memory manager. struct ttm_buffer_object is the canonica=
+l
+> + * example here, since this is were reservation objects originated from.=
+ But use
+
+s/were/where/
+
+> + * in drivers is spreading and some drivers also manage struct
+> + * drm_gem_object with the same scheme.
+>   */
+>  struct dma_resv {
+> +       /**
+> +        * @lock:
+> +        *
+> +        * Update side lock. Don't use directly, instead use the wrapper
+> +        * functions like dma_resv_lock() and dma_resv_unlock().
+> +        *
+> +        * Drivers which use the reservation object to manage memory dyna=
+mically
+> +        * also use this lock to protect buffer object state like placeme=
+nt,
+> +        * allocation policies or throughout command submission.
+> +        */
+>         struct ww_mutex lock;
+> +
+> +       /**
+> +        * @seq:
+> +        *
+> +        * Sequence count for managing RCU read-side synchronization, all=
+ows
+> +        * read-only access to @fence_excl and @fence while ensuring we t=
+ake a
+> +        * consistent snapshot.
+> +        */
+>         seqcount_ww_mutex_t seq;
+>
+> +       /**
+> +        * @fence_excl:
+> +        *
+> +        * The exclusive fence, if there is one currently.
+> +        *
+> +        * There are two was to update this fence:
+> +        *
+> +        * - First by calling dma_resv_add_excl_fence(), which replaces a=
+ll
+> +        *   fences attached to the reservation object. To guarantee that=
+ no
+> +        *   fences are lost this new fence must signal only after all pr=
+evious
+
+lost, this
+
+> +        *   fences, both shared and exclusive, have signalled. In some c=
+ases it
+> +        *   is convenient to achieve that by attaching a struct dma_fenc=
+e_array
+> +        *   with all the new and old fences.
+> +        *
+> +        * - Alternatively the fence can be set directly, which leaves th=
+e
+> +        *   shared fences unchanged. To guarantee that no fences are los=
+t this
+> +        *   new fence must signale only after the previous exclusive fen=
+ce has
+
+s/signale/signal/
+
+> +        *   singalled. Since the shared fences are staying intact, it is=
+ not
+> +        *   necessary to maintain any ordering against those. If semanti=
+cally
+> +        *   only a new access is added without actually treating the pre=
+vious
+> +        *   one as a dependency the exclusive fences can be strung toget=
+her
+> +        *   using struct dma_fence_chain.
+> +        *
+> +        * Note that actual semantics of what an exclusive or shared fenc=
+e mean
+> +        * is defined by the user, for reservation objects shared across =
+drivers
+> +        * see &dma_buf.resv.
+> +        */
+>         struct dma_fence __rcu *fence_excl;
+> +
+> +       /**
+> +        * @fence:
+> +        *
+> +        * List of current shared fences.
+> +        *
+> +        * There are no ordering constraints of shared fences against the
+> +        * exclusive fence slot. If a waiter needs to wait for all access=
+, it
+> +        * has to wait for both set of fences to signal.
+
+sets
+
+> +        *
+> +        * A new fence is added by calling dma_resv_add_shared_fence(). S=
+ince
+> +        * this often needs to be done past the point of no return in com=
+mand
+> +        * submission it cannot fail, and therefor sufficient slots need =
+to be
+
+therefore
+
+> +        * reserved by calling dma_resv_reserve_shared().
+> +        *
+> +        * Note that actual semantics of what an exclusive or shared fenc=
+e mean
+> +        * is defined by the user, for reservation objects shared across =
+drivers
+> +        * see &dma_buf.resv.
+> +        */
+>         struct dma_resv_list __rcu *fence;
+>  };
+>
+> @@ -98,6 +172,13 @@ static inline void dma_resv_reset_shared_max(struct d=
+ma_resv *obj) {}
+>   * undefined order, a #ww_acquire_ctx is passed to unwind if a cycle
+>   * is detected. See ww_mutex_lock() and ww_acquire_init(). A reservation
+>   * object may be locked by itself by passing NULL as @ctx.
+> + *
+> + * When a die situation is indicated by returning -EDEADLK all locks hel=
+d by
+> + * @ctx must be unlocked and then dma_resv_lock_slow() called on @obj.
+> + *
+> + * Unlocked by calling dma_resv_lock().
+
+unlock?
+
+> + *
+> + * See also dma_resv_lock_interruptible() for the interruptible variant.
+>   */
+>  static inline int dma_resv_lock(struct dma_resv *obj,
+>                                 struct ww_acquire_ctx *ctx)
+> @@ -119,6 +200,12 @@ static inline int dma_resv_lock(struct dma_resv *obj=
+,
+>   * undefined order, a #ww_acquire_ctx is passed to unwind if a cycle
+>   * is detected. See ww_mutex_lock() and ww_acquire_init(). A reservation
+>   * object may be locked by itself by passing NULL as @ctx.
+> + *
+> + * When a die situation is indicated by returning -EDEADLK all locks hel=
+d by
+> + * @ctx must be unlocked and then dma_resv_lock_slow_interruptible() cal=
+led on
+> + * @obj.
+> + *
+> + * Unlocked by calling dma_resv_lock().
+
+unlock?
+
+>   */
+>  static inline int dma_resv_lock_interruptible(struct dma_resv *obj,
+>                                               struct ww_acquire_ctx *ctx)
+> @@ -134,6 +221,8 @@ static inline int dma_resv_lock_interruptible(struct =
+dma_resv *obj,
+>   * Acquires the reservation object after a die case. This function
+>   * will sleep until the lock becomes available. See dma_resv_lock() as
+>   * well.
+> + *
+> + * See also dma_resv_lock_slow_interruptible() for the interruptible var=
+iant.
+>   */
+>  static inline void dma_resv_lock_slow(struct dma_resv *obj,
+>                                       struct ww_acquire_ctx *ctx)
+> @@ -167,7 +256,7 @@ static inline int dma_resv_lock_slow_interruptible(st=
+ruct dma_resv *obj,
+>   * if they overlap with a writer.
+>   *
+>   * Also note that since no context is provided, no deadlock protection i=
+s
+> - * possible.
+> + * possible, which is also not needed for a trylock.
+>   *
+>   * Returns true if the lock was acquired, false otherwise.
+>   */
+> @@ -193,6 +282,11 @@ static inline bool dma_resv_is_locked(struct dma_res=
+v *obj)
+>   *
+>   * Returns the context used to lock a reservation object or NULL if no c=
+ontext
+>   * was used or the object is not locked at all.
+> + *
+> + * WARNING: This interface is pretty horrible, but TTM needs it because =
+it
+> + * doesn't pass the struct ww_acquire_ctx around in some very long callc=
+hains.
+> + * Everyone else just uses it to check whether they're holding a reserva=
+tion or
+> + * not.
+>   */
+>  static inline struct ww_acquire_ctx *dma_resv_locking_ctx(struct dma_res=
+v *obj)
+>  {
+> --
+> 2.32.0
+>
