@@ -1,36 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 841AA3BCEE0
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 13:26:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EE6203BCEF9
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 13:26:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 470E96E44C;
-	Tue,  6 Jul 2021 11:26:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 280386E441;
+	Tue,  6 Jul 2021 11:26:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8603E6E44C;
- Tue,  6 Jul 2021 11:26:47 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 6B91161EF6;
- Tue,  6 Jul 2021 11:26:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6EEF26E441
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Jul 2021 11:26:56 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 99A3461C9B;
+ Tue,  6 Jul 2021 11:26:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1625570807;
- bh=oIr9xYI+G5Elf4HGQenNpItBKjF/lPCc8SszNoGqv9k=;
+ s=k20201202; t=1625570816;
+ bh=4SACsFJG8/9jJecMl2IR/V5GA4+8aU0CP4m8Q7Ajasg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=hoqRmuJbKVWRn3IQzC1ipwC4SM8zqrtdkqTOgKjTh8wjwqJuBcII7V3KcCw60wMj1
- 9EUKcr3zqH2ezo2VMLbYBVBmPjktBZpU9E9CNUV584x0GH1pZrz9hz/uT9GkWA8rQL
- UtIZ1M9CX8H8ENg0GsF7MJ06AwynntpTMiJlmtA4aU+KCo9O0rZM7YWTFXN9X0b7LP
- VmudohmBDzo5UVs6T/Urcb+J7ne7/IkLX2h0GJmL5XdTEQw3RV7g8fGRpyTujnyoGI
- m2IbxcnzKsjIj5nYoiiES9zUgzISG7HYYwHVqawg0lOOuoIHU3GPiAX5haJxWNUgYi
- wEVMuGjOzyMaw==
+ b=C6WUn1zChwRjp/VLW54vZl0rdCa5+2/a87A3XtqaAk2FP2OAtcQ0UE1nML744vOye
+ 6Sg+Iwe05fOsXFCz1J0xD0KdEDmJA4PbpTyRpNYbq4Ql8m2cxQQCA22xFFZN6q4Wg7
+ 0qxZgBFjNXeRkgDbuuvNdk80moP3tcFSfVyaZMejJhPL0G72FWXAfExcSKUkKOCErO
+ ZCh6Ns9+YAmW/ZRzp7gPD98plHQE+ethGpzuuciKMTvV1vvux/fRD9jva5Unn3Pd+1
+ PEYhzvU3JpG2c/ZTzpBPezlXANdftnASbF+a7RDD38Hc6tpKgFYba82Hb6B5ei7uWV
+ kHzrq9BljUsJQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 06/55] drm/amd/display: fix use_max_lb flag for
- 420 pixel formats
-Date: Tue,  6 Jul 2021 07:25:49 -0400
-Message-Id: <20210706112638.2065023-6-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 13/55] drm/virtio: Fixes a potential NULL pointer
+ dereference on probe failure
+Date: Tue,  6 Jul 2021 07:25:56 -0400
+Message-Id: <20210706112638.2065023-13-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210706112638.2065023-1-sashal@kernel.org>
 References: <20210706112638.2065023-1-sashal@kernel.org>
@@ -50,51 +50,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stylon Wang <stylon.wang@amd.com>, Sasha Levin <sashal@kernel.org>,
- amd-gfx@lists.freedesktop.org, Daniel Wheeler <daniel.wheeler@amd.com>,
- Dmytro Laktyushkin <Dmytro.Laktyushkin@amd.com>,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>
+Cc: Sasha Levin <sashal@kernel.org>, Xie Yongji <xieyongji@bytedance.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dmytro Laktyushkin <Dmytro.Laktyushkin@amd.com>
+From: Xie Yongji <xieyongji@bytedance.com>
 
-[ Upstream commit 8809a7a4afe90ad9ffb42f72154d27e7c47551ae ]
+[ Upstream commit 17f46f488a5d82c5568e6e786cd760bba1c2ee09 ]
 
-Right now the flag simply selects memory config 0 when flag is true
-however 420 modes benefit more from memory config 3.
+The dev->dev_private might not be allocated if virtio_gpu_pci_quirk()
+or virtio_gpu_init() failed. In this case, we should avoid the cleanup
+in virtio_gpu_release().
 
-Signed-off-by: Dmytro Laktyushkin <Dmytro.Laktyushkin@amd.com>
-Reviewed-by: Aric Cyr <Aric.Cyr@amd.com>
-Acked-by: Stylon Wang <stylon.wang@amd.com>
-Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Xie Yongji <xieyongji@bytedance.com>
+Link: http://patchwork.freedesktop.org/patch/msgid/20210517084913.403-1-xieyongji@bytedance.com
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/dcn10/dcn10_dpp_dscl.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/virtio/virtgpu_kms.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_dpp_dscl.c b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_dpp_dscl.c
-index 321af9af95e8..8f5246308d26 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_dpp_dscl.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_dpp_dscl.c
-@@ -476,10 +476,13 @@ static enum lb_memory_config dpp1_dscl_find_lb_memory_config(struct dcn10_dpp *d
- 	int vtaps_c = scl_data->taps.v_taps_c;
- 	int ceil_vratio = dc_fixpt_ceil(scl_data->ratios.vert);
- 	int ceil_vratio_c = dc_fixpt_ceil(scl_data->ratios.vert_c);
--	enum lb_memory_config mem_cfg = LB_MEMORY_CONFIG_0;
+diff --git a/drivers/gpu/drm/virtio/virtgpu_kms.c b/drivers/gpu/drm/virtio/virtgpu_kms.c
+index 22397a23780c..2cfd0016bd70 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_kms.c
++++ b/drivers/gpu/drm/virtio/virtgpu_kms.c
+@@ -261,6 +261,9 @@ void virtio_gpu_driver_unload(struct drm_device *dev)
+ 	flush_work(&vgdev->config_changed_work);
+ 	vgdev->vdev->config->del_vqs(vgdev->vdev);
  
--	if (dpp->base.ctx->dc->debug.use_max_lb)
--		return mem_cfg;
-+	if (dpp->base.ctx->dc->debug.use_max_lb) {
-+		if (scl_data->format == PIXEL_FORMAT_420BPP8
-+				|| scl_data->format == PIXEL_FORMAT_420BPP10)
-+			return LB_MEMORY_CONFIG_3;
-+		return LB_MEMORY_CONFIG_0;
-+	}
- 
- 	dpp->base.caps->dscl_calc_lb_num_partitions(
- 			scl_data, LB_MEMORY_CONFIG_1, &num_part_y, &num_part_c);
++	if (!vgdev)
++		return;
++
+ 	virtio_gpu_modeset_fini(vgdev);
+ 	virtio_gpu_ttm_fini(vgdev);
+ 	virtio_gpu_free_vbufs(vgdev);
 -- 
 2.30.2
 
