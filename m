@@ -2,152 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B80CF3BD8E4
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 16:48:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DBE73BD927
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 16:56:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7ADFA6E4F1;
-	Tue,  6 Jul 2021 14:48:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB1E36E4F4;
+	Tue,  6 Jul 2021 14:56:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com
- [205.220.165.32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B76176E4F4;
- Tue,  6 Jul 2021 14:48:06 +0000 (UTC)
-Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 166Ea92x007666; Tue, 6 Jul 2021 14:46:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=date : from : to : cc
- : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=corp-2020-01-29;
- bh=WU+kWS+XFwScrBHDFLuHuPL8XAeR1HWcalcFJDsg5/A=;
- b=ljpM98954IvHlAJtclNXnzXU4bMz9wn7GaK8celDgHItU3i1yeDwdbg+ZsQDArrXuQxC
- imZllZaAKMFdKATE7d+bWo7vBXIAwdwVF1/FfCFHJA93dK6oHtjqfLzp9ME8PDtvW0oU
- vwgmGG5Ae5vTrDfFJurOG6byc3EyZv7ptrcTPlrt9HZNzqwTo6ptBTANNS+Yq4LW1t0s
- bQr20/8oupHA8HBMaN6kHlhIFv4cBiL6xSPakuRkKkMKBkajaaTxP5f55D4yO+Sazp/v
- 1rgLevs4fkbDwG2oMpadh3Ks2Kz+bojXWijZEvR+FL8TPeUtG5shX3/KbABlhjeop55v HA== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by mx0b-00069f02.pphosted.com with ESMTP id 39kq8eb22y-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 06 Jul 2021 14:46:30 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 166EaUSp016951;
- Tue, 6 Jul 2021 14:46:29 GMT
-Received: from nam11-co1-obe.outbound.protection.outlook.com
- (mail-co1nam11lp2168.outbound.protection.outlook.com [104.47.56.168])
- by userp3020.oracle.com with ESMTP id 39k1nv635h-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 06 Jul 2021 14:46:28 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZGnTw1swKcW5ip8J4JmjZSqOFUFv+Z7J0PAEOYO/6hNXTzdXvOLrNAirdhv4zbr3UlF/r/p0OOemrO1JjsCFhreATieBhz99voxQU8q71X2xJBRqcWi9BYHQGz4JFV25lrk2xgYgIyzQI0DvhF6Nhfl5NAaL8TKU270O+sVU6vjQtOiMbQLUrw38R2ETunyQaEdc36d4X7G9z7nj4KZK2nex88XVBhoDHfx6IErHoiASubQvLS2egua3f35RIDd3Hj3KPM3df+KHKhDv26uaQiAB1nut5eGzEop+G1jrRAh+YMaaoJudf/FpfaA6A07165gif9un55Ti8lm2F6rjjg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WU+kWS+XFwScrBHDFLuHuPL8XAeR1HWcalcFJDsg5/A=;
- b=UPgeZ49NT7JcUfjo6Rpw3D3Et0hbOa8BX0EQbXpm271GjU+mNAgIK/fdGjUB4fjn87bVL0qASWFDfEOlxs7zWPaTJBHG3V/enVlRnUfKdIvKRYOHjabeMr5PUChKJH/dOR5xnJ+EjH8cAxdYX65PQbxo3oEBDo5bQBP/n0XWzOyNwPabFdnOJeanH2JYLpnqGeY05OKkSSfZtsibhQPwV+C+hNy3OTusnOR+iVbEs93rY+ND+KH3vKd93+AGI0T8jo86akEFjQkqPdEoveBT5G8g5YLEcBbuQJQuXECUYyQjdR1OCyau+KWI+V/Sm8GXRdBWXGp6DD7Pcm/4zCwrIw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WU+kWS+XFwScrBHDFLuHuPL8XAeR1HWcalcFJDsg5/A=;
- b=dTxG3qWmEG98UvY0KgSxasmXk1z+hyVb1s/lfz6eLJJ97qyZaYDWAzWGs/1d1V9te3baS2j8lKrSOJGfiA0OU3ovAL3oqigBm8H/6DnuIJy/c84pLBc7FWGhY036bxMmM2VrrFd9FrMna/eKWOvp0ktvvP3s9Tnwp1JESmmtrPc=
-Authentication-Results: lst.de; dkim=none (message not signed)
- header.d=none;lst.de; dmarc=none action=none header.from=oracle.com;
-Received: from BYAPR10MB2999.namprd10.prod.outlook.com (2603:10b6:a03:85::27)
- by BY5PR10MB4148.namprd10.prod.outlook.com (2603:10b6:a03:211::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4242.16; Tue, 6 Jul
- 2021 14:46:23 +0000
-Received: from BYAPR10MB2999.namprd10.prod.outlook.com
- ([fe80::8111:d8f1:c262:808d]) by BYAPR10MB2999.namprd10.prod.outlook.com
- ([fe80::8111:d8f1:c262:808d%6]) with mapi id 15.20.4287.033; Tue, 6 Jul 2021
- 14:46:23 +0000
-Date: Tue, 6 Jul 2021 10:46:07 -0400
-From: Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
-To: Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH v15 06/12] swiotlb: Use is_swiotlb_force_bounce for
- swiotlb data bouncing
-Message-ID: <YORsr0h7u5l9DZwh@char.us.oracle.com>
-References: <20210701074045.GA9436@willie-the-truck>
- <ea28db1f-846e-4f0a-4f13-beb67e66bbca@kernel.org>
- <20210702135856.GB11132@willie-the-truck>
- <0f7bd903-e309-94a0-21d7-f0e8e9546018@arm.com>
- <YN/7xcxt/XGAKceZ@Ryzen-9-3900X.localdomain>
- <20210705190352.GA19461@willie-the-truck>
- <20210706044848.GA13640@lst.de>
- <20210706132422.GA20327@willie-the-truck>
- <a59f771f-3289-62f0-ca50-8f3675d9b166@arm.com>
- <20210706140513.GA26498@lst.de>
+Received: from mail-il1-x132.google.com (mail-il1-x132.google.com
+ [IPv6:2607:f8b0:4864:20::132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3DE156E4F3
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Jul 2021 14:56:20 +0000 (UTC)
+Received: by mail-il1-x132.google.com with SMTP id h3so21008581ilc.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 06 Jul 2021 07:56:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=a8/qLLqO6eL91stH3wL0KRpl9T08Ic+NpnQGQ6x06VA=;
+ b=j2sPe5/YeFhkbk8Ao1wBoSJI3mHjTKeYtGS/ylikxffAh4pjlXAic9iDxRv5Mv0c88
+ o5b7lMNG7FTsdoBh7D7HFqLBpXx4OWDvWQolA2AYbIKyYGFb/BJCIZ86BrUQNsb/C3Zk
+ XsAk6eIa1iX7IreWpvN3CU6N8yZIaUepsXSqCVxrBMKOSQwVo+4QlVdlIX3ICQnCZ+RN
+ LgJrLxii8/f54h0waeGuOrMJGYXgQlD5kGp/v5vw+plNVj3amj0GPy79B+VVJnzMwf0X
+ slP6aAspIJPeReLpfjtTCTHLR7t2wU8m1oRA1naFZ3fVxAxznodtagNFx7SXVX3ixwEZ
+ eBuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=a8/qLLqO6eL91stH3wL0KRpl9T08Ic+NpnQGQ6x06VA=;
+ b=l+Ms7fMsPHd30Pov6wYbAcSJOj/bcZcG0Xbmpky+2NbjvrRIx9UAKIOSWOsuw9YZW7
+ kXFP2eWnnajQUkZfqXeSnnmdZ9oXlIGY10cHtkzaeYAfgeEhdL/gMeYmmkkyfvE+mZtu
+ 810uqrSsvm79u2VI+cS4lOtTlajOKHSUdl4fpPdunK6J166rxxSBJrPluCeRNEOrlNv0
+ xwvARki7os3N3JhKr3k4zokPYdnXZODVERdIrZqlOc4pdn5BQ7SWPF6HmhaLDNMgDqd0
+ V/KAzzbKOTAszO0R4cyVLXYVjQXz0pHq4hz/ycGvJj0AIIm4DwUbLPCIvORqDCtQV+Lm
+ qaNA==
+X-Gm-Message-State: AOAM533WlxeCFmtIZFhQFi4meSg2bkDzJ6UuGg/rCaSbxcQkQX3bqQzo
+ JgeyWIGZP/tjc1dWVSVSu8qOGQ==
+X-Google-Smtp-Source: ABdhPJwog3epP3zDyPdL9Dn1Mv3QQbO1xKAP/j5dh3/z+a/bJ15P6+dhr9KB3Du7HHV3+Ab4fMGLOg==
+X-Received: by 2002:a92:dd05:: with SMTP id n5mr14308230ilm.72.1625583379441; 
+ Tue, 06 Jul 2021 07:56:19 -0700 (PDT)
+Received: from ziepe.ca ([206.223.160.26])
+ by smtp.gmail.com with ESMTPSA id l18sm8626632ilo.64.2021.07.06.07.56.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 06 Jul 2021 07:56:19 -0700 (PDT)
+Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
+ id 1m0mUj-004Rth-V9; Tue, 06 Jul 2021 11:56:17 -0300
+Date: Tue, 6 Jul 2021 11:56:17 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: Re: [PATCH v4 0/2] Add p2p via dmabuf to habanalabs
+Message-ID: <20210706145617.GO4604@ziepe.ca>
+References: <20210705130314.11519-1-ogabbay@kernel.org>
+ <YOQXBWpo3whVjOyh@phenom.ffwll.local>
+ <CAFCwf10_rTYL2Fy6tCRVAUCf4-6_TtcWCv5gEEkGnQ0KxqMUBg@mail.gmail.com>
+ <CAKMK7uEAJZUHNLreBB839BZOfnTGNU4rCx-0k55+67Nbxtdx3A@mail.gmail.com>
+ <CAKMK7uHpKFVm55O_NB=WYCsv0iUt92ZUn6eCzifH=unbhe3J8g@mail.gmail.com>
+ <CAKMK7uFGr=ugyKj0H3ctbh28Jnr25vAgXPBaDBMmfErCxYVo3w@mail.gmail.com>
+ <20210706134430.GL4604@ziepe.ca>
+ <CAKMK7uFEZjp2_WBhtkVxSNQ-1WcBSr3NDotY0fjz0iLRw8Barw@mail.gmail.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210706140513.GA26498@lst.de>
-X-ClientProxiedBy: SA9PR13CA0101.namprd13.prod.outlook.com
- (2603:10b6:806:24::16) To BYAPR10MB2999.namprd10.prod.outlook.com
- (2603:10b6:a03:85::27)
-MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from char.us.oracle.com (138.3.200.56) by
- SA9PR13CA0101.namprd13.prod.outlook.com (2603:10b6:806:24::16) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4308.12 via Frontend Transport; Tue, 6 Jul 2021 14:46:12 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 3025c928-428b-4e34-408e-08d9408cd2e6
-X-MS-TrafficTypeDiagnostic: BY5PR10MB4148:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BY5PR10MB41488CBFBBC87F5A0D8771B6891B9@BY5PR10MB4148.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: zF6soiZvqQ5qK3hqPmokbLbv7oSQfaV92o/5XjwtoXrBZWQFQPz+wW678QL4wTY5k5ZCfXWq5Lq8r4W+6DdO4dp4dxT8OB58Qh+3Gso3HkYUhPjLIE4B3WSMht+E6V+A++qEKz7lO+Ds8jc3+wCUe9nxeH8NXRt1e5eQQf4lv1u4r5rYwv+vRBuTDJbDeTolJnrd23RSyc9mRbqkBgaFHGOxk9ymj3WWeRQy5iPzm0N4KjQm5Lkwa22g394xGUcVc2U99x/DCRYK7HF/t3m+UbpBTQkqE6XV/IPx6WP2XFykVTYnOSnvXfJDdRq1839Pt/59hqSvHEqIyalZiSqlBNNkobvj01ky0rmuES6qv9YstFZUyoLeDdg2AF/pjXiMStTZXEWwgu9ZPSLUIqq9AOudfPABjkgIv8PuX4QyU/NVpy3H7nIkXVayYXsnBCWR6peYbPOhnkJzKXZRLAHu5znTwPFliuTJhcrz/7wVY2EV4Z1SbIz6cQUCv5ttLigzaKaAvQWAv0t2PsnxDoubqArLdRhhwwXGS5WtmNrWAR91QOwAnqK9cEq0MzipvpCbeV6qDNwSkbnGqyDCyIAQt4+Qdz+N3zQEKt29hNwn118pkmgo4V17rlN5f2aIyfkV2IQDgq+9HVmDEMAxSXy/ag2XjG18zq0IKJ/ddCL0H7ylKJVOQfi0Y8uhxTCv18JSiJ3hwKZVHt6KsTdU8FvNhw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR10MB2999.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(39860400002)(366004)(346002)(396003)(136003)(376002)(4326008)(26005)(52116002)(7696005)(956004)(478600001)(66476007)(7416002)(186003)(7406005)(7366002)(86362001)(6916009)(38350700002)(38100700002)(5660300002)(55016002)(8936002)(54906003)(2906002)(66556008)(8676002)(316002)(66946007)(6666004);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?ylmDwz4fIvOiYvZenj2A98Qc4waYmu0qu9/y10agl2MovOknW/kj9bS4dIKy?=
- =?us-ascii?Q?kzOMtO6hZE/AtHsmdBqyFsgdnfYcpE5Sp0BNocjxGTT0irDdAd9MNu+Zjg5s?=
- =?us-ascii?Q?J0nWMeE6ReYK5jYw8Q8488gHHxN805F8JpvsyzWk/9P4PlR9peIU/x2XDeRT?=
- =?us-ascii?Q?PElgi1zHnvjyncWax6mYAlgxusncGDEZHPkI3g9cqdrUxsK5T63iNXOjQeND?=
- =?us-ascii?Q?X2OH3l6sC1hjDvC2gxupEHJPgB0vQmdo7YDJOvSqs+glaIuqW+IfQxcXK6Or?=
- =?us-ascii?Q?sxQm1ieS8n1xc0ZQD+zAiOT0bg3+LTYaGiO3f3jPk+cEPzeQAIiZY/qTA2Vc?=
- =?us-ascii?Q?PHyzUMD+nar9xGaOTvtvmh0Td2Mfv35JASQr5NpY29dh7s4Klrcniy74BOf1?=
- =?us-ascii?Q?u7s2ppj7XsT4xUqSxQJKSPMAn9xnQfNKgVNl4D8BN0mXzQv9smLhlJhE7h66?=
- =?us-ascii?Q?fdIwcvJp3+Hb0GH+uMslBX4I3nYNSde9d+YKYY0zhlZ7xZ6QFgzYAr+35dSa?=
- =?us-ascii?Q?GwlxnQfMcV6TMtnShlFSmc4xoTkUgozMyB+fYab7X91e/t6CKtA0WeTZnW3A?=
- =?us-ascii?Q?MUp3YncCSSmEl+Bn2dBW+aR6GDLpZoqaaWivOlHmm0VLZjgb7B1CNsBw4zOg?=
- =?us-ascii?Q?YIPqDTMvrceomjZuZmPRNjkXE8m3bLNchfsW+4XaEmU34JHjrg1RMlUpaIAX?=
- =?us-ascii?Q?AjvmEiXWEhqwHfkvcJkooJGhfla+7D5wZUVA3Oqr4GHJbqSRB1HVViIVd8Pt?=
- =?us-ascii?Q?fhq96k43i7HKe/nLQZxvIBP9dACKZW6kqjrOBc4szQM9NeD28ER9cK7gFX/Z?=
- =?us-ascii?Q?wBj8f3Kd+InP9LraK+pVLaQkizpgNEBy5Khp8LNFwKx2QBsIDRRHe/ph3s6S?=
- =?us-ascii?Q?GGO+JAt6nz61QJ3A6IM+wjxwtQxJWPTxRPMyX5DvrHbN3Umq/yPviooWlcg0?=
- =?us-ascii?Q?3UyFGhYKnKEVLCItFWZVhMr9c9m1RKMmw/80PCQThGkW/KDxP44B0pgQe1wx?=
- =?us-ascii?Q?K0rDHqi80QRNtpL/WpPBJ9dS6rwPzgKNfuhmMlqZRfLmtwpqdIiVl7K5r5X5?=
- =?us-ascii?Q?N7gBvdec0XcBKzaxQi97BsNnG4mvBkgns6pdXToh+XpyLGUOF13XQBKuzElF?=
- =?us-ascii?Q?xHwGFixJJTfRqlAXZRkxIqOR3QWOGz7uPvEG2R+upn/90caFAztXOWhblXTS?=
- =?us-ascii?Q?PUb0BTERL55p1lxuNz7fKdZ9A7SckPqeT+pxjosxGWgt0KF6e/dp5rMZMTE1?=
- =?us-ascii?Q?gZ3mCx6mOReNtlBLTB+MxqKkf1CtyBgkdxWfhIONaPMpJa1i269Tg39PX6FK?=
- =?us-ascii?Q?WZoteRTQ6Xr9npwaCdc1oV3m?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3025c928-428b-4e34-408e-08d9408cd2e6
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR10MB2999.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jul 2021 14:46:23.0788 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: aWnBQz0Nm3vUrv9srYd4Kk1ov4KnDekN5v7MvGmwZCxRwUoX4n3GZhCUf/xMSE5l+zgBcq4SLUcaR4pDsl9LNA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR10MB4148
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=10037
- signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
- spamscore=0 phishscore=0
- adultscore=0 suspectscore=0 mlxscore=0 mlxlogscore=999 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104190000
- definitions=main-2107060068
-X-Proofpoint-GUID: EICPB_qXh3tYgTdDU7lDjxv4jJl8DKoT
-X-Proofpoint-ORIG-GUID: EICPB_qXh3tYgTdDU7lDjxv4jJl8DKoT
+In-Reply-To: <CAKMK7uFEZjp2_WBhtkVxSNQ-1WcBSr3NDotY0fjz0iLRw8Barw@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -160,59 +76,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jim Quinlan <james.quinlan@broadcom.com>, heikki.krogerus@linux.intel.com,
- linux-devicetree <devicetree@vger.kernel.org>, peterz@infradead.org,
- linux-pci@vger.kernel.org, dri-devel@lists.freedesktop.org,
- chris@chris-wilson.co.uk, grant.likely@arm.com, paulus@samba.org,
- Frank Rowand <frowand.list@gmail.com>, mingo@kernel.org,
- Jianxiong Gao <jxgao@google.com>, Stefano Stabellini <sstabellini@kernel.org>,
- Saravana Kannan <saravanak@google.com>, mpe@ellerman.id.au,
- "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>, xypron.glpk@gmx.de,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>, bskeggs@redhat.com,
- xen-devel@lists.xenproject.org, Thierry Reding <treding@nvidia.com>,
- matthew.auld@intel.com, Nicolas Boichat <drinkcat@chromium.org>,
- thomas.hellstrom@linux.intel.com, jgross@suse.com,
- Will Deacon <will@kernel.org>, intel-gfx@lists.freedesktop.org,
- Nathan Chancellor <nathan@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- rodrigo.vivi@intel.com, Bjorn Helgaas <bhelgaas@google.com>,
- Claire Chang <tientzu@chromium.org>, Dan Williams <dan.j.williams@intel.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- boris.ostrovsky@oracle.com, airlied@linux.ie, linuxppc-dev@lists.ozlabs.org,
- Randy Dunlap <rdunlap@infradead.org>, Qian Cai <quic_qiancai@quicinc.com>,
- lkml <linux-kernel@vger.kernel.org>,
- "list@263.net:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
- Greg KH <gregkh@linuxfoundation.org>, Tom Lendacky <thomas.lendacky@amd.com>,
- Robin Murphy <robin.murphy@arm.com>, bauerman@linux.ibm.com
+Cc: Gal Pressman <galpress@amazon.com>, sleybo@amazon.com,
+ linux-rdma <linux-rdma@vger.kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Oded Gabbay <ogabbay@kernel.org>,
+ "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Doug Ledford <dledford@redhat.com>, Christoph Hellwig <hch@lst.de>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Leon Romanovsky <leonro@nvidia.com>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 06, 2021 at 04:05:13PM +0200, Christoph Hellwig wrote:
-> On Tue, Jul 06, 2021 at 03:01:04PM +0100, Robin Murphy wrote:
-> > FWIW I was pondering the question of whether to do something along those 
-> > lines or just scrap the default assignment entirely, so since I hadn't got 
-> > round to saying that I've gone ahead and hacked up the alternative 
-> > (similarly untested) for comparison :)
-> >
-> > TBH I'm still not sure which one I prefer...
+On Tue, Jul 06, 2021 at 04:09:25PM +0200, Daniel Vetter wrote:
+> Anyway, for anything that works like a gpu accelerator, like 3d accel,
+> or parallel compute accel (aka gpgpu) or spatial compute accel (aka
+> NN/AI) or maybe even fpga accel most of the magic to use the hardware
+> is in this backend compiler, which translates from an IR into whatever
+> your accelerator consumes. That's the part we really care about for
+> modern accelerators because without that defacto the hardware is
+> useless. Generally these chips have full-blown, if special purpose
+> ISA, with register files, spilling, branches, loops and other control
+> flow (sometimes only execution masks on simpler hw).
+
+I don't know if I see it so clearly as you do - at the end of the day
+the user keys in the program in some proprietary (or open!) language
+and and wack of propritary magic transforms it to "make it work".
+
+There are many barriers that prevent someone without the secret
+knowledge from duplicating the end result of a working program. An
+accelerator ISA is certainly one example, but I wouldn't overly focus
+on it as the only blocker.
+
+Like you said below the NVIDIA GPU ISA seems known but the HW is still
+not really useful for other reasons.
+
+Habana seems to have gone the other way, the HW is fully useful but we
+don't have the ISA transformation and other details.
+
+Both cases seem to have ended up with something useless, and I have a
+hard time saying nouveau has more right to be in the kernel tree than
+Habana does.
+
+> > Honestly, I think GPU is approaching this backwards. Wayland should
+> > have been designed to prevent proprietary userspace stacks.
 > 
-> Claire did implement something like your suggestion originally, but
-> I don't really like it as it doesn't scale for adding multiple global
-> pools, e.g. for the 64-bit addressable one for the various encrypted
-> secure guest schemes.
+> That's not possible without some serious cans of worms though. Wayland
+> is a protocol, and you can't forbid people from implementing it.
+> Otherwise all the compatible open implementations of closed protocols
+> wouldn't be possible either.
 
-Couple of things:
- - I am not pushing to Linus the Claire's patchset until we have a
-   resolution on this. I hope you all agree that is a sensible way
-   forward as much as I hate doing that.
+Well, in many ways so is Linux, but nobody would seriously
+re-implement Linux just to produce a driver.
 
- - I like Robin's fix as it is simplest looking. Would love to see if it
-   does fix the problem.
+> So I'm not clear what you're suggesting here we should do different.
 
- - Christopher - we can always add multiple pools as the next milestone
-   and just focus on this feature getting tested extensively during this
-   release.
+Not enabling proprietary stacks as above would be a good start.
 
- - Would it be worth (for future or maybe in another tiny fix) to also add
-   a printk in swiotlb when we de-allocate the buffer so when someone looks
-   through the `dmesg` it becomes much easier to diagnose issues?
-
+Jason
