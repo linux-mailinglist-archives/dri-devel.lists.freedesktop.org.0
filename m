@@ -1,55 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 837893BDA22
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 17:26:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CC5E3BDA3A
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 17:31:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A35B6E4FF;
-	Tue,  6 Jul 2021 15:26:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E37B6E506;
+	Tue,  6 Jul 2021 15:31:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22d.google.com (mail-oi1-x22d.google.com
- [IPv6:2607:f8b0:4864:20::22d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7219D6E4FE;
- Tue,  6 Jul 2021 15:26:12 +0000 (UTC)
-Received: by mail-oi1-x22d.google.com with SMTP id r29so8533180oiw.13;
- Tue, 06 Jul 2021 08:26:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=w2eAq2G01Bet4muv8xBvSxbgi0B+md3//Y5qHP0O3G8=;
- b=b9vQOKl2dGzKP3tFq4e7Mx6iP4z3rPwm7RMfqSC1Bo6Y17H52+i/DT4dSBua051Iy3
- H/TADdyu93N2+ZsvinXhsgnXErofkUDyYr2CJxKg/cuI9/Z+eXOTzgKrikLtIj53H0SO
- OtSe+OarQC3/6BuLPyShQBuNtrFagVBGxIswNPPCijlpohn8KWQ32o2jfFkRT4K/Hpf5
- LJFEpRWZC4yrcwY3dT9dS87ANVskb933925ZaNhjcEgqzuJGZotBnlFQTAOpONwUSwcc
- OP7wrAeNFdODDY1DOdAceJvlj1gArJFmrn5cRrXR8+KACy6In853tUu9tGA1rovsBFaV
- uThA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=w2eAq2G01Bet4muv8xBvSxbgi0B+md3//Y5qHP0O3G8=;
- b=FmUaL98V6bf/JkbNJxTN8kbBOwQwmfryYbr/hPpKq20XovRc3ILM5cYtrnAYUlbgHb
- vXp0AB6UNvIR6c6DA6+8GohT+COiGie3abIJ+KGhU1FDxSNRcyf4dcJoyzUQ6wlsbAU/
- M+Xi9FW678B5Qh0yw99VQp+UayVAYIss0qIsvHQH3pNxXavUX9A0dR5k2Xj1zHYACpwZ
- jqrcWT1fGuyjVeiVghL7gll6jKKm2Sa0YE2KpuvLo8w+wjBt501qtShff7sSORCAJZhe
- /L+NyXaOv6zEZJr+YRyWuyM8fAUcA4cBFlmjKm+0Qg6iauTg4B9gMzZPUmKfPKY+AETR
- P12A==
-X-Gm-Message-State: AOAM533i1WevIju0x1iN00Cgjrl4ZKflOcH0/UH55oa9sYRKdOkBynuX
- 83vEGTbYU0484Cbbx8CULg0N5fYNIhtFgsTyoLc=
-X-Google-Smtp-Source: ABdhPJzwULEvfrF85bAMkeqO5Vtm349xcz5bNFcYDKxb2SxpX8XXeQVkPvFpiWm4BXrd0g0I7ALU+ZQCWnWhLUFWx3s=
-X-Received: by 2002:aca:f12:: with SMTP id 18mr14381235oip.123.1625585171669; 
- Tue, 06 Jul 2021 08:26:11 -0700 (PDT)
-MIME-Version: 1.0
-References: <a836cafa-86a9-3d72-1f02-f9f2d58ee127@amd.com>
- <20210702230455.31196-1-luben.tuikov@amd.com>
-In-Reply-To: <20210702230455.31196-1-luben.tuikov@amd.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 6 Jul 2021 11:25:59 -0400
-Message-ID: <CADnq5_MMc0b6Cy+A46oqa1Pdy=GFZjFmC8NqJK=rOV6B-Ba7aQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/amdgpu: Return error if no RAS
-To: Luben Tuikov <luben.tuikov@amd.com>
-Content-Type: text/plain; charset="UTF-8"
+Received: from m43-7.mailgun.net (unknown [69.72.43.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 688706E506
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Jul 2021 15:31:16 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1625585481; h=Message-Id: Date: Subject: Cc: To: From:
+ Sender; bh=1mcO67hemLr0DFEPPwQ5FKW1ObS3TcM9AHhhIEEK0h8=;
+ b=YFBPxyVkiEJ5Qdi69Qri6Xnqj7YXRvWoo98JonAmyIpbnwtUHmhJ/tp9CZ3TA5sQwQkyYyFN
+ /uvH4Xh4e6I8akQpUVkJOqHq2vPVSLdm+74Utw6Pb1DjUyJBrzh6hv1d0/h9Cka91Ru9RkBy
+ 7UGG3tNscaV6EdSt1nC0AUGvl7I=
+X-Mailgun-Sending-Ip: 69.72.43.7
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n01.prod.us-west-2.postgun.com with SMTP id
+ 60e477242a2a9a97614e2801 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 06 Jul 2021 15:30:44
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id B75ACC43145; Tue,  6 Jul 2021 15:30:44 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
+ SPF_FAIL, 
+ URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+Received: from khsieh-linux1.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: khsieh)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id B04E6C433F1;
+ Tue,  6 Jul 2021 15:30:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org B04E6C433F1
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=fail smtp.mailfrom=khsieh@codeaurora.org
+From: Kuogee Hsieh <khsieh@codeaurora.org>
+To: robdclark@gmail.com, sean@poorly.run, swboyd@chromium.org, lyude@redhat.com
+Subject: [PATCH v3] drm/dp_mst: Fix return code on sideband message failure
+Date: Tue,  6 Jul 2021 08:30:34 -0700
+Message-Id: <1625585434-9562-1-git-send-email-khsieh@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,179 +64,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Chen, Guchun" <guchun.chen@amd.com>, Dave Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, xinhui pan <Xinhui.Pan@amd.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>, Nirmoy Das <nirmoy.das@amd.com>,
- "Stanley.Yang" <Stanley.Yang@amd.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Tom Rix <trix@redhat.com>, Alexander Deucher <Alexander.Deucher@amd.com>,
- John Clements <john.clements@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Dennis Li <Dennis.Li@amd.com>, Hawking Zhang <Hawking.Zhang@amd.com>
+Cc: rnayak@codeaurora.org, tzimmermann@suse.de, airlied@linux.ie,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ abhinavk@codeaurora.org, khsieh@codeaurora.org, aravindh@codeaurora.org,
+ freedreno@lists.freedesktop.org, rsubbia@codeaurora.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jul 2, 2021 at 7:05 PM Luben Tuikov <luben.tuikov@amd.com> wrote:
->
-> In amdgpu_ras_query_error_count() return an error
-> if the device doesn't support RAS. This prevents
-> that function from having to always set the values
-> of the integer pointers (if set), and thus
-> prevents function side effects--always to have to
-> set values of integers if integer pointers set,
-> regardless of whether RAS is supported or
-> not--with this change this side effect is
-> mitigated.
->
-> Also, if no pointers are set, don't count, since
-> we've no way of reporting the counts.
->
-> Also, give this function a kernel-doc.
->
-> Cc: Alexander Deucher <Alexander.Deucher@amd.com>
-> Cc: John Clements <john.clements@amd.com>
-> Cc: Hawking Zhang <Hawking.Zhang@amd.com>
-> Reported-by: Tom Rix <trix@redhat.com>
-> Fixes: a46751fbcde505 ("drm/amdgpu: Fix RAS function interface")
-> Signed-off-by: Luben Tuikov <luben.tuikov@amd.com>
-> ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c | 49 ++++++++++++++++++-------
->  drivers/gpu/drm/amd/amdgpu/amdgpu_ras.h |  6 +--
->  2 files changed, 38 insertions(+), 17 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
-> index c6ae63893dbdb2..ed698b2be79023 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
-> @@ -813,7 +813,7 @@ static int amdgpu_ras_enable_all_features(struct amdgpu_device *adev,
->
->  /* query/inject/cure begin */
->  int amdgpu_ras_query_error_status(struct amdgpu_device *adev,
-> -       struct ras_query_if *info)
-> +                                 struct ras_query_if *info)
->  {
->         struct ras_manager *obj = amdgpu_ras_find_obj(adev, &info->head);
->         struct ras_err_data err_data = {0, 0, 0, NULL};
-> @@ -1047,17 +1047,32 @@ int amdgpu_ras_error_inject(struct amdgpu_device *adev,
->         return ret;
->  }
->
-> -/* get the total error counts on all IPs */
-> -void amdgpu_ras_query_error_count(struct amdgpu_device *adev,
-> -                                 unsigned long *ce_count,
-> -                                 unsigned long *ue_count)
-> +/**
-> + * amdgpu_ras_query_error_count -- Get error counts of all IPs
-> + * adev: pointer to AMD GPU device
-> + * ce_count: pointer to an integer to be set to the count of correctible errors.
-> + * ue_count: pointer to an integer to be set to the count of uncorrectible
-> + * errors.
-> + *
-> + * If set, @ce_count or @ue_count, count and return the corresponding
-> + * error counts in those integer pointers. Return 0 if the device
-> + * supports RAS. Return -EINVAL if the device doesn't support RAS.
-> + */
-> +int amdgpu_ras_query_error_count(struct amdgpu_device *adev,
-> +                                unsigned long *ce_count,
-> +                                unsigned long *ue_count)
->  {
->         struct amdgpu_ras *con = amdgpu_ras_get_context(adev);
->         struct ras_manager *obj;
->         unsigned long ce, ue;
->
->         if (!adev->ras_enabled || !con)
-> -               return;
-> +               return -EINVAL;
+From: Rajkumar Subbiah <rsubbia@codeaurora.org>
 
-Maybe return -ENOTSUPP or -ENODEV here or something like that since
-the device doesn't support RAS in that case?  Other than that, looks
-good to me.
-Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
+Commit 2f015ec6eab6 ("drm/dp_mst: Add sideband down request tracing +
+selftests") added some debug code for sideband message tracing. But
+it seems to have unintentionally changed the behavior on sideband message
+failure. It catches and returns failure only if DRM_UT_DP is enabled.
+Otherwise it ignores the error code and returns success. So on an MST
+unplug, the caller is unaware that the clear payload message failed and
+ends up waiting for 4 seconds for the response. Fixes the issue by
+returning the proper error code.
 
-Alex
+Changes in V2:
+-- Revise commit text as review comment
+-- add Fixes text
 
+Changes in V3:
+-- remove "unlikely" optimization
 
-> +
-> +       /* Don't count since no reporting.
-> +        */
-> +       if (!ce_count && !ue_count)
-> +               return 0;
->
->         ce = 0;
->         ue = 0;
-> @@ -1065,9 +1080,11 @@ void amdgpu_ras_query_error_count(struct amdgpu_device *adev,
->                 struct ras_query_if info = {
->                         .head = obj->head,
->                 };
-> +               int res;
->
-> -               if (amdgpu_ras_query_error_status(adev, &info))
-> -                       return;
-> +               res = amdgpu_ras_query_error_status(adev, &info);
-> +               if (res)
-> +                       return res;
->
->                 ce += info.ce_count;
->                 ue += info.ue_count;
-> @@ -1078,6 +1095,8 @@ void amdgpu_ras_query_error_count(struct amdgpu_device *adev,
->
->         if (ue_count)
->                 *ue_count = ue;
-> +
-> +       return 0;
->  }
->  /* query/inject/cure end */
->
-> @@ -2145,9 +2164,10 @@ static void amdgpu_ras_counte_dw(struct work_struct *work)
->
->         /* Cache new values.
->          */
-> -       amdgpu_ras_query_error_count(adev, &ce_count, &ue_count);
-> -       atomic_set(&con->ras_ce_count, ce_count);
-> -       atomic_set(&con->ras_ue_count, ue_count);
-> +       if (amdgpu_ras_query_error_count(adev, &ce_count, &ue_count) == 0) {
-> +               atomic_set(&con->ras_ce_count, ce_count);
-> +               atomic_set(&con->ras_ue_count, ue_count);
-> +       }
->
->         pm_runtime_mark_last_busy(dev->dev);
->  Out:
-> @@ -2320,9 +2340,10 @@ int amdgpu_ras_late_init(struct amdgpu_device *adev,
->
->         /* Those are the cached values at init.
->          */
-> -       amdgpu_ras_query_error_count(adev, &ce_count, &ue_count);
-> -       atomic_set(&con->ras_ce_count, ce_count);
-> -       atomic_set(&con->ras_ue_count, ue_count);
-> +       if (amdgpu_ras_query_error_count(adev, &ce_count, &ue_count) == 0) {
-> +               atomic_set(&con->ras_ce_count, ce_count);
-> +               atomic_set(&con->ras_ue_count, ue_count);
-> +       }
->
->         return 0;
->  cleanup:
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.h
-> index 283afd791db107..4d9c63f2f37718 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.h
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.h
-> @@ -491,9 +491,9 @@ int amdgpu_ras_request_reset_on_boot(struct amdgpu_device *adev,
->  void amdgpu_ras_resume(struct amdgpu_device *adev);
->  void amdgpu_ras_suspend(struct amdgpu_device *adev);
->
-> -void amdgpu_ras_query_error_count(struct amdgpu_device *adev,
-> -                                 unsigned long *ce_count,
-> -                                 unsigned long *ue_count);
-> +int amdgpu_ras_query_error_count(struct amdgpu_device *adev,
-> +                                unsigned long *ce_count,
-> +                                unsigned long *ue_count);
->
->  /* error handling functions */
->  int amdgpu_ras_add_bad_pages(struct amdgpu_device *adev,
-> --
-> 2.32.0
->
-> _______________________________________________
-> amd-gfx mailing list
-> amd-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
+Fixes: 2f015ec6eab6 ("drm/dp_mst: Add sideband down request tracing + selftests")
+
+Signed-off-by: Rajkumar Subbiah <rsubbia@codeaurora.org>
+Signed-off-by: Kuogee Hsieh <khsieh@codeaurora.org>
+
+Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+---
+ drivers/gpu/drm/drm_dp_mst_topology.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_dp_mst_topology.c
+index 1590144..df91110 100644
+--- a/drivers/gpu/drm/drm_dp_mst_topology.c
++++ b/drivers/gpu/drm/drm_dp_mst_topology.c
+@@ -2887,11 +2887,13 @@ static int process_single_tx_qlock(struct drm_dp_mst_topology_mgr *mgr,
+ 	idx += tosend + 1;
+ 
+ 	ret = drm_dp_send_sideband_msg(mgr, up, chunk, idx);
+-	if (unlikely(ret) && drm_debug_enabled(DRM_UT_DP)) {
+-		struct drm_printer p = drm_debug_printer(DBG_PREFIX);
++	if (ret) {
++		if (drm_debug_enabled(DRM_UT_DP)) {
++			struct drm_printer p = drm_debug_printer(DBG_PREFIX);
+ 
+-		drm_printf(&p, "sideband msg failed to send\n");
+-		drm_dp_mst_dump_sideband_msg_tx(&p, txmsg);
++			drm_printf(&p, "sideband msg failed to send\n");
++			drm_dp_mst_dump_sideband_msg_tx(&p, txmsg);
++		}
+ 		return ret;
+ 	}
+ 
+-- 
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
+
