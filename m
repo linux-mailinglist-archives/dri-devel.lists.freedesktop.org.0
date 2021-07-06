@@ -1,36 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67DDD3BCDF5
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 13:22:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 318083BCDF6
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 13:22:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4EBBF6E3E3;
-	Tue,  6 Jul 2021 11:22:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 44FCB6E3E5;
+	Tue,  6 Jul 2021 11:22:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B8376E3DB;
- Tue,  6 Jul 2021 11:22:18 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 2CE8661C50;
- Tue,  6 Jul 2021 11:22:17 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 434786E3E5
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Jul 2021 11:22:27 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3F20561CCB;
+ Tue,  6 Jul 2021 11:22:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1625570538;
- bh=AgYzttsoWH9Cupv3Q95wLVE+BPAaG9v5QCVCdFfbM3A=;
+ s=k20201202; t=1625570547;
+ bh=UTqXKaW6JbYoJqpVG9EU8rB4wX9Lk/dAbhbGsvYNTr0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ZZeA0hyrQUR6ruUDE3IxOgqMnY6RLDKOd+cVFBvUIQkWJ8Ii56+0FZwzv2UgIEXGv
- Ob8NLHWYvOW3ZRdW05VdNU8h7oZMv3IJSqbDfSwv35xwKlEEBnXTx0kIV/tYnAXwVH
- 7DcsdI/KGajNSaUNKXps6wPTWglFsmWwL8yqH1sNT6WOVr4z3FSKPwYJUlmQ6NJjoG
- IOGSLpGDdYPOk3XpkCQGucrAg2PX2TYdsiZyQaytF7LqqogsScDqz6xHgXKDaJwn8R
- 0V7Ld6cEHKlqGEhkruhSxOUT3VkQGKpTt4Uxcz8jiWD/Z3jrBOZuICpxS/DZzXCNMw
- 2xoFZOpDJuL8A==
+ b=OJgCyJvE+BfGl3gwmEHluFs7t4IRt5djLdQMeiLDWLWr5RD3LpNeatBkJze9D2qxH
+ irhSHAl8q7GHeZKOUUXkK3q4RchjcA4UXCvP3JvhKY/h+G1t+ecoCF0EVykSaUDhv8
+ 0lgJHh+JS5NKK+eB8K4W9+icCUIxgbZ4sB5CnPWjy3OcW5xYke5RNcrKmXA06lHeMV
+ hJGUKpUbju0nG4Gtu5s4f5pJnM/MHWTFdErOirZp1/9YFOwu9+psWt1wtAeSuQjHmE
+ EZOArg9M4MHs2At2r+36xMkV/BT6QuK6xYYfZVyvnsV13MhLLeSUs2wi+7v6zXzr22
+ Gzk4G5yddQ3kg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 010/137] drm/amd/display: fix use_max_lb flag for
- 420 pixel formats
-Date: Tue,  6 Jul 2021 07:19:56 -0400
-Message-Id: <20210706112203.2062605-10-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 017/137] drm/mediatek: Fix PM reference leak in
+ mtk_crtc_ddp_hw_init()
+Date: Tue,  6 Jul 2021 07:20:03 -0400
+Message-Id: <20210706112203.2062605-17-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210706112203.2062605-1-sashal@kernel.org>
 References: <20210706112203.2062605-1-sashal@kernel.org>
@@ -50,51 +50,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stylon Wang <stylon.wang@amd.com>, Sasha Levin <sashal@kernel.org>,
- amd-gfx@lists.freedesktop.org, Daniel Wheeler <daniel.wheeler@amd.com>,
- Dmytro Laktyushkin <Dmytro.Laktyushkin@amd.com>,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>
+Cc: Sasha Levin <sashal@kernel.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ dri-devel@lists.freedesktop.org, Hulk Robot <hulkci@huawei.com>,
+ linux-mediatek@lists.infradead.org, Wang Li <wangli74@huawei.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dmytro Laktyushkin <Dmytro.Laktyushkin@amd.com>
+From: Wang Li <wangli74@huawei.com>
 
-[ Upstream commit 8809a7a4afe90ad9ffb42f72154d27e7c47551ae ]
+[ Upstream commit 69777e6ca396f0a7e1baff40fcad4a9d3d445b7a ]
 
-Right now the flag simply selects memory config 0 when flag is true
-however 420 modes benefit more from memory config 3.
+pm_runtime_get_sync will increment pm usage counter even it failed.
+Forgetting to putting operation will result in reference leak here.
+Fix it by replacing it with pm_runtime_resume_and_get to keep usage
+counter balanced.
 
-Signed-off-by: Dmytro Laktyushkin <Dmytro.Laktyushkin@amd.com>
-Reviewed-by: Aric Cyr <Aric.Cyr@amd.com>
-Acked-by: Stylon Wang <stylon.wang@amd.com>
-Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Signed-off-by: Wang Li <wangli74@huawei.com>
+Signed-off-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/dcn10/dcn10_dpp_dscl.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_dpp_dscl.c b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_dpp_dscl.c
-index fce37c527a0b..8bb5912d837d 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_dpp_dscl.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_dpp_dscl.c
-@@ -482,10 +482,13 @@ static enum lb_memory_config dpp1_dscl_find_lb_memory_config(struct dcn10_dpp *d
- 	int vtaps_c = scl_data->taps.v_taps_c;
- 	int ceil_vratio = dc_fixpt_ceil(scl_data->ratios.vert);
- 	int ceil_vratio_c = dc_fixpt_ceil(scl_data->ratios.vert_c);
--	enum lb_memory_config mem_cfg = LB_MEMORY_CONFIG_0;
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+index ac038572164d..dfd5ed15a7f4 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
++++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+@@ -274,7 +274,7 @@ static int mtk_crtc_ddp_hw_init(struct mtk_drm_crtc *mtk_crtc)
+ 		drm_connector_list_iter_end(&conn_iter);
+ 	}
  
--	if (dpp->base.ctx->dc->debug.use_max_lb)
--		return mem_cfg;
-+	if (dpp->base.ctx->dc->debug.use_max_lb) {
-+		if (scl_data->format == PIXEL_FORMAT_420BPP8
-+				|| scl_data->format == PIXEL_FORMAT_420BPP10)
-+			return LB_MEMORY_CONFIG_3;
-+		return LB_MEMORY_CONFIG_0;
-+	}
- 
- 	dpp->base.caps->dscl_calc_lb_num_partitions(
- 			scl_data, LB_MEMORY_CONFIG_1, &num_part_y, &num_part_c);
+-	ret = pm_runtime_get_sync(crtc->dev->dev);
++	ret = pm_runtime_resume_and_get(crtc->dev->dev);
+ 	if (ret < 0) {
+ 		DRM_ERROR("Failed to enable power domain: %d\n", ret);
+ 		return ret;
 -- 
 2.30.2
 
