@@ -1,36 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E86173BCBE1
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 13:15:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EC603BCBEE
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 13:15:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA5106E0CD;
-	Tue,  6 Jul 2021 11:15:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3DDB86E0D2;
+	Tue,  6 Jul 2021 11:15:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DDC806E0AA;
- Tue,  6 Jul 2021 11:15:42 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E0A9A61C28;
- Tue,  6 Jul 2021 11:15:41 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1AECB6E0CF;
+ Tue,  6 Jul 2021 11:15:44 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3C22061A14;
+ Tue,  6 Jul 2021 11:15:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1625570142;
- bh=MO40KtTCzKgw6sjeqzbXc98VsztHqIQAJjBSUAiLKnc=;
+ s=k20201202; t=1625570143;
+ bh=co4ViAOkLJgTbOD/bShjc5Cfzwin0PgwlTQtXi3wqAk=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=RD+7Kv6kH/l0O7qAPNY5I2bbcx2Brxw5dvkwnVefshVdnYKhmNylk4mBE5n5V2tTL
- TsIR/+YFhlmRTc2bKdftll13IsDFc4P2A5DqBpY+yefnS3+UUMUR6Taxw0A00azGqx
- 9JQBlNP6l5lOVoQ9ZXAIRP7JJn+ecqiopq40ukM9szNstOk73bu2yiFWWBz1aW8SAc
- VFJ7uKJj9qSfL+XvbsXi9lZXq1KuSkwVpSDc2fI9mCAc8eldohAufG+1VjYaJZm0XX
- GQNJSS6cxTGIhZzXe067nPj4ytH3u+gTS1O/i+TxmcEZXvhyUw9apmfFDEquGuDTbW
- 4VqKMkUKojGVA==
+ b=BGhBJe5iC+A/EeGQvdeuD3ldn7FcQIm7X1Y8PFq8zz8KEbcCRuyKB2uO99KEvZwtq
+ NmXolCL0KlEKDwekCSTsnaueYLt9AudlfX5BeMoeOC1iey9t9HtdnRMALBuDyIT7PU
+ xcanBjFAJEmAaRfXzXGxYi5byTYoPAz8CZ9ySMXs4mUV7M/RhaQcqgE1UauPap/gZ2
+ ZAsMgk/UuAjJvpJGMMap52eEu9+7KwV2cXq83i5YPd1vj4ev3Hx1OcMNhA6zZMBgRL
+ NG1KFiUqAUuBC71HSfFDZrWKG9ctuJ+5uA+8NjALssc8CpnLw/CRSB+LF3xA/sDu+s
+ PGXJsO8T3FMtA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.13 067/189] drm/amdgpu: fix sdma firmware version
- error in sriov
-Date: Tue,  6 Jul 2021 07:12:07 -0400
-Message-Id: <20210706111409.2058071-67-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.13 068/189] drm/amd/display: Avoid HDCP over-read
+ and corruption
+Date: Tue,  6 Jul 2021 07:12:08 -0400
+Message-Id: <20210706111409.2058071-68-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210706111409.2058071-1-sashal@kernel.org>
 References: <20210706111409.2058071-1-sashal@kernel.org>
@@ -50,51 +50,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Kevin Wang <kevin1.wang@amd.com>,
- dri-devel@lists.freedesktop.org, "Stanley . Yang" <Stanley.Yang@amd.com>,
- amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
+ dri-devel@lists.freedesktop.org, Kees Cook <keescook@chromium.org>,
+ amd-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Kevin Wang <kevin1.wang@amd.com>
+From: Kees Cook <keescook@chromium.org>
 
-[ Upstream commit 2b8f731849800e3948763ccaff31cceac526789b ]
+[ Upstream commit 06888d571b513cbfc0b41949948def6cb81021b2 ]
 
-Re-adjust the function return order to avoid empty sdma version in the
-sriov environment. (read amdgpu_firmware_info)
+Instead of reading the desired 5 bytes of the actual target field,
+the code was reading 8. This could result in a corrupted value if the
+trailing 3 bytes were non-zero, so instead use an appropriately sized
+and zero-initialized bounce buffer, and read only 5 bytes before casting
+to u64.
 
-Signed-off-by: Kevin Wang <kevin1.wang@amd.com>
-Reviewed-by: Stanley.Yang <Stanley.Yang@amd.com>
+Signed-off-by: Kees Cook <keescook@chromium.org>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/sdma_v5_2.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/amd/display/modules/hdcp/hdcp1_execution.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/sdma_v5_2.c b/drivers/gpu/drm/amd/amdgpu/sdma_v5_2.c
-index 240596b25fe4..9ab23947a151 100644
---- a/drivers/gpu/drm/amd/amdgpu/sdma_v5_2.c
-+++ b/drivers/gpu/drm/amd/amdgpu/sdma_v5_2.c
-@@ -145,9 +145,6 @@ static int sdma_v5_2_init_microcode(struct amdgpu_device *adev)
- 	struct amdgpu_firmware_info *info = NULL;
- 	const struct common_firmware_header *header = NULL;
+diff --git a/drivers/gpu/drm/amd/display/modules/hdcp/hdcp1_execution.c b/drivers/gpu/drm/amd/display/modules/hdcp/hdcp1_execution.c
+index 2cbd931363bd..6d26d9c63ab2 100644
+--- a/drivers/gpu/drm/amd/display/modules/hdcp/hdcp1_execution.c
++++ b/drivers/gpu/drm/amd/display/modules/hdcp/hdcp1_execution.c
+@@ -29,8 +29,10 @@ static inline enum mod_hdcp_status validate_bksv(struct mod_hdcp *hdcp)
+ {
+ 	uint64_t n = 0;
+ 	uint8_t count = 0;
++	u8 bksv[sizeof(n)] = { };
  
--	if (amdgpu_sriov_vf(adev) && (adev->asic_type == CHIP_SIENNA_CICHLID))
--		return 0;
--
- 	DRM_DEBUG("\n");
+-	memcpy(&n, hdcp->auth.msg.hdcp1.bksv, sizeof(uint64_t));
++	memcpy(bksv, hdcp->auth.msg.hdcp1.bksv, sizeof(hdcp->auth.msg.hdcp1.bksv));
++	n = *(uint64_t *)bksv;
  
- 	switch (adev->asic_type) {
-@@ -182,6 +179,9 @@ static int sdma_v5_2_init_microcode(struct amdgpu_device *adev)
- 		       (void *)&adev->sdma.instance[0],
- 		       sizeof(struct amdgpu_sdma_instance));
- 
-+	if (amdgpu_sriov_vf(adev) && (adev->asic_type == CHIP_SIENNA_CICHLID))
-+		return 0;
-+
- 	DRM_DEBUG("psp_load == '%s'\n",
- 		  adev->firmware.load_type == AMDGPU_FW_LOAD_PSP ? "true" : "false");
- 
+ 	while (n) {
+ 		count++;
 -- 
 2.30.2
 
