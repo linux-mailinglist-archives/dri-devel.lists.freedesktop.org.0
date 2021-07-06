@@ -2,52 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E5913BC768
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 09:44:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C40783BC76B
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 09:45:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CCD00899FF;
-	Tue,  6 Jul 2021 07:44:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E2FED89A59;
+	Tue,  6 Jul 2021 07:45:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A2493899FF
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Jul 2021 07:44:12 +0000 (UTC)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 09F7A89A59
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Jul 2021 07:45:48 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 5C5A81FF25;
- Tue,  6 Jul 2021 07:44:11 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id B665E2267D;
+ Tue,  6 Jul 2021 07:45:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1625557451; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1625557546; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=VKVOGHuEAlOsw7PB8kP5M02bNzlLbAmjcNjAcjaCAUE=;
- b=Ah4rdhnkyd8mVv1PXZUbhXuglU7dyoxT/vMJQvSsrxOyIaAQ5uVQuQp3dzycYKunp7N5tO
- Pf/uEb9sFDwoEBO5HpDtY6dEjl3ZlkUtJ2ivDHnl1OG58uzbpjJ2FeyHiGifmsCkWWciT9
- eNzSRINdVHeGVUEVXfvlWPJc9txQ9p0=
+ bh=pCqMVKA356077QUwAXe3E4qvn7wgqSHiy8HMHzQz0T0=;
+ b=q+Lxpt/SxL8MFfF1KYOwBtoRDOIFgYjczMym86b026UvEuApB5AFP2Gwn9kHa0JWn6Ss8F
+ Sh0rY22NDAjJfPqG4d7lMA4Wu6usism+zC9BZOt3G2p/IBjsUt7ILgnanL0ug+IBlVfJdj
+ P5fWzJK33p0h+xbp0Nn1LLMgbF0NuxA=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1625557451;
+ s=susede2_ed25519; t=1625557546;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=VKVOGHuEAlOsw7PB8kP5M02bNzlLbAmjcNjAcjaCAUE=;
- b=M/ex3Urk71faGuM90e6Hmzb0wv14ruPHFXUhisXEI+PSezykeMvvqTitzTfuEn/THHyuPD
- 7npVUsvKxSck9XDw==
+ bh=pCqMVKA356077QUwAXe3E4qvn7wgqSHiy8HMHzQz0T0=;
+ b=7XqPZYt+DWmuEPxiye3mfCE0fx7A5MJhwv3JEEkHy1VdzKZsaGBEZD9WG7W2CVMiNujO/I
+ 6Q6KpiHy1Pa2SyDw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3131C13A42;
- Tue,  6 Jul 2021 07:44:11 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7129E13A42;
+ Tue,  6 Jul 2021 07:45:46 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 8UPVCssJ5GD/bAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Tue, 06 Jul 2021 07:44:11 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id +P+fGioK5GCnbQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Tue, 06 Jul 2021 07:45:46 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
-To: paul@crapouillou.net,
-	airlied@linux.ie,
-	daniel@ffwll.ch
-Subject: [PATCH] drm/ingenic: Convert to Linux IRQ interfaces
-Date: Tue,  6 Jul 2021 09:44:09 +0200
-Message-Id: <20210706074409.8664-1-tzimmermann@suse.de>
+To: narmstrong@baylibre.com, airlied@linux.ie, daniel@ffwll.ch,
+ khilman@baylibre.com, jbrunet@baylibre.com,
+ martin.blumenstingl@googlemail.com
+Subject: [PATCH] drm/meson: Convert to Linux IRQ interfaces
+Date: Tue,  6 Jul 2021 09:45:45 +0200
+Message-Id: <20210706074545.8763-1-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -63,8 +63,8 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, linux-mips@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -74,60 +74,58 @@ don't benefit from using it.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 13 +++++++------
- 1 file changed, 7 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/meson/meson_drv.c | 10 +++-------
+ 1 file changed, 3 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-index c296472164d9..a09b7da21b53 100644
---- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-+++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-@@ -33,7 +33,6 @@
- #include <drm/drm_fourcc.h>
- #include <drm/drm_gem_atomic_helper.h>
+diff --git a/drivers/gpu/drm/meson/meson_drv.c b/drivers/gpu/drm/meson/meson_drv.c
+index 3d0ccc7eef1b..bc0d60df04ae 100644
+--- a/drivers/gpu/drm/meson/meson_drv.c
++++ b/drivers/gpu/drm/meson/meson_drv.c
+@@ -21,7 +21,6 @@
+ #include <drm/drm_fb_helper.h>
+ #include <drm/drm_gem_cma_helper.h>
  #include <drm/drm_gem_framebuffer_helper.h>
 -#include <drm/drm_irq.h>
- #include <drm/drm_managed.h>
- #include <drm/drm_of.h>
- #include <drm/drm_panel.h>
-@@ -799,8 +798,6 @@ static const struct drm_driver ingenic_drm_driver_data = {
- 	.fops			= &ingenic_drm_fops,
- 	.gem_create_object	= ingenic_drm_gem_create_object,
- 	DRM_GEM_CMA_DRIVER_OPS,
+ #include <drm/drm_modeset_helper_vtables.h>
+ #include <drm/drm_probe_helper.h>
+ #include <drm/drm_vblank.h>
+@@ -94,9 +93,6 @@ DEFINE_DRM_GEM_CMA_FOPS(fops);
+ static const struct drm_driver meson_driver = {
+ 	.driver_features	= DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
+ 
+-	/* IRQ */
+-	.irq_handler		= meson_irq,
 -
--	.irq_handler		= ingenic_drm_irq_handler,
- };
+ 	/* CMA Ops */
+ 	DRM_GEM_CMA_DRIVER_OPS_WITH_DUMB_CREATE(meson_dumb_create),
  
- static const struct drm_plane_funcs ingenic_drm_primary_plane_funcs = {
-@@ -1098,7 +1095,7 @@ static int ingenic_drm_bind(struct device *dev, bool has_components)
- 		encoder->possible_clones = clone_mask;
- 	}
+@@ -335,7 +331,7 @@ static int meson_drv_bind_master(struct device *dev, bool has_components)
+ 	if (ret)
+ 		goto free_drm;
  
--	ret = drm_irq_install(drm, irq);
-+	ret = request_irq(irq, ingenic_drm_irq_handler, 0, drm->driver->name, drm);
- 	if (ret) {
- 		dev_err(dev, "Unable to install IRQ handler\n");
- 		return ret;
-@@ -1192,14 +1189,18 @@ static void ingenic_drm_unbind(struct device *dev)
- {
- 	struct ingenic_drm *priv = dev_get_drvdata(dev);
- 	struct clk *parent_clk = clk_get_parent(priv->pix_clk);
-+	struct drm_device *drm = &priv->drm;
-+	struct platform_device *pdev = to_platform_device(drm->dev);
-+
-+	free_irq(platform_get_irq(pdev, 0), drm);
+-	ret = drm_irq_install(drm, priv->vsync_irq);
++	ret = request_irq(priv->vsync_irq, meson_irq, 0, drm->driver->name, drm);
+ 	if (ret)
+ 		goto free_drm;
  
- 	clk_notifier_unregister(parent_clk, &priv->clock_nb);
- 	if (priv->lcd_clk)
- 		clk_disable_unprepare(priv->lcd_clk);
- 	clk_disable_unprepare(priv->pix_clk);
+@@ -354,7 +350,7 @@ static int meson_drv_bind_master(struct device *dev, bool has_components)
+ 	return 0;
  
--	drm_dev_unregister(&priv->drm);
--	drm_atomic_helper_shutdown(&priv->drm);
-+	drm_dev_unregister(drm);
-+	drm_atomic_helper_shutdown(drm);
- }
+ uninstall_irq:
+-	drm_irq_uninstall(drm);
++	free_irq(priv->vsync_irq, drm);
+ free_drm:
+ 	drm_dev_put(drm);
  
- static const struct component_master_ops ingenic_master_ops = {
+@@ -382,7 +378,7 @@ static void meson_drv_unbind(struct device *dev)
+ 	drm_kms_helper_poll_fini(drm);
+ 	drm_atomic_helper_shutdown(drm);
+ 	component_unbind_all(dev, drm);
+-	drm_irq_uninstall(drm);
++	free_irq(priv->vsync_irq, drm);
+ 	drm_dev_put(drm);
+ 
+ 	if (priv->afbcd.ops) {
 -- 
 2.32.0
 
