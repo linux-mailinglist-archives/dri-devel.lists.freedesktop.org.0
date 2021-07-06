@@ -1,56 +1,183 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64E8A3BCA9B
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 12:47:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 448BD3BCAFC
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 12:53:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 66B7F89EFF;
-	Tue,  6 Jul 2021 10:47:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 96A6589BA1;
+	Tue,  6 Jul 2021 10:53:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com
- [IPv6:2607:f8b0:4864:20::334])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 550A089F01
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Jul 2021 10:47:26 +0000 (UTC)
-Received: by mail-ot1-x334.google.com with SMTP id
- n99-20020a9d206c0000b029045d4f996e62so21149396ota.4
- for <dri-devel@lists.freedesktop.org>; Tue, 06 Jul 2021 03:47:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=lv6Ntr7D81KS4AR+KaAWnlnh7V6npNorrES+y/On2Rg=;
- b=Q5HCTBbO9JpiY/l2YZJE7brhEw6G3QKvqcOdgPepaHpXhiMzqXKMNYiaCIJqCDELcL
- J9c3MTn//UEFCFwLMYMoBYs9K9SrOD56FbpPHV9BAZ0dh7HVLOupbFKoGro+T1YXQQ+4
- CgCPEPzG5KFeIFt+Rq1AqtMmG87oCEeWSc+JU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=lv6Ntr7D81KS4AR+KaAWnlnh7V6npNorrES+y/On2Rg=;
- b=snb8dXwSOAOloenRMH79xeWzr9n0x04klxX2PdnFbeY11WOZDv4rgZVvX86z8em3vP
- t3Kqm3blslI1CJXzP7VT08f7UUZRnU4i4NaxCRKz61vA2LNxCCDIhYxDPOG2qNBHFPnK
- 1mKfIpsKvj/rgPXlE+W53ZG5SFjyQ7SjVJDKnm3jh0Sf5rV0i+1eFAVRcZo73D1bXIZG
- 9t/e3DGhrUyvyeDA0vq2BYk16LCzyAu1a1ki+P9sHIRO9kKz3gwWcxdUNrxsCuzsJtGh
- maqz/8/44j3I+6VR6PhNrmlayiC6addK8I0u3vwxkJkgo+3GcmN5rzTpiwkTYLTKqOj7
- YWTg==
-X-Gm-Message-State: AOAM530FEOhHQmM9DDxk1EPrOw9HvpbxWGyQd0u82z4nmrDvCHZqHjgC
- rGnNDdoru6SJwTuAL9Lr22jq9BFuYJsoLsAP70n71A==
-X-Google-Smtp-Source: ABdhPJzBiSZ9hh6t5IIo1KYEgABxRYyArfbO6EfkrDV7S7acAoT77yDKaO84/hQnSb2f1fjvsaWzwR0w30BWb4pZTuw=
-X-Received: by 2002:a05:6830:2366:: with SMTP id
- r6mr14362057oth.188.1625568445595; 
- Tue, 06 Jul 2021 03:47:25 -0700 (PDT)
+Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.73])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 760FA89BA1
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Jul 2021 10:53:25 +0000 (UTC)
+Received: from [192.168.1.107] ([37.4.249.97]) by mrelayeu.kundenserver.de
+ (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis) id
+ 1Mf0Jg-1lYnjJ2P18-00gcNW; Tue, 06 Jul 2021 12:48:07 +0200
+Subject: Re: [PATCH RFC] drm/vc4: hdmi: Fix connector detect logic
+To: Maxime Ripard <maxime@cerno.tech>
+References: <1625520994-11065-1-git-send-email-stefan.wahren@i2se.com>
+ <20210706095807.abx3v4wkc7ymwhjx@gilmour>
+From: Stefan Wahren <stefan.wahren@i2se.com>
+Autocrypt: addr=stefan.wahren@i2se.com; keydata=
+ LS0tLS1CRUdJTiBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tClZlcnNpb246IEdudVBHIHYy
+ CgptUUlOQkZ0NmdCTUJFQUN1Yi9wQmV2SHhidkplZnlaRzMySklObW4yYnNFUFgyNVY2ZmVq
+ bXlZd21DR0tqRnRMCi9Eb1VNRVZIRHhDSjQ3Qk1YbzM0NGZIVjFDM0FudWRnTjFCZWhMb0J0
+ TEh4bW5lQ3pnSDNLY1B0V1c3cHRqNEcKdEp2OUNRRFp5MjdTS29FUHh5YUk4Q0YweWdSeEpj
+ NzJNOUk5d21zUFo1YlVIc0x1WVdNcVE3SmNSbVBzNkQ4ZwpCa2srOC95bmdFeU5FeHd4SnBS
+ MXlsajVianhXREh5WVF2dUo1THpaS3VPOUxCM2xYVnNjNGJxWEVqYzZWRnVaCkZDQ2svc3lp
+ by9ZaHNlOE4rUXN4N01RYWd6NHdLVWtRUWJmWGcxVnFrVG5BaXZYczQyVm5Ja211NWd6SXcv
+ MHQKUkp2NTBGUmhIaHhweUtBSThCOG5oTjhRdng3TVZrUGM1dkRmZDN1R1lXNDdKUGhWUUJj
+ VXdKd05rLzQ5RjllQQp2ZzJtdE1QRm5GT1JrV1VSdlArRzZGSmZtNitDdk92N1lmUDF1ZXdB
+ aTRsbitKTzFnK2dqVklXbC9XSnB5MG5UCmlwZGZlSDlkSGtnU2lmUXVuWWN1Y2lzTXlvUmJG
+ OTU1dENna0VZOUVNRWRZMXQ4aUdEaUNnWDZzNTBMSGJpM2sKNDUzdWFjcHhmUVhTYUF3UGtz
+ bDhNa0NPc3YyZUVyNElOQ0hZUUR5WmljbEJ1dUNnOEVOYlI2QUdWdFpTUGNRYgplbnpTektS
+ Wm9POUNhcUlEK2ZhdkxpQi9kaHptSEErOWJnSWhtWGZ2WFJMRFp6ZThwbzFkeXQzRTFzaFhp
+ ZGRaClBBOE51SlZ6RUl0MmxtSTZWOHBaRHBuMjIxcmZLaml2UlFpYW9zNTRUZ1pqak1ZSTdu
+ bko3ZTZ4endBUkFRQUIKdENCVGRHVm1ZVzRnVjJGb2NtVnVJRHgzWVdoeVpXNXpkRUJuYlhn
+ dWJtVjBQb2tDTndRVEFRZ0FJUVVDWElkYwo0Z0liQXdVTENRZ0hBZ1lWQ0FrS0N3SUVGZ0lE
+ QVFJZUFRSVhnQUFLQ1JDVWdld1BFWkR5MjFPVEQvOUdpWkxkCnRSWWNteVJKZ2x0aVFRekFp
+ UWRjSUQ3OGxHb1dwL3grci92Y1U2YjZqdVl1ZVR3Z1Iwclc3djdsMklSQnlEN24KSEp4YSt0
+ SVNvUVpCZ2hvbE1JZmI5TXRoR09KTENZNzdrL1FoQWhuMzJOR1prZWp3OXR6a3MvNDBtclpT
+ VVQ4NApaeWJzUVhyTE0vSFI2VElJL0RlUEIwbktEM0ppcHBzMlVIUUQ5cUQySWpFd1NRUGxI
+ akNPckVaaDQ1UFo3bTkrClo5M0x6aVRlc1dabFlRdUxpSndzNHJLcHRIVzFkL3dSZWxzaG1t
+ NlFxY0wybDRDL2U0MGVEQjlncTRkU1poOVgKUEVZbGxpeU5RaDdhMkxTZHVtRTFyK2NTd0lq
+ RS91ZHRSdmRPOWFLb0psT2JVSzVkTmpTUEg3d0tUYndkWGRZRApHUHdEaFhkNThOQXdyK1BY
+ QmxQajB0STFMQ3ErTEJ4ZUt6aFdYK0dWcTlEb2pWanlVREV4Rk5Ga1h1b0M3ZzhtClY5VDB0
+ ZUJpdVpSbm91WEt3VjJGcHRaT0hIN0JVRVd0a0t0aGgxZXRmT1dwaWdCemtVN2JQc2ZJWVQr
+ cnk5dGIKMW9KK3Y0MVBOYXFaRW1QVXBKeHZmek5UN3Ayd01lRDdaajlmMHJ1YlJQdExBSjJR
+ R2pyRkhzdVh3QU9xcHl6ZQoxOEVidHNZazBOMHp1SEVoY2orUEJJQmZoMFlJWWQ1MW9mNkdJ
+ aU95UjlxMFhYdHBsVUo3VDIvSDF1UXFrWGxwCitnVzRWa2lmc2NJckl1eWZueFpXMTJlSXZq
+ NnlicVdMN2FZS0dZbVQ2aUxDUGJIWXlZY2F5bDRFa0ZjckNGN0UKZTBXVC9zY1ZNaE8vNVgv
+ SGFOQTVIQngvcjUycGdMY3Y0aTlNeExRbVUzUmxabUZ1SUZkaGFISmxiaUE4YzNSbApabUZ1
+ TG5kaGFISmxia0JwTW5ObExtTnZiVDZKQWpnRUV3RUNBQ0lGQWx0NmdCTUNHd01HQ3drSUJ3
+ TUNCaFVJCkFna0tDd1FXQWdNQkFoNEJBaGVBQUFvSkVKU0I3QThSa1BMYmpic1AvamdqYVNz
+ NUh0bGtBSXZXUytGcm15N2MKaG5jT0F4TFRWL0Q2UkV3SU95R0poRkt3d29pck55UTJnOXZV
+ YTNZQ1lDZjFmSjh3RWhhS09COWQwTHBNUm5MNApkRVQ4ZDgyMzhFL3BLK0hxTktpSXNKaHM2
+ SnNLOFpnalZRR3JtbWZua0dyWisxdjBIQnV4ZGljZ0duUC9XdHVBClVsOGw2Mi9BTGJheXlq
+ KzYxQ2xyc0V0UklhcU82N0xJWXdQaVBEUkkrWGlNek5pR3pIRi8xUTZHUjAyUkg2YTMKRjg5
+ ejhhUHhjSGkxWnZDdDJ5a3o2VUVjaHpQMHI1Z3FGSisvTC9VcHU4ME1YaVk0djVlSWFCNTJn
+ VlBnaXlNQQpsTDJkRHMxbUladm5yUkxSWTJ0YjNtQVlOa1Y1QjVJRFQzcGtXeTZrS281T0Nn
+ SytZZFlPUjhGTloyb04ydDhPCnJLK1ZudGFLN01NU0tIbG1ZL3NPd3RSbEVoMU9CbXJjQ3dH
+ d21wLzA1R2tSNDZmL0lzaFJWZUZPUmF3K0dBcXQKUDIrQ0ZhMkNOQS9JSG5aTm95aWtsRHpQ
+ UUhVVUdzck5wcERyaFg5Sm1oQm1nMXYyeXdIMU5YdTFpRGZQMUJBdwpLZ29rdDVmNVVhUkY5
+ c0FBNTN2V0V2YlVVTjllZXNGR0x6UFdkSkdRNWhwZC9WSDVJUXk5U0JyaC93SWNla3E1Cm4w
+ a042cGJUSHhHRTUyU2kvTVZJa05UdURaM2FwbjJqbERaNHBPdHBCWEkydlAzYlBPK05pcUJa
+ anNVM3R4TGkKV2R2MkZqeXp6NlhMUndlV1JZVkw1SGE2TER0eG9yMnZ1NlVQMDdwOXh6MXhS
+ WmFPRFczb1lsSEZ6WXBhNFc1ZwpMSGIybEVrSXVVZlNjaWNHYmpqQXRDbFRkR1ZtWVc0Z1Yy
+ Rm9jbVZ1SUR4emRHVm1ZVzR1ZDJGb2NtVnVRR2x1CkxYUmxZMmd1WTI5dFBva0NOd1FUQVFn
+ QUlRVUNYSWRlaHdJYkF3VUxDUWdIQWdZVkNBa0tDd0lFRmdJREFRSWUKQVFJWGdBQUtDUkNV
+ Z2V3UEVaRHkyeUhURC85VUY3UWxEa0d4elE3QWFDSTZOOTVpUWY4LzFvU1VhRE51Mlk2SQpL
+ K0R6UXBiMVRiVE9yM1ZKd3dZOGEzT1d6NU5MU09MTVdlVnh0K29zTW1sUUlHdWJEM09EWko4
+ aXpQbEcvSnJOCnQ1elNkbU41SUE1ZjNlc1dXUVZLdmdoWkFnVERxZHB2K1pIVzJFbXhuQUox
+ dUxGWFhlUWQzVVpjQzVyMy9nL3YKU2FNbzl4ZWszSjVtTnVEbTcxbEVXc0FzL0JBY0ZjK3lu
+ TGh4d0JXQld3c3Z3UjhiSHRKNURPTVd2YUt1RHNrcApJR0ZVZS9LYjJCK2pyYXZRM1RuNnMv
+ SHFKTTBjZXhTSHo1cGUrMHNHdlArdDlKNzIzNEJGUXdlRkV4cmlleThVCkl4T3I0WEFiYWFi
+ U3J5WW5VL3pWSDlVMWkyQUlRWk1XSkFldkN2VmdRL1UrTmVSaFh1ZGU5WVVtRE1EbzJzQjIK
+ VkFGRUFxaUYyUVVIUEEybThhN0VPM3lmTDRyTWswaUh6TElLdmg2L3JIOFFDWThpM1h4VE5M
+ OWlDTHpCV3UvTgpPbkNBYlMremx2TFphaVNNaDVFZnV4VHR2NFBsVmRFamY2MlArWkhJRDE2
+ Z1VEd0VtYXpMQU1yeDY2NmpINWt1ClVDVFZ5bWJMMFR2Qis2TDZBUmw4QU55TTRBRG1rV2tw
+ eU0yMmtDdUlTWUFFZlFSM3VXWFo5WWd4YVBNcWJWK3cKQnJoSmc0SGFONkM2eFRxR3YzcjRC
+ MmFxYjc3L0NWb1JKMVo5Y3BIQ3dpT3pJYUFtdnl6UFU2TXhDRFhaOEZnWQpsVDR2MjNHNWlt
+ SlAyemdYNXMrRjZBQ1VKOVVRUEQwdVRmK0o5RGEycitza2gvc1dPbloreWNvSE5CUXZvY1pF
+ Ck5BSFFmN2tDRFFSYmVvQVRBUkFBMkhkMGZzRFZLNzJSTFNESGJ5ME9oZ0RjRGxWQk0yTSto
+ WVlwTzNmWDFyKysKc2hpcVBLQ0hWQXNRNWJ4ZTdIbUppbUhhNEtLWXMya3YvbWx0L0NhdUNK
+ Ly9wbWN5Y0JNN0d2d25Lem11WHp1QQpHbVZUWkM2V1I1TGtha0ZydEhPelZtc0VHcE52NVJj
+ OWw2SFlGcExrYlNrVmk1U1BRWkp5K0VNZ01DRmdqclpmClZGNnlvdHdFMWFmN0hOdE1oTlBh
+ TEROMW9VS0Y1aitSeVJnNWl3SnVDRGtuSGp3QlFWNHBndzIvNXZTOEE3WlEKdjJNYlcvVExF
+ eXBLWGlmNzhJaGdBelh0RTJYck0xbi9vNlpINzFvUkZGS096NDJsRmR6ZHJTWDBZc3FYZ0hD
+ WAo1Z0l0TGZxemoxcHNNYTlvMWVpTlRFbTFkVlFyVHFueXMwbDE4b2FsUk5zd1lsUW1uWUJ3
+ cHdDa2FUSExNSHdLCmZHQmJvNWRMUEVzaHRWb3dJNm5zZ3FMVHlRSG1xSFlxVVpZSXBpZ21t
+ QzNTd0JXWTFWNmZmVUVta3FwQUFDRW4KTDQvZ1Vnbjd5US81ZDBzZXFuQXEycFNCSE1VVW9D
+ Y1R6RVFVV1ZraUR2M1JrN2hURm1oVHNNcTc4eHYyWFJzWApNUjZ5UWhTVFBGWkNZRFVFeEVs
+ RXNTbzlGV0hXcjZ6SHlZY2M4cURMRnZHOUZQaG1RdVQyczlCbHg2Z0kzMjNHCm5FcTFsd1dQ
+ SlZ6UDRqUWtKS0lBWHdGcHYrVzhDV0xxekRXT3ZkbHJEYVRhVk1zY0ZUZUg1VzZVcHJsNjVq
+ cUYKUUdNcGNSR0NzOEdDVVcxM0gwSXlPdFF0d1dYQTRueStTTDgxcHZpQW1hU1hVOGxhS2FS
+ dTkxVk9WYUY5ZjRzQQpFUUVBQVlrQ0h3UVlBUUlBQ1FVQ1czcUFFd0liREFBS0NSQ1VnZXdQ
+ RVpEeTIrb1hELzljSEhSa0JaT2ZrbVNxCjE0U3Z4MDYyUHRVMEtWNDcwVFNucC9qV29ZSm5L
+ SXczRzBtWElSZ3J0SDJkUHdwSWdWanNZeVJTVk1LbVNwdDUKWnJEZjlOdFRiTldnazhWb0xl
+ WnpZRW8rSjNvUHFGclRNczNhWVl2N2U0K0pLNjk1WW5tUSttT0Q5bmlhOTE1dApyNUFaajk1
+ VWZTVGx5VW15aWMxZDhvdnNmMWZQN1hDVVZSRmNSamZOZkRGMW9ML3BEZ01QNUdaMk93YVRl
+ am15CkN1SGpNOElSMUNpYXZCcFlEbUJuVFlrN1B0aHk2YXRXdllsMGZ5L0NxYWpUS3N4Nytw
+ OXh6aXU4WmZWWCtpS0IKQ2MrSGUrRURFZEdJRGh2TlovSVFIZk9CMlBVWFdHUytzOUZOVHhy
+ L0E2bkxHWG5BOVk2dzkzaVBkWUl3eFM3SwpYTG9LSmVlMTBEamx6c1lzUmZsRk9XMFpPaVNp
+ aElDWGlRVjF1cU02dHpGRzlndFJjaXVzNVVBdGhXYU8xT3dVClNDUW1mQ09tNGZ2TUlKSUE5
+ cnh0b1M2T3FSUWNpRjNjcm1vMHJKQ3ROMmF3WmZnaThYRWlmN2Q2aGp2MEVLTTkKWFpvaUFa
+ WVpEKy9pTG01VGFLV042b0dJdGkwVmpKdjhaWk9aT2ZDYjZ2cUZJa0pXK2FPdTRvclRMRk16
+ MjhhbwpVM1F5V3BOQzhGRm1kWXNWdWE4czZnTjFOSWE2eTNxYS9aQjhiQS9pa3k1OUFFejRp
+ RElScmdVek1FZzhBazdUCmZtMUtpWWVpVHRCRENvMjVCdlhqYnFzeXhrUUQxbmtSbTZGQVZ6
+ RXVPUEllOEp1cVcyeEQ5aXhHWXZqVTVoa1IKZ0pwM2dQNWIrY25HM0xQcXF1UTJFNmdvS1VN
+ TEFia0NEUVJiZmw5REFSQUFzRExjYStMbFAydm5mdEVHaHBjQQpCR1ZOUUVGbkdQckNhdVU2
+ SGhOODA1V3RQVHRtc1JPdUp6cWdVVDBtcHFXSWZacTZzTXd5dkhLOVRzL0tIM0paClVWYlJD
+ M3oyaDNLZmhIL0RhZjk1cGQ2bVBjL2g5dkYvT3kzK2VUV2hnR25QNmNBNWtsUitmTzFXaEc4
+ VnJpWHYKck5lUkcyMHN6emplSG9jblNJY1Q1WHVaUjB1REhPaUd4T2l6MXNNUkZUR3h6R095
+ MTlSOXJ2dTYzdGlJM2Q3dgpnYzc1T0NBZGtlQi9TZUNFbGFSdzBUZjdMWmJQampzRjI2M0JZ
+ bk1mNGtrTkVLdnFXY1UyaWNNcCtxZXpqeW5CCnB2ZXVlMHJDVFFCWUFRbG9GQ1ZUR0hyV1dB
+ NkQ0VzVPMkFmSWRJYzF1MUpDWnAyZjVMV1ZvVUZUVklyUW5RUVUKU0hDaWZyOU1aeExUdFBK
+ ZFU1Mm9TUHczZGs0aExQOGlKSUx1dnYvYXZhakNzUVlIRXR3WXNiZUZaeGl1TGdscApBN1lj
+ Sk5ObXBnQ3BNRDR3VWh2bEN0QUtOQlFXeXIyOTc2OThFUVRuNDZlQmVVNkttMkNpaFhrZ3dD
+ eWY4ZXlLCkxFM3NYZXdhcTVrZ1pXdk5xNml1NXFZSVJCOXl3K2NYYzYwZE9aRE9scTkzWDVT
+ QVJZemFvZXBrSHo0cmtMa1AKUG8rdENIeUhRUHNHblBYYzlXVDgwREM5Tm5KR2R2VWx5NXJk
+ TUk0eHBaeWdlb2tqd293VlFsUFV1Y1M2TXluNwpmOHc4Y2dmQjdDMklBSWNEeDJwUC9IendY
+ dmtDT1FOQTdtVjFsTTA4bitnVmtUcnpweGlwNURicTRDSW9ZeDJNCkpaVDhiR1JINlhqY1VE
+ S2EwOVFoeVpzQUVRRUFBWWtFUkFRWUFRZ0FEd1VDVzM1ZlF3SWJBZ1VKQThKbkFBSXAKQ1JD
+ VWdld1BFWkR5MjhGZElBUVpBUWdBQmdVQ1czNWZRd0FLQ1JCVnhETFBjVk1NamNkc0QvMFJo
+ QXN1UVlPeQpyMTNCbDNOaFhrWUFaR3AyWkZER3VrZTdPU2tWOG9qT09UZFR5ei9jT1JHQ2J5
+ ZEQrRGd2cUZ5VmRuT1hLZ08wCmxKbUd3ckdlTGRnZ0F2aDBpaHJwNU8wWVVKOWJCU1htR01t
+ UVRZSC9BbUxUR2FkYnVqQ1dqNWZGVWtDeXd4aW0KSHV5MFBiMjRwelR2UzUwR1k1WStxSDBG
+ SE5haWdka2tpV04zcnVnN0haRXUvQ3lsUFpqT1h6K0QxUVBNckV4dwo3ZC9NS2FiVis5YU5i
+ UVlabGRJajk4UXd2VUYxS1N6YThqbFVJdnBoUnEyN0FUOGZER1lHUGZERU1nMmNCT2FlCkty
+ N29uUXM0YjdhV082aWZEbHhRVHB6c3pvK0FuODA3Tk1TdFZFRmYrczNBaFZEM2U3bmY4SkJh
+ dmJWckFlMGsKb20yNm96elBubnh6K2xxVlZ0dzZVazRYTUl6dGl4L0h3SFl3dUNuY1VYWndL
+ MEkzeUFKd2pZd29vck9DaEozUwpFVWJKUVB0R3NneFJERXhWQkZlNk5MUC82MnhQOU82dGFj
+ d09kYjBNbVAxYjM5cFJBVEM3YmdkMWxkVUxpNzVaCmxKckowL1NpVkVyb3FOWXk3OXRmbWdB
+ WjJVeFptczlTckV5Nm85UVNmc24xYVh2K01QTDlKYUNHbWtQNnpiTFEKTm5kajBKY2FRbmtD
+ MHZneWRPMUJtNk11OTZQOXVmbEtaY0FTNndtTE01SWRIT3lqTDg4d0h3anVjakFPQnRjdwpw
+ MG9HVG5WT25Sc05ZU084VzhZWi9LZGJ1Nzg1ZGF6TXFKMmlOakFEdUJiZG02TjRqNUVkTW5r
+ TG4wQklmUEpwCmRnbTR2bDJVcExqd1JHci9NM3dtbTVwdnMrNnVCN2hrL0ZKaUQvNGxsRU5Q
+ NGVNMWg3U200aitWcTZOMSt6VEIKSVhKQWViSXFhc0RwNXlaUzdYcnk0STM2bjg1WEVZZkcw
+ MWx0QXlob05WMkRPOFNJUlFwdWkydHErOVJQM1JLMQpKREJ4eEVKWTJFTzVKWjhNeGFQSFEw
+ RFQwNWxSRmpLMkFsaGRFSXRqTGpwSjNmVW05c3FMeE1XeHpQNlV6M2lpCjJ1YTR1bnJ0Nk9D
+ VHFRd2lqRi8zYlRXaXd2VkFBSG5NRlVpb1hzaEhhb2hWRGNWZm5lSU1mVjBiUUNYWWkzTnAK
+ WTB2MFp3Y2lGSCtnU0M3cUQ2WE51aHBWR1NMNElpbGlGeS9TemNhSkV6QUhlTERTaFpQMkNX
+ ZG5DNHZnbDM3dApocHg4aDU1WWhKbjZIU3VVelBnaGFLdFZCMmsrajdaZXlaK1NGeHA3SXVi
+ SEN3TEhsUWhUNzVSd1EzaUF4S242CjBxajUxY1lUbnF4ZFpYVzZmSDNQa3VNellVNUdwcVIv
+ MU9sNWMvd2ZJNmc2QW04eUtXLzBFVUx0K0tuNExGc1MKbTdZM201SDV2MTJVNkpCWXZWK3Ix
+ M2paaW9zNEVFREU5M0Q1c05IMk1JeVJ6Q0RxMXpkZHQ0WHV5S0ZqUEtXMQo5aWJaRGZGVjdL
+ dUNzdnVMMjNzQmMxc0NNb3ArRTFtVC9ReE9JQTZvRFQxTVFzdHdPVnVReURDdi9PdktTZ2Z6
+ CjhGWEdMNkFQY2xqQ3FqOEFKaHhReXN4ZG9pUVA4bS92dStialdHR3Z4dzVzMWxncGlSRFRS
+ VVBnY0pKTmFHWTIKVklEclpRaTROU2lOUTBOSWkrZGp1NGZOTW1DcFFxZzh0YkMzY0FhNnl3
+ bTZvUUIxU0JobURYMmUxMWdSbGx1SQpPblRHUEUwSFRvM2w3MmxoYmc9PQo9cVpNVgotLS0t
+ LUVORCBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tCg==
+Message-ID: <1ecde64b-3c91-dac6-e8e2-64a45022a40e@i2se.com>
+Date: Tue, 6 Jul 2021 12:48:05 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20210705130314.11519-1-ogabbay@kernel.org>
- <YOQXBWpo3whVjOyh@phenom.ffwll.local>
- <CAFCwf10_rTYL2Fy6tCRVAUCf4-6_TtcWCv5gEEkGnQ0KxqMUBg@mail.gmail.com>
- <CAKMK7uEAJZUHNLreBB839BZOfnTGNU4rCx-0k55+67Nbxtdx3A@mail.gmail.com>
-In-Reply-To: <CAKMK7uEAJZUHNLreBB839BZOfnTGNU4rCx-0k55+67Nbxtdx3A@mail.gmail.com>
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Tue, 6 Jul 2021 12:47:14 +0200
-Message-ID: <CAKMK7uHpKFVm55O_NB=WYCsv0iUt92ZUn6eCzifH=unbhe3J8g@mail.gmail.com>
-Subject: Re: [PATCH v4 0/2] Add p2p via dmabuf to habanalabs
-To: Oded Gabbay <oded.gabbay@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20210706095807.abx3v4wkc7ymwhjx@gilmour>
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
+X-Provags-ID: V03:K1:xuFNNRQjOUrTWoL/KcI5DS6ChJddw2hdCJur8RVaTSydQPAgcv6
+ oOXzM7S5RrWFvdhEYgq8qnKfua6dtpqTYEvUZXfi+FX98X0GHGkcfHD+XDy6fXJArqrBvNK
+ gbmZMABoABujrggeQNZ1QFW53HWXsvrEcZf1anIEF0OEr+hMHV+NeCTUrRcQae2gWZydBs6
+ o6Jep86dGAmfMNK4m5Lyw==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:5PRPrFWKUWA=:I5YJGzj2wJdZTPqaDvy4lF
+ GyN2W8182VI8Dz4qe/SYym524PXP0Ou9KDokeMSiu5PB38Rok3V+e9T65RapcwFer3wgHz+Xb
+ TdSOhmL4MHEgVP8ewsn8xJyVRI1ccd3Wxz+A64mc+xLZORWSWAwYFwwqpRwnydlTJralI7zU4
+ MT0pcftDp0cCU4jt0DxxOElfEJhPRnqm1bhxKfjQHj+lbxNi4QyINUjKS6DBalhtevS5/r+ju
+ mUEGCMBAuGfdsRxNwd2Vu+2dLhsrpM7jz5tJihEzROP/MrUm0qYAbRc8b8HPGQRIj1pcVgDyc
+ kAf+/O1nKGeL0UcE6zA6uSUSrtzMchCTrQyd4xpiYhrfY76pAn3w3v5vFwbMQC0tqssDjBYz7
+ Jytf4uYQDCWN64vwmN2piTVqOcafHyvFI4mjPAH3livVtqf0IKlEb7tiufrcyCyRTXShMt2jA
+ HeOfFzrllN3f6Y7n79buDETnzfB7xNUNWUdgds+2OouF/UNddazJ73g5TAI35N4q6bb6awBqI
+ EDgk5dGJVC/B0k2B0Jrewb2mxpe6oUrDzhok9f55dAVRqOrUn2mcH7TGCvYVgxirIzPfJD1dd
+ IGsGQAxpmVNA347PqteTGuLTDl6atlZTN1z1aRh4GpPQSpm2UOxzFfpCe74QHYYDrTorFw+Qo
+ 9A1WSxJdkxSuiu18FPezs67ajlOEHBskn7Bh4mWilYJzh7z14bkUDno5W+cERz5Fm0GDfiqtu
+ 9vgYMhDnmk9k4O7V+N0PVtjr+ECzNzRiYnXnHMGR6Ag8XNyqQ5PawgW2NFMWxTFOtAijPcZ4Y
+ BbXNam9m7d5tVb2g6WPLwAFn/33PwgVOzPl21lo0FuYlJRqSVSVLwmiJ3HLbTS//rcB+EPxXo
+ YWLRK0BUN144UR8jMEcA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,211 +190,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: sleybo@amazon.com, linux-rdma <linux-rdma@vger.kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Oded Gabbay <ogabbay@kernel.org>,
- "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Gal Pressman <galpress@amazon.com>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Jason Gunthorpe <jgg@ziepe.ca>, Doug Ledford <dledford@redhat.com>,
- Christoph Hellwig <hch@lst.de>, amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Leon Romanovsky <leonro@nvidia.com>,
- Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc: Nicolas Saenz Julienne <nsaenz@kernel.org>, Emma Anholt <emma@anholt.net>,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Nathan Chancellor <nathan@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 6, 2021 at 12:36 PM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
-> On Tue, Jul 6, 2021 at 12:03 PM Oded Gabbay <oded.gabbay@gmail.com> wrote:
-> >
-> > On Tue, Jul 6, 2021 at 11:40 AM Daniel Vetter <daniel@ffwll.ch> wrote:
-> > >
-> > > On Mon, Jul 05, 2021 at 04:03:12PM +0300, Oded Gabbay wrote:
-> > > > Hi,
-> > > > I'm sending v4 of this patch-set following the long email thread.
-> > > > I want to thank Jason for reviewing v3 and pointing out the errors, saving
-> > > > us time later to debug it :)
-> > > >
-> > > > I consulted with Christian on how to fix patch 2 (the implementation) and
-> > > > at the end of the day I shamelessly copied the relevant content from
-> > > > amdgpu_vram_mgr_alloc_sgt() and amdgpu_dma_buf_attach(), regarding the
-> > > > usage of dma_map_resource() and pci_p2pdma_distance_many(), respectively.
-> > > >
-> > > > I also made a few improvements after looking at the relevant code in amdgpu.
-> > > > The details are in the changelog of patch 2.
-> > > >
-> > > > I took the time to write an import code into the driver, allowing me to
-> > > > check real P2P with two Gaudi devices, one as exporter and the other as
-> > > > importer. I'm not going to include the import code in the product, it was
-> > > > just for testing purposes (although I can share it if anyone wants).
-> > > >
-> > > > I run it on a bare-metal environment with IOMMU enabled, on a sky-lake CPU
-> > > > with a white-listed PCIe bridge (to make the pci_p2pdma_distance_many happy).
-> > > >
-> > > > Greg, I hope this will be good enough for you to merge this code.
-> > >
-> > > So we're officially going to use dri-devel for technical details review
-> > > and then Greg for merging so we don't have to deal with other merge
-> > > criteria dri-devel folks have?
-> > I'm glad to receive any help or review, regardless of the subsystem
-> > the person giving that help belongs to.
-> >
-> > >
-> > > I don't expect anything less by now, but it does make the original claim
-> > > that drivers/misc will not step all over accelerators folks a complete
-> > > farce under the totally-not-a-gpu banner.
-> > >
-> > > This essentially means that for any other accelerator stack that doesn't
-> > > fit the dri-devel merge criteria, even if it's acting like a gpu and uses
-> > > other gpu driver stuff, you can just send it to Greg and it's good to go.
-> >
-> > What's wrong with Greg ??? ;)
-> >
-> > On a more serious note, yes, I do think the dri-devel merge criteria
-> > is very extreme, and effectively drives-out many AI accelerator
-> > companies that want to contribute to the kernel but can't/won't open
-> > their software IP and patents.
-> >
-> > I think the expectation from AI startups (who are 90% of the deep
-> > learning field) to cooperate outside of company boundaries is not
-> > realistic, especially on the user-side, where the real IP of the
-> > company resides.
-> >
-> > Personally I don't think there is a real justification for that at
-> > this point of time, but if it will make you (and other people here)
-> > happy I really don't mind creating a non-gpu accelerator subsystem
-> > that will contain all the totally-not-a-gpu accelerators, and will
-> > have a more relaxed criteria for upstreaming. Something along an
-> > "rdma-core" style library looks like the correct amount of user-level
-> > open source that should be enough.
-> >
-> > The question is, what will happen later ? Will it be sufficient to
-> > "allow" us to use dmabuf and maybe other gpu stuff in the future (e.g.
-> > hmm) ?
-> >
-> > If the community and dri-devel maintainers (and you among them) will
-> > assure me it is good enough, then I'll happily contribute my work and
-> > personal time to organize this effort and implement it.
->
-> I think dri-devel stance is pretty clear and well known: We want the
-> userspace to be open, because that's where most of the driver stack
-> is. Without an open driver stack there's no way to ever have anything
-> cross-vendor.
->
-> And that includes the compiler and anything else you need to drive the hardware.
->
-> Afaik linux cpu arch ports are also not accepted if there's no open
-> gcc or llvm port around, because without that the overall stack just
-> becomes useless.
->
-> If that means AI companies don't want to open our their hw specs
-> enough to allow that, so be it - all you get in that case is
-> offloading the kernel side  of the stack for convenience, with zero
-> long term prospects to ever make this into a cross vendor subsystem
-> stack that does something useful. If the business case says you can't
-> open up your hw enough for that, I really don't see the point in
-> merging such a driver, it'll be an unmaintainable stack by anyone else
-> who's not having access to those NDA covered specs and patents and
-> everything.
->
-> If the stack is actually cross vendor to begin with that's just bonus,
-> but generally that doesn't happen voluntarily and needs a few years to
-> decades to get there. So that's not really something we require.
->
-> tldr; just a runtime isn't enough for dri-devel.
->
-> Now Greg seems to be happy to merge kernel drivers that aren't useful
-> with the open bits provided, so *shrug*.
->
-> Cheers, Daniel
->
-> PS: If requiring an actually useful open driver stack is somehow
-> *extreme* I have no idea why we even bother with merging device
-> drivers to upstream. Just make a stable driver api and done, vendors
-> can then do whatever they feel like and protect their "valuable IP and
-> patents" or whatever it is.
+Hi,
 
-So perhaps this isn't clear, so let's explain this differently.
-
-The deal when having a driver in upstream is that both the vendor and
-upstream benefits:
-- vendor gets their driver carried and adjusted in upstream, because
-there's no stable uapi, and the benefit of being included everywhere
-by default
-- upstream gets the benefit to be able to hack around in more drivers,
-which generally leads to a more robust subsystem and driver
-architecture
-
-Now what you want is to have the benefits for you, without giving the
-wider community the benefit of actually being able to hack on your
-driver stack. Because you prefer to keep critical pieces of it
-protected and closed, which makes sure no one can create a new
-cross-vendor stack without your permission. Or without investing a lot
-of time into reverse-engineering the hardware. That's not extreme,
-that's just preferring to have your cake and eat it too.
-
-And frankly on dri-devel we don't take such a loopsided deal. Greg
-otoh seems to be totally fine, or not really understand what it takes
-to build an accelerator stack, or I dunno what, but he's happy merging
-them.
-
-Cheers, Daniel
-
-
-> > Thanks,
-> > oded
-> >
-> > >
-> > > There's quite a lot of these floating around actually (and many do have
-> > > semi-open runtimes, like habanalabs have now too, just not open enough to
-> > > be actually useful). It's going to be absolutely lovely having to explain
-> > > to these companies in background chats why habanalabs gets away with their
-> > > stack and they don't.
-> > >
-> > > Or maybe we should just merge them all and give up on the idea of having
-> > > open cross-vendor driver stacks for these accelerators.
-> > >
-> > > Thanks, Daniel
-> > >
-> > > >
-> > > > Thanks,
-> > > > Oded
-> > > >
-> > > > Oded Gabbay (1):
-> > > >   habanalabs: define uAPI to export FD for DMA-BUF
-> > > >
-> > > > Tomer Tayar (1):
-> > > >   habanalabs: add support for dma-buf exporter
-> > > >
-> > > >  drivers/misc/habanalabs/Kconfig             |   1 +
-> > > >  drivers/misc/habanalabs/common/habanalabs.h |  26 ++
-> > > >  drivers/misc/habanalabs/common/memory.c     | 480 +++++++++++++++++++-
-> > > >  drivers/misc/habanalabs/gaudi/gaudi.c       |   1 +
-> > > >  drivers/misc/habanalabs/goya/goya.c         |   1 +
-> > > >  include/uapi/misc/habanalabs.h              |  28 +-
-> > > >  6 files changed, 532 insertions(+), 5 deletions(-)
-> > > >
-> > > > --
-> > > > 2.25.1
-> > > >
-> > >
-> > > --
-> > > Daniel Vetter
-> > > Software Engineer, Intel Corporation
-> > > http://blog.ffwll.ch
+Am 06.07.21 um 11:58 schrieb Maxime Ripard:
+> Hi,
 >
+> On Mon, Jul 05, 2021 at 11:36:34PM +0200, Stefan Wahren wrote:
+>> Commit "drm/vc4: hdmi: Convert to gpiod" changes the behavior of
+>> vc4_hdmi_connector_detect() which results into CPU hangs in case there=
+
+>> is no HDMI connected. Let's restore the old behavior.
+>>
+>> Reported-by: Nathan Chancellor <nathan@kernel.org>
+>> Reported-by: Ojaswin Mujoo <ojaswin98@gmail.com>
+>> Fixes: 6800234ceee0 ("drm/vc4: hdmi: Convert to gpiod")
+>> Signed-off-by: Stefan Wahren <stefan.wahren@i2se.com>
+> I already sent this patch last week:
 >
+> https://lore.kernel.org/dri-devel/20210628124257.140453-3-maxime@cerno.=
+tech/
+oops, i only looked in the July archive.
+> I'm not entirely sure how this could create a CPU hang though. Withouth=
+
+> this patch, if the HPD GPIO is low, we would first try to retrieve the
+> EDID, and then if it doesn't we would read the hotplug register.
+Yes, the real issue has been revealed by the original change and this
+patch only "hides" it again.
+> The first is using a separate i2c controller (and even if it was in the=
+
+> same power domain, we have the pm_runtime_resume call), and the registe=
+r
+> read should be fine too?
+
+Sorry, i don't have a clue and time for further investigations.
+
+Does it mean, you are not able to reproduce this issue?
+
+Best regards
+
 >
-> --
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
+> Maxime
+>
 
-
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
