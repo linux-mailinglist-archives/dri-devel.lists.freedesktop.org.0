@@ -2,39 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F8823BCF05
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 13:27:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35A9B3BCF1B
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 13:27:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C8A8F6E44D;
-	Tue,  6 Jul 2021 11:27:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 440186E453;
+	Tue,  6 Jul 2021 11:27:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B3D616E450
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Jul 2021 11:26:57 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id CA09B61C7C;
- Tue,  6 Jul 2021 11:26:56 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 17CE26E452;
+ Tue,  6 Jul 2021 11:27:52 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 2ECDD61D92;
+ Tue,  6 Jul 2021 11:27:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1625570817;
- bh=h6aqlsDftzHhM8owYXhjemIwdd1TORNGq9b2mpINls0=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=NG3Rzo4Txcnc9MysHTedjUQpYAMxebrFjPSYnq0ZzdGQ4U//+wT/WLyDwOXCYjWMu
- wOcBJvaA08AjoYDuf/8WYk07YljOJ5XrrwodWGsxnWuGDVpdu++sx0WkbBMs4vIbQC
- jStcvPvE38UWQVDaKmQTwkAQROpfu5JjlxiiH2OdtpVh4ecptpxdDMh0V90YgwrMGE
- ArBxfP2TKWFXD24jECkzfXvfQl8S/1EJvXga942i7Tsdt2poOynSP76zNRoSg1EhYg
- vHZNAhp7u97mmgbu66KFq1M7OdIbCHFwluxT2gzh4rRHiJnB84RBtbJfzbcStk91gz
- 1uj4SO/29aF5w==
+ s=k20201202; t=1625570871;
+ bh=LRf7YL2qu7tu9ILqcSKb69Cs3pWEIp926myaJkaQwg0=;
+ h=From:To:Cc:Subject:Date:From;
+ b=NlYpezUIX+ZHldN1KxC+kvtPL2g5ZjfptsF8ZGkoYYlHxHKAjb+ElV5bCFkYs9QNh
+ bE4POXBGt2/E+AGaZMTIYvAXYQ1Wxf6aKpYVtwffxIZEQTdYinPnHonYk1uPyAQU69
+ V2KpH009A7SstXxUishf66yqqlnpclrl7ADzrRB3OGdzA8jfBBscT0ttQ5UC4oEXHc
+ 2vyydjgdKpUPW8U0gM22WM+PfPKJWJwSCom7ngGc4xr6ZifLq6zPgIdsw1Lf712ag/
+ qrzDJ+qnOARcLT4ckhTQjRfJvUySmH1cXJ6z3P4Aas+e0pGehFU/eZNKjEDPiiaGhU
+ X6wGFag6D4jdg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 14/55] drm/virtio: Fix double free on probe
- failure
-Date: Tue,  6 Jul 2021 07:25:57 -0400
-Message-Id: <20210706112638.2065023-14-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 01/45] drm/etnaviv: fix NULL check before some
+ freeing functions is not needed
+Date: Tue,  6 Jul 2021 07:27:05 -0400
+Message-Id: <20210706112749.2065541-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210706112638.2065023-1-sashal@kernel.org>
-References: <20210706112638.2065023-1-sashal@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -50,41 +49,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Xie Yongji <xieyongji@bytedance.com>,
- Gerd Hoffmann <kraxel@redhat.com>, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org
+Cc: Sasha Levin <sashal@kernel.org>, etnaviv@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Tian Tao <tiantao6@hisilicon.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Xie Yongji <xieyongji@bytedance.com>
+From: Tian Tao <tiantao6@hisilicon.com>
 
-[ Upstream commit cec7f1774605a5ef47c134af62afe7c75c30b0ee ]
+[ Upstream commit 7d614ab2f20503ed8766363d41f8607337571adf ]
 
-The virtio_gpu_init() will free vgdev and vgdev->vbufs on failure.
-But such failure will be caught by virtio_gpu_probe() and then
-virtio_gpu_release() will be called to do some cleanup which
-will free vgdev and vgdev->vbufs again. So let's set dev->dev_private
-to NULL to avoid double free.
+fixed the below warning:
+drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c:84:2-8: WARNING: NULL check
+before some freeing functions is not needed.
 
-Signed-off-by: Xie Yongji <xieyongji@bytedance.com>
-Link: http://patchwork.freedesktop.org/patch/msgid/20210517084913.403-2-xieyongji@bytedance.com
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
+Acked-by: Christian König <christian.koenig@amd.com>
+Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/virtio/virtgpu_kms.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_kms.c b/drivers/gpu/drm/virtio/virtgpu_kms.c
-index 2cfd0016bd70..7e0092fd0703 100644
---- a/drivers/gpu/drm/virtio/virtgpu_kms.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_kms.c
-@@ -237,6 +237,7 @@ int virtio_gpu_driver_load(struct drm_device *dev, unsigned long flags)
- err_vbufs:
- 	vgdev->vdev->config->del_vqs(vgdev->vdev);
- err_vqs:
-+	dev->dev_private = NULL;
- 	kfree(vgdev);
- 	return ret;
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
+index 880b95511b98..1faa3da8c517 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
+@@ -86,8 +86,7 @@ static void etnaviv_gem_prime_release(struct etnaviv_gem_object *etnaviv_obj)
+ 	/* Don't drop the pages for imported dmabuf, as they are not
+ 	 * ours, just free the array we allocated:
+ 	 */
+-	if (etnaviv_obj->pages)
+-		kvfree(etnaviv_obj->pages);
++	kvfree(etnaviv_obj->pages);
+ 
+ 	drm_prime_gem_destroy(&etnaviv_obj->base, etnaviv_obj->sgt);
  }
 -- 
 2.30.2
