@@ -1,36 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 462B43BCBA2
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 13:15:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C7C613BCBA3
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 13:15:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 16D326E071;
-	Tue,  6 Jul 2021 11:15:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 030666E072;
+	Tue,  6 Jul 2021 11:15:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B73516E072
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Jul 2021 11:15:12 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E487561C40;
- Tue,  6 Jul 2021 11:15:11 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D35AD6E072
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Jul 2021 11:15:17 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id F262E61C4E;
+ Tue,  6 Jul 2021 11:15:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1625570112;
- bh=dt0lmIzopvOs6fP5lPadlUl/1tb7ZOp1dDHOIVae8BQ=;
+ s=k20201202; t=1625570117;
+ bh=dU+sE3O5fFtWgS0WL4SVp5dHsvS6LMM2bVi73Rk4nhY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=j/uB9UJvEMUFvCy5kd9AYydp3NL8UrVzY4wf58bHsWw/llFRgAVDQvslQMsbOFB1P
- ZAKkaQHhZoIY6/1aTArfs5kP29mwx6w/lDbc680T9ZeinMrzmXWB2jtzHRpthyeNc2
- zEX6ALcg+9hAZWPekyRkyfUwAgnYwcStdhW5QEcx9O+5ZpOiuFoKrCivLu2U07r3TW
- 7WAkNshO5S2vuMr3UPitbwh8H/KdFBYViGMXAK9yZTq/b914WSexM0wI3K9ykTOg7w
- Do9Q/815QJjLromHtl9/mTyOm+RwDg1qC8TOT96cGKGD6I1rtXsYA83WgoVU+7Kfsi
- aSOU92RzVfpKQ==
+ b=LUn5bbWaVY7ZKRelAs9Kih61xigz2UQckC11wJVcwk/a37LigAmTFBiyFHASCBgYz
+ fGaRMRsMY3XUdL4vrZ010Rq/zK5SQpMs2mDISQ6oFfvrC3K8n9/NxqIqdVdDRcKcSQ
+ Go7/Qt0kTutsCrXXPRyAvfRdW2DrGetDgvZTsuxhGbSySHVT8whw01swK3Ik3r31dE
+ WiEFMbTewrDAG4GYM+Zaozz6r6Z6Jc4CC8s7hR7cIXw58vk1PJksReRmD50Y1UIe6O
+ r9vPNpaHda9SwIDVU4eFy8fS9dPPt70VAcjWedlLJtRvRrMD7be1wphfO1t29gXhMV
+ TaCwzUjiaLFlw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.13 044/189] drm/vc4: hdmi: Fix PM reference leak in
- vc4_hdmi_encoder_pre_crtc_co()
-Date: Tue,  6 Jul 2021 07:11:44 -0400
-Message-Id: <20210706111409.2058071-44-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.13 048/189] drm/bridge: cdns: Fix PM reference leak
+ in cdns_dsi_transfer()
+Date: Tue,  6 Jul 2021 07:11:48 -0400
+Message-Id: <20210706111409.2058071-48-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210706111409.2058071-1-sashal@kernel.org>
 References: <20210706111409.2058071-1-sashal@kernel.org>
@@ -51,14 +51,14 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Sasha Levin <sashal@kernel.org>, Hulk Robot <hulkci@huawei.com>,
- Zou Wei <zou_wei@huawei.com>, Maxime Ripard <maxime@cerno.tech>,
- dri-devel@lists.freedesktop.org
+ Zou Wei <zou_wei@huawei.com>, dri-devel@lists.freedesktop.org,
+ Robert Foss <robert.foss@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Zou Wei <zou_wei@huawei.com>
 
-[ Upstream commit 5e4322a8b266bc9f5ee7ea4895f661c01dbd7cb3 ]
+[ Upstream commit 33f90f27e1c5ccd648d3e78a1c28be9ee8791cf1 ]
 
 pm_runtime_get_sync will increment pm usage counter even it failed.
 Forgetting to putting operation will result in reference leak here.
@@ -67,26 +67,27 @@ counter balanced.
 
 Reported-by: Hulk Robot <hulkci@huawei.com>
 Signed-off-by: Zou Wei <zou_wei@huawei.com>
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-Link: https://patchwork.freedesktop.org/patch/msgid/1621840854-105978-1-git-send-email-zou_wei@huawei.com
+Reviewed-by: Robert Foss <robert.foss@linaro.org>
+Signed-off-by: Robert Foss <robert.foss@linaro.org>
+Link: https://patchwork.freedesktop.org/patch/msgid/1621840862-106024-1-git-send-email-zou_wei@huawei.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/vc4/vc4_hdmi.c | 2 +-
+ drivers/gpu/drm/bridge/cdns-dsi.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-index 8106b5634fe1..d1c9819ea9f9 100644
---- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-+++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -745,7 +745,7 @@ static void vc4_hdmi_encoder_pre_crtc_configure(struct drm_encoder *encoder,
- 	unsigned long pixel_rate, hsm_rate;
- 	int ret;
+diff --git a/drivers/gpu/drm/bridge/cdns-dsi.c b/drivers/gpu/drm/bridge/cdns-dsi.c
+index 76373e31df92..b31281f76117 100644
+--- a/drivers/gpu/drm/bridge/cdns-dsi.c
++++ b/drivers/gpu/drm/bridge/cdns-dsi.c
+@@ -1028,7 +1028,7 @@ static ssize_t cdns_dsi_transfer(struct mipi_dsi_host *host,
+ 	struct mipi_dsi_packet packet;
+ 	int ret, i, tx_len, rx_len;
  
--	ret = pm_runtime_get_sync(&vc4_hdmi->pdev->dev);
-+	ret = pm_runtime_resume_and_get(&vc4_hdmi->pdev->dev);
- 	if (ret < 0) {
- 		DRM_ERROR("Failed to retain power domain: %d\n", ret);
- 		return;
+-	ret = pm_runtime_get_sync(host->dev);
++	ret = pm_runtime_resume_and_get(host->dev);
+ 	if (ret < 0)
+ 		return ret;
+ 
 -- 
 2.30.2
 
