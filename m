@@ -1,36 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3F653BCE0B
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 13:22:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A20093BCE0D
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 13:22:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C12DF6E3F9;
-	Tue,  6 Jul 2021 11:22:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B00EF6E3C4;
+	Tue,  6 Jul 2021 11:22:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 98F2C6E3F5
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Jul 2021 11:22:49 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id B7EC461D05;
- Tue,  6 Jul 2021 11:22:48 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 93F916E3C4
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Jul 2021 11:22:54 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id A092C61D21;
+ Tue,  6 Jul 2021 11:22:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1625570569;
- bh=dU+sE3O5fFtWgS0WL4SVp5dHsvS6LMM2bVi73Rk4nhY=;
+ s=k20201202; t=1625570574;
+ bh=4Fu4G4b/XGeKu5EbAcyA0kyrm0McafbQWyb4+B87B1E=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=tkPqyrmELHah3KSwr2XTPoR1ejEnWcykr9RypB6T8BXeFYn/IrQLE7T5WuE4ZNiUd
- 8XKcmzQ/5n0rt7L1BUQxXqfvyuxzItDIrjseHHhXRwtPCW7GCYnfHkY0ahMMsh8EJ1
- +AsDPa+1eSyzvBLFeZG7FBSoIQMgR/Cdqa9m5a3jbT5SlQtA76r6SBYeMscpVrIGwl
- /4AMtsv8Q/R2e2IPowSEjZP7A+ZA25Xa+NsSj3Q6onUNHjfVx5ttn0y6rY255ouDob
- JQoLPG1kCM2z8ZH3GSdNLH5djgKg2dccUkH76MghqK09bSCYpkOdk0qML2da6OmKaL
- 9nsEvYa18P/NQ==
+ b=IAxVHfD2ysVvelenL/MLWUg9dub1O17ucF4rPLYS5ZzTfYEdauMSXL0IxUervzcir
+ q6YcyRmZfetujCHUAXc2M3r5qo/5NloBYrqr2jAYW5hs9TPTEcUEG76dApSMkJJbIt
+ AZ9viOCriSTS4EZHZzzg/AyZXHtY3bLdGi9SRKnXfsL0IMMrPgKmc6mrKqzB20rbh0
+ cobnU46ZGIKPxjOPhQ1dZU2L46JqCVgdAMQLQGFmS6Vzhvy+B+1tPzvldEY2vvT2RV
+ 66Ix1kr6hjGx41bNteWPXiRlGNTpWt4rUI9qvuIixo3At/4tYwdRacZkWDeVPLL3cs
+ HyvMh0svStclQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 035/137] drm/bridge: cdns: Fix PM reference leak
- in cdns_dsi_transfer()
-Date: Tue,  6 Jul 2021 07:20:21 -0400
-Message-Id: <20210706112203.2062605-35-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 039/137] drm: rockchip: add missing registers for
+ RK3188
+Date: Tue,  6 Jul 2021 07:20:25 -0400
+Message-Id: <20210706112203.2062605-39-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210706112203.2062605-1-sashal@kernel.org>
 References: <20210706112203.2062605-1-sashal@kernel.org>
@@ -50,44 +50,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Hulk Robot <hulkci@huawei.com>,
- Zou Wei <zou_wei@huawei.com>, dri-devel@lists.freedesktop.org,
- Robert Foss <robert.foss@linaro.org>
+Cc: Sasha Levin <sashal@kernel.org>, Alex Bee <knaerzche@gmail.com>,
+ dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Zou Wei <zou_wei@huawei.com>
+From: Alex Bee <knaerzche@gmail.com>
 
-[ Upstream commit 33f90f27e1c5ccd648d3e78a1c28be9ee8791cf1 ]
+[ Upstream commit ab64b448a175b8a5a4bd323b8f74758c2574482c ]
 
-pm_runtime_get_sync will increment pm usage counter even it failed.
-Forgetting to putting operation will result in reference leak here.
-Fix it by replacing it with pm_runtime_resume_and_get to keep usage
-counter balanced.
+Add dither_up, dsp_lut_en and data_blank registers to enable their
+respective functionality for RK3188's VOP.
+While at that also fix .dsp_blank register which is (only) set with
+BIT24 (same as RK3066)
 
-Reported-by: Hulk Robot <hulkci@huawei.com>
-Signed-off-by: Zou Wei <zou_wei@huawei.com>
-Reviewed-by: Robert Foss <robert.foss@linaro.org>
-Signed-off-by: Robert Foss <robert.foss@linaro.org>
-Link: https://patchwork.freedesktop.org/patch/msgid/1621840862-106024-1-git-send-email-zou_wei@huawei.com
+Signed-off-by: Alex Bee <knaerzche@gmail.com>
+Signed-off-by: Heiko Stuebner <heiko@sntech.de>
+Link: https://patchwork.freedesktop.org/patch/msgid/20210528130554.72191-3-knaerzche@gmail.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/bridge/cdns-dsi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/rockchip/rockchip_vop_reg.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/bridge/cdns-dsi.c b/drivers/gpu/drm/bridge/cdns-dsi.c
-index 76373e31df92..b31281f76117 100644
---- a/drivers/gpu/drm/bridge/cdns-dsi.c
-+++ b/drivers/gpu/drm/bridge/cdns-dsi.c
-@@ -1028,7 +1028,7 @@ static ssize_t cdns_dsi_transfer(struct mipi_dsi_host *host,
- 	struct mipi_dsi_packet packet;
- 	int ret, i, tx_len, rx_len;
+diff --git a/drivers/gpu/drm/rockchip/rockchip_vop_reg.c b/drivers/gpu/drm/rockchip/rockchip_vop_reg.c
+index 80053d91a301..b8dcee64a1f7 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_vop_reg.c
++++ b/drivers/gpu/drm/rockchip/rockchip_vop_reg.c
+@@ -505,7 +505,10 @@ static const struct vop_common rk3188_common = {
+ 	.dither_down_sel = VOP_REG(RK3188_DSP_CTRL0, 0x1, 27),
+ 	.dither_down_en = VOP_REG(RK3188_DSP_CTRL0, 0x1, 11),
+ 	.dither_down_mode = VOP_REG(RK3188_DSP_CTRL0, 0x1, 10),
+-	.dsp_blank = VOP_REG(RK3188_DSP_CTRL1, 0x3, 24),
++	.dsp_blank = VOP_REG(RK3188_DSP_CTRL1, 0x1, 24),
++	.dither_up = VOP_REG(RK3188_DSP_CTRL0, 0x1, 9),
++	.dsp_lut_en = VOP_REG(RK3188_SYS_CTRL, 0x1, 28),
++	.data_blank = VOP_REG(RK3188_DSP_CTRL1, 0x1, 25),
+ };
  
--	ret = pm_runtime_get_sync(host->dev);
-+	ret = pm_runtime_resume_and_get(host->dev);
- 	if (ret < 0)
- 		return ret;
- 
+ static const struct vop_win_data rk3188_vop_win_data[] = {
 -- 
 2.30.2
 
