@@ -2,55 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4870D3BC781
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 09:54:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 571A43BC793
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Jul 2021 09:59:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7FE3F89A5D;
-	Tue,  6 Jul 2021 07:54:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B9A8899DC;
+	Tue,  6 Jul 2021 07:59:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B17DF89A56
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Jul 2021 07:54:28 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 6958A2267D;
- Tue,  6 Jul 2021 07:54:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1625558067; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=gMPl6RP1KX2nSXExpVArGR7oTPJ+PMXBI7RHaL4ld+M=;
- b=tyopmgWLCX8BjgL55vI/xNlHWsPtFfiaBf2K1/wtztApXGKIGYqlKQQQTP7XnZhP+QKOHr
- U1pQCUDRXqJ3TuMzzySQ+W+cFwG4esfwJCtChlviPlgBLekaHMd0V/Y+ErqOv6yIGVxZqK
- Fv9StaIu0IczkKfXQFmILpoRZ+fG38Y=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1625558067;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=gMPl6RP1KX2nSXExpVArGR7oTPJ+PMXBI7RHaL4ld+M=;
- b=m/egaQXyHNFcEzrrnqF+9yIzgR4Uwh5zZrOCBxPVSsMOmA31N6FNl8h50AJrDlmEqbu4Vq
- nSqDxgy6w1L2wGCw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1F5B013A42;
- Tue,  6 Jul 2021 07:54:27 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id KsuiBjMM5GD7bwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Tue, 06 Jul 2021 07:54:27 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: xinliang.liu@linaro.org, tiantao6@hisilicon.com, john.stultz@linaro.org,
- kong.kongxinwei@hisilicon.com, puck.chen@hisilicon.com, airlied@linux.ie,
- daniel@ffwll.ch, sam@ravnborg.org, maxime@cerno.tech
-Subject: [PATCH] drm/hisilicon/hibmc: Convert to Linux IRQ interfaces
-Date: Tue,  6 Jul 2021 09:54:25 +0200
-Message-Id: <20210706075425.9257-1-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.32.0
+Received: from mickerik.phytec.de (mickerik.phytec.de [195.145.39.210])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C3C46899DC
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Jul 2021 07:59:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; d=phytec.de; s=a4; c=relaxed/simple;
+ q=dns/txt; i=@phytec.de; t=1625558363; x=1628150363;
+ h=From:Sender:Reply-To:Subject:Date:Message-Id:To:Cc:MIME-Version:Content-Type:
+ Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:Resent-From:
+ Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+ List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=qYZQ4XHqFRha5FbaPTOYOPLxGoGdc+lHk/Ilb+Zz+fs=;
+ b=SgCzIEryc+YlpK/3S2NdX2TUOZNio9444rTTF/jOyPyixS52OCvLq3QpP5b0nQGf
+ 1SHyOU9Wdtsic2CeUtZhYH1NC7WSBnjplqmTweb+wct3Ls+bZd/zyt/+FPKdZ/Fg
+ Yv0DDqen33F4Udstej627XvFp1Nss1YZvtOQRCBvgaQ=;
+X-AuditID: c39127d2-a77bc70000001c5e-57-60e40d5ba677
+Received: from idefix.phytec.de (Unknown_Domain [172.16.0.10])
+ by mickerik.phytec.de (PHYTEC Mail Gateway) with SMTP id CB.25.07262.B5D04E06;
+ Tue,  6 Jul 2021 09:59:23 +0200 (CEST)
+Received: from lws-ybas.phytec.de ([172.16.21.122])
+ by idefix.phytec.de (IBM Domino Release 9.0.1FP7)
+ with ESMTP id 2021070609592347-1097774 ;
+ Tue, 6 Jul 2021 09:59:23 +0200 
+From: Yunus Bas <y.bas@phytec.de>
+To: sam@ravnborg.org, laurent.pinchart@ideasonboard.com,
+ thierry.reding@gmail.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH v3 1/2] drm/panel: simple: Add support for EDT ETMV570G2DHU
+ panel
+Date: Tue, 6 Jul 2021 09:59:07 +0200
+Message-Id: <20210706075908.907659-1-y.bas@phytec.de>
+X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MIMETrack: Itemize by SMTP Server on Idefix/Phytec(Release 9.0.1FP7|August
+ 17, 2016) at 06.07.2021 09:59:23,
+ Serialize by Router on Idefix/Phytec(Release 9.0.1FP7|August  17, 2016) at
+ 06.07.2021 09:59:23
+X-TNEFEvaluated: 1
+Content-Transfer-Encoding: quoted-printable
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrALMWRmVeSWpSXmKPExsWyRoCBSzea90mCwf5mPYvecyeZLP5vm8hs
+ ceXrezaLzolL2C0u75rDZrHi51ZGi5+75rE4sHvs/baAxWPnrLvsHrM7ZrJ6bP/2gNXjfvdx
+ Jo8l066yeXzeJBfAHsVlk5Kak1mWWqRvl8CVMW3uFJaCNsGKfR8bmRoYZ/B1MXJwSAiYSBw7
+ rt3FyMUhJLCNUWLe7T2sEM55Rolvd7+zdzFycrAJKEqcv/0WLCEiMIFRonXxXRaQBLOAqsTL
+ p1PBbGGBQImG+U3MIDaLgIrEpqddjCAbeAVMJTbeqgQJSwjIS5xce5gJxOYVEJQ4OfMJC0T8
+ CqPEhnWxELaQxOnFZ5khxmtLLFv4mnkCI98sJC2zkKQWMDKtYhTKzUzOTi3KzNYryKgsSU3W
+ S0ndxAgM1cMT1S/tYOyb43GIkYmD8RCjBAezkgivyJRHCUK8KYmVValF+fFFpTmpxYcYpTlY
+ lMR5N/CWhAkJpCeWpGanphakFsFkmTg4pRoYre20z4RtzFV5x6HFuzvdQ5iv3Xfvtq+i28W5
+ pk1UUsxaXuI1f3an5NczUza4CW2f/dIx/t4HG6WlHSdT3u5ReRnJn3py9vmN74SdHpTNdBWQ
+ kdmerhl4ee75FzvyAo2vvttwfe5HdtkcEXZZG4Nv+xQLRP/ymq7o9eiJ/sKY9Vi7dH/tyW2S
+ SizFGYmGWsxFxYkAS5YEY0MCAAA=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,73 +69,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
+Cc: airlied@linux.ie
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Drop the DRM IRQ midlayer in favor of Linux IRQ interfaces. DRM's
-IRQ helpers are mostly useful for UMS drivers. Modern KMS drivers
-don't benefit from using it.
+From: Stefan Riedmueller <s.riedmueller@phytec.de>
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+This patch adds support for the EDT ETMV570G2DHU 5.7" (640x480) lcd panel
+to DRM simple panel driver.
+
+Signed-off-by: Stefan Riedmueller <s.riedmueller@phytec.de>
+Signed-off-by: Yunus Bas <y.bas@phytec.de>
 ---
- drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c | 13 ++++++++-----
- 1 file changed, 8 insertions(+), 5 deletions(-)
+Changes in v3:
+- No changes in general, added additional maintainers and also sending
+to general kernel mailing list
+---
+ drivers/gpu/drm/panel/panel-simple.c | 29 ++++++++++++++++++++++++++++
+ 1 file changed, 29 insertions(+)
 
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-index d2628956dca3..f73a8e0ea12e 100644
---- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-+++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-@@ -19,7 +19,6 @@
- #include <drm/drm_drv.h>
- #include <drm/drm_gem_framebuffer_helper.h>
- #include <drm/drm_gem_vram_helper.h>
--#include <drm/drm_irq.h>
- #include <drm/drm_managed.h>
- #include <drm/drm_vblank.h>
- 
-@@ -28,7 +27,7 @@
- 
- DEFINE_DRM_GEM_FOPS(hibmc_fops);
- 
--static irqreturn_t hibmc_drm_interrupt(int irq, void *arg)
-+static irqreturn_t hibmc_interrupt(int irq, void *arg)
- {
- 	struct drm_device *dev = (struct drm_device *)arg;
- 	struct hibmc_drm_private *priv = to_hibmc_drm_private(dev);
-@@ -63,7 +62,6 @@ static const struct drm_driver hibmc_driver = {
- 	.dumb_create            = hibmc_dumb_create,
- 	.dumb_map_offset        = drm_gem_ttm_dumb_map_offset,
- 	.gem_prime_mmap		= drm_gem_prime_mmap,
--	.irq_handler		= hibmc_drm_interrupt,
+diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/p=
+anel-simple.c
+index 21939d4352cf..07433bff6c2b 100644
+--- a/drivers/gpu/drm/panel/panel-simple.c
++++ b/drivers/gpu/drm/panel/panel-simple.c
+@@ -2008,6 +2008,32 @@ static const struct panel=5Fdesc edt=5Fet057090dhu =
+=3D {
+ 	.connector=5Ftype =3D DRM=5FMODE=5FCONNECTOR=5FDPI,
  };
- 
- static int __maybe_unused hibmc_pm_suspend(struct device *dev)
-@@ -251,9 +249,12 @@ static int hibmc_hw_init(struct hibmc_drm_private *priv)
- 
- static int hibmc_unload(struct drm_device *dev)
- {
-+	struct hibmc_drm_private *priv = to_hibmc_drm_private(dev);
-+	struct pci_dev *pdev = to_pci_dev(dev->dev);
+=20
++static const struct drm=5Fdisplay=5Fmode edt=5Fetmv570g2dhu=5Fmode =3D {
++	.clock =3D 25175,
++	.hdisplay =3D 640,
++	.hsync=5Fstart =3D 640,
++	.hsync=5Fend =3D 640 + 16,
++	.htotal =3D 640 + 16 + 30 + 114,
++	.vdisplay =3D 480,
++	.vsync=5Fstart =3D 480 + 10,
++	.vsync=5Fend =3D 480 + 10 + 3,
++	.vtotal =3D 480 + 10 + 3 + 35,
++	.flags =3D DRM=5FMODE=5FFLAG=5FPVSYNC | DRM=5FMODE=5FFLAG=5FPHSYNC,
++};
 +
- 	drm_atomic_helper_shutdown(dev);
- 
--	drm_irq_uninstall(dev);
-+	free_irq(pdev->irq, dev);
- 
- 	pci_disable_msi(to_pci_dev(dev->dev));
- 
-@@ -290,7 +291,9 @@ static int hibmc_load(struct drm_device *dev)
- 	if (ret) {
- 		drm_warn(dev, "enabling MSI failed: %d\n", ret);
- 	} else {
--		ret = drm_irq_install(dev, pdev->irq);
-+		/* PCI devices require shared interrupts. */
-+		ret = request_irq(pdev->irq, hibmc_interrupt, IRQF_SHARED,
-+				  dev->driver->name, dev);
- 		if (ret)
- 			drm_warn(dev, "install irq failed: %d\n", ret);
- 	}
--- 
-2.32.0
++static const struct panel=5Fdesc edt=5Fetmv570g2dhu =3D {
++	.modes =3D &edt=5Fetmv570g2dhu=5Fmode,
++	.num=5Fmodes =3D 1,
++	.bpc =3D 6,
++	.size =3D {
++		.width =3D 115,
++		.height =3D 86,
++	},
++	.bus=5Fformat =3D MEDIA=5FBUS=5FFMT=5FRGB888=5F1X24,
++	.bus=5Fflags =3D DRM=5FBUS=5FFLAG=5FDE=5FHIGH | DRM=5FBUS=5FFLAG=5FPIXDAT=
+A=5FDRIVE=5FNEGEDGE,
++	.connector=5Ftype =3D DRM=5FMODE=5FCONNECTOR=5FDPI,
++};
++
+ static const struct drm=5Fdisplay=5Fmode edt=5Fetm0700g0dh6=5Fmode =3D {
+ 	.clock =3D 33260,
+ 	.hdisplay =3D 800,
+@@ -4338,6 +4364,9 @@ static const struct of=5Fdevice=5Fid platform=5Fof=5F=
+match[] =3D {
+ 	}, {
+ 		.compatible =3D "edt,et057090dhu",
+ 		.data =3D &edt=5Fet057090dhu,
++	}, {
++		.compatible =3D "edt,etmv570g2dhu",
++		.data =3D &edt=5Fetmv570g2dhu,
+ 	}, {
+ 		.compatible =3D "edt,et070080dh6",
+ 		.data =3D &edt=5Fetm0700g0dh6,
+--=20
+2.30.0
 
