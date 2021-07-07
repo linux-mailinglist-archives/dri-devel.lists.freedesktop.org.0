@@ -1,38 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03AE53BF060
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Jul 2021 21:39:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D1B323BF066
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Jul 2021 21:42:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5FECE6E1C0;
-	Wed,  7 Jul 2021 19:39:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 433586E1BC;
+	Wed,  7 Jul 2021 19:42:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B4F66E1BC;
- Wed,  7 Jul 2021 19:39:33 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10037"; a="207549364"
-X-IronPort-AV: E=Sophos;i="5.84,221,1620716400"; d="scan'208";a="207549364"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jul 2021 12:39:30 -0700
-X-IronPort-AV: E=Sophos;i="5.84,221,1620716400"; d="scan'208";a="428054293"
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5BD686E1BC;
+ Wed,  7 Jul 2021 19:41:59 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10037"; a="209415787"
+X-IronPort-AV: E=Sophos;i="5.84,221,1620716400"; d="scan'208";a="209415787"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Jul 2021 12:41:58 -0700
+X-IronPort-AV: E=Sophos;i="5.84,221,1620716400"; d="scan'208";a="449670139"
 Received: from mdroper-desk1.fm.intel.com (HELO
  mdroper-desk1.amr.corp.intel.com) ([10.1.27.134])
- by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jul 2021 12:39:29 -0700
-Date: Wed, 7 Jul 2021 12:39:28 -0700
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Jul 2021 12:41:58 -0700
+Date: Wed, 7 Jul 2021 12:41:56 -0700
 From: Matt Roper <matthew.d.roper@intel.com>
 To: Lucas De Marchi <lucas.demarchi@intel.com>
-Subject: Re: [PATCH 2/3] drm/i915: finish INTEL_GEN and friends conversion
-Message-ID: <20210707193928.GQ951094@mdroper-desk1.amr.corp.intel.com>
+Subject: Re: [PATCH 3/3] gpu/drm/i915: nuke old GEN macros
+Message-ID: <20210707194156.GR951094@mdroper-desk1.amr.corp.intel.com>
 References: <20210707181325.2130821-1-lucas.demarchi@intel.com>
- <20210707181325.2130821-3-lucas.demarchi@intel.com>
+ <20210707181325.2130821-4-lucas.demarchi@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210707181325.2130821-3-lucas.demarchi@intel.com>
+In-Reply-To: <20210707181325.2130821-4-lucas.demarchi@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,65 +50,48 @@ Cc: Daniel Vetter <daniel.vetter@intel.com>, intel-gfx@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 07, 2021 at 11:13:24AM -0700, Lucas De Marchi wrote:
-> Commit 161058fb899e ("drm/i915: Add remaining conversions to GRAPHICS_VER")
-> did the last conversions to the new macros for version checks, but some
-> some changes sneaked in to use INTEL_GEN. Remove the last users so
-> we can remove the macros.
+On Wed, Jul 07, 2021 at 11:13:25AM -0700, Lucas De Marchi wrote:
+> Now that all the codebase is converted to the new *VER macros, remove
+> the old GEN ones.
 > 
 > Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
 
 Reviewed-by: Matt Roper <matthew.d.roper@intel.com>
 
-I think the third change here is just one we somehow missed during the
-previous conversion rather than a new use, right?
+We're still going to need another patch or two to kill off
+IS_GEN9_{BC,LP}, but we can do that separately.  We're less likely to be
+adding new instances of those macros now anyway.
 
 > ---
->  drivers/gpu/drm/i915/display/intel_display_debugfs.c | 3 ++-
->  drivers/gpu/drm/i915/i915_debugfs.c                  | 2 +-
->  drivers/gpu/drm/i915/intel_uncore.c                  | 2 +-
->  3 files changed, 4 insertions(+), 3 deletions(-)
+>  drivers/gpu/drm/i915/i915_drv.h | 15 ---------------
+>  1 file changed, 15 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/i915/display/intel_display_debugfs.c b/drivers/gpu/drm/i915/display/intel_display_debugfs.c
-> index af9e58619667..d5af5708c9da 100644
-> --- a/drivers/gpu/drm/i915/display/intel_display_debugfs.c
-> +++ b/drivers/gpu/drm/i915/display/intel_display_debugfs.c
-> @@ -544,7 +544,8 @@ static int i915_dmc_info(struct seq_file *m, void *unused)
+> diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
+> index 6dff4ca01241..bc6799f75670 100644
+> --- a/drivers/gpu/drm/i915/i915_drv.h
+> +++ b/drivers/gpu/drm/i915/i915_drv.h
+> @@ -1243,21 +1243,6 @@ static inline struct drm_i915_private *pdev_to_i915(struct pci_dev *pdev)
 >  
->  	seq_printf(m, "fw loaded: %s\n", yesno(intel_dmc_has_payload(dev_priv)));
->  	seq_printf(m, "path: %s\n", dmc->fw_path);
-> -	seq_printf(m, "Pipe A fw support: %s\n", yesno(INTEL_GEN(dev_priv) >= 12));
-> +	seq_printf(m, "Pipe A fw support: %s\n",
-> +		   yesno(GRAPHICS_VER(dev_priv) >= 12));
->  	seq_printf(m, "Pipe A fw loaded: %s\n", yesno(dmc->dmc_info[DMC_FW_PIPEA].payload));
->  	seq_printf(m, "Pipe B fw support: %s\n", yesno(IS_ALDERLAKE_P(dev_priv)));
->  	seq_printf(m, "Pipe B fw loaded: %s\n", yesno(dmc->dmc_info[DMC_FW_PIPEB].payload));
-> diff --git a/drivers/gpu/drm/i915/i915_debugfs.c b/drivers/gpu/drm/i915/i915_debugfs.c
-> index cc745751ac53..0529576f069c 100644
-> --- a/drivers/gpu/drm/i915/i915_debugfs.c
-> +++ b/drivers/gpu/drm/i915/i915_debugfs.c
-> @@ -636,7 +636,7 @@ static int i915_swizzle_info(struct seq_file *m, void *data)
->  			   intel_uncore_read16(uncore, C0DRB3_BW));
->  		seq_printf(m, "C1DRB3 = 0x%04x\n",
->  			   intel_uncore_read16(uncore, C1DRB3_BW));
-> -	} else if (INTEL_GEN(dev_priv) >= 6) {
-> +	} else if (GRAPHICS_VER(dev_priv) >= 6) {
->  		seq_printf(m, "MAD_DIMM_C0 = 0x%08x\n",
->  			   intel_uncore_read(uncore, MAD_DIMM_C0));
->  		seq_printf(m, "MAD_DIMM_C1 = 0x%08x\n",
-> diff --git a/drivers/gpu/drm/i915/intel_uncore.c b/drivers/gpu/drm/i915/intel_uncore.c
-> index d067524f9162..ee1c6fbc3d97 100644
-> --- a/drivers/gpu/drm/i915/intel_uncore.c
-> +++ b/drivers/gpu/drm/i915/intel_uncore.c
-> @@ -1929,7 +1929,7 @@ int intel_uncore_init_mmio(struct intel_uncore *uncore)
->  		return -ENODEV;
->  	}
+>  #define INTEL_DEVID(dev_priv)	(RUNTIME_INFO(dev_priv)->device_id)
 >  
-> -	if (INTEL_GEN(i915) > 5 && !intel_vgpu_active(i915))
-> +	if (GRAPHICS_VER(i915) > 5 && !intel_vgpu_active(i915))
->  		uncore->flags |= UNCORE_HAS_FORCEWAKE;
->  
->  	if (!intel_uncore_has_forcewake(uncore)) {
+> -/*
+> - * Deprecated: this will be replaced by individual IP checks:
+> - * GRAPHICS_VER(), MEDIA_VER() and DISPLAY_VER()
+> - */
+> -#define INTEL_GEN(dev_priv)		GRAPHICS_VER(dev_priv)
+> -/*
+> - * Deprecated: use IS_GRAPHICS_VER(), IS_MEDIA_VER() and IS_DISPLAY_VER() as
+> - * appropriate.
+> - */
+> -#define IS_GEN_RANGE(dev_priv, s, e)	IS_GRAPHICS_VER(dev_priv, (s), (e))
+> -/*
+> - * Deprecated: use GRAPHICS_VER(), MEDIA_VER() and DISPLAY_VER() as appropriate.
+> - */
+> -#define IS_GEN(dev_priv, n)		(GRAPHICS_VER(dev_priv) == (n))
+> -
+>  #define GRAPHICS_VER(i915)		(INTEL_INFO(i915)->graphics_ver)
+>  #define IS_GRAPHICS_VER(i915, from, until) \
+>  	(GRAPHICS_VER(i915) >= (from) && GRAPHICS_VER(i915) <= (until))
 > -- 
 > 2.31.1
 > 
