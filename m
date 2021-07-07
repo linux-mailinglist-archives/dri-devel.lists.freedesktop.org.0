@@ -2,43 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72DE23BE80D
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Jul 2021 14:34:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1D663BE86B
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Jul 2021 14:54:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1756C6E128;
-	Wed,  7 Jul 2021 12:34:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8CD9D6E12E;
+	Wed,  7 Jul 2021 12:54:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 91D0A6E128
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Jul 2021 12:34:36 +0000 (UTC)
-Received: from gallifrey.ext.pengutronix.de
- ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1m16l9-0001Oi-4F; Wed, 07 Jul 2021 14:34:35 +0200
-Message-ID: <8f496c360632f5de462433cce0f870c85fe6e588.camel@pengutronix.de>
-Subject: Re: [PATCH v2 08/11] drm/etnaviv: Use scheduler dependency handling
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Wed, 07 Jul 2021 14:34:33 +0200
-In-Reply-To: <CAKMK7uFiJPzwH_MNi-c2YgD2LvX6MRMSJhjmiMm_yfmR70noLw@mail.gmail.com>
-References: <20210702213815.2249499-1-daniel.vetter@ffwll.ch>
- <20210702213815.2249499-9-daniel.vetter@ffwll.ch>
- <006dc4538e906b548eac0acfaf62211b83de4927.camel@pengutronix.de>
- <CAKMK7uEwszSpcdk2BSasOD-9gpnm=UhKR8-K40zQCCLSyk=Q_Q@mail.gmail.com>
- <CAKMK7uFiJPzwH_MNi-c2YgD2LvX6MRMSJhjmiMm_yfmR70noLw@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.1 (3.40.1-1.fc34) 
+Received: from mail-oi1-x22d.google.com (mail-oi1-x22d.google.com
+ [IPv6:2607:f8b0:4864:20::22d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD1076E12C
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Jul 2021 12:54:46 +0000 (UTC)
+Received: by mail-oi1-x22d.google.com with SMTP id l21so3242244oig.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 07 Jul 2021 05:54:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=ZwucK/hcyFDLDJ5ulbYeHz4jdgbFEMTjqApCtmNqV+E=;
+ b=H6eMViN7cPvcwTKvKheJG9sJFRXo5t5JSta3Q1bmZUkcKlz8vytBXOCNkU/JqVul+d
+ VWFc0jOPzvxDOs8qb/ame/veAS9kfUmpd5auGGz/pmDHZ8QpQHUzgiUxkOX4oM1JFoyd
+ r7W1zE/iC95PtQdaLEgxF2Mm+Yb/KXz4c6Ing=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=ZwucK/hcyFDLDJ5ulbYeHz4jdgbFEMTjqApCtmNqV+E=;
+ b=PjaQsucHk+KyOPdiF7wG8tMtjP+91jCpuJxUZqK7T6fbPWpWXxcqErVgNS8fdY6wRl
+ cCrZQalsiyWZYLOb/QScwH54PEDscZdBz+aF3sdR+wABoCYMVGaYgn36Z9kG+B78o8Yk
+ 6YxUnoITZ6HiZUjnJTPk80Grl15lbx0TPqPXyEpWYqwgNVBfgzsP3n7VGVysOC2icZUX
+ Ba43KKUP8homtYYPthk3/vh99N03kObfTlv8TXGiGWyZbhFnLVMgVYxGuLok41a8gL13
+ UrU6yYtAKxVw5jC7U5lB0QGhhHIIHpRX20RoeakGLRSfXrREpxFMy7OhI9gMKytkYFfl
+ 3C3g==
+X-Gm-Message-State: AOAM530f0Kx3tJuBgWPD2ajm9Q6pD4aaLmoiSOsTAGvKlO+yq2gv/BT4
+ W2Z6tq8OLXWcBwZKno09vc48wx6ibkxGF55+a+Zl4A==
+X-Google-Smtp-Source: ABdhPJygqGkF27WMKuRCc+HJjxSUE80qhZpY36/0xSlWlXRYoPY3q/cIXPhcyfDPJ3DAKsV7rDaa38qZXXQaPcpAD/Y=
+X-Received: by 2002:aca:eb43:: with SMTP id j64mr4775645oih.101.1625662486066; 
+ Wed, 07 Jul 2021 05:54:46 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+References: <20210705130314.11519-1-ogabbay@kernel.org>
+ <YOQXBWpo3whVjOyh@phenom.ffwll.local>
+ <20210706122110.GA18273@lst.de> <YORLTmyoXDtoM9Ta@phenom.ffwll.local>
+ <9af554b1-e4d8-4dd4-5a6a-830f3112941d@gmail.com>
+In-Reply-To: <9af554b1-e4d8-4dd4-5a6a-830f3112941d@gmail.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Wed, 7 Jul 2021 14:54:34 +0200
+Message-ID: <CAKMK7uG2LnceUqst7VeA7+zhyJJoY5FReuDPfJu67tuTv60WeQ@mail.gmail.com>
+Subject: Re: [Linaro-mm-sig] [PATCH v4 0/2] Add p2p via dmabuf to habanalabs
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,285 +63,136 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: The etnaviv authors <etnaviv@lists.freedesktop.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- "moderated list:DMA BUFFER SHARING
- FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+Cc: Gal Pressman <galpress@amazon.com>, sleybo@amazon.com,
+ linux-rdma <linux-rdma@vger.kernel.org>, Greg KH <gregkh@linuxfoundation.org>,
+ Oded Gabbay <ogabbay@kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Doug Ledford <dledford@redhat.com>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>, Christoph Hellwig <hch@lst.de>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Leon Romanovsky <leonro@nvidia.com>,
  "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Mittwoch, dem 07.07.2021 um 13:32 +0200 schrieb Daniel Vetter:
-> On Wed, Jul 7, 2021 at 1:26 PM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
-> > On Wed, Jul 7, 2021 at 11:08 AM Lucas Stach <l.stach@pengutronix.de> wrote:
-> > > Am Freitag, dem 02.07.2021 um 23:38 +0200 schrieb Daniel Vetter:
-> > > > We need to pull the drm_sched_job_init much earlier, but that's very
-> > > > minor surgery.
-> > > > 
-> > > > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > > > Cc: Lucas Stach <l.stach@pengutronix.de>
-> > > > Cc: Russell King <linux+etnaviv@armlinux.org.uk>
-> > > > Cc: Christian Gmeiner <christian.gmeiner@gmail.com>
-> > > > Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> > > > Cc: "Christian König" <christian.koenig@amd.com>
-> > > > Cc: etnaviv@lists.freedesktop.org
-> > > > Cc: linux-media@vger.kernel.org
-> > > > Cc: linaro-mm-sig@lists.linaro.org
-> > > > ---
-> > > >  drivers/gpu/drm/etnaviv/etnaviv_gem.h        |  5 +-
-> > > >  drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c | 32 +++++-----
-> > > >  drivers/gpu/drm/etnaviv/etnaviv_sched.c      | 61 +-------------------
-> > > >  drivers/gpu/drm/etnaviv/etnaviv_sched.h      |  3 +-
-> > > >  4 files changed, 20 insertions(+), 81 deletions(-)
-> > > > 
-> > > > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.h b/drivers/gpu/drm/etnaviv/etnaviv_gem.h
-> > > > index 98e60df882b6..63688e6e4580 100644
-> > > > --- a/drivers/gpu/drm/etnaviv/etnaviv_gem.h
-> > > > +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.h
-> > > > @@ -80,9 +80,6 @@ struct etnaviv_gem_submit_bo {
-> > > >       u64 va;
-> > > >       struct etnaviv_gem_object *obj;
-> > > >       struct etnaviv_vram_mapping *mapping;
-> > > > -     struct dma_fence *excl;
-> > > > -     unsigned int nr_shared;
-> > > > -     struct dma_fence **shared;
-> > > >  };
-> > > > 
-> > > >  /* Created per submit-ioctl, to track bo's and cmdstream bufs, etc,
-> > > > @@ -95,7 +92,7 @@ struct etnaviv_gem_submit {
-> > > >       struct etnaviv_file_private *ctx;
-> > > >       struct etnaviv_gpu *gpu;
-> > > >       struct etnaviv_iommu_context *mmu_context, *prev_mmu_context;
-> > > > -     struct dma_fence *out_fence, *in_fence;
-> > > > +     struct dma_fence *out_fence;
-> > > >       int out_fence_id;
-> > > >       struct list_head node; /* GPU active submit list */
-> > > >       struct etnaviv_cmdbuf cmdbuf;
-> > > > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
-> > > > index 4dd7d9d541c0..92478a50a580 100644
-> > > > --- a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
-> > > > +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
-> > > > @@ -188,16 +188,10 @@ static int submit_fence_sync(struct etnaviv_gem_submit *submit)
-> > > >               if (submit->flags & ETNA_SUBMIT_NO_IMPLICIT)
-> > > >                       continue;
-> > > > 
-> > > > -             if (bo->flags & ETNA_SUBMIT_BO_WRITE) {
-> > > > -                     ret = dma_resv_get_fences(robj, &bo->excl,
-> > > > -                                               &bo->nr_shared,
-> > > > -                                               &bo->shared);
-> > > > -                     if (ret)
-> > > > -                             return ret;
-> > > > -             } else {
-> > > > -                     bo->excl = dma_resv_get_excl_unlocked(robj);
-> > > > -             }
-> > > > -
-> > > > +             ret = drm_sched_job_await_implicit(&submit->sched_job, &bo->obj->base,
-> > > > +                                                bo->flags & ETNA_SUBMIT_BO_WRITE);
-> > > > +             if (ret)
-> > > > +                     return ret;
-> > > >       }
-> > > > 
-> > > >       return ret;
-> > > > @@ -403,8 +397,6 @@ static void submit_cleanup(struct kref *kref)
-> > > > 
-> > > >       wake_up_all(&submit->gpu->fence_event);
-> > > > 
-> > > > -     if (submit->in_fence)
-> > > > -             dma_fence_put(submit->in_fence);
-> > > >       if (submit->out_fence) {
-> > > >               /* first remove from IDR, so fence can not be found anymore */
-> > > >               mutex_lock(&submit->gpu->fence_lock);
-> > > > @@ -537,6 +529,12 @@ int etnaviv_ioctl_gem_submit(struct drm_device *dev, void *data,
-> > > >       submit->exec_state = args->exec_state;
-> > > >       submit->flags = args->flags;
-> > > > 
-> > > > +     ret = drm_sched_job_init(&submit->sched_job,
-> > > > +                              &ctx->sched_entity[args->pipe],
-> > > > +                              submit->ctx);
-> > > > +     if (ret)
-> > > > +             goto err_submit_objects;
-> > > > +
-> > > 
-> > > With the init moved here you also need to move the
-> > > drm_sched_job_cleanup call from etnaviv_sched_free_job into
-> > > submit_cleanup to avoid the potential memory leak when we bail out
-> > > before pushing the job to the scheduler.
-> > 
-> > Uh apologies for missing this again, the entire point of v2 was to fix
-> > this across all drivers. But somehow the fixup for etnaviv got lost.
-> > I'll do it now for v3.
-> 
-> To clarify, in case you meant I should put it into submit_cleanup():
-> That doesn't work, because for some of the paths we shouldn't call it
-> yet, so I think it's better to be explicit here (like I've done with
-> other drivers) - drm_sched_job_cleanup handles being called
-> before/after drm_sched_job_arm, but it doesn't cope well with being
-> called before drm_sched_job_init :-)
+On Wed, Jul 7, 2021 at 2:17 PM Christian K=C3=B6nig
+<ckoenig.leichtzumerken@gmail.com> wrote:
+> Am 06.07.21 um 14:23 schrieb Daniel Vetter:
+> > On Tue, Jul 06, 2021 at 02:21:10PM +0200, Christoph Hellwig wrote:
+> >> On Tue, Jul 06, 2021 at 10:40:37AM +0200, Daniel Vetter wrote:
+> >>>> Greg, I hope this will be good enough for you to merge this code.
+> >>> So we're officially going to use dri-devel for technical details revi=
+ew
+> >>> and then Greg for merging so we don't have to deal with other merge
+> >>> criteria dri-devel folks have?
+> >>>
+> >>> I don't expect anything less by now, but it does make the original cl=
+aim
+> >>> that drivers/misc will not step all over accelerators folks a complet=
+e
+> >>> farce under the totally-not-a-gpu banner.
+> >>>
+> >>> This essentially means that for any other accelerator stack that does=
+n't
+> >>> fit the dri-devel merge criteria, even if it's acting like a gpu and =
+uses
+> >>> other gpu driver stuff, you can just send it to Greg and it's good to=
+ go.
+> >>>
+> >>> There's quite a lot of these floating around actually (and many do ha=
+ve
+> >>> semi-open runtimes, like habanalabs have now too, just not open enoug=
+h to
+> >>> be actually useful). It's going to be absolutely lovely having to exp=
+lain
+> >>> to these companies in background chats why habanalabs gets away with =
+their
+> >>> stack and they don't.
+> >> FYI, I fully agree with Daniel here.  Habanlabs needs to open up their
+> >> runtime if they want to push any additional feature in the kernel.
+> >> The current situation is not sustainable.
+> > Before anyone replies: The runtime is open, the compiler is still close=
+d.
+> > This has become the new default for accel driver submissions, I think
+> > mostly because all the interesting bits for non-3d accelerators are in =
+the
+> > accel ISA, and no longer in the runtime. So vendors are fairly happy to
+> > throw in the runtime as a freebie.
+>
+> Well a compiler and runtime makes things easier, but the real question
+> is if they are really required for upstreaming a kernel driver?
+>
+> I mean what we need is to be able to exercise the functionality. So
+> wouldn't (for example) an assembler be sufficient?
 
-Yes, that was just my first idea to make sure it's always called. If
-this is problematic in some cases I don't care if your solution looks
-different, all I care about is that drm_sched_job_cleanup is called
-when needed. :)
+So no one has tried this yet, but I think an assembler, or maybe even
+just the full PRM for the ISA is also good enough I think.
 
-Regards,
-Lucas
+I guess in practice everyone just comes with the compiler for a few reasons=
+:
+- AMD and Intel are great and release full PRMs for the gpu, but
+preparing those takes a lot of time. Often that's done as part of
+bring up, to make sure everything is annotated properly, so that all
+the necessary bits are included, but none of the future stuff, or
+silicon bring-up pieces. So in reality you have the compiler before
+you have the isa docs.
 
-> -Daniel
-> 
-> > 
-> > Thanks, Daniel
-> > 
-> > > 
-> > > Regards,
-> > > Lucas
-> > > 
-> > > >       ret = submit_lookup_objects(submit, file, bos, args->nr_bos);
-> > > >       if (ret)
-> > > >               goto err_submit_objects;
-> > > > @@ -549,11 +547,15 @@ int etnaviv_ioctl_gem_submit(struct drm_device *dev, void *data,
-> > > >       }
-> > > > 
-> > > >       if (args->flags & ETNA_SUBMIT_FENCE_FD_IN) {
-> > > > -             submit->in_fence = sync_file_get_fence(args->fence_fd);
-> > > > -             if (!submit->in_fence) {
-> > > > +             struct dma_fence *in_fence = sync_file_get_fence(args->fence_fd);
-> > > > +             if (!in_fence) {
-> > > >                       ret = -EINVAL;
-> > > >                       goto err_submit_objects;
-> > > >               }
-> > > > +
-> > > > +             ret = drm_sched_job_await_fence(&submit->sched_job, in_fence);
-> > > > +             if (ret)
-> > > > +                     goto err_submit_objects;
-> > > >       }
-> > > > 
-> > > >       ret = submit_pin_objects(submit);
-> > > > @@ -579,7 +581,7 @@ int etnaviv_ioctl_gem_submit(struct drm_device *dev, void *data,
-> > > >       if (ret)
-> > > >               goto err_submit_objects;
-> > > > 
-> > > > -     ret = etnaviv_sched_push_job(&ctx->sched_entity[args->pipe], submit);
-> > > > +     ret = etnaviv_sched_push_job(submit);
-> > > >       if (ret)
-> > > >               goto err_submit_objects;
-> > > > 
-> > > > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_sched.c b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
-> > > > index 180bb633d5c5..c98d67320be3 100644
-> > > > --- a/drivers/gpu/drm/etnaviv/etnaviv_sched.c
-> > > > +++ b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
-> > > > @@ -17,58 +17,6 @@ module_param_named(job_hang_limit, etnaviv_job_hang_limit, int , 0444);
-> > > >  static int etnaviv_hw_jobs_limit = 4;
-> > > >  module_param_named(hw_job_limit, etnaviv_hw_jobs_limit, int , 0444);
-> > > > 
-> > > > -static struct dma_fence *
-> > > > -etnaviv_sched_dependency(struct drm_sched_job *sched_job,
-> > > > -                      struct drm_sched_entity *entity)
-> > > > -{
-> > > > -     struct etnaviv_gem_submit *submit = to_etnaviv_submit(sched_job);
-> > > > -     struct dma_fence *fence;
-> > > > -     int i;
-> > > > -
-> > > > -     if (unlikely(submit->in_fence)) {
-> > > > -             fence = submit->in_fence;
-> > > > -             submit->in_fence = NULL;
-> > > > -
-> > > > -             if (!dma_fence_is_signaled(fence))
-> > > > -                     return fence;
-> > > > -
-> > > > -             dma_fence_put(fence);
-> > > > -     }
-> > > > -
-> > > > -     for (i = 0; i < submit->nr_bos; i++) {
-> > > > -             struct etnaviv_gem_submit_bo *bo = &submit->bos[i];
-> > > > -             int j;
-> > > > -
-> > > > -             if (bo->excl) {
-> > > > -                     fence = bo->excl;
-> > > > -                     bo->excl = NULL;
-> > > > -
-> > > > -                     if (!dma_fence_is_signaled(fence))
-> > > > -                             return fence;
-> > > > -
-> > > > -                     dma_fence_put(fence);
-> > > > -             }
-> > > > -
-> > > > -             for (j = 0; j < bo->nr_shared; j++) {
-> > > > -                     if (!bo->shared[j])
-> > > > -                             continue;
-> > > > -
-> > > > -                     fence = bo->shared[j];
-> > > > -                     bo->shared[j] = NULL;
-> > > > -
-> > > > -                     if (!dma_fence_is_signaled(fence))
-> > > > -                             return fence;
-> > > > -
-> > > > -                     dma_fence_put(fence);
-> > > > -             }
-> > > > -             kfree(bo->shared);
-> > > > -             bo->nr_shared = 0;
-> > > > -             bo->shared = NULL;
-> > > > -     }
-> > > > -
-> > > > -     return NULL;
-> > > > -}
-> > > > -
-> > > >  static struct dma_fence *etnaviv_sched_run_job(struct drm_sched_job *sched_job)
-> > > >  {
-> > > >       struct etnaviv_gem_submit *submit = to_etnaviv_submit(sched_job);
-> > > > @@ -140,14 +88,12 @@ static void etnaviv_sched_free_job(struct drm_sched_job *sched_job)
-> > > >  }
-> > > > 
-> > > >  static const struct drm_sched_backend_ops etnaviv_sched_ops = {
-> > > > -     .dependency = etnaviv_sched_dependency,
-> > > >       .run_job = etnaviv_sched_run_job,
-> > > >       .timedout_job = etnaviv_sched_timedout_job,
-> > > >       .free_job = etnaviv_sched_free_job,
-> > > >  };
-> > > > 
-> > > > -int etnaviv_sched_push_job(struct drm_sched_entity *sched_entity,
-> > > > -                        struct etnaviv_gem_submit *submit)
-> > > > +int etnaviv_sched_push_job(struct etnaviv_gem_submit *submit)
-> > > >  {
-> > > >       int ret = 0;
-> > > > 
-> > > > @@ -158,11 +104,6 @@ int etnaviv_sched_push_job(struct drm_sched_entity *sched_entity,
-> > > >        */
-> > > >       mutex_lock(&submit->gpu->fence_lock);
-> > > > 
-> > > > -     ret = drm_sched_job_init(&submit->sched_job, sched_entity,
-> > > > -                              submit->ctx);
-> > > > -     if (ret)
-> > > > -             goto out_unlock;
-> > > > -
-> > > >       drm_sched_job_arm(&submit->sched_job);
-> > > > 
-> > > >       submit->out_fence = dma_fence_get(&submit->sched_job.s_fence->finished);
-> > > > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_sched.h b/drivers/gpu/drm/etnaviv/etnaviv_sched.h
-> > > > index c0a6796e22c9..baebfa069afc 100644
-> > > > --- a/drivers/gpu/drm/etnaviv/etnaviv_sched.h
-> > > > +++ b/drivers/gpu/drm/etnaviv/etnaviv_sched.h
-> > > > @@ -18,7 +18,6 @@ struct etnaviv_gem_submit *to_etnaviv_submit(struct drm_sched_job *sched_job)
-> > > > 
-> > > >  int etnaviv_sched_init(struct etnaviv_gpu *gpu);
-> > > >  void etnaviv_sched_fini(struct etnaviv_gpu *gpu);
-> > > > -int etnaviv_sched_push_job(struct drm_sched_entity *sched_entity,
-> > > > -                        struct etnaviv_gem_submit *submit);
-> > > > +int etnaviv_sched_push_job(struct etnaviv_gem_submit *submit);
-> > > > 
-> > > >  #endif /* __ETNAVIV_SCHED_H__ */
-> > > 
-> > > 
-> > 
-> > 
-> > --
-> > Daniel Vetter
-> > Software Engineer, Intel Corporation
-> > http://blog.ffwll.ch
-> 
-> 
-> 
+- reverse-engineered drivers also tend to have demo compilers before
+anything like full ISA docs show up :-) But also the docs tooling they
+have are great.
 
+- then there's the case of developing a driver with NDA'd docs. Again
+you'll have a compiler as the only real output, there's not going to
+be any docs or anything like that.
 
+> > It's still incomplete, and it's still useless if you want to actually h=
+ack
+> > on the driver stack.
+>
+> Yeah, when you want to hack on it in the sense of extending it then this
+> requirement is certainly true.
+>
+> But as far as I can see userspace don't need to be extendable to justify
+> a kernel driver. It just needs to have enough glue to thoughtfully
+> exercise the relevant kernel interfaces.
+>
+> Applying that to GPUs I think what you need to be able to is to write
+> shaders, but that doesn't need to be in a higher language requiring a
+> compiler and runtime. Released opcodes and a low level assembler should
+> be sufficient.
+
+Yeah I think in theory ISA docs + assembler testcase or whatever is
+perfectly fine. In reality anyone who cares enough to do this properly
+gets to the demo quality compiler stage first, and so that's what we
+take for merging a new stack.
+
+I do disagree that we're only ever asking for this and not more, e.g.
+if you come with a new 3d accelator and it's not coming with a
+userspace driver as a mesa MR, you have to do some very serious
+explaining about wtf you're doing - mesa3d won, pretty much across the
+board, as a common project for both vulkan and opengl, and the
+justifications for reinventing wheels better be really good here. Also
+by the time you've written enough scaffolding to show it integrates in
+non-stupid ways into mesa, you practically have a demo-quality driver
+stack anyway.
+
+Similar on the display side of things, over the past year consensus
+for merge criteria have gone up quite a bit, e.g. there's a patch
+floating around to make that clearer:
+
+https://lore.kernel.org/dri-devel/20210706161244.1038592-1-maxime@cerno.tec=
+h/
+
+Of course this doesn't include anything grandfathered in (*cough*
+amdvlk *cough*), and also outside of 3d there's clearly no
+cross-vendor project that's established enough, media, compute, AI/NN
+stuff is all very badly fragmented. That's maybe lamentable, but like
+you said not really a reason to reject a kernel driver.
+-Daniel
+--=20
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
