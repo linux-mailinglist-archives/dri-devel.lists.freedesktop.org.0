@@ -2,68 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C3FE3BE4A0
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Jul 2021 10:48:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59ED93BE4A1
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Jul 2021 10:48:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8ACC16E846;
-	Wed,  7 Jul 2021 08:48:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 919FB6E847;
+	Wed,  7 Jul 2021 08:48:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com
  [64.147.123.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A0AFF6E846
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Jul 2021 08:48:18 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.west.internal (Postfix) with ESMTP id 625E92B00943;
- Wed,  7 Jul 2021 04:48:17 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Wed, 07 Jul 2021 04:48:18 -0400
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 117D66E847
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Jul 2021 08:48:22 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailnew.west.internal (Postfix) with ESMTP id BD0812B00942;
+ Wed,  7 Jul 2021 04:48:20 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute1.internal (MEProxy); Wed, 07 Jul 2021 04:48:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=YyP14HhgJiEPD
- LobY7EM72JpMB0p8QGpT5+/lC1jZxc=; b=Qp45ysaXN/99CS/G1vikveXYvEDGG
- UlgIkMg2pLPkUG74W+Ty6MwxIPG4fv1EpcpM9+M90QpAr6CYvP/EyA1kEi87f++f
- /z9taWA2uL3OTB0D+hD5CVakybMpnV4HGVHkOM3qLodm0NiBzbXmKt9Zn0iwsL1R
- UygdmoN+UcganJQVBQJvu+2hKRXuXYadgD604t2qKJbX+Ovbo3RXJnign2cEMmuj
- ylfwlp4Xo23vv5wV8CHsXxq1h4Z2mbWnUOKs36wVGpPxYtBLq90/ylmZY2qrF7Lk
- p8+R+0KnE6DMKV7vWHwEBYdfB7wNpF4sMfIGIVyZexrYbkCYijNNmbsgw==
+ :mime-version:content-transfer-encoding; s=fm3; bh=qKryS3vajFu2P
+ Y4aqey6jlrzQB/c3ydj21xQAaHr050=; b=rRxwKpplj+A+xWKVXx9UcTDaHvq0K
+ 1G3sC6k+tkBARhdo0b6lE0j2D9DrbQ4a6SXA7wu/hIe9egNBgVoYT60Lb/lGsvyk
+ Gm5q4k9VlIbzfx1YW1zepCzCc9i1lXInekZSG/ZNpKzw9BYlUpwY35+XMxK6+K9R
+ yv1/gyO6pimA+I4AaccJSyhwKPm3FryQchEC8JJyWf4kMHGOIBd5M1/DDhy9/Ktt
+ bzq/kLGG4av6sQhnWz/TbkTDvm1FkR2p7X8Vc7XdpD7PARZ8BhKnMWvPM/RWFBuw
+ G7EgxMRwgQqxWefCuB1iBgeDvuHnH3d1UsntvcgMuIMwzTeovqo3wuzew==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=YyP14HhgJiEPDLobY7EM72JpMB0p8QGpT5+/lC1jZxc=; b=QP0EEGd9
- +h2E5exUUV8FV0tRPohdK+6GA22VNBVs7dAeb9D5VgpzGYj6HnhHDkoE/r2zcT42
- QeSGDl2PUCu6niUIjY6UhRpJJEshn+Jci9BxZR18IZRcnsI2Ohpb4DGYDjrB33D/
- 8yb1+1eSEwVEBNGx/K3jnDnOQFfhFkFkRCmsRBS0Uuc5A4UOAuexoO4MjRQcj5Qy
- oc44hwCYJirN5peqEeg73/g2biS/54HZ5Kuxh+e2kW9VA1Vf1OggAx9OBgv8KWHV
- /R3h5/hUre6N3ZjBUdxXEi4EwQuTC/84uR21hy3pCErVJTwdQS4OPbu2Exxr7I4k
- m6sKUMpjMiWLHg==
-X-ME-Sender: <xms:UGrlYK9CWiz_psgaumJApW08LuE0JMaVTucLNveTQTsJjT62kzvvRg>
- <xme:UGrlYKu6oX2jsAaSWsnx6L5DIlQYKkiAehXNT5qzYgozM1dDzTqoEkUdewRnSn5nE
- RCK00NE05-yAFLWT2k>
-X-ME-Received: <xmr:UGrlYAB1liJnRrpGgMtm8W13gpIIzzoapoFQdNK7xcYnh756H31OoQZn0DUbqfyREeoh5Pi_yRQl9ENhIEBJU3PjsDtQJN3PvMcD>
+ fm3; bh=qKryS3vajFu2PY4aqey6jlrzQB/c3ydj21xQAaHr050=; b=uByIghg9
+ FgWE8sN45XWA5PZHn360dOk2gpYq4c7keKrsCdz5Kz7JibMbZIidNEf4D/ICEiMh
+ +r8tsLbTIU7eUssSlZH3XsEYvp2opBoDzZllxjI1R/xj+dKFiZy5vWzkj1LL/NZ/
+ Vr5RSPjqpC7bE/VKa0BW+OKDGa/jOtvVN5p1z9+gOxxngFoY8Hloxvo7ueWgDrcL
+ UKnNaeIR7/6jhd2DIFfdhuSZV7gh0dnAxz5AEDwkMgcx5g0snu356TzsdAkxAN/P
+ mVU6ZsaXPkVL2aqUW48aYz9iFpo2BeBOpcsZed8C7huMhLwQo/ckbNb1OVDRqS9f
+ 0U0Rf0PW68V9tQ==
+X-ME-Sender: <xms:VGrlYMbyHGt-wG3S2xJUtq48XvOfy1kP_XDCKi5ZFxr99aPVkBHhjA>
+ <xme:VGrlYHZe72d0azUW6GIhza8rScHNNaVkTMv5EosQbRuLEe4bnxNstq2RUlDrMQDFv
+ aSwK2mrPzG-YyLSC8k>
+X-ME-Received: <xmr:VGrlYG-U8a8ukQ0OQ57YvVnK5V0ZFAWb5i_6c_aYXFfSt1IOam8ARkxWnBh4PpoHOXhkoZxYKNK_MI3dpoZ7K2N-ARPfMHmgyRO4>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrtddvgddtiecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihimhgv
  ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
  gvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveevheeh
- vdenucevlhhushhtvghrufhiiigvpedvnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
+ vdenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
  igihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:UGrlYCc9EQgCAznP5DIYjiP-Gz-zPgg9h216Sb2f0mxTYpfjyQnv0w>
- <xmx:UGrlYPPXf1q18zJkYLzfsZz8JytvGTDp9OC-jX0EYNA0SPV8bxcmCA>
- <xmx:UGrlYMngXbMEwAJaZwv11KLr21qAT7mUze6l4pnustCGZ-wVsdWQtQ>
- <xmx:UWrlYGkfH9EWaD8W5HcoKzCrVqX0Ucd0hH532P0BY2gr9HmzXZLEbQDbPeQ>
+X-ME-Proxy: <xmx:VGrlYGpZb1IXQZcfIhl7i3iwhMpkoD_UTl_6nFWE8mFL61M-YCbjPQ>
+ <xmx:VGrlYHoSurnrd-j6xOV7klcunwi3ebZoedzcRmY9bkiX3U2J9OjJBQ>
+ <xmx:VGrlYEQWMpaNcAWW33IVGC9HiLaBuiSO9OvxN7aPladg9qtgCOkpZA>
+ <xmx:VGrlYCAHTKJuEDW4Nk8cApZtbDeP3lxcOdrUytzlf-OnPWbrNUF47YS4JKI>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 7 Jul 2021 04:48:16 -0400 (EDT)
+ 7 Jul 2021 04:48:19 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@intel.com>,
  David Airlie <airlied@linux.ie>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>
-Subject: [PATCH v6 07/10] drm/vc4: Leverage the load tracker on the BCM2711
-Date: Wed,  7 Jul 2021 10:47:42 +0200
-Message-Id: <20210707084745.1365390-8-maxime@cerno.tech>
+Subject: [PATCH v6 08/10] drm/vc4: hdmi: Raise the maximum clock rate
+Date: Wed,  7 Jul 2021 10:47:43 +0200
+Message-Id: <20210707084745.1365390-9-maxime@cerno.tech>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210707084745.1365390-1-maxime@cerno.tech>
 References: <20210707084745.1365390-1-maxime@cerno.tech>
@@ -89,132 +89,33 @@ Cc: Nicolas Saenz Julienne <nsaenz@kernel.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The load tracker was initially designed to report and warn about a load
-too high for the HVS. To do so, it computes for each plane the impact
-it's going to have on the HVS, and will warn (if it's enabled) if we go
-over what the hardware can process.
+Now that we have the infrastructure in place, we can raise the maximum
+pixel rate we can reach for HDMI0 on the BCM2711.
 
-While the limits being used are a bit irrelevant to the BCM2711, the
-algorithm to compute the HVS load will be one component used in order to
-compute the core clock rate on the BCM2711.
+HDMI1 is left untouched since its pixelvalve has a smaller FIFO and
+would need a clock faster than what we can provide to support the same
+modes.
 
-Let's remove the hooks to prevent the load tracker to do its
-computation, but since we don't have the same limits, don't check them
-against them, and prevent the debugfs file to enable it from being
-created.
-
+Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_debugfs.c |  7 +++++--
- drivers/gpu/drm/vc4/vc4_drv.h     |  3 ---
- drivers/gpu/drm/vc4/vc4_kms.c     | 16 +++++-----------
- drivers/gpu/drm/vc4/vc4_plane.c   |  5 -----
- 4 files changed, 10 insertions(+), 21 deletions(-)
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_debugfs.c b/drivers/gpu/drm/vc4/vc4_debugfs.c
-index 6da22af4ee91..ba2d8ea562af 100644
---- a/drivers/gpu/drm/vc4/vc4_debugfs.c
-+++ b/drivers/gpu/drm/vc4/vc4_debugfs.c
-@@ -7,6 +7,7 @@
- #include <linux/circ_buf.h>
- #include <linux/ctype.h>
- #include <linux/debugfs.h>
-+#include <linux/platform_device.h>
- 
- #include "vc4_drv.h"
- #include "vc4_regs.h"
-@@ -26,8 +27,10 @@ vc4_debugfs_init(struct drm_minor *minor)
- 	struct vc4_dev *vc4 = to_vc4_dev(minor->dev);
- 	struct vc4_debugfs_info_entry *entry;
- 
--	debugfs_create_bool("hvs_load_tracker", S_IRUGO | S_IWUSR,
--			    minor->debugfs_root, &vc4->load_tracker_enabled);
-+	if (!of_device_is_compatible(vc4->hvs->pdev->dev.of_node,
-+				     "brcm,bcm2711-vc5"))
-+		debugfs_create_bool("hvs_load_tracker", S_IRUGO | S_IWUSR,
-+				    minor->debugfs_root, &vc4->load_tracker_enabled);
- 
- 	list_for_each_entry(entry, &vc4->debugfs_list, link) {
- 		drm_debugfs_create_files(&entry->info, 1,
-diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
-index 52214a1568fe..ac8021639d03 100644
---- a/drivers/gpu/drm/vc4/vc4_drv.h
-+++ b/drivers/gpu/drm/vc4/vc4_drv.h
-@@ -200,9 +200,6 @@ struct vc4_dev {
- 
- 	int power_refcount;
- 
--	/* Set to true when the load tracker is supported. */
--	bool load_tracker_available;
--
- 	/* Set to true when the load tracker is active. */
- 	bool load_tracker_enabled;
- 
-diff --git a/drivers/gpu/drm/vc4/vc4_kms.c b/drivers/gpu/drm/vc4/vc4_kms.c
-index f29ac64a5aa5..d6b707711f58 100644
---- a/drivers/gpu/drm/vc4/vc4_kms.c
-+++ b/drivers/gpu/drm/vc4/vc4_kms.c
-@@ -551,9 +551,6 @@ static int vc4_load_tracker_atomic_check(struct drm_atomic_state *state)
- 	struct drm_plane *plane;
- 	int i;
- 
--	if (!vc4->load_tracker_available)
--		return 0;
--
- 	priv_state = drm_atomic_get_private_obj_state(state,
- 						      &vc4->load_tracker);
- 	if (IS_ERR(priv_state))
-@@ -628,9 +625,6 @@ static void vc4_load_tracker_obj_fini(struct drm_device *dev, void *unused)
- {
- 	struct vc4_dev *vc4 = to_vc4_dev(dev);
- 
--	if (!vc4->load_tracker_available)
--		return;
--
- 	drm_atomic_private_obj_fini(&vc4->load_tracker);
- }
- 
-@@ -638,9 +632,6 @@ static int vc4_load_tracker_obj_init(struct vc4_dev *vc4)
- {
- 	struct vc4_load_tracker_state *load_state;
- 
--	if (!vc4->load_tracker_available)
--		return 0;
--
- 	load_state = kzalloc(sizeof(*load_state), GFP_KERNEL);
- 	if (!load_state)
- 		return -ENOMEM;
-@@ -868,9 +859,12 @@ int vc4_kms_load(struct drm_device *dev)
- 					      "brcm,bcm2711-vc5");
- 	int ret;
- 
-+	/*
-+	 * The limits enforced by the load tracker aren't relevant for
-+	 * the BCM2711, but the load tracker computations are used for
-+	 * the core clock rate calculation.
-+	 */
- 	if (!is_vc5) {
--		vc4->load_tracker_available = true;
--
- 		/* Start with the load tracker enabled. Can be
- 		 * disabled through the debugfs load_tracker file.
- 		 */
-diff --git a/drivers/gpu/drm/vc4/vc4_plane.c b/drivers/gpu/drm/vc4/vc4_plane.c
-index 19161b6ab27f..ac761c683663 100644
---- a/drivers/gpu/drm/vc4/vc4_plane.c
-+++ b/drivers/gpu/drm/vc4/vc4_plane.c
-@@ -529,11 +529,6 @@ static void vc4_plane_calc_load(struct drm_plane_state *state)
- 	struct vc4_plane_state *vc4_state;
- 	struct drm_crtc_state *crtc_state;
- 	unsigned int vscale_factor;
--	struct vc4_dev *vc4;
--
--	vc4 = to_vc4_dev(state->plane->dev);
--	if (!vc4->load_tracker_available)
--		return;
- 
- 	vc4_state = to_vc4_plane_state(state);
- 	crtc_state = drm_atomic_get_existing_crtc_state(state->state,
+diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
+index eada68b65402..40f995c43376 100644
+--- a/drivers/gpu/drm/vc4/vc4_hdmi.c
++++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+@@ -2282,7 +2282,7 @@ static const struct vc4_hdmi_variant bcm2711_hdmi0_variant = {
+ 	.encoder_type		= VC4_ENCODER_TYPE_HDMI0,
+ 	.debugfs_name		= "hdmi0_regs",
+ 	.card_name		= "vc4-hdmi-0",
+-	.max_pixel_clock	= HDMI_14_MAX_TMDS_CLK,
++	.max_pixel_clock	= 600000000,
+ 	.registers		= vc5_hdmi_hdmi0_fields,
+ 	.num_registers		= ARRAY_SIZE(vc5_hdmi_hdmi0_fields),
+ 	.phy_lane_mapping	= {
 -- 
 2.31.1
 
