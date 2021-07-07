@@ -1,58 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C0633BF052
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Jul 2021 21:35:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6471D3BF055
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Jul 2021 21:36:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E7AF6E104;
-	Wed,  7 Jul 2021 19:35:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8027B6E1BB;
+	Wed,  7 Jul 2021 19:36:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
- [IPv6:2a00:1450:4864:20::132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D30A6E104
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Jul 2021 19:35:36 +0000 (UTC)
-Received: by mail-lf1-x132.google.com with SMTP id u18so7027591lff.9
- for <dri-devel@lists.freedesktop.org>; Wed, 07 Jul 2021 12:35:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=8r2Sihww/r2eDq532jyXn6fdk4Gdh3BwgDNIfLgaV/E=;
- b=MszDYgh+2NKqhOHbW6T5LEDSW9GergXNfLJILyRlimCcLRDhvW35rAjdXYDUOohkVo
- wHdpvCXENIyxge/RR1xi+LcJozdm2KYSM6ty7uAy2OpcI06vVjK12HCKxqbEndRHk9Cb
- TyANaMtKc4b6zf+KsQEe8ku5flehh9j9ipk0jUaKUQeixBjw+ghFN2nGBgUAoSXGVVb2
- CAoq/zr7DNXYTeimJi4DXHo1zfyu3X1Kk3MwEbq+p+GDEsObLp2GImtWTJWiuPHkHTgo
- cU34/ShPKF6Rem9Fo1O4//yhd3uepwZYFdVbHvlE2UK2DWipfOsqxfPEw9toHb8HxW6H
- 0kZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=8r2Sihww/r2eDq532jyXn6fdk4Gdh3BwgDNIfLgaV/E=;
- b=F7DLcqQtd+FnUm5ipPu5z6zPGK71b2Hhy7I/LztVLttczqx89LGod/q+P1HIuyAz9Q
- rn6JDKaDK++lPrxJ/OMBbPptUiP6LBcrIM2ofmXvpoOfYhaMX9uoO5+8S//u4xtMuJ12
- WTWCwZ66RdI0HcRL/cw8Vyk7lHwwAiUleUg0HSFRxfEP6wonJDGQ8C+IeVff7YMyIzCI
- OFybG/yhGaZRyJRqRFYKq6pmYl5OBkZEbt1ZKY+vvY/95aJE3rAX5TztoQiACcx1zBOh
- tPyruHcPzVC6XHIWh0ik/yWoy7b+A3azVxlmJF56fl3v04RtOA2vT0gXN5T1aIsrweCp
- t/1g==
-X-Gm-Message-State: AOAM532nE/bzbmJZafd2NdT7xlyFGn0SGClTTZkpAC3rgPHgGzPUBa/d
- a8FMgQK6L07Nbxa2bvV3w+DQbNS7+qhwKSrDwO9M+A==
-X-Google-Smtp-Source: ABdhPJzq0vYBbcbRJcpJ1wm18X49R0cZKa1F2pwLnWsMpB+SU+peQArLpyP1JAM9LeGI4+7Rz1ZU9cgjkoNN3RCUOQg=
-X-Received: by 2002:a05:6512:2246:: with SMTP id
- i6mr11859231lfu.7.1625686534805; 
- Wed, 07 Jul 2021 12:35:34 -0700 (PDT)
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1BE376E1BB;
+ Wed,  7 Jul 2021 19:36:30 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10037"; a="270488042"
+X-IronPort-AV: E=Sophos;i="5.84,221,1620716400"; d="scan'208";a="270488042"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Jul 2021 12:36:28 -0700
+X-IronPort-AV: E=Sophos;i="5.84,221,1620716400"; d="scan'208";a="645489258"
+Received: from mdroper-desk1.fm.intel.com (HELO
+ mdroper-desk1.amr.corp.intel.com) ([10.1.27.134])
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Jul 2021 12:36:28 -0700
+Date: Wed, 7 Jul 2021 12:36:27 -0700
+From: Matt Roper <matthew.d.roper@intel.com>
+To: Lucas De Marchi <lucas.demarchi@intel.com>
+Subject: Re: [PATCH 1/3] drm/i915/gt: finish INTEL_GEN and friends conversion
+Message-ID: <20210707193627.GP951094@mdroper-desk1.amr.corp.intel.com>
+References: <20210707181325.2130821-1-lucas.demarchi@intel.com>
+ <20210707181325.2130821-2-lucas.demarchi@intel.com>
 MIME-Version: 1.0
-References: <20210630013421.735092-1-john.stultz@linaro.org>
- <20210630013421.735092-2-john.stultz@linaro.org>
- <YOVL1f4m+8ly9fyM@infradead.org>
-In-Reply-To: <YOVL1f4m+8ly9fyM@infradead.org>
-From: John Stultz <john.stultz@linaro.org>
-Date: Wed, 7 Jul 2021 12:35:23 -0700
-Message-ID: <CALAqxLUubzuLkFxmWjfPQHaFU8EkWuGo7nDhfkgi4wPGHnBoVw@mail.gmail.com>
-Subject: Re: page pools, was Re: [PATCH v9 1/5] drm: Add a sharable drm
- page-pool implementation
-To: Christoph Hellwig <hch@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210707181325.2130821-2-lucas.demarchi@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,38 +45,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
- Sandeep Patil <sspatil@google.com>, linux-mm <linux-mm@kvack.org>,
- Ezequiel Garcia <ezequiel@collabora.com>, Robin Murphy <robin.murphy@arm.com>,
- James Jones <jajones@nvidia.com>, lkml <linux-kernel@vger.kernel.org>,
- Liam Mark <lmark@codeaurora.org>, Christian Koenig <christian.koenig@amd.com>,
- Mel Gorman <mgorman@suse.de>, Laura Abbott <labbott@kernel.org>,
- Chris Goldsworthy <cgoldswo@codeaurora.org>,
- Hridya Valsaraju <hridya@google.com>, ??rjan Eide <orjan.eide@arm.com>,
- linux-media <linux-media@vger.kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Daniel Mentz <danielmentz@google.com>
+Cc: Daniel Vetter <daniel.vetter@intel.com>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 6, 2021 at 11:38 PM Christoph Hellwig <hch@infradead.org> wrote:
-> On Wed, Jun 30, 2021 at 01:34:17AM +0000, John Stultz wrote:
-> > This adds a shrinker controlled page pool, extracted
-> > out of the ttm_pool logic, and abstracted out a bit
-> > so it can be used by other non-ttm drivers.
->
-> Can you explain in detail why you need a differnt page pool over the one
-> maintained by the page allocator?  Fragmenting the memory into all kinds
-> of pools has lots of downsides, so the upsides need to be explained in
-> detail.
+On Wed, Jul 07, 2021 at 11:13:23AM -0700, Lucas De Marchi wrote:
+> Commit c816723b6b8a ("drm/i915/gt: replace IS_GEN and friends with
+> GRAPHICS_VER") converted INTEL_GEN and friends to the new version check
+> macros.  Meanwhile, some changes sneaked in to use INTEL_GEN. Remove the
+> last users so we can remove the macros.
+> 
+> Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
 
-So, as Christian mentioned, on the TTM side it's useful, as they are
-trying to avoid TLB flushes when changing caching attributes.
+Reviewed-by: Matt Roper <matthew.d.roper@intel.com>
 
-For the dmabuf system heap purposes, the main benefit is moving the
-page zeroing to the free path, rather than the allocation path. This
-on its own doesn't save much, but allows us to defer frees (and thus
-the zeroing) to the background, which can get that work out of the hot
-path.
+> ---
+>  drivers/gpu/drm/i915/gt/intel_migrate.c | 20 ++++++++++----------
+>  1 file changed, 10 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/intel_migrate.c b/drivers/gpu/drm/i915/gt/intel_migrate.c
+> index 23c59ce66cee..14afa1974ea5 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_migrate.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_migrate.c
+> @@ -277,7 +277,7 @@ static int emit_pte(struct i915_request *rq,
+>  	u32 *hdr, *cs;
+>  	int pkt;
+>  
+> -	GEM_BUG_ON(INTEL_GEN(rq->engine->i915) < 8);
+> +	GEM_BUG_ON(GRAPHICS_VER(rq->engine->i915) < 8);
+>  
+>  	/* Compute the page directory offset for the target address range */
+>  	offset += (u64)rq->engine->instance << 32;
+> @@ -347,11 +347,11 @@ static int emit_pte(struct i915_request *rq,
+>  	return total;
+>  }
+>  
+> -static bool wa_1209644611_applies(int gen, u32 size)
+> +static bool wa_1209644611_applies(int ver, u32 size)
+>  {
+>  	u32 height = size >> PAGE_SHIFT;
+>  
+> -	if (gen != 11)
+> +	if (ver != 11)
+>  		return false;
+>  
+>  	return height % 4 == 3 && height <= 8;
+> @@ -359,15 +359,15 @@ static bool wa_1209644611_applies(int gen, u32 size)
+>  
+>  static int emit_copy(struct i915_request *rq, int size)
+>  {
+> -	const int gen = INTEL_GEN(rq->engine->i915);
+> +	const int ver = GRAPHICS_VER(rq->engine->i915);
+>  	u32 instance = rq->engine->instance;
+>  	u32 *cs;
+>  
+> -	cs = intel_ring_begin(rq, gen >= 8 ? 10 : 6);
+> +	cs = intel_ring_begin(rq, ver >= 8 ? 10 : 6);
+>  	if (IS_ERR(cs))
+>  		return PTR_ERR(cs);
+>  
+> -	if (gen >= 9 && !wa_1209644611_applies(gen, size)) {
+> +	if (ver >= 9 && !wa_1209644611_applies(ver, size)) {
+>  		*cs++ = GEN9_XY_FAST_COPY_BLT_CMD | (10 - 2);
+>  		*cs++ = BLT_DEPTH_32 | PAGE_SIZE;
+>  		*cs++ = 0;
+> @@ -378,7 +378,7 @@ static int emit_copy(struct i915_request *rq, int size)
+>  		*cs++ = PAGE_SIZE;
+>  		*cs++ = 0; /* src offset */
+>  		*cs++ = instance;
+> -	} else if (gen >= 8) {
+> +	} else if (ver >= 8) {
+>  		*cs++ = XY_SRC_COPY_BLT_CMD | BLT_WRITE_RGBA | (10 - 2);
+>  		*cs++ = BLT_DEPTH_32 | BLT_ROP_SRC_COPY | PAGE_SIZE;
+>  		*cs++ = 0;
+> @@ -491,17 +491,17 @@ intel_context_migrate_copy(struct intel_context *ce,
+>  
+>  static int emit_clear(struct i915_request *rq, int size, u32 value)
+>  {
+> -	const int gen = INTEL_GEN(rq->engine->i915);
+> +	const int ver = GRAPHICS_VER(rq->engine->i915);
+>  	u32 instance = rq->engine->instance;
+>  	u32 *cs;
+>  
+>  	GEM_BUG_ON(size >> PAGE_SHIFT > S16_MAX);
+>  
+> -	cs = intel_ring_begin(rq, gen >= 8 ? 8 : 6);
+> +	cs = intel_ring_begin(rq, ver >= 8 ? 8 : 6);
+>  	if (IS_ERR(cs))
+>  		return PTR_ERR(cs);
+>  
+> -	if (gen >= 8) {
+> +	if (ver >= 8) {
+>  		*cs++ = XY_COLOR_BLT_CMD | BLT_WRITE_RGBA | (7 - 2);
+>  		*cs++ = BLT_DEPTH_32 | BLT_ROP_COLOR_COPY | PAGE_SIZE;
+>  		*cs++ = 0;
+> -- 
+> 2.31.1
+> 
 
-thanks
--john
+-- 
+Matt Roper
+Graphics Software Engineer
+VTT-OSGC Platform Enablement
+Intel Corporation
+(916) 356-2795
