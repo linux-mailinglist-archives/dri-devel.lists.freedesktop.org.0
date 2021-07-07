@@ -2,54 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAEA73BF5DD
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Jul 2021 08:56:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 528DF3BF601
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Jul 2021 09:08:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F3CC6E156;
-	Thu,  8 Jul 2021 06:56:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ECA2A6E212;
+	Thu,  8 Jul 2021 07:08:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com
- [IPv6:2607:f8b0:4864:20::432])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 104366E155
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Jul 2021 06:56:21 +0000 (UTC)
-Received: by mail-pf1-x432.google.com with SMTP id f20so4626351pfa.1
- for <dri-devel@lists.freedesktop.org>; Wed, 07 Jul 2021 23:56:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=/BAyx8HGJRdLOBdbNiU99QlY+5w2alIzKC7hMMjJk8E=;
- b=NHKTbL1+5esONkdEeIVUEHanUegxhWFq3mH2qGjsXdj1X4CnZ25OcIeCnh1Cz26/fD
- kX0pEMz5+wuULkM4jGkngh+2zCZzZ//MWkaMBjnnQj1BxLgsg02dZLG+cN7b2Z+y8sow
- h7S6o4wsaeft1bc7Ih5xOyZb+/4dtQEJdUkPQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=/BAyx8HGJRdLOBdbNiU99QlY+5w2alIzKC7hMMjJk8E=;
- b=LlehrVx3r1xVrzwPDKQOsKbZsI/hAGuVhTM5efaN2r8w+uIrWfZ+RjjYxRrPjJW/Fw
- iGurKOm6xDI60Qj0JRkVf7nb/imUYnYiGuUYwbc3hvfq45CbN88VUbrdyNKEZinBXZgx
- 0ZgJl6yTAjHQeuylPIlNFd361s6/bX7P6mhgNGjAhKUlmhqO3ZGX+ZkNvPfqaBII9klV
- Yfk/7muh7RD1MPfUai9Zzx3WlDb77oO5tSjAPaTGGM86odun+KLoKoFpepNUrboGlm7M
- hII16/51gaSGO3YYGoCNyFphvLyxketXfwF6GKjPed78icn7xQpcNWB6mUJ226xN/z97
- VZOg==
-X-Gm-Message-State: AOAM533YX6EOZ4LjNCDHcTz7tb1QkCdoTUmoqWs6zegXlBSWo9V2hxX/
- ySYePoSaRpjV4V5xzl8vGhzolw==
-X-Google-Smtp-Source: ABdhPJxigodUsLw90BixpU3dO51TKFxRvaaErkAE8oVzv77ily6wyBUHpPvwY3JTNwAh2mxe/+P+EQ==
-X-Received: by 2002:a63:e043:: with SMTP id n3mr6974211pgj.106.1625727380608; 
- Wed, 07 Jul 2021 23:56:20 -0700 (PDT)
-Received: from smtp.gmail.com ([2620:15c:202:201:82ce:1825:c0a5:9605])
- by smtp.gmail.com with ESMTPSA id a23sm1120910pfa.16.2021.07.07.23.56.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 07 Jul 2021 23:56:20 -0700 (PDT)
-From: Stephen Boyd <swboyd@chromium.org>
-To: Rob Clark <robdclark@gmail.com>
-Subject: [PATCH] drm/msm/dpu: Add newlines to printks
-Date: Wed,  7 Jul 2021 23:56:19 -0700
-Message-Id: <20210708065619.999199-1-swboyd@chromium.org>
-X-Mailer: git-send-email 2.32.0.93.g670b81a890-goog
+X-Greylist: delayed 379 seconds by postgrey-1.36 at gabe;
+ Wed, 07 Jul 2021 08:54:02 UTC
+Received: from lucky1.263xmail.com (lucky1.263xmail.com [211.157.147.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E31EA8921C;
+ Wed,  7 Jul 2021 08:54:02 +0000 (UTC)
+Received: from localhost (unknown [192.168.167.69])
+ by lucky1.263xmail.com (Postfix) with ESMTP id CFE02D5D0F;
+ Wed,  7 Jul 2021 16:47:38 +0800 (CST)
+X-MAIL-GRAY: 0
+X-MAIL-DELIVERY: 1
+X-ADDR-CHECKED: 0
+X-SKE-CHECKED: 1
+X-ANTISPAM-LEVEL: 2
+Received: from localhost.localdomain (unknown [111.207.172.18])
+ by smtp.263.net (postfix) whith ESMTP id
+ P12345T139824290686720S1625647658082957_; 
+ Wed, 07 Jul 2021 16:47:38 +0800 (CST)
+X-IP-DOMAINF: 1
+X-UNIQUE-TAG: <8bb40e571c070238cc02cdc94e353cc6>
+X-RL-SENDER: zhaoxiao@uniontech.com
+X-SENDER: zhaoxiao@uniontech.com
+X-LOGIN-NAME: zhaoxiao@uniontech.com
+X-FST-TO: airlied@linux.ie
+X-RCPT-COUNT: 16
+X-SENDER-IP: 111.207.172.18
+X-ATTACHMENT-NUM: 0
+X-System-Flag: 0
+From: zhaoxiao <zhaoxiao@uniontech.com>
+To: airlied@linux.ie, daniel@ffwll.ch, maarten.lankhorst@linux.intel.com,
+ venkata.s.dhanalakota@intel.com
+Subject: [PATCH 1/2] drivers/gpu/drm/i915/gt/intel_engine_cs.c: Repair typo in
+ function name
+Date: Wed,  7 Jul 2021 16:47:36 +0800
+Message-Id: <9ee149b983a05be6789147f96cb884ff30e9c92c.1625646947.git.zhaoxiao@uniontech.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <cover.1625646947.git.zhaoxiao@uniontech.com>
+References: <cover.1625646947.git.zhaoxiao@uniontech.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Thu, 08 Jul 2021 07:08:27 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,70 +61,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: matthew.brost@intel.com, zhaoxiao <zhaoxiao@uniontech.com>,
+ tvrtko.ursulin@intel.com, intel-gfx@lists.freedesktop.org,
+ lucas.demarchi@intel.com, linux-kernel@vger.kernel.org,
+ chris@chris-wilson.co.uk, daniele.ceraolospurio@intel.com,
+ dri-devel@lists.freedesktop.org, rodrigo.vivi@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add some missing newlines to the various DRM printks in this file.
-Noticed while looking at logs. While we're here unbreak quoted
-strings so grepping them is easier.
+Fixes the following W=1 kernel build warning(s):
 
-Signed-off-by: Stephen Boyd <swboyd@chromium.org>
+drivers/gpu/drm/i915/gt/intel_engine_cs.c:882: warning: expecting prototype for intel_engines_init_common(). Prototype was for engine_init_common() instead
+drivers/gpu/drm/i915/gt/intel_engine_cs.c:959: warning: expecting prototype for intel_engines_cleanup_common(). Prototype was for intel_engine_cleanup_common() instead
+
+Signed-off-by: zhaoxiao <zhaoxiao@uniontech.com>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 12 +++++-------
- 1 file changed, 5 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-index 1c04b7cce43e..0e9d3fa1544b 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-@@ -274,20 +274,20 @@ int dpu_encoder_helper_wait_for_irq(struct dpu_encoder_phys *phys_enc,
+diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+index 7f03df236613..01b4dc041a72 100644
+--- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
++++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+@@ -868,7 +868,7 @@ create_kernel_context(struct intel_engine_cs *engine)
+ }
  
- 	/* return EWOULDBLOCK since we know the wait isn't necessary */
- 	if (phys_enc->enable_state == DPU_ENC_DISABLED) {
--		DRM_ERROR("encoder is disabled id=%u, intr=%d, irq=%d",
-+		DRM_ERROR("encoder is disabled id=%u, intr=%d, irq=%d\n",
- 			  DRMID(phys_enc->parent), intr_idx,
- 			  irq->irq_idx);
- 		return -EWOULDBLOCK;
- 	}
+ /**
+- * intel_engines_init_common - initialize cengine state which might require hw access
++ * engine_init_common - initialize cengine state which might require hw access
+  * @engine: Engine to initialize.
+  *
+  * Initializes @engine@ structure members shared between legacy and execlists
+@@ -949,7 +949,7 @@ int intel_engines_init(struct intel_gt *gt)
+ }
  
- 	if (irq->irq_idx < 0) {
--		DRM_DEBUG_KMS("skip irq wait id=%u, intr=%d, irq=%s",
-+		DRM_DEBUG_KMS("skip irq wait id=%u, intr=%d, irq=%s\n",
- 			      DRMID(phys_enc->parent), intr_idx,
- 			      irq->name);
- 		return 0;
- 	}
- 
--	DRM_DEBUG_KMS("id=%u, intr=%d, irq=%d, pp=%d, pending_cnt=%d",
-+	DRM_DEBUG_KMS("id=%u, intr=%d, irq=%d, pp=%d, pending_cnt=%d\n",
- 		      DRMID(phys_enc->parent), intr_idx,
- 		      irq->irq_idx, phys_enc->hw_pp->idx - PINGPONG_0,
- 		      atomic_read(wait_info->atomic_cnt));
-@@ -303,8 +303,7 @@ int dpu_encoder_helper_wait_for_irq(struct dpu_encoder_phys *phys_enc,
- 		if (irq_status) {
- 			unsigned long flags;
- 
--			DRM_DEBUG_KMS("irq not triggered id=%u, intr=%d, "
--				      "irq=%d, pp=%d, atomic_cnt=%d",
-+			DRM_DEBUG_KMS("irq not triggered id=%u, intr=%d, irq=%d, pp=%d, atomic_cnt=%d\n",
- 				      DRMID(phys_enc->parent), intr_idx,
- 				      irq->irq_idx,
- 				      phys_enc->hw_pp->idx - PINGPONG_0,
-@@ -315,8 +314,7 @@ int dpu_encoder_helper_wait_for_irq(struct dpu_encoder_phys *phys_enc,
- 			ret = 0;
- 		} else {
- 			ret = -ETIMEDOUT;
--			DRM_DEBUG_KMS("irq timeout id=%u, intr=%d, "
--				      "irq=%d, pp=%d, atomic_cnt=%d",
-+			DRM_DEBUG_KMS("irq timeout id=%u, intr=%d, irq=%d, pp=%d, atomic_cnt=%d\n",
- 				      DRMID(phys_enc->parent), intr_idx,
- 				      irq->irq_idx,
- 				      phys_enc->hw_pp->idx - PINGPONG_0,
-
-base-commit: e9f1cbc0c4114880090c7a578117d3b9cf184ad4
+ /**
+- * intel_engines_cleanup_common - cleans up the engine state created by
++ * intel_engine_cleanup_common - cleans up the engine state created by
+  *                                the common initiailizers.
+  * @engine: Engine to cleanup.
+  *
 -- 
-https://chromeos.dev
+2.20.1
+
+
 
