@@ -1,79 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F07333BE752
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Jul 2021 13:42:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C8C43BE758
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Jul 2021 13:44:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 028E56E0FF;
-	Wed,  7 Jul 2021 11:42:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D8F8D6E0D5;
+	Wed,  7 Jul 2021 11:44:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
- [IPv6:2a00:1450:4864:20::431])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D93DC6E0ED
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Jul 2021 11:42:05 +0000 (UTC)
-Received: by mail-wr1-x431.google.com with SMTP id d12so2080704wre.13
- for <dri-devel@lists.freedesktop.org>; Wed, 07 Jul 2021 04:42:04 -0700 (PDT)
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
+ [IPv6:2a00:1450:4864:20::32b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4240D6E0FE
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Jul 2021 11:44:02 +0000 (UTC)
+Received: by mail-wm1-x32b.google.com with SMTP id n33so1644843wms.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 07 Jul 2021 04:44:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=bKpgpEz+pk+V+ldgYqur++W1nBmK81ST14+xbKpmd58=;
- b=Fa/4vUyzf6E/EeDLy6JA+hJ9oLQfkIh9ABPr1r7T0uafu1NuvOHR3sFu5FyWw0L3GF
- ZFn6unFwsJeeh8WW+FhQFlWCsUjK/jt+pMYKIeStGioEptkrLw2RzPnHrzPO6uezZQHr
- im692Taa5fNCLajZnqP9itJUWEFobUwLQxw/w=
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=Ee0/Z4V5YdQ4Ev+stQInHtN+UUMT1hp4hha9v4lQ+Ds=;
+ b=Ud9LFHVqWn3wWM/rQIWqywsiayo1KQITn+44FhMP38FUR5j4d39eLLW0oXvie6kqJz
+ cPV0QkeMrrJ0oE6bJ97YxQvrCfrtvxJlEwA8izssm9itqPfEA31H9dWhaAkY38pnT9Bw
+ CJd09kncuYzgBS77/sCPs8VRJsoGr2pqVMzU4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=bKpgpEz+pk+V+ldgYqur++W1nBmK81ST14+xbKpmd58=;
- b=swY3Gv9c2LH4uDI5r1fWh/CHvSVwCxYblNAb1n170lYhwCrcJ7akZ1gcUkg7MtGEtw
- kgplX5cGaDdkHkIxjNbldpOOXU0plu+iJR8OOjoVpMAX0fgWD5Rz82jKwDWBFeOLylhP
- wZAP6BPwSPzMlzEeVqE8zZM9LfK1DpWu1YUvPv+JtZ+D0dD0XAnPWkBKsb5EJEErtlfQ
- i3Ck04hehaiPMHtazBkeHP4ME0MDptuv67kNUPrDNzugLeRLHmpH9rHkrcIU8OlALIFe
- 3bRFBj+KyGKx3R7VcDng1PDyZesleQxGOKl8iDV2AonDrSnlg0eb/+hRXuY1R1NMYXWG
- rLcA==
-X-Gm-Message-State: AOAM532ZnpwVgjdx443IiWtuyAv9BzlbJzrkGMkOZ+UHPvRNitpwyVIi
- 7F5JbSQ5LvLzeivkQVDR8z5v4w==
-X-Google-Smtp-Source: ABdhPJz9VXlKr00wIlz5nQYZ/vo1ak+FD0N7gT29dc1uZMdxDAOtpeV9ocDO/8PFl/9HtziAzBi5Qg==
-X-Received: by 2002:adf:d1cc:: with SMTP id b12mr20190027wrd.410.1625658123765; 
- Wed, 07 Jul 2021 04:42:03 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=Ee0/Z4V5YdQ4Ev+stQInHtN+UUMT1hp4hha9v4lQ+Ds=;
+ b=hkZs6tHE4Vpbo2i7whnD9flhljvyIjPdhnip37MeUuSR05iZelNQ5WlrkUoxwUT2fG
+ rB4aBpdSRnDOWKdy6c3darLKJPsoBxg9w00Wl/OUX0ucIxYnwZVa+R7odRiew1xE+XGV
+ 0OzvmmRGmlUYMdusIPCrujhX5zdgjPhE3cChHNvf9rN1xr8Q0C/7A1EtowI7e04vFsbv
+ VVFTyfH1TBa271Iy/VnMgiTxGLBpOG+AW3u4FPb+II9sxwm832xhg6SfbQSL3atwL4aq
+ S7SEGoDeSj3kCtXjQaLkIny6UT8Lsuei3iAVODf5ICB1/bqpuqmca2Vpl72otkPYYnVq
+ R7Vg==
+X-Gm-Message-State: AOAM533H5/kuV9tH15V5qaTVu1mPvpBRBM3mROzT4imBEo9JX319Mt8l
+ 0pCQEgoXZf3a3QFo5UrOeA4rug==
+X-Google-Smtp-Source: ABdhPJxYvuikFytoRXCPDA0CdmpNIy2xxYw3y/0x945J+7ETO1sAZeccDjOPdpuNNZz7Bqf3UzQvBQ==
+X-Received: by 2002:a1c:9d46:: with SMTP id g67mr6361753wme.188.1625658240850; 
+ Wed, 07 Jul 2021 04:44:00 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id d186sm6226981wmd.14.2021.07.07.04.42.02
+ by smtp.gmail.com with ESMTPSA id f12sm5829752wmg.16.2021.07.07.04.43.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 07 Jul 2021 04:42:03 -0700 (PDT)
-Date: Wed, 7 Jul 2021 13:42:01 +0200
+ Wed, 07 Jul 2021 04:44:00 -0700 (PDT)
+Date: Wed, 7 Jul 2021 13:43:58 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH 0/2] Add "BACKGROUND_COLOR" drm property
-Message-ID: <YOWTCSpOZTGZS2qP@phenom.ffwll.local>
-Mail-Followup-To: Simon Ser <contact@emersion.fr>,
- Raphael GALLAIS-POU - foss <raphael.gallais-pou@foss.st.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@linux.ie>,
- Yannick FERTRE - foss <yannick.fertre@foss.st.com>,
- Philippe CORNU - foss <philippe.cornu@foss.st.com>,
- Benjamin Gaignard <benjamin.gaignard@linaro.org>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre TORGUE - foss <alexandre.torgue@foss.st.com>,
- Matt Roper <matthew.d.roper@intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-stm32@st-md-mailman.stormreply.com"
- <linux-stm32@st-md-mailman.stormreply.com>, 
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
- Yannick FERTRE <yannick.fertre@st.com>,
- Raphael GALLAIS-POU <raphael.gallais-pou@st.com>,
- Philippe CORNU <philippe.cornu@st.com>
-References: <20210707084557.22443-1-raphael.gallais-pou@foss.st.com>
- <31K3xupK1-7HNWorHqIwGwgEJl-1XdFjUQEoNYm6yB-lRoZ8kq5quRji_r3mzPZ0bUayLef6xPfQDiETgZp9lR7vUpDn2nB_37ncSd-J0Wc=@emersion.fr>
+To: Huacai Chen <chenhuacai@kernel.org>
+Subject: Re: [PATCH] vgaarb: Rework default VGA device selection
+Message-ID: <YOWTftgkeWzOOT9R@phenom.ffwll.local>
+References: <20210705100503.1120643-1-chenhuacai@loongson.cn>
+ <YOQSoQgFn/t4TzX5@phenom.ffwll.local>
+ <CAAhV-H40ix+91f0BCt5JaXZ9SpgYKHmzaYXrP97EZaBt4VZ40g@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <31K3xupK1-7HNWorHqIwGwgEJl-1XdFjUQEoNYm6yB-lRoZ8kq5quRji_r3mzPZ0bUayLef6xPfQDiETgZp9lR7vUpDn2nB_37ncSd-J0Wc=@emersion.fr>
+In-Reply-To: <CAAhV-H40ix+91f0BCt5JaXZ9SpgYKHmzaYXrP97EZaBt4VZ40g@mail.gmail.com>
 X-Operating-System: Linux phenom 5.10.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -87,42 +67,343 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Benjamin Gaignard <benjamin.gaignard@linaro.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Raphael GALLAIS-POU - foss <raphael.gallais-pou@foss.st.com>,
- David Airlie <airlied@linux.ie>,
- Yannick FERTRE - foss <yannick.fertre@foss.st.com>,
- Raphael GALLAIS-POU <raphael.gallais-pou@st.com>,
- Alexandre TORGUE - foss <alexandre.torgue@foss.st.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Yannick FERTRE <yannick.fertre@st.com>,
- Philippe CORNU - foss <philippe.cornu@foss.st.com>,
- Philippe CORNU <philippe.cornu@st.com>,
- "linux-stm32@st-md-mailman.stormreply.com"
- <linux-stm32@st-md-mailman.stormreply.com>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Cc: David Airlie <airlied@linux.ie>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Bjorn Helgaas <bhelgaas@google.com>, Xuefeng Li <lixuefeng@loongson.cn>,
+ Huacai Chen <chenhuacai@loongson.cn>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 07, 2021 at 09:03:03AM +0000, Simon Ser wrote:
-> Hi,
+On Tue, Jul 06, 2021 at 05:21:42PM +0800, Huacai Chen wrote:
+> Hi, Daniel,
 > 
-> Thanks for working on this. Do you have plans for user-space
-> implementations and IGT?
+> On Tue, Jul 6, 2021 at 4:21 PM Daniel Vetter <daniel@ffwll.ch> wrote:
+> >
+> > On Mon, Jul 05, 2021 at 06:05:03PM +0800, Huacai Chen wrote:
+> > > Currently, vga_arb_device_init() selects the first probed VGA device
+> > > with VGA legacy resources enabled as the default device. However, some
+> > > BMC-based VGA cards (e.g., AST2500 and HiSilicon D05) don't enable VGA
+> > > legacy resources because their built-in upstream bridges don't support
+> > > PCI_BRIDGE_CTL_VGA. This makes "no default VGA card" and breaks X.org
+> > > auto-detection.
+> > >
+> > > Commit a37c0f48950b56f6ef2e ("vgaarb: Select a default VGA device even
+> > > if there's no legacy VGA") try to solve this problem but fails on some
+> > > platforms, because it relies on the initcall order:
+> > >
+> > > We should call vga_arb_device_init() after PCI enumeration, otherwise it
+> > > may fail to select the default VGA device. Since vga_arb_device_init()
+> > > and PCI enumeration function (i.e., pcibios_init() or acpi_init()) are
+> > > both wrapped by subsys_initcall(), their sequence is not assured. So, it
+> > > is possible to use subsys_initcall_sync() instead of subsys_initcall()
+> > > to wrap vga_arb_device_init().
+> > >
+> > > However, the above approach still has drawbacks, it cannot handle the
+> > > cases that a VGA card is hot-plugged, or the gpu driver is compiled as a
+> > > module.
+> > >
+> > > So, as suggested by Bjorn Helgaas, this patch rework the selection:
+> > > 1, Remove direct vga_arb_select_default_device() calls in vga_arb_
+> > >    device_init().
+> > > 2, Rename vga_arb_select_default_device() to vga_arb_update_default_
+> > >    device(), which selects the first probed VGA device as the default
+> > >    (whether legacy resources enabled or not), and update the default
+> > >    device if a better one is found (device with legacy resources enabled
+> > >    is better, device owns the firmware framebuffer is even better).
+> > > 3, Every time a new VGA device is probed, vga_arbiter_add_pci_device()
+> > >    is called, and vga_arb_update_default_device() is also called. So the
+> > >    hotplug case and the module case can also be handled.
+> > >
+> > > Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
+> >
+> > Sounds reasonable, but because this is defacto pci stuff that just isn't
+> > in drivers/pci (maybe we should move it) I'll defer to Bjorn's review
+> > before I apply this patch.
+> > -Daniel
+> This (move to drivers/pci) has been disscussed before, I think that
+> can be another patch.
 
-Note that these parts are mandatory, and there's a patch floating around
-further clarifying what's all expected for new properties:
-
-https://lore.kernel.org/dri-devel/20210706161244.1038592-1-maxime@cerno.tech/
-
-Cheers, Daniel
+Oh definitely, I just wanted to explain why I won't simply apply this
+without Bjorn's review.
+-Daniel
 
 > 
-> Thanks,
-> 
-> Simon
+> Huacai
+> >
+> > > ---
+> > >  drivers/gpu/vga/vgaarb.c | 219 +++++++++++++++++----------------------
+> > >  1 file changed, 97 insertions(+), 122 deletions(-)
+> > >
+> > > diff --git a/drivers/gpu/vga/vgaarb.c b/drivers/gpu/vga/vgaarb.c
+> > > index 949fde433ea2..07770aae3aaf 100644
+> > > --- a/drivers/gpu/vga/vgaarb.c
+> > > +++ b/drivers/gpu/vga/vgaarb.c
+> > > @@ -586,6 +586,97 @@ void vga_put(struct pci_dev *pdev, unsigned int rsrc)
+> > >  }
+> > >  EXPORT_SYMBOL(vga_put);
+> > >
+> > > +#if defined(CONFIG_ACPI)
+> > > +static bool vga_arb_integrated_gpu(struct device *dev)
+> > > +{
+> > > +     struct acpi_device *adev = ACPI_COMPANION(dev);
+> > > +
+> > > +     return adev && !strcmp(acpi_device_hid(adev), ACPI_VIDEO_HID);
+> > > +}
+> > > +#else
+> > > +static bool vga_arb_integrated_gpu(struct device *dev)
+> > > +{
+> > > +     return false;
+> > > +}
+> > > +#endif
+> > > +
+> > > +static void vga_arb_update_default_device(struct vga_device *vgadev)
+> > > +{
+> > > +     struct pci_dev *pdev = vgadev->pdev;
+> > > +     struct device *dev = &pdev->dev;
+> > > +     struct vga_device *vgadev_default;
+> > > +#if defined(CONFIG_X86) || defined(CONFIG_IA64)
+> > > +     int i;
+> > > +     unsigned long flags;
+> > > +     u64 base = screen_info.lfb_base;
+> > > +     u64 size = screen_info.lfb_size;
+> > > +     u64 limit;
+> > > +     resource_size_t start, end;
+> > > +#endif
+> > > +
+> > > +     /* Deal with VGA default device. Use first enabled one
+> > > +      * by default if arch doesn't have it's own hook
+> > > +      */
+> > > +     if (!vga_default_device()) {
+> > > +             if ((vgadev->owns & VGA_RSRC_LEGACY_MASK) == VGA_RSRC_LEGACY_MASK)
+> > > +                     vgaarb_info(dev, "setting as boot VGA device\n");
+> > > +             else
+> > > +                     vgaarb_info(dev, "setting as boot device (VGA legacy resources not available)\n");
+> > > +             vga_set_default_device(pdev);
+> > > +     }
+> > > +
+> > > +     vgadev_default = vgadev_find(vga_default);
+> > > +
+> > > +     /* Overridden by a better device */
+> > > +     if (vgadev_default && ((vgadev_default->owns & VGA_RSRC_LEGACY_MASK) == 0)
+> > > +             && ((vgadev->owns & VGA_RSRC_LEGACY_MASK) == VGA_RSRC_LEGACY_MASK)) {
+> > > +             vgaarb_info(dev, "overriding boot VGA device\n");
+> > > +             vga_set_default_device(pdev);
+> > > +     }
+> > > +
+> > > +     if (vga_arb_integrated_gpu(dev)) {
+> > > +             vgaarb_info(dev, "overriding boot VGA device\n");
+> > > +             vga_set_default_device(pdev);
+> > > +     }
+> > > +
+> > > +#if defined(CONFIG_X86) || defined(CONFIG_IA64)
+> > > +     if (screen_info.capabilities & VIDEO_CAPABILITY_64BIT_BASE)
+> > > +             base |= (u64)screen_info.ext_lfb_base << 32;
+> > > +
+> > > +     limit = base + size;
+> > > +
+> > > +     /*
+> > > +      * Override vga_arbiter_add_pci_device()'s I/O based detection
+> > > +      * as it may take the wrong device (e.g. on Apple system under
+> > > +      * EFI).
+> > > +      *
+> > > +      * Select the device owning the boot framebuffer if there is
+> > > +      * one.
+> > > +      */
+> > > +
+> > > +     /* Does firmware framebuffer belong to us? */
+> > > +     for (i = 0; i < DEVICE_COUNT_RESOURCE; i++) {
+> > > +             flags = pci_resource_flags(vgadev->pdev, i);
+> > > +
+> > > +             if ((flags & IORESOURCE_MEM) == 0)
+> > > +                     continue;
+> > > +
+> > > +             start = pci_resource_start(vgadev->pdev, i);
+> > > +             end  = pci_resource_end(vgadev->pdev, i);
+> > > +
+> > > +             if (!start || !end)
+> > > +                     continue;
+> > > +
+> > > +             if (base < start || limit >= end)
+> > > +                     continue;
+> > > +
+> > > +             if (vgadev->pdev != vga_default_device())
+> > > +                     vgaarb_info(dev, "overriding boot device\n");
+> > > +             vga_set_default_device(vgadev->pdev);
+> > > +     }
+> > > +#endif
+> > > +}
+> > > +
+> > >  /*
+> > >   * Rules for using a bridge to control a VGA descendant decoding: if a bridge
+> > >   * has only one VGA descendant then it can be used to control the VGA routing
+> > > @@ -643,6 +734,11 @@ static void vga_arbiter_check_bridge_sharing(struct vga_device *vgadev)
+> > >               }
+> > >               new_bus = new_bus->parent;
+> > >       }
+> > > +
+> > > +     if (vgadev->bridge_has_one_vga == true)
+> > > +             vgaarb_info(&vgadev->pdev->dev, "bridge control possible\n");
+> > > +     else
+> > > +             vgaarb_info(&vgadev->pdev->dev, "no bridge control possible\n");
+> > >  }
+> > >
+> > >  /*
+> > > @@ -713,15 +809,7 @@ static bool vga_arbiter_add_pci_device(struct pci_dev *pdev)
+> > >               bus = bus->parent;
+> > >       }
+> > >
+> > > -     /* Deal with VGA default device. Use first enabled one
+> > > -      * by default if arch doesn't have it's own hook
+> > > -      */
+> > > -     if (vga_default == NULL &&
+> > > -         ((vgadev->owns & VGA_RSRC_LEGACY_MASK) == VGA_RSRC_LEGACY_MASK)) {
+> > > -             vgaarb_info(&pdev->dev, "setting as boot VGA device\n");
+> > > -             vga_set_default_device(pdev);
+> > > -     }
+> > > -
+> > > +     vga_arb_update_default_device(vgadev);
+> > >       vga_arbiter_check_bridge_sharing(vgadev);
+> > >
+> > >       /* Add to the list */
+> > > @@ -1451,111 +1539,10 @@ static struct miscdevice vga_arb_device = {
+> > >       MISC_DYNAMIC_MINOR, "vga_arbiter", &vga_arb_device_fops
+> > >  };
+> > >
+> > > -#if defined(CONFIG_ACPI)
+> > > -static bool vga_arb_integrated_gpu(struct device *dev)
+> > > -{
+> > > -     struct acpi_device *adev = ACPI_COMPANION(dev);
+> > > -
+> > > -     return adev && !strcmp(acpi_device_hid(adev), ACPI_VIDEO_HID);
+> > > -}
+> > > -#else
+> > > -static bool vga_arb_integrated_gpu(struct device *dev)
+> > > -{
+> > > -     return false;
+> > > -}
+> > > -#endif
+> > > -
+> > > -static void __init vga_arb_select_default_device(void)
+> > > -{
+> > > -     struct pci_dev *pdev, *found = NULL;
+> > > -     struct vga_device *vgadev;
+> > > -
+> > > -#if defined(CONFIG_X86) || defined(CONFIG_IA64)
+> > > -     u64 base = screen_info.lfb_base;
+> > > -     u64 size = screen_info.lfb_size;
+> > > -     u64 limit;
+> > > -     resource_size_t start, end;
+> > > -     unsigned long flags;
+> > > -     int i;
+> > > -
+> > > -     if (screen_info.capabilities & VIDEO_CAPABILITY_64BIT_BASE)
+> > > -             base |= (u64)screen_info.ext_lfb_base << 32;
+> > > -
+> > > -     limit = base + size;
+> > > -
+> > > -     list_for_each_entry(vgadev, &vga_list, list) {
+> > > -             struct device *dev = &vgadev->pdev->dev;
+> > > -             /*
+> > > -              * Override vga_arbiter_add_pci_device()'s I/O based detection
+> > > -              * as it may take the wrong device (e.g. on Apple system under
+> > > -              * EFI).
+> > > -              *
+> > > -              * Select the device owning the boot framebuffer if there is
+> > > -              * one.
+> > > -              */
+> > > -
+> > > -             /* Does firmware framebuffer belong to us? */
+> > > -             for (i = 0; i < DEVICE_COUNT_RESOURCE; i++) {
+> > > -                     flags = pci_resource_flags(vgadev->pdev, i);
+> > > -
+> > > -                     if ((flags & IORESOURCE_MEM) == 0)
+> > > -                             continue;
+> > > -
+> > > -                     start = pci_resource_start(vgadev->pdev, i);
+> > > -                     end  = pci_resource_end(vgadev->pdev, i);
+> > > -
+> > > -                     if (!start || !end)
+> > > -                             continue;
+> > > -
+> > > -                     if (base < start || limit >= end)
+> > > -                             continue;
+> > > -
+> > > -                     if (!vga_default_device())
+> > > -                             vgaarb_info(dev, "setting as boot device\n");
+> > > -                     else if (vgadev->pdev != vga_default_device())
+> > > -                             vgaarb_info(dev, "overriding boot device\n");
+> > > -                     vga_set_default_device(vgadev->pdev);
+> > > -             }
+> > > -     }
+> > > -#endif
+> > > -
+> > > -     if (!vga_default_device()) {
+> > > -             list_for_each_entry_reverse(vgadev, &vga_list, list) {
+> > > -                     struct device *dev = &vgadev->pdev->dev;
+> > > -                     u16 cmd;
+> > > -
+> > > -                     pdev = vgadev->pdev;
+> > > -                     pci_read_config_word(pdev, PCI_COMMAND, &cmd);
+> > > -                     if (cmd & (PCI_COMMAND_IO | PCI_COMMAND_MEMORY)) {
+> > > -                             found = pdev;
+> > > -                             if (vga_arb_integrated_gpu(dev))
+> > > -                                     break;
+> > > -                     }
+> > > -             }
+> > > -     }
+> > > -
+> > > -     if (found) {
+> > > -             vgaarb_info(&found->dev, "setting as boot device (VGA legacy resources not available)\n");
+> > > -             vga_set_default_device(found);
+> > > -             return;
+> > > -     }
+> > > -
+> > > -     if (!vga_default_device()) {
+> > > -             vgadev = list_first_entry_or_null(&vga_list,
+> > > -                                               struct vga_device, list);
+> > > -             if (vgadev) {
+> > > -                     struct device *dev = &vgadev->pdev->dev;
+> > > -                     vgaarb_info(dev, "setting as boot device (VGA legacy resources not available)\n");
+> > > -                     vga_set_default_device(vgadev->pdev);
+> > > -             }
+> > > -     }
+> > > -}
+> > > -
+> > >  static int __init vga_arb_device_init(void)
+> > >  {
+> > >       int rc;
+> > >       struct pci_dev *pdev;
+> > > -     struct vga_device *vgadev;
+> > >
+> > >       rc = misc_register(&vga_arb_device);
+> > >       if (rc < 0)
+> > > @@ -1571,18 +1558,6 @@ static int __init vga_arb_device_init(void)
+> > >                              PCI_ANY_ID, pdev)) != NULL)
+> > >               vga_arbiter_add_pci_device(pdev);
+> > >
+> > > -     list_for_each_entry(vgadev, &vga_list, list) {
+> > > -             struct device *dev = &vgadev->pdev->dev;
+> > > -
+> > > -             if (vgadev->bridge_has_one_vga)
+> > > -                     vgaarb_info(dev, "bridge control possible\n");
+> > > -             else
+> > > -                     vgaarb_info(dev, "no bridge control possible\n");
+> > > -     }
+> > > -
+> > > -     vga_arb_select_default_device();
+> > > -
+> > > -     pr_info("loaded\n");
+> > >       return rc;
+> > >  }
+> > >  subsys_initcall(vga_arb_device_init);
+> > > --
+> > > 2.27.0
+> > >
+> >
+> > --
+> > Daniel Vetter
+> > Software Engineer, Intel Corporation
+> > http://blog.ffwll.ch
 
 -- 
 Daniel Vetter
