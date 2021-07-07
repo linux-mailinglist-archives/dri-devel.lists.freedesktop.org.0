@@ -2,73 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29B183BE4A3
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Jul 2021 10:48:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F9753BE4AA
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Jul 2021 10:48:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F2AE6E849;
-	Wed,  7 Jul 2021 08:48:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ACD876E055;
+	Wed,  7 Jul 2021 08:48:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com
- [64.147.123.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B88C06E849
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Jul 2021 08:48:28 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.west.internal (Postfix) with ESMTP id 79B192B00945;
- Wed,  7 Jul 2021 04:48:27 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Wed, 07 Jul 2021 04:48:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=ylBfC59buHvrN
- A7vQx7pQlbEfIpO6A7a7nF+fVnD5G4=; b=fkgBlU1sEBua4971yfAkXLoU2Wa7F
- EK9QQ/yWMjXbbsIub738LJwbj6octBuxYjTMhYjc+E+vjCq1kbMDGx8anmAUs7Ug
- kGW7Cw91h0ouNuZ3UlgOOxzji5evOWKAJVfgv2ei+6Cq/WQnP1EhXH8QnoxrmxDN
- SujvI7xq5w3U9sMDbaeVFP0hgW7rdn1LtcksGgBaoW/R7Z9es09a8M1OhgrD8IVU
- EEVYqFnXrz+83BLkwyAvze9xAHMJcTbnfdP5OT/NsbiLq2VORIb49uteE/n6/rdx
- h63NnMDe0OrKD2XNJj8MlIs0273iDxVndDqnfYmBw3CXNWGVpM5sUvcMQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=ylBfC59buHvrNA7vQx7pQlbEfIpO6A7a7nF+fVnD5G4=; b=bb4DlxFl
- 7OGMneEbTN8D7S/4m9wUnoxlIHsBSljG/NmJtCNwRDRzzvp22yOcQS5aPEU8Hdw6
- pWRF/sdN2RRLEKfgwdkgA3tlbCCeOIQj9ZY3WhIk1KNF9DawhgXDuhGDZaxoHzWU
- Tsl1lbEepYuvaQljGBcUSg0b3ueL2f9l39hUd+n/mZEeEKHoQSSwKqOFIT6RhiPc
- 7MrmlI6n6Z0LdS6G/v+x+iPxlHNLYpefS/sQ+Sm0lmqf/wBqhEvmGcwIcWE0AM9s
- GXol28PtfjlNVJtpCDpNst99MG4lnndLz/CDNdaXRuTUlFo4pHK7kOuewx0OWkKV
- Jb13/paw2CfU9A==
-X-ME-Sender: <xms:W2rlYGuTi3ONvfHWJS1TXqDmb1exxLwYyJsqsrbQATBm9-_80Rd6mw>
- <xme:W2rlYLcCepFtds5rp-fBrIXbFvvfXSrYUvixL4NQuKr1hUllGUXMK8q4Ke12qWDfO
- Efv57JkkpV_Jy0w_cE>
-X-ME-Received: <xmr:W2rlYBzqd7nyAw114XjzN3fxW3SaNpxYrbv76KinK-UcVols4ik044hTG27LY_DOAdL27y9ax9MJkKgH2EaP1qsI84PJiLciE2EN>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrtddvgddtiecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihimhgv
- ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
- gvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveevheeh
- vdenucevlhhushhtvghrufhiiigvpeefnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
- igihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:W2rlYBNCFxNma1YegiKNPkvve0N_mWy4J2QO3gDDO3Swe90GFAeWbQ>
- <xmx:W2rlYG_4C6aNXuY8wJ-RHrUYOvyoVqij0d7shXxyDbt6dsD4ds9XQg>
- <xmx:W2rlYJUdhz3J7s4wB2oXLPh7GuSA0EhCgGWelztJsyjTVQ3Sy7qdBQ>
- <xmx:W2rlYKXSXl2yUN4U5uzsDFBN0LQddLROMJDZzTTd2r3yPNj90BJaswKyCKs>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 7 Jul 2021 04:48:26 -0400 (EDT)
-From: Maxime Ripard <maxime@cerno.tech>
-To: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@intel.com>,
- David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>
-Subject: [PATCH v6 10/10] drm/vc4: Increase the core clock based on HVS load
-Date: Wed,  7 Jul 2021 10:47:45 +0200
-Message-Id: <20210707084745.1365390-11-maxime@cerno.tech>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210707084745.1365390-1-maxime@cerno.tech>
-References: <20210707084745.1365390-1-maxime@cerno.tech>
+Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com
+ [91.207.212.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E30B6E055
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Jul 2021 08:48:39 +0000 (UTC)
+Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 1678fZUe029506; Wed, 7 Jul 2021 10:48:23 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
+ h=from : to : cc :
+ subject : date : message-id : content-type : content-transfer-encoding :
+ mime-version; s=selector1;
+ bh=X2A5zaJ3/upwREqwE0Vhej/FGY58c6pTzzxOXfWJAPI=;
+ b=6k1KxoxKocPZGaGuTAZhjUNdkV/2745hCIlSADrS+/TeBIFclGm5GO1/O3j8/r3ZDiRq
+ cjOIym/vkNPeBPNtR4LICBV3ug9aGp9gC9Zw6tkhC57F0aTMah4M62sOQrAhQSe7igZ3
+ sWs9SEiYxd3SA56XQN09qq6zHFXGeXSJJXKL4OMEwanhr1LUVnMXBt9voFQz37gA8b7+
+ UvMVxD3U3V+a7B4XWckwHrKKZQy4yDd+NV2RGd3Zi+h37OKCm7ikyQptO1Xig8IxgCiy
+ OAWWMuoOPsg0gjvLFFjKLcOxN1UGvJg+Df9W6mWVa5jTgKwfYGEGV0tf5C8+sONKriVv Sw== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+ by mx07-00178001.pphosted.com with ESMTP id 39n8ysr1gk-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 07 Jul 2021 10:48:23 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+ by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id C5AE210002A;
+ Wed,  7 Jul 2021 10:48:20 +0200 (CEST)
+Received: from Webmail-eu.st.com (sfhdag2node3.st.com [10.75.127.6])
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 9B427216EDE;
+ Wed,  7 Jul 2021 10:48:20 +0200 (CEST)
+Received: from SFHDAG2NODE3.st.com (10.75.127.6) by SFHDAG2NODE3.st.com
+ (10.75.127.6) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 7 Jul
+ 2021 10:48:20 +0200
+Received: from SFHDAG2NODE3.st.com ([fe80::31b3:13bf:2dbe:f64c]) by
+ SFHDAG2NODE3.st.com ([fe80::31b3:13bf:2dbe:f64c%20]) with mapi id
+ 15.00.1497.015; Wed, 7 Jul 2021 10:48:20 +0200
+From: Raphael GALLAIS-POU - foss <raphael.gallais-pou@foss.st.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, Yannick FERTRE - foss
+ <yannick.fertre@foss.st.com>, Philippe CORNU - foss
+ <philippe.cornu@foss.st.com>, Benjamin Gaignard
+ <benjamin.gaignard@linaro.org>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre TORGUE - foss <alexandre.torgue@foss.st.com>, Matt Roper
+ <matthew.d.roper@intel.com>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, "linux-stm32@st-md-mailman.stormreply.com"
+ <linux-stm32@st-md-mailman.stormreply.com>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Subject: [PATCH 0/2] Add "BACKGROUND_COLOR" drm property
+Thread-Topic: [PATCH 0/2] Add "BACKGROUND_COLOR" drm property
+Thread-Index: AQHXcwzWM52+nQh1ikqrNewj647ZyA==
+Date: Wed, 7 Jul 2021 08:48:20 +0000
+Message-ID: <20210707084557.22443-1-raphael.gallais-pou@foss.st.com>
+Accept-Language: fr-FR, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.75.127.47]
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
+ definitions=2021-07-07_05:2021-07-06,
+ 2021-07-07 signatures=0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,261 +86,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nicolas Saenz Julienne <nsaenz@kernel.org>,
- Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
- bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
- Emma Anholt <emma@anholt.net>, Phil Elwell <phil@raspberrypi.com>
+Cc: Yannick FERTRE <yannick.fertre@st.com>,
+ Raphael GALLAIS-POU <raphael.gallais-pou@st.com>,
+ Philippe CORNU <philippe.cornu@st.com>,
+ Raphael GALLAIS-POU - foss <raphael.gallais-pou@foss.st.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Depending on a given HVS output (HVS to PixelValves) and input (planes
-attached to a channel) load, the HVS needs for the core clock to be
-raised above its boot time default.
+Hello,
 
-Failing to do so will result in a vblank timeout and a stalled display
-pipeline.
+This series aims to add a generic background color property for CRTC as
+discussed in the conversation:
+https://patchwork.freedesktop.org/patch/439585/
 
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
----
- drivers/gpu/drm/vc4/vc4_crtc.c |  15 +++++
- drivers/gpu/drm/vc4/vc4_drv.h  |   3 +
- drivers/gpu/drm/vc4/vc4_kms.c  | 110 ++++++++++++++++++++++++++++++---
- 3 files changed, 119 insertions(+), 9 deletions(-)
+This patch "drm: add crtc background color property" is strongly inspired
+of Matthew Roper's.  Please see:
+https://patchwork.freedesktop.org/patch/333632/
 
-diff --git a/drivers/gpu/drm/vc4/vc4_crtc.c b/drivers/gpu/drm/vc4/vc4_crtc.c
-index 073b7e528175..c733b2091d3c 100644
---- a/drivers/gpu/drm/vc4/vc4_crtc.c
-+++ b/drivers/gpu/drm/vc4/vc4_crtc.c
-@@ -642,12 +642,27 @@ static int vc4_crtc_atomic_check(struct drm_crtc *crtc,
- 	struct vc4_crtc_state *vc4_state = to_vc4_crtc_state(crtc_state);
- 	struct drm_connector *conn;
- 	struct drm_connector_state *conn_state;
-+	struct drm_encoder *encoder;
- 	int ret, i;
- 
- 	ret = vc4_hvs_atomic_check(crtc, state);
- 	if (ret)
- 		return ret;
- 
-+	encoder = vc4_get_crtc_encoder(crtc, crtc_state);
-+	if (encoder) {
-+		const struct drm_display_mode *mode = &crtc_state->adjusted_mode;
-+		struct vc4_encoder *vc4_encoder = to_vc4_encoder(encoder);
-+
-+		mode = &crtc_state->adjusted_mode;
-+		if (vc4_encoder->type == VC4_ENCODER_TYPE_HDMI0) {
-+			vc4_state->hvs_load = max(mode->clock * mode->hdisplay / mode->htotal + 1000,
-+						  mode->clock * 9 / 10) * 1000;
-+		} else {
-+			vc4_state->hvs_load = mode->clock * 1000;
-+		}
-+	}
-+
- 	for_each_new_connector_in_state(state, conn, conn_state,
- 					i) {
- 		if (conn_state->crtc != crtc)
-diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
-index ac8021639d03..08e3a055f7f6 100644
---- a/drivers/gpu/drm/vc4/vc4_drv.h
-+++ b/drivers/gpu/drm/vc4/vc4_drv.h
-@@ -319,6 +319,7 @@ struct vc4_hvs {
- 	u32 __iomem *dlist;
- 
- 	struct clk *core_clk;
-+	struct clk_request *core_req;
- 
- 	/* Memory manager for CRTCs to allocate space in the display
- 	 * list.  Units are dwords.
-@@ -530,6 +531,8 @@ struct vc4_crtc_state {
- 		unsigned int bottom;
- 	} margins;
- 
-+	unsigned long hvs_load;
-+
- 	/* Transitional state below, only valid during atomic commits */
- 	bool update_muxing;
- };
-diff --git a/drivers/gpu/drm/vc4/vc4_kms.c b/drivers/gpu/drm/vc4/vc4_kms.c
-index d6b707711f58..e443cfbe3049 100644
---- a/drivers/gpu/drm/vc4/vc4_kms.c
-+++ b/drivers/gpu/drm/vc4/vc4_kms.c
-@@ -39,9 +39,11 @@ static struct vc4_ctm_state *to_vc4_ctm_state(struct drm_private_state *priv)
- 
- struct vc4_hvs_state {
- 	struct drm_private_state base;
-+	unsigned long core_clock_rate;
- 
- 	struct {
- 		unsigned in_use: 1;
-+		unsigned long fifo_load;
- 		struct drm_crtc_commit *pending_commit;
- 	} fifo_state[HVS_NUM_CHANNELS];
- };
-@@ -339,10 +341,19 @@ static void vc4_atomic_commit_tail(struct drm_atomic_state *state)
- 	struct vc4_hvs *hvs = vc4->hvs;
- 	struct drm_crtc_state *old_crtc_state;
- 	struct drm_crtc_state *new_crtc_state;
-+	struct vc4_hvs_state *new_hvs_state;
- 	struct drm_crtc *crtc;
- 	struct vc4_hvs_state *old_hvs_state;
- 	int i;
- 
-+	old_hvs_state = vc4_hvs_get_old_global_state(state);
-+	if (WARN_ON(!old_hvs_state))
-+		return;
-+
-+	new_hvs_state = vc4_hvs_get_new_global_state(state);
-+	if (WARN_ON(!new_hvs_state))
-+		return;
-+
- 	for_each_new_crtc_in_state(state, crtc, new_crtc_state, i) {
- 		struct vc4_crtc_state *vc4_crtc_state;
- 
-@@ -353,12 +364,13 @@ static void vc4_atomic_commit_tail(struct drm_atomic_state *state)
- 		vc4_hvs_mask_underrun(dev, vc4_crtc_state->assigned_channel);
- 	}
- 
--	if (vc4->hvs->hvs5)
--		clk_set_min_rate(hvs->core_clk, 500000000);
-+	if (vc4->hvs->hvs5) {
-+		unsigned long core_rate = max_t(unsigned long,
-+						500000000,
-+						new_hvs_state->core_clock_rate);
- 
--	old_hvs_state = vc4_hvs_get_old_global_state(state);
--	if (!old_hvs_state)
--		return;
-+		clk_set_min_rate(hvs->core_clk, core_rate);
-+	}
- 
- 	for_each_old_crtc_in_state(state, crtc, old_crtc_state, i) {
- 		struct vc4_crtc_state *vc4_crtc_state =
-@@ -398,8 +410,12 @@ static void vc4_atomic_commit_tail(struct drm_atomic_state *state)
- 
- 	drm_atomic_helper_cleanup_planes(dev, state);
- 
--	if (vc4->hvs->hvs5)
--		clk_set_min_rate(hvs->core_clk, 0);
-+	if (vc4->hvs->hvs5) {
-+		drm_dbg(dev, "Running the core clock at %lu Hz\n",
-+			new_hvs_state->core_clock_rate);
-+
-+		clk_set_min_rate(hvs->core_clk, new_hvs_state->core_clock_rate);
-+	}
- }
- 
- static int vc4_atomic_commit_setup(struct drm_atomic_state *state)
-@@ -656,9 +672,9 @@ vc4_hvs_channels_duplicate_state(struct drm_private_obj *obj)
- 
- 	__drm_atomic_helper_private_obj_duplicate_state(obj, &state->base);
- 
--
- 	for (i = 0; i < HVS_NUM_CHANNELS; i++) {
- 		state->fifo_state[i].in_use = old_state->fifo_state[i].in_use;
-+		state->fifo_state[i].fifo_load = old_state->fifo_state[i].fifo_load;
- 
- 		if (!old_state->fifo_state[i].pending_commit)
- 			continue;
-@@ -667,6 +683,8 @@ vc4_hvs_channels_duplicate_state(struct drm_private_obj *obj)
- 			drm_crtc_commit_get(old_state->fifo_state[i].pending_commit);
- 	}
- 
-+	state->core_clock_rate = old_state->core_clock_rate;
-+
- 	return &state->base;
- }
- 
-@@ -821,6 +839,76 @@ static int vc4_pv_muxing_atomic_check(struct drm_device *dev,
- 	return 0;
- }
- 
-+static int
-+vc4_core_clock_atomic_check(struct drm_atomic_state *state)
-+{
-+	struct vc4_dev *vc4 = to_vc4_dev(state->dev);
-+	struct drm_private_state *priv_state;
-+	struct vc4_hvs_state *hvs_new_state;
-+	struct vc4_load_tracker_state *load_state;
-+	struct drm_crtc_state *old_crtc_state, *new_crtc_state;
-+	struct drm_crtc *crtc;
-+	unsigned int num_outputs;
-+	unsigned long pixel_rate;
-+	unsigned long cob_rate;
-+	unsigned int i;
-+
-+	priv_state = drm_atomic_get_private_obj_state(state,
-+						      &vc4->load_tracker);
-+	if (IS_ERR(priv_state))
-+		return PTR_ERR(priv_state);
-+
-+	load_state = to_vc4_load_tracker_state(priv_state);
-+
-+	hvs_new_state = vc4_hvs_get_global_state(state);
-+	if (!hvs_new_state)
-+		return -EINVAL;
-+
-+	for_each_oldnew_crtc_in_state(state, crtc,
-+				      old_crtc_state,
-+				      new_crtc_state,
-+				      i) {
-+		if (old_crtc_state->active) {
-+			struct vc4_crtc_state *old_vc4_state =
-+				to_vc4_crtc_state(old_crtc_state);
-+			unsigned int channel = old_vc4_state->assigned_channel;
-+
-+			hvs_new_state->fifo_state[channel].fifo_load = 0;
-+		}
-+
-+		if (new_crtc_state->active) {
-+			struct vc4_crtc_state *new_vc4_state =
-+				to_vc4_crtc_state(new_crtc_state);
-+			unsigned int channel = new_vc4_state->assigned_channel;
-+
-+			hvs_new_state->fifo_state[channel].fifo_load =
-+				new_vc4_state->hvs_load;
-+		}
-+	}
-+
-+	cob_rate = 0;
-+	num_outputs = 0;
-+	for (i = 0; i < HVS_NUM_CHANNELS; i++) {
-+		if (!hvs_new_state->fifo_state[i].in_use)
-+			continue;
-+
-+		num_outputs++;
-+		cob_rate += hvs_new_state->fifo_state[i].fifo_load;
-+	}
-+
-+	pixel_rate = load_state->hvs_load;
-+	if (num_outputs > 1) {
-+		pixel_rate = (pixel_rate * 40) / 100;
-+	} else {
-+		pixel_rate = (pixel_rate * 60) / 100;
-+	}
-+
-+	hvs_new_state->core_clock_rate = max(cob_rate, pixel_rate);
-+
-+	return 0;
-+}
-+
-+
- static int
- vc4_atomic_check(struct drm_device *dev, struct drm_atomic_state *state)
- {
-@@ -838,7 +926,11 @@ vc4_atomic_check(struct drm_device *dev, struct drm_atomic_state *state)
- 	if (ret)
- 		return ret;
- 
--	return vc4_load_tracker_atomic_check(state);
-+	ret = vc4_load_tracker_atomic_check(state);
-+	if (ret)
-+		return ret;
-+
-+	return vc4_core_clock_atomic_check(state);
- }
- 
- static struct drm_mode_config_helper_funcs vc4_mode_config_helpers = {
--- 
-2.31.1
+Raphael Gallais-Pou (2):
+  drm: add crtc background color property
+  drm/stm: ltdc: add crtc background color property support
 
+ drivers/gpu/drm/drm_atomic_state_helper.c |  1 +
+ drivers/gpu/drm/drm_atomic_uapi.c         |  4 ++
+ drivers/gpu/drm/drm_blend.c               | 34 +++++++++++++++-
+ drivers/gpu/drm/drm_mode_config.c         |  6 +++
+ drivers/gpu/drm/stm/ltdc.c                | 48 ++++++++++++++++++++---
+ include/drm/drm_blend.h                   |  1 +
+ include/drm/drm_crtc.h                    | 12 ++++++
+ include/drm/drm_mode_config.h             |  5 +++
+ include/uapi/drm/drm_mode.h               | 28 +++++++++++++
+ 9 files changed, 132 insertions(+), 7 deletions(-)
+
+--=20
+2.17.1
