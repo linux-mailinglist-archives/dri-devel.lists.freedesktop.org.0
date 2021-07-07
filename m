@@ -1,43 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21CFB3BE691
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Jul 2021 12:46:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 43A583BE6AE
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Jul 2021 12:52:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B3D76E0AC;
-	Wed,  7 Jul 2021 10:46:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C6136E0AD;
+	Wed,  7 Jul 2021 10:52:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1AF4D6E08E;
- Wed,  7 Jul 2021 10:46:39 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 8815C61CAA;
- Wed,  7 Jul 2021 10:46:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1625654797;
- bh=x/6yJbDlJx88gXff2NPaDoOf2VTEmW/FiSuagMfWqrE=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=DeSb7RTenYR1UxkiWCo6aig5ZaRjJCOaklGoahkm78lFkC7RH6QMYEC6DGriMJnFZ
- MjTG84pV43p9AGNw5QcyjNi5ISj4L6msunpox/EgkIsIFrK10P6LQO/zkhAtyvKwsB
- rNdDnEKkMhFito12aHrPihmkN9G4u5/sc1TLRPy6xuiaiFCtakU67dptaeszT//Ope
- Q8x3sbojAks+WaQHC4pSb28iGhVWeISBoa5xXgLZqOmkss+XIW1/I9m6G8STIUpA3R
- /gZUWs9Lqmpxl+JxTf77MmGgyQFuZXRTrSXTz+0RGcslFjui0OEJvBQ/XscTjNaWyR
- yxszLHWpW3qtg==
-Date: Wed, 7 Jul 2021 06:46:36 -0400
-From: Sasha Levin <sashal@kernel.org>
-To: Felix Kuehling <felix.kuehling@amd.com>
-Subject: Re: [PATCH AUTOSEL 5.13 113/189] drm/amdgpu/gfx9: fix the doorbell
- missing when in CGPG issue.
-Message-ID: <YOWGDHa3fdUPsdRS@sashalap>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 375CD6E0C6
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Jul 2021 10:52:36 +0000 (UTC)
+Received: from gallifrey.ext.pengutronix.de
+ ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1m15AK-0007KA-CP; Wed, 07 Jul 2021 12:52:28 +0200
+Message-ID: <099ef9f1cd1b865afd9cb8849d5485776ad1b868.camel@pengutronix.de>
+Subject: Re: [PATCH AUTOSEL 5.13 001/189] drm/etnaviv: fix NULL check before
+ some freeing functions is not needed
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Sasha Levin <sashal@kernel.org>, linux-kernel@vger.kernel.org, 
+ stable@vger.kernel.org
+Date: Wed, 07 Jul 2021 12:52:25 +0200
+In-Reply-To: <20210706111409.2058071-1-sashal@kernel.org>
 References: <20210706111409.2058071-1-sashal@kernel.org>
- <20210706111409.2058071-113-sashal@kernel.org>
- <CADnq5_ObmVRjwUB5Lw0bLZLL-+=CqvGkJZ+2DY5ZDh+uN-oo0g@mail.gmail.com>
- <affee955-54bc-11c3-8ccd-5678f7aee687@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.1 (3.40.1-1.fc34) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <affee955-54bc-11c3-8ccd-5678f7aee687@amd.com>
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,35 +49,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Yifan Zhang <yifan1.zhang@amd.com>, LKML <linux-kernel@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- "for 3.8" <stable@vger.kernel.org>
+Cc: Tian Tao <tiantao6@hisilicon.com>,
+ Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 06, 2021 at 07:09:37PM -0400, Felix Kuehling wrote:
->Am 2021-07-06 um 5:44 p.m. schrieb Alex Deucher:
->> On Tue, Jul 6, 2021 at 7:16 AM Sasha Levin <sashal@kernel.org> wrote:
->>> From: Yifan Zhang <yifan1.zhang@amd.com>
->>>
->>> [ Upstream commit 631003101c516ea29a74aee59666708857b9a805 ]
->>>
->>> If GC has entered CGPG, ringing doorbell > first page doesn't wakeup GC.
->>> Enlarge CP_MEC_DOORBELL_RANGE_UPPER to workaround this issue.
->>>
->>> Signed-off-by: Yifan Zhang <yifan1.zhang@amd.com>
->>> Reviewed-by: Felix Kuehling <Felix.Kuehling@amd.com>
->>> Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
->>> Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
->>> Signed-off-by: Sasha Levin <sashal@kernel.org>
->> This should be dropped.  It was already reverted.
->
->Patch 146 of this series is the corresponding revert.
+Am Dienstag, dem 06.07.2021 um 07:11 -0400 schrieb Sasha Levin:
+> From: Tian Tao <tiantao6@hisilicon.com>
+> 
+> [ Upstream commit 7d614ab2f20503ed8766363d41f8607337571adf ]
+> 
+> fixed the below warning:
+> drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c:84:2-8: WARNING: NULL check
+> before some freeing functions is not needed.
 
-I'll drop both, thanks!
+While the subject contains "fix" this only removes a duplicated NULL
+check, so the code is correct before and after this change.
+Is this really stable material? Doesn't this just add commit noise to
+the stable kernels?
 
--- 
-Thanks,
-Sasha
+Regards,
+Lucas
+
+> 
+> Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
+> Acked-by: Christian König <christian.koenig@amd.com>
+> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+> Signed-off-by: Sasha Levin <sashal@kernel.org>
+> ---
+>  drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
+> index b390dd4d60b7..d741b1d735f7 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
+> @@ -80,8 +80,7 @@ static void etnaviv_gem_prime_release(struct etnaviv_gem_object *etnaviv_obj)
+>  	/* Don't drop the pages for imported dmabuf, as they are not
+>  	 * ours, just free the array we allocated:
+>  	 */
+> -	if (etnaviv_obj->pages)
+> -		kvfree(etnaviv_obj->pages);
+> +	kvfree(etnaviv_obj->pages);
+>  
+>  	drm_prime_gem_destroy(&etnaviv_obj->base, etnaviv_obj->sgt);
+>  }
+
+
