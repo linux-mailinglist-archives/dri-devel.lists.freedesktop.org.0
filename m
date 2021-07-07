@@ -2,34 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C90503BF5FF
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Jul 2021 09:08:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70A5D3BF5FE
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Jul 2021 09:08:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E408E6E092;
+	by gabe.freedesktop.org (Postfix) with ESMTP id F2E956E155;
 	Thu,  8 Jul 2021 07:08:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2DEE66E102
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Jul 2021 12:03:40 +0000 (UTC)
-Received: from localhost.localdomain (unknown
- [IPv6:2a01:e0a:4cb:a870:c375:7561:3857:648])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: benjamin.gaignard)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 3C6231F43284;
- Wed,  7 Jul 2021 13:03:38 +0100 (BST)
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-To: hjc@rock-chips.com, heiko@sntech.de, airlied@linux.ie, daniel@ffwll.ch,
- robh+dt@kernel.org, algea.cao@rock-chips.com, andy.yan@rock-chips.com
-Subject: [PATCH v2 2/2] drm/rockchip: dw_hdmi: add rk3568 support
-Date: Wed,  7 Jul 2021 14:03:23 +0200
-Message-Id: <20210707120323.401785-3-benjamin.gaignard@collabora.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210707120323.401785-1-benjamin.gaignard@collabora.com>
-References: <20210707120323.401785-1-benjamin.gaignard@collabora.com>
+X-Greylist: delayed 1014 seconds by postgrey-1.36 at gabe;
+ Wed, 07 Jul 2021 16:53:47 UTC
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com
+ [185.176.79.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1BAB66E19B
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Jul 2021 16:53:46 +0000 (UTC)
+Received: from fraeml712-chm.china.huawei.com (unknown [172.18.147.207])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4GKlGx4Z7cz6DDcS
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Jul 2021 00:28:41 +0800 (CST)
+Received: from fraeml714-chm.china.huawei.com (10.206.15.33) by
+ fraeml712-chm.china.huawei.com (10.206.15.61) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Wed, 7 Jul 2021 18:36:50 +0200
+Received: from fraeml714-chm.china.huawei.com ([10.206.15.33]) by
+ fraeml714-chm.china.huawei.com ([10.206.15.33]) with mapi id 15.01.2176.012;
+ Wed, 7 Jul 2021 18:36:49 +0200
+From: Roberto Sassu <roberto.sassu@huawei.com>
+To: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Subject: Oops in qxl_bo_move_notify()
+Thread-Topic: Oops in qxl_bo_move_notify()
+Thread-Index: AddzTTJ8VdNfvPVUQaal0okXK7VbWw==
+Date: Wed, 7 Jul 2021 16:36:49 +0000
+Message-ID: <3c414722f5d84875a9251b3cc120a26a@huawei.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.221.98.153]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-CFilter-Loop: Reflected
 X-Mailman-Approved-At: Thu, 08 Jul 2021 07:08:27 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -43,154 +54,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-rockchip@lists.infradead.org, kernel@collabora.com,
- linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a new dw_hdmi_plat_data struct and new compatible for rk3568.
-This version of the HDMI hardware block need two clocks to provide
-phy reference clock: hclk_vio and hclk.
+Hi
 
-Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
----
-version 2:
-- Add the clocks needed for the phy.
+I'm getting this oops (on commit a180bd1d7e16):
 
- drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c | 68 +++++++++++++++++++++
- 1 file changed, 68 insertions(+)
+    [   17.711520] BUG: kernel NULL pointer dereference, address: 000000000=
+0000010
+    [   17.739451] RIP: 0010:qxl_bo_move_notify+0x35/0x80 [qxl]
+    [   17.827345] RSP: 0018:ffffc90000457c08 EFLAGS: 00010286
+    [   17.827350] RAX: 0000000000000001 RBX: 0000000000000000 RCX: dffffc0=
+000000000
+    [   17.827353] RDX: 0000000000000007 RSI: 0000000000000004 RDI: fffffff=
+f85596feb
+    [   17.827356] RBP: ffff88800e311c00 R08: 0000000000000000 R09: 0000000=
+000000000
+    [   17.827358] R10: ffffffff8697b243 R11: fffffbfff0d2f648 R12: 0000000=
+000000000
+    [   17.827361] R13: ffff88800e311e48 R14: ffff88800e311e98 R15: ffff888=
+00e311e90
+    [   17.827364] FS:  0000000000000000(0000) GS:ffff88805d800000(0000) kn=
+lGS:0000000000000000
+    [   17.861699] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+    [   17.861703] CR2: 0000000000000010 CR3: 000000002642c000 CR4: 0000000=
+000350ee0
+    [   17.861707] Call Trace:
+    [   17.861712]  ttm_bo_cleanup_memtype_use+0x4d/0xb0 [ttm]
+    [   17.861730]  ttm_bo_release+0x42d/0x7c0 [ttm]
+    [   17.861746]  ? ttm_bo_cleanup_refs+0x127/0x420 [ttm]
+    [   17.888300]  ttm_bo_delayed_delete+0x289/0x390 [ttm]
+    [   17.888317]  ? ttm_bo_cleanup_refs+0x420/0x420 [ttm]
+    [   17.888332]  ? lock_release+0x9c/0x5c0
+    [   17.901033]  ? rcu_read_lock_held_common+0x1a/0x50
+    [   17.905183]  ttm_device_delayed_workqueue+0x18/0x50 [ttm]
+    [   17.909371]  process_one_work+0x537/0x9f0
+    [   17.913345]  ? pwq_dec_nr_in_flight+0x160/0x160
+    [   17.917297]  ? lock_acquired+0xa4/0x580
+    [   17.921168]  ? worker_thread+0x169/0x600
+    [   17.925034]  worker_thread+0x7a/0x600
+    [   17.928657]  ? process_one_work+0x9f0/0x9f0
+    [   17.932360]  kthread+0x200/0x230
+    [   17.935930]  ? set_kthread_struct+0x80/0x80
+    [   17.939593]  ret_from_fork+0x22/0x30
+    [   17.951737] CR2: 0000000000000010
+    [   17.955496] ---[ end trace e30cc21c24e81ee5 ]---
 
-diff --git a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-index 830bdd5e9b7ce..dc0e255e45745 100644
---- a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-+++ b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-@@ -50,6 +50,10 @@
- #define RK3399_GRF_SOC_CON20		0x6250
- #define RK3399_HDMI_LCDC_SEL		BIT(6)
- 
-+#define RK3568_GRF_VO_CON1		0x0364
-+#define RK3568_HDMI_SDAIN_MSK		BIT(15)
-+#define RK3568_HDMI_SCLIN_MSK		BIT(14)
-+
- #define HIWORD_UPDATE(val, mask)	(val | (mask) << 16)
- 
- /**
-@@ -71,6 +75,8 @@ struct rockchip_hdmi {
- 	const struct rockchip_hdmi_chip_data *chip_data;
- 	struct clk *vpll_clk;
- 	struct clk *grf_clk;
-+	struct clk *hclk_vio;
-+	struct clk *hclk_vop;
- 	struct dw_hdmi *hdmi;
- 	struct phy *phy;
- };
-@@ -216,6 +222,26 @@ static int rockchip_hdmi_parse_dt(struct rockchip_hdmi *hdmi)
- 		return PTR_ERR(hdmi->grf_clk);
- 	}
- 
-+	hdmi->hclk_vio = devm_clk_get(hdmi->dev, "hclk_vio");
-+	if (PTR_ERR(hdmi->hclk_vio) == -ENOENT) {
-+		hdmi->hclk_vio = NULL;
-+	} else if (PTR_ERR(hdmi->hclk_vio) == -EPROBE_DEFER) {
-+		return -EPROBE_DEFER;
-+	} else if (IS_ERR(hdmi->hclk_vio)) {
-+		dev_err(hdmi->dev, "failed to get hclk_vio clock\n");
-+		return PTR_ERR(hdmi->hclk_vio);
-+	}
-+
-+	hdmi->hclk_vop = devm_clk_get(hdmi->dev, "hclk");
-+	if (PTR_ERR(hdmi->hclk_vop) == -ENOENT) {
-+		hdmi->hclk_vop = NULL;
-+	} else if (PTR_ERR(hdmi->hclk_vop) == -EPROBE_DEFER) {
-+		return -EPROBE_DEFER;
-+	} else if (IS_ERR(hdmi->hclk_vop)) {
-+		dev_err(hdmi->dev, "failed to get hclk_vop clock\n");
-+		return PTR_ERR(hdmi->hclk_vop);
-+	}
-+
- 	return 0;
- }
- 
-@@ -467,6 +493,19 @@ static const struct dw_hdmi_plat_data rk3399_hdmi_drv_data = {
- 	.use_drm_infoframe = true,
- };
- 
-+static struct rockchip_hdmi_chip_data rk3568_chip_data = {
-+	.lcdsel_grf_reg = -1,
-+};
-+
-+static const struct dw_hdmi_plat_data rk3568_hdmi_drv_data = {
-+	.mode_valid = dw_hdmi_rockchip_mode_valid,
-+	.mpll_cfg   = rockchip_mpll_cfg,
-+	.cur_ctr    = rockchip_cur_ctr,
-+	.phy_config = rockchip_phy_config,
-+	.phy_data = &rk3568_chip_data,
-+	.use_drm_infoframe = true,
-+};
-+
- static const struct of_device_id dw_hdmi_rockchip_dt_ids[] = {
- 	{ .compatible = "rockchip,rk3228-dw-hdmi",
- 	  .data = &rk3228_hdmi_drv_data
-@@ -480,6 +519,9 @@ static const struct of_device_id dw_hdmi_rockchip_dt_ids[] = {
- 	{ .compatible = "rockchip,rk3399-dw-hdmi",
- 	  .data = &rk3399_hdmi_drv_data
- 	},
-+	{ .compatible = "rockchip,rk3568-dw-hdmi",
-+	  .data = &rk3568_hdmi_drv_data
-+	},
- 	{},
- };
- MODULE_DEVICE_TABLE(of, dw_hdmi_rockchip_dt_ids);
-@@ -536,6 +578,28 @@ static int dw_hdmi_rockchip_bind(struct device *dev, struct device *master,
- 		return ret;
- 	}
- 
-+	ret = clk_prepare_enable(hdmi->hclk_vio);
-+	if (ret) {
-+		dev_err(hdmi->dev, "Failed to enable HDMI hclk_vio: %d\n",
-+			ret);
-+		return ret;
-+	}
-+
-+	ret = clk_prepare_enable(hdmi->hclk_vop);
-+	if (ret) {
-+		dev_err(hdmi->dev, "Failed to enable HDMI hclk_vop: %d\n",
-+			ret);
-+		return ret;
-+	}
-+
-+	if (hdmi->chip_data == &rk3568_chip_data) {
-+		regmap_write(hdmi->regmap, RK3568_GRF_VO_CON1,
-+			     HIWORD_UPDATE(RK3568_HDMI_SDAIN_MSK |
-+					   RK3568_HDMI_SCLIN_MSK,
-+					   RK3568_HDMI_SDAIN_MSK |
-+					   RK3568_HDMI_SCLIN_MSK));
-+	}
-+
- 	hdmi->phy = devm_phy_optional_get(dev, "hdmi");
- 	if (IS_ERR(hdmi->phy)) {
- 		ret = PTR_ERR(hdmi->phy);
-@@ -559,6 +623,8 @@ static int dw_hdmi_rockchip_bind(struct device *dev, struct device *master,
- 		ret = PTR_ERR(hdmi->hdmi);
- 		drm_encoder_cleanup(encoder);
- 		clk_disable_unprepare(hdmi->vpll_clk);
-+		clk_disable_unprepare(hdmi->hclk_vio);
-+		clk_disable_unprepare(hdmi->hclk_vop);
- 	}
- 
- 	return ret;
-@@ -571,6 +637,8 @@ static void dw_hdmi_rockchip_unbind(struct device *dev, struct device *master,
- 
- 	dw_hdmi_unbind(hdmi->hdmi);
- 	clk_disable_unprepare(hdmi->vpll_clk);
-+	clk_disable_unprepare(hdmi->hclk_vio);
-+	clk_disable_unprepare(hdmi->hclk_vop);
- }
- 
- static const struct component_ops dw_hdmi_rockchip_ops = {
--- 
-2.25.1
+I had a look at the code, and it seems that this is caused by
+trying to use bo->resource which is NULL.
 
+bo->resource is freed by ttm_bo_cleanup_refs() ->
+ttm_bo_cleanup_memtype_use() -> ttm_resource_free().
+
+And then a notification is issued by ttm_bo_cleanup_refs() ->
+ttm_bo_put() -> ttm_bo_release() ->
+ttm_bo_cleanup_memtype_use(), this time with bo->release
+equal to NULL.
+
+I was thinking a proper way to fix this. Checking that
+bo->release is not NULL in qxl_bo_move_notify() would
+solve the issue. But maybe there is a better way, like
+avoiding that ttm_bo_cleanup_memtype_use() is called
+twice. Which way would be preferable?
+
+Thanks
+
+Roberto
+
+HUAWEI TECHNOLOGIES Duesseldorf GmbH, HRB 56063
+Managing Director: Li Peng, Li Jian, Shi Yanli
