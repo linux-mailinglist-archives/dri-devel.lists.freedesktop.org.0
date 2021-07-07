@@ -1,47 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AE4E3BE5F0
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Jul 2021 11:51:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DE3E3BE5F1
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Jul 2021 11:51:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 913996E082;
-	Wed,  7 Jul 2021 09:51:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 691AD6E079;
+	Wed,  7 Jul 2021 09:51:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com
  [64.147.123.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E2216E873
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Jul 2021 09:51:24 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailnew.west.internal (Postfix) with ESMTP id 55E402B00791;
- Wed,  7 Jul 2021 05:51:22 -0400 (EDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E97DD6E86F
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Jul 2021 09:51:27 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
+ by mailnew.west.internal (Postfix) with ESMTP id 8A5B02B007A1;
+ Wed,  7 Jul 2021 05:51:26 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute1.internal (MEProxy); Wed, 07 Jul 2021 05:51:23 -0400
+ by compute2.internal (MEProxy); Wed, 07 Jul 2021 05:51:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=7mhnXqm0UEC1q
- bZWHIpz3smAAHrZY0tVEDn1j/F9XOk=; b=uaLcdBgkZwMWTWaypaPCNtBFqkvqD
- HKGlqGE9y+iyGC4RvBqMTaAp9RP/X4oLM3WYF1EKJm5s/+Fy6k2iLBy1XorNMq+m
- +9WyO+MAGZyteUAsPXXUlFP2Ud30SIkcYe2TjQM1adjHf4dwpnhLxSKFbi8Kq2av
- 4PX3qsbwqzPJ6YuA5X2gnokh8B5QNskHrQuvNwrrJRuUvyWzKt7IMFEd3BIKGUYT
- BbMZFqSWRCmHAWG0wPBZaxZPElGke1wtw3LHG4TeHD1rZkRuBw1RPq0R3g5EBB9Q
- 3Fk3AzIvZnHVVI4nlMbXIS19szxKHhYjOn3VFHfK5WFnuv/Ku8FEoIbHw==
+ :mime-version:content-transfer-encoding; s=fm3; bh=AP/I8rxrmE9Ml
+ RDmDxJIy4tqdiKllNYXAEVIGV9L3GI=; b=g8C+NgNuTUqc8w4R12gc57tLUAN8A
+ H90sc6rEChB5iWGD1xPpTKRa7Jsga+lA1erKdI/pSzanlpQtgH7KlXqHbLKuxewy
+ R4l8Qzuw9VGPnHm7C2cOC2FVCuudKNWy08NWGDUAODJ+bKvrn8u78kK2IOUds2tt
+ CAZBLwGT+3yL+tNydQLRs+a0cvIgnkpJa/WrHs/ZPL8jPBQpOv9sRMsTlUQeEDuA
+ yxtTGnFeOicgLRihcJJ/Cify411XF1BWjeTC+k3qb/JFifYh+UAm6ASNNUSaAKTG
+ NUlqZ5lDqcVoanOULZWHbXC0mLs4tVk8JZOuVGS4GdNqnmUG+7BExnnlg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=7mhnXqm0UEC1qbZWHIpz3smAAHrZY0tVEDn1j/F9XOk=; b=rS/k1xO2
- 2+03brN03So0+SWzRYS86gVwb9a3bLpjhqZyOUL5TQcY06dpUkt4Zpz2aLxdb8Xj
- rA5SQW1KpLVYdp16o+Ri9NfrTsTZliaWOft/MNp0tL2i+qwXNrBoTQgV+O7I3gTP
- dyxjjysdANtwkAmDSZ/+gMTlhOnT8NTvK0zhENQqcJm+U2hecgWyhvdivN4TYcoT
- bz/7L5bxlGJow05Y5ySMVmxUfG5F/MOf9CKSALl0MyWwBPhPwYCy3WfMUJ2/8+Kb
- OYx2A7OmI0O0l+BX3vX5fQiM842ikJhcX1ZuK6jYP7HHuvechG5LA5fUuWQpHeEc
- 0HbqgHJwHdXIrw==
-X-ME-Sender: <xms:GHnlYIUxDMFOYB3ECuyF8JrkRiiU8GEceJNnGx4cjfxAeEl8QyN00Q>
- <xme:GHnlYMmvQGtEm1xAzGIuYACRlN0UqhAtDH1vi4Zd271EKoiCmWtMalo3YTrj6ucgQ
- vLYZfKjPtQIux4jFgA>
-X-ME-Received: <xmr:GHnlYMbGJRsZuHhbjLi2Em_VW6PX6wviRnz5OvasxwtMRNFvqWsa9pUmVf00YewgnLqaRpJz8PvuV2lrmIB2j-mPRVsxxR-qWUdT>
+ fm3; bh=AP/I8rxrmE9MlRDmDxJIy4tqdiKllNYXAEVIGV9L3GI=; b=ksdUKZT1
+ gCC2cs1svaMtcvWYJV8ZfB1bcjwqAtY4Hpqq0mW3ZReppRbnA0jj0gQkt3L8GaKy
+ 3rZZoM8Si6iKSVwUnBe6qFucNzCiEJYvQZk79m7eVgd/XLaXVqcQs9qdN9mhLPr0
+ RKcTUhuJp6mIiTH0skZ9Wjgrr/zzdqtI8fIjvuh523xxvfB+K1eAjzA/cGIM09l/
+ D6HNfGVugXJGCqKacF9HE7jA16k+m0qlSB1lWlqZ+0WdZk+hUUCiGNtsowwbP3lP
+ HLM+x2XgIZa2C/4xMWWMpxXBVUPVDyCdiKEZBFuxYz6hhq6dy0kPY6TIF+ri+e5c
+ RlRDJyjsyrm3XA==
+X-ME-Sender: <xms:HXnlYJ7SKHuLlJBaFptxWDIPxO94zyQc7yOGOzflkpWB1Vq3uVL6fg>
+ <xme:HXnlYG69OZN5vj3nhmnuFgCRfgGc3Yk2JjA0Wow378Q5ZttXTDRpVxRW3sxbN_Tga
+ KLxl0pNC0LYwL1lEek>
+X-ME-Received: <xmr:HXnlYAfUjoyKWf_LxMw9ii7REV4mUkShVsWh04fbPCdQAK6gjLnm629t89yna7FUYkvGyqiKxuN8LKr78Ge3SVaeIKWvf3EKY1Q6>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrtddvgddvtdcutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
@@ -50,21 +50,21 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrtddvgddvtdcutefuodetggdote
  gvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveevheeh
  vdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
  igihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:GHnlYHXyFrcyUgh-DWDXJ1-T4Y-ZD5MpgVYvDjwl9PBh8wj_5PXZyA>
- <xmx:GHnlYCkeusiW8N1AUs6NxLLV8EP9YESlROtryErkbvRteSNEt0UW4w>
- <xmx:GHnlYMdJCotRWgb_y2VC0vTdIaOHBsNHY3Nq3MZEcl1GPnW3OyUUEw>
- <xmx:GXnlYM3iiWDtZupfX_MoaIvo41t6DrEcSX5FyEH2ei3oZZ_sOIiUn4OQjUA>
+X-ME-Proxy: <xmx:HXnlYCL9pfhIlAqt-L_gXJz-TXEOu1N_XJyTEcGuEjmZFyK6WMVwhg>
+ <xmx:HXnlYNIXtRMsH3X8bUz1dt2F_TapoLya1xgYwIwzJOwUpL9LfNyD8Q>
+ <xmx:HXnlYLxsAKoEXVe7C8bjo2p3GB4TpEy_SEkwdus_7HhCM04bc0Jb_w>
+ <xmx:HnnlYG7RlkQJ9B9UFFrhDfmd8OJ8e6CbXZOwrndIgSYW7I4rklyq-Do0htI>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 7 Jul 2021 05:51:20 -0400 (EDT)
+ 7 Jul 2021 05:51:25 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@intel.com>,
  David Airlie <airlied@linux.ie>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>
-Subject: [PATCH 1/3] drm/vc4: hdmi: Drop devm interrupt handler for CEC
+Subject: [PATCH 2/3] drm/vc4: hdmi: Drop devm interrupt handler for hotplug
  interrupts
-Date: Wed,  7 Jul 2021 11:51:10 +0200
-Message-Id: <20210707095112.1469670-2-maxime@cerno.tech>
+Date: Wed,  7 Jul 2021 11:51:11 +0200
+Message-Id: <20210707095112.1469670-3-maxime@cerno.tech>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210707095112.1469670-1-maxime@cerno.tech>
 References: <20210707095112.1469670-1-maxime@cerno.tech>
@@ -91,7 +91,7 @@ Cc: Nicolas Saenz Julienne <nsaenz@kernel.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The CEC interrupt handlers are registered through the
+The hotplugs interrupt handlers are registered through the
 devm_request_threaded_irq function. However, while free_irq is indeed
 called properly when the device is unbound or bind fails, it's called
 after unbind or bind is done.
@@ -104,95 +104,99 @@ In order to address this, let's switch to the non-devm variant to
 control better when the handler will be unregistered and allow us to
 make it safe.
 
-Fixes: 15b4511a4af6 ("drm/vc4: add HDMI CEC support")
+Fixes: f4790083c7c2 ("drm/vc4: hdmi: Rely on interrupts to handle hotplug")
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_hdmi.c | 49 +++++++++++++++++++++++-----------
- 1 file changed, 33 insertions(+), 16 deletions(-)
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 41 +++++++++++++++++++++++-----------
+ 1 file changed, 28 insertions(+), 13 deletions(-)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-index cbeec6a5cb90..d966f61966c6 100644
+index d966f61966c6..50393a8a42b3 100644
 --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
 +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -1858,38 +1858,46 @@ static int vc4_hdmi_cec_init(struct vc4_hdmi *vc4_hdmi)
- 	vc4_hdmi_cec_update_clk_div(vc4_hdmi);
+@@ -1590,25 +1590,27 @@ static int vc4_hdmi_hotplug_init(struct vc4_hdmi *vc4_hdmi)
+ {
+ 	struct drm_connector *connector = &vc4_hdmi->connector;
+ 	struct platform_device *pdev = vc4_hdmi->pdev;
+-	struct device *dev = &pdev->dev;
+ 	int ret;
  
  	if (vc4_hdmi->variant->external_irq_controller) {
--		ret = devm_request_threaded_irq(&pdev->dev,
--						platform_get_irq_byname(pdev, "cec-rx"),
--						vc4_cec_irq_handler_rx_bare,
--						vc4_cec_irq_handler_rx_thread, 0,
--						"vc4 hdmi cec rx", vc4_hdmi);
-+		ret = request_threaded_irq(platform_get_irq_byname(pdev, "cec-rx"),
-+					   vc4_cec_irq_handler_rx_bare,
-+					   vc4_cec_irq_handler_rx_thread, 0,
-+					   "vc4 hdmi cec rx", vc4_hdmi);
+-		ret = devm_request_threaded_irq(dev,
+-						platform_get_irq_byname(pdev, "hpd-connected"),
+-						NULL,
+-						vc4_hdmi_hpd_irq_thread, IRQF_ONESHOT,
+-						"vc4 hdmi hpd connected", vc4_hdmi);
++		unsigned int hpd_con = platform_get_irq_byname(pdev, "hpd-connected");
++		unsigned int hpd_rm = platform_get_irq_byname(pdev, "hpd-removed");
++
++		ret = request_threaded_irq(hpd_con,
++					   NULL,
++					   vc4_hdmi_hpd_irq_thread, IRQF_ONESHOT,
++					   "vc4 hdmi hpd connected", vc4_hdmi);
  		if (ret)
- 			goto err_delete_cec_adap;
+ 			return ret;
  
--		ret = devm_request_threaded_irq(&pdev->dev,
--						platform_get_irq_byname(pdev, "cec-tx"),
--						vc4_cec_irq_handler_tx_bare,
--						vc4_cec_irq_handler_tx_thread, 0,
--						"vc4 hdmi cec tx", vc4_hdmi);
-+		ret = request_threaded_irq(platform_get_irq_byname(pdev, "cec-tx"),
-+					   vc4_cec_irq_handler_tx_bare,
-+					   vc4_cec_irq_handler_tx_thread, 0,
-+					   "vc4 hdmi cec tx", vc4_hdmi);
- 		if (ret)
--			goto err_delete_cec_adap;
-+			goto err_remove_cec_rx_handler;
- 	} else {
- 		HDMI_WRITE(HDMI_CEC_CPU_MASK_SET, 0xffffffff);
+-		ret = devm_request_threaded_irq(dev,
+-						platform_get_irq_byname(pdev, "hpd-removed"),
+-						NULL,
+-						vc4_hdmi_hpd_irq_thread, IRQF_ONESHOT,
+-						"vc4 hdmi hpd disconnected", vc4_hdmi);
+-		if (ret)
++		ret = request_threaded_irq(hpd_rm,
++					   NULL,
++					   vc4_hdmi_hpd_irq_thread, IRQF_ONESHOT,
++					   "vc4 hdmi hpd disconnected", vc4_hdmi);
++		if (ret) {
++			free_irq(hpd_con, vc4_hdmi);
+ 			return ret;
++		}
  
--		ret = devm_request_threaded_irq(&pdev->dev, platform_get_irq(pdev, 0),
--						vc4_cec_irq_handler,
--						vc4_cec_irq_handler_thread, 0,
--						"vc4 hdmi cec", vc4_hdmi);
-+		ret = request_threaded_irq(platform_get_irq(pdev, 0),
-+					   vc4_cec_irq_handler,
-+					   vc4_cec_irq_handler_thread, 0,
-+					   "vc4 hdmi cec", vc4_hdmi);
- 		if (ret)
- 			goto err_delete_cec_adap;
+ 		connector->polled = DRM_CONNECTOR_POLL_HPD;
  	}
- 
- 	ret = cec_register_adapter(vc4_hdmi->cec_adap, &pdev->dev);
- 	if (ret < 0)
--		goto err_delete_cec_adap;
-+		goto err_remove_handlers;
- 
+@@ -1616,6 +1618,16 @@ static int vc4_hdmi_hotplug_init(struct vc4_hdmi *vc4_hdmi)
  	return 0;
+ }
  
-+err_remove_handlers:
-+	if (vc4_hdmi->variant->external_irq_controller)
-+		free_irq(platform_get_irq_byname(pdev, "cec-tx"), vc4_hdmi);
-+	else
-+		free_irq(platform_get_irq(pdev, 0), vc4_hdmi);
-+
-+err_remove_cec_rx_handler:
-+	if (vc4_hdmi->variant->external_irq_controller)
-+		free_irq(platform_get_irq_byname(pdev, "cec-rx"), vc4_hdmi);
-+
- err_delete_cec_adap:
- 	cec_delete_adapter(vc4_hdmi->cec_adap);
- 
-@@ -1898,6 +1906,15 @@ static int vc4_hdmi_cec_init(struct vc4_hdmi *vc4_hdmi)
- 
- static void vc4_hdmi_cec_exit(struct vc4_hdmi *vc4_hdmi)
- {
++static void vc4_hdmi_hotplug_exit(struct vc4_hdmi *vc4_hdmi)
++{
 +	struct platform_device *pdev = vc4_hdmi->pdev;
 +
 +	if (vc4_hdmi->variant->external_irq_controller) {
-+		free_irq(platform_get_irq_byname(pdev, "cec-rx"), vc4_hdmi);
-+		free_irq(platform_get_irq_byname(pdev, "cec-tx"), vc4_hdmi);
-+	} else {
-+		free_irq(platform_get_irq(pdev, 0), vc4_hdmi);
++		free_irq(platform_get_irq_byname(pdev, "hpd-connected"), vc4_hdmi);
++		free_irq(platform_get_irq_byname(pdev, "hpd-removed"), vc4_hdmi);
 +	}
++}
 +
- 	cec_unregister_adapter(vc4_hdmi->cec_adap);
- }
- #else
+ #ifdef CONFIG_DRM_VC4_HDMI_CEC
+ static irqreturn_t vc4_cec_irq_handler_rx_thread(int irq, void *priv)
+ {
+@@ -2197,7 +2209,7 @@ static int vc4_hdmi_bind(struct device *dev, struct device *master, void *data)
+ 
+ 	ret = vc4_hdmi_cec_init(vc4_hdmi);
+ 	if (ret)
+-		goto err_destroy_conn;
++		goto err_free_hotplug;
+ 
+ 	ret = vc4_hdmi_audio_init(vc4_hdmi);
+ 	if (ret)
+@@ -2211,6 +2223,8 @@ static int vc4_hdmi_bind(struct device *dev, struct device *master, void *data)
+ 
+ err_free_cec:
+ 	vc4_hdmi_cec_exit(vc4_hdmi);
++err_free_hotplug:
++	vc4_hdmi_hotplug_exit(vc4_hdmi);
+ err_destroy_conn:
+ 	vc4_hdmi_connector_destroy(&vc4_hdmi->connector);
+ err_destroy_encoder:
+@@ -2252,6 +2266,7 @@ static void vc4_hdmi_unbind(struct device *dev, struct device *master,
+ 	kfree(vc4_hdmi->hd_regset.regs);
+ 
+ 	vc4_hdmi_cec_exit(vc4_hdmi);
++	vc4_hdmi_hotplug_exit(vc4_hdmi);
+ 	vc4_hdmi_connector_destroy(&vc4_hdmi->connector);
+ 	drm_encoder_cleanup(&vc4_hdmi->encoder.base.base);
+ 
 -- 
 2.31.1
 
