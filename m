@@ -2,38 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 522253BE05A
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Jul 2021 02:47:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6316C3BE066
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Jul 2021 02:57:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB6936E7EC;
-	Wed,  7 Jul 2021 00:47:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D51C66E81B;
+	Wed,  7 Jul 2021 00:57:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6ADBD6E7EA;
- Wed,  7 Jul 2021 00:47:30 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10037"; a="209175854"
-X-IronPort-AV: E=Sophos;i="5.83,330,1616482800"; d="scan'208";a="209175854"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Jul 2021 17:47:29 -0700
-X-IronPort-AV: E=Sophos;i="5.83,330,1616482800"; d="scan'208";a="647627472"
-Received: from ramaling-i9x.iind.intel.com (HELO intel.com) ([10.99.66.205])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Jul 2021 17:47:25 -0700
-Date: Wed, 7 Jul 2021 06:19:05 +0530
-From: Ramalingam C <ramalingam.c@intel.com>
-To: Matthew Auld <matthew.auld@intel.com>
-Subject: Re: [PATCH v3 5/5] drm/i915/uapi: reject set_domain for discrete
-Message-ID: <20210707004904.GD26377@intel.com>
-References: <20210705135310.1502437-1-matthew.auld@intel.com>
- <20210705135310.1502437-5-matthew.auld@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A3E96E7EF;
+ Wed,  7 Jul 2021 00:57:37 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10037"; a="196386647"
+X-IronPort-AV: E=Sophos;i="5.83,330,1616482800"; d="scan'208";a="196386647"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Jul 2021 17:57:36 -0700
+X-IronPort-AV: E=Sophos;i="5.83,330,1616482800"; d="scan'208";a="457266543"
+Received: from johnharr-mobl1.amr.corp.intel.com (HELO [10.212.151.177])
+ ([10.212.151.177])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Jul 2021 17:57:35 -0700
+Subject: Re: [Intel-gfx] [PATCH 47/47] drm/i915/guc: Unblock GuC submission on
+ Gen11+
+To: Martin Peres <martin.peres@free.fr>,
+ Michal Wajdeczko <michal.wajdeczko@intel.com>,
+ Pekka Paalanen <ppaalanen@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+References: <20210624070516.21893-1-matthew.brost@intel.com>
+ <20210624070516.21893-48-matthew.brost@intel.com>
+ <88cbe963-7188-f4ae-5acf-01a80bd2fe25@free.fr>
+ <05e1d462-57ae-888a-888c-3ad486150821@intel.com>
+ <20210701111410.3fc6551e@eldfell>
+ <050296b9-8958-353a-9f76-699bfbafa1c1@free.fr>
+ <CAKMK7uH1svoSEGa=sv+BsU4_BMou2sEJQWddQgy1XDMYtz7-Dw@mail.gmail.com>
+ <20210702102944.3a8c4915@eldfell>
+ <2d3b06c3-5f69-5045-191f-3fd705a3fb40@free.fr>
+ <a7e1ab69-7d68-4f34-1c92-c32c6c38f8f0@intel.com>
+ <7889d935-65fb-5f11-ac5d-f9d757b9ee84@free.fr>
+From: John Harrison <john.c.harrison@intel.com>
+Message-ID: <cc3c280e-de31-555c-d1f8-369e361e13c5@intel.com>
+Date: Tue, 6 Jul 2021 17:57:35 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+In-Reply-To: <7889d935-65fb-5f11-ac5d-f9d757b9ee84@free.fr>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210705135310.1502437-5-matthew.auld@intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,93 +60,169 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Jason Ekstrand <jason@jlekstrand.net>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Jordan Justen <jordan.l.justen@intel.com>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Kenneth Graunke <kenneth@whitecape.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021-07-05 at 14:53:10 +0100, Matthew Auld wrote:
-> The CPU domain should be static for discrete, and on DG1 we don't need
-> any flushing since everything is already coherent, so really all this
-> does is an object wait, for which we have an ioctl. Longer term the
-> desired caching should be an immutable creation time property for the
-> BO, which can be set with something like gem_create_ext.
-> 
-> One other user is iris + userptr, which uses the set_domain to probe all
-> the pages to check if the GUP succeeds, however keeping the set_domain
-> around just for that seems rather scuffed. We could equally just submit
-> a dummy batch, which should hopefully be good enough, otherwise adding a
-> new creation time flag for userptr might be an option. Although longer
-> term we will also have vm_bind, which should also be a nice fit for
-> this, so adding a whole new flag is likely overkill.
-> 
-> v2: add some more kernel doc, also add the implicit rules with caching
-LGTM
+On 7/3/2021 01:21, Martin Peres wrote:
+> On 02/07/2021 18:07, Michal Wajdeczko wrote:
+>> On 02.07.2021 10:09, Martin Peres wrote:
+>>> On 02/07/2021 10:29, Pekka Paalanen wrote:
+>>>> On Thu, 1 Jul 2021 21:28:06 +0200
+>>>> Daniel Vetter <daniel@ffwll.ch> wrote:
+>>>>
+>>>>> On Thu, Jul 1, 2021 at 8:27 PM Martin Peres <martin.peres@free.fr>
+>>>>> wrote:
+>>>>>>
+>>>>>> On 01/07/2021 11:14, Pekka Paalanen wrote:
+>>>>>>> On Wed, 30 Jun 2021 11:58:25 -0700
+>>>>>>> John Harrison <john.c.harrison@intel.com> wrote:
+>>>>>>>> On 6/30/2021 01:22, Martin Peres wrote:
+>>>>>>>>> On 24/06/2021 10:05, Matthew Brost wrote:
+>>>>>>>>>> From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+>>>>>>>>>>
+>>>>>>>>>> Unblock GuC submission on Gen11+ platforms.
+>>>>>>>>>>
+>>>>>>>>>> Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
+>>>>>>>>>> Signed-off-by: Daniele Ceraolo Spurio
+>>>>>>>>>> <daniele.ceraolospurio@intel.com>
+>>>>>>>>>> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+>>>>>>>>>> ---
+>>>>>>>>>> drivers/gpu/drm/i915/gt/uc/intel_guc.h |  1 +
+>>>>>>>>>> drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c |  8 ++++++++
+>>>>>>>>>> drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h |  3 +--
+>>>>>>>>>> drivers/gpu/drm/i915/gt/uc/intel_uc.c | 14
+>>>>>>>>>> +++++++++-----
+>>>>>>>>>>      4 files changed, 19 insertions(+), 7 deletions(-)
+>>>>>>>
+>>>>>>> ...
+>>>>>>>>>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc.c
+>>>>>>>>>> b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
+>>>>>>>>>> index 7a69c3c027e9..61be0aa81492 100644
+>>>>>>>>>> --- a/drivers/gpu/drm/i915/gt/uc/intel_uc.c
+>>>>>>>>>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
+>>>>>>>>>> @@ -34,8 +34,15 @@ static void uc_expand_default_options(struct
+>>>>>>>>>> intel_uc *uc)
+>>>>>>>>>>              return;
+>>>>>>>>>>          }
+>>>>>>>>>>      -    /* Default: enable HuC authentication only */
+>>>>>>>>>> -    i915->params.enable_guc = ENABLE_GUC_LOAD_HUC;
+>>>>>>>>>> +    /* Intermediate platforms are HuC authentication only */
+>>>>>>>>>> +    if (IS_DG1(i915) || IS_ALDERLAKE_S(i915)) {
+>>>>>>>>>> +        drm_dbg(&i915->drm, "Disabling GuC only due to old
+>>>>>>>>>> platform\n");
+>>>>>>>>>
+>>>>>>>>> This comment does not seem accurate, given that DG1 is barely
+>>>>>>>>> out, and
+>>>>>>>>> ADL is not out yet. How about:
+>>>>>>>>>
+>>>>>>>>> "Disabling GuC on untested platforms"?
+>>>>>>>> Just because something is not in the shops yet does not mean it is
+>>>>>>>> new.
+>>>>>>>> Technology is always obsolete by the time it goes on sale.
+>>>>>>>
+>>>>>>> That is a very good reason to not use terminology like "new", 
+>>>>>>> "old",
+>>>>>>> "current", "modern" etc. at all.
+>>>>>>>
+>>>>>>> End users like me definitely do not share your interpretation of
+>>>>>>> "old".
+>>>>>>
+>>>>>> Yep, old and new is relative. In the end, what matters is the
+>>>>>> validation
+>>>>>> effort, which is why I was proposing "untested platforms".
+>>>>>>
+>>>>>> Also, remember that you are not writing these messages for Intel
+>>>>>> engineers, but instead are writing for Linux *users*.
+>>>>>
+>>>>> It's drm_dbg. Users don't read this stuff, at least not users with no
+>>>>> clue what the driver does and stuff like that.
+>>>>
+>>>> If I had a problem, I would read it, and I have no clue what anything
+>>>> of that is.
+>>>
+>>> Exactly.
+I don't see how replacing 'old' for 'untested' helps anybody to 
+understand anything. Untested just implies we can't be bothered to test 
+stuff before publishing it. And as previously stated, this is purely a 
+political decision not a technical one. Sure, change the message to be 
+'Disabling GuC submission but enabling HuC loading via GuC on platform 
+XXX' if that makes it clearer what is going on. Or just drop the message 
+completely. It's simply explaining what the default option is for the 
+current platform which you can also get by reading the code. However, I 
+disagree that 'untested' is the correct message. Quite a lot of testing 
+has been happening on TGL+ with GuC submission enabled.
 
-Reviewed-by: Ramalingam C <ramalingam.c@intel.com>
-> 
-> Suggested-by: Daniel Vetter <daniel@ffwll.ch>
-> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
-> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-> Cc: Jordan Justen <jordan.l.justen@intel.com>
-> Cc: Kenneth Graunke <kenneth@whitecape.org>
-> Cc: Jason Ekstrand <jason@jlekstrand.net>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: Ramalingam C <ramalingam.c@intel.com>
-> ---
->  drivers/gpu/drm/i915/gem/i915_gem_domain.c |  3 +++
->  include/uapi/drm/i915_drm.h                | 18 ++++++++++++++++++
->  2 files changed, 21 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_domain.c b/drivers/gpu/drm/i915/gem/i915_gem_domain.c
-> index 43004bef55cb..b684a62bf3b0 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_domain.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_domain.c
-> @@ -490,6 +490,9 @@ i915_gem_set_domain_ioctl(struct drm_device *dev, void *data,
->  	u32 write_domain = args->write_domain;
->  	int err;
->  
-> +	if (IS_DGFX(to_i915(dev)))
-> +		return -ENODEV;
-> +
->  	/* Only handle setting domains to types used by the CPU. */
->  	if ((write_domain | read_domains) & I915_GEM_GPU_DOMAINS)
->  		return -EINVAL;
-> diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
-> index 6f94e5e7569a..fd1a9878730c 100644
-> --- a/include/uapi/drm/i915_drm.h
-> +++ b/include/uapi/drm/i915_drm.h
-> @@ -900,6 +900,24 @@ struct drm_i915_gem_mmap_offset {
->   *
->   * All other domains are rejected.
->   *
-> + * Note that for discrete, starting from DG1, this is no longer supported, and
-> + * is instead rejected. On such platforms the CPU domain is effectively static,
-> + * where we also only support a single &drm_i915_gem_mmap_offset cache mode,
-> + * which can't be set explicitly and instead depends on the object placements,
-> + * as per the below.
-> + *
-> + * Implicit caching rules, starting from DG1:
-> + *
-> + *	- If any of the object placements (see &drm_i915_gem_create_ext_memory_regions)
-> + *	  contain I915_MEMORY_CLASS_DEVICE then the object will be allocated and
-> + *	  mapped as write-combined only.
-> + *
-> + *	- Everything else is always allocated and mapped as write-back, with the
-> + *	  guarantee that everything is also coherent with the GPU.
-> + *
-> + * Note that this is likely to change in the future again, where we might need
-> + * more flexibility on future devices, so making this all explicit as part of a
-> + * new &drm_i915_gem_create_ext extension is probable.
->   */
->  struct drm_i915_gem_set_domain {
->  	/** @handle: Handle for the object. */
-> -- 
-> 2.26.3
-> 
+>>>
+>>> This level of defense for what is clearly a bad *debug* message (at the
+>>> very least, the grammar) makes no sense at all!
+>>>
+>>> I don't want to hear arguments like "Not my patch" from a developer
+>>> literally sending the patch to the ML and who added his SoB to the
+>>> patch, playing with words, or minimizing the problem of having such a
+>>> message.
+>>
+>> Agree that 'not my patch' is never a good excuse, but equally we can't
+>> blame original patch author as patch was updated few times since then.
+>
+> I never wanted to blame the author here, I was only speaking about the 
+> handling of feedback on the patch.
+>
+>>
+>> Maybe to avoid confusions and simplify reviews, we could split this
+>> patch into two smaller: first one that really unblocks GuC submission on
+>> all Gen11+ (see __guc_submission_supported) and second one that updates
+>> defaults for Gen12+ (see uc_expand_default_options), as original patch
+>> (from ~2019) evolved more than what title/commit message says.
+>
+> Both work for me, as long as it is a collaborative effort.
+I'm not seeing how splitting the patch up fixes the complaints about the 
+debug message.
+
+And to be clear, no-one is actually arguing for a code change as such? 
+The issue is just about the text of the debug message? Or did I miss 
+something somewhere?
+
+John.
+
+
+>
+> Cheers,
+> Martin
+>
+>>
+>> Then we can fix all messaging and make sure it's clear and understood.
+>>
+>> Thanks,
+>> Michal
+>>
+>>>
+>>> All of the above are just clear signals for the community to get off
+>>> your playground, which is frankly unacceptable. Your email address does
+>>> not matter.
+>>>
+>>> In the spirit of collaboration, your response should have been "Good
+>>> catch, how about XXXX or YYYY?". This would not have wasted everyone's
+>>> time in an attempt to just have it your way.
+>>>
+>>> My level of confidence in this GuC transition was already low, but you
+>>> guys are working hard to shoot yourself in the foot. Trust should be
+>>> earned!
+>>>
+>>> Martin
+>>>
+>>>>
+>>>>
+>>>> Thanks,
+>>>> pq
+>>>>
+>>> _______________________________________________
+>>> Intel-gfx mailing list
+>>> Intel-gfx@lists.freedesktop.org
+>>> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
+> _______________________________________________
+> Intel-gfx mailing list
+> Intel-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
+
