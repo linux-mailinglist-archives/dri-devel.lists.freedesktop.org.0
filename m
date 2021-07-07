@@ -1,36 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59DF93BF24C
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Jul 2021 01:08:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CFC433BF298
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Jul 2021 01:45:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EAA9C6E1F5;
-	Wed,  7 Jul 2021 23:07:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D63406E08A;
+	Wed,  7 Jul 2021 23:45:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D90266E1E0;
- Wed,  7 Jul 2021 23:07:53 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10037"; a="295043456"
-X-IronPort-AV: E=Sophos;i="5.84,222,1620716400"; d="scan'208";a="295043456"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jul 2021 16:07:52 -0700
-X-IronPort-AV: E=Sophos;i="5.84,222,1620716400"; d="scan'208";a="645557192"
-Received: from dhiatt-server.jf.intel.com ([10.54.81.3])
- by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jul 2021 16:07:52 -0700
-From: Matthew Brost <matthew.brost@intel.com>
-To: <intel-gfx@lists.freedesktop.org>,
-	<dri-devel@lists.freedesktop.org>
-Subject: [PATCH 06/7] drm/i915/guc: Optimize CTB writes and reads
-Date: Wed,  7 Jul 2021 16:25:43 -0700
-Message-Id: <20210707232543.14088-1-matthew.brost@intel.com>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20210706222010.101522-1-matthew.brost@intel.com>
-References: <20210706222010.101522-1-matthew.brost@intel.com>
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
+ [IPv6:2a00:1450:4864:20::12a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D47FA6E08A
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Jul 2021 23:45:19 +0000 (UTC)
+Received: by mail-lf1-x12a.google.com with SMTP id t17so9150865lfq.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 07 Jul 2021 16:45:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Lef/OQjrSU0R3UoIoqnflkPNbG+gBsscfg2YcxN/LQg=;
+ b=rpNubobH9wDjm/Zres38TkkeWPIg9+js7fJtG7CjRNmVoLJyC8PZewmjTBizYWLYxH
+ hWCjmdgdUDmXIIe761ZTwbrKXIXEmT50JN1X8tqkNj80bvQaiesQhXm4Ux8IR3CdzmEw
+ KVPegMRDKk+dtTD8bbtY0yHB9nPHJ0cborpnsbRwKYfBLoROezY2LozR5/FjqufZfNoU
+ CBhIb/Ee9mAmveeQPlWsO1+MrUMkOKoeKiSgv5xJ7U9Z18LQpwmA/rvbEyZ20NS2SABy
+ 9/INN0ylw4CoJLa8p/yBoj+Wm5kbdtin0pNE05rPbvnhu5N7Xhfup5758Oe96xh+0HQd
+ tWUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Lef/OQjrSU0R3UoIoqnflkPNbG+gBsscfg2YcxN/LQg=;
+ b=PgqOE/I9JriTsTvhKVKa+ks7H66cj0WUL27WF/iQ58jOPmEhJly86fuxRta9fWIrqN
+ IIPwHGfHCs+8OMx9znV/bgK6l6rTFUfKdHKQOoUAATQdQeTqaqvVSaxHGtIpXge+14p0
+ xw2DLY2uZDx//7qhU+NjzBYWRkMz/pnrLTcX3QgF+uutmkKAdxfB3vsoElxzAFu1mjrh
+ fSjXXVwLeo3s/snWYKyme7ZJXfAF1b6dB3fnLyjOPvJdWjfNhTXLtWwNME/jNIAslBJ1
+ 74ioEKhQRgX4mkJHldAQPv0RHem9CXuTL8cTAcUcXqUtwefxp5nm1RACn7vgvFVRyYId
+ EqzQ==
+X-Gm-Message-State: AOAM531GmuCeHy0rYa+tl6I5HUAJOJF3lbZlIChCXF8uyG+Me2V+0JDV
+ R9cria5KqZ5lB0K4S1rZ3fXxjg==
+X-Google-Smtp-Source: ABdhPJwkP6+qFTcT56YUKWIpjCJolaRHm45P0WFAs8Pr7H1mfHcNbAwnotit5XmKR8XF0dTN4fDK3Q==
+X-Received: by 2002:ac2:4356:: with SMTP id o22mr21956739lfl.309.1625701517999; 
+ Wed, 07 Jul 2021 16:45:17 -0700 (PDT)
+Received: from localhost.localdomain
+ (c-fdcc225c.014-348-6c756e10.bbcust.telenor.se. [92.34.204.253])
+ by smtp.gmail.com with ESMTPSA id c9sm51062ljb.22.2021.07.07.16.45.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 07 Jul 2021 16:45:17 -0700 (PDT)
+From: Linus Walleij <linus.walleij@linaro.org>
+To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH 1/2 v3] drm/panel: Add DT bindings for Samsung LMS380KF01
+Date: Thu,  8 Jul 2021 01:43:14 +0200
+Message-Id: <20210707234315.242663-1-linus.walleij@linaro.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -44,244 +68,137 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: john.c.harrison@intel.com, Michal.Wajdeczko@intel.com
+Cc: devicetree@vger.kernel.org, phone-devel@vger.kernel.org,
+ Douglas Anderson <dianders@chromium.org>,
+ =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CTB writes are now in the path of command submission and should be
-optimized for performance. Rather than reading CTB descriptor values
-(e.g. head, tail) which could result in accesses across the PCIe bus,
-store shadow local copies and only read/write the descriptor values when
-absolutely necessary. Also store the current space in the each channel
-locally.
+This adds device tree bindings for the Samsung Mobile Displays
+LMS380KF01 RGB DPI display panel.
 
-v2:
- (Michal)
-  - Add additional sanity checks for head / tail pointers
-  - Use GUC_CTB_HDR_LEN rather than magic 1
-v3:
- (Michal / John H)
-  - Drop redundant check of head value
-v4:
- (John H)
-  - Drop redundant checks of tail / head values
-v5:
- (Michal)
-  - Address more nits
-
-Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
-Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+Cc: devicetree@vger.kernel.org
+Cc: phone-devel@vger.kernel.org
+Cc: Douglas Anderson <dianders@chromium.org>
+Cc: Noralf Trønnes <noralf@tronnes.org>
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
 ---
- drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c | 92 +++++++++++++++--------
- drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h |  6 ++
- 2 files changed, 66 insertions(+), 32 deletions(-)
+ChangeLog v2->v3:
+- No changes just resending with the series.
+ChangeLog v1->v2:
+- Expect SPI bindings to be pulled in for the client and state
+  spi-cpha: true etc.
+- Make port a required node.
+- Update the example to use a proper SPI controller (spi-gpio)
+  so we get full validation of the example.
+---
+ .../display/panel/samsung,lms380kf01.yaml     | 97 +++++++++++++++++++
+ 1 file changed, 97 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/samsung,lms380kf01.yaml
 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-index db3e85b89573..d552d3016779 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-@@ -130,6 +130,10 @@ static void guc_ct_buffer_desc_init(struct guc_ct_buffer_desc *desc)
- static void guc_ct_buffer_reset(struct intel_guc_ct_buffer *ctb)
- {
- 	ctb->broken = false;
-+	ctb->tail = 0;
-+	ctb->head = 0;
-+	ctb->space = CIRC_SPACE(ctb->tail, ctb->head, ctb->size);
+diff --git a/Documentation/devicetree/bindings/display/panel/samsung,lms380kf01.yaml b/Documentation/devicetree/bindings/display/panel/samsung,lms380kf01.yaml
+new file mode 100644
+index 000000000000..ebc33c36c124
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/panel/samsung,lms380kf01.yaml
+@@ -0,0 +1,97 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/panel/samsung,lms380kf01.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
- 	guc_ct_buffer_desc_init(ctb->desc);
- }
- 
-@@ -383,10 +387,8 @@ static int ct_write(struct intel_guc_ct *ct,
- {
- 	struct intel_guc_ct_buffer *ctb = &ct->ctbs.send;
- 	struct guc_ct_buffer_desc *desc = ctb->desc;
--	u32 head = desc->head;
--	u32 tail = desc->tail;
-+	u32 tail = ctb->tail;
- 	u32 size = ctb->size;
--	u32 used;
- 	u32 header;
- 	u32 hxg;
- 	u32 type;
-@@ -396,25 +398,22 @@ static int ct_write(struct intel_guc_ct *ct,
- 	if (unlikely(desc->status))
- 		goto corrupted;
- 
--	if (unlikely((tail | head) >= size)) {
--		CT_ERROR(ct, "Invalid offsets head=%u tail=%u (size=%u)\n",
--			 head, tail, size);
-+	GEM_BUG_ON(tail > size);
++title: Samsung LMS380KF01 display panel
 +
-+#ifdef CONFIG_DRM_I915_DEBUG_GUC
-+	if (unlikely(tail != READ_ONCE(desc->tail))) {
-+		CT_ERROR(ct, "Tail was modified %u != %u\n",
-+			 desc->tail, tail);
-+		desc->status |= GUC_CTB_STATUS_MISMATCH;
-+		goto corrupted;
-+	}
-+	if (unlikely(desc->head >= size)) {
-+		CT_ERROR(ct, "Invalid head offset %u >= %u)\n",
-+			 desc->head, size);
- 		desc->status |= GUC_CTB_STATUS_OVERFLOW;
- 		goto corrupted;
- 	}
--
--	/*
--	 * tail == head condition indicates empty. GuC FW does not support
--	 * using up the entire buffer to get tail == head meaning full.
--	 */
--	if (tail < head)
--		used = (size - head) + tail;
--	else
--		used = tail - head;
--
--	/* make sure there is a space including extra dw for the header */
--	if (unlikely(used + len + GUC_CTB_HDR_LEN >= size))
--		return -ENOSPC;
-+#endif
- 
- 	/*
- 	 * dw0: CT header (including fence)
-@@ -452,6 +451,10 @@ static int ct_write(struct intel_guc_ct *ct,
- 	 */
- 	write_barrier(ct);
- 
-+	/* update local copies */
-+	ctb->tail = tail;
-+	ctb->space -= len + GUC_CTB_HDR_LEN;
++description: The LMS380KF01 is a 480x800 DPI display panel from Samsung Mobile
++  Displays (SMD) utilizing the WideChips WS2401 display controller. It can be
++  used with internal or external backlight control.
 +
- 	/* now update descriptor */
- 	WRITE_ONCE(desc->tail, tail);
- 
-@@ -469,7 +472,7 @@ static int ct_write(struct intel_guc_ct *ct,
-  * @req:	pointer to pending request
-  * @status:	placeholder for status
-  *
-- * For each sent request, Guc shall send bac CT response message.
-+ * For each sent request, GuC shall send back CT response message.
-  * Our message handler will update status of tracked request once
-  * response message with given fence is received. Wait here and
-  * check for valid response status value.
-@@ -525,24 +528,36 @@ static inline bool ct_deadlocked(struct intel_guc_ct *ct)
- 	return ret;
- }
- 
--static inline bool h2g_has_room(struct intel_guc_ct_buffer *ctb, u32 len_dw)
-+static inline bool h2g_has_room(struct intel_guc_ct *ct, u32 len_dw)
- {
-+	struct intel_guc_ct_buffer *ctb = &ct->ctbs.send;
- 	struct guc_ct_buffer_desc *desc = ctb->desc;
--	u32 head = READ_ONCE(desc->head);
-+	u32 head;
- 	u32 space;
- 
--	space = CIRC_SPACE(desc->tail, head, ctb->size);
-+	if (ctb->space >= len_dw)
-+		return true;
++maintainers:
++  - Linus Walleij <linus.walleij@linaro.org>
 +
-+	head = READ_ONCE(desc->head);
-+	if (unlikely(head > ctb->size)) {
-+		CT_ERROR(ct, "Invalid head offset %u >= %u)\n",
-+			 head, ctb->size);
-+		desc->status |= GUC_CTB_STATUS_OVERFLOW;
-+		ctb->broken = true;
-+		return false;
-+	}
++allOf:
++  - $ref: panel-common.yaml#
 +
-+	space = CIRC_SPACE(ctb->tail, head, ctb->size);
-+	ctb->space = space;
- 
- 	return space >= len_dw;
- }
- 
- static int has_room_nb(struct intel_guc_ct *ct, u32 len_dw)
- {
--	struct intel_guc_ct_buffer *ctb = &ct->ctbs.send;
--
- 	lockdep_assert_held(&ct->ctbs.send.lock);
- 
--	if (unlikely(!h2g_has_room(ctb, len_dw))) {
-+	if (unlikely(!h2g_has_room(ct, len_dw))) {
- 		if (ct->stall_time == KTIME_MAX)
- 			ct->stall_time = ktime_get();
- 
-@@ -612,7 +627,7 @@ static int ct_send(struct intel_guc_ct *ct,
- 	 */
- retry:
- 	spin_lock_irqsave(&ctb->lock, flags);
--	if (unlikely(!h2g_has_room(ctb, len + GUC_CTB_HDR_LEN))) {
-+	if (unlikely(!h2g_has_room(ct, len + GUC_CTB_HDR_LEN))) {
- 		if (ct->stall_time == KTIME_MAX)
- 			ct->stall_time = ktime_get();
- 		spin_unlock_irqrestore(&ctb->lock, flags);
-@@ -732,8 +747,8 @@ static int ct_read(struct intel_guc_ct *ct, struct ct_incoming_msg **msg)
- {
- 	struct intel_guc_ct_buffer *ctb = &ct->ctbs.recv;
- 	struct guc_ct_buffer_desc *desc = ctb->desc;
--	u32 head = desc->head;
--	u32 tail = desc->tail;
-+	u32 head = ctb->head;
-+	u32 tail = READ_ONCE(desc->tail);
- 	u32 size = ctb->size;
- 	u32 *cmds = ctb->cmds;
- 	s32 available;
-@@ -747,9 +762,19 @@ static int ct_read(struct intel_guc_ct *ct, struct ct_incoming_msg **msg)
- 	if (unlikely(desc->status))
- 		goto corrupted;
- 
--	if (unlikely((tail | head) >= size)) {
--		CT_ERROR(ct, "Invalid offsets head=%u tail=%u (size=%u)\n",
--			 head, tail, size);
-+	GEM_BUG_ON(head > size);
++properties:
++  compatible:
++    const: samsung,lms380kf01
 +
-+#ifdef CONFIG_DRM_I915_DEBUG_GUC
-+	if (unlikely(head != READ_ONCE(desc->head))) {
-+		CT_ERROR(ct, "Head was modified %u != %u\n",
-+			 desc->head, head);
-+		desc->status |= GUC_CTB_STATUS_MISMATCH;
-+		goto corrupted;
-+	}
-+#endif
-+	if (unlikely(tail >= size)) {
-+		CT_ERROR(ct, "Invalid tail offset %u >= %u)\n",
-+			 tail, size);
- 		desc->status |= GUC_CTB_STATUS_OVERFLOW;
- 		goto corrupted;
- 	}
-@@ -802,6 +827,9 @@ static int ct_read(struct intel_guc_ct *ct, struct ct_incoming_msg **msg)
- 	}
- 	CT_DEBUG(ct, "received %*ph\n", 4 * len, (*msg)->msg);
- 
-+	/* update local copies */
-+	ctb->head = head;
++  reg: true
 +
- 	/* now update descriptor */
- 	WRITE_ONCE(desc->head, head);
- 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
-index bee03794c1eb..edd1bba0445d 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
-@@ -33,6 +33,9 @@ struct intel_guc;
-  * @desc: pointer to the buffer descriptor
-  * @cmds: pointer to the commands buffer
-  * @size: size of the commands buffer in dwords
-+ * @head: local shadow copy of head in dwords
-+ * @tail: local shadow copy of tail in dwords
-+ * @space: local shadow copy of space in dwords
-  * @broken: flag to indicate if descriptor data is broken
-  */
- struct intel_guc_ct_buffer {
-@@ -40,6 +43,9 @@ struct intel_guc_ct_buffer {
- 	struct guc_ct_buffer_desc *desc;
- 	u32 *cmds;
- 	u32 size;
-+	u32 tail;
-+	u32 head;
-+	u32 space;
- 	bool broken;
- };
- 
++  interrupts:
++    description: provides an optional ESD (electrostatic discharge)
++      interrupt that signals abnormalities in the display hardware.
++      This can also be raised for other reasons like erroneous
++      configuration.
++    maxItems: 1
++
++  reset-gpios: true
++
++  vci-supply:
++    description: regulator that supplies the VCI analog voltage
++      usually around 3.0 V
++
++  vccio-supply:
++    description: regulator that supplies the VCCIO voltage usually
++      around 1.8 V
++
++  backlight: true
++
++  spi-cpha: true
++
++  spi-cpol: true
++
++  spi-max-frequency:
++    maximum: 1200000
++
++  port: true
++
++required:
++  - compatible
++  - reg
++  - spi-cpha
++  - spi-cpol
++  - port
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++    #include <dt-bindings/interrupt-controller/irq.h>
++
++    spi {
++      compatible = "spi-gpio";
++      sck-gpios = <&gpio 0 GPIO_ACTIVE_HIGH>;
++      miso-gpios = <&gpio 1 GPIO_ACTIVE_HIGH>;
++      mosi-gpios = <&gpio 2 GPIO_ACTIVE_HIGH>;
++      cs-gpios = <&gpio 3 GPIO_ACTIVE_HIGH>;
++      num-chipselects = <1>;
++      #address-cells = <1>;
++      #size-cells = <0>;
++
++      panel@0 {
++        compatible = "samsung,lms380kf01";
++        spi-max-frequency = <1200000>;
++        spi-cpha;
++        spi-cpol;
++        reg = <0>;
++        vci-supply = <&lcd_3v0_reg>;
++        vccio-supply = <&lcd_1v8_reg>;
++        reset-gpios = <&gpio 4 GPIO_ACTIVE_LOW>;
++        interrupt-parent = <&gpio>;
++        interrupts = <5 IRQ_TYPE_EDGE_RISING>;
++
++        port {
++          panel_in: endpoint {
++            remote-endpoint = <&display_out>;
++          };
++        };
++      };
++    };
++
++...
 -- 
-2.28.0
+2.31.1
 
