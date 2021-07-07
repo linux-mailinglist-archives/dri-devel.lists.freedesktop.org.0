@@ -1,42 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21A393BEA4F
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Jul 2021 17:05:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 661B03BEA6A
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Jul 2021 17:09:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4042D6E190;
-	Wed,  7 Jul 2021 15:05:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0CA0B6E17E;
+	Wed,  7 Jul 2021 15:09:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-4322.protonmail.ch (mail-4322.protonmail.ch [185.70.43.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 637276E193
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Jul 2021 15:05:20 +0000 (UTC)
-Date: Wed, 07 Jul 2021 15:05:16 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail3; t=1625670317;
- bh=rZAPUdAYpWrluzUYeNpUT2MZcVIIb1mgZTtYpre2bl4=;
- h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
- b=NQvPeNUcOT8PPyld4n5saLgskJfEZvUk1zw2DU/RfCLnuhVrc0c44YCoId5Q895bo
- jJTLIwCU3nPIye/e8KJos+p/AX0xJoKzU1rvQcajXZL46JM+8dLrhmuknzilDWGvoG
- dgW2RyaOA8yRpVHQ3NCRPQB0NS4U0hhwmffoCXioe01mo4RiKme1c8aHLNBW1TX8Wx
- IfkQfrM9U1sCRHXuXQXSE2vqS2TltNEQFqAzhMOfgsrIWhjdDlyQedL4hGR2FDBXGS
- 1dy2TYBi5vVh+jHHOQGSvd+IVeWSTrHZmfD761Aka3OkDXNblB51j80kS6WIgrKMpJ
- jKFdjltflZK1w==
-To: Lee Shawn C <shawn.c.lee@intel.com>
-From: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH] drm/dp: follow DP link CTS spec to read link status back
-Message-ID: <j5Uvw-gNT4Egur_E6SsYoqn09GYXBESdyvFJ7GTdVjIbEQcnysdO4wJtgcsQk_u-lHzyQtQjY6-Ahz66UaQFaaw2ZWZPxkZMzMwMaP5YEr0=@emersion.fr>
-In-Reply-To: <20210707150042.6376-1-shawn.c.lee@intel.com>
-References: <20210707150042.6376-1-shawn.c.lee@intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 77F7D6E17D;
+ Wed,  7 Jul 2021 15:09:33 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10037"; a="270437502"
+X-IronPort-AV: E=Sophos;i="5.83,331,1616482800"; d="scan'208";a="270437502"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Jul 2021 08:09:30 -0700
+X-IronPort-AV: E=Sophos;i="5.83,331,1616482800"; d="scan'208";a="647914555"
+Received: from abdoesch-mobl.amr.corp.intel.com (HELO intel.com)
+ ([10.213.166.207])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Jul 2021 08:09:28 -0700
+Date: Wed, 7 Jul 2021 11:09:27 -0400
+From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PULL] drm-intel-next-fixes
+Message-ID: <YOXDp/+CFDgJ2/7f@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
- DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
- autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
- mailout.protonmail.ch
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,13 +43,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Simon Ser <contact@emersion.fr>
-Cc: Jani Nikula <jani.nikula@intel.com>, Cooper Chiou <cooper.chiou@intel.com>,
- William Tseng <william.tseng@intel.com>, dri-devel@lists.freedesktop.org
+Cc: dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
+ intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> +=09=09=09=09       DP_LINK_STATUS_SIZE + 2);
+Hi Dave and Daniel,
 
-Suggestion: use sizeof(full_link_stat) here instead to avoid this
-getting out-of-sync with the real array size?
+Here goes drm-intel-next-fixes-2021-07-07:
+
+One fix targeting stable for display DP VSC, plus DG1 display fix and
+a bug fix of IRQs usages and cleanup references to the DRM IRQ midlayer.
+
+Thanks,
+Rodrigo.
+
+The following changes since commit 8a02ea42bc1d4c448caf1bab0e05899dad503f74:
+
+  Merge tag 'drm-intel-next-fixes-2021-06-29' of git://anongit.freedesktop.org/drm/drm-intel into drm-next (2021-06-30 15:42:05 +1000)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-next-fixes-2021-07-07
+
+for you to fetch changes up to 3dd6c11b60d2f1e4082221a8831f91093c4494aa:
+
+  drm/i915: Drop all references to DRM IRQ midlayer (2021-07-06 15:10:58 -0400)
+
+----------------------------------------------------------------
+One fix targeting stable for display DP VSC, plus DG1 display fix and
+a bug fix of IRQs usages and cleanup references to the DRM IRQ midlayer.
+
+----------------------------------------------------------------
+José Roberto de Souza (1):
+      drm/i915/display/dg1: Correctly map DPLLs during state readout
+
+Kees Cook (1):
+      drm/i915/display: Do not zero past infoframes.vsc
+
+Thomas Zimmermann (2):
+      drm/i915: Use the correct IRQ during resume
+      drm/i915: Drop all references to DRM IRQ midlayer
+
+ drivers/gpu/drm/i915/display/intel_ddi.c        | 19 ++++++++++++++++---
+ drivers/gpu/drm/i915/display/intel_dp.c         |  2 +-
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c       |  2 +-
+ drivers/gpu/drm/i915/gt/intel_ring_submission.c |  7 +++++--
+ drivers/gpu/drm/i915/i915_drv.c                 |  1 -
+ drivers/gpu/drm/i915/i915_irq.c                 | 10 +++++-----
+ drivers/gpu/drm/i915/i915_irq.h                 |  1 +
+ drivers/gpu/drm/i915/i915_reg.h                 |  3 ---
+ 8 files changed, 29 insertions(+), 16 deletions(-)
