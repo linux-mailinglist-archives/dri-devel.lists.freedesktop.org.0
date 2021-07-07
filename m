@@ -2,37 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1B323BF066
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Jul 2021 21:42:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 507843BF06A
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Jul 2021 21:42:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 433586E1BC;
-	Wed,  7 Jul 2021 19:42:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 800436E1CD;
+	Wed,  7 Jul 2021 19:42:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5BD686E1BC;
- Wed,  7 Jul 2021 19:41:59 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10037"; a="209415787"
-X-IronPort-AV: E=Sophos;i="5.84,221,1620716400"; d="scan'208";a="209415787"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jul 2021 12:41:58 -0700
-X-IronPort-AV: E=Sophos;i="5.84,221,1620716400"; d="scan'208";a="449670139"
-Received: from mdroper-desk1.fm.intel.com (HELO
- mdroper-desk1.amr.corp.intel.com) ([10.1.27.134])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jul 2021 12:41:58 -0700
-Date: Wed, 7 Jul 2021 12:41:56 -0700
-From: Matt Roper <matthew.d.roper@intel.com>
-To: Lucas De Marchi <lucas.demarchi@intel.com>
-Subject: Re: [PATCH 3/3] gpu/drm/i915: nuke old GEN macros
-Message-ID: <20210707194156.GR951094@mdroper-desk1.amr.corp.intel.com>
-References: <20210707181325.2130821-1-lucas.demarchi@intel.com>
- <20210707181325.2130821-4-lucas.demarchi@intel.com>
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
+ [IPv6:2a00:1450:4864:20::136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AAC4E6E1CD
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Jul 2021 19:42:52 +0000 (UTC)
+Received: by mail-lf1-x136.google.com with SMTP id a18so7049620lfs.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 07 Jul 2021 12:42:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=LRtFQfyk5rkHzCvBDJ7m/53ib3pszFLVwjo8wznH6UE=;
+ b=yFcO6aCHT5Wp8XcHLs3x7QjI1v+tekgMJbmj6pPFaNrWmUZ3yjUxexHb2wvivrLnvk
+ wpPtu8QUxvDBn0Z7SDU7DAa/e8ONb2256TAahLeb4MKewzgad9koVgCZx/tc9KSYH8Nk
+ MkMQmMz/XSiGUA513D3Y2WGA7AY6rnls41T6Neg+NDC2MyS5DPdVLd+letBRoFYEz5Vy
+ XFdsxz/8jbYQwq88kH3vktlGJdUyOxN5GUjfgp9sXS9tdux2jP8qSeBbCa+7nhGIfXzW
+ xW3bjO1Su9ioQZNguLLj3A4OlCZGjhI9jOoxP0iPSTjeO0IWgWxPafFneFHgMuxtuEMJ
+ nsnA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=LRtFQfyk5rkHzCvBDJ7m/53ib3pszFLVwjo8wznH6UE=;
+ b=CJE2r8RNOXAg2NVlmrszR+xAh2lE2ZnWYz35hHU6MAOi1vq/3YBrrHYerKh75Q12BC
+ U4WGZJac/vFpqzDAQOlimhQWfusn15SOaCe9w6G7aqoxxu7uPBi5zSlJikvJ/8KQL0JN
+ eTpeDkfoVgSRRKo9l3zFZPCGWg1meYPTRQ0hr5bW1eLsBVGR+dhght03pmpj7edgepEg
+ 2eZk6s+KYreXw9IqakOFBKUZ7GpM2yEwbG3pYDLKjjzEM0A+2kqcQ2+XL8m3bhABZWCA
+ pc1veglqeiLearO+34LW4bl8OEfaH93C6O6czmx3ECbpCGjTFyW6tc05VxYiBSPkSQUp
+ z3pA==
+X-Gm-Message-State: AOAM532XsaFxHFx9vv08JgAIutVnP1ABJafqDdilNSi7RunliPUIG1g4
+ kriMBwsgJKlpEqVyp/jz4JwDo0OurFrtQ3UiPZZz+Q==
+X-Google-Smtp-Source: ABdhPJwxhl4aUAm4oVA+H8xrPvcXq5kElGbA8grQFD3N2KD69Hh/pYn0WdVnS32vEA1aPDwawe5JdRzQHP5s+cnOh2Y=
+X-Received: by 2002:a05:651c:102c:: with SMTP id
+ w12mr10051224ljm.170.1625686971167; 
+ Wed, 07 Jul 2021 12:42:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210707181325.2130821-4-lucas.demarchi@intel.com>
+References: <20210630013421.735092-1-john.stultz@linaro.org>
+ <20210630013421.735092-2-john.stultz@linaro.org>
+ <YOVL1f4m+8ly9fyM@infradead.org>
+ <afea8c13-ef8d-7eb1-c362-8d6d1649751d@amd.com>
+ <YOVUX1ZmZ3YZpjic@infradead.org>
+In-Reply-To: <YOVUX1ZmZ3YZpjic@infradead.org>
+From: John Stultz <john.stultz@linaro.org>
+Date: Wed, 7 Jul 2021 12:42:40 -0700
+Message-ID: <CALAqxLXEcRufetNJo6ZETs4OyFWdWE3uU7_zOzVVcRtkkhYiyA@mail.gmail.com>
+Subject: Re: page pools, was Re: [PATCH v9 1/5] drm: Add a sharable drm
+ page-pool implementation
+To: Christoph Hellwig <hch@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,60 +67,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@intel.com>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
+Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+ Sandeep Patil <sspatil@google.com>, linux-mm <linux-mm@kvack.org>,
+ Ezequiel Garcia <ezequiel@collabora.com>, Robin Murphy <robin.murphy@arm.com>,
+ James Jones <jajones@nvidia.com>, lkml <linux-kernel@vger.kernel.org>,
+ Liam Mark <lmark@codeaurora.org>, Christian K??nig <christian.koenig@amd.com>,
+ Mel Gorman <mgorman@suse.de>, Laura Abbott <labbott@kernel.org>,
+ Chris Goldsworthy <cgoldswo@codeaurora.org>,
+ Hridya Valsaraju <hridya@google.com>, ??rjan Eide <orjan.eide@arm.com>,
+ linux-media <linux-media@vger.kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Daniel Mentz <danielmentz@google.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 07, 2021 at 11:13:25AM -0700, Lucas De Marchi wrote:
-> Now that all the codebase is converted to the new *VER macros, remove
-> the old GEN ones.
-> 
-> Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
+On Wed, Jul 7, 2021 at 12:15 AM Christoph Hellwig <hch@infradead.org> wrote:
+>
+> On Wed, Jul 07, 2021 at 09:10:26AM +0200, Christian K??nig wrote:
+> > Well, the original code all this is based on already had the comment that
+> > this really belong into the page allocator.
+> >
+> > The key point is traditionally only GPUs used uncached and write-combined
+> > memory in such large quantities that having a pool for them makes sense.
+> >
+> > Because of this we had this separately to reduce the complexity in the page
+> > allocator to handle another set of complexity of allocation types.
+> >
+> > For the upside, for those use cases it means huge performance improvements
+> > for those drivers. See the numbers John provided in the cover letter.
+> >
+> > But essentially at least I would be totally fine moving this into the page
+> > allocator, but moving it outside of TTM already helps with this goal. So
+> > this patch set is certainly a step into the right direction.
+>
+> Unless I'm badly misreading the patch and this series there is nothing
+> about cache attributes in this code.  It just allocates pages, zeroes
+> them, eventually hands them out to a consumer and registers a shrinker
+> for its freelist.
+>
+> If OTOH it actually dealt with cachability that should be documented
+> in the commit log and probably also the naming of the implementation.
 
-Reviewed-by: Matt Roper <matthew.d.roper@intel.com>
+So the cache attributes are still managed in the tmm_pool code. This
+series just pulls the pool/shrinker management out into common code so
+we can use it in the dmabuf heap code without duplicating things.
 
-We're still going to need another patch or two to kill off
-IS_GEN9_{BC,LP}, but we can do that separately.  We're less likely to be
-adding new instances of those macros now anyway.
-
-> ---
->  drivers/gpu/drm/i915/i915_drv.h | 15 ---------------
->  1 file changed, 15 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
-> index 6dff4ca01241..bc6799f75670 100644
-> --- a/drivers/gpu/drm/i915/i915_drv.h
-> +++ b/drivers/gpu/drm/i915/i915_drv.h
-> @@ -1243,21 +1243,6 @@ static inline struct drm_i915_private *pdev_to_i915(struct pci_dev *pdev)
->  
->  #define INTEL_DEVID(dev_priv)	(RUNTIME_INFO(dev_priv)->device_id)
->  
-> -/*
-> - * Deprecated: this will be replaced by individual IP checks:
-> - * GRAPHICS_VER(), MEDIA_VER() and DISPLAY_VER()
-> - */
-> -#define INTEL_GEN(dev_priv)		GRAPHICS_VER(dev_priv)
-> -/*
-> - * Deprecated: use IS_GRAPHICS_VER(), IS_MEDIA_VER() and IS_DISPLAY_VER() as
-> - * appropriate.
-> - */
-> -#define IS_GEN_RANGE(dev_priv, s, e)	IS_GRAPHICS_VER(dev_priv, (s), (e))
-> -/*
-> - * Deprecated: use GRAPHICS_VER(), MEDIA_VER() and DISPLAY_VER() as appropriate.
-> - */
-> -#define IS_GEN(dev_priv, n)		(GRAPHICS_VER(dev_priv) == (n))
-> -
->  #define GRAPHICS_VER(i915)		(INTEL_INFO(i915)->graphics_ver)
->  #define IS_GRAPHICS_VER(i915, from, until) \
->  	(GRAPHICS_VER(i915) >= (from) && GRAPHICS_VER(i915) <= (until))
-> -- 
-> 2.31.1
-> 
-
--- 
-Matt Roper
-Graphics Software Engineer
-VTT-OSGC Platform Enablement
-Intel Corporation
-(916) 356-2795
+thanks
+-john
