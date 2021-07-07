@@ -1,74 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72F3D3BE5F2
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Jul 2021 11:51:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B9BB3BE5FC
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Jul 2021 11:52:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B52EC6E07D;
-	Wed,  7 Jul 2021 09:51:32 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com
- [64.147.123.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 96FD46E083
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Jul 2021 09:51:31 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.west.internal (Postfix) with ESMTP id 3761E2B007A7;
- Wed,  7 Jul 2021 05:51:30 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Wed, 07 Jul 2021 05:51:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=WSJ1elncdkKB2
- GBmNc1T6E2h3Za7yGocjy6KSumGTP0=; b=efJGcFmzfYygmNAM2kqwTx/9GfdHF
- J72RLIIeJ4vGeloz+k2nZriDw6EZ/DZraKjYYe26zo501Nh4D3+6ifgj76CjF+VF
- ZVPXOXsHXYegi7MA4vW1Q0W+QQdfIt3d4P1qFZJogvOm20Z9QmhJ+pU1yziy6NBv
- ZfvFHh6qQHkZ3Nn7XtDsksYJtKonwAySs1OnFieNH63aF8qpYljatH6zC1Y2oDGW
- 3n2tmFkQ+BqLO8BiPk1HpulqgqQQYUqrJCf7AQBKmFB4YfyIrLwIjbZOI4yN+Unt
- rVgMKc0luA5HZVl5z5A9KiJWyK+4eMcdMT0JlVJbn/a6gxT5F/60PDuLw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=WSJ1elncdkKB2GBmNc1T6E2h3Za7yGocjy6KSumGTP0=; b=lJP04q6A
- +CmAFBgm2kHOeYttMEB9NCarU460yg5ha8jK7Q70egtMQPlVvq+czSZA10mlD9pg
- AKiZn7zP2T5VHPHsI8tox0XjnFuT4XnviO7+41ZoKGHLacjynLCg+4sORYv2QXql
- RX3P62JJaWMgyyPgToZzojR+T+2hJuj7FWGo8ppX9Z660B28lN9FXy0GtXWhIGpn
- zaahWjvMo+2W7Y9taRo+I0T5Hi7+Q14rEHzQqX8Nbj+RMyz6rq9wClAHK8BRQChF
- 9ZYmjW2ClIcD4GaxGj3LT/qfqf8gp09ULy7vdAA46lympZSiQ6q7Mn3WFVKHR2WD
- rSaXyfaWAeoQnQ==
-X-ME-Sender: <xms:IXnlYK9imcCzMzfKEw8mqFvGOcB0keMm-fuh_-785aQOIE46mRQxyA>
- <xme:IXnlYKtaQtM59F-1v-icuQXpU2EFXVOdLLKt0iHRhCZ_4OE3pqJ4SYDxIMe1QViW-
- Ll7oOljm7UVZgvPyoc>
-X-ME-Received: <xmr:IXnlYACVumf2Vx-glZ0mCZts0UpkB-pgwHItFzFrp64BEPAWCuxvtAULtB7RYejgV7IiOh1pHE6sTYjiYvIKOW4U8KCtNwkZGKrq>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrtddvgddvtdcutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihimhgv
- ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
- gvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveevheeh
- vdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
- igihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:IXnlYCfdMm1WL6S6WuKxnksoQ4lFHlLWWtGHjJJVUq2hBGho4yCung>
- <xmx:IXnlYPP3kB-y2Lpr-CRn8DBQ-DSYDgq43zhfaTZBaKYCud6iTzHxcQ>
- <xmx:IXnlYMmAaH7s_DzqPYeVTLs_7rFzEXqo12pwmTinwb42xwMYIzhu7A>
- <xmx:IXnlYMdQVupziuaTq1P7DGngWPVIxZGOf_-K55kJRGIGGBCJFfH5z2M8mKk>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 7 Jul 2021 05:51:29 -0400 (EDT)
-From: Maxime Ripard <maxime@cerno.tech>
-To: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@intel.com>,
- David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>
-Subject: [PATCH 3/3] drm/vc4: hdmi: Only call into DRM framework if registered
-Date: Wed,  7 Jul 2021 11:51:12 +0200
-Message-Id: <20210707095112.1469670-4-maxime@cerno.tech>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210707095112.1469670-1-maxime@cerno.tech>
-References: <20210707095112.1469670-1-maxime@cerno.tech>
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E03C6E086;
+	Wed,  7 Jul 2021 09:52:27 +0000 (UTC)
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3EEE76E083;
+ Wed,  7 Jul 2021 09:52:25 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10037"; a="196552495"
+X-IronPort-AV: E=Sophos;i="5.83,331,1616482800"; d="scan'208";a="196552495"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Jul 2021 02:52:18 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.83,331,1616482800"; d="scan'208";a="427882592"
+Received: from irvmail001.ir.intel.com ([10.43.11.63])
+ by orsmga002.jf.intel.com with ESMTP; 07 Jul 2021 02:52:16 -0700
+Received: from [10.249.150.24] (mwajdecz-MOBL.ger.corp.intel.com
+ [10.249.150.24])
+ by irvmail001.ir.intel.com (8.14.3/8.13.6/MailSET/Hub) with ESMTP id
+ 1679qFWW012432; Wed, 7 Jul 2021 10:52:15 +0100
+Subject: Re: [PATCH 0/2] Update to new HuC for TGL+ and enable GuC/HuC on ADL-P
+To: John.C.Harrison@Intel.com, Intel-GFX@Lists.FreeDesktop.Org
+References: <20210626004522.1699509-1-John.C.Harrison@Intel.com>
+From: Michal Wajdeczko <michal.wajdeczko@intel.com>
+Message-ID: <f523332c-ce86-81bc-2455-22239201433a@intel.com>
+Date: Wed, 7 Jul 2021 11:52:15 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210626004522.1699509-1-John.C.Harrison@Intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,46 +50,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nicolas Saenz Julienne <nsaenz@kernel.org>,
- Tim Gover <tim.gover@raspberrypi.com>, Emma Anholt <emma@anholt.net>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
- bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
- Hans Verkuil <hans.verkuil@cisco.com>, Phil Elwell <phil@raspberrypi.com>,
- Dom Cobley <dom@raspberrypi.com>
+Cc: DRI-Devel@Lists.FreeDesktop.Org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Our hotplug handler will currently call the drm_kms_helper_hotplug_event
-every time a hotplug interrupt is called.
+Hi John,
 
-However, since the device is registered after all the drivers have
-finished their bind callback, we have a window between when we install
-our interrupt handler and when drm_dev_register() is eventually called
-where our handler can run and call drm_kms_helper_hotplug_event but the
-device hasn't been registered yet, causing a null pointer dereference.
+On 26.06.2021 02:45, John.C.Harrison@Intel.com wrote:
+> From: John Harrison <John.C.Harrison@Intel.com>
+> 
+> There is a new HuC version available for TGL and compatible platforms,
+> so switch to using it. Also, there is now a GuC and HuC for ADL-P, so
+> use those too.
 
-Fix this by making sure we only call drm_kms_helper_hotplug_event if our
-device has been properly registered.
+I recall discussion about splitting UC_FW meta macro into two: one for
+GUC firmwares and other for HUC firmwares - what happen to this idea?
 
-Fixes: f4790083c7c2 ("drm/vc4: hdmi: Rely on interrupts to handle hotplug")
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
----
- drivers/gpu/drm/vc4/vc4_hdmi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Maybe we can do it in this series as a first step ? then changing just
+HuC version will be limited to HUC meta macro only.
 
-diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-index 50393a8a42b3..31c28252c5f5 100644
---- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-+++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -1580,7 +1580,7 @@ static irqreturn_t vc4_hdmi_hpd_irq_thread(int irq, void *priv)
- 	struct vc4_hdmi *vc4_hdmi = priv;
- 	struct drm_device *dev = vc4_hdmi->connector.dev;
- 
--	if (dev)
-+	if (dev && dev->registered)
- 		drm_kms_helper_hotplug_event(dev);
- 
- 	return IRQ_HANDLED;
--- 
-2.31.1
+Michal
 
+> 
+> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+> 
+> 
+> John Harrison (2):
+>   drm/i915/huc: Update TGL and friends to HuC 7.9.3
+>   drm/i915/adlp: Add ADL-P GuC/HuC firmware files
+> 
+>  drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
+> 
