@@ -2,53 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 480B03BE708
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Jul 2021 13:24:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7C6D3BE718
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Jul 2021 13:26:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC2F96E0BF;
-	Wed,  7 Jul 2021 11:24:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F5E36E0C4;
+	Wed,  7 Jul 2021 11:26:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22a.google.com (mail-oi1-x22a.google.com
- [IPv6:2607:f8b0:4864:20::22a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C3D186E0BF
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Jul 2021 11:24:00 +0000 (UTC)
-Received: by mail-oi1-x22a.google.com with SMTP id w74so2952847oiw.8
- for <dri-devel@lists.freedesktop.org>; Wed, 07 Jul 2021 04:24:00 -0700 (PDT)
+Received: from mail-ot1-x32b.google.com (mail-ot1-x32b.google.com
+ [IPv6:2607:f8b0:4864:20::32b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E9276E0D9
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Jul 2021 11:26:50 +0000 (UTC)
+Received: by mail-ot1-x32b.google.com with SMTP id
+ f93-20020a9d03e60000b02904b1f1d7c5f4so1102096otf.9
+ for <dri-devel@lists.freedesktop.org>; Wed, 07 Jul 2021 04:26:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=Tar4b0LBQyvLoWTlvQ9190P3aM1wRMYSQXQTRc63Uyk=;
- b=GcA4GGzpL1iYPbq2ffdxSuLNqWAiYa38P8MnLGqz2otDQnZTUb44hfanT4lRW4U4cN
- cEwh8sl3MAAWhG0nCTl+z4SXQO3+0k7qf7FY6ctuWTWr5pI+kA1TKXTCTt8EyBnOWKMr
- DAT6DqVstxSvlHSCr5QYUKvdkYSt00ktWbLMM=
+ bh=jcSjBfaiu3twifvMjOLwr3lER8+MJ4OJvgdqFOc7u3Q=;
+ b=XY2nYSOxjEBjINEtvN0nUkC5iL8CR9/PEShuRalRalyz6qDEsOP2c7bP94D/CGuhI5
+ g0b30C4B64wyYYJ8tIh32U+MRH0ZOSAQI9mWaYfVEETBFBlI9BjJIfJSzLsFtpfirRBA
+ RbyR2DxBvyo4DTQw/PEvOCCUip4mzhbJg61Rw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=Tar4b0LBQyvLoWTlvQ9190P3aM1wRMYSQXQTRc63Uyk=;
- b=rGAc4NTfryhzepDLK/2nO5iLaTi4OpTcZmJiAIkPPZnibPxZtVwFTs394GP5D8qiJG
- 7KXzAPiV8/dF/+0hIFXIdrlbfyf/s/jHA7Dpk6Jl9HaunCZmVHhSY1RUu8YDtr4gyRFt
- JA0gM9jKjQqQNdsoLubRZeUpfzWuJ4NVnJDOdXXWHnEy0msDFQSBRH/pDSFNL8UdJxLM
- muzs6p3lIKiHEKqxcVr7NrSVtu2dwqpolm9jERrfuOe6iw358STszJKf62PNpyRLd0+R
- ipqxqnOumMBrXB9QPHVqv6CTK8PXHkQmIkUpLfJ+TtOP6+zVh0SbUY9WJaefWqI+PumN
- NjHg==
-X-Gm-Message-State: AOAM532bDzaaSiiUc37QoZbGt5uNWX0oTN5iV7yQmb09jwPGKL4WXZop
- HOx4O61SYIoaLAp+z+n7enekaWOIYJMdaQbQlhri2Q==
-X-Google-Smtp-Source: ABdhPJxweqrybBYRw34FpMRYT/9snMLQZn8gtGL0hUzzc3SFy7MgPf7R7GHrArCkOqrllxhpYZxttuIRRzVaQddNdKw=
-X-Received: by 2002:aca:5793:: with SMTP id l141mr4439471oib.14.1625657040137; 
- Wed, 07 Jul 2021 04:24:00 -0700 (PDT)
+ bh=jcSjBfaiu3twifvMjOLwr3lER8+MJ4OJvgdqFOc7u3Q=;
+ b=ttzcP+WSRCQ4gAyeKaz2DRdEPMiokL+kMdCcmtf/n78De+LhbNETKKqMc6GUt1dwXV
+ 6L01WCfLyjRw2b+tpbafHgDUIi6oqyd7PcaiDo9UACsLh9BtklDMrH6Xa47x1EmBLpTO
+ J8eCsAL9skqnxSVlKLN7GQaXfjSML90WWLjePKSn68wY0ztQB/XyLCNklEdarJZDT5JK
+ EXoShyVGSVtzpdsg2YykwYsdi9a4G3mzVS9vHvn4GBKCuP4EcXDfO8wFDxjQxoRVHAkZ
+ vMQwBTU7JNv/YIaJ6uqzNnSnv4Dm72pHl+oVvNSVOhfwbQhutDIAGW6ahu27hPBhD2dm
+ /9Dg==
+X-Gm-Message-State: AOAM530lpJ5eQ9Ms3D/1LyDM/Z9MrCDrqWTl2Qe8Ar5uLz3DiisBJ61f
+ bCPNDDFoIOcWyHKVLkyChFkeO/+IHY0wFmJsOGCvQg==
+X-Google-Smtp-Source: ABdhPJyNgJFNofGkXrmeybkWO+4qnzCZoW903Z1oPPX4NrBQMFiHBo/J0/j8g3g/k6zOnEtRQOUdHbviXyYTmlQmITY=
+X-Received: by 2002:a05:6830:1f19:: with SMTP id
+ u25mr15628162otg.303.1625657209545; 
+ Wed, 07 Jul 2021 04:26:49 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210702213815.2249499-1-daniel.vetter@ffwll.ch>
- <20210702213815.2249499-3-daniel.vetter@ffwll.ch>
- <f5d59915-af83-4076-c338-d4df68e7d8cd@gmail.com>
-In-Reply-To: <f5d59915-af83-4076-c338-d4df68e7d8cd@gmail.com>
+ <20210702213815.2249499-9-daniel.vetter@ffwll.ch>
+ <006dc4538e906b548eac0acfaf62211b83de4927.camel@pengutronix.de>
+In-Reply-To: <006dc4538e906b548eac0acfaf62211b83de4927.camel@pengutronix.de>
 From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Wed, 7 Jul 2021 13:23:48 +0200
-Message-ID: <CAKMK7uE5CVkSj7jYmfk2+JO+br6bM2rwpCcNXt4rRP69oVhFgQ@mail.gmail.com>
-Subject: Re: [Linaro-mm-sig] [PATCH v2 02/11] drm/sched: Add dependency
- tracking
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+Date: Wed, 7 Jul 2021 13:26:38 +0200
+Message-ID: <CAKMK7uEwszSpcdk2BSasOD-9gpnm=UhKR8-K40zQCCLSyk=Q_Q@mail.gmail.com>
+Subject: Re: [PATCH v2 08/11] drm/etnaviv: Use scheduler dependency handling
+To: Lucas Stach <l.stach@pengutronix.de>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -63,356 +64,277 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jack Zhang <Jack.Zhang1@amd.com>, David Airlie <airlied@linux.ie>,
+Cc: The etnaviv authors <etnaviv@lists.freedesktop.org>,
  DRI Development <dri-devel@lists.freedesktop.org>,
- Steven Price <steven.price@arm.com>,
  "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Daniel Vetter <daniel.vetter@intel.com>, Nirmoy Das <nirmoy.aiemd@gmail.com>,
- Lee Jones <lee.jones@linaro.org>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Daniel Vetter <daniel.vetter@intel.com>,
  =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Luben Tuikov <luben.tuikov@amd.com>,
  "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 7, 2021 at 11:26 AM Christian K=C3=B6nig
-<ckoenig.leichtzumerken@gmail.com> wrote:
->
-> Am 02.07.21 um 23:38 schrieb Daniel Vetter:
-> > Instead of just a callback we can just glue in the gem helpers that
-> > panfrost, v3d and lima currently use. There's really not that many
-> > ways to skin this cat.
+On Wed, Jul 7, 2021 at 11:08 AM Lucas Stach <l.stach@pengutronix.de> wrote:
+> Am Freitag, dem 02.07.2021 um 23:38 +0200 schrieb Daniel Vetter:
+> > We need to pull the drm_sched_job_init much earlier, but that's very
+> > minor surgery.
 > >
-> > On the naming bikeshed: The idea for using _await_ to denote adding
-> > dependencies to a job comes from i915, where that's used quite
-> > extensively all over the place, in lots of datastructures.
-> >
-> > v2: Rebased.
-> >
-> > Reviewed-by: Steven Price <steven.price@arm.com> (v1)
 > > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > Cc: David Airlie <airlied@linux.ie>
-> > Cc: Daniel Vetter <daniel@ffwll.ch>
+> > Cc: Lucas Stach <l.stach@pengutronix.de>
+> > Cc: Russell King <linux+etnaviv@armlinux.org.uk>
+> > Cc: Christian Gmeiner <christian.gmeiner@gmail.com>
 > > Cc: Sumit Semwal <sumit.semwal@linaro.org>
 > > Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
-> > Cc: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
-> > Cc: Lee Jones <lee.jones@linaro.org>
-> > Cc: Nirmoy Das <nirmoy.aiemd@gmail.com>
-> > Cc: Boris Brezillon <boris.brezillon@collabora.com>
-> > Cc: Luben Tuikov <luben.tuikov@amd.com>
-> > Cc: Alex Deucher <alexander.deucher@amd.com>
-> > Cc: Jack Zhang <Jack.Zhang1@amd.com>
+> > Cc: etnaviv@lists.freedesktop.org
 > > Cc: linux-media@vger.kernel.org
 > > Cc: linaro-mm-sig@lists.linaro.org
 > > ---
-> >   drivers/gpu/drm/scheduler/sched_entity.c |  18 +++-
-> >   drivers/gpu/drm/scheduler/sched_main.c   | 103 ++++++++++++++++++++++=
-+
-> >   include/drm/gpu_scheduler.h              |  31 ++++++-
-> >   3 files changed, 146 insertions(+), 6 deletions(-)
+> >  drivers/gpu/drm/etnaviv/etnaviv_gem.h        |  5 +-
+> >  drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c | 32 +++++-----
+> >  drivers/gpu/drm/etnaviv/etnaviv_sched.c      | 61 +-------------------
+> >  drivers/gpu/drm/etnaviv/etnaviv_sched.h      |  3 +-
+> >  4 files changed, 20 insertions(+), 81 deletions(-)
 > >
-> > diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm=
-/scheduler/sched_entity.c
-> > index f7347c284886..b6f72fafd504 100644
-> > --- a/drivers/gpu/drm/scheduler/sched_entity.c
-> > +++ b/drivers/gpu/drm/scheduler/sched_entity.c
-> > @@ -211,6 +211,19 @@ static void drm_sched_entity_kill_jobs_cb(struct d=
-ma_fence *f,
-> >       job->sched->ops->free_job(job);
-> >   }
+> > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.h b/drivers/gpu/drm/et=
+naviv/etnaviv_gem.h
+> > index 98e60df882b6..63688e6e4580 100644
+> > --- a/drivers/gpu/drm/etnaviv/etnaviv_gem.h
+> > +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.h
+> > @@ -80,9 +80,6 @@ struct etnaviv_gem_submit_bo {
+> >       u64 va;
+> >       struct etnaviv_gem_object *obj;
+> >       struct etnaviv_vram_mapping *mapping;
+> > -     struct dma_fence *excl;
+> > -     unsigned int nr_shared;
+> > -     struct dma_fence **shared;
+> >  };
 > >
-> > +static struct dma_fence *
-> > +drm_sched_job_dependency(struct drm_sched_job *job,
-> > +                      struct drm_sched_entity *entity)
-> > +{
-> > +     if (!xa_empty(&job->dependencies))
-> > +             return xa_erase(&job->dependencies, job->last_dependency+=
-+);
-> > +
-> > +     if (job->sched->ops->dependency)
-> > +             return job->sched->ops->dependency(job, entity);
-> > +
-> > +     return NULL;
-> > +}
-> > +
-> >   /**
-> >    * drm_sched_entity_kill_jobs - Make sure all remaining jobs are kill=
-ed
-> >    *
-> > @@ -229,7 +242,7 @@ static void drm_sched_entity_kill_jobs(struct drm_s=
-ched_entity *entity)
-> >               struct drm_sched_fence *s_fence =3D job->s_fence;
+> >  /* Created per submit-ioctl, to track bo's and cmdstream bufs, etc,
+> > @@ -95,7 +92,7 @@ struct etnaviv_gem_submit {
+> >       struct etnaviv_file_private *ctx;
+> >       struct etnaviv_gpu *gpu;
+> >       struct etnaviv_iommu_context *mmu_context, *prev_mmu_context;
+> > -     struct dma_fence *out_fence, *in_fence;
+> > +     struct dma_fence *out_fence;
+> >       int out_fence_id;
+> >       struct list_head node; /* GPU active submit list */
+> >       struct etnaviv_cmdbuf cmdbuf;
+> > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c b/drivers/gpu=
+/drm/etnaviv/etnaviv_gem_submit.c
+> > index 4dd7d9d541c0..92478a50a580 100644
+> > --- a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+> > +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+> > @@ -188,16 +188,10 @@ static int submit_fence_sync(struct etnaviv_gem_s=
+ubmit *submit)
+> >               if (submit->flags & ETNA_SUBMIT_NO_IMPLICIT)
+> >                       continue;
 > >
-> >               /* Wait for all dependencies to avoid data corruptions */
-> > -             while ((f =3D job->sched->ops->dependency(job, entity)))
-> > +             while ((f =3D drm_sched_job_dependency(job, entity)))
-> >                       dma_fence_wait(f, false);
-> >
-> >               drm_sched_fence_scheduled(s_fence);
-> > @@ -419,7 +432,6 @@ static bool drm_sched_entity_add_dependency_cb(stru=
-ct drm_sched_entity *entity)
-> >    */
-> >   struct drm_sched_job *drm_sched_entity_pop_job(struct drm_sched_entit=
-y *entity)
-> >   {
-> > -     struct drm_gpu_scheduler *sched =3D entity->rq->sched;
-> >       struct drm_sched_job *sched_job;
-> >
-> >       sched_job =3D to_drm_sched_job(spsc_queue_peek(&entity->job_queue=
-));
-> > @@ -427,7 +439,7 @@ struct drm_sched_job *drm_sched_entity_pop_job(stru=
-ct drm_sched_entity *entity)
-> >               return NULL;
-> >
-> >       while ((entity->dependency =3D
-> > -                     sched->ops->dependency(sched_job, entity))) {
-> > +                     drm_sched_job_dependency(sched_job, entity))) {
-> >               trace_drm_sched_job_wait_dep(sched_job, entity->dependenc=
-y);
-> >
-> >               if (drm_sched_entity_add_dependency_cb(entity))
-> > diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/s=
-cheduler/sched_main.c
-> > index 5e84e1500c32..12d533486518 100644
-> > --- a/drivers/gpu/drm/scheduler/sched_main.c
-> > +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> > @@ -605,6 +605,8 @@ int drm_sched_job_init(struct drm_sched_job *job,
-> >
-> >       INIT_LIST_HEAD(&job->list);
-> >
-> > +     xa_init_flags(&job->dependencies, XA_FLAGS_ALLOC);
-> > +
-> >       return 0;
-> >   }
-> >   EXPORT_SYMBOL(drm_sched_job_init);
-> > @@ -628,6 +630,98 @@ void drm_sched_job_arm(struct drm_sched_job *job)
-> >   }
-> >   EXPORT_SYMBOL(drm_sched_job_arm);
-> >
-> > +/**
-> > + * drm_sched_job_await_fence - adds the fence as a job dependency
-> > + * @job: scheduler job to add the dependencies to
-> > + * @fence: the dma_fence to add to the list of dependencies.
-> > + *
-> > + * Note that @fence is consumed in both the success and error cases.
-> > + *
-> > + * Returns:
-> > + * 0 on success, or an error on failing to expand the array.
-> > + */
-> > +int drm_sched_job_await_fence(struct drm_sched_job *job,
-> > +                           struct dma_fence *fence)
->
-> I'm still not very keen about the naming "await", can't we just call
-> this _add_dependency? and _remove_dependency() ?
-
-I frankly never care about bikesheds if there's a consensus, await
-just is a bit less typing. So we're not removing dependencies
-anywhere, but there's still two functions here, one for fences once
-for implicit sync stuff. So I need two names, and ideally someone else
-who acks the new naming scheme so I don't have to rename twice :-)
-
-Then I'll happily oblige.
-
-Cheers, Daniel
-
->
-> Christian.
->
-> > +{
-> > +     struct dma_fence *entry;
-> > +     unsigned long index;
-> > +     u32 id =3D 0;
-> > +     int ret;
-> > +
-> > +     if (!fence)
-> > +             return 0;
-> > +
-> > +     /* Deduplicate if we already depend on a fence from the same cont=
-ext.
-> > +      * This lets the size of the array of deps scale with the number =
-of
-> > +      * engines involved, rather than the number of BOs.
-> > +      */
-> > +     xa_for_each(&job->dependencies, index, entry) {
-> > +             if (entry->context !=3D fence->context)
-> > +                     continue;
-> > +
-> > +             if (dma_fence_is_later(fence, entry)) {
-> > +                     dma_fence_put(entry);
-> > +                     xa_store(&job->dependencies, index, fence, GFP_KE=
-RNEL);
-> > +             } else {
-> > +                     dma_fence_put(fence);
-> > +             }
-> > +             return 0;
-> > +     }
-> > +
-> > +     ret =3D xa_alloc(&job->dependencies, &id, fence, xa_limit_32b, GF=
-P_KERNEL);
-> > +     if (ret !=3D 0)
-> > +             dma_fence_put(fence);
-> > +
-> > +     return ret;
-> > +}
-> > +EXPORT_SYMBOL(drm_sched_job_await_fence);
-> > +
-> > +/**
-> > + * drm_sched_job_await_implicit - adds implicit dependencies as job de=
-pendencies
-> > + * @job: scheduler job to add the dependencies to
-> > + * @obj: the gem object to add new dependencies from.
-> > + * @write: whether the job might write the object (so we need to depen=
-d on
-> > + * shared fences in the reservation object).
-> > + *
-> > + * This should be called after drm_gem_lock_reservations() on your arr=
-ay of
-> > + * GEM objects used in the job but before updating the reservations wi=
-th your
-> > + * own fences.
-> > + *
-> > + * Returns:
-> > + * 0 on success, or an error on failing to expand the array.
-> > + */
-> > +int drm_sched_job_await_implicit(struct drm_sched_job *job,
-> > +                              struct drm_gem_object *obj,
-> > +                              bool write)
-> > +{
-> > +     int ret;
-> > +     struct dma_fence **fences;
-> > +     unsigned int i, fence_count;
-> > +
-> > +     if (!write) {
-> > +             struct dma_fence *fence =3D dma_resv_get_excl_unlocked(ob=
-j->resv);
-> > +
-> > +             return drm_sched_job_await_fence(job, fence);
-> > +     }
-> > +
-> > +     ret =3D dma_resv_get_fences(obj->resv, NULL, &fence_count, &fence=
-s);
-> > +     if (ret || !fence_count)
-> > +             return ret;
-> > +
-> > +     for (i =3D 0; i < fence_count; i++) {
-> > +             ret =3D drm_sched_job_await_fence(job, fences[i]);
+> > -             if (bo->flags & ETNA_SUBMIT_BO_WRITE) {
+> > -                     ret =3D dma_resv_get_fences(robj, &bo->excl,
+> > -                                               &bo->nr_shared,
+> > -                                               &bo->shared);
+> > -                     if (ret)
+> > -                             return ret;
+> > -             } else {
+> > -                     bo->excl =3D dma_resv_get_excl_unlocked(robj);
+> > -             }
+> > -
+> > +             ret =3D drm_sched_job_await_implicit(&submit->sched_job, =
+&bo->obj->base,
+> > +                                                bo->flags & ETNA_SUBMI=
+T_BO_WRITE);
 > > +             if (ret)
-> > +                     break;
-> > +     }
-> > +
-> > +     for (; i < fence_count; i++)
-> > +             dma_fence_put(fences[i]);
-> > +     kfree(fences);
-> > +     return ret;
-> > +}
-> > +EXPORT_SYMBOL(drm_sched_job_await_implicit);
-> > +
-> > +
-> >   /**
-> >    * drm_sched_job_cleanup - clean up scheduler job resources
-> >    * @job: scheduler job to clean up
-> > @@ -643,6 +737,9 @@ EXPORT_SYMBOL(drm_sched_job_arm);
-> >    */
-> >   void drm_sched_job_cleanup(struct drm_sched_job *job)
-> >   {
-> > +     struct dma_fence *fence;
-> > +     unsigned long index;
-> > +
-> >       if (!kref_read(&job->s_fence->finished.refcount)) {
-> >               /* drm_sched_job_arm() has been called */
-> >               dma_fence_put(&job->s_fence->finished);
-> > @@ -652,6 +749,12 @@ void drm_sched_job_cleanup(struct drm_sched_job *j=
-ob)
+> > +                     return ret;
 > >       }
 > >
-> >       job->s_fence =3D NULL;
+> >       return ret;
+> > @@ -403,8 +397,6 @@ static void submit_cleanup(struct kref *kref)
+> >
+> >       wake_up_all(&submit->gpu->fence_event);
+> >
+> > -     if (submit->in_fence)
+> > -             dma_fence_put(submit->in_fence);
+> >       if (submit->out_fence) {
+> >               /* first remove from IDR, so fence can not be found anymo=
+re */
+> >               mutex_lock(&submit->gpu->fence_lock);
+> > @@ -537,6 +529,12 @@ int etnaviv_ioctl_gem_submit(struct drm_device *de=
+v, void *data,
+> >       submit->exec_state =3D args->exec_state;
+> >       submit->flags =3D args->flags;
+> >
+> > +     ret =3D drm_sched_job_init(&submit->sched_job,
+> > +                              &ctx->sched_entity[args->pipe],
+> > +                              submit->ctx);
+> > +     if (ret)
+> > +             goto err_submit_objects;
 > > +
-> > +     xa_for_each(&job->dependencies, index, fence) {
-> > +             dma_fence_put(fence);
-> > +     }
-> > +     xa_destroy(&job->dependencies);
+>
+> With the init moved here you also need to move the
+> drm_sched_job_cleanup call from etnaviv_sched_free_job into
+> submit_cleanup to avoid the potential memory leak when we bail out
+> before pushing the job to the scheduler.
+
+Uh apologies for missing this again, the entire point of v2 was to fix
+this across all drivers. But somehow the fixup for etnaviv got lost.
+I'll do it now for v3.
+
+Thanks, Daniel
+
+>
+> Regards,
+> Lucas
+>
+> >       ret =3D submit_lookup_objects(submit, file, bos, args->nr_bos);
+> >       if (ret)
+> >               goto err_submit_objects;
+> > @@ -549,11 +547,15 @@ int etnaviv_ioctl_gem_submit(struct drm_device *d=
+ev, void *data,
+> >       }
+> >
+> >       if (args->flags & ETNA_SUBMIT_FENCE_FD_IN) {
+> > -             submit->in_fence =3D sync_file_get_fence(args->fence_fd);
+> > -             if (!submit->in_fence) {
+> > +             struct dma_fence *in_fence =3D sync_file_get_fence(args->=
+fence_fd);
+> > +             if (!in_fence) {
+> >                       ret =3D -EINVAL;
+> >                       goto err_submit_objects;
+> >               }
 > > +
-> >   }
-> >   EXPORT_SYMBOL(drm_sched_job_cleanup);
+> > +             ret =3D drm_sched_job_await_fence(&submit->sched_job, in_=
+fence);
+> > +             if (ret)
+> > +                     goto err_submit_objects;
+> >       }
 > >
-> > diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-> > index 83afc3aa8e2f..74fb321dbc44 100644
-> > --- a/include/drm/gpu_scheduler.h
-> > +++ b/include/drm/gpu_scheduler.h
-> > @@ -27,9 +27,12 @@
-> >   #include <drm/spsc_queue.h>
-> >   #include <linux/dma-fence.h>
-> >   #include <linux/completion.h>
-> > +#include <linux/xarray.h>
+> >       ret =3D submit_pin_objects(submit);
+> > @@ -579,7 +581,7 @@ int etnaviv_ioctl_gem_submit(struct drm_device *dev=
+, void *data,
+> >       if (ret)
+> >               goto err_submit_objects;
 > >
-> >   #define MAX_WAIT_SCHED_ENTITY_Q_EMPTY msecs_to_jiffies(1000)
+> > -     ret =3D etnaviv_sched_push_job(&ctx->sched_entity[args->pipe], su=
+bmit);
+> > +     ret =3D etnaviv_sched_push_job(submit);
+> >       if (ret)
+> >               goto err_submit_objects;
 > >
-> > +struct drm_gem_object;
-> > +
-> >   struct drm_gpu_scheduler;
-> >   struct drm_sched_rq;
+> > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_sched.c b/drivers/gpu/drm/=
+etnaviv/etnaviv_sched.c
+> > index 180bb633d5c5..c98d67320be3 100644
+> > --- a/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+> > +++ b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+> > @@ -17,58 +17,6 @@ module_param_named(job_hang_limit, etnaviv_job_hang_=
+limit, int , 0444);
+> >  static int etnaviv_hw_jobs_limit =3D 4;
+> >  module_param_named(hw_job_limit, etnaviv_hw_jobs_limit, int , 0444);
 > >
-> > @@ -198,6 +201,16 @@ struct drm_sched_job {
-> >       enum drm_sched_priority         s_priority;
-> >       struct drm_sched_entity         *entity;
-> >       struct dma_fence_cb             cb;
-> > +     /**
-> > +      * @dependencies:
-> > +      *
-> > +      * Contains the dependencies as struct dma_fence for this job, se=
-e
-> > +      * drm_sched_job_await_fence() and drm_sched_job_await_implicit()=
-.
-> > +      */
-> > +     struct xarray                   dependencies;
-> > +
-> > +     /** @last_dependency: tracks @dependencies as they signal */
-> > +     unsigned long                   last_dependency;
-> >   };
-> >
-> >   static inline bool drm_sched_invalidate_job(struct drm_sched_job *s_j=
-ob,
-> > @@ -220,9 +233,14 @@ enum drm_gpu_sched_stat {
-> >    */
-> >   struct drm_sched_backend_ops {
-> >       /**
-> > -         * @dependency: Called when the scheduler is considering sched=
-uling
-> > -         * this job next, to get another struct dma_fence for this job=
- to
-> > -      * block on.  Once it returns NULL, run_job() may be called.
-> > +      * @dependency:
-> > +      *
-> > +      * Called when the scheduler is considering scheduling this job n=
-ext, to
-> > +      * get another struct dma_fence for this job to block on.  Once i=
-t
-> > +      * returns NULL, run_job() may be called.
-> > +      *
-> > +      * If a driver exclusively uses drm_sched_job_await_fence() and
-> > +      * drm_sched_job_await_implicit() this can be ommitted and left a=
-s NULL.
-> >        */
-> >       struct dma_fence *(*dependency)(struct drm_sched_job *sched_job,
-> >                                       struct drm_sched_entity *s_entity=
+> > -static struct dma_fence *
+> > -etnaviv_sched_dependency(struct drm_sched_job *sched_job,
+> > -                      struct drm_sched_entity *entity)
+> > -{
+> > -     struct etnaviv_gem_submit *submit =3D to_etnaviv_submit(sched_job=
 );
-> > @@ -349,6 +367,13 @@ int drm_sched_job_init(struct drm_sched_job *job,
-> >                      struct drm_sched_entity *entity,
-> >                      void *owner);
-> >   void drm_sched_job_arm(struct drm_sched_job *job);
-> > +int drm_sched_job_await_fence(struct drm_sched_job *job,
-> > +                           struct dma_fence *fence);
-> > +int drm_sched_job_await_implicit(struct drm_sched_job *job,
-> > +                              struct drm_gem_object *obj,
-> > +                              bool write);
-> > +
-> > +
-> >   void drm_sched_entity_modify_sched(struct drm_sched_entity *entity,
-> >                                   struct drm_gpu_scheduler **sched_list=
-,
-> >                                      unsigned int num_sched_list);
+> > -     struct dma_fence *fence;
+> > -     int i;
+> > -
+> > -     if (unlikely(submit->in_fence)) {
+> > -             fence =3D submit->in_fence;
+> > -             submit->in_fence =3D NULL;
+> > -
+> > -             if (!dma_fence_is_signaled(fence))
+> > -                     return fence;
+> > -
+> > -             dma_fence_put(fence);
+> > -     }
+> > -
+> > -     for (i =3D 0; i < submit->nr_bos; i++) {
+> > -             struct etnaviv_gem_submit_bo *bo =3D &submit->bos[i];
+> > -             int j;
+> > -
+> > -             if (bo->excl) {
+> > -                     fence =3D bo->excl;
+> > -                     bo->excl =3D NULL;
+> > -
+> > -                     if (!dma_fence_is_signaled(fence))
+> > -                             return fence;
+> > -
+> > -                     dma_fence_put(fence);
+> > -             }
+> > -
+> > -             for (j =3D 0; j < bo->nr_shared; j++) {
+> > -                     if (!bo->shared[j])
+> > -                             continue;
+> > -
+> > -                     fence =3D bo->shared[j];
+> > -                     bo->shared[j] =3D NULL;
+> > -
+> > -                     if (!dma_fence_is_signaled(fence))
+> > -                             return fence;
+> > -
+> > -                     dma_fence_put(fence);
+> > -             }
+> > -             kfree(bo->shared);
+> > -             bo->nr_shared =3D 0;
+> > -             bo->shared =3D NULL;
+> > -     }
+> > -
+> > -     return NULL;
+> > -}
+> > -
+> >  static struct dma_fence *etnaviv_sched_run_job(struct drm_sched_job *s=
+ched_job)
+> >  {
+> >       struct etnaviv_gem_submit *submit =3D to_etnaviv_submit(sched_job=
+);
+> > @@ -140,14 +88,12 @@ static void etnaviv_sched_free_job(struct drm_sche=
+d_job *sched_job)
+> >  }
+> >
+> >  static const struct drm_sched_backend_ops etnaviv_sched_ops =3D {
+> > -     .dependency =3D etnaviv_sched_dependency,
+> >       .run_job =3D etnaviv_sched_run_job,
+> >       .timedout_job =3D etnaviv_sched_timedout_job,
+> >       .free_job =3D etnaviv_sched_free_job,
+> >  };
+> >
+> > -int etnaviv_sched_push_job(struct drm_sched_entity *sched_entity,
+> > -                        struct etnaviv_gem_submit *submit)
+> > +int etnaviv_sched_push_job(struct etnaviv_gem_submit *submit)
+> >  {
+> >       int ret =3D 0;
+> >
+> > @@ -158,11 +104,6 @@ int etnaviv_sched_push_job(struct drm_sched_entity=
+ *sched_entity,
+> >        */
+> >       mutex_lock(&submit->gpu->fence_lock);
+> >
+> > -     ret =3D drm_sched_job_init(&submit->sched_job, sched_entity,
+> > -                              submit->ctx);
+> > -     if (ret)
+> > -             goto out_unlock;
+> > -
+> >       drm_sched_job_arm(&submit->sched_job);
+> >
+> >       submit->out_fence =3D dma_fence_get(&submit->sched_job.s_fence->f=
+inished);
+> > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_sched.h b/drivers/gpu/drm/=
+etnaviv/etnaviv_sched.h
+> > index c0a6796e22c9..baebfa069afc 100644
+> > --- a/drivers/gpu/drm/etnaviv/etnaviv_sched.h
+> > +++ b/drivers/gpu/drm/etnaviv/etnaviv_sched.h
+> > @@ -18,7 +18,6 @@ struct etnaviv_gem_submit *to_etnaviv_submit(struct d=
+rm_sched_job *sched_job)
+> >
+> >  int etnaviv_sched_init(struct etnaviv_gpu *gpu);
+> >  void etnaviv_sched_fini(struct etnaviv_gpu *gpu);
+> > -int etnaviv_sched_push_job(struct drm_sched_entity *sched_entity,
+> > -                        struct etnaviv_gem_submit *submit);
+> > +int etnaviv_sched_push_job(struct etnaviv_gem_submit *submit);
+> >
+> >  #endif /* __ETNAVIV_SCHED_H__ */
+>
 >
 
 
