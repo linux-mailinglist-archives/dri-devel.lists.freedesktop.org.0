@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AB513C1926
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Jul 2021 20:24:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6931C3C192D
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Jul 2021 20:28:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB8036E92D;
-	Thu,  8 Jul 2021 18:24:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F8176E94F;
+	Thu,  8 Jul 2021 18:28:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA3DA6E92D
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Jul 2021 18:24:43 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id BFD1A6162D
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Jul 2021 18:24:43 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 181CB6E94F
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Jul 2021 18:28:22 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id A862D6187E
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Jul 2021 18:28:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1625768683;
- bh=K7lRhU+kQYW4adsgfAsU3Cxte4sVAllVHUjXCkiue/E=;
+ s=k20201202; t=1625768901;
+ bh=5cUy0PJ5AK36EZafLF9zhuf7mIF+KTOzsZhfsIcPovM=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=oL/yOtRpj51WWhFFAlEu0Cq5a6ZeJQfPgIv/CTV/4XMvqM68UkJjPOZCDW9T6d2q4
- O4Ck7P9B4YBFp2pvK2McDmT+E1bDqxNtBaRhrN8YqhoDBvmn0gorVSLdi0M28KeSJx
- UY1A59Y4BsxCRLqCYrH6IAwTlhodX9KV9cGj3afRWgh1eTVPAgJ6yYDNrS7Fddfl+S
- RInTO3lmK3nlpnTruivdDWSIhkahFfhqVAqAB1C9kHiFWhhn5eKsN9uj4G+LWtEyDI
- a823UwNwaSO0BUKQdZMtNRjTSDWFC3zYTCvDO7CoGXygN5uhFvzlOb7GBwpBbMkshd
- uU+1Al0D1t7kA==
+ b=EISTQ9/Q3w1wIfyVPPycEcPGvm6EG5Q58lwcR6YMKBE9HsNZhymgXIJ/Xho3d6chT
+ rX+eW96vEp3gfIe3JG3skZqhCcrP1e4DwzLK9X0cSSC6zeji0FRMKrm2K8nI+TaeGp
+ UnH3Yp0b0axyKHDCMn+eCOVBjPI3Q6/FAHThBF3K1oRYK3cCIGqndc6ibPdjvJjAJ5
+ NKQVmlS+YDEE6aBxnSzLsKgYlm0lD5jIug3bL2uCPHWQ3FoNrcieiFTA9lvkN1iOV3
+ RsyaIjvwRU1MeURhszIoO2cv1CXW38uEIlqY8NTyKxmTC8oqrBpXA5naHpObMXv/mN
+ P6NqsNYJ2hLMA==
 Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id BD62761221; Thu,  8 Jul 2021 18:24:43 +0000 (UTC)
+ id A53E4612AB; Thu,  8 Jul 2021 18:28:21 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 213391] AMDGPU retries page fault with some specific processes
  amdgpu and sometimes followed [gfxhub0] retry page fault until *ERROR* ring
  gfx timeout, but soft recovered
-Date: Thu, 08 Jul 2021 18:24:43 +0000
+Date: Thu, 08 Jul 2021 18:28:20 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -46,8 +46,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-213391-2300-O35nWwRRXQ@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-213391-2300-kbwlSA4rc4@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-213391-2300@https.bugzilla.kernel.org/>
 References: <bug-213391-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -72,17 +72,14 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D213391
 
---- Comment #31 from Lahfa Samy (samy@lahfa.xyz) ---
-I just have hit the same error even after downgrading, here is the current
-version of the package linux-firmware 20210315.3568f96-3.
+--- Comment #32 from Lahfa Samy (samy@lahfa.xyz) ---
+Created attachment 297781
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D297781&action=3Dedit
+Archlinux-part-of-modinfo-amdgpu
 
-I have hit the error again, the computer froze for a few seconds, looking at
-the logs shows many retry page faults for the amdgpu driver.
-
-Furthermore, I'm on ArchLinux and I will attach the output of `modinfo amdg=
-pu`,
-I'm thinking that downgrading linux-firmware on my distro wasn't enough it
-seems to downgrade the AMDGPU driver.
+I think that my kernel is using the latest amdgpu driver that is coming with
+5.12.13-arch1-2 and not the version coming with the linux-firmware pkg, if
+anyone can enlighten me or explain to me if I'm mistaken.
 
 --=20
 You may reply to this email to add a comment.
