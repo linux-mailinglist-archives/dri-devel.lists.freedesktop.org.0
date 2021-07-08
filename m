@@ -1,66 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEF653C15D0
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Jul 2021 17:19:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 612093C1605
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Jul 2021 17:31:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3CDF66E8DB;
-	Thu,  8 Jul 2021 15:19:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 17F386E8DD;
+	Thu,  8 Jul 2021 15:31:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
- [IPv6:2a00:1450:4864:20::12b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F7116E8DB
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Jul 2021 15:19:44 +0000 (UTC)
-Received: by mail-lf1-x12b.google.com with SMTP id a18so16732705lfs.10
- for <dri-devel@lists.freedesktop.org>; Thu, 08 Jul 2021 08:19:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:from:to:cc:references:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=ltGRF8gNSkUFBj1/BeQuxMmiUaBau3JYn07hxVNPo4E=;
- b=gRmL6zTtsTJU/jwp+Em4jJEvTOlYVpvNz1TjW1Ns916W8uFhJWA+VIDCYa8tVQoCYD
- pV0/q0hkA0V4JQIXkHJlnzUYgQ3DIrnYjnOfiN+BSd1yCZ5E8N7dzNS7A2X65m+qV6vs
- R/4G01k4rO7VnXAbK7BPtlC/gbC3Zar8RQ5IQYyFJnAEcUUYVjRMhJB82B+ViNUPSWSu
- pbXCvvs10lG53GcWlJPpgACXTSsaWNWsfau3aOq8dJyxqzBqiit7/7F/xS9HIw2A1JyY
- TTaH0inakotwvnJCAPqpZCgWeZmc9BcvpYh8Rv63YORG3w6+9U8+eqE4rIQZYlt4aED9
- 3Y2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:from:to:cc:references:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ltGRF8gNSkUFBj1/BeQuxMmiUaBau3JYn07hxVNPo4E=;
- b=OO5il19gyb7LBsMbsWeUeaqzIOKiN2nnB2HgcLtX5KeV7cPnyf0iHDMPQ4HLJM/TXc
- b//CqpnlzQ4obIOnYYzpRDwHc7gPSFTLS8BlZHsHsGx0+W2A/nIHsavshOTU160JycrX
- XS3T07uPiv+252THu6Az2nvOxv3bUPAT/1Yuyo92Dmd6GwtV4BTpAgS/UoBfDdNcGMfZ
- r/KX7XeBZl+7xIlPw293IuQWklVHttXANujGksnPIBrE28bJABpA0LNjU6r5WJVHzqdH
- 1681kIVb1rZJXF0NKjp2V7Ykk6lq8sGL4GQ468HLJNWGFy7Y3kaevGBdZoCuat7a0HkD
- il7w==
-X-Gm-Message-State: AOAM531v5WaC8cQrN5HHWbXTbcQJLlFzjHEZf7/+2nrK53ecRjF3sb8p
- 7Dga0O6Re/mNqctXOsapzjU=
-X-Google-Smtp-Source: ABdhPJw74h65mEH5RprFDkIZ6UrhrlbCH1T9jGMuLWMGsvCHjW7l9sKtw2aZmSEsRUIFHxJvIodL+Q==
-X-Received: by 2002:a2e:b893:: with SMTP id r19mr24590443ljp.322.1625757582800; 
- Thu, 08 Jul 2021 08:19:42 -0700 (PDT)
-Received: from [192.168.2.145] (94-29-37-113.dynamic.spd-mgts.ru.
- [94.29.37.113])
- by smtp.googlemail.com with ESMTPSA id b9sm223150lfc.42.2021.07.08.08.19.42
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 08 Jul 2021 08:19:42 -0700 (PDT)
-Subject: Re: [PATCH] drm/tegra: gr2d: Explicitly control module reset
-From: Dmitry Osipenko <digetx@gmail.com>
-To: Thierry Reding <thierry.reding@gmail.com>
-References: <20210708143736.2018135-1-thierry.reding@gmail.com>
- <d9112247-ce69-9281-75e6-6cb3296d19a7@gmail.com>
-Message-ID: <620f948d-4871-e038-8d35-40308bad01b1@gmail.com>
-Date: Thu, 8 Jul 2021 18:19:42 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2AE5A6E8DD
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Jul 2021 15:31:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1625758260;
+ bh=nG0rFzyWwxI3NQHIWUD7r321QKdUVY+N3Y6jzsdRrnA=;
+ h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
+ b=S5SAzrqyQJbsGmcURycPWr0syeS93jfLxJc3Tin/BtqK1DmT+5jFUv2whdu34S5B3
+ 3AZbIbQIxfBrasNI+NoZZfYi8Xv4hpB5qNT+8v7DSI0nieqBr2fav6G6aZ5VYuA1yd
+ AgbWjeo+wPkfHw9SCLkfkTOWd+zrAEZcVM7NFL+0=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [217.61.147.159] ([217.61.147.159]) by web-mail.gmx.net
+ (3c-app-gmx-bap19.server.lan [172.19.172.89]) (via HTTP); Thu, 8 Jul 2021
+ 17:31:00 +0200
 MIME-Version: 1.0
-In-Reply-To: <d9112247-ce69-9281-75e6-6cb3296d19a7@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Message-ID: <trinity-3f4f4b55-7e39-4d80-8fc3-7d0e2b3026de-1625758259993@3c-app-gmx-bap19>
+From: Frank Wunderlich <frank-w@public-files.de>
+To: Frank Wunderlich <frank-w@public-files.de>
+Subject: Aw: Re: BUG: MTK DRM/HDMI broken on 5.13 (mt7623/bpi-r2)
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 8 Jul 2021 17:31:00 +0200
+Importance: normal
+Sensitivity: Normal
+In-Reply-To: <trinity-e6443313-a436-4e9d-a93c-1bef1cce135d-1625736911475@3c-app-gmx-bap19>
+References: <trinity-cc8f5927-9aaf-43ae-a107-6a6229f1b481-1625565279264@3c-app-gmx-bs60>
+ <25d61873-38ae-5648-faab-03431b74f777@collabora.com>
+ <trinity-e6443313-a436-4e9d-a93c-1bef1cce135d-1625736911475@3c-app-gmx-bap19>
+X-UI-Message-Type: mail
+X-Priority: 3
+X-Provags-ID: V03:K1:wiHKJ4pZw+i4+wRHC9BOA/fmvr0HJrbs+S04dC9RHlZ/rQdWr6dVlmhEeNLG1lN7/H4GT
+ mPhnuqZc9y1dxElbjPUNI7dfnsS4rf87tw1G1CpmS7ZdbSFmK57SjekTbtefPEVY9cxHBTvGLRbk
+ 3fB/KFrCxX+Ug0D0oJ06IN0ZT9I2yfEgtsiX6JVX5xiWIfVDi5eWxL9hYbCmnDgyJSCSw2BPVjFc
+ GhITtzk/1X9uIssmMVja+Va0pQp6+ijeW/X3xULfbXJyklzULp+60CGtC4REKiUA/ZLuC4V86qhO
+ qU=
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Vw9zW2hsmd4=:hnMCvQBqmELYzsYTSfnv6K
+ esoWwP7uwrtKpHZ4GnnPSZGmZ2VmGCNBtQqc0QXaw7hkF6kFXrlBkgihXyqebUs38Wr4tpGFZ
+ tmv30lpPfUeC7wlNV7EGAmY4vFbWBKE8LU+3IIA6JZSriijkOZLGl6614zXxskbazuK8NbnPK
+ rIZ83b6dg3R57xDsGgAwRQWIzFxNj2usIgvTnEahaML8sbQ1v2oQZSbdd2B2LTY1ms3CloHzK
+ HrmSrujpl43ivTNrxyhmnNvNLF4XxawW2N+nuV6YHOdb3oddICQZqS4cUSm6zfHi7QqAzgEBz
+ MJ3jE+kRRbGsxLXG18l5x5hYk/ea+aYWdz8z7TOoqWOFisdNZUb3xxQOtQ+opUsboD0F/6NXq
+ XQYQXGHWLSEWTn8WBRHwHUElW83dsbN1yrRtkd4uEiWj28icIBf+72jiZYG7fBZCnwZHCfC4P
+ ruBhz5YE22r0UP9Ic8bv0L/1h89y3D2f9Yr5Ht59binUNP3aC4RzXIzuHEMfV2flOE2ODwFlb
+ 0Ho4A9fsy/9cw+rnLI6fl+H1fT4bDx8PON7aVW+mRrToQmpKbtZV04l3QFn548VEnkWEXiEyc
+ mQK9oKa+D2lHd2WmPsa0JTVG49DbFezYOSyCmbGBFS4HlPAL9J1CaLPAHV0LacGLx4GspP3Hi
+ LKLsbV026QLgOc2QzbYOe1ABqwBtsNo8O24PF1WUBguC3WZMWWN+ovDCRIj2RX+Inwy5bBKn7
+ Qs+Ou7O3XfNRlGd2AHh+NznUlVlLgCa0trrWzQa5Nv5h1uTTzFfSEiNYufIHTurDSN5Aw2xb4
+ rJt55pnWq52brszm5L3osPN9GOnQY3hG9Ez7Ekoq+hTc0fC13Y=
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,18 +70,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org,
+ Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+ linux-mediatek@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Collabora Kernel ML <kernel@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-08.07.2021 18:13, Dmitry Osipenko пишет:
->>  #include "drm.h"
->>  #include "gem.h"
->> @@ -19,6 +21,7 @@ struct gr2d_soc {
->>  struct gr2d {
->>  	struct tegra_drm_client client;
->>  	struct host1x_channel *channel;
->> +	struct reset_control *rst;
-> Unused variable?
+> Gesendet: Donnerstag, 08. Juli 2021 um 11:35 Uhr
+> Von: "Frank Wunderlich" <frank-w@public-files.de>
+> i guess not, but is watchdog somehow involved? i ask because i see this =
+on reboot/poweroff:
+>
+> "watchdog: watchdog0: watchdog did not stop!"
+>
+> i see this with my 5.13, 5.12-drm (5.12.0+mtk/core drm-patches) and 5.12=
+.14 too (hdmi is working there), but not 5.12.0!
+> that means something in drm-patches (mtk/core) breaks watchdog. maybe th=
+e recursion mentioned above?
 
-Ah, I haven't noticed that it's struct. Looks okay.
+have to correct me: 5.12.0 shows this error too, so error not caused by dr=
+m-patches, but i guess unrelated to the possible irq issue causing hdmi no=
+t working on 5.13 (wait-for-vblank/page_flip tracebacks)
+
+i'm not aware who is also involved in the problem, so i want to avoid send=
+ people to the wrong way :)
+
+regards Frank
