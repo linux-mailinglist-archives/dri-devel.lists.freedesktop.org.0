@@ -1,124 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14EE63C197B
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Jul 2021 20:57:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CC8E3C19A8
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Jul 2021 21:14:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C27986E97B;
-	Thu,  8 Jul 2021 18:56:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D22A56E955;
+	Thu,  8 Jul 2021 19:14:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam12on2083.outbound.protection.outlook.com [40.107.244.83])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 25E026E957;
- Thu,  8 Jul 2021 18:56:55 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Xa4XM6AFiNDFF5zMuzlq14/7ZoN/QRrI/xrkYBFgNo2NNlSjGeFcnMsfcjrL3YLtisZQfbadZM36uOZlOFfsVCvfb/8W2eSL+F+HSQiPXtWdH1+/0/WTd7Ao9poO8+vyiL6/dqYa4ma43R/SJ+f/j8Ka4EB2KNOFJ8b57BD941Tu7qBtBjfHj5f1KIkOCEHhdFxS2RlXyy1iWZHnWrcugrLkWB/o5D0HNJQpypPyeseQGOaSExG0ncLoj7EsANOJFWILle8C9dLFgtEM8sE9MrMIp+RwqMsn3kLrhkClWfVdHGfNCi9S2yaLazlvRbuTRAx92gYpspZyJ6A3UVyPUg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cN5+SSyW8J42v738DmZrphjZoBT9E3aoqONrvSfudWg=;
- b=lSgsIV2kWPj7T86Dmjdh7tR16y4SBaryYjbqCccsZ3BwPMFDUrXFZt9EsJlb3h8jVgOpWG28jrJaAa3ZkvT5XXfZtg4KESd80DwomJIm36UBuG+bkNm0uh+O4imuMn0nhVhxLb9FfmoMuqdrY/bY204QQDGHtewd3M5vt/8YI9ZaD+pxXVHkyDEKCv4HXoVXuQ6fwDcHOCv20cOvfIU3Zu4/a4b+hbge7p6Fy9Y3hg+kFowc8JVXhyCJ3XAwM9Ar8t0kNDchxWS2n5v7RRG2QrVnIqr/Db2viyJgyaCIREwGiJVmpwMbYlB1uQ4A2U+M9Be6+OCrkbneOEzQb3v1bg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cN5+SSyW8J42v738DmZrphjZoBT9E3aoqONrvSfudWg=;
- b=3dRaudLL4mmxLYVaKyh7TFtQkrtNBPQE20XQaAz7IOOQZxWXZGqmC/zEfzqj0de83/7v5HML2qXJon9tZE0FwEAfnW2YD0T5dmmk+d5WiZh3HeWzBJSMJ5TZXO91mBq0/flOlyqvfnndh7B3G+YhhvwwnFcchqYd6cAAHmp5ot4=
-Authentication-Results: collabora.com; dkim=none (message not signed)
- header.d=none;collabora.com; dmarc=none action=none header.from=amd.com;
-Received: from SN6PR12MB4623.namprd12.prod.outlook.com (2603:10b6:805:e9::17)
- by SN6PR12MB2750.namprd12.prod.outlook.com (2603:10b6:805:77::29)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4287.29; Thu, 8 Jul
- 2021 18:56:53 +0000
-Received: from SN6PR12MB4623.namprd12.prod.outlook.com
- ([fe80::9f8:ec71:6535:cd36]) by SN6PR12MB4623.namprd12.prod.outlook.com
- ([fe80::9f8:ec71:6535:cd36%5]) with mapi id 15.20.4308.022; Thu, 8 Jul 2021
- 18:56:53 +0000
-Subject: Re: [PATCH v3 03/20] drm/sched: Barriers are needed for
- entity->last_scheduled
-To: Daniel Vetter <daniel.vetter@ffwll.ch>,
- DRI Development <dri-devel@lists.freedesktop.org>
-References: <20210708173754.3877540-1-daniel.vetter@ffwll.ch>
- <20210708173754.3877540-4-daniel.vetter@ffwll.ch>
-From: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
-Message-ID: <9cc93adc-0a93-a0d5-422b-a57fac9bd450@amd.com>
-Date: Thu, 8 Jul 2021 14:56:50 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-In-Reply-To: <20210708173754.3877540-4-daniel.vetter@ffwll.ch>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-ClientProxiedBy: YTXPR0101CA0006.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b00::19) To SN6PR12MB4623.namprd12.prod.outlook.com
- (2603:10b6:805:e9::17)
-MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2607:fea8:3edf:49b0:449c:5ff:35e2:16a]
- (2607:fea8:3edf:49b0:449c:5ff:35e2:16a) by
- YTXPR0101CA0006.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b00::19) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4308.19 via Frontend Transport; Thu, 8 Jul 2021 18:56:52 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: b6713766-ce14-4dfa-d74c-08d94242267a
-X-MS-TrafficTypeDiagnostic: SN6PR12MB2750:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SN6PR12MB2750A241E1C1382681D56550EA199@SN6PR12MB2750.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6108;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 9c5Wk8M8sv6wB2OotASkrE72aVxskUORDxAPCpeCQJ9LLEQ7uwicMcOPFGk/g1Hz4jBP7hhBeI8vynFaFrvWFjpYxT8z5QbbZfdOU9uzfC0lg7uUsrMsGy3zbE9hFJP0MbSc4jTIqk5+M7RIbER7X+EGWXDNGVUV8YuBQiICuMcHv+7XMXNuRKw31E97RGNFnktjIE1Z9e1dEekIO2j4HgjTaXdElgOHKGqZgy9n0i1PCtvcmJWE1fPIREPBOBaV8hFBIoDwmQnrBRQotFzr15o2wkFbJKR04MHv7po6MccEDWuyvBpzr6kjXTmdSabNLXIgHX7qqKku32jJLljyIzzmOjqdspBf7DFqM3StrUxLn+Bbf8M1Rz/TJIhJlayXcTaBBe89ZL9cCfUklp7wyk/dfp2G1iCf/ij4KQIQccn941wpaqRuvD9MLw/v/IRMppPjJQYhY4O8W7ZyeOUnF6XZL7GOhk1YbJA368+4SbFOoWmaIbf/3dlMmNO1YE0qQSkVl4YQ8a2zbA0WBEamekW+CuSBEcZc5Yijeanp3J/LWA8jeXhQt420wGaIPf6IGnWxufnSun1upYGpKYphI6tVs7cM97Qweao81YU9cJwyXYhO+Ge7jCZRehdVxIWb8EEjJmmmwkUfiYoXzyangqDgoS9fWMm+fi6LoexlhNwAL7sZS2xDwXgrymUFyeimr1ufccGQYh2X9uwD2uZVtCQWXwgIgn1P/Dwlj0f2xGSIc2Bz4YvlwkyqAPSTZpFePeVeChX/zK+7xTUiMcNQXw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN6PR12MB4623.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39860400002)(346002)(366004)(136003)(396003)(376002)(66574015)(8676002)(4326008)(5660300002)(83380400001)(44832011)(316002)(38100700002)(86362001)(2616005)(186003)(2906002)(66476007)(31696002)(478600001)(66946007)(6486002)(53546011)(66556008)(8936002)(110136005)(36756003)(31686004)(54906003)(60764002)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?K2t2TEJBd0x0ZmZhdWZ6bDVzY01rTDNFMTlCbWR0bzZuaGdvZCtTRUJ6czlL?=
- =?utf-8?B?aWhTNFlTUEcyL04wRUs4bWdtMldDL3QxbjdURStSR0kwZ2xLZnluZ01KNnh3?=
- =?utf-8?B?aTJiYjdwTmNOKzRYRjB2cGdxb1h1UVdNb1hRYWZuT0hPQU0wWWd6eFcybDU1?=
- =?utf-8?B?QmNIR1k0b3YxVzZhMVVhWm9adCtkSkNvZ1FTV040SFRHNnB4S2ZyUCs3eVl4?=
- =?utf-8?B?WlJKRGhwVC9uaVZuRTZCb0NDenI4MUlERWJVUmdyeWV3R0pjVmRWV080TzBn?=
- =?utf-8?B?RzZzUjRxNzN1dnhwT0RlcTd4RUNzSWlZM3IvU3AyaVlEL2Y4UnBHWGlmQUdH?=
- =?utf-8?B?WUFMOUMwbjBEcWNWK3BpMHJuV0UvU3duNncwQnZlVjNqNTFpY2Ftd09nTGky?=
- =?utf-8?B?amtiQ29qOEFHazM1Yjg1N3U0SGpyL1hjYy85cnZnTVFsQVZuYUcrMVZCeERV?=
- =?utf-8?B?TlA4djhBQzFUOG16STErbUJyZ3lSQnVaSGNOQUZ4SEphSWh0ajZUUmk3VGs2?=
- =?utf-8?B?WE84ZWpXQ3FWbVVjNWdRZVkvcGNURFNBTXZqcUVLZVNxelpzajNoRE1ML2Qv?=
- =?utf-8?B?WVhaM2I0K2NMTE1zMUNLNzZ6TlZXWTlPNm4vWFRRNFQ4cFluckxJaTdXTzYr?=
- =?utf-8?B?UUkxT3M4VUNWSzlTWjlhRGZVUkZGdWplVzFidFlSN1I0NU1ZQWFJaHRCWmxv?=
- =?utf-8?B?UStucExsalJlRXNlSFBQamVzbDNSTGhycWxjT3h2RzhZQXhpZHVJV3g2RDZC?=
- =?utf-8?B?cE9QYTc1SDBqRS81b1lWb3pwQVNXVDA3RStCc05VTExUcjIzbWdTR1haSVdW?=
- =?utf-8?B?MXVWN0kwYmVZWlVnaDFSM3BaYVQ5bWc2bm5jQ2RNMWtWbkdZZTZkZXN1REJu?=
- =?utf-8?B?dG9VY2xrYlUwTnBZR3NNMWdnREZGYkYxVU4xd3BlSVdxUGJuSGZXY2lESlBp?=
- =?utf-8?B?dnY4Tk5EVUk1Q2wvOHZDRjZZM0lpbjZLMEc0b3BmSG1FbWZUMzhXRzkxaHJO?=
- =?utf-8?B?cmJFdVlXUHNhRzBlVXhrREp0dGxnUmtzU09mem1wdWRwcDlJMGlEczJpWUlD?=
- =?utf-8?B?OWJTMFFKZVAwSnB5MmZyYnhlQm1oOXZSSFNEcWpmUU54YUtkVlBjZE9XQmdH?=
- =?utf-8?B?emRtK3dERTJPbFRHeTRtUEtiMGNpaERTMm1tcmVjWWJ5QURTYlJzQWNVL2l2?=
- =?utf-8?B?T2p5WHBrOWpzQmFnZnBsZ09xanB6YnRpQWd6VmVRcGR5cVpFVjF4Q2tOQW4w?=
- =?utf-8?B?RWRvUk4vMENlV2VuQXBoLzJmZEZSQksyTXhtWlZhc3B5NFlrOG9DMnRKSFN1?=
- =?utf-8?B?RkE2WTYwb0tjL09XS0krbStVa3JoVmMzK09UQ3FmSHh5SW5KbDVBRWFwRnVm?=
- =?utf-8?B?K0RxN1J1RU5nMGRqODE4dUh2bDlPTjh4UHVMMVlVQmliOXh3ZnRjZ2dQTEVJ?=
- =?utf-8?B?TzBQTWZJMzcvRFZmYTFIU1B0TURtZG1rMlJqQkFsWmF1WnlRSkk2UnRmNFR3?=
- =?utf-8?B?TzAyZjlTc3FXUTdKaHcwa1NidHB0YkFQSXFOMHh0d1EyYndPRm1OR0VXQlUv?=
- =?utf-8?B?RCtEeUFqM1drQ0Z5cW14NGRLZkYzOW82d1F5MnJnTmNPbmIrN1JtTHdmcHdX?=
- =?utf-8?B?c0tLbVF5b0dsMkUrK1ZJVitETE4wcHJWUXRYM2luRUtLajR1WWUzZ1VaZ0px?=
- =?utf-8?B?L2JIeXhYV0g1ZXYyam53SmJpWXpveVRIZFVTN1pVT1VIcmZaU1lyM2FzRngz?=
- =?utf-8?B?azZGNUttR2I4OWpNTkxFNGNsenVKZHdrLzVwTGNsVVpiSHJHYldCQ0w0T0pa?=
- =?utf-8?B?R3g2TzZFQzdtS1E5aE5rYzYySFFDNGJhOGFadlJCb3V3cXNlM3dKNnpvZ3lZ?=
- =?utf-8?Q?6bv4yaHy3aDrk?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b6713766-ce14-4dfa-d74c-08d94242267a
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR12MB4623.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jul 2021 18:56:53.1922 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: YfCODxGVunmHMuG4SIZlyLnxBf/Gy39rTeOOjd4m3DL1hll85hSni5L6VrZ+nZLR9kjsdZrpKDoNieqW7RgK9g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR12MB2750
+Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DBDA46E955
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Jul 2021 19:14:00 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1625771644; h=References: In-Reply-To: Message-Id: Date:
+ Subject: Cc: To: From: Sender;
+ bh=Mr1Mg1k4AuLUV4qsT5ZR7b17xKwezrg6vGoQdIuxGW0=;
+ b=It32RRcXy1Fp3loM6bKgGGDtw6CeV3hF5/ltqZwxpgDkpIEd0Yoi/rFy/rlvrgdQDmO+QX8S
+ 8KCVFQwAf9/eroMlYjCJVWD96Mez/A254ZPqqhU5CvkceEu973O4i5iPeFtstZ/qTlhkacku
+ I/TJo7+xEQeX6z2aOdFruBe+FTM=
+X-Mailgun-Sending-Ip: 69.72.43.7
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n01.prod.us-west-2.postgun.com with SMTP id
+ 60e74e727e5ba0fdc0e527f9 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 08 Jul 2021 19:13:54
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id D1EDAC4338A; Thu,  8 Jul 2021 19:13:53 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
+ SPF_FAIL, 
+ URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+Received: from nganji-linux.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: maitreye)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id E61B9C433F1;
+ Thu,  8 Jul 2021 19:13:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org E61B9C433F1
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=fail smtp.mailfrom=maitreye@codeaurora.org
+From: maitreye <maitreye@codeaurora.org>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v2] drm/msm/dp: add logs across DP driver for ease of debugging
+Date: Thu,  8 Jul 2021 12:13:44 -0700
+Message-Id: <1625771624-11997-1-git-send-email-maitreye@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <’CAE-0n51UCvxCbB0MTznyAiZ+qoi3_fe6FJoW3+NZ0QL-P+6u4w@mail.gmail.com’--subject-prefix=PATCH RESEND>
+References: <’CAE-0n51UCvxCbB0MTznyAiZ+qoi3_fe6FJoW3+NZ0QL-P+6u4w@mail.gmail.com’--subject-prefix=PATCH RESEND>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -131,106 +67,308 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Steven Price <steven.price@arm.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Daniel Vetter <daniel.vetter@intel.com>, Lee Jones <lee.jones@linaro.org>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Cc: Maitreyee Rao <maitreye@codeaurora.org>, linux-arm-msm@vger.kernel.org,
+ abhinavk@codeaurora.org, swboyd@chromium.org, khsieh@codeaurora.org,
+ seanpaul@chromium.org, aravindh@codeaurora.org,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: Maitreyee Rao <maitreye@codeaurora.org>
 
-On 2021-07-08 1:37 p.m., Daniel Vetter wrote:
-> It might be good enough on x86 with just READ_ONCE, but the write side
-> should then at least be WRITE_ONCE because x86 has total store order.
->
-> It's definitely not enough on arm.
->
-> Fix this proplery, which means
-> - explain the need for the barrier in both places
-> - point at the other side in each comment
->
-> Also pull out the !sched_list case as the first check, so that the
-> code flow is clearer.
->
-> While at it sprinkle some comments around because it was very
-> non-obvious to me what's actually going on here and why.
->
-> Note that we really need full barriers here, at first I thought
-> store-release and load-acquire on ->last_scheduled would be enough,
-> but we actually requiring ordering between that and the queue state.
->
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> Cc: "Christian König" <christian.koenig@amd.com>
-> Cc: Steven Price <steven.price@arm.com>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
-> Cc: Lee Jones <lee.jones@linaro.org>
-> Cc: Boris Brezillon <boris.brezillon@collabora.com>
-> ---
->   drivers/gpu/drm/scheduler/sched_entity.c | 27 ++++++++++++++++++++++--
->   1 file changed, 25 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
-> index 64d398166644..4e1124ed80e0 100644
-> --- a/drivers/gpu/drm/scheduler/sched_entity.c
-> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
-> @@ -439,8 +439,16 @@ struct drm_sched_job *drm_sched_entity_pop_job(struct drm_sched_entity *entity)
->   		dma_fence_set_error(&sched_job->s_fence->finished, -ECANCELED);
->   
->   	dma_fence_put(entity->last_scheduled);
-> +
->   	entity->last_scheduled = dma_fence_get(&sched_job->s_fence->finished);
->   
-> +	/*
-> +	 * if the queue is empty we allow drm_sched_job_arm() to locklessly
+Add trace points across the MSM DP driver to help debug
+interop issues.
 
+Changes in v2:
+ - Got rid of redundant log messages.
+ - Added %#x instead of 0x%x wherever required.
+ - Got rid of __func__ calls in debug messages.
+ - Added newline wherever missing.
 
-Probably meant drm_sched_entity_select_rq here
+Signed-off-by: Maitreyee Rao <maitreye@codeaurora.org>
+---
+ drivers/gpu/drm/msm/dp/dp_catalog.c |  8 ++++++--
+ drivers/gpu/drm/msm/dp/dp_ctrl.c    |  5 ++++-
+ drivers/gpu/drm/msm/dp/dp_display.c | 14 ++++++++++++++
+ drivers/gpu/drm/msm/dp/dp_link.c    | 17 ++++++++++-------
+ drivers/gpu/drm/msm/dp/dp_panel.c   |  2 ++
+ drivers/gpu/drm/msm/dp/dp_power.c   |  3 +++
+ 6 files changed, 39 insertions(+), 10 deletions(-)
 
+diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.c b/drivers/gpu/drm/msm/dp/dp_catalog.c
+index 32f3575..292ec2c 100644
+--- a/drivers/gpu/drm/msm/dp/dp_catalog.c
++++ b/drivers/gpu/drm/msm/dp/dp_catalog.c
+@@ -372,6 +372,7 @@ void dp_catalog_ctrl_mainlink_ctrl(struct dp_catalog *dp_catalog,
+ 	struct dp_catalog_private *catalog = container_of(dp_catalog,
+ 				struct dp_catalog_private, dp_catalog);
+ 
++	DRM_DEBUG_DP("enable=%d\n", enable);
+ 	if (enable) {
+ 		/*
+ 		 * To make sure link reg writes happens before other operation,
+@@ -580,6 +581,7 @@ void dp_catalog_hpd_config_intr(struct dp_catalog *dp_catalog,
+ 
+ 	config = (en ? config | intr_mask : config & ~intr_mask);
+ 
++	DRM_DEBUG_DP("intr_mask=%#x config=%#x\n", intr_mask, config);
+ 	dp_write_aux(catalog, REG_DP_DP_HPD_INT_MASK,
+ 				config & DP_DP_HPD_INT_MASK);
+ }
+@@ -610,6 +612,7 @@ u32 dp_catalog_link_is_connected(struct dp_catalog *dp_catalog)
+ 	u32 status;
+ 
+ 	status = dp_read_aux(catalog, REG_DP_DP_HPD_INT_STATUS);
++	DRM_DEBUG_DP("aux status:%#x\n", status);
+ 	status >>= DP_DP_HPD_STATE_STATUS_BITS_SHIFT;
+ 	status &= DP_DP_HPD_STATE_STATUS_BITS_MASK;
+ 
+@@ -685,6 +688,7 @@ void dp_catalog_ctrl_send_phy_pattern(struct dp_catalog *dp_catalog,
+ 	/* Make sure to clear the current pattern before starting a new one */
+ 	dp_write_link(catalog, REG_DP_STATE_CTRL, 0x0);
+ 
++	DRM_DEBUG_DP("pattern:%#x\n", pattern);
+ 	switch (pattern) {
+ 	case DP_PHY_TEST_PATTERN_D10_2:
+ 		dp_write_link(catalog, REG_DP_STATE_CTRL,
+@@ -745,7 +749,7 @@ void dp_catalog_ctrl_send_phy_pattern(struct dp_catalog *dp_catalog,
+ 				DP_STATE_CTRL_LINK_TRAINING_PATTERN4);
+ 		break;
+ 	default:
+-		DRM_DEBUG_DP("No valid test pattern requested:0x%x\n", pattern);
++		DRM_DEBUG_DP("No valid test pattern requested:%#x\n", pattern);
+ 		break;
+ 	}
+ }
+@@ -928,7 +932,7 @@ void dp_catalog_audio_config_acr(struct dp_catalog *dp_catalog)
+ 	select = dp_catalog->audio_data;
+ 	acr_ctrl = select << 4 | BIT(31) | BIT(8) | BIT(14);
+ 
+-	DRM_DEBUG_DP("select = 0x%x, acr_ctrl = 0x%x\n", select, acr_ctrl);
++	DRM_DEBUG_DP("select =0x%x, acr_ctrl =0x%x\n", select, acr_ctrl);
+ 
+ 	dp_write_link(catalog, MMSS_DP_AUDIO_ACR_CTRL, acr_ctrl);
+ }
+diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+index 2a8955c..21ad7d3 100644
+--- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
++++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+@@ -122,7 +122,7 @@ void dp_ctrl_push_idle(struct dp_ctrl *dp_ctrl)
+ 			IDLE_PATTERN_COMPLETION_TIMEOUT_JIFFIES))
+ 		pr_warn("PUSH_IDLE pattern timedout\n");
+ 
+-	pr_debug("mainlink off done\n");
++	DRM_DEBUG_DP("PUSH IDLE, mainlink off done\n");
+ }
+ 
+ static void dp_ctrl_config_ctrl(struct dp_ctrl_private *ctrl)
+@@ -1013,6 +1013,8 @@ static int dp_ctrl_update_vx_px(struct dp_ctrl_private *ctrl)
+ 	u32 voltage_swing_level = link->phy_params.v_level;
+ 	u32 pre_emphasis_level = link->phy_params.p_level;
+ 
++	DRM_DEBUG_DP("voltage level: %d emphasis level: %d\n", voltage_swing_level,
++			pre_emphasis_level);
+ 	ret = dp_catalog_ctrl_update_vx_px(ctrl->catalog,
+ 		voltage_swing_level, pre_emphasis_level);
+ 
+@@ -1384,6 +1386,7 @@ int dp_ctrl_host_init(struct dp_ctrl *dp_ctrl, bool flip, bool reset)
+ 	if (reset)
+ 		dp_catalog_ctrl_reset(ctrl->catalog);
+ 
++	DRM_DEBUG_DP("flip=%d\n", flip);
+ 	dp_catalog_ctrl_phy_reset(ctrl->catalog);
+ 	phy_init(phy);
+ 	dp_catalog_ctrl_enable_irq(ctrl->catalog, true);
+diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+index cf9c645..45301c5 100644
+--- a/drivers/gpu/drm/msm/dp/dp_display.c
++++ b/drivers/gpu/drm/msm/dp/dp_display.c
+@@ -275,6 +275,8 @@ static bool dp_display_is_ds_bridge(struct dp_panel *panel)
+ 
+ static bool dp_display_is_sink_count_zero(struct dp_display_private *dp)
+ {
++	DRM_DEBUG_DP("present=%#x sink_count=%d\n", dp->panel->dpcd[DP_DOWNSTREAMPORT_PRESENT],
++			dp->link->sink_count);
+ 	return dp_display_is_ds_bridge(dp->panel) &&
+ 		(dp->link->sink_count == 0);
+ }
+@@ -320,6 +322,7 @@ static int dp_display_send_hpd_notification(struct dp_display_private *dp,
+ 
+ 	dp->dp_display.is_connected = hpd;
+ 
++	DRM_DEBUG_DP("hpd=%d\n", hpd);
+ 	dp_display_send_hpd_event(&dp->dp_display);
+ 
+ 	return 0;
+@@ -369,6 +372,7 @@ static void dp_display_host_init(struct dp_display_private *dp, int reset)
+ {
+ 	bool flip = false;
+ 
++	DRM_DEBUG_DP("core_initialized=%d\n", dp->core_initialized);
+ 	if (dp->core_initialized) {
+ 		DRM_DEBUG_DP("DP core already initialized\n");
+ 		return;
+@@ -483,8 +487,10 @@ static int dp_display_handle_irq_hpd(struct dp_display_private *dp)
+ {
+ 	u32 sink_request = dp->link->sink_request;
+ 
++	DRM_DEBUG_DP("%d\n", sink_request);
+ 	if (dp->hpd_state == ST_DISCONNECTED) {
+ 		if (sink_request & DP_LINK_STATUS_UPDATED) {
++			DRM_DEBUG_DP("Disconnected sink_count:%d\n", sink_request);
+ 			DRM_ERROR("Disconnected, no DP_LINK_STATUS_UPDATED\n");
+ 			return -EINVAL;
+ 		}
+@@ -509,6 +515,7 @@ static int dp_display_usbpd_attention_cb(struct device *dev)
+ 		DRM_ERROR("invalid dev\n");
+ 		return -EINVAL;
+ 	}
++	DRM_DEBUG_DP("sink_request:%d\n", sink_request);
+ 
+ 	dp = container_of(g_dp_display,
+ 			struct dp_display_private, dp_display);
+@@ -523,6 +530,7 @@ static int dp_display_usbpd_attention_cb(struct device *dev)
+ 	rc = dp_link_process_request(dp->link);
+ 	if (!rc) {
+ 		sink_request = dp->link->sink_request;
++		DRM_DEBUG_DP("hpd_state=%d sink_count=%d\n", dp->hpd_state, sink_request);
+ 		if (sink_request & DS_PORT_STATUS_CHANGED)
+ 			rc = dp_display_handle_port_ststus_changed(dp);
+ 		else
+@@ -545,6 +553,7 @@ static int dp_hpd_plug_handle(struct dp_display_private *dp, u32 data)
+ 	mutex_lock(&dp->event_mutex);
+ 
+ 	state =  dp->hpd_state;
++	DRM_DEBUG_DP("hpd_state=%d\n", state);
+ 	if (state == ST_DISPLAY_OFF || state == ST_SUSPENDED) {
+ 		mutex_unlock(&dp->event_mutex);
+ 		return 0;
+@@ -680,6 +689,7 @@ static int dp_hpd_unplug_handle(struct dp_display_private *dp, u32 data)
+ 	/* start sentinel checking in case of missing uevent */
+ 	dp_add_event(dp, EV_DISCONNECT_PENDING_TIMEOUT, 0, DP_TIMEOUT_5_SECOND);
+ 
++	DRM_DEBUG_DP("hpd_state=%d\n", state);
+ 	/* signal the disconnect event early to ensure proper teardown */
+ 	dp_display_handle_plugged_change(g_dp_display, false);
+ 
+@@ -738,6 +748,7 @@ static int dp_irq_hpd_handle(struct dp_display_private *dp, u32 data)
+ 	if (ret == -ECONNRESET) { /* cable unplugged */
+ 		dp->core_initialized = false;
+ 	}
++	DRM_DEBUG_DP("hpd_state=%d\n", state);
+ 
+ 	mutex_unlock(&dp->event_mutex);
+ 
+@@ -882,6 +893,7 @@ static int dp_display_enable(struct dp_display_private *dp, u32 data)
+ 
+ 	dp_display = g_dp_display;
+ 
++	DRM_DEBUG_DP("sink_count=%d\n", dp->link->sink_count);
+ 	if (dp_display->power_on) {
+ 		DRM_DEBUG_DP("Link already setup, return\n");
+ 		return 0;
+@@ -943,6 +955,7 @@ static int dp_display_disable(struct dp_display_private *dp, u32 data)
+ 
+ 	dp_display->power_on = false;
+ 
++	DRM_DEBUG_DP("sink count:%d\n", dp->link->sink_count);
+ 	return 0;
+ }
+ 
+@@ -1190,6 +1203,7 @@ static irqreturn_t dp_display_irq_handler(int irq, void *dev_id)
+ 
+ 	hpd_isr_status = dp_catalog_hpd_get_intr_status(dp->catalog);
+ 
++	DRM_DEBUG_DP("hpd isr status=%#x\n", hpd_isr_status);
+ 	if (hpd_isr_status & 0x0F) {
+ 		/* hpd related interrupts */
+ 		if (hpd_isr_status & DP_DP_HPD_PLUG_INT_MASK ||
+diff --git a/drivers/gpu/drm/msm/dp/dp_link.c b/drivers/gpu/drm/msm/dp/dp_link.c
+index be986da..316e8e6 100644
+--- a/drivers/gpu/drm/msm/dp/dp_link.c
++++ b/drivers/gpu/drm/msm/dp/dp_link.c
+@@ -1036,43 +1036,46 @@ int dp_link_process_request(struct dp_link *dp_link)
+ 
+ 	if (link->request.test_requested == DP_TEST_LINK_EDID_READ) {
+ 		dp_link->sink_request |= DP_TEST_LINK_EDID_READ;
+-		return ret;
++		goto out;
+ 	}
+ 
+ 	ret = dp_link_process_ds_port_status_change(link);
+ 	if (!ret) {
+ 		dp_link->sink_request |= DS_PORT_STATUS_CHANGED;
+-		return ret;
++		goto out;
+ 	}
+ 
+ 	ret = dp_link_process_link_training_request(link);
+ 	if (!ret) {
+ 		dp_link->sink_request |= DP_TEST_LINK_TRAINING;
+-		return ret;
++		goto out;
+ 	}
+ 
+ 	ret = dp_link_process_phy_test_pattern_request(link);
+ 	if (!ret) {
+ 		dp_link->sink_request |= DP_TEST_LINK_PHY_TEST_PATTERN;
+-		return ret;
++		goto out;
+ 	}
+ 
+ 	ret = dp_link_process_link_status_update(link);
+ 	if (!ret) {
+ 		dp_link->sink_request |= DP_LINK_STATUS_UPDATED;
+-		return ret;
++		goto out;
+ 	}
+ 
+ 	if (dp_link_is_video_pattern_requested(link)) {
+-		ret = 0;
+ 		dp_link->sink_request |= DP_TEST_LINK_VIDEO_PATTERN;
++		goto out;
+ 	}
+ 
+ 	if (dp_link_is_audio_pattern_requested(link)) {
+ 		dp_link->sink_request |= DP_TEST_LINK_AUDIO_PATTERN;
+-		return -EINVAL;
++		ret = -EINVAL;
++		goto out;
+ 	}
+ 
++out:
++	DRM_DEBUG_DP("sink request=%#x", dp_link->sink_request);
+ 	return ret;
+ }
+ 
+diff --git a/drivers/gpu/drm/msm/dp/dp_panel.c b/drivers/gpu/drm/msm/dp/dp_panel.c
+index 88196f7..71db071 100644
+--- a/drivers/gpu/drm/msm/dp/dp_panel.c
++++ b/drivers/gpu/drm/msm/dp/dp_panel.c
+@@ -66,6 +66,8 @@ static int dp_panel_read_dpcd(struct dp_panel *dp_panel)
+ 		goto end;
+ 	}
+ 
++	DRM_DEBUG_DP("%s 0x%x 0x%x 0x%x 0x%x 0x%x\n", __func__, dpcd[0],
++			dpcd[1], dpcd[2], dpcd[3], dpcd[4]);
+ 	link_info->revision = dpcd[DP_DPCD_REV];
+ 	major = (link_info->revision >> 4) & 0x0f;
+ 	minor = link_info->revision & 0x0f;
+diff --git a/drivers/gpu/drm/msm/dp/dp_power.c b/drivers/gpu/drm/msm/dp/dp_power.c
+index 3961ba4..37c214b 100644
+--- a/drivers/gpu/drm/msm/dp/dp_power.c
++++ b/drivers/gpu/drm/msm/dp/dp_power.c
+@@ -208,6 +208,9 @@ static int dp_power_clk_set_rate(struct dp_power_private *power,
+ 
+ int dp_power_clk_status(struct dp_power *dp_power, enum dp_pm_type pm_type)
+ {
++	DRM_DEBUG_DP("core_clk_on=%d link_clk_on=%d stream_clk_on=%d\n",
++			dp_power->core_clks_on, dp_power->link_clks_on, dp_power->stream_clks_on);
++
+ 	if (pm_type == DP_CORE_PM)
+ 		return dp_power->core_clks_on;
+ 
+-- 
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
 
-> +	 * access ->last_scheduled. This only works if we set the pointer before
-> +	 * we dequeue and if we a write barrier here.
-> +	 */
-> +	smp_wmb();
-> +
->   	spsc_queue_pop(&entity->job_queue);
->   	return sched_job;
->   }
-> @@ -459,10 +467,25 @@ void drm_sched_entity_select_rq(struct drm_sched_entity *entity)
->   	struct drm_gpu_scheduler *sched;
->   	struct drm_sched_rq *rq;
->   
-> -	if (spsc_queue_count(&entity->job_queue) || !entity->sched_list)
-> +	/* single possible engine and already selected */
-> +	if (!entity->sched_list)
-> +		return;
-> +
-> +	/* queue non-empty, stay on the same engine */
-> +	if (spsc_queue_count(&entity->job_queue))
->   		return;
-
-
-Shouldn't smp_rmb be here in between ? Given the queue is empty we want to
-be certain we are reading the most recent value of entity->last_scheduled
-
-Andrey
-
-
-
->   
-> -	fence = READ_ONCE(entity->last_scheduled);
-> +	fence = entity->last_scheduled;
-> +
-> +	/*
-> +	 * Only when the queue is empty are we guaranteed the the scheduler
-> +	 * thread cannot change ->last_scheduled. To enforce ordering we need
-> +	 * a read barrier here. See drm_sched_entity_pop_job() for the other
-> +	 * side.
-> +	 */
-> +	smp_rmb();
-> +
-> +	/* stay on the same engine if the previous job hasn't finished */
->   	if (fence && !dma_fence_is_signaled(fence))
->   		return;
->   
