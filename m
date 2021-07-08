@@ -2,65 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34FFF3BF95E
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Jul 2021 13:53:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA9B83BF96C
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Jul 2021 13:58:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D5446E8B4;
-	Thu,  8 Jul 2021 11:53:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A840F6E8B3;
+	Thu,  8 Jul 2021 11:58:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
- [IPv6:2a00:1450:4864:20::134])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8211D6E0A8
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Jul 2021 11:53:17 +0000 (UTC)
-Received: by mail-lf1-x134.google.com with SMTP id x25so1898294lfu.13
- for <dri-devel@lists.freedesktop.org>; Thu, 08 Jul 2021 04:53:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:from:to:cc:references:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=wwIauJqG7Gi/hYTEAYFKY+sGSvM6txVRYsX5pyUg7p0=;
- b=vzyUGNkXJyqp3cmFX/UEoS55BSzhhySMqae6wQADR19j3ldyo1+Hodr0Vcec3z/5xf
- qfbNt4J8+QEouPpqaEaYNcLM0rA87XnbyZ/WqGU1PfgRfG8jOjSH/aB2XqZEvL+3axiP
- q8YaQKerSvIuQVTYtnQPL0c27j8z0qQkjeYLDzQIMkCVkvvDFrrGrfEq+UMilFb6FTg0
- tdL6U5kxseeyyJSOXkf2zD3YPXh+EnQFA4nti63kSfyptKn8ir9nmjf0WcSGPS68wDQ6
- dh/AlKVZJlv+IWdOeDZnVOIEUUwTXn7BAs1Rn0g09/4HRXLBPGee9df81TWs1arepZh7
- ta+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:from:to:cc:references:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=wwIauJqG7Gi/hYTEAYFKY+sGSvM6txVRYsX5pyUg7p0=;
- b=s+Bas520t72fBqP3pQd8qqdJwxF4Yq91A+cVPmRF7uvEqvacSBttJa41QdjxkFZgcH
- EoxZoySEiGjIBunlNYSRuq5ha8be46TcQMqtIAA0SrqJpN6JYq2cAwMxTofm6CdlBmdR
- KxvRxX9vbwKVvk318JrY4imgJjRcYYIwDDWLuJAQuJ1+rm66+LtVjeoDMJQi6JlXPrrx
- a6duqJ+WbETPEzkom/EHtu7k+XTMojw2KeE7UGUDM4/KnfQyxc9MTxKdFBUjNFICm/FG
- Y9YkB5d3fBupzLdqO9YXJUjc9l7unukle871xerhD6gpTor6poyphvPbtMrm+IW9rPrD
- pFow==
-X-Gm-Message-State: AOAM5336XeVZAlNHYPrEu/hY5xtEwp4/tWsRUcftTxl1cCDhOpjdBKJa
- 6jQA8IqOGSk/Dry/UI0pbETt9A==
-X-Google-Smtp-Source: ABdhPJwi6G52+QBplPSlAE010D60rWMKeJMxYbrPXzlFrjZlA/ij//cKAm8k5rwoCAyrTlb65wribw==
-X-Received: by 2002:a19:858b:: with SMTP id h133mr4514517lfd.656.1625745195941; 
- Thu, 08 Jul 2021 04:53:15 -0700 (PDT)
-Received: from [192.168.1.211] ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id u16sm220527ljj.113.2021.07.08.04.53.15
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 08 Jul 2021 04:53:15 -0700 (PDT)
-Subject: Re: [PATCH] drm/msm/mdp5: fix 64-bit division in bandwidth calculation
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Bjorn Andersson <bjorn.andersson@linaro.org>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <abhinavk@codeaurora.org>
-References: <20210622080348.1679589-1-dmitry.baryshkov@linaro.org>
-Message-ID: <d41cf4c6-0368-75ad-3dcf-561e283a22ec@linaro.org>
-Date: Thu, 8 Jul 2021 14:53:14 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
+ [66.111.4.221])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE2936E8B3
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Jul 2021 11:57:59 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 0E86C580583;
+ Thu,  8 Jul 2021 07:57:56 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Thu, 08 Jul 2021 07:57:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alistair23.me;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding; s=fm1; bh=TDZ9TqyEzhFi4Z160/490nIKbT
+ svjWH1kG4Ng2NyjUM=; b=DF61YvdQA9GzPniZ3TVEmvA7JQkqB8Km6NX2VGdG+L
+ 00GuxI/2wd3UP5N0gbYgm0x48UFqkzXbEu8LhjNaWbZCjynnYK/OHZVYo4dbhZGw
+ s4bv6ERKqY9VyTxP2AiSBIm2eORwgx+ps8HcoQucWYNWhyIWLo19AMvG6CknhEEe
+ OJGpT7SQYrdgnxKmpPuPdCt50NGk52uQY8Sq47M8Dv209/e4lYjU0hAdXf056ZLG
+ /ElxKUdvAxlH3+bKrM627LhnvkYCV93yweL76v2jFXr9xzSe5eUyFF4ZlK+GNIzi
+ YHhVGojZtOoSh22e6DFdrxiTgfYFXEGKyFdpsmpiHaFQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=TDZ9TqyEzhFi4Z160
+ /490nIKbTsvjWH1kG4Ng2NyjUM=; b=pWwPnF9cXGqG1Fe4PkktmEGW/Ne2vejVg
+ TQHNASYqzxjWZqHZZHDCzdfWiRvrOALCWeje3mBh9IbpGMLIhUwJyJSX1KbuDGtw
+ iel8f01p7qmzXIEIbSgMLcvDdeR3neIa08bfuTRoYWvlGafDWMZkAJxV5gW46S77
+ rT4vlBIVEDbt5fUrxyzGo2ebYoYWYR9FlynKzLU/MC6txKMO6tBPYLjJj/dmbVoD
+ n/nphEjcRxZZYT1U7fg73UCp0cIQbPKeqWJprZmBvEsy9vK00hV/CVUzcHA6eqH1
+ YoBijNLXl45GZproVWz0WVxkYqRxbq9Vrx6OGXCPCv0uOERXQrfqw==
+X-ME-Sender: <xms:QejmYHSS_PncIBBNYVb3moguaqCMqcqkyfhEXMNhSJg2WkWjFjh7Xw>
+ <xme:QejmYIyvBD_9yRVFJlHt1ps5cevBkMcqpB97w_Sg6BvN7aWYUt8iQXtfTfq3dhsaS
+ XEI8JrIa2ezumcRn9A>
+X-ME-Received: <xmr:QejmYM3eJj9W2YiDEvyrrMmFTbuHkcCXr7iwthffSYdYam7RPpABsFKxD_zUiSTGNMQdK8L55ELCfwRZQxQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrtdeggdeghecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefhvffufffkofgggfestdekredtredttdenucfhrhhomheptehlihhsthgrihhr
+ ucfhrhgrnhgtihhsuceorghlihhsthgrihhrsegrlhhishhtrghirhdvfedrmhgvqeenuc
+ ggtffrrghtthgvrhhnpefghfegkeejtddvfeekjeelgeffhefhvddvvddtvefgfffftdek
+ geeljeefvdeiudenucffohhmrghinhepvghinhhkrdgtohhmnecuvehluhhsthgvrhfuih
+ iivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghlihhsthgrihhrsegrlhhishht
+ rghirhdvfedrmhgv
+X-ME-Proxy: <xmx:QejmYHB3mD8O3fPyaatydnPI5DQ0dZSpxgBEohvUFOrKN9_5QlCDQg>
+ <xmx:QejmYAg_vYYGNeXAnZycQn68wsYYOad8pfpBTMYH3RKP_mXC6EEIBQ>
+ <xmx:QejmYLqie_G32bxkjwFw093WE_b5a26YIlZbjaevsqJb8L-hyMlPSg>
+ <xmx:ROjmYMwRHi30dL8cVS4GluEBiNcruMJJXrBLz5ZUvL0iwH3SUSgAvQ>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 8 Jul 2021 07:57:48 -0400 (EDT)
+From: Alistair Francis <alistair@alistair23.me>
+To: robh+dt@kernel.org, thierry.reding@gmail.com, sam@ravnborg.org,
+ krzk@kernel.org, shawnguo@kernel.org, daniel@0x0f.com,
+ linux@rempel-privat.de, kuninori.morimoto.gx@renesas.com,
+ max.Merchel@tq-group.com, geert+renesas@glider.be, airlied@linux.ie,
+ daniel@ffwll.ch
+Subject: [PATCH v3] drm/panel: Add support for E Ink VB3300-KCA
+Date: Thu,  8 Jul 2021 21:57:35 +1000
+Message-Id: <20210708115735.142-1-alistair@alistair23.me>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20210622080348.1679589-1-dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,109 +80,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jonathan Marek <jonathan@marek.ca>, Stephen Boyd <sboyd@kernel.org>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- David Airlie <airlied@linux.ie>, freedreno@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, Alistair Francis <alistair@alistair23.me>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ alistair23@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 22/06/2021 11:03, Dmitry Baryshkov wrote:
-> Fix undefined symbols errors arising from 64-bit division on 32-bit
-> arm targets. Add 64-bit version of mult_frac and use it for calculating
-> bandwidth.
-> 
-> ERROR: modpost: "__aeabi_ldivmod" [drivers/gpu/drm/msm/msm.ko] undefined!
-> ERROR: modpost: "__aeabi_uldivmod" [drivers/gpu/drm/msm/msm.ko] undefined!
-> 
-> Fixes: 7e0230fd096c ("drm/msm/mdp5: provide dynamic bandwidth management")
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Add support for the 10.3" E Ink panel described at:
+https://www.eink.com/product.html?type=productdetail&id=7
 
-We are reworking now bandwidth management for mdp5, so both the original 
-patch and the fix can be ignored for now.
+Signed-off-by: Alistair Francis <alistair@alistair23.me>
+Acked-by: Rob Herring <robh@kernel.org>
+---
+ .../bindings/display/panel/panel-simple.yaml  |  2 ++
+ .../devicetree/bindings/vendor-prefixes.yaml  |  2 ++
+ drivers/gpu/drm/panel/panel-simple.c          | 29 +++++++++++++++++++
+ 3 files changed, 33 insertions(+)
 
-> ---
->   drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c  |  2 +-
->   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c   |  5 ++++-
->   drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c |  2 +-
->   include/linux/math.h                       | 13 +++++++++++++
->   4 files changed, 19 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c
-> index a9332078aa13..52724d0a6fea 100644
-> --- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c
-> +++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c
-> @@ -755,7 +755,7 @@ static int mdp5_crtc_atomic_check(struct drm_crtc *crtc,
->   	hw_cfg = mdp5_cfg_get_hw_config(mdp5_kms->cfg);
->   
->   	if (hw_cfg->perf.ab_inefficiency)
-> -		crtc_bw = mult_frac(crtc_bw, hw_cfg->perf.ab_inefficiency, 100);
-> +		crtc_bw = mult_frac_ull(crtc_bw, hw_cfg->perf.ab_inefficiency, 100);
->   	mdp5_cstate->new_crtc_bw = crtc_bw;
->   
->   	/*
-> diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
-> index 3e1b28d3e41b..85b7093a1218 100644
-> --- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
-> +++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
-> @@ -301,6 +301,7 @@ static const struct mdp_kms_funcs kms_funcs = {
->   void mdp5_kms_set_bandwidth(struct mdp5_kms *mdp5_kms)
->   {
->   	int i;
-> +	u64 bw;
->   	u32 full_bw = 0;
->   	struct drm_crtc *tmp_crtc;
->   
-> @@ -311,7 +312,9 @@ void mdp5_kms_set_bandwidth(struct mdp5_kms *mdp5_kms)
->   		if (!tmp_crtc->enabled)
->   			continue;
->   
-> -		full_bw += Bps_to_icc(to_mdp5_crtc_state(tmp_crtc->state)->new_crtc_bw / mdp5_kms->num_paths);
-> +		bw = to_mdp5_crtc_state(tmp_crtc->state)->new_crtc_bw;
-> +		do_div(bw, mdp5_kms->num_paths * 1000); /* Bps_to_icc */
-> +		full_bw += bw;
->   	}
->   
->   	DBG("SET BW to %d\n", full_bw);
-> diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c
-> index 85275665558b..2ede34177a90 100644
-> --- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c
-> +++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c
-> @@ -191,7 +191,7 @@ static void mdp5_plane_calc_bw(struct drm_plane_state *state, struct drm_crtc_st
->   		prefill_div = vbp + vpw + vfp;
->   #endif
->   
-> -	pstate->plane_bw = max(plane_bw, mult_frac(plane_bw, hw_latency_lines, prefill_div));
-> +	pstate->plane_bw = max(plane_bw, mult_frac_ull(plane_bw, hw_latency_lines, prefill_div));
->   }
->   
->   static int mdp5_plane_atomic_check_with_state(struct drm_crtc_state *crtc_state,
-> diff --git a/include/linux/math.h b/include/linux/math.h
-> index 53674a327e39..1327385905df 100644
-> --- a/include/linux/math.h
-> +++ b/include/linux/math.h
-> @@ -118,6 +118,19 @@
->   }							\
->   )
->   
-> +#define mult_frac_ull(x, numer, denom)(			\
-> +{							\
-> +	typeof(x) quot = (x);				\
-> +	typeof(x) rem;					\
-> +	do_div(quot, (denom));				\
-> +	rem = (x) - quot * (denom);			\
-> +	rem = (rem * (numer));				\
-> +	do_div(rem, (denom));				\
-> +	(quot * (numer)) + rem;				\
-> +}							\
-> +)
-> +
-> +
->   #define sector_div(a, b) do_div(a, b)
->   
->   /**
-> 
-
-
+diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+index b3797ba2698b..799e20222551 100644
+--- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
++++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+@@ -128,6 +128,8 @@ properties:
+         # Emerging Display Technology Corp. WVGA TFT Display with capacitive touch
+       - edt,etm0700g0dh6
+       - edt,etm0700g0edh6
++        # E Ink VB3300-KCA
++      - eink,vb3300-kca
+         # Evervision Electronics Co. Ltd. VGG804821 5.0" WVGA TFT LCD Panel
+       - evervision,vgg804821
+         # Foxlink Group 5" WVGA TFT LCD panel
+diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+index 0199728d2eaf..3612c6020fe4 100644
+--- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
++++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+@@ -335,6 +335,8 @@ patternProperties:
+     description: eGalax_eMPIA Technology Inc
+   "^einfochips,.*":
+     description: Einfochips
++  "^eink,.*":
++    description: E Ink Corporation
+   "^elan,.*":
+     description: Elan Microelectronic Corp.
+   "^element14,.*":
+diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+index 21939d4352cf..210377b03f6f 100644
+--- a/drivers/gpu/drm/panel/panel-simple.c
++++ b/drivers/gpu/drm/panel/panel-simple.c
+@@ -2046,6 +2046,32 @@ static const struct panel_desc edt_etm0700g0bdh6 = {
+ 	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE,
+ };
+ 
++static const struct display_timing eink_vb3300_kca_timing = {
++	.pixelclock = { 40000000, 40000000, 40000000 },
++	.hactive = { 334, 334, 334 },
++	.hfront_porch = { 1, 1, 1 },
++	.hback_porch = { 1, 1, 1 },
++	.hsync_len = { 1, 1, 1 },
++	.vactive = { 1405, 1405, 1405 },
++	.vfront_porch = { 1, 1, 1 },
++	.vback_porch = { 1, 1, 1 },
++	.vsync_len = { 1, 1, 1 },
++	.flags = DISPLAY_FLAGS_HSYNC_LOW | DISPLAY_FLAGS_VSYNC_LOW |
++		 DISPLAY_FLAGS_DE_HIGH | DISPLAY_FLAGS_PIXDATA_POSEDGE,
++};
++
++static const struct panel_desc eink_vb3300_kca = {
++	.timings = &eink_vb3300_kca_timing,
++	.num_timings = 1,
++	.bpc = 6,
++	.size = {
++		.width = 157,
++		.height = 209,
++	},
++	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
++	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE,
++};
++
+ static const struct display_timing evervision_vgg804821_timing = {
+ 	.pixelclock = { 27600000, 33300000, 50000000 },
+ 	.hactive = { 800, 800, 800 },
+@@ -4344,6 +4370,9 @@ static const struct of_device_id platform_of_match[] = {
+ 	}, {
+ 		.compatible = "edt,etm0700g0dh6",
+ 		.data = &edt_etm0700g0dh6,
++	}, {
++		.compatible = "eink,vb3300-kca",
++		.data = &eink_vb3300_kca,
+ 	}, {
+ 		.compatible = "edt,etm0700g0bdh6",
+ 		.data = &edt_etm0700g0bdh6,
 -- 
-With best wishes
-Dmitry
+2.31.1
+
