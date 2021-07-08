@@ -1,61 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 210E43C1AC2
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Jul 2021 22:57:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 75A1B3C1B0C
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Jul 2021 23:34:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 11B0C6E99C;
-	Thu,  8 Jul 2021 20:57:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD62A6E94B;
+	Thu,  8 Jul 2021 21:34:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
- [IPv6:2a00:1450:4864:20::432])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BAD476E99C
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Jul 2021 20:57:42 +0000 (UTC)
-Received: by mail-wr1-x432.google.com with SMTP id d2so9241950wrn.0
- for <dri-devel@lists.freedesktop.org>; Thu, 08 Jul 2021 13:57:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=EPAE+lpM3FHyzbvUbBJ+5jGTzK9kOd9djjgpEHImG9s=;
- b=ZJ711D1UXqcJBIpZop7GgK9mTIgusjcd1Jbueyb7Xji3CD8FhWOlbKarWOC/Nc8TeB
- eExSxhj8w1u+TtL4LYR5tLQ+8iWqRxPGDwIld064lDiq+4pbEG5s77eNOM40Zukg1ary
- QJwVcA8eL4mEfKZUtO3PJojiLF4PeE05w8NQgcsMLQ1gOFb4yMT4VQWC/kbQ0kqp7llt
- 9MbNF0WYZAAx8Ys5UYCbtRemVGYB8jjqx6eMXPARjuvtRwn/BxQqQ6/xYeTh6r80ldjV
- iV71m//IOVO8eHLafmKY55KV9FeoC12I80yS4qGiLvDin1ihElefF9GlTfr7r5q5jZC6
- qTNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=EPAE+lpM3FHyzbvUbBJ+5jGTzK9kOd9djjgpEHImG9s=;
- b=F0qFbCYi0mJgDQUDhwLnjlrtq8b0JFSDJ6VC6s+t8ohQSE1Iv0dyeaZIB9lCcq6TSb
- 6ilCbG169YvigtA3PltDAeJyXx4eBO7Rro6wmjGFc2Mdb1bqUSxOjgVAdSs3svitkQtm
- wKv1sJ+HTe9dgJz78dH5+LUJGtoFGFuw0nJPnrcbxXMxZRwUs693VEfDWr3vVWZhy0ta
- 150VT5IHM5Ip/wUEIi9Vp2skc22DKKYJYoaktO8lUtOpFDTiqK3q9C3nHZVkrh/UjDbb
- /Cl7PBas60e2mvTuZBxl5PzLV2qUL+zFO4KbA+nPZf9d/4MMOQLF1IAf1dTBqk6EYRHM
- YYxg==
-X-Gm-Message-State: AOAM530O197nAH17zKF1dP4wwqNaCmc3rObC6aZM8zMNBRiMbAwhDfi9
- 0OtC/ZdgSAb3d7a+4MYXjQQ=
-X-Google-Smtp-Source: ABdhPJzc3BUgRsCo4j8YWsiPyuPWmC8LBjRKZV7oQS8ZIkLaxjNlnqN0goM4Ec4xM2vdDpA7vA/NHQ==
-X-Received: by 2002:a5d:4912:: with SMTP id x18mr5081320wrq.310.1625777861528; 
- Thu, 08 Jul 2021 13:57:41 -0700 (PDT)
-Received: from smtp.gmail.com (a95-92-181-29.cpe.netcabo.pt. [95.92.181.29])
- by smtp.gmail.com with ESMTPSA id v18sm3812578wrr.54.2021.07.08.13.57.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Jul 2021 13:57:40 -0700 (PDT)
-Date: Thu, 8 Jul 2021 21:57:35 +0100
-From: Melissa Wen <melissa.srw@gmail.com>
-To: Beatriz Martins de Carvalho <martinsdecarvalhobeatriz@gmail.com>
-Subject: Re: [PATCH v2] drm/vkms: Creating a debug file to get/track vkms
- config in vkms_drv.c
-Message-ID: <20210708205723.ldo3pll7qcoblfy7@smtp.gmail.com>
-References: <20210708092002.11847-1-martinsdecarvalhobeatriz@gmail.com>
+Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED3C389CC9
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Jul 2021 21:34:04 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1625780048; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=xpgLql9IbuvMj4f8z+D1UneOTXpQth+qs7ZN6prUSAk=;
+ b=qEfjCL2uwpx7RKUNv2Vnf54ZREA0Zbt/8GTP2mlWJdyjt0exqmUThfHcmDTWVc2vTHzrwHiI
+ nt6AROywzpABQlH6yRSNe+hcUO57iZL5AhklRJE513U9fxwGLMxSYqckIGN3on1xv1YMQ8Zk
+ jZ1PkBfesPwQYY5Hv7bJzkwj5fg=
+X-Mailgun-Sending-Ip: 198.61.254.9
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n01.prod.us-east-1.postgun.com with SMTP id
+ 60e76f40ec0b18a745fd89fc (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 08 Jul 2021 21:33:52
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 3A0D4C4338A; Thu,  8 Jul 2021 21:33:52 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+ URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ (No client certificate requested) (Authenticated sender: khsieh)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 4E930C433D3;
+ Thu,  8 Jul 2021 21:33:51 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210708092002.11847-1-martinsdecarvalhobeatriz@gmail.com>
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date: Thu, 08 Jul 2021 14:33:51 -0700
+From: khsieh@codeaurora.org
+To: Stephen Boyd <swboyd@chromium.org>
+Subject: Re: [PATCH 1/7] drm/msm/dp: use dp_ctrl_off_link_stream during PHY
+ compliance test run
+In-Reply-To: <CAE-0n52SxJx8kOwQddWF096PsPy-0f8bDq_ss=u6i-hisD54Hg@mail.gmail.com>
+References: <1625592020-22658-1-git-send-email-khsieh@codeaurora.org>
+ <1625592020-22658-2-git-send-email-khsieh@codeaurora.org>
+ <CAE-0n52SxJx8kOwQddWF096PsPy-0f8bDq_ss=u6i-hisD54Hg@mail.gmail.com>
+Message-ID: <3492b578fdf4e59fe594fb9207782aa1@codeaurora.org>
+X-Sender: khsieh@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,84 +68,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hamohammed.sa@gmail.com, rodrigosiqueiramelo@gmail.com, airlied@linux.ie,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org, airlied@linux.ie,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ abhinavk@codeaurora.org, bjorn.andersson@linaro.org,
+ dri-devel@lists.freedesktop.org, aravindh@codeaurora.org, sean@poorly.run
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 07/08, Beatriz Martins de Carvalho wrote:
-> Creating a vkms_config_debufs file in vkms_drv.c to get/track vkms config
-> data, for the long-term plan of making vkms configurable and have multiple
-> different instances.
+On 2021-07-08 00:03, Stephen Boyd wrote:
+> Quoting Kuogee Hsieh (2021-07-06 10:20:14)
+>> DP cable should always connect to DPU during the entire PHY compliance
+>> testing run. Since DP PHY compliance test is executed at irq_hpd event
+>> context, dp_ctrl_off_link_stream() should be used instead of 
+>> dp_ctrl_off().
+>> dp_ctrl_off() is used for unplug event which is triggered when DP 
+>> cable is
+>> dis connected.
+>> 
+>> Signed-off-by: Kuogee Hsieh <khsieh@codeaurora.org>
+>> ---
 > 
-> Reviewed-by: Melissa Wen <melissa.srw@gmail.com>
-> Signed-off-by: Beatriz Martins de Carvalho <martinsdecarvalhobeatriz@gmail.com>
-Applied to drm-misc-next.
-Small issues in the message were handled when applying.
+> Is this
+> 
+> Fixes: f21c8a276c2d ("drm/msm/dp: handle irq_hpd with sink_count = 0 
+> correctly")
+> 
+> or
+> 
+> Fixes: c943b4948b58 ("drm/msm/dp: add displayPort driver support")
 
-Thanks,
+should be fixes at f21c8a276c2d ("drm/msm/dp: handle irq_hpd with 
+sink_count = 0 correctly")
 
-Melissa
-> ---
-> Changes in v2:
->     - corrected subject to make clear in terms of its purpose
->     - corrected commit message
-> ---
->  drivers/gpu/drm/vkms/vkms_drv.c | 28 ++++++++++++++++++++++++++++
->  1 file changed, 28 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
-> index 027ffe759440..c81fba6c72f0 100644
-> --- a/drivers/gpu/drm/vkms/vkms_drv.c
-> +++ b/drivers/gpu/drm/vkms/vkms_drv.c
-> @@ -28,6 +28,9 @@
->  
->  #include "vkms_drv.h"
->  
-> +#include <drm/drm_print.h>
-> +#include <drm/drm_debugfs.h>
-> +
->  #define DRIVER_NAME	"vkms"
->  #define DRIVER_DESC	"Virtual Kernel Mode Setting"
->  #define DRIVER_DATE	"20180514"
-> @@ -86,12 +89,37 @@ static void vkms_atomic_commit_tail(struct drm_atomic_state *old_state)
->  	drm_atomic_helper_cleanup_planes(dev, old_state);
->  }
->  
-> +static int vkms_config_show(struct seq_file *m, void *data)
-> +{
-> +	struct drm_info_node *node = (struct drm_info_node *)m->private;
-> +	struct drm_device *dev = node->minor->dev;
-> +	struct vkms_device *vkmsdev = drm_device_to_vkms_device(dev);
-> +
-> +	seq_printf(m, "writeback=%d\n", vkmsdev->config->writeback);
-> +	seq_printf(m, "cursor=%d\n", vkmsdev->config->cursor);
-> +	seq_printf(m, "overlay=%d\n", vkmsdev->config->overlay);
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct drm_info_list vkms_config_debugfs_list[] = {
-> +	{ "vkms_config", vkms_config_show, 0 },
-> +};
-> +
-> +static void vkms_config_debugfs_init(struct drm_minor *minor)
-> +{
-> +	drm_debugfs_create_files(vkms_config_debugfs_list, ARRAY_SIZE(vkms_config_debugfs_list),
-> +				 minor->debugfs_root, minor);
-> +}
-> +
->  static const struct drm_driver vkms_driver = {
->  	.driver_features	= DRIVER_MODESET | DRIVER_ATOMIC | DRIVER_GEM,
->  	.release		= vkms_release,
->  	.fops			= &vkms_driver_fops,
->  	DRM_GEM_SHMEM_DRIVER_OPS,
->  
-> +	.debugfs_init           = vkms_config_debugfs_init,
-> +
->  	.name			= DRIVER_NAME,
->  	.desc			= DRIVER_DESC,
->  	.date			= DRIVER_DATE,
-> -- 
-> 2.25.1
-> 
+> ? It's not clear how dp_ctrl_off() was working for compliance tests
+> before commit f21c8a276c2d.
+both dp_ctrl_off() and dp_ctrl_off_link_strea() are work for 
+dp_ctrl_process_phy_test_request()
+The problem is after dp_ctrl_off(), aux channel is down, hence next phy 
+test will failed due to dpcd read failed.
+So that cable unplugged and replug back to required to run next test 
+case.
+dp_ctrl_off_link_stream() will keep aux channel up and other phy test 
+case can be continued.
+
+
+
+>>  drivers/gpu/drm/msm/dp/dp_ctrl.c | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>> 
+>> diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c 
+>> b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+>> index caf71fa..27fb0f0 100644
+>> --- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
+>> +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+>> @@ -1530,7 +1530,7 @@ static int 
+>> dp_ctrl_process_phy_test_request(struct dp_ctrl_private *ctrl)
+>>          * running. Add the global reset just before disabling the
+>>          * link clocks and core clocks.
+>>          */
+>> -       ret = dp_ctrl_off(&ctrl->dp_ctrl);
+>> +       ret = dp_ctrl_off_link_stream(&ctrl->dp_ctrl);
+>>         if (ret) {
+>>                 DRM_ERROR("failed to disable DP controller\n");
+>>                 return ret;
