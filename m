@@ -1,56 +1,121 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F4213BF431
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Jul 2021 05:07:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CF1C3BF5C8
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Jul 2021 08:50:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 014906E20B;
-	Thu,  8 Jul 2021 03:07:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A250D6E04E;
+	Thu,  8 Jul 2021 06:49:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com
- [IPv6:2a00:1450:4864:20::52d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D434C6E209
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Jul 2021 03:07:02 +0000 (UTC)
-Received: by mail-ed1-x52d.google.com with SMTP id v1so6316037edt.6
- for <dri-devel@lists.freedesktop.org>; Wed, 07 Jul 2021 20:07:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to:cc
- :content-transfer-encoding;
- bh=ZiuonARrCQCukLkSMESCo/Rbo7DU/jQm+OMfOC/COxM=;
- b=egHoAayTFmxrme9MvsR30sXf7Y7GkgCy5StLlW7ZFeFTbSIDQScSU+RZjT9DgIoowx
- lOskgZlMr3AvPga2DnwXEER2gjQ0solhYHU6EBfJf04Cv2gjOqiMbGvsg7rnHMr6grkP
- 0iKju8Z9aOIzvJlS9zV/JE4QuyePYDd4Ksw5t0qHWcac2XsthdfUiz295ME/VsdNuh0g
- jNQRg6Al7ztNBy+J/Ycti4SDoJw4lxb4Q839qrqLj4dOEbdQBbZS96Va3X2xG/C7gRQe
- BO/UQxiQRrRpl3Nc3/t9tKevSGMTtkCaAAWdvDHnGlJmsiApxQRXaxeDjKk4cvk+Tf3T
- /JPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc
- :content-transfer-encoding;
- bh=ZiuonARrCQCukLkSMESCo/Rbo7DU/jQm+OMfOC/COxM=;
- b=nBDFuKF5tHcjoQOkB5KyrF1tjgAOq4jRmK5OXe8An5jZ2Rje7nup28/Z1WJ8jKQZiz
- Fe94uGx8v+83PgHsTckxFRt2ZrgjlzshYUw14Qw8ri8Gg8z5E/oFZN55HEcF7QVP/Iq0
- Pe1hdKLcsZLT8Yjxm/e+FY3jUPvwdcmcdaKhR+UhobbL99Qbpc87hC3Ok/2eFuUEoSvk
- sn3j9iklj8HDDRsrL687dkt7gFMrxx6uA/zQn6wEqG5rY0IlFjBpQaxPzT+1gx6KlJ8R
- f+RSXUa+JEvPbyJbjuVZwce7sfkO5xnvNQD/ZCfbU3o3JEdpTYaXnL/xg+vpcPwOyoqP
- cY3w==
-X-Gm-Message-State: AOAM531lZRARd7qq7FPAwlLNVsd2jdhsku83JCJYw7ULSXyjPhOvX/gg
- kaomQtqjCce78Q9Kdls1qShotoI+Rq8tsh/oiZQ=
-X-Google-Smtp-Source: ABdhPJxPiWzK772tRugCsz+v05N2B2Ignw/EGE7XCeUTrAT8JcQXovWJ4tm/orZEFxIS3sCYKCm3Bh5PLW4d3mr1uJs=
-X-Received: by 2002:a05:6402:1d07:: with SMTP id
- dg7mr34778270edb.298.1625713621401; 
- Wed, 07 Jul 2021 20:07:01 -0700 (PDT)
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2054.outbound.protection.outlook.com [40.107.223.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D6F7E6E04E
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Jul 2021 06:49:57 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ROz4+LIEGgow1LYnhrs64jZ1thpWN8B7atDyEIAduDQCq/YfGKzoZb1YEsO9MobHlbopi0TzClyM+qf3pg77zbF93K+Tu1gkrPuj1Zf1D+hFQJaWl3OLsnGRpgba7ygBjjWd2yMGL3JP7QVcb33GGJmZ1aOyJutbq0bATLzsRuBF4JHm9G7CY6+YRvxKXQxGtJdWK9654nCVX8DmeUa5jl/Utcj++DwRPsQug/iXu8rWhFHVAFslhXRchNkO4Pddsh17koiWUy687ynARF4TZi7Ft0NoiZT+GFDaQXu/JbxZ67rKJkcfDby+pJvlf7XLqgG5RP5EOxtARwHdWrNr0g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YUGuvGBq7ytnkb6yl57/WCjcPmCbXNUjoc+P9UvtzV8=;
+ b=aeMed2qI/RSUEbP6Ultn/Ie+jEtzXcltSaPz5DJ0lKPv0njP8ReGrsZ5R5bOrngZMSKriiTSkGYBTSSOdoSyjCqcE+QEX0Udgk1xvxULyW2Zc6i17G1jDbkown0qHGX3LaJ8rsaxuuOaTpUB20zG2qHtEoNTPykGHJP1ZiPDFZkpGBGIpB/kfek7nE1mEVtoFgJk/anzUMmRO0/tDPsY+xQOXIM1x7D3ti8/xyoOdQhdTtLEkztHuzsECrZdO0UDg5kCtV3niWSM6H9ntLcpJD2SCPAtCrfJWNSgKZbm18Eq21b1v4LAGVbmRNglYtfVbnR3K9CJJtvzxWe88ueCtg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YUGuvGBq7ytnkb6yl57/WCjcPmCbXNUjoc+P9UvtzV8=;
+ b=1M3Yjeyw9IuqfwNIf9cb8jxxhDOD8I8V18aI45tcmZeGOaQArKyEGUQ+f9jOzkHAUYO7MIKz2W55inCiaU4r1EP5Du+jY2P2lmdke9AjqghwfZAcwGasppxaoB1vrN+qMMsOI3Donpdt7AXOD5/v8B+9tAPhUqjkR1zCJsh6Qbk=
+Authentication-Results: vger.kernel.org; dkim=none (message not signed)
+ header.d=none;vger.kernel.org; dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
+ by BL0PR12MB4963.namprd12.prod.outlook.com (2603:10b6:208:17d::15)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4308.20; Thu, 8 Jul
+ 2021 06:49:56 +0000
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::6c9e:1e08:7617:f756]) by MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::6c9e:1e08:7617:f756%5]) with mapi id 15.20.4308.022; Thu, 8 Jul 2021
+ 06:49:55 +0000
+Subject: Re: [PATCH] gpu: ttm: fix GPF in ttm_bo_release
+To: Pavel Skripkin <paskripkin@gmail.com>, ray.huang@amd.com, airlied@linux.ie
+References: <20210707185108.3798-1-paskripkin@gmail.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <f4bb7b29-3abc-a056-fc24-4e91b5de8d74@amd.com>
+Date: Thu, 8 Jul 2021 08:49:48 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
+In-Reply-To: <20210707185108.3798-1-paskripkin@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-ClientProxiedBy: PR0P264CA0083.FRAP264.PROD.OUTLOOK.COM
+ (2603:10a6:100:18::23) To MN2PR12MB3775.namprd12.prod.outlook.com
+ (2603:10b6:208:159::19)
 MIME-Version: 1.0
-From: Dave Airlie <airlied@gmail.com>
-Date: Thu, 8 Jul 2021 13:06:50 +1000
-Message-ID: <CAPM=9txowZc9-MVfS_uvASJMnE4Okt4B8KHCyk3nC9x=-a+w3w@mail.gmail.com>
-Subject: [git pull] drm fixes for 5.14-rc1
-To: Linus Torvalds <torvalds@linux-foundation.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2a02:908:1252:fb60:bc19:c1e3:6307:7e3e]
+ (2a02:908:1252:fb60:bc19:c1e3:6307:7e3e) by
+ PR0P264CA0083.FRAP264.PROD.OUTLOOK.COM (2603:10a6:100:18::23) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4308.19 via Frontend Transport; Thu, 8 Jul 2021 06:49:54 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 9d67188a-75f5-435c-96ed-08d941dc9878
+X-MS-TrafficTypeDiagnostic: BL0PR12MB4963:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <BL0PR12MB49636F4700F76154173B925483199@BL0PR12MB4963.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:411;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: YIC2Uj6g7FRXDNApT5twcvdpCckag3MJk/yLjuyAS9PQrqf3JD7kyNijr3rjIYi4g25WMhQ/u4wCKNHFliyWRTOLwc5NJ5QM8RiYl+GzZV8bV4LtGVhnRSx14JEjKUwa+NAaU1DYgEnPiwGBmKXc4WHbL/16Iupq1ZydW/nkiVxRqE0XckHKbZcYaa50DXe8aShcb3Eq4pGDV3QHKzO607yPxmO07qwF9Un+0+vkG0AiJKd8L7AzJxOsz9mdiUWWhhY5lJhXV75haHkjs6O3jDk205KhTQyHwiMxroQZH2gsDH5saxpeLrFflOreOiBMK9HdMuAKnGsPHTgYzltV2hGL1s9uEVmBOWu9zI2+CZpTMH7FvDH2CH6dDuQ26g/UUbhXt/ch9/1yHF69TRVoxwkLlajLk9CA/ZpRMsf4Hrhc17ibwYWPywx4Xw12p9yOM/bKgEX1jhUoe8MDWgoULwddwoBs9Pp851Hnp8DyzWRz/4hJmMHihl7ZGDle5j5P7fDcmtDJLl8cu03fEgH5JKF8iti1ihB9hfe7q5wDcHoeAuBDVPiIaXPVGINuutiEWthq2BbRp+G8AvDYhwpDVcHY0ckHC9tbMErFqjJoiAwMtdtnZS4VCvqYzyKl7UyNkXZeglgMynmYtPPcnARjvip15rYnpWZKt+Lg7Vvo6ov9GkZyQ97UUA2WiXkq/5btXONmJSxXr3Br11ICUFo/nGqYuwWBoMa+UmuCXFwTIIg=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(39860400002)(136003)(376002)(366004)(396003)(346002)(66476007)(8936002)(316002)(5660300002)(31696002)(31686004)(186003)(6666004)(6486002)(8676002)(66556008)(83380400001)(86362001)(4326008)(478600001)(2906002)(2616005)(36756003)(38100700002)(66946007)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Z3VQT0tqMnlsd3BZUVh3SVZiK1BVaWN1ZVdDUUZXanFJcXZDWE1PVGd2c1Uv?=
+ =?utf-8?B?a1lNSzFQVDg0emVPL0U3ODIvZVIxZXpaN0d6WmRQR0xxTE9HU1ZmelpBS3d1?=
+ =?utf-8?B?ZEFZajZJeGtmdjZmM3NuWW94TU41MjloV2xZV0dub2NKZitScHRqK3JXL1Ez?=
+ =?utf-8?B?dkdKenZMVjJ2N1dveUhaVnFBZDIyamxVd3RKbkdWOEdyQTM3MC9tc0JTV2Ra?=
+ =?utf-8?B?dzdNRUZWY3BGdGtqc0JTL1ZBTDBYNDVCNk9MMjJlWWV4UkRudUllL2VIcnlt?=
+ =?utf-8?B?MEJESDA2aDlRcmJEZ1JZQ2NvODBuRnZPK1JNaCtIbml2WnlzZmtBVXEzcENR?=
+ =?utf-8?B?M0V2WnUwSGtrbjc3N1dIUkpEMGVtb1JDOXl5RWdDVCtxM2tOZEUvQndtWExF?=
+ =?utf-8?B?MnUzZVpVMHFWczJFRWxpSHhkNkFxWUdBeXpzMmZqRVdiWVhzZUZVb3Nobkxv?=
+ =?utf-8?B?S3hUaEJ2STFCemJJaWpYYUFMZTRuZndsa055ajZPWHJieHRLeG5JN1c0OURo?=
+ =?utf-8?B?ZDdNL1VoNzF2V3JKYWIvSTF1cGV4MkpiOVNaV0VtUnFUTm1KWVV0cTJBeVVK?=
+ =?utf-8?B?N1A1QnVHdTdZMUw0dHJHTTIxZmpVUGRXRHZubElkdEl6ZmcwSjlydjRTRmRi?=
+ =?utf-8?B?K0lZdjRmVEZqWGREY0NZRFVoc1I5QnVmSzhZUUhFb1dlUitvZnJHYkxSV3hT?=
+ =?utf-8?B?MUdxZS9ZR1dCS1UzeUpPRjc2YlV2OHZ1TEVSbmQwcTFMeXRFV3NqTStJZVpO?=
+ =?utf-8?B?ZXhpZjA2RkhaQ1ozV3JFb213bjRyVmQ2ZXRoZWI5N1ZXaFM4eXk3Z1lpTkNT?=
+ =?utf-8?B?WXlzOHVEQzNzb2krRXdVZGpYTzNNd05zbExVSHRKazMxTjN3ci9wSkpaQ0Z5?=
+ =?utf-8?B?U3BFbFZhYmFNcnppMUlKblNHMktreTBuQmNnZkRVdmprMlZ4UnlEaHc0L1di?=
+ =?utf-8?B?SmUwSEVRdDBSWTNxNERVQXlESDIyNEdBWlBPWFVyeCsxV3VUNEJVK0Z6cW9p?=
+ =?utf-8?B?VUpCR3hTZkRLeW9RenpSM1FjUXluTWZBNjZXb09Ia2U3WHRMM2d4dkVLSmJ4?=
+ =?utf-8?B?TUVBczN4K0JnMHhoS0JmaHZPU0QrRlIrL2VvMldGbi9leldOblY3c1hpTTAw?=
+ =?utf-8?B?aUdUcWFlRW42a1lCVmZjY0kyNkhzdS9ETEVkZS9OTDBSUmMzU2Y3WERWN3I3?=
+ =?utf-8?B?K2w1TzNjdCtnVWNkS1ZLb0xRdWpSWjFYb2czSE9vQnVhb3RXOHMxNG1NS1Uv?=
+ =?utf-8?B?OVhnMTR1ejdVTnp6ZFBaUWtZeVBPWDVoR0lkNEgxRlNRRGs3aXRKUU51ZGU2?=
+ =?utf-8?B?RHNITUxiUFFSK3luT1BCN0cwWVpVUDI1WmVEblprVkxRNVFLajF3cm9KUXl1?=
+ =?utf-8?B?bU9mcElrUC82V2ZRS1g5V3pqaW10MFFnZHZXQkkvNUJiV1dQeW9tMUFvR0xT?=
+ =?utf-8?B?QnNtRFZZdGJzOWRZQUNJcFdpdGZUQUYvcHdlN2tJTXA0VjFnYWhqU1ZBNk1F?=
+ =?utf-8?B?K3IwL1pKVWFybS80Z3NyamZjQjg1UGFwczhOUjY1TU8vZ3RsVVk2djNzTDVS?=
+ =?utf-8?B?dWFZUU5TTTRCUWNBeGdDWm4vY0o5Q0tZMFhJQ0ZkRjBhOE1vSG5XbzFKRVMr?=
+ =?utf-8?B?K00rZ2tUWXJub1VMWlBjSW1BNnBZc2VTK3BjUjFUM0JWcFNRKzN6NmxSZFl2?=
+ =?utf-8?B?YjRPbjBlSWxKRGpQd250cmFWVEp4Zk82MHo4STdONDdqTmFkLzdmemdzNlkz?=
+ =?utf-8?B?WHY5RnpFd0lPK2Y3NE8xU3pneGFPdXB0WmhEVmVWV1Jvb3hSTVhVdjFQMVhh?=
+ =?utf-8?B?R0x5a1g1YUxtanhWWDJCVk9ST0xncmxNc2dzUk1CaitBNUdTVFdDMDk3WFJl?=
+ =?utf-8?Q?+gBIJkTrUaQi1?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9d67188a-75f5-435c-96ed-08d941dc9878
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jul 2021 06:49:55.8624 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Afe9t9IkcS/qkDcihyXIumHh98yOTRtkJm0zQa55TgtcQKWJlt04eXqPk14jI3H3
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB4963
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,283 +128,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Linus,
+Am 07.07.21 um 20:51 schrieb Pavel Skripkin:
+> My local syzbot instance hit GPF in ttm_bo_release().
+> Unfortunately, syzbot didn't produce a reproducer for this, but I
+> found out possible scenario:
+>
+> drm_gem_vram_create()            <-- drm_gem_vram_object kzalloced
+> 				     (bo embedded in this object)
+>    ttm_bo_init()
+>      ttm_bo_init_reserved()
+>        ttm_resource_alloc()
+>          man->func->alloc()       <-- allocation failure
+>        ttm_bo_put()
+> 	ttm_bo_release()
+> 	  ttm_mem_io_free()      <-- bo->resource == NULL passed
+> 				     as second argument
+> 	     *GPF*
+>
+> So, I've added check in ttm_bo_release() to avoid passing
+> NULL as second argument to ttm_mem_io_free().
 
-Some fixes for rc1 that came in the past weeks, mainly a bunch of
-amdgpu fixes, some i915 and the rest are misc around the place. I'm
-sending this a bit early so some more stuff may show up, but I'll
-probably take tomorrow off.
+There is another ocassion of this a bit down before we call 
+ttm_bo_move_to_lru_tail() apart from that good catch.
 
-Dave.
+But I'm wondering if we should make the functions NULL save instead of 
+the external check.
 
-drm-next-2021-07-08-1:
-drm fixes for 5.14-rc1
+Thanks,
+Christian.
 
-dma-buf:
-- doc fixes
+>
+> Fail log:
+>
+> KASAN: null-ptr-deref in range [0x0000000000000020-0x0000000000000027]
+> CPU: 1 PID: 10419 Comm: syz-executor.3 Not tainted 5.13.0-rc7-next-20210625 #7
+> Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.14.0-0-g155821a-rebuilt.opensuse.org 04/01/2014
+> RIP: 0010:ttm_mem_io_free+0x28/0x170 drivers/gpu/drm/ttm/ttm_bo_util.c:66
+> Code: b1 90 41 56 41 55 41 54 55 48 89 fd 53 48 89 f3 e8 cd 19 24 fd 4c 8d 6b 20 48 b8 00 00 00 00 00 fc ff df 4c 89 ea 48 c1 ea 03 <80> 3c 02 00 0f 85 2a 01 00 00 4c 8b 63 20 31 ff 4c 89 e6 e8 00 1f
+> RSP: 0018:ffffc900141df968 EFLAGS: 00010202
+> RAX: dffffc0000000000 RBX: 0000000000000000 RCX: ffffc90010da0000
+> RDX: 0000000000000004 RSI: ffffffff84513ea3 RDI: ffff888041fbc010
+> RBP: ffff888041fbc010 R08: 0000000000000000 R09: 0000000000000000
+> R10: 0000000000000001 R11: 0000000000000000 R12: 0000000000000000
+> R13: 0000000000000020 R14: ffff88806b258800 R15: ffff88806b258a38
+> FS:  00007fa6e9845640(0000) GS:ffff88807ec00000(0000) knlGS:0000000000000000
+> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> CR2: 00007fad61265e18 CR3: 000000005ad79000 CR4: 0000000000350ee0
+> DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+> DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+> Call Trace:
+>   ttm_bo_release+0xd94/0x10a0 drivers/gpu/drm/ttm/ttm_bo.c:422
+>   kref_put include/linux/kref.h:65 [inline]
+>   ttm_bo_put drivers/gpu/drm/ttm/ttm_bo.c:470 [inline]
+>   ttm_bo_init_reserved+0x7cb/0x960 drivers/gpu/drm/ttm/ttm_bo.c:1050
+>   ttm_bo_init+0x105/0x270 drivers/gpu/drm/ttm/ttm_bo.c:1074
+>   drm_gem_vram_create+0x332/0x4c0 drivers/gpu/drm/drm_gem_vram_helper.c:228
+>
+> Fixes: d3116756a710 ("drm/ttm: rename bo->mem and make it a pointer")
+> Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
+> ---
+>   drivers/gpu/drm/ttm/ttm_bo.c | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
+> index 1b950b45cf4b..15eb97459eab 100644
+> --- a/drivers/gpu/drm/ttm/ttm_bo.c
+> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
+> @@ -419,7 +419,8 @@ static void ttm_bo_release(struct kref *kref)
+>   			bo->bdev->funcs->release_notify(bo);
+>   
+>   		drm_vma_offset_remove(bdev->vma_manager, &bo->base.vma_node);
+> -		ttm_mem_io_free(bdev, bo->resource);
+> +		if (bo->resource)
+> +			ttm_mem_io_free(bdev, bo->resource);
+>   	}
+>   
+>   	if (!dma_resv_test_signaled(bo->base.resv, true) ||
 
-amdgpu:
-- Misc Navi fixes
-- Powergating fix
-- Yellow Carp updates
-- Beige Goby updates
-- S0ix fix
-- Revert overlay validation fix
-- GPU reset fix for DC
-- PPC64 fix
-- Add new dimgrey cavefish DID
-- RAS fix
-- TTM fixes
-
-amdkfd:
-- SVM fixes
-
-radeon:
-- Fix missing drm_gem_object_put in error path
-- NULL ptr deref fix
-
-i915:
-- display DP VSC fix
-- DG1 display fix
-- IRQ fixes
-- IRQ demidlayering
-
-gma500:
-- bo leaks in error paths fixed
-The following changes since commit 8a02ea42bc1d4c448caf1bab0e05899dad503f74=
-:
-
-  Merge tag 'drm-intel-next-fixes-2021-06-29' of
-git://anongit.freedesktop.org/drm/drm-intel into drm-next (2021-06-30
-15:42:05 +1000)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm tags/drm-next-2021-07-08-1
-
-for you to fetch changes up to 21c355b09711e95f8f0e7c1890b343c6cd350042:
-
-  Merge tag 'drm-misc-next-fixes-2021-07-01' of
-git://anongit.freedesktop.org/drm/drm-misc into drm-next (2021-07-08
-11:17:32 +1000)
-
-----------------------------------------------------------------
-drm fixes for 5.14-rc1
-
-dma-buf:
-- doc fixes
-
-amdgpu:
-- Misc Navi fixes
-- Powergating fix
-- Yellow Carp updates
-- Beige Goby updates
-- S0ix fix
-- Revert overlay validation fix
-- GPU reset fix for DC
-- PPC64 fix
-- Add new dimgrey cavefish DID
-- RAS fix
-- TTM fixes
-
-amdkfd:
-- SVM fixes
-
-radeon:
-- Fix missing drm_gem_object_put in error path
-- NULL ptr deref fix
-
-i915:
-- display DP VSC fix
-- DG1 display fix
-- IRQ fixes
-- IRQ demidlayering
-
-gma500:
-- bo leaks in error paths fixed
-
-----------------------------------------------------------------
-Aaron Liu (2):
-      drm/amdgpu: enable tmz on yellow carp
-      drm/amdgpu: enable sdma0 tmz for Raven/Renoir(V2)
-
-Alex Deucher (2):
-      drm/amdgpu/display: drop unused variable
-      drm/amdgpu: add new dimgrey cavefish DID
-
-Alex Sierra (11):
-      drm/amdkfd: inc counter on child ranges with xnack off
-      drm/amdkfd: device pgmap owner at the svm migrate init
-      drm/amdkfd: add owner ref param to get hmm pages
-      drm/amdkfd: set owner ref to svm range prefault
-      drm/amdgpu: get owner ref in validate and map
-      drm/amdkfd: use hmm range fault to get both domain pfns
-      drm/amdkfd: classify and map mixed svm range pages in GPU
-      drm/amdkfd: skip invalid pages during migrations
-      drm/amdkfd: skip migration for pages already in VRAM
-      drm/amdkfd: add invalid pages debug at vram migration
-      drm/amdkfd: Maintain svm_bo reference in page->zone_device_data
-
-Chengming Gui (1):
-      drm/amd/amdgpu: enable gpu recovery for beige_goby
-
-Chengzhe Liu (1):
-      drm/amdgpu: Power down VCN and JPEG before disabling SMU features
-
-Darren Powell (1):
-      amdgpu/pm: remove code duplication in show_power_cap calls
-
-Dave Airlie (3):
-      Merge tag 'amd-drm-next-5.14-2021-07-01' of
-https://gitlab.freedesktop.org/agd5f/linux into drm-next
-      Merge tag 'drm-intel-next-fixes-2021-07-07' of
-git://anongit.freedesktop.org/drm/drm-intel into drm-next
-      Merge tag 'drm-misc-next-fixes-2021-07-01' of
-git://anongit.freedesktop.org/drm/drm-misc into drm-next
-
-Evan Quan (7):
-      drm/amdgpu: correct tcp harvest setting
-      drm/amdgpu: fix Navi1x tcp power gating hang when issuing
-lightweight invalidaiton
-      drm/amdgpu: fix NAK-G generation during PCI-e link width switch
-      drm/amdgpu: fix the hang caused by PCIe link width switch
-      drm/amdgpu: correct clock gating settings on feature unsupported
-      drm/amdgpu: update GFX MGCG settings
-      drm/amdgpu: update HDP LS settings
-
-Guchun Chen (2):
-      drm/amd/display: fix incorrrect valid irq check
-      drm/amd/display: fix null pointer access in gpu reset
-
-Huang Rui (1):
-      drm/amdgpu: move apu flags initialization to the start of device init
-
-Jing Xiangfeng (2):
-      drm/gma500: Add the missed drm_gem_object_put() in
-psb_user_framebuffer_create()
-      drm/radeon: Add the missed drm_gem_object_put() in
-radeon_user_framebuffer_create()
-
-Joseph Greathouse (1):
-      drm/amdgpu: Update NV SIMD-per-CU to 2
-
-Jos=C3=A9 Roberto de Souza (1):
-      drm/i915/display/dg1: Correctly map DPLLs during state readout
-
-Kees Cook (1):
-      drm/i915/display: Do not zero past infoframes.vsc
-
-Michal Suchanek (1):
-      drm/amdgpu/dc: Really fix DCN3.1 Makefile for PPC64
-
-Mikel Rychliski (1):
-      drm/radeon: Fix NULL dereference when updating memory stats
-
-Mukul Joshi (1):
-      drm/amdgpu: Conditionally reset SDMA RAS error counts
-
-Nicholas Kazlauskas (1):
-      drm/amd/display: Extend DMUB diagnostic logging to DCN3.1
-
-Nirmoy Das (1):
-      drm/amdgpu: return early for non-TTM_PL_TT type BOs
-
-Oak Zeng (1):
-      drm/amdgpu: Set ttm caching flags during bo allocation
-
-Philip Yang (4):
-      drm/amdkfd: add helper function for kfd sysfs create
-      drm/amdkfd: fix sysfs kobj leak
-      drm/amdkfd: add sysfs counters for vm fault and migration
-      drm/amdkfd: implement counters for vm fault and migration
-
-Randy Dunlap (1):
-      <linux/dma-resv.h>: correct a function name in kernel-doc
-
-Reka Norman (1):
-      drm/amd/display: Respect CONFIG_FRAME_WARN=3D0 in dml Makefile
-
-Rodrigo Siqueira (1):
-      Revert "drm/amd/display: Fix overlay validation by considering cursor=
-s"
-
-Shyam Sundar S K (1):
-      drm/amd/pm: skip PrepareMp1ForUnload message in s0ix
-
-Thomas Zimmermann (2):
-      drm/i915: Use the correct IRQ during resume
-      drm/i915: Drop all references to DRM IRQ midlayer
-
-Tiezhu Yang (1):
-      drm/radeon: Call radeon_suspend_kms() in radeon_pci_shutdown()
-for Loongson64
-
-Veerabadhran Gopalakrishnan (1):
-      amdgpu/nv.c - Added codec query for Beige Goby
-
-Zhan Liu (1):
-      drm/amd/display: Enabling eDP no power sequencing with DAL feature ma=
-sk
-
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c         |  37 +++
- drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c            |   2 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c            |   1 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c             |   3 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_mn.h             |   2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_nbio.h           |   2 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c            |   9 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c       |   5 +
- drivers/gpu/drm/amd/amdgpu/athub_v2_0.c            |  12 +-
- drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c             | 266 +++++++++++++++--=
----
- drivers/gpu/drm/amd/amdgpu/hdp_v5_0.c              |  85 ++++---
- drivers/gpu/drm/amd/amdgpu/mmhub_v2_0.c            |  10 +-
- drivers/gpu/drm/amd/amdgpu/nbio_v2_3.c             |  51 +++-
- drivers/gpu/drm/amd/amdgpu/nv.c                    |  37 ++-
- drivers/gpu/drm/amd/amdgpu/sdma_v4_0.c             |  11 +-
- drivers/gpu/drm/amd/amdgpu/smuio_v11_0.c           |   5 +-
- drivers/gpu/drm/amd/amdgpu/soc15.c                 |  10 +-
- drivers/gpu/drm/amd/amdkfd/kfd_migrate.c           | 100 +++++---
- drivers/gpu/drm/amd/amdkfd/kfd_priv.h              |   9 +
- drivers/gpu/drm/amd/amdkfd/kfd_process.c           | 272 ++++++++++++-----=
-----
- .../gpu/drm/amd/amdkfd/kfd_process_queue_manager.c |   1 +
- drivers/gpu/drm/amd/amdkfd/kfd_svm.c               | 236 ++++++++++++-----=
--
- drivers/gpu/drm/amd/amdkfd/kfd_svm.h               |  19 +-
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  |  13 +-
- drivers/gpu/drm/amd/display/dc/dc.h                |   1 +
- .../amd/display/dc/dce110/dce110_hw_sequencer.c    |  31 ++-
- drivers/gpu/drm/amd/display/dc/dcn31/Makefile      |   2 +
- drivers/gpu/drm/amd/display/dc/dml/Makefile        |   8 +-
- drivers/gpu/drm/amd/display/dc/irq/irq_service.c   |   4 +-
- drivers/gpu/drm/amd/display/dc/irq_types.h         |   2 +-
- drivers/gpu/drm/amd/display/dmub/src/dmub_dcn31.c  |  60 +++++
- drivers/gpu/drm/amd/display/dmub/src/dmub_dcn31.h  |  16 +-
- drivers/gpu/drm/amd/display/dmub/src/dmub_srv.c    |   5 +-
- drivers/gpu/drm/amd/include/amd_shared.h           |  10 +-
- drivers/gpu/drm/amd/include/navi10_enum.h          |   2 +-
- drivers/gpu/drm/amd/pm/amdgpu_pm.c                 |  95 ++-----
- drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c          |   8 +-
- .../gpu/drm/amd/pm/swsmu/smu13/yellow_carp_ppt.c   |   3 +-
- drivers/gpu/drm/gma500/framebuffer.c               |   7 +-
- drivers/gpu/drm/i915/display/intel_ddi.c           |  19 +-
- drivers/gpu/drm/i915/display/intel_dp.c            |   2 +-
- drivers/gpu/drm/i915/gt/intel_engine_cs.c          |   2 +-
- drivers/gpu/drm/i915/gt/intel_ring_submission.c    |   7 +-
- drivers/gpu/drm/i915/i915_drv.c                    |   1 -
- drivers/gpu/drm/i915/i915_irq.c                    |  10 +-
- drivers/gpu/drm/i915/i915_irq.h                    |   1 +
- drivers/gpu/drm/i915/i915_reg.h                    |   3 -
- drivers/gpu/drm/radeon/radeon_display.c            |   1 +
- drivers/gpu/drm/radeon/radeon_drv.c                |   8 +-
- drivers/gpu/drm/radeon/radeon_object.c             |  29 +--
- drivers/gpu/drm/radeon/radeon_object.h             |   2 +-
- drivers/gpu/drm/radeon/radeon_ttm.c                |  13 +-
- include/linux/dma-resv.h                           |   2 +-
- 53 files changed, 1048 insertions(+), 504 deletions(-)
