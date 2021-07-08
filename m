@@ -2,32 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13AF63C16D5
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Jul 2021 18:04:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EB5C3C16D1
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Jul 2021 18:04:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 194776E903;
-	Thu,  8 Jul 2021 16:04:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E9C86E8FD;
+	Thu,  8 Jul 2021 16:04:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E3D086E913;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C82E6E90B;
  Thu,  8 Jul 2021 16:04:08 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10039"; a="231293784"
-X-IronPort-AV: E=Sophos;i="5.84,224,1620716400"; d="scan'208";a="231293784"
+X-IronPort-AV: E=McAfee;i="6200,9189,10039"; a="231293766"
+X-IronPort-AV: E=Sophos;i="5.84,224,1620716400"; d="scan'208";a="231293766"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Jul 2021 09:03:05 -0700
-X-IronPort-AV: E=Sophos;i="5.84,224,1620716400"; d="scan'208";a="492164239"
+ 08 Jul 2021 09:03:04 -0700
+X-IronPort-AV: E=Sophos;i="5.84,224,1620716400"; d="scan'208";a="492164214"
 Received: from dhiatt-server.jf.intel.com ([10.54.81.3])
  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  08 Jul 2021 09:03:04 -0700
 From: Matthew Brost <matthew.brost@intel.com>
 To: <intel-gfx@lists.freedesktop.org>,
 	<dri-devel@lists.freedesktop.org>
-Subject: [PATCH 0/7] CT changes required for GuC submission
-Date: Thu,  8 Jul 2021 09:20:48 -0700
-Message-Id: <20210708162055.129996-1-matthew.brost@intel.com>
+Subject: [PATCH 1/7] drm/i915/guc: Relax CTB response timeout
+Date: Thu,  8 Jul 2021 09:20:49 -0700
+Message-Id: <20210708162055.129996-2-matthew.brost@intel.com>
 X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20210708162055.129996-1-matthew.brost@intel.com>
+References: <20210708162055.129996-1-matthew.brost@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -47,42 +49,53 @@ Cc: daniele.ceraolospurio@intel.com, john.c.harrison@intel.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As part of enabling GuC submission discussed in [1], [2], and [3] we
-need optimize and update the CT code as this is now in the critical
-path of submission. This series includes the patches to do that which is
-the first 7 patches from [3]. The patches should have addressed all the
-feedback in [3] and should be ready to merge once CI returns a we get a
-few more RBs.
+In upcoming patch we will allow more CTB requests to be sent in
+parallel to the GuC for processing, so we shouldn't assume any more
+that GuC will always reply without 10ms.
 
-v2: Fix checkpatch warning, address a couple of Michal's comments
-v3: Address John Harrison's comments
-v4: Address remaining comments, resend for patchworks to merge
+Use bigger value hardcoded value of 1s instead.
 
-Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-
-[1] https://patchwork.freedesktop.org/series/89844/
-[2] https://patchwork.freedesktop.org/series/91417/
-[3] https://patchwork.freedesktop.org/series/91840/
+v2: Add CONFIG_DRM_I915_GUC_CTB_TIMEOUT config option
+v3:
+ (Daniel Vetter)
+  - Use hardcoded value of 1s rather than config option
+v4:
+ (Michal)
+  - Use defines for timeout values
 
 Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+Cc: Michal Wajdeczko <michal.wajdeczko@intel.com>
+Reviewed-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
+---
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
-John Harrison (1):
-  drm/i915/guc: Module load failure test for CT buffer creation
-
-Matthew Brost (6):
-  drm/i915/guc: Relax CTB response timeout
-  drm/i915/guc: Improve error message for unsolicited CT response
-  drm/i915/guc: Increase size of CTB buffers
-  drm/i915/guc: Add non blocking CTB send function
-  drm/i915/guc: Add stall timer to non blocking CTB send function
-  drm/i915/guc: Optimize CTB writes and reads
-
- .../gt/uc/abi/guc_communication_ctb_abi.h     |   3 +-
- drivers/gpu/drm/i915/gt/uc/intel_guc.h        |  11 +-
- drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c     | 256 +++++++++++++++---
- drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h     |  14 +-
- 4 files changed, 234 insertions(+), 50 deletions(-)
-
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+index 43409044528e..b86575b99537 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+@@ -474,14 +474,18 @@ static int wait_for_ct_request_update(struct ct_request *req, u32 *status)
+ 	/*
+ 	 * Fast commands should complete in less than 10us, so sample quickly
+ 	 * up to that length of time, then switch to a slower sleep-wait loop.
+-	 * No GuC command should ever take longer than 10ms.
++	 * No GuC command should ever take longer than 10ms but many GuC
++	 * commands can be inflight at time, so use a 1s timeout on the slower
++	 * sleep-wait loop.
+ 	 */
++#define GUC_CTB_RESPONSE_TIMEOUT_SHORT_MS 10
++#define GUC_CTB_RESPONSE_TIMEOUT_LONG_MS 1000
+ #define done \
+ 	(FIELD_GET(GUC_HXG_MSG_0_ORIGIN, READ_ONCE(req->status)) == \
+ 	 GUC_HXG_ORIGIN_GUC)
+-	err = wait_for_us(done, 10);
++	err = wait_for_us(done, GUC_CTB_RESPONSE_TIMEOUT_SHORT_MS);
+ 	if (err)
+-		err = wait_for(done, 10);
++		err = wait_for(done, GUC_CTB_RESPONSE_TIMEOUT_LONG_MS);
+ #undef done
+ 
+ 	if (unlikely(err))
 -- 
 2.28.0
 
