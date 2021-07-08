@@ -1,64 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 949D23C14CD
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Jul 2021 16:01:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 113673C153F
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Jul 2021 16:35:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 58EDF6E8BE;
-	Thu,  8 Jul 2021 14:01:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 917516E0CC;
+	Thu,  8 Jul 2021 14:35:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 406146E890
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Jul 2021 14:01:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1625752868;
- bh=wJLSJn1hGsIV0cT50m36a3Mvxx5NqHn/rVaA7yriqQ4=;
- h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
- b=hh7sgOhe6tpcP0zZFu9hYFPRWLbZXF5z6Z4O+MLvpwrmPfUKDH9ZbQWHC0xBijdUU
- MluClb3UbtUj+nMzx7ZUe4ULV01FCu6hEF50FV+6HqJS6s2mjB5eNO2NxFBBwdIrxj
- pGzu6/+TmmEcF0qqJlMjXWFEBmiBQ4KWNFXGlT0o=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [217.61.147.159] ([217.61.147.159]) by web-mail.gmx.net
- (3c-app-gmx-bap19.server.lan [172.19.172.89]) (via HTTP); Thu, 8 Jul 2021
- 16:01:08 +0200
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
+ [IPv6:2a00:1450:4864:20::32e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7469B6E0CC
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Jul 2021 14:35:08 +0000 (UTC)
+Received: by mail-wm1-x32e.google.com with SMTP id
+ k31-20020a05600c1c9fb029021727d66d33so2598935wms.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 08 Jul 2021 07:35:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ipPj1iqNC9lnA7tWPR2FY8hVdI2WOPcAN/IFDy00v+M=;
+ b=kUjx2vqbNzPCwmw0DvqVf0pTFM2RYCXbkFcKVeLrKb8lWq3fb5sXrM/Jyj+UI2kwam
+ P5gSfsY2LUKeH/kC71apptesxesmAfB3TBcLUTG9f6WMISFTTFMkycDCy0tx5Xf/k3Lu
+ p8ceVyemLcbK7F06uuJL0MsiFVyll2MJyb8shtUrBKcpsJWVkXF53LcKBEFS5oCR7UHA
+ ZmELxe5MokRE+XNTrzICULe+0DbvNXgpo+I6E3bxaxtSfYUaJAVyKbPYurTxot/xB14e
+ dYX4TDRLPgvwz1AYBPvB9kXRHMtJ+Ge17SxkEaa2sDrxFwSXDb2o4U48CYOWFXYRmn2K
+ B8Pg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ipPj1iqNC9lnA7tWPR2FY8hVdI2WOPcAN/IFDy00v+M=;
+ b=kbxp59cokWzOQ4nTAk1QEyeYxp1VPmnwBGDcAaBTyxhkAclopOJncJ7W0ue3pacGsq
+ gc80kqlLRVl99n9p9vPGI5PGmOfw5cPcBQI1h4fuf0siDFmQhmBzleZBa7Aa2WqXeHJG
+ ni/u8le5iryTS/YBDMNtYVTBL1prq4yzzozlwD8Ar2MHkExj2GivBJReR4F78nCWb8Lp
+ Kx/pKA8egbIvsS57q4dH3qEQXrYpDaPX/5gRRIbDQ0pQoqYTA9Y37+cf2ysfpjiPS4IX
+ AXYrXVWNvXGr/DKXUF6gw5jNMm4qJ1Vw37eFqf9GygCNPFjDVDdL/7XfGS1qHrsEdCFw
+ b1zw==
+X-Gm-Message-State: AOAM531iFU8/kBuMJt6sv1qv6+TfIX3ps63k2L5VIJe9B2+9nr1cSvd4
+ zuDN8l30ATH5fWptmJlzPIwOyhwF4AQ=
+X-Google-Smtp-Source: ABdhPJw/2jHbxU8SCxDsF+TsGdstH4KTGC1LfafVBdspsh183upXjSK5U1TU749Kat/OiONRKVqXIA==
+X-Received: by 2002:a7b:c214:: with SMTP id x20mr32696964wmi.171.1625754907129; 
+ Thu, 08 Jul 2021 07:35:07 -0700 (PDT)
+Received: from localhost ([62.96.65.119])
+ by smtp.gmail.com with ESMTPSA id p7sm2398292wrr.21.2021.07.08.07.35.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 08 Jul 2021 07:35:06 -0700 (PDT)
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Thierry Reding <thierry.reding@gmail.com>
+Subject: [PATCH] drm/tegra: gr2d: Explicitly control module reset
+Date: Thu,  8 Jul 2021 16:37:36 +0200
+Message-Id: <20210708143736.2018135-1-thierry.reding@gmail.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Message-ID: <trinity-4ed3af00-b67c-468b-be4c-1e4b2379eca6-1625752868027@3c-app-gmx-bap19>
-From: Frank Wunderlich <frank-w@public-files.de>
-To: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Subject: Aw: Re:  Re: BUG: MTK DRM/HDMI broken on 5.13 (mt7623/bpi-r2)
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 8 Jul 2021 16:01:08 +0200
-Importance: normal
-Sensitivity: Normal
-In-Reply-To: <df431199-0c65-fb9a-02b4-9f84899f37ee@collabora.com>
-References: <trinity-cc8f5927-9aaf-43ae-a107-6a6229f1b481-1625565279264@3c-app-gmx-bs60>
- <25d61873-38ae-5648-faab-03431b74f777@collabora.com>
- <trinity-e6443313-a436-4e9d-a93c-1bef1cce135d-1625736911475@3c-app-gmx-bap19>
- <df431199-0c65-fb9a-02b4-9f84899f37ee@collabora.com>
-X-UI-Message-Type: mail
-X-Priority: 3
-X-Provags-ID: V03:K1:8e+4dnkz5HdUeEwQAIbBhX/zyuSBFGQIIRaR0vNHkeVSovxQzS8gZ42XihYzt8dz1/lDa
- S934zUN3XxKxF8jj1GqmJudA8mCZHQghn2OkR/0ufVP5AAYXhKUbvWhVSKsnPVzHNc3aDZ1XBF51
- X6/HOGeSxxcB7LJ5IwugC+QmRsa1/stBj68AkaXAf3muG7aTiQEnVH9YnAIa+moqX5Y05aTqDQKC
- V58CpzCUoNoLbNBrZWNgZqiRSHJpeOmrL0IlPO/6kR2MfJPx0d7ZLGF7Y3VVeDAafVai5sDXq76z
- tM=
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:Z90GzCAze48=:gvRIenqr4jAzeeWVhzfOQP
- BtPbImyxhCbmc1PxyGIEepLj6KQJsnUfElejdvg0ZzrONhM/pSdfLy+zGVYCiWVeYUapXGVAp
- eSPBsqcZluzjWtS3VxncB7VF7HFbonk1mrJ8+sI4dPepWRedXEX5eCBasCZ6j1y16Q08+aFOr
- pC81vY32oqpUlCyPFQT//U5Lv5JBYw2tLYHlUaOS2zt3nMvdfRyt28z0g68U3DjoCg/r32x5Y
- oj1br4ye4uCkdXjz+A3/Dv+4rrrmwFsPf5Joe2sy2a0Vjb8uhDoDou80sRBORhqhMtGTWW7y0
- r8YJcJ+OrIE7I0fAqHUTWEpWAYFbf5+ojD4MBtC8vNIeCdhX26Joh2kKSL2oBBrcEH1da7fwk
- Z/svvyHUHdeAnAUPZ7KMnrY3LIBwIHoBBdsq3oJyL/J8tSv2cIwtOzPIk+ecFCzW57KLdit2w
- ZH50xC30cXHKRAJkxnxJHHbN6BSvQSclNz8JVkOA4n2vSWRPKAvIL1PukrBHRmSrYCTiGw2Nw
- do5BDKCVAyS11uAvVA4wqVQUvnOT1QzAS3j5cWrua544yC4js4fhKcw+JevcCfrREA/HaY1U0
- 6cZMWlfsdbjE87FiNDWYNcWMK3M/z5UnUn8b6RA4d8ojZ5LQF2irFza1F/RHgSKGypExfCGws
- 1DLwNXO5QfmHPZY5Gca/F0GfPM+ofgZHJlkM7fUhwTXZP6Pp4qIxkjeGN3HP0ypGny1CwuUaB
- Lzs1EmXkN/fVykD3yc22kNgj9b17cBbPCuKwkKuS0znpyAQprWR70YfDgWwekVNEolmiPHTh0
- LBa/d5xKhbeybEIky5X0wyZ67rbtQj0tVs7Nh/otjmR24mAHhE=
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,107 +66,113 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Matthias Brugger <matthias.bgg@gmail.com>, linux-mediatek@lists.infradead.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Enric Balletbo i Serra <enric.balletbo@collabora.com>,
- Collabora Kernel ML <kernel@collabora.com>
+Cc: linux-tegra@vger.kernel.org, Dmitry Osipenko <digetx@gmail.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> Gesendet: Donnerstag, 08. Juli 2021 um 14:30 Uhr
-> Von: "Dafna Hirschfeld" <dafna.hirschfeld@collabora.com>
-> > i see both messages, but mtk_crtc_ddp_irq is never called and so the o=
-ther 2 not.
->
-> Yes, In my case the irq isr is also not called after resume which cause =
-the warning
-> even though "enable_vblank" do get called. Don't know why is that.
+From: Thierry Reding <treding@nvidia.com>
 
+As of commit 4782c0a5dd88 ("clk: tegra: Don't deassert reset on enabling
+clocks"), module resets are no longer automatically deasserted when the
+module clock is enabled. To make sure that the gr2d module continues to
+work, we need to explicitly control the module reset.
 
-> > comp->funcs->enable_vblank should be mtk_drm_crtc_enable_vblank, right=
-?
->
-> No, this is a bit confusing , there are also the funcs of the components=
-, see in file mtk_drm_ddp_comp.c
-> so for mt7623  it is mtk_ovl_enable_vblank.
+Fixes: 4782c0a5dd88 ("clk: tegra: Don't deassert reset on enabling clocks")
+Signed-off-by: Thierry Reding <treding@nvidia.com>
+---
+ drivers/gpu/drm/tegra/gr2d.c | 33 +++++++++++++++++++++++++++++++--
+ 1 file changed, 31 insertions(+), 2 deletions(-)
 
-thanks for pointing to this. in this function another struct is filled wit=
-h the callback+data, and this callback seems to be called mtk_disp_ovl_irq=
-_handler which name suggests also a irq as trigger
-
-412     ret =3D devm_request_irq(dev, irq, mtk_disp_ovl_irq_handler,
-413                    IRQF_TRIGGER_NONE, dev_name(dev), priv);
-414     if (ret < 0) {
-415         dev_err(dev, "Failed to request irq %d: %d\n", irq, ret);
-416         return ret;
-417     }
-
-as i don't see this error in dmesg, i guess the registration was successfu=
-l. added again some debug and it looks like the interrupt callback (mtk_di=
-sp_ovl_irq_handler) is not called
-
-[    5.125002] DEBUG: Passed mtk_disp_ovl_probe 416 int reg:0
-[    6.344029] DEBUG: Passed mtk_drm_crtc_enable_vblank 510
-[    6.344051] DEBUG: Passed mtk_ddp_comp_enable_vblank 117
-[    6.344057] DEBUG: Passed mtk_ovl_enable_vblank 107
-[    6.344062] DEBUG: Passed mtk_ovl_enable_vblank 112
-[    6.344066] DEBUG: Passed mtk_ddp_comp_enable_vblank 121
-
-=2D-- a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-+++ b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-@@ -86,6 +86,7 @@ static irqreturn_t mtk_disp_ovl_irq_handler(int irq, voi=
-d *dev_id)
- {
-        struct mtk_disp_ovl *priv =3D dev_id;
-
-+printk(KERN_ALERT "DEBUG: Passed %s %d \n",__FUNCTION__,__LINE__);
-        /* Clear frame completion interrupt */
-        writel(0x0, priv->regs + DISP_REG_OVL_INTSTA);
-
-@@ -93,6 +94,7 @@ static irqreturn_t mtk_disp_ovl_irq_handler(int irq, voi=
-d *dev_id)
-                return IRQ_NONE;
-
-        priv->vblank_cb(priv->vblank_cb_data);
-+printk(KERN_ALERT "DEBUG: Passed %s %d \n",__FUNCTION__,__LINE__);
-
-        return IRQ_HANDLED;
+diff --git a/drivers/gpu/drm/tegra/gr2d.c b/drivers/gpu/drm/tegra/gr2d.c
+index de288cba3905..ba3722f1b865 100644
+--- a/drivers/gpu/drm/tegra/gr2d.c
++++ b/drivers/gpu/drm/tegra/gr2d.c
+@@ -4,9 +4,11 @@
+  */
+ 
+ #include <linux/clk.h>
++#include <linux/delay.h>
+ #include <linux/iommu.h>
+ #include <linux/module.h>
+ #include <linux/of_device.h>
++#include <linux/reset.h>
+ 
+ #include "drm.h"
+ #include "gem.h"
+@@ -19,6 +21,7 @@ struct gr2d_soc {
+ struct gr2d {
+ 	struct tegra_drm_client client;
+ 	struct host1x_channel *channel;
++	struct reset_control *rst;
+ 	struct clk *clk;
+ 
+ 	const struct gr2d_soc *soc;
+@@ -208,6 +211,12 @@ static int gr2d_probe(struct platform_device *pdev)
+ 	if (!syncpts)
+ 		return -ENOMEM;
+ 
++	gr2d->rst = devm_reset_control_get(dev, NULL);
++	if (IS_ERR(gr2d->rst)) {
++		dev_err(dev, "cannot get reset\n");
++		return PTR_ERR(gr2d->rst);
++	}
++
+ 	gr2d->clk = devm_clk_get(dev, NULL);
+ 	if (IS_ERR(gr2d->clk)) {
+ 		dev_err(dev, "cannot get clock\n");
+@@ -220,6 +229,14 @@ static int gr2d_probe(struct platform_device *pdev)
+ 		return err;
+ 	}
+ 
++	usleep_range(2000, 4000);
++
++	err = reset_control_deassert(gr2d->rst);
++	if (err < 0) {
++		dev_err(dev, "failed to deassert reset: %d\n", err);
++		goto disable_clk;
++	}
++
+ 	INIT_LIST_HEAD(&gr2d->client.base.list);
+ 	gr2d->client.base.ops = &gr2d_client_ops;
+ 	gr2d->client.base.dev = dev;
+@@ -234,8 +251,7 @@ static int gr2d_probe(struct platform_device *pdev)
+ 	err = host1x_client_register(&gr2d->client.base);
+ 	if (err < 0) {
+ 		dev_err(dev, "failed to register host1x client: %d\n", err);
+-		clk_disable_unprepare(gr2d->clk);
+-		return err;
++		goto assert_rst;
+ 	}
+ 
+ 	/* initialize address register map */
+@@ -245,6 +261,13 @@ static int gr2d_probe(struct platform_device *pdev)
+ 	platform_set_drvdata(pdev, gr2d);
+ 
+ 	return 0;
++
++assert_rst:
++	(void)reset_control_assert(gr2d->rst);
++disable_clk:
++	clk_disable_unprepare(gr2d->clk);
++
++	return err;
  }
-@@ -102,11 +104,12 @@ void mtk_ovl_enable_vblank(struct device *dev,
-                           void *vblank_cb_data)
- {
-        struct mtk_disp_ovl *ovl =3D dev_get_drvdata(dev);
--
-+printk(KERN_ALERT "DEBUG: Passed %s %d \n",__FUNCTION__,__LINE__);
-        ovl->vblank_cb =3D vblank_cb;
-        ovl->vblank_cb_data =3D vblank_cb_data;
-        writel(0x0, ovl->regs + DISP_REG_OVL_INTSTA);
-        writel_relaxed(OVL_FME_CPL_INT, ovl->regs + DISP_REG_OVL_INTEN);
-+printk(KERN_ALERT "DEBUG: Passed %s %d \n",__FUNCTION__,__LINE__);
- }
-
- void mtk_ovl_disable_vblank(struct device *dev)
-@@ -410,6 +413,7 @@ static int mtk_disp_ovl_probe(struct platform_device *=
-pdev)
-
-        ret =3D devm_request_irq(dev, irq, mtk_disp_ovl_irq_handler,
-                               IRQF_TRIGGER_NONE, dev_name(dev), priv);
-+printk(KERN_ALERT "DEBUG: Passed %s %d int reg:%d\n",__FUNCTION__,__LINE_=
-_,ret);
-        if (ret < 0) {
-                dev_err(dev, "Failed to request irq %d: %d\n", irq, ret);
-                return ret;
-
-
-how can we trace this further? maybe watchdog related?
-
-> >
-> > "watchdog: watchdog0: watchdog did not stop!"
-> >
-> > i see this with my 5.13, 5.12-drm (5.12.0+mtk/core drm-patches) and 5.=
-12.14 too (hdmi is working there), but not 5.12.0!
-> > that means something in drm-patches (mtk/core) breaks watchdog. maybe =
-the recursion mentioned above?
+ 
+ static int gr2d_remove(struct platform_device *pdev)
+@@ -259,6 +282,12 @@ static int gr2d_remove(struct platform_device *pdev)
+ 		return err;
+ 	}
+ 
++	err = reset_control_assert(gr2d->rst);
++	if (err < 0)
++		dev_err(&pdev->dev, "failed to assert reset: %d\n", err);
++
++	usleep_range(2000, 4000);
++
+ 	clk_disable_unprepare(gr2d->clk);
+ 
+ 	return 0;
+-- 
+2.32.0
 
