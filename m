@@ -2,46 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A36C3BF9E0
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Jul 2021 14:10:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB0C83BF9E1
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Jul 2021 14:10:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 97C4F6E8B9;
-	Thu,  8 Jul 2021 12:10:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BDDC56E8E2;
+	Thu,  8 Jul 2021 12:10:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com
- [185.176.79.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B04F26E8B9
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Jul 2021 12:10:28 +0000 (UTC)
-Received: from fraeml707-chm.china.huawei.com (unknown [172.18.147.207])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4GLFB80yrzz6H8xQ;
- Thu,  8 Jul 2021 19:56:16 +0800 (CST)
-Received: from fraeml714-chm.china.huawei.com (10.206.15.33) by
- fraeml707-chm.china.huawei.com (10.206.15.35) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Thu, 8 Jul 2021 14:10:25 +0200
-Received: from fraeml714-chm.china.huawei.com ([10.206.15.33]) by
- fraeml714-chm.china.huawei.com ([10.206.15.33]) with mapi id 15.01.2176.012;
- Thu, 8 Jul 2021 14:10:25 +0200
-From: Roberto Sassu <roberto.sassu@huawei.com>
-To: =?utf-8?B?Q2hyaXN0aWFuIEvDtm5pZw==?= <ckoenig.leichtzumerken@gmail.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Subject: RE: [PATCH] drm/qxl: add NULL check for bo->resource
-Thread-Topic: [PATCH] drm/qxl: add NULL check for bo->resource
-Thread-Index: AQHXc+8Ca07buSFVIkqEd5aLMx9r/as4+/BQ
-Date: Thu, 8 Jul 2021 12:10:25 +0000
-Message-ID: <9aae31dac09b4430918f39b9c5d79c27@huawei.com>
-References: <20210708114710.8186-1-christian.koenig@amd.com>
-In-Reply-To: <20210708114710.8186-1-christian.koenig@amd.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.221.98.153]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
+ [IPv6:2a00:1450:4864:20::32f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE2AF6E8DA
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Jul 2021 12:10:48 +0000 (UTC)
+Received: by mail-wm1-x32f.google.com with SMTP id
+ t14-20020a05600c198eb029020c8aac53d4so18130550wmq.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 08 Jul 2021 05:10:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=Wute3Tcn5CK+HDdKApb5GoY7kr2h2H0kzi84ndQYn28=;
+ b=HvUF0n2CDnoHJdHUSLK4Pz55KWoi3//NJUxnW0p9EZE40XPUmUCDvhFCS0bK2eU+Le
+ s9VMnPYIsH7od+OghuDCJjl5rW1XgR0YWVt5bTwB0At0fGnCcNF5ngqqeO723OlcXcU5
+ gFMkdLl90zFGK5Uyra9yVgSA6w/tSdpuz6wI1pcczBDEzXf+uOVfiv2FcVB5UzF+2gzI
+ oNl6oplkW/wIF3llVei5WYiSO3TMzXybhPpQVLDIWHJeaXhnc8kcsn6ZtgCymN76n7NY
+ f8klTM98NhVVtQHh+g89fHTAzMiI7HYQlbnCMVGjScYb8shtlvdnJ5k5B6FZ170rxjiM
+ ESMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=Wute3Tcn5CK+HDdKApb5GoY7kr2h2H0kzi84ndQYn28=;
+ b=UzegZSQbZWjQ1zpETKQGcm48LCr02MXjgqn37wIC7Zyl+ea4pyO78t2dlPDdHNKm2i
+ 0uPsPB2pBbb9tZIkzoODSeb+8QtxEDCpDl+LJBY2N/1rAXJyfCFyTUdsHtY4eiqZtZDz
+ 1sq1elNdpTbiUCE3oeXVo6aXiVM+F7AIFKHurXPw0cM3HZHDpGoIjJSrviilKUnuUJZE
+ ITLVwtIKbr6saMvGmPH/rLTgjh0yYCy2ZRFjbVRpFuyCmK0mT6U4tmapO74UbYIImDvT
+ ryNKhgjTnj9PDf45Ya26+G7nPvUiTURQZRtTdoXzRBHrmoBdIh2J0KFCv2HEl7Lv7/cC
+ nIsA==
+X-Gm-Message-State: AOAM533sxwptG3fJRPugIGCNKx8cntpYswhX2r01mWXHVcktnH7iW3JH
+ J5AFI1nvdgy/TgDePtVxqZ4=
+X-Google-Smtp-Source: ABdhPJydBNocqhMICyFVMJPPfgkGMVNaffLn+VS2VKV9PdeSHwjqqlwRdtYLWxNMHvAL4mLvx73V4g==
+X-Received: by 2002:a05:600c:198c:: with SMTP id
+ t12mr32065934wmq.140.1625746247114; 
+ Thu, 08 Jul 2021 05:10:47 -0700 (PDT)
+Received: from ?IPv6:2a02:908:1252:fb60:bc19:c1e3:6307:7e3e?
+ ([2a02:908:1252:fb60:bc19:c1e3:6307:7e3e])
+ by smtp.gmail.com with ESMTPSA id u18sm1786406wmj.15.2021.07.08.05.10.46
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 08 Jul 2021 05:10:46 -0700 (PDT)
+Subject: Re: [PATCH v4 5/7] drm/panfrost: Add a new ioctl to submit batches
+To: Daniel Vetter <daniel@ffwll.ch>,
+ Boris Brezillon <boris.brezillon@collabora.com>
+References: <20210705082950.3573841-1-boris.brezillon@collabora.com>
+ <20210705082950.3573841-6-boris.brezillon@collabora.com>
+ <YOLRnPjCDkc9DRxE@phenom.ffwll.local>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <1fe2d843-041d-40f6-b552-91f159487495@gmail.com>
+Date: Thu, 8 Jul 2021 14:10:45 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
+In-Reply-To: <YOLRnPjCDkc9DRxE@phenom.ffwll.local>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,27 +77,773 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>, dri-devel@lists.freedesktop.org,
+ Steven Price <steven.price@arm.com>, Rob Herring <robh+dt@kernel.org>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Jason Ekstrand <jason@jlekstrand.net>, Robin Murphy <robin.murphy@arm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-PiBGcm9tOiBDaHJpc3RpYW4gS8O2bmlnIFttYWlsdG86Y2tvZW5pZy5sZWljaHR6dW1lcmtlbkBn
-bWFpbC5jb21dDQo+IFNlbnQ6IFRodXJzZGF5LCBKdWx5IDgsIDIwMjEgMTo0NyBQTQ0KPiBXaGVu
-IGFsbG9jYXRpb25zIGZhaWxzIHRoYXQgY2FuIGJlIE5VTEwgbm93Lg0KPiANCj4gU2lnbmVkLW9m
-Zi1ieTogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPg0KPiBSZXBv
-cnRlZC1ieTogRGFuaWVsIEJyaXN0b3QgZGUgT2xpdmVpcmEgPGJyaXN0b3RAa2VybmVsLm9yZz4N
-Cj4gVGVzdGVkLWJ5OiBEYW5pZWwgQnJpc3RvdCBkZSBPbGl2ZWlyYSA8YnJpc3RvdEBrZXJuZWwu
-b3JnPg0KDQpIaSBDaHJpc3RpYW4NCg0KdGhhbmtzLCBpdCB3b3JrZWQuDQoNClRlc3RlZC1ieTog
-Um9iZXJ0byBTYXNzdSA8cm9iZXJ0by5zYXNzdUBodWF3ZWkuY29tPg0KDQpSb2JlcnRvDQoNCkhV
-QVdFSSBURUNITk9MT0dJRVMgRHVlc3NlbGRvcmYgR21iSCwgSFJCIDU2MDYzDQpNYW5hZ2luZyBE
-aXJlY3RvcjogTGkgUGVuZywgTGkgSmlhbiwgU2hpIFlhbmxpDQoNCj4gLS0tDQo+ICBkcml2ZXJz
-L2dwdS9kcm0vcXhsL3F4bF90dG0uYyB8IDIgKy0NCj4gIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2Vy
-dGlvbigrKSwgMSBkZWxldGlvbigtKQ0KPiANCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2Ry
-bS9xeGwvcXhsX3R0bS5jIGIvZHJpdmVycy9ncHUvZHJtL3F4bC9xeGxfdHRtLmMNCj4gaW5kZXgg
-MTlmZDM5ZDlhMDBjLi4zN2ExYjZhNmFkNmQgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvZ3B1L2Ry
-bS9xeGwvcXhsX3R0bS5jDQo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9xeGwvcXhsX3R0bS5jDQo+
-IEBAIC0xMjcsNyArMTI3LDcgQEAgc3RhdGljIHZvaWQgcXhsX2JvX21vdmVfbm90aWZ5KHN0cnVj
-dA0KPiB0dG1fYnVmZmVyX29iamVjdCAqYm8sDQo+ICAJc3RydWN0IHF4bF9ibyAqcWJvOw0KPiAg
-CXN0cnVjdCBxeGxfZGV2aWNlICpxZGV2Ow0KPiANCj4gLQlpZiAoIXF4bF90dG1fYm9faXNfcXhs
-X2JvKGJvKSkNCj4gKwlpZiAoIXF4bF90dG1fYm9faXNfcXhsX2JvKGJvKSB8fCAhYm8tPnJlc291
-cmNlKQ0KPiAgCQlyZXR1cm47DQo+ICAJcWJvID0gdG9fcXhsX2JvKGJvKTsNCj4gIAlxZGV2ID0g
-dG9fcXhsKHFiby0+dGJvLmJhc2UuZGV2KTsNCj4gLS0NCj4gMi4yNS4xDQoNCg==
+Am 05.07.21 um 11:32 schrieb Daniel Vetter:
+> On Mon, Jul 05, 2021 at 10:29:48AM +0200, Boris Brezillon wrote:
+>> This should help limit the number of ioctls when submitting multiple
+>> jobs. The new ioctl also supports syncobj timelines and BO access flags.
+>>
+>> v4:
+>> * Implement panfrost_ioctl_submit() as a wrapper around
+>>    panfrost_submit_job()
+>> * Replace stride fields by a version field which is mapped to
+>>    a <job_stride,bo_ref_stride,syncobj_ref_stride> tuple internally
+>>
+>> v3:
+>> * Re-use panfrost_get_job_bos() and panfrost_get_job_in_syncs() in the
+>>    old submit path
+>>
+>> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+>> ---
+>>   drivers/gpu/drm/panfrost/panfrost_drv.c | 562 ++++++++++++++++--------
+>>   drivers/gpu/drm/panfrost/panfrost_job.c |   3 +
+>>   include/uapi/drm/panfrost_drm.h         |  92 ++++
+>>   3 files changed, 479 insertions(+), 178 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
+>> index 8e28ef30310b..a624e4f86aff 100644
+>> --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
+>> +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
+>> @@ -138,184 +138,6 @@ panfrost_get_job_mappings(struct drm_file *file_priv, struct panfrost_job *job)
+>>   	return 0;
+>>   }
+>>   
+>> -/**
+>> - * panfrost_lookup_bos() - Sets up job->bo[] with the GEM objects
+>> - * referenced by the job.
+>> - * @dev: DRM device
+>> - * @file_priv: DRM file for this fd
+>> - * @args: IOCTL args
+>> - * @job: job being set up
+>> - *
+>> - * Resolve handles from userspace to BOs and attach them to job.
+>> - *
+>> - * Note that this function doesn't need to unreference the BOs on
+>> - * failure, because that will happen at panfrost_job_cleanup() time.
+>> - */
+>> -static int
+>> -panfrost_lookup_bos(struct drm_device *dev,
+>> -		  struct drm_file *file_priv,
+>> -		  struct drm_panfrost_submit *args,
+>> -		  struct panfrost_job *job)
+>> -{
+>> -	unsigned int i;
+>> -	int ret;
+>> -
+>> -	job->bo_count = args->bo_handle_count;
+>> -
+>> -	if (!job->bo_count)
+>> -		return 0;
+>> -
+>> -	job->bo_flags = kvmalloc_array(job->bo_count,
+>> -				       sizeof(*job->bo_flags),
+>> -				       GFP_KERNEL | __GFP_ZERO);
+>> -	if (!job->bo_flags)
+>> -		return -ENOMEM;
+>> -
+>> -	for (i = 0; i < job->bo_count; i++)
+>> -		job->bo_flags[i] = PANFROST_BO_REF_EXCLUSIVE;
+>> -
+>> -	ret = drm_gem_objects_lookup(file_priv,
+>> -				     (void __user *)(uintptr_t)args->bo_handles,
+>> -				     job->bo_count, &job->bos);
+>> -	if (ret)
+>> -		return ret;
+>> -
+>> -	return panfrost_get_job_mappings(file_priv, job);
+>> -}
+>> -
+>> -/**
+>> - * panfrost_copy_in_sync() - Sets up job->deps with the sync objects
+>> - * referenced by the job.
+>> - * @dev: DRM device
+>> - * @file_priv: DRM file for this fd
+>> - * @args: IOCTL args
+>> - * @job: job being set up
+>> - *
+>> - * Resolve syncobjs from userspace to fences and attach them to job.
+>> - *
+>> - * Note that this function doesn't need to unreference the fences on
+>> - * failure, because that will happen at panfrost_job_cleanup() time.
+>> - */
+>> -static int
+>> -panfrost_copy_in_sync(struct drm_device *dev,
+>> -		  struct drm_file *file_priv,
+>> -		  struct drm_panfrost_submit *args,
+>> -		  struct panfrost_job *job)
+>> -{
+>> -	u32 *handles;
+>> -	int ret = 0;
+>> -	int i, in_fence_count;
+>> -
+>> -	in_fence_count = args->in_sync_count;
+>> -
+>> -	if (!in_fence_count)
+>> -		return 0;
+>> -
+>> -	handles = kvmalloc_array(in_fence_count, sizeof(u32), GFP_KERNEL);
+>> -	if (!handles) {
+>> -		ret = -ENOMEM;
+>> -		DRM_DEBUG("Failed to allocate incoming syncobj handles\n");
+>> -		goto fail;
+>> -	}
+>> -
+>> -	if (copy_from_user(handles,
+>> -			   (void __user *)(uintptr_t)args->in_syncs,
+>> -			   in_fence_count * sizeof(u32))) {
+>> -		ret = -EFAULT;
+>> -		DRM_DEBUG("Failed to copy in syncobj handles\n");
+>> -		goto fail;
+>> -	}
+>> -
+>> -	for (i = 0; i < in_fence_count; i++) {
+>> -		struct dma_fence *fence;
+>> -
+>> -		ret = drm_syncobj_find_fence(file_priv, handles[i], 0, 0,
+>> -					     &fence);
+>> -		if (ret)
+>> -			goto fail;
+>> -
+>> -		ret = drm_gem_fence_array_add(&job->deps, fence);
+>> -
+>> -		if (ret)
+>> -			goto fail;
+>> -	}
+>> -
+>> -fail:
+>> -	kvfree(handles);
+>> -	return ret;
+>> -}
+>> -
+>> -static int panfrost_ioctl_submit(struct drm_device *dev, void *data,
+>> -		struct drm_file *file)
+>> -{
+>> -	struct panfrost_device *pfdev = dev->dev_private;
+>> -	struct drm_panfrost_submit *args = data;
+>> -	struct drm_syncobj *sync_out = NULL;
+>> -	struct panfrost_submitqueue *queue;
+>> -	struct panfrost_job *job;
+>> -	int ret = 0;
+>> -
+>> -	if (!args->jc)
+>> -		return -EINVAL;
+>> -
+>> -	if (args->requirements && args->requirements != PANFROST_JD_REQ_FS)
+>> -		return -EINVAL;
+>> -
+>> -	queue = panfrost_submitqueue_get(file->driver_priv, 0);
+>> -	if (IS_ERR(queue))
+>> -		return PTR_ERR(queue);
+>> -
+>> -	if (args->out_sync > 0) {
+>> -		sync_out = drm_syncobj_find(file, args->out_sync);
+>> -		if (!sync_out) {
+>> -			ret = -ENODEV;
+>> -			goto fail_put_queue;
+>> -		}
+>> -	}
+>> -
+>> -	job = kzalloc(sizeof(*job), GFP_KERNEL);
+>> -	if (!job) {
+>> -		ret = -ENOMEM;
+>> -		goto fail_out_sync;
+>> -	}
+>> -
+>> -	kref_init(&job->refcount);
+>> -
+>> -	xa_init_flags(&job->deps, XA_FLAGS_ALLOC);
+>> -
+>> -	job->pfdev = pfdev;
+>> -	job->jc = args->jc;
+>> -	job->requirements = args->requirements;
+>> -	job->flush_id = panfrost_gpu_get_latest_flush_id(pfdev);
+>> -	job->file_priv = file->driver_priv;
+>> -
+>> -	ret = panfrost_copy_in_sync(dev, file, args, job);
+>> -	if (ret)
+>> -		goto fail_job;
+>> -
+>> -	ret = panfrost_lookup_bos(dev, file, args, job);
+>> -	if (ret)
+>> -		goto fail_job;
+>> -
+>> -	ret = panfrost_job_push(queue, job);
+>> -	if (ret)
+>> -		goto fail_job;
+>> -
+>> -	/* Update the return sync object for the job */
+>> -	if (sync_out)
+>> -		drm_syncobj_replace_fence(sync_out, job->render_done_fence);
+>> -
+>> -fail_job:
+>> -	panfrost_job_put(job);
+>> -fail_out_sync:
+>> -	if (sync_out)
+>> -		drm_syncobj_put(sync_out);
+>> -fail_put_queue:
+>> -	panfrost_submitqueue_put(queue);
+>> -
+>> -	return ret;
+>> -}
+>> -
+>>   static int
+>>   panfrost_ioctl_wait_bo(struct drm_device *dev, void *data,
+>>   		       struct drm_file *file_priv)
+>> @@ -491,6 +313,389 @@ panfrost_ioctl_destroy_submitqueue(struct drm_device *dev, void *data,
+>>   	return panfrost_submitqueue_destroy(priv, id);
+>>   }
+>>   
+>> +#define PANFROST_BO_REF_ALLOWED_FLAGS \
+>> +	(PANFROST_BO_REF_EXCLUSIVE | PANFROST_BO_REF_NO_IMPLICIT_DEP)
+>> +
+>> +static int
+>> +panfrost_get_job_bos(struct drm_file *file_priv,
+>> +		     u64 refs, u32 ref_stride, u32 count,
+>> +		     struct panfrost_job *job)
+>> +{
+>> +	void __user *in = u64_to_user_ptr(refs);
+>> +	unsigned int i;
+>> +
+>> +	job->bo_count = count;
+>> +
+>> +	if (!count)
+>> +		return 0;
+>> +
+>> +	job->bos = kvmalloc_array(job->bo_count, sizeof(*job->bos),
+>> +				  GFP_KERNEL | __GFP_ZERO);
+>> +	job->bo_flags = kvmalloc_array(job->bo_count,
+>> +				       sizeof(*job->bo_flags),
+>> +				       GFP_KERNEL | __GFP_ZERO);
+>> +	if (!job->bos || !job->bo_flags)
+>> +		return -ENOMEM;
+>> +
+>> +	for (i = 0; i < count; i++) {
+>> +		struct drm_panfrost_bo_ref ref = { };
+>> +		int ret;
+>> +
+>> +		ret = copy_struct_from_user(&ref, sizeof(ref),
+>> +					    in + (i * ref_stride),
+>> +					    ref_stride);
+>> +		if (ret)
+>> +			return ret;
+>> +
+>> +		/* Prior to the BATCH_SUBMIT ioctl all accessed BOs were
+>> +		 * treated as exclusive.
+>> +		 */
+>> +		if (ref_stride == sizeof(u32))
+>> +			ref.flags = PANFROST_BO_REF_EXCLUSIVE;
+>> +
+>> +		if ((ref.flags & ~PANFROST_BO_REF_ALLOWED_FLAGS))
+>> +			return -EINVAL;
+>> +
+>> +		job->bos[i] = drm_gem_object_lookup(file_priv, ref.handle);
+>> +		if (!job->bos[i])
+>> +			return -EINVAL;
+>> +
+>> +		job->bo_flags[i] = ref.flags;
+>> +	}
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static int
+>> +panfrost_get_job_in_syncs(struct drm_file *file_priv,
+>> +			  u64 refs, u32 ref_stride,
+>> +			  u32 count, struct panfrost_job *job)
+>> +{
+>> +	const void __user *in = u64_to_user_ptr(refs);
+>> +	unsigned int i;
+>> +	int ret;
+>> +
+>> +	if (!count)
+>> +		return 0;
+>> +
+>> +	for (i = 0; i < count; i++) {
+>> +		struct drm_panfrost_syncobj_ref ref = { };
+>> +		struct dma_fence *fence;
+>> +
+>> +		ret = copy_struct_from_user(&ref, sizeof(ref),
+>> +					    in + (i * ref_stride),
+>> +					    ref_stride);
+>> +		if (ret)
+>> +			return ret;
+>> +
+>> +		if (ref.pad)
+>> +			return -EINVAL;
+>> +
+>> +		ret = drm_syncobj_find_fence(file_priv, ref.handle, ref.point,
+>> +					     0, &fence);
+>> +		if (ret)
+>> +			return ret;
+>> +
+>> +		ret = drm_gem_fence_array_add(&job->deps, fence);
+>> +		if (ret)
+>> +			return ret;
+>> +	}
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +struct panfrost_job_out_sync {
+>> +	struct drm_syncobj *syncobj;
+>> +	struct dma_fence_chain *chain;
+>> +	u64 point;
+>> +};
+>> +
+>> +static void
+>> +panfrost_put_job_out_syncs(struct panfrost_job_out_sync *out_syncs, u32 count)
+>> +{
+>> +	unsigned int i;
+>> +
+>> +	for (i = 0; i < count; i++) {
+>> +		if (!out_syncs[i].syncobj)
+>> +			break;
+>> +
+>> +		drm_syncobj_put(out_syncs[i].syncobj);
+>> +		kvfree(out_syncs[i].chain);
+>> +	}
+>> +
+>> +	kvfree(out_syncs);
+>> +}
+>> +
+>> +static struct panfrost_job_out_sync *
+>> +panfrost_get_job_out_syncs(struct drm_file *file_priv,
+>> +			   u64 refs, u32 ref_stride,
+>> +			   u32 count)
+>> +{
+>> +	void __user *in = u64_to_user_ptr(refs);
+>> +	struct panfrost_job_out_sync *out_syncs;
+>> +	unsigned int i;
+>> +	int ret;
+>> +
+>> +	if (!count)
+>> +		return NULL;
+>> +
+>> +	/* If the syncobj ref_stride == sizeof(u32) we are called from the
+>> +	 * old submit ioctl() which only accepted one out syncobj. In that
+>> +	 * case the syncobj handle is passed directly through the
+>> +	 * ->out_syncs field, so let's make sure the refs fits in a u32.
+>> +	 */
+>> +	if (ref_stride == sizeof(u32) &&
+>> +	    (count != 1 || refs > UINT_MAX))
+>> +		return ERR_PTR(-EINVAL);
+>> +
+>> +	out_syncs = kvmalloc_array(count, sizeof(*out_syncs),
+>> +				   GFP_KERNEL | __GFP_ZERO);
+>> +	if (!out_syncs)
+>> +		return ERR_PTR(-ENOMEM);
+>> +
+>> +	for (i = 0; i < count; i++) {
+>> +		struct drm_panfrost_syncobj_ref ref = { };
+>> +
+>> +		if (ref_stride == sizeof(u32)) {
+>> +			/* Special case for the old submit wrapper: in that
+>> +			 * case there's only one out_sync, and the syncobj
+>> +			 * handle is passed directly in the out_syncs field.
+>> +			 */
+>> +			ref.handle = refs;
+>> +		} else {
+>> +			ret = copy_struct_from_user(&ref, sizeof(ref),
+>> +						    in + (i * ref_stride),
+>> +						    ref_stride);
+>> +			if (ret)
+>> +				goto err_free_out_syncs;
+>> +		}
+>> +
+>> +		if (ref.pad) {
+>> +			ret = -EINVAL;
+>> +			goto err_free_out_syncs;
+>> +		}
+>> +
+>> +		out_syncs[i].syncobj = drm_syncobj_find(file_priv, ref.handle);
+>> +		if (!out_syncs[i].syncobj) {
+>> +			ret = -ENODEV;
+>> +			goto err_free_out_syncs;
+>> +		}
+>> +
+>> +		out_syncs[i].point = ref.point;
+>> +		if (!out_syncs[i].point)
+>> +			continue;
+>> +
+>> +		out_syncs[i].chain = kmalloc(sizeof(*out_syncs[i].chain),
+>> +					     GFP_KERNEL);
+>> +		if (!out_syncs[i].chain) {
+>> +			ret = -ENOMEM;
+>> +			goto err_free_out_syncs;
+>> +		}
+>> +	}
+>> +
+>> +	return out_syncs;
+>> +
+>> +err_free_out_syncs:
+>> +	panfrost_put_job_out_syncs(out_syncs, count);
+>> +	return ERR_PTR(ret);
+>> +}
+>> +
+>> +static void
+>> +panfrost_set_job_out_fence(struct panfrost_job_out_sync *out_syncs,
+>> +			   unsigned int count, struct dma_fence *fence)
+>> +{
+>> +	unsigned int i;
+>> +
+>> +	for (i = 0; i < count; i++) {
+>> +		if (out_syncs[i].chain) {
+>> +			drm_syncobj_add_point(out_syncs[i].syncobj,
+>> +					      out_syncs[i].chain,
+>> +					      fence, out_syncs[i].point);
+>> +			out_syncs[i].chain = NULL;
+>> +		} else {
+>> +			drm_syncobj_replace_fence(out_syncs[i].syncobj,
+>> +						  fence);
+>> +		}
+>> +	}
+>> +}
+>> +
+>> +struct panfrost_submit_ioctl_version_info {
+>> +	u32 job_stride;
+>> +	u32 bo_ref_stride;
+>> +	u32 syncobj_ref_stride;
+>> +};
+>> +
+>> +static const struct panfrost_submit_ioctl_version_info submit_versions[] = {
+>> +	/* SUBMIT */
+>> +	[0] = { 0, 4, 4 },
+>> +
+>> +	/* BATCH_SUBMIT v1 */
+>> +	[1] = { 48, 8, 16 },
+>> +};
+>> +
+>> +#define PANFROST_JD_ALLOWED_REQS PANFROST_JD_REQ_FS
+>> +
+>> +static int
+>> +panfrost_submit_job(struct drm_device *dev, struct drm_file *file_priv,
+>> +		    struct panfrost_submitqueue *queue,
+>> +		    const struct drm_panfrost_job *args,
+>> +		    u32 version)
+>> +{
+>> +	struct panfrost_device *pfdev = dev->dev_private;
+>> +	struct panfrost_job_out_sync *out_syncs;
+>> +	u32 bo_stride, syncobj_stride;
+>> +	struct panfrost_job *job;
+>> +	int ret;
+>> +
+>> +	if (!args->head)
+>> +		return -EINVAL;
+>> +
+>> +	if (args->requirements & ~PANFROST_JD_ALLOWED_REQS)
+>> +		return -EINVAL;
+>> +
+>> +	bo_stride = submit_versions[version].bo_ref_stride;
+>> +	syncobj_stride = submit_versions[version].syncobj_ref_stride;
+>> +
+>> +	job = kzalloc(sizeof(*job), GFP_KERNEL);
+>> +	if (!job)
+>> +		return -ENOMEM;
+>> +
+>> +	kref_init(&job->refcount);
+>> +
+>> +	job->pfdev = pfdev;
+>> +	job->jc = args->head;
+>> +	job->requirements = args->requirements;
+>> +	job->flush_id = panfrost_gpu_get_latest_flush_id(pfdev);
+>> +	job->file_priv = file_priv->driver_priv;
+>> +	xa_init_flags(&job->deps, XA_FLAGS_ALLOC);
+>> +
+>> +	ret = panfrost_get_job_in_syncs(file_priv,
+>> +					args->in_syncs,
+>> +					syncobj_stride,
+>> +					args->in_sync_count,
+>> +					job);
+>> +	if (ret)
+>> +		goto err_put_job;
+>> +
+>> +	out_syncs = panfrost_get_job_out_syncs(file_priv,
+>> +					       args->out_syncs,
+>> +					       syncobj_stride,
+>> +					       args->out_sync_count);
+>> +	if (IS_ERR(out_syncs)) {
+>> +		ret = PTR_ERR(out_syncs);
+>> +		goto err_put_job;
+>> +	}
+>> +
+>> +	ret = panfrost_get_job_bos(file_priv, args->bos, bo_stride,
+>> +				   args->bo_count, job);
+>> +	if (ret)
+>> +		goto err_put_job;
+>> +
+>> +	ret = panfrost_get_job_mappings(file_priv, job);
+>> +	if (ret)
+>> +		goto err_put_job;
+>> +
+>> +	ret = panfrost_job_push(queue, job);
+>> +	if (ret) {
+>> +		panfrost_put_job_out_syncs(out_syncs, args->out_sync_count);
+>> +		goto err_put_job;
+>> +	}
+>> +
+>> +	panfrost_set_job_out_fence(out_syncs, args->out_sync_count,
+>> +				   job->render_done_fence);
+>> +	panfrost_put_job_out_syncs(out_syncs, args->out_sync_count);
+>> +	return 0;
+>> +
+>> +err_put_job:
+>> +	panfrost_job_put(job);
+>> +	return ret;
+>> +}
+>> +
+>> +static int
+>> +panfrost_ioctl_submit(struct drm_device *dev, void *data,
+>> +		      struct drm_file *file)
+>> +{
+>> +	struct drm_panfrost_submit *args = data;
+>> +	struct drm_panfrost_job job_args = {
+>> +		.head = args->jc,
+>> +		.bos = args->bo_handles,
+>> +		.in_syncs = args->in_syncs,
+>> +
+>> +		/* We are abusing .out_syncs and passing the handle directly
+>> +		 * instead of a pointer to a user u32 array, but
+>> +		 * panfrost_job_submit() knows about it, so it's fine.
+>> +		 */
+>> +		.out_syncs = args->out_sync,
+>> +		.in_sync_count = args->in_sync_count,
+>> +		.out_sync_count = args->out_sync > 0 ? 1 : 0,
+>> +		.bo_count = args->bo_handle_count,
+>> +		.requirements = args->requirements
+>> +	};
+>> +	struct panfrost_submitqueue *queue;
+>> +	int ret;
+>> +
+>> +	queue = panfrost_submitqueue_get(file->driver_priv, 0);
+>> +	if (IS_ERR(queue))
+>> +		return PTR_ERR(queue);
+>> +
+>> +	ret = panfrost_submit_job(dev, file, queue, &job_args, 0);
+>> +	panfrost_submitqueue_put(queue);
+>> +
+>> +	return ret;
+>> +}
+>> +
+>> +static int
+>> +panfrost_ioctl_batch_submit(struct drm_device *dev, void *data,
+>> +			    struct drm_file *file_priv)
+>> +{
+>> +	struct drm_panfrost_batch_submit *args = data;
+>> +	void __user *jobs_args = u64_to_user_ptr(args->jobs);
+>> +	struct panfrost_submitqueue *queue;
+>> +	u32 version = args->version;
+>> +	u32 job_stride;
+>> +	unsigned int i;
+>> +	int ret;
+>> +
+>> +	/* Version 0 doesn't exists (it's reserved for the SUBMIT ioctl) */
+>> +	if (!version)
+>> +		return -EINVAL;
+>> +
+>> +	/* If the version specified is bigger than what we currently support,
+>> +	 * pick the last supported version and let copy_struct_from_user()
+>> +	 * check that any extra job, bo_ref and syncobj_ref fields are zeroed.
+>> +	 */
+>> +	if (version >= ARRAY_SIZE(submit_versions))
+>> +		version = ARRAY_SIZE(submit_versions) - 1;
+>> +
+>> +	queue = panfrost_submitqueue_get(file_priv->driver_priv, args->queue);
+>> +	if (IS_ERR(queue))
+>> +		return PTR_ERR(queue);
+>> +
+>> +	job_stride = submit_versions[version].job_stride;
+>> +	for (i = 0; i < args->job_count; i++) {
+>> +		struct drm_panfrost_job job_args = { };
+>> +
+>> +		ret = copy_struct_from_user(&job_args, sizeof(job_args),
+>> +					    jobs_args + (i * job_stride),
+>> +					    job_stride);
+>> +		if (ret) {
+>> +			args->fail_idx = i;
+>> +			goto out_put_queue;
+>> +		}
+>> +
+>> +		ret = panfrost_submit_job(dev, file_priv, queue, &job_args,
+>> +					  version);
+>> +		if (ret) {
+>> +			args->fail_idx = i;
+>> +			goto out_put_queue;
+>> +		}
+>> +	}
+>> +
+>> +out_put_queue:
+>> +	panfrost_submitqueue_put(queue);
+>> +	return 0;
+>> +}
+>> +
+>>   int panfrost_unstable_ioctl_check(void)
+>>   {
+>>   	if (!unstable_ioctls)
+>> @@ -572,6 +777,7 @@ static const struct drm_ioctl_desc panfrost_drm_driver_ioctls[] = {
+>>   	PANFROST_IOCTL(MADVISE,		madvise,	DRM_RENDER_ALLOW),
+>>   	PANFROST_IOCTL(CREATE_SUBMITQUEUE, create_submitqueue, DRM_RENDER_ALLOW),
+>>   	PANFROST_IOCTL(DESTROY_SUBMITQUEUE, destroy_submitqueue, DRM_RENDER_ALLOW),
+>> +	PANFROST_IOCTL(BATCH_SUBMIT,	batch_submit,	DRM_RENDER_ALLOW),
+>>   };
+>>   
+>>   DEFINE_DRM_GEM_FOPS(panfrost_drm_driver_fops);
+>> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
+>> index 56ae89272e19..4e1540bce865 100644
+>> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
+>> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
+>> @@ -254,6 +254,9 @@ static int panfrost_acquire_object_fences(struct panfrost_job *job)
+>>   				return ret;
+>>   		}
+>>   
+>> +		if (job->bo_flags[i] & PANFROST_BO_REF_NO_IMPLICIT_DEP)
+>> +			continue;
+> This breaks dma_resv rules. I'll send out patch set fixing this pattern in
+> other drivers, I'll ping you on that for what you need to change. Should
+> go out today or so.
+
+I'm really wondering if the behavior that the exclusive fences replaces 
+all the shared fences was such a good idea.
+
+It just allows drivers to mess up things in a way which can be easily 
+used to compromise the system.
+
+Christian.
+
+>
+> Also cc: Christian König.
+> -Daniel
+>
+>> +
+>>   		ret = drm_gem_fence_array_add_implicit(&job->deps, job->bos[i],
+>>   						       exclusive);
+>>   		if (ret)
+>> diff --git a/include/uapi/drm/panfrost_drm.h b/include/uapi/drm/panfrost_drm.h
+>> index e31a22c176d9..5d534e61c28e 100644
+>> --- a/include/uapi/drm/panfrost_drm.h
+>> +++ b/include/uapi/drm/panfrost_drm.h
+>> @@ -23,6 +23,7 @@ extern "C" {
+>>   #define DRM_PANFROST_MADVISE			0x08
+>>   #define DRM_PANFROST_CREATE_SUBMITQUEUE		0x09
+>>   #define DRM_PANFROST_DESTROY_SUBMITQUEUE	0x0a
+>> +#define DRM_PANFROST_BATCH_SUBMIT		0x0b
+>>   
+>>   #define DRM_IOCTL_PANFROST_SUBMIT		DRM_IOW(DRM_COMMAND_BASE + DRM_PANFROST_SUBMIT, struct drm_panfrost_submit)
+>>   #define DRM_IOCTL_PANFROST_WAIT_BO		DRM_IOW(DRM_COMMAND_BASE + DRM_PANFROST_WAIT_BO, struct drm_panfrost_wait_bo)
+>> @@ -33,6 +34,7 @@ extern "C" {
+>>   #define DRM_IOCTL_PANFROST_MADVISE		DRM_IOWR(DRM_COMMAND_BASE + DRM_PANFROST_MADVISE, struct drm_panfrost_madvise)
+>>   #define DRM_IOCTL_PANFROST_CREATE_SUBMITQUEUE	DRM_IOWR(DRM_COMMAND_BASE + DRM_PANFROST_CREATE_SUBMITQUEUE, struct drm_panfrost_create_submitqueue)
+>>   #define DRM_IOCTL_PANFROST_DESTROY_SUBMITQUEUE	DRM_IOWR(DRM_COMMAND_BASE + DRM_PANFROST_DESTROY_SUBMITQUEUE, __u32)
+>> +#define DRM_IOCTL_PANFROST_BATCH_SUBMIT		DRM_IOWR(DRM_COMMAND_BASE + DRM_PANFROST_BATCH_SUBMIT, struct drm_panfrost_batch_submit)
+>>   
+>>   /*
+>>    * Unstable ioctl(s): only exposed when the unsafe unstable_ioctls module
+>> @@ -241,9 +243,99 @@ struct drm_panfrost_create_submitqueue {
+>>   	__u32 id;	/* out, identifier */
+>>   };
+>>   
+>> +/* Syncobj reference passed at job submission time to encode explicit
+>> + * input/output fences.
+>> + */
+>> +struct drm_panfrost_syncobj_ref {
+>> +	/** Syncobj handle */
+>> +	__u32 handle;
+>> +
+>> +	/** Padding field, must be set to 0 */
+>> +	__u32 pad;
+>> +
+>> +	/**
+>> +	 * For timeline syncobjs, the point on the timeline the reference
+>> +	 * points to. 0 for the last point.
+>> +	 * Must be set to 0 for non-timeline syncobjs
+>> +	 */
+>> +	__u64 point;
+>> +};
+>> +
+>>   /* Exclusive (AKA write) access to the BO */
+>>   #define PANFROST_BO_REF_EXCLUSIVE	0x1
+>>   
+>> +/* Disable the implicit depency on the BO fence */
+>> +#define PANFROST_BO_REF_NO_IMPLICIT_DEP	0x2
+>> +
+>> +/* Describes a BO referenced by a job and the type of access. */
+>> +struct drm_panfrost_bo_ref {
+>> +	/** A GEM handle */
+>> +	__u32 handle;
+>> +
+>> +	/** A combination of PANFROST_BO_REF_x flags */
+>> +	__u32 flags;
+>> +};
+>> +
+>> +/* Describes a GPU job and the resources attached to it. */
+>> +struct drm_panfrost_job {
+>> +	/** GPU pointer to the head of the job chain. */
+>> +	__u64 head;
+>> +
+>> +	/**
+>> +	 * Array of drm_panfrost_bo_ref objects describing the BOs referenced
+>> +	 * by this job.
+>> +	 */
+>> +	__u64 bos;
+>> +
+>> +	/**
+>> +	 * Arrays of drm_panfrost_syncobj_ref objects describing the input
+>> +	 * and output fences.
+>> +	 */
+>> +	__u64 in_syncs;
+>> +	__u64 out_syncs;
+>> +
+>> +	/** Syncobj reference array sizes. */
+>> +	__u32 in_sync_count;
+>> +	__u32 out_sync_count;
+>> +
+>> +	/** BO reference array size. */
+>> +	__u32 bo_count;
+>> +
+>> +	/** Combination of PANFROST_JD_REQ_* flags. */
+>> +	__u32 requirements;
+>> +};
+>> +
+>> +#define PANFROST_SUBMIT_BATCH_VERSION	1
+>> +
+>> +/* Used to submit multiple jobs in one call */
+>> +struct drm_panfrost_batch_submit {
+>> +	/**
+>> +	 * Always set to PANFROST_SUBMIT_BATCH_VERSION. This is used to let the
+>> +	 * kernel know about the size of the various structs passed to the
+>> +	 * BATCH_SUBMIT ioctl.
+>> +	 */
+>> +	__u32 version;
+>> +
+>> +	/** Number of jobs to submit. */
+>> +	__u32 job_count;
+>> +
+>> +	/* Pointer to a job array. */
+>> +	__u64 jobs;
+>> +
+>> +	/**
+>> +	 * ID of the queue to submit those jobs to. 0 is the default
+>> +	 * submit queue and should always exists. If you need a dedicated
+>> +	 * queue, create it with DRM_IOCTL_PANFROST_CREATE_SUBMITQUEUE.
+>> +	 */
+>> +	__u32 queue;
+>> +
+>> +	/**
+>> +	 * If the submission fails, this encodes the index of the job
+>> +	 * failed.
+>> +	 */
+>> +	__u32 fail_idx;
+>> +};
+>> +
+>>   #if defined(__cplusplus)
+>>   }
+>>   #endif
+>> -- 
+>> 2.31.1
+>>
+
