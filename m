@@ -1,60 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA7533C164B
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Jul 2021 17:48:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EDFB3C164D
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Jul 2021 17:48:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A7F7C6E8CB;
-	Thu,  8 Jul 2021 15:48:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ECCA76E8E3;
+	Thu,  8 Jul 2021 15:48:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x331.google.com (mail-ot1-x331.google.com
- [IPv6:2607:f8b0:4864:20::331])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A53B46E8CB
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Jul 2021 15:48:38 +0000 (UTC)
-Received: by mail-ot1-x331.google.com with SMTP id
- l17-20020a9d6a910000b029048a51f0bc3cso6250341otq.13
- for <dri-devel@lists.freedesktop.org>; Thu, 08 Jul 2021 08:48:38 -0700 (PDT)
+Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com
+ [IPv6:2607:f8b0:4864:20::32e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D18986E8E3
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Jul 2021 15:48:39 +0000 (UTC)
+Received: by mail-ot1-x32e.google.com with SMTP id
+ w8-20020a0568304108b02904b3da3d49e5so2256170ott.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 08 Jul 2021 08:48:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=7jzX+RB1AK+aygzL7WNQUE1ei/Ta1JhK8/OtdEESflc=;
- b=Zm6hWRdYPAvuSqWbFe5WiNbCuZda8s7yJS2lf6kC8L57cjzCsb61F3Gf1s7yB7DSXs
- KXjVc92aTtfsGvGI5xNOFDDFlOUy7D/rTVYkNOW6RFm9w+1d8ahqx3/OgoLlCst4hv+q
- UQpGGXX1KgxXd/2zlUA2FNKARYvelaeh8DYkC+4Y9bMoEEuBYDbFNTlx87jnkijHHPuC
- /ASLdt5XUnbPVfKpUKQzzPIZhcEKnZOSZfQey+mBqdtL+j98YDMuLbx5OoeCI6YAPSCh
- 36s7+r5OqxMGTszginmhAKS7ZaDYupPOtHiH9VEkw5ItJdZiq+T9wEbQ8Rb/absg3eUc
- n7/w==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=vFkKIfTzrT+qTkAItimJAJYSXsVbBQ11ib+/lb9hh64=;
+ b=QSSUDwDNiEK6ZBL5yLo1hNNv2ENnScNllsIF0xWCxmloGYiXrZ1IAdsVLsSsNhdHix
+ X5SfMw/SAzayCkg51MvY7Qq4RNvGdvWZSt64qKdPdYmoG/MLPEtK7miyVHn/1VN4sxZL
+ uIqU4uLVqaiEKW3ZggLP0TVkP1r+WrJvK/OfTOBDHc3nGnmIPJ0kch4/k0T13wpX1teM
+ gV+7L5XfaSvE6WJzfQtt+gD9pPKv5s4v2KgmLuVv+xnC2IE04lavWE3C9K6Xpj0u6hDD
+ WPlhJoKrQ4YIwILpkvz+Z/joDv/ODVXAotcoEY6zjJ13Qw/3wmLQQG8oWuD1oonN9qa7
+ gVSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=7jzX+RB1AK+aygzL7WNQUE1ei/Ta1JhK8/OtdEESflc=;
- b=HvHxV4b5mpFkYKi68enw1eXU/OCgch5/+qVgM9KdCFgD82zEAJGwfvFlaUfDP0yqVO
- VMgYcJAn7gsQeEj9Zdl8kBoM3/fsgymdEHelK5oUxo8oe6QQiKQda0dC2vIBlOu978Up
- yqzKXiXgfay77+96q0n1Y2sWCUfxXzIiLIXwFB4haZ138Tmk1hGzYJVDPY0MDYWZdMov
- vSd7vRNAWinCe+LmSRHSp12Sgpi1MZ8ppcNhEN7zoKNO+RLYQxFMEvq2Gxgv1szwiXqJ
- nDwFvxZ1+UxihbJgSFFOuO7BlMWxTWjqbKBgMQUzzFLXqI70JW7Jd8yCscVgz/rJt5WV
- E4IQ==
-X-Gm-Message-State: AOAM5300LsxUIyraXevqx4pj9aXbmgkVTKZe3/U7rZEp9tSlXS+C2HY+
- KuKE2LjUaeHTFI6dvqQhUTokdA==
-X-Google-Smtp-Source: ABdhPJzsP4EYdW0uL23OnerHD07y9AafqbhovirTnPbElpaw5DnQTd6w1A1rTGr8gFnNqFB5cXMdZw==
-X-Received: by 2002:a9d:7f0d:: with SMTP id j13mr993147otq.322.1625759317783; 
- Thu, 08 Jul 2021 08:48:37 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=vFkKIfTzrT+qTkAItimJAJYSXsVbBQ11ib+/lb9hh64=;
+ b=WTCAWnDTQHXH+ENuM3IQM6B/ESr+6mDFXblSRwveOHOI9Drg1nebIUzWrEtD8WwS7M
+ jIpdiO6rOBW0eZHVNP0wU/HDD0nOogvv80lXSLZPsx2IchINhD9LwlkTiBthbkECb7qA
+ wStSUgd7hnS2Z+BDrgzUaOECJ4in/qiZJGHFLP+eVCaJ3XoW5CupGNT5NU/QXwmfijKE
+ bWl6KNHvLw5MSZ/iIOpwe/FILu1j+IdIkNUd0IlGypPO5V8dPloqivMXQELbdRk4qLy1
+ vvePhx8A/KTArV6z+pdY8tmepYtKviAg9zRigMvt34ZxryVIR6vJ3VPWetTrXDRkrnez
+ cNww==
+X-Gm-Message-State: AOAM532HxRJZ8tUnDDzcWDIES6IWBONBoXllovN6RkSYVpud6YyU+1yR
+ JGmjm7su3Wsh7uZLwL0nwg6Jo0BH8wuBPA==
+X-Google-Smtp-Source: ABdhPJxgPdPZ8bK91P0vddgKSEvxWm9b0YDfqf1u1Ij/fxMnIBI3tuJVDd3m4TpH5YObG5Slv1COqw==
+X-Received: by 2002:a05:6830:1f55:: with SMTP id
+ u21mr24123978oth.4.1625759319069; 
+ Thu, 08 Jul 2021 08:48:39 -0700 (PDT)
 Received: from omlet.lan ([68.203.99.148])
  by smtp.gmail.com with ESMTPSA id d20sm548356otq.62.2021.07.08.08.48.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Jul 2021 08:48:37 -0700 (PDT)
+ Thu, 08 Jul 2021 08:48:38 -0700 (PDT)
 From: Jason Ekstrand <jason@jlekstrand.net>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH 00/30] drm/i915/gem: ioctl clean-ups (v9)
-Date: Thu,  8 Jul 2021 10:48:05 -0500
-Message-Id: <20210708154835.528166-1-jason@jlekstrand.net>
+Subject: [PATCH 01/30] drm/i915: Drop I915_CONTEXT_PARAM_RINGSIZE
+Date: Thu,  8 Jul 2021 10:48:06 -0500
+Message-Id: <20210708154835.528166-2-jason@jlekstrand.net>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210708154835.528166-1-jason@jlekstrand.net>
+References: <20210708154835.528166-1-jason@jlekstrand.net>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,178 +72,303 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jason Ekstrand <jason@jlekstrand.net>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Jason Ekstrand <jason@jlekstrand.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Overview:
----------
+This reverts commit 88be76cdafc7 ("drm/i915: Allow userspace to specify
+ringsize on construction").  This API was originally added for OpenCL
+but the compute-runtime PR has sat open for a year without action so we
+can still pull it out if we want.  I argue we should drop it for three
+reasons:
 
-This patch series attempts to clean up some of the IOCTL mess we've created
-over the last few years.  The most egregious bit being context mutability.
-In summary, this series:
+ 1. If the compute-runtime PR has sat open for a year, this clearly
+    isn't that important.
 
- 1. Drops two never-used context params: RINGSIZE and NO_ZEROMAP
- 2. Drops the entire CONTEXT_CLONE API
- 3. Implements SINGLE_TIMELINE with a syncobj instead of actually sharing
-    intel_timeline between engines.
- 4. Adds a few sanity restrictions to the balancing/bonding API.
- 5. Implements a proto-ctx mechanism so that the engine set and VM can only
-    be set early on in the lifetime of a context, before anything ever
-    executes on it.  This effectively makes the VM and engine set
-    immutable.
+ 2. It's a very leaky API.  Ring size is an implementation detail of the
+    current execlist scheduler and really only makes sense there.  It
+    can't apply to the older ring-buffer scheduler on pre-execlist
+    hardware because that's shared across all contexts and it won't
+    apply to the GuC scheduler that's in the pipeline.
 
-This series has been tested with IGT as well as the Iris, ANV, and the
-Intel media driver doing an 8K decode (this uses bonding/balancing).  I've
-also done quite a bit of git archeology to ensure that nothing in here will
-break anything that's already shipped at some point in history.  It's
-possible I've missed something, but I've dug quite a bit.
+ 3. Having userspace set a ring size in bytes is a bad solution to the
+    problem of having too small a ring.  There is no way that userspace
+    has the information to know how to properly set the ring size so
+    it's just going to detect the feature and always set it to the
+    maximum of 512K.  This is what the compute-runtime PR does.  The
+    scheduler in i915, on the other hand, does have the information to
+    make an informed choice.  It could detect if the ring size is a
+    problem and grow it itself.  Or, if that's too hard, we could just
+    increase the default size from 16K to 32K or even 64K instead of
+    relying on userspace to do it.
 
+Let's drop this API for now and, if someone decides they really care
+about solving this problem, they can do it properly.
 
-Details and motivation:
------------------------
-
-In very broad strokes, there's an effort going on right now within Intel to
-try and clean up and simplify i915 anywhere we can.  We obviously don't
-want to break any shipping userspace but, as can be seen by this series,
-there's a lot i915 theoretically supports which userspace doesn't actually
-need.  Some of this, like the two context params used here, were simply
-oversights where we went through the usual API review process and merged
-the i915 bits but the userspace bits never landed for some reason.
-
-Not all are so innocent, however.  For instance, there's an entire context
-cloning API which allows one to create a context with certain parameters
-"cloned" from some other context.  This entire API has never been used by
-any userspace except IGT and there were never patches to any other
-userspace to use it.  It never should have landed.  Also, when we added
-support for setting explicit engine sets and sharing VMs across contexts,
-people decided to do so via SET_CONTEXT_PARAM.  While this allowed them to
-re-use existing API, it did so at the cost of making those states mutable
-which leads to a plethora of potential race conditions.  There were even
-IGT tests merged to cover some of theses:
-
- - gem_vm_create@async-destroy and gem_vm_create@destroy-race which test
-   swapping out the VM on a running context.
-
- - gem_ctx_persistence@replace* which test whether a client can escape a
-   non-persistent context by submitting a hanging batch and then swapping
-   out the engine set before the hang is detected.
-
- - api_intel_bb@bb-with-vm which tests the that intel_bb_assign_vm works
-   properly.  This API is never used by any other IGT test.
-
-There is also an entire deferred flush and set state framework in
-i915_gem_cotnext.c which exists for safely swapping out the VM while there
-is work in-flight on a context.
-
-So, clearly people knew that this API was inherently racy and difficult to
-implement but they landed it anyway.  Why?  The best explanation I've been
-given is because it makes the API more "unified" or "symmetric" for this
-stuff to go through SET_CONTEXT_PARAM.  It's not because any userspace
-actually wants to be able to swap out the VM or the set of engines on a
-running context.  That would be utterly insane.
-
-This patch series cleans up this particular mess by introducing the concept
-of a i915_gem_proto_context data structure which contains context creation
-information.  When you initially call GEM_CONTEXT_CREATE, a proto-context
-in created instead of an actual context.  Then, the first time something is
-done on the context besides SET_CONTEXT_PARAM, an actual context is
-created.  This allows us to keep the old drivers which use
-SET_CONTEXT_PARAM to set up the engine set (see also media) while ensuring
-that, once you have an i915_gem_context, the VM and the engine set are
-immutable state.
-
-Eventually, there are more clean-ups I'd like to do on top of this which
-should make working with contexts inside i915 simpler and safer:
-
- 1. Move the GEM handle -> vma LUT from i915_gem_context into either
-    i915_ppgtt or drm_i915_file_private depending on whether or not the
-    hardware has a full PPGTT.
-
- 2. Move the delayed context destruction code into intel_context or a
-    per-engine wrapper struct rather than i915_gem_context.
-
- 3. Get rid of the separation between context close and context destroy
-
- 4. Get rid of the RCU on i915_gem_context
-
-However, these should probably be done as a separate patch series as this
-one is already starting to get longish, especially if you consider the 89
-IGT patches that go along with it.
-
-Test-with: 20210707210215.351483-1-jason@jlekstrand.net
-
-Jason Ekstrand (30):
-  drm/i915: Drop I915_CONTEXT_PARAM_RINGSIZE
-  drm/i915: Stop storing the ring size in the ring pointer (v3)
-  drm/i915: Drop I915_CONTEXT_PARAM_NO_ZEROMAP
-  drm/i915/gem: Set the watchdog timeout directly in
-    intel_context_set_gem (v2)
-  drm/i915/gem: Return void from context_apply_all
-  drm/i915: Drop the CONTEXT_CLONE API (v2)
-  drm/i915: Implement SINGLE_TIMELINE with a syncobj (v4)
-  drm/i915: Drop getparam support for I915_CONTEXT_PARAM_ENGINES
-  drm/i915/gem: Disallow bonding of virtual engines (v3)
-  drm/i915/gem: Remove engine auto-magic with FENCE_SUBMIT (v2)
-  drm/i915/request: Remove the hook from await_execution
-  drm/i915/gem: Disallow creating contexts with too many engines
-  drm/i915: Stop manually RCU banging in reset_stats_ioctl (v2)
-  drm/i915/gem: Add a separate validate_priority helper
-  drm/i915: Add gem/i915_gem_context.h to the docs
-  drm/i915/gem: Add an intermediate proto_context struct (v5)
-  drm/i915/gem: Rework error handling in default_engines
-  drm/i915/gem: Optionally set SSEU in intel_context_set_gem
-  drm/i915: Add an i915_gem_vm_lookup helper
-  drm/i915/gem: Make an alignment check more sensible
-  drm/i915/gem: Use the proto-context to handle create parameters (v5)
-  drm/i915/gem: Return an error ptr from context_lookup
-  drm/i915/gt: Drop i915_address_space::file (v2)
-  drm/i915/gem: Delay context creation (v3)
-  drm/i915/gem: Don't allow changing the VM on running contexts (v4)
-  drm/i915/gem: Don't allow changing the engine set on running contexts
-    (v3)
-  drm/i915/selftests: Take a VM in kernel_context()
-  i915/gem/selftests: Assign the VM at context creation in
-    igt_shared_ctx_exec
-  drm/i915/gem: Roll all of context creation together
-  drm/i915: Finalize contexts in GEM_CONTEXT_CREATE on version 13+
-
- Documentation/gpu/i915.rst                    |    2 +
- drivers/gpu/drm/i915/Makefile                 |    1 -
- drivers/gpu/drm/i915/gem/i915_gem_context.c   | 2926 ++++++++---------
- drivers/gpu/drm/i915/gem/i915_gem_context.h   |    3 +
- .../gpu/drm/i915/gem/i915_gem_context_types.h |  196 +-
- .../gpu/drm/i915/gem/i915_gem_execbuffer.c    |   31 +-
- .../drm/i915/gem/selftests/i915_gem_context.c |  127 +-
- .../gpu/drm/i915/gem/selftests/mock_context.c |   67 +-
- .../gpu/drm/i915/gem/selftests/mock_context.h |    4 +-
- drivers/gpu/drm/i915/gt/intel_context.c       |    3 +-
- drivers/gpu/drm/i915/gt/intel_context.h       |    5 -
- drivers/gpu/drm/i915/gt/intel_context_param.c |   63 -
- drivers/gpu/drm/i915/gt/intel_context_param.h |    6 +-
- drivers/gpu/drm/i915/gt/intel_context_types.h |    1 +
- drivers/gpu/drm/i915/gt/intel_engine_cs.c     |    3 +-
- drivers/gpu/drm/i915/gt/intel_engine_types.h  |    7 -
- .../drm/i915/gt/intel_execlists_submission.c  |  114 -
- .../drm/i915/gt/intel_execlists_submission.h  |    8 +-
- drivers/gpu/drm/i915/gt/intel_gtt.h           |   11 -
- drivers/gpu/drm/i915/gt/intel_lrc.c           |    2 +-
- drivers/gpu/drm/i915/gt/intel_migrate.c       |    3 +-
- drivers/gpu/drm/i915/gt/selftest_execlists.c  |  251 +-
- drivers/gpu/drm/i915/gt/selftest_hangcheck.c  |    2 +-
- drivers/gpu/drm/i915/gt/selftest_mocs.c       |    2 +-
- drivers/gpu/drm/i915/gt/selftest_timeline.c   |    2 +-
- drivers/gpu/drm/i915/gvt/scheduler.c          |    7 +-
- drivers/gpu/drm/i915/i915_drv.h               |   82 +-
- drivers/gpu/drm/i915/i915_perf.c              |    4 +-
- drivers/gpu/drm/i915/i915_request.c           |   42 +-
- drivers/gpu/drm/i915/i915_request.h           |    4 +-
- .../drm/i915/selftests/i915_mock_selftests.h  |    1 -
- drivers/gpu/drm/i915/selftests/mock_gtt.c     |    1 -
- include/uapi/drm/i915_drm.h                   |   40 +-
- 33 files changed, 1681 insertions(+), 2340 deletions(-)
+Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+---
+ drivers/gpu/drm/i915/Makefile                 |  1 -
+ drivers/gpu/drm/i915/gem/i915_gem_context.c   | 85 +------------------
+ drivers/gpu/drm/i915/gt/intel_context_param.c | 63 --------------
+ drivers/gpu/drm/i915/gt/intel_context_param.h |  3 -
+ include/uapi/drm/i915_drm.h                   | 20 +----
+ 5 files changed, 4 insertions(+), 168 deletions(-)
  delete mode 100644 drivers/gpu/drm/i915/gt/intel_context_param.c
 
+diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
+index 01f28ad5ea578..10b3bb6207bab 100644
+--- a/drivers/gpu/drm/i915/Makefile
++++ b/drivers/gpu/drm/i915/Makefile
+@@ -89,7 +89,6 @@ gt-y += \
+ 	gt/gen8_ppgtt.o \
+ 	gt/intel_breadcrumbs.o \
+ 	gt/intel_context.o \
+-	gt/intel_context_param.o \
+ 	gt/intel_context_sseu.o \
+ 	gt/intel_engine_cs.o \
+ 	gt/intel_engine_heartbeat.o \
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+index 7720b8c22c816..ddc3cc3f8f092 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+@@ -1334,63 +1334,6 @@ static int set_ppgtt(struct drm_i915_file_private *file_priv,
+ 	return err;
+ }
+ 
+-static int __apply_ringsize(struct intel_context *ce, void *sz)
+-{
+-	return intel_context_set_ring_size(ce, (unsigned long)sz);
+-}
+-
+-static int set_ringsize(struct i915_gem_context *ctx,
+-			struct drm_i915_gem_context_param *args)
+-{
+-	if (!HAS_LOGICAL_RING_CONTEXTS(ctx->i915))
+-		return -ENODEV;
+-
+-	if (args->size)
+-		return -EINVAL;
+-
+-	if (!IS_ALIGNED(args->value, I915_GTT_PAGE_SIZE))
+-		return -EINVAL;
+-
+-	if (args->value < I915_GTT_PAGE_SIZE)
+-		return -EINVAL;
+-
+-	if (args->value > 128 * I915_GTT_PAGE_SIZE)
+-		return -EINVAL;
+-
+-	return context_apply_all(ctx,
+-				 __apply_ringsize,
+-				 __intel_context_ring_size(args->value));
+-}
+-
+-static int __get_ringsize(struct intel_context *ce, void *arg)
+-{
+-	long sz;
+-
+-	sz = intel_context_get_ring_size(ce);
+-	GEM_BUG_ON(sz > INT_MAX);
+-
+-	return sz; /* stop on first engine */
+-}
+-
+-static int get_ringsize(struct i915_gem_context *ctx,
+-			struct drm_i915_gem_context_param *args)
+-{
+-	int sz;
+-
+-	if (!HAS_LOGICAL_RING_CONTEXTS(ctx->i915))
+-		return -ENODEV;
+-
+-	if (args->size)
+-		return -EINVAL;
+-
+-	sz = context_apply_all(ctx, __get_ringsize, NULL);
+-	if (sz < 0)
+-		return sz;
+-
+-	args->value = sz;
+-	return 0;
+-}
+-
+ int
+ i915_gem_user_to_context_sseu(struct intel_gt *gt,
+ 			      const struct drm_i915_gem_context_param_sseu *user,
+@@ -2036,11 +1979,8 @@ static int ctx_setparam(struct drm_i915_file_private *fpriv,
+ 		ret = set_persistence(ctx, args);
+ 		break;
+ 
+-	case I915_CONTEXT_PARAM_RINGSIZE:
+-		ret = set_ringsize(ctx, args);
+-		break;
+-
+ 	case I915_CONTEXT_PARAM_BAN_PERIOD:
++	case I915_CONTEXT_PARAM_RINGSIZE:
+ 	default:
+ 		ret = -EINVAL;
+ 		break;
+@@ -2068,18 +2008,6 @@ static int create_setparam(struct i915_user_extension __user *ext, void *data)
+ 	return ctx_setparam(arg->fpriv, arg->ctx, &local.param);
+ }
+ 
+-static int copy_ring_size(struct intel_context *dst,
+-			  struct intel_context *src)
+-{
+-	long sz;
+-
+-	sz = intel_context_get_ring_size(src);
+-	if (sz < 0)
+-		return sz;
+-
+-	return intel_context_set_ring_size(dst, sz);
+-}
+-
+ static int clone_engines(struct i915_gem_context *dst,
+ 			 struct i915_gem_context *src)
+ {
+@@ -2124,12 +2052,6 @@ static int clone_engines(struct i915_gem_context *dst,
+ 		}
+ 
+ 		intel_context_set_gem(clone->engines[n], dst);
+-
+-		/* Copy across the preferred ringsize */
+-		if (copy_ring_size(clone->engines[n], e->engines[n])) {
+-			__free_engines(clone, n + 1);
+-			goto err_unlock;
+-		}
+ 	}
+ 	clone->num_engines = n;
+ 	i915_sw_fence_complete(&e->fence);
+@@ -2489,11 +2411,8 @@ int i915_gem_context_getparam_ioctl(struct drm_device *dev, void *data,
+ 		args->value = i915_gem_context_is_persistent(ctx);
+ 		break;
+ 
+-	case I915_CONTEXT_PARAM_RINGSIZE:
+-		ret = get_ringsize(ctx, args);
+-		break;
+-
+ 	case I915_CONTEXT_PARAM_BAN_PERIOD:
++	case I915_CONTEXT_PARAM_RINGSIZE:
+ 	default:
+ 		ret = -EINVAL;
+ 		break;
+diff --git a/drivers/gpu/drm/i915/gt/intel_context_param.c b/drivers/gpu/drm/i915/gt/intel_context_param.c
+deleted file mode 100644
+index 65dcd090245d6..0000000000000
+--- a/drivers/gpu/drm/i915/gt/intel_context_param.c
++++ /dev/null
+@@ -1,63 +0,0 @@
+-// SPDX-License-Identifier: MIT
+-/*
+- * Copyright © 2019 Intel Corporation
+- */
+-
+-#include "i915_active.h"
+-#include "intel_context.h"
+-#include "intel_context_param.h"
+-#include "intel_ring.h"
+-
+-int intel_context_set_ring_size(struct intel_context *ce, long sz)
+-{
+-	int err;
+-
+-	if (intel_context_lock_pinned(ce))
+-		return -EINTR;
+-
+-	err = i915_active_wait(&ce->active);
+-	if (err < 0)
+-		goto unlock;
+-
+-	if (intel_context_is_pinned(ce)) {
+-		err = -EBUSY; /* In active use, come back later! */
+-		goto unlock;
+-	}
+-
+-	if (test_bit(CONTEXT_ALLOC_BIT, &ce->flags)) {
+-		struct intel_ring *ring;
+-
+-		/* Replace the existing ringbuffer */
+-		ring = intel_engine_create_ring(ce->engine, sz);
+-		if (IS_ERR(ring)) {
+-			err = PTR_ERR(ring);
+-			goto unlock;
+-		}
+-
+-		intel_ring_put(ce->ring);
+-		ce->ring = ring;
+-
+-		/* Context image will be updated on next pin */
+-	} else {
+-		ce->ring = __intel_context_ring_size(sz);
+-	}
+-
+-unlock:
+-	intel_context_unlock_pinned(ce);
+-	return err;
+-}
+-
+-long intel_context_get_ring_size(struct intel_context *ce)
+-{
+-	long sz = (unsigned long)READ_ONCE(ce->ring);
+-
+-	if (test_bit(CONTEXT_ALLOC_BIT, &ce->flags)) {
+-		if (intel_context_lock_pinned(ce))
+-			return -EINTR;
+-
+-		sz = ce->ring->size;
+-		intel_context_unlock_pinned(ce);
+-	}
+-
+-	return sz;
+-}
+diff --git a/drivers/gpu/drm/i915/gt/intel_context_param.h b/drivers/gpu/drm/i915/gt/intel_context_param.h
+index 3ecacc675f414..dffedd983693d 100644
+--- a/drivers/gpu/drm/i915/gt/intel_context_param.h
++++ b/drivers/gpu/drm/i915/gt/intel_context_param.h
+@@ -10,9 +10,6 @@
+ 
+ #include "intel_context.h"
+ 
+-int intel_context_set_ring_size(struct intel_context *ce, long sz);
+-long intel_context_get_ring_size(struct intel_context *ce);
+-
+ static inline int
+ intel_context_set_watchdog_us(struct intel_context *ce, u64 timeout_us)
+ {
+diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
+index 2f70c48567c06..f229c0abcbb54 100644
+--- a/include/uapi/drm/i915_drm.h
++++ b/include/uapi/drm/i915_drm.h
+@@ -1722,24 +1722,8 @@ struct drm_i915_gem_context_param {
+  */
+ #define I915_CONTEXT_PARAM_PERSISTENCE	0xb
+ 
+-/*
+- * I915_CONTEXT_PARAM_RINGSIZE:
+- *
+- * Sets the size of the CS ringbuffer to use for logical ring contexts. This
+- * applies a limit of how many batches can be queued to HW before the caller
+- * is blocked due to lack of space for more commands.
+- *
+- * Only reliably possible to be set prior to first use, i.e. during
+- * construction. At any later point, the current execution must be flushed as
+- * the ring can only be changed while the context is idle. Note, the ringsize
+- * can be specified as a constructor property, see
+- * I915_CONTEXT_CREATE_EXT_SETPARAM, but can also be set later if required.
+- *
+- * Only applies to the current set of engine and lost when those engines
+- * are replaced by a new mapping (see I915_CONTEXT_PARAM_ENGINES).
+- *
+- * Must be between 4 - 512 KiB, in intervals of page size [4 KiB].
+- * Default is 16 KiB.
++/* This API has been removed.  On the off chance someone somewhere has
++ * attempted to use it, never re-use this context param number.
+  */
+ #define I915_CONTEXT_PARAM_RINGSIZE	0xc
+ /* Must be kept compact -- no holes and well documented */
 -- 
 2.31.1
 
