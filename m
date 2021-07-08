@@ -2,60 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75A1B3C1B0C
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Jul 2021 23:34:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDAA43C1B15
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Jul 2021 23:37:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD62A6E94B;
-	Thu,  8 Jul 2021 21:34:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C66E389CC9;
+	Thu,  8 Jul 2021 21:37:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED3C389CC9
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Jul 2021 21:34:04 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1625780048; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=xpgLql9IbuvMj4f8z+D1UneOTXpQth+qs7ZN6prUSAk=;
- b=qEfjCL2uwpx7RKUNv2Vnf54ZREA0Zbt/8GTP2mlWJdyjt0exqmUThfHcmDTWVc2vTHzrwHiI
- nt6AROywzpABQlH6yRSNe+hcUO57iZL5AhklRJE513U9fxwGLMxSYqckIGN3on1xv1YMQ8Zk
- jZ1PkBfesPwQYY5Hv7bJzkwj5fg=
-X-Mailgun-Sending-Ip: 198.61.254.9
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n01.prod.us-east-1.postgun.com with SMTP id
- 60e76f40ec0b18a745fd89fc (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 08 Jul 2021 21:33:52
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 3A0D4C4338A; Thu,  8 Jul 2021 21:33:52 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
- URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
- (No client certificate requested) (Authenticated sender: khsieh)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 4E930C433D3;
- Thu,  8 Jul 2021 21:33:51 +0000 (UTC)
+Received: from mail-ot1-x32c.google.com (mail-ot1-x32c.google.com
+ [IPv6:2607:f8b0:4864:20::32c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F28B489CC9
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Jul 2021 21:37:52 +0000 (UTC)
+Received: by mail-ot1-x32c.google.com with SMTP id
+ f93-20020a9d03e60000b02904b1f1d7c5f4so6545375otf.9
+ for <dri-devel@lists.freedesktop.org>; Thu, 08 Jul 2021 14:37:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=kpEaKXIPqiq+74WTxsBIvETGT3UlDF3lNc93AnyqNxc=;
+ b=QWDO3gcSiy3PSSBckqzyYkHgbfrrZCV6eKwVlUSc+bUUJVlUD8RQuw4N52t0PE+PxN
+ xkOhXTMYP7K8to3hIms4oFoYDlBOVgmrwFi19+lwh9kq6L1ttvdw627IsVdyrcYss4MK
+ rtgG0Ui2nkYHvct7FmqYVce1GcNcEadt/1Qjg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=kpEaKXIPqiq+74WTxsBIvETGT3UlDF3lNc93AnyqNxc=;
+ b=ekLUnRUTgqX56lNjIzWLM5kcJROL+OBM1CLPJwHwQSBfqmIEvNBfryW+4dMk5c7zJn
+ nFtRgBFWi8jQEBB20b42yp74NM8dxk1Ib8PHz94b8N7ukwgp/WXN7yNG43Cdt29amJoC
+ UFdy1H05paOlmJTqQ2b+3KsZ/LjbIeyVI8O42jOwuTr7V6KGGSZu1kWW/GJRwmuH1eeZ
+ X+uwycAn/6eiEQxkjjttoXPUf1ruLG546E3ODHXcDkzQMyuMlGTlQJJHB8+gwF4ItLxt
+ 1kKyK4MScUoPwTi1HZhXXHP2QC5zFatPNZg+yFbSubw+ZBw6zOcPBjiKhGAWrrjPkFUS
+ IRiw==
+X-Gm-Message-State: AOAM530yYUluj1oTQT2/Fp17mHPIEJ0mZ3hB1+gvtqDAm71QA81nS6jH
+ wnDrVov8C/Wm9m6Loioumsaoal08BcYsaqeCjPMuow==
+X-Google-Smtp-Source: ABdhPJxbw6H9XVQrNqyI20JnIkq1WO3RfxEoeVVbK/6yfb5acpuC0vbVQsuypvLlWO+10ftBrQdyzKOGYRrwjN527oU=
+X-Received: by 2002:a05:6830:2366:: with SMTP id
+ r6mr25183475oth.188.1625780272248; 
+ Thu, 08 Jul 2021 14:37:52 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date: Thu, 08 Jul 2021 14:33:51 -0700
-From: khsieh@codeaurora.org
-To: Stephen Boyd <swboyd@chromium.org>
-Subject: Re: [PATCH 1/7] drm/msm/dp: use dp_ctrl_off_link_stream during PHY
- compliance test run
-In-Reply-To: <CAE-0n52SxJx8kOwQddWF096PsPy-0f8bDq_ss=u6i-hisD54Hg@mail.gmail.com>
-References: <1625592020-22658-1-git-send-email-khsieh@codeaurora.org>
- <1625592020-22658-2-git-send-email-khsieh@codeaurora.org>
- <CAE-0n52SxJx8kOwQddWF096PsPy-0f8bDq_ss=u6i-hisD54Hg@mail.gmail.com>
-Message-ID: <3492b578fdf4e59fe594fb9207782aa1@codeaurora.org>
-X-Sender: khsieh@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+References: <20210624095238.8804-1-tzimmermann@suse.de>
+In-Reply-To: <20210624095238.8804-1-tzimmermann@suse.de>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Thu, 8 Jul 2021 23:37:40 +0200
+Message-ID: <CAKMK7uEe_JaT7kBopoZtgNW_3rDgn-nr2fbycmVuGQAUsb34tA@mail.gmail.com>
+Subject: Re: [PATCH] drm/vgem: Implement mmap as GEM object function
+To: Thomas Zimmermann <tzimmermann@suse.de>, "Syrjala,
+ Ville" <ville.syrjala@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,67 +61,127 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, airlied@linux.ie,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- abhinavk@codeaurora.org, bjorn.andersson@linaro.org,
- dri-devel@lists.freedesktop.org, aravindh@codeaurora.org, sean@poorly.run
+Cc: Dave Airlie <airlied@linux.ie>, dri-devel <dri-devel@lists.freedesktop.org>,
+ "Wilson, Chris" <chris@chris-wilson.co.uk>,
+ Melissa Wen <melissa.srw@gmail.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Lee Jones <lee.jones@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021-07-08 00:03, Stephen Boyd wrote:
-> Quoting Kuogee Hsieh (2021-07-06 10:20:14)
->> DP cable should always connect to DPU during the entire PHY compliance
->> testing run. Since DP PHY compliance test is executed at irq_hpd event
->> context, dp_ctrl_off_link_stream() should be used instead of 
->> dp_ctrl_off().
->> dp_ctrl_off() is used for unplug event which is triggered when DP 
->> cable is
->> dis connected.
->> 
->> Signed-off-by: Kuogee Hsieh <khsieh@codeaurora.org>
->> ---
-> 
-> Is this
-> 
-> Fixes: f21c8a276c2d ("drm/msm/dp: handle irq_hpd with sink_count = 0 
-> correctly")
-> 
-> or
-> 
-> Fixes: c943b4948b58 ("drm/msm/dp: add displayPort driver support")
+On Thu, Jun 24, 2021 at 11:52 AM Thomas Zimmermann <tzimmermann@suse.de> wrote:
+>
+> Moving the driver-specific mmap code into a GEM object function allows
+> for using DRM helpers for various mmap callbacks.
+>
+> The respective vgem functions are being removed. The file_operations
+> structure vgem_driver_fops is now being created by the helper macro
+> DEFINE_DRM_GEM_FOPS().
+>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-should be fixes at f21c8a276c2d ("drm/msm/dp: handle irq_hpd with 
-sink_count = 0 correctly")
+Might be this one, might be a different one (there's also a bunch of
+core kernel patches that got into drm-tip together with this patch),
+but vgem goes boom after this landed in CI:
 
-> 
-> ? It's not clear how dp_ctrl_off() was working for compliance tests
-> before commit f21c8a276c2d.
-both dp_ctrl_off() and dp_ctrl_off_link_strea() are work for 
-dp_ctrl_process_phy_test_request()
-The problem is after dp_ctrl_off(), aux channel is down, hence next phy 
-test will failed due to dpcd read failed.
-So that cable unplugged and replug back to required to run next test 
-case.
-dp_ctrl_off_link_stream() will keep aux channel up and other phy test 
-case can be continued.
+https://intel-gfx-ci.01.org/tree/drm-tip/igt@vgem_basic@unload.html
+
+Can you pls take a quick look? It's in dma-buf fault stuff, so not
+entirely unlikely. Ville pointed this out on irc.
+-Daniel
+
+> ---
+>  drivers/gpu/drm/vgem/vgem_drv.c | 46 ++++-----------------------------
+>  1 file changed, 5 insertions(+), 41 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/vgem/vgem_drv.c b/drivers/gpu/drm/vgem/vgem_drv.c
+> index bf38a7e319d1..df634aa52638 100644
+> --- a/drivers/gpu/drm/vgem/vgem_drv.c
+> +++ b/drivers/gpu/drm/vgem/vgem_drv.c
+> @@ -239,32 +239,7 @@ static struct drm_ioctl_desc vgem_ioctls[] = {
+>         DRM_IOCTL_DEF_DRV(VGEM_FENCE_SIGNAL, vgem_fence_signal_ioctl, DRM_RENDER_ALLOW),
+>  };
+>
+> -static int vgem_mmap(struct file *filp, struct vm_area_struct *vma)
+> -{
+> -       unsigned long flags = vma->vm_flags;
+> -       int ret;
+> -
+> -       ret = drm_gem_mmap(filp, vma);
+> -       if (ret)
+> -               return ret;
+> -
+> -       /* Keep the WC mmaping set by drm_gem_mmap() but our pages
+> -        * are ordinary and not special.
+> -        */
+> -       vma->vm_flags = flags | VM_DONTEXPAND | VM_DONTDUMP;
+> -       return 0;
+> -}
+> -
+> -static const struct file_operations vgem_driver_fops = {
+> -       .owner          = THIS_MODULE,
+> -       .open           = drm_open,
+> -       .mmap           = vgem_mmap,
+> -       .poll           = drm_poll,
+> -       .read           = drm_read,
+> -       .unlocked_ioctl = drm_ioctl,
+> -       .compat_ioctl   = drm_compat_ioctl,
+> -       .release        = drm_release,
+> -};
+> +DEFINE_DRM_GEM_FOPS(vgem_driver_fops);
+>
+>  static struct page **vgem_pin_pages(struct drm_vgem_gem_object *bo)
+>  {
+> @@ -387,24 +362,12 @@ static void vgem_prime_vunmap(struct drm_gem_object *obj, struct dma_buf_map *ma
+>         vgem_unpin_pages(bo);
+>  }
+>
+> -static int vgem_prime_mmap(struct drm_gem_object *obj,
+> -                          struct vm_area_struct *vma)
+> +static int vgem_prime_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma)
+>  {
+> -       int ret;
+> -
+> -       if (obj->size < vma->vm_end - vma->vm_start)
+> -               return -EINVAL;
+> -
+> -       if (!obj->filp)
+> -               return -ENODEV;
+> -
+> -       ret = call_mmap(obj->filp, vma);
+> -       if (ret)
+> -               return ret;
+> -
+>         vma_set_file(vma, obj->filp);
+>         vma->vm_flags |= VM_DONTEXPAND | VM_DONTDUMP;
+>         vma->vm_page_prot = pgprot_writecombine(vm_get_page_prot(vma->vm_flags));
+> +       vma->vm_page_prot = pgprot_decrypted(vma->vm_page_prot);
+>
+>         return 0;
+>  }
+> @@ -416,6 +379,7 @@ static const struct drm_gem_object_funcs vgem_gem_object_funcs = {
+>         .get_sg_table = vgem_prime_get_sg_table,
+>         .vmap = vgem_prime_vmap,
+>         .vunmap = vgem_prime_vunmap,
+> +       .mmap = vgem_prime_mmap,
+>         .vm_ops = &vgem_gem_vm_ops,
+>  };
+>
+> @@ -433,7 +397,7 @@ static const struct drm_driver vgem_driver = {
+>         .prime_fd_to_handle = drm_gem_prime_fd_to_handle,
+>         .gem_prime_import = vgem_prime_import,
+>         .gem_prime_import_sg_table = vgem_prime_import_sg_table,
+> -       .gem_prime_mmap = vgem_prime_mmap,
+> +       .gem_prime_mmap = drm_gem_prime_mmap,
+>
+>         .name   = DRIVER_NAME,
+>         .desc   = DRIVER_DESC,
+> --
+> 2.32.0
+>
 
 
-
->>  drivers/gpu/drm/msm/dp/dp_ctrl.c | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->> 
->> diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c 
->> b/drivers/gpu/drm/msm/dp/dp_ctrl.c
->> index caf71fa..27fb0f0 100644
->> --- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
->> +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
->> @@ -1530,7 +1530,7 @@ static int 
->> dp_ctrl_process_phy_test_request(struct dp_ctrl_private *ctrl)
->>          * running. Add the global reset just before disabling the
->>          * link clocks and core clocks.
->>          */
->> -       ret = dp_ctrl_off(&ctrl->dp_ctrl);
->> +       ret = dp_ctrl_off_link_stream(&ctrl->dp_ctrl);
->>         if (ret) {
->>                 DRM_ERROR("failed to disable DP controller\n");
->>                 return ret;
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
