@@ -2,53 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDAA43C1B15
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Jul 2021 23:37:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B6B73C1B43
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Jul 2021 23:54:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C66E389CC9;
-	Thu,  8 Jul 2021 21:37:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 64DB66E8FF;
+	Thu,  8 Jul 2021 21:54:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32c.google.com (mail-ot1-x32c.google.com
- [IPv6:2607:f8b0:4864:20::32c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F28B489CC9
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Jul 2021 21:37:52 +0000 (UTC)
-Received: by mail-ot1-x32c.google.com with SMTP id
- f93-20020a9d03e60000b02904b1f1d7c5f4so6545375otf.9
- for <dri-devel@lists.freedesktop.org>; Thu, 08 Jul 2021 14:37:52 -0700 (PDT)
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
+ [IPv6:2a00:1450:4864:20::62f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 478BF6E90C
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Jul 2021 21:54:46 +0000 (UTC)
+Received: by mail-ej1-x62f.google.com with SMTP id i20so12291161ejw.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 08 Jul 2021 14:54:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=kpEaKXIPqiq+74WTxsBIvETGT3UlDF3lNc93AnyqNxc=;
- b=QWDO3gcSiy3PSSBckqzyYkHgbfrrZCV6eKwVlUSc+bUUJVlUD8RQuw4N52t0PE+PxN
- xkOhXTMYP7K8to3hIms4oFoYDlBOVgmrwFi19+lwh9kq6L1ttvdw627IsVdyrcYss4MK
- rtgG0Ui2nkYHvct7FmqYVce1GcNcEadt/1Qjg=
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=d1w93YeUX+1iq+sUD/eLjhVo09cAXuAFNyzb5+/PtX8=;
+ b=AOaW9lRzd+A1i5+zCfXF2et/fkCG3+e1jzD9l6EGMpAMRCbDI2g8RtEEeELlakqjrQ
+ FfjquAzlGIGCyPWOsaRi8yGmEtOWzfK9bXPwnT7LhcoiZ8ELHJPTBTdO5IfQv/Af1YN9
+ UwQw9QVw5gOxh+dhd9y8DgPwAXAGq6nP32IYM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=kpEaKXIPqiq+74WTxsBIvETGT3UlDF3lNc93AnyqNxc=;
- b=ekLUnRUTgqX56lNjIzWLM5kcJROL+OBM1CLPJwHwQSBfqmIEvNBfryW+4dMk5c7zJn
- nFtRgBFWi8jQEBB20b42yp74NM8dxk1Ib8PHz94b8N7ukwgp/WXN7yNG43Cdt29amJoC
- UFdy1H05paOlmJTqQ2b+3KsZ/LjbIeyVI8O42jOwuTr7V6KGGSZu1kWW/GJRwmuH1eeZ
- X+uwycAn/6eiEQxkjjttoXPUf1ruLG546E3ODHXcDkzQMyuMlGTlQJJHB8+gwF4ItLxt
- 1kKyK4MScUoPwTi1HZhXXHP2QC5zFatPNZg+yFbSubw+ZBw6zOcPBjiKhGAWrrjPkFUS
- IRiw==
-X-Gm-Message-State: AOAM530yYUluj1oTQT2/Fp17mHPIEJ0mZ3hB1+gvtqDAm71QA81nS6jH
- wnDrVov8C/Wm9m6Loioumsaoal08BcYsaqeCjPMuow==
-X-Google-Smtp-Source: ABdhPJxbw6H9XVQrNqyI20JnIkq1WO3RfxEoeVVbK/6yfb5acpuC0vbVQsuypvLlWO+10ftBrQdyzKOGYRrwjN527oU=
-X-Received: by 2002:a05:6830:2366:: with SMTP id
- r6mr25183475oth.188.1625780272248; 
- Thu, 08 Jul 2021 14:37:52 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=d1w93YeUX+1iq+sUD/eLjhVo09cAXuAFNyzb5+/PtX8=;
+ b=D0H/CFUxaaCbxlzVy/aTzT7BCJbqAI6lWOST9KWaUS+g+GmY8iOQSfVnm+ETh9wxZV
+ g6DxzBESE2Skr/mhuTiJh8enkQY2hj64nUtnfU7ndrsmS9IcC3IHyqzgI4b00yiEXmQE
+ DfnMv02p8C+crnjm8fWsnF3Y4scTq4uIJScjWF7VucDo/OshDdz5OLPJPJnZzAaGcxja
+ oHNqNfSUa1pxZCxbDUDtqleAjLDIFe3iUE96whGfsWAd7R9RirZXI5nkObW0iDo4tSkE
+ thMrBT89dN6WK6eUVfoziMu3Fv+TRABMAxr+vyaKng1gw4D7nKSgEWpmCs6PJIJ23fDa
+ LdfQ==
+X-Gm-Message-State: AOAM531eFDAG216pn37thX5YkPQ2XIiaBkmzf70X8DBEl6KgPWvgjO4t
+ 6x28q9g+OKAU2qg4WxebAeunlC6HoOUVRA==
+X-Google-Smtp-Source: ABdhPJytUe48vXWCnbKLcG9uXFEIys7ziaSlLcRL//xsMtv0kdYbzJ/NtS4SJACwnSrbDNJz2/+qSg==
+X-Received: by 2002:a17:906:3919:: with SMTP id
+ f25mr12129311eje.190.1625781284650; 
+ Thu, 08 Jul 2021 14:54:44 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id s26sm421243ejv.87.2021.07.08.14.54.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 08 Jul 2021 14:54:43 -0700 (PDT)
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+To: DRI Development <dri-devel@lists.freedesktop.org>
+Subject: [PATCH] drm/sched: Barriers are needed for entity->last_scheduled
+Date: Thu,  8 Jul 2021 23:54:39 +0200
+Message-Id: <20210708215439.4093557-1-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20210708173754.3877540-4-daniel.vetter@ffwll.ch>
+References: <20210708173754.3877540-4-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
-References: <20210624095238.8804-1-tzimmermann@suse.de>
-In-Reply-To: <20210624095238.8804-1-tzimmermann@suse.de>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Thu, 8 Jul 2021 23:37:40 +0200
-Message-ID: <CAKMK7uEe_JaT7kBopoZtgNW_3rDgn-nr2fbycmVuGQAUsb34tA@mail.gmail.com>
-Subject: Re: [PATCH] drm/vgem: Implement mmap as GEM object function
-To: Thomas Zimmermann <tzimmermann@suse.de>, "Syrjala,
- Ville" <ville.syrjala@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,127 +66,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@linux.ie>, dri-devel <dri-devel@lists.freedesktop.org>,
- "Wilson, Chris" <chris@chris-wilson.co.uk>,
- Melissa Wen <melissa.srw@gmail.com>, Jason Gunthorpe <jgg@ziepe.ca>,
- Lee Jones <lee.jones@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Steven Price <steven.price@arm.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Daniel Vetter <daniel.vetter@intel.com>, Lee Jones <lee.jones@linaro.org>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 24, 2021 at 11:52 AM Thomas Zimmermann <tzimmermann@suse.de> wrote:
->
-> Moving the driver-specific mmap code into a GEM object function allows
-> for using DRM helpers for various mmap callbacks.
->
-> The respective vgem functions are being removed. The file_operations
-> structure vgem_driver_fops is now being created by the helper macro
-> DEFINE_DRM_GEM_FOPS().
->
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+It might be good enough on x86 with just READ_ONCE, but the write side
+should then at least be WRITE_ONCE because x86 has total store order.
 
-Might be this one, might be a different one (there's also a bunch of
-core kernel patches that got into drm-tip together with this patch),
-but vgem goes boom after this landed in CI:
+It's definitely not enough on arm.
 
-https://intel-gfx-ci.01.org/tree/drm-tip/igt@vgem_basic@unload.html
+Fix this proplery, which means
+- explain the need for the barrier in both places
+- point at the other side in each comment
 
-Can you pls take a quick look? It's in dma-buf fault stuff, so not
-entirely unlikely. Ville pointed this out on irc.
--Daniel
+Also pull out the !sched_list case as the first check, so that the
+code flow is clearer.
 
-> ---
->  drivers/gpu/drm/vgem/vgem_drv.c | 46 ++++-----------------------------
->  1 file changed, 5 insertions(+), 41 deletions(-)
->
-> diff --git a/drivers/gpu/drm/vgem/vgem_drv.c b/drivers/gpu/drm/vgem/vgem_drv.c
-> index bf38a7e319d1..df634aa52638 100644
-> --- a/drivers/gpu/drm/vgem/vgem_drv.c
-> +++ b/drivers/gpu/drm/vgem/vgem_drv.c
-> @@ -239,32 +239,7 @@ static struct drm_ioctl_desc vgem_ioctls[] = {
->         DRM_IOCTL_DEF_DRV(VGEM_FENCE_SIGNAL, vgem_fence_signal_ioctl, DRM_RENDER_ALLOW),
->  };
->
-> -static int vgem_mmap(struct file *filp, struct vm_area_struct *vma)
-> -{
-> -       unsigned long flags = vma->vm_flags;
-> -       int ret;
-> -
-> -       ret = drm_gem_mmap(filp, vma);
-> -       if (ret)
-> -               return ret;
-> -
-> -       /* Keep the WC mmaping set by drm_gem_mmap() but our pages
-> -        * are ordinary and not special.
-> -        */
-> -       vma->vm_flags = flags | VM_DONTEXPAND | VM_DONTDUMP;
-> -       return 0;
-> -}
-> -
-> -static const struct file_operations vgem_driver_fops = {
-> -       .owner          = THIS_MODULE,
-> -       .open           = drm_open,
-> -       .mmap           = vgem_mmap,
-> -       .poll           = drm_poll,
-> -       .read           = drm_read,
-> -       .unlocked_ioctl = drm_ioctl,
-> -       .compat_ioctl   = drm_compat_ioctl,
-> -       .release        = drm_release,
-> -};
-> +DEFINE_DRM_GEM_FOPS(vgem_driver_fops);
->
->  static struct page **vgem_pin_pages(struct drm_vgem_gem_object *bo)
->  {
-> @@ -387,24 +362,12 @@ static void vgem_prime_vunmap(struct drm_gem_object *obj, struct dma_buf_map *ma
->         vgem_unpin_pages(bo);
->  }
->
-> -static int vgem_prime_mmap(struct drm_gem_object *obj,
-> -                          struct vm_area_struct *vma)
-> +static int vgem_prime_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma)
->  {
-> -       int ret;
-> -
-> -       if (obj->size < vma->vm_end - vma->vm_start)
-> -               return -EINVAL;
-> -
-> -       if (!obj->filp)
-> -               return -ENODEV;
-> -
-> -       ret = call_mmap(obj->filp, vma);
-> -       if (ret)
-> -               return ret;
-> -
->         vma_set_file(vma, obj->filp);
->         vma->vm_flags |= VM_DONTEXPAND | VM_DONTDUMP;
->         vma->vm_page_prot = pgprot_writecombine(vm_get_page_prot(vma->vm_flags));
-> +       vma->vm_page_prot = pgprot_decrypted(vma->vm_page_prot);
->
->         return 0;
->  }
-> @@ -416,6 +379,7 @@ static const struct drm_gem_object_funcs vgem_gem_object_funcs = {
->         .get_sg_table = vgem_prime_get_sg_table,
->         .vmap = vgem_prime_vmap,
->         .vunmap = vgem_prime_vunmap,
-> +       .mmap = vgem_prime_mmap,
->         .vm_ops = &vgem_gem_vm_ops,
->  };
->
-> @@ -433,7 +397,7 @@ static const struct drm_driver vgem_driver = {
->         .prime_fd_to_handle = drm_gem_prime_fd_to_handle,
->         .gem_prime_import = vgem_prime_import,
->         .gem_prime_import_sg_table = vgem_prime_import_sg_table,
-> -       .gem_prime_mmap = vgem_prime_mmap,
-> +       .gem_prime_mmap = drm_gem_prime_mmap,
->
->         .name   = DRIVER_NAME,
->         .desc   = DRIVER_DESC,
-> --
-> 2.32.0
->
+While at it sprinkle some comments around because it was very
+non-obvious to me what's actually going on here and why.
 
+Note that we really need full barriers here, at first I thought
+store-release and load-acquire on ->last_scheduled would be enough,
+but we actually requiring ordering between that and the queue state.
 
+v2: Put smp_rmp() in the right place and fix up comment (Andrey)
+
+Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+Cc: "Christian König" <christian.koenig@amd.com>
+Cc: Steven Price <steven.price@arm.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+Cc: Lee Jones <lee.jones@linaro.org>
+Cc: Boris Brezillon <boris.brezillon@collabora.com>
+---
+ drivers/gpu/drm/scheduler/sched_entity.c | 27 ++++++++++++++++++++++--
+ 1 file changed, 25 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
+index 64d398166644..6366006c0fcf 100644
+--- a/drivers/gpu/drm/scheduler/sched_entity.c
++++ b/drivers/gpu/drm/scheduler/sched_entity.c
+@@ -439,8 +439,16 @@ struct drm_sched_job *drm_sched_entity_pop_job(struct drm_sched_entity *entity)
+ 		dma_fence_set_error(&sched_job->s_fence->finished, -ECANCELED);
+ 
+ 	dma_fence_put(entity->last_scheduled);
++
+ 	entity->last_scheduled = dma_fence_get(&sched_job->s_fence->finished);
+ 
++	/*
++	 * If the queue is empty we allow drm_sched_entity_select_rq() to
++	 * locklessly access ->last_scheduled. This only works if we set the
++	 * pointer before we dequeue and if we a write barrier here.
++	 */
++	smp_wmb();
++
+ 	spsc_queue_pop(&entity->job_queue);
+ 	return sched_job;
+ }
+@@ -459,10 +467,25 @@ void drm_sched_entity_select_rq(struct drm_sched_entity *entity)
+ 	struct drm_gpu_scheduler *sched;
+ 	struct drm_sched_rq *rq;
+ 
+-	if (spsc_queue_count(&entity->job_queue) || !entity->sched_list)
++	/* single possible engine and already selected */
++	if (!entity->sched_list)
++		return;
++
++	/* queue non-empty, stay on the same engine */
++	if (spsc_queue_count(&entity->job_queue))
+ 		return;
+ 
+-	fence = READ_ONCE(entity->last_scheduled);
++	/*
++	 * Only when the queue is empty are we guaranteed that the scheduler
++	 * thread cannot change ->last_scheduled. To enforce ordering we need
++	 * a read barrier here. See drm_sched_entity_pop_job() for the other
++	 * side.
++	 */
++	smp_rmb();
++
++	fence = entity->last_scheduled;
++
++	/* stay on the same engine if the previous job hasn't finished */
+ 	if (fence && !dma_fence_is_signaled(fence))
+ 		return;
+ 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.32.0
+
