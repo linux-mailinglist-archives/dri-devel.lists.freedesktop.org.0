@@ -1,61 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B8573BF9A8
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Jul 2021 14:01:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D73C73BF9AB
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Jul 2021 14:02:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 82D376E218;
-	Thu,  8 Jul 2021 12:01:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 01B416E21A;
+	Thu,  8 Jul 2021 12:02:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 717AB6E218
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Jul 2021 12:01:33 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F8336E21A
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Jul 2021 12:02:57 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id BFBF8201B9;
- Thu,  8 Jul 2021 12:01:31 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id ECEFE201B9;
+ Thu,  8 Jul 2021 12:02:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1625745691; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1625745775; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=z/XC84Y8Csxe3fvQCmTMHrEy9tJGik1nSS43Bv0YSE4=;
- b=i1oLh3jlXbaIaof5XFzjQirDKFl4hmbHDxPInh1680+hXGScuAMyq9774ZGf+u/tD6Rxpe
- I3yeCN56GyLO7oEmbOCANKvacgepArNrYPk4brvLN27SudevO+UD9ZHYjFjeISnGQm8TJV
- B6+lvFIFLD7ZK/DZC4JxlO3ZPRJeBx8=
+ bh=1bqk4P66kfUPF0nZTSeMx/UpEB11u4JVq6Vaz9UQ/2c=;
+ b=uk09hWmclWAeIBNVTmsoMVNS8+g9imZXMylOus6mqzkEhl3bzviQfYbzVis/78Iez3OU37
+ MmwaA7HNsOjaEs01OF3I3vlJiSnEHVdV1Rrs9g2VoY/8ez8OSeMZPdcH1GbuTXPk3hnnnT
+ oL+KpPuiDNRPzTYvEzrF+6uzVyj0xh4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1625745691;
+ s=susede2_ed25519; t=1625745775;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=z/XC84Y8Csxe3fvQCmTMHrEy9tJGik1nSS43Bv0YSE4=;
- b=wbibhFklhb2F197H6w/nIqvAl2ob/HuHrkNuPjL46VRqRgyOV8epQ1ylmrSgGg0qyJlBBY
- eYTs5zxjlsz+MzDQ==
+ bh=1bqk4P66kfUPF0nZTSeMx/UpEB11u4JVq6Vaz9UQ/2c=;
+ b=Dj7dVUL4IbxxFeR/bXTHKkjkeMSkjsxP+i7O0Y7OsgIjwi2anUO7vduH6vnTDk1QfZ5+1j
+ 9QLQovxiZUjZgpAQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9338313BDF;
- Thu,  8 Jul 2021 12:01:31 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id CBBF213BDF;
+ Thu,  8 Jul 2021 12:02:55 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id ZGp2Ihvp5mAoUAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Thu, 08 Jul 2021 12:01:31 +0000
-Subject: Re: [PATCH] drm/rockchip: Implement mmap as GEM object function
-To: hjc@rock-chips.com, heiko@sntech.de, airlied@linux.ie, daniel@ffwll.ch
-References: <20210624095502.8945-1-tzimmermann@suse.de>
+ by imap2.suse-dmz.suse.de with ESMTPSA id uLSBMG/p5mCTUAAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Thu, 08 Jul 2021 12:02:55 +0000
+Subject: Re: [PATCH] drm/xen: Implement mmap as GEM object function
+To: oleksandr_andrushchenko@epam.com, airlied@linux.ie, daniel@ffwll.ch
+References: <20210624095349.8874-1-tzimmermann@suse.de>
 From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <30a0370e-b2b6-9579-7b31-6bc7d68fc8e9@suse.de>
-Date: Thu, 8 Jul 2021 14:01:30 +0200
+Message-ID: <02731933-2404-5834-a0bf-6aacbafa6cd1@suse.de>
+Date: Thu, 8 Jul 2021 14:02:55 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210624095502.8945-1-tzimmermann@suse.de>
+In-Reply-To: <20210624095349.8874-1-tzimmermann@suse.de>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="CTdv7Jmn98K7iDS4AqCQfuaXv0HI4etoz"
+ boundary="sz55DMZojMrMiKXiWuCunu8RrlyzGWBGd"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,212 +68,269 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org
+Cc: xen-devel@lists.xenproject.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---CTdv7Jmn98K7iDS4AqCQfuaXv0HI4etoz
-Content-Type: multipart/mixed; boundary="bwmEIjXADoZPGnv76DXn81uZ0iTjyK82w";
+--sz55DMZojMrMiKXiWuCunu8RrlyzGWBGd
+Content-Type: multipart/mixed; boundary="2cnUca9kI22p8Xjoc733cFC69OgALfHLy";
  protected-headers="v1"
 From: Thomas Zimmermann <tzimmermann@suse.de>
-To: hjc@rock-chips.com, heiko@sntech.de, airlied@linux.ie, daniel@ffwll.ch
-Cc: linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- dri-devel@lists.freedesktop.org
-Message-ID: <30a0370e-b2b6-9579-7b31-6bc7d68fc8e9@suse.de>
-Subject: Re: [PATCH] drm/rockchip: Implement mmap as GEM object function
-References: <20210624095502.8945-1-tzimmermann@suse.de>
-In-Reply-To: <20210624095502.8945-1-tzimmermann@suse.de>
+To: oleksandr_andrushchenko@epam.com, airlied@linux.ie, daniel@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org, xen-devel@lists.xenproject.org
+Message-ID: <02731933-2404-5834-a0bf-6aacbafa6cd1@suse.de>
+Subject: Re: [PATCH] drm/xen: Implement mmap as GEM object function
+References: <20210624095349.8874-1-tzimmermann@suse.de>
+In-Reply-To: <20210624095349.8874-1-tzimmermann@suse.de>
 
---bwmEIjXADoZPGnv76DXn81uZ0iTjyK82w
+--2cnUca9kI22p8Xjoc733cFC69OgALfHLy
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
 ping for review
 
-Am 24.06.21 um 11:55 schrieb Thomas Zimmermann:
+Am 24.06.21 um 11:53 schrieb Thomas Zimmermann:
 > Moving the driver-specific mmap code into a GEM object function allows
 > for using DRM helpers for various mmap callbacks.
 >=20
-> The respective rockchip functions are being removed. The file_operation=
-s
+> The respective xen functions are being removed. The file_operations
 > structure fops is now being created by the helper macro
 > DEFINE_DRM_GEM_FOPS().
 >=20
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > ---
->   drivers/gpu/drm/rockchip/rockchip_drm_drv.c   | 13 +-----
->   drivers/gpu/drm/rockchip/rockchip_drm_fbdev.c |  3 +-
->   drivers/gpu/drm/rockchip/rockchip_drm_gem.c   | 44 +++++-------------=
+>   drivers/gpu/drm/xen/xen_drm_front.c     |  16 +---
+>   drivers/gpu/drm/xen/xen_drm_front_gem.c | 108 +++++++++--------------=
 -
->   drivers/gpu/drm/rockchip/rockchip_drm_gem.h   |  7 ---
->   4 files changed, 15 insertions(+), 52 deletions(-)
+>   drivers/gpu/drm/xen/xen_drm_front_gem.h |   7 --
+>   3 files changed, 44 insertions(+), 87 deletions(-)
 >=20
-> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_drv.c b/drivers/gpu/=
-drm/rockchip/rockchip_drm_drv.c
-> index b730b8d5d949..2e3ab573a817 100644
-> --- a/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
-> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
-> @@ -208,16 +208,7 @@ static void rockchip_drm_unbind(struct device *dev=
-)
->   	drm_dev_put(drm_dev);
+> diff --git a/drivers/gpu/drm/xen/xen_drm_front.c b/drivers/gpu/drm/xen/=
+xen_drm_front.c
+> index 9f14d99c763c..434064c820e8 100644
+> --- a/drivers/gpu/drm/xen/xen_drm_front.c
+> +++ b/drivers/gpu/drm/xen/xen_drm_front.c
+> @@ -469,19 +469,7 @@ static void xen_drm_drv_release(struct drm_device =
+*dev)
+>   	kfree(drm_info);
 >   }
 >  =20
-> -static const struct file_operations rockchip_drm_driver_fops =3D {
-> -	.owner =3D THIS_MODULE,
-> -	.open =3D drm_open,
-> -	.mmap =3D rockchip_gem_mmap,
-> -	.poll =3D drm_poll,
-> -	.read =3D drm_read,
+> -static const struct file_operations xen_drm_dev_fops =3D {
+> -	.owner          =3D THIS_MODULE,
+> -	.open           =3D drm_open,
+> -	.release        =3D drm_release,
 > -	.unlocked_ioctl =3D drm_ioctl,
-> -	.compat_ioctl =3D drm_compat_ioctl,
-> -	.release =3D drm_release,
+> -#ifdef CONFIG_COMPAT
+> -	.compat_ioctl   =3D drm_compat_ioctl,
+> -#endif
+> -	.poll           =3D drm_poll,
+> -	.read           =3D drm_read,
+> -	.llseek         =3D no_llseek,
+> -	.mmap           =3D xen_drm_front_gem_mmap,
 > -};
-> +DEFINE_DRM_GEM_FOPS(rockchip_drm_driver_fops);
+> +DEFINE_DRM_GEM_FOPS(xen_drm_dev_fops);
 >  =20
->   static const struct drm_driver rockchip_drm_driver =3D {
->   	.driver_features	=3D DRIVER_MODESET | DRIVER_GEM | DRIVER_ATOMIC,
-> @@ -226,7 +217,7 @@ static const struct drm_driver rockchip_drm_driver =
-=3D {
->   	.prime_handle_to_fd	=3D drm_gem_prime_handle_to_fd,
->   	.prime_fd_to_handle	=3D drm_gem_prime_fd_to_handle,
->   	.gem_prime_import_sg_table	=3D rockchip_gem_prime_import_sg_table,
-> -	.gem_prime_mmap		=3D rockchip_gem_mmap_buf,
-> +	.gem_prime_mmap		=3D drm_gem_prime_mmap,
->   	.fops			=3D &rockchip_drm_driver_fops,
->   	.name	=3D DRIVER_NAME,
->   	.desc	=3D DRIVER_DESC,
-> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_fbdev.c b/drivers/gp=
-u/drm/rockchip/rockchip_drm_fbdev.c
-> index 2fdc455c4ad7..d8418dd39d0e 100644
-> --- a/drivers/gpu/drm/rockchip/rockchip_drm_fbdev.c
-> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_fbdev.c
-> @@ -7,6 +7,7 @@
->   #include <drm/drm.h>
->   #include <drm/drm_fb_helper.h>
->   #include <drm/drm_fourcc.h>
-> +#include <drm/drm_prime.h>
->   #include <drm/drm_probe_helper.h>
->  =20
->   #include "rockchip_drm_drv.h"
-> @@ -24,7 +25,7 @@ static int rockchip_fbdev_mmap(struct fb_info *info,
->   	struct drm_fb_helper *helper =3D info->par;
->   	struct rockchip_drm_private *private =3D to_drm_private(helper);
->  =20
-> -	return rockchip_gem_mmap_buf(private->fbdev_bo, vma);
-> +	return drm_gem_prime_mmap(private->fbdev_bo, vma);
+>   static const struct drm_driver xen_drm_driver =3D {
+>   	.driver_features           =3D DRIVER_GEM | DRIVER_MODESET | DRIVER_=
+ATOMIC,
+> @@ -489,7 +477,7 @@ static const struct drm_driver xen_drm_driver =3D {=
+
+>   	.prime_handle_to_fd        =3D drm_gem_prime_handle_to_fd,
+>   	.prime_fd_to_handle        =3D drm_gem_prime_fd_to_handle,
+>   	.gem_prime_import_sg_table =3D xen_drm_front_gem_import_sg_table,
+> -	.gem_prime_mmap            =3D xen_drm_front_gem_prime_mmap,
+> +	.gem_prime_mmap            =3D drm_gem_prime_mmap,
+>   	.dumb_create               =3D xen_drm_drv_dumb_create,
+>   	.fops                      =3D &xen_drm_dev_fops,
+>   	.name                      =3D "xendrm-du",
+> diff --git a/drivers/gpu/drm/xen/xen_drm_front_gem.c b/drivers/gpu/drm/=
+xen/xen_drm_front_gem.c
+> index b293c67230ef..dd358ba2bf8e 100644
+> --- a/drivers/gpu/drm/xen/xen_drm_front_gem.c
+> +++ b/drivers/gpu/drm/xen/xen_drm_front_gem.c
+> @@ -57,6 +57,47 @@ static void gem_free_pages_array(struct xen_gem_obje=
+ct *xen_obj)
+>   	xen_obj->pages =3D NULL;
 >   }
 >  =20
->   static const struct fb_ops rockchip_drm_fbdev_ops =3D {
-> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_gem.c b/drivers/gpu/=
-drm/rockchip/rockchip_drm_gem.c
-> index 7971f57436dd..63eb73b624aa 100644
-> --- a/drivers/gpu/drm/rockchip/rockchip_drm_gem.c
-> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_gem.c
-> @@ -240,12 +240,22 @@ static int rockchip_drm_gem_object_mmap(struct dr=
-m_gem_object *obj,
->   	int ret;
->   	struct rockchip_gem_object *rk_obj =3D to_rockchip_obj(obj);
->  =20
+> +static int xen_drm_front_gem_object_mmap(struct drm_gem_object *gem_ob=
+j,
+> +					 struct vm_area_struct *vma)
+> +{
+> +	struct xen_gem_object *xen_obj =3D to_xen_gem_obj(gem_obj);
+> +	int ret;
+> +
+> +	vma->vm_ops =3D gem_obj->funcs->vm_ops;
+> +
 > +	/*
-> +	 * Set vm_pgoff (used as a fake buffer offset by DRM) to 0 and map th=
-e
-> +	 * whole buffer from the start.
+> +	 * Clear the VM_PFNMAP flag that was set by drm_gem_mmap(), and set t=
+he
+> +	 * vm_pgoff (used as a fake buffer offset by DRM) to 0 as we want to =
+map
+> +	 * the whole buffer.
 > +	 */
+> +	vma->vm_flags &=3D ~VM_PFNMAP;
+> +	vma->vm_flags |=3D VM_MIXEDMAP;
 > +	vma->vm_pgoff =3D 0;
 > +
->   	/*
->   	 * We allocated a struct page table for rk_obj, so clear
->   	 * VM_PFNMAP flag that was set by drm_gem_mmap_obj()/drm_gem_mmap().=
-
->   	 */
-> +	vma->vm_flags |=3D VM_IO | VM_DONTEXPAND | VM_DONTDUMP;
->   	vma->vm_flags &=3D ~VM_PFNMAP;
->  =20
-> +	vma->vm_page_prot =3D pgprot_writecombine(vm_get_page_prot(vma->vm_fl=
-ags));
-> +	vma->vm_page_prot =3D pgprot_decrypted(vma->vm_page_prot);
+> +	/*
+> +	 * According to Xen on ARM ABI (xen/include/public/arch-arm.h):
+> +	 * all memory which is shared with other entities in the system
+> +	 * (including the hypervisor and other guests) must reside in memory
+> +	 * which is mapped as Normal Inner Write-Back Outer Write-Back
+> +	 * Inner-Shareable.
+> +	 */
+> +	vma->vm_page_prot =3D vm_get_page_prot(vma->vm_flags);
 > +
->   	if (rk_obj->pages)
->   		ret =3D rockchip_drm_gem_object_mmap_iommu(obj, vma);
->   	else
-> @@ -257,39 +267,6 @@ static int rockchip_drm_gem_object_mmap(struct drm=
-_gem_object *obj,
->   	return ret;
+> +	/*
+> +	 * vm_operations_struct.fault handler will be called if CPU access
+> +	 * to VM is here. For GPUs this isn't the case, because CPU  doesn't
+> +	 * touch the memory. Insert pages now, so both CPU and GPU are happy.=
+
+> +	 *
+> +	 * FIXME: as we insert all the pages now then no .fault handler must
+> +	 * be called, so don't provide one
+> +	 */
+> +	ret =3D vm_map_pages(vma, xen_obj->pages, xen_obj->num_pages);
+> +	if (ret < 0)
+> +		DRM_ERROR("Failed to map pages into vma: %d\n", ret);
+> +
+> +	return ret;
+> +}
+> +
+>   static const struct vm_operations_struct xen_drm_drv_vm_ops =3D {
+>   	.open           =3D drm_gem_vm_open,
+>   	.close          =3D drm_gem_vm_close,
+> @@ -67,6 +108,7 @@ static const struct drm_gem_object_funcs xen_drm_fro=
+nt_gem_object_funcs =3D {
+>   	.get_sg_table =3D xen_drm_front_gem_get_sg_table,
+>   	.vmap =3D xen_drm_front_gem_prime_vmap,
+>   	.vunmap =3D xen_drm_front_gem_prime_vunmap,
+> +	.mmap =3D xen_drm_front_gem_object_mmap,
+>   	.vm_ops =3D &xen_drm_drv_vm_ops,
+>   };
+>  =20
+> @@ -238,58 +280,6 @@ xen_drm_front_gem_import_sg_table(struct drm_devic=
+e *dev,
+>   	return &xen_obj->base;
 >   }
 >  =20
-> -int rockchip_gem_mmap_buf(struct drm_gem_object *obj,
-> -			  struct vm_area_struct *vma)
+> -static int gem_mmap_obj(struct xen_gem_object *xen_obj,
+> -			struct vm_area_struct *vma)
 > -{
 > -	int ret;
 > -
-> -	ret =3D drm_gem_mmap_obj(obj, obj->size, vma);
-> -	if (ret)
-> -		return ret;
+> -	/*
+> -	 * clear the VM_PFNMAP flag that was set by drm_gem_mmap(), and set t=
+he
+> -	 * vm_pgoff (used as a fake buffer offset by DRM) to 0 as we want to =
+map
+> -	 * the whole buffer.
+> -	 */
+> -	vma->vm_flags &=3D ~VM_PFNMAP;
+> -	vma->vm_flags |=3D VM_MIXEDMAP;
+> -	vma->vm_pgoff =3D 0;
+> -	/*
+> -	 * According to Xen on ARM ABI (xen/include/public/arch-arm.h):
+> -	 * all memory which is shared with other entities in the system
+> -	 * (including the hypervisor and other guests) must reside in memory
+> -	 * which is mapped as Normal Inner Write-Back Outer Write-Back
+> -	 * Inner-Shareable.
+> -	 */
+> -	vma->vm_page_prot =3D vm_get_page_prot(vma->vm_flags);
 > -
-> -	return rockchip_drm_gem_object_mmap(obj, vma);
+> -	/*
+> -	 * vm_operations_struct.fault handler will be called if CPU access
+> -	 * to VM is here. For GPUs this isn't the case, because CPU
+> -	 * doesn't touch the memory. Insert pages now, so both CPU and GPU ar=
+e
+> -	 * happy.
+> -	 * FIXME: as we insert all the pages now then no .fault handler must
+> -	 * be called, so don't provide one
+> -	 */
+> -	ret =3D vm_map_pages(vma, xen_obj->pages, xen_obj->num_pages);
+> -	if (ret < 0)
+> -		DRM_ERROR("Failed to map pages into vma: %d\n", ret);
+> -
+> -	return ret;
 > -}
 > -
-> -/* drm driver mmap file operations */
-> -int rockchip_gem_mmap(struct file *filp, struct vm_area_struct *vma)
+> -int xen_drm_front_gem_mmap(struct file *filp, struct vm_area_struct *v=
+ma)
 > -{
-> -	struct drm_gem_object *obj;
+> -	struct xen_gem_object *xen_obj;
+> -	struct drm_gem_object *gem_obj;
 > -	int ret;
 > -
 > -	ret =3D drm_gem_mmap(filp, vma);
-> -	if (ret)
+> -	if (ret < 0)
 > -		return ret;
 > -
-> -	/*
-> -	 * Set vm_pgoff (used as a fake buffer offset by DRM) to 0 and map th=
-e
-> -	 * whole buffer from the start.
-> -	 */
-> -	vma->vm_pgoff =3D 0;
-> -
-> -	obj =3D vma->vm_private_data;
-> -
-> -	return rockchip_drm_gem_object_mmap(obj, vma);
+> -	gem_obj =3D vma->vm_private_data;
+> -	xen_obj =3D to_xen_gem_obj(gem_obj);
+> -	return gem_mmap_obj(xen_obj, vma);
 > -}
 > -
->   static void rockchip_gem_release_object(struct rockchip_gem_object *r=
-k_obj)
+>   int xen_drm_front_gem_prime_vmap(struct drm_gem_object *gem_obj, stru=
+ct dma_buf_map *map)
 >   {
->   	drm_gem_object_release(&rk_obj->base);
-> @@ -301,6 +278,7 @@ static const struct drm_gem_object_funcs rockchip_g=
-em_object_funcs =3D {
->   	.get_sg_table =3D rockchip_gem_prime_get_sg_table,
->   	.vmap =3D rockchip_gem_prime_vmap,
->   	.vunmap	=3D rockchip_gem_prime_vunmap,
-> +	.mmap =3D rockchip_drm_gem_object_mmap,
->   	.vm_ops =3D &drm_gem_cma_vm_ops,
->   };
->  =20
-> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_gem.h b/drivers/gpu/=
-drm/rockchip/rockchip_drm_gem.h
-> index 5a70a56cd406..47c1861eece0 100644
-> --- a/drivers/gpu/drm/rockchip/rockchip_drm_gem.h
-> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_gem.h
-> @@ -34,13 +34,6 @@ rockchip_gem_prime_import_sg_table(struct drm_device=
- *dev,
->   int rockchip_gem_prime_vmap(struct drm_gem_object *obj, struct dma_bu=
-f_map *map);
->   void rockchip_gem_prime_vunmap(struct drm_gem_object *obj, struct dma=
-_buf_map *map);
->  =20
-> -/* drm driver mmap file operations */
-> -int rockchip_gem_mmap(struct file *filp, struct vm_area_struct *vma);
+>   	struct xen_gem_object *xen_obj =3D to_xen_gem_obj(gem_obj);
+> @@ -313,17 +303,3 @@ void xen_drm_front_gem_prime_vunmap(struct drm_gem=
+_object *gem_obj,
+>   {
+>   	vunmap(map->vaddr);
+>   }
 > -
-> -/* mmap a gem object to userspace. */
-> -int rockchip_gem_mmap_buf(struct drm_gem_object *obj,
-> -			  struct vm_area_struct *vma);
+> -int xen_drm_front_gem_prime_mmap(struct drm_gem_object *gem_obj,
+> -				 struct vm_area_struct *vma)
+> -{
+> -	struct xen_gem_object *xen_obj;
+> -	int ret;
 > -
->   struct rockchip_gem_object *
->   	rockchip_gem_create_object(struct drm_device *drm, unsigned int size=
-,
->   				   bool alloc_kmap);
+> -	ret =3D drm_gem_mmap_obj(gem_obj, gem_obj->size, vma);
+> -	if (ret < 0)
+> -		return ret;
+> -
+> -	xen_obj =3D to_xen_gem_obj(gem_obj);
+> -	return gem_mmap_obj(xen_obj, vma);
+> -}
+> diff --git a/drivers/gpu/drm/xen/xen_drm_front_gem.h b/drivers/gpu/drm/=
+xen/xen_drm_front_gem.h
+> index a4e67d0a149c..eaea470f7001 100644
+> --- a/drivers/gpu/drm/xen/xen_drm_front_gem.h
+> +++ b/drivers/gpu/drm/xen/xen_drm_front_gem.h
+> @@ -15,9 +15,7 @@ struct dma_buf_attachment;
+>   struct dma_buf_map;
+>   struct drm_device;
+>   struct drm_gem_object;
+> -struct file;
+>   struct sg_table;
+> -struct vm_area_struct;
+>  =20
+>   struct drm_gem_object *xen_drm_front_gem_create(struct drm_device *de=
+v,
+>   						size_t size);
+> @@ -33,15 +31,10 @@ struct page **xen_drm_front_gem_get_pages(struct dr=
+m_gem_object *obj);
+>  =20
+>   void xen_drm_front_gem_free_object_unlocked(struct drm_gem_object *ge=
+m_obj);
+>  =20
+> -int xen_drm_front_gem_mmap(struct file *filp, struct vm_area_struct *v=
+ma);
+> -
+>   int xen_drm_front_gem_prime_vmap(struct drm_gem_object *gem_obj,
+>   				 struct dma_buf_map *map);
+>  =20
+>   void xen_drm_front_gem_prime_vunmap(struct drm_gem_object *gem_obj,
+>   				    struct dma_buf_map *map);
+>  =20
+> -int xen_drm_front_gem_prime_mmap(struct drm_gem_object *gem_obj,
+> -				 struct vm_area_struct *vma);
+> -
+>   #endif /* __XEN_DRM_FRONT_GEM_H */
 >=20
 
 --=20
@@ -285,27 +342,27 @@ Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
 Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
 
---bwmEIjXADoZPGnv76DXn81uZ0iTjyK82w--
+--2cnUca9kI22p8Xjoc733cFC69OgALfHLy--
 
---CTdv7Jmn98K7iDS4AqCQfuaXv0HI4etoz
+--sz55DMZojMrMiKXiWuCunu8RrlyzGWBGd
 Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmDm6RsFAwAAAAAACgkQlh/E3EQov+AB
-fQ//awAlpYxZCeLpyqjWWOEURZl7agv2KjhOJfTMXo5oGaqxXRf/leTtvf7IVNMfMPFwYegjOt17
-LIuKNy91qXO4ZanI+yuMyMF0nwav7caFB8n5lhocCB9TsnCm3Xr0ciOoVbH6VA+shcjznvXYLjta
-ZfROcyCvDY1/Wfi+EAgtG8wzFzXgJZrXOw/mHjXx26HiXk+EFQ/Gn/ADFGoIp6yz+LFqD5ChSWMq
-4Qflx8pr46PfojV3P3DU0QpNSDClkLnh/5qMr1HOFSyGqcGuw2mf4lxjmfPS3Z2R7YjWtMSAKSXd
-xaWjf789APtN7gVlZm1eOOEx7skYuULK4dJPaoCEZ3oOlW9V8X9AW7qNwBRcE4e1ixG0uoke6/Ok
-Cqmvu2e53P436nOWcNW+CbN/xI2wutkwsJdO3TBKb8csm/Y8xs5yAkrjpPC6HqO+tndWOl8Xa5Pb
-zSRpnvy/6oFa+4Tdp+TMVOHKk0VTjzk7Pred9WP6SKiBC0QSai4hmTA8DltiqqawymWggs9jkHLA
-m2CAfbPuHPpQUdeMX6HaWgYRCk7zg/ldZF6EG7eDouwsiYkrUNs6YZEtZiTupervbjgYZ4vpLDZb
-KLP7cZT0Y3CHWk0vPI7hjYoda5l3THeDodlH8aqG1Mhyqe/21lAGMYHEjAXsPWmjP2DsxFTbDf1M
-rn8=
-=bWCU
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmDm6W8FAwAAAAAACgkQlh/E3EQov+CG
+Jw//VGeqNQ9YnFxiPMekzgOrmQfYifS4YcOAyiOaYd/1DyR7shk9AhVWU1DtO9P4Aj09WZB81sIW
+8aOwARPN5nDKTNHjQMJD6EU5spAm5tUB7hV3p9Iw0Z74LTsyAESh5rSZhIWQFRyDppFNDMH+KeSp
+4jS1N5vemsUH/lmiBvsEwq/UYlSKb++LsLfGfP7hknz3msUiwL69pVoYHtnnurY9xlDX6xvc0e/S
+fuwPhWJofLQzCa4WKtuyXGaA5sl+mMl4OOGTQAxZXRl67uo1k4CH28zrOFd/YbP/KBYDFODtTpGu
+4KtxcTTmrFvoJT5non3diBAJ7/RGIIWU4ElOZtBIvvHtRGfnf4IB1WbYNQLcy7v5uXfDb7fnfk8f
+9ifVrXDIDZA6PBX7j7+fDdsKUgXCSxk/ypFQ8o19j/Gv/6hKV5foZM/W5zc2cMkCCkHkwPoOnUwa
+8eM3qR10bNSi94D/ceNAOwnC1AMUShVMI/hhzVnosXGS5MfAREZWO16bnmNrBZI+39wGKK90N+6q
+pn0um17obu298jqH57Z8cVCWGTL78tAHPmcZakfQ65FM7deD7dTTYLoJMugWMmzUWbD7ra0npqU2
+AjCutzmUsef/bYfH3whAMyUTkiW7iF5TnWC5UIFKmaogcXly8ivp4XOiVmXCeOSUttWsyuk61zOZ
+MCM=
+=p5NF
 -----END PGP SIGNATURE-----
 
---CTdv7Jmn98K7iDS4AqCQfuaXv0HI4etoz--
+--sz55DMZojMrMiKXiWuCunu8RrlyzGWBGd--
