@@ -2,69 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB0C83BF9E1
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Jul 2021 14:10:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBE903BF9EC
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Jul 2021 14:15:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BDDC56E8E2;
-	Thu,  8 Jul 2021 12:10:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 242826E8DE;
+	Thu,  8 Jul 2021 12:15:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
- [IPv6:2a00:1450:4864:20::32f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE2AF6E8DA
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Jul 2021 12:10:48 +0000 (UTC)
-Received: by mail-wm1-x32f.google.com with SMTP id
- t14-20020a05600c198eb029020c8aac53d4so18130550wmq.1
- for <dri-devel@lists.freedesktop.org>; Thu, 08 Jul 2021 05:10:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=Wute3Tcn5CK+HDdKApb5GoY7kr2h2H0kzi84ndQYn28=;
- b=HvUF0n2CDnoHJdHUSLK4Pz55KWoi3//NJUxnW0p9EZE40XPUmUCDvhFCS0bK2eU+Le
- s9VMnPYIsH7od+OghuDCJjl5rW1XgR0YWVt5bTwB0At0fGnCcNF5ngqqeO723OlcXcU5
- gFMkdLl90zFGK5Uyra9yVgSA6w/tSdpuz6wI1pcczBDEzXf+uOVfiv2FcVB5UzF+2gzI
- oNl6oplkW/wIF3llVei5WYiSO3TMzXybhPpQVLDIWHJeaXhnc8kcsn6ZtgCymN76n7NY
- f8klTM98NhVVtQHh+g89fHTAzMiI7HYQlbnCMVGjScYb8shtlvdnJ5k5B6FZ170rxjiM
- ESMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=Wute3Tcn5CK+HDdKApb5GoY7kr2h2H0kzi84ndQYn28=;
- b=UzegZSQbZWjQ1zpETKQGcm48LCr02MXjgqn37wIC7Zyl+ea4pyO78t2dlPDdHNKm2i
- 0uPsPB2pBbb9tZIkzoODSeb+8QtxEDCpDl+LJBY2N/1rAXJyfCFyTUdsHtY4eiqZtZDz
- 1sq1elNdpTbiUCE3oeXVo6aXiVM+F7AIFKHurXPw0cM3HZHDpGoIjJSrviilKUnuUJZE
- ITLVwtIKbr6saMvGmPH/rLTgjh0yYCy2ZRFjbVRpFuyCmK0mT6U4tmapO74UbYIImDvT
- ryNKhgjTnj9PDf45Ya26+G7nPvUiTURQZRtTdoXzRBHrmoBdIh2J0KFCv2HEl7Lv7/cC
- nIsA==
-X-Gm-Message-State: AOAM533sxwptG3fJRPugIGCNKx8cntpYswhX2r01mWXHVcktnH7iW3JH
- J5AFI1nvdgy/TgDePtVxqZ4=
-X-Google-Smtp-Source: ABdhPJydBNocqhMICyFVMJPPfgkGMVNaffLn+VS2VKV9PdeSHwjqqlwRdtYLWxNMHvAL4mLvx73V4g==
-X-Received: by 2002:a05:600c:198c:: with SMTP id
- t12mr32065934wmq.140.1625746247114; 
- Thu, 08 Jul 2021 05:10:47 -0700 (PDT)
-Received: from ?IPv6:2a02:908:1252:fb60:bc19:c1e3:6307:7e3e?
- ([2a02:908:1252:fb60:bc19:c1e3:6307:7e3e])
- by smtp.gmail.com with ESMTPSA id u18sm1786406wmj.15.2021.07.08.05.10.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 08 Jul 2021 05:10:46 -0700 (PDT)
-Subject: Re: [PATCH v4 5/7] drm/panfrost: Add a new ioctl to submit batches
-To: Daniel Vetter <daniel@ffwll.ch>,
- Boris Brezillon <boris.brezillon@collabora.com>
-References: <20210705082950.3573841-1-boris.brezillon@collabora.com>
- <20210705082950.3573841-6-boris.brezillon@collabora.com>
- <YOLRnPjCDkc9DRxE@phenom.ffwll.local>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <1fe2d843-041d-40f6-b552-91f159487495@gmail.com>
-Date: Thu, 8 Jul 2021 14:10:45 +0200
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF5B26E8BE;
+ Thu,  8 Jul 2021 12:15:27 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 776E7201BE;
+ Thu,  8 Jul 2021 12:15:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1625746526; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=90TfgrvvBTclyzIoGhRNnDzBVxCUDVmNQEkvhVVEPig=;
+ b=RbMVvPtrVEaEowx51NJgejOshNQWZnuPu6IhXPId7hUb5mK/aCryeBRVsLt6cFAyfnHulD
+ oZ6vn4V6IR3+KKv8TQyyZFIsEwQpmt6TGYCZFu862J5PeQe5q3FpwqkhoXmnTflt3h0OZw
+ UmKLSrevkmvytZapSjPUg/Z/ooOecBA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1625746526;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=90TfgrvvBTclyzIoGhRNnDzBVxCUDVmNQEkvhVVEPig=;
+ b=p0ehDLeZwcC6syASSzahkuQo5NWH7Lv9zBQmyTbBufw+Q/QkoLwNCS+qs7SAEJs4TMen5m
+ 7uy1emE05SdXi3BA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 48D9713BDF;
+ Thu,  8 Jul 2021 12:15:26 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id El0uEF7s5mB6VAAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Thu, 08 Jul 2021 12:15:26 +0000
+Subject: Re: [PATCH] drm/msm: Implement mmap as GEM object function
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: robdclark@gmail.com, sean@poorly.run, airlied@linux.ie, daniel@ffwll.ch
+References: <20210624090341.8249-1-tzimmermann@suse.de>
+ <6fc2bfe5-2a3a-2e7e-46f9-6c6d400ced0b@suse.de>
+Message-ID: <2e5ea192-6f86-c74a-2719-1d40aa99997b@suse.de>
+Date: Thu, 8 Jul 2021 14:15:25 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <YOLRnPjCDkc9DRxE@phenom.ffwll.local>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+In-Reply-To: <6fc2bfe5-2a3a-2e7e-46f9-6c6d400ced0b@suse.de>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="UdoqJxZS5vRGi4Hb2F483wOAdz4sSNKWC"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,773 +69,367 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>, dri-devel@lists.freedesktop.org,
- Steven Price <steven.price@arm.com>, Rob Herring <robh+dt@kernel.org>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Jason Ekstrand <jason@jlekstrand.net>, Robin Murphy <robin.murphy@arm.com>
+Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 05.07.21 um 11:32 schrieb Daniel Vetter:
-> On Mon, Jul 05, 2021 at 10:29:48AM +0200, Boris Brezillon wrote:
->> This should help limit the number of ioctls when submitting multiple
->> jobs. The new ioctl also supports syncobj timelines and BO access flags.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--UdoqJxZS5vRGi4Hb2F483wOAdz4sSNKWC
+Content-Type: multipart/mixed; boundary="y9WCve1kCGMZGvlH00hVkuq5ADwVKsTKz";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: robdclark@gmail.com, sean@poorly.run, airlied@linux.ie, daniel@ffwll.ch
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org
+Message-ID: <2e5ea192-6f86-c74a-2719-1d40aa99997b@suse.de>
+Subject: Re: [PATCH] drm/msm: Implement mmap as GEM object function
+References: <20210624090341.8249-1-tzimmermann@suse.de>
+ <6fc2bfe5-2a3a-2e7e-46f9-6c6d400ced0b@suse.de>
+In-Reply-To: <6fc2bfe5-2a3a-2e7e-46f9-6c6d400ced0b@suse.de>
+
+--y9WCve1kCGMZGvlH00hVkuq5ADwVKsTKz
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+
+
+Am 08.07.21 um 14:04 schrieb Thomas Zimmermann:
+> ping for review
+
+Nevermind, there's a newer version of this patch at
+
+https://lore.kernel.org/dri-devel/20210706084753.8194-1-tzimmermann@suse.=
+de/
+
+Best regards
+Thomas
+
+>=20
+> Am 24.06.21 um 11:03 schrieb Thomas Zimmermann:
+>> Moving the driver-specific mmap code into a GEM object function allows=
+
+>> for using DRM helpers for various mmap callbacks.
 >>
->> v4:
->> * Implement panfrost_ioctl_submit() as a wrapper around
->>    panfrost_submit_job()
->> * Replace stride fields by a version field which is mapped to
->>    a <job_stride,bo_ref_stride,syncobj_ref_stride> tuple internally
+>> The respective msm functions are being removed. The file_operations
+>> structure fops is now being created by the helper macro
+>> DEFINE_DRM_GEM_FOPS().
 >>
->> v3:
->> * Re-use panfrost_get_job_bos() and panfrost_get_job_in_syncs() in the
->>    old submit path
->>
->> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 >> ---
->>   drivers/gpu/drm/panfrost/panfrost_drv.c | 562 ++++++++++++++++--------
->>   drivers/gpu/drm/panfrost/panfrost_job.c |   3 +
->>   include/uapi/drm/panfrost_drm.h         |  92 ++++
->>   3 files changed, 479 insertions(+), 178 deletions(-)
+>> =C2=A0 drivers/gpu/drm/msm/msm_drv.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ | 14 +-----
+>> =C2=A0 drivers/gpu/drm/msm/msm_drv.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ |=C2=A0 1 -
+>> =C2=A0 drivers/gpu/drm/msm/msm_fbdev.c=C2=A0=C2=A0=C2=A0=C2=A0 | 10 +-=
+---
+>> =C2=A0 drivers/gpu/drm/msm/msm_gem.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ | 67 ++++++++++++-----------------
+>> =C2=A0 drivers/gpu/drm/msm/msm_gem.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ |=C2=A0 3 --
+>> =C2=A0 drivers/gpu/drm/msm/msm_gem_prime.c | 11 -----
+>> =C2=A0 6 files changed, 31 insertions(+), 75 deletions(-)
 >>
->> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
->> index 8e28ef30310b..a624e4f86aff 100644
->> --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
->> +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
->> @@ -138,184 +138,6 @@ panfrost_get_job_mappings(struct drm_file *file_priv, struct panfrost_job *job)
->>   	return 0;
->>   }
->>   
->> -/**
->> - * panfrost_lookup_bos() - Sets up job->bo[] with the GEM objects
->> - * referenced by the job.
->> - * @dev: DRM device
->> - * @file_priv: DRM file for this fd
->> - * @args: IOCTL args
->> - * @job: job being set up
->> - *
->> - * Resolve handles from userspace to BOs and attach them to job.
->> - *
->> - * Note that this function doesn't need to unreference the BOs on
->> - * failure, because that will happen at panfrost_job_cleanup() time.
->> - */
->> -static int
->> -panfrost_lookup_bos(struct drm_device *dev,
->> -		  struct drm_file *file_priv,
->> -		  struct drm_panfrost_submit *args,
->> -		  struct panfrost_job *job)
+>> diff --git a/drivers/gpu/drm/msm/msm_drv.c=20
+>> b/drivers/gpu/drm/msm/msm_drv.c
+>> index fe7d17cd35ec..f62eaedfc0d7 100644
+>> --- a/drivers/gpu/drm/msm/msm_drv.c
+>> +++ b/drivers/gpu/drm/msm/msm_drv.c
+>> @@ -985,17 +985,7 @@ static const struct drm_ioctl_desc msm_ioctls[] =3D=
+ {
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 DRM_IOCTL_DEF_DRV(MSM_SUBMITQUEUE_QUERY=
+,=20
+>> msm_ioctl_submitqueue_query, DRM_RENDER_ALLOW),
+>> =C2=A0 };
+>> -static const struct file_operations fops =3D {
+>> -=C2=A0=C2=A0=C2=A0 .owner=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D THIS_MODULE,
+>> -=C2=A0=C2=A0=C2=A0 .open=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D drm_open,
+>> -=C2=A0=C2=A0=C2=A0 .release=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 =3D drm_release,
+>> -=C2=A0=C2=A0=C2=A0 .unlocked_ioctl=C2=A0=C2=A0=C2=A0=C2=A0 =3D drm_io=
+ctl,
+>> -=C2=A0=C2=A0=C2=A0 .compat_ioctl=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
+=3D drm_compat_ioctl,
+>> -=C2=A0=C2=A0=C2=A0 .poll=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D drm_poll,
+>> -=C2=A0=C2=A0=C2=A0 .read=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D drm_read,
+>> -=C2=A0=C2=A0=C2=A0 .llseek=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D no_llseek,
+>> -=C2=A0=C2=A0=C2=A0 .mmap=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D msm_gem_mmap,
+>> -};
+>> +DEFINE_DRM_GEM_FOPS(fops);
+>> =C2=A0 static const struct drm_driver msm_driver =3D {
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .driver_features=C2=A0=C2=A0=C2=A0 =3D =
+DRIVER_GEM |
+>> @@ -1015,7 +1005,7 @@ static const struct drm_driver msm_driver =3D {
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .prime_handle_to_fd =3D drm_gem_prime_h=
+andle_to_fd,
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .prime_fd_to_handle =3D drm_gem_prime_f=
+d_to_handle,
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .gem_prime_import_sg_table =3D msm_gem_=
+prime_import_sg_table,
+>> -=C2=A0=C2=A0=C2=A0 .gem_prime_mmap=C2=A0=C2=A0=C2=A0=C2=A0 =3D msm_ge=
+m_prime_mmap,
+>> +=C2=A0=C2=A0=C2=A0 .gem_prime_mmap=C2=A0=C2=A0=C2=A0=C2=A0 =3D drm_ge=
+m_prime_mmap,
+>> =C2=A0 #ifdef CONFIG_DEBUG_FS
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .debugfs_init=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 =3D msm_debugfs_init,
+>> =C2=A0 #endif
+>> diff --git a/drivers/gpu/drm/msm/msm_drv.h=20
+>> b/drivers/gpu/drm/msm/msm_drv.h
+>> index 2668941df529..8f1e0d7c8bbb 100644
+>> --- a/drivers/gpu/drm/msm/msm_drv.h
+>> +++ b/drivers/gpu/drm/msm/msm_drv.h
+>> @@ -300,7 +300,6 @@ void msm_gem_shrinker_cleanup(struct drm_device=20
+>> *dev);
+>> =C2=A0 struct sg_table *msm_gem_prime_get_sg_table(struct drm_gem_obje=
+ct=20
+>> *obj);
+>> =C2=A0 int msm_gem_prime_vmap(struct drm_gem_object *obj, struct=20
+>> dma_buf_map *map);
+>> =C2=A0 void msm_gem_prime_vunmap(struct drm_gem_object *obj, struct=20
+>> dma_buf_map *map);
+>> -int msm_gem_prime_mmap(struct drm_gem_object *obj, struct=20
+>> vm_area_struct *vma);
+>> =C2=A0 struct drm_gem_object *msm_gem_prime_import_sg_table(struct=20
+>> drm_device *dev,
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct dma_buf_=
+attachment *attach, struct sg_table *sg);
+>> =C2=A0 int msm_gem_prime_pin(struct drm_gem_object *obj);
+>> diff --git a/drivers/gpu/drm/msm/msm_fbdev.c=20
+>> b/drivers/gpu/drm/msm/msm_fbdev.c
+>> index 227404077e39..07225907fd2d 100644
+>> --- a/drivers/gpu/drm/msm/msm_fbdev.c
+>> +++ b/drivers/gpu/drm/msm/msm_fbdev.c
+>> @@ -8,6 +8,7 @@
+>> =C2=A0 #include <drm/drm_crtc.h>
+>> =C2=A0 #include <drm/drm_fb_helper.h>
+>> =C2=A0 #include <drm/drm_fourcc.h>
+>> +#include <drm/drm_prime.h>
+>> =C2=A0 #include "msm_drv.h"
+>> =C2=A0 #include "msm_gem.h"
+>> @@ -48,15 +49,8 @@ static int msm_fbdev_mmap(struct fb_info *info,=20
+>> struct vm_area_struct *vma)
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct drm_fb_helper *helper =3D (struc=
+t drm_fb_helper *)info->par;
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct msm_fbdev *fbdev =3D to_msm_fbde=
+v(helper);
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct drm_gem_object *bo =3D msm_frame=
+buffer_bo(fbdev->fb, 0);
+>> -=C2=A0=C2=A0=C2=A0 int ret =3D 0;
+>> -=C2=A0=C2=A0=C2=A0 ret =3D drm_gem_mmap_obj(bo, bo->size, vma);
+>> -=C2=A0=C2=A0=C2=A0 if (ret) {
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pr_err("%s:drm_gem_mmap_ob=
+j fail\n", __func__);
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return ret;
+>> -=C2=A0=C2=A0=C2=A0 }
+>> -
+>> -=C2=A0=C2=A0=C2=A0 return msm_gem_mmap_obj(bo, vma);
+>> +=C2=A0=C2=A0=C2=A0 return drm_gem_prime_mmap(bo, vma);
+>> =C2=A0 }
+>> =C2=A0 static int msm_fbdev_create(struct drm_fb_helper *helper,
+>> diff --git a/drivers/gpu/drm/msm/msm_gem.c=20
+>> b/drivers/gpu/drm/msm/msm_gem.c
+>> index b61f5466e522..71d835bc575d 100644
+>> --- a/drivers/gpu/drm/msm/msm_gem.c
+>> +++ b/drivers/gpu/drm/msm/msm_gem.c
+>> @@ -211,46 +211,6 @@ void msm_gem_put_pages(struct drm_gem_object *obj=
+)
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 msm_gem_unlock(obj);
+>> =C2=A0 }
+>> -int msm_gem_mmap_obj(struct drm_gem_object *obj,
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct vm_area_struct *vma=
+)
 >> -{
->> -	unsigned int i;
->> -	int ret;
+>> -=C2=A0=C2=A0=C2=A0 struct msm_gem_object *msm_obj =3D to_msm_bo(obj);=
+
 >> -
->> -	job->bo_count = args->bo_handle_count;
+>> -=C2=A0=C2=A0=C2=A0 vma->vm_flags &=3D ~VM_PFNMAP;
+>> -=C2=A0=C2=A0=C2=A0 vma->vm_flags |=3D VM_MIXEDMAP;
 >> -
->> -	if (!job->bo_count)
->> -		return 0;
+>> -=C2=A0=C2=A0=C2=A0 if (msm_obj->flags & MSM_BO_WC) {
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vma->vm_page_prot =3D=20
+>> pgprot_writecombine(vm_get_page_prot(vma->vm_flags));
+>> -=C2=A0=C2=A0=C2=A0 } else if (msm_obj->flags & MSM_BO_UNCACHED) {
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vma->vm_page_prot =3D=20
+>> pgprot_noncached(vm_get_page_prot(vma->vm_flags));
+>> -=C2=A0=C2=A0=C2=A0 } else {
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /*
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * Shunt off cached o=
+bjs to shmem file so they have their own
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * address_space (so =
+unmap_mapping_range does what we want,
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * in particular in t=
+he case of mmap'd dmabufs)
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vma->vm_pgoff =3D 0;
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vma_set_file(vma, obj->fil=
+p);
 >> -
->> -	job->bo_flags = kvmalloc_array(job->bo_count,
->> -				       sizeof(*job->bo_flags),
->> -				       GFP_KERNEL | __GFP_ZERO);
->> -	if (!job->bo_flags)
->> -		return -ENOMEM;
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vma->vm_page_prot =3D vm_g=
+et_page_prot(vma->vm_flags);
+>> -=C2=A0=C2=A0=C2=A0 }
 >> -
->> -	for (i = 0; i < job->bo_count; i++)
->> -		job->bo_flags[i] = PANFROST_BO_REF_EXCLUSIVE;
->> -
->> -	ret = drm_gem_objects_lookup(file_priv,
->> -				     (void __user *)(uintptr_t)args->bo_handles,
->> -				     job->bo_count, &job->bos);
->> -	if (ret)
->> -		return ret;
->> -
->> -	return panfrost_get_job_mappings(file_priv, job);
+>> -=C2=A0=C2=A0=C2=A0 return 0;
 >> -}
 >> -
->> -/**
->> - * panfrost_copy_in_sync() - Sets up job->deps with the sync objects
->> - * referenced by the job.
->> - * @dev: DRM device
->> - * @file_priv: DRM file for this fd
->> - * @args: IOCTL args
->> - * @job: job being set up
->> - *
->> - * Resolve syncobjs from userspace to fences and attach them to job.
->> - *
->> - * Note that this function doesn't need to unreference the fences on
->> - * failure, because that will happen at panfrost_job_cleanup() time.
->> - */
->> -static int
->> -panfrost_copy_in_sync(struct drm_device *dev,
->> -		  struct drm_file *file_priv,
->> -		  struct drm_panfrost_submit *args,
->> -		  struct panfrost_job *job)
+>> -int msm_gem_mmap(struct file *filp, struct vm_area_struct *vma)
 >> -{
->> -	u32 *handles;
->> -	int ret = 0;
->> -	int i, in_fence_count;
+>> -=C2=A0=C2=A0=C2=A0 int ret;
 >> -
->> -	in_fence_count = args->in_sync_count;
+>> -=C2=A0=C2=A0=C2=A0 ret =3D drm_gem_mmap(filp, vma);
+>> -=C2=A0=C2=A0=C2=A0 if (ret) {
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 DBG("mmap failed: %d", ret=
+);
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return ret;
+>> -=C2=A0=C2=A0=C2=A0 }
 >> -
->> -	if (!in_fence_count)
->> -		return 0;
->> -
->> -	handles = kvmalloc_array(in_fence_count, sizeof(u32), GFP_KERNEL);
->> -	if (!handles) {
->> -		ret = -ENOMEM;
->> -		DRM_DEBUG("Failed to allocate incoming syncobj handles\n");
->> -		goto fail;
->> -	}
->> -
->> -	if (copy_from_user(handles,
->> -			   (void __user *)(uintptr_t)args->in_syncs,
->> -			   in_fence_count * sizeof(u32))) {
->> -		ret = -EFAULT;
->> -		DRM_DEBUG("Failed to copy in syncobj handles\n");
->> -		goto fail;
->> -	}
->> -
->> -	for (i = 0; i < in_fence_count; i++) {
->> -		struct dma_fence *fence;
->> -
->> -		ret = drm_syncobj_find_fence(file_priv, handles[i], 0, 0,
->> -					     &fence);
->> -		if (ret)
->> -			goto fail;
->> -
->> -		ret = drm_gem_fence_array_add(&job->deps, fence);
->> -
->> -		if (ret)
->> -			goto fail;
->> -	}
->> -
->> -fail:
->> -	kvfree(handles);
->> -	return ret;
+>> -=C2=A0=C2=A0=C2=A0 return msm_gem_mmap_obj(vma->vm_private_data, vma)=
+;
 >> -}
 >> -
->> -static int panfrost_ioctl_submit(struct drm_device *dev, void *data,
->> -		struct drm_file *file)
+>> =C2=A0 static vm_fault_t msm_gem_fault(struct vm_fault *vmf)
+>> =C2=A0 {
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct vm_area_struct *vma =3D vmf->vma=
+;
+>> @@ -1119,6 +1079,32 @@ void msm_gem_free_object(struct drm_gem_object =
+
+>> *obj)
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 kfree(msm_obj);
+>> =C2=A0 }
+>> +static int msm_gem_object_mmap(struct drm_gem_object *obj, struct=20
+>> vm_area_struct *vma)
+>> +{
+>> +=C2=A0=C2=A0=C2=A0 struct msm_gem_object *msm_obj =3D to_msm_bo(obj);=
+
+>> +
+>> +=C2=A0=C2=A0=C2=A0 vma->vm_flags &=3D ~VM_PFNMAP;
+>> +=C2=A0=C2=A0=C2=A0 vma->vm_flags |=3D VM_MIXEDMAP;
+>> +
+>> +=C2=A0=C2=A0=C2=A0 if (msm_obj->flags & MSM_BO_WC) {
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vma->vm_page_prot =3D=20
+>> pgprot_writecombine(vm_get_page_prot(vma->vm_flags));
+>> +=C2=A0=C2=A0=C2=A0 } else if (msm_obj->flags & MSM_BO_UNCACHED) {
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vma->vm_page_prot =3D=20
+>> pgprot_noncached(vm_get_page_prot(vma->vm_flags));
+>> +=C2=A0=C2=A0=C2=A0 } else {
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /*
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * Shunt off cached o=
+bjs to shmem file so they have their own
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * address_space (so =
+unmap_mapping_range does what we want,
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * in particular in t=
+he case of mmap'd dmabufs)
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vma->vm_pgoff =3D 0;
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vma_set_file(vma, obj->fil=
+p);
+>> +
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vma->vm_page_prot =3D vm_g=
+et_page_prot(vma->vm_flags);
+>> +=C2=A0=C2=A0=C2=A0 }
+>> +
+>> +=C2=A0=C2=A0=C2=A0 return 0;
+>> +}
+>> +
+>> =C2=A0 /* convenience method to construct a GEM buffer object, and=20
+>> userspace handle */
+>> =C2=A0 int msm_gem_new_handle(struct drm_device *dev, struct drm_file =
+*file,
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 uint32_t size, =
+uint32_t flags, uint32_t *handle,
+>> @@ -1156,6 +1142,7 @@ static const struct drm_gem_object_funcs=20
+>> msm_gem_object_funcs =3D {
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .get_sg_table =3D msm_gem_prime_get_sg_=
+table,
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .vmap =3D msm_gem_prime_vmap,
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .vunmap =3D msm_gem_prime_vunmap,
+>> +=C2=A0=C2=A0=C2=A0 .mmap =3D msm_gem_object_mmap,
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .vm_ops =3D &vm_ops,
+>> =C2=A0 };
+>> diff --git a/drivers/gpu/drm/msm/msm_gem.h=20
+>> b/drivers/gpu/drm/msm/msm_gem.h
+>> index 03e2cc2a2ce1..8508163088a9 100644
+>> --- a/drivers/gpu/drm/msm/msm_gem.h
+>> +++ b/drivers/gpu/drm/msm/msm_gem.h
+>> @@ -112,9 +112,6 @@ struct msm_gem_object {
+>> =C2=A0 };
+>> =C2=A0 #define to_msm_bo(x) container_of(x, struct msm_gem_object, bas=
+e)
+>> -int msm_gem_mmap_obj(struct drm_gem_object *obj,
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 st=
+ruct vm_area_struct *vma);
+>> -int msm_gem_mmap(struct file *filp, struct vm_area_struct *vma);
+>> =C2=A0 uint64_t msm_gem_mmap_offset(struct drm_gem_object *obj);
+>> =C2=A0 int msm_gem_get_iova(struct drm_gem_object *obj,
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct msm_gem_=
+address_space *aspace, uint64_t *iova);
+>> diff --git a/drivers/gpu/drm/msm/msm_gem_prime.c=20
+>> b/drivers/gpu/drm/msm/msm_gem_prime.c
+>> index 9880348a4dc7..fc94e061d6a7 100644
+>> --- a/drivers/gpu/drm/msm/msm_gem_prime.c
+>> +++ b/drivers/gpu/drm/msm/msm_gem_prime.c
+>> @@ -39,17 +39,6 @@ void msm_gem_prime_vunmap(struct drm_gem_object=20
+>> *obj, struct dma_buf_map *map)
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 msm_gem_put_vaddr(obj);
+>> =C2=A0 }
+>> -int msm_gem_prime_mmap(struct drm_gem_object *obj, struct=20
+>> vm_area_struct *vma)
 >> -{
->> -	struct panfrost_device *pfdev = dev->dev_private;
->> -	struct drm_panfrost_submit *args = data;
->> -	struct drm_syncobj *sync_out = NULL;
->> -	struct panfrost_submitqueue *queue;
->> -	struct panfrost_job *job;
->> -	int ret = 0;
+>> -=C2=A0=C2=A0=C2=A0 int ret;
 >> -
->> -	if (!args->jc)
->> -		return -EINVAL;
+>> -=C2=A0=C2=A0=C2=A0 ret =3D drm_gem_mmap_obj(obj, obj->size, vma);
+>> -=C2=A0=C2=A0=C2=A0 if (ret < 0)
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return ret;
 >> -
->> -	if (args->requirements && args->requirements != PANFROST_JD_REQ_FS)
->> -		return -EINVAL;
->> -
->> -	queue = panfrost_submitqueue_get(file->driver_priv, 0);
->> -	if (IS_ERR(queue))
->> -		return PTR_ERR(queue);
->> -
->> -	if (args->out_sync > 0) {
->> -		sync_out = drm_syncobj_find(file, args->out_sync);
->> -		if (!sync_out) {
->> -			ret = -ENODEV;
->> -			goto fail_put_queue;
->> -		}
->> -	}
->> -
->> -	job = kzalloc(sizeof(*job), GFP_KERNEL);
->> -	if (!job) {
->> -		ret = -ENOMEM;
->> -		goto fail_out_sync;
->> -	}
->> -
->> -	kref_init(&job->refcount);
->> -
->> -	xa_init_flags(&job->deps, XA_FLAGS_ALLOC);
->> -
->> -	job->pfdev = pfdev;
->> -	job->jc = args->jc;
->> -	job->requirements = args->requirements;
->> -	job->flush_id = panfrost_gpu_get_latest_flush_id(pfdev);
->> -	job->file_priv = file->driver_priv;
->> -
->> -	ret = panfrost_copy_in_sync(dev, file, args, job);
->> -	if (ret)
->> -		goto fail_job;
->> -
->> -	ret = panfrost_lookup_bos(dev, file, args, job);
->> -	if (ret)
->> -		goto fail_job;
->> -
->> -	ret = panfrost_job_push(queue, job);
->> -	if (ret)
->> -		goto fail_job;
->> -
->> -	/* Update the return sync object for the job */
->> -	if (sync_out)
->> -		drm_syncobj_replace_fence(sync_out, job->render_done_fence);
->> -
->> -fail_job:
->> -	panfrost_job_put(job);
->> -fail_out_sync:
->> -	if (sync_out)
->> -		drm_syncobj_put(sync_out);
->> -fail_put_queue:
->> -	panfrost_submitqueue_put(queue);
->> -
->> -	return ret;
+>> -=C2=A0=C2=A0=C2=A0 return msm_gem_mmap_obj(vma->vm_private_data, vma)=
+;
 >> -}
 >> -
->>   static int
->>   panfrost_ioctl_wait_bo(struct drm_device *dev, void *data,
->>   		       struct drm_file *file_priv)
->> @@ -491,6 +313,389 @@ panfrost_ioctl_destroy_submitqueue(struct drm_device *dev, void *data,
->>   	return panfrost_submitqueue_destroy(priv, id);
->>   }
->>   
->> +#define PANFROST_BO_REF_ALLOWED_FLAGS \
->> +	(PANFROST_BO_REF_EXCLUSIVE | PANFROST_BO_REF_NO_IMPLICIT_DEP)
->> +
->> +static int
->> +panfrost_get_job_bos(struct drm_file *file_priv,
->> +		     u64 refs, u32 ref_stride, u32 count,
->> +		     struct panfrost_job *job)
->> +{
->> +	void __user *in = u64_to_user_ptr(refs);
->> +	unsigned int i;
->> +
->> +	job->bo_count = count;
->> +
->> +	if (!count)
->> +		return 0;
->> +
->> +	job->bos = kvmalloc_array(job->bo_count, sizeof(*job->bos),
->> +				  GFP_KERNEL | __GFP_ZERO);
->> +	job->bo_flags = kvmalloc_array(job->bo_count,
->> +				       sizeof(*job->bo_flags),
->> +				       GFP_KERNEL | __GFP_ZERO);
->> +	if (!job->bos || !job->bo_flags)
->> +		return -ENOMEM;
->> +
->> +	for (i = 0; i < count; i++) {
->> +		struct drm_panfrost_bo_ref ref = { };
->> +		int ret;
->> +
->> +		ret = copy_struct_from_user(&ref, sizeof(ref),
->> +					    in + (i * ref_stride),
->> +					    ref_stride);
->> +		if (ret)
->> +			return ret;
->> +
->> +		/* Prior to the BATCH_SUBMIT ioctl all accessed BOs were
->> +		 * treated as exclusive.
->> +		 */
->> +		if (ref_stride == sizeof(u32))
->> +			ref.flags = PANFROST_BO_REF_EXCLUSIVE;
->> +
->> +		if ((ref.flags & ~PANFROST_BO_REF_ALLOWED_FLAGS))
->> +			return -EINVAL;
->> +
->> +		job->bos[i] = drm_gem_object_lookup(file_priv, ref.handle);
->> +		if (!job->bos[i])
->> +			return -EINVAL;
->> +
->> +		job->bo_flags[i] = ref.flags;
->> +	}
->> +
->> +	return 0;
->> +}
->> +
->> +static int
->> +panfrost_get_job_in_syncs(struct drm_file *file_priv,
->> +			  u64 refs, u32 ref_stride,
->> +			  u32 count, struct panfrost_job *job)
->> +{
->> +	const void __user *in = u64_to_user_ptr(refs);
->> +	unsigned int i;
->> +	int ret;
->> +
->> +	if (!count)
->> +		return 0;
->> +
->> +	for (i = 0; i < count; i++) {
->> +		struct drm_panfrost_syncobj_ref ref = { };
->> +		struct dma_fence *fence;
->> +
->> +		ret = copy_struct_from_user(&ref, sizeof(ref),
->> +					    in + (i * ref_stride),
->> +					    ref_stride);
->> +		if (ret)
->> +			return ret;
->> +
->> +		if (ref.pad)
->> +			return -EINVAL;
->> +
->> +		ret = drm_syncobj_find_fence(file_priv, ref.handle, ref.point,
->> +					     0, &fence);
->> +		if (ret)
->> +			return ret;
->> +
->> +		ret = drm_gem_fence_array_add(&job->deps, fence);
->> +		if (ret)
->> +			return ret;
->> +	}
->> +
->> +	return 0;
->> +}
->> +
->> +struct panfrost_job_out_sync {
->> +	struct drm_syncobj *syncobj;
->> +	struct dma_fence_chain *chain;
->> +	u64 point;
->> +};
->> +
->> +static void
->> +panfrost_put_job_out_syncs(struct panfrost_job_out_sync *out_syncs, u32 count)
->> +{
->> +	unsigned int i;
->> +
->> +	for (i = 0; i < count; i++) {
->> +		if (!out_syncs[i].syncobj)
->> +			break;
->> +
->> +		drm_syncobj_put(out_syncs[i].syncobj);
->> +		kvfree(out_syncs[i].chain);
->> +	}
->> +
->> +	kvfree(out_syncs);
->> +}
->> +
->> +static struct panfrost_job_out_sync *
->> +panfrost_get_job_out_syncs(struct drm_file *file_priv,
->> +			   u64 refs, u32 ref_stride,
->> +			   u32 count)
->> +{
->> +	void __user *in = u64_to_user_ptr(refs);
->> +	struct panfrost_job_out_sync *out_syncs;
->> +	unsigned int i;
->> +	int ret;
->> +
->> +	if (!count)
->> +		return NULL;
->> +
->> +	/* If the syncobj ref_stride == sizeof(u32) we are called from the
->> +	 * old submit ioctl() which only accepted one out syncobj. In that
->> +	 * case the syncobj handle is passed directly through the
->> +	 * ->out_syncs field, so let's make sure the refs fits in a u32.
->> +	 */
->> +	if (ref_stride == sizeof(u32) &&
->> +	    (count != 1 || refs > UINT_MAX))
->> +		return ERR_PTR(-EINVAL);
->> +
->> +	out_syncs = kvmalloc_array(count, sizeof(*out_syncs),
->> +				   GFP_KERNEL | __GFP_ZERO);
->> +	if (!out_syncs)
->> +		return ERR_PTR(-ENOMEM);
->> +
->> +	for (i = 0; i < count; i++) {
->> +		struct drm_panfrost_syncobj_ref ref = { };
->> +
->> +		if (ref_stride == sizeof(u32)) {
->> +			/* Special case for the old submit wrapper: in that
->> +			 * case there's only one out_sync, and the syncobj
->> +			 * handle is passed directly in the out_syncs field.
->> +			 */
->> +			ref.handle = refs;
->> +		} else {
->> +			ret = copy_struct_from_user(&ref, sizeof(ref),
->> +						    in + (i * ref_stride),
->> +						    ref_stride);
->> +			if (ret)
->> +				goto err_free_out_syncs;
->> +		}
->> +
->> +		if (ref.pad) {
->> +			ret = -EINVAL;
->> +			goto err_free_out_syncs;
->> +		}
->> +
->> +		out_syncs[i].syncobj = drm_syncobj_find(file_priv, ref.handle);
->> +		if (!out_syncs[i].syncobj) {
->> +			ret = -ENODEV;
->> +			goto err_free_out_syncs;
->> +		}
->> +
->> +		out_syncs[i].point = ref.point;
->> +		if (!out_syncs[i].point)
->> +			continue;
->> +
->> +		out_syncs[i].chain = kmalloc(sizeof(*out_syncs[i].chain),
->> +					     GFP_KERNEL);
->> +		if (!out_syncs[i].chain) {
->> +			ret = -ENOMEM;
->> +			goto err_free_out_syncs;
->> +		}
->> +	}
->> +
->> +	return out_syncs;
->> +
->> +err_free_out_syncs:
->> +	panfrost_put_job_out_syncs(out_syncs, count);
->> +	return ERR_PTR(ret);
->> +}
->> +
->> +static void
->> +panfrost_set_job_out_fence(struct panfrost_job_out_sync *out_syncs,
->> +			   unsigned int count, struct dma_fence *fence)
->> +{
->> +	unsigned int i;
->> +
->> +	for (i = 0; i < count; i++) {
->> +		if (out_syncs[i].chain) {
->> +			drm_syncobj_add_point(out_syncs[i].syncobj,
->> +					      out_syncs[i].chain,
->> +					      fence, out_syncs[i].point);
->> +			out_syncs[i].chain = NULL;
->> +		} else {
->> +			drm_syncobj_replace_fence(out_syncs[i].syncobj,
->> +						  fence);
->> +		}
->> +	}
->> +}
->> +
->> +struct panfrost_submit_ioctl_version_info {
->> +	u32 job_stride;
->> +	u32 bo_ref_stride;
->> +	u32 syncobj_ref_stride;
->> +};
->> +
->> +static const struct panfrost_submit_ioctl_version_info submit_versions[] = {
->> +	/* SUBMIT */
->> +	[0] = { 0, 4, 4 },
->> +
->> +	/* BATCH_SUBMIT v1 */
->> +	[1] = { 48, 8, 16 },
->> +};
->> +
->> +#define PANFROST_JD_ALLOWED_REQS PANFROST_JD_REQ_FS
->> +
->> +static int
->> +panfrost_submit_job(struct drm_device *dev, struct drm_file *file_priv,
->> +		    struct panfrost_submitqueue *queue,
->> +		    const struct drm_panfrost_job *args,
->> +		    u32 version)
->> +{
->> +	struct panfrost_device *pfdev = dev->dev_private;
->> +	struct panfrost_job_out_sync *out_syncs;
->> +	u32 bo_stride, syncobj_stride;
->> +	struct panfrost_job *job;
->> +	int ret;
->> +
->> +	if (!args->head)
->> +		return -EINVAL;
->> +
->> +	if (args->requirements & ~PANFROST_JD_ALLOWED_REQS)
->> +		return -EINVAL;
->> +
->> +	bo_stride = submit_versions[version].bo_ref_stride;
->> +	syncobj_stride = submit_versions[version].syncobj_ref_stride;
->> +
->> +	job = kzalloc(sizeof(*job), GFP_KERNEL);
->> +	if (!job)
->> +		return -ENOMEM;
->> +
->> +	kref_init(&job->refcount);
->> +
->> +	job->pfdev = pfdev;
->> +	job->jc = args->head;
->> +	job->requirements = args->requirements;
->> +	job->flush_id = panfrost_gpu_get_latest_flush_id(pfdev);
->> +	job->file_priv = file_priv->driver_priv;
->> +	xa_init_flags(&job->deps, XA_FLAGS_ALLOC);
->> +
->> +	ret = panfrost_get_job_in_syncs(file_priv,
->> +					args->in_syncs,
->> +					syncobj_stride,
->> +					args->in_sync_count,
->> +					job);
->> +	if (ret)
->> +		goto err_put_job;
->> +
->> +	out_syncs = panfrost_get_job_out_syncs(file_priv,
->> +					       args->out_syncs,
->> +					       syncobj_stride,
->> +					       args->out_sync_count);
->> +	if (IS_ERR(out_syncs)) {
->> +		ret = PTR_ERR(out_syncs);
->> +		goto err_put_job;
->> +	}
->> +
->> +	ret = panfrost_get_job_bos(file_priv, args->bos, bo_stride,
->> +				   args->bo_count, job);
->> +	if (ret)
->> +		goto err_put_job;
->> +
->> +	ret = panfrost_get_job_mappings(file_priv, job);
->> +	if (ret)
->> +		goto err_put_job;
->> +
->> +	ret = panfrost_job_push(queue, job);
->> +	if (ret) {
->> +		panfrost_put_job_out_syncs(out_syncs, args->out_sync_count);
->> +		goto err_put_job;
->> +	}
->> +
->> +	panfrost_set_job_out_fence(out_syncs, args->out_sync_count,
->> +				   job->render_done_fence);
->> +	panfrost_put_job_out_syncs(out_syncs, args->out_sync_count);
->> +	return 0;
->> +
->> +err_put_job:
->> +	panfrost_job_put(job);
->> +	return ret;
->> +}
->> +
->> +static int
->> +panfrost_ioctl_submit(struct drm_device *dev, void *data,
->> +		      struct drm_file *file)
->> +{
->> +	struct drm_panfrost_submit *args = data;
->> +	struct drm_panfrost_job job_args = {
->> +		.head = args->jc,
->> +		.bos = args->bo_handles,
->> +		.in_syncs = args->in_syncs,
->> +
->> +		/* We are abusing .out_syncs and passing the handle directly
->> +		 * instead of a pointer to a user u32 array, but
->> +		 * panfrost_job_submit() knows about it, so it's fine.
->> +		 */
->> +		.out_syncs = args->out_sync,
->> +		.in_sync_count = args->in_sync_count,
->> +		.out_sync_count = args->out_sync > 0 ? 1 : 0,
->> +		.bo_count = args->bo_handle_count,
->> +		.requirements = args->requirements
->> +	};
->> +	struct panfrost_submitqueue *queue;
->> +	int ret;
->> +
->> +	queue = panfrost_submitqueue_get(file->driver_priv, 0);
->> +	if (IS_ERR(queue))
->> +		return PTR_ERR(queue);
->> +
->> +	ret = panfrost_submit_job(dev, file, queue, &job_args, 0);
->> +	panfrost_submitqueue_put(queue);
->> +
->> +	return ret;
->> +}
->> +
->> +static int
->> +panfrost_ioctl_batch_submit(struct drm_device *dev, void *data,
->> +			    struct drm_file *file_priv)
->> +{
->> +	struct drm_panfrost_batch_submit *args = data;
->> +	void __user *jobs_args = u64_to_user_ptr(args->jobs);
->> +	struct panfrost_submitqueue *queue;
->> +	u32 version = args->version;
->> +	u32 job_stride;
->> +	unsigned int i;
->> +	int ret;
->> +
->> +	/* Version 0 doesn't exists (it's reserved for the SUBMIT ioctl) */
->> +	if (!version)
->> +		return -EINVAL;
->> +
->> +	/* If the version specified is bigger than what we currently support,
->> +	 * pick the last supported version and let copy_struct_from_user()
->> +	 * check that any extra job, bo_ref and syncobj_ref fields are zeroed.
->> +	 */
->> +	if (version >= ARRAY_SIZE(submit_versions))
->> +		version = ARRAY_SIZE(submit_versions) - 1;
->> +
->> +	queue = panfrost_submitqueue_get(file_priv->driver_priv, args->queue);
->> +	if (IS_ERR(queue))
->> +		return PTR_ERR(queue);
->> +
->> +	job_stride = submit_versions[version].job_stride;
->> +	for (i = 0; i < args->job_count; i++) {
->> +		struct drm_panfrost_job job_args = { };
->> +
->> +		ret = copy_struct_from_user(&job_args, sizeof(job_args),
->> +					    jobs_args + (i * job_stride),
->> +					    job_stride);
->> +		if (ret) {
->> +			args->fail_idx = i;
->> +			goto out_put_queue;
->> +		}
->> +
->> +		ret = panfrost_submit_job(dev, file_priv, queue, &job_args,
->> +					  version);
->> +		if (ret) {
->> +			args->fail_idx = i;
->> +			goto out_put_queue;
->> +		}
->> +	}
->> +
->> +out_put_queue:
->> +	panfrost_submitqueue_put(queue);
->> +	return 0;
->> +}
->> +
->>   int panfrost_unstable_ioctl_check(void)
->>   {
->>   	if (!unstable_ioctls)
->> @@ -572,6 +777,7 @@ static const struct drm_ioctl_desc panfrost_drm_driver_ioctls[] = {
->>   	PANFROST_IOCTL(MADVISE,		madvise,	DRM_RENDER_ALLOW),
->>   	PANFROST_IOCTL(CREATE_SUBMITQUEUE, create_submitqueue, DRM_RENDER_ALLOW),
->>   	PANFROST_IOCTL(DESTROY_SUBMITQUEUE, destroy_submitqueue, DRM_RENDER_ALLOW),
->> +	PANFROST_IOCTL(BATCH_SUBMIT,	batch_submit,	DRM_RENDER_ALLOW),
->>   };
->>   
->>   DEFINE_DRM_GEM_FOPS(panfrost_drm_driver_fops);
->> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
->> index 56ae89272e19..4e1540bce865 100644
->> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
->> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
->> @@ -254,6 +254,9 @@ static int panfrost_acquire_object_fences(struct panfrost_job *job)
->>   				return ret;
->>   		}
->>   
->> +		if (job->bo_flags[i] & PANFROST_BO_REF_NO_IMPLICIT_DEP)
->> +			continue;
-> This breaks dma_resv rules. I'll send out patch set fixing this pattern in
-> other drivers, I'll ping you on that for what you need to change. Should
-> go out today or so.
-
-I'm really wondering if the behavior that the exclusive fences replaces 
-all the shared fences was such a good idea.
-
-It just allows drivers to mess up things in a way which can be easily 
-used to compromise the system.
-
-Christian.
-
->
-> Also cc: Christian König.
-> -Daniel
->
->> +
->>   		ret = drm_gem_fence_array_add_implicit(&job->deps, job->bos[i],
->>   						       exclusive);
->>   		if (ret)
->> diff --git a/include/uapi/drm/panfrost_drm.h b/include/uapi/drm/panfrost_drm.h
->> index e31a22c176d9..5d534e61c28e 100644
->> --- a/include/uapi/drm/panfrost_drm.h
->> +++ b/include/uapi/drm/panfrost_drm.h
->> @@ -23,6 +23,7 @@ extern "C" {
->>   #define DRM_PANFROST_MADVISE			0x08
->>   #define DRM_PANFROST_CREATE_SUBMITQUEUE		0x09
->>   #define DRM_PANFROST_DESTROY_SUBMITQUEUE	0x0a
->> +#define DRM_PANFROST_BATCH_SUBMIT		0x0b
->>   
->>   #define DRM_IOCTL_PANFROST_SUBMIT		DRM_IOW(DRM_COMMAND_BASE + DRM_PANFROST_SUBMIT, struct drm_panfrost_submit)
->>   #define DRM_IOCTL_PANFROST_WAIT_BO		DRM_IOW(DRM_COMMAND_BASE + DRM_PANFROST_WAIT_BO, struct drm_panfrost_wait_bo)
->> @@ -33,6 +34,7 @@ extern "C" {
->>   #define DRM_IOCTL_PANFROST_MADVISE		DRM_IOWR(DRM_COMMAND_BASE + DRM_PANFROST_MADVISE, struct drm_panfrost_madvise)
->>   #define DRM_IOCTL_PANFROST_CREATE_SUBMITQUEUE	DRM_IOWR(DRM_COMMAND_BASE + DRM_PANFROST_CREATE_SUBMITQUEUE, struct drm_panfrost_create_submitqueue)
->>   #define DRM_IOCTL_PANFROST_DESTROY_SUBMITQUEUE	DRM_IOWR(DRM_COMMAND_BASE + DRM_PANFROST_DESTROY_SUBMITQUEUE, __u32)
->> +#define DRM_IOCTL_PANFROST_BATCH_SUBMIT		DRM_IOWR(DRM_COMMAND_BASE + DRM_PANFROST_BATCH_SUBMIT, struct drm_panfrost_batch_submit)
->>   
->>   /*
->>    * Unstable ioctl(s): only exposed when the unsafe unstable_ioctls module
->> @@ -241,9 +243,99 @@ struct drm_panfrost_create_submitqueue {
->>   	__u32 id;	/* out, identifier */
->>   };
->>   
->> +/* Syncobj reference passed at job submission time to encode explicit
->> + * input/output fences.
->> + */
->> +struct drm_panfrost_syncobj_ref {
->> +	/** Syncobj handle */
->> +	__u32 handle;
->> +
->> +	/** Padding field, must be set to 0 */
->> +	__u32 pad;
->> +
->> +	/**
->> +	 * For timeline syncobjs, the point on the timeline the reference
->> +	 * points to. 0 for the last point.
->> +	 * Must be set to 0 for non-timeline syncobjs
->> +	 */
->> +	__u64 point;
->> +};
->> +
->>   /* Exclusive (AKA write) access to the BO */
->>   #define PANFROST_BO_REF_EXCLUSIVE	0x1
->>   
->> +/* Disable the implicit depency on the BO fence */
->> +#define PANFROST_BO_REF_NO_IMPLICIT_DEP	0x2
->> +
->> +/* Describes a BO referenced by a job and the type of access. */
->> +struct drm_panfrost_bo_ref {
->> +	/** A GEM handle */
->> +	__u32 handle;
->> +
->> +	/** A combination of PANFROST_BO_REF_x flags */
->> +	__u32 flags;
->> +};
->> +
->> +/* Describes a GPU job and the resources attached to it. */
->> +struct drm_panfrost_job {
->> +	/** GPU pointer to the head of the job chain. */
->> +	__u64 head;
->> +
->> +	/**
->> +	 * Array of drm_panfrost_bo_ref objects describing the BOs referenced
->> +	 * by this job.
->> +	 */
->> +	__u64 bos;
->> +
->> +	/**
->> +	 * Arrays of drm_panfrost_syncobj_ref objects describing the input
->> +	 * and output fences.
->> +	 */
->> +	__u64 in_syncs;
->> +	__u64 out_syncs;
->> +
->> +	/** Syncobj reference array sizes. */
->> +	__u32 in_sync_count;
->> +	__u32 out_sync_count;
->> +
->> +	/** BO reference array size. */
->> +	__u32 bo_count;
->> +
->> +	/** Combination of PANFROST_JD_REQ_* flags. */
->> +	__u32 requirements;
->> +};
->> +
->> +#define PANFROST_SUBMIT_BATCH_VERSION	1
->> +
->> +/* Used to submit multiple jobs in one call */
->> +struct drm_panfrost_batch_submit {
->> +	/**
->> +	 * Always set to PANFROST_SUBMIT_BATCH_VERSION. This is used to let the
->> +	 * kernel know about the size of the various structs passed to the
->> +	 * BATCH_SUBMIT ioctl.
->> +	 */
->> +	__u32 version;
->> +
->> +	/** Number of jobs to submit. */
->> +	__u32 job_count;
->> +
->> +	/* Pointer to a job array. */
->> +	__u64 jobs;
->> +
->> +	/**
->> +	 * ID of the queue to submit those jobs to. 0 is the default
->> +	 * submit queue and should always exists. If you need a dedicated
->> +	 * queue, create it with DRM_IOCTL_PANFROST_CREATE_SUBMITQUEUE.
->> +	 */
->> +	__u32 queue;
->> +
->> +	/**
->> +	 * If the submission fails, this encodes the index of the job
->> +	 * failed.
->> +	 */
->> +	__u32 fail_idx;
->> +};
->> +
->>   #if defined(__cplusplus)
->>   }
->>   #endif
->> -- 
->> 2.31.1
+>> =C2=A0 struct drm_gem_object *msm_gem_prime_import_sg_table(struct=20
+>> drm_device *dev,
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct dma_buf_=
+attachment *attach, struct sg_table *sg)
+>> =C2=A0 {
 >>
+>=20
 
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--y9WCve1kCGMZGvlH00hVkuq5ADwVKsTKz--
+
+--UdoqJxZS5vRGi4Hb2F483wOAdz4sSNKWC
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmDm7F0FAwAAAAAACgkQlh/E3EQov+B0
++g//UcISuf6Bi1Sl37S+kJSQiUH84leDyFEUl1pjNP5lLzXz0OBpBP/X5ebi+Z8xRk3Do3N+2f8p
+TUHNPgkRsYnjD/UqKnt1qdhg4pmPfuR9U5+XKXtqGg3hGjmSEO+jYz6iFP3vL02EeoadO1eQ/oJW
+APmvNLRis81CaKIbGxhGS3rI6FtyZ5e0Hw1eEGmiayPiLceyG6ckR+dNMBmLXaHy2Owo1u0odBPv
+oLfQAEau0pELLC+IJLScSRtR09g6fWPM38QPcCyx8Py0im1sfd0bqPtQ2LPMOoLzWTFh5csottiU
+KY5ZUlGHKta1rzC1mZaNKG9mj5WybUJ4tzYqA+omzuv/yrtHnpb1++uGe8LEeL6FazcpMLwKYoie
+oZhqyw/AKlWo33aCTS7J+M6y27/j/mEK9WIQgKKUJNSXRmnoLH4cT+ooEtCC6mb0kNiTufXA/5xB
+SB9aphP0+rB9eMnoVALI8uZpAp0QHMwnaWKS0TggG0lIF0jRnHM2s7xe1Aesly24xnRMkwuTxyeQ
+Fkf3+DiQE4HBrYmGjiF8/Q/Rc/YLk1d/Iveis0fHXhblWqKrbK98vLrNPEhydynwLMR0F6dgizlQ
+G7IrK6kqK2KPbsKYmrGNqkUqDOuB24VaqGZiXYN1ZdPA5vfqufzn0dZRSKz3FXYELeZCLRCIEBkA
+h4k=
+=tPm/
+-----END PGP SIGNATURE-----
+
+--UdoqJxZS5vRGi4Hb2F483wOAdz4sSNKWC--
