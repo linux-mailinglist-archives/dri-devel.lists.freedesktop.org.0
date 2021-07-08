@@ -2,61 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE7D73C1B47
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Jul 2021 23:57:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF1843C1B4E
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Jul 2021 00:00:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F3146E924;
-	Thu,  8 Jul 2021 21:57:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E2D336E90C;
+	Thu,  8 Jul 2021 22:00:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com
- [IPv6:2a00:1450:4864:20::634])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABB386E927
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Jul 2021 21:57:49 +0000 (UTC)
-Received: by mail-ej1-x634.google.com with SMTP id gb6so12292162ejc.5
- for <dri-devel@lists.freedesktop.org>; Thu, 08 Jul 2021 14:57:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=ka8971iLGVECeIiGATZdT+8iLbrcD8PBA/lItxvX5l4=;
- b=W3TLErmbWYAqAGbJqGZ7cSRLWFchLr+JEt8MkyR2LZMmD+LHUsPOnJDISaD0Pvm9Y4
- yKuuQAWZOYnaWgnXLb8Z+YEte1ax/SiwgLPTHMc7l06ttTVvPfkfaUtylJdjhl3c4jkM
- sPEdn5fGPtIv+AdWO+yf05RH4Kre9mkBeCoPc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=ka8971iLGVECeIiGATZdT+8iLbrcD8PBA/lItxvX5l4=;
- b=lKEI5HAk1XInIVdJquhatJ8F616xSOcuLrppK7nNxMBpeHLl2yHESY9dmCfClqh9xa
- e/+RkVDTzwlOhZzLFXiRchWghHpzRNRXyYwBJconxwqIP1gwdvXRJSK26yANN3YV+F53
- K0P9ohT66uCV4bbsu9BGL1LWH+9Oj4FT6WSlHI0XZM6RoFauVlyhYuZ1qLKXHPoMjs5Y
- EZzWlC4O+e++2Z3wq5D1T/Uo1wiWbt1v9l00XLjOTcbqt0cURTZL/maiebqzoupbLbM+
- VhRoBdkIxPr5cV83bTCZYFdulvk6hhFiPqAQrxoweqZhPvLpZxhBsdpV/nqQTGMmVxQX
- +3Ww==
-X-Gm-Message-State: AOAM531hFDcuFWJeRMBfmsvEGaxn576clakqs4o1xU8RKNgYGVfY9xAn
- wiCvMy5BZq7z0kvOXxAbmuuC2zTy01LdWw==
-X-Google-Smtp-Source: ABdhPJyOWl3koK9YHneli0WvaIWl33viTfApPkeR6GW4pU7kjiaz4f3nFR7chxcXN/a0HGgNiPv+1Q==
-X-Received: by 2002:a17:906:b201:: with SMTP id
- p1mr32861759ejz.30.1625781468324; 
- Thu, 08 Jul 2021 14:57:48 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id ja13sm1472284ejc.82.2021.07.08.14.57.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Jul 2021 14:57:47 -0700 (PDT)
-Date: Thu, 8 Jul 2021 23:57:46 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Roberto Sassu <roberto.sassu@huawei.com>
-Subject: Re: [PATCH] drm/qxl: add NULL check for bo->resource
-Message-ID: <YOd02qH1t5u+MfXt@phenom.ffwll.local>
-References: <20210708114710.8186-1-christian.koenig@amd.com>
- <9aae31dac09b4430918f39b9c5d79c27@huawei.com>
+Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D0CB6E90C
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Jul 2021 22:00:08 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1625781611; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=foQZWcxZgegObXgHqgBDEXunbwEGNs+mS0D1mjRzN8g=;
+ b=Wgn8SmMf5+HCadXNYkuBx5r9xMGq/UGCkiP/XFxZvfl7rA8Cefw7PrjZOgLeiMW6B7Vp1Aui
+ nHxnhpiZHrgqkE309efsPPHw3Wr5dzN2QuFI/g4rpka/w5nQAtpiAjkFTfOYU27kDGeV1LYZ
+ OLGAWG7/DIv6H2M59zU38k1TZio=
+X-Mailgun-Sending-Ip: 198.61.254.9
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n03.prod.us-east-1.postgun.com with SMTP id
+ 60e7755b5e3e57240b89cc97 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 08 Jul 2021 21:59:55
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 2BC10C43144; Thu,  8 Jul 2021 21:59:54 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+ URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ (No client certificate requested) (Authenticated sender: khsieh)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 44FB3C433D3;
+ Thu,  8 Jul 2021 21:59:53 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <9aae31dac09b4430918f39b9c5d79c27@huawei.com>
-X-Operating-System: Linux phenom 5.10.0-7-amd64 
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date: Thu, 08 Jul 2021 14:59:53 -0700
+From: khsieh@codeaurora.org
+To: Stephen Boyd <swboyd@chromium.org>
+Subject: Re: [PATCH 3/7] drm/msm/dp: reset aux controller after
+ dp_aux_cmd_fifo_tx() failed.
+In-Reply-To: <CAE-0n53JxLuQZBUMLOuH_Bm7zQ7Vite2OhjTB_xO=s_KAGarXw@mail.gmail.com>
+References: <1625592020-22658-1-git-send-email-khsieh@codeaurora.org>
+ <1625592020-22658-4-git-send-email-khsieh@codeaurora.org>
+ <CAE-0n53JxLuQZBUMLOuH_Bm7zQ7Vite2OhjTB_xO=s_KAGarXw@mail.gmail.com>
+Message-ID: <a5bb5f6bf7defa9c9bbf7d1fde87ca49@codeaurora.org>
+X-Sender: khsieh@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,63 +68,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: freedreno@lists.freedesktop.org, airlied@linux.ie,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ abhinavk@codeaurora.org, bjorn.andersson@linaro.org,
+ dri-devel@lists.freedesktop.org, aravindh@codeaurora.org, sean@poorly.run
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 08, 2021 at 12:10:25PM +0000, Roberto Sassu wrote:
-> > From: Christian König [mailto:ckoenig.leichtzumerken@gmail.com]
-> > Sent: Thursday, July 8, 2021 1:47 PM
-> > When allocations fails that can be NULL now.
-> > 
-> > Signed-off-by: Christian König <christian.koenig@amd.com>
-> > Reported-by: Daniel Bristot de Oliveira <bristot@kernel.org>
-> > Tested-by: Daniel Bristot de Oliveira <bristot@kernel.org>
+On 2021-07-08 00:34, Stephen Boyd wrote:
+> Quoting Kuogee Hsieh (2021-07-06 10:20:16)
+>> Aux hardware calibration sequence requires resetting the aux 
+>> controller
+>> in order for the new setting to take effect. However resetting the AUX
+>> controller will also clear HPD interrupt status which may accidentally
+>> cause pending unplug interrupt to get lost. Therefore reset aux
+>> controller only when link is in connection state when 
+>> dp_aux_cmd_fifo_tx()
+>> fail. This fixes Link Layer CTS cases 4.2.1.1 and 4.2.1.2.
+>> 
+>> Signed-off-by: Kuogee Hsieh <khsieh@codeaurora.org>
+>> ---
+>>  drivers/gpu/drm/msm/dp/dp_aux.c | 3 +++
+>>  1 file changed, 3 insertions(+)
+>> 
+>> diff --git a/drivers/gpu/drm/msm/dp/dp_aux.c 
+>> b/drivers/gpu/drm/msm/dp/dp_aux.c
+>> index 4a3293b..eb40d84 100644
+>> --- a/drivers/gpu/drm/msm/dp/dp_aux.c
+>> +++ b/drivers/gpu/drm/msm/dp/dp_aux.c
+>> @@ -353,6 +353,9 @@ static ssize_t dp_aux_transfer(struct drm_dp_aux 
+>> *dp_aux,
+>>                         if (!(aux->retry_cnt % MAX_AUX_RETRIES))
+>>                                 
+>> dp_catalog_aux_update_cfg(aux->catalog);
+>>                 }
+>> +               /* reset aux if link is in connected state */
+>> +               if (dp_catalog_link_is_connected(aux->catalog))
 > 
-> Hi Christian
+> How do we avoid resetting aux when hpd is unplugged and then plugged
+> back in during an aux transfer?
+i am not sure this is possible.
+it should get unplug interrupt followed by plugin interrupt.
+In this case, aux will be re set and initialized
 > 
-> thanks, it worked.
-> 
-> Tested-by: Roberto Sassu <roberto.sassu@huawei.com>
-
-Doesn't this need a
-
-Fixes: bfa3357ef9ab ("drm/ttm: allocate resource object instead of embedding it v2")
-
-With that:
-
-Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
-> 
-> Roberto
-> 
-> HUAWEI TECHNOLOGIES Duesseldorf GmbH, HRB 56063
-> Managing Director: Li Peng, Li Jian, Shi Yanli
-> 
-> > ---
-> >  drivers/gpu/drm/qxl/qxl_ttm.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/gpu/drm/qxl/qxl_ttm.c b/drivers/gpu/drm/qxl/qxl_ttm.c
-> > index 19fd39d9a00c..37a1b6a6ad6d 100644
-> > --- a/drivers/gpu/drm/qxl/qxl_ttm.c
-> > +++ b/drivers/gpu/drm/qxl/qxl_ttm.c
-> > @@ -127,7 +127,7 @@ static void qxl_bo_move_notify(struct
-> > ttm_buffer_object *bo,
-> >  	struct qxl_bo *qbo;
-> >  	struct qxl_device *qdev;
-> > 
-> > -	if (!qxl_ttm_bo_is_qxl_bo(bo))
-> > +	if (!qxl_ttm_bo_is_qxl_bo(bo) || !bo->resource)
-> >  		return;
-> >  	qbo = to_qxl_bo(bo);
-> >  	qdev = to_qxl(qbo->tbo.base.dev);
-> > --
-> > 2.25.1
-> 
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+>> +                       dp_catalog_aux_reset(aux->catalog);
+>>         } else {
+>>                 aux->retry_cnt = 0;
+>>                 switch (aux->aux_error_num) {
+>> --
+>> The Qualcomm Innovation Center, Inc. is a member of the Code Aurora 
+>> Forum,
+>> a Linux Foundation Collaborative Project
+>> 
