@@ -2,60 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E7373BF7A8
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Jul 2021 11:35:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9ED223BF7B3
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Jul 2021 11:40:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E7BCD6E897;
-	Thu,  8 Jul 2021 09:35:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A9B1B6E18F;
+	Thu,  8 Jul 2021 09:39:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 93A776E897
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Jul 2021 09:35:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1625736911;
- bh=c5Q2FsPdojCP6Bswqmw6Exz/MdxfLETzLExQXTGx8lE=;
- h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
- b=DPIQo/8gASI330Cx4yxfanb/dLuuKy32ZiCxm7AfbHVW+8wJ9n7H0rhfTwwfg3t4J
- hMBEpU/GjJPD9xo6OxXEUfDhlBp7BHBzHjDwQMWXy0Pxb1xWnI2xyuleEOW9qB6ROu
- X/2HjFBnvc2T53ULK2eODdX47MIIxwGDhuEprAYs=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [217.61.147.159] ([217.61.147.159]) by web-mail.gmx.net
- (3c-app-gmx-bap19.server.lan [172.19.172.89]) (via HTTP); Thu, 8 Jul 2021
- 11:35:11 +0200
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C218C6E18F;
+ Thu,  8 Jul 2021 09:39:55 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10038"; a="295114354"
+X-IronPort-AV: E=Sophos;i="5.84,222,1620716400"; d="scan'208";a="295114354"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Jul 2021 02:39:55 -0700
+X-IronPort-AV: E=Sophos;i="5.84,222,1620716400"; d="scan'208";a="487485638"
+Received: from victorge-mobl1.ccr.corp.intel.com (HELO localhost)
+ ([10.252.44.91])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Jul 2021 02:39:50 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>, 
+Subject: [PULL] drm-intel-next for v5.15
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Date: Thu, 08 Jul 2021 12:39:47 +0300
+Message-ID: <878s2h6t5o.fsf@intel.com>
 MIME-Version: 1.0
-Message-ID: <trinity-e6443313-a436-4e9d-a93c-1bef1cce135d-1625736911475@3c-app-gmx-bap19>
-From: Frank Wunderlich <frank-w@public-files.de>
-To: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Subject: Aw: Re: BUG: MTK DRM/HDMI broken on 5.13 (mt7623/bpi-r2)
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 8 Jul 2021 11:35:11 +0200
-Importance: normal
-Sensitivity: Normal
-In-Reply-To: <25d61873-38ae-5648-faab-03431b74f777@collabora.com>
-References: <trinity-cc8f5927-9aaf-43ae-a107-6a6229f1b481-1625565279264@3c-app-gmx-bs60>
- <25d61873-38ae-5648-faab-03431b74f777@collabora.com>
-X-UI-Message-Type: mail
-X-Priority: 3
-X-Provags-ID: V03:K1:a8dv+hSeSfNIo9WHqQ6TEcfo1UipGqirY6lIuH/V1gbgDJORXHn5hHNNXLWniRtJbNTLu
- aGex8DbBZasYA8GYzz/ZM0s9eXbHWUGIMyIkDoTxl06Ty/bdS0WJv+xHi1+lL6bLh67j82kwnMoS
- GWyKcvKzxBHdJZJNvdd9eCiy3dLJ7IqC2c72LWEERvcAna9R/82v9+G+1FBpRsn+/hnFYYjg8mqv
- RgYpIV2BliDoyISDLTtcIGmjIYLdDBhKLM2sWRFOtqBTq/hYUDpMzFHy2N9QBVSsd6h8ZH9zzgzp
- MY=
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:M3vMpT3BFSc=:F/NKhlmrjYTuX834cBuZSo
- /BanSKuY8fpmxKAagAm9NG8vCZPyC/M9fVcoT85cSt89htL8cxKXbQeLGzpzxhGG9uxWEaxm8
- lcSt0A5k62SN8NDetwDu3at51lwmz/C8wPSXxU9Bx9q59qw60VAFNVxCbN9SHu9nF3TRPBoeN
- PLz7ltPfU9MerD80aSyJGIbnU/SlsNcTkcv4Sf3YFX26hQNehXG3UDphturrtZlQ52tob1AUR
- QeW7IT7ZTkIFiGxbhfT8CTHJ/zH7icMdKyLpzjDanewiRa7Lklwd8R/JQ28+tVUTdqKcy52VU
- g7Rop1R3uCX5wB4RveqrWMaWWPkJtjHuPOHIiatn4roGlCE8dHRY3sXu+z01oQQhqPtueobnu
- fOZP0JjJC4v2bpAH2mlgFRUwjkO6Sa1aiLtBaQGx/i4LcEGQp8XCOuo2FE5Jk9fDBIHvHYsow
- DyTuwV8r7Ps5FfA4aKggVIRhNJyS4mZ2YTXfFS853u/UkQLkn/UxmcnDULMzyj71ofulrH+3y
- MfdFWWSle0MEJEBgMrVqraAlca0fcP1faVusLssJxo2GwdO923SjePkHREQd3IYbgaftEqd22
- oe10T4ekFHxOaTLSK05J+rXOF+iWHgXNRLYOnmmGt9uMbM1vn7XetAGEPTfDzxiU+1V0ZOJk+
- U4Fq6F8c6fnpjX2jIRkhWflLULW96hABhk0cUVPQeTa1Kuie4W0y59jhqICUeKm+ladspcg+B
- wlYHszc6Ihq8ajNbXfRj/4opJ5V0OkxQSntQKfY0JfoHAM8vca4Q/HQLR5OrF0H+h/zx2JyYl
- qcy47vRVCEJAagEhgsLYA6IgCtvpXLWJLJaW74ECs+fNuh/Re4=
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,152 +43,216 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Enric Balletbo i Serra <enric.balletbo@collabora.com>,
- linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
- Collabora Kernel ML <kernel@collabora.com>
+Cc: , dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
+ intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
 
-just a small update, added debug in the vendor-specific functions for page=
-_flip and vblank and it seems they never get called
+Hi Dave & Daniel -
 
-=2D-- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-@@ -87,21 +87,25 @@ static void mtk_drm_crtc_finish_page_flip(struct mtk_d=
-rm_crtc *mtk_crtc)
- {
-        struct drm_crtc *crtc =3D &mtk_crtc->base;
-        unsigned long flags;
--
-+printk(KERN_ALERT "DEBUG: Passed %s %d \n",__FUNCTION__,__LINE__);
-        spin_lock_irqsave(&crtc->dev->event_lock, flags);
-        drm_crtc_send_vblank_event(crtc, mtk_crtc->event);
-        drm_crtc_vblank_put(crtc);
-        mtk_crtc->event =3D NULL;
-        spin_unlock_irqrestore(&crtc->dev->event_lock, flags);
-+printk(KERN_ALERT "DEBUG: Passed %s %d \n",__FUNCTION__,__LINE__);
- }
+I'll be out for a bit, so I'm sending the first batch of changes for
+v5.15 early. Nothing unusual here, I just don't want to have a huge pile
+waiting. :)
 
- static void mtk_drm_finish_page_flip(struct mtk_drm_crtc *mtk_crtc)
- {
-+printk(KERN_ALERT "DEBUG: Passed %s %d update:%d,needsvblank:%d\n",__FUNC=
-TION__,__LINE__,mtk_crtc->config_updating,mtk_crtc->pending_needs_vblank);
-        drm_crtc_handle_vblank(&mtk_crtc->base);
-        if (!mtk_crtc->config_updating && mtk_crtc->pending_needs_vblank) =
-{
-+printk(KERN_ALERT "DEBUG: Passed %s %d \n",__FUNCTION__,__LINE__);
-                mtk_drm_crtc_finish_page_flip(mtk_crtc);
-                mtk_crtc->pending_needs_vblank =3D false;
-        }
-+printk(KERN_ALERT "DEBUG: Passed %s %d \n",__FUNCTION__,__LINE__);
- }
-
- static void mtk_drm_crtc_destroy(struct drm_crtc *crtc)
-
-finish_page_flip is called by mtk_crtc_ddp_irq. this seems to be set in mt=
-k_drm_crtc_enable_vblank with mtk_ddp_comp_enable_vblank. this is called c=
-orrectly
-
-113 static inline void mtk_ddp_comp_enable_vblank(struct mtk_ddp_comp *com=
-p,
-114                           void (*vblank_cb)(void *),
-115                           void *vblank_cb_data)
-116 {
-117 printk(KERN_ALERT "DEBUG: Passed %s %d \n",__FUNCTION__,__LINE__);
-118     if (comp->funcs && comp->funcs->enable_vblank)
-119     {
-120         comp->funcs->enable_vblank(comp->dev, vblank_cb, vblank_cb_dat=
-a);
-121 printk(KERN_ALERT "DEBUG: Passed %s %d \n",__FUNCTION__,__LINE__);
-122     }
-123 }
-
-i see both messages, but mtk_crtc_ddp_irq is never called and so the other=
- 2 not.
-
-root@bpi-r2:~# dmesg | grep -i DEBUG
-[    6.433509] DEBUG: Passed mtk_drm_crtc_enable_vblank 510
-[    6.433530] DEBUG: Passed mtk_ddp_comp_enable_vblank 117
-[    6.433537] DEBUG: Passed mtk_ddp_comp_enable_vblank 121 <<<
+Rodrigo will cover me.
 
 
-comp->funcs->enable_vblank should be mtk_drm_crtc_enable_vblank, right?
-
-641 static const struct drm_crtc_funcs mtk_crtc_funcs =3D {
-642     .set_config     =3D drm_atomic_helper_set_config,
-643     .page_flip      =3D drm_atomic_helper_page_flip,
-644     .destroy        =3D mtk_drm_crtc_destroy,
-645     .reset          =3D mtk_drm_crtc_reset,
-646     .atomic_duplicate_state =3D mtk_drm_crtc_duplicate_state,
-647     .atomic_destroy_state   =3D mtk_drm_crtc_destroy_state,
-648     .enable_vblank      =3D mtk_drm_crtc_enable_vblank, <<<<<<<
-649     .disable_vblank     =3D mtk_drm_crtc_disable_vblank,
-650 };
-
-but it looks like a recursion:
-mtk_drm_crtc_enable_vblank calls mtk_ddp_comp_enable_vblank =3D> enable_vb=
-lank (=3Dmtk_drm_crtc_enable_vblank), but i see the messages not repeating
-
-mtk_drm_crtc_enable_vblank(struct drm_crtc *crtc)
-511     mtk_ddp_comp_enable_vblank(comp, mtk_crtc_ddp_irq, &mtk_crtc->base=
-);
-
-113 static inline void mtk_ddp_comp_enable_vblank(struct mtk_ddp_comp *com=
-p,
-114                           void (*vblank_cb)(void *),
-115                           void *vblank_cb_data)
-116 {
-118     if (comp->funcs && comp->funcs->enable_vblank)
-120         comp->funcs->enable_vblank(comp->dev, vblank_cb, vblank_cb_dat=
-a);
-
-but params do not match...comp->funcs->enable_vblank takes 3 arguments but=
- comp->funcs->enable_vblank has only one.something i miss here...
-
-i guess not, but is watchdog somehow involved? i ask because i see this on=
- reboot/poweroff:
-
-"watchdog: watchdog0: watchdog did not stop!"
-
-i see this with my 5.13, 5.12-drm (5.12.0+mtk/core drm-patches) and 5.12.1=
-4 too (hdmi is working there), but not 5.12.0!
-that means something in drm-patches (mtk/core) breaks watchdog. maybe the =
-recursion mentioned above?
-
-regards Frank
+BR,
+Jani.
 
 
-> Gesendet: Donnerstag, 08. Juli 2021 um 09:22 Uhr
-> Von: "Dafna Hirschfeld" <dafna.hirschfeld@collabora.com>
+drm-intel-next-2021-07-08:
+drm/i915 changes for v5.15:
 
->
-> Hi Frank,
->
->
-> On 06.07.21 11:54, Frank Wunderlich wrote:
-> > Hi,
-> >
-> > i've noticed that HDMI is broken at least on my board (Bananapi-r2,mt7=
-623) on 5.13.
-> >
-> > after some research i noticed that it is working till
-> >
-> > commit 2e477391522354e763aa62ee3e281c1ad9e8eb1b
-> > Author: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Features:
+- Enable pipe DMC loading on XE-LPD and ADL-P (Anusha)
+- Finally remove JSH and EHL force probe requirement (Tejas)
 
->
-> We also encountered that warning on mt8173 device - Acer Chromebook R13.=
- It happen after resuming from suspend to ram.
-> We could not find a version that works and we were not able to find the =
-fix of the bug.
-> It seems like the irq isr is not called after resuming from suspend.
-> Please share if you have new findings regarding that bug.
->
-> Thanks,
-> Dafna
+Refactoring and cleanups:
+- Refactor and fix DDI buffer translations (Ville)
+- Clean up FBC CFB allocation code (Ville, with a fix from Matthew)
+- Finish INTEL_GEN() and friends macro conversions (Lucas)
+- Misc display cleanups (Ville)
 
+Fixes:
+- PSR fixes and ADL-P workarounds (Jos=C3=A9)
+- Fix drm infoframe state mismatch (Bhanuprakash)
+- Force Type-C PHY disconnect during suspend/shutdown (Imre)
+- Fix power sequence violation on some Chromebook models (Shawn)
+- Fix VGA workaround to avoid screen flicker at boot (Emil)
+- Fix display 12+ watermark workaround adjustment (Lucas)
+
+Misc:
+- Backmerge drm-next (Jani)
+
+BR,
+Jani.
+
+The following changes since commit 8a02ea42bc1d4c448caf1bab0e05899dad503f74:
+
+  Merge tag 'drm-intel-next-fixes-2021-06-29' of git://anongit.freedesktop.=
+org/drm/drm-intel into drm-next (2021-06-30 15:42:05 +1000)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-next-2021-07-08
+
+for you to fetch changes up to cd5606aa39925ad4483e96abffc9cc62bb36c640:
+
+  gpu/drm/i915: nuke old GEN macros (2021-07-07 16:36:32 -0700)
+
+----------------------------------------------------------------
+drm/i915 changes for v5.15:
+
+Features:
+- Enable pipe DMC loading on XE-LPD and ADL-P (Anusha)
+- Finally remove JSH and EHL force probe requirement (Tejas)
+
+Refactoring and cleanups:
+- Refactor and fix DDI buffer translations (Ville)
+- Clean up FBC CFB allocation code (Ville, with a fix from Matthew)
+- Finish INTEL_GEN() and friends macro conversions (Lucas)
+- Misc display cleanups (Ville)
+
+Fixes:
+- PSR fixes and ADL-P workarounds (Jos=C3=A9)
+- Fix drm infoframe state mismatch (Bhanuprakash)
+- Force Type-C PHY disconnect during suspend/shutdown (Imre)
+- Fix power sequence violation on some Chromebook models (Shawn)
+- Fix VGA workaround to avoid screen flicker at boot (Emil)
+- Fix display 12+ watermark workaround adjustment (Lucas)
+
+Misc:
+- Backmerge drm-next (Jani)
+
+----------------------------------------------------------------
+Anshuman Gupta (1):
+      drm/i915/hdcp: Nuke Platform check for mst hdcp init
+
+Anusha Srivatsa (4):
+      drm/i915/dmc: Introduce DMC_FW_MAIN
+      drm/i915/xelpd: Pipe A DMC plugging
+      drm/i915/adl_p: Pipe B DMC Support
+      drm/i915/adl_p: Load DMC
+
+Bhanuprakash Modem (1):
+      drm/i915/display: Fix state mismatch in drm infoframe
+
+Emil Velikov (1):
+      drm/i915: apply WaEnableVGAAccessThroughIOPort as needed
+
+Imre Deak (1):
+      drm/i915: Force a TypeC PHY disconnect during suspend/shutdown
+
+Jani Nikula (2):
+      drm/i915/dsc: abstract helpers to get bigjoiner primary/secondary crtc
+      Merge drm/drm-next into drm-intel-next
+
+Jos=C3=A9 Roberto de Souza (7):
+      Revert "drm/i915/display: Drop FIXME about turn off infoframes"
+      drm/i915/display/psr: Handle SU Y granularity
+      drm/i915/display/adl_p: Implement Wa_22012278275
+      drm/i915/display/adl_p: Implement Wa_16011168373
+      drm/i915/xelpd: Handle PSR2 SDP indication in the prior scanline
+      drm/i915/display/adl_p: Implement Wa_16011303918
+      drm/i915/display/dg1: Correctly map DPLLs during state readout
+
+Kees Cook (1):
+      drm/i915/display: Do not zero past infoframes.vsc
+
+Lee Shawn C (1):
+      drm/i915: keep backlight_enable on until turn eDP display off
+
+Lucas De Marchi (5):
+      drm/i915/xelpd: break feature inheritance
+      drm/i915/display: fix level 0 adjustement on display ver >=3D 12
+      drm/i915/display: use max_level to control loop
+      drm/i915: finish INTEL_GEN and friends conversion
+      gpu/drm/i915: nuke old GEN macros
+
+Matthew Auld (1):
+      drm/i915/display: check if compressed_llb was allocated
+
+Tejas Upadhyay (3):
+      drm/i915/jsl: Add W/A 1409054076 for JSL
+      drm/i915/jsl: Remove require_force_probe protection
+      drm/i915/ehl: Remove require_force_probe protection
+
+Ville Syrj=C3=A4l=C3=A4 (32):
+      drm/i915: s/intel/hsw/ for hsw/bdw/skl buf trans
+      drm/i915: Introduce hsw_get_buf_trans()
+      drm/i915: Wrap the platform specific buf trans structs into a union
+      drm/i915: Rename dkl phy buf trans tables
+      drm/i915: Wrap the buf trans tables into a struct
+      drm/i915: Introduce intel_get_buf_trans()
+      drm/i915; Return the whole buf_trans struct from get_buf_trans()
+      drm/i915: Store the HDMI default entry in the bug trans struct
+      drm/i915: Introduce encoder->get_buf_trans()
+      drm/i915: Clean up hsw/bdw/skl/kbl buf trans funcs
+      drm/i915: Introduce rkl_get_combo_buf_trans()
+      drm/i915: Fix dg1 buf trans tables
+      drm/i915: Deduplicate icl DP HBR2 vs. eDP HBR3 table
+      drm/i915: Fix ehl edp hbr2 vswing table
+      drm/i915: Clean up jsl/ehl buf trans functions
+      drm/i915: Nuke buf_trans hdmi functions
+      drm/i915: Add the missing adls vswing tables
+      drm/i915/fbc: s/threshold/limit/
+      drm/i915/fbc: Extract intel_fbc_program_cfb()
+      drm/i915/fbc: Embed the compressed_llb node
+      drm/i915/fbc: Don't pass around the mm node
+      drm/i915/fbc: Handle 16bpp compression limit better
+      drm/i915/fbc: Introduce g4x_dpfc_ctl_limit()
+      drm/i915/fbc: Extract intel_fbc_stolen_end()
+      drm/i915/fbc: Make the cfb allocation loop a bit more legible
+      drm/i915/fbc: Allocate llb before cfb
+      drm/i915: Stop hand rolling drm_crtc_mask()
+      drm/i915: Clean up intel_get_load_detect_pipe() a bit
+      drm/i915: Clean up intel_find_initial_plane_obj() a bit
+      drm/i915: Clean up pre-skl wm calling convention
+      drm/i915: Clean up intel_fbdev_init_bios() a bit
+      drm/i915: s/intel_crtc/crtc/
+
+ drivers/gpu/drm/i915/display/icl_dsi.c             |   46 +-
+ drivers/gpu/drm/i915/display/intel_crt.c           |    3 +
+ drivers/gpu/drm/i915/display/intel_crtc.c          |    8 +-
+ drivers/gpu/drm/i915/display/intel_ddi.c           |  229 +-
+ drivers/gpu/drm/i915/display/intel_ddi.h           |    4 +-
+ drivers/gpu/drm/i915/display/intel_ddi_buf_trans.c | 2461 +++++++++++-----=
+----
+ drivers/gpu/drm/i915/display/intel_ddi_buf_trans.h |   68 +-
+ drivers/gpu/drm/i915/display/intel_display.c       |  168 +-
+ .../gpu/drm/i915/display/intel_display_debugfs.c   |   35 +-
+ drivers/gpu/drm/i915/display/intel_display_power.c |    5 +-
+ drivers/gpu/drm/i915/display/intel_display_types.h |   10 +-
+ drivers/gpu/drm/i915/display/intel_dmc.c           |  165 +-
+ drivers/gpu/drm/i915/display/intel_dmc.h           |   23 +-
+ drivers/gpu/drm/i915/display/intel_dp.c            |   12 +-
+ drivers/gpu/drm/i915/display/intel_dp_mst.c        |   15 +-
+ drivers/gpu/drm/i915/display/intel_fbc.c           |  215 +-
+ drivers/gpu/drm/i915/display/intel_fbdev.c         |   96 +-
+ drivers/gpu/drm/i915/display/intel_fdi.c           |   25 +-
+ drivers/gpu/drm/i915/display/intel_hdmi.c          |   42 +-
+ drivers/gpu/drm/i915/display/intel_lvds.c          |    4 +-
+ drivers/gpu/drm/i915/display/intel_psr.c           |  203 +-
+ drivers/gpu/drm/i915/display/intel_quirks.c        |   34 +
+ drivers/gpu/drm/i915/display/intel_sdvo.c          |    4 +-
+ drivers/gpu/drm/i915/display/intel_tc.c            |   34 +-
+ drivers/gpu/drm/i915/display/intel_tc.h            |    2 +
+ drivers/gpu/drm/i915/display/intel_tv.c            |   13 +-
+ drivers/gpu/drm/i915/display/intel_vga.c           |    3 +
+ drivers/gpu/drm/i915/display/skl_scaler.c          |   27 +-
+ drivers/gpu/drm/i915/display/vlv_dsi.c             |   13 +-
+ drivers/gpu/drm/i915/i915_debugfs.c                |    2 +-
+ drivers/gpu/drm/i915/i915_drv.h                    |   27 +-
+ drivers/gpu/drm/i915/i915_irq.c                    |   22 +-
+ drivers/gpu/drm/i915/i915_pci.c                    |   52 +-
+ drivers/gpu/drm/i915/i915_reg.h                    |   21 +-
+ drivers/gpu/drm/i915/intel_dram.c                  |    3 +-
+ drivers/gpu/drm/i915/intel_pm.c                    |  119 +-
+ drivers/gpu/drm/i915/intel_uncore.c                |    2 +-
+ 37 files changed, 2424 insertions(+), 1791 deletions(-)
+
+--=20
+Jani Nikula, Intel Open Source Graphics Center
