@@ -1,62 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BA2F3BF94C
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Jul 2021 13:47:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 34FFF3BF95E
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Jul 2021 13:53:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ACF796E8B2;
-	Thu,  8 Jul 2021 11:47:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D5446E8B4;
+	Thu,  8 Jul 2021 11:53:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
- [IPv6:2a00:1450:4864:20::432])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 77E8D6E8B2
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Jul 2021 11:47:12 +0000 (UTC)
-Received: by mail-wr1-x432.google.com with SMTP id d12so6547624wre.13
- for <dri-devel@lists.freedesktop.org>; Thu, 08 Jul 2021 04:47:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=BRWGZ1ceBYm1jDVNKzxYdHzN7Yd38a37E65r/OXNxZQ=;
- b=nisZw/0bmurdDhlUBOv8QNM7Gn7jglLvnPwt4z3UHeTCl54/CwtcVNhsk9eB5m6/WB
- Ehacalj2aGKRNh+EHHnKs7Vei+TGsIq4K06ekxW1KdWdu+sbx5p/X4oJ2rYpv+VkCL+T
- ur7pVFMrPlJv0dPNh6RV23ZUIX6R0fUjjx4JKxcIvwZXiHrd7Fxh+OisN9G/bihTmBgn
- AYEc6DnVqYysvg12pTvTCeJqsT9Hb1Sb/siMoS76GCDIUga80xuYwMg7M1mzcjVdDJRS
- iRrS1wrov6z3QAAWvL7Xzae0DBSrDyt/3abgl+lpZWFHL7tXnlB1+NjZJgKd9e3f1or7
- 0xkA==
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
+ [IPv6:2a00:1450:4864:20::134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8211D6E0A8
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Jul 2021 11:53:17 +0000 (UTC)
+Received: by mail-lf1-x134.google.com with SMTP id x25so1898294lfu.13
+ for <dri-devel@lists.freedesktop.org>; Thu, 08 Jul 2021 04:53:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:from:to:cc:references:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=wwIauJqG7Gi/hYTEAYFKY+sGSvM6txVRYsX5pyUg7p0=;
+ b=vzyUGNkXJyqp3cmFX/UEoS55BSzhhySMqae6wQADR19j3ldyo1+Hodr0Vcec3z/5xf
+ qfbNt4J8+QEouPpqaEaYNcLM0rA87XnbyZ/WqGU1PfgRfG8jOjSH/aB2XqZEvL+3axiP
+ q8YaQKerSvIuQVTYtnQPL0c27j8z0qQkjeYLDzQIMkCVkvvDFrrGrfEq+UMilFb6FTg0
+ tdL6U5kxseeyyJSOXkf2zD3YPXh+EnQFA4nti63kSfyptKn8ir9nmjf0WcSGPS68wDQ6
+ dh/AlKVZJlv+IWdOeDZnVOIEUUwTXn7BAs1Rn0g09/4HRXLBPGee9df81TWs1arepZh7
+ ta+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=BRWGZ1ceBYm1jDVNKzxYdHzN7Yd38a37E65r/OXNxZQ=;
- b=rIhjgtnaVC3q3IYO5pX4ceSxaCfwGk9B4xqZTH+Kdl8bPYiv9ZVPtKmW96eDCXhniE
- iL/wPxiPpKgBlVrEOIVoKSMvXq0A9qv5JlXAq2akUMTdUCGceMylFy3TYe+AnXHvqAlE
- oVyKz3cWX4OfQ89JjA1ZUukrLTv6AlrSDTZlJja1l8NqnVnCr5TUo+Vta3Kqax8EenLn
- xIArbJB8TTsY9FOWwx+z/g47bEBBflJoJ5SLn0b8crUio0mPGo5HaNc5WX1xM3ZuTAb9
- 8HtJGc2JhOAlhhRmuYbvo8DBW1BFGlSdxLQjhchkt9PbePar9iik5JPYwmwUfQ0kW3gi
- xpbw==
-X-Gm-Message-State: AOAM532py5wAJLjucdbMupsjMV/tovHkBbhuaRwALb46PGWM+4vHxnxx
- eFMsdD2KsBMUkRQ2CP1ba1iLMt6ZazQ=
-X-Google-Smtp-Source: ABdhPJz8dYF78JXxyMI+hwbgUsR69Dld9+lGOU66MROSrp4bIwjXIJFLPgM1G7iHJQWBluRPxskIXg==
-X-Received: by 2002:a5d:46c8:: with SMTP id g8mr9578521wrs.341.1625744831240; 
- Thu, 08 Jul 2021 04:47:11 -0700 (PDT)
-Received: from abel.fritz.box ([2a02:908:1252:fb60:88a0:1bd:c5e1:444e])
- by smtp.gmail.com with ESMTPSA id s17sm1964276wrv.2.2021.07.08.04.47.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Jul 2021 04:47:10 -0700 (PDT)
-From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
- <christian.koenig@amd.com>
-To: dri-devel@lists.freedesktop.org,
-	roberto.sassu@huawei.com
-Subject: [PATCH] drm/qxl: add NULL check for bo->resource
-Date: Thu,  8 Jul 2021 13:47:10 +0200
-Message-Id: <20210708114710.8186-1-christian.koenig@amd.com>
-X-Mailer: git-send-email 2.25.1
+ bh=wwIauJqG7Gi/hYTEAYFKY+sGSvM6txVRYsX5pyUg7p0=;
+ b=s+Bas520t72fBqP3pQd8qqdJwxF4Yq91A+cVPmRF7uvEqvacSBttJa41QdjxkFZgcH
+ EoxZoySEiGjIBunlNYSRuq5ha8be46TcQMqtIAA0SrqJpN6JYq2cAwMxTofm6CdlBmdR
+ KxvRxX9vbwKVvk318JrY4imgJjRcYYIwDDWLuJAQuJ1+rm66+LtVjeoDMJQi6JlXPrrx
+ a6duqJ+WbETPEzkom/EHtu7k+XTMojw2KeE7UGUDM4/KnfQyxc9MTxKdFBUjNFICm/FG
+ Y9YkB5d3fBupzLdqO9YXJUjc9l7unukle871xerhD6gpTor6poyphvPbtMrm+IW9rPrD
+ pFow==
+X-Gm-Message-State: AOAM5336XeVZAlNHYPrEu/hY5xtEwp4/tWsRUcftTxl1cCDhOpjdBKJa
+ 6jQA8IqOGSk/Dry/UI0pbETt9A==
+X-Google-Smtp-Source: ABdhPJwi6G52+QBplPSlAE010D60rWMKeJMxYbrPXzlFrjZlA/ij//cKAm8k5rwoCAyrTlb65wribw==
+X-Received: by 2002:a19:858b:: with SMTP id h133mr4514517lfd.656.1625745195941; 
+ Thu, 08 Jul 2021 04:53:15 -0700 (PDT)
+Received: from [192.168.1.211] ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id u16sm220527ljj.113.2021.07.08.04.53.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 08 Jul 2021 04:53:15 -0700 (PDT)
+Subject: Re: [PATCH] drm/msm/mdp5: fix 64-bit division in bandwidth calculation
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <abhinavk@codeaurora.org>
+References: <20210622080348.1679589-1-dmitry.baryshkov@linaro.org>
+Message-ID: <d41cf4c6-0368-75ad-3dcf-561e283a22ec@linaro.org>
+Date: Thu, 8 Jul 2021 14:53:14 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210622080348.1679589-1-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,31 +73,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Jonathan Marek <jonathan@marek.ca>, Stephen Boyd <sboyd@kernel.org>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ David Airlie <airlied@linux.ie>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When allocations fails that can be NULL now.
+On 22/06/2021 11:03, Dmitry Baryshkov wrote:
+> Fix undefined symbols errors arising from 64-bit division on 32-bit
+> arm targets. Add 64-bit version of mult_frac and use it for calculating
+> bandwidth.
+> 
+> ERROR: modpost: "__aeabi_ldivmod" [drivers/gpu/drm/msm/msm.ko] undefined!
+> ERROR: modpost: "__aeabi_uldivmod" [drivers/gpu/drm/msm/msm.ko] undefined!
+> 
+> Fixes: 7e0230fd096c ("drm/msm/mdp5: provide dynamic bandwidth management")
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-Signed-off-by: Christian König <christian.koenig@amd.com>
-Reported-by: Daniel Bristot de Oliveira <bristot@kernel.org>
-Tested-by: Daniel Bristot de Oliveira <bristot@kernel.org>
----
- drivers/gpu/drm/qxl/qxl_ttm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+We are reworking now bandwidth management for mdp5, so both the original 
+patch and the fix can be ignored for now.
 
-diff --git a/drivers/gpu/drm/qxl/qxl_ttm.c b/drivers/gpu/drm/qxl/qxl_ttm.c
-index 19fd39d9a00c..37a1b6a6ad6d 100644
---- a/drivers/gpu/drm/qxl/qxl_ttm.c
-+++ b/drivers/gpu/drm/qxl/qxl_ttm.c
-@@ -127,7 +127,7 @@ static void qxl_bo_move_notify(struct ttm_buffer_object *bo,
- 	struct qxl_bo *qbo;
- 	struct qxl_device *qdev;
- 
--	if (!qxl_ttm_bo_is_qxl_bo(bo))
-+	if (!qxl_ttm_bo_is_qxl_bo(bo) || !bo->resource)
- 		return;
- 	qbo = to_qxl_bo(bo);
- 	qdev = to_qxl(qbo->tbo.base.dev);
+> ---
+>   drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c  |  2 +-
+>   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c   |  5 ++++-
+>   drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c |  2 +-
+>   include/linux/math.h                       | 13 +++++++++++++
+>   4 files changed, 19 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c
+> index a9332078aa13..52724d0a6fea 100644
+> --- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c
+> +++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c
+> @@ -755,7 +755,7 @@ static int mdp5_crtc_atomic_check(struct drm_crtc *crtc,
+>   	hw_cfg = mdp5_cfg_get_hw_config(mdp5_kms->cfg);
+>   
+>   	if (hw_cfg->perf.ab_inefficiency)
+> -		crtc_bw = mult_frac(crtc_bw, hw_cfg->perf.ab_inefficiency, 100);
+> +		crtc_bw = mult_frac_ull(crtc_bw, hw_cfg->perf.ab_inefficiency, 100);
+>   	mdp5_cstate->new_crtc_bw = crtc_bw;
+>   
+>   	/*
+> diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
+> index 3e1b28d3e41b..85b7093a1218 100644
+> --- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
+> +++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
+> @@ -301,6 +301,7 @@ static const struct mdp_kms_funcs kms_funcs = {
+>   void mdp5_kms_set_bandwidth(struct mdp5_kms *mdp5_kms)
+>   {
+>   	int i;
+> +	u64 bw;
+>   	u32 full_bw = 0;
+>   	struct drm_crtc *tmp_crtc;
+>   
+> @@ -311,7 +312,9 @@ void mdp5_kms_set_bandwidth(struct mdp5_kms *mdp5_kms)
+>   		if (!tmp_crtc->enabled)
+>   			continue;
+>   
+> -		full_bw += Bps_to_icc(to_mdp5_crtc_state(tmp_crtc->state)->new_crtc_bw / mdp5_kms->num_paths);
+> +		bw = to_mdp5_crtc_state(tmp_crtc->state)->new_crtc_bw;
+> +		do_div(bw, mdp5_kms->num_paths * 1000); /* Bps_to_icc */
+> +		full_bw += bw;
+>   	}
+>   
+>   	DBG("SET BW to %d\n", full_bw);
+> diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c
+> index 85275665558b..2ede34177a90 100644
+> --- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c
+> +++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c
+> @@ -191,7 +191,7 @@ static void mdp5_plane_calc_bw(struct drm_plane_state *state, struct drm_crtc_st
+>   		prefill_div = vbp + vpw + vfp;
+>   #endif
+>   
+> -	pstate->plane_bw = max(plane_bw, mult_frac(plane_bw, hw_latency_lines, prefill_div));
+> +	pstate->plane_bw = max(plane_bw, mult_frac_ull(plane_bw, hw_latency_lines, prefill_div));
+>   }
+>   
+>   static int mdp5_plane_atomic_check_with_state(struct drm_crtc_state *crtc_state,
+> diff --git a/include/linux/math.h b/include/linux/math.h
+> index 53674a327e39..1327385905df 100644
+> --- a/include/linux/math.h
+> +++ b/include/linux/math.h
+> @@ -118,6 +118,19 @@
+>   }							\
+>   )
+>   
+> +#define mult_frac_ull(x, numer, denom)(			\
+> +{							\
+> +	typeof(x) quot = (x);				\
+> +	typeof(x) rem;					\
+> +	do_div(quot, (denom));				\
+> +	rem = (x) - quot * (denom);			\
+> +	rem = (rem * (numer));				\
+> +	do_div(rem, (denom));				\
+> +	(quot * (numer)) + rem;				\
+> +}							\
+> +)
+> +
+> +
+>   #define sector_div(a, b) do_div(a, b)
+>   
+>   /**
+> 
+
+
 -- 
-2.25.1
-
+With best wishes
+Dmitry
