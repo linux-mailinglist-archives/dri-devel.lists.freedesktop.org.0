@@ -1,65 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8C6D3BF804
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Jul 2021 12:09:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 037403BF833
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Jul 2021 12:14:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D6656E1E9;
-	Thu,  8 Jul 2021 10:09:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC0D06E1B4;
+	Thu,  8 Jul 2021 10:14:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
- [IPv6:2a00:1450:4864:20::132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6CD4D6E8B0
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Jul 2021 10:09:18 +0000 (UTC)
-Received: by mail-lf1-x132.google.com with SMTP id q18so13731366lfc.7
- for <dri-devel@lists.freedesktop.org>; Thu, 08 Jul 2021 03:09:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=aFq54d9QsTmv3rpdp/cy3tzjqHVefFyvdZXGzyRj2aA=;
- b=NK8bhf24SP2Scx6x0fpPgDcU6o9ccB6rm/GRBUBFfvhzt3iMiKtxiNlsHKmgop/Ssf
- ymZPwJh97NG7AetSXxYGFsFIr/e1epnbeI9qKVjep+vxph9tE46UJ5rksZP6Qv0BObwE
- 0PteEM1heK5lEjTVhcSxOHfVWKa1BWdT2mxcbMMVpzKRqiOZKW7Wfhyi8ZgqqDQrRkXr
- UEmskaw7qH6oyyImdgPZpNjWqt4ysr1nHekFb/rQAPVERL7o+7uj+6cEnOlT+8u+wL+s
- kEunaZaNRMXJydH9sVUwnt5QIuau7bnIn4WPZy+gcNXtVxBwIQ5vB7jFEb6eg5OOtY9D
- rJxQ==
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
+ [IPv6:2a00:1450:4864:20::436])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D8D86E1B4
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Jul 2021 10:14:28 +0000 (UTC)
+Received: by mail-wr1-x436.google.com with SMTP id i8so6781609wrp.12
+ for <dri-devel@lists.freedesktop.org>; Thu, 08 Jul 2021 03:14:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=lyZCbSZRs5QWa1dAagrTMwok1IOCe43lUm9egUvvmjE=;
+ b=YsWy2dZQ8V2dTOBrWzfjmF8JYnlC01sLZmPobTY0Z1t+E/+uVaOWbx+qRXzpHmpIpF
+ 1TMtK0sNeOL4yit/Cq8HU9H8LDqDESljP0jr8IbTBrZjDlz/Fs6Xc3i7zmpHR8QbNXbO
+ At7M3Pivl7ODe+rGWSmIED8uFP90Y7IEvvFN8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=aFq54d9QsTmv3rpdp/cy3tzjqHVefFyvdZXGzyRj2aA=;
- b=lgkd+LR5Jo6Cteco3Ot/7QqDnysPXJLnwx6JFWYlW7XWlsLKyeURCk2VD+aw8g1fRU
- DA+/TcQceKEhk9VNQsS15MoGenOQKhcjUxCiBioTuEC3SWezI4U/ImaViFtoxM94JaB2
- 1jVxUzUKG0nmc3qmZ9q2i8dEMB3QpzAd7YSeT3p0YhKg+z15whhtW5AHGQPeCNxSBJqs
- mEdancCa2TmrFrNGZ2BT2OH6KqlBOo5LP+uCRvsdBMek74RkGaeldDt28wLxBy/KUI1Z
- T7wbso+OoE7RxCwFLwe9z4Ubdwu4DjfCK3Ksa68ZWeKEa4UrVSB7odboAN1b9K5w0yiw
- jtQA==
-X-Gm-Message-State: AOAM53121HTa9aFHv83ba5dMfHMtwzpagZHreeQ8hJePqZLlCKwL1sdr
- LqZSGj41xQsjIEuKNw+Y2Z0=
-X-Google-Smtp-Source: ABdhPJxL1oW6mn1pIrhyg621tFB+MjLEJFrBCVWCPsMq8ZMu/jnhFoEhMI+ze7ZGg4FrZi1NtBW2ig==
-X-Received: by 2002:a05:6512:2291:: with SMTP id
- f17mr23098736lfu.466.1625738956685; 
- Thu, 08 Jul 2021 03:09:16 -0700 (PDT)
-Received: from localhost.localdomain ([94.103.225.155])
- by smtp.gmail.com with ESMTPSA id a24sm148372lfg.231.2021.07.08.03.09.15
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=lyZCbSZRs5QWa1dAagrTMwok1IOCe43lUm9egUvvmjE=;
+ b=LuvpclEd9MLcXzzWFfR9gikTMD0fSJ5ADEq1OVfKQzwhxpm7W1BSIhTjlQYwXL0inH
+ HEUCr9TbA6Tue4vutY0C7UKLNl8I25bJCbmGEISRM34ghlpayON+rvG9Z2Yvbn2KmJLt
+ 72SkxY1iUFWQCTCuVtpUCpy7tUej/iYen7j2jbvEAgb/zob/hofW34G877bGU7CjCBQn
+ w6qTQVyxDDV4POuUwdO6CimeJLYhc0bA31ikXAQERGdv+zakN/qOnXpmVtKeN9frtjRU
+ EPT1k56/ohrLj2m3UxNKQme6djlGQzO/hUfCMW19/X0nuA2+oNhJ22qdUXp08qKcbHhc
+ heKA==
+X-Gm-Message-State: AOAM533tjnYQyabut55bonlSiJK5q6m162t0w6X0t/hmp1nhoN4bIVH/
+ IDN9T9Tpi2kUVRbFfg/Em107Nby5ddU4gQ==
+X-Google-Smtp-Source: ABdhPJw+gxkuXEz3dzYYYuXUCF5AHqh/yOIb+/ETtITv8fSb9Zn0wsySyXbTp42rNMCoq9+uMyOf0w==
+X-Received: by 2002:a5d:6ac4:: with SMTP id u4mr15255644wrw.166.1625739266789; 
+ Thu, 08 Jul 2021 03:14:26 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id w13sm1750870wrl.47.2021.07.08.03.14.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Jul 2021 03:09:16 -0700 (PDT)
-Date: Thu, 8 Jul 2021 13:09:10 +0300
-From: Pavel Skripkin <paskripkin@gmail.com>
-To: Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- ray.huang@amd.com, airlied@linux.ie
-Subject: Re: [PATCH] gpu: ttm: fix GPF in ttm_bo_release
-Message-ID: <20210708130910.63a15c73@gmail.com>
-In-Reply-To: <20210708113701.4cea7989@gmail.com>
-References: <20210707185108.3798-1-paskripkin@gmail.com>
- <f4bb7b29-3abc-a056-fc24-4e91b5de8d74@amd.com>
- <20210708113701.4cea7989@gmail.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-suse-linux-gnu)
+ Thu, 08 Jul 2021 03:14:26 -0700 (PDT)
+Date: Thu, 8 Jul 2021 12:14:24 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Roberto Sassu <roberto.sassu@huawei.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Dave Airlie <airlied@gmail.com>
+Subject: Re: Oops in qxl_bo_move_notify()
+Message-ID: <YObQAIhvrZXlQ5HX@phenom.ffwll.local>
+References: <3c414722f5d84875a9251b3cc120a26a@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3c414722f5d84875a9251b3cc120a26a@huawei.com>
+X-Operating-System: Linux phenom 5.10.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,69 +67,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 8 Jul 2021 11:37:01 +0300
-Pavel Skripkin <paskripkin@gmail.com> wrote:
+On Wed, Jul 07, 2021 at 04:36:49PM +0000, Roberto Sassu wrote:
+> Hi
+> 
+> I'm getting this oops (on commit a180bd1d7e16):
+> 
+>     [   17.711520] BUG: kernel NULL pointer dereference, address: 0000000000000010
+>     [   17.739451] RIP: 0010:qxl_bo_move_notify+0x35/0x80 [qxl]
+>     [   17.827345] RSP: 0018:ffffc90000457c08 EFLAGS: 00010286
+>     [   17.827350] RAX: 0000000000000001 RBX: 0000000000000000 RCX: dffffc0000000000
+>     [   17.827353] RDX: 0000000000000007 RSI: 0000000000000004 RDI: ffffffff85596feb
+>     [   17.827356] RBP: ffff88800e311c00 R08: 0000000000000000 R09: 0000000000000000
+>     [   17.827358] R10: ffffffff8697b243 R11: fffffbfff0d2f648 R12: 0000000000000000
+>     [   17.827361] R13: ffff88800e311e48 R14: ffff88800e311e98 R15: ffff88800e311e90
+>     [   17.827364] FS:  0000000000000000(0000) GS:ffff88805d800000(0000) knlGS:0000000000000000
+>     [   17.861699] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+>     [   17.861703] CR2: 0000000000000010 CR3: 000000002642c000 CR4: 0000000000350ee0
+>     [   17.861707] Call Trace:
+>     [   17.861712]  ttm_bo_cleanup_memtype_use+0x4d/0xb0 [ttm]
+>     [   17.861730]  ttm_bo_release+0x42d/0x7c0 [ttm]
+>     [   17.861746]  ? ttm_bo_cleanup_refs+0x127/0x420 [ttm]
+>     [   17.888300]  ttm_bo_delayed_delete+0x289/0x390 [ttm]
+>     [   17.888317]  ? ttm_bo_cleanup_refs+0x420/0x420 [ttm]
+>     [   17.888332]  ? lock_release+0x9c/0x5c0
+>     [   17.901033]  ? rcu_read_lock_held_common+0x1a/0x50
+>     [   17.905183]  ttm_device_delayed_workqueue+0x18/0x50 [ttm]
+>     [   17.909371]  process_one_work+0x537/0x9f0
+>     [   17.913345]  ? pwq_dec_nr_in_flight+0x160/0x160
+>     [   17.917297]  ? lock_acquired+0xa4/0x580
+>     [   17.921168]  ? worker_thread+0x169/0x600
+>     [   17.925034]  worker_thread+0x7a/0x600
+>     [   17.928657]  ? process_one_work+0x9f0/0x9f0
+>     [   17.932360]  kthread+0x200/0x230
+>     [   17.935930]  ? set_kthread_struct+0x80/0x80
+>     [   17.939593]  ret_from_fork+0x22/0x30
+>     [   17.951737] CR2: 0000000000000010
+>     [   17.955496] ---[ end trace e30cc21c24e81ee5 ]---
+> 
+> I had a look at the code, and it seems that this is caused by
+> trying to use bo->resource which is NULL.
+> 
+> bo->resource is freed by ttm_bo_cleanup_refs() ->
+> ttm_bo_cleanup_memtype_use() -> ttm_resource_free().
+> 
+> And then a notification is issued by ttm_bo_cleanup_refs() ->
+> ttm_bo_put() -> ttm_bo_release() ->
+> ttm_bo_cleanup_memtype_use(), this time with bo->release
+> equal to NULL.
+> 
+> I was thinking a proper way to fix this. Checking that
+> bo->release is not NULL in qxl_bo_move_notify() would
+> solve the issue. But maybe there is a better way, like
+> avoiding that ttm_bo_cleanup_memtype_use() is called
+> twice. Which way would be preferable?
 
-> On Thu, 8 Jul 2021 08:49:48 +0200
-> Christian K=C3=B6nig <christian.koenig@amd.com> wrote:
->=20
-> > Am 07.07.21 um 20:51 schrieb Pavel Skripkin:
-> > > My local syzbot instance hit GPF in ttm_bo_release().
-> > > Unfortunately, syzbot didn't produce a reproducer for this, but I
-> > > found out possible scenario:
-> > >
-> > > drm_gem_vram_create()            <-- drm_gem_vram_object kzalloced
-> > > 				     (bo embedded in this object)
-> > >    ttm_bo_init()
-> > >      ttm_bo_init_reserved()
-> > >        ttm_resource_alloc()
-> > >          man->func->alloc()       <-- allocation failure
-> > >        ttm_bo_put()
-> > > 	ttm_bo_release()
-> > > 	  ttm_mem_io_free()      <-- bo->resource =3D=3D NULL passed
-> > > 				     as second argument
-> > > 	     *GPF*
-> > >
-> > > So, I've added check in ttm_bo_release() to avoid passing
-> > > NULL as second argument to ttm_mem_io_free().
->=20
-> Hi, Christian!
->=20
-> Thank you for quick feedback :)
->=20
-> >=20
-> > There is another ocassion of this a bit down before we call=20
-> > ttm_bo_move_to_lru_tail() apart from that good catch.
-> >=20
->=20
-> Did you mean, that ttm_bo_move_to_lru_tail() should have NULL check
-> too? I checked it's realization, and, I think, NULL check is necessary
-> there, since mem pointer is dereferenced w/o any checking
->=20
-> > But I'm wondering if we should make the functions NULL save instead
-> > of the external check.
-> >=20
->=20
-> I tried to find more possible scenarios of GPF in ttm_bo_release(),
-> but I didn't find one. But, yes, moving NULL check inside
-> ttm_mem_io_free() is more general approach and it will defend this
-> function from GPFs in the future.
->=20
->=20
->=20
-> With regards,
-> Pavel Skripkin
->=20
+Adding Christian and Dave, who've touched all this recently iirc.
+-Daniel
 
-I misclicked and sent this email to Christian privately :(
+> 
+> Thanks
+> 
+> Roberto
+> 
+> HUAWEI TECHNOLOGIES Duesseldorf GmbH, HRB 56063
+> Managing Director: Li Peng, Li Jian, Shi Yanli
 
-Added all thread participants back, sorry.
-
-
-
-With regards,
-Pavel Skripkin
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
