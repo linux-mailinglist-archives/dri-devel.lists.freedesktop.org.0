@@ -2,64 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DA233BF8A8
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Jul 2021 13:04:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8484A3BF8CE
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Jul 2021 13:19:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D27946E1D8;
-	Thu,  8 Jul 2021 11:04:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 872F46E1F1;
+	Thu,  8 Jul 2021 11:19:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
- [IPv6:2a00:1450:4864:20::12f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E6CA6E1D8
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Jul 2021 11:04:08 +0000 (UTC)
-Received: by mail-lf1-x12f.google.com with SMTP id y42so14240519lfa.3
- for <dri-devel@lists.freedesktop.org>; Thu, 08 Jul 2021 04:04:08 -0700 (PDT)
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
+ [IPv6:2a00:1450:4864:20::42b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 69E756E1F1
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Jul 2021 11:19:19 +0000 (UTC)
+Received: by mail-wr1-x42b.google.com with SMTP id i8so7010950wrp.12
+ for <dri-devel@lists.freedesktop.org>; Thu, 08 Jul 2021 04:19:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=sQF+/ojCE/cB6pZjz83JMNHkZCNZNnhbv3jXkH9NjNY=;
- b=TpauRQX+bp9X4fBya3vNqkdgCP0wjviMxoDdFuQrUb8xgoFBTtaS89v09Qnuk1Kjkr
- WmATCHKKjek7ZkYZKmcC+Lbbxh6KIs/5CEzt7QwTuhzDJHNl/cIjzVs+Vj1fK8zwPuuu
- UCBYqWvS/HJEN4bARCGJDFEDkSDL41g20OpVl1xrYmrEDbMxgPtPTA2JqdCaf1uPGgiy
- bwccQB4Ruii+qRmoIl8iG/vNFQ97Dm8/yrCiAZ0ZBOBEuwlyXrVBevUltecLfEkQ0tsn
- X0Ap8B/QufCuqmTS2Au1KXAX5pRIu0Gd2/ybHBmhw7vR4tV46bv+xeF4iUrkjxduj+nZ
- G2tw==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=GBRiAHW1IiqIOt5/V0BSXc3KAEsqTESG/NcSN6alwWI=;
+ b=atWo1G0qn2I4JBsi3YemImo6akK/Z24zauZSPL1v4HpH+8oZVEczBpiY1RxQbSowl0
+ JNXQdJcA9Vy+krFW5/c8uerzm9kiorwa9Efg7K1M7TdH69zKMX4kmVDYeCFO2yJjizHT
+ z1rDNeKSMv4dXnyVDSzDPG/rCNv4cgjt4d+5SYmXZO/8WUswobLm9my8oSzDUNxNk5VW
+ hLBAT8mMet/urj1v7vFvXnL6faUFTHKzH6dbasW0VNN1+LFzb3T1/4ABVIbCOeKo4pTi
+ 22XVA4CCw/Pfn7JawfC3PZW7TtcbdM08XHPUkLH+MGNC0LgkrFGOt/ZukTYYxc6wNXe1
+ sMXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=sQF+/ojCE/cB6pZjz83JMNHkZCNZNnhbv3jXkH9NjNY=;
- b=KGRQIgfIaSq1uogRRvt/rhIb9uNnHSSlxFLzPvh7ZRIjC2BpBEOiFxZgZviu82nFZk
- UIaqrkXFUUzPmCOtCIg3+++zN01EGOQmG+YWMqWF5ZR4UPSQ3ouayJuMKWkEDiLOvVO4
- Dh/I6bxbwTdWN35wCfvPhRXZwDd108xDxJbO5suCyx+fNXioxSuuf7MEyRVuFL/5sJk9
- eMfI9QonFWwJ5Xl6aGtu3/CclNBhJEnvicgVgnq4OrZKFNEbNFGdB+N6aQqFfTnn7ELe
- j5ULX+5fFF+Wm40WMLtfbO5XcILHHvFGDAwx/NxHXNGBSpzjThYU9cdmf4AtN1e/7EP2
- l2Xw==
-X-Gm-Message-State: AOAM530bATyJwXZceftPJfmFKO2eCs+ihcEIicAudx5OVNv7aU3y1ESF
- FgV7kxcu9t01etBmZQKeSM0=
-X-Google-Smtp-Source: ABdhPJzo5Ag7ncSQwWbJYNMsI2u7IOc1++kX+CINdhTZ2RJYTVBDhtzmw+wP4VVp+pIQ5pvZQZc9PQ==
-X-Received: by 2002:a19:5059:: with SMTP id z25mr6560628lfj.622.1625742246651; 
- Thu, 08 Jul 2021 04:04:06 -0700 (PDT)
-Received: from localhost.localdomain ([94.103.225.155])
- by smtp.gmail.com with ESMTPSA id v8sm208922ljg.137.2021.07.08.04.04.06
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=GBRiAHW1IiqIOt5/V0BSXc3KAEsqTESG/NcSN6alwWI=;
+ b=VdU41BW6+RmPkerVXiLsCVSFsus3BsB2upDNVf+GCobGviIQ6SNU03AKElyiZ8qLnf
+ tG32J323X3t+86wnO7zp+1Amu/XGNZn6KVkwVQkzpLm30R8Kydp/zhfe9iZB7iYOOs+q
+ JkazzseCKDnyVj9eUsMRtxG5ENnnD/+2Js8JLKBfct0xuq2msmSUb2AYMlXx78BzPTSP
+ kMwskgZvFzdT/EWd7asEggKwLfEmAEbqwJz4eopSEmrkR3UgsIy7I+ZVsUUph5D4kbM/
+ h0ZsDN/IiNsR4x3E5EQJTNJECipFLm1QRPBdPjL4BwUW2CtTzbHoCvn2jCb9h6uwEedg
+ S8Qg==
+X-Gm-Message-State: AOAM530SnNEyy3qHnCfOhVMnJcfo2cxCg18qNyglJlAUM0Ty/LNZs3QX
+ gIoqZ0Sxanse7Of+hbmXbUBG/0Sa+HY=
+X-Google-Smtp-Source: ABdhPJwCyb/a1zKD1ZrJJen8WzeT7UrJ+c1MfDiEGo3x4V9yTV7M/dpDVwAo3ziFK/l4d+0xazCDVg==
+X-Received: by 2002:a5d:4d04:: with SMTP id z4mr33862384wrt.133.1625743158146; 
+ Thu, 08 Jul 2021 04:19:18 -0700 (PDT)
+Received: from abel.fritz.box ([2a02:908:1252:fb60:88a0:1bd:c5e1:444e])
+ by smtp.gmail.com with ESMTPSA id p3sm9123236wmq.17.2021.07.08.04.19.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Jul 2021 04:04:06 -0700 (PDT)
-Date: Thu, 8 Jul 2021 14:04:02 +0300
-From: Pavel Skripkin <paskripkin@gmail.com>
-To: Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
-Subject: Re: [PATCH] gpu: ttm: fix GPF in ttm_bo_release
-Message-ID: <20210708140402.4ce25702@gmail.com>
-In-Reply-To: <55aa8ece-1f1d-76d0-4f2f-951d39e79484@amd.com>
-References: <20210707185108.3798-1-paskripkin@gmail.com>
- <f4bb7b29-3abc-a056-fc24-4e91b5de8d74@amd.com>
- <20210708113701.4cea7989@gmail.com>
- <20210708130910.63a15c73@gmail.com>
- <55aa8ece-1f1d-76d0-4f2f-951d39e79484@amd.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-suse-linux-gnu)
+ Thu, 08 Jul 2021 04:19:17 -0700 (PDT)
+From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>
+To: dri-devel@lists.freedesktop.org,
+	roberto.sassu@huawei.com
+Subject: [PATCH] dma-buf: fix and rework dma_buf_poll v5
+Date: Thu,  8 Jul 2021 13:19:16 +0200
+Message-Id: <20210708111916.7291-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,81 +69,261 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, ray.huang@amd.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 8 Jul 2021 12:56:19 +0200
-Christian K=C3=B6nig <christian.koenig@amd.com> wrote:
+Daniel pointed me towards this function and there are multiple obvious problems
+in the implementation.
 
-> Am 08.07.21 um 12:09 schrieb Pavel Skripkin:
-> > On Thu, 8 Jul 2021 11:37:01 +0300
-> > Pavel Skripkin <paskripkin@gmail.com> wrote:
-> >
-> >> On Thu, 8 Jul 2021 08:49:48 +0200
-> >> Christian K=C3=B6nig <christian.koenig@amd.com> wrote:
-> >>
-> >>> Am 07.07.21 um 20:51 schrieb Pavel Skripkin:
-> >>>> My local syzbot instance hit GPF in ttm_bo_release().
-> >>>> Unfortunately, syzbot didn't produce a reproducer for this, but I
-> >>>> found out possible scenario:
-> >>>>
-> >>>> drm_gem_vram_create()            <-- drm_gem_vram_object
-> >>>> kzalloced (bo embedded in this object)
-> >>>>     ttm_bo_init()
-> >>>>       ttm_bo_init_reserved()
-> >>>>         ttm_resource_alloc()
-> >>>>           man->func->alloc()       <-- allocation failure
-> >>>>         ttm_bo_put()
-> >>>> 	ttm_bo_release()
-> >>>> 	  ttm_mem_io_free()      <-- bo->resource =3D=3D NULL passed
-> >>>> 				     as second argument
-> >>>> 	     *GPF*
-> >>>>
-> >>>> So, I've added check in ttm_bo_release() to avoid passing
-> >>>> NULL as second argument to ttm_mem_io_free().
-> >> Hi, Christian!
-> >>
-> >> Thank you for quick feedback :)
-> >>
-> >>> There is another ocassion of this a bit down before we call
-> >>> ttm_bo_move_to_lru_tail() apart from that good catch.
-> >>>
-> >> Did you mean, that ttm_bo_move_to_lru_tail() should have NULL check
-> >> too?
->=20
-> Yes, exactly that.
->=20
-> >>   I checked it's realization, and, I think, NULL check is necessary
-> >> there, since mem pointer is dereferenced w/o any checking
-> >>
-> >>> But I'm wondering if we should make the functions NULL save
-> >>> instead of the external check.
-> >>>
-> >> I tried to find more possible scenarios of GPF in ttm_bo_release(),
-> >> but I didn't find one. But, yes, moving NULL check inside
-> >> ttm_mem_io_free() is more general approach and it will defend this
-> >> function from GPFs in the future.
-> >>
-> >>
-> >>
-> >> With regards,
-> >> Pavel Skripkin
-> >>
-> > I misclicked and sent this email to Christian privately :(
-> >
-> > Added all thread participants back, sorry.
->=20
-> No problem.
->=20
-> Do you want to update your patch or should I take care of this?
->=20
+First of all the retry loop is not working as intended. In general the retry
+makes only sense if you grab the reference first and then check the sequence
+values.
 
-Yes, I will send v2 soon. Thank you!
+Then we should always also wait for the exclusive fence.
 
+It's also good practice to keep the reference around when installing callbacks
+to fences you don't own.
 
+And last the whole implementation was unnecessary complex and rather hard to
+understand which could lead to probably unexpected behavior of the IOCTL.
 
+Fix all this by reworking the implementation from scratch. Dropping the
+whole RCU approach and taking the lock instead.
 
-With regards,
-Pavel Skripkin
+Only mildly tested and needs a thoughtful review of the code.
+
+v2: fix the reference counting as well
+v3: keep the excl fence handling as is for stable
+v4: back to testing all fences, drop RCU
+v5: handle in and out separately
+
+Signed-off-by: Christian König <christian.koenig@amd.com>
+CC: stable@vger.kernel.org
+---
+ drivers/dma-buf/dma-buf.c | 152 +++++++++++++++++---------------------
+ include/linux/dma-buf.h   |   2 +-
+ 2 files changed, 68 insertions(+), 86 deletions(-)
+
+diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+index eadd1eaa2fb5..439e2379e1cb 100644
+--- a/drivers/dma-buf/dma-buf.c
++++ b/drivers/dma-buf/dma-buf.c
+@@ -72,7 +72,7 @@ static void dma_buf_release(struct dentry *dentry)
+ 	 * If you hit this BUG() it means someone dropped their ref to the
+ 	 * dma-buf while still having pending operation to the buffer.
+ 	 */
+-	BUG_ON(dmabuf->cb_shared.active || dmabuf->cb_excl.active);
++	BUG_ON(dmabuf->cb_in.active || dmabuf->cb_out.active);
+ 
+ 	dmabuf->ops->release(dmabuf);
+ 
+@@ -202,16 +202,57 @@ static void dma_buf_poll_cb(struct dma_fence *fence, struct dma_fence_cb *cb)
+ 	wake_up_locked_poll(dcb->poll, dcb->active);
+ 	dcb->active = 0;
+ 	spin_unlock_irqrestore(&dcb->poll->lock, flags);
++	dma_fence_put(fence);
++}
++
++static bool dma_buf_poll_shared(struct dma_resv *resv,
++				struct dma_buf_poll_cb_t *dcb)
++{
++	struct dma_resv_list *fobj = dma_resv_get_list(resv);
++	struct dma_fence *fence;
++	int i, r;
++
++	if (!fobj)
++		return false;
++
++	for (i = 0; i < fobj->shared_count; ++i) {
++		fence = rcu_dereference_protected(fobj->shared[i],
++						  dma_resv_held(resv));
++		dma_fence_get(fence);
++		r = dma_fence_add_callback(fence, &dcb->cb, dma_buf_poll_cb);
++		if (!r)
++			return true;
++		dma_fence_put(fence);
++	}
++
++	return false;
++}
++
++static bool dma_buf_poll_excl(struct dma_resv *resv,
++			      struct dma_buf_poll_cb_t *dcb)
++{
++	struct dma_fence *fence = dma_resv_get_excl(resv);
++	int r;
++
++	if (!fence)
++		return false;
++
++	dma_fence_get(fence);
++	r = dma_fence_add_callback(fence, &dcb->cb, dma_buf_poll_cb);
++	if (!r)
++		return true;
++	dma_fence_put(fence);
++
++	return false;
+ }
+ 
+ static __poll_t dma_buf_poll(struct file *file, poll_table *poll)
+ {
+ 	struct dma_buf *dmabuf;
+ 	struct dma_resv *resv;
+-	struct dma_resv_list *fobj;
+-	struct dma_fence *fence_excl;
++	unsigned shared_count;
+ 	__poll_t events;
+-	unsigned shared_count, seq;
++	int r, i;
+ 
+ 	dmabuf = file->private_data;
+ 	if (!dmabuf || !dmabuf->resv)
+@@ -225,101 +266,42 @@ static __poll_t dma_buf_poll(struct file *file, poll_table *poll)
+ 	if (!events)
+ 		return 0;
+ 
+-retry:
+-	seq = read_seqcount_begin(&resv->seq);
+-	rcu_read_lock();
+-
+-	fobj = rcu_dereference(resv->fence);
+-	if (fobj)
+-		shared_count = fobj->shared_count;
+-	else
+-		shared_count = 0;
+-	fence_excl = rcu_dereference(resv->fence_excl);
+-	if (read_seqcount_retry(&resv->seq, seq)) {
+-		rcu_read_unlock();
+-		goto retry;
+-	}
+-
+-	if (fence_excl && (!(events & EPOLLOUT) || shared_count == 0)) {
+-		struct dma_buf_poll_cb_t *dcb = &dmabuf->cb_excl;
+-		__poll_t pevents = EPOLLIN;
++	dma_resv_lock(resv, NULL);
+ 
+-		if (shared_count == 0)
+-			pevents |= EPOLLOUT;
++	if (events & EPOLLOUT) {
++		struct dma_buf_poll_cb_t *dcb = &dmabuf->cb_out;
+ 
++		/* Check that callback isn't busy */
+ 		spin_lock_irq(&dmabuf->poll.lock);
+-		if (dcb->active) {
+-			dcb->active |= pevents;
+-			events &= ~pevents;
+-		} else
+-			dcb->active = pevents;
++		if (dcb->active)
++			events &= ~EPOLLOUT;
++		else
++			dcb->active = EPOLLOUT;
+ 		spin_unlock_irq(&dmabuf->poll.lock);
+ 
+-		if (events & pevents) {
+-			if (!dma_fence_get_rcu(fence_excl)) {
+-				/* force a recheck */
+-				events &= ~pevents;
+-				dma_buf_poll_cb(NULL, &dcb->cb);
+-			} else if (!dma_fence_add_callback(fence_excl, &dcb->cb,
+-							   dma_buf_poll_cb)) {
+-				events &= ~pevents;
+-				dma_fence_put(fence_excl);
+-			} else {
+-				/*
+-				 * No callback queued, wake up any additional
+-				 * waiters.
+-				 */
+-				dma_fence_put(fence_excl);
+-				dma_buf_poll_cb(NULL, &dcb->cb);
+-			}
+-		}
++		if (events & EPOLLOUT && !dma_buf_poll_shared(resv, dcb) &&
++		    !dma_buf_poll_excl(resv, dcb))
++			/* No callback queued, wake up any other waiters */
++			dma_buf_poll_cb(NULL, &dcb->cb);
+ 	}
+ 
+-	if ((events & EPOLLOUT) && shared_count > 0) {
+-		struct dma_buf_poll_cb_t *dcb = &dmabuf->cb_shared;
+-		int i;
++	if (events & EPOLLIN) {
++		struct dma_buf_poll_cb_t *dcb = &dmabuf->cb_in;
+ 
+-		/* Only queue a new callback if no event has fired yet */
++		/* Check that callback isn't busy */
+ 		spin_lock_irq(&dmabuf->poll.lock);
+ 		if (dcb->active)
+-			events &= ~EPOLLOUT;
++			events &= ~EPOLLIN;
+ 		else
+-			dcb->active = EPOLLOUT;
++			dcb->active = EPOLLIN;
+ 		spin_unlock_irq(&dmabuf->poll.lock);
+ 
+-		if (!(events & EPOLLOUT))
+-			goto out;
+-
+-		for (i = 0; i < shared_count; ++i) {
+-			struct dma_fence *fence = rcu_dereference(fobj->shared[i]);
+-
+-			if (!dma_fence_get_rcu(fence)) {
+-				/*
+-				 * fence refcount dropped to zero, this means
+-				 * that fobj has been freed
+-				 *
+-				 * call dma_buf_poll_cb and force a recheck!
+-				 */
+-				events &= ~EPOLLOUT;
+-				dma_buf_poll_cb(NULL, &dcb->cb);
+-				break;
+-			}
+-			if (!dma_fence_add_callback(fence, &dcb->cb,
+-						    dma_buf_poll_cb)) {
+-				dma_fence_put(fence);
+-				events &= ~EPOLLOUT;
+-				break;
+-			}
+-			dma_fence_put(fence);
+-		}
+-
+-		/* No callback queued, wake up any additional waiters. */
+-		if (i == shared_count)
++		if (events & EPOLLIN && !dma_buf_poll_excl(resv, dcb))
++			/* No callback queued, wake up any other waiters */
+ 			dma_buf_poll_cb(NULL, &dcb->cb);
+ 	}
+ 
+-out:
+-	rcu_read_unlock();
++	dma_resv_unlock(resv);
+ 	return events;
+ }
+ 
+@@ -562,8 +544,8 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
+ 	dmabuf->owner = exp_info->owner;
+ 	spin_lock_init(&dmabuf->name_lock);
+ 	init_waitqueue_head(&dmabuf->poll);
+-	dmabuf->cb_excl.poll = dmabuf->cb_shared.poll = &dmabuf->poll;
+-	dmabuf->cb_excl.active = dmabuf->cb_shared.active = 0;
++	dmabuf->cb_in.poll = dmabuf->cb_out.poll = &dmabuf->poll;
++	dmabuf->cb_in.active = dmabuf->cb_out.active = 0;
+ 
+ 	if (!resv) {
+ 		resv = (struct dma_resv *)&dmabuf[1];
+diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+index efdc56b9d95f..7e747ad54c81 100644
+--- a/include/linux/dma-buf.h
++++ b/include/linux/dma-buf.h
+@@ -329,7 +329,7 @@ struct dma_buf {
+ 		wait_queue_head_t *poll;
+ 
+ 		__poll_t active;
+-	} cb_excl, cb_shared;
++	} cb_in, cb_out;
+ };
+ 
+ /**
+-- 
+2.25.1
+
