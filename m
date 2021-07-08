@@ -1,38 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34F923BF2BC
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Jul 2021 02:12:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E0833BF2BE
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Jul 2021 02:12:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C47B66E213;
-	Thu,  8 Jul 2021 00:12:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 071976E200;
+	Thu,  8 Jul 2021 00:12:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A5A606E209;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD0956E20F;
  Thu,  8 Jul 2021 00:12:33 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10038"; a="231164550"
-X-IronPort-AV: E=Sophos;i="5.84,222,1620716400"; d="scan'208";a="231164550"
+X-IronPort-AV: E=McAfee;i="6200,9189,10038"; a="231164556"
+X-IronPort-AV: E=Sophos;i="5.84,222,1620716400"; d="scan'208";a="231164556"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  07 Jul 2021 17:12:29 -0700
-X-IronPort-AV: E=Sophos;i="5.84,222,1620716400"; d="scan'208";a="411146618"
+X-IronPort-AV: E=Sophos;i="5.84,222,1620716400"; d="scan'208";a="411146621"
 Received: from dhiatt-server.jf.intel.com ([10.54.81.3])
  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  07 Jul 2021 17:12:28 -0700
 From: Matthew Brost <matthew.brost@intel.com>
 To: <intel-gfx@lists.freedesktop.org>,
 	<dri-devel@lists.freedesktop.org>
-Subject: [PATCH 1/2] INTEL_DII/NOT_UPSTREAM: drm/i915: Introduce set_parallel2
- extension
-Date: Wed,  7 Jul 2021 17:30:18 -0700
-Message-Id: <20210708003019.9213-2-matthew.brost@intel.com>
+Subject: [PATCH 2/2] REVIEW: Full tree diff against internal/internal
+Date: Wed,  7 Jul 2021 17:30:19 -0700
+Message-Id: <20210708003019.9213-3-matthew.brost@intel.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20210708003019.9213-1-matthew.brost@intel.com>
 References: <20210706222010.101522-1-matthew.brost@intel.com>
  <20210708003019.9213-1-matthew.brost@intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -50,41 +50,24 @@ Cc: john.c.harrison@intel.com, Michal.Wajdeczko@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Based on upstream feedback the set_parallel extension isn't suitable as
-it looks a bit too much like the bonding extension. Introduce a
-set_parallel2 extension which configures parallel submission in a single
-extension and in a single slot. This compares to old set_parallel
-extension which configured parallel submission across multiple slots.
-
-Also remove the ability for the user to pass in the number of BBs in
-the execbuf IOCTL. The number of BBs is now implied based on the width
-of the context in the slot.
-
-This patch is intended in enable UMDs for the upstream direction while
-maintaining the old set_parallel extension to not break UMDs. Once UMDs
-have been updated to use new extension the old one can be removed from
-DII.
-
-v2: Only enable parallel submission on engines set by user
-
-Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+Auto-generated diff between internal/internal..internal
 ---
- drivers/gpu/drm/i915/gem/i915_gem_context.c   | 190 +++++++++++++++++-
- .../gpu/drm/i915/gem/i915_gem_context_types.h |   6 -
- .../gpu/drm/i915/gem/i915_gem_execbuffer.c    |  73 +++++--
- drivers/gpu/drm/i915/gt/intel_context.c       |   2 +
- drivers/gpu/drm/i915/gt/intel_context.h       |  11 +
- drivers/gpu/drm/i915/gt/intel_context_types.h |   4 +
- .../gpu/drm/i915/gt/uc/intel_guc_submission.c |   4 +-
- drivers/gpu/drm/i915/i915_request.c           |   7 +-
- include/uapi/drm/i915_drm_prelim.h            | 115 +++++++++++
- 9 files changed, 376 insertions(+), 36 deletions(-)
+ drivers/gpu/drm/i915/gem/i915_gem_context.c       | 190 +++++++++++++++++++++-
+ drivers/gpu/drm/i915/gem/i915_gem_context_types.h |   6 -
+ drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c    |  73 ++++++---
+ drivers/gpu/drm/i915/gt/intel_context.c           |   2 +
+ drivers/gpu/drm/i915/gt/intel_context.h           |  11 ++
+ drivers/gpu/drm/i915/gt/intel_context_types.h     |   6 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c |   4 +-
+ drivers/gpu/drm/i915/i915_request.c               |   7 +-
+ include/uapi/drm/i915_drm_prelim.h                | 115 +++++++++++++
+ 9 files changed, 377 insertions(+), 37 deletions(-)
 
 diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-index 2e3c0bf09eff..c8da87dde1fa 100644
+index 82b7af55ba05..583113c58e9c 100644
 --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
 +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-@@ -374,7 +374,6 @@ void i915_gem_context_release(struct kref *ref)
+@@ -389,7 +389,6 @@ void i915_gem_context_release(struct kref *ref)
  	mutex_destroy(&ctx->engines_mutex);
  	mutex_destroy(&ctx->lut_mutex);
  	mutex_destroy(&ctx->mutex);
@@ -92,7 +75,7 @@ index 2e3c0bf09eff..c8da87dde1fa 100644
  
  	kfree_rcu(ctx, rcu);
  }
-@@ -699,8 +698,6 @@ __create_context(struct drm_i915_private *i915)
+@@ -769,8 +768,6 @@ static struct i915_gem_context *__create_context(struct intel_gt *gt)
  	mutex_init(&ctx->mutex);
  	INIT_LIST_HEAD(&ctx->link);
  
@@ -101,7 +84,7 @@ index 2e3c0bf09eff..c8da87dde1fa 100644
  	spin_lock_init(&ctx->stale.lock);
  	INIT_LIST_HEAD(&ctx->stale.engines);
  
-@@ -1857,6 +1854,48 @@ static bool validate_parallel_engines_layout(const struct set_engines *set)
+@@ -2093,6 +2090,48 @@ static bool validate_parallel_engines_layout(const struct set_engines *set)
  	return true;
  }
  
@@ -150,7 +133,7 @@ index 2e3c0bf09eff..c8da87dde1fa 100644
  static int
  set_engines__parallel_submit(struct i915_user_extension __user *base, void *data)
  {
-@@ -2009,11 +2048,156 @@ set_engines__parallel_submit(struct i915_user_extension __user *base, void *data
+@@ -2245,11 +2284,156 @@ set_engines__parallel_submit(struct i915_user_extension __user *base, void *data
  	return err;
  }
  
@@ -308,10 +291,10 @@ index 2e3c0bf09eff..c8da87dde1fa 100644
  
  static int
 diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context_types.h b/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
-index 4f5785c7528b..0c79000e95fe 100644
+index 70b6103d9a32..c70c6d042f06 100644
 --- a/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
 +++ b/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
-@@ -194,12 +194,6 @@ struct i915_gem_context {
+@@ -206,12 +206,6 @@ struct i915_gem_context {
  	 */
  	u64 fence_context;
  
@@ -325,10 +308,10 @@ index 4f5785c7528b..0c79000e95fe 100644
  	 * @seqno: Seqno when using when a parallel context.
  	 */
 diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-index d3f70899e7ab..2253336e9791 100644
+index cdf37c65b904..3cd4327c25f3 100644
 --- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
 +++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-@@ -1633,7 +1633,7 @@ static int __reloc_gpu_alloc(struct i915_execbuffer *eb,
+@@ -1682,7 +1682,7 @@ static int __reloc_gpu_alloc(struct i915_execbuffer *eb,
  		goto err_unmap;
  
  	if (engine == eb->context->engine &&
@@ -337,7 +320,7 @@ index d3f70899e7ab..2253336e9791 100644
  		rq = i915_request_create(eb->context);
  	} else {
  		struct intel_context *ce = eb->reloc_context;
-@@ -1727,7 +1727,7 @@ static u32 *reloc_gpu(struct i915_execbuffer *eb,
+@@ -1776,7 +1776,7 @@ static u32 *reloc_gpu(struct i915_execbuffer *eb,
  		struct intel_engine_cs *engine = eb->engine;
  
  		if (!reloc_can_use_engine(engine) ||
@@ -346,7 +329,7 @@ index d3f70899e7ab..2253336e9791 100644
  			engine = engine->gt->engine_class[COPY_ENGINE_CLASS][0];
  			if (!engine)
  				return ERR_PTR(-ENODEV);
-@@ -3223,7 +3223,7 @@ eb_select_legacy_ring(struct i915_execbuffer *eb)
+@@ -3308,7 +3308,7 @@ eb_select_legacy_ring(struct i915_execbuffer *eb)
  }
  
  static int
@@ -355,7 +338,7 @@ index d3f70899e7ab..2253336e9791 100644
  {
  	struct intel_context *ce;
  	unsigned int idx;
-@@ -3238,6 +3238,16 @@ eb_select_engine(struct i915_execbuffer *eb)
+@@ -3326,6 +3326,16 @@ eb_select_engine(struct i915_execbuffer *eb)
  	if (IS_ERR(ce))
  		return PTR_ERR(ce);
  
@@ -371,17 +354,17 @@ index d3f70899e7ab..2253336e9791 100644
 +
  	intel_gt_pm_get(ce->engine->gt);
  
- 	if (!test_bit(CONTEXT_ALLOC_BIT, &ce->flags)) {
-@@ -3562,7 +3572,7 @@ i915_gem_do_execbuffer(struct drm_device *dev,
- 	if (unlikely(err))
- 		goto err_destroy;
+ 	if (i915_gem_context_uses_protected_content(eb->gem_context)) {
+@@ -3687,7 +3697,7 @@ i915_gem_do_execbuffer(struct drm_device *dev,
+ 		goto err_context;
+ 	}
  
 -	err = eb_select_engine(&eb);
 +	err = eb_select_engine(&eb, batch_number);
  	if (unlikely(err))
  		goto err_context;
  
-@@ -3751,6 +3761,8 @@ i915_gem_execbuffer2_ioctl(struct drm_device *dev, void *data,
+@@ -3900,6 +3910,8 @@ i915_gem_execbuffer2_ioctl(struct drm_device *dev, void *data,
  	const size_t count = args->buffer_count;
  	unsigned int num_batches, i;
  	int err, start_context;
@@ -390,7 +373,7 @@ index d3f70899e7ab..2253336e9791 100644
  
  	if (!check_buffer_count(count)) {
  		drm_dbg(&i915->drm, "execbuf2 with %zd buffers\n", count);
-@@ -3782,15 +3794,35 @@ i915_gem_execbuffer2_ioctl(struct drm_device *dev, void *data,
+@@ -3936,15 +3948,35 @@ i915_gem_execbuffer2_ioctl(struct drm_device *dev, void *data,
  			I915_EXEC_NUMBER_BB_LSB) +
  		       ((args->flags & PRELIM_I915_EXEC_NUMBER_BB_MASK) >>
  			PRELIM_I915_EXEC_NUMBER_BB_LSB)) + 1;
@@ -433,7 +416,7 @@ index d3f70899e7ab..2253336e9791 100644
  			err = -EINVAL;
  			goto err_context;
  		}
-@@ -3827,8 +3859,7 @@ i915_gem_execbuffer2_ioctl(struct drm_device *dev, void *data,
+@@ -3981,8 +4013,7 @@ i915_gem_execbuffer2_ioctl(struct drm_device *dev, void *data,
  	 * properly, also this is needed to create an excl fence for an dma buf
  	 * objects these BBs touch.
  	 */
@@ -443,7 +426,7 @@ index d3f70899e7ab..2253336e9791 100644
  		out_fences = kcalloc(num_batches, sizeof(*out_fences),
  				     GFP_KERNEL);
  		if (!out_fences) {
-@@ -3874,8 +3905,8 @@ i915_gem_execbuffer2_ioctl(struct drm_device *dev, void *data,
+@@ -4028,8 +4059,8 @@ i915_gem_execbuffer2_ioctl(struct drm_device *dev, void *data,
  	 * in intel_context sequence, thus only 1 submission can happen at a
  	 * time.
  	 */
@@ -454,7 +437,7 @@ index d3f70899e7ab..2253336e9791 100644
  
  	err = i915_gem_do_execbuffer(dev, file, args, exec2_list,
  				     args->flags & I915_EXEC_BATCH_FIRST ?
-@@ -3889,8 +3920,10 @@ i915_gem_execbuffer2_ioctl(struct drm_device *dev, void *data,
+@@ -4043,8 +4074,10 @@ i915_gem_execbuffer2_ioctl(struct drm_device *dev, void *data,
  				     &ww);
  
  	for (i = 1; err == 0 && i < num_batches; i++) {
@@ -467,7 +450,7 @@ index d3f70899e7ab..2253336e9791 100644
  		args->batch_len = 0;
  
  		err = i915_gem_do_execbuffer(dev, file, args, exec2_list,
-@@ -3905,8 +3938,8 @@ i915_gem_execbuffer2_ioctl(struct drm_device *dev, void *data,
+@@ -4059,8 +4092,8 @@ i915_gem_execbuffer2_ioctl(struct drm_device *dev, void *data,
  					     &ww);
  	}
  
@@ -478,7 +461,7 @@ index d3f70899e7ab..2253336e9791 100644
  
  	/*
  	 * Now that we have begun execution of the batchbuffer, we ignore
-@@ -4009,6 +4042,8 @@ end:;
+@@ -4164,6 +4197,8 @@ end:;
  	dma_fence_put(in_fence);
  err_context:
  	i915_gem_context_put(ctx);
@@ -488,10 +471,10 @@ index d3f70899e7ab..2253336e9791 100644
  	return err;
  }
 diff --git a/drivers/gpu/drm/i915/gt/intel_context.c b/drivers/gpu/drm/i915/gt/intel_context.c
-index 84ce1f4d3051..2e45c128ee0b 100644
+index 3e704be30501..fa36419b7fa4 100644
 --- a/drivers/gpu/drm/i915/gt/intel_context.c
 +++ b/drivers/gpu/drm/i915/gt/intel_context.c
-@@ -460,6 +460,7 @@ intel_context_init(struct intel_context *ce, struct intel_engine_cs *engine)
+@@ -469,6 +469,7 @@ intel_context_init(struct intel_context *ce, struct intel_engine_cs *engine)
  	INIT_LIST_HEAD(&ce->signals);
  
  	mutex_init(&ce->pin_mutex);
@@ -499,7 +482,7 @@ index 84ce1f4d3051..2e45c128ee0b 100644
  
  	spin_lock_init(&ce->guc_state.lock);
  	INIT_LIST_HEAD(&ce->guc_state.fences);
-@@ -491,6 +492,7 @@ void intel_context_fini(struct intel_context *ce)
+@@ -507,6 +508,7 @@ void intel_context_fini(struct intel_context *ce)
  			intel_context_put(child);
  
  	mutex_destroy(&ce->pin_mutex);
@@ -508,7 +491,7 @@ index 84ce1f4d3051..2e45c128ee0b 100644
  }
  
 diff --git a/drivers/gpu/drm/i915/gt/intel_context.h b/drivers/gpu/drm/i915/gt/intel_context.h
-index fc2da541d633..5ae6cc7374c8 100644
+index 88d4a71c5d29..c401cad7a231 100644
 --- a/drivers/gpu/drm/i915/gt/intel_context.h
 +++ b/drivers/gpu/drm/i915/gt/intel_context.h
 @@ -52,6 +52,11 @@ static inline bool intel_context_is_parent(struct intel_context *ce)
@@ -523,7 +506,7 @@ index fc2da541d633..5ae6cc7374c8 100644
  /* Only should be called directly by selftests */
  void __intel_context_bind_parent_child(struct intel_context *parent,
  				       struct intel_context *child);
-@@ -204,6 +209,12 @@ static inline bool intel_context_is_barrier(const struct intel_context *ce)
+@@ -205,6 +210,12 @@ static inline bool intel_context_is_barrier(const struct intel_context *ce)
  	return test_bit(CONTEXT_BARRIER_BIT, &ce->flags);
  }
  
@@ -537,32 +520,34 @@ index fc2da541d633..5ae6cc7374c8 100644
  {
  	return test_bit(CONTEXT_CLOSED_BIT, &ce->flags);
 diff --git a/drivers/gpu/drm/i915/gt/intel_context_types.h b/drivers/gpu/drm/i915/gt/intel_context_types.h
-index 44bc13ee9f8b..74c23c34ee50 100644
+index 7bf73704b250..a7c9bf87ef23 100644
 --- a/drivers/gpu/drm/i915/gt/intel_context_types.h
 +++ b/drivers/gpu/drm/i915/gt/intel_context_types.h
-@@ -114,6 +114,7 @@ struct intel_context {
+@@ -125,7 +125,8 @@ struct intel_context {
  #define CONTEXT_FORCE_SINGLE_SUBMISSION	7
  #define CONTEXT_NOPREEMPT		8
  #define CONTEXT_LRCA_DIRTY		9
+-#define CONTEXT_DEBUG			10
 +#define CONTEXT_NO_PREEMPT_MID_BATCH	10
++#define CONTEXT_DEBUG			11
  
  	struct {
  		u64 timeout_us;
-@@ -239,6 +240,9 @@ struct intel_context {
- 
+@@ -252,6 +253,9 @@ struct intel_context {
  	/* Last request submitted on a parent */
  	struct i915_request *last_rq;
-+
+ 
 +	/* Parallel submit mutex */
 +	struct mutex parallel_submit;
++
+ 	/* GuC context blocked fence */
+ 	struct i915_sw_fence guc_blocked;
  };
- 
- #endif /* __INTEL_CONTEXT_TYPES__ */
 diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-index c9e873f075a7..2b2c243ffd16 100644
+index c285160be8b3..c935c8b7f557 100644
 --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
 +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-@@ -798,8 +798,7 @@ static inline int rq_prio(const struct i915_request *rq)
+@@ -832,8 +832,7 @@ static inline int rq_prio(const struct i915_request *rq)
  
  static inline bool is_multi_lrc(struct intel_context *ce)
  {
@@ -572,7 +557,7 @@ index c9e873f075a7..2b2c243ffd16 100644
  }
  
  static inline bool is_multi_lrc_rq(struct i915_request *rq)
-@@ -3458,6 +3457,7 @@ void intel_guc_configure_parent_context(struct intel_context *ce)
+@@ -3827,6 +3826,7 @@ void intel_guc_configure_parent_context(struct intel_context *ce)
  		bb_preempt_boundary =
  			i915_gem_context_is_bb_preempt_boundary(ctx);
  	rcu_read_unlock();
@@ -581,10 +566,10 @@ index c9e873f075a7..2b2c243ffd16 100644
  		ce->emit_bb_start = emit_bb_start_parent_bb_preempt_boundary;
  		ce->emit_fini_breadcrumb =
 diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
-index 092e9d892c30..76fa06f06947 100644
+index 65c31d359e81..e1db7d9f27f8 100644
 --- a/drivers/gpu/drm/i915/i915_request.c
 +++ b/drivers/gpu/drm/i915/i915_request.c
-@@ -1606,14 +1606,9 @@ i915_request_await_object(struct i915_request *to,
+@@ -1721,14 +1721,9 @@ i915_request_await_object(struct i915_request *to,
  	return ret;
  }
  
@@ -601,10 +586,10 @@ index 092e9d892c30..76fa06f06947 100644
  
  static inline struct intel_context *request_to_parent(struct i915_request *rq)
 diff --git a/include/uapi/drm/i915_drm_prelim.h b/include/uapi/drm/i915_drm_prelim.h
-index a885c14585aa..6d5d7eb54813 100644
+index 577e99801690..ac5cc639e078 100644
 --- a/include/uapi/drm/i915_drm_prelim.h
 +++ b/include/uapi/drm/i915_drm_prelim.h
-@@ -370,9 +370,124 @@ struct prelim_i915_context_engines_parallel_submit {
+@@ -884,9 +884,124 @@ struct prelim_i915_context_engines_parallel_submit {
  } __attribute__ ((packed));
  #define i915_context_engines_parallel_submit prelim_i915_context_engines_parallel_submit
  
@@ -728,4 +713,7 @@ index a885c14585aa..6d5d7eb54813 100644
 +#define PRELIM_I915_CONTEXT_ENGINES_EXT_PARALLEL2_SUBMIT (PRELIM_I915_USER_EXT | 3) /* see prelim_i915_context_engines_parallel2_submit */
  };
  
- enum prelim_drm_i915_gem_memory_class {
+ enum prelim_drm_i915_oa_format {
+--
+git-pile 0.97
+
