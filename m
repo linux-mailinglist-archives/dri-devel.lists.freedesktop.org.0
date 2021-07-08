@@ -1,58 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEDA43BFA2B
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Jul 2021 14:28:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DECCD3BFA32
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Jul 2021 14:29:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D76689F92;
-	Thu,  8 Jul 2021 12:28:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6664889FF7;
+	Thu,  8 Jul 2021 12:28:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
- [IPv6:2a00:1450:4864:20::130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E06589E69
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
+ [IPv6:2a00:1450:4864:20::12a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F0E3389F3C
  for <dri-devel@lists.freedesktop.org>; Thu,  8 Jul 2021 12:28:48 +0000 (UTC)
-Received: by mail-lf1-x130.google.com with SMTP id y42so15012830lfa.3
- for <dri-devel@lists.freedesktop.org>; Thu, 08 Jul 2021 05:28:47 -0700 (PDT)
+Received: by mail-lf1-x12a.google.com with SMTP id c28so14876603lfp.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 08 Jul 2021 05:28:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=UCJnS1rL4Te0Hge9kx9H1CbRrPMlxrguIkxv/dVH7oY=;
- b=kSkDxDzTb7LcV6XQx41n9Sv2K7L1QLothcocJ760HBjP8eXD2FZ0QzI044lIqMETBe
- yreRl+qXmStTXJTWJsJJXw/kA9Yso6J2R/Og0x0PYIFIS0/hpEIBxR0KsoJtwUxSw0d7
- Z0ECnRjOi1kySscEikz3CFKxcFFKKtJQT0lEQ1DBpID+2+abMcqlTPKCFIZr057AuNqH
- 3tC90uw0Voo5fzUE9nRBbxcDzvSSswh5vgEVMYUWUYlDghqtVGuuBYnYaiRUhywgkft4
- 9HTaaZAI67GJtBl5w9w1pDpl2FK3/iu7S5Lnm84SRJ5O3HKfEF07A86hTZ/AKBxLXf8u
- ajbQ==
+ bh=l6Tvwf3xoH7/sKW24x0WPLkLwsCoiC0JQXnDLfOYpx0=;
+ b=Ym8xdd0zpaLdtDLGsapS7LnNKFLzjlmG6IYY99Z8LohDO3ARlw6HeJzepsMdNsgKhJ
+ QkVjytKfbklVhQr6/sBDWQcZvuBllIBbDgWc+QTfu5zBb8ZdF1G+mX8/65AEF7+fyyBs
+ zUoC1heVYRXt3PpAswnbryyXtTomO2s1dt7xNs6q3SEFuIqQiQf8P76R06SzXCwaeUjY
+ M9s2K3CtGNxoDlVCBf76mNZfvlxtLqAoLq/hQ3MalxdSKwjX/JNO3h78VdUgvDV0Svmr
+ Bj5Spm9Pk4PtEEuqtxHe9EBTdRiex4X3yLbLQj3EqECxX++veudA7OZRO8LFooMTImf7
+ xLPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=UCJnS1rL4Te0Hge9kx9H1CbRrPMlxrguIkxv/dVH7oY=;
- b=Yx46/aISTMcAmtexpXLjM7O4ED3RJD+xTeTMClyk7S/x0QaaOWHgwwIAgGXEDOFP13
- gvFe7zVYPtrpXxjlxOW2X0gv3SAXGaOwhfcgx7rpke5eMT4GRMmTLRQc6VPcGtzA5xst
- h+/fMaC0/XeoB1NQig5+dUI4FAOajjaCGEF9wBlFSi3W+QMqhyuLcodu4QLXq36hMzWu
- VvUHn1uEpdeOHjLIQgCXXUXdz/vIn3FXaR45F7h66TZd+irNqYUa0t8/49791gWz4GVc
- z9VNBQeozMgIlQU1kr/+RqzKrfksd3W1PHBwC9DNrkB/geJUZUTRvfezznjq0opKQk+c
- 68/A==
-X-Gm-Message-State: AOAM532+TBd4xu+gHjz8VERXM/S53bzM2giYCyxGcAiLe8N/1lqUrqB4
- Xpll7dwup/IIfa8PeYtllDnh0A==
-X-Google-Smtp-Source: ABdhPJxajSZIGV8qZm1pjSlqiI+emJpQ+yxmoer2aCcDmMzveS1WfSNlOpwBNnswsHJvSyNAyCUJHQ==
-X-Received: by 2002:a05:6512:3e0f:: with SMTP id
- i15mr23335751lfv.653.1625747326337; 
- Thu, 08 Jul 2021 05:28:46 -0700 (PDT)
+ bh=l6Tvwf3xoH7/sKW24x0WPLkLwsCoiC0JQXnDLfOYpx0=;
+ b=aQAiwNA9XcCfOQOLoXFSxPHgnp5+dWZaWm/o4Us3TTDRbBY6DoRGBsj7g8SNsaucrA
+ gXyXL1tbLQWSQ/LLbm4o6TaaMxb3EsCuInbgXKnYC3YZTHFanKdAw/AK0J7Lphs1cNDr
+ rA44VDpApBJFVVHAHVip9kPRUtaDTvtkcYuqLeespRaa1kvBkKKgDDuI4mKZaK9Fj1WU
+ pgKoJ+WD1jY703cUE4F/e3OXgld6ci/L9Tv2isNLdvGIVCoSKYMfYMZYm0Ht+/ONNbod
+ FhnHKCJ+1NhfzmK5f+Qo4nxk1SBN/GHAKfmMsmojhaPFlK8Rhj5fLf9qrhg4SSDU0Vi6
+ sDlw==
+X-Gm-Message-State: AOAM5335aoM8DarMFMShvuVc1pV/VtoB4EjoMcm7BT/i2ze+0YuKqGjg
+ 77gdycoxYpy6ukzBuE6vS8d2Sg==
+X-Google-Smtp-Source: ABdhPJzEfOJVq5A5kdg951Le/yAMr86nnWrbCz4Ib4qUGNqL9G4n/hWpYIVfcPH/gHNDTI8EzYSTTg==
+X-Received: by 2002:a05:6512:34c3:: with SMTP id
+ w3mr6804851lfr.615.1625747327054; 
+ Thu, 08 Jul 2021 05:28:47 -0700 (PDT)
 Received: from eriador.lan ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id f1sm184368lfs.211.2021.07.08.05.28.45
+ by smtp.gmail.com with ESMTPSA id f1sm184368lfs.211.2021.07.08.05.28.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 08 Jul 2021 05:28:46 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Bjorn Andersson <bjorn.andersson@linaro.org>,
  Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Abhinav Kumar <abhinavk@codeaurora.org>
-Subject: [PATCH v1 1/7] drm/msm/dsi: rename dual DSI to bonded DSI
-Date: Thu,  8 Jul 2021 15:28:27 +0300
-Message-Id: <20210708122833.363451-2-dmitry.baryshkov@linaro.org>
+Subject: [PATCH v1 2/7] drm/msm/dsi: add two helper functions
+Date: Thu,  8 Jul 2021 15:28:28 +0300
+Message-Id: <20210708122833.363451-3-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210708122833.363451-1-dmitry.baryshkov@linaro.org>
 References: <20210708122833.363451-1-dmitry.baryshkov@linaro.org>
@@ -76,457 +76,107 @@ Cc: Jonathan Marek <jonathan@marek.ca>, Stephen Boyd <sboyd@kernel.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We are preparing to support two independent DSI hosts in the DSI/DPU
-code. To remove possible confusion (as both configurations can be
-referenced as dual DSI) let's rename old "dual DSI" (two DSI hosts
-driving single device, with clocks being locked) to "bonded DSI".
+Add two helper functions to be used by display drivers for setting up
+encoders.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/dsi/dsi.h         |  8 ++--
- drivers/gpu/drm/msm/dsi/dsi_cfg.h     |  2 +-
- drivers/gpu/drm/msm/dsi/dsi_host.c    | 30 ++++++------
- drivers/gpu/drm/msm/dsi/dsi_manager.c | 69 +++++++++++++--------------
- 4 files changed, 54 insertions(+), 55 deletions(-)
+ drivers/gpu/drm/msm/dsi/dsi.c         |  7 +++++++
+ drivers/gpu/drm/msm/dsi/dsi_manager.c | 14 ++++++--------
+ drivers/gpu/drm/msm/msm_drv.h         | 12 ++++++++++--
+ 3 files changed, 23 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/dsi/dsi.h b/drivers/gpu/drm/msm/dsi/dsi.h
-index 9b8e9b07eced..856a532850c0 100644
---- a/drivers/gpu/drm/msm/dsi/dsi.h
-+++ b/drivers/gpu/drm/msm/dsi/dsi.h
-@@ -109,7 +109,7 @@ int msm_dsi_host_enable(struct mipi_dsi_host *host);
- int msm_dsi_host_disable(struct mipi_dsi_host *host);
- int msm_dsi_host_power_on(struct mipi_dsi_host *host,
- 			struct msm_dsi_phy_shared_timings *phy_shared_timings,
--			bool is_dual_dsi);
-+			bool is_bonded_dsi);
- int msm_dsi_host_power_off(struct mipi_dsi_host *host);
- int msm_dsi_host_set_display_mode(struct mipi_dsi_host *host,
- 				  const struct drm_display_mode *mode);
-@@ -123,7 +123,7 @@ int msm_dsi_host_set_src_pll(struct mipi_dsi_host *host,
- void msm_dsi_host_reset_phy(struct mipi_dsi_host *host);
- void msm_dsi_host_get_phy_clk_req(struct mipi_dsi_host *host,
- 	struct msm_dsi_phy_clk_request *clk_req,
--	bool is_dual_dsi);
-+	bool is_bonded_dsi);
- void msm_dsi_host_destroy(struct mipi_dsi_host *host);
- int msm_dsi_host_modeset_init(struct mipi_dsi_host *host,
- 					struct drm_device *dev);
-@@ -145,8 +145,8 @@ int dsi_dma_base_get_6g(struct msm_dsi_host *msm_host, uint64_t *iova);
- int dsi_dma_base_get_v2(struct msm_dsi_host *msm_host, uint64_t *iova);
- int dsi_clk_init_v2(struct msm_dsi_host *msm_host);
- int dsi_clk_init_6g_v2(struct msm_dsi_host *msm_host);
--int dsi_calc_clk_rate_v2(struct msm_dsi_host *msm_host, bool is_dual_dsi);
--int dsi_calc_clk_rate_6g(struct msm_dsi_host *msm_host, bool is_dual_dsi);
-+int dsi_calc_clk_rate_v2(struct msm_dsi_host *msm_host, bool is_bonded_dsi);
-+int dsi_calc_clk_rate_6g(struct msm_dsi_host *msm_host, bool is_bonded_dsi);
- void msm_dsi_host_snapshot(struct msm_disp_state *disp_state, struct mipi_dsi_host *host);
- /* dsi phy */
- struct msm_dsi_phy;
-diff --git a/drivers/gpu/drm/msm/dsi/dsi_cfg.h b/drivers/gpu/drm/msm/dsi/dsi_cfg.h
-index ade9b609c7d9..2bce00d5a9fc 100644
---- a/drivers/gpu/drm/msm/dsi/dsi_cfg.h
-+++ b/drivers/gpu/drm/msm/dsi/dsi_cfg.h
-@@ -47,7 +47,7 @@ struct msm_dsi_host_cfg_ops {
- 	void* (*tx_buf_get)(struct msm_dsi_host *msm_host);
- 	void (*tx_buf_put)(struct msm_dsi_host *msm_host);
- 	int (*dma_base_get)(struct msm_dsi_host *msm_host, uint64_t *iova);
--	int (*calc_clk_rate)(struct msm_dsi_host *msm_host, bool is_dual_dsi);
-+	int (*calc_clk_rate)(struct msm_dsi_host *msm_host, bool is_bonded_dsi);
- };
- 
- struct msm_dsi_cfg_handler {
-diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
-index ed504fe5074f..eb988faddbbf 100644
---- a/drivers/gpu/drm/msm/dsi/dsi_host.c
-+++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
-@@ -679,7 +679,7 @@ void dsi_link_clk_disable_v2(struct msm_dsi_host *msm_host)
- 	clk_disable_unprepare(msm_host->byte_clk);
+diff --git a/drivers/gpu/drm/msm/dsi/dsi.c b/drivers/gpu/drm/msm/dsi/dsi.c
+index 75afc12a7b25..5201d7eb0490 100644
+--- a/drivers/gpu/drm/msm/dsi/dsi.c
++++ b/drivers/gpu/drm/msm/dsi/dsi.c
+@@ -13,6 +13,13 @@ struct drm_encoder *msm_dsi_get_encoder(struct msm_dsi *msm_dsi)
+ 	return msm_dsi->encoder;
  }
  
--static u32 dsi_get_pclk_rate(struct msm_dsi_host *msm_host, bool is_dual_dsi)
-+static u32 dsi_get_pclk_rate(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
++bool msm_dsi_is_cmd_mode(struct msm_dsi *msm_dsi)
++{
++	unsigned long host_flags = msm_dsi_host_get_mode_flags(msm_dsi->host);
++
++	return !(host_flags & MIPI_DSI_MODE_VIDEO);
++}
++
+ static int dsi_get_phy(struct msm_dsi *msm_dsi)
  {
- 	struct drm_display_mode *mode = msm_host->mode;
- 	u32 pclk_rate;
-@@ -692,17 +692,17 @@ static u32 dsi_get_pclk_rate(struct msm_dsi_host *msm_host, bool is_dual_dsi)
- 	 * the clock rates have to be split between the two dsi controllers.
- 	 * Adjust the byte and pixel clock rates for each dsi host accordingly.
- 	 */
--	if (is_dual_dsi)
-+	if (is_bonded_dsi)
- 		pclk_rate /= 2;
- 
- 	return pclk_rate;
- }
- 
--static void dsi_calc_pclk(struct msm_dsi_host *msm_host, bool is_dual_dsi)
-+static void dsi_calc_pclk(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
- {
- 	u8 lanes = msm_host->lanes;
- 	u32 bpp = dsi_get_bpp(msm_host->format);
--	u32 pclk_rate = dsi_get_pclk_rate(msm_host, is_dual_dsi);
-+	u32 pclk_rate = dsi_get_pclk_rate(msm_host, is_bonded_dsi);
- 	u64 pclk_bpp = (u64)pclk_rate * bpp;
- 
- 	if (lanes == 0) {
-@@ -720,28 +720,28 @@ static void dsi_calc_pclk(struct msm_dsi_host *msm_host, bool is_dual_dsi)
- 
- }
- 
--int dsi_calc_clk_rate_6g(struct msm_dsi_host *msm_host, bool is_dual_dsi)
-+int dsi_calc_clk_rate_6g(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
- {
- 	if (!msm_host->mode) {
- 		pr_err("%s: mode not set\n", __func__);
- 		return -EINVAL;
- 	}
- 
--	dsi_calc_pclk(msm_host, is_dual_dsi);
-+	dsi_calc_pclk(msm_host, is_bonded_dsi);
- 	msm_host->esc_clk_rate = clk_get_rate(msm_host->esc_clk);
- 	return 0;
- }
- 
--int dsi_calc_clk_rate_v2(struct msm_dsi_host *msm_host, bool is_dual_dsi)
-+int dsi_calc_clk_rate_v2(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
- {
- 	u32 bpp = dsi_get_bpp(msm_host->format);
- 	u64 pclk_bpp;
- 	unsigned int esc_mhz, esc_div;
- 	unsigned long byte_mhz;
- 
--	dsi_calc_pclk(msm_host, is_dual_dsi);
-+	dsi_calc_pclk(msm_host, is_bonded_dsi);
- 
--	pclk_bpp = (u64)dsi_get_pclk_rate(msm_host, is_dual_dsi) * bpp;
-+	pclk_bpp = (u64)dsi_get_pclk_rate(msm_host, is_bonded_dsi) * bpp;
- 	do_div(pclk_bpp, 8);
- 	msm_host->src_clk_rate = pclk_bpp;
- 
-@@ -938,7 +938,7 @@ static void dsi_ctrl_config(struct msm_dsi_host *msm_host, bool enable,
- 	dsi_write(msm_host, REG_DSI_CTRL, data);
- }
- 
--static void dsi_timing_setup(struct msm_dsi_host *msm_host, bool is_dual_dsi)
-+static void dsi_timing_setup(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
- {
- 	struct drm_display_mode *mode = msm_host->mode;
- 	u32 hs_start = 0, vs_start = 0; /* take sync start as 0 */
-@@ -962,7 +962,7 @@ static void dsi_timing_setup(struct msm_dsi_host *msm_host, bool is_dual_dsi)
- 	 * timings have to be split between the two dsi controllers.
- 	 * Adjust the DSI host timing values accordingly.
- 	 */
--	if (is_dual_dsi) {
-+	if (is_bonded_dsi) {
- 		h_total /= 2;
- 		hs_end /= 2;
- 		ha_start /= 2;
-@@ -2285,13 +2285,13 @@ void msm_dsi_host_reset_phy(struct mipi_dsi_host *host)
- 
- void msm_dsi_host_get_phy_clk_req(struct mipi_dsi_host *host,
- 			struct msm_dsi_phy_clk_request *clk_req,
--			bool is_dual_dsi)
-+			bool is_bonded_dsi)
- {
- 	struct msm_dsi_host *msm_host = to_msm_dsi_host(host);
- 	const struct msm_dsi_cfg_handler *cfg_hnd = msm_host->cfg_hnd;
- 	int ret;
- 
--	ret = cfg_hnd->ops->calc_clk_rate(msm_host, is_dual_dsi);
-+	ret = cfg_hnd->ops->calc_clk_rate(msm_host, is_bonded_dsi);
- 	if (ret) {
- 		pr_err("%s: unable to calc clk rate, %d\n", __func__, ret);
- 		return;
-@@ -2354,7 +2354,7 @@ static void msm_dsi_sfpb_config(struct msm_dsi_host *msm_host, bool enable)
- 
- int msm_dsi_host_power_on(struct mipi_dsi_host *host,
- 			struct msm_dsi_phy_shared_timings *phy_shared_timings,
--			bool is_dual_dsi)
-+			bool is_bonded_dsi)
- {
- 	struct msm_dsi_host *msm_host = to_msm_dsi_host(host);
- 	const struct msm_dsi_cfg_handler *cfg_hnd = msm_host->cfg_hnd;
-@@ -2392,7 +2392,7 @@ int msm_dsi_host_power_on(struct mipi_dsi_host *host,
- 		goto fail_disable_clk;
- 	}
- 
--	dsi_timing_setup(msm_host, is_dual_dsi);
-+	dsi_timing_setup(msm_host, is_bonded_dsi);
- 	dsi_sw_reset(msm_host);
- 	dsi_ctrl_config(msm_host, true, phy_shared_timings);
- 
+ 	struct platform_device *pdev = msm_dsi->pdev;
 diff --git a/drivers/gpu/drm/msm/dsi/dsi_manager.c b/drivers/gpu/drm/msm/dsi/dsi_manager.c
-index 4ebfedc4a9ac..1173663c6d5d 100644
+index 1173663c6d5d..a81105633d3c 100644
 --- a/drivers/gpu/drm/msm/dsi/dsi_manager.c
 +++ b/drivers/gpu/drm/msm/dsi/dsi_manager.c
-@@ -21,14 +21,14 @@
- struct msm_dsi_manager {
- 	struct msm_dsi *dsi[DSI_MAX];
- 
--	bool is_dual_dsi;
-+	bool is_bonded_dsi;
- 	bool is_sync_needed;
- 	int master_dsi_link_id;
- };
- 
- static struct msm_dsi_manager msm_dsim_glb;
- 
--#define IS_DUAL_DSI()		(msm_dsim_glb.is_dual_dsi)
-+#define IS_BONDED_DSI()		(msm_dsim_glb.is_bonded_dsi)
- #define IS_SYNC_NEEDED()	(msm_dsim_glb.is_sync_needed)
- #define IS_MASTER_DSI_LINK(id)	(msm_dsim_glb.master_dsi_link_id == id)
- 
-@@ -42,18 +42,17 @@ static inline struct msm_dsi *dsi_mgr_get_other_dsi(int id)
- 	return msm_dsim_glb.dsi[(id + 1) % DSI_MAX];
+@@ -216,12 +216,6 @@ static int dsi_mgr_bridge_get_id(struct drm_bridge *bridge)
+ 	return dsi_bridge->id;
  }
  
--static int dsi_mgr_parse_dual_dsi(struct device_node *np, int id)
-+static int dsi_mgr_parse_of(struct device_node *np, int id)
+-static bool dsi_mgr_is_cmd_mode(struct msm_dsi *msm_dsi)
+-{
+-	unsigned long host_flags = msm_dsi_host_get_mode_flags(msm_dsi->host);
+-	return !(host_flags & MIPI_DSI_MODE_VIDEO);
+-}
+-
+ void msm_dsi_manager_setup_encoder(int id)
  {
- 	struct msm_dsi_manager *msm_dsim = &msm_dsim_glb;
- 
- 	/* We assume 2 dsi nodes have the same information of dual-dsi and
- 	 * sync-mode, and only one node specifies master in case of dual mode.
- 	 */
--	if (!msm_dsim->is_dual_dsi)
--		msm_dsim->is_dual_dsi = of_property_read_bool(
--						np, "qcom,dual-dsi-mode");
-+	if (!msm_dsim->is_bonded_dsi)
-+		msm_dsim->is_bonded_dsi = of_property_read_bool(np, "qcom,dual-dsi-mode");
- 
--	if (msm_dsim->is_dual_dsi) {
-+	if (msm_dsim->is_bonded_dsi) {
- 		if (of_property_read_bool(np, "qcom,master-dsi"))
- 			msm_dsim->master_dsi_link_id = id;
- 		if (!msm_dsim->is_sync_needed)
-@@ -72,7 +71,7 @@ static int dsi_mgr_setup_components(int id)
- 	struct msm_dsi *clk_slave_dsi = dsi_mgr_get_dsi(DSI_CLOCK_SLAVE);
- 	int ret;
- 
--	if (!IS_DUAL_DSI()) {
-+	if (!IS_BONDED_DSI()) {
- 		ret = msm_dsi_host_register(msm_dsi->host, true);
- 		if (ret)
- 			return ret;
-@@ -119,9 +118,9 @@ static int enable_phy(struct msm_dsi *msm_dsi,
- {
- 	struct msm_dsi_phy_clk_request clk_req;
- 	int ret;
--	bool is_dual_dsi = IS_DUAL_DSI();
-+	bool is_bonded_dsi = IS_BONDED_DSI();
- 
--	msm_dsi_host_get_phy_clk_req(msm_dsi->host, &clk_req, is_dual_dsi);
-+	msm_dsi_host_get_phy_clk_req(msm_dsi->host, &clk_req, is_bonded_dsi);
- 
- 	ret = msm_dsi_phy_enable(msm_dsi->phy, &clk_req);
- 	msm_dsi_phy_get_shared_timings(msm_dsi->phy, shared_timings);
-@@ -143,7 +142,7 @@ dsi_mgr_phy_enable(int id,
- 	 * will silently reset those PHY1 registers. Therefore we need to reset
- 	 * and enable both PHYs before any PLL clock operation.
- 	 */
--	if (IS_DUAL_DSI() && mdsi && sdsi) {
-+	if (IS_BONDED_DSI() && mdsi && sdsi) {
- 		if (!mdsi->phy_enabled && !sdsi->phy_enabled) {
- 			msm_dsi_host_reset_phy(mdsi->host);
- 			msm_dsi_host_reset_phy(sdsi->host);
-@@ -182,7 +181,7 @@ static void dsi_mgr_phy_disable(int id)
- 	 * first controller only when the second controller is disabled.
- 	 */
- 	msm_dsi->phy_enabled = false;
--	if (IS_DUAL_DSI() && mdsi && sdsi) {
-+	if (IS_BONDED_DSI() && mdsi && sdsi) {
- 		if (!mdsi->phy_enabled && !sdsi->phy_enabled) {
- 			msm_dsi_phy_disable(sdsi->phy);
- 			msm_dsi_phy_disable(mdsi->phy);
-@@ -244,7 +243,7 @@ static int msm_dsi_manager_panel_init(struct drm_connector *conn, u8 id)
- 	struct msm_dsi *master_dsi, *slave_dsi;
- 	struct drm_panel *panel;
- 
--	if (IS_DUAL_DSI() && !IS_MASTER_DSI_LINK(id)) {
-+	if (IS_BONDED_DSI() && !IS_MASTER_DSI_LINK(id)) {
- 		master_dsi = other_dsi;
- 		slave_dsi = msm_dsi;
- 	} else {
-@@ -264,7 +263,7 @@ static int msm_dsi_manager_panel_init(struct drm_connector *conn, u8 id)
- 		return PTR_ERR(panel);
- 	}
- 
--	if (!panel || !IS_DUAL_DSI())
-+	if (!panel || !IS_BONDED_DSI())
- 		goto out;
- 
- 	drm_object_attach_property(&conn->base,
-@@ -366,7 +365,7 @@ static void dsi_mgr_bridge_pre_enable(struct drm_bridge *bridge)
- 	struct mipi_dsi_host *host = msm_dsi->host;
- 	struct drm_panel *panel = msm_dsi->panel;
- 	struct msm_dsi_phy_shared_timings phy_shared_timings[DSI_MAX];
--	bool is_dual_dsi = IS_DUAL_DSI();
-+	bool is_bonded_dsi = IS_BONDED_DSI();
- 	int ret;
- 
- 	DBG("id=%d", id);
-@@ -374,22 +373,22 @@ static void dsi_mgr_bridge_pre_enable(struct drm_bridge *bridge)
- 		return;
- 
- 	/* Do nothing with the host if it is slave-DSI in case of dual DSI */
--	if (is_dual_dsi && !IS_MASTER_DSI_LINK(id))
-+	if (is_bonded_dsi && !IS_MASTER_DSI_LINK(id))
- 		return;
- 
- 	ret = dsi_mgr_phy_enable(id, phy_shared_timings);
- 	if (ret)
- 		goto phy_en_fail;
- 
--	ret = msm_dsi_host_power_on(host, &phy_shared_timings[id], is_dual_dsi);
-+	ret = msm_dsi_host_power_on(host, &phy_shared_timings[id], is_bonded_dsi);
- 	if (ret) {
- 		pr_err("%s: power on host %d failed, %d\n", __func__, id, ret);
- 		goto host_on_fail;
- 	}
- 
--	if (is_dual_dsi && msm_dsi1) {
-+	if (is_bonded_dsi && msm_dsi1) {
- 		ret = msm_dsi_host_power_on(msm_dsi1->host,
--				&phy_shared_timings[DSI_1], is_dual_dsi);
-+				&phy_shared_timings[DSI_1], is_bonded_dsi);
- 		if (ret) {
- 			pr_err("%s: power on host1 failed, %d\n",
- 							__func__, ret);
-@@ -415,7 +414,7 @@ static void dsi_mgr_bridge_pre_enable(struct drm_bridge *bridge)
- 		goto host_en_fail;
- 	}
- 
--	if (is_dual_dsi && msm_dsi1) {
-+	if (is_bonded_dsi && msm_dsi1) {
- 		ret = msm_dsi_host_enable(msm_dsi1->host);
- 		if (ret) {
- 			pr_err("%s: enable host1 failed, %d\n", __func__, ret);
-@@ -431,7 +430,7 @@ static void dsi_mgr_bridge_pre_enable(struct drm_bridge *bridge)
- 	if (panel)
- 		drm_panel_unprepare(panel);
- panel_prep_fail:
--	if (is_dual_dsi && msm_dsi1)
-+	if (is_bonded_dsi && msm_dsi1)
- 		msm_dsi_host_power_off(msm_dsi1->host);
- host1_on_fail:
- 	msm_dsi_host_power_off(host);
-@@ -446,7 +445,7 @@ static void dsi_mgr_bridge_enable(struct drm_bridge *bridge)
- 	int id = dsi_mgr_bridge_get_id(bridge);
  	struct msm_dsi *msm_dsi = dsi_mgr_get_dsi(id);
- 	struct drm_panel *panel = msm_dsi->panel;
--	bool is_dual_dsi = IS_DUAL_DSI();
-+	bool is_bonded_dsi = IS_BONDED_DSI();
- 	int ret;
+@@ -231,7 +225,7 @@ void msm_dsi_manager_setup_encoder(int id)
  
- 	DBG("id=%d", id);
-@@ -454,7 +453,7 @@ static void dsi_mgr_bridge_enable(struct drm_bridge *bridge)
- 		return;
- 
- 	/* Do nothing with the host if it is slave-DSI in case of dual DSI */
--	if (is_dual_dsi && !IS_MASTER_DSI_LINK(id))
-+	if (is_bonded_dsi && !IS_MASTER_DSI_LINK(id))
- 		return;
- 
- 	if (panel) {
-@@ -471,7 +470,7 @@ static void dsi_mgr_bridge_disable(struct drm_bridge *bridge)
- 	int id = dsi_mgr_bridge_get_id(bridge);
- 	struct msm_dsi *msm_dsi = dsi_mgr_get_dsi(id);
- 	struct drm_panel *panel = msm_dsi->panel;
--	bool is_dual_dsi = IS_DUAL_DSI();
-+	bool is_bonded_dsi = IS_BONDED_DSI();
- 	int ret;
- 
- 	DBG("id=%d", id);
-@@ -479,7 +478,7 @@ static void dsi_mgr_bridge_disable(struct drm_bridge *bridge)
- 		return;
- 
- 	/* Do nothing with the host if it is slave-DSI in case of dual DSI */
--	if (is_dual_dsi && !IS_MASTER_DSI_LINK(id))
-+	if (is_bonded_dsi && !IS_MASTER_DSI_LINK(id))
- 		return;
- 
- 	if (panel) {
-@@ -497,7 +496,7 @@ static void dsi_mgr_bridge_post_disable(struct drm_bridge *bridge)
- 	struct msm_dsi *msm_dsi1 = dsi_mgr_get_dsi(DSI_1);
- 	struct mipi_dsi_host *host = msm_dsi->host;
- 	struct drm_panel *panel = msm_dsi->panel;
--	bool is_dual_dsi = IS_DUAL_DSI();
-+	bool is_bonded_dsi = IS_BONDED_DSI();
- 	int ret;
- 
- 	DBG("id=%d", id);
-@@ -510,14 +509,14 @@ static void dsi_mgr_bridge_post_disable(struct drm_bridge *bridge)
- 	 * It is safe to call dsi_mgr_phy_disable() here because a single PHY
- 	 * won't be diabled until both PHYs request disable.
- 	 */
--	if (is_dual_dsi && !IS_MASTER_DSI_LINK(id))
-+	if (is_bonded_dsi && !IS_MASTER_DSI_LINK(id))
- 		goto disable_phy;
- 
- 	ret = msm_dsi_host_disable(host);
- 	if (ret)
- 		pr_err("%s: host %d disable failed, %d\n", __func__, id, ret);
- 
--	if (is_dual_dsi && msm_dsi1) {
-+	if (is_bonded_dsi && msm_dsi1) {
- 		ret = msm_dsi_host_disable(msm_dsi1->host);
- 		if (ret)
- 			pr_err("%s: host1 disable failed, %d\n", __func__, ret);
-@@ -537,7 +536,7 @@ static void dsi_mgr_bridge_post_disable(struct drm_bridge *bridge)
- 	if (ret)
- 		pr_err("%s: host %d power off failed,%d\n", __func__, id, ret);
- 
--	if (is_dual_dsi && msm_dsi1) {
-+	if (is_bonded_dsi && msm_dsi1) {
- 		ret = msm_dsi_host_power_off(msm_dsi1->host);
- 		if (ret)
- 			pr_err("%s: host1 power off failed, %d\n",
-@@ -556,15 +555,15 @@ static void dsi_mgr_bridge_mode_set(struct drm_bridge *bridge,
- 	struct msm_dsi *msm_dsi = dsi_mgr_get_dsi(id);
- 	struct msm_dsi *other_dsi = dsi_mgr_get_other_dsi(id);
- 	struct mipi_dsi_host *host = msm_dsi->host;
--	bool is_dual_dsi = IS_DUAL_DSI();
-+	bool is_bonded_dsi = IS_BONDED_DSI();
- 
- 	DBG("set mode: " DRM_MODE_FMT, DRM_MODE_ARG(mode));
- 
--	if (is_dual_dsi && !IS_MASTER_DSI_LINK(id))
-+	if (is_bonded_dsi && !IS_MASTER_DSI_LINK(id))
- 		return;
- 
- 	msm_dsi_host_set_display_mode(host, adjusted_mode);
--	if (is_dual_dsi && other_dsi)
-+	if (is_bonded_dsi && other_dsi)
- 		msm_dsi_host_set_display_mode(other_dsi->host, adjusted_mode);
+ 	if (encoder && kms->funcs->set_encoder_mode)
+ 		kms->funcs->set_encoder_mode(kms, encoder,
+-					     dsi_mgr_is_cmd_mode(msm_dsi));
++					     msm_dsi_is_cmd_mode(msm_dsi));
  }
  
-@@ -640,7 +639,7 @@ struct drm_connector *msm_dsi_manager_connector_init(u8 id)
- 
- bool msm_dsi_manager_validate_current_config(u8 id)
- {
--	bool is_dual_dsi = IS_DUAL_DSI();
-+	bool is_bonded_dsi = IS_BONDED_DSI();
- 
- 	/*
- 	 * For dual DSI, we only have one drm panel. For this
-@@ -648,7 +647,7 @@ bool msm_dsi_manager_validate_current_config(u8 id)
- 	 * Skip bridge/connector initialisation if it is
- 	 * slave-DSI for dual DSI configuration.
- 	 */
--	if (is_dual_dsi && !IS_MASTER_DSI_LINK(id)) {
-+	if (is_bonded_dsi && !IS_MASTER_DSI_LINK(id)) {
- 		DBG("Skip bridge registration for slave DSI->id: %d\n", id);
- 		return false;
+ static int msm_dsi_manager_panel_init(struct drm_connector *conn, u8 id)
+@@ -276,7 +270,7 @@ static int msm_dsi_manager_panel_init(struct drm_connector *conn, u8 id)
+ 	if (other_dsi && other_dsi->panel && kms->funcs->set_split_display) {
+ 		kms->funcs->set_split_display(kms, master_dsi->encoder,
+ 					      slave_dsi->encoder,
+-					      dsi_mgr_is_cmd_mode(msm_dsi));
++					      msm_dsi_is_cmd_mode(msm_dsi));
  	}
-@@ -809,7 +808,7 @@ int msm_dsi_manager_register(struct msm_dsi *msm_dsi)
  
- 	msm_dsim->dsi[id] = msm_dsi;
+ out:
+@@ -839,3 +833,7 @@ void msm_dsi_manager_unregister(struct msm_dsi *msm_dsi)
+ 		msm_dsim->dsi[msm_dsi->id] = NULL;
+ }
  
--	ret = dsi_mgr_parse_dual_dsi(msm_dsi->pdev->dev.of_node, id);
-+	ret = dsi_mgr_parse_of(msm_dsi->pdev->dev.of_node, id);
- 	if (ret) {
- 		pr_err("%s: failed to parse dual DSI info\n", __func__);
- 		goto fail;
++bool msm_dsi_is_bonded_dsi(struct msm_dsi *msm_dsi)
++{
++	return IS_BONDED_DSI();
++}
+diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
+index 1a48a709ffb3..e0528dfd965e 100644
+--- a/drivers/gpu/drm/msm/msm_drv.h
++++ b/drivers/gpu/drm/msm/msm_drv.h
+@@ -350,7 +350,8 @@ void __exit msm_dsi_unregister(void);
+ int msm_dsi_modeset_init(struct msm_dsi *msm_dsi, struct drm_device *dev,
+ 			 struct drm_encoder *encoder);
+ void msm_dsi_snapshot(struct msm_disp_state *disp_state, struct msm_dsi *msm_dsi);
+-
++bool msm_dsi_is_cmd_mode(struct msm_dsi *msm_dsi);
++bool msm_dsi_is_bonded_dsi(struct msm_dsi *msm_dsi);
+ #else
+ static inline void __init msm_dsi_register(void)
+ {
+@@ -367,7 +368,14 @@ static inline int msm_dsi_modeset_init(struct msm_dsi *msm_dsi,
+ static inline void msm_dsi_snapshot(struct msm_disp_state *disp_state, struct msm_dsi *msm_dsi)
+ {
+ }
+-
++static inline bool msm_dsi_is_cmd_mode(struct msm_dsi *msm_dsi)
++{
++	return false;
++}
++static bool msm_dsi_is_bonded_dsi(struct msm_dsi *msm_dsi)
++{
++	return false;
++}
+ #endif
+ 
+ #ifdef CONFIG_DRM_MSM_DP
 -- 
 2.30.2
 
