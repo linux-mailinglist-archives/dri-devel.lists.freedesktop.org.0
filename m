@@ -2,34 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A33563C2255
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Jul 2021 12:41:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C6093C2286
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Jul 2021 13:03:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6513E6EA0B;
-	Fri,  9 Jul 2021 10:41:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 102216EA08;
+	Fri,  9 Jul 2021 11:03:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E2AC6EA0A;
- Fri,  9 Jul 2021 10:41:27 +0000 (UTC)
-Received: from ironmsg08-lv.qualcomm.com ([10.47.202.152])
- by alexa-out.qualcomm.com with ESMTP; 09 Jul 2021 03:41:25 -0700
-X-QCInternal: smtphost
-Received: from ironmsg02-blr.qualcomm.com ([10.86.208.131])
- by ironmsg08-lv.qualcomm.com with ESMTP/TLS/AES256-SHA;
- 09 Jul 2021 03:41:24 -0700
-X-QCInternal: smtphost
-Received: from kalyant-linux.qualcomm.com ([10.204.66.210])
- by ironmsg02-blr.qualcomm.com with ESMTP; 09 Jul 2021 16:10:51 +0530
-Received: by kalyant-linux.qualcomm.com (Postfix, from userid 94428)
- id 58BFB4B7F; Fri,  9 Jul 2021 03:40:49 -0700 (PDT)
-From: Kalyan Thota <kalyan_t@codeaurora.org>
-To: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
-Subject: [v1] drm/msm/disp/dpu1: add safe lut config in dpu driver
-Date: Fri,  9 Jul 2021 03:40:44 -0700
-Message-Id: <1625827244-23274-1-git-send-email-kalyan_t@codeaurora.org>
-X-Mailer: git-send-email 2.7.4
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com
+ [IPv6:2a00:1450:4864:20::334])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 689F96EA08
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Jul 2021 11:03:19 +0000 (UTC)
+Received: by mail-wm1-x334.google.com with SMTP id
+ k16-20020a05600c1c90b02901f4ed0fcfe7so6018174wms.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 09 Jul 2021 04:03:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=yUs8PRqylG5pw2F+BSj/uHB4lBzrI+dmhEpI9HrKsag=;
+ b=NYu6MKv1ag5T/qtvOwA/cfvzMKCB5yuwT5NiD6948QjCdLPrGjv0KsU4OvGQV67iP/
+ a/AHnu7lGmAKDDtYJMcjn9n6LBofnmB0biDO529GkiieIDco/Ik80e2BjJNc4zack0+X
+ ViAtQMG+4IDkQGuWEQ3/K0k2ehkLa/SQEIxxK/RFugV0cCM4T9AhKFEzG8kDTk9TflnD
+ fhyOvykMho/pOxVI+Gatlsj4yypkMMyGqujiHDaLqPaIXSEE+hAvI99TomM9PymBjVcT
+ faVdx8Bh1QbOhcSv1RNKlBmnRXcblW67iM/jObcqLHHOi4iYQtXXHeyJN8DbjoJbJkA7
+ mf6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=yUs8PRqylG5pw2F+BSj/uHB4lBzrI+dmhEpI9HrKsag=;
+ b=HFcH41AcAdh0aXkMRZioq9nPwiFlG2CdiANon+bFn473bgfwJHRI5o9EGvON4CqsUK
+ ocQlYdUrWsDzu6l35rdqQ0Enh/rAgRRMzxaBcbrUVUnzTW5FWPpOQhaXUH78DLPXqq00
+ nzncZfNx/7aJTwoBsva/FEJlol1NM4C6RiOYcaw/KijTQLOBbDDyX5UH4hFS1vanlG2K
+ 0a1xSypThTSI/4Xd4L4PXQFCBpobrIALaCWU190ZuqWVSRvVMehY9+n37DrcjtFlLKW/
+ sbCe2695X32gpab2GHTJJvvC44iEIA5Eid+W6HK8dVAo0lypaK0HXMuGgc0J7p5etFZi
+ SMBg==
+X-Gm-Message-State: AOAM530H+SBJ9HK1J51nr5HOY8WHMoJbqhge+6xhg9pTmWZr0h24IfZh
+ S7zH5iK90ABEZvTtBZEqV25SyQ==
+X-Google-Smtp-Source: ABdhPJyZQQZc0WhhxvN/Ijm638MsRc29LHo+mO3AHTNG3zDfdq5v1bDjYbFsAwqY6Suc0lXW4MlnuQ==
+X-Received: by 2002:a1c:7ec3:: with SMTP id z186mr38687689wmc.83.1625828598023; 
+ Fri, 09 Jul 2021 04:03:18 -0700 (PDT)
+Received: from maple.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net.
+ [80.7.220.175])
+ by smtp.gmail.com with ESMTPSA id v206sm4176653wmg.37.2021.07.09.04.03.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 09 Jul 2021 04:03:17 -0700 (PDT)
+Date: Fri, 9 Jul 2021 12:03:15 +0100
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: Marek Vasut <marex@denx.de>
+Subject: Re: [PATCH] video: backlight: Only set maximum brightness for
+ gpio-backlight
+Message-ID: <20210709110315.vv5hbngg26o4vj63@maple.lan>
+References: <20210708091058.56317-1-marex@denx.de>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210708091058.56317-1-marex@denx.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,75 +72,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mkrishn@codeaurora.org, saiprakash.ranjan@codeaurora.org,
- rnayak@codeaurora.org, dianders@chromium.org, linux-kernel@vger.kernel.org,
- Kalyan Thota <kalyan_t@codeaurora.org>
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
+ Sean Paul <seanpaul@chromium.org>,
+ Meghana Madhyastha <meghana.madhyastha@gmail.com>,
+ Thierry Reding <treding@nvidia.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add safe lut configuration for all the targets in dpu
-driver as per QOS recommendation.
+On Thu, Jul 08, 2021 at 11:10:58AM +0200, Marek Vasut wrote:
+> The note in c2adda27d202f ("video: backlight: Add of_find_backlight helper
+> in backlight.c") says that gpio-backlight uses brightness as power state.
+> Other backlight drivers do not, so limit this workaround to gpio-backlight.
+> 
+> This fixes the case where e.g. pwm-backlight can perfectly well be set to
+> brightness 0 on boot in DT, which without this patch leads to the display
+> brightness to be max instead of off.
+> 
+> Fixes: c2adda27d202f ("video: backlight: Add of_find_backlight helper in backlight.c")
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> Cc: Daniel Thompson <daniel.thompson@linaro.org>
+> Cc: Meghana Madhyastha <meghana.madhyastha@gmail.com>
+> Cc: Noralf Trønnes <noralf@tronnes.org>
+> Cc: Sean Paul <seanpaul@chromium.org>
+> Cc: Thierry Reding <treding@nvidia.com>
 
-Issue reported on SC7280:
+I have to admit that this patch really does makes it clear just how
+nasty the hack in of_find_backlight() currently is.
 
-With wait-for-safe feature in smmu enabled, RT client
-buffer levels are checked to be safe before smmu invalidation.
-Since display was always set to unsafe it was delaying the
-invalidaiton process thus impacting the performance on NRT clients
-such as eMMC and NVMe.
+Moreover I think it is also be obsolete. gpio-backlight power mode
+handling was pretty broken when this code was introduced. It was fixed
+in 2019 by ec665b756e6f ("backlight: gpio backlight: Correct initial
+power state handling") by trying to match the behaviour of PWM
+backlight.  The new code always sets the brightness to 1 so I think we
+can just remove the hack from of_find_backlight() since I think it is
+unreachable.
 
-Validated this change on SC7280, With this change eMMC performance
-has improved significantly.
 
-Signed-off-by: Kalyan Thota <kalyan_t@codeaurora.org>
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 5 +++++
- 1 file changed, 5 insertions(+)
+Daniel.
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-index d01c4c9..2e482cd 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-@@ -974,6 +974,7 @@ static const struct dpu_perf_cfg sdm845_perf_data = {
- 	.amortizable_threshold = 25,
- 	.min_prefill_lines = 24,
- 	.danger_lut_tbl = {0xf, 0xffff, 0x0},
-+	.safe_lut_tbl = {0xfff0, 0xf000, 0xffff},
- 	.qos_lut_tbl = {
- 		{.nentry = ARRAY_SIZE(sdm845_qos_linear),
- 		.entries = sdm845_qos_linear
-@@ -1001,6 +1002,7 @@ static const struct dpu_perf_cfg sc7180_perf_data = {
- 	.min_dram_ib = 1600000,
- 	.min_prefill_lines = 24,
- 	.danger_lut_tbl = {0xff, 0xffff, 0x0},
-+	.safe_lut_tbl = {0xfff0, 0xff00, 0xffff},
- 	.qos_lut_tbl = {
- 		{.nentry = ARRAY_SIZE(sc7180_qos_linear),
- 		.entries = sc7180_qos_linear
-@@ -1028,6 +1030,7 @@ static const struct dpu_perf_cfg sm8150_perf_data = {
- 	.min_dram_ib = 800000,
- 	.min_prefill_lines = 24,
- 	.danger_lut_tbl = {0xf, 0xffff, 0x0},
-+	.safe_lut_tbl = {0xfff8, 0xf000, 0xffff},
- 	.qos_lut_tbl = {
- 		{.nentry = ARRAY_SIZE(sm8150_qos_linear),
- 		.entries = sm8150_qos_linear
-@@ -1056,6 +1059,7 @@ static const struct dpu_perf_cfg sm8250_perf_data = {
- 	.min_dram_ib = 800000,
- 	.min_prefill_lines = 35,
- 	.danger_lut_tbl = {0xf, 0xffff, 0x0},
-+	.safe_lut_tbl = {0xfff0, 0xff00, 0xffff},
- 	.qos_lut_tbl = {
- 		{.nentry = ARRAY_SIZE(sc7180_qos_linear),
- 		.entries = sc7180_qos_linear
-@@ -1084,6 +1088,7 @@ static const struct dpu_perf_cfg sc7280_perf_data = {
- 	.min_dram_ib = 1600000,
- 	.min_prefill_lines = 24,
- 	.danger_lut_tbl = {0xffff, 0xffff, 0x0},
-+	.safe_lut_tbl = {0xff00, 0xff00, 0xffff},
- 	.qos_lut_tbl = {
- 		{.nentry = ARRAY_SIZE(sc7180_qos_macrotile),
- 		.entries = sc7180_qos_macrotile
--- 
-2.7.4
 
+
+> ---
+>  drivers/video/backlight/backlight.c | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/video/backlight/backlight.c b/drivers/video/backlight/backlight.c
+> index 537fe1b376ad7..dfb66171dec41 100644
+> --- a/drivers/video/backlight/backlight.c
+> +++ b/drivers/video/backlight/backlight.c
+> @@ -676,6 +676,7 @@ EXPORT_SYMBOL(of_find_backlight_by_node);
+>  static struct backlight_device *of_find_backlight(struct device *dev)
+>  {
+>  	struct backlight_device *bd = NULL;
+> +	bool is_gpio_backlight = false;
+>  	struct device_node *np;
+>  
+>  	if (!dev)
+> @@ -685,6 +686,8 @@ static struct backlight_device *of_find_backlight(struct device *dev)
+>  		np = of_parse_phandle(dev->of_node, "backlight", 0);
+>  		if (np) {
+>  			bd = of_find_backlight_by_node(np);
+> +			is_gpio_backlight =
+> +				of_device_is_compatible(np, "gpio-backlight");
+>  			of_node_put(np);
+>  			if (!bd)
+>  				return ERR_PTR(-EPROBE_DEFER);
+> @@ -692,7 +695,7 @@ static struct backlight_device *of_find_backlight(struct device *dev)
+>  			 * Note: gpio_backlight uses brightness as
+>  			 * power state during probe
+>  			 */
+> -			if (!bd->props.brightness)
+> +			if (is_gpio_backlight && !bd->props.brightness)
+>  				bd->props.brightness = bd->props.max_brightness;
+>  		}
+>  	}
+> -- 
+> 2.30.2
