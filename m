@@ -1,58 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B69563C2061
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Jul 2021 10:00:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E92B53C206B
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Jul 2021 10:02:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AAF286E9D6;
-	Fri,  9 Jul 2021 08:00:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B19B86E9D9;
+	Fri,  9 Jul 2021 08:02:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22a.google.com (mail-oi1-x22a.google.com
- [IPv6:2607:f8b0:4864:20::22a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1CFC56E9D4
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Jul 2021 08:00:26 +0000 (UTC)
-Received: by mail-oi1-x22a.google.com with SMTP id u66so5437634oif.13
- for <dri-devel@lists.freedesktop.org>; Fri, 09 Jul 2021 01:00:26 -0700 (PDT)
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
+ [IPv6:2a00:1450:4864:20::431])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CAD926E9D4
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Jul 2021 08:02:33 +0000 (UTC)
+Received: by mail-wr1-x431.google.com with SMTP id p8so10964535wrr.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 09 Jul 2021 01:02:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=4Tm6rbhq6rt9ho8Bl6eVvSWWbDirLBWL3poqengHkQM=;
- b=cWUbVFQufEddmU6NXf5u7WC6fcnvndpqVjZeZXeZCcSYX2cktBcUxUBwg089EwCYHi
- /Uu4s/ipVTMHCBSYXYMZrL+YnRvU8Mhf4EaJefC3korjw2voNxEbQstCk/sxVQ2slul0
- A5/rfvrOaX7XI91SNvVtG903grhYSoWEDhMyM=
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=BmTuoSrjVrvLnQBYawgcyJ5HdUbJDDYaqDoQW9Mc7SY=;
+ b=dR4HlZmdA8k5eONrJN/VaYgpUpSsX++4j7UioFUJCEayHxGuxa8z/QhPJO5IYdWxyH
+ zc7+WN2H5YJxt3ExBIjmC1mhMJjx71lJZfGIEiZLr1LPtFGh/iaBoy9uqGz/VNm32rpl
+ Ft1Q3tH36sMKvvmRSTHbGHD+hZy8xKNNKpDDI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=4Tm6rbhq6rt9ho8Bl6eVvSWWbDirLBWL3poqengHkQM=;
- b=ZpjTssovDVe46RVoR3xFV9QeZt/88ZpNh6qv+EJI12nR4yWOmTMj/gAmQZlrm3ksqW
- R2kpKy3D68vFdCpBLywnKwwRasyaCLeXrR7/YxkX92Cx95GentUSWQWFKQ3c8c0/DkGQ
- Z5/dvNt+HGSTg1DYRKgDV+ACZvKsyLxs9cbZt80i34FGf3stfoaU7kWBTpkwx2csCl86
- 67py/HVwl2aVhSuUE5xvEB1CPpkEZiIB9UuhZ7Iuq+b7xDltNOFsgCBDEM2nBA9VcjDW
- L5pYxHWL5V6AZkKvRekH1fMazf9S4sk1C9Gy/zeRg53xheGPvx06gMWP5Cg89mmwk3qn
- 6K9Q==
-X-Gm-Message-State: AOAM530ulJheq1KM5Ms6EO3vKmEsAAz5SNpO0iKXizK/s4f4ST4Q3E7V
- fibNEZDukKedFLoBF89yz3G3jCcc2QbwU9rbhgtaxg==
-X-Google-Smtp-Source: ABdhPJwpYZhP/rk5oEw1WXb6I1u345ELPS2Mya0mKaMsr52a+aV56mu3CTUMBnYv6GhYXipU5gPS4xgH0qXe9Ie58LQ=
-X-Received: by 2002:aca:f491:: with SMTP id
- s139mr21163595oih.128.1625817625401; 
- Fri, 09 Jul 2021 01:00:25 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=BmTuoSrjVrvLnQBYawgcyJ5HdUbJDDYaqDoQW9Mc7SY=;
+ b=SwtCPTgAa8y++EiEOvnN9afmMNL77WG3o02wllsl/M5yuazJNVlq+ay4dq5bn8GMiZ
+ ohFcMI2DtoWWmWJssycsxEdURF6nPYYWQhLMgWKs63zGZ5mx0sfC80HiH9VI7q2YhTO0
+ mses/LFaIViLooE8Q4kH8j3OV9Pf3nlcuNQrWJ/XkC29t71FsTN4VsPwo+GOa6z5ZvMy
+ fyS1cTGXK6+HxErAkMAE/ZepWemV/HqvPl+eibql1MZItIHzjwX+MW4TdLhz7l5sEObt
+ UzRCuUxQB6oY4N5KT+QWpVYE6hrArLINKPcmnOXs9HaB9esz05yN18m5Uqli4waYdqLo
+ 6KIQ==
+X-Gm-Message-State: AOAM533rAhk2cTWCJQtyTHjnbkw+H6MS6MawPh9/4jRbjBTSwYhIWIpi
+ dku4gNVgkonfpleT19RL30TUKg==
+X-Google-Smtp-Source: ABdhPJzIBkieQHc9PjOpsuJ6CI5QANcRmne2ZWNze4X1SeO0kkq8Z+AU42eLrjQVsNANiTFEkEMD4Q==
+X-Received: by 2002:a5d:6b8d:: with SMTP id n13mr9642717wrx.258.1625817752223; 
+ Fri, 09 Jul 2021 01:02:32 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id z13sm4701195wro.79.2021.07.09.01.02.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 09 Jul 2021 01:02:31 -0700 (PDT)
+Date: Fri, 9 Jul 2021 10:02:28 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Pekka Paalanen <ppaalanen@gmail.com>
+Subject: Re: [PATCH v5] Documentation: gpu: Mention the requirements for new
+ properties
+Message-ID: <YOgClII3UwckkPkb@phenom.ffwll.local>
+References: <20210706161244.1038592-1-maxime@cerno.tech>
+ <20210709102444.7a72a029@eldfell>
 MIME-Version: 1.0
-References: <20210708173754.3877540-1-daniel.vetter@ffwll.ch>
- <20210708173754.3877540-2-daniel.vetter@ffwll.ch>
- <5588d1c3-833b-bd95-69e6-a103f2e8affa@amd.com>
- <CAKMK7uFuqXdbvqDCerXHW5kiT=LUZEoyrjFMgHjkUQdS1eidDw@mail.gmail.com>
- <871a4619-8a17-134f-9d9c-40a522473946@amd.com>
-In-Reply-To: <871a4619-8a17-134f-9d9c-40a522473946@amd.com>
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Fri, 9 Jul 2021 10:00:14 +0200
-Message-ID: <CAKMK7uG8ODwoPz8ztBfn=iBn8iWUOfrMxPkauuAHc=XktoCeGA@mail.gmail.com>
-Subject: Re: [PATCH v3 01/20] drm/sched: entity->rq selection cannot fail
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210709102444.7a72a029@eldfell>
+X-Operating-System: Linux phenom 5.10.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,171 +67,170 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jack Zhang <Jack.Zhang1@amd.com>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Steven Price <steven.price@arm.com>, Luben Tuikov <luben.tuikov@amd.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Daniel Vetter <daniel.vetter@intel.com>
+Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, linux-doc@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Edmund Dea <edmund.j.dea@intel.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ dri-devel@lists.freedesktop.org, Russell King <linux@armlinux.org.uk>,
+ Melissa Wen <melissa.srw@gmail.com>, Eric Anholt <eric@anholt.net>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+ Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
+ Daniel Vetter <daniel.vetter@intel.com>, Steven Price <steven.price@arm.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Jyri Sarha <jyri.sarha@iki.fi>,
+ Jerome Brunet <jbrunet@baylibre.com>, Paul Cercueil <paul@crapouillou.net>,
+ Marek Vasut <marex@denx.de>, Joonyoung Shim <jy0922.shim@samsung.com>,
+ Qiang Yu <yuq825@gmail.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+ Kevin Hilman <khilman@baylibre.com>, Tomi Valkeinen <tomba@kernel.org>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Xinliang Liu <xinliang.liu@linaro.org>,
+ Ludovic Desroches <ludovic.desroches@microchip.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ VMware Graphics <linux-graphics-maintainer@vmware.com>,
+ NXP Linux Team <linux-imx@nxp.com>, Chen Feng <puck.chen@hisilicon.com>,
+ Liviu Dudau <liviu.dudau@arm.com>, Ben Skeggs <bskeggs@redhat.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Jonas Karlman <jonas@kwiboo.se>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Roland Scheidegger <sroland@vmware.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Alison Wang <alison.wang@nxp.com>, Andrzej Hajda <a.hajda@samsung.com>,
+ Hans de Goede <hdegoede@redhat.com>, Maxime Ripard <maxime@cerno.tech>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>, Chen-Yu Tsai <wens@csie.org>,
+ Sean Paul <sean@poorly.run>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Jernej Skrabec <jernej.skrabec@siol.net>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Hyun Kwon <hyun.kwon@xilinx.com>, Boris Brezillon <bbrezillon@kernel.org>,
+ Andrew Jeffery <andrew@aj.id.au>, Huang Rui <ray.huang@amd.com>,
+ Yannick Fertre <yannick.fertre@foss.st.com>, Jonathan Corbet <corbet@lwn.net>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>, Sandy Huang <hjc@rock-chips.com>,
+ Robert Foss <robert.foss@linaro.org>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>,
+ Philippe Cornu <philippe.cornu@foss.st.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Alex Deucher <alexander.deucher@amd.com>, Tian Tao <tiantao6@hisilicon.com>,
+ Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
+ Shawn Guo <shawnguo@kernel.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jul 9, 2021 at 9:23 AM Christian K=C3=B6nig <christian.koenig@amd.c=
-om> wrote:
-> Am 09.07.21 um 09:14 schrieb Daniel Vetter:
-> > On Fri, Jul 9, 2021 at 8:53 AM Christian K=C3=B6nig <christian.koenig@a=
-md.com> wrote:
-> >> Am 08.07.21 um 19:37 schrieb Daniel Vetter:
-> >>> If it does, someone managed to set up a sched_entity without
-> >>> schedulers, which is just a driver bug.
-> >> NAK, it is perfectly valid for rq selection to fail.
-> > There isn't a better way to explain stuff to someone who's new to the
-> > code and tries to improve it with docs than to NAK stuff with
-> > incomplete explanations?
->
-> Well as far as I understand it a NAK means that the author has missed
-> something important and needs to re-iterate.
+On Fri, Jul 09, 2021 at 10:24:44AM +0300, Pekka Paalanen wrote:
+> On Tue,  6 Jul 2021 18:12:44 +0200
+> Maxime Ripard <maxime@cerno.tech> wrote:
+> 
+> > New KMS properties come with a bunch of requirements to avoid each
+> > driver from running their own, inconsistent, set of properties,
+> > eventually leading to issues like property conflicts, inconsistencies
+> > between drivers and semantics, etc.
+> > 
+> > Let's document what we expect.
+> 
+> ...
+> 
+> > Changes from v4:
+> >   - Changes suggested by Pekka
+> > 
+> > Changes from v3:
+> >   - Roll back to the v2
+> >   - Add Simon and Pekka in Cc
+> > 
+> > Changes from v2:
+> >   - Take into account the feedback from Laurent and Lidiu to no longer
+> >     force generic properties, but prefix vendor-specific properties with
+> >     the vendor name
+> > 
+> > Changes from v1:
+> >   - Typos and wording reported by Daniel and Alex
+> > ---
+> >  Documentation/gpu/drm-kms.rst | 30 ++++++++++++++++++++++++++++++
+> >  1 file changed, 30 insertions(+)
+> > 
+> > diff --git a/Documentation/gpu/drm-kms.rst b/Documentation/gpu/drm-kms.rst
+> > index 87e5023e3f55..47994890fd1e 100644
+> > --- a/Documentation/gpu/drm-kms.rst
+> > +++ b/Documentation/gpu/drm-kms.rst
+> > @@ -463,6 +463,36 @@ KMS Properties
+> >  This section of the documentation is primarily aimed at user-space developers.
+> >  For the driver APIs, see the other sections.
+> >  
+> > +Requirements
+> > +------------
+> > +
+> > +KMS drivers might need to add extra properties to support new features.
+> > +Each new property introduced in a driver need to meet a few
+> > +requirements, in addition to the one mentioned above:
+> > +
+> > +* It must be standardized, documenting:
+> > +
+> > +  * The full, exact, name string;
+> > +  * If the property is an enum, all the valid variants name;
+> 
+> Hi,
+> 
+> "variant" feels a little off to me, I would have used "value name
+> strings".
+> 
+> > +  * What values are accepted, and what these values mean;
+> > +  * What the property does and how it can be used;
+> > +  * How the property might interact with other, existing properties.
+> > +
+> > +* It must provide a generic helper in the core code to register that
+> > +  property on the object it attaches to.
+> > +
+> > +* Its content must be decoded by the core and provided in the object's
+> > +  associated state structure. That includes anything drivers might want
+> > +  to precompute, like :c:type:`struct drm_clip_rect <drm_clip_rect>` for
+> > +  planes.
+> > +
+> > +* Its initial state must match the behavior prior to the property
+> > +  introduction. This might be a fixed value matching what the hardware
+> > +  does, or it may be inherited from the state the firmware left the
+> > +  system in during boot.
+> 
+> I'd like to point out that this rule should apply also to
+> properties that already exist in general, but are newly exposed in a
+> driver for hardware that didn't expose the property before.
 
-It comes around as very screaming at least to me (all uppercase and
-all that) and personally I only associate it with unchecked angry
-kernel maintainers on lkml celebrating their status and putting down
-some noobs for shits and giggles. I think here on dri-devel you're the
-only one doing it regularly.
+I think we should just make this a very strong recommendation, and in
+general encourage people to use the tests against their driver?
 
-> It's just to say that we absolutely can't merge a patch or something
-> will break.
+Otherwise a small "I'll just enable this" thing can become a huge project.
+And in general I think grandfathering existing things in is the pragmatic
+choice.
 
-Well yeah I know that when a patch breaks something I can't merge it.
-For drm-intel we also documented that clearly, but for drm-misc it's
-not spelled out. I'll fix that.
+But maybe that could be a follow-up patch?
+-Daniel
 
-> >> See drm_sched_pick_best():
-> >>
-> >>                   if (!sched->ready) {
-> >>                           DRM_WARN("scheduler %s is not ready, skippin=
-g",
-> >>                                    sched->name);
-> >>                           continue;
-> >>                   }
-> >>
-> >> This can happen when a device reset fails for some engine.
-> > Well yeah I didn't expect amdgpu to just change this directly, so I
-> > didn't find it. Getting an ENOENT on a hw failure instead of an EIO is
-> > a bit interesting semantics I guess, also what happens with the jobs
-> > which raced against the scheduler not being ready? I'm not seeing any
-> > checks for ready in the main scheduler logic so this at least looks
-> > somewhat accidental as a side effect, also no other driver than amdgpu
-> > communitcates that reset failed back to drm/sched like this. They seem
-> > to just not, and I guess timeout on the next request will get us into
-> > an endless reset loop?
->
-> Correct. Key point is that there aren't any jobs which are currently
-> scheduled.
->
-> When the ready flag is changed the scheduler is paused, e.g. the main
-> thread is not running any more.
->
-> I'm pretty sure that all of this is horrible racy, but nobody really
-> looked into the design from a higher level as far as I know.
-
-Yeah the scheduler thread is fine because it's stopped, but it also
-doesn't look at sched->ready, so it can't race. What does race is new
-submissions, and if they stuff something into the queue then I'm
-wondering what happens to that. Also what happens to the requests
-already in the queue.
-
-Eventually I guess userspace notices the ENOENT, tears down the
-context, and the kernel then also tears down the context and cleans up
-the mess. But it's rather inglorious until it collapses down to a
-coherent state again I think.
-
-Or is there something with the scheduler restart flow which is
-guaranteed to catch these, and we're maybe just missing a bunch of
-barriers?
-
-Either way I think a proper interface to terminally wedge a sched
-would be good, so that at least we can pass back something meaningful
-like -EIO. And also tell "the gpu died" apart from "the driver author
-tore down the scheduler while it was still in use", which I think we
-really should catch with some WARN_ON.
-
-Anyway for the immediate issue of "don't break amdgpu" I think I'll
-reshuffle the split between job_init and job_arm again, and add a big
-comment to job_init that it can fail with ENOENT, and why, and what
-kind of interface would be more proper. i915 will need the terminally
-wedged flow too so I'll probably have to look into this, but that will
-need some proper thought.
-
-Cheers, Daniel
-
-
->
-> Christian.
->
->
->
-> > -Daniel
-> >
-> >
-> >> Regards,
-> >> Christian.
-> >>
-> >>> We BUG_ON() here because in the next patch drm_sched_job_init() will
-> >>> be split up, with drm_sched_job_arm() never failing. And that's the
-> >>> part where the rq selection will end up in.
-> >>>
-> >>> Note that if having an empty sched_list set on an entity is indeed a
-> >>> valid use-case, we can keep that check in job_init even after the spl=
-it
-> >>> into job_init/arm.
-> >>>
-> >>> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> >>> Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
-> >>> Cc: Luben Tuikov <luben.tuikov@amd.com>
-> >>> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> >>> Cc: Steven Price <steven.price@arm.com>
-> >>> Cc: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
-> >>> Cc: Boris Brezillon <boris.brezillon@collabora.com>
-> >>> Cc: Jack Zhang <Jack.Zhang1@amd.com>
-> >>> ---
-> >>>    drivers/gpu/drm/scheduler/sched_entity.c | 2 +-
-> >>>    drivers/gpu/drm/scheduler/sched_main.c   | 3 +--
-> >>>    2 files changed, 2 insertions(+), 3 deletions(-)
-> >>>
-> >>> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/d=
-rm/scheduler/sched_entity.c
-> >>> index 79554aa4dbb1..6fc116ee7302 100644
-> >>> --- a/drivers/gpu/drm/scheduler/sched_entity.c
-> >>> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
-> >>> @@ -45,7 +45,7 @@
-> >>>     * @guilty: atomic_t set to 1 when a job on this queue
-> >>>     *          is found to be guilty causing a timeout
-> >>>     *
-> >>> - * Note: the sched_list should have at least one element to schedule
-> >>> + * Note: the sched_list must have at least one element to schedule
-> >>>     *       the entity
-> >>>     *
-> >>>     * Returns 0 on success or a negative error code on failure.
-> >>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm=
-/scheduler/sched_main.c
-> >>> index 33c414d55fab..01dd47154181 100644
-> >>> --- a/drivers/gpu/drm/scheduler/sched_main.c
-> >>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> >>> @@ -586,8 +586,7 @@ int drm_sched_job_init(struct drm_sched_job *job,
-> >>>        struct drm_gpu_scheduler *sched;
-> >>>
-> >>>        drm_sched_entity_select_rq(entity);
-> >>> -     if (!entity->rq)
-> >>> -             return -ENOENT;
-> >>> +     BUG_ON(!entity->rq);
-> >>>
-> >>>        sched =3D entity->rq->sched;
-> >>>
-> >
->
+> 
+> > +
+> > +* An IGT test must be submitted where reasonable.
+> > +
+> >  Property Types and Blob Property Support
+> >  ----------------------------------------
+> >  
+> 
+> Regardless of my comments above:
+> 
+> Reviewed-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+> 
+> 
+> Thanks,
+> pq
 
 
---
+
+-- 
 Daniel Vetter
 Software Engineer, Intel Corporation
 http://blog.ffwll.ch
