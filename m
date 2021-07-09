@@ -2,53 +2,26 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BEA73C22FA
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Jul 2021 13:38:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 879123C232A
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Jul 2021 13:51:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CBED16EA0E;
-	Fri,  9 Jul 2021 11:38:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 670506EA12;
+	Fri,  9 Jul 2021 11:51:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x82a.google.com (mail-qt1-x82a.google.com
- [IPv6:2607:f8b0:4864:20::82a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 216C76EA0E
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Jul 2021 11:38:25 +0000 (UTC)
-Received: by mail-qt1-x82a.google.com with SMTP id g12so7359371qtb.2
- for <dri-devel@lists.freedesktop.org>; Fri, 09 Jul 2021 04:38:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=dCwg9ut4EDITBOxfJ4J1SRh2WUbTm60uSi2jMmQEDTI=;
- b=jyU2woStEcmTuVj0XqnUaHJJ4e6mZdN3EfUsbeoKJP8wgB1Rgk9U2+wCklNUHEyJ7D
- QBBCsyq2B2y+oNH6BweVwhzSJ7Ps2PFMSe+bQWBF6yMeijnnaDB9A4UmSj/WwlBFj4e3
- SYi128aTT1+DF4NyALRmbd1p8Q/IU2l4xvFKUGx93Gb4kaO/GLwSm/b3Se6fgqIw4dvq
- C59BKeTtZFZY2vHKRsRSjMU6yGMCPh7gA5hc8PlizhiffArWP3+N7bZlboRAK9vNikaQ
- t1w52mE3D8fOu5qswSUZM2xqu47G7APVc+VxNoWtdGqABvX+PzQ9RCT+iaJG15R5nX/T
- U8iA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=dCwg9ut4EDITBOxfJ4J1SRh2WUbTm60uSi2jMmQEDTI=;
- b=PDRhqbCr4fdfptxQNQ3apxHZOvY6s3QjfcH7JKtXh2JniszHzkqWf5CTLOYMhq56vz
- kjKJ6CYPftseoumAKoUKksTe6ebspiQLR9gGGO8E7fBPaHmpdrI8WynrPZTE/d4E2Qa+
- d1fMnKgQTBvivUO0fb3v1iWJGJpyrXREj4agQw3sQN7D+T6Wz1KGY8XkP/0m1Gc6t5Ty
- qSv+TU//eNZieygxe6jQs0XR4qBa423zhoSTX1vVGET/pajpFZBcF8+b35Y89F7Vq9gI
- OvpHOiSl0B/UsY/1CEN03HDDVNxkuTmTivsz6+kO/gm9D1PyIdkV4BapwmqiY/xPDdJi
- dZZg==
-X-Gm-Message-State: AOAM532sPd06akNbCvn6Wiw5scd6nxNBl0dtq8fpl6wBMbVFHVsrb5SS
- ea3Kw6J9xCUrQicv7/AyQqNxNkIHsjDmJPG+uuKV4A==
-X-Google-Smtp-Source: ABdhPJzd2Sqw7S1Zwy1+cDR6Wc+Q1A4Ur3kw+Td9q2UqydJCX2my+iB+LfsQcSsggxygo5/bc/aCPK3o8HC2HnCNt/k=
-X-Received: by 2002:ac8:7f87:: with SMTP id z7mr33232964qtj.238.1625830704228; 
- Fri, 09 Jul 2021 04:38:24 -0700 (PDT)
+X-Greylist: delayed 585 seconds by postgrey-1.36 at gabe;
+ Fri, 09 Jul 2021 11:51:15 UTC
+Received: from mblankhorst.nl (mblankhorst.nl [141.105.120.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 92E826EA12
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Jul 2021 11:51:15 +0000 (UTC)
+From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH v2] drm/i915: Add TTM offset argument to mmap.
+Date: Fri,  9 Jul 2021 13:41:20 +0200
+Message-Id: <20210709114120.651309-1-maarten.lankhorst@linux.intel.com>
+X-Mailer: git-send-email 2.31.0
 MIME-Version: 1.0
-References: <1625827244-23274-1-git-send-email-kalyan_t@codeaurora.org>
-In-Reply-To: <1625827244-23274-1-git-send-email-kalyan_t@codeaurora.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 9 Jul 2021 14:38:13 +0300
-Message-ID: <CAA8EJpp9nRhpE5HP+qzmSsY6_8XTW0yXqj_Hx0WvV8F3cnTcAQ@mail.gmail.com>
-Subject: Re: [v1] drm/msm/disp/dpu1: add safe lut config in dpu driver
-To: Kalyan Thota <kalyan_t@codeaurora.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,94 +34,264 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>,
- Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
- Rajendra Nayak <rnayak@codeaurora.org>,
- Krishna Manikandan <mkrishn@codeaurora.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>,
- Douglas Anderson <dianders@chromium.org>,
- freedreno <freedreno@lists.freedesktop.org>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 9 Jul 2021 at 13:41, Kalyan Thota <kalyan_t@codeaurora.org> wrote:
->
-> Add safe lut configuration for all the targets in dpu
-> driver as per QOS recommendation.
->
-> Issue reported on SC7280:
->
-> With wait-for-safe feature in smmu enabled, RT client
-> buffer levels are checked to be safe before smmu invalidation.
-> Since display was always set to unsafe it was delaying the
-> invalidaiton process thus impacting the performance on NRT clients
-> such as eMMC and NVMe.
->
-> Validated this change on SC7280, With this change eMMC performance
-> has improved significantly.
+This is only used for ttm, and tells userspace that the mapping type is
+ignored. This disables the other type of mmap offsets when discrete
+memory is used, so fix the selftests as well.
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Document the struct as well, so it shows up in docbook correctly.
 
-It might be a good option to push it to the stable tree also.
+Changes since v1:
+- Add docbook entries.
 
->
-> Signed-off-by: Kalyan Thota <kalyan_t@codeaurora.org>
-> ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 5 +++++
->  1 file changed, 5 insertions(+)
->
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> index d01c4c9..2e482cd 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> @@ -974,6 +974,7 @@ static const struct dpu_perf_cfg sdm845_perf_data = {
->         .amortizable_threshold = 25,
->         .min_prefill_lines = 24,
->         .danger_lut_tbl = {0xf, 0xffff, 0x0},
-> +       .safe_lut_tbl = {0xfff0, 0xf000, 0xffff},
->         .qos_lut_tbl = {
->                 {.nentry = ARRAY_SIZE(sdm845_qos_linear),
->                 .entries = sdm845_qos_linear
-> @@ -1001,6 +1002,7 @@ static const struct dpu_perf_cfg sc7180_perf_data = {
->         .min_dram_ib = 1600000,
->         .min_prefill_lines = 24,
->         .danger_lut_tbl = {0xff, 0xffff, 0x0},
-> +       .safe_lut_tbl = {0xfff0, 0xff00, 0xffff},
->         .qos_lut_tbl = {
->                 {.nentry = ARRAY_SIZE(sc7180_qos_linear),
->                 .entries = sc7180_qos_linear
-> @@ -1028,6 +1030,7 @@ static const struct dpu_perf_cfg sm8150_perf_data = {
->         .min_dram_ib = 800000,
->         .min_prefill_lines = 24,
->         .danger_lut_tbl = {0xf, 0xffff, 0x0},
-> +       .safe_lut_tbl = {0xfff8, 0xf000, 0xffff},
->         .qos_lut_tbl = {
->                 {.nentry = ARRAY_SIZE(sm8150_qos_linear),
->                 .entries = sm8150_qos_linear
-> @@ -1056,6 +1059,7 @@ static const struct dpu_perf_cfg sm8250_perf_data = {
->         .min_dram_ib = 800000,
->         .min_prefill_lines = 35,
->         .danger_lut_tbl = {0xf, 0xffff, 0x0},
-> +       .safe_lut_tbl = {0xfff0, 0xff00, 0xffff},
->         .qos_lut_tbl = {
->                 {.nentry = ARRAY_SIZE(sc7180_qos_linear),
->                 .entries = sc7180_qos_linear
-> @@ -1084,6 +1088,7 @@ static const struct dpu_perf_cfg sc7280_perf_data = {
->         .min_dram_ib = 1600000,
->         .min_prefill_lines = 24,
->         .danger_lut_tbl = {0xffff, 0xffff, 0x0},
-> +       .safe_lut_tbl = {0xff00, 0xff00, 0xffff},
->         .qos_lut_tbl = {
->                 {.nentry = ARRAY_SIZE(sc7180_qos_macrotile),
->                 .entries = sc7180_qos_macrotile
-> --
-> 2.7.4
->
+Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+---
+ drivers/gpu/drm/i915/gem/i915_gem_mman.c      | 17 ++++++-
+ .../gpu/drm/i915/gem/i915_gem_object_types.h  |  1 +
+ .../drm/i915/gem/selftests/i915_gem_mman.c    | 27 +++++++++-
+ include/uapi/drm/i915_drm.h                   | 51 +++++++++++++++----
+ 4 files changed, 82 insertions(+), 14 deletions(-)
 
-
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
+index a90f796e85c0..b34be9e5d094 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_mman.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
+@@ -679,10 +679,16 @@ __assign_mmap_offset(struct drm_i915_gem_object *obj,
+ 		return -ENODEV;
+ 
+ 	if (obj->ops->mmap_offset)  {
++		if (mmap_type != I915_MMAP_TYPE_TTM)
++			return -ENODEV;
++
+ 		*offset = obj->ops->mmap_offset(obj);
+ 		return 0;
+ 	}
+ 
++	if (mmap_type == I915_MMAP_TYPE_TTM)
++		return -ENODEV;
++
+ 	if (mmap_type != I915_MMAP_TYPE_GTT &&
+ 	    !i915_gem_object_has_struct_page(obj) &&
+ 	    !i915_gem_object_has_iomem(obj))
+@@ -727,7 +733,9 @@ i915_gem_dumb_mmap_offset(struct drm_file *file,
+ {
+ 	enum i915_mmap_type mmap_type;
+ 
+-	if (boot_cpu_has(X86_FEATURE_PAT))
++	if (HAS_LMEM(to_i915(dev)))
++		mmap_type = I915_MMAP_TYPE_TTM;
++	else if (boot_cpu_has(X86_FEATURE_PAT))
+ 		mmap_type = I915_MMAP_TYPE_WC;
+ 	else if (!i915_ggtt_has_aperture(&to_i915(dev)->ggtt))
+ 		return -ENODEV;
+@@ -798,6 +806,10 @@ i915_gem_mmap_offset_ioctl(struct drm_device *dev, void *data,
+ 		type = I915_MMAP_TYPE_UC;
+ 		break;
+ 
++	case I915_MMAP_OFFSET_TTM:
++		type = I915_MMAP_TYPE_TTM;
++		break;
++
+ 	default:
+ 		return -EINVAL;
+ 	}
+@@ -968,6 +980,9 @@ int i915_gem_mmap(struct file *filp, struct vm_area_struct *vma)
+ 		vma->vm_ops = &vm_ops_cpu;
+ 		break;
+ 
++	case I915_MMAP_TYPE_TTM:
++		GEM_WARN_ON(mmo->mmap_type == I915_MMAP_TYPE_TTM);
++		/* fall-through */
+ 	case I915_MMAP_TYPE_WB:
+ 		vma->vm_page_prot = vm_get_page_prot(vma->vm_flags);
+ 		vma->vm_ops = &vm_ops_cpu;
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
+index ef3de2ae9723..d4c42bcdfeb6 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
++++ b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
+@@ -105,6 +105,7 @@ enum i915_mmap_type {
+ 	I915_MMAP_TYPE_WC,
+ 	I915_MMAP_TYPE_WB,
+ 	I915_MMAP_TYPE_UC,
++	I915_MMAP_TYPE_TTM,
+ };
+ 
+ struct i915_mmap_offset {
+diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
+index 1da8bd675e54..27a35d88e5f5 100644
+--- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
++++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
+@@ -573,6 +573,14 @@ static int make_obj_busy(struct drm_i915_gem_object *obj)
+ 	return 0;
+ }
+ 
++static enum i915_mmap_type default_mapping(struct drm_i915_private *i915)
++{
++	if (HAS_LMEM(i915))
++		return I915_MMAP_TYPE_TTM;
++
++	return I915_MMAP_TYPE_GTT;
++}
++
+ static bool assert_mmap_offset(struct drm_i915_private *i915,
+ 			       unsigned long size,
+ 			       int expected)
+@@ -585,7 +593,7 @@ static bool assert_mmap_offset(struct drm_i915_private *i915,
+ 	if (IS_ERR(obj))
+ 		return expected && expected == PTR_ERR(obj);
+ 
+-	ret = __assign_mmap_offset(obj, I915_MMAP_TYPE_GTT, &offset, NULL);
++	ret = __assign_mmap_offset(obj, default_mapping(i915), &offset, NULL);
+ 	i915_gem_object_put(obj);
+ 
+ 	return ret == expected;
+@@ -689,7 +697,7 @@ static int igt_mmap_offset_exhaustion(void *arg)
+ 		goto out;
+ 	}
+ 
+-	err = __assign_mmap_offset(obj, I915_MMAP_TYPE_GTT, &offset, NULL);
++	err = __assign_mmap_offset(obj, default_mapping(i915), &offset, NULL);
+ 	if (err) {
+ 		pr_err("Unable to insert object into reclaimed hole\n");
+ 		goto err_obj;
+@@ -831,8 +839,14 @@ static int wc_check(struct drm_i915_gem_object *obj)
+ 
+ static bool can_mmap(struct drm_i915_gem_object *obj, enum i915_mmap_type type)
+ {
++	struct drm_i915_private *i915 = to_i915(obj->base.dev);
+ 	bool no_map;
+ 
++	if (HAS_LMEM(i915))
++		return type == I915_MMAP_TYPE_TTM;
++	else if (type == I915_MMAP_TYPE_TTM)
++		return false;
++
+ 	if (type == I915_MMAP_TYPE_GTT &&
+ 	    !i915_ggtt_has_aperture(&to_i915(obj->base.dev)->ggtt))
+ 		return false;
+@@ -970,6 +984,8 @@ static int igt_mmap(void *arg)
+ 			err = __igt_mmap(i915, obj, I915_MMAP_TYPE_GTT);
+ 			if (err == 0)
+ 				err = __igt_mmap(i915, obj, I915_MMAP_TYPE_WC);
++			if (err == 0)
++				err = __igt_mmap(i915, obj, I915_MMAP_TYPE_TTM);
+ 
+ 			i915_gem_object_put(obj);
+ 			if (err)
+@@ -987,6 +1003,7 @@ static const char *repr_mmap_type(enum i915_mmap_type type)
+ 	case I915_MMAP_TYPE_WB: return "wb";
+ 	case I915_MMAP_TYPE_WC: return "wc";
+ 	case I915_MMAP_TYPE_UC: return "uc";
++	case I915_MMAP_TYPE_TTM: return "ttm";
+ 	default: return "unknown";
+ 	}
+ }
+@@ -1100,6 +1117,8 @@ static int igt_mmap_access(void *arg)
+ 			err = __igt_mmap_access(i915, obj, I915_MMAP_TYPE_WC);
+ 		if (err == 0)
+ 			err = __igt_mmap_access(i915, obj, I915_MMAP_TYPE_UC);
++		if (err == 0)
++			err = __igt_mmap_access(i915, obj, I915_MMAP_TYPE_TTM);
+ 
+ 		i915_gem_object_put(obj);
+ 		if (err)
+@@ -1241,6 +1260,8 @@ static int igt_mmap_gpu(void *arg)
+ 		err = __igt_mmap_gpu(i915, obj, I915_MMAP_TYPE_GTT);
+ 		if (err == 0)
+ 			err = __igt_mmap_gpu(i915, obj, I915_MMAP_TYPE_WC);
++		if (err == 0)
++			err = __igt_mmap_gpu(i915, obj, I915_MMAP_TYPE_TTM);
+ 
+ 		i915_gem_object_put(obj);
+ 		if (err)
+@@ -1396,6 +1417,8 @@ static int igt_mmap_revoke(void *arg)
+ 		err = __igt_mmap_revoke(i915, obj, I915_MMAP_TYPE_GTT);
+ 		if (err == 0)
+ 			err = __igt_mmap_revoke(i915, obj, I915_MMAP_TYPE_WC);
++		if (err == 0)
++			err = __igt_mmap_revoke(i915, obj, I915_MMAP_TYPE_TTM);
+ 
+ 		i915_gem_object_put(obj);
+ 		if (err)
+diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
+index e334a8b14ef2..1610ed40b4b5 100644
+--- a/include/uapi/drm/i915_drm.h
++++ b/include/uapi/drm/i915_drm.h
+@@ -849,31 +849,60 @@ struct drm_i915_gem_mmap_gtt {
+ 	__u64 offset;
+ };
+ 
++/**
++ * struct drm_i915_gem_mmap_offset - Retrieve an offset so we can mmap this buffer object.
++ *
++ * This struct is passed as argument to the `DRM_IOCTL_I915_GEM_MMAP_OFFSET` ioctl,
++ * and is used to retrieve the fake offset to mmap an object specified by &handle.
++ *
++ * The legacy way of using `DRM_IOCTL_I915_GEM_MMAP` is removed on gen12+.
++ * `DRM_IOCTL_I915_GEM_MMAP_GTT` is an older supported alias to this struct, but will behave
++ * as setting the &extensions to 0, and &flags to `I915_MMAP_OFFSET_GTT`.
++ */
+ struct drm_i915_gem_mmap_offset {
+-	/** Handle for the object being mapped. */
++	/** @handle: Handle for the object being mapped. */
+ 	__u32 handle;
++	/** @pad: Must be zero */
+ 	__u32 pad;
+ 	/**
+-	 * Fake offset to use for subsequent mmap call
++	 * @offset: The fake offset to use for subsequent mmap call
+ 	 *
+ 	 * This is a fixed-size type for 32/64 compatibility.
+ 	 */
+ 	__u64 offset;
+ 
+ 	/**
+-	 * Flags for extended behaviour.
++	 * @flags: Flags for extended behaviour.
++	 *
++	 * It is mandatory that one of the `MMAP_OFFSET` types
++	 * should be included:
++	 * - `I915_MMAP_OFFSET_GTT`: Use mmap with the object bound to GTT.
++	 * - `I915_MMAP_OFFSET_WC`: Use Write-Combined caching.
++	 * - `I915_MMAP_OFFSET_WB`: Use Write-Back caching.
++	 * - `I915_MMAP_OFFSET_TTM`: Use TTM to determine caching based on object placement.
++	 *
++	 * Only on devices with local memory is `I915_MMAP_OFFSET_TTM` valid. On
++	 * devices without local memory, this caching mode is invalid.
+ 	 *
+-	 * It is mandatory that one of the MMAP_OFFSET types
+-	 * (GTT, WC, WB, UC, etc) should be included.
++	 * As caching mode when specifying `I915_MMAP_OFFSET_TTM`, WC or WB will
++	 * be used, depending on the object placement. WC will be used
++	 * when the object resides in local memory, WB otherwise.
+ 	 */
+ 	__u64 flags;
+-#define I915_MMAP_OFFSET_GTT 0
+-#define I915_MMAP_OFFSET_WC  1
+-#define I915_MMAP_OFFSET_WB  2
+-#define I915_MMAP_OFFSET_UC  3
+ 
+-	/*
+-	 * Zero-terminated chain of extensions.
++/** Use an mmap for the object by binding to GTT. */
++#define I915_MMAP_OFFSET_GTT	0
++/** Use Write-Combined caching. */
++#define I915_MMAP_OFFSET_WC	1
++/** Use Write-Back caching. */
++#define I915_MMAP_OFFSET_WB	2
++/** Do not use caching when binding this mmap. */
++#define I915_MMAP_OFFSET_UC	3
++/** Use the TTM binding, which determines the appropriate caching mode. */
++#define I915_MMAP_OFFSET_TTM	4
++
++	/**
++	 * @extensions: Zero-terminated chain of extensions.
+ 	 *
+ 	 * No current extensions defined; mbz.
+ 	 */
 -- 
-With best wishes
-Dmitry
+2.31.0
+
