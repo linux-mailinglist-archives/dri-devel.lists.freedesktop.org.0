@@ -1,66 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13C123C2BC2
-	for <lists+dri-devel@lfdr.de>; Sat, 10 Jul 2021 01:46:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9932E3C2BC9
+	for <lists+dri-devel@lfdr.de>; Sat, 10 Jul 2021 01:50:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D27A6E9B2;
-	Fri,  9 Jul 2021 23:46:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A03BD6E9B5;
+	Fri,  9 Jul 2021 23:50:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
- [IPv6:2a00:1450:4864:20::12e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 975C06E9B2
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Jul 2021 23:46:36 +0000 (UTC)
-Received: by mail-lf1-x12e.google.com with SMTP id p1so26437856lfr.12
- for <dri-devel@lists.freedesktop.org>; Fri, 09 Jul 2021 16:46:36 -0700 (PDT)
+Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com
+ [IPv6:2a00:1450:4864:20::22c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B27156E9B5
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Jul 2021 23:50:27 +0000 (UTC)
+Received: by mail-lj1-x22c.google.com with SMTP id e20so10627582ljn.8
+ for <dri-devel@lists.freedesktop.org>; Fri, 09 Jul 2021 16:50:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=GR17m4TCo1bxAJbxwHuYhDUZxpveBueDWH1Tshnwhcw=;
- b=hmPlfythTE2CxjcaXjAVAWgrW2Gi2aikI45PIV7gfoj4G7M6oAEMPoirHnWK1fF1iE
- 0rfo4/3xZQIb9+cs+6ntmClUn1ek8wkuiQvWcbmvMXOnVJQkWWPFYX5P76tR6llo7yq2
- R5YGjcVaF2tRv4h1oplG/+1/gGUhQ7atnCgKSIkpWsUigEGdImiRELOxKp3mWXcA+CTx
- 3/ENzIMdnPfl+QViXdMA2oDoe0noNm1w1KMTN2g3X9NqdUmwTUmoBe06wME9672G7aQ8
- 8oPCZxiqzPIXLR9lc334HvcNUET2CkZX0ymL8cC8ajAqq98TQBtrnJYTrOMYgecX1J4u
- JVLg==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=sn0jP9DnLuphcw0YXtYqDYqKI3YxyEQFHRMjVN+jOvc=;
+ b=xV8l78WU8UxRjNv+nVa245XgCmMJfpSGkEwsjN7diyuHONzbyxpoH/eqdmwKCrd3TT
+ WT4RM/Ej2xty+Jul6ScQG1zeIUs6YcIs7tqg/0klfEkV15sbqWsn5WeOg+K89gPwY+qX
+ xxk0Zs5zc/gzLb2k4C3HTsnfX0oqmoh1m6MY6cXnMVpmGndxKWOAMT5c5zxmg62nYKBr
+ +Qp1APOlrOO8//Y5l5aUPMrR7/TQOga8On+w2TNsYs0kU/g6UhMsS+YcI9bbVoT5ou0q
+ j5O3tcb/7RfIcvK9Np808G1vz8+8VECiYzomvkz446FnBdmCu8qVExllflKAu5mwXSXa
+ WVCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=GR17m4TCo1bxAJbxwHuYhDUZxpveBueDWH1Tshnwhcw=;
- b=b+SSjqh49CZ6wIpnUGDzzFEXPdhqmYntNfse6QSiEwMhg8wPQkoU4qyezQgdDt2T2/
- lYYDobra97VZCtBZX0ABuJygFhj5wZIdHXiUWtaDAVMmpEW/fYxv2Zw5J/0NvizBq/Z2
- +H63IzgN2StVk3EYERlEIUFY2OVujt1UA22tEpInJXYKN7fSI1h9Hpg4TTpi6AhhE7oT
- y3rc93hUeVSClgHIqhzL4bO2AHIP281ennLS5Yh3fxz08djGm/B2qVo4Pm9kCCpLAy2N
- //eNj2DfCRywF6U/h8TVWhbB6AXS1H0dLzBQp5si8g0NkFiFKZvMBwplY4VOLKvf1CQM
- wYNQ==
-X-Gm-Message-State: AOAM532FRMFdL4s+6/ZInN28M6q6Tx+SAb27ji5XTEXaCVCVE5Mj0kBO
- 2eNW2pwf06TmJ8VOG8J0G6zrFA==
-X-Google-Smtp-Source: ABdhPJwLXKpJ5yziTMVpeRJ+aJVWJpnPi6aLSogHhO7o4SSJprFYE+zfyjZMegAk5EL+0c93bLJgqA==
-X-Received: by 2002:ac2:598b:: with SMTP id w11mr31398334lfn.534.1625874394692; 
- Fri, 09 Jul 2021 16:46:34 -0700 (PDT)
-Received: from [192.168.1.211] ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id 189sm748273ljf.117.2021.07.09.16.46.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 09 Jul 2021 16:46:34 -0700 (PDT)
-Subject: Re: [Freedreno] [PATCH v1 5/7] drm/msm/dp: stop calling
- set_encoder_mode callback
-To: abhinavk@codeaurora.org
-References: <20210708122833.363451-1-dmitry.baryshkov@linaro.org>
- <20210708122833.363451-6-dmitry.baryshkov@linaro.org>
- <16be30732d3c2108f7a3ca640ed8285d@codeaurora.org>
+ bh=sn0jP9DnLuphcw0YXtYqDYqKI3YxyEQFHRMjVN+jOvc=;
+ b=B9UgATtAfM1ft/vqy61bqMnw3/kmPbdRz0SxqX0NK3Jf0bCx2bvJ5Y/1xGN+MoZPAI
+ OteYvEf4nft6r2SYuBDW3BMTKoYa4XPR/XSCPxArsygT5txTH9VxDCTD6muGjXzHo3qo
+ 2DXmLzJQsY+BpzeDd7RQK9zbYVKy/Y4eFt5SSntDlxdhsXOBel0hjt3s5HRDCrtheSid
+ zH5L6SO6VaOMjB+mSj0RIDgrSkOjyv7rjvfZ72C3myc6RMnCp3ZilrQM7KWEg6pyT4mz
+ GjNw8GFvQxXi1fQIsj3hQ9GLGYO8uUsW+g8kOBFUiekSt3L2OOWZYfkzuM8GCHfYjjcC
+ 0r1Q==
+X-Gm-Message-State: AOAM530kqVZEA2+smyDYK0X5N0nNS+y/BmDxZdCq5TF6DwUPe34w+gYF
+ 7GehhZAJS29zDdM+jdJuu96oFw==
+X-Google-Smtp-Source: ABdhPJyjoB4ZEO4ir2no0ThokAQYqxv3KsDYgYA5XgCzVrVEBeS6wwizc71TcMr2/JFMK2iDRr/z7g==
+X-Received: by 2002:a2e:8244:: with SMTP id j4mr21369949ljh.364.1625874625964; 
+ Fri, 09 Jul 2021 16:50:25 -0700 (PDT)
+Received: from eriador.lan ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id v10sm718964ljp.20.2021.07.09.16.50.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 09 Jul 2021 16:50:25 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Message-ID: <2920aa33-c5cf-717f-4e6e-dfd473a87820@linaro.org>
-Date: Sat, 10 Jul 2021 02:46:33 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+To: Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <abhinavk@codeaurora.org>
+Subject: [PATCH v2 0/7] drm/msm/dpu: add support for independent DSI config
+Date: Sat, 10 Jul 2021 02:50:17 +0300
+Message-Id: <20210709235024.1077888-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-In-Reply-To: <16be30732d3c2108f7a3ca640ed8285d@codeaurora.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -74,82 +67,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Jonathan Marek <jonathan@marek.ca>,
- Stephen Boyd <sboyd@kernel.org>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
- David Airlie <airlied@linux.ie>, Sean Paul <sean@poorly.run>
+Cc: Jonathan Marek <jonathan@marek.ca>, Stephen Boyd <sboyd@kernel.org>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ David Airlie <airlied@linux.ie>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/07/2021 01:16, abhinavk@codeaurora.org wrote:
-> On 2021-07-08 05:28, Dmitry Baryshkov wrote:
->> None of the display drivers now implement set_encoder_mode callback.
->> Stop calling it from the modeset init code.
->>
->> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> 
-> The change looks fine,
-> Reviewed-by: Abhinav Kumar <abhinavk@codeaurora.org>
-> 
-> But has DP been re-verified with this change by Bjorn?
-> If not, I can verify this on my board and give my Tested-by
+This patchseries adds support for independent DSI config to DPU1 display
+subdriver. Also drop one of msm_kms_funcs callbacks, made unnecessary
+now.
 
-Please test it on your setup.
+Tested on RB5 (dpu, dsi). Previous iteration was tested by Alexey
+Minnekhanov.
 
-> 
->> ---
->>  drivers/gpu/drm/msm/dp/dp_display.c | 18 ------------------
->>  1 file changed, 18 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c
->> b/drivers/gpu/drm/msm/dp/dp_display.c
->> index 051c1be1de7e..70b319a8fe83 100644
->> --- a/drivers/gpu/drm/msm/dp/dp_display.c
->> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
->> @@ -102,8 +102,6 @@ struct dp_display_private {
->>      struct dp_display_mode dp_mode;
->>      struct msm_dp dp_display;
->>
->> -    bool encoder_mode_set;
->> -
->>      /* wait for audio signaling */
->>      struct completion audio_comp;
->>
->> @@ -283,20 +281,6 @@ static void dp_display_send_hpd_event(struct
->> msm_dp *dp_display)
->>  }
->>
->>
->> -static void dp_display_set_encoder_mode(struct dp_display_private *dp)
->> -{
->> -    struct msm_drm_private *priv = dp->dp_display.drm_dev->dev_private;
->> -    struct msm_kms *kms = priv->kms;
->> -
->> -    if (!dp->encoder_mode_set && dp->dp_display.encoder &&
->> -                kms->funcs->set_encoder_mode) {
->> -        kms->funcs->set_encoder_mode(kms,
->> -                dp->dp_display.encoder, false);
->> -
->> -        dp->encoder_mode_set = true;
->> -    }
->> -}
->> -
->>  static int dp_display_send_hpd_notification(struct dp_display_private 
->> *dp,
->>                          bool hpd)
->>  {
->> @@ -369,8 +353,6 @@ static void dp_display_host_init(struct
->> dp_display_private *dp, int reset)
->>      if (dp->usbpd->orientation == ORIENTATION_CC2)
->>          flip = true;
->>
->> -    dp_display_set_encoder_mode(dp);
->> -
->>      dp_power_init(dp->power, flip);
->>      dp_ctrl_host_init(dp->ctrl, flip, reset);
->>      dp_aux_init(dp->aux);
+Cahanges since v1:
+ - Rewrote dsi encoder setup function by separating common code sequence
+   and calling it either for the bonded interface or twice for each of
+   the DSI hosts.
 
+Changes since RFC:
+ - renamed dual DSI to bonded DSI as suggsted by Abhinav
+ - added comments to _dpu_kms_initialize_dsi() regarding encoders usage
 
--- 
-With best wishes
-Dmitry
+The following changes since commit e88bbc91849b2bf57683119c339e52916d34433f:
+
+  Revert "drm/msm/mdp5: provide dynamic bandwidth management" (2021-06-23 14:06:20 -0700)
+
+are available in the Git repository at:
+
+  https://git.linaro.org/people/dmitry.baryshkov/kernel.git msm-drm-drop-set-encoder-mode-2
+
+for you to fetch changes up to 3e10b945035d638bdf94f06b3fc86a6deaa41e63:
+
+  drm/msm/kms: drop set_encoder_mode callback (2021-07-10 02:46:00 +0300)
+
+----------------------------------------------------------------
+Dmitry Baryshkov (7):
+      drm/msm/dsi: rename dual DSI to bonded DSI
+      drm/msm/dsi: add two helper functions
+      drm/msm/dpu: support setting up two independent DSI connectors
+      drm/msm/mdp5: move mdp5_encoder_set_intf_mode after msm_dsi_modeset_init
+      drm/msm/dp: stop calling set_encoder_mode callback
+      drm/msm/dsi: stop calling set_encoder_mode callback
+      drm/msm/kms: drop set_encoder_mode callback
+
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c  | 130 +++++++++++++++++++------------
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c |  11 +--
+ drivers/gpu/drm/msm/dp/dp_display.c      |  18 -----
+ drivers/gpu/drm/msm/dsi/dsi.c            |   9 ++-
+ drivers/gpu/drm/msm/dsi/dsi.h            |   9 +--
+ drivers/gpu/drm/msm/dsi/dsi_cfg.h        |   2 +-
+ drivers/gpu/drm/msm/dsi/dsi_host.c       |  30 +++----
+ drivers/gpu/drm/msm/dsi/dsi_manager.c    |  93 ++++++++++------------
+ drivers/gpu/drm/msm/msm_drv.h            |  12 ++-
+ drivers/gpu/drm/msm/msm_kms.h            |   3 -
+ 10 files changed, 158 insertions(+), 159 deletions(-)
+
