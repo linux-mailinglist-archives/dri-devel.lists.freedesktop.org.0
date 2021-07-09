@@ -2,57 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 966643C2BD7
-	for <lists+dri-devel@lfdr.de>; Sat, 10 Jul 2021 01:50:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09B6B3C2BD3
+	for <lists+dri-devel@lfdr.de>; Sat, 10 Jul 2021 01:50:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C4D76EA9E;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 06CB76E9B9;
 	Fri,  9 Jul 2021 23:50:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
- [IPv6:2a00:1450:4864:20::12b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B4BF16EA9C
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Jul 2021 23:50:31 +0000 (UTC)
-Received: by mail-lf1-x12b.google.com with SMTP id x25so13733937lfu.13
- for <dri-devel@lists.freedesktop.org>; Fri, 09 Jul 2021 16:50:31 -0700 (PDT)
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
+ [IPv6:2a00:1450:4864:20::12c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C2CA6EA9C
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Jul 2021 23:50:32 +0000 (UTC)
+Received: by mail-lf1-x12c.google.com with SMTP id f13so26336966lfh.6
+ for <dri-devel@lists.freedesktop.org>; Fri, 09 Jul 2021 16:50:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=TR8ndGweFJ1zlT+mXoJoL5P2xKgyplXAag8kXZdug0c=;
- b=PIUKaE5ue2Sn7b+1bTo40616rgAAHVpNo3GCi92/h57cImN34xz3/QdWsNYnVsBlql
- VVPQbezVXdsIioe5uUPYhmW9UTmQ+unmfXPxN+GQ+VaPJgrJydYj0GyM1Oq68EcSrpIs
- citjJBPuCUUytxCDHBVPAs1j1gz/aA6vZG//W7OUNMPZyVYqizhPHufUl7nGsGF6Zhfe
- 2iGGFq3H8oX91kGDTNSO8xD6bzFHp6SjFwGAncUwGuBlpXhwMTCQL+bQ2WOjIG2pBEg3
- 4QF8EA14l04luXwZ0xDvfHueAPdkGdhixL+l0hadkMVg5zb6iWLiZ5rrT8+Un1xX+Zqw
- Wm+g==
+ bh=49a8wW7cPE/UYu/CgVMiIaLLCRNVbynlrKg04A+ZvZk=;
+ b=dZNwrSFcgexHfE1MFXEJp08UR0ysnSEomH8R8ENvmtD7Q9xTSSe7AtMRiXNSjnjlxh
+ TqZnGMMRF80DqX9TWTh1LD0zHhFPgi9FI+zb9Ck1H2OLTqyOPCsLSaHAZWBaLJKYP97C
+ 4xS7wktgCqO5ioEPJCRZs2Hmez7HxKmxZXqiYGNhMELzFArooD/FXYb770Q2k3+of8eZ
+ xcyHOaHxTtOyYILTeoxqS22mEspjcKN5HUkZfwrnJqapm8YUmCMw7JtqAOkPy5XV/6xh
+ 56arP3EoQkp7GG4wh+vcRJvEYpByxKfO1Epb1w1/hCo92p2hTDdOK1dswkhreeFokBLW
+ 342Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=TR8ndGweFJ1zlT+mXoJoL5P2xKgyplXAag8kXZdug0c=;
- b=kzWvlbDaHjGXzmt4+qjp0T90Gn4/VpNyja6q7+bFG0LXNjCMBd2V4mVfOrNa0bTZ/2
- aGtcPasZj+BFX4JQU7Xz6dhoM7tlWwpwHXnEHWrXXOh9Tp5Dmm2fJbbdZ81jlGL2zajB
- iKD+VOjWzPw0QUoRy8fTt94ut9/y9sCrRtKQW69SdLMp6wbQaKr6lqq7HIYDwBt9+KNY
- oEiWODxFyVcKxB56VRQ1JVhngoP/ftOQqQyA02DCVfQJh/1x69ZBOYQfionS/zProWeA
- rbNDBOb45XvIIxgqjFYNfX6df4Bjt0rdjMTzdoQyoSIARVLuV5gH2ohiuaSifXzsqiF0
- 87XA==
-X-Gm-Message-State: AOAM532SBubeRchQKX/ydtAAYr9Zl35ItrfOKJbUkauyfPjNmCNOeqjF
- eSwHzZzu9LN19ML5bcUjM41x6A==
-X-Google-Smtp-Source: ABdhPJxMyoUwsBZ83rVWTMY8hgakNpqW7Cdx0IP8Zq5KW+sntfIMw8Y2r+2tN3dpnqR85DuTY5E3aA==
-X-Received: by 2002:a05:6512:1511:: with SMTP id
- bq17mr31109194lfb.341.1625874630114; 
+ bh=49a8wW7cPE/UYu/CgVMiIaLLCRNVbynlrKg04A+ZvZk=;
+ b=ZU2niVSAIlnQpm7u292hq677ZWRiDku9jQVcrxV9qGT33nOq73yvWk0Igrk3Khrnhr
+ pF4GCzk6mHDj/NOnHlpSCd/hCAOLOdU3wEhNcN0tW23n9EfpXWM4TW2OKiO2aLL0Ng5e
+ zZq9pPWf3gOmOQuF+8ZDbjtF9behVoXcBTrf3t+5+gSuJdp1lVGsVjgKPgSANVbZFbMa
+ aw2ctSyLhoUQAp7tnyxgv7YtkTNdiLgkGCDhN8bAJPY0gkKsGOHJTaHbAQ0KphzXXlEA
+ fsvvqL5djjw80bddla0KQsuYrlbUyd4caspPPL31b5w6QVZd2Dw5LCnBiFCljGaHrcp6
+ JV2w==
+X-Gm-Message-State: AOAM530ue8i2tvm1eP2FKUZUH+LRhPgIOCBm7iEocWT1LVp4iHWsHnG/
+ vvoAei/BbeIlAdN8Ii4uuu6bUA==
+X-Google-Smtp-Source: ABdhPJwj6yZc8GvIU3BEGznwEcnXH+nwJNDKH/3jh+yeQ5njPxIZpWyLa064jVanU2wvkNtn6V9z+A==
+X-Received: by 2002:ac2:4345:: with SMTP id o5mr30107129lfl.599.1625874630890; 
  Fri, 09 Jul 2021 16:50:30 -0700 (PDT)
 Received: from eriador.lan ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id v10sm718964ljp.20.2021.07.09.16.50.29
+ by smtp.gmail.com with ESMTPSA id v10sm718964ljp.20.2021.07.09.16.50.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 09 Jul 2021 16:50:29 -0700 (PDT)
+ Fri, 09 Jul 2021 16:50:30 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Bjorn Andersson <bjorn.andersson@linaro.org>,
  Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Abhinav Kumar <abhinavk@codeaurora.org>
-Subject: [PATCH v2 5/7] drm/msm/dp: stop calling set_encoder_mode callback
-Date: Sat, 10 Jul 2021 02:50:22 +0300
-Message-Id: <20210709235024.1077888-6-dmitry.baryshkov@linaro.org>
+Subject: [PATCH v2 6/7] drm/msm/dsi: stop calling set_encoder_mode callback
+Date: Sat, 10 Jul 2021 02:50:23 +0300
+Message-Id: <20210709235024.1077888-7-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210709235024.1077888-1-dmitry.baryshkov@linaro.org>
 References: <20210709235024.1077888-1-dmitry.baryshkov@linaro.org>
@@ -82,52 +81,59 @@ Stop calling it from the modeset init code.
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Reviewed-by: Abhinav Kumar <abhinavk@codeaurora.org>
 ---
- drivers/gpu/drm/msm/dp/dp_display.c | 18 ------------------
- 1 file changed, 18 deletions(-)
+ drivers/gpu/drm/msm/dsi/dsi.c         |  2 --
+ drivers/gpu/drm/msm/dsi/dsi.h         |  1 -
+ drivers/gpu/drm/msm/dsi/dsi_manager.c | 12 ------------
+ 3 files changed, 15 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-index 051c1be1de7e..70b319a8fe83 100644
---- a/drivers/gpu/drm/msm/dp/dp_display.c
-+++ b/drivers/gpu/drm/msm/dp/dp_display.c
-@@ -102,8 +102,6 @@ struct dp_display_private {
- 	struct dp_display_mode dp_mode;
- 	struct msm_dp dp_display;
+diff --git a/drivers/gpu/drm/msm/dsi/dsi.c b/drivers/gpu/drm/msm/dsi/dsi.c
+index 5201d7eb0490..77c8dba297d8 100644
+--- a/drivers/gpu/drm/msm/dsi/dsi.c
++++ b/drivers/gpu/drm/msm/dsi/dsi.c
+@@ -251,8 +251,6 @@ int msm_dsi_modeset_init(struct msm_dsi *msm_dsi, struct drm_device *dev,
+ 		goto fail;
+ 	}
  
--	bool encoder_mode_set;
+-	msm_dsi_manager_setup_encoder(msm_dsi->id);
 -
- 	/* wait for audio signaling */
- 	struct completion audio_comp;
+ 	priv->bridges[priv->num_bridges++]       = msm_dsi->bridge;
+ 	priv->connectors[priv->num_connectors++] = msm_dsi->connector;
  
-@@ -283,20 +281,6 @@ static void dp_display_send_hpd_event(struct msm_dp *dp_display)
+diff --git a/drivers/gpu/drm/msm/dsi/dsi.h b/drivers/gpu/drm/msm/dsi/dsi.h
+index 856a532850c0..e0c3c4409377 100644
+--- a/drivers/gpu/drm/msm/dsi/dsi.h
++++ b/drivers/gpu/drm/msm/dsi/dsi.h
+@@ -80,7 +80,6 @@ struct drm_connector *msm_dsi_manager_connector_init(u8 id);
+ struct drm_connector *msm_dsi_manager_ext_bridge_init(u8 id);
+ int msm_dsi_manager_cmd_xfer(int id, const struct mipi_dsi_msg *msg);
+ bool msm_dsi_manager_cmd_xfer_trigger(int id, u32 dma_base, u32 len);
+-void msm_dsi_manager_setup_encoder(int id);
+ int msm_dsi_manager_register(struct msm_dsi *msm_dsi);
+ void msm_dsi_manager_unregister(struct msm_dsi *msm_dsi);
+ bool msm_dsi_manager_validate_current_config(u8 id);
+diff --git a/drivers/gpu/drm/msm/dsi/dsi_manager.c b/drivers/gpu/drm/msm/dsi/dsi_manager.c
+index a81105633d3c..e7f4e1d8978a 100644
+--- a/drivers/gpu/drm/msm/dsi/dsi_manager.c
++++ b/drivers/gpu/drm/msm/dsi/dsi_manager.c
+@@ -216,18 +216,6 @@ static int dsi_mgr_bridge_get_id(struct drm_bridge *bridge)
+ 	return dsi_bridge->id;
  }
  
- 
--static void dp_display_set_encoder_mode(struct dp_display_private *dp)
+-void msm_dsi_manager_setup_encoder(int id)
 -{
--	struct msm_drm_private *priv = dp->dp_display.drm_dev->dev_private;
+-	struct msm_dsi *msm_dsi = dsi_mgr_get_dsi(id);
+-	struct msm_drm_private *priv = msm_dsi->dev->dev_private;
 -	struct msm_kms *kms = priv->kms;
+-	struct drm_encoder *encoder = msm_dsi_get_encoder(msm_dsi);
 -
--	if (!dp->encoder_mode_set && dp->dp_display.encoder &&
--				kms->funcs->set_encoder_mode) {
--		kms->funcs->set_encoder_mode(kms,
--				dp->dp_display.encoder, false);
--
--		dp->encoder_mode_set = true;
--	}
+-	if (encoder && kms->funcs->set_encoder_mode)
+-		kms->funcs->set_encoder_mode(kms, encoder,
+-					     msm_dsi_is_cmd_mode(msm_dsi));
 -}
 -
- static int dp_display_send_hpd_notification(struct dp_display_private *dp,
- 					    bool hpd)
+ static int msm_dsi_manager_panel_init(struct drm_connector *conn, u8 id)
  {
-@@ -369,8 +353,6 @@ static void dp_display_host_init(struct dp_display_private *dp, int reset)
- 	if (dp->usbpd->orientation == ORIENTATION_CC2)
- 		flip = true;
- 
--	dp_display_set_encoder_mode(dp);
--
- 	dp_power_init(dp->power, flip);
- 	dp_ctrl_host_init(dp->ctrl, flip, reset);
- 	dp_aux_init(dp->aux);
+ 	struct msm_drm_private *priv = conn->dev->dev_private;
 -- 
 2.30.2
 
