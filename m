@@ -1,63 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCD033C200F
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Jul 2021 09:36:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B6123C201F
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Jul 2021 09:40:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0CA4B6E9C4;
-	Fri,  9 Jul 2021 07:36:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 23F766E9C7;
+	Fri,  9 Jul 2021 07:40:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
- [IPv6:2a00:1450:4864:20::12d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B28BD6E9C4
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Jul 2021 07:36:19 +0000 (UTC)
-Received: by mail-lf1-x12d.google.com with SMTP id c28so20975523lfp.11
- for <dri-devel@lists.freedesktop.org>; Fri, 09 Jul 2021 00:36:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=VaG3Y7YczFtAXNuFBMM0Ku3shZIALJVSIv8n6IlowFI=;
- b=fAL6q6qniIU8H4H9DZhMzTcZDmbFXGInT7nT4vDDgE2+uPu79twQBY3pMVuoUX/vGD
- K1A6drmmCko1gcimQqFYsAUhHEvqD8MHRzu5I8lWnE/nkiadzl1J5liTypQyR4J98WCU
- EVhMPUBbGB+vjyhSREsr18E9DwZluKSLjc4N3J5yfH6GrT1gitjYnqJpAyxs0cZ7i7XB
- u99eWTyUzZG25JhSP8TS9VhiBSdyVhuvWvVl7sGsynAgIGwxHm2nnwu2dYDPkcjQTyRi
- htoJUG3K5J7BcxeCnIF0CBcb4h4iAGul3ITWJyOnQ76JlKNUYOFo2bzYH/U6TvSKBB8D
- sl/Q==
+Received: from mail-oi1-x233.google.com (mail-oi1-x233.google.com
+ [IPv6:2607:f8b0:4864:20::233])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC83C6E9C7
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Jul 2021 07:40:51 +0000 (UTC)
+Received: by mail-oi1-x233.google.com with SMTP id u11so11222959oiv.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 09 Jul 2021 00:40:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=8bhsFUO69iuV07cQJ2ssyZKt/x0LWfOEI39FZQi0ksY=;
+ b=D8pReIZyfO8pTn+Pey0ICsRwKXfdp/h1AOulR3xe/b8/UA2fzA2ijirenNtLAPSRXp
+ aTIs8vN3VULqkDApGE0/+oZDyLPUOjvMTbJSsgL4KOKBAOSf3C9jFggo5IBIN41pvdpH
+ H8uY+1LhU2UchmPcEa440AMge0uqQEMYFArwg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=VaG3Y7YczFtAXNuFBMM0Ku3shZIALJVSIv8n6IlowFI=;
- b=W2xmmYmi3KOJ66WagtCReOyzOkSC/hxBfUnDTVmg2wwFRQMNIAr42JeYIMaQpWHlsJ
- IulYbgwGtaFDcw/rPzoD0aF0p4Fw/MW9zUP+1OYi1+9frq4P8rxxPgqv2T4N0GtIGscW
- y5BMxbckXCIv//ZEx4F5IpeIfYgV0rTDA8zBuKsNMJe//ZEiWW2ffgwpesH3Y+cHFOkv
- 5VUa7lgZmyZ2tt4z8tjIbB6uBiwpbtkpFVWRi8bXWxThFKGNejQyi0j+G99gwkMuqJ2b
- QoQwiBdtvu7/dZgTyIzt0gTGTn5IQb94GgQhroOvR26GdWD6yGSf6/GRJC6ok7rpy6LT
- kl4A==
-X-Gm-Message-State: AOAM531vxgvXk3BvD+pIdlUfgymcnARFBKYRYXugW8F7UyHJS6/A6sep
- OeQT6DOHN2ixDKPKoxUYKNg=
-X-Google-Smtp-Source: ABdhPJw0d6LFsRwC8KFOFQuWrWupIEs47wiHYj9s8/OCEe5YyKRs1dfUxaKUktX3r1qdgyozQ1ag+Q==
-X-Received: by 2002:a05:6512:33d0:: with SMTP id
- d16mr19179190lfg.311.1625816178129; 
- Fri, 09 Jul 2021 00:36:18 -0700 (PDT)
-Received: from eldfell ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id l15sm394730lfh.228.2021.07.09.00.36.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 09 Jul 2021 00:36:17 -0700 (PDT)
-Date: Fri, 9 Jul 2021 10:36:14 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Raphael GALLAIS-POU - foss <raphael.gallais-pou@foss.st.com>
-Subject: Re: [PATCH 2/2] drm/stm: ltdc: add crtc background color property
- support
-Message-ID: <20210709103614.6d5932ca@eldfell>
-In-Reply-To: <20210707084557.22443-3-raphael.gallais-pou@foss.st.com>
-References: <20210707084557.22443-1-raphael.gallais-pou@foss.st.com>
- <20210707084557.22443-3-raphael.gallais-pou@foss.st.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=8bhsFUO69iuV07cQJ2ssyZKt/x0LWfOEI39FZQi0ksY=;
+ b=h4yzTbIzuArtYoBVKwtiCB7Ub9SkpPac/7gnMX/xcWu7KQhAY2x1jbbsyKkVtSOx69
+ 49tU5+C71DE8vcqdFeRkg28yV+qvNT8ZNs250UDmrceix3oSV0ZMsXVf1WGXGi9U8NHF
+ 2yaEPqVGfEcaewLQojC8QnLvSH09oUHvOHMuguAZV2nAFy1qO6BsIkqsQfkkbTFN3i27
+ /SyJX8o5HuLhFsnizpkc7CiuWAuUlyOGcp7XsZRe2klk5sJ8AZ8PXd7fNIakk2BjYU42
+ EPGB9aE5Gr3FMill7Yh3TjaLQlPQ2E6ar6I/ZmfloSztk8lUKxYXJMGezfbKdBRQquH8
+ kuUg==
+X-Gm-Message-State: AOAM532zYNxkPmOef1MWJkhk+hLCueXQ5aPC1jWFJljPu46mSauYX/d7
+ ZjJosGNOZckn3olOqAPb9SX1c+AzBbab4Wt/OgXNBQ==
+X-Google-Smtp-Source: ABdhPJzJg+Hi4VukkWJZSO5MNKrkvmAUDLoAeabDpqwzzKeq0/uV9lDGQXbEvkn9yOwzZcDaqdpWH0iqu3ULnUUDDcY=
+X-Received: by 2002:aca:4b55:: with SMTP id y82mr2361204oia.14.1625816451045; 
+ Fri, 09 Jul 2021 00:40:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/W0kPe8=pA33zQt1ChIiblgo";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+References: <20210708173754.3877540-4-daniel.vetter@ffwll.ch>
+ <20210708215439.4093557-1-daniel.vetter@ffwll.ch>
+ <14149638-6cc7-5281-c6b6-d6d08d13713f@amd.com>
+In-Reply-To: <14149638-6cc7-5281-c6b6-d6d08d13713f@amd.com>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Fri, 9 Jul 2021 09:40:39 +0200
+Message-ID: <CAKMK7uFYEhtqHr53rE=Utv+J3zwc2Q9-nFzo0hqEnZ3nUr=qUw@mail.gmail.com>
+Subject: Re: [PATCH] drm/sched: Barriers are needed for entity->last_scheduled
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,199 +62,138 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Benjamin Gaignard <benjamin.gaignard@linaro.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Raphael GALLAIS-POU <raphael.gallais-pou@st.com>,
- David Airlie <airlied@linux.ie>,
- Yannick FERTRE - foss <yannick.fertre@foss.st.com>,
- Alexandre TORGUE - foss <alexandre.torgue@foss.st.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Yannick FERTRE <yannick.fertre@st.com>,
- Philippe CORNU - foss <philippe.cornu@foss.st.com>,
- Philippe CORNU <philippe.cornu@st.com>,
- "linux-stm32@st-md-mailman.stormreply.com"
- <linux-stm32@st-md-mailman.stormreply.com>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Steven Price <steven.price@arm.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Daniel Vetter <daniel.vetter@intel.com>, Lee Jones <lee.jones@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/W0kPe8=pA33zQt1ChIiblgo
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On Fri, Jul 9, 2021 at 8:58 AM Christian K=C3=B6nig <christian.koenig@amd.c=
+om> wrote:
+>
+>
+>
+> Am 08.07.21 um 23:54 schrieb Daniel Vetter:
+> > It might be good enough on x86 with just READ_ONCE, but the write side
+> > should then at least be WRITE_ONCE because x86 has total store order.
+> >
+> > It's definitely not enough on arm.
+> >
+> > Fix this proplery, which means
+> > - explain the need for the barrier in both places
+> > - point at the other side in each comment
+> >
+> > Also pull out the !sched_list case as the first check, so that the
+> > code flow is clearer.
+> >
+> > While at it sprinkle some comments around because it was very
+> > non-obvious to me what's actually going on here and why.
+> >
+> > Note that we really need full barriers here, at first I thought
+> > store-release and load-acquire on ->last_scheduled would be enough,
+> > but we actually requiring ordering between that and the queue state.
+> >
+> > v2: Put smp_rmp() in the right place and fix up comment (Andrey)
+> >
+> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> > Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
+> > Cc: Steven Price <steven.price@arm.com>
+> > Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> > Cc: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+> > Cc: Lee Jones <lee.jones@linaro.org>
+> > Cc: Boris Brezillon <boris.brezillon@collabora.com>
+> > ---
+> >   drivers/gpu/drm/scheduler/sched_entity.c | 27 ++++++++++++++++++++++-=
+-
+> >   1 file changed, 25 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm=
+/scheduler/sched_entity.c
+> > index 64d398166644..6366006c0fcf 100644
+> > --- a/drivers/gpu/drm/scheduler/sched_entity.c
+> > +++ b/drivers/gpu/drm/scheduler/sched_entity.c
+> > @@ -439,8 +439,16 @@ struct drm_sched_job *drm_sched_entity_pop_job(str=
+uct drm_sched_entity *entity)
+> >               dma_fence_set_error(&sched_job->s_fence->finished, -ECANC=
+ELED);
+> >
+> >       dma_fence_put(entity->last_scheduled);
+> > +
+> >       entity->last_scheduled =3D dma_fence_get(&sched_job->s_fence->fin=
+ished);
+> >
+> > +     /*
+> > +      * If the queue is empty we allow drm_sched_entity_select_rq() to
+> > +      * locklessly access ->last_scheduled. This only works if we set =
+the
+> > +      * pointer before we dequeue and if we a write barrier here.
+> > +      */
+> > +     smp_wmb();
+> > +
+>
+> That whole stuff needs to be inside the spsc queue, not outside.
+>
+> Otherwise drm_sched_entity_is_idle() won't work either and cause a lot
+> of trouble during process tear down.
 
-On Wed, 7 Jul 2021 08:48:55 +0000
-Raphael GALLAIS-POU - foss <raphael.gallais-pou@foss.st.com> wrote:
+Nah, that just means you need another 2 comments with their barrier to
+explain how things are serialized there against entity->stopped. The
+queue only needs to provide store-release and load-acquire barriers
+from a functional pov, if you assumie more then that's very strange.
+We need barriers in the other direction here (I haven't looked at what
+entity_is_idle) needs.
 
-> This patch comes from the need to display small resolution pictures with
-> very few DDR usage. In practice, using a background color, produced by the
-> drm CRTC, around this picture allows to fetch less data in memory than
-> setting a full frame picture. And therefore the picture in DDR is smaller
-> than the size of the screen.
->=20
-> It uses the DRM framework background color property and modifies the
-> color to any value between 0x000000 and 0xFFFFFF from userland with a
-> RGB24 value (0x00RRGGBB).
->=20
-> Using this feature is observable only if layers are not full screen
-> or if layers use color formats with alpha and are "transparent" at
-> least on some pixels.
->=20
-> Depending on the hardware version, the background color can not be
-> properly displayed with non-alpha color formats derived from native
-> alpha color formats (such as XR24 or XR15) since the use of this
-> pixel format generates a non transparent layer. As a workaround,
-> the stage background color of the layer and the general background
-> color need to be synced.
->=20
-> Signed-off-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
-> ---
->  drivers/gpu/drm/stm/ltdc.c | 48 ++++++++++++++++++++++++++++++++++----
->  1 file changed, 43 insertions(+), 5 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/stm/ltdc.c b/drivers/gpu/drm/stm/ltdc.c
-> index 1f9392fb58e1..0aca245288cc 100644
-> --- a/drivers/gpu/drm/stm/ltdc.c
-> +++ b/drivers/gpu/drm/stm/ltdc.c
-> @@ -196,6 +196,11 @@
-> =20
->  #define NB_PF		8		/* Max nb of HW pixel format */
-> =20
-> +#define DRM_ARGB_TO_LTDC_RGB24(bgcolor) \
-> +	((u32)(DRM_ARGB_RED(bgcolor, 8) << 16	\
-> +	| DRM_ARGB_GREEN(bgcolor, 8) << 8	\
-> +	| DRM_ARGB_BLUE(bgcolor, 8)))
-> +
->  enum ltdc_pix_fmt {
->  	PF_NONE,
->  	/* RGB formats */
-> @@ -364,6 +369,15 @@ static inline u32 get_pixelformat_without_alpha(u32 =
-drm)
->  	}
->  }
-> =20
-> +/*
-> + * All non-alpha color formats derived from native alpha color formats a=
-re
-> + * either characterized by a FourCC format code (such as XR24, RX24, BX2=
-4...)
-> + */
-> +static inline u32 is_xrgb(u32 drm)
-> +{
-> +	return ((drm & 'X') =3D=3D 'X' || (drm & ('X' << 8)) =3D=3D ('X' << 8));
+This is why the first rule of lockless algorithms is "don't", and the
+second one is to very painstaikingly document every barrier necessary
+with
+- explanation what it synchronizes and why
+- and a pointer to where the other side of the barrier is in the code
+(there always has to be one, barrier on one side does nothing)
+-Daniel
 
-Hi,
-
-if you're trying to test whether the last or second last byte in the
-format code is exactly 'X', this doesn't do that. What this does is
-ignores all the bits that are zero in 'X' and ensures that all the bits
-that are one in 'X' are also one in the tested value.
-
-
-Thanks,
-pq
-
-> +}
-> +
->  static irqreturn_t ltdc_irq_thread(int irq, void *arg)
->  {
->  	struct drm_device *ddev =3D arg;
-> @@ -431,7 +445,8 @@ static void ltdc_crtc_atomic_enable(struct drm_crtc *=
-crtc,
->  	pm_runtime_get_sync(ddev->dev);
-> =20
->  	/* Sets the background color value */
-> -	reg_write(ldev->regs, LTDC_BCCR, BCCR_BCBLACK);
-> +	reg_write(ldev->regs, LTDC_BCCR,
-> +		  DRM_ARGB_TO_LTDC_RGB24(crtc->state->bgcolor));
-> =20
->  	/* Enable IRQ */
->  	reg_set(ldev->regs, LTDC_IER, IER_RRIE | IER_FUIE | IER_TERRIE);
-> @@ -452,6 +467,9 @@ static void ltdc_crtc_atomic_disable(struct drm_crtc =
-*crtc,
-> =20
->  	drm_crtc_vblank_off(crtc);
-> =20
-> +	/* Reset background color */
-> +	reg_write(ldev->regs, LTDC_BCCR, BCCR_BCBLACK);
-> +
->  	/* disable IRQ */
->  	reg_clear(ldev->regs, LTDC_IER, IER_RRIE | IER_FUIE | IER_TERRIE);
-> =20
-> @@ -790,6 +808,7 @@ static void ltdc_plane_atomic_update(struct drm_plane=
- *plane,
->  	u32 y1 =3D newstate->crtc_y + newstate->crtc_h - 1;
->  	u32 src_x, src_y, src_w, src_h;
->  	u32 val, pitch_in_bytes, line_length, paddr, ahbp, avbp, bpcr;
-> +	u32 bgcolor =3D DRM_ARGB_TO_LTDC_RGB24(newstate->crtc->state->bgcolor);
->  	enum ltdc_pix_fmt pf;
-> =20
->  	if (!newstate->crtc || !fb) {
-> @@ -853,10 +872,28 @@ static void ltdc_plane_atomic_update(struct drm_pla=
-ne *plane,
->  	if (!fb->format->has_alpha)
->  		val =3D BF1_CA | BF2_1CA;
-> =20
-> -	/* Manage hw-specific capabilities */
-> -	if (ldev->caps.non_alpha_only_l1 &&
-> -	    plane->type !=3D DRM_PLANE_TYPE_PRIMARY)
-> -		val =3D BF1_PAXCA | BF2_1PAXCA;
-> +	/*
-> +	 * Manage hw-specific capabilities
-> +	 *
-> +	 * Depending on the hardware version, the background color can not be
-> +	 * properly displayed with non-alpha color formats derived from native
-> +	 * alpha color formats (such as XR24 or XR15) since the use of this
-> +	 * pixel format generates a non transparent layer. As a workaround,
-> +	 * the stage background color of the layer and the general background
-> +	 * color need to be synced.
-> +	 *
-> +	 * This is done by activating for all XRGB color format the default
-> +	 * color as the background color and then setting blending factor
-> +	 * accordingly.
-> +	 */
-> +	if (ldev->caps.non_alpha_only_l1) {
-> +		if (is_xrgb(fb->format->format)) {
-> +			val =3D BF1_CA | BF2_1CA;
-> +			reg_write(ldev->regs, LTDC_L1DCCR + lofs, bgcolor);
-> +		} else {
-> +			val =3D BF1_PAXCA | BF2_1PAXCA;
-> +		}
-> +	}
-> =20
->  	reg_update_bits(ldev->regs, LTDC_L1BFCR + lofs,
->  			LXBFCR_BF2 | LXBFCR_BF1, val);
-> @@ -1033,6 +1070,7 @@ static int ltdc_crtc_init(struct drm_device *ddev, =
-struct drm_crtc *crtc)
-> =20
->  	drm_crtc_helper_add(crtc, &ltdc_crtc_helper_funcs);
-> =20
-> +	drm_crtc_add_bgcolor_property(crtc);
->  	drm_mode_crtc_set_gamma_size(crtc, CLUT_SIZE);
->  	drm_crtc_enable_color_mgmt(crtc, 0, false, CLUT_SIZE);
-> =20
+> Christian.
+>
+> >       spsc_queue_pop(&entity->job_queue);
+> >       return sched_job;
+> >   }
+> > @@ -459,10 +467,25 @@ void drm_sched_entity_select_rq(struct drm_sched_=
+entity *entity)
+> >       struct drm_gpu_scheduler *sched;
+> >       struct drm_sched_rq *rq;
+> >
+> > -     if (spsc_queue_count(&entity->job_queue) || !entity->sched_list)
+> > +     /* single possible engine and already selected */
+> > +     if (!entity->sched_list)
+> > +             return;
+> > +
+> > +     /* queue non-empty, stay on the same engine */
+> > +     if (spsc_queue_count(&entity->job_queue))
+> >               return;
+> >
+> > -     fence =3D READ_ONCE(entity->last_scheduled);
+> > +     /*
+> > +      * Only when the queue is empty are we guaranteed that the schedu=
+ler
+> > +      * thread cannot change ->last_scheduled. To enforce ordering we =
+need
+> > +      * a read barrier here. See drm_sched_entity_pop_job() for the ot=
+her
+> > +      * side.
+> > +      */
+> > +     smp_rmb();
+> > +
+> > +     fence =3D entity->last_scheduled;
+> > +
+> > +     /* stay on the same engine if the previous job hasn't finished */
+> >       if (fence && !dma_fence_is_signaled(fence))
+> >               return;
+> >
+>
 
 
---Sig_/W0kPe8=pA33zQt1ChIiblgo
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmDn/G4ACgkQI1/ltBGq
-qqdSAQ/+O54N12B96VfgTSJt/h50b8vyqH6nlYk53aAjDGv71t3XQRp8Z0Yd/TKn
-mDoGkBad4FHRWfaorqc1DqJztkS8bqmbpz8Jg4mUt/1f/JDfRcIKDlfh/RL2dyrw
-rNhik+zr6dTPTL7Xs5joQspZ5HvO5yeo1rbSFE0SlpsEJHN+qWnBpobGfiAL4Uue
-RkXJrEJyAZEuPGcEq8D27ciGqZIQJmMLP/9GuX0+mELmGPOqKFLZaryBqsahGrVo
-kJu/iGDECeG/bTrczBm02rj4TAkJLcef/s4XESL3N0zFvu3w62ev0CJxFJDcHoh5
-WXXnuNgZ2uR1HjnCJojHnjyBYrOAY8PlPL/A3duuKZRS4t+O9nNCxd6/6SICV4eS
-XmXPmZ68uhUfDNVjyGhHDVGHjfmO3nqzXX2dDxAuKn+lZDwXguza03bX9bJVHdx+
-Tj91Addw0b1hPh6T25QIco3SDaQcf6jfTmpMW5pEgJQp/Z50u0Ku2w6rsSRYE8OD
-XyTDtLOPamHBgLNbEBJW7d7NJcbmsH/K/ucKXBeXUJo5qo4HijTkALl6dcpqF44Y
-uzJeSCwRzBh/DpDYpDyg5o6tmjZo42cLOSKHAvWZTsWRxT4JIOjVf4UHxEESHg4h
-Spd7Gp/ks8BeSQ78CkAfsusgn742wkiUE0ExDwyXQCW99mq3UEs=
-=ft4v
------END PGP SIGNATURE-----
-
---Sig_/W0kPe8=pA33zQt1ChIiblgo--
+--=20
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
