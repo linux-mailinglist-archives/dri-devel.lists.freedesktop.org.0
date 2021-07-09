@@ -2,73 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DDA23C2968
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Jul 2021 21:03:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A3FA3C296E
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Jul 2021 21:12:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5EDB06EA5C;
-	Fri,  9 Jul 2021 19:02:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 263F96EA5D;
+	Fri,  9 Jul 2021 19:12:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mickerik.phytec.de (mickerik.phytec.de [195.145.39.210])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE8876EA5C
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Jul 2021 19:02:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; d=phytec.de; s=a4; c=relaxed/simple;
- q=dns/txt; i=@phytec.de; t=1625857373; x=1628449373;
- h=From:Sender:Reply-To:Subject:Date:Message-ID:To:CC:MIME-Version:Content-Type:
- Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:Resent-From:
- Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
- List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=aFzZeYksNuindk7iMv7DPMNX/B7zEZMO1e6X4mHRRxk=;
- b=MGK/uViNXUQdfQn8b2tuvOtgOS7WWyM/VazuLAB7KMKdN8N55DsRev5ueuGiw0US
- 2oxiyr+Rs/Yerj7trO/Tu4S/fExy1DSEfZujnc83guAi+J+md+i7XaFLV40q9h48
- KY46STIeMRcGH83e9gnD+N+8RCN/JbK39sUlYIeJjVQ=;
-X-AuditID: c39127d2-1e4f970000001daf-8a-60e89d5d191a
-Received: from florix.phytec.de (florix.phytec.de [172.16.0.118])
- (using TLS with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (Client did not present a certificate)
- by mickerik.phytec.de (PHYTEC Mail Gateway) with SMTP id 3D.E3.07599.D5D98E06;
- Fri,  9 Jul 2021 21:02:53 +0200 (CEST)
-Received: from Berlix.phytec.de (172.16.0.117) by Florix.phytec.de
- (172.16.0.118) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.8; Fri, 9 Jul 2021
- 21:02:52 +0200
-Received: from Berlix.phytec.de ([fe80::c131:350d:c471:aafd]) by
- berlix.phytec.de ([fe80::c131:350d:c471:aafd%3]) with mapi id 15.01.2308.008; 
- Fri, 9 Jul 2021 21:02:52 +0200
-From: Yunus Bas <Y.Bas@phytec.de>
-To: "sam@ravnborg.org" <sam@ravnborg.org>
-Subject: Re: [PATCH v3 2/2] drm/panel: simple: Add support for EDT
- ETM0350G0DH6 panel
-Thread-Topic: [PATCH v3 2/2] drm/panel: simple: Add support for EDT
- ETM0350G0DH6 panel
-Thread-Index: AQHXdO3wHKzu9IgCokuSRxUvHzXQjas63p2A
-Date: Fri, 9 Jul 2021 19:02:52 +0000
-Message-ID: <0f25d847360c9f9925fea216c2d15200acb5ff42.camel@phytec.de>
-References: <20210706075908.907659-1-y.bas@phytec.de>
- <20210706075908.907659-2-y.bas@phytec.de> <YOiReNdogi3POjUS@ravnborg.org>
-In-Reply-To: <YOiReNdogi3POjUS@ravnborg.org>
-Accept-Language: de-DE, en-US
-Content-Language: de-DE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.16.0.116]
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <3C027CCD760AF54489CFAC18E3AEF496@phytec.de>
-Content-Transfer-Encoding: base64
+Received: from mx1.smtp.larsendata.com (mx1.smtp.larsendata.com
+ [91.221.196.215])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B14916EA5D
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Jul 2021 19:12:40 +0000 (UTC)
+Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
+ by mx1.smtp.larsendata.com (Halon) with ESMTPS
+ id 9d442235-e0e9-11eb-9082-0050568c148b;
+ Fri, 09 Jul 2021 19:12:33 +0000 (UTC)
+Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
+ [80.162.45.141])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: sam@ravnborg.org)
+ by mail01.mxhotel.dk (Postfix) with ESMTPSA id 2197A194B1F;
+ Fri,  9 Jul 2021 21:12:47 +0200 (CEST)
+Date: Fri, 9 Jul 2021 21:12:35 +0200
+X-Report-Abuse-To: abuse@mxhotel.dk
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 04/12] drm/mgag200: Split PLL setup into compute and
+ update functions
+Message-ID: <YOifo/8ZaSYAzIc1@ravnborg.org>
+References: <20210705124515.27253-1-tzimmermann@suse.de>
+ <20210705124515.27253-5-tzimmermann@suse.de>
 MIME-Version: 1.0
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrDIsWRmVeSWpSXmKPExsWyRoChTDd27osEgynHuC16z51ksvi/bSKz
- xZWv79ksOicuYbe4vGsOm8WKn1sZLX7umsfiwO6x99sCFo+ds+6ye8zumMnqsf3bA1aP+93H
- mTyWTLvK5vF5k1wAexSXTUpqTmZZapG+XQJXxu1vjxgL5ulUPLlQ3MDYo93FyMkhIWAi8XFm
- I2sXIxeHkMByJomtu08xQTgPGCUenF/HClIlJLCRUeLPBM0uRg4ONgFFiSu38kHCIgKaEh9f
- T2IHqWcWuMUkseDsfmaQhLBAuETfzRvMIPUiAhESyxqCIeqNJG6e62UEsVkEVCS+3v3LBGLz
- CrhJ9LY8YofY28QocWHOfzaQBKeAjsTX92/ZQWxGAVmJDRvOg81nFhCX2PTsOyvEBwISS/ZA
- xCUERCVePv4HFVeQaOvpZAK5gRno0PW79CFMC4ltFxghpihKTOl+yA5xgqDEyZlPWCYwis9C
- smAWQvMshOZZSJpnIWlewMi6ilEoNzM5O7UoM1uvIKOyJDVZLyV1EyMwhg9PVL+0g7Fvjsch
- RiYOxkOMEhzMSiK8RjOeJQjxpiRWVqUW5ccXleakFh9ilOZgURLn3cBbEiYkkJ5YkpqdmlqQ
- WgSTZeLglGpgtJHcUFYnk/FrwzXJp+oypdlXF2x+unvd1A/Zn4IPh4g7SuuXJxi/lPY0+Ll0
- 6hW+wq//Dmsq7/CtlDOV7OlQ2v1b0yZtrsI+Cbv1TmE/Q064np7C/fmWpvbRsLSH55cVa63f
- sVzH/VyDaVTG5Hs75CtNJzqWb1I219OOW7PYNmTCS2EFl+RUJZbijERDLeai4kQAp4YGqM8C
- AAA=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210705124515.27253-5-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,84 +49,528 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "airlied@linux.ie" <airlied@linux.ie>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
- "laurent.pinchart@ideasonboard.com" <laurent.pinchart@ideasonboard.com>
+Cc: John.p.donnelly@oracle.com, dri-devel@lists.freedesktop.org,
+ airlied@redhat.com, emil.velikov@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgU2FtLA0KDQpBbSBGcmVpdGFnLCBkZW0gMDkuMDcuMjAyMSB1bSAyMDoxMiArMDIwMCBzY2hy
-aWViIFNhbSBSYXZuYm9yZzoNCj4gSGkgWXVudXMsDQo+IA0KPiBPbiBUdWUsIEp1bCAwNiwgMjAy
-MSBhdCAwOTo1OTowOEFNICswMjAwLCBZdW51cyBCYXMgd3JvdGU6DQo+ID4gRnJvbTogU3RlZmFu
-IFJpZWRtdWVsbGVyIDxzLnJpZWRtdWVsbGVyQHBoeXRlYy5kZT4NCj4gPiANCj4gPiBUaGlzIHBh
-dGNoIGFkZHMgc3VwcG9ydCBmb3IgdGhlIEVEVCBFVE0wMzUwRzBESDYgMy41IiAoMzIweDI0MCkg
-bGNkDQo+ID4gcGFuZWwgdG8gRFJNIHNpbXBsZSBwYW5lbCBkcml2ZXIuDQo+ID4gDQo+ID4gU2ln
-bmVkLW9mZi1ieTogU3RlZmFuIFJpZWRtdWVsbGVyIDxzLnJpZWRtdWVsbGVyQHBoeXRlYy5kZT4N
-Cj4gPiBTaWduZWQtb2ZmLWJ5OiBZdW51cyBCYXMgPHkuYmFzQHBoeXRlYy5kZT4NCj4gPiAtLS0N
-Cj4gPiBDaGFuZ2VzIGluIHYzOg0KPiA+IC0gTm8gY2hhbmdlcyBpbiBnZW5lcmFsLCBhZGRlZCBh
-ZGRpdGlvbmFsIG1haW50YWluZXJzIGFuZCBhbHNvDQo+ID4gc2VuZGluZw0KPiA+IHRvIGdlbmVy
-YWwga2VybmVsIG1haWxpbmcgbGlzdA0KPiA+IC0tLQ0KPiA+IMKgZHJpdmVycy9ncHUvZHJtL3Bh
-bmVsL3BhbmVsLXNpbXBsZS5jIHwgMjkNCj4gPiArKysrKysrKysrKysrKysrKysrKysrKysrKysr
-DQo+ID4gwqAxIGZpbGUgY2hhbmdlZCwgMjkgaW5zZXJ0aW9ucygrKQ0KPiA+IA0KPiA+IGRpZmYg
-LS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vcGFuZWwvcGFuZWwtc2ltcGxlLmMNCj4gPiBiL2RyaXZl
-cnMvZ3B1L2RybS9wYW5lbC9wYW5lbC1zaW1wbGUuYw0KPiA+IGluZGV4IDA3NDMzYmZmNmMyYi4u
-OGFiYTQ3M2E3NTkyIDEwMDY0NA0KPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9wYW5lbC9wYW5l
-bC1zaW1wbGUuYw0KPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9wYW5lbC9wYW5lbC1zaW1wbGUu
-Yw0KPiA+IEBAIC0xOTI5LDYgKzE5MjksMzIgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCBwYW5lbF9k
-ZXNjIGVkdF9ldDAzNTAxMmRtNg0KPiA+ID0gew0KPiA+IMKgwqDCoMKgwqDCoMKgwqAuYnVzX2Zs
-YWdzID0gRFJNX0JVU19GTEFHX0RFX0xPVyB8DQo+ID4gRFJNX0JVU19GTEFHX1BJWERBVEFfU0FN
-UExFX1BPU0VER0UsDQo+ID4gwqB9Ow0KPiA+IMKgDQo+ID4gK3N0YXRpYyBjb25zdCBzdHJ1Y3Qg
-ZHJtX2Rpc3BsYXlfbW9kZSBlZHRfZXRtMDM1MGcwZGg2X21vZGUgPSB7DQo+ID4gK8KgwqDCoMKg
-wqDCoMKgLmNsb2NrID0gNjUyMCwNCj4gPiArwqDCoMKgwqDCoMKgwqAuaGRpc3BsYXkgPSAzMjAs
-DQo+ID4gK8KgwqDCoMKgwqDCoMKgLmhzeW5jX3N0YXJ0ID0gMzIwICsgMjAsDQo+ID4gK8KgwqDC
-oMKgwqDCoMKgLmhzeW5jX2VuZCA9IDMyMCArIDIwICsgNjgsDQo+ID4gK8KgwqDCoMKgwqDCoMKg
-Lmh0b3RhbCA9IDMyMCArIDIwICsgNjgsDQo+ID4gK8KgwqDCoMKgwqDCoMKgLnZkaXNwbGF5ID0g
-MjQwLA0KPiA+ICvCoMKgwqDCoMKgwqDCoC52c3luY19zdGFydCA9IDI0MCArIDQsDQo+ID4gK8Kg
-wqDCoMKgwqDCoMKgLnZzeW5jX2VuZCA9IDI0MCArIDQgKyAxOCwNCj4gPiArwqDCoMKgwqDCoMKg
-wqAudnRvdGFsID0gMjQwICsgNCArIDE4LA0KPiA+ICvCoMKgwqDCoMKgwqDCoC5mbGFncyA9IERS
-TV9NT0RFX0ZMQUdfTlZTWU5DIHwgRFJNX01PREVfRkxBR19OSFNZTkMsDQo+ID4gK307DQo+ID4g
-Kw0KPiA+ICtzdGF0aWMgY29uc3Qgc3RydWN0IHBhbmVsX2Rlc2MgZWR0X2V0bTAzNTBnMGRoNiA9
-IHsNCj4gPiArwqDCoMKgwqDCoMKgwqAubW9kZXMgPSAmZWR0X2V0bTAzNTBnMGRoNl9tb2RlLA0K
-PiA+ICvCoMKgwqDCoMKgwqDCoC5udW1fbW9kZXMgPSAxLA0KPiA+ICvCoMKgwqDCoMKgwqDCoC5i
-cGMgPSA2LA0KPiA+ICvCoMKgwqDCoMKgwqDCoC5zaXplID0gew0KPiA+ICvCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqAud2lkdGggPSA3MCwNCj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgLmhlaWdodCA9IDUzLA0KPiA+ICvCoMKgwqDCoMKgwqDCoH0sDQo+ID4gK8KgwqDC
-oMKgwqDCoMKgLmJ1c19mb3JtYXQgPSBNRURJQV9CVVNfRk1UX1JHQjg4OF8xWDI0LA0KPiA+ICvC
-oMKgwqDCoMKgwqDCoC5idXNfZmxhZ3MgPSBEUk1fQlVTX0ZMQUdfREVfSElHSCB8DQo+ID4gRFJN
-X0JVU19GTEFHX1BJWERBVEFfRFJJVkVfTkVHRURHRSwNCj4gPiArwqDCoMKgwqDCoMKgwqAuY29u
-bmVjdG9yX3R5cGUgPSBEUk1fTU9ERV9DT05ORUNUT1JfRFBJLA0KPiA+ICt9Ow0KPiA+ICsNCj4g
-PiDCoHN0YXRpYyBjb25zdCBzdHJ1Y3QgZHJtX2Rpc3BsYXlfbW9kZSBlZHRfZXRtMDQzMDgwZGg2
-Z3BfbW9kZSA9IHsNCj4gPiDCoMKgwqDCoMKgwqDCoMKgLmNsb2NrID0gMTA4NzAsDQo+ID4gwqDC
-oMKgwqDCoMKgwqDCoC5oZGlzcGxheSA9IDQ4MCwNCj4gPiBAQCAtNDM1NSw2ICs0MzgxLDkgQEAg
-c3RhdGljIGNvbnN0IHN0cnVjdCBvZl9kZXZpY2VfaWQNCj4gPiBwbGF0Zm9ybV9vZl9tYXRjaFtd
-ID0gew0KPiA+IMKgwqDCoMKgwqDCoMKgwqB9LCB7DQo+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqAuY29tcGF0aWJsZSA9ICJlZHQsZXQwMzUwMTJkbTYiLA0KPiA+IMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgLmRhdGEgPSAmZWR0X2V0MDM1MDEyZG02LA0KPiA+ICvC
-oMKgwqDCoMKgwqDCoH0sIHsNCj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgLmNv
-bXBhdGlibGUgPSAiZWR0LGV0bTAzNTBnMGRoNiIsDQo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoC5kYXRhID0gJmVkdF9ldG0wMzUwZzBkaDYsDQo+IA0KPiBUaGUgY29tcGF0aWJs
-ZSAiZWR0LGV0bTAzNTBnMGRoNiIgaXMgbm90IGRvY3VtZW50ZWQuDQo+IFlvdSBsaWtlbHkgbmVl
-ZCB0byBhZGQgaXQgdG8gcGFuZWwtc2ltcGxlLnlhbWwgLSBhbmQgbGlrZXdpc2UgZm9yIHRoZQ0K
-PiBmaXJzdCBwYXRjaC4NCj4gDQo+IGR0IHBlb3BsZSBsaWtlIGJpbmRpbmcgcGF0Y2hlcyBpbiBz
-ZXBhcmF0ZSBwYXRjaGVzIHNvIGFkZCB0aGVtIGJvdGggaW4NCj4gb25lIGRlZGljYXRlZCBwYXRj
-aC4NCg0KSSd2ZSBhbHJlYWR5IHNlbnQgZGV2aWNldHJlZSBwYXRjaGVzLiBIZXJlIGlzIHRoZSBs
-aW5rOg0KaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvbGludXgtZGV2aWNldHJlZS8yMDIxMDMzMTE4
-MTMxNy40NjQ5MjYtMS15LmJhc0BwaHl0ZWMuZGUvDQoNCkl0IHdhcyBqdXN0IHBlbmRpbmcgYW5k
-IHdhaXRpbmcgZm9yIHRoZXNlIHBhdGNoZXMuIFNoYWxsIEkgc2VuZCBhZ2Fpbj8NCg0KUmVnYXJk
-cywgWXVudXMNCj4gDQo+IMKgwqDCoMKgwqDCoMKgwqBTYW0NCg0KLS0gDQpNaXQgZnJldW5kbGlj
-aGVuIEdyw7zDn2VuDQpZdW51cyBCYXMNCg0KLVNvZnR3YXJlIEVuZ2luZWVyLQ0KUEhZVEVDIE1l
-c3N0ZWNobmlrIEdtYkgNClJvYmVydC1Lb2NoLVN0ci4gMzkNCjU1MTI5IE1haW56DQpHZXJtYW55
-DQpUZWwuOiArNDkgKDApNjEzMSA5MjIxLSA0NjYNCldlYjogd3d3LnBoeXRlYy5kZQ0KDQpTaWUg
-ZmluZGVuIHVucyBhdWNoIGF1ZjogRmFjZWJvb2ssIExpbmtlZEluLCBYaW5nLCBZb3VUdWJlDQoN
-ClBIWVRFQyBNZXNzdGVjaG5payBHbWJIIHwgUm9iZXJ0LUtvY2gtU3RyLiAzOSB8IDU1MTI5IE1h
-aW56LCBHZXJtYW55DQpHZXNjaMOkZnRzZsO8aHJlcjogRGlwbC4tSW5nLiBNaWNoYWVsIE1pdGV6
-a2ksIERpcGwuLUluZy4gQm9kbyBIdWJlciB8DQpIYW5kZWxzcmVnaXN0ZXIgTWFpbnogSFJCIDQ2
-NTYgfCBGaW5hbnphbXQgTWFpbnogfCBTdC5Oci4gMjY2NTAwNjA4LCBERQ0KMTQ5MDU5ODU1DQpU
-aGlzIEUtTWFpbCBtYXkgY29udGFpbiBjb25maWRlbnRpYWwgb3IgcHJpdmlsZWdlZCBpbmZvcm1h
-dGlvbi4gSWYgeW91DQphcmUgbm90IHRoZSBpbnRlbmRlZCByZWNpcGllbnQgKG9yIGhhdmUgcmVj
-ZWl2ZWQgdGhpcyBFLU1haWwgaW4gZXJyb3IpDQpwbGVhc2Ugbm90aWZ5IHRoZSBzZW5kZXIgaW1t
-ZWRpYXRlbHkgYW5kIGRlc3Ryb3kgdGhpcyBFLU1haWwuIEFueQ0KdW5hdXRob3JpemVkIGNvcHlp
-bmcsIGRpc2Nsb3N1cmUgb3IgZGlzdHJpYnV0aW9uIG9mIHRoZSBtYXRlcmlhbCBpbg0KdGhpcyBF
-LU1haWwgaXMgc3RyaWN0bHkgZm9yYmlkZGVuLg0KDQo=
+Ho Thomas,
+
+On Mon, Jul 05, 2021 at 02:45:07PM +0200, Thomas Zimmermann wrote:
+> The _set_plls() functions compute a pixel clock's PLL values
+> and program the hardware accordingly. This happens during atomic
+> commits.
+> 
+> For atomic modesetting, it's better to separate computation and
+> programming from each other. This will allow to compute the PLL
+> value during atomic checks and catch unsupported modes early.
+> 
+> Split the PLL setup into a compute and a update functions, and
+> call them one after the other. Computed PLL values are store in
+> struct mgag200_pll_values. No functional changes.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>  drivers/gpu/drm/mgag200/mgag200_drv.h  |  17 ++
+>  drivers/gpu/drm/mgag200/mgag200_mode.c | 234 +++++++++++++++++++------
+>  2 files changed, 196 insertions(+), 55 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.h b/drivers/gpu/drm/mgag200/mgag200_drv.h
+> index f7a0537c0d0a..fca3904fde0c 100644
+> --- a/drivers/gpu/drm/mgag200/mgag200_drv.h
+> +++ b/drivers/gpu/drm/mgag200/mgag200_drv.h
+> @@ -110,6 +110,23 @@
+>  #define MGAG200_MAX_FB_HEIGHT 4096
+>  #define MGAG200_MAX_FB_WIDTH 4096
+>  
+> +/*
+> + * Stores parameters for programming the PLLs
+> + *
+> + * Fref: reference frequency (A: 25.175 Mhz, B: 28.361, C: XX Mhz)
+> + * Fo: output frequency
+> + * Fvco = Fref * (N / M)
+> + * Fo = Fvco / P
+> + *
+> + * S = [0..3]
+> + */
+> +struct mgag200_pll_values {
+> +	unsigned int m;
+Why not u8?
+> +	unsigned int n;
+Why not u8?
+> +	unsigned int p;
+Why not u8?
+> +	unsigned int s;
+> +};
+> +
+>  #define to_mga_connector(x) container_of(x, struct mga_connector, base)
+>  
+>  struct mga_i2c_chan {
+> diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c b/drivers/gpu/drm/mgag200/mgag200_mode.c
+> index fa06f1994d68..961bd128fea3 100644
+> --- a/drivers/gpu/drm/mgag200/mgag200_mode.c
+> +++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
+> @@ -114,7 +114,8 @@ static inline void mga_wait_busy(struct mga_device *mdev)
+>   * PLL setup
+>   */
+>  
+> -static int mgag200_g200_set_plls(struct mga_device *mdev, long clock)
+> +static int mgag200_compute_pixpll_values_g200(struct mga_device *mdev, long clock,
+> +					      struct mgag200_pll_values *pixpllc)
+>  {
+>  	struct drm_device *dev = &mdev->base;
+>  	const int post_div_max = 7;
+> @@ -130,7 +131,6 @@ static int mgag200_g200_set_plls(struct mga_device *mdev, long clock)
+>  	long ref_clk = mdev->model.g200.ref_clk;
+>  	long p_clk_min = mdev->model.g200.pclk_min;
+>  	long p_clk_max =  mdev->model.g200.pclk_max;
+> -	u8 misc;
+>  
+>  	if (clock > p_clk_max) {
+>  		drm_err(dev, "Pixel Clock %ld too high\n", clock);
+> @@ -175,19 +175,34 @@ static int mgag200_g200_set_plls(struct mga_device *mdev, long clock)
+>  	drm_dbg_kms(dev, "clock: %ld vco: %ld m: %d n: %d p: %d s: %d\n",
+>  		    clock, f_vco, m, n, p, s);
+>  
+> +	pixpllc->m = m;
+> +	pixpllc->n = n;
+> +	pixpllc->p = p;
+> +	pixpllc->s = s;
+> +
+> +	return 0;
+> +}
+> +
+> +static void mgag200_set_pixpll_g200(struct mga_device *mdev,
+> +				    const struct mgag200_pll_values *pixpllc)
+> +{
+> +	u8 misc, xpixpllcm, xpixpllcn, xpixpllcp;
+Strange names, but whatever.
+> +
+>  	misc = RREG8(MGA_MISC_IN);
+>  	misc &= ~MGAREG_MISC_CLK_SEL_MASK;
+>  	misc |= MGAREG_MISC_CLK_SEL_MGA_MSK;
+>  	WREG8(MGA_MISC_OUT, misc);
+>  
+> -	WREG_DAC(MGA1064_PIX_PLLC_M, m);
+> -	WREG_DAC(MGA1064_PIX_PLLC_N, n);
+> -	WREG_DAC(MGA1064_PIX_PLLC_P, (p | (s << 3)));
+> -
+> -	return 0;
+> +	xpixpllcm = pixpllc->m;
+> +	xpixpllcn = pixpllc->n;
+> +	xpixpllcp = pixpllc->p | (pixpllc->s << 3);
+> +	WREG_DAC(MGA1064_PIX_PLLC_M, xpixpllcm);
+> +	WREG_DAC(MGA1064_PIX_PLLC_N, xpixpllcn);
+> +	WREG_DAC(MGA1064_PIX_PLLC_P, xpixpllcp);
+
+I cannot see why this code does not look like this:
+	WREG_DAC(MGA1064_PIX_PLLC_M, pixpllc->m);
+	WREG_DAC(MGA1064_PIX_PLLC_N, pixpllc->n);
+	WREG_DAC(MGA1064_PIX_PLLC_P, pixpllc->p | (pixpllc->s << 3));
+
+
+Same goes for all the functions in the following.
+
+>  }
+>  
+> -static int mga_g200se_set_plls(struct mga_device *mdev, long clock)
+> +static int mgag200_compute_pixpll_values_g200se(struct mga_device *mdev, long clock,
+> +						struct mgag200_pll_values *pixpllc)
+>  {
+>  	static const unsigned int pvalues_e4[] = {16, 14, 12, 10, 8, 6, 4, 2, 1};
+>  
+> @@ -199,7 +214,6 @@ static int mga_g200se_set_plls(struct mga_device *mdev, long clock)
+>  	unsigned int computed;
+>  	unsigned int fvv;
+>  	unsigned int i;
+> -	u8 misc;
+>  
+>  	if (unique_rev_id <= 0x03) {
+>  
+> @@ -295,35 +309,47 @@ static int mga_g200se_set_plls(struct mga_device *mdev, long clock)
+>  		return -EINVAL;
+>  	}
+>  
+> +	pixpllc->m = m;
+> +	pixpllc->n = n;
+> +	pixpllc->p = p;
+> +	pixpllc->s = 0;
+> +
+> +	return 0;
+> +}
+> +
+> +static void mgag200_set_pixpll_g200se(struct mga_device *mdev,
+> +				      const struct mgag200_pll_values *pixpllc)
+> +{
+> +	u32 unique_rev_id = mdev->model.g200se.unique_rev_id;
+> +	u8 misc, xpixpllcm, xpixpllcn, xpixpllcp;
+> +
+>  	misc = RREG8(MGA_MISC_IN);
+>  	misc &= ~MGAREG_MISC_CLK_SEL_MASK;
+>  	misc |= MGAREG_MISC_CLK_SEL_MGA_MSK;
+>  	WREG8(MGA_MISC_OUT, misc);
+>  
+> -	WREG_DAC(MGA1064_PIX_PLLC_M, m);
+> -	WREG_DAC(MGA1064_PIX_PLLC_N, n);
+> -	WREG_DAC(MGA1064_PIX_PLLC_P, p);
+> +	xpixpllcm = pixpllc->m;
+> +	xpixpllcn = pixpllc->n;
+> +	xpixpllcp = pixpllc->p | (pixpllc->s << 3);
+The "(pixpllc->s << 3)" look like a copy error. No harm as s is 0 but
+confusing.
+
+
+> +	WREG_DAC(MGA1064_PIX_PLLC_M, xpixpllcm);
+> +	WREG_DAC(MGA1064_PIX_PLLC_N, xpixpllcn);
+> +	WREG_DAC(MGA1064_PIX_PLLC_P, xpixpllcp);
+>  
+>  	if (unique_rev_id >= 0x04) {
+>  		WREG_DAC(0x1a, 0x09);
+>  		msleep(20);
+>  		WREG_DAC(0x1a, 0x01);
+> -
+>  	}
+> -
+> -	return 0;
+>  }
+>  
+> -static int mga_g200wb_set_plls(struct mga_device *mdev, long clock)
+> +static int mgag200_compute_pixpll_values_g200wb(struct mga_device *mdev, long clock,
+> +						struct mgag200_pll_values *pixpllc)
+>  {
+>  	unsigned int vcomax, vcomin, pllreffreq;
+>  	unsigned int delta, tmpdelta;
+>  	unsigned int testp, testm, testn, testp2;
+>  	unsigned int p, m, n;
+>  	unsigned int computed;
+> -	int i, j, tmpcount, vcount;
+> -	bool pll_locked = false;
+> -	u8 tmp, misc;
+>  
+>  	m = n = p = 0;
+>  
+> @@ -396,11 +422,30 @@ static int mga_g200wb_set_plls(struct mga_device *mdev, long clock)
+>  		}
+>  	}
+>  
+> +	pixpllc->m = m;
+> +	pixpllc->n = n;
+> +	pixpllc->p = p;
+> +	pixpllc->s = 0;
+> +
+> +	return 0;
+> +}
+> +
+> +static void mgag200_set_pixpll_g200wb(struct mga_device *mdev,
+> +				      const struct mgag200_pll_values *pixpllc)
+> +{
+> +	u8 misc, xpixpllcm, xpixpllcn, xpixpllcp, tmp;
+> +	int i, j, tmpcount, vcount;
+> +	bool pll_locked = false;
+> +
+>  	misc = RREG8(MGA_MISC_IN);
+>  	misc &= ~MGAREG_MISC_CLK_SEL_MASK;
+>  	misc |= MGAREG_MISC_CLK_SEL_MGA_MSK;
+>  	WREG8(MGA_MISC_OUT, misc);
+>  
+> +	xpixpllcm = pixpllc->m;
+> +	xpixpllcn = pixpllc->n;
+> +	xpixpllcp = pixpllc->p | (pixpllc->s << 3);
+The (pixpllc->s << 3) looks wrong here too.
+
+> +
+>  	for (i = 0; i <= 32 && pll_locked == false; i++) {
+>  		if (i > 0) {
+>  			WREG8(MGAREG_CRTC_INDEX, 0x1e);
+> @@ -441,9 +486,9 @@ static int mga_g200wb_set_plls(struct mga_device *mdev, long clock)
+>  		udelay(50);
+>  
+>  		/* program pixel pll register */
+> -		WREG_DAC(MGA1064_WB_PIX_PLLC_N, n);
+> -		WREG_DAC(MGA1064_WB_PIX_PLLC_M, m);
+> -		WREG_DAC(MGA1064_WB_PIX_PLLC_P, p);
+> +		WREG_DAC(MGA1064_PIX_PLLC_N, xpixpllcn);
+> +		WREG_DAC(MGA1064_PIX_PLLC_M, xpixpllcm);
+> +		WREG_DAC(MGA1064_PIX_PLLC_P, xpixpllcp);
+>  
+>  		udelay(50);
+>  
+> @@ -491,21 +536,21 @@ static int mga_g200wb_set_plls(struct mga_device *mdev, long clock)
+>  				udelay(5);
+>  		}
+>  	}
+> +
+>  	WREG8(DAC_INDEX, MGA1064_REMHEADCTL);
+>  	tmp = RREG8(DAC_DATA);
+>  	tmp &= ~MGA1064_REMHEADCTL_CLKDIS;
+>  	WREG_DAC(MGA1064_REMHEADCTL, tmp);
+> -	return 0;
+>  }
+>  
+> -static int mga_g200ev_set_plls(struct mga_device *mdev, long clock)
+> +static int mgag200_compute_pixpll_values_g200ev(struct mga_device *mdev, long clock,
+> +						struct mgag200_pll_values *pixpllc)
+>  {
+>  	unsigned int vcomax, vcomin, pllreffreq;
+>  	unsigned int delta, tmpdelta;
+>  	unsigned int testp, testm, testn;
+>  	unsigned int p, m, n;
+>  	unsigned int computed;
+> -	u8 tmp, misc;
+>  
+>  	m = n = p = 0;
+>  	vcomax = 550000;
+> @@ -538,11 +583,28 @@ static int mga_g200ev_set_plls(struct mga_device *mdev, long clock)
+>  		}
+>  	}
+>  
+> +	pixpllc->m = m;
+> +	pixpllc->n = n;
+> +	pixpllc->p = p;
+> +	pixpllc->s = 0;
+> +
+> +	return 0;
+> +}
+> +
+> +static void mgag200_set_pixpll_g200ev(struct mga_device *mdev,
+> +				      const struct mgag200_pll_values *pixpllc)
+> +{
+> +	u8 misc, xpixpllcm, xpixpllcn, xpixpllcp, tmp;
+> +
+>  	misc = RREG8(MGA_MISC_IN);
+>  	misc &= ~MGAREG_MISC_CLK_SEL_MASK;
+>  	misc |= MGAREG_MISC_CLK_SEL_MGA_MSK;
+>  	WREG8(MGA_MISC_OUT, misc);
+>  
+> +	xpixpllcm = pixpllc->m;
+> +	xpixpllcn = pixpllc->n;
+> +	xpixpllcp = pixpllc->p | (pixpllc->s << 3);
+> +
+>  	WREG8(DAC_INDEX, MGA1064_PIX_CLK_CTL);
+>  	tmp = RREG8(DAC_DATA);
+>  	tmp |= MGA1064_PIX_CLK_CTL_CLK_DIS;
+> @@ -561,9 +623,9 @@ static int mga_g200ev_set_plls(struct mga_device *mdev, long clock)
+>  	tmp |= MGA1064_PIX_CLK_CTL_CLK_POW_DOWN;
+>  	WREG8(DAC_DATA, tmp);
+>  
+> -	WREG_DAC(MGA1064_EV_PIX_PLLC_M, m);
+> -	WREG_DAC(MGA1064_EV_PIX_PLLC_N, n);
+> -	WREG_DAC(MGA1064_EV_PIX_PLLC_P, p);
+> +	WREG_DAC(MGA1064_EV_PIX_PLLC_M, xpixpllcm);
+> +	WREG_DAC(MGA1064_EV_PIX_PLLC_N, xpixpllcn);
+> +	WREG_DAC(MGA1064_EV_PIX_PLLC_P, xpixpllcp);
+>  
+>  	udelay(50);
+>  
+> @@ -592,20 +654,16 @@ static int mga_g200ev_set_plls(struct mga_device *mdev, long clock)
+>  	tmp = RREG8(DAC_DATA);
+>  	tmp &= ~MGA1064_PIX_CLK_CTL_CLK_DIS;
+>  	WREG8(DAC_DATA, tmp);
+> -
+> -	return 0;
+>  }
+>  
+> -static int mga_g200eh_set_plls(struct mga_device *mdev, long clock)
+> +static int mgag200_compute_pixpll_values_g200eh(struct mga_device *mdev, long clock,
+> +						struct mgag200_pll_values *pixpllc)
+>  {
+>  	unsigned int vcomax, vcomin, pllreffreq;
+>  	unsigned int delta, tmpdelta;
+>  	unsigned int testp, testm, testn;
+>  	unsigned int p, m, n;
+>  	unsigned int computed;
+> -	int i, j, tmpcount, vcount;
+> -	u8 tmp, misc;
+> -	bool pll_locked = false;
+>  
+>  	m = n = p = 0;
+>  
+> @@ -676,11 +734,30 @@ static int mga_g200eh_set_plls(struct mga_device *mdev, long clock)
+>  		}
+>  	}
+>  
+> +	pixpllc->m = m;
+> +	pixpllc->n = n;
+> +	pixpllc->p = p;
+> +	pixpllc->s = 0;
+> +
+> +	return 0;
+> +}
+> +
+> +static void mgag200_set_pixpll_g200eh(struct mga_device *mdev,
+> +				      const struct mgag200_pll_values *pixpllc)
+> +{
+> +	u8 misc, xpixpllcm, xpixpllcn, xpixpllcp, tmp;
+> +	int i, j, tmpcount, vcount;
+> +	bool pll_locked = false;
+> +
+>  	misc = RREG8(MGA_MISC_IN);
+>  	misc &= ~MGAREG_MISC_CLK_SEL_MASK;
+>  	misc |= MGAREG_MISC_CLK_SEL_MGA_MSK;
+>  	WREG8(MGA_MISC_OUT, misc);
+>  
+> +	xpixpllcm = pixpllc->m;
+> +	xpixpllcn = pixpllc->n;
+> +	xpixpllcp = pixpllc->p | (pixpllc->s << 3);
+Again (pixpllc->s << 3)
+> +
+>  	for (i = 0; i <= 32 && pll_locked == false; i++) {
+>  		WREG8(DAC_INDEX, MGA1064_PIX_CLK_CTL);
+>  		tmp = RREG8(DAC_DATA);
+> @@ -698,9 +775,9 @@ static int mga_g200eh_set_plls(struct mga_device *mdev, long clock)
+>  
+>  		udelay(500);
+>  
+> -		WREG_DAC(MGA1064_EH_PIX_PLLC_M, m);
+> -		WREG_DAC(MGA1064_EH_PIX_PLLC_N, n);
+> -		WREG_DAC(MGA1064_EH_PIX_PLLC_P, p);
+> +		WREG_DAC(MGA1064_EH_PIX_PLLC_M, xpixpllcm);
+> +		WREG_DAC(MGA1064_EH_PIX_PLLC_N, xpixpllcn);
+> +		WREG_DAC(MGA1064_EH_PIX_PLLC_P, xpixpllcp);
+>  
+>  		udelay(500);
+>  
+> @@ -728,11 +805,10 @@ static int mga_g200eh_set_plls(struct mga_device *mdev, long clock)
+>  				udelay(5);
+>  		}
+>  	}
+> -
+> -	return 0;
+>  }
+>  
+> -static int mga_g200er_set_plls(struct mga_device *mdev, long clock)
+> +static int mgag200_compute_pixpll_values_g200er(struct mga_device *mdev, long clock,
+> +						struct mgag200_pll_values *pixpllc)
+>  {
+>  	static const unsigned int m_div_val[] = { 1, 2, 4, 8 };
+>  	unsigned int vcomax, vcomin, pllreffreq;
+> @@ -740,8 +816,6 @@ static int mga_g200er_set_plls(struct mga_device *mdev, long clock)
+>  	int testr, testn, testm, testo;
+>  	unsigned int p, m, n;
+>  	unsigned int computed, vco;
+> -	int tmp;
+> -	u8 misc;
+>  
+>  	m = n = p = 0;
+>  	vcomax = 1488000;
+> @@ -782,11 +856,28 @@ static int mga_g200er_set_plls(struct mga_device *mdev, long clock)
+>  		}
+>  	}
+>  
+> +	pixpllc->m = m;
+> +	pixpllc->n = n;
+> +	pixpllc->p = p;
+> +	pixpllc->s = 0;
+> +
+> +	return 0;
+> +}
+> +
+> +static void mgag200_set_pixpll_g200er(struct mga_device *mdev,
+> +				      const struct mgag200_pll_values *pixpllc)
+> +{
+> +	u8 misc, xpixpllcm, xpixpllcn, xpixpllcp, tmp;
+> +
+>  	misc = RREG8(MGA_MISC_IN);
+>  	misc &= ~MGAREG_MISC_CLK_SEL_MASK;
+>  	misc |= MGAREG_MISC_CLK_SEL_MGA_MSK;
+>  	WREG8(MGA_MISC_OUT, misc);
+>  
+> +	xpixpllcm = pixpllc->m;
+> +	xpixpllcn = pixpllc->n;
+> +	xpixpllcp = pixpllc->p | (pixpllc->s << 3);
+Again (pixpllc->s << 3)
+
+> +
+>  	WREG8(DAC_INDEX, MGA1064_PIX_CLK_CTL);
+>  	tmp = RREG8(DAC_DATA);
+>  	tmp |= MGA1064_PIX_CLK_CTL_CLK_DIS;
+> @@ -809,37 +900,70 @@ static int mga_g200er_set_plls(struct mga_device *mdev, long clock)
+>  
+>  	udelay(500);
+>  
+> -	WREG_DAC(MGA1064_ER_PIX_PLLC_N, n);
+> -	WREG_DAC(MGA1064_ER_PIX_PLLC_M, m);
+> -	WREG_DAC(MGA1064_ER_PIX_PLLC_P, p);
+> +	WREG_DAC(MGA1064_ER_PIX_PLLC_N, xpixpllcn);
+> +	WREG_DAC(MGA1064_ER_PIX_PLLC_M, xpixpllcm);
+> +	WREG_DAC(MGA1064_ER_PIX_PLLC_P, xpixpllcp);
+>  
+>  	udelay(50);
+> -
+> -	return 0;
+>  }
+>  
+> -static int mgag200_crtc_set_plls(struct mga_device *mdev, long clock)
+> +static void mgag200_crtc_set_plls(struct mga_device *mdev, long clock)
+>  {
+Makes sense, you can forget my earlier comment about return 0 in this
+function.
+
+
+> +	struct mgag200_pll_values pixpll;
+> +	int ret;
+> +
+>  	switch(mdev->type) {
+>  	case G200_PCI:
+>  	case G200_AGP:
+> -		return mgag200_g200_set_plls(mdev, clock);
+> +		ret = mgag200_compute_pixpll_values_g200(mdev, clock, &pixpll);
+> +		break;
+>  	case G200_SE_A:
+>  	case G200_SE_B:
+> -		return mga_g200se_set_plls(mdev, clock);
+> +		ret = mgag200_compute_pixpll_values_g200se(mdev, clock, &pixpll);
+> +		break;
+>  	case G200_WB:
+>  	case G200_EW3:
+> -		return mga_g200wb_set_plls(mdev, clock);
+> +		ret = mgag200_compute_pixpll_values_g200wb(mdev, clock, &pixpll);
+> +		break;
+>  	case G200_EV:
+> -		return mga_g200ev_set_plls(mdev, clock);
+> +		ret = mgag200_compute_pixpll_values_g200ev(mdev, clock, &pixpll);
+> +		break;
+>  	case G200_EH:
+>  	case G200_EH3:
+> -		return mga_g200eh_set_plls(mdev, clock);
+> +		ret = mgag200_compute_pixpll_values_g200eh(mdev, clock, &pixpll);
+> +		break;
+>  	case G200_ER:
+> -		return mga_g200er_set_plls(mdev, clock);
+> +		ret = mgag200_compute_pixpll_values_g200er(mdev, clock, &pixpll);
+> +		break;
+>  	}
+>  
+> -	return 0;
+> +	if (ret)
+> +		return;
+> +
+> +	switch (mdev->type) {
+> +	case G200_PCI:
+> +	case G200_AGP:
+> +		mgag200_set_pixpll_g200(mdev, &pixpll);
+> +		break;
+> +	case G200_SE_A:
+> +	case G200_SE_B:
+> +		mgag200_set_pixpll_g200se(mdev, &pixpll);
+> +		break;
+> +	case G200_WB:
+> +	case G200_EW3:
+> +		mgag200_set_pixpll_g200wb(mdev, &pixpll);
+> +		break;
+> +	case G200_EV:
+> +		mgag200_set_pixpll_g200ev(mdev, &pixpll);
+> +		break;
+> +	case G200_EH:
+> +	case G200_EH3:
+> +		mgag200_set_pixpll_g200eh(mdev, &pixpll);
+> +		break;
+> +	case G200_ER:
+> +		mgag200_set_pixpll_g200er(mdev, &pixpll);
+> +		break;
+> +	}
+>  }
+>  
+>  static void mgag200_g200wb_hold_bmc(struct mga_device *mdev)
+> -- 
+> 2.32.0
