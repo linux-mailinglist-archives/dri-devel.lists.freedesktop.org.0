@@ -1,64 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 346113C28DF
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Jul 2021 20:10:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 193CC3C28E2
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Jul 2021 20:12:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE5F16E941;
-	Fri,  9 Jul 2021 18:10:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F9B86E97F;
+	Fri,  9 Jul 2021 18:12:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com
- [IPv6:2607:f8b0:4864:20::1034])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9268E6E941
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Jul 2021 18:10:03 +0000 (UTC)
-Received: by mail-pj1-x1034.google.com with SMTP id
- x21-20020a17090aa395b029016e25313bfcso6520677pjp.2
- for <dri-devel@lists.freedesktop.org>; Fri, 09 Jul 2021 11:10:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=OS58rij80ElucW0PY66L5D8ExybPJH/1VgMC6duZHlU=;
- b=go5RVxO2kU2+etrFfSYo+VyLT/24peH+yKtEuAV1pK4ASOt71ljZc69/msO+AOs6i7
- fOyDdnkdLvrsk3LrtdRRlWFx3uTOD0xyo/L732NKQTseg8H7fmz5D82oLFNtGQIfcnK4
- JhjVMtJB2lp2IQnICyNIWd4Dug0zI5FsholSkTe+T90w6bO02wObP/MQXq5GOKxqxP0J
- K8YFOnkIZXZBItWwjYw+Li6GoBsR5yyMOggOOBa3Ick9gTbzVAsGG7w8+3CaMnZryQWr
- PnSgP8cfXhax6lyhulFiDfQV4rOYiAnKeXt/+7Y8BMyIfZeJBvxxivt8hIthzRutqZ5t
- FsEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=OS58rij80ElucW0PY66L5D8ExybPJH/1VgMC6duZHlU=;
- b=KytAVycEGyWtd1v9STdFiSi3pyGGSFwsge75yrxOjJvygdwlLAw50O6Og9feblXhlW
- j1YjqXEPJzKJDxWqzvJ37mORfwi2kCH740ZnfxXXAzv9WiaK8+haqCCM2CvWwqmsw7ip
- 2oTrz/H9Kqdim5uzxdKC5efjIWc6w7lrMteDKTjP2YlViVwdHtx4sJfTCi2cJDNMEEzb
- 4moswu2Kke8l6OfMyMVXvlqoJdnu42hjkwIrxVpKT9V/6j/Cpo5a05JWmq+Av6/7eb18
- FWrCiruzmSX+BUWhgxC5AO0D8wLhXoTZ8O2OE+ktorlOwaTYIPYWbyShi/tO84u7e8SZ
- 0M6A==
-X-Gm-Message-State: AOAM533KTya77erVk0hqdk9KA2xNIrDJx0rOq4MbGazibIKjii8SEv0V
- ri3LMZJzQRT0LMOvsxe5lDE=
-X-Google-Smtp-Source: ABdhPJyEQMTdU+dbkSplr0x7yUpZrsCTQPP9k0UdRh8tLZ+tNWCO0MuXx7Hu1OoAykafDNxJuPcFXw==
-X-Received: by 2002:a17:90a:b00a:: with SMTP id
- x10mr176749pjq.77.1625854203158; 
- Fri, 09 Jul 2021 11:10:03 -0700 (PDT)
-Received: from tong-desktop.local ([2601:647:4200:13::844])
- by smtp.googlemail.com with ESMTPSA id b65sm7003737pfa.32.2021.07.09.11.10.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 09 Jul 2021 11:10:02 -0700 (PDT)
-From: Tong Zhang <ztong0001@gmail.com>
-To: VMware Graphics <linux-graphics-maintainer@vmware.com>,
- Roland Scheidegger <sroland@vmware.com>, Zack Rusin <zackr@vmware.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v1] fix vmwgfx compilation error due to a missing include
-Date: Fri,  9 Jul 2021 11:09:43 -0700
-Message-Id: <20210709180944.2533114-1-ztong0001@gmail.com>
-X-Mailer: git-send-email 2.25.1
+Received: from mx2.smtp.larsendata.com (mx2.smtp.larsendata.com
+ [91.221.196.228])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E8C16E97F
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Jul 2021 18:12:12 +0000 (UTC)
+Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
+ by mx2.smtp.larsendata.com (Halon) with ESMTPS
+ id 3175423e-e0e1-11eb-8d1a-0050568cd888;
+ Fri, 09 Jul 2021 18:12:16 +0000 (UTC)
+Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
+ [80.162.45.141])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: sam@ravnborg.org)
+ by mail01.mxhotel.dk (Postfix) with ESMTPSA id D0559194B04;
+ Fri,  9 Jul 2021 20:12:19 +0200 (CEST)
+Date: Fri, 9 Jul 2021 20:12:08 +0200
+X-Report-Abuse-To: abuse@mxhotel.dk
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Yunus Bas <y.bas@phytec.de>
+Subject: Re: [PATCH v3 2/2] drm/panel: simple: Add support for EDT
+ ETM0350G0DH6 panel
+Message-ID: <YOiReNdogi3POjUS@ravnborg.org>
+References: <20210706075908.907659-1-y.bas@phytec.de>
+ <20210706075908.907659-2-y.bas@phytec.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210706075908.907659-2-y.bas@phytec.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,39 +49,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tong Zhang <ztong0001@gmail.com>
+Cc: airlied@linux.ie, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, thierry.reding@gmail.com,
+ laurent.pinchart@ideasonboard.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch fixes vmwgfx driver compilation error due to a missing include
+Hi Yunus,
 
-drivers/gpu/drm/vmwgfx/vmwgfx_drv.c: In function ‘vmw_vram_manager_init’:
-drivers/gpu/drm/vmwgfx/vmwgfx_drv.c:678:8: error: implicit declaration of function ‘ttm_range_man_init’ [-Werror=implicit-function-declaration]
-  678 |  ret = ttm_range_man_init(&dev_priv->bdev, TTM_PL_VRAM, false,
-      |        ^~~~~~~~~~~~~~~~~~
-drivers/gpu/drm/vmwgfx/vmwgfx_drv.c: In function ‘vmw_vram_manager_fini’:
-drivers/gpu/drm/vmwgfx/vmwgfx_drv.c:690:2: error: implicit declaration of function ‘ttm_range_man_fini’ [-Werror=implicit-function-declaration]
-  690 |  ttm_range_man_fini(&dev_priv->bdev, TTM_PL_VRAM);
-      |  ^~~~~~~~~~~~~~~~~~
-cc1: some warnings being treated as errors
+On Tue, Jul 06, 2021 at 09:59:08AM +0200, Yunus Bas wrote:
+> From: Stefan Riedmueller <s.riedmueller@phytec.de>
+> 
+> This patch adds support for the EDT ETM0350G0DH6 3.5" (320x240) lcd
+> panel to DRM simple panel driver.
+> 
+> Signed-off-by: Stefan Riedmueller <s.riedmueller@phytec.de>
+> Signed-off-by: Yunus Bas <y.bas@phytec.de>
+> ---
+> Changes in v3:
+> - No changes in general, added additional maintainers and also sending
+> to general kernel mailing list
+> ---
+>  drivers/gpu/drm/panel/panel-simple.c | 29 ++++++++++++++++++++++++++++
+>  1 file changed, 29 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+> index 07433bff6c2b..8aba473a7592 100644
+> --- a/drivers/gpu/drm/panel/panel-simple.c
+> +++ b/drivers/gpu/drm/panel/panel-simple.c
+> @@ -1929,6 +1929,32 @@ static const struct panel_desc edt_et035012dm6 = {
+>  	.bus_flags = DRM_BUS_FLAG_DE_LOW | DRM_BUS_FLAG_PIXDATA_SAMPLE_POSEDGE,
+>  };
+>  
+> +static const struct drm_display_mode edt_etm0350g0dh6_mode = {
+> +	.clock = 6520,
+> +	.hdisplay = 320,
+> +	.hsync_start = 320 + 20,
+> +	.hsync_end = 320 + 20 + 68,
+> +	.htotal = 320 + 20 + 68,
+> +	.vdisplay = 240,
+> +	.vsync_start = 240 + 4,
+> +	.vsync_end = 240 + 4 + 18,
+> +	.vtotal = 240 + 4 + 18,
+> +	.flags = DRM_MODE_FLAG_NVSYNC | DRM_MODE_FLAG_NHSYNC,
+> +};
+> +
+> +static const struct panel_desc edt_etm0350g0dh6 = {
+> +	.modes = &edt_etm0350g0dh6_mode,
+> +	.num_modes = 1,
+> +	.bpc = 6,
+> +	.size = {
+> +		.width = 70,
+> +		.height = 53,
+> +	},
+> +	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
+> +	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE,
+> +	.connector_type = DRM_MODE_CONNECTOR_DPI,
+> +};
+> +
+>  static const struct drm_display_mode edt_etm043080dh6gp_mode = {
+>  	.clock = 10870,
+>  	.hdisplay = 480,
+> @@ -4355,6 +4381,9 @@ static const struct of_device_id platform_of_match[] = {
+>  	}, {
+>  		.compatible = "edt,et035012dm6",
+>  		.data = &edt_et035012dm6,
+> +	}, {
+> +		.compatible = "edt,etm0350g0dh6",
+> +		.data = &edt_etm0350g0dh6,
 
-Signed-off-by: Tong Zhang <ztong0001@gmail.com>
----
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.c | 1 +
- 1 file changed, 1 insertion(+)
+The compatible "edt,etm0350g0dh6" is not documented.
+You likely need to add it to panel-simple.yaml - and likewise for the
+first patch.
 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-index 6f5ea00973e0..6eb93aa2f311 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-@@ -37,6 +37,7 @@
- #include <drm/drm_sysfs.h>
- #include <drm/ttm/ttm_bo_driver.h>
- #include <drm/ttm/ttm_placement.h>
-+#include <drm/ttm/ttm_range_manager.h>
- #include <generated/utsrelease.h>
- 
- #include "ttm_object.h"
--- 
-2.25.1
+dt people like binding patches in separate patches so add them both in
+one dedicated patch.
 
+	Sam
