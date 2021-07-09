@@ -1,55 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 520A43C29AB
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Jul 2021 21:29:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 01DAB3C29AD
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Jul 2021 21:29:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 51A0A6EA6E;
-	Fri,  9 Jul 2021 19:29:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C1E386EA6F;
+	Fri,  9 Jul 2021 19:29:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
- [IPv6:2a00:1450:4864:20::42b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AF3D46EA6E
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Jul 2021 19:29:38 +0000 (UTC)
-Received: by mail-wr1-x42b.google.com with SMTP id l7so12629175wrv.7
- for <dri-devel@lists.freedesktop.org>; Fri, 09 Jul 2021 12:29:38 -0700 (PDT)
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
+ [IPv6:2a00:1450:4864:20::335])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 94CB36EA6F
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Jul 2021 19:29:40 +0000 (UTC)
+Received: by mail-wm1-x335.google.com with SMTP id w13so6986398wmc.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 09 Jul 2021 12:29:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=fleDkTlpZCnkAhAKVFvno1InuM+Dhrnib08wE4hr/VE=;
- b=ahNE4pzYVKxUy5kYAdYGrmDRiXtYKG8+n/QkPjISNglNBPwhedxhJceud0S53OCDvk
- 45/UouVs/lLKpxLH06WEr7N8oGyQHAuISGa4yxLGJouAX8J109dwt8abgTslDz7BM4nU
- 2NYomJOCCBymOI85A7m9qk4Hr+/StRKUqjdz5nUEClkuGbpvMI2gBolcqVYx77d6xM8j
- Fa3bnmssnut4WOh+j9eTdaNDVeuyJRgPujoFef3AuXJXvLGy8SISoSMtXxhoJTtxwR2l
- RmL2FzDT6CSbL093KoKrzvSEO0niCMZxO8+6SIFhuIs0b6Q9zjtokVyL5aPbeWy8GF6c
- oB1w==
+ bh=AdLcTRIWBNsI6B28xgdufoW2tJ7+hChXLZ6LrUe2WGw=;
+ b=cyPTUDOINofC9gk2QIHwy4LVVdGvEaXD8Qdygp0jgNILRlWaANqbKToIOMWfkkSASs
+ 6DvyaYpvZPAa1B21oa9zeasMrixPKK/EmrfiN0YA32xJC9FVrJEgOEGK/QKOX691WCBz
+ xA6rz387EFwPquer+pRl67YWpsi3YnprcjbNTQLCEsfzarnZ+aRvbOuBCvsOvn3vpE04
+ It/whpV46PX/ksxUG0Uk5PUPphOctGEANZQxibRgRlgra5qL4PomSrIvUjy3v+5Atpk1
+ 7KCo7yQd78J2wXBR5OQBgheXn87mnnpgGBoqEZWybp+Vq3mwBrjARhKEDBFsSJ5+If0i
+ 2ibQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=fleDkTlpZCnkAhAKVFvno1InuM+Dhrnib08wE4hr/VE=;
- b=J/dN3DbEqhRUqdKOsvbxjkYlIcMG8h+Kp8niVdXQC15LhHggd+nWVrxaFzeLy4qr5P
- 7+aehH9uoKJ/1vt6BXAKlBaR+/216iqBDUcAXyJqCn1beAZUHswG5LD0YDuOXWv6llR5
- 35DuJV/7G74sOkjMMTC1vx22goXyjR3uN+4NfeJL4KfnqeEh9l+yms0JD28lH6mHq9EX
- V9vLho3CLQ9D7Sh9lo7TECOlYm5nd1ObrOALNuxdsUpBm/21xUXhd/Of8KH7jhXHJVVi
- Js+WfgUSQZnOGPmfq6CLyX/aXUZjUj/+c3m3fTEqm3kxm4DwXq3CyOeo1kQfjZza9rBx
- r8Ig==
-X-Gm-Message-State: AOAM533e0NSspAvT9f2Xa52wV6jYG7E5IaPP4k5183cI9RtEqjijID/U
- Vxc6S+nWW7j8tCYkSAZ4erc=
-X-Google-Smtp-Source: ABdhPJwwp2qzAkEDPdrGaHdEuk1+ij56XzDLU6J2OkRvUXUHJiMq7oJ8Bx+sSgrrTYeHduW/xdbasw==
-X-Received: by 2002:a5d:6c67:: with SMTP id r7mr37346415wrz.111.1625858977406; 
- Fri, 09 Jul 2021 12:29:37 -0700 (PDT)
+ bh=AdLcTRIWBNsI6B28xgdufoW2tJ7+hChXLZ6LrUe2WGw=;
+ b=tqHTR47NkIwkvG3WglU7brlG0wKa2m/WPYPcvqYdKUopHHbfaWXKG6hcmAMPhtJmaV
+ twMJFqlrAvQlJlhQltLKCmQ20n6H8OQC3vSjZCC8UvejOVnWiyyN0i+sfMl+PQAjEWkJ
+ rCCDpMCSBkIuNx6bh0fe0JnszM0GFdkcND4Nho3maqfhfZZEJRtjQApLbeCNjwQYbdFG
+ 7Gb4tu0LJWUj8noENIUan+r5q7eLLW0Mn6KqplSBJgAyZboRRmsLMmAVwyjmoNb1Zw5l
+ Nvj8f+uVWvD2RVapfeHAuvMMZnC4ATutXaX9VICQRAlCIMZMH9+90xCKcJI3+TyiKmgr
+ Fw9A==
+X-Gm-Message-State: AOAM530d5vNwrQls7b4tPF6wuegCc8/CC6mS5t+RA5/fHbb4603q8iW9
+ ErF8cqvrjPrWyDEfbdualPU=
+X-Google-Smtp-Source: ABdhPJz3OWweGn3OR8zd7DEwqR9tFVenHuC7VNywboQIBKxV8uSe7j9G8yOGGb3BgQh1TBRwWh7xeQ==
+X-Received: by 2002:a7b:ca50:: with SMTP id m16mr536046wml.140.1625858979234; 
+ Fri, 09 Jul 2021 12:29:39 -0700 (PDT)
 Received: from localhost ([62.96.65.119])
- by smtp.gmail.com with ESMTPSA id b12sm6096749wrx.60.2021.07.09.12.29.36
+ by smtp.gmail.com with ESMTPSA id s24sm6426081wra.33.2021.07.09.12.29.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 09 Jul 2021 12:29:36 -0700 (PDT)
+ Fri, 09 Jul 2021 12:29:38 -0700 (PDT)
 From: Thierry Reding <thierry.reding@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>
-Subject: [PATCH v8 10/14] drm/tegra: Implement syncpoint management UAPI
-Date: Fri,  9 Jul 2021 21:31:42 +0200
-Message-Id: <20210709193146.2859516-11-thierry.reding@gmail.com>
+Subject: [PATCH v8 11/14] drm/tegra: Implement syncpoint wait UAPI
+Date: Fri,  9 Jul 2021 21:31:43 +0200
+Message-Id: <20210709193146.2859516-12-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210709193146.2859516-1-thierry.reding@gmail.com>
 References: <20210709193146.2859516-1-thierry.reding@gmail.com>
@@ -74,131 +74,80 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Mikko Perttunen <mperttunen@nvidia.com>
 
-Implement TegraDRM IOCTLs for allocating and freeing syncpoints.
+Implement new syncpoint wait UAPI. This is different from the
+legacy one in taking an absolute timestamp in line with modern
+DRM conventions.
 
 Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
- drivers/gpu/drm/tegra/drm.c  |  5 ++++
- drivers/gpu/drm/tegra/uapi.c | 52 ++++++++++++++++++++++++++++++++++++
- drivers/gpu/drm/tegra/uapi.h |  5 ++++
- 3 files changed, 62 insertions(+)
+Changes in v8:
+- rebase on top of latest UABI changes
+
+ drivers/gpu/drm/tegra/drm.c  |  2 ++
+ drivers/gpu/drm/tegra/uapi.c | 22 ++++++++++++++++++++++
+ drivers/gpu/drm/tegra/uapi.h |  2 ++
+ 3 files changed, 26 insertions(+)
 
 diff --git a/drivers/gpu/drm/tegra/drm.c b/drivers/gpu/drm/tegra/drm.c
-index 6ee08e49ec57..18aee825a1ff 100644
+index 18aee825a1ff..082d520bdffc 100644
 --- a/drivers/gpu/drm/tegra/drm.c
 +++ b/drivers/gpu/drm/tegra/drm.c
-@@ -92,6 +92,7 @@ static int tegra_drm_open(struct drm_device *drm, struct drm_file *filp)
- 
- 	idr_init_base(&fpriv->legacy_contexts, 1);
- 	xa_init_flags(&fpriv->contexts, XA_FLAGS_ALLOC1);
-+	xa_init(&fpriv->syncpoints);
- 	mutex_init(&fpriv->lock);
- 	filp->driver_priv = fpriv;
- 
-@@ -727,6 +728,10 @@ static const struct drm_ioctl_desc tegra_drm_ioctls[] = {
+@@ -732,6 +732,8 @@ static const struct drm_ioctl_desc tegra_drm_ioctls[] = {
  			  DRM_RENDER_ALLOW),
- 	DRM_IOCTL_DEF_DRV(TEGRA_CHANNEL_UNMAP, tegra_drm_ioctl_channel_unmap,
+ 	DRM_IOCTL_DEF_DRV(TEGRA_SYNCPOINT_FREE, tegra_drm_ioctl_syncpoint_free,
  			  DRM_RENDER_ALLOW),
-+	DRM_IOCTL_DEF_DRV(TEGRA_SYNCPOINT_ALLOCATE, tegra_drm_ioctl_syncpoint_allocate,
-+			  DRM_RENDER_ALLOW),
-+	DRM_IOCTL_DEF_DRV(TEGRA_SYNCPOINT_FREE, tegra_drm_ioctl_syncpoint_free,
++	DRM_IOCTL_DEF_DRV(TEGRA_SYNCPOINT_WAIT, tegra_drm_ioctl_syncpoint_wait,
 +			  DRM_RENDER_ALLOW),
  
  	DRM_IOCTL_DEF_DRV(TEGRA_GEM_CREATE, tegra_gem_create, DRM_RENDER_ALLOW),
  	DRM_IOCTL_DEF_DRV(TEGRA_GEM_MMAP, tegra_gem_mmap, DRM_RENDER_ALLOW),
 diff --git a/drivers/gpu/drm/tegra/uapi.c b/drivers/gpu/drm/tegra/uapi.c
-index 48e872c768a9..e91394e7264e 100644
+index e91394e7264e..0ba57697706b 100644
 --- a/drivers/gpu/drm/tegra/uapi.c
 +++ b/drivers/gpu/drm/tegra/uapi.c
-@@ -49,12 +49,17 @@ static void tegra_drm_channel_context_close(struct tegra_drm_context *context)
- void tegra_drm_uapi_close_file(struct tegra_drm_file *file)
- {
- 	struct tegra_drm_context *context;
-+	struct host1x_syncpt *sp;
- 	unsigned long id;
+@@ -7,6 +7,7 @@
  
- 	xa_for_each(&file->contexts, id, context)
- 		tegra_drm_channel_context_close(context);
+ #include <drm/drm_drv.h>
+ #include <drm/drm_file.h>
++#include <drm/drm_utils.h>
  
-+	xa_for_each(&file->syncpoints, id, sp)
-+		host1x_syncpt_put(sp);
-+
- 	xa_destroy(&file->contexts);
-+	xa_destroy(&file->syncpoints);
- }
- 
- static struct tegra_drm_client *tegra_drm_find_client(struct tegra_drm *tegra,
-@@ -311,3 +316,50 @@ int tegra_drm_ioctl_gem_mmap(struct drm_device *drm, void *data,
+ #include "drm.h"
+ #include "uapi.h"
+@@ -363,3 +364,24 @@ int tegra_drm_ioctl_syncpoint_free(struct drm_device *drm, void *data,
  
  	return 0;
  }
 +
-+int tegra_drm_ioctl_syncpoint_allocate(struct drm_device *drm, void *data,
-+				       struct drm_file *file)
-+{
-+	struct host1x *host1x = tegra_drm_to_host1x(drm->dev_private);
-+	struct tegra_drm_file *fpriv = file->driver_priv;
-+	struct drm_tegra_syncpoint_allocate *args = data;
-+	struct host1x_syncpt *sp;
-+	int err;
-+
-+	if (args->id)
-+		return -EINVAL;
-+
-+	sp = host1x_syncpt_alloc(host1x, HOST1X_SYNCPT_CLIENT_MANAGED,
-+				 current->comm);
-+	if (!sp)
-+		return -EBUSY;
-+
-+	args->id = host1x_syncpt_id(sp);
-+
-+	err = xa_insert(&fpriv->syncpoints, args->id, sp, GFP_KERNEL);
-+	if (err) {
-+		host1x_syncpt_put(sp);
-+		return err;
-+	}
-+
-+	return 0;
-+}
-+
-+int tegra_drm_ioctl_syncpoint_free(struct drm_device *drm, void *data,
++int tegra_drm_ioctl_syncpoint_wait(struct drm_device *drm, void *data,
 +				   struct drm_file *file)
 +{
-+	struct tegra_drm_file *fpriv = file->driver_priv;
-+	struct drm_tegra_syncpoint_allocate *args = data;
++	struct host1x *host1x = tegra_drm_to_host1x(drm->dev_private);
++	struct drm_tegra_syncpoint_wait *args = data;
++	signed long timeout_jiffies;
 +	struct host1x_syncpt *sp;
 +
-+	mutex_lock(&fpriv->lock);
-+	sp = xa_erase(&fpriv->syncpoints, args->id);
-+	mutex_unlock(&fpriv->lock);
++	if (args->padding != 0)
++		return -EINVAL;
 +
++	sp = host1x_syncpt_get_by_id_noref(host1x, args->id);
 +	if (!sp)
 +		return -EINVAL;
 +
-+	host1x_syncpt_put(sp);
++	timeout_jiffies = drm_timeout_abs_to_jiffies(args->timeout_ns);
 +
-+	return 0;
++	return host1x_syncpt_wait(sp, args->threshold, timeout_jiffies,
++				  &args->value);
 +}
 diff --git a/drivers/gpu/drm/tegra/uapi.h b/drivers/gpu/drm/tegra/uapi.h
-index fbef39726c29..e4e498facf61 100644
+index e4e498facf61..12adad770ad3 100644
 --- a/drivers/gpu/drm/tegra/uapi.h
 +++ b/drivers/gpu/drm/tegra/uapi.h
-@@ -21,6 +21,7 @@ struct tegra_drm_file {
- 
- 	/* New UAPI state */
- 	struct xarray contexts;
-+	struct xarray syncpoints;
- };
- 
- struct tegra_drm_mapping {
-@@ -44,6 +45,10 @@ int tegra_drm_ioctl_channel_unmap(struct drm_device *drm, void *data,
- 				  struct drm_file *file);
- int tegra_drm_ioctl_channel_submit(struct drm_device *drm, void *data,
+@@ -49,6 +49,8 @@ int tegra_drm_ioctl_syncpoint_allocate(struct drm_device *drm, void *data,
+ 				       struct drm_file *file);
+ int tegra_drm_ioctl_syncpoint_free(struct drm_device *drm, void *data,
  				   struct drm_file *file);
-+int tegra_drm_ioctl_syncpoint_allocate(struct drm_device *drm, void *data,
-+				       struct drm_file *file);
-+int tegra_drm_ioctl_syncpoint_free(struct drm_device *drm, void *data,
++int tegra_drm_ioctl_syncpoint_wait(struct drm_device *drm, void *data,
 +				   struct drm_file *file);
  
  void tegra_drm_uapi_close_file(struct tegra_drm_file *file);
