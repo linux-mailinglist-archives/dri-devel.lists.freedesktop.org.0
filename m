@@ -2,49 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C401D3C2122
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Jul 2021 11:02:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEA773C2121
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Jul 2021 11:01:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D5036E9ED;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2CD206E9E8;
 	Fri,  9 Jul 2021 09:01:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-41104.protonmail.ch (mail-41104.protonmail.ch
- [185.70.41.104])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 307D76E9C5
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Jul 2021 07:28:32 +0000 (UTC)
-Received: from mail-0201.mail-europe.com (mail-0201.mail-europe.com
- [51.77.79.158])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested)
- by mail-41104.protonmail.ch (Postfix) with ESMTPS id 4GLlBk1mNmz4x4yN;
- Fri,  9 Jul 2021 07:28:30 +0000 (UTC)
-Authentication-Results: mail-41104.protonmail.ch;
- dkim=pass (1024-bit key) header.d=protonmail.com header.i=@protonmail.com
- header.b="WIEBp5X3"
-Date: Fri, 09 Jul 2021 07:28:20 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
- s=protonmail; t=1625815705;
- bh=RkfvnmLdaWZqZxjDUvmzYCOv0xZV2QzxYSVXkQHzzbM=;
- h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
- b=WIEBp5X3N39INqaynv4SEqwjar9wa/XWQet0WZeAlFZ25c9ng3WZ/q0o2y/NV3exc
- NORKsapydxEGEGLq5saeDxHg5xAuxF/ic2EPr0prdJjWT1h6bW315BdRxKwEKxWTwx
- ZkM6uaw18g5BZZzw/HvNNDDvMUbCYLoI8SHtLOe0=
-To: Rob Clark <robdclark@gmail.com>
-From: Yassine Oudjana <y.oudjana@protonmail.com>
-Subject: Re: [PATCH] drm/msm: Fix display fault handling
-Message-ID: <3pFCrTgsGtxAZ1a2xns0dgqCOz61HZr4foJlLOl1l3I@cp4-web-034.plabs.ch>
-In-Reply-To: <20210707180113.840741-1-robdclark@gmail.com>
-References: <20210707180113.840741-1-robdclark@gmail.com>
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com
+ [205.220.165.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB70A6E9C7
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Jul 2021 07:40:11 +0000 (UTC)
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 1697WeM3009954; Fri, 9 Jul 2021 07:40:08 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding;
+ s=corp-2020-01-29; bh=IIlSXpBBHFLisNXYkSZ1ZoY0IbOXlkolaG3xnV/dM9Q=;
+ b=Khrs7Ir1htw46arUJ/HLGd5afh4nB+mP0ZkdXaqoxLLsENsy7KVd9afTQEy0l+dKlet9
+ SCrxtdjy0QsKLGVEa6Pq+82fdv9vFAR95ZBwciYBkm1M3AIff+Y9VBaao/wP0DvQPL0c
+ 0RuuRS3Z4vA1Tqe+zTle/3UmQLv4DtgUbRnt38Ozpp0VA6MDGLujhsYIK7tMgOo4tjnd
+ ZyNuQbaAmP6koI6/RRwabWZ+5Wai+8c1pWGK8cWf1P9vmRQ4G00l9QhSbTsp+5Uq3Bbz
+ 245iqVKjNnYV6Kb68A/Bzf5DNQsvEZBbly8RFa9s6A/p0I+NFZ7vy63/uU9Ymj3Zh1xB /Q== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+ by mx0b-00069f02.pphosted.com with ESMTP id 39nbsxv5g8-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 09 Jul 2021 07:40:08 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+ by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 1697adUL095684;
+ Fri, 9 Jul 2021 07:40:07 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+ by aserp3030.oracle.com with ESMTP id 39nbg6ysed-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 09 Jul 2021 07:40:07 +0000
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 1697d0l0101987;
+ Fri, 9 Jul 2021 07:40:07 GMT
+Received: from manjaro.in.oracle.com (dhcp-10-191-197-30.vpn.oracle.com
+ [10.191.197.30]) by aserp3030.oracle.com with ESMTP id 39nbg6ys99-1;
+ Fri, 09 Jul 2021 07:40:06 +0000
+From: Harshvardhan Jha <harshvardhan.jha@oracle.com>
+To: patrik.r.jakobsson@gmail.com
+Subject: [PATCH] drm/gma500: Fix end of loop tests for list_for_each_entry
+Date: Fri,  9 Jul 2021 13:09:59 +0530
+Message-Id: <20210709073959.11443-1-harshvardhan.jha@oracle.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
- DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM shortcircuit=no
- autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
- mailout.protonmail.ch
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-ORIG-GUID: 5BRhdSjWvIFVZvbSTTq6buOOSVSwmmwQ
+X-Proofpoint-GUID: 5BRhdSjWvIFVZvbSTTq6buOOSVSwmmwQ
 X-Mailman-Approved-At: Fri, 09 Jul 2021 09:01:52 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -58,92 +65,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Yassine Oudjana <y.oudjana@protonmail.com>
-Cc: Rob Clark <robdclark@chromium.org>, freedreno@lists.freedesktop.org,
- David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Jordan Crouse <jordan@cosmicpenguin.net>, Sean Paul <sean@poorly.run>
+Cc: airlied@linux.ie, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Harshvardhan Jha <harshvardhan.jha@oracle.com>, dan.carpenter@oracle.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+The list_for_each_entry() iterator, "connector" in this code, can never be
+NULL.  If we exit the loop without finding the correct  connector then
+"connector" points invalid memory that is an offset from the list head.
+This will eventually lead to memory corruption and presumably a kernel
+crash.
 
+Fixes: 9bd81acdb648 ("gma500: Convert Oaktrail to work with new output handling")
+Signed-off-by: Harshvardhan Jha <harshvardhan.jha@oracle.com>
+ ---
+From static analysis.  Not tested.
+---
+ drivers/gpu/drm/gma500/oaktrail_lvds.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On Wed, Jul 7 2021 at 21:57:05 +0400, Rob Clark <robdclark@gmail.com>=20
-wrote:
-> From: Rob Clark <robdclark@chromium.org>
->=20
-> It turns out that when the display is enabled by the bootloader, we=20
-> can
-> get some transient iommu faults from the display.  Which doesn't go=20
-> over
-> too well when we install a fault handler that is gpu specific.  To=20
-> avoid
-> this, defer installing the fault handler until we get around to=20
-> setting
-> up per-process pgtables (which is adreno_smmu specific).  The arm-smmu
-> fallback error reporting is sufficient for reporting display related
-> faults (and in fact was all we had prior to=20
-> f8f934c180f629bb927a04fd90d)
->=20
-> Reported-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Reported-by: Yassine Oudjana <y.oudjana@protonmail.com>
-> Fixes: 2a574cc05d38 ("drm/msm: Improve the a6xx page fault handler")
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
-> Tested-by: John Stultz <john.stultz@linaro.org>
-> ---
->  drivers/gpu/drm/msm/msm_iommu.c | 11 ++++++++++-
->  1 file changed, 10 insertions(+), 1 deletion(-)
->=20
-> diff --git a/drivers/gpu/drm/msm/msm_iommu.c=20
-> b/drivers/gpu/drm/msm/msm_iommu.c
-> index eed2a762e9dd..bcaddbba564d 100644
-> --- a/drivers/gpu/drm/msm/msm_iommu.c
-> +++ b/drivers/gpu/drm/msm/msm_iommu.c
-> @@ -142,6 +142,9 @@ static const struct iommu_flush_ops null_tlb_ops=20
-> =3D {
->  =09.tlb_add_page =3D msm_iommu_tlb_add_page,
->  };
->=20
-> +static int msm_fault_handler(struct iommu_domain *domain, struct=20
-> device *dev,
-> +=09=09unsigned long iova, int flags, void *arg);
-> +
->  struct msm_mmu *msm_iommu_pagetable_create(struct msm_mmu *parent)
->  {
->  =09struct adreno_smmu_priv *adreno_smmu =3D dev_get_drvdata(parent->dev)=
-;
-> @@ -157,6 +160,13 @@ struct msm_mmu=20
-> *msm_iommu_pagetable_create(struct msm_mmu *parent)
->  =09if (!ttbr1_cfg)
->  =09=09return ERR_PTR(-ENODEV);
->=20
-> +=09/*
-> +=09 * Defer setting the fault handler until we have a valid adreno_smmu
-> +=09 * to avoid accidentially installing a GPU specific fault handler=20
-> for
-> +=09 * the display's iommu
-> +=09 */
-> +=09iommu_set_fault_handler(iommu->domain, msm_fault_handler, iommu);
-> +
->  =09pagetable =3D kzalloc(sizeof(*pagetable), GFP_KERNEL);
->  =09if (!pagetable)
->  =09=09return ERR_PTR(-ENOMEM);
-> @@ -300,7 +310,6 @@ struct msm_mmu *msm_iommu_new(struct device *dev,=20
-> struct iommu_domain *domain)
->=20
->  =09iommu->domain =3D domain;
->  =09msm_mmu_init(&iommu->base, dev, &funcs, MSM_MMU_IOMMU);
-> -=09iommu_set_fault_handler(domain, msm_fault_handler, iommu);
->=20
->  =09atomic_set(&iommu->pagetables, 0);
->=20
-> --
-> 2.31.1
->=20
-
-Tested-by: Yassine Oudjana <y.oudjana@protonmail.com>
-
-
+diff --git a/drivers/gpu/drm/gma500/oaktrail_lvds.c b/drivers/gpu/drm/gma500/oaktrail_lvds.c
+index 432bdcc57ac9..a1332878857b 100644
+--- a/drivers/gpu/drm/gma500/oaktrail_lvds.c
++++ b/drivers/gpu/drm/gma500/oaktrail_lvds.c
+@@ -117,7 +117,7 @@ static void oaktrail_lvds_mode_set(struct drm_encoder *encoder,
+ 			continue;
+ 	}
+ 
+-	if (!connector) {
++	if (list_entry_is_head(connector, &mode_config->connector_list, head)) {
+ 		DRM_ERROR("Couldn't find connector when setting mode");
+ 		gma_power_end(dev);
+ 		return;
+-- 
+2.32.0
 
