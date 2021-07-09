@@ -1,35 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DEAC3C2B43
-	for <lists+dri-devel@lfdr.de>; Sat, 10 Jul 2021 00:16:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 316953C2B49
+	for <lists+dri-devel@lfdr.de>; Sat, 10 Jul 2021 00:17:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D16FB6E99F;
-	Fri,  9 Jul 2021 22:16:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 368546E9A4;
+	Fri,  9 Jul 2021 22:17:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC4856E922
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Jul 2021 22:16:32 +0000 (UTC)
+Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 479346E9A4
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Jul 2021 22:17:16 +0000 (UTC)
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
  q=dns/txt; 
- s=smtp; t=1625868993; h=Message-ID: References: In-Reply-To: Subject:
+ s=smtp; t=1625869036; h=Message-ID: References: In-Reply-To: Subject:
  Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=eeQHufr8+f3/vvWV4baddcSAAJsNOUIhtreLB7ptIko=;
- b=O93/dChxtgPkO4UVv7yHS7cwAPKla4rxDpneVDauy5RoOgmV2QSF47xxMFgvsnLdzRI2M5qV
- U/mY0JSfYsH3FE/Q/2g5j085lb/SsJp14Wa0v+7af/qfmtlYs24qol0iUk/QyquFT6ShH7j+
- JmdIZ3hgroysyac2fs42aogc0hQ=
-X-Mailgun-Sending-Ip: 69.72.43.7
+ MIME-Version: Sender; bh=JSZZFhjVfeUiOPUlA/q9GwXEIirlTRNP/GRbRj2oJbU=;
+ b=EvTgQpirnRDsgR+3I3Pij8hNb+7hznMqZUKG2ebt3xKV4QBIRTw0Ofu1vohEBJLwL8rYvYCf
+ R35gV7yeKCn1bFv2w1y1Uvj6v8F0vhgSISTVKhBhPnzCoiA6bs3VDMhSDF5f5ioCqovdrxBW
+ u8HkFhlb0E/8rtWDYmW5JbbSebU=
+X-Mailgun-Sending-Ip: 198.61.254.9
 X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
 Received: from smtp.codeaurora.org
  (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n01.prod.us-west-2.postgun.com with SMTP id
- 60e8cabfc4cc54360268f545 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 09 Jul 2021 22:16:31
+ smtp-out-n02.prod.us-east-1.postgun.com with SMTP id
+ 60e8cae75e3e57240b76782e (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 09 Jul 2021 22:17:11
  GMT
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 556B4C43460; Fri,  9 Jul 2021 22:16:31 +0000 (UTC)
+ id F2D25C4338A; Fri,  9 Jul 2021 22:17:10 +0000 (UTC)
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
  aws-us-west-2-caf-mail-1.web.codeaurora.org
 X-Spam-Level: 
@@ -38,21 +38,21 @@ X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00
 Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
  (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
  (No client certificate requested) (Authenticated sender: abhinavk)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 936B3C4338A;
- Fri,  9 Jul 2021 22:16:30 +0000 (UTC)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 19C06C433F1;
+ Fri,  9 Jul 2021 22:17:09 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII;
  format=flowed
 Content-Transfer-Encoding: 7bit
-Date: Fri, 09 Jul 2021 15:16:30 -0700
+Date: Fri, 09 Jul 2021 15:17:09 -0700
 From: abhinavk@codeaurora.org
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [Freedreno] [PATCH v1 5/7] drm/msm/dp: stop calling
+Subject: Re: [Freedreno] [PATCH v1 6/7] drm/msm/dsi: stop calling
  set_encoder_mode callback
-In-Reply-To: <20210708122833.363451-6-dmitry.baryshkov@linaro.org>
+In-Reply-To: <20210708122833.363451-7-dmitry.baryshkov@linaro.org>
 References: <20210708122833.363451-1-dmitry.baryshkov@linaro.org>
- <20210708122833.363451-6-dmitry.baryshkov@linaro.org>
-Message-ID: <16be30732d3c2108f7a3ca640ed8285d@codeaurora.org>
+ <20210708122833.363451-7-dmitry.baryshkov@linaro.org>
+Message-ID: <b3d81040b9d130c7178b892ef3e5886a@codeaurora.org>
 X-Sender: abhinavk@codeaurora.org
 User-Agent: Roundcube Webmail/1.3.9
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -79,61 +79,65 @@ On 2021-07-08 05:28, Dmitry Baryshkov wrote:
 > Stop calling it from the modeset init code.
 > 
 > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-
-The change looks fine,
 Reviewed-by: Abhinav Kumar <abhinavk@codeaurora.org>
-
-But has DP been re-verified with this change by Bjorn?
-If not, I can verify this on my board and give my Tested-by
-
 > ---
->  drivers/gpu/drm/msm/dp/dp_display.c | 18 ------------------
->  1 file changed, 18 deletions(-)
+>  drivers/gpu/drm/msm/dsi/dsi.c         |  2 --
+>  drivers/gpu/drm/msm/dsi/dsi.h         |  1 -
+>  drivers/gpu/drm/msm/dsi/dsi_manager.c | 12 ------------
+>  3 files changed, 15 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c
-> b/drivers/gpu/drm/msm/dp/dp_display.c
-> index 051c1be1de7e..70b319a8fe83 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_display.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-> @@ -102,8 +102,6 @@ struct dp_display_private {
->  	struct dp_display_mode dp_mode;
->  	struct msm_dp dp_display;
+> diff --git a/drivers/gpu/drm/msm/dsi/dsi.c 
+> b/drivers/gpu/drm/msm/dsi/dsi.c
+> index 5201d7eb0490..77c8dba297d8 100644
+> --- a/drivers/gpu/drm/msm/dsi/dsi.c
+> +++ b/drivers/gpu/drm/msm/dsi/dsi.c
+> @@ -251,8 +251,6 @@ int msm_dsi_modeset_init(struct msm_dsi *msm_dsi,
+> struct drm_device *dev,
+>  		goto fail;
+>  	}
 > 
-> -	bool encoder_mode_set;
+> -	msm_dsi_manager_setup_encoder(msm_dsi->id);
 > -
->  	/* wait for audio signaling */
->  	struct completion audio_comp;
+>  	priv->bridges[priv->num_bridges++]       = msm_dsi->bridge;
+>  	priv->connectors[priv->num_connectors++] = msm_dsi->connector;
 > 
-> @@ -283,20 +281,6 @@ static void dp_display_send_hpd_event(struct
-> msm_dp *dp_display)
+> diff --git a/drivers/gpu/drm/msm/dsi/dsi.h 
+> b/drivers/gpu/drm/msm/dsi/dsi.h
+> index 856a532850c0..e0c3c4409377 100644
+> --- a/drivers/gpu/drm/msm/dsi/dsi.h
+> +++ b/drivers/gpu/drm/msm/dsi/dsi.h
+> @@ -80,7 +80,6 @@ struct drm_connector 
+> *msm_dsi_manager_connector_init(u8 id);
+>  struct drm_connector *msm_dsi_manager_ext_bridge_init(u8 id);
+>  int msm_dsi_manager_cmd_xfer(int id, const struct mipi_dsi_msg *msg);
+>  bool msm_dsi_manager_cmd_xfer_trigger(int id, u32 dma_base, u32 len);
+> -void msm_dsi_manager_setup_encoder(int id);
+>  int msm_dsi_manager_register(struct msm_dsi *msm_dsi);
+>  void msm_dsi_manager_unregister(struct msm_dsi *msm_dsi);
+>  bool msm_dsi_manager_validate_current_config(u8 id);
+> diff --git a/drivers/gpu/drm/msm/dsi/dsi_manager.c
+> b/drivers/gpu/drm/msm/dsi/dsi_manager.c
+> index a81105633d3c..e7f4e1d8978a 100644
+> --- a/drivers/gpu/drm/msm/dsi/dsi_manager.c
+> +++ b/drivers/gpu/drm/msm/dsi/dsi_manager.c
+> @@ -216,18 +216,6 @@ static int dsi_mgr_bridge_get_id(struct drm_bridge 
+> *bridge)
+>  	return dsi_bridge->id;
 >  }
 > 
-> 
-> -static void dp_display_set_encoder_mode(struct dp_display_private *dp)
+> -void msm_dsi_manager_setup_encoder(int id)
 > -{
-> -	struct msm_drm_private *priv = dp->dp_display.drm_dev->dev_private;
+> -	struct msm_dsi *msm_dsi = dsi_mgr_get_dsi(id);
+> -	struct msm_drm_private *priv = msm_dsi->dev->dev_private;
 > -	struct msm_kms *kms = priv->kms;
+> -	struct drm_encoder *encoder = msm_dsi_get_encoder(msm_dsi);
 > -
-> -	if (!dp->encoder_mode_set && dp->dp_display.encoder &&
-> -				kms->funcs->set_encoder_mode) {
-> -		kms->funcs->set_encoder_mode(kms,
-> -				dp->dp_display.encoder, false);
-> -
-> -		dp->encoder_mode_set = true;
-> -	}
+> -	if (encoder && kms->funcs->set_encoder_mode)
+> -		kms->funcs->set_encoder_mode(kms, encoder,
+> -					     msm_dsi_is_cmd_mode(msm_dsi));
 > -}
 > -
->  static int dp_display_send_hpd_notification(struct dp_display_private 
-> *dp,
->  					    bool hpd)
+>  static int msm_dsi_manager_panel_init(struct drm_connector *conn, u8 
+> id)
 >  {
-> @@ -369,8 +353,6 @@ static void dp_display_host_init(struct
-> dp_display_private *dp, int reset)
->  	if (dp->usbpd->orientation == ORIENTATION_CC2)
->  		flip = true;
-> 
-> -	dp_display_set_encoder_mode(dp);
-> -
->  	dp_power_init(dp->power, flip);
->  	dp_ctrl_host_init(dp->ctrl, flip, reset);
->  	dp_aux_init(dp->aux);
+>  	struct msm_drm_private *priv = conn->dev->dev_private;
