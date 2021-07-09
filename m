@@ -2,62 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 693753C1BA4
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Jul 2021 01:03:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEF483C1C59
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Jul 2021 02:02:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA9956E92F;
-	Thu,  8 Jul 2021 23:03:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E42016E942;
+	Fri,  9 Jul 2021 00:02:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com
- [IPv6:2a00:1450:4864:20::234])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E9A986E92F
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Jul 2021 23:03:31 +0000 (UTC)
-Received: by mail-lj1-x234.google.com with SMTP id u25so4934694ljj.11
- for <dri-devel@lists.freedesktop.org>; Thu, 08 Jul 2021 16:03:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=MmU1HG2iYGV6JEeDyyVDdrnq6JazLk/+ZHGeiYN3Id8=;
- b=Anr3Kvt0K7SA7IBK762lHz46n210rw7QKiWEqBL3utOUUXN4bUlk/wrVNTDcS+e0Uy
- kWOy1wIk/ekdX1gJbFoj1QhPwYDZL/+oZeNr+QqBXUefls4FPielGMNM4iLV+rqf1nBI
- 6kLR/I7+iqde0yGrlScHVI7b2WBc+regzdzNrYbDkFWsuqBQx8A60A/cj+b5y3KZhDd1
- WggDi9JACFZNXFWgnylkmI21oPmR8dLpA8T/Nl+mDV0vdQedavfZumtqhSJvOnsiWL0+
- +Em3z5k/gjcO0MImgiXu9NREMxW4saXQdC9cY/grmR4mJD484K3kGzVT9JSCOBvkH6uJ
- KFjg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=MmU1HG2iYGV6JEeDyyVDdrnq6JazLk/+ZHGeiYN3Id8=;
- b=OvWl92EWfORGtGZ/jNFI1EppMiq3SNL2MPfigjSWZB/+XNbXti6RDdx5AFzrPhRqh9
- jbzmqL7l2+nSyzmFVQ0geB+g6AK5BqTH81E8qGfe7Js9J3Va5S+oSihoArrx8MioAwNd
- LUOJpuzygB0iJ2RZTodK+fyb0FY4Jqlu3oZTKlSSYhc1mKAkpKWg4vVK+gVG2vkm/2Bx
- J9T1/Z1N6X0+Bqb5vl/vU1Zo3ulcR3ruEZG3jnPW3V1vPBtEtojOdzD20xtdbtwIUGNe
- H5/l9c8sm4qfc0LVAETkPrDLoTeaK4MtYmDY5Xf4oKvMQ+4F6aQ9ReA+7MPaLKzFLPmO
- mcOA==
-X-Gm-Message-State: AOAM530xUlQXaJFnVxw3YLKg3HZtFIvWDS6f4GxqKK4uMo2HD1cERwdx
- J0stF93jijhB2LmUCaFAREuBLQ==
-X-Google-Smtp-Source: ABdhPJzxIl8223mKfhnS0pkogb8o9xDXmjoMOzVaETRZ1t5uJa7cBM3z/jThF4QkjwA16wLzYvitag==
-X-Received: by 2002:a05:651c:211d:: with SMTP id
- a29mr26605525ljq.115.1625785410259; 
- Thu, 08 Jul 2021 16:03:30 -0700 (PDT)
-Received: from eriador.lan ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id p8sm309904lfc.185.2021.07.08.16.03.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Jul 2021 16:03:29 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Andrzej Hajda <a.hajda@samsung.com>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Robert Foss <robert.foss@linaro.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@siol.net>
-Subject: [PATCH] drm/bridge/lontium-lt9611uxc: fix provided connector suport
-Date: Fri,  9 Jul 2021 02:03:29 +0300
-Message-Id: <20210708230329.395976-1-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.30.2
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E9AD06E93B;
+ Fri,  9 Jul 2021 00:02:36 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10039"; a="196896996"
+X-IronPort-AV: E=Sophos;i="5.84,225,1620716400"; d="scan'208";a="196896996"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Jul 2021 17:02:31 -0700
+X-IronPort-AV: E=Sophos;i="5.84,225,1620716400"; d="scan'208";a="492312509"
+Received: from labuser-z97x-ud5h.jf.intel.com (HELO labuser-Z97X-UD5H)
+ ([10.165.21.211])
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Jul 2021 17:02:31 -0700
+Date: Thu, 8 Jul 2021 17:11:58 -0700
+From: "Navare, Manasi" <manasi.d.navare@intel.com>
+To: Matt Roper <matthew.d.roper@intel.com>
+Subject: Re: [PATCH 52/53] drm/i915/dg2: Update to bigjoiner path
+Message-ID: <20210709001153.GA19155@labuser-Z97X-UD5H>
+References: <20210701202427.1547543-1-matthew.d.roper@intel.com>
+ <20210701202427.1547543-53-matthew.d.roper@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210701202427.1547543-53-matthew.d.roper@intel.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,50 +46,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+Cc: intel-gfx@lists.freedesktop.org, Animesh Manna <animesh.manna@intel.com>,
  dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-- set DRM_CONNECTOR_POLL_HPD as the connector will generate hotplug
-  events on its own
+On Thu, Jul 01, 2021 at 01:24:26PM -0700, Matt Roper wrote:
+> From: Animesh Manna <animesh.manna@intel.com>
+> 
+> In verify_mpllb_state() encoder is retrieved from best_encoder
+> of connector_state. As there will be only one connector_state
+> for bigjoiner and checking encoder may not be needed for
+> bigjoiner-slave. This code path related to mpll is done on dg2
+> and need this fix to avoid null pointer dereference issue.
+> 
+> Cc: Manasi Navare <manasi.d.navare@intel.com>
+> Signed-off-by: Animesh Manna <animesh.manna@intel.com>
+> Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
 
-- do not call drm_kms_helper_hotplug_event() unless mode_config.funcs
-  pointer is not NULL to remove possible kernel oops.
+Reviewed-by: Manasi Navare <manasi.d.navare@intel.com>
 
-Fixes: bc6fa8676ebb ("drm/bridge/lontium-lt9611uxc: move HPD notification out of IRQ handler")
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/bridge/lontium-lt9611uxc.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+Manasi
 
-diff --git a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
-index 3cac16db970f..010657ea7af7 100644
---- a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
-+++ b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
-@@ -167,9 +167,10 @@ static void lt9611uxc_hpd_work(struct work_struct *work)
- 	struct lt9611uxc *lt9611uxc = container_of(work, struct lt9611uxc, work);
- 	bool connected;
- 
--	if (lt9611uxc->connector.dev)
--		drm_kms_helper_hotplug_event(lt9611uxc->connector.dev);
--	else {
-+	if (lt9611uxc->connector.dev) {
-+		if (lt9611uxc->connector.dev->mode_config.funcs)
-+			drm_kms_helper_hotplug_event(lt9611uxc->connector.dev);
-+	} else {
- 
- 		mutex_lock(&lt9611uxc->ocm_lock);
- 		connected = lt9611uxc->hdmi_connected;
-@@ -339,6 +340,8 @@ static int lt9611uxc_connector_init(struct drm_bridge *bridge, struct lt9611uxc
- 		return -ENODEV;
- 	}
- 
-+	lt9611uxc->connector.polled = DRM_CONNECTOR_POLL_HPD;
-+
- 	drm_connector_helper_add(&lt9611uxc->connector,
- 				 &lt9611uxc_bridge_connector_helper_funcs);
- 	ret = drm_connector_init(bridge->dev, &lt9611uxc->connector,
--- 
-2.30.2
-
+> ---
+>  drivers/gpu/drm/i915/display/intel_display.c | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
+> index 9655f1b1b41b..3f4e811145b6 100644
+> --- a/drivers/gpu/drm/i915/display/intel_display.c
+> +++ b/drivers/gpu/drm/i915/display/intel_display.c
+> @@ -9153,6 +9153,9 @@ verify_mpllb_state(struct intel_atomic_state *state,
+>  	if (!new_crtc_state->hw.active)
+>  		return;
+>  
+> +	if (new_crtc_state->bigjoiner_slave)
+> +		return;
+> +
+>  	encoder = intel_get_crtc_new_encoder(state, new_crtc_state);
+>  	intel_mpllb_readout_hw_state(encoder, &mpllb_hw_state);
+>  
+> -- 
+> 2.25.4
+> 
