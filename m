@@ -1,45 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D31A63C29B5
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Jul 2021 21:30:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 10B3B3C2998
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Jul 2021 21:29:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CDB246EA75;
-	Fri,  9 Jul 2021 19:30:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA0CF6EA5F;
+	Fri,  9 Jul 2021 19:29:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.smtp.larsendata.com (mx1.smtp.larsendata.com
- [91.221.196.215])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 815A36EA75
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Jul 2021 19:30:06 +0000 (UTC)
-Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
- by mx1.smtp.larsendata.com (Halon) with ESMTPS
- id 0c531187-e0ec-11eb-9082-0050568c148b;
- Fri, 09 Jul 2021 19:29:58 +0000 (UTC)
-Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
- [80.162.45.141])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: sam@ravnborg.org)
- by mail01.mxhotel.dk (Postfix) with ESMTPSA id A05C6194B06;
- Fri,  9 Jul 2021 21:30:12 +0200 (CEST)
-Date: Fri, 9 Jul 2021 21:30:01 +0200
-X-Report-Abuse-To: abuse@mxhotel.dk
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Yunus Bas <Y.Bas@phytec.de>
-Subject: Re: [PATCH v3 2/2] drm/panel: simple: Add support for EDT
- ETM0350G0DH6 panel
-Message-ID: <YOijuQoj0wV/MhWJ@ravnborg.org>
-References: <20210706075908.907659-1-y.bas@phytec.de>
- <20210706075908.907659-2-y.bas@phytec.de>
- <YOiReNdogi3POjUS@ravnborg.org>
- <0f25d847360c9f9925fea216c2d15200acb5ff42.camel@phytec.de>
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
+ [IPv6:2a00:1450:4864:20::432])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 381D86EA5F
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Jul 2021 19:29:18 +0000 (UTC)
+Received: by mail-wr1-x432.google.com with SMTP id m2so2533129wrq.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 09 Jul 2021 12:29:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=F984kgVhvloPuBXYBd7Yfemhs7n0f7X60aP3To3DVPU=;
+ b=C515qcADmxSC5ZdybjgaJYvIDJLvxDxY+v5BZZa2/Mm7l+YOVmbbWJnwUe2R2NvLr0
+ knjrEa9CBqbEWnSkuyegvwl3gLqMuzDj7AekmIJkkA046baUUTXCN1jAy+XIqIlXejXt
+ Q5vQbHalaq5CBF+3ftjDm7bnbjEFfabw0fhETapP5Ov3Uq3jg4y7OOo0tX6HBIY5cVaa
+ iT3FMfd1rXkKw14DO0ydhod//pRFipZ+DDs6s8uj7RuGuew8mqjwZFtMlUkhCpKSYPSW
+ Pu0ZWZcTk90XVykukwbzNdYFpPk7tiKgXXrTXJgVNkxOJwbsYY4ADIqEPvrWrs1De/5w
+ R3aQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=F984kgVhvloPuBXYBd7Yfemhs7n0f7X60aP3To3DVPU=;
+ b=gxPKZhAyGigEXXZJoHyP7eJCUDoj+9fwtg56M2DiI2bzB/etqpGNj4vZCgCue60LvS
+ 2UUSAHp/F/SA9aGI8VdSjGW4WY4BtFaHSci81ACW2F17/zoFeBtN5VKFZeSDJdWknE0n
+ 99sfGqV2AO49jesS1fVSugD/md2ghE0YokPd/KjO+EGu+/I6j7NhgMJZVEj5U75FNs9t
+ oEU0EjWBC0/ZknhkoI/cSvPyjK7wpGTY8+i99f3wkYTdUHASaBxwV/Hd8Qy8XNg+hz7W
+ 8cYI5IqX1KglKOcpPmmUQugsStCXOtvMdU2kOFU2Xik0UwmwsLxv/hUK43VdRp3F3hpB
+ URlQ==
+X-Gm-Message-State: AOAM532swlAnHeWneZPD6kI2KHvw0VeWL8LrqwWt2tpAq5VqZPYr5cyM
+ RsdX7WCN2kM96yPNMCAKF6M=
+X-Google-Smtp-Source: ABdhPJxOjLFaXrrD5Sb5Kj3/rW4BvprZp3LhogErPy8s+S4CyYi8qnPKJS4JzX5T25svPe+sNgemuw==
+X-Received: by 2002:a5d:4a0f:: with SMTP id m15mr5403578wrq.350.1625858956705; 
+ Fri, 09 Jul 2021 12:29:16 -0700 (PDT)
+Received: from localhost ([62.96.65.119])
+ by smtp.gmail.com with ESMTPSA id y11sm9742859wmi.33.2021.07.09.12.29.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 09 Jul 2021 12:29:15 -0700 (PDT)
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Thierry Reding <thierry.reding@gmail.com>
+Subject: [PATCH v8 00/14] drm/tegra: Introduce a modern UABI
+Date: Fri,  9 Jul 2021 21:31:32 +0200
+Message-Id: <20210709193146.2859516-1-thierry.reding@gmail.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <0f25d847360c9f9925fea216c2d15200acb5ff42.camel@phytec.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,103 +65,113 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "airlied@linux.ie" <airlied@linux.ie>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
- "laurent.pinchart@ideasonboard.com" <laurent.pinchart@ideasonboard.com>
+Cc: linux-tegra@vger.kernel.org, Dmitry Osipenko <digetx@gmail.com>,
+ dri-devel@lists.freedesktop.org, Mikko Perttunen <mperttunen@nvidia.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Yunus,
+From: Thierry Reding <treding@nvidia.com>
 
-On Fri, Jul 09, 2021 at 07:02:52PM +0000, Yunus Bas wrote:
-> Hi Sam,
-> 
-> Am Freitag, dem 09.07.2021 um 20:12 +0200 schrieb Sam Ravnborg:
-> > Hi Yunus,
-> > 
-> > On Tue, Jul 06, 2021 at 09:59:08AM +0200, Yunus Bas wrote:
-> > > From: Stefan Riedmueller <s.riedmueller@phytec.de>
-> > > 
-> > > This patch adds support for the EDT ETM0350G0DH6 3.5" (320x240) lcd
-> > > panel to DRM simple panel driver.
-> > > 
-> > > Signed-off-by: Stefan Riedmueller <s.riedmueller@phytec.de>
-> > > Signed-off-by: Yunus Bas <y.bas@phytec.de>
-> > > ---
-> > > Changes in v3:
-> > > - No changes in general, added additional maintainers and also
-> > > sending
-> > > to general kernel mailing list
-> > > ---
-> > >  drivers/gpu/drm/panel/panel-simple.c | 29
-> > > ++++++++++++++++++++++++++++
-> > >  1 file changed, 29 insertions(+)
-> > > 
-> > > diff --git a/drivers/gpu/drm/panel/panel-simple.c
-> > > b/drivers/gpu/drm/panel/panel-simple.c
-> > > index 07433bff6c2b..8aba473a7592 100644
-> > > --- a/drivers/gpu/drm/panel/panel-simple.c
-> > > +++ b/drivers/gpu/drm/panel/panel-simple.c
-> > > @@ -1929,6 +1929,32 @@ static const struct panel_desc edt_et035012dm6
-> > > = {
-> > >         .bus_flags = DRM_BUS_FLAG_DE_LOW |
-> > > DRM_BUS_FLAG_PIXDATA_SAMPLE_POSEDGE,
-> > >  };
-> > >  
-> > > +static const struct drm_display_mode edt_etm0350g0dh6_mode = {
-> > > +       .clock = 6520,
-> > > +       .hdisplay = 320,
-> > > +       .hsync_start = 320 + 20,
-> > > +       .hsync_end = 320 + 20 + 68,
-> > > +       .htotal = 320 + 20 + 68,
-> > > +       .vdisplay = 240,
-> > > +       .vsync_start = 240 + 4,
-> > > +       .vsync_end = 240 + 4 + 18,
-> > > +       .vtotal = 240 + 4 + 18,
-> > > +       .flags = DRM_MODE_FLAG_NVSYNC | DRM_MODE_FLAG_NHSYNC,
-> > > +};
-> > > +
-> > > +static const struct panel_desc edt_etm0350g0dh6 = {
-> > > +       .modes = &edt_etm0350g0dh6_mode,
-> > > +       .num_modes = 1,
-> > > +       .bpc = 6,
-> > > +       .size = {
-> > > +               .width = 70,
-> > > +               .height = 53,
-> > > +       },
-> > > +       .bus_format = MEDIA_BUS_FMT_RGB888_1X24,
-> > > +       .bus_flags = DRM_BUS_FLAG_DE_HIGH |
-> > > DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE,
-> > > +       .connector_type = DRM_MODE_CONNECTOR_DPI,
-> > > +};
-> > > +
-> > >  static const struct drm_display_mode edt_etm043080dh6gp_mode = {
-> > >         .clock = 10870,
-> > >         .hdisplay = 480,
-> > > @@ -4355,6 +4381,9 @@ static const struct of_device_id
-> > > platform_of_match[] = {
-> > >         }, {
-> > >                 .compatible = "edt,et035012dm6",
-> > >                 .data = &edt_et035012dm6,
-> > > +       }, {
-> > > +               .compatible = "edt,etm0350g0dh6",
-> > > +               .data = &edt_etm0350g0dh6,
-> > 
-> > The compatible "edt,etm0350g0dh6" is not documented.
-> > You likely need to add it to panel-simple.yaml - and likewise for the
-> > first patch.
-> > 
-> > dt people like binding patches in separate patches so add them both in
-> > one dedicated patch.
-> 
-> I've already sent devicetree patches. Here is the link:
-> https://lore.kernel.org/linux-devicetree/20210331181317.464926-1-y.bas@phytec.de/
-> 
-> It was just pending and waiting for these patches. Shall I send again?
-I have likely deleted the patches already, so please resend.
-Been mostly offline for a period and then one week wihtout access to my
-linux box, and have to delete a lot to avoid getting too much behind.
+Hi all,
 
-	Sam
+Mikko has been away for a few weeks, so I've been testing and revising
+the new UABI patches in the meantime. There are very minor changes to
+the naming of some of the UABI fields, but other than that it's mostly
+unchanged from v7.
+
+One notable change is that mappings can now be read-only, write-only,
+read-write or none of them (rather than just read-only or read-write),
+since those combinations are all supported by the IOMMUs and it might
+be useful to make some mappings write-only.
+
+For a full list of changes in v8, see the changelog in patch 6.
+
+I've also updated the libdrm_tegra library to work against this version
+of the UABI. A branch can be found here:
+
+  https://gitlab.freedesktop.org/tagr/drm/-/commits/drm-tegra-uabi-v8
+
+That contains helper APIs for the concepts introduced in this series and
+shows how they can be used in various tests that can be run for sanity
+checking.
+
+In addition, Mikko has made updates to the following projects, though
+they may need to be updated for the minor changes in v8:
+
+* vaapi-tegra-driver - https://github.com/cyndis/vaapi-tegra-driver
+  Experimental support for MPEG2 and H264 decoding on T210, T186
+  and T194.
+
+* xf86-video-opentegra - https://github.com/grate-driver/xf86-video-opentegra
+  X11 userspace acceleration driver for Tegra20, Tegra30, and Tegra114.
+
+* grate - https://github.com/grate-driver/grate
+  3D rendering testbed for Tegra20, Tegra30, and Tegra114
+
+I plan on putting this into linux-next soon after v5.14-rc1 so that this
+can get some soak time.
+
+Thierry
+
+Mikko Perttunen (14):
+  gpu: host1x: Add DMA fence implementation
+  gpu: host1x: Add no-recovery mode
+  gpu: host1x: Add job release callback
+  gpu: host1x: Add support for syncpoint waits in CDMA pushbuffer
+  drm/tegra: Extract tegra_gem_lookup
+  drm/tegra: Add new UAPI to header
+  drm/tegra: Boot VIC during runtime PM resume
+  drm/tegra: Allocate per-engine channel in core code
+  drm/tegra: Implement new UAPI
+  drm/tegra: Implement syncpoint management UAPI
+  drm/tegra: Implement syncpoint wait UAPI
+  drm/tegra: Implement job submission part of new UAPI
+  drm/tegra: Add job firewall
+  drm/tegra: Bump driver version
+
+ drivers/gpu/drm/tegra/Makefile             |   4 +
+ drivers/gpu/drm/tegra/drm.c                |  82 ++--
+ drivers/gpu/drm/tegra/drm.h                |  12 +
+ drivers/gpu/drm/tegra/firewall.c           | 254 ++++++++++
+ drivers/gpu/drm/tegra/gather_bo.c          |  81 ++++
+ drivers/gpu/drm/tegra/gather_bo.h          |  22 +
+ drivers/gpu/drm/tegra/gem.c                |  13 +
+ drivers/gpu/drm/tegra/gem.h                |   2 +
+ drivers/gpu/drm/tegra/submit.c             | 527 +++++++++++++++++++++
+ drivers/gpu/drm/tegra/submit.h             |  21 +
+ drivers/gpu/drm/tegra/uapi.c               | 387 +++++++++++++++
+ drivers/gpu/drm/tegra/uapi.h               |  58 +++
+ drivers/gpu/drm/tegra/vic.c                | 112 ++---
+ drivers/gpu/host1x/Makefile                |   1 +
+ drivers/gpu/host1x/cdma.c                  |  58 ++-
+ drivers/gpu/host1x/fence.c                 | 209 ++++++++
+ drivers/gpu/host1x/fence.h                 |  13 +
+ drivers/gpu/host1x/hw/channel_hw.c         |  87 +++-
+ drivers/gpu/host1x/hw/debug_hw.c           |   9 +-
+ drivers/gpu/host1x/hw/hw_host1x02_uclass.h |  12 +
+ drivers/gpu/host1x/hw/hw_host1x04_uclass.h |  12 +
+ drivers/gpu/host1x/hw/hw_host1x05_uclass.h |  12 +
+ drivers/gpu/host1x/hw/hw_host1x06_uclass.h |  12 +
+ drivers/gpu/host1x/hw/hw_host1x07_uclass.h |  12 +
+ drivers/gpu/host1x/intr.c                  |   9 +
+ drivers/gpu/host1x/intr.h                  |   2 +
+ drivers/gpu/host1x/job.c                   |  77 ++-
+ drivers/gpu/host1x/job.h                   |  16 +
+ drivers/gpu/host1x/syncpt.c                |   2 +
+ drivers/gpu/host1x/syncpt.h                |  12 +
+ include/linux/host1x.h                     |  22 +-
+ include/uapi/drm/tegra_drm.h               | 425 ++++++++++++++++-
+ 32 files changed, 2408 insertions(+), 169 deletions(-)
+ create mode 100644 drivers/gpu/drm/tegra/firewall.c
+ create mode 100644 drivers/gpu/drm/tegra/gather_bo.c
+ create mode 100644 drivers/gpu/drm/tegra/gather_bo.h
+ create mode 100644 drivers/gpu/drm/tegra/submit.c
+ create mode 100644 drivers/gpu/drm/tegra/submit.h
+ create mode 100644 drivers/gpu/drm/tegra/uapi.c
+ create mode 100644 drivers/gpu/drm/tegra/uapi.h
+ create mode 100644 drivers/gpu/host1x/fence.c
+ create mode 100644 drivers/gpu/host1x/fence.h
+
+-- 
+2.32.0
+
