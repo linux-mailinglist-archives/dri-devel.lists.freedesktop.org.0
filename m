@@ -1,40 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4A373C2B7D
-	for <lists+dri-devel@lfdr.de>; Sat, 10 Jul 2021 00:53:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F242A3C2B87
+	for <lists+dri-devel@lfdr.de>; Sat, 10 Jul 2021 00:59:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C172089E8C;
-	Fri,  9 Jul 2021 22:53:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0538D6E9AE;
+	Fri,  9 Jul 2021 22:59:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8160C89D83;
- Fri,  9 Jul 2021 22:53:37 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10040"; a="190171270"
-X-IronPort-AV: E=Sophos;i="5.84,228,1620716400"; d="scan'208";a="190171270"
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 06E8D6E9AD;
+ Fri,  9 Jul 2021 22:59:18 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10040"; a="209832022"
+X-IronPort-AV: E=Sophos;i="5.84,228,1620716400"; d="scan'208";a="209832022"
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Jul 2021 15:53:30 -0700
-X-IronPort-AV: E=Sophos;i="5.84,228,1620716400"; d="scan'208";a="649661619"
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Jul 2021 15:59:13 -0700
+X-IronPort-AV: E=Sophos;i="5.84,228,1620716400"; d="scan'208";a="649662561"
 Received: from johnharr-mobl1.amr.corp.intel.com (HELO [10.212.142.243])
  ([10.212.142.243])
  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Jul 2021 15:53:30 -0700
-Subject: Re: [PATCH 16/47] drm/i915/guc: Disable engine barriers with GuC
- during unpin
+ 09 Jul 2021 15:59:12 -0700
+Subject: Re: [PATCH 17/47] drm/i915/guc: Extend deregistration fence to
+ schedule disable
 To: Matthew Brost <matthew.brost@intel.com>, intel-gfx@lists.freedesktop.org, 
  dri-devel@lists.freedesktop.org
 References: <20210624070516.21893-1-matthew.brost@intel.com>
- <20210624070516.21893-17-matthew.brost@intel.com>
+ <20210624070516.21893-18-matthew.brost@intel.com>
 From: John Harrison <john.c.harrison@intel.com>
-Message-ID: <8d056c1a-dc4a-baed-1664-0f86db9e7c5c@intel.com>
-Date: Fri, 9 Jul 2021 15:53:29 -0700
+Message-ID: <1b8ede0f-538b-8633-8e25-542158562c31@intel.com>
+Date: Fri, 9 Jul 2021 15:59:11 -0700
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210624070516.21893-17-matthew.brost@intel.com>
+In-Reply-To: <20210624070516.21893-18-matthew.brost@intel.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Content-Language: en-GB
@@ -55,81 +55,95 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 6/24/2021 00:04, Matthew Brost wrote:
-> Disable engine barriers for unpinning with GuC. This feature isn't
-> needed with the GuC as it disables context scheduling before unpinning
-> which guarantees the HW will not reference the context. Hence it is
-> not necessary to defer unpinning until a kernel context request
-> completes on each engine in the context engine mask.
+> Extend the deregistration context fence to fence whne a GuC context has
+> scheduling disable pending.
 >
 > Cc: John Harrison <john.c.harrison@intel.com>
 > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
 > ---
->   drivers/gpu/drm/i915/gt/intel_context.c    |  2 +-
->   drivers/gpu/drm/i915/gt/intel_context.h    |  1 +
->   drivers/gpu/drm/i915/gt/selftest_context.c | 10 ++++++++++
->   3 files changed, 12 insertions(+), 1 deletion(-)
+>   .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 37 +++++++++++++++----
+>   1 file changed, 30 insertions(+), 7 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/i915/gt/intel_context.c b/drivers/gpu/drm/i915/gt/intel_context.c
-> index 1499b8aace2a..7f97753ab164 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_context.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_context.c
-> @@ -80,7 +80,7 @@ static int intel_context_active_acquire(struct intel_context *ce)
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> index 0386ccd5a481..0a6ccdf32316 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> @@ -918,7 +918,19 @@ static void guc_context_sched_disable(struct intel_context *ce)
+>   		goto unpin;
 >   
->   	__i915_active_acquire(&ce->active);
->   
-> -	if (intel_context_is_barrier(ce))
-> +	if (intel_context_is_barrier(ce) || intel_engine_uses_guc(ce->engine))
->   		return 0;
-Would be better to have a scheduler flag to say whether barriers are 
-required or not. That would prevent polluting front end code with back 
-end details.
+>   	spin_lock_irqsave(&ce->guc_state.lock, flags);
+> +
+> +	/*
+> +	 * We have to check if the context has been pinned again as another pin
+> +	 * operation is allowed to pass this function. Checking the pin count
+> +	 * here synchronizes this function with guc_request_alloc ensuring a
+> +	 * request doesn't slip through the 'context_pending_disable' fence.
+> +	 */
+The pin count is an atomic so doesn't need the spinlock. Also the above 
+comment 'checking the pin count here synchronizes ...' seems wrong. 
+Isn't the point that acquiring the spinlock is what synchronises with 
+guc_request_alloc? So the comment should be before the spinlock acquire 
+and should mention using the spinlock for this purpose?
 
 John.
 
 
+> +	if (unlikely(atomic_add_unless(&ce->pin_count, -2, 2))) {
+> +		spin_unlock_irqrestore(&ce->guc_state.lock, flags);
+> +		return;
+> +	}
+>   	guc_id = prep_context_pending_disable(ce);
+> +
+>   	spin_unlock_irqrestore(&ce->guc_state.lock, flags);
 >   
->   	/* Preallocate tracking nodes */
-> diff --git a/drivers/gpu/drm/i915/gt/intel_context.h b/drivers/gpu/drm/i915/gt/intel_context.h
-> index 8a7199afbe61..a592a9605dc8 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_context.h
-> +++ b/drivers/gpu/drm/i915/gt/intel_context.h
-> @@ -16,6 +16,7 @@
->   #include "intel_engine_types.h"
->   #include "intel_ring_types.h"
->   #include "intel_timeline_types.h"
-> +#include "uc/intel_guc_submission.h"
->   
->   #define CE_TRACE(ce, fmt, ...) do {					\
->   	const struct intel_context *ce__ = (ce);			\
-> diff --git a/drivers/gpu/drm/i915/gt/selftest_context.c b/drivers/gpu/drm/i915/gt/selftest_context.c
-> index 26685b927169..fa7b99a671dd 100644
-> --- a/drivers/gpu/drm/i915/gt/selftest_context.c
-> +++ b/drivers/gpu/drm/i915/gt/selftest_context.c
-> @@ -209,7 +209,13 @@ static int __live_active_context(struct intel_engine_cs *engine)
->   	 * This test makes sure that the context is kept alive until a
->   	 * subsequent idle-barrier (emitted when the engine wakeref hits 0
->   	 * with no more outstanding requests).
-> +	 *
-> +	 * In GuC submission mode we don't use idle barriers and we instead
-> +	 * get a message from the GuC to signal that it is safe to unpin the
-> +	 * context from memory.
+>   	with_intel_runtime_pm(runtime_pm, wakeref)
+> @@ -1123,19 +1135,22 @@ static int guc_request_alloc(struct i915_request *rq)
+>   out:
+>   	/*
+>   	 * We block all requests on this context if a G2H is pending for a
+> -	 * context deregistration as the GuC will fail a context registration
+> -	 * while this G2H is pending. Once a G2H returns, the fence is released
+> -	 * that is blocking these requests (see guc_signal_context_fence).
+> +	 * schedule disable or context deregistration as the GuC will fail a
+> +	 * schedule enable or context registration if either G2H is pending
+> +	 * respectfully. Once a G2H returns, the fence is released that is
+> +	 * blocking these requests (see guc_signal_context_fence).
+>   	 *
+> -	 * We can safely check the below field outside of the lock as it isn't
+> -	 * possible for this field to transition from being clear to set but
+> +	 * We can safely check the below fields outside of the lock as it isn't
+> +	 * possible for these fields to transition from being clear to set but
+>   	 * converse is possible, hence the need for the check within the lock.
 >   	 */
-> +	if (intel_engine_uses_guc(engine))
-> +		return 0;
+> -	if (likely(!context_wait_for_deregister_to_register(ce)))
+> +	if (likely(!context_wait_for_deregister_to_register(ce) &&
+> +		   !context_pending_disable(ce)))
+>   		return 0;
 >   
->   	if (intel_engine_pm_is_awake(engine)) {
->   		pr_err("%s is awake before starting %s!\n",
-> @@ -357,7 +363,11 @@ static int __live_remote_context(struct intel_engine_cs *engine)
->   	 * on the context image remotely (intel_context_prepare_remote_request),
->   	 * which inserts foreign fences into intel_context.active, does not
->   	 * clobber the idle-barrier.
-> +	 *
-> +	 * In GuC submission mode we don't use idle barriers.
->   	 */
-> +	if (intel_engine_uses_guc(engine))
-> +		return 0;
+>   	spin_lock_irqsave(&ce->guc_state.lock, flags);
+> -	if (context_wait_for_deregister_to_register(ce)) {
+> +	if (context_wait_for_deregister_to_register(ce) ||
+> +	    context_pending_disable(ce)) {
+>   		i915_sw_fence_await(&rq->submit);
 >   
->   	if (intel_engine_pm_is_awake(engine)) {
->   		pr_err("%s is awake before starting %s!\n",
+>   		list_add_tail(&rq->guc_fence_link, &ce->guc_state.fences);
+> @@ -1484,10 +1499,18 @@ int intel_guc_sched_done_process_msg(struct intel_guc *guc,
+>   	if (context_pending_enable(ce)) {
+>   		clr_context_pending_enable(ce);
+>   	} else if (context_pending_disable(ce)) {
+> +		/*
+> +		 * Unpin must be done before __guc_signal_context_fence,
+> +		 * otherwise a race exists between the requests getting
+> +		 * submitted + retired before this unpin completes resulting in
+> +		 * the pin_count going to zero and the context still being
+> +		 * enabled.
+> +		 */
+>   		intel_context_sched_disable_unpin(ce);
+>   
+>   		spin_lock_irqsave(&ce->guc_state.lock, flags);
+>   		clr_context_pending_disable(ce);
+> +		__guc_signal_context_fence(ce);
+>   		spin_unlock_irqrestore(&ce->guc_state.lock, flags);
+>   	}
+>   
 
