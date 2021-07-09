@@ -2,55 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F38FE3C27D5
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Jul 2021 18:57:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1809A3C282A
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Jul 2021 19:17:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 80C386E8EB;
-	Fri,  9 Jul 2021 16:57:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6DB916EA63;
+	Fri,  9 Jul 2021 17:16:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x333.google.com (mail-ot1-x333.google.com
- [IPv6:2607:f8b0:4864:20::333])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F3D876E8F1
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Jul 2021 16:57:48 +0000 (UTC)
-Received: by mail-ot1-x333.google.com with SMTP id
- z18-20020a9d7a520000b02904b28bda1885so8627683otm.7
- for <dri-devel@lists.freedesktop.org>; Fri, 09 Jul 2021 09:57:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=WRF8//kJJACAatw9JPVGOQMSmTzkvIj+S5nFtVDd2EM=;
- b=JYi9IhUuDAJsyclPgjnsRQSUDqV3PJ4s3UhQCv5feSEWNzdEfr6U14tSntAJC9NuVv
- hk8hoOTYwA+CsZmvU1ha3gJrcWOkVDkicVMwfQRIDRQoIiymXXSuSIDez0Gd7bqoX5z8
- 2dyEaK0IDQwANhswIqI5Wao1vGAn8yMnMNVYw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=WRF8//kJJACAatw9JPVGOQMSmTzkvIj+S5nFtVDd2EM=;
- b=KoqJbnBhVPhWnpcsF1dzl04BymPVlNTSBP9VjRCHWhtVDLkldf3sl5dX6rc5mVFhEW
- EakKmp4yuu0P+ga0etIwwIl2hsnuyPiZLS7jLVuZCrJJxwqXCTOihShk+qjzZZVf8U5l
- 2FA3NaWB751msWMJRgv2GC+wCM+hiRdC9k9jALTcIu4lMiG3G2/J7GJxK6Vdo5vfpD48
- Oq1lb0zj/XLCXqliaKlWM6yogvjatp+uh2IMXaW0IZTwImos+XmYxYPKvFmLAGFbZYeB
- eLVDbHrsA3W/1NzPr8aZO0n4X+WtM49NKueqw1wArOSzm15LoWXZi+Uz4jd6HavXXvdJ
- k//g==
-X-Gm-Message-State: AOAM530ZG6Hhc+PDgngCi/Q8UKzyIbVqCjxcLI17AOeW3wnM5YvCAGue
- 5evPWiiy9Rb1ZqKfxYMLpc+bZ9Jl8/7+grKImCVSIQ==
-X-Google-Smtp-Source: ABdhPJwctORKOz8mFv6M2AvOcl3igNA5oXA/iv+fF+0gYYsMoT1K6d06RJ5iJbDSdVbCOJOqC5hy/GhmoOt3qNaMP2E=
-X-Received: by 2002:a05:6830:2366:: with SMTP id
- r6mr29073537oth.188.1625849866843; 
- Fri, 09 Jul 2021 09:57:46 -0700 (PDT)
+Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4EA2E6EA33
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Jul 2021 17:16:56 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1625851017; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=Xx1QWoGplZYDFvg3o09yp0wM5pDO8b7Sp2lAAG1myl8=;
+ b=tTmlLE8lt44Wpg8rGdrWF3O2PHFUdSrYMSMjxYMh5yyyZY39lTvR0RTY3mJbtCi6moCltymj
+ 3vHeRpCfTFWmhUUtx3ATWyvsFhq7J9Q8B5hLeSvBRqP4mFfEwaaayqUNp3pHwcjsQZ08RPBT
+ w2+CMHtSNyj9HnXrPWgdcD8Yiv0=
+X-Mailgun-Sending-Ip: 198.61.254.9
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n06.prod.us-west-2.postgun.com with SMTP id
+ 60e8848601dd9a9431a8cafa (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 09 Jul 2021 17:16:54
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 29A89C43460; Fri,  9 Jul 2021 17:16:54 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00
+ autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ (No client certificate requested) (Authenticated sender: khsieh)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 7FA01C433F1;
+ Fri,  9 Jul 2021 17:16:52 +0000 (UTC)
 MIME-Version: 1.0
-References: <20210709151933.1994078-1-matthew.auld@intel.com>
- <CAKMK7uHThXJBMKxgyhAN5-1N793a9n=RN39anqCS6GPZiP=bNA@mail.gmail.com>
- <CAM0jSHNswrbF6Mzsm1RuJnEBWG3utWCrOww46fr9=X3O6ssS9A@mail.gmail.com>
-In-Reply-To: <CAM0jSHNswrbF6Mzsm1RuJnEBWG3utWCrOww46fr9=X3O6ssS9A@mail.gmail.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Fri, 9 Jul 2021 18:57:35 +0200
-Message-ID: <CAKMK7uGp_8n6SOPtvTiiW90ceZ+wk2wi+YqCV15r0sZqXvL-1A@mail.gmail.com>
-Subject: Re: [Intel-gfx] [PATCH] drm/i915/ehl: unconditionally flush the pages
- on acquire
-To: Matthew Auld <matthew.william.auld@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date: Fri, 09 Jul 2021 10:16:52 -0700
+From: khsieh@codeaurora.org
+To: Stephen Boyd <swboyd@chromium.org>
+Subject: Re: [PATCH 7/7] drm/msm/dp: retrain link when loss of symbol lock
+ detected
+In-Reply-To: <CAE-0n51U8faPjxfFcd3uuOk27urR2rCSGhg1Kat1AO6LLixYTw@mail.gmail.com>
+References: <1625592020-22658-1-git-send-email-khsieh@codeaurora.org>
+ <1625592020-22658-8-git-send-email-khsieh@codeaurora.org>
+ <CAE-0n51U8faPjxfFcd3uuOk27urR2rCSGhg1Kat1AO6LLixYTw@mail.gmail.com>
+Message-ID: <e6375232222bc357897b62c1752c06d8@codeaurora.org>
+X-Sender: khsieh@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,158 +68,117 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chris Wilson <chris.p.wilson@intel.com>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Matthew Auld <matthew.auld@intel.com>,
- Francisco Jerez <francisco.jerez.plata@intel.com>
+Cc: freedreno@lists.freedesktop.org, airlied@linux.ie,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ abhinavk@codeaurora.org, bjorn.andersson@linaro.org,
+ dri-devel@lists.freedesktop.org, aravindh@codeaurora.org, sean@poorly.run
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jul 9, 2021 at 6:35 PM Matthew Auld
-<matthew.william.auld@gmail.com> wrote:
->
-> On Fri, 9 Jul 2021 at 17:13, Daniel Vetter <daniel@ffwll.ch> wrote:
-> >
-> > On Fri, Jul 9, 2021 at 5:19 PM Matthew Auld <matthew.auld@intel.com> wrote:
-> > >
-> > > EHL and JSL add the 'Bypass LLC' MOCS entry, which should make it
-> > > possible for userspace to bypass the GTT caching bits set by the kernel,
-> > > as per the given object cache_level. This is troublesome since the heavy
-> > > flush we apply when first acquiring the pages is skipped if the kernel
-> > > thinks the object is coherent with the GPU. As a result it might be
-> > > possible to bypass the cache and read the contents of the page directly,
-> > > which could be stale data. If it's just a case of userspace shooting
-> > > themselves in the foot then so be it, but since i915 takes the stance of
-> > > always zeroing memory before handing it to userspace, we need to prevent
-> > > this.
-> > >
-> > > BSpec: 34007
-> > > References: 046091758b50 ("Revert "drm/i915/ehl: Update MOCS table for EHL"")
-> > > Signed-off-by: Matthew Auld <matthew.auld@intel.com>
-> > > Cc: Tejas Upadhyay <tejaskumarx.surendrakumar.upadhyay@intel.com>
-> > > Cc: Francisco Jerez <francisco.jerez.plata@intel.com>
-> > > Cc: Lucas De Marchi <lucas.demarchi@intel.com>
-> > > Cc: Jon Bloomfield <jon.bloomfield@intel.com>
-> > > Cc: Chris Wilson <chris.p.wilson@intel.com>
-> > > Cc: Matt Roper <matthew.d.roper@intel.com>
-> > > ---
-> > >  drivers/gpu/drm/i915/gem/i915_gem_shmem.c | 29 +++++++++++++++++++++--
-> > >  1 file changed, 27 insertions(+), 2 deletions(-)
-> > >
-> > > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
-> > > index 6a04cce188fc..7e9ec68cce9e 100644
-> > > --- a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
-> > > +++ b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
-> > > @@ -298,11 +298,12 @@ __i915_gem_object_release_shmem(struct drm_i915_gem_object *obj,
-> > >
-> > >  void i915_gem_object_put_pages_shmem(struct drm_i915_gem_object *obj, struct sg_table *pages)
-> > >  {
-> > > +       struct drm_i915_private *i915 = to_i915(obj->base.dev);
-> > >         struct sgt_iter sgt_iter;
-> > >         struct pagevec pvec;
-> > >         struct page *page;
-> > >
-> > > -       GEM_WARN_ON(IS_DGFX(to_i915(obj->base.dev)));
-> > > +       GEM_WARN_ON(IS_DGFX(i915));
-> > >         __i915_gem_object_release_shmem(obj, pages, true);
-> > >
-> > >         i915_gem_gtt_finish_pages(obj, pages);
-> > > @@ -325,7 +326,12 @@ void i915_gem_object_put_pages_shmem(struct drm_i915_gem_object *obj, struct sg_
-> > >         }
-> > >         if (pagevec_count(&pvec))
-> > >                 check_release_pagevec(&pvec);
-> > > -       obj->mm.dirty = false;
-> > > +
-> > > +       /* See the comment in shmem_object_init() for why we need this */
-> > > +       if (IS_JSL_EHL(i915) && obj->flags & I915_BO_ALLOC_USER)
-> > > +               obj->mm.dirty = true;
-> > > +       else
-> > > +               obj->mm.dirty = false;
-> > >
-> > >         sg_free_table(pages);
-> > >         kfree(pages);
-> > > @@ -539,6 +545,25 @@ static int shmem_object_init(struct intel_memory_region *mem,
-> > >
-> > >         i915_gem_object_set_cache_coherency(obj, cache_level);
-> > >
-> > > +       /*
-> > > +        * EHL and JSL add the 'Bypass LLC' MOCS entry, which should make it
-> > > +        * possible for userspace to bypass the GTT caching bits set by the
-> > > +        * kernel, as per the given object cache_level. This is troublesome
-> > > +        * since the heavy flush we apply when first gathering the pages is
-> > > +        * skipped if the kernel thinks the object is coherent with the GPU. As
-> > > +        * a result it might be possible to bypass the cache and read the
-> > > +        * contents of the page directly, which could be stale data. If it's
-> > > +        * just a case of userspace shooting themselves in the foot then so be
-> > > +        * it, but since i915 takes the stance of always zeroing memory before
-> > > +        * handing it to userspace, we need to prevent this.
-> > > +        *
-> > > +        * By setting cache_dirty here we make the clflush when first acquiring
-> > > +        * the pages unconditional on such platforms. We also set this again in
-> > > +        * put_pages().
-> > > +        */
-> > > +       if (IS_JSL_EHL(i915) && flags & I915_BO_ALLOC_USER)
-> > > +               obj->cache_dirty = true;
-> >
-> > I don't think this is enough, because every time we drop our pages
-> > shmem could move them around or swap them out, and we get fresh ones.
-> > So we need to re-force this every time we grab new pages.
->
-> We also rearm this in put_pages(), or at least we do in v2, so if the
-> pages are swapped out or whatever it should then flush them again when
-> we re-acquire the pages.
-
-Yeah v2 looks better, that put_pages on obj->mm.dirty made no sense.
-
-Conceptually I think it's cleaner though if we set this in get_pages,
-since that's the action that requires the cleaning. But maybe that
-doesn't work from a sequencing pov? I'd have thought that any time we
-get to check whether we need to clflush the pages would exist already
-...
-
-Maybe it would be even cleaner if get_pages would issue the clflush
-directly, long-term at least, when we have the infrastructure for
-pipeline clear/move in place and make sure we never ignore such a
-fence. That's perhaps conceptually the cleanest version.
--Daniel
-
-> > Also there's already a pile of other cases (well not WB coherency
-> > mode) where userspace can be clever and bypass the coherency if we
-> > don't clflush first. I think it'd be really good to have all that in
-> > one places as much as possible.
-> >
-> > Finally this is extremely tricky code, and obj->cache_dirty and
-> > related stuff isn't really documented. kerneldoc for all that would be
-> > really good.
->
-> Ok, I'll take a look.
->
-> > -Daniel
-> >
-> > > +
-> > >         i915_gem_object_init_memory_region(obj, mem);
-> > >
-> > >         return 0;
-> > > --
-> > > 2.26.3
-> > >
-> > > _______________________________________________
-> > > Intel-gfx mailing list
-> > > Intel-gfx@lists.freedesktop.org
-> > > https://lists.freedesktop.org/mailman/listinfo/intel-gfx
-> >
-> >
-> >
-> > --
-> > Daniel Vetter
-> > Software Engineer, Intel Corporation
-> > http://blog.ffwll.ch
-
-
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+On 2021-07-08 00:21, Stephen Boyd wrote:
+> Quoting Kuogee Hsieh (2021-07-06 10:20:20)
+>> Main link symbol locked is achieved at end of link training 2. Some
+>> dongle main link symbol may become unlocked again if host did not end
+>> link training soon enough after completion of link training 2. Host
+>> have to re train main link if loss of symbol lock detected before
+>> end link training so that the coming video stream can be transmitted
+>> to sink properly.
+>> 
+>> Signed-off-by: Kuogee Hsieh <khsieh@codeaurora.org>
+> 
+> I guess this is a fix for the original driver, so it should be tagged
+> with Fixes appropriately.
+Actually, this is fix on patch #6 : drm/msm/dp: do not end dp link 
+training until video is ready
+Should i merge patch #6 and #7 together?
+Or can you suggest what should I do?
+> 
+>> ---
+>>  drivers/gpu/drm/msm/dp/dp_ctrl.c | 34 
+>> ++++++++++++++++++++++++++++++++++
+>>  1 file changed, 34 insertions(+)
+>> 
+>> diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c 
+>> b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+>> index 0cb01a9..e616ab2 100644
+>> --- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
+>> +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+>> @@ -1661,6 +1661,25 @@ static bool dp_ctrl_any_lane_cr_lose(struct 
+>> dp_ctrl_private *ctrl,
+>>         return false;
+>>  }
+>> 
+>> +static bool dp_ctrl_loss_symbol_lock(struct dp_ctrl_private *ctrl)
+>> +{
+>> +       u8 link_status[6];
+> 
+> Can we use link_status[DP_LINK_STATUS_SIZE] instead?
+> 
+>> +       u8 status;
+>> +       int i;
+>> +       int lane = ctrl->link->link_params.num_lanes;
+> 
+> s/lane/num_lanes/
+> 
+> would make the code easier to read
+> 
+>> +
+>> +       dp_ctrl_read_link_status(ctrl, link_status);
+>> +
+>> +       for (i = 0; i < lane; i++) {
+>> +               status = link_status[i / 2];
+>> +               status >>= ((i % 2) * 4);
+>> +               if (!(status & DP_LANE_SYMBOL_LOCKED))
+>> +                       return true;
+>> +       }
+>> +
+>> +       return false;
+>> +}
+>> +
+>>  int dp_ctrl_on_link(struct dp_ctrl *dp_ctrl)
+>>  {
+>>         int rc = 0;
+>> @@ -1777,6 +1796,17 @@ int dp_ctrl_on_link(struct dp_ctrl *dp_ctrl)
+>>         return rc;
+>>  }
+>> 
+>> +static int dp_ctrl_link_retrain(struct dp_ctrl_private *ctrl)
+>> +{
+>> +       int ret = 0;
+> 
+> Please drop init of ret.
+> 
+>> +       u8 cr_status[2];
+>> +       int training_step = DP_TRAINING_NONE;
+>> +
+>> +       ret = dp_ctrl_setup_main_link(ctrl, cr_status, 
+>> &training_step);
+> 
+> as it is assigned here.
+> 
+>> +
+>> +       return ret;
+> 
+> And indeed, it could be 'return dp_ctrl_setup_main_link()' instead.
+> 
+>> +}
+>> +
+>>  int dp_ctrl_on_stream(struct dp_ctrl *dp_ctrl)
+>>  {
+>>         int ret = 0;
+>> @@ -1802,6 +1832,10 @@ int dp_ctrl_on_stream(struct dp_ctrl *dp_ctrl)
+>>                 }
+>>         }
+>> 
+>> +       /* if loss symbol lock happen, then retaining the link */
+> 
+> retain or retrain? The comment seems to be saying what the code says 
+> "if
+> loss retrain", so the comment is not very useful.
+> 
+>> +       if (dp_ctrl_loss_symbol_lock(ctrl))
+>> +               dp_ctrl_link_retrain(ctrl);
+>> +
+>>         /* stop txing train pattern to end link training */
+>>         dp_ctrl_clear_training_pattern(ctrl);
+>> 
