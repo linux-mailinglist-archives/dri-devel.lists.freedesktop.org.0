@@ -1,47 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 777673C20D7
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Jul 2021 10:31:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AD823C208C
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Jul 2021 10:11:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C3066E9E5;
-	Fri,  9 Jul 2021 08:31:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 607E16E9E0;
+	Fri,  9 Jul 2021 08:11:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1324 seconds by postgrey-1.36 at gabe;
- Fri, 09 Jul 2021 08:31:20 UTC
-Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
- [211.20.114.71])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA7C06E9E5
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Jul 2021 08:31:20 +0000 (UTC)
-Received: from twspam01.aspeedtech.com (localhost [127.0.0.2] (may be forged))
- by twspam01.aspeedtech.com with ESMTP id 1697rYOE089520
- for <dri-devel@lists.freedesktop.org>; Fri, 9 Jul 2021 15:53:34 +0800 (GMT-8)
- (envelope-from kuohsiang_chou@aspeedtech.com)
-Received: from mail.aspeedtech.com ([192.168.0.24])
- by twspam01.aspeedtech.com with ESMTP id 1697rOPL089505;
- Fri, 9 Jul 2021 15:53:24 +0800 (GMT-8)
- (envelope-from kuohsiang_chou@aspeedtech.com)
-Received: from localhost.localdomain.com (192.168.2.206) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Fri, 9 Jul 2021 16:09:06 +0800
-From: KuoHsiang Chou <kuohsiang_chou@aspeedtech.com>
-To: <tzimmermann@suse.de>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>
-Subject: [PATCH v5] drm/ast: Disable fast reset after DRAM initial
-Date: Fri, 9 Jul 2021 16:09:00 +0800
-Message-ID: <20210709080900.4056-1-kuohsiang_chou@aspeedtech.com>
-X-Mailer: git-send-email 2.18.4
-In-Reply-To: <bb505d06-bf46-237c-ed2f-15e3f23ec338@suse.de>
-References: <bb505d06-bf46-237c-ed2f-15e3f23ec338@suse.de>
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com
+ [IPv6:2a00:1450:4864:20::430])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF79B6E9E1
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Jul 2021 08:11:22 +0000 (UTC)
+Received: by mail-wr1-x430.google.com with SMTP id q17so10970154wrv.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 09 Jul 2021 01:11:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ZCO5959kVrJtaae3fTrEb7+OZEh/FfOKLUp3bINIoX0=;
+ b=WsKxjjkKQ6J4kemfcVyreWB36kmaRu43Gv/0zwDa26X1HOMjuxm0qLaxq1QXqfEOV5
+ LPNNOu/8aWoXKrsJaB7Wpi0gKO6T3vwpuqTmulMmOgc4VzbNpMXqzBVtpnislEMYs+q/
+ wq+at/pjJIyX+la/RphO4g2zKuGddjhSJepcQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ZCO5959kVrJtaae3fTrEb7+OZEh/FfOKLUp3bINIoX0=;
+ b=Q0w1KuicicpcgClT4aF0y0NUDUCthfXZ+XowEEQKT/s7IsT3eDWtLaxTkOWd4B0FWM
+ NSUMZ0GewFHM54KrDV5weN9LaNLYrUE+HoALgTIlmzI+IABLBW2tT8TqMCRifqclNPt/
+ 1mbtMyGysaRDUX/R52q+WKQu7ovc1+uy1bhPb51fOea1o3IflVkPW5inBQIDWa2fB7BQ
+ mjMyDP20BMZga5crPc9HssROHXRPASqH4yqfyLr0+dJTZGk6Woq4LZeTFNdjzDEnI7Af
+ lBkS2TlIDy6fIePA1mGUxgrP0TtBlyaYE/mKjXBvUflG8HeS4f7+ul0SMqm68XLyItj3
+ DfbQ==
+X-Gm-Message-State: AOAM530o5l9JKu1nhq66bD77SqhECEdSgLI19sWA+JdURqGe04Ffjiek
+ 4bG1Zd+lr9FdsaxSJ6fLLbZMMrhNlrX0Cw==
+X-Google-Smtp-Source: ABdhPJwL/wmXGB5MatbuFH+4mHrLczIo7XAtt+rjIItVZUaitCfvVidF35WH9BSqTEn5LiS3tP/Rmg==
+X-Received: by 2002:a5d:5103:: with SMTP id s3mr18324922wrt.180.1625818281647; 
+ Fri, 09 Jul 2021 01:11:21 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id v15sm11754511wmj.39.2021.07.09.01.11.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 09 Jul 2021 01:11:21 -0700 (PDT)
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+To: DRI Development <dri-devel@lists.freedesktop.org>
+Subject: [PATCH] dim/drm-misc: Add rule to not push patches with issues
+Date: Fri,  9 Jul 2021 10:11:16 +0200
+Message-Id: <20210709081116.4170288-1-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [192.168.2.206]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 1697rOPL089505
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,206 +63,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, jenmin_yuan@aspeedtech.com, airlied@redhat.com,
- arc_sung@aspeedtech.com
+Cc: dim-tools@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[Bug][AST2500]
+We kinda left this out, and I like the wording from the drm-intel
+side, so add that. Motivated by a discussion with Christian.
 
-V1:
-When AST2500 acts as stand-alone VGA so that DRAM and DVO initialization
-have to be achieved by VGA driver with P2A (PCI to AHB) enabling.
-However, HW suggests disable Fast reset mode after DRAM initializaton,
-because fast reset mode is mainly designed for ARM ICE debugger.
-Once Fast reset is checked as enabling, WDT (Watch Dog Timer) should be
-first enabled to avoid system deadlock before disable fast reset mode.
-
-V2:
-Use to_pci_dev() to get revision of PCI configuration.
-
-V3:
-If SCU00 is not unlocked, just enter its password again.
-It is unnecessary to clear AHB lock condition and restore WDT default
-setting again, before Fast-reset clearing.
-
-V4:
-repatch after "error : could not build fake ancestor" resolved.
-
-V5:
-Since CVE_2019_6260 item3, Most of AST2500 have disabled P2A(PCIe to AMBA).
-However, for backward compatibility, some patches about P2A, such as items
-of v5.2 and v5.3, are considered to be upstreamed with comments.
-1. Add define macro to improve source readability.
-ast_drv.h, ast_main.c, ast_post.c
-2. Add comment about "Fast restet" is enabled for ARM-ICE debugger
-ast_post.c
-3. Add comment about Reset USB port to patch USB unknown device issue
-ast_post.c
-
-Signed-off-by: KuoHsiang Chou <kuohsiang_chou@aspeedtech.com>
+Cc: Christian König <christian.koenig@amd.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
 ---
- drivers/gpu/drm/ast/ast_drv.h  |  6 +++
- drivers/gpu/drm/ast/ast_main.c |  5 ++
- drivers/gpu/drm/ast/ast_post.c | 91 ++++++++++++++++++++++++----------
- 3 files changed, 76 insertions(+), 26 deletions(-)
+ committer-drm-misc.rst | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
-index 911f9f414..39ca338eb 100644
---- a/drivers/gpu/drm/ast/ast_drv.h
-+++ b/drivers/gpu/drm/ast/ast_drv.h
-@@ -337,6 +337,11 @@ int ast_mode_config_init(struct ast_private *ast);
- #define AST_DP501_LINKRATE	0xf014
- #define AST_DP501_EDID_DATA	0xf020
-
-+/* Define for Soc scratched reg */
-+#define AST_VRAM_INIT_STATUS_MASK	GENMASK(7, 6)
-+//#define AST_VRAM_INIT_BY_BMC		BIT(7)
-+//#define AST_VRAM_INIT_READY		BIT(6)
+diff --git a/committer-drm-misc.rst b/committer-drm-misc.rst
+index 9497a5d26a9d..110ca8b0525e 100644
+--- a/committer-drm-misc.rst
++++ b/committer-drm-misc.rst
+@@ -21,6 +21,9 @@ Merge Criteria
+ 
+ Right now the only hard merge criteria are:
+ 
++* There must not be open issues or unresolved or conflicting feedback from
++  anyone. Clear them up first. Defer to maintainers as needed.
 +
- int ast_mm_init(struct ast_private *ast);
-
- /* ast post */
-@@ -346,6 +351,7 @@ bool ast_is_vga_enabled(struct drm_device *dev);
- void ast_post_gpu(struct drm_device *dev);
- u32 ast_mindwm(struct ast_private *ast, u32 r);
- void ast_moutdwm(struct ast_private *ast, u32 r, u32 v);
-+void ast_patch_ahb_2500(struct ast_private *ast);
- /* ast dp501 */
- void ast_set_dp501_video_output(struct drm_device *dev, u8 mode);
- bool ast_backup_fw(struct drm_device *dev, u8 *addr, u32 size);
-diff --git a/drivers/gpu/drm/ast/ast_main.c b/drivers/gpu/drm/ast/ast_main.c
-index 2aff2e6cf..79a361867 100644
---- a/drivers/gpu/drm/ast/ast_main.c
-+++ b/drivers/gpu/drm/ast/ast_main.c
-@@ -97,6 +97,11 @@ static void ast_detect_config_mode(struct drm_device *dev, u32 *scu_rev)
- 	jregd0 = ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xd0, 0xff);
- 	jregd1 = ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xd1, 0xff);
- 	if (!(jregd0 & 0x80) || !(jregd1 & 0x10)) {
-+		/* Patch AST2500 */
-+		if (((pdev->revision & 0xF0) == 0x40)
-+			&& ((jregd0 & AST_VRAM_INIT_STATUS_MASK) == 0))
-+			ast_patch_ahb_2500(ast);
-+
- 		/* Double check it's actually working */
- 		data = ast_read32(ast, 0xf004);
- 		if ((data != 0xFFFFFFFF) && (data != 0x00)) {
-diff --git a/drivers/gpu/drm/ast/ast_post.c b/drivers/gpu/drm/ast/ast_post.c
-index 0607658dd..b5d92f652 100644
---- a/drivers/gpu/drm/ast/ast_post.c
-+++ b/drivers/gpu/drm/ast/ast_post.c
-@@ -2028,6 +2028,40 @@ static bool ast_dram_init_2500(struct ast_private *ast)
- 	return true;
- }
-
-+void ast_patch_ahb_2500(struct ast_private *ast)
-+{
-+	u32	data;
-+
-+	/* Clear bus lock condition */
-+	ast_moutdwm(ast, 0x1e600000, 0xAEED1A03);
-+	ast_moutdwm(ast, 0x1e600084, 0x00010000);
-+	ast_moutdwm(ast, 0x1e600088, 0x00000000);
-+	ast_moutdwm(ast, 0x1e6e2000, 0x1688A8A8);
-+	data = ast_mindwm(ast, 0x1e6e2070);
-+	if (data & 0x08000000) {					/* check fast reset */
-+		/*
-+		 * If "Fast restet" is enabled for ARM-ICE debugger,
-+		 * then WDT needs to enable, that
-+		 * WDT04 is WDT#1 Reload reg.
-+		 * WDT08 is WDT#1 counter restart reg to avoid system deadlock
-+		 * WDT0C is WDT#1 control reg
-+		 *	[6:5]:= 01:Full chip
-+		 *	[4]:= 1:1MHz clock source
-+		 *	[1]:= 1:WDT will be cleeared and disabled after timeout occurs
-+		 *	[0]:= 1:WDT enable
-+		 */
-+		ast_moutdwm(ast, 0x1E785004, 0x00000010);
-+		ast_moutdwm(ast, 0x1E785008, 0x00004755);
-+		ast_moutdwm(ast, 0x1E78500c, 0x00000033);
-+		udelay(1000);
-+	}
-+	do {
-+		ast_moutdwm(ast, 0x1e6e2000, 0x1688A8A8);
-+		data = ast_mindwm(ast, 0x1e6e2000);
-+	}	while (data != 1);
-+	ast_moutdwm(ast, 0x1e6e207c, 0x08000000);	/* clear fast reset */
-+}
-+
- void ast_post_chip_2500(struct drm_device *dev)
- {
- 	struct ast_private *ast = to_ast_private(dev);
-@@ -2035,39 +2069,44 @@ void ast_post_chip_2500(struct drm_device *dev)
- 	u8 reg;
-
- 	reg = ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xd0, 0xff);
--	if ((reg & 0x80) == 0) {/* vga only */
-+	if ((reg & AST_VRAM_INIT_STATUS_MASK) == 0) {/* vga only */
- 		/* Clear bus lock condition */
--		ast_moutdwm(ast, 0x1e600000, 0xAEED1A03);
--		ast_moutdwm(ast, 0x1e600084, 0x00010000);
--		ast_moutdwm(ast, 0x1e600088, 0x00000000);
--		ast_moutdwm(ast, 0x1e6e2000, 0x1688A8A8);
--		ast_write32(ast, 0xf004, 0x1e6e0000);
--		ast_write32(ast, 0xf000, 0x1);
--		ast_write32(ast, 0x12000, 0x1688a8a8);
--		while (ast_read32(ast, 0x12000) != 0x1)
--			;
--
--		ast_write32(ast, 0x10000, 0xfc600309);
--		while (ast_read32(ast, 0x10000) != 0x1)
--			;
-+		ast_patch_ahb_2500(ast);
-+
-+		/* Disable watchdog */
-+		ast_moutdwm(ast, 0x1E78502C, 0x00000000);
-+		ast_moutdwm(ast, 0x1E78504C, 0x00000000);
-+
-+		/*
-+		 * Reset USB port to patch USB unknown device issue
-+		 * SCU90 is Multi-function Pin Control #5
-+		 *	[29]:= 1:Enable USB2.0 Host port#1 (that the mutually shared USB2.0 Hub
-+		 *				port).
-+		 * SCU94 is Multi-function Pin Control #6
-+		 *	[14:13]:= 1x:USB2.0 Host2 controller
-+		 * SCU70 is Hardware Strap reg
-+		 *	[23]:= 1:CLKIN is 25MHz and USBCK1 = 24/48 MHz (determined by
-+		 *				[18]: 0(24)/1(48) MHz)
-+		 * SCU7C is Write clear reg to SCU70
-+		 *	[23]:= write 1 and then SCU70[23] will be clear as 0b.
-+		 */
-+		ast_moutdwm(ast, 0x1E6E2090, 0x20000000);
-+		ast_moutdwm(ast, 0x1E6E2094, 0x00004000);
-+		if (ast_mindwm(ast, 0x1E6E2070) & 0x00800000) {
-+			ast_moutdwm(ast, 0x1E6E207C, 0x00800000);
-+			mdelay(100);
-+			ast_moutdwm(ast, 0x1E6E2070, 0x00800000);
-+		}
-+		/* Modify eSPI reset pin */
-+		temp = ast_mindwm(ast, 0x1E6E2070);
-+		if (temp & 0x02000000)
-+			ast_moutdwm(ast, 0x1E6E207C, 0x00004000);
-
- 		/* Slow down CPU/AHB CLK in VGA only mode */
- 		temp = ast_read32(ast, 0x12008);
- 		temp |= 0x73;
- 		ast_write32(ast, 0x12008, temp);
-
--		/* Reset USB port to patch USB unknown device issue */
--		ast_moutdwm(ast, 0x1e6e2090, 0x20000000);
--		temp  = ast_mindwm(ast, 0x1e6e2094);
--		temp |= 0x00004000;
--		ast_moutdwm(ast, 0x1e6e2094, temp);
--		temp  = ast_mindwm(ast, 0x1e6e2070);
--		if (temp & 0x00800000) {
--			ast_moutdwm(ast, 0x1e6e207c, 0x00800000);
--			mdelay(100);
--			ast_moutdwm(ast, 0x1e6e2070, 0x00800000);
--		}
--
- 		if (!ast_dram_init_2500(ast))
- 			drm_err(dev, "DRAM init failed !\n");
-
---
-2.18.4
+ * Patch is properly reviewed or at least Ack, i.e. don't just push your own
+   stuff directly. This rule holds even more for bugfix patches - it would be
+   embarrassing if the bugfix contains a small gotcha that review would have
+-- 
+2.32.0
 
