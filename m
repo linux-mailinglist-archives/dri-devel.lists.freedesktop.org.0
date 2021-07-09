@@ -2,60 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1809A3C282A
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Jul 2021 19:17:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 918423C2846
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Jul 2021 19:27:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6DB916EA63;
-	Fri,  9 Jul 2021 17:16:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 437A56E91C;
+	Fri,  9 Jul 2021 17:27:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4EA2E6EA33
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Jul 2021 17:16:56 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1625851017; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=Xx1QWoGplZYDFvg3o09yp0wM5pDO8b7Sp2lAAG1myl8=;
- b=tTmlLE8lt44Wpg8rGdrWF3O2PHFUdSrYMSMjxYMh5yyyZY39lTvR0RTY3mJbtCi6moCltymj
- 3vHeRpCfTFWmhUUtx3ATWyvsFhq7J9Q8B5hLeSvBRqP4mFfEwaaayqUNp3pHwcjsQZ08RPBT
- w2+CMHtSNyj9HnXrPWgdcD8Yiv0=
-X-Mailgun-Sending-Ip: 198.61.254.9
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n06.prod.us-west-2.postgun.com with SMTP id
- 60e8848601dd9a9431a8cafa (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 09 Jul 2021 17:16:54
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 29A89C43460; Fri,  9 Jul 2021 17:16:54 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00
- autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
- (No client certificate requested) (Authenticated sender: khsieh)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 7FA01C433F1;
- Fri,  9 Jul 2021 17:16:52 +0000 (UTC)
+Received: from mx1.smtp.larsendata.com (mx1.smtp.larsendata.com
+ [91.221.196.215])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D77AE6E91C
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Jul 2021 17:27:48 +0000 (UTC)
+Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
+ by mx1.smtp.larsendata.com (Halon) with ESMTPS
+ id f6d0309f-e0da-11eb-9082-0050568c148b;
+ Fri, 09 Jul 2021 17:27:41 +0000 (UTC)
+Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
+ [80.162.45.141])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: sam@ravnborg.org)
+ by mail01.mxhotel.dk (Postfix) with ESMTPSA id BDDB9194B04;
+ Fri,  9 Jul 2021 19:27:53 +0200 (CEST)
+Date: Fri, 9 Jul 2021 19:27:42 +0200
+X-Report-Abuse-To: abuse@mxhotel.dk
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Alistair Francis <alistair@alistair23.me>
+Subject: Re: [PATCH v3] drm/panel: Add support for E Ink VB3300-KCA
+Message-ID: <YOiHDpSBIyuszkH9@ravnborg.org>
+References: <20210708115735.142-1-alistair@alistair23.me>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date: Fri, 09 Jul 2021 10:16:52 -0700
-From: khsieh@codeaurora.org
-To: Stephen Boyd <swboyd@chromium.org>
-Subject: Re: [PATCH 7/7] drm/msm/dp: retrain link when loss of symbol lock
- detected
-In-Reply-To: <CAE-0n51U8faPjxfFcd3uuOk27urR2rCSGhg1Kat1AO6LLixYTw@mail.gmail.com>
-References: <1625592020-22658-1-git-send-email-khsieh@codeaurora.org>
- <1625592020-22658-8-git-send-email-khsieh@codeaurora.org>
- <CAE-0n51U8faPjxfFcd3uuOk27urR2rCSGhg1Kat1AO6LLixYTw@mail.gmail.com>
-Message-ID: <e6375232222bc357897b62c1752c06d8@codeaurora.org>
-X-Sender: khsieh@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210708115735.142-1-alistair@alistair23.me>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,117 +47,113 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, airlied@linux.ie,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- abhinavk@codeaurora.org, bjorn.andersson@linaro.org,
- dri-devel@lists.freedesktop.org, aravindh@codeaurora.org, sean@poorly.run
+Cc: devicetree@vger.kernel.org, geert+renesas@glider.be,
+ kuninori.morimoto.gx@renesas.com, airlied@linux.ie, daniel@0x0f.com,
+ linux-kernel@vger.kernel.org, krzk@kernel.org, linux@rempel-privat.de,
+ robh+dt@kernel.org, thierry.reding@gmail.com, dri-devel@lists.freedesktop.org,
+ max.Merchel@tq-group.com, alistair23@gmail.com, shawnguo@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021-07-08 00:21, Stephen Boyd wrote:
-> Quoting Kuogee Hsieh (2021-07-06 10:20:20)
->> Main link symbol locked is achieved at end of link training 2. Some
->> dongle main link symbol may become unlocked again if host did not end
->> link training soon enough after completion of link training 2. Host
->> have to re train main link if loss of symbol lock detected before
->> end link training so that the coming video stream can be transmitted
->> to sink properly.
->> 
->> Signed-off-by: Kuogee Hsieh <khsieh@codeaurora.org>
+Hi Alistair,
+
+On Thu, Jul 08, 2021 at 09:57:35PM +1000, Alistair Francis wrote:
+> Add support for the 10.3" E Ink panel described at:
+> https://www.eink.com/product.html?type=productdetail&id=7
 > 
-> I guess this is a fix for the original driver, so it should be tagged
-> with Fixes appropriately.
-Actually, this is fix on patch #6 : drm/msm/dp: do not end dp link 
-training until video is ready
-Should i merge patch #6 and #7 together?
-Or can you suggest what should I do?
+> Signed-off-by: Alistair Francis <alistair@alistair23.me>
+> Acked-by: Rob Herring <robh@kernel.org>
+> ---
+>  .../bindings/display/panel/panel-simple.yaml  |  2 ++
+>  .../devicetree/bindings/vendor-prefixes.yaml  |  2 ++
+>  drivers/gpu/drm/panel/panel-simple.c          | 29 +++++++++++++++++++
+>  3 files changed, 33 insertions(+)
 > 
->> ---
->>  drivers/gpu/drm/msm/dp/dp_ctrl.c | 34 
->> ++++++++++++++++++++++++++++++++++
->>  1 file changed, 34 insertions(+)
->> 
->> diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c 
->> b/drivers/gpu/drm/msm/dp/dp_ctrl.c
->> index 0cb01a9..e616ab2 100644
->> --- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
->> +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
->> @@ -1661,6 +1661,25 @@ static bool dp_ctrl_any_lane_cr_lose(struct 
->> dp_ctrl_private *ctrl,
->>         return false;
->>  }
->> 
->> +static bool dp_ctrl_loss_symbol_lock(struct dp_ctrl_private *ctrl)
->> +{
->> +       u8 link_status[6];
-> 
-> Can we use link_status[DP_LINK_STATUS_SIZE] instead?
-> 
->> +       u8 status;
->> +       int i;
->> +       int lane = ctrl->link->link_params.num_lanes;
-> 
-> s/lane/num_lanes/
-> 
-> would make the code easier to read
-> 
->> +
->> +       dp_ctrl_read_link_status(ctrl, link_status);
->> +
->> +       for (i = 0; i < lane; i++) {
->> +               status = link_status[i / 2];
->> +               status >>= ((i % 2) * 4);
->> +               if (!(status & DP_LANE_SYMBOL_LOCKED))
->> +                       return true;
->> +       }
->> +
->> +       return false;
->> +}
->> +
->>  int dp_ctrl_on_link(struct dp_ctrl *dp_ctrl)
->>  {
->>         int rc = 0;
->> @@ -1777,6 +1796,17 @@ int dp_ctrl_on_link(struct dp_ctrl *dp_ctrl)
->>         return rc;
->>  }
->> 
->> +static int dp_ctrl_link_retrain(struct dp_ctrl_private *ctrl)
->> +{
->> +       int ret = 0;
-> 
-> Please drop init of ret.
-> 
->> +       u8 cr_status[2];
->> +       int training_step = DP_TRAINING_NONE;
->> +
->> +       ret = dp_ctrl_setup_main_link(ctrl, cr_status, 
->> &training_step);
-> 
-> as it is assigned here.
-> 
->> +
->> +       return ret;
-> 
-> And indeed, it could be 'return dp_ctrl_setup_main_link()' instead.
-> 
->> +}
->> +
->>  int dp_ctrl_on_stream(struct dp_ctrl *dp_ctrl)
->>  {
->>         int ret = 0;
->> @@ -1802,6 +1832,10 @@ int dp_ctrl_on_stream(struct dp_ctrl *dp_ctrl)
->>                 }
->>         }
->> 
->> +       /* if loss symbol lock happen, then retaining the link */
-> 
-> retain or retrain? The comment seems to be saying what the code says 
-> "if
-> loss retrain", so the comment is not very useful.
-> 
->> +       if (dp_ctrl_loss_symbol_lock(ctrl))
->> +               dp_ctrl_link_retrain(ctrl);
->> +
->>         /* stop txing train pattern to end link training */
->>         dp_ctrl_clear_training_pattern(ctrl);
->> 
+> diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+> index b3797ba2698b..799e20222551 100644
+> --- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+> +++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+> @@ -128,6 +128,8 @@ properties:
+>          # Emerging Display Technology Corp. WVGA TFT Display with capacitive touch
+>        - edt,etm0700g0dh6
+>        - edt,etm0700g0edh6
+> +        # E Ink VB3300-KCA
+> +      - eink,vb3300-kca
+>          # Evervision Electronics Co. Ltd. VGG804821 5.0" WVGA TFT LCD Panel
+>        - evervision,vgg804821
+>          # Foxlink Group 5" WVGA TFT LCD panel
+> diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> index 0199728d2eaf..3612c6020fe4 100644
+> --- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> +++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> @@ -335,6 +335,8 @@ patternProperties:
+>      description: eGalax_eMPIA Technology Inc
+>    "^einfochips,.*":
+>      description: Einfochips
+> +  "^eink,.*":
+> +    description: E Ink Corporation
+>    "^elan,.*":
+>      description: Elan Microelectronic Corp.
+>    "^element14,.*":
+> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+> index 21939d4352cf..210377b03f6f 100644
+> --- a/drivers/gpu/drm/panel/panel-simple.c
+> +++ b/drivers/gpu/drm/panel/panel-simple.c
+> @@ -2046,6 +2046,32 @@ static const struct panel_desc edt_etm0700g0bdh6 = {
+>  	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE,
+>  };
+>  
+> +static const struct display_timing eink_vb3300_kca_timing = {
+> +	.pixelclock = { 40000000, 40000000, 40000000 },
+> +	.hactive = { 334, 334, 334 },
+> +	.hfront_porch = { 1, 1, 1 },
+> +	.hback_porch = { 1, 1, 1 },
+> +	.hsync_len = { 1, 1, 1 },
+> +	.vactive = { 1405, 1405, 1405 },
+> +	.vfront_porch = { 1, 1, 1 },
+> +	.vback_porch = { 1, 1, 1 },
+> +	.vsync_len = { 1, 1, 1 },
+> +	.flags = DISPLAY_FLAGS_HSYNC_LOW | DISPLAY_FLAGS_VSYNC_LOW |
+> +		 DISPLAY_FLAGS_DE_HIGH | DISPLAY_FLAGS_PIXDATA_POSEDGE,
+> +};
+> +
+> +static const struct panel_desc eink_vb3300_kca = {
+> +	.timings = &eink_vb3300_kca_timing,
+> +	.num_timings = 1,
+> +	.bpc = 6,
+> +	.size = {
+> +		.width = 157,
+> +		.height = 209,
+> +	},
+> +	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
+> +	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE,
+> +};
+> +
+>  static const struct display_timing evervision_vgg804821_timing = {
+>  	.pixelclock = { 27600000, 33300000, 50000000 },
+>  	.hactive = { 800, 800, 800 },
+> @@ -4344,6 +4370,9 @@ static const struct of_device_id platform_of_match[] = {
+>  	}, {
+>  		.compatible = "edt,etm0700g0dh6",
+>  		.data = &edt_etm0700g0dh6,
+> +	}, {
+> +		.compatible = "eink,vb3300-kca",
+> +		.data = &eink_vb3300_kca,
+>  	}, {
+>  		.compatible = "edt,etm0700g0bdh6",
+>  		.data = &edt_etm0700g0bdh6,
+This list is sorted alphabetically according to compatible, so you need
+to reorder this.
+"eink," is after "edt,".
+
+And then make sure the order mathes where you add eink_vb3300_kca as the
+order shall match here too.
+
+The rest looked good.
+
+	Sam
+
+
+
+> -- 
+> 2.31.1
