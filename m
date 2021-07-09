@@ -1,40 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 799483C241C
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Jul 2021 15:16:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 18A453C2449
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Jul 2021 15:19:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 26C776EA2C;
-	Fri,  9 Jul 2021 13:16:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F2F76EA2A;
+	Fri,  9 Jul 2021 13:19:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from vps5.brixit.nl (vps5.brixit.nl [192.81.221.234])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 693556EA22;
- Fri,  9 Jul 2021 13:07:00 +0000 (UTC)
-Received: from [192.168.20.2] (unknown [77.239.252.99])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 31F566EA2A
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Jul 2021 13:19:51 +0000 (UTC)
+Received: from [IPv6:::1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
  (No client certificate requested)
- by vps5.brixit.nl (Postfix) with ESMTPSA id BB70760878;
- Fri,  9 Jul 2021 13:06:55 +0000 (UTC)
-Subject: Re: [Freedreno] [PATCH v1 0/7] drm/msm/dpu: add support for
- idependent DSI config
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <abhinavk@codeaurora.org>
-References: <20210708122833.363451-1-dmitry.baryshkov@linaro.org>
-From: Alexey Minnekhanov <alexeymin@postmarketos.org>
-Message-ID: <04b7d3f0-5781-e741-7c83-93c1ea71077c@postmarketos.org>
-Date: Fri, 9 Jul 2021 16:06:54 +0300
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id 90FB68326D;
+ Fri,  9 Jul 2021 15:19:48 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1625836789;
+ bh=/1tTQdqGBl6k/yOxU8Glqo/bpxh20lrV8ke+N08B9QU=;
+ h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+ b=Ii2gRSNSf6DcNI2g4/V0SkcPmA3oFXsNZ3DKm0bHtjfzZywiqB37uBP8RS5C17DUX
+ i/9GtIGwfaFCW7XDQ7SvshHqEwwG3DD74uF7hSf77DlOv2N0b8T2mid68P0s61XfNu
+ +WrXlUBOHMx0yRNuPMGJKRVPPdg55fLCzV584OU5Yhv6ESNG69l6o6j4KXIK6Td2sg
+ yFnDtIMYS+m4Kz+MbWrUrJcclYrnDo2gIITIXAyj8jiyjiEZgfs+qiQQoEnszs3pbf
+ FR153wXqFbeqgqrIYjXN4pX+V0O/l63LZlemir1u/j/zU41dwddneC7jh8bQ8+5bD0
+ 1Wpn6URHgvG1w==
+Subject: Re: [PATCH] video: backlight: Only set maximum brightness for
+ gpio-backlight
+To: Daniel Thompson <daniel.thompson@linaro.org>
+References: <20210708091058.56317-1-marex@denx.de>
+ <20210709110315.vv5hbngg26o4vj63@maple.lan>
+From: Marek Vasut <marex@denx.de>
+Message-ID: <6330fc87-333e-f507-0a39-3ca1bfa6b39f@denx.de>
+Date: Fri, 9 Jul 2021 15:19:47 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210708122833.363451-1-dmitry.baryshkov@linaro.org>
+In-Reply-To: <20210709110315.vv5hbngg26o4vj63@maple.lan>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Mailman-Approved-At: Fri, 09 Jul 2021 13:16:51 +0000
+Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: clamav-milter 0.103.2 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,66 +57,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jonathan Marek <jonathan@marek.ca>, Stephen Boyd <sboyd@kernel.org>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- David Airlie <airlied@linux.ie>, freedreno@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
+ Sean Paul <seanpaul@chromium.org>,
+ Meghana Madhyastha <meghana.madhyastha@gmail.com>,
+ Thierry Reding <treding@nvidia.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-08.07.2021 15:28, Dmitry Baryshkov wrote:
-> This patchseries adds support for independent DSI config to DPU1 display
-> subdriver. Also drop one of msm_kms_funcs callbacks, made unnecessary
-> now.
+On 7/9/21 1:03 PM, Daniel Thompson wrote:
+> On Thu, Jul 08, 2021 at 11:10:58AM +0200, Marek Vasut wrote:
+>> The note in c2adda27d202f ("video: backlight: Add of_find_backlight helper
+>> in backlight.c") says that gpio-backlight uses brightness as power state.
+>> Other backlight drivers do not, so limit this workaround to gpio-backlight.
+>>
+>> This fixes the case where e.g. pwm-backlight can perfectly well be set to
+>> brightness 0 on boot in DT, which without this patch leads to the display
+>> brightness to be max instead of off.
+>>
+>> Fixes: c2adda27d202f ("video: backlight: Add of_find_backlight helper in backlight.c")
+>> Signed-off-by: Marek Vasut <marex@denx.de>
+>> Cc: Daniel Thompson <daniel.thompson@linaro.org>
+>> Cc: Meghana Madhyastha <meghana.madhyastha@gmail.com>
+>> Cc: Noralf Trønnes <noralf@tronnes.org>
+>> Cc: Sean Paul <seanpaul@chromium.org>
+>> Cc: Thierry Reding <treding@nvidia.com>
 > 
-> Tested on RB5 (dpu, dsi). Previous iteration was tested by Alexey
-> Minnekhanov.
+> I have to admit that this patch really does makes it clear just how
+> nasty the hack in of_find_backlight() currently is.
 > 
-> Changes since v1:
->   - renamed dual DSI to bonded DSI as suggsted by Abhinav
->   - added comments to _dpu_kms_initialize_dsi() regarding encoders usage
-> 
-> The following changes since commit e88bbc91849b2bf57683119c339e52916d34433f:
-> 
->    Revert "drm/msm/mdp5: provide dynamic bandwidth management" (2021-06-23 14:06:20 -0700)
-> 
-> are available in the Git repository at:
-> 
->    https://git.linaro.org/people/dmitry.baryshkov/kernel.git msm-drm-drop-set-encoder-mode-1
-> 
-> for you to fetch changes up to 142f79dfc41271576731a49516d63ad47a56e1ca:
-> 
->    drm/msm/kms: drop set_encoder_mode callback (2021-07-08 15:20:52 +0300)
-> 
-> ----------------------------------------------------------------
-> Dmitry Baryshkov (7):
->        drm/msm/dsi: rename dual DSI to bonded DSI
->        drm/msm/dsi: add two helper functions
->        drm/msm/dpu: support setting up two independent DSI connectors
->        drm/msm/mdp5: move mdp5_encoder_set_intf_mode after msm_dsi_modeset_init
->        drm/msm/dp: stop calling set_encoder_mode callback
->        drm/msm/dsi: stop calling set_encoder_mode callback
->        drm/msm/kms: drop set_encoder_mode callback
-> 
->   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c  | 102 +++++++++++++++++--------------
->   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c |  11 +---
->   drivers/gpu/drm/msm/dp/dp_display.c      |  18 ------
->   drivers/gpu/drm/msm/dsi/dsi.c            |   9 ++-
->   drivers/gpu/drm/msm/dsi/dsi.h            |   9 ++-
->   drivers/gpu/drm/msm/dsi/dsi_cfg.h        |   2 +-
->   drivers/gpu/drm/msm/dsi/dsi_host.c       |  30 ++++-----
->   drivers/gpu/drm/msm/dsi/dsi_manager.c    |  93 ++++++++++++----------------
->   drivers/gpu/drm/msm/msm_drv.h            |  12 +++-
->   drivers/gpu/drm/msm/msm_kms.h            |   3 -
->   10 files changed, 136 insertions(+), 153 deletions(-)
-> 
+> Moreover I think it is also be obsolete. gpio-backlight power mode
+> handling was pretty broken when this code was introduced. It was fixed
+> in 2019 by ec665b756e6f ("backlight: gpio backlight: Correct initial
+> power state handling") by trying to match the behaviour of PWM
+> backlight.  The new code always sets the brightness to 1 so I think we
+> can just remove the hack from of_find_backlight() since I think it is
+> unreachable.
 
-I've tested these patches (again), on msm8974 samsung-klte device with 
-MDP5 and nothing is broken.
+I assume by "new code" you mean the fixed gpio-backlight driver ?
 
-Tested-by: Alexey Minnekhanov <alexeymin@postmarketos.org>
-
--- 
-Regards
-Alexey Minnekhanov
-postmarketOS developer
-https://www.postmarketos.org
+Dropping the whole code after the Note: is fine by me.
