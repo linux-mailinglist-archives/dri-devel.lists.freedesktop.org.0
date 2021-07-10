@@ -1,41 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFEC33C3371
-	for <lists+dri-devel@lfdr.de>; Sat, 10 Jul 2021 09:13:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9648A3C3376
+	for <lists+dri-devel@lfdr.de>; Sat, 10 Jul 2021 09:22:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C1B1F6EB08;
-	Sat, 10 Jul 2021 07:13:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C1E1C6EB09;
+	Sat, 10 Jul 2021 07:22:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.smtp.larsendata.com (mx1.smtp.larsendata.com
- [91.221.196.215])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB9CF6EB08
- for <dri-devel@lists.freedesktop.org>; Sat, 10 Jul 2021 07:13:18 +0000 (UTC)
-Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
- by mx1.smtp.larsendata.com (Halon) with ESMTPS
- id 49b8e76d-e14e-11eb-9082-0050568c148b;
- Sat, 10 Jul 2021 07:13:12 +0000 (UTC)
-Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
- [80.162.45.141])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: sam@ravnborg.org)
- by mail01.mxhotel.dk (Postfix) with ESMTPSA id B6FE1194B04;
- Sat, 10 Jul 2021 09:13:26 +0200 (CEST)
-Date: Sat, 10 Jul 2021 09:13:15 +0200
-X-Report-Abuse-To: abuse@mxhotel.dk
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Jagan Teki <jagan@amarulasolutions.com>
-Subject: Re: [PATCH] drm: bridge: nwl-dsi: Drop unused nwl_dsi_plat_clk_config
-Message-ID: <YOlIizjvv6ZmLch5@ravnborg.org>
-References: <20210704093433.27717-1-jagan@amarulasolutions.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 718B06EB09
+ for <dri-devel@lists.freedesktop.org>; Sat, 10 Jul 2021 07:22:26 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 4D482613DC
+ for <dri-devel@lists.freedesktop.org>; Sat, 10 Jul 2021 07:22:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1625901746;
+ bh=m6ArKR+sKlOwo1R6oo8DH92c089y874d9iNish/GNMY=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=qv3WLkvCk2TiUlnJ0PivdofgEZxatWvjKMo2+tGtu18YqihWvlChWkc8a75v5VwgF
+ pRKmSDXnPCpqKCp89Ovd2Y5b48uNSugkkjigzgA/Wg0CRPLrnxMVYVhVySiuEnz+WD
+ kTwJJKg0teE+B1WsRejyEbQbPEfw0fP/6y454Kk3n7HDQzR4Yp1cd+2kqdEHSDJyhF
+ CX4hXm7o5GWDSXj3PWOkPN0n1uu1r0THqjpP+Jv+CALjKIQJ/0lZMjEkfX3Q3SE+Gs
+ rDnDgQc0s5woeT5Z2JdyknKAN4RcAa+vGD0P6F0rzXY9NWJC1McPkTiFjSaPVo09JN
+ oYNni/7GMN90g==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id 448A661185; Sat, 10 Jul 2021 07:22:26 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 212469] plymouth animation freezes during shutdown
+Date: Sat, 10 Jul 2021 07:22:25 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: low
+X-Bugzilla-Who: asterix52@gmx.de
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: ANSWERED
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-212469-2300-Iivov8ABOS@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-212469-2300@https.bugzilla.kernel.org/>
+References: <bug-212469-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210704093433.27717-1-jagan@amarulasolutions.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,27 +65,17 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrzej Hajda <a.hajda@samsung.com>,
- Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>,
- dri-devel@lists.freedesktop.org, Robert Foss <robert.foss@linaro.org>,
- Neil Armstrong <narmstrong@baylibre.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jagan,
+https://bugzilla.kernel.org/show_bug.cgi?id=3D212469
 
-On Sun, Jul 04, 2021 at 03:04:33PM +0530, Jagan Teki wrote:
-> nwl_dsi_plat_clk_config structure added in below commit but not
-> used anywhere in the driver.
-> 
-> commit <44cfc6233447c> ("drm/bridge: Add NWL MIPI DSI host controller
-> support")
-> 
-> Drop it.
-> 
-> Cc: Guido Günther <agx@sigxcpu.org>
-> Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
+--- Comment #9 from Norbert (asterix52@gmx.de) ---
+With Linux 5.13.0-11-generic #11-Ubuntu SMP Tue Jun 29 06:57:28 UTC 2021 no
+change.
 
-Applied to drm-misc-next.
+--=20
+You may reply to this email to add a comment.
 
-	Sam
+You are receiving this mail because:
+You are watching the assignee of the bug.=
