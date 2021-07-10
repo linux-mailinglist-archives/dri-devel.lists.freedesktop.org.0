@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71ED13C371C
-	for <lists+dri-devel@lfdr.de>; Sun, 11 Jul 2021 00:20:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 017573C371E
+	for <lists+dri-devel@lfdr.de>; Sun, 11 Jul 2021 00:20:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DBF7E6EB6F;
-	Sat, 10 Jul 2021 22:20:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ACA006EB74;
+	Sat, 10 Jul 2021 22:20:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com
- [IPv6:2a00:1450:4864:20::235])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B5D876EB6F
- for <dri-devel@lists.freedesktop.org>; Sat, 10 Jul 2021 22:20:14 +0000 (UTC)
-Received: by mail-lj1-x235.google.com with SMTP id u25so15206838ljj.11
- for <dri-devel@lists.freedesktop.org>; Sat, 10 Jul 2021 15:20:14 -0700 (PDT)
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
+ [IPv6:2a00:1450:4864:20::136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8CA526EB71
+ for <dri-devel@lists.freedesktop.org>; Sat, 10 Jul 2021 22:20:15 +0000 (UTC)
+Received: by mail-lf1-x136.google.com with SMTP id i5so2326706lfe.2
+ for <dri-devel@lists.freedesktop.org>; Sat, 10 Jul 2021 15:20:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=nRZhkjy0dQDJbOhaefbmkPeax0IavLpLmH4VRR7TqLc=;
- b=hgwD6z8LWDe5sbVvkFtjpDrVXv+Ced2cz/fgiJkO8E/L2CJcBsPcARHJiKGIAHPj0I
- XqRlp7aUCu6gL9SYPjTkauYcWMBD/bDH4bzDpj4J+BnK6YRVscrX9kasRSrkP1LyNmlT
- /12h8jicDvs0TJ8gZnUQ4oE216XVnDoL/jfhXu5sR6jdKtbUuoZc+UIl/c/GYiastBor
- 8RB6dijbky8rFyrv6N9Iq71MJgeVbdKIa+aw+L/DufpAmL/GhheygMVnxMnexazHy8dv
- LtKapih5Cu5SLEz4mhidSsDiyhAzuhKBn2RTjYfjD0RewKNN4ar28Zo8AtMA3w30ZP1C
- BLsw==
+ bh=XvCGkdShjzVXwoehYqCYEiIRtFRTu+7v5aX+Z4YnzDM=;
+ b=AbSrNyT1Qv0iE0yHJGNbuwMtMN/4W5A+21UiqaoqYP5C3+GsyF5EXW+CZ4Ejww4uyD
+ HHzCw7F6vSgxHI2rrZQcRckEyn3zuL3E8wE7nKimNYUVLWzZ0hJPHT8QN7QULxzDaX6e
+ WoFvRkVturRh5b8L9ia1Hx+6Ach9VFWXKwHUG6N5+8IyXBLpow8tFJDEWeDjG6+ySp7/
+ m6VKPS2YmQDqkNT7EgQobRalVkhqrd9VXrE9EfUQ17EfYKVais0y2kTkLs0v2OSzf/BU
+ uhlhb5M/Ow6AouhManNW1e2ZoMMARYaBa9W0JGAHZ5Cu6s7l6x8kdMFjmHtsI/sR0VEW
+ 7y0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=nRZhkjy0dQDJbOhaefbmkPeax0IavLpLmH4VRR7TqLc=;
- b=Ossn4K0dGRmmzIQF7O8LfLM7KPAx8BADI48dirlCeB6TColIHu/xryE723IRNz0bGv
- q7x93j/JDr69seZcOUrqGVdmqdHUSnSu4a7SWupAART4qg3nO6hEHu738rChZVfrbXNH
- rANift+N8ZmgHDYfL+0QO3bzOXfqKubAUTggkjwQ9aHDz9VcYcv+ELL6guboA80QSc8Y
- Vm7NLj035lsSpI7kG/WslniXa8XJfJ2o4/x0CE4KncTfmfOOcHy2aCjstnlmwwKJEwWZ
- u4wbFSVmmXqjEZTT55V8aMudZMNgGhMlEDZkyKjBRkA9xzS3lgxXyVLwfryFcnDdeDjb
- avaw==
-X-Gm-Message-State: AOAM533DSEDG/FPHUnSGcbyckpGpJxyA4aULUrRhG+tUxZdRaShAqurP
- BWALMIPk5Ve7CGkWLTG64mWN1g==
-X-Google-Smtp-Source: ABdhPJx0Vc4ETokDuLCPHmxRY1aeFavU/wbgFBcToQf6sJij4THw6kMVZySNuRV0gaUHW9c9vpYJQg==
-X-Received: by 2002:a2e:6c10:: with SMTP id h16mr5636175ljc.312.1625955613218; 
+ bh=XvCGkdShjzVXwoehYqCYEiIRtFRTu+7v5aX+Z4YnzDM=;
+ b=MFcp86yG9/toIUtTMZIcmo21y0QfiJgeDRcQ4lkLAXQACU554rp+K6usmdZ4KvmWKH
+ fOlbCRD4MkZ3Q4/PkB2WTI0Ilr2esN66SjP437nOX/yYWjkKqnS4tAL5xOWZlqAbafYP
+ CBNDDTnfFko4vfKMOq/1hzItex/IvedctMJ6GJ/vm7Te1p9EBNwU8R6IcTPX6dwNuthF
+ ktotmrcQzsh0vcngtlo147K/SvaAOnpJYkTZJhIJ7Dmlqhn/oWKbn4Vm1S4udVi2V2fb
+ l+LoW/sGzzOqmWZ1Ul0M0qpMPiMmLCj2hzWOu7NSxzcnAylz10dyuW9/L8XBHPD1ovOE
+ xEjA==
+X-Gm-Message-State: AOAM532ot7921Snz4OLWhwbyWmqrca3c3QT+XenyHHSqnrGYKwY7i9yx
+ XRnx60JmA0LXoGkxHotp0Q3UvA==
+X-Google-Smtp-Source: ABdhPJx9go2nTN1VQ1gr4+FIrJMDpmM78pdvL1SfG/6V/+r9kCoyk91v6KNTUw4rFqlWGlYmTF/XIQ==
+X-Received: by 2002:a19:910f:: with SMTP id t15mr17444636lfd.287.1625955613994; 
  Sat, 10 Jul 2021 15:20:13 -0700 (PDT)
 Received: from eriador.lan ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id s15sm795466lfp.216.2021.07.10.15.20.12
+ by smtp.gmail.com with ESMTPSA id s15sm795466lfp.216.2021.07.10.15.20.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 10 Jul 2021 15:20:12 -0700 (PDT)
+ Sat, 10 Jul 2021 15:20:13 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Bjorn Andersson <bjorn.andersson@linaro.org>,
  Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Abhinav Kumar <abhinavk@codeaurora.org>
-Subject: [PATCH v3 6/7] drm/msm/dsi: stop calling set_encoder_mode callback
-Date: Sun, 11 Jul 2021 01:20:04 +0300
-Message-Id: <20210710222005.1334734-7-dmitry.baryshkov@linaro.org>
+Subject: [PATCH v3 7/7] drm/msm/kms: drop set_encoder_mode callback
+Date: Sun, 11 Jul 2021 01:20:05 +0300
+Message-Id: <20210710222005.1334734-8-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210710222005.1334734-1-dmitry.baryshkov@linaro.org>
 References: <20210710222005.1334734-1-dmitry.baryshkov@linaro.org>
@@ -75,65 +75,29 @@ Cc: Jonathan Marek <jonathan@marek.ca>, Stephen Boyd <sboyd@kernel.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-None of the display drivers now implement set_encoder_mode callback.
-Stop calling it from the modeset init code.
+set_encoder_mode callback is completely unused now. Drop it from
+msm_kms_func().
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Reviewed-by: Abhinav Kumar <abhinavk@codeaurora.org>
 ---
- drivers/gpu/drm/msm/dsi/dsi.c         |  2 --
- drivers/gpu/drm/msm/dsi/dsi.h         |  1 -
- drivers/gpu/drm/msm/dsi/dsi_manager.c | 12 ------------
- 3 files changed, 15 deletions(-)
+ drivers/gpu/drm/msm/msm_kms.h | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/dsi/dsi.c b/drivers/gpu/drm/msm/dsi/dsi.c
-index 5201d7eb0490..77c8dba297d8 100644
---- a/drivers/gpu/drm/msm/dsi/dsi.c
-+++ b/drivers/gpu/drm/msm/dsi/dsi.c
-@@ -251,8 +251,6 @@ int msm_dsi_modeset_init(struct msm_dsi *msm_dsi, struct drm_device *dev,
- 		goto fail;
- 	}
+diff --git a/drivers/gpu/drm/msm/msm_kms.h b/drivers/gpu/drm/msm/msm_kms.h
+index 086a2d59b8c8..9484e8b62630 100644
+--- a/drivers/gpu/drm/msm/msm_kms.h
++++ b/drivers/gpu/drm/msm/msm_kms.h
+@@ -117,9 +117,6 @@ struct msm_kms_funcs {
+ 			struct drm_encoder *encoder,
+ 			struct drm_encoder *slave_encoder,
+ 			bool is_cmd_mode);
+-	void (*set_encoder_mode)(struct msm_kms *kms,
+-				 struct drm_encoder *encoder,
+-				 bool cmd_mode);
+ 	/* cleanup: */
+ 	void (*destroy)(struct msm_kms *kms);
  
--	msm_dsi_manager_setup_encoder(msm_dsi->id);
--
- 	priv->bridges[priv->num_bridges++]       = msm_dsi->bridge;
- 	priv->connectors[priv->num_connectors++] = msm_dsi->connector;
- 
-diff --git a/drivers/gpu/drm/msm/dsi/dsi.h b/drivers/gpu/drm/msm/dsi/dsi.h
-index 856a532850c0..e0c3c4409377 100644
---- a/drivers/gpu/drm/msm/dsi/dsi.h
-+++ b/drivers/gpu/drm/msm/dsi/dsi.h
-@@ -80,7 +80,6 @@ struct drm_connector *msm_dsi_manager_connector_init(u8 id);
- struct drm_connector *msm_dsi_manager_ext_bridge_init(u8 id);
- int msm_dsi_manager_cmd_xfer(int id, const struct mipi_dsi_msg *msg);
- bool msm_dsi_manager_cmd_xfer_trigger(int id, u32 dma_base, u32 len);
--void msm_dsi_manager_setup_encoder(int id);
- int msm_dsi_manager_register(struct msm_dsi *msm_dsi);
- void msm_dsi_manager_unregister(struct msm_dsi *msm_dsi);
- bool msm_dsi_manager_validate_current_config(u8 id);
-diff --git a/drivers/gpu/drm/msm/dsi/dsi_manager.c b/drivers/gpu/drm/msm/dsi/dsi_manager.c
-index 27d3b9ebf831..693078e68fd4 100644
---- a/drivers/gpu/drm/msm/dsi/dsi_manager.c
-+++ b/drivers/gpu/drm/msm/dsi/dsi_manager.c
-@@ -216,18 +216,6 @@ static int dsi_mgr_bridge_get_id(struct drm_bridge *bridge)
- 	return dsi_bridge->id;
- }
- 
--void msm_dsi_manager_setup_encoder(int id)
--{
--	struct msm_dsi *msm_dsi = dsi_mgr_get_dsi(id);
--	struct msm_drm_private *priv = msm_dsi->dev->dev_private;
--	struct msm_kms *kms = priv->kms;
--	struct drm_encoder *encoder = msm_dsi_get_encoder(msm_dsi);
--
--	if (encoder && kms->funcs->set_encoder_mode)
--		kms->funcs->set_encoder_mode(kms, encoder,
--					     msm_dsi_is_cmd_mode(msm_dsi));
--}
--
- static int msm_dsi_manager_panel_init(struct drm_connector *conn, u8 id)
- {
- 	struct msm_drm_private *priv = conn->dev->dev_private;
 -- 
 2.30.2
 
