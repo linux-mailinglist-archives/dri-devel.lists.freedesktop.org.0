@@ -1,35 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9648A3C3376
-	for <lists+dri-devel@lfdr.de>; Sat, 10 Jul 2021 09:22:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EFE723C3378
+	for <lists+dri-devel@lfdr.de>; Sat, 10 Jul 2021 09:29:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C1E1C6EB09;
-	Sat, 10 Jul 2021 07:22:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD7826EB0A;
+	Sat, 10 Jul 2021 07:29:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 718B06EB09
- for <dri-devel@lists.freedesktop.org>; Sat, 10 Jul 2021 07:22:26 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 4D482613DC
- for <dri-devel@lists.freedesktop.org>; Sat, 10 Jul 2021 07:22:26 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 20F796EB0A
+ for <dri-devel@lists.freedesktop.org>; Sat, 10 Jul 2021 07:29:08 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id C8D6F613C3
+ for <dri-devel@lists.freedesktop.org>; Sat, 10 Jul 2021 07:29:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1625901746;
- bh=m6ArKR+sKlOwo1R6oo8DH92c089y874d9iNish/GNMY=;
+ s=k20201202; t=1625902147;
+ bh=uCBWgTxYhVrn8kGC/dwyLq9hNZsK8Vb4SmLsxHNwgEI=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=qv3WLkvCk2TiUlnJ0PivdofgEZxatWvjKMo2+tGtu18YqihWvlChWkc8a75v5VwgF
- pRKmSDXnPCpqKCp89Ovd2Y5b48uNSugkkjigzgA/Wg0CRPLrnxMVYVhVySiuEnz+WD
- kTwJJKg0teE+B1WsRejyEbQbPEfw0fP/6y454Kk3n7HDQzR4Yp1cd+2kqdEHSDJyhF
- CX4hXm7o5GWDSXj3PWOkPN0n1uu1r0THqjpP+Jv+CALjKIQJ/0lZMjEkfX3Q3SE+Gs
- rDnDgQc0s5woeT5Z2JdyknKAN4RcAa+vGD0P6F0rzXY9NWJC1McPkTiFjSaPVo09JN
- oYNni/7GMN90g==
+ b=EAjnvvhdcFG3+cmPrYs5r5mbF7kXV8/7zxTX5wAcqYl9x39QxrGWQrApIqE5XKKOT
+ TGzraCbpxkRKFJp2sCKJbcGF9VRxcy+cws2O7OTUOjqsWFLcWV0/4DD1IFYptU3ns3
+ Qcu0xvSuGMJ6Fq3o20X5r+MPbRfIDioEHVrFzZvkK9U3lgUyuyU/PQXB8bDTX/pGq0
+ YUdx0JVY5AWFw9vbpc6vc0aL6igIfVaxiuE7EYBDXyCiVxFmWzlbLwUiF3OEA3SAnm
+ e+Mc22tnvWkN9NESkEK94AdJMeEM7uNfl59amXb5kPxEgQw8BrFROqxlahsh2415hh
+ 8QV+de0b1qH+Q==
 Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 448A661185; Sat, 10 Jul 2021 07:22:26 +0000 (UTC)
+ id C02F560282; Sat, 10 Jul 2021 07:29:07 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 212469] plymouth animation freezes during shutdown
-Date: Sat, 10 Jul 2021 07:22:25 +0000
+Date: Sat, 10 Jul 2021 07:29:07 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -38,14 +38,14 @@ X-Bugzilla-Component: Video(DRI - non Intel)
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: low
-X-Bugzilla-Who: asterix52@gmx.de
+X-Bugzilla-Who: amirgi73@criptext.com
 X-Bugzilla-Status: RESOLVED
 X-Bugzilla-Resolution: ANSWERED
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-212469-2300-Iivov8ABOS@https.bugzilla.kernel.org/>
+Message-ID: <bug-212469-2300-W2qjdNL6rz@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-212469-2300@https.bugzilla.kernel.org/>
 References: <bug-212469-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -70,9 +70,14 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D212469
 
---- Comment #9 from Norbert (asterix52@gmx.de) ---
-With Linux 5.13.0-11-generic #11-Ubuntu SMP Tue Jun 29 06:57:28 UTC 2021 no
-change.
+--- Comment #10 from Amir (amirgi73@criptext.com) ---
+The problem introduced with Kernel 5.10
+But then I installed the git build of plymouth and it was gone! So I assume=
+ the
+problem brought up by changes in kernel, and plymouth patched their app to
+resolve the issue.
+Your git build seems fairly outdated. Could you build directly from git and
+test again?
 
 --=20
 You may reply to this email to add a comment.
