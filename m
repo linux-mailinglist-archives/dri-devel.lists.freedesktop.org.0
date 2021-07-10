@@ -2,35 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04CA13C2C63
-	for <lists+dri-devel@lfdr.de>; Sat, 10 Jul 2021 03:22:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C6AA3C2C64
+	for <lists+dri-devel@lfdr.de>; Sat, 10 Jul 2021 03:23:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 227B26EAB2;
-	Sat, 10 Jul 2021 01:22:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 677BF6EAB3;
+	Sat, 10 Jul 2021 01:23:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 915566EAB0;
- Sat, 10 Jul 2021 01:22:51 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10040"; a="295443461"
-X-IronPort-AV: E=Sophos;i="5.84,228,1620716400"; d="scan'208";a="295443461"
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 41EA46EAB3;
+ Sat, 10 Jul 2021 01:22:59 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10040"; a="209619231"
+X-IronPort-AV: E=Sophos;i="5.84,228,1620716400"; d="scan'208";a="209619231"
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Jul 2021 18:22:50 -0700
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Jul 2021 18:22:58 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,228,1620716400"; d="scan'208";a="411439772"
+X-IronPort-AV: E=Sophos;i="5.84,228,1620716400"; d="scan'208";a="411439796"
 Received: from vbelgaum-ubuntu.fm.intel.com ([10.1.27.27])
- by orsmga006.jf.intel.com with ESMTP; 09 Jul 2021 18:22:50 -0700
+ by orsmga006.jf.intel.com with ESMTP; 09 Jul 2021 18:22:58 -0700
 From: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH 03/16] drm/i915/guc/slpc: Gate Host RPS when slpc is enabled
-Date: Fri,  9 Jul 2021 18:20:13 -0700
-Message-Id: <20210710012026.19705-4-vinay.belgaumkar@intel.com>
+Subject: [PATCH 04/16] drm/i915/guc/slpc: Lay out slpc init/enable/disable/fini
+Date: Fri,  9 Jul 2021 18:20:14 -0700
+Message-Id: <20210710012026.19705-5-vinay.belgaumkar@intel.com>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20210710012026.19705-1-vinay.belgaumkar@intel.com>
 References: <20210710012026.19705-1-vinay.belgaumkar@intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -49,99 +50,114 @@ Cc: Vinay Belgaumkar <vinay.belgaumkar@intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Disable RPS when slpc is enabled. Also ensure uc_init is called
-before we initialize RPS so that we can check for slpc support.
-We do not need to enable up/down interrupts when slpc is enabled.
-However, we still need the ARAT interrupt, which will be enabled
-separately.
+Declare header and source files for SLPC, along with init and
+enable/disable function templates.
 
 Signed-off-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
 Signed-off-by: Sundaresan Sujaritha <sujaritha.sundaresan@intel.com>
 ---
- drivers/gpu/drm/i915/gt/intel_gt.c  |  2 +-
- drivers/gpu/drm/i915/gt/intel_rps.c | 20 ++++++++++++++++++++
- 2 files changed, 21 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/i915/Makefile               |  1 +
+ drivers/gpu/drm/i915/gt/uc/intel_guc.h      |  2 ++
+ drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c | 34 +++++++++++++++++++++
+ drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h | 16 ++++++++++
+ 4 files changed, 53 insertions(+)
+ create mode 100644 drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
+ create mode 100644 drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
-index ceeb517ba259..f94d2e1ec3fe 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt.c
-+++ b/drivers/gpu/drm/i915/gt/intel_gt.c
-@@ -41,8 +41,8 @@ void intel_gt_init_early(struct intel_gt *gt, struct drm_i915_private *i915)
- 	intel_gt_init_timelines(gt);
- 	intel_gt_pm_init_early(gt);
+diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
+index ab7679957623..d8eac4468df9 100644
+--- a/drivers/gpu/drm/i915/Makefile
++++ b/drivers/gpu/drm/i915/Makefile
+@@ -186,6 +186,7 @@ i915-y += gt/uc/intel_uc.o \
+ 	  gt/uc/intel_guc_fw.o \
+ 	  gt/uc/intel_guc_log.o \
+ 	  gt/uc/intel_guc_log_debugfs.o \
++	  gt/uc/intel_guc_slpc.o \
+ 	  gt/uc/intel_guc_submission.o \
+ 	  gt/uc/intel_huc.o \
+ 	  gt/uc/intel_huc_debugfs.o \
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
+index e5a456918b88..0dbbd9cf553f 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc.h
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
+@@ -15,6 +15,7 @@
+ #include "intel_guc_ct.h"
+ #include "intel_guc_log.h"
+ #include "intel_guc_reg.h"
++#include "intel_guc_slpc.h"
+ #include "intel_uc_fw.h"
+ #include "i915_utils.h"
+ #include "i915_vma.h"
+@@ -30,6 +31,7 @@ struct intel_guc {
+ 	struct intel_uc_fw fw;
+ 	struct intel_guc_log log;
+ 	struct intel_guc_ct ct;
++	struct intel_guc_slpc slpc;
  
--	intel_rps_init_early(&gt->rps);
- 	intel_uc_init_early(&gt->uc);
-+	intel_rps_init_early(&gt->rps);
- }
- 
- int intel_gt_probe_lmem(struct intel_gt *gt)
-diff --git a/drivers/gpu/drm/i915/gt/intel_rps.c b/drivers/gpu/drm/i915/gt/intel_rps.c
-index 0c8e7f2b06f0..e858eeb2c59d 100644
---- a/drivers/gpu/drm/i915/gt/intel_rps.c
-+++ b/drivers/gpu/drm/i915/gt/intel_rps.c
-@@ -37,6 +37,13 @@ static struct intel_uncore *rps_to_uncore(struct intel_rps *rps)
- 	return rps_to_gt(rps)->uncore;
- }
- 
-+static bool rps_uses_slpc(struct intel_rps *rps)
-+{
-+	struct intel_gt *gt = rps_to_gt(rps);
+ 	/* Global engine used to submit requests to GuC */
+ 	struct i915_sched_engine *sched_engine;
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
+new file mode 100644
+index 000000000000..c1f569d2300d
+--- /dev/null
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
+@@ -0,0 +1,34 @@
++/*
++ * SPDX-License-Identifier: MIT
++ *
++ * Copyright © 2020 Intel Corporation
++ */
 +
-+	return intel_uc_uses_guc_slpc(&gt->uc);
++#include "intel_guc_slpc.h"
++
++int intel_guc_slpc_init(struct intel_guc_slpc *slpc)
++{
++	return 0;
 +}
 +
- static u32 rps_pm_sanitize_mask(struct intel_rps *rps, u32 mask)
- {
- 	return mask & ~rps->pm_intrmsk_mbz;
-@@ -167,6 +174,8 @@ static void rps_enable_interrupts(struct intel_rps *rps)
- {
- 	struct intel_gt *gt = rps_to_gt(rps);
- 
-+	GEM_BUG_ON(rps_uses_slpc(rps));
++/*
++ * intel_guc_slpc_enable() - Start SLPC
++ * @slpc: pointer to intel_guc_slpc.
++ *
++ * SLPC is enabled by setting up the shared data structure and
++ * sending reset event to GuC SLPC. Initial data is setup in
++ * intel_guc_slpc_init. Here we send the reset event. We do
++ * not currently need a slpc_disable since this is taken care
++ * of automatically when a reset/suspend occurs and the guc
++ * channels are destroyed.
++ *
++ * Return: 0 on success, non-zero error code on failure.
++ */
++int intel_guc_slpc_enable(struct intel_guc_slpc *slpc)
++{
++	return 0;
++}
 +
- 	GT_TRACE(gt, "interrupts:on rps->pm_events: %x, rps_pm_mask:%x\n",
- 		 rps->pm_events, rps_pm_mask(rps, rps->last_freq));
- 
-@@ -771,6 +780,8 @@ static int gen6_rps_set(struct intel_rps *rps, u8 val)
- 	struct drm_i915_private *i915 = rps_to_i915(rps);
- 	u32 swreq;
- 
-+	GEM_BUG_ON(rps_uses_slpc(rps));
++void intel_guc_slpc_fini(struct intel_guc_slpc *slpc)
++{
++}
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h
+new file mode 100644
+index 000000000000..74fd86769163
+--- /dev/null
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h
+@@ -0,0 +1,16 @@
++/*
++ * SPDX-License-Identifier: MIT
++ *
++ * Copyright © 2020 Intel Corporation
++ */
++#ifndef _INTEL_GUC_SLPC_H_
++#define _INTEL_GUC_SLPC_H_
 +
- 	if (GRAPHICS_VER(i915) >= 9)
- 		swreq = GEN9_FREQUENCY(val);
- 	else if (IS_HASWELL(i915) || IS_BROADWELL(i915))
-@@ -861,6 +872,9 @@ void intel_rps_park(struct intel_rps *rps)
- {
- 	int adj;
- 
-+	if (!intel_rps_is_enabled(rps))
-+		return;
++struct intel_guc_slpc {
++};
 +
- 	GEM_BUG_ON(atomic_read(&rps->num_waiters));
- 
- 	if (!intel_rps_clear_active(rps))
-@@ -1829,6 +1843,9 @@ void intel_rps_init(struct intel_rps *rps)
- {
- 	struct drm_i915_private *i915 = rps_to_i915(rps);
- 
-+	if (rps_uses_slpc(rps))
-+		return;
++int intel_guc_slpc_init(struct intel_guc_slpc *slpc);
++int intel_guc_slpc_enable(struct intel_guc_slpc *slpc);
++void intel_guc_slpc_fini(struct intel_guc_slpc *slpc);
 +
- 	if (IS_CHERRYVIEW(i915))
- 		chv_rps_init(rps);
- 	else if (IS_VALLEYVIEW(i915))
-@@ -1885,6 +1902,9 @@ void intel_rps_init(struct intel_rps *rps)
- 
- void intel_rps_sanitize(struct intel_rps *rps)
- {
-+	if (rps_uses_slpc(rps))
-+		return;
-+
- 	if (GRAPHICS_VER(rps_to_i915(rps)) >= 6)
- 		rps_disable_interrupts(rps);
- }
++#endif
 -- 
 2.25.0
 
