@@ -1,28 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9011E3C3400
-	for <lists+dri-devel@lfdr.de>; Sat, 10 Jul 2021 11:43:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 13D253C3407
+	for <lists+dri-devel@lfdr.de>; Sat, 10 Jul 2021 11:59:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 001596EB12;
-	Sat, 10 Jul 2021 09:43:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 334306EB19;
+	Sat, 10 Jul 2021 09:59:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A8EF16EB12
- for <dri-devel@lists.freedesktop.org>; Sat, 10 Jul 2021 09:43:05 +0000 (UTC)
-Date: Sat, 10 Jul 2021 10:42:53 +0100
-From: Paul Cercueil <paul@crapouillou.net>
+Received: from mx2.smtp.larsendata.com (mx2.smtp.larsendata.com
+ [91.221.196.228])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6832E6EB19
+ for <dri-devel@lists.freedesktop.org>; Sat, 10 Jul 2021 09:59:26 +0000 (UTC)
+Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
+ by mx2.smtp.larsendata.com (Halon) with ESMTPS
+ id 857f2c5c-e165-11eb-8d1a-0050568cd888;
+ Sat, 10 Jul 2021 09:59:31 +0000 (UTC)
+Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
+ [80.162.45.141])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: sam@ravnborg.org)
+ by mail01.mxhotel.dk (Postfix) with ESMTPSA id 3AF6D194B15;
+ Sat, 10 Jul 2021 11:59:34 +0200 (CEST)
+Date: Sat, 10 Jul 2021 11:59:22 +0200
+X-Report-Abuse-To: abuse@mxhotel.dk
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Paul Cercueil <paul@crapouillou.net>
 Subject: Re: [PATCH 1/2] dt-bindings: display/panel: Add Innolux EJ030NA
-To: Sam Ravnborg <sam@ravnborg.org>
-Message-Id: <HBW0WQ.NHPOJDIT9XWR1@crapouillou.net>
-In-Reply-To: <YOk60yTP9L1gT3+W@ravnborg.org>
+Message-ID: <YOlvev0nvXVYU01y@ravnborg.org>
 References: <20210625121045.81711-1-paul@crapouillou.net>
  <YOk60yTP9L1gT3+W@ravnborg.org>
+ <HBW0WQ.NHPOJDIT9XWR1@crapouillou.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <HBW0WQ.NHPOJDIT9XWR1@crapouillou.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,113 +56,47 @@ Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sam, thanks for the review.
+Hi Paul,
 
-Le sam., juil. 10 2021 at 08:14:43 +0200, Sam Ravnborg=20
-<sam@ravnborg.org> a =E9crit :
-> Hi Paul,
->=20
-> On Fri, Jun 25, 2021 at 01:10:44PM +0100, Paul Cercueil wrote:
->>  Add binding for the Innolux EJ030NA panel, which is a 320x480 3.0"=20
->> 4:3
->>  24-bit TFT LCD panel with non-square pixels and a delta-RGB 8-bit
->>  interface.
->>=20
->>  Signed-off-by: Paul Cercueil <paul@crapouillou.net>
->>  ---
->>   .../display/panel/innolux,ej030na.yaml        | 62=20
->> +++++++++++++++++++
->>   1 file changed, 62 insertions(+)
->>   create mode 100644=20
->> Documentation/devicetree/bindings/display/panel/innolux,ej030na.yaml
->>=20
->>  diff --git=20
->> a/Documentation/devicetree/bindings/display/panel/innolux,ej030na.yaml=20
->> b/Documentation/devicetree/bindings/display/panel/innolux,ej030na.yaml
->>  new file mode 100644
->>  index 000000000000..cda36c04e85c
->>  --- /dev/null
->>  +++=20
->> b/Documentation/devicetree/bindings/display/panel/innolux,ej030na.yaml
->>  @@ -0,0 +1,62 @@
->>  +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
->>  +%YAML 1.2
->>  +---
->>  +$id:=20
->> http://devicetree.org/schemas/display/panel/innolux,ej030na.yaml#
->>  +$schema: http://devicetree.org/meta-schemas/core.yaml#
->>  +
->>  +title: Innolux EJ030NA 3.0" (320x480 pixels) 24-bit TFT LCD panel
->>  +
->>  +description: |
->>  +  The panel must obey the rules for a SPI slave device as=20
->> specified in
->>  +  spi/spi-controller.yaml
->>  +
->>  +maintainers:
->>  +  - Paul Cercueil <paul@crapouillou.net>
->>  +
->>  +allOf:
->>  +  - $ref: panel-common.yaml#
->>  +
->>  +properties:
->>  +  compatible:
->>  +    const: innolux,ej030na
->>  +
->>  +  backlight: true
->>  +  port: true
->>  +  power-supply: true
->>  +  reg: true
->>  +  reset-gpios: true
->>  +
->>  +required:
->>  +  - compatible
->>  +  - reg
->>  +  - power-supply
->>  +  - reset-gpios
->>  +
->>  +unevaluatedProperties: false
-> I had expected:
-> additionalProperties: false
->=20
-> With this fixed:
-> Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+> > >  +  backlight: true
+> > >  +  port: true
+> > >  +  power-supply: true
+> > >  +  reg: true
+> > >  +  reset-gpios: true
+> > >  +
+> > >  +required:
+> > >  +  - compatible
+> > >  +  - reg
+> > >  +  - power-supply
+> > >  +  - reset-gpios
+> > >  +
+> > >  +unevaluatedProperties: false
+> > I had expected:
+> > additionalProperties: false
+> > 
+> > With this fixed:
+> > Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+> 
+> I am not sure; the doc states that this (additionalProperties: false) "can't
+> be used in case where another schema is referenced", which is the case here,
+> as we include "panel-common.yaml".
 
-I am not sure; the doc states that this (additionalProperties: false)=20
-"can't be used in case where another schema is referenced", which is=20
-the case here, as we include "panel-common.yaml".
+This DT schema already list all relevant properties like:
 
-Cheers,
--Paul
+	backlight: true
 
->>  +
->>  +examples:
->>  +  - |
->>  +    #include <dt-bindings/gpio/gpio.h>
->>  +
->>  +    spi {
->>  +        #address-cells =3D <1>;
->>  +        #size-cells =3D <0>;
->>  +
->>  +        panel@0 {
->>  +            compatible =3D "innolux,ej030na";
->>  +            reg =3D <0>;
->>  +
->>  +            spi-max-frequency =3D <10000000>;
->>  +
->>  +            reset-gpios =3D <&gpe 4 GPIO_ACTIVE_LOW>;
->>  +            power-supply =3D <&lcd_power>;
->>  +
->>  +            backlight =3D <&backlight>;
->>  +
->>  +            port {
->>  +                panel_input: endpoint {
->>  +                    remote-endpoint =3D <&panel_output>;
->>  +                };
->>  +            };
->>  +        };
->>  +    };
->>  --
->>  2.30.2
+So "additionalProperties: false" tells that no other properties are
+allowed other than the listed properties.
 
+To my best understanding unevaluatedProperties: false is less strict and
+should be used if one does not list all possilbe properties.
+This could be the case for a panel haging below a SPI controller as in
+this case. So in other words giving this some extra thought I think
+unevaluatedProperties: false is OK here.
 
+So my r-b is ok if you keep it as it.
+
+PS. Where do you guys hang out with the downfall of freenode - somewhere
+on oftc?
+
+	Sam
