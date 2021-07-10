@@ -1,58 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 963FD3C36E0
-	for <lists+dri-devel@lfdr.de>; Sat, 10 Jul 2021 23:15:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A30B3C36E7
+	for <lists+dri-devel@lfdr.de>; Sat, 10 Jul 2021 23:26:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C59C76EB5F;
-	Sat, 10 Jul 2021 21:14:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 34B056EB61;
+	Sat, 10 Jul 2021 21:26:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
- [IPv6:2a00:1450:4864:20::131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5DD006EB5F
- for <dri-devel@lists.freedesktop.org>; Sat, 10 Jul 2021 21:14:59 +0000 (UTC)
-Received: by mail-lf1-x131.google.com with SMTP id q18so31895694lfc.7
- for <dri-devel@lists.freedesktop.org>; Sat, 10 Jul 2021 14:14:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+Received: from mail-oi1-x233.google.com (mail-oi1-x233.google.com
+ [IPv6:2607:f8b0:4864:20::233])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 485DF6EB60
+ for <dri-devel@lists.freedesktop.org>; Sat, 10 Jul 2021 21:26:37 +0000 (UTC)
+Received: by mail-oi1-x233.google.com with SMTP id q16so3540292oiw.6
+ for <dri-devel@lists.freedesktop.org>; Sat, 10 Jul 2021 14:26:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=v4AmShtUExT/X2IMI12DZIepufDigquREmXxv5omVfw=;
- b=f992x9ky5aa2YA8e65TLIO7lIyCkjyoWUYPC70KgCbIEbZDS/m4FIqrX6En0SbSXii
- j86yqvmUDEqG8uKCqXIx7/THsXwfaOT1JncYKkbaag4XyBIbWDzVI9qP68tLJlQxK86p
- SG3c1PWGjXnzp6WLHGf9LL4Kbh0WCN0QnBRpynGvapNT386Mz85AFyUVZGWYSwD7zjua
- 3KUu+fPKtvxsIqCj9P13E/Bgr6AmMFx3uXsUJUZ+YlSmMS0j4cF2klYpeOgdc2hfWHww
- R2BBarilZTaZMVMp6LN5yLIrCqg3g1KGZciqyRUkhi+13Omy1GT1yhxV9UXjO7N6qEqh
- fpsA==
+ bh=Gannu8WJb6nC/UgaL+0EdhA+dFthcJHL1PrBS/XOjBk=;
+ b=of6gxxPw85DyP5oXbx+ONiPHfFHKliT0Z2IkKz8q4UDPmsd4kkRD/LwIgUv+2BX2oF
+ XTBGqd+oxsTL4NCbyPjw9YJSfQBXK5xP7aLEEwuf0JhmkB4rOA0LFe2mAYJUBi4YzOij
+ RpWRCYIK5GVP99poR/oKczJn5ejd2u0ZMp/pWWfWgswoz/QE+vgru2ZzeZ8HZQQguCL1
+ 6TzqMy+lhi0QEYq/YzjOqVSqh6MDVK1HrFaI3Ll/4pDawIoYGFzjiW2fyAkzDCs8S97B
+ O6CQP2yr3qAwMyl3dwRtKTii3vq0iTXFuzRtjvvtEhnswMizdrlrdn4M10l0LTa8tDBu
+ mdkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=v4AmShtUExT/X2IMI12DZIepufDigquREmXxv5omVfw=;
- b=SOIaiuQTzoS7/zFXm52h4c5hEdL275+578hFhDivKNcTE7bFFBj8+Whlbdm6dhMnxC
- C70NBtS4fI5mdFfU/1ss+tktOlmdAFgtOKyNjyBNSUDwO9o9HX0WHE/vHyGo3jndKwKt
- UaQlzIHiNwz6JKpTb8cKMmBton0aJmhuWDL+4R5vLV8UGP+6JgPWENj+uakbiGNZJOt1
- jBMBcZZSgZfaDeBpF2+XmkSocpJVKmCYY42bASIkRWWGVwopGdGjAyBydmg2UuFYHcFo
- nHR1BQtSeh+NJO6jsZF3L36EmqDTeDE79L17AM+zp6D7cCp+7SJu1yvh5iAZbCY3cbZr
- QCCA==
-X-Gm-Message-State: AOAM530zSEDMEDv/AtG6i1YXscnpngzi9i+clQvyYtEg2P+RGJCPU9GZ
- 8Ji9M8pwrsuTN3LrZ0S1FuEjBQ==
-X-Google-Smtp-Source: ABdhPJzxFXw8V2uCz57CpQHODNn5GftrkFKg05ZpY9gWKBbyD/vwZas6gK4yO+toVdYIk5orx9bYGA==
-X-Received: by 2002:ac2:596a:: with SMTP id h10mr36574686lfp.305.1625951697808; 
- Sat, 10 Jul 2021 14:14:57 -0700 (PDT)
-Received: from eriador.lan ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id b13sm788116lfv.89.2021.07.10.14.14.56
+ bh=Gannu8WJb6nC/UgaL+0EdhA+dFthcJHL1PrBS/XOjBk=;
+ b=qzvSvE+slKac8v04qxQR/+WijEBBNk4N7axUdqlxx+lbOvDhoGe0/BJIDcXL4xikW/
+ XtXq9KykMQB3fW3mCQwQHSWSTJ216uhfeT3NKGCLU4nrgLmzLytqayUH3Vcrry2+B4EV
+ clU+PFFbF6F62CrPl4ZVJ0duH8h5lmEpIAMcBYOz98ZIk77bW5AOZ0/8+Txc3npO10+O
+ OBjGoZ3GCiD5Ne/xig4yVltSvbaHIk7iWZJALk7MCCWIMXOzOjBxbK7OL46EWp4aNJpS
+ Z45GlkZmgRsCePfpfpkw08dYRf4nhEtvLCy8YkM33a4tt0MGcOwyGVLJd5lbO5ce/Kie
+ 7Tow==
+X-Gm-Message-State: AOAM533/UEHcrJ9J70AnBFl1ZnF1rlodl+acXjnGiOvJ14sYCwLiOlOr
+ iV7+iTqS5S5NZNBFnrmvs6XUOA==
+X-Google-Smtp-Source: ABdhPJwlIgIbjDIiPmyJbw1cfD3lTc/+yJd7q2JR9N6RVoW3g9Cd11yG2zMpsRHbpSZIiWOHdg/eyQ==
+X-Received: by 2002:aca:6142:: with SMTP id v63mr4610723oib.56.1625952396501; 
+ Sat, 10 Jul 2021 14:26:36 -0700 (PDT)
+Received: from omlet.lan ([68.203.99.148])
+ by smtp.gmail.com with ESMTPSA id u18sm972797ooq.36.2021.07.10.14.26.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 10 Jul 2021 14:14:57 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Bjorn Andersson <bjorn.andersson@linaro.org>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <abhinavk@codeaurora.org>
-Subject: [PATCH] drm/msm: reduce usage of round_pixclk callback
-Date: Sun, 11 Jul 2021 00:14:56 +0300
-Message-Id: <20210710211456.1233042-1-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.30.2
+ Sat, 10 Jul 2021 14:26:36 -0700 (PDT)
+From: Jason Ekstrand <jason@jlekstrand.net>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH 0/2] drm/i915: Better document VM and engine set APIs
+Date: Sat, 10 Jul 2021 16:24:45 -0500
+Message-Id: <20210710212447.785288-1-jason@jlekstrand.net>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -67,162 +67,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jonathan Marek <jonathan@marek.ca>, Stephen Boyd <sboyd@kernel.org>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- David Airlie <airlied@linux.ie>, freedreno@lists.freedesktop.org
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Jason Ekstrand <jason@jlekstrand.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The round_pixclk() callback returns different rate only on MDP4 in HDMI
-(DTV) case. Stop using this callback in other cases to simplify
-mode_valid callbacks.
+As per Daniel's request, this better documents the VM and engine set APIs
+including some discussion of the deprecation plan.
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c   |  7 -------
- drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c  |  7 -------
- drivers/gpu/drm/msm/dsi/dsi_manager.c     | 22 ----------------------
- drivers/gpu/drm/msm/edp/edp_connector.c   | 11 -----------
- drivers/gpu/drm/msm/hdmi/hdmi_connector.c |  9 +++++----
- 5 files changed, 5 insertions(+), 51 deletions(-)
+Test-with: 20210710211923.784638-1-jason@jlekstrand.net
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-index 1d3a4f395e74..5bf66d885af3 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-@@ -659,12 +659,6 @@ static int _dpu_kms_drm_obj_init(struct dpu_kms *dpu_kms)
- 	return ret;
- }
- 
--static long dpu_kms_round_pixclk(struct msm_kms *kms, unsigned long rate,
--		struct drm_encoder *encoder)
--{
--	return rate;
--}
--
- static void _dpu_kms_hw_destroy(struct dpu_kms *dpu_kms)
- {
- 	int i;
-@@ -861,7 +855,6 @@ static const struct msm_kms_funcs kms_funcs = {
- 	.disable_vblank  = dpu_kms_disable_vblank,
- 	.check_modified_format = dpu_format_check_modified_format,
- 	.get_format      = dpu_get_msm_format,
--	.round_pixclk    = dpu_kms_round_pixclk,
- 	.destroy         = dpu_kms_destroy,
- 	.set_encoder_mode = _dpu_kms_set_encoder_mode,
- 	.snapshot        = dpu_kms_mdp_snapshot,
-diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
-index 15aed45022bc..40831f091c29 100644
---- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
-+++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
-@@ -190,12 +190,6 @@ static void mdp5_complete_commit(struct msm_kms *kms, unsigned crtc_mask)
- 		mdp5_smp_complete_commit(mdp5_kms->smp, &global_state->smp);
- }
- 
--static long mdp5_round_pixclk(struct msm_kms *kms, unsigned long rate,
--		struct drm_encoder *encoder)
--{
--	return rate;
--}
--
- static int mdp5_set_split_display(struct msm_kms *kms,
- 		struct drm_encoder *encoder,
- 		struct drm_encoder *slave_encoder,
-@@ -285,7 +279,6 @@ static const struct mdp_kms_funcs kms_funcs = {
- 		.wait_flush      = mdp5_wait_flush,
- 		.complete_commit = mdp5_complete_commit,
- 		.get_format      = mdp_get_format,
--		.round_pixclk    = mdp5_round_pixclk,
- 		.set_split_display = mdp5_set_split_display,
- 		.set_encoder_mode = mdp5_set_encoder_mode,
- 		.destroy         = mdp5_kms_destroy,
-diff --git a/drivers/gpu/drm/msm/dsi/dsi_manager.c b/drivers/gpu/drm/msm/dsi/dsi_manager.c
-index 4ebfedc4a9ac..e9fa96ca9fa5 100644
---- a/drivers/gpu/drm/msm/dsi/dsi_manager.c
-+++ b/drivers/gpu/drm/msm/dsi/dsi_manager.c
-@@ -327,27 +327,6 @@ static int dsi_mgr_connector_get_modes(struct drm_connector *connector)
- 	return num;
- }
- 
--static enum drm_mode_status dsi_mgr_connector_mode_valid(struct drm_connector *connector,
--				struct drm_display_mode *mode)
--{
--	int id = dsi_mgr_connector_get_id(connector);
--	struct msm_dsi *msm_dsi = dsi_mgr_get_dsi(id);
--	struct drm_encoder *encoder = msm_dsi_get_encoder(msm_dsi);
--	struct msm_drm_private *priv = connector->dev->dev_private;
--	struct msm_kms *kms = priv->kms;
--	long actual, requested;
--
--	DBG("");
--	requested = 1000 * mode->clock;
--	actual = kms->funcs->round_pixclk(kms, requested, encoder);
--
--	DBG("requested=%ld, actual=%ld", requested, actual);
--	if (actual != requested)
--		return MODE_CLOCK_RANGE;
--
--	return MODE_OK;
--}
--
- static struct drm_encoder *
- dsi_mgr_connector_best_encoder(struct drm_connector *connector)
- {
-@@ -579,7 +558,6 @@ static const struct drm_connector_funcs dsi_mgr_connector_funcs = {
- 
- static const struct drm_connector_helper_funcs dsi_mgr_conn_helper_funcs = {
- 	.get_modes = dsi_mgr_connector_get_modes,
--	.mode_valid = dsi_mgr_connector_mode_valid,
- 	.best_encoder = dsi_mgr_connector_best_encoder,
- };
- 
-diff --git a/drivers/gpu/drm/msm/edp/edp_connector.c b/drivers/gpu/drm/msm/edp/edp_connector.c
-index 73cb5fd97a5a..1dc6c7333c5a 100644
---- a/drivers/gpu/drm/msm/edp/edp_connector.c
-+++ b/drivers/gpu/drm/msm/edp/edp_connector.c
-@@ -60,17 +60,6 @@ static int edp_connector_mode_valid(struct drm_connector *connector,
- {
- 	struct edp_connector *edp_connector = to_edp_connector(connector);
- 	struct msm_edp *edp = edp_connector->edp;
--	struct msm_drm_private *priv = connector->dev->dev_private;
--	struct msm_kms *kms = priv->kms;
--	long actual, requested;
--
--	requested = 1000 * mode->clock;
--	actual = kms->funcs->round_pixclk(kms,
--			requested, edp_connector->edp->encoder);
--
--	DBG("requested=%ld, actual=%ld", requested, actual);
--	if (actual != requested)
--		return MODE_CLOCK_RANGE;
- 
- 	if (!msm_edp_ctrl_pixel_clock_valid(
- 		edp->ctrl, mode->clock, NULL, NULL))
-diff --git a/drivers/gpu/drm/msm/hdmi/hdmi_connector.c b/drivers/gpu/drm/msm/hdmi/hdmi_connector.c
-index 58707a1f3878..94318d8ef303 100644
---- a/drivers/gpu/drm/msm/hdmi/hdmi_connector.c
-+++ b/drivers/gpu/drm/msm/hdmi/hdmi_connector.c
-@@ -386,15 +386,16 @@ static int msm_hdmi_connector_mode_valid(struct drm_connector *connector,
- 	long actual, requested;
- 
- 	requested = 1000 * mode->clock;
--	actual = kms->funcs->round_pixclk(kms,
--			requested, hdmi_connector->hdmi->encoder);
- 
-+	if (kms->funcs->round_pixclk)
-+		actual = kms->funcs->round_pixclk(kms,
-+			requested, hdmi_connector->hdmi->encoder);
-+	else if (config->pwr_clk_cnt > 0)
- 	/* for mdp5/apq8074, we manage our own pixel clk (as opposed to
- 	 * mdp4/dtv stuff where pixel clk is assigned to mdp/encoder
- 	 * instead):
- 	 */
--	if (config->pwr_clk_cnt > 0)
--		actual = clk_round_rate(hdmi->pwr_clks[0], actual);
-+		actual = clk_round_rate(hdmi->pwr_clks[0], requested);
- 
- 	DBG("requested=%ld, actual=%ld", requested, actual);
- 
+Jason Ekstrand (2):
+  drm/i915: Don't allow setting I915_CONTEXT_PARAM_VM twice
+  drm/i915/uapi: Add docs about immutability of engine sets and VMs
+
+ drivers/gpu/drm/i915/gem/i915_gem_context.c | 12 +++----
+ include/uapi/drm/i915_drm.h                 | 39 +++++++++++++++------
+ 2 files changed, 33 insertions(+), 18 deletions(-)
+
 -- 
-2.30.2
+2.31.1
 
