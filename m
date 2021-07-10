@@ -1,39 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B94983C36C9
-	for <lists+dri-devel@lfdr.de>; Sat, 10 Jul 2021 22:34:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 25A4B3C36D3
+	for <lists+dri-devel@lfdr.de>; Sat, 10 Jul 2021 22:47:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E57B46EB59;
-	Sat, 10 Jul 2021 20:33:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CCE286EB5C;
+	Sat, 10 Jul 2021 20:47:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E77D16EB59
- for <dri-devel@lists.freedesktop.org>; Sat, 10 Jul 2021 20:33:56 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D0BBC6EB5C
+ for <dri-devel@lists.freedesktop.org>; Sat, 10 Jul 2021 20:47:11 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
  [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id A4CE8255;
- Sat, 10 Jul 2021 22:33:54 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1A0B4255;
+ Sat, 10 Jul 2021 22:47:10 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1625949234;
- bh=KzxnRCT+yTeFgUaeZcbeB9coOGgyQre0UkZzYddV/cM=;
+ s=mail; t=1625950030;
+ bh=aqz/R+qpR7KL+fyTu819jnjletiIJ66CngXDNMV3aaE=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=H+ghCZs39FweltRh+q04oBmzMsDctQ/QXbW8nWAvouRYb3WuESHq1EJoJqyIJh5wA
- oq+Sj2N03MZtS2DjuaRWvo8HVdneM+/CFACYtPophjGYjEf6xKsjN9qLstoK576Ag/
- P0rn+vJQeUykPJMpbDRTJtm5pG94JWb5UtitK7HQ=
-Date: Sat, 10 Jul 2021 23:33:08 +0300
+ b=q6ky447ioQ9QFBpGUWHZsfByijgzoYLHBzAhrWlBEtFHBPH91zm9I3a1CGf5CcKJ/
+ 8lBMYqr2VFC0kl7HLllmk1T3JZb465g0jXVM2xSIG9SQLrNs6yzwYAjFrvzl/b5VgI
+ 2Q7ggsw3SL/FjPCX42w+ax3t9ogJ9SXY5O1v2dck=
+Date: Sat, 10 Jul 2021 23:46:24 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH] drm/shmobile: Convert to Linux IRQ interfaces
-Message-ID: <YOoEBGvcqmpP5A1n@pendragon.ideasonboard.com>
-References: <20210706074900.8928-1-tzimmermann@suse.de>
+To: Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH 1/1] drm: bridge: Mark deprecated operations in
+ drm_bridge_funcs
+Message-ID: <YOoHIPWzgFraoeeb@pendragon.ideasonboard.com>
+References: <20210710084240.281063-1-sam@ravnborg.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210706074900.8928-1-tzimmermann@suse.de>
+In-Reply-To: <20210710084240.281063-1-sam@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,79 +47,112 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, linux-renesas-soc@vger.kernel.org,
- kieran.bingham+renesas@ideasonboard.com, dri-devel@lists.freedesktop.org
+Cc: David Airlie <airlied@linux.ie>, Andrzej Hajda <a.hajda@samsung.com>,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
+Hi Sam,
 
 Thank you for the patch.
 
-On Tue, Jul 06, 2021 at 09:49:00AM +0200, Thomas Zimmermann wrote:
-> Drop the DRM IRQ midlayer in favor of Linux IRQ interfaces. DRM's
-> IRQ helpers are mostly useful for UMS drivers. Modern KMS drivers
-> don't benefit from using it.
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
->  drivers/gpu/drm/shmobile/shmob_drm_drv.c | 8 +++-----
->  1 file changed, 3 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/shmobile/shmob_drm_drv.c b/drivers/gpu/drm/shmobile/shmob_drm_drv.c
-> index 0a02b7092c04..032a2fff5efd 100644
-> --- a/drivers/gpu/drm/shmobile/shmob_drm_drv.c
-> +++ b/drivers/gpu/drm/shmobile/shmob_drm_drv.c
-> @@ -18,7 +18,6 @@
->  #include <drm/drm_crtc_helper.h>
->  #include <drm/drm_drv.h>
->  #include <drm/drm_gem_cma_helper.h>
-> -#include <drm/drm_irq.h>
->  #include <drm/drm_probe_helper.h>
->  #include <drm/drm_vblank.h>
->  
-> @@ -130,7 +129,6 @@ DEFINE_DRM_GEM_CMA_FOPS(shmob_drm_fops);
->  
->  static const struct drm_driver shmob_drm_driver = {
->  	.driver_features	= DRIVER_GEM | DRIVER_MODESET,
-> -	.irq_handler		= shmob_drm_irq,
->  	DRM_GEM_CMA_DRIVER_OPS,
->  	.fops			= &shmob_drm_fops,
->  	.name			= "shmob-drm",
-> @@ -183,7 +181,7 @@ static int shmob_drm_remove(struct platform_device *pdev)
->  
->  	drm_dev_unregister(ddev);
->  	drm_kms_helper_poll_fini(ddev);
-> -	drm_irq_uninstall(ddev);
-> +	free_irq(platform_get_irq(pdev, 0), ddev);
->  	drm_dev_put(ddev);
->  
->  	return 0;
-> @@ -258,7 +256,7 @@ static int shmob_drm_probe(struct platform_device *pdev)
->  		goto err_modeset_cleanup;
->  	}
->  
-> -	ret = drm_irq_install(ddev, platform_get_irq(pdev, 0));
-> +	ret = request_irq(platform_get_irq(pdev, 0), shmob_drm_irq, 0, ddev->driver->name, ddev);
+On Sat, Jul 10, 2021 at 10:42:40AM +0200, Sam Ravnborg wrote:
+> drm_bridge_funcs includes several duplicated operations as atomic
+> variants has been added over time.
 
-Could you store the irq number in a local variable, and wrap this line
-at 80 columns ? You can then use the local variable in the free_irq()
-call below. With this addressed,
+s/has/have/
+
+> New bridge drivers shall use the atomic variants - mark the deprecated
+> operations to try to avoid usage in new bridge drivers.
+> 
+> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: Andrzej Hajda <a.hajda@samsung.com>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: David Airlie <airlied@linux.ie>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> ---
+>  include/drm/drm_bridge.h | 28 ++++++++++++++++++++++++++--
+>  1 file changed, 26 insertions(+), 2 deletions(-)
+> 
+> diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
+> index 2195daa289d2..6805898d70f5 100644
+> --- a/include/drm/drm_bridge.h
+> +++ b/include/drm/drm_bridge.h
+> @@ -171,6 +171,11 @@ struct drm_bridge_funcs {
+>  	 * signals) feeding it is still running when this callback is called.
+>  	 *
+>  	 * The @disable callback is optional.
+> +	 *
+> +	 * NOTE:
+> +	 *
+> +	 * This is deprecated, do not use!
+> +	 * New drivers shall use &drm_bridge_funcs.atomic_disable.
+>  	 */
+>  	void (*disable)(struct drm_bridge *bridge);
+>  
+> @@ -190,6 +195,11 @@ struct drm_bridge_funcs {
+>  	 * called.
+>  	 *
+>  	 * The @post_disable callback is optional.
+> +	 *
+> +	 * NOTE:
+> +	 *
+> +	 * This is deprecated, do not use!
+> +	 * New drivers shall use &drm_bridge_funcs.atomic_post_disable.
+>  	 */
+>  	void (*post_disable)(struct drm_bridge *bridge);
+>  
+> @@ -213,11 +223,15 @@ struct drm_bridge_funcs {
+>  	 * For atomic drivers the adjusted_mode is the mode stored in
+>  	 * &drm_crtc_state.adjusted_mode.
+>  	 *
+> -	 * NOTE:
+> -	 *
+>  	 * If a need arises to store and access modes adjusted for other
+>  	 * locations than the connection between the CRTC and the first bridge,
+>  	 * the DRM framework will have to be extended with DRM bridge states.
+
+The DRM framework *has* been extended with DRM bridge states :-) Should
+this be dropped ?
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
->  	if (ret < 0) {
->  		dev_err(&pdev->dev, "failed to install IRQ handler\n");
->  		goto err_modeset_cleanup;
-> @@ -275,7 +273,7 @@ static int shmob_drm_probe(struct platform_device *pdev)
->  	return 0;
+> +	 *
+> +	 * NOTE:
+> +	 *
+> +	 * This is deprecated, do not use!
+> +	 * New drivers shall set their mode in &drm_bridge_funcs.atomic_enable
+> +	 * operation.
+>  	 */
+>  	void (*mode_set)(struct drm_bridge *bridge,
+>  			 const struct drm_display_mode *mode,
+> @@ -239,6 +253,11 @@ struct drm_bridge_funcs {
+>  	 * there is one) when this callback is called.
+>  	 *
+>  	 * The @pre_enable callback is optional.
+> +	 *
+> +	 * NOTE:
+> +	 *
+> +	 * This is deprecated, do not use!
+> +	 * New drivers shall use &drm_bridge_funcs.atomic_pre_enable.
+>  	 */
+>  	void (*pre_enable)(struct drm_bridge *bridge);
 >  
->  err_irq_uninstall:
-> -	drm_irq_uninstall(ddev);
-> +	free_irq(platform_get_irq(pdev, 0), ddev);
->  err_modeset_cleanup:
->  	drm_kms_helper_poll_fini(ddev);
->  err_free_drm_dev:
+> @@ -259,6 +278,11 @@ struct drm_bridge_funcs {
+>  	 * chain if there is one.
+>  	 *
+>  	 * The @enable callback is optional.
+> +	 *
+> +	 * NOTE:
+> +	 *
+> +	 * This is deprecated, do not use!
+> +	 * New drivers shall use &drm_bridge_funcs.atomic_enable.
+>  	 */
+>  	void (*enable)(struct drm_bridge *bridge);
+>  
 
 -- 
 Regards,
