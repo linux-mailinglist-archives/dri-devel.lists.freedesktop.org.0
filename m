@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DAC13C2FC3
-	for <lists+dri-devel@lfdr.de>; Sat, 10 Jul 2021 04:31:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3245C3C2FD5
+	for <lists+dri-devel@lfdr.de>; Sat, 10 Jul 2021 04:35:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 414BA6EAB9;
-	Sat, 10 Jul 2021 02:31:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E8F0E8967B;
+	Sat, 10 Jul 2021 02:35:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D89AC6EAB9
- for <dri-devel@lists.freedesktop.org>; Sat, 10 Jul 2021 02:31:53 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id CE57D613F0;
- Sat, 10 Jul 2021 02:31:52 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CBA5E8967B
+ for <dri-devel@lists.freedesktop.org>; Sat, 10 Jul 2021 02:35:06 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id C2DAC613EB;
+ Sat, 10 Jul 2021 02:35:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1625884313;
- bh=4nfxlqMEKpMGQ1Ok7aLCVPgK356DKtLeXZH5akixq+A=;
+ s=k20201202; t=1625884506;
+ bh=lAu+LTAR349mDL0w4BHlXProjoot0ns5zpTda0DaVLw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Z9Zo6clrxOIfWKbZKA+PIFkiihBD5p+VytRWRUSRoX7Arr2lhgdMnrMoNt4Apqvfn
- u1LIhdPWa4rAQGUob94j5gVqBA4qYOFLR66A0h7d+qd9fYlm7JPvbOFjW2wpiFLQeO
- evPradu8EthSvJZ71Vozy6h51+QLytZS9SUHLUFgIHT96Sd5hT+KdjTf1aTqvdq58O
- G7S4ZzVHtpz/6Q8PIZBDwQcKREauvXjko399HP+e4nMWLx+o8RDmf2TgbPRewatfk9
- U7L/s12ShGm4qS0N644fd19d7mq1UGCpI+GtSOCmhhghWcqyVZfxHp7ZQSrlymt098
- pPu1zxjGqfYmg==
+ b=n8zaVreUzXkhMDgzdqi/E5WDXJbQAZvzSmJF/86P2q/H/n6qwHX3tevrbG2bRtY6b
+ WZJ3f3Cc3Y76JMRDlo+e5oRbsEb1NMK8eITl9Wg/mMM8XSqn+kKg9gZd0MJ2HUY3ga
+ iZYU2YktMNEH9z8Ngi4LizVaU4z8V/7nQNllQysnAG+pRgyD9vPM1jtSiOxNK9BIZK
+ P1oUISXisaLWCFQCo4BCUqBvL7sUldTkPwTAXp7gpvpQD7zz50GkYpY+qAJVczTlOx
+ ncYPDrcR4LjuYM8qjtQxOJWT4IEHBjg5EUNRVfNdAntW4ZrqIY1v8u2XcC/Kn4Cvkq
+ 213OabovX61Ug==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 56/63] backlight: lm3630a: Fix return code of
+Subject: [PATCH AUTOSEL 4.19 33/39] backlight: lm3630a: Fix return code of
  .update_status() callback
-Date: Fri,  9 Jul 2021 22:27:02 -0400
-Message-Id: <20210710022709.3170675-56-sashal@kernel.org>
+Date: Fri,  9 Jul 2021 22:31:58 -0400
+Message-Id: <20210710023204.3171428-33-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210710022709.3170675-1-sashal@kernel.org>
-References: <20210710022709.3170675-1-sashal@kernel.org>
+In-Reply-To: <20210710023204.3171428-1-sashal@kernel.org>
+References: <20210710023204.3171428-1-sashal@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-stable: review
@@ -79,10 +79,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/video/backlight/lm3630a_bl.c b/drivers/video/backlight/lm3630a_bl.c
-index 2d8e8192e4e2..e6d2eea76377 100644
+index ef2553f452ca..f17e5a8860fa 100644
 --- a/drivers/video/backlight/lm3630a_bl.c
 +++ b/drivers/video/backlight/lm3630a_bl.c
-@@ -188,7 +188,7 @@ static int lm3630a_bank_a_update_status(struct backlight_device *bl)
+@@ -184,7 +184,7 @@ static int lm3630a_bank_a_update_status(struct backlight_device *bl)
  	if ((pwm_ctrl & LM3630A_PWM_BANK_A) != 0) {
  		lm3630a_pwm_ctrl(pchip, bl->props.brightness,
  				 bl->props.max_brightness);
@@ -91,7 +91,7 @@ index 2d8e8192e4e2..e6d2eea76377 100644
  	}
  
  	/* disable sleep */
-@@ -208,8 +208,8 @@ static int lm3630a_bank_a_update_status(struct backlight_device *bl)
+@@ -204,8 +204,8 @@ static int lm3630a_bank_a_update_status(struct backlight_device *bl)
  	return 0;
  
  out_i2c_err:
@@ -102,7 +102,7 @@ index 2d8e8192e4e2..e6d2eea76377 100644
  }
  
  static int lm3630a_bank_a_get_brightness(struct backlight_device *bl)
-@@ -265,7 +265,7 @@ static int lm3630a_bank_b_update_status(struct backlight_device *bl)
+@@ -261,7 +261,7 @@ static int lm3630a_bank_b_update_status(struct backlight_device *bl)
  	if ((pwm_ctrl & LM3630A_PWM_BANK_B) != 0) {
  		lm3630a_pwm_ctrl(pchip, bl->props.brightness,
  				 bl->props.max_brightness);
@@ -111,7 +111,7 @@ index 2d8e8192e4e2..e6d2eea76377 100644
  	}
  
  	/* disable sleep */
-@@ -285,8 +285,8 @@ static int lm3630a_bank_b_update_status(struct backlight_device *bl)
+@@ -281,8 +281,8 @@ static int lm3630a_bank_b_update_status(struct backlight_device *bl)
  	return 0;
  
  out_i2c_err:
