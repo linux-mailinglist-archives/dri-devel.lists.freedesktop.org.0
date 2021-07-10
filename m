@@ -1,39 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3245C3C2FD5
-	for <lists+dri-devel@lfdr.de>; Sat, 10 Jul 2021 04:35:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F2AD93C2FDD
+	for <lists+dri-devel@lfdr.de>; Sat, 10 Jul 2021 04:35:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E8F0E8967B;
-	Sat, 10 Jul 2021 02:35:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 28E696EABA;
+	Sat, 10 Jul 2021 02:35:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CBA5E8967B
- for <dri-devel@lists.freedesktop.org>; Sat, 10 Jul 2021 02:35:06 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C2DAC613EB;
- Sat, 10 Jul 2021 02:35:05 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3945C6EABA
+ for <dri-devel@lists.freedesktop.org>; Sat, 10 Jul 2021 02:35:55 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3550061422;
+ Sat, 10 Jul 2021 02:35:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1625884506;
+ s=k20201202; t=1625884555;
  bh=lAu+LTAR349mDL0w4BHlXProjoot0ns5zpTda0DaVLw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=n8zaVreUzXkhMDgzdqi/E5WDXJbQAZvzSmJF/86P2q/H/n6qwHX3tevrbG2bRtY6b
- WZJ3f3Cc3Y76JMRDlo+e5oRbsEb1NMK8eITl9Wg/mMM8XSqn+kKg9gZd0MJ2HUY3ga
- iZYU2YktMNEH9z8Ngi4LizVaU4z8V/7nQNllQysnAG+pRgyD9vPM1jtSiOxNK9BIZK
- P1oUISXisaLWCFQCo4BCUqBvL7sUldTkPwTAXp7gpvpQD7zz50GkYpY+qAJVczTlOx
- ncYPDrcR4LjuYM8qjtQxOJWT4IEHBjg5EUNRVfNdAntW4ZrqIY1v8u2XcC/Kn4Cvkq
- 213OabovX61Ug==
+ b=e4qjD1qKpaipYGHYlSsEIP8DpG+apnXsX1KyB1IrGvYIrrzMqVBjE54MXrT0koqJp
+ KI2WmL/qHnhoXvwYJwKy2MUtWeHjOC3n59tcD1yNrbq0TFVJw2nR1k0hV/Z0eBEm6d
+ bIO6YLcukyJzZC2rUHTuhoarVPkiKFfdsNkrFqgh9ET4K1baMQsYOr+PJpx0O+DkxT
+ xhyBH1gNU2JTzUHGiTwvL7oJ/01qfTJo72r9MMBa7LCLbh5RQ7KPG8Clb9FgLnHxgj
+ 2gZBIsdBzxxojcED6Hnf1azVjX45P2sUP/5eMwZzYdoc0we/xBgrvjIXxpp5/uIgdr
+ hgJtDljYNuXXg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 33/39] backlight: lm3630a: Fix return code of
+Subject: [PATCH AUTOSEL 4.14 27/33] backlight: lm3630a: Fix return code of
  .update_status() callback
-Date: Fri,  9 Jul 2021 22:31:58 -0400
-Message-Id: <20210710023204.3171428-33-sashal@kernel.org>
+Date: Fri,  9 Jul 2021 22:35:09 -0400
+Message-Id: <20210710023516.3172075-27-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210710023204.3171428-1-sashal@kernel.org>
-References: <20210710023204.3171428-1-sashal@kernel.org>
+In-Reply-To: <20210710023516.3172075-1-sashal@kernel.org>
+References: <20210710023516.3172075-1-sashal@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-stable: review
