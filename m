@@ -1,46 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B24B53C362B
-	for <lists+dri-devel@lfdr.de>; Sat, 10 Jul 2021 20:41:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 781AC3C3637
+	for <lists+dri-devel@lfdr.de>; Sat, 10 Jul 2021 20:56:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE6306EB54;
-	Sat, 10 Jul 2021 18:41:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7543A6EB58;
+	Sat, 10 Jul 2021 18:56:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 540096EB54;
- Sat, 10 Jul 2021 18:41:45 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10041"; a="209880869"
-X-IronPort-AV: E=Sophos;i="5.84,229,1620716400"; d="scan'208";a="209880869"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Jul 2021 11:41:40 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,229,1620716400"; d="scan'208";a="450756865"
-Received: from irvmail001.ir.intel.com ([10.43.11.63])
- by orsmga007.jf.intel.com with ESMTP; 10 Jul 2021 11:41:38 -0700
-Received: from [10.249.151.15] (mwajdecz-MOBL.ger.corp.intel.com
- [10.249.151.15])
- by irvmail001.ir.intel.com (8.14.3/8.13.6/MailSET/Hub) with ESMTP id
- 16AIfbL7017908; Sat, 10 Jul 2021 19:41:37 +0100
-Subject: Re: [Intel-gfx] [PATCH 16/16] drm/i915/guc/rc: Setup and enable GUCRC
- feature
-To: Vinay Belgaumkar <vinay.belgaumkar@intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-References: <20210710012026.19705-1-vinay.belgaumkar@intel.com>
- <20210710012026.19705-17-vinay.belgaumkar@intel.com>
-From: Michal Wajdeczko <michal.wajdeczko@intel.com>
-Message-ID: <36320288-c921-007d-20db-c2b29812b968@intel.com>
-Date: Sat, 10 Jul 2021 20:41:37 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 763626EB58;
+ Sat, 10 Jul 2021 18:56:44 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10041"; a="273673885"
+X-IronPort-AV: E=Sophos;i="5.84,229,1620716400"; d="scan'208";a="273673885"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Jul 2021 11:56:40 -0700
+X-IronPort-AV: E=Sophos;i="5.84,229,1620716400"; d="scan'208";a="429210677"
+Received: from dut030-tgly.fm.intel.com ([10.105.19.34])
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Jul 2021 11:56:40 -0700
+Date: Sat, 10 Jul 2021 18:56:36 +0000
+From: Matthew Brost <matthew.brost@intel.com>
+To: John Harrison <john.c.harrison@intel.com>
+Subject: Re: [Intel-gfx] [PATCH 43/47] drm/i915/guc: Hook GuC scheduling
+ policies up
+Message-ID: <20210710185636.GA2835@DUT030-TGLY.fm.intel.com>
+References: <20210624070516.21893-1-matthew.brost@intel.com>
+ <20210624070516.21893-44-matthew.brost@intel.com>
+ <20210625005940.GA3833@sdutt-i7>
+ <450ddbca-9623-811f-8d86-9fb9f5685945@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20210710012026.19705-17-vinay.belgaumkar@intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <450ddbca-9623-811f-8d86-9fb9f5685945@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,313 +47,178 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 10.07.2021 03:20, Vinay Belgaumkar wrote:
-> This feature hands over the control of HW RC6 to the GUC.
-> GUC decides when to put HW into RC6 based on it's internal
-> busyness algorithms.
+On Fri, Jun 25, 2021 at 12:10:46PM -0700, John Harrison wrote:
+> On 6/24/2021 17:59, Matthew Brost wrote:
+> > On Thu, Jun 24, 2021 at 12:05:12AM -0700, Matthew Brost wrote:
+> > > From: John Harrison <John.C.Harrison@Intel.com>
+> > > 
+> > > Use the official driver default scheduling policies for configuring
+> > > the GuC scheduler rather than a bunch of hardcoded values.
+> > > 
+> > > Signed-off-by: John Harrison <john.c.harrison@intel.com>
+> > > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> > > Cc: Jose Souza <jose.souza@intel.com>
+> > > ---
+> > >   drivers/gpu/drm/i915/gt/intel_engine_types.h  |  1 +
+> > >   drivers/gpu/drm/i915/gt/uc/intel_guc.h        |  2 +
+> > >   drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c    | 44 ++++++++++++++++++-
+> > >   .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 11 +++--
+> > >   4 files changed, 53 insertions(+), 5 deletions(-)
+> > > 
+> > > diff --git a/drivers/gpu/drm/i915/gt/intel_engine_types.h b/drivers/gpu/drm/i915/gt/intel_engine_types.h
+> > > index 0ceffa2be7a7..37db857bb56c 100644
+> > > --- a/drivers/gpu/drm/i915/gt/intel_engine_types.h
+> > > +++ b/drivers/gpu/drm/i915/gt/intel_engine_types.h
+> > > @@ -455,6 +455,7 @@ struct intel_engine_cs {
+> > >   #define I915_ENGINE_IS_VIRTUAL       BIT(5)
+> > >   #define I915_ENGINE_HAS_RELATIVE_MMIO BIT(6)
+> > >   #define I915_ENGINE_REQUIRES_CMD_PARSER BIT(7)
+> > > +#define I915_ENGINE_WANT_FORCED_PREEMPTION BIT(8)
+> > >   	unsigned int flags;
+> > >   	/*
+> > > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
+> > > index c38365cd5fab..905ecbc7dbe3 100644
+> > > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc.h
+> > > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
+> > > @@ -270,6 +270,8 @@ int intel_guc_engine_failure_process_msg(struct intel_guc *guc,
+> > >   void intel_guc_find_hung_context(struct intel_engine_cs *engine);
+> > > +int intel_guc_global_policies_update(struct intel_guc *guc);
+> > > +
+> > >   void intel_guc_submission_reset_prepare(struct intel_guc *guc);
+> > >   void intel_guc_submission_reset(struct intel_guc *guc, bool stalled);
+> > >   void intel_guc_submission_reset_finish(struct intel_guc *guc);
+> > > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
+> > > index d3e86ab7508f..2ad5fcd4e1b7 100644
+> > > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
+> > > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
+> > > @@ -77,14 +77,54 @@ static u32 guc_ads_blob_size(struct intel_guc *guc)
+> > >   	       guc_ads_private_data_size(guc);
+> > >   }
+> > > -static void guc_policies_init(struct guc_policies *policies)
+> > > +static void guc_policies_init(struct intel_guc *guc, struct guc_policies *policies)
+> > >   {
+> > > +	struct intel_gt *gt = guc_to_gt(guc);
+> > > +	struct drm_i915_private *i915 = gt->i915;
+> > > +
+> > >   	policies->dpc_promote_time = GLOBAL_POLICY_DEFAULT_DPC_PROMOTE_TIME_US;
+> > >   	policies->max_num_work_items = GLOBAL_POLICY_MAX_NUM_WI;
+> > > +
+> > >   	policies->global_flags = 0;
+> > > +	if (i915->params.reset < 2)
+> > > +		policies->global_flags |= GLOBAL_POLICY_DISABLE_ENGINE_RESET;
+> > > +
+> > >   	policies->is_valid = 1;
+> > >   }
+> > > +static int guc_action_policies_update(struct intel_guc *guc, u32 policy_offset)
+> > > +{
+> > > +	u32 action[] = {
+> > > +		INTEL_GUC_ACTION_GLOBAL_SCHED_POLICY_CHANGE,
+> > > +		policy_offset
+> > > +	};
+> > > +
+> > > +	return intel_guc_send(guc, action, ARRAY_SIZE(action));
+> > > +}
+> > > +
+> > > +int intel_guc_global_policies_update(struct intel_guc *guc)
+> > > +{
+> > > +	struct __guc_ads_blob *blob = guc->ads_blob;
+> > > +	struct intel_gt *gt = guc_to_gt(guc);
+> > > +	intel_wakeref_t wakeref;
+> > > +	int ret;
+> > > +
+> > > +	if (!blob)
+> > > +		return -ENOTSUPP;
+> > > +
+> > > +	GEM_BUG_ON(!blob->ads.scheduler_policies);
+> > > +
+> > > +	guc_policies_init(guc, &blob->policies);
+> > > +
+> > > +	if (!intel_guc_is_ready(guc))
+> > > +		return 0;
+> > > +
+> > > +	with_intel_runtime_pm(&gt->i915->runtime_pm, wakeref)
+> > > +		ret = guc_action_policies_update(guc, blob->ads.scheduler_policies);
+> > > +
+> > > +	return ret;
+> > > +}
+> > > +
+> > >   static void guc_mapping_table_init(struct intel_gt *gt,
+> > >   				   struct guc_gt_system_info *system_info)
+> > >   {
+> > > @@ -281,7 +321,7 @@ static void __guc_ads_init(struct intel_guc *guc)
+> > >   	u8 engine_class, guc_class;
+> > >   	/* GuC scheduling policies */
+> > > -	guc_policies_init(&blob->policies);
+> > > +	guc_policies_init(guc, &blob->policies);
+> > >   	/*
+> > >   	 * GuC expects a per-engine-class context image and size
+> > > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > > index 6188189314d5..a427336ce916 100644
+> > > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > > @@ -873,6 +873,7 @@ void intel_guc_submission_reset_finish(struct intel_guc *guc)
+> > >   	GEM_WARN_ON(atomic_read(&guc->outstanding_submission_g2h));
+> > >   	atomic_set(&guc->outstanding_submission_g2h, 0);
+> > > +	intel_guc_global_policies_update(guc);
+> > >   	enable_submission(guc);
+> > >   	intel_gt_unpark_heartbeats(guc_to_gt(guc));
+> > >   }
+> > > @@ -1161,8 +1162,12 @@ static void guc_context_policy_init(struct intel_engine_cs *engine,
+> > >   {
+> > >   	desc->policy_flags = 0;
+> > > -	desc->execution_quantum = CONTEXT_POLICY_DEFAULT_EXECUTION_QUANTUM_US;
+> > > -	desc->preemption_timeout = CONTEXT_POLICY_DEFAULT_PREEMPTION_TIME_US;
+> > > +	if (engine->flags & I915_ENGINE_WANT_FORCED_PREEMPTION)
+> > I can't see where we set this in this series, although I do see a
+> > selftest we need to fixup that sets this. Perhaps we drop this until we
+> > fix that selftest? Or at minimum add a comment saying it will be used in
+> > the future by selftests. What do you think John?
+> Yeah, it is only ever intended to be used by selftests. So yes, it could be
+> punted down the road until the selftest patch. Likewise the definition for
+> the flag, too.
 > 
-> GUCRC needs GUC submission to be enabled, and only
-> supported on Gen12+ for now.
+
+Ok, fixed that in my branch. With that:
+Reviewed-by: Matthew Brost <matthew.brost@intel.com>
+
+> John.
 > 
-> When GUCRC is enabled, do not set HW RC6. Use a H2G message
-> to tell guc to enable GUCRC. When disabling RC6, tell guc to
-
-s/GUC/GuC
-s/guc/GuC
-
-> revert RC6 control back to KMD.
-> 
-> Signed-off-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
-> ---
->  drivers/gpu/drm/i915/Makefile                 |  1 +
->  drivers/gpu/drm/i915/gt/intel_rc6.c           | 22 ++++--
->  .../gpu/drm/i915/gt/uc/abi/guc_actions_abi.h  |  6 ++
->  drivers/gpu/drm/i915/gt/uc/intel_guc.c        |  1 +
->  drivers/gpu/drm/i915/gt/uc/intel_guc.h        |  2 +
->  drivers/gpu/drm/i915/gt/uc/intel_guc_rc.c     | 79 +++++++++++++++++++
->  drivers/gpu/drm/i915/gt/uc/intel_guc_rc.h     | 32 ++++++++
->  drivers/gpu/drm/i915/gt/uc/intel_uc.h         |  2 +
->  8 files changed, 140 insertions(+), 5 deletions(-)
->  create mode 100644 drivers/gpu/drm/i915/gt/uc/intel_guc_rc.c
->  create mode 100644 drivers/gpu/drm/i915/gt/uc/intel_guc_rc.h
-> 
-> diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
-> index d8eac4468df9..3fc17f20d88e 100644
-> --- a/drivers/gpu/drm/i915/Makefile
-> +++ b/drivers/gpu/drm/i915/Makefile
-> @@ -186,6 +186,7 @@ i915-y += gt/uc/intel_uc.o \
->  	  gt/uc/intel_guc_fw.o \
->  	  gt/uc/intel_guc_log.o \
->  	  gt/uc/intel_guc_log_debugfs.o \
-> +	  gt/uc/intel_guc_rc.o \
->  	  gt/uc/intel_guc_slpc.o \
->  	  gt/uc/intel_guc_submission.o \
->  	  gt/uc/intel_huc.o \
-> diff --git a/drivers/gpu/drm/i915/gt/intel_rc6.c b/drivers/gpu/drm/i915/gt/intel_rc6.c
-> index 259d7eb4e165..299fcf10b04b 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_rc6.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_rc6.c
-> @@ -98,11 +98,19 @@ static void gen11_rc6_enable(struct intel_rc6 *rc6)
->  	set(uncore, GEN9_MEDIA_PG_IDLE_HYSTERESIS, 60);
->  	set(uncore, GEN9_RENDER_PG_IDLE_HYSTERESIS, 60);
->  
-> -	/* 3a: Enable RC6 */
-> -	rc6->ctl_enable =
-> -		GEN6_RC_CTL_HW_ENABLE |
-> -		GEN6_RC_CTL_RC6_ENABLE |
-> -		GEN6_RC_CTL_EI_MODE(1);
-> +	/* 3a: Enable RC6
-> +	 *
-> +	 * With GUCRC, we do not enable bit 31 of RC_CTL,
-> +	 * thus allowing GuC to control RC6 entry/exit fully instead.
-> +	 * We will not set the HW ENABLE and EI bits
-> +	 */
-> +	if (!intel_guc_rc_enable(&gt->uc.guc))
-> +		rc6->ctl_enable = GEN6_RC_CTL_RC6_ENABLE;
-> +	else
-> +		rc6->ctl_enable =
-> +			GEN6_RC_CTL_HW_ENABLE |
-> +			GEN6_RC_CTL_RC6_ENABLE |
-> +			GEN6_RC_CTL_EI_MODE(1);
->  
->  	pg_enable =
->  		GEN9_RENDER_PG_ENABLE |
-> @@ -513,6 +521,10 @@ static void __intel_rc6_disable(struct intel_rc6 *rc6)
->  {
->  	struct drm_i915_private *i915 = rc6_to_i915(rc6);
->  	struct intel_uncore *uncore = rc6_to_uncore(rc6);
-> +	struct intel_gt *gt = rc6_to_gt(rc6);
-> +
-> +	/* Take control of RC6 back from GuC */
-> +	intel_guc_rc_disable(&gt->uc.guc);
->  
->  	intel_uncore_forcewake_get(uncore, FORCEWAKE_ALL);
->  	if (GRAPHICS_VER(i915) >= 9)
-> diff --git a/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h b/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h
-> index 596cf4b818e5..2ddb9cdc0a59 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h
-> +++ b/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h
-> @@ -136,6 +136,7 @@ enum intel_guc_action {
->  	INTEL_GUC_ACTION_CONTEXT_RESET_NOTIFICATION = 0x1008,
->  	INTEL_GUC_ACTION_ENGINE_FAILURE_NOTIFICATION = 0x1009,
->  	INTEL_GUC_ACTION_SLPC_REQUEST = 0x3003,
-> +	INTEL_GUC_ACTION_SETUP_PC_GUCRC = 0x3004,
->  	INTEL_GUC_ACTION_AUTHENTICATE_HUC = 0x4000,
->  	INTEL_GUC_ACTION_REGISTER_CONTEXT = 0x4502,
->  	INTEL_GUC_ACTION_DEREGISTER_CONTEXT = 0x4503,
-> @@ -146,6 +147,11 @@ enum intel_guc_action {
->  	INTEL_GUC_ACTION_LIMIT
->  };
->  
-> +enum intel_guc_rc_options {
-> +	INTEL_GUCRC_HOST_CONTROL,
-> +	INTEL_GUCRC_FIRMWARE_CONTROL,
-> +};
-> +
->  enum intel_guc_preempt_options {
->  	INTEL_GUC_PREEMPT_OPTION_DROP_WORK_Q = 0x4,
->  	INTEL_GUC_PREEMPT_OPTION_DROP_SUBMIT_Q = 0x8,
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-> index 82863a9bc8e8..0d55b24f7c67 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-> @@ -158,6 +158,7 @@ void intel_guc_init_early(struct intel_guc *guc)
->  	intel_guc_log_init_early(&guc->log);
->  	intel_guc_submission_init_early(guc);
->  	intel_guc_slpc_init_early(guc);
-> +	intel_guc_rc_init_early(guc);
->  
->  	mutex_init(&guc->send_mutex);
->  	spin_lock_init(&guc->irq_lock);
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-> index 0dbbd9cf553f..592d52e5e93c 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-> @@ -59,6 +59,8 @@ struct intel_guc {
->  
->  	bool submission_supported;
->  	bool submission_selected;
-> +	bool rc_supported;
-> +	bool rc_selected;
->  	bool slpc_supported;
->  	bool slpc_selected;
->  
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_rc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_rc.c
-> new file mode 100644
-> index 000000000000..45b61432c56d
-> --- /dev/null
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_rc.c
-> @@ -0,0 +1,79 @@
-> +// SPDX-License-Identifier: MIT
-> +/*
-> + * Copyright © 2020 Intel Corporation
-
-2021
-
-> +*/
-
-unaligned *
-
-> +
-> +#include "intel_guc_rc.h"
-> +#include "gt/intel_gt.h"
-> +#include "i915_drv.h"
-> +
-> +static bool __guc_rc_supported(struct intel_guc *guc)
-> +{
-> +	/* GuC RC is unavailable for pre-Gen12 */
-> +	return guc->submission_supported &&
-> +		GRAPHICS_VER(guc_to_gt(guc)->i915) >= 12;
-> +}
-> +
-> +static bool __guc_rc_selected(struct intel_guc *guc)
-> +{
-> +	if (!intel_guc_rc_is_supported(guc))
-> +		return false;
-> +
-> +	return guc->submission_selected;
-> +}
-> +
-> +void intel_guc_rc_init_early(struct intel_guc *guc)
-> +{
-> +	guc->rc_supported = __guc_rc_supported(guc);
-> +	guc->rc_selected = __guc_rc_selected(guc);
-> +}
-> +
-> +static int guc_action_control_gucrc(struct intel_guc *guc, bool enable)
-> +{
-> +	struct drm_device *drm = &guc_to_gt(guc)->i915->drm;
-> +	u32 rc_mode = enable ? INTEL_GUCRC_FIRMWARE_CONTROL :
-> +				INTEL_GUCRC_HOST_CONTROL;
-> +	u32 action[] = {
-> +		INTEL_GUC_ACTION_SETUP_PC_GUCRC,
-> +		rc_mode
-> +	};
-> +	int ret;
-> +
-> +	ret = intel_guc_send(guc, action, ARRAY_SIZE(action));
-> +	if (ret)
-
-since intel_guc_send() may return non-zero value from data0 RESPONSE
-field, assuming that this action expects there MBZ this should be:
-
-	ret = ret > 0 ? -EPROTO : ret;
-
-otherwise some static code analyzers might complain
-
-> +		drm_err(drm, "Failed to set GUCRC mode(%d), err=%d\n",
-
-you may want to print error with %pe
-and move this message to __guc_rc_control because of the above
-
-> +			rc_mode, ret);
-> +
-> +	return ret;
-> +}
-> +
-> +static int __guc_rc_control(struct intel_guc *guc, bool enable)
-> +{
-> +	struct intel_gt *gt = guc_to_gt(guc);
-> +	int ret;
-> +
-> +	if (!intel_uc_uses_guc_rc(&gt->uc))
-> +		return -ENOTSUPP;
-> +
-> +	if (!intel_guc_is_ready(guc))
-> +		return -EINVAL;
-> +
-> +	ret = guc_action_control_gucrc(guc, enable);
-> +	if (unlikely(ret))
-
-	drm_err(drm, "Failed to %s GuC RC mode (%pe)\n",
-		enabledisable(enable), ERR_PTR(ret));
-
-> +		return ret;
-> +
-> +	drm_info(&gt->i915->drm, "GuC RC %s\n",
-> +	         enableddisabled(enable));
-> +
-> +	return 0;
-> +}
-> +
-> +int intel_guc_rc_enable(struct intel_guc *guc)
-> +{
-> +	return __guc_rc_control(guc, true);
-> +}
-> +
-> +int intel_guc_rc_disable(struct intel_guc *guc)
-> +{
-> +	return __guc_rc_control(guc, false);
-> +}
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_rc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_rc.h
-> new file mode 100644
-> index 000000000000..169e60726e5b
-> --- /dev/null
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_rc.h
-> @@ -0,0 +1,32 @@
-> +/* SPDX-License-Identifier: MIT */
-> +/*
-> + * Copyright © 2020 Intel Corporation
-
-2021
-
-> + */
-> +
-> +#ifndef _INTEL_GUC_RC_H_
-> +#define _INTEL_GUC_RC_H_
-> +
-> +#include <linux/types.h>
-
-do you need this include here ?
-
-Michal
-
-> +#include "intel_guc_submission.h"
-> +
-> +void intel_guc_rc_init_early(struct intel_guc *guc);
-> +
-> +static inline bool intel_guc_rc_is_supported(struct intel_guc *guc)
-> +{
-> +	return guc->rc_supported;
-> +}
-> +
-> +static inline bool intel_guc_rc_is_wanted(struct intel_guc *guc)
-> +{
-> +	return guc->submission_selected && intel_guc_rc_is_supported(guc);
-> +}
-> +
-> +static inline bool intel_guc_rc_is_used(struct intel_guc *guc)
-> +{
-> +	return intel_guc_submission_is_used(guc) && intel_guc_rc_is_wanted(guc);
-> +}
-> +
-> +int intel_guc_rc_enable(struct intel_guc *guc);
-> +int intel_guc_rc_disable(struct intel_guc *guc);
-> +
-> +#endif
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc.h b/drivers/gpu/drm/i915/gt/uc/intel_uc.h
-> index 38e465fd8a0c..29d8ad6d9087 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_uc.h
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_uc.h
-> @@ -7,6 +7,7 @@
->  #define _INTEL_UC_H_
->  
->  #include "intel_guc.h"
-> +#include "intel_guc_rc.h"
->  #include "intel_guc_submission.h"
->  #include "intel_huc.h"
->  #include "i915_params.h"
-> @@ -84,6 +85,7 @@ uc_state_checkers(guc, guc);
->  uc_state_checkers(huc, huc);
->  uc_state_checkers(guc, guc_submission);
->  uc_state_checkers(guc, guc_slpc);
-> +uc_state_checkers(guc, guc_rc);
->  
->  #undef uc_state_checkers
->  #undef __uc_state_checker
+> > > +		desc->policy_flags |= CONTEXT_POLICY_FLAG_PREEMPT_TO_IDLE;
+> > > +
+> > > +	/* NB: For both of these, zero means disabled. */
+> > > +	desc->execution_quantum = engine->props.timeslice_duration_ms * 1000;
+> > > +	desc->preemption_timeout = engine->props.preempt_timeout_ms * 1000;
+> > >   }
+> > >   static int guc_lrc_desc_pin(struct intel_context *ce, bool loop)
+> > > @@ -1945,13 +1950,13 @@ static void guc_default_vfuncs(struct intel_engine_cs *engine)
+> > >   	engine->set_default_submission = guc_set_default_submission;
+> > >   	engine->flags |= I915_ENGINE_HAS_PREEMPTION;
+> > > +	engine->flags |= I915_ENGINE_HAS_TIMESLICES;
+> > >   	/*
+> > >   	 * TODO: GuC supports timeslicing and semaphores as well, but they're
+> > Nit, we now support timeslicing. I can fix that up in next rev.
+> > 
+> > Matt
+> > 
+> > >   	 * handled by the firmware so some minor tweaks are required before
+> > >   	 * enabling.
+> > >   	 *
+> > > -	 * engine->flags |= I915_ENGINE_HAS_TIMESLICES;
+> > >   	 * engine->flags |= I915_ENGINE_HAS_SEMAPHORES;
+> > >   	 */
+> > > -- 
+> > > 2.28.0
+> > > 
+> > > _______________________________________________
+> > > Intel-gfx mailing list
+> > > Intel-gfx@lists.freedesktop.org
+> > > https://lists.freedesktop.org/mailman/listinfo/intel-gfx
+> > _______________________________________________
+> > Intel-gfx mailing list
+> > Intel-gfx@lists.freedesktop.org
+> > https://lists.freedesktop.org/mailman/listinfo/intel-gfx
 > 
