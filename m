@@ -2,43 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B5E83C2FF8
-	for <lists+dri-devel@lfdr.de>; Sat, 10 Jul 2021 04:39:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1673D3C321D
+	for <lists+dri-devel@lfdr.de>; Sat, 10 Jul 2021 05:00:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A2E986EAC4;
-	Sat, 10 Jul 2021 02:39:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A6BB6EAC8;
+	Sat, 10 Jul 2021 03:00:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 40D8E6EAC4
- for <dri-devel@lists.freedesktop.org>; Sat, 10 Jul 2021 02:39:43 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 3788A61413;
- Sat, 10 Jul 2021 02:39:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1625884783;
- bh=XWiPw7umbjmeU/JEnr2FjZX9/PD8fOl6yYG1jQX7LoE=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=SKpaC9YT9EGd5beK5xHOqMUR0WubI+jLXZ/xYkUg8aEQPp87TayPhGET9Z5A4bfOw
- zZtIulWDBPUWeJ5zMss+aRqIw3l79PJCHiKtj7/VmjPLr0Q1788OKRamDGbiJfKKhW
- DQA5Qjmjf6PFvldIf8TYmR5erEav8CFDfDTJ01ZGM5OFSq0tIJVc44WFcZIwA9fIQc
- XqGvlwOLzmOpOoHLDzteqETbgnSW5mVETLCRlSQkFtLavUwZtXqgXkOBCE4XB/417w
- 4wNWZ51y39OBIq9ZMVAYoOw41Xl0M7pzvY7DLSgHP0EoSfgynb7gcN+rnku3DaWPLt
- X36hyoX5Mj9/g==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.4 20/23] backlight: lm3630a: Fix return code of
- .update_status() callback
-Date: Fri,  9 Jul 2021 22:39:09 -0400
-Message-Id: <20210710023912.3172972-20-sashal@kernel.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210710023912.3172972-1-sashal@kernel.org>
-References: <20210710023912.3172972-1-sashal@kernel.org>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D466C6EAC6;
+ Sat, 10 Jul 2021 03:00:14 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10040"; a="231579380"
+X-IronPort-AV: E=Sophos;i="5.84,228,1620716400"; d="scan'208";a="231579380"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Jul 2021 20:00:13 -0700
+X-IronPort-AV: E=Sophos;i="5.84,228,1620716400"; d="scan'208";a="647300311"
+Received: from dut030-tgly.fm.intel.com ([10.105.19.34])
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Jul 2021 20:00:13 -0700
+Date: Sat, 10 Jul 2021 03:00:10 +0000
+From: Matthew Brost <matthew.brost@intel.com>
+To: John Harrison <john.c.harrison@intel.com>
+Subject: Re: [PATCH 16/47] drm/i915/guc: Disable engine barriers with GuC
+ during unpin
+Message-ID: <20210710030010.GA187079@DUT030-TGLY.fm.intel.com>
+References: <20210624070516.21893-1-matthew.brost@intel.com>
+ <20210624070516.21893-17-matthew.brost@intel.com>
+ <8d056c1a-dc4a-baed-1664-0f86db9e7c5c@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8d056c1a-dc4a-baed-1664-0f86db9e7c5c@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,77 +46,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>,
- Daniel Thompson <daniel.thompson@linaro.org>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Lee Jones <lee.jones@linaro.org>
+Cc: intel-gfx@lists.freedesktop.org, daniele.ceraolospurio@intel.com,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+On Fri, Jul 09, 2021 at 03:53:29PM -0700, John Harrison wrote:
+> On 6/24/2021 00:04, Matthew Brost wrote:
+> > Disable engine barriers for unpinning with GuC. This feature isn't
+> > needed with the GuC as it disables context scheduling before unpinning
+> > which guarantees the HW will not reference the context. Hence it is
+> > not necessary to defer unpinning until a kernel context request
+> > completes on each engine in the context engine mask.
+> > 
+> > Cc: John Harrison <john.c.harrison@intel.com>
+> > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> > Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+> > ---
+> >   drivers/gpu/drm/i915/gt/intel_context.c    |  2 +-
+> >   drivers/gpu/drm/i915/gt/intel_context.h    |  1 +
+> >   drivers/gpu/drm/i915/gt/selftest_context.c | 10 ++++++++++
+> >   3 files changed, 12 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/gpu/drm/i915/gt/intel_context.c b/drivers/gpu/drm/i915/gt/intel_context.c
+> > index 1499b8aace2a..7f97753ab164 100644
+> > --- a/drivers/gpu/drm/i915/gt/intel_context.c
+> > +++ b/drivers/gpu/drm/i915/gt/intel_context.c
+> > @@ -80,7 +80,7 @@ static int intel_context_active_acquire(struct intel_context *ce)
+> >   	__i915_active_acquire(&ce->active);
+> > -	if (intel_context_is_barrier(ce))
+> > +	if (intel_context_is_barrier(ce) || intel_engine_uses_guc(ce->engine))
+> >   		return 0;
+> Would be better to have a scheduler flag to say whether barriers are
+> required or not. That would prevent polluting front end code with back end
+> details.
+> 
 
-[ Upstream commit b9481a667a90ec739995e85f91f3672ca44d6ffa ]
+I guess an engine flag is slightly better but I still don't love that
+as we have to test if the context is a barrier (kernel context) and then
+call a function that is basically backend specific after. IMO we really
+need to push all of this to a vfunc. If you really want me to make this
+an engine flag I can, but in the end it just seems like that will
+trash the code (adding an engine flag just to remove it). I think this
+is just a clean up we write down, and figure out a bit later as nothing
+is functionally wrong + quite clear that it is something that should be
+cleaned up.
 
-According to <linux/backlight.h> .update_status() is supposed to
-return 0 on success and a negative error code otherwise. Adapt
-lm3630a_bank_a_update_status() and lm3630a_bank_b_update_status() to
-actually do it.
+Matt
 
-While touching that also add the error code to the failure message.
-
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
-Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
-Signed-off-by: Lee Jones <lee.jones@linaro.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/video/backlight/lm3630a_bl.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/video/backlight/lm3630a_bl.c b/drivers/video/backlight/lm3630a_bl.c
-index 5ef6f9d420a2..ab882c04f975 100644
---- a/drivers/video/backlight/lm3630a_bl.c
-+++ b/drivers/video/backlight/lm3630a_bl.c
-@@ -183,7 +183,7 @@ static int lm3630a_bank_a_update_status(struct backlight_device *bl)
- 	if ((pwm_ctrl & LM3630A_PWM_BANK_A) != 0) {
- 		lm3630a_pwm_ctrl(pchip, bl->props.brightness,
- 				 bl->props.max_brightness);
--		return bl->props.brightness;
-+		return 0;
- 	}
- 
- 	/* disable sleep */
-@@ -203,8 +203,8 @@ static int lm3630a_bank_a_update_status(struct backlight_device *bl)
- 	return 0;
- 
- out_i2c_err:
--	dev_err(pchip->dev, "i2c failed to access\n");
--	return bl->props.brightness;
-+	dev_err(pchip->dev, "i2c failed to access (%pe)\n", ERR_PTR(ret));
-+	return ret;
- }
- 
- static int lm3630a_bank_a_get_brightness(struct backlight_device *bl)
-@@ -260,7 +260,7 @@ static int lm3630a_bank_b_update_status(struct backlight_device *bl)
- 	if ((pwm_ctrl & LM3630A_PWM_BANK_B) != 0) {
- 		lm3630a_pwm_ctrl(pchip, bl->props.brightness,
- 				 bl->props.max_brightness);
--		return bl->props.brightness;
-+		return 0;
- 	}
- 
- 	/* disable sleep */
-@@ -280,8 +280,8 @@ static int lm3630a_bank_b_update_status(struct backlight_device *bl)
- 	return 0;
- 
- out_i2c_err:
--	dev_err(pchip->dev, "i2c failed to access REG_CTRL\n");
--	return bl->props.brightness;
-+	dev_err(pchip->dev, "i2c failed to access (%pe)\n", ERR_PTR(ret));
-+	return ret;
- }
- 
- static int lm3630a_bank_b_get_brightness(struct backlight_device *bl)
--- 
-2.30.2
-
+> John.
+> 
+> 
+> >   	/* Preallocate tracking nodes */
+> > diff --git a/drivers/gpu/drm/i915/gt/intel_context.h b/drivers/gpu/drm/i915/gt/intel_context.h
+> > index 8a7199afbe61..a592a9605dc8 100644
+> > --- a/drivers/gpu/drm/i915/gt/intel_context.h
+> > +++ b/drivers/gpu/drm/i915/gt/intel_context.h
+> > @@ -16,6 +16,7 @@
+> >   #include "intel_engine_types.h"
+> >   #include "intel_ring_types.h"
+> >   #include "intel_timeline_types.h"
+> > +#include "uc/intel_guc_submission.h"
+> >   #define CE_TRACE(ce, fmt, ...) do {					\
+> >   	const struct intel_context *ce__ = (ce);			\
+> > diff --git a/drivers/gpu/drm/i915/gt/selftest_context.c b/drivers/gpu/drm/i915/gt/selftest_context.c
+> > index 26685b927169..fa7b99a671dd 100644
+> > --- a/drivers/gpu/drm/i915/gt/selftest_context.c
+> > +++ b/drivers/gpu/drm/i915/gt/selftest_context.c
+> > @@ -209,7 +209,13 @@ static int __live_active_context(struct intel_engine_cs *engine)
+> >   	 * This test makes sure that the context is kept alive until a
+> >   	 * subsequent idle-barrier (emitted when the engine wakeref hits 0
+> >   	 * with no more outstanding requests).
+> > +	 *
+> > +	 * In GuC submission mode we don't use idle barriers and we instead
+> > +	 * get a message from the GuC to signal that it is safe to unpin the
+> > +	 * context from memory.
+> >   	 */
+> > +	if (intel_engine_uses_guc(engine))
+> > +		return 0;
+> >   	if (intel_engine_pm_is_awake(engine)) {
+> >   		pr_err("%s is awake before starting %s!\n",
+> > @@ -357,7 +363,11 @@ static int __live_remote_context(struct intel_engine_cs *engine)
+> >   	 * on the context image remotely (intel_context_prepare_remote_request),
+> >   	 * which inserts foreign fences into intel_context.active, does not
+> >   	 * clobber the idle-barrier.
+> > +	 *
+> > +	 * In GuC submission mode we don't use idle barriers.
+> >   	 */
+> > +	if (intel_engine_uses_guc(engine))
+> > +		return 0;
+> >   	if (intel_engine_pm_is_awake(engine)) {
+> >   		pr_err("%s is awake before starting %s!\n",
+> 
