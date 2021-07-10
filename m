@@ -1,73 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EE813C356E
-	for <lists+dri-devel@lfdr.de>; Sat, 10 Jul 2021 18:03:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D99BF3C356F
+	for <lists+dri-devel@lfdr.de>; Sat, 10 Jul 2021 18:05:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 678FF6EB42;
-	Sat, 10 Jul 2021 16:03:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F9FB6EB41;
+	Sat, 10 Jul 2021 16:05:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
- [66.111.4.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 78F9E6EB41;
- Sat, 10 Jul 2021 16:03:38 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
- by mailout.nyi.internal (Postfix) with ESMTP id E600E5C008C;
- Sat, 10 Jul 2021 12:03:37 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Sat, 10 Jul 2021 12:03:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:content-transfer-encoding:in-reply-to; s=fm3; bh=D
- 4kIgELXC+ja5B1M6F1y6Rp6QF6xA5GM7lTTLuwJwWk=; b=gc5Ao2BzuTk60gY+O
- fXAjXJVZVQGJhLnMcATvr4eJY+BmNPqj9p/ifSJxSK1pPpzRwc/qTrqC5laIzGB7
- n1SfuQFlC22itMgTNFk1SjGP2y5KUqtsFanm9CN31nrQLDnpZ4VNGOdPy7yYH0yx
- /OsE0gDRDbgGUoWRJYnBjy+WnaPBHefTqs/BGWU/aLjHwOxYPhTkTuOVzocmGPlJ
- lNt4AzpAM1yB/3Xa2D0Wuo+Yp3bw/BGZXt4ldFfBzQ+/tHXvrH1DDz50TgxQtiNf
- RigTALDXD1bybZ7bTdJU7JQlEHTzvKtknUqlF0exaMws8BKoKpxH8yoRiS1j4mVo
- /CufA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:content-type
- :date:from:in-reply-to:message-id:mime-version:references
- :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm3; bh=D4kIgELXC+ja5B1M6F1y6Rp6QF6xA5GM7lTTLuwJw
- Wk=; b=lkQp/thpikiAE91x9WN+hmj9uKgjExmN1SWlovo4IDABxo/mt2nXED8e/
- 0RvtGtFcjaQtKSWSTS8Q+2fZqD5Y+b8cSSQ1NWzfr7W8x+NstlGKKesNZhbJlNue
- ddIQGAqmQ+2mJL0N3FjALv907wGXbPPoDgYnAX4cI/yP9VjvQmgOFf529aFrFQLW
- Vb95xOB9cOp9m3Q/Z2VtY9f3IBGuq72WmCQpEvxBTTSJmFxfNkWJAjhhLrNoeCxx
- ucbKEWPql0bvJpaa6NWSSON+UPvZxkgIPr8Bi7I1fWP032hJ57SupCn41Q9dhof7
- uC1BThlR1blSwVXo+HGDPEHCbO91g==
-X-ME-Sender: <xms:2MTpYNFKGwZVcFIIx4hSZTjwxeLfPN7s0q09YIJNtbinCt9F73QHVQ>
- <xme:2MTpYCW9eJ0Jbtwjm5V94L464e_ITVKfUbu8X9-8AxqZMZHlbzyEOonVdx9MQKUW_
- tG19H6c9Eg9jS3otkY>
-X-ME-Received: <xmr:2MTpYPIe1PFZxBCIGDGk132WQCBHCGdMhjV9Ik1R0Va2sPJAVMomUQ1WPDQtyKgKsFMey_FzeT1Wnwof282EeW6h8MEzFcL8I6e5>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrtdekgdeliecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggugfgjsehtqhertddttddunecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepheelvdfhkeelgfevleekleduvefftefhudekvdffhffhgeefuefgheegfeej
- vedtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
- grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:2MTpYDEFGjOoMzCTW5jtWttBilh-3bHDfuvjSxuFoTJA9CaWyW6KOQ>
- <xmx:2MTpYDUALqbuqamxfvZmf01EWbfIFvJJnw9BAAACA9ka9qv4vxgwKQ>
- <xmx:2MTpYONQiL2FMeCVtEfMNN9394L4eh10XGY57AL7mPhF7C2wLieCiw>
- <xmx:2cTpYJc_gsCfYvDRoWb9BhL1c7T1BJbQLumJ8-oFxFzB8ZOE19JJdQ>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 10 Jul 2021 12:03:36 -0400 (EDT)
-Date: Sat, 10 Jul 2021 18:03:35 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH] dim/drm-misc: Add rule to not push patches with issues
-Message-ID: <20210710160335.ckpnyuoxegto5ekf@gilmour>
-References: <20210709081116.4170288-1-daniel.vetter@ffwll.ch>
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 914126EB41;
+ Sat, 10 Jul 2021 16:05:21 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10041"; a="197106705"
+X-IronPort-AV: E=Sophos;i="5.84,229,1620716400"; d="scan'208";a="197106705"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Jul 2021 09:05:20 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.84,229,1620716400"; d="scan'208";a="411644881"
+Received: from irvmail001.ir.intel.com ([10.43.11.63])
+ by orsmga006.jf.intel.com with ESMTP; 10 Jul 2021 09:05:13 -0700
+Received: from [10.249.151.15] (mwajdecz-MOBL.ger.corp.intel.com
+ [10.249.151.15])
+ by irvmail001.ir.intel.com (8.14.3/8.13.6/MailSET/Hub) with ESMTP id
+ 16AG5BLw004615; Sat, 10 Jul 2021 17:05:12 +0100
+Subject: Re: [PATCH 06/16] drm/i915/guc/slpc: Allocate, initialize and release
+ slpc
+To: Vinay Belgaumkar <vinay.belgaumkar@intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+References: <20210710012026.19705-1-vinay.belgaumkar@intel.com>
+ <20210710012026.19705-7-vinay.belgaumkar@intel.com>
+From: Michal Wajdeczko <michal.wajdeczko@intel.com>
+Message-ID: <d561e568-5e4e-f038-9d99-75d75a43951a@intel.com>
+Date: Sat, 10 Jul 2021 18:05:11 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20210709081116.4170288-1-daniel.vetter@ffwll.ch>
+In-Reply-To: <20210710012026.19705-7-vinay.belgaumkar@intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,25 +53,181 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dim-tools@lists.freedesktop.org,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc: Sundaresan Sujaritha <sujaritha.sundaresan@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jul 09, 2021 at 10:11:16AM +0200, Daniel Vetter wrote:
-> We kinda left this out, and I like the wording from the drm-intel
-> side, so add that. Motivated by a discussion with Christian.
->=20
-> Cc: Christian K=F6nig <christian.koenig@amd.com>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
 
-Acked-by: Maxime Ripard <maxime@cerno.tech>
 
-Thanks!
-Maxime
+On 10.07.2021 03:20, Vinay Belgaumkar wrote:
+> Allocate data structures for SLPC and functions for
+> initializing on host side.
+> 
+> Signed-off-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+> Signed-off-by: Sundaresan Sujaritha <sujaritha.sundaresan@intel.com>
+> ---
+>  drivers/gpu/drm/i915/gt/uc/intel_guc.c      | 11 +++++++
+>  drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c | 36 ++++++++++++++++++++-
+>  drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h | 20 ++++++++++++
+>  3 files changed, 66 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
+> index 9d61b2d54de4..82863a9bc8e8 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
+> @@ -336,6 +336,12 @@ int intel_guc_init(struct intel_guc *guc)
+>  			goto err_ct;
+>  	}
+>  
+> +	if (intel_guc_slpc_is_used(guc)) {
+> +		ret = intel_guc_slpc_init(&guc->slpc);
+> +		if (ret)
+> +			goto err_submission;
+> +	}
+> +
+>  	/* now that everything is perma-pinned, initialize the parameters */
+>  	guc_init_params(guc);
+>  
+> @@ -346,6 +352,8 @@ int intel_guc_init(struct intel_guc *guc)
+>  
+>  	return 0;
+>  
+> +err_submission:
+> +	intel_guc_submission_fini(guc);
+>  err_ct:
+>  	intel_guc_ct_fini(&guc->ct);
+>  err_ads:
+> @@ -368,6 +376,9 @@ void intel_guc_fini(struct intel_guc *guc)
+>  
+>  	i915_ggtt_disable_guc(gt->ggtt);
+>  
+> +	if (intel_guc_slpc_is_used(guc))
+> +		intel_guc_slpc_fini(&guc->slpc);
+> +
+>  	if (intel_guc_submission_is_used(guc))
+>  		intel_guc_submission_fini(guc);
+>  
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
+> index c1f569d2300d..94e2f19951aa 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
+> @@ -4,11 +4,41 @@
+>   * Copyright © 2020 Intel Corporation
+>   */
+>  
+> +#include <asm/msr-index.h>
+
+hmm, what exactly is needed from this header ?
+
+> +
+> +#include "gt/intel_gt.h"
+> +#include "gt/intel_rps.h"
+> +
+> +#include "i915_drv.h"
+>  #include "intel_guc_slpc.h"
+> +#include "intel_pm.h"
+> +
+> +static inline struct intel_guc *slpc_to_guc(struct intel_guc_slpc *slpc)
+> +{
+> +	return container_of(slpc, struct intel_guc, slpc);
+> +}
+> +
+> +static int slpc_shared_data_init(struct intel_guc_slpc *slpc)
+> +{
+> +	struct intel_guc *guc = slpc_to_guc(slpc);
+> +	int err;
+> +	u32 size = PAGE_ALIGN(sizeof(struct slpc_shared_data));
+
+move err decl here
+
+> +
+> +	err = intel_guc_allocate_and_map_vma(guc, size, &slpc->vma, &slpc->vaddr);
+> +	if (unlikely(err)) {
+> +		DRM_ERROR("Failed to allocate slpc struct (err=%d)\n", err);
+
+s/slpc/SLPC
+
+and use drm_err instead
+and you may also want to print error as %pe
+
+> +		i915_vma_unpin_and_release(&slpc->vma, I915_VMA_RELEASE_MAP);
+
+do you really need this ?
+
+> +		return err;
+> +	}
+> +
+> +	return err;
+> +}
+>  
+>  int intel_guc_slpc_init(struct intel_guc_slpc *slpc)
+>  {
+> -	return 0;
+> +	GEM_BUG_ON(slpc->vma);
+> +
+> +	return slpc_shared_data_init(slpc);
+>  }
+>  
+>  /*
+> @@ -31,4 +61,8 @@ int intel_guc_slpc_enable(struct intel_guc_slpc *slpc)
+>  
+>  void intel_guc_slpc_fini(struct intel_guc_slpc *slpc)
+>  {
+> +	if (!slpc->vma)
+> +		return;
+> +
+> +	i915_vma_unpin_and_release(&slpc->vma, I915_VMA_RELEASE_MAP);
+>  }
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h
+> index 98036459a1a3..a2643b904165 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h
+> @@ -3,12 +3,32 @@
+>   *
+>   * Copyright © 2020 Intel Corporation
+>   */
+> +
+
+should be fixed in earlier patch
+
+>  #ifndef _INTEL_GUC_SLPC_H_
+>  #define _INTEL_GUC_SLPC_H_
+>  
+> +#include <linux/mutex.h>
+>  #include "intel_guc_slpc_fwif.h"
+>  
+>  struct intel_guc_slpc {
+> +	/*Protects access to vma and SLPC actions */
+
+hmm, missing mutex ;)
+
+> +	struct i915_vma *vma;
+> +	void *vaddr;
+
+no need to be void, define it as ptr to slpc_shared_data
+
+> +
+> +	/* platform frequency limits */
+> +	u32 min_freq;
+> +	u32 rp0_freq;
+> +	u32 rp1_freq;
+> +
+> +	/* frequency softlimits */
+> +	u32 min_freq_softlimit;
+> +	u32 max_freq_softlimit;
+> +
+> +	struct {
+> +		u32 param_id;
+> +		u32 param_value;
+> +		u32 param_override;
+> +	} debug;
+
+can you add all these extra fields in patches which will need them?
+
+Michal
+
+>  };
+>  
+>  int intel_guc_slpc_init(struct intel_guc_slpc *slpc);
+> 
+
