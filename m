@@ -2,73 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A8A13C356D
-	for <lists+dri-devel@lfdr.de>; Sat, 10 Jul 2021 18:02:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EE813C356E
+	for <lists+dri-devel@lfdr.de>; Sat, 10 Jul 2021 18:03:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A35306EB3F;
-	Sat, 10 Jul 2021 16:02:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 678FF6EB42;
+	Sat, 10 Jul 2021 16:03:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
  [66.111.4.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A9D0C6EB3F
- for <dri-devel@lists.freedesktop.org>; Sat, 10 Jul 2021 16:02:51 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.nyi.internal (Postfix) with ESMTP id 4CEBE5C002F;
- Sat, 10 Jul 2021 12:02:48 -0400 (EDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 78F9E6EB41;
+ Sat, 10 Jul 2021 16:03:38 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
+ by mailout.nyi.internal (Postfix) with ESMTP id E600E5C008C;
+ Sat, 10 Jul 2021 12:03:37 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute1.internal (MEProxy); Sat, 10 Jul 2021 12:02:48 -0400
+ by compute2.internal (MEProxy); Sat, 10 Jul 2021 12:03:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  date:from:to:cc:subject:message-id:references:mime-version
- :content-type:content-transfer-encoding:in-reply-to; s=fm3; bh=z
- W06szIiBrMGAi65CJ/NkhxAJ0WRU6/KP3EHLpvEGnc=; b=Hq46CQ2xOTyEBZ1af
- rDOLaJEOsgeB3p6iY5OdNV7u0kUJ1aiK0Bbmuta/g7G5HFVwPG+g0aBLg7CNxdjd
- EJGDJkSWxMg0QyFqNSIpjMeYlNTpInAJ9v4xxQYK7wUdn0idhoQ11vlT1NrGz8NF
- 5dJIpvKgGXJmPR/D//0SV6bXHW8LYvQWPdeM9RFjpViJcLjpvWkdDaHlp+8SxbLl
- ETzor6igZMQ7pcfHGr8DjoqAOWuK+KAh99Vnh5ZTgIqFYCDlgaOD/x9O5ZaO3E/g
- JUkTNaYP7oKdelyd6VWm9z2gvcoC4yg8a6rwYCQKuxo44cPCcz4nL0dVU1q3uBpL
- 8FiRA==
+ :content-type:content-transfer-encoding:in-reply-to; s=fm3; bh=D
+ 4kIgELXC+ja5B1M6F1y6Rp6QF6xA5GM7lTTLuwJwWk=; b=gc5Ao2BzuTk60gY+O
+ fXAjXJVZVQGJhLnMcATvr4eJY+BmNPqj9p/ifSJxSK1pPpzRwc/qTrqC5laIzGB7
+ n1SfuQFlC22itMgTNFk1SjGP2y5KUqtsFanm9CN31nrQLDnpZ4VNGOdPy7yYH0yx
+ /OsE0gDRDbgGUoWRJYnBjy+WnaPBHefTqs/BGWU/aLjHwOxYPhTkTuOVzocmGPlJ
+ lNt4AzpAM1yB/3Xa2D0Wuo+Yp3bw/BGZXt4ldFfBzQ+/tHXvrH1DDz50TgxQtiNf
+ RigTALDXD1bybZ7bTdJU7JQlEHTzvKtknUqlF0exaMws8BKoKpxH8yoRiS1j4mVo
+ /CufA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:content-type
  :date:from:in-reply-to:message-id:mime-version:references
  :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm3; bh=zW06szIiBrMGAi65CJ/NkhxAJ0WRU6/KP3EHLpvEG
- nc=; b=sGkk0RKsqAa80pWVhxMHg4DKiy0t7RxftQLvKzn47WXQTjlwvtzLl6ISF
- l+h0mOgLLWbWCd3jmViduX2fbR4ytV7hvlVv8R701ThmLOEbctlh21OFfMttHVM9
- sQk9OzmdHrHGMTlQlvopOgkJfUiwG/qdKxJ7J/RuUBsoeJycqhh9hHABHQrLvjIb
- nnGFYyUkq+6Q81kylDaM8TX6P0pvaQDcl1tUYuBgLA5RnmlszLOJtlGfi5LUmLmg
- I8kZjE5MdiUQ5bxiFNbdtPkRlQ6wEH2SeSx6aosyWERshgecoIR5WWvlTsyewuzy
- cp9f7d8iYnv/kCNyLh1MM7rSSlCNQ==
-X-ME-Sender: <xms:psTpYGL52hm_XnAiLesTeDrlAqOXUw9QeaNewBxH2PCntLxoEVCAhQ>
- <xme:psTpYOJWmOhKjpfPTXoCGDZ9K_Ro5Wu6OZeSwL9h2sqc-oLfmce0EprhFFawJqEZK
- ZHxv4V1pbTFz_O54J0>
-X-ME-Received: <xmr:psTpYGtipPIgLBu17WNlivHVX-KxVuKCkW4uC4CXcxyDvUJaa04kw2fL97HtbP_LTcv16QUnEGTdXn-y1EPKzmIe1oliKuJVDJk5>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrtdekgdelhecutefuodetggdotefrodftvf
+ :x-sasl-enc; s=fm3; bh=D4kIgELXC+ja5B1M6F1y6Rp6QF6xA5GM7lTTLuwJw
+ Wk=; b=lkQp/thpikiAE91x9WN+hmj9uKgjExmN1SWlovo4IDABxo/mt2nXED8e/
+ 0RvtGtFcjaQtKSWSTS8Q+2fZqD5Y+b8cSSQ1NWzfr7W8x+NstlGKKesNZhbJlNue
+ ddIQGAqmQ+2mJL0N3FjALv907wGXbPPoDgYnAX4cI/yP9VjvQmgOFf529aFrFQLW
+ Vb95xOB9cOp9m3Q/Z2VtY9f3IBGuq72WmCQpEvxBTTSJmFxfNkWJAjhhLrNoeCxx
+ ucbKEWPql0bvJpaa6NWSSON+UPvZxkgIPr8Bi7I1fWP032hJ57SupCn41Q9dhof7
+ uC1BThlR1blSwVXo+HGDPEHCbO91g==
+X-ME-Sender: <xms:2MTpYNFKGwZVcFIIx4hSZTjwxeLfPN7s0q09YIJNtbinCt9F73QHVQ>
+ <xme:2MTpYCW9eJ0Jbtwjm5V94L464e_ITVKfUbu8X9-8AxqZMZHlbzyEOonVdx9MQKUW_
+ tG19H6c9Eg9jS3otkY>
+X-ME-Received: <xmr:2MTpYPIe1PFZxBCIGDGk132WQCBHCGdMhjV9Ik1R0Va2sPJAVMomUQ1WPDQtyKgKsFMey_FzeT1Wnwof282EeW6h8MEzFcL8I6e5>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrtdekgdeliecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggugfgjsehtqhertddttddvnecuhfhrohhmpeforgigihhm
+ fjughrpeffhffvuffkfhggtggugfgjsehtqhertddttddunecuhfhrohhmpeforgigihhm
  vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepgfejtedtjefggfffvdetuedthedtheegheeuteekfeeghfdtteejkeeludeg
- vddunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+ htvghrnhepheelvdfhkeelgfevleekleduvefftefhudekvdffhffhgeefuefgheegfeej
+ vedtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
  grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:psTpYLZ18cm-7JGXedCIwsNOTZSyS5bBpit79kqpZ5JCEUvcRLUT-g>
- <xmx:psTpYNZmnH91G5K3jWf5TOqBsx-lq9GnfwDVOi7ZvVjQaVaIZlE7wg>
- <xmx:psTpYHCpKrwZOS_zsfQOpIoqyAIV0UfqwoTuhKu2gcexyFj6ZSdS4A>
- <xmx:qMTpYCN7YbJYOA0SeRP-Dhv66stLUVryz60IgOKBG47JKzLV9dUL8g>
+X-ME-Proxy: <xmx:2MTpYDEFGjOoMzCTW5jtWttBilh-3bHDfuvjSxuFoTJA9CaWyW6KOQ>
+ <xmx:2MTpYDUALqbuqamxfvZmf01EWbfIFvJJnw9BAAACA9ka9qv4vxgwKQ>
+ <xmx:2MTpYONQiL2FMeCVtEfMNN9394L4eh10XGY57AL7mPhF7C2wLieCiw>
+ <xmx:2cTpYJc_gsCfYvDRoWb9BhL1c7T1BJbQLumJ8-oFxFzB8ZOE19JJdQ>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 10 Jul 2021 12:02:46 -0400 (EDT)
-Date: Sat, 10 Jul 2021 18:02:44 +0200
+ 10 Jul 2021 12:03:36 -0400 (EDT)
+Date: Sat, 10 Jul 2021 18:03:35 +0200
 From: Maxime Ripard <maxime@cerno.tech>
-To: Sam Ravnborg <sam@ravnborg.org>
-Subject: Re: [PATCH 1/1] drm: bridge: Mark deprecated operations in
- drm_bridge_funcs
-Message-ID: <20210710160244.pfsw4rjd4ru2mlmm@gilmour>
-References: <20210710084240.281063-1-sam@ravnborg.org>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: Re: [PATCH] dim/drm-misc: Add rule to not push patches with issues
+Message-ID: <20210710160335.ckpnyuoxegto5ekf@gilmour>
+References: <20210709081116.4170288-1-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20210710084240.281063-1-sam@ravnborg.org>
+In-Reply-To: <20210709081116.4170288-1-daniel.vetter@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,27 +80,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Andrzej Hajda <a.hajda@samsung.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: dim-tools@lists.freedesktop.org,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Jul 10, 2021 at 10:42:40AM +0200, Sam Ravnborg wrote:
-> drm_bridge_funcs includes several duplicated operations as atomic
-> variants has been added over time.
-> New bridge drivers shall use the atomic variants - mark the deprecated
-> operations to try to avoid usage in new bridge drivers.
+On Fri, Jul 09, 2021 at 10:11:16AM +0200, Daniel Vetter wrote:
+> We kinda left this out, and I like the wording from the drm-intel
+> side, so add that. Motivated by a discussion with Christian.
 >=20
-> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: Andrzej Hajda <a.hajda@samsung.com>
+> Cc: Christian K=F6nig <christian.koenig@amd.com>
 > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 > Cc: Maxime Ripard <mripard@kernel.org>
 > Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: David Airlie <airlied@linux.ie>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
 
 Acked-by: Maxime Ripard <maxime@cerno.tech>
 
