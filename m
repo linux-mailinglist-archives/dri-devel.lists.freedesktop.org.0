@@ -2,41 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFCDC3C336C
-	for <lists+dri-devel@lfdr.de>; Sat, 10 Jul 2021 09:06:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFEC33C3371
+	for <lists+dri-devel@lfdr.de>; Sat, 10 Jul 2021 09:13:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 08E686EB03;
-	Sat, 10 Jul 2021 07:06:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C1B1F6EB08;
+	Sat, 10 Jul 2021 07:13:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.smtp.larsendata.com (mx2.smtp.larsendata.com
- [91.221.196.228])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 911C66EB03
- for <dri-devel@lists.freedesktop.org>; Sat, 10 Jul 2021 07:06:49 +0000 (UTC)
+Received: from mx1.smtp.larsendata.com (mx1.smtp.larsendata.com
+ [91.221.196.215])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB9CF6EB08
+ for <dri-devel@lists.freedesktop.org>; Sat, 10 Jul 2021 07:13:18 +0000 (UTC)
 Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
- by mx2.smtp.larsendata.com (Halon) with ESMTPS
- id 6821cd63-e14d-11eb-8d1a-0050568cd888;
- Sat, 10 Jul 2021 07:06:54 +0000 (UTC)
+ by mx1.smtp.larsendata.com (Halon) with ESMTPS
+ id 49b8e76d-e14e-11eb-9082-0050568c148b;
+ Sat, 10 Jul 2021 07:13:12 +0000 (UTC)
 Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
  [80.162.45.141])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
  (Authenticated sender: sam@ravnborg.org)
- by mail01.mxhotel.dk (Postfix) with ESMTPSA id 4CD73194B05;
- Sat, 10 Jul 2021 09:06:57 +0200 (CEST)
-Date: Sat, 10 Jul 2021 09:06:45 +0200
+ by mail01.mxhotel.dk (Postfix) with ESMTPSA id B6FE1194B04;
+ Sat, 10 Jul 2021 09:13:26 +0200 (CEST)
+Date: Sat, 10 Jul 2021 09:13:15 +0200
 X-Report-Abuse-To: abuse@mxhotel.dk
 From: Sam Ravnborg <sam@ravnborg.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 06/12] drm/mgag200: Store values (not bits) in struct
- mgag200_pll_values
-Message-ID: <YOlHBdXYeLtRga+k@ravnborg.org>
-References: <20210705124515.27253-1-tzimmermann@suse.de>
- <20210705124515.27253-7-tzimmermann@suse.de>
+To: Jagan Teki <jagan@amarulasolutions.com>
+Subject: Re: [PATCH] drm: bridge: nwl-dsi: Drop unused nwl_dsi_plat_clk_config
+Message-ID: <YOlIizjvv6ZmLch5@ravnborg.org>
+References: <20210704093433.27717-1-jagan@amarulasolutions.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20210705124515.27253-7-tzimmermann@suse.de>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210704093433.27717-1-jagan@amarulasolutions.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,377 +48,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: John.p.donnelly@oracle.com, dri-devel@lists.freedesktop.org,
- airlied@redhat.com, emil.velikov@collabora.com
+Cc: Andrzej Hajda <a.hajda@samsung.com>,
+ Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>,
+ dri-devel@lists.freedesktop.org, Robert Foss <robert.foss@linaro.org>,
+ Neil Armstrong <narmstrong@baylibre.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
+Hi Jagan,
 
-On Mon, Jul 05, 2021 at 02:45:09PM +0200, Thomas Zimmermann wrote:
-> The fields in struct mgag200_pll_values currently hold the bits of
-> each register. Store the PLL values instead and let the PLL-update
-> code figure out the bits for each register.
+On Sun, Jul 04, 2021 at 03:04:33PM +0530, Jagan Teki wrote:
+> nwl_dsi_plat_clk_config structure added in below commit but not
+> used anywhere in the driver.
 > 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> commit <44cfc6233447c> ("drm/bridge: Add NWL MIPI DSI host controller
+> support")
+> 
+> Drop it.
+> 
+> Cc: Guido Günther <agx@sigxcpu.org>
+> Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
 
-I gave up trying to follow the changes in this patch.
-Also I was left with the impression that this was no win in readability
-at it looks to me like changes with a high risk to introduce a
-hard-to-find bug.
-Your changelog did not justify why this change is a win, only what is
-does. But whatever works better for you I guess..
+Applied to drm-misc-next.
 
 	Sam
-
-
-> ---
->  drivers/gpu/drm/mgag200/mgag200_mode.c | 153 +++++++++++++++----------
->  1 file changed, 91 insertions(+), 62 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c b/drivers/gpu/drm/mgag200/mgag200_mode.c
-> index 9f6fe7673674..7d6707bd6c27 100644
-> --- a/drivers/gpu/drm/mgag200/mgag200_mode.c
-> +++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
-> @@ -123,7 +123,7 @@ static int mgag200_compute_pixpll_values_g200(struct mga_device *mdev, long cloc
->  	const int in_div_max = 6;
->  	const int feed_div_min = 7;
->  	const int feed_div_max = 127;
-> -	u8 testm, testn;
-> +	u8 testp, testm, testn;
->  	u8 n = 0, m = 0, p, s;
->  	long f_vco;
->  	long computed;
-> @@ -141,10 +141,11 @@ static int mgag200_compute_pixpll_values_g200(struct mga_device *mdev, long cloc
->  		clock = p_clk_min >> 3;
->  
->  	f_vco = clock;
-> -	for (p = 0;
-> -	     p <= post_div_max && f_vco < p_clk_min;
-> -	     p = (p << 1) + 1, f_vco <<= 1)
-> +	for (testp = 0;
-> +	     testp <= post_div_max && f_vco < p_clk_min;
-> +	     testp = (testp << 1) + 1, f_vco <<= 1)
->  		;
-> +	p = testp + 1;
->  
->  	delta = clock;
->  
-> @@ -157,12 +158,12 @@ static int mgag200_compute_pixpll_values_g200(struct mga_device *mdev, long cloc
->  				tmp_delta = computed - f_vco;
->  			if (tmp_delta < delta) {
->  				delta = tmp_delta;
-> -				m = testm;
-> -				n = testn;
-> +				m = testm + 1;
-> +				n = testn + 1;
->  			}
->  		}
->  	}
-> -	f_vco = ref_clk * (n + 1) / (m + 1);
-> +	f_vco = ref_clk * n / m;
->  	if (f_vco < 100000)
->  		s = 0;
->  	else if (f_vco < 140000)
-> @@ -186,6 +187,7 @@ static int mgag200_compute_pixpll_values_g200(struct mga_device *mdev, long cloc
->  static void mgag200_set_pixpll_g200(struct mga_device *mdev,
->  				    const struct mgag200_pll_values *pixpllc)
->  {
-> +	unsigned int pixpllcm, pixpllcn, pixpllcp, pixpllcs;
->  	u8 misc, xpixpllcm, xpixpllcn, xpixpllcp;
->  
->  	misc = RREG8(MGA_MISC_IN);
-> @@ -193,9 +195,14 @@ static void mgag200_set_pixpll_g200(struct mga_device *mdev,
->  	misc |= MGAREG_MISC_CLK_SEL_MGA_MSK;
->  	WREG8(MGA_MISC_OUT, misc);
->  
-> -	xpixpllcm = pixpllc->m;
-> -	xpixpllcn = pixpllc->n;
-> -	xpixpllcp = pixpllc->p | (pixpllc->s << 3);
-> +	pixpllcm = pixpllc->m - 1;
-> +	pixpllcn = pixpllc->n - 1;
-> +	pixpllcp = pixpllc->p - 1;
-> +	pixpllcs = pixpllc->s;
-> +
-> +	xpixpllcm = pixpllcm;
-> +	xpixpllcn = pixpllcn;
-> +	xpixpllcp = (pixpllcs << 3) | pixpllcp;
->  	WREG_DAC(MGA1064_PIX_PLLC_M, xpixpllcm);
->  	WREG_DAC(MGA1064_PIX_PLLC_N, xpixpllcn);
->  	WREG_DAC(MGA1064_PIX_PLLC_P, xpixpllcp);
-> @@ -240,9 +247,9 @@ static int mgag200_compute_pixpll_values_g200se(struct mga_device *mdev, long cl
->  						tmpdelta = clock - computed;
->  					if (tmpdelta < delta) {
->  						delta = tmpdelta;
-> -						m = testm - 1;
-> -						n = testn - 1;
-> -						p = testp - 1;
-> +						m = testm;
-> +						n = testn;
-> +						p = testp;
->  					}
->  				}
->  			}
-> @@ -280,22 +287,19 @@ static int mgag200_compute_pixpll_values_g200se(struct mga_device *mdev, long cl
->  
->  					if (tmpdelta < delta) {
->  						delta = tmpdelta;
-> -						m = testm - 1;
-> -						n = testn - 1;
-> -						p = testp - 1;
-> +						m = testm;
-> +						n = testn;
-> +						p = testp;
->  					}
->  				}
->  			}
->  		}
->  
-> -		fvv = pllreffreq * (n + 1) / (m + 1);
-> +		fvv = pllreffreq * n / m;
->  		fvv = (fvv - 800000) / 50000;
-> -
->  		if (fvv > 15)
->  			fvv = 15;
-> -
-> -		p |= (fvv << 4);
-> -		m |= 0x80;
-> +		s = fvv << 1;
->  
->  		clock = clock / 2;
->  	}
-> @@ -317,6 +321,7 @@ static void mgag200_set_pixpll_g200se(struct mga_device *mdev,
->  				      const struct mgag200_pll_values *pixpllc)
->  {
->  	u32 unique_rev_id = mdev->model.g200se.unique_rev_id;
-> +	unsigned int pixpllcm, pixpllcn, pixpllcp, pixpllcs;
->  	u8 misc, xpixpllcm, xpixpllcn, xpixpllcp;
->  
->  	misc = RREG8(MGA_MISC_IN);
-> @@ -324,9 +329,14 @@ static void mgag200_set_pixpll_g200se(struct mga_device *mdev,
->  	misc |= MGAREG_MISC_CLK_SEL_MGA_MSK;
->  	WREG8(MGA_MISC_OUT, misc);
->  
-> -	xpixpllcm = pixpllc->m;
-> -	xpixpllcn = pixpllc->n;
-> -	xpixpllcp = pixpllc->p | (pixpllc->s << 3);
-> +	pixpllcm = pixpllc->m - 1;
-> +	pixpllcn = pixpllc->n - 1;
-> +	pixpllcp = pixpllc->p - 1;
-> +	pixpllcs = pixpllc->s;
-> +
-> +	xpixpllcm = pixpllcm | ((pixpllcn & BIT(8)) >> 1);
-> +	xpixpllcn = pixpllcn;
-> +	xpixpllcp = (pixpllcs << 3) | pixpllcp;
->  	WREG_DAC(MGA1064_PIX_PLLC_M, xpixpllcm);
->  	WREG_DAC(MGA1064_PIX_PLLC_N, xpixpllcn);
->  	WREG_DAC(MGA1064_PIX_PLLC_P, xpixpllcp);
-> @@ -352,7 +362,6 @@ static int mgag200_compute_pixpll_values_g200wb(struct mga_device *mdev, long cl
->  	delta = 0xffffffff;
->  
->  	if (mdev->type == G200_EW3) {
-> -
->  		vcomax = 800000;
->  		vcomin = 400000;
->  		pllreffreq = 25000;
-> @@ -375,19 +384,16 @@ static int mgag200_compute_pixpll_values_g200wb(struct mga_device *mdev, long cl
->  							tmpdelta = clock - computed;
->  						if (tmpdelta < delta) {
->  							delta = tmpdelta;
-> -							m = ((testn & 0x100) >> 1) |
-> -								(testm);
-> -							n = (testn & 0xFF);
-> -							p = ((testn & 0x600) >> 3) |
-> -								(testp2 << 3) |
-> -								(testp);
-> +							m = testm + 1;
-> +							n = testn + 1;
-> +							p = testp + 1;
-> +							s = testp2;
->  						}
->  					}
->  				}
->  			}
->  		}
->  	} else {
-> -
->  		vcomax = 550000;
->  		vcomin = 150000;
->  		pllreffreq = 48000;
-> @@ -408,10 +414,10 @@ static int mgag200_compute_pixpll_values_g200wb(struct mga_device *mdev, long cl
->  						tmpdelta = clock - computed;
->  					if (tmpdelta < delta) {
->  						delta = tmpdelta;
-> -						n = testn - 1;
-> -						m = (testm - 1) |
-> -							((n >> 1) & 0x80);
-> -						p = testp - 1;
-> +						n = testn;
-> +						m = testm;
-> +						p = testp;
-> +						s = 0;
->  					}
->  				}
->  			}
-> @@ -429,6 +435,7 @@ static int mgag200_compute_pixpll_values_g200wb(struct mga_device *mdev, long cl
->  static void mgag200_set_pixpll_g200wb(struct mga_device *mdev,
->  				      const struct mgag200_pll_values *pixpllc)
->  {
-> +	unsigned int pixpllcm, pixpllcn, pixpllcp, pixpllcs;
->  	u8 misc, xpixpllcm, xpixpllcn, xpixpllcp, tmp;
->  	int i, j, tmpcount, vcount;
->  	bool pll_locked = false;
-> @@ -438,9 +445,14 @@ static void mgag200_set_pixpll_g200wb(struct mga_device *mdev,
->  	misc |= MGAREG_MISC_CLK_SEL_MGA_MSK;
->  	WREG8(MGA_MISC_OUT, misc);
->  
-> -	xpixpllcm = pixpllc->m;
-> -	xpixpllcn = pixpllc->n;
-> -	xpixpllcp = pixpllc->p | (pixpllc->s << 3);
-> +	pixpllcm = pixpllc->m - 1;
-> +	pixpllcn = pixpllc->n - 1;
-> +	pixpllcp = pixpllc->p - 1;
-> +	pixpllcs = pixpllc->s;
-> +
-> +	xpixpllcm = ((pixpllcn & BIT(8)) >> 1) | pixpllcm;
-> +	xpixpllcn = pixpllcn;
-> +	xpixpllcp = ((pixpllcn & GENMASK(10, 9)) >> 3) | (pixpllcs << 3) | pixpllcp;
->  
->  	for (i = 0; i <= 32 && pll_locked == false; i++) {
->  		if (i > 0) {
-> @@ -571,9 +583,9 @@ static int mgag200_compute_pixpll_values_g200ev(struct mga_device *mdev, long cl
->  					tmpdelta = clock - computed;
->  				if (tmpdelta < delta) {
->  					delta = tmpdelta;
-> -					n = testn - 1;
-> -					m = testm - 1;
-> -					p = testp - 1;
-> +					n = testn;
-> +					m = testm;
-> +					p = testp;
->  				}
->  			}
->  		}
-> @@ -590,6 +602,7 @@ static int mgag200_compute_pixpll_values_g200ev(struct mga_device *mdev, long cl
->  static void mgag200_set_pixpll_g200ev(struct mga_device *mdev,
->  				      const struct mgag200_pll_values *pixpllc)
->  {
-> +	unsigned int pixpllcm, pixpllcn, pixpllcp, pixpllcs;
->  	u8 misc, xpixpllcm, xpixpllcn, xpixpllcp, tmp;
->  
->  	misc = RREG8(MGA_MISC_IN);
-> @@ -597,9 +610,14 @@ static void mgag200_set_pixpll_g200ev(struct mga_device *mdev,
->  	misc |= MGAREG_MISC_CLK_SEL_MGA_MSK;
->  	WREG8(MGA_MISC_OUT, misc);
->  
-> -	xpixpllcm = pixpllc->m;
-> -	xpixpllcn = pixpllc->n;
-> -	xpixpllcp = pixpllc->p | (pixpllc->s << 3);
-> +	pixpllcm = pixpllc->m - 1;
-> +	pixpllcn = pixpllc->n - 1;
-> +	pixpllcp = pixpllc->p - 1;
-> +	pixpllcs = pixpllc->s;
-> +
-> +	xpixpllcm = pixpllcm;
-> +	xpixpllcn = pixpllcn;
-> +	xpixpllcp = (pixpllcs << 3) | pixpllcp;
->  
->  	WREG8(DAC_INDEX, MGA1064_PIX_CLK_CTL);
->  	tmp = RREG8(DAC_DATA);
-> @@ -685,9 +703,9 @@ static int mgag200_compute_pixpll_values_g200eh(struct mga_device *mdev, long cl
->  					tmpdelta = clock - computed;
->  				if (tmpdelta < delta) {
->  					delta = tmpdelta;
-> -					n = testn;
-> -					m = testm;
-> -					p = testp;
-> +					n = testn + 1;
-> +					m = testm + 1;
-> +					p = testp + 1;
->  				}
->  				if (delta == 0)
->  					break;
-> @@ -719,12 +737,10 @@ static int mgag200_compute_pixpll_values_g200eh(struct mga_device *mdev, long cl
->  						tmpdelta = clock - computed;
->  					if (tmpdelta < delta) {
->  						delta = tmpdelta;
-> -						n = testn - 1;
-> -						m = (testm - 1);
-> -						p = testp - 1;
-> +						n = testn;
-> +						m = testm;
-> +						p = testp;
->  					}
-> -					if ((clock * testp) >= 600000)
-> -						p |= 0x80;
->  				}
->  			}
->  		}
-> @@ -741,6 +757,7 @@ static int mgag200_compute_pixpll_values_g200eh(struct mga_device *mdev, long cl
->  static void mgag200_set_pixpll_g200eh(struct mga_device *mdev,
->  				      const struct mgag200_pll_values *pixpllc)
->  {
-> +	unsigned int pixpllcm, pixpllcn, pixpllcp, pixpllcs;
->  	u8 misc, xpixpllcm, xpixpllcn, xpixpllcp, tmp;
->  	int i, j, tmpcount, vcount;
->  	bool pll_locked = false;
-> @@ -750,9 +767,14 @@ static void mgag200_set_pixpll_g200eh(struct mga_device *mdev,
->  	misc |= MGAREG_MISC_CLK_SEL_MGA_MSK;
->  	WREG8(MGA_MISC_OUT, misc);
->  
-> -	xpixpllcm = pixpllc->m;
-> -	xpixpllcn = pixpllc->n;
-> -	xpixpllcp = pixpllc->p | (pixpllc->s << 3);
-> +	pixpllcm = pixpllc->m - 1;
-> +	pixpllcn = pixpllc->n - 1;
-> +	pixpllcp = pixpllc->p - 1;
-> +	pixpllcs = pixpllc->s;
-> +
-> +	xpixpllcm = ((pixpllcn & BIT(8)) >> 1) | pixpllcm;
-> +	xpixpllcn = pixpllcn;
-> +	xpixpllcp = (pixpllcs << 3) | pixpllcp;
->  
->  	for (i = 0; i <= 32 && pll_locked == false; i++) {
->  		WREG8(DAC_INDEX, MGA1064_PIX_CLK_CTL);
-> @@ -843,9 +865,10 @@ static int mgag200_compute_pixpll_values_g200er(struct mga_device *mdev, long cl
->  						tmpdelta = clock - computed;
->  					if (tmpdelta < delta) {
->  						delta = tmpdelta;
-> -						m = testm | (testo << 3);
-> -						n = testn;
-> -						p = testr | (testr << 3);
-> +						m = (testm | (testo << 3)) + 1;
-> +						n = testn + 1;
-> +						p = testr + 1;
-> +						s = testr;
->  					}
->  				}
->  			}
-> @@ -863,6 +886,7 @@ static int mgag200_compute_pixpll_values_g200er(struct mga_device *mdev, long cl
->  static void mgag200_set_pixpll_g200er(struct mga_device *mdev,
->  				      const struct mgag200_pll_values *pixpllc)
->  {
-> +	unsigned int pixpllcm, pixpllcn, pixpllcp, pixpllcs;
->  	u8 misc, xpixpllcm, xpixpllcn, xpixpllcp, tmp;
->  
->  	misc = RREG8(MGA_MISC_IN);
-> @@ -870,9 +894,14 @@ static void mgag200_set_pixpll_g200er(struct mga_device *mdev,
->  	misc |= MGAREG_MISC_CLK_SEL_MGA_MSK;
->  	WREG8(MGA_MISC_OUT, misc);
->  
-> -	xpixpllcm = pixpllc->m;
-> -	xpixpllcn = pixpllc->n;
-> -	xpixpllcp = pixpllc->p | (pixpllc->s << 3);
-> +	pixpllcm = pixpllc->m - 1;
-> +	pixpllcn = pixpllc->n - 1;
-> +	pixpllcp = pixpllc->p - 1;
-> +	pixpllcs = pixpllc->s;
-> +
-> +	xpixpllcm = pixpllcm;
-> +	xpixpllcn = pixpllcn;
-> +	xpixpllcp = (pixpllcs << 3) | pixpllcp;
->  
->  	WREG8(DAC_INDEX, MGA1064_PIX_CLK_CTL);
->  	tmp = RREG8(DAC_DATA);
-> -- 
-> 2.32.0
