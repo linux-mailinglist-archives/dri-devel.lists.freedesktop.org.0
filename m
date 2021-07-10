@@ -1,32 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A7973C2C5E
-	for <lists+dri-devel@lfdr.de>; Sat, 10 Jul 2021 03:21:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 04CA13C2C63
+	for <lists+dri-devel@lfdr.de>; Sat, 10 Jul 2021 03:22:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A5366EAB4;
-	Sat, 10 Jul 2021 01:21:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 227B26EAB2;
+	Sat, 10 Jul 2021 01:22:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F5B16EAB4;
- Sat, 10 Jul 2021 01:21:45 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10040"; a="231575075"
-X-IronPort-AV: E=Sophos;i="5.84,228,1620716400"; d="scan'208";a="231575075"
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 915566EAB0;
+ Sat, 10 Jul 2021 01:22:51 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10040"; a="295443461"
+X-IronPort-AV: E=Sophos;i="5.84,228,1620716400"; d="scan'208";a="295443461"
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Jul 2021 18:21:44 -0700
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Jul 2021 18:22:50 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,228,1620716400"; d="scan'208";a="411439599"
+X-IronPort-AV: E=Sophos;i="5.84,228,1620716400"; d="scan'208";a="411439772"
 Received: from vbelgaum-ubuntu.fm.intel.com ([10.1.27.27])
- by orsmga006.jf.intel.com with ESMTP; 09 Jul 2021 18:21:42 -0700
+ by orsmga006.jf.intel.com with ESMTP; 09 Jul 2021 18:22:50 -0700
 From: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH 02/16] drm/i915/guc/slpc: Initial definitions for slpc
-Date: Fri,  9 Jul 2021 18:20:12 -0700
-Message-Id: <20210710012026.19705-3-vinay.belgaumkar@intel.com>
+Subject: [PATCH 03/16] drm/i915/guc/slpc: Gate Host RPS when slpc is enabled
+Date: Fri,  9 Jul 2021 18:20:13 -0700
+Message-Id: <20210710012026.19705-4-vinay.belgaumkar@intel.com>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20210710012026.19705-1-vinay.belgaumkar@intel.com>
 References: <20210710012026.19705-1-vinay.belgaumkar@intel.com>
@@ -45,152 +45,103 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Vinay Belgaumkar <vinay.belgaumkar@intel.com>,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
  Sundaresan Sujaritha <sujaritha.sundaresan@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add macros to check for slpc support. This feature is currently supported
-for gen12+ and enabled whenever guc submission is enabled/selected.
+Disable RPS when slpc is enabled. Also ensure uc_init is called
+before we initialize RPS so that we can check for slpc support.
+We do not need to enable up/down interrupts when slpc is enabled.
+However, we still need the ARAT interrupt, which will be enabled
+separately.
 
 Signed-off-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
 Signed-off-by: Sundaresan Sujaritha <sujaritha.sundaresan@intel.com>
-Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
 ---
- drivers/gpu/drm/i915/gt/uc/intel_guc.c        |  1 +
- drivers/gpu/drm/i915/gt/uc/intel_guc.h        |  2 ++
- .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 21 +++++++++++++++++++
- .../gpu/drm/i915/gt/uc/intel_guc_submission.h | 16 ++++++++++++++
- drivers/gpu/drm/i915/gt/uc/intel_uc.c         |  6 ++++--
- drivers/gpu/drm/i915/gt/uc/intel_uc.h         |  1 +
- 6 files changed, 45 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/i915/gt/intel_gt.c  |  2 +-
+ drivers/gpu/drm/i915/gt/intel_rps.c | 20 ++++++++++++++++++++
+ 2 files changed, 21 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-index 979128e28372..b9a809f2d221 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-@@ -157,6 +157,7 @@ void intel_guc_init_early(struct intel_guc *guc)
- 	intel_guc_ct_init_early(&guc->ct);
- 	intel_guc_log_init_early(&guc->log);
- 	intel_guc_submission_init_early(guc);
-+	intel_guc_slpc_init_early(guc);
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
+index ceeb517ba259..f94d2e1ec3fe 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt.c
++++ b/drivers/gpu/drm/i915/gt/intel_gt.c
+@@ -41,8 +41,8 @@ void intel_gt_init_early(struct intel_gt *gt, struct drm_i915_private *i915)
+ 	intel_gt_init_timelines(gt);
+ 	intel_gt_pm_init_early(gt);
  
- 	mutex_init(&guc->send_mutex);
- 	spin_lock_init(&guc->irq_lock);
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-index 5d94cf482516..e5a456918b88 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-@@ -57,6 +57,8 @@ struct intel_guc {
- 
- 	bool submission_supported;
- 	bool submission_selected;
-+	bool slpc_supported;
-+	bool slpc_selected;
- 
- 	struct i915_vma *ads_vma;
- 	struct __guc_ads_blob *ads_blob;
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-index 9c102bf0c8e3..e2644a05f298 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-@@ -2351,6 +2351,27 @@ void intel_guc_submission_init_early(struct intel_guc *guc)
- 	guc->submission_selected = __guc_submission_selected(guc);
+-	intel_rps_init_early(&gt->rps);
+ 	intel_uc_init_early(&gt->uc);
++	intel_rps_init_early(&gt->rps);
  }
  
-+static bool __guc_slpc_supported(struct intel_guc *guc)
+ int intel_gt_probe_lmem(struct intel_gt *gt)
+diff --git a/drivers/gpu/drm/i915/gt/intel_rps.c b/drivers/gpu/drm/i915/gt/intel_rps.c
+index 0c8e7f2b06f0..e858eeb2c59d 100644
+--- a/drivers/gpu/drm/i915/gt/intel_rps.c
++++ b/drivers/gpu/drm/i915/gt/intel_rps.c
+@@ -37,6 +37,13 @@ static struct intel_uncore *rps_to_uncore(struct intel_rps *rps)
+ 	return rps_to_gt(rps)->uncore;
+ }
+ 
++static bool rps_uses_slpc(struct intel_rps *rps)
 +{
-+	/* GuC slpc is unavailable for pre-Gen12 */
-+	return guc->submission_supported &&
-+		GRAPHICS_VER(guc_to_gt(guc)->i915) >= 12;
++	struct intel_gt *gt = rps_to_gt(rps);
++
++	return intel_uc_uses_guc_slpc(&gt->uc);
 +}
 +
-+static bool __guc_slpc_selected(struct intel_guc *guc)
-+{
-+	if (!intel_guc_slpc_is_supported(guc))
-+		return false;
-+
-+	return guc->submission_selected;
-+}
-+
-+void intel_guc_slpc_init_early(struct intel_guc *guc)
-+{
-+	guc->slpc_supported = __guc_slpc_supported(guc);
-+	guc->slpc_selected = __guc_slpc_selected(guc);
-+}
-+
- static inline struct intel_context *
- g2h_context_lookup(struct intel_guc *guc, u32 desc_idx)
+ static u32 rps_pm_sanitize_mask(struct intel_rps *rps, u32 mask)
  {
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h
-index be767eb6ff71..7ae5fd052faf 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h
-@@ -13,6 +13,7 @@
- struct drm_printer;
- struct intel_engine_cs;
+ 	return mask & ~rps->pm_intrmsk_mbz;
+@@ -167,6 +174,8 @@ static void rps_enable_interrupts(struct intel_rps *rps)
+ {
+ 	struct intel_gt *gt = rps_to_gt(rps);
  
-+void intel_guc_slpc_init_early(struct intel_guc *guc);
- void intel_guc_submission_init_early(struct intel_guc *guc);
- int intel_guc_submission_init(struct intel_guc *guc);
- void intel_guc_submission_enable(struct intel_guc *guc);
-@@ -50,4 +51,19 @@ static inline bool intel_guc_submission_is_used(struct intel_guc *guc)
- 	return intel_guc_is_used(guc) && intel_guc_submission_is_wanted(guc);
++	GEM_BUG_ON(rps_uses_slpc(rps));
++
+ 	GT_TRACE(gt, "interrupts:on rps->pm_events: %x, rps_pm_mask:%x\n",
+ 		 rps->pm_events, rps_pm_mask(rps, rps->last_freq));
+ 
+@@ -771,6 +780,8 @@ static int gen6_rps_set(struct intel_rps *rps, u8 val)
+ 	struct drm_i915_private *i915 = rps_to_i915(rps);
+ 	u32 swreq;
+ 
++	GEM_BUG_ON(rps_uses_slpc(rps));
++
+ 	if (GRAPHICS_VER(i915) >= 9)
+ 		swreq = GEN9_FREQUENCY(val);
+ 	else if (IS_HASWELL(i915) || IS_BROADWELL(i915))
+@@ -861,6 +872,9 @@ void intel_rps_park(struct intel_rps *rps)
+ {
+ 	int adj;
+ 
++	if (!intel_rps_is_enabled(rps))
++		return;
++
+ 	GEM_BUG_ON(atomic_read(&rps->num_waiters));
+ 
+ 	if (!intel_rps_clear_active(rps))
+@@ -1829,6 +1843,9 @@ void intel_rps_init(struct intel_rps *rps)
+ {
+ 	struct drm_i915_private *i915 = rps_to_i915(rps);
+ 
++	if (rps_uses_slpc(rps))
++		return;
++
+ 	if (IS_CHERRYVIEW(i915))
+ 		chv_rps_init(rps);
+ 	else if (IS_VALLEYVIEW(i915))
+@@ -1885,6 +1902,9 @@ void intel_rps_init(struct intel_rps *rps)
+ 
+ void intel_rps_sanitize(struct intel_rps *rps)
+ {
++	if (rps_uses_slpc(rps))
++		return;
++
+ 	if (GRAPHICS_VER(rps_to_i915(rps)) >= 6)
+ 		rps_disable_interrupts(rps);
  }
- 
-+static inline bool intel_guc_slpc_is_supported(struct intel_guc *guc)
-+{
-+	return guc->slpc_supported;
-+}
-+
-+static inline bool intel_guc_slpc_is_wanted(struct intel_guc *guc)
-+{
-+	return guc->slpc_selected;
-+}
-+
-+static inline bool intel_guc_slpc_is_used(struct intel_guc *guc)
-+{
-+	return intel_guc_submission_is_used(guc) && intel_guc_slpc_is_wanted(guc);
-+}
-+
- #endif
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc.c b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-index 61be0aa81492..dca5f6d0641b 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-@@ -76,16 +76,18 @@ static void __confirm_options(struct intel_uc *uc)
- 	struct drm_i915_private *i915 = uc_to_gt(uc)->i915;
- 
- 	drm_dbg(&i915->drm,
--		"enable_guc=%d (guc:%s submission:%s huc:%s)\n",
-+		"enable_guc=%d (guc:%s submission:%s huc:%s slpc:%s)\n",
- 		i915->params.enable_guc,
- 		yesno(intel_uc_wants_guc(uc)),
- 		yesno(intel_uc_wants_guc_submission(uc)),
--		yesno(intel_uc_wants_huc(uc)));
-+		yesno(intel_uc_wants_huc(uc)),
-+		yesno(intel_uc_wants_guc_slpc(uc)));
- 
- 	if (i915->params.enable_guc == 0) {
- 		GEM_BUG_ON(intel_uc_wants_guc(uc));
- 		GEM_BUG_ON(intel_uc_wants_guc_submission(uc));
- 		GEM_BUG_ON(intel_uc_wants_huc(uc));
-+		GEM_BUG_ON(intel_uc_wants_guc_slpc(uc));
- 		return;
- 	}
- 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc.h b/drivers/gpu/drm/i915/gt/uc/intel_uc.h
-index e2da2b6e76e1..38e465fd8a0c 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_uc.h
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_uc.h
-@@ -83,6 +83,7 @@ __uc_state_checker(x, func, uses, used)
- uc_state_checkers(guc, guc);
- uc_state_checkers(huc, huc);
- uc_state_checkers(guc, guc_submission);
-+uc_state_checkers(guc, guc_slpc);
- 
- #undef uc_state_checkers
- #undef __uc_state_checker
 -- 
 2.25.0
 
