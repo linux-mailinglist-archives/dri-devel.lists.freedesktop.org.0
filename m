@@ -1,41 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C7C13C37F4
-	for <lists+dri-devel@lfdr.de>; Sun, 11 Jul 2021 01:50:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 314B83C3A01
+	for <lists+dri-devel@lfdr.de>; Sun, 11 Jul 2021 05:53:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DADF56EB76;
-	Sat, 10 Jul 2021 23:50:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B96186EB7C;
+	Sun, 11 Jul 2021 03:53:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 931356EB76;
- Sat, 10 Jul 2021 23:50:54 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 93228610A2;
- Sat, 10 Jul 2021 23:50:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1625961054;
- bh=CcTgJfVEmbNFgL0EvxomN/vMbIEdDbKcKAhs6s8IAmo=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=b5MsQ8W2SD5ViYI5Q16oDMuvkre6kkoTiEfxCBt0zFKQhEvdv9JeKm6w6+O5RKr4T
- 7VbimkfxTdJe+RC7CImdCAcPi70PTFSM6x2XtLnpXapsywWTrpRGYhqsslKk4kk6jy
- CNJl/iYMPfWZ6Jq3cSjtqroTK7ct9uiUC8Mw8ZqqnpDO/MIF7mpWY/jL/X1ffHrzwQ
- kiIfMmDgvYwCXUQkQorHJlx062UAJoepudW6m44FPxT0dcBMA/NoByYKv9qkpud3I6
- FLvhYgn1yFafz2S2QwQa+6vpoXTF8XV9zh75SpvMhENt6DL2me/X+6jOcB9f+TQlJj
- Pa3hIsBiGjZKw==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 28/37] drm/amdkfd: fix sysfs kobj leak
-Date: Sat, 10 Jul 2021 19:50:06 -0400
-Message-Id: <20210710235016.3221124-28-sashal@kernel.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210710235016.3221124-1-sashal@kernel.org>
-References: <20210710235016.3221124-1-sashal@kernel.org>
+Received: from mail-oo1-xc2f.google.com (mail-oo1-xc2f.google.com
+ [IPv6:2607:f8b0:4864:20::c2f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C45E6EB7B
+ for <dri-devel@lists.freedesktop.org>; Sun, 11 Jul 2021 03:53:42 +0000 (UTC)
+Received: by mail-oo1-xc2f.google.com with SMTP id
+ o3-20020a4a84c30000b0290251d599f19bso3469560oog.8
+ for <dri-devel@lists.freedesktop.org>; Sat, 10 Jul 2021 20:53:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=gMXuknKqCkFHmSM8lQPdYo22CMe6XmJt5Tlrogd1VDo=;
+ b=gHrqYrM2RxDBweMGg7CXokuUUhDEb2KyPGWB5AT7t5KLXCs7JJmLq0GjkUQglAzReU
+ X2eqPt8Yul3NRdJ8OZ643VN3fbxnxJdmdHZdI/WEe3pzMSGpOTS0kZmKZB4bkknR/kFA
+ eoD/l0Bkj8FLdhyVX2FG3fHvQVlZDeQSn2sBZcKVR0hKfJFvy/MsyAIvQ7Z3xXuXSqEO
+ y9rrZUDHtGok5WasbJwXqVqFQCwkcmGEoYjVHB8bEEQXScJUW3uvMvvIdBkL84SgvaeK
+ l2IiSDsyinevQV9sj1gY5c501DodW0sdDMdWOYdU/Gq7V4TZwJXT9R5kcHRFJXio2qCH
+ DENg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=gMXuknKqCkFHmSM8lQPdYo22CMe6XmJt5Tlrogd1VDo=;
+ b=jmuVo4j2jyAa15vXWE2CufV9M/NmAlNurUAl3AHBskSmhbbOMrBbRHZBmIjvNe9LCL
+ fDlNiU3rh21Z0YatHTZRsq4582iONoWFa9NNsUkQ9++bnyvd4PjtK/l2oW6fB+WoNFRU
+ q6gII+C8U6RUlyHIvMP3Rv6jzXl/dQWPRHM/qgbE96g8pylShVvfEWZsZGqqKVmGuvge
+ KA040GkGNBRinls6J5krOKozSWbVMHIiQpngFruVLAk8YMFR3yXdDo3UUwZA+T9raYo3
+ Zb4ucWCI9SgWVcCozTyAYHKgDCincTFqbU9UDo9yqQz8E2CmbVi2GkF4+6Ey0uHgA7z2
+ oHpw==
+X-Gm-Message-State: AOAM5316OYDtCSjNs6pfNdKsDxTv70FOST2bxPD//ychVGd5QlfkE2LE
+ VS48mNJbSfUje3k+mMfbLKjFXA==
+X-Google-Smtp-Source: ABdhPJyhoVeAG/ZIbIW98IBfwy7OgUXdT4B/oOIdWcIYzpovtBlWvbu98ozmesSL6vOl9+Xriu/yaw==
+X-Received: by 2002:a4a:8687:: with SMTP id x7mr33030312ooh.46.1625975621670; 
+ Sat, 10 Jul 2021 20:53:41 -0700 (PDT)
+Received: from omlet.lan ([68.203.99.148])
+ by smtp.gmail.com with ESMTPSA id a11sm2310188otr.48.2021.07.10.20.53.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 10 Jul 2021 20:53:41 -0700 (PDT)
+From: Jason Ekstrand <jason@jlekstrand.net>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH 0/5] drm/i915: Get rid of fence error propagation (v2)
+Date: Sat, 10 Jul 2021 22:53:31 -0500
+Message-Id: <20210711035336.803025-1-jason@jlekstrand.net>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -49,82 +68,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Philip Yang <Philip.Yang@amd.com>,
- Felix Kuehling <Felix.Kuehling@amd.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Jon Bloomfield <jon.bloomfield@intel.com>,
+ Jason Ekstrand <jason@jlekstrand.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Philip Yang <Philip.Yang@amd.com>
+Fence error propagation is sketchy at best.  Instead of explicitly handling
+fences which might have errors set in the code which is aware of errors, we
+just kick them down the line and hope that userspace knows what to do when
+a wait eventually fails.  This is sketchy at best because most userspace
+isn't prepared to handle errors in those places.  To make things worse, it
+allows errors to propagate across processes in unpredictable ways.  This is
+causing hangs in one client to kill X11.
 
-[ Upstream commit dcdb4d904b4bd3078fe8d4d24b1658560d6078ef ]
+Unfortunately, there's no quick path from here to there thanks to the fact
+that we're now running the command parser asynchronously and relying on
+fence errors for when it fails.  This series first gets rid of asynchronous
+command parsing and then cleans up from there.  There was never any real
+use-case for asynchronous parsing and the platforms that rely heavily on
+the command parser are old enough (Gen7) that, when we changed the way the
+command parser works, it wasn't really a change anyone was asking for
+anyway.
 
-3 cases of kobj leak, which causes memory leak:
+I think we probably want this whole mess back-ported.  I'm happy to take
+suggestions on the strategy there because the history there is a bit
+annoying and I'm not 100% sure where the Linux release cuts land.  In any
+case, I'm happy to make a version of this series per-release if needed for
+Greg to back-port.
 
-kobj_type must have release() method to free memory from release
-callback. Don't need NULL default_attrs to init kobj.
+v2 (Daniel Vetter):
+ - Re-order to put the reverts first
+ - Add ACKs from Daniel
+ - Add better CC and Fixes tags
 
-sysfs files created under kobj_status should be removed with kobj_status
-as parent kobject.
+v3 (Daniel Vetter):
+ - Rebase on drm-tip
 
-Remove queue sysfs files when releasing queue from process MMU notifier
-release callback.
+Test-with: 20210711035204.802908-1-jason@jlekstrand.net
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Jon Bloomfield <jon.bloomfield@intel.com>
 
-Signed-off-by: Philip Yang <Philip.Yang@amd.com>
-Reviewed-by: Felix Kuehling <Felix.Kuehling@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/gpu/drm/amd/amdkfd/kfd_process.c           | 14 ++++++--------
- .../gpu/drm/amd/amdkfd/kfd_process_queue_manager.c |  1 +
- 2 files changed, 7 insertions(+), 8 deletions(-)
+Jason Ekstrand (5):
+  drm/i915: Revert "drm/i915/gem: Asynchronous cmdparser"
+  Revert "drm/i915: Propagate errors on awaiting already signaled
+    fences"
+  drm/i915: Remove allow_alloc from i915_gem_object_get_sg*
+  drm/i915: Drop error handling from dma_fence_work
+  Revert "drm/i915: Skip over MI_NOOP when parsing"
 
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_process.c b/drivers/gpu/drm/amd/amdkfd/kfd_process.c
-index 65803e153a22..d243e60c6eef 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_process.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_process.c
-@@ -452,13 +452,9 @@ static const struct sysfs_ops procfs_stats_ops = {
- 	.show = kfd_procfs_stats_show,
- };
- 
--static struct attribute *procfs_stats_attrs[] = {
--	NULL
--};
--
- static struct kobj_type procfs_stats_type = {
- 	.sysfs_ops = &procfs_stats_ops,
--	.default_attrs = procfs_stats_attrs,
-+	.release = kfd_procfs_kobj_release,
- };
- 
- int kfd_procfs_add_queue(struct queue *q)
-@@ -973,9 +969,11 @@ static void kfd_process_wq_release(struct work_struct *work)
- 		list_for_each_entry(pdd, &p->per_device_data, per_device_list) {
- 			sysfs_remove_file(p->kobj, &pdd->attr_vram);
- 			sysfs_remove_file(p->kobj, &pdd->attr_sdma);
--			sysfs_remove_file(p->kobj, &pdd->attr_evict);
--			if (pdd->dev->kfd2kgd->get_cu_occupancy != NULL)
--				sysfs_remove_file(p->kobj, &pdd->attr_cu_occupancy);
-+
-+			sysfs_remove_file(pdd->kobj_stats, &pdd->attr_evict);
-+			if (pdd->dev->kfd2kgd->get_cu_occupancy)
-+				sysfs_remove_file(pdd->kobj_stats,
-+						  &pdd->attr_cu_occupancy);
- 			kobject_del(pdd->kobj_stats);
- 			kobject_put(pdd->kobj_stats);
- 			pdd->kobj_stats = NULL;
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_process_queue_manager.c b/drivers/gpu/drm/amd/amdkfd/kfd_process_queue_manager.c
-index eb1635ac8988..43c07ac2c6fc 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_process_queue_manager.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_process_queue_manager.c
-@@ -153,6 +153,7 @@ void pqm_uninit(struct process_queue_manager *pqm)
- 		if (pqn->q && pqn->q->gws)
- 			amdgpu_amdkfd_remove_gws_from_process(pqm->process->kgd_process_info,
- 				pqn->q->gws);
-+		kfd_procfs_del_queue(pqn->q);
- 		uninit_queue(pqn->q);
- 		list_del(&pqn->process_queue_list);
- 		kfree(pqn);
+ drivers/gpu/drm/i915/gem/i915_gem_clflush.c   |   4 +-
+ .../gpu/drm/i915/gem/i915_gem_execbuffer.c    | 227 +-----------------
+ drivers/gpu/drm/i915/gem/i915_gem_object.h    |  10 +-
+ drivers/gpu/drm/i915/gem/i915_gem_pages.c     |  20 +-
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.c       |   2 +-
+ .../i915/gem/selftests/i915_gem_execbuffer.c  |   4 +
+ drivers/gpu/drm/i915/gt/intel_ggtt.c          |   2 +-
+ drivers/gpu/drm/i915/i915_cmd_parser.c        | 199 ++++++++-------
+ drivers/gpu/drm/i915/i915_drv.h               |   7 +-
+ drivers/gpu/drm/i915/i915_request.c           |   8 +-
+ drivers/gpu/drm/i915/i915_sw_fence_work.c     |   5 +-
+ drivers/gpu/drm/i915/i915_sw_fence_work.h     |   2 +-
+ drivers/gpu/drm/i915/i915_vma.c               |   3 +-
+ 13 files changed, 142 insertions(+), 351 deletions(-)
+
 -- 
-2.30.2
+2.31.1
 
