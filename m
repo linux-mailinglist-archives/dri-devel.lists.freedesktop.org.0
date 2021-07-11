@@ -2,57 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94BB93C3DB8
-	for <lists+dri-devel@lfdr.de>; Sun, 11 Jul 2021 17:50:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 762F73C3DE7
+	for <lists+dri-devel@lfdr.de>; Sun, 11 Jul 2021 18:17:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C5388899A7;
-	Sun, 11 Jul 2021 15:49:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 78B1C89CA8;
+	Sun, 11 Jul 2021 16:17:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
- [IPv6:2a00:1450:4864:20::635])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4D7CE899A7
- for <dri-devel@lists.freedesktop.org>; Sun, 11 Jul 2021 15:49:58 +0000 (UTC)
-Received: by mail-ej1-x635.google.com with SMTP id gb6so28337323ejc.5
- for <dri-devel@lists.freedesktop.org>; Sun, 11 Jul 2021 08:49:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=eIvRill5LnmjWkouRCFhqrQjOtTIYxe1H69dV2Y1RJo=;
- b=nYR/kijdCRfoSH0anbcD7Ksf0sA/5Cru2dsChJu6Koh2lwuEzSDX5c2pqRoBlsQ8y4
- uCdaurizOuDYQzGN/kEDE35OwaP+teKRaX9JJzvj/M64WwoxCmRIBxtaiqe/PD0GcGwI
- lk7ESvwIr3mk8MNpoa0tZo9Lriu63q3dxCAY1X1E1csj/D4ZTsyiuyu2mTWzRXrKNSjn
- 2K9qMiJxUp7PVZfAD+RICNaUuey2kL/OlQYeii3MV9F1TrS1ed3vxckETnK8CvAnVWJF
- HpwsRd0vL5Ex3M8eHc2qmg9C8u35Ichx1PtNsd1tS6dG7aeNUeLBQAVtjprX1kM5oIyn
- zhyA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=eIvRill5LnmjWkouRCFhqrQjOtTIYxe1H69dV2Y1RJo=;
- b=X/Lks9Ei/iqzrWjWhgnq2c2mvci9AXjv2iKtqqjDczr0175VGQ3tHMyzM/cM+qL+5f
- SOKg9/bfreWI2+3s5kZsO7GzCBziysuVfxvZtVF5XGc2aLcwylpzCel5AYgYX2eVuT15
- 9SWrvNeBQrn9AG5XYHAoHlffPYyYBLRKPJjYxcjmqGTVOHPuEgucWDfXpF8Zl9RYuUJM
- Mb6XioXx/gfZYChl6X3PZOQZpL4ptqmNeDM0KKJinIZ0w/qNOqwO+md7S28s659xcORf
- 2GXoUhDDGA6J65g7Yv9d9miSG0pffbp+gQfgrgkizT7MsRfAu3HB6TbTlZArOfc7PscK
- 8gkg==
-X-Gm-Message-State: AOAM530KZs8N2jxbxvi8wy/PXrPpOc83RpBLoZQr1zkHKG116MgUfO8F
- vkvh3Kkawslx73IfIv4kdkbalJTuMR458Q==
-X-Google-Smtp-Source: ABdhPJzemHfd+kKpEnJol0TcY0b6gw8pRCoDSLO+bRTi9CfgjKUrTviIdMyCDV6UnEKSj5rkca9dlQ==
-X-Received: by 2002:a17:906:6acd:: with SMTP id
- q13mr41925654ejs.377.1626018596844; 
- Sun, 11 Jul 2021 08:49:56 -0700 (PDT)
-Received: from localhost
- (ipv6-39dbcbd9b111821c.ost.clients.hamburg.freifunk.net.
- [2a03:2267:4:0:39db:cbd9:b111:821c])
- by smtp.gmail.com with ESMTPSA id n3sm2873293edd.53.2021.07.11.08.49.55
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Sun, 11 Jul 2021 08:49:56 -0700 (PDT)
-From: Oliver Graute <oliver.graute@gmail.com>
-To: thierry.reding@gmail.com
-Subject: [RESEND PATCH v4] drm/panel: simple: add SGD GKTW70SDAD1SD
-Date: Sun, 11 Jul 2021 17:49:29 +0200
-Message-Id: <1626018569-25963-1-git-send-email-oliver.graute@gmail.com>
-X-Mailer: git-send-email 2.7.4
-X-Patchwork-Bot: notify
+Received: from smtprelay.hostedemail.com (smtprelay0158.hostedemail.com
+ [216.40.44.158])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E0D989CA8;
+ Sun, 11 Jul 2021 16:17:27 +0000 (UTC)
+Received: from omf02.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+ by smtprelay02.hostedemail.com (Postfix) with ESMTP id 2410B20311;
+ Sun, 11 Jul 2021 16:17:26 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by
+ omf02.hostedemail.com (Postfix) with ESMTPA id 04E321D42F6; 
+ Sun, 11 Jul 2021 16:17:22 +0000 (UTC)
+Message-ID: <e9f8186b3b96ba909f156fd750ba0aaf3d60a5fa.camel@perches.com>
+Subject: Re: [RFC PATCH v2 1/4] drm_print.h: rewrap
+ __DRM_DEFINE_DBG_RATELIMITED macro
+From: Joe Perches <joe@perches.com>
+To: Jim Cromie <jim.cromie@gmail.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Zhenyu Wang <zhenyuw@linux.intel.com>, Zhi
+ Wang <zhi.a.wang@intel.com>, Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,  Rodrigo Vivi
+ <rodrigo.vivi@intel.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org,  intel-gvt-dev@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org
+Date: Sun, 11 Jul 2021 09:17:21 -0700
+In-Reply-To: <20210711055003.528167-2-jim.cromie@gmail.com>
+References: <20210711055003.528167-1-jim.cromie@gmail.com>
+ <20210711055003.528167-2-jim.cromie@gmail.com>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.40.0-1 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Server: rspamout05
+X-Rspamd-Queue-Id: 04E321D42F6
+X-Spam-Status: No, score=1.57
+X-Stat-Signature: 5sc5j7osyk4uzjqrwctk5jkkaxhwfr41
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX18KeCdceO2yu0931OqGiBOrYctRL24z4Ps=
+X-HE-Tag: 1626020242-383074
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,98 +59,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, oliver.graute@gmail.com,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: jbaron@akamai.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for the Solomon Goldentek Display Model: GKTW70SDAD1SD
-to panel-simple.
+On Sat, 2021-07-10 at 23:49 -0600, Jim Cromie wrote:
+> whitespace only, to diff-minimize a later commit.
+> no functional changes
+[]
+> diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
+[]
+> @@ -524,19 +524,24 @@ void __drm_err(const char *format, ...);
+>  #define DRM_DEBUG_DP(fmt, ...)						\
+>  	__drm_dbg(DRM_UT_DP, fmt, ## __VA_ARGS__)
+>  
+> 
+> -#define __DRM_DEFINE_DBG_RATELIMITED(category, drm, fmt, ...)					\
+> -({												\
+> -	static DEFINE_RATELIMIT_STATE(rs_, DEFAULT_RATELIMIT_INTERVAL, DEFAULT_RATELIMIT_BURST);\
+> -	const struct drm_device *drm_ = (drm);							\
+> -												\
+> -	if (drm_debug_enabled(DRM_UT_ ## category) && __ratelimit(&rs_))			\
+> -		drm_dev_printk(drm_ ? drm_->dev : NULL, KERN_DEBUG, fmt, ## __VA_ARGS__);	\
+> +#define __DRM_DEFINE_DBG_RATELIMITED(category, drm, fmt, ...)		\
+> +({									\
+> +	static DEFINE_RATELIMIT_STATE(rs_,				\
+> +				      DEFAULT_RATELIMIT_INTERVAL,	\
+> +				      DEFAULT_RATELIMIT_BURST);		\
+> +	const struct drm_device *drm_ = (drm);				\
+> +									\
+> +	if (drm_debug_enabled(DRM_UT_ ## category)			\
+> +	    && __ratelimit(&rs_))					\
 
-The panel spec from Variscite can be found at:
-https://www.variscite.com/wp-content/uploads/2017/12/VLCD-CAP-GLD-RGB.pdf
+Though I don't really see the need for the change, the typical style
+has the logical continuation at the end of the test.
 
-Signed-off-by: Oliver Graute <oliver.graute@gmail.com>
-Reviewed-by: Marco Felsch <m.felsch@pengutronix.de>
-Reviewed-by: Fabio Estevam <festevam@gmail.com>
----
+	if (drm_debug_enabled(DRM_UT_ ## category) &&			\
+	    __ratelimit(&rs_))						\
 
-v4:
-
-- added the datasheet labels
-- added Reviewed-by
-
-v3:
-
-- added flags
-- added delay
-
-v2:
-
-- changed bpc to 6
-- set max value of pixelclock
-- increased hfront_porch and hback_porch
-- dropped connector-type
-
-adding of bus_format = MEDIA_BUS_FMT_RGB666_1X18 results in wrong colors.
-omitting bus_format and using some default is better (Tux Pinguin is colored
-fine)
-
- drivers/gpu/drm/panel/panel-simple.c | 26 ++++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
-
-diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-index 2be358f..c63f6a8 100644
---- a/drivers/gpu/drm/panel/panel-simple.c
-+++ b/drivers/gpu/drm/panel/panel-simple.c
-@@ -3336,6 +3336,36 @@ static const struct panel_desc satoz_sat050at40h12r2 = {
- 	.connector_type = DRM_MODE_CONNECTOR_LVDS,
- };
- 
-+static const struct display_timing sgd_gktw70sdad1sd_timing = {
-+	.pixelclock = {30000000, 30000000, 40000000},
-+	.hactive = { 800, 800, 800},
-+	.hfront_porch = {40, 40, 40},
-+	.hback_porch = {40, 40, 40},
-+	.hsync_len = {48, 48, 48},
-+	.vactive = {480, 480, 480},
-+	.vfront_porch = {13, 13, 13},
-+	.vback_porch = {29, 29, 29},
-+	.vsync_len = {3, 3, 3},
-+	.flags = DISPLAY_FLAGS_HSYNC_LOW | DISPLAY_FLAGS_VSYNC_LOW |
-+			DISPLAY_FLAGS_DE_HIGH | DISPLAY_FLAGS_PIXDATA_NEGEDGE,
-+};
-+
-+static const struct panel_desc sgd_gktw70sdad1sd = {
-+	.timings = &sgd_gktw70sdad1sd_timing,
-+	.num_timings = 1,
-+	.bpc = 6,
-+	.size = {
-+		.width = 153,
-+		.height = 86,
-+	},
-+	.delay = {
-+		.prepare = 20 + 20 + 10 + 10, /* T0 + T2 + T3 + T4 */
-+		.enable = 50, /* T5 */
-+		.disable = 50, /* T5 */
-+		.unprepare =  10 + 10 + 20 + 20, /* T4 + T3 + T2 + T0 */
-+	},
-+};
-+
- static const struct drm_display_mode sharp_ld_d5116z01b_mode = {
- 	.clock = 168480,
- 	.hdisplay = 1920,
-@@ -4222,6 +4252,9 @@ static const struct of_device_id platform_of_match[] = {
- 		.compatible = "satoz,sat050at40h12r2",
- 		.data = &satoz_sat050at40h12r2,
- 	}, {
-+		.compatible = "sgd,gktw70sdad1sd",
-+		.data = &sgd_gktw70sdad1sd,
-+	}, {
- 		.compatible = "sharp,ld-d5116z01b",
- 		.data = &sharp_ld_d5116z01b,
- 	}, {
--- 
-2.7.4
 
