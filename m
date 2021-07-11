@@ -2,49 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44F913C3B1D
-	for <lists+dri-devel@lfdr.de>; Sun, 11 Jul 2021 09:52:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59D623C3B19
+	for <lists+dri-devel@lfdr.de>; Sun, 11 Jul 2021 09:52:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 14A7C6EB90;
-	Sun, 11 Jul 2021 07:52:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 794186EB84;
+	Sun, 11 Jul 2021 07:52:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd35.google.com (mail-io1-xd35.google.com
- [IPv6:2607:f8b0:4864:20::d35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A16626EB84;
- Sun, 11 Jul 2021 05:50:12 +0000 (UTC)
-Received: by mail-io1-xd35.google.com with SMTP id l5so18015997iok.7;
- Sat, 10 Jul 2021 22:50:12 -0700 (PDT)
+Received: from mail-io1-xd30.google.com (mail-io1-xd30.google.com
+ [IPv6:2607:f8b0:4864:20::d30])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 432FE6EB89;
+ Sun, 11 Jul 2021 05:50:14 +0000 (UTC)
+Received: by mail-io1-xd30.google.com with SMTP id l18so13077886iow.4;
+ Sat, 10 Jul 2021 22:50:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=RCPL29qIKnKZKArq5zsuG+4bnxkVvxWb2dNm1WT6mf8=;
- b=FtgJf8+lm9Jw2zuHcFq8yHyYE9Za+t1wpfVGe4pNR2hLepEyFXfbcy4nJTz2O55NOa
- dmuoiB2rqb8nyl8EtjTo64ENTdtFYzzJAky2JuOy2aYMOSk0FedqxZYDtR2/GmPEUZhc
- UPXarxCUa6yVyaJ6gyeiOEy6vbFz+4LbbuMB1YxPqQCTYW14S9NrlC1RiegTThPRtJ8Y
- NSCaaUN0UawFs/fx4em62LxMiGzjjNZG8x82jWqJLOgcYBQiG+cMq/6xrE8FavIEmQZ0
- 52yNoSHuYvjfMtL3yAmpyrs4GCbze6oRWYpU+gkIvz9536/7/V/OBRfRMXcJ0ujoiD8U
- arUA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=TUO2MpmIkpz5hk5OMfz1zDgFEamJA/bkKepVVtTsO3Y=;
+ b=T4Bint3avKEjdVQFJ7H5Ua1fzhlTvfSMpuzlZmEEZG33uATVnS2zsOLqCj6E5OlDg4
+ w/NzUJn/Vv+xBQ8mf38wNDPJw1cZpG28KjosfLSogp9v83s90/WTtKrWB+f8s0K4XGi7
+ iwgJkE00khPeZIogUHxqCPws98ajYDOmesx1i7a1SoqhQbab1WNvUZ8BugX5QfGleDkU
+ +fUNcdCKrZZPbll2ijV05C8/qpQbb/y1x2gv54G8KoKm72GKEFWL0HkCoU8HMs8qzfb0
+ fKxdXpm7Vrqiush5gOvoo1WUiLTL6149BinTO35ID1N5E1mACgqGaZG4oV04NCjHOmep
+ adTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=RCPL29qIKnKZKArq5zsuG+4bnxkVvxWb2dNm1WT6mf8=;
- b=NBDjYBVtJxkNcbD5hnqiU44gEQ3NJ39+k395IdC+ds34qP9B/THo1bReognHDI+VQy
- F0LjMcJkkfOl+dOldaD59oBUyb+jHzMUhgdl/jdLOmu87oIRTgdGwICZarq2WPT8F1pI
- Fy5nsTLb98bg6QbPQ8oUD35b4/henqAgYvY19s4V4Ml6bueeDInsB/GIByWb+EpuLcGE
- AipQGJd2Olx/xctxdZdRPvYJNywHvrSPnV1iXKFhccnuj1K3gDgVe2W4Sm4RWsOsbFO8
- HQcklIN5SpiUmfb/pR7wKsTm3d9DPUYkwzn15dGxv0YXWLIAZxc4pZKGGzeCIF2p4DHz
- Yx1A==
-X-Gm-Message-State: AOAM530K61X92J4T8aVbjJU1+Ngoa8paSjlavKBL6DjC1o+90z7c+kS9
- Xj2yei/j6+QJ49WGa4n/U3c=
-X-Google-Smtp-Source: ABdhPJy3x300qWkzveHT72BAIzXyFWEizGbKobKv9ZDxvJSQDWE4xAAJUsN56EWTboU9rLEPlKhH4A==
-X-Received: by 2002:a02:b006:: with SMTP id p6mr33668942jah.64.1625982612026; 
- Sat, 10 Jul 2021 22:50:12 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=TUO2MpmIkpz5hk5OMfz1zDgFEamJA/bkKepVVtTsO3Y=;
+ b=krDdrXm9b97A2WQ8ZQGQGyn4bEvZbgzsGQFHA2M+uXa5eqEw46tfBdu4xmAkWo0NDy
+ /omLFQenmQ88xMu6TtZAVMlvVrVKd2vFijTWg6rXm0rOsGNUNNoUSR2jwl1IwFbIZHlB
+ 27O6c9UDLOFRVhMe+MM3d1k7WaZA3lScdFSXRYhGofx+AJACx1BpvsppT/qzCWXQIdWn
+ dW2jgCo2Djlolai6/PErsSf2VLnkf1W0ezyR2qAb/2R3RDjYFLE/nNiDNS91XGP2kKIS
+ IkRa8YPCp/A+7tdgwkEwJFV7OD7KsdShW1puqiJyGFJI0FJS54FpGJ/lVMo/wf/feZ5C
+ T7og==
+X-Gm-Message-State: AOAM530wWw4BmzWi/QASv2AjQ6h07NTzoho2gNQ7BimuKvlN2AWYJd/K
+ kSiNo8a5zHcvY/st1odp89Y=
+X-Google-Smtp-Source: ABdhPJxPNSdXW2SdBDXeauqnEm3MMvu9wOMXaZZkOzhx/qrun+yLXndZvq+sF/ai7j76OQxBZYcDXA==
+X-Received: by 2002:a5d:8511:: with SMTP id q17mr35667488ion.98.1625982613674; 
+ Sat, 10 Jul 2021 22:50:13 -0700 (PDT)
 Received: from frodo.. (c-24-9-77-57.hsd1.co.comcast.net. [24.9.77.57])
- by smtp.googlemail.com with ESMTPSA id x8sm5852400ilq.63.2021.07.10.22.50.10
+ by smtp.googlemail.com with ESMTPSA id x8sm5852400ilq.63.2021.07.10.22.50.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 10 Jul 2021 22:50:11 -0700 (PDT)
+ Sat, 10 Jul 2021 22:50:13 -0700 (PDT)
 From: Jim Cromie <jim.cromie@gmail.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
@@ -55,10 +55,13 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Rodrigo Vivi <rodrigo.vivi@intel.com>, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, intel-gvt-dev@lists.freedesktop.org,
  intel-gfx@lists.freedesktop.org
-Subject: [RFC PATCH v2 0/4] Allow using dyndbg to replace drm_debug_enabled
-Date: Sat, 10 Jul 2021 23:49:58 -0600
-Message-Id: <20210711055003.528167-1-jim.cromie@gmail.com>
+Subject: [RFC PATCH v2 1/4] drm_print.h: rewrap __DRM_DEFINE_DBG_RATELIMITED
+ macro
+Date: Sat, 10 Jul 2021 23:49:59 -0600
+Message-Id: <20210711055003.528167-2-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210711055003.528167-1-jim.cromie@gmail.com>
+References: <20210711055003.528167-1-jim.cromie@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Sun, 11 Jul 2021 07:52:04 +0000
@@ -78,56 +81,49 @@ Cc: Jim Cromie <jim.cromie@gmail.com>, jbaron@akamai.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm_debug_enabled() is called a lot to do unlikely bit-tests to
-control debug printing; this is a good job for dynamic-debug, IFF it
-is built with JUMP_LABEL.
+whitespace only, to diff-minimize a later commit.
+no functional changes
+---
+ include/drm/drm_print.h | 21 +++++++++++++--------
+ 1 file changed, 13 insertions(+), 8 deletions(-)
+
+diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
+index 9b66be54dd16..6419b4e7c5dc 100644
+--- a/include/drm/drm_print.h
++++ b/include/drm/drm_print.h
+@@ -524,19 +524,24 @@ void __drm_err(const char *format, ...);
+ #define DRM_DEBUG_DP(fmt, ...)						\
+ 	__drm_dbg(DRM_UT_DP, fmt, ## __VA_ARGS__)
  
-Enable the use of dynamic-debug to avoid drm_debug_enabled()
-overheads, opt in with CONFIG_DRM_USE_DYNAMIC_DEBUG=y.
-
-I have this patchset running bare-metal on an i915 laptop & an amdgpu
-desktop (both as loadable modules).
-
-I booted the amdgpu box with:
-
-BOOT_IMAGE=(hd2,gpt2)/vmlinuz-5.13.0-dd7-13692-g8def25788f56 \
-     root=UUID=mumble ro \
-     rootflags=subvol=root00 rhgb \
-     dynamic_debug.verbose=3 main.dyndbg=+p \
-     amdgpu.debug=1 amdgpu.test=1 \
-     "amdgpu.dyndbg=format ^[ +p"
-
-That last line activates ~1700 callsites with a format like '[DML' etc
-at boot, causing ~76k prdbgs in 409 seconds, before I turned them off
-with:
-
-  echo module amdgpu -p > /proc/dynamic_debug/control
-
-[root@gandalf jimc]# journalctl -b-0 | grep -P '\[(DML|VBLANK|SURFACE|BIOS|BANDWIDTH)' | wc
-  68708  578503 5054437
-[root@gandalf jimc]# journalctl -b-0 | grep -P '\[(DML|VBLANK|SURFACE|BIOS|BANDWIDTH|\w+)' | wc
-  76298  661176 6028087
-
-IOW, things appear to hold up under some stress.
-
-this is on top of master @ v5.13-13688-gde5540965853
-
-v1 is here:
-https://lore.kernel.org/lkml/20201204035318.332419-1-jim.cromie@gmail.com/
-
-Jim Cromie (4):
-  drm_print.h: rewrap __DRM_DEFINE_DBG_RATELIMITED macro
-  drm: fixup comment spelling
-  drm: RFC add choice to use dynamic debug in drm-debug
-  i915: map gvt pr_debug categories to bits in parameters/debug_gvt
-
- drivers/gpu/drm/Kconfig            |  13 ++++
- drivers/gpu/drm/drm_print.c        |  75 +++++++++++++++++-
- drivers/gpu/drm/i915/gvt/Makefile  |   4 +
- drivers/gpu/drm/i915/i915_params.c |  76 ++++++++++++++++++
- include/drm/drm_print.h            | 119 ++++++++++++++++++++---------
- 5 files changed, 249 insertions(+), 38 deletions(-)
-
+-#define __DRM_DEFINE_DBG_RATELIMITED(category, drm, fmt, ...)					\
+-({												\
+-	static DEFINE_RATELIMIT_STATE(rs_, DEFAULT_RATELIMIT_INTERVAL, DEFAULT_RATELIMIT_BURST);\
+-	const struct drm_device *drm_ = (drm);							\
+-												\
+-	if (drm_debug_enabled(DRM_UT_ ## category) && __ratelimit(&rs_))			\
+-		drm_dev_printk(drm_ ? drm_->dev : NULL, KERN_DEBUG, fmt, ## __VA_ARGS__);	\
++#define __DRM_DEFINE_DBG_RATELIMITED(category, drm, fmt, ...)		\
++({									\
++	static DEFINE_RATELIMIT_STATE(rs_,				\
++				      DEFAULT_RATELIMIT_INTERVAL,	\
++				      DEFAULT_RATELIMIT_BURST);		\
++	const struct drm_device *drm_ = (drm);				\
++									\
++	if (drm_debug_enabled(DRM_UT_ ## category)			\
++	    && __ratelimit(&rs_))					\
++		drm_dev_printk(drm_ ? drm_->dev : NULL,			\
++			       KERN_DEBUG, fmt, ## __VA_ARGS__);	\
+ })
+ 
+ #define drm_dbg_kms_ratelimited(drm, fmt, ...) \
+ 	__DRM_DEFINE_DBG_RATELIMITED(KMS, drm, fmt, ## __VA_ARGS__)
+ 
+-#define DRM_DEBUG_KMS_RATELIMITED(fmt, ...) drm_dbg_kms_ratelimited(NULL, fmt, ## __VA_ARGS__)
++#define DRM_DEBUG_KMS_RATELIMITED(fmt, ...) \
++	drm_dbg_kms_ratelimited(NULL, fmt, ## __VA_ARGS__)
+ 
+ /*
+  * struct drm_device based WARNs
 -- 
 2.31.1
 
