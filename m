@@ -1,42 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D62CB3C64C9
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Jul 2021 22:12:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C77EC3C64E5
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Jul 2021 22:22:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6BEC589EA9;
-	Mon, 12 Jul 2021 20:11:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F46089E41;
+	Mon, 12 Jul 2021 20:22:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 55CDF899AB;
- Mon, 12 Jul 2021 20:11:57 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10043"; a="209864507"
-X-IronPort-AV: E=Sophos;i="5.84,234,1620716400"; d="scan'208";a="209864507"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Jul 2021 13:11:56 -0700
-X-IronPort-AV: E=Sophos;i="5.84,234,1620716400"; d="scan'208";a="412701272"
-Received: from johnharr-mobl1.amr.corp.intel.com (HELO [10.209.125.18])
- ([10.209.125.18])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Jul 2021 13:11:56 -0700
-Subject: Re: [PATCH 33/47] drm/i915/guc: Add disable interrupts to guc sanitize
-To: Matthew Brost <matthew.brost@intel.com>, intel-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org
-References: <20210624070516.21893-1-matthew.brost@intel.com>
- <20210624070516.21893-34-matthew.brost@intel.com>
-From: John Harrison <john.c.harrison@intel.com>
-Message-ID: <36f5cf81-ccc5-e4b5-a7c1-65af4e30c5b6@intel.com>
-Date: Mon, 12 Jul 2021 13:11:55 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com
+ [IPv6:2607:f8b0:4864:20::b2a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9923D89E5F
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jul 2021 20:22:51 +0000 (UTC)
+Received: by mail-yb1-xb2a.google.com with SMTP id o139so30992171ybg.9
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jul 2021 13:22:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anholt-net.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=a3t8M9p1Xm1DbJhl1g0NI4nr029zZMFUcrN6YRFecnc=;
+ b=fvieSNTAu0QOO6Kgbsr4CMsCMbnxljtbkFs749HKPLwSgK6LFrB2/sSXxXxPEbXsYJ
+ z+5kxgh90Zt5bn2SqS/SoUg10IyqffUs/dYT861u++JBLu4krWCMS5xoB1UQ5zIKt1gV
+ ygViuUifqM/ZQSPMiEjxkDXkBrvLsEgrl2NXRw2XO7eRgRi6bTfBmxArAUIoXc4cyJmk
+ 6NgCzRhmnDVTpalVxtk+LEutBcNDYazZpsWTIGp4mJXfMnexW3K+jls+LmH+ms7T12BP
+ pautDNXemHkvMsYm5uJwTq5CGpcc8Jwfw0RRFnhHqhaTNEqrFRWsB9PehyrS2FQOB3Nv
+ EBRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=a3t8M9p1Xm1DbJhl1g0NI4nr029zZMFUcrN6YRFecnc=;
+ b=lNiwP/4oiQqAML1OKrXscdhSbZ29A62huwgniU2sS35Tjztg2VxmDZ5dU0hYL58fWi
+ v59j/6dRpKqMKjRUQ/q8QRPEi9KI7uHxXjNHfIj6+t6hNDNVE9Zs8iUkFVEqyeZwGubp
+ N/OFbarJ+Q+6oQFiOFEAUoXJ4h5eItln+bpqjl08mVg6VWOmiLGo962xAHY2LiclWePW
+ qqjUTqcdgAQQWRXGPeevKKCKb5VzlO9yoi+cyIX8FkGhS4/V8spDW2A3UYs5gkC1KKay
+ 9UZHN9/VjXbUKvZkUgQ74GedvDG/wE40r420g9WW3o1/ypY/T0Pv2UHDWQNS+ytGo9k+
+ nF4A==
+X-Gm-Message-State: AOAM530ZgyFqT/UlGX/RSe0XpZLF4tOuhUogCalvh4AxlVZNj9I3gb6K
+ vNTZGCTUoZIRzdQe+J7s1/lgObQgJrGRbGODKX8vDg==
+X-Google-Smtp-Source: ABdhPJx2wuE9Pm+zYEWPkhe410Q70juC3Q6Ib1mH/wyNMBjZa35BDO2FxwK8XexNYfq4Pv5l+XWIEuKMnYscXjN4aZE=
+X-Received: by 2002:a25:38d4:: with SMTP id f203mr1045399yba.45.1626121370668; 
+ Mon, 12 Jul 2021 13:22:50 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210624070516.21893-34-matthew.brost@intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-GB
+References: <20210712175352.802687-1-daniel.vetter@ffwll.ch>
+ <20210712175352.802687-2-daniel.vetter@ffwll.ch>
+In-Reply-To: <20210712175352.802687-2-daniel.vetter@ffwll.ch>
+From: Emma Anholt <emma@anholt.net>
+Date: Mon, 12 Jul 2021 13:22:39 -0700
+Message-ID: <CADaigPXPpiEfMOZ+h=H6e_brdK-1n0Aax34oWTaiJaDjM=EsfA@mail.gmail.com>
+Subject: Re: [PATCH v4 01/18] drm/sched: Split drm_sched_job_init
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,105 +63,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniele.ceraolospurio@intel.com
+Cc: Adam Borowski <kilobyte@angband.pl>, David Airlie <airlied@linux.ie>,
+ Viresh Kumar <viresh.kumar@linaro.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Melissa Wen <melissa.srw@gmail.com>, Nirmoy Das <nirmoy.das@amd.com>,
+ Daniel Vetter <daniel.vetter@intel.com>, Lee Jones <lee.jones@linaro.org>,
+ lima@lists.freedesktop.org, Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ Masahiro Yamada <masahiroy@kernel.org>, Steven Price <steven.price@arm.com>,
+ Luben Tuikov <luben.tuikov@amd.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Sami Tolvanen <samitolvanen@google.com>,
+ Russell King <linux+etnaviv@armlinux.org.uk>, Dave Airlie <airlied@redhat.com>,
+ =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <marek.olsak@amd.com>,
+ Dennis Li <Dennis.Li@amd.com>, Chen Li <chenli@uniontech.com>,
+ Paul Menzel <pmenzel@molgen.mpg.de>, Kees Cook <keescook@chromium.org>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Kevin Wang <kevin1.wang@amd.com>, etnaviv@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, Sonny Jiang <sonny.jiang@amd.com>,
+ Deepak R Varma <mh12gx2825@gmail.com>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>, Nick Terrell <terrelln@fb.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>, Qiang Yu <yuq825@gmail.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Tian Tao <tiantao6@hisilicon.com>,
+ linux-media@vger.kernel.org,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6/24/2021 00:05, Matthew Brost wrote:
-> Add disable GuC interrupts to intel_guc_sanitize(). Part of this
-> requires moving the guc_*_interrupt wrapper function into header file
-> intel_guc.h.
+On Mon, Jul 12, 2021 at 1:01 PM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
 >
-> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com
-Reviewed-by: John Harrison <John.C.Harrison@Intel.com>
-
-> ---
->   drivers/gpu/drm/i915/gt/uc/intel_guc.h | 16 ++++++++++++++++
->   drivers/gpu/drm/i915/gt/uc/intel_uc.c  | 21 +++------------------
->   2 files changed, 19 insertions(+), 18 deletions(-)
+> This is a very confusingly named function, because not just does it
+> init an object, it arms it and provides a point of no return for
+> pushing a job into the scheduler. It would be nice if that's a bit
+> clearer in the interface.
 >
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-> index 40c9868762d7..85ef6767f13b 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-> @@ -217,9 +217,25 @@ static inline bool intel_guc_is_ready(struct intel_guc *guc)
->   	return intel_guc_is_fw_running(guc) && intel_guc_ct_enabled(&guc->ct);
->   }
->   
-> +static inline void intel_guc_reset_interrupts(struct intel_guc *guc)
-> +{
-> +	guc->interrupts.reset(guc);
-> +}
-> +
-> +static inline void intel_guc_enable_interrupts(struct intel_guc *guc)
-> +{
-> +	guc->interrupts.enable(guc);
-> +}
-> +
-> +static inline void intel_guc_disable_interrupts(struct intel_guc *guc)
-> +{
-> +	guc->interrupts.disable(guc);
-> +}
-> +
->   static inline int intel_guc_sanitize(struct intel_guc *guc)
->   {
->   	intel_uc_fw_sanitize(&guc->fw);
-> +	intel_guc_disable_interrupts(guc);
->   	intel_guc_ct_sanitize(&guc->ct);
->   	guc->mmio_msg = 0;
->   
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc.c b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-> index f0b02200aa01..ab11fe731ee7 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-> @@ -207,21 +207,6 @@ static void guc_handle_mmio_msg(struct intel_guc *guc)
->   	spin_unlock_irq(&guc->irq_lock);
->   }
->   
-> -static void guc_reset_interrupts(struct intel_guc *guc)
-> -{
-> -	guc->interrupts.reset(guc);
-> -}
-> -
-> -static void guc_enable_interrupts(struct intel_guc *guc)
-> -{
-> -	guc->interrupts.enable(guc);
-> -}
-> -
-> -static void guc_disable_interrupts(struct intel_guc *guc)
-> -{
-> -	guc->interrupts.disable(guc);
-> -}
-> -
->   static int guc_enable_communication(struct intel_guc *guc)
->   {
->   	struct intel_gt *gt = guc_to_gt(guc);
-> @@ -242,7 +227,7 @@ static int guc_enable_communication(struct intel_guc *guc)
->   	guc_get_mmio_msg(guc);
->   	guc_handle_mmio_msg(guc);
->   
-> -	guc_enable_interrupts(guc);
-> +	intel_guc_enable_interrupts(guc);
->   
->   	/* check for CT messages received before we enabled interrupts */
->   	spin_lock_irq(&gt->irq_lock);
-> @@ -265,7 +250,7 @@ static void guc_disable_communication(struct intel_guc *guc)
->   	 */
->   	guc_clear_mmio_msg(guc);
->   
-> -	guc_disable_interrupts(guc);
-> +	intel_guc_disable_interrupts(guc);
->   
->   	intel_guc_ct_disable(&guc->ct);
->   
-> @@ -463,7 +448,7 @@ static int __uc_init_hw(struct intel_uc *uc)
->   	if (ret)
->   		goto err_out;
->   
-> -	guc_reset_interrupts(guc);
-> +	intel_guc_reset_interrupts(guc);
->   
->   	/* WaEnableuKernelHeaderValidFix:skl */
->   	/* WaEnableGuCBootHashCheckNotSet:skl,bxt,kbl */
+> But the real reason is that I want to push the dependency tracking
+> helpers into the scheduler code, and that means drm_sched_job_init
+> must be called a lot earlier, without arming the job.
+>
+> v2:
+> - don't change .gitignore (Steven)
+> - don't forget v3d (Emma)
+>
+> v3: Emma noticed that I leak the memory allocated in
+> drm_sched_job_init if we bail out before the point of no return in
+> subsequent driver patches. To be able to fix this change
+> drm_sched_job_cleanup() so it can handle being called both before and
+> after drm_sched_job_arm().
+>
+> Also improve the kerneldoc for this.
+>
+> v4:
+> - Fix the drm_sched_job_cleanup logic, I inverted the booleans, as
+>   usual (Melissa)
+>
+> - Christian pointed out that drm_sched_entity_select_rq() also needs
+>   to be moved into drm_sched_job_arm, which made me realize that the
+>   job->id definitely needs to be moved too.
+>
+>   Shuffle things to fit between job_init and job_arm.
+>
+> v5:
+> Reshuffle the split between init/arm once more, amdgpu abuses
+> drm_sched.ready to signal gpu reset failures. Also document this
+> somewhat. (Christian)
 
+Ack from me for the changes I was Cced on.
