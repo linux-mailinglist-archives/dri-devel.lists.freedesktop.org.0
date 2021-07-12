@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FA8C3C6290
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Jul 2021 20:23:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D06413C6291
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Jul 2021 20:24:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A82D689D67;
-	Mon, 12 Jul 2021 18:23:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 037EA89718;
+	Mon, 12 Jul 2021 18:24:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A34689D66;
- Mon, 12 Jul 2021 18:23:22 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10043"; a="295679191"
-X-IronPort-AV: E=Sophos;i="5.84,234,1620716400"; d="scan'208";a="295679191"
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7CFCB89718;
+ Mon, 12 Jul 2021 18:24:01 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10043"; a="208214643"
+X-IronPort-AV: E=Sophos;i="5.84,234,1620716400"; d="scan'208";a="208214643"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Jul 2021 11:23:15 -0700
-X-IronPort-AV: E=Sophos;i="5.84,234,1620716400"; d="scan'208";a="412668967"
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Jul 2021 11:23:58 -0700
+X-IronPort-AV: E=Sophos;i="5.84,234,1620716400"; d="scan'208";a="412669155"
 Received: from johnharr-mobl1.amr.corp.intel.com (HELO [10.209.125.18])
  ([10.209.125.18])
  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Jul 2021 11:23:15 -0700
-Subject: Re: [PATCH 28/47] drm/i915: Hold reference to intel_context over life
- of i915_request
+ 12 Jul 2021 11:23:57 -0700
+Subject: Re: [PATCH 29/47] drm/i915/guc: Disable bonding extension with GuC
+ submission
 To: Matthew Brost <matthew.brost@intel.com>, intel-gfx@lists.freedesktop.org, 
  dri-devel@lists.freedesktop.org
 References: <20210624070516.21893-1-matthew.brost@intel.com>
- <20210624070516.21893-29-matthew.brost@intel.com>
+ <20210624070516.21893-30-matthew.brost@intel.com>
 From: John Harrison <john.c.harrison@intel.com>
-Message-ID: <324bd9ac-822a-e83a-4a04-f7eb61fd43f9@intel.com>
-Date: Mon, 12 Jul 2021 11:23:14 -0700
+Message-ID: <a3e0954e-901f-9c4a-a4f4-877420e5331f@intel.com>
+Date: Mon, 12 Jul 2021 11:23:57 -0700
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210624070516.21893-29-matthew.brost@intel.com>
+In-Reply-To: <20210624070516.21893-30-matthew.brost@intel.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Content-Language: en-GB
@@ -55,109 +55,31 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 6/24/2021 00:04, Matthew Brost wrote:
-> Hold a reference to the intel_context over life of an i915_request.
-> Without this an i915_request can exist after the context has been
-> destroyed (e.g. request retired, context closed, but user space holds a
-> reference to the request from an out fence). In the case of GuC
-> submission + virtual engine, the engine that the request references is
-> also destroyed which can trigger bad pointer dref in fence ops (e.g.
-Maybe quickly explain a why this is different for GuC submission vs 
-execlist? Presumably it is about only decomposing virtual engines to 
-physical ones in execlist mode?
-
-
-> i915_fence_get_driver_name). We could likely change
-> i915_fence_get_driver_name to avoid touching the engine but let's just
-> be safe and hold the intel_context reference.
+> Update the bonding extension to return -ENODEV when using GuC submission
+> as this extension fundamentally will not work with the GuC submission
+> interface.
 >
 > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+Reviewed-by: John Harrison <John.C.Harrison@Intel.com>
+
 > ---
->   drivers/gpu/drm/i915/i915_request.c | 54 ++++++++++++-----------------
->   1 file changed, 22 insertions(+), 32 deletions(-)
+>   drivers/gpu/drm/i915/gem/i915_gem_context.c | 5 +++++
+>   1 file changed, 5 insertions(+)
 >
-> diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
-> index de9deb95b8b1..dec5a35c9aa2 100644
-> --- a/drivers/gpu/drm/i915/i915_request.c
-> +++ b/drivers/gpu/drm/i915/i915_request.c
-> @@ -126,39 +126,17 @@ static void i915_fence_release(struct dma_fence *fence)
->   	i915_sw_fence_fini(&rq->semaphore);
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> index 8a9293e0ca92..0429aa4172bf 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> @@ -1674,6 +1674,11 @@ set_engines__bond(struct i915_user_extension __user *base, void *data)
+>   	}
+>   	virtual = set->engines->engines[idx]->engine;
 >   
->   	/*
-> -	 * Keep one request on each engine for reserved use under mempressure
-> -	 *
-> -	 * We do not hold a reference to the engine here and so have to be
-> -	 * very careful in what rq->engine we poke. The virtual engine is
-> -	 * referenced via the rq->context and we released that ref during
-> -	 * i915_request_retire(), ergo we must not dereference a virtual
-> -	 * engine here. Not that we would want to, as the only consumer of
-> -	 * the reserved engine->request_pool is the power management parking,
-> -	 * which must-not-fail, and that is only run on the physical engines.
-> -	 *
-> -	 * Since the request must have been executed to be have completed,
-> -	 * we know that it will have been processed by the HW and will
-> -	 * not be unsubmitted again, so rq->engine and rq->execution_mask
-> -	 * at this point is stable. rq->execution_mask will be a single
-> -	 * bit if the last and _only_ engine it could execution on was a
-> -	 * physical engine, if it's multiple bits then it started on and
-> -	 * could still be on a virtual engine. Thus if the mask is not a
-> -	 * power-of-two we assume that rq->engine may still be a virtual
-> -	 * engine and so a dangling invalid pointer that we cannot dereference
-> -	 *
-> -	 * For example, consider the flow of a bonded request through a virtual
-> -	 * engine. The request is created with a wide engine mask (all engines
-> -	 * that we might execute on). On processing the bond, the request mask
-> -	 * is reduced to one or more engines. If the request is subsequently
-> -	 * bound to a single engine, it will then be constrained to only
-> -	 * execute on that engine and never returned to the virtual engine
-> -	 * after timeslicing away, see __unwind_incomplete_requests(). Thus we
-> -	 * know that if the rq->execution_mask is a single bit, rq->engine
-> -	 * can be a physical engine with the exact corresponding mask.
-> +	 * Keep one request on each engine for reserved use under mempressure,
-> +	 * do not use with virtual engines as this really is only needed for
-> +	 * kernel contexts.
->   	 */
-> -	if (is_power_of_2(rq->execution_mask) &&
-> -	    !cmpxchg(&rq->engine->request_pool, NULL, rq))
-> +	if (!intel_engine_is_virtual(rq->engine) &&
-> +	    !cmpxchg(&rq->engine->request_pool, NULL, rq)) {
-> +		intel_context_put(rq->context);
->   		return;
+> +	if (intel_engine_uses_guc(virtual)) {
+> +		DRM_DEBUG("bonding extension not supported with GuC submission");
+> +		return -ENODEV;
 > +	}
 > +
-> +	intel_context_put(rq->context);
-The put is actually unconditional? So it could be moved before the if?
-
-John.
-
->   
->   	kmem_cache_free(global.slab_requests, rq);
->   }
-> @@ -977,7 +955,18 @@ __i915_request_create(struct intel_context *ce, gfp_t gfp)
->   		}
->   	}
->   
-> -	rq->context = ce;
-> +	/*
-> +	 * Hold a reference to the intel_context over life of an i915_request.
-> +	 * Without this an i915_request can exist after the context has been
-> +	 * destroyed (e.g. request retired, context closed, but user space holds
-> +	 * a reference to the request from an out fence). In the case of GuC
-> +	 * submission + virtual engine, the engine that the request references
-> +	 * is also destroyed which can trigger bad pointer dref in fence ops
-> +	 * (e.g. i915_fence_get_driver_name). We could likely change these
-> +	 * functions to avoid touching the engine but let's just be safe and
-> +	 * hold the intel_context reference.
-> +	 */
-> +	rq->context = intel_context_get(ce);
->   	rq->engine = ce->engine;
->   	rq->ring = ce->ring;
->   	rq->execution_mask = ce->engine->mask;
-> @@ -1054,6 +1043,7 @@ __i915_request_create(struct intel_context *ce, gfp_t gfp)
->   	GEM_BUG_ON(!list_empty(&rq->sched.waiters_list));
->   
->   err_free:
-> +	intel_context_put(ce);
->   	kmem_cache_free(global.slab_requests, rq);
->   err_unreserve:
->   	intel_context_unpin(ce);
+>   	err = check_user_mbz(&ext->flags);
+>   	if (err)
+>   		return err;
 
