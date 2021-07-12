@@ -1,43 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C0893C62C8
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Jul 2021 20:41:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C0BA3C6373
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Jul 2021 21:14:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 636BB89D77;
-	Mon, 12 Jul 2021 18:40:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C22889CAF;
+	Mon, 12 Jul 2021 19:14:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A9DBD89D77;
- Mon, 12 Jul 2021 18:40:55 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10043"; a="271147324"
-X-IronPort-AV: E=Sophos;i="5.84,234,1620716400"; d="scan'208";a="271147324"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Jul 2021 11:40:54 -0700
-X-IronPort-AV: E=Sophos;i="5.84,234,1620716400"; d="scan'208";a="653070015"
-Received: from vbelgaum-mobl.amr.corp.intel.com (HELO [10.254.44.17])
- ([10.254.44.17])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Jul 2021 11:40:53 -0700
-Subject: Re: [PATCH 02/16] drm/i915/guc/slpc: Initial definitions for slpc
-To: Michal Wajdeczko <michal.wajdeczko@intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-References: <20210710012026.19705-1-vinay.belgaumkar@intel.com>
- <20210710012026.19705-3-vinay.belgaumkar@intel.com>
- <1e1debcc-3439-10ac-6c58-8be5f56340da@intel.com>
-From: "Belgaumkar, Vinay" <vinay.belgaumkar@intel.com>
-Message-ID: <ef1f66cc-de7d-6895-e9e0-344f9c576962@intel.com>
-Date: Mon, 12 Jul 2021 11:40:42 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
+ [IPv6:2a00:1450:4864:20::12a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D0C0889CAF
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jul 2021 19:14:42 +0000 (UTC)
+Received: by mail-lf1-x12a.google.com with SMTP id q16so9153037lfa.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jul 2021 12:14:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linux-foundation.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=/rM+aoSbmTqJDqFPwIB6NFP4YePrQAdzLRW/vT9PMLI=;
+ b=R5bRUKi0sBMrWMFjTDrfEVpFQCedcMn2pFztQ0BTYyXRN1kiL63+eWT1lMJ9Vdg/Mi
+ PfNutfK/HGWPYbqAx8LPAIFLPl+yTLxfqZ0NccuCqSljXZZ3T+iv0mpXMxfLkBKcKuxb
+ uwplwVJ+fi/9Y3oHlYYo/pJ8JQZPRqdkmLln8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=/rM+aoSbmTqJDqFPwIB6NFP4YePrQAdzLRW/vT9PMLI=;
+ b=N4tKME9CKOjdKpjW8R/0+Ydth5GyRrjWkhwIQJNsDEdXBBfK3cbu79W5vowy6QR79u
+ D1rQxI82OW7gQyhv4WAPbXx+BfDO7GW432CFILWWEYkspxazNFLHU4qC0pfx92/q0S2f
+ OUZG8X9vCTs7QUkdlTqrsWIKS/huIBwFWZiO3xljbSrdMljyCC7/740+tGFLOG2qBRom
+ wFoAnss4rJS4yMJLNkvwmMi2E4I+AhzR+DBWBzkzi4wJ6iuhk8C3zm+eZmUiQpuGsvRa
+ cYxPEQBnnPjEg/aycUv9E81iZ+5L15rbWsySgWE4ZiZnatAdxJXwwOKxWjjCwxxp8kf3
+ B8uw==
+X-Gm-Message-State: AOAM533+T5/sNk9vhAHHgjcaMq3ZeMsskMDZU+t+Z60V/mvRJf6uYF2J
+ Xm4H9Q5yBvHBWfwF+vsH6k6eP8pENJJ4uQn+
+X-Google-Smtp-Source: ABdhPJytkhRj6nlV0f2mH6/DnC96nu1NggIsl4g/If+ZkjftkaFaY78Axg/7pbqrUmS3d6WdN9p5eA==
+X-Received: by 2002:a05:6512:400c:: with SMTP id
+ br12mr245111lfb.268.1626117280913; 
+ Mon, 12 Jul 2021 12:14:40 -0700 (PDT)
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com.
+ [209.85.167.53])
+ by smtp.gmail.com with ESMTPSA id q15sm1772909ljg.126.2021.07.12.12.14.40
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 12 Jul 2021 12:14:40 -0700 (PDT)
+Received: by mail-lf1-f53.google.com with SMTP id a12so301406lfb.7
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jul 2021 12:14:40 -0700 (PDT)
+X-Received: by 2002:ac2:42d6:: with SMTP id n22mr217501lfl.41.1626117280288;
+ Mon, 12 Jul 2021 12:14:40 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1e1debcc-3439-10ac-6c58-8be5f56340da@intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <CAHk-=wjB5XBk4obhMPfrU3mnOakV9VgHAYOo-ZGJnB2X0DnBWA@mail.gmail.com>
+ <a9473821-1d53-0037-7590-aeaf8e85e72a@jonmasters.org>
+In-Reply-To: <a9473821-1d53-0037-7590-aeaf8e85e72a@jonmasters.org>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Mon, 12 Jul 2021 12:14:24 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wh0mRAyL9GNVjhw2ki7vRevvUnovCzawn2FO7e_dOfU-w@mail.gmail.com>
+Message-ID: <CAHk-=wh0mRAyL9GNVjhw2ki7vRevvUnovCzawn2FO7e_dOfU-w@mail.gmail.com>
+Subject: Re: Linux 5.14-rc1
+To: Jon Masters <jcm@jonmasters.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Matthew Auld <matthew.auld@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,214 +74,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- Sundaresan Sujaritha <sujaritha.sundaresan@intel.com>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, Jul 12, 2021 at 12:08 AM Jon Masters <jcm@jonmasters.org> wrote:
+>
+> I happened to be installing a Fedora 34 (x86) VM for something and did a
+> test kernel compile that hung on boot. Setting up a serial console I get
+> the below backtrace from ttm but I have not had chance to look at it.
 
+It's a NULL pointer in qxl_bo_delete_mem_notify(), with the code
+disassembling to
 
-On 7/10/2021 7:27 AM, Michal Wajdeczko wrote:
-> Hi Vinay,
-> 
-> On 10.07.2021 03:20, Vinay Belgaumkar wrote:
->> Add macros to check for slpc support. This feature is currently supported
->> for gen12+ and enabled whenever guc submission is enabled/selected.
-> 
-> please try to use consistent names across all patches:
-> 
-> s/slpc/SLPC
-> s/gen12/Gen12
-> s/guc/GuC
-> 
->>
->> Signed-off-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
->> Signed-off-by: Sundaresan Sujaritha <sujaritha.sundaresan@intel.com>
->> Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
->> ---
->>   drivers/gpu/drm/i915/gt/uc/intel_guc.c        |  1 +
->>   drivers/gpu/drm/i915/gt/uc/intel_guc.h        |  2 ++
->>   .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 21 +++++++++++++++++++
->>   .../gpu/drm/i915/gt/uc/intel_guc_submission.h | 16 ++++++++++++++
->>   drivers/gpu/drm/i915/gt/uc/intel_uc.c         |  6 ++++--
->>   drivers/gpu/drm/i915/gt/uc/intel_uc.h         |  1 +
->>   6 files changed, 45 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
->> index 979128e28372..b9a809f2d221 100644
->> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc.c
->> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
->> @@ -157,6 +157,7 @@ void intel_guc_init_early(struct intel_guc *guc)
->>   	intel_guc_ct_init_early(&guc->ct);
->>   	intel_guc_log_init_early(&guc->log);
->>   	intel_guc_submission_init_early(guc);
->> +	intel_guc_slpc_init_early(guc);
->>   
->>   	mutex_init(&guc->send_mutex);
->>   	spin_lock_init(&guc->irq_lock);
->> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
->> index 5d94cf482516..e5a456918b88 100644
->> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc.h
->> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
->> @@ -57,6 +57,8 @@ struct intel_guc {
->>   
->>   	bool submission_supported;
->>   	bool submission_selected;
->> +	bool slpc_supported;
->> +	bool slpc_selected;
->>   
->>   	struct i915_vma *ads_vma;
->>   	struct __guc_ads_blob *ads_blob;
->> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
->> index 9c102bf0c8e3..e2644a05f298 100644
->> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
->> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
->> @@ -2351,6 +2351,27 @@ void intel_guc_submission_init_early(struct intel_guc *guc)
->>   	guc->submission_selected = __guc_submission_selected(guc);
->>   }
->>   
->> +static bool __guc_slpc_supported(struct intel_guc *guc)
-> 
-> hmm, easy to confuse with intel_guc_slpc_is_supported, so maybe:
-> 
-> __detect_slpc_supported()
+  16: 55                    push   %rbp
+  17: 48 89 fd              mov    %rdi,%rbp
+  1a: e8 a2 02 00 00        callq  0x2c1
+  1f: 84 c0                test   %al,%al
+  21: 74 0d                je     0x30
+  23: 48 8b 85 68 01 00 00 mov    0x168(%rbp),%rax
+  2a:* 83 78 10 03          cmpl   $0x3,0x10(%rax) <-- trapping instruction
+  2e: 74 02                je     0x32
+  30: 5d                    pop    %rbp
+  31: c3                    retq
 
-ok.
-> 
-> (yes, I know you were following code above)
-> 
->> +{
->> +	/* GuC slpc is unavailable for pre-Gen12 */
-> 
-> s/slpc/SLPC
-> 
->> +	return guc->submission_supported &&
->> +		GRAPHICS_VER(guc_to_gt(guc)->i915) >= 12;
->> +}
->> +
->> +static bool __guc_slpc_selected(struct intel_guc *guc)
->> +{
->> +	if (!intel_guc_slpc_is_supported(guc))
->> +		return false;
->> +
->> +	return guc->submission_selected;
->> +}
->> +
->> +void intel_guc_slpc_init_early(struct intel_guc *guc)
->> +{
->> +	guc->slpc_supported = __guc_slpc_supported(guc);
->> +	guc->slpc_selected = __guc_slpc_selected(guc);
->> +}
-> 
-> in patch 4/16 you are introducing intel_guc_slpc.c|h so to have proper
-> encapsulation better to define this function as
-> 
-> void intel_guc_slpc_init_early(struct intel_guc_slpc *slpc) { }
+and that "cmpl $3" looks exactly like that
 
-the uc_state_checkers force the use of struct intel_guc *guc as the 
-param. don't think I can change that to refer to slpc instead.
+        if (bo->resource->mem_type == TTM_PL_PRIV
 
-static inline bool intel_guc_slpc_is_supported(struct intel_guc *guc)
-{
-         return guc->slpc_supported;
-}
+and the bug is almost certainly from commit d3116756a710 ("drm/ttm:
+rename bo->mem and make it a pointer"), which did
 
-slpc_supported needs to be inside the guc struct.
+-       if (bo->mem.mem_type == TTM_PL_PRIV ...
++       if (bo->resource->mem_type == TTM_PL_PRIV ...
 
-> 
-> and move it to intel_guc_slpc.c
-> 
->> +
->>   static inline struct intel_context *
->>   g2h_context_lookup(struct intel_guc *guc, u32 desc_idx)
->>   {
->> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h
->> index be767eb6ff71..7ae5fd052faf 100644
->> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h
->> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h
->> @@ -13,6 +13,7 @@
->>   struct drm_printer;
->>   struct intel_engine_cs;
->>   
->> +void intel_guc_slpc_init_early(struct intel_guc *guc);
-> 
-> it really does not belong to this .h
-> 
->>   void intel_guc_submission_init_early(struct intel_guc *guc);
->>   int intel_guc_submission_init(struct intel_guc *guc);
->>   void intel_guc_submission_enable(struct intel_guc *guc);
->> @@ -50,4 +51,19 @@ static inline bool intel_guc_submission_is_used(struct intel_guc *guc)
->>   	return intel_guc_is_used(guc) && intel_guc_submission_is_wanted(guc);
->>   }
->>   
->> +static inline bool intel_guc_slpc_is_supported(struct intel_guc *guc)
->> +{
->> +	return guc->slpc_supported;
->> +}
->> +
->> +static inline bool intel_guc_slpc_is_wanted(struct intel_guc *guc)
->> +{
->> +	return guc->slpc_selected;
->> +}
->> +
->> +static inline bool intel_guc_slpc_is_used(struct intel_guc *guc)
->> +{
->> +	return intel_guc_submission_is_used(guc) && intel_guc_slpc_is_wanted(guc);
->> +}
-> 
-> did you try to define them in intel_guc_slpc.h ?
-> 
-> note that to avoid circular dependencies you can define slpc struct in
-> intel_guc_slpc_types.h and then
-> 
-> in intel_guc.h:
-> 	#include "intel_guc_slpc_types.h" instead of intel_guc_slpc.h
-> 
-> in intel_guc_slpc.h:
-> 	#include "intel_guc.h"
-> 	#include "intel_guc_slpc_types.h"
-> 	#include "intel_guc_submission.h"
+and claimed "No functional change".
 
-Sure, will give that a try.
+But clearly the "bo->resource" pointer is NULL.
 
-> 
->> +
->>   #endif
->> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc.c b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
->> index 61be0aa81492..dca5f6d0641b 100644
->> --- a/drivers/gpu/drm/i915/gt/uc/intel_uc.c
->> +++ b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
->> @@ -76,16 +76,18 @@ static void __confirm_options(struct intel_uc *uc)
->>   	struct drm_i915_private *i915 = uc_to_gt(uc)->i915;
->>   
->>   	drm_dbg(&i915->drm,
->> -		"enable_guc=%d (guc:%s submission:%s huc:%s)\n",
->> +		"enable_guc=%d (guc:%s submission:%s huc:%s slpc:%s)\n",
->>   		i915->params.enable_guc,
->>   		yesno(intel_uc_wants_guc(uc)),
->>   		yesno(intel_uc_wants_guc_submission(uc)),
->> -		yesno(intel_uc_wants_huc(uc)));
->> +		yesno(intel_uc_wants_huc(uc)),
->> +		yesno(intel_uc_wants_guc_slpc(uc)));
->>   
->>   	if (i915->params.enable_guc == 0) {
->>   		GEM_BUG_ON(intel_uc_wants_guc(uc));
->>   		GEM_BUG_ON(intel_uc_wants_guc_submission(uc));
->>   		GEM_BUG_ON(intel_uc_wants_huc(uc));
->> +		GEM_BUG_ON(intel_uc_wants_guc_slpc(uc));
->>   		return;
->>   	}
->>   
->> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc.h b/drivers/gpu/drm/i915/gt/uc/intel_uc.h
->> index e2da2b6e76e1..38e465fd8a0c 100644
->> --- a/drivers/gpu/drm/i915/gt/uc/intel_uc.h
->> +++ b/drivers/gpu/drm/i915/gt/uc/intel_uc.h
->> @@ -83,6 +83,7 @@ __uc_state_checker(x, func, uses, used)
->>   uc_state_checkers(guc, guc);
->>   uc_state_checkers(huc, huc);
->>   uc_state_checkers(guc, guc_submission);
->> +uc_state_checkers(guc, guc_slpc);
->>   
->>   #undef uc_state_checkers
->>   #undef __uc_state_checker
->>
+Added guilty parties and dri-devel mailing list.
+
+Christian? Full report at
+
+   https://lore.kernel.org/lkml/a9473821-1d53-0037-7590-aeaf8e85e72a@jonmasters.org/
+
+but there's not a whole lot else there that is interesting except for
+the call trace:
+
+  ttm_bo_cleanup_memtype_use+0x22/0x60 [ttm]
+  ttm_bo_release+0x1a1/0x300 [ttm]
+  ttm_bo_delayed_delete+0x1be/0x220 [ttm]
+  ttm_device_delayed_workqueue+0x18/0x40 [ttm]
+  process_one_work+0x1ec/0x390
+  worker_thread+0x53/0x3e0
+
+so it's presumably the cleanup phase and perhaps "bo->resource" has
+been deallocated and cleared?
+
+                  Linus
