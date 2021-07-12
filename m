@@ -2,55 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB8C53C64A1
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Jul 2021 22:02:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBEA33C64A9
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Jul 2021 22:02:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 317D389DB2;
-	Mon, 12 Jul 2021 20:02:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 75C2C89E57;
+	Mon, 12 Jul 2021 20:02:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
- [IPv6:2a00:1450:4864:20::434])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1815389DFA
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
+ [IPv6:2a00:1450:4864:20::42f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BAF9489E35
  for <dri-devel@lists.freedesktop.org>; Mon, 12 Jul 2021 20:02:14 +0000 (UTC)
-Received: by mail-wr1-x434.google.com with SMTP id d2so27320436wrn.0
+Received: by mail-wr1-x42f.google.com with SMTP id d12so26633825wre.13
  for <dri-devel@lists.freedesktop.org>; Mon, 12 Jul 2021 13:02:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=0WTGYnK900Sbe5MqmyJ3un5MyLkukJoTVto5awctnjg=;
- b=GjUhjfEdBwCSiBaDg7Iu6or3rFuGM4d1aNcTzdhvuZfABvGIqLjMGNSloDR8tDDUBu
- +pZncIjxQ4bi1qxHeZeO4iP1dBgpVGXaGOJCOs9GzMq8eSY8WDXXwJ1jaQdkULnfNvJb
- 5tDaAAmA6/m9T5+KbjkrZRbz9qZ3gB7H25SYc=
+ bh=dYZ3zn3qRqcX4QX0xa+aX3+b2aV1OAC4nuxuJao/TIs=;
+ b=iLdhvncvMehG3CMbVMdt9M3L7qP6RiSP4tr1fgRJGs/58RZsgrNOm9THAZ/YpKY/kj
+ xk2m8kgsgiVtZ9uxL+1MD14yEGQ7Kt1hzEGyymb9Kyi8SZOnehXzQmfeCHGd8erh3UN4
+ wtTzkSvMaCID4rpz9Hno/2UC+sbpGTDdXwzoQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=0WTGYnK900Sbe5MqmyJ3un5MyLkukJoTVto5awctnjg=;
- b=IFKB6mtNpwCUUEeHjMXt8UnjynDJviab0AYYMWhPd2lCC5sakdOMk0njVup61+pEkA
- 9OhX3p3XTzcyAjeK6xHWCO9b9A9yKV4Omo+lGRNlVfC2mdrIZJxb5nlE16iJcy/VYHio
- y0mEHkj6FZR6DnXnkJzixPIdPIjyZxM2J2c/4+hE8SaJlhWWe4rwx46RqZFIfrKanmey
- qLhxWKaF1ObwBI6vqamj9wFiAauWC9Hyg/oSXaTLxDa9NbUJteu+0yweTT8f64PFjYWq
- IibJQVlCtMN9wZsILgU3TjGmqqI+u6epldAT3LeVFXu9eoY3bwVL5AI2vzKLZWBIn9Qo
- i1mA==
-X-Gm-Message-State: AOAM530srd4kUMYU6n74NDkdIBJwgLBTV2E2+BjyjWZUQStoVcnvWNrD
- iU9lX6DLXFoHHplIkKQG09oVZf35q+L5iw==
-X-Google-Smtp-Source: ABdhPJxdW9zedwV3kiKEjC+VCqmVxuonv+xxpUAHoAsi+u2hN3Ug9mborlJNXGzl9pdAB2wU4LVuHQ==
-X-Received: by 2002:a5d:591c:: with SMTP id v28mr803547wrd.373.1626120132395; 
- Mon, 12 Jul 2021 13:02:12 -0700 (PDT)
+ bh=dYZ3zn3qRqcX4QX0xa+aX3+b2aV1OAC4nuxuJao/TIs=;
+ b=RUfCnB7xShwEQFl1jLEXHlTMIGHA2ZhV4ZMfH11A4JzcbkpN9WCgcM1TEREnyA6UX+
+ c8yFWvin6y+dAYosH9mb7fT1Ejll8tVDPdrgZuzqpiKJnJ4eXq7XVVD4TOTSz8Q8y5qH
+ WOYaeLomg7FjMRt5slIA84jmCxNCKaeImePruSUrw6bEcux38xZr0bk3iqHXIEFp4mRk
+ WVumXUjRIMJ3a/ThyCfUq4eIqlHKFfcHadw72uq0oDrjCSYgsvGNpwjdtth/XKnV8T7E
+ DlNY2OmfFS4W18I2lJS5pM/GpezhNKhbcxRRmeBJP3EQc1aV073lJcVPn0W6aW1NvsK6
+ JZkg==
+X-Gm-Message-State: AOAM5315WTahgKXczEn/e/qs9sfOog14c95JTqqT6z8s/xPaKqH/B8jE
+ /QDXY/dNXe8URjAF8Bi0thg5+WuQpRfsDA==
+X-Google-Smtp-Source: ABdhPJzmH/nTLmGb+ExV6HNR5uEPv5w6fQPO5qJChCG21HGJV0po3gL5/j1Ld/+eWPDtVP49XyJB5Q==
+X-Received: by 2002:a05:6000:1867:: with SMTP id
+ d7mr820566wri.199.1626120133456; 
+ Mon, 12 Jul 2021 13:02:13 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id l14sm9858221wrs.22.2021.07.12.13.02.11
+ by smtp.gmail.com with ESMTPSA id l14sm9858221wrs.22.2021.07.12.13.02.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 12 Jul 2021 13:02:12 -0700 (PDT)
 From: Daniel Vetter <daniel.vetter@ffwll.ch>
 To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v4 15/18] drm/etnaviv: Don't break exclusive fence ordering
-Date: Mon, 12 Jul 2021 19:53:49 +0200
-Message-Id: <20210712175352.802687-16-daniel.vetter@ffwll.ch>
+Subject: [PATCH v4 16/18] drm/i915: delete exclude argument from
+ i915_sw_fence_await_reservation
+Date: Mon, 12 Jul 2021 19:53:50 +0200
+Message-Id: <20210712175352.802687-17-daniel.vetter@ffwll.ch>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210712175352.802687-1-daniel.vetter@ffwll.ch>
 References: <20210712175352.802687-1-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,68 +67,124 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
  Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- etnaviv@lists.freedesktop.org, Russell King <linux+etnaviv@armlinux.org.uk>,
- Daniel Vetter <daniel.vetter@intel.com>
+ Jason Ekstrand <jason@jlekstrand.net>, Daniel Vetter <daniel.vetter@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There's only one exclusive slot, and we must not break the ordering.
-Adding a new exclusive fence drops all previous fences from the
-dma_resv. To avoid violating the signalling order we err on the side of
-over-synchronizing by waiting for the existing fences, even if
-userspace asked us to ignore them.
+No longer used, the last user disappeared with
 
-A better fix would be to us a dma_fence_chain or _array like e.g.
-amdgpu now uses, but it probably makes sense to lift this into
-dma-resv.c code as a proper concept, so that drivers don't have to
-hack up their own solution each on their own. Hence go with the simple
-fix for now.
+commit d07f0e59b2c762584478920cd2d11fba2980a94a
+Author: Chris Wilson <chris@chris-wilson.co.uk>
+Date:   Fri Oct 28 13:58:44 2016 +0100
 
-Another option is the fence import ioctl from Jason:
-
-https://lore.kernel.org/dri-devel/20210610210925.642582-7-jason@jlekstrand.net/
-
-v2: Improve commit message per Lucas' suggestion.
+    drm/i915: Move GEM activity tracking into a common struct reservation_object
 
 Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-Cc: Lucas Stach <l.stach@pengutronix.de>
-Cc: Russell King <linux+etnaviv@armlinux.org.uk>
-Cc: Christian Gmeiner <christian.gmeiner@gmail.com>
-Cc: etnaviv@lists.freedesktop.org
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: "Thomas Hellström" <thomas.hellstrom@linux.intel.com>
+Cc: Jason Ekstrand <jason@jlekstrand.net>
 ---
- drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/i915/display/intel_display.c   | 4 ++--
+ drivers/gpu/drm/i915/gem/i915_gem_clflush.c    | 2 +-
+ drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c | 2 +-
+ drivers/gpu/drm/i915/i915_sw_fence.c           | 6 +-----
+ drivers/gpu/drm/i915/i915_sw_fence.h           | 1 -
+ 5 files changed, 5 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
-index 5b97ce1299ad..07454db4b150 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
-@@ -178,18 +178,20 @@ static int submit_fence_sync(struct etnaviv_gem_submit *submit)
- 	for (i = 0; i < submit->nr_bos; i++) {
- 		struct etnaviv_gem_submit_bo *bo = &submit->bos[i];
- 		struct dma_resv *robj = bo->obj->base.resv;
-+		bool write = bo->flags & ETNA_SUBMIT_BO_WRITE;
+diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
+index 98e0f4ed7e4a..678c7839034e 100644
+--- a/drivers/gpu/drm/i915/display/intel_display.c
++++ b/drivers/gpu/drm/i915/display/intel_display.c
+@@ -11119,7 +11119,7 @@ intel_prepare_plane_fb(struct drm_plane *_plane,
+ 		 */
+ 		if (intel_crtc_needs_modeset(crtc_state)) {
+ 			ret = i915_sw_fence_await_reservation(&state->commit_ready,
+-							      old_obj->base.resv, NULL,
++							      old_obj->base.resv,
+ 							      false, 0,
+ 							      GFP_KERNEL);
+ 			if (ret < 0)
+@@ -11153,7 +11153,7 @@ intel_prepare_plane_fb(struct drm_plane *_plane,
+ 		struct dma_fence *fence;
  
--		if (!(bo->flags & ETNA_SUBMIT_BO_WRITE)) {
-+		if (!(write)) {
- 			ret = dma_resv_reserve_shared(robj, 1);
- 			if (ret)
- 				return ret;
- 		}
+ 		ret = i915_sw_fence_await_reservation(&state->commit_ready,
+-						      obj->base.resv, NULL,
++						      obj->base.resv,
+ 						      false,
+ 						      i915_fence_timeout(dev_priv),
+ 						      GFP_KERNEL);
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_clflush.c b/drivers/gpu/drm/i915/gem/i915_gem_clflush.c
+index daf9284ef1f5..93439d2c7a58 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_clflush.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_clflush.c
+@@ -106,7 +106,7 @@ bool i915_gem_clflush_object(struct drm_i915_gem_object *obj,
+ 		clflush = clflush_work_create(obj);
+ 	if (clflush) {
+ 		i915_sw_fence_await_reservation(&clflush->base.chain,
+-						obj->base.resv, NULL, true,
++						obj->base.resv, true,
+ 						i915_fence_timeout(to_i915(obj->base.dev)),
+ 						I915_FENCE_GFP);
+ 		dma_resv_add_excl_fence(obj->base.resv, &clflush->base.dma);
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+index b95c8927d465..b4a77eba8631 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+@@ -2087,7 +2087,7 @@ static int eb_parse_pipeline(struct i915_execbuffer *eb,
  
--		if (submit->flags & ETNA_SUBMIT_NO_IMPLICIT)
-+		/* exclusive fences must be ordered */
-+		if (submit->flags & ETNA_SUBMIT_NO_IMPLICIT && !write)
- 			continue;
+ 	/* Wait for all writes (and relocs) into the batch to complete */
+ 	err = i915_sw_fence_await_reservation(&pw->base.chain,
+-					      pw->batch->resv, NULL, false,
++					      pw->batch->resv, false,
+ 					      0, I915_FENCE_GFP);
+ 	if (err < 0)
+ 		goto err_commit;
+diff --git a/drivers/gpu/drm/i915/i915_sw_fence.c b/drivers/gpu/drm/i915/i915_sw_fence.c
+index c589a681da77..91711a46b1c7 100644
+--- a/drivers/gpu/drm/i915/i915_sw_fence.c
++++ b/drivers/gpu/drm/i915/i915_sw_fence.c
+@@ -567,7 +567,6 @@ int __i915_sw_fence_await_dma_fence(struct i915_sw_fence *fence,
  
- 		ret = drm_sched_job_await_implicit(&submit->sched_job, &bo->obj->base,
--						   bo->flags & ETNA_SUBMIT_BO_WRITE);
-+						   write);
- 		if (ret)
+ int i915_sw_fence_await_reservation(struct i915_sw_fence *fence,
+ 				    struct dma_resv *resv,
+-				    const struct dma_fence_ops *exclude,
+ 				    bool write,
+ 				    unsigned long timeout,
+ 				    gfp_t gfp)
+@@ -587,9 +586,6 @@ int i915_sw_fence_await_reservation(struct i915_sw_fence *fence,
  			return ret;
+ 
+ 		for (i = 0; i < count; i++) {
+-			if (shared[i]->ops == exclude)
+-				continue;
+-
+ 			pending = i915_sw_fence_await_dma_fence(fence,
+ 								shared[i],
+ 								timeout,
+@@ -609,7 +605,7 @@ int i915_sw_fence_await_reservation(struct i915_sw_fence *fence,
+ 		excl = dma_resv_get_excl_unlocked(resv);
  	}
+ 
+-	if (ret >= 0 && excl && excl->ops != exclude) {
++	if (ret >= 0 && excl) {
+ 		pending = i915_sw_fence_await_dma_fence(fence,
+ 							excl,
+ 							timeout,
+diff --git a/drivers/gpu/drm/i915/i915_sw_fence.h b/drivers/gpu/drm/i915/i915_sw_fence.h
+index 30a863353ee6..6572f01668e4 100644
+--- a/drivers/gpu/drm/i915/i915_sw_fence.h
++++ b/drivers/gpu/drm/i915/i915_sw_fence.h
+@@ -86,7 +86,6 @@ int i915_sw_fence_await_dma_fence(struct i915_sw_fence *fence,
+ 
+ int i915_sw_fence_await_reservation(struct i915_sw_fence *fence,
+ 				    struct dma_resv *resv,
+-				    const struct dma_fence_ops *exclude,
+ 				    bool write,
+ 				    unsigned long timeout,
+ 				    gfp_t gfp);
 -- 
 2.32.0
 
