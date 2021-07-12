@@ -1,59 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7723B3C421E
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Jul 2021 05:42:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FF6B3C4320
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Jul 2021 06:35:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD9F089BA5;
-	Mon, 12 Jul 2021 03:41:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 49ECA8933C;
+	Mon, 12 Jul 2021 04:35:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A1CAC89BA5
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jul 2021 03:41:53 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1626061314; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=hs7Tqld0fBRwacaQc2I/5U3RxF7nEO0L5nh1M+lL7NQ=;
- b=UE9ehvoZjF5wmCKJsQxarR5xwlJ+Auqf69WphgjHbXi20jLftZjYChZTCKXUgTYj2ukQ9uN7
- vUwaTzi7VrlRCVcmy4aOl7g+cs4vmNN21mYkL7zsAfLw4X4bBIA1dnE7+1+vfiFH97i+tbp+
- 4Q8WOdtf3D+ggIOJQDUtUneF0PI=
-X-Mailgun-Sending-Ip: 69.72.43.7
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n05.prod.us-east-1.postgun.com with SMTP id
- 60ebb9ec193894195560c884 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 12 Jul 2021 03:41:32
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 0BE23C433D3; Mon, 12 Jul 2021 03:41:32 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
- URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: saiprakash.ranjan)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 12B2AC433F1;
- Mon, 12 Jul 2021 03:41:31 +0000 (UTC)
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com
+ [IPv6:2607:f8b0:4864:20::1036])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1BBB88933C;
+ Mon, 12 Jul 2021 04:35:49 +0000 (UTC)
+Received: by mail-pj1-x1036.google.com with SMTP id g24so9384686pji.4;
+ Sun, 11 Jul 2021 21:35:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=4rLWxgvTxRO6/WnLGuPe5bx1yA3ZPfoXkYG4O0mj5Ag=;
+ b=Geoi+0MWpfFz4FPkrYi/nx4PnAtxpDewQhIbIJJEpdvLJd+zqBYat7d/uOq4bOLVmd
+ crQ/FoTUO9henHk0k11fQML6QMzkjWON0Bt18h+gJv2G/u9O9SDKTBmGaHB5IW53VE4S
+ dROuzbLroxbfZ+hAfVRA1sBJwY8qb8JowpBI+TITbGDJyvK+HYjHCaIUdC1xAyu7xKp5
+ IPR01Sq4YwLldIdNar4XcUj524b6nWeJauuyT1o61vKbGdw75fpaUfireHd2P6nG5SoU
+ h4Fpq9tBo8yTM42PgkUERGI5dzs6z4lPbvLONb4iO7jVKoeo3VkpxgjE/ca8jJ+PZKkL
+ 41/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=4rLWxgvTxRO6/WnLGuPe5bx1yA3ZPfoXkYG4O0mj5Ag=;
+ b=d+Qik32wMd/29E3XXEtu48CJWNFsmSIOQa8rdw28FHp15oDNGNs7GICFJ13BCT/Zvm
+ Li/FKdr88f7f0N+yO6BrLrWZa2MywI3Zn3vLV1+szdfNTd8kMUiTdDistwVXMzwDmbn7
+ ukQ+s3Qgv5wTxTlRMf++wKV2i1B5zxpr4rB/bklBVO9Y9mqq14RXTFPcIaVfR4qszJf/
+ e3qq7q/Kh/GrppcP2yEabQEV9tl8t4YQ2xdOC4j3XxGWuI2B1M1y12MH1x1urrImNtn7
+ UxwzGymA97yBdFzp0aWxS/dG0erCBYiP+X3H7f6bcaXzrz0d0YORGLP0b1qW9HBoinrQ
+ 2JiQ==
+X-Gm-Message-State: AOAM530hTo57rsrFXf0obLNH7R4KPcqeyfTQMsXfT9w1r28Kk8JH8PFa
+ 5hMfndEA5EuOERi83N10qNo=
+X-Google-Smtp-Source: ABdhPJwl+CRq9QTeLobKLyJ6aOiBlK052/w9C9BYiZxarzwfe1F9ZnaLlpMcaNfVay5lzr4CjUJ4tQ==
+X-Received: by 2002:a17:90a:c484:: with SMTP id
+ j4mr48282588pjt.218.1626064548647; 
+ Sun, 11 Jul 2021 21:35:48 -0700 (PDT)
+Received: from localhost.localdomain ([118.200.190.93])
+ by smtp.gmail.com with ESMTPSA id n3sm14242764pfn.216.2021.07.11.21.35.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 11 Jul 2021 21:35:48 -0700 (PDT)
+From: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@linux.ie, daniel@ffwll.ch, sumit.semwal@linaro.org,
+ christian.koenig@amd.com
+Subject: [PATCH v8 0/5] drm: address potential UAF bugs with drm_master ptrs
+Date: Mon, 12 Jul 2021 12:35:03 +0800
+Message-Id: <20210712043508.11584-1-desmondcheongzx@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date: Mon, 12 Jul 2021 09:11:30 +0530
-From: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
-To: Kalyan Thota <kalyan_t@codeaurora.org>
-Subject: Re: [v1] drm/msm/disp/dpu1: add safe lut config in dpu driver
-In-Reply-To: <1625827244-23274-1-git-send-email-kalyan_t@codeaurora.org>
-References: <1625827244-23274-1-git-send-email-kalyan_t@codeaurora.org>
-Message-ID: <38beafdc174cbb16de6f1d646fff6816@codeaurora.org>
-X-Sender: saiprakash.ranjan@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,96 +68,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, rnayak@codeaurora.org, mkrishn@codeaurora.org,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, dianders@chromium.org,
- freedreno@lists.freedesktop.org
+Cc: gregkh@linuxfoundation.org, intel-gfx@lists.freedesktop.org,
+ emil.l.velikov@gmail.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ skhan@linuxfoundation.org, Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021-07-09 16:10, Kalyan Thota wrote:
-> Add safe lut configuration for all the targets in dpu
-> driver as per QOS recommendation.
-> 
-> Issue reported on SC7280:
-> 
-> With wait-for-safe feature in smmu enabled, RT client
-> buffer levels are checked to be safe before smmu invalidation.
-> Since display was always set to unsafe it was delaying the
-> invalidaiton process thus impacting the performance on NRT clients
-> such as eMMC and NVMe.
-> 
-> Validated this change on SC7280, With this change eMMC performance
-> has improved significantly.
-> 
-> Signed-off-by: Kalyan Thota <kalyan_t@codeaurora.org>
-> ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 5 +++++
->  1 file changed, 5 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> index d01c4c9..2e482cd 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> @@ -974,6 +974,7 @@ static const struct dpu_perf_cfg sdm845_perf_data = 
-> {
->  	.amortizable_threshold = 25,
->  	.min_prefill_lines = 24,
->  	.danger_lut_tbl = {0xf, 0xffff, 0x0},
-> +	.safe_lut_tbl = {0xfff0, 0xf000, 0xffff},
->  	.qos_lut_tbl = {
->  		{.nentry = ARRAY_SIZE(sdm845_qos_linear),
->  		.entries = sdm845_qos_linear
-> @@ -1001,6 +1002,7 @@ static const struct dpu_perf_cfg sc7180_perf_data 
-> = {
->  	.min_dram_ib = 1600000,
->  	.min_prefill_lines = 24,
->  	.danger_lut_tbl = {0xff, 0xffff, 0x0},
-> +	.safe_lut_tbl = {0xfff0, 0xff00, 0xffff},
->  	.qos_lut_tbl = {
->  		{.nentry = ARRAY_SIZE(sc7180_qos_linear),
->  		.entries = sc7180_qos_linear
-> @@ -1028,6 +1030,7 @@ static const struct dpu_perf_cfg sm8150_perf_data 
-> = {
->  	.min_dram_ib = 800000,
->  	.min_prefill_lines = 24,
->  	.danger_lut_tbl = {0xf, 0xffff, 0x0},
-> +	.safe_lut_tbl = {0xfff8, 0xf000, 0xffff},
->  	.qos_lut_tbl = {
->  		{.nentry = ARRAY_SIZE(sm8150_qos_linear),
->  		.entries = sm8150_qos_linear
-> @@ -1056,6 +1059,7 @@ static const struct dpu_perf_cfg sm8250_perf_data 
-> = {
->  	.min_dram_ib = 800000,
->  	.min_prefill_lines = 35,
->  	.danger_lut_tbl = {0xf, 0xffff, 0x0},
-> +	.safe_lut_tbl = {0xfff0, 0xff00, 0xffff},
->  	.qos_lut_tbl = {
->  		{.nentry = ARRAY_SIZE(sc7180_qos_linear),
->  		.entries = sc7180_qos_linear
-> @@ -1084,6 +1088,7 @@ static const struct dpu_perf_cfg sc7280_perf_data 
-> = {
->  	.min_dram_ib = 1600000,
->  	.min_prefill_lines = 24,
->  	.danger_lut_tbl = {0xffff, 0xffff, 0x0},
-> +	.safe_lut_tbl = {0xff00, 0xff00, 0xffff},
->  	.qos_lut_tbl = {
->  		{.nentry = ARRAY_SIZE(sc7180_qos_macrotile),
->  		.entries = sc7180_qos_macrotile
+Hi,
 
-Tested-by: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org> 
-(sc7280, sc7180)
+In the previous thread on this series we decided to remove a patch that was violating a lockdep requirement in drm_lease. In addition to this change, I took a closer look at the CI logs for the Basic Acceptance Tests and noticed that another regression was introduced. The new patch 2 is a response to this.
 
-This will need fixes and stable tag and I think this should also fix the
-wait-for-safe issue with sdm845 (ufs/usb speed slowdown with display 
-active)
-which we have in arm-smmu-qcom.
+Overall, this series addresses potential use-after-free errors when dereferencing pointers to struct drm_master. These were identified after one such bug was caught by Syzbot in drm_getunique():
+https://syzkaller.appspot.com/bug?id=148d2f1dfac64af52ffd27b661981a540724f803
 
-Thanks,
-Sai
+The series is broken up into five patches:
+
+1. Move a call to drm_is_current_master() out from a section locked by &dev->mode_config.mutex in drm_mode_getconnector(). This patch does not apply to stable.
+
+2. Move a call to drm_is_current_master() out from the RCU read-side critical section in drm_clients_info().
+
+3. Implement a locked version of drm_is_current_master() function that's used within drm_auth.c.
+
+4. Serialize drm_file.master by introducing a new spinlock that's held whenever the value of drm_file.master changes.
+
+5. Identify areas in drm_lease.c where pointers to struct drm_master are dereferenced, and ensure that the master pointers are not freed during use.
+
+v7 -> v8:
+- Remove the patch that moves the call to _drm_lease_held out from the section locked by &dev->mode_config.idr_mutex in __drm_mode_object_find. This patch violated an existing lockdep requirement as reported by the intel-gfx CI.
+- Added a new patch that moves a call to drm_is_current_master out from the RCU critical section in drm_clients_info. This was reported by the intel-gfx CI.
+
+v6 -> v7:
+- Modify code alignment as suggested by the intel-gfx CI.
+- Add a new patch to the series that adds a new lock to serialize drm_file.master, in response to the lockdep splat by the intel-gfx CI.
+- Update drm_file_get_master to use the new drm_file.master_lock instead of drm_device.master_mutex, in response to the lockdep splat by the intel-gfx CI.
+
+v5 -> v6:
+- Add a new patch to the series that moves the call to _drm_lease_held out from the section locked by &dev->mode_config.idr_mutex in __drm_mode_object_find.
+- Clarify the kerneldoc for dereferencing drm_file.master, as suggested by Daniel Vetter.
+- Refactor error paths with goto labels so that each function only has a single drm_master_put(), as suggested by Emil Velikov.
+- Modify comparisons to NULL into "!master", as suggested by the intel-gfx CI.
+
+v4 -> v5:
+- Add a new patch to the series that moves the call to drm_is_current_master in drm_mode_getconnector out from the section locked by &dev->mode_config.mutex.
+- Additionally, added a missing semicolon to the patch, caught by the intel-gfx CI.
+
+v3 -> v4:
+- Move the call to drm_is_current_master in drm_mode_getconnector out from the section locked by &dev->mode_config.mutex. As suggested by Daniel Vetter. This avoids a circular lock lock dependency as reported here https://patchwork.freedesktop.org/patch/440406/
+- Inside drm_is_current_master, instead of grabbing &fpriv->master->dev->master_mutex, we grab &fpriv->minor->dev->master_mutex to avoid dereferencing a null ptr if fpriv->master is not set.
+- Modify kerneldoc formatting for drm_file.master, as suggested by Daniel Vetter.
+- Additionally, add a file_priv->master NULL check inside drm_file_get_master, and handle the NULL result accordingly in drm_lease.c. As suggested by Daniel Vetter.
+
+v2 -> v3:
+- Move the definition of drm_is_current_master and the _locked version higher up in drm_auth.c to avoid needing a forward declaration of drm_is_current_master_locked. As suggested by Daniel Vetter.
+- Instead of leaking drm_device.master_mutex into drm_lease.c to protect drm_master pointers, add a new drm_file_get_master() function that returns drm_file->master while increasing its reference count, to prevent drm_file->master from being freed. As suggested by Daniel Vetter.
+
+v1 -> v2:
+- Move the lock and assignment before the DRM_DEBUG_LEASE in drm_mode_get_lease_ioctl, as suggested by Emil Velikov.
+
+Desmond Cheong Zhi Xi (5):
+  drm: avoid circular locks in drm_mode_getconnector
+  drm: avoid blocking in drm_clients_info's rcu section
+  drm: add a locked version of drm_is_current_master
+  drm: serialize drm_file.master with a new spinlock
+  drm: protect drm_master pointers in drm_lease.c
+
+ drivers/gpu/drm/drm_auth.c      | 93 ++++++++++++++++++++++++---------
+ drivers/gpu/drm/drm_connector.c |  5 +-
+ drivers/gpu/drm/drm_debugfs.c   |  3 +-
+ drivers/gpu/drm/drm_file.c      |  1 +
+ drivers/gpu/drm/drm_lease.c     | 81 +++++++++++++++++++++-------
+ include/drm/drm_auth.h          |  1 +
+ include/drm/drm_file.h          | 18 +++++--
+ 7 files changed, 152 insertions(+), 50 deletions(-)
 
 -- 
-QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a 
-member
-of Code Aurora Forum, hosted by The Linux Foundation
+2.25.1
+
