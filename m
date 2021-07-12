@@ -1,67 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE1DD3C4657
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Jul 2021 11:47:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4715F3C4660
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Jul 2021 12:02:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C6C2989BF8;
-	Mon, 12 Jul 2021 09:47:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D52089B70;
+	Mon, 12 Jul 2021 10:02:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 96B0589BF8
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jul 2021 09:47:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626083243;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=OsAxr7I5wY3GHXnm0dzu227J/w3T3hi+AUx2iyLrph4=;
- b=hoOOZaDFoDeDufc96XIesBMTwIiVX4TrDGz5w/Mw4CTSJl0cw+F1K8YFFQQAYQ9iq76LC9
- /EC79mcOYw+EId3lfYtxSoVU3JXMxeLDKzUO6khSm9iuC2QFUUL5X8np+wJiy0X2gxCJT+
- 8XJuORmh0gQ/fu23dSC4yJVBMeLUPIo=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-26-48Qo3IRbP92q0zrIa36HYA-1; Mon, 12 Jul 2021 05:47:20 -0400
-X-MC-Unique: 48Qo3IRbP92q0zrIa36HYA-1
-Received: by mail-wr1-f72.google.com with SMTP id
- r18-20020adfce920000b029013bbfb19640so5367408wrn.17
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jul 2021 02:47:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=OsAxr7I5wY3GHXnm0dzu227J/w3T3hi+AUx2iyLrph4=;
- b=eA+YVi4ROI1HxqM/+TEIgPPueWjIZ4EnciFriUtihtwCYA7YACnYq6fklGUIQRkemx
- 9tu4yz7HF1iOa2bK+Of5qk/k/H8PX3DHG0BcbrCer1frY1E+46/A6hLIJIakCkktJei0
- mqTBHnHj0lUzkYWPJOYr4vXideNUhxp1p9EHRhxrSdtufP/BJhDH/dDkB2sA0xP+AG8E
- EnlpUITV6VtvXP3tiqKV+k3OQRJef3ZoWNHL54Rj673Sa8pslMd5WiHjUZNZU356Cuhl
- Z0/RDivSVaEfgIwaqHA+ib8YtFi825BgRtkei2ncmwTRNo0mmoSSgEPNAsFUWfvJH/px
- sngw==
-X-Gm-Message-State: AOAM531YO/HH/+mLvq6eeJWknjTtDmjwKshIJtBftDkjQAwTPJzV793y
- MrXu1pKI35HCNOww5E2TUDFFOYz8aBXFUU5TrykhGBBk0W+VfKHbFxpBMWs0BMcPG7q+2e/KNM8
- PqY8t9z/t7VlNJDlXh6Llwb4RAInAmPXkPaTMrk6XXGRl
-X-Received: by 2002:adf:ec0c:: with SMTP id x12mr23662124wrn.113.1626083239347; 
- Mon, 12 Jul 2021 02:47:19 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw3sW8UYSOM/Q6qgJACh2S4VICMKyF4ZwsV6v+fR4fftaOEQT2tUBbmhmNCwT2qSaSR3qFgvPBKqWkCA/b7Jp8=
-X-Received: by 2002:adf:ec0c:: with SMTP id x12mr23662105wrn.113.1626083239204; 
- Mon, 12 Jul 2021 02:47:19 -0700 (PDT)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 7FA6589B70
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jul 2021 10:02:48 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 919D21FB;
+ Mon, 12 Jul 2021 03:02:47 -0700 (PDT)
+Received: from [192.168.1.179] (unknown [172.31.20.19])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 765B13F694;
+ Mon, 12 Jul 2021 03:02:46 -0700 (PDT)
+Subject: Re: [PATCH v3] drm/panfrost:fix the exception name always "UNKNOWN"
+To: ChunyouTang <tangchunyou@163.com>
+References: <20210708073407.2015-1-tangchunyou@163.com>
+From: Steven Price <steven.price@arm.com>
+Message-ID: <814ae174-a247-bcd8-b2d6-847982a9fc6b@arm.com>
+Date: Mon, 12 Jul 2021 11:02:45 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210703072502.646239-1-gushengxian507419@gmail.com>
- <anhfX5shNJsdNd6vWMeQqNTawyT0AGuoZYI7yRItB-il7fywDu9_Ie1kKL7Wwv2ecVxiYaoymsZHpufnuxUBqvja2uq0_t-Qmhhc4uHT5f0=@emersion.fr>
-In-Reply-To: <anhfX5shNJsdNd6vWMeQqNTawyT0AGuoZYI7yRItB-il7fywDu9_Ie1kKL7Wwv2ecVxiYaoymsZHpufnuxUBqvja2uq0_t-Qmhhc4uHT5f0=@emersion.fr>
-From: Karol Herbst <kherbst@redhat.com>
-Date: Mon, 12 Jul 2021 11:47:08 +0200
-Message-ID: <CACO55tvmvcrAHjFjJ9fMgcFspyfMLE2gR7f3Fxe0_cxxrfwaUg@mail.gmail.com>
-Subject: Re: [PATCH] include/uapi/drm: fix spelling mistakes in header files
-To: Simon Ser <contact@emersion.fr>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kherbst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20210708073407.2015-1-tangchunyou@163.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,27 +43,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc@vger.kernel.org, lima@lists.freedesktop.org,
- gushengxian <gushengxian507419@gmail.com>, David Airlie <airlied@linux.ie>,
- nouveau <nouveau@lists.freedesktop.org>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Qiang Yu <yuq825@gmail.com>,
- tzimmermann@suse.de, gushengxian <gushengxian@yulong.com>
+Cc: tomeu.vizoso@collabora.com, airlied@linux.ie, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, alyssa.rosenzweig@collabora.com,
+ ChunyouTang <tangchunyou@icubecorp.cn>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Jul 3, 2021 at 11:00 AM Simon Ser <contact@emersion.fr> wrote:
->
-> Reviewed-by: Simon Ser <contact@emersion.fr>
->
-> But this this touches a lot of different drivers, not sure we can just
-> merge this via drm-misc-next?
->
-> In any case, please ping me again in a week if this hasn't been merged
-> by then.
->
+On 08/07/2021 08:34, ChunyouTang wrote:
+> From: ChunyouTang <tangchunyou@icubecorp.cn>
+> 
+> The exception_code in register is only 8 bits,So if
+> fault_status in panfrost_gpu_irq_handler() don't
+> (& 0xFF),it can't get correct exception reason.
+> 
+> and it's better to show all of the register value
+> to custom,so it's better fault_status don't (& 0xFF).
+> 
+> Signed-off-by: ChunyouTang <tangchunyou@icubecorp.cn>
 
-As long as it doesn't touch code I don't see why not. Just in case:
-Reviewed-by: Karol Herbst <kherbst@redhat.com>
+Reviewed-by: Steven Price <steven.price@arm.com>
+
+Boris's change has actually modified panfrost_exception_name() to no
+longer take pfdev in drm-misc-next. However, I'll just fix this up when
+I apply it.
+
+Thanks,
+
+Steve
+
+> ---
+>  drivers/gpu/drm/panfrost/panfrost_gpu.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_gpu.c b/drivers/gpu/drm/panfrost/panfrost_gpu.c
+> index 1fffb6a0b24f..d2d287bbf4e7 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_gpu.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_gpu.c
+> @@ -33,7 +33,7 @@ static irqreturn_t panfrost_gpu_irq_handler(int irq, void *data)
+>  		address |= gpu_read(pfdev, GPU_FAULT_ADDRESS_LO);
+>  
+>  		dev_warn(pfdev->dev, "GPU Fault 0x%08x (%s) at 0x%016llx\n",
+> -			 fault_status & 0xFF, panfrost_exception_name(pfdev, fault_status & 0xFF),
+> +			 fault_status, panfrost_exception_name(pfdev, fault_status & 0xFF),
+>  			 address);
+>  
+>  		if (state & GPU_IRQ_MULTIPLE_FAULT)
+> 
 
