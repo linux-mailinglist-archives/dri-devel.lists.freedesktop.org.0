@@ -1,59 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25E643C5C33
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Jul 2021 14:33:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E9863C5C39
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Jul 2021 14:35:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5530789C51;
-	Mon, 12 Jul 2021 12:33:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 70BC78989E;
+	Mon, 12 Jul 2021 12:35:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9DE6489C49;
- Mon, 12 Jul 2021 12:33:25 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 1752A21CC4;
- Mon, 12 Jul 2021 12:33:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1626093204; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=AYKAdLtE/BUTuxBUhEydzXDOdy4Vi7yaFmbOtBvHMO8=;
- b=OVPq7nrtxdxhqVZUdjg0s7EpI7yTWJNyrWXQdajaaz0K2jbhImFfYrZjQhnWfa4UnOrWUg
- g2cuFnWjjeL1bs4LLXVEDp0oyeL3z1Xc4tHudktL75oMd+WVp/kSkdw2dBVVhDOZAJLuqX
- HfKnWD+q4LHVzmF/wek8S7ZjjItFhRY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1626093204;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=AYKAdLtE/BUTuxBUhEydzXDOdy4Vi7yaFmbOtBvHMO8=;
- b=tfYAqfkDSqt42WudBMcjBSa0Lk9aOzQgr4HRgB1SU62rp2FVdSj4ZpgHeSmpx73jpNWxVc
- MZ9XSHVuUTTej3Dw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C156A13BAA;
- Mon, 12 Jul 2021 12:33:23 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id PAFTLZM27GCTWQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Mon, 12 Jul 2021 12:33:23 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: airlied@linux.ie, daniel@ffwll.ch, christian.koenig@amd.com,
- ville.syrjala@linux.intel.com, melissa.srw@gmail.com, jgg@ziepe.ca,
- lee.jones@linaro.org, chris@chris-wilson.co.uk, miaoqinglang@huawei.com
-Subject: [PATCH v2] drm/vgem: Restore mmap functionality
-Date: Mon, 12 Jul 2021 14:33:21 +0200
-Message-Id: <20210712123321.3658-1-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.32.0
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DAD928989E
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jul 2021 12:35:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1626093310;
+ bh=rh5GKzFg+dsbMQIiq+xLgaQmqKKWklDHEDOZ72rZcII=;
+ h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
+ b=EnkYebN8XadsyTNMfvs2529pi1xhNboFu3vx1nu5/O8lTawLXTp1uFmEZ1vbw7QRY
+ cJul/0DEGHchkxRkP6fBC0NmFp7nkoe0hu4objN5igLnzAnm5Jn8jXMMB53LPI8kbO
+ 1JgVkOXiVqFWg3eYZXA5Ki2a+IAd0UzcbQUf8Loo=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [157.180.225.139] ([157.180.225.139]) by web-mail.gmx.net
+ (3c-app-gmx-bs28.server.lan [172.19.170.80]) (via HTTP); Mon, 12 Jul 2021
+ 14:35:10 +0200
 MIME-Version: 1.0
+Message-ID: <trinity-f4eef0e6-9873-4fbe-8c17-19cab347b1ab-1626093310010@3c-app-gmx-bs28>
+From: Frank Wunderlich <frank-w@public-files.de>
+To: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Subject: Aw: Re: [PATCH] soc: mediatek: mmsys: fix HDMI output on
+ mt7623/bananapi-r2
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Date: Mon, 12 Jul 2021 14:35:10 +0200
+Importance: normal
+Sensitivity: Normal
+In-Reply-To: <456f0611-1fc7-75ac-ff45-9afd94190283@collabora.com>
+References: <20210710132431.265985-1-linux@fw-web.de>
+ <456f0611-1fc7-75ac-ff45-9afd94190283@collabora.com>
+X-UI-Message-Type: mail
+X-Priority: 3
+X-Provags-ID: V03:K1:zWcV0RNa/sAAcLlfgoukFcMoBNCF5QfVOFWpMafp6qWTO3YgcfbiGfQXaqFUWO/QDtRp2
+ K1smD/42XjVYAqhloiUChE3t8gzOyv6W0+h+Oafk9l5ps/3feCWhholV/PVX0G7pEgdHGqkSrmFW
+ xdjchm13IWeypvF1HK2gng5yonSOyfOkZK4zr51JZWSctdNXb0uWriIPzSgQPT8jZWoIDDRwjPnq
+ YcWdkEZANr4v9JiKu+lTZ6XUEfu8vNC3ye6LmvZGvJQjXBmGJYwqIlnKGsrTFqqgtK47Yd7PKPXr
+ OM=
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:pFzShrWh7KM=:R2Yx+XxHAnhSQINfaSenQw
+ 6i4+zufFPuqBVhvnpPJ6YszTcsHfFVP6VV4GJzdjiVfSDgqcEw5Eb0/9BTb8SyQoy2T01JiT1
+ ecnjD7Ad7kuQOQCeYeJuHMe1zEIuZS12BY8fTdpKjYFKfsT7WBhheYY4SN81nuxRMIaI8zXyM
+ /n24iOBND3dhCnida1iqOnY7xE3ndU17ez8LhFSTKBC+KvAkCfSs5WtnqSvu8GXupCqOQQ2TL
+ Uz6lxNZTCNtHaP8qQhJSySkZ8Bqe6/JaJs5Z5NqClIPRpXKf46SgJqQkr9Nj/cOlN3AvKoXTd
+ p8ZMxTY/Td9d0K/PWuUg2oGZtaPf0IcR/ZZV2x3/YakqOATMbeG/lAs7FJD23hy5eF313qu6r
+ pRmzwTRHN9BE1faIE57wnZpeu7iKIL8BWg793uiwrMQ5ayKIbdnrIHkoSMM7c6RQgYBtz1FJ0
+ HMJlVpaoHpb5+QhAC1oEU4fTvrTBVje26ZkD765cCY5E8ZX4f29IAQ4gOcUTHdbtMlQM1mLF7
+ zmNQyiyLiMUZwgoxuVLnnQSEJfmpXasFOeQ5h097zfMLlGjnpbPOnxngd+hf1o0gYsxexj8EF
+ +xUlA+tBn4wpBEC/JC9/1H9wh6O6G4Q4Ole9ktesV4RImdgW6uigx3FUJn6ZHI5BkDCUF8ImB
+ mI5gQKPm10oYT96u0dfP7/Tahgq+ralQe10/F+rc2SrvqH+Y+mtVsWXsYeu0uz6NorsCeDSzL
+ XURqADkdDF6i9WZVZmKj6cKVuIfgNHY0K7AeqNeM0B/wjSWRxcpWXsf6qVuQrDPlDpRGXVZNX
+ U6Cz9R1F9bvaIN5HD0dJCUi54rT3AgfywRXNLy0ZM2PiAjIg8s=
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,74 +70,135 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, intel-gfx@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ Matthias Brugger <matthias.bgg@gmail.com>, Frank Wunderlich <linux@fw-web.de>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Commit 375cca1cfeb5 ("drm/vgem: Implement mmap as GEM object function")
-accidentally removed the actual mmap functionality from vgem. Restore
-the original implementation by restoring the vm_pgoff in the mmap code.
+> Gesendet: Montag, 12. Juli 2021 um 13:50 Uhr
+> Von: "Dafna Hirschfeld" <dafna.hirschfeld@collabora.com>
+> An: "Frank Wunderlich" <linux@fw-web.de>, linux-mediatek@lists.infradead=
+.org
+> Cc: "Frank Wunderlich" <frank-w@public-files.de>, "Matthias Brugger" <ma=
+tthias.bgg@gmail.com>, "CK Hu" <ck.hu@mediatek.com>, linux-arm-kernel@list=
+s.infradead.org, linux-kernel@vger.kernel.org, "Enric Balletbo Serra" <eba=
+lletbo@gmail.com>, "David Airlie" <airlied@linux.ie>, dri-devel@lists.free=
+desktop.org, "Daniel Vetter" <daniel@ffwll.ch>
+> Betreff: Re: [PATCH] soc: mediatek: mmsys: fix HDMI output on mt7623/ban=
+anapi-r2
+>
+> Hi
+>
+> On 10.07.21 15:24, Frank Wunderlich wrote:
+> > From: Frank Wunderlich <frank-w@public-files.de>
+> >
+> > HDMI output was broken on mt7623/BPI-R2 in 5.13 because function for
+> > special output selection (mtk_mmsys_ddp_sout_sel) was dropped.
+> > This function wrote 3 registers at one time and so it is not compatibl=
+e
+> > with the array-approach.
+> >
+> > I re-added the old function and call this after the default routing ta=
+ble
+> > was applied. This default routing table can still be used as the only
+> > connection handled by mmsys on BPI-R2 is OVL0->RDMA0 and this is alrea=
+dy
+> > present in the default routing table
+> >
+> > Fixes: 440147639ac7 ("soc: mediatek: mmsys: Use an array for setting t=
+he routing registers")
+> > Signed-off-by: Frank Wunderlich <frank-w@public-files.de>
+> > ---
+> >   drivers/soc/mediatek/mtk-mmsys.c | 21 +++++++++++++++++++++
+> >   1 file changed, 21 insertions(+)
+> >
+> > diff --git a/drivers/soc/mediatek/mtk-mmsys.c b/drivers/soc/mediatek/m=
+tk-mmsys.c
+> > index 080660ef11bf..f91b7fdd417a 100644
+> > --- a/drivers/soc/mediatek/mtk-mmsys.c
+> > +++ b/drivers/soc/mediatek/mtk-mmsys.c
+> > @@ -57,6 +57,25 @@ struct mtk_mmsys {
+> >   	const struct mtk_mmsys_driver_data *data;
+> >   };
+> >
+> > +static void mtk_mmsys_ddp_sout_sel(struct device *dev,
+> > +				   enum mtk_ddp_comp_id cur,
+> > +				   enum mtk_ddp_comp_id next)
+> > +{
+> > +	struct mtk_mmsys *mmsys =3D dev_get_drvdata(dev);
+> > +
+> > +	if (cur =3D=3D DDP_COMPONENT_BLS && next =3D=3D DDP_COMPONENT_DSI0) =
+{
+> > +		writel_relaxed(BLS_TO_DSI_RDMA1_TO_DPI1,
+> > +			       mmsys->regs + DISP_REG_CONFIG_OUT_SEL);
+> > +	} else if (cur =3D=3D DDP_COMPONENT_BLS && next =3D=3D DDP_COMPONENT=
+_DPI0) {
+> > +		writel_relaxed(BLS_TO_DPI_RDMA1_TO_DSI,
+> > +			       mmsys->regs + DISP_REG_CONFIG_OUT_SEL);
+> > +		writel_relaxed(DSI_SEL_IN_RDMA,
+> > +			       mmsys->regs + DISP_REG_CONFIG_DSI_SEL);
+> > +		writel_relaxed(DPI_SEL_IN_BLS,
+> > +			       mmsys->regs + DISP_REG_CONFIG_DPI_SEL);
+>
+> you can still use the array approach for this like that:
+>
+>          {
+>                  DDP_COMPONENT_BLS, DDP_COMPONENT_DSI0,
+>                  DISP_REG_CONFIG_OUT_SEL, BLS_TO_DSI_RDMA1_TO_DPI1
+>          }, {
+>          {
+>                  DDP_COMPONENT_BLS, DDP_COMPONENT_DPI0,
+>                  DISP_REG_CONFIG_OUT_SEL, BLS_TO_DPI_RDMA1_TO_DSI
+>          }, {
+>          {
+>                  DDP_COMPONENT_BLS, DDP_COMPONENT_DPI0,
+>                  DISP_REG_CONFIG_DSI_SEL, DSI_SEL_IN_RDMA
+>          }, {
+>          {
+>                  DDP_COMPONENT_BLS, DDP_COMPONENT_DPI0,
+>                  DISP_REG_CONFIG_DPI_SEL, DPI_SEL_IN_BLS
+>          }, {
+>
+>
+> Thanks,
+> Dafna
 
-Fixes access to unmapped memory:
+these 4 blocks are already there (except your additional brackets) and it =
+does not work with them (not added in 5.14)
 
-[  106.591744] BUG: KASAN: vmalloc-out-of-bounds in do_fault+0x38/0x480
-[  106.598154] Read of size 8 at addr ffffffffc10c44a8 by task vgem_basic/1514
-[  106.605173]
-[  106.606678] CPU: 1 PID: 1514 Comm: vgem_basic Tainted: G            E     5.13.0-1-default+ #990
-[  106.615535] Hardware name: Dell Inc. OptiPlex 9020/0N4YC8, BIOS A24 10/24/2018
-[  106.622818] Call Trace:
-[  106.625289]  dump_stack+0xa5/0xdc
-[  106.628642]  print_address_description.constprop.0+0x18/0x100
-[  106.634439]  ? do_fault+0x38/0x480
-[  106.637872]  kasan_report.cold+0x7c/0xd8
-[  106.641834]  ? do_fault+0x38/0x480
-[  106.645274]  do_fault+0x38/0x480
-[  106.648535]  __handle_mm_fault+0x935/0xb00
-[  106.652676]  ? vm_iomap_memory+0xe0/0xe0
-[  106.656634]  ? __lock_release+0x12f/0x4e0
-[  106.660696]  ? count_memcg_event_mm.part.0+0xb9/0x190
-[  106.665799]  handle_mm_fault+0xd0/0x370
-[  106.669675]  do_user_addr_fault+0x2a0/0x8c0
-[  106.673908]  exc_page_fault+0x64/0xf0
-[  106.677604]  ? asm_exc_page_fault+0x8/0x30
-[  106.681739]  asm_exc_page_fault+0x1e/0x30
-[  106.685782] RIP: 0033:0x402e12
-...
-
-v2:
-	* restore vma.vm_pgoff instead of mapping the pages
-
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Fixes: 375cca1cfeb5 ("drm/vgem: Implement mmap as GEM object function")
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Christian König <christian.koenig@amd.com>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: "Christian König" <christian.koenig@amd.com>
-Cc: Melissa Wen <melissa.srw@gmail.com>
-Cc: Jason Gunthorpe <jgg@ziepe.ca>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
-Cc: Lee Jones <lee.jones@linaro.org>
----
- drivers/gpu/drm/vgem/vgem_drv.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/vgem/vgem_drv.c b/drivers/gpu/drm/vgem/vgem_drv.c
-index df634aa52638..e92d1f2e02c4 100644
---- a/drivers/gpu/drm/vgem/vgem_drv.c
-+++ b/drivers/gpu/drm/vgem/vgem_drv.c
-@@ -364,8 +364,8 @@ static void vgem_prime_vunmap(struct drm_gem_object *obj, struct dma_buf_map *ma
- 
- static int vgem_prime_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma)
+ 91 static const struct mtk_mmsys_routes mmsys_default_routing_table[] =3D=
  {
--	vma_set_file(vma, obj->filp);
--	vma->vm_flags |= VM_DONTEXPAND | VM_DONTDUMP;
-+	vma->vm_pgoff -= drm_vma_node_start(&obj->vma_node);
-+	vma->vm_flags |= VM_IO | VM_PFNMAP | VM_DONTEXPAND | VM_DONTDUMP;
- 	vma->vm_page_prot = pgprot_writecombine(vm_get_page_prot(vma->vm_flags));
- 	vma->vm_page_prot = pgprot_decrypted(vma->vm_page_prot);
- 
--- 
-2.32.0
+ 92     {
+ 93         DDP_COMPONENT_BLS, DDP_COMPONENT_DSI0,
+ 94         DISP_REG_CONFIG_OUT_SEL, BLS_TO_DSI_RDMA1_TO_DPI1 //(1)
+ 95     }, {
+ 96         DDP_COMPONENT_BLS, DDP_COMPONENT_DSI0,
+ 97         DISP_REG_CONFIG_DSI_SEL, DSI_SEL_IN_BLS
+ 98     }, {
+ 99         DDP_COMPONENT_BLS, DDP_COMPONENT_DPI0,
+100         DISP_REG_CONFIG_OUT_SEL, BLS_TO_DPI_RDMA1_TO_DSI //(2)
+101     }, {
+102         DDP_COMPONENT_BLS, DDP_COMPONENT_DPI0,
+103         DISP_REG_CONFIG_DSI_SEL, DSI_SEL_IN_RDMA //(3)
+104     }, {
+105         DDP_COMPONENT_BLS, DDP_COMPONENT_DPI0,
+106         DISP_REG_CONFIG_DPI_SEL, DPI_SEL_IN_BLS //(4)
+107     }, {
 
+and code should apply all matching parts (2-4 for BLS=3D>dpi), but it does=
+ not work...maybe because new code reads and OR the new value instead of w=
+riting it (old code overwrites current register value with the new value w=
+ithout reading)
+
+ 69     for (i =3D 0; i < mmsys->data->num_routes; i++)
+ 70         if (cur =3D=3D routes[i].from_comp && next =3D=3D routes[i].to=
+_comp) {
+ 71             reg =3D readl_relaxed(mmsys->regs + routes[i].addr) | rout=
+es[i].val; //<<<<<<<<<<<
+ 72             writel_relaxed(reg, mmsys->regs + routes[i].addr);
+ 73         }
+
+
+regards Frank
