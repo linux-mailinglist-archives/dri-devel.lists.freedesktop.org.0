@@ -1,37 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B5043C5B93
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Jul 2021 13:50:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 70DC03C5B99
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Jul 2021 13:57:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 58D5189A76;
-	Mon, 12 Jul 2021 11:50:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E551589BBD;
+	Mon, 12 Jul 2021 11:57:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E33F89A76
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jul 2021 11:50:15 +0000 (UTC)
-Received: from [IPv6:2a02:810a:880:f54:e464:19d5:3655:dde7] (unknown
- [IPv6:2a02:810a:880:f54:e464:19d5:3655:dde7])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: dafna)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id B6CA01F42190;
- Mon, 12 Jul 2021 12:50:13 +0100 (BST)
-Subject: Re: [PATCH] soc: mediatek: mmsys: fix HDMI output on
- mt7623/bananapi-r2
-To: Frank Wunderlich <linux@fw-web.de>, linux-mediatek@lists.infradead.org
-References: <20210710132431.265985-1-linux@fw-web.de>
-From: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Message-ID: <456f0611-1fc7-75ac-ff45-9afd94190283@collabora.com>
-Date: Mon, 12 Jul 2021 13:50:08 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com
+ [IPv6:2a00:1450:4864:20::532])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6413189BB2
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jul 2021 11:57:11 +0000 (UTC)
+Received: by mail-ed1-x532.google.com with SMTP id t3so27543083edt.12
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jul 2021 04:57:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=KSgOvh6ofyhg54g1zcETr9WEU5FOa2hVMdZdpUy5T24=;
+ b=Iv0wQvabWN46znY51TE6h6qdHawqmMHwHuEBvFNGCc7/YjBRwWmW4b6HjlgbcxRaF4
+ 8ikG539ydmhbxcfqWlUqezgspm0EavfHFpLonpvKgPCRCVzzDbKwizigYvJqCMWnT4pS
+ LAzJycgT/iX8Z/NwyonZn789ZiIkJgzrQgryCYS2G/7W+89Cs7QGcBByXj2DeI/iKtP4
+ cxnla5kkZyKz6TjaXPcReJKoSwZt7cf4DAJjcc8rT8bPdvT/3ypWLYMW3K0rmpNeMVgc
+ v8FTbrmNYEJtZENXh5adZbm7L245NL17Mxw9xVek98oXUEPMnvefDSldUGwJkGOPoFzL
+ NQqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=KSgOvh6ofyhg54g1zcETr9WEU5FOa2hVMdZdpUy5T24=;
+ b=JxuDZ4yrT17EpzaLh/dbpotxaywRyWl6a3M0nR5wXJ/k02dqZbbEAbG+h8OEHJ1HtG
+ d0FWtQl11Gjd2nyRgXWlwaw9W/+AJ2J1VnfJ21bC7b42ubqFJ+SNN2/aUN/wtK9EYzUc
+ brGctrgnKU0MWaRW4kZ5uJwybWasKK/Yg6BY9eyxGSFb9e2N6bdCFCaquGzJke9Dklkh
+ 0hkJd20rG17lVfzxGYJewQPDMZlKkN36U6bNqUFScTfL3WT7bvv36Fs85LvUdLCStOe7
+ VULBv2g2ewBE1nRbp8TNbO3aSSfxU5gxhuagtT13+0cpj8lmS1v1vqpYuXMIPkp3PnK/
+ J+bg==
+X-Gm-Message-State: AOAM530+FW5OGbu7/767l7/a1RV9jjVZ+rrucFopqGea7+3yLNu+/+Nk
+ tDueFCw6Bmr/hcxJdcSJZkFKZyS/06SfXYbuT/w=
+X-Google-Smtp-Source: ABdhPJxWtUe0dvHU4YUAcTHq9Qxa7swP+GCLvd/mN0P5xfUQ3EfJkelcHaieBfSXSHLVnYLatoPttODXDG1dzq+QDcA=
+X-Received: by 2002:a05:6402:2706:: with SMTP id
+ y6mr3147342edd.192.1626091030012; 
+ Mon, 12 Jul 2021 04:57:10 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210710132431.265985-1-linux@fw-web.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20210705074633.9425-1-tzimmermann@suse.de>
+In-Reply-To: <20210705074633.9425-1-tzimmermann@suse.de>
+From: Sumera Priyadarsini <sylphrenadin@gmail.com>
+Date: Mon, 12 Jul 2021 17:26:04 +0530
+Message-ID: <CACAkLur8SVqZt69CrfN+0rE4AstPBQPHbwJMnBM_TDTBFXVqdA@mail.gmail.com>
+Subject: Re: [PATCH 0/4] vkms: Switch to shadow-buffered plane state
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,95 +62,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Frank Wunderlich <frank-w@public-files.de>, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ David Airlie <airlied@linux.ie>, Melissa Wen <melissa.srw@gmail.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
+On Mon, Jul 5, 2021 at 1:16 PM Thomas Zimmermann <tzimmermann@suse.de> wrote:
+>
+> Vkms copies each plane's framebuffer into the output buffer; essentially
+> using a shadow buffer. DRM provides struct drm_shadow_plane_state, which
+> handles the details of mapping/unmapping shadow buffers into memory for
+> active planes.
+>
+> Convert vkms to the helpers. Makes vkms use shared code and gives more
+> test exposure to shadow-plane helpers.
+>
+> Thomas Zimmermann (4):
+>   drm/gem: Export implementation of shadow-plane helpers
+>   drm/vkms: Inherit plane state from struct drm_shadow_plane_state
+>   drm/vkms: Let shadow-plane helpers prepare the plane's FB
+>   drm/vkms: Use dma-buf mapping from shadow-plane state for composing
+>
+>  drivers/gpu/drm/drm_gem_atomic_helper.c | 55 ++++++++++++++++++++++--
+>  drivers/gpu/drm/vkms/vkms_composer.c    | 26 ++++++-----
+>  drivers/gpu/drm/vkms/vkms_drv.h         |  6 ++-
+>  drivers/gpu/drm/vkms/vkms_plane.c       | 57 ++++++-------------------
+>  include/drm/drm_gem_atomic_helper.h     |  6 +++
+>  5 files changed, 86 insertions(+), 64 deletions(-)
+>
+>
+> base-commit: 3d3b5479895dd6dd133571ded4318adf595708ba
+> --
+> 2.32.0
+>
+Hi,
 
-On 10.07.21 15:24, Frank Wunderlich wrote:
-> From: Frank Wunderlich <frank-w@public-files.de>
-> 
-> HDMI output was broken on mt7623/BPI-R2 in 5.13 because function for
-> special output selection (mtk_mmsys_ddp_sout_sel) was dropped.
-> This function wrote 3 registers at one time and so it is not compatible
-> with the array-approach.
-> 
-> I re-added the old function and call this after the default routing table
-> was applied. This default routing table can still be used as the only
-> connection handled by mmsys on BPI-R2 is OVL0->RDMA0 and this is already
-> present in the default routing table
-> 
-> Fixes: 440147639ac7 ("soc: mediatek: mmsys: Use an array for setting the routing registers")
-> Signed-off-by: Frank Wunderlich <frank-w@public-files.de>
-> ---
->   drivers/soc/mediatek/mtk-mmsys.c | 21 +++++++++++++++++++++
->   1 file changed, 21 insertions(+)
-> 
-> diff --git a/drivers/soc/mediatek/mtk-mmsys.c b/drivers/soc/mediatek/mtk-mmsys.c
-> index 080660ef11bf..f91b7fdd417a 100644
-> --- a/drivers/soc/mediatek/mtk-mmsys.c
-> +++ b/drivers/soc/mediatek/mtk-mmsys.c
-> @@ -57,6 +57,25 @@ struct mtk_mmsys {
->   	const struct mtk_mmsys_driver_data *data;
->   };
->   
-> +static void mtk_mmsys_ddp_sout_sel(struct device *dev,
-> +				   enum mtk_ddp_comp_id cur,
-> +				   enum mtk_ddp_comp_id next)
-> +{
-> +	struct mtk_mmsys *mmsys = dev_get_drvdata(dev);
-> +
-> +	if (cur == DDP_COMPONENT_BLS && next == DDP_COMPONENT_DSI0) {
-> +		writel_relaxed(BLS_TO_DSI_RDMA1_TO_DPI1,
-> +			       mmsys->regs + DISP_REG_CONFIG_OUT_SEL);
-> +	} else if (cur == DDP_COMPONENT_BLS && next == DDP_COMPONENT_DPI0) {
-> +		writel_relaxed(BLS_TO_DPI_RDMA1_TO_DSI,
-> +			       mmsys->regs + DISP_REG_CONFIG_OUT_SEL);
-> +		writel_relaxed(DSI_SEL_IN_RDMA,
-> +			       mmsys->regs + DISP_REG_CONFIG_DSI_SEL);
-> +		writel_relaxed(DPI_SEL_IN_BLS,
-> +			       mmsys->regs + DISP_REG_CONFIG_DPI_SEL);
+Thanks for the patches. The switch to shadow-plane helpers also solved
+a bug that was causing a kernel
+panic during some IGT kms_flip subtests on the vkms virtual hw patch.
 
-you can still use the array approach for this like that:
+Tested-by: Sumera Priyadarsini <sylphrenadin@gmail.com>
 
-         {
-                 DDP_COMPONENT_BLS, DDP_COMPONENT_DSI0,
-                 DISP_REG_CONFIG_OUT_SEL, BLS_TO_DSI_RDMA1_TO_DPI1
-         }, {
-         {
-                 DDP_COMPONENT_BLS, DDP_COMPONENT_DPI0,
-                 DISP_REG_CONFIG_OUT_SEL, BLS_TO_DPI_RDMA1_TO_DSI
-         }, {
-         {
-                 DDP_COMPONENT_BLS, DDP_COMPONENT_DPI0,
-                 DISP_REG_CONFIG_DSI_SEL, DSI_SEL_IN_RDMA
-         }, {
-         {
-                 DDP_COMPONENT_BLS, DDP_COMPONENT_DPI0,
-                 DISP_REG_CONFIG_DPI_SEL, DPI_SEL_IN_BLS
-         }, {
-
-
-Thanks,
-Dafna
-
-> +	}
-> +}
-> +
->   void mtk_mmsys_ddp_connect(struct device *dev,
->   			   enum mtk_ddp_comp_id cur,
->   			   enum mtk_ddp_comp_id next)
-> @@ -71,6 +90,8 @@ void mtk_mmsys_ddp_connect(struct device *dev,
->   			reg = readl_relaxed(mmsys->regs + routes[i].addr) | routes[i].val;
->   			writel_relaxed(reg, mmsys->regs + routes[i].addr);
->   		}
-> +
-> +	mtk_mmsys_ddp_sout_sel(dev, cur, next);
->   }
->   EXPORT_SYMBOL_GPL(mtk_mmsys_ddp_connect);
->   
-> 
+Cheers,
+Sumera
