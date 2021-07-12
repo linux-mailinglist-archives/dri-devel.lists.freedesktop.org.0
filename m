@@ -1,64 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DDF43C45F2
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Jul 2021 10:03:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id ABA3A3C45FA
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Jul 2021 10:11:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 36D2889C69;
-	Mon, 12 Jul 2021 08:03:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 49CC889C1F;
+	Mon, 12 Jul 2021 08:11:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
- [IPv6:2a00:1450:4864:20::12d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A46CF89C69
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jul 2021 08:03:23 +0000 (UTC)
-Received: by mail-lf1-x12d.google.com with SMTP id b26so9272589lfo.4
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jul 2021 01:03:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=LeU/iKFiiOjfK6kYoApvn8LC3klvjlzcItkxuxmRI6g=;
- b=tqpUUhnDJTw0hE70E1GDyFM8sXtcvTxr4t4HTbjBlmHkcDqIF88IH41cOi8okoS9Qz
- q93DAAoRh0CvIyA9Au/Bta5zTuR+AKCc/nI8gwyGCboUIjIz6Ya9uN5a1zye+xMIj5F4
- gj3VUtIUyOq6rQDPGxq4T/FBgYkXHshgO17K7WAO8zliquUChEKeUchSAY7MUn1LGOrO
- KD+lkYmaFKE3R89zpccIQXpP9nzsvQqguKsNvGdq83l6MnUnOne37G5pOVJmSWMJXUP1
- ODZIwd5BVFwzpaIFNuZ3+00pFHQ+IT85BBL2yC/WPuKUYKR2BAoJ+gm7kmnyDlkhpwYC
- Q2mg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=LeU/iKFiiOjfK6kYoApvn8LC3klvjlzcItkxuxmRI6g=;
- b=TeGZcfwuRPNS221lU0Rvz3zk9THsxbe9tsNiIt59f/RkN4aCDUUExuWoxLoGgAUaW6
- EKQafs0imMrTjglk3dPZrdT2lmupPD8xD6wYaAKs8UZ+a5ade6FpATvot8DJZXO59SVM
- +NuRY38tf8Xl52WErNEdkbTP17HqOe7wNINw8g9dbYmm0b6HFYSY3Gv3xNAt6llm3Jqk
- gtOLzKyekFzfCH0jxcznvnMOUXlTa+KfY/6uY2FvLncZA2+api+POkZN9cf+DwSRxHlP
- upTX/XVn8HRbMCe/7m9QwfS2L6yAwWiUEJcYaBceS6Le7wktDeXYhl6bFIUfXHhoK0yF
- K11A==
-X-Gm-Message-State: AOAM531UY57cZgZP238ELvq/11vFAlUt/TmKedtio73gpp6xuj4XbGuB
- acvH53dj7VHrpwxOrFtwOqQ=
-X-Google-Smtp-Source: ABdhPJyem3ieh37W13FAjougHL5Ev00Qqp2YmMFbO06yq7ngafrRsYlAez91tnKvE2pI4ySx0YgQWw==
-X-Received: by 2002:a19:48cd:: with SMTP id
- v196mr18878562lfa.269.1626077001864; 
- Mon, 12 Jul 2021 01:03:21 -0700 (PDT)
-Received: from eldfell ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id y11sm41355ljn.99.2021.07.12.01.03.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 12 Jul 2021 01:03:21 -0700 (PDT)
-Date: Mon, 12 Jul 2021 11:03:10 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
-Subject: Re: [PATCH 1/2] drm: add crtc background color property
-Message-ID: <20210712110310.540df27d@eldfell>
-In-Reply-To: <3c8331cf-fded-b6e6-3e25-666634f4b87a@foss.st.com>
-References: <20210707084557.22443-1-raphael.gallais-pou@foss.st.com>
- <20210707084557.22443-2-raphael.gallais-pou@foss.st.com>
- <20210709110459.79ca406a@eldfell>
- <3c8331cf-fded-b6e6-3e25-666634f4b87a@foss.st.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF3AE89C1E
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jul 2021 08:11:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1626077468;
+ bh=JMgyay+YyzCR7cAHs9mF7PoljaYXpFKpYzGhoYj6ySs=;
+ h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
+ b=jiXTB2QZoVu1buvDckNv8rMN2n8KbDsE01Vh/TJJ2KOaWPsE4DTAObtWrh3psjZOk
+ 2C8oOsSDA6boztueZFoRkSh9EX49p+0RWB4lKrAlLWwD/xmMHOiRjvRpRZu+oLKt6k
+ sVj42IUtrjM5r4+BLlf2rMjxREjT2qhCFH1dUjRw=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [157.180.225.139] ([157.180.225.139]) by web-mail.gmx.net
+ (3c-app-gmx-bs28.server.lan [172.19.170.80]) (via HTTP); Mon, 12 Jul 2021
+ 10:11:08 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/l+IJnmO2q5AI2NyYYICtU27";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Message-ID: <trinity-2d1b055a-73b0-4a15-9677-08fd13fd486d-1626077468706@3c-app-gmx-bs28>
+From: Frank Wunderlich <frank-w@public-files.de>
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Subject: Aw: Re: Re: Re: BUG: MTK DRM/HDMI broken on 5.13 (mt7623/bpi-r2)
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 12 Jul 2021 10:11:08 +0200
+Importance: normal
+Sensitivity: Normal
+In-Reply-To: <CAAOTY_-yi5NP_U-m==ZHeBNC9-6NrjUacKWdmmgVXZjH+sFZKw@mail.gmail.com>
+References: <trinity-cc8f5927-9aaf-43ae-a107-6a6229f1b481-1625565279264@3c-app-gmx-bs60>
+ <25d61873-38ae-5648-faab-03431b74f777@collabora.com>
+ <trinity-e6443313-a436-4e9d-a93c-1bef1cce135d-1625736911475@3c-app-gmx-bap19>
+ <trinity-3f4f4b55-7e39-4d80-8fc3-7d0e2b3026de-1625758259993@3c-app-gmx-bap19>
+ <trinity-fd86a04e-81b6-45f0-8ab4-5c21655bdf53-1625824929532@3c-app-gmx-bap43>
+ <CAFqH_52OdB+H+yLh-b8ndbS_w3uwFyQEkZ-y2RQ2RnKnMEt6vQ@mail.gmail.com>
+ <trinity-ac304676-173c-42c6-837c-38e62971ede0-1625827104214@3c-app-gmx-bap43>
+ <trinity-937ebfa3-d123-42de-a289-3ad0dbc09782-1625830110576@3c-app-gmx-bap43>
+ <CAAOTY_-yi5NP_U-m==ZHeBNC9-6NrjUacKWdmmgVXZjH+sFZKw@mail.gmail.com>
+X-UI-Message-Type: mail
+X-Priority: 3
+X-Provags-ID: V03:K1:xkpAQRS+6hCibb8IREI/4+UQBOmHX66bpR+hfwPP9SZMr+UzKW47NfS8x+VrAsKc4Ee5V
+ sIYOpYqt00E6MnbGXUEbYNR8D1Zb5iXk3A7u8WZJxQaLQ31WsFcV65jqxqMbdmZNGIfmfFO2knQR
+ l33LYvxaOw+3bw1BE5fAQxl9rCVJmr4U+W6DpVwcBAG2f/Akxl9QpPBlUyVlzcaHtsxieRTPn3fC
+ tcir/G8tjeb1Ouz7HEKFPXmzNL/L/CAHcd/CaMK/0iElTmacIp7HFjyzhPQ7VPPGdPB5toqPtgjP
+ J8=
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:H9QCYfZhSGs=:W7cfrvRAps8n+FW/OAKwdS
+ iHxEnjulsqPZzWiVhu5n3Ia7k3tCAv4joj0nrsa1qBgUmu0nYCe8FLU6Ub7N5DaDuT7FGGvQn
+ 51yvZ3KBZ2/s9+xSexf50nthtcFraIOecX26xaWgYW6my9wgObmCFHwkWEdkMYOaNVzgoAusp
+ /tOOhLG7m+Wflrh2MCcjDNKkD6uA+hQ5vEVWYCaV+s+0H5MsaYUGA9BUbjc/WwhCcQ6RUB1ET
+ ynYMr0Dd0eOqRKRxtzYz29ti2W400016aLbone4X2tmy9bIz4TZB/ccx7fJvMaUIEGP0V7GL+
+ EWFQD8EqZs6Yv2uMX6MtxqVxFEsq6Do5XdIpE9BJ8/i1RgVGGLykigqelZMQIBFA1BWo5thxz
+ kXcRKDWLjs69li/A9Gsit/97cZIqdV5lTc1IR0IiG3WOpQTClszM6qYjl17949OCX47szg2uz
+ 1ollY2XbCxPn/SW5U0jLqQXfR98z3ho5ucND7Lcp2FcOvczlnViXBhyhHtHfjFasgjfpNtyUP
+ rvqIDJW3j0uo8o2wXym5mLLMayrfLawbeOWpDjJCiIyH9IdJC3Lzc9SIMr+Z4Gn6E10csHqI6
+ P2aOZIi76e09tYNloftsw0qRqIOX9LghYaL688hWlhJWWLZgEHljX6yY+/fsRnivX4wxeevQL
+ f4F//ttTtiFL9mk08aJnfYuIihCXQ1dLOnIBTZtsdTibhg8yOacpaBNGvCTDVoXbxR8v0QPm6
+ mEOH4IO3BzOPj4En32ukb3vkzsWf+xO6b2DIkKffNzaOffYqADcdOiCtn9gO9pU7/Pw/T8vS2
+ 04CoVBBivmnUa1TXL4oT2rxFvNRCPfuwsn5QuafxuX5sQfv99k=
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,307 +76,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+Cc: chunkuang Hu <chunkuang.hu@kernel.org>,
+ Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+ David Airlie <airlied@linux.ie>, linux-kernel <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>, "moderated
+ list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
  Thomas Zimmermann <tzimmermann@suse.de>,
- Raphael GALLAIS-POU <raphael.gallais-pou@st.com>,
- David Airlie <airlied@linux.ie>,
- Yannick FERTRE - foss <yannick.fertre@foss.st.com>,
- Alexandre TORGUE - foss <alexandre.torgue@foss.st.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Yannick FERTRE <yannick.fertre@st.com>,
- Philippe CORNU - foss <philippe.cornu@foss.st.com>,
- Philippe CORNU <philippe.cornu@st.com>,
- "linux-stm32@st-md-mailman.stormreply.com"
- <linux-stm32@st-md-mailman.stormreply.com>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+ Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+ Collabora Kernel ML <kernel@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/l+IJnmO2q5AI2NyYYICtU27
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-
-On Fri, 9 Jul 2021 18:23:26 +0200
-Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com> wrote:
-
-> On 7/9/21 10:04 AM, Pekka Paalanen wrote:
-> > On Wed, 7 Jul 2021 08:48:47 +0000
-> > Raphael GALLAIS-POU - foss <raphael.gallais-pou@foss.st.com> wrote:
-> > =20
-> >> Some display controllers can be programmed to present non-black colors
-> >> for pixels not covered by any plane (or pixels covered by the
-> >> transparent regions of higher planes).  Compositors that want a UI with
-> >> a solid color background can potentially save memory bandwidth by
-> >> setting the CRTC background property and using smaller planes to displ=
-ay
-> >> the rest of the content.
-> >>
-> >> To avoid confusion between different ways of encoding RGB data, we
-> >> define a standard 64-bit format that should be used for this property's
-> >> value.  Helper functions and macros are provided to generate and disse=
-ct
-> >> values in this standard format with varying component precision values.
-> >>
-> >> Signed-off-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
-> >> Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
-> >> ---
-> >>   drivers/gpu/drm/drm_atomic_state_helper.c |  1 +
-> >>   drivers/gpu/drm/drm_atomic_uapi.c         |  4 +++
-> >>   drivers/gpu/drm/drm_blend.c               | 34 +++++++++++++++++++++=
---
-> >>   drivers/gpu/drm/drm_mode_config.c         |  6 ++++
-> >>   include/drm/drm_blend.h                   |  1 +
-> >>   include/drm/drm_crtc.h                    | 12 ++++++++
-> >>   include/drm/drm_mode_config.h             |  5 ++++
-> >>   include/uapi/drm/drm_mode.h               | 28 +++++++++++++++++++
-> >>   8 files changed, 89 insertions(+), 2 deletions(-)
-> >>
-> >> diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/d=
-rm/drm_atomic_state_helper.c
-> >> index ddcf5c2c8e6a..1b95a4ecdb2b 100644
-> >> --- a/drivers/gpu/drm/drm_atomic_state_helper.c
-> >> +++ b/drivers/gpu/drm/drm_atomic_state_helper.c
-> >> @@ -72,6 +72,7 @@ __drm_atomic_helper_crtc_state_reset(struct drm_crtc=
-_state *crtc_state,
-> >>   				     struct drm_crtc *crtc)
-> >>   {
-> >>   	crtc_state->crtc =3D crtc;
-> >> +	crtc_state->bgcolor =3D drm_argb(16, 0xffff, 0, 0, 0);
-> >>   }
-> >>   EXPORT_SYMBOL(__drm_atomic_helper_crtc_state_reset);
-> >>  =20
-> >> diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_a=
-tomic_uapi.c
-> >> index 438e9585b225..fea68f8f17f8 100644
-> >> --- a/drivers/gpu/drm/drm_atomic_uapi.c
-> >> +++ b/drivers/gpu/drm/drm_atomic_uapi.c
-> >> @@ -483,6 +483,8 @@ static int drm_atomic_crtc_set_property(struct drm=
-_crtc *crtc,
-> >>   		set_out_fence_for_crtc(state->state, crtc, fence_ptr);
-> >>   	} else if (property =3D=3D crtc->scaling_filter_property) {
-> >>   		state->scaling_filter =3D val;
-> >> +	} else if (property =3D=3D config->bgcolor_property) {
-> >> +		state->bgcolor =3D val;
-> >>   	} else if (crtc->funcs->atomic_set_property) {
-> >>   		return crtc->funcs->atomic_set_property(crtc, state, property, val=
-);
-> >>   	} else {
-> >> @@ -520,6 +522,8 @@ drm_atomic_crtc_get_property(struct drm_crtc *crtc,
-> >>   		*val =3D 0;
-> >>   	else if (property =3D=3D crtc->scaling_filter_property)
-> >>   		*val =3D state->scaling_filter;
-> >> +	else if (property =3D=3D config->bgcolor_property)
-> >> +		*val =3D state->bgcolor;
-> >>   	else if (crtc->funcs->atomic_get_property)
-> >>   		return crtc->funcs->atomic_get_property(crtc, state, property, val=
-);
-> >>   	else
-> >> diff --git a/drivers/gpu/drm/drm_blend.c b/drivers/gpu/drm/drm_blend.c
-> >> index ec37cbfabb50..6692d6a6db22 100644
-> >> --- a/drivers/gpu/drm/drm_blend.c
-> >> +++ b/drivers/gpu/drm/drm_blend.c
-> >> @@ -186,8 +186,7 @@
-> >>    *		 assumed to be 1.0
-> >>    *
-> >>    * Note that all the property extensions described here apply either=
- to the
-> >> - * plane or the CRTC (e.g. for the background color, which currently =
-is not
-> >> - * exposed and assumed to be black).
-> >> + * plane or the CRTC.
-> >>    *
-> >>    * SCALING_FILTER:
-> >>    *     Indicates scaling filter to be used for plane scaler
-> >> @@ -201,6 +200,21 @@
-> >>    *
-> >>    * Drivers can set up this property for a plane by calling
-> >>    * drm_plane_create_scaling_filter_property
-> >> + * =20
-> > Hi, =20
->=20
->=20
-> Hi Pekka,
->=20
->=20
-> Many thanks for your feedback, your comments are taken into account for=20
-> a v2.
->=20
->=20
-> >
-> > I assume the below block is the UAPI documentation of this new property
-> > and that it would appear with the other UAPI docs.
-> > =20
-> >> + * BACKGROUND_COLOR:
-> >> + *	Defines the ARGB color of a full-screen layer that exists below all
-> >> + *	planes.  This color will be used for pixels not covered by any pla=
-ne
-> >> + *	and may also be blended with plane contents as allowed by a plane's
-> >> + *	alpha values.  The background color defaults to black, and is assu=
-med
-> >> + *	to be black for drivers that do not expose this property. =20
-> > All good up to here.
-> > =20
-> >>   Although
-> >> + *	background color isn't a plane, it is assumed that the color provi=
-ded
-> >> + *	here undergoes the same pipe-level degamma/CSC/gamma transformatio=
-ns
-> >> + *	that planes undergo. =20
-> > This sounds to me like it refers to the per-plane degamma/csc/gamma
-> > which are new properties in development. I believe you do not mean
-> > that, but you mean the CRTC degamma/csc/gamma and everything else which
-> > apply *after* the blending of planes. So the wording here would need
-> > clarification. =20
->=20
->=20
-> Yes, I was not sure about this, but it is effectively the general CRTC=20
-> color correction which is applicable to the background color.
->=20
-> > =20
-> >>   Note that the color value provided here includes
-> >> + *	an alpha channel...non-opaque background color values are allowed,
-> >> + *	but are generally only honored in special cases (e.g., when a memo=
-ry
-> >> + *	writeback connector is in use). =20
-> > This could be read as: if you use a non-opaque color value, it will
-> > usually be completely ignored (and the background will be e.g. black
-> > instead). Is that your intention?
-> >
-> > I think a more useful definition would be that the alpha is used in
-> > blending as always, but because we do not yet have physically
-> > transparent monitors, the final alpha value may not reach the video
-> > sink or the video sink may ignore it. =20
->=20
-> In our case, the hardware does not support alpha channel (as you can see=
-=20
-> the DRM_ARGB_TO_LTDC_RGB24 macro in the second patch).
->=20
-> For chip vendors who does support this feature, the video sink would get=
-=20
-> this transparency parameter. In the case where it is not, alpha channel=20
-> would be ignored.
->=20
->=20
-> >> + *
-> >> + *	This property is setup with drm_crtc_add_bgcolor_property(). =20
-> > You forgot to document the value format of this property. The ARGB color
-> > format needs to be defined at least to the same detail as all pixel
-> > formats in drm_fourcc.h are. If there is a suitable DRM_FORMAT_*
-> > definition already, simply saying the color is in that format would be
-> > enough. =20
->=20
->=20
-> Will do ! :)
->=20
-> I was thinking about the FourCC AR4H format. Have you something else in=20
-> mind ?
-
 Hi,
 
-if you mean DRM_FORMAT_ARGB16161616F then that is not what you are
-using right now. That is a floating-point format using 16-bit floats
-(half float). It has only 10 bits precision IIRC.
+HDMI is broken again in 5.14-rc1 (of course i have applied my patch [1])
 
-As C compilers do not(?) have built-in support for halfs, using this
-format would be inconvenient for userspace (and the kernel?). Since
-it's just for one pixel value, I think using a format that is
-convenient to craft would be good.
+now i've got a NULL pointer dereference
 
+[   21.883641] PC is at mtk_dpi_bridge_atomic_check+0x38/0x78
+[   21.889158] LR is at drm_atomic_bridge_chain_check+0x150/0x30c
 
-> > Another thing to document is whether this color value is alpha
-> > pre-multiplied or not. Planes can have the property "pixel blend mode",
-> > but because the background color is not on a plane, that property
-> > cannot apply here.
-> >
-> > The difference it makes is that if background color is both non-opaque
-> > and pre-multiplied, then the question arises what pixel values will
-> > actually be transmitted to video sink for the background. Will the
-> > alpha pre-multiplication be undone?
-> >
-> > Btw. note that "pixel blend mode" property does not document the use of
-> > background alpha at all. So if the background color can have non-opaque
-> > alpha, then you need to document the behavior in "pixel blend mode". It
-> > also does not document what alpha value will result from blending, for
-> > blending the next plane. =20
->=20
-> Those are questions that did not crossed my mind at all.
->=20
-> What would you suggest ? Instinctively I would say that in the case=20
-> where there is a non-opaque background color,
->=20
-> alpha pre-multiplication would not be taken into account, although it is=
-=20
-> maybe not the best solution.
->=20
-> As I am not quite sure, I will lookup for this.
+"dpi" is  not set correctly in mtk_dpi_bridge_atomic_check
 
-Right now, I would suggest to just dodge the whole question: define the
-background color to be opaque. Either drop the alpha channel, or
-specify that alpha must be 1.0 for now (fail ioctl if not).
+this function is new since
 
-Let the people who actually need alpha in the background color figure
-out all the details. They would know what they want, while we don't. We
-also can't come up with a proper userspace for non-opaque alpha to
-prove that the design works.
+commit ec8747c52434b69cea2b18068e72f051e23d3839
+    drm/mediatek: dpi: Add bus format negotiation
 
-If you specify that alpha channel exists but must be 1.0, then someone
-else could later add another property that defines how the alpha would
-be used if it was less than 1.0. The existence of that other property
-would then tell userspace that non-1.0 alpha is supported and also
-define what it does. Userspace that does not understand that will just
-keep using alpha 1.0, meaning it doesn't matter what value the other
-new property has. So this seems quite future-proof to me.
+i do not see where bridge->driver_private is set, but in other function it=
+ is solved like this:
 
-> > The question about full vs. limited range seems unnecessary to me, as
-> > the background color will be used as-is in the blending stage, so
-> > userspace can just program the correct value that fits the pipeline it
-> > is setting up.
-> >
-> > One more question is, as HDR exists, could we need background colors
-> > with component values greater than 1.0? =20
->=20
-> AR4H color format should cover that case, isn't it ?
+bridge_to_dpi(bridge)
 
-Yes, but with the inconvenience I mentioned.
+this fixes the NULL-pointer dereference, and system starts to xserver, but=
+ i do not see fbcon...it looks like drm is now initialized later (~ at log=
+in prompt on serial console). i stopped lightdm and still do not see login=
+prompt on hdmi, so it looks like fbcon is broken
 
-This is a genuine question though, would anyone actually need
-background color values > 1.0. I don't know of any case yet where it
-would be required. It would imply that plane blending happens in a
-color space where >1.0 values are meaningful. I'm not even sure if any
-hardware supporting that exists.
+send out fix for NULL issue, but fbcon ist still unclear...but i see this =
+in dmesg:
 
-Maybe it would be best to assume that only [0.0, 1.0] pixel value range
-is useful, and mention in the commit message that if someone really
-needs values outside of that, they should create another background
-color property. Then, you can pick a simple unsigned integer pixel
-format, too. (I didn't see any 16 bit-per-channel formats like that in
-drm_fourcc.h though.)
+dmesg | grep -i fbcon
+[    0.000000] Kernel command line: root=3D/dev/mmcblk0p2 rw rootwait earl=
+yprintk console=3DttyS0,115200 video=3D1280x1024 console=3Dtty1 fbcon=3Dma=
+p:0
+[    0.000000] Unknown command line parameters: fbcon=3Dmap:0
+[    7.040167]     fbcon=3Dmap:0
 
+and no framebuffer/fb0 in dmesg
 
-Thanks,
-pq
+regards Frank
 
---Sig_/l+IJnmO2q5AI2NyYYICtU27
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmDr9z4ACgkQI1/ltBGq
-qqeOARAAj0YWJ+kE/oYuIEijdeKcn+rsPF7oJ427Nc9i7Fjsl0yfXYTZkKP/aztP
-Ljjr5TPAeyWFGosYSJmhaHXGk7Z6+zbL9u19XJZvbL8r8+3QJujvuXu9aG3/HaRK
-ZOP4y7etohnzJHfZ1uIFaTg5SJdYG8YNRwGNFZQjRhLGYox5fCgvk5DJGsD0HOLg
-uqxl6oO9ftm1OT0u/Mtaa6c13I3NG+/sSsIUIOI7sn4fYU/c8nLEpghocxBRnlBe
-Vpz9ABAKMfrGP3zktxUnWOiQvE2jtvAqMpHGbZWA3Tm7hpNJQ9hgtllqYS/FAeCt
-E9zZUoVPG3oooyg7+NrZncNZrooOB6j6ImWMiWHeqzqzvdCE/jC1IIeX9PmRl5ZE
-KC8chjZ+ftMFyl8Wq0N8dlNyoACgfNH5NjtKJhLw+BfAAwprbvlQ58EmyxwGruoZ
-EKnrPZrYlJ4/ABM36sPaM26SLzdgFlbLBS3rjH2KDSspotKRvQg8m5NU1dAHeTL3
-G0UoruEXAruPFvnOvIEy4dWx1V3EIQsaswt2bJXcz+DdSDh5RfyA9mt3YORU5uWb
-t5v2dCL7uQti6xFx+wDzG0KuJ6vOucdZ5xsaIygZY5BIVkSWgeieDy10DVP7QJmq
-qdVCn+ZZ13UoD6+fXgMkMLM9kj5rF6jcSWJCVvrMmrYe+qK2LmA=
-=PZnE
------END PGP SIGNATURE-----
-
---Sig_/l+IJnmO2q5AI2NyYYICtU27--
+[1] https://patchwork.kernel.org/project/linux-mediatek/patch/202107101324=
+31.265985-1-linux@fw-web.de/
