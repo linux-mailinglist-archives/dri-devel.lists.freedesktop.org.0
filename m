@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B7C53C5D2B
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Jul 2021 15:23:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A52613C5D5A
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Jul 2021 15:36:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DAD2989B12;
-	Mon, 12 Jul 2021 13:23:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7715E898A4;
+	Mon, 12 Jul 2021 13:36:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5074789B12
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jul 2021 13:23:15 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7CDB6898A4
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jul 2021 13:36:31 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id DAD691FF9C;
- Mon, 12 Jul 2021 13:23:13 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 36E7B1FF97;
+ Mon, 12 Jul 2021 13:36:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1626096193; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1626096990; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=QegSuDdlpTpq94YLc81H7M4md+nNxfBSOY2l31I+oT0=;
- b=EVPmWk2V2Omi3Z38xLqrZbK/N0KJWOYOpj9r90xv3pJSq7wKLcMCEaU83jUko6XpczMdTi
- A8PwO8gb8EZ+U0p2OSJOE7kCt2j89q5iPbVflFyr/Z5bNul6Ozd3tvS+axuUDW/uUaE3zi
- OB1G/D6YUG53w1my5AFvgdQJysI8D0s=
+ bh=c121DcGcsc7I9RCEYhP5bdY8+eTj/ROF7fShMNIZZOw=;
+ b=F2WicKGd4kvT5ApSt4QnaUweC5Js8lkeQMDvW3C9MCs7OjisOlCBBuZrEJ6Azqk3vt/s1+
+ XafktJT8Ah+L/0LCUoDdPz9dVOxNeWh6G9gTvq9saRc8t7E4uc2B2fyRsMKyMe8NbNmIuH
+ xgD0kvEC9Y7rRkZVDpIEBg5f8z5IkRM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1626096193;
+ s=susede2_ed25519; t=1626096990;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=QegSuDdlpTpq94YLc81H7M4md+nNxfBSOY2l31I+oT0=;
- b=HEkA8I4zLIqPBavqJDtzwkoZtsqL1O1mbnexN0hn/7bGKQBUDyidBvKLP0oBhPIR/ASmcV
- enO3OfYcnPUGDYDg==
+ bh=c121DcGcsc7I9RCEYhP5bdY8+eTj/ROF7fShMNIZZOw=;
+ b=pE+eCNXdqyTIy1eF6+2M6gTjuHCX3QxTelbDWgjSLplsSMG/VOBpbEtQhPWBP9X4WN75KD
+ qPLrEAOKjyrfhUAQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A2E2013BA8;
- Mon, 12 Jul 2021 13:23:13 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id EA11613BAE;
+ Mon, 12 Jul 2021 13:36:29 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id MfQGJkFC7GB/ZwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Mon, 12 Jul 2021 13:23:13 +0000
-Subject: Re: [PATCH 0/4] vkms: Switch to shadow-buffered plane state
-To: Sumera Priyadarsini <sylphrenadin@gmail.com>
-References: <20210705074633.9425-1-tzimmermann@suse.de>
- <CACAkLur8SVqZt69CrfN+0rE4AstPBQPHbwJMnBM_TDTBFXVqdA@mail.gmail.com>
+ by imap2.suse-dmz.suse.de with ESMTPSA id /1chOF1F7GDragAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Mon, 12 Jul 2021 13:36:29 +0000
+Subject: Re: [PATCH 01/12] drm/mgag200: Select clock in PLL update functions
+To: Sam Ravnborg <sam@ravnborg.org>
+References: <20210705124515.27253-1-tzimmermann@suse.de>
+ <20210705124515.27253-2-tzimmermann@suse.de> <YOiaX7UJ9Ka5xTM2@ravnborg.org>
 From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <a8aadd02-b80b-cd55-b2fd-9c8c7c86b334@suse.de>
-Date: Mon, 12 Jul 2021 15:23:13 +0200
+Message-ID: <31e6618d-9048-84c6-b933-79ce2de11e81@suse.de>
+Date: Mon, 12 Jul 2021 15:36:29 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <CACAkLur8SVqZt69CrfN+0rE4AstPBQPHbwJMnBM_TDTBFXVqdA@mail.gmail.com>
+In-Reply-To: <YOiaX7UJ9Ka5xTM2@ravnborg.org>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="5ivPDJGnuOggGqGmKNOfFoteinYqbcAJG"
+ boundary="KF6OmBbEdqcvAb3vTfkgpEi58GLVWUPxR"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,100 +69,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- David Airlie <airlied@linux.ie>, Melissa Wen <melissa.srw@gmail.com>,
- dri-devel@lists.freedesktop.org
+Cc: John.p.donnelly@oracle.com, dri-devel@lists.freedesktop.org,
+ airlied@redhat.com, stable@vger.kernel.org, emil.velikov@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---5ivPDJGnuOggGqGmKNOfFoteinYqbcAJG
-Content-Type: multipart/mixed; boundary="xzshKkVv4E8VDOzZocwwoM1QytFK7rBrR";
+--KF6OmBbEdqcvAb3vTfkgpEi58GLVWUPxR
+Content-Type: multipart/mixed; boundary="H0WR0MKrgkiFmk1UZM3cZ6d0twLQ7IxnI";
  protected-headers="v1"
 From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Sumera Priyadarsini <sylphrenadin@gmail.com>
-Cc: Melissa Wen <melissa.srw@gmail.com>,
- Haneen Mohammed <hamohammed.sa@gmail.com>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
- mripard@kernel.org, maarten.lankhorst@linux.intel.com,
- dri-devel@lists.freedesktop.org
-Message-ID: <a8aadd02-b80b-cd55-b2fd-9c8c7c86b334@suse.de>
-Subject: Re: [PATCH 0/4] vkms: Switch to shadow-buffered plane state
-References: <20210705074633.9425-1-tzimmermann@suse.de>
- <CACAkLur8SVqZt69CrfN+0rE4AstPBQPHbwJMnBM_TDTBFXVqdA@mail.gmail.com>
-In-Reply-To: <CACAkLur8SVqZt69CrfN+0rE4AstPBQPHbwJMnBM_TDTBFXVqdA@mail.gmail.com>
+To: Sam Ravnborg <sam@ravnborg.org>
+Cc: daniel@ffwll.ch, airlied@redhat.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, emil.velikov@collabora.com, John.p.donnelly@oracle.com,
+ dri-devel@lists.freedesktop.org, stable@vger.kernel.org
+Message-ID: <31e6618d-9048-84c6-b933-79ce2de11e81@suse.de>
+Subject: Re: [PATCH 01/12] drm/mgag200: Select clock in PLL update functions
+References: <20210705124515.27253-1-tzimmermann@suse.de>
+ <20210705124515.27253-2-tzimmermann@suse.de> <YOiaX7UJ9Ka5xTM2@ravnborg.org>
+In-Reply-To: <YOiaX7UJ9Ka5xTM2@ravnborg.org>
 
---xzshKkVv4E8VDOzZocwwoM1QytFK7rBrR
+--H0WR0MKrgkiFmk1UZM3cZ6d0twLQ7IxnI
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
 Hi
 
-Am 12.07.21 um 13:56 schrieb Sumera Priyadarsini:
-> On Mon, Jul 5, 2021 at 1:16 PM Thomas Zimmermann <tzimmermann@suse.de> =
-wrote:
->>
->> Vkms copies each plane's framebuffer into the output buffer; essential=
-ly
->> using a shadow buffer. DRM provides struct drm_shadow_plane_state, whi=
-ch
->> handles the details of mapping/unmapping shadow buffers into memory fo=
-r
->> active planes.
->>
->> Convert vkms to the helpers. Makes vkms use shared code and gives more=
-
->> test exposure to shadow-plane helpers.
->>
->> Thomas Zimmermann (4):
->>    drm/gem: Export implementation of shadow-plane helpers
->>    drm/vkms: Inherit plane state from struct drm_shadow_plane_state
->>    drm/vkms: Let shadow-plane helpers prepare the plane's FB
->>    drm/vkms: Use dma-buf mapping from shadow-plane state for composing=
-
->>
->>   drivers/gpu/drm/drm_gem_atomic_helper.c | 55 ++++++++++++++++++++++-=
--
->>   drivers/gpu/drm/vkms/vkms_composer.c    | 26 ++++++-----
->>   drivers/gpu/drm/vkms/vkms_drv.h         |  6 ++-
->>   drivers/gpu/drm/vkms/vkms_plane.c       | 57 ++++++-----------------=
---
->>   include/drm/drm_gem_atomic_helper.h     |  6 +++
->>   5 files changed, 86 insertions(+), 64 deletions(-)
->>
->>
->> base-commit: 3d3b5479895dd6dd133571ded4318adf595708ba
->> --
->> 2.32.0
->>
-> Hi,
+Am 09.07.21 um 20:50 schrieb Sam Ravnborg:
+> Hi Thomas,
 >=20
-> Thanks for the patches. The switch to shadow-plane helpers also solved
-> a bug that was causing a kernel
-> panic during some IGT kms_flip subtests on the vkms virtual hw patch.
+> On Mon, Jul 05, 2021 at 02:45:04PM +0200, Thomas Zimmermann wrote:
+>> Put the clock-selection code into each of the PLL-update functions to
+>> make them select the correct pixel clock.
+>>
+>> The pixel clock for video output was not actually set before programmi=
+ng
+>> the clock's values. It worked because the device had the correct clock=
 
-Melissa mention something like that as well and I don't really=20
-understand. Patch 3 removes an error message from the code, but is the=20
-actual bug also gone?
+>> pre-set.
+>>
+>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> Fixes: db05f8d3dc87 ("drm/mgag200: Split MISC register update into PLL=
+ selection, SYNC and I/O")
+>> Cc: Sam Ravnborg <sam@ravnborg.org>
+>> Cc: Emil Velikov <emil.velikov@collabora.com>
+>> Cc: Dave Airlie <airlied@redhat.com>
+>> Cc: dri-devel@lists.freedesktop.org
+>> Cc: <stable@vger.kernel.org> # v5.9+
+>> ---
+>>   drivers/gpu/drm/mgag200/mgag200_mode.c | 47 ++++++++++++++++++++----=
+--
+>>   1 file changed, 37 insertions(+), 10 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c b/drivers/gpu/drm/=
+mgag200/mgag200_mode.c
+>> index 3b3059f471c2..482843ebb69f 100644
+>> --- a/drivers/gpu/drm/mgag200/mgag200_mode.c
+>> +++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
+>> @@ -130,6 +130,7 @@ static int mgag200_g200_set_plls(struct mga_device=
+ *mdev, long clock)
+>>   	long ref_clk =3D mdev->model.g200.ref_clk;
+>>   	long p_clk_min =3D mdev->model.g200.pclk_min;
+>>   	long p_clk_max =3D  mdev->model.g200.pclk_max;
+>> +	u8 misc;
+>>  =20
+>>   	if (clock > p_clk_max) {
+>>   		drm_err(dev, "Pixel Clock %ld too high\n", clock);
+>> @@ -174,6 +175,11 @@ static int mgag200_g200_set_plls(struct mga_devic=
+e *mdev, long clock)
+>>   	drm_dbg_kms(dev, "clock: %ld vco: %ld m: %d n: %d p: %d s: %d\n",
+>>   		    clock, f_vco, m, n, p, s);
+>>  =20
+>> +	misc =3D RREG8(MGA_MISC_IN);
+>> +	misc &=3D ~MGAREG_MISC_CLK_SEL_MASK;
+>> +	misc |=3D MGAREG_MISC_CLK_SEL_MGA_MSK;
+>> +	WREG8(MGA_MISC_OUT, misc);
+>=20
+> This chunk is repeated a number of times.
+> Any good reason why this is not a small helper?
 
-There's little difference between vkms' original code and the shared=20
-helper; except for the order of operations in prepare_fb. The shared=20
-helper synchronizes fences before mapping; vkms mapped first.
-
-(Maybe the shared helper should warn about failed vmaps as well. But=20
-that's for another patch.)
+Good point. I'll make a helper from this.
 
 Best regards
 Thomas
 
 >=20
-> Tested-by: Sumera Priyadarsini <sylphrenadin@gmail.com>
->=20
-> Cheers,
-> Sumera
+> 	Sam
 >=20
 
 --=20
@@ -174,27 +167,27 @@ Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
 Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
 
---xzshKkVv4E8VDOzZocwwoM1QytFK7rBrR--
+--H0WR0MKrgkiFmk1UZM3cZ6d0twLQ7IxnI--
 
---5ivPDJGnuOggGqGmKNOfFoteinYqbcAJG
+--KF6OmBbEdqcvAb3vTfkgpEi58GLVWUPxR
 Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmDsQkEFAwAAAAAACgkQlh/E3EQov+AV
-9hAAi6SNCQIyl84kC5fm07MNsl5/9/6he7nHE5lrZotBhHTelWPTwAeDD6km3QBN6jaJUcuvqZas
-2E4YJMbvGVKcuscjDKEwnrrDRwEeQxjj/wWM1X+YC4CrabwjDeLHU/xVTta2BeZ81/Pkhe4uUpCn
-EL5E+mU4dwg61d/uXcrkaAuXjE4MC/8xfR68SOD7n2guh//ZFNgogao98vyp4M6nFRm20at2Sobe
-TFGds+/zLyZ9uTn2KsFI+mUuA/EGdr5fYz8z/hU/KNw0eJGivrcJ/2LIB+ZsLZo4I9zbQJwQxBGq
-GP6yUSD4add4coXxaxoy1dGaAHggyzTXPHPJHsJvEgHc2QPz4h4kzOXj0w4yLhapJmBM7dFZItcR
-F4N+WjN6kltzCDrdTrBkSJ0GQ5BXOPkh33YRFnQlcCiEzfShk9zeCjFOnKwOYybgdw/QCdsDH+hz
-iJ0pFBylDaw1WZOoY7D3MCk7N+0az/eJ+DPbWHsas31JK7Vu9IhWwzUmPWCg4Qt8AyTlNE6L4JRV
-aWzuKKC2A8ASBLZitpjmFvu51qKkNcbYslb2P3uRaNVRt7GrbthEdgEawT7a7FF4QJlmD7//F2DD
-HLKASqTVVFGYn/r8QRKE+wpqHJqUTG14t49n8dgS3UWjJ+AEwEN/jgtIu8PhyRRr14HHQ7joAxhH
-xRQ=
-=W2N5
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmDsRV0FAwAAAAAACgkQlh/E3EQov+D3
+pg//WPPjCIdR6R8QaZZheflZVwPVLfIobUGa9f96S9SVzXJnpPdpgeOV9I8RjXZ6cVBa2PTVyC10
+UppiAgq+6gjwCoPBjQqNIDtusNmTM8LlyICRfi+xQMreUqdFMME5WVJiuBQ25MVTvDs/j3hEjYTA
+Qj4myqrIGV2/LryyZihn/f6Zl4y6gG1LY95lYQSWNknP4yIjmqfC0DqPqt9mjQ7NZTjuLqS9ecL6
+q5r/8MgoXu2FD753ElMvnWZ7IAa6CSFEvC8G8NKm7vs6JH1QkPfRzxYIARxrM7dTO4Q0VmE8quVM
+isZc+WvLZr5NrzhY7PMYuIaWIdwI0ZgcKTW4dp6YEzHAzb3nsa9kk0+CHufuBEBI5FoFyFOoZ1HR
+De/UBwcSVWixlYFafF+mIX8ddKl35tuOLGovKtr/SnFIsasBt9pxIQjwJqoYdHpyX5+0bvXCjkDv
+UN6G5/xxNp7GhGYFptePmS1fTSc6Lb4QircML0hSCDTeHehojtRI5xZwBuyPk3MqQkp+cqeubQ1o
+X8jx0wBedlJeDW9BiE6oe2np2SNILjrL7aREBAyDbpj531OJuz+xGIjvTmsh48RdLemX3jkM4Azv
+L8FfV/PZQ3ovPLkeD1Hh6lAWBlOmtDy5jm4abbIfjrZJkW0ajydPlxsq97Eu7ZtkurBadSRh4bET
+jsA=
+=vlp8
 -----END PGP SIGNATURE-----
 
---5ivPDJGnuOggGqGmKNOfFoteinYqbcAJG--
+--KF6OmBbEdqcvAb3vTfkgpEi58GLVWUPxR--
