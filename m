@@ -1,64 +1,117 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D2823C6036
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Jul 2021 18:12:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D3803C6045
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Jul 2021 18:16:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BBC1589CDD;
-	Mon, 12 Jul 2021 16:12:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 870DA89CCE;
+	Mon, 12 Jul 2021 16:16:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com
- [IPv6:2a00:1450:4864:20::329])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9943C89CD7
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jul 2021 16:12:45 +0000 (UTC)
-Received: by mail-wm1-x329.google.com with SMTP id
- b14-20020a1c1b0e0000b02901fc3a62af78so14801785wmb.3
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jul 2021 09:12:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=7ZFGM47a/9pzzSS4fNHCkJ5x5r3OeKDf04+7MDXeN7Y=;
- b=IS654WOIpgSMhYCinuvs5pbdZkvQOwEGjGVc62jKW75PpBe+xu8d4kbT5s7wSPeYvn
- Io3cNDqiufhFo1wkZHAw+F6en7pNiCjqRf1eInnopqzYJ1kT5J7i2YjmZyXZTZ/lyMbm
- CF1x/J8sze6W7eiUa9JBoVwCpYaDVNq7ah9Zc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=7ZFGM47a/9pzzSS4fNHCkJ5x5r3OeKDf04+7MDXeN7Y=;
- b=NTU/TUebfx6NwBTeB3CH6Z51CSp6HUVGTqvgdEl4xLs1hs2ZQGIwsl1qHZIUlUX3Lu
- RxUoKZ4FZI7zefdEtACUOd4LW1nTQM1glMEV8Yy1WhIrEHBpXJYriFePNxXdeI5XXvKB
- Jx9QNOL2k04iEyVZwMi9b1YAhG4YXGshj1B/xtPF4sdWUKCOMe3+lw4Lo/EMKjs4xQ9t
- eDxNrzsm8DM4ss7H9oXskdIdKz/XwkfLp8+/aPrxTp+DR+CkN0mDYa/poRo1/VNLisV0
- KV6VVungBIOzdj3HpLUn/W6jr/5p3lQdDr73xS4nhDn5t/GBEiThC9TI4Kw0U/+z5AZd
- yvwg==
-X-Gm-Message-State: AOAM530CAti82E7Ye3Smy33MIY7qXZIMidcR9qlnURZIq3txkvmWhMqH
- pDxLmjK7mkLuHtF4vIhfJ/41Ww==
-X-Google-Smtp-Source: ABdhPJzC6d3Dq6P0t15kKQ24XcTXRQe0v/j6F4Yd+3KnMGerDy7+eYd3XNmqVKz/vtSZm2W53RuWdg==
-X-Received: by 2002:a1c:4b0a:: with SMTP id y10mr26662016wma.178.1626106364228; 
- Mon, 12 Jul 2021 09:12:44 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id t3sm9731423wmi.14.2021.07.12.09.12.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 12 Jul 2021 09:12:43 -0700 (PDT)
-Date: Mon, 12 Jul 2021 18:12:41 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Subject: Re: [PATCH 1/8] drm/i915: Explicitly track DRM clients
-Message-ID: <YOxp+X4mlQzAxs5q@phenom.ffwll.local>
-References: <20210712121719.891536-1-tvrtko.ursulin@linux.intel.com>
- <20210712121719.891536-2-tvrtko.ursulin@linux.intel.com>
- <YOxUuxLqpIDEsmMT@phenom.ffwll.local>
- <ba1a6cff-790f-a1e5-1cad-63f429b01f93@linux.intel.com>
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on2051.outbound.protection.outlook.com [40.107.237.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD78189CCE
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jul 2021 16:16:07 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=cJ+86Z/uet6rdET5FdPiVnF58WhlNaSejfZKnzrE9nt9H8Y5mg4P11VkgHHTfbhwnHBS2lKqjiZJl88LvpDYz28XZbjsTWb1G/YLm3KPh5W3zUMpjrB1VzdgjszIysDLoYo5CukBG+YfNUsdsZz33M1GKzA/ogBeI7TqWcQz8zQitCgF4uv29H+IjhJ3z+inBFeJKc1YhZjipaswerlP1Sqoflx4iIzz0TLa0WpeZ+alU2ALjpSf+Z4zmy0YY7j8X6daq0D6pJwa1N92t3JIla+eUPE1BgrjYr+SL/On+C+ZdyUvM0qp/MBeWJxDEVqu6eVLhDPvMb1pEP0Z48cmmA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=EdrHRdq/FygLq97li8mcpawILl3g2d+R0Kee7Oy+eUs=;
+ b=hEotO5gx04CNCQJlAURw8O4TWIJeZvxVPqbR1vn5FGBFYdkEKEJjjSlUHEkW8W1nOXHgIjnON34QQdEsshjybNbQk5x7OMonu59+9P+cZ7DK08pGXchErrdHMtcMf496ecm2hpI3LKLbgbuuYQur92ANNIM8sTXs4roSq5yNiGhe4jpNr8dX1J20hXgq3CQRLnyVCpmuibTTiCpMAolJmgaCd0Ey+Nr0xSex+IDfu/x2kEopIzb2drzaLlUXzz4OiN8NGrEgK9qSzuAlaxBVzGISrduwR6xqiSGQ6D8xnx07oBFtWugCXx241NIIoR0EOCQB78RbxJVDyaOZy4Bqxg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=EdrHRdq/FygLq97li8mcpawILl3g2d+R0Kee7Oy+eUs=;
+ b=C0zElAAOFX53FZyf1KdMG6XF/iNpgcVWeYamRBYew52+3T2Gtdhxq9hUSMUaZq7+IP7y3aWm104IbgxYUIVu7wmZE5Myp5cXNZm4sJQtyhEh+NNSdNiDZ1bYUXJ5tqqTYtb36d5vmUBreUrpYacKmfFTp0VVgZm/DmD/HyPDzKs=
+Authentication-Results: lists.infradead.org; dkim=none (message not signed)
+ header.d=none;lists.infradead.org; dmarc=none action=none
+ header.from=amd.com;
+Received: from CO6PR12MB5427.namprd12.prod.outlook.com (2603:10b6:5:358::13)
+ by CO6PR12MB5473.namprd12.prod.outlook.com (2603:10b6:303:13e::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4308.19; Mon, 12 Jul
+ 2021 16:16:05 +0000
+Received: from CO6PR12MB5427.namprd12.prod.outlook.com
+ ([fe80::39db:7a51:9e0d:9b19]) by CO6PR12MB5427.namprd12.prod.outlook.com
+ ([fe80::39db:7a51:9e0d:9b19%4]) with mapi id 15.20.4308.027; Mon, 12 Jul 2021
+ 16:16:04 +0000
+Subject: Re: [PATCH 1/2] drm: add crtc background color property
+To: Pekka Paalanen <ppaalanen@gmail.com>,
+ Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+References: <20210707084557.22443-1-raphael.gallais-pou@foss.st.com>
+ <20210707084557.22443-2-raphael.gallais-pou@foss.st.com>
+ <20210709110459.79ca406a@eldfell>
+ <3c8331cf-fded-b6e6-3e25-666634f4b87a@foss.st.com>
+ <20210712110310.540df27d@eldfell>
+From: Harry Wentland <harry.wentland@amd.com>
+Message-ID: <f8e7db99-a4e4-c4d7-5d6a-67950184701c@amd.com>
+Date: Mon, 12 Jul 2021 12:15:59 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
+In-Reply-To: <20210712110310.540df27d@eldfell>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: YQBPR0101CA0010.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c00::23) To CO6PR12MB5427.namprd12.prod.outlook.com
+ (2603:10b6:5:358::13)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ba1a6cff-790f-a1e5-1cad-63f429b01f93@linux.intel.com>
-X-Operating-System: Linux phenom 5.10.0-7-amd64 
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.50.3] (198.200.67.154) by
+ YQBPR0101CA0010.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:c00::23) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4308.20 via Frontend Transport; Mon, 12 Jul 2021 16:16:02 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 8883aa4c-4baa-492a-86d0-08d945505921
+X-MS-TrafficTypeDiagnostic: CO6PR12MB5473:
+X-Microsoft-Antispam-PRVS: <CO6PR12MB5473E5CB6E61BE6E4E57FCE88C159@CO6PR12MB5473.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: gcb+/blPOeCnOjca/cw7mPIGk4S0dW4GSk5CJzczyYUT7L6A0ZBGngJX0nYUCTomLkWlSY2NK3Gp+TC+FVIQ9VzaI+eafDlchbDNb+6NUucs+7C+s9CjfDA1uHbgJN4LOOGSr9v2prkCVDKHZ3OTsb1JPW7fXPXSjpuGosvMC/ODYiI6pR2ABTOLGjVaNy+XdBgVELaw2OCfMu2eqGeCR5x4A7AVxVQWMGNt6xkXhCX2qWCbjAAnjlldTWpxA8I2fL4ByWRKrb4QVTTHklZ3wJu189BKsD69ycbAldK1wwn0BNUTsZRyYpecGIFt2QeNVjCBAtfKhjWRPtUEEJRwD6OHG/S7bbpDc6l+DeaMiW8r9QK3AxIvazaaJohw3aHwpqvh/Lnh9UOBEzdQ1+Cf0QnmFjWk5veiTNCmlS3Ic0RYOAfpwZU8ao5mutEsupEhu03B1LCcAU9UPwkPaLOsvwM2k2GoLziwPzu0ZMuWVeBNNkB1GUAV0is3gm7HnHZIqar/BCRhkaDCIt8oIBZf/cQdkWa8Bve+svJvVvc2q5d3w9jsyINPpGTd51sW3qXyugxgw/nHD8iW7BwV5devxmo2drkncAciDOcSYT95zQPSf5rDLUuZvLA4tQnCYRa2mBa/89ecYTkiVE5o8jx195rtCTUPCrWsZu6xP8T2mEoOjxxAx71Mn4J9UsNFmtzco4CHbtPa2ufn0Zcn2ws1BcJWd4eIjH1K71DFhArkT6IMH/KnFCMBITiI8kii5CYd
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CO6PR12MB5427.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(396003)(366004)(39860400002)(346002)(376002)(136003)(26005)(83380400001)(66946007)(7416002)(66476007)(6486002)(66556008)(30864003)(4326008)(86362001)(53546011)(2906002)(44832011)(31696002)(186003)(2616005)(5660300002)(956004)(8676002)(478600001)(110136005)(36756003)(31686004)(54906003)(8936002)(16576012)(38100700002)(316002)(6666004)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?Windows-1252?Q?iX5PsmxkPfS/izbjm5BwRi8iqJOaC4XrTyq0x88bhWBMsRwLJF3cqgK0?=
+ =?Windows-1252?Q?FN6YaCaFjA6HB9vuEwoUrWiW1uRZIlP+6KID3g043kEJlbsUYKsenfKB?=
+ =?Windows-1252?Q?asYa0Nw3RUqK2DRL+b8b/x8+V4P0tFjmULimdKrPH0T/NzPerik+Ttnk?=
+ =?Windows-1252?Q?UNx7XEGHiSSgu6CbDh/9r9S2VrLoofoav1ptnf1LTcECe5Xyil4qR6dx?=
+ =?Windows-1252?Q?e1JvN4Xvv67pU+OH3MTDHuod2zNwM2mmtlYth6e3G9szaeSS2I3HlN1N?=
+ =?Windows-1252?Q?TCmKY2uWvJiv5Dx2GF/9Z1PK+9Js7YN9alyuGoUFR6TTUUyuZ2EaYY27?=
+ =?Windows-1252?Q?p4NrcHeV/JuqSP1GmgfBhTj3mNY38d7StuvpIfDrzUSXnW/IMj9yRFc3?=
+ =?Windows-1252?Q?ME42p5H3mPaTXRRCgJxNrL3zvIzW96gHOOrGlA9Jo/T7ZPSjn6s3DR1y?=
+ =?Windows-1252?Q?n7i8K8IkZhKBxD4Y5Rn9AqcAgeXlL9YEwBSHn8tYx3sUKIWkaYgTbte1?=
+ =?Windows-1252?Q?heTSi234Ux/Oq4Q4jgzr1oEtLv2c9ms6JeFZKuTdoUG1dC5800y6Swcs?=
+ =?Windows-1252?Q?esPjf1dckoq/kh9IIA3RQO16eOq8K1jqwtCnUVffkpt47GFjkRtNnN+e?=
+ =?Windows-1252?Q?iPgAPK/pMvrL+2LBaqffP5FMQp79vJpc+t3GX265uCfFV+q+EVsNcn5Z?=
+ =?Windows-1252?Q?krfTf6my8wcJtOFJzUI2TjlNFkqKhHrA4WyCa7RIv56CecjlThN8GCCl?=
+ =?Windows-1252?Q?fg5hoXGfspwm1cIOop0Of4/r/8m2bix9Bl+qe4HTgIkGo3vPuBISMM80?=
+ =?Windows-1252?Q?M4ZBImssHuY4kwQhPiZd4uSLDjNn+eixxMI4Y4iUuijfIivXEZHDQ4e9?=
+ =?Windows-1252?Q?8YTnnvSr2be1Ykur6oEK7YgMW1cG8wMcK61WXxHGrj7y7w8OUIaHCwMc?=
+ =?Windows-1252?Q?itRjo8KeLSIYMC7TpyNzfmgPyzxyJ6pIMNdeOpBe2JO4NRalnYPeBiqv?=
+ =?Windows-1252?Q?J93UuT/mlz8sgkZ32JOtyWwiQ02Q0Dl3Ptsd3t5BeMUpCaJJufID31Tf?=
+ =?Windows-1252?Q?6SUkEB/q9JBWUqhuewQn4qr0He/OBEZsMIapJfSX45xsFWy/kQ0EibLJ?=
+ =?Windows-1252?Q?E7nVIcyxp/1dsCYzHOIISrqsXeDeETVAdT9BSStA2pUfPhokPrCpsXYG?=
+ =?Windows-1252?Q?ERORlZxr1vc3E0yC0Zvl5ajKUOaGWfiD9b/IfV5cIzdTDD4aZcGeAqXd?=
+ =?Windows-1252?Q?qKyzkW9TZmR0a8i93BIxvyOZvIY7fDxJrWC1DfjD3ZNBnOom4ZBkHLFf?=
+ =?Windows-1252?Q?vqRcUbOmWLdWnE3qAsbEGNhEyo8/5yUEZ3RSnJQSa97tumsGw0BMROW+?=
+ =?Windows-1252?Q?8c4ist23c0XE2KQJmHbtiRTDFuX1iUFB/H8Lt70NCwXrBTVpOcBRfLHX?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8883aa4c-4baa-492a-86d0-08d945505921
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5427.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jul 2021 16:16:04.7981 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: zECB5khLxO7hQup7z4n2j3WVCJiqGG49oELxSlfPFJnQ+bj1D02vMEWhMWK2mxC4EOJI1R+vDYFc1+M9gq85EA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR12MB5473
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,501 +124,275 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>, Intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Chris Wilson <chris@chris-wilson.co.uk>,
- Aravind Iddamsetty <aravind.iddamsetty@intel.com>
+Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+ Raphael GALLAIS-POU <raphael.gallais-pou@st.com>,
+ David Airlie <airlied@linux.ie>,
+ Yannick FERTRE - foss <yannick.fertre@foss.st.com>,
+ Alexandre TORGUE - foss <alexandre.torgue@foss.st.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Yannick FERTRE <yannick.fertre@st.com>,
+ Philippe CORNU - foss <philippe.cornu@foss.st.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Philippe CORNU <philippe.cornu@st.com>,
+ "linux-stm32@st-md-mailman.stormreply.com"
+ <linux-stm32@st-md-mailman.stormreply.com>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jul 12, 2021 at 04:51:42PM +0100, Tvrtko Ursulin wrote:
+
+
+On 2021-07-12 4:03 a.m., Pekka Paalanen wrote:
+> On Fri, 9 Jul 2021 18:23:26 +0200
+> Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com> wrote:
 > 
-> On 12/07/2021 15:42, Daniel Vetter wrote:
-> > On Mon, Jul 12, 2021 at 01:17:12PM +0100, Tvrtko Ursulin wrote:
-> > > From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-> > > 
-> > > Tracking DRM clients more explicitly will allow later patches to
-> > > accumulate past and current GPU usage in a centralised place and also
-> > > consolidate access to owning task pid/name.
-> > > 
-> > > Unique client id is also assigned for the purpose of distinguishing/
-> > > consolidating between multiple file descriptors owned by the same process.
-> > > 
-> > > v2:
-> > >   Chris Wilson:
-> > >   * Enclose new members into dedicated structs.
-> > >   * Protect against failed sysfs registration.
-> > > 
-> > > v3:
-> > >   * sysfs_attr_init.
-> > > 
-> > > v4:
-> > >   * Fix for internal clients.
-> > > 
-> > > v5:
-> > >   * Use cyclic ida for client id. (Chris)
-> > >   * Do not leak pid reference. (Chris)
-> > >   * Tidy code with some locals.
-> > > 
-> > > v6:
-> > >   * Use xa_alloc_cyclic to simplify locking. (Chris)
-> > >   * No need to unregister individial sysfs files. (Chris)
-> > >   * Rebase on top of fpriv kref.
-> > >   * Track client closed status and reflect in sysfs.
-> > > 
-> > > v7:
-> > >   * Make drm_client more standalone concept.
-> > > 
-> > > v8:
-> > >   * Simplify sysfs show. (Chris)
-> > >   * Always track name and pid.
-> > > 
-> > > v9:
-> > >   * Fix cyclic id assignment.
-> > > 
-> > > v10:
-> > >   * No need for a mutex around xa_alloc_cyclic.
-> > >   * Refactor sysfs into own function.
-> > >   * Unregister sysfs before freeing pid and name.
-> > >   * Move clients setup into own function.
-> > > 
-> > > v11:
-> > >   * Call clients init directly from driver init. (Chris)
-> > > 
-> > > v12:
-> > >   * Do not fail client add on id wrap. (Maciej)
-> > > 
-> > > v13 (Lucas): Rebase.
-> > > 
-> > > v14:
-> > >   * Dropped sysfs bits.
-> > > 
-> > > Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-> > > Reviewed-by: Chris Wilson <chris@chris-wilson.co.uk> # v11
-> > > Reviewed-by: Aravind Iddamsetty <aravind.iddamsetty@intel.com> # v11
-> > > Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
-> > 
-> > On the implementation: I'm not clear why this is a separate object. All
-> > that seems to achieve is make the lifetim fun we have in here even more
-> > annoying, for not real gain?
-> > 
-> > What's the reasons for this separate i915_drm_client struct? The commit
-> > message talks about de-duping these within the same process, but with
-> > fdinfo I'm not seeing the relevance of this anymore.
+>> On 7/9/21 10:04 AM, Pekka Paalanen wrote:
+>>> On Wed, 7 Jul 2021 08:48:47 +0000
+>>> Raphael GALLAIS-POU - foss <raphael.gallais-pou@foss.st.com> wrote:
+>>>  
+>>>> Some display controllers can be programmed to present non-black colors
+>>>> for pixels not covered by any plane (or pixels covered by the
+>>>> transparent regions of higher planes).  Compositors that want a UI with
+>>>> a solid color background can potentially save memory bandwidth by
+>>>> setting the CRTC background property and using smaller planes to display
+>>>> the rest of the content.
+>>>>
+>>>> To avoid confusion between different ways of encoding RGB data, we
+>>>> define a standard 64-bit format that should be used for this property's
+>>>> value.  Helper functions and macros are provided to generate and dissect
+>>>> values in this standard format with varying component precision values.
+>>>>
+>>>> Signed-off-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+>>>> Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
+>>>> ---
+>>>>   drivers/gpu/drm/drm_atomic_state_helper.c |  1 +
+>>>>   drivers/gpu/drm/drm_atomic_uapi.c         |  4 +++
+>>>>   drivers/gpu/drm/drm_blend.c               | 34 +++++++++++++++++++++--
+>>>>   drivers/gpu/drm/drm_mode_config.c         |  6 ++++
+>>>>   include/drm/drm_blend.h                   |  1 +
+>>>>   include/drm/drm_crtc.h                    | 12 ++++++++
+>>>>   include/drm/drm_mode_config.h             |  5 ++++
+>>>>   include/uapi/drm/drm_mode.h               | 28 +++++++++++++++++++
+>>>>   8 files changed, 89 insertions(+), 2 deletions(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/drm/drm_atomic_state_helper.c
+>>>> index ddcf5c2c8e6a..1b95a4ecdb2b 100644
+>>>> --- a/drivers/gpu/drm/drm_atomic_state_helper.c
+>>>> +++ b/drivers/gpu/drm/drm_atomic_state_helper.c
+>>>> @@ -72,6 +72,7 @@ __drm_atomic_helper_crtc_state_reset(struct drm_crtc_state *crtc_state,
+>>>>   				     struct drm_crtc *crtc)
+>>>>   {
+>>>>   	crtc_state->crtc = crtc;
+>>>> +	crtc_state->bgcolor = drm_argb(16, 0xffff, 0, 0, 0);
+>>>>   }
+>>>>   EXPORT_SYMBOL(__drm_atomic_helper_crtc_state_reset);
+>>>>   
+>>>> diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
+>>>> index 438e9585b225..fea68f8f17f8 100644
+>>>> --- a/drivers/gpu/drm/drm_atomic_uapi.c
+>>>> +++ b/drivers/gpu/drm/drm_atomic_uapi.c
+>>>> @@ -483,6 +483,8 @@ static int drm_atomic_crtc_set_property(struct drm_crtc *crtc,
+>>>>   		set_out_fence_for_crtc(state->state, crtc, fence_ptr);
+>>>>   	} else if (property == crtc->scaling_filter_property) {
+>>>>   		state->scaling_filter = val;
+>>>> +	} else if (property == config->bgcolor_property) {
+>>>> +		state->bgcolor = val;
+>>>>   	} else if (crtc->funcs->atomic_set_property) {
+>>>>   		return crtc->funcs->atomic_set_property(crtc, state, property, val);
+>>>>   	} else {
+>>>> @@ -520,6 +522,8 @@ drm_atomic_crtc_get_property(struct drm_crtc *crtc,
+>>>>   		*val = 0;
+>>>>   	else if (property == crtc->scaling_filter_property)
+>>>>   		*val = state->scaling_filter;
+>>>> +	else if (property == config->bgcolor_property)
+>>>> +		*val = state->bgcolor;
+>>>>   	else if (crtc->funcs->atomic_get_property)
+>>>>   		return crtc->funcs->atomic_get_property(crtc, state, property, val);
+>>>>   	else
+>>>> diff --git a/drivers/gpu/drm/drm_blend.c b/drivers/gpu/drm/drm_blend.c
+>>>> index ec37cbfabb50..6692d6a6db22 100644
+>>>> --- a/drivers/gpu/drm/drm_blend.c
+>>>> +++ b/drivers/gpu/drm/drm_blend.c
+>>>> @@ -186,8 +186,7 @@
+>>>>    *		 assumed to be 1.0
+>>>>    *
+>>>>    * Note that all the property extensions described here apply either to the
+>>>> - * plane or the CRTC (e.g. for the background color, which currently is not
+>>>> - * exposed and assumed to be black).
+>>>> + * plane or the CRTC.
+>>>>    *
+>>>>    * SCALING_FILTER:
+>>>>    *     Indicates scaling filter to be used for plane scaler
+>>>> @@ -201,6 +200,21 @@
+>>>>    *
+>>>>    * Drivers can set up this property for a plane by calling
+>>>>    * drm_plane_create_scaling_filter_property
+>>>> + *  
+>>> Hi,  
+>>
+>>
+>> Hi Pekka,
+>>
+>>
+>> Many thanks for your feedback, your comments are taken into account for 
+>> a v2.
+>>
+>>
+>>>
+>>> I assume the below block is the UAPI documentation of this new property
+>>> and that it would appear with the other UAPI docs.
+>>>  
+>>>> + * BACKGROUND_COLOR:
+>>>> + *	Defines the ARGB color of a full-screen layer that exists below all
+>>>> + *	planes.  This color will be used for pixels not covered by any plane
+>>>> + *	and may also be blended with plane contents as allowed by a plane's
+>>>> + *	alpha values.  The background color defaults to black, and is assumed
+>>>> + *	to be black for drivers that do not expose this property.  
+>>> All good up to here.
+>>>  
+>>>>   Although
+>>>> + *	background color isn't a plane, it is assumed that the color provided
+>>>> + *	here undergoes the same pipe-level degamma/CSC/gamma transformations
+>>>> + *	that planes undergo.  
+>>> This sounds to me like it refers to the per-plane degamma/csc/gamma
+>>> which are new properties in development. I believe you do not mean
+>>> that, but you mean the CRTC degamma/csc/gamma and everything else which
+>>> apply *after* the blending of planes. So the wording here would need
+>>> clarification.  
+>>
+>>
+>> Yes, I was not sure about this, but it is effectively the general CRTC 
+>> color correction which is applicable to the background color.
+>>
+>>>  
+>>>>   Note that the color value provided here includes
+>>>> + *	an alpha channel...non-opaque background color values are allowed,
+>>>> + *	but are generally only honored in special cases (e.g., when a memory
+>>>> + *	writeback connector is in use).  
+>>> This could be read as: if you use a non-opaque color value, it will
+>>> usually be completely ignored (and the background will be e.g. black
+>>> instead). Is that your intention?
+>>>
+>>> I think a more useful definition would be that the alpha is used in
+>>> blending as always, but because we do not yet have physically
+>>> transparent monitors, the final alpha value may not reach the video
+>>> sink or the video sink may ignore it.  
+>>
+>> In our case, the hardware does not support alpha channel (as you can see 
+>> the DRM_ARGB_TO_LTDC_RGB24 macro in the second patch).
+>>
+>> For chip vendors who does support this feature, the video sink would get 
+>> this transparency parameter. In the case where it is not, alpha channel 
+>> would be ignored.
+>>
+>>
+>>>> + *
+>>>> + *	This property is setup with drm_crtc_add_bgcolor_property().  
+>>> You forgot to document the value format of this property. The ARGB color
+>>> format needs to be defined at least to the same detail as all pixel
+>>> formats in drm_fourcc.h are. If there is a suitable DRM_FORMAT_*
+>>> definition already, simply saying the color is in that format would be
+>>> enough.  
+>>
+>>
+>> Will do ! :)
+>>
+>> I was thinking about the FourCC AR4H format. Have you something else in 
+>> mind ?
 > 
-> AFAIR I started with the new fields directly in file_priv (note file_priv
-> then needed to be freed via RCU due sysfs access to it!), but then the idea
-> there was to consolidate new members into a separate struct.
-
-Yeah separate struct makes sense for this stuff, just to
-encapsulate/document things a bit. It's the entire scaffolding around it
-that I don't think makes sense anymore with the design switch to fdinfo.
-
-> Plan was (and still is in internal) that the concept for DRM client will
-> gain more users/usefulness and would benefit from encapsulation from the
-> start.
+> Hi,
 > 
-> For instance at patch 3 in the series it does consolidate i915 users of
-> ctx->pid to go via ctx->client (process name as well). Those are async entry
-> points (compared to file_priv lifetime) from error capture and debugfs. Hm
-> no, debugfs is there no more, only error capture remains.
+> if you mean DRM_FORMAT_ARGB16161616F then that is not what you are
+> using right now. That is a floating-point format using 16-bit floats
+> (half float). It has only 10 bits precision IIRC.
 > 
-> As you say since the change of direction to use fdinfo, the asynchronous
-> entry path into those members from sysfs is gone. Hence if they were moved
-> back to file_priv, and assuming ctx->pid/name changes to be undone, then
-> file_priv could remain being immediately freed on file close. Or perhaps we
-> lose easy pid/name update for files passed over sockets. I'd have to think
-> about that a bit deeper.
+> As C compilers do not(?) have built-in support for halfs, using this
+> format would be inconvenient for userspace (and the kernel?). Since
+> it's just for one pixel value, I think using a format that is
+> convenient to craft would be good.
 > 
-> But essentially I think ctx->client is a cleaner design that ctx->pid and
-> given error capture and debugfs can be async to file_priv lifetime that's a
-> benefit for me.
-
-From a quick check it's just for debug printing when a ctx hung/got
-banned, and for that we do want the pid - users won't have an
-understanding of a drm_client. I think pid is actually what we want there.
-
-> With regards to de-duping multiple fdinfo entries via client->id - that is
-> actually the opposite from what you suggest. Whereas with the sysfs approach
-> we had one entry per client, with fdinfo we have duplicates. So client->id
-> is essential for userspace to correctly account per client statistics.
-
-Uh why? Like if you use fdinfo and have a bunch of duplicate drm_file,
-then your parsing tool can aggregate them all together under the same pid.
-No need we do that in the kernel.
-
-If the problem is that we can't tell apart a dup'ed fd from multiple
-open() calls, then I think that should be solved by dropping the hash of
-the drm_file pointer into the fdinfo.
-
-> > Also, with the fdinfo approach, why do we still need to even track the
-> > pid? That can be all figured out from proc now, with much cleaner
-> > semantics.
 > 
-> Not sure what you mean here. As explained above pid is tracked as
-> replacement for current ctx->pid tracking. So for uses inside i915.
-
-Why do we need to track that for that info file?
-
-> Also note that even from userspace semantics of getting the pid from procfs
-> is not necessarily clean, since actually three different file descriptors
-> need to be open to get the whole set of data.
+>>> Another thing to document is whether this color value is alpha
+>>> pre-multiplied or not. Planes can have the property "pixel blend mode",
+>>> but because the background color is not on a plane, that property
+>>> cannot apply here.
+>>>
+>>> The difference it makes is that if background color is both non-opaque
+>>> and pre-multiplied, then the question arises what pixel values will
+>>> actually be transmitted to video sink for the background. Will the
+>>> alpha pre-multiplication be undone?
+>>>
+>>> Btw. note that "pixel blend mode" property does not document the use of
+>>> background alpha at all. So if the background color can have non-opaque
+>>> alpha, then you need to document the behavior in "pixel blend mode". It
+>>> also does not document what alpha value will result from blending, for
+>>> blending the next plane.  
+>>
+>> Those are questions that did not crossed my mind at all.
+>>
+>> What would you suggest ? Instinctively I would say that in the case 
+>> where there is a non-opaque background color,
+>>
+>> alpha pre-multiplication would not be taken into account, although it is 
+>> maybe not the best solution.
+>>
+>> As I am not quite sure, I will lookup for this.
 > 
-> /proc/<pid>/fdinfo/<fd> - obviously
-> /proc/<pid>/fd/<fd> - to filter out non drm fds avoiding text parsing above
-> file
-> /proc/<pid>/stat - to get the pid
-
-Well yes userspace needs to keep track of a few things. top works like
-that too.
-
-> Since in the intel_gpu_top conversion I do keep the /proc/<pid> open and do
-> the rest via openat, I am hoping at least that's safe againt pid swaps. For
-> the file descriptor cross check it is more questionable but worst case the
-> drm fd check via stat could be dropped and replaced with more fdinfo text
-> parsing.
+> Right now, I would suggest to just dodge the whole question: define the
+> background color to be opaque. Either drop the alpha channel, or
+> specify that alpha must be 1.0 for now (fail ioctl if not).
 > 
-> Having the pid and process name in fdinfo hence makes this easier and
-> potentially safer. Given how we already store ctx->pid I think that should
-> be fine.
-
-Uh no. We need to understand either the procfs rules, or what we need to
-understand them. Re-rolling our own interpretation of pid within something
-that already has the pid seems very broken.
-
-I do expect openat to work.
-
-> FWIW I still think the whole approach is bad since number of operations
-> required scales with number of non drm processes (even threads) on the
-> system.
-
-top works.
--Daniel
-
-> Regards,
+> Let the people who actually need alpha in the background color figure
+> out all the details. They would know what they want, while we don't. We
+> also can't come up with a proper userspace for non-opaque alpha to
+> prove that the design works.
 > 
-> Tvrtko
+> If you specify that alpha channel exists but must be 1.0, then someone
+> else could later add another property that defines how the alpha would
+> be used if it was less than 1.0. The existence of that other property
+> would then tell userspace that non-1.0 alpha is supported and also
+> define what it does. Userspace that does not understand that will just
+> keep using alpha 1.0, meaning it doesn't matter what value the other
+> new property has. So this seems quite future-proof to me.
 > 
-> > > ---
-> > >   drivers/gpu/drm/i915/Makefile          |   5 +-
-> > >   drivers/gpu/drm/i915/i915_drm_client.c | 113 +++++++++++++++++++++++++
-> > >   drivers/gpu/drm/i915/i915_drm_client.h |  61 +++++++++++++
-> > >   drivers/gpu/drm/i915/i915_drv.c        |   6 ++
-> > >   drivers/gpu/drm/i915/i915_drv.h        |   5 ++
-> > >   drivers/gpu/drm/i915/i915_gem.c        |  21 ++++-
-> > >   6 files changed, 206 insertions(+), 5 deletions(-)
-> > >   create mode 100644 drivers/gpu/drm/i915/i915_drm_client.c
-> > >   create mode 100644 drivers/gpu/drm/i915/i915_drm_client.h
-> > > 
-> > > diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
-> > > index 10b3bb6207ba..784f99ca11fc 100644
-> > > --- a/drivers/gpu/drm/i915/Makefile
-> > > +++ b/drivers/gpu/drm/i915/Makefile
-> > > @@ -33,8 +33,9 @@ subdir-ccflags-y += -I$(srctree)/$(src)
-> > >   # Please keep these build lists sorted!
-> > >   # core driver code
-> > > -i915-y += i915_drv.o \
-> > > -	  i915_config.o \
-> > > +i915-y += i915_config.o \
-> > > +	  i915_drm_client.o \
-> > > +	  i915_drv.o \
-> > >   	  i915_irq.o \
-> > >   	  i915_getparam.o \
-> > >   	  i915_mitigations.o \
-> > > diff --git a/drivers/gpu/drm/i915/i915_drm_client.c b/drivers/gpu/drm/i915/i915_drm_client.c
-> > > new file mode 100644
-> > > index 000000000000..83080d9836b0
-> > > --- /dev/null
-> > > +++ b/drivers/gpu/drm/i915/i915_drm_client.c
-> > > @@ -0,0 +1,113 @@
-> > > +// SPDX-License-Identifier: MIT
-> > > +/*
-> > > + * Copyright © 2020 Intel Corporation
-> > > + */
-> > > +
-> > > +#include <linux/kernel.h>
-> > > +#include <linux/slab.h>
-> > > +#include <linux/types.h>
-> > > +
-> > > +#include "i915_drm_client.h"
-> > > +#include "i915_gem.h"
-> > > +#include "i915_utils.h"
-> > > +
-> > > +void i915_drm_clients_init(struct i915_drm_clients *clients,
-> > > +			   struct drm_i915_private *i915)
-> > > +{
-> > > +	clients->i915 = i915;
-> > > +
-> > > +	clients->next_id = 0;
-> > > +	xa_init_flags(&clients->xarray, XA_FLAGS_ALLOC);
-> > > +}
-> > > +
-> > > +static int
-> > > +__i915_drm_client_register(struct i915_drm_client *client,
-> > > +			   struct task_struct *task)
-> > > +{
-> > > +	char *name;
-> > > +
-> > > +	name = kstrdup(task->comm, GFP_KERNEL);
-> > > +	if (!name)
-> > > +		return -ENOMEM;
-> > > +
-> > > +	client->pid = get_task_pid(task, PIDTYPE_PID);
-> > > +	client->name = name;
-> > > +
-> > > +	return 0;
-> > > +}
-> > > +
-> > > +static void __i915_drm_client_unregister(struct i915_drm_client *client)
-> > > +{
-> > > +	put_pid(fetch_and_zero(&client->pid));
-> > > +	kfree(fetch_and_zero(&client->name));
-> > > +}
-> > > +
-> > > +static void __rcu_i915_drm_client_free(struct work_struct *wrk)
-> > > +{
-> > > +	struct i915_drm_client *client =
-> > > +		container_of(wrk, typeof(*client), rcu.work);
-> > > +
-> > > +	xa_erase(&client->clients->xarray, client->id);
-> > > +
-> > > +	__i915_drm_client_unregister(client);
-> > > +
-> > > +	kfree(client);
-> > > +}
-> > > +
-> > > +struct i915_drm_client *
-> > > +i915_drm_client_add(struct i915_drm_clients *clients, struct task_struct *task)
-> > > +{
-> > > +	struct i915_drm_client *client;
-> > > +	int ret;
-> > > +
-> > > +	client = kzalloc(sizeof(*client), GFP_KERNEL);
-> > > +	if (!client)
-> > > +		return ERR_PTR(-ENOMEM);
-> > > +
-> > > +	kref_init(&client->kref);
-> > > +	client->clients = clients;
-> > > +	INIT_RCU_WORK(&client->rcu, __rcu_i915_drm_client_free);
-> > > +
-> > > +	ret = xa_alloc_cyclic(&clients->xarray, &client->id, client,
-> > > +			      xa_limit_32b, &clients->next_id, GFP_KERNEL);
-> > > +	if (ret < 0)
-> > > +		goto err_id;
-> > > +
-> > > +	ret = __i915_drm_client_register(client, task);
-> > > +	if (ret)
-> > > +		goto err_register;
-> > > +
-> > > +	return client;
-> > > +
-> > > +err_register:
-> > > +	xa_erase(&clients->xarray, client->id);
-> > > +err_id:
-> > > +	kfree(client);
-> > > +
-> > > +	return ERR_PTR(ret);
-> > > +}
-> > > +
-> > > +void __i915_drm_client_free(struct kref *kref)
-> > > +{
-> > > +	struct i915_drm_client *client =
-> > > +		container_of(kref, typeof(*client), kref);
-> > > +
-> > > +	queue_rcu_work(system_wq, &client->rcu);
-> > > +}
-> > > +
-> > > +void i915_drm_client_close(struct i915_drm_client *client)
-> > > +{
-> > > +	GEM_BUG_ON(READ_ONCE(client->closed));
-> > > +	WRITE_ONCE(client->closed, true);
-> > > +	i915_drm_client_put(client);
-> > > +}
-> > > +
-> > > +void i915_drm_clients_fini(struct i915_drm_clients *clients)
-> > > +{
-> > > +	while (!xa_empty(&clients->xarray)) {
-> > > +		rcu_barrier();
-> > > +		flush_workqueue(system_wq);
-> > > +	}
-> > > +
-> > > +	xa_destroy(&clients->xarray);
-> > > +}
-> > > diff --git a/drivers/gpu/drm/i915/i915_drm_client.h b/drivers/gpu/drm/i915/i915_drm_client.h
-> > > new file mode 100644
-> > > index 000000000000..396f1e336b3f
-> > > --- /dev/null
-> > > +++ b/drivers/gpu/drm/i915/i915_drm_client.h
-> > > @@ -0,0 +1,61 @@
-> > > +/* SPDX-License-Identifier: MIT */
-> > > +/*
-> > > + * Copyright © 2020 Intel Corporation
-> > > + */
-> > > +
-> > > +#ifndef __I915_DRM_CLIENT_H__
-> > > +#define __I915_DRM_CLIENT_H__
-> > > +
-> > > +#include <linux/kref.h>
-> > > +#include <linux/pid.h>
-> > > +#include <linux/rcupdate.h>
-> > > +#include <linux/sched.h>
-> > > +#include <linux/xarray.h>
-> > > +
-> > > +struct drm_i915_private;
-> > > +
-> > > +struct i915_drm_clients {
-> > > +	struct drm_i915_private *i915;
-> > > +
-> > > +	struct xarray xarray;
-> > > +	u32 next_id;
-> > > +};
-> > > +
-> > > +struct i915_drm_client {
-> > > +	struct kref kref;
-> > > +
-> > > +	struct rcu_work rcu;
-> > > +
-> > > +	unsigned int id;
-> > > +	struct pid *pid;
-> > > +	char *name;
-> > > +	bool closed;
-> > > +
-> > > +	struct i915_drm_clients *clients;
-> > > +};
-> > > +
-> > > +void i915_drm_clients_init(struct i915_drm_clients *clients,
-> > > +			   struct drm_i915_private *i915);
-> > > +
-> > > +static inline struct i915_drm_client *
-> > > +i915_drm_client_get(struct i915_drm_client *client)
-> > > +{
-> > > +	kref_get(&client->kref);
-> > > +	return client;
-> > > +}
-> > > +
-> > > +void __i915_drm_client_free(struct kref *kref);
-> > > +
-> > > +static inline void i915_drm_client_put(struct i915_drm_client *client)
-> > > +{
-> > > +	kref_put(&client->kref, __i915_drm_client_free);
-> > > +}
-> > > +
-> > > +void i915_drm_client_close(struct i915_drm_client *client);
-> > > +
-> > > +struct i915_drm_client *i915_drm_client_add(struct i915_drm_clients *clients,
-> > > +					    struct task_struct *task);
-> > > +
-> > > +void i915_drm_clients_fini(struct i915_drm_clients *clients);
-> > > +
-> > > +#endif /* !__I915_DRM_CLIENT_H__ */
-> > > diff --git a/drivers/gpu/drm/i915/i915_drv.c b/drivers/gpu/drm/i915/i915_drv.c
-> > > index 30d8cd8c69b1..8247dcc7586e 100644
-> > > --- a/drivers/gpu/drm/i915/i915_drv.c
-> > > +++ b/drivers/gpu/drm/i915/i915_drv.c
-> > > @@ -68,6 +68,7 @@
-> > >   #include "gt/intel_rc6.h"
-> > >   #include "i915_debugfs.h"
-> > > +#include "i915_drm_client.h"
-> > >   #include "i915_drv.h"
-> > >   #include "i915_ioc32.h"
-> > >   #include "i915_irq.h"
-> > > @@ -343,6 +344,8 @@ static int i915_driver_early_probe(struct drm_i915_private *dev_priv)
-> > >   	intel_gt_init_early(&dev_priv->gt, dev_priv);
-> > > +	i915_drm_clients_init(&dev_priv->clients, dev_priv);
-> > > +
-> > >   	i915_gem_init_early(dev_priv);
-> > >   	/* This must be called before any calls to HAS_PCH_* */
-> > > @@ -362,6 +365,7 @@ static int i915_driver_early_probe(struct drm_i915_private *dev_priv)
-> > >   err_gem:
-> > >   	i915_gem_cleanup_early(dev_priv);
-> > > +	i915_drm_clients_fini(&dev_priv->clients);
-> > >   	intel_gt_driver_late_release(&dev_priv->gt);
-> > >   	intel_region_ttm_device_fini(dev_priv);
-> > >   err_ttm:
-> > > @@ -381,6 +385,7 @@ static void i915_driver_late_release(struct drm_i915_private *dev_priv)
-> > >   	intel_irq_fini(dev_priv);
-> > >   	intel_power_domains_cleanup(dev_priv);
-> > >   	i915_gem_cleanup_early(dev_priv);
-> > > +	i915_drm_clients_fini(&dev_priv->clients);
-> > >   	intel_gt_driver_late_release(&dev_priv->gt);
-> > >   	intel_region_ttm_device_fini(dev_priv);
-> > >   	vlv_suspend_cleanup(dev_priv);
-> > > @@ -996,6 +1001,7 @@ static void i915_driver_postclose(struct drm_device *dev, struct drm_file *file)
-> > >   	struct drm_i915_file_private *file_priv = file->driver_priv;
-> > >   	i915_gem_context_close(file);
-> > > +	i915_drm_client_close(file_priv->client);
-> > >   	kfree_rcu(file_priv, rcu);
-> > > diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
-> > > index c4747f4407ef..338d384c31eb 100644
-> > > --- a/drivers/gpu/drm/i915/i915_drv.h
-> > > +++ b/drivers/gpu/drm/i915/i915_drv.h
-> > > @@ -96,6 +96,7 @@
-> > >   #include "intel_wakeref.h"
-> > >   #include "intel_wopcm.h"
-> > > +#include "i915_drm_client.h"
-> > >   #include "i915_gem.h"
-> > >   #include "i915_gem_gtt.h"
-> > >   #include "i915_gpu_error.h"
-> > > @@ -284,6 +285,8 @@ struct drm_i915_file_private {
-> > >   	/** ban_score: Accumulated score of all ctx bans and fast hangs. */
-> > >   	atomic_t ban_score;
-> > >   	unsigned long hang_timestamp;
-> > > +
-> > > +	struct i915_drm_client *client;
-> > >   };
-> > >   /* Interface history:
-> > > @@ -1218,6 +1221,8 @@ struct drm_i915_private {
-> > >   	struct i915_pmu pmu;
-> > > +	struct i915_drm_clients clients;
-> > > +
-> > >   	struct i915_hdcp_comp_master *hdcp_master;
-> > >   	bool hdcp_comp_added;
-> > > diff --git a/drivers/gpu/drm/i915/i915_gem.c b/drivers/gpu/drm/i915/i915_gem.c
-> > > index 590efc8b0265..ea6c88a99ed2 100644
-> > > --- a/drivers/gpu/drm/i915/i915_gem.c
-> > > +++ b/drivers/gpu/drm/i915/i915_gem.c
-> > > @@ -1179,25 +1179,40 @@ void i915_gem_cleanup_early(struct drm_i915_private *dev_priv)
-> > >   int i915_gem_open(struct drm_i915_private *i915, struct drm_file *file)
-> > >   {
-> > >   	struct drm_i915_file_private *file_priv;
-> > > -	int ret;
-> > > +	struct i915_drm_client *client;
-> > > +	int ret = -ENOMEM;
-> > >   	DRM_DEBUG("\n");
-> > >   	file_priv = kzalloc(sizeof(*file_priv), GFP_KERNEL);
-> > >   	if (!file_priv)
-> > > -		return -ENOMEM;
-> > > +		goto err_alloc;
-> > > +
-> > > +	client = i915_drm_client_add(&i915->clients, current);
-> > > +	if (IS_ERR(client)) {
-> > > +		ret = PTR_ERR(client);
-> > > +		goto err_client;
-> > > +	}
-> > >   	file->driver_priv = file_priv;
-> > >   	file_priv->dev_priv = i915;
-> > >   	file_priv->file = file;
-> > > +	file_priv->client = client;
-> > >   	file_priv->bsd_engine = -1;
-> > >   	file_priv->hang_timestamp = jiffies;
-> > >   	ret = i915_gem_context_open(i915, file);
-> > >   	if (ret)
-> > > -		kfree(file_priv);
-> > > +		goto err_context;
-> > > +
-> > > +	return 0;
-> > > +err_context:
-> > > +	i915_drm_client_close(client);
-> > > +err_client:
-> > > +	kfree(file_priv);
-> > > +err_alloc:
-> > >   	return ret;
-> > >   }
-> > > -- 
-> > > 2.30.2
-> > > 
-> > 
+>>> The question about full vs. limited range seems unnecessary to me, as
+>>> the background color will be used as-is in the blending stage, so
+>>> userspace can just program the correct value that fits the pipeline it
+>>> is setting up.
+>>>
+>>> One more question is, as HDR exists, could we need background colors
+>>> with component values greater than 1.0?  
+>>
+>> AR4H color format should cover that case, isn't it ?
+> 
+> Yes, but with the inconvenience I mentioned.
+> 
+> This is a genuine question though, would anyone actually need
+> background color values > 1.0. I don't know of any case yet where it
+> would be required. It would imply that plane blending happens in a
+> color space where >1.0 values are meaningful. I'm not even sure if any
+> hardware supporting that exists.
+> 
+> Maybe it would be best to assume that only [0.0, 1.0] pixel value range
+> is useful, and mention in the commit message that if someone really
+> needs values outside of that, they should create another background
+> color property. Then, you can pick a simple unsigned integer pixel
+> format, too. (I didn't see any 16 bit-per-channel formats like that in
+> drm_fourcc.h though.)
+> 
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+I don't think we should artificially limit this to [0.0, 1.0]. As you
+mentioned above when talking about full vs limited, the userspace
+understands what's the correct value that fits the pipeline. If that
+pipeline is FP16 with > 1.0 values then it would make sense that the
+background color can be > 1.0.
+
+Harry
+
+> 
+> Thanks,
+> pq
+> 
+
