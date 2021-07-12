@@ -1,39 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFD953C6202
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Jul 2021 19:32:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F91D3C6246
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Jul 2021 19:54:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0CF6F89D60;
-	Mon, 12 Jul 2021 17:32:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E8D6D89CD4;
+	Mon, 12 Jul 2021 17:54:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 16D0289D60
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jul 2021 17:32:42 +0000 (UTC)
-Received: from [IPv6:2a02:810a:880:f54:e464:19d5:3655:dde7] (unknown
- [IPv6:2a02:810a:880:f54:e464:19d5:3655:dde7])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: dafna)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 36EE51F41E3C;
- Mon, 12 Jul 2021 18:32:40 +0100 (BST)
-Subject: Re: Aw: Re: [PATCH] soc: mediatek: mmsys: fix HDMI output on
- mt7623/bananapi-r2
-To: Frank Wunderlich <frank-w@public-files.de>
-References: <20210710132431.265985-1-linux@fw-web.de>
- <456f0611-1fc7-75ac-ff45-9afd94190283@collabora.com>
- <trinity-02bc17fc-b458-4d17-baca-8afe30e4c92c-1626110171249@3c-app-gmx-bs28>
-From: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Message-ID: <dbe23d2a-cd29-0782-1b7d-bcb5c6683607@collabora.com>
-Date: Mon, 12 Jul 2021 19:32:36 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 938F089CD4;
+ Mon, 12 Jul 2021 17:54:08 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10043"; a="189711768"
+X-IronPort-AV: E=Sophos;i="5.84,234,1620716400"; d="scan'208";a="189711768"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Jul 2021 10:54:03 -0700
+X-IronPort-AV: E=Sophos;i="5.84,234,1620716400"; d="scan'208";a="412660267"
+Received: from johnharr-mobl1.amr.corp.intel.com (HELO [10.209.125.18])
+ ([10.209.125.18])
+ by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Jul 2021 10:54:02 -0700
+Subject: Re: [PATCH 17/47] drm/i915/guc: Extend deregistration fence to
+ schedule disable
+To: Matthew Brost <matthew.brost@intel.com>
+References: <20210624070516.21893-1-matthew.brost@intel.com>
+ <20210624070516.21893-18-matthew.brost@intel.com>
+ <1b8ede0f-538b-8633-8e25-542158562c31@intel.com>
+ <20210710033647.GA187136@DUT030-TGLY.fm.intel.com>
+From: John Harrison <john.c.harrison@intel.com>
+Message-ID: <6e805972-e0cc-34e5-ed01-7d1f6019e328@intel.com>
+Date: Mon, 12 Jul 2021 10:54:02 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <trinity-02bc17fc-b458-4d17-baca-8afe30e4c92c-1626110171249@3c-app-gmx-bs28>
+In-Reply-To: <20210710033647.GA187136@DUT030-TGLY.fm.intel.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,38 +51,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Enric Balletbo i Serra <enric.balletbo@collabora.com>,
- linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
- Frank Wunderlich <linux@fw-web.de>, Collabora Kernel ML <kernel@collabora.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: intel-gfx@lists.freedesktop.org, daniele.ceraolospurio@intel.com,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On 7/9/2021 20:36, Matthew Brost wrote:
+> On Fri, Jul 09, 2021 at 03:59:11PM -0700, John Harrison wrote:
+>> On 6/24/2021 00:04, Matthew Brost wrote:
+>>> Extend the deregistration context fence to fence whne a GuC context has
+>>> scheduling disable pending.
+>>>
+>>> Cc: John Harrison <john.c.harrison@intel.com>
+>>> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+>>> ---
+>>>    .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 37 +++++++++++++++----
+>>>    1 file changed, 30 insertions(+), 7 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+>>> index 0386ccd5a481..0a6ccdf32316 100644
+>>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+>>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+>>> @@ -918,7 +918,19 @@ static void guc_context_sched_disable(struct intel_context *ce)
+>>>    		goto unpin;
+>>>    	spin_lock_irqsave(&ce->guc_state.lock, flags);
+>>> +
+>>> +	/*
+>>> +	 * We have to check if the context has been pinned again as another pin
+>>> +	 * operation is allowed to pass this function. Checking the pin count
+>>> +	 * here synchronizes this function with guc_request_alloc ensuring a
+>>> +	 * request doesn't slip through the 'context_pending_disable' fence.
+>>> +	 */
+>> The pin count is an atomic so doesn't need the spinlock. Also the above
+> How about?
+>
+> /*
+>   * We have to check if the context has been pinned again as another pin
+>   * operation is allowed to pass this function. Checking the pin count,
+>   * within ce->guc_state.lock, synchronizes this function with
+>   * guc_request_alloc ensuring a request doesn't slip through the
+>   * 'context_pending_disable' fence. Checking within the spin lock (can't
+>   * sleep) ensures another process doesn't pin this context and generate
+>   * a request before we set the 'context_pending_disable' flag here.
+>   */
+>
+> Matt
+Sounds good. With that added in:
+Reviewed-by: John Harrison <John.C.Harrison@Intel.com>
 
-On 12.07.21 19:16, Frank Wunderlich wrote:
-> Hi,
-> 
-> it turns out that problem is the read+or of the new value
-> 
-> i reverted my patch and changed
-> 
-> reg = readl_relaxed(mmsys->regs + routes[i].addr) | routes[i].val;
-> writel_relaxed(reg, mmsys->regs + routes[i].addr);
-> 
-> to
-> 
-> writel_relaxed(routes[i].val, mmsys->regs + routes[i].addr);
-> 
-> and it works too, but maybe it breaks other platforms
+>
+>> comment 'checking the pin count here synchronizes ...' seems wrong. Isn't
+>> the point that acquiring the spinlock is what synchronises with
+>> guc_request_alloc? So the comment should be before the spinlock acquire and
+>> should mention using the spinlock for this purpose?
+>>
+>> John.
+>>
+>>
+>>> +	if (unlikely(atomic_add_unless(&ce->pin_count, -2, 2))) {
+>>> +		spin_unlock_irqrestore(&ce->guc_state.lock, flags);
+>>> +		return;
+>>> +	}
+>>>    	guc_id = prep_context_pending_disable(ce);
+>>> +
+>>>    	spin_unlock_irqrestore(&ce->guc_state.lock, flags);
+>>>    	with_intel_runtime_pm(runtime_pm, wakeref)
+>>> @@ -1123,19 +1135,22 @@ static int guc_request_alloc(struct i915_request *rq)
+>>>    out:
+>>>    	/*
+>>>    	 * We block all requests on this context if a G2H is pending for a
+>>> -	 * context deregistration as the GuC will fail a context registration
+>>> -	 * while this G2H is pending. Once a G2H returns, the fence is released
+>>> -	 * that is blocking these requests (see guc_signal_context_fence).
+>>> +	 * schedule disable or context deregistration as the GuC will fail a
+>>> +	 * schedule enable or context registration if either G2H is pending
+>>> +	 * respectfully. Once a G2H returns, the fence is released that is
+>>> +	 * blocking these requests (see guc_signal_context_fence).
+>>>    	 *
+>>> -	 * We can safely check the below field outside of the lock as it isn't
+>>> -	 * possible for this field to transition from being clear to set but
+>>> +	 * We can safely check the below fields outside of the lock as it isn't
+>>> +	 * possible for these fields to transition from being clear to set but
+>>>    	 * converse is possible, hence the need for the check within the lock.
+>>>    	 */
+>>> -	if (likely(!context_wait_for_deregister_to_register(ce)))
+>>> +	if (likely(!context_wait_for_deregister_to_register(ce) &&
+>>> +		   !context_pending_disable(ce)))
+>>>    		return 0;
+>>>    	spin_lock_irqsave(&ce->guc_state.lock, flags);
+>>> -	if (context_wait_for_deregister_to_register(ce)) {
+>>> +	if (context_wait_for_deregister_to_register(ce) ||
+>>> +	    context_pending_disable(ce)) {
+>>>    		i915_sw_fence_await(&rq->submit);
+>>>    		list_add_tail(&rq->guc_fence_link, &ce->guc_state.fences);
+>>> @@ -1484,10 +1499,18 @@ int intel_guc_sched_done_process_msg(struct intel_guc *guc,
+>>>    	if (context_pending_enable(ce)) {
+>>>    		clr_context_pending_enable(ce);
+>>>    	} else if (context_pending_disable(ce)) {
+>>> +		/*
+>>> +		 * Unpin must be done before __guc_signal_context_fence,
+>>> +		 * otherwise a race exists between the requests getting
+>>> +		 * submitted + retired before this unpin completes resulting in
+>>> +		 * the pin_count going to zero and the context still being
+>>> +		 * enabled.
+>>> +		 */
+>>>    		intel_context_sched_disable_unpin(ce);
+>>>    		spin_lock_irqsave(&ce->guc_state.lock, flags);
+>>>    		clr_context_pending_disable(ce);
+>>> +		__guc_signal_context_fence(ce);
+>>>    		spin_unlock_irqrestore(&ce->guc_state.lock, flags);
+>>>    	}
 
-Interesting, I can test if it fix that similar bug on mt8173 when resume from suspend.
-
-Thanks,
-Dafna
-
-> 
-> regards Frank
-> 
