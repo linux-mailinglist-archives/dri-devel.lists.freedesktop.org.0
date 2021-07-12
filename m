@@ -1,64 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3EFB3C464F
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Jul 2021 11:41:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F1FC73C4651
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Jul 2021 11:43:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA57F89B46;
-	Mon, 12 Jul 2021 09:41:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 836528911B;
+	Mon, 12 Jul 2021 09:43:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E64C89856;
- Mon, 12 Jul 2021 09:41:37 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D76088401
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jul 2021 09:43:37 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id B55692213D;
- Mon, 12 Jul 2021 09:41:35 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id B944C22142;
+ Mon, 12 Jul 2021 09:43:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1626082895; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1626083015; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=kBOZ8F7mpJ8ZkKh31gjSwikxw852LG7Y+3uDu17esUw=;
- b=xsGNJTDkxke2V7x9DyC/qIo0uHMDc2zlJJY76BGJO5IQukOwgPF4Cj1x3fEYz6Bg/71Fdg
- iCp9IObGoB4J3G306GDZrxwbUnboKY7Qjl988gmgFzbzOuQ4OvF+7v4Eu5dckcoT307glo
- rf9i3g9FOdp8LdXL4LvSdIiVYg7wPTU=
+ bh=9hPkOzKjOFHtcfzOSXKU7cW9YiJJWafzmuG01D5x/ZE=;
+ b=rMt0PMVmudPtE1WJTdJf5urJgaFzoXHvAlDj/pK9nyvQ/EVNjq2oUCETm0ZhuGclIi81Ue
+ /gaXM4MpdPHG+JZifIoSAfxQDJ1DLjBupAu7g2QjBBkwe+C2naNLuUB3l0k0UtsXMy2Tup
+ /ir3UINJWxq4lrcW/x8w7w3xY5Ss5gw=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1626082895;
+ s=susede2_ed25519; t=1626083015;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=kBOZ8F7mpJ8ZkKh31gjSwikxw852LG7Y+3uDu17esUw=;
- b=qF2GDARqdicHcQklGHl1ri+9ueQUKdDGHRRs0nb5sQkHbuyAGwmcW6RSEF4u4o/Y3yEjme
- BT4cDOAtjHVuECCA==
+ bh=9hPkOzKjOFHtcfzOSXKU7cW9YiJJWafzmuG01D5x/ZE=;
+ b=27Lhqc3QD2B/7FKv+CdOrSVxLwh2XrCMR0y/nyUdrlrb0BzbBX3xnSUSvzMe7V5e6sHtwE
+ BaUhrtGEQcGXFMBg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3912613B1D;
- Mon, 12 Jul 2021 09:41:35 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9389513B1D;
+ Mon, 12 Jul 2021 09:43:35 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id bFjKDE8O7GATKQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Mon, 12 Jul 2021 09:41:35 +0000
-Subject: Re: [v8 1/6] drm/panel: add basic DP AUX backlight support
-To: Rajeev Nandan <rajeevny@codeaurora.org>, dri-devel@lists.freedesktop.org, 
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- devicetree@vger.kernel.org
-References: <1624726268-14869-1-git-send-email-rajeevny@codeaurora.org>
- <1624726268-14869-2-git-send-email-rajeevny@codeaurora.org>
+ by imap2.suse-dmz.suse.de with ESMTPSA id ypACI8cO7GC4KQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Mon, 12 Jul 2021 09:43:35 +0000
+Subject: Re: [PATCH] drm/ingenic: Convert to Linux IRQ interfaces
+To: Paul Cercueil <paul@crapouillou.net>, Sam Ravnborg <sam@ravnborg.org>
+References: <20210706074409.8664-1-tzimmermann@suse.de>
+ <YOk/S1MTPWEbe93Y@ravnborg.org> <ZAX0WQ.WYKBDC2M1I1Y2@crapouillou.net>
 From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <7f8562df-7e1f-dcfb-1c58-f1edd9dcc606@suse.de>
-Date: Mon, 12 Jul 2021 11:41:34 +0200
+Message-ID: <9076ed6b-cade-4727-ff8b-cf9c8bc42add@suse.de>
+Date: Mon, 12 Jul 2021 11:43:35 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <1624726268-14869-2-git-send-email-rajeevny@codeaurora.org>
+In-Reply-To: <ZAX0WQ.WYKBDC2M1I1Y2@crapouillou.net>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="pI0bX0lZwZiRn3v4qGUBQl4ZFLgHyzkI0"
+ boundary="CAw5dWKLHM5vkXI6i74jofi2llubegS6N"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,292 +69,151 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniel.thompson@linaro.org, mkrishn@codeaurora.org, jani.nikula@intel.com,
- lee.jones@linaro.org, linux-kernel@vger.kernel.org, abhinavk@codeaurora.org,
- dianders@chromium.org, a.hajda@samsung.com, thierry.reding@gmail.com,
- seanpaul@chromium.org, laurent.pinchart@ideasonboard.com,
- linux-fbdev@vger.kernel.org, kalyan_t@codeaurora.org, jingoohan1@gmail.com,
- hoegsberg@chromium.org, sam@ravnborg.org
+Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org,
+ linux-mips@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---pI0bX0lZwZiRn3v4qGUBQl4ZFLgHyzkI0
-Content-Type: multipart/mixed; boundary="HhVIaNadSSQ6n2fzFQyF1bVjBTxK3fWU9";
+--CAw5dWKLHM5vkXI6i74jofi2llubegS6N
+Content-Type: multipart/mixed; boundary="cKK4prfBtvhl3WfFhCpvqDfPpDUGCaJpW";
  protected-headers="v1"
 From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Rajeev Nandan <rajeevny@codeaurora.org>, dri-devel@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- devicetree@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, thierry.reding@gmail.com, sam@ravnborg.org,
- robdclark@gmail.com, dianders@chromium.org, lyude@redhat.com,
- jani.nikula@intel.com, robh@kernel.org, laurent.pinchart@ideasonboard.com,
- a.hajda@samsung.com, daniel.thompson@linaro.org, hoegsberg@chromium.org,
- abhinavk@codeaurora.org, seanpaul@chromium.org, kalyan_t@codeaurora.org,
- mkrishn@codeaurora.org, lee.jones@linaro.org, jingoohan1@gmail.com,
- linux-fbdev@vger.kernel.org
-Message-ID: <7f8562df-7e1f-dcfb-1c58-f1edd9dcc606@suse.de>
-Subject: Re: [v8 1/6] drm/panel: add basic DP AUX backlight support
-References: <1624726268-14869-1-git-send-email-rajeevny@codeaurora.org>
- <1624726268-14869-2-git-send-email-rajeevny@codeaurora.org>
-In-Reply-To: <1624726268-14869-2-git-send-email-rajeevny@codeaurora.org>
+To: Paul Cercueil <paul@crapouillou.net>, Sam Ravnborg <sam@ravnborg.org>
+Cc: airlied@linux.ie, daniel@ffwll.ch, linux-mips@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Message-ID: <9076ed6b-cade-4727-ff8b-cf9c8bc42add@suse.de>
+Subject: Re: [PATCH] drm/ingenic: Convert to Linux IRQ interfaces
+References: <20210706074409.8664-1-tzimmermann@suse.de>
+ <YOk/S1MTPWEbe93Y@ravnborg.org> <ZAX0WQ.WYKBDC2M1I1Y2@crapouillou.net>
+In-Reply-To: <ZAX0WQ.WYKBDC2M1I1Y2@crapouillou.net>
 
---HhVIaNadSSQ6n2fzFQyF1bVjBTxK3fWU9
+--cKK4prfBtvhl3WfFhCpvqDfPpDUGCaJpW
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
+Hi
 
+Am 10.07.21 um 12:04 schrieb Paul Cercueil:
+> Hi,
+>=20
+> Le sam., juil. 10 2021 at 08:33:47 +0200, Sam Ravnborg=20
+> <sam@ravnborg.org> a =C3=A9crit :
+>> Hi Thomas,
+>>
+>> On Tue, Jul 06, 2021 at 09:44:09AM +0200, Thomas Zimmermann wrote:
+>>> =C2=A0Drop the DRM IRQ midlayer in favor of Linux IRQ interfaces. DRM=
+'s
+>>> =C2=A0IRQ helpers are mostly useful for UMS drivers. Modern KMS drive=
+rs
+>>> =C2=A0don't benefit from using it.
+>>>
+>>> =C2=A0Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>>> =C2=A0---
+>>> =C2=A0 drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 13 +++++++------
+>>> =C2=A0 1 file changed, 7 insertions(+), 6 deletions(-)
+>>>
+>>> =C2=A0diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c=20
+>>> b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+>>> =C2=A0index c296472164d9..a09b7da21b53 100644
+>>> =C2=A0--- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+>>> =C2=A0+++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+>>> =C2=A0@@ -33,7 +33,6 @@
+>>> =C2=A0 #include <drm/drm_fourcc.h>
+>>> =C2=A0 #include <drm/drm_gem_atomic_helper.h>
+>>> =C2=A0 #include <drm/drm_gem_framebuffer_helper.h>
+>>> =C2=A0-#include <drm/drm_irq.h>
+>>> =C2=A0 #include <drm/drm_managed.h>
+>>> =C2=A0 #include <drm/drm_of.h>
+>>> =C2=A0 #include <drm/drm_panel.h>
+>>> =C2=A0@@ -799,8 +798,6 @@ static const struct drm_driver=20
+>>> ingenic_drm_driver_data =3D {
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .fops=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D &ingenic_drm_fops,
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .gem_create_object=C2=A0=C2=A0=C2=A0 =3D=
+ ingenic_drm_gem_create_object,
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 DRM_GEM_CMA_DRIVER_OPS,
+>>> =C2=A0-
+>>> =C2=A0-=C2=A0=C2=A0=C2=A0 .irq_handler=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 =3D ingenic_drm_irq_handler,
+>>> =C2=A0 };
+>>>
+>>> =C2=A0 static const struct drm_plane_funcs ingenic_drm_primary_plane_=
+funcs=20
+>>> =3D {
+>>> =C2=A0@@ -1098,7 +1095,7 @@ static int ingenic_drm_bind(struct device=
+=20
+>>> *dev, bool has_components)
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 encoder->possi=
+ble_clones =3D clone_mask;
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+>>>
+>>> =C2=A0-=C2=A0=C2=A0=C2=A0 ret =3D drm_irq_install(drm, irq);
+>>> =C2=A0+=C2=A0=C2=A0=C2=A0 ret =3D request_irq(irq, ingenic_drm_irq_ha=
+ndler, 0,=20
+>>> drm->driver->name, drm);
+>>>
+>=20
+> Can't you use the devm variant?
 
-Am 26.06.21 um 18:51 schrieb Rajeev Nandan:
-> Some panels support backlight control over DP AUX channel using
-> VESA's standard backlight control interface.
-> Using new DRM eDP backlight helpers, add support to create and
-> register a backlight for those panels in drm_panel to simplify
-> the panel drivers.
->=20
-> The panel driver with access to "struct drm_dp_aux" can create and
-> register a backlight device using following code snippet in its
-> probe() function:
->=20
-> 	err =3D drm_panel_dp_aux_backlight(panel, aux);
-> 	if (err)
-> 		return err;
->=20
-> Then drm_panel will handle backlight_(enable|disable) calls
-> similar to the case when drm_panel_of_backlight() is used.
->=20
-> Currently, we are not supporting one feature where the source
-> device can combine the backlight brightness levels set through
-> DP AUX and the BL_PWM_DIM eDP connector pin. Since it's not
-> required for the basic backlight controls, it can be added later.
->=20
-> Signed-off-by: Rajeev Nandan <rajeevny@codeaurora.org>
-> Reviewed-by: Douglas Anderson <dianders@chromium.org>
-> Reviewed-by: Lyude Paul <lyude@redhat.com>
-> ---
->=20
-> Changes in v5:
-> - New
->=20
-> Changes in v6:
-> - Fixed ordering of memory allocation (Douglas)
-> - Updated word wrapping in a comment (Douglas)
->=20
-> Changes in v8:
-> - Now using backlight_is_blank() to get the backlight blank status (Sam=
- Ravnborg)
->=20
->   drivers/gpu/drm/drm_panel.c | 108 +++++++++++++++++++++++++++++++++++=
-+++++++++
->   include/drm/drm_panel.h     |  15 ++++--
->   2 files changed, 119 insertions(+), 4 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/drm_panel.c b/drivers/gpu/drm/drm_panel.c
-> index f634371..4fa1e3b 100644
-> --- a/drivers/gpu/drm/drm_panel.c
-> +++ b/drivers/gpu/drm/drm_panel.c
-> @@ -26,12 +26,20 @@
->   #include <linux/module.h>
->  =20
->   #include <drm/drm_crtc.h>
-> +#include <drm/drm_dp_helper.h>
->   #include <drm/drm_panel.h>
->   #include <drm/drm_print.h>
->  =20
->   static DEFINE_MUTEX(panel_lock);
->   static LIST_HEAD(panel_list);
->  =20
-> +struct dp_aux_backlight {
-> +	struct backlight_device *base;
-> +	struct drm_dp_aux *aux;
-> +	struct drm_edp_backlight_info info;
-> +	bool enabled;
-> +};
-> +
->   /**
->    * DOC: drm panel
->    *
-> @@ -342,6 +350,106 @@ int drm_panel_of_backlight(struct drm_panel *pane=
-l)
->   	return 0;
->   }
->   EXPORT_SYMBOL(drm_panel_of_backlight);
-> +
-> +static int dp_aux_backlight_update_status(struct backlight_device *bd)=
-
-> +{
-> +	struct dp_aux_backlight *bl =3D bl_get_data(bd);
-> +	u16 brightness =3D backlight_get_brightness(bd);
-> +	int ret =3D 0;
-> +
-> +	if (!backlight_is_blank(bd)) {
-> +		if (!bl->enabled) {
-> +			drm_edp_backlight_enable(bl->aux, &bl->info, brightness);
-> +			bl->enabled =3D true;
-> +			return 0;
-> +		}
-> +		ret =3D drm_edp_backlight_set_level(bl->aux, &bl->info, brightness);=
-
-> +	} else {
-> +		if (bl->enabled) {
-> +			drm_edp_backlight_disable(bl->aux, &bl->info);
-> +			bl->enabled =3D false;
-> +		}
-> +	}
-> +
-> +	return ret;
-> +}
-> +
-> +static const struct backlight_ops dp_aux_bl_ops =3D {
-> +	.update_status =3D dp_aux_backlight_update_status,
-> +};
-> +
-> +/**
-> + * drm_panel_dp_aux_backlight - create and use DP AUX backlight
-> + * @panel: DRM panel
-> + * @aux: The DP AUX channel to use
-> + *
-> + * Use this function to create and handle backlight if your panel
-> + * supports backlight control over DP AUX channel using DPCD
-> + * registers as per VESA's standard backlight control interface.
-> + *
-> + * When the panel is enabled backlight will be enabled after a
-> + * successful call to &drm_panel_funcs.enable()
-> + *
-> + * When the panel is disabled backlight will be disabled before the
-> + * call to &drm_panel_funcs.disable().
-> + *
-> + * A typical implementation for a panel driver supporting backlight
-> + * control over DP AUX will call this function at probe time.
-> + * Backlight will then be handled transparently without requiring
-> + * any intervention from the driver.
-> + *
-> + * drm_panel_dp_aux_backlight() must be called after the call to drm_p=
-anel_init().
-> + *
-> + * Return: 0 on success or a negative error code on failure.
-> + */
-> +int drm_panel_dp_aux_backlight(struct drm_panel *panel, struct drm_dp_=
-aux *aux)
-> +{
-> +	struct dp_aux_backlight *bl;
-> +	struct backlight_properties props =3D { 0 };
-> +	u16 current_level;
-> +	u8 current_mode;
-> +	u8 edp_dpcd[EDP_DISPLAY_CTL_CAP_SIZE];
-> +	int ret;
-> +
-> +	if (!panel || !panel->dev || !aux)
-> +		return -EINVAL;
-> +
-> +	ret =3D drm_dp_dpcd_read(aux, DP_EDP_DPCD_REV, edp_dpcd,
-> +			       EDP_DISPLAY_CTL_CAP_SIZE);
-
-This creates a cyclic dependency between drm_kms_helper-ko and drm.ko.=20
-drm_panel.c is in the latter, while drm_dp_dpcd_read() in=20
-drm_dp_helper.c is in the former. Please fix.
+I think so, I just tried to minimize the difference.
 
 Best regards
 Thomas
 
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	if (!drm_edp_backlight_supported(edp_dpcd)) {
-> +		DRM_DEV_INFO(panel->dev, "DP AUX backlight is not supported\n");
-> +		return 0;
-> +	}
-> +
-> +	bl =3D devm_kzalloc(panel->dev, sizeof(*bl), GFP_KERNEL);
-> +	if (!bl)
-> +		return -ENOMEM;
-> +
-> +	bl->aux =3D aux;
-> +
-> +	ret =3D drm_edp_backlight_init(aux, &bl->info, 0, edp_dpcd,
-> +				     &current_level, &current_mode);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	props.type =3D BACKLIGHT_RAW;
-> +	props.brightness =3D current_level;
-> +	props.max_brightness =3D bl->info.max;
-> +
-> +	bl->base =3D devm_backlight_device_register(panel->dev, "dp_aux_backl=
-ight",
-> +						  panel->dev, bl,
-> +						  &dp_aux_bl_ops, &props);
-> +	if (IS_ERR(bl->base))
-> +		return PTR_ERR(bl->base);
-> +
-> +	panel->backlight =3D bl->base;
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL(drm_panel_dp_aux_backlight);
->   #endif
->  =20
->   MODULE_AUTHOR("Thierry Reding <treding@nvidia.com>");
-> diff --git a/include/drm/drm_panel.h b/include/drm/drm_panel.h
-> index 33605c3..3ebfaa6 100644
-> --- a/include/drm/drm_panel.h
-> +++ b/include/drm/drm_panel.h
-> @@ -32,6 +32,7 @@ struct backlight_device;
->   struct device_node;
->   struct drm_connector;
->   struct drm_device;
-> +struct drm_dp_aux;
->   struct drm_panel;
->   struct display_timing;
->  =20
-> @@ -64,8 +65,8 @@ enum drm_panel_orientation;
->    * the panel. This is the job of the .unprepare() function.
->    *
->    * Backlight can be handled automatically if configured using
-> - * drm_panel_of_backlight(). Then the driver does not need to implemen=
-t the
-> - * functionality to enable/disable backlight.
-> + * drm_panel_of_backlight() or drm_panel_dp_aux_backlight(). Then the =
-driver
-> + * does not need to implement the functionality to enable/disable back=
-light.
->    */
->   struct drm_panel_funcs {
->   	/**
-> @@ -144,8 +145,8 @@ struct drm_panel {
->   	 * Backlight device, used to turn on backlight after the call
->   	 * to enable(), and to turn off backlight before the call to
->   	 * disable().
-> -	 * backlight is set by drm_panel_of_backlight() and drivers
-> -	 * shall not assign it.
-> +	 * backlight is set by drm_panel_of_backlight() or
-> +	 * drm_panel_dp_aux_backlight() and drivers shall not assign it.
->   	 */
->   	struct backlight_device *backlight;
->  =20
-> @@ -208,11 +209,17 @@ static inline int of_drm_get_panel_orientation(co=
-nst struct device_node *np,
->   #if IS_ENABLED(CONFIG_DRM_PANEL) && (IS_BUILTIN(CONFIG_BACKLIGHT_CLAS=
-S_DEVICE) || \
->   	(IS_MODULE(CONFIG_DRM) && IS_MODULE(CONFIG_BACKLIGHT_CLASS_DEVICE)))=
-
->   int drm_panel_of_backlight(struct drm_panel *panel);
-> +int drm_panel_dp_aux_backlight(struct drm_panel *panel, struct drm_dp_=
-aux *aux);
->   #else
->   static inline int drm_panel_of_backlight(struct drm_panel *panel)
->   {
->   	return 0;
->   }
-> +static inline int drm_panel_dp_aux_backlight(struct drm_panel *panel,
-> +					     struct drm_dp_aux *aux)
-> +{
-> +	return 0;
-> +}
->   #endif
->  =20
->   #endif
+>=20
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (ret) {
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dev_err(dev, "=
+Unable to install IRQ handler\n");
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return ret;
+>>> =C2=A0@@ -1192,14 +1189,18 @@ static void ingenic_drm_unbind(struct d=
+evice=20
+>>> *dev)
+>>> =C2=A0 {
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct ingenic_drm *priv =3D dev_get_d=
+rvdata(dev);
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct clk *parent_clk =3D clk_get_par=
+ent(priv->pix_clk);
+>>> =C2=A0+=C2=A0=C2=A0=C2=A0 struct drm_device *drm =3D &priv->drm;
+>>> =C2=A0+=C2=A0=C2=A0=C2=A0 struct platform_device *pdev =3D to_platfor=
+m_device(drm->dev);
+>>> =C2=A0+
+>>> =C2=A0+=C2=A0=C2=A0=C2=A0 free_irq(platform_get_irq(pdev, 0), drm);
+>>
+>> The driver was missing a drm_irq_uninstall() so the above code is
+>> actually a small bug-fix. It should be mentioned in the changelog.
+>> With this fixed:
+>> Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+>>
+>> Note: I expect Paul to review too and apply.
+>=20
+> I wasn't Cc'd? :(
+>=20
+> -Paul
+>=20
+>>
+>> =C2=A0=C2=A0=C2=A0=C2=A0Sam
+>>
+>>>
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 clk_notifier_unregister(parent_clk, &p=
+riv->clock_nb);
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (priv->lcd_clk)
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 clk_disable_un=
+prepare(priv->lcd_clk);
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 clk_disable_unprepare(priv->pix_clk);
+>>>
+>>> =C2=A0-=C2=A0=C2=A0=C2=A0 drm_dev_unregister(&priv->drm);
+>>> =C2=A0-=C2=A0=C2=A0=C2=A0 drm_atomic_helper_shutdown(&priv->drm);
+>>> =C2=A0+=C2=A0=C2=A0=C2=A0 drm_dev_unregister(drm);
+>>> =C2=A0+=C2=A0=C2=A0=C2=A0 drm_atomic_helper_shutdown(drm);
+>>> =C2=A0 }
+>>>
+>>> =C2=A0 static const struct component_master_ops ingenic_master_ops =3D=
+ {
+>>> =C2=A0--
+>>> =C2=A02.32.0
+>=20
 >=20
 
 --=20
@@ -368,27 +225,27 @@ Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
 Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
 
---HhVIaNadSSQ6n2fzFQyF1bVjBTxK3fWU9--
+--cKK4prfBtvhl3WfFhCpvqDfPpDUGCaJpW--
 
---pI0bX0lZwZiRn3v4qGUBQl4ZFLgHyzkI0
+--CAw5dWKLHM5vkXI6i74jofi2llubegS6N
 Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmDsDk4FAwAAAAAACgkQlh/E3EQov+DZ
-dQ//dVOts02Z0+fd8xcvFtGJPdj6IouyIU93AH9R8qr37ZV9NfnSK77lksrnV+Z9H09Zz5tOOpeW
-A+QjyaYvZ771vLkfYfwg4sGfjGgzhb+7LcaZ2pkJyZoLeaOwyCHQTGQQYNHWqlFaUV8f1mqh8d3Q
-fbtKuqyn0m0xeYcIAFqjfTFP1Aoy+QPlYykV0UHKHSlmy797FeVBg24tiBDuBqrQoyfJyJhCaQao
-x5g4e5VtqBKUHu37Lx2bYe3hHvZ24fn/Yy+YJIoeEAa6p8ZPcdao9qzMfKFlh0BddlF0ZsPSYy7i
-DS0MWaMZLB3cs/+bzMrq1/lxtd+1RUdqNfXkm4kzSwiVnLHc/XzwHXWalwgs1ziyFGN9xYHwrq1/
-7HkZZP25oxeEOUHRZAySHKa53wBqKysEAUQ9PRCLD/8i7I+IuhNS/Z29Awrqlnu8EOdHh8+lg+jU
-WnXmyguhrUVGait99sW54Lk0bKgjFsbEg4yrJajicdn4EyrLSnREH8ddmIsRvTb/ijM9TuW7Sem3
-AsC+BbZsXxkyAvuVB8DaFSjCeBbh+xzKvnY/qWnlIcLEvCzDakxjPRMs6/N+3bVaWuAwlPY0zdpL
-W5hLkyi8MjX1oHm/HBOEkM01ic2b1qUWSRkR7DoeCBpbnWzdP3rv0mOQ+HbFHzHenEjdSpcemtyn
-j2Y=
-=2fPd
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmDsDscFAwAAAAAACgkQlh/E3EQov+Dd
+Yw/9GSx4pbYp7T6/82AyaGYFpxQ29Q5bcAKIYiTn98KLFD3YOhVVJ5ebTJzajhdwpRN7PLGRfY1H
+/xsVTzVRUmZvxI8X3KOMnBJo4DaJQDmpxF9VDLSsvd86/4nnCiVzKwoCl2NvTPNM4WTl4fSrmBzI
+aTdEZ9L9eQWPszeQfz4wryHtk5jUggiLXTlduIFMe1nPSjSX0Kue+p0ANdcyTCp7OD02K8YfpYyG
+sLeGvapMVNFVeCaH3DO13/+c4CSG/61nYRLtgw2CWI/h81SYuBwTFEmPTNjbmIhOJfr3rSIajd+a
+zIcwRfsemtu+sXdCiHbca+Y+LWzsUopxVtaD54W7TvpyBvmj9dzS8582U5ffsjCbe4OXqb6zpVPN
+hih8+ATifVaQLOtdST3oNZyA1WBYfyy69txnTbCKyA7+Fb4E82lncg0v1M4o0FvucADTwpM56XNA
+CTY6bUSZHJWdj9xM41aLLYNZzVqJ0aIxvPxv5UjAYAfV+EEEDmG+aWneJrGoUG/74RT7y+Y2Lqh9
+4atjxlBccy/oZ2wcGpVNEpL8iiO5XJzEjXD1zs1CnAuJszs+meqNwpDDBNdN5KqMo6+AV3E3pvTO
+DJDEYuFuWHyGdtmMpLZAQopINUij3ptdZ7w7+ymsG/oOz98zgkPDbLR2A6eTGL7WD2yPvAmo+qgO
+TZs=
+=ApyR
 -----END PGP SIGNATURE-----
 
---pI0bX0lZwZiRn3v4qGUBQl4ZFLgHyzkI0--
+--CAw5dWKLHM5vkXI6i74jofi2llubegS6N--
