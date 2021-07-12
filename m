@@ -1,64 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8C7F3C624C
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Jul 2021 20:02:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C6C053C625B
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Jul 2021 20:06:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C662089CF8;
-	Mon, 12 Jul 2021 18:02:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B18489D53;
+	Mon, 12 Jul 2021 18:06:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EEF7189CF8
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jul 2021 18:01:59 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 9E78022161;
- Mon, 12 Jul 2021 18:01:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1626112918; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=tvZvYJpgRMhBifMTFr6Vf3lYXwJM9OTMPCJIJLHtnEg=;
- b=bKYUJsjxMJRTATl/9k29oFTIv/X6VknBnEdwO1qRlLAPNzo6w+hziLCLdtuDwvYVJxxRRE
- c2l6Z8w8ClgCyRn+ebAG8ygY8NS0on82GfcS+Zt5WwsXJHiSAbI2bZ184qojZUTwOcm6u8
- JvRsN/+qk8GVz8mFAEoPDz7dQmMx0DQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1626112918;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=tvZvYJpgRMhBifMTFr6Vf3lYXwJM9OTMPCJIJLHtnEg=;
- b=Q4A82UBx2MAigcbamswIdmEqCBJ/b/oaiV1qMFeaFEOUGODy4GIRdC+2RZMPkKk/TI0isy
- T6hiemH2ZOJSf/Dw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 6500213BB5;
- Mon, 12 Jul 2021 18:01:58 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id /dDlFpaD7GBQMQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Mon, 12 Jul 2021 18:01:58 +0000
-To: Sumera Priyadarsini <sylphrenadin@gmail.com>
-References: <20210705074633.9425-1-tzimmermann@suse.de>
- <CACAkLur8SVqZt69CrfN+0rE4AstPBQPHbwJMnBM_TDTBFXVqdA@mail.gmail.com>
- <a8aadd02-b80b-cd55-b2fd-9c8c7c86b334@suse.de>
- <CACAkLuq+GO8S8GKVg1_AOeGAuQUVbYgf4-ni7MayOTmCm=ezEA@mail.gmail.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 0/4] vkms: Switch to shadow-buffered plane state
-Message-ID: <70f5aca8-800a-a20d-512d-bcbaef510b2e@suse.de>
-Date: Mon, 12 Jul 2021 20:01:57 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A5DFF89402;
+ Mon, 12 Jul 2021 18:06:01 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10043"; a="207013779"
+X-IronPort-AV: E=Sophos;i="5.84,234,1620716400"; d="scan'208";a="207013779"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Jul 2021 11:06:00 -0700
+X-IronPort-AV: E=Sophos;i="5.84,234,1620716400"; d="scan'208";a="412663679"
+Received: from johnharr-mobl1.amr.corp.intel.com (HELO [10.209.125.18])
+ ([10.209.125.18])
+ by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Jul 2021 11:05:59 -0700
+Subject: Re: [PATCH 23/47] drm/i915/guc: Update GuC debugfs to support new GuC
+To: Matthew Brost <matthew.brost@intel.com>, intel-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org
+References: <20210624070516.21893-1-matthew.brost@intel.com>
+ <20210624070516.21893-24-matthew.brost@intel.com>
+From: John Harrison <john.c.harrison@intel.com>
+Message-ID: <fb9585b0-6e74-a1f3-88b0-bd5b88d5cbf3@intel.com>
+Date: Mon, 12 Jul 2021 11:05:59 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <CACAkLuq+GO8S8GKVg1_AOeGAuQUVbYgf4-ni7MayOTmCm=ezEA@mail.gmail.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="Jk74EENx8qCpPjZhzGSC2wjoLzVW3Z6UD"
+In-Reply-To: <20210624070516.21893-24-matthew.brost@intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,197 +49,221 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- David Airlie <airlied@linux.ie>, Melissa Wen <melissa.srw@gmail.com>,
- dri-devel@lists.freedesktop.org
+Cc: daniele.ceraolospurio@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---Jk74EENx8qCpPjZhzGSC2wjoLzVW3Z6UD
-Content-Type: multipart/mixed; boundary="9knjUKwz4HPl3Z5Jcgya04jGaqmGHkE86";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Sumera Priyadarsini <sylphrenadin@gmail.com>
-Cc: Melissa Wen <melissa.srw@gmail.com>,
- Haneen Mohammed <hamohammed.sa@gmail.com>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
- mripard@kernel.org, maarten.lankhorst@linux.intel.com,
- dri-devel@lists.freedesktop.org
-Message-ID: <70f5aca8-800a-a20d-512d-bcbaef510b2e@suse.de>
-Subject: Re: [PATCH 0/4] vkms: Switch to shadow-buffered plane state
-References: <20210705074633.9425-1-tzimmermann@suse.de>
- <CACAkLur8SVqZt69CrfN+0rE4AstPBQPHbwJMnBM_TDTBFXVqdA@mail.gmail.com>
- <a8aadd02-b80b-cd55-b2fd-9c8c7c86b334@suse.de>
- <CACAkLuq+GO8S8GKVg1_AOeGAuQUVbYgf4-ni7MayOTmCm=ezEA@mail.gmail.com>
-In-Reply-To: <CACAkLuq+GO8S8GKVg1_AOeGAuQUVbYgf4-ni7MayOTmCm=ezEA@mail.gmail.com>
+On 6/24/2021 00:04, Matthew Brost wrote:
+> Update GuC debugfs to support the new GuC structures.
+>
+> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> ---
+>   drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c     | 22 ++++++++
+>   drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h     |  3 ++
+>   .../gpu/drm/i915/gt/uc/intel_guc_debugfs.c    | 23 +++++++-
+>   .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 52 +++++++++++++++++++
+>   .../gpu/drm/i915/gt/uc/intel_guc_submission.h |  4 ++
+>   drivers/gpu/drm/i915/i915_debugfs.c           |  1 +
+>   6 files changed, 104 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+> index e0f92e28350c..4ed074df88e5 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+> @@ -1135,3 +1135,25 @@ void intel_guc_ct_event_handler(struct intel_guc_ct *ct)
+>   
+>   	ct_try_receive_message(ct);
+>   }
+> +
+> +void intel_guc_log_ct_info(struct intel_guc_ct *ct,
+> +			   struct drm_printer *p)
+> +{
+> +	if (!ct->enabled) {
+> +		drm_puts(p, "CT disabled\n");
+> +		return;
+> +	}
+> +
+> +	drm_printf(p, "H2G Space: %u\n",
+> +		   atomic_read(&ct->ctbs.send.space) * 4);
+> +	drm_printf(p, "Head: %u\n",
+> +		   ct->ctbs.send.desc->head);
+> +	drm_printf(p, "Tail: %u\n",
+> +		   ct->ctbs.send.desc->tail);
+> +	drm_printf(p, "G2H Space: %u\n",
+> +		   atomic_read(&ct->ctbs.recv.space) * 4);
+> +	drm_printf(p, "Head: %u\n",
+> +		   ct->ctbs.recv.desc->head);
+> +	drm_printf(p, "Tail: %u\n",
+> +		   ct->ctbs.recv.desc->tail);
+> +}
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
+> index ab1b79ab960b..f62eb06b32fc 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
+> @@ -16,6 +16,7 @@
+>   
+>   struct i915_vma;
+>   struct intel_guc;
+> +struct drm_printer;
+>   
+>   /**
+>    * DOC: Command Transport (CT).
+> @@ -106,4 +107,6 @@ int intel_guc_ct_send(struct intel_guc_ct *ct, const u32 *action, u32 len,
+>   		      u32 *response_buf, u32 response_buf_size, u32 flags);
+>   void intel_guc_ct_event_handler(struct intel_guc_ct *ct);
+>   
+> +void intel_guc_log_ct_info(struct intel_guc_ct *ct, struct drm_printer *p);
+> +
+>   #endif /* _INTEL_GUC_CT_H_ */
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_debugfs.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_debugfs.c
+> index fe7cb7b29a1e..62b9ce0fafaa 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_debugfs.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_debugfs.c
+> @@ -9,6 +9,8 @@
+>   #include "intel_guc.h"
+>   #include "intel_guc_debugfs.h"
+>   #include "intel_guc_log_debugfs.h"
+> +#include "gt/uc/intel_guc_ct.h"
+> +#include "gt/uc/intel_guc_submission.h"
+>   
+>   static int guc_info_show(struct seq_file *m, void *data)
+>   {
+> @@ -22,16 +24,35 @@ static int guc_info_show(struct seq_file *m, void *data)
+>   	drm_puts(&p, "\n");
+>   	intel_guc_log_info(&guc->log, &p);
+>   
+> -	/* Add more as required ... */
+> +	if (!intel_guc_submission_is_used(guc))
+> +		return 0;
+> +
+> +	intel_guc_log_ct_info(&guc->ct, &p);
+> +	intel_guc_log_submission_info(guc, &p);
+>   
+>   	return 0;
+>   }
+>   DEFINE_GT_DEBUGFS_ATTRIBUTE(guc_info);
+>   
+> +static int guc_registered_contexts_show(struct seq_file *m, void *data)
+> +{
+> +	struct intel_guc *guc = m->private;
+> +	struct drm_printer p = drm_seq_file_printer(m);
+> +
+> +	if (!intel_guc_submission_is_used(guc))
+> +		return -ENODEV;
+> +
+> +	intel_guc_log_context_info(guc, &p);
+> +
+> +	return 0;
+> +}
+> +DEFINE_GT_DEBUGFS_ATTRIBUTE(guc_registered_contexts);
+> +
+>   void intel_guc_debugfs_register(struct intel_guc *guc, struct dentry *root)
+>   {
+>   	static const struct debugfs_gt_file files[] = {
+>   		{ "guc_info", &guc_info_fops, NULL },
+> +		{ "guc_registered_contexts", &guc_registered_contexts_fops, NULL },
+>   	};
+>   
+>   	if (!intel_guc_is_supported(guc))
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> index d1a28283a9ae..89b3c7e5d15b 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> @@ -1600,3 +1600,55 @@ int intel_guc_sched_done_process_msg(struct intel_guc *guc,
+>   
+>   	return 0;
+>   }
+> +
+> +void intel_guc_log_submission_info(struct intel_guc *guc,
+> +				   struct drm_printer *p)
+> +{
+> +	struct i915_sched_engine *sched_engine = guc->sched_engine;
+> +	struct rb_node *rb;
+> +	unsigned long flags;
+> +
+> +	drm_printf(p, "GuC Number Outstanding Submission G2H: %u\n",
+> +		   atomic_read(&guc->outstanding_submission_g2h));
+> +	drm_printf(p, "GuC tasklet count: %u\n\n",
+> +		   atomic_read(&sched_engine->tasklet.count));
+Does sched_engine need a null check?
 
---9knjUKwz4HPl3Z5Jcgya04jGaqmGHkE86
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+> +
+> +	spin_lock_irqsave(&sched_engine->lock, flags);
+> +	drm_printf(p, "Requests in GuC submit tasklet:\n");
+> +	for (rb = rb_first_cached(&sched_engine->queue); rb; rb = rb_next(rb)) {
+> +		struct i915_priolist *pl = to_priolist(rb);
+> +		struct i915_request *rq;
+> +
+> +		priolist_for_each_request(rq, pl)
+> +			drm_printf(p, "guc_id=%u, seqno=%llu\n",
+> +				   rq->context->guc_id,
+> +				   rq->fence.seqno);
+> +	}
+> +	spin_unlock_irqrestore(&sched_engine->lock, flags);
+> +	drm_printf(p, "\n");
+> +}
+> +
+> +void intel_guc_log_context_info(struct intel_guc *guc,
+> +				struct drm_printer *p)
+> +{
+> +	struct intel_context *ce;
+> +	unsigned long index;
+> +
+> +	xa_for_each(&guc->context_lookup, index, ce) {
+> +		drm_printf(p, "GuC lrc descriptor %u:\n", ce->guc_id);
+> +		drm_printf(p, "\tHW Context Desc: 0x%08x\n", ce->lrc.lrca);
+> +		drm_printf(p, "\t\tLRC Head: Internal %u, Memory %u\n",
+> +			   ce->ring->head,
+> +			   ce->lrc_reg_state[CTX_RING_HEAD]);
+> +		drm_printf(p, "\t\tLRC Tail: Internal %u, Memory %u\n",
+> +			   ce->ring->tail,
+> +			   ce->lrc_reg_state[CTX_RING_TAIL]);
+> +		drm_printf(p, "\t\tContext Pin Count: %u\n",
+> +			   atomic_read(&ce->pin_count));
+> +		drm_printf(p, "\t\tGuC ID Ref Count: %u\n",
+> +			   atomic_read(&ce->guc_id_ref));
+> +		drm_printf(p, "\t\tSchedule State: 0x%x, 0x%x\n\n",
+> +			   ce->guc_state.sched_state,
+> +			   atomic_read(&ce->guc_sched_state_no_lock));
+> +	}
+> +}
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h
+> index 3f7005018939..6453e2bfa151 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h
+> @@ -10,6 +10,7 @@
+>   
+>   #include "intel_guc.h"
+>   
+> +struct drm_printer;
+>   struct intel_engine_cs;
+>   
+>   void intel_guc_submission_init_early(struct intel_guc *guc);
+> @@ -20,6 +21,9 @@ void intel_guc_submission_fini(struct intel_guc *guc);
+>   int intel_guc_preempt_work_create(struct intel_guc *guc);
+>   void intel_guc_preempt_work_destroy(struct intel_guc *guc);
+>   int intel_guc_submission_setup(struct intel_engine_cs *engine);
+> +void intel_guc_log_submission_info(struct intel_guc *guc,
+> +				   struct drm_printer *p);
+> +void intel_guc_log_context_info(struct intel_guc *guc, struct drm_printer *p);
+>   
+>   static inline bool intel_guc_submission_is_supported(struct intel_guc *guc)
+>   {
+> diff --git a/drivers/gpu/drm/i915/i915_debugfs.c b/drivers/gpu/drm/i915/i915_debugfs.c
+> index 277800987bf8..a9084789deff 100644
+> --- a/drivers/gpu/drm/i915/i915_debugfs.c
+> +++ b/drivers/gpu/drm/i915/i915_debugfs.c
+> @@ -50,6 +50,7 @@
+>   #include "i915_trace.h"
+>   #include "intel_pm.h"
+>   #include "intel_sideband.h"
+> +#include "gt/intel_lrc_reg.h"
+>   
+Obsolete include again?
 
-Hi
+John.
 
-Am 12.07.21 um 16:26 schrieb Sumera Priyadarsini:
-> On Mon, Jul 12, 2021 at 6:53 PM Thomas Zimmermann <tzimmermann@suse.de>=
- wrote:
->>
->> Hi
->>
->> Am 12.07.21 um 13:56 schrieb Sumera Priyadarsini:
->>> On Mon, Jul 5, 2021 at 1:16 PM Thomas Zimmermann <tzimmermann@suse.de=
-> wrote:
->>>>
->>>> Vkms copies each plane's framebuffer into the output buffer; essenti=
-ally
->>>> using a shadow buffer. DRM provides struct drm_shadow_plane_state, w=
-hich
->>>> handles the details of mapping/unmapping shadow buffers into memory =
-for
->>>> active planes.
->>>>
->>>> Convert vkms to the helpers. Makes vkms use shared code and gives mo=
-re
->>>> test exposure to shadow-plane helpers.
->>>>
->>>> Thomas Zimmermann (4):
->>>>     drm/gem: Export implementation of shadow-plane helpers
->>>>     drm/vkms: Inherit plane state from struct drm_shadow_plane_state=
+>   static inline struct drm_i915_private *node_to_i915(struct drm_info_node *node)
+>   {
 
->>>>     drm/vkms: Let shadow-plane helpers prepare the plane's FB
->>>>     drm/vkms: Use dma-buf mapping from shadow-plane state for compos=
-ing
->>>>
->>>>    drivers/gpu/drm/drm_gem_atomic_helper.c | 55 ++++++++++++++++++++=
-++--
->>>>    drivers/gpu/drm/vkms/vkms_composer.c    | 26 ++++++-----
->>>>    drivers/gpu/drm/vkms/vkms_drv.h         |  6 ++-
->>>>    drivers/gpu/drm/vkms/vkms_plane.c       | 57 ++++++--------------=
------
->>>>    include/drm/drm_gem_atomic_helper.h     |  6 +++
->>>>    5 files changed, 86 insertions(+), 64 deletions(-)
->>>>
->>>>
->>>> base-commit: 3d3b5479895dd6dd133571ded4318adf595708ba
->>>> --
->>>> 2.32.0
->>>>
->>> Hi,
->>>
->>> Thanks for the patches. The switch to shadow-plane helpers also solve=
-d
->>> a bug that was causing a kernel
->>> panic during some IGT kms_flip subtests on the vkms virtual hw patch.=
-
->>
->> Melissa mention something like that as well and I don't really
->> understand. Patch 3 removes an error message from the code, but is the=
-
->> actual bug also gone?
->=20
-> Yes, I think so. Earlier, while testing the vkms virtual hw patch, the
-> tests were
-> not just failing, but the vmap fail also preceeded a page fault which r=
-equired a
-> whole restart. Check these logs around line 303:
-> https://pastebin.pl/view/03b750be.
->=20
-
-With the help of your log, I can see what's happening. The current vkms=20
-code reports an error in vmap, but does nothing about it. [1] So later=20
-during the commit, it operates with a bogus value for vaddr.
-
-The shared helper returns the error into the atomic modesetting=20
-machinery, [2] which then aborts the commit. It never gets to the point=20
-of using an invalid address. So no kernel panic occurs.
-
-> I could be wrong but I think if the same bug was still present, then
-> the kernel panic
-> would also happen even if the error message was not being returned.
-
-I'm pretty sure the vmap issue is still there. But as the shared code=20
-handles it correctly without a notice to the kernel log; and it doesn't=20
-crash the kernel any longer.
-
-But the vmap problem is caused by some other factor unrelated to vkms.
-Booting the test kernel with drm.debug=3D0x1ff on the kernel command line=
-=20
-would probably turn up some sort of error message.
-
-Best regards
-Thomas
-
-[1]=20
-https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/vkms/vkms_=
-plane.c#L166
-[2]=20
-https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/drm_gem_at=
-omic_helper.c#L299
-
->=20
-> Cheers,
-> Sumera
->=20
->>
->> There's little difference between vkms' original code and the shared
->> helper; except for the order of operations in prepare_fb. The shared
->> helper synchronizes fences before mapping; vkms mapped first.
->>
->> (Maybe the shared helper should warn about failed vmaps as well. But
->> that's for another patch.)
->>
->> Best regards
->> Thomas
->>
->>>
->>> Tested-by: Sumera Priyadarsini <sylphrenadin@gmail.com>
->>>
->>> Cheers,
->>> Sumera
->>>
->>
->> --
->> Thomas Zimmermann
->> Graphics Driver Developer
->> SUSE Software Solutions Germany GmbH
->> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
->> (HRB 36809, AG N=C3=BCrnberg)
->> Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
->>
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---9knjUKwz4HPl3Z5Jcgya04jGaqmGHkE86--
-
---Jk74EENx8qCpPjZhzGSC2wjoLzVW3Z6UD
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmDsg5UFAwAAAAAACgkQlh/E3EQov+Cl
-Ig//a4roBm66wrpX4ijIJArBINQJ6fKYrOiHbixBmPzjvFyCGvtJ9FH4l01Ilh8WezYhGbsXnnqy
-o/lioAIh0+ywCDgblSsF5OQCVXWwdaDEo36D3S2h+RhDi/BTbT0woEEFTlYtECWDpKcSIPy1yUaB
-vF0FW2eV6qZK/G/eomV4HHo4FiR070WkNDtWTRcYTSXX0meleoqp0dgdPNUulcPomSTM8I5720AK
-ctM7ZvCe9o7msmDalFD7zQMvf7FAvx5IBF6/zPb1cSxkHqL6Lc7atJ1ldt2f9+tsyj/kh9xGwcQA
-+F3UL2fdtaNxNDHKNKJ9kaCGGugKu833NUtIx3TI+dTXxsJwuivQYjff4iKNXZ1qP/ub++IXm7FA
-nPuN6fJXEnRKY1n1cLLN6q+s/Rbe+ctGV/QkB04PXzmmHpZqDRmx6qv2N/6j/ytke0wWE9qjBrBF
-TPy4F3P9lvKABUgKS7IOvuj2jNFI5NQXKZ2+nLZQfFkP+wRoLrx4LD69upGZ4hVDShzg37LSLl7U
-JsUYmOvfBlwTXgoqLy2rIcTNbZ1j6/sO78KP/9WlxgGeWDdZLnPuy3+EenM0aqDquS5ZCxXo1B0E
-rt4mknTWJAwQdEQ8pezdl7usjIteV8zE/ZgmznzSW8XZFF8NMjqXOGLZWAILx0jyh06jnEP9e5Iy
-/Tg=
-=pIex
------END PGP SIGNATURE-----
-
---Jk74EENx8qCpPjZhzGSC2wjoLzVW3Z6UD--
