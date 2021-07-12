@@ -1,44 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF6C63C4023
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Jul 2021 01:46:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 75C3C3C40C1
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Jul 2021 03:03:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF80B89AAE;
-	Sun, 11 Jul 2021 23:46:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EBF7589B62;
+	Mon, 12 Jul 2021 01:03:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtprelay.hostedemail.com (smtprelay0070.hostedemail.com
- [216.40.44.70])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1840C89AAE;
- Sun, 11 Jul 2021 23:46:26 +0000 (UTC)
-Received: from omf19.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
- by smtprelay02.hostedemail.com (Postfix) with ESMTP id 2031B2289C;
- Sun, 11 Jul 2021 23:46:25 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by
- omf19.hostedemail.com (Postfix) with ESMTPA id D810E20D75C; 
- Sun, 11 Jul 2021 23:46:23 +0000 (UTC)
-Message-ID: <111b2612313dc85eb6cffb5ec93423e92aadef15.camel@perches.com>
-Subject: Re: drm/amd/display: Simplify hdcp validate_bksv
-From: Joe Perches <joe@perches.com>
-To: kernel test robot <lkp@intel.com>, Bhawanpreet Lakha
- <Bhawanpreet.Lakha@amd.com>
-Date: Sun, 11 Jul 2021 16:46:22 -0700
-In-Reply-To: <202107120638.fhBzNbDi-lkp@intel.com>
-References: <d3a180c3dc8db68a25440edf466cfeddcaae5a64.camel@perches.com>
- <202107120638.fhBzNbDi-lkp@intel.com>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.40.0-1 
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE67089B62
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jul 2021 01:03:14 +0000 (UTC)
+X-UUID: 5e22745fd2e64c1682dc8dddd4a55a8b-20210712
+X-UUID: 5e22745fd2e64c1682dc8dddd4a55a8b-20210712
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
+ (envelope-from <yongqiang.niu@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 1017235728; Mon, 12 Jul 2021 09:03:09 +0800
+Received: from mtkcas07.mediatek.inc (172.21.101.84) by
+ mtkmbs02n2.mediatek.inc (172.21.101.101) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Mon, 12 Jul 2021 09:03:00 +0800
+Received: from localhost.localdomain (10.17.3.153) by mtkcas07.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Mon, 12 Jul 2021 09:03:00 +0800
+From: Yongqiang Niu <yongqiang.niu@mediatek.com>
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Subject: [PATCH v2, 0/3] drm/mediatek: Separate aal module
+Date: Mon, 12 Jul 2021 09:02:55 +0800
+Message-ID: <1626051778-13577-1-git-send-email-yongqiang.niu@mediatek.com>
+X-Mailer: git-send-email 1.8.1.1.dirty
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Server: rspamout05
-X-Rspamd-Queue-Id: D810E20D75C
-X-Spam-Status: No, score=-0.78
-X-Stat-Signature: 4w3xb16q81jdos9h7m1m6o7oixokhp8p
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX19RtmqfZkbsFeCZmvi7tQ9HuVjqDlNgdx4=
-X-HE-Tag: 1626047183-174502
+Content-Type: text/plain
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,46 +45,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kbuild-all@lists.01.org, Kees Cook <keescook@chromium.org>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, amd-gfx@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>
+Cc: devicetree@vger.kernel.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ David Airlie <airlied@linux.ie>, Jassi Brar <jassisinghbrar@gmail.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Yongqiang Niu <yongqiang.niu@mediatek.com>,
+ Dennis YC Hsieh <dennis-yc.hsieh@mediatek.com>,
+ Fabien Parent <fparent@baylibre.com>, Rob Herring <robh+dt@kernel.org>,
+ linux-mediatek@lists.infradead.org, Hsin-Yi Wang <hsinyi@chromium.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 2021-07-12 at 07:02 +0800, kernel test robot wrote:
-> Hi Joe,
-> 
-> I love your patch! Yet something to improve:
-> 
-> [auto build test ERROR on drm-intel/for-linux-next]
-> [also build test ERROR on drm-exynos/exynos-drm-next linus/master next-20210709]
-> [cannot apply to kees/for-next/pstore tegra-drm/drm/tegra/for-next drm/drm-next v5.13]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch]
-> 
-> url:    https://github.com/0day-ci/linux/commits/Joe-Perches/drm-amd-display-Simplify-hdcp-validate_bksv/20210712-034708
-> base:   git://anongit.freedesktop.org/drm-intel for-linux-next
-> config: i386-randconfig-a003-20210712 (attached as .config)
-> compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-> reproduce (this is a W=1 build):
->         # https://github.com/0day-ci/linux/commit/66fae2c1becdcb71c95f2c6a6413de4dfe1deb51
->         git remote add linux-review https://github.com/0day-ci/linux
->         git fetch --no-tags linux-review Joe-Perches/drm-amd-display-Simplify-hdcp-validate_bksv/20210712-034708
->         git checkout 66fae2c1becdcb71c95f2c6a6413de4dfe1deb51
->         # save the attached .config to linux build tree
->         make W=1 ARCH=i386 
-> 
-> If you fix the issue, kindly add following tag as appropriate
-> Reported-by: kernel test robot <lkp@intel.com>
-> 
-> All errors (new ones prefixed by >>, old ones prefixed by <<):
-> 
-> > > ERROR: modpost: "__popcountdi2" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko] undefined!
+Chnage since v1:
+- seprate patch
+- keep gamma register setting with cpu
 
-curious.
+Yongqiang Niu (3):
+  drm/mediatek: Separate aal module
+  drm/mediatek: add mt8183 aal support
+  arm64: dts: mt8183: refine aal compatible name
 
-Anyone know why?
+ arch/arm64/boot/dts/mediatek/mt8183.dtsi    |   3 +-
+ drivers/gpu/drm/mediatek/Makefile           |   3 +-
+ drivers/gpu/drm/mediatek/mtk_disp_aal.c     | 167 ++++++++++++++++++++++++++++
+ drivers/gpu/drm/mediatek/mtk_disp_drv.h     |   9 ++
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c |  39 +------
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c      |   8 +-
+ drivers/gpu/drm/mediatek/mtk_drm_drv.h      |   1 +
+ 7 files changed, 188 insertions(+), 42 deletions(-)
+ create mode 100644 drivers/gpu/drm/mediatek/mtk_disp_aal.c
 
+-- 
+1.8.1.1.dirty
 
