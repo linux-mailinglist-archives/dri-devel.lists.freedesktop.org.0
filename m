@@ -2,58 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEF8B3C64A7
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Jul 2021 22:02:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBE7F3C646B
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Jul 2021 22:01:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D720A89E47;
-	Mon, 12 Jul 2021 20:02:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE43689DA7;
+	Mon, 12 Jul 2021 20:01:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
- [IPv6:2a00:1450:4864:20::32b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8013B89E11
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jul 2021 20:02:16 +0000 (UTC)
-Received: by mail-wm1-x32b.google.com with SMTP id
- l17-20020a05600c1d11b029021f84fcaf75so23595wms.1
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jul 2021 13:02:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=IpJxl7PuqaJ64Pg4Vc2eGgk33M7a1vhk7bxsx13009M=;
- b=QNKQEeWMo/lASAEUd3S1SKaRNS+DtZGiyM0W0h3QSgu6Pzz1asPRSqzO9Fa4xDNNZa
- zflwLn9/SkzkywKhJt/3d5XsmvtX3cC5syr6dDocilsA4gSQrAagBbFBwyvsQRRzoSRB
- ewW2QWawsKUC6dF5beFiYo3Q0iiffqaTzOFkY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=IpJxl7PuqaJ64Pg4Vc2eGgk33M7a1vhk7bxsx13009M=;
- b=BCiJMRv7Gc13kuNm22PDW09vVifoX8ixshA6sOXAJuXUfSSd/6lrZvwQpdicrO5ixH
- lgWdf8xrRtJnOmb/+aknvX4pSj8/GHgmQ+QxAUfnDtCr52ISPVi4sNXazw2eu0SGIkNl
- HkkYyBQwVz8HxDVtCMX39HablbXCGJAEKOvtJlXA9qMVa8qj6T3NYqZJbRhg3gPOTrJG
- yfTqZgqae5J7R6RO2BY4kk8waGELB3EHscBmjItVIO1uUAyvuB3EuCAibEnEa0cAI/7U
- rovhgFuCWsUt60nNGGNove0EsiZnnR7NmeabCcvlUDEcAcc8N5GdR4zR1vo1hVtMcPyy
- hNCg==
-X-Gm-Message-State: AOAM531d3QeteAicDT5ZBcfwsEcF/6fzGZIQNcXPUHAKrUHWtSsxJ61K
- adgKfSu84S12nTjaRaDbknHE6oioZZTACA==
-X-Google-Smtp-Source: ABdhPJxaYCjyXE7+MChbQtCeylG+snCI9ZZz6JOSo7TK8FMYYzc+fKj8UgxOcqXHS2Tk7k3hGxuPhg==
-X-Received: by 2002:a7b:ca45:: with SMTP id m5mr969921wml.46.1626120135172;
- Mon, 12 Jul 2021 13:02:15 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id l14sm9858221wrs.22.2021.07.12.13.02.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 12 Jul 2021 13:02:14 -0700 (PDT)
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v4 18/18] dma-resv: Give the docs a do-over
-Date: Mon, 12 Jul 2021 19:53:52 +0200
-Message-Id: <20210712175352.802687-19-daniel.vetter@ffwll.ch>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20210712175352.802687-1-daniel.vetter@ffwll.ch>
-References: <20210712175352.802687-1-daniel.vetter@ffwll.ch>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1790989994;
+ Mon, 12 Jul 2021 20:01:49 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10043"; a="197231783"
+X-IronPort-AV: E=Sophos;i="5.84,234,1620716400"; d="scan'208";a="197231783"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Jul 2021 13:01:47 -0700
+X-IronPort-AV: E=Sophos;i="5.84,234,1620716400"; d="scan'208";a="412698588"
+Received: from johnharr-mobl1.amr.corp.intel.com (HELO [10.209.125.18])
+ ([10.209.125.18])
+ by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Jul 2021 13:01:46 -0700
+Subject: Re: [PATCH 32/47] drm/i915: Reset GPU immediately if submission is
+ disabled
+To: Matthew Brost <matthew.brost@intel.com>, intel-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org
+References: <20210624070516.21893-1-matthew.brost@intel.com>
+ <20210624070516.21893-33-matthew.brost@intel.com>
+From: John Harrison <john.c.harrison@intel.com>
+Message-ID: <33e8c150-9ecc-ce6b-46e4-ac6442e15a90@intel.com>
+Date: Mon, 12 Jul 2021 13:01:45 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210624070516.21893-33-matthew.brost@intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,302 +50,245 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- linaro-mm-sig@lists.linaro.org, Matthew Auld <matthew.auld@intel.com>,
- Jason Ekstrand <jason@jlekstrand.net>, Daniel Vetter <daniel.vetter@intel.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- linux-media@vger.kernel.org
+Cc: daniele.ceraolospurio@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Specifically document the new/clarified rules around how the shared
-fences do not have any ordering requirements against the exclusive
-fence.
+On 6/24/2021 00:05, Matthew Brost wrote:
+> If submission is disabled by the backend for any reason, reset the GPU
+> immediately in the heartbeat code as the backend can't be reenabled
+> until the GPU is reset.
+>
+> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+Reviewed-by: John Harrison <John.C.Harrison@Intel.com>
 
-But also document all the things a bit better, given how central
-struct dma_resv to dynamic buffer management the docs have been very
-inadequat.
-
-- Lots more links to other pieces of the puzzle. Unfortunately
-  ttm_buffer_object has no docs, so no links :-(
-
-- Explain/complain a bit about dma_resv_locking_ctx(). I still don't
-  like that one, but fixing the ttm call chains is going to be
-  horrible. Plus we want to plug in real slowpath locking when we do
-  that anyway.
-
-- Main part of the patch is some actual docs for struct dma_resv.
-
-Overall I think we still have a lot of bad naming in this area (e.g.
-dma_resv.fence is singular, but contains the multiple shared fences),
-but I think that's more indicative of how the semantics and rules are
-just not great.
-
-Another thing that's real awkard is how chaining exclusive fences
-right now means direct dma_resv.exclusive_fence pointer access with an
-rcu_assign_pointer. Not so great either.
-
-v2:
-- Fix a pile of typos (Matt, Jason)
-- Hammer it in that breaking the rules leads to use-after-free issues
-  around dma-buf sharing (Christian)
-
-Reviewed-by: Christian König <christian.koenig@amd.com>
-Cc: Jason Ekstrand <jason@jlekstrand.net>
-Cc: Matthew Auld <matthew.auld@intel.com>
-Reviewed-by: Matthew Auld <matthew.auld@intel.com>
-Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: "Christian König" <christian.koenig@amd.com>
-Cc: linux-media@vger.kernel.org
-Cc: linaro-mm-sig@lists.linaro.org
----
- drivers/dma-buf/dma-resv.c |  24 ++++++---
- include/linux/dma-buf.h    |   7 +++
- include/linux/dma-resv.h   | 104 +++++++++++++++++++++++++++++++++++--
- 3 files changed, 124 insertions(+), 11 deletions(-)
-
-diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
-index e744fd87c63c..84fbe60629e3 100644
---- a/drivers/dma-buf/dma-resv.c
-+++ b/drivers/dma-buf/dma-resv.c
-@@ -48,6 +48,8 @@
-  * write operations) or N shared fences (read operations).  The RCU
-  * mechanism is used to protect read access to fences from locked
-  * write-side updates.
-+ *
-+ * See struct dma_resv for more details.
-  */
- 
- DEFINE_WD_CLASS(reservation_ww_class);
-@@ -137,7 +139,11 @@ EXPORT_SYMBOL(dma_resv_fini);
-  * @num_fences: number of fences we want to add
-  *
-  * Should be called before dma_resv_add_shared_fence().  Must
-- * be called with obj->lock held.
-+ * be called with @obj locked through dma_resv_lock().
-+ *
-+ * Note that the preallocated slots need to be re-reserved if @obj is unlocked
-+ * at any time before calling dma_resv_add_shared_fence(). This is validated
-+ * when CONFIG_DEBUG_MUTEXES is enabled.
-  *
-  * RETURNS
-  * Zero for success, or -errno
-@@ -234,8 +240,10 @@ EXPORT_SYMBOL(dma_resv_reset_shared_max);
-  * @obj: the reservation object
-  * @fence: the shared fence to add
-  *
-- * Add a fence to a shared slot, obj->lock must be held, and
-+ * Add a fence to a shared slot, @obj must be locked with dma_resv_lock(), and
-  * dma_resv_reserve_shared() has been called.
-+ *
-+ * See also &dma_resv.fence for a discussion of the semantics.
-  */
- void dma_resv_add_shared_fence(struct dma_resv *obj, struct dma_fence *fence)
- {
-@@ -278,9 +286,11 @@ EXPORT_SYMBOL(dma_resv_add_shared_fence);
- /**
-  * dma_resv_add_excl_fence - Add an exclusive fence.
-  * @obj: the reservation object
-- * @fence: the shared fence to add
-+ * @fence: the exclusive fence to add
-  *
-- * Add a fence to the exclusive slot.  The obj->lock must be held.
-+ * Add a fence to the exclusive slot. @obj must be locked with dma_resv_lock().
-+ * Note that this function replaces all fences attached to @obj, see also
-+ * &dma_resv.fence_excl for a discussion of the semantics.
-  */
- void dma_resv_add_excl_fence(struct dma_resv *obj, struct dma_fence *fence)
- {
-@@ -609,9 +619,11 @@ static inline int dma_resv_test_signaled_single(struct dma_fence *passed_fence)
-  * fence
-  *
-  * Callers are not required to hold specific locks, but maybe hold
-- * dma_resv_lock() already
-+ * dma_resv_lock() already.
-+ *
-  * RETURNS
-- * true if all fences signaled, else false
-+ *
-+ * True if all fences signaled, else false.
-  */
- bool dma_resv_test_signaled(struct dma_resv *obj, bool test_all)
- {
-diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-index 2b814fde0d11..8cc0c55877a6 100644
---- a/include/linux/dma-buf.h
-+++ b/include/linux/dma-buf.h
-@@ -420,6 +420,13 @@ struct dma_buf {
- 	 * - Dynamic importers should set fences for any access that they can't
- 	 *   disable immediately from their &dma_buf_attach_ops.move_notify
- 	 *   callback.
-+	 *
-+	 * IMPORTANT:
-+	 *
-+	 * All drivers must obey the struct dma_resv rules, specifically the
-+	 * rules for updating fences, see &dma_resv.fence_excl and
-+	 * &dma_resv.fence. If these dependency rules are broken access tracking
-+	 * can be lost resulting in use after free issues.
- 	 */
- 	struct dma_resv *resv;
- 
-diff --git a/include/linux/dma-resv.h b/include/linux/dma-resv.h
-index e1ca2080a1ff..9100dd3dc21f 100644
---- a/include/linux/dma-resv.h
-+++ b/include/linux/dma-resv.h
-@@ -62,16 +62,90 @@ struct dma_resv_list {
- 
- /**
-  * struct dma_resv - a reservation object manages fences for a buffer
-- * @lock: update side lock
-- * @seq: sequence count for managing RCU read-side synchronization
-- * @fence_excl: the exclusive fence, if there is one currently
-- * @fence: list of current shared fences
-+ *
-+ * There are multiple uses for this, with sometimes slightly different rules in
-+ * how the fence slots are used.
-+ *
-+ * One use is to synchronize cross-driver access to a struct dma_buf, either for
-+ * dynamic buffer management or just to handle implicit synchronization between
-+ * different users of the buffer in userspace. See &dma_buf.resv for a more
-+ * in-depth discussion.
-+ *
-+ * The other major use is to manage access and locking within a driver in a
-+ * buffer based memory manager. struct ttm_buffer_object is the canonical
-+ * example here, since this is where reservation objects originated from. But
-+ * use in drivers is spreading and some drivers also manage struct
-+ * drm_gem_object with the same scheme.
-  */
- struct dma_resv {
-+	/**
-+	 * @lock:
-+	 *
-+	 * Update side lock. Don't use directly, instead use the wrapper
-+	 * functions like dma_resv_lock() and dma_resv_unlock().
-+	 *
-+	 * Drivers which use the reservation object to manage memory dynamically
-+	 * also use this lock to protect buffer object state like placement,
-+	 * allocation policies or throughout command submission.
-+	 */
- 	struct ww_mutex lock;
-+
-+	/**
-+	 * @seq:
-+	 *
-+	 * Sequence count for managing RCU read-side synchronization, allows
-+	 * read-only access to @fence_excl and @fence while ensuring we take a
-+	 * consistent snapshot.
-+	 */
- 	seqcount_ww_mutex_t seq;
- 
-+	/**
-+	 * @fence_excl:
-+	 *
-+	 * The exclusive fence, if there is one currently.
-+	 *
-+	 * There are two ways to update this fence:
-+	 *
-+	 * - First by calling dma_resv_add_excl_fence(), which replaces all
-+	 *   fences attached to the reservation object. To guarantee that no
-+	 *   fences are lost, this new fence must signal only after all previous
-+	 *   fences, both shared and exclusive, have signalled. In some cases it
-+	 *   is convenient to achieve that by attaching a struct dma_fence_array
-+	 *   with all the new and old fences.
-+	 *
-+	 * - Alternatively the fence can be set directly, which leaves the
-+	 *   shared fences unchanged. To guarantee that no fences are lost, this
-+	 *   new fence must signal only after the previous exclusive fence has
-+	 *   signalled. Since the shared fences are staying intact, it is not
-+	 *   necessary to maintain any ordering against those. If semantically
-+	 *   only a new access is added without actually treating the previous
-+	 *   one as a dependency the exclusive fences can be strung together
-+	 *   using struct dma_fence_chain.
-+	 *
-+	 * Note that actual semantics of what an exclusive or shared fence mean
-+	 * is defined by the user, for reservation objects shared across drivers
-+	 * see &dma_buf.resv.
-+	 */
- 	struct dma_fence __rcu *fence_excl;
-+
-+	/**
-+	 * @fence:
-+	 *
-+	 * List of current shared fences.
-+	 *
-+	 * There are no ordering constraints of shared fences against the
-+	 * exclusive fence slot. If a waiter needs to wait for all access, it
-+	 * has to wait for both sets of fences to signal.
-+	 *
-+	 * A new fence is added by calling dma_resv_add_shared_fence(). Since
-+	 * this often needs to be done past the point of no return in command
-+	 * submission it cannot fail, and therefore sufficient slots need to be
-+	 * reserved by calling dma_resv_reserve_shared().
-+	 *
-+	 * Note that actual semantics of what an exclusive or shared fence mean
-+	 * is defined by the user, for reservation objects shared across drivers
-+	 * see &dma_buf.resv.
-+	 */
- 	struct dma_resv_list __rcu *fence;
- };
- 
-@@ -98,6 +172,13 @@ static inline void dma_resv_reset_shared_max(struct dma_resv *obj) {}
-  * undefined order, a #ww_acquire_ctx is passed to unwind if a cycle
-  * is detected. See ww_mutex_lock() and ww_acquire_init(). A reservation
-  * object may be locked by itself by passing NULL as @ctx.
-+ *
-+ * When a die situation is indicated by returning -EDEADLK all locks held by
-+ * @ctx must be unlocked and then dma_resv_lock_slow() called on @obj.
-+ *
-+ * Unlocked by calling dma_resv_unlock().
-+ *
-+ * See also dma_resv_lock_interruptible() for the interruptible variant.
-  */
- static inline int dma_resv_lock(struct dma_resv *obj,
- 				struct ww_acquire_ctx *ctx)
-@@ -119,6 +200,12 @@ static inline int dma_resv_lock(struct dma_resv *obj,
-  * undefined order, a #ww_acquire_ctx is passed to unwind if a cycle
-  * is detected. See ww_mutex_lock() and ww_acquire_init(). A reservation
-  * object may be locked by itself by passing NULL as @ctx.
-+ *
-+ * When a die situation is indicated by returning -EDEADLK all locks held by
-+ * @ctx must be unlocked and then dma_resv_lock_slow_interruptible() called on
-+ * @obj.
-+ *
-+ * Unlocked by calling dma_resv_unlock().
-  */
- static inline int dma_resv_lock_interruptible(struct dma_resv *obj,
- 					      struct ww_acquire_ctx *ctx)
-@@ -134,6 +221,8 @@ static inline int dma_resv_lock_interruptible(struct dma_resv *obj,
-  * Acquires the reservation object after a die case. This function
-  * will sleep until the lock becomes available. See dma_resv_lock() as
-  * well.
-+ *
-+ * See also dma_resv_lock_slow_interruptible() for the interruptible variant.
-  */
- static inline void dma_resv_lock_slow(struct dma_resv *obj,
- 				      struct ww_acquire_ctx *ctx)
-@@ -167,7 +256,7 @@ static inline int dma_resv_lock_slow_interruptible(struct dma_resv *obj,
-  * if they overlap with a writer.
-  *
-  * Also note that since no context is provided, no deadlock protection is
-- * possible.
-+ * possible, which is also not needed for a trylock.
-  *
-  * Returns true if the lock was acquired, false otherwise.
-  */
-@@ -193,6 +282,11 @@ static inline bool dma_resv_is_locked(struct dma_resv *obj)
-  *
-  * Returns the context used to lock a reservation object or NULL if no context
-  * was used or the object is not locked at all.
-+ *
-+ * WARNING: This interface is pretty horrible, but TTM needs it because it
-+ * doesn't pass the struct ww_acquire_ctx around in some very long callchains.
-+ * Everyone else just uses it to check whether they're holding a reservation or
-+ * not.
-  */
- static inline struct ww_acquire_ctx *dma_resv_locking_ctx(struct dma_resv *obj)
- {
--- 
-2.32.0
+> ---
+>   .../gpu/drm/i915/gt/intel_engine_heartbeat.c  | 63 +++++++++++++++----
+>   .../gpu/drm/i915/gt/intel_engine_heartbeat.h  |  4 ++
+>   .../gpu/drm/i915/gt/uc/intel_guc_submission.c |  9 +++
+>   drivers/gpu/drm/i915/i915_scheduler.c         |  6 ++
+>   drivers/gpu/drm/i915/i915_scheduler.h         |  6 ++
+>   drivers/gpu/drm/i915/i915_scheduler_types.h   |  5 ++
+>   6 files changed, 80 insertions(+), 13 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c b/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c
+> index b6a305e6a974..a8495364d906 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c
+> @@ -70,12 +70,30 @@ static void show_heartbeat(const struct i915_request *rq,
+>   {
+>   	struct drm_printer p = drm_debug_printer("heartbeat");
+>   
+> -	intel_engine_dump(engine, &p,
+> -			  "%s heartbeat {seqno:%llx:%lld, prio:%d} not ticking\n",
+> -			  engine->name,
+> -			  rq->fence.context,
+> -			  rq->fence.seqno,
+> -			  rq->sched.attr.priority);
+> +	if (!rq) {
+> +		intel_engine_dump(engine, &p,
+> +				  "%s heartbeat not ticking\n",
+> +				  engine->name);
+> +	} else {
+> +		intel_engine_dump(engine, &p,
+> +				  "%s heartbeat {seqno:%llx:%lld, prio:%d} not ticking\n",
+> +				  engine->name,
+> +				  rq->fence.context,
+> +				  rq->fence.seqno,
+> +				  rq->sched.attr.priority);
+> +	}
+> +}
+> +
+> +static void
+> +reset_engine(struct intel_engine_cs *engine, struct i915_request *rq)
+> +{
+> +	if (IS_ENABLED(CONFIG_DRM_I915_DEBUG_GEM))
+> +		show_heartbeat(rq, engine);
+> +
+> +	intel_gt_handle_error(engine->gt, engine->mask,
+> +			      I915_ERROR_CAPTURE,
+> +			      "stopped heartbeat on %s",
+> +			      engine->name);
+>   }
+>   
+>   static void heartbeat(struct work_struct *wrk)
+> @@ -102,6 +120,11 @@ static void heartbeat(struct work_struct *wrk)
+>   	if (intel_gt_is_wedged(engine->gt))
+>   		goto out;
+>   
+> +	if (i915_sched_engine_disabled(engine->sched_engine)) {
+> +		reset_engine(engine, engine->heartbeat.systole);
+> +		goto out;
+> +	}
+> +
+>   	if (engine->heartbeat.systole) {
+>   		long delay = READ_ONCE(engine->props.heartbeat_interval_ms);
+>   
+> @@ -139,13 +162,7 @@ static void heartbeat(struct work_struct *wrk)
+>   			engine->sched_engine->schedule(rq, &attr);
+>   			local_bh_enable();
+>   		} else {
+> -			if (IS_ENABLED(CONFIG_DRM_I915_DEBUG_GEM))
+> -				show_heartbeat(rq, engine);
+> -
+> -			intel_gt_handle_error(engine->gt, engine->mask,
+> -					      I915_ERROR_CAPTURE,
+> -					      "stopped heartbeat on %s",
+> -					      engine->name);
+> +			reset_engine(engine, rq);
+>   		}
+>   
+>   		rq->emitted_jiffies = jiffies;
+> @@ -194,6 +211,26 @@ void intel_engine_park_heartbeat(struct intel_engine_cs *engine)
+>   		i915_request_put(fetch_and_zero(&engine->heartbeat.systole));
+>   }
+>   
+> +void intel_gt_unpark_heartbeats(struct intel_gt *gt)
+> +{
+> +	struct intel_engine_cs *engine;
+> +	enum intel_engine_id id;
+> +
+> +	for_each_engine(engine, gt, id)
+> +		if (intel_engine_pm_is_awake(engine))
+> +			intel_engine_unpark_heartbeat(engine);
+> +
+> +}
+> +
+> +void intel_gt_park_heartbeats(struct intel_gt *gt)
+> +{
+> +	struct intel_engine_cs *engine;
+> +	enum intel_engine_id id;
+> +
+> +	for_each_engine(engine, gt, id)
+> +		intel_engine_park_heartbeat(engine);
+> +}
+> +
+>   void intel_engine_init_heartbeat(struct intel_engine_cs *engine)
+>   {
+>   	INIT_DELAYED_WORK(&engine->heartbeat.work, heartbeat);
+> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.h b/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.h
+> index a488ea3e84a3..5da6d809a87a 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.h
+> +++ b/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.h
+> @@ -7,6 +7,7 @@
+>   #define INTEL_ENGINE_HEARTBEAT_H
+>   
+>   struct intel_engine_cs;
+> +struct intel_gt;
+>   
+>   void intel_engine_init_heartbeat(struct intel_engine_cs *engine);
+>   
+> @@ -16,6 +17,9 @@ int intel_engine_set_heartbeat(struct intel_engine_cs *engine,
+>   void intel_engine_park_heartbeat(struct intel_engine_cs *engine);
+>   void intel_engine_unpark_heartbeat(struct intel_engine_cs *engine);
+>   
+> +void intel_gt_park_heartbeats(struct intel_gt *gt);
+> +void intel_gt_unpark_heartbeats(struct intel_gt *gt);
+> +
+>   int intel_engine_pulse(struct intel_engine_cs *engine);
+>   int intel_engine_flush_barriers(struct intel_engine_cs *engine);
+>   
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> index b8c894ad8caf..59fca9748c15 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> @@ -10,6 +10,7 @@
+>   #include "gt/intel_breadcrumbs.h"
+>   #include "gt/intel_context.h"
+>   #include "gt/intel_engine_pm.h"
+> +#include "gt/intel_engine_heartbeat.h"
+>   #include "gt/intel_gt.h"
+>   #include "gt/intel_gt_irq.h"
+>   #include "gt/intel_gt_pm.h"
+> @@ -605,6 +606,7 @@ void intel_guc_submission_reset_prepare(struct intel_guc *guc)
+>   		/* Reset called during driver load? GuC not yet initialised! */
+>   		return;
+>   
+> +	intel_gt_park_heartbeats(guc_to_gt(guc));
+>   	disable_submission(guc);
+>   	guc->interrupts.disable(guc);
+>   
+> @@ -890,6 +892,7 @@ void intel_guc_submission_reset_finish(struct intel_guc *guc)
+>   	atomic_set(&guc->outstanding_submission_g2h, 0);
+>   
+>   	enable_submission(guc);
+> +	intel_gt_unpark_heartbeats(guc_to_gt(guc));
+>   }
+>   
+>   /*
+> @@ -1859,6 +1862,11 @@ static int guc_resume(struct intel_engine_cs *engine)
+>   	return 0;
+>   }
+>   
+> +static bool guc_sched_engine_disabled(struct i915_sched_engine *sched_engine)
+> +{
+> +	return !sched_engine->tasklet.callback;
+> +}
+> +
+>   static void guc_set_default_submission(struct intel_engine_cs *engine)
+>   {
+>   	engine->submit_request = guc_submit_request;
+> @@ -2009,6 +2017,7 @@ int intel_guc_submission_setup(struct intel_engine_cs *engine)
+>   			return -ENOMEM;
+>   
+>   		guc->sched_engine->schedule = i915_schedule;
+> +		guc->sched_engine->disabled = guc_sched_engine_disabled;
+>   		guc->sched_engine->private_data = guc;
+>   		tasklet_setup(&guc->sched_engine->tasklet,
+>   			      guc_submission_tasklet);
+> diff --git a/drivers/gpu/drm/i915/i915_scheduler.c b/drivers/gpu/drm/i915/i915_scheduler.c
+> index 3a58a9130309..3fb009ea2cb2 100644
+> --- a/drivers/gpu/drm/i915/i915_scheduler.c
+> +++ b/drivers/gpu/drm/i915/i915_scheduler.c
+> @@ -440,6 +440,11 @@ void i915_sched_engine_free(struct kref *kref)
+>   	kfree(sched_engine);
+>   }
+>   
+> +static bool default_disabled(struct i915_sched_engine *sched_engine)
+> +{
+> +	return false;
+> +}
+> +
+>   struct i915_sched_engine *
+>   i915_sched_engine_create(unsigned int subclass)
+>   {
+> @@ -453,6 +458,7 @@ i915_sched_engine_create(unsigned int subclass)
+>   
+>   	sched_engine->queue = RB_ROOT_CACHED;
+>   	sched_engine->queue_priority_hint = INT_MIN;
+> +	sched_engine->disabled = default_disabled;
+>   
+>   	INIT_LIST_HEAD(&sched_engine->requests);
+>   	INIT_LIST_HEAD(&sched_engine->hold);
+> diff --git a/drivers/gpu/drm/i915/i915_scheduler.h b/drivers/gpu/drm/i915/i915_scheduler.h
+> index 650ab8e0db9f..72105a53b0e1 100644
+> --- a/drivers/gpu/drm/i915/i915_scheduler.h
+> +++ b/drivers/gpu/drm/i915/i915_scheduler.h
+> @@ -98,4 +98,10 @@ void i915_request_show_with_schedule(struct drm_printer *m,
+>   				     const char *prefix,
+>   				     int indent);
+>   
+> +static inline bool
+> +i915_sched_engine_disabled(struct i915_sched_engine *sched_engine)
+> +{
+> +	return sched_engine->disabled(sched_engine);
+> +}
+> +
+>   #endif /* _I915_SCHEDULER_H_ */
+> diff --git a/drivers/gpu/drm/i915/i915_scheduler_types.h b/drivers/gpu/drm/i915/i915_scheduler_types.h
+> index 5935c3152bdc..cfaf52e528d0 100644
+> --- a/drivers/gpu/drm/i915/i915_scheduler_types.h
+> +++ b/drivers/gpu/drm/i915/i915_scheduler_types.h
+> @@ -163,6 +163,11 @@ struct i915_sched_engine {
+>   	 */
+>   	void *private_data;
+>   
+> +	/**
+> +	 * @disabled: check if backend has disabled submission
+> +	 */
+> +	bool	(*disabled)(struct i915_sched_engine *sched_engine);
+> +
+>   	/**
+>   	 * @kick_backend: kick backend after a request's priority has changed
+>   	 */
 
