@@ -1,34 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9044B3C40C0
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Jul 2021 03:03:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D96FA3C40BE
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Jul 2021 03:03:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0ECC389B68;
-	Mon, 12 Jul 2021 01:03:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3418B89B55;
+	Mon, 12 Jul 2021 01:03:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D5F0989B62
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jul 2021 01:03:13 +0000 (UTC)
-X-UUID: 624d87ab3fa5471389b8ed414a92b2df-20210712
-X-UUID: 624d87ab3fa5471389b8ed414a92b2df-20210712
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B2C5389B55
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jul 2021 01:03:08 +0000 (UTC)
+X-UUID: 1efd135dce384bc58acbb5f8683883e0-20210712
+X-UUID: 1efd135dce384bc58acbb5f8683883e0-20210712
+Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw01.mediatek.com
  (envelope-from <yongqiang.niu@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1206878090; Mon, 12 Jul 2021 09:03:09 +0800
+ with ESMTP id 1738008088; Mon, 12 Jul 2021 09:03:06 +0800
 Received: from mtkcas07.mediatek.inc (172.21.101.84) by
- mtkmbs02n2.mediatek.inc (172.21.101.101) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Mon, 12 Jul 2021 09:03:02 +0800
+ mtkmbs02n1.mediatek.inc (172.21.101.77) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Mon, 12 Jul 2021 09:03:04 +0800
 Received: from localhost.localdomain (10.17.3.153) by mtkcas07.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Mon, 12 Jul 2021 09:03:02 +0800
+ Transport; Mon, 12 Jul 2021 09:03:03 +0800
 From: Yongqiang Niu <yongqiang.niu@mediatek.com>
 To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Subject: [PATCH v2, 2/3] drm/mediatek: add mt8183 aal support
-Date: Mon, 12 Jul 2021 09:02:57 +0800
-Message-ID: <1626051778-13577-3-git-send-email-yongqiang.niu@mediatek.com>
+Subject: [PATCH v2, 3/3] arm64: dts: mt8183: refine aal compatible name
+Date: Mon, 12 Jul 2021 09:02:58 +0800
+Message-ID: <1626051778-13577-4-git-send-email-yongqiang.niu@mediatek.com>
 X-Mailer: git-send-email 1.8.1.1.dirty
 In-Reply-To: <1626051778-13577-1-git-send-email-yongqiang.niu@mediatek.com>
 References: <1626051778-13577-1-git-send-email-yongqiang.niu@mediatek.com>
@@ -60,39 +60,28 @@ Cc: devicetree@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch add mt8183 private data
+mt8183 aal is different with mt8173
+remove mt8173 compatible name for mt8183 aal
 
 Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
 ---
- drivers/gpu/drm/mediatek/mtk_disp_aal.c | 1 +
- drivers/gpu/drm/mediatek/mtk_drm_drv.c  | 2 ++
- 2 files changed, 3 insertions(+)
+ arch/arm64/boot/dts/mediatek/mt8183.dtsi | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_disp_aal.c b/drivers/gpu/drm/mediatek/mtk_disp_aal.c
-index fb212e96..64b4528 100644
---- a/drivers/gpu/drm/mediatek/mtk_disp_aal.c
-+++ b/drivers/gpu/drm/mediatek/mtk_disp_aal.c
-@@ -151,6 +151,7 @@ static int mtk_disp_aal_remove(struct platform_device *pdev)
- static const struct of_device_id mtk_disp_aal_driver_dt_match[] = {
- 	{ .compatible = "mediatek,mt8173-disp-aal",
- 	  .data = &mt8173_aal_driver_data},
-+	{ .compatible = "mediatek,mt8183-disp-aal"},
- 	{},
- };
- MODULE_DEVICE_TABLE(of, mtk_disp_aal_driver_dt_match);
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-index 67a585e..143ba24 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-@@ -420,6 +420,8 @@ static void mtk_drm_unbind(struct device *dev)
- 	  .data = (void *)MTK_DISP_COLOR },
- 	{ .compatible = "mediatek,mt8173-disp-aal",
- 	  .data = (void *)MTK_DISP_AAL},
-+	{ .compatible = "mediatek,mt8183-disp-aal",
-+	  .data = (void *)MTK_DISP_AAL},
- 	{ .compatible = "mediatek,mt8173-disp-gamma",
- 	  .data = (void *)MTK_DISP_GAMMA, },
- 	{ .compatible = "mediatek,mt8183-disp-gamma",
+diff --git a/arch/arm64/boot/dts/mediatek/mt8183.dtsi b/arch/arm64/boot/dts/mediatek/mt8183.dtsi
+index c5e822b..1ca5f9b 100644
+--- a/arch/arm64/boot/dts/mediatek/mt8183.dtsi
++++ b/arch/arm64/boot/dts/mediatek/mt8183.dtsi
+@@ -1204,8 +1204,7 @@
+ 		};
+ 
+ 		aal0: aal@14010000 {
+-			compatible = "mediatek,mt8183-disp-aal",
+-				     "mediatek,mt8173-disp-aal";
++			compatible = "mediatek,mt8183-disp-aal";
+ 			reg = <0 0x14010000 0 0x1000>;
+ 			interrupts = <GIC_SPI 233 IRQ_TYPE_LEVEL_LOW>;
+ 			power-domains = <&spm MT8183_POWER_DOMAIN_DISP>;
 -- 
 1.8.1.1.dirty
 
