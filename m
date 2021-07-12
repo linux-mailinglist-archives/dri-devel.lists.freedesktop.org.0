@@ -1,32 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 415663C5BBC
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Jul 2021 14:18:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BB193C5BBA
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Jul 2021 14:17:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B60B89C60;
-	Mon, 12 Jul 2021 12:17:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9591189C52;
+	Mon, 12 Jul 2021 12:17:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B6D6589C2A;
- Mon, 12 Jul 2021 12:17:42 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10042"; a="209943863"
-X-IronPort-AV: E=Sophos;i="5.84,232,1620716400"; d="scan'208";a="209943863"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6676A89C49;
+ Mon, 12 Jul 2021 12:17:44 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10042"; a="209943870"
+X-IronPort-AV: E=Sophos;i="5.84,232,1620716400"; d="scan'208";a="209943870"
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Jul 2021 05:17:42 -0700
-X-IronPort-AV: E=Sophos;i="5.84,232,1620716400"; d="scan'208";a="648236691"
+ 12 Jul 2021 05:17:44 -0700
+X-IronPort-AV: E=Sophos;i="5.84,232,1620716400"; d="scan'208";a="648236697"
 Received: from aaroncar-mobl2.ger.corp.intel.com (HELO tursulin-mobl2.home)
  ([10.213.240.41])
  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Jul 2021 05:17:40 -0700
+ 12 Jul 2021 05:17:42 -0700
 From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
 To: Intel-gfx@lists.freedesktop.org
-Subject: [RFC 7/8] drm/i915: Expose client engine utilisation via fdinfo
-Date: Mon, 12 Jul 2021 13:17:18 +0100
-Message-Id: <20210712121719.891536-8-tvrtko.ursulin@linux.intel.com>
+Subject: [RFC 8/8] drm: Document fdinfo format specification
+Date: Mon, 12 Jul 2021 13:17:19 +0100
+Message-Id: <20210712121719.891536-9-tvrtko.ursulin@linux.intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210712121719.891536-1-tvrtko.ursulin@linux.intel.com>
 References: <20210712121719.891536-1-tvrtko.ursulin@linux.intel.com>
@@ -53,151 +53,186 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 
-Similar to AMD commit
-874442541133 ("drm/amdgpu: Add show_fdinfo() interface"), using the
-infrastructure added in previous patches, we add basic client info
-and GPU engine utilisation for i915.
+Proposal to standardise the fdinfo text format as optionally output by DRM
+drivers.
 
-Example of the output:
+Idea is that a simple but, well defined, spec will enable generic
+userspace tools to be written while at the same time avoiding a more heavy
+handed approach of adding a mid-layer to DRM.
 
-  pos:    0
-  flags:  0100002
-  mnt_id: 21
-  drm-driver: i915
-  drm-pdev:   0000:00:02.0
-  drm-client-id:      7
-  drm-engine-render:  9288864723 ns
-  drm-engine-copy:    2035071108 ns
-  drm-engine-video:   0 ns
-  drm-engine-video-enhance:   0 ns
+i915 implements a subset of the spec, everything apart from the memory
+stats currently, and a matching intel_gpu_top tool exists.
+
+Open is to see if AMD can migrate to using the proposed GPU utilisation
+key-value pairs, or if they are not workable to see whether to go
+vendor specific, or if a standardised  alternative can be found which is
+workable for both drivers.
+
+Same for the memory utilisation key-value pairs proposal.
 
 Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 Cc: David M Nieto <David.Nieto@amd.com>
 Cc: Christian König <christian.koenig@amd.com>
 Cc: Daniel Vetter <daniel@ffwll.ch>
 ---
- drivers/gpu/drm/i915/i915_drm_client.c | 73 ++++++++++++++++++++++++++
- drivers/gpu/drm/i915/i915_drm_client.h |  4 ++
- drivers/gpu/drm/i915/i915_drv.c        |  3 ++
- 3 files changed, 80 insertions(+)
+ Documentation/gpu/drm-usage-stats.rst | 99 +++++++++++++++++++++++++++
+ Documentation/gpu/i915.rst            | 27 ++++++++
+ Documentation/gpu/index.rst           |  1 +
+ 3 files changed, 127 insertions(+)
+ create mode 100644 Documentation/gpu/drm-usage-stats.rst
 
-diff --git a/drivers/gpu/drm/i915/i915_drm_client.c b/drivers/gpu/drm/i915/i915_drm_client.c
-index 1e5db7753276..a8338ca19748 100644
---- a/drivers/gpu/drm/i915/i915_drm_client.c
-+++ b/drivers/gpu/drm/i915/i915_drm_client.c
-@@ -9,6 +9,11 @@
+diff --git a/Documentation/gpu/drm-usage-stats.rst b/Documentation/gpu/drm-usage-stats.rst
+new file mode 100644
+index 000000000000..d35e4a01bc5b
+--- /dev/null
++++ b/Documentation/gpu/drm-usage-stats.rst
+@@ -0,0 +1,99 @@
++.. _drm-client-usage-stats:
++
++======================
++DRM client usage stats
++======================
++
++DRM drivers can choose to export partly standardised text output via the
++`fops->show_fdinfo()` as part of the driver specific file operations registered
++in the `struct drm_driver` object registered with the DRM core.
++
++One purpose of this output is to enable writing as generic as practicaly
++feasible `top(1)` like userspace monitoring tools.
++
++Given the differences between various DRM drivers the specification of the
++output is split between common and driver specific parts. Having said that,
++wherever possible effort should still be made to standardise as much as
++possible.
++
++File format specification
++=========================
++
++- File shall contain one key value pair per one line of text.
++- Colon character (`:`) must be used to delimit keys and values.
++- All keys shall be prefixed with `drm-`.
++- Whitespace between the delimiter and first non-whitespace character shall be
++  ignored when parsing.
++- Neither keys or values are allowed to contain whitespace characters.
++- Numerical key value pairs can end with optional unit string.
++- Data type of the value is fixed as defined in the specification.
++
++Key types
++---------
++
++1. Mandatory, fully standardised.
++2. Optional, fully standardised.
++3. Driver specific.
++
++Mandatory fully standardised keys
++---------------------------------
++
++- drm-driver: <string>
++
++String shall contain a fixed string uniquely identified the driver handling
++the device in question. For example name of the respective kernel module.
++
++Optional fully standardised keys
++--------------------------------
++
++- drm-pdev: <aaaa:bb.cc.d>
++
++For PCI devices this should contain the PCI slot address of the device in
++question.
++
++- drm-client-id: <uint>
++
++Unique value relating to the open DRM file descriptor used to distinguish
++duplicated and shared file descriptors. Conceptually the value should map 1:1
++to the in kernel representation of `struct drm_file` instances.
++
++Uniqueness of the value shall be either globally unique, or unique within the
++scope of each device, in which case `drm-pdev` shall be present as well.
++
++Userspace should make sure to not double account any usage statistics by using
++the above described criteria in order to associate data to individual clients.
++
++- drm-client-name: <string>
++
++Process name of the thread which opened the file.
++
++- drm-client-pid: <uint>
++
++PID of the thread which opened the file.
++
++- drm-engine-<str>: <uint> ns
++
++GPUs usually contain multiple execution engines. Each shall be given a stable
++and unique string, with possible values documented in the driver specific
++specification document.
++
++Value shall be a monotonically increasing number of nanoseconds the respective
++GPU engine spent executing workloads belonging to this client.
++
++- drm-memory-<str>: <uint> [KiB|MiB]
++
++Each possible memory type which can be used to store buffer objects by the
++GPU in question shall be given a stable and unique name to be returned as the
++string here.
++
++Value shall reflect the amount of storage currently consumed by the buffer
++object belong to this client, in the respective memory region.
++
++Default unit shall be bytes with optional unit specifiers of 'KiB' or 'MiB'
++indicating kibi- or mebi-bytes.
++
++===============================
++Driver specific implementations
++===============================
++
++:ref:`i915-usage-stats`
+diff --git a/Documentation/gpu/i915.rst b/Documentation/gpu/i915.rst
+index 204ebdaadb45..2bfd2441576e 100644
+--- a/Documentation/gpu/i915.rst
++++ b/Documentation/gpu/i915.rst
+@@ -701,3 +701,30 @@ The style guide for ``i915_reg.h``.
  
- #include <drm/drm_print.h>
- 
-+#include <uapi/drm/i915_drm.h>
+ .. kernel-doc:: drivers/gpu/drm/i915/i915_reg.h
+    :doc: The i915 register macro definition style guide
 +
-+#include "gem/i915_gem_context.h"
-+#include "gt/intel_engine_user.h"
++.. _i915-usage-stats:
 +
- #include "i915_drm_client.h"
- #include "i915_drv.h"
- #include "i915_gem.h"
-@@ -168,3 +173,71 @@ void i915_drm_clients_fini(struct i915_drm_clients *clients)
- 
- 	xa_destroy(&clients->xarray);
- }
++i915 DRM client usage stats implementation
++==========================================
 +
-+#ifdef CONFIG_PROC_FS
-+static const char * const uabi_class_names[] = {
-+	[I915_ENGINE_CLASS_RENDER] = "render",
-+	[I915_ENGINE_CLASS_COPY] = "copy",
-+	[I915_ENGINE_CLASS_VIDEO] = "video",
-+	[I915_ENGINE_CLASS_VIDEO_ENHANCE] = "video-enhance",
-+};
++The drm/i915 drivers implements the DRM client usage stats specification as
++documented in :ref:`drm-client-usage-stats`.
 +
-+static u64 busy_add(struct i915_gem_context *ctx, unsigned int class)
-+{
-+	struct i915_gem_engines_iter it;
-+	struct intel_context *ce;
-+	u64 total = 0;
++Example of the output showing the implemented key value pairs and entirety of
++the currenly possible format options:
 +
-+	for_each_gem_engine(ce, rcu_dereference(ctx->engines), it) {
-+		if (ce->engine->uabi_class != class)
-+			continue;
++::
 +
-+		total += intel_context_get_total_runtime_ns(ce);
-+	}
++      pos:    0
++      flags:  0100002
++      mnt_id: 21
++      drm-driver: i915
++      drm-pdev:   0000:00:02.0
++      drm-client-id:      7
++      drm-engine-render:  9288864723 ns
++      drm-engine-copy:    2035071108 ns
++      drm-engine-video:   0 ns
++      drm-engine-video-enhance:   0 ns
 +
-+	return total;
-+}
-+
-+static void
-+show_client_class(struct seq_file *m,
-+		  struct i915_drm_client *client,
-+		  unsigned int class)
-+{
-+	const struct list_head *list = &client->ctx_list;
-+	u64 total = atomic64_read(&client->past_runtime[class]);
-+	struct i915_gem_context *ctx;
-+
-+	rcu_read_lock();
-+	list_for_each_entry_rcu(ctx, list, client_link)
-+		total += busy_add(ctx, class);
-+	rcu_read_unlock();
-+
-+	return seq_printf(m, "drm-engine-%s:\t%llu ns\n",
-+			  uabi_class_names[class], total);
-+}
-+
-+void i915_drm_client_fdinfo(struct seq_file *m, struct file *f)
-+{
-+	struct drm_file *file = f->private_data;
-+	struct drm_i915_file_private *file_priv = file->driver_priv;
-+	struct drm_i915_private *i915 = file_priv->dev_priv;
-+	struct i915_drm_client *client = file_priv->client;
-+	struct pci_dev *pdev = to_pci_dev(i915->drm.dev);
-+	unsigned int i;
-+
-+	seq_puts(m, "drm-driver:\ti915\n");
-+	seq_printf(m, "drm-pdev:\t%04x:%02x:%02x.%d\n",
-+		   pci_domain_nr(pdev->bus), pdev->bus->number,
-+		   PCI_SLOT(pdev->devfn), PCI_FUNC(pdev->devfn));
-+
-+	seq_printf(m, "drm-client-id:\t%u\n", client->id);
-+	rcu_read_lock();
-+	seq_printf(m, "drm-client-name:\t%s\n", i915_drm_client_name(client));
-+	seq_printf(m, "drm-client-pid:\t%u\n",
-+		   pid_nr(i915_drm_client_pid(client)));
-+	rcu_read_unlock();
-+
-+	for (i = 0; i < ARRAY_SIZE(uabi_class_names); i++)
-+		show_client_class(m, client, i);
-+}
-+#endif
-diff --git a/drivers/gpu/drm/i915/i915_drm_client.h b/drivers/gpu/drm/i915/i915_drm_client.h
-index b2b69d6985e4..9885002433a0 100644
---- a/drivers/gpu/drm/i915/i915_drm_client.h
-+++ b/drivers/gpu/drm/i915/i915_drm_client.h
-@@ -98,6 +98,10 @@ i915_drm_client_pid(const struct i915_drm_client *client)
- 	return __i915_drm_client_name(client)->pid;
- }
- 
-+#ifdef CONFIG_PROC_FS
-+void i915_drm_client_fdinfo(struct seq_file *m, struct file *f);
-+#endif
-+
- void i915_drm_clients_fini(struct i915_drm_clients *clients);
- 
- #endif /* !__I915_DRM_CLIENT_H__ */
-diff --git a/drivers/gpu/drm/i915/i915_drv.c b/drivers/gpu/drm/i915/i915_drv.c
-index 8247dcc7586e..17712a490378 100644
---- a/drivers/gpu/drm/i915/i915_drv.c
-+++ b/drivers/gpu/drm/i915/i915_drv.c
-@@ -1706,6 +1706,9 @@ static const struct file_operations i915_driver_fops = {
- 	.read = drm_read,
- 	.compat_ioctl = i915_ioc32_compat_ioctl,
- 	.llseek = noop_llseek,
-+#ifdef CONFIG_PROC_FS
-+	.show_fdinfo = i915_drm_client_fdinfo,
-+#endif
- };
- 
- static int
++Possible `drm-engine-` key names are: `render`, `copy`, `video` and
++`video-enhance`.
+diff --git a/Documentation/gpu/index.rst b/Documentation/gpu/index.rst
+index b9c1214d8f23..b99dede9a5b1 100644
+--- a/Documentation/gpu/index.rst
++++ b/Documentation/gpu/index.rst
+@@ -10,6 +10,7 @@ Linux GPU Driver Developer's Guide
+    drm-kms
+    drm-kms-helpers
+    drm-uapi
++   drm-usage-stats
+    driver-uapi
+    drm-client
+    drivers
 -- 
 2.30.2
 
