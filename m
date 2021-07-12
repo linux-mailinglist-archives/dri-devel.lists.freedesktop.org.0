@@ -1,60 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 333703C5E7D
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Jul 2021 16:38:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D9F7E3C5E87
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Jul 2021 16:42:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6EA8289857;
-	Mon, 12 Jul 2021 14:38:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A2CCC89C98;
+	Mon, 12 Jul 2021 14:42:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
- [IPv6:2a00:1450:4864:20::330])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A206489857
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jul 2021 14:38:40 +0000 (UTC)
-Received: by mail-wm1-x330.google.com with SMTP id n4so1161004wms.1
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jul 2021 07:38:40 -0700 (PDT)
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
+ [IPv6:2a00:1450:4864:20::434])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A057D89C98
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jul 2021 14:42:06 +0000 (UTC)
+Received: by mail-wr1-x434.google.com with SMTP id d2so26030015wrn.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jul 2021 07:42:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=uHEv0lGE/C2eCMruQ3ng+6P6t/nY6L6JozLU5zKKMRo=;
- b=ksOgn0OaMzIbUOmjywphIXa2CJ5rVxQ1g716B3Zn/cCO9aZgaePYfKl4mBYj9BPzdl
- c5O3lvpnsDG8dAgfBfjbQBrm80hZ1xSKBZNak+T6AQd02Qk3IJ5WJPLt48PXrlbf9H9r
- iws8djks1P59GhYlTRt74Ohqv0HAfbOwkEVos=
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=LLdrdAX/sieQxKFN+rBmNQf+DqHagqzLI3c34cxuMTk=;
+ b=SrxufnDLGk34FGh/yzAGxpGqHQHB7elxjhl86O5tKUHNq1pPQt6VftQo8LtF+tQfqu
+ B8oU8QnS1etc8O3jDUYJuN9O6YMZ7xkb0UKwo0/HlRgijqKKb/FFiPefDGVd52GsmPtO
+ rwHsKWyVnL5Z9DqzcTuhCCOR62pn/spE4efK4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=uHEv0lGE/C2eCMruQ3ng+6P6t/nY6L6JozLU5zKKMRo=;
- b=EJJy8YrpiQ84NU9b5uzY+3Cec87YEnqwvcgdtFqilfEYBDrxIrM7m9+FGJImqvv6Qb
- qibXK7eQtnZTMMZq72Diqqdu+5XdMFAscTSgwtWrB/xggie22p3IhNOoG6obx3oS7AJZ
- gw1phWbwWibYMqlgrirLhZJIzTlsrgU+7f6m+2CoH+EhYBB6fR52eycE9D07P10saxno
- tB1T4dhLNdFaXUPbcLcczig1TylxFRlSfw0XEp8XpKMrBsGxC/FHrj4e5s5OrCKTSLG1
- Zr3LzmakcFVStveU44ep2+/7763D2lusL542uOf7rOL1HrgS7YkNpWszNAB4977vEhaM
- rLDA==
-X-Gm-Message-State: AOAM533G8Ty3C8lw6DcQJjcQ6nmObP4ngRHur4wk5RhGbRR75D867H3d
- FaOXqp3ms10ZbjdClW/EJfaNkA==
-X-Google-Smtp-Source: ABdhPJyEA7NQob/0i2cic/7Nwr9UfaP0/DnrvCt1R7m8DUzfpcZtrCFj78sGAF83tCvT1+ABDnuzyQ==
-X-Received: by 2002:a1c:4c0a:: with SMTP id z10mr7757424wmf.24.1626100719265; 
- Mon, 12 Jul 2021 07:38:39 -0700 (PDT)
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=LLdrdAX/sieQxKFN+rBmNQf+DqHagqzLI3c34cxuMTk=;
+ b=rwz9yTNB4DLz6JG/AndpiIXl+OlbrIhoAEsslwXKYdCuTpHMfiT5qIxDgPQnArXyqv
+ lh8seZLYzHnS/a44Do9Q/f7D6P5y2Wbsb5pTq+UDAqC5f3a+R3QhSbqky6AvESGX8jdK
+ vZ+fKsz4l3xT33GD54w8l4LiRQ/J5pgv1jVutVYpetAvdvWvERA2zCS5a62V2uwQNlFa
+ 1zOAaanNPNc8HBZS7QAvAl8Uc7+os1kZDw/9/Oao9RX57+YpUX8uaEr9VtNVBVXveku7
+ gcpTEtbxw/67iEB/HobuDbvMz0Nn20Qrlyyy1NJZfl7D4lpJasg6VC7XjuIlJZTxShuS
+ j32A==
+X-Gm-Message-State: AOAM530Sw59jlBlluqYeB/piCzeg//AYAC+hEHTjwf1T/U4JJ0s6c2yg
+ kjuqBrSMt3X1Uv450WtElsRYqg==
+X-Google-Smtp-Source: ABdhPJxwEnNzVbm+B41O+Mu4yAKjdp4HkdyzIUSF8hI39WrF2L7Q8iPaZ5s07ZiflmOckAtZkhpX6g==
+X-Received: by 2002:adf:cf10:: with SMTP id o16mr27349389wrj.426.1626100925332; 
+ Mon, 12 Jul 2021 07:42:05 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id p7sm14286369wrr.21.2021.07.12.07.38.38
+ by smtp.gmail.com with ESMTPSA id s13sm10689713wrm.13.2021.07.12.07.42.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 12 Jul 2021 07:38:38 -0700 (PDT)
-Date: Mon, 12 Jul 2021 16:38:36 +0200
+ Mon, 12 Jul 2021 07:42:04 -0700 (PDT)
+Date: Mon, 12 Jul 2021 16:42:03 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Jason Ekstrand <jason@jlekstrand.net>
-Subject: Re: [Intel-gfx] [PATCH v2] drm/i915: Add TTM offset argument to mmap.
-Message-ID: <YOxT7M2WuVB4bglb@phenom.ffwll.local>
-References: <20210709114120.651309-1-maarten.lankhorst@linux.intel.com>
- <CAOFGe96ZGygDpJcfHeWQVYr6UqkZBWvJ1mtzkPWShtm_K5Or1g@mail.gmail.com>
- <YOxNsiQIHuxByHzv@phenom.ffwll.local>
- <CAOFGe96NL1LQLJ-iKktanD1HXHi3XqEx18fRVEWbeyfWxte5Qw@mail.gmail.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Subject: Re: [PATCH 1/8] drm/i915: Explicitly track DRM clients
+Message-ID: <YOxUuxLqpIDEsmMT@phenom.ffwll.local>
+References: <20210712121719.891536-1-tvrtko.ursulin@linux.intel.com>
+ <20210712121719.891536-2-tvrtko.ursulin@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <CAOFGe96NL1LQLJ-iKktanD1HXHi3XqEx18fRVEWbeyfWxte5Qw@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210712121719.891536-2-tvrtko.ursulin@linux.intel.com>
 X-Operating-System: Linux phenom 5.10.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,326 +68,429 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel GFX <intel-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>
+Cc: Intel-gfx@lists.freedesktop.org, Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+ dri-devel@lists.freedesktop.org,
+ Aravind Iddamsetty <aravind.iddamsetty@intel.com>,
+ Chris Wilson <chris@chris-wilson.co.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jul 12, 2021 at 09:31:13AM -0500, Jason Ekstrand wrote:
-> On Mon, Jul 12, 2021 at 9:12 AM Daniel Vetter <daniel@ffwll.ch> wrote:
-> >
-> > On Mon, Jul 12, 2021 at 08:47:24AM -0500, Jason Ekstrand wrote:
-> > > On Fri, Jul 9, 2021 at 6:41 AM Maarten Lankhorst
-> > > <maarten.lankhorst@linux.intel.com> wrote:
-> > > >
-> > > > This is only used for ttm, and tells userspace that the mapping type is
-> > > > ignored. This disables the other type of mmap offsets when discrete
-> > > > memory is used, so fix the selftests as well.
-> > > >
-> > > > Document the struct as well, so it shows up in docbook correctly.
-> > > >
-> > > > Changes since v1:
-> > > > - Add docbook entries.
-> > > >
-> > > > Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> > > > ---
-> > > >  drivers/gpu/drm/i915/gem/i915_gem_mman.c      | 17 ++++++-
-> > > >  .../gpu/drm/i915/gem/i915_gem_object_types.h  |  1 +
-> > > >  .../drm/i915/gem/selftests/i915_gem_mman.c    | 27 +++++++++-
-> > > >  include/uapi/drm/i915_drm.h                   | 51 +++++++++++++++----
-> > > >  4 files changed, 82 insertions(+), 14 deletions(-)
-> > > >
-> > > > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-> > > > index a90f796e85c0..b34be9e5d094 100644
-> > > > --- a/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-> > > > +++ b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-> > > > @@ -679,10 +679,16 @@ __assign_mmap_offset(struct drm_i915_gem_object *obj,
-> > > >                 return -ENODEV;
-> > > >
-> > > >         if (obj->ops->mmap_offset)  {
-> > > > +               if (mmap_type != I915_MMAP_TYPE_TTM)
-> > > > +                       return -ENODEV;
-> > > > +
-> > > >                 *offset = obj->ops->mmap_offset(obj);
-> > > >                 return 0;
-> > > >         }
-> > > >
-> > > > +       if (mmap_type == I915_MMAP_TYPE_TTM)
-> > > > +               return -ENODEV;
-> > > > +
-> > > >         if (mmap_type != I915_MMAP_TYPE_GTT &&
-> > > >             !i915_gem_object_has_struct_page(obj) &&
-> > > >             !i915_gem_object_has_iomem(obj))
-> > > > @@ -727,7 +733,9 @@ i915_gem_dumb_mmap_offset(struct drm_file *file,
-> > > >  {
-> > > >         enum i915_mmap_type mmap_type;
-> > > >
-> > > > -       if (boot_cpu_has(X86_FEATURE_PAT))
-> > > > +       if (HAS_LMEM(to_i915(dev)))
-> > > > +               mmap_type = I915_MMAP_TYPE_TTM;
-> > > > +       else if (boot_cpu_has(X86_FEATURE_PAT))
-> > > >                 mmap_type = I915_MMAP_TYPE_WC;
-> > > >         else if (!i915_ggtt_has_aperture(&to_i915(dev)->ggtt))
-> > > >                 return -ENODEV;
-> > > > @@ -798,6 +806,10 @@ i915_gem_mmap_offset_ioctl(struct drm_device *dev, void *data,
-> > > >                 type = I915_MMAP_TYPE_UC;
-> > > >                 break;
-> > > >
-> > > > +       case I915_MMAP_OFFSET_TTM:
-> > > > +               type = I915_MMAP_TYPE_TTM;
-> > > > +               break;
-> > > > +
-> > > >         default:
-> > > >                 return -EINVAL;
-> > > >         }
-> > > > @@ -968,6 +980,9 @@ int i915_gem_mmap(struct file *filp, struct vm_area_struct *vma)
-> > > >                 vma->vm_ops = &vm_ops_cpu;
-> > > >                 break;
-> > > >
-> > > > +       case I915_MMAP_TYPE_TTM:
-> > > > +               GEM_WARN_ON(mmo->mmap_type == I915_MMAP_TYPE_TTM);
-> > > > +               /* fall-through */
-> > > >         case I915_MMAP_TYPE_WB:
-> > > >                 vma->vm_page_prot = vm_get_page_prot(vma->vm_flags);
-> > > >                 vma->vm_ops = &vm_ops_cpu;
-> > > > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
-> > > > index ef3de2ae9723..d4c42bcdfeb6 100644
-> > > > --- a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
-> > > > +++ b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
-> > > > @@ -105,6 +105,7 @@ enum i915_mmap_type {
-> > > >         I915_MMAP_TYPE_WC,
-> > > >         I915_MMAP_TYPE_WB,
-> > > >         I915_MMAP_TYPE_UC,
-> > > > +       I915_MMAP_TYPE_TTM,
-> > > >  };
-> > > >
-> > > >  struct i915_mmap_offset {
-> > > > diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
-> > > > index 1da8bd675e54..27a35d88e5f5 100644
-> > > > --- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
-> > > > +++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
-> > > > @@ -573,6 +573,14 @@ static int make_obj_busy(struct drm_i915_gem_object *obj)
-> > > >         return 0;
-> > > >  }
-> > > >
-> > > > +static enum i915_mmap_type default_mapping(struct drm_i915_private *i915)
-> > > > +{
-> > > > +       if (HAS_LMEM(i915))
-> > > > +               return I915_MMAP_TYPE_TTM;
-> > > > +
-> > > > +       return I915_MMAP_TYPE_GTT;
-> > > > +}
-> > > > +
-> > > >  static bool assert_mmap_offset(struct drm_i915_private *i915,
-> > > >                                unsigned long size,
-> > > >                                int expected)
-> > > > @@ -585,7 +593,7 @@ static bool assert_mmap_offset(struct drm_i915_private *i915,
-> > > >         if (IS_ERR(obj))
-> > > >                 return expected && expected == PTR_ERR(obj);
-> > > >
-> > > > -       ret = __assign_mmap_offset(obj, I915_MMAP_TYPE_GTT, &offset, NULL);
-> > > > +       ret = __assign_mmap_offset(obj, default_mapping(i915), &offset, NULL);
-> > > >         i915_gem_object_put(obj);
-> > > >
-> > > >         return ret == expected;
-> > > > @@ -689,7 +697,7 @@ static int igt_mmap_offset_exhaustion(void *arg)
-> > > >                 goto out;
-> > > >         }
-> > > >
-> > > > -       err = __assign_mmap_offset(obj, I915_MMAP_TYPE_GTT, &offset, NULL);
-> > > > +       err = __assign_mmap_offset(obj, default_mapping(i915), &offset, NULL);
-> > > >         if (err) {
-> > > >                 pr_err("Unable to insert object into reclaimed hole\n");
-> > > >                 goto err_obj;
-> > > > @@ -831,8 +839,14 @@ static int wc_check(struct drm_i915_gem_object *obj)
-> > > >
-> > > >  static bool can_mmap(struct drm_i915_gem_object *obj, enum i915_mmap_type type)
-> > > >  {
-> > > > +       struct drm_i915_private *i915 = to_i915(obj->base.dev);
-> > > >         bool no_map;
-> > > >
-> > > > +       if (HAS_LMEM(i915))
-> > > > +               return type == I915_MMAP_TYPE_TTM;
-> > > > +       else if (type == I915_MMAP_TYPE_TTM)
-> > > > +               return false;
-> > > > +
-> > > >         if (type == I915_MMAP_TYPE_GTT &&
-> > > >             !i915_ggtt_has_aperture(&to_i915(obj->base.dev)->ggtt))
-> > > >                 return false;
-> > > > @@ -970,6 +984,8 @@ static int igt_mmap(void *arg)
-> > > >                         err = __igt_mmap(i915, obj, I915_MMAP_TYPE_GTT);
-> > > >                         if (err == 0)
-> > > >                                 err = __igt_mmap(i915, obj, I915_MMAP_TYPE_WC);
-> > > > +                       if (err == 0)
-> > > > +                               err = __igt_mmap(i915, obj, I915_MMAP_TYPE_TTM);
-> > > >
-> > > >                         i915_gem_object_put(obj);
-> > > >                         if (err)
-> > > > @@ -987,6 +1003,7 @@ static const char *repr_mmap_type(enum i915_mmap_type type)
-> > > >         case I915_MMAP_TYPE_WB: return "wb";
-> > > >         case I915_MMAP_TYPE_WC: return "wc";
-> > > >         case I915_MMAP_TYPE_UC: return "uc";
-> > > > +       case I915_MMAP_TYPE_TTM: return "ttm";
-> > > >         default: return "unknown";
-> > > >         }
-> > > >  }
-> > > > @@ -1100,6 +1117,8 @@ static int igt_mmap_access(void *arg)
-> > > >                         err = __igt_mmap_access(i915, obj, I915_MMAP_TYPE_WC);
-> > > >                 if (err == 0)
-> > > >                         err = __igt_mmap_access(i915, obj, I915_MMAP_TYPE_UC);
-> > > > +               if (err == 0)
-> > > > +                       err = __igt_mmap_access(i915, obj, I915_MMAP_TYPE_TTM);
-> > > >
-> > > >                 i915_gem_object_put(obj);
-> > > >                 if (err)
-> > > > @@ -1241,6 +1260,8 @@ static int igt_mmap_gpu(void *arg)
-> > > >                 err = __igt_mmap_gpu(i915, obj, I915_MMAP_TYPE_GTT);
-> > > >                 if (err == 0)
-> > > >                         err = __igt_mmap_gpu(i915, obj, I915_MMAP_TYPE_WC);
-> > > > +               if (err == 0)
-> > > > +                       err = __igt_mmap_gpu(i915, obj, I915_MMAP_TYPE_TTM);
-> > > >
-> > > >                 i915_gem_object_put(obj);
-> > > >                 if (err)
-> > > > @@ -1396,6 +1417,8 @@ static int igt_mmap_revoke(void *arg)
-> > > >                 err = __igt_mmap_revoke(i915, obj, I915_MMAP_TYPE_GTT);
-> > > >                 if (err == 0)
-> > > >                         err = __igt_mmap_revoke(i915, obj, I915_MMAP_TYPE_WC);
-> > > > +               if (err == 0)
-> > > > +                       err = __igt_mmap_revoke(i915, obj, I915_MMAP_TYPE_TTM);
-> > > >
-> > > >                 i915_gem_object_put(obj);
-> > > >                 if (err)
-> > > > diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
-> > > > index e334a8b14ef2..1610ed40b4b5 100644
-> > > > --- a/include/uapi/drm/i915_drm.h
-> > > > +++ b/include/uapi/drm/i915_drm.h
-> > > > @@ -849,31 +849,60 @@ struct drm_i915_gem_mmap_gtt {
-> > > >         __u64 offset;
-> > > >  };
-> > > >
-> > > > +/**
-> > > > + * struct drm_i915_gem_mmap_offset - Retrieve an offset so we can mmap this buffer object.
-> > > > + *
-> > > > + * This struct is passed as argument to the `DRM_IOCTL_I915_GEM_MMAP_OFFSET` ioctl,
-> > > > + * and is used to retrieve the fake offset to mmap an object specified by &handle.
-> > > > + *
-> > > > + * The legacy way of using `DRM_IOCTL_I915_GEM_MMAP` is removed on gen12+.
-> > > > + * `DRM_IOCTL_I915_GEM_MMAP_GTT` is an older supported alias to this struct, but will behave
-> > > > + * as setting the &extensions to 0, and &flags to `I915_MMAP_OFFSET_GTT`.
-> > > > + */
-> > > >  struct drm_i915_gem_mmap_offset {
-> > > > -       /** Handle for the object being mapped. */
-> > > > +       /** @handle: Handle for the object being mapped. */
-> > > >         __u32 handle;
-> > > > +       /** @pad: Must be zero */
-> > > >         __u32 pad;
-> > > >         /**
-> > > > -        * Fake offset to use for subsequent mmap call
-> > > > +        * @offset: The fake offset to use for subsequent mmap call
-> > > >          *
-> > > >          * This is a fixed-size type for 32/64 compatibility.
-> > > >          */
-> > > >         __u64 offset;
-> > > >
-> > > >         /**
-> > > > -        * Flags for extended behaviour.
-> > > > +        * @flags: Flags for extended behaviour.
-> > > > +        *
-> > > > +        * It is mandatory that one of the `MMAP_OFFSET` types
-> > > > +        * should be included:
-> > > > +        * - `I915_MMAP_OFFSET_GTT`: Use mmap with the object bound to GTT.
-> > > > +        * - `I915_MMAP_OFFSET_WC`: Use Write-Combined caching.
-> > > > +        * - `I915_MMAP_OFFSET_WB`: Use Write-Back caching.
-> > > > +        * - `I915_MMAP_OFFSET_TTM`: Use TTM to determine caching based on object placement.
-> > > > +        *
-> > > > +        * Only on devices with local memory is `I915_MMAP_OFFSET_TTM` valid. On
-> > > > +        * devices without local memory, this caching mode is invalid.
-> > > >          *
-> > > > -        * It is mandatory that one of the MMAP_OFFSET types
-> > > > -        * (GTT, WC, WB, UC, etc) should be included.
-> > > > +        * As caching mode when specifying `I915_MMAP_OFFSET_TTM`, WC or WB will
-> > > > +        * be used, depending on the object placement. WC will be used
-> > > > +        * when the object resides in local memory, WB otherwise.
-> > > >          */
-> > > >         __u64 flags;
-> > > > -#define I915_MMAP_OFFSET_GTT 0
-> > > > -#define I915_MMAP_OFFSET_WC  1
-> > > > -#define I915_MMAP_OFFSET_WB  2
-> > > > -#define I915_MMAP_OFFSET_UC  3
-> > > >
-> > > > -       /*
-> > > > -        * Zero-terminated chain of extensions.
-> > > > +/** Use an mmap for the object by binding to GTT. */
-> > > > +#define I915_MMAP_OFFSET_GTT   0
-> > > > +/** Use Write-Combined caching. */
-> > > > +#define I915_MMAP_OFFSET_WC    1
-> > > > +/** Use Write-Back caching. */
-> > > > +#define I915_MMAP_OFFSET_WB    2
-> > > > +/** Do not use caching when binding this mmap. */
-> > > > +#define I915_MMAP_OFFSET_UC    3
-> > > > +/** Use the TTM binding, which determines the appropriate caching mode. */
-> > > > +#define I915_MMAP_OFFSET_TTM   4
-> > >
-> > > I'm not sure I like the name here.  TTM is an implementation detail,
-> > > not a kind of map.  I think we want something more like
-> > > I915_MMAP_OFFSET_IMPLICIT or something like that.  The semantics here,
-> > > as far as I can tell, are "the mmap type is based on the object; you
-> > > can't change it."  On DG1, the mmap type is fixed for all objects.  On
-> > > integrated, we could have a BO create option for the mmap type but we
-> > > don't yet.
-> >
-> > Yeah it's not a great name, but also we didn't come up with anything
-> > substantially better on irc. More ideas:
-> > - PREDEFINED
-> > - PRESELECTED
-> >
-> > Note that we want to pick a value here which also makes sense for when we
-> > extend GEM_CREATE_EXT to allow you to select the single mmap mode you get
-> > at creation time (for igfx cleanup of the uapi). So IMPLICIT isn't the
-> > greatest name either, when we'll allow userspace to explicit chose it -
-> > just not here anymore.
+On Mon, Jul 12, 2021 at 01:17:12PM +0100, Tvrtko Ursulin wrote:
+> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 > 
-> Yeah, none of them are great.  Maybe FIXED?  Or PER_BO?  Or BO_CREATE?
->  Or just BO?  I think the semantics we want are "whatever was on the
-> BO at create time".
+> Tracking DRM clients more explicitly will allow later patches to
+> accumulate past and current GPU usage in a centralised place and also
+> consolidate access to owning task pid/name.
+> 
+> Unique client id is also assigned for the purpose of distinguishing/
+> consolidating between multiple file descriptors owned by the same process.
+> 
+> v2:
+>  Chris Wilson:
+>  * Enclose new members into dedicated structs.
+>  * Protect against failed sysfs registration.
+> 
+> v3:
+>  * sysfs_attr_init.
+> 
+> v4:
+>  * Fix for internal clients.
+> 
+> v5:
+>  * Use cyclic ida for client id. (Chris)
+>  * Do not leak pid reference. (Chris)
+>  * Tidy code with some locals.
+> 
+> v6:
+>  * Use xa_alloc_cyclic to simplify locking. (Chris)
+>  * No need to unregister individial sysfs files. (Chris)
+>  * Rebase on top of fpriv kref.
+>  * Track client closed status and reflect in sysfs.
+> 
+> v7:
+>  * Make drm_client more standalone concept.
+> 
+> v8:
+>  * Simplify sysfs show. (Chris)
+>  * Always track name and pid.
+> 
+> v9:
+>  * Fix cyclic id assignment.
+> 
+> v10:
+>  * No need for a mutex around xa_alloc_cyclic.
+>  * Refactor sysfs into own function.
+>  * Unregister sysfs before freeing pid and name.
+>  * Move clients setup into own function.
+> 
+> v11:
+>  * Call clients init directly from driver init. (Chris)
+> 
+> v12:
+>  * Do not fail client add on id wrap. (Maciej)
+> 
+> v13 (Lucas): Rebase.
+> 
+> v14:
+>  * Dropped sysfs bits.
+> 
+> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> Reviewed-by: Chris Wilson <chris@chris-wilson.co.uk> # v11
+> Reviewed-by: Aravind Iddamsetty <aravind.iddamsetty@intel.com> # v11
+> Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
 
-_FIXED sounds like the least horrible one to me.
+On the implementation: I'm not clear why this is a separate object. All
+that seems to achieve is make the lifetim fun we have in here even more
+annoying, for not real gain?
+
+What's the reasons for this separate i915_drm_client struct? The commit
+message talks about de-duping these within the same process, but with
+fdinfo I'm not seeing the relevance of this anymore.
+
+Also, with the fdinfo approach, why do we still need to even track the
+pid? That can be all figured out from proc now, with much cleaner
+semantics.
 -Daniel
 
+> ---
+>  drivers/gpu/drm/i915/Makefile          |   5 +-
+>  drivers/gpu/drm/i915/i915_drm_client.c | 113 +++++++++++++++++++++++++
+>  drivers/gpu/drm/i915/i915_drm_client.h |  61 +++++++++++++
+>  drivers/gpu/drm/i915/i915_drv.c        |   6 ++
+>  drivers/gpu/drm/i915/i915_drv.h        |   5 ++
+>  drivers/gpu/drm/i915/i915_gem.c        |  21 ++++-
+>  6 files changed, 206 insertions(+), 5 deletions(-)
+>  create mode 100644 drivers/gpu/drm/i915/i915_drm_client.c
+>  create mode 100644 drivers/gpu/drm/i915/i915_drm_client.h
 > 
-> --Jason
+> diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
+> index 10b3bb6207ba..784f99ca11fc 100644
+> --- a/drivers/gpu/drm/i915/Makefile
+> +++ b/drivers/gpu/drm/i915/Makefile
+> @@ -33,8 +33,9 @@ subdir-ccflags-y += -I$(srctree)/$(src)
+>  # Please keep these build lists sorted!
+>  
+>  # core driver code
+> -i915-y += i915_drv.o \
+> -	  i915_config.o \
+> +i915-y += i915_config.o \
+> +	  i915_drm_client.o \
+> +	  i915_drv.o \
+>  	  i915_irq.o \
+>  	  i915_getparam.o \
+>  	  i915_mitigations.o \
+> diff --git a/drivers/gpu/drm/i915/i915_drm_client.c b/drivers/gpu/drm/i915/i915_drm_client.c
+> new file mode 100644
+> index 000000000000..83080d9836b0
+> --- /dev/null
+> +++ b/drivers/gpu/drm/i915/i915_drm_client.c
+> @@ -0,0 +1,113 @@
+> +// SPDX-License-Identifier: MIT
+> +/*
+> + * Copyright © 2020 Intel Corporation
+> + */
+> +
+> +#include <linux/kernel.h>
+> +#include <linux/slab.h>
+> +#include <linux/types.h>
+> +
+> +#include "i915_drm_client.h"
+> +#include "i915_gem.h"
+> +#include "i915_utils.h"
+> +
+> +void i915_drm_clients_init(struct i915_drm_clients *clients,
+> +			   struct drm_i915_private *i915)
+> +{
+> +	clients->i915 = i915;
+> +
+> +	clients->next_id = 0;
+> +	xa_init_flags(&clients->xarray, XA_FLAGS_ALLOC);
+> +}
+> +
+> +static int
+> +__i915_drm_client_register(struct i915_drm_client *client,
+> +			   struct task_struct *task)
+> +{
+> +	char *name;
+> +
+> +	name = kstrdup(task->comm, GFP_KERNEL);
+> +	if (!name)
+> +		return -ENOMEM;
+> +
+> +	client->pid = get_task_pid(task, PIDTYPE_PID);
+> +	client->name = name;
+> +
+> +	return 0;
+> +}
+> +
+> +static void __i915_drm_client_unregister(struct i915_drm_client *client)
+> +{
+> +	put_pid(fetch_and_zero(&client->pid));
+> +	kfree(fetch_and_zero(&client->name));
+> +}
+> +
+> +static void __rcu_i915_drm_client_free(struct work_struct *wrk)
+> +{
+> +	struct i915_drm_client *client =
+> +		container_of(wrk, typeof(*client), rcu.work);
+> +
+> +	xa_erase(&client->clients->xarray, client->id);
+> +
+> +	__i915_drm_client_unregister(client);
+> +
+> +	kfree(client);
+> +}
+> +
+> +struct i915_drm_client *
+> +i915_drm_client_add(struct i915_drm_clients *clients, struct task_struct *task)
+> +{
+> +	struct i915_drm_client *client;
+> +	int ret;
+> +
+> +	client = kzalloc(sizeof(*client), GFP_KERNEL);
+> +	if (!client)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	kref_init(&client->kref);
+> +	client->clients = clients;
+> +	INIT_RCU_WORK(&client->rcu, __rcu_i915_drm_client_free);
+> +
+> +	ret = xa_alloc_cyclic(&clients->xarray, &client->id, client,
+> +			      xa_limit_32b, &clients->next_id, GFP_KERNEL);
+> +	if (ret < 0)
+> +		goto err_id;
+> +
+> +	ret = __i915_drm_client_register(client, task);
+> +	if (ret)
+> +		goto err_register;
+> +
+> +	return client;
+> +
+> +err_register:
+> +	xa_erase(&clients->xarray, client->id);
+> +err_id:
+> +	kfree(client);
+> +
+> +	return ERR_PTR(ret);
+> +}
+> +
+> +void __i915_drm_client_free(struct kref *kref)
+> +{
+> +	struct i915_drm_client *client =
+> +		container_of(kref, typeof(*client), kref);
+> +
+> +	queue_rcu_work(system_wq, &client->rcu);
+> +}
+> +
+> +void i915_drm_client_close(struct i915_drm_client *client)
+> +{
+> +	GEM_BUG_ON(READ_ONCE(client->closed));
+> +	WRITE_ONCE(client->closed, true);
+> +	i915_drm_client_put(client);
+> +}
+> +
+> +void i915_drm_clients_fini(struct i915_drm_clients *clients)
+> +{
+> +	while (!xa_empty(&clients->xarray)) {
+> +		rcu_barrier();
+> +		flush_workqueue(system_wq);
+> +	}
+> +
+> +	xa_destroy(&clients->xarray);
+> +}
+> diff --git a/drivers/gpu/drm/i915/i915_drm_client.h b/drivers/gpu/drm/i915/i915_drm_client.h
+> new file mode 100644
+> index 000000000000..396f1e336b3f
+> --- /dev/null
+> +++ b/drivers/gpu/drm/i915/i915_drm_client.h
+> @@ -0,0 +1,61 @@
+> +/* SPDX-License-Identifier: MIT */
+> +/*
+> + * Copyright © 2020 Intel Corporation
+> + */
+> +
+> +#ifndef __I915_DRM_CLIENT_H__
+> +#define __I915_DRM_CLIENT_H__
+> +
+> +#include <linux/kref.h>
+> +#include <linux/pid.h>
+> +#include <linux/rcupdate.h>
+> +#include <linux/sched.h>
+> +#include <linux/xarray.h>
+> +
+> +struct drm_i915_private;
+> +
+> +struct i915_drm_clients {
+> +	struct drm_i915_private *i915;
+> +
+> +	struct xarray xarray;
+> +	u32 next_id;
+> +};
+> +
+> +struct i915_drm_client {
+> +	struct kref kref;
+> +
+> +	struct rcu_work rcu;
+> +
+> +	unsigned int id;
+> +	struct pid *pid;
+> +	char *name;
+> +	bool closed;
+> +
+> +	struct i915_drm_clients *clients;
+> +};
+> +
+> +void i915_drm_clients_init(struct i915_drm_clients *clients,
+> +			   struct drm_i915_private *i915);
+> +
+> +static inline struct i915_drm_client *
+> +i915_drm_client_get(struct i915_drm_client *client)
+> +{
+> +	kref_get(&client->kref);
+> +	return client;
+> +}
+> +
+> +void __i915_drm_client_free(struct kref *kref);
+> +
+> +static inline void i915_drm_client_put(struct i915_drm_client *client)
+> +{
+> +	kref_put(&client->kref, __i915_drm_client_free);
+> +}
+> +
+> +void i915_drm_client_close(struct i915_drm_client *client);
+> +
+> +struct i915_drm_client *i915_drm_client_add(struct i915_drm_clients *clients,
+> +					    struct task_struct *task);
+> +
+> +void i915_drm_clients_fini(struct i915_drm_clients *clients);
+> +
+> +#endif /* !__I915_DRM_CLIENT_H__ */
+> diff --git a/drivers/gpu/drm/i915/i915_drv.c b/drivers/gpu/drm/i915/i915_drv.c
+> index 30d8cd8c69b1..8247dcc7586e 100644
+> --- a/drivers/gpu/drm/i915/i915_drv.c
+> +++ b/drivers/gpu/drm/i915/i915_drv.c
+> @@ -68,6 +68,7 @@
+>  #include "gt/intel_rc6.h"
+>  
+>  #include "i915_debugfs.h"
+> +#include "i915_drm_client.h"
+>  #include "i915_drv.h"
+>  #include "i915_ioc32.h"
+>  #include "i915_irq.h"
+> @@ -343,6 +344,8 @@ static int i915_driver_early_probe(struct drm_i915_private *dev_priv)
+>  
+>  	intel_gt_init_early(&dev_priv->gt, dev_priv);
+>  
+> +	i915_drm_clients_init(&dev_priv->clients, dev_priv);
+> +
+>  	i915_gem_init_early(dev_priv);
+>  
+>  	/* This must be called before any calls to HAS_PCH_* */
+> @@ -362,6 +365,7 @@ static int i915_driver_early_probe(struct drm_i915_private *dev_priv)
+>  
+>  err_gem:
+>  	i915_gem_cleanup_early(dev_priv);
+> +	i915_drm_clients_fini(&dev_priv->clients);
+>  	intel_gt_driver_late_release(&dev_priv->gt);
+>  	intel_region_ttm_device_fini(dev_priv);
+>  err_ttm:
+> @@ -381,6 +385,7 @@ static void i915_driver_late_release(struct drm_i915_private *dev_priv)
+>  	intel_irq_fini(dev_priv);
+>  	intel_power_domains_cleanup(dev_priv);
+>  	i915_gem_cleanup_early(dev_priv);
+> +	i915_drm_clients_fini(&dev_priv->clients);
+>  	intel_gt_driver_late_release(&dev_priv->gt);
+>  	intel_region_ttm_device_fini(dev_priv);
+>  	vlv_suspend_cleanup(dev_priv);
+> @@ -996,6 +1001,7 @@ static void i915_driver_postclose(struct drm_device *dev, struct drm_file *file)
+>  	struct drm_i915_file_private *file_priv = file->driver_priv;
+>  
+>  	i915_gem_context_close(file);
+> +	i915_drm_client_close(file_priv->client);
+>  
+>  	kfree_rcu(file_priv, rcu);
+>  
+> diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
+> index c4747f4407ef..338d384c31eb 100644
+> --- a/drivers/gpu/drm/i915/i915_drv.h
+> +++ b/drivers/gpu/drm/i915/i915_drv.h
+> @@ -96,6 +96,7 @@
+>  #include "intel_wakeref.h"
+>  #include "intel_wopcm.h"
+>  
+> +#include "i915_drm_client.h"
+>  #include "i915_gem.h"
+>  #include "i915_gem_gtt.h"
+>  #include "i915_gpu_error.h"
+> @@ -284,6 +285,8 @@ struct drm_i915_file_private {
+>  	/** ban_score: Accumulated score of all ctx bans and fast hangs. */
+>  	atomic_t ban_score;
+>  	unsigned long hang_timestamp;
+> +
+> +	struct i915_drm_client *client;
+>  };
+>  
+>  /* Interface history:
+> @@ -1218,6 +1221,8 @@ struct drm_i915_private {
+>  
+>  	struct i915_pmu pmu;
+>  
+> +	struct i915_drm_clients clients;
+> +
+>  	struct i915_hdcp_comp_master *hdcp_master;
+>  	bool hdcp_comp_added;
+>  
+> diff --git a/drivers/gpu/drm/i915/i915_gem.c b/drivers/gpu/drm/i915/i915_gem.c
+> index 590efc8b0265..ea6c88a99ed2 100644
+> --- a/drivers/gpu/drm/i915/i915_gem.c
+> +++ b/drivers/gpu/drm/i915/i915_gem.c
+> @@ -1179,25 +1179,40 @@ void i915_gem_cleanup_early(struct drm_i915_private *dev_priv)
+>  int i915_gem_open(struct drm_i915_private *i915, struct drm_file *file)
+>  {
+>  	struct drm_i915_file_private *file_priv;
+> -	int ret;
+> +	struct i915_drm_client *client;
+> +	int ret = -ENOMEM;
+>  
+>  	DRM_DEBUG("\n");
+>  
+>  	file_priv = kzalloc(sizeof(*file_priv), GFP_KERNEL);
+>  	if (!file_priv)
+> -		return -ENOMEM;
+> +		goto err_alloc;
+> +
+> +	client = i915_drm_client_add(&i915->clients, current);
+> +	if (IS_ERR(client)) {
+> +		ret = PTR_ERR(client);
+> +		goto err_client;
+> +	}
+>  
+>  	file->driver_priv = file_priv;
+>  	file_priv->dev_priv = i915;
+>  	file_priv->file = file;
+> +	file_priv->client = client;
+>  
+>  	file_priv->bsd_engine = -1;
+>  	file_priv->hang_timestamp = jiffies;
+>  
+>  	ret = i915_gem_context_open(i915, file);
+>  	if (ret)
+> -		kfree(file_priv);
+> +		goto err_context;
+> +
+> +	return 0;
+>  
+> +err_context:
+> +	i915_drm_client_close(client);
+> +err_client:
+> +	kfree(file_priv);
+> +err_alloc:
+>  	return ret;
+>  }
+>  
+> -- 
+> 2.30.2
 > 
-> >
-> > Anyway, pick a name and we'll paint this bikeshed, I don't care much
-> > really. As long as there's kerneldoc :-)
-> > -Daniel
-> >
-> > >
-> > > --Jason
-> > >
-> > > > +
-> > > > +       /**
-> > > > +        * @extensions: Zero-terminated chain of extensions.
-> > > >          *
-> > > >          * No current extensions defined; mbz.
-> > > >          */
-> > > > --
-> > > > 2.31.0
-> > > >
-> > > > _______________________________________________
-> > > > Intel-gfx mailing list
-> > > > Intel-gfx@lists.freedesktop.org
-> > > > https://lists.freedesktop.org/mailman/listinfo/intel-gfx
-> > > _______________________________________________
-> > > Intel-gfx mailing list
-> > > Intel-gfx@lists.freedesktop.org
-> > > https://lists.freedesktop.org/mailman/listinfo/intel-gfx
-> >
-> > --
-> > Daniel Vetter
-> > Software Engineer, Intel Corporation
-> > http://blog.ffwll.ch
 
 -- 
 Daniel Vetter
