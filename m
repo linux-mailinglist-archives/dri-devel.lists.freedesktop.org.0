@@ -1,59 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EDF93C5E54
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Jul 2021 16:27:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EEDFE3C5E5E
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Jul 2021 16:30:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A9F4989C85;
-	Mon, 12 Jul 2021 14:27:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0921F89B65;
+	Mon, 12 Jul 2021 14:30:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com
- [IPv6:2a00:1450:4864:20::62d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C71D789C88
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jul 2021 14:27:46 +0000 (UTC)
-Received: by mail-ej1-x62d.google.com with SMTP id go30so7890458ejc.8
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jul 2021 07:27:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=J6QOMazbLL+sZyefDGIGQ29I0wy5OiQ7I4C+gCHLm5E=;
- b=oIdMRj1kgkCcPZUywh/wuQ1/j9Dk9rLTKoJEePwB+7oWbOdIpU7mR6yqY7E69LvuOP
- clJqy0Gu2VDyAOCDKMkL6vpK3b9iPeyMbkcjAaQ5Zee9lvo7haRfBPHUo21SAjVMfDu9
- siXvqBdEPsrM6eyNISkXUea6fL/k8zW1PqHUQwuP0GKuhTpb23sLx9p+Zyo2DuSLtCx+
- LrxctCDJEdiM+wYq6kMJD/uBpMWPUW1WtRmjxpLpz/xRYPwN3+Z9x44qYytUT2NnMoxs
- L4gCnoxywGxUum8ofQVJjarubt7GR6cimZDSkxS8c/k47Msr68pyCSgSLBQXw6hOPsYv
- pRYQ==
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
+ [IPv6:2a00:1450:4864:20::32f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B48AC89B65
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jul 2021 14:30:08 +0000 (UTC)
+Received: by mail-wm1-x32f.google.com with SMTP id n4so1142436wms.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jul 2021 07:30:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=U5FC4uEOVeCgfw9G9+Mil/6xk11LgKqumjzzkqV6EcQ=;
+ b=eucSbXLiLXym7C732rtWiQeoa6jyLto21wkA6D38coT+vhZVQ/FHgFc4HZkIvasFWF
+ HW4K2ngw2hXrz1JeIld4SALUGnSCb9IwK/BA2d6I+mIeViHGkdk7BK4ZS+WVdTuUXsvs
+ LugcZDtjFK85JHbuPH6jHE/1sLdTWgvTr9v6Q=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=J6QOMazbLL+sZyefDGIGQ29I0wy5OiQ7I4C+gCHLm5E=;
- b=ndXx1llRFSMnLT8GkSEkY0HAaFsh+vbu792DA4bWtTaJEvzy/5sFnfp81UT8UR+2TA
- kCOWirMVIrhJM7opdF8tIuSlkzQj3ciXxflLgDxkRKlCPMszOx0tvHThECzzOf2ivSq0
- LAKejsYGm3i/JcondYZeNWiTEvu8zBFzfQ7vAiKju9cK0SVEdnId6wssIKi1DjVNZ/7t
- 7nWSBmUNJmaWajnBSpNZ6AlhREC7RcFX006WS+mOzZdVo9G/7j7Gjf7vZYGyzWtHrEeM
- gDPpXhj+8pnK1Vok9U+wkauid6g3LqRmWOh8CPzny+glJ2iFma5OZ9qVRqf+OziucnOk
- 8K8A==
-X-Gm-Message-State: AOAM532nMZHUTEctUPwAfCk6WlAxrM0T86K1Bx4498P5CgFfMoV7i69C
- awKCBCMuHFYQRkVVNCHA0zCHfsucA2VPfww+b/0=
-X-Google-Smtp-Source: ABdhPJxYQ6dlzwVeSZ18Kxol+r5yDDP0WWZfvN5TtvWUAYuajKfzzmio0znffyd7qwHlbvpdnobP01u74uXR+upQs9Y=
-X-Received: by 2002:a17:906:4551:: with SMTP id
- s17mr15281967ejq.26.1626100065368; 
- Mon, 12 Jul 2021 07:27:45 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=U5FC4uEOVeCgfw9G9+Mil/6xk11LgKqumjzzkqV6EcQ=;
+ b=dSWLHezVFOP4yCzppN4o4ZdGfZVUGQthWPx/EpLFb1KWmwyl0yxCBJr/5Qr6T6EUa2
+ qS+/7IkunIsjS3cox6bLB16YFxhVVI8CludLBE5YhzRu0FT3SSSALWQBijVMhqmOmeiB
+ VimrwHk22N2uGx7OtGFNtiIJ4y5+iMc14H3Q0DL+LxT10JSxRd0mFK0D/3Dze95d4JQi
+ v6TF9zklVYcJaKFCuGJVXRO+YyuacZq9BDUv1aULloEKAmbggawsbDgoG1+9Fu1geEdU
+ fkolbgkqZ+SyjT6W8MI9PWZjZ2/SHra5X9bDqi+aget1wivIBh9JNVaPYX1YTKWEFWRE
+ B3ww==
+X-Gm-Message-State: AOAM5329akvABMGCYRhXL1Eb3ptjqoCGUJEBDddyx1E0Jhf9x5tO9PmY
+ cHaxrRSuTCweIPzZFJgj4ib6kg==
+X-Google-Smtp-Source: ABdhPJxJhIgyCB9Qh6AgwgiVcvQalU3aaChJsIH7a2JlJRzOMBTPw+3lM0ztijrutZrUIw6mCIsLuw==
+X-Received: by 2002:a1c:4e18:: with SMTP id g24mr8723899wmh.175.1626100207307; 
+ Mon, 12 Jul 2021 07:30:07 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id t11sm14547418wrz.7.2021.07.12.07.30.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 12 Jul 2021 07:30:06 -0700 (PDT)
+Date: Mon, 12 Jul 2021 16:30:04 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Jason Ekstrand <jason@jlekstrand.net>
+Subject: Re: [PATCH 1/2] drm/i915: Don't allow setting I915_CONTEXT_PARAM_VM
+ twice
+Message-ID: <YOxR7Dzlxzs8jCBa@phenom.ffwll.local>
+References: <20210710212447.785288-1-jason@jlekstrand.net>
+ <20210710212447.785288-2-jason@jlekstrand.net>
 MIME-Version: 1.0
-References: <20210705074633.9425-1-tzimmermann@suse.de>
- <CACAkLur8SVqZt69CrfN+0rE4AstPBQPHbwJMnBM_TDTBFXVqdA@mail.gmail.com>
- <a8aadd02-b80b-cd55-b2fd-9c8c7c86b334@suse.de>
-In-Reply-To: <a8aadd02-b80b-cd55-b2fd-9c8c7c86b334@suse.de>
-From: Sumera Priyadarsini <sylphrenadin@gmail.com>
-Date: Mon, 12 Jul 2021 19:56:40 +0530
-Message-ID: <CACAkLuq+GO8S8GKVg1_AOeGAuQUVbYgf4-ni7MayOTmCm=ezEA@mail.gmail.com>
-Subject: Re: [PATCH 0/4] vkms: Switch to shadow-buffered plane state
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210710212447.785288-2-jason@jlekstrand.net>
+X-Operating-System: Linux phenom 5.10.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,100 +67,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- David Airlie <airlied@linux.ie>, Melissa Wen <melissa.srw@gmail.com>,
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, intel-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jul 12, 2021 at 6:53 PM Thomas Zimmermann <tzimmermann@suse.de> wro=
-te:
->
-> Hi
->
-> Am 12.07.21 um 13:56 schrieb Sumera Priyadarsini:
-> > On Mon, Jul 5, 2021 at 1:16 PM Thomas Zimmermann <tzimmermann@suse.de> =
-wrote:
-> >>
-> >> Vkms copies each plane's framebuffer into the output buffer; essential=
-ly
-> >> using a shadow buffer. DRM provides struct drm_shadow_plane_state, whi=
-ch
-> >> handles the details of mapping/unmapping shadow buffers into memory fo=
-r
-> >> active planes.
-> >>
-> >> Convert vkms to the helpers. Makes vkms use shared code and gives more
-> >> test exposure to shadow-plane helpers.
-> >>
-> >> Thomas Zimmermann (4):
-> >>    drm/gem: Export implementation of shadow-plane helpers
-> >>    drm/vkms: Inherit plane state from struct drm_shadow_plane_state
-> >>    drm/vkms: Let shadow-plane helpers prepare the plane's FB
-> >>    drm/vkms: Use dma-buf mapping from shadow-plane state for composing
-> >>
-> >>   drivers/gpu/drm/drm_gem_atomic_helper.c | 55 ++++++++++++++++++++++-=
--
-> >>   drivers/gpu/drm/vkms/vkms_composer.c    | 26 ++++++-----
-> >>   drivers/gpu/drm/vkms/vkms_drv.h         |  6 ++-
-> >>   drivers/gpu/drm/vkms/vkms_plane.c       | 57 ++++++-----------------=
---
-> >>   include/drm/drm_gem_atomic_helper.h     |  6 +++
-> >>   5 files changed, 86 insertions(+), 64 deletions(-)
-> >>
-> >>
-> >> base-commit: 3d3b5479895dd6dd133571ded4318adf595708ba
-> >> --
-> >> 2.32.0
-> >>
-> > Hi,
-> >
-> > Thanks for the patches. The switch to shadow-plane helpers also solved
-> > a bug that was causing a kernel
-> > panic during some IGT kms_flip subtests on the vkms virtual hw patch.
->
-> Melissa mention something like that as well and I don't really
-> understand. Patch 3 removes an error message from the code, but is the
-> actual bug also gone?
+On Sat, Jul 10, 2021 at 04:24:46PM -0500, Jason Ekstrand wrote:
+> Allowing setting it multiple times brings no real utility to the API, no
+> userspace relies on it, and it does make i915 a tiny bit more
+> complicated.  Let's disallow it for now unless someone comes up with a
+> compelling reason to support it.
 
-Yes, I think so. Earlier, while testing the vkms virtual hw patch, the
-tests were
-not just failing, but the vmap fail also preceeded a page fault which requi=
-red a
-whole restart. Check these logs around line 303:
-https://pastebin.pl/view/03b750be.
+Maybe mention this is for symmetry with other proto ctx set_param
+operations, like set_engines.
 
-I could be wrong but I think if the same bug was still present, then
-the kernel panic
-would also happen even if the error message was not being returned.
+> 
+> Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
+> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
 
-Cheers,
-Sumera
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
->
-> There's little difference between vkms' original code and the shared
-> helper; except for the order of operations in prepare_fb. The shared
-> helper synchronizes fences before mapping; vkms mapped first.
->
-> (Maybe the shared helper should warn about failed vmaps as well. But
-> that's for another patch.)
->
-> Best regards
-> Thomas
->
-> >
-> > Tested-by: Sumera Priyadarsini <sylphrenadin@gmail.com>
-> >
-> > Cheers,
-> > Sumera
-> >
->
-> --
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-> (HRB 36809, AG N=C3=BCrnberg)
-> Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
->
+> ---
+>  drivers/gpu/drm/i915/gem/i915_gem_context.c | 12 +++++-------
+>  1 file changed, 5 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> index 7d6f52d8a8012..5853737cc79f3 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> @@ -319,7 +319,6 @@ static int set_proto_ctx_vm(struct drm_i915_file_private *fpriv,
+>  			    const struct drm_i915_gem_context_param *args)
+>  {
+>  	struct drm_i915_private *i915 = fpriv->dev_priv;
+> -	struct i915_address_space *vm;
+>  
+>  	if (args->size)
+>  		return -EINVAL;
+> @@ -327,17 +326,16 @@ static int set_proto_ctx_vm(struct drm_i915_file_private *fpriv,
+>  	if (!HAS_FULL_PPGTT(i915))
+>  		return -ENODEV;
+>  
+> +	if (pc->vm)
+> +		return -EINVAL;
+> +
+>  	if (upper_32_bits(args->value))
+>  		return -ENOENT;
+>  
+> -	vm = i915_gem_vm_lookup(fpriv, args->value);
+> -	if (!vm)
+> +	pc->vm = i915_gem_vm_lookup(fpriv, args->value);
+> +	if (!pc->vm)
+>  		return -ENOENT;
+>  
+> -	if (pc->vm)
+> -		i915_vm_put(pc->vm);
+> -	pc->vm = vm;
+> -
+>  	return 0;
+>  }
+>  
+> -- 
+> 2.31.1
+> 
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
