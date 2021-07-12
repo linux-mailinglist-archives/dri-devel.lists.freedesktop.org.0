@@ -2,68 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABA3A3C45FA
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Jul 2021 10:11:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0C123C4626
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Jul 2021 10:56:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 49CC889C1F;
-	Mon, 12 Jul 2021 08:11:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE24B898C8;
+	Mon, 12 Jul 2021 08:56:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF3AE89C1E
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jul 2021 08:11:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1626077468;
- bh=JMgyay+YyzCR7cAHs9mF7PoljaYXpFKpYzGhoYj6ySs=;
- h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
- b=jiXTB2QZoVu1buvDckNv8rMN2n8KbDsE01Vh/TJJ2KOaWPsE4DTAObtWrh3psjZOk
- 2C8oOsSDA6boztueZFoRkSh9EX49p+0RWB4lKrAlLWwD/xmMHOiRjvRpRZu+oLKt6k
- sVj42IUtrjM5r4+BLlf2rMjxREjT2qhCFH1dUjRw=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [157.180.225.139] ([157.180.225.139]) by web-mail.gmx.net
- (3c-app-gmx-bs28.server.lan [172.19.170.80]) (via HTTP); Mon, 12 Jul 2021
- 10:11:08 +0200
+Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D2AB5898C8
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jul 2021 08:56:21 +0000 (UTC)
+Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.55])
+ by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4GNcvW6Kt1z78YD;
+ Mon, 12 Jul 2021 16:51:51 +0800 (CST)
+Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
+ dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Mon, 12 Jul 2021 16:56:17 +0800
+Received: from thunder-town.china.huawei.com (10.174.179.0) by
+ dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Mon, 12 Jul 2021 16:56:16 +0800
+From: Zhen Lei <thunder.leizhen@huawei.com>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>, Sam Ravnborg <sam@ravnborg.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, linux-fbdev
+ <linux-fbdev@vger.kernel.org>, linux-kernel <linux-kernel@vger.kernel.org>
+Subject: [PATCH 1/1] fbmem: Do not delete the mode that is still in use
+Date: Mon, 12 Jul 2021 16:55:44 +0800
+Message-ID: <20210712085544.2828-1-thunder.leizhen@huawei.com>
+X-Mailer: git-send-email 2.26.0.windows.1
 MIME-Version: 1.0
-Message-ID: <trinity-2d1b055a-73b0-4a15-9677-08fd13fd486d-1626077468706@3c-app-gmx-bs28>
-From: Frank Wunderlich <frank-w@public-files.de>
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Subject: Aw: Re: Re: Re: BUG: MTK DRM/HDMI broken on 5.13 (mt7623/bpi-r2)
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 12 Jul 2021 10:11:08 +0200
-Importance: normal
-Sensitivity: Normal
-In-Reply-To: <CAAOTY_-yi5NP_U-m==ZHeBNC9-6NrjUacKWdmmgVXZjH+sFZKw@mail.gmail.com>
-References: <trinity-cc8f5927-9aaf-43ae-a107-6a6229f1b481-1625565279264@3c-app-gmx-bs60>
- <25d61873-38ae-5648-faab-03431b74f777@collabora.com>
- <trinity-e6443313-a436-4e9d-a93c-1bef1cce135d-1625736911475@3c-app-gmx-bap19>
- <trinity-3f4f4b55-7e39-4d80-8fc3-7d0e2b3026de-1625758259993@3c-app-gmx-bap19>
- <trinity-fd86a04e-81b6-45f0-8ab4-5c21655bdf53-1625824929532@3c-app-gmx-bap43>
- <CAFqH_52OdB+H+yLh-b8ndbS_w3uwFyQEkZ-y2RQ2RnKnMEt6vQ@mail.gmail.com>
- <trinity-ac304676-173c-42c6-837c-38e62971ede0-1625827104214@3c-app-gmx-bap43>
- <trinity-937ebfa3-d123-42de-a289-3ad0dbc09782-1625830110576@3c-app-gmx-bap43>
- <CAAOTY_-yi5NP_U-m==ZHeBNC9-6NrjUacKWdmmgVXZjH+sFZKw@mail.gmail.com>
-X-UI-Message-Type: mail
-X-Priority: 3
-X-Provags-ID: V03:K1:xkpAQRS+6hCibb8IREI/4+UQBOmHX66bpR+hfwPP9SZMr+UzKW47NfS8x+VrAsKc4Ee5V
- sIYOpYqt00E6MnbGXUEbYNR8D1Zb5iXk3A7u8WZJxQaLQ31WsFcV65jqxqMbdmZNGIfmfFO2knQR
- l33LYvxaOw+3bw1BE5fAQxl9rCVJmr4U+W6DpVwcBAG2f/Akxl9QpPBlUyVlzcaHtsxieRTPn3fC
- tcir/G8tjeb1Ouz7HEKFPXmzNL/L/CAHcd/CaMK/0iElTmacIp7HFjyzhPQ7VPPGdPB5toqPtgjP
- J8=
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:H9QCYfZhSGs=:W7cfrvRAps8n+FW/OAKwdS
- iHxEnjulsqPZzWiVhu5n3Ia7k3tCAv4joj0nrsa1qBgUmu0nYCe8FLU6Ub7N5DaDuT7FGGvQn
- 51yvZ3KBZ2/s9+xSexf50nthtcFraIOecX26xaWgYW6my9wgObmCFHwkWEdkMYOaNVzgoAusp
- /tOOhLG7m+Wflrh2MCcjDNKkD6uA+hQ5vEVWYCaV+s+0H5MsaYUGA9BUbjc/WwhCcQ6RUB1ET
- ynYMr0Dd0eOqRKRxtzYz29ti2W400016aLbone4X2tmy9bIz4TZB/ccx7fJvMaUIEGP0V7GL+
- EWFQD8EqZs6Yv2uMX6MtxqVxFEsq6Do5XdIpE9BJ8/i1RgVGGLykigqelZMQIBFA1BWo5thxz
- kXcRKDWLjs69li/A9Gsit/97cZIqdV5lTc1IR0IiG3WOpQTClszM6qYjl17949OCX47szg2uz
- 1ollY2XbCxPn/SW5U0jLqQXfR98z3ho5ucND7Lcp2FcOvczlnViXBhyhHtHfjFasgjfpNtyUP
- rvqIDJW3j0uo8o2wXym5mLLMayrfLawbeOWpDjJCiIyH9IdJC3Lzc9SIMr+Z4Gn6E10csHqI6
- P2aOZIi76e09tYNloftsw0qRqIOX9LghYaL688hWlhJWWLZgEHljX6yY+/fsRnivX4wxeevQL
- f4F//ttTtiFL9mk08aJnfYuIihCXQ1dLOnIBTZtsdTibhg8yOacpaBNGvCTDVoXbxR8v0QPm6
- mEOH4IO3BzOPj4En32ukb3vkzsWf+xO6b2DIkKffNzaOffYqADcdOiCtn9gO9pU7/Pw/T8vS2
- 04CoVBBivmnUa1TXL4oT2rxFvNRCPfuwsn5QuafxuX5sQfv99k=
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.174.179.0]
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ dggpemm500006.china.huawei.com (7.185.36.236)
+X-CFilter-Loop: Reflected
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,57 +50,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: chunkuang Hu <chunkuang.hu@kernel.org>,
- Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
- David Airlie <airlied@linux.ie>, linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Matthias Brugger <matthias.bgg@gmail.com>, "moderated
- list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Enric Balletbo i Serra <enric.balletbo@collabora.com>,
- Collabora Kernel ML <kernel@collabora.com>
+Cc: Zhen Lei <thunder.leizhen@huawei.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+The execution of fb_delete_videomode() is not based on the result of the
+previous fbcon_mode_deleted(). As a result, the mode is directly deleted,
+regardless of whether it is still in use, which may cause UAF.
 
-HDMI is broken again in 5.14-rc1 (of course i have applied my patch [1])
+==================================================================
+BUG: KASAN: use-after-free in fb_mode_is_equal+0x36e/0x5e0 \
+drivers/video/fbdev/core/modedb.c:924
+Read of size 4 at addr ffff88807e0ddb1c by task syz-executor.0/18962
 
-now i've got a NULL pointer dereference
+CPU: 2 PID: 18962 Comm: syz-executor.0 Not tainted 5.10.45-rc1+ #3
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS ...
+Call Trace:
+ __dump_stack lib/dump_stack.c:77 [inline]
+ dump_stack+0x137/0x1be lib/dump_stack.c:118
+ print_address_description+0x6c/0x640 mm/kasan/report.c:385
+ __kasan_report mm/kasan/report.c:545 [inline]
+ kasan_report+0x13d/0x1e0 mm/kasan/report.c:562
+ fb_mode_is_equal+0x36e/0x5e0 drivers/video/fbdev/core/modedb.c:924
+ fbcon_mode_deleted+0x16a/0x220 drivers/video/fbdev/core/fbcon.c:2746
+ fb_set_var+0x1e1/0xdb0 drivers/video/fbdev/core/fbmem.c:975
+ do_fb_ioctl+0x4d9/0x6e0 drivers/video/fbdev/core/fbmem.c:1108
+ vfs_ioctl fs/ioctl.c:48 [inline]
+ __do_sys_ioctl fs/ioctl.c:753 [inline]
+ __se_sys_ioctl+0xfb/0x170 fs/ioctl.c:739
+ do_syscall_64+0x2d/0x70 arch/x86/entry/common.c:46
+ entry_SYSCALL_64_after_hwframe+0x44/0xa9
 
-[   21.883641] PC is at mtk_dpi_bridge_atomic_check+0x38/0x78
-[   21.889158] LR is at drm_atomic_bridge_chain_check+0x150/0x30c
+Freed by task 18960:
+ kasan_save_stack mm/kasan/common.c:48 [inline]
+ kasan_set_track+0x3d/0x70 mm/kasan/common.c:56
+ kasan_set_free_info+0x17/0x30 mm/kasan/generic.c:355
+ __kasan_slab_free+0x108/0x140 mm/kasan/common.c:422
+ slab_free_hook mm/slub.c:1541 [inline]
+ slab_free_freelist_hook+0xd6/0x1a0 mm/slub.c:1574
+ slab_free mm/slub.c:3139 [inline]
+ kfree+0xca/0x3d0 mm/slub.c:4121
+ fb_delete_videomode+0x56a/0x820 drivers/video/fbdev/core/modedb.c:1104
+ fb_set_var+0x1f3/0xdb0 drivers/video/fbdev/core/fbmem.c:978
+ do_fb_ioctl+0x4d9/0x6e0 drivers/video/fbdev/core/fbmem.c:1108
+ vfs_ioctl fs/ioctl.c:48 [inline]
+ __do_sys_ioctl fs/ioctl.c:753 [inline]
+ __se_sys_ioctl+0xfb/0x170 fs/ioctl.c:739
+ do_syscall_64+0x2d/0x70 arch/x86/entry/common.c:46
+ entry_SYSCALL_64_after_hwframe+0x44/0xa9
 
-"dpi" is  not set correctly in mtk_dpi_bridge_atomic_check
+Fixes: 13ff178ccd6d ("fbcon: Call fbcon_mode_deleted/new_modelist directly")
+Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
+---
+ drivers/video/fbdev/core/fbmem.c | 12 +++++-------
+ 1 file changed, 5 insertions(+), 7 deletions(-)
 
-this function is new since
+diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
+index 98f193078c05..1c855145711b 100644
+--- a/drivers/video/fbdev/core/fbmem.c
++++ b/drivers/video/fbdev/core/fbmem.c
+@@ -970,13 +970,11 @@ fb_set_var(struct fb_info *info, struct fb_var_screeninfo *var)
+ 		fb_var_to_videomode(&mode2, &info->var);
+ 		/* make sure we don't delete the videomode of current var */
+ 		ret = fb_mode_is_equal(&mode1, &mode2);
+-
+-		if (!ret)
+-			fbcon_mode_deleted(info, &mode1);
+-
+-		if (!ret)
+-			fb_delete_videomode(&mode1, &info->modelist);
+-
++		if (!ret) {
++			ret = fbcon_mode_deleted(info, &mode1);
++			if (!ret)
++				fb_delete_videomode(&mode1, &info->modelist);
++		}
+ 
+ 		return ret ? -EINVAL : 0;
+ 	}
+-- 
+2.25.1
 
-commit ec8747c52434b69cea2b18068e72f051e23d3839
-    drm/mediatek: dpi: Add bus format negotiation
 
-i do not see where bridge->driver_private is set, but in other function it=
- is solved like this:
-
-bridge_to_dpi(bridge)
-
-this fixes the NULL-pointer dereference, and system starts to xserver, but=
- i do not see fbcon...it looks like drm is now initialized later (~ at log=
-in prompt on serial console). i stopped lightdm and still do not see login=
-prompt on hdmi, so it looks like fbcon is broken
-
-send out fix for NULL issue, but fbcon ist still unclear...but i see this =
-in dmesg:
-
-dmesg | grep -i fbcon
-[    0.000000] Kernel command line: root=3D/dev/mmcblk0p2 rw rootwait earl=
-yprintk console=3DttyS0,115200 video=3D1280x1024 console=3Dtty1 fbcon=3Dma=
-p:0
-[    0.000000] Unknown command line parameters: fbcon=3Dmap:0
-[    7.040167]     fbcon=3Dmap:0
-
-and no framebuffer/fb0 in dmesg
-
-regards Frank
-
-[1] https://patchwork.kernel.org/project/linux-mediatek/patch/202107101324=
-31.265985-1-linux@fw-web.de/
