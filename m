@@ -1,57 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8850F3C6475
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Jul 2021 22:02:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B47413C648E
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Jul 2021 22:02:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D77DE89DD5;
-	Mon, 12 Jul 2021 20:02:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 66FBD89DB4;
+	Mon, 12 Jul 2021 20:02:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com
- [IPv6:2a00:1450:4864:20::332])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD63689DC9
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jul 2021 20:02:04 +0000 (UTC)
-Received: by mail-wm1-x332.google.com with SMTP id
- i2-20020a05600c3542b02902058529ea07so793974wmq.3
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jul 2021 13:02:04 -0700 (PDT)
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com
+ [IPv6:2a00:1450:4864:20::334])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A0F8489DD2
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jul 2021 20:02:05 +0000 (UTC)
+Received: by mail-wm1-x334.google.com with SMTP id
+ a5-20020a7bc1c50000b02901e3bbe0939bso826381wmj.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jul 2021 13:02:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Xraq1MM4Ot5KTmJFQcbsNY3hYSxDwT5IozJmWWpmH4k=;
- b=g8kMCVOucIJ+CKjZ6PhblT60JzvICur2GWR2yght9ioWEqUqP2YMIdjW/9KcPSlteN
- gqXTKM6XxC1AWjWzSRZGAnQtHBGHZTmuZwgtVQMaqiAnnLIXvWvDSTyk8Occ0UFlskPO
- sRUicLWwzB2S4akOrLIOCbX9LfumCH3FfOz10=
+ bh=+0jQYIsm5Js9C1AjIzuq6eeQkARdEqcH+X7YWC5aMAo=;
+ b=MsFUEyt0amcc/5aIeCGjA5X/fPAGcaemhqCDWttlOgkKliOGhW78Tq/JrwN1yyHXyN
+ xO3HSYozDNVLo3wHCOBM+srpZiAJ95kKxjMkwcx6eT88UKpGsQiB40ztQ1UP9WywAvqd
+ 87Us5mW8uNip8VWCpwxwt3adVeFljxAcLfA10=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Xraq1MM4Ot5KTmJFQcbsNY3hYSxDwT5IozJmWWpmH4k=;
- b=k5dU1EVfjvYL2NHh8uWAByWYsE2ELNhKMYsg778yeWcpaLIP7aYgTcD6RSbY6ghYzF
- hB6pThjOhCRwVJCuT4hqRh3MoDyn3iEdj1MvANj894CT2zh6NjxpM5SKWgo/nd9Bi77t
- zTFb+P7TO8zJ/0yXgdzZQiKFd8AjvzX6ao1OeQ+r32ezTw3dWZiwImGbqgsMT4Tw/rcF
- p01cpH64rRtP1mTm+EVfSNKVpZVlTWZJqyISyULOR01dNxlE9OeEtUngV8v7eG++UPym
- OANgOZ2FabUs+Pt7bvUb6YsTnytrJjyg7pb1VUOx5P5gZVtS+ik/qCmuD+tj2iM9pMbO
- A6RA==
-X-Gm-Message-State: AOAM533szsvue1xbmYCA1T7f3uWz8XTCzCpGEzLtLssT9qG+QZu3UdZv
- LdaNdFYNygRDE30Qv6RKkohguv6JNadLOA==
-X-Google-Smtp-Source: ABdhPJwECSpnAZjdXD5ZJaQVwNFrUwJmOFyrTpyGfpT0OrJOoKhvZlzligLy9o1s7MQfExdumK2MOA==
-X-Received: by 2002:a1c:7201:: with SMTP id n1mr16653630wmc.4.1626120123387;
- Mon, 12 Jul 2021 13:02:03 -0700 (PDT)
+ bh=+0jQYIsm5Js9C1AjIzuq6eeQkARdEqcH+X7YWC5aMAo=;
+ b=ngTFHMaBBSHH/bgeNy+wocAubntNmb974mVh2P7yigmy7wYC2I39puRbm5t7NbaUzB
+ CYfzOyr8GZa6O3LI4D6M7XB3SSxHOGy1YhyI4j7sTAzArbQlTklS1mDT2ZtiNbWEpSMF
+ LaICekAo1sPUMDP/a55U90f642vPyi2n2aLorfpoKrrO8lIRH6VMFWZFs78dVAmLBJTV
+ vd4cY4rmsu2N9VQJ8ZlgI+E4RxqXrVAdu/ZAjEYWK09vVyHkFOBEWOi7TLKwFDsrGVOZ
+ ppFOPtb4dHd0X3XJyGehhqpgQC9HnGGgoroD/N7ngQ0Qdf0wNxGkrggj2xWcC3h6O/sw
+ VeLg==
+X-Gm-Message-State: AOAM532bHfUHTjDZTcAjSProQWw74gg+jPjUmQBW5kJJCNQVAu3mMVNX
+ G2mJnUOmkh3w2MtMvoaIjpNnXknCi+1XeA==
+X-Google-Smtp-Source: ABdhPJwUIaG4n4vquSxoVNtBJZqvn2Eps/h+0H0QVUubGzscK0wRQ39PS7+zWCKH5y//LRTwjbeEQQ==
+X-Received: by 2002:a05:600c:a45:: with SMTP id
+ c5mr16790644wmq.153.1626120124338; 
+ Mon, 12 Jul 2021 13:02:04 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id l14sm9858221wrs.22.2021.07.12.13.02.02
+ by smtp.gmail.com with ESMTPSA id l14sm9858221wrs.22.2021.07.12.13.02.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 12 Jul 2021 13:02:02 -0700 (PDT)
+ Mon, 12 Jul 2021 13:02:03 -0700 (PDT)
 From: Daniel Vetter <daniel.vetter@ffwll.ch>
 To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v4 05/18] drm/sched: improve docs around drm_sched_entity
-Date: Mon, 12 Jul 2021 19:53:39 +0200
-Message-Id: <20210712175352.802687-6-daniel.vetter@ffwll.ch>
+Subject: [PATCH v4 06/18] drm/panfrost: use scheduler dependency tracking
+Date: Mon, 12 Jul 2021 19:53:40 +0200
+Message-Id: <20210712175352.802687-7-daniel.vetter@ffwll.ch>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210712175352.802687-1-daniel.vetter@ffwll.ch>
 References: <20210712175352.802687-1-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,408 +67,222 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
  Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@intel.com>
+ Steven Price <steven.price@arm.com>, linaro-mm-sig@lists.linaro.org,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Daniel Vetter <daniel.vetter@intel.com>, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-I found a few too many things that are tricky and not documented, so I
-started typing.
+Just deletes some code that's now more shared.
 
-I found a few more things that looked broken while typing, see the
-varios FIXME in drm_sched_entity.
+Note that thanks to the split into drm_sched_job_init/arm we can now
+easily pull the _init() part from under the submission lock way ahead
+where we're adding the sync file in-fences as dependencies.
 
-Also some of the usual logics:
-- actually include sched_entity.c declarations, that was lost in the
-  move here: 620e762f9a98 ("drm/scheduler: move entity handling into
-  separate file")
+v2: Correctly clean up the partially set up job, now that job_init()
+and job_arm() are apart (Emma).
 
-- Ditch the kerneldoc for internal functions, keep the comments where
-  they're describing more than what the function name already implies.
-
-- Switch drm_sched_entity to inline docs.
-
+Reviewed-by: Steven Price <steven.price@arm.com>
 Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+Cc: Rob Herring <robh@kernel.org>
+Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>
+Cc: Steven Price <steven.price@arm.com>
+Cc: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: "Christian König" <christian.koenig@amd.com>
+Cc: linux-media@vger.kernel.org
+Cc: linaro-mm-sig@lists.linaro.org
 ---
- Documentation/gpu/drm-mm.rst             |   3 +
- drivers/gpu/drm/scheduler/sched_entity.c |  85 ++++---------
- include/drm/gpu_scheduler.h              | 145 ++++++++++++++++++-----
- 3 files changed, 146 insertions(+), 87 deletions(-)
+ drivers/gpu/drm/panfrost/panfrost_drv.c | 16 ++++++++---
+ drivers/gpu/drm/panfrost/panfrost_job.c | 37 +++----------------------
+ drivers/gpu/drm/panfrost/panfrost_job.h |  5 +---
+ 3 files changed, 17 insertions(+), 41 deletions(-)
 
-diff --git a/Documentation/gpu/drm-mm.rst b/Documentation/gpu/drm-mm.rst
-index d5a73fa2c9ef..0198fa43d254 100644
---- a/Documentation/gpu/drm-mm.rst
-+++ b/Documentation/gpu/drm-mm.rst
-@@ -504,3 +504,6 @@ Scheduler Function References
+diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
+index 1ffaef5ec5ff..9f53bea07d61 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_drv.c
++++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
+@@ -218,7 +218,7 @@ panfrost_copy_in_sync(struct drm_device *dev,
+ 		if (ret)
+ 			goto fail;
  
- .. kernel-doc:: drivers/gpu/drm/scheduler/sched_main.c
-    :export:
+-		ret = drm_gem_fence_array_add(&job->deps, fence);
++		ret = drm_sched_job_await_fence(&job->base, fence);
+ 
+ 		if (ret)
+ 			goto fail;
+@@ -236,7 +236,7 @@ static int panfrost_ioctl_submit(struct drm_device *dev, void *data,
+ 	struct drm_panfrost_submit *args = data;
+ 	struct drm_syncobj *sync_out = NULL;
+ 	struct panfrost_job *job;
+-	int ret = 0;
++	int ret = 0, slot;
+ 
+ 	if (!args->jc)
+ 		return -EINVAL;
+@@ -258,14 +258,20 @@ static int panfrost_ioctl_submit(struct drm_device *dev, void *data,
+ 
+ 	kref_init(&job->refcount);
+ 
+-	xa_init_flags(&job->deps, XA_FLAGS_ALLOC);
+-
+ 	job->pfdev = pfdev;
+ 	job->jc = args->jc;
+ 	job->requirements = args->requirements;
+ 	job->flush_id = panfrost_gpu_get_latest_flush_id(pfdev);
+ 	job->file_priv = file->driver_priv;
+ 
++	slot = panfrost_job_get_slot(job);
 +
-+.. kernel-doc:: drivers/gpu/drm/scheduler/sched_entity.c
-+   :export:
-diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
-index e4d33db1eb45..27e1573af96e 100644
---- a/drivers/gpu/drm/scheduler/sched_entity.c
-+++ b/drivers/gpu/drm/scheduler/sched_entity.c
-@@ -45,8 +45,14 @@
-  * @guilty: atomic_t set to 1 when a job on this queue
-  *          is found to be guilty causing a timeout
-  *
-- * Note: the sched_list should have at least one element to schedule
-- *       the entity
-+ * Note that the &sched_list must have at least one element to schedule the entity.
-+ *
-+ * For changing @priority later on at runtime see
-+ * drm_sched_entity_set_priority(). For changing the set of schedulers
-+ * @sched_list at runtime see drm_sched_entity_modify_sched().
-+ *
-+ * An entity is cleaned up by callind drm_sched_entity_fini(). See also
-+ * drm_sched_entity_destroy().
-  *
-  * Returns 0 on success or a negative error code on failure.
-  */
-@@ -92,6 +98,11 @@ EXPORT_SYMBOL(drm_sched_entity_init);
-  * @sched_list: the list of new drm scheds which will replace
-  *		 existing entity->sched_list
-  * @num_sched_list: number of drm sched in sched_list
-+ *
-+ * Note that this must be called under the same common lock for @entity as
-+ * drm_sched_job_arm() and drm_sched_entity_push_job(), or the driver needs to
-+ * guarantee through some other means that this is never called while new jobs
-+ * can be pushed to @entity.
-  */
- void drm_sched_entity_modify_sched(struct drm_sched_entity *entity,
- 				    struct drm_gpu_scheduler **sched_list,
-@@ -104,13 +115,6 @@ void drm_sched_entity_modify_sched(struct drm_sched_entity *entity,
- }
- EXPORT_SYMBOL(drm_sched_entity_modify_sched);
++	ret = drm_sched_job_init(&job->base,
++				 &job->file_priv->sched_entity[slot],
++				 NULL);
++	if (ret)
++		goto fail_job_put;
++
+ 	ret = panfrost_copy_in_sync(dev, file, args, job);
+ 	if (ret)
+ 		goto fail_job;
+@@ -283,6 +289,8 @@ static int panfrost_ioctl_submit(struct drm_device *dev, void *data,
+ 		drm_syncobj_replace_fence(sync_out, job->render_done_fence);
  
--/**
-- * drm_sched_entity_is_idle - Check if entity is idle
-- *
-- * @entity: scheduler entity
-- *
-- * Returns true if the entity does not have any unscheduled jobs.
-- */
- static bool drm_sched_entity_is_idle(struct drm_sched_entity *entity)
- {
- 	rmb(); /* for list_empty to work without lock */
-@@ -123,13 +127,7 @@ static bool drm_sched_entity_is_idle(struct drm_sched_entity *entity)
- 	return false;
- }
- 
--/**
-- * drm_sched_entity_is_ready - Check if entity is ready
-- *
-- * @entity: scheduler entity
-- *
-- * Return true if entity could provide a job.
-- */
-+/* Return true if entity could provide a job. */
- bool drm_sched_entity_is_ready(struct drm_sched_entity *entity)
- {
- 	if (spsc_queue_peek(&entity->job_queue) == NULL)
-@@ -192,14 +190,7 @@ long drm_sched_entity_flush(struct drm_sched_entity *entity, long timeout)
- }
- EXPORT_SYMBOL(drm_sched_entity_flush);
- 
--/**
-- * drm_sched_entity_kill_jobs_cb - helper for drm_sched_entity_kill_jobs
-- *
-- * @f: signaled fence
-- * @cb: our callback structure
-- *
-- * Signal the scheduler finished fence when the entity in question is killed.
-- */
-+/* Signal the scheduler finished fence when the entity in question is killed. */
- static void drm_sched_entity_kill_jobs_cb(struct dma_fence *f,
- 					  struct dma_fence_cb *cb)
- {
-@@ -224,14 +215,6 @@ drm_sched_job_dependency(struct drm_sched_job *job,
- 	return NULL;
+ fail_job:
++	drm_sched_job_cleanup(&job->base);
++fail_job_put:
+ 	panfrost_job_put(job);
+ fail_out_sync:
+ 	if (sync_out)
+diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
+index 4bc962763e1f..86c843d8822e 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_job.c
++++ b/drivers/gpu/drm/panfrost/panfrost_job.c
+@@ -102,7 +102,7 @@ static struct dma_fence *panfrost_fence_create(struct panfrost_device *pfdev, in
+ 	return &fence->base;
  }
  
--/**
-- * drm_sched_entity_kill_jobs - Make sure all remaining jobs are killed
-- *
-- * @entity: entity which is cleaned up
-- *
-- * Makes sure that all remaining jobs in an entity are killed before it is
-- * destroyed.
-- */
- static void drm_sched_entity_kill_jobs(struct drm_sched_entity *entity)
+-static int panfrost_job_get_slot(struct panfrost_job *job)
++int panfrost_job_get_slot(struct panfrost_job *job)
  {
- 	struct drm_sched_job *job;
-@@ -273,9 +256,11 @@ static void drm_sched_entity_kill_jobs(struct drm_sched_entity *entity)
-  *
-  * @entity: scheduler entity
-  *
-- * This should be called after @drm_sched_entity_do_release. It goes over the
-- * entity and signals all jobs with an error code if the process was killed.
-+ * Cleanups up @entity which has been initialized by drm_sched_entity_init().
-  *
-+ * If there are potentially job still in flight or getting newly queued
-+ * drm_sched_entity_flush() must be called first. This function then goes over
-+ * the entity and signals all jobs with an error code if the process was killed.
-  */
- void drm_sched_entity_fini(struct drm_sched_entity *entity)
- {
-@@ -315,10 +300,10 @@ EXPORT_SYMBOL(drm_sched_entity_fini);
+ 	/* JS0: fragment jobs.
+ 	 * JS1: vertex/tiler jobs
+@@ -242,13 +242,13 @@ static void panfrost_job_hw_submit(struct panfrost_job *job, int js)
  
- /**
-  * drm_sched_entity_destroy - Destroy a context entity
-- *
-  * @entity: scheduler entity
-  *
-- * Calls drm_sched_entity_do_release() and drm_sched_entity_cleanup()
-+ * Calls drm_sched_entity_flush() and drm_sched_entity_fini() as a
-+ * convenience wrapper.
-  */
- void drm_sched_entity_destroy(struct drm_sched_entity *entity)
+ static int panfrost_acquire_object_fences(struct drm_gem_object **bos,
+ 					  int bo_count,
+-					  struct xarray *deps)
++					  struct drm_sched_job *job)
  {
-@@ -327,9 +312,7 @@ void drm_sched_entity_destroy(struct drm_sched_entity *entity)
- }
- EXPORT_SYMBOL(drm_sched_entity_destroy);
+ 	int i, ret;
  
--/*
-- * drm_sched_entity_clear_dep - callback to clear the entities dependency
-- */
-+/* drm_sched_entity_clear_dep - callback to clear the entities dependency */
- static void drm_sched_entity_clear_dep(struct dma_fence *f,
- 				       struct dma_fence_cb *cb)
+ 	for (i = 0; i < bo_count; i++) {
+ 		/* panfrost always uses write mode in its current uapi */
+-		ret = drm_gem_fence_array_add_implicit(deps, bos[i], true);
++		ret = drm_sched_job_await_implicit(job, bos[i], true);
+ 		if (ret)
+ 			return ret;
+ 	}
+@@ -269,31 +269,21 @@ static void panfrost_attach_object_fences(struct drm_gem_object **bos,
+ int panfrost_job_push(struct panfrost_job *job)
  {
-@@ -371,11 +354,7 @@ void drm_sched_entity_set_priority(struct drm_sched_entity *entity,
- }
- EXPORT_SYMBOL(drm_sched_entity_set_priority);
+ 	struct panfrost_device *pfdev = job->pfdev;
+-	int slot = panfrost_job_get_slot(job);
+-	struct drm_sched_entity *entity = &job->file_priv->sched_entity[slot];
+ 	struct ww_acquire_ctx acquire_ctx;
+ 	int ret = 0;
  
--/**
-- * drm_sched_entity_add_dependency_cb - add callback for the entities dependency
-- *
-- * @entity: entity with dependency
-- *
-+/*
-  * Add a callback to the current dependency of the entity to wake up the
-  * scheduler when the entity becomes available.
-  */
-@@ -423,13 +402,6 @@ static bool drm_sched_entity_add_dependency_cb(struct drm_sched_entity *entity)
- 	return false;
- }
+-
+ 	ret = drm_gem_lock_reservations(job->bos, job->bo_count,
+ 					    &acquire_ctx);
+ 	if (ret)
+ 		return ret;
  
--/**
-- * drm_sched_entity_pop_job - get a ready to be scheduled job from the entity
-- *
-- * @entity: entity to get the job from
-- *
-- * Process all dependencies and try to get one job from the entities queue.
-- */
- struct drm_sched_job *drm_sched_entity_pop_job(struct drm_sched_entity *entity)
+ 	mutex_lock(&pfdev->sched_lock);
+-
+-	ret = drm_sched_job_init(&job->base, entity, NULL);
+-	if (ret) {
+-		mutex_unlock(&pfdev->sched_lock);
+-		goto unlock;
+-	}
+-
+ 	drm_sched_job_arm(&job->base);
+ 
+ 	job->render_done_fence = dma_fence_get(&job->base.s_fence->finished);
+ 
+ 	ret = panfrost_acquire_object_fences(job->bos, job->bo_count,
+-					     &job->deps);
++					     &job->base);
+ 	if (ret) {
+ 		mutex_unlock(&pfdev->sched_lock);
+ 		goto unlock;
+@@ -318,15 +308,8 @@ static void panfrost_job_cleanup(struct kref *ref)
  {
- 	struct drm_sched_job *sched_job;
-@@ -465,14 +437,6 @@ struct drm_sched_job *drm_sched_entity_pop_job(struct drm_sched_entity *entity)
- 	return sched_job;
+ 	struct panfrost_job *job = container_of(ref, struct panfrost_job,
+ 						refcount);
+-	struct dma_fence *fence;
+-	unsigned long index;
+ 	unsigned int i;
+ 
+-	xa_for_each(&job->deps, index, fence) {
+-		dma_fence_put(fence);
+-	}
+-	xa_destroy(&job->deps);
+-
+ 	dma_fence_put(job->done_fence);
+ 	dma_fence_put(job->render_done_fence);
+ 
+@@ -365,17 +348,6 @@ static void panfrost_job_free(struct drm_sched_job *sched_job)
+ 	panfrost_job_put(job);
  }
  
--/**
-- * drm_sched_entity_select_rq - select a new rq for the entity
-- *
-- * @entity: scheduler entity
-- *
-- * Check all prerequisites and select a new rq for the entity for load
-- * balancing.
-- */
- void drm_sched_entity_select_rq(struct drm_sched_entity *entity)
+-static struct dma_fence *panfrost_job_dependency(struct drm_sched_job *sched_job,
+-						 struct drm_sched_entity *s_entity)
+-{
+-	struct panfrost_job *job = to_panfrost_job(sched_job);
+-
+-	if (!xa_empty(&job->deps))
+-		return xa_erase(&job->deps, job->last_dep++);
+-
+-	return NULL;
+-}
+-
+ static struct dma_fence *panfrost_job_run(struct drm_sched_job *sched_job)
  {
- 	struct dma_fence *fence;
-@@ -520,7 +484,8 @@ void drm_sched_entity_select_rq(struct drm_sched_entity *entity)
-  *
-  * Note: To guarantee that the order of insertion to queue matches the job's
-  * fence sequence number this function should be called with drm_sched_job_arm()
-- * under common lock.
-+ * under common lock for the struct drm_sched_entity that was set up for
-+ * @sched_job in drm_sched_job_init().
-  *
-  * Returns 0 for success, negative error code otherwise.
-  */
-diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-index 2bb1869f2352..4451336bc758 100644
---- a/include/drm/gpu_scheduler.h
-+++ b/include/drm/gpu_scheduler.h
-@@ -53,56 +53,147 @@ enum drm_sched_priority {
-  * struct drm_sched_entity - A wrapper around a job queue (typically
-  * attached to the DRM file_priv).
-  *
-- * @list: used to append this struct to the list of entities in the
-- *        runqueue.
-- * @rq: runqueue on which this entity is currently scheduled.
-- * @sched_list: A list of schedulers (drm_gpu_schedulers).
-- *              Jobs from this entity can be scheduled on any scheduler
-- *              on this list.
-- * @num_sched_list: number of drm_gpu_schedulers in the sched_list.
-- * @priority: priority of the entity
-- * @rq_lock: lock to modify the runqueue to which this entity belongs.
-- * @job_queue: the list of jobs of this entity.
-- * @fence_seq: a linearly increasing seqno incremented with each
-- *             new &drm_sched_fence which is part of the entity.
-- * @fence_context: a unique context for all the fences which belong
-- *                 to this entity.
-- *                 The &drm_sched_fence.scheduled uses the
-- *                 fence_context but &drm_sched_fence.finished uses
-- *                 fence_context + 1.
-- * @dependency: the dependency fence of the job which is on the top
-- *              of the job queue.
-- * @cb: callback for the dependency fence above.
-- * @guilty: points to ctx's guilty.
-- * @fini_status: contains the exit status in case the process was signalled.
-- * @last_scheduled: points to the finished fence of the last scheduled job.
-- * @last_user: last group leader pushing a job into the entity.
-- * @stopped: Marks the enity as removed from rq and destined for termination.
-- * @entity_idle: Signals when enityt is not in use
-- *
-  * Entities will emit jobs in order to their corresponding hardware
-  * ring, and the scheduler will alternate between entities based on
-  * scheduling policy.
-  */
- struct drm_sched_entity {
-+	/**
-+	 * @list:
-+	 *
-+	 * Used to append this struct to the list of entities in the runqueue
-+	 * @rq under &drm_sched_rq.entities.
-+	 *
-+	 * Protected by &drm_sched_rq.lock of @rq.
-+	 */
- 	struct list_head		list;
-+
-+	/**
-+	 * @rq:
-+	 *
-+	 * Runqueue on which this entity is currently scheduled.
-+	 *
-+	 * FIXME: Locking is very unclear for this. Writers are protected by
-+	 * @rq_lock, but readers are generally lockless and seem to just race
-+	 * with not even a READ_ONCE.
-+	 */
- 	struct drm_sched_rq		*rq;
-+
-+	/**
-+	 * @sched_list:
-+	 *
-+	 * A list of schedulers (struct drm_gpu_scheduler).  Jobs from this entity can
-+	 * be scheduled on any scheduler on this list.
-+	 *
-+	 * This can be modified by calling drm_sched_entity_modify_sched().
-+	 * Locking is entirely up to the driver, see the above function for more
-+	 * details.
-+	 *
-+	 * This will be set to NULL if &num_sched_list equals 1 and @rq has been
-+	 * set already.
-+	 *
-+	 * FIXME: This means priority changes through
-+	 * drm_sched_entity_set_priority() will be lost henceforth in this case.
-+	 */
- 	struct drm_gpu_scheduler        **sched_list;
-+
-+	/**
-+	 * @num_sched_list:
-+	 *
-+	 * Number of drm_gpu_schedulers in the @sched_list.
-+	 */
- 	unsigned int                    num_sched_list;
-+
-+	/**
-+	 * @priority:
-+	 *
-+	 * Priority of the entity. This can be modified by calling
-+	 * drm_sched_entity_set_priority(). Protected by &rq_lock.
-+	 */
- 	enum drm_sched_priority         priority;
-+
-+	/**
-+	 * @rq_lock:
-+	 *
-+	 * Lock to modify the runqueue to which this entity belongs.
-+	 */
- 	spinlock_t			rq_lock;
+ 	struct panfrost_job *job = to_panfrost_job(sched_job);
+@@ -765,7 +737,6 @@ static void panfrost_reset_work(struct work_struct *work)
+ }
  
-+	/**
-+	 * @job_queue: the list of jobs of this entity.
-+	 */
- 	struct spsc_queue		job_queue;
+ static const struct drm_sched_backend_ops panfrost_sched_ops = {
+-	.dependency = panfrost_job_dependency,
+ 	.run_job = panfrost_job_run,
+ 	.timedout_job = panfrost_job_timedout,
+ 	.free_job = panfrost_job_free
+diff --git a/drivers/gpu/drm/panfrost/panfrost_job.h b/drivers/gpu/drm/panfrost/panfrost_job.h
+index 82306a03b57e..77e6d0e6f612 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_job.h
++++ b/drivers/gpu/drm/panfrost/panfrost_job.h
+@@ -19,10 +19,6 @@ struct panfrost_job {
+ 	struct panfrost_device *pfdev;
+ 	struct panfrost_file_priv *file_priv;
  
-+	/**
-+	 * @fence_seq:
-+	 *
-+	 * A linearly increasing seqno incremented with each new
-+	 * &drm_sched_fence which is part of the entity.
-+	 *
-+	 * FIXME: Callers of drm_sched_job_arm() need to ensure correct locking,
-+	 * this doesn't need to be atomic.
-+	 */
- 	atomic_t			fence_seq;
-+
-+	/**
-+	 * @fence_context:
-+	 *
-+	 * A unique context for all the fences which belong to this entity.  The
-+	 * &drm_sched_fence.scheduled uses the fence_context but
-+	 * &drm_sched_fence.finished uses fence_context + 1.
-+	 */
- 	uint64_t			fence_context;
+-	/* Contains both explicit and implicit fences */
+-	struct xarray deps;
+-	unsigned long last_dep;
+-
+ 	/* Fence to be signaled by IRQ handler when the job is complete. */
+ 	struct dma_fence *done_fence;
  
-+	/**
-+	 * @dependency:
-+	 *
-+	 * The dependency fence of the job which is on the top of the job queue.
-+	 */
- 	struct dma_fence		*dependency;
-+
-+	/**
-+	 * @cb:
-+	 *
-+	 * Callback for the dependency fence above.
-+	 */
- 	struct dma_fence_cb		cb;
-+
-+	/**
-+	 * @guilty:
-+	 *
-+	 * Points to entities' guilty.
-+	 */
- 	atomic_t			*guilty;
-+
-+	/**
-+	 * @last_scheduled:
-+	 *
-+	 * Points to the finished fence of the last scheduled job. Only written
-+	 * by the scheduler thread, can be accessed locklessly from
-+	 * drm_sched_job_arm() iff the queue is empty.
-+	 */
- 	struct dma_fence                *last_scheduled;
-+
-+	/**
-+	 * @last_user: last group leader pushing a job into the entity.
-+	 */
- 	struct task_struct		*last_user;
-+
-+	/**
-+	 * @stopped:
-+	 *
-+	 * Marks the enity as removed from rq and destined for
-+	 * termination. This is set by calling drm_sched_entity_flush() and by
-+	 * drm_sched_fini().
-+	 */
- 	bool 				stopped;
-+
-+	/**
-+	 * @entity_idle:
-+	 *
-+	 * Signals when entity is not in use, used to sequence entity cleanup in
-+	 * drm_sched_entity_fini().
-+	 */
- 	struct completion		entity_idle;
- };
- 
+@@ -42,6 +38,7 @@ int panfrost_job_init(struct panfrost_device *pfdev);
+ void panfrost_job_fini(struct panfrost_device *pfdev);
+ int panfrost_job_open(struct panfrost_file_priv *panfrost_priv);
+ void panfrost_job_close(struct panfrost_file_priv *panfrost_priv);
++int panfrost_job_get_slot(struct panfrost_job *job);
+ int panfrost_job_push(struct panfrost_job *job);
+ void panfrost_job_put(struct panfrost_job *job);
+ void panfrost_job_enable_interrupts(struct panfrost_device *pfdev);
 -- 
 2.32.0
 
