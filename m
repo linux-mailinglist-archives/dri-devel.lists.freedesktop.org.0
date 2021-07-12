@@ -2,62 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AACE03C5DFC
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Jul 2021 16:10:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6D353C5E04
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Jul 2021 16:12:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4ED6789C80;
-	Mon, 12 Jul 2021 14:09:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 187B589C48;
+	Mon, 12 Jul 2021 14:12:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 07F2689C82
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jul 2021 14:09:57 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id AB2C12215C;
- Mon, 12 Jul 2021 14:09:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1626098996; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=le2DW4lHcGMnbnFIKyPLL4mvjzcD3lY6gIoAqQT0KqQ=;
- b=MXEc0kNeHQVTX5PvVIH2Rw3cgmsovZ5ENguYOu2jejzAfXTPV69vv6pYVFS4erAAyfWTNI
- Qs9LgpnNj3SVEQMcsqaLg2+h9ADBeM/SbOJO+UTWiQyEebFV6b+V7UItsMaj6YAbPtb3F2
- C/Sdfa4GNd+htiDcJXkAHEVFMudolns=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1626098996;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=le2DW4lHcGMnbnFIKyPLL4mvjzcD3lY6gIoAqQT0KqQ=;
- b=wLYI3HfrTZwFe/HF9xAZmBCNVfeDCPJYgTZqb8WPzxDHsb16ZAH/dB+aqFnJwgLSW8bgpy
- RzNKw2WN+06k4ZBw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 736D913AC4;
- Mon, 12 Jul 2021 14:09:56 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id Ht+xGjRN7GALdAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Mon, 12 Jul 2021 14:09:56 +0000
-To: Sam Ravnborg <sam@ravnborg.org>
-References: <20210705124515.27253-1-tzimmermann@suse.de>
- <20210705124515.27253-7-tzimmermann@suse.de> <YOlHBdXYeLtRga+k@ravnborg.org>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 06/12] drm/mgag200: Store values (not bits) in struct
- mgag200_pll_values
-Message-ID: <b82e6ee2-00a3-e50c-8980-83896369fe45@suse.de>
-Date: Mon, 12 Jul 2021 16:09:55 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
+ [IPv6:2a00:1450:4864:20::32b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC53289C48
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jul 2021 14:12:06 +0000 (UTC)
+Received: by mail-wm1-x32b.google.com with SMTP id l6so3227763wmq.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jul 2021 07:12:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=a28CSe1hu0HXQmLQwPWQNYnyjAftdNHCNfYWISrptb8=;
+ b=eDl2LhRSryO9sgqqfIlnMpw11OU0UZskOusUE+gvTW4jfhaxv006IdxAOfdgH/9bhd
+ k76OWpzsipUGrxoSBTk8oQhkpbjQbnpKwKhifKQfkYZtIlgqIfVkBctC3l+FdDWQPmQZ
+ 515mBfWzKzUeuR43+to6r/hQ+N+Kvnpkoa60I=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=a28CSe1hu0HXQmLQwPWQNYnyjAftdNHCNfYWISrptb8=;
+ b=MYbgWJ9AP7haRAYrUJhXCayITdEgzV5OwDpnWnC5pRgNQT0AlDsLY1CwYjmCNIHm/V
+ JUiTKfrKasywBCDg4C1J1INFNPet1ENhq0e9hi/mEvuzwWVop+GE8SIrIe5ZiOIWPctD
+ MLH2qrMsKrwB/5SURKLAfc8uCMsqvzol0dosy53uWRCKTE4lDL3IWjbvAIH80Muio/5G
+ 8v8Y4FRjzdTSH3lYG4ZVGSQbJYcKLXt747wSmzZJcmAU86nALJGHJNmichJtKRpuOWoV
+ agWOsuVZVA4leouhEdmxRh2W3XKedH7XKa4hFoJzBUFnfxjwxhP0WE6fUY+A4zeJKrVh
+ xhVw==
+X-Gm-Message-State: AOAM531OvrQZdSacHakUPUoCW332SLbSc3smN6IZZo/8AvArQys5OPC4
+ 1WPcPL9QkJrWAyYIm0vQ/KpY5w==
+X-Google-Smtp-Source: ABdhPJzRS3vsRiZ52pSbx+eJYutuJUNQJqOiEI4I3CBMVHdAEV2IeCwKj6/vkUx+LEUGrR0Szyd9OQ==
+X-Received: by 2002:a7b:c4d2:: with SMTP id g18mr12406253wmk.146.1626099125326; 
+ Mon, 12 Jul 2021 07:12:05 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id k13sm10290485wrp.34.2021.07.12.07.12.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 12 Jul 2021 07:12:04 -0700 (PDT)
+Date: Mon, 12 Jul 2021 16:12:02 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Jason Ekstrand <jason@jlekstrand.net>
+Subject: Re: [Intel-gfx] [PATCH v2] drm/i915: Add TTM offset argument to mmap.
+Message-ID: <YOxNsiQIHuxByHzv@phenom.ffwll.local>
+References: <20210709114120.651309-1-maarten.lankhorst@linux.intel.com>
+ <CAOFGe96ZGygDpJcfHeWQVYr6UqkZBWvJ1mtzkPWShtm_K5Or1g@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <YOlHBdXYeLtRga+k@ravnborg.org>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="cGjQNM6dMKPUoDIdWAGKYobNXSjC2lazW"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAOFGe96ZGygDpJcfHeWQVYr6UqkZBWvJ1mtzkPWShtm_K5Or1g@mail.gmail.com>
+X-Operating-System: Linux phenom 5.10.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,487 +66,309 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: John.p.donnelly@oracle.com, dri-devel@lists.freedesktop.org,
- airlied@redhat.com, emil.velikov@collabora.com
+Cc: Intel GFX <intel-gfx@lists.freedesktop.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---cGjQNM6dMKPUoDIdWAGKYobNXSjC2lazW
-Content-Type: multipart/mixed; boundary="OWqzniOZ7JfQZqOlnyhbQSiwDvjRye6Kx";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Sam Ravnborg <sam@ravnborg.org>
-Cc: daniel@ffwll.ch, airlied@redhat.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, emil.velikov@collabora.com, John.p.donnelly@oracle.com,
- dri-devel@lists.freedesktop.org
-Message-ID: <b82e6ee2-00a3-e50c-8980-83896369fe45@suse.de>
-Subject: Re: [PATCH 06/12] drm/mgag200: Store values (not bits) in struct
- mgag200_pll_values
-References: <20210705124515.27253-1-tzimmermann@suse.de>
- <20210705124515.27253-7-tzimmermann@suse.de> <YOlHBdXYeLtRga+k@ravnborg.org>
-In-Reply-To: <YOlHBdXYeLtRga+k@ravnborg.org>
+On Mon, Jul 12, 2021 at 08:47:24AM -0500, Jason Ekstrand wrote:
+> On Fri, Jul 9, 2021 at 6:41 AM Maarten Lankhorst
+> <maarten.lankhorst@linux.intel.com> wrote:
+> >
+> > This is only used for ttm, and tells userspace that the mapping type is
+> > ignored. This disables the other type of mmap offsets when discrete
+> > memory is used, so fix the selftests as well.
+> >
+> > Document the struct as well, so it shows up in docbook correctly.
+> >
+> > Changes since v1:
+> > - Add docbook entries.
+> >
+> > Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> > ---
+> >  drivers/gpu/drm/i915/gem/i915_gem_mman.c      | 17 ++++++-
+> >  .../gpu/drm/i915/gem/i915_gem_object_types.h  |  1 +
+> >  .../drm/i915/gem/selftests/i915_gem_mman.c    | 27 +++++++++-
+> >  include/uapi/drm/i915_drm.h                   | 51 +++++++++++++++----
+> >  4 files changed, 82 insertions(+), 14 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
+> > index a90f796e85c0..b34be9e5d094 100644
+> > --- a/drivers/gpu/drm/i915/gem/i915_gem_mman.c
+> > +++ b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
+> > @@ -679,10 +679,16 @@ __assign_mmap_offset(struct drm_i915_gem_object *obj,
+> >                 return -ENODEV;
+> >
+> >         if (obj->ops->mmap_offset)  {
+> > +               if (mmap_type != I915_MMAP_TYPE_TTM)
+> > +                       return -ENODEV;
+> > +
+> >                 *offset = obj->ops->mmap_offset(obj);
+> >                 return 0;
+> >         }
+> >
+> > +       if (mmap_type == I915_MMAP_TYPE_TTM)
+> > +               return -ENODEV;
+> > +
+> >         if (mmap_type != I915_MMAP_TYPE_GTT &&
+> >             !i915_gem_object_has_struct_page(obj) &&
+> >             !i915_gem_object_has_iomem(obj))
+> > @@ -727,7 +733,9 @@ i915_gem_dumb_mmap_offset(struct drm_file *file,
+> >  {
+> >         enum i915_mmap_type mmap_type;
+> >
+> > -       if (boot_cpu_has(X86_FEATURE_PAT))
+> > +       if (HAS_LMEM(to_i915(dev)))
+> > +               mmap_type = I915_MMAP_TYPE_TTM;
+> > +       else if (boot_cpu_has(X86_FEATURE_PAT))
+> >                 mmap_type = I915_MMAP_TYPE_WC;
+> >         else if (!i915_ggtt_has_aperture(&to_i915(dev)->ggtt))
+> >                 return -ENODEV;
+> > @@ -798,6 +806,10 @@ i915_gem_mmap_offset_ioctl(struct drm_device *dev, void *data,
+> >                 type = I915_MMAP_TYPE_UC;
+> >                 break;
+> >
+> > +       case I915_MMAP_OFFSET_TTM:
+> > +               type = I915_MMAP_TYPE_TTM;
+> > +               break;
+> > +
+> >         default:
+> >                 return -EINVAL;
+> >         }
+> > @@ -968,6 +980,9 @@ int i915_gem_mmap(struct file *filp, struct vm_area_struct *vma)
+> >                 vma->vm_ops = &vm_ops_cpu;
+> >                 break;
+> >
+> > +       case I915_MMAP_TYPE_TTM:
+> > +               GEM_WARN_ON(mmo->mmap_type == I915_MMAP_TYPE_TTM);
+> > +               /* fall-through */
+> >         case I915_MMAP_TYPE_WB:
+> >                 vma->vm_page_prot = vm_get_page_prot(vma->vm_flags);
+> >                 vma->vm_ops = &vm_ops_cpu;
+> > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
+> > index ef3de2ae9723..d4c42bcdfeb6 100644
+> > --- a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
+> > +++ b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
+> > @@ -105,6 +105,7 @@ enum i915_mmap_type {
+> >         I915_MMAP_TYPE_WC,
+> >         I915_MMAP_TYPE_WB,
+> >         I915_MMAP_TYPE_UC,
+> > +       I915_MMAP_TYPE_TTM,
+> >  };
+> >
+> >  struct i915_mmap_offset {
+> > diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
+> > index 1da8bd675e54..27a35d88e5f5 100644
+> > --- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
+> > +++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
+> > @@ -573,6 +573,14 @@ static int make_obj_busy(struct drm_i915_gem_object *obj)
+> >         return 0;
+> >  }
+> >
+> > +static enum i915_mmap_type default_mapping(struct drm_i915_private *i915)
+> > +{
+> > +       if (HAS_LMEM(i915))
+> > +               return I915_MMAP_TYPE_TTM;
+> > +
+> > +       return I915_MMAP_TYPE_GTT;
+> > +}
+> > +
+> >  static bool assert_mmap_offset(struct drm_i915_private *i915,
+> >                                unsigned long size,
+> >                                int expected)
+> > @@ -585,7 +593,7 @@ static bool assert_mmap_offset(struct drm_i915_private *i915,
+> >         if (IS_ERR(obj))
+> >                 return expected && expected == PTR_ERR(obj);
+> >
+> > -       ret = __assign_mmap_offset(obj, I915_MMAP_TYPE_GTT, &offset, NULL);
+> > +       ret = __assign_mmap_offset(obj, default_mapping(i915), &offset, NULL);
+> >         i915_gem_object_put(obj);
+> >
+> >         return ret == expected;
+> > @@ -689,7 +697,7 @@ static int igt_mmap_offset_exhaustion(void *arg)
+> >                 goto out;
+> >         }
+> >
+> > -       err = __assign_mmap_offset(obj, I915_MMAP_TYPE_GTT, &offset, NULL);
+> > +       err = __assign_mmap_offset(obj, default_mapping(i915), &offset, NULL);
+> >         if (err) {
+> >                 pr_err("Unable to insert object into reclaimed hole\n");
+> >                 goto err_obj;
+> > @@ -831,8 +839,14 @@ static int wc_check(struct drm_i915_gem_object *obj)
+> >
+> >  static bool can_mmap(struct drm_i915_gem_object *obj, enum i915_mmap_type type)
+> >  {
+> > +       struct drm_i915_private *i915 = to_i915(obj->base.dev);
+> >         bool no_map;
+> >
+> > +       if (HAS_LMEM(i915))
+> > +               return type == I915_MMAP_TYPE_TTM;
+> > +       else if (type == I915_MMAP_TYPE_TTM)
+> > +               return false;
+> > +
+> >         if (type == I915_MMAP_TYPE_GTT &&
+> >             !i915_ggtt_has_aperture(&to_i915(obj->base.dev)->ggtt))
+> >                 return false;
+> > @@ -970,6 +984,8 @@ static int igt_mmap(void *arg)
+> >                         err = __igt_mmap(i915, obj, I915_MMAP_TYPE_GTT);
+> >                         if (err == 0)
+> >                                 err = __igt_mmap(i915, obj, I915_MMAP_TYPE_WC);
+> > +                       if (err == 0)
+> > +                               err = __igt_mmap(i915, obj, I915_MMAP_TYPE_TTM);
+> >
+> >                         i915_gem_object_put(obj);
+> >                         if (err)
+> > @@ -987,6 +1003,7 @@ static const char *repr_mmap_type(enum i915_mmap_type type)
+> >         case I915_MMAP_TYPE_WB: return "wb";
+> >         case I915_MMAP_TYPE_WC: return "wc";
+> >         case I915_MMAP_TYPE_UC: return "uc";
+> > +       case I915_MMAP_TYPE_TTM: return "ttm";
+> >         default: return "unknown";
+> >         }
+> >  }
+> > @@ -1100,6 +1117,8 @@ static int igt_mmap_access(void *arg)
+> >                         err = __igt_mmap_access(i915, obj, I915_MMAP_TYPE_WC);
+> >                 if (err == 0)
+> >                         err = __igt_mmap_access(i915, obj, I915_MMAP_TYPE_UC);
+> > +               if (err == 0)
+> > +                       err = __igt_mmap_access(i915, obj, I915_MMAP_TYPE_TTM);
+> >
+> >                 i915_gem_object_put(obj);
+> >                 if (err)
+> > @@ -1241,6 +1260,8 @@ static int igt_mmap_gpu(void *arg)
+> >                 err = __igt_mmap_gpu(i915, obj, I915_MMAP_TYPE_GTT);
+> >                 if (err == 0)
+> >                         err = __igt_mmap_gpu(i915, obj, I915_MMAP_TYPE_WC);
+> > +               if (err == 0)
+> > +                       err = __igt_mmap_gpu(i915, obj, I915_MMAP_TYPE_TTM);
+> >
+> >                 i915_gem_object_put(obj);
+> >                 if (err)
+> > @@ -1396,6 +1417,8 @@ static int igt_mmap_revoke(void *arg)
+> >                 err = __igt_mmap_revoke(i915, obj, I915_MMAP_TYPE_GTT);
+> >                 if (err == 0)
+> >                         err = __igt_mmap_revoke(i915, obj, I915_MMAP_TYPE_WC);
+> > +               if (err == 0)
+> > +                       err = __igt_mmap_revoke(i915, obj, I915_MMAP_TYPE_TTM);
+> >
+> >                 i915_gem_object_put(obj);
+> >                 if (err)
+> > diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
+> > index e334a8b14ef2..1610ed40b4b5 100644
+> > --- a/include/uapi/drm/i915_drm.h
+> > +++ b/include/uapi/drm/i915_drm.h
+> > @@ -849,31 +849,60 @@ struct drm_i915_gem_mmap_gtt {
+> >         __u64 offset;
+> >  };
+> >
+> > +/**
+> > + * struct drm_i915_gem_mmap_offset - Retrieve an offset so we can mmap this buffer object.
+> > + *
+> > + * This struct is passed as argument to the `DRM_IOCTL_I915_GEM_MMAP_OFFSET` ioctl,
+> > + * and is used to retrieve the fake offset to mmap an object specified by &handle.
+> > + *
+> > + * The legacy way of using `DRM_IOCTL_I915_GEM_MMAP` is removed on gen12+.
+> > + * `DRM_IOCTL_I915_GEM_MMAP_GTT` is an older supported alias to this struct, but will behave
+> > + * as setting the &extensions to 0, and &flags to `I915_MMAP_OFFSET_GTT`.
+> > + */
+> >  struct drm_i915_gem_mmap_offset {
+> > -       /** Handle for the object being mapped. */
+> > +       /** @handle: Handle for the object being mapped. */
+> >         __u32 handle;
+> > +       /** @pad: Must be zero */
+> >         __u32 pad;
+> >         /**
+> > -        * Fake offset to use for subsequent mmap call
+> > +        * @offset: The fake offset to use for subsequent mmap call
+> >          *
+> >          * This is a fixed-size type for 32/64 compatibility.
+> >          */
+> >         __u64 offset;
+> >
+> >         /**
+> > -        * Flags for extended behaviour.
+> > +        * @flags: Flags for extended behaviour.
+> > +        *
+> > +        * It is mandatory that one of the `MMAP_OFFSET` types
+> > +        * should be included:
+> > +        * - `I915_MMAP_OFFSET_GTT`: Use mmap with the object bound to GTT.
+> > +        * - `I915_MMAP_OFFSET_WC`: Use Write-Combined caching.
+> > +        * - `I915_MMAP_OFFSET_WB`: Use Write-Back caching.
+> > +        * - `I915_MMAP_OFFSET_TTM`: Use TTM to determine caching based on object placement.
+> > +        *
+> > +        * Only on devices with local memory is `I915_MMAP_OFFSET_TTM` valid. On
+> > +        * devices without local memory, this caching mode is invalid.
+> >          *
+> > -        * It is mandatory that one of the MMAP_OFFSET types
+> > -        * (GTT, WC, WB, UC, etc) should be included.
+> > +        * As caching mode when specifying `I915_MMAP_OFFSET_TTM`, WC or WB will
+> > +        * be used, depending on the object placement. WC will be used
+> > +        * when the object resides in local memory, WB otherwise.
+> >          */
+> >         __u64 flags;
+> > -#define I915_MMAP_OFFSET_GTT 0
+> > -#define I915_MMAP_OFFSET_WC  1
+> > -#define I915_MMAP_OFFSET_WB  2
+> > -#define I915_MMAP_OFFSET_UC  3
+> >
+> > -       /*
+> > -        * Zero-terminated chain of extensions.
+> > +/** Use an mmap for the object by binding to GTT. */
+> > +#define I915_MMAP_OFFSET_GTT   0
+> > +/** Use Write-Combined caching. */
+> > +#define I915_MMAP_OFFSET_WC    1
+> > +/** Use Write-Back caching. */
+> > +#define I915_MMAP_OFFSET_WB    2
+> > +/** Do not use caching when binding this mmap. */
+> > +#define I915_MMAP_OFFSET_UC    3
+> > +/** Use the TTM binding, which determines the appropriate caching mode. */
+> > +#define I915_MMAP_OFFSET_TTM   4
+> 
+> I'm not sure I like the name here.  TTM is an implementation detail,
+> not a kind of map.  I think we want something more like
+> I915_MMAP_OFFSET_IMPLICIT or something like that.  The semantics here,
+> as far as I can tell, are "the mmap type is based on the object; you
+> can't change it."  On DG1, the mmap type is fixed for all objects.  On
+> integrated, we could have a BO create option for the mmap type but we
+> don't yet.
 
---OWqzniOZ7JfQZqOlnyhbQSiwDvjRye6Kx
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Yeah it's not a great name, but also we didn't come up with anything
+substantially better on irc. More ideas:
+- PREDEFINED
+- PRESELECTED
 
-Hi
+Note that we want to pick a value here which also makes sense for when we
+extend GEM_CREATE_EXT to allow you to select the single mmap mode you get
+at creation time (for igfx cleanup of the uapi). So IMPLICIT isn't the
+greatest name either, when we'll allow userspace to explicit chose it -
+just not here anymore.
 
-Am 10.07.21 um 09:06 schrieb Sam Ravnborg:
-> Hi Thomas,
->=20
-> On Mon, Jul 05, 2021 at 02:45:09PM +0200, Thomas Zimmermann wrote:
->> The fields in struct mgag200_pll_values currently hold the bits of
->> each register. Store the PLL values instead and let the PLL-update
->> code figure out the bits for each register.
->>
->> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->=20
-> I gave up trying to follow the changes in this patch.
+Anyway, pick a name and we'll paint this bikeshed, I don't care much
+really. As long as there's kerneldoc :-)
+-Daniel
 
-I cannot blame you.
+> 
+> --Jason
+> 
+> > +
+> > +       /**
+> > +        * @extensions: Zero-terminated chain of extensions.
+> >          *
+> >          * No current extensions defined; mbz.
+> >          */
+> > --
+> > 2.31.0
+> >
+> > _______________________________________________
+> > Intel-gfx mailing list
+> > Intel-gfx@lists.freedesktop.org
+> > https://lists.freedesktop.org/mailman/listinfo/intel-gfx
+> _______________________________________________
+> Intel-gfx mailing list
+> Intel-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
 
-> Also I was left with the impression that this was no win in readability=
-
-> at it looks to me like changes with a high risk to introduce a
-> hard-to-find bug.
-> Your changelog did not justify why this change is a win, only what is
-> does. But whatever works better for you I guess..
-
-As I mention, struct mgag200_pll_values should store the PLL values. But =
-
-the individual compute and set functions for each hardware revision mess =
-
-this up completely. Sometimes they use 'function values' sometimes they=20
-use 'register values'. If you'd try to debug a failed modeset operation=20
-and have to look at the PLL, the stored values would be meaningless,=20
-because there's simply no logic behind it.
-
-The purpose of this patch is to make all compute functions store=20
-function values in the struct and make all update function compute the=20
-register values internally.
-
-Do you think the change would be easier to understand if I change the=20
-original _set_plls() functions *before* splitting them into compute and=20
-update steps?
-
-Best regards
-Thomas
-
->=20
-> 	Sam
->=20
->=20
->> ---
->>   drivers/gpu/drm/mgag200/mgag200_mode.c | 153 +++++++++++++++--------=
---
->>   1 file changed, 91 insertions(+), 62 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c b/drivers/gpu/drm/=
-mgag200/mgag200_mode.c
->> index 9f6fe7673674..7d6707bd6c27 100644
->> --- a/drivers/gpu/drm/mgag200/mgag200_mode.c
->> +++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
->> @@ -123,7 +123,7 @@ static int mgag200_compute_pixpll_values_g200(stru=
-ct mga_device *mdev, long cloc
->>   	const int in_div_max =3D 6;
->>   	const int feed_div_min =3D 7;
->>   	const int feed_div_max =3D 127;
->> -	u8 testm, testn;
->> +	u8 testp, testm, testn;
->>   	u8 n =3D 0, m =3D 0, p, s;
->>   	long f_vco;
->>   	long computed;
->> @@ -141,10 +141,11 @@ static int mgag200_compute_pixpll_values_g200(st=
-ruct mga_device *mdev, long cloc
->>   		clock =3D p_clk_min >> 3;
->>  =20
->>   	f_vco =3D clock;
->> -	for (p =3D 0;
->> -	     p <=3D post_div_max && f_vco < p_clk_min;
->> -	     p =3D (p << 1) + 1, f_vco <<=3D 1)
->> +	for (testp =3D 0;
->> +	     testp <=3D post_div_max && f_vco < p_clk_min;
->> +	     testp =3D (testp << 1) + 1, f_vco <<=3D 1)
->>   		;
->> +	p =3D testp + 1;
->>  =20
->>   	delta =3D clock;
->>  =20
->> @@ -157,12 +158,12 @@ static int mgag200_compute_pixpll_values_g200(st=
-ruct mga_device *mdev, long cloc
->>   				tmp_delta =3D computed - f_vco;
->>   			if (tmp_delta < delta) {
->>   				delta =3D tmp_delta;
->> -				m =3D testm;
->> -				n =3D testn;
->> +				m =3D testm + 1;
->> +				n =3D testn + 1;
->>   			}
->>   		}
->>   	}
->> -	f_vco =3D ref_clk * (n + 1) / (m + 1);
->> +	f_vco =3D ref_clk * n / m;
->>   	if (f_vco < 100000)
->>   		s =3D 0;
->>   	else if (f_vco < 140000)
->> @@ -186,6 +187,7 @@ static int mgag200_compute_pixpll_values_g200(stru=
-ct mga_device *mdev, long cloc
->>   static void mgag200_set_pixpll_g200(struct mga_device *mdev,
->>   				    const struct mgag200_pll_values *pixpllc)
->>   {
->> +	unsigned int pixpllcm, pixpllcn, pixpllcp, pixpllcs;
->>   	u8 misc, xpixpllcm, xpixpllcn, xpixpllcp;
->>  =20
->>   	misc =3D RREG8(MGA_MISC_IN);
->> @@ -193,9 +195,14 @@ static void mgag200_set_pixpll_g200(struct mga_de=
-vice *mdev,
->>   	misc |=3D MGAREG_MISC_CLK_SEL_MGA_MSK;
->>   	WREG8(MGA_MISC_OUT, misc);
->>  =20
->> -	xpixpllcm =3D pixpllc->m;
->> -	xpixpllcn =3D pixpllc->n;
->> -	xpixpllcp =3D pixpllc->p | (pixpllc->s << 3);
->> +	pixpllcm =3D pixpllc->m - 1;
->> +	pixpllcn =3D pixpllc->n - 1;
->> +	pixpllcp =3D pixpllc->p - 1;
->> +	pixpllcs =3D pixpllc->s;
->> +
->> +	xpixpllcm =3D pixpllcm;
->> +	xpixpllcn =3D pixpllcn;
->> +	xpixpllcp =3D (pixpllcs << 3) | pixpllcp;
->>   	WREG_DAC(MGA1064_PIX_PLLC_M, xpixpllcm);
->>   	WREG_DAC(MGA1064_PIX_PLLC_N, xpixpllcn);
->>   	WREG_DAC(MGA1064_PIX_PLLC_P, xpixpllcp);
->> @@ -240,9 +247,9 @@ static int mgag200_compute_pixpll_values_g200se(st=
-ruct mga_device *mdev, long cl
->>   						tmpdelta =3D clock - computed;
->>   					if (tmpdelta < delta) {
->>   						delta =3D tmpdelta;
->> -						m =3D testm - 1;
->> -						n =3D testn - 1;
->> -						p =3D testp - 1;
->> +						m =3D testm;
->> +						n =3D testn;
->> +						p =3D testp;
->>   					}
->>   				}
->>   			}
->> @@ -280,22 +287,19 @@ static int mgag200_compute_pixpll_values_g200se(=
-struct mga_device *mdev, long cl
->>  =20
->>   					if (tmpdelta < delta) {
->>   						delta =3D tmpdelta;
->> -						m =3D testm - 1;
->> -						n =3D testn - 1;
->> -						p =3D testp - 1;
->> +						m =3D testm;
->> +						n =3D testn;
->> +						p =3D testp;
->>   					}
->>   				}
->>   			}
->>   		}
->>  =20
->> -		fvv =3D pllreffreq * (n + 1) / (m + 1);
->> +		fvv =3D pllreffreq * n / m;
->>   		fvv =3D (fvv - 800000) / 50000;
->> -
->>   		if (fvv > 15)
->>   			fvv =3D 15;
->> -
->> -		p |=3D (fvv << 4);
->> -		m |=3D 0x80;
->> +		s =3D fvv << 1;
->>  =20
->>   		clock =3D clock / 2;
->>   	}
->> @@ -317,6 +321,7 @@ static void mgag200_set_pixpll_g200se(struct mga_d=
-evice *mdev,
->>   				      const struct mgag200_pll_values *pixpllc)
->>   {
->>   	u32 unique_rev_id =3D mdev->model.g200se.unique_rev_id;
->> +	unsigned int pixpllcm, pixpllcn, pixpllcp, pixpllcs;
->>   	u8 misc, xpixpllcm, xpixpllcn, xpixpllcp;
->>  =20
->>   	misc =3D RREG8(MGA_MISC_IN);
->> @@ -324,9 +329,14 @@ static void mgag200_set_pixpll_g200se(struct mga_=
-device *mdev,
->>   	misc |=3D MGAREG_MISC_CLK_SEL_MGA_MSK;
->>   	WREG8(MGA_MISC_OUT, misc);
->>  =20
->> -	xpixpllcm =3D pixpllc->m;
->> -	xpixpllcn =3D pixpllc->n;
->> -	xpixpllcp =3D pixpllc->p | (pixpllc->s << 3);
->> +	pixpllcm =3D pixpllc->m - 1;
->> +	pixpllcn =3D pixpllc->n - 1;
->> +	pixpllcp =3D pixpllc->p - 1;
->> +	pixpllcs =3D pixpllc->s;
->> +
->> +	xpixpllcm =3D pixpllcm | ((pixpllcn & BIT(8)) >> 1);
->> +	xpixpllcn =3D pixpllcn;
->> +	xpixpllcp =3D (pixpllcs << 3) | pixpllcp;
->>   	WREG_DAC(MGA1064_PIX_PLLC_M, xpixpllcm);
->>   	WREG_DAC(MGA1064_PIX_PLLC_N, xpixpllcn);
->>   	WREG_DAC(MGA1064_PIX_PLLC_P, xpixpllcp);
->> @@ -352,7 +362,6 @@ static int mgag200_compute_pixpll_values_g200wb(st=
-ruct mga_device *mdev, long cl
->>   	delta =3D 0xffffffff;
->>  =20
->>   	if (mdev->type =3D=3D G200_EW3) {
->> -
->>   		vcomax =3D 800000;
->>   		vcomin =3D 400000;
->>   		pllreffreq =3D 25000;
->> @@ -375,19 +384,16 @@ static int mgag200_compute_pixpll_values_g200wb(=
-struct mga_device *mdev, long cl
->>   							tmpdelta =3D clock - computed;
->>   						if (tmpdelta < delta) {
->>   							delta =3D tmpdelta;
->> -							m =3D ((testn & 0x100) >> 1) |
->> -								(testm);
->> -							n =3D (testn & 0xFF);
->> -							p =3D ((testn & 0x600) >> 3) |
->> -								(testp2 << 3) |
->> -								(testp);
->> +							m =3D testm + 1;
->> +							n =3D testn + 1;
->> +							p =3D testp + 1;
->> +							s =3D testp2;
->>   						}
->>   					}
->>   				}
->>   			}
->>   		}
->>   	} else {
->> -
->>   		vcomax =3D 550000;
->>   		vcomin =3D 150000;
->>   		pllreffreq =3D 48000;
->> @@ -408,10 +414,10 @@ static int mgag200_compute_pixpll_values_g200wb(=
-struct mga_device *mdev, long cl
->>   						tmpdelta =3D clock - computed;
->>   					if (tmpdelta < delta) {
->>   						delta =3D tmpdelta;
->> -						n =3D testn - 1;
->> -						m =3D (testm - 1) |
->> -							((n >> 1) & 0x80);
->> -						p =3D testp - 1;
->> +						n =3D testn;
->> +						m =3D testm;
->> +						p =3D testp;
->> +						s =3D 0;
->>   					}
->>   				}
->>   			}
->> @@ -429,6 +435,7 @@ static int mgag200_compute_pixpll_values_g200wb(st=
-ruct mga_device *mdev, long cl
->>   static void mgag200_set_pixpll_g200wb(struct mga_device *mdev,
->>   				      const struct mgag200_pll_values *pixpllc)
->>   {
->> +	unsigned int pixpllcm, pixpllcn, pixpllcp, pixpllcs;
->>   	u8 misc, xpixpllcm, xpixpllcn, xpixpllcp, tmp;
->>   	int i, j, tmpcount, vcount;
->>   	bool pll_locked =3D false;
->> @@ -438,9 +445,14 @@ static void mgag200_set_pixpll_g200wb(struct mga_=
-device *mdev,
->>   	misc |=3D MGAREG_MISC_CLK_SEL_MGA_MSK;
->>   	WREG8(MGA_MISC_OUT, misc);
->>  =20
->> -	xpixpllcm =3D pixpllc->m;
->> -	xpixpllcn =3D pixpllc->n;
->> -	xpixpllcp =3D pixpllc->p | (pixpllc->s << 3);
->> +	pixpllcm =3D pixpllc->m - 1;
->> +	pixpllcn =3D pixpllc->n - 1;
->> +	pixpllcp =3D pixpllc->p - 1;
->> +	pixpllcs =3D pixpllc->s;
->> +
->> +	xpixpllcm =3D ((pixpllcn & BIT(8)) >> 1) | pixpllcm;
->> +	xpixpllcn =3D pixpllcn;
->> +	xpixpllcp =3D ((pixpllcn & GENMASK(10, 9)) >> 3) | (pixpllcs << 3) |=
- pixpllcp;
->>  =20
->>   	for (i =3D 0; i <=3D 32 && pll_locked =3D=3D false; i++) {
->>   		if (i > 0) {
->> @@ -571,9 +583,9 @@ static int mgag200_compute_pixpll_values_g200ev(st=
-ruct mga_device *mdev, long cl
->>   					tmpdelta =3D clock - computed;
->>   				if (tmpdelta < delta) {
->>   					delta =3D tmpdelta;
->> -					n =3D testn - 1;
->> -					m =3D testm - 1;
->> -					p =3D testp - 1;
->> +					n =3D testn;
->> +					m =3D testm;
->> +					p =3D testp;
->>   				}
->>   			}
->>   		}
->> @@ -590,6 +602,7 @@ static int mgag200_compute_pixpll_values_g200ev(st=
-ruct mga_device *mdev, long cl
->>   static void mgag200_set_pixpll_g200ev(struct mga_device *mdev,
->>   				      const struct mgag200_pll_values *pixpllc)
->>   {
->> +	unsigned int pixpllcm, pixpllcn, pixpllcp, pixpllcs;
->>   	u8 misc, xpixpllcm, xpixpllcn, xpixpllcp, tmp;
->>  =20
->>   	misc =3D RREG8(MGA_MISC_IN);
->> @@ -597,9 +610,14 @@ static void mgag200_set_pixpll_g200ev(struct mga_=
-device *mdev,
->>   	misc |=3D MGAREG_MISC_CLK_SEL_MGA_MSK;
->>   	WREG8(MGA_MISC_OUT, misc);
->>  =20
->> -	xpixpllcm =3D pixpllc->m;
->> -	xpixpllcn =3D pixpllc->n;
->> -	xpixpllcp =3D pixpllc->p | (pixpllc->s << 3);
->> +	pixpllcm =3D pixpllc->m - 1;
->> +	pixpllcn =3D pixpllc->n - 1;
->> +	pixpllcp =3D pixpllc->p - 1;
->> +	pixpllcs =3D pixpllc->s;
->> +
->> +	xpixpllcm =3D pixpllcm;
->> +	xpixpllcn =3D pixpllcn;
->> +	xpixpllcp =3D (pixpllcs << 3) | pixpllcp;
->>  =20
->>   	WREG8(DAC_INDEX, MGA1064_PIX_CLK_CTL);
->>   	tmp =3D RREG8(DAC_DATA);
->> @@ -685,9 +703,9 @@ static int mgag200_compute_pixpll_values_g200eh(st=
-ruct mga_device *mdev, long cl
->>   					tmpdelta =3D clock - computed;
->>   				if (tmpdelta < delta) {
->>   					delta =3D tmpdelta;
->> -					n =3D testn;
->> -					m =3D testm;
->> -					p =3D testp;
->> +					n =3D testn + 1;
->> +					m =3D testm + 1;
->> +					p =3D testp + 1;
->>   				}
->>   				if (delta =3D=3D 0)
->>   					break;
->> @@ -719,12 +737,10 @@ static int mgag200_compute_pixpll_values_g200eh(=
-struct mga_device *mdev, long cl
->>   						tmpdelta =3D clock - computed;
->>   					if (tmpdelta < delta) {
->>   						delta =3D tmpdelta;
->> -						n =3D testn - 1;
->> -						m =3D (testm - 1);
->> -						p =3D testp - 1;
->> +						n =3D testn;
->> +						m =3D testm;
->> +						p =3D testp;
->>   					}
->> -					if ((clock * testp) >=3D 600000)
->> -						p |=3D 0x80;
->>   				}
->>   			}
->>   		}
->> @@ -741,6 +757,7 @@ static int mgag200_compute_pixpll_values_g200eh(st=
-ruct mga_device *mdev, long cl
->>   static void mgag200_set_pixpll_g200eh(struct mga_device *mdev,
->>   				      const struct mgag200_pll_values *pixpllc)
->>   {
->> +	unsigned int pixpllcm, pixpllcn, pixpllcp, pixpllcs;
->>   	u8 misc, xpixpllcm, xpixpllcn, xpixpllcp, tmp;
->>   	int i, j, tmpcount, vcount;
->>   	bool pll_locked =3D false;
->> @@ -750,9 +767,14 @@ static void mgag200_set_pixpll_g200eh(struct mga_=
-device *mdev,
->>   	misc |=3D MGAREG_MISC_CLK_SEL_MGA_MSK;
->>   	WREG8(MGA_MISC_OUT, misc);
->>  =20
->> -	xpixpllcm =3D pixpllc->m;
->> -	xpixpllcn =3D pixpllc->n;
->> -	xpixpllcp =3D pixpllc->p | (pixpllc->s << 3);
->> +	pixpllcm =3D pixpllc->m - 1;
->> +	pixpllcn =3D pixpllc->n - 1;
->> +	pixpllcp =3D pixpllc->p - 1;
->> +	pixpllcs =3D pixpllc->s;
->> +
->> +	xpixpllcm =3D ((pixpllcn & BIT(8)) >> 1) | pixpllcm;
->> +	xpixpllcn =3D pixpllcn;
->> +	xpixpllcp =3D (pixpllcs << 3) | pixpllcp;
->>  =20
->>   	for (i =3D 0; i <=3D 32 && pll_locked =3D=3D false; i++) {
->>   		WREG8(DAC_INDEX, MGA1064_PIX_CLK_CTL);
->> @@ -843,9 +865,10 @@ static int mgag200_compute_pixpll_values_g200er(s=
-truct mga_device *mdev, long cl
->>   						tmpdelta =3D clock - computed;
->>   					if (tmpdelta < delta) {
->>   						delta =3D tmpdelta;
->> -						m =3D testm | (testo << 3);
->> -						n =3D testn;
->> -						p =3D testr | (testr << 3);
->> +						m =3D (testm | (testo << 3)) + 1;
->> +						n =3D testn + 1;
->> +						p =3D testr + 1;
->> +						s =3D testr;
->>   					}
->>   				}
->>   			}
->> @@ -863,6 +886,7 @@ static int mgag200_compute_pixpll_values_g200er(st=
-ruct mga_device *mdev, long cl
->>   static void mgag200_set_pixpll_g200er(struct mga_device *mdev,
->>   				      const struct mgag200_pll_values *pixpllc)
->>   {
->> +	unsigned int pixpllcm, pixpllcn, pixpllcp, pixpllcs;
->>   	u8 misc, xpixpllcm, xpixpllcn, xpixpllcp, tmp;
->>  =20
->>   	misc =3D RREG8(MGA_MISC_IN);
->> @@ -870,9 +894,14 @@ static void mgag200_set_pixpll_g200er(struct mga_=
-device *mdev,
->>   	misc |=3D MGAREG_MISC_CLK_SEL_MGA_MSK;
->>   	WREG8(MGA_MISC_OUT, misc);
->>  =20
->> -	xpixpllcm =3D pixpllc->m;
->> -	xpixpllcn =3D pixpllc->n;
->> -	xpixpllcp =3D pixpllc->p | (pixpllc->s << 3);
->> +	pixpllcm =3D pixpllc->m - 1;
->> +	pixpllcn =3D pixpllc->n - 1;
->> +	pixpllcp =3D pixpllc->p - 1;
->> +	pixpllcs =3D pixpllc->s;
->> +
->> +	xpixpllcm =3D pixpllcm;
->> +	xpixpllcn =3D pixpllcn;
->> +	xpixpllcp =3D (pixpllcs << 3) | pixpllcp;
->>  =20
->>   	WREG8(DAC_INDEX, MGA1064_PIX_CLK_CTL);
->>   	tmp =3D RREG8(DAC_DATA);
->> --=20
->> 2.32.0
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---OWqzniOZ7JfQZqOlnyhbQSiwDvjRye6Kx--
-
---cGjQNM6dMKPUoDIdWAGKYobNXSjC2lazW
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmDsTTMFAwAAAAAACgkQlh/E3EQov+Cl
-yBAAz+e8dMYdcfLQj21V/Bo5LtDsnB+WB/MIH+dE4q8oE0umyWs/GeWcosdmwE/5hkWduqAXte4T
-75GE6C7U+Vvm+5+7Ie5sjyalTyzMSX57WXstgAOM9sjP/02iDyqmEE8mqORBMTCPq/ephDV/J4po
-mDUwHyqwtWgDvTB5GDt3Pqb8lGKJxT7XD0UDnY3EeDo8z3qIRs1LENSzt+QHi0nATn+kju3sUmZO
-9MLZDCV6A+776whZK3PV32zsrNNyQWa0DL7aa9NeLO4j0YGcU0Kdq+gfx6/czA7Y3vUqrcB6TUE2
-/uBuswHCEWmoxy7OOQ6gX7a3CMCAg/KtwXar38DQuRI/us5xNFdR9RY16JGqC5vpGQqzwuEHE0rz
-7TCgcLueqnHATvL8Z/RNAh+I42KNFFbX5fSwgUpMwV84d0Yc8WvYKsFtcXpuCFJdEWLZkeYW6csF
-3v16WTcK/eWsdHUevhZbu1Sz2nYwWJ27yuEKNb5Af0PL6aIxx1WOdB9V0ogq3KonbNQRMdrLlVC2
-8QMxOXWdPDVFvqiEPCTYqvtvHpLHp4LyL/kQBiviwV6c/ERZATpRqi5N33ulfuQowc7MEHF9Fl8g
-+/oZ91W6sFpW5qrgR7fcgcK+zPsUHsIj2lOJyR1x9h2jYqWQhebnEcn+tFnWStZylYit8JtQJvtp
-CeM=
-=Lj2X
------END PGP SIGNATURE-----
-
---cGjQNM6dMKPUoDIdWAGKYobNXSjC2lazW--
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
