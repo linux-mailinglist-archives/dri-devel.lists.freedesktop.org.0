@@ -1,42 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD6B93C77D8
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Jul 2021 22:21:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2603D3C77E6
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Jul 2021 22:22:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 511E06E123;
-	Tue, 13 Jul 2021 20:21:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 484166E030;
+	Tue, 13 Jul 2021 20:22:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.smtp.larsendata.com (mx1.smtp.larsendata.com
- [91.221.196.215])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2536589FCC
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jul 2021 20:21:29 +0000 (UTC)
-Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
- by mx1.smtp.larsendata.com (Halon) with ESMTPS
- id e349d41a-e417-11eb-9082-0050568c148b;
- Tue, 13 Jul 2021 20:21:21 +0000 (UTC)
-Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
- [80.162.45.141])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: sam@ravnborg.org)
- by mail01.mxhotel.dk (Postfix) with ESMTPSA id 54F2B194B15;
- Tue, 13 Jul 2021 22:21:37 +0200 (CEST)
-Date: Tue, 13 Jul 2021 22:21:23 +0200
-X-Report-Abuse-To: abuse@mxhotel.dk
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH] drm/fb-helper: Try to protect cleanup against delayed
- setup
-Message-ID: <YO31w67WHcyz8btB@ravnborg.org>
-References: <20210713135922.1384264-1-daniel.vetter@ffwll.ch>
+Received: from mail-ot1-x32a.google.com (mail-ot1-x32a.google.com
+ [IPv6:2607:f8b0:4864:20::32a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 851AB6E030
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jul 2021 20:22:47 +0000 (UTC)
+Received: by mail-ot1-x32a.google.com with SMTP id
+ f12-20020a056830204cb029048bcf4c6bd9so118253otp.8
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jul 2021 13:22:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=me3a+Vld6OfwdM0Xrl8lyRxgmOKdqCHJ1/SVJAB758M=;
+ b=OF8jtx4rVIcTvfmnFxYDgZiPN/FC2dFcWWiUEt57fLKxxv32N65zzd37nZFttJvtzl
+ khC5JfNRktg96zt5SLXzHjDzcbPmpnqGQoYuFMEm3Z9DC+W/0xzVc1VfQgj/TlnFkFDF
+ AixtQhjLhTo1m2Po2BLx20ZZgGdN1UGBJXdec=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=me3a+Vld6OfwdM0Xrl8lyRxgmOKdqCHJ1/SVJAB758M=;
+ b=VUnM6faBu4GH0TN6KIFtENGBbBnfnhIcPpcvw37B6EgCqZATVuE+F5A10A/mw5zmCA
+ gAqZ6144kg9TR/bX8IOHikAXko0UiOEzbimxjDl/zhYtWY55yOq2iENHH52paYKKVAl2
+ goBhJU8IG5Q8RpctI9mBtipCwDbxQDH6URJ3+ACUjbxUM1d9Nu9E68tC7XOkHkh2m++Q
+ Hn9YzzXCg9he6Iszfkwg8TRUtdyI0X5+lgowDyIFa4p8UlADm2J5Dd2d/7gbHUTD1WWW
+ JtiUTos8SZDkxXfVqNduO/upF0YE+Z0DqlwcXU/7VTFO4VQikc+FTD1Jax8s5vTdlNcZ
+ jYmQ==
+X-Gm-Message-State: AOAM532aUVeU1itPqpyRUyAHmDchipUIw9ufKy/ot+RAandNO3XCKpaH
+ ycFCjXUQX6nS/Ofu6NKB5TNcVNTD9iaqshEtNxASKpuUk6k=
+X-Google-Smtp-Source: ABdhPJx4f16h6U8xH/qnZMT0G7Rydz14ZGoEE99+A9gB7JywGyVohkBB19PL1eP8PgbjdKWGE9LcdB9oVFgbaGe9up0=
+X-Received: by 2002:a9d:27a4:: with SMTP id c33mr5195147otb.281.1626207766759; 
+ Tue, 13 Jul 2021 13:22:46 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210713135922.1384264-1-daniel.vetter@ffwll.ch>
+References: <20210709081116.4170288-1-daniel.vetter@ffwll.ch>
+In-Reply-To: <20210709081116.4170288-1-daniel.vetter@ffwll.ch>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Tue, 13 Jul 2021 22:22:35 +0200
+Message-ID: <CAKMK7uGq26uL6sJBAKRTAPeB=ZJccmB2yvd0z6-9C5BZcEKK9w@mail.gmail.com>
+Subject: Re: [PATCH] dim/drm-misc: Add rule to not push patches with issues
+To: DRI Development <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,84 +61,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Chris Wilson <chris@chris-wilson.co.uk>,
+Cc: "DRM maintainer tools announcements, discussion,
+ and development" <dim-tools@lists.freedesktop.org>,
  Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>
+ Daniel Vetter <daniel.vetter@intel.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Daniel,
-
-On Tue, Jul 13, 2021 at 03:59:22PM +0200, Daniel Vetter wrote:
-> Some vague evidences suggests this can go wrong. Try to prevent it by
-> holding the right mutex and clearing ->deferred_setup to make sure we
-> later on don't accidentally try to re-register the fbdev when the
-> driver thought it had it all cleaned up already.
-> 
-> v2: I realized that this is fundamentally butchered, and CI complained
-> about lockdep splats. So limit the critical section again and just add
-> a few notes what the proper fix is.
-> 
-> References: https://intel-gfx-ci.01.org/tree/linux-next/next-20201215/fi-byt-j1900/igt@i915_pm_rpm@module-reload.html
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> Cc: Chris Wilson <chris@chris-wilson.co.uk>
+On Fri, Jul 9, 2021 at 10:11 AM Daniel Vetter <daniel.vetter@ffwll.ch> wrot=
+e:
+>
+> We kinda left this out, and I like the wording from the drm-intel
+> side, so add that. Motivated by a discussion with Christian.
+>
+> Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
 > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 > Cc: Maxime Ripard <mripard@kernel.org>
 > Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: David Airlie <airlied@linux.ie>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+
+Pushed, thanks for all the r-b/acks.
+-Daniel
+
 > ---
->  drivers/gpu/drm/drm_fb_helper.c | 10 ++++++++++
->  1 file changed, 10 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
-> index 9d82fda274eb..8f11e5abb222 100644
-> --- a/drivers/gpu/drm/drm_fb_helper.c
-> +++ b/drivers/gpu/drm/drm_fb_helper.c
-> @@ -598,6 +598,9 @@ EXPORT_SYMBOL(drm_fb_helper_alloc_fbi);
->   * A wrapper around unregister_framebuffer, to release the fb_info
->   * framebuffer device. This must be called before releasing all resources for
->   * @fb_helper by calling drm_fb_helper_fini().
-> + *
-> + * Note that this is fundamentally racy on hotunload because it doen't handle
-s/doen't/doesn't/
-> + * open fbdev file descriptors at all. Use drm_fbdev_generic_setup() instead.
->   */
->  void drm_fb_helper_unregister_fbi(struct drm_fb_helper *fb_helper)
->  {
-> @@ -611,6 +614,9 @@ EXPORT_SYMBOL(drm_fb_helper_unregister_fbi);
->   * @fb_helper: driver-allocated fbdev helper, can be NULL
->   *
->   * This cleans up all remaining resources associated with @fb_helper.
-> + *
-> + * Note that this is fundamentally racy on hotunload because it doen't handle
-s/doen't/doesn't/
-> + * open fbdev file descriptors at all. Use drm_fbdev_generic_setup() instead.
->   */
->  void drm_fb_helper_fini(struct drm_fb_helper *fb_helper)
->  {
-> @@ -2382,6 +2388,10 @@ static void drm_fbdev_client_unregister(struct drm_client_dev *client)
->  {
->  	struct drm_fb_helper *fb_helper = drm_fb_helper_from_client(client);
->  
-> +	mutex_lock(&fb_helper->lock);
-> +	fb_helper->deferred_setup = false;
-> +	mutex_unlock(&fb_helper->lock);
+>  committer-drm-misc.rst | 3 +++
+>  1 file changed, 3 insertions(+)
+>
+> diff --git a/committer-drm-misc.rst b/committer-drm-misc.rst
+> index 9497a5d26a9d..110ca8b0525e 100644
+> --- a/committer-drm-misc.rst
+> +++ b/committer-drm-misc.rst
+> @@ -21,6 +21,9 @@ Merge Criteria
+>
+>  Right now the only hard merge criteria are:
+>
+> +* There must not be open issues or unresolved or conflicting feedback fr=
+om
+> +  anyone. Clear them up first. Defer to maintainers as needed.
 > +
->  	if (fb_helper->fbdev)
->  		/* drm_fbdev_fb_destroy() takes care of cleanup */
->  		drm_fb_helper_unregister_fbi(fb_helper);
+>  * Patch is properly reviewed or at least Ack, i.e. don't just push your =
+own
+>    stuff directly. This rule holds even more for bugfix patches - it woul=
+d be
+>    embarrassing if the bugfix contains a small gotcha that review would h=
+ave
+> --
+> 2.32.0
+>
 
-I could not find any better spot to clear deferred_setup - so I think
-this is OK.
 
-With the two spellign issues fixed:
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
-
-No r-b as I an not too fluent in these code paths and all the locking.
-
-	Sam
+--=20
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
