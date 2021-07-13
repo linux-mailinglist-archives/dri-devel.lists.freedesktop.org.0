@@ -1,56 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A32133C796D
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Jul 2021 00:10:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E46E53C799A
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Jul 2021 00:25:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC94F89938;
-	Tue, 13 Jul 2021 22:10:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5865A6E147;
+	Tue, 13 Jul 2021 22:25:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f180.google.com (mail-il1-f180.google.com
- [209.85.166.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C794789938
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jul 2021 22:10:22 +0000 (UTC)
-Received: by mail-il1-f180.google.com with SMTP id h3so24702066ilc.9
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jul 2021 15:10:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=I836Y03DloC/Q/3mWy2ffCQlaq2BnV1RVfWxpJJqnrc=;
- b=cxUNGkGZkg88XmQ8CXAlSiJWCDRGxxl/6Ne/+bpRFVVOcThNI7xYdzI+zh2S2QcnHP
- SGQT28lq8UaMzLp3W7HaDhunLmEBP583IuHUJmQaiGXhiYHc8pzRvIXPyOk1Jq6VucSS
- JueJMkGyfs7kAUCrdRA1qVzkL/X9407IZ9osAiQzVRoaT9Q3NV/E+9uJ7PQf2f/b7DCu
- aLTGAeTbeP4yhorCFAp/GQzotlyfbJZtJiKQmv9Ejwe5RkGzfyvkrFNWvcBKIp4awJdQ
- nL5Ryir+7F/ZCuEJxeQGrgny3AYQMnosGzaltFAQ+Bv0KXRoWSq3FYil56x4Gz2sA5FU
- 1HrA==
-X-Gm-Message-State: AOAM533O6exRzXkCwYt2PdeVi7tHZQDZvbw8I5/ZwCyC1DHFbIXitAxz
- HIjRWyd7q/CXi5s1TqBV1w==
-X-Google-Smtp-Source: ABdhPJxe/x6Fgg1IHu4QCdFXT48XelScmqOeXRMOVdkc3PeJRWWeb0LQHPvVdUUEzFgOIeIK/WQEEw==
-X-Received: by 2002:a92:7d08:: with SMTP id y8mr4125420ilc.43.1626214222086;
- Tue, 13 Jul 2021 15:10:22 -0700 (PDT)
-Received: from robh.at.kernel.org ([64.188.179.248])
- by smtp.gmail.com with ESMTPSA id b9sm161468ilo.23.2021.07.13.15.10.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Jul 2021 15:10:21 -0700 (PDT)
-Received: (nullmailer pid 934954 invoked by uid 1000);
- Tue, 13 Jul 2021 22:10:10 -0000
-Date: Tue, 13 Jul 2021 16:10:10 -0600
-From: Rob Herring <robh@kernel.org>
-To: Xin Ji <xji@analogixsemi.com>
-Subject: Re: [PATCH v9 1/4] dt-bindings:drm/bridge:anx7625:add vendor define
- flags
-Message-ID: <20210713221010.GA916196@robh.at.kernel.org>
-References: <cover.1624349479.git.xji@analogixsemi.com>
- <308427448195e2db37a32997c6d32905c96ca876.1624349480.git.xji@analogixsemi.com>
- <CAG3jFys6D=-L-Aez4aWuE4nM7qJCtn4wPws3TKxbkRzcAoFR0A@mail.gmail.com>
- <20210707073051.GA936385@anxtwsw-Precision-3640-Tower>
+Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B68B76E141
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jul 2021 22:25:15 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1626215121; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=NrfFoaUg+uge8R5c62DK9xqyU2a37Zv+qz0iccvChbU=;
+ b=imDMdjTV+MuzkGl/n1zgbO2cSOauU8GdySFiIVkY6je59Lm2HpARwdhgzowIGzIiEhy/naeP
+ OPLG4OWuoVJb4dAJIfE+qoSp7Y4/zn/kaC2NwB2lxhQbKFKVzUHbChOhL/QjJ2kJeKgLGiVg
+ oZd8iq84ua/kvBlIFoO3pCczV+Q=
+X-Mailgun-Sending-Ip: 69.72.43.7
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n02.prod.us-east-1.postgun.com with SMTP id
+ 60ee12bc5e3e57240b05ffb0 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 13 Jul 2021 22:25:00
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 1B7FBC43217; Tue, 13 Jul 2021 22:25:00 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00
+ autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ (No client certificate requested) (Authenticated sender: khsieh)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 18AD7C433D3;
+ Tue, 13 Jul 2021 22:24:59 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210707073051.GA936385@anxtwsw-Precision-3640-Tower>
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date: Tue, 13 Jul 2021 15:24:58 -0700
+From: khsieh@codeaurora.org
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Subject: Re: [PATCH v3] drm/dp_mst: Fix return code on sideband message failure
+In-Reply-To: <87zguy7c5a.fsf@intel.com>
+References: <1625585434-9562-1-git-send-email-khsieh@codeaurora.org>
+ <87zguy7c5a.fsf@intel.com>
+Message-ID: <a514c19f712a6feeddf854dc17cb8eb5@codeaurora.org>
+X-Sender: khsieh@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,178 +66,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nicolas Boichat <drinkcat@google.com>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
- Ricardo =?iso-8859-1?Q?Ca=F1uelo?= <ricardo.canuelo@collabora.com>,
- dri-devel@lists.freedesktop.org, Zhen Li <zhenli@analogixsemi.com>,
- linux-kernel@vger.kernel.org, Robert Foss <robert.foss@linaro.org>,
- Mark Brown <broonie@kernel.org>, Hsin-Yi Wang <hsinyi@chromium.org>,
- Sam Ravnborg <sam@ravnborg.org>, Bernie Liang <bliang@analogixsemi.com>,
- Sheng Pan <span@analogixsemi.com>
+Cc: tzimmermann@suse.de, airlied@linux.ie, freedreno@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ abhinavk@codeaurora.org, swboyd@chromium.org, rnayak@codeaurora.org,
+ aravindh@codeaurora.org, sean@poorly.run, rsubbia@codeaurora.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 07, 2021 at 03:30:51PM +0800, Xin Ji wrote:
-> On Thu, Jun 24, 2021 at 01:57:22PM +0200, Robert Foss wrote:
-> > Hey Xin,
-> > 
-> > I would like to merge this series now, but this patch needs a review
-> > first. Maybe Laurent/Rob Herring are good candidates.
-> > 
-> > 
-> > Rob.
-> Hi Rob, I get Laurent/Rob comments before, and explained why we needs
-> these DT properties, so far, I didn't get any response.
-
-Do I have to go dig that up? If it was more than a week ago, assume I 
-don't remember. This is 1 of 100 bindings a week.
-
-Justify why this is needed in your commit message.
-
-> Hi Rob Herring and Laurent, for the DT property lane0/1-swing, Google
-> engineer has strong demond for them, they don't want to move DP swing
-> adjusting to kernel, thus may cause change the driver code in each
-> project, so config them in DT is a best option.
-
-Where's the ack from a Google engineer?
-
+On 2021-07-07 01:37, Jani Nikula wrote:
+> On Tue, 06 Jul 2021, Kuogee Hsieh <khsieh@codeaurora.org> wrote:
+>> From: Rajkumar Subbiah <rsubbia@codeaurora.org>
+>> 
+>> Commit 2f015ec6eab6 ("drm/dp_mst: Add sideband down request tracing +
+>> selftests") added some debug code for sideband message tracing. But
+>> it seems to have unintentionally changed the behavior on sideband 
+>> message
+>> failure. It catches and returns failure only if DRM_UT_DP is enabled.
+>> Otherwise it ignores the error code and returns success. So on an MST
+>> unplug, the caller is unaware that the clear payload message failed 
+>> and
+>> ends up waiting for 4 seconds for the response. Fixes the issue by
+>> returning the proper error code.
+>> 
+>> Changes in V2:
+>> -- Revise commit text as review comment
+>> -- add Fixes text
+>> 
+>> Changes in V3:
+>> -- remove "unlikely" optimization
+>> 
+>> Fixes: 2f015ec6eab6 ("drm/dp_mst: Add sideband down request tracing + 
+>> selftests")
+>> 
+>> Signed-off-by: Rajkumar Subbiah <rsubbia@codeaurora.org>
+>> Signed-off-by: Kuogee Hsieh <khsieh@codeaurora.org>
+>> 
+>> Reviewed-by: Stephen Boyd <swboyd@chromium.org>
 > 
-> Thanks,
-> Xin
-> > 
-> > On Tue, 22 Jun 2021 at 14:31, Xin Ji <xji@analogixsemi.com> wrote:
-> > >
-> > > Add 'bus-type' and 'data-lanes' define for port0. Define DP tx lane0,
-> > > lane1 swing register array define, and audio enable flag.
-> > >
-> > > Signed-off-by: Xin Ji <xji@analogixsemi.com>
-> > > ---
-> > >  .../display/bridge/analogix,anx7625.yaml      | 57 ++++++++++++++++++-
-> > >  1 file changed, 56 insertions(+), 1 deletion(-)
-> > >
-> > > diff --git a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
-> > > index ab48ab2f4240..9e604d19a3d5 100644
-> > > --- a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
-> > > +++ b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
-> > > @@ -43,6 +43,26 @@ properties:
-> > >    vdd33-supply:
-> > >      description: Regulator that provides the supply 3.3V power.
-> > >
-> > > +  analogix,lane0-swing:
-> > > +    $ref: /schemas/types.yaml#/definitions/uint32-array
-> > > +    minItems: 1
-> > > +    maxItems: 20
-> > > +    description:
-> > > +      an array of swing register setting for DP tx lane0 PHY, please don't
-> > > +      add this property, or contact vendor.
-
-Why do we have the property if we're not supposed to add it.
-
-> > > +
-> > > +  analogix,lane1-swing:
-> > > +    $ref: /schemas/types.yaml#/definitions/uint32-array
-> > > +    minItems: 1
-> > > +    maxItems: 20
-> > > +    description:
-> > > +      an array of swing register setting for DP tx lane1 PHY, please don't
-> > > +      add this property, or contact vendor.
-> > > +
-> > > +  analogix,audio-enable:
-> > > +    type: boolean
-> > > +    description: let the driver enable audio HDMI codec function or not.
-
-Wouldn't we have a 'port' node if audio is to be enabled?
-
-> > > +
-> > >    ports:
-> > >      $ref: /schemas/graph.yaml#/properties/ports
-> > >
-> > > @@ -50,13 +70,43 @@ properties:
-> > >        port@0:
-> > >          $ref: /schemas/graph.yaml#/properties/port
-> > >          description:
-> > > -          Video port for MIPI DSI input.
-> > > +          MIPI DSI/DPI input.
-> > > +
-> > > +        properties:
-> > > +          endpoint:
-> > > +            $ref: /schemas/media/video-interfaces.yaml#
-> > > +            type: object
-> > > +            additionalProperties: false
-
-Use 'unevaluatedProperties: false' instead...
-
-> > > +
-> > > +            properties:
-> > > +              remote-endpoint: true
-
-...And drop this.
-
-> > > +              bus-type: true
-
-This device supports all the possible bus types? What's the default as 
-it is not required?
-
-> > > +              data-lanes: true
-
-And up to 8 lanes? 
-
-> > > +
-> > > +            required:
-> > > +              - remote-endpoint
-> > > +
-> > > +        required:
-> > > +          - endpoint
-
-You can drop both 'required'.
-
-> > > +
-> > >
-> > >        port@1:
-> > >          $ref: /schemas/graph.yaml#/properties/port
-> > >          description:
-> > >            Video port for panel or connector.
-> > >
-> > > +        properties:
-> > > +          endpoint:
-> > > +            $ref: /schemas/media/video-interfaces.yaml#
-
-Doesn't look like anything from video-interfaces.yaml is used. This 
-whole chunk is not needed.
-
-> > > +            type: object
-> > > +            additionalProperties: false
-> > > +
-> > > +            properties:
-> > > +              remote-endpoint: true
-> > > +
-> > > +            required:
-> > > +              - remote-endpoint
-> > > +
-> > >      required:
-> > >        - port@0
-> > >        - port@1
-> > > @@ -87,6 +137,9 @@ examples:
-> > >              vdd10-supply = <&pp1000_mipibrdg>;
-> > >              vdd18-supply = <&pp1800_mipibrdg>;
-> > >              vdd33-supply = <&pp3300_mipibrdg>;
-> > > +            analogix,audio-enable;
-> > > +            analogix,lane0-swing = <0x14 0x54 0x64 0x74 0x29 0x7b 0x77 0x5b>;
-> > > +            analogix,lane1-swing = <0x14 0x54 0x64 0x74 0x29 0x7b 0x77 0x5b>;
-> > >
-> > >              ports {
-> > >                  #address-cells = <1>;
-> > > @@ -96,6 +149,8 @@ examples:
-> > >                      reg = <0>;
-> > >                      anx7625_in: endpoint {
-> > >                          remote-endpoint = <&mipi_dsi>;
-> > > +                        bus-type = <5>;
-> > > +                        data-lanes = <0 1 2 3>;
-> > >                      };
-> > >                  };
-> > >
-> > > --
-> > > 2.25.1
-> > >
+> Reviewed-by: Jani Nikula <jani.nikula@intel.com>
 > 
+> 
+>> ---
+Lyude,
+Any comments from you?
+Thanks,
+
+>>  drivers/gpu/drm/drm_dp_mst_topology.c | 10 ++++++----
+>>  1 file changed, 6 insertions(+), 4 deletions(-)
+>> 
+>> diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c 
+>> b/drivers/gpu/drm/drm_dp_mst_topology.c
+>> index 1590144..df91110 100644
+>> --- a/drivers/gpu/drm/drm_dp_mst_topology.c
+>> +++ b/drivers/gpu/drm/drm_dp_mst_topology.c
+>> @@ -2887,11 +2887,13 @@ static int process_single_tx_qlock(struct 
+>> drm_dp_mst_topology_mgr *mgr,
+>>  	idx += tosend + 1;
+>> 
+>>  	ret = drm_dp_send_sideband_msg(mgr, up, chunk, idx);
+>> -	if (unlikely(ret) && drm_debug_enabled(DRM_UT_DP)) {
+>> -		struct drm_printer p = drm_debug_printer(DBG_PREFIX);
+>> +	if (ret) {
+>> +		if (drm_debug_enabled(DRM_UT_DP)) {
+>> +			struct drm_printer p = drm_debug_printer(DBG_PREFIX);
+>> 
+>> -		drm_printf(&p, "sideband msg failed to send\n");
+>> -		drm_dp_mst_dump_sideband_msg_tx(&p, txmsg);
+>> +			drm_printf(&p, "sideband msg failed to send\n");
+>> +			drm_dp_mst_dump_sideband_msg_tx(&p, txmsg);
+>> +		}
+>>  		return ret;
+>>  	}
