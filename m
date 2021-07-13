@@ -1,61 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E66A03C7164
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Jul 2021 15:44:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A010C3C7165
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Jul 2021 15:44:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 231046E0A1;
-	Tue, 13 Jul 2021 13:44:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D7AF26E0A6;
+	Tue, 13 Jul 2021 13:44:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
- [IPv6:2a00:1450:4864:20::330])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 176236E0A1
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jul 2021 13:44:38 +0000 (UTC)
-Received: by mail-wm1-x330.google.com with SMTP id
- a5-20020a7bc1c50000b02901e3bbe0939bso2419573wmj.0
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jul 2021 06:44:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=FINeCuPukYbhv1xTzdjoUCid4zw6kZITuKvaxve1oMc=;
- b=QadkfaDShgJd/+NGzz3yoiOZUnE2aQTJlWTybWTCGXW22X5zbwAy5QRe93syByenJp
- kUlug44MwdIJiout5uCp3YKRjfcUwI3fhgBb5jLJ77Jn6T679Qf6Zbn9CBzOhfMRT5X/
- 11hCLIFHfA8B3FAvmS8VQXa2gOtuNZUPSs20k=
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
+ [IPv6:2a00:1450:4864:20::12f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D65506E098
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jul 2021 13:44:54 +0000 (UTC)
+Received: by mail-lf1-x12f.google.com with SMTP id t17so50409585lfq.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jul 2021 06:44:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=A9GCE1XyokBjHqSgBA/iJEz3drr7IdUuNv0RdsnzLeE=;
+ b=EqpBeNlnm4ViPyJwMUgvpLbBGimxy8xUkaxEZarGaWkEXICuUxFFVTvA+wNN/nvEn6
+ pgVxHY/63YMpCOFYGKlNZGhhOhRcTKpfiPpmLretPtpO6zu2QV1/4l2yP4QL0ruMFIDX
+ 6sFSCpc9GeIPsOLFoAb8fuv15fponjyWlCeKQQAsvZ9bJXtvqhhlls4bT3KoRUV4OJX0
+ L9CujbEumsmiCetHoMatkDpyaxIt5iOPMCSsJ4LMdsaztrwyJAvPL3AC6oMMA+3ktx9I
+ LnugzSh7/SCUe49vfiS+QYKv1GB7FZBy3flf7gn4TtC3NQ271reHq5tX+VBZpE5pUW7r
+ uOzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=FINeCuPukYbhv1xTzdjoUCid4zw6kZITuKvaxve1oMc=;
- b=N+WGGCGLOelrccWxkwjnjD7Ex7gwUUBUSl7GGLv6vFV6ZEeGr/QTWPdOzkPwVYCaHk
- xYe6pSuTuvNnoLv4xPOfe1doLxETZUiEw9fV3kIQOuSETk/b5nUjUZ/sY/QPJO2i8z+X
- dj4huFHpAolUNTXjBnWaHD7itA+GdJ0Tnfv+xprcpHEdRQOsF1SyTbEW92guWNNl8paV
- SMvPKVrf3ATHOMpT9ox2GgexFPzUTYlB1DrlZNLZpYMoLb+QBM0l9eAvIL6Ji6eS8Z+d
- J+POpj5kqCUOfwtInclQN1CVpGIs57NZeno7qwHC62MlTnEjXdNkoMOEqrOa6MsxR/3P
- JYBw==
-X-Gm-Message-State: AOAM530rTFJlj6m+o7Na2UOKIJXJMHokSjD3cYoKVssB53YJG5Rx0o/B
- GZS+Jx/2WuS/cOp2cSBdJRiu8w==
-X-Google-Smtp-Source: ABdhPJym4Uozv751Vyc405wWER6Zpcdl4FODf/9syXgubp3Qizj3FCRWAXwYOzRWTLISCJPM3oFZxQ==
-X-Received: by 2002:a05:600c:ac3:: with SMTP id c3mr5391442wmr.4.1626183876735; 
- Tue, 13 Jul 2021 06:44:36 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id g7sm2287936wmq.22.2021.07.13.06.44.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Jul 2021 06:44:36 -0700 (PDT)
-Date: Tue, 13 Jul 2021 15:44:34 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PULL] drm-misc-fixes
-Message-ID: <YO2Ywqla3CgS+AbL@phenom.ffwll.local>
-References: <YO07pEfweKVO+7y0@linux-uq9g>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=A9GCE1XyokBjHqSgBA/iJEz3drr7IdUuNv0RdsnzLeE=;
+ b=oStf6NV6fI+M5bgoYmtf6x7U3Dm0JgzmnWIOJiDtc/O7eeu9lJqhRV0Gi54lN1PCh5
+ TJHmLcXw3kz984JKpNSzN/RG/S1yebZbBesS4vG3u+CK1JvtEsGDB2RpKUqVxwB+dh1I
+ rtQHVQ4M6JAGNUZj2VVn8ZwiZnMSN16CojwZoVlN39+ZKGbYd6kHVZSP7/YxbN1ePu4T
+ nfxotaGaQ5F/I6dEBGVwsf2cnGLR9+beRM+bnHxE3qqB3GS6DU+Nzjz6jl9fR9vhpeVh
+ IYN64Cm6dT/ftrSh1aUBlUNGXPPI7vc5JDH3z/y0/7FI+i1jRDfjKXUkdUmPXweJzZCW
+ S/Aw==
+X-Gm-Message-State: AOAM531vL7epB9ZQ4Lf5cVffTwP9FKbHOQQNJ9BuQ7H8QoddjlZ6yTc2
+ f8v+wfi+YSD7FkP4HJW5OD5q0aEDDzuG5LsAb+Y=
+X-Google-Smtp-Source: ABdhPJwWbAqgQWlLJw0BY2EdKR+e7hDanpON3XRb3mTM4I19Xn3x28jmKb62g0+4v6fwWkjtyCsW11A4OB50rjdY6Is=
+X-Received: by 2002:ac2:5297:: with SMTP id q23mr3528281lfm.223.1626183893269; 
+ Tue, 13 Jul 2021 06:44:53 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <YO07pEfweKVO+7y0@linux-uq9g>
-X-Operating-System: Linux phenom 5.10.0-7-amd64 
+References: <20210713133230.GA1872993@pc>
+In-Reply-To: <20210713133230.GA1872993@pc>
+From: Fabio Estevam <festevam@gmail.com>
+Date: Tue, 13 Jul 2021 10:44:41 -0300
+Message-ID: <CAOMZO5C05uBJXxg+Vmy1EAxx5rh7UsF-KQFi2w3cBQ-b=tTDOA@mail.gmail.com>
+Subject: Re: [PATCH] gpu: ipu-v3: use swap()
+To: Salah Triki <salah.triki@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,76 +61,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dim-tools@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
- dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Sean Paul <sean@poorly.run>, intel-gfx@lists.freedesktop.org
+Cc: DRI mailing list <dri-devel@lists.freedesktop.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 13, 2021 at 10:44:05AM +0200, Thomas Zimmermann wrote:
-> Hi Dave and Daniel,
-> 
-> these two fixes in drm-misc-fixes got lost during last cycle. Sending them
-> now.
+Hi Salah,
 
-Applied to drm-fixes, thanks.
--Daniel
+On Tue, Jul 13, 2021 at 10:33 AM Salah Triki <salah.triki@gmail.com> wrote:
+>
+> Use swap() instead of implementing it since it makes code more clean.
 
-> 
-> Best regards
-> Thomas
-> 
-> drm-misc-fixes-2021-07-13:
-> Short summary of fixes pull:
-> 
->  * dma-buf: Fix fence leak in sync_file_merge() error code
->  * drm/panel: nt35510: Don't fail on DSI reads
-> The following changes since commit d330099115597bbc238d6758a4930e72b49ea9ba:
-> 
->   drm/nouveau: fix dma_address check for CPU/GPU sync (2021-06-24 15:40:44 +0200)
-> 
-> are available in the Git repository at:
-> 
->   git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-fixes-2021-07-13
-> 
-> for you to fetch changes up to ffe000217c5068c5da07ccb1c0f8cce7ad767435:
-> 
->   dma-buf/sync_file: Don't leak fences on merge failure (2021-07-12 13:34:49 +0200)
-> 
-> ----------------------------------------------------------------
-> Short summary of fixes pull:
-> 
->  * dma-buf: Fix fence leak in sync_file_merge() error code
->  * drm/panel: nt35510: Don't fail on DSI reads
-> 
-> ----------------------------------------------------------------
-> Jason Ekstrand (1):
->       dma-buf/sync_file: Don't leak fences on merge failure
-> 
-> Linus Walleij (1):
->       drm/panel: nt35510: Do not fail if DSI read fails
-> 
->  drivers/dma-buf/sync_file.c                   | 13 +++++++------
->  drivers/gpu/drm/panel/panel-novatek-nt35510.c |  4 +---
->  2 files changed, 8 insertions(+), 9 deletions(-)
-> 
-> --
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Maxfeldstr. 5, 90409 Nürnberg, Germany
-> (HRB 36809, AG Nürnberg)
-> Geschäftsführer: Felix Imendörffer
-> 
-> -- 
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Maxfeldstr. 5, 90409 Nürnberg, Germany
-> (HRB 36809, AG Nürnberg)
-> Geschäftsführer: Felix Imendörffer
+s/more clean/cleaner
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+> Signed-off-by: Salah Triki <salah.triki@gmail.com>
+> ---
+>  drivers/gpu/ipu-v3/ipu-image-convert.c | 7 ++-----
+>  1 file changed, 2 insertions(+), 5 deletions(-)
+>
+> diff --git a/drivers/gpu/ipu-v3/ipu-image-convert.c b/drivers/gpu/ipu-v3/ipu-image-convert.c
+> index aa1d4b6d278f..5f730cd6009d 100644
+> --- a/drivers/gpu/ipu-v3/ipu-image-convert.c
+> +++ b/drivers/gpu/ipu-v3/ipu-image-convert.c
+> @@ -1021,11 +1021,8 @@ static int calc_tile_offsets_planar(struct ipu_image_convert_ctx *ctx,
+>
+>                         u_off = y_size - y_off + uv_off;
+>                         v_off = (fmt->uv_packed) ? 0 : u_off + uv_size;
+> -                       if (fmt->uv_swapped) {
+> -                               tmp = u_off;
+> -                               u_off = v_off;
+> -                               v_off = tmp;
+
+The 'tmp' variable seems to be unused now, so its declaration should be removed.
+
+Thanks
