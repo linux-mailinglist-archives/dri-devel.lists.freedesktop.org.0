@@ -2,55 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D93B3C71B0
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Jul 2021 16:00:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 974763C71D0
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Jul 2021 16:05:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05D136E0AF;
-	Tue, 13 Jul 2021 13:59:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4EFB2895E1;
+	Tue, 13 Jul 2021 14:05:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com
- [IPv6:2a00:1450:4864:20::433])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EEDC36E0AF
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jul 2021 13:59:54 +0000 (UTC)
-Received: by mail-wr1-x433.google.com with SMTP id i94so30601825wri.4
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jul 2021 06:59:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=9YydAG2DcMEmgxcLivuTtxWGeOd7fbFGRECd/sa24wQ=;
- b=F0ZCsLuvDZbH1NpL9Gr8BR4m7vPWuJoj2pxLHSMHE0jfMa7Z0qaez9/Mpy1mjvXBl9
- 7Qz4+MaMVubEkwDD/Xn2dkGltVI/9wAMgZi0RASsIxWaRziwmfrOF9VuMTI/xtk1L0oK
- FE1lfIvEgStA04R+4uXa/RaoiNqOSNFUNBJ8Q=
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com
+ [IPv6:2a00:1450:4864:20::632])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 616248996E
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jul 2021 14:05:25 +0000 (UTC)
+Received: by mail-ej1-x632.google.com with SMTP id he13so41647546ejc.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jul 2021 07:05:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+ bh=XnJI6qXOw6HsabQFNSqtivtJDCKOD2fPbI9xhSpPX+g=;
+ b=H6h7/rvaV6hTrQ+ZDaJd4fsM8GWCyrjOeUONSUYBl8ICPUJmsqsFhIHcRTDSycZxd6
+ 6xHrnZQAMWfMZ5zg0rd6GgAUSrW1qwWkULN4dqPh3VmbZxZP/OR+E8JEv1oe10uvJOJv
+ caE9Lecyf8lvnyakapQYffih19U427ROUz5EgjO8m7mxtCbv83PXZPngCN0ZTCp25Sco
+ OwHhWXyRcBMV+VKEqpVb4F4IaSCSO8dQKGw45pbvYfbMrQrzU9zjr1CXsRetHto3mneR
+ Mc7m6fqc9TGeOfFK/5l6XVqXTl3OoH1gftZdZmVNfy/cdIiGIpx1+Zj3IuRnsuamPqhU
+ n1OA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=9YydAG2DcMEmgxcLivuTtxWGeOd7fbFGRECd/sa24wQ=;
- b=G9sZBc8pxJOXdRyUdqJ0C2ZABSyXVLKrb2Nq71cf/mhXI0u2KOSzEu82VnBE59T1W6
- zCI9EMmZT+i6flMONbsgm37pZFBOkbux5V62qL18HBz0ktsvwXwwxQsOyNisyE39afve
- KQgOdiVkBO3mLTrxTBI8zNlDBxMiBxHvkRwBwmtwgQ7OU/bLCVtR+0chTgYpq4QYfdj/
- zEbRdBCc6mJJpEr8aVj1KrxK6msWcJG8mbTvcVzQ2v7AIoGQkKteO+peWeKH7tpwvwZ5
- l5C+aOwryEBvkSDQVNs1OAW94GcIoyrtOkr5gk5laf0olBuNGfCakza2StoBzr1wu+D3
- gntA==
-X-Gm-Message-State: AOAM53105DJuO8pM2J9pyrXNVdDtHqtmvg0YnA9yXF6qeqN1v7uoLsFR
- d1u6YQUZ9K9eTgP/vnROf5KYgy+U+CcHXg==
-X-Google-Smtp-Source: ABdhPJzwXAzU2cpdYTqZ3JYfNKp8ntaA14B4FhpXI+wfK3KsiogYVTJfuXOFUIsZYWMn7szF8KW7jA==
-X-Received: by 2002:a5d:4e4e:: with SMTP id r14mr6084401wrt.251.1626184793688; 
- Tue, 13 Jul 2021 06:59:53 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id u18sm15260452wmj.15.2021.07.13.06.59.52
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+ :content-disposition;
+ bh=XnJI6qXOw6HsabQFNSqtivtJDCKOD2fPbI9xhSpPX+g=;
+ b=A41nXgWO0dcdvjbJwpaxT4vhdcfu1nSNqPVYz+pb9qBuPh1F0atd+KkeOYye73mf60
+ VzZmUXHJAKNtQPiMw43Fq9ky/0Zpu3ZVKHP9ewLJf0e/IgrBaWYYByT8VMDDUtG2flIG
+ lQdJ6HAUEs+wx5cXsDkcePQfrDcGFsQg0UJvSc1HwNqazZD3kcloIkUkpHOEM51dUvJY
+ zDZmG+X2fbDE+mTSwQnBP/jb55QF16QgxH/cgHYIpVvfTtgpdJ5LTCLHCIIX5y8dQgQE
+ 0c3MMwxlumZtwQanRzJBjdYGbwP9QFVq5qqSp1LauVdr5poiFyd8cPRVlys97leWJuBk
+ K6Tg==
+X-Gm-Message-State: AOAM533SZFTeHPB09cCo7ToeapNawuySaoCsb2C2HKYuZ/vWaMuTkqmN
+ cZTV09TCpKFnD9s8ImveMgrVxirfj/pVuA==
+X-Google-Smtp-Source: ABdhPJwrN7Uce6XZnD8SlIaRWhSyTHA/CD+x4umpJkAzbx3TT4cd6AiXIMtXKWWFzsKER+YalNa9Lg==
+X-Received: by 2002:a17:906:4fce:: with SMTP id
+ i14mr5964587ejw.231.1626185124024; 
+ Tue, 13 Jul 2021 07:05:24 -0700 (PDT)
+Received: from pc ([196.235.212.194])
+ by smtp.gmail.com with ESMTPSA id co21sm9866084edb.24.2021.07.13.07.05.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Jul 2021 06:59:52 -0700 (PDT)
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: [PATCH] drm/fb-helper: Try to protect cleanup against delayed setup
-Date: Tue, 13 Jul 2021 15:59:22 +0200
-Message-Id: <20210713135922.1384264-1-daniel.vetter@ffwll.ch>
-X-Mailer: git-send-email 2.32.0
+ Tue, 13 Jul 2021 07:05:23 -0700 (PDT)
+Date: Tue, 13 Jul 2021 15:05:21 +0100
+From: Salah Triki <salah.triki@gmail.com>
+To: p.zabel@pengutronix.de, festevam@gmail.com, alexdeucher@gmail.com
+Subject: [PATCH v2] gpu: ipu-v3: use swap()
+Message-ID: <20210713140521.GA1873885@pc>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,71 +65,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Chris Wilson <chris@chris-wilson.co.uk>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Some vague evidences suggests this can go wrong. Try to prevent it by
-holding the right mutex and clearing ->deferred_setup to make sure we
-later on don't accidentally try to re-register the fbdev when the
-driver thought it had it all cleaned up already.
+Use swap() instead of implementing it since it makes code cleaner.
 
-v2: I realized that this is fundamentally butchered, and CI complained
-about lockdep splats. So limit the critical section again and just add
-a few notes what the proper fix is.
-
-References: https://intel-gfx-ci.01.org/tree/linux-next/next-20201215/fi-byt-j1900/igt@i915_pm_rpm@module-reload.html
-Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
-Cc: Chris Wilson <chris@chris-wilson.co.uk>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
+Signed-off-by: Salah Triki <salah.triki@gmail.com>
 ---
- drivers/gpu/drm/drm_fb_helper.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
-index 9d82fda274eb..8f11e5abb222 100644
---- a/drivers/gpu/drm/drm_fb_helper.c
-+++ b/drivers/gpu/drm/drm_fb_helper.c
-@@ -598,6 +598,9 @@ EXPORT_SYMBOL(drm_fb_helper_alloc_fbi);
-  * A wrapper around unregister_framebuffer, to release the fb_info
-  * framebuffer device. This must be called before releasing all resources for
-  * @fb_helper by calling drm_fb_helper_fini().
-+ *
-+ * Note that this is fundamentally racy on hotunload because it doen't handle
-+ * open fbdev file descriptors at all. Use drm_fbdev_generic_setup() instead.
-  */
- void drm_fb_helper_unregister_fbi(struct drm_fb_helper *fb_helper)
- {
-@@ -611,6 +614,9 @@ EXPORT_SYMBOL(drm_fb_helper_unregister_fbi);
-  * @fb_helper: driver-allocated fbdev helper, can be NULL
-  *
-  * This cleans up all remaining resources associated with @fb_helper.
-+ *
-+ * Note that this is fundamentally racy on hotunload because it doen't handle
-+ * open fbdev file descriptors at all. Use drm_fbdev_generic_setup() instead.
-  */
- void drm_fb_helper_fini(struct drm_fb_helper *fb_helper)
- {
-@@ -2382,6 +2388,10 @@ static void drm_fbdev_client_unregister(struct drm_client_dev *client)
- {
- 	struct drm_fb_helper *fb_helper = drm_fb_helper_from_client(client);
+Changes since v1:
+	- Remove the declaration of tmp
+	- Fix typo in the description
+
+ drivers/gpu/ipu-v3/ipu-image-convert.c | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/gpu/ipu-v3/ipu-image-convert.c b/drivers/gpu/ipu-v3/ipu-image-convert.c
+index aa1d4b6d278f..af1612044eef 100644
+--- a/drivers/gpu/ipu-v3/ipu-image-convert.c
++++ b/drivers/gpu/ipu-v3/ipu-image-convert.c
+@@ -990,7 +990,7 @@ static int calc_tile_offsets_planar(struct ipu_image_convert_ctx *ctx,
+ 	const struct ipu_image_pixfmt *fmt = image->fmt;
+ 	unsigned int row, col, tile = 0;
+ 	u32 H, top, y_stride, uv_stride;
+-	u32 uv_row_off, uv_col_off, uv_off, u_off, v_off, tmp;
++	u32 uv_row_off, uv_col_off, uv_off, u_off, v_off;
+ 	u32 y_row_off, y_col_off, y_off;
+ 	u32 y_size, uv_size;
  
-+	mutex_lock(&fb_helper->lock);
-+	fb_helper->deferred_setup = false;
-+	mutex_unlock(&fb_helper->lock);
-+
- 	if (fb_helper->fbdev)
- 		/* drm_fbdev_fb_destroy() takes care of cleanup */
- 		drm_fb_helper_unregister_fbi(fb_helper);
+@@ -1021,11 +1021,8 @@ static int calc_tile_offsets_planar(struct ipu_image_convert_ctx *ctx,
+ 
+ 			u_off = y_size - y_off + uv_off;
+ 			v_off = (fmt->uv_packed) ? 0 : u_off + uv_size;
+-			if (fmt->uv_swapped) {
+-				tmp = u_off;
+-				u_off = v_off;
+-				v_off = tmp;
+-			}
++			if (fmt->uv_swapped)
++				swap(u_off, v_off);
+ 
+ 			image->tile[tile].offset = y_off;
+ 			image->tile[tile].u_off = u_off;
 -- 
-2.32.0
+2.25.1
 
