@@ -1,65 +1,125 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 943C23C6BBC
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Jul 2021 09:52:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E72183C6C23
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Jul 2021 10:44:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B4D1B89DA2;
-	Tue, 13 Jul 2021 07:52:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03E5089FD3;
+	Tue, 13 Jul 2021 08:44:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com
- [IPv6:2a00:1450:4864:20::234])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2DDCB89DA2
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jul 2021 07:52:29 +0000 (UTC)
-Received: by mail-lj1-x234.google.com with SMTP id a18so28588670ljk.6
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jul 2021 00:52:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=umfPdu1lrU6B3okQ5unfcwiBa6kdfuAx9EF1yLDSE/k=;
- b=kqN1K0NCZuOLIo66DGBW7GvDESI7wJ3Vo7DAytXYWMbEkDjw4qFRe5kbnbKUBChtzz
- a3moe+7hMFmfPN4Y8dACZeQdQkDsP32F8RXcdtiH6B7CEVFdezNPNfMoqCu6czfxuv8s
- 4M0pf60qTKDi5iMmkrE3UgfY/1vL1HnXZXxi+x7RqXHtSQy2bSUGWrT5keFpGdiySVue
- hnhLj8C5cE2rHYoTbg36cB76Ekks9U9VlvpCvPiem5nHl0eD3rAINObvWWp9gruP/RU9
- DrwVk8ko6BgWxBUCLyNZy91RhNKW6E73kqtnv60k3D+GbdpsYQOvI9c2C70QYcdZdh4u
- pSKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=umfPdu1lrU6B3okQ5unfcwiBa6kdfuAx9EF1yLDSE/k=;
- b=V2I1GgpXRh2D/lvcWU5jxGFsd+XJ2DvOmXtwpVAzA6DwHn1xZ2ptC6ov8deB4NZSnK
- Ss2zXwSIALu2VkBtOfE89DJKYB+0B8v5N1oO+euso6znhd8JnIDYXTbSCUGls3JMqRqB
- WpTHSvifhWDY9H+RRYBlzu2IgFRdmgEMo/chtwy/a8+TMP72spRHkjWTlSaLw1YhIcxf
- ZivqXQ/yJl//9kGeZ/CvJfCwTvdOMEKAUtm+VFFjLWUqbji19KD8gYdfIoJAXarQc7cx
- jFkq3nbhWdRh7R+VVolKV2XjqWaokGJ9mFzvuoQ+9/WtROEELT7lULgXOCUoqyXPj+W6
- 0HcA==
-X-Gm-Message-State: AOAM532HmyaWnyDqGoR+RA/dXWIVrQ16XnPJPwQE7uga3SriGf6NL4eI
- U5htI4a8TCc6hctZ/WaLvpI=
-X-Google-Smtp-Source: ABdhPJymvkBefEBGF3M0rdNw7gmRquJu+GkPGC0OJkiXTav8YVwN0NE1AqUrDfq1zhWggpGqPVhLHw==
-X-Received: by 2002:a2e:99cc:: with SMTP id l12mr3082563ljj.358.1626162747533; 
- Tue, 13 Jul 2021 00:52:27 -0700 (PDT)
-Received: from eldfell ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id r5sm662018ljn.28.2021.07.13.00.52.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Jul 2021 00:52:27 -0700 (PDT)
-Date: Tue, 13 Jul 2021 10:52:14 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Harry Wentland <harry.wentland@amd.com>
-Subject: Re: [PATCH 1/2] drm: add crtc background color property
-Message-ID: <20210713105214.5730c959@eldfell>
-In-Reply-To: <f8e7db99-a4e4-c4d7-5d6a-67950184701c@amd.com>
-References: <20210707084557.22443-1-raphael.gallais-pou@foss.st.com>
- <20210707084557.22443-2-raphael.gallais-pou@foss.st.com>
- <20210709110459.79ca406a@eldfell>
- <3c8331cf-fded-b6e6-3e25-666634f4b87a@foss.st.com>
- <20210712110310.540df27d@eldfell>
- <f8e7db99-a4e4-c4d7-5d6a-67950184701c@amd.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Received: from EUR02-AM5-obe.outbound.protection.outlook.com
+ (mail-eopbgr00086.outbound.protection.outlook.com [40.107.0.86])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5AA5789FD3
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jul 2021 08:44:05 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=BQlItuqBhSziqOnnnZHHfOSmVhADGOX3VWVU8qlZo847axwEOQu2XGUuNPHVpQL+I49BmUHfo7ypOX2U28AgZ5vpSZn2iX9OjhXZ7Bbk0r9QXJrHw0XBZKDtMtZap+GdLv50eEcnt5Ixtj9mqvNrkxW2Od3FfHreWnCRjAJSAAY+fg3Cbujr1zXiKTESTbNkYVGyo55bwusBjXze9bqa27+Km15yEk6oNOeV1I3j8364FyUMK7H+sde7oiwlZo9K/IsF1TQ8hGwFQ2H15856oFWIZLSuq/idKRulE1u1WU0XtZXgig6AJYoucgnZaJiZIVrfVDdJiEcByt5BGCoc8w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=o6z6cRcL5ZaJtkebEHEpfrL4LGa/7GHBeCEyg3dC55w=;
+ b=fp5pNxdWjLIbTx2D+ulumIz7qi7IrAQDazAurA5+CUytlKBs9ogRkZqfj0SS0z4UoZMpieQsWhB8zXA3KtX4LHo/I5TKUej+Macb2R2wb7LPHyvtuYvXyxT78F1ZKIAeuEqh0FOj5FxXLLq5j5IKXCKH3fO8FrJgXF4zvUhdSFmLW2yRYujYeOVEg5Bp6LDmfS8ohKGmiceXF7aDw/yuFAoZ4HRLgANpPap2HuUC+lWImKDSHiDUqquOSbP0aUoDT+E/THx3ACdqjBFLfY2MylkwDULfZ0CMl6wfVNNt+MvTidjiWwnnnNsJwVSkkTTjObhbmNng1OzWj8BMwWaSOg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wolfvision.net; dmarc=pass action=none
+ header.from=wolfvision.net; dkim=pass header.d=wolfvision.net; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wolfvision.net;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=o6z6cRcL5ZaJtkebEHEpfrL4LGa/7GHBeCEyg3dC55w=;
+ b=unlIuiyMMZQRVJbpYWgNGdXbfL8cVOfemCakLxfdJ99I/KBaEoulK62hJlhOj1tK5rZYvkbZjuewkxP0R0PUpdM12rzqRBJaFdWMA5bgn2Kg+/nCRm3jnjK4YKs7lgdiMqYQnte+3t0ueRKMvuuunU5/U8rFcOMDHOR1l22M/b4=
+Authentication-Results: collabora.com; dkim=none (message not signed)
+ header.d=none;collabora.com; dmarc=none action=none
+ header.from=wolfvision.net;
+Received: from DBBPR08MB4523.eurprd08.prod.outlook.com (2603:10a6:10:c8::19)
+ by DBBPR08MB6298.eurprd08.prod.outlook.com (2603:10a6:10:1f7::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4308.23; Tue, 13 Jul
+ 2021 08:44:02 +0000
+Received: from DBBPR08MB4523.eurprd08.prod.outlook.com
+ ([fe80::ade3:93e2:735c:c10b]) by DBBPR08MB4523.eurprd08.prod.outlook.com
+ ([fe80::ade3:93e2:735c:c10b%7]) with mapi id 15.20.4308.027; Tue, 13 Jul 2021
+ 08:44:02 +0000
+Subject: Re: [PATCH v2 1/2] dt-bindings: display: rockchip: Add compatible for
+ rk3568 HDMI
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, hjc@rock-chips.com,
+ heiko@sntech.de, airlied@linux.ie, daniel@ffwll.ch, robh+dt@kernel.org,
+ algea.cao@rock-chips.com, andy.yan@rock-chips.com
+References: <20210707120323.401785-1-benjamin.gaignard@collabora.com>
+ <20210707120323.401785-2-benjamin.gaignard@collabora.com>
+From: Michael Riesch <michael.riesch@wolfvision.net>
+Organization: WolfVision GmbH
+Message-ID: <1bd64284-0a20-12e3-e2e7-19cdfdbf1a25@wolfvision.net>
+Date: Tue, 13 Jul 2021 10:44:00 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.9.0
+In-Reply-To: <20210707120323.401785-2-benjamin.gaignard@collabora.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AM5PR1001CA0012.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:206:2::25) To DBBPR08MB4523.eurprd08.prod.outlook.com
+ (2603:10a6:10:c8::19)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/7sIoOLLn+H1OrBMUDsRwLWM";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.125] (91.118.163.37) by
+ AM5PR1001CA0012.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:206:2::25) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4308.20 via Frontend
+ Transport; Tue, 13 Jul 2021 08:44:01 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: c04c85cd-549e-40c3-d79c-08d945da5d72
+X-MS-TrafficTypeDiagnostic: DBBPR08MB6298:
+X-Microsoft-Antispam-PRVS: <DBBPR08MB629869DDDE29F235C9D4FA38F2149@DBBPR08MB6298.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 0oHd9oJZXWkSok+MhwYw9kdq00BvKD4ro7zXCNv7xRDZjHI9lf5Ee+xTvvDVJlhfInXMgLeEDgWLqb0wqgd/0c32C/2sMvxBbKfMHOFqyZpQBBJxNKXgu7ytooGmQrpkux/9tQy/bck8l88v5oAMja9uxTCWBHb2wdjiMzrGeeZES3eTL+lFnLYPvfuWNmES13yNIw9TFp7nvrw+4gfWgznFaJaquJutrs2iiUXtrTaAYzVi0ciKKuSbF5k5U3SbYSxcbX+yk526A0StJiCdhIvKDgcaOkcreNl8BTU7gkNM+A7aUbWyy5UTlNLCVc9rgB6ALes10HYDz9Ogp6Rk5bXocppMHDiMNyWjhCOvAnfq/AWx2zVHpvyLHNM91mKW3oit+3lOfGe26Ba2jyYMjKyeDighNz9sfN3GVU4PcRcjQqY7gRLBgOiizLczhpMnovEELwtFd5zBKj2v2Ap17qVU0e4IXVAQ1DP3QPX8TW8Cf1nGoBR55jXc8hAta3YrBE6UX2ZNKl7duQZjk6F1mD0lxWgZCvhsCiVabVTjqCDJfIaTUl9uY61UkPaJeHxq7ySE5pwxkGL0jX6wx++hE1sqnUY5ZjQvN8l3zneT+2YL3SO3IPD/vXta7aYK/oFMr+eIzGVRvnHVYmGBVJ5T7GlSMpXGqYjIXhmC7tan76jhRIiuC4LJYHWlrZsBCNKzzBABC8cqfEk9Mvyblci1QvU6Sr0pl7kaFAGth/VyM+Nw7tOJVBSrJLkaQC7NhWy7zA4MtoQqGljrmS/hZ8bUlw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DBBPR08MB4523.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(39840400004)(366004)(346002)(136003)(376002)(396003)(2616005)(38350700002)(956004)(4326008)(8936002)(53546011)(16576012)(316002)(31696002)(83380400001)(38100700002)(2906002)(86362001)(26005)(5660300002)(186003)(36756003)(44832011)(6486002)(66556008)(36916002)(66476007)(66946007)(8676002)(478600001)(52116002)(31686004)(7416002)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?U0IwcDNxRXlJRGZsVE1ISGZoYmFSSWJMaEdTM3hFbmk3UEZSTVRRTmRoZzJ6?=
+ =?utf-8?B?VXhEMUh6QzNZSFc2NWR2SlZ4LzRSV1pYdnZxL08yOE9uWFZ2RmovWHoxVGln?=
+ =?utf-8?B?M3FZejBEYWRIUDhST0d3WVBHK0t1bk1rU0loR2xpS2NyaXJoWGhQVExsU1p4?=
+ =?utf-8?B?c1FDTDZYaHdMUVNsaERMdDU2b1g5TjlFYjFEYmtZcjhjQ3FPdnJaOThNUTNL?=
+ =?utf-8?B?dHM0VlFZTVlreHZCbWdGSi81K1JjTzQzOTNFRWdQV1d1cHhZbTQrVUkrSTJl?=
+ =?utf-8?B?K3g0YjM5ZFZCQzlaZWNpN2ZUYXRHcFovdHJJajU1dTdxWkUzRms5MzMvNmw5?=
+ =?utf-8?B?MXQ2UlF1MnZEZUdZTS9zOE9FakJxTVdUVmdFSzhBZGp3Uno0bVhNRUEzM2NW?=
+ =?utf-8?B?Znl2R1Vuc1Nmd0w2Y0tRY2VDTG9qM1psUnhtVWxuUUx2REtlS3lBRDB0ZXBP?=
+ =?utf-8?B?Y0FKM0c4MDBWNlMrN3RJS21icG5JcmRRbHVWUHB3cnAzbDRDSS94Zkh1STRT?=
+ =?utf-8?B?a0xUeFZ3cGFKbTFpTEhITWxpbUYxNE1RMndyTlNkQmo4ZnFQcUFJdEJoZDM1?=
+ =?utf-8?B?K0poTm53KzAzZWlrTkNjL21EUmdCVkRYSGdDMHNKNTkxZXV3VlpQK1hFQ1VS?=
+ =?utf-8?B?T3ZVbGd5UldOOHd3bjQxc0Rwbk5IOTlQdkJ4S1hMcVZYLytQZXpDWE1tTHdE?=
+ =?utf-8?B?dVhJTXRhU0ZLdHE4UU84REQvbXU0dkROZndRd3JwVURPeVlJWVlBU2V3eWhP?=
+ =?utf-8?B?K2xtVDBBU1JvZjlvMDcxL0RuOWFyemdSR2MyUjc4YzVSNVJFcXVDMEdhWFh4?=
+ =?utf-8?B?Ri9PNi9MMnpDblRGUVMrRUVPMjdsZTVzYmFQb3RwdlFSSlY1c0NYZEgvczNs?=
+ =?utf-8?B?QlBiVDFnRndtd3ltVHE1Q3VNaHlyUUJSdzFtRTVjaVJIVDQycHZQSHJYRFUz?=
+ =?utf-8?B?VnVLYWVxSy8xVlZzemlsYVZ1ak1zWDNjSC9LTFJ3NjJlTy9xTFRhbnBUbVRG?=
+ =?utf-8?B?QkNvN1l0aWdjMXhqbklZRktrTmRSOUxMN1NoK2tKZVhEMUV0WmYxTU5xcFAx?=
+ =?utf-8?B?cDQ4eXNuREZ1NFN5VXZzY1JqQkpkK3NSWFljVGIyWXJoNnEyc0loVXR5NXRn?=
+ =?utf-8?B?SGJPN3RSRWdacEszM01vR3IyUWw4Y2RXN1IyYThXNTZ0QnQ1dHlVWmltL1hj?=
+ =?utf-8?B?UzNidGc0OHdHVFlLMmVRc0tBNzNvRnpmb0MrM2pDSnlTenRaNXN2V0w2dEVu?=
+ =?utf-8?B?VkMzWmswSFpIbDdCSnIzaHRNVi9zb2d4VkFmYUVUS1pFSWFUT0FLclUvcVFB?=
+ =?utf-8?B?aSt5emtuMXltbmNWVk14T3hHaS9Oa3FPSkRCMWJiaDhvVDhDd2NuNTdDUkZm?=
+ =?utf-8?B?djRpRTUzQ1d6bzlCVDQ4RWN5d1VmT1RON2ZWQlZxK3JXckpIUUVpRXdjMlFF?=
+ =?utf-8?B?aTdNNHdYa0NxeXJGa2U3VW4ybGsvL29jQUgwSTZ6MElPU2M5UkxxazlpU3ZX?=
+ =?utf-8?B?R1Y0eHJCVjhTOE5veGNDSmRSSUFQMUdMTVI3RFJ0RElxK3JKTFl3Tk1KY0ty?=
+ =?utf-8?B?WlA5VjAyQWV4QjN2M3pIVEtZV1RjWUdhdzBDdFF2UGNJVlc0NlFNR05ucVcw?=
+ =?utf-8?B?MTIweU1YeHFZV2RTYmpFcmprNmt5ZWpUN3l2THpGT0Rpb1F2VitVZTVYeXEx?=
+ =?utf-8?B?TGkyaUp6c1FGWms2NVlmQzRHSUx2M1VmRWJsZ2IvczZqUzhYdHltMCsxOEta?=
+ =?utf-8?Q?dbssc9w2bvSlw5ooJcTBk5JgcCa+dhAX6loul8x?=
+X-OriginatorOrg: wolfvision.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: c04c85cd-549e-40c3-d79c-08d945da5d72
+X-MS-Exchange-CrossTenant-AuthSource: DBBPR08MB4523.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jul 2021 08:44:02.4489 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: e94ec9da-9183-471e-83b3-51baa8eb804f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: pcZ3NZL+X4aEdNEQyohG6hlknQtxgpD8/OopBKaxPISzSM2h/wwrczki++7zrccnozMzvYoae40LTHFz52p/EjKVlarhc4KOLSL6EtQ8F0w=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBBPR08MB6298
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,145 +132,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Benjamin Gaignard <benjamin.gaignard@linaro.org>,
- Raphael GALLAIS-POU <raphael.gallais-pou@st.com>,
- David Airlie <airlied@linux.ie>,
- Yannick FERTRE - foss <yannick.fertre@foss.st.com>,
- Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
- Alexandre TORGUE - foss <alexandre.torgue@foss.st.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Yannick FERTRE <yannick.fertre@st.com>,
- Philippe CORNU - foss <philippe.cornu@foss.st.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Philippe CORNU <philippe.cornu@st.com>,
- "linux-stm32@st-md-mailman.stormreply.com"
- <linux-stm32@st-md-mailman.stormreply.com>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
+ kernel@collabora.com, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/7sIoOLLn+H1OrBMUDsRwLWM
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Hello Benjamin,
 
-On Mon, 12 Jul 2021 12:15:59 -0400
-Harry Wentland <harry.wentland@amd.com> wrote:
+The HDMI TX block in the RK3568 requires two power supplies, which have
+to be enabled in some cases (at least on the RK3568 EVB1 the voltages
+VDDA0V9_IMAGE and VCCA1V8_IMAGE are disabled by default). It would be
+great if this was considered by the driver and the device tree binding.
+I am not sure, though, whether this is a RK3568 specific or
+rockchip_dw_hdmi specific thing. Maybe it can even enter the Synopsis DW
+HDMI driver.
 
-> On 2021-07-12 4:03 a.m., Pekka Paalanen wrote:
-> > On Fri, 9 Jul 2021 18:23:26 +0200
-> > Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com> wrote:
-> >  =20
-> >> On 7/9/21 10:04 AM, Pekka Paalanen wrote: =20
-> >>> On Wed, 7 Jul 2021 08:48:47 +0000
-> >>> Raphael GALLAIS-POU - foss <raphael.gallais-pou@foss.st.com> wrote:
-> >>>   =20
-> >>>> Some display controllers can be programmed to present non-black colo=
-rs
-> >>>> for pixels not covered by any plane (or pixels covered by the
-> >>>> transparent regions of higher planes).  Compositors that want a UI w=
-ith
-> >>>> a solid color background can potentially save memory bandwidth by
-> >>>> setting the CRTC background property and using smaller planes to dis=
-play
-> >>>> the rest of the content.
-> >>>>
-> >>>> To avoid confusion between different ways of encoding RGB data, we
-> >>>> define a standard 64-bit format that should be used for this propert=
-y's
-> >>>> value.  Helper functions and macros are provided to generate and dis=
-sect
-> >>>> values in this standard format with varying component precision valu=
-es.
-> >>>>
-> >>>> Signed-off-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
-> >>>> Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
-> >>>> ---
-> >>>>   drivers/gpu/drm/drm_atomic_state_helper.c |  1 +
-> >>>>   drivers/gpu/drm/drm_atomic_uapi.c         |  4 +++
-> >>>>   drivers/gpu/drm/drm_blend.c               | 34 +++++++++++++++++++=
-++--
-> >>>>   drivers/gpu/drm/drm_mode_config.c         |  6 ++++
-> >>>>   include/drm/drm_blend.h                   |  1 +
-> >>>>   include/drm/drm_crtc.h                    | 12 ++++++++
-> >>>>   include/drm/drm_mode_config.h             |  5 ++++
-> >>>>   include/uapi/drm/drm_mode.h               | 28 +++++++++++++++++++
-> >>>>   8 files changed, 89 insertions(+), 2 deletions(-)
+On 7/7/21 2:03 PM, Benjamin Gaignard wrote:
+> Define a new compatible for rk3568 HDMI.
+> This version of HDMI hardware block needs two new clocks hclk_vio and hclk
+> to provide phy reference clocks.
+> 
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> ---
+> version 2:
+> - Add the clocks needed for the phy.
+> 
+>  .../bindings/display/rockchip/rockchip,dw-hdmi.yaml         | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
+> index 75cd9c686e985..cb8643b3a8b84 100644
+> --- a/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
+> +++ b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
+> @@ -23,6 +23,7 @@ properties:
+>        - rockchip,rk3288-dw-hdmi
+>        - rockchip,rk3328-dw-hdmi
+>        - rockchip,rk3399-dw-hdmi
+> +      - rockchip,rk3568-dw-hdmi
+>  
+>    reg-io-width:
+>      const: 4
+> @@ -51,8 +52,11 @@ properties:
+>            - vpll
+>        - enum:
+>            - grf
+> +          - hclk_vio
+> +          - vpll
+> +      - enum:
+> +          - hclk
+>            - vpll
+> -      - const: vpll
 
-...
+The description and documentation of the clocks are somewhat misleading
+IMHO. This is not caused by your patches, of course. But maybe this is a
+chance to clean them up a bit.
 
-> >>> The question about full vs. limited range seems unnecessary to me, as
-> >>> the background color will be used as-is in the blending stage, so
-> >>> userspace can just program the correct value that fits the pipeline it
-> >>> is setting up.
-> >>>
-> >>> One more question is, as HDR exists, could we need background colors
-> >>> with component values greater than 1.0?   =20
-> >>
-> >> AR4H color format should cover that case, isn't it ? =20
-> >=20
-> > Yes, but with the inconvenience I mentioned.
-> >=20
-> > This is a genuine question though, would anyone actually need
-> > background color values > 1.0. I don't know of any case yet where it
-> > would be required. It would imply that plane blending happens in a
-> > color space where >1.0 values are meaningful. I'm not even sure if any
-> > hardware supporting that exists.
-> >=20
-> > Maybe it would be best to assume that only [0.0, 1.0] pixel value range
-> > is useful, and mention in the commit message that if someone really
-> > needs values outside of that, they should create another background
-> > color property. Then, you can pick a simple unsigned integer pixel
-> > format, too. (I didn't see any 16 bit-per-channel formats like that in
-> > drm_fourcc.h though.)
-> >  =20
->=20
-> I don't think we should artificially limit this to [0.0, 1.0]. As you
-> mentioned above when talking about full vs limited, the userspace
-> understands what's the correct value that fits the pipeline. If that
-> pipeline is FP16 with > 1.0 values then it would make sense that the
-> background color can be > 1.0.
+It seems that the CEC clock is an optional clock of the dw-hdmi driver.
+Shouldn't it be documented in the synopsys,dw-hdmi.yaml?
 
-Ok. The standard FP32 format then for ease of use and guaranteed enough
-range and precision for far into the future?
+Also, it would be nice if the clocks hclk_vio and hclk featured a
+description in the binding.
 
-Or do you want to keep it in 64 bits total, so the UABI can pack
-everything into a u64 instead of needing to create a blob?
+BTW, I am not too familiar with the syntax here, but shouldn't items in
+clocks and items in clock-names be aligned (currently, there is a plain
+list vs. an enum structure)?
 
-I don't mind as long as it's clearly documented what it is and how it
-works, and it carries enough precision.
+Best regards,
+Michael
 
-But FP16 with its 10 bits of precision might be too little for integer
-12-16 bpc pipelines and sinks?
-
-If the values can go beyond [0.0, 1.0] range, then does the blending
-hardware and the degamma/ctm/gamma coming afterwards cope with them, or
-do they get clamped anyway?
-
-
-Thanks,
-pq
-
---Sig_/7sIoOLLn+H1OrBMUDsRwLWM
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmDtRi4ACgkQI1/ltBGq
-qqeaYxAAlKsXIdhtMGdhLiHKsFuM2ocvI/5alaiQD0SWSgB2OJuz7wltI5aV53Am
-LhPDY1h0zPnpT5v3WvvJZSSCHSSwlm5TkJX24DOuqwFJWINcmBYWQsMb0/ab7f76
-fZERpWuaiB2rpOMOzAzgKMXI8Ss1gVVdztQmKZj3WrTwnu+6p2LAQn8NwYgH7Fi9
-ZL8+acw2A3xPuT5gkgk8IosBVt5WGeeBY0R92uLRU47V7nzbtJADziLlkv+pM8dL
-3o+Tdglgxnlb4SsEYwv/saJmAAe5Uyzst4vOBfI6BqbxegNeU+gsJUVqpTv5z+tj
-NoMVzxXIzZPY6vD0fgCvZWiEECR+kmc/CVY/kmwKjoZhaWRuCPEzNz2QjH3ETM9f
-AMl+V5/uLpvgpTlvi/HLrcapU89/7tw5drqjcmacygejDWz2BH+KWwB5uXYNRFkQ
-QzUhY0pV+fY4O+hMtNVWEfHjZr9qCzD9dyfDz5EUI5I1LJyAZLUnSmzWsXaNh+yA
-LmbJuLu3XtKECtGsTnSYWO52g8f/ihqE+vBgEzm+t05r3MSV/WXAaLrtWmWh4cUc
-wrQFi4EmblkUrd3gi2okv9AWZ3Gqzo25qYIMHswndLVdMc1QborQO1bTSctH9xFv
-aw8ajlVrK9YiZ6723kVTsYaWAGq4aalnOQw7mW2xdGxlWFvXI/I=
-=O57I
------END PGP SIGNATURE-----
-
---Sig_/7sIoOLLn+H1OrBMUDsRwLWM--
+>  
+>    ddc-i2c-bus:
+>      $ref: /schemas/types.yaml#/definitions/phandle
+> 
