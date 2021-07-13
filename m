@@ -1,62 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A5D53C70ED
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Jul 2021 15:05:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 076E43C7123
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Jul 2021 15:21:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B3F989FE3;
-	Tue, 13 Jul 2021 13:05:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 904E86E09A;
+	Tue, 13 Jul 2021 13:21:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9879389FE3;
- Tue, 13 Jul 2021 13:05:35 +0000 (UTC)
-Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 6BC602048D;
- Tue, 13 Jul 2021 13:05:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1626181534; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=hg7sI/AKsuDjOtnDcjGgb8bPU62RtTSIOchsBPJEiQ0=;
- b=HYqZ1+4YgM1kcKra3GtMRS3X9P+mM62Y6IX3muUb5ZLOUebOCTxBYZG7JMQ5MaeACOLXEu
- gGrjEfrwwn2yvGj09NF2aq0zjMKpOVPvcMpW/xLLGbI20hzJyOMg4vdzGwpFkjFnpeJ5je
- F9uS3Y/dVmgJCVO1glv1DhLXSbs8Nw0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1626181534;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=hg7sI/AKsuDjOtnDcjGgb8bPU62RtTSIOchsBPJEiQ0=;
- b=QMoLpd0KIdvRorn43N7gY2vKik5D+nIU+/p7S1LS/5r++GmJT27oAuZ/oIynxyLZ9V5uYB
- DDcGnG69ZFxsLRBA==
-Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap1.suse-dmz.suse.de (Postfix) with ESMTPS id 4179913A3F;
- Tue, 13 Jul 2021 13:05:34 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap1.suse-dmz.suse.de with ESMTPSA id 6x80Dp6P7WDvYwAAGKfGzw
- (envelope-from <tzimmermann@suse.de>); Tue, 13 Jul 2021 13:05:34 +0000
-Subject: Re: [PATCH] dim/drm-misc: Add rule to not push patches with issues
-To: Daniel Vetter <daniel.vetter@ffwll.ch>,
- DRI Development <dri-devel@lists.freedesktop.org>
-References: <20210709081116.4170288-1-daniel.vetter@ffwll.ch>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <8fe7ad87-950a-0235-839c-ec2821419bd8@suse.de>
-Date: Tue, 13 Jul 2021 15:05:33 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+Received: from mail-ot1-x332.google.com (mail-ot1-x332.google.com
+ [IPv6:2607:f8b0:4864:20::332])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 097396E092
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jul 2021 13:21:11 +0000 (UTC)
+Received: by mail-ot1-x332.google.com with SMTP id
+ f93-20020a9d03e60000b02904b1f1d7c5f4so21619884otf.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jul 2021 06:21:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=kdpFilVG5TXmh38Qx9BIPBfF1X+JzE5ROTCr6BlXwgA=;
+ b=Fwg2SHr2yp+pkT/nR3CsSwV0aVO1sH7RaLMxJ+2G0tYtseOkHQtTzkbotRYz/drs/D
+ 5DiBLZ9LnMkNK3nOfKZUQmhxqw4BttJSf88b08Bi+bKSsYf8WHNgkkgf71hs5Ksqt3t3
+ HXQ15TMQgdauzfhnZbVo8rVgSwGTYxMpi5/D9jr7s6e5O2D3FMbPgaMoUu2E9xxnlkKu
+ F5U0P+bjz/mttGkYC5yEAByea626fA5W+07zeALUr0T630X6t1SzO4kLFv5DQsXqqF5u
+ OxZ/zw7rSJXcpUgrKHhyOTEvRmu2wkrK4wVZ147rjS0crHZQRYpix6aGTx9S7IzxUd2a
+ 3jKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=kdpFilVG5TXmh38Qx9BIPBfF1X+JzE5ROTCr6BlXwgA=;
+ b=HDg4Yf3G9dx6SNAb9EYrjG+I8Em1JEpL0BNC7yW+HlVFtUVkkaZy1aqWikb+8+t+cb
+ mBYErDWRtyzjhMvP0qDD1bc2iufNZ255y4v2PN25f4SrRwXTv1LLHuOifsW5OEt0QgbZ
+ A7IKj79LFymF68WVax/YsoMszRTWGhGs5P9e0fwvF+TflgSX77bqthl8AE/Uu4koqRo4
+ 2KcBlZUJMyA2l9Vd8D9qrgBHn90rbB61hStBRcxH3dAv0hyb8Wym38Uk5AjF+DkNajOs
+ i5N6YiJwZ7fkTUEqyrKz81GCDbxTixiHhx99gyUJdGXGspumsiuqC1SlFbvkVy4RoIx3
+ Ytmw==
+X-Gm-Message-State: AOAM530NEup8MXQigvY+hUJHJ5/xeyI3tcVU2k6Vyx7DWScGj1iFsRf3
+ RuH4RWtJwEI3N1guP9972F+3e/NebV1ruRNUq9E=
+X-Google-Smtp-Source: ABdhPJzdUywi6Zcn01BcK81PlNUigJdVIW+LyVOJf2f8AlJplFa9ZxozIuTRgXLkYNGYTM2g5mWhgplR5D7L7hyy8Pg=
+X-Received: by 2002:a05:6830:1f3b:: with SMTP id
+ e27mr3555174oth.311.1626182470396; 
+ Tue, 13 Jul 2021 06:21:10 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210709081116.4170288-1-daniel.vetter@ffwll.ch>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="m5T0ZrIitOuBGQqB9XQReu8yYnq20fAWQ"
+References: <20210712224440.GA1830070@pc>
+In-Reply-To: <20210712224440.GA1830070@pc>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 13 Jul 2021 09:20:59 -0400
+Message-ID: <CADnq5_PKSPAPXxBjAw39fMXsDsvyd4sHWByAzmA4mb71=rnPcw@mail.gmail.com>
+Subject: Re: [PATCH] use swap()
+To: Salah Triki <salah.triki@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,101 +63,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@intel.com>, dim-tools@lists.freedesktop.org,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Cc: Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---m5T0ZrIitOuBGQqB9XQReu8yYnq20fAWQ
-Content-Type: multipart/mixed; boundary="oD894NxEXqRGrX4SWfmfGmuz1WzCB3Ap1";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>,
- DRI Development <dri-devel@lists.freedesktop.org>
-Cc: dim-tools@lists.freedesktop.org, Daniel Vetter <daniel.vetter@intel.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <8fe7ad87-950a-0235-839c-ec2821419bd8@suse.de>
-Subject: Re: [PATCH] dim/drm-misc: Add rule to not push patches with issues
-References: <20210709081116.4170288-1-daniel.vetter@ffwll.ch>
-In-Reply-To: <20210709081116.4170288-1-daniel.vetter@ffwll.ch>
+On Tue, Jul 13, 2021 at 3:09 AM Salah Triki <salah.triki@gmail.com> wrote:
+>
+> Use swap() instead of implementing it since it makes code more clean.
+>
+> Signed-off-by: Salah Triki <salah.triki@gmail.com>
 
---oD894NxEXqRGrX4SWfmfGmuz1WzCB3Ap1
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Patches for this driver generally have the following prefix in the subject:
+gpu: ipu-v3:
 
-
-
-Am 09.07.21 um 10:11 schrieb Daniel Vetter:
-> We kinda left this out, and I like the wording from the drm-intel
-> side, so add that. Motivated by a discussion with Christian.
-
-I always thought this goes without saying.
-
->=20
-> Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-
-Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+Alex
 
 > ---
->   committer-drm-misc.rst | 3 +++
->   1 file changed, 3 insertions(+)
->=20
-> diff --git a/committer-drm-misc.rst b/committer-drm-misc.rst
-> index 9497a5d26a9d..110ca8b0525e 100644
-> --- a/committer-drm-misc.rst
-> +++ b/committer-drm-misc.rst
-> @@ -21,6 +21,9 @@ Merge Criteria
->  =20
->   Right now the only hard merge criteria are:
->  =20
-> +* There must not be open issues or unresolved or conflicting feedback =
-from
-> +  anyone. Clear them up first. Defer to maintainers as needed.
-> +
->   * Patch is properly reviewed or at least Ack, i.e. don't just push yo=
-ur own
->     stuff directly. This rule holds even more for bugfix patches - it w=
-ould be
->     embarrassing if the bugfix contains a small gotcha that review woul=
-d have
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---oD894NxEXqRGrX4SWfmfGmuz1WzCB3Ap1--
-
---m5T0ZrIitOuBGQqB9XQReu8yYnq20fAWQ
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmDtj50FAwAAAAAACgkQlh/E3EQov+Dp
-8RAAr3abpsUOz6dIJOnUinB1laqYwX/8pVgoQ6GkcT/rVRo13d1KM5EzKUdqfcion48db2Qv7LeY
-VCggsUoy7gaL0kbxCJjZ+tIAXkU8YSgXrUK8asGi6i567w3u0fjia0q5yAZfKEjNO8Au5/8AxsA6
-dCTVg4143SD24OIqNe6QUWj82jAZEwA1dQkHAwN3xWUN4DvS35ebhQ3y808yJSm3PIPW6F36cFxe
-EtU7uq3RAwFeD3J1Mp/hcDYE1JqAHNVaPeIkH+BQnGCKR4+bgRtP7BXrhe5J/Qr/PBVsu4mLTEzE
-CbmsGa0VyyA3wNk3dcndfWqXpIXoBsjM1t2r2PwdlHQxNRiVCb9/meZlNykKzfzTIdfOKoZ0hqC0
-GZwBwmJoAup+z/4TlAE/y9z0Dx5xgdbWKR50+3RT2PhlrUlP3AJ2SIJ14iKyBam+eMoYhDL3K4kZ
-LULoUyBXCmNEmxpt/P6M2ehhGL/YcM6qE/27/Rj9FD5vq0BgZ8Y8qgfbzLqnn1o1heYheJOjeZPu
-tWBb1Jp3XjcBLZPeTzEaC7PsdlmHrFb9+0Yvv2lXsTatR2cmCLYm+nMTOKcziu8PuMmkTzploq3f
-x0XuSUe5LqXpOyjjUjRXH3kBFqjyqxzuWW/Khc7bELT+8fJeemRiQ1tO/hPXdSYSvuUOSVjtFduW
-r8k=
-=a2gi
------END PGP SIGNATURE-----
-
---m5T0ZrIitOuBGQqB9XQReu8yYnq20fAWQ--
+>  drivers/gpu/ipu-v3/ipu-image-convert.c | 7 ++-----
+>  1 file changed, 2 insertions(+), 5 deletions(-)
+>
+> diff --git a/drivers/gpu/ipu-v3/ipu-image-convert.c b/drivers/gpu/ipu-v3/ipu-image-convert.c
+> index aa1d4b6d278f..5f730cd6009d 100644
+> --- a/drivers/gpu/ipu-v3/ipu-image-convert.c
+> +++ b/drivers/gpu/ipu-v3/ipu-image-convert.c
+> @@ -1021,11 +1021,8 @@ static int calc_tile_offsets_planar(struct ipu_image_convert_ctx *ctx,
+>
+>                         u_off = y_size - y_off + uv_off;
+>                         v_off = (fmt->uv_packed) ? 0 : u_off + uv_size;
+> -                       if (fmt->uv_swapped) {
+> -                               tmp = u_off;
+> -                               u_off = v_off;
+> -                               v_off = tmp;
+> -                       }
+> +                       if (fmt->uv_swapped)
+> +                               swap(u_off, v_off);
+>
+>                         image->tile[tile].offset = y_off;
+>                         image->tile[tile].u_off = u_off;
+> --
+> 2.25.1
+>
