@@ -1,57 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 659933C7401
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Jul 2021 18:14:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 430C53C7432
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Jul 2021 18:16:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B1D826E0EF;
-	Tue, 13 Jul 2021 16:14:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 642526E0E8;
+	Tue, 13 Jul 2021 16:16:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x72c.google.com (mail-qk1-x72c.google.com
- [IPv6:2607:f8b0:4864:20::72c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 05F8D6E0EF;
- Tue, 13 Jul 2021 16:14:06 +0000 (UTC)
-Received: by mail-qk1-x72c.google.com with SMTP id q190so22167609qkd.2;
- Tue, 13 Jul 2021 09:14:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=kSdl91nubrCa9A/aIk2XVb73CpGtetW6fW/0nYa9iQo=;
- b=mhkucmoqWj0OLAmtFx9KmK6YW9jTfR0APIcHtk22naczNAfP3fUm0LkLoY+51DVW3Y
- KGk2ErHxf+QPP/QqZTbN3ahIpRimzR6PoQl69z9ZWvWUb1qsNDsyIFeREEBYBYS44naL
- sAXYj1ZbZzVvI3sr+sEUMLvEWkHarBUzB0OaKEUHQXuKjWadBDHR0Z0DikcD4FtuFrYg
- AlZqZmoPrRmSoZth/S2TS175nFW5A4CaYZ5PVnROKCcgdA8a5DFscr8PTNoHatDw1ZDH
- NHD10w05TjmNeqxrz6+JiIVcPh3fggHucAAOWrjTgkuFXqv3OPdqrQ7z+ZxE6rftIRAq
- rzFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=kSdl91nubrCa9A/aIk2XVb73CpGtetW6fW/0nYa9iQo=;
- b=Arsh5K9f3l6uTHareG43jR7yqj0HFZbfbJ3v/cC9EfH7HIYKh/fayfwaYFTIEUCqRC
- xDPMCe0nha+nZFuQOKcXaOMu67T05Ropkza3+E5ajuRkerMrdTbN0IjWvSlZVf54CoBg
- iipyuhu2Z/Q/XNOrMUqbMFm+l9sh0iD/r0TLqs50TVIiJT4odTHvzW3EjS42MnnX5I9r
- rHqZ03LLnN557EgYJCjQobklTcHIx0b4nx+rpTub/h8zPBaOY6AL+KniX2n9QeAJKPwG
- demqSsw6bFuAzVZwi4T7L2rqN5slY7XtcgkND/RZnTgAA+ek0uSwwdkqYSIvFlm8HQ7f
- 8jfQ==
-X-Gm-Message-State: AOAM530/PeCMfSdG785sNjUxtZ7VNtpMTnsyF4HJUrCPayt9mmGtaCfy
- I9WzeEi0apadqI+P0TOvZwI5cP0kmo3w5FsStz0=
-X-Google-Smtp-Source: ABdhPJyIpC+FMhA5wB2KTc5dyUJn7rraGoU3vcanohts4VYBMOKmtOH3bxqkWGzMzYW5G799jofsOIVGSXRURN+VsPQ=
-X-Received: by 2002:a37:4388:: with SMTP id q130mr4936952qka.460.1626192846084; 
- Tue, 13 Jul 2021 09:14:06 -0700 (PDT)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 2DF6B6E0E8
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jul 2021 16:16:30 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6E1DE6D;
+ Tue, 13 Jul 2021 09:16:29 -0700 (PDT)
+Received: from [192.168.1.179] (unknown [172.31.20.19])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 228D33F7D8;
+ Tue, 13 Jul 2021 09:16:28 -0700 (PDT)
+Subject: Re: [PATCH] drm/of: free the iterator object on failure
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20210712155758.48286-1-steven.price@arm.com>
+ <YOxyvIoJcZFAgUz5@pendragon.ideasonboard.com>
+ <b420a4e6-8038-6c1e-7c97-75ef3bea3c21@arm.com>
+ <YOy6VQNz8Htg6Usb@pendragon.ideasonboard.com>
+From: Steven Price <steven.price@arm.com>
+Message-ID: <5c3db755-c3fb-dfe7-3d23-bbbcc81af3d8@arm.com>
+Date: Tue, 13 Jul 2021 17:16:16 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210713104554.2381406-1-matthew.auld@intel.com>
- <YO23Y3PUS22FaXDC@intel.com>
-In-Reply-To: <YO23Y3PUS22FaXDC@intel.com>
-From: Matthew Auld <matthew.william.auld@gmail.com>
-Date: Tue, 13 Jul 2021 17:13:37 +0100
-Message-ID: <CAM0jSHOx=WVbzfQzn=kL-5qaG4B3dxPLOimkvUdv6HFJymZeZw@mail.gmail.com>
-Subject: Re: [Intel-gfx] [PATCH 1/5] drm/i915: document caching related bits
-To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <YOy6VQNz8Htg6Usb@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,117 +46,105 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Matthew Auld <matthew.auld@intel.com>,
- ML dri-devel <dri-devel@lists.freedesktop.org>
+Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Biju Das <biju.das.jz@bp.renesas.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 13 Jul 2021 at 16:55, Ville Syrj=C3=A4l=C3=A4
-<ville.syrjala@linux.intel.com> wrote:
->
-> On Tue, Jul 13, 2021 at 11:45:50AM +0100, Matthew Auld wrote:
-> > +     /**
-> > +      * @cache_coherent:
-> > +      *
-> > +      * Track whether the pages are coherent with the GPU if reading o=
-r
-> > +      * writing through the CPU cache.
-> > +      *
-> > +      * This largely depends on the @cache_level, for example if the o=
-bject
-> > +      * is marked as I915_CACHE_LLC, then GPU access is coherent for b=
-oth
-> > +      * reads and writes through the CPU cache.
-> > +      *
-> > +      * Note that on platforms with shared-LLC support(HAS_LLC) reads =
-through
-> > +      * the CPU cache are always coherent, regardless of the @cache_le=
-vel. On
-> > +      * snooping based platforms this is not the case, unless the full
-> > +      * I915_CACHE_LLC or similar setting is used.
-> > +      *
-> > +      * As a result of this we need to track coherency separately for =
-reads
-> > +      * and writes, in order to avoid superfluous flushing on shared-L=
-LC
-> > +      * platforms, for reads.
-> > +      *
-> > +      * I915_BO_CACHE_COHERENT_FOR_READ:
-> > +      *
-> > +      * When reading through the CPU cache, the GPU is still coherent.=
- Note
-> > +      * that no data has actually been modified here, so it might seem
-> > +      * strange that we care about this.
-> > +      *
-> > +      * As an example, if some object is mapped on the CPU with write-=
-back
-> > +      * caching, and we read some page, then the cache likely now cont=
-ains
-> > +      * the data from that read. At this point the cache and main memo=
-ry
-> > +      * match up, so all good. But next the GPU needs to write some da=
-ta to
-> > +      * that same page. Now if the @cache_level is I915_CACHE_NONE and=
- the
-> > +      * the platform doesn't have the shared-LLC, then the GPU will
-> > +      * effectively skip invalidating the cache(or however that works
-> > +      * internally) when writing the new value.  This is really bad si=
-nce the
-> > +      * GPU has just written some new data to main memory, but the CPU=
- cache
-> > +      * is still valid and now contains stale data. As a result the ne=
-xt time
-> > +      * we do a cached read with the CPU, we are rewarded with stale d=
-ata.
-> > +      * Likewise if the cache is later flushed, we might be rewarded w=
-ith
-> > +      * overwriting main memory with stale data.
-> > +      *
-> > +      * I915_BO_CACHE_COHERENT_FOR_WRITE:
-> > +      *
-> > +      * When writing through the CPU cache, the GPU is still coherent.=
- Note
-> > +      * that this also implies I915_BO_CACHE_COHERENT_FOR_READ.
-> > +      *
-> > +      * This is never set when I915_CACHE_NONE is used for @cache_leve=
-l,
-> > +      * where instead we have to manually flush the caches after writi=
-ng
-> > +      * through the CPU cache. For other cache levels this should be s=
-et and
-> > +      * the object is therefore considered coherent for both reads and=
- writes
-> > +      * through the CPU cache.
->
-> I don't remember why we have this read vs. write split and this new
-> documentation doesn't seem to really explain it either.
+On 12/07/2021 22:55, Laurent Pinchart wrote:
+> Hi Steven,
 
-Hmm, I attempted to explain that earlier:
+Hi Laurent,
 
-* Note that on platforms with shared-LLC support(HAS_LLC) reads through
-* the CPU cache are always coherent, regardless of the @cache_level. On
-* snooping based platforms this is not the case, unless the full
-* I915_CACHE_LLC or similar setting is used.
-*
-* As a result of this we need to track coherency separately for reads
-* and writes, in order to avoid superfluous flushing on shared-LLC
-* platforms, for reads.
+> On Mon, Jul 12, 2021 at 10:31:52PM +0100, Steven Price wrote:
+>> On 12/07/2021 17:50, Laurent Pinchart wrote:
+>>> On Mon, Jul 12, 2021 at 04:57:58PM +0100, Steven Price wrote:
+>>>> When bailing out due to the sanity check the iterator value needs to be
+>>>> freed because the early return prevents for_each_child_of_node() from
+>>>> doing the dereference itself.
+>>>>
+>>>> Fixes: 4ee48cc5586b ("drm: of: Fix double-free bug")
+>>>
+>>> I don't think the Fixes tag is correct, the issue was already present
+>>> before 4ee48cc5586b. The fix looks right though.
+>>
+>> I'm not sure quite what you mean by "already present". As I understand
+>> it the timeline was:
+>>
+>> 1. 6529007522de drm: of: Add drm_of_lvds_get_dual_link_pixel_order
+>>    The function was originally added. This made the mistake twice of
+>>    calling of_node_put() on the wrong variable (remote_port rather than
+>>    endpoint).
+> 
+> Correct.
+> 
+>> 2. 4ee48cc5586b drm: of: Fix double-free bug
+>>    One of the of_node_put() calls was removed as it was a double-free.
+>>    This left the first incorrect of_node_put() in place, and the second
+>>    is now a straight leak.
+> 
+> That's right, but this commit didn't introduce the leak, it was already
+> there in 6529007522de (in addition to the double-free).
 
-So AFAIK it's just because shared-LLC can be coherent for reads, while
-also not being coherent for writes(CACHE_NONE), so being able to track
-each separately is kind of needed to avoid unnecessary flushing for
-the read cases i.e simple boolean for coherent vs non-coherent is not
-enough.
+Ah, I see what you mean. My thought process was that the original
+comment had the bug "using the wrong variable", and (2) (partially)
+fixed that but in the process introduced a new bug (a memory leak). But
+I guess technically the memory leak was there from the beginning.
 
-I can try to reword things to make that more clear.
+The other reason I referenced (2) in the Fixes line is because this
+patch depends on patch (2), whereas it won't apply cleanly without.
 
->
-> Is it for optimizing some display related case where we can omit the
-> invalidates but still have to do the writeback to keep the display
-> engine happy?
->
-> --
-> Ville Syrj=C3=A4l=C3=A4
-> Intel
+However I don't think it really matters either way: (2) has already been
+backported, and either way this needs fixing if either (1) or (2) are
+present.
+
+Would you like me to resend with a "Fixes: 6529007522de drm: of: Add
+drm_of_lvds_get_dual_link_pixel_order", or are you happy to just fix
+this up when merging?
+
+Thanks,
+
+Steve
+
+>> 3. b557a5f8da57 drm/of: free the right object
+>>    This (correctly) fixes the first of_node_put() to free endpoint. And
+>>    the post from Daniel was what caused me to look.
+>>
+>> 4. This patch
+>>    Reintroduces the of_node_put() removed in (2) but putting endpoint
+>>    rather than remote_port.
+>>
+>> I've put (2) in the Fixes line as this patch is fixing the leak
+>> introduced by that patch, but that in itself was of course 'fixing' the
+>> double free of the original patch.
+>>
+>>>> Signed-off-by: Steven Price <steven.price@arm.com>
+>>>> ---
+>>>>  drivers/gpu/drm/drm_of.c | 4 +++-
+>>>>  1 file changed, 3 insertions(+), 1 deletion(-)
+>>>>
+>>>> Daniel's email[1] made me take a look at this function and it appears
+>>>> that for_each_child_of_node()'s interface had caused a bad bug fix due
+>>>> to the hidden reference counting in the iterator.
+>>>>
+>>>> [1] https://lore.kernel.org/r/YOxQ5TbkNrqCGBDJ%40phenom.ffwll.local
+>>>>
+>>>> diff --git a/drivers/gpu/drm/drm_of.c b/drivers/gpu/drm/drm_of.c
+>>>> index 197c57477344..997b8827fed2 100644
+>>>> --- a/drivers/gpu/drm/drm_of.c
+>>>> +++ b/drivers/gpu/drm/drm_of.c
+>>>> @@ -331,8 +331,10 @@ static int drm_of_lvds_get_remote_pixels_type(
+>>>>  		 * configurations by passing the endpoints explicitly to
+>>>>  		 * drm_of_lvds_get_dual_link_pixel_order().
+>>>>  		 */
+>>>> -		if (!current_pt || pixels_type != current_pt)
+>>>> +		if (!current_pt || pixels_type != current_pt) {
+>>>> +			of_node_put(endpoint);
+>>>>  			return -EINVAL;
+>>>> +		}
+>>>>  	}
+>>>>  
+>>>>  	return pixels_type;
+> 
+
