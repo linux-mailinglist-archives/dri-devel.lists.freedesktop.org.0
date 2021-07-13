@@ -2,63 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CB063C7318
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Jul 2021 17:23:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 818763C7325
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Jul 2021 17:28:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC0006E0DD;
-	Tue, 13 Jul 2021 15:23:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F6E56E0DF;
+	Tue, 13 Jul 2021 15:28:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com
- [IPv6:2a00:1450:4864:20::332])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D67DD6E0DC
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jul 2021 15:23:09 +0000 (UTC)
-Received: by mail-wm1-x332.google.com with SMTP id k32so10706242wms.4
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jul 2021 08:23:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=ZyDE72BEikMsZQkeBdPjmeIyI09HS8dPmrnIoIB+GTs=;
- b=AG0YFpSBbOG9aUkii1JGYNC6rosRNDjNgst6Qm/ZALrbh7ivnmzcOFWBapi4f6+mgc
- wnj6QPccdnxK/VfClpY64q0Z/z3ZM97eMjBH4w8qf+Kn0oeDGdPGTaLgbaU16s7Jf8YT
- LPp+jiOdkUqFjMjCThAhV7S6YXt8lA1q2AWUs=
+Received: from mail-ot1-x336.google.com (mail-ot1-x336.google.com
+ [IPv6:2607:f8b0:4864:20::336])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 710006E0DC;
+ Tue, 13 Jul 2021 15:28:14 +0000 (UTC)
+Received: by mail-ot1-x336.google.com with SMTP id
+ 42-20020a9d012d0000b02904b98d90c82cso874859otu.5; 
+ Tue, 13 Jul 2021 08:28:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=eSVqAM6jfMSrVn365H5CUYgvo5Rmml9/i8igIHyouD8=;
+ b=sGVSn/S5RbJ0wY8kCdH9RPg8ltmTvqxt71l5S+FiS0vXlO/d3nU6A6yEU49sdXzi3L
+ /cy6X1m/bf3gmKHaGIA3UMjjYd/0PMD8V8X6lxCIRFNzW/IkD4QgehIJLkuTtswQ0kJD
+ 38QlQkFcfPLDa0G4Smuuj3D23Tkr7sjEYRT5VhtW5zsbQ6EGATr6GmrYvnWiBKD00heP
+ Bb6EHXHE0EXp5ieFJG4GEjgxs1U+RQGdfeR/WhmTj9Jhpd1W8uF1U3VW7sTyW+CnbnTb
+ 9SZOTM0MmNcYtDXjL5AJ1nit73EwlpYNI8Kmto9BSR80r1Q6zf2kr1fTrPTzlneyKQrN
+ cCsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=ZyDE72BEikMsZQkeBdPjmeIyI09HS8dPmrnIoIB+GTs=;
- b=FJ1HexK+QZZ9cQZUmC5cRxY4RsqAL0C2go9x0xyG0nBXIvc5fs9Tn3Nb7FQEluQvFf
- SU4wwKWR6S+UHTfyGvyexCarYgaYi0Rxm1pFdzuXbSmqFwY1MwMAm9ks/InkbgklMFs7
- 5ZQK76ylJ7NW7srfXxAs1cpDL3TtttiwQkTVkESKHxrKNHmtGu4p+DyZ25xo70D+xS0P
- T/55hi3dFojLO1jfhVOWPrPAbrQD1kVVBadKLyUxQI9Op1qM3n+EHbF1EyaK/CMYdBd+
- 6r+ulyFePQb+UD3ZHZyNHqCfhZ2+F4q8Pf7ZkZwZgXG66yl7IHI280SqMzZvSHVs2cVX
- VtgQ==
-X-Gm-Message-State: AOAM531M7AKlKRa8Vo82uu2habJrJVwEL2xMp4HUdGGZa8IToldKKXCI
- F0AaZ8rRe6e4CRwEmuIKpfBDjw==
-X-Google-Smtp-Source: ABdhPJytQmAp+BAYuTeUlaWRnGyHBS7z1y3GLavtc6CdD83dDnaeHuwhJdmjoSUXYO39fKt9O9lUuQ==
-X-Received: by 2002:a7b:cb91:: with SMTP id m17mr87795wmi.159.1626189787993;
- Tue, 13 Jul 2021 08:23:07 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id o14sm2615675wmq.31.2021.07.13.08.23.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Jul 2021 08:23:07 -0700 (PDT)
-Date: Tue, 13 Jul 2021 17:23:05 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Matthew Auld <matthew.william.auld@gmail.com>
-Subject: Re: [PATCH 2/2] drm/i915/gem: Migrate to system at dma-buf attach
- time (v5)
-Message-ID: <YO2v2WbyseJ2PfkJ@phenom.ffwll.local>
-References: <20210712231234.1031975-1-jason@jlekstrand.net>
- <20210712231234.1031975-2-jason@jlekstrand.net>
- <YO2m36je6vf6Wgwu@phenom.ffwll.local>
- <CAM0jSHP3WyNwwr3VJ6zxKd5NqqXGJ+m_gSXACrptWO6zHnTAWw@mail.gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=eSVqAM6jfMSrVn365H5CUYgvo5Rmml9/i8igIHyouD8=;
+ b=rK1Hjtefxrc/6o4ME1Km3tOe2zULPFDN+VfikWw0ET0OdVKz5y1+2tkQX+7lP6XptB
+ jqLhVgiU7SU1PsFCkdiS5P4s4fClOEJOGxySd5T5oPgX8yVTM1SuaLP88Qb1CD0LPauq
+ bu58xnui63oIKUxZmsJd/eEr++yuV/qgIg0gfO0/3DcyCIxTlfiLY/r8QbBwnrBs76Gj
+ pXlaMxVavnR44cDeDPPu6ykzm1RzAfxMJ1VtAlQO/ivNu/bnI2q7l/oSJmv4syw2W1UX
+ CT5yM4Plt7SsCzA+LnlF8Q3i8f0Rfi0EZ0wdrxSypu0hN2snh7FLIqbgEMmoBOMbyxBM
+ Y90A==
+X-Gm-Message-State: AOAM531JecJbjlwMePZhi69xWlO0rDMrZk/H9BVkmzbr8XUqgLPNgdH9
+ 5D2kKwK6L28sA8DgFrHL0nxIqaGic/kg4Tc++kQ=
+X-Google-Smtp-Source: ABdhPJxD/aFh3d9tHL86TFiS88oBQ/Lrm2CAanyKlynNITpF2GsWAidfRm2ajOEOfJYANWxrIOwoWBJIE8nf5Tpuu6k=
+X-Received: by 2002:a9d:2482:: with SMTP id z2mr1322602ota.132.1626190093699; 
+ Tue, 13 Jul 2021 08:28:13 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAM0jSHP3WyNwwr3VJ6zxKd5NqqXGJ+m_gSXACrptWO6zHnTAWw@mail.gmail.com>
-X-Operating-System: Linux phenom 5.10.0-7-amd64 
+References: <20210712220636.475675-1-Felix.Kuehling@amd.com>
+ <d617d831-7168-51a4-042e-e36a5af7761d@gmail.com>
+In-Reply-To: <d617d831-7168-51a4-042e-e36a5af7761d@gmail.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 13 Jul 2021 11:28:02 -0400
+Message-ID: <CADnq5_NCg6VnWgH7Hn61CjZBZiRuAdROW5s6imwQ8AR=9Bm4=g@mail.gmail.com>
+Subject: Re: [PATCH v3 1/1] drm/ttm: Fix COW check
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,143 +65,166 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- "Michael J . Ruhl" <michael.j.ruhl@intel.com>,
- Matthew Auld <matthew.auld@intel.com>, Jason Ekstrand <jason@jlekstrand.net>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- kernel test robot <lkp@intel.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ Felix Kuehling <Felix.Kuehling@amd.com>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Christian Koenig <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 13, 2021 at 04:06:13PM +0100, Matthew Auld wrote:
-> On Tue, 13 Jul 2021 at 15:44, Daniel Vetter <daniel@ffwll.ch> wrote:
+On Tue, Jul 13, 2021 at 2:57 AM Christian K=C3=B6nig
+<ckoenig.leichtzumerken@gmail.com> wrote:
+>
+>
+>
+> Am 13.07.21 um 00:06 schrieb Felix Kuehling:
+> > KFD Thunk maps invisible VRAM BOs with PROT_NONE, MAP_PRIVATE.
+> > is_cow_mapping returns true for these mappings. Add a check for
+> > vm_flags & VM_WRITE to avoid mmap failures on private read-only or
+> > PROT_NONE mappings.
 > >
-> > On Mon, Jul 12, 2021 at 06:12:34PM -0500, Jason Ekstrand wrote:
-> > > From: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> > >
-> > > Until we support p2p dma or as a complement to that, migrate data
-> > > to system memory at dma-buf attach time if possible.
-> > >
-> > > v2:
-> > > - Rebase on dynamic exporter. Update the igt_dmabuf_import_same_driver
-> > >   selftest to migrate if we are LMEM capable.
-> > > v3:
-> > > - Migrate also in the pin() callback.
-> > > v4:
-> > > - Migrate in attach
-> > > v5: (jason)
-> > > - Lock around the migration
-> > >
-> > > Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> > > Signed-off-by: Michael J. Ruhl <michael.j.ruhl@intel.com>
-> > > Reported-by: kernel test robot <lkp@intel.com>
-> > > Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
-> > > Reviewed-by: Jason Ekstrand <jason@jlekstrand.net>
-> > > ---
-> > >  drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c    | 25 ++++++++++++++++++-
-> > >  .../drm/i915/gem/selftests/i915_gem_dmabuf.c  |  4 ++-
-> > >  2 files changed, 27 insertions(+), 2 deletions(-)
-> > >
-> > > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
-> > > index 9a655f69a0671..3163f00554476 100644
-> > > --- a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
-> > > +++ b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
-> > > @@ -170,8 +170,31 @@ static int i915_gem_dmabuf_attach(struct dma_buf *dmabuf,
-> > >                                 struct dma_buf_attachment *attach)
-> > >  {
-> > >       struct drm_i915_gem_object *obj = dma_buf_to_obj(dmabuf);
-> > > +     struct i915_gem_ww_ctx ww;
-> > > +     int err;
-> > > +
-> > > +     for_i915_gem_ww(&ww, err, true) {
-> > > +             err = i915_gem_object_lock(obj, &ww);
-> > > +             if (err)
-> > > +                     continue;
-> > > +
-> > > +             if (!i915_gem_object_can_migrate(obj, INTEL_REGION_SMEM)) {
-> > > +                     err = -EOPNOTSUPP;
-> > > +                     continue;
-> > > +             }
-> > > +
-> > > +             err = i915_gem_object_migrate(obj, &ww, INTEL_REGION_SMEM);
-> > > +             if (err)
-> > > +                     continue;
-> > >
-> > > -     return i915_gem_object_pin_pages_unlocked(obj);
-> > > +             err = i915_gem_object_wait_migration(obj, 0);
-> > > +             if (err)
-> > > +                     continue;
-> > > +
-> > > +             err = i915_gem_object_pin_pages(obj);
-> > > +     }
-> > > +
-> > > +     return err;
-> > >  }
-> > >
-> > >  static void i915_gem_dmabuf_detach(struct dma_buf *dmabuf,
-> > > diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c
-> > > index 3dc0f8b3cdab0..4f7e77b1c0152 100644
-> > > --- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c
-> > > +++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c
-> > > @@ -106,7 +106,9 @@ static int igt_dmabuf_import_same_driver(void *arg)
-> > >       int err;
-> > >
-> > >       force_different_devices = true;
-> > > -     obj = i915_gem_object_create_shmem(i915, PAGE_SIZE);
-> > > +     obj = i915_gem_object_create_lmem(i915, PAGE_SIZE, 0);
+> > v2: protect against mprotect making a mapping writable after the fact
+> > v3: update driver-specific vm_operations_structs
 > >
-> > I'm wondering (and couldn't answer) whether this creates an lmem+smem
-> > buffer, since if we create an lmem-only buffer then the migration above
-> > should fail.
-> 
-> It's lmem-only, but it's also a kernel internal object, so the
-> migration path will still happily migrate it if asked. On the other
-> hand if it's a userspace object then we always have to respect the
-> placements.
-> 
-> I think for now the only usecase for that is in the selftests.
+> > Fixes: f91142c62161 ("drm/ttm: nuke VM_MIXEDMAP on BO mappings v3")
+> > Signed-off-by: Felix Kuehling <Felix.Kuehling@amd.com>
+> > Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+>
+> Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
 
-Yeah I've read the kerneldoc, it's all nicely documented but feels a bit
-dangerous. What I proposed on irc:
-- i915_gem_object_migrate does the placement check, i.e. as strict as
-  can_migrate.
-- A new __i915_gem_object_migrate is for selftest that do special stuff.
-- In the import selftest we check that lmem-only fails (because we can't
-  pin it into smem) for a non-dynamic importer, but lmem+smem works and
-  gets migrated.
-- Once we have dynamic dma-buf for p2p pci, then we'll have another
-  selftest which checks that things work for lmem only if and only if the
-  importer is dynamic and has set the allow_p2p flag.
+Are you planning to push this to drm-misc?
 
-We could also add the can_migrate check everywhere (including
-dma_buf->attach), but that feels like the less save api.
--Daniel
+Alex
 
-
-> 
+>
+> > ---
+> >   drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c  |  3 ++-
+> >   drivers/gpu/drm/nouveau/nouveau_gem.c    |  3 ++-
+> >   drivers/gpu/drm/radeon/radeon_gem.c      |  3 ++-
+> >   drivers/gpu/drm/ttm/ttm_bo_vm.c          | 14 +++++++++++++-
+> >   drivers/gpu/drm/vmwgfx/vmwgfx_ttm_glue.c |  1 +
+> >   include/drm/ttm/ttm_bo_api.h             |  4 ++++
+> >   6 files changed, 24 insertions(+), 4 deletions(-)
 > >
-> > Which I'm also not sure we have a testcase for that testcase either ...
+> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c b/drivers/gpu/drm/=
+amd/amdgpu/amdgpu_gem.c
+> > index b3404c43a911..1aa750a6a5d2 100644
+> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
+> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
+> > @@ -79,7 +79,8 @@ static const struct vm_operations_struct amdgpu_gem_v=
+m_ops =3D {
+> >       .fault =3D amdgpu_gem_fault,
+> >       .open =3D ttm_bo_vm_open,
+> >       .close =3D ttm_bo_vm_close,
+> > -     .access =3D ttm_bo_vm_access
+> > +     .access =3D ttm_bo_vm_access,
+> > +     .mprotect =3D ttm_bo_vm_mprotect
+> >   };
 > >
-> > I tried to read some code here, but got a bit lost. Ideas?
-> > -Daniel
+> >   static void amdgpu_gem_object_free(struct drm_gem_object *gobj)
+> > diff --git a/drivers/gpu/drm/nouveau/nouveau_gem.c b/drivers/gpu/drm/no=
+uveau/nouveau_gem.c
+> > index 5b27845075a1..164ea564bb7a 100644
+> > --- a/drivers/gpu/drm/nouveau/nouveau_gem.c
+> > +++ b/drivers/gpu/drm/nouveau/nouveau_gem.c
+> > @@ -70,7 +70,8 @@ static const struct vm_operations_struct nouveau_ttm_=
+vm_ops =3D {
+> >       .fault =3D nouveau_ttm_fault,
+> >       .open =3D ttm_bo_vm_open,
+> >       .close =3D ttm_bo_vm_close,
+> > -     .access =3D ttm_bo_vm_access
+> > +     .access =3D ttm_bo_vm_access,
+> > +     .mprotect =3D ttm_bo_vm_mprotect
+> >   };
 > >
-> > > +     if (IS_ERR(obj))
-> > > +             obj = i915_gem_object_create_shmem(i915, PAGE_SIZE);
-> > >       if (IS_ERR(obj))
-> > >               goto out_ret;
-> > >
-> > > --
-> > > 2.31.1
-> > >
+> >   void
+> > diff --git a/drivers/gpu/drm/radeon/radeon_gem.c b/drivers/gpu/drm/rade=
+on/radeon_gem.c
+> > index 458f92a70887..c19ad07eb7b5 100644
+> > --- a/drivers/gpu/drm/radeon/radeon_gem.c
+> > +++ b/drivers/gpu/drm/radeon/radeon_gem.c
+> > @@ -77,7 +77,8 @@ static const struct vm_operations_struct radeon_gem_v=
+m_ops =3D {
+> >       .fault =3D radeon_gem_fault,
+> >       .open =3D ttm_bo_vm_open,
+> >       .close =3D ttm_bo_vm_close,
+> > -     .access =3D ttm_bo_vm_access
+> > +     .access =3D ttm_bo_vm_access,
+> > +     .mprotect =3D ttm_bo_vm_mprotect
+> >   };
 > >
-> > --
-> > Daniel Vetter
-> > Software Engineer, Intel Corporation
-> > http://blog.ffwll.ch
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+> >   static void radeon_gem_object_free(struct drm_gem_object *gobj)
+> > diff --git a/drivers/gpu/drm/ttm/ttm_bo_vm.c b/drivers/gpu/drm/ttm/ttm_=
+bo_vm.c
+> > index f56be5bc0861..fb325bad5db6 100644
+> > --- a/drivers/gpu/drm/ttm/ttm_bo_vm.c
+> > +++ b/drivers/gpu/drm/ttm/ttm_bo_vm.c
+> > @@ -542,17 +542,29 @@ int ttm_bo_vm_access(struct vm_area_struct *vma, =
+unsigned long addr,
+> >   }
+> >   EXPORT_SYMBOL(ttm_bo_vm_access);
+> >
+> > +int ttm_bo_vm_mprotect(struct vm_area_struct *vma, unsigned long start=
+,
+> > +                    unsigned long end, unsigned long newflags)
+> > +{
+> > +     /* Enforce no COW since would have really strange behavior with i=
+t. */
+> > +     if (is_cow_mapping(newflags) && (newflags & VM_WRITE))
+> > +             return -EINVAL;
+> > +
+> > +     return 0;
+> > +}
+> > +EXPORT_SYMBOL(ttm_bo_vm_mprotect);
+> > +
+> >   static const struct vm_operations_struct ttm_bo_vm_ops =3D {
+> >       .fault =3D ttm_bo_vm_fault,
+> >       .open =3D ttm_bo_vm_open,
+> >       .close =3D ttm_bo_vm_close,
+> >       .access =3D ttm_bo_vm_access,
+> > +     .mprotect =3D ttm_bo_vm_mprotect,
+> >   };
+> >
+> >   int ttm_bo_mmap_obj(struct vm_area_struct *vma, struct ttm_buffer_obj=
+ect *bo)
+> >   {
+> >       /* Enforce no COW since would have really strange behavior with i=
+t. */
+> > -     if (is_cow_mapping(vma->vm_flags))
+> > +     if (is_cow_mapping(vma->vm_flags) && (vma->vm_flags & VM_WRITE))
+> >               return -EINVAL;
+> >
+> >       ttm_bo_get(bo);
+> > diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_glue.c b/drivers/gpu/drm=
+/vmwgfx/vmwgfx_ttm_glue.c
+> > index e6b1f98ec99f..e4bf7dc99320 100644
+> > --- a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_glue.c
+> > +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_glue.c
+> > @@ -61,6 +61,7 @@ int vmw_mmap(struct file *filp, struct vm_area_struct=
+ *vma)
+> >               .fault =3D vmw_bo_vm_fault,
+> >               .open =3D ttm_bo_vm_open,
+> >               .close =3D ttm_bo_vm_close,
+> > +             .mprotect =3D ttm_bo_vm_mprotect,
+> >   #ifdef CONFIG_TRANSPARENT_HUGEPAGE
+> >               .huge_fault =3D vmw_bo_vm_huge_fault,
+> >   #endif
+> > diff --git a/include/drm/ttm/ttm_bo_api.h b/include/drm/ttm/ttm_bo_api.=
+h
+> > index f681bbdbc698..40eb95875355 100644
+> > --- a/include/drm/ttm/ttm_bo_api.h
+> > +++ b/include/drm/ttm/ttm_bo_api.h
+> > @@ -605,6 +605,10 @@ void ttm_bo_vm_close(struct vm_area_struct *vma);
+> >
+> >   int ttm_bo_vm_access(struct vm_area_struct *vma, unsigned long addr,
+> >                    void *buf, int len, int write);
+> > +
+> > +int ttm_bo_vm_mprotect(struct vm_area_struct *vma, unsigned long start=
+,
+> > +                    unsigned long end, unsigned long newflags);
+> > +
+> >   bool ttm_bo_delayed_delete(struct ttm_device *bdev, bool remove_all);
+> >
+> >   vm_fault_t ttm_bo_vm_dummy_page(struct vm_fault *vmf, pgprot_t prot);
+>
