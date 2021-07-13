@@ -1,42 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E3DC3C75E8
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Jul 2021 19:47:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F9F73C7646
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Jul 2021 20:11:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 034A66E106;
-	Tue, 13 Jul 2021 17:47:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E0FBA6E105;
+	Tue, 13 Jul 2021 18:11:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D3CAB6E105;
- Tue, 13 Jul 2021 17:47:36 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10044"; a="232019174"
-X-IronPort-AV: E=Sophos;i="5.84,237,1620716400"; d="scan'208";a="232019174"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jul 2021 10:47:35 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,237,1620716400"; d="scan'208";a="493199519"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
- by FMSMGA003.fm.intel.com with SMTP; 13 Jul 2021 10:47:32 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Tue, 13 Jul 2021 20:47:31 +0300
-Date: Tue, 13 Jul 2021 20:47:31 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Matthew Auld <matthew.william.auld@gmail.com>
-Subject: Re: [Intel-gfx] [PATCH 1/5] drm/i915: document caching related bits
-Message-ID: <YO3RsxZHUe5imN3q@intel.com>
-References: <20210713104554.2381406-1-matthew.auld@intel.com>
- <YO23Y3PUS22FaXDC@intel.com>
- <CAM0jSHOx=WVbzfQzn=kL-5qaG4B3dxPLOimkvUdv6HFJymZeZw@mail.gmail.com>
+X-Greylist: delayed 478 seconds by postgrey-1.36 at gabe;
+ Tue, 13 Jul 2021 18:11:46 UTC
+Received: from smtp113.iad3b.emailsrvr.com (smtp113.iad3b.emailsrvr.com
+ [146.20.161.113])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A6F096E105
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jul 2021 18:11:46 +0000 (UTC)
+X-Auth-ID: kenneth@whitecape.org
+Received: by smtp7.relay.iad3b.emailsrvr.com (Authenticated sender:
+ kenneth-AT-whitecape.org) with ESMTPSA id 2078A6012C; 
+ Tue, 13 Jul 2021 14:03:46 -0400 (EDT)
+From: Kenneth Graunke <kenneth@whitecape.org>
+To: intel-gfx@lists.freedesktop.org, Matthew Auld <matthew.auld@intel.com>
+Subject: Re: [PATCH v3 3/5] drm/i915/uapi: reject caching ioctls for discrete
+Date: Tue, 13 Jul 2021 11:03:42 -0700
+Message-ID: <2903006.BRdxQiUG6I@mizzik>
+In-Reply-To: <20210705135310.1502437-3-matthew.auld@intel.com>
+References: <20210705135310.1502437-1-matthew.auld@intel.com>
+ <20210705135310.1502437-3-matthew.auld@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAM0jSHOx=WVbzfQzn=kL-5qaG4B3dxPLOimkvUdv6HFJymZeZw@mail.gmail.com>
-X-Patchwork-Hint: comment
+Content-Type: multipart/signed; boundary="nextPart2341861.n7pOrN7pQ0";
+ micalg="pgp-sha256"; protocol="application/pgp-signature"
+X-Classification-ID: 54060470-d477-4b4a-b8c6-8f9d1305d835-1-1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,88 +43,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Matthew Auld <matthew.auld@intel.com>,
- ML dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Jason Ekstrand <jason@jlekstrand.net>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Jordan Justen <jordan.l.justen@intel.com>, dri-devel@lists.freedesktop.org,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 13, 2021 at 05:13:37PM +0100, Matthew Auld wrote:
-> On Tue, 13 Jul 2021 at 16:55, Ville Syrjälä
-> <ville.syrjala@linux.intel.com> wrote:
-> >
-> > On Tue, Jul 13, 2021 at 11:45:50AM +0100, Matthew Auld wrote:
-> > > +     /**
-> > > +      * @cache_coherent:
-> > > +      *
-> > > +      * Track whether the pages are coherent with the GPU if reading or
-> > > +      * writing through the CPU cache.
-> > > +      *
-> > > +      * This largely depends on the @cache_level, for example if the object
-> > > +      * is marked as I915_CACHE_LLC, then GPU access is coherent for both
-> > > +      * reads and writes through the CPU cache.
-> > > +      *
-> > > +      * Note that on platforms with shared-LLC support(HAS_LLC) reads through
-> > > +      * the CPU cache are always coherent, regardless of the @cache_level. On
-> > > +      * snooping based platforms this is not the case, unless the full
-> > > +      * I915_CACHE_LLC or similar setting is used.
-> > > +      *
-> > > +      * As a result of this we need to track coherency separately for reads
-> > > +      * and writes, in order to avoid superfluous flushing on shared-LLC
-> > > +      * platforms, for reads.
-> > > +      *
-> > > +      * I915_BO_CACHE_COHERENT_FOR_READ:
-> > > +      *
-> > > +      * When reading through the CPU cache, the GPU is still coherent. Note
-> > > +      * that no data has actually been modified here, so it might seem
-> > > +      * strange that we care about this.
-> > > +      *
-> > > +      * As an example, if some object is mapped on the CPU with write-back
-> > > +      * caching, and we read some page, then the cache likely now contains
-> > > +      * the data from that read. At this point the cache and main memory
-> > > +      * match up, so all good. But next the GPU needs to write some data to
-> > > +      * that same page. Now if the @cache_level is I915_CACHE_NONE and the
-> > > +      * the platform doesn't have the shared-LLC, then the GPU will
-> > > +      * effectively skip invalidating the cache(or however that works
-> > > +      * internally) when writing the new value.  This is really bad since the
-> > > +      * GPU has just written some new data to main memory, but the CPU cache
-> > > +      * is still valid and now contains stale data. As a result the next time
-> > > +      * we do a cached read with the CPU, we are rewarded with stale data.
-> > > +      * Likewise if the cache is later flushed, we might be rewarded with
-> > > +      * overwriting main memory with stale data.
-> > > +      *
-> > > +      * I915_BO_CACHE_COHERENT_FOR_WRITE:
-> > > +      *
-> > > +      * When writing through the CPU cache, the GPU is still coherent. Note
-> > > +      * that this also implies I915_BO_CACHE_COHERENT_FOR_READ.
-> > > +      *
-> > > +      * This is never set when I915_CACHE_NONE is used for @cache_level,
-> > > +      * where instead we have to manually flush the caches after writing
-> > > +      * through the CPU cache. For other cache levels this should be set and
-> > > +      * the object is therefore considered coherent for both reads and writes
-> > > +      * through the CPU cache.
-> >
-> > I don't remember why we have this read vs. write split and this new
-> > documentation doesn't seem to really explain it either.
-> 
-> Hmm, I attempted to explain that earlier:
-> 
-> * Note that on platforms with shared-LLC support(HAS_LLC) reads through
-> * the CPU cache are always coherent, regardless of the @cache_level. On
-> * snooping based platforms this is not the case, unless the full
-> * I915_CACHE_LLC or similar setting is used.
-> *
-> * As a result of this we need to track coherency separately for reads
-> * and writes, in order to avoid superfluous flushing on shared-LLC
-> * platforms, for reads.
-> 
-> So AFAIK it's just because shared-LLC can be coherent for reads, while
-> also not being coherent for writes(CACHE_NONE),
+--nextPart2341861.n7pOrN7pQ0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"; protected-headers="v1"
+From: Kenneth Graunke <kenneth@whitecape.org>
+To: intel-gfx@lists.freedesktop.org, Matthew Auld <matthew.auld@intel.com>
+Cc: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>, Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, Jordan Justen <jordan.l.justen@intel.com>, Jason Ekstrand <jason@jlekstrand.net>, Daniel Vetter <daniel.vetter@ffwll.ch>, Ramalingam C <ramalingam.c@intel.com>
+Subject: Re: [PATCH v3 3/5] drm/i915/uapi: reject caching ioctls for discrete
+Date: Tue, 13 Jul 2021 11:03:42 -0700
+Message-ID: <2903006.BRdxQiUG6I@mizzik>
+In-Reply-To: <20210705135310.1502437-3-matthew.auld@intel.com>
+References: <20210705135310.1502437-1-matthew.auld@intel.com> <20210705135310.1502437-3-matthew.auld@intel.com>
 
-CPU vs. GPU is fully coherent when it comes to LLC. Or at least I've
-never heard of any mechanism that would make it only partially coherent.
+On Monday, July 5, 2021 6:53:08 AM PDT Matthew Auld wrote:
+> It's a noop on DG1, and in the future when need to support other devices
+> which let us control the coherency, then it should be an immutable
+> creation time property for the BO. This will likely be controlled
+> through a new gem_create_ext extension.
+>=20
+> v2: add some kernel doc for the discrete changes, and document the
+>     implicit rules
+>=20
+> Suggested-by: Daniel Vetter <daniel@ffwll.ch>
+> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+> Cc: Thomas Hellstr=F6m <thomas.hellstrom@linux.intel.com>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+> Cc: Jordan Justen <jordan.l.justen@intel.com>
+> Cc: Kenneth Graunke <kenneth@whitecape.org>
+> Cc: Jason Ekstrand <jason@jlekstrand.net>
+> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Cc: Ramalingam C <ramalingam.c@intel.com>
+> ---
+>  drivers/gpu/drm/i915/gem/i915_gem_domain.c |  6 +++++
+>  include/uapi/drm/i915_drm.h                | 29 +++++++++++++++++++++-
+>  2 files changed, 34 insertions(+), 1 deletion(-)
 
--- 
-Ville Syrjälä
-Intel
+This caching ioctl patch is:
+
+Reviewed-by: Kenneth Graunke <kenneth@whitecape.org>
+
+--nextPart2341861.n7pOrN7pQ0
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part.
+Content-Transfer-Encoding: 7Bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEE6OtbNAgc4e6ibv4ZW1vaBx1JzDgFAmDt1X4ACgkQW1vaBx1J
+zDhedw/8CIgFbIvRYudUYl/JxnHch1b5l4X7NUoL2SzmdNERl7+Mr0ut0LuaKzv+
+mCvCWwB1Oe+/MoWmtlLKGY7vXnbrYVx4fbfH03duRRXJXEhBih/S9APRIsdoIM4v
+q/5XcS+npHCwAKRMkrO0gpny0zFnGdw6LnPz9YAXl5/YJGsfbBjgG7kPrXGg/l9H
+WuI1AtqNVa/+uoLGrIBqHHpGUe2+rhwxOKFk2tquKAPR+xX9qmw7DmqP8xjQ91/u
+ssneUnka6jf8cRsioJ36HwurXYWEFSy06HJvx3NZM+G6hOAKwXofUFdsQKw36xAb
++Eb9gIpOSrleP0+GedkNXqH4ncCaFIh0MKFh0KhmOqXrY68myhOflLhVPqzo738i
+kJOrOBxkYxJtZ3K3YqpWseZwPUWdDXdD+6jvYGHiZfIaI3cWBX7hwEnXQpDyY9ip
+TsjIunLYFitiHVoZSwCBiuaYP/hCQGe6OCSwhYAO5IYeXX5Pwp4pmonAybOVSF9y
+hgvTbSakNI7CGkPXf+bXu6mTCtlCqa8Psxu3DfjRUyIKDg3yFxcp8xpikFortcns
+K2cv/OGJC+FTSqNb1y+BYf2EsbbBElwT/LEv5woR47qDL/ygwZOk6IwCdD3RSc8r
+l421E9slwjm8dUqHfWuWsLqC3MKySmMkzdm6ag4AxQQdlnZWq2I=
+=/FUK
+-----END PGP SIGNATURE-----
+
+--nextPart2341861.n7pOrN7pQ0--
+
+
+
