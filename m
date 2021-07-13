@@ -1,51 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70EFA3C77B8
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Jul 2021 22:16:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DEADE3C77CA
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Jul 2021 22:20:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E3259892C9;
-	Tue, 13 Jul 2021 20:16:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 87AB26E125;
+	Tue, 13 Jul 2021 20:20:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22f.google.com (mail-oi1-x22f.google.com
- [IPv6:2607:f8b0:4864:20::22f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 79E8A892C9
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jul 2021 20:16:37 +0000 (UTC)
-Received: by mail-oi1-x22f.google.com with SMTP id m18so2682500oie.9
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jul 2021 13:16:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=kWmG87OBfKJjD9lA4wSJHMVVBLbAlRhYy4nBRpAJEk0=;
- b=QGIz60UlVzcmmo4cRwyPGEMGHIhn1alpxZR7Y2r2BnlrVw0elABLHwAqyIMcSsUR4R
- by2EHgV8idmfrkWZ0FDHkQi+0ejBQwINfnlNY80mTcCsf+CWPRwk2RqvHTdhhVXOj4HX
- nyuxgJvCv2svvrj6IwNlny3Q0Szg0+XnFLfao=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=kWmG87OBfKJjD9lA4wSJHMVVBLbAlRhYy4nBRpAJEk0=;
- b=VghYbVqgbtAgHyUtrRx4xw20W1ac6pcXQVBR9WZKbGZpOtmN4dkpIt1gBr6vaocDj8
- C0WNq6f038FdhnBz5uz/685FuEWUCQTQ92vgs+DIAcZsQTbFWMbNpR8OINA2el3CA1uo
- cdfEfLoUM3rn1TFo6wQL7kh2sQ/XsiMZV3G3ggQLYO4KQ8OpTTZxwyU2aw7ommkISYyv
- h/KI6nd/fZqCTKJxhri60oK0zR4BM6ue3m5qXO/C2GyGixyctiExqJ+GqcXcZCoRuSHt
- /OwR9us52zY3JEs/9F1AH9XvWrAet5cZyjcB+FdQpJ2BhSisZU6yCtpeNdbRIFBELXr3
- ZSnQ==
-X-Gm-Message-State: AOAM532Kewtva2ZLFmYm7zPQfCevItfBMZ6wc+R+sNKIyNnqKbFzCiQi
- oPHd2lmM5TOUYk46uoD1m63xzxNvGzz1t/0/hNsqkA==
-X-Google-Smtp-Source: ABdhPJzgqYtqt3vfDkGjO+FO23C+VLDSZGsOHtuG4uvhyW6iIxdNU73WnLXcR85GafWL74S/qELp+rr4NbIqrfaoaPs=
-X-Received: by 2002:aca:3085:: with SMTP id w127mr875654oiw.101.1626207396895; 
- Tue, 13 Jul 2021 13:16:36 -0700 (PDT)
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CAEC36E123;
+ Tue, 13 Jul 2021 20:20:02 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10044"; a="207219353"
+X-IronPort-AV: E=Sophos;i="5.84,237,1620716400"; d="scan'208";a="207219353"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Jul 2021 13:20:01 -0700
+X-IronPort-AV: E=Sophos;i="5.84,237,1620716400"; d="scan'208";a="493245515"
+Received: from rmvillaz-mobl2.amr.corp.intel.com (HELO intel.com)
+ ([10.212.91.132])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Jul 2021 13:20:00 -0700
+Date: Tue, 13 Jul 2021 16:19:59 -0400
+From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [Intel-gfx] [PATCH] drm/i915/gt: Fix -EDEADLK handling regression
+Message-ID: <YO31b16UqQtsjX1b@intel.com>
+References: <20210630164413.25481-1-ville.syrjala@linux.intel.com>
+ <2edf584b-3835-53ed-f6e3-76c7e8d581ed@linux.intel.com>
+ <CAKMK7uFTYgK9rmXTNSczPdBWPTNaLBp-GitzBQb0-gX5wZWHNQ@mail.gmail.com>
+ <CAKMK7uFjgu_TkPFYs0DTdAh9tdDbdpUc0S1n5XUfHJaq_0FHVw@mail.gmail.com>
 MIME-Version: 1.0
-References: <20210713193257.958852-1-sam@ravnborg.org>
-In-Reply-To: <20210713193257.958852-1-sam@ravnborg.org>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Tue, 13 Jul 2021 22:16:26 +0200
-Message-ID: <CAKMK7uGSgOP2E=Uw1gXJ7RbY+6M7gq1K4uC09Ct0=1Yu_i36Aw@mail.gmail.com>
-Subject: Re: [PATCH v1 1/1] drm: bridge: Mark mode_fixup deprecated
-To: Sam Ravnborg <sam@ravnborg.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAKMK7uFjgu_TkPFYs0DTdAh9tdDbdpUc0S1n5XUfHJaq_0FHVw@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,62 +48,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Andrzej Hajda <a.hajda@samsung.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@intel.com>,
+ stable <stable@vger.kernel.org>, dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 13, 2021 at 9:33 PM Sam Ravnborg <sam@ravnborg.org> wrote:
->
-> Make it obvious that mode_fixup is deprecated and new drivers shall use
-> atomic_check.
->
-> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: Andrzej Hajda <a.hajda@samsung.com>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: David Airlie <airlied@linux.ie>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> ---
->  include/drm/drm_bridge.h | 3 +++
->  1 file changed, 3 insertions(+)
->
-> diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
-> index 46bdfa48c413..668f14234459 100644
-> --- a/include/drm/drm_bridge.h
-> +++ b/include/drm/drm_bridge.h
-> @@ -136,6 +136,9 @@ struct drm_bridge_funcs {
->          *
->          * NOTE:
->          *
-> +        * This is deprecated, do not use!
-> +        * New drivers shall use &drm_bridge_funcs.atomic_check.
+On Tue, Jul 13, 2021 at 09:59:18PM +0200, Daniel Vetter wrote:
+> On Tue, Jul 13, 2021 at 9:58 PM Daniel Vetter <daniel@ffwll.ch> wrote:
+> >
+> > On Thu, Jul 1, 2021 at 9:07 AM Maarten Lankhorst
+> > <maarten.lankhorst@linux.intel.com> wrote:
+> > > Op 30-06-2021 om 18:44 schreef Ville Syrjala:
+> > > > From: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> > > >
+> > > > The conversion to ww mutexes failed to address the fence code which
+> > > > already returns -EDEADLK when we run out of fences. Ww mutexes on
+> > > > the other hand treat -EDEADLK as an internal errno value indicating
+> > > > a need to restart the operation due to a deadlock. So now when the
+> > > > fence code returns -EDEADLK the higher level code erroneously
+> > > > restarts everything instead of returning the error to userspace
+> > > > as is expected.
+> > > >
+> > > > To remedy this let's switch the fence code to use a different errno
+> > > > value for this. -ENOBUFS seems like a semi-reasonable unique choice.
+> > > > Apart from igt the only user of this I could find is sna, and even
+> > > > there all we do is dump the current fence registers from debugfs
+> > > > into the X server log. So no user visible functionality is affected.
+> > > > If we really cared about preserving this we could of course convert
+> > > > back to -EDEADLK higher up, but doesn't seem like that's worth
+> > > > the hassle here.
+> > > >
+> > > > Not quite sure which commit specifically broke this, but I'll
+> > > > just attribute it to the general gem ww mutex work.
+> > > >
+> > > > Cc: stable@vger.kernel.org
+> > > > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> > > > Cc: Thomas Hellström <thomas.hellstrom@intel.com>
+> > > > Testcase: igt/gem_pread/exhaustion
+> > > > Testcase: igt/gem_pwrite/basic-exhaustion
+> > > > Testcase: igt/gem_fenced_exec_thrash/too-many-fences
+> > > > Fixes: 80f0b679d6f0 ("drm/i915: Add an implementation for i915_gem_ww_ctx locking, v2.")
+> > > > Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> > > > ---
+> > > >  drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c | 2 +-
+> > > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > >
+> > > > diff --git a/drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c b/drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c
+> > > > index cac7f3f44642..f8948de72036 100644
+> > > > --- a/drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c
+> > > > +++ b/drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c
+> > > > @@ -348,7 +348,7 @@ static struct i915_fence_reg *fence_find(struct i915_ggtt *ggtt)
+> > > >       if (intel_has_pending_fb_unpin(ggtt->vm.i915))
+> > > >               return ERR_PTR(-EAGAIN);
+> > > >
+> > > > -     return ERR_PTR(-EDEADLK);
+> > > > +     return ERR_PTR(-ENOBUFS);
+> > > >  }
+> > > >
+> > > >  int __i915_vma_pin_fence(struct i915_vma *vma)
+> > >
+> > > Makes sense..
+> > >
+> > > Reviewed-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> > >
+> > > Is it a slightly more reent commit? Might probably be the part that converts execbuffer to use ww locks.
+> >
+> > - please cc: dri-devel on anything gem/gt related.
+> > - this should probably be ENOSPC or something like that for at least a
+> > seeming retention of errno consistentcy:
+> >
+> > https://dri.freedesktop.org/docs/drm/gpu/drm-uapi.html#recommended-ioctl-return-values
+> 
+> Other option would be to map that back to EDEADLK in the execbuf ioctl
+> somewhere, so we retain a distinct errno code.
 
-Bit a bikeshed, but in the rendered text this will be one line, I'd
-just merge it. Also since this is a reference within the same struct
-just use @atomic_check.
+I'm about to push this patch to drm-intel-fixes... I'm assuming if there's any fix it will
+be a follow-up patch and not a revert or force push, right?!
 
-Now the real review: There's a pile more of these in
-drm_modeset_helper_vtables.h (well in crtc and encoder funcs, so only
-two, a small pile). Can you pls fix those up too? With that:
-
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
-> +        *
->          * This function is called in the check phase of atomic modesets, which
->          * can be aborted for any reason (including on userspace's request to
->          * just check whether a configuration would be possible). Drivers MUST
-> --
-> 2.30.2
->
-
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+> -Daniel
+> -- 
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
+> _______________________________________________
+> Intel-gfx mailing list
+> Intel-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
