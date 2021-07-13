@@ -1,71 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7D1A3C753A
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Jul 2021 18:48:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F1863C7545
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Jul 2021 18:50:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 95729892BC;
-	Tue, 13 Jul 2021 16:47:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A4AA890FE;
+	Tue, 13 Jul 2021 16:50:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com
- [91.207.212.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F3C92892BC
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jul 2021 16:47:55 +0000 (UTC)
-Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 16DGlmtL019530; Tue, 13 Jul 2021 18:47:48 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=selector1;
- bh=gg2gTv2lq4OleHCgViRouDUkyxkUyd4z5kbx03z9dNk=;
- b=cLpUYW2YltxWRKbbdofSonWO7t33yV0AXq1/u+uO8nO1z7wp2dKWo98zA8WCggSF4/hl
- MS+8izDBmDKu5YYEmo/6YX033Ca1MzAonFEsvTymVjN9n9sJ4vgM06cvd/QIUhAbO5Pa
- pYkx/I7K3aeW5FYrQDzw8hRznHCiUGQpS+i/q1WywQWg+xjQMP2ht/QD5B9DOS3twdVe
- MQPpgqLAkJbcZ8X1ZRzvJ8NvizEOm1NARCfqCCgbautiNVldcnTPAQMBVYsz2Vh3xwGY
- nLKHKGc2ofdSrIDlUe7AiSWORWwhSjNF8xh+a99vnnH/1lBJLpoInhKCt6rrKwe4ugaF Mg== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
- by mx07-00178001.pphosted.com with ESMTP id 39s8vd22ah-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 13 Jul 2021 18:47:48 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 56DD610002A;
- Tue, 13 Jul 2021 18:47:45 +0200 (CEST)
-Received: from Webmail-eu.st.com (sfhdag2node3.st.com [10.75.127.6])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 3E89F248ED3;
- Tue, 13 Jul 2021 18:47:45 +0200 (CEST)
-Received: from lmecxl0993.lme.st.com (10.75.127.44) by SFHDAG2NODE3.st.com
- (10.75.127.6) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 13 Jul
- 2021 18:47:44 +0200
-Subject: Re: [PATCH] drm/stm: dsi: compute the transition time from LP to HS
- and back
-To: Antonio Borneo <antonio.borneo@foss.st.com>, Yannick Fertre
- <yannick.fertre@foss.st.com>, Benjamin Gaignard
- <benjamin.gaignard@linaro.org>, David Airlie <airlied@linux.ie>, Daniel
- Vetter <daniel@ffwll.ch>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>, Raphael Gallais-Pou
- <raphael.gallais-pou@foss.st.com>, <dri-devel@lists.freedesktop.org>,
- <linux-stm32@st-md-mailman.stormreply.com>,
- <linux-arm-kernel@lists.infradead.org>
-References: <20210713144941.3599-1-antonio.borneo@foss.st.com>
-From: Philippe CORNU <philippe.cornu@foss.st.com>
-Message-ID: <fab62613-59a4-5d0b-4ff8-3900ef70a49d@foss.st.com>
-Date: Tue, 13 Jul 2021 18:47:44 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+Received: from mail-oo1-xc2a.google.com (mail-oo1-xc2a.google.com
+ [IPv6:2607:f8b0:4864:20::c2a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E0A41892CB
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jul 2021 16:50:24 +0000 (UTC)
+Received: by mail-oo1-xc2a.google.com with SMTP id
+ 68-20020a4a00470000b0290258a7ff4058so5560635ooh.10
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jul 2021 09:50:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=z0jO+jJEyay3NTrDe9eWC2LZD+pl5Ioe43IeSwaM6sQ=;
+ b=d4Geo+xzUnBF9WyHS6i8UQzuQ3DSUt/d9KfQKY5rx5ETR5DXxfzW1u2yjCJuJ/kljg
+ 3GLDLxiTs/LFxRq3zMtd9Ro8Sz7Hhzu+FG0rcIYEw6pjEp2HRYcJiv7aPKDQWAcDmqqE
+ MRxS2Junb4lOYOmluweDfOuBDXncWM4FQR8vQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=z0jO+jJEyay3NTrDe9eWC2LZD+pl5Ioe43IeSwaM6sQ=;
+ b=pY3EnRJlGoQvGbzSKgWzXO4pFODVGdevQ4I2BO08u+d8hP+h0mzSlk6Ub5wnxIr+YX
+ TYk8SztVQthUqQp8PT4bz7MCDcuFwplAItly15y9AUHzAIv4B0l72X7+zNGravz9xxKv
+ F7uIap4BRaT2HDwl4lfgl6svL3viP95SKS80oIXF+80P70+KHvLQYLBlKbmgLEePxPk8
+ /z5y37Ypno4d/SlWUIToTunWfXja1CJIKE9nzrsD6GOK9MIT0v2fsyhWL5fQrBWmfHjo
+ 0MtaEtXdtpP6Rf4fiR9c6OFCk0lpRtwKVpdFY1e6f4XHJbzEPcopJoxT0OruOAYPsPz0
+ dzmA==
+X-Gm-Message-State: AOAM533cKvo8cmik5XXbnBIpxuMT7O6Ujt0yp8IR/E0ko1+TCxdU89Vl
+ H3UI0jnbsle7WWJ1XrlihI71lbMgL7i7mkJ89NWZpY9zgXI=
+X-Google-Smtp-Source: ABdhPJwqcBJebBr5NGAREt95GX72S8ugjsBeXWZh/7OxDfcRTYf4LSkCzo45q7dLMOWhtOX/3nHOkXbD+pz4Ri0+4uk=
+X-Received: by 2002:a4a:9b99:: with SMTP id x25mr4297425ooj.85.1626195024115; 
+ Tue, 13 Jul 2021 09:50:24 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210713144941.3599-1-antonio.borneo@foss.st.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.75.127.44]
-X-ClientProxiedBy: SFHDAG1NODE3.st.com (10.75.127.3) To SFHDAG2NODE3.st.com
- (10.75.127.6)
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
- definitions=2021-07-13_10:2021-07-13,
- 2021-07-13 signatures=0
+References: <20210713104554.2381406-1-matthew.auld@intel.com>
+ <YO23Y3PUS22FaXDC@intel.com>
+ <CAM0jSHOx=WVbzfQzn=kL-5qaG4B3dxPLOimkvUdv6HFJymZeZw@mail.gmail.com>
+In-Reply-To: <CAM0jSHOx=WVbzfQzn=kL-5qaG4B3dxPLOimkvUdv6HFJymZeZw@mail.gmail.com>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Tue, 13 Jul 2021 18:50:12 +0200
+Message-ID: <CAKMK7uEfUtxb8FcnNQjvpMwLpLpgDv9GYvBg9caou+Rju=hYaQ@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH 1/5] drm/i915: document caching related bits
+To: Matthew Auld <matthew.william.auld@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,80 +63,141 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org
+Cc: ML dri-devel <dri-devel@lists.freedesktop.org>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Matthew Auld <matthew.auld@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Antonio,
+On Tue, Jul 13, 2021 at 6:14 PM Matthew Auld
+<matthew.william.auld@gmail.com> wrote:
+> On Tue, 13 Jul 2021 at 16:55, Ville Syrj=C3=A4l=C3=A4
+> <ville.syrjala@linux.intel.com> wrote:
+> >
+> > On Tue, Jul 13, 2021 at 11:45:50AM +0100, Matthew Auld wrote:
+> > > +     /**
+> > > +      * @cache_coherent:
+> > > +      *
+> > > +      * Track whether the pages are coherent with the GPU if reading=
+ or
+> > > +      * writing through the CPU cache.
+> > > +      *
+> > > +      * This largely depends on the @cache_level, for example if the=
+ object
+> > > +      * is marked as I915_CACHE_LLC, then GPU access is coherent for=
+ both
+> > > +      * reads and writes through the CPU cache.
+> > > +      *
+> > > +      * Note that on platforms with shared-LLC support(HAS_LLC) read=
+s through
+> > > +      * the CPU cache are always coherent, regardless of the @cache_=
+level. On
+> > > +      * snooping based platforms this is not the case, unless the fu=
+ll
+> > > +      * I915_CACHE_LLC or similar setting is used.
+> > > +      *
+> > > +      * As a result of this we need to track coherency separately fo=
+r reads
+> > > +      * and writes, in order to avoid superfluous flushing on shared=
+-LLC
+> > > +      * platforms, for reads.
+> > > +      *
+> > > +      * I915_BO_CACHE_COHERENT_FOR_READ:
+> > > +      *
+> > > +      * When reading through the CPU cache, the GPU is still coheren=
+t. Note
+> > > +      * that no data has actually been modified here, so it might se=
+em
+> > > +      * strange that we care about this.
+> > > +      *
+> > > +      * As an example, if some object is mapped on the CPU with writ=
+e-back
+> > > +      * caching, and we read some page, then the cache likely now co=
+ntains
+> > > +      * the data from that read. At this point the cache and main me=
+mory
+> > > +      * match up, so all good. But next the GPU needs to write some =
+data to
+> > > +      * that same page. Now if the @cache_level is I915_CACHE_NONE a=
+nd the
+> > > +      * the platform doesn't have the shared-LLC, then the GPU will
+> > > +      * effectively skip invalidating the cache(or however that work=
+s
+> > > +      * internally) when writing the new value.  This is really bad =
+since the
+> > > +      * GPU has just written some new data to main memory, but the C=
+PU cache
+> > > +      * is still valid and now contains stale data. As a result the =
+next time
+> > > +      * we do a cached read with the CPU, we are rewarded with stale=
+ data.
+> > > +      * Likewise if the cache is later flushed, we might be rewarded=
+ with
+> > > +      * overwriting main memory with stale data.
+> > > +      *
+> > > +      * I915_BO_CACHE_COHERENT_FOR_WRITE:
+> > > +      *
+> > > +      * When writing through the CPU cache, the GPU is still coheren=
+t. Note
+> > > +      * that this also implies I915_BO_CACHE_COHERENT_FOR_READ.
+> > > +      *
+> > > +      * This is never set when I915_CACHE_NONE is used for @cache_le=
+vel,
+> > > +      * where instead we have to manually flush the caches after wri=
+ting
+> > > +      * through the CPU cache. For other cache levels this should be=
+ set and
+> > > +      * the object is therefore considered coherent for both reads a=
+nd writes
+> > > +      * through the CPU cache.
+> >
+> > I don't remember why we have this read vs. write split and this new
+> > documentation doesn't seem to really explain it either.
+>
+> Hmm, I attempted to explain that earlier:
+>
+> * Note that on platforms with shared-LLC support(HAS_LLC) reads through
+> * the CPU cache are always coherent, regardless of the @cache_level. On
+> * snooping based platforms this is not the case, unless the full
+> * I915_CACHE_LLC or similar setting is used.
+> *
+> * As a result of this we need to track coherency separately for reads
+> * and writes, in order to avoid superfluous flushing on shared-LLC
+> * platforms, for reads.
+>
+> So AFAIK it's just because shared-LLC can be coherent for reads, while
+> also not being coherent for writes(CACHE_NONE), so being able to track
+> each separately is kind of needed to avoid unnecessary flushing for
+> the read cases i.e simple boolean for coherent vs non-coherent is not
+> enough.
+>
+> I can try to reword things to make that more clear.
 
-On 7/13/21 4:49 PM, Antonio Borneo wrote:
-> The driver uses a conservative set of hardcoded values for the
-> maximum time delay of the transitions between LP and HS, either
-> for data and clock lanes.
-> 
-> By using the info in STM32MP157 datasheet, valid also for other ST
-> devices, compute the actual delay from the lane's bps.
-> 
-> Signed-off-by: Antonio Borneo <antonio.borneo@foss.st.com>
-> ---
-> To: Yannick Fertre <yannick.fertre@foss.st.com>
-> To: Philippe Cornu <philippe.cornu@foss.st.com>
-> To: Benjamin Gaignard <benjamin.gaignard@linaro.org>
-> To: David Airlie <airlied@linux.ie>
-> To: Daniel Vetter <daniel@ffwll.ch>
-> To: Maxime Coquelin <mcoquelin.stm32@gmail.com>
-> To: Alexandre Torgue <alexandre.torgue@foss.st.com>
-> To: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
-> To: dri-devel@lists.freedesktop.org
-> To: linux-stm32@st-md-mailman.stormreply.com
-> To: linux-arm-kernel@lists.infradead.org
-> Cc: linux-kernel@vger.kernel.org
-> 
->   drivers/gpu/drm/stm/dw_mipi_dsi-stm.c | 17 +++++++++++++----
->   1 file changed, 13 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c b/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c
-> index 8399d337589d..32cb41b2202f 100644
-> --- a/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c
-> +++ b/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c
-> @@ -309,14 +309,23 @@ dw_mipi_dsi_get_lane_mbps(void *priv_data, const struct drm_display_mode *mode,
->   	return 0;
->   }
->   
-> +#define DSI_PHY_DELAY(fp, vp, mbps) DIV_ROUND_UP((fp) * (mbps) + 1000 * (vp), 8000)
-> +
->   static int
->   dw_mipi_dsi_phy_get_timing(void *priv_data, unsigned int lane_mbps,
->   			   struct dw_mipi_dsi_dphy_timing *timing)
->   {
-> -	timing->clk_hs2lp = 0x40;
-> -	timing->clk_lp2hs = 0x40;
-> -	timing->data_hs2lp = 0x40;
-> -	timing->data_lp2hs = 0x40;
-> +	/*
-> +	 * From STM32MP157 datasheet, valid for STM32F469, STM32F7x9, STM32H747
-> +	 * phy_clkhs2lp_time = (272+136*UI)/(8*UI)
-> +	 * phy_clklp2hs_time = (512+40*UI)/(8*UI)
-> +	 * phy_hs2lp_time = (192+64*UI)/(8*UI)
-> +	 * phy_lp2hs_time = (256+32*UI)/(8*UI)
-> +	 */
-> +	timing->clk_hs2lp = DSI_PHY_DELAY(272, 136, lane_mbps);
-> +	timing->clk_lp2hs = DSI_PHY_DELAY(512, 40, lane_mbps);
-> +	timing->data_hs2lp = DSI_PHY_DELAY(192, 64, lane_mbps);
-> +	timing->data_lp2hs = DSI_PHY_DELAY(256, 32, lane_mbps);
+Maybe highlight the security aspect a bit more: When reads are always
+coherent, we don't have to force the clflush. If reads are not
+coherent we must ensure that the clflush has finished before userspace
+can get at the backing storage, like writing ptes and similar things.
+Writes otoh can only result in userspace eating cacheling corruption
+if it races against the kernel (by e.g. trying to predict where we'll
+bind a buffer and issuing gpu access to that location before the
+buffer is actually bound from some other engine in parallel with an
+execbuf that binds the buffer).
 
-Many thanks for your patch.
+Atm we don't do a great job with that, but that's something that I
+think is getting looked into.
+-Daniel
 
-Reviewed-by: Philippe Cornu <philippe.cornu@foss.st.com>
-Acked-by: Philippe Cornu <philippe.cornu@foss.st.com>
+> > Is it for optimizing some display related case where we can omit the
+> > invalidates but still have to do the writeback to keep the display
+> > engine happy?
+> >
+> > --
+> > Ville Syrj=C3=A4l=C3=A4
+> > Intel
 
-I will apply it on drm-misc-next early next week,
 
-Philippe :-)
 
->   
->   	return 0;
->   }
-> 
-> base-commit: 35d283658a6196b2057be562096610c6793e1219
-> 
+--=20
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
