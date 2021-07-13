@@ -1,56 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 200B93C7838
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Jul 2021 22:52:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B13E23C783A
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Jul 2021 22:52:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C4266E131;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 539366E138;
 	Tue, 13 Jul 2021 20:52:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
- [IPv6:2a00:1450:4864:20::42b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 766166E133
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jul 2021 20:52:02 +0000 (UTC)
-Received: by mail-wr1-x42b.google.com with SMTP id k4so367355wrc.8
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jul 2021 13:52:02 -0700 (PDT)
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
+ [IPv6:2a00:1450:4864:20::435])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6500B6E131
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jul 2021 20:52:03 +0000 (UTC)
+Received: by mail-wr1-x435.google.com with SMTP id r11so360777wro.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jul 2021 13:52:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Kd/oxjgqUt41N/wlK+Bys3n4GcmvNnJC/Fz6Ii29kHw=;
- b=ZCHXAbXQ96kGqZvO99mm2anrEXmoQSnFJSoya3pZTlXwbsmczasfu2uU05jnyM6ADG
- cY2H0sDS4ExUM6y+L5Rdj9SxtwqaHhC2ZcfKhTMpnmRex6mf+SXcCfGcizKEIhu2GJxW
- Arig5jq0V1X8YVFCQkx4nzX7dRQXasAlhAFsc=
+ bh=/zygawp8H9nMKsUfIVJKXYmxNB6SpK8XomLFpeNl1u4=;
+ b=Um4WvsYyvXOPTelxx4VO24F3eVMkiGg2UKtWxUO9nFoyEsqRq3pciJ8jCOyX3YWaDM
+ l/kMw8GVLY3NWSVUgn2ZuG3SNK8oG4c3JqYbKLixxoOvyzfr8+nkenohqPiH1h3af6/B
+ 0MMaEU+MHpQjSR6NehmMnAEHXSA40z3z5IFL4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Kd/oxjgqUt41N/wlK+Bys3n4GcmvNnJC/Fz6Ii29kHw=;
- b=Z3/y7aThLhnoagQL3V/JuwUxFZ24Rcwn6tedkpJ7YZBxJU6ga/EfM6b/jGosRallwB
- XylHt2tl/ntMcRr5JOwUIWeBUOgdpVLM+8boiVaF47FfJX3MOsSXydyJoyzA2OUmfwVO
- aFn0IASf2ohSKI3QwTQbAFoxoqT/LnrpiiqxCIjWtO7H/pyLDY8FourrckWz7Z+GnRKF
- diHH6FvLd16CAndBRpNZpxTBS9CYENbCw9LKYfj3QX7a98klArsyiOpSxrv/2o66ZBmz
- l91UiOZSig2N5OKCDGYgf1vU8LtfGP4WkwTriiFa83ILh9QXiZla63cE0gMOR6gfDrH/
- Y1dw==
-X-Gm-Message-State: AOAM533ukd7YaoKGct6wEWSSpvkZ6vvKFVmDEOFvTVjVhohD5swXblsu
- XnUV4tTFtUOnqdAXMR00Y2EFRw==
-X-Google-Smtp-Source: ABdhPJxKfkZtUW9FYjPTgVmsS+Fhl/5M1dYn9Jd7SBRv+cG3jgCWlNil1uxQ4COUwG0JWuJsbZb/jQ==
-X-Received: by 2002:a5d:4e0d:: with SMTP id p13mr8220705wrt.372.1626209521087; 
- Tue, 13 Jul 2021 13:52:01 -0700 (PDT)
+ bh=/zygawp8H9nMKsUfIVJKXYmxNB6SpK8XomLFpeNl1u4=;
+ b=e8/c+tje+5bKHdVek57N6a7lPR5FXXO9sLlglsDG//O4WGcouT/X4qTtt1YsBlnina
+ m1vyESYs8QODoa9BNh3sQDq83uu5blDKwhTY1VgXziSQ3LmT3Wo8fKLpZQfGbi60VEES
+ Cy2RCCTTPAlbMzFIpdV7NVi9SFhyaa0xUsGJ3sc6YFAtXgF1FqczawsOUBdMayyQ4NHU
+ U67pFcbC7dWWfwu2iO9xr55YyVCqnUGy8Xn5NWLm/MR0KiY2+56eDHGmzvtZZBDTinp8
+ VhO13rJB2GITlNuF34zDjnztMbwSDh9jegGVwr7aGnp68sns5BmaC5S4tkR0IO76uRxL
+ wGvA==
+X-Gm-Message-State: AOAM530XzpX/rpId0LMlKHJRrLAnlHgs4GNtGbQ55Y5ov1/GeWyu50G6
+ 58INlrd5FTOQeCWIelvaH0vcuQ==
+X-Google-Smtp-Source: ABdhPJxwwDzX0YlQegvblaY7h1YZr6t3cMoRnTVGmzCsubSpg3GdP6DJrSnr7BpmY1z/6D5Qxt1CBw==
+X-Received: by 2002:adf:cf07:: with SMTP id o7mr8245727wrj.216.1626209522138; 
+ Tue, 13 Jul 2021 13:52:02 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id j10sm18642249wrt.35.2021.07.13.13.52.00
+ by smtp.gmail.com with ESMTPSA id j10sm18642249wrt.35.2021.07.13.13.52.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Jul 2021 13:52:00 -0700 (PDT)
+ Tue, 13 Jul 2021 13:52:01 -0700 (PDT)
 From: Daniel Vetter <daniel.vetter@ffwll.ch>
 To: Intel Graphics Development <intel-gfx@lists.freedesktop.org>
-Subject: [PATCH v4 2/4] drm/shmem-helper: Switch to vmf_insert_pfn
-Date: Tue, 13 Jul 2021 22:51:51 +0200
-Message-Id: <20210713205153.1896059-3-daniel.vetter@ffwll.ch>
+Subject: [PATCH v4 3/4] drm/shmem-helpers: Allocate wc pages on x86
+Date: Tue, 13 Jul 2021 22:51:52 +0200
+Message-Id: <20210713205153.1896059-4-daniel.vetter@ffwll.ch>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210713205153.1896059-1-daniel.vetter@ffwll.ch>
 References: <20210713205153.1896059-1-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,123 +65,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
  DRI Development <dri-devel@lists.freedesktop.org>,
  Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>
+ Daniel Vetter <daniel.vetter@intel.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We want to stop gup, which isn't the case if we use vmf_insert_page
-and VM_MIXEDMAP, because that does not set pte_special.
+intel-gfx-ci realized that something is not quite coherent anymore on
+some platforms for our i915+vgem tests, when I tried to switch vgem
+over to shmem helpers.
 
-v2: With this shmem gem helpers now definitely need CONFIG_MMU (0day)
+After lots of head-scratching I realized that I've removed calls to
+drm_clflush. And we need those. To make this a bit cleaner use the
+same page allocation tooling as ttm, which does internally clflush
+(and more, as neeeded on any platform instead of just the intel x86
+cpus i915 can be combined with).
 
-v3: add more depends on MMU. For usb drivers this is a bit awkward,
-but really it's correct: To be able to provide a contig mapping of
-buffers to userspace on !MMU platforms we'd need to use the cma
-helpers for these drivers on those platforms. As-is this wont work.
-
-Also not exactly sure why vm_insert_page doesn't go boom, because that
-definitely wont fly in practice since the pages are non-contig to
-begin with.
+Unfortunately this doesn't exist on arm, or as a generic feature. For
+that I think only the dma-api can get at wc memory reliably, so maybe
+we'd need some kind of GFP_WC flag to do this properly.
 
 Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+Cc: Christian König <christian.koenig@amd.com>
+Cc: "Thomas Hellström" <thomas.hellstrom@linux.intel.com>
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 Cc: Maxime Ripard <mripard@kernel.org>
 Cc: Thomas Zimmermann <tzimmermann@suse.de>
 Cc: David Airlie <airlied@linux.ie>
 Cc: Daniel Vetter <daniel@ffwll.ch>
 ---
- drivers/gpu/drm/Kconfig                | 2 +-
- drivers/gpu/drm/drm_gem_shmem_helper.c | 4 ++--
- drivers/gpu/drm/gud/Kconfig            | 2 +-
- drivers/gpu/drm/tiny/Kconfig           | 4 ++--
- drivers/gpu/drm/udl/Kconfig            | 1 +
- 5 files changed, 7 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/drm_gem_shmem_helper.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-index 0d372354c2d0..314eefa39892 100644
---- a/drivers/gpu/drm/Kconfig
-+++ b/drivers/gpu/drm/Kconfig
-@@ -211,7 +211,7 @@ config DRM_KMS_CMA_HELPER
- 
- config DRM_GEM_SHMEM_HELPER
- 	bool
--	depends on DRM
-+	depends on DRM && MMU
- 	help
- 	  Choose this if you need the GEM shmem helper functions
- 
 diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
-index d5e6d4568f99..296ab1b7c07f 100644
+index 296ab1b7c07f..657d2490aaa5 100644
 --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
 +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-@@ -542,7 +542,7 @@ static vm_fault_t drm_gem_shmem_fault(struct vm_fault *vmf)
- 	} else {
- 		page = shmem->pages[page_offset];
+@@ -10,6 +10,10 @@
+ #include <linux/slab.h>
+ #include <linux/vmalloc.h>
  
--		ret = vmf_insert_page(vma, vmf->address, page);
-+		ret = vmf_insert_pfn(vma, vmf->address, page_to_pfn(page));
++#ifdef CONFIG_X86
++#include <asm/set_memory.h>
++#endif
++
+ #include <drm/drm.h>
+ #include <drm/drm_device.h>
+ #include <drm/drm_drv.h>
+@@ -162,6 +166,11 @@ static int drm_gem_shmem_get_pages_locked(struct drm_gem_shmem_object *shmem)
+ 		return PTR_ERR(pages);
  	}
  
- 	mutex_unlock(&shmem->pages_lock);
-@@ -612,7 +612,7 @@ int drm_gem_shmem_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma)
- 		return ret;
- 	}
++#ifdef CONFIG_X86
++	if (shmem->map_wc)
++		set_pages_array_wc(pages, obj->size >> PAGE_SHIFT);
++#endif
++
+ 	shmem->pages = pages;
  
--	vma->vm_flags |= VM_MIXEDMAP | VM_DONTEXPAND;
-+	vma->vm_flags |= VM_PFNMAP | VM_DONTEXPAND;
- 	vma->vm_page_prot = vm_get_page_prot(vma->vm_flags);
- 	if (shmem->map_wc)
- 		vma->vm_page_prot = pgprot_writecombine(vma->vm_page_prot);
-diff --git a/drivers/gpu/drm/gud/Kconfig b/drivers/gpu/drm/gud/Kconfig
-index 1c8601bf4d91..9c1e61f9eec3 100644
---- a/drivers/gpu/drm/gud/Kconfig
-+++ b/drivers/gpu/drm/gud/Kconfig
-@@ -2,7 +2,7 @@
+ 	return 0;
+@@ -203,6 +212,11 @@ static void drm_gem_shmem_put_pages_locked(struct drm_gem_shmem_object *shmem)
+ 	if (--shmem->pages_use_count > 0)
+ 		return;
  
- config DRM_GUD
- 	tristate "GUD USB Display"
--	depends on DRM && USB
-+	depends on DRM && USB && MMU
- 	select LZ4_COMPRESS
- 	select DRM_KMS_HELPER
- 	select DRM_GEM_SHMEM_HELPER
-diff --git a/drivers/gpu/drm/tiny/Kconfig b/drivers/gpu/drm/tiny/Kconfig
-index 5593128eeff9..c11fb5be7d09 100644
---- a/drivers/gpu/drm/tiny/Kconfig
-+++ b/drivers/gpu/drm/tiny/Kconfig
-@@ -44,7 +44,7 @@ config DRM_CIRRUS_QEMU
- 
- config DRM_GM12U320
- 	tristate "GM12U320 driver for USB projectors"
--	depends on DRM && USB
-+	depends on DRM && USB && MMU
- 	select DRM_KMS_HELPER
- 	select DRM_GEM_SHMEM_HELPER
- 	help
-@@ -53,7 +53,7 @@ config DRM_GM12U320
- 
- config DRM_SIMPLEDRM
- 	tristate "Simple framebuffer driver"
--	depends on DRM
-+	depends on DRM && MMU
- 	select DRM_GEM_SHMEM_HELPER
- 	select DRM_KMS_HELPER
- 	help
-diff --git a/drivers/gpu/drm/udl/Kconfig b/drivers/gpu/drm/udl/Kconfig
-index 1f497d8f1ae5..c744175c6992 100644
---- a/drivers/gpu/drm/udl/Kconfig
-+++ b/drivers/gpu/drm/udl/Kconfig
-@@ -4,6 +4,7 @@ config DRM_UDL
- 	depends on DRM
- 	depends on USB
- 	depends on USB_ARCH_HAS_HCD
-+	depends on MMU
- 	select DRM_GEM_SHMEM_HELPER
- 	select DRM_KMS_HELPER
- 	help
++#ifdef CONFIG_X86
++	if (shmem->map_wc)
++		set_pages_array_wb(shmem->pages, obj->size >> PAGE_SHIFT);
++#endif
++
+ 	drm_gem_put_pages(obj, shmem->pages,
+ 			  shmem->pages_mark_dirty_on_put,
+ 			  shmem->pages_mark_accessed_on_put);
 -- 
 2.32.0
 
