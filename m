@@ -2,38 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 430C53C7432
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Jul 2021 18:16:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 359D83C7479
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Jul 2021 18:27:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 642526E0E8;
-	Tue, 13 Jul 2021 16:16:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C661E6E0F4;
+	Tue, 13 Jul 2021 16:27:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 2DF6B6E0E8
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jul 2021 16:16:30 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6E1DE6D;
- Tue, 13 Jul 2021 09:16:29 -0700 (PDT)
-Received: from [192.168.1.179] (unknown [172.31.20.19])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 228D33F7D8;
- Tue, 13 Jul 2021 09:16:28 -0700 (PDT)
-Subject: Re: [PATCH] drm/of: free the iterator object on failure
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <20210712155758.48286-1-steven.price@arm.com>
- <YOxyvIoJcZFAgUz5@pendragon.ideasonboard.com>
- <b420a4e6-8038-6c1e-7c97-75ef3bea3c21@arm.com>
- <YOy6VQNz8Htg6Usb@pendragon.ideasonboard.com>
-From: Steven Price <steven.price@arm.com>
-Message-ID: <5c3db755-c3fb-dfe7-3d23-bbbcc81af3d8@arm.com>
-Date: Tue, 13 Jul 2021 17:16:16 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6582C6E0F4
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jul 2021 16:27:25 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 367A1610C7
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jul 2021 16:27:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1626193645;
+ bh=9p2WrANAeYv4z3tnII89s6QnNxdyQNqu/M9/8NQgmXs=;
+ h=From:To:Subject:Date:From;
+ b=WbsEhLrFTER2FRHR1Rc9WNp2PU6I3/gMsGyPXSKqkodKqUFuI8wbryGe4iTMD65fy
+ WfvniAEKmde/Gx6xPG+s9su+EUUpmCudckI9M1QbXG8CNXFLR4yR/zNBZ2PgCUOZC/
+ mg0o5GGrYd7nt1vgoe5jRfyzq5wVdKE5ZJ8sAuvLk0kaNrRAlXcLQJjRS6r2CetLVm
+ 1AKuddUWbqqXDEI63zZBqt54FTjtCwY92Vr4oVfYmOmAknPE7a6ox6D04gDQBhaiRF
+ EwRF6rypvvjpO3eoQhR7nsdwdFfzxqkUhVv+LptItzsNXcS5m9NogU6MmbeqnqjwZt
+ R8400B6IJdBuw==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id 279786120B; Tue, 13 Jul 2021 16:27:25 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 213715] New: failed to change brightness of HDR panel on AMD
+ GREEN_SARDINE through aux
+Date: Tue, 13 Jul 2021 16:27:24 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: blocking
+X-Bugzilla-Who: mapengyu@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version
+ cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
+ priority component assigned_to reporter cf_regression attachments.created
+Message-ID: <bug-213715-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <YOy6VQNz8Htg6Usb@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,105 +66,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Biju Das <biju.das.jz@bp.renesas.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/07/2021 22:55, Laurent Pinchart wrote:
-> Hi Steven,
+https://bugzilla.kernel.org/show_bug.cgi?id=3D213715
 
-Hi Laurent,
+            Bug ID: 213715
+           Summary: failed to change brightness of HDR panel on AMD
+                    GREEN_SARDINE through aux
+           Product: Drivers
+           Version: 2.5
+    Kernel Version: 5.14.0-rc1+
+          Hardware: All
+                OS: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: blocking
+          Priority: P1
+         Component: Video(DRI - non Intel)
+          Assignee: drivers_video-dri@kernel-bugs.osdl.org
+          Reporter: mapengyu@gmail.com
+        Regression: No
 
-> On Mon, Jul 12, 2021 at 10:31:52PM +0100, Steven Price wrote:
->> On 12/07/2021 17:50, Laurent Pinchart wrote:
->>> On Mon, Jul 12, 2021 at 04:57:58PM +0100, Steven Price wrote:
->>>> When bailing out due to the sanity check the iterator value needs to be
->>>> freed because the early return prevents for_each_child_of_node() from
->>>> doing the dereference itself.
->>>>
->>>> Fixes: 4ee48cc5586b ("drm: of: Fix double-free bug")
->>>
->>> I don't think the Fixes tag is correct, the issue was already present
->>> before 4ee48cc5586b. The fix looks right though.
->>
->> I'm not sure quite what you mean by "already present". As I understand
->> it the timeline was:
->>
->> 1. 6529007522de drm: of: Add drm_of_lvds_get_dual_link_pixel_order
->>    The function was originally added. This made the mistake twice of
->>    calling of_node_put() on the wrong variable (remote_port rather than
->>    endpoint).
-> 
-> Correct.
-> 
->> 2. 4ee48cc5586b drm: of: Fix double-free bug
->>    One of the of_node_put() calls was removed as it was a double-free.
->>    This left the first incorrect of_node_put() in place, and the second
->>    is now a straight leak.
-> 
-> That's right, but this commit didn't introduce the leak, it was already
-> there in 6529007522de (in addition to the double-free).
+Created attachment 297819
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D297819&action=3Dedit
+dmesg
 
-Ah, I see what you mean. My thought process was that the original
-comment had the bug "using the wrong variable", and (2) (partially)
-fixed that but in the process introduced a new bug (a memory leak). But
-I guess technically the memory leak was there from the beginning.
+HW: ThinkPad P14s gen 2a
+CPU: AMD Ryzen 7 PRO 5850U with Radeon Graphics
+Panel: BOE 2434 and  CSO 5127
 
-The other reason I referenced (2) in the Fixes line is because this
-patch depends on patch (2), whereas it won't apply cleanly without.
+brightness can't be controlled through AUX.
+It works with parameter "amdgpu.backlight=3D0"
 
-However I don't think it really matters either way: (2) has already been
-backported, and either way this needs fixing if either (1) or (2) are
-present.
+dmesg attached.
 
-Would you like me to resend with a "Fixes: 6529007522de drm: of: Add
-drm_of_lvds_get_dual_link_pixel_order", or are you happy to just fix
-this up when merging?
+--=20
+You may reply to this email to add a comment.
 
-Thanks,
-
-Steve
-
->> 3. b557a5f8da57 drm/of: free the right object
->>    This (correctly) fixes the first of_node_put() to free endpoint. And
->>    the post from Daniel was what caused me to look.
->>
->> 4. This patch
->>    Reintroduces the of_node_put() removed in (2) but putting endpoint
->>    rather than remote_port.
->>
->> I've put (2) in the Fixes line as this patch is fixing the leak
->> introduced by that patch, but that in itself was of course 'fixing' the
->> double free of the original patch.
->>
->>>> Signed-off-by: Steven Price <steven.price@arm.com>
->>>> ---
->>>>  drivers/gpu/drm/drm_of.c | 4 +++-
->>>>  1 file changed, 3 insertions(+), 1 deletion(-)
->>>>
->>>> Daniel's email[1] made me take a look at this function and it appears
->>>> that for_each_child_of_node()'s interface had caused a bad bug fix due
->>>> to the hidden reference counting in the iterator.
->>>>
->>>> [1] https://lore.kernel.org/r/YOxQ5TbkNrqCGBDJ%40phenom.ffwll.local
->>>>
->>>> diff --git a/drivers/gpu/drm/drm_of.c b/drivers/gpu/drm/drm_of.c
->>>> index 197c57477344..997b8827fed2 100644
->>>> --- a/drivers/gpu/drm/drm_of.c
->>>> +++ b/drivers/gpu/drm/drm_of.c
->>>> @@ -331,8 +331,10 @@ static int drm_of_lvds_get_remote_pixels_type(
->>>>  		 * configurations by passing the endpoints explicitly to
->>>>  		 * drm_of_lvds_get_dual_link_pixel_order().
->>>>  		 */
->>>> -		if (!current_pt || pixels_type != current_pt)
->>>> +		if (!current_pt || pixels_type != current_pt) {
->>>> +			of_node_put(endpoint);
->>>>  			return -EINVAL;
->>>> +		}
->>>>  	}
->>>>  
->>>>  	return pixels_type;
-> 
-
+You are receiving this mail because:
+You are watching the assignee of the bug.=
