@@ -1,54 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2603D3C77E6
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Jul 2021 22:22:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FECC3C77EA
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Jul 2021 22:22:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 484166E030;
-	Tue, 13 Jul 2021 20:22:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C30AF6E12A;
+	Tue, 13 Jul 2021 20:22:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32a.google.com (mail-ot1-x32a.google.com
- [IPv6:2607:f8b0:4864:20::32a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 851AB6E030
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jul 2021 20:22:47 +0000 (UTC)
-Received: by mail-ot1-x32a.google.com with SMTP id
- f12-20020a056830204cb029048bcf4c6bd9so118253otp.8
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jul 2021 13:22:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=me3a+Vld6OfwdM0Xrl8lyRxgmOKdqCHJ1/SVJAB758M=;
- b=OF8jtx4rVIcTvfmnFxYDgZiPN/FC2dFcWWiUEt57fLKxxv32N65zzd37nZFttJvtzl
- khC5JfNRktg96zt5SLXzHjDzcbPmpnqGQoYuFMEm3Z9DC+W/0xzVc1VfQgj/TlnFkFDF
- AixtQhjLhTo1m2Po2BLx20ZZgGdN1UGBJXdec=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=me3a+Vld6OfwdM0Xrl8lyRxgmOKdqCHJ1/SVJAB758M=;
- b=VUnM6faBu4GH0TN6KIFtENGBbBnfnhIcPpcvw37B6EgCqZATVuE+F5A10A/mw5zmCA
- gAqZ6144kg9TR/bX8IOHikAXko0UiOEzbimxjDl/zhYtWY55yOq2iENHH52paYKKVAl2
- goBhJU8IG5Q8RpctI9mBtipCwDbxQDH6URJ3+ACUjbxUM1d9Nu9E68tC7XOkHkh2m++Q
- Hn9YzzXCg9he6Iszfkwg8TRUtdyI0X5+lgowDyIFa4p8UlADm2J5Dd2d/7gbHUTD1WWW
- JtiUTos8SZDkxXfVqNduO/upF0YE+Z0DqlwcXU/7VTFO4VQikc+FTD1Jax8s5vTdlNcZ
- jYmQ==
-X-Gm-Message-State: AOAM532aUVeU1itPqpyRUyAHmDchipUIw9ufKy/ot+RAandNO3XCKpaH
- ycFCjXUQX6nS/Ofu6NKB5TNcVNTD9iaqshEtNxASKpuUk6k=
-X-Google-Smtp-Source: ABdhPJx4f16h6U8xH/qnZMT0G7Rydz14ZGoEE99+A9gB7JywGyVohkBB19PL1eP8PgbjdKWGE9LcdB9oVFgbaGe9up0=
-X-Received: by 2002:a9d:27a4:: with SMTP id c33mr5195147otb.281.1626207766759; 
- Tue, 13 Jul 2021 13:22:46 -0700 (PDT)
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 764A26E128;
+ Tue, 13 Jul 2021 20:22:55 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10044"; a="189921269"
+X-IronPort-AV: E=Sophos;i="5.84,237,1620716400"; d="scan'208";a="189921269"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Jul 2021 13:22:54 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.84,237,1620716400"; d="scan'208";a="459708451"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
+ by orsmga008.jf.intel.com with SMTP; 13 Jul 2021 13:22:51 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Tue, 13 Jul 2021 23:22:50 +0300
+Date: Tue, 13 Jul 2021 23:22:50 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [Intel-gfx] [PATCH] drm/i915/gt: Fix -EDEADLK handling regression
+Message-ID: <YO32GlZWgAnZk+dD@intel.com>
+References: <20210630164413.25481-1-ville.syrjala@linux.intel.com>
+ <2edf584b-3835-53ed-f6e3-76c7e8d581ed@linux.intel.com>
+ <CAKMK7uFTYgK9rmXTNSczPdBWPTNaLBp-GitzBQb0-gX5wZWHNQ@mail.gmail.com>
+ <CAKMK7uFjgu_TkPFYs0DTdAh9tdDbdpUc0S1n5XUfHJaq_0FHVw@mail.gmail.com>
 MIME-Version: 1.0
-References: <20210709081116.4170288-1-daniel.vetter@ffwll.ch>
-In-Reply-To: <20210709081116.4170288-1-daniel.vetter@ffwll.ch>
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Tue, 13 Jul 2021 22:22:35 +0200
-Message-ID: <CAKMK7uGq26uL6sJBAKRTAPeB=ZJccmB2yvd0z6-9C5BZcEKK9w@mail.gmail.com>
-Subject: Re: [PATCH] dim/drm-misc: Add rule to not push patches with issues
-To: DRI Development <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAKMK7uFjgu_TkPFYs0DTdAh9tdDbdpUc0S1n5XUfHJaq_0FHVw@mail.gmail.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,57 +50,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "DRM maintainer tools announcements, discussion,
- and development" <dim-tools@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@intel.com>,
+ stable <stable@vger.kernel.org>, dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jul 9, 2021 at 10:11 AM Daniel Vetter <daniel.vetter@ffwll.ch> wrot=
-e:
->
-> We kinda left this out, and I like the wording from the drm-intel
-> side, so add that. Motivated by a discussion with Christian.
->
-> Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+On Tue, Jul 13, 2021 at 09:59:18PM +0200, Daniel Vetter wrote:
+> On Tue, Jul 13, 2021 at 9:58 PM Daniel Vetter <daniel@ffwll.ch> wrote:
+> >
+> > On Thu, Jul 1, 2021 at 9:07 AM Maarten Lankhorst
+> > <maarten.lankhorst@linux.intel.com> wrote:
+> > > Op 30-06-2021 om 18:44 schreef Ville Syrjala:
+> > > > From: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> > > >
+> > > > The conversion to ww mutexes failed to address the fence code which
+> > > > already returns -EDEADLK when we run out of fences. Ww mutexes on
+> > > > the other hand treat -EDEADLK as an internal errno value indicating
+> > > > a need to restart the operation due to a deadlock. So now when the
+> > > > fence code returns -EDEADLK the higher level code erroneously
+> > > > restarts everything instead of returning the error to userspace
+> > > > as is expected.
+> > > >
+> > > > To remedy this let's switch the fence code to use a different errno
+> > > > value for this. -ENOBUFS seems like a semi-reasonable unique choice.
+> > > > Apart from igt the only user of this I could find is sna, and even
+> > > > there all we do is dump the current fence registers from debugfs
+> > > > into the X server log. So no user visible functionality is affected.
+> > > > If we really cared about preserving this we could of course convert
+> > > > back to -EDEADLK higher up, but doesn't seem like that's worth
+> > > > the hassle here.
+> > > >
+> > > > Not quite sure which commit specifically broke this, but I'll
+> > > > just attribute it to the general gem ww mutex work.
+> > > >
+> > > > Cc: stable@vger.kernel.org
+> > > > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> > > > Cc: Thomas Hellström <thomas.hellstrom@intel.com>
+> > > > Testcase: igt/gem_pread/exhaustion
+> > > > Testcase: igt/gem_pwrite/basic-exhaustion
+> > > > Testcase: igt/gem_fenced_exec_thrash/too-many-fences
+> > > > Fixes: 80f0b679d6f0 ("drm/i915: Add an implementation for i915_gem_ww_ctx locking, v2.")
+> > > > Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> > > > ---
+> > > >  drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c | 2 +-
+> > > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > >
+> > > > diff --git a/drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c b/drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c
+> > > > index cac7f3f44642..f8948de72036 100644
+> > > > --- a/drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c
+> > > > +++ b/drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c
+> > > > @@ -348,7 +348,7 @@ static struct i915_fence_reg *fence_find(struct i915_ggtt *ggtt)
+> > > >       if (intel_has_pending_fb_unpin(ggtt->vm.i915))
+> > > >               return ERR_PTR(-EAGAIN);
+> > > >
+> > > > -     return ERR_PTR(-EDEADLK);
+> > > > +     return ERR_PTR(-ENOBUFS);
+> > > >  }
+> > > >
+> > > >  int __i915_vma_pin_fence(struct i915_vma *vma)
+> > >
+> > > Makes sense..
+> > >
+> > > Reviewed-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> > >
+> > > Is it a slightly more reent commit? Might probably be the part that converts execbuffer to use ww locks.
+> >
+> > - please cc: dri-devel on anything gem/gt related.
 
-Pushed, thanks for all the r-b/acks.
--Daniel
+Thought I did. Apparently got lost somewhere.
 
-> ---
->  committer-drm-misc.rst | 3 +++
->  1 file changed, 3 insertions(+)
->
-> diff --git a/committer-drm-misc.rst b/committer-drm-misc.rst
-> index 9497a5d26a9d..110ca8b0525e 100644
-> --- a/committer-drm-misc.rst
-> +++ b/committer-drm-misc.rst
-> @@ -21,6 +21,9 @@ Merge Criteria
->
->  Right now the only hard merge criteria are:
->
-> +* There must not be open issues or unresolved or conflicting feedback fr=
-om
-> +  anyone. Clear them up first. Defer to maintainers as needed.
-> +
->  * Patch is properly reviewed or at least Ack, i.e. don't just push your =
-own
->    stuff directly. This rule holds even more for bugfix patches - it woul=
-d be
->    embarrassing if the bugfix contains a small gotcha that review would h=
-ave
-> --
-> 2.32.0
->
+> > - this should probably be ENOSPC or something like that for at least a
+> > seeming retention of errno consistentcy:
 
+ENOSPC is already used for other things.
 
---=20
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+> >
+> > https://dri.freedesktop.org/docs/drm/gpu/drm-uapi.html#recommended-ioctl-return-values
+> 
+> Other option would be to map that back to EDEADLK in the execbuf ioctl
+> somewhere, so we retain a distinct errno code.
+
+Already mentioned in the commit msg.
+
+-- 
+Ville Syrjälä
+Intel
