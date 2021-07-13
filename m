@@ -2,78 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E22D3C756B
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Jul 2021 18:59:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC5CB3C75DF
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Jul 2021 19:44:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A6A936E0FD;
-	Tue, 13 Jul 2021 16:59:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B9FCE6E102;
+	Tue, 13 Jul 2021 17:44:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2DCAA6E0FD
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jul 2021 16:59:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626195596;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=XTHdlYNv/a9BuVPGjnPy+dQ/mQjufPe+yKG6ndLoXU8=;
- b=eX0vNDQetw4M4XvuzdRcpzZcTe4FtS5+xgrR+G5VXPhCmc0t0q/NkkDd+By1EFfppUZwyA
- j+0h4jpvRagFIp8303DxtzUj1YkYvw13WZsOOQGn4Jl4jrLAfIy0ZKR3eZwWWbnZr4HAVg
- wN0h7kqIAlJJ8TlEVQGTw3NU2rn9dCk=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-173-Wmvbdje2NfOVqe3LAyq5Ng-1; Tue, 13 Jul 2021 12:59:55 -0400
-X-MC-Unique: Wmvbdje2NfOVqe3LAyq5Ng-1
-Received: by mail-wr1-f69.google.com with SMTP id
- z6-20020a5d4c860000b029013a10564614so8759255wrs.15
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jul 2021 09:59:54 -0700 (PDT)
+Received: from mail-oi1-x233.google.com (mail-oi1-x233.google.com
+ [IPv6:2607:f8b0:4864:20::233])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ADBFC6E102
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jul 2021 17:44:24 +0000 (UTC)
+Received: by mail-oi1-x233.google.com with SMTP id m18so2162719oie.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jul 2021 10:44:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=YM6mwOPhOFmuR5W+3oxkc/rlqYmdsrstoASxQRez5ew=;
+ b=TMhR/h7Ck+r/kjSlCs3FDr/Jau72H/rnf2EY20+WlcPBXYEmAz96D4YC6ADD/N+KvB
+ bexgK0pZhWgsv2yVpKkKsRksMVrMwn//FrS2JafQ6aTGY4rb6lRsYudb3BeAQHXm2AIa
+ OwDHf5Gv5RbCZgxDHLhrdyn3uRDuppwi7m39s=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=XTHdlYNv/a9BuVPGjnPy+dQ/mQjufPe+yKG6ndLoXU8=;
- b=tpqsKE7F8B1i5K5OiYEIcTD7K3eztlzjPSzACm965Vo+BFMzgqM0r7t0OXf1+nXfTn
- 9ThS7XCEPb3PKj8Ypf9YsBrV2M2ZeEdNLs3zJvd0kWzrvk6DMI5K1tvrSlGcky1L/Cov
- Z2ollq52VLfX8EfLcU3t3JFo/tpbgv1ghSICF2TrIqAUwZ0j4Mmie9fQBUAeKWnaT8PK
- 9u2/NdVivXt8UwGYVvSHOFf/wJg1WbXNXLNCmLAgAYxVu/kDyfiAL4aO6xzYERbo+HqK
- J0PV0H+E/ZTiSBNy1MHNCE6iv9NhFy452pyySWLUDRZxTaFW7qzWTcRaGcNBkFB4S+3c
- BjZQ==
-X-Gm-Message-State: AOAM532iWCqCzWqZJconsvmElC6bWUzuietsYGsk7qx+lvDbSPsiT7nu
- hnGA5JsYipSWct4dart/MdC9mC6x01Xgl6sR5LpjgbWaOQFj2N6YjIHIa1unMnTFgUTQ9iYplxi
- vKOeDNej/VByFWoN92Axzet7AtTQz
-X-Received: by 2002:a05:600c:2105:: with SMTP id
- u5mr1986026wml.18.1626195593924; 
- Tue, 13 Jul 2021 09:59:53 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxumMUPdgM1d9aW8ug3rd8W69QVL7ebCKDjq/l4syiEd2xfO/CLyenHYKdqhxzMxt12Uge4rQ==
-X-Received: by 2002:a05:600c:2105:: with SMTP id
- u5mr1986010wml.18.1626195593743; 
- Tue, 13 Jul 2021 09:59:53 -0700 (PDT)
-Received: from [192.168.1.101] ([92.176.231.106])
- by smtp.gmail.com with ESMTPSA id o28sm19766410wra.71.2021.07.13.09.59.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 13 Jul 2021 09:59:53 -0700 (PDT)
-Subject: Re: [PATCH v3 0/2] allow simple{fb, drm} drivers to be used on non-x86
- EFI platforms
-To: linux-kernel@vger.kernel.org
-References: <20210625130947.1803678-1-javierm@redhat.com>
-From: Javier Martinez Canillas <javierm@redhat.com>
-Message-ID: <e61cf77c-6bff-dfcc-d3df-2fb6b48e5897@redhat.com>
-Date: Tue, 13 Jul 2021 18:59:51 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=YM6mwOPhOFmuR5W+3oxkc/rlqYmdsrstoASxQRez5ew=;
+ b=UMnQ7EEUuAd7Lz/sphQxV8aEciOIwetMdb6FMx9pfJ5RUxqzyd/DuE9ENf788KFncQ
+ XWcuKEE1Z7+LZNwHQ7BFgBuHpOTjluWYOIefl+RAp+MIxLSTTKIC3Vvir/H1FW9q75Od
+ gZmm41hCeZ1t8Fjl76kEwe4irnlaNtffeKmJEYMsVwGUgOvj/dFpk0xh1/HcJ2gUSC/5
+ l0a+s1RBFmIhvEE+7j3kpDYSbXs4JuiETBf3w33ls/iVKKeaLK17YDxDGHnxpyDOKi8H
+ 2NdCtCTJ1pUO9vz0yOaULtLSVxDHbhhblkTZnFe36FYvLnpPwM08xfzDQZwrtnAv3aiq
+ p3+g==
+X-Gm-Message-State: AOAM531jbjea6UKyZD9VT3NCwvspgmdu2WG8ZxORUTeR3pMQJfMehOAg
+ 6EPIFefgTxiJVVYApj0NZKtxSouzpIQVhrz3cdsIqw==
+X-Google-Smtp-Source: ABdhPJwTA4IFS1zrTa6SZtTVF+HKn/thgr0wLyb0QfabiBxjH3coCb2AmYkg6eR9mjuDrd+K4z0014Ss9e91ZdQs5cQ=
+X-Received: by 2002:aca:d4cf:: with SMTP id l198mr441684oig.14.1626198263812; 
+ Tue, 13 Jul 2021 10:44:23 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210625130947.1803678-1-javierm@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <1626196421-24595-1-git-send-email-gracan@codeaurora.org>
+In-Reply-To: <1626196421-24595-1-git-send-email-gracan@codeaurora.org>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Tue, 13 Jul 2021 19:44:12 +0200
+Message-ID: <CAKMK7uGcwLmvyPB1Z2HyOQg3bHYev5J=ad8Cjj=AQMVTTSHPNg@mail.gmail.com>
+Subject: Re: [RFC] drm: return int error code from mode_fixup
+To: Grace An <gracan@codeaurora.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,48 +58,138 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-efi@vger.kernel.org, David Airlie <airlied@linux.ie>,
- Catalin Marinas <catalin.marinas@arm.com>, dri-devel@lists.freedesktop.org,
- Atish Patra <atish.patra@wdc.com>, linux-riscv@lists.infradead.org,
- Will Deacon <will@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
- x86@kernel.org, Russell King <linux@armlinux.org.uk>,
- Ingo Molnar <mingo@redhat.com>, Peter Robinson <pbrobinson@gmail.com>,
- Borislav Petkov <bp@suse.de>, Albert Ou <aou@eecs.berkeley.edu>,
- Thomas Zimmermann <tzimmermann@suse.de>, Hans de Goede <hdegoede@redhat.com>,
- Paul Walmsley <paul.walmsley@sifive.com>, Thomas Gleixner <tglx@linutronix.de>,
- linux-arm-kernel@lists.infradead.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Palmer Dabbelt <palmer@dabbelt.com>
+Cc: linux-arm-msm <linux-arm-msm@vger.kernel.org>, pdhaval@codeaurora.org,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Stephen Boyd <swboyd@chromium.org>, Kuogee Hsieh <khsieh@codeaurora.org>,
+ Sean Paul <seanpaul@chromium.org>, Abhinav Kumar <abhinavk@codeaurora.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, aravindh@codeaurora.org,
+ freedreno <freedreno@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6/25/21 3:09 PM, Javier Martinez Canillas wrote:
-> The simplefb and simpledrm drivers match against a "simple-framebuffer"
-> device, but for aarch64 this is only registered when using Device Trees
-> and there's a node with a "simple-framebuffer" compatible string.
-> 
-> There is no code to register a "simple-framebuffer" platform device when
-> using EFI instead. In fact, the only platform device that's registered in
-> this case is an "efi-framebuffer", which means that the efifb driver is
-> the only driver supported to have an early console with EFI on aarch64.
-> 
-> The x86 architecture platform has a Generic System Framebuffers (sysfb)
-> support, that register a system frambuffer platform device. It either
-> registers a "simple-framebuffer" for the simple{fb,drm} drivers or legacy
-> VGA/EFI FB devices for the vgafb/efifb drivers.
-> 
-> The sysfb is generic enough to be reused by other architectures and can be
-> moved out of the arch/x86 directory to drivers/firmware, allowing the EFI
-> logic used by non-x86 architectures to be folded into sysfb as well.
-> 
+On Tue, Jul 13, 2021 at 7:14 PM Grace An <gracan@codeaurora.org> wrote:
+> When CONFIG_PROVE_LOCKING is defined, the kernel randomly injects
+> -EDEADLK errors for all the ww_mutex. This results in
+> drm_atomic_get_private_obj_state randomly returning -EDEADLK.
+> However, the mode_fixup functions do not propagate these error
+> codes and return false, causing the atomic commit to fail with
+> -EINVAL instead of retrying.
+>
+> Change encoder, crtc, and bridge mode_fixup functions to return
+> an int instead of a boolean to indicate success or failure. If
+> any of these functions fail, the mode_fixup function now returns
+> the provided integer error code instead of -EINVAL.
+>
+> This change needs modifications across drivers, but before submitting
+> the entire change, we want to get feedback on this RFC.
+>
+> Signed-off-by: Grace An <gracan@codeaurora.org>
 
-Any more comments on this series? It would be nice for this to land so the
-simpledrm driver could be used on aarch64 EFI systems as well.
+Why don't you just use the various atomic_check hooks we have for
+this? There you get passed the state and everything, have a full int
+return value, and things actually work.
 
-The patches have already been acked by x86 and DRM folks.
+->mode_fixup is for compatibility with legacy crtc modeset helpers
+from the pre-atomic times. If the kerneldoc isn't clear yet, please do
+a patch to fix that up so that @mode_fixup points at the relevant
+@atomic_check as the recommended function.
+-Daniel
 
-Best regards,
+> ---
+>  drivers/gpu/drm/drm_atomic_helper.c      | 8 ++++----
+>  drivers/gpu/drm/drm_bridge.c             | 4 ++--
+>  include/drm/drm_bridge.h                 | 2 +-
+>  include/drm/drm_modeset_helper_vtables.h | 4 ++--
+>  4 files changed, 9 insertions(+), 9 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
+> index f2b3e28..d75f09a 100644
+> --- a/drivers/gpu/drm/drm_atomic_helper.c
+> +++ b/drivers/gpu/drm/drm_atomic_helper.c
+> @@ -457,10 +457,10 @@ mode_fixup(struct drm_atomic_state *state)
+>                 } else if (funcs && funcs->mode_fixup) {
+>                         ret = funcs->mode_fixup(encoder, &new_crtc_state->mode,
+>                                                 &new_crtc_state->adjusted_mode);
+> -                       if (!ret) {
+> +                       if (ret) {
+>                                 DRM_DEBUG_ATOMIC("[ENCODER:%d:%s] fixup failed\n",
+>                                                  encoder->base.id, encoder->name);
+> -                               return -EINVAL;
+> +                               return ret;
+>                         }
+>                 }
+>         }
+> @@ -481,10 +481,10 @@ mode_fixup(struct drm_atomic_state *state)
+>
+>                 ret = funcs->mode_fixup(crtc, &new_crtc_state->mode,
+>                                         &new_crtc_state->adjusted_mode);
+> -               if (!ret) {
+> +               if (ret) {
+>                         DRM_DEBUG_ATOMIC("[CRTC:%d:%s] fixup failed\n",
+>                                          crtc->base.id, crtc->name);
+> -                       return -EINVAL;
+> +                       return ret;
+>                 }
+>         }
+>
+> diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+> index 64f0eff..3ad16b5 100644
+> --- a/drivers/gpu/drm/drm_bridge.c
+> +++ b/drivers/gpu/drm/drm_bridge.c
+> @@ -736,9 +736,9 @@ static int drm_atomic_bridge_check(struct drm_bridge *bridge,
+>                 if (ret)
+>                         return ret;
+>         } else if (bridge->funcs->mode_fixup) {
+> -               if (!bridge->funcs->mode_fixup(bridge, &crtc_state->mode,
+> +               if (bridge->funcs->mode_fixup(bridge, &crtc_state->mode,
+>                                                &crtc_state->adjusted_mode))
+> -                       return -EINVAL;
+> +                       return ret;
+>         }
+>
+>         return 0;
+> diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
+> index 2195daa..5d02dfc 100644
+> --- a/include/drm/drm_bridge.h
+> +++ b/include/drm/drm_bridge.h
+> @@ -153,7 +153,7 @@ struct drm_bridge_funcs {
+>          * True if an acceptable configuration is possible, false if the modeset
+>          * operation should be rejected.
+>          */
+> -       bool (*mode_fixup)(struct drm_bridge *bridge,
+> +       int (*mode_fixup)(struct drm_bridge *bridge,
+>                            const struct drm_display_mode *mode,
+>                            struct drm_display_mode *adjusted_mode);
+>         /**
+> diff --git a/include/drm/drm_modeset_helper_vtables.h b/include/drm/drm_modeset_helper_vtables.h
+> index f3a4b47..e305c97 100644
+> --- a/include/drm/drm_modeset_helper_vtables.h
+> +++ b/include/drm/drm_modeset_helper_vtables.h
+> @@ -184,7 +184,7 @@ struct drm_crtc_helper_funcs {
+>          * True if an acceptable configuration is possible, false if the modeset
+>          * operation should be rejected.
+>          */
+> -       bool (*mode_fixup)(struct drm_crtc *crtc,
+> +       int (*mode_fixup)(struct drm_crtc *crtc,
+>                            const struct drm_display_mode *mode,
+>                            struct drm_display_mode *adjusted_mode);
+>
+> @@ -599,7 +599,7 @@ struct drm_encoder_helper_funcs {
+>          * True if an acceptable configuration is possible, false if the modeset
+>          * operation should be rejected.
+>          */
+> -       bool (*mode_fixup)(struct drm_encoder *encoder,
+> +       int (*mode_fixup)(struct drm_encoder *encoder,
+>                            const struct drm_display_mode *mode,
+>                            struct drm_display_mode *adjusted_mode);
+>
+> --
+> The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+> a Linux Foundation Collaborative Project
+>
+
+
 -- 
-Javier Martinez Canillas
-Linux Engineering
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
