@@ -1,44 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E7C93C6CDC
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Jul 2021 11:06:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C3853C6CE6
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Jul 2021 11:10:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA6426E05F;
-	Tue, 13 Jul 2021 09:06:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3CD3D89DEA;
+	Tue, 13 Jul 2021 09:10:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F31A6E05F;
- Tue, 13 Jul 2021 09:06:24 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10043"; a="197401959"
-X-IronPort-AV: E=Sophos;i="5.84,236,1620716400"; d="scan'208";a="197401959"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jul 2021 02:06:20 -0700
-X-IronPort-AV: E=Sophos;i="5.84,236,1620716400"; d="scan'208";a="459510153"
-Received: from mphilpot-mobl.ger.corp.intel.com (HELO [10.213.255.124])
- ([10.213.255.124])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jul 2021 02:06:20 -0700
-Subject: Re: [Intel-gfx] [PATCH 24/47] drm/i915/guc: Add several request trace
- points
-To: Matthew Brost <matthew.brost@intel.com>, intel-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org
-References: <20210624070516.21893-1-matthew.brost@intel.com>
- <20210624070516.21893-25-matthew.brost@intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-Message-ID: <e5d96ebb-f168-c1af-22c8-0b066388e70d@linux.intel.com>
-Date: Tue, 13 Jul 2021 10:06:17 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+Received: from mail-oi1-x22d.google.com (mail-oi1-x22d.google.com
+ [IPv6:2607:f8b0:4864:20::22d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D05189DEA
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jul 2021 09:10:12 +0000 (UTC)
+Received: by mail-oi1-x22d.google.com with SMTP id h9so27919764oih.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jul 2021 02:10:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=nWFZM3/Fd498xYi/NS6bAEMYCbl7QML6DyivQTp/sV0=;
+ b=hfkmcHL6Zp08WVE+ecLEDgZcQo/JXziHSDX2ZVGNalK275PCThHNzlraweUnXZwbVB
+ DTp4fDhrNyyBVLylo1TXKMiEi5O9x9p57AXa0DCNwLTVwOK6kfL2MggBJYxxq29z3J3X
+ 9sKbQwju4rcTjCjYqzcaEVlOba0Vy5Cgpkx7I=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=nWFZM3/Fd498xYi/NS6bAEMYCbl7QML6DyivQTp/sV0=;
+ b=oamgZU/+U2Hf65IoBwMnaN8qjP4Z5oku6dshla56F60/0K3sUidu5NuiKiGz32UZcU
+ M8pN7aTC6KHaN9Bg/sMwCah9VlU3qM0ZNwpYKbOrOHuUdGciQQ4aB6n7sFINe/Viwd1T
+ izazxBABcr5WBFIRsSrtJfbuTIq7QKRwU7f9+frnDHzQw9/eYgOQuCnfD02ya9bM7qa+
+ TmPhK/uU7pU4odhKorau2h7j6biAH5Y0bkJxAMx3ptPqPdnOaR8Pz6U2EZDVXJgLMVaJ
+ JuAVq+gzgNvN0aOCNkXTCUkEEA5FTK8+VA1hctXKRdyRoZbRGL5HoXqodccaGEgQECi3
+ UH2Q==
+X-Gm-Message-State: AOAM531Ke5lAEwcnJizS6JqZupKeNMkVpcOB0E8rgfWZ2eV1DYVON+ft
+ Xzgepktb+bF+CVyPG0kR+KwRVKIs7RCfKeJdCsLTaw==
+X-Google-Smtp-Source: ABdhPJwxd0a2gHUhQe5j3n2+9L7w0s7E41ayASkRMd32FuI7AUCPINKXiWxJTzCTbOFuBg/1zBWsCDmJ5ljAVtR363g=
+X-Received: by 2002:aca:d4cf:: with SMTP id l198mr272688oig.14.1626167411714; 
+ Tue, 13 Jul 2021 02:10:11 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210624070516.21893-25-matthew.brost@intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20210712175352.802687-1-daniel.vetter@ffwll.ch>
+ <20210712175352.802687-3-daniel.vetter@ffwll.ch>
+ <2cd9df9e-08e5-d0bd-d4d3-aed00f699e4a@amd.com>
+ <CAKMK7uE3dppw2=sVHRKx1b-ehVfiBphoJNJvpoPjt-=KsPp=Yw@mail.gmail.com>
+ <5c5ef6ba-49d0-36cc-b537-e6f9c354f6ac@amd.com>
+In-Reply-To: <5c5ef6ba-49d0-36cc-b537-e6f9c354f6ac@amd.com>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Tue, 13 Jul 2021 11:10:00 +0200
+Message-ID: <CAKMK7uGXVzaH25_spK5Pp8epx8a+9As6tVMcaj3p6Dedg0FH-w@mail.gmail.com>
+Subject: Re: [PATCH v4 02/18] drm/sched: Barriers are needed for
+ entity->last_scheduled
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,167 +65,241 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Steven Price <steven.price@arm.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Daniel Vetter <daniel.vetter@intel.com>, Lee Jones <lee.jones@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, Jul 13, 2021 at 9:25 AM Christian K=C3=B6nig
+<christian.koenig@amd.com> wrote:
+> Am 13.07.21 um 08:50 schrieb Daniel Vetter:
+> > On Tue, Jul 13, 2021 at 8:35 AM Christian K=C3=B6nig
+> > <christian.koenig@amd.com> wrote:
+> >> Am 12.07.21 um 19:53 schrieb Daniel Vetter:
+> >>> It might be good enough on x86 with just READ_ONCE, but the write sid=
+e
+> >>> should then at least be WRITE_ONCE because x86 has total store order.
+> >>>
+> >>> It's definitely not enough on arm.
+> >>>
+> >>> Fix this proplery, which means
+> >>> - explain the need for the barrier in both places
+> >>> - point at the other side in each comment
+> >>>
+> >>> Also pull out the !sched_list case as the first check, so that the
+> >>> code flow is clearer.
+> >>>
+> >>> While at it sprinkle some comments around because it was very
+> >>> non-obvious to me what's actually going on here and why.
+> >>>
+> >>> Note that we really need full barriers here, at first I thought
+> >>> store-release and load-acquire on ->last_scheduled would be enough,
+> >>> but we actually requiring ordering between that and the queue state.
+> >>>
+> >>> v2: Put smp_rmp() in the right place and fix up comment (Andrey)
+> >>>
+> >>> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> >>> Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
+> >>> Cc: Steven Price <steven.price@arm.com>
+> >>> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> >>> Cc: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+> >>> Cc: Lee Jones <lee.jones@linaro.org>
+> >>> Cc: Boris Brezillon <boris.brezillon@collabora.com>
+> >>> ---
+> >>>    drivers/gpu/drm/scheduler/sched_entity.c | 27 ++++++++++++++++++++=
+++--
+> >>>    1 file changed, 25 insertions(+), 2 deletions(-)
+> >>>
+> >>> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/d=
+rm/scheduler/sched_entity.c
+> >>> index f7347c284886..89e3f6eaf519 100644
+> >>> --- a/drivers/gpu/drm/scheduler/sched_entity.c
+> >>> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
+> >>> @@ -439,8 +439,16 @@ struct drm_sched_job *drm_sched_entity_pop_job(s=
+truct drm_sched_entity *entity)
+> >>>                dma_fence_set_error(&sched_job->s_fence->finished, -EC=
+ANCELED);
+> >>>
+> >>>        dma_fence_put(entity->last_scheduled);
+> >>> +
+> >>>        entity->last_scheduled =3D dma_fence_get(&sched_job->s_fence->=
+finished);
+> >>>
+> >>> +     /*
+> >>> +      * If the queue is empty we allow drm_sched_entity_select_rq() =
+to
+> >>> +      * locklessly access ->last_scheduled. This only works if we se=
+t the
+> >>> +      * pointer before we dequeue and if we a write barrier here.
+> >>> +      */
+> >>> +     smp_wmb();
+> >>> +
+> >> Again, conceptual those barriers should be part of the spsc_queue
+> >> container and not externally.
+> > That would be extremely unusual api. Let's assume that your queue is
+> > very dumb, and protected by a simple lock. That's about the maximum
+> > any user could expect.
+> >
+> > But then you still need barriers here, because linux locks (spinlock,
+> > mutex) are defined to be one-way barriers: Stuff that's inside is
+> > guaranteed to be done insinde, but stuff outside of the locked region
+> > can leak in. They're load-acquire/store-release barriers. So not good
+> > enough.
+> >
+> > You really need to have barriers here, and they really all need to be
+> > documented properly. And yes that's a shit-ton of work in drm/sched,
+> > because it's full of yolo lockless stuff.
+> >
+> > The other case you could make is that this works like a wakeup queue,
+> > or similar. The rules there are:
+> > - wake_up (i.e. pushing something into the queue) is a store-release ba=
+rrier
+> > - the waked up (i.e. popping an entry) is a load acquire barrier
+> > Which is obviuosly needed because otherwise you don't have coherency
+> > for the data queued up. And again not the barriers you're locking for
+> > here.
+>
+> Exactly that was the idea, yes.
+>
+> > Either way, we'd still need the comments, because it's still lockless
+> > trickery, and every single one of that needs to have a comment on both
+> > sides to explain what's going on.
+> >
+> > Essentially replace spsc_queue with an llist underneath, and that's
+> > the amount of barriers a data structure should provide. Anything else
+> > is asking your datastructure to paper over bugs in your users.
+> >
+> > This is similar to how atomic_t is by default completely unordered,
+> > and users need to add barriers as needed, with comments.
+>
+> My main problem is as always that kernel atomics work different than
+> userspace atomics.
+>
+> > I think this is all to make sure people don't just write lockless algor=
+ithms
+> > because it's a cool idea, but are forced to think this all through.
+> > Which seems to not have happened very consistently for drm/sched, so I
+> > guess needs to be fixed.
+>
+> Well at least initially that was all perfectly thought through. The
+> problem is nobody is really maintaining that stuff.
+>
+> > I'm definitely not going to hide all that by making the spsc_queue
+> > stuff provide random unjustified barriers just because that would
+> > paper over drm/sched bugs. We need to fix the actual bugs, and
+> > preferrable all of them. I've found a few, but I wasn't involved in
+> > drm/sched thus far, so best I can do is discover them as we go.
+>
+> I don't think that those are random unjustified barriers at all and it
+> sounds like you didn't grip what I said here.
+>
+> See the spsc queue must have the following semantics:
+>
+> 1. When you pop a job all changes made before you push the job must be
+> visible.
 
-On 24/06/2021 08:04, Matthew Brost wrote:
-> Add trace points for request dependencies and GuC submit. Extended
-> existing request trace points to include submit fence value,, guc_id,
-> and ring tail value.
-> 
-> Cc: John Harrison <john.c.harrison@intel.com>
-> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> ---
->   .../gpu/drm/i915/gt/uc/intel_guc_submission.c |  3 ++
->   drivers/gpu/drm/i915/i915_request.c           |  3 ++
->   drivers/gpu/drm/i915/i915_trace.h             | 39 ++++++++++++++++++-
->   3 files changed, 43 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> index 89b3c7e5d15b..c2327eebc09c 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> @@ -422,6 +422,7 @@ static int guc_dequeue_one_context(struct intel_guc *guc)
->   			guc->stalled_request = last;
->   			return false;
->   		}
-> +		trace_i915_request_guc_submit(last);
->   	}
->   
->   	guc->stalled_request = NULL;
-> @@ -642,6 +643,8 @@ static int guc_bypass_tasklet_submit(struct intel_guc *guc,
->   	ret = guc_add_request(guc, rq);
->   	if (ret == -EBUSY)
->   		guc->stalled_request = rq;
-> +	else
-> +		trace_i915_request_guc_submit(rq);
->   
->   	return ret;
->   }
-> diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
-> index d92c9f25c9f4..7f7aa096e873 100644
-> --- a/drivers/gpu/drm/i915/i915_request.c
-> +++ b/drivers/gpu/drm/i915/i915_request.c
-> @@ -1344,6 +1344,9 @@ __i915_request_await_execution(struct i915_request *to,
->   			return err;
->   	}
->   
-> +	trace_i915_request_dep_to(to);
-> +	trace_i915_request_dep_from(from);
+This is the standard barriers that also wake-up queues have, it's just
+store-release+load-acquire.
 
-Are those two guaranteed to be atomic ie. no other dep_to/dep_from can 
-get injected in the middle of them and if so what guarantees that?
+> 2. When the queue becomes empty all the changes made before you pop the
+> last job must be visible.
 
-Actually we had an internal discussion going in November 2019 on these 
-very tracepoints which I think was left hanging in the air.
+This is very much non-standard for a queue. I guess you could make
+that part of the spsc_queue api between pop and is_empty (really we
+shouldn't expose the _count() function for this), but that's all very
+clever.
 
-There I was suggesting you create a single tracepoint in the format of 
-"from -> to", so it's clear without any doubt what is going on.
+I think having explicit barriers in the code, with comments, is much
+more robust. Because it forces you to think about all this, and
+document it properly. Because there's also lockless stuff like
+drm_sched.ready, which doesn't look at all like it's ordered somehow.
 
-I also suggested this should out outside the GuC patch since it is 
-backend agnostic.
+E.g. there's also an rmb(); in drm_sched_entity_is_idle(), which
+- probably should be an smp_rmb()
+- really should document what it actually synchronizes against, and
+the lack of an smp_wmb() somewhere else indicates it's probably
+busted. You always need two barriers.
 
-I also asked why only this flavour of dependencies and not all. You said 
-this was the handy one for debugging GuC backend issues. I said in that 
-case you should name it trace_i915_request_await_request so it is 
-clearer it does not cover all dependencies.
+> Otherwise I completely agree with you that the whole scheduler doesn't
+> work at all and we need to add tons of external barriers.
 
-As it stands it is a bit misleadingly named, has that question mark 
-around atomicity, and also is not GuC specific. So really I wouldn't 
-think it passes the bar in the current state.
-Regards,
+Imo that's what we need to do. And the most important part for
+maintainability is to properly document thing with comments, and the
+most important part in that comment is pointing at the other side of a
+barrier (since a barrier on one side only orders nothing).
 
-Tvrtko
+Also, on x86 almost nothing here matters, because both rmb() and wmb()
+are no-op. Aside from the compiler barrier, which tends to not be the
+biggest issue. Only mb() does anything, because x86 is only allowed to
+reorder reads ahead of writes.
 
-P.S. Same discussion from 2019 also talked about 
-trace_i915_request_guc_submit and how it exactly aligns to existing 
-request in tracepoint. You were saying the new one is handy because it 
-corresponds with H2G, as the last request_in of the group would trigger 
-it. I was saying that then you could either know implicitly last 
-request_in triggers H2G, or that you could consider adding explicit H2G 
-tracepoints.
+So in practice it's not quite as big a disaster, imo the big thing
+here is maintainability of all these tricks just not being documented.
+-Daniel
 
-> +
->   	/* Couple the dependency tree for PI on this exposed to->fence */
->   	if (to->engine->sched_engine->schedule) {
->   		err = i915_sched_node_add_dependency(&to->sched,
-> diff --git a/drivers/gpu/drm/i915/i915_trace.h b/drivers/gpu/drm/i915/i915_trace.h
-> index 6778ad2a14a4..b02d04b6c8f6 100644
-> --- a/drivers/gpu/drm/i915/i915_trace.h
-> +++ b/drivers/gpu/drm/i915/i915_trace.h
-> @@ -794,22 +794,27 @@ DECLARE_EVENT_CLASS(i915_request,
->   	    TP_STRUCT__entry(
->   			     __field(u32, dev)
->   			     __field(u64, ctx)
-> +			     __field(u32, guc_id)
->   			     __field(u16, class)
->   			     __field(u16, instance)
->   			     __field(u32, seqno)
-> +			     __field(u32, tail)
->   			     ),
->   
->   	    TP_fast_assign(
->   			   __entry->dev = rq->engine->i915->drm.primary->index;
->   			   __entry->class = rq->engine->uabi_class;
->   			   __entry->instance = rq->engine->uabi_instance;
-> +			   __entry->guc_id = rq->context->guc_id;
->   			   __entry->ctx = rq->fence.context;
->   			   __entry->seqno = rq->fence.seqno;
-> +			   __entry->tail = rq->tail;
->   			   ),
->   
-> -	    TP_printk("dev=%u, engine=%u:%u, ctx=%llu, seqno=%u",
-> +	    TP_printk("dev=%u, engine=%u:%u, guc_id=%u, ctx=%llu, seqno=%u, tail=%u",
->   		      __entry->dev, __entry->class, __entry->instance,
-> -		      __entry->ctx, __entry->seqno)
-> +		      __entry->guc_id, __entry->ctx, __entry->seqno,
-> +		      __entry->tail)
->   );
->   
->   DEFINE_EVENT(i915_request, i915_request_add,
-> @@ -818,6 +823,21 @@ DEFINE_EVENT(i915_request, i915_request_add,
->   );
->   
->   #if defined(CONFIG_DRM_I915_LOW_LEVEL_TRACEPOINTS)
-> +DEFINE_EVENT(i915_request, i915_request_dep_to,
-> +	     TP_PROTO(struct i915_request *rq),
-> +	     TP_ARGS(rq)
-> +);
-> +
-> +DEFINE_EVENT(i915_request, i915_request_dep_from,
-> +	     TP_PROTO(struct i915_request *rq),
-> +	     TP_ARGS(rq)
-> +);
-> +
-> +DEFINE_EVENT(i915_request, i915_request_guc_submit,
-> +	     TP_PROTO(struct i915_request *rq),
-> +	     TP_ARGS(rq)
-> +);
-> +
->   DEFINE_EVENT(i915_request, i915_request_submit,
->   	     TP_PROTO(struct i915_request *rq),
->   	     TP_ARGS(rq)
-> @@ -887,6 +907,21 @@ TRACE_EVENT(i915_request_out,
->   
->   #else
->   #if !defined(TRACE_HEADER_MULTI_READ)
-> +static inline void
-> +trace_i915_request_dep_to(struct i915_request *rq)
-> +{
-> +}
-> +
-> +static inline void
-> +trace_i915_request_dep_from(struct i915_request *rq)
-> +{
-> +}
-> +
-> +static inline void
-> +trace_i915_request_guc_submit(struct i915_request *rq)
-> +{
-> +}
-> +
->   static inline void
->   trace_i915_request_submit(struct i915_request *rq)
->   {
-> 
+> Regards,
+> Christian.
+>
+> > -Daniel
+> >
+> >
+> >> Regards,
+> >> Christian.
+> >>
+> >>>        spsc_queue_pop(&entity->job_queue);
+> >>>        return sched_job;
+> >>>    }
+> >>> @@ -459,10 +467,25 @@ void drm_sched_entity_select_rq(struct drm_sche=
+d_entity *entity)
+> >>>        struct drm_gpu_scheduler *sched;
+> >>>        struct drm_sched_rq *rq;
+> >>>
+> >>> -     if (spsc_queue_count(&entity->job_queue) || !entity->sched_list=
+)
+> >>> +     /* single possible engine and already selected */
+> >>> +     if (!entity->sched_list)
+> >>> +             return;
+> >>> +
+> >>> +     /* queue non-empty, stay on the same engine */
+> >>> +     if (spsc_queue_count(&entity->job_queue))
+> >>>                return;
+> >>>
+> >>> -     fence =3D READ_ONCE(entity->last_scheduled);
+> >>> +     /*
+> >>> +      * Only when the queue is empty are we guaranteed that the sche=
+duler
+> >>> +      * thread cannot change ->last_scheduled. To enforce ordering w=
+e need
+> >>> +      * a read barrier here. See drm_sched_entity_pop_job() for the =
+other
+> >>> +      * side.
+> >>> +      */
+> >>> +     smp_rmb();
+> >>> +
+> >>> +     fence =3D entity->last_scheduled;
+> >>> +
+> >>> +     /* stay on the same engine if the previous job hasn't finished =
+*/
+> >>>        if (fence && !dma_fence_is_signaled(fence))
+> >>>                return;
+> >>>
+> >
+> > --
+> > Daniel Vetter
+> > Software Engineer, Intel Corporation
+> > https://nam11.safelinks.protection.outlook.com/?url=3Dhttp%3A%2F%2Fblog=
+.ffwll.ch%2F&amp;data=3D04%7C01%7Cchristian.koenig%40amd.com%7Ce06013b14cfc=
+49e3e10f08d945ca8f73%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637617558=
+577952913%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBT=
+iI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=3DyKAIrzyRRh1AoGM%2BQXyrwd4psTvy=
+O%2Bcn8961PbcJmpQ%3D&amp;reserved=3D0
+>
+
+
+--=20
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
