@@ -2,43 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6F223C76AB
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Jul 2021 20:46:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93B1D3C76D9
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Jul 2021 21:16:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 052026E110;
-	Tue, 13 Jul 2021 18:46:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 15D716E114;
+	Tue, 13 Jul 2021 19:16:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F8006E10F;
- Tue, 13 Jul 2021 18:46:34 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10044"; a="210041137"
-X-IronPort-AV: E=Sophos;i="5.84,237,1620716400"; d="scan'208";a="210041137"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jul 2021 11:46:34 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,237,1620716400"; d="scan'208";a="503322163"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
- by fmsmga002.fm.intel.com with SMTP; 13 Jul 2021 11:46:31 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Tue, 13 Jul 2021 21:46:30 +0300
-Date: Tue, 13 Jul 2021 21:46:30 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Matthew Auld <matthew.william.auld@gmail.com>
-Subject: Re: [Intel-gfx] [PATCH 1/5] drm/i915: document caching related bits
-Message-ID: <YO3fhvKCo8eXrmst@intel.com>
-References: <20210713104554.2381406-1-matthew.auld@intel.com>
- <YO23Y3PUS22FaXDC@intel.com>
- <CAM0jSHOx=WVbzfQzn=kL-5qaG4B3dxPLOimkvUdv6HFJymZeZw@mail.gmail.com>
- <YO3RsxZHUe5imN3q@intel.com>
- <CAM0jSHOsqPUOWCJu_Ti3gW-fnpWF2CtUoo-qt-aMWExAwDDT5A@mail.gmail.com>
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 18B4B6E114
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jul 2021 19:16:48 +0000 (UTC)
+Received: from tr.lan (ip-89-176-112-137.net.upcbroadband.cz [89.176.112.137])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id BC5FB829EF;
+ Tue, 13 Jul 2021 21:16:45 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1626203806;
+ bh=wbQJGQKfin37yNew9W/wu8wDSAmPvLDBx+xhp/1201o=;
+ h=From:To:Cc:Subject:Date:From;
+ b=M5MvE8Fh4HkmZpOE6WwFLQv7b81qOGPl9pmxes5mORrj2H6S0PVsmJcjIaG2+e89J
+ 08Cuq/47ILUxiPOuY46+8VB9w/Xgf8vFQbq6rIXygQVjt2LRMwHuoqxjLHXRn4RY7M
+ HY/tyFOc2kWIuQUmZA71n6Doy67v5uKcXxeka2c5iMIG/JUIUitslBAWojvuqXh6Hl
+ tyiRTH5/m+6gVzNH2sllb5V4ImWoY12/BIJ+msdLoiO5/H0+toTFRiE7mQzWAc1Tgd
+ BYzU4BuH890nllvyB4oYIudGxB+EGxooX6HgbIifNwLotN6SDMLAo90iI1U77FDPrb
+ KARPb2MymKpSg==
+From: Marek Vasut <marex@denx.de>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH V2] video: backlight: Drop maximum brightness override for
+ brightness zero
+Date: Tue, 13 Jul 2021 21:16:33 +0200
+Message-Id: <20210713191633.121317-1-marex@denx.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAM0jSHOsqPUOWCJu_Ti3gW-fnpWF2CtUoo-qt-aMWExAwDDT5A@mail.gmail.com>
-X-Patchwork-Hint: comment
+X-Virus-Scanned: clamav-milter 0.103.2 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,115 +52,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Matthew Auld <matthew.auld@intel.com>,
- ML dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Marek Vasut <marex@denx.de>, linux-fbdev@vger.kernel.org,
+ Daniel Thompson <daniel.thompson@linaro.org>, stable@vger.kernel.org,
+ =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>,
+ Sean Paul <seanpaul@chromium.org>,
+ Meghana Madhyastha <meghana.madhyastha@gmail.com>,
+ Thierry Reding <treding@nvidia.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 13, 2021 at 07:24:23PM +0100, Matthew Auld wrote:
-> On Tue, 13 Jul 2021 at 18:47, Ville Syrj‰l‰
-> <ville.syrjala@linux.intel.com> wrote:
-> >
-> > On Tue, Jul 13, 2021 at 05:13:37PM +0100, Matthew Auld wrote:
-> > > On Tue, 13 Jul 2021 at 16:55, Ville Syrj‰l‰
-> > > <ville.syrjala@linux.intel.com> wrote:
-> > > >
-> > > > On Tue, Jul 13, 2021 at 11:45:50AM +0100, Matthew Auld wrote:
-> > > > > +     /**
-> > > > > +      * @cache_coherent:
-> > > > > +      *
-> > > > > +      * Track whether the pages are coherent with the GPU if reading or
-> > > > > +      * writing through the CPU cache.
-> > > > > +      *
-> > > > > +      * This largely depends on the @cache_level, for example if the object
-> > > > > +      * is marked as I915_CACHE_LLC, then GPU access is coherent for both
-> > > > > +      * reads and writes through the CPU cache.
-> > > > > +      *
-> > > > > +      * Note that on platforms with shared-LLC support(HAS_LLC) reads through
-> > > > > +      * the CPU cache are always coherent, regardless of the @cache_level. On
-> > > > > +      * snooping based platforms this is not the case, unless the full
-> > > > > +      * I915_CACHE_LLC or similar setting is used.
-> > > > > +      *
-> > > > > +      * As a result of this we need to track coherency separately for reads
-> > > > > +      * and writes, in order to avoid superfluous flushing on shared-LLC
-> > > > > +      * platforms, for reads.
-> > > > > +      *
-> > > > > +      * I915_BO_CACHE_COHERENT_FOR_READ:
-> > > > > +      *
-> > > > > +      * When reading through the CPU cache, the GPU is still coherent. Note
-> > > > > +      * that no data has actually been modified here, so it might seem
-> > > > > +      * strange that we care about this.
-> > > > > +      *
-> > > > > +      * As an example, if some object is mapped on the CPU with write-back
-> > > > > +      * caching, and we read some page, then the cache likely now contains
-> > > > > +      * the data from that read. At this point the cache and main memory
-> > > > > +      * match up, so all good. But next the GPU needs to write some data to
-> > > > > +      * that same page. Now if the @cache_level is I915_CACHE_NONE and the
-> > > > > +      * the platform doesn't have the shared-LLC, then the GPU will
-> > > > > +      * effectively skip invalidating the cache(or however that works
-> > > > > +      * internally) when writing the new value.  This is really bad since the
-> > > > > +      * GPU has just written some new data to main memory, but the CPU cache
-> > > > > +      * is still valid and now contains stale data. As a result the next time
-> > > > > +      * we do a cached read with the CPU, we are rewarded with stale data.
-> > > > > +      * Likewise if the cache is later flushed, we might be rewarded with
-> > > > > +      * overwriting main memory with stale data.
-> > > > > +      *
-> > > > > +      * I915_BO_CACHE_COHERENT_FOR_WRITE:
-> > > > > +      *
-> > > > > +      * When writing through the CPU cache, the GPU is still coherent. Note
-> > > > > +      * that this also implies I915_BO_CACHE_COHERENT_FOR_READ.
-> > > > > +      *
-> > > > > +      * This is never set when I915_CACHE_NONE is used for @cache_level,
-> > > > > +      * where instead we have to manually flush the caches after writing
-> > > > > +      * through the CPU cache. For other cache levels this should be set and
-> > > > > +      * the object is therefore considered coherent for both reads and writes
-> > > > > +      * through the CPU cache.
-> > > >
-> > > > I don't remember why we have this read vs. write split and this new
-> > > > documentation doesn't seem to really explain it either.
-> > >
-> > > Hmm, I attempted to explain that earlier:
-> > >
-> > > * Note that on platforms with shared-LLC support(HAS_LLC) reads through
-> > > * the CPU cache are always coherent, regardless of the @cache_level. On
-> > > * snooping based platforms this is not the case, unless the full
-> > > * I915_CACHE_LLC or similar setting is used.
-> > > *
-> > > * As a result of this we need to track coherency separately for reads
-> > > * and writes, in order to avoid superfluous flushing on shared-LLC
-> > > * platforms, for reads.
-> > >
-> > > So AFAIK it's just because shared-LLC can be coherent for reads, while
-> > > also not being coherent for writes(CACHE_NONE),
-> >
-> > CPU vs. GPU is fully coherent when it comes to LLC. Or at least I've
-> > never heard of any mechanism that would make it only partially coherent.
-> 
-> What do you mean by "comes to LLC", are you talking about HAS_LLC() or
-> I915_CACHE_LLC?
+The note in c2adda27d202f ("video: backlight: Add of_find_backlight helper
+in backlight.c") says that gpio-backlight uses brightness as power state.
+This has been fixed since in ec665b756e6f7 ("backlight: gpio-backlight:
+Correct initial power state handling") and other backlight drivers do not
+require this workaround. Drop the workaround.
 
-I'm talking about the actual cache.
+This fixes the case where e.g. pwm-backlight can perfectly well be set to
+brightness 0 on boot in DT, which without this patch leads to the display
+brightness to be max instead of off.
 
-> 
-> If you set I915_CACHE_LLC, then yes it is fully coherent for both
-> HAS_LLC() and HAS_SNOOP().
-> 
-> If you set I915_CACHE_NONE, then reads are still coherent on
-> HAS_LLC(),
+Fixes: c2adda27d202f ("video: backlight: Add of_find_backlight helper in backlight.c")
+Acked-by: Noralf Tr√∏nnes <noralf@tronnes.org>
+Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
+Cc: <stable@vger.kernel.org> # 5.4+
+Cc: <stable@vger.kernel.org> # 4.19.x: ec665b756e6f7: backlight: gpio-backlight: Correct initial power state handling
+Signed-off-by: Marek Vasut <marex@denx.de>
+Cc: Daniel Thompson <daniel.thompson@linaro.org>
+Cc: Meghana Madhyastha <meghana.madhyastha@gmail.com>
+Cc: Noralf Tr√∏nnes <noralf@tronnes.org>
+Cc: Sean Paul <seanpaul@chromium.org>
+Cc: Thierry Reding <treding@nvidia.com>
+---
+V2: Add AB/RB, CC stable
+---
+ drivers/video/backlight/backlight.c | 6 ------
+ 1 file changed, 6 deletions(-)
 
-Reads and writes both. The only thing that's not coherent is the
-display engine.
-
-> for HAS_SNOOP() they are not. Or at least that is the
-> existing behaviour in the driver AFAIK.
-> 
-> >
-> > --
-> > Ville Syrj‰l‰
-> > Intel
-
+diff --git a/drivers/video/backlight/backlight.c b/drivers/video/backlight/backlight.c
+index 537fe1b376ad7..fc990e576340b 100644
+--- a/drivers/video/backlight/backlight.c
++++ b/drivers/video/backlight/backlight.c
+@@ -688,12 +688,6 @@ static struct backlight_device *of_find_backlight(struct device *dev)
+ 			of_node_put(np);
+ 			if (!bd)
+ 				return ERR_PTR(-EPROBE_DEFER);
+-			/*
+-			 * Note: gpio_backlight uses brightness as
+-			 * power state during probe
+-			 */
+-			if (!bd->props.brightness)
+-				bd->props.brightness = bd->props.max_brightness;
+ 		}
+ 	}
+ 
 -- 
-Ville Syrj‰l‰
-Intel
+2.30.2
+
