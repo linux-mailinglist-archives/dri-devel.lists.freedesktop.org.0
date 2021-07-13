@@ -1,43 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FECC3C77EA
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Jul 2021 22:22:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BA9FB3C7837
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Jul 2021 22:52:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C30AF6E12A;
-	Tue, 13 Jul 2021 20:22:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CEEB889A08;
+	Tue, 13 Jul 2021 20:52:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 764A26E128;
- Tue, 13 Jul 2021 20:22:55 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10044"; a="189921269"
-X-IronPort-AV: E=Sophos;i="5.84,237,1620716400"; d="scan'208";a="189921269"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jul 2021 13:22:54 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,237,1620716400"; d="scan'208";a="459708451"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
- by orsmga008.jf.intel.com with SMTP; 13 Jul 2021 13:22:51 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Tue, 13 Jul 2021 23:22:50 +0300
-Date: Tue, 13 Jul 2021 23:22:50 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [Intel-gfx] [PATCH] drm/i915/gt: Fix -EDEADLK handling regression
-Message-ID: <YO32GlZWgAnZk+dD@intel.com>
-References: <20210630164413.25481-1-ville.syrjala@linux.intel.com>
- <2edf584b-3835-53ed-f6e3-76c7e8d581ed@linux.intel.com>
- <CAKMK7uFTYgK9rmXTNSczPdBWPTNaLBp-GitzBQb0-gX5wZWHNQ@mail.gmail.com>
- <CAKMK7uFjgu_TkPFYs0DTdAh9tdDbdpUc0S1n5XUfHJaq_0FHVw@mail.gmail.com>
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
+ [IPv6:2a00:1450:4864:20::42c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8034189971
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jul 2021 20:52:00 +0000 (UTC)
+Received: by mail-wr1-x42c.google.com with SMTP id u1so411211wrs.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jul 2021 13:52:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=BDyC/DY74z2CjcdPHnrSos5LIYO/A3/gQ+PUHz2jdsY=;
+ b=Y/+QHqZsDEZJpQp468v2dxQwhD5KwG5CstxO8j5DtVIOXF9nl0WpbJP/cXO2BPl5rE
+ rZDfpudbl5bBqM1KEuz506dfE0xAfwv1weBaoq3ngCHkYRAm6ZVv7057jYvHNlbWeuEO
+ mQMjHgNDRiQ1BaiBqxGTL0YDrQgxcdtg0vk/Q=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=BDyC/DY74z2CjcdPHnrSos5LIYO/A3/gQ+PUHz2jdsY=;
+ b=ZKbp7EVyBzrFJU986hN9Ch+/LjTlY2DIFth5t89s1HFv6zG/ldYptlXCTJwUFWHCkF
+ 5Vc8JRbVWoS+1lAWIYcnnBpL1I24YKJqk9wk2Ri2D4KIpqsndHHDgbWKCvq0h8m/rbcF
+ VLEEuGd3I10hWzSCSoGV5dUDXAUW7IzKZ5W+xdT95LW7Y17fSTRdAvvhRYB8DPElJKFv
+ 1an2Eh48qHNUthOSANhzO+fB1/1ndhY5Q9+KaZMis/R4RV+m7v8tpHwySdeiahuZ6DS7
+ /0T568RK/Q3wbFXLKhF2rVyZBoFZs8nOMqztlEAfAD+D0tLGWPhKFFvAdxD0zUsx/oN0
+ q/1Q==
+X-Gm-Message-State: AOAM533tD6aV6+t8XntnvO8RgZcLPdvsP4Ur0h6m2xkb8hci699NooCm
+ lSh/5jqrEHoe/8EndqdygHDvFUio9eU3dg==
+X-Google-Smtp-Source: ABdhPJyQpKWy+9AhVsH+cb+Q+Mm1vvUM/0xOrkdQV4UmvXBxaEyU2Om95gdjp6Hup8Y0EP5SV3Ud8g==
+X-Received: by 2002:a05:6000:178a:: with SMTP id
+ e10mr8282029wrg.141.1626209519125; 
+ Tue, 13 Jul 2021 13:51:59 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id j10sm18642249wrt.35.2021.07.13.13.51.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 13 Jul 2021 13:51:58 -0700 (PDT)
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+To: Intel Graphics Development <intel-gfx@lists.freedesktop.org>
+Subject: [PATCH v4 0/4] shmem helpers for vgem
+Date: Tue, 13 Jul 2021 22:51:49 +0200
+Message-Id: <20210713205153.1896059-1-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAKMK7uFjgu_TkPFYs0DTdAh9tdDbdpUc0S1n5XUfHJaq_0FHVw@mail.gmail.com>
-X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,89 +64,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@intel.com>,
- stable <stable@vger.kernel.org>, dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ DRI Development <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 13, 2021 at 09:59:18PM +0200, Daniel Vetter wrote:
-> On Tue, Jul 13, 2021 at 9:58 PM Daniel Vetter <daniel@ffwll.ch> wrote:
-> >
-> > On Thu, Jul 1, 2021 at 9:07 AM Maarten Lankhorst
-> > <maarten.lankhorst@linux.intel.com> wrote:
-> > > Op 30-06-2021 om 18:44 schreef Ville Syrjala:
-> > > > From: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> > > >
-> > > > The conversion to ww mutexes failed to address the fence code which
-> > > > already returns -EDEADLK when we run out of fences. Ww mutexes on
-> > > > the other hand treat -EDEADLK as an internal errno value indicating
-> > > > a need to restart the operation due to a deadlock. So now when the
-> > > > fence code returns -EDEADLK the higher level code erroneously
-> > > > restarts everything instead of returning the error to userspace
-> > > > as is expected.
-> > > >
-> > > > To remedy this let's switch the fence code to use a different errno
-> > > > value for this. -ENOBUFS seems like a semi-reasonable unique choice.
-> > > > Apart from igt the only user of this I could find is sna, and even
-> > > > there all we do is dump the current fence registers from debugfs
-> > > > into the X server log. So no user visible functionality is affected.
-> > > > If we really cared about preserving this we could of course convert
-> > > > back to -EDEADLK higher up, but doesn't seem like that's worth
-> > > > the hassle here.
-> > > >
-> > > > Not quite sure which commit specifically broke this, but I'll
-> > > > just attribute it to the general gem ww mutex work.
-> > > >
-> > > > Cc: stable@vger.kernel.org
-> > > > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> > > > Cc: Thomas Hellström <thomas.hellstrom@intel.com>
-> > > > Testcase: igt/gem_pread/exhaustion
-> > > > Testcase: igt/gem_pwrite/basic-exhaustion
-> > > > Testcase: igt/gem_fenced_exec_thrash/too-many-fences
-> > > > Fixes: 80f0b679d6f0 ("drm/i915: Add an implementation for i915_gem_ww_ctx locking, v2.")
-> > > > Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> > > > ---
-> > > >  drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c | 2 +-
-> > > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > >
-> > > > diff --git a/drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c b/drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c
-> > > > index cac7f3f44642..f8948de72036 100644
-> > > > --- a/drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c
-> > > > +++ b/drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c
-> > > > @@ -348,7 +348,7 @@ static struct i915_fence_reg *fence_find(struct i915_ggtt *ggtt)
-> > > >       if (intel_has_pending_fb_unpin(ggtt->vm.i915))
-> > > >               return ERR_PTR(-EAGAIN);
-> > > >
-> > > > -     return ERR_PTR(-EDEADLK);
-> > > > +     return ERR_PTR(-ENOBUFS);
-> > > >  }
-> > > >
-> > > >  int __i915_vma_pin_fence(struct i915_vma *vma)
-> > >
-> > > Makes sense..
-> > >
-> > > Reviewed-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> > >
-> > > Is it a slightly more reent commit? Might probably be the part that converts execbuffer to use ww locks.
-> >
-> > - please cc: dri-devel on anything gem/gt related.
+Hi all
 
-Thought I did. Apparently got lost somewhere.
+I've found another potential issue, so lets try this again and see what
+intel-gfx-ci says. Also Thomas tried to unify vgem more, which motivated
+me to dig this all out again.
 
-> > - this should probably be ENOSPC or something like that for at least a
-> > seeming retention of errno consistentcy:
+Test-with: 20210527140732.5762-1-daniel.vetter@ffwll.ch
 
-ENOSPC is already used for other things.
+Review very much welcome, as always!
 
-> >
-> > https://dri.freedesktop.org/docs/drm/gpu/drm-uapi.html#recommended-ioctl-return-values
-> 
-> Other option would be to map that back to EDEADLK in the execbuf ioctl
-> somewhere, so we retain a distinct errno code.
+Cheers, Daniel
 
-Already mentioned in the commit msg.
+Daniel Vetter (4):
+  dma-buf: Require VM_PFNMAP vma for mmap
+  drm/shmem-helper: Switch to vmf_insert_pfn
+  drm/shmem-helpers: Allocate wc pages on x86
+  drm/vgem: use shmem helpers
+
+ drivers/dma-buf/dma-buf.c              |  15 +-
+ drivers/gpu/drm/Kconfig                |   7 +-
+ drivers/gpu/drm/drm_gem_shmem_helper.c |  18 +-
+ drivers/gpu/drm/gud/Kconfig            |   2 +-
+ drivers/gpu/drm/tiny/Kconfig           |   4 +-
+ drivers/gpu/drm/udl/Kconfig            |   1 +
+ drivers/gpu/drm/vgem/vgem_drv.c        | 315 +------------------------
+ 7 files changed, 49 insertions(+), 313 deletions(-)
 
 -- 
-Ville Syrjälä
-Intel
+2.32.0
+
