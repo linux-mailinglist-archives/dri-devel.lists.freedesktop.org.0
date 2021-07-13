@@ -1,43 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 799343C6CA9
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Jul 2021 10:50:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 541B53C6CAC
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Jul 2021 10:51:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 79BD489CBA;
-	Tue, 13 Jul 2021 08:50:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 414AF899DB;
+	Tue, 13 Jul 2021 08:51:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3BA9D899DB;
- Tue, 13 Jul 2021 08:50:36 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10043"; a="273958449"
-X-IronPort-AV: E=Sophos;i="5.84,236,1620716400"; d="scan'208";a="273958449"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jul 2021 01:50:27 -0700
-X-IronPort-AV: E=Sophos;i="5.84,236,1620716400"; d="scan'208";a="459505855"
-Received: from mphilpot-mobl.ger.corp.intel.com (HELO [10.213.255.124])
- ([10.213.255.124])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jul 2021 01:50:23 -0700
-Subject: Re: [PATCH 1/8] drm/i915: Explicitly track DRM clients
-To: Daniel Vetter <daniel@ffwll.ch>
-References: <20210712121719.891536-1-tvrtko.ursulin@linux.intel.com>
- <20210712121719.891536-2-tvrtko.ursulin@linux.intel.com>
- <YOxUuxLqpIDEsmMT@phenom.ffwll.local>
- <ba1a6cff-790f-a1e5-1cad-63f429b01f93@linux.intel.com>
- <YOxp+X4mlQzAxs5q@phenom.ffwll.local>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-Message-ID: <05aea0ce-10f4-7813-3baa-0ad2a036b60c@linux.intel.com>
-Date: Tue, 13 Jul 2021 09:50:21 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 29597899DB;
+ Tue, 13 Jul 2021 08:51:41 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10043"; a="208308569"
+X-IronPort-AV: E=Sophos;i="5.84,236,1620716400"; d="scan'208";a="208308569"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Jul 2021 01:51:38 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.84,236,1620716400"; d="scan'208";a="429974364"
+Received: from irvmail001.ir.intel.com ([10.43.11.63])
+ by orsmga002.jf.intel.com with ESMTP; 13 Jul 2021 01:51:36 -0700
+Received: from [10.249.136.128] (mwajdecz-MOBL.ger.corp.intel.com
+ [10.249.136.128])
+ by irvmail001.ir.intel.com (8.14.3/8.13.6/MailSET/Hub) with ESMTP id
+ 16D8pZDG019899; Tue, 13 Jul 2021 09:51:35 +0100
+Subject: Re: [PATCH 23/47] drm/i915/guc: Update GuC debugfs to support new GuC
+To: Matthew Brost <matthew.brost@intel.com>, intel-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org
+References: <20210624070516.21893-1-matthew.brost@intel.com>
+ <20210624070516.21893-24-matthew.brost@intel.com>
+From: Michal Wajdeczko <michal.wajdeczko@intel.com>
+Message-ID: <c2d6ebbf-ea8b-9bde-9e80-9312d16540fc@intel.com>
+Date: Tue, 13 Jul 2021 10:51:35 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <YOxp+X4mlQzAxs5q@phenom.ffwll.local>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <20210624070516.21893-24-matthew.brost@intel.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -52,206 +52,267 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel-gfx@lists.freedesktop.org, Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- dri-devel@lists.freedesktop.org,
- Aravind Iddamsetty <aravind.iddamsetty@intel.com>,
- Chris Wilson <chris@chris-wilson.co.uk>
+Cc: daniele.ceraolospurio@intel.com, john.c.harrison@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 12/07/2021 17:12, Daniel Vetter wrote:
-> On Mon, Jul 12, 2021 at 04:51:42PM +0100, Tvrtko Ursulin wrote:
->>
->> On 12/07/2021 15:42, Daniel Vetter wrote:
->>> On Mon, Jul 12, 2021 at 01:17:12PM +0100, Tvrtko Ursulin wrote:
->>>> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->>>>
->>>> Tracking DRM clients more explicitly will allow later patches to
->>>> accumulate past and current GPU usage in a centralised place and also
->>>> consolidate access to owning task pid/name.
->>>>
->>>> Unique client id is also assigned for the purpose of distinguishing/
->>>> consolidating between multiple file descriptors owned by the same process.
->>>>
->>>> v2:
->>>>    Chris Wilson:
->>>>    * Enclose new members into dedicated structs.
->>>>    * Protect against failed sysfs registration.
->>>>
->>>> v3:
->>>>    * sysfs_attr_init.
->>>>
->>>> v4:
->>>>    * Fix for internal clients.
->>>>
->>>> v5:
->>>>    * Use cyclic ida for client id. (Chris)
->>>>    * Do not leak pid reference. (Chris)
->>>>    * Tidy code with some locals.
->>>>
->>>> v6:
->>>>    * Use xa_alloc_cyclic to simplify locking. (Chris)
->>>>    * No need to unregister individial sysfs files. (Chris)
->>>>    * Rebase on top of fpriv kref.
->>>>    * Track client closed status and reflect in sysfs.
->>>>
->>>> v7:
->>>>    * Make drm_client more standalone concept.
->>>>
->>>> v8:
->>>>    * Simplify sysfs show. (Chris)
->>>>    * Always track name and pid.
->>>>
->>>> v9:
->>>>    * Fix cyclic id assignment.
->>>>
->>>> v10:
->>>>    * No need for a mutex around xa_alloc_cyclic.
->>>>    * Refactor sysfs into own function.
->>>>    * Unregister sysfs before freeing pid and name.
->>>>    * Move clients setup into own function.
->>>>
->>>> v11:
->>>>    * Call clients init directly from driver init. (Chris)
->>>>
->>>> v12:
->>>>    * Do not fail client add on id wrap. (Maciej)
->>>>
->>>> v13 (Lucas): Rebase.
->>>>
->>>> v14:
->>>>    * Dropped sysfs bits.
->>>>
->>>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->>>> Reviewed-by: Chris Wilson <chris@chris-wilson.co.uk> # v11
->>>> Reviewed-by: Aravind Iddamsetty <aravind.iddamsetty@intel.com> # v11
->>>> Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
->>>
->>> On the implementation: I'm not clear why this is a separate object. All
->>> that seems to achieve is make the lifetim fun we have in here even more
->>> annoying, for not real gain?
->>>
->>> What's the reasons for this separate i915_drm_client struct? The commit
->>> message talks about de-duping these within the same process, but with
->>> fdinfo I'm not seeing the relevance of this anymore.
->>
->> AFAIR I started with the new fields directly in file_priv (note file_priv
->> then needed to be freed via RCU due sysfs access to it!), but then the idea
->> there was to consolidate new members into a separate struct.
+
+On 24.06.2021 09:04, Matthew Brost wrote:
+> Update GuC debugfs to support the new GuC structures.
 > 
-> Yeah separate struct makes sense for this stuff, just to
-> encapsulate/document things a bit. It's the entire scaffolding around it
-> that I don't think makes sense anymore with the design switch to fdinfo.
-
-So if I just drop the client name updating and lock/RCU used to query 
-said client data locklessly you would be happy with that?
-
->> Plan was (and still is in internal) that the concept for DRM client will
->> gain more users/usefulness and would benefit from encapsulation from the
->> start.
->>
->> For instance at patch 3 in the series it does consolidate i915 users of
->> ctx->pid to go via ctx->client (process name as well). Those are async entry
->> points (compared to file_priv lifetime) from error capture and debugfs. Hm
->> no, debugfs is there no more, only error capture remains.
->>
->> As you say since the change of direction to use fdinfo, the asynchronous
->> entry path into those members from sysfs is gone. Hence if they were moved
->> back to file_priv, and assuming ctx->pid/name changes to be undone, then
->> file_priv could remain being immediately freed on file close. Or perhaps we
->> lose easy pid/name update for files passed over sockets. I'd have to think
->> about that a bit deeper.
->>
->> But essentially I think ctx->client is a cleaner design that ctx->pid and
->> given error capture and debugfs can be async to file_priv lifetime that's a
->> benefit for me.
+> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> ---
+>  drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c     | 22 ++++++++
+>  drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h     |  3 ++
+>  .../gpu/drm/i915/gt/uc/intel_guc_debugfs.c    | 23 +++++++-
+>  .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 52 +++++++++++++++++++
+>  .../gpu/drm/i915/gt/uc/intel_guc_submission.h |  4 ++
+>  drivers/gpu/drm/i915/i915_debugfs.c           |  1 +
+>  6 files changed, 104 insertions(+), 1 deletion(-)
 > 
->>From a quick check it's just for debug printing when a ctx hung/got
-> banned, and for that we do want the pid - users won't have an
-> understanding of a drm_client. I think pid is actually what we want there.
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+> index e0f92e28350c..4ed074df88e5 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+> @@ -1135,3 +1135,25 @@ void intel_guc_ct_event_handler(struct intel_guc_ct *ct)
+>  
+>  	ct_try_receive_message(ct);
+>  }
+> +
+> +void intel_guc_log_ct_info(struct intel_guc_ct *ct,
+
+this is not "guc log" function, it is "guc ct" one, so:
+
+  void intel_guc_ct_print_info(struct intel_guc_ct *ct,
+
+> +			   struct drm_printer *p)
+> +{
+> +	if (!ct->enabled) {
+> +		drm_puts(p, "CT disabled\n");
+
+nit: maybe
+
+  drm_puts(p, "CT %s\n", enableddisabled(false));
+
+> +		return;
+> +	}
+> +
+> +	drm_printf(p, "H2G Space: %u\n",
+> +		   atomic_read(&ct->ctbs.send.space) * 4);
+
+don't you want to print size ?
+or GGTT offset ?
+
+> +	drm_printf(p, "Head: %u\n",
+> +		   ct->ctbs.send.desc->head);
+> +	drm_printf(p, "Tail: %u\n",
+> +		   ct->ctbs.send.desc->tail);
+> +	drm_printf(p, "G2H Space: %u\n",
+> +		   atomic_read(&ct->ctbs.recv.space) * 4);
+> +	drm_printf(p, "Head: %u\n",
+> +		   ct->ctbs.recv.desc->head);
+> +	drm_printf(p, "Tail: %u\n",
+> +		   ct->ctbs.recv.desc->tail);
+
+hmm, what about adding helper:
+
+  static void dump_ctb(struct intel_guc_ct_buffer *ctb, *p)
+  {
+	drm_printf(p, "Size: %u\n", ctb->size);
+	drm_printf(p, "Space: %u\n", atomic_read(&ctb->space) * 4);
+	drm_printf(p, "Head: %u\n", ctb->desc->head);
+	drm_printf(p, "Tail: %u\n", ctb->desc->tail);
+  }
+
+and then:
+
+	drm_printf(p, "H2G:\n");
+	dump_ctb(&ct->ctbs.send, p);
+	drm_printf(p, "G2H:\n");
+	dump_ctb(&ct->ctbs.recv, p);
+
+or
+
+	dump_ctb(&ct->ctbs.send, "H2G", p);
+	dump_ctb(&ct->ctbs.recv, "G2H", p);
+	
+
+> +}
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
+> index ab1b79ab960b..f62eb06b32fc 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
+> @@ -16,6 +16,7 @@
+>  
+>  struct i915_vma;
+>  struct intel_guc;
+> +struct drm_printer;
+>  
+>  /**
+>   * DOC: Command Transport (CT).
+> @@ -106,4 +107,6 @@ int intel_guc_ct_send(struct intel_guc_ct *ct, const u32 *action, u32 len,
+>  		      u32 *response_buf, u32 response_buf_size, u32 flags);
+>  void intel_guc_ct_event_handler(struct intel_guc_ct *ct);
+>  
+> +void intel_guc_log_ct_info(struct intel_guc_ct *ct, struct drm_printer *p);
+> +
+>  #endif /* _INTEL_GUC_CT_H_ */
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_debugfs.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_debugfs.c
+> index fe7cb7b29a1e..62b9ce0fafaa 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_debugfs.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_debugfs.c
+> @@ -9,6 +9,8 @@
+>  #include "intel_guc.h"
+>  #include "intel_guc_debugfs.h"
+>  #include "intel_guc_log_debugfs.h"
+> +#include "gt/uc/intel_guc_ct.h"
+> +#include "gt/uc/intel_guc_submission.h"
+>  
+>  static int guc_info_show(struct seq_file *m, void *data)
+>  {
+> @@ -22,16 +24,35 @@ static int guc_info_show(struct seq_file *m, void *data)
+>  	drm_puts(&p, "\n");
+>  	intel_guc_log_info(&guc->log, &p);
+>  
+> -	/* Add more as required ... */
+> +	if (!intel_guc_submission_is_used(guc))
+> +		return 0;
+> +
+> +	intel_guc_log_ct_info(&guc->ct, &p);
+> +	intel_guc_log_submission_info(guc, &p);
+>  
+>  	return 0;
+>  }
+>  DEFINE_GT_DEBUGFS_ATTRIBUTE(guc_info);
+>  
+> +static int guc_registered_contexts_show(struct seq_file *m, void *data)
+> +{
+> +	struct intel_guc *guc = m->private;
+> +	struct drm_printer p = drm_seq_file_printer(m);
+> +
+> +	if (!intel_guc_submission_is_used(guc))
+> +		return -ENODEV;
+> +
+> +	intel_guc_log_context_info(guc, &p);
+> +
+> +	return 0;
+> +}
+> +DEFINE_GT_DEBUGFS_ATTRIBUTE(guc_registered_contexts);
+> +
+>  void intel_guc_debugfs_register(struct intel_guc *guc, struct dentry *root)
+>  {
+>  	static const struct debugfs_gt_file files[] = {
+>  		{ "guc_info", &guc_info_fops, NULL },
+> +		{ "guc_registered_contexts", &guc_registered_contexts_fops, NULL },
+>  	};
+>  
+>  	if (!intel_guc_is_supported(guc))
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> index d1a28283a9ae..89b3c7e5d15b 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> @@ -1600,3 +1600,55 @@ int intel_guc_sched_done_process_msg(struct intel_guc *guc,
+>  
+>  	return 0;
+>  }
+> +
+> +void intel_guc_log_submission_info(struct intel_guc *guc,
+
+use correct prefix:
+
+void intel_guc_submission_print_info(struct intel_guc *guc,
+
+> +				   struct drm_printer *p)
+> +{
+> +	struct i915_sched_engine *sched_engine = guc->sched_engine;
+> +	struct rb_node *rb;
+> +	unsigned long flags;
+> +
+> +	drm_printf(p, "GuC Number Outstanding Submission G2H: %u\n",
+> +		   atomic_read(&guc->outstanding_submission_g2h));
+> +	drm_printf(p, "GuC tasklet count: %u\n\n",
+> +		   atomic_read(&sched_engine->tasklet.count));
+> +
+> +	spin_lock_irqsave(&sched_engine->lock, flags);
+> +	drm_printf(p, "Requests in GuC submit tasklet:\n");
+> +	for (rb = rb_first_cached(&sched_engine->queue); rb; rb = rb_next(rb)) {
+> +		struct i915_priolist *pl = to_priolist(rb);
+> +		struct i915_request *rq;
+> +
+> +		priolist_for_each_request(rq, pl)
+> +			drm_printf(p, "guc_id=%u, seqno=%llu\n",
+> +				   rq->context->guc_id,
+> +				   rq->fence.seqno);
+> +	}
+> +	spin_unlock_irqrestore(&sched_engine->lock, flags);
+> +	drm_printf(p, "\n");
+> +}
+> +
+> +void intel_guc_log_context_info(struct intel_guc *guc,
+
+use correct prefix:
+
+void intel_guc_submission_print_context_info(struct intel_guc *guc,
+
+Michal
+
+> +				struct drm_printer *p)
+> +{
+> +	struct intel_context *ce;
+> +	unsigned long index;
+> +
+> +	xa_for_each(&guc->context_lookup, index, ce) {
+> +		drm_printf(p, "GuC lrc descriptor %u:\n", ce->guc_id);
+> +		drm_printf(p, "\tHW Context Desc: 0x%08x\n", ce->lrc.lrca);
+> +		drm_printf(p, "\t\tLRC Head: Internal %u, Memory %u\n",
+> +			   ce->ring->head,
+> +			   ce->lrc_reg_state[CTX_RING_HEAD]);
+> +		drm_printf(p, "\t\tLRC Tail: Internal %u, Memory %u\n",
+> +			   ce->ring->tail,
+> +			   ce->lrc_reg_state[CTX_RING_TAIL]);
+> +		drm_printf(p, "\t\tContext Pin Count: %u\n",
+> +			   atomic_read(&ce->pin_count));
+> +		drm_printf(p, "\t\tGuC ID Ref Count: %u\n",
+> +			   atomic_read(&ce->guc_id_ref));
+> +		drm_printf(p, "\t\tSchedule State: 0x%x, 0x%x\n\n",
+> +			   ce->guc_state.sched_state,
+> +			   atomic_read(&ce->guc_sched_state_no_lock));
+> +	}
+> +}
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h
+> index 3f7005018939..6453e2bfa151 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h
+> @@ -10,6 +10,7 @@
+>  
+>  #include "intel_guc.h"
+>  
+> +struct drm_printer;
+>  struct intel_engine_cs;
+>  
+>  void intel_guc_submission_init_early(struct intel_guc *guc);
+> @@ -20,6 +21,9 @@ void intel_guc_submission_fini(struct intel_guc *guc);
+>  int intel_guc_preempt_work_create(struct intel_guc *guc);
+>  void intel_guc_preempt_work_destroy(struct intel_guc *guc);
+>  int intel_guc_submission_setup(struct intel_engine_cs *engine);
+> +void intel_guc_log_submission_info(struct intel_guc *guc,
+> +				   struct drm_printer *p);
+> +void intel_guc_log_context_info(struct intel_guc *guc, struct drm_printer *p);
+>  
+>  static inline bool intel_guc_submission_is_supported(struct intel_guc *guc)
+>  {
+> diff --git a/drivers/gpu/drm/i915/i915_debugfs.c b/drivers/gpu/drm/i915/i915_debugfs.c
+> index 277800987bf8..a9084789deff 100644
+> --- a/drivers/gpu/drm/i915/i915_debugfs.c
+> +++ b/drivers/gpu/drm/i915/i915_debugfs.c
+> @@ -50,6 +50,7 @@
+>  #include "i915_trace.h"
+>  #include "intel_pm.h"
+>  #include "intel_sideband.h"
+> +#include "gt/intel_lrc_reg.h"
+>  
+>  static inline struct drm_i915_private *node_to_i915(struct drm_info_node *node)
+>  {
 > 
->> With regards to de-duping multiple fdinfo entries via client->id - that is
->> actually the opposite from what you suggest. Whereas with the sysfs approach
->> we had one entry per client, with fdinfo we have duplicates. So client->id
->> is essential for userspace to correctly account per client statistics.
-> 
-> Uh why? Like if you use fdinfo and have a bunch of duplicate drm_file,
-> then your parsing tool can aggregate them all together under the same pid.
-> No need we do that in the kernel.
-
-It's not done in the kernel. It's just userspace which needs an unique key.
-
-> If the problem is that we can't tell apart a dup'ed fd from multiple
-> open() calls, then I think that should be solved by dropping the hash of
-> the drm_file pointer into the fdinfo.
-
-Yes hash would work as long as fdinfo is the only way in since then 
-lifetime rules are aligned. Or I just keep the id as is since I am 
-keeping the client encapsulation, which is simpler.
-
->>> Also, with the fdinfo approach, why do we still need to even track the
->>> pid? That can be all figured out from proc now, with much cleaner
->>> semantics.
->>
->> Not sure what you mean here. As explained above pid is tracked as
->> replacement for current ctx->pid tracking. So for uses inside i915.
-> 
-> Why do we need to track that for that info file?
-
-It's not an absolute requirement. As I was explaining it was 
-consolidating all accesses to pid/process name, with included update 
-upon context create for shared file descriptors. It was two nice 
-benefits IMHO, but if you disagree I can easily drop it. Ctx->pid then 
-remains fixed to the value of the original opener and that's it.
-
->> Also note that even from userspace semantics of getting the pid from procfs
->> is not necessarily clean, since actually three different file descriptors
->> need to be open to get the whole set of data.
->>
->> /proc/<pid>/fdinfo/<fd> - obviously
->> /proc/<pid>/fd/<fd> - to filter out non drm fds avoiding text parsing above
->> file
->> /proc/<pid>/stat - to get the pid
-> 
-> Well yes userspace needs to keep track of a few things. top works like
-> that too.
-> 
->> Since in the intel_gpu_top conversion I do keep the /proc/<pid> open and do
->> the rest via openat, I am hoping at least that's safe againt pid swaps. For
->> the file descriptor cross check it is more questionable but worst case the
->> drm fd check via stat could be dropped and replaced with more fdinfo text
->> parsing.
->>
->> Having the pid and process name in fdinfo hence makes this easier and
->> potentially safer. Given how we already store ctx->pid I think that should
->> be fine.
-> 
-> Uh no. We need to understand either the procfs rules, or what we need to
-> understand them. Re-rolling our own interpretation of pid within something
-> that already has the pid seems very broken.
-> 
-> I do expect openat to work.
-
-Yes me too. I mostly worry that someone will get it wrong because they 
-would use string/path based access.
-
->> FWIW I still think the whole approach is bad since number of operations
->> required scales with number of non drm processes (even threads) on the
->> system.
-> 
-> top works.
-
-So does a flat headed screwdriver for chiseling a short channel in soft 
-walls. :) Relax, I am doing fdinfo as you can see, and yes it works for 
-top. Simply stating it is very algorithmically inefficient for pure 
-_gpu_ top.
-
-Hm wait.. fdinfo actually cannot show persistent contexts. Process exits 
-leaves a hog on the GPU and it will be invisible via fdinfo who was to 
-blame. :( Sysfs implementation did not have that problem and it would 
-show it as a closed client with a name and old pid. Tough luck I guess.
-
-Regards,
-
-Tvrtko
