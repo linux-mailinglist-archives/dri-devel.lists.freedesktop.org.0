@@ -1,61 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33CEA3C73AF
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Jul 2021 17:55:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7842C3C73B1
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Jul 2021 17:55:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4EB706E0EC;
-	Tue, 13 Jul 2021 15:55:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C4D06E0E1;
+	Tue, 13 Jul 2021 15:55:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 120786E0EE
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jul 2021 15:55:18 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1626191721; h=References: In-Reply-To: Message-Id: Date:
- Subject: Cc: To: From: Sender;
- bh=cyXJ9mJ8LBWXjwGWfk54YTCR6FHccnLnwAEVHScm1GQ=;
- b=VRPRjMVbjlxVXGgK+Hw2uYpYMsZPmPzid06hqhFQcUowrjdjfjPfrMarRoYUBqGS5XB2OJHx
- NUBoJ1S6P/QGi8d/Mt+JEC7fO2mFgS/7zh15FpbkW04T9uc5PS9nQNZgcOrnKkUA6vLx641x
- 1QPeuaIqqOSf48wObUHrb2y6hGo=
-X-Mailgun-Sending-Ip: 198.61.254.9
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n02.prod.us-east-1.postgun.com with SMTP id
- 60edb7555e3e57240b8f172b (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 13 Jul 2021 15:55:01
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 336D2C43149; Tue, 13 Jul 2021 15:55:00 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
- SPF_FAIL autolearn=no autolearn_force=no version=3.4.0
-Received: from khsieh-linux1.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: khsieh)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 3E9EEC43152;
- Tue, 13 Jul 2021 15:54:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 3E9EEC43152
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=fail smtp.mailfrom=khsieh@codeaurora.org
-From: Kuogee Hsieh <khsieh@codeaurora.org>
-To: dri-devel@lists.freedesktop.org, robdclark@gmail.com, sean@poorly.run,
- swboyd@chromium.org
-Subject: [PATCH v2 7/7] drm/msm/dp: retrain link when loss of symbol lock
- detected
-Date: Tue, 13 Jul 2021 08:54:07 -0700
-Message-Id: <1626191647-13901-8-git-send-email-khsieh@codeaurora.org>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1626191647-13901-1-git-send-email-khsieh@codeaurora.org>
-References: <1626191647-13901-1-git-send-email-khsieh@codeaurora.org>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D00636E0ED;
+ Tue, 13 Jul 2021 15:55:24 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10044"; a="231991311"
+X-IronPort-AV: E=Sophos;i="5.84,236,1620716400"; d="scan'208";a="231991311"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Jul 2021 08:55:19 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.84,236,1620716400"; d="scan'208";a="459619088"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
+ by orsmga008.jf.intel.com with SMTP; 13 Jul 2021 08:55:15 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Tue, 13 Jul 2021 18:55:15 +0300
+Date: Tue, 13 Jul 2021 18:55:15 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Matthew Auld <matthew.auld@intel.com>
+Subject: Re: [Intel-gfx] [PATCH 1/5] drm/i915: document caching related bits
+Message-ID: <YO23Y3PUS22FaXDC@intel.com>
+References: <20210713104554.2381406-1-matthew.auld@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210713104554.2381406-1-matthew.auld@intel.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,80 +47,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, abhinavk@codeaurora.org,
- bjorn.andersson@linaro.org, Kuogee Hsieh <khsieh@codeaurora.org>,
- aravindh@codeaurora.org, freedreno@lists.freedesktop.org
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Main link symbol locked is achieved at end of link training 2. Some
-dongle main link symbol may become unlocked again if host did not end
-link training soon enough after completion of link training 2. Host
-have to re train main link if loss of symbol lock detected before
-end link training so that the coming video stream can be transmitted
-to sink properly.
+On Tue, Jul 13, 2021 at 11:45:50AM +0100, Matthew Auld wrote:
+> +	/**
+> +	 * @cache_coherent:
+> +	 *
+> +	 * Track whether the pages are coherent with the GPU if reading or
+> +	 * writing through the CPU cache.
+> +	 *
+> +	 * This largely depends on the @cache_level, for example if the object
+> +	 * is marked as I915_CACHE_LLC, then GPU access is coherent for both
+> +	 * reads and writes through the CPU cache.
+> +	 *
+> +	 * Note that on platforms with shared-LLC support(HAS_LLC) reads through
+> +	 * the CPU cache are always coherent, regardless of the @cache_level. On
+> +	 * snooping based platforms this is not the case, unless the full
+> +	 * I915_CACHE_LLC or similar setting is used.
+> +	 *
+> +	 * As a result of this we need to track coherency separately for reads
+> +	 * and writes, in order to avoid superfluous flushing on shared-LLC
+> +	 * platforms, for reads.
+> +	 *
+> +	 * I915_BO_CACHE_COHERENT_FOR_READ:
+> +	 *
+> +	 * When reading through the CPU cache, the GPU is still coherent. Note
+> +	 * that no data has actually been modified here, so it might seem
+> +	 * strange that we care about this.
+> +	 *
+> +	 * As an example, if some object is mapped on the CPU with write-back
+> +	 * caching, and we read some page, then the cache likely now contains
+> +	 * the data from that read. At this point the cache and main memory
+> +	 * match up, so all good. But next the GPU needs to write some data to
+> +	 * that same page. Now if the @cache_level is I915_CACHE_NONE and the
+> +	 * the platform doesn't have the shared-LLC, then the GPU will
+> +	 * effectively skip invalidating the cache(or however that works
+> +	 * internally) when writing the new value.  This is really bad since the
+> +	 * GPU has just written some new data to main memory, but the CPU cache
+> +	 * is still valid and now contains stale data. As a result the next time
+> +	 * we do a cached read with the CPU, we are rewarded with stale data.
+> +	 * Likewise if the cache is later flushed, we might be rewarded with
+> +	 * overwriting main memory with stale data.
+> +	 *
+> +	 * I915_BO_CACHE_COHERENT_FOR_WRITE:
+> +	 *
+> +	 * When writing through the CPU cache, the GPU is still coherent. Note
+> +	 * that this also implies I915_BO_CACHE_COHERENT_FOR_READ.
+> +	 *
+> +	 * This is never set when I915_CACHE_NONE is used for @cache_level,
+> +	 * where instead we have to manually flush the caches after writing
+> +	 * through the CPU cache. For other cache levels this should be set and
+> +	 * the object is therefore considered coherent for both reads and writes
+> +	 * through the CPU cache.
 
-Signed-off-by: Kuogee Hsieh <khsieh@codeaurora.org>
----
- drivers/gpu/drm/msm/dp/dp_ctrl.c | 29 +++++++++++++++++++++++++++++
- 1 file changed, 29 insertions(+)
+I don't remember why we have this read vs. write split and this new
+documentation doesn't seem to really explain it either.
 
-diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-index 6a013b0..20951c8 100644
---- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
-+++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-@@ -1638,6 +1638,25 @@ static bool dp_ctrl_clock_recovery_any_ok(
- 	return drm_dp_clock_recovery_ok(link_status, lane_count);
- }
- 
-+static bool dp_ctrl_loss_symbol_lock(struct dp_ctrl_private *ctrl)
-+{
-+	u8 link_status[DP_LINK_STATUS_SIZE];
-+	u8 status;
-+	int i;
-+	int num_lanes = ctrl->link->link_params.num_lanes;
-+
-+	dp_ctrl_read_link_status(ctrl, link_status);
-+
-+	for (i = 0; i < num_lanes; i++) {
-+		status = link_status[i / 2];
-+		status >>= ((i % 2) * 4);
-+		if (!(status & DP_LANE_SYMBOL_LOCKED))
-+			return true;
-+	}
-+
-+	return false;
-+}
-+
- int dp_ctrl_on_link(struct dp_ctrl *dp_ctrl)
- {
- 	int rc = 0;
-@@ -1761,6 +1780,13 @@ int dp_ctrl_on_link(struct dp_ctrl *dp_ctrl)
- 	return rc;
- }
- 
-+static int dp_ctrl_link_retrain(struct dp_ctrl_private *ctrl)
-+{
-+	int training_step = DP_TRAINING_NONE;
-+
-+	return dp_ctrl_setup_main_link(ctrl, &training_step);
-+}
-+
- int dp_ctrl_on_stream(struct dp_ctrl *dp_ctrl)
- {
- 	int ret = 0;
-@@ -1786,6 +1812,9 @@ int dp_ctrl_on_stream(struct dp_ctrl *dp_ctrl)
- 		}
- 	}
- 
-+	if (dp_ctrl_loss_symbol_lock(ctrl))
-+		dp_ctrl_link_retrain(ctrl);
-+
- 	/* stop txing train pattern to end link training */
- 	dp_ctrl_clear_training_pattern(ctrl);
- 
+Is it for optimizing some display related case where we can omit the
+invalidates but still have to do the writeback to keep the display
+engine happy?
+
 -- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
-
+Ville Syrjälä
+Intel
