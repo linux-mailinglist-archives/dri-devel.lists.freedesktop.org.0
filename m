@@ -2,63 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B660C3C8007
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Jul 2021 10:28:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C132E3C8017
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Jul 2021 10:30:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AEE7F6E19C;
-	Wed, 14 Jul 2021 08:28:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E203489ECD;
+	Wed, 14 Jul 2021 08:30:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
- [IPv6:2a00:1450:4864:20::42c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 764896E19C
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jul 2021 08:28:22 +0000 (UTC)
-Received: by mail-wr1-x42c.google.com with SMTP id i94so2147445wri.4
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jul 2021 01:28:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=ivKO9rn/nP2b/CMoka/2OrZBQ/V1ctLVZiqoNJxWfo0=;
- b=h0ZbIHzxJyLCHwToOuf3Z+2sZj3796pTavGiEpN6/G0b4znq21Lycbz3BvuV1eYoVU
- 4vR7jJk4eELqYI9tC4bTyrt5e8l0DEPOr+ySiHCcKDd1ri9sjv4hTKwyv1iWsO8k9jM0
- f4GH0EUjh8riOgJbif1jMbxazFC4SSBAWEeIJXCse37eLn+HJvgd8lsBrMn5knC/s5Af
- OkC6j3hxUCxfCNo6x6vLbgCjaXM1sYVVgiVb8ODHMmv8Woi1Bvm8c8RS6Oa4QwNkmZYD
- vPwk9V6D6Z7MP+YhIZOfqmqOHn781yNljXbGpfyJSFimAGGmgNmCiDOq6x8Xk0KUFBJO
- oK5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=ivKO9rn/nP2b/CMoka/2OrZBQ/V1ctLVZiqoNJxWfo0=;
- b=QhG0wtBr87XLyL0xvB3XGkzkmjoOHjtyi410ibbPIx3rf5z66jQXjCo1s5t4k8xKG3
- 5f1wmGAU3aW7G6WcZHPpBmtQgbLWwKz8zvLUMf+DQpST1JibXQuKG/gXexzhLhAFjP8o
- MCq9RGRMZI7lAV62YJQ1qs70keJAeR5BQT4wWNXdGrjyTnvMcD3mEuOOnn8SVGzy7gQ8
- gWQn3d5r+xyahzq/1we4E72JT0kRmUArdA65D0+grtBEY2HAKz7+/T0FboxmjZN8JBl0
- 903Y54d2LVmN4FOaGhDGC0bi5/WOD5qDFl7FQiW+KUw7+2Ypr2e5QdNJD3hoBG9Doub6
- XPDw==
-X-Gm-Message-State: AOAM532xPnpvOlYy+n4hfmQgms82ZUb8fHQTUVp0vU8ToimZ63KGhgKF
- urxvoWFvtGWR0svh7lU7v5w=
-X-Google-Smtp-Source: ABdhPJxCZbc6ZLE8hZgyj0nChQi/HNBMI7wf/+9xAxuo6LrTonov2XyRGDaEwsXMy4t4VJerwbRk4A==
-X-Received: by 2002:a05:6000:44:: with SMTP id
- k4mr11381145wrx.174.1626251301148; 
- Wed, 14 Jul 2021 01:28:21 -0700 (PDT)
-Received: from localhost ([62.96.65.119])
- by smtp.gmail.com with ESMTPSA id p5sm1350431wme.2.2021.07.14.01.28.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 14 Jul 2021 01:28:19 -0700 (PDT)
-Date: Wed, 14 Jul 2021 10:30:19 +0200
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Dmitry Osipenko <digetx@gmail.com>
-Subject: Re: [PATCH v8 00/14] drm/tegra: Introduce a modern UABI
-Message-ID: <YO6gm0PgMGNovk+4@orome.fritz.box>
-References: <20210709193146.2859516-1-thierry.reding@gmail.com>
- <42252a14-f6b8-7e1b-90c2-1c741ba8223f@gmail.com>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6152389ECD
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Jul 2021 08:30:29 +0000 (UTC)
+Received: from [IPv6:2a02:810a:880:f54:e49e:3ed0:1a77:5623] (unknown
+ [IPv6:2a02:810a:880:f54:e49e:3ed0:1a77:5623])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: dafna)
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id E74891F42822;
+ Wed, 14 Jul 2021 09:30:26 +0100 (BST)
+Subject: Re: [PATCH v6 07/11] drm/mediatek: Get rid of mtk_smi_larb_get/put
+To: Yong Wu <yong.wu@mediatek.com>, Matthias Brugger
+ <matthias.bgg@gmail.com>, Joerg Roedel <joro@8bytes.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+ David Airlie <airlied@linux.ie>, Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <20210714025626.5528-1-yong.wu@mediatek.com>
+ <20210714025626.5528-8-yong.wu@mediatek.com>
+From: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Message-ID: <a0b487ec-5337-04da-2c97-f4992bf18394@collabora.com>
+Date: Wed, 14 Jul 2021 10:30:24 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="iaNpXtGtXkWeBPvi"
-Content-Disposition: inline
-In-Reply-To: <42252a14-f6b8-7e1b-90c2-1c741ba8223f@gmail.com>
-User-Agent: Mutt/2.1.1 (e2a89abc) (2021-07-12)
+In-Reply-To: <20210714025626.5528-8-yong.wu@mediatek.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,146 +49,172 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Mikko Perttunen <mperttunen@nvidia.com>
+Cc: Xia Jiang <xia.jiang@mediatek.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Will Deacon <will.deacon@arm.com>, dri-devel@lists.freedesktop.org,
+ anthony.huang@mediatek.com, youlin.pei@mediatek.com,
+ Nicolas Boichat <drinkcat@chromium.org>, Evan Green <evgreen@chromium.org>,
+ Eizan Miyamoto <eizan@chromium.org>, Matthias Kaehlcke <mka@chromium.org>,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org, yi.kuo@mediatek.com,
+ linux-mediatek@lists.infradead.org, Hsin-Yi Wang <hsinyi@chromium.org>,
+ ming-fan.chen@mediatek.com, Tiffany Lin <tiffany.lin@mediatek.com>,
+ linux-arm-kernel@lists.infradead.org, anan.sun@mediatek.com,
+ srv_heupstream@mediatek.com, acourbot@chromium.org,
+ linux-kernel@vger.kernel.org, Tomasz Figa <tfiga@chromium.org>,
+ iommu@lists.linux-foundation.org, Robin Murphy <robin.murphy@arm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---iaNpXtGtXkWeBPvi
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Sat, Jul 10, 2021 at 12:16:28AM +0300, Dmitry Osipenko wrote:
-> Hello Thierry,
->=20
-> 09.07.2021 22:31, Thierry Reding =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
-> > From: Thierry Reding <treding@nvidia.com>
-> >=20
-> > Hi all,
-> >=20
-> > Mikko has been away for a few weeks, so I've been testing and revising
-> > the new UABI patches in the meantime. There are very minor changes to
-> > the naming of some of the UABI fields, but other than that it's mostly
-> > unchanged from v7.
->=20
-> Why you haven't addressed any of the previous review comments? There
-> were some obvious problems in v7 and v8 still has them.
->=20
-> > One notable change is that mappings can now be read-only, write-only,
-> > read-write or none of them (rather than just read-only or read-write),
-> > since those combinations are all supported by the IOMMUs and it might
-> > be useful to make some mappings write-only.
-> >=20
-> > For a full list of changes in v8, see the changelog in patch 6.
-> >=20
-> > I've also updated the libdrm_tegra library to work against this version
-> > of the UABI. A branch can be found here:
-> >=20
-> >   https://gitlab.freedesktop.org/tagr/drm/-/commits/drm-tegra-uabi-v8
-> >=20
-> > That contains helper APIs for the concepts introduced in this series and
-> > shows how they can be used in various tests that can be run for sanity
-> > checking.
-> >=20
-> > In addition, Mikko has made updates to the following projects, though
-> > they may need to be updated for the minor changes in v8:
-> >=20
-> > * vaapi-tegra-driver - https://github.com/cyndis/vaapi-tegra-driver
-> >   Experimental support for MPEG2 and H264 decoding on T210, T186
-> >   and T194.
-> >=20
-> > * xf86-video-opentegra - https://github.com/grate-driver/xf86-video-ope=
-ntegra
-> >   X11 userspace acceleration driver for Tegra20, Tegra30, and Tegra114.
-> >=20
-> > * grate - https://github.com/grate-driver/grate
-> >   3D rendering testbed for Tegra20, Tegra30, and Tegra114
-> >=20
-> > I plan on putting this into linux-next soon after v5.14-rc1 so that this
-> > can get some soak time.
->=20
-> It should be a bit too early to push it into kernel. The UAPI is not
-> ready because it's missing essential features. We can't call this a
-> 'modern UABI' until it's fully implemented. The design decisions are
-> still questionable because this UAPI is built around the proprietary
-> firmware (and based on UAPI of downstream driver) which doesn't fit well
-> into DRM world. I haven't got all the answers to my previous questions,
-> should I repeat them?
+On 14.07.21 04:56, Yong Wu wrote:
+> MediaTek IOMMU has already added the device_link between the consumer
+> and smi-larb device. If the drm device call the pm_runtime_get_sync,
+> the smi-larb's pm_runtime_get_sync also be called automatically.
+> 
+> CC: CK Hu <ck.hu@mediatek.com>
+> CC: Philipp Zabel <p.zabel@pengutronix.de>
+> Signed-off-by: Yong Wu <yong.wu@mediatek.com>
+> Reviewed-by: Evan Green <evgreen@chromium.org>
+> Acked-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
 
-I don't know what you means by "built around the proprietary firmware".
-Yes, this ends up using proprietary firmware for some of the hardware
-engines that host1x drives, but that's completely orthogonal to the
-UABI. No matter what UABI we'd be introducing, we'd be using that same
-firmware.
+Reviewed-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
 
-And yes, this is based on the UABI of the downstream drivers. The design
-is guided by what we've learned over the last decade working with this
-hardware in use-cases that customers need. It'd be dumb not to use that
-knowledge to our advantage. This is the only way to ensure we can
-deliver an upstream driver that's on par with our downstream drivers and
-therefore make it possible to eventually adopt the upstream driver.
-
-And frankly, you did get answers to previous questions, though perhaps
-not all, but I'm out of patience. We've been going in circles and at
-some point we have to make a decision so we can make progress.
-
-I made several attempts over the years to get something usable merged
-upstream so that we can finally make use of this hardware and get it
-supported upstream and each time I made the mistake of trying to make it
-perfect and accomodate all wishlist items. The result is that I wasted a
-lot of time and have nothing to show for it.
-
-I've also been very hard Mikko with his work on this and I think we've
-stretched this as far as we can without compromising too much on what we
-are going to need from this UABI in the future.
-
-We've gone through the process of making sure all existing userspace can
-and does work with this new UABI and even left the old UABI in place in
-case we need it.
-
-I'm reasonably satisfied with what we have now and I don't see any
-reason to hold this back any further. We always have the option of
-adding UABI if we need it for something, or extend functionality of
-existing UABI where it makes sense. But we also do have to start
-somewhere, otherwise we're just not going to get anywhere, as the last
-10 years have shown.
-
-> UAPI is not the only problem that we have. The performance and stability
-> of the driver are in a very bad shape too. The modern UAPI can't be
-> built on top of the old code. It's clear now that this is a very serious
-> problem that must be addressed along with the UAPI work and I'm getting
-> silence from you guys.
-
-We've been over this multiple times before, though perhaps never over
-email. So let me make this clear here again and for future reference: we
-will *not* be rewriting the driver from scratch.
-
-If there are any serious performance and stability issues, then we'll
-find them and address them incrementally, like we always do in the
-kernel.
-
-Thierry
-
---iaNpXtGtXkWeBPvi
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmDuoJkACgkQ3SOs138+
-s6EV+g//bdNe9WGb3R8br/zGvyc0rsk8VnqtU4c85ANO8FQ8HgYDTVSwJ0rH2/Ne
-Gh+NPCW4MXoCK0lmzPXVTz+GhuuUaQuR5KrC0ng1vG3auvBYKEfUvLf6wnGDAHIv
-YbxFEz5Bk+Pu0TfNortVtDToOfNsokc7adsEkwb+bs04vatp83QHzEZ6DipEg3cL
-mizhJNvuo0mx0D2ApSj315VcOh55VhZl7IroAAGMlxDF3JlJhuIyphcav1DgJvdz
-NZdSW43xopUQ2EkoBDnETK9xGds3PGkFzWdKoE1MRcECAHlOia7vA1ejtxYP5sgi
-DXYHGtJDZ2gIXLSyUc61MFckyhzV3bZwIyvKm1HBiPzaR/BtsCp4gs100cojmb1+
-gyrcM9KdVwLr4CcRsRznW0p8OVarQWSqNcnMku7XimNLX47J5d54/Cm6KfJ7+key
-qW49begJ/ziUI8/weGaKetYwpLeNLd6mipySNjYb+9Uf8TQj70YW7DYx5rgMPve+
-icY4b07smjP4o5b+ERO9y27/chfudFmXmdTRyR4MP6HqUXIjNh/BuGWLyd/rA7n8
-BkI6uNo370yzQNV6zx0gim51mts0cuHWnBTVT34mGaKhCMm9E8+mbJDwCToZPmQE
-nLgFj5FULdGdxunIu0wB94wcSV/6OazySON5gmf17WjrF8sfN1U=
-=KoTy
------END PGP SIGNATURE-----
-
---iaNpXtGtXkWeBPvi--
+> ---
+>   drivers/gpu/drm/mediatek/mtk_drm_crtc.c     |  9 ------
+>   drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c | 36 ++-------------------
+>   drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h |  1 -
+>   drivers/gpu/drm/mediatek/mtk_drm_drv.c      |  5 +--
+>   4 files changed, 3 insertions(+), 48 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+> index 08e3f352377d..d046abcf66ce 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+> @@ -10,7 +10,6 @@
+>   #include <linux/soc/mediatek/mtk-mutex.h>
+>   
+>   #include <asm/barrier.h>
+> -#include <soc/mediatek/smi.h>
+>   
+>   #include <drm/drm_atomic.h>
+>   #include <drm/drm_atomic_helper.h>
+> @@ -551,12 +550,6 @@ static void mtk_drm_crtc_atomic_enable(struct drm_crtc *crtc,
+>   
+>   	DRM_DEBUG_DRIVER("%s %d\n", __func__, crtc->base.id);
+>   
+> -	ret = mtk_smi_larb_get(comp->larb_dev);
+> -	if (ret) {
+> -		DRM_ERROR("Failed to get larb: %d\n", ret);
+> -		return;
+> -	}
+> -
+>   	ret = pm_runtime_resume_and_get(comp->dev);
+>   	if (ret < 0)
+>   		DRM_DEV_ERROR(comp->dev, "Failed to enable power domain: %d\n",
+> @@ -564,7 +557,6 @@ static void mtk_drm_crtc_atomic_enable(struct drm_crtc *crtc,
+>   
+>   	ret = mtk_crtc_ddp_hw_init(mtk_crtc);
+>   	if (ret) {
+> -		mtk_smi_larb_put(comp->larb_dev);
+>   		pm_runtime_put(comp->dev);
+>   		return;
+>   	}
+> @@ -601,7 +593,6 @@ static void mtk_drm_crtc_atomic_disable(struct drm_crtc *crtc,
+>   
+>   	drm_crtc_vblank_off(crtc);
+>   	mtk_crtc_ddp_hw_fini(mtk_crtc);
+> -	mtk_smi_larb_put(comp->larb_dev);
+>   	ret = pm_runtime_put(comp->dev);
+>   	if (ret < 0)
+>   		DRM_DEV_ERROR(comp->dev, "Failed to disable power domain: %d\n",
+> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
+> index 75bc00e17fc4..7d240218d4c7 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
+> @@ -449,37 +449,15 @@ unsigned int mtk_drm_find_possible_crtc_by_comp(struct drm_device *drm,
+>   	return ret;
+>   }
+>   
+> -static int mtk_ddp_get_larb_dev(struct device_node *node, struct mtk_ddp_comp *comp,
+> -				struct device *dev)
+> -{
+> -	struct device_node *larb_node;
+> -	struct platform_device *larb_pdev;
+> -
+> -	larb_node = of_parse_phandle(node, "mediatek,larb", 0);
+> -	if (!larb_node) {
+> -		dev_err(dev, "Missing mediadek,larb phandle in %pOF node\n", node);
+> -		return -EINVAL;
+> -	}
+> -
+> -	larb_pdev = of_find_device_by_node(larb_node);
+> -	if (!larb_pdev) {
+> -		dev_warn(dev, "Waiting for larb device %pOF\n", larb_node);
+> -		of_node_put(larb_node);
+> -		return -EPROBE_DEFER;
+> -	}
+> -	of_node_put(larb_node);
+> -	comp->larb_dev = &larb_pdev->dev;
+> -
+> -	return 0;
+> -}
+> -
+>   int mtk_ddp_comp_init(struct device_node *node, struct mtk_ddp_comp *comp,
+>   		      enum mtk_ddp_comp_id comp_id)
+>   {
+>   	struct platform_device *comp_pdev;
+>   	enum mtk_ddp_comp_type type;
+>   	struct mtk_ddp_comp_dev *priv;
+> +#if IS_REACHABLE(CONFIG_MTK_CMDQ)
+>   	int ret;
+> +#endif
+>   
+>   	if (comp_id < 0 || comp_id >= DDP_COMPONENT_ID_MAX)
+>   		return -EINVAL;
+> @@ -495,16 +473,6 @@ int mtk_ddp_comp_init(struct device_node *node, struct mtk_ddp_comp *comp,
+>   	}
+>   	comp->dev = &comp_pdev->dev;
+>   
+> -	/* Only DMA capable components need the LARB property */
+> -	if (type == MTK_DISP_OVL ||
+> -	    type == MTK_DISP_OVL_2L ||
+> -	    type == MTK_DISP_RDMA ||
+> -	    type == MTK_DISP_WDMA) {
+> -		ret = mtk_ddp_get_larb_dev(node, comp, comp->dev);
+> -		if (ret)
+> -			return ret;
+> -	}
+> -
+>   	if (type == MTK_DISP_BLS ||
+>   	    type == MTK_DISP_CCORR ||
+>   	    type == MTK_DISP_COLOR ||
+> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
+> index bb914d976cf5..1b582262b682 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
+> +++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
+> @@ -70,7 +70,6 @@ struct mtk_ddp_comp_funcs {
+>   struct mtk_ddp_comp {
+>   	struct device *dev;
+>   	int irq;
+> -	struct device *larb_dev;
+>   	enum mtk_ddp_comp_id id;
+>   	const struct mtk_ddp_comp_funcs *funcs;
+>   };
+> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+> index b46bdb8985da..0d5ef3d8d081 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+> @@ -577,11 +577,8 @@ static int mtk_drm_probe(struct platform_device *pdev)
+>   	pm_runtime_disable(dev);
+>   err_node:
+>   	of_node_put(private->mutex_node);
+> -	for (i = 0; i < DDP_COMPONENT_ID_MAX; i++) {
+> +	for (i = 0; i < DDP_COMPONENT_ID_MAX; i++)
+>   		of_node_put(private->comp_node[i]);
+> -		if (private->ddp_comp[i].larb_dev)
+> -			put_device(private->ddp_comp[i].larb_dev);
+> -	}
+>   	return ret;
+>   }
+>   
+> 
