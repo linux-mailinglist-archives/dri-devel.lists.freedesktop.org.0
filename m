@@ -1,43 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5264A3C802D
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Jul 2021 10:32:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CAED93C8055
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Jul 2021 10:35:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 874B86E1B2;
-	Wed, 14 Jul 2021 08:32:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E84626E1B6;
+	Wed, 14 Jul 2021 08:35:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB7096E1B2
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jul 2021 08:32:37 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 407AB6E1B6
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Jul 2021 08:35:16 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
  [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id EF960CC;
- Wed, 14 Jul 2021 10:32:35 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id B0871CC;
+ Wed, 14 Jul 2021 10:35:14 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1626251556;
- bh=jKDxdCR/47jG5iunXdfBy5N82ZjyM5+IZvoSipRRYFQ=;
+ s=mail; t=1626251714;
+ bh=Twf37gpHkRFjIZj4IaTADsPtFGmGBJ8mFS3zLfz31Og=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=MPwRm6krENd5glAHM+t2YcpCx17rA11v9T9jJBX0LtPAeALZMivtNOUYAnT1Pk0Qv
- j88ETcxfAbZ4gBvsmbOPh1tIma46LxIt8CAAFrx6lWEfrlsr2zgGA6+IxV3IpEg7S8
- exLHrb8bHdW05GPVPTC4gWiKsNxE/bGFLoFIk7tE=
-Date: Wed, 14 Jul 2021 11:32:35 +0300
+ b=lEupGLOMyaIutQvPv2pGN3xj08n77MWY4dL4fUFY3/SfUUAMnY56K1aqB4nfJHjf5
+ zklaNCszTZ5hpvQOdSyWmHLbYsutRTAVjIBzCDSWn0n4AIbp19vlYeLXJKiarSubvA
+ GXTQ5jDIVqDpQDkkQhC3MN+xswFRnfIGVu/HuHF0=
+Date: Wed, 14 Jul 2021 11:35:13 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Xin Ji <xji@analogixsemi.com>
-Subject: Re: [PATCH v9 1/4] dt-bindings:drm/bridge:anx7625:add vendor define
- flags
-Message-ID: <YO6hIzlOuMsDXztW@pendragon.ideasonboard.com>
-References: <cover.1624349479.git.xji@analogixsemi.com>
- <308427448195e2db37a32997c6d32905c96ca876.1624349480.git.xji@analogixsemi.com>
- <CAG3jFys6D=-L-Aez4aWuE4nM7qJCtn4wPws3TKxbkRzcAoFR0A@mail.gmail.com>
- <20210707073051.GA936385@anxtwsw-Precision-3640-Tower>
+To: Steven Price <steven.price@arm.com>
+Subject: Re: [PATCH] drm/of: free the iterator object on failure
+Message-ID: <YO6hwQwo1/BaaOZ3@pendragon.ideasonboard.com>
+References: <20210712155758.48286-1-steven.price@arm.com>
+ <YOxyvIoJcZFAgUz5@pendragon.ideasonboard.com>
+ <b420a4e6-8038-6c1e-7c97-75ef3bea3c21@arm.com>
+ <YOy6VQNz8Htg6Usb@pendragon.ideasonboard.com>
+ <5c3db755-c3fb-dfe7-3d23-bbbcc81af3d8@arm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210707073051.GA936385@anxtwsw-Precision-3640-Tower>
+In-Reply-To: <5c3db755-c3fb-dfe7-3d23-bbbcc81af3d8@arm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,143 +50,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nicolas Boichat <drinkcat@google.com>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
- Ricardo =?utf-8?Q?Ca=C3=B1uelo?= <ricardo.canuelo@collabora.com>,
- Mark Brown <broonie@kernel.org>, Zhen Li <zhenli@analogixsemi.com>,
- linux-kernel@vger.kernel.org, Robert Foss <robert.foss@linaro.org>,
- Rob Herring <robh+dt@kernel.org>, Hsin-Yi Wang <hsinyi@chromium.org>,
- Sam Ravnborg <sam@ravnborg.org>, Bernie Liang <bliang@analogixsemi.com>,
- Sheng Pan <span@analogixsemi.com>
+Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Biju Das <biju.das.jz@bp.renesas.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Xin,
+Hi Steven,
 
-On Wed, Jul 07, 2021 at 03:30:51PM +0800, Xin Ji wrote:
-> On Thu, Jun 24, 2021 at 01:57:22PM +0200, Robert Foss wrote:
-> > Hey Xin,
+On Tue, Jul 13, 2021 at 05:16:16PM +0100, Steven Price wrote:
+> On 12/07/2021 22:55, Laurent Pinchart wrote:
+> > On Mon, Jul 12, 2021 at 10:31:52PM +0100, Steven Price wrote:
+> >> On 12/07/2021 17:50, Laurent Pinchart wrote:
+> >>> On Mon, Jul 12, 2021 at 04:57:58PM +0100, Steven Price wrote:
+> >>>> When bailing out due to the sanity check the iterator value needs to be
+> >>>> freed because the early return prevents for_each_child_of_node() from
+> >>>> doing the dereference itself.
+> >>>>
+> >>>> Fixes: 4ee48cc5586b ("drm: of: Fix double-free bug")
+> >>>
+> >>> I don't think the Fixes tag is correct, the issue was already present
+> >>> before 4ee48cc5586b. The fix looks right though.
+> >>
+> >> I'm not sure quite what you mean by "already present". As I understand
+> >> it the timeline was:
+> >>
+> >> 1. 6529007522de drm: of: Add drm_of_lvds_get_dual_link_pixel_order
+> >>    The function was originally added. This made the mistake twice of
+> >>    calling of_node_put() on the wrong variable (remote_port rather than
+> >>    endpoint).
 > > 
-> > I would like to merge this series now, but this patch needs a review
-> > first. Maybe Laurent/Rob Herring are good candidates.
->
-> Hi Rob, I get Laurent/Rob comments before, and explained why we needs
-> these DT properties, so far, I didn't get any response.
+> > Correct.
+> > 
+> >> 2. 4ee48cc5586b drm: of: Fix double-free bug
+> >>    One of the of_node_put() calls was removed as it was a double-free.
+> >>    This left the first incorrect of_node_put() in place, and the second
+> >>    is now a straight leak.
+> > 
+> > That's right, but this commit didn't introduce the leak, it was already
+> > there in 6529007522de (in addition to the double-free).
 > 
-> Hi Rob Herring and Laurent, for the DT property lane0/1-swing, Google
-> engineer has strong demond for them, they don't want to move DP swing
-> adjusting to kernel, thus may cause change the driver code in each
-> project, so config them in DT is a best option.
+> Ah, I see what you mean. My thought process was that the original
+> comment had the bug "using the wrong variable", and (2) (partially)
+> fixed that but in the process introduced a new bug (a memory leak). But
+> I guess technically the memory leak was there from the beginning.
+> 
+> The other reason I referenced (2) in the Fixes line is because this
+> patch depends on patch (2), whereas it won't apply cleanly without.
+> 
+> However I don't think it really matters either way: (2) has already been
+> backported, and either way this needs fixing if either (1) or (2) are
+> present.
+> 
+> Would you like me to resend with a "Fixes: 6529007522de drm: of: Add
+> drm_of_lvds_get_dual_link_pixel_order", or are you happy to just fix
+> this up when merging?
 
-Hardcoding it in the driver is certainly not a good option, but
-hardcoding it in DT isn't either unless you can explain how the value
-should be computed. "Contact the vendor" isn't good enough.
+I don't mind either way, from my point of view it can be fixed up by
+whoever will pick the patch up and merge it.
 
-> > On Tue, 22 Jun 2021 at 14:31, Xin Ji <xji@analogixsemi.com> wrote:
-> > >
-> > > Add 'bus-type' and 'data-lanes' define for port0. Define DP tx lane0,
-> > > lane1 swing register array define, and audio enable flag.
-> > >
-> > > Signed-off-by: Xin Ji <xji@analogixsemi.com>
-> > > ---
-> > >  .../display/bridge/analogix,anx7625.yaml      | 57 ++++++++++++++++++-
-> > >  1 file changed, 56 insertions(+), 1 deletion(-)
-> > >
-> > > diff --git a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
-> > > index ab48ab2f4240..9e604d19a3d5 100644
-> > > --- a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
-> > > +++ b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
-> > > @@ -43,6 +43,26 @@ properties:
-> > >    vdd33-supply:
-> > >      description: Regulator that provides the supply 3.3V power.
-> > >
-> > > +  analogix,lane0-swing:
-> > > +    $ref: /schemas/types.yaml#/definitions/uint32-array
-> > > +    minItems: 1
-> > > +    maxItems: 20
-> > > +    description:
-> > > +      an array of swing register setting for DP tx lane0 PHY, please don't
-> > > +      add this property, or contact vendor.
-> > > +
-> > > +  analogix,lane1-swing:
-> > > +    $ref: /schemas/types.yaml#/definitions/uint32-array
-> > > +    minItems: 1
-> > > +    maxItems: 20
-> > > +    description:
-> > > +      an array of swing register setting for DP tx lane1 PHY, please don't
-> > > +      add this property, or contact vendor.
-> > > +
-> > > +  analogix,audio-enable:
-> > > +    type: boolean
-> > > +    description: let the driver enable audio HDMI codec function or not.
-> > > +
-> > >    ports:
-> > >      $ref: /schemas/graph.yaml#/properties/ports
-> > >
-> > > @@ -50,13 +70,43 @@ properties:
-> > >        port@0:
-> > >          $ref: /schemas/graph.yaml#/properties/port
-> > >          description:
-> > > -          Video port for MIPI DSI input.
-> > > +          MIPI DSI/DPI input.
-> > > +
-> > > +        properties:
-> > > +          endpoint:
-> > > +            $ref: /schemas/media/video-interfaces.yaml#
-> > > +            type: object
-> > > +            additionalProperties: false
-> > > +
-> > > +            properties:
-> > > +              remote-endpoint: true
-> > > +              bus-type: true
-> > > +              data-lanes: true
-> > > +
-> > > +            required:
-> > > +              - remote-endpoint
-> > > +
-> > > +        required:
-> > > +          - endpoint
-> > > +
-> > >
-> > >        port@1:
-> > >          $ref: /schemas/graph.yaml#/properties/port
-> > >          description:
-> > >            Video port for panel or connector.
-> > >
-> > > +        properties:
-> > > +          endpoint:
-> > > +            $ref: /schemas/media/video-interfaces.yaml#
-> > > +            type: object
-> > > +            additionalProperties: false
-> > > +
-> > > +            properties:
-> > > +              remote-endpoint: true
-> > > +
-> > > +            required:
-> > > +              - remote-endpoint
-> > > +
-> > >      required:
-> > >        - port@0
-> > >        - port@1
-> > > @@ -87,6 +137,9 @@ examples:
-> > >              vdd10-supply = <&pp1000_mipibrdg>;
-> > >              vdd18-supply = <&pp1800_mipibrdg>;
-> > >              vdd33-supply = <&pp3300_mipibrdg>;
-> > > +            analogix,audio-enable;
-> > > +            analogix,lane0-swing = <0x14 0x54 0x64 0x74 0x29 0x7b 0x77 0x5b>;
-> > > +            analogix,lane1-swing = <0x14 0x54 0x64 0x74 0x29 0x7b 0x77 0x5b>;
-> > >
-> > >              ports {
-> > >                  #address-cells = <1>;
-> > > @@ -96,6 +149,8 @@ examples:
-> > >                      reg = <0>;
-> > >                      anx7625_in: endpoint {
-> > >                          remote-endpoint = <&mipi_dsi>;
-> > > +                        bus-type = <5>;
-> > > +                        data-lanes = <0 1 2 3>;
-> > >                      };
-> > >                  };
-> > >
+> >> 3. b557a5f8da57 drm/of: free the right object
+> >>    This (correctly) fixes the first of_node_put() to free endpoint. And
+> >>    the post from Daniel was what caused me to look.
+> >>
+> >> 4. This patch
+> >>    Reintroduces the of_node_put() removed in (2) but putting endpoint
+> >>    rather than remote_port.
+> >>
+> >> I've put (2) in the Fixes line as this patch is fixing the leak
+> >> introduced by that patch, but that in itself was of course 'fixing' the
+> >> double free of the original patch.
+> >>
+> >>>> Signed-off-by: Steven Price <steven.price@arm.com>
+> >>>> ---
+> >>>>  drivers/gpu/drm/drm_of.c | 4 +++-
+> >>>>  1 file changed, 3 insertions(+), 1 deletion(-)
+> >>>>
+> >>>> Daniel's email[1] made me take a look at this function and it appears
+> >>>> that for_each_child_of_node()'s interface had caused a bad bug fix due
+> >>>> to the hidden reference counting in the iterator.
+> >>>>
+> >>>> [1] https://lore.kernel.org/r/YOxQ5TbkNrqCGBDJ%40phenom.ffwll.local
+> >>>>
+> >>>> diff --git a/drivers/gpu/drm/drm_of.c b/drivers/gpu/drm/drm_of.c
+> >>>> index 197c57477344..997b8827fed2 100644
+> >>>> --- a/drivers/gpu/drm/drm_of.c
+> >>>> +++ b/drivers/gpu/drm/drm_of.c
+> >>>> @@ -331,8 +331,10 @@ static int drm_of_lvds_get_remote_pixels_type(
+> >>>>  		 * configurations by passing the endpoints explicitly to
+> >>>>  		 * drm_of_lvds_get_dual_link_pixel_order().
+> >>>>  		 */
+> >>>> -		if (!current_pt || pixels_type != current_pt)
+> >>>> +		if (!current_pt || pixels_type != current_pt) {
+> >>>> +			of_node_put(endpoint);
+> >>>>  			return -EINVAL;
+> >>>> +		}
+> >>>>  	}
+> >>>>  
+> >>>>  	return pixels_type;
 
 -- 
 Regards,
