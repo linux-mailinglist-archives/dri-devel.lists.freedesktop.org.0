@@ -2,28 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5ABC83C7D3C
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Jul 2021 06:14:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C754A3C7D3A
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Jul 2021 06:14:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 390F56E156;
-	Wed, 14 Jul 2021 04:14:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F200689EF7;
+	Wed, 14 Jul 2021 04:14:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from EX13-EDG-OU-002.vmware.com (ex13-edg-ou-002.vmware.com
  [208.91.0.190])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C1926E156
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 747E689EF7
  for <dri-devel@lists.freedesktop.org>; Wed, 14 Jul 2021 04:14:20 +0000 (UTC)
 Received: from sc9-mailhost1.vmware.com (10.113.161.71) by
  EX13-EDG-OU-002.vmware.com (10.113.208.156) with Microsoft SMTP Server id
  15.0.1156.6; Tue, 13 Jul 2021 21:14:16 -0700
 Received: from vertex.localdomain (unknown [10.21.244.34])
- by sc9-mailhost1.vmware.com (Postfix) with ESMTP id 8DFBF20250;
- Tue, 13 Jul 2021 21:14:18 -0700 (PDT)
+ by sc9-mailhost1.vmware.com (Postfix) with ESMTP id 178C32024A;
+ Tue, 13 Jul 2021 21:14:19 -0700 (PDT)
 From: Zack Rusin <zackr@vmware.com>
 To: <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 2/4] drm/vmwgfx: Switch to using DRM_IOCTL_DEF_DRV
-Date: Wed, 14 Jul 2021 00:14:15 -0400
-Message-ID: <20210714041417.221947-2-zackr@vmware.com>
+Subject: [PATCH 3/4] drm/vmwgfx: Be a lot more flexible with MOB limits
+Date: Wed, 14 Jul 2021 00:14:16 -0400
+Message-ID: <20210714041417.221947-3-zackr@vmware.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210714041417.221947-1-zackr@vmware.com>
 References: <20210714041417.221947-1-zackr@vmware.com>
@@ -48,218 +48,109 @@ Cc: Martin Krastev <krastevm@vmware.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The macro has been accounting for DRM_COMMAND_BASE for a long time
-now so there's no reason to still be duplicating it. Plus we were
-leaving the name undefined which meant that all the DRM ioctl
-warnings/errors were always listing "null" ioctl at the culprit.
+The code was trying to keep a strict limit on the amount of mob
+memory that was used in the guest by making it match the host
+settings. There's technically no reason to do that (guests can
+certainly use more than the host can have resident in renderers
+at the same time).
 
-This fixes the undefined ioctl name and removes duplicated code.
+In particular this is problematic because our userspace is not
+great at handling OOM conditions and running out of MOB space
+results in GL apps crashing, e.g. gnome-shell likes to allocate
+huge surfaces (~61MB for the desktop on 2560x1600 with two workspaces)
+and running out of memory there means that the gnome-shell crashes
+on startup taking us back to the login and resulting in a system
+where one can not login in graphically anymore.
+
+Instead of letting the userspace crash we can extend available
+MOB space, we just don't want to use all of the RAM for graphics,
+so we're going to limit it to half of RAM.
+
+With the addition of some extra logging this should make the
+"guest has been configured with not enough graphics memory"
+errors a lot easier to diagnose in cases where the automatic
+expansion of MOB space fails.
 
 Signed-off-by: Zack Rusin <zackr@vmware.com>
 Reviewed-by: Martin Krastev <krastevm@vmware.com>
 ---
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.c | 176 +++++++++++++---------------
- 1 file changed, 84 insertions(+), 92 deletions(-)
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.c           |  8 ++++-
+ drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c | 36 +++++++++++++++++--
+ 2 files changed, 41 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-index 7d8cc2f6b04e..359f2e6f3693 100644
+index 359f2e6f3693..a9195c472b75 100644
 --- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
 +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-@@ -159,110 +159,102 @@
- 	DRM_IOW(DRM_COMMAND_BASE + DRM_VMW_MKSSTAT_REMOVE,	\
- 		struct drm_vmw_mksstat_remove_arg)
- 
--/*
-- * The core DRM version of this macro doesn't account for
-- * DRM_COMMAND_BASE.
-- */
--
--#define VMW_IOCTL_DEF(ioctl, func, flags) \
--  [DRM_IOCTL_NR(DRM_IOCTL_##ioctl) - DRM_COMMAND_BASE] = {DRM_IOCTL_##ioctl, flags, func}
--
- /*
-  * Ioctl definitions.
-  */
- 
- static const struct drm_ioctl_desc vmw_ioctls[] = {
--	VMW_IOCTL_DEF(VMW_GET_PARAM, vmw_getparam_ioctl,
--		      DRM_RENDER_ALLOW),
--	VMW_IOCTL_DEF(VMW_ALLOC_DMABUF, vmw_bo_alloc_ioctl,
--		      DRM_RENDER_ALLOW),
--	VMW_IOCTL_DEF(VMW_UNREF_DMABUF, vmw_bo_unref_ioctl,
--		      DRM_RENDER_ALLOW),
--	VMW_IOCTL_DEF(VMW_CURSOR_BYPASS,
--		      vmw_kms_cursor_bypass_ioctl,
--		      DRM_MASTER),
--
--	VMW_IOCTL_DEF(VMW_CONTROL_STREAM, vmw_overlay_ioctl,
--		      DRM_MASTER),
--	VMW_IOCTL_DEF(VMW_CLAIM_STREAM, vmw_stream_claim_ioctl,
--		      DRM_MASTER),
--	VMW_IOCTL_DEF(VMW_UNREF_STREAM, vmw_stream_unref_ioctl,
--		      DRM_MASTER),
--
--	VMW_IOCTL_DEF(VMW_CREATE_CONTEXT, vmw_context_define_ioctl,
--		      DRM_RENDER_ALLOW),
--	VMW_IOCTL_DEF(VMW_UNREF_CONTEXT, vmw_context_destroy_ioctl,
--		      DRM_RENDER_ALLOW),
--	VMW_IOCTL_DEF(VMW_CREATE_SURFACE, vmw_surface_define_ioctl,
--		      DRM_RENDER_ALLOW),
--	VMW_IOCTL_DEF(VMW_UNREF_SURFACE, vmw_surface_destroy_ioctl,
--		      DRM_RENDER_ALLOW),
--	VMW_IOCTL_DEF(VMW_REF_SURFACE, vmw_surface_reference_ioctl,
--		      DRM_RENDER_ALLOW),
--	VMW_IOCTL_DEF(VMW_EXECBUF, vmw_execbuf_ioctl,
--		      DRM_RENDER_ALLOW),
--	VMW_IOCTL_DEF(VMW_FENCE_WAIT, vmw_fence_obj_wait_ioctl,
--		      DRM_RENDER_ALLOW),
--	VMW_IOCTL_DEF(VMW_FENCE_SIGNALED,
--		      vmw_fence_obj_signaled_ioctl,
--		      DRM_RENDER_ALLOW),
--	VMW_IOCTL_DEF(VMW_FENCE_UNREF, vmw_fence_obj_unref_ioctl,
--		      DRM_RENDER_ALLOW),
--	VMW_IOCTL_DEF(VMW_FENCE_EVENT, vmw_fence_event_ioctl,
--		      DRM_RENDER_ALLOW),
--	VMW_IOCTL_DEF(VMW_GET_3D_CAP, vmw_get_cap_3d_ioctl,
--		      DRM_RENDER_ALLOW),
-+	DRM_IOCTL_DEF_DRV(VMW_GET_PARAM, vmw_getparam_ioctl,
-+			  DRM_RENDER_ALLOW),
-+	DRM_IOCTL_DEF_DRV(VMW_ALLOC_DMABUF, vmw_bo_alloc_ioctl,
-+			  DRM_RENDER_ALLOW),
-+	DRM_IOCTL_DEF_DRV(VMW_UNREF_DMABUF, vmw_bo_unref_ioctl,
-+			  DRM_RENDER_ALLOW),
-+	DRM_IOCTL_DEF_DRV(VMW_CURSOR_BYPASS,
-+			  vmw_kms_cursor_bypass_ioctl,
-+			  DRM_MASTER),
+@@ -948,6 +948,13 @@ static int vmw_driver_load(struct vmw_private *dev_priv, u32 pci_id)
+ 		dev_priv->texture_max_height = 8192;
+ 		dev_priv->max_primary_mem = dev_priv->vram_size;
+ 	}
++	DRM_INFO("Legacy memory limits: VRAM = %llu kB, FIFO = %llu kB, surface = %u kB\n",
++		 (u64)dev_priv->vram_size / 1024,
++		 (u64)dev_priv->fifo_mem_size / 1024,
++		 dev_priv->memory_size / 1024);
 +
-+	DRM_IOCTL_DEF_DRV(VMW_CONTROL_STREAM, vmw_overlay_ioctl,
-+			  DRM_MASTER),
-+	DRM_IOCTL_DEF_DRV(VMW_CLAIM_STREAM, vmw_stream_claim_ioctl,
-+			  DRM_MASTER),
-+	DRM_IOCTL_DEF_DRV(VMW_UNREF_STREAM, vmw_stream_unref_ioctl,
-+			  DRM_MASTER),
++	DRM_INFO("MOB limits: max mob size = %u kB, max mob pages = %u\n",
++		 dev_priv->max_mob_size / 1024, dev_priv->max_mob_pages);
+ 
+ 	vmw_print_capabilities(dev_priv->capabilities);
+ 	if (dev_priv->capabilities & SVGA_CAP_CAP2_REGISTER)
+@@ -1094,7 +1101,6 @@ static int vmw_driver_load(struct vmw_private *dev_priv, u32 pci_id)
+ 		DRM_INFO("SM4_1 support available.\n");
+ 	if (dev_priv->sm_type == VMW_SM_4)
+ 		DRM_INFO("SM4 support available.\n");
+-	DRM_INFO("Running without reservation semaphore\n");
+ 
+ 	vmw_host_printf("vmwgfx: Module Version: %d.%d.%d (kernel: %s)",
+ 			VMWGFX_DRIVER_MAJOR, VMWGFX_DRIVER_MINOR,
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c b/drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c
+index 28ceb749a733..b2c4af331c9d 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c
+@@ -71,8 +71,40 @@ static int vmw_gmrid_man_get_node(struct ttm_resource_manager *man,
+ 
+ 	if (gman->max_gmr_pages > 0) {
+ 		gman->used_gmr_pages += (*res)->num_pages;
+-		if (unlikely(gman->used_gmr_pages > gman->max_gmr_pages))
+-			goto nospace;
++		/*
++		 * Because the graphics memory is a soft limit we can try to
++		 * expand it instead of letting the userspace apps crash.
++		 * We're just going to have a sane limit (half of RAM)
++		 * on the number of MOB's that we create and will try to keep
++		 * the system running until we reach that.
++		 */
++		if (unlikely(gman->used_gmr_pages > gman->max_gmr_pages)) {
++			const unsigned long max_graphics_pages = totalram_pages() / 2;
++			uint32_t new_max_pages = 0;
 +
-+	DRM_IOCTL_DEF_DRV(VMW_CREATE_CONTEXT, vmw_context_define_ioctl,
-+			  DRM_RENDER_ALLOW),
-+	DRM_IOCTL_DEF_DRV(VMW_UNREF_CONTEXT, vmw_context_destroy_ioctl,
-+			  DRM_RENDER_ALLOW),
-+	DRM_IOCTL_DEF_DRV(VMW_CREATE_SURFACE, vmw_surface_define_ioctl,
-+			  DRM_RENDER_ALLOW),
-+	DRM_IOCTL_DEF_DRV(VMW_UNREF_SURFACE, vmw_surface_destroy_ioctl,
-+			  DRM_RENDER_ALLOW),
-+	DRM_IOCTL_DEF_DRV(VMW_REF_SURFACE, vmw_surface_reference_ioctl,
-+			  DRM_RENDER_ALLOW),
-+	DRM_IOCTL_DEF_DRV(VMW_EXECBUF, vmw_execbuf_ioctl,
-+			  DRM_RENDER_ALLOW),
-+	DRM_IOCTL_DEF_DRV(VMW_FENCE_WAIT, vmw_fence_obj_wait_ioctl,
-+			  DRM_RENDER_ALLOW),
-+	DRM_IOCTL_DEF_DRV(VMW_FENCE_SIGNALED,
-+			  vmw_fence_obj_signaled_ioctl,
-+			  DRM_RENDER_ALLOW),
-+	DRM_IOCTL_DEF_DRV(VMW_FENCE_UNREF, vmw_fence_obj_unref_ioctl,
-+			  DRM_RENDER_ALLOW),
-+	DRM_IOCTL_DEF_DRV(VMW_FENCE_EVENT, vmw_fence_event_ioctl,
-+			  DRM_RENDER_ALLOW),
-+	DRM_IOCTL_DEF_DRV(VMW_GET_3D_CAP, vmw_get_cap_3d_ioctl,
-+			  DRM_RENDER_ALLOW),
++			DRM_WARN("vmwgfx: mob memory overflow. Consider increasing guest RAM and graphicsMemory.\n");
++			vmw_host_printf("vmwgfx, warning: mob memory overflow. Consider increasing guest RAM and graphicsMemory.\n");
++
++			if (gman->max_gmr_pages > (max_graphics_pages / 2)) {
++				DRM_WARN("vmwgfx: guest requires more than half of RAM for graphics.\n");
++				new_max_pages = max_graphics_pages;
++			} else
++				new_max_pages = gman->max_gmr_pages * 2;
++			if (new_max_pages > gman->max_gmr_pages && new_max_pages >= gman->used_gmr_pages) {
++				DRM_WARN("vmwgfx: increasing guest mob limits to %u kB.\n",
++					 ((new_max_pages) << (PAGE_SHIFT - 10)));
++
++				gman->max_gmr_pages = new_max_pages;
++			} else {
++				char buf[256];
++				snprintf(buf, sizeof(buf),
++					 "vmwgfx, error: guest graphics is out of memory (mob limit at: %ukB).\n",
++					 ((gman->max_gmr_pages) << (PAGE_SHIFT - 10)));
++				vmw_host_printf(buf);
++				DRM_WARN("%s", buf);
++				goto nospace;
++			}
++		}
+ 	}
  
- 	/* these allow direct access to the framebuffers mark as master only */
--	VMW_IOCTL_DEF(VMW_PRESENT, vmw_present_ioctl,
--		      DRM_MASTER | DRM_AUTH),
--	VMW_IOCTL_DEF(VMW_PRESENT_READBACK,
--		      vmw_present_readback_ioctl,
--		      DRM_MASTER | DRM_AUTH),
-+	DRM_IOCTL_DEF_DRV(VMW_PRESENT, vmw_present_ioctl,
-+			  DRM_MASTER | DRM_AUTH),
-+	DRM_IOCTL_DEF_DRV(VMW_PRESENT_READBACK,
-+			  vmw_present_readback_ioctl,
-+			  DRM_MASTER | DRM_AUTH),
- 	/*
- 	 * The permissions of the below ioctl are overridden in
- 	 * vmw_generic_ioctl(). We require either
- 	 * DRM_MASTER or capable(CAP_SYS_ADMIN).
- 	 */
--	VMW_IOCTL_DEF(VMW_UPDATE_LAYOUT,
--		      vmw_kms_update_layout_ioctl,
--		      DRM_RENDER_ALLOW),
--	VMW_IOCTL_DEF(VMW_CREATE_SHADER,
--		      vmw_shader_define_ioctl,
--		      DRM_RENDER_ALLOW),
--	VMW_IOCTL_DEF(VMW_UNREF_SHADER,
--		      vmw_shader_destroy_ioctl,
--		      DRM_RENDER_ALLOW),
--	VMW_IOCTL_DEF(VMW_GB_SURFACE_CREATE,
--		      vmw_gb_surface_define_ioctl,
--		      DRM_RENDER_ALLOW),
--	VMW_IOCTL_DEF(VMW_GB_SURFACE_REF,
--		      vmw_gb_surface_reference_ioctl,
--		      DRM_RENDER_ALLOW),
--	VMW_IOCTL_DEF(VMW_SYNCCPU,
--		      vmw_user_bo_synccpu_ioctl,
--		      DRM_RENDER_ALLOW),
--	VMW_IOCTL_DEF(VMW_CREATE_EXTENDED_CONTEXT,
--		      vmw_extended_context_define_ioctl,
--		      DRM_RENDER_ALLOW),
--	VMW_IOCTL_DEF(VMW_GB_SURFACE_CREATE_EXT,
--		      vmw_gb_surface_define_ext_ioctl,
--		      DRM_RENDER_ALLOW),
--	VMW_IOCTL_DEF(VMW_GB_SURFACE_REF_EXT,
--		      vmw_gb_surface_reference_ext_ioctl,
--		      DRM_RENDER_ALLOW),
--	VMW_IOCTL_DEF(VMW_MSG,
--		      vmw_msg_ioctl,
--		      DRM_RENDER_ALLOW),
--	VMW_IOCTL_DEF(VMW_MKSSTAT_RESET,
--		      vmw_mksstat_reset_ioctl,
--		      DRM_RENDER_ALLOW),
--	VMW_IOCTL_DEF(VMW_MKSSTAT_ADD,
--		      vmw_mksstat_add_ioctl,
--		      DRM_RENDER_ALLOW),
--	VMW_IOCTL_DEF(VMW_MKSSTAT_REMOVE,
--		      vmw_mksstat_remove_ioctl,
--		      DRM_RENDER_ALLOW),
-+	DRM_IOCTL_DEF_DRV(VMW_UPDATE_LAYOUT,
-+			  vmw_kms_update_layout_ioctl,
-+			  DRM_RENDER_ALLOW),
-+	DRM_IOCTL_DEF_DRV(VMW_CREATE_SHADER,
-+			  vmw_shader_define_ioctl,
-+			  DRM_RENDER_ALLOW),
-+	DRM_IOCTL_DEF_DRV(VMW_UNREF_SHADER,
-+			  vmw_shader_destroy_ioctl,
-+			  DRM_RENDER_ALLOW),
-+	DRM_IOCTL_DEF_DRV(VMW_GB_SURFACE_CREATE,
-+			  vmw_gb_surface_define_ioctl,
-+			  DRM_RENDER_ALLOW),
-+	DRM_IOCTL_DEF_DRV(VMW_GB_SURFACE_REF,
-+			  vmw_gb_surface_reference_ioctl,
-+			  DRM_RENDER_ALLOW),
-+	DRM_IOCTL_DEF_DRV(VMW_SYNCCPU,
-+			  vmw_user_bo_synccpu_ioctl,
-+			  DRM_RENDER_ALLOW),
-+	DRM_IOCTL_DEF_DRV(VMW_CREATE_EXTENDED_CONTEXT,
-+			  vmw_extended_context_define_ioctl,
-+			  DRM_RENDER_ALLOW),
-+	DRM_IOCTL_DEF_DRV(VMW_GB_SURFACE_CREATE_EXT,
-+			  vmw_gb_surface_define_ext_ioctl,
-+			  DRM_RENDER_ALLOW),
-+	DRM_IOCTL_DEF_DRV(VMW_GB_SURFACE_REF_EXT,
-+			  vmw_gb_surface_reference_ext_ioctl,
-+			  DRM_RENDER_ALLOW),
-+	DRM_IOCTL_DEF_DRV(VMW_MSG,
-+			  vmw_msg_ioctl,
-+			  DRM_RENDER_ALLOW),
-+	DRM_IOCTL_DEF_DRV(VMW_MKSSTAT_RESET,
-+			  vmw_mksstat_reset_ioctl,
-+			  DRM_RENDER_ALLOW),
-+	DRM_IOCTL_DEF_DRV(VMW_MKSSTAT_ADD,
-+			  vmw_mksstat_add_ioctl,
-+			  DRM_RENDER_ALLOW),
-+	DRM_IOCTL_DEF_DRV(VMW_MKSSTAT_REMOVE,
-+			  vmw_mksstat_remove_ioctl,
-+			  DRM_RENDER_ALLOW),
- };
- 
- static const struct pci_device_id vmw_pci_id_list[] = {
+ 	(*res)->start = id;
 -- 
 2.30.2
 
