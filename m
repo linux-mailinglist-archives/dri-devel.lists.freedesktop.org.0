@@ -1,56 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5F103C7F81
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Jul 2021 09:44:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D1903C7F7F
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Jul 2021 09:44:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4974B6E17A;
-	Wed, 14 Jul 2021 07:44:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 272826E176;
+	Wed, 14 Jul 2021 07:44:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C9086E106
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jul 2021 17:14:12 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1626196454; h=Message-Id: Date: Subject: Cc: To: From:
- Sender; bh=5ILuZ7SWoWEhdwMo5jhwP5i1sCLD6tJKUIb5xpgE1DU=;
- b=FuqsWomSw4UyFBP8ZBrVCNdYg8Jc3ZHH3e02cJsXOXXEWljTTKocSgAFrRPTBiik4U7JKBNZ
- oz9Z3H83zioykX1xipRX+EhxtwKwD1I932u9gxlXV2OBksyAlvUIgtejVfX0glSMsFwxn+GA
- YIsXQPXOck8FFg1mbTIWR6FOT8c=
-X-Mailgun-Sending-Ip: 69.72.43.7
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n04.prod.us-west-2.postgun.com with SMTP id
- 60edc9d301dd9a9431ac2f7d (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 13 Jul 2021 17:13:55
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 1B0DCC433F1; Tue, 13 Jul 2021 17:13:55 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
- SPF_FAIL autolearn=no autolearn_force=no version=3.4.0
-Received: from hu-gracan-sd.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: gracan)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 5AD5CC433F1;
- Tue, 13 Jul 2021 17:13:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 5AD5CC433F1
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=fail smtp.mailfrom=gracan@codeaurora.org
-From: Grace An <gracan@codeaurora.org>
-To: dri-devel@lists.freedesktop.org
-Subject: [RFC] drm: return int error code from mode_fixup
-Date: Tue, 13 Jul 2021 10:13:41 -0700
-Message-Id: <1626196421-24595-1-git-send-email-gracan@codeaurora.org>
-X-Mailer: git-send-email 2.7.4
+Received: from mail-qk1-x732.google.com (mail-qk1-x732.google.com
+ [IPv6:2607:f8b0:4864:20::732])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB27B6E141;
+ Wed, 14 Jul 2021 00:06:38 +0000 (UTC)
+Received: by mail-qk1-x732.google.com with SMTP id m3so9736983qkm.10;
+ Tue, 13 Jul 2021 17:06:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=BRzBORQqhYkIvSSgRD10J8EaiYQ9ItZJaai9Sym40Us=;
+ b=teI5WRKub2F/rwFPxCg0ZINCjBfRJc54nJqUFdAMXpGIMiTspU9RrcrUvARcHwoeMd
+ CQXv1wJ/Fog/rhWZSvumcNrgcq+BxotT51h+tTiRDV8aZpevQuwsLDR4vyQtZSmmoC6h
+ F9IEcsAuWnvI+dAhgG0Eo2jqsi01XmkKdYdzhKwGl4vTdbqsh5/P7DXsca+16o6s1nU2
+ 2kLICjJFyej3TGeGHMleEoqCSW2m15wa6CXhxq4NskVTucQzPb/x7tap01fpFeI4k0/I
+ 0oDywPh08J0yunT5JHEEyAcZVTBsHz7FszjRqikpByO6wq8hJu89C/WxnMp4EIv1s5qc
+ +urw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+ :references:mime-version:content-disposition:in-reply-to;
+ bh=BRzBORQqhYkIvSSgRD10J8EaiYQ9ItZJaai9Sym40Us=;
+ b=FmS314Bk2W+p9WMJMjQRzYUX91KKhjiDFp0WVGuPpzZyutkEgwmIncttjgsqG1iPZa
+ qVrhdXU9UcCeOv4E3sdsD58QUziG8K1r8wm95X9yY5B4bG86kVAvX1AKiSR9DbaRy0CK
+ SfSQHqH2QpcfZHZm8VzG0bXBnI69eV8lf86b4Vc5UU6j2HeeRRqhWBURYjD4qtlLdNK0
+ AjFc2xSpzbdGfuBE8Qwt/qeKyXNQKsmSKPO36d40KIFB8jVrj8eTeIiNf1mLWfyuPoT9
+ /+PLqj3mtREhBJUeJ5v9cPtuEe/IKQmVDvj67XbAhCbKk1UN8C1jGVlMun9RkRKa5Zdv
+ u+ug==
+X-Gm-Message-State: AOAM533GWgmhXxImdHwAFjsJCc1skp5yeUeu7KgYvmYNZ6pFbFlWYnrn
+ A1aszRJhSaCk+Jy1Z7oBS9E=
+X-Google-Smtp-Source: ABdhPJwNdfUqk7dW6v+BkJSkD78e6Hf5RHfzRN9m+TvOapNBOx9APu0hdr4kc7VyqpHBok4bqL0fFQ==
+X-Received: by 2002:a05:620a:b85:: with SMTP id
+ k5mr282577qkh.219.1626221197830; 
+ Tue, 13 Jul 2021 17:06:37 -0700 (PDT)
+Received: from fedora ([130.44.160.152])
+ by smtp.gmail.com with ESMTPSA id o1sm128098qta.87.2021.07.13.17.06.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 13 Jul 2021 17:06:37 -0700 (PDT)
+Date: Tue, 13 Jul 2021 20:06:33 -0400
+From: Konrad Rzeszutek Wilk <konrad@darnok.org>
+To: Will Deacon <will@kernel.org>
+Subject: Re: [PATCH v15 06/12] swiotlb: Use is_swiotlb_force_bounce for
+ swiotlb data bouncing
+Message-ID: <YO4qifiYjL4BTMv4@fedora>
+References: <YN/7xcxt/XGAKceZ@Ryzen-9-3900X.localdomain>
+ <20210705190352.GA19461@willie-the-truck>
+ <20210706044848.GA13640@lst.de>
+ <20210706132422.GA20327@willie-the-truck>
+ <a59f771f-3289-62f0-ca50-8f3675d9b166@arm.com>
+ <20210706140513.GA26498@lst.de>
+ <YORsr0h7u5l9DZwh@char.us.oracle.com>
+ <20210706165720.GC20750@willie-the-truck>
+ <YOSMDZmtfXEKerpf@char.us.oracle.com>
+ <20210712135645.GA28881@willie-the-truck>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210712135645.GA28881@willie-the-truck>
 X-Mailman-Approved-At: Wed, 14 Jul 2021 07:44:22 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,118 +79,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Grace An <gracan@codeaurora.org>, linux-arm-msm@vger.kernel.org,
- pdhaval@codeaurora.org, abhinavk@codeaurora.org, swboyd@chromium.org,
- khsieh@codeaurora.org, seanpaul@chromium.org, dmitry.baryshkov@linaro.org,
- aravindh@codeaurora.org, freedreno@lists.freedesktop.org
+Cc: Jim Quinlan <james.quinlan@broadcom.com>, heikki.krogerus@linux.intel.com,
+ linux-devicetree <devicetree@vger.kernel.org>, peterz@infradead.org,
+ dri-devel@lists.freedesktop.org, chris@chris-wilson.co.uk,
+ grant.likely@arm.com, paulus@samba.org, Frank Rowand <frowand.list@gmail.com>,
+ mingo@kernel.org, Jianxiong Gao <jxgao@google.com>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Saravana Kannan <saravanak@google.com>, mpe@ellerman.id.au,
+ "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>, xypron.glpk@gmx.de,
+ Christoph Hellwig <hch@lst.de>,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>, bskeggs@redhat.com,
+ linux-pci@vger.kernel.org, xen-devel@lists.xenproject.org,
+ Thierry Reding <treding@nvidia.com>, matthew.auld@intel.com,
+ Nicolas Boichat <drinkcat@chromium.org>, thomas.hellstrom@linux.intel.com,
+ jgross@suse.com, Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+ intel-gfx@lists.freedesktop.org, Nathan Chancellor <nathan@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, rodrigo.vivi@intel.com,
+ Bjorn Helgaas <bhelgaas@google.com>, Claire Chang <tientzu@chromium.org>,
+ Dan Williams <dan.j.williams@intel.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ boris.ostrovsky@oracle.com, airlied@linux.ie, linuxppc-dev@lists.ozlabs.org,
+ Randy Dunlap <rdunlap@infradead.org>, Qian Cai <quic_qiancai@quicinc.com>,
+ lkml <linux-kernel@vger.kernel.org>,
+ "list@263.net:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
+ Greg KH <gregkh@linuxfoundation.org>, Tom Lendacky <thomas.lendacky@amd.com>,
+ Robin Murphy <robin.murphy@arm.com>, bauerman@linux.ibm.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When CONFIG_PROVE_LOCKING is defined, the kernel randomly injects
--EDEADLK errors for all the ww_mutex. This results in
-drm_atomic_get_private_obj_state randomly returning -EDEADLK.
-However, the mode_fixup functions do not propagate these error
-codes and return false, causing the atomic commit to fail with
--EINVAL instead of retrying.
+..snip..
+> > > I think the main question I have is how would you like to see patches for
+> > > 5.15? i.e. as patches on top of devel/for-linus-5.14 or something else?
+> > 
+> > Yes that would be perfect. If there are any dependencies on the rc1, I
+> > can rebase it on top of that.
+> 
+> Yes, please, rebasing would be very helpful. The broader rework of
+> 'io_tlb_default_mem' is going to conflict quite badly otherwise.
 
-Change encoder, crtc, and bridge mode_fixup functions to return
-an int instead of a boolean to indicate success or failure. If
-any of these functions fail, the mode_fixup function now returns
-the provided integer error code instead of -EINVAL.
+There is a devel/for-linus-5.15 (based on v5.14-rc1) now.
 
-This change needs modifications across drivers, but before submitting
-the entire change, we want to get feedback on this RFC.
-
-Signed-off-by: Grace An <gracan@codeaurora.org>
----
- drivers/gpu/drm/drm_atomic_helper.c      | 8 ++++----
- drivers/gpu/drm/drm_bridge.c             | 4 ++--
- include/drm/drm_bridge.h                 | 2 +-
- include/drm/drm_modeset_helper_vtables.h | 4 ++--
- 4 files changed, 9 insertions(+), 9 deletions(-)
-
-diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
-index f2b3e28..d75f09a 100644
---- a/drivers/gpu/drm/drm_atomic_helper.c
-+++ b/drivers/gpu/drm/drm_atomic_helper.c
-@@ -457,10 +457,10 @@ mode_fixup(struct drm_atomic_state *state)
- 		} else if (funcs && funcs->mode_fixup) {
- 			ret = funcs->mode_fixup(encoder, &new_crtc_state->mode,
- 						&new_crtc_state->adjusted_mode);
--			if (!ret) {
-+			if (ret) {
- 				DRM_DEBUG_ATOMIC("[ENCODER:%d:%s] fixup failed\n",
- 						 encoder->base.id, encoder->name);
--				return -EINVAL;
-+				return ret;
- 			}
- 		}
- 	}
-@@ -481,10 +481,10 @@ mode_fixup(struct drm_atomic_state *state)
- 
- 		ret = funcs->mode_fixup(crtc, &new_crtc_state->mode,
- 					&new_crtc_state->adjusted_mode);
--		if (!ret) {
-+		if (ret) {
- 			DRM_DEBUG_ATOMIC("[CRTC:%d:%s] fixup failed\n",
- 					 crtc->base.id, crtc->name);
--			return -EINVAL;
-+			return ret;
- 		}
- 	}
- 
-diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-index 64f0eff..3ad16b5 100644
---- a/drivers/gpu/drm/drm_bridge.c
-+++ b/drivers/gpu/drm/drm_bridge.c
-@@ -736,9 +736,9 @@ static int drm_atomic_bridge_check(struct drm_bridge *bridge,
- 		if (ret)
- 			return ret;
- 	} else if (bridge->funcs->mode_fixup) {
--		if (!bridge->funcs->mode_fixup(bridge, &crtc_state->mode,
-+		if (bridge->funcs->mode_fixup(bridge, &crtc_state->mode,
- 					       &crtc_state->adjusted_mode))
--			return -EINVAL;
-+			return ret;
- 	}
- 
- 	return 0;
-diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
-index 2195daa..5d02dfc 100644
---- a/include/drm/drm_bridge.h
-+++ b/include/drm/drm_bridge.h
-@@ -153,7 +153,7 @@ struct drm_bridge_funcs {
- 	 * True if an acceptable configuration is possible, false if the modeset
- 	 * operation should be rejected.
- 	 */
--	bool (*mode_fixup)(struct drm_bridge *bridge,
-+	int (*mode_fixup)(struct drm_bridge *bridge,
- 			   const struct drm_display_mode *mode,
- 			   struct drm_display_mode *adjusted_mode);
- 	/**
-diff --git a/include/drm/drm_modeset_helper_vtables.h b/include/drm/drm_modeset_helper_vtables.h
-index f3a4b47..e305c97 100644
---- a/include/drm/drm_modeset_helper_vtables.h
-+++ b/include/drm/drm_modeset_helper_vtables.h
-@@ -184,7 +184,7 @@ struct drm_crtc_helper_funcs {
- 	 * True if an acceptable configuration is possible, false if the modeset
- 	 * operation should be rejected.
- 	 */
--	bool (*mode_fixup)(struct drm_crtc *crtc,
-+	int (*mode_fixup)(struct drm_crtc *crtc,
- 			   const struct drm_display_mode *mode,
- 			   struct drm_display_mode *adjusted_mode);
- 
-@@ -599,7 +599,7 @@ struct drm_encoder_helper_funcs {
- 	 * True if an acceptable configuration is possible, false if the modeset
- 	 * operation should be rejected.
- 	 */
--	bool (*mode_fixup)(struct drm_encoder *encoder,
-+	int (*mode_fixup)(struct drm_encoder *encoder,
- 			   const struct drm_display_mode *mode,
- 			   struct drm_display_mode *adjusted_mode);
- 
--- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
-
+Thank you!
+> 
+> Cheers,
+> 
+> Will
