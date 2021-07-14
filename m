@@ -2,40 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A7C93C8435
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Jul 2021 14:03:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70B0C3C8449
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Jul 2021 14:09:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1717F6E22F;
-	Wed, 14 Jul 2021 12:03:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0ABEF6E237;
+	Wed, 14 Jul 2021 12:08:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3653B6E22F
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jul 2021 12:03:13 +0000 (UTC)
-X-UUID: a262cfefffb54779867a175c821a6d2c-20210714
-X-UUID: a262cfefffb54779867a175c821a6d2c-20210714
-Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw02.mediatek.com
- (envelope-from <guangming.cao@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 685340013; Wed, 14 Jul 2021 20:03:08 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs01n1.mediatek.inc (172.21.101.68) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Wed, 14 Jul 2021 20:03:07 +0800
-Received: from mszswglt01.gcn.mediatek.inc (10.16.20.20) by
- mtkcas11.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.0.1497.2 via Frontend Transport; Wed, 14 Jul 2021 20:03:06 +0800
-From: <guangming.cao@mediatek.com>
-To: <christian.koenig@amd.com>, <sumit.semwal@linaro.org>
-Subject: Re: [PATCH] dma-buf: add kernel count for dma_buf
-Date: Wed, 14 Jul 2021 20:03:05 +0800
-Message-ID: <20210714120305.70720-1-guangming.cao@mediatek.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <371c6f09-2bba-a9d6-18e8-114bea97a18d@amd.com>
-References: <371c6f09-2bba-a9d6-18e8-114bea97a18d@amd.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF7686E233;
+ Wed, 14 Jul 2021 12:08:56 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10044"; a="210311656"
+X-IronPort-AV: E=Sophos;i="5.84,239,1620716400"; d="scan'208";a="210311656"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Jul 2021 05:08:47 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.84,239,1620716400"; d="scan'208";a="459965915"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
+ by orsmga008.jf.intel.com with SMTP; 14 Jul 2021 05:08:44 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Wed, 14 Jul 2021 15:08:43 +0300
+Date: Wed, 14 Jul 2021 15:08:43 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [Intel-gfx] [PATCH 1/5] drm/i915: document caching related bits
+Message-ID: <YO7Ty4y3k+zJ++Lm@intel.com>
+References: <20210713104554.2381406-1-matthew.auld@intel.com>
+ <YO23Y3PUS22FaXDC@intel.com>
+ <CAM0jSHOx=WVbzfQzn=kL-5qaG4B3dxPLOimkvUdv6HFJymZeZw@mail.gmail.com>
+ <YO3RsxZHUe5imN3q@intel.com>
+ <CAM0jSHOsqPUOWCJu_Ti3gW-fnpWF2CtUoo-qt-aMWExAwDDT5A@mail.gmail.com>
+ <YO3fhvKCo8eXrmst@intel.com> <YO7HqVPtY2GpbD77@phenom.ffwll.local>
+ <YO7NvY3Mb2wgPFAi@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-MTK: N
+In-Reply-To: <YO7NvY3Mb2wgPFAi@intel.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,291 +53,129 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: caoguangming34@gmail.com, guangming.cao@mediatek.com,
- wsd_upstream@mediatek.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-media@vger.kernel.org
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Matthew Auld <matthew.william.auld@gmail.com>,
+ Matthew Auld <matthew.auld@intel.com>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Guangming.Cao <guangming.cao@mediatek.com>
-
-On Wed, 2021-07-14 at 12:43 +0200, Christian Ké°Šig wrote:
-> Am 14.07.21 um 11:44 schrieb guangming.cao@mediatek.com:
-> > From: Guangming Cao <Guangming.Cao@mediatek.com>
-> > 
-> > On Wed, 2021-07-14 at 10:46 +0200, Christian Ké°Šig wrote:
-> > > Am 14.07.21 um 09:11 schrieb guangming.cao@mediatek.com:
-> > > > From: Guangming Cao <Guangming.Cao@mediatek.com>
+On Wed, Jul 14, 2021 at 02:42:53PM +0300, Ville Syrjälä wrote:
+> On Wed, Jul 14, 2021 at 01:16:57PM +0200, Daniel Vetter wrote:
+> > On Tue, Jul 13, 2021 at 09:46:30PM +0300, Ville Syrjälä wrote:
+> > > On Tue, Jul 13, 2021 at 07:24:23PM +0100, Matthew Auld wrote:
+> > > > On Tue, 13 Jul 2021 at 18:47, Ville Syrjälä
+> > > > <ville.syrjala@linux.intel.com> wrote:
+> > > > >
+> > > > > On Tue, Jul 13, 2021 at 05:13:37PM +0100, Matthew Auld wrote:
+> > > > > > On Tue, 13 Jul 2021 at 16:55, Ville Syrjälä
+> > > > > > <ville.syrjala@linux.intel.com> wrote:
+> > > > > > >
+> > > > > > > On Tue, Jul 13, 2021 at 11:45:50AM +0100, Matthew Auld wrote:
+> > > > > > > > +     /**
+> > > > > > > > +      * @cache_coherent:
+> > > > > > > > +      *
+> > > > > > > > +      * Track whether the pages are coherent with the GPU if reading or
+> > > > > > > > +      * writing through the CPU cache.
+> > > > > > > > +      *
+> > > > > > > > +      * This largely depends on the @cache_level, for example if the object
+> > > > > > > > +      * is marked as I915_CACHE_LLC, then GPU access is coherent for both
+> > > > > > > > +      * reads and writes through the CPU cache.
+> > > > > > > > +      *
+> > > > > > > > +      * Note that on platforms with shared-LLC support(HAS_LLC) reads through
+> > > > > > > > +      * the CPU cache are always coherent, regardless of the @cache_level. On
+> > > > > > > > +      * snooping based platforms this is not the case, unless the full
+> > > > > > > > +      * I915_CACHE_LLC or similar setting is used.
+> > > > > > > > +      *
+> > > > > > > > +      * As a result of this we need to track coherency separately for reads
+> > > > > > > > +      * and writes, in order to avoid superfluous flushing on shared-LLC
+> > > > > > > > +      * platforms, for reads.
+> > > > > > > > +      *
+> > > > > > > > +      * I915_BO_CACHE_COHERENT_FOR_READ:
+> > > > > > > > +      *
+> > > > > > > > +      * When reading through the CPU cache, the GPU is still coherent. Note
+> > > > > > > > +      * that no data has actually been modified here, so it might seem
+> > > > > > > > +      * strange that we care about this.
+> > > > > > > > +      *
+> > > > > > > > +      * As an example, if some object is mapped on the CPU with write-back
+> > > > > > > > +      * caching, and we read some page, then the cache likely now contains
+> > > > > > > > +      * the data from that read. At this point the cache and main memory
+> > > > > > > > +      * match up, so all good. But next the GPU needs to write some data to
+> > > > > > > > +      * that same page. Now if the @cache_level is I915_CACHE_NONE and the
+> > > > > > > > +      * the platform doesn't have the shared-LLC, then the GPU will
+> > > > > > > > +      * effectively skip invalidating the cache(or however that works
+> > > > > > > > +      * internally) when writing the new value.  This is really bad since the
+> > > > > > > > +      * GPU has just written some new data to main memory, but the CPU cache
+> > > > > > > > +      * is still valid and now contains stale data. As a result the next time
+> > > > > > > > +      * we do a cached read with the CPU, we are rewarded with stale data.
+> > > > > > > > +      * Likewise if the cache is later flushed, we might be rewarded with
+> > > > > > > > +      * overwriting main memory with stale data.
+> > > > > > > > +      *
+> > > > > > > > +      * I915_BO_CACHE_COHERENT_FOR_WRITE:
+> > > > > > > > +      *
+> > > > > > > > +      * When writing through the CPU cache, the GPU is still coherent. Note
+> > > > > > > > +      * that this also implies I915_BO_CACHE_COHERENT_FOR_READ.
+> > > > > > > > +      *
+> > > > > > > > +      * This is never set when I915_CACHE_NONE is used for @cache_level,
+> > > > > > > > +      * where instead we have to manually flush the caches after writing
+> > > > > > > > +      * through the CPU cache. For other cache levels this should be set and
+> > > > > > > > +      * the object is therefore considered coherent for both reads and writes
+> > > > > > > > +      * through the CPU cache.
+> > > > > > >
+> > > > > > > I don't remember why we have this read vs. write split and this new
+> > > > > > > documentation doesn't seem to really explain it either.
+> > > > > >
+> > > > > > Hmm, I attempted to explain that earlier:
+> > > > > >
+> > > > > > * Note that on platforms with shared-LLC support(HAS_LLC) reads through
+> > > > > > * the CPU cache are always coherent, regardless of the @cache_level. On
+> > > > > > * snooping based platforms this is not the case, unless the full
+> > > > > > * I915_CACHE_LLC or similar setting is used.
+> > > > > > *
+> > > > > > * As a result of this we need to track coherency separately for reads
+> > > > > > * and writes, in order to avoid superfluous flushing on shared-LLC
+> > > > > > * platforms, for reads.
+> > > > > >
+> > > > > > So AFAIK it's just because shared-LLC can be coherent for reads, while
+> > > > > > also not being coherent for writes(CACHE_NONE),
+> > > > >
+> > > > > CPU vs. GPU is fully coherent when it comes to LLC. Or at least I've
+> > > > > never heard of any mechanism that would make it only partially coherent.
 > > > > 
-> > > > Add a refcount for kernel to prevent UAF(Use After Free) issue.
+> > > > What do you mean by "comes to LLC", are you talking about HAS_LLC() or
+> > > > I915_CACHE_LLC?
 > > > 
-> > > Well NAK on so many levels.
+> > > I'm talking about the actual cache.
 > > > 
-> > > > We can assume a case like below:
-> > > >       1. kernel space alloc dma_buf(file count = 1)
-> > > >       2. kernel use dma_buf to get fd(file count = 1)
-> > > >       3. userspace use fd to do mapping (file count = 2)
-> > > 
-> > > Creating an userspace mapping increases the reference count for
-> > > the
-> > > underlying file object.
-> > > 
-> > > See the implementation of mmap_region():
-> > > ...
-> > >                   vma->vm_file = get_file(file);
-> > >                   error = call_mmap(file, vma);
-> > > ...
-> > > 
-> > > What can happen is the the underlying exporter redirects the mmap
-> > > to
-> > > a
-> > > different file, e.g. TTM or GEM drivers do that all the time.
-> > > 
-> > > But this is fine since then the VA mapping is independent of the
-> > > DMA-
-> > > buf.
-> > > 
-> > > >       4. kernel call dma_buf_put (file count = 1)
-> > > >       5. userpsace close buffer fd(file count = 0)
-> > > >       6. at this time, buffer is released, but va is valid!!
-> > > >          So we still can read/write buffer via mmap va,
-> > > >          it maybe cause memory leak, or kernel exception.
-> > > >          And also, if we use "ls -ll" to watch corresponding
-> > > > process
-> > > >              fd link info, it also will cause kernel exception.
 > > > > 
-> > > > Another case:
-> > > >        Using dma_buf_fd to generate more than 1 fd, because
-> > > >        dma_buf_fd will not increase file count, thus, when
-> > > > close
-> > > >        the second fd, it maybe occurs error.
-> > > 
-> > > Each opened fd will increase the reference count so this is
-> > > certainly
-> > > not correct what you describe here.
-> > > 
-> > > Regards,
-> > > Christian.
-> > > 
-> > 
-> > Yes, mmap will increase file count by calling get_file, so step[2]
-> > ->
-> > step[3], file count increase 1.
-> > 
-> > But, dma_buf_fd() will not increase file count.
-> > function "dma_buf_fd(struct dma_buf *dmabuf, int flags)" just get
-> > an
-> > unused fd, via call "get_unused_fd_flags(flags)", and call
-> > "fd_install(fd, dmabuf->file)", it will let associated "struct
-> > file*"
-> > in task's fdt->fd[fd] points to this dma_buf.file, not increase the
-> > file count of dma_buf.file.
-> > I think this is confusing, I can get more than 1 fds via
-> > dma_buf_fd,
-> > but they don't need to close it because they don't increase file
-> > count.
-> > 
-> > However, dma_buf_put() can decrease file count at kernel side
-> > directly.
-> > If somebody write a ko to put file count of dma_buf.file many
-> > times, it
-> > will cause buffer freed earlier than except. At last on Android, I
-> > think this is a little bit dangerous.
-> 
-> dma_buf_fd() takes the dma_buf pointer and converts it into a fd. So
-> the 
-> reference is consumed.
-> 
-> That's why users of this interface make sure to get a separate 
-> reference, see drm_gem_prime_handle_to_fd() for example:
-> 
-> ...
-> out_have_handle:
->      ret = dma_buf_fd(dmabuf, flags);
->      /*
->       * We must _not_ remove the buffer from the handle cache since
-> the 
-> newly
->       * created dma buf is already linked in the global obj->dma_buf 
-> pointer,
->       * and that is invariant as long as a userspace gem handle
-> exists.
->       * Closing the handle will clean out the cache anyway, so we
-> don't 
-> leak.
->       */
->      if (ret < 0) {
->          goto fail_put_dmabuf;
->      } else {
->          *prime_fd = ret;
->          ret = 0;
->      }
-> 
->      goto out;
-> 
-> fail_put_dmabuf:
->      dma_buf_put(dmabuf);
-> out:
-> ...
-> 
-> You could submit a patch to improve the documentation and explicitly 
-> note on dma_buf_fd() that the reference is consumed, but all of this
-> is 
-> working perfectly fine.
-> 
-> Regards,
-> Christian.
-> 
-
-Thanks for your reply!
-
-Yes, drm works fine because it fully understand what dma-buf api will
-do. Improve the documentation is really good idea to prevent this case.
-
-But, what I can't understand is, for kernel api exported to
-corresponding users, we don't need to ensure all api is safe?
-
-And for general cases, dma-buf framework also need to prevent this
-case, isn't it, it will make dma-buf framework more strong?
-
-
-BRs!
-Guangming
-> > 
-> > > > Solution:
-> > > >       Add a kernel count for dma_buf, and make sure the file
-> > > > count
-> > > >           of dma_buf.file hold by kernel is 1.
+> > > > If you set I915_CACHE_LLC, then yes it is fully coherent for both
+> > > > HAS_LLC() and HAS_SNOOP().
 > > > > 
-> > > > Notes: For this solution, kref couldn't work because kernel ref
-> > > >          maybe added from 0, but kref don't allow it.
-> > > > 
-> > > > Signed-off-by: Guangming Cao <Guangming.Cao@mediatek.com>
-> > > > ---
-> > > >    drivers/dma-buf/dma-buf.c | 23 +++++++++++++++++++----
-> > > >    include/linux/dma-buf.h   |  6 ++++--
-> > > >    2 files changed, 23 insertions(+), 6 deletions(-)
-> > > > 
-> > > > diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-
-> > > > buf.c
-> > > > index 511fe0d217a0..04ee92aac8b9 100644
-> > > > --- a/drivers/dma-buf/dma-buf.c
-> > > > +++ b/drivers/dma-buf/dma-buf.c
-> > > > @@ -62,6 +62,7 @@ static void dma_buf_release(struct dentry
-> > > > *dentry)
-> > > >      if (unlikely(!dmabuf))
-> > > >              return;
-> > > >    
-> > > > +   WARN_ON(atomic64_read(&dmabuf->kernel_ref));
-> > > >      BUG_ON(dmabuf->vmapping_counter);
-> > > >    
-> > > >      /*
-> > > > @@ -555,6 +556,7 @@ struct dma_buf *dma_buf_export(const struct
-> > > > dma_buf_export_info *exp_info)
-> > > >              goto err_module;
-> > > >      }
-> > > >    
-> > > > +   atomic64_set(&dmabuf->kernel_ref, 1);
-> > > >      dmabuf->priv = exp_info->priv;
-> > > >      dmabuf->ops = exp_info->ops;
-> > > >      dmabuf->size = exp_info->size;
-> > > > @@ -617,6 +619,9 @@ int dma_buf_fd(struct dma_buf *dmabuf, int
-> > > > flags)
-> > > >    
-> > > >      fd_install(fd, dmabuf->file);
-> > > >    
-> > > > +   /* Add file cnt for each new fd */
-> > > > +   get_file(dmabuf->file);
-> > > > +
-> > > >      return fd;
-> > > >    }
-> > > >    EXPORT_SYMBOL_GPL(dma_buf_fd);
-> > > > @@ -626,12 +631,13 @@ EXPORT_SYMBOL_GPL(dma_buf_fd);
-> > > >     * @fd:   [in]    fd associated with the struct dma_buf to
-> > > > be
-> > > > returned
-> > > >     *
-> > > >     * On success, returns the struct dma_buf associated with an
-> > > > fd;
-> > > > uses
-> > > > - * file's refcounting done by fget to increase refcount.
-> > > > returns
-> > > > ERR_PTR
-> > > > - * otherwise.
-> > > > + * dmabuf's ref refcounting done by kref_get to increase
-> > > > refcount.
-> > > > + * Returns ERR_PTR otherwise.
-> > > >     */
-> > > >    struct dma_buf *dma_buf_get(int fd)
-> > > >    {
-> > > >      struct file *file;
-> > > > +   struct dma_buf *dmabuf;
-> > > >    
-> > > >      file = fget(fd);
-> > > >    
-> > > > @@ -643,7 +649,12 @@ struct dma_buf *dma_buf_get(int fd)
-> > > >              return ERR_PTR(-EINVAL);
-> > > >      }
-> > > >    
-> > > > -   return file->private_data;
-> > > > +   dmabuf = file->private_data;
-> > > > +   /* replace file count increase as ref increase for kernel
-> > > > user
-> > > > */
-> > > > +   get_dma_buf(dmabuf);
-> > > > +   fput(file);
-> > > > +
-> > > > +   return dmabuf;
-> > > >    }
-> > > >    EXPORT_SYMBOL_GPL(dma_buf_get);
-> > > >    
-> > > > @@ -662,7 +673,11 @@ void dma_buf_put(struct dma_buf *dmabuf)
-> > > >      if (WARN_ON(!dmabuf || !dmabuf->file))
-> > > >              return;
-> > > >    
-> > > > -   fput(dmabuf->file);
-> > > > +   if (WARN_ON(!atomic64_read(&dmabuf->kernel_ref)))
-> > > > +           return;
-> > > > +
-> > > > +   if (!atomic64_dec_return(&dmabuf->kernel_ref))
-> > > > +           fput(dmabuf->file);
-> > > >    }
-> > > >    EXPORT_SYMBOL_GPL(dma_buf_put);
-> > > >    
-> > > > diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-> > > > index efdc56b9d95f..bc790cb028eb 100644
-> > > > --- a/include/linux/dma-buf.h
-> > > > +++ b/include/linux/dma-buf.h
-> > > > @@ -308,6 +308,7 @@ struct dma_buf_ops {
-> > > >    struct dma_buf {
-> > > >      size_t size;
-> > > >      struct file *file;
-> > > > +   atomic64_t kernel_ref;
-> > > >      struct list_head attachments;
-> > > >      const struct dma_buf_ops *ops;
-> > > >      struct mutex lock;
-> > > > @@ -436,7 +437,7 @@ struct dma_buf_export_info {
-> > > >                                       .owner = THIS_MODULE }
-> > > >    
-> > > >    /**
-> > > > - * get_dma_buf - convenience wrapper for get_file.
-> > > > + * get_dma_buf - increase a kernel ref of dma-buf
-> > > >     * @dmabuf:       [in]    pointer to dma_buf
-> > > >     *
-> > > >     * Increments the reference count on the dma-buf, needed in
-> > > > case
-> > > > of drivers
-> > > > @@ -446,7 +447,8 @@ struct dma_buf_export_info {
-> > > >     */
-> > > >    static inline void get_dma_buf(struct dma_buf *dmabuf)
-> > > >    {
-> > > > -   get_file(dmabuf->file);
-> > > > +   if (atomic64_inc_return(&dmabuf->kernel_ref) == 1)
-> > > > +           get_file(dmabuf->file);
-> > > >    }
-> > > >    
-> > > >    /**
+> > > > If you set I915_CACHE_NONE, then reads are still coherent on
+> > > > HAS_LLC(),
+> > > 
+> > > Reads and writes both. The only thing that's not coherent is the
+> > > display engine.
+> > 
+> > There's a lot of code which seems to disagree,
 > 
->
+> Can't even imagine why anyone would make a cache coherency protocol
+> that only handles reads but not writes...
+> 
+> > plus there's now this new
+> > MOCS thing.
+> 
+> That's just a full LLC bypass AFAICS. Can't omit invalidates if
+> you use that one or you'll just get stale data from the cache
+> on reads as well.
+
+And just to reiterate that the current "reads are coherent" thing
+works is because the only non-coherent agent (display engine) never
+writes anything. If/when we implement writeback support we can no
+longer skip the invalidate even on LLC machines when reading from
+a writeback buffer.
+
+-- 
+Ville Syrjälä
+Intel
