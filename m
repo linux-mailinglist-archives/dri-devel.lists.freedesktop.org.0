@@ -2,64 +2,126 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B40BC3C852E
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Jul 2021 15:21:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47BF93C8541
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Jul 2021 15:24:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C6346E296;
-	Wed, 14 Jul 2021 13:21:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D47E46E2B6;
+	Wed, 14 Jul 2021 13:24:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
- [IPv6:2a00:1450:4864:20::42f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5DA2B6E296
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jul 2021 13:21:21 +0000 (UTC)
-Received: by mail-wr1-x42f.google.com with SMTP id u1so3240008wrs.1
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jul 2021 06:21:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:from:to:references:message-id:date:user-agent:mime-version
- :in-reply-to:content-transfer-encoding:content-language;
- bh=pcSQv9zjv/DRlyAS/nTdpmTiRa9y9dsQE8aHRK8M+C8=;
- b=UPlvqmkXDJO58COWUItb3zI3T/s4IYUHkg014Z4O/YtcN0kFAwzWHn1BG483NTUsru
- D4EbyKMlN42nX8Pelm0ctTKK/vvHnE+OoYTBVq6Uiag+AryPLK+HWTitAuxukFreUUkF
- aZTUM22ZFhN/6Nxnl020WR0s7BVE+eVEsoR3fp+Wfa5FakNS9C6EQlBUZ6BH6EBACUiZ
- 1AwrnwM9HbkQj6FP80STXFdWYGGm6j91a1oRRMEHpa6s8M3C67sPL91+RBuXWzReylgs
- bILJ8NV8Gyqf+hTCKylMhAad2iL1PHOk74zcHa3VzYqUWHIIdSokH3qSV8VpnrxssEwM
- Ptrg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:from:to:references:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=pcSQv9zjv/DRlyAS/nTdpmTiRa9y9dsQE8aHRK8M+C8=;
- b=n+0giW4sjovC6I0osKjh3zGbO/xM4mUjht+ewAWIc0GzTI1tLFHRtM3Py4VKvZ19QW
- DT0eXeFQaXqMkfgtYkCFxVw2SEYqAzckPBrPt3aoWynrc/xxJO5tcZUTAOCbO+nk9udB
- 4ZItcADSZ9H/8AH0lZbh1qb4xaKCEvGIetMrLc+QrrYYYua02Ak9URCuHLHsP0FyN/eb
- 95nvWJHip9KTdp27JdY83dRCPZqLa382ixH6BumVWNiM8/kOIQv+UHvXSomwnCxdcVVQ
- WC2T0rk1x7peMFZl+a/P2kjGlk3goKhjBBl5n/RZgeWq+DlQAfZrRQsM44gaxhLzrsHd
- U4tA==
-X-Gm-Message-State: AOAM530dyDg3x9hs0IbBZ1iJ7l4mMDKmDRalOB23xPh+6YSNY0NJ5ZpY
- qY0QADZRF/fMvV0sR2ASw76uDTFpy7w=
-X-Google-Smtp-Source: ABdhPJyuVu3HqiM+VJuR0ppeEMdNA5TqeWZD6BRUbDqoQgKdvrzBfwk8cIOoZ864yTbQ/ELZob+K0g==
-X-Received: by 2002:adf:fe0d:: with SMTP id n13mr12897220wrr.73.1626268880069; 
- Wed, 14 Jul 2021 06:21:20 -0700 (PDT)
-Received: from ?IPv6:2a02:908:1252:fb60:fe2b:fec6:eeb5:c7dc?
- ([2a02:908:1252:fb60:fe2b:fec6:eeb5:c7dc])
- by smtp.gmail.com with ESMTPSA id 6sm5500987wmi.3.2021.07.14.06.21.19
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 14 Jul 2021 06:21:19 -0700 (PDT)
-Subject: Re: [PATCH] dma-buf: fix and rework dma_buf_poll v6
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-To: dri-devel@lists.freedesktop.org, daniel.vetter@ffwll.ch
-References: <20210709120756.205856-1-christian.koenig@amd.com>
-Message-ID: <48c338fd-c0ab-39fb-a45d-17fd51fa47b7@gmail.com>
-Date: Wed, 14 Jul 2021 15:21:18 +0200
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2080.outbound.protection.outlook.com [40.107.220.80])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 42DE16E2B4;
+ Wed, 14 Jul 2021 13:24:28 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=AWfjQ7zfCesvqSkKEda47ztkpSddNTtbFpx7zkyCNjeuk64rCkQrh3U4WevnS0ApIrK2l57vsT0z11hqrI8s6alP5MGrcj/UG7CmWpdKthw0JpUX4omknlsBT/C5K7FkjYr8MiB3m7SIeDrJE9CxauksHQ3+qxlwPOUgCbPLqrrjN++gTrkspFL18EGIY45Sr7mKPUkg3qK05InnJlv7KYH8iCjCyOKmH4Car+Fi8xpIwMiGrhQFqGifR7zRAhGTVlK4jYwOwEPPocFRm9WgedQH9XXXMpP+/wH5D+qF1BaXQy3IldAQhiEu1TwFdinauGQBgQLCeTfKKWmQm15QaA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/epbVhtrd8Zyqxd1gxDJcQPkCmV+Z2Tc1zolLpqt4ig=;
+ b=EP/nsP3yri1/OoTxJiI+U8vrXXtu68RXcrSJw9uxAf1f8IBXXCK3o9LfYf8f53Uf6FfL54hmkFGaTm7rxrXtKAWea1zz0PuuIb4W8aluZWlGrDRUHtYWUeYdujY3tDMqNfrF74oD7cUCrkBVFOHH6nbTkTaHMkIMgEAQ3Ll7GPLEwy52Jfn+hrIg5/ITnkWabRomjq8+PSj3kjDR/V/Y+Qi5YhKkkGofFz+qkCTuOHEekiwjx3WmKpId+rmLyJaLJ1paYqfii0phKghNaxQbg2aWXvP+cOtObyEOD+i+gHNnqq4kBsttyGO4KmrfZL5yiCLQQIpockPbdIhzP3E9sw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/epbVhtrd8Zyqxd1gxDJcQPkCmV+Z2Tc1zolLpqt4ig=;
+ b=gamygu0/BdKWBsEUGtnkP5i4J3840AzfKt86tg/8R/47w/yq4WYVjMBgNZOhd8lzP8Lx7byHyLZ6dqqvKqXQ+RCVmovguxUfL1OK/wK+0YLWYdHKFLa/aY1Dwrv1r1bLDtUWfq0kt//Yz7HbjomT61YyP0CkFQi2OUi3hEwvHkM=
+Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
+ header.d=none; lists.freedesktop.org;
+ dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
+ by MN2PR12MB4126.namprd12.prod.outlook.com (2603:10b6:208:199::12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4308.22; Wed, 14 Jul
+ 2021 13:24:26 +0000
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::6c9e:1e08:7617:f756]) by MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::6c9e:1e08:7617:f756%5]) with mapi id 15.20.4308.027; Wed, 14 Jul 2021
+ 13:24:26 +0000
+Subject: Re: [PATCH v2 1/4] drm/amd/display: Introduce FPU directory inside DC
+To: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Harry Wentland <harry.wentland@amd.com>,
+ Peter Zijlstra <peterz@infradead.org>, Daniel Vetter <daniel@ffwll.ch>,
+ roman.li@amd.com, anson.jacob@amd.com, hersenxs.wu@amd.com,
+ jerry.zuo@amd.com, sunpeng.li@amd.com, aric.cyr@amd.com
+References: <20210713140612.2721113-1-Rodrigo.Siqueira@amd.com>
+ <20210713140612.2721113-2-Rodrigo.Siqueira@amd.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <2da8d3d5-618b-6d06-e6ca-653c08008984@amd.com>
+Date: Wed, 14 Jul 2021 15:24:18 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
-MIME-Version: 1.0
-In-Reply-To: <20210709120756.205856-1-christian.koenig@amd.com>
+In-Reply-To: <20210713140612.2721113-2-Rodrigo.Siqueira@amd.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Content-Language: en-US
+X-ClientProxiedBy: FR0P281CA0014.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:15::19) To MN2PR12MB3775.namprd12.prod.outlook.com
+ (2603:10b6:208:159::19)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2a02:908:1252:fb60:fe2b:fec6:eeb5:c7dc]
+ (2a02:908:1252:fb60:fe2b:fec6:eeb5:c7dc) by
+ FR0P281CA0014.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:15::19) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4331.10 via Frontend Transport; Wed, 14 Jul 2021 13:24:23 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 89425e02-3f71-42f3-5930-08d946cab363
+X-MS-TrafficTypeDiagnostic: MN2PR12MB4126:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <MN2PR12MB41265A95221F89CA92FF880383139@MN2PR12MB4126.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4714;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: nrDo3r2SnMYohrcymj2mf8+EXy9GtM7gctCUFRU+8iE1kTClADuHuC0qRCgBo3hW4B58XcR42qR+n1RbXv09Bis7tUjFXxxeVEoi0Z7a2uV9nXUlxFovfDRoE2aNKEbxog0LG6rDxj2IXmkChfN8uVswf/d+vKi0bVmFeJP7BZahbiYbpqDHjGhev9ow9LSb0w5xnpO85UNvhSFAAOA2F2ltcRiqt7iYHSunRpXdSEe8uqOyeBAyFMW6QDVtwoW3mVfuYpOJ7noHyUvS6fZ177bpHNDgLjF1zHF1iD1VCzjyHI3j5ewmJceBE7b3I6oseuhGWSgGCxmMbSCQrvz5O3YB1DBxV8y11lmgXgC0qL7HO0ZgdrkNLZZhqJjU2dRTCUpd3Yjp/Xo9corLByzlnaAR7/Ykejm8OlJITDpTewliXrCBRsgXdvdrenz7R2+OaotpShjSgcXtuSumgP+dszPjgPZFWNGeemK2kV8W4SutH6Mg6WJOwqEqTOeUk3yh3eJzheU56veoDz2C0hteI8Q69wy4TmdzGIhavolUMhhFv79iX9gwZHd7r3PRq0jEZ9Jnntn5hnyIvNvK6TJYGd0ci80FCHwlmGLnTeXoKVZiJWOVErPe3f+4UlnRktEJc4PHmNwVJFrhPG+ZFIc4/ry5CMFNIEpwhZcVds747gpm0bwaUAQgMnq90l/HTdrqXryvHi475c5EF2Xvge04kS6B/+i3AZn0cboR1o4D4xY8YdqSdO+jF8j9TCcypyOa
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(39860400002)(136003)(346002)(376002)(366004)(396003)(31696002)(66476007)(66556008)(6666004)(6636002)(186003)(8936002)(30864003)(110136005)(38100700002)(2616005)(316002)(5660300002)(86362001)(36756003)(31686004)(4326008)(2906002)(6486002)(478600001)(66946007)(8676002)(83380400001)(921005)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VGFzZ2hlMUsyT0dDUXFacGIvTVh2akxXQjdxSXY5dUx0QUNDcTZLVEFuMFMw?=
+ =?utf-8?B?UlRBWDV0VHRGMWIyaFQwL0N0SUxvNXVyeEZqeEhMQTYxNWNnQmpCWmp6ekxr?=
+ =?utf-8?B?QS9IZzFVbm1mQ2hXR1A2bnZDWlBwZytsVjNoVEs3V01oeXA3ZmNna0hWaTFr?=
+ =?utf-8?B?NXdFZlJnNk8xbzdCZ3diL3B5TVNtWksyaitjbkJRSWNkWkdpSzBPRlNCbGh3?=
+ =?utf-8?B?T0UybHl3aHNvdXdia3IvQU5mdnVLRFRLRkJyeHlBNEJ1elFuYnFOa3hxM0Er?=
+ =?utf-8?B?SVo5YUdQVktEc0YybkhRNnlsU3pmWW0yK2NKbE40WWNra2xSQ2Fablp2dktn?=
+ =?utf-8?B?Mk16TDBXem9mb1dPcU1MWlNQV0RSOHQ2QVJ0VXRqZFdoYUswdnBVeXN4TS95?=
+ =?utf-8?B?K1RFeTFNbFRQeFZBNE5Eblo2MjBVN0gxbFg4N01venQ2TWRMTHMwRkRySnpM?=
+ =?utf-8?B?TW5MMWI1bGtyejR1VUJZQ2pqdWRtVlZ0bndBREs5VGl0OVhRSG9GRXJxdVZ3?=
+ =?utf-8?B?YVArR3BHSTZ0dUNpMFozNGVteVA1NysyVmtyS1BlQ0ZxWVhGUFpWTzlUaHhR?=
+ =?utf-8?B?SEd1YXZ4WlZZdDAveWkvdWVWbHRDY1hPVlM4bkMrdTJvYnRoTGRDQWRXOXpM?=
+ =?utf-8?B?T3pGam1PSTV0cFJueUVzRnNrbGNiL01YVTg0aXF5VEQrNVN0UUlFUmxUUFNn?=
+ =?utf-8?B?Q0luTXFpSktobllnS2lPdGFxMnFPcUVZSW9ZemNnOUd1am1vV1ZaTXVOTXUx?=
+ =?utf-8?B?ZGxrUkNXQWxzS2pEbEovc25KcUt0QVB0dTdPRHNXM08xNGhZWjNnVUl5WXc5?=
+ =?utf-8?B?ajREMzY1N05ISjh6ZVFVUXlVY09oV29zMjJrYUk1a0VXZGo4bERmQWM0cnBM?=
+ =?utf-8?B?djhReFN2VmZMS2RGK2FBcCtNYWZtSWtocThHc3J1eWszRjVCT0NCZHdPdmNQ?=
+ =?utf-8?B?YVB6cTYwbjJ0QXN6czBxWXo4L25tWE5MU3k0OFpPdGxHNmxwczVEYkJ6WG9z?=
+ =?utf-8?B?NDU1YzV3NlpnU2V4RWVkRVpGNnZ1d250Nk5Uc2tFWWlUZ29raXdsWVpwSVEr?=
+ =?utf-8?B?SFMwMjdQTXQ2VE52cUQyOXlsQmNnNFdkOTF0Y0c5UlM3QjV5ZDVkclF5RDFo?=
+ =?utf-8?B?R1FNYmV2blMrd2VuUUU4MUlXM1FBemJwSXlmamhYazE1bzRzR3lSUm9OZ3Zy?=
+ =?utf-8?B?QkFWTFhyT0xLYzk4akVUM1c0STNwamJCOEVuRnlPVFVxZEZyRnVvMmdMTlV4?=
+ =?utf-8?B?UVE2SVVud09lbitrMVV5VzZLaThEb1ZkRTRnYnJ5ZStqRHB2MDJnaE5ESGJj?=
+ =?utf-8?B?QnlxZ3ZrbkMzRFNKNE8ydnZlbndrVXFnYXcxK2hKNTdqWmp3SnV4LzhrYUpr?=
+ =?utf-8?B?QVQxWmhWU3h4U2JzcXE2cEdzR2p2Z3VXSWNCWEFhM0VOYjFMNGwrMVF1MytR?=
+ =?utf-8?B?Y3dIc1lNTDZtQ2lZVkdNdDJEcHhmNHBOTTVCZGpjUDU4bm12bW9IVXYxSUh6?=
+ =?utf-8?B?bDlDa1djUUo4L042Skp3bmROYnE4U3lUaEZQU0tlSHcrZ3JUY2lVSDFLMHVB?=
+ =?utf-8?B?S0wxWmlpUDBlWC96WlBxZEU5SDhzZjlsS2lHdjF0Z0JPejl2ZlJDREJPbkZU?=
+ =?utf-8?B?cWNCNUY0Y1RlUkZ0Tkg4azFhVzRnQWpHZlZYeWVoYU8yTkxoZW1EdVRzd1dP?=
+ =?utf-8?B?V3RjNHdJOEZaSW85cnBVNXFWd0Y3WERQK0dwSC85d1ZGOHhrSFZLY3lKZm90?=
+ =?utf-8?B?bUw3TmpVU3NUWnR5RjNFT2R2YnNCY0Y3Q0hRYnRXVHM3Q2xuUHo3Uk9jNjdh?=
+ =?utf-8?B?WStxSGhJOHNQZUpIOWxQZlIxMXpxUFVlOFVmdzNFWXNCMklKY3F3dWVIanVp?=
+ =?utf-8?Q?lyXShb51RZ6e2?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 89425e02-3f71-42f3-5930-08d946cab363
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jul 2021 13:24:25.8355 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: OgMqnJMff38lxdhlo7beHXcqszSJlAGQZEkXtlVwdzQCyMCRns7EvZcEF9cYYsbc
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4126
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,270 +134,335 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Just a gentle ping. Or have I missed your reply?
+Am 13.07.21 um 16:06 schrieb Rodrigo Siqueira:
+> The display core files rely on FPU operation, which requires to be
+> compiled with special flags. Ideally, we don't want these FPU operations
+> spread around the DC code; nevertheless, it happens in the current
+> source. This commit introduces a new directory named fpu_operations that
+> intends to centralize all files that require the FPU compilation flag.
+> As part of this new component, this patch also moves one of the
+> functions that require FPU access to a single shared file. Notice that
+> this is the first part of the work, and it does not fix the FPU issue
+> yet; we still need other patches for achieving the complete isolation of
+> this file.
+>
+> Change since V1:
+> - Update documentation and rebase.
+>
+> Signed-off-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+> ---
+>   drivers/gpu/drm/amd/display/dc/Makefile       |  1 +
+>   .../drm/amd/display/dc/dcn20/dcn20_resource.c | 39 +--------
+>   .../drm/amd/display/dc/dcn20/dcn20_resource.h |  2 -
+>   .../drm/amd/display/dc/dcn21/dcn21_resource.c |  2 +
+>   .../amd/display/dc/fpu_operations/Makefile    | 58 +++++++++++++
+>   .../drm/amd/display/dc/fpu_operations/dcn2x.c | 87 +++++++++++++++++++
+>   .../drm/amd/display/dc/fpu_operations/dcn2x.h | 33 +++++++
+>   7 files changed, 183 insertions(+), 39 deletions(-)
+>   create mode 100644 drivers/gpu/drm/amd/display/dc/fpu_operations/Makefile
+>   create mode 100644 drivers/gpu/drm/amd/display/dc/fpu_operations/dcn2x.c
+>   create mode 100644 drivers/gpu/drm/amd/display/dc/fpu_operations/dcn2x.h
+>
+> diff --git a/drivers/gpu/drm/amd/display/dc/Makefile b/drivers/gpu/drm/amd/display/dc/Makefile
+> index 943fcb164876..93e731a9be68 100644
+> --- a/drivers/gpu/drm/amd/display/dc/Makefile
+> +++ b/drivers/gpu/drm/amd/display/dc/Makefile
+> @@ -37,6 +37,7 @@ DC_LIBS += dcn303
+>   DC_LIBS += dcn31
+>   endif
+>   
+> +DC_LIBS += fpu_operations
+>   DC_LIBS += dce120
+>   
+>   DC_LIBS += dce112
+> diff --git a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c
+> index 1b05a37b674d..f99b09643a52 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c
+> +++ b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c
+> @@ -35,6 +35,8 @@
+>   #include "include/irq_service_interface.h"
+>   #include "dcn20/dcn20_resource.h"
+>   
+> +#include "fpu_operations/dcn2x.h"
+> +
+>   #include "dcn10/dcn10_hubp.h"
+>   #include "dcn10/dcn10_ipp.h"
+>   #include "dcn20_hubbub.h"
+> @@ -1974,43 +1976,6 @@ void dcn20_split_stream_for_mpc(
+>   	ASSERT(primary_pipe->plane_state);
+>   }
+>   
+> -void dcn20_populate_dml_writeback_from_context(
+> -		struct dc *dc, struct resource_context *res_ctx, display_e2e_pipe_params_st *pipes)
+> -{
+> -	int pipe_cnt, i;
+> -
+> -	for (i = 0, pipe_cnt = 0; i < dc->res_pool->pipe_count; i++) {
+> -		struct dc_writeback_info *wb_info = &res_ctx->pipe_ctx[i].stream->writeback_info[0];
+> -
+> -		if (!res_ctx->pipe_ctx[i].stream)
+> -			continue;
+> -
+> -		/* Set writeback information */
+> -		pipes[pipe_cnt].dout.wb_enable = (wb_info->wb_enabled == true) ? 1 : 0;
+> -		pipes[pipe_cnt].dout.num_active_wb++;
+> -		pipes[pipe_cnt].dout.wb.wb_src_height = wb_info->dwb_params.cnv_params.crop_height;
+> -		pipes[pipe_cnt].dout.wb.wb_src_width = wb_info->dwb_params.cnv_params.crop_width;
+> -		pipes[pipe_cnt].dout.wb.wb_dst_width = wb_info->dwb_params.dest_width;
+> -		pipes[pipe_cnt].dout.wb.wb_dst_height = wb_info->dwb_params.dest_height;
+> -		pipes[pipe_cnt].dout.wb.wb_htaps_luma = 1;
+> -		pipes[pipe_cnt].dout.wb.wb_vtaps_luma = 1;
+> -		pipes[pipe_cnt].dout.wb.wb_htaps_chroma = wb_info->dwb_params.scaler_taps.h_taps_c;
+> -		pipes[pipe_cnt].dout.wb.wb_vtaps_chroma = wb_info->dwb_params.scaler_taps.v_taps_c;
+> -		pipes[pipe_cnt].dout.wb.wb_hratio = 1.0;
+> -		pipes[pipe_cnt].dout.wb.wb_vratio = 1.0;
+> -		if (wb_info->dwb_params.out_format == dwb_scaler_mode_yuv420) {
+> -			if (wb_info->dwb_params.output_depth == DWB_OUTPUT_PIXEL_DEPTH_8BPC)
+> -				pipes[pipe_cnt].dout.wb.wb_pixel_format = dm_420_8;
+> -			else
+> -				pipes[pipe_cnt].dout.wb.wb_pixel_format = dm_420_10;
+> -		} else
+> -			pipes[pipe_cnt].dout.wb.wb_pixel_format = dm_444_32;
+> -
+> -		pipe_cnt++;
+> -	}
+> -
+> -}
+> -
+>   int dcn20_populate_dml_pipes_from_context(
+>   		struct dc *dc,
+>   		struct dc_state *context,
+> diff --git a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.h b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.h
+> index c8f3127bbcdf..6ec8ff45f0f7 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.h
+> +++ b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.h
+> @@ -58,8 +58,6 @@ struct pipe_ctx *dcn20_acquire_idle_pipe_for_layer(
+>   		struct dc_state *state,
+>   		const struct resource_pool *pool,
+>   		struct dc_stream_state *stream);
+> -void dcn20_populate_dml_writeback_from_context(
+> -		struct dc *dc, struct resource_context *res_ctx, display_e2e_pipe_params_st *pipes);
+>   
+>   struct stream_encoder *dcn20_stream_encoder_create(
+>   	enum engine_id eng_id,
+> diff --git a/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c b/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c
+> index f3d98e3ba624..85385144e2c5 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c
+> +++ b/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c
+> @@ -35,6 +35,8 @@
+>   #include "include/irq_service_interface.h"
+>   #include "dcn20/dcn20_resource.h"
+>   
+> +#include "fpu_operations/dcn2x.h"
+> +
+>   #include "clk_mgr.h"
+>   #include "dcn10/dcn10_hubp.h"
+>   #include "dcn10/dcn10_ipp.h"
+> diff --git a/drivers/gpu/drm/amd/display/dc/fpu_operations/Makefile b/drivers/gpu/drm/amd/display/dc/fpu_operations/Makefile
+> new file mode 100644
+> index 000000000000..7f6f90c3f267
+> --- /dev/null
+> +++ b/drivers/gpu/drm/amd/display/dc/fpu_operations/Makefile
+> @@ -0,0 +1,58 @@
+> +# SPDX-License-Identifier: MIT
+> +#
+> +# Copyright 2021 Advanced Micro Devices, Inc.
+> +#
+> +# Permission is hereby granted, free of charge, to any person obtaining a
+> +# copy of this software and associated documentation files (the "Software"),
+> +# to deal in the Software without restriction, including without limitation
+> +# the rights to use, copy, modify, merge, publish, distribute, sublicense,
+> +# and/or sell copies of the Software, and to permit persons to whom the
+> +# Software is furnished to do so, subject to the following conditions:
+> +#
+> +# The above copyright notice and this permission notice shall be included in
+> +# all copies or substantial portions of the Software.
+> +#
+> +# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+> +# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+> +# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+> +# THE COPYRIGHT HOLDER(S) OR AUTHOR(S) BE LIABLE FOR ANY CLAIM, DAMAGES OR
+> +# OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+> +# ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+> +# OTHER DEALINGS IN THE SOFTWARE.
+> +#
+> +#
+> +# Makefile for fpu operations component.
+> +#
+> +
+> +FPU_OPERATIONS = dcn2x.o
+> +
+> +ifdef CONFIG_X86
+> +fpu_ccflags := -mhard-float -msse
+> +endif
+> +
+> +ifdef CONFIG_PPC64
+> +fpu_ccflags := -mhard-float -maltivec
+> +endif
+> +
+> +ifdef CONFIG_CC_IS_GCC
+> +ifeq ($(call cc-ifversion, -lt, 0701, y), y)
+> +IS_OLD_GCC = 1
+> +endif
+> +endif
+> +
+> +ifdef CONFIG_X86
+> +ifdef IS_OLD_GCC
+> +# Stack alignment mismatch, proceed with caution.
+> +# GCC < 7.1 cannot compile code using `double` and -mpreferred-stack-boundary=3
+> +# (8B stack alignment).
+> +fpu_ccflags := -mpreferred-stack-boundary=4
+> +else
+> +fpu_ccflags :=  -msse2
+> +endif
+> +endif
+> +
+> +CFLAGS_$(AMDDALPATH)/dc/fpu_operations/dcn2x.o += $(fpu_ccflags)
+> +
+> +AMD_DAL_FPU_OPERATIONS = $(addprefix $(AMDDALPATH)/dc/fpu_operations/,$(FPU_OPERATIONS))
+> +
+> +AMD_DISPLAY_FILES += $(AMD_DAL_FPU_OPERATIONS)
+> diff --git a/drivers/gpu/drm/amd/display/dc/fpu_operations/dcn2x.c b/drivers/gpu/drm/amd/display/dc/fpu_operations/dcn2x.c
+> new file mode 100644
+> index 000000000000..c815d6c01d64
+> --- /dev/null
+> +++ b/drivers/gpu/drm/amd/display/dc/fpu_operations/dcn2x.c
+> @@ -0,0 +1,87 @@
+> +// SPDX-License-Identifier: MIT
+> +/*
+> + * Copyright 2021 Advanced Micro Devices, Inc.
+> + *
+> + * Permission is hereby granted, free of charge, to any person obtaining a
+> + * copy of this software and associated documentation files (the "Software"),
+> + * to deal in the Software without restriction, including without limitation
+> + * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+> + * and/or sell copies of the Software, and to permit persons to whom the
+> + * Software is furnished to do so, subject to the following conditions:
+> + *
+> + * The above copyright notice and this permission notice shall be included in
+> + * all copies or substantial portions of the Software.
+> + *
+> + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+> + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+> + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+> + * THE COPYRIGHT HOLDER(S) OR AUTHOR(S) BE LIABLE FOR ANY CLAIM, DAMAGES OR
+> + * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+> + * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+> + * OTHER DEALINGS IN THE SOFTWARE.
+> + *
+> + * Authors: AMD
+> + *
+> + */
+> +
+> +#include "resource.h"
+> +
+> +/**
+> + * DOC: DCN2x FPU manipulation Overview
+> + *
+> + * The DCN architecture relies on FPU operations, which require special
+> + * compilation flags and the use of kernel_fpu_begin/end functions; ideally, we
+> + * want to avoid spreading FPU access across multiple files. With this idea in
+> + * mind, this file aims to centralize all DCN20 and DCN2.1 (DCN2x) functions
+> + * that require FPU access in a single place. Code in this file follows the
+> + * following code pattern:
+> + *
+> + * 1. Functions that use FPU operations should be isolated in static functions.
+> + * 2. The FPU functions should have the noinline attribute to ensure anything
+> + *    that deals with FP register is contained within this call.
+> + * 3. All function that needs to be accessed outside this file requires a
+> + *    public interface that not uses any FPU reference.
+> + */
+> +
+> +static noinline void _dcn20_populate_dml_writeback_from_context(struct dc *dc,
+> +	struct resource_context *res_ctx, display_e2e_pipe_params_st *pipes)
+> +{
+> +	int pipe_cnt, i;
+> +
+> +	for (i = 0, pipe_cnt = 0; i < dc->res_pool->pipe_count; i++) {
+> +		struct dc_writeback_info *wb_info = &res_ctx->pipe_ctx[i].stream->writeback_info[0];
+> +
+> +		if (!res_ctx->pipe_ctx[i].stream)
+> +			continue;
+> +
+> +		/* Set writeback information */
+> +		pipes[pipe_cnt].dout.wb_enable = (wb_info->wb_enabled == true) ? 1 : 0;
+> +		pipes[pipe_cnt].dout.num_active_wb++;
+> +		pipes[pipe_cnt].dout.wb.wb_src_height = wb_info->dwb_params.cnv_params.crop_height;
+> +		pipes[pipe_cnt].dout.wb.wb_src_width = wb_info->dwb_params.cnv_params.crop_width;
+> +		pipes[pipe_cnt].dout.wb.wb_dst_width = wb_info->dwb_params.dest_width;
+> +		pipes[pipe_cnt].dout.wb.wb_dst_height = wb_info->dwb_params.dest_height;
+> +		pipes[pipe_cnt].dout.wb.wb_htaps_luma = 1;
+> +		pipes[pipe_cnt].dout.wb.wb_vtaps_luma = 1;
+> +		pipes[pipe_cnt].dout.wb.wb_htaps_chroma = wb_info->dwb_params.scaler_taps.h_taps_c;
+> +		pipes[pipe_cnt].dout.wb.wb_vtaps_chroma = wb_info->dwb_params.scaler_taps.v_taps_c;
+> +		pipes[pipe_cnt].dout.wb.wb_hratio = 1.0;
+> +		pipes[pipe_cnt].dout.wb.wb_vratio = 1.0;
+> +		if (wb_info->dwb_params.out_format == dwb_scaler_mode_yuv420) {
+> +			if (wb_info->dwb_params.output_depth == DWB_OUTPUT_PIXEL_DEPTH_8BPC)
+> +				pipes[pipe_cnt].dout.wb.wb_pixel_format = dm_420_8;
+> +			else
+> +				pipes[pipe_cnt].dout.wb.wb_pixel_format = dm_420_10;
+> +		} else {
+> +			pipes[pipe_cnt].dout.wb.wb_pixel_format = dm_444_32;
+> +		}
+> +
+> +		pipe_cnt++;
+> +	}
+> +}
+> +
+> +void dcn20_populate_dml_writeback_from_context(struct dc *dc,
+> +	struct resource_context *res_ctx, display_e2e_pipe_params_st *pipes)
+> +{
+> +	_dcn20_populate_dml_writeback_from_context(dc, res_ctx, pipes);
+> +}
 
-Thanks,
+As far as I can see you don't need the wrapper function any longer.
+
+Just put the implementation in this function directly.
+
 Christian.
 
-Am 09.07.21 um 14:07 schrieb Christian König:
-> Daniel pointed me towards this function and there are multiple obvious problems
-> in the implementation.
->
-> First of all the retry loop is not working as intended. In general the retry
-> makes only sense if you grab the reference first and then check the sequence
-> values.
->
-> Then we should always also wait for the exclusive fence.
->
-> It's also good practice to keep the reference around when installing callbacks
-> to fences you don't own.
->
-> And last the whole implementation was unnecessary complex and rather hard to
-> understand which could lead to probably unexpected behavior of the IOCTL.
->
-> Fix all this by reworking the implementation from scratch. Dropping the
-> whole RCU approach and taking the lock instead.
->
-> Only mildly tested and needs a thoughtful review of the code.
->
-> v2: fix the reference counting as well
-> v3: keep the excl fence handling as is for stable
-> v4: back to testing all fences, drop RCU
-> v5: handle in and out separately
-> v6: add missing clear of events
->
-> Signed-off-by: Christian König <christian.koenig@amd.com>
-> CC: stable@vger.kernel.org
-> ---
->   drivers/dma-buf/dma-buf.c | 156 +++++++++++++++++---------------------
->   include/linux/dma-buf.h   |   2 +-
->   2 files changed, 72 insertions(+), 86 deletions(-)
->
-> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> index eadd1eaa2fb5..39e1ef872829 100644
-> --- a/drivers/dma-buf/dma-buf.c
-> +++ b/drivers/dma-buf/dma-buf.c
-> @@ -72,7 +72,7 @@ static void dma_buf_release(struct dentry *dentry)
->   	 * If you hit this BUG() it means someone dropped their ref to the
->   	 * dma-buf while still having pending operation to the buffer.
->   	 */
-> -	BUG_ON(dmabuf->cb_shared.active || dmabuf->cb_excl.active);
-> +	BUG_ON(dmabuf->cb_in.active || dmabuf->cb_out.active);
->   
->   	dmabuf->ops->release(dmabuf);
->   
-> @@ -202,16 +202,57 @@ static void dma_buf_poll_cb(struct dma_fence *fence, struct dma_fence_cb *cb)
->   	wake_up_locked_poll(dcb->poll, dcb->active);
->   	dcb->active = 0;
->   	spin_unlock_irqrestore(&dcb->poll->lock, flags);
-> +	dma_fence_put(fence);
-> +}
+> diff --git a/drivers/gpu/drm/amd/display/dc/fpu_operations/dcn2x.h b/drivers/gpu/drm/amd/display/dc/fpu_operations/dcn2x.h
+> new file mode 100644
+> index 000000000000..c060f909164b
+> --- /dev/null
+> +++ b/drivers/gpu/drm/amd/display/dc/fpu_operations/dcn2x.h
+> @@ -0,0 +1,33 @@
+> +/* SPDX-License-Identifier: MIT */
+> +/*
+> + * Copyright 2021 Advanced Micro Devices, Inc.
+> + *
+> + * Permission is hereby granted, free of charge, to any person obtaining a
+> + * copy of this software and associated documentation files (the "Software"),
+> + * to deal in the Software without restriction, including without limitation
+> + * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+> + * and/or sell copies of the Software, and to permit persons to whom the
+> + * Software is furnished to do so, subject to the following conditions:
+> + *
+> + * The above copyright notice and this permission notice shall be included in
+> + * all copies or substantial portions of the Software.
+> + *
+> + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+> + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+> + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+> + * THE COPYRIGHT HOLDER(S) OR AUTHOR(S) BE LIABLE FOR ANY CLAIM, DAMAGES OR
+> + * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+> + * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+> + * OTHER DEALINGS IN THE SOFTWARE.
+> + *
+> + * Authors: AMD
+> + *
+> + */
 > +
-> +static bool dma_buf_poll_shared(struct dma_resv *resv,
-> +				struct dma_buf_poll_cb_t *dcb)
-> +{
-> +	struct dma_resv_list *fobj = dma_resv_get_list(resv);
-> +	struct dma_fence *fence;
-> +	int i, r;
+> +#ifndef __DCN2X_H__
+> +#define __DCN2X_H__
 > +
-> +	if (!fobj)
-> +		return false;
+> +void dcn20_populate_dml_writeback_from_context(struct dc *dc,
+> +	struct resource_context *res_ctx, display_e2e_pipe_params_st *pipes);
 > +
-> +	for (i = 0; i < fobj->shared_count; ++i) {
-> +		fence = rcu_dereference_protected(fobj->shared[i],
-> +						  dma_resv_held(resv));
-> +		dma_fence_get(fence);
-> +		r = dma_fence_add_callback(fence, &dcb->cb, dma_buf_poll_cb);
-> +		if (!r)
-> +			return true;
-> +		dma_fence_put(fence);
-> +	}
-> +
-> +	return false;
-> +}
-> +
-> +static bool dma_buf_poll_excl(struct dma_resv *resv,
-> +			      struct dma_buf_poll_cb_t *dcb)
-> +{
-> +	struct dma_fence *fence = dma_resv_get_excl(resv);
-> +	int r;
-> +
-> +	if (!fence)
-> +		return false;
-> +
-> +	dma_fence_get(fence);
-> +	r = dma_fence_add_callback(fence, &dcb->cb, dma_buf_poll_cb);
-> +	if (!r)
-> +		return true;
-> +	dma_fence_put(fence);
-> +
-> +	return false;
->   }
->   
->   static __poll_t dma_buf_poll(struct file *file, poll_table *poll)
->   {
->   	struct dma_buf *dmabuf;
->   	struct dma_resv *resv;
-> -	struct dma_resv_list *fobj;
-> -	struct dma_fence *fence_excl;
-> +	unsigned shared_count;
->   	__poll_t events;
-> -	unsigned shared_count, seq;
-> +	int r, i;
->   
->   	dmabuf = file->private_data;
->   	if (!dmabuf || !dmabuf->resv)
-> @@ -225,101 +266,46 @@ static __poll_t dma_buf_poll(struct file *file, poll_table *poll)
->   	if (!events)
->   		return 0;
->   
-> -retry:
-> -	seq = read_seqcount_begin(&resv->seq);
-> -	rcu_read_lock();
-> -
-> -	fobj = rcu_dereference(resv->fence);
-> -	if (fobj)
-> -		shared_count = fobj->shared_count;
-> -	else
-> -		shared_count = 0;
-> -	fence_excl = rcu_dereference(resv->fence_excl);
-> -	if (read_seqcount_retry(&resv->seq, seq)) {
-> -		rcu_read_unlock();
-> -		goto retry;
-> -	}
-> +	dma_resv_lock(resv, NULL);
->   
-> -	if (fence_excl && (!(events & EPOLLOUT) || shared_count == 0)) {
-> -		struct dma_buf_poll_cb_t *dcb = &dmabuf->cb_excl;
-> -		__poll_t pevents = EPOLLIN;
-> -
-> -		if (shared_count == 0)
-> -			pevents |= EPOLLOUT;
-> +	if (events & EPOLLOUT) {
-> +		struct dma_buf_poll_cb_t *dcb = &dmabuf->cb_out;
->   
-> +		/* Check that callback isn't busy */
->   		spin_lock_irq(&dmabuf->poll.lock);
-> -		if (dcb->active) {
-> -			dcb->active |= pevents;
-> -			events &= ~pevents;
-> -		} else
-> -			dcb->active = pevents;
-> +		if (dcb->active)
-> +			events &= ~EPOLLOUT;
-> +		else
-> +			dcb->active = EPOLLOUT;
->   		spin_unlock_irq(&dmabuf->poll.lock);
->   
-> -		if (events & pevents) {
-> -			if (!dma_fence_get_rcu(fence_excl)) {
-> -				/* force a recheck */
-> -				events &= ~pevents;
-> -				dma_buf_poll_cb(NULL, &dcb->cb);
-> -			} else if (!dma_fence_add_callback(fence_excl, &dcb->cb,
-> -							   dma_buf_poll_cb)) {
-> -				events &= ~pevents;
-> -				dma_fence_put(fence_excl);
-> -			} else {
-> -				/*
-> -				 * No callback queued, wake up any additional
-> -				 * waiters.
-> -				 */
-> -				dma_fence_put(fence_excl);
-> -				dma_buf_poll_cb(NULL, &dcb->cb);
-> -			}
-> -		}
-> +		if (events & EPOLLOUT && !dma_buf_poll_shared(resv, dcb) &&
-> +		    !dma_buf_poll_excl(resv, dcb))
-> +			/* No callback queued, wake up any other waiters */
-> +			dma_buf_poll_cb(NULL, &dcb->cb);
-> +		else
-> +			events &= ~EPOLLOUT;
->   	}
->   
-> -	if ((events & EPOLLOUT) && shared_count > 0) {
-> -		struct dma_buf_poll_cb_t *dcb = &dmabuf->cb_shared;
-> -		int i;
-> +	if (events & EPOLLIN) {
-> +		struct dma_buf_poll_cb_t *dcb = &dmabuf->cb_in;
->   
-> -		/* Only queue a new callback if no event has fired yet */
-> +		/* Check that callback isn't busy */
->   		spin_lock_irq(&dmabuf->poll.lock);
->   		if (dcb->active)
-> -			events &= ~EPOLLOUT;
-> +			events &= ~EPOLLIN;
->   		else
-> -			dcb->active = EPOLLOUT;
-> +			dcb->active = EPOLLIN;
->   		spin_unlock_irq(&dmabuf->poll.lock);
->   
-> -		if (!(events & EPOLLOUT))
-> -			goto out;
-> -
-> -		for (i = 0; i < shared_count; ++i) {
-> -			struct dma_fence *fence = rcu_dereference(fobj->shared[i]);
-> -
-> -			if (!dma_fence_get_rcu(fence)) {
-> -				/*
-> -				 * fence refcount dropped to zero, this means
-> -				 * that fobj has been freed
-> -				 *
-> -				 * call dma_buf_poll_cb and force a recheck!
-> -				 */
-> -				events &= ~EPOLLOUT;
-> -				dma_buf_poll_cb(NULL, &dcb->cb);
-> -				break;
-> -			}
-> -			if (!dma_fence_add_callback(fence, &dcb->cb,
-> -						    dma_buf_poll_cb)) {
-> -				dma_fence_put(fence);
-> -				events &= ~EPOLLOUT;
-> -				break;
-> -			}
-> -			dma_fence_put(fence);
-> -		}
-> -
-> -		/* No callback queued, wake up any additional waiters. */
-> -		if (i == shared_count)
-> +		if (events & EPOLLIN && !dma_buf_poll_excl(resv, dcb))
-> +			/* No callback queued, wake up any other waiters */
->   			dma_buf_poll_cb(NULL, &dcb->cb);
-> +		else
-> +			events &= ~EPOLLIN;
->   	}
->   
-> -out:
-> -	rcu_read_unlock();
-> +	dma_resv_unlock(resv);
->   	return events;
->   }
->   
-> @@ -562,8 +548,8 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
->   	dmabuf->owner = exp_info->owner;
->   	spin_lock_init(&dmabuf->name_lock);
->   	init_waitqueue_head(&dmabuf->poll);
-> -	dmabuf->cb_excl.poll = dmabuf->cb_shared.poll = &dmabuf->poll;
-> -	dmabuf->cb_excl.active = dmabuf->cb_shared.active = 0;
-> +	dmabuf->cb_in.poll = dmabuf->cb_out.poll = &dmabuf->poll;
-> +	dmabuf->cb_in.active = dmabuf->cb_out.active = 0;
->   
->   	if (!resv) {
->   		resv = (struct dma_resv *)&dmabuf[1];
-> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-> index efdc56b9d95f..7e747ad54c81 100644
-> --- a/include/linux/dma-buf.h
-> +++ b/include/linux/dma-buf.h
-> @@ -329,7 +329,7 @@ struct dma_buf {
->   		wait_queue_head_t *poll;
->   
->   		__poll_t active;
-> -	} cb_excl, cb_shared;
-> +	} cb_in, cb_out;
->   };
->   
->   /**
+> +#endif /* __DCN2X_H__ */
 
