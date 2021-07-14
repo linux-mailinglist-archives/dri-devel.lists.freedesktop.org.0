@@ -1,47 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0BC33C895E
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Jul 2021 19:08:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5162E3C8987
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Jul 2021 19:15:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DECF56E433;
-	Wed, 14 Jul 2021 17:08:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F29A6E436;
+	Wed, 14 Jul 2021 17:15:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-relay-canonical-0.canonical.com
- (smtp-relay-canonical-0.canonical.com [185.125.188.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C00B6E433
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jul 2021 17:08:30 +0000 (UTC)
-Received: from localhost (1.general.cking.uk.vpn [10.172.193.212])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by smtp-relay-canonical-0.canonical.com (Postfix) with ESMTPSA id D841540616; 
- Wed, 14 Jul 2021 17:08:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
- s=20210705; t=1626282508;
- bh=DAhaMqtw5C577LQ/86AWeIBpEHxNYnclBIEh7gDqyRs=;
- h=From:To:Subject:Date:Message-Id:MIME-Version:Content-Type;
- b=hGj93JOz4sro6FFib6OFcRkkCEj08LkdkXruz9NsF78S3lLGUa9Zc5u/sxX5Si9YR
- 3x3gsuFUNOyJa/sno36q9lWN6smJKvXRRPX9MgdnteZZcQE7w3bBStaxfkGuqIPUTW
- uCX3mdzNcdbgsApBlI83EgTGE/ke8I7SGfX9z413ZwPf7sX/45f+Tu6gPEmOPudLMG
- cfeydL7tviF3q9igjU2ar3tPL+ypF+CPkhAULnoUl16h2LclBPPSEzwK5qvN0EpVtG
- syz3WWkyOrdiY7nEULFP2zsFwZZPeuyYf9b9C6ttX4+r5VeGQhZHh66kEpZ+e7kUjE
- WMsSubseTWtog==
-From: Colin King <colin.king@canonical.com>
-To: Evan Quan <evan.quan@amd.com>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-	Pan@freedesktop.org, Xinhui <Xinhui.Pan@amd.com>,
-	David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
-	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/amd/powerplay: remove redundant assignment to usTMax
-Date: Wed, 14 Jul 2021 18:08:28 +0100
-Message-Id: <20210714170828.147618-1-colin.king@canonical.com>
-X-Mailer: git-send-email 2.31.1
+Received: from bombadil.infradead.org (bombadil.infradead.org
+ [IPv6:2607:7c80:54:e::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 73BAD6E432;
+ Wed, 14 Jul 2021 17:15:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+ Content-Type:MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
+ Content-ID:Content-Description:In-Reply-To:References;
+ bh=kX9hKK1zO72+yBWFhZs3db5NllcwOVI8dLCu+ad+9IA=; b=h1H8yRGFNMYtQhBRHcFnIOv3sR
+ zEehWviMROtRkkzl8inD4QviXRaSWhD1fstkFSrsLAsJgIJl8mnPR1y8D7PGX0BbyJARINlRFh1sO
+ SA9dehEkYEZKmEkgs8eyJP+DM6XxfDj9nXCFeHPJ9WjgVncE1obqWnmfEFyfr5thqSYuJf6eD2Pxj
+ yp9Z+hIJcaZao6RfvYpbkHHKpRt6uu4t+MEZrjIW+V4Q2+qz8eNO7a6POsxPCH1p+pg/tolpF/Omw
+ IAU5ReM0eMuoCJZD/zOYZnyaoWJ0PTiSXLuk0sCTRtwpzF2LD7DHvl2SN2eaIchw/uK9JRlFjzUU0
+ 1iC2ckdA==;
+Received: from [2601:1c0:6280:3f0::aefb] (helo=bombadil.infradead.org)
+ by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1m3iTk-00EGmG-8I; Wed, 14 Jul 2021 17:15:24 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH -next] drm: nouveau: fix disp.c build when NOUVEAU_BACKLIGHT
+ is not enabled
+Date: Wed, 14 Jul 2021 10:15:23 -0700
+Message-Id: <20210714171523.413-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -55,35 +48,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: nouveau@lists.freedesktop.org, Randy Dunlap <rdunlap@infradead.org>,
+ Ben Skeggs <bskeggs@redhat.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Colin Ian King <colin.king@canonical.com>
+Fix build errors and warnings when
+# CONFIG_DRM_NOUVEAU_BACKLIGHT is not set
 
-Struct element usTMax is being assigned a hard coded value that
-is never read and it is being re-assigned a new value immediately
-afterwards. The assignment is redundant and can be removed.
+../drivers/gpu/drm/nouveau/dispnv50/disp.c: In function ‘nv50_sor_atomic_disable’:
+../drivers/gpu/drm/nouveau/dispnv50/disp.c:1665:52: error: ‘struct nouveau_connector’ has no member named ‘backlight’
+  struct nouveau_backlight *backlight = nv_connector->backlight;
+                                                    ^~
+../drivers/gpu/drm/nouveau/dispnv50/disp.c:1670:28: error: dereferencing pointer to incomplete type ‘struct nouveau_backlight’
+  if (backlight && backlight->uses_dpcd) {
 
-Addresses-Coverity: ("Unused value")
-Signed-off-by: Colin Ian King <colin.king@canonical.com>
+and then fix subsequent build warnings after the above are fixed:
+
+../drivers/gpu/drm/nouveau/dispnv50/disp.c: In function ‘nv50_sor_atomic_disable’:
+../drivers/gpu/drm/nouveau/dispnv50/disp.c:1669:6: warning: unused variable ‘ret’ [-Wunused-variable]
+  int ret;
+      ^~~
+../drivers/gpu/drm/nouveau/dispnv50/disp.c:1662:22: warning: unused variable ‘drm’ [-Wunused-variable]
+  struct nouveau_drm *drm = nouveau_drm(nv_encoder->base.base.dev);
+                      ^~~
+
+Fixes: 6eca310e8924 ("drm/nouveau/kms/nv50-: Add basic DPCD backlight support for nouveau")
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Ben Skeggs <bskeggs@redhat.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: nouveau@lists.freedesktop.org
+Cc: Lyude Paul <lyude@redhat.com>
 ---
- drivers/gpu/drm/amd/pm/powerplay/hwmgr/process_pptables_v1_0.c | 2 --
- 1 file changed, 2 deletions(-)
+ drivers/gpu/drm/nouveau/dispnv50/disp.c |    8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/process_pptables_v1_0.c b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/process_pptables_v1_0.c
-index f2a55c1413f5..20e528c166f9 100644
---- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/process_pptables_v1_0.c
-+++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/process_pptables_v1_0.c
-@@ -977,8 +977,6 @@ static int init_thermal_controller(
- 			= le16_to_cpu(tonga_fan_table->usPWMMed);
- 		hwmgr->thermal_controller.advanceFanControlParameters.usPWMHigh
- 			= le16_to_cpu(tonga_fan_table->usPWMHigh);
--		hwmgr->thermal_controller.advanceFanControlParameters.usTMax
--			= 10900;                  /* hard coded */
- 		hwmgr->thermal_controller.advanceFanControlParameters.usTMax
- 			= le16_to_cpu(tonga_fan_table->usTMax);
- 		hwmgr->thermal_controller.advanceFanControlParameters.ucFanControlMode
--- 
-2.31.1
-
+--- linux-next-20210714.orig/drivers/gpu/drm/nouveau/dispnv50/disp.c
++++ linux-next-20210714/drivers/gpu/drm/nouveau/dispnv50/disp.c
+@@ -1659,23 +1659,27 @@ static void
+ nv50_sor_atomic_disable(struct drm_encoder *encoder, struct drm_atomic_state *state)
+ {
+ 	struct nouveau_encoder *nv_encoder = nouveau_encoder(encoder);
+-	struct nouveau_drm *drm = nouveau_drm(nv_encoder->base.base.dev);
+ 	struct nouveau_crtc *nv_crtc = nouveau_crtc(nv_encoder->crtc);
+ 	struct nouveau_connector *nv_connector = nv50_outp_get_old_connector(state, nv_encoder);
++#ifdef CONFIG_DRM_NOUVEAU_BACKLIGHT
++	struct nouveau_drm *drm = nouveau_drm(nv_encoder->base.base.dev);
+ 	struct nouveau_backlight *backlight = nv_connector->backlight;
++#endif
+ 	struct drm_dp_aux *aux = &nv_connector->aux;
+ 	int ret;
+ 	u8 pwr;
+ 
++#ifdef CONFIG_DRM_NOUVEAU_BACKLIGHT
+ 	if (backlight && backlight->uses_dpcd) {
+ 		ret = drm_edp_backlight_disable(aux, &backlight->edp_info);
+ 		if (ret < 0)
+ 			NV_ERROR(drm, "Failed to disable backlight on [CONNECTOR:%d:%s]: %d\n",
+ 				 nv_connector->base.base.id, nv_connector->base.name, ret);
+ 	}
++#endif
+ 
+ 	if (nv_encoder->dcb->type == DCB_OUTPUT_DP) {
+-		int ret = drm_dp_dpcd_readb(aux, DP_SET_POWER, &pwr);
++		ret = drm_dp_dpcd_readb(aux, DP_SET_POWER, &pwr);
+ 
+ 		if (ret == 0) {
+ 			pwr &= ~DP_SET_POWER_MASK;
