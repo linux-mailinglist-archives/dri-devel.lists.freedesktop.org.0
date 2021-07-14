@@ -1,60 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 898443C83B0
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Jul 2021 13:19:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 717A13C83CD
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Jul 2021 13:23:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 873306E21D;
-	Wed, 14 Jul 2021 11:19:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E62316E216;
+	Wed, 14 Jul 2021 11:23:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
- [IPv6:2a00:1450:4864:20::432])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 110586E21D
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jul 2021 11:19:33 +0000 (UTC)
-Received: by mail-wr1-x432.google.com with SMTP id t5so2715941wrw.12
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jul 2021 04:19:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=/8wXMWxgzh+XHEjD5JlBSCU6YbRAQfHtMhN5YBUlBNk=;
- b=fGfsu/TQpwmSQsuxJkFzKjqTz9ClAzhSzoI7tQIg+yMuOicjgjCX7iXGEAXUkTYTPv
- m1G+WkQ2mUQisHtyvN81AFqarPVwODRmi4jplexxBOZZNvPzoNNFrIQ3xva3qk0O87zj
- 6SSq7UGs/2SaTZ8e+xxfjjN3AJyzMcroEw4JY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=/8wXMWxgzh+XHEjD5JlBSCU6YbRAQfHtMhN5YBUlBNk=;
- b=C8uP1PZIsE1htATaEtUT11gWb8b/EbJFZVuzPzOABhrvxwcJWoa+8DpGytbGfb2raV
- FKriNrLRTBbIudrnEPDGvDKMEPvWiPCV9DCenbyKhr53eISmmCBwbhR5Hbi7h1amN31G
- tgc+ijqDZVgRCDQ9tempY49sKhEBftteE0y//puY7OUGP+4Z+NX1OarpF//zzzWRp/af
- scld87wZ/PEfrZcvEOwQ59D09nsTUBdD7TxofOxj6qu8Nz6dMjvhOe6Ls6Olr1OWWX/c
- E/F6Ey7ioTyIwwkPWaHo/Yvm+nPtVXrWN++7YupcApej3b3LU4gDcIZCQnH4Hvhg1JVC
- juUA==
-X-Gm-Message-State: AOAM531lHesuQiPKpQ8jXynQRHiT76HdlATFsO6r7rcoerYsEuNW8ugi
- c3IbZ5wVvf8qErO5xwAIgbxPlQ==
-X-Google-Smtp-Source: ABdhPJzx88NIjYOyrII356NlWnW9br3k01LXmpOFzbXY6xaIn5CEMJUsOqRIhewAdIcdv8R276LAnQ==
-X-Received: by 2002:a5d:6a4d:: with SMTP id t13mr12209294wrw.412.1626261571764; 
- Wed, 14 Jul 2021 04:19:31 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id 12sm5173529wme.28.2021.07.14.04.19.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 14 Jul 2021 04:19:31 -0700 (PDT)
-Date: Wed, 14 Jul 2021 13:19:29 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Matthew Auld <matthew.auld@intel.com>
-Subject: Re: [PATCH 5/5] drm/i915/ehl: unconditionally flush the pages on
- acquire
-Message-ID: <YO7IQXMS3NAmJHhk@phenom.ffwll.local>
-References: <20210713104554.2381406-1-matthew.auld@intel.com>
- <20210713104554.2381406-5-matthew.auld@intel.com>
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 852D06E216
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Jul 2021 11:23:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1626261811;
+ bh=bRr42QOU3WxiGukaiKaQo9qQhX/uefmYG0L+VFBR0cY=;
+ h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
+ b=MH7MDNZQYjkv/8bbwBkSy/dTHjnZEPLNjx58GhW9NiKHHaEhkZIBMgl+1jheOfYNx
+ sjSLqyorceUCLaV+PPaVTyVLnTnuLOwvgbv9UIdtSSouT/ugGyPoD0cnAxEyO/tBby
+ KIzRPQDofNHx0bvw8YjucC6+kgI+v0FtYHZpN/kY=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [217.61.152.136] ([217.61.152.136]) by web-mail.gmx.net
+ (3c-app-gmx-bs01.server.lan [172.19.170.50]) (via HTTP); Wed, 14 Jul 2021
+ 13:23:31 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210713104554.2381406-5-matthew.auld@intel.com>
-X-Operating-System: Linux phenom 5.10.0-7-amd64 
+Message-ID: <trinity-345a7606-49c0-417a-b40a-5ff156332354-1626261811356@3c-app-gmx-bs01>
+From: Frank Wunderlich <frank-w@public-files.de>
+To: Yong Wu <yong.wu@mediatek.com>
+Subject: Aw: Re:  [PATCH v6 00/11] Clean up "mediatek,larb"
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 14 Jul 2021 13:23:31 +0200
+Importance: normal
+Sensitivity: Normal
+In-Reply-To: <1626261496.14352.16.camel@mhfsdcap03>
+References: <20210714025626.5528-1-yong.wu@mediatek.com>
+ <trinity-7d9ebdc9-4849-4d93-bfb5-429dcb4ee449-1626253158870@3c-app-gmx-bs01>
+ <1626261496.14352.16.camel@mhfsdcap03>
+X-UI-Message-Type: mail
+X-Priority: 3
+X-Provags-ID: V03:K1:C0a90b1taoG2cfcfP1pde1q2MNu5r1lIgwNvN5NXJS81Z6XyWAFZhMImid05bZKAZUc1Z
+ fSbF+ihXoQ925TRhUh/2PryeQrkBTUM6JIUaLAvZhNfmBG35Ckp7hDn2PsC6SOkInfw03TSGwAnq
+ QVkUFPFGffmEj3883aNhVDGijVAV0Dj7a1YKE2SJcV1ysSSD1b5nQ6xxg4LGX+ho7QSyvTaUSA5/
+ VeO3HfkSU+3+B2YcXrhadx1ynHb86Y/11K6GLOIm5WEjhoUM5E0xij5biHeSELX8yOKYJratdjjD
+ DA=
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:DZIjrERjTx0=:zO1GGiDuxmWNpY4kEGNX+H
+ Qsmf9C4I97mAD+wP1pU8z1eVgOesso/R5WsIidAM5D5eoNM9Jq9vra+7B0hV+BiXqHlm/N2U8
+ AU3rTTheff7I21iXOz3ILBB3bGN35C3B0KptIb4TN1MAOKfCNobq+RN/zUswYDl0kZ4eUR9c0
+ tQGm/bjLfNmBpNJHquyGdQvZYZNq2DH8QApwTchWdAEnpNcF+KOpKXpYjySgkTnaBYwVj27pW
+ nDbtsU5XednjYl88TCAk3MdLCU/njHPVEi8eLjrm12TvLdsgmyoYJgQ3BqBfit76+TcdTzEaj
+ 8oSosUKEC17F7PKZVCu360ZGcAfd7x+mFySyONxorqV3I0Ge29/VKMmQCUx6U4tGyE/tedka0
+ RX/CBC10tyIElacx5U7+9OoA+hRzKwTS9LRYmixBzk4cXG/5G4+j5ljnyn57NrDQp9fuMGkwH
+ vk4taR0w6XvN8s45fZ+qBA/Vzfq/o2D5Jnk1CrTsYwZRGO7EH3DubSJEKxu8Q/SfXw+yPfXD2
+ QcYHX3vFQ95LjF+yBhj7MDkk83UPCbZujqhgGuzFULXV9/KpR40RKpwh37QTl0x+I283hMmgo
+ yZjPMs8hjkNCjgYaF3X/Y6tG+n2TFGBWh36cu9O5iTbFSEXYKv0BUaEKLtwxiEUfLEYqFZeP1
+ RGJafeHCi3VQkh24Z0kvP/wCasLOFs3jsuq2je+vhXaEdZJ9NeCB9D3wVis0CVRxceZ/6F0z+
+ aWWCGUHZw8ekZPLQRrauLJKsPcMo3Awj4mlBI3ggYs1VbVrpwEBT98jdeIMoiUs72pausS9ap
+ BJ1DOYDL0HTAvkX8qv8ayhDVShLTwcji0NvCJczKYjZbdxnY7c=
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,107 +70,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, Lucas De Marchi <lucas.demarchi@intel.com>,
- dri-devel@lists.freedesktop.org, Jon Bloomfield <jon.bloomfield@intel.com>,
- Chris Wilson <chris.p.wilson@intel.com>,
- Francisco Jerez <francisco.jerez.plata@intel.com>,
- Tejas Upadhyay <tejaskumarx.surendrakumar.upadhyay@intel.com>
+Cc: Xia Jiang <xia.jiang@mediatek.com>,
+ Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, David Airlie <airlied@linux.ie>,
+ Will Deacon <will.deacon@arm.com>, dri-devel@lists.freedesktop.org,
+ anthony.huang@mediatek.com, youlin.pei@mediatek.com,
+ Nicolas Boichat <drinkcat@chromium.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+ Joerg Roedel <joro@8bytes.org>, Evan Green <evgreen@chromium.org>,
+ Eizan Miyamoto <eizan@chromium.org>, Matthias Kaehlcke <mka@chromium.org>,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ Tiffany Lin <tiffany.lin@mediatek.com>, yi.kuo@mediatek.com,
+ Rob Herring <robh+dt@kernel.org>, linux-mediatek@lists.infradead.org,
+ Hsin-Yi Wang <hsinyi@chromium.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ ming-fan.chen@mediatek.com, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ linux-arm-kernel@lists.infradead.org, anan.sun@mediatek.com,
+ acourbot@chromium.org, srv_heupstream@mediatek.com,
+ linux-kernel@vger.kernel.org, Tomasz Figa <tfiga@chromium.org>,
+ iommu@lists.linux-foundation.org, Robin Murphy <robin.murphy@arm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 13, 2021 at 11:45:54AM +0100, Matthew Auld wrote:
-> EHL and JSL add the 'Bypass LLC' MOCS entry, which should make it
-> possible for userspace to bypass the GTT caching bits set by the kernel,
-> as per the given object cache_level. This is troublesome since the heavy
-> flush we apply when first acquiring the pages is skipped if the kernel
-> thinks the object is coherent with the GPU. As a result it might be
-> possible to bypass the cache and read the contents of the page directly,
-> which could be stale data. If it's just a case of userspace shooting
-> themselves in the foot then so be it, but since i915 takes the stance of
-> always zeroing memory before handing it to userspace, we need to prevent
-> this.
-> 
-> v2: this time actually set cache_dirty in put_pages()
-> v3: move to get_pages() which looks simpler
-> 
-> BSpec: 34007
-> References: 046091758b50 ("Revert "drm/i915/ehl: Update MOCS table for EHL"")
-> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
-> Cc: Tejas Upadhyay <tejaskumarx.surendrakumar.upadhyay@intel.com>
-> Cc: Francisco Jerez <francisco.jerez.plata@intel.com>
-> Cc: Lucas De Marchi <lucas.demarchi@intel.com>
-> Cc: Jon Bloomfield <jon.bloomfield@intel.com>
-> Cc: Chris Wilson <chris.p.wilson@intel.com>
-> Cc: Matt Roper <matthew.d.roper@intel.com>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Gesendet: Mittwoch, 14. Juli 2021 um 13:18 Uhr
+> Von: "Yong Wu" <yong.wu@mediatek.com>
+> Hi Frank,
+>
+> Thanks for your report. mt7623 use mtk_iommu_v1.c.
+>
+> I will try to reproduce this locally.
 
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Hi,
 
-I was pondering whether we can have a solid testcase for this, but:
-- igt lacks the visibility, since we can't check easily whether stuff
-  leaks.
-- selftests don't have rendercopy, where we could select the nasty
-  mocs entry
+as far as i have debugged it dev->iommu_group is NULL, so it crashes on fi=
+rst access (dev_info)
 
-So it's a bit awkward. Is there something, or is this pure hw workaround
-stuff on theoretical grounds?
--Daniel
-> ---
->  .../gpu/drm/i915/gem/i915_gem_object_types.h   |  6 ++++++
->  drivers/gpu/drm/i915/gem/i915_gem_shmem.c      | 18 ++++++++++++++++++
->  2 files changed, 24 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
-> index da2194290436..7089d1b222c5 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
-> @@ -522,6 +522,12 @@ struct drm_i915_gem_object {
->  	 * I915_BO_CACHE_COHERENT_FOR_WRITE, i.e that the GPU will be coherent
->  	 * for both reads and writes though the CPU cache. So pretty much this
->  	 * should only be needed for I915_CACHE_NONE objects.
-> +	 *
-> +	 * Update: Some bonkers hardware decided to add the 'Bypass LLC' MOCS
-> +	 * entry, which defeats our @cache_coherent tracking, since userspace
-> +	 * can freely bypass the CPU cache when touching the pages with the GPU,
-> +	 * where the kernel is completely unaware. On such platform we need
-> +	 * apply the sledgehammer-on-acquire regardless of the @cache_coherent.
->  	 */
->  	unsigned int cache_dirty:1;
->  
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
-> index 6a04cce188fc..11f072193f3b 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
-> @@ -182,6 +182,24 @@ static int shmem_get_pages(struct drm_i915_gem_object *obj)
->  	if (i915_gem_object_needs_bit17_swizzle(obj))
->  		i915_gem_object_do_bit_17_swizzle(obj, st);
->  
-> +	/*
-> +	 * EHL and JSL add the 'Bypass LLC' MOCS entry, which should make it
-> +	 * possible for userspace to bypass the GTT caching bits set by the
-> +	 * kernel, as per the given object cache_level. This is troublesome
-> +	 * since the heavy flush we apply when first gathering the pages is
-> +	 * skipped if the kernel thinks the object is coherent with the GPU. As
-> +	 * a result it might be possible to bypass the cache and read the
-> +	 * contents of the page directly, which could be stale data. If it's
-> +	 * just a case of userspace shooting themselves in the foot then so be
-> +	 * it, but since i915 takes the stance of always zeroing memory before
-> +	 * handing it to userspace, we need to prevent this.
-> +	 *
-> +	 * By setting cache_dirty here we make the clflush in set_pages
-> +	 * unconditional on such platforms.
-> +	 */
-> +	if (IS_JSL_EHL(i915) && obj->flags & I915_BO_ALLOC_USER)
-> +		obj->cache_dirty = true;
-> +
->  	__i915_gem_object_set_pages(obj, st, sg_page_sizes);
->  
->  	return 0;
-> -- 
-> 2.26.3
-> 
+drivers/iommu/iommu.c:
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+ 923 void iommu_group_remove_device(struct device *dev)
+ 924 {
+ 925 printk(KERN_ALERT "DEBUG: Passed %s %d \n",__FUNCTION__,__LINE__);
+ 926     struct iommu_group *group =3D dev->iommu_group;
+ 927     struct group_device *tmp_device, *device =3D NULL;
+ 928
+ 929 printk(KERN_ALERT "DEBUG: Passed %s %d 0x%08x\n",__FUNCTION__,__LINE_=
+_,(unsigned int)group);
+ 930     dev_info(dev, "Removing from iommu group %d\n", group->id);
+
+
+regards Frank
