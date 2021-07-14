@@ -1,76 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37D2E3C82F7
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Jul 2021 12:32:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 29C5D3C8323
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Jul 2021 12:44:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D0B9C6E207;
-	Wed, 14 Jul 2021 10:32:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4031789DC2;
+	Wed, 14 Jul 2021 10:44:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
- [IPv6:2a00:1450:4864:20::435])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB3166E207
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jul 2021 10:32:06 +0000 (UTC)
-Received: by mail-wr1-x435.google.com with SMTP id f9so2551087wrq.11
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jul 2021 03:32:06 -0700 (PDT)
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
+ [IPv6:2a00:1450:4864:20::42e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BDAA789DC2
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Jul 2021 10:44:03 +0000 (UTC)
+Received: by mail-wr1-x42e.google.com with SMTP id k4so2607752wrc.8
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Jul 2021 03:44:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=hA7grU+s8xTzHDiN3chHrqXRM0NV+J697ZPMtp629lU=;
- b=Z9sd383cULVxmZk+/4TY7e8qfi1MFLCXj0i9y3rEwQK/n4ncYe8f+Utlis30DSfCa0
- QnoiqFnfSN7VOI1+7p6anUk0p2PV8vJPEQlCms4fy/X69x+sP2SMofTWE+eSXn5zsPYP
- i2cCZBxNJOedzXzf2Dle3wOy+NcHuY/uWabYg=
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=gst1g/aj4XbnRPZ/XmjBniKfdTmZRUA9vf82aaMY07E=;
+ b=kCgFbsPdSI3DUe5N+YsWgvnKrxWQk+0P+W3DenbCKJLmAV8oXE60hvgP/AWx3oGkuR
+ P69CogTwbeyl4hRvQgc/X2+EQdz8RWQ5Vo5/hJxc+Dc0gIgzcl8VJB7NtKV30Ju/xYJN
+ UR1hBmZ+Y3US1xSaCNtWv0CofWO2hJaBBuxGY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=hA7grU+s8xTzHDiN3chHrqXRM0NV+J697ZPMtp629lU=;
- b=orn0Ewoh9kUivVNs9HE2TtSm0jnTRKFG4sb3cuBuUa3bB9qSDh/S9RE7a8PBSK4rCD
- g2lesSPbHoSayRs+V3vdMoCWGG2t2OqAUAB/48a4Stss5W8vyBhQ9mSF4X9y47Z1aHj9
- l94LdAyUnEFi4I8qGzizapS/GhS2G+VZHyGWqreaPAzzZDGnNUFd3/3tbU1bKP+Jtgdn
- 7K35zNAMD93Ul86PMREvvUe7Tykc1zGkvXzqQ2TyUE4Qzm6qQpTGIKYc+C71HL9COEDv
- thPwUyx+t0SG2K0kJnTs7zD06lGDgeS9uNqMAoHKM7e17BAkHXWz02etmBL4acmNpYRl
- kdow==
-X-Gm-Message-State: AOAM533b8NyHV1B+b6kjr8o/uHFy5EHt280BRvw+wc6wkjm8yadh/bs5
- j2bhFKDGroM39o+UyvcXr2MOvQ==
-X-Google-Smtp-Source: ABdhPJzvSc2OjoSlFuxPRvs9s3AyFVzpM4KB/ZPzIs3nRgrLA+4Sk5mYljlfPoCZzJpjqs697gBVBQ==
-X-Received: by 2002:a05:6000:1787:: with SMTP id
- e7mr12031463wrg.167.1626258725391; 
- Wed, 14 Jul 2021 03:32:05 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=gst1g/aj4XbnRPZ/XmjBniKfdTmZRUA9vf82aaMY07E=;
+ b=qbV2XnW3WlsFCbljejlD27n9swUZXiwRAUy779CoZG2PsUR4N5FlhUSWA707fcL66H
+ FQYi7x+8YZHxe2cFA0pvGK6zTs9hvz0+QK26BABIUssDyNp+g3Og0E9YNfVfrxzI6wQj
+ QYogpiM6rthdmbakR+WpXjPqc7ZpVfOqTqrpA0EpfgkR7Uq++kGkOYAgGPlO5YNt9QYA
+ 7Mm3wO7EsUvBDPO4kTYGvSDh4haMXF1w4bGvA9Scyq68h7Eslx792flmN3kFX+8aCoIg
+ xgaQWgQlox4IQpMDDAGMQ5Y4z9friAl51NUszNJ9K1lBgVUKXPE/r+d5BjNog9Hfjnp+
+ dY/A==
+X-Gm-Message-State: AOAM5325wS3sYDAqp41BkczIE1paAKhUqMAqH3+r/YjXR7jggbyYqUQ4
+ EoUwXdPgPvbJHu/7Op8RU43Ngg==
+X-Google-Smtp-Source: ABdhPJx8ojJpnZPyAxure7IucoZgIcZJieU172rjWdJQLzxsI2GqAqt4A/FgLZEboGbe4MwYKgl7bQ==
+X-Received: by 2002:a5d:60cb:: with SMTP id x11mr12035663wrt.355.1626259442548; 
+ Wed, 14 Jul 2021 03:44:02 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id d10sm1972253wro.43.2021.07.14.03.32.04
+ by smtp.gmail.com with ESMTPSA id p5sm1694836wme.2.2021.07.14.03.44.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 14 Jul 2021 03:32:04 -0700 (PDT)
-Date: Wed, 14 Jul 2021 12:32:02 +0200
+ Wed, 14 Jul 2021 03:44:02 -0700 (PDT)
+Date: Wed, 14 Jul 2021 12:44:00 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Pi-Hsun Shih <pihsun@chromium.org>
-Subject: Re: [PATCH] drm/bridge: anx7625: Use pm_runtime_force_{suspend,resume}
-Message-ID: <YO69IsBXv+lbcuWp@phenom.ffwll.local>
-Mail-Followup-To: Pi-Hsun Shih <pihsun@chromium.org>,
- Tzung-Bi Shih <tzungbi@google.com>,
- Andrzej Hajda <a.hajda@samsung.com>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Robert Foss <robert.foss@linaro.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@linux.ie>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Xin Ji <xji@analogixsemi.com>, Hsin-Yi Wang <hsinyi@chromium.org>,
- Yu Jiahua <yujiahua1@huawei.com>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- open list <linux-kernel@vger.kernel.org>,
- "moderated list:ARM/Mediatek SoC support"
- <linux-arm-kernel@lists.infradead.org>, 
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>
-References: <20210714060221.1483752-1-pihsun@chromium.org>
+To: Felix Kuehling <Felix.Kuehling@amd.com>
+Subject: Re: [PATCH v3 1/1] drm/ttm: Fix COW check
+Message-ID: <YO6/8DWgD9d6tJcr@phenom.ffwll.local>
+References: <20210712220636.475675-1-Felix.Kuehling@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210714060221.1483752-1-pihsun@chromium.org>
+In-Reply-To: <20210712220636.475675-1-Felix.Kuehling@amd.com>
 X-Operating-System: Linux phenom 5.10.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -84,164 +65,150 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
- David Airlie <airlied@linux.ie>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Neil Armstrong <narmstrong@baylibre.com>,
- open list <linux-kernel@vger.kernel.org>, Robert Foss <robert.foss@linaro.org>,
- Andrzej Hajda <a.hajda@samsung.com>, Tzung-Bi Shih <tzungbi@google.com>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Hsin-Yi Wang <hsinyi@chromium.org>, Matthias Brugger <matthias.bgg@gmail.com>,
- Xin Ji <xji@analogixsemi.com>, "moderated list:ARM/Mediatek SoC support"
- <linux-arm-kernel@lists.infradead.org>, Yu Jiahua <yujiahua1@huawei.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 14, 2021 at 02:01:59PM +0800, Pi-Hsun Shih wrote:
-> Use pm_runtime_force_suspend and pm_runtime_force_resume to ensure that
-> anx7625 would always be powered off when suspended. Also update the
-> bridge enable hook to always ensure that the anx7625 is powered on
-> before starting DP operations.
+On Mon, Jul 12, 2021 at 06:06:36PM -0400, Felix Kuehling wrote:
+> KFD Thunk maps invisible VRAM BOs with PROT_NONE, MAP_PRIVATE.
+> is_cow_mapping returns true for these mappings. Add a check for
+> vm_flags & VM_WRITE to avoid mmap failures on private read-only or
+> PROT_NONE mappings.
 > 
-> Fixes: 409776fa3c42 ("drm/bridge: anx7625: add suspend / resume hooks")
+> v2: protect against mprotect making a mapping writable after the fact
+> v3: update driver-specific vm_operations_structs
 > 
-> Signed-off-by: Pi-Hsun Shih <pihsun@chromium.org>
-> 
-> ---
-> 
-> An issue was found that the anx7625 driver won't power off when used as
-> eDP bridge on Asurada board if suspend is entered via VT2.
-> 
-> The reason is that in this case, anx7625_suspend won't power off anx7625
-> (since intp_irq is not set). And anx7625_bridge_disable is only called
-> indirectly by other driver's (mediatek-drm) suspend.
-> pm_runtime_put_sync won't do anything since it's already in system
-> suspend.
-> 
-> If not in VT2, the bridge disable is indirectly called when Chrome
-> stops, so anx7625 will be powered off correctly.
-> 
-> To fix the issue, the suspend resume hooks are changed to
-> pm_runtime_force_{suspend,resume} to ensure the runtime suspend / resume
-> is always called correctly when system suspend / resume.
-> (Note that IRQ no longer needs to be disabled on suspend after commit
-> f03ab6629c7b ("drm/bridge: anx7625: Make hpd workqueue freezable"))
-> 
-> Since bridge disable is called indirectly by mediatek-drm driver's
-> suspend, it might happens after anx7625 suspend is called. So a check
-> if the driver is already suspended via pm_runtime_force_suspend is also
-> added, to ensure that the anx7625_dp_stop won't be called when power
-> is off. And also since bridge enable might happens before anx7625 resume
-> is called, a check to that is also added, and would force resume the
-> device in this case.
-> 
-> I'm not sure if the approach to fix this is the most appropriate way,
-> since using pm_runtime_force_resume in bridge enable kinda feels hacky
-> to me. I'm open to any suggestions.
+> Fixes: f91142c62161 ("drm/ttm: nuke VM_MIXEDMAP on BO mappings v3")
+> Signed-off-by: Felix Kuehling <Felix.Kuehling@amd.com>
+> Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 
-I thought the real fix was to create device links between the bridge and
-the other parts of the overall drm driver, so that the driver core can
-resume devices in the right order.
+So looking at vmf_insert_pfn_prot() and the comment there we can't have
+VM_PFNMAP and is_cow_mapping ever be true, or things break. On platforms
+without pte_special at least.
 
-Unfortunately those device link patches haven't made it in yet. Quick
-search on lore didn't find anything, maybe I was just dreaming, or maybe
-the patches only existed for panels.
+So I'm not sure this is a great idea, and definitely not for all drivers
+...
 
-Either way, this is a drm_bridge.c problem that needs to be fixed there,
-not individually in each driver.
+Can we clear VM_MAYWRITE instead to force this to be a non-cow mapping
+instead?
 -Daniel
 
-> 
 > ---
->  drivers/gpu/drm/bridge/analogix/anx7625.c | 55 +++++++++--------------
->  1 file changed, 20 insertions(+), 35 deletions(-)
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c  |  3 ++-
+>  drivers/gpu/drm/nouveau/nouveau_gem.c    |  3 ++-
+>  drivers/gpu/drm/radeon/radeon_gem.c      |  3 ++-
+>  drivers/gpu/drm/ttm/ttm_bo_vm.c          | 14 +++++++++++++-
+>  drivers/gpu/drm/vmwgfx/vmwgfx_ttm_glue.c |  1 +
+>  include/drm/ttm/ttm_bo_api.h             |  4 ++++
+>  6 files changed, 24 insertions(+), 4 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
-> index a3d82377066b..9d0f5dc88b16 100644
-> --- a/drivers/gpu/drm/bridge/analogix/anx7625.c
-> +++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
-> @@ -1559,7 +1559,20 @@ static void anx7625_bridge_enable(struct drm_bridge *bridge)
->  
->  	DRM_DEV_DEBUG_DRIVER(dev, "drm enable\n");
->  
-> -	pm_runtime_get_sync(dev);
-> +	/*
-> +	 * The only case where pm_runtime is disabled here is when the function
-> +	 * is called other driver's resume hook by
-> +	 * drm_mode_config_helper_resume, but when the pm_runtime_force_resume
-> +	 * hasn't been called on this device.
-> +	 *
-> +	 * pm_runtime_get_sync won't power on anx7625 in this case since we're
-> +	 * in system resume, so instead we force resume anx7625 to make sure
-> +	 * the following anx7625_dp_start would succeed.
-> +	 */
-> +	if (pm_runtime_enabled(dev))
-> +		pm_runtime_get_sync(dev);
-> +	else
-> +		pm_runtime_force_resume(dev);
->  
->  	anx7625_dp_start(ctx);
->  }
-> @@ -1571,9 +1584,10 @@ static void anx7625_bridge_disable(struct drm_bridge *bridge)
->  
->  	DRM_DEV_DEBUG_DRIVER(dev, "drm disable\n");
->  
-> -	anx7625_dp_stop(ctx);
-> -
-> -	pm_runtime_put_sync(dev);
-> +	if (pm_runtime_enabled(dev)) {
-> +		anx7625_dp_stop(ctx);
-> +		pm_runtime_put_sync(dev);
-> +	}
->  }
->  
->  static enum drm_connector_status
-> @@ -1705,38 +1719,9 @@ static int __maybe_unused anx7625_runtime_pm_resume(struct device *dev)
->  	return 0;
->  }
->  
-> -static int __maybe_unused anx7625_resume(struct device *dev)
-> -{
-> -	struct anx7625_data *ctx = dev_get_drvdata(dev);
-> -
-> -	if (!ctx->pdata.intp_irq)
-> -		return 0;
-> -
-> -	if (!pm_runtime_enabled(dev) || !pm_runtime_suspended(dev)) {
-> -		enable_irq(ctx->pdata.intp_irq);
-> -		anx7625_runtime_pm_resume(dev);
-> -	}
-> -
-> -	return 0;
-> -}
-> -
-> -static int __maybe_unused anx7625_suspend(struct device *dev)
-> -{
-> -	struct anx7625_data *ctx = dev_get_drvdata(dev);
-> -
-> -	if (!ctx->pdata.intp_irq)
-> -		return 0;
-> -
-> -	if (!pm_runtime_enabled(dev) || !pm_runtime_suspended(dev)) {
-> -		anx7625_runtime_pm_suspend(dev);
-> -		disable_irq(ctx->pdata.intp_irq);
-> -	}
-> -
-> -	return 0;
-> -}
-> -
->  static const struct dev_pm_ops anx7625_pm_ops = {
-> -	SET_SYSTEM_SLEEP_PM_OPS(anx7625_suspend, anx7625_resume)
-> +	SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
-> +				pm_runtime_force_resume)
->  	SET_RUNTIME_PM_OPS(anx7625_runtime_pm_suspend,
->  			   anx7625_runtime_pm_resume, NULL)
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
+> index b3404c43a911..1aa750a6a5d2 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
+> @@ -79,7 +79,8 @@ static const struct vm_operations_struct amdgpu_gem_vm_ops = {
+>  	.fault = amdgpu_gem_fault,
+>  	.open = ttm_bo_vm_open,
+>  	.close = ttm_bo_vm_close,
+> -	.access = ttm_bo_vm_access
+> +	.access = ttm_bo_vm_access,
+> +	.mprotect = ttm_bo_vm_mprotect
 >  };
-> 
-> base-commit: c0d438dbc0b74901f1901d97a6c84f38daa0c831
+>  
+>  static void amdgpu_gem_object_free(struct drm_gem_object *gobj)
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_gem.c b/drivers/gpu/drm/nouveau/nouveau_gem.c
+> index 5b27845075a1..164ea564bb7a 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_gem.c
+> +++ b/drivers/gpu/drm/nouveau/nouveau_gem.c
+> @@ -70,7 +70,8 @@ static const struct vm_operations_struct nouveau_ttm_vm_ops = {
+>  	.fault = nouveau_ttm_fault,
+>  	.open = ttm_bo_vm_open,
+>  	.close = ttm_bo_vm_close,
+> -	.access = ttm_bo_vm_access
+> +	.access = ttm_bo_vm_access,
+> +	.mprotect = ttm_bo_vm_mprotect
+>  };
+>  
+>  void
+> diff --git a/drivers/gpu/drm/radeon/radeon_gem.c b/drivers/gpu/drm/radeon/radeon_gem.c
+> index 458f92a70887..c19ad07eb7b5 100644
+> --- a/drivers/gpu/drm/radeon/radeon_gem.c
+> +++ b/drivers/gpu/drm/radeon/radeon_gem.c
+> @@ -77,7 +77,8 @@ static const struct vm_operations_struct radeon_gem_vm_ops = {
+>  	.fault = radeon_gem_fault,
+>  	.open = ttm_bo_vm_open,
+>  	.close = ttm_bo_vm_close,
+> -	.access = ttm_bo_vm_access
+> +	.access = ttm_bo_vm_access,
+> +	.mprotect = ttm_bo_vm_mprotect
+>  };
+>  
+>  static void radeon_gem_object_free(struct drm_gem_object *gobj)
+> diff --git a/drivers/gpu/drm/ttm/ttm_bo_vm.c b/drivers/gpu/drm/ttm/ttm_bo_vm.c
+> index f56be5bc0861..fb325bad5db6 100644
+> --- a/drivers/gpu/drm/ttm/ttm_bo_vm.c
+> +++ b/drivers/gpu/drm/ttm/ttm_bo_vm.c
+> @@ -542,17 +542,29 @@ int ttm_bo_vm_access(struct vm_area_struct *vma, unsigned long addr,
+>  }
+>  EXPORT_SYMBOL(ttm_bo_vm_access);
+>  
+> +int ttm_bo_vm_mprotect(struct vm_area_struct *vma, unsigned long start,
+> +		       unsigned long end, unsigned long newflags)
+> +{
+> +	/* Enforce no COW since would have really strange behavior with it. */
+> +	if (is_cow_mapping(newflags) && (newflags & VM_WRITE))
+> +		return -EINVAL;
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL(ttm_bo_vm_mprotect);
+> +
+>  static const struct vm_operations_struct ttm_bo_vm_ops = {
+>  	.fault = ttm_bo_vm_fault,
+>  	.open = ttm_bo_vm_open,
+>  	.close = ttm_bo_vm_close,
+>  	.access = ttm_bo_vm_access,
+> +	.mprotect = ttm_bo_vm_mprotect,
+>  };
+>  
+>  int ttm_bo_mmap_obj(struct vm_area_struct *vma, struct ttm_buffer_object *bo)
+>  {
+>  	/* Enforce no COW since would have really strange behavior with it. */
+> -	if (is_cow_mapping(vma->vm_flags))
+> +	if (is_cow_mapping(vma->vm_flags) && (vma->vm_flags & VM_WRITE))
+>  		return -EINVAL;
+>  
+>  	ttm_bo_get(bo);
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_glue.c b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_glue.c
+> index e6b1f98ec99f..e4bf7dc99320 100644
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_glue.c
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_glue.c
+> @@ -61,6 +61,7 @@ int vmw_mmap(struct file *filp, struct vm_area_struct *vma)
+>  		.fault = vmw_bo_vm_fault,
+>  		.open = ttm_bo_vm_open,
+>  		.close = ttm_bo_vm_close,
+> +		.mprotect = ttm_bo_vm_mprotect,
+>  #ifdef CONFIG_TRANSPARENT_HUGEPAGE
+>  		.huge_fault = vmw_bo_vm_huge_fault,
+>  #endif
+> diff --git a/include/drm/ttm/ttm_bo_api.h b/include/drm/ttm/ttm_bo_api.h
+> index f681bbdbc698..40eb95875355 100644
+> --- a/include/drm/ttm/ttm_bo_api.h
+> +++ b/include/drm/ttm/ttm_bo_api.h
+> @@ -605,6 +605,10 @@ void ttm_bo_vm_close(struct vm_area_struct *vma);
+>  
+>  int ttm_bo_vm_access(struct vm_area_struct *vma, unsigned long addr,
+>  		     void *buf, int len, int write);
+> +
+> +int ttm_bo_vm_mprotect(struct vm_area_struct *vma, unsigned long start,
+> +		       unsigned long end, unsigned long newflags);
+> +
+>  bool ttm_bo_delayed_delete(struct ttm_device *bdev, bool remove_all);
+>  
+>  vm_fault_t ttm_bo_vm_dummy_page(struct vm_fault *vmf, pgprot_t prot);
 > -- 
-> 2.32.0.93.g670b81a890-goog
+> 2.32.0
 > 
 
 -- 
