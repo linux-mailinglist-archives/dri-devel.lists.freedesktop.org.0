@@ -2,60 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E3943C80DE
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Jul 2021 10:59:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4E2F3C8176
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Jul 2021 11:22:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A4B166E1D5;
-	Wed, 14 Jul 2021 08:59:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC5336E1E6;
+	Wed, 14 Jul 2021 09:22:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0FDB36E1D5
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jul 2021 08:59:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1626253159;
- bh=2PfUJGsN5axf79lyK53KIfWRTeJoSiAoNWHeXAJAm5k=;
- h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
- b=ABY8yG3fDvHwhdrriVKsu1KyjPfUEH6xW/YvrAHOvujzOyzGRKiy2dBPle0lASCBo
- FTWMIPLDMSj9FHlaeVcQrgMGGrer/+CivY/XZabcjrajrSEg47XuH1fqxYNRg+JEt2
- SiesIqzE1N5MQ+lQmUEQdMz5rxcbFOtjxgepeOng=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [217.61.152.136] ([217.61.152.136]) by web-mail.gmx.net
- (3c-app-gmx-bs01.server.lan [172.19.170.50]) (via HTTP); Wed, 14 Jul 2021
- 10:59:18 +0200
+X-Greylist: delayed 301 seconds by postgrey-1.36 at gabe;
+ Wed, 14 Jul 2021 09:22:27 UTC
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C77FA6E1E6
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Jul 2021 09:22:27 +0000 (UTC)
+X-UUID: 6a541489cb164a34b00c8d5c93af62d9-20210714
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
+ bh=xPxiLHgyF3Z69P36wJDPoZFLBqPf7RnzJvS6Sds8yhA=; 
+ b=sxBPYGtPKQKfXsVLz+cRFo8HbhoeHM0UGR6APSBg+amnETmDDLtg797cbNFTBCWnVRMXdOTa5DgJ+RFSdNUyNA5K+wNI6yOotY7BK+FGdc0UW6PUpPlooBPxcxE+z/H0seaHW1oL4czp9EgYxoxgc6kSgXi3eDL9NvlOUX4gkUI=;
+X-UUID: 6a541489cb164a34b00c8d5c93af62d9-20210714
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
+ (envelope-from <guangming.cao@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 1704906782; Wed, 14 Jul 2021 17:17:23 +0800
+Received: from MTKCAS36.mediatek.inc (172.27.4.186) by mtkmbs01n1.mediatek.inc
+ (172.21.101.68) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Wed, 14 Jul 2021 17:17:22 +0800
+Received: from mszswglt01 (10.16.20.20) by MTKCAS36.mediatek.inc
+ (172.27.4.170) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Wed, 14 Jul 2021 17:17:20 +0800
+Message-ID: <e3909d03e55566805fb538088411762f415b34e1.camel@mediatek.com>
+Subject: Re: [PATCH] dma-buf: add kernel count for dma_buf
+From: Guangming.Cao <guangming.cao@mediatek.com>
+To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, "Sumit
+ Semwal" <sumit.semwal@linaro.org>
+Date: Wed, 14 Jul 2021 17:17:20 +0800
+In-Reply-To: <1bfb2001-b7d7-28b0-7fdf-ae9dbb7395b5@amd.com>
+References: <20210714071144.62126-1-guangming.cao@mediatek.com>
+ <1bfb2001-b7d7-28b0-7fdf-ae9dbb7395b5@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-Message-ID: <trinity-7d9ebdc9-4849-4d93-bfb5-429dcb4ee449-1626253158870@3c-app-gmx-bs01>
-From: Frank Wunderlich <frank-w@public-files.de>
-To: Yong Wu <yong.wu@mediatek.com>
-Subject: Aw: [PATCH v6 00/11] Clean up "mediatek,larb"
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 14 Jul 2021 10:59:18 +0200
-Importance: normal
-Sensitivity: Normal
-In-Reply-To: <20210714025626.5528-1-yong.wu@mediatek.com>
-References: <20210714025626.5528-1-yong.wu@mediatek.com>
-X-UI-Message-Type: mail
-X-Priority: 3
-X-Provags-ID: V03:K1:41hJo/XYrZUHIeMDY07beGhJR05vkLxAQITh9O1JknXiCDIPb9AnREzqsqzHICRgoA4aX
- +VAlF3wwHQHbYa/GGCgJhTDtD0i0iZcray5tchmyODDSQBszTPJ8Cg9gg9LgxbFhLS4m04MCLN53
- ePdYFNXzAkr1Xvyf64zJFgpHrtCx3fhmT3LqyYxoT0nRDwTxV6UVaYlwijr3k0aNzY44Q9GNsnWw
- Rl3go4EBz7ULxN81eHdqgXx4wZX5M3IQyIamHA+xF+0G23a388+8tJIl3y+MV5whXMki3Iq+biLW
- UE=
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:xahsKhf98lg=:Wfje5JxpoANcTNbcmTtKVK
- VQ+rHW0jjkDG7cM+BrzCqPqYP/W7Q1dk67RH/jENaakUoczFwa3fW3FrkGIkE8iEXSDP0y+iX
- Ldkppn4aANbjhSEDBEcwvT/JR4ia055MyjoHgIDw88+R+pZWLJS5VDabeYDqYbhwvTccliZyp
- 5ZOuEK9y2I+3WEqlIALyq4H90JQRlgfv2JMXK56pxhm/7USMsR20jYWECfsusG0aKbfWKSz5l
- DweHDC9nwaC6TLxhY+erDIbE15qyYxQDlB3mCOEle1bWCQqyOpBxKxvqHPkumeUOCKawIEp+N
- wdipQ94TPhtjo1lRZS5NeaSPWtZb4TzF0NFu+y+MjaSaC9mfYnPsZ7fBDfdYIbpWV6mWQhsxD
- wLwxpA6JR7FJa8k18pWGpAdTza2yTr7xbLHQmSVtTQ6xb7z3THroUiIXpu9eKVDCgfVnNXN4k
- gXyfw7FdiODoTHjK2YhrS2kkJnqop7Ax4FkHKh6zy+U2b0n26wbcmU0Wfk40t5km0pwxw3f0q
- V4jMISUBOvceIBWVNxuZMPZoeeNJ/1lseOLpWgHlbK/WW6jpCTsRrH0JNTzxgM6S+e3jHL6IV
- qyt6ZSNcW2Itd4NQsDmMhdkCuz50nuyBKhtqniFkzqPf0W0aXDbpGcdmCtEm9oLaJ+QVfj2T0
- KXiq7AM4wtYtVBe7EGPLR23WdO5yz7fSX4QQl0Q5E8wUUwWSGuVT84nIwpQjI8mhzfj1ilUg9
- NEVw5SgEn/3reKMV4uhqInc6YYW6Lg5WwQCEP7w6nuVvmv4BZPcvE0PY02uVNxvYpTMQ79gVP
- w5SwTV/kfrKGrTloRp4qsuf31tzQ2KQVg0453IpWqKtLrpRlpM=
-Content-Transfer-Encoding: quoted-printable
+X-MTK: N
+Content-Transfer-Encoding: base64
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,101 +57,129 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Xia Jiang <xia.jiang@mediatek.com>,
- Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, David Airlie <airlied@linux.ie>,
- Will Deacon <will.deacon@arm.com>, dri-devel@lists.freedesktop.org,
- anthony.huang@mediatek.com, youlin.pei@mediatek.com,
- Nicolas Boichat <drinkcat@chromium.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
- Joerg Roedel <joro@8bytes.org>, Evan Green <evgreen@chromium.org>,
- Eizan Miyamoto <eizan@chromium.org>, Matthias Kaehlcke <mka@chromium.org>,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, Tiffany Lin <tiffany.lin@mediatek.com>,
- yi.kuo@mediatek.com, Rob Herring <robh+dt@kernel.org>,
- linux-mediatek@lists.infradead.org, Hsin-Yi Wang <hsinyi@chromium.org>,
- Matthias Brugger <matthias.bgg@gmail.com>, ming-fan.chen@mediatek.com,
- Mauro Carvalho Chehab <mchehab@kernel.org>, yong.wu@mediatek.com,
- anan.sun@mediatek.com, acourbot@chromium.org, srv_heupstream@mediatek.com,
- linux-kernel@vger.kernel.org, Tomasz Figa <tfiga@chromium.org>,
- iommu@lists.linux-foundation.org, Robin Murphy <robin.murphy@arm.com>
+Cc: wsd_upstream@mediatek.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+T24gV2VkLCAyMDIxLTA3LTE0IGF0IDEwOjQ2ICswMjAwLCBDaHJpc3RpYW4gS8O2bmlnIHdyb3Rl
+Og0KPiBBbSAxNC4wNy4yMSB1bSAwOToxMSBzY2hyaWViIGd1YW5nbWluZy5jYW9AbWVkaWF0ZWsu
+Y29tOg0KPiA+IEZyb206IEd1YW5nbWluZyBDYW8gPEd1YW5nbWluZy5DYW9AbWVkaWF0ZWsuY29t
+Pg0KPiA+IA0KPiA+IEFkZCBhIHJlZmNvdW50IGZvciBrZXJuZWwgdG8gcHJldmVudCBVQUYoVXNl
+IEFmdGVyIEZyZWUpIGlzc3VlLg0KPiANCj4gV2VsbCBOQUsgb24gc28gbWFueSBsZXZlbHMuDQo+
+IA0KPiA+IA0KPiA+IFdlIGNhbiBhc3N1bWUgYSBjYXNlIGxpa2UgYmVsb3c6DQo+ID4gICAgICAx
+LiBrZXJuZWwgc3BhY2UgYWxsb2MgZG1hX2J1ZihmaWxlIGNvdW50ID0gMSkNCj4gPiAgICAgIDIu
+IGtlcm5lbCB1c2UgZG1hX2J1ZiB0byBnZXQgZmQoZmlsZSBjb3VudCA9IDEpDQo+ID4gICAgICAz
+LiB1c2Vyc3BhY2UgdXNlIGZkIHRvIGRvIG1hcHBpbmcgKGZpbGUgY291bnQgPSAyKQ0KPiANCj4g
+Q3JlYXRpbmcgYW4gdXNlcnNwYWNlIG1hcHBpbmcgaW5jcmVhc2VzIHRoZSByZWZlcmVuY2UgY291
+bnQgZm9yIHRoZSANCj4gdW5kZXJseWluZyBmaWxlIG9iamVjdC4NCj4gDQo+IFNlZSB0aGUgaW1w
+bGVtZW50YXRpb24gb2YgbW1hcF9yZWdpb24oKToNCj4gLi4uDQo+ICAgICAgICAgICAgICAgICAg
+dm1hLT52bV9maWxlID0gZ2V0X2ZpbGUoZmlsZSk7DQo+ICAgICAgICAgICAgICAgICAgZXJyb3Ig
+PSBjYWxsX21tYXAoZmlsZSwgdm1hKTsNCj4gLi4uDQo+IA0KPiBXaGF0IGNhbiBoYXBwZW4gaXMg
+dGhlIHRoZSB1bmRlcmx5aW5nIGV4cG9ydGVyIHJlZGlyZWN0cyB0aGUgbW1hcCB0bw0KPiBhIA0K
+PiBkaWZmZXJlbnQgZmlsZSwgZS5nLiBUVE0gb3IgR0VNIGRyaXZlcnMgZG8gdGhhdCBhbGwgdGhl
+IHRpbWUuDQo+IA0KPiBCdXQgdGhpcyBpcyBmaW5lIHNpbmNlIHRoZW4gdGhlIFZBIG1hcHBpbmcg
+aXMgaW5kZXBlbmRlbnQgb2YgdGhlIERNQS0NCj4gYnVmLg0KPiANCj4gPiAgICAgIDQuIGtlcm5l
+bCBjYWxsIGRtYV9idWZfcHV0IChmaWxlIGNvdW50ID0gMSkNCj4gPiAgICAgIDUuIHVzZXJwc2Fj
+ZSBjbG9zZSBidWZmZXIgZmQoZmlsZSBjb3VudCA9IDApDQo+ID4gICAgICA2LiBhdCB0aGlzIHRp
+bWUsIGJ1ZmZlciBpcyByZWxlYXNlZCwgYnV0IHZhIGlzIHZhbGlkISENCj4gPiAgICAgICAgIFNv
+IHdlIHN0aWxsIGNhbiByZWFkL3dyaXRlIGJ1ZmZlciB2aWEgbW1hcCB2YSwNCj4gPiAgICAgICAg
+IGl0IG1heWJlIGNhdXNlIG1lbW9yeSBsZWFrLCBvciBrZXJuZWwgZXhjZXB0aW9uLg0KPiA+ICAg
+ICAgICAgQW5kIGFsc28sIGlmIHdlIHVzZSAibHMgLWxsIiB0byB3YXRjaCBjb3JyZXNwb25kaW5n
+IHByb2Nlc3MNCj4gPiAgICAgICAgICAgICBmZCBsaW5rIGluZm8sIGl0IGFsc28gd2lsbCBjYXVz
+ZSBrZXJuZWwgZXhjZXB0aW9uLg0KPiA+IA0KPiA+IEFub3RoZXIgY2FzZToNCj4gPiAgICAgICBV
+c2luZyBkbWFfYnVmX2ZkIHRvIGdlbmVyYXRlIG1vcmUgdGhhbiAxIGZkLCBiZWNhdXNlDQo+ID4g
+ICAgICAgZG1hX2J1Zl9mZCB3aWxsIG5vdCBpbmNyZWFzZSBmaWxlIGNvdW50LCB0aHVzLCB3aGVu
+IGNsb3NlDQo+ID4gICAgICAgdGhlIHNlY29uZCBmZCwgaXQgbWF5YmUgb2NjdXJzIGVycm9yLg0K
+PiANCj4gRWFjaCBvcGVuZWQgZmQgd2lsbCBpbmNyZWFzZSB0aGUgcmVmZXJlbmNlIGNvdW50IHNv
+IHRoaXMgaXMNCj4gY2VydGFpbmx5IA0KPiBub3QgY29ycmVjdCB3aGF0IHlvdSBkZXNjcmliZSBo
+ZXJlLg0KPiANCj4gUmVnYXJkcywNCj4gQ2hyaXN0aWFuLg0KPiANCg0KWWVzLCBtbWFwIHdpbGwg
+aW5jcmVhc2UgZmlsZSBjb3VudCBieSBjYWxsaW5nIGdldF9maWxlLCBzbyBzdGVwWzJdIC0+DQpz
+dGVwWzNdLCBmaWxlIGNvdW50IGluY3JlYXNlIDEuDQoNCkJ1dCwgZG1hX2J1Zl9mZCgpIHdpbGwg
+bm90IGluY3JlYXNlIGZpbGUgY291bnQuDQpmdW5jdGlvbiAiZG1hX2J1Zl9mZChzdHJ1Y3QgZG1h
+X2J1ZiAqZG1hYnVmLCBpbnQgZmxhZ3MpIiBqdXN0IGdldCBhbg0KdW51c2VkIGZkLCB2aWEgY2Fs
+bCAiZ2V0X3VudXNlZF9mZF9mbGFncyhmbGFncykiLCBhbmQgY2FsbA0KImZkX2luc3RhbGwoZmQs
+IGRtYWJ1Zi0+ZmlsZSkiLCBpdCB3aWxsIGxldCBhc3NvY2lhdGVkICJzdHJ1Y3QgZmlsZSogIg0K
+aW4gdGFzaydzIGZkdC0+ZmRbZmRdIHBvaW50cyB0byB0aGlzIGRtYV9idWYuZmlsZSwgbm90IGlu
+Y3JlYXNlIHRoZQ0KZmlsZSBjb3VudCBvZiBkbWFfYnVmLmZpbGUuDQpJIHRoaW5rIHRoaXMgaXMg
+Y29uZnVzaW5nLCBJIGNhbiBnZXQgbW9yZSB0aGFuIDEgZmRzIHZpYSBkbWFfYnVmX2ZkLA0KYnV0
+IHRoZXkgZG9uJ3QgbmVlZCB0byBjbG9zZSBpdCBiZWNhdXNlIHRoZXkgZG9uJ3QgaW5jcmVhc2Ug
+ZmlsZSBjb3VudC4NCg0KSG93ZXZlciwgZG1hX2J1Zl9wdXQoKSBjYW4gZGVjcmVhc2UgZmlsZSBj
+b3VudCBhdCBrZXJuZWwgc2lkZSBkaXJlY3RseS4NCklmIHNvbWVib2R5IHdyaXRlIGEga28gdG8g
+cHV0IGZpbGUgY291bnQgb2YgZG1hX2J1Zi5maWxlIG1hbnkgdGltZXMsIGl0DQp3aWxsIGNhdXNl
+IGJ1ZmZlciBmcmVlZCBlYXJsaWVyIHRoYW4gZXhjZXB0LiBBdCBsYXN0IG9uIEFuZHJvaWQsIEkN
+CnRoaW5rIHRoaXMgaXMgYSBsaXR0bGUgYml0IGRhbmdlcm91cy4NCg0KPiA+IA0KPiA+IFNvbHV0
+aW9uOg0KPiA+ICAgICAgQWRkIGEga2VybmVsIGNvdW50IGZvciBkbWFfYnVmLCBhbmQgbWFrZSBz
+dXJlIHRoZSBmaWxlIGNvdW50DQo+ID4gICAgICAgICAgb2YgZG1hX2J1Zi5maWxlIGhvbGQgYnkg
+a2VybmVsIGlzIDEuDQo+ID4gDQo+ID4gTm90ZXM6IEZvciB0aGlzIHNvbHV0aW9uLCBrcmVmIGNv
+dWxkbid0IHdvcmsgYmVjYXVzZSBrZXJuZWwgcmVmDQo+ID4gICAgICAgICBtYXliZSBhZGRlZCBm
+cm9tIDAsIGJ1dCBrcmVmIGRvbid0IGFsbG93IGl0Lg0KPiA+IA0KPiA+IFNpZ25lZC1vZmYtYnk6
+IEd1YW5nbWluZyBDYW8gPEd1YW5nbWluZy5DYW9AbWVkaWF0ZWsuY29tPg0KPiA+IC0tLQ0KPiA+
+ICAgZHJpdmVycy9kbWEtYnVmL2RtYS1idWYuYyB8IDIzICsrKysrKysrKysrKysrKysrKystLS0t
+DQo+ID4gICBpbmNsdWRlL2xpbnV4L2RtYS1idWYuaCAgIHwgIDYgKysrKy0tDQo+ID4gICAyIGZp
+bGVzIGNoYW5nZWQsIDIzIGluc2VydGlvbnMoKyksIDYgZGVsZXRpb25zKC0pDQo+ID4gDQo+ID4g
+ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZG1hLWJ1Zi9kbWEtYnVmLmMgYi9kcml2ZXJzL2RtYS1idWYv
+ZG1hLWJ1Zi5jDQo+ID4gaW5kZXggNTExZmUwZDIxN2EwLi4wNGVlOTJhYWM4YjkgMTAwNjQ0DQo+
+ID4gLS0tIGEvZHJpdmVycy9kbWEtYnVmL2RtYS1idWYuYw0KPiA+ICsrKyBiL2RyaXZlcnMvZG1h
+LWJ1Zi9kbWEtYnVmLmMNCj4gPiBAQCAtNjIsNiArNjIsNyBAQCBzdGF0aWMgdm9pZCBkbWFfYnVm
+X3JlbGVhc2Uoc3RydWN0IGRlbnRyeQ0KPiA+ICpkZW50cnkpDQo+ID4gICAJaWYgKHVubGlrZWx5
+KCFkbWFidWYpKQ0KPiA+ICAgCQlyZXR1cm47DQo+ID4gICANCj4gPiArCVdBUk5fT04oYXRvbWlj
+NjRfcmVhZCgmZG1hYnVmLT5rZXJuZWxfcmVmKSk7DQo+ID4gICAJQlVHX09OKGRtYWJ1Zi0+dm1h
+cHBpbmdfY291bnRlcik7DQo+ID4gICANCj4gPiAgIAkvKg0KPiA+IEBAIC01NTUsNiArNTU2LDcg
+QEAgc3RydWN0IGRtYV9idWYgKmRtYV9idWZfZXhwb3J0KGNvbnN0IHN0cnVjdA0KPiA+IGRtYV9i
+dWZfZXhwb3J0X2luZm8gKmV4cF9pbmZvKQ0KPiA+ICAgCQlnb3RvIGVycl9tb2R1bGU7DQo+ID4g
+ICAJfQ0KPiA+ICAgDQo+ID4gKwlhdG9taWM2NF9zZXQoJmRtYWJ1Zi0+a2VybmVsX3JlZiwgMSk7
+DQo+ID4gICAJZG1hYnVmLT5wcml2ID0gZXhwX2luZm8tPnByaXY7DQo+ID4gICAJZG1hYnVmLT5v
+cHMgPSBleHBfaW5mby0+b3BzOw0KPiA+ICAgCWRtYWJ1Zi0+c2l6ZSA9IGV4cF9pbmZvLT5zaXpl
+Ow0KPiA+IEBAIC02MTcsNiArNjE5LDkgQEAgaW50IGRtYV9idWZfZmQoc3RydWN0IGRtYV9idWYg
+KmRtYWJ1ZiwgaW50DQo+ID4gZmxhZ3MpDQo+ID4gICANCj4gPiAgIAlmZF9pbnN0YWxsKGZkLCBk
+bWFidWYtPmZpbGUpOw0KPiA+ICAgDQo+ID4gKwkvKiBBZGQgZmlsZSBjbnQgZm9yIGVhY2ggbmV3
+IGZkICovDQo+ID4gKwlnZXRfZmlsZShkbWFidWYtPmZpbGUpOw0KPiA+ICsNCj4gPiAgIAlyZXR1
+cm4gZmQ7DQo+ID4gICB9DQo+ID4gICBFWFBPUlRfU1lNQk9MX0dQTChkbWFfYnVmX2ZkKTsNCj4g
+PiBAQCAtNjI2LDEyICs2MzEsMTMgQEAgRVhQT1JUX1NZTUJPTF9HUEwoZG1hX2J1Zl9mZCk7DQo+
+ID4gICAgKiBAZmQ6CVtpbl0JZmQgYXNzb2NpYXRlZCB3aXRoIHRoZSBzdHJ1Y3QgZG1hX2J1ZiB0
+byBiZQ0KPiA+IHJldHVybmVkDQo+ID4gICAgKg0KPiA+ICAgICogT24gc3VjY2VzcywgcmV0dXJu
+cyB0aGUgc3RydWN0IGRtYV9idWYgYXNzb2NpYXRlZCB3aXRoIGFuIGZkOw0KPiA+IHVzZXMNCj4g
+PiAtICogZmlsZSdzIHJlZmNvdW50aW5nIGRvbmUgYnkgZmdldCB0byBpbmNyZWFzZSByZWZjb3Vu
+dC4gcmV0dXJucw0KPiA+IEVSUl9QVFINCj4gPiAtICogb3RoZXJ3aXNlLg0KPiA+ICsgKiBkbWFi
+dWYncyByZWYgcmVmY291bnRpbmcgZG9uZSBieSBrcmVmX2dldCB0byBpbmNyZWFzZSByZWZjb3Vu
+dC4NCj4gPiArICogUmV0dXJucyBFUlJfUFRSIG90aGVyd2lzZS4NCj4gPiAgICAqLw0KPiA+ICAg
+c3RydWN0IGRtYV9idWYgKmRtYV9idWZfZ2V0KGludCBmZCkNCj4gPiAgIHsNCj4gPiAgIAlzdHJ1
+Y3QgZmlsZSAqZmlsZTsNCj4gPiArCXN0cnVjdCBkbWFfYnVmICpkbWFidWY7DQo+ID4gICANCj4g
+PiAgIAlmaWxlID0gZmdldChmZCk7DQo+ID4gICANCj4gPiBAQCAtNjQzLDcgKzY0OSwxMiBAQCBz
+dHJ1Y3QgZG1hX2J1ZiAqZG1hX2J1Zl9nZXQoaW50IGZkKQ0KPiA+ICAgCQlyZXR1cm4gRVJSX1BU
+UigtRUlOVkFMKTsNCj4gPiAgIAl9DQo+ID4gICANCj4gPiAtCXJldHVybiBmaWxlLT5wcml2YXRl
+X2RhdGE7DQo+ID4gKwlkbWFidWYgPSBmaWxlLT5wcml2YXRlX2RhdGE7DQo+ID4gKwkvKiByZXBs
+YWNlIGZpbGUgY291bnQgaW5jcmVhc2UgYXMgcmVmIGluY3JlYXNlIGZvciBrZXJuZWwgdXNlcg0K
+PiA+ICovDQo+ID4gKwlnZXRfZG1hX2J1ZihkbWFidWYpOw0KPiA+ICsJZnB1dChmaWxlKTsNCj4g
+PiArDQo+ID4gKwlyZXR1cm4gZG1hYnVmOw0KPiA+ICAgfQ0KPiA+ICAgRVhQT1JUX1NZTUJPTF9H
+UEwoZG1hX2J1Zl9nZXQpOw0KPiA+ICAgDQo+ID4gQEAgLTY2Miw3ICs2NzMsMTEgQEAgdm9pZCBk
+bWFfYnVmX3B1dChzdHJ1Y3QgZG1hX2J1ZiAqZG1hYnVmKQ0KPiA+ICAgCWlmIChXQVJOX09OKCFk
+bWFidWYgfHwgIWRtYWJ1Zi0+ZmlsZSkpDQo+ID4gICAJCXJldHVybjsNCj4gPiAgIA0KPiA+IC0J
+ZnB1dChkbWFidWYtPmZpbGUpOw0KPiA+ICsJaWYgKFdBUk5fT04oIWF0b21pYzY0X3JlYWQoJmRt
+YWJ1Zi0+a2VybmVsX3JlZikpKQ0KPiA+ICsJCXJldHVybjsNCj4gPiArDQo+ID4gKwlpZiAoIWF0
+b21pYzY0X2RlY19yZXR1cm4oJmRtYWJ1Zi0+a2VybmVsX3JlZikpDQo+ID4gKwkJZnB1dChkbWFi
+dWYtPmZpbGUpOw0KPiA+ICAgfQ0KPiA+ICAgRVhQT1JUX1NZTUJPTF9HUEwoZG1hX2J1Zl9wdXQp
+Ow0KPiA+ICAgDQo+ID4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvbGludXgvZG1hLWJ1Zi5oIGIvaW5j
+bHVkZS9saW51eC9kbWEtYnVmLmgNCj4gPiBpbmRleCBlZmRjNTZiOWQ5NWYuLmJjNzkwY2IwMjhl
+YiAxMDA2NDQNCj4gPiAtLS0gYS9pbmNsdWRlL2xpbnV4L2RtYS1idWYuaA0KPiA+ICsrKyBiL2lu
+Y2x1ZGUvbGludXgvZG1hLWJ1Zi5oDQo+ID4gQEAgLTMwOCw2ICszMDgsNyBAQCBzdHJ1Y3QgZG1h
+X2J1Zl9vcHMgew0KPiA+ICAgc3RydWN0IGRtYV9idWYgew0KPiA+ICAgCXNpemVfdCBzaXplOw0K
+PiA+ICAgCXN0cnVjdCBmaWxlICpmaWxlOw0KPiA+ICsJYXRvbWljNjRfdCBrZXJuZWxfcmVmOw0K
+PiA+ICAgCXN0cnVjdCBsaXN0X2hlYWQgYXR0YWNobWVudHM7DQo+ID4gICAJY29uc3Qgc3RydWN0
+IGRtYV9idWZfb3BzICpvcHM7DQo+ID4gICAJc3RydWN0IG11dGV4IGxvY2s7DQo+ID4gQEAgLTQz
+Niw3ICs0MzcsNyBAQCBzdHJ1Y3QgZG1hX2J1Zl9leHBvcnRfaW5mbyB7DQo+ID4gICAJCQkJCSAu
+b3duZXIgPSBUSElTX01PRFVMRSB9DQo+ID4gICANCj4gPiAgIC8qKg0KPiA+IC0gKiBnZXRfZG1h
+X2J1ZiAtIGNvbnZlbmllbmNlIHdyYXBwZXIgZm9yIGdldF9maWxlLg0KPiA+ICsgKiBnZXRfZG1h
+X2J1ZiAtIGluY3JlYXNlIGEga2VybmVsIHJlZiBvZiBkbWEtYnVmDQo+ID4gICAgKiBAZG1hYnVm
+OglbaW5dCXBvaW50ZXIgdG8gZG1hX2J1Zg0KPiA+ICAgICoNCj4gPiAgICAqIEluY3JlbWVudHMg
+dGhlIHJlZmVyZW5jZSBjb3VudCBvbiB0aGUgZG1hLWJ1ZiwgbmVlZGVkIGluIGNhc2UNCj4gPiBv
+ZiBkcml2ZXJzDQo+ID4gQEAgLTQ0Niw3ICs0NDcsOCBAQCBzdHJ1Y3QgZG1hX2J1Zl9leHBvcnRf
+aW5mbyB7DQo+ID4gICAgKi8NCj4gPiAgIHN0YXRpYyBpbmxpbmUgdm9pZCBnZXRfZG1hX2J1Zihz
+dHJ1Y3QgZG1hX2J1ZiAqZG1hYnVmKQ0KPiA+ICAgew0KPiA+IC0JZ2V0X2ZpbGUoZG1hYnVmLT5m
+aWxlKTsNCj4gPiArCWlmIChhdG9taWM2NF9pbmNfcmV0dXJuKCZkbWFidWYtPmtlcm5lbF9yZWYp
+ID09IDEpDQo+ID4gKwkJZ2V0X2ZpbGUoZG1hYnVmLT5maWxlKTsNCj4gPiAgIH0NCj4gPiAgIA0K
+PiA+ICAgLyoqDQo+IA0KPiANCg==
 
-sorry this (or the 2 depency-series) cause a NULL Pointer deref in iommu_g=
-roup_remove_device on mt7623/bpi-r2
-
-i wonder why on bootup a cleanup is run, but have no hint about this.
-
-since "dts: mtk-mdp: remove mediatek, vpu property from primary MDP device=
-" all is good, i guess problem comes up while removing larb with DT
-
-this is backtrace
-
-[    6.274465] PC is at iommu_group_remove_device+0x28/0x148
-[    6.279877] LR is at iommu_release_device+0x4c/0x70
-
-[    6.674347] Backtrace:
-[    6.676797] [<c0c9c37c>] (iommu_group_remove_device) from [<c06bf028>] =
-(iomm)
-[    6.686221]  r7:00000000 r6:c06bf04c r5:c0d7a1ac r4:c21fc010
-[    6.691883] [<c06befdc>] (iommu_release_device) from [<c06bf064>] (remo=
-ve_io)
-[    6.700689]  r5:00000000 r4:00000000
-[    6.704265] [<c06bf04c>] (remove_iommu_group) from [<c0733434>] (bus_fo=
-r_eac)
-[    6.712725] [<c07333ac>] (bus_for_each_dev) from [<c06bf658>] (bus_set_=
-iommu)
-[    6.720753]  r6:c331f440 r5:c1406f58 r4:ffffffea
-[    6.725370] [<c06bf5a0>] (bus_set_iommu) from [<c06c1e88>] (mtk_iommu_p=
-robe+)
-[    6.733484]  r7:c32db0b8 r6:c21f9c00 r5:c331f1c0 r4:00000000
-[    6.739145] [<c06c1bfc>] (mtk_iommu_probe) from [<c0738c14>] (platform_=
-probe)
-[    6.747176]  r10:c21f9c10 r9:c2496f54 r8:c14623b8 r7:c14623b8 r6:c1405b=
-90 r50
-[    6.755012]  r4:00000000
-[    6.757544] [<c0738ba8>] (platform_probe) from [<c0735968>] (really_pro=
-be.pa)
-[    6.766006]  r7:c14623b8 r6:c1405b90 r5:00000000 r4:c21f9c10
-[    6.771667] [<c07358a0>] (really_probe.part.0) from [<c0735cec>] (reall=
-y_pro)
-[    6.779866]  r7:c21f9c10 r6:c2549e74 r5:c1405b90 r4:c21f9c10
-[    6.785527] [<c0735ca4>] (really_probe) from [<c0735de0>] (__driver_pro=
-be_de)
-[    6.793984]  r5:c1405b90 r4:c21f9c10
-[    6.797560] [<c0735d30>] (__driver_probe_device) from [<c0735fa0>] (dri=
-ver_p)
-[    6.806543]  r9:c2496f54 r8:00000008 r7:c21f9c10 r6:c2549e74 r5:c14c6ec=
-8 r4:4
-[    6.814291] [<c0735f5c>] (driver_probe_device) from [<c0736410>] (__dev=
-ice_a)
-[    6.823448]  r9:c2496f54 r8:00000000 r7:c21f9c10 r6:c2549e74 r5:c1405b9=
-0 r4:1
-[    6.831196] [<c073635c>] (__device_attach_driver) from [<c0733540>] (bu=
-s_for)
-[    6.840007]  r7:c14623b8 r6:c073635c r5:c2549e74 r4:00000000
-[    6.845669] [<c07334ac>] (bus_for_each_drv) from [<c07357e8>] (__device=
-_atta)
-[    6.854044]  r6:00000001 r5:c21f9c54 r4:c21f9c10
-[    6.858662] [<c07356e4>] (__device_attach) from [<c073662c>] (device_in=
-itial)
-[    6.867207]  r6:c21f9c10 r5:c1406f58 r4:c1406ca0
-[    6.871825] [<c0736610>] (device_initial_probe) from [<c07346dc>] (bus_=
-probe)
-[    6.880454] [<c0734648>] (bus_probe_device) from [<c0734cc8>] (deferred=
-_prob)
-
-
-bisect shows this commit as breaking:
-
-Author: Yong Wu <yong.wu@mediatek.com>
-Date:   Wed Jul 14 10:56:17 2021 +0800
-
-    iommu/mediatek: Add probe_defer for smi-larb
-
-    Prepare for adding device_link.
-
-regards Frank
