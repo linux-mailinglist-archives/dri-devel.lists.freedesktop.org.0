@@ -1,123 +1,123 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A73D63C84E7
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Jul 2021 14:58:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E4AAD3C84EE
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Jul 2021 15:02:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 75F3A89C55;
-	Wed, 14 Jul 2021 12:58:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 372A16E284;
+	Wed, 14 Jul 2021 13:02:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2049.outbound.protection.outlook.com [40.107.236.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA9A089971;
- Wed, 14 Jul 2021 12:58:35 +0000 (UTC)
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com
+ (mail-dm3nam07on2058.outbound.protection.outlook.com [40.107.95.58])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4793A6E284;
+ Wed, 14 Jul 2021 13:02:29 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=X8V0+DttWIkg28DB7WNWL1Oj5eCrciDg7fYG+zcn1mgTbDDR0jJgOGckALJZl3QiwbkemeYruo+DKFhyY+FPDWsQQGMBiY8ktZ0vlzlPupDYkrkIDFh5ne4wGbkC8GQc0+LHTlasdYLHRW7A6gIcriMkKr2EJqQoI5UdHYIlbNH1vjuOedglw9YWllNi3y2tYc89LONy2RxNEyQ2MhcqioL09Xo7T5GRikGN3rDTeOXdIfyzCxj+EzOGXfWIaxV+NmbWPn/FVppfRRLAo0AmFHQVCkVgclYzCnOE6HzTLkwy0fi/DhIHfU7DrD3aV8Ka334r0iliZenZ7oPtxvmemQ==
+ b=lke9raxVp7dFkSkQJ8X4+KBmzE6evDhoLGaZmkBCahXjKPsZtljqwptC326cLWh85iOFZaKh9xt/TBkt2jIGzUq6evVsJr6PQAvd9FM7jTXaoBKRTi7EuXOK/SWmerIo/Y/tMHE8QTC3YbGyr5z/I8wpLxtDpbYqJHT3uYFFdy2vvkEqedktgGW1uWN4ab+hq2dTqkXVZMfqB+zLAppx5Wjr9UNuPqAokvMYBnXf25kbBAys8uBiodXTAVdvoVe0/soLTchvxBjLFJn4xd8jF1OmpRXAGZlX7rBWa1sAAW18pKrHPN1WgZI2vd54K0uI+L6VpN74C8JwCKQOuEOofQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SYYQtKm5dkRRogF9ic3g/jzJ/wKczdydkIKSDBA8Kn0=;
- b=gqT/J4hR6M4+cO7KEhbpOTeLfCmPBQ1/0sSkE89Q94qTkpeE0gGWEXGvKkS0mANg1oea3u/Rn7DlzxRyH0Gb3Xi+ZX2DVnYtnz5bw/ijx6MifwmWitbQvrSmUYT/dMDpUl74dR0ALmmEOZAkRBA0wrDX2pKJ4HDYi5eVD8eFq3pxs3OB2Uy+Yr+DlyOh+OeuK5zRv+be52dOJeV7cJyIkurRFjUb5iPEZfmdNJXQLEXsqOSfvfr6UL7p0N2hh8RtIGAchQJywtBm3dgMM+ZhsoZjIOSSu2uRuj0yOMXmqbR3VcWnxMoDbyxJMV2lt93KYmK//TaQ5hgTi3T08cqBZA==
+ bh=BNWAGlZc4AT89Geh4/FDb+TU4RQmdGGUEhprZygWLmU=;
+ b=La7FC4s6/j3irsEXeDuGneiB5lLkDPIjXDgBlAFng5nspuXWipqiwHfs5T3A+hqaojZd1BttoT6Fy/tHO9La3wB6RrdHEYp9Z2XtMmP8X4bjOTl5AzjoN3tuZvGEOP1rwNFd476wutPaWNSxR91HQETmj8xtG85N6r/+RQgzT49V2G8eH0uGvB5qfHylg4oDeP5jirnZ6c9zZsva7bp1CYRwqVr8eD8x6ZGDx3omT+GYA4juOH/1PExugINc4QdgMFkyKHhlLKbYAYuaKGqcSwZSG9QPZJwTm+n+b7Whre8TNdRK/TjsEMIy8jxlX7lYnN0qSlQqP8b7M1NtpFQFdw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SYYQtKm5dkRRogF9ic3g/jzJ/wKczdydkIKSDBA8Kn0=;
- b=Q3zI/QulZ7MBhqGE7Ts8XUhgkN4kKBjU1M/z/lrUqA+TAaJ2YwsAvXzo3+Z083fnIRDP83DXb3K9U1mXPNBRdHl7rG+6RqzHV1aZvagFFznCfBb0vY7xvqYDVar1g3dl81quSuUSiNPkUy+mlLNXfCKbBu+xh+khQqtNiiD9rUM=
-Authentication-Results: linux.ie; dkim=none (message not signed)
- header.d=none;linux.ie; dmarc=none action=none header.from=amd.com;
+ bh=BNWAGlZc4AT89Geh4/FDb+TU4RQmdGGUEhprZygWLmU=;
+ b=IUhVro7LagEde7BgyiYgW1r9vJ5XsFrk1OXjYL90XvF1fOxRSTNwqxc7Ap/UB2rAerUpA5Hw60MjCSW0ncnPtO5lqpztJp5ykiRm6TmevRHYgiJwIV+r5FmZ0nuAq0sF2zf3rU3ugqSnFlLokWqxvt2uv4GnQPSla8FxBFYMN/4=
+Authentication-Results: vger.kernel.org; dkim=none (message not signed)
+ header.d=none;vger.kernel.org; dmarc=none action=none header.from=amd.com;
 Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
- by BL0PR12MB4755.namprd12.prod.outlook.com (2603:10b6:208:82::26)
+ by MN2PR12MB4253.namprd12.prod.outlook.com (2603:10b6:208:1de::16)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4308.22; Wed, 14 Jul
- 2021 12:58:33 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4308.21; Wed, 14 Jul
+ 2021 13:02:26 +0000
 Received: from MN2PR12MB3775.namprd12.prod.outlook.com
  ([fe80::6c9e:1e08:7617:f756]) by MN2PR12MB3775.namprd12.prod.outlook.com
  ([fe80::6c9e:1e08:7617:f756%5]) with mapi id 15.20.4308.027; Wed, 14 Jul 2021
- 12:58:33 +0000
-Subject: Re: [PATCH v4 3/4] drm/shmem-helpers: Allocate wc pages on x86
-To: Daniel Vetter <daniel@ffwll.ch>
-References: <20210713205153.1896059-1-daniel.vetter@ffwll.ch>
- <20210713205153.1896059-4-daniel.vetter@ffwll.ch>
- <4626a7d7-95ca-104c-753a-07a9d83b0b28@amd.com>
- <YO7dKP2l9n0rLjDV@phenom.ffwll.local>
+ 13:02:26 +0000
+Subject: Re: nouveau: failed to initialise sync
+To: "Kirill A. Shutemov" <kirill@shutemov.name>, airlied@linux.ie,
+ daniel@ffwll.ch
+References: <YOC4uekpD7iA3xPi@Red> <1682547.0nLxAY2a9E@nvdebian>
+ <dace0dea-7ca9-99cb-ad80-106824cb5e3f@amd.com>
+ <20210714125652.eohw2s2pncplxovx@box.shutemov.name>
 From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <31608068-97ba-70e7-b496-650bac88e0db@amd.com>
-Date: Wed, 14 Jul 2021 14:58:26 +0200
+Message-ID: <8fd70eb5-7306-89a3-57f9-d633243c9df5@amd.com>
+Date: Wed, 14 Jul 2021 15:02:21 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
-In-Reply-To: <YO7dKP2l9n0rLjDV@phenom.ffwll.local>
+In-Reply-To: <20210714125652.eohw2s2pncplxovx@box.shutemov.name>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-X-ClientProxiedBy: AM0PR04CA0052.eurprd04.prod.outlook.com
- (2603:10a6:208:1::29) To MN2PR12MB3775.namprd12.prod.outlook.com
+X-ClientProxiedBy: FR0P281CA0086.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:1e::22) To MN2PR12MB3775.namprd12.prod.outlook.com
  (2603:10b6:208:159::19)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from [IPv6:2a02:908:1252:fb60:fe2b:fec6:eeb5:c7dc]
  (2a02:908:1252:fb60:fe2b:fec6:eeb5:c7dc) by
- AM0PR04CA0052.eurprd04.prod.outlook.com (2603:10a6:208:1::29) with Microsoft
+ FR0P281CA0086.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:1e::22) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4331.21 via Frontend Transport; Wed, 14 Jul 2021 12:58:31 +0000
+ 15.20.4352.8 via Frontend Transport; Wed, 14 Jul 2021 13:02:25 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: f5f70d9b-267c-43c5-720d-08d946c715ee
-X-MS-TrafficTypeDiagnostic: BL0PR12MB4755:
-X-Microsoft-Antispam-PRVS: <BL0PR12MB4755B93891AB55BE5BCA337E83139@BL0PR12MB4755.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Office365-Filtering-Correlation-Id: 9409b8bf-a30d-423f-c6bd-08d946c7a121
+X-MS-TrafficTypeDiagnostic: MN2PR12MB4253:
+X-Microsoft-Antispam-PRVS: <MN2PR12MB42532A51C12DEB23903D9FD783139@MN2PR12MB4253.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1186;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 2QIvF9vSM+fU88zvGSmYy8+a5ve9DiOX5K9p5V8nc/6s/D1oQUIChyIpdqwYvRL7z8lGqEicOTXZYvOMKKNwSE2u01uexIUnfDn/s64jPT1mNx1V9ji+115mR7lmVpwd7mofXxCyJwiruTrwBX0L9DcPKDqD6iJdr+TIKCLxwUbR/h0RW4RBH/rzPf9V30wj4NzJRTygSmTAIffn/jd43gQFqHSluY32ng9H5XX09UM7YslYjUZ3wBA1qd8g4bFwB8txkl4Hq58wo24Kk1J9Z9eY6k8U9PElFNDtTV0bjCJHZ0pcCB9R5DHy5d4Ce/xYO3hwc/m2AMsP9ajTctBM0PGiLTM2sHzBqrkV4UwS3MKYOAIWrDUXVXlzoYiVoodKHt4C1l72lq9gptyLyoNRSFJTZYaElSRyWo1jNt9RRBFLkWTTR7ieeV4Ilc7bsyCitfNPqsirYBRd6ALbx+w8wFQn7Nim65xaBeuqR5i8tik93lLl3Qx9RtBVRm0W2mDsAeUXu43v+YG05S8OmfHsDfslTB7m6UIWZyWuZR2OC7elMwPUclyfvN2B9gxqNM6GjRnmLLUxiDAZilMkVvckVgGKVYDAY7jvLc3gz8lQU80dK25SFQAQHLrDg8rk5BzdvlvnGhVrATZAeNl8LAdsVr/6VemqLHTXL89AheOx9M9+yTYg+Fu1XEuYTV4W8Mvx96dtn8H44JFUSQxyLc+bp4Ul8Q2KtEbY/P8Tbl4oj1k=
+X-Microsoft-Antispam-Message-Info: UGQMjTMocqoIux2OYkxmU2aZwAav8C0gkYUufNuSMqeDOF+BTPqs9gVs94QODhSrVkvCZIjnzv1lBwMhtFNjF1uXChIGyWSxNJznvds4aHXpA2j/WMp3M6dGzXVdDO6kV8/0tLk7CgdETsMymGsmnrvpwV1cxSbTfo5NSwd35r+IuSn3+8uPlKKCMaJNEwlNGwJ8dpWQHx7mQfZgC7wA/FtxCsGO4eO6xefBARzk2wOtMUPRG/j7nZSfYzWN32wYPrZnUnr705Iaago50h9kHzwuUwY0uffGqtCbH0ZrAU9oAg/yZos5eQGtWB5b3inSgUoMOOWATlf7vEKyit23KKpbRIdWjJJq61cazeoQ/k0qLpvRzDUhRAmtLMpH5UjiKOVoD1g/9z8wro2RUFiTb4OMFPcBh8r75pgskXW72q8u0Pa3wmJtxCgNZzBUSc46kEiWhSPOVOR87HjqVEs7LbqvzeiULLFBddtqZlUOIAYFo2SLOfM/eCyBu/q1pcD5Ne3054WUSO3KObc5gnTOkpCd5ZRMe9/EwP/a+ZuOkejFdri6pGMeIA7ubNpYJcUJM0sm4UXw3hu0Z/H3CR/SzvJvrilcc+E+ybLjpUgDShRQBRQA59wBez4+JHA5oOul9db5MrpuqNhZ+dVyJFGXZGaehfb8Rp+29Hqvgt3jhIc0CLM6fg4btA2k/87CS3RtL48zRvJ+4ABdsdOgmoQNdHSS7wfkX6+xtoutUf0PPBGSWNF3nrmX38Yvta+zCJTP
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(376002)(39850400004)(396003)(346002)(136003)(4326008)(83380400001)(31686004)(186003)(6486002)(54906003)(2616005)(31696002)(6666004)(2906002)(66476007)(8936002)(8676002)(66946007)(7416002)(66574015)(478600001)(6916009)(316002)(66556008)(36756003)(38100700002)(5660300002)(86362001)(43740500002)(45980500001);
+ SFS:(4636009)(396003)(346002)(136003)(366004)(39860400002)(376002)(31696002)(2616005)(54906003)(316002)(8936002)(478600001)(6486002)(5660300002)(38100700002)(4326008)(8676002)(86362001)(66574015)(36756003)(66556008)(6666004)(66476007)(66946007)(186003)(31686004)(2906002)(43740500002)(45980500001);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?K3JNQVZiS042MVdRYkZCb29lUjZQZUxVemV3dE85ZWhJR2FrNEtrWUM4Y0hr?=
- =?utf-8?B?dC9LaGNoSDdPTEhtQmNaLzZubmN0dzVmRlB4MStpeHhLZVhXZmVCRWV1SGR4?=
- =?utf-8?B?cHF2Y3pvQkhIdHdOWi9Td2laTER0NGFSNjlUZTg5ODNVZ09PMkUzUDFubTRP?=
- =?utf-8?B?Rzg1RE54M2pSdFFnNTdXU3ArYitDU25KOUw2a2ZvUFIyK0ZUd1ZYcVo3c1B6?=
- =?utf-8?B?VGFBQzcxM1BKbHNMT3VXcDF6S2l5ZDBYR3RWRzlIOXBnaC9oNHdmcFBKS0ly?=
- =?utf-8?B?bC9tWmFaSkRYbXhka09IMzlSckprb1laTlIzUjY1SFQzNjl3NzFURWFzbjd5?=
- =?utf-8?B?RVJ2MVNHV3BWa1VWQmNpREpKa21tVjNtZThFam4xN0ZZT0dxbDEvSHdWWHBn?=
- =?utf-8?B?Q1U0K0tvS1BYRmI5WHFNaVlWcVF4LzFrOEgyS2FBSkx2dzUxUFdEVmVSQ29D?=
- =?utf-8?B?ZjBiK2h2RHRPMzlYOUNMb1dqV1NhMEVZcFNMR3g3V2E5TnZnck9JSXZvUUFQ?=
- =?utf-8?B?d01jeGwzOUZPcm9Mc0MyY0tET0FhSmtESm1IQmVBeEZDd3NnZTY3U0Rub0k2?=
- =?utf-8?B?NVMwUXByM1lNb29mVTBQZmV6ODhnakVZQkdENC9WMWV4RTZFMDJuL3ZEamRW?=
- =?utf-8?B?NlJqeCtIbm1aVTRCMG8zbGJmYU5lSDlQcE1LM1JIQ2RpN0VEQ1JLTXlyNy9q?=
- =?utf-8?B?endIQ1dUVHFSVWVjUUx2RUhBYTJJN3hUUWRwK1NVVVhzR1Y4d2pxNW1kWWZN?=
- =?utf-8?B?RjBIOTU2a1ZQbmJrc1NtSHU1TXRnNDE1U1VlZWQ1OGNzMzd6cHdrSEhUN2oy?=
- =?utf-8?B?QmJmTThNQ1kvWENEUFh5TFU0VmZtSWd1OHp6QVU0b3gxOW94NjdYQVFlRk5R?=
- =?utf-8?B?UTg0RXlPNjBzSW52WVRQdC9qMzN1Q3JiMEJQNmlzTlpKMGErZHgxYms4ajZj?=
- =?utf-8?B?eXBPZTJzSU50eHlrdVJoeGNoMG5jdm4yTnVneXZlV004WjFMVjFlTFNsRjIw?=
- =?utf-8?B?UU5nNU1JSTcwaVljdmxuVVVSMlB4NlNNVyt5ZWVYNzlOQTZ6NE05cCsrWVZu?=
- =?utf-8?B?bnkwZk9CT0FTNUR3U3dsUmhTdGo0bE5PYzdJTkw2VGxQUVBJZ2U5V0F2TldP?=
- =?utf-8?B?YVBwbzZlY1pPTXlxWnl4cGltSk9hWlBUcS9NdGtqT2R6OUlEbStsWnpBbVZs?=
- =?utf-8?B?ZWpSR0pVZGVPVklNN1kyZGRETllDazZyU20yOFM1QU9ydVFsd1BieDhMUGlQ?=
- =?utf-8?B?MEFwOUlRSnNKR1pNV3V2YmhVb2txSlE4SFFNSzhrR0UvS2wydzdpNElwVThs?=
- =?utf-8?B?SXgzWW0wdDE1SFdMMncyWCswQUM1ZHk1cUdzUTZPbk84VzREckxleEhIWU5i?=
- =?utf-8?B?NFcyTkNsekY0Q0Z4RU1UWHZVQ1lkaHBhTUVDOHM5enBra0tia1R6N21SNUtF?=
- =?utf-8?B?RFVPc2haVmNiVm9DeklmazVVRkxXSzdZYkFMc1BkYjU5TUFacStPcmtKSWpZ?=
- =?utf-8?B?VkU4dnZXVG5ZT0xzRExSNjlLWkFtd1JmWk4xMThGUXExQ1BMRjNKYkJ6MGZF?=
- =?utf-8?B?TFpUWGlzaHE5QkNWYWlOUWllVE9CS3lzeHg1eTBTbGQrTWtPMERnY0ZQNXdX?=
- =?utf-8?B?ci8xVlZBc2c0UCs1d1ZlTWZPZmxLZ0xPYWRjS0k2dlFDLysvc1ZmR1RMUEJ3?=
- =?utf-8?B?WS9jOXpSUkEzcnpOVmo4NjJLWWwzRTRGY1k5QXEralJWUG1vVjArdmRTT0or?=
- =?utf-8?B?aHRxU0h1ampuNmUzbTRyNUQ0L3YxaWM3SEpkYVMvU3J4cW5WNEE5emtqTUt4?=
- =?utf-8?B?VDVXUFJmeDk1RVpnaGVUQVdrbk0wMnhWNTRjVVJoVU9HVjJrUDZaUUFWVUNk?=
- =?utf-8?Q?3Gg7s24J7ETVc?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UlpJamptSjRPNjJDN0Fwb2Zra1VwVHdXZDNiNkh4ZC8wUnd4Tkk2c0VMTUk4?=
+ =?utf-8?B?R0ZJWEt5MHdyS0ErdktscXR2SGVoRXlMREtJRTR2Mk9kMzF4K0V0NmRzN0Ft?=
+ =?utf-8?B?QU9KYmFOVTR3VUVxTXRpTWJoZHhtR2pHcEp5WGdzSnJxTk5GMU9lYjZ6Lzlm?=
+ =?utf-8?B?N1hqR1gvYktpM0JNU1JnSUdnYXdWOFdtM1VNbHROVTRobmFMNE5hbkV0ZGtG?=
+ =?utf-8?B?dy9ZM1laUjN1MHhYNVl4eUJ3WDdCRklCV0tCQjFrNyt2SnJQeG5Ba2J6UXpE?=
+ =?utf-8?B?akp0YkF3WEREcnBOSkpLRWQ5THpMWEFjcDZKUTNKYmNIRDBoTTR1TkpZV09x?=
+ =?utf-8?B?NHluNWdaSnF6eWtJOGc2N1hNL3dCQXNqTU1nY1U0Nk5vT2JzZzlsRDNmdGFK?=
+ =?utf-8?B?WlEvaUFvRjNwc0swMkZWQ3B5dnF6NEU0WndIa3JHdzBDbDUvY2s3a1cwOWFM?=
+ =?utf-8?B?Wk9pZnBwZXBEVitycWNLQVYrcjR4SEorTlpnL1FlV3VPMzcwTUJpQjllbFhS?=
+ =?utf-8?B?d0pMVkgrUHQyc3QrQ05FWVN3emJSd2IzQStiSStWVXFiSm9PSm95UFJTRk9y?=
+ =?utf-8?B?YzBWZzQ5TWVUcG5lbHRWQitnd0dFZUFscTFUdW5VWWVUN1NQczNjR2tjcHgy?=
+ =?utf-8?B?U3N0RWl6RnRKMVF1ZjVoY1dEM2hBcVVRQ0QvbkVxbzJDdFY3azdZSW5YTUZI?=
+ =?utf-8?B?YzU1ODBEQUtPMDdCNjIwMGZHV1dqalJxTWpaNkkyRTJzOGlncHlOWGtvZFJs?=
+ =?utf-8?B?cHE4NFA4aDRuRWtGR21aOFIwUm9sN1V0MkpFU0k1SGxnRUNNdFF3Tit2M3dQ?=
+ =?utf-8?B?TzIrakZxMWIrUVVtQ2UwTEJlUVZrdzd3NGcybGtDS285Zk5oajF6RElhVWY5?=
+ =?utf-8?B?VkRxMGx4WXNLaWdZOVlrUzRZc00vZTRIYnRZYXNLT3h3RlRZeHIyNGk4SThi?=
+ =?utf-8?B?OEJQT3FBN2VSb3FZQUo0OWs5dVJNWlhpdWVXVHNzblRhWWF6YWVhdmEvRWxH?=
+ =?utf-8?B?QjRLdDRtS2Z0L3BPMVVnM01FVDNsVUlLVWVwYVV0Mk9ZOFR1Tjlydjd0dE5C?=
+ =?utf-8?B?UXN6THpTUkZYcENOZUFCSm0wVCtmR3ZVQmw3MllZT0M3L2R1MXFzb1R1LzFx?=
+ =?utf-8?B?ejZzNnRiUmlOWjd2RmxXc2xubkE0TG5aczFNWm1sZkNmem9CYW5OazByeGt5?=
+ =?utf-8?B?TzBpTUF3MGlxQ0ZtSUQ3aDRiM25FV01pMnMweURaRjdILzB1V2lOaE9WVW43?=
+ =?utf-8?B?dUtzRGkzV0NRT0RDVWxwQXQybWtwWkVkMzJ2SCsrMDUvdjcrcUtpZmNWNFp1?=
+ =?utf-8?B?T01nZTA0eGo3SVJrWmZubzhHcnZKVlEvcTRmQXdjRjFWaU9wRGNRWnJvYkxn?=
+ =?utf-8?B?Y05GS3k2bERISVBsV0FpWnpuUlpWbjUxNTEzUnFsQW5DVGJtYjU2dTYxZmQy?=
+ =?utf-8?B?NS94dWRERHVmK3IxUHN4QzJEaUVFZ0REbWFwM2xNSXRRREhDT0lEcmEyeFhY?=
+ =?utf-8?B?TWs0RjJLSm1BYVpmbC82UnZUU2pUd2Myd2ljSDZ2ZGEzaWlvWGdmQlAvT3dv?=
+ =?utf-8?B?Zk9JdU00eTJwR3htaU1wSWhHZzg4eTZwVmkyY0dGdFBxR1RreSs5cEMwd2xB?=
+ =?utf-8?B?bFZHbDRjQ1dZSjN4UkJiVHBHMXlzVnVhMWhwbi9CcGxRMzJMSkRkVEdnM2ZI?=
+ =?utf-8?B?SFU4aU1LL1gxUWhQYzNHNk8zVXJudklzTW5iZVJmZnQyam03RHhvL1ZZSjVu?=
+ =?utf-8?B?YUlUYjM4Q0ZUZUpjUUtGTm1ORGE5TDRIWk4yOEtBNHpPVlFlWVhLZ3pZRUht?=
+ =?utf-8?B?RUtIRG4vNVpMUStZcndaVmZFa3JXQWtJdWQzRnV4UGlIZXBGK0MzRTZJN1o0?=
+ =?utf-8?Q?KdoNm7RTWFyDu?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f5f70d9b-267c-43c5-720d-08d946c715ee
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9409b8bf-a30d-423f-c6bd-08d946c7a121
 X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jul 2021 12:58:33.1719 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jul 2021 13:02:26.7486 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 9jSdJaIV6NpnrTmFbR+PGYXgSH3aZ8P7A+ecb6noXiutwOmi2Bcz/nhvGMFRadgO
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB4755
+X-MS-Exchange-CrossTenant-UserPrincipalName: l8Lyl4w6pzJsbDqNrMQlVz3YG5p48AKwttPoWG4mO82+fAH9Edw2tKL+1N215Q3N
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4253
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,131 +130,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>
+Cc: nouveau@lists.freedesktop.org, Alistair Popple <apopple@nvidia.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Corentin Labbe <clabbe.montjoie@gmail.com>, bskeggs@redhat.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 14.07.21 um 14:48 schrieb Daniel Vetter:
-> On Wed, Jul 14, 2021 at 01:54:50PM +0200, Christian König wrote:
->> Am 13.07.21 um 22:51 schrieb Daniel Vetter:
->>> intel-gfx-ci realized that something is not quite coherent anymore on
->>> some platforms for our i915+vgem tests, when I tried to switch vgem
->>> over to shmem helpers.
->>>
->>> After lots of head-scratching I realized that I've removed calls to
->>> drm_clflush. And we need those. To make this a bit cleaner use the
->>> same page allocation tooling as ttm, which does internally clflush
->>> (and more, as neeeded on any platform instead of just the intel x86
->>> cpus i915 can be combined with).
->>>
->>> Unfortunately this doesn't exist on arm, or as a generic feature. For
->>> that I think only the dma-api can get at wc memory reliably, so maybe
->>> we'd need some kind of GFP_WC flag to do this properly.
->> The problem is that this stuff is extremely architecture specific. So GFP_WC
->> and GFP_UNCACHED are really what we should aim for in the long term.
+Am 14.07.21 um 14:56 schrieb Kirill A. Shutemov:
+> On Tue, Jul 06, 2021 at 08:58:37AM +0200, Christian König wrote:
+>> Hi guys,
 >>
->> And as far as I know we have at least the following possibilities how it is
->> implemented:
+>> yes nouveau was using the same functionality for internal BOs without
+>> noticing it. This is fixes by the following commit:
 >>
->> * A fixed amount of registers which tells the CPU the caching behavior for a
->> memory region, e.g. MTRR.
->> * Some bits of the memory pointers used, e.g. you see the same memory at
->> different locations with different caching attributes.
->> * Some bits in the CPUs page table.
->> * Some bits in a separate page table.
+>> commit d098775ed44021293b1962dea61efb19297b8d02
+>> Author: Christian König <christian.koenig@amd.com>
+>> Date:   Wed Jun 9 19:25:56 2021 +0200
 >>
->> On top of that there is the PCIe specification which defines non-cache
->> snooping access as an extension.
-> Yeah dma-buf is extremely ill-defined even on x86 if you combine these
-> all. We just play a game of whack-a-mole with the cacheline dirt until
-> it's gone.
->
-> That's the other piece here, how do you even make sure that the page is
-> properly flushed and ready for wc access:
-> - easy case is x86 with clflush available pretty much everywhere (since
->    10+ years at least)
-> - next are cpus which have some cache flush instructions, but it's highly
->    cpu model specific
-> - next up is the same, but you absolutely have to make sure there's no
->    other mapping around anymore or the coherency fabric just dies
-> - and I'm pretty sure there's worse stuff where you defacto can only
->    allocate wc memory that's set aside at boot-up and that's all you ever
->    get.
+>>      drm/nouveau: init the base GEM fields for internal BOs
+>>
+>>      TTMs buffer objects are based on GEM objects for quite a while
+>>      and rely on initializing those fields before initializing the TTM BO.
+>>
+>>      Nouveau now doesn't init the GEM object for internally allocated BOs,
+>>      so make sure that we at least initialize some necessary fields.
+>>
+>> Could be that the patch needs to be send to stable as well.
+> The regression is present in v5.14-rc1. Any idea when it will hit
+> upstream? I don't see it being applied to drm=next.
 
-Well long story short you don't make sure that the page is flushed at all.
+Well that question needs to answer Dave or somebody else from the 
+drm-misc maintainer team.
 
-What you do is to allocate the page as WC in the first place, if you 
-fail to do this you can't use it.
+This fix together with some others are already in drm-misc-next-fixes 
+waiting to be pushed upstream, but it looks like that hasn't happened yet.
 
-The whole idea TTM try to sell until a while ago that you can actually 
-change that on the fly only works on x86 and even there only very very 
-limited.
+Even Linus already pinged me where the fix for qxl got stuck.
 
-Cheers,
+Regards,
 Christian.
-
->
-> Cheers, Daniel
->
->> Mixing that with the CPU caching behavior gets you some really nice ways to
->> break a driver. In general x86 seems to be rather graceful, but arm and
->> PowerPC are easily pissed if you mess that up.
->>
->>> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
->>> Cc: Christian König <christian.koenig@amd.com>
->>> Cc: "Thomas Hellström" <thomas.hellstrom@linux.intel.com>
->>> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
->>> Cc: Maxime Ripard <mripard@kernel.org>
->>> Cc: Thomas Zimmermann <tzimmermann@suse.de>
->>> Cc: David Airlie <airlied@linux.ie>
->>> Cc: Daniel Vetter <daniel@ffwll.ch>
->> Acked-by: Christian könig <christian.koenig@amd.com>
->>
->> Regards,
->> Christian.
->>
->>> ---
->>>    drivers/gpu/drm/drm_gem_shmem_helper.c | 14 ++++++++++++++
->>>    1 file changed, 14 insertions(+)
->>>
->>> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
->>> index 296ab1b7c07f..657d2490aaa5 100644
->>> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
->>> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
->>> @@ -10,6 +10,10 @@
->>>    #include <linux/slab.h>
->>>    #include <linux/vmalloc.h>
->>> +#ifdef CONFIG_X86
->>> +#include <asm/set_memory.h>
->>> +#endif
->>> +
->>>    #include <drm/drm.h>
->>>    #include <drm/drm_device.h>
->>>    #include <drm/drm_drv.h>
->>> @@ -162,6 +166,11 @@ static int drm_gem_shmem_get_pages_locked(struct drm_gem_shmem_object *shmem)
->>>    		return PTR_ERR(pages);
->>>    	}
->>> +#ifdef CONFIG_X86
->>> +	if (shmem->map_wc)
->>> +		set_pages_array_wc(pages, obj->size >> PAGE_SHIFT);
->>> +#endif
->>> +
->>>    	shmem->pages = pages;
->>>    	return 0;
->>> @@ -203,6 +212,11 @@ static void drm_gem_shmem_put_pages_locked(struct drm_gem_shmem_object *shmem)
->>>    	if (--shmem->pages_use_count > 0)
->>>    		return;
->>> +#ifdef CONFIG_X86
->>> +	if (shmem->map_wc)
->>> +		set_pages_array_wb(shmem->pages, obj->size >> PAGE_SHIFT);
->>> +#endif
->>> +
->>>    	drm_gem_put_pages(obj, shmem->pages,
->>>    			  shmem->pages_mark_dirty_on_put,
->>>    			  shmem->pages_mark_accessed_on_put);
-
