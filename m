@@ -1,48 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BE863C83F5
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Jul 2021 13:35:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E0923C8405
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Jul 2021 13:43:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF2786E209;
-	Wed, 14 Jul 2021 11:35:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E9ADB6E220;
+	Wed, 14 Jul 2021 11:43:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 77D546E209
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jul 2021 11:35:26 +0000 (UTC)
-X-UUID: 3d4d7d91538c43f1b1d0a7dbe00dad38-20210714
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=7gD26RzU2OnWV3V9dE0GV6IJljES/KOCo7Olc6H8xu8=; 
- b=s6xBNZ+ZpM+IEWnr8vvc362isczMxf20jT5C8Zp81stXUM8nOR2UwVgQxgmWGYcOenvAZ3KAjWXpeQJul7gvjKNTf5KTkVr+2ME64X0e+L0qLpWZX4q0MpYfR9TzRKnt2RFIz1wj8kib0EDPBpah2ogq0RU3fjxAkfqqcnYD3xY=;
-X-UUID: 3d4d7d91538c43f1b1d0a7dbe00dad38-20210714
-Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by
- mailgw01.mediatek.com (envelope-from <guangming.cao@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1323637178; Wed, 14 Jul 2021 19:35:21 +0800
-Received: from MTKCAS36.mediatek.inc (172.27.4.186) by mtkmbs01n1.mediatek.inc
- (172.21.101.68) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Wed, 14 Jul 2021 19:35:12 +0800
-Received: from mszswglt01 (10.16.20.20) by MTKCAS36.mediatek.inc
- (172.27.4.170) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Wed, 14 Jul 2021 19:35:10 +0800
-Message-ID: <dee2f44172399f7e1938995bd58f7970cecc4f65.camel@mediatek.com>
-Subject: Re: [PATCH] dma-buf: add kernel count for dma_buf
-From: Guangming.Cao <guangming.cao@mediatek.com>
-To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Date: Wed, 14 Jul 2021 19:35:10 +0800
-In-Reply-To: <371c6f09-2bba-a9d6-18e8-114bea97a18d@amd.com>
-References: <1bfb2001-b7d7-28b0-7fdf-ae9dbb7395b5@amd.com>
- <20210714094454.66922-1-guangming.cao@mediatek.com>
- <371c6f09-2bba-a9d6-18e8-114bea97a18d@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 745AA6E220;
+ Wed, 14 Jul 2021 11:43:00 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10044"; a="210308524"
+X-IronPort-AV: E=Sophos;i="5.84,239,1620716400"; d="scan'208";a="210308524"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Jul 2021 04:42:57 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.84,239,1620716400"; d="scan'208";a="428083356"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
+ by fmsmga007.fm.intel.com with SMTP; 14 Jul 2021 04:42:54 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Wed, 14 Jul 2021 14:42:53 +0300
+Date: Wed, 14 Jul 2021 14:42:53 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [Intel-gfx] [PATCH 1/5] drm/i915: document caching related bits
+Message-ID: <YO7NvY3Mb2wgPFAi@intel.com>
+References: <20210713104554.2381406-1-matthew.auld@intel.com>
+ <YO23Y3PUS22FaXDC@intel.com>
+ <CAM0jSHOx=WVbzfQzn=kL-5qaG4B3dxPLOimkvUdv6HFJymZeZw@mail.gmail.com>
+ <YO3RsxZHUe5imN3q@intel.com>
+ <CAM0jSHOsqPUOWCJu_Ti3gW-fnpWF2CtUoo-qt-aMWExAwDDT5A@mail.gmail.com>
+ <YO3fhvKCo8eXrmst@intel.com> <YO7HqVPtY2GpbD77@phenom.ffwll.local>
 MIME-Version: 1.0
-X-MTK: N
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <YO7HqVPtY2GpbD77@phenom.ffwll.local>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,179 +52,136 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: caoguangming34@gmail.com, wsd_upstream@mediatek.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, linux-mediatek@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Matthew Auld <matthew.william.auld@gmail.com>,
+ Matthew Auld <matthew.auld@intel.com>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCAyMDIxLTA3LTE0IGF0IDEyOjQzICswMjAwLCBDaHJpc3RpYW4gS8O2bmlnIHdyb3Rl
-Og0KPiBBbSAxNC4wNy4yMSB1bSAxMTo0NCBzY2hyaWViIGd1YW5nbWluZy5jYW9AbWVkaWF0ZWsu
-Y29tOg0KPiA+IEZyb206IEd1YW5nbWluZyBDYW8gPEd1YW5nbWluZy5DYW9AbWVkaWF0ZWsuY29t
-Pg0KPiA+IA0KPiA+IE9uIFdlZCwgMjAyMS0wNy0xNCBhdCAxMDo0NiArMDIwMCwgQ2hyaXN0aWFu
-IEvDtm5pZyB3cm90ZToNCj4gPiA+IEFtIDE0LjA3LjIxIHVtIDA5OjExIHNjaHJpZWIgZ3Vhbmdt
-aW5nLmNhb0BtZWRpYXRlay5jb206DQo+ID4gPiA+IEZyb206IEd1YW5nbWluZyBDYW8gPEd1YW5n
-bWluZy5DYW9AbWVkaWF0ZWsuY29tPg0KPiA+ID4gPiANCj4gPiA+ID4gQWRkIGEgcmVmY291bnQg
-Zm9yIGtlcm5lbCB0byBwcmV2ZW50IFVBRihVc2UgQWZ0ZXIgRnJlZSkgaXNzdWUuDQo+ID4gPiAN
-Cj4gPiA+IFdlbGwgTkFLIG9uIHNvIG1hbnkgbGV2ZWxzLg0KPiA+ID4gDQo+ID4gPiA+IFdlIGNh
-biBhc3N1bWUgYSBjYXNlIGxpa2UgYmVsb3c6DQo+ID4gPiA+ICAgICAgIDEuIGtlcm5lbCBzcGFj
-ZSBhbGxvYyBkbWFfYnVmKGZpbGUgY291bnQgPSAxKQ0KPiA+ID4gPiAgICAgICAyLiBrZXJuZWwg
-dXNlIGRtYV9idWYgdG8gZ2V0IGZkKGZpbGUgY291bnQgPSAxKQ0KPiA+ID4gPiAgICAgICAzLiB1
-c2Vyc3BhY2UgdXNlIGZkIHRvIGRvIG1hcHBpbmcgKGZpbGUgY291bnQgPSAyKQ0KPiA+ID4gDQo+
-ID4gPiBDcmVhdGluZyBhbiB1c2Vyc3BhY2UgbWFwcGluZyBpbmNyZWFzZXMgdGhlIHJlZmVyZW5j
-ZSBjb3VudCBmb3INCj4gPiA+IHRoZQ0KPiA+ID4gdW5kZXJseWluZyBmaWxlIG9iamVjdC4NCj4g
-PiA+IA0KPiA+ID4gU2VlIHRoZSBpbXBsZW1lbnRhdGlvbiBvZiBtbWFwX3JlZ2lvbigpOg0KPiA+
-ID4gLi4uDQo+ID4gPiAgICAgICAgICAgICAgICAgICB2bWEtPnZtX2ZpbGUgPSBnZXRfZmlsZShm
-aWxlKTsNCj4gPiA+ICAgICAgICAgICAgICAgICAgIGVycm9yID0gY2FsbF9tbWFwKGZpbGUsIHZt
-YSk7DQo+ID4gPiAuLi4NCj4gPiA+IA0KPiA+ID4gV2hhdCBjYW4gaGFwcGVuIGlzIHRoZSB0aGUg
-dW5kZXJseWluZyBleHBvcnRlciByZWRpcmVjdHMgdGhlIG1tYXANCj4gPiA+IHRvDQo+ID4gPiBh
-DQo+ID4gPiBkaWZmZXJlbnQgZmlsZSwgZS5nLiBUVE0gb3IgR0VNIGRyaXZlcnMgZG8gdGhhdCBh
-bGwgdGhlIHRpbWUuDQo+ID4gPiANCj4gPiA+IEJ1dCB0aGlzIGlzIGZpbmUgc2luY2UgdGhlbiB0
-aGUgVkEgbWFwcGluZyBpcyBpbmRlcGVuZGVudCBvZiB0aGUNCj4gPiA+IERNQS0NCj4gPiA+IGJ1
-Zi4NCj4gPiA+IA0KPiA+ID4gPiAgICAgICA0LiBrZXJuZWwgY2FsbCBkbWFfYnVmX3B1dCAoZmls
-ZSBjb3VudCA9IDEpDQo+ID4gPiA+ICAgICAgIDUuIHVzZXJwc2FjZSBjbG9zZSBidWZmZXIgZmQo
-ZmlsZSBjb3VudCA9IDApDQo+ID4gPiA+ICAgICAgIDYuIGF0IHRoaXMgdGltZSwgYnVmZmVyIGlz
-IHJlbGVhc2VkLCBidXQgdmEgaXMgdmFsaWQhIQ0KPiA+ID4gPiAgICAgICAgICBTbyB3ZSBzdGls
-bCBjYW4gcmVhZC93cml0ZSBidWZmZXIgdmlhIG1tYXAgdmEsDQo+ID4gPiA+ICAgICAgICAgIGl0
-IG1heWJlIGNhdXNlIG1lbW9yeSBsZWFrLCBvciBrZXJuZWwgZXhjZXB0aW9uLg0KPiA+ID4gPiAg
-ICAgICAgICBBbmQgYWxzbywgaWYgd2UgdXNlICJscyAtbGwiIHRvIHdhdGNoIGNvcnJlc3BvbmRp
-bmcNCj4gPiA+ID4gcHJvY2Vzcw0KPiA+ID4gPiAgICAgICAgICAgICAgZmQgbGluayBpbmZvLCBp
-dCBhbHNvIHdpbGwgY2F1c2Uga2VybmVsIGV4Y2VwdGlvbi4NCj4gPiA+ID4gDQo+ID4gPiA+IEFu
-b3RoZXIgY2FzZToNCj4gPiA+ID4gICAgICAgIFVzaW5nIGRtYV9idWZfZmQgdG8gZ2VuZXJhdGUg
-bW9yZSB0aGFuIDEgZmQsIGJlY2F1c2UNCj4gPiA+ID4gICAgICAgIGRtYV9idWZfZmQgd2lsbCBu
-b3QgaW5jcmVhc2UgZmlsZSBjb3VudCwgdGh1cywgd2hlbg0KPiA+ID4gPiBjbG9zZQ0KPiA+ID4g
-PiAgICAgICAgdGhlIHNlY29uZCBmZCwgaXQgbWF5YmUgb2NjdXJzIGVycm9yLg0KPiA+ID4gDQo+
-ID4gPiBFYWNoIG9wZW5lZCBmZCB3aWxsIGluY3JlYXNlIHRoZSByZWZlcmVuY2UgY291bnQgc28g
-dGhpcyBpcw0KPiA+ID4gY2VydGFpbmx5DQo+ID4gPiBub3QgY29ycmVjdCB3aGF0IHlvdSBkZXNj
-cmliZSBoZXJlLg0KPiA+ID4gDQo+ID4gPiBSZWdhcmRzLA0KPiA+ID4gQ2hyaXN0aWFuLg0KPiA+
-ID4gDQo+ID4gDQo+ID4gWWVzLCBtbWFwIHdpbGwgaW5jcmVhc2UgZmlsZSBjb3VudCBieSBjYWxs
-aW5nIGdldF9maWxlLCBzbyBzdGVwWzJdDQo+ID4gLT4NCj4gPiBzdGVwWzNdLCBmaWxlIGNvdW50
-IGluY3JlYXNlIDEuDQo+ID4gDQo+ID4gQnV0LCBkbWFfYnVmX2ZkKCkgd2lsbCBub3QgaW5jcmVh
-c2UgZmlsZSBjb3VudC4NCj4gPiBmdW5jdGlvbiAiZG1hX2J1Zl9mZChzdHJ1Y3QgZG1hX2J1ZiAq
-ZG1hYnVmLCBpbnQgZmxhZ3MpIiBqdXN0IGdldA0KPiA+IGFuDQo+ID4gdW51c2VkIGZkLCB2aWEg
-Y2FsbCAiZ2V0X3VudXNlZF9mZF9mbGFncyhmbGFncykiLCBhbmQgY2FsbA0KPiA+ICJmZF9pbnN0
-YWxsKGZkLCBkbWFidWYtPmZpbGUpIiwgaXQgd2lsbCBsZXQgYXNzb2NpYXRlZCAic3RydWN0DQo+
-ID4gZmlsZSoiDQo+ID4gaW4gdGFzaydzIGZkdC0+ZmRbZmRdIHBvaW50cyB0byB0aGlzIGRtYV9i
-dWYuZmlsZSwgbm90IGluY3JlYXNlIHRoZQ0KPiA+IGZpbGUgY291bnQgb2YgZG1hX2J1Zi5maWxl
-Lg0KPiA+IEkgdGhpbmsgdGhpcyBpcyBjb25mdXNpbmcsIEkgY2FuIGdldCBtb3JlIHRoYW4gMSBm
-ZHMgdmlhDQo+ID4gZG1hX2J1Zl9mZCwNCj4gPiBidXQgdGhleSBkb24ndCBuZWVkIHRvIGNsb3Nl
-IGl0IGJlY2F1c2UgdGhleSBkb24ndCBpbmNyZWFzZSBmaWxlDQo+ID4gY291bnQuDQo+ID4gDQo+
-ID4gSG93ZXZlciwgZG1hX2J1Zl9wdXQoKSBjYW4gZGVjcmVhc2UgZmlsZSBjb3VudCBhdCBrZXJu
-ZWwgc2lkZQ0KPiA+IGRpcmVjdGx5Lg0KPiA+IElmIHNvbWVib2R5IHdyaXRlIGEga28gdG8gcHV0
-IGZpbGUgY291bnQgb2YgZG1hX2J1Zi5maWxlIG1hbnkNCj4gPiB0aW1lcywgaXQNCj4gPiB3aWxs
-IGNhdXNlIGJ1ZmZlciBmcmVlZCBlYXJsaWVyIHRoYW4gZXhjZXB0LiBBdCBsYXN0IG9uIEFuZHJv
-aWQsIEkNCj4gPiB0aGluayB0aGlzIGlzIGEgbGl0dGxlIGJpdCBkYW5nZXJvdXMuDQo+IA0KPiBk
-bWFfYnVmX2ZkKCkgdGFrZXMgdGhlIGRtYV9idWYgcG9pbnRlciBhbmQgY29udmVydHMgaXQgaW50
-byBhIGZkLiBTbw0KPiB0aGUgDQo+IHJlZmVyZW5jZSBpcyBjb25zdW1lZC4NCj4gDQo+IFRoYXQn
-cyB3aHkgdXNlcnMgb2YgdGhpcyBpbnRlcmZhY2UgbWFrZSBzdXJlIHRvIGdldCBhIHNlcGFyYXRl
-IA0KPiByZWZlcmVuY2UsIHNlZSBkcm1fZ2VtX3ByaW1lX2hhbmRsZV90b19mZCgpIGZvciBleGFt
-cGxlOg0KPiANCj4gLi4uDQo+IG91dF9oYXZlX2hhbmRsZToNCj4gICAgICByZXQgPSBkbWFfYnVm
-X2ZkKGRtYWJ1ZiwgZmxhZ3MpOw0KPiAgICAgIC8qDQo+ICAgICAgICogV2UgbXVzdCBfbm90XyBy
-ZW1vdmUgdGhlIGJ1ZmZlciBmcm9tIHRoZSBoYW5kbGUgY2FjaGUgc2luY2UNCj4gdGhlIA0KPiBu
-ZXdseQ0KPiAgICAgICAqIGNyZWF0ZWQgZG1hIGJ1ZiBpcyBhbHJlYWR5IGxpbmtlZCBpbiB0aGUg
-Z2xvYmFsIG9iai0+ZG1hX2J1ZiANCj4gcG9pbnRlciwNCj4gICAgICAgKiBhbmQgdGhhdCBpcyBp
-bnZhcmlhbnQgYXMgbG9uZyBhcyBhIHVzZXJzcGFjZSBnZW0gaGFuZGxlDQo+IGV4aXN0cy4NCj4g
-ICAgICAgKiBDbG9zaW5nIHRoZSBoYW5kbGUgd2lsbCBjbGVhbiBvdXQgdGhlIGNhY2hlIGFueXdh
-eSwgc28gd2UNCj4gZG9uJ3QgDQo+IGxlYWsuDQo+ICAgICAgICovDQo+ICAgICAgaWYgKHJldCA8
-IDApIHsNCj4gICAgICAgICAgZ290byBmYWlsX3B1dF9kbWFidWY7DQo+ICAgICAgfSBlbHNlIHsN
-Cj4gICAgICAgICAgKnByaW1lX2ZkID0gcmV0Ow0KPiAgICAgICAgICByZXQgPSAwOw0KPiAgICAg
-IH0NCj4gDQo+ICAgICAgZ290byBvdXQ7DQo+IA0KPiBmYWlsX3B1dF9kbWFidWY6DQo+ICAgICAg
-ZG1hX2J1Zl9wdXQoZG1hYnVmKTsNCj4gb3V0Og0KPiAuLi4NCj4gDQo+IFlvdSBjb3VsZCBzdWJt
-aXQgYSBwYXRjaCB0byBpbXByb3ZlIHRoZSBkb2N1bWVudGF0aW9uIGFuZCBleHBsaWNpdGx5IA0K
-PiBub3RlIG9uIGRtYV9idWZfZmQoKSB0aGF0IHRoZSByZWZlcmVuY2UgaXMgY29uc3VtZWQsIGJ1
-dCBhbGwgb2YgdGhpcw0KPiBpcyANCj4gd29ya2luZyBwZXJmZWN0bHkgZmluZS4NCj4gDQo+IFJl
-Z2FyZHMsDQo+IENocmlzdGlhbi4NCj4gDQoNClRoYW5rcyBmb3IgeW91ciByZXBseSENCg0KWWVz
-LCBkcm0gd29ya3MgZmluZSBiZWNhdXNlIGl0IGZ1bGx5IHVuZGVyc3RhbmQgd2hhdCBkbWEtYnVm
-IGFwaSB3aWxsDQpkby4gSW1wcm92ZSB0aGUgZG9jdW1lbnRhdGlvbiBpcyByZWFsbHkgZ29vZCBp
-ZGVhIHRvIHByZXZlbnQgdGhpcyBjYXNlLg0KDQpCdXQsIHdoYXQgSSBjYW4ndCB1bmRlcnN0YW5k
-IGlzLCBmb3Iga2VybmVsIGFwaSBleHBvcnRlZCB0bw0KY29ycmVzcG9uZGluZyB1c2Vycywgd2Ug
-ZG9uJ3QgbmVlZCB0byBlbnN1cmUgYWxsIGFwaSBpcyBzYWZlPw0KDQpBbmQgZm9yIGdlbmVyYWwg
-Y2FzZXMsIGRtYS1idWYgZnJhbWV3b3JrIGFsc28gbmVlZCB0byBwcmV2ZW50IHRoaXMNCmNhc2Us
-IGlzbid0IGl0LCBpdCB3aWxsIG1ha2UgZG1hLWJ1ZiBmcmFtZXdvcmsgbW9yZSBzdHJvbmc/DQoN
-Cg0KQlJzIQ0KR3VhbmdtaW5nDQo+ID4gDQo+ID4gPiA+IFNvbHV0aW9uOg0KPiA+ID4gPiAgICAg
-ICBBZGQgYSBrZXJuZWwgY291bnQgZm9yIGRtYV9idWYsIGFuZCBtYWtlIHN1cmUgdGhlIGZpbGUN
-Cj4gPiA+ID4gY291bnQNCj4gPiA+ID4gICAgICAgICAgIG9mIGRtYV9idWYuZmlsZSBob2xkIGJ5
-IGtlcm5lbCBpcyAxLg0KPiA+ID4gPiANCj4gPiA+ID4gTm90ZXM6IEZvciB0aGlzIHNvbHV0aW9u
-LCBrcmVmIGNvdWxkbid0IHdvcmsgYmVjYXVzZSBrZXJuZWwgcmVmDQo+ID4gPiA+ICAgICAgICAg
-IG1heWJlIGFkZGVkIGZyb20gMCwgYnV0IGtyZWYgZG9uJ3QgYWxsb3cgaXQuDQo+ID4gPiA+IA0K
-PiA+ID4gPiBTaWduZWQtb2ZmLWJ5OiBHdWFuZ21pbmcgQ2FvIDxHdWFuZ21pbmcuQ2FvQG1lZGlh
-dGVrLmNvbT4NCj4gPiA+ID4gLS0tDQo+ID4gPiA+ICAgIGRyaXZlcnMvZG1hLWJ1Zi9kbWEtYnVm
-LmMgfCAyMyArKysrKysrKysrKysrKysrKysrLS0tLQ0KPiA+ID4gPiAgICBpbmNsdWRlL2xpbnV4
-L2RtYS1idWYuaCAgIHwgIDYgKysrKy0tDQo+ID4gPiA+ICAgIDIgZmlsZXMgY2hhbmdlZCwgMjMg
-aW5zZXJ0aW9ucygrKSwgNiBkZWxldGlvbnMoLSkNCj4gPiA+ID4gDQo+ID4gPiA+IGRpZmYgLS1n
-aXQgYS9kcml2ZXJzL2RtYS1idWYvZG1hLWJ1Zi5jIGIvZHJpdmVycy9kbWEtYnVmL2RtYS0NCj4g
-PiA+ID4gYnVmLmMNCj4gPiA+ID4gaW5kZXggNTExZmUwZDIxN2EwLi4wNGVlOTJhYWM4YjkgMTAw
-NjQ0DQo+ID4gPiA+IC0tLSBhL2RyaXZlcnMvZG1hLWJ1Zi9kbWEtYnVmLmMNCj4gPiA+ID4gKysr
-IGIvZHJpdmVycy9kbWEtYnVmL2RtYS1idWYuYw0KPiA+ID4gPiBAQCAtNjIsNiArNjIsNyBAQCBz
-dGF0aWMgdm9pZCBkbWFfYnVmX3JlbGVhc2Uoc3RydWN0IGRlbnRyeQ0KPiA+ID4gPiAqZGVudHJ5
-KQ0KPiA+ID4gPiAgICAgIGlmICh1bmxpa2VseSghZG1hYnVmKSkNCj4gPiA+ID4gICAgICAgICAg
-ICAgIHJldHVybjsNCj4gPiA+ID4gICAgDQo+ID4gPiA+ICsgICBXQVJOX09OKGF0b21pYzY0X3Jl
-YWQoJmRtYWJ1Zi0+a2VybmVsX3JlZikpOw0KPiA+ID4gPiAgICAgIEJVR19PTihkbWFidWYtPnZt
-YXBwaW5nX2NvdW50ZXIpOw0KPiA+ID4gPiAgICANCj4gPiA+ID4gICAgICAvKg0KPiA+ID4gPiBA
-QCAtNTU1LDYgKzU1Niw3IEBAIHN0cnVjdCBkbWFfYnVmICpkbWFfYnVmX2V4cG9ydChjb25zdCBz
-dHJ1Y3QNCj4gPiA+ID4gZG1hX2J1Zl9leHBvcnRfaW5mbyAqZXhwX2luZm8pDQo+ID4gPiA+ICAg
-ICAgICAgICAgICBnb3RvIGVycl9tb2R1bGU7DQo+ID4gPiA+ICAgICAgfQ0KPiA+ID4gPiAgICAN
-Cj4gPiA+ID4gKyAgIGF0b21pYzY0X3NldCgmZG1hYnVmLT5rZXJuZWxfcmVmLCAxKTsNCj4gPiA+
-ID4gICAgICBkbWFidWYtPnByaXYgPSBleHBfaW5mby0+cHJpdjsNCj4gPiA+ID4gICAgICBkbWFi
-dWYtPm9wcyA9IGV4cF9pbmZvLT5vcHM7DQo+ID4gPiA+ICAgICAgZG1hYnVmLT5zaXplID0gZXhw
-X2luZm8tPnNpemU7DQo+ID4gPiA+IEBAIC02MTcsNiArNjE5LDkgQEAgaW50IGRtYV9idWZfZmQo
-c3RydWN0IGRtYV9idWYgKmRtYWJ1ZiwgaW50DQo+ID4gPiA+IGZsYWdzKQ0KPiA+ID4gPiAgICAN
-Cj4gPiA+ID4gICAgICBmZF9pbnN0YWxsKGZkLCBkbWFidWYtPmZpbGUpOw0KPiA+ID4gPiAgICAN
-Cj4gPiA+ID4gKyAgIC8qIEFkZCBmaWxlIGNudCBmb3IgZWFjaCBuZXcgZmQgKi8NCj4gPiA+ID4g
-KyAgIGdldF9maWxlKGRtYWJ1Zi0+ZmlsZSk7DQo+ID4gPiA+ICsNCj4gPiA+ID4gICAgICByZXR1
-cm4gZmQ7DQo+ID4gPiA+ICAgIH0NCj4gPiA+ID4gICAgRVhQT1JUX1NZTUJPTF9HUEwoZG1hX2J1
-Zl9mZCk7DQo+ID4gPiA+IEBAIC02MjYsMTIgKzYzMSwxMyBAQCBFWFBPUlRfU1lNQk9MX0dQTChk
-bWFfYnVmX2ZkKTsNCj4gPiA+ID4gICAgICogQGZkOiAgIFtpbl0gICAgZmQgYXNzb2NpYXRlZCB3
-aXRoIHRoZSBzdHJ1Y3QgZG1hX2J1ZiB0bw0KPiA+ID4gPiBiZQ0KPiA+ID4gPiByZXR1cm5lZA0K
-PiA+ID4gPiAgICAgKg0KPiA+ID4gPiAgICAgKiBPbiBzdWNjZXNzLCByZXR1cm5zIHRoZSBzdHJ1
-Y3QgZG1hX2J1ZiBhc3NvY2lhdGVkIHdpdGggYW4NCj4gPiA+ID4gZmQ7DQo+ID4gPiA+IHVzZXMN
-Cj4gPiA+ID4gLSAqIGZpbGUncyByZWZjb3VudGluZyBkb25lIGJ5IGZnZXQgdG8gaW5jcmVhc2Ug
-cmVmY291bnQuDQo+ID4gPiA+IHJldHVybnMNCj4gPiA+ID4gRVJSX1BUUg0KPiA+ID4gPiAtICog
-b3RoZXJ3aXNlLg0KPiA+ID4gPiArICogZG1hYnVmJ3MgcmVmIHJlZmNvdW50aW5nIGRvbmUgYnkg
-a3JlZl9nZXQgdG8gaW5jcmVhc2UNCj4gPiA+ID4gcmVmY291bnQuDQo+ID4gPiA+ICsgKiBSZXR1
-cm5zIEVSUl9QVFIgb3RoZXJ3aXNlLg0KPiA+ID4gPiAgICAgKi8NCj4gPiA+ID4gICAgc3RydWN0
-IGRtYV9idWYgKmRtYV9idWZfZ2V0KGludCBmZCkNCj4gPiA+ID4gICAgew0KPiA+ID4gPiAgICAg
-IHN0cnVjdCBmaWxlICpmaWxlOw0KPiA+ID4gPiArICAgc3RydWN0IGRtYV9idWYgKmRtYWJ1ZjsN
-Cj4gPiA+ID4gICAgDQo+ID4gPiA+ICAgICAgZmlsZSA9IGZnZXQoZmQpOw0KPiA+ID4gPiAgICAN
-Cj4gPiA+ID4gQEAgLTY0Myw3ICs2NDksMTIgQEAgc3RydWN0IGRtYV9idWYgKmRtYV9idWZfZ2V0
-KGludCBmZCkNCj4gPiA+ID4gICAgICAgICAgICAgIHJldHVybiBFUlJfUFRSKC1FSU5WQUwpOw0K
-PiA+ID4gPiAgICAgIH0NCj4gPiA+ID4gICAgDQo+ID4gPiA+IC0gICByZXR1cm4gZmlsZS0+cHJp
-dmF0ZV9kYXRhOw0KPiA+ID4gPiArICAgZG1hYnVmID0gZmlsZS0+cHJpdmF0ZV9kYXRhOw0KPiA+
-ID4gPiArICAgLyogcmVwbGFjZSBmaWxlIGNvdW50IGluY3JlYXNlIGFzIHJlZiBpbmNyZWFzZSBm
-b3Iga2VybmVsDQo+ID4gPiA+IHVzZXINCj4gPiA+ID4gKi8NCj4gPiA+ID4gKyAgIGdldF9kbWFf
-YnVmKGRtYWJ1Zik7DQo+ID4gPiA+ICsgICBmcHV0KGZpbGUpOw0KPiA+ID4gPiArDQo+ID4gPiA+
-ICsgICByZXR1cm4gZG1hYnVmOw0KPiA+ID4gPiAgICB9DQo+ID4gPiA+ICAgIEVYUE9SVF9TWU1C
-T0xfR1BMKGRtYV9idWZfZ2V0KTsNCj4gPiA+ID4gICAgDQo+ID4gPiA+IEBAIC02NjIsNyArNjcz
-LDExIEBAIHZvaWQgZG1hX2J1Zl9wdXQoc3RydWN0IGRtYV9idWYgKmRtYWJ1ZikNCj4gPiA+ID4g
-ICAgICBpZiAoV0FSTl9PTighZG1hYnVmIHx8ICFkbWFidWYtPmZpbGUpKQ0KPiA+ID4gPiAgICAg
-ICAgICAgICAgcmV0dXJuOw0KPiA+ID4gPiAgICANCj4gPiA+ID4gLSAgIGZwdXQoZG1hYnVmLT5m
-aWxlKTsNCj4gPiA+ID4gKyAgIGlmIChXQVJOX09OKCFhdG9taWM2NF9yZWFkKCZkbWFidWYtPmtl
-cm5lbF9yZWYpKSkNCj4gPiA+ID4gKyAgICAgICAgICAgcmV0dXJuOw0KPiA+ID4gPiArDQo+ID4g
-PiA+ICsgICBpZiAoIWF0b21pYzY0X2RlY19yZXR1cm4oJmRtYWJ1Zi0+a2VybmVsX3JlZikpDQo+
-ID4gPiA+ICsgICAgICAgICAgIGZwdXQoZG1hYnVmLT5maWxlKTsNCj4gPiA+ID4gICAgfQ0KPiA+
-ID4gPiAgICBFWFBPUlRfU1lNQk9MX0dQTChkbWFfYnVmX3B1dCk7DQo+ID4gPiA+ICAgIA0KPiA+
-ID4gPiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS9saW51eC9kbWEtYnVmLmggYi9pbmNsdWRlL2xpbnV4
-L2RtYS1idWYuaA0KPiA+ID4gPiBpbmRleCBlZmRjNTZiOWQ5NWYuLmJjNzkwY2IwMjhlYiAxMDA2
-NDQNCj4gPiA+ID4gLS0tIGEvaW5jbHVkZS9saW51eC9kbWEtYnVmLmgNCj4gPiA+ID4gKysrIGIv
-aW5jbHVkZS9saW51eC9kbWEtYnVmLmgNCj4gPiA+ID4gQEAgLTMwOCw2ICszMDgsNyBAQCBzdHJ1
-Y3QgZG1hX2J1Zl9vcHMgew0KPiA+ID4gPiAgICBzdHJ1Y3QgZG1hX2J1ZiB7DQo+ID4gPiA+ICAg
-ICAgc2l6ZV90IHNpemU7DQo+ID4gPiA+ICAgICAgc3RydWN0IGZpbGUgKmZpbGU7DQo+ID4gPiA+
-ICsgICBhdG9taWM2NF90IGtlcm5lbF9yZWY7DQo+ID4gPiA+ICAgICAgc3RydWN0IGxpc3RfaGVh
-ZCBhdHRhY2htZW50czsNCj4gPiA+ID4gICAgICBjb25zdCBzdHJ1Y3QgZG1hX2J1Zl9vcHMgKm9w
-czsNCj4gPiA+ID4gICAgICBzdHJ1Y3QgbXV0ZXggbG9jazsNCj4gPiA+ID4gQEAgLTQzNiw3ICs0
-MzcsNyBAQCBzdHJ1Y3QgZG1hX2J1Zl9leHBvcnRfaW5mbyB7DQo+ID4gPiA+ICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgLm93bmVyID0gVEhJU19NT0RVTEUgfQ0KPiA+ID4g
-PiAgICANCj4gPiA+ID4gICAgLyoqDQo+ID4gPiA+IC0gKiBnZXRfZG1hX2J1ZiAtIGNvbnZlbmll
-bmNlIHdyYXBwZXIgZm9yIGdldF9maWxlLg0KPiA+ID4gPiArICogZ2V0X2RtYV9idWYgLSBpbmNy
-ZWFzZSBhIGtlcm5lbCByZWYgb2YgZG1hLWJ1Zg0KPiA+ID4gPiAgICAgKiBAZG1hYnVmOiAgICAg
-ICBbaW5dICAgIHBvaW50ZXIgdG8gZG1hX2J1Zg0KPiA+ID4gPiAgICAgKg0KPiA+ID4gPiAgICAg
-KiBJbmNyZW1lbnRzIHRoZSByZWZlcmVuY2UgY291bnQgb24gdGhlIGRtYS1idWYsIG5lZWRlZCBp
-bg0KPiA+ID4gPiBjYXNlDQo+ID4gPiA+IG9mIGRyaXZlcnMNCj4gPiA+ID4gQEAgLTQ0Niw3ICs0
-NDcsOCBAQCBzdHJ1Y3QgZG1hX2J1Zl9leHBvcnRfaW5mbyB7DQo+ID4gPiA+ICAgICAqLw0KPiA+
-ID4gPiAgICBzdGF0aWMgaW5saW5lIHZvaWQgZ2V0X2RtYV9idWYoc3RydWN0IGRtYV9idWYgKmRt
-YWJ1ZikNCj4gPiA+ID4gICAgew0KPiA+ID4gPiAtICAgZ2V0X2ZpbGUoZG1hYnVmLT5maWxlKTsN
-Cj4gPiA+ID4gKyAgIGlmIChhdG9taWM2NF9pbmNfcmV0dXJuKCZkbWFidWYtPmtlcm5lbF9yZWYp
-ID09IDEpDQo+ID4gPiA+ICsgICAgICAgICAgIGdldF9maWxlKGRtYWJ1Zi0+ZmlsZSk7DQo+ID4g
-PiA+ICAgIH0NCj4gPiA+ID4gICAgDQo+ID4gPiA+ICAgIC8qKg0KPiANCj4gDQo=
+On Wed, Jul 14, 2021 at 01:16:57PM +0200, Daniel Vetter wrote:
+> On Tue, Jul 13, 2021 at 09:46:30PM +0300, Ville Syrjälä wrote:
+> > On Tue, Jul 13, 2021 at 07:24:23PM +0100, Matthew Auld wrote:
+> > > On Tue, 13 Jul 2021 at 18:47, Ville Syrjälä
+> > > <ville.syrjala@linux.intel.com> wrote:
+> > > >
+> > > > On Tue, Jul 13, 2021 at 05:13:37PM +0100, Matthew Auld wrote:
+> > > > > On Tue, 13 Jul 2021 at 16:55, Ville Syrjälä
+> > > > > <ville.syrjala@linux.intel.com> wrote:
+> > > > > >
+> > > > > > On Tue, Jul 13, 2021 at 11:45:50AM +0100, Matthew Auld wrote:
+> > > > > > > +     /**
+> > > > > > > +      * @cache_coherent:
+> > > > > > > +      *
+> > > > > > > +      * Track whether the pages are coherent with the GPU if reading or
+> > > > > > > +      * writing through the CPU cache.
+> > > > > > > +      *
+> > > > > > > +      * This largely depends on the @cache_level, for example if the object
+> > > > > > > +      * is marked as I915_CACHE_LLC, then GPU access is coherent for both
+> > > > > > > +      * reads and writes through the CPU cache.
+> > > > > > > +      *
+> > > > > > > +      * Note that on platforms with shared-LLC support(HAS_LLC) reads through
+> > > > > > > +      * the CPU cache are always coherent, regardless of the @cache_level. On
+> > > > > > > +      * snooping based platforms this is not the case, unless the full
+> > > > > > > +      * I915_CACHE_LLC or similar setting is used.
+> > > > > > > +      *
+> > > > > > > +      * As a result of this we need to track coherency separately for reads
+> > > > > > > +      * and writes, in order to avoid superfluous flushing on shared-LLC
+> > > > > > > +      * platforms, for reads.
+> > > > > > > +      *
+> > > > > > > +      * I915_BO_CACHE_COHERENT_FOR_READ:
+> > > > > > > +      *
+> > > > > > > +      * When reading through the CPU cache, the GPU is still coherent. Note
+> > > > > > > +      * that no data has actually been modified here, so it might seem
+> > > > > > > +      * strange that we care about this.
+> > > > > > > +      *
+> > > > > > > +      * As an example, if some object is mapped on the CPU with write-back
+> > > > > > > +      * caching, and we read some page, then the cache likely now contains
+> > > > > > > +      * the data from that read. At this point the cache and main memory
+> > > > > > > +      * match up, so all good. But next the GPU needs to write some data to
+> > > > > > > +      * that same page. Now if the @cache_level is I915_CACHE_NONE and the
+> > > > > > > +      * the platform doesn't have the shared-LLC, then the GPU will
+> > > > > > > +      * effectively skip invalidating the cache(or however that works
+> > > > > > > +      * internally) when writing the new value.  This is really bad since the
+> > > > > > > +      * GPU has just written some new data to main memory, but the CPU cache
+> > > > > > > +      * is still valid and now contains stale data. As a result the next time
+> > > > > > > +      * we do a cached read with the CPU, we are rewarded with stale data.
+> > > > > > > +      * Likewise if the cache is later flushed, we might be rewarded with
+> > > > > > > +      * overwriting main memory with stale data.
+> > > > > > > +      *
+> > > > > > > +      * I915_BO_CACHE_COHERENT_FOR_WRITE:
+> > > > > > > +      *
+> > > > > > > +      * When writing through the CPU cache, the GPU is still coherent. Note
+> > > > > > > +      * that this also implies I915_BO_CACHE_COHERENT_FOR_READ.
+> > > > > > > +      *
+> > > > > > > +      * This is never set when I915_CACHE_NONE is used for @cache_level,
+> > > > > > > +      * where instead we have to manually flush the caches after writing
+> > > > > > > +      * through the CPU cache. For other cache levels this should be set and
+> > > > > > > +      * the object is therefore considered coherent for both reads and writes
+> > > > > > > +      * through the CPU cache.
+> > > > > >
+> > > > > > I don't remember why we have this read vs. write split and this new
+> > > > > > documentation doesn't seem to really explain it either.
+> > > > >
+> > > > > Hmm, I attempted to explain that earlier:
+> > > > >
+> > > > > * Note that on platforms with shared-LLC support(HAS_LLC) reads through
+> > > > > * the CPU cache are always coherent, regardless of the @cache_level. On
+> > > > > * snooping based platforms this is not the case, unless the full
+> > > > > * I915_CACHE_LLC or similar setting is used.
+> > > > > *
+> > > > > * As a result of this we need to track coherency separately for reads
+> > > > > * and writes, in order to avoid superfluous flushing on shared-LLC
+> > > > > * platforms, for reads.
+> > > > >
+> > > > > So AFAIK it's just because shared-LLC can be coherent for reads, while
+> > > > > also not being coherent for writes(CACHE_NONE),
+> > > >
+> > > > CPU vs. GPU is fully coherent when it comes to LLC. Or at least I've
+> > > > never heard of any mechanism that would make it only partially coherent.
+> > > 
+> > > What do you mean by "comes to LLC", are you talking about HAS_LLC() or
+> > > I915_CACHE_LLC?
+> > 
+> > I'm talking about the actual cache.
+> > 
+> > > 
+> > > If you set I915_CACHE_LLC, then yes it is fully coherent for both
+> > > HAS_LLC() and HAS_SNOOP().
+> > > 
+> > > If you set I915_CACHE_NONE, then reads are still coherent on
+> > > HAS_LLC(),
+> > 
+> > Reads and writes both. The only thing that's not coherent is the
+> > display engine.
+> 
+> There's a lot of code which seems to disagree,
 
+Can't even imagine why anyone would make a cache coherency protocol
+that only handles reads but not writes...
+
+> plus there's now this new
+> MOCS thing.
+
+That's just a full LLC bypass AFAICS. Can't omit invalidates if
+you use that one or you'll just get stale data from the cache
+on reads as well.
+
+> I really hope we don't have all those cache coherency bits
+> just because the code complexity is entertaining?
+
+They were definitely added to fix a display issue, and before
+that it was just a single flag, which wasn't doing what the display
+needed. I think before the flag was added we used some other indicators
+to check when we need to clflush, or maybe we did a some extra pointless
+clflushes here and there and the broken single flag was supposed to
+avoid those. Not quite sure.
+
+I suppose these two flags should maybe have been named more like
+"needs invalidate" and "needs writeback" to make it clear what 
+one needs to do.
+
+-- 
+Ville Syrjälä
+Intel
