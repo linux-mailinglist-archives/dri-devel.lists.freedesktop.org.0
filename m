@@ -1,41 +1,27 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 257153C821F
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Jul 2021 11:53:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 15E573C827A
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Jul 2021 12:11:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A3C36E1F1;
-	Wed, 14 Jul 2021 09:53:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 239BD6E1F4;
+	Wed, 14 Jul 2021 10:11:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 305 seconds by postgrey-1.36 at gabe;
- Wed, 14 Jul 2021 09:53:19 UTC
-Received: from michel.telenet-ops.be (michel.telenet-ops.be
- [IPv6:2a02:1800:110:4::f00:18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 08D426E1F1
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jul 2021 09:53:18 +0000 (UTC)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed10:39cc:190a:2775:cfe7])
- by michel.telenet-ops.be with bizsmtp
- id Uxo82500J1ccfby06xo8ct; Wed, 14 Jul 2021 11:48:12 +0200
-Received: from rox.of.borg ([192.168.97.57])
- by ramsan.of.borg with esmtps (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.93)
- (envelope-from <geert@linux-m68k.org>)
- id 1m3bUu-0015hM-FF; Wed, 14 Jul 2021 11:48:08 +0200
-Received: from geert by rox.of.borg with local (Exim 4.93)
- (envelope-from <geert@linux-m68k.org>)
- id 1m3bUu-00A3Yx-0R; Wed, 14 Jul 2021 11:48:08 +0200
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Andrzej Hajda <a.hajda@samsung.com>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Robert Foss <robert.foss@linaro.org>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v2] drm/bridge: nwl-dsi: Avoid potential multiplication
- overflow on 32-bit
-Date: Wed, 14 Jul 2021 11:48:06 +0200
-Message-Id: <ebb82941a86b4e35c4fcfb1ef5a5cfad7c1fceab.1626255956.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.25.1
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D1EAB6E1F4
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Jul 2021 10:11:51 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: eballetbo) with ESMTPSA id 23F721F42DB7
+From: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/7] Add support to the mmsys driver to be a reset
+ controller
+Date: Wed, 14 Jul 2021 12:11:34 +0200
+Message-Id: <20210714101141.2089082-1-enric.balletbo@collabora.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -50,52 +36,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>, Jonas Karlman <jonas@kwiboo.se>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linux-arm-kernel@lists.infradead.org, chunkuang.hu@kernel.org,
+ drinkcat@chromium.org, jitao.shi@mediatek.com,
+ Fabien Parent <fparent@baylibre.com>, David Airlie <airlied@linux.ie>,
+ Wim Van Sebroeck <wim@linux-watchdog.org>, eizan@chromium.org,
+ devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ linux-mediatek@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ hsinyi@chromium.org, matthias.bgg@gmail.com,
+ Crystal Guo <crystal.guo@mediatek.com>, kernel@collabora.com,
+ Guenter Roeck <linux@roeck-us.net>, linux-watchdog@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As nwl_dsi.lanes is u32, and NSEC_PER_SEC is 1000000000L, the second
-multiplication in
+Dear all,
 
-    dsi->lanes * 8 * NSEC_PER_SEC
+The following patchset is a reimplementation of the patch sent by Jitao
+Shi [1] some time ago. As suggested by Chun-Kuang Hu, this time the
+reset is done using the reset API, where the mmsys driver is the reset
+controller and the mtk_dsi driver is the reset consumer.
 
-will overflow on a 32-bit platform.  Fix this by making the constant
-unsigned long long, forcing 64-bit arithmetic.
+Note that the first patch is kind of unrelated change, it's just a
+cleanup but is needed if you want to apply all the following patches
+cleanly.
 
-As iMX8 is arm64, this driver is currently used on 64-bit platforms
-only, where long is 64-bit, so this cannot happen.  But the issue will
-start to happen when the driver is reused for a 32-bit SoC (e.g.
-i.MX7ULP), or when code is copied for a new driver.
+This patchset is important in order to have the DSI panel working on some
+kukui MT8183 Chromebooks (i.e Lenovo IdeaPad Duet). Without it, you just
+get a black screen.
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Reviewed-by: Fabio Estevam <festevam@gmail.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
----
-Compile-tested only.
+Best regards,
+  Enric
 
-v2:
-  - Add Reviewed-by,
-  - Add reference to i.MX7ULP.
----
- drivers/gpu/drm/bridge/nwl-dsi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+[1] https://lore.kernel.org/linux-arm-kernel/20210420132614.150242-4-jitao.shi@mediatek.com/
 
-diff --git a/drivers/gpu/drm/bridge/nwl-dsi.c b/drivers/gpu/drm/bridge/nwl-dsi.c
-index 873995f0a7416e58..6002404ffcb9df08 100644
---- a/drivers/gpu/drm/bridge/nwl-dsi.c
-+++ b/drivers/gpu/drm/bridge/nwl-dsi.c
-@@ -196,7 +196,7 @@ static u32 ps2bc(struct nwl_dsi *dsi, unsigned long long ps)
- 	u32 bpp = mipi_dsi_pixel_format_to_bpp(dsi->format);
- 
- 	return DIV64_U64_ROUND_UP(ps * dsi->mode.clock * bpp,
--				  dsi->lanes * 8 * NSEC_PER_SEC);
-+				  dsi->lanes * 8ULL * NSEC_PER_SEC);
- }
- 
- /*
+
+Changes in v2:
+- Fix build test ERROR Reported-by: kernel test robot <lkp@intel.com>
+- Added a new patch to describe the dsi reset optional property.
+
+Enric Balletbo i Serra (7):
+  arm64: dts: mediatek: Move reset controller constants into common
+    location
+  dt-bindings: mediatek: Add #reset-cells to mmsys system controller
+  dt-bindings: display: mediatek: add dsi reset optional property
+  arm64: dts: mt8173: Add the mmsys reset bit to reset the dsi0
+  arm64: dts: mt8183: Add the mmsys reset bit to reset the dsi0
+  soc: mediatek: mmsys: Add reset controller support
+  drm/mediatek: mtk_dsi: Reset the dsi0 hardware
+
+ .../bindings/arm/mediatek/mediatek,mmsys.txt  |  2 +
+ .../display/mediatek/mediatek,dsi.txt         |  6 ++
+ arch/arm64/boot/dts/mediatek/mt8173.dtsi      |  2 +
+ arch/arm64/boot/dts/mediatek/mt8183.dtsi      |  5 +-
+ drivers/gpu/drm/mediatek/mtk_dsi.c            |  5 +-
+ drivers/soc/mediatek/mtk-mmsys.c              | 69 +++++++++++++++++++
+ drivers/soc/mediatek/mtk-mmsys.h              |  2 +
+ drivers/watchdog/mtk_wdt.c                    |  6 +-
+ .../mt2712-resets.h                           |  0
+ include/dt-bindings/reset/mt8173-resets.h     |  2 +
+ .../mt8183-resets.h                           |  3 +
+ .../mt8192-resets.h                           |  0
+ 12 files changed, 96 insertions(+), 6 deletions(-)
+ rename include/dt-bindings/{reset-controller => reset}/mt2712-resets.h (100%)
+ rename include/dt-bindings/{reset-controller => reset}/mt8183-resets.h (98%)
+ rename include/dt-bindings/{reset-controller => reset}/mt8192-resets.h (100%)
+
 -- 
-2.25.1
+2.30.2
 
