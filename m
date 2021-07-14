@@ -1,50 +1,128 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4E2F3C8176
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Jul 2021 11:22:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EC8AA3C8160
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Jul 2021 11:19:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC5336E1E6;
-	Wed, 14 Jul 2021 09:22:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 389B96E1D8;
+	Wed, 14 Jul 2021 09:19:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 301 seconds by postgrey-1.36 at gabe;
- Wed, 14 Jul 2021 09:22:27 UTC
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C77FA6E1E6
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jul 2021 09:22:27 +0000 (UTC)
-X-UUID: 6a541489cb164a34b00c8d5c93af62d9-20210714
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=xPxiLHgyF3Z69P36wJDPoZFLBqPf7RnzJvS6Sds8yhA=; 
- b=sxBPYGtPKQKfXsVLz+cRFo8HbhoeHM0UGR6APSBg+amnETmDDLtg797cbNFTBCWnVRMXdOTa5DgJ+RFSdNUyNA5K+wNI6yOotY7BK+FGdc0UW6PUpPlooBPxcxE+z/H0seaHW1oL4czp9EgYxoxgc6kSgXi3eDL9NvlOUX4gkUI=;
-X-UUID: 6a541489cb164a34b00c8d5c93af62d9-20210714
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
- (envelope-from <guangming.cao@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1704906782; Wed, 14 Jul 2021 17:17:23 +0800
-Received: from MTKCAS36.mediatek.inc (172.27.4.186) by mtkmbs01n1.mediatek.inc
- (172.21.101.68) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Wed, 14 Jul 2021 17:17:22 +0800
-Received: from mszswglt01 (10.16.20.20) by MTKCAS36.mediatek.inc
- (172.27.4.170) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Wed, 14 Jul 2021 17:17:20 +0800
-Message-ID: <e3909d03e55566805fb538088411762f415b34e1.camel@mediatek.com>
-Subject: Re: [PATCH] dma-buf: add kernel count for dma_buf
-From: Guangming.Cao <guangming.cao@mediatek.com>
-To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, "Sumit
- Semwal" <sumit.semwal@linaro.org>
-Date: Wed, 14 Jul 2021 17:17:20 +0800
-In-Reply-To: <1bfb2001-b7d7-28b0-7fdf-ae9dbb7395b5@amd.com>
-References: <20210714071144.62126-1-guangming.cao@mediatek.com>
- <1bfb2001-b7d7-28b0-7fdf-ae9dbb7395b5@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Received: from EUR02-AM5-obe.outbound.protection.outlook.com
+ (mail-eopbgr00065.outbound.protection.outlook.com [40.107.0.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 053516E1D8
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Jul 2021 09:19:39 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bKxBdUVvRQrgem8ymWoGr3giEkZ8RqfJ7S55jN/gsVfZgIto5vcKAa6rGuBHmNyKhu5VN13kX71eMHZlU1Uyp+rqTrA3eYmatHg2CbODLIyEjEeXZcl02de5AvCLIAwxcKGdOYCXnc/uxSOtcbvhh2sdBVffnRLPHYPT+UVbDI+ztsoNZpF3SXye+EXRvQdtwzlB1m/UxBwww2HP8HvqJMm3s6NzSp8VWw4kS6p8WAplHP+n3jdRfHWzEQENDry4zELUFRbCN5suEggDvBKFqJ0F/HG/2Z7g/HLP+WtPVcNRa0Ae+aX0yA6MuZQz1KP9ChZzJ++R8kLhvwmYlmmRQA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=yQsy4ZKJ0Ez5bIpR/+Ah/ZKiUK/KrzAL8RpnJr+GIfg=;
+ b=l7s8BINtXQ27hhF4zNFwaB/LcZJ9oDcccT0j945JnTYSjKjuFs6Jkf/x79s8c6EvTuODfGDi3r7xC4bUS5jjpk0uYEI2Tmc/9CK/xugPB4ZLAuTtaniKDOE6rJQxDNksYZ6itlumBkmpsWPrSkAU88OoOifYoP4baPabVjO0H8SH7aiqB0bJ7lVGUT1we9qtJoudarYDfChAidWHhNWZMraI/6sKle18vOQ9rVPVskQKV/6U8N7tDe3coVZTRC3awQyQ9hX/1VlYTRCoCrtKYUXRnf6wVjUtdyuDjxOGzb7/RU8LxfJ4UHz3vl8RcQRYaHl7dThEDZA4npgh8qodkQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wolfvision.net; dmarc=pass action=none
+ header.from=wolfvision.net; dkim=pass header.d=wolfvision.net; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wolfvision.net;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=yQsy4ZKJ0Ez5bIpR/+Ah/ZKiUK/KrzAL8RpnJr+GIfg=;
+ b=SKCeNWo8FEi8s6A6kyhZ6qVil6CikffYp42pB6gjLUqVsdPBQMUZ8mtKvembhpCe+TxDzV1TAun5t/8e2T2zZIfyXvH+w7A0rXuorClaKaA3NVK45W9Oi8RXzBDUkWS/zu/UVMCBv9evbn0BhgGwziwcWW1UyBMWynsd26B04CM=
+Authentication-Results: collabora.com; dkim=none (message not signed)
+ header.d=none;collabora.com; dmarc=none action=none
+ header.from=wolfvision.net;
+Received: from AM0PR08MB4516.eurprd08.prod.outlook.com (2603:10a6:208:13b::14)
+ by AM9PR08MB6803.eurprd08.prod.outlook.com (2603:10a6:20b:301::12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.21; Wed, 14 Jul
+ 2021 09:19:37 +0000
+Received: from AM0PR08MB4516.eurprd08.prod.outlook.com
+ ([fe80::490d:17f7:8463:c167]) by AM0PR08MB4516.eurprd08.prod.outlook.com
+ ([fe80::490d:17f7:8463:c167%7]) with mapi id 15.20.4308.027; Wed, 14 Jul 2021
+ 09:19:37 +0000
+Subject: Re: [PATCH v2 1/2] dt-bindings: display: rockchip: Add compatible for
+ rk3568 HDMI
+To: =?UTF-8?Q?Heiko_St=c3=bcbner?= <heiko@sntech.de>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>, hjc@rock-chips.com,
+ airlied@linux.ie, daniel@ffwll.ch, robh+dt@kernel.org,
+ algea.cao@rock-chips.com, andy.yan@rock-chips.com
+References: <20210707120323.401785-1-benjamin.gaignard@collabora.com>
+ <20210707120323.401785-2-benjamin.gaignard@collabora.com>
+ <1bd64284-0a20-12e3-e2e7-19cdfdbf1a25@wolfvision.net>
+ <3865833.Ac65pObt5d@diego>
+From: Michael Riesch <michael.riesch@wolfvision.net>
+Organization: WolfVision GmbH
+Message-ID: <33532a38-52e6-179a-9ed9-76bbb9618168@wolfvision.net>
+Date: Wed, 14 Jul 2021 11:19:35 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.9.0
+In-Reply-To: <3865833.Ac65pObt5d@diego>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: AS8PR04CA0040.eurprd04.prod.outlook.com
+ (2603:10a6:20b:312::15) To AM0PR08MB4516.eurprd08.prod.outlook.com
+ (2603:10a6:208:13b::14)
 MIME-Version: 1.0
-X-MTK: N
-Content-Transfer-Encoding: base64
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.125] (91.118.163.37) by
+ AS8PR04CA0040.eurprd04.prod.outlook.com (2603:10a6:20b:312::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.21 via Frontend
+ Transport; Wed, 14 Jul 2021 09:19:36 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: c961f310-a969-4dce-b761-08d946a88088
+X-MS-TrafficTypeDiagnostic: AM9PR08MB6803:
+X-Microsoft-Antispam-PRVS: <AM9PR08MB6803A0EE62EDF6FE30FF62BBF2139@AM9PR08MB6803.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: WBxII1fER60rQ28MmPd0Sv9qWEA8VU6IR09oz2/6W+qjBYMmPLZoTK05eg5rAyHdpPlOK2KIcTOvbWE7H3MhejilWeod0N77bKEzdSEVn9V787cIFTJOzfFSs+IYeE6OGryUlmwxcaGnmNCAbZ2upFGB9XttFfAR+YyxqH0Zg9aE4oiYdkbrQcgPjncb4ofTUewGwtnllD4eIsznW1iuMWR1hOgoRljrWOfbVmD3xjRckL0BZ63MsANHMrtAOi18ogKJBvPq1pDvLAgt+d8KUOC02lpBLRmx6vQSR8w9UOaQ7x+WFXzwHUx5nm4jEEAgS45e6SQw4q0mPwActjfvxwtYHkF2vW9I1GwSInuBz2Ysvg6tvmAt5xExDRI8m5t2c67Yu3oAS3BhfUALnToJowq9Vbs83Q+hZ+GJ7Ovz3QG2pbasfzKTDiovlwaVkHQY21wdmjf3DbjG3rjQoyuvGmXBf8L5nbcVPZzCuB3yBi7XURaW3CD8WsN7h//Dx/ePbusbar72SgZ6NBS8h6osG6DPkKiQ+TpJKoJXHPuilL0snfnhS9JBCRUJtfYwpkP99/UMpzJUucK7gslKGWM1AV/xk1H/xL1mGz8HYZDVvTEvtsO4qDNf1gVoK4nnUVyoFvSH0tR4jy8e/KKBnKANa5nYBUkDdz7r9eVkYe7HyDwJs90sjI6ppqndSTTKJHBwm808MoOZhmk5St1uIajbi7iG5kKMj06e2LpkrQh70YnvfEIrrGzDsfZ49bpNOsKBvwzhbs9Ku4VAiNyXOe/ZNg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM0PR08MB4516.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(136003)(346002)(366004)(39840400004)(376002)(396003)(66946007)(66476007)(66556008)(8676002)(2616005)(7416002)(186003)(83380400001)(8936002)(316002)(53546011)(38350700002)(52116002)(38100700002)(36916002)(66574015)(5660300002)(110136005)(44832011)(2906002)(16576012)(478600001)(36756003)(31686004)(4326008)(6486002)(86362001)(956004)(31696002)(966005)(26005)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OXEwSW1TNGhUTVFYSklqcTg4bmlPYldkaGpHeUdKbTU0UzM5NEI5aGNoMFla?=
+ =?utf-8?B?U2lXRDNCbXUzOXpwNVBBVmhWeTdocHFxaldNNmorKzh2Q2k2T1JVSE5kbGEw?=
+ =?utf-8?B?MVIyY2lZZDJGY09kNitieVNSMndnTmtCcTdFT0JqUWs1OXRIazlPdVZxKzE2?=
+ =?utf-8?B?azFsSUQ2SWNaK2JNWG1SeTRiQ2E4eUZlZjZjN0RtY0d1OVJoTVdvSGZVQ01H?=
+ =?utf-8?B?MVFTY1VwWkZmb2lHSjlzKy9qc2t3K09ITWs3VVp5NURLL05nQjB5TjdJME5N?=
+ =?utf-8?B?YmtFOUpqaTdXNzdZejQzU0x3dm43eDFjYXRXMmpBSkNaalBCMUJQamJFZnly?=
+ =?utf-8?B?Mmp1eWhPRytQRG9CODV6UGpUTFp0eG83eFBBNU5FQ1JuUGJJaEk3RW9LcVBp?=
+ =?utf-8?B?RkRhYmpxd3NUd0xIMEdkSFN6cDY5M3cvbTArSjEzajFuclkxL3oxa3l3dzBB?=
+ =?utf-8?B?YzhQQzNjdEdxYUd2ZjFPU0s2VFgxM2hMbWxGbVdxdmVGYnVkVE80ZjRORlFz?=
+ =?utf-8?B?SXFiZXhkWWRlMHFLMjR1bUVseDRuNXZobGdoU05GZDZBbEwyRTZXNE9ZNW1s?=
+ =?utf-8?B?clplbGdiZVVWeXRIeFMwUnR5cGtBUVhsbzNPbVBSbWVIUHRMaG1xTDNRcGxn?=
+ =?utf-8?B?YWRBSGpCTDkxRVIvS3NSNWk5elVhallKTFdrek1pWEs3NklyY0l5dDZpZjNX?=
+ =?utf-8?B?QWVQUnYzckFiNHFReDhIYkVVa24zdTRtMENlSlZwNmdsS0NKdE13RG9LdElS?=
+ =?utf-8?B?aGgzN2hKQnpKWFdNNmpNdGJHUFlpR04rVndZM0x5ZmJCVGFJajdFK2wvVE10?=
+ =?utf-8?B?K2p0aUNrOTZiY0Iyanh0dkV2UE9hbitoTFloWnY5RGZCTnZhLzF5SHZEUi9M?=
+ =?utf-8?B?VnlUZXBwdmIxWHFVWUp3RUFjUWFlTS9iUEI1K3BNZ0ZsbC8wOHJkK09sMjQy?=
+ =?utf-8?B?YVBXMnNZVjFLbHRteUoyYzUydEZncStKUEluMDcyckV2Wnl6WFBORVdGTHBj?=
+ =?utf-8?B?dFVsbVFXOGJnK2g5a0tLYXJobzRkZVJCbytHU1RqOU1BbGlST3F6UHRORDly?=
+ =?utf-8?B?WDR2NkJCR0l3OGRTRWVXRFd3cUNLWCtvS0dhR3Q0Vm5wYm9FMFlUeThxa0JF?=
+ =?utf-8?B?bjc0dXRqRU51ZXgxRTVicVdoZU85Vlk4WU5zdjdvOFZTMnBqWlI2VjZMdjNL?=
+ =?utf-8?B?czdyejZYSVRsSVZBOXV2S2lwTjJFajVTekdtVkxOd3lMNHdpd29VTVc2QUhq?=
+ =?utf-8?B?ZVhxMXJubFZERnd6dHJJaUgxK3RjL2VleFR3YlZpajhYU0hmL0hyUGYzNHl1?=
+ =?utf-8?B?U0tGUi9oRGxrUHdwcmR6WXVoeGV2MjdqN2xuM0dya3dLUmxuL0pGVEUxbndO?=
+ =?utf-8?B?M0FYdHp5aFVpK1UyRWNxR0I5SzJFU0VBZjNQY3pHUXlpRjYwMlI4SjE5d3VY?=
+ =?utf-8?B?Z0hCSk9ieUdUR2xnak1rUEdOTlBmK2R4MElxTkxQbXkwOVloeGl5SHhsRURY?=
+ =?utf-8?B?eUdZTUVaeUtpbUticjNrRzZGOFlWZEgxSTNQdFIvejhidCthd041aVZ5cEVL?=
+ =?utf-8?B?bU8zblRLa2xxZ0ZEYnB5cFRWTWhsdCtaRGVzTmFRTWxnYWpuT003YlVsSjRG?=
+ =?utf-8?B?ZHhKWmJRWllXc051dDE2OWtRajZOcjVTYkZHc1o1VG44RFp4RTlCUHBaZlBR?=
+ =?utf-8?B?a3lRbjZuQUhGSXJCbTZ1SHBpODIyaG5Ta25Mc1VmT2VMdHQ1OWpFWDlBam5u?=
+ =?utf-8?Q?FafsklQSJKoLVGlK5cYKrVxcfkVPP5fpl/324WZ?=
+X-OriginatorOrg: wolfvision.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: c961f310-a969-4dce-b761-08d946a88088
+X-MS-Exchange-CrossTenant-AuthSource: AM0PR08MB4516.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jul 2021 09:19:37.5588 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: e94ec9da-9183-471e-83b3-51baa8eb804f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 6jf55n0gRjyk0PTCuKIqAPmhdF0aTFfwaINjDoQSCKN+cUw1AsctfOjxCwLVpQ4x+3P/hXjMvxRQsrBq3c1aFWf6/lRBhjYC3DguyRMtBlM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR08MB6803
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,129 +135,126 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: wsd_upstream@mediatek.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-media@vger.kernel.org
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
+ kernel@collabora.com, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCAyMDIxLTA3LTE0IGF0IDEwOjQ2ICswMjAwLCBDaHJpc3RpYW4gS8O2bmlnIHdyb3Rl
-Og0KPiBBbSAxNC4wNy4yMSB1bSAwOToxMSBzY2hyaWViIGd1YW5nbWluZy5jYW9AbWVkaWF0ZWsu
-Y29tOg0KPiA+IEZyb206IEd1YW5nbWluZyBDYW8gPEd1YW5nbWluZy5DYW9AbWVkaWF0ZWsuY29t
-Pg0KPiA+IA0KPiA+IEFkZCBhIHJlZmNvdW50IGZvciBrZXJuZWwgdG8gcHJldmVudCBVQUYoVXNl
-IEFmdGVyIEZyZWUpIGlzc3VlLg0KPiANCj4gV2VsbCBOQUsgb24gc28gbWFueSBsZXZlbHMuDQo+
-IA0KPiA+IA0KPiA+IFdlIGNhbiBhc3N1bWUgYSBjYXNlIGxpa2UgYmVsb3c6DQo+ID4gICAgICAx
-LiBrZXJuZWwgc3BhY2UgYWxsb2MgZG1hX2J1ZihmaWxlIGNvdW50ID0gMSkNCj4gPiAgICAgIDIu
-IGtlcm5lbCB1c2UgZG1hX2J1ZiB0byBnZXQgZmQoZmlsZSBjb3VudCA9IDEpDQo+ID4gICAgICAz
-LiB1c2Vyc3BhY2UgdXNlIGZkIHRvIGRvIG1hcHBpbmcgKGZpbGUgY291bnQgPSAyKQ0KPiANCj4g
-Q3JlYXRpbmcgYW4gdXNlcnNwYWNlIG1hcHBpbmcgaW5jcmVhc2VzIHRoZSByZWZlcmVuY2UgY291
-bnQgZm9yIHRoZSANCj4gdW5kZXJseWluZyBmaWxlIG9iamVjdC4NCj4gDQo+IFNlZSB0aGUgaW1w
-bGVtZW50YXRpb24gb2YgbW1hcF9yZWdpb24oKToNCj4gLi4uDQo+ICAgICAgICAgICAgICAgICAg
-dm1hLT52bV9maWxlID0gZ2V0X2ZpbGUoZmlsZSk7DQo+ICAgICAgICAgICAgICAgICAgZXJyb3Ig
-PSBjYWxsX21tYXAoZmlsZSwgdm1hKTsNCj4gLi4uDQo+IA0KPiBXaGF0IGNhbiBoYXBwZW4gaXMg
-dGhlIHRoZSB1bmRlcmx5aW5nIGV4cG9ydGVyIHJlZGlyZWN0cyB0aGUgbW1hcCB0bw0KPiBhIA0K
-PiBkaWZmZXJlbnQgZmlsZSwgZS5nLiBUVE0gb3IgR0VNIGRyaXZlcnMgZG8gdGhhdCBhbGwgdGhl
-IHRpbWUuDQo+IA0KPiBCdXQgdGhpcyBpcyBmaW5lIHNpbmNlIHRoZW4gdGhlIFZBIG1hcHBpbmcg
-aXMgaW5kZXBlbmRlbnQgb2YgdGhlIERNQS0NCj4gYnVmLg0KPiANCj4gPiAgICAgIDQuIGtlcm5l
-bCBjYWxsIGRtYV9idWZfcHV0IChmaWxlIGNvdW50ID0gMSkNCj4gPiAgICAgIDUuIHVzZXJwc2Fj
-ZSBjbG9zZSBidWZmZXIgZmQoZmlsZSBjb3VudCA9IDApDQo+ID4gICAgICA2LiBhdCB0aGlzIHRp
-bWUsIGJ1ZmZlciBpcyByZWxlYXNlZCwgYnV0IHZhIGlzIHZhbGlkISENCj4gPiAgICAgICAgIFNv
-IHdlIHN0aWxsIGNhbiByZWFkL3dyaXRlIGJ1ZmZlciB2aWEgbW1hcCB2YSwNCj4gPiAgICAgICAg
-IGl0IG1heWJlIGNhdXNlIG1lbW9yeSBsZWFrLCBvciBrZXJuZWwgZXhjZXB0aW9uLg0KPiA+ICAg
-ICAgICAgQW5kIGFsc28sIGlmIHdlIHVzZSAibHMgLWxsIiB0byB3YXRjaCBjb3JyZXNwb25kaW5n
-IHByb2Nlc3MNCj4gPiAgICAgICAgICAgICBmZCBsaW5rIGluZm8sIGl0IGFsc28gd2lsbCBjYXVz
-ZSBrZXJuZWwgZXhjZXB0aW9uLg0KPiA+IA0KPiA+IEFub3RoZXIgY2FzZToNCj4gPiAgICAgICBV
-c2luZyBkbWFfYnVmX2ZkIHRvIGdlbmVyYXRlIG1vcmUgdGhhbiAxIGZkLCBiZWNhdXNlDQo+ID4g
-ICAgICAgZG1hX2J1Zl9mZCB3aWxsIG5vdCBpbmNyZWFzZSBmaWxlIGNvdW50LCB0aHVzLCB3aGVu
-IGNsb3NlDQo+ID4gICAgICAgdGhlIHNlY29uZCBmZCwgaXQgbWF5YmUgb2NjdXJzIGVycm9yLg0K
-PiANCj4gRWFjaCBvcGVuZWQgZmQgd2lsbCBpbmNyZWFzZSB0aGUgcmVmZXJlbmNlIGNvdW50IHNv
-IHRoaXMgaXMNCj4gY2VydGFpbmx5IA0KPiBub3QgY29ycmVjdCB3aGF0IHlvdSBkZXNjcmliZSBo
-ZXJlLg0KPiANCj4gUmVnYXJkcywNCj4gQ2hyaXN0aWFuLg0KPiANCg0KWWVzLCBtbWFwIHdpbGwg
-aW5jcmVhc2UgZmlsZSBjb3VudCBieSBjYWxsaW5nIGdldF9maWxlLCBzbyBzdGVwWzJdIC0+DQpz
-dGVwWzNdLCBmaWxlIGNvdW50IGluY3JlYXNlIDEuDQoNCkJ1dCwgZG1hX2J1Zl9mZCgpIHdpbGwg
-bm90IGluY3JlYXNlIGZpbGUgY291bnQuDQpmdW5jdGlvbiAiZG1hX2J1Zl9mZChzdHJ1Y3QgZG1h
-X2J1ZiAqZG1hYnVmLCBpbnQgZmxhZ3MpIiBqdXN0IGdldCBhbg0KdW51c2VkIGZkLCB2aWEgY2Fs
-bCAiZ2V0X3VudXNlZF9mZF9mbGFncyhmbGFncykiLCBhbmQgY2FsbA0KImZkX2luc3RhbGwoZmQs
-IGRtYWJ1Zi0+ZmlsZSkiLCBpdCB3aWxsIGxldCBhc3NvY2lhdGVkICJzdHJ1Y3QgZmlsZSogIg0K
-aW4gdGFzaydzIGZkdC0+ZmRbZmRdIHBvaW50cyB0byB0aGlzIGRtYV9idWYuZmlsZSwgbm90IGlu
-Y3JlYXNlIHRoZQ0KZmlsZSBjb3VudCBvZiBkbWFfYnVmLmZpbGUuDQpJIHRoaW5rIHRoaXMgaXMg
-Y29uZnVzaW5nLCBJIGNhbiBnZXQgbW9yZSB0aGFuIDEgZmRzIHZpYSBkbWFfYnVmX2ZkLA0KYnV0
-IHRoZXkgZG9uJ3QgbmVlZCB0byBjbG9zZSBpdCBiZWNhdXNlIHRoZXkgZG9uJ3QgaW5jcmVhc2Ug
-ZmlsZSBjb3VudC4NCg0KSG93ZXZlciwgZG1hX2J1Zl9wdXQoKSBjYW4gZGVjcmVhc2UgZmlsZSBj
-b3VudCBhdCBrZXJuZWwgc2lkZSBkaXJlY3RseS4NCklmIHNvbWVib2R5IHdyaXRlIGEga28gdG8g
-cHV0IGZpbGUgY291bnQgb2YgZG1hX2J1Zi5maWxlIG1hbnkgdGltZXMsIGl0DQp3aWxsIGNhdXNl
-IGJ1ZmZlciBmcmVlZCBlYXJsaWVyIHRoYW4gZXhjZXB0LiBBdCBsYXN0IG9uIEFuZHJvaWQsIEkN
-CnRoaW5rIHRoaXMgaXMgYSBsaXR0bGUgYml0IGRhbmdlcm91cy4NCg0KPiA+IA0KPiA+IFNvbHV0
-aW9uOg0KPiA+ICAgICAgQWRkIGEga2VybmVsIGNvdW50IGZvciBkbWFfYnVmLCBhbmQgbWFrZSBz
-dXJlIHRoZSBmaWxlIGNvdW50DQo+ID4gICAgICAgICAgb2YgZG1hX2J1Zi5maWxlIGhvbGQgYnkg
-a2VybmVsIGlzIDEuDQo+ID4gDQo+ID4gTm90ZXM6IEZvciB0aGlzIHNvbHV0aW9uLCBrcmVmIGNv
-dWxkbid0IHdvcmsgYmVjYXVzZSBrZXJuZWwgcmVmDQo+ID4gICAgICAgICBtYXliZSBhZGRlZCBm
-cm9tIDAsIGJ1dCBrcmVmIGRvbid0IGFsbG93IGl0Lg0KPiA+IA0KPiA+IFNpZ25lZC1vZmYtYnk6
-IEd1YW5nbWluZyBDYW8gPEd1YW5nbWluZy5DYW9AbWVkaWF0ZWsuY29tPg0KPiA+IC0tLQ0KPiA+
-ICAgZHJpdmVycy9kbWEtYnVmL2RtYS1idWYuYyB8IDIzICsrKysrKysrKysrKysrKysrKystLS0t
-DQo+ID4gICBpbmNsdWRlL2xpbnV4L2RtYS1idWYuaCAgIHwgIDYgKysrKy0tDQo+ID4gICAyIGZp
-bGVzIGNoYW5nZWQsIDIzIGluc2VydGlvbnMoKyksIDYgZGVsZXRpb25zKC0pDQo+ID4gDQo+ID4g
-ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZG1hLWJ1Zi9kbWEtYnVmLmMgYi9kcml2ZXJzL2RtYS1idWYv
-ZG1hLWJ1Zi5jDQo+ID4gaW5kZXggNTExZmUwZDIxN2EwLi4wNGVlOTJhYWM4YjkgMTAwNjQ0DQo+
-ID4gLS0tIGEvZHJpdmVycy9kbWEtYnVmL2RtYS1idWYuYw0KPiA+ICsrKyBiL2RyaXZlcnMvZG1h
-LWJ1Zi9kbWEtYnVmLmMNCj4gPiBAQCAtNjIsNiArNjIsNyBAQCBzdGF0aWMgdm9pZCBkbWFfYnVm
-X3JlbGVhc2Uoc3RydWN0IGRlbnRyeQ0KPiA+ICpkZW50cnkpDQo+ID4gICAJaWYgKHVubGlrZWx5
-KCFkbWFidWYpKQ0KPiA+ICAgCQlyZXR1cm47DQo+ID4gICANCj4gPiArCVdBUk5fT04oYXRvbWlj
-NjRfcmVhZCgmZG1hYnVmLT5rZXJuZWxfcmVmKSk7DQo+ID4gICAJQlVHX09OKGRtYWJ1Zi0+dm1h
-cHBpbmdfY291bnRlcik7DQo+ID4gICANCj4gPiAgIAkvKg0KPiA+IEBAIC01NTUsNiArNTU2LDcg
-QEAgc3RydWN0IGRtYV9idWYgKmRtYV9idWZfZXhwb3J0KGNvbnN0IHN0cnVjdA0KPiA+IGRtYV9i
-dWZfZXhwb3J0X2luZm8gKmV4cF9pbmZvKQ0KPiA+ICAgCQlnb3RvIGVycl9tb2R1bGU7DQo+ID4g
-ICAJfQ0KPiA+ICAgDQo+ID4gKwlhdG9taWM2NF9zZXQoJmRtYWJ1Zi0+a2VybmVsX3JlZiwgMSk7
-DQo+ID4gICAJZG1hYnVmLT5wcml2ID0gZXhwX2luZm8tPnByaXY7DQo+ID4gICAJZG1hYnVmLT5v
-cHMgPSBleHBfaW5mby0+b3BzOw0KPiA+ICAgCWRtYWJ1Zi0+c2l6ZSA9IGV4cF9pbmZvLT5zaXpl
-Ow0KPiA+IEBAIC02MTcsNiArNjE5LDkgQEAgaW50IGRtYV9idWZfZmQoc3RydWN0IGRtYV9idWYg
-KmRtYWJ1ZiwgaW50DQo+ID4gZmxhZ3MpDQo+ID4gICANCj4gPiAgIAlmZF9pbnN0YWxsKGZkLCBk
-bWFidWYtPmZpbGUpOw0KPiA+ICAgDQo+ID4gKwkvKiBBZGQgZmlsZSBjbnQgZm9yIGVhY2ggbmV3
-IGZkICovDQo+ID4gKwlnZXRfZmlsZShkbWFidWYtPmZpbGUpOw0KPiA+ICsNCj4gPiAgIAlyZXR1
-cm4gZmQ7DQo+ID4gICB9DQo+ID4gICBFWFBPUlRfU1lNQk9MX0dQTChkbWFfYnVmX2ZkKTsNCj4g
-PiBAQCAtNjI2LDEyICs2MzEsMTMgQEAgRVhQT1JUX1NZTUJPTF9HUEwoZG1hX2J1Zl9mZCk7DQo+
-ID4gICAgKiBAZmQ6CVtpbl0JZmQgYXNzb2NpYXRlZCB3aXRoIHRoZSBzdHJ1Y3QgZG1hX2J1ZiB0
-byBiZQ0KPiA+IHJldHVybmVkDQo+ID4gICAgKg0KPiA+ICAgICogT24gc3VjY2VzcywgcmV0dXJu
-cyB0aGUgc3RydWN0IGRtYV9idWYgYXNzb2NpYXRlZCB3aXRoIGFuIGZkOw0KPiA+IHVzZXMNCj4g
-PiAtICogZmlsZSdzIHJlZmNvdW50aW5nIGRvbmUgYnkgZmdldCB0byBpbmNyZWFzZSByZWZjb3Vu
-dC4gcmV0dXJucw0KPiA+IEVSUl9QVFINCj4gPiAtICogb3RoZXJ3aXNlLg0KPiA+ICsgKiBkbWFi
-dWYncyByZWYgcmVmY291bnRpbmcgZG9uZSBieSBrcmVmX2dldCB0byBpbmNyZWFzZSByZWZjb3Vu
-dC4NCj4gPiArICogUmV0dXJucyBFUlJfUFRSIG90aGVyd2lzZS4NCj4gPiAgICAqLw0KPiA+ICAg
-c3RydWN0IGRtYV9idWYgKmRtYV9idWZfZ2V0KGludCBmZCkNCj4gPiAgIHsNCj4gPiAgIAlzdHJ1
-Y3QgZmlsZSAqZmlsZTsNCj4gPiArCXN0cnVjdCBkbWFfYnVmICpkbWFidWY7DQo+ID4gICANCj4g
-PiAgIAlmaWxlID0gZmdldChmZCk7DQo+ID4gICANCj4gPiBAQCAtNjQzLDcgKzY0OSwxMiBAQCBz
-dHJ1Y3QgZG1hX2J1ZiAqZG1hX2J1Zl9nZXQoaW50IGZkKQ0KPiA+ICAgCQlyZXR1cm4gRVJSX1BU
-UigtRUlOVkFMKTsNCj4gPiAgIAl9DQo+ID4gICANCj4gPiAtCXJldHVybiBmaWxlLT5wcml2YXRl
-X2RhdGE7DQo+ID4gKwlkbWFidWYgPSBmaWxlLT5wcml2YXRlX2RhdGE7DQo+ID4gKwkvKiByZXBs
-YWNlIGZpbGUgY291bnQgaW5jcmVhc2UgYXMgcmVmIGluY3JlYXNlIGZvciBrZXJuZWwgdXNlcg0K
-PiA+ICovDQo+ID4gKwlnZXRfZG1hX2J1ZihkbWFidWYpOw0KPiA+ICsJZnB1dChmaWxlKTsNCj4g
-PiArDQo+ID4gKwlyZXR1cm4gZG1hYnVmOw0KPiA+ICAgfQ0KPiA+ICAgRVhQT1JUX1NZTUJPTF9H
-UEwoZG1hX2J1Zl9nZXQpOw0KPiA+ICAgDQo+ID4gQEAgLTY2Miw3ICs2NzMsMTEgQEAgdm9pZCBk
-bWFfYnVmX3B1dChzdHJ1Y3QgZG1hX2J1ZiAqZG1hYnVmKQ0KPiA+ICAgCWlmIChXQVJOX09OKCFk
-bWFidWYgfHwgIWRtYWJ1Zi0+ZmlsZSkpDQo+ID4gICAJCXJldHVybjsNCj4gPiAgIA0KPiA+IC0J
-ZnB1dChkbWFidWYtPmZpbGUpOw0KPiA+ICsJaWYgKFdBUk5fT04oIWF0b21pYzY0X3JlYWQoJmRt
-YWJ1Zi0+a2VybmVsX3JlZikpKQ0KPiA+ICsJCXJldHVybjsNCj4gPiArDQo+ID4gKwlpZiAoIWF0
-b21pYzY0X2RlY19yZXR1cm4oJmRtYWJ1Zi0+a2VybmVsX3JlZikpDQo+ID4gKwkJZnB1dChkbWFi
-dWYtPmZpbGUpOw0KPiA+ICAgfQ0KPiA+ICAgRVhQT1JUX1NZTUJPTF9HUEwoZG1hX2J1Zl9wdXQp
-Ow0KPiA+ICAgDQo+ID4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvbGludXgvZG1hLWJ1Zi5oIGIvaW5j
-bHVkZS9saW51eC9kbWEtYnVmLmgNCj4gPiBpbmRleCBlZmRjNTZiOWQ5NWYuLmJjNzkwY2IwMjhl
-YiAxMDA2NDQNCj4gPiAtLS0gYS9pbmNsdWRlL2xpbnV4L2RtYS1idWYuaA0KPiA+ICsrKyBiL2lu
-Y2x1ZGUvbGludXgvZG1hLWJ1Zi5oDQo+ID4gQEAgLTMwOCw2ICszMDgsNyBAQCBzdHJ1Y3QgZG1h
-X2J1Zl9vcHMgew0KPiA+ICAgc3RydWN0IGRtYV9idWYgew0KPiA+ICAgCXNpemVfdCBzaXplOw0K
-PiA+ICAgCXN0cnVjdCBmaWxlICpmaWxlOw0KPiA+ICsJYXRvbWljNjRfdCBrZXJuZWxfcmVmOw0K
-PiA+ICAgCXN0cnVjdCBsaXN0X2hlYWQgYXR0YWNobWVudHM7DQo+ID4gICAJY29uc3Qgc3RydWN0
-IGRtYV9idWZfb3BzICpvcHM7DQo+ID4gICAJc3RydWN0IG11dGV4IGxvY2s7DQo+ID4gQEAgLTQz
-Niw3ICs0MzcsNyBAQCBzdHJ1Y3QgZG1hX2J1Zl9leHBvcnRfaW5mbyB7DQo+ID4gICAJCQkJCSAu
-b3duZXIgPSBUSElTX01PRFVMRSB9DQo+ID4gICANCj4gPiAgIC8qKg0KPiA+IC0gKiBnZXRfZG1h
-X2J1ZiAtIGNvbnZlbmllbmNlIHdyYXBwZXIgZm9yIGdldF9maWxlLg0KPiA+ICsgKiBnZXRfZG1h
-X2J1ZiAtIGluY3JlYXNlIGEga2VybmVsIHJlZiBvZiBkbWEtYnVmDQo+ID4gICAgKiBAZG1hYnVm
-OglbaW5dCXBvaW50ZXIgdG8gZG1hX2J1Zg0KPiA+ICAgICoNCj4gPiAgICAqIEluY3JlbWVudHMg
-dGhlIHJlZmVyZW5jZSBjb3VudCBvbiB0aGUgZG1hLWJ1ZiwgbmVlZGVkIGluIGNhc2UNCj4gPiBv
-ZiBkcml2ZXJzDQo+ID4gQEAgLTQ0Niw3ICs0NDcsOCBAQCBzdHJ1Y3QgZG1hX2J1Zl9leHBvcnRf
-aW5mbyB7DQo+ID4gICAgKi8NCj4gPiAgIHN0YXRpYyBpbmxpbmUgdm9pZCBnZXRfZG1hX2J1Zihz
-dHJ1Y3QgZG1hX2J1ZiAqZG1hYnVmKQ0KPiA+ICAgew0KPiA+IC0JZ2V0X2ZpbGUoZG1hYnVmLT5m
-aWxlKTsNCj4gPiArCWlmIChhdG9taWM2NF9pbmNfcmV0dXJuKCZkbWFidWYtPmtlcm5lbF9yZWYp
-ID09IDEpDQo+ID4gKwkJZ2V0X2ZpbGUoZG1hYnVmLT5maWxlKTsNCj4gPiAgIH0NCj4gPiAgIA0K
-PiA+ICAgLyoqDQo+IA0KPiANCg==
+Hello Heiko,
 
+On 7/13/21 10:49 AM, Heiko Stübner wrote:
+> Hi Michael,
+> 
+> Am Dienstag, 13. Juli 2021, 10:44:00 CEST schrieb Michael Riesch:
+>> The HDMI TX block in the RK3568 requires two power supplies, which have
+>> to be enabled in some cases (at least on the RK3568 EVB1 the voltages
+>> VDDA0V9_IMAGE and VCCA1V8_IMAGE are disabled by default). It would be
+>> great if this was considered by the driver and the device tree binding.
+>> I am not sure, though, whether this is a RK3568 specific or
+>> rockchip_dw_hdmi specific thing. Maybe it can even enter the Synopsis DW
+>> HDMI driver.
+> 
+> I do remember that this discussion happened many years back already.
+> And yes the supplies are needed for all but back then there was opposition
+> as these are supposedly phy-related supplies, not for the dw-hdmi itself.
+> [There are variants with an external phy, like on the rk3328]
+> 
+> See discussion on [0]
+> 
+> [0] https://dri-devel.freedesktop.narkive.com/pen2zWo1/patch-v3-1-2-drm-bridge-dw-hdmi-support-optional-supply-regulators
+
+Thanks for the pointer. My summary of this discussion would be the
+following:
+
+ - There was no consensus on how to handle the issue. The voltages still
+have to be enabled from the outside of the driver.
+ - Open question: rockchip-specific or general solution? (one may detect
+a tendency towards a rockchip-specific solution)
+ - Open question: separation of the phy from the dw_hdmi IP core?
+
+First of all, IMHO the driver should enable those voltages, otherwise we
+will have the same discussion again in 5-6 years :-)
+
+Then, the rockchip,dw-hdmi binding features a property "phys",
+presumably to handle external phys (e.g., for the RK3328). This fact and
+the referenced discussion suggest a rockchip-specific solution.
+
+In the Rockchip documentation (at least for RK3328, RK3399 and RK3568),
+there are two extra voltages denoted as "HDMI PHY analog power". It
+would be tempting to add the internal phy to the device tree and glue it
+to the dw-hdmi using the "phys" property. However, as pointed out in the
+referenced discussion, the configuration registers of the phy are
+somewhat interleaved with the dw-hdmi registers and a clear separation
+may be tricky.
+
+As a more pragmatic alternative, we could add optional supplies to the
+rockchip,dw-hdmi binding and evaluate the "phys" property. If the latter
+is not specified, the internal phy is used and the supplies must be
+enabled. Would such an approach be acceptable?
+
+Best regards,
+Michael
+
+>> On 7/7/21 2:03 PM, Benjamin Gaignard wrote:
+>>> Define a new compatible for rk3568 HDMI.
+>>> This version of HDMI hardware block needs two new clocks hclk_vio and hclk
+>>> to provide phy reference clocks.
+>>>
+>>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+>>> ---
+>>> version 2:
+>>> - Add the clocks needed for the phy.
+>>>
+>>>  .../bindings/display/rockchip/rockchip,dw-hdmi.yaml         | 6 +++++-
+>>>  1 file changed, 5 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
+>>> index 75cd9c686e985..cb8643b3a8b84 100644
+>>> --- a/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
+>>> +++ b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
+>>> @@ -23,6 +23,7 @@ properties:
+>>>        - rockchip,rk3288-dw-hdmi
+>>>        - rockchip,rk3328-dw-hdmi
+>>>        - rockchip,rk3399-dw-hdmi
+>>> +      - rockchip,rk3568-dw-hdmi
+>>>  
+>>>    reg-io-width:
+>>>      const: 4
+>>> @@ -51,8 +52,11 @@ properties:
+>>>            - vpll
+>>>        - enum:
+>>>            - grf
+>>> +          - hclk_vio
+>>> +          - vpll
+>>> +      - enum:
+>>> +          - hclk
+>>>            - vpll
+>>> -      - const: vpll
+>>
+>> The description and documentation of the clocks are somewhat misleading
+>> IMHO. This is not caused by your patches, of course. But maybe this is a
+>> chance to clean them up a bit.
+>>
+>> It seems that the CEC clock is an optional clock of the dw-hdmi driver.
+>> Shouldn't it be documented in the synopsys,dw-hdmi.yaml?
+>>
+>> Also, it would be nice if the clocks hclk_vio and hclk featured a
+>> description in the binding.
+>>
+>> BTW, I am not too familiar with the syntax here, but shouldn't items in
+>> clocks and items in clock-names be aligned (currently, there is a plain
+>> list vs. an enum structure)?
+>>
+>> Best regards,
+>> Michael
+>>
+>>>  
+>>>    ddc-i2c-bus:
+>>>      $ref: /schemas/types.yaml#/definitions/phandle
+>>>
+>>
+> 
+> 
+> 
+> 
