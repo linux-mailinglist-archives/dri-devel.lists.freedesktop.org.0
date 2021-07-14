@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E9D53C8667
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Jul 2021 16:54:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2757D3C866C
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Jul 2021 16:55:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E2952897B4;
-	Wed, 14 Jul 2021 14:54:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 573C86E372;
+	Wed, 14 Jul 2021 14:55:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D7C79897B4
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jul 2021 14:54:22 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id A93CE613D6
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jul 2021 14:54:22 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 081216E372
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Jul 2021 14:55:31 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id C733D613D0
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Jul 2021 14:55:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1626274462;
- bh=BUz0h1G0Vdc57XqBVuCy6p47t5g6uviJxeGbtcSwNwo=;
+ s=k20201202; t=1626274530;
+ bh=56OgQDSd7wr4/lrMKLjTJN2vXesG+EoYG06JJWJ6h0I=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=udcJnilOJXv17Pej5MKBtpEfvKxVgOhJXP9FRWO9zi6iXx+YPPjmpW4NYyBxDFK/z
- Rl2tnsrY3HuH2Pmrf+qXbAYsPryHq9NTv+V+e/SYmM6kZtxQqHd/eXV1UQ0sV4b7Zl
- 4XtaK9ZxCS55rbWyTPdnUKmVtQByGdKxWNRAYbki1Zzckvly8oQ++sIIpYN38zNh/L
- uUGKncaOZMBPiTYf4Rs6Hs1TIzQicPrqj4bys42/X4bAhjODMLlaK57h1HAnMhMGVI
- OtggsSBP25pL4b1XXWsFbaDTbpta0zsF0WfA8n5ijGssxCXuiQEE8ig29EMu7mufAn
- eI5XxSEU/f6fQ==
+ b=EbrPcBpSGGJChgKSvrOyDKUBeWgXQUPWygcSNKgcgj+VwwSVdkY3qlDjp6mMJ16GR
+ nkBg1V0ml/ycq20qarHnv5xhPCAftyrZtO+B/XGsSmWrODqOZAx9X2+Uto/Xjav+e/
+ LxkHb8LvZ6al6ysZDRK7B5krSZMr8GSDP3+7fSDJEEj860uHFizkdMbzmA8xd2Tgr7
+ W7dHVFvQ6pad/xDMh10h001ZN1AbZJ1B+uHcQB7i34ij2TpjOKjqkPvStIqL+pVGs/
+ +XPEcTF3i3e2eOjjNKL5vwECLR7yAO29TafyQvVsYQnxmBWHuQU0mD+Ll5UPgjqMGR
+ huq9zJmO5g8/A==
 Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id A58B96129C; Wed, 14 Jul 2021 14:54:22 +0000 (UTC)
+ id C3C9C6128C; Wed, 14 Jul 2021 14:55:30 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 209457] AMDGPU resume fail with RX 580 GPU
-Date: Wed, 14 Jul 2021 14:54:21 +0000
+Date: Wed, 14 Jul 2021 14:55:29 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -44,8 +44,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.isobsolete attachments.created
-Message-ID: <bug-209457-2300-OXSa6tRP2N@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-209457-2300-E1rjwgRCpo@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-209457-2300@https.bugzilla.kernel.org/>
 References: <bug-209457-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -70,19 +70,12 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D209457
 
-Leandro Jacques (lsrzj@yahoo.com) changed:
+--- Comment #36 from Leandro Jacques (lsrzj@yahoo.com) ---
+Created attachment 297855
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D297855&action=3Dedit
+Kernel crash log for linux firmware version 20210511.7685cf4
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
- Attachment #297851|0                           |1
-        is obsolete|                            |
-
---- Comment #35 from Leandro Jacques (lsrzj@yahoo.com) ---
-Created attachment 297853
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D297853&action=3Dedit
-Linux Firmware version info 20210511.7685cf4
-
-Firmware version when crashed
+Kernel log when crashed.
 
 --=20
 You may reply to this email to add a comment.
