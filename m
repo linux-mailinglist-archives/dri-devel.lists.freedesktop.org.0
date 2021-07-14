@@ -1,50 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F8043C8A22
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Jul 2021 19:51:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 612943C8A27
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Jul 2021 19:52:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 868636E45D;
+	by gabe.freedesktop.org (Postfix) with ESMTP id ACE756E461;
 	Wed, 14 Jul 2021 17:51:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x132.google.com (mail-il1-x132.google.com
- [IPv6:2607:f8b0:4864:20::132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8301B6E45D;
- Wed, 14 Jul 2021 17:51:49 +0000 (UTC)
-Received: by mail-il1-x132.google.com with SMTP id w1so2421961ilg.10;
- Wed, 14 Jul 2021 10:51:49 -0700 (PDT)
+Received: from mail-io1-xd36.google.com (mail-io1-xd36.google.com
+ [IPv6:2607:f8b0:4864:20::d36])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CCC816E45D;
+ Wed, 14 Jul 2021 17:51:51 +0000 (UTC)
+Received: by mail-io1-xd36.google.com with SMTP id z9so3130128iob.8;
+ Wed, 14 Jul 2021 10:51:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=kmHsDnFQwSbOnRKSJ1vga0OhlV8P3CEw6FanKWDIy40=;
- b=H5XKgKLd+5dNWlW4hslIS9sT6Tl0O9uPJSZG6JlbzSbTp8sfCUAcF5hTY17SdgAg16
- UAjvuNJNKhlyj0b/AR6YrMwu7au1Kby9I15cpkByXiIz0+LgYoSe8QUwBjHov22V4c2Y
- lh8yWDoqVh/G31tKpZnHRkhfB4cAHDIa1tD9aSW4TMsv6EuyNWCzOppPQMhnU4Ex9SAy
- +HDu+F2WMF0uZlbj8/lBgFAlf1eGrD+scMsHvmKmqKmI91W7qpieVZUvJBqCuoA82rps
- j++6fkbjU/il82DYJZZ7zy1y/f45uZImCEgiLqWj1l1fppHeff/BGcKpvzcfwmZGWyHa
- kN6Q==
+ bh=ea4AsRRmL97027kS3p/+NyUy1F1jMnaKQcqYl22WuEE=;
+ b=ue40kFvKMJttvJ2rXiUJPQJNNFnMCW0Wu6rvpZkazuGGTfM8fegU8CC/kqb27Z/W/P
+ 2FcmrAvUoIZT5bISeVBbbYAWQg0v3ZWa5Qm9vDkJSXazSb1VY+v0Zh/+KBfmnmp1Fou2
+ fv5MOmua7i6IIwO4ho/tMdtVHBHUAEHn1hKNqO8V9F/aRIuPsSbtK3pCMDO2NHrWlxfw
+ bnj/BL2nuwERnZnHy9hmpSKdIDKzHAgqVc2i14A7NEiSSQKo0vyqQ5ErWaVRu712j2AH
+ tLmM1YTs74TSSiNlBCOLK0ADeKIHo11OGqM8BzlKxTVnqQ2jLG16CCn2gqE/GLahcbQX
+ pwTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=kmHsDnFQwSbOnRKSJ1vga0OhlV8P3CEw6FanKWDIy40=;
- b=jhY1O26PAbOz2tgnTLLmZyoDEQunVOiu9uATJmMAFLkjQ7CCFAFhBOIKUfAeUsq7In
- MALxKnI1x6x40ZHNMfl17mo6VqpqVxP6aBJL77mcvATrhr0EFRuCflRyat1jt2+pAmHC
- 09t5WXejW3dhEgzAYE2QDGech8jXhN9a/F9whljxYOKwS2jJupvBKegHJhyZv8ALPbTA
- 87gKHPFqEMmWgywAv4BZ1NjyHgDOKUtZGKjZZpYhPc73A2UkcN2ZFs1CCLAhzv+fMZNN
- NQW9JRPYWsVUPchLir5BcUTQImXKIdj7h72I9B/HgzHIvZeW5lNRbIuNeCv7kfRg8a3J
- zXDw==
-X-Gm-Message-State: AOAM530vJzQS7IzWPDnOxLR0bG5dG14JzIfhSi42eaVP02L4xtHrdqe8
- bC0F9Sr4NWFEqJag4fLmOIM=
-X-Google-Smtp-Source: ABdhPJwnFyiXb5DSNrcbdKnFIwb4qm5Xoi6BJ/1l3+bhS1x2qHPAYTt/JDpQ17FPwFLGkzaswqqP1A==
-X-Received: by 2002:a92:3207:: with SMTP id z7mr7507025ile.288.1626285109045; 
- Wed, 14 Jul 2021 10:51:49 -0700 (PDT)
+ bh=ea4AsRRmL97027kS3p/+NyUy1F1jMnaKQcqYl22WuEE=;
+ b=e9Ih7hIZBOcWMGdjA+9nYeJtKfE+doZNH0tvaLT7ieJHknI61PBoOUpH4WEdvnz17/
+ BUQMxL4pN10ZTEpYv5wkiBvA8GgtUHuH180wTTAJ5XVYOm2MA3Ur2qTxd2RLNO8KhMeD
+ qWQc2HWmZ40e1HD+I5fUQfdusnTJC0HmElACDimZHyQunIyDseYgCeyAGlIPmBYdpUha
+ ZEvKzCBuDssaZ4lYKErfUdKejC75Ys8YOR7iI7JUbqkbAIagWy1OVkKYnNf9sTWAHwAt
+ imkk5X8INWTVUqQ4ZrXnuagJc+YM22wXfpdfjPq2kWwTDyxswyXyC1dvOuBdQCzhuaq6
+ HiFQ==
+X-Gm-Message-State: AOAM531VYUH2GuO3XekFf06pEl1x11ypP4QYkqSVlSX52CukTpoMNVfI
+ R4S4M/l9LFm9DbPClBY59Y0=
+X-Google-Smtp-Source: ABdhPJx2//ItOIAkrM4FJzs9OWu5rNOCwIUDOKO7EVTDAvqcwckhanULzcVS1fd2VxPEn1u+swEpLw==
+X-Received: by 2002:a5d:8198:: with SMTP id u24mr7949208ion.81.1626285111058; 
+ Wed, 14 Jul 2021 10:51:51 -0700 (PDT)
 Received: from frodo.. (c-24-9-77-57.hsd1.co.comcast.net. [24.9.77.57])
- by smtp.googlemail.com with ESMTPSA id b16sm706518ioh.5.2021.07.14.10.51.47
+ by smtp.googlemail.com with ESMTPSA id b16sm706518ioh.5.2021.07.14.10.51.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 14 Jul 2021 10:51:48 -0700 (PDT)
+ Wed, 14 Jul 2021 10:51:50 -0700 (PDT)
 From: Jim Cromie <jim.cromie@gmail.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
@@ -55,9 +55,9 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Rodrigo Vivi <rodrigo.vivi@intel.com>, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, intel-gvt-dev@lists.freedesktop.org,
  intel-gfx@lists.freedesktop.org
-Subject: [PATCH v3 1/5] drm/print: fixup spelling in a comment
-Date: Wed, 14 Jul 2021 11:51:34 -0600
-Message-Id: <20210714175138.319514-2-jim.cromie@gmail.com>
+Subject: [PATCH v3 2/5] drm_print.h: rewrap __DRM_DEFINE_DBG_RATELIMITED macro
+Date: Wed, 14 Jul 2021 11:51:35 -0600
+Message-Id: <20210714175138.319514-3-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210714175138.319514-1-jim.cromie@gmail.com>
 References: <20210714175138.319514-1-jim.cromie@gmail.com>
@@ -79,26 +79,50 @@ Cc: Jim Cromie <jim.cromie@gmail.com>, jbaron@akamai.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-s/prink/printk/ - no functional changes
+whitespace only, to minimize the diff of a later commit.
+no functional changes
 
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 ---
- include/drm/drm_print.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/drm/drm_print.h | 20 ++++++++++++--------
+ 1 file changed, 12 insertions(+), 8 deletions(-)
 
 diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
-index 9b66be54dd16..15a089a87c22 100644
+index 15a089a87c22..ff5ac0e88321 100644
 --- a/include/drm/drm_print.h
 +++ b/include/drm/drm_print.h
-@@ -327,7 +327,7 @@ static inline bool drm_debug_enabled(enum drm_debug_category category)
- /*
-  * struct device based logging
-  *
-- * Prefer drm_device based logging over device or prink based logging.
-+ * Prefer drm_device based logging over device or printk based logging.
-  */
+@@ -524,19 +524,23 @@ void __drm_err(const char *format, ...);
+ #define DRM_DEBUG_DP(fmt, ...)						\
+ 	__drm_dbg(DRM_UT_DP, fmt, ## __VA_ARGS__)
  
- __printf(3, 4)
+-#define __DRM_DEFINE_DBG_RATELIMITED(category, drm, fmt, ...)					\
+-({												\
+-	static DEFINE_RATELIMIT_STATE(rs_, DEFAULT_RATELIMIT_INTERVAL, DEFAULT_RATELIMIT_BURST);\
+-	const struct drm_device *drm_ = (drm);							\
+-												\
+-	if (drm_debug_enabled(DRM_UT_ ## category) && __ratelimit(&rs_))			\
+-		drm_dev_printk(drm_ ? drm_->dev : NULL, KERN_DEBUG, fmt, ## __VA_ARGS__);	\
++#define __DRM_DEFINE_DBG_RATELIMITED(category, drm, fmt, ...)		\
++({									\
++	static DEFINE_RATELIMIT_STATE(rs_,				\
++				      DEFAULT_RATELIMIT_INTERVAL,	\
++				      DEFAULT_RATELIMIT_BURST);		\
++	const struct drm_device *drm_ = (drm);				\
++									\
++	if (drm_debug_enabled(DRM_UT_ ## category) && __ratelimit(&rs_))\
++		drm_dev_printk(drm_ ? drm_->dev : NULL,			\
++			       KERN_DEBUG, fmt, ## __VA_ARGS__);	\
+ })
+ 
+ #define drm_dbg_kms_ratelimited(drm, fmt, ...) \
+ 	__DRM_DEFINE_DBG_RATELIMITED(KMS, drm, fmt, ## __VA_ARGS__)
+ 
+-#define DRM_DEBUG_KMS_RATELIMITED(fmt, ...) drm_dbg_kms_ratelimited(NULL, fmt, ## __VA_ARGS__)
++#define DRM_DEBUG_KMS_RATELIMITED(fmt, ...) \
++	drm_dbg_kms_ratelimited(NULL, fmt, ## __VA_ARGS__)
+ 
+ /*
+  * struct drm_device based WARNs
 -- 
 2.31.1
 
