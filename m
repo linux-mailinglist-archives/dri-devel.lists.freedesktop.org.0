@@ -1,42 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DC363C88F9
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Jul 2021 18:49:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D0BC33C895E
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Jul 2021 19:08:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C356F6E3F5;
-	Wed, 14 Jul 2021 16:49:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DECF56E433;
+	Wed, 14 Jul 2021 17:08:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 12E506E3F5
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jul 2021 16:49:20 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id B302D613C3;
- Wed, 14 Jul 2021 16:49:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1626281359;
- bh=6SKB3Qqjs+EC5rQxtbZljNFZlyLM4HZOJZxqpbfl9sM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Ko/UfbhD+PKfNZ3iK4ym6LzrxkwTJIAnlAs+qXdzedMZaGQBceXrGL4yO3Mhi8Yui
- vMOTVVJx+4Ujke2mPgfBk3Ht3ixeEAIiueMcl+Mt3nZdEGKe/obO9fAbsIwGZd2S1E
- wlHDb7pZo4ORM9aKt7vjHyClabpj5MHNp1aihZ0eiiUfnZphY1Cf8Si2OtplBMmvoA
- FklATVbj/QyXl8hG1qWEX00mxNkUQ0OdAccH8p4pfKml6iQ2yveG5hqAcabY/0PnHT
- ShhjQGUDah6fa1UE1UZsYnAqBBPNlHHBWN0dRxflqSplK04t3uzsQ1hpgqx1ZY+qSN
- 8z4l8b9ME85bA==
-Date: Wed, 14 Jul 2021 12:49:18 -0400
-From: Sasha Levin <sashal@kernel.org>
-To: Pavel Machek <pavel@denx.de>
-Subject: Re: [PATCH AUTOSEL 4.4 08/31] drm/virtio: Fixes a potential NULL
- pointer dereference on probe failure
-Message-ID: <YO8VjgdgHXoAcOMY@sashalap>
-References: <20210706112931.2066397-1-sashal@kernel.org>
- <20210706112931.2066397-8-sashal@kernel.org>
- <20210712215937.GA9488@amd>
+Received: from smtp-relay-canonical-0.canonical.com
+ (smtp-relay-canonical-0.canonical.com [185.125.188.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C00B6E433
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Jul 2021 17:08:30 +0000 (UTC)
+Received: from localhost (1.general.cking.uk.vpn [10.172.193.212])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by smtp-relay-canonical-0.canonical.com (Postfix) with ESMTPSA id D841540616; 
+ Wed, 14 Jul 2021 17:08:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+ s=20210705; t=1626282508;
+ bh=DAhaMqtw5C577LQ/86AWeIBpEHxNYnclBIEh7gDqyRs=;
+ h=From:To:Subject:Date:Message-Id:MIME-Version:Content-Type;
+ b=hGj93JOz4sro6FFib6OFcRkkCEj08LkdkXruz9NsF78S3lLGUa9Zc5u/sxX5Si9YR
+ 3x3gsuFUNOyJa/sno36q9lWN6smJKvXRRPX9MgdnteZZcQE7w3bBStaxfkGuqIPUTW
+ uCX3mdzNcdbgsApBlI83EgTGE/ke8I7SGfX9z413ZwPf7sX/45f+Tu6gPEmOPudLMG
+ cfeydL7tviF3q9igjU2ar3tPL+ypF+CPkhAULnoUl16h2LclBPPSEzwK5qvN0EpVtG
+ syz3WWkyOrdiY7nEULFP2zsFwZZPeuyYf9b9C6ttX4+r5VeGQhZHh66kEpZ+e7kUjE
+ WMsSubseTWtog==
+From: Colin King <colin.king@canonical.com>
+To: Evan Quan <evan.quan@amd.com>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+	Pan@freedesktop.org, Xinhui <Xinhui.Pan@amd.com>,
+	David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/amd/powerplay: remove redundant assignment to usTMax
+Date: Wed, 14 Jul 2021 18:08:28 +0100
+Message-Id: <20210714170828.147618-1-colin.king@canonical.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20210712215937.GA9488@amd>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,40 +55,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org,
- Xie Yongji <xieyongji@bytedance.com>, stable@vger.kernel.org,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jul 12, 2021 at 11:59:37PM +0200, Pavel Machek wrote:
->Hi!
->
->> From: Xie Yongji <xieyongji@bytedance.com>
->>
->> [ Upstream commit 17f46f488a5d82c5568e6e786cd760bba1c2ee09 ]
->>
->> The dev->dev_private might not be allocated if virtio_gpu_pci_quirk()
->> or virtio_gpu_init() failed. In this case, we should avoid the cleanup
->> in virtio_gpu_release().
->
->The check is in wrong place at least in 4.4:
->
->> +++ b/drivers/gpu/drm/virtio/virtgpu_kms.c
->> @@ -257,6 +257,9 @@ int virtio_gpu_driver_unload(struct drm_device *dev)
->>  	flush_work(&vgdev->config_changed_work);
->>  	vgdev->vdev->config->del_vqs(vgdev->vdev);
->>
->> +	if (!vgdev)
->> +		return;
->> +
->
->Pointer is dereferenced before being tested.
+From: Colin Ian King <colin.king@canonical.com>
 
-Heh, yes, thanks for catching that. I'll drop it for now and rework it
-next week.
+Struct element usTMax is being assigned a hard coded value that
+is never read and it is being re-assigned a new value immediately
+afterwards. The assignment is redundant and can be removed.
 
+Addresses-Coverity: ("Unused value")
+Signed-off-by: Colin Ian King <colin.king@canonical.com>
+---
+ drivers/gpu/drm/amd/pm/powerplay/hwmgr/process_pptables_v1_0.c | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/process_pptables_v1_0.c b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/process_pptables_v1_0.c
+index f2a55c1413f5..20e528c166f9 100644
+--- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/process_pptables_v1_0.c
++++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/process_pptables_v1_0.c
+@@ -977,8 +977,6 @@ static int init_thermal_controller(
+ 			= le16_to_cpu(tonga_fan_table->usPWMMed);
+ 		hwmgr->thermal_controller.advanceFanControlParameters.usPWMHigh
+ 			= le16_to_cpu(tonga_fan_table->usPWMHigh);
+-		hwmgr->thermal_controller.advanceFanControlParameters.usTMax
+-			= 10900;                  /* hard coded */
+ 		hwmgr->thermal_controller.advanceFanControlParameters.usTMax
+ 			= le16_to_cpu(tonga_fan_table->usTMax);
+ 		hwmgr->thermal_controller.advanceFanControlParameters.ucFanControlMode
 -- 
-Thanks,
-Sasha
+2.31.1
+
