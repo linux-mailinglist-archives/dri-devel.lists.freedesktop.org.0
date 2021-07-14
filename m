@@ -1,48 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30D623C9ACD
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jul 2021 10:45:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EEB73C9AD1
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jul 2021 10:45:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 751AA6E593;
-	Thu, 15 Jul 2021 08:44:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0089189DA3;
+	Thu, 15 Jul 2021 08:44:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [1.203.163.81])
- by gabe.freedesktop.org (Postfix) with ESMTP id 889796E221
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jul 2021 11:23:24 +0000 (UTC)
-X-UUID: a0124a582aaf4af196a2e5fb2fc74a12-20210714
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=jGb3Fw2ghMBhqRR5HNnLI1fFNCmMhlcMRemz5Ei6vYI=; 
- b=DCftle3drc3MLosi/1G5PTrEmJcKPQwKoFJBBWP8jbqdXE2DwHhL/y3EVLXW5YANSgbS/Pi0bYnAo7u2MVCr6NlEqOVKM2vXtCC3VLIDi98+2EbsC6oEdymQP2ti9WJkBIZ/Zez8o49ktXGUyTMm/NnCJfjYvHiYTIF+DfjmUuQ=;
-X-UUID: a0124a582aaf4af196a2e5fb2fc74a12-20210714
-Received: from mtkmrs31.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
- (envelope-from <yong.wu@mediatek.com>)
- (mailgw01.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 119119299; Wed, 14 Jul 2021 19:18:21 +0800
-Received: from MTKCAS36.mediatek.inc (172.27.4.186) by MTKMBS31N2.mediatek.inc
- (172.27.4.87) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Wed, 14 Jul 2021 19:18:17 +0800
-Received: from [10.17.3.153] (10.17.3.153) by MTKCAS36.mediatek.inc
- (172.27.4.170) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Wed, 14 Jul 2021 19:18:16 +0800
-Message-ID: <1626261496.14352.16.camel@mhfsdcap03>
-Subject: Re: Aw: [PATCH v6 00/11] Clean up "mediatek,larb"
-From: Yong Wu <yong.wu@mediatek.com>
-To: Frank Wunderlich <frank-w@public-files.de>
-Date: Wed, 14 Jul 2021 19:18:16 +0800
-In-Reply-To: <trinity-7d9ebdc9-4849-4d93-bfb5-429dcb4ee449-1626253158870@3c-app-gmx-bs01>
-References: <20210714025626.5528-1-yong.wu@mediatek.com>
- <trinity-7d9ebdc9-4849-4d93-bfb5-429dcb4ee449-1626253158870@3c-app-gmx-bs01>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.10.4-0ubuntu2 
-MIME-Version: 1.0
-X-TM-SNTS-SMTP: 194C4630574F716762D04534E2ED131E926154033AFA8FFE4228D830E0E139F02000:8
-X-MTK: N
-Content-Transfer-Encoding: base64
+Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com
+ [IPv6:2607:f8b0:4864:20::42e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 10BE86E3C6
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Jul 2021 14:54:33 +0000 (UTC)
+Received: by mail-pf1-x42e.google.com with SMTP id p36so2239740pfw.11
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Jul 2021 07:54:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=D6ZlnySp4n2JYKZ3BnTwy0o+3Z06IrEAN7j91AepWbA=;
+ b=TBzn5wiz/qArllKQmKvIMY0YBIRem/ED996A0xDoCuqkK6dKUMHmbgPCBChTXLfmYy
+ KqgT2VuoQuQ+ZaTFbFs9ZKeRHnmv+rVrolGKUCHqijanujwOslOYRaeGYX/5EDcGNdJ6
+ Wzmid0bJCLmRqjxyXEbOA0pO6n53fT/Zj8n4rn6wvG23GmxzYZl7lBs3MewHHDuNyzIm
+ NhgfbWW+a1WgGgMyLfSqv6vV36RnbBRD83nJ1GKUq2UQyMJB8Z90bKmaBk4Roou70T92
+ WwTNGz8sM6GVGTiuumSBgxYTkofCk5F4iQxQx7xi/YNCw5XGkNQWEOclJIiA3ExpxdwV
+ EVSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=D6ZlnySp4n2JYKZ3BnTwy0o+3Z06IrEAN7j91AepWbA=;
+ b=ITWpUXRcGmJBDgmOMqeCeg8nLVbzS2/d8gf3sc5AGhy6AAmzu8nzaDwKvP8MHtWyKT
+ JTzhYqDm90LzWjxHNunkW9zpQCEDt8YCPSgkC/4jDeyjPm1xq7ESGhTan71b1NaPajeq
+ yJ8MWzL6aSwWajxGqV0Hll5p5MQUVmMSYB1UBDZ3aqZHMYJO+NPVgqg4o0llPx4i9+DR
+ e3PXrw+XJjS1i+aRdaqSg/LRg1SKMsf9p63UAOy/TxaPMU5Ex8jXeIV07tnovw3rKLKU
+ w+9SNfnp1UpasEQkkwiNI+lqnFtksyzIxIEoqu/TWg9kBkMd1JPySoiVf6exkq4wRGRN
+ jxEA==
+X-Gm-Message-State: AOAM530hR0WC22LkHtAjew6J94y1ERM116Crf0/zyvyo1xmAKsa1Tcj0
+ tcWTfgZsf7bb/hB94mD9Fg==
+X-Google-Smtp-Source: ABdhPJytmXSLQnNsOiOOvEvl6ehtqWfymtV5pVH/x19S40xL1M3Ewl0Vy0jPc0IdVHs8jSu5nIZRyA==
+X-Received: by 2002:a63:145d:: with SMTP id 29mr10005317pgu.135.1626274472676; 
+ Wed, 14 Jul 2021 07:54:32 -0700 (PDT)
+Received: from vultr.guest ([107.191.53.97])
+ by smtp.gmail.com with ESMTPSA id e16sm3541317pgl.54.2021.07.14.07.54.30
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 14 Jul 2021 07:54:32 -0700 (PDT)
+From: Zheyu Ma <zheyuma97@gmail.com>
+To: christian.koenig@amd.com, ray.huang@amd.com, airlied@linux.ie,
+ daniel@ffwll.ch
+Subject: [PATCH] drm/ttm: add a check against null pointer dereference
+Date: Wed, 14 Jul 2021 14:54:19 +0000
+Message-Id: <1626274459-8148-1-git-send-email-zheyuma97@gmail.com>
+X-Mailer: git-send-email 2.7.4
 X-Mailman-Approved-At: Thu, 15 Jul 2021 08:44:52 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -56,81 +63,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Xia Jiang <xia.jiang@mediatek.com>,
- Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, David Airlie <airlied@linux.ie>, Will
- Deacon <will.deacon@arm.com>, dri-devel@lists.freedesktop.org,
- anthony.huang@mediatek.com, youlin.pei@mediatek.com,
- Nicolas Boichat <drinkcat@chromium.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
- Joerg Roedel <joro@8bytes.org>, Evan Green <evgreen@chromium.org>, Eizan
- Miyamoto <eizan@chromium.org>, Matthias Kaehlcke <mka@chromium.org>,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- Tiffany Lin <tiffany.lin@mediatek.com>, yi.kuo@mediatek.com,
- Rob Herring <robh+dt@kernel.org>, linux-mediatek@lists.infradead.org,
- Hsin-Yi Wang <hsinyi@chromium.org>, Matthias Brugger <matthias.bgg@gmail.com>,
- ming-fan.chen@mediatek.com, Mauro
- Carvalho Chehab <mchehab@kernel.org>, linux-arm-kernel@lists.infradead.org,
- anan.sun@mediatek.com, acourbot@chromium.org, srv_heupstream@mediatek.com,
- linux-kernel@vger.kernel.org, Tomasz Figa <tfiga@chromium.org>,
- iommu@lists.linux-foundation.org, Robin Murphy <robin.murphy@arm.com>
+Cc: Zheyu Ma <zheyuma97@gmail.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCAyMDIxLTA3LTE0IGF0IDEwOjU5ICswMjAwLCBGcmFuayBXdW5kZXJsaWNoIHdyb3Rl
-Og0KPiBIaSwNCj4gDQo+IHNvcnJ5IHRoaXMgKG9yIHRoZSAyIGRlcGVuY3ktc2VyaWVzKSBjYXVz
-ZSBhIE5VTEwgUG9pbnRlciBkZXJlZiBpbiBpb21tdV9ncm91cF9yZW1vdmVfZGV2aWNlIG9uIG10
-NzYyMy9icGktcjINCg0KSGkgRnJhbmssDQoNClRoYW5rcyBmb3IgeW91ciByZXBvcnQuIG10NzYy
-MyB1c2UgbXRrX2lvbW11X3YxLmMuDQoNCkkgd2lsbCB0cnkgdG8gcmVwcm9kdWNlIHRoaXMgbG9j
-YWxseS4NCg0KPiANCj4gaSB3b25kZXIgd2h5IG9uIGJvb3R1cCBhIGNsZWFudXAgaXMgcnVuLCBi
-dXQgaGF2ZSBubyBoaW50IGFib3V0IHRoaXMuDQo+IA0KPiBzaW5jZSAiZHRzOiBtdGstbWRwOiBy
-ZW1vdmUgbWVkaWF0ZWssIHZwdSBwcm9wZXJ0eSBmcm9tIHByaW1hcnkgTURQIGRldmljZSIgYWxs
-IGlzIGdvb2QsIGkgZ3Vlc3MgcHJvYmxlbSBjb21lcyB1cCB3aGlsZSByZW1vdmluZyBsYXJiIHdp
-dGggRFQNCj4gDQo+IHRoaXMgaXMgYmFja3RyYWNlDQo+IA0KPiBbICAgIDYuMjc0NDY1XSBQQyBp
-cyBhdCBpb21tdV9ncm91cF9yZW1vdmVfZGV2aWNlKzB4MjgvMHgxNDgNCj4gWyAgICA2LjI3OTg3
-N10gTFIgaXMgYXQgaW9tbXVfcmVsZWFzZV9kZXZpY2UrMHg0Yy8weDcwDQo+IA0KPiBbICAgIDYu
-Njc0MzQ3XSBCYWNrdHJhY2U6DQo+IFsgICAgNi42NzY3OTddIFs8YzBjOWMzN2M+XSAoaW9tbXVf
-Z3JvdXBfcmVtb3ZlX2RldmljZSkgZnJvbSBbPGMwNmJmMDI4Pl0gKGlvbW0pDQo+IFsgICAgNi42
-ODYyMjFdICByNzowMDAwMDAwMCByNjpjMDZiZjA0YyByNTpjMGQ3YTFhYyByNDpjMjFmYzAxMA0K
-PiBbICAgIDYuNjkxODgzXSBbPGMwNmJlZmRjPl0gKGlvbW11X3JlbGVhc2VfZGV2aWNlKSBmcm9t
-IFs8YzA2YmYwNjQ+XSAocmVtb3ZlX2lvKQ0KPiBbICAgIDYuNzAwNjg5XSAgcjU6MDAwMDAwMDAg
-cjQ6MDAwMDAwMDANCj4gWyAgICA2LjcwNDI2NV0gWzxjMDZiZjA0Yz5dIChyZW1vdmVfaW9tbXVf
-Z3JvdXApIGZyb20gWzxjMDczMzQzND5dIChidXNfZm9yX2VhYykNCj4gWyAgICA2LjcxMjcyNV0g
-WzxjMDczMzNhYz5dIChidXNfZm9yX2VhY2hfZGV2KSBmcm9tIFs8YzA2YmY2NTg+XSAoYnVzX3Nl
-dF9pb21tdSkNCj4gWyAgICA2LjcyMDc1M10gIHI2OmMzMzFmNDQwIHI1OmMxNDA2ZjU4IHI0OmZm
-ZmZmZmVhDQo+IFsgICAgNi43MjUzNzBdIFs8YzA2YmY1YTA+XSAoYnVzX3NldF9pb21tdSkgZnJv
-bSBbPGMwNmMxZTg4Pl0gKG10a19pb21tdV9wcm9iZSspDQo+IFsgICAgNi43MzM0ODRdICByNzpj
-MzJkYjBiOCByNjpjMjFmOWMwMCByNTpjMzMxZjFjMCByNDowMDAwMDAwMA0KPiBbICAgIDYuNzM5
-MTQ1XSBbPGMwNmMxYmZjPl0gKG10a19pb21tdV9wcm9iZSkgZnJvbSBbPGMwNzM4YzE0Pl0gKHBs
-YXRmb3JtX3Byb2JlKQ0KPiBbICAgIDYuNzQ3MTc2XSAgcjEwOmMyMWY5YzEwIHI5OmMyNDk2ZjU0
-IHI4OmMxNDYyM2I4IHI3OmMxNDYyM2I4IHI2OmMxNDA1YjkwIHI1MA0KPiBbICAgIDYuNzU1MDEy
-XSAgcjQ6MDAwMDAwMDANCj4gWyAgICA2Ljc1NzU0NF0gWzxjMDczOGJhOD5dIChwbGF0Zm9ybV9w
-cm9iZSkgZnJvbSBbPGMwNzM1OTY4Pl0gKHJlYWxseV9wcm9iZS5wYSkNCj4gWyAgICA2Ljc2NjAw
-Nl0gIHI3OmMxNDYyM2I4IHI2OmMxNDA1YjkwIHI1OjAwMDAwMDAwIHI0OmMyMWY5YzEwDQo+IFsg
-ICAgNi43NzE2NjddIFs8YzA3MzU4YTA+XSAocmVhbGx5X3Byb2JlLnBhcnQuMCkgZnJvbSBbPGMw
-NzM1Y2VjPl0gKHJlYWxseV9wcm8pDQo+IFsgICAgNi43Nzk4NjZdICByNzpjMjFmOWMxMCByNjpj
-MjU0OWU3NCByNTpjMTQwNWI5MCByNDpjMjFmOWMxMA0KPiBbICAgIDYuNzg1NTI3XSBbPGMwNzM1
-Y2E0Pl0gKHJlYWxseV9wcm9iZSkgZnJvbSBbPGMwNzM1ZGUwPl0gKF9fZHJpdmVyX3Byb2JlX2Rl
-KQ0KPiBbICAgIDYuNzkzOTg0XSAgcjU6YzE0MDViOTAgcjQ6YzIxZjljMTANCj4gWyAgICA2Ljc5
-NzU2MF0gWzxjMDczNWQzMD5dIChfX2RyaXZlcl9wcm9iZV9kZXZpY2UpIGZyb20gWzxjMDczNWZh
-MD5dIChkcml2ZXJfcCkNCj4gWyAgICA2LjgwNjU0M10gIHI5OmMyNDk2ZjU0IHI4OjAwMDAwMDA4
-IHI3OmMyMWY5YzEwIHI2OmMyNTQ5ZTc0IHI1OmMxNGM2ZWM4IHI0OjQNCj4gWyAgICA2LjgxNDI5
-MV0gWzxjMDczNWY1Yz5dIChkcml2ZXJfcHJvYmVfZGV2aWNlKSBmcm9tIFs8YzA3MzY0MTA+XSAo
-X19kZXZpY2VfYSkNCj4gWyAgICA2LjgyMzQ0OF0gIHI5OmMyNDk2ZjU0IHI4OjAwMDAwMDAwIHI3
-OmMyMWY5YzEwIHI2OmMyNTQ5ZTc0IHI1OmMxNDA1YjkwIHI0OjENCj4gWyAgICA2LjgzMTE5Nl0g
-WzxjMDczNjM1Yz5dIChfX2RldmljZV9hdHRhY2hfZHJpdmVyKSBmcm9tIFs8YzA3MzM1NDA+XSAo
-YnVzX2ZvcikNCj4gWyAgICA2Ljg0MDAwN10gIHI3OmMxNDYyM2I4IHI2OmMwNzM2MzVjIHI1OmMy
-NTQ5ZTc0IHI0OjAwMDAwMDAwDQo+IFsgICAgNi44NDU2NjldIFs8YzA3MzM0YWM+XSAoYnVzX2Zv
-cl9lYWNoX2RydikgZnJvbSBbPGMwNzM1N2U4Pl0gKF9fZGV2aWNlX2F0dGEpDQo+IFsgICAgNi44
-NTQwNDRdICByNjowMDAwMDAwMSByNTpjMjFmOWM1NCByNDpjMjFmOWMxMA0KPiBbICAgIDYuODU4
-NjYyXSBbPGMwNzM1NmU0Pl0gKF9fZGV2aWNlX2F0dGFjaCkgZnJvbSBbPGMwNzM2NjJjPl0gKGRl
-dmljZV9pbml0aWFsKQ0KPiBbICAgIDYuODY3MjA3XSAgcjY6YzIxZjljMTAgcjU6YzE0MDZmNTgg
-cjQ6YzE0MDZjYTANCj4gWyAgICA2Ljg3MTgyNV0gWzxjMDczNjYxMD5dIChkZXZpY2VfaW5pdGlh
-bF9wcm9iZSkgZnJvbSBbPGMwNzM0NmRjPl0gKGJ1c19wcm9iZSkNCj4gWyAgICA2Ljg4MDQ1NF0g
-WzxjMDczNDY0OD5dIChidXNfcHJvYmVfZGV2aWNlKSBmcm9tIFs8YzA3MzRjYzg+XSAoZGVmZXJy
-ZWRfcHJvYikNCj4gDQo+IA0KPiBiaXNlY3Qgc2hvd3MgdGhpcyBjb21taXQgYXMgYnJlYWtpbmc6
-DQo+IA0KPiBBdXRob3I6IFlvbmcgV3UgPHlvbmcud3VAbWVkaWF0ZWsuY29tPg0KPiBEYXRlOiAg
-IFdlZCBKdWwgMTQgMTA6NTY6MTcgMjAyMSArMDgwMA0KPiANCj4gICAgIGlvbW11L21lZGlhdGVr
-OiBBZGQgcHJvYmVfZGVmZXIgZm9yIHNtaS1sYXJiDQo+IA0KPiAgICAgUHJlcGFyZSBmb3IgYWRk
-aW5nIGRldmljZV9saW5rLg0KPiANCj4gcmVnYXJkcyBGcmFuaw0KDQo=
+When calling ttm_range_man_fini(), 'man' may be uninitialized, which may
+cause a null pointer dereference bug.
+
+Fix this by checking if it is a null pointer.
+
+This log reveals it:
+
+[    7.902580 ] BUG: kernel NULL pointer dereference, address: 0000000000000058
+[    7.905721 ] RIP: 0010:ttm_range_man_fini+0x40/0x160
+[    7.911826 ] Call Trace:
+[    7.911826 ]  radeon_ttm_fini+0x167/0x210
+[    7.911826 ]  radeon_bo_fini+0x15/0x40
+[    7.913767 ]  rs400_fini+0x55/0x80
+[    7.914358 ]  radeon_device_fini+0x3c/0x140
+[    7.914358 ]  radeon_driver_unload_kms+0x5c/0xe0
+[    7.914358 ]  radeon_driver_load_kms+0x13a/0x200
+[    7.914358 ]  ? radeon_driver_unload_kms+0xe0/0xe0
+[    7.914358 ]  drm_dev_register+0x1db/0x290
+[    7.914358 ]  radeon_pci_probe+0x16a/0x230
+[    7.914358 ]  local_pci_probe+0x4a/0xb0
+
+Signed-off-by: Zheyu Ma <zheyuma97@gmail.com>
+---
+ drivers/gpu/drm/ttm/ttm_range_manager.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/drivers/gpu/drm/ttm/ttm_range_manager.c b/drivers/gpu/drm/ttm/ttm_range_manager.c
+index 03395386e8a7..f4b08a8705b3 100644
+--- a/drivers/gpu/drm/ttm/ttm_range_manager.c
++++ b/drivers/gpu/drm/ttm/ttm_range_manager.c
+@@ -181,6 +181,9 @@ int ttm_range_man_fini(struct ttm_device *bdev,
+ 	struct drm_mm *mm = &rman->mm;
+ 	int ret;
+ 
++	if (!man)
++		return 0;
++
+ 	ttm_resource_manager_set_used(man, false);
+ 
+ 	ret = ttm_resource_manager_evict_all(bdev, man);
+-- 
+2.17.6
 
