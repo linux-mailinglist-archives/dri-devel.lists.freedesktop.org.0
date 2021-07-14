@@ -2,52 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E43F3C8AB5
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Jul 2021 20:20:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF68A3C8B24
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Jul 2021 20:43:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 73DB989C83;
-	Wed, 14 Jul 2021 18:20:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 297FE6E483;
+	Wed, 14 Jul 2021 18:43:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from srv6.fidu.org (srv6.fidu.org [IPv6:2a01:4f8:231:de0::2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B34C89C83;
- Wed, 14 Jul 2021 18:20:55 +0000 (UTC)
-Received: from localhost (localhost.localdomain [127.0.0.1])
- by srv6.fidu.org (Postfix) with ESMTP id 4ED02C8007F;
- Wed, 14 Jul 2021 20:20:54 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at srv6.fidu.org
-Received: from srv6.fidu.org ([127.0.0.1])
- by localhost (srv6.fidu.org [127.0.0.1]) (amavisd-new, port 10024)
- with LMTP id 2zIN8GVCgxDm; Wed, 14 Jul 2021 20:20:54 +0200 (CEST)
-Received: from [IPv6:2003:e3:7f13:3500:839f:11f6:c93a:c68b]
- (p200300E37F133500839f11f6c93ac68b.dip0.t-ipconnect.de
- [IPv6:2003:e3:7f13:3500:839f:11f6:c93a:c68b])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: wse@tuxedocomputers.com)
- by srv6.fidu.org (Postfix) with ESMTPSA id E2C1EC8007C;
- Wed, 14 Jul 2021 20:20:52 +0200 (CEST)
-Subject: Re: [PATCH v5 17/17] drm/amd/display: Add handling for new "Broadcast
- RGB" property
-To: harry.wentland@amd.com, sunpeng.li@amd.com, alexander.deucher@amd.com,
- christian.koenig@amd.com, airlied@linux.ie, daniel@ffwll.ch,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
- rodrigo.vivi@intel.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, emil.l.velikov@gmail.com
-References: <20210630151018.330354-1-wse@tuxedocomputers.com>
- <20210630151018.330354-18-wse@tuxedocomputers.com>
-From: Werner Sembach <wse@tuxedocomputers.com>
-Message-ID: <206d45be-86d9-9cc3-0b4a-317342221988@tuxedocomputers.com>
-Date: Wed, 14 Jul 2021 20:20:52 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C09276E48B
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Jul 2021 18:43:44 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 95457613D4
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Jul 2021 18:43:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1626288224;
+ bh=zftqZMavLA4BdS/hj1Snl+82h3ZFQnAaagFjfzypoDg=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=POh+qg+ZwSeF69zru5FbF9mLRhfchxWGMlmZgSQB+jHeJgulfR/nsBRQdhOGrJV7c
+ Lf/bo7fEPqHyVZx+ExCAn2NlKZ3TQ3ZDDRFDw74InsMSY59+sbforNpBuWNuso1KYV
+ 9exeZCCpLFHcCNsWHNfN/EPS/0QyWZdn2SxTb93w5+toYzdWi+cGSWq3WWE2ykQMwu
+ 91ZMIhN9WA3up6aYRK+4yew3WfRAugGyVDS+reJDLHwOYPTKGLsHcVrBPn6Hru2xlz
+ HNJRLc2wBr754kIvpZQOxX7wpAkRPFoTAagvfoc5rMhTA9lVkef/OtV9RQLTnH2SZj
+ Yqr9MuTHqnFYg==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id 91B2E6129C; Wed, 14 Jul 2021 18:43:44 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 209457] AMDGPU resume fail with RX 580 GPU
+Date: Wed, 14 Jul 2021 18:43:43 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: alexdeucher@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-209457-2300-2CH2pGKeEy@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-209457-2300@https.bugzilla.kernel.org/>
+References: <bug-209457-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <20210630151018.330354-18-wse@tuxedocomputers.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: de-DE
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,84 +68,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 30.06.21 um 17:10 schrieb Werner Sembach:
-> This commit implements the "Broadcast RGB" drm property for the AMD GPU
-> driver.
->
-> Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
-> ---
->   drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  | 14 +++++++++++---
->   .../amd/display/amdgpu_dm/amdgpu_dm_mst_types.c    |  4 ++++
->   2 files changed, 15 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> index 02a5809d4993..80d5a11fb0c5 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> @@ -5247,7 +5247,8 @@ get_aspect_ratio(const struct drm_display_mode *mode_in)
->   }
->   
->   static enum dc_color_space
-> -get_output_color_space(const struct dc_crtc_timing *dc_crtc_timing)
-> +get_output_color_space(const struct dc_crtc_timing *dc_crtc_timing,
-> +		       enum drm_mode_color_range preferred_color_range)
->   {
->   	enum dc_color_space color_space = COLOR_SPACE_SRGB;
->   
-> @@ -5278,7 +5279,10 @@ get_output_color_space(const struct dc_crtc_timing *dc_crtc_timing)
->   	}
->   	break;
->   	case PIXEL_ENCODING_RGB:
-> -		color_space = COLOR_SPACE_SRGB;
-> +		if (preferred_color_range == DRM_MODE_COLOR_RANGE_LIMITED_16_235)
-> +			color_space = COLOR_SPACE_SRGB_LIMITED;
-> +		else
-> +			color_space = COLOR_SPACE_SRGB;
->   		break;
+https://bugzilla.kernel.org/show_bug.cgi?id=3D209457
 
-After some testing I found out, that what I did here, was useless.
+--- Comment #38 from Alex Deucher (alexdeucher@gmail.com) ---
+(In reply to Leandro Jacques from comment #37)
+> (In reply to Alex Deucher from comment #32)
+> As you asked about the firmware version details, I upgraded my
+> linux-firmware package to see if the problem would come back and it came
+> back. So, this time, I could attatch the kernel log for the amdgpu driver
+> and the amdgpu firmware versions details as of the crash event to narrow
+> down the issue. By now, I'll return to the older version to make my system
+> stable again.
 
-amdgpu actually never sets the quantization_range range in the 
-hdmi_avi_infoframe and from that I guess any quantization range, besides 
-the default one, is not implemented in multiple places
+You have a Picasso system.  The original bug was about an RX 580.  I don't
+think this is the same issue.  Sounds like you are seeing this issue:
+https://lists.freedesktop.org/archives/amd-gfx/2021-July/066452.html
 
-Until limited RGB is properly implemented in amdgpu there kind of is no 
-purpose of generalizing the Broadcast RGB switch.
+--=20
+You may reply to this email to add a comment.
 
->   
->   	default:
-> @@ -5424,7 +5428,10 @@ static void fill_stream_properties_from_drm_display_mode(
->   
->   	timing_out->aspect_ratio = get_aspect_ratio(mode_in);
->   
-> -	stream->output_color_space = get_output_color_space(timing_out);
-> +	stream->output_color_space = get_output_color_space(timing_out,
-> +							    connector_state ?
-> +							    connector_state->preferred_color_range :
-> +							    DRM_MODE_COLOR_RANGE_UNSET);
->   
->   	stream->out_transfer_func->type = TF_TYPE_PREDEFINED;
->   	stream->out_transfer_func->tf = TRANSFER_FUNCTION_SRGB;
-> @@ -7775,6 +7782,7 @@ void amdgpu_dm_connector_init_helper(struct amdgpu_display_manager *dm,
->   		drm_connector_attach_active_bpc_property(&aconnector->base, 8, 16);
->   		drm_connector_attach_preferred_color_format_property(&aconnector->base);
->   		drm_connector_attach_active_color_format_property(&aconnector->base);
-> +		drm_connector_attach_preferred_color_range_property(&aconnector->base);
->   		drm_connector_attach_active_color_range_property(&aconnector->base);
->   	}
->   
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-> index 2563788ba95a..80e1389fd0ec 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-> @@ -421,6 +421,10 @@ dm_dp_add_mst_connector(struct drm_dp_mst_topology_mgr *mgr,
->   	if (connector->active_color_format_property)
->   		drm_connector_attach_active_color_format_property(&aconnector->base);
->   
-> +	connector->preferred_color_range_property = master->base.preferred_color_range_property;
-> +	if (connector->preferred_color_range_property)
-> +		drm_connector_attach_preferred_color_range_property(&aconnector->base);
-> +
->   	connector->active_color_range_property = master->base.active_color_range_property;
->   	if (connector->active_color_range_property)
->   		drm_connector_attach_active_color_range_property(&aconnector->base);
+You are receiving this mail because:
+You are watching the assignee of the bug.=
