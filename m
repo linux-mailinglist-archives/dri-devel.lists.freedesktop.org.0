@@ -2,40 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A7DD3C8011
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Jul 2021 10:29:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B660C3C8007
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Jul 2021 10:28:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B7C96E1A7;
-	Wed, 14 Jul 2021 08:29:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AEE7F6E19C;
+	Wed, 14 Jul 2021 08:28:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8BFEC6E1A7
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jul 2021 08:29:14 +0000 (UTC)
-Received: from [IPv6:2a02:810a:880:f54:e49e:3ed0:1a77:5623] (unknown
- [IPv6:2a02:810a:880:f54:e49e:3ed0:1a77:5623])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: dafna)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 3997C1F42822;
- Wed, 14 Jul 2021 09:29:12 +0100 (BST)
-Subject: Re: [PATCH v6 05/11] media: mtk-mdp: Get rid of mtk_smi_larb_get/put
-To: Yong Wu <yong.wu@mediatek.com>, Matthias Brugger
- <matthias.bgg@gmail.com>, Joerg Roedel <joro@8bytes.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
- David Airlie <airlied@linux.ie>, Mauro Carvalho Chehab <mchehab@kernel.org>
-References: <20210714025626.5528-1-yong.wu@mediatek.com>
- <20210714025626.5528-6-yong.wu@mediatek.com>
-From: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Message-ID: <f8d2ecfa-d0e0-87ed-429a-cb2dfd4e0745@collabora.com>
-Date: Wed, 14 Jul 2021 10:29:09 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
+ [IPv6:2a00:1450:4864:20::42c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 764896E19C
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Jul 2021 08:28:22 +0000 (UTC)
+Received: by mail-wr1-x42c.google.com with SMTP id i94so2147445wri.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Jul 2021 01:28:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=ivKO9rn/nP2b/CMoka/2OrZBQ/V1ctLVZiqoNJxWfo0=;
+ b=h0ZbIHzxJyLCHwToOuf3Z+2sZj3796pTavGiEpN6/G0b4znq21Lycbz3BvuV1eYoVU
+ 4vR7jJk4eELqYI9tC4bTyrt5e8l0DEPOr+ySiHCcKDd1ri9sjv4hTKwyv1iWsO8k9jM0
+ f4GH0EUjh8riOgJbif1jMbxazFC4SSBAWEeIJXCse37eLn+HJvgd8lsBrMn5knC/s5Af
+ OkC6j3hxUCxfCNo6x6vLbgCjaXM1sYVVgiVb8ODHMmv8Woi1Bvm8c8RS6Oa4QwNkmZYD
+ vPwk9V6D6Z7MP+YhIZOfqmqOHn781yNljXbGpfyJSFimAGGmgNmCiDOq6x8Xk0KUFBJO
+ oK5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=ivKO9rn/nP2b/CMoka/2OrZBQ/V1ctLVZiqoNJxWfo0=;
+ b=QhG0wtBr87XLyL0xvB3XGkzkmjoOHjtyi410ibbPIx3rf5z66jQXjCo1s5t4k8xKG3
+ 5f1wmGAU3aW7G6WcZHPpBmtQgbLWwKz8zvLUMf+DQpST1JibXQuKG/gXexzhLhAFjP8o
+ MCq9RGRMZI7lAV62YJQ1qs70keJAeR5BQT4wWNXdGrjyTnvMcD3mEuOOnn8SVGzy7gQ8
+ gWQn3d5r+xyahzq/1we4E72JT0kRmUArdA65D0+grtBEY2HAKz7+/T0FboxmjZN8JBl0
+ 903Y54d2LVmN4FOaGhDGC0bi5/WOD5qDFl7FQiW+KUw7+2Ypr2e5QdNJD3hoBG9Doub6
+ XPDw==
+X-Gm-Message-State: AOAM532xPnpvOlYy+n4hfmQgms82ZUb8fHQTUVp0vU8ToimZ63KGhgKF
+ urxvoWFvtGWR0svh7lU7v5w=
+X-Google-Smtp-Source: ABdhPJxCZbc6ZLE8hZgyj0nChQi/HNBMI7wf/+9xAxuo6LrTonov2XyRGDaEwsXMy4t4VJerwbRk4A==
+X-Received: by 2002:a05:6000:44:: with SMTP id
+ k4mr11381145wrx.174.1626251301148; 
+ Wed, 14 Jul 2021 01:28:21 -0700 (PDT)
+Received: from localhost ([62.96.65.119])
+ by smtp.gmail.com with ESMTPSA id p5sm1350431wme.2.2021.07.14.01.28.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 14 Jul 2021 01:28:19 -0700 (PDT)
+Date: Wed, 14 Jul 2021 10:30:19 +0200
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Dmitry Osipenko <digetx@gmail.com>
+Subject: Re: [PATCH v8 00/14] drm/tegra: Introduce a modern UABI
+Message-ID: <YO6gm0PgMGNovk+4@orome.fritz.box>
+References: <20210709193146.2859516-1-thierry.reding@gmail.com>
+ <42252a14-f6b8-7e1b-90c2-1c741ba8223f@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210714025626.5528-6-yong.wu@mediatek.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="iaNpXtGtXkWeBPvi"
+Content-Disposition: inline
+In-Reply-To: <42252a14-f6b8-7e1b-90c2-1c741ba8223f@gmail.com>
+User-Agent: Mutt/2.1.1 (e2a89abc) (2021-07-12)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,165 +71,146 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Xia Jiang <xia.jiang@mediatek.com>,
- Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, Will Deacon <will.deacon@arm.com>,
- dri-devel@lists.freedesktop.org, anthony.huang@mediatek.com,
- youlin.pei@mediatek.com, Nicolas Boichat <drinkcat@chromium.org>,
- Evan Green <evgreen@chromium.org>, Eizan Miyamoto <eizan@chromium.org>,
- Matthias Kaehlcke <mka@chromium.org>, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, Houlong Wei <houlong.wei@mediatek.com>,
- yi.kuo@mediatek.com, linux-mediatek@lists.infradead.org,
- Hsin-Yi Wang <hsinyi@chromium.org>, ming-fan.chen@mediatek.com,
- Tiffany Lin <tiffany.lin@mediatek.com>, linux-arm-kernel@lists.infradead.org,
- anan.sun@mediatek.com, srv_heupstream@mediatek.com, acourbot@chromium.org,
- linux-kernel@vger.kernel.org, Tomasz Figa <tfiga@chromium.org>,
- iommu@lists.linux-foundation.org, Robin Murphy <robin.murphy@arm.com>
+Cc: linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Mikko Perttunen <mperttunen@nvidia.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
+--iaNpXtGtXkWeBPvi
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 14.07.21 04:56, Yong Wu wrote:
-> MediaTek IOMMU has already added the device_link between the consumer
-> and smi-larb device. If the mdp device call the pm_runtime_get_sync,
-> the smi-larb's pm_runtime_get_sync also be called automatically.
-> 
-> CC: Minghsiu Tsai <minghsiu.tsai@mediatek.com>
-> CC: Houlong Wei <houlong.wei@mediatek.com>
-> Signed-off-by: Yong Wu <yong.wu@mediatek.com>
-> Reviewed-by: Evan Green <evgreen@chromium.org>
-> Reviewed-by: Houlong Wei <houlong.wei@mediatek.com>
+On Sat, Jul 10, 2021 at 12:16:28AM +0300, Dmitry Osipenko wrote:
+> Hello Thierry,
+>=20
+> 09.07.2021 22:31, Thierry Reding =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> > From: Thierry Reding <treding@nvidia.com>
+> >=20
+> > Hi all,
+> >=20
+> > Mikko has been away for a few weeks, so I've been testing and revising
+> > the new UABI patches in the meantime. There are very minor changes to
+> > the naming of some of the UABI fields, but other than that it's mostly
+> > unchanged from v7.
+>=20
+> Why you haven't addressed any of the previous review comments? There
+> were some obvious problems in v7 and v8 still has them.
+>=20
+> > One notable change is that mappings can now be read-only, write-only,
+> > read-write or none of them (rather than just read-only or read-write),
+> > since those combinations are all supported by the IOMMUs and it might
+> > be useful to make some mappings write-only.
+> >=20
+> > For a full list of changes in v8, see the changelog in patch 6.
+> >=20
+> > I've also updated the libdrm_tegra library to work against this version
+> > of the UABI. A branch can be found here:
+> >=20
+> >   https://gitlab.freedesktop.org/tagr/drm/-/commits/drm-tegra-uabi-v8
+> >=20
+> > That contains helper APIs for the concepts introduced in this series and
+> > shows how they can be used in various tests that can be run for sanity
+> > checking.
+> >=20
+> > In addition, Mikko has made updates to the following projects, though
+> > they may need to be updated for the minor changes in v8:
+> >=20
+> > * vaapi-tegra-driver - https://github.com/cyndis/vaapi-tegra-driver
+> >   Experimental support for MPEG2 and H264 decoding on T210, T186
+> >   and T194.
+> >=20
+> > * xf86-video-opentegra - https://github.com/grate-driver/xf86-video-ope=
+ntegra
+> >   X11 userspace acceleration driver for Tegra20, Tegra30, and Tegra114.
+> >=20
+> > * grate - https://github.com/grate-driver/grate
+> >   3D rendering testbed for Tegra20, Tegra30, and Tegra114
+> >=20
+> > I plan on putting this into linux-next soon after v5.14-rc1 so that this
+> > can get some soak time.
+>=20
+> It should be a bit too early to push it into kernel. The UAPI is not
+> ready because it's missing essential features. We can't call this a
+> 'modern UABI' until it's fully implemented. The design decisions are
+> still questionable because this UAPI is built around the proprietary
+> firmware (and based on UAPI of downstream driver) which doesn't fit well
+> into DRM world. I haven't got all the answers to my previous questions,
+> should I repeat them?
 
-Reviewed-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+I don't know what you means by "built around the proprietary firmware".
+Yes, this ends up using proprietary firmware for some of the hardware
+engines that host1x drives, but that's completely orthogonal to the
+UABI. No matter what UABI we'd be introducing, we'd be using that same
+firmware.
 
-> ---
->   drivers/media/platform/mtk-mdp/mtk_mdp_comp.c | 46 +------------------
->   drivers/media/platform/mtk-mdp/mtk_mdp_comp.h |  2 -
->   drivers/media/platform/mtk-mdp/mtk_mdp_core.c |  1 -
->   3 files changed, 1 insertion(+), 48 deletions(-)
-> 
-> diff --git a/drivers/media/platform/mtk-mdp/mtk_mdp_comp.c b/drivers/media/platform/mtk-mdp/mtk_mdp_comp.c
-> index de2d425efdd1..5e0ea83a9f7f 100644
-> --- a/drivers/media/platform/mtk-mdp/mtk_mdp_comp.c
-> +++ b/drivers/media/platform/mtk-mdp/mtk_mdp_comp.c
-> @@ -13,7 +13,6 @@
->   #include <linux/of.h>
->   #include <linux/of_irq.h>
->   #include <linux/of_platform.h>
-> -#include <soc/mediatek/smi.h>
->   #include <linux/pm_runtime.h>
->   
->   #include "mtk_mdp_comp.h"
-> @@ -57,13 +56,6 @@ int mtk_mdp_comp_power_on(struct mtk_mdp_comp *comp)
->   {
->   	int status, err;
->   
-> -	if (comp->larb_dev) {
-> -		err = mtk_smi_larb_get(comp->larb_dev);
-> -		if (err)
-> -			dev_err(comp->dev,
-> -				"failed to get larb, err %d.\n", err);
-> -	}
-> -
->   	err = pm_runtime_get_sync(comp->dev);
->   	if (err < 0) {
->   		dev_err(comp->dev, "failed to runtime get, err %d.\n", err);
-> @@ -146,9 +138,6 @@ void mtk_mdp_comp_clock_off(struct mtk_mdp_comp *comp)
->   			continue;
->   		clk_disable_unprepare(comp->clk[i]);
->   	}
-> -
-> -	if (comp->larb_dev)
-> -		mtk_smi_larb_put(comp->larb_dev);
->   }
->   
->   /*
-> @@ -236,9 +225,6 @@ static const struct component_ops mtk_mdp_component_ops = {
->   
->   int mtk_mdp_comp_init(struct mtk_mdp_comp *comp, struct device *dev)
->   {
-> -	struct device_node *larb_node;
-> -	struct platform_device *larb_pdev;
-> -	int ret;
->   	int i;
->   	struct device_node *node = dev->of_node;
->   	enum mtk_mdp_comp_type comp_type =
-> @@ -252,8 +238,7 @@ int mtk_mdp_comp_init(struct mtk_mdp_comp *comp, struct device *dev)
->   		if (IS_ERR(comp->clk[i])) {
->   			if (PTR_ERR(comp->clk[i]) != -EPROBE_DEFER)
->   				dev_err(dev, "Failed to get clock\n");
-> -			ret = PTR_ERR(comp->clk[i]);
-> -			goto err;
-> +			return PTR_ERR(comp->clk[i]);
->   		}
->   
->   		/* Only RDMA needs two clocks */
-> @@ -261,36 +246,7 @@ int mtk_mdp_comp_init(struct mtk_mdp_comp *comp, struct device *dev)
->   			break;
->   	}
->   
-> -	/* Only DMA capable components need the LARB property */
-> -	comp->larb_dev = NULL;
-> -	if (comp_type != MTK_MDP_RDMA &&
-> -	    comp_type != MTK_MDP_WDMA &&
-> -	    comp_type != MTK_MDP_WROT)
-> -		return 0;
-> -
-> -	larb_node = of_parse_phandle(node, "mediatek,larb", 0);
-> -	if (!larb_node) {
-> -		dev_err(dev,
-> -			"Missing mediadek,larb phandle in %pOF node\n", node);
-> -		ret = -EINVAL;
-> -		goto err;
-> -	}
-> -
-> -	larb_pdev = of_find_device_by_node(larb_node);
-> -	if (!larb_pdev) {
-> -		dev_warn(dev, "Waiting for larb device %pOF\n", larb_node);
-> -		of_node_put(larb_node);
-> -		ret = -EPROBE_DEFER;
-> -		goto err;
-> -	}
-> -	of_node_put(larb_node);
-> -
-> -	comp->larb_dev = &larb_pdev->dev;
-> -
->   	return 0;
-> -
-> -err:
-> -	return ret;
->   }
->   
->   static int mtk_mdp_comp_probe(struct platform_device *pdev)
-> diff --git a/drivers/media/platform/mtk-mdp/mtk_mdp_comp.h b/drivers/media/platform/mtk-mdp/mtk_mdp_comp.h
-> index 5201c47f7baa..2bd229cc7eae 100644
-> --- a/drivers/media/platform/mtk-mdp/mtk_mdp_comp.h
-> +++ b/drivers/media/platform/mtk-mdp/mtk_mdp_comp.h
-> @@ -11,13 +11,11 @@
->    * struct mtk_mdp_comp - the MDP's function component data
->    * @node:	list node to track sibing MDP components
->    * @clk:	clocks required for component
-> - * @larb_dev:	SMI device required for component
->    * @dev:	component's device
->    */
->   struct mtk_mdp_comp {
->   	struct list_head	node;
->   	struct clk		*clk[2];
-> -	struct device           *larb_dev;
->   	struct device		*dev;
->   };
->   
-> diff --git a/drivers/media/platform/mtk-mdp/mtk_mdp_core.c b/drivers/media/platform/mtk-mdp/mtk_mdp_core.c
-> index e1fb39231248..be7d35b3e3ff 100644
-> --- a/drivers/media/platform/mtk-mdp/mtk_mdp_core.c
-> +++ b/drivers/media/platform/mtk-mdp/mtk_mdp_core.c
-> @@ -18,7 +18,6 @@
->   #include <linux/platform_device.h>
->   #include <linux/pm_runtime.h>
->   #include <linux/workqueue.h>
-> -#include <soc/mediatek/smi.h>
->   
->   #include "mtk_mdp_comp.h"
->   #include "mtk_mdp_core.h"
-> 
+And yes, this is based on the UABI of the downstream drivers. The design
+is guided by what we've learned over the last decade working with this
+hardware in use-cases that customers need. It'd be dumb not to use that
+knowledge to our advantage. This is the only way to ensure we can
+deliver an upstream driver that's on par with our downstream drivers and
+therefore make it possible to eventually adopt the upstream driver.
+
+And frankly, you did get answers to previous questions, though perhaps
+not all, but I'm out of patience. We've been going in circles and at
+some point we have to make a decision so we can make progress.
+
+I made several attempts over the years to get something usable merged
+upstream so that we can finally make use of this hardware and get it
+supported upstream and each time I made the mistake of trying to make it
+perfect and accomodate all wishlist items. The result is that I wasted a
+lot of time and have nothing to show for it.
+
+I've also been very hard Mikko with his work on this and I think we've
+stretched this as far as we can without compromising too much on what we
+are going to need from this UABI in the future.
+
+We've gone through the process of making sure all existing userspace can
+and does work with this new UABI and even left the old UABI in place in
+case we need it.
+
+I'm reasonably satisfied with what we have now and I don't see any
+reason to hold this back any further. We always have the option of
+adding UABI if we need it for something, or extend functionality of
+existing UABI where it makes sense. But we also do have to start
+somewhere, otherwise we're just not going to get anywhere, as the last
+10 years have shown.
+
+> UAPI is not the only problem that we have. The performance and stability
+> of the driver are in a very bad shape too. The modern UAPI can't be
+> built on top of the old code. It's clear now that this is a very serious
+> problem that must be addressed along with the UAPI work and I'm getting
+> silence from you guys.
+
+We've been over this multiple times before, though perhaps never over
+email. So let me make this clear here again and for future reference: we
+will *not* be rewriting the driver from scratch.
+
+If there are any serious performance and stability issues, then we'll
+find them and address them incrementally, like we always do in the
+kernel.
+
+Thierry
+
+--iaNpXtGtXkWeBPvi
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmDuoJkACgkQ3SOs138+
+s6EV+g//bdNe9WGb3R8br/zGvyc0rsk8VnqtU4c85ANO8FQ8HgYDTVSwJ0rH2/Ne
+Gh+NPCW4MXoCK0lmzPXVTz+GhuuUaQuR5KrC0ng1vG3auvBYKEfUvLf6wnGDAHIv
+YbxFEz5Bk+Pu0TfNortVtDToOfNsokc7adsEkwb+bs04vatp83QHzEZ6DipEg3cL
+mizhJNvuo0mx0D2ApSj315VcOh55VhZl7IroAAGMlxDF3JlJhuIyphcav1DgJvdz
+NZdSW43xopUQ2EkoBDnETK9xGds3PGkFzWdKoE1MRcECAHlOia7vA1ejtxYP5sgi
+DXYHGtJDZ2gIXLSyUc61MFckyhzV3bZwIyvKm1HBiPzaR/BtsCp4gs100cojmb1+
+gyrcM9KdVwLr4CcRsRznW0p8OVarQWSqNcnMku7XimNLX47J5d54/Cm6KfJ7+key
+qW49begJ/ziUI8/weGaKetYwpLeNLd6mipySNjYb+9Uf8TQj70YW7DYx5rgMPve+
+icY4b07smjP4o5b+ERO9y27/chfudFmXmdTRyR4MP6HqUXIjNh/BuGWLyd/rA7n8
+BkI6uNo370yzQNV6zx0gim51mts0cuHWnBTVT34mGaKhCMm9E8+mbJDwCToZPmQE
+nLgFj5FULdGdxunIu0wB94wcSV/6OazySON5gmf17WjrF8sfN1U=
+=KoTy
+-----END PGP SIGNATURE-----
+
+--iaNpXtGtXkWeBPvi--
