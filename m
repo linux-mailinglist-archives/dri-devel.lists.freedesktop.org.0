@@ -2,54 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93CBB3C7F8D
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Jul 2021 09:44:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 318903C7F7C
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Jul 2021 09:44:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B91516E193;
-	Wed, 14 Jul 2021 07:44:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC69F89F61;
+	Wed, 14 Jul 2021 07:44:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com
- [IPv6:2607:f8b0:4864:20::62d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD83F6E156
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jul 2021 04:09:32 +0000 (UTC)
-Received: by mail-pl1-x62d.google.com with SMTP id x16so868765plg.3
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jul 2021 21:09:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=dNtQuwwmGDuffyzJJxrC7J0rgzq3v1ZDzE0BZBmT5ME=;
- b=sxOlB05EOu4kn6zBdjcf/8lnqNeshmDp+JV2COQqQu3eiCOXAlCW2olxWyiux6I+cR
- m1fQCMhPWt1EJf3XgyTYjmTyqbItav6hVhx49OHEZ/1tiuLt+nG2C1YfW+X/dFO+2y1w
- kWxr5DUB8320YFJTUu/6OTMiDjYcGoxW/0xsOyX2GPbvaopJhuLL0Wau/Po7AITJgeuy
- ajetYOHwZWIofp8OCYSqVtWcIWIwJ/yFAMvylIkaFesFCjTCeLuAUkvXckFOx99zitMk
- 9kh0djrXPHWJSLcJAIae59fRH8vXJ+ZiOtfWy566QkZZG7leZeWM+CUb02iH2qDQ3jTj
- 0gaQ==
+Received: from mail-il1-f199.google.com (mail-il1-f199.google.com
+ [209.85.166.199])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 74DCA6E15F
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Jul 2021 05:16:22 +0000 (UTC)
+Received: by mail-il1-f199.google.com with SMTP id
+ t12-20020a92c0cc0000b0290210d3ffca31so284321ilf.21
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jul 2021 22:16:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=dNtQuwwmGDuffyzJJxrC7J0rgzq3v1ZDzE0BZBmT5ME=;
- b=DYi1FR9/hSx/2M5Q4tQHkyBA43yDIvjOSTgImuUiI7cTUT52JI2P0SG9Sq7XoNWwSW
- X8fvULabRdkFfVpXxdDvQ7cW+XZ26HVliCxXqnekLJQwChVNu6MhLEiNIwZT4Pl/yuIh
- 7tCq8CXOQKdxNuNfX2ACcZ3Xmh2ilSTuqY4OhCdLIyI5iX/qRUtBFMAjVCsRQs4vXCTP
- UqrJM/nV8IoWYw5Hn9LiA/9sSQMhdDYwc8MGThyLTqs9ZTTzc+rU99jBroGU9AB5zkvo
- lObl4swZSbXSQom3tx+IiM28c/Ot8x7r2ykmSgAn0F1NeC9XbIWPQqOXKDBaD1tt6qJU
- n3VQ==
-X-Gm-Message-State: AOAM531S30Q8u59Q1re1nbI+iM+n5idjm/7JAFfNeZ3ya3I1qTzqzSeD
- rK5i66NqolOXyhoXI3e0kSbEKnfT8UgfcGg=
-X-Google-Smtp-Source: ABdhPJxaKwld9avLXJiiCQB2C3ZpjTPxhGiFfOKosko60ULcCDLejOTZxvqG/4n0ipsTr8oB8dEiTA==
-X-Received: by 2002:a17:90a:db53:: with SMTP id
- u19mr7808849pjx.4.1626235772271; 
- Tue, 13 Jul 2021 21:09:32 -0700 (PDT)
-Received: from vultr.guest ([107.191.53.97])
- by smtp.gmail.com with ESMTPSA id v23sm3675964pje.33.2021.07.13.21.09.30
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 13 Jul 2021 21:09:31 -0700 (PDT)
-From: Zheyu Ma <zheyuma97@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2] video: fbdev: kyro: fix a DoS bug by restricting user input
-Date: Wed, 14 Jul 2021 04:09:22 +0000
-Message-Id: <1626235762-2590-1-git-send-email-zheyuma97@gmail.com>
-X-Mailer: git-send-email 2.7.4
+ h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+ bh=USd2GMqDDR83g9HOIvITJBl6roJLZm/Z57kOOP6/pBs=;
+ b=a2v9pIPeUegSbpyNCI4ookVHAP5uANXKR9VVjBBkyjklDIPyRcma5dXYtXAIwmMvdQ
+ vRafvqNgnxSCtORpNfJd/KUhnV2kD/Rk8/YJr8MlDv+taaYUhymY1xD2tlajwPHeqGgu
+ 6F9RKsyZ2AzQV5am7pXuAh8QPwtJxYY0zEawc6mxNKdHyQE94cYkk95DZ62VV3rHNowc
+ 97cUbNnunwG7VZ7/ABBqOksKtbDKP8ETFBW299KT0CKGoF5FZ3eyIkkY5ubKlCmXAwAy
+ ISrGm3x9Ha6NcwZApAQ5mSGJClJJxkHy6/ShQox4h6ufNLY+N7R9O63zxHamcv5R5ZXE
+ +Gtg==
+X-Gm-Message-State: AOAM531hgwx3QAU1RlSDAXIRJuQDs0xyDORJVVnXOO8s71z9iB/l+rz6
+ FrOtmyhsrwFp6gghifODcrABBgCuxTn7PYf/0FPDooLdrzdp
+X-Google-Smtp-Source: ABdhPJyJw2fODUdEtUAQ4caDJR3Bu4OQUFl+xJx0e6pAoXbSOtURb7gC5i1oq7EyVUMBXD7JGflxeD0OHTH/FPc1o3nX9WxMmxb+
+MIME-Version: 1.0
+X-Received: by 2002:a05:6638:1316:: with SMTP id
+ r22mr7314690jad.89.1626239781656; 
+ Tue, 13 Jul 2021 22:16:21 -0700 (PDT)
+Date: Tue, 13 Jul 2021 22:16:21 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000815b9605c70e74f8@google.com>
+Subject: [syzbot] BUG: unable to handle kernel paging request in
+ vga16fb_fillrect
+From: syzbot <syzbot+04168c8063cfdde1db5e@syzkaller.appspotmail.com>
+To: akpm@linux-foundation.org, b.zolnierkie@samsung.com, 
+ colin.king@canonical.com, dri-devel@lists.freedesktop.org, 
+ linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ masahiroy@kernel.org, penguin-kernel@i-love.sakura.ne.jp, 
+ syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 X-Mailman-Approved-At: Wed, 14 Jul 2021 07:44:22 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,54 +59,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Zheyu Ma <zheyuma97@gmail.com>,
- sam@ravnborg.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The user can pass in any value to the driver through the 'ioctl'
-interface. The driver dost not check, which may cause DoS bugs.
+Hello,
 
-The following log reveals it:
+syzbot found the following issue on:
 
-divide error: 0000 [#1] PREEMPT SMP KASAN PTI
-RIP: 0010:SetOverlayViewPort+0x133/0x5f0 drivers/video/fbdev/kyro/STG4000OverlayDevice.c:476
+HEAD commit:    3dbdb38e Merge branch 'for-5.14' of git://git.kernel.org/p..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=1323c402300000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=a1fcf15a09815757
+dashboard link: https://syzkaller.appspot.com/bug?extid=04168c8063cfdde1db5e
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=11f0e772300000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1114b9b0300000
+
+Bisection is inconclusive: the issue happens on the oldest tested release.
+
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=10fa45d8300000
+final oops:     https://syzkaller.appspot.com/x/report.txt?x=12fa45d8300000
+console output: https://syzkaller.appspot.com/x/log.txt?x=14fa45d8300000
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+04168c8063cfdde1db5e@syzkaller.appspotmail.com
+
+BUG: unable to handle page fault for address: ffff888001000050
+#PF: supervisor write access in kernel mode
+#PF: error_code(0x0003) - permissions violation
+PGD 10e01067 P4D 10e01067 PUD 10e02067 PMD 80000000010001e1 
+Oops: 0003 [#1] PREEMPT SMP KASAN
+CPU: 1 PID: 8433 Comm: syz-executor067 Tainted: G        W         5.13.0-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+RIP: 0010:writeb arch/x86/include/asm/io.h:65 [inline]
+RIP: 0010:vga16fb_fillrect+0x993/0x18d0 drivers/video/fbdev/vga16fb.c:923
+Code: 6c fd 48 63 44 24 10 45 31 f6 48 89 04 24 e8 44 a6 6c fd 31 ff 89 de 31 ed e8 79 ad 6c fd 85 db 4d 89 ec 74 22 e8 2d a6 6c fd <45> 88 34 24 83 c5 01 89 df 49 83 c4 01 89 ee e8 49 ae 6c fd 39 eb
+RSP: 0018:ffffc90000eff848 EFLAGS: 00010293
+RAX: 0000000000000000 RBX: 000000000000001b RCX: 0000000000000000
+RDX: ffff88802d949c40 RSI: ffffffff8408e403 RDI: 0000000000000003
+RBP: 0000000000000000 R08: 0000000000000000 R09: ffffffff8408dd8d
+R10: ffffffff8408e3f7 R11: 0000000000000000 R12: ffff888001000050
+R13: ffff888001000050 R14: 0000000000000000 R15: 000000000ffeb7ff
+FS:  0000000001aa2300(0000) GS:ffff8880b9d00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: ffff888001000050 CR3: 00000000346fb000 CR4: 00000000001506e0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
 Call Trace:
- kyro_dev_overlay_viewport_set drivers/video/fbdev/kyro/fbdev.c:378 [inline]
- kyrofb_ioctl+0x2eb/0x330 drivers/video/fbdev/kyro/fbdev.c:603
- do_fb_ioctl+0x1f3/0x700 drivers/video/fbdev/core/fbmem.c:1171
- fb_ioctl+0xeb/0x130 drivers/video/fbdev/core/fbmem.c:1185
- vfs_ioctl fs/ioctl.c:48 [inline]
- __do_sys_ioctl fs/ioctl.c:753 [inline]
- __se_sys_ioctl fs/ioctl.c:739 [inline]
- __x64_sys_ioctl+0x19b/0x220 fs/ioctl.c:739
- do_syscall_64+0x32/0x80 arch/x86/entry/common.c:46
+ bit_clear_margins+0x3f6/0x4b0 drivers/video/fbdev/core/bitblit.c:224
+ fbcon_clear_margins+0x1f1/0x280 drivers/video/fbdev/core/fbcon.c:1315
+ fbcon_switch+0xa8c/0x1620 drivers/video/fbdev/core/fbcon.c:2146
+ redraw_screen+0x2b9/0x740 drivers/tty/vt/vt.c:1021
+ fbcon_modechanged+0x593/0x6d0 drivers/video/fbdev/core/fbcon.c:2651
+ fbcon_update_vcs+0x3a/0x50 drivers/video/fbdev/core/fbcon.c:2696
+ do_fb_ioctl+0x62e/0x690 drivers/video/fbdev/core/fbmem.c:1110
+ fb_ioctl+0xe7/0x150 drivers/video/fbdev/core/fbmem.c:1185
+ vfs_ioctl fs/ioctl.c:51 [inline]
+ __do_sys_ioctl fs/ioctl.c:1069 [inline]
+ __se_sys_ioctl fs/ioctl.c:1055 [inline]
+ __x64_sys_ioctl+0x193/0x200 fs/ioctl.c:1055
+ do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+ do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
  entry_SYSCALL_64_after_hwframe+0x44/0xae
+RIP: 0033:0x43efd9
+Code: 28 c3 e8 2a 14 00 00 66 2e 0f 1f 84 00 00 00 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 c0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007ffc362df848 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffda RBX: 0000000000400488 RCX: 000000000043efd9
+RDX: 0000000020000200 RSI: 0000000000004601 RDI: 0000000000000003
+RBP: 0000000000402fc0 R08: 0000000000000000 R09: 0000000000400488
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000403050
+R13: 0000000000000000 R14: 00000000004ac018 R15: 0000000000400488
+Modules linked in:
+CR2: ffff888001000050
+---[ end trace 39dce64bc5621bd3 ]---
+RIP: 0010:writeb arch/x86/include/asm/io.h:65 [inline]
+RIP: 0010:vga16fb_fillrect+0x993/0x18d0 drivers/video/fbdev/vga16fb.c:923
+Code: 6c fd 48 63 44 24 10 45 31 f6 48 89 04 24 e8 44 a6 6c fd 31 ff 89 de 31 ed e8 79 ad 6c fd 85 db 4d 89 ec 74 22 e8 2d a6 6c fd <45> 88 34 24 83 c5 01 89 df 49 83 c4 01 89 ee e8 49 ae 6c fd 39 eb
+RSP: 0018:ffffc90000eff848 EFLAGS: 00010293
+RAX: 0000000000000000 RBX: 000000000000001b RCX: 0000000000000000
+RDX: ffff88802d949c40 RSI: ffffffff8408e403 RDI: 0000000000000003
+RBP: 0000000000000000 R08: 0000000000000000 R09: ffffffff8408dd8d
+R10: ffffffff8408e3f7 R11: 0000000000000000 R12: ffff888001000050
+R13: ffff888001000050 R14: 0000000000000000 R15: 000000000ffeb7ff
+FS:  0000000001aa2300(0000) GS:ffff8880b9d00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: ffff888001000050 CR3: 00000000346fb000 CR4: 00000000001506e0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
 
-Signed-off-by: Zheyu Ma <zheyuma97@gmail.com>
+
 ---
-Changes in v2:
-    - Validate the inputs on a higher level
----
- drivers/video/fbdev/kyro/fbdev.c | 5 +++++
- 1 file changed, 5 insertions(+)
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/drivers/video/fbdev/kyro/fbdev.c b/drivers/video/fbdev/kyro/fbdev.c
-index 8fbde92ae8b9..eb0cbd1d12d5 100644
---- a/drivers/video/fbdev/kyro/fbdev.c
-+++ b/drivers/video/fbdev/kyro/fbdev.c
-@@ -372,6 +372,11 @@ static int kyro_dev_overlay_viewport_set(u32 x, u32 y, u32 ulWidth, u32 ulHeight
- 		/* probably haven't called CreateOverlay yet */
- 		return -EINVAL;
- 
-+	if (ulWidth == 0 || ulWidth == 0xffffffff ||
-+		ulHeight == 0 || ulHeight == 0xffffffff ||
-+		(x < 2 && ulWidth + 2 == 0))
-+		return -EINVAL;
-+
- 	/* Stop Ramdac Output */
- 	DisableRamdacOutput(deviceInfo.pSTGReg);
- 
--- 
-2.17.6
-
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
+syzbot can test patches for this issue, for details see:
+https://goo.gl/tpsmEJ#testing-patches
