@@ -2,61 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 858753C8384
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Jul 2021 13:15:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0EE83C8397
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Jul 2021 13:17:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0953F6E214;
-	Wed, 14 Jul 2021 11:15:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6178D6E218;
+	Wed, 14 Jul 2021 11:17:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
- [IPv6:2a00:1450:4864:20::432])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C47D26E20C
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jul 2021 11:15:04 +0000 (UTC)
-Received: by mail-wr1-x432.google.com with SMTP id d2so2808455wrn.0
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jul 2021 04:15:04 -0700 (PDT)
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
+ [IPv6:2a00:1450:4864:20::434])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 99F586E218
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Jul 2021 11:17:01 +0000 (UTC)
+Received: by mail-wr1-x434.google.com with SMTP id g16so2745695wrw.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Jul 2021 04:17:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:content-transfer-encoding:in-reply-to;
- bh=i8/A30K8hudwTNghCdg8ZkcE46hRfkXp+xmcc8OkaCs=;
- b=garYAm0nyapXuSIT0H9wMaBmUorVzFAfU/jlf94Y9S/O55Q2w/dd0L+cbKlcKYgn+n
- OlAK6z3zcyfa1wvxMdrgRDKC4A2UghHj9lkS6yFe/wPT2UolaCZIPv+U7v48bl7BMciA
- L3mKXIBuVp+SJS6l0XVyv3P0wtRSZaE9E5k5c=
+ bh=o4jVt0FM0uAOA8tI8bouOUQFzl1zaNiC0NrKdXM6dVw=;
+ b=MDyz5/5F+mKIzn7pjRzpVCsBk/ysg1vO8murrzxivOdY3gat8oShcdeYtgzWd6gZSp
+ 942fNhxcMgyVrlpO5rp2i0yRIYvMmfg6Ffq6Ac1iIelA/u3DpJKPakIihpFTNzx6MGRA
+ i+Py3WPwntttAaD4Kh9kUiglTfCSS+tnbwcvM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=i8/A30K8hudwTNghCdg8ZkcE46hRfkXp+xmcc8OkaCs=;
- b=kbf3gqQPcB8z9xE/Na2v6Su0yuV/lKUX3bSoFMiol9ezyR5usXD7PX4HCcwkSsG/z9
- uHW7DqexUx9PRN+v+6Cdf5v/5g5eftiA2ck5hILXnOZZhDluzXGozhl2N7ae+YCare3d
- f9FsiTljLIz4I5yR+nmJu78P5XgvFHgFBiI7EjFOTtJmvOZtoYaPGRl9w9ednwPXQOOE
- KNo163duUMSCnZIE27mX/NNtZRTzID1jOen05Z4ClAbyB7vTEcFopY0Jq55MdD/j6cXB
- cAD4utwJj61X0I5CsUlfzVUMo15kUWdI4mzsb5UWJY5XaVrsTVgZqhJyQJq15qXFiIu0
- GV7Q==
-X-Gm-Message-State: AOAM532hTWvFI6uCJolx5ePkuJrzG6YuQMGprW4djiXeL8uB9vzTLXl/
- DE5zoaD1PdP1Xt+3pG1I5RW1UQ==
-X-Google-Smtp-Source: ABdhPJyBNry25zXPTDcV0L0tWlzyF8WITqBCoYUMx1j4Uuqkk4hk+w/VhuOnMb5N17J9hKkni/zuAA==
-X-Received: by 2002:a05:6000:551:: with SMTP id
- b17mr12123386wrf.32.1626261303434; 
- Wed, 14 Jul 2021 04:15:03 -0700 (PDT)
+ bh=o4jVt0FM0uAOA8tI8bouOUQFzl1zaNiC0NrKdXM6dVw=;
+ b=bXZ+dOGXwquRS7D+itHWNnNEbDPS0/zyD9YI3xSw/6oSbv+hebYyA9qxWHX0d33Jo9
+ buluh83t9VhRSQM6mN/S39L9Mv4FHoodePut0oTLulisEJJUZTKKIdzSzdw19lTU5yTV
+ 7sbAYqqF0HO6SKxBqc7VDu2+J3vnAs6cdCCHCJ5ewDP4DWVPzbSQ4uZPdFX9Oi0JFGsB
+ jat9Z8JV9exG+Pbj9CrB2VZPao4wtPKMV1ApLFQUN9/3qD3OieCeeH3pjSYLDUhughuE
+ 0EHnRSzyG/o14pBm/4qCTQ6iEA6DFkxuMA6TTeDXtvdYGf/oYv6RkmXd/1hwExXM1Th5
+ iFGA==
+X-Gm-Message-State: AOAM531e/mAJBL64oolg/06pFePW4Peq+OIX2MFNf2AqwgOi76AfWg0t
+ M0BklRHCXCAl+2Xs9MPMN8TpbA==
+X-Google-Smtp-Source: ABdhPJwkf5F4x9FZ486vbcPY4mjJm2lVy4arVYixqB3Jatd0VqiZjlofaKudrfy37tYy9LZ2Q47olA==
+X-Received: by 2002:a5d:68c2:: with SMTP id p2mr11750294wrw.27.1626261420349; 
+ Wed, 14 Jul 2021 04:17:00 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id m6sm2853947wrw.9.2021.07.14.04.15.02
+ by smtp.gmail.com with ESMTPSA id f15sm4728066wmj.15.2021.07.14.04.16.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 14 Jul 2021 04:15:02 -0700 (PDT)
-Date: Wed, 14 Jul 2021 13:15:01 +0200
+ Wed, 14 Jul 2021 04:16:59 -0700 (PDT)
+Date: Wed, 14 Jul 2021 13:16:57 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Subject: Re: [PATCH v3 1/1] drm/ttm: Fix COW check
-Message-ID: <YO7HNStidzhlHYe0@phenom.ffwll.local>
-References: <20210712220636.475675-1-Felix.Kuehling@amd.com>
- <YO6/8DWgD9d6tJcr@phenom.ffwll.local>
- <acc33c53-b56a-0da4-5706-414a444c6459@amd.com>
+To: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+Subject: Re: [Intel-gfx] [PATCH 1/5] drm/i915: document caching related bits
+Message-ID: <YO7HqVPtY2GpbD77@phenom.ffwll.local>
+References: <20210713104554.2381406-1-matthew.auld@intel.com>
+ <YO23Y3PUS22FaXDC@intel.com>
+ <CAM0jSHOx=WVbzfQzn=kL-5qaG4B3dxPLOimkvUdv6HFJymZeZw@mail.gmail.com>
+ <YO3RsxZHUe5imN3q@intel.com>
+ <CAM0jSHOsqPUOWCJu_Ti3gW-fnpWF2CtUoo-qt-aMWExAwDDT5A@mail.gmail.com>
+ <YO3fhvKCo8eXrmst@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <acc33c53-b56a-0da4-5706-414a444c6459@amd.com>
+In-Reply-To: <YO3fhvKCo8eXrmst@intel.com>
 X-Operating-System: Linux phenom 5.10.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,171 +72,133 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- Felix Kuehling <Felix.Kuehling@amd.com>, amd-gfx@lists.freedesktop.org
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Matthew Auld <matthew.william.auld@gmail.com>,
+ Matthew Auld <matthew.auld@intel.com>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 14, 2021 at 12:51:15PM +0200, Christian König wrote:
-> Am 14.07.21 um 12:44 schrieb Daniel Vetter:
-> > On Mon, Jul 12, 2021 at 06:06:36PM -0400, Felix Kuehling wrote:
-> > > KFD Thunk maps invisible VRAM BOs with PROT_NONE, MAP_PRIVATE.
-> > > is_cow_mapping returns true for these mappings. Add a check for
-> > > vm_flags & VM_WRITE to avoid mmap failures on private read-only or
-> > > PROT_NONE mappings.
-> > > 
-> > > v2: protect against mprotect making a mapping writable after the fact
-> > > v3: update driver-specific vm_operations_structs
-> > > 
-> > > Fixes: f91142c62161 ("drm/ttm: nuke VM_MIXEDMAP on BO mappings v3")
-> > > Signed-off-by: Felix Kuehling <Felix.Kuehling@amd.com>
-> > > Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-> > So looking at vmf_insert_pfn_prot() and the comment there we can't have
-> > VM_PFNMAP and is_cow_mapping ever be true, or things break. On platforms
-> > without pte_special at least.
+On Tue, Jul 13, 2021 at 09:46:30PM +0300, Ville Syrjälä wrote:
+> On Tue, Jul 13, 2021 at 07:24:23PM +0100, Matthew Auld wrote:
+> > On Tue, 13 Jul 2021 at 18:47, Ville Syrjälä
+> > <ville.syrjala@linux.intel.com> wrote:
+> > >
+> > > On Tue, Jul 13, 2021 at 05:13:37PM +0100, Matthew Auld wrote:
+> > > > On Tue, 13 Jul 2021 at 16:55, Ville Syrjälä
+> > > > <ville.syrjala@linux.intel.com> wrote:
+> > > > >
+> > > > > On Tue, Jul 13, 2021 at 11:45:50AM +0100, Matthew Auld wrote:
+> > > > > > +     /**
+> > > > > > +      * @cache_coherent:
+> > > > > > +      *
+> > > > > > +      * Track whether the pages are coherent with the GPU if reading or
+> > > > > > +      * writing through the CPU cache.
+> > > > > > +      *
+> > > > > > +      * This largely depends on the @cache_level, for example if the object
+> > > > > > +      * is marked as I915_CACHE_LLC, then GPU access is coherent for both
+> > > > > > +      * reads and writes through the CPU cache.
+> > > > > > +      *
+> > > > > > +      * Note that on platforms with shared-LLC support(HAS_LLC) reads through
+> > > > > > +      * the CPU cache are always coherent, regardless of the @cache_level. On
+> > > > > > +      * snooping based platforms this is not the case, unless the full
+> > > > > > +      * I915_CACHE_LLC or similar setting is used.
+> > > > > > +      *
+> > > > > > +      * As a result of this we need to track coherency separately for reads
+> > > > > > +      * and writes, in order to avoid superfluous flushing on shared-LLC
+> > > > > > +      * platforms, for reads.
+> > > > > > +      *
+> > > > > > +      * I915_BO_CACHE_COHERENT_FOR_READ:
+> > > > > > +      *
+> > > > > > +      * When reading through the CPU cache, the GPU is still coherent. Note
+> > > > > > +      * that no data has actually been modified here, so it might seem
+> > > > > > +      * strange that we care about this.
+> > > > > > +      *
+> > > > > > +      * As an example, if some object is mapped on the CPU with write-back
+> > > > > > +      * caching, and we read some page, then the cache likely now contains
+> > > > > > +      * the data from that read. At this point the cache and main memory
+> > > > > > +      * match up, so all good. But next the GPU needs to write some data to
+> > > > > > +      * that same page. Now if the @cache_level is I915_CACHE_NONE and the
+> > > > > > +      * the platform doesn't have the shared-LLC, then the GPU will
+> > > > > > +      * effectively skip invalidating the cache(or however that works
+> > > > > > +      * internally) when writing the new value.  This is really bad since the
+> > > > > > +      * GPU has just written some new data to main memory, but the CPU cache
+> > > > > > +      * is still valid and now contains stale data. As a result the next time
+> > > > > > +      * we do a cached read with the CPU, we are rewarded with stale data.
+> > > > > > +      * Likewise if the cache is later flushed, we might be rewarded with
+> > > > > > +      * overwriting main memory with stale data.
+> > > > > > +      *
+> > > > > > +      * I915_BO_CACHE_COHERENT_FOR_WRITE:
+> > > > > > +      *
+> > > > > > +      * When writing through the CPU cache, the GPU is still coherent. Note
+> > > > > > +      * that this also implies I915_BO_CACHE_COHERENT_FOR_READ.
+> > > > > > +      *
+> > > > > > +      * This is never set when I915_CACHE_NONE is used for @cache_level,
+> > > > > > +      * where instead we have to manually flush the caches after writing
+> > > > > > +      * through the CPU cache. For other cache levels this should be set and
+> > > > > > +      * the object is therefore considered coherent for both reads and writes
+> > > > > > +      * through the CPU cache.
+> > > > >
+> > > > > I don't remember why we have this read vs. write split and this new
+> > > > > documentation doesn't seem to really explain it either.
+> > > >
+> > > > Hmm, I attempted to explain that earlier:
+> > > >
+> > > > * Note that on platforms with shared-LLC support(HAS_LLC) reads through
+> > > > * the CPU cache are always coherent, regardless of the @cache_level. On
+> > > > * snooping based platforms this is not the case, unless the full
+> > > > * I915_CACHE_LLC or similar setting is used.
+> > > > *
+> > > > * As a result of this we need to track coherency separately for reads
+> > > > * and writes, in order to avoid superfluous flushing on shared-LLC
+> > > > * platforms, for reads.
+> > > >
+> > > > So AFAIK it's just because shared-LLC can be coherent for reads, while
+> > > > also not being coherent for writes(CACHE_NONE),
+> > >
+> > > CPU vs. GPU is fully coherent when it comes to LLC. Or at least I've
+> > > never heard of any mechanism that would make it only partially coherent.
+> > 
+> > What do you mean by "comes to LLC", are you talking about HAS_LLC() or
+> > I915_CACHE_LLC?
 > 
-> Key idea is that we never end up in vmf_insert_pfn_prot() because the vma is
-> mapped with PROT_NONE.
+> I'm talking about the actual cache.
+> 
+> > 
+> > If you set I915_CACHE_LLC, then yes it is fully coherent for both
+> > HAS_LLC() and HAS_SNOOP().
+> > 
+> > If you set I915_CACHE_NONE, then reads are still coherent on
+> > HAS_LLC(),
+> 
+> Reads and writes both. The only thing that's not coherent is the
+> display engine.
 
-Ah right if it's PROT_NONE then it's ok. But the code here only checks for
-VM_WRITE, not VM_READ, so PROT_READ can get through and go boom? Or
-something else I'm missing?
+There's a lot of code which seems to disagree, plus there's now this new
+MOCS thing. I really hope we don't have all those cache coherency bits
+just because the code complexity is entertaining?
 
-Maybe time for a few amdgpu mmap tests that go through the combos and make
-sure it works/fails all correctly.
+Are there some igts to verify this all? Or selftests probably more
+appropriate.
 -Daniel
 
-> > So I'm not sure this is a great idea, and definitely not for all drivers
-> 
-> Yeah, I'm absolutely not happy with this either but it seemed to be the
-> least painful thing to do.
-> 
-> > ...
+
+> > for HAS_SNOOP() they are not. Or at least that is the
+> > existing behaviour in the driver AFAIK.
 > > 
-> > Can we clear VM_MAYWRITE instead to force this to be a non-cow mapping
-> > instead?
+> > >
+> > > --
+> > > Ville Syrjälä
+> > > Intel
 > 
-> Well we have considered forcefully setting VM_SHARED, which won't work
-> easily for a couple of reasons.
-> 
-> But clearing VM_MAYWRITE in amdgpu/amdkfd may actually work as well.
-> 
-> Felix can you test this?
-> 
-> Thanks,
-> Christian.
-> 
-> > -Daniel
-> > 
-> > > ---
-> > >   drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c  |  3 ++-
-> > >   drivers/gpu/drm/nouveau/nouveau_gem.c    |  3 ++-
-> > >   drivers/gpu/drm/radeon/radeon_gem.c      |  3 ++-
-> > >   drivers/gpu/drm/ttm/ttm_bo_vm.c          | 14 +++++++++++++-
-> > >   drivers/gpu/drm/vmwgfx/vmwgfx_ttm_glue.c |  1 +
-> > >   include/drm/ttm/ttm_bo_api.h             |  4 ++++
-> > >   6 files changed, 24 insertions(+), 4 deletions(-)
-> > > 
-> > > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
-> > > index b3404c43a911..1aa750a6a5d2 100644
-> > > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
-> > > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
-> > > @@ -79,7 +79,8 @@ static const struct vm_operations_struct amdgpu_gem_vm_ops = {
-> > >   	.fault = amdgpu_gem_fault,
-> > >   	.open = ttm_bo_vm_open,
-> > >   	.close = ttm_bo_vm_close,
-> > > -	.access = ttm_bo_vm_access
-> > > +	.access = ttm_bo_vm_access,
-> > > +	.mprotect = ttm_bo_vm_mprotect
-> > >   };
-> > >   static void amdgpu_gem_object_free(struct drm_gem_object *gobj)
-> > > diff --git a/drivers/gpu/drm/nouveau/nouveau_gem.c b/drivers/gpu/drm/nouveau/nouveau_gem.c
-> > > index 5b27845075a1..164ea564bb7a 100644
-> > > --- a/drivers/gpu/drm/nouveau/nouveau_gem.c
-> > > +++ b/drivers/gpu/drm/nouveau/nouveau_gem.c
-> > > @@ -70,7 +70,8 @@ static const struct vm_operations_struct nouveau_ttm_vm_ops = {
-> > >   	.fault = nouveau_ttm_fault,
-> > >   	.open = ttm_bo_vm_open,
-> > >   	.close = ttm_bo_vm_close,
-> > > -	.access = ttm_bo_vm_access
-> > > +	.access = ttm_bo_vm_access,
-> > > +	.mprotect = ttm_bo_vm_mprotect
-> > >   };
-> > >   void
-> > > diff --git a/drivers/gpu/drm/radeon/radeon_gem.c b/drivers/gpu/drm/radeon/radeon_gem.c
-> > > index 458f92a70887..c19ad07eb7b5 100644
-> > > --- a/drivers/gpu/drm/radeon/radeon_gem.c
-> > > +++ b/drivers/gpu/drm/radeon/radeon_gem.c
-> > > @@ -77,7 +77,8 @@ static const struct vm_operations_struct radeon_gem_vm_ops = {
-> > >   	.fault = radeon_gem_fault,
-> > >   	.open = ttm_bo_vm_open,
-> > >   	.close = ttm_bo_vm_close,
-> > > -	.access = ttm_bo_vm_access
-> > > +	.access = ttm_bo_vm_access,
-> > > +	.mprotect = ttm_bo_vm_mprotect
-> > >   };
-> > >   static void radeon_gem_object_free(struct drm_gem_object *gobj)
-> > > diff --git a/drivers/gpu/drm/ttm/ttm_bo_vm.c b/drivers/gpu/drm/ttm/ttm_bo_vm.c
-> > > index f56be5bc0861..fb325bad5db6 100644
-> > > --- a/drivers/gpu/drm/ttm/ttm_bo_vm.c
-> > > +++ b/drivers/gpu/drm/ttm/ttm_bo_vm.c
-> > > @@ -542,17 +542,29 @@ int ttm_bo_vm_access(struct vm_area_struct *vma, unsigned long addr,
-> > >   }
-> > >   EXPORT_SYMBOL(ttm_bo_vm_access);
-> > > +int ttm_bo_vm_mprotect(struct vm_area_struct *vma, unsigned long start,
-> > > +		       unsigned long end, unsigned long newflags)
-> > > +{
-> > > +	/* Enforce no COW since would have really strange behavior with it. */
-> > > +	if (is_cow_mapping(newflags) && (newflags & VM_WRITE))
-> > > +		return -EINVAL;
-> > > +
-> > > +	return 0;
-> > > +}
-> > > +EXPORT_SYMBOL(ttm_bo_vm_mprotect);
-> > > +
-> > >   static const struct vm_operations_struct ttm_bo_vm_ops = {
-> > >   	.fault = ttm_bo_vm_fault,
-> > >   	.open = ttm_bo_vm_open,
-> > >   	.close = ttm_bo_vm_close,
-> > >   	.access = ttm_bo_vm_access,
-> > > +	.mprotect = ttm_bo_vm_mprotect,
-> > >   };
-> > >   int ttm_bo_mmap_obj(struct vm_area_struct *vma, struct ttm_buffer_object *bo)
-> > >   {
-> > >   	/* Enforce no COW since would have really strange behavior with it. */
-> > > -	if (is_cow_mapping(vma->vm_flags))
-> > > +	if (is_cow_mapping(vma->vm_flags) && (vma->vm_flags & VM_WRITE))
-> > >   		return -EINVAL;
-> > >   	ttm_bo_get(bo);
-> > > diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_glue.c b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_glue.c
-> > > index e6b1f98ec99f..e4bf7dc99320 100644
-> > > --- a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_glue.c
-> > > +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_glue.c
-> > > @@ -61,6 +61,7 @@ int vmw_mmap(struct file *filp, struct vm_area_struct *vma)
-> > >   		.fault = vmw_bo_vm_fault,
-> > >   		.open = ttm_bo_vm_open,
-> > >   		.close = ttm_bo_vm_close,
-> > > +		.mprotect = ttm_bo_vm_mprotect,
-> > >   #ifdef CONFIG_TRANSPARENT_HUGEPAGE
-> > >   		.huge_fault = vmw_bo_vm_huge_fault,
-> > >   #endif
-> > > diff --git a/include/drm/ttm/ttm_bo_api.h b/include/drm/ttm/ttm_bo_api.h
-> > > index f681bbdbc698..40eb95875355 100644
-> > > --- a/include/drm/ttm/ttm_bo_api.h
-> > > +++ b/include/drm/ttm/ttm_bo_api.h
-> > > @@ -605,6 +605,10 @@ void ttm_bo_vm_close(struct vm_area_struct *vma);
-> > >   int ttm_bo_vm_access(struct vm_area_struct *vma, unsigned long addr,
-> > >   		     void *buf, int len, int write);
-> > > +
-> > > +int ttm_bo_vm_mprotect(struct vm_area_struct *vma, unsigned long start,
-> > > +		       unsigned long end, unsigned long newflags);
-> > > +
-> > >   bool ttm_bo_delayed_delete(struct ttm_device *bdev, bool remove_all);
-> > >   vm_fault_t ttm_bo_vm_dummy_page(struct vm_fault *vmf, pgprot_t prot);
-> > > -- 
-> > > 2.32.0
-> > > 
-> 
+> -- 
+> Ville Syrjälä
+> Intel
+> _______________________________________________
+> Intel-gfx mailing list
+> Intel-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
 
 -- 
 Daniel Vetter
