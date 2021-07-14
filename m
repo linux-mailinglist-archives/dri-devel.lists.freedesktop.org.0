@@ -2,63 +2,143 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B9033C7B0D
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Jul 2021 03:26:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E9D73C7B21
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Jul 2021 03:40:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 043CC6E152;
-	Wed, 14 Jul 2021 01:26:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 06DC46E154;
+	Wed, 14 Jul 2021 01:40:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtphy.263.net (sg-smtp01.263.net [54.255.195.220])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A9866E152
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jul 2021 01:26:41 +0000 (UTC)
-Received: from smtp.263.net (unknown [211.157.147.163])
- by smtphy.263.net (Postfix) with ESMTPS id F21DA17
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jul 2021 09:26:37 +0800 (CST)
-Received: from regular1.263xmail.com (unknown [192.168.165.114])
- by smtp.263.net (Postfix) with ESMTP id 43BFB369
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jul 2021 09:26:35 +0800 (CST)
-Received: from localhost (unknown [192.168.167.235])
- by regular1.263xmail.com (Postfix) with ESMTP id 6950A1B10;
- Wed, 14 Jul 2021 09:26:31 +0800 (CST)
-X-MAIL-GRAY: 0
-X-MAIL-DELIVERY: 1
-X-ADDR-CHECKED4: 1
-X-SKE-CHECKED: 1
-X-ABS-CHECKED: 1
-X-ANTISPAM-LEVEL: 2
-Received: from [172.16.12.10] (unknown [58.22.7.114])
- by smtp.263.net (postfix) whith ESMTP id
- P4316T140318764680960S1626225989068992_; 
- Wed, 14 Jul 2021 09:26:30 +0800 (CST)
-X-IP-DOMAINF: 1
-X-UNIQUE-TAG: <140d6f33f97e293553170d6170374a1a>
-X-RL-SENDER: andy.yan@rock-chips.com
-X-SENDER: yxj@rock-chips.com
-X-LOGIN-NAME: andy.yan@rock-chips.com
-X-FST-TO: kernel@collabora.com
-X-RCPT-COUNT: 14
-X-SENDER-IP: 58.22.7.114
-X-ATTACHMENT-NUM: 0
-X-System-Flag: 0
-Subject: Re: [PATCH v2 2/2] drm/rockchip: dw_hdmi: add rk3568 support
-To: Alex Bee <knaerzche@gmail.com>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>, hjc@rock-chips.com,
- heiko@sntech.de, airlied@linux.ie, daniel@ffwll.ch, robh+dt@kernel.org,
- algea.cao@rock-chips.com
-References: <20210707120323.401785-1-benjamin.gaignard@collabora.com>
- <20210707120323.401785-3-benjamin.gaignard@collabora.com>
- <a8c5a263-26a6-d4bf-47e7-9266ca1ae5a8@gmail.com>
-From: Andy Yan <andy.yan@rock-chips.com>
-Message-ID: <ff1c398c-5140-2cf0-a4aa-b9cf7e0a68d3@rock-chips.com>
-Date: Wed, 14 Jul 2021 09:26:28 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-MIME-Version: 1.0
-In-Reply-To: <a8c5a263-26a6-d4bf-47e7-9266ca1ae5a8@gmail.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A0A46E153;
+ Wed, 14 Jul 2021 01:40:52 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10044"; a="197454962"
+X-IronPort-AV: E=Sophos;i="5.84,237,1620716400"; d="scan'208";a="197454962"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Jul 2021 18:40:51 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.84,237,1620716400"; d="scan'208";a="494004087"
+Received: from orsmsx605.amr.corp.intel.com ([10.22.229.18])
+ by orsmga001.jf.intel.com with ESMTP; 13 Jul 2021 18:40:51 -0700
+Received: from orsmsx605.amr.corp.intel.com (10.22.229.18) by
+ ORSMSX605.amr.corp.intel.com (10.22.229.18) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.4; Tue, 13 Jul 2021 18:40:51 -0700
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx605.amr.corp.intel.com (10.22.229.18) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4
+ via Frontend Transport; Tue, 13 Jul 2021 18:40:51 -0700
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com (104.47.56.46) by
+ edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2242.10; Tue, 13 Jul 2021 18:40:50 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=dDRmyuXgDTUBl8THix8k55f0WmJp5VvzV7fdrBDvrYJt+WzQCL+Ttp71SwvIzvL6Y+wAApxo3A4QoCDkJl48nrxOmFC3YLXKrRgH+Y4dU0QBONvY7R89IFevNXC7SpbqEeDf38KugMLHZe736ISlZoYPlOpYa+zk7L8NGObK7Uc9ZXahvJZ6hYKY1473a4pPqB0Yl5Ep0FvmIVgHsOnfR84oe2zaR3eBM/Xh+fEWM3X9pRPDDU0RtR44byFZxlCLPSiELZJNqtDgO5HSW5RSFGjbG2rLmr/OKBY97bQagvrpTzg6/CMWskvZmU+JSD33PQiQTTPwdPMxuhpevc68pw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ei/mD/OZt2xniMaDrnBJvC4chNM6m2/4NIyE9+hnh+M=;
+ b=FmzT3kU0ws1vl/siRASt+pgYFURz6z8KtSWLyPkxy6N48ZkeYMt0ty8x9lzNz9ezaohhIS5dsJCs9IanBHFUoQU3Nx/d8ugQEW+MJdZaghhTWAkwFfDUO+sy0d3nsYcQgWZyNCbtb0MpJal0kSujGuRqi5d0nbDGdsqrOugFWFyh7IBR0BfQHykZHaUkGT0oWIX/LegChdkaBLSID1RCkIj1re4GDI+CptcOjYbBnPIsONhDdDHSCYx4k/UiTnVNlfyu52qqfudgJKYQ81MeZNhMfJNwgUILm08qjvyIl5bqKXpZDdbYI8L7r83xmkRg5LfHzc8ZPLpV4gxose7UfQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
+ s=selector2-intel-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ei/mD/OZt2xniMaDrnBJvC4chNM6m2/4NIyE9+hnh+M=;
+ b=TeCPsJQyIYrJ+5NbPonq3tCB80QeEU6fI2AqLpHjFGekJphiyOouEs9KZABNmko2iEzlNfXH+kKzO/oe2f/RtmMawTb1eOBGH8goXhMW1uQLSUY6NafxSAW2JTSOuSxjSQ9J0pT5p4O/10uCQa/JuWhIdWuxDwfD47hoT5UTh+Q=
+Authentication-Results: intel.com; dkim=none (message not signed)
+ header.d=none;intel.com; dmarc=none action=none header.from=intel.com;
+Received: from CO6PR11MB5634.namprd11.prod.outlook.com (2603:10b6:5:35d::20)
+ by CO6PR11MB5585.namprd11.prod.outlook.com (2603:10b6:5:356::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4308.20; Wed, 14 Jul
+ 2021 01:40:50 +0000
+Received: from CO6PR11MB5634.namprd11.prod.outlook.com
+ ([fe80::5d5e:b6bf:aafa:ecd4]) by CO6PR11MB5634.namprd11.prod.outlook.com
+ ([fe80::5d5e:b6bf:aafa:ecd4%9]) with mapi id 15.20.4308.027; Wed, 14 Jul 2021
+ 01:40:50 +0000
+Subject: Re: [PATCH 06/16] drm/i915/guc/slpc: Allocate, initialize and release
+ slpc
+To: Michal Wajdeczko <michal.wajdeczko@intel.com>,
+ <intel-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
+References: <20210710012026.19705-1-vinay.belgaumkar@intel.com>
+ <20210710012026.19705-7-vinay.belgaumkar@intel.com>
+ <d561e568-5e4e-f038-9d99-75d75a43951a@intel.com>
+From: "Belgaumkar, Vinay" <vinay.belgaumkar@intel.com>
+Message-ID: <e486e152-1327-37a9-3653-d0909044ba21@intel.com>
+Date: Tue, 13 Jul 2021 18:40:47 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.11.0
+In-Reply-To: <d561e568-5e4e-f038-9d99-75d75a43951a@intel.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
 Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: MWHPR1601CA0015.namprd16.prod.outlook.com
+ (2603:10b6:300:da::25) To CO6PR11MB5634.namprd11.prod.outlook.com
+ (2603:10b6:5:35d::20)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.1.71] (99.88.121.38) by
+ MWHPR1601CA0015.namprd16.prod.outlook.com (2603:10b6:300:da::25) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4308.20 via Frontend
+ Transport; Wed, 14 Jul 2021 01:40:49 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 80eb5255-8348-4e5d-328c-08d9466868d9
+X-MS-TrafficTypeDiagnostic: CO6PR11MB5585:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <CO6PR11MB55851E365CD6B142F071290785139@CO6PR11MB5585.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: V+CihIy2C28F/MFos4y6RiCAJow8gvYjABc0+lgSnqNWArMlqcqXATQgMOXGLDAI1lJuZ17rlKoPrIp3t0K3lGnxPyi+ER93FSYbDUQC/uU37eXLrmwqcjIvsygj5QS8myIZpRDH5bE8wBOCiihNcMe8mvX12iuzz7W9sOKknt865buD/3DndjWFZMiVspLzNLFXAzUMzoYxQOhUd0BNxO49vDptwkpOYi39OJN+KBXZ+oXOaiTuxEdPy2Npy/i+tsbjNxQZZMvgQzGdbqHptJ3Q9xKbkb1peeDyo6rW+DOdvGy8C4Hy2U2sFFe7UunM0XMyT9x56ScUIp8ii9CMycQZpDlNH+CQUyYl6eDQ4xIol6XIJMzBEY++z1Y5euGc4inayPcQhaOh3MD6kJN10iLGJP8q7imc+0sx/yQ/jXI0DYN3lCusAWGW6sR1YV51UEwwEeUDD/iwQnhbGovLXvhpvC9CrxEctlaLmnKdnWdXX/9iAzBTqLyLt1eijFNLkd3EprFnYp6/rhnDM3Ebi6qejycXUos/hO3e0SH3KyjE3Mhb08p7OqGTkpFLpEKHCz8xsTRW3tsP2P0pPicDcFL66+Ns06kd015EoP3dQdq8lzZAzjw2gkp/BdwCDf8pzULfK3Q1u5hsA+Gdae1zdrPw2U21h6IWkJ8hjW6ikIROMgeZO0lTeFz+hhOiahBg/oCsFYcW0XKCR6tniylWEgs4xFAnnUqKpq1F0vZ0ZJNBrVZPzKOeHV7BYGEOEc87
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CO6PR11MB5634.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(346002)(396003)(136003)(366004)(376002)(39860400002)(186003)(6486002)(86362001)(316002)(16576012)(83380400001)(450100002)(8936002)(5660300002)(26005)(4326008)(107886003)(53546011)(31696002)(8676002)(66556008)(2616005)(38100700002)(956004)(36756003)(478600001)(2906002)(31686004)(66946007)(66476007)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QmJlUG5tcnluRSs3THFBUmZ6YTUrTDVMdyt4K2I0Vis4c3RSR1lXZjBVQTZT?=
+ =?utf-8?B?ZGhET1lYY3ZmTkR1RHVxMis3RGRIL0N1Q3hibzZ5ZHVvVk4xbVZOaisrKzVo?=
+ =?utf-8?B?Y1Nid3FZajBDUG5iZmZ2SGZzRUo2Mkl0ZVg0Z25zMUowUHhvLzNRUWJmSTND?=
+ =?utf-8?B?amZjRjZWYlp4UTBDM0VQaXR3VExVazE4dnpML1IvbGZXMnJneTdpV2grRXpY?=
+ =?utf-8?B?ZzdSMDFHSkpvUnZ6NXZEczg4YStiejEvTGtVMHdlRGpyT0tHK1ZMbThwZnJT?=
+ =?utf-8?B?dFQwdVVveTdiNzVta0lXd09nK3hYanNrd3NWZkpQQURmdVNya1p4cG1WTXlG?=
+ =?utf-8?B?dWZ2QlBEOGhod1Jna2dPTldGOGxoOGE0WERpeDE4aWV2ZlBvdWhMS1ZGcGNs?=
+ =?utf-8?B?L0VRUXJUeG0rQU5SdE51OFFnQkZCMEQ3TEQrVXlTRk1FLzdTSnExbERFOTNS?=
+ =?utf-8?B?SHd1OEM2SXZWL0NjdlF1ZnAwZEU3QmpOazh3VURJWTAvYzYwS3kzaWMwbU9x?=
+ =?utf-8?B?ZmdPcms0Y1gxMW05NUdHY1RKSkE4ZjhRVUxaZzM3QnZaaytJVmgxdE9MQ3Bn?=
+ =?utf-8?B?SUNsZ3pPbVJVUmZoSFNYZ0dLNVhuN2UwaGYyMWE0MlhRYnRiSFlLM1lXREJy?=
+ =?utf-8?B?dlE3dEFGWXNiQ3I2QWtOLytPak4rT28zeDV0Unc0ZnhMSmRUUkZZTmRkVmRk?=
+ =?utf-8?B?MTlHRXRsSCtxWTlYc1NTbVhEZEFjRWl5WVdIckxBbURwTXE5TFR5a2VIMU42?=
+ =?utf-8?B?Q05VdjROUURaTm5OVTFzNXdrUkFUZy8xS0lzWDBnOTdaS0tYVmxRc0lJM0Mr?=
+ =?utf-8?B?UW56QmVWT1QvZE9YRjlCakZOWlFkUDJ6VzVnRGVPR3EybHRRVnRTemhyTGYw?=
+ =?utf-8?B?VHBiOEx3OFNHZEVJNEtwK21OcmtRbitBWlkwemxlRDdKMTNucDZTWlFlMWdl?=
+ =?utf-8?B?L0hBZnNxblZJUkJ3SlI4MHBZVDhZSm1JTlkrTkFVbFdoUk1vUU1IVnRVSVow?=
+ =?utf-8?B?S2syeWEydGRKRTlON0ZmVXZVQUh2VEFWcnNvRnd4Z2FkU2N6VFI2bFlsM3M3?=
+ =?utf-8?B?TklLQzR6b2FmSmtnSXU1QWV1U3F3eG82bXRjNjNnWWhYUlVvZGx0dmx1RGI5?=
+ =?utf-8?B?bXVPWmlCWnN4OFNaOUR5My8xdmM5dFQ4dUxTUGJQbGFKTk9rSmRoek5yTWRl?=
+ =?utf-8?B?OGltTTlBdGw5RVdCcjUxWVkySUc1a3lSZUhNSmx4anJpS3k3Z0VPUnlod1A5?=
+ =?utf-8?B?aDU4c3lESmhZQU5aMXIxQ1RaVHRrMW1reUV2QVdkekZwbWR1UTVuTDl5dzFH?=
+ =?utf-8?B?Y2FsTXF4Uk15U0tHMG9yaWczUm43Q0ZaUlJwbnFuZkZWeVRlbWg3MVlCNFBZ?=
+ =?utf-8?B?Qk04NzJvNUMvWlZlMkRWU2k3MERwaUJhZXl4eTUzU3h5NWNpeHVzTkp0dTNC?=
+ =?utf-8?B?bU1GZVIvZWpxM1ZWam5FdmQzYmQ0aEVVWWdDTmwvb3lBU1l5dklRRkpmRjVB?=
+ =?utf-8?B?S0NsUHFad254SjBsRmJiOEtUeWVKVldFMGdQUlowVzFxSDRCaWNIM3JRRmFM?=
+ =?utf-8?B?VGJ1clRlSEpuRmhtTDlVd0Q0WTVBNjhkaSt3YVJUcVhxV1NRTk9xZHlwdW15?=
+ =?utf-8?B?czN6ajJCb0YxbEVyeFlJekVXMFA2OURmTlZtWTA0dWJ5aXY3dCtybHRJUUV0?=
+ =?utf-8?B?REFYMGsvZDl3WHY2ZmY4S1h6eFFkb0ZwN1FCWVpqYi9YRUd2bXNtSjFYaCsy?=
+ =?utf-8?Q?kGxWClx9KJji3UkXWccBlf1DD77wmtSUKYC11qt?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 80eb5255-8348-4e5d-328c-08d9466868d9
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5634.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jul 2021 01:40:50.0030 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 9VlnTPUe+4ikWMqnvm072aMVHLO+4BiYSksF9J2rdKv8XV1iACFMuQKZy23wcy3v4+/jC+AAFHB8RnT+KHblFr9/M+sI5RNIXbNFxKPeSbw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR11MB5585
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,197 +151,201 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
- kernel@collabora.com, linux-arm-kernel@lists.infradead.org
+Cc: Sundaresan Sujaritha <sujaritha.sundaresan@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Alex:
 
-On 7/13/21 7:40 PM, Alex Bee wrote:
-> Hi Benjamin,
->
-> Am 07.07.21 um 14:03 schrieb Benjamin Gaignard:
->> Add a new dw_hdmi_plat_data struct and new compatible for rk3568.
->> This version of the HDMI hardware block need two clocks to provide
->> phy reference clock: hclk_vio and hclk.
+
+On 7/10/2021 9:05 AM, Michal Wajdeczko wrote:
+> 
+> 
+> On 10.07.2021 03:20, Vinay Belgaumkar wrote:
+>> Allocate data structures for SLPC and functions for
+>> initializing on host side.
 >>
->> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+>> Signed-off-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+>> Signed-off-by: Sundaresan Sujaritha <sujaritha.sundaresan@intel.com>
 >> ---
->> version 2:
->> - Add the clocks needed for the phy.
->
-> If got Alega's comment correct, it wasn't about the hclks.
-> It looks like for this variant, there is another reference clock 
-> required (for the phy) like vpll is already (looks like downstream 
-> uses HPLL ( = "HDMI-PLL" ?) for that - which also has to switch the 
-> frequency according the the drm mode rate - the two clocks you added 
-> here are get just enabled (and disabled) here.
-
-
-Yes, it's HPLL, and the frequency of HPLL and drm mode rate(vop dclk) 
-should keep 1:1.
-
->
-> Alega, Andy: Is it really required to enable hclk_vio and hclk(_vop) 
-> in the hdmi driver? Are they required to be enabled for the other 
-> output variants (i.e. mipi, dsi, rgb ....) as well and shouldn't 
-> better be enabled in the (not-yet existing) vop2 driver?
-
-
-hclk_vop should be enabled, other wise you can't access hdmi registers. 
-This is only required for HDMI(mipi dis, edp, rgb don't need it)
-
->
-> Overall: I'm not sure of the benefit of adding this hdmi variant for a 
-> SoC where the display driver isn't implemented upstream yet. The 
-> "VOP2" IP seems widely new and should probably be ported first. (even 
-> if the HDMI part seems a low hanging fruit according to the vendor 
-> sources)
-
-
-Yes, VOP2 IP is widely totaly new and complicated, I have a plan to do 
-the upstream. But I am in a rush now, so please give me a lite time😁.
-
->
-> Best,
-> Alex
->
+>>   drivers/gpu/drm/i915/gt/uc/intel_guc.c      | 11 +++++++
+>>   drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c | 36 ++++++++++++++++++++-
+>>   drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h | 20 ++++++++++++
+>>   3 files changed, 66 insertions(+), 1 deletion(-)
 >>
->>   drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c | 68 +++++++++++++++++++++
->>   1 file changed, 68 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c 
->> b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
->> index 830bdd5e9b7ce..dc0e255e45745 100644
->> --- a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
->> +++ b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
->> @@ -50,6 +50,10 @@
->>   #define RK3399_GRF_SOC_CON20        0x6250
->>   #define RK3399_HDMI_LCDC_SEL        BIT(6)
->>   +#define RK3568_GRF_VO_CON1        0x0364
->> +#define RK3568_HDMI_SDAIN_MSK        BIT(15)
->> +#define RK3568_HDMI_SCLIN_MSK        BIT(14)
+>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
+>> index 9d61b2d54de4..82863a9bc8e8 100644
+>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc.c
+>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
+>> @@ -336,6 +336,12 @@ int intel_guc_init(struct intel_guc *guc)
+>>   			goto err_ct;
+>>   	}
+>>   
+>> +	if (intel_guc_slpc_is_used(guc)) {
+>> +		ret = intel_guc_slpc_init(&guc->slpc);
+>> +		if (ret)
+>> +			goto err_submission;
+>> +	}
 >> +
->>   #define HIWORD_UPDATE(val, mask)    (val | (mask) << 16)
->>     /**
->> @@ -71,6 +75,8 @@ struct rockchip_hdmi {
->>       const struct rockchip_hdmi_chip_data *chip_data;
->>       struct clk *vpll_clk;
->>       struct clk *grf_clk;
->> +    struct clk *hclk_vio;
->> +    struct clk *hclk_vop;
->>       struct dw_hdmi *hdmi;
->>       struct phy *phy;
->>   };
->> @@ -216,6 +222,26 @@ static int rockchip_hdmi_parse_dt(struct 
->> rockchip_hdmi *hdmi)
->>           return PTR_ERR(hdmi->grf_clk);
->>       }
->>   +    hdmi->hclk_vio = devm_clk_get(hdmi->dev, "hclk_vio");
->> +    if (PTR_ERR(hdmi->hclk_vio) == -ENOENT) {
->> +        hdmi->hclk_vio = NULL;
->> +    } else if (PTR_ERR(hdmi->hclk_vio) == -EPROBE_DEFER) {
->> +        return -EPROBE_DEFER;
->> +    } else if (IS_ERR(hdmi->hclk_vio)) {
->> +        dev_err(hdmi->dev, "failed to get hclk_vio clock\n");
->> +        return PTR_ERR(hdmi->hclk_vio);
->> +    }
+>>   	/* now that everything is perma-pinned, initialize the parameters */
+>>   	guc_init_params(guc);
+>>   
+>> @@ -346,6 +352,8 @@ int intel_guc_init(struct intel_guc *guc)
+>>   
+>>   	return 0;
+>>   
+>> +err_submission:
+>> +	intel_guc_submission_fini(guc);
+>>   err_ct:
+>>   	intel_guc_ct_fini(&guc->ct);
+>>   err_ads:
+>> @@ -368,6 +376,9 @@ void intel_guc_fini(struct intel_guc *guc)
+>>   
+>>   	i915_ggtt_disable_guc(gt->ggtt);
+>>   
+>> +	if (intel_guc_slpc_is_used(guc))
+>> +		intel_guc_slpc_fini(&guc->slpc);
 >> +
->> +    hdmi->hclk_vop = devm_clk_get(hdmi->dev, "hclk");
->> +    if (PTR_ERR(hdmi->hclk_vop) == -ENOENT) {
->> +        hdmi->hclk_vop = NULL;
->> +    } else if (PTR_ERR(hdmi->hclk_vop) == -EPROBE_DEFER) {
->> +        return -EPROBE_DEFER;
->> +    } else if (IS_ERR(hdmi->hclk_vop)) {
->> +        dev_err(hdmi->dev, "failed to get hclk_vop clock\n");
->> +        return PTR_ERR(hdmi->hclk_vop);
->> +    }
->> +
->>       return 0;
->>   }
->>   @@ -467,6 +493,19 @@ static const struct dw_hdmi_plat_data 
->> rk3399_hdmi_drv_data = {
->>       .use_drm_infoframe = true,
->>   };
->>   +static struct rockchip_hdmi_chip_data rk3568_chip_data = {
->> +    .lcdsel_grf_reg = -1,
->> +};
->> +
->> +static const struct dw_hdmi_plat_data rk3568_hdmi_drv_data = {
->> +    .mode_valid = dw_hdmi_rockchip_mode_valid,
->> +    .mpll_cfg   = rockchip_mpll_cfg,
->> +    .cur_ctr    = rockchip_cur_ctr,
->> +    .phy_config = rockchip_phy_config,
->> +    .phy_data = &rk3568_chip_data,
->> +    .use_drm_infoframe = true,
->> +};
->> +
->>   static const struct of_device_id dw_hdmi_rockchip_dt_ids[] = {
->>       { .compatible = "rockchip,rk3228-dw-hdmi",
->>         .data = &rk3228_hdmi_drv_data
->> @@ -480,6 +519,9 @@ static const struct of_device_id 
->> dw_hdmi_rockchip_dt_ids[] = {
->>       { .compatible = "rockchip,rk3399-dw-hdmi",
->>         .data = &rk3399_hdmi_drv_data
->>       },
->> +    { .compatible = "rockchip,rk3568-dw-hdmi",
->> +      .data = &rk3568_hdmi_drv_data
->> +    },
->>       {},
->>   };
->>   MODULE_DEVICE_TABLE(of, dw_hdmi_rockchip_dt_ids);
->> @@ -536,6 +578,28 @@ static int dw_hdmi_rockchip_bind(struct device 
->> *dev, struct device *master,
->>           return ret;
->>       }
->>   +    ret = clk_prepare_enable(hdmi->hclk_vio);
->> +    if (ret) {
->> +        dev_err(hdmi->dev, "Failed to enable HDMI hclk_vio: %d\n",
->> +            ret);
->> +        return ret;
->> +    }
->> +
->> +    ret = clk_prepare_enable(hdmi->hclk_vop);
->> +    if (ret) {
->> +        dev_err(hdmi->dev, "Failed to enable HDMI hclk_vop: %d\n",
->> +            ret);
->> +        return ret;
->> +    }
->> +
->> +    if (hdmi->chip_data == &rk3568_chip_data) {
->> +        regmap_write(hdmi->regmap, RK3568_GRF_VO_CON1,
->> +                 HIWORD_UPDATE(RK3568_HDMI_SDAIN_MSK |
->> +                       RK3568_HDMI_SCLIN_MSK,
->> +                       RK3568_HDMI_SDAIN_MSK |
->> +                       RK3568_HDMI_SCLIN_MSK));
->> +    }
->> +
->>       hdmi->phy = devm_phy_optional_get(dev, "hdmi");
->>       if (IS_ERR(hdmi->phy)) {
->>           ret = PTR_ERR(hdmi->phy);
->> @@ -559,6 +623,8 @@ static int dw_hdmi_rockchip_bind(struct device 
->> *dev, struct device *master,
->>           ret = PTR_ERR(hdmi->hdmi);
->>           drm_encoder_cleanup(encoder);
->>           clk_disable_unprepare(hdmi->vpll_clk);
->> +        clk_disable_unprepare(hdmi->hclk_vio);
->> +        clk_disable_unprepare(hdmi->hclk_vop);
->>       }
->>         return ret;
->> @@ -571,6 +637,8 @@ static void dw_hdmi_rockchip_unbind(struct device 
->> *dev, struct device *master,
->>         dw_hdmi_unbind(hdmi->hdmi);
->>       clk_disable_unprepare(hdmi->vpll_clk);
->> +    clk_disable_unprepare(hdmi->hclk_vio);
->> +    clk_disable_unprepare(hdmi->hclk_vop);
->>   }
->>     static const struct component_ops dw_hdmi_rockchip_ops = {
->>
->
->
->
->
+>>   	if (intel_guc_submission_is_used(guc))
+>>   		intel_guc_submission_fini(guc);
+>>   
+>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
+>> index c1f569d2300d..94e2f19951aa 100644
+>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
+>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
+>> @@ -4,11 +4,41 @@
+>>    * Copyright © 2020 Intel Corporation
+>>    */
+>>   
+>> +#include <asm/msr-index.h>
+> 
+> hmm, what exactly is needed from this header ?
 
+Was being used in a previous version for MSR reads, removed.
 
+> 
+>> +
+>> +#include "gt/intel_gt.h"
+>> +#include "gt/intel_rps.h"
+>> +
+>> +#include "i915_drv.h"
+>>   #include "intel_guc_slpc.h"
+>> +#include "intel_pm.h"
+>> +
+>> +static inline struct intel_guc *slpc_to_guc(struct intel_guc_slpc *slpc)
+>> +{
+>> +	return container_of(slpc, struct intel_guc, slpc);
+>> +}
+>> +
+>> +static int slpc_shared_data_init(struct intel_guc_slpc *slpc)
+>> +{
+>> +	struct intel_guc *guc = slpc_to_guc(slpc);
+>> +	int err;
+>> +	u32 size = PAGE_ALIGN(sizeof(struct slpc_shared_data));
+> 
+> move err decl here
+> 
+>> +
+>> +	err = intel_guc_allocate_and_map_vma(guc, size, &slpc->vma, &slpc->vaddr);
+>> +	if (unlikely(err)) {
+>> +		DRM_ERROR("Failed to allocate slpc struct (err=%d)\n", err);
+> 
+> s/slpc/SLPC
+> 
+> and use drm_err instead
+> and you may also want to print error as %pe
+
+added.
+
+> 
+>> +		i915_vma_unpin_and_release(&slpc->vma, I915_VMA_RELEASE_MAP);
+> 
+> do you really need this ?
+
+removed.
+> 
+>> +		return err;
+>> +	}
+>> +
+>> +	return err;
+>> +}
+>>   
+>>   int intel_guc_slpc_init(struct intel_guc_slpc *slpc)
+>>   {
+>> -	return 0;
+>> +	GEM_BUG_ON(slpc->vma);
+>> +
+>> +	return slpc_shared_data_init(slpc);
+>>   }
+>>   
+>>   /*
+>> @@ -31,4 +61,8 @@ int intel_guc_slpc_enable(struct intel_guc_slpc *slpc)
+>>   
+>>   void intel_guc_slpc_fini(struct intel_guc_slpc *slpc)
+>>   {
+>> +	if (!slpc->vma)
+>> +		return;
+>> +
+>> +	i915_vma_unpin_and_release(&slpc->vma, I915_VMA_RELEASE_MAP);
+>>   }
+>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h
+>> index 98036459a1a3..a2643b904165 100644
+>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h
+>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h
+>> @@ -3,12 +3,32 @@
+>>    *
+>>    * Copyright © 2020 Intel Corporation
+>>    */
+>> +
+> 
+> should be fixed in earlier patch
+> 
+>>   #ifndef _INTEL_GUC_SLPC_H_
+>>   #define _INTEL_GUC_SLPC_H_
+>>   
+>> +#include <linux/mutex.h>
+>>   #include "intel_guc_slpc_fwif.h"
+>>   
+>>   struct intel_guc_slpc {
+>> +	/*Protects access to vma and SLPC actions */
+> 
+> hmm, missing mutex ;)
+
+Removed.
+
+> 
+>> +	struct i915_vma *vma;
+>> +	void *vaddr;
+> 
+> no need to be void, define it as ptr to slpc_shared_data
+> 
+>> +
+>> +	/* platform frequency limits */
+>> +	u32 min_freq;
+>> +	u32 rp0_freq;
+>> +	u32 rp1_freq;
+>> +
+>> +	/* frequency softlimits */
+>> +	u32 min_freq_softlimit;
+>> +	u32 max_freq_softlimit;
+>> +
+>> +	struct {
+>> +		u32 param_id;
+>> +		u32 param_value;
+>> +		u32 param_override;
+>> +	} debug;
+> 
+> can you add all these extra fields in patches which will need them?
+> 
+> Michal
+
+Done.
+
+Thanks,
+Vinay.
+
+> 
+>>   };
+>>   
+>>   int intel_guc_slpc_init(struct intel_guc_slpc *slpc);
+>>
+> 
