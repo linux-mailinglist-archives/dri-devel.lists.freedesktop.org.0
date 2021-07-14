@@ -2,45 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75EF73C7DAA
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Jul 2021 06:54:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 214063C7E57
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Jul 2021 08:05:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B1166E159;
-	Wed, 14 Jul 2021 04:54:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 366E56E167;
+	Wed, 14 Jul 2021 06:05:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 992736E15C
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jul 2021 04:54:06 +0000 (UTC)
-Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <ore@pengutronix.de>)
- id 1m3Wu8-0001DV-Lb; Wed, 14 Jul 2021 06:53:52 +0200
-Received: from ore by dude.hi.pengutronix.de with local (Exim 4.92)
- (envelope-from <ore@pengutronix.de>)
- id 1m3Wu6-0002sN-Ln; Wed, 14 Jul 2021 06:53:50 +0200
-From: Oleksij Rempel <o.rempel@pengutronix.de>
-To: Arnd Bergmann <arnd@arndb.de>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@linux.ie>, Olof Johansson <olof@lixom.net>,
- Rob Herring <robh+dt@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Shawn Guo <shawnguo@kernel.org>, soc@kernel.org,
- Thierry Reding <thierry.reding@gmail.com>
-Subject: [PATCH v2 4/4] ARM: dts: add SKOV imx6q and imx6dl based boards
-Date: Wed, 14 Jul 2021 06:53:49 +0200
-Message-Id: <20210714045349.10963-5-o.rempel@pengutronix.de>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210714045349.10963-1-o.rempel@pengutronix.de>
-References: <20210714045349.10963-1-o.rempel@pengutronix.de>
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com
+ [IPv6:2607:f8b0:4864:20::1035])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2CB3D6E167
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Jul 2021 06:05:18 +0000 (UTC)
+Received: by mail-pj1-x1035.google.com with SMTP id
+ g4-20020a17090ace84b029017554809f35so3071171pju.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jul 2021 23:05:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=n3xrLCowHoV9+qyE8ZVGJpCIjAP5+VxK4UkQj5GcY2w=;
+ b=kLFkLuzZN/EMGHwlQGVS/UYmwM1Jor+xNSxXNx0vwbUEejkcyGW3ZmWZwpiB1TMCi/
+ X2cTIJGs3M4vgTulRuQtElHfqpwfIWordoE8h7elKxyTNW4Vj/KhFEuk/g+f8IzSVtWR
+ 1IkdCBY3OhNxNLCR8lAti4i9lqmVQ4fX4VV78=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=n3xrLCowHoV9+qyE8ZVGJpCIjAP5+VxK4UkQj5GcY2w=;
+ b=LZg9e7MCf8taGhyj5EPNDV1vvwJtIO5Y+SmOsWKAINXTYr+u08dmmJCsrtqfiNZboa
+ ixHWstOBi8EAYZC9CQtgsesDfeu9liKirhdt0I+uPbOkCohCpnQ6D/RWR+1zbEnrqRSa
+ xZOFQsaqhsvVsgQHI9gKSwaXWfrcWlcg/f2u56/wXH+D3Op2UiJ3vu2HblQz2BY6JyKn
+ Fu3BzWGRtYFcAzPMP1+hjr/OmX8W608oq2cPPlyDbrB7nASayvAO/qwCa0KWKrM86ePA
+ ODu/4H5NqGCiiaTKAXmX0VLDO5ei3tkh9m/nbG8i02sshxW5nW49NcLPR5BXLsj4yoot
+ 6nVg==
+X-Gm-Message-State: AOAM530tgiWTT5SqFnkvDmXcEPc8jVTr05dFNDxQdb0Az6Gn7QnNW8wH
+ 0KWe964GPRJ+4F9TmaNg6OFFJA==
+X-Google-Smtp-Source: ABdhPJxMHrnpzw0TqHvFJSj9wz6UUif9iub0qocjpvcy/+qmAdEUClh8smx1q3mPpPVrt62tv/yGCA==
+X-Received: by 2002:a17:902:ff0c:b029:11d:3e9e:41ec with SMTP id
+ f12-20020a170902ff0cb029011d3e9e41ecmr6557656plj.1.1626242717623; 
+ Tue, 13 Jul 2021 23:05:17 -0700 (PDT)
+Received: from kafuu-chino.c.googlers.com.com
+ (105.219.229.35.bc.googleusercontent.com. [35.229.219.105])
+ by smtp.googlemail.com with ESMTPSA id m19sm4524468pjl.13.2021.07.13.23.05.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 13 Jul 2021 23:05:17 -0700 (PDT)
+From: Pi-Hsun Shih <pihsun@chromium.org>
+To: 
+Subject: [PATCH] drm/bridge: anx7625: Use pm_runtime_force_{suspend,resume}
+Date: Wed, 14 Jul 2021 14:01:59 +0800
+Message-Id: <20210714060221.1483752-1-pihsun@chromium.org>
+X-Mailer: git-send-email 2.32.0.93.g670b81a890-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::7
-X-SA-Exim-Mail-From: ore@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,1053 +65,149 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Ulrich=20=C3=96lmann?= <u.oelmann@pengutronix.de>,
- Michael Grzeschik <m.grzeschik@pengutronix.de>, devicetree@vger.kernel.org,
- Marco Felsch <m.felsch@pengutronix.de>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Oleksij Rempel <o.rempel@pengutronix.de>,
- Juergen Borleis <jbe@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- =?UTF-8?q?S=C3=B8ren=20Andersen?= <san@skov.dk>,
- Sam Ravnborg <sam@ravnborg.org>, linux-arm-kernel@lists.infradead.org
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Jonas Karlman <jonas@kwiboo.se>, open list <linux-kernel@vger.kernel.org>,
+ Robert Foss <robert.foss@linaro.org>, Andrzej Hajda <a.hajda@samsung.com>,
+ Tzung-Bi Shih <tzungbi@google.com>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Pi-Hsun Shih <pihsun@chromium.org>, Hsin-Yi Wang <hsinyi@chromium.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Xin Ji <xji@analogixsemi.com>,
+ "moderated list:ARM/Mediatek SoC support"
+ <linux-arm-kernel@lists.infradead.org>, Yu Jiahua <yujiahua1@huawei.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Sam Ravnborg <sam@ravnborg.org>
+Use pm_runtime_force_suspend and pm_runtime_force_resume to ensure that
+anx7625 would always be powered off when suspended. Also update the
+bridge enable hook to always ensure that the anx7625 is powered on
+before starting DP operations.
 
-Add SKOV imx6q/dl LT2, LT6 and mi1010ait-1cp1 boards.
+Fixes: 409776fa3c42 ("drm/bridge: anx7625: add suspend / resume hooks")
 
-Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-Signed-off-by: Søren Andersen <san@skov.dk>
-Signed-off-by: Juergen Borleis <jbe@pengutronix.de>
-Signed-off-by: Ulrich Ölmann <u.oelmann@pengutronix.de>
-Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
-Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
-Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
-Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
+Signed-off-by: Pi-Hsun Shih <pihsun@chromium.org>
+
 ---
- arch/arm/boot/dts/Makefile                    |   5 +
- arch/arm/boot/dts/imx6dl-skov-revc-lt2.dts    |  13 +
- arch/arm/boot/dts/imx6dl-skov-revc-lt6.dts    | 108 ++++
- arch/arm/boot/dts/imx6q-skov-revc-lt2.dts     |  36 ++
- arch/arm/boot/dts/imx6q-skov-revc-lt6.dts     | 128 +++++
- .../dts/imx6q-skov-reve-mi1010ait-1cp1.dts    | 127 +++++
- arch/arm/boot/dts/imx6qdl-skov-cpu-revc.dtsi  |  54 ++
- arch/arm/boot/dts/imx6qdl-skov-cpu.dtsi       | 475 ++++++++++++++++++
- 8 files changed, 946 insertions(+)
- create mode 100644 arch/arm/boot/dts/imx6dl-skov-revc-lt2.dts
- create mode 100644 arch/arm/boot/dts/imx6dl-skov-revc-lt6.dts
- create mode 100644 arch/arm/boot/dts/imx6q-skov-revc-lt2.dts
- create mode 100644 arch/arm/boot/dts/imx6q-skov-revc-lt6.dts
- create mode 100644 arch/arm/boot/dts/imx6q-skov-reve-mi1010ait-1cp1.dts
- create mode 100644 arch/arm/boot/dts/imx6qdl-skov-cpu-revc.dtsi
- create mode 100644 arch/arm/boot/dts/imx6qdl-skov-cpu.dtsi
 
-diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
-index a2389b17026a..66aef5c6526d 100644
---- a/arch/arm/boot/dts/Makefile
-+++ b/arch/arm/boot/dts/Makefile
-@@ -473,6 +473,8 @@ dtb-$(CONFIG_SOC_IMX6Q) += \
- 	imx6dl-sabrelite.dtb \
- 	imx6dl-sabresd.dtb \
- 	imx6dl-savageboard.dtb \
-+	imx6dl-skov-revc-lt2.dtb \
-+	imx6dl-skov-revc-lt6.dtb \
- 	imx6dl-ts4900.dtb \
- 	imx6dl-ts7970.dtb \
- 	imx6dl-tx6dl-comtft.dtb \
-@@ -573,6 +575,9 @@ dtb-$(CONFIG_SOC_IMX6Q) += \
- 	imx6q-sabresd.dtb \
- 	imx6q-savageboard.dtb \
- 	imx6q-sbc6x.dtb \
-+	imx6q-skov-revc-lt2.dtb \
-+	imx6q-skov-revc-lt6.dtb \
-+	imx6q-skov-reve-mi1010ait-1cp1.dtb \
- 	imx6q-tbs2910.dtb \
- 	imx6q-ts4900.dtb \
- 	imx6q-ts7970.dtb \
-diff --git a/arch/arm/boot/dts/imx6dl-skov-revc-lt2.dts b/arch/arm/boot/dts/imx6dl-skov-revc-lt2.dts
-new file mode 100644
-index 000000000000..667b8faa1807
---- /dev/null
-+++ b/arch/arm/boot/dts/imx6dl-skov-revc-lt2.dts
-@@ -0,0 +1,13 @@
-+// SPDX-License-Identifier: (GPL-2.0 OR MIT)
-+//
-+// Copyright (C) 2020 Pengutronix, Ulrich Oelmann <kernel@pengutronix.de>
-+
-+/dts-v1/;
-+#include "imx6dl.dtsi"
-+#include "imx6qdl-skov-cpu.dtsi"
-+#include "imx6qdl-skov-cpu-revc.dtsi"
-+
-+/ {
-+	model = "SKOV IMX6 CPU SoloCore";
-+	compatible = "skov,imx6dl-skov-revc-lt2", "fsl,imx6dl";
-+};
-diff --git a/arch/arm/boot/dts/imx6dl-skov-revc-lt6.dts b/arch/arm/boot/dts/imx6dl-skov-revc-lt6.dts
-new file mode 100644
-index 000000000000..25071c7c4e29
---- /dev/null
-+++ b/arch/arm/boot/dts/imx6dl-skov-revc-lt6.dts
-@@ -0,0 +1,108 @@
-+// SPDX-License-Identifier: (GPL-2.0 OR MIT)
-+//
-+// Copyright (C) 2020 Pengutronix, Ulrich Oelmann <kernel@pengutronix.de>
-+
-+/dts-v1/;
-+#include "imx6dl.dtsi"
-+#include "imx6qdl-skov-cpu.dtsi"
-+#include "imx6qdl-skov-cpu-revc.dtsi"
-+
-+/ {
-+	model = "SKOV IMX6 CPU SoloCore";
-+	compatible = "skov,imx6dl-skov-revc-lt6", "fsl,imx6dl";
-+
-+	backlight: backlight {
-+		compatible = "pwm-backlight";
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&pinctrl_backlight>;
-+		enable-gpios = <&gpio6 23 GPIO_ACTIVE_LOW>;
-+		pwms = <&pwm2 0 20000 0>;
-+		brightness-levels = <0 255>;
-+		num-interpolated-steps = <17>;
-+		default-brightness-level = <8>;
-+		power-supply = <&reg_24v0>;
-+	};
-+
-+	display {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		compatible = "fsl,imx-parallel-display";
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&pinctrl_ipu1>;
-+
-+		port@0 {
-+			reg = <0>;
-+
-+			display0_in: endpoint {
-+				remote-endpoint = <&ipu1_di0_disp0>;
-+			};
-+		};
-+
-+		port@1 {
-+			reg = <1>;
-+
-+			display0_out: endpoint {
-+				remote-endpoint = <&panel_in>;
-+			};
-+		};
-+	};
-+
-+
-+	panel {
-+		compatible = "logictechno,lttd800480070-l6wh-rt";
-+		backlight = <&backlight>;
-+		power-supply = <&reg_3v3>;
-+
-+		port {
-+			panel_in: endpoint {
-+				remote-endpoint = <&display0_out>;
-+			};
-+		};
-+	};
-+};
-+
-+&ipu1_di0_disp0 {
-+	remote-endpoint = <&display0_in>;
-+};
-+
-+&iomuxc {
-+	pinctrl_backlight: backlightgrp {
-+		fsl,pins = <
-+			MX6QDL_PAD_RGMII_TD3__GPIO6_IO23		0x58
-+		>;
-+	};
-+
-+	pinctrl_ipu1: ipu1grp {
-+		fsl,pins = <
-+			MX6QDL_PAD_DI0_DISP_CLK__IPU1_DI0_DISP_CLK	0x10
-+			MX6QDL_PAD_DI0_PIN15__IPU1_DI0_PIN15		0x10
-+			MX6QDL_PAD_DI0_PIN2__IPU1_DI0_PIN02		0x10
-+			MX6QDL_PAD_DI0_PIN3__IPU1_DI0_PIN03		0x10
-+			MX6QDL_PAD_DISP0_DAT0__IPU1_DISP0_DATA00	0x10
-+			MX6QDL_PAD_DISP0_DAT1__IPU1_DISP0_DATA01	0x10
-+			MX6QDL_PAD_DISP0_DAT2__IPU1_DISP0_DATA02	0x10
-+			MX6QDL_PAD_DISP0_DAT3__IPU1_DISP0_DATA03	0x10
-+			MX6QDL_PAD_DISP0_DAT4__IPU1_DISP0_DATA04	0x10
-+			MX6QDL_PAD_DISP0_DAT5__IPU1_DISP0_DATA05	0x10
-+			MX6QDL_PAD_DISP0_DAT6__IPU1_DISP0_DATA06	0x10
-+			MX6QDL_PAD_DISP0_DAT7__IPU1_DISP0_DATA07	0x10
-+			MX6QDL_PAD_DISP0_DAT8__IPU1_DISP0_DATA08	0x10
-+			MX6QDL_PAD_DISP0_DAT9__IPU1_DISP0_DATA09	0x10
-+			MX6QDL_PAD_DISP0_DAT10__IPU1_DISP0_DATA10	0x10
-+			MX6QDL_PAD_DISP0_DAT11__IPU1_DISP0_DATA11	0x10
-+			MX6QDL_PAD_DISP0_DAT12__IPU1_DISP0_DATA12	0x10
-+			MX6QDL_PAD_DISP0_DAT13__IPU1_DISP0_DATA13	0x10
-+			MX6QDL_PAD_DISP0_DAT14__IPU1_DISP0_DATA14	0x10
-+			MX6QDL_PAD_DISP0_DAT15__IPU1_DISP0_DATA15	0x10
-+			MX6QDL_PAD_DISP0_DAT16__IPU1_DISP0_DATA16	0x10
-+			MX6QDL_PAD_DISP0_DAT17__IPU1_DISP0_DATA17	0x10
-+			MX6QDL_PAD_DISP0_DAT18__IPU1_DISP0_DATA18	0x10
-+			MX6QDL_PAD_DISP0_DAT19__IPU1_DISP0_DATA19	0x10
-+			MX6QDL_PAD_DISP0_DAT20__IPU1_DISP0_DATA20	0x10
-+			MX6QDL_PAD_DISP0_DAT21__IPU1_DISP0_DATA21	0x10
-+			MX6QDL_PAD_DISP0_DAT22__IPU1_DISP0_DATA22	0x10
-+			MX6QDL_PAD_DISP0_DAT23__IPU1_DISP0_DATA23	0x10
-+		>;
-+	};
-+};
-diff --git a/arch/arm/boot/dts/imx6q-skov-revc-lt2.dts b/arch/arm/boot/dts/imx6q-skov-revc-lt2.dts
-new file mode 100644
-index 000000000000..25332e57ba7b
---- /dev/null
-+++ b/arch/arm/boot/dts/imx6q-skov-revc-lt2.dts
-@@ -0,0 +1,36 @@
-+// SPDX-License-Identifier: (GPL-2.0 OR MIT)
-+//
-+// Copyright (C) 2020 Pengutronix, Ulrich Oelmann <kernel@pengutronix.de>
-+
-+/dts-v1/;
-+#include "imx6q.dtsi"
-+#include "imx6qdl-skov-cpu.dtsi"
-+#include "imx6qdl-skov-cpu-revc.dtsi"
-+
-+/ {
-+	model = "SKOV IMX6 CPU QuadCore";
-+	compatible = "skov,imx6q-skov-revc-lt2", "fsl,imx6q";
-+};
-+
-+&hdmi {
-+	ddc-i2c-bus = <&i2c2>;
-+	status = "okay";
-+};
-+
-+&i2c2 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_i2c2>;
-+	clock-frequency = <100000>;
-+	status = "okay";
-+};
-+
-+&iomuxc {
-+	pinctrl_i2c2: i2c2grp {
-+		fsl,pins = <
-+			/* internal 22 k pull up required */
-+			MX6QDL_PAD_KEY_COL3__I2C2_SCL		0x4001F878
-+			/* internal 22 k pull up required */
-+			MX6QDL_PAD_KEY_ROW3__I2C2_SDA		0x4001F878
-+		>;
-+	};
-+};
-diff --git a/arch/arm/boot/dts/imx6q-skov-revc-lt6.dts b/arch/arm/boot/dts/imx6q-skov-revc-lt6.dts
-new file mode 100644
-index 000000000000..3e3b36ad362a
---- /dev/null
-+++ b/arch/arm/boot/dts/imx6q-skov-revc-lt6.dts
-@@ -0,0 +1,128 @@
-+// SPDX-License-Identifier: (GPL-2.0 OR MIT)
-+//
-+// Copyright (C) 2020 Pengutronix, Ulrich Oelmann <kernel@pengutronix.de>
-+
-+/dts-v1/;
-+#include "imx6q.dtsi"
-+#include "imx6qdl-skov-cpu.dtsi"
-+#include "imx6qdl-skov-cpu-revc.dtsi"
-+
-+/ {
-+	model = "SKOV IMX6 CPU QuadCore";
-+	compatible = "skov,imx6q-skov-revc-lt6", "fsl,imx6q";
-+
-+	backlight: backlight {
-+		compatible = "pwm-backlight";
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&pinctrl_backlight>;
-+		enable-gpios = <&gpio6 23 GPIO_ACTIVE_LOW>;
-+		pwms = <&pwm2 0 20000 0>;
-+		brightness-levels = <0 255>;
-+		num-interpolated-steps = <17>;
-+		default-brightness-level = <8>;
-+		power-supply = <&reg_24v0>;
-+	};
-+
-+	display {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		compatible = "fsl,imx-parallel-display";
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&pinctrl_ipu1>;
-+
-+		port@0 {
-+			reg = <0>;
-+
-+			display0_in: endpoint {
-+				remote-endpoint = <&ipu1_di0_disp0>;
-+			};
-+		};
-+
-+		port@1 {
-+			reg = <1>;
-+
-+			display0_out: endpoint {
-+				remote-endpoint = <&panel_in>;
-+			};
-+		};
-+	};
-+
-+	panel {
-+		compatible = "logictechno,lttd800480070-l6wh-rt";
-+		backlight = <&backlight>;
-+		power-supply = <&reg_3v3>;
-+
-+		port {
-+			panel_in: endpoint {
-+				remote-endpoint = <&display0_out>;
-+			};
-+		};
-+	};
-+};
-+
-+&hdmi {
-+	ddc-i2c-bus = <&i2c2>;
-+	status = "okay";
-+};
-+
-+&i2c2 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_i2c2>;
-+	clock-frequency = <100000>;
-+	status = "okay";
-+};
-+
-+&ipu1_di0_disp0 {
-+	remote-endpoint = <&display0_in>;
-+};
-+
-+&iomuxc {
-+	pinctrl_backlight: backlightgrp {
-+		fsl,pins = <
-+			MX6QDL_PAD_RGMII_TD3__GPIO6_IO23		0x58
-+		>;
-+	};
-+
-+	pinctrl_i2c2: i2c2grp {
-+		fsl,pins = <
-+			/* internal 22 k pull up required */
-+			MX6QDL_PAD_KEY_COL3__I2C2_SCL		0x4001F878
-+			/* internal 22 k pull up required */
-+			MX6QDL_PAD_KEY_ROW3__I2C2_SDA		0x4001F878
-+		>;
-+	};
-+
-+	pinctrl_ipu1: ipu1grp {
-+		fsl,pins = <
-+			MX6QDL_PAD_DI0_DISP_CLK__IPU1_DI0_DISP_CLK	0x10
-+			MX6QDL_PAD_DI0_PIN15__IPU1_DI0_PIN15		0x10
-+			MX6QDL_PAD_DI0_PIN2__IPU1_DI0_PIN02		0x10
-+			MX6QDL_PAD_DI0_PIN3__IPU1_DI0_PIN03		0x10
-+			MX6QDL_PAD_DISP0_DAT0__IPU1_DISP0_DATA00	0x10
-+			MX6QDL_PAD_DISP0_DAT1__IPU1_DISP0_DATA01	0x10
-+			MX6QDL_PAD_DISP0_DAT2__IPU1_DISP0_DATA02	0x10
-+			MX6QDL_PAD_DISP0_DAT3__IPU1_DISP0_DATA03	0x10
-+			MX6QDL_PAD_DISP0_DAT4__IPU1_DISP0_DATA04	0x10
-+			MX6QDL_PAD_DISP0_DAT5__IPU1_DISP0_DATA05	0x10
-+			MX6QDL_PAD_DISP0_DAT6__IPU1_DISP0_DATA06	0x10
-+			MX6QDL_PAD_DISP0_DAT7__IPU1_DISP0_DATA07	0x10
-+			MX6QDL_PAD_DISP0_DAT8__IPU1_DISP0_DATA08	0x10
-+			MX6QDL_PAD_DISP0_DAT9__IPU1_DISP0_DATA09	0x10
-+			MX6QDL_PAD_DISP0_DAT10__IPU1_DISP0_DATA10	0x10
-+			MX6QDL_PAD_DISP0_DAT11__IPU1_DISP0_DATA11	0x10
-+			MX6QDL_PAD_DISP0_DAT12__IPU1_DISP0_DATA12	0x10
-+			MX6QDL_PAD_DISP0_DAT13__IPU1_DISP0_DATA13	0x10
-+			MX6QDL_PAD_DISP0_DAT14__IPU1_DISP0_DATA14	0x10
-+			MX6QDL_PAD_DISP0_DAT15__IPU1_DISP0_DATA15	0x10
-+			MX6QDL_PAD_DISP0_DAT16__IPU1_DISP0_DATA16	0x10
-+			MX6QDL_PAD_DISP0_DAT17__IPU1_DISP0_DATA17	0x10
-+			MX6QDL_PAD_DISP0_DAT18__IPU1_DISP0_DATA18	0x10
-+			MX6QDL_PAD_DISP0_DAT19__IPU1_DISP0_DATA19	0x10
-+			MX6QDL_PAD_DISP0_DAT20__IPU1_DISP0_DATA20	0x10
-+			MX6QDL_PAD_DISP0_DAT21__IPU1_DISP0_DATA21	0x10
-+			MX6QDL_PAD_DISP0_DAT22__IPU1_DISP0_DATA22	0x10
-+			MX6QDL_PAD_DISP0_DAT23__IPU1_DISP0_DATA23	0x10
-+		>;
-+	};
-+};
-diff --git a/arch/arm/boot/dts/imx6q-skov-reve-mi1010ait-1cp1.dts b/arch/arm/boot/dts/imx6q-skov-reve-mi1010ait-1cp1.dts
-new file mode 100644
-index 000000000000..7f1f19b74bfa
---- /dev/null
-+++ b/arch/arm/boot/dts/imx6q-skov-reve-mi1010ait-1cp1.dts
-@@ -0,0 +1,127 @@
-+// SPDX-License-Identifier: (GPL-2.0 OR MIT)
-+//
-+// Copyright (C) 2020 Pengutronix, Ulrich Oelmann <kernel@pengutronix.de>
-+
-+/dts-v1/;
-+#include "imx6q.dtsi"
-+#include "imx6qdl-skov-cpu.dtsi"
-+
-+/ {
-+	model = "SKOV IMX6 CPU QuadCore";
-+	compatible = "skov,imx6q-skov-reve-mi1010ait-1cp1", "fsl,imx6q";
-+
-+	backlight: backlight {
-+		compatible = "pwm-backlight";
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&pinctrl_backlight>;
-+		enable-gpios = <&gpio6 23 GPIO_ACTIVE_LOW>;
-+		pwms = <&pwm2 0 20000 0>;
-+		brightness-levels = <0 255>;
-+		num-interpolated-steps = <17>;
-+		default-brightness-level = <8>;
-+		power-supply = <&reg_24v0>;
-+	};
-+
-+	panel {
-+		compatible = "multi-inno,mi1010ait-1cp";
-+		backlight = <&backlight>;
-+		power-supply = <&reg_3v3>;
-+
-+		port {
-+			panel_in: endpoint {
-+				remote-endpoint = <&lvds0_out>;
-+			};
-+		};
-+	};
-+};
-+
-+&clks {
-+	assigned-clocks = <&clks IMX6QDL_CLK_LDB_DI0_SEL>,
-+			  <&clks IMX6QDL_CLK_LDB_DI1_SEL>;
-+	assigned-clock-parents = <&clks IMX6QDL_CLK_PLL5_VIDEO_DIV>,
-+				 <&clks IMX6QDL_CLK_PLL5_VIDEO_DIV>;
-+};
-+
-+&hdmi {
-+	ddc-i2c-bus = <&i2c2>;
-+	status = "okay";
-+};
-+
-+&i2c1 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_i2c1>;
-+	clock-frequency = <100000>;
-+	status = "okay";
-+
-+	touchscreen@38 {
-+		compatible = "edt,edt-ft5406";
-+		reg = <0x38>;
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&pinctrl_touchscreen>;
-+		interrupt-parent = <&gpio3>;
-+		interrupts = <19 IRQ_TYPE_EDGE_FALLING>;
-+		reset-gpios = <&gpio3 23 GPIO_ACTIVE_LOW>;
-+		touchscreen-size-x = <1280>;
-+		touchscreen-size-y = <800>;
-+		wakeup-source;
-+	};
-+};
-+
-+&i2c2 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_i2c2>;
-+	clock-frequency = <100000>;
-+	status = "okay";
-+};
-+
-+&ldb {
-+	status = "okay";
-+
-+	lvds-channel@0 {
-+		status = "okay";
-+
-+		port@4 {
-+			reg = <4>;
-+
-+			lvds0_out: endpoint {
-+				remote-endpoint = <&panel_in>;
-+			};
-+		};
-+	};
-+};
-+
-+&iomuxc {
-+	pinctrl_backlight: backlightgrp {
-+		fsl,pins = <
-+			MX6QDL_PAD_RGMII_TD3__GPIO6_IO23		0x58
-+		>;
-+	};
-+
-+	pinctrl_i2c1: i2c1grp {
-+		fsl,pins = <
-+			/* external 1 k pull up */
-+			MX6QDL_PAD_EIM_D21__I2C1_SCL		0x40010878
-+			/* external 1 k pull up */
-+			MX6QDL_PAD_EIM_D28__I2C1_SDA		0x40010878
-+		>;
-+	};
-+
-+	pinctrl_i2c2: i2c2grp {
-+		fsl,pins = <
-+			/* internal 22 k pull up required */
-+			MX6QDL_PAD_KEY_COL3__I2C2_SCL		0x4001F878
-+			/* internal 22 k pull up required */
-+			MX6QDL_PAD_KEY_ROW3__I2C2_SDA		0x4001F878
-+		>;
-+	};
-+
-+	pinctrl_touchscreen: touchscreengrp {
-+		fsl,pins = <
-+			/* external 10 k pull up */
-+			/* CTP_INT */
-+			MX6QDL_PAD_EIM_D19__GPIO3_IO19		0x1b0b0
-+			/* CTP_RST */
-+			MX6QDL_PAD_EIM_D23__GPIO3_IO23		0x1b0b0
-+		>;
-+	};
-+};
-diff --git a/arch/arm/boot/dts/imx6qdl-skov-cpu-revc.dtsi b/arch/arm/boot/dts/imx6qdl-skov-cpu-revc.dtsi
-new file mode 100644
-index 000000000000..69ae430a53bd
---- /dev/null
-+++ b/arch/arm/boot/dts/imx6qdl-skov-cpu-revc.dtsi
-@@ -0,0 +1,54 @@
-+// SPDX-License-Identifier: (GPL-2.0 OR MIT)
-+//
-+// Copyright (C) 2020 Pengutronix, Ulrich Oelmann <kernel@pengutronix.de>
-+
-+&ecspi4 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_ecspi4>;
-+	cs-gpios = <&gpio3 20 GPIO_ACTIVE_LOW>;
-+	status = "okay";
-+
-+	touchscreen@0 {
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&pinctrl_touch>;
-+		compatible = "ti,tsc2046";
-+		reg = <0>;
-+		spi-max-frequency = <1000000>;
-+		interrupts-extended = <&gpio3 19 IRQ_TYPE_LEVEL_LOW>;
-+		vcc-supply  = <&reg_3v3>;
-+		pendown-gpio = <&gpio3 19 GPIO_ACTIVE_LOW>;
-+		ti,x-plate-ohms = /bits/ 16 <850>;
-+		ti,y-plate-ohms = /bits/ 16 <295>;
-+		ti,pressure-min = /bits/ 16 <2>;
-+		ti,pressure-max = /bits/ 16 <1500>;
-+		ti,vref-mv	= /bits/ 16 <3300>;
-+		ti,settle-delay-usec = /bits/ 16 <15>;
-+		ti,vref-delay-usecs = /bits/ 16 <0>;
-+		ti,penirq-recheck-delay-usecs = /bits/ 16 <100>;
-+		ti,debounce-max = /bits/ 16 <100>;
-+		ti,debounce-tol = /bits/ 16 <(~0)>;
-+		ti,debounce-rep = /bits/ 16 <4>;
-+		touchscreen-swapped-x-y;
-+		touchscreen-inverted-y;
-+		wakeup-source;
-+	};
-+};
-+
-+&iomuxc {
-+	pinctrl_ecspi4: ecspi4grp {
-+		fsl,pins = <
-+			MX6QDL_PAD_EIM_D28__ECSPI4_MOSI			0x100b1
-+			MX6QDL_PAD_EIM_D22__ECSPI4_MISO			0x000b1
-+			MX6QDL_PAD_EIM_D21__ECSPI4_SCLK			0x000b1
-+			/* *no* external pull up */
-+			MX6QDL_PAD_EIM_D20__GPIO3_IO20		0x40000058
-+		>;
-+	};
-+
-+	pinctrl_touch: touchgrp {
-+		fsl,pins = <
-+			/* external pull up */
-+			MX6QDL_PAD_EIM_D19__GPIO3_IO19			0x10040
-+		>;
-+	};
-+};
-diff --git a/arch/arm/boot/dts/imx6qdl-skov-cpu.dtsi b/arch/arm/boot/dts/imx6qdl-skov-cpu.dtsi
-new file mode 100644
-index 000000000000..16ff49465f5f
---- /dev/null
-+++ b/arch/arm/boot/dts/imx6qdl-skov-cpu.dtsi
-@@ -0,0 +1,475 @@
-+// SPDX-License-Identifier: (GPL-2.0 OR MIT)
-+//
-+// Copyright (C) 2020 Pengutronix, Ulrich Oelmann <kernel@pengutronix.de>
-+
-+#include <dt-bindings/gpio/gpio.h>
-+#include <dt-bindings/leds/common.h>
-+
-+/ {
-+	chosen {
-+		stdout-path = &uart2;
-+	};
-+
-+	aliases {
-+		can0 = &can1;
-+		can1 = &can2;
-+		mdio-gpio0 = &mdio;
-+		nand = &gpmi;
-+		rtc0 = &i2c_rtc;
-+		rtc1 = &snvs;
-+		usb0 = &usbh1;
-+		usb1 = &usbotg;
-+	};
-+
-+	iio-hwmon {
-+		compatible = "iio-hwmon";
-+		io-channels = <&adc 0>, /* 24V */
-+		              <&adc 1>; /* temperature */
-+	};
-+
-+	leds {
-+		compatible = "gpio-leds";
-+
-+		led-0 {
-+			label = "D1";
-+			gpios = <&gpio1 2 GPIO_ACTIVE_HIGH>;
-+			function = LED_FUNCTION_STATUS;
-+			default-state = "on";
-+			linux,default-trigger = "heartbeat";
-+		};
-+
-+		led-1 {
-+			label = "D2";
-+			gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
-+			default-state = "off";
-+		};
-+
-+		led-2 {
-+			label = "D3";
-+			gpios = <&gpio1 4 GPIO_ACTIVE_HIGH>;
-+			default-state = "on";
-+		};
-+	};
-+
-+	mdio: mdio {
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&pinctrl_mdio>;
-+		compatible = "microchip,mdio-smi0";
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+		gpios = <&gpio1 31 GPIO_ACTIVE_HIGH
-+			 &gpio1 22 GPIO_ACTIVE_HIGH>;
-+
-+		switch@0 {
-+			pinctrl-names = "default";
-+			pinctrl-0 = <&pinctrl_switch>;
-+			compatible = "microchip,ksz8873";
-+			interrupt-parent = <&gpio3>;
-+			interrupt = <30 IRQ_TYPE_LEVEL_HIGH>;
-+			reset-gpios = <&gpio1 5 GPIO_ACTIVE_LOW>;
-+			reg = <0>;
-+
-+			ports {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+
-+				ports@0 {
-+					reg = <0>;
-+					phy-mode = "internal";
-+					label = "lan1";
-+				};
-+
-+				ports@1 {
-+					reg = <1>;
-+					phy-mode = "internal";
-+					label = "lan2";
-+				};
-+
-+				ports@2 {
-+					reg = <2>;
-+					label = "cpu";
-+					ethernet = <&fec>;
-+					phy-mode = "rmii";
-+
-+					fixed-link {
-+						speed = <100>;
-+						full-duplex;
-+					};
-+				};
-+			};
-+		};
-+
-+	};
-+
-+	clk50m_phy: phy-clock {
-+		compatible = "fixed-clock";
-+		#clock-cells = <0>;
-+		clock-frequency = <50000000>;
-+	};
-+
-+	reg_3v3: regulator-3v3 {
-+		compatible = "regulator-fixed";
-+		vin-supply = <&reg_5v0>;
-+		regulator-name = "3v3";
-+		regulator-min-microvolt = <3300000>;
-+		regulator-max-microvolt = <3300000>;
-+	};
-+
-+	reg_5v0: regulator-5v0 {
-+		compatible = "regulator-fixed";
-+		regulator-name = "5v0";
-+		regulator-min-microvolt = <5000000>;
-+		regulator-max-microvolt = <5000000>;
-+	};
-+
-+	reg_24v0: regulator-24v0 {
-+		compatible = "regulator-fixed";
-+		regulator-name = "24v0";
-+		regulator-min-microvolt = <24000000>;
-+		regulator-max-microvolt = <24000000>;
-+	};
-+
-+	reg_can1_stby: regulator-can1-stby {
-+		compatible = "regulator-fixed";
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&pinctrl_can1_stby>;
-+		regulator-name = "can1-3v3";
-+		regulator-min-microvolt = <3300000>;
-+		regulator-max-microvolt = <3300000>;
-+		gpio = <&gpio3 31 GPIO_ACTIVE_LOW>;
-+	};
-+
-+	reg_can2_stby: regulator-can2-stby {
-+		compatible = "regulator-fixed";
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&pinctrl_can2_stby>;
-+		regulator-name = "can2-3v3";
-+		regulator-min-microvolt = <3300000>;
-+		regulator-max-microvolt = <3300000>;
-+		gpio = <&gpio4 11 GPIO_ACTIVE_LOW>;
-+	};
-+
-+	reg_vcc_mmc: regulator-vcc-mmc {
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&pinctrl_vcc_mmc>;
-+		compatible = "regulator-fixed";
-+		vin-supply = <&reg_3v3>;
-+		regulator-name = "mmc_vcc_supply";
-+		regulator-min-microvolt = <3300000>;
-+		regulator-max-microvolt = <3300000>;
-+		regulator-always-on;
-+		regulator-boot-on;
-+		gpio = <&gpio7 8 GPIO_ACTIVE_HIGH>;
-+		enable-active-high;
-+		startup-delay-us = <100>;
-+	};
-+
-+	reg_vcc_mmc_io: regulator-vcc-mmc-io {
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&pinctrl_vcc_mmc_io>;
-+		compatible = "regulator-gpio";
-+		vin-supply = <&reg_5v0>;
-+		regulator-name = "mmc_io_supply";
-+		regulator-type = "voltage";
-+		regulator-min-microvolt = <1800000>;
-+		regulator-max-microvolt = <3300000>;
-+		gpios = <&gpio7 13 GPIO_ACTIVE_HIGH>;
-+		states = <1800000 0x1>, <3300000 0x0>;
-+		startup-delay-us = <100>;
-+	};
-+};
-+
-+&can1 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_can1>;
-+	xceiver-supply = <&reg_can1_stby>;
-+	status = "okay";
-+};
-+
-+&can2 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_can2>;
-+	xceiver-supply = <&reg_can2_stby>;
-+	status = "okay";
-+};
-+
-+&ecspi1 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_ecspi1>;
-+	cs-gpios = <&gpio3 24 GPIO_ACTIVE_LOW>;
-+	status = "okay";
-+
-+	flash@0 {
-+		compatible = "jedec,spi-nor";
-+		spi-max-frequency = <54000000>;
-+		reg = <0>;
-+	};
-+};
-+
-+&ecspi2 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_ecspi2>;
-+	cs-gpios = <&gpio2 26 GPIO_ACTIVE_LOW>;
-+	status = "okay";
-+
-+	adc: adc@0 {
-+		compatible = "microchip,mcp3002";
-+		reg = <0>;
-+		spi-max-frequency = <1000000>;
-+		#io-channel-cells = <1>;
-+	};
-+};
-+
-+&fec {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_enet>;
-+	clocks = <&clks IMX6QDL_CLK_ENET>,
-+		 <&clks IMX6QDL_CLK_ENET>,
-+		 <&clk50m_phy>;
-+	clock-names = "ipg", "ahb", "ptp";
-+	phy-mode = "rmii";
-+	phy-supply = <&reg_3v3>;
-+	status = "okay";
-+
-+	fixed-link {
-+		speed = <100>;
-+		full-duplex;
-+	};
-+};
-+
-+&gpmi {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_gpmi_nand>;
-+	nand-on-flash-bbt;
-+	#address-cells = <1>;
-+	#size-cells = <0>;
-+	status = "okay";
-+};
-+
-+&i2c3 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_i2c3>;
-+	clock-frequency = <400000>;
-+	status = "okay";
-+
-+	i2c_rtc: rtc@51 {
-+		compatible = "nxp,pcf85063";
-+		reg = <0x51>;
-+		quartz-load-femtofarads = <12500>;
-+	};
-+};
-+
-+&pwm2 {
-+	#pwm-cells = <2>;
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_pwm2>;
-+	status = "okay";
-+};
-+
-+&pwm3 {
-+	/* used for LCD contrast control */
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_pwm3>;
-+	status = "okay";
-+};
-+
-+&uart2 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_uart2>;
-+	status = "okay";
-+};
-+
-+&usbh1 {
-+	vbus-supply = <&reg_5v0>;
-+	disable-over-current;
-+	status = "okay";
-+};
-+
-+/* no usbh2 */
-+&usbphynop1 {
-+	status = "disabled";
-+};
-+
-+/* no usbh3 */
-+&usbphynop2 {
-+	status = "disabled";
-+};
-+
-+&usbotg {
-+	vbus-supply = <&reg_5v0>;
-+	disable-over-current;
-+	status = "okay";
-+};
-+
-+&usdhc3 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_usdhc3>;
-+	wp-gpios = <&gpio7 1 GPIO_ACTIVE_HIGH>;
-+	cd-gpios = <&gpio7 0 GPIO_ACTIVE_LOW>;
-+	cap-power-off-card;
-+	full-pwr-cycle;
-+	bus-width = <4>;
-+	max-frequency = <50000000>;
-+	cap-sd-highspeed;
-+	sd-uhs-sdr12;
-+	sd-uhs-sdr25;
-+	sd-uhs-sdr50;
-+	sd-uhs-ddr50;
-+	mmc-ddr-1_8v;
-+	vmmc-supply = <&reg_vcc_mmc>;
-+	vqmmc-supply = <&reg_vcc_mmc_io>;
-+	status = "okay";
-+};
-+
-+&iomuxc {
-+	pinctrl_can1: can1grp {
-+		fsl,pins = <
-+			MX6QDL_PAD_GPIO_7__FLEXCAN1_TX			0x3008
-+			MX6QDL_PAD_GPIO_8__FLEXCAN1_RX			0x1b000
-+		>;
-+	};
-+
-+	pinctrl_can1_stby: can1stbygrp {
-+		fsl,pins = <
-+			MX6QDL_PAD_EIM_D31__GPIO3_IO31			0x13008
-+		>;
-+	};
-+
-+	pinctrl_can2: can2grp {
-+		fsl,pins = <
-+			MX6QDL_PAD_KEY_COL4__FLEXCAN2_TX		0x3008
-+			MX6QDL_PAD_KEY_ROW4__FLEXCAN2_RX		0x1b000
-+		>;
-+	};
-+
-+	pinctrl_can2_stby: can2stbygrp {
-+		fsl,pins = <
-+			MX6QDL_PAD_KEY_ROW2__GPIO4_IO11			0x13008
-+		>;
-+	};
-+
-+	pinctrl_ecspi1: ecspi1grp {
-+		fsl,pins = <
-+			MX6QDL_PAD_EIM_D17__ECSPI1_MISO			0x100b1
-+			MX6QDL_PAD_EIM_D18__ECSPI1_MOSI			0xb1
-+			MX6QDL_PAD_EIM_D16__ECSPI1_SCLK			0xb1
-+			/* *no* external pull up */
-+			MX6QDL_PAD_EIM_D24__GPIO3_IO24			0x58
-+		>;
-+	};
-+
-+	pinctrl_ecspi2: ecspi2grp {
-+		fsl,pins = <
-+			MX6QDL_PAD_EIM_OE__ECSPI2_MISO			0x100b1
-+			MX6QDL_PAD_EIM_CS1__ECSPI2_MOSI			0xb1
-+			MX6QDL_PAD_EIM_CS0__ECSPI2_SCLK			0xb1
-+			/* external pull up */
-+			MX6QDL_PAD_EIM_RW__GPIO2_IO26			0x58
-+		>;
-+	};
-+
-+	pinctrl_enet: enetgrp {
-+		fsl,pins = <
-+			/* RMII 50 MHz */
-+			MX6QDL_PAD_ENET_CRS_DV__ENET_RX_EN		0x100f5
-+			MX6QDL_PAD_ENET_TX_EN__ENET_TX_EN		0x100f5
-+			MX6QDL_PAD_ENET_RXD0__ENET_RX_DATA0		0x100c0
-+			MX6QDL_PAD_ENET_RXD1__ENET_RX_DATA1		0x100c0
-+			MX6QDL_PAD_ENET_TXD0__ENET_TX_DATA0		0x100f5
-+			MX6QDL_PAD_ENET_TXD1__ENET_TX_DATA1		0x100f5
-+			MX6QDL_PAD_GPIO_16__ENET_REF_CLK		0x1b0b0
-+			MX6QDL_PAD_GPIO_5__GPIO1_IO05			0x58
-+			/* GPIO for "link active" */
-+			MX6QDL_PAD_ENET_RX_ER__GPIO1_IO24		0x3038
-+		>;
-+	};
-+
-+	pinctrl_gpmi_nand: gpminandgrp {
-+		fsl,pins = <
-+			MX6QDL_PAD_NANDF_CLE__NAND_CLE			0xb0b1
-+			MX6QDL_PAD_NANDF_ALE__NAND_ALE			0xb0b1
-+			MX6QDL_PAD_NANDF_RB0__NAND_READY_B		0xb000
-+			MX6QDL_PAD_NANDF_CS0__NAND_CE0_B		0xb0b1
-+			MX6QDL_PAD_NANDF_CS1__NAND_CE1_B		0xb0b1
-+			MX6QDL_PAD_SD4_CMD__NAND_RE_B			0xb0b1
-+			MX6QDL_PAD_SD4_CLK__NAND_WE_B			0xb0b1
-+			MX6QDL_PAD_NANDF_D0__NAND_DATA00		0xb0b1
-+			MX6QDL_PAD_NANDF_D1__NAND_DATA01		0xb0b1
-+			MX6QDL_PAD_NANDF_D2__NAND_DATA02		0xb0b1
-+			MX6QDL_PAD_NANDF_D3__NAND_DATA03		0xb0b1
-+			MX6QDL_PAD_NANDF_D4__NAND_DATA04		0xb0b1
-+			MX6QDL_PAD_NANDF_D5__NAND_DATA05		0xb0b1
-+			MX6QDL_PAD_NANDF_D6__NAND_DATA06		0xb0b1
-+			MX6QDL_PAD_NANDF_D7__NAND_DATA07		0xb0b1
-+		>;
-+	};
-+
-+	pinctrl_i2c3: i2c3grp {
-+		fsl,pins = <
-+			/* external 10 k pull up */
-+			MX6QDL_PAD_GPIO_3__I2C3_SCL		0x40010878
-+			/* external 10 k pull up */
-+			MX6QDL_PAD_GPIO_6__I2C3_SDA		0x40010878
-+		>;
-+	};
-+
-+	pinctrl_mdio: mdiogrp {
-+		fsl,pins = <
-+			MX6QDL_PAD_ENET_MDIO__GPIO1_IO22		0x100b1
-+			MX6QDL_PAD_ENET_MDC__GPIO1_IO31			0xb1
-+		>;
-+	};
-+
-+	pinctrl_pwm2: pwm2grp {
-+		fsl,pins = <
-+			MX6QDL_PAD_GPIO_1__PWM2_OUT			0x58
-+		>;
-+	};
-+
-+	pinctrl_pwm3: pwm3grp {
-+		fsl,pins = <
-+			MX6QDL_PAD_SD1_DAT1__PWM3_OUT			0x58
-+		>;
-+	};
-+
-+	pinctrl_switch: switchgrp {
-+		fsl,pins = <
-+			MX6QDL_PAD_EIM_D30__GPIO3_IO30			0xb0
-+		>;
-+	};
-+
-+	pinctrl_uart2: uart2grp {
-+		fsl,pins = <
-+			MX6QDL_PAD_EIM_D26__UART2_TX_DATA		0x1b0b1
-+			MX6QDL_PAD_EIM_D27__UART2_RX_DATA		0x1b0b1
-+		>;
-+	};
-+
-+	pinctrl_usdhc3: usdhc3grp {
-+		fsl,pins = <
-+			/* SoC internal pull up required */
-+			MX6QDL_PAD_SD3_CMD__SD3_CMD			0x17059
-+			MX6QDL_PAD_SD3_CLK__SD3_CLK			0x10059
-+			MX6QDL_PAD_SD3_DAT0__SD3_DATA0			0x17059
-+			MX6QDL_PAD_SD3_DAT1__SD3_DATA1			0x17059
-+			MX6QDL_PAD_SD3_DAT2__SD3_DATA2			0x17059
-+			MX6QDL_PAD_SD3_DAT3__SD3_DATA3			0x17059
-+			/* SoC internal pull up required */
-+			MX6QDL_PAD_SD3_DAT4__GPIO7_IO01			0x1b040
-+			/* SoC internal pull up required */
-+			MX6QDL_PAD_SD3_DAT5__GPIO7_IO00			0x1b040
-+		>;
-+	};
-+
-+	pinctrl_vcc_mmc: vccmmcgrp {
-+		fsl,pins = <
-+			MX6QDL_PAD_SD3_RST__GPIO7_IO08			0x58
-+		>;
-+	};
-+
-+	pinctrl_vcc_mmc_io: vccmmciogrp {
-+		fsl,pins = <
-+			MX6QDL_PAD_GPIO_18__GPIO7_IO13			0x58
-+		>;
-+	};
-+};
+An issue was found that the anx7625 driver won't power off when used as
+eDP bridge on Asurada board if suspend is entered via VT2.
+
+The reason is that in this case, anx7625_suspend won't power off anx7625
+(since intp_irq is not set). And anx7625_bridge_disable is only called
+indirectly by other driver's (mediatek-drm) suspend.
+pm_runtime_put_sync won't do anything since it's already in system
+suspend.
+
+If not in VT2, the bridge disable is indirectly called when Chrome
+stops, so anx7625 will be powered off correctly.
+
+To fix the issue, the suspend resume hooks are changed to
+pm_runtime_force_{suspend,resume} to ensure the runtime suspend / resume
+is always called correctly when system suspend / resume.
+(Note that IRQ no longer needs to be disabled on suspend after commit
+f03ab6629c7b ("drm/bridge: anx7625: Make hpd workqueue freezable"))
+
+Since bridge disable is called indirectly by mediatek-drm driver's
+suspend, it might happens after anx7625 suspend is called. So a check
+if the driver is already suspended via pm_runtime_force_suspend is also
+added, to ensure that the anx7625_dp_stop won't be called when power
+is off. And also since bridge enable might happens before anx7625 resume
+is called, a check to that is also added, and would force resume the
+device in this case.
+
+I'm not sure if the approach to fix this is the most appropriate way,
+since using pm_runtime_force_resume in bridge enable kinda feels hacky
+to me. I'm open to any suggestions.
+
+---
+ drivers/gpu/drm/bridge/analogix/anx7625.c | 55 +++++++++--------------
+ 1 file changed, 20 insertions(+), 35 deletions(-)
+
+diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
+index a3d82377066b..9d0f5dc88b16 100644
+--- a/drivers/gpu/drm/bridge/analogix/anx7625.c
++++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
+@@ -1559,7 +1559,20 @@ static void anx7625_bridge_enable(struct drm_bridge *bridge)
+ 
+ 	DRM_DEV_DEBUG_DRIVER(dev, "drm enable\n");
+ 
+-	pm_runtime_get_sync(dev);
++	/*
++	 * The only case where pm_runtime is disabled here is when the function
++	 * is called other driver's resume hook by
++	 * drm_mode_config_helper_resume, but when the pm_runtime_force_resume
++	 * hasn't been called on this device.
++	 *
++	 * pm_runtime_get_sync won't power on anx7625 in this case since we're
++	 * in system resume, so instead we force resume anx7625 to make sure
++	 * the following anx7625_dp_start would succeed.
++	 */
++	if (pm_runtime_enabled(dev))
++		pm_runtime_get_sync(dev);
++	else
++		pm_runtime_force_resume(dev);
+ 
+ 	anx7625_dp_start(ctx);
+ }
+@@ -1571,9 +1584,10 @@ static void anx7625_bridge_disable(struct drm_bridge *bridge)
+ 
+ 	DRM_DEV_DEBUG_DRIVER(dev, "drm disable\n");
+ 
+-	anx7625_dp_stop(ctx);
+-
+-	pm_runtime_put_sync(dev);
++	if (pm_runtime_enabled(dev)) {
++		anx7625_dp_stop(ctx);
++		pm_runtime_put_sync(dev);
++	}
+ }
+ 
+ static enum drm_connector_status
+@@ -1705,38 +1719,9 @@ static int __maybe_unused anx7625_runtime_pm_resume(struct device *dev)
+ 	return 0;
+ }
+ 
+-static int __maybe_unused anx7625_resume(struct device *dev)
+-{
+-	struct anx7625_data *ctx = dev_get_drvdata(dev);
+-
+-	if (!ctx->pdata.intp_irq)
+-		return 0;
+-
+-	if (!pm_runtime_enabled(dev) || !pm_runtime_suspended(dev)) {
+-		enable_irq(ctx->pdata.intp_irq);
+-		anx7625_runtime_pm_resume(dev);
+-	}
+-
+-	return 0;
+-}
+-
+-static int __maybe_unused anx7625_suspend(struct device *dev)
+-{
+-	struct anx7625_data *ctx = dev_get_drvdata(dev);
+-
+-	if (!ctx->pdata.intp_irq)
+-		return 0;
+-
+-	if (!pm_runtime_enabled(dev) || !pm_runtime_suspended(dev)) {
+-		anx7625_runtime_pm_suspend(dev);
+-		disable_irq(ctx->pdata.intp_irq);
+-	}
+-
+-	return 0;
+-}
+-
+ static const struct dev_pm_ops anx7625_pm_ops = {
+-	SET_SYSTEM_SLEEP_PM_OPS(anx7625_suspend, anx7625_resume)
++	SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
++				pm_runtime_force_resume)
+ 	SET_RUNTIME_PM_OPS(anx7625_runtime_pm_suspend,
+ 			   anx7625_runtime_pm_resume, NULL)
+ };
+
+base-commit: c0d438dbc0b74901f1901d97a6c84f38daa0c831
 -- 
-2.30.2
+2.32.0.93.g670b81a890-goog
 
