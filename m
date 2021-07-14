@@ -2,68 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C65643C8B26
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Jul 2021 20:45:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20F9D3C8B29
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Jul 2021 20:47:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 070256E48B;
-	Wed, 14 Jul 2021 18:45:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F6236E48C;
+	Wed, 14 Jul 2021 18:47:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B2846E48B
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jul 2021 18:45:14 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C30A26E48C
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Jul 2021 18:47:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626288312;
+ s=mimecast20190719; t=1626288437;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
  bh=1ZAdf0GJIbLpyyVrXbwjxcRS9oM/2mE5p8d6as6VgdU=;
- b=CHvZoMSZMVRLXBso62ZLS33B0Xysn848pgi4n0GdkeBpeqPR3qrjXaeChG6rUCIXAujHQt
- 0XeBwRZPFNeabfEKUOqrezmCHKr9Qm0MZRQuJOnXfdXzc7Syaydb0vUjAN+mvM1aMgN8Ot
- Julml2KHcQjnuuUE4VGLrUFqsewnFb8=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-395-PihywuLpPxqwfJXc1nkn_A-1; Wed, 14 Jul 2021 14:45:09 -0400
-X-MC-Unique: PihywuLpPxqwfJXc1nkn_A-1
-Received: by mail-qk1-f200.google.com with SMTP id
- x2-20020ae9e6420000b02903b8853778c2so1899830qkl.18
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jul 2021 11:45:09 -0700 (PDT)
+ b=JixztGN9O8WlKJIyYaD9gUNE47OkYB3lTXHvXLOCLqQhBbuujmXBc87NtcxiqRikYt7sP1
+ Rnr6+Qwb1krix1USA9h1HL9d9NK7Jbp1EzOoHlLyug91ZNZJlQ9GlhEzLX9cEBNLAYIeAL
+ +AtkpFFF39jZACS5CQZwWNHVsQkADo4=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-237-IYhX5AkOPTG1MMBs3zi4XA-1; Wed, 14 Jul 2021 14:47:16 -0400
+X-MC-Unique: IYhX5AkOPTG1MMBs3zi4XA-1
+Received: by mail-qt1-f198.google.com with SMTP id
+ v17-20020a05622a1451b02902533c8b7139so2521814qtx.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Jul 2021 11:47:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
  :references:organization:user-agent:mime-version
  :content-transfer-encoding;
  bh=1ZAdf0GJIbLpyyVrXbwjxcRS9oM/2mE5p8d6as6VgdU=;
- b=nprTRNzBQArfYG9D87WFyS/8jMw/rmlvhQS9tQN39jraL8eOgFV1MAxIR1qecmTWEq
- 9ZysDZsP5vZ2vhpi7DrfNkMyV6a6LRjqAgcT2Y+JekZWmI68FaXnff5YrY+HO4h0U6wm
- gtfZL6Yi4srCXejHSp7pJAv+M1/v8yWt/rUwG5Hf0bQjw5E/pglSwNOuQICemCouyddk
- TGumi/51DbKO+12KZHdaWko2KWfRdbVre3LbqdOtdwFqZ1jNPUE1VInV4DewUon9sNer
- 5+iv7EVxCds614UasAcwaIlTA8HJc36yXmbP+M8xuT1m++6HmjvSS1t8AXIAKW7IrMnY
- +3Xg==
-X-Gm-Message-State: AOAM533iot3ceeB39W3oB8EV86gljsp5SQX8/OPsPgA39VwTYKFmWSqr
- wXn2sUkjnJySsleIlevfQYiqMTetW4gPljGoyG6WChh3Y7dLIifPC/WsDfAzi2geNJwfwTIx7ax
- tm8cuQGOKcqvX33Q65n3Ed8zK/Etx
-X-Received: by 2002:a05:620a:31aa:: with SMTP id
- bi42mr11236389qkb.425.1626288308706; 
- Wed, 14 Jul 2021 11:45:08 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyk7kMcvMar0jLNDySN2hM8tTHtPUpoD6ejpE/O4waO1AawEFynsB5XM12PtGqCXW7BIy7C9w==
-X-Received: by 2002:a05:620a:31aa:: with SMTP id
- bi42mr11236374qkb.425.1626288308567; 
- Wed, 14 Jul 2021 11:45:08 -0700 (PDT)
+ b=XiHoUgGRJfDgYrjNuODYWRwGQmYSt/acTzl7tyOwooRBwSb+4ELZZQnWrrsffzyM+M
+ KXHDwBwL9aw/I2JiDYsmf2SWUINgrkEnKKUUJ1agH5mZaAas3HCJstlW6UglaY6JAN54
+ acdmr4H6nxM1LubSlx+86XPmyu0CNnTy9Cd1zFEMucJB+kgTLKuBnSM6fKJ1d/cEis7h
+ cSoFsQsH9avjezwh+U6dEw9coy/82R3giHfr/fEK73BiVCdjDmmXwLanI4BKzX6ZdoWE
+ tnkZqjeQubZ4ARzZivOn2s875uY6DitO/cQLZIp9MRS2GchlQoR16WUbgeG2C1HvTjnH
+ Ts7g==
+X-Gm-Message-State: AOAM5313rYc9ipXFa9TfjhTkhT8UvYUs8lpgyP4QyoLjtxrB/sJgJBqN
+ gC2TR8Zvz6kw74Gcm4RGcELw0jaCqm5FR4ZUTGNWwxpLRoxfjUw7CxDVyOYBAJHKCx9mS+H4LqK
+ nMwfYkgPpjd3nSFjE11gsLxfMxvUL
+X-Received: by 2002:a37:92c6:: with SMTP id
+ u189mr11120306qkd.237.1626288436373; 
+ Wed, 14 Jul 2021 11:47:16 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyyuPjo6u3d3oihQtSUPwjxpsOvapJdz8AnSL3MR4aGpMOemxXK7gfWNaVRhGG4ZtPhG0lJQg==
+X-Received: by 2002:a37:92c6:: with SMTP id
+ u189mr11120295qkd.237.1626288436230; 
+ Wed, 14 Jul 2021 11:47:16 -0700 (PDT)
 Received: from Ruby.lyude.net (pool-108-49-102-102.bstnma.fios.verizon.net.
  [108.49.102.102])
- by smtp.gmail.com with ESMTPSA id j3sm1354331qka.96.2021.07.14.11.45.07
+ by smtp.gmail.com with ESMTPSA id d24sm1398962qkk.61.2021.07.14.11.47.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 14 Jul 2021 11:45:08 -0700 (PDT)
-Message-ID: <281cfad8220d37683ac433f583e37f5f2667aedd.camel@redhat.com>
+ Wed, 14 Jul 2021 11:47:15 -0700 (PDT)
+Message-ID: <64687ac7602bfd44914ca5b31fe70bb8b87ef313.camel@redhat.com>
 Subject: Re: [PATCH] drm/dp: For drm_panel_dp_aux_backlight(), init
  backlight as disabled
 From: Lyude Paul <lyude@redhat.com>
 To: Douglas Anderson <dianders@chromium.org>, Rajeev Nandan
  <rajeevny@codeaurora.org>, Robert Foss <robert.foss@linaro.org>
-Date: Wed, 14 Jul 2021 14:45:06 -0400
+Date: Wed, 14 Jul 2021 14:47:14 -0400
 In-Reply-To: <20210714101744.1.Ifc22696b27930749915e383f0108b7bcdc015a6e@changeid>
 References: <20210714101744.1.Ifc22696b27930749915e383f0108b7bcdc015a6e@changeid>
 Organization: Red Hat
