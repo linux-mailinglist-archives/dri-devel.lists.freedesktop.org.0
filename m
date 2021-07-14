@@ -1,40 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 363DB3C7F84
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Jul 2021 09:44:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 184053C7F88
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Jul 2021 09:44:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B6BF86E17C;
-	Wed, 14 Jul 2021 07:44:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 721986E183;
+	Wed, 14 Jul 2021 07:44:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 301 seconds by postgrey-1.36 at gabe;
- Wed, 14 Jul 2021 03:01:50 UTC
 Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8679B6E155
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jul 2021 03:01:50 +0000 (UTC)
-X-UUID: 783cf94eb78640b59ae3b1daf7180ef1-20210714
-X-UUID: 783cf94eb78640b59ae3b1daf7180ef1-20210714
-Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
- mailgw01.mediatek.com (envelope-from <yong.wu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 991614617; Wed, 14 Jul 2021 10:56:42 +0800
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 71B876E156
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Jul 2021 03:01:54 +0000 (UTC)
+X-UUID: 8f94e69750b14bdfbd4dab52c57528fe-20210714
+X-UUID: 8f94e69750b14bdfbd4dab52c57528fe-20210714
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
+ (envelope-from <yong.wu@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 1111141250; Wed, 14 Jul 2021 10:56:51 +0800
 Received: from mtkcas07.mediatek.inc (172.21.101.84) by
- mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Wed, 14 Jul 2021 10:56:40 +0800
+ mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Wed, 14 Jul 2021 10:56:50 +0800
 Received: from localhost.localdomain (10.17.3.153) by mtkcas07.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Wed, 14 Jul 2021 10:56:38 +0800
+ Transport; Wed, 14 Jul 2021 10:56:48 +0800
 From: Yong Wu <yong.wu@mediatek.com>
 To: Matthias Brugger <matthias.bgg@gmail.com>, Joerg Roedel <joro@8bytes.org>, 
  Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
  <krzysztof.kozlowski@canonical.com>, David Airlie <airlied@linux.ie>, Mauro
  Carvalho Chehab <mchehab@kernel.org>
-Subject: [PATCH v6 00/11] Clean up "mediatek,larb"
-Date: Wed, 14 Jul 2021 10:56:15 +0800
-Message-ID: <20210714025626.5528-1-yong.wu@mediatek.com>
+Subject: [PATCH v6 01/11] dt-binding: mediatek: Get rid of mediatek,
+ larb for multimedia HW
+Date: Wed, 14 Jul 2021 10:56:16 +0800
+Message-ID: <20210714025626.5528-2-yong.wu@mediatek.com>
 X-Mailer: git-send-email 2.18.0
+In-Reply-To: <20210714025626.5528-1-yong.wu@mediatek.com>
+References: <20210714025626.5528-1-yong.wu@mediatek.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-MTK: N
@@ -68,121 +69,250 @@ Cc: Xia Jiang <xia.jiang@mediatek.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-MediaTek IOMMU block diagram always like below:
+After adding device_link between the consumer with the smi-larbs,
+if the consumer call its owner pm_runtime_get(_sync), the
+pm_runtime_get(_sync) of smi-larb and smi-common will be called
+automatically. Thus, the consumer don't need the property.
 
-        M4U
-         |
-    smi-common
-         |
-  -------------
-  |         |  ...
-  |         |
-larb1     larb2
-  |         |
-vdec       venc
+And IOMMU also know which larb this consumer connects with from
+iommu id in the "iommus=" property.
 
-All the consumer connect with smi-larb, then connect with smi-common.
+Signed-off-by: Yong Wu <yong.wu@mediatek.com>
+Reviewed-by: Rob Herring <robh@kernel.org>
+Reviewed-by: Evan Green <evgreen@chromium.org>
+---
+ .../bindings/display/mediatek/mediatek,disp.txt          | 9 ---------
+ .../devicetree/bindings/media/mediatek-jpeg-decoder.yaml | 9 ---------
+ .../devicetree/bindings/media/mediatek-jpeg-encoder.yaml | 9 ---------
+ Documentation/devicetree/bindings/media/mediatek-mdp.txt | 8 --------
+ .../devicetree/bindings/media/mediatek-vcodec.txt        | 4 ----
+ 5 files changed, 39 deletions(-)
 
-When the consumer works, it should enable the smi-larb's power which also
-need enable the smi-common's power firstly.
-
-Thus, Firstly, use the device link connect the consumer and the
-smi-larbs. then add device link between the smi-larb and smi-common.
-
-After adding the device_link, then "mediatek,larb" property can be removed.
-the iommu consumer don't need call the mtk_smi_larb_get/put to enable
-the power and clock of smi-larb and smi-common.
-
-About the MM dt-binding/dtsi patches, I guess they should go together, thus
-I don't split them for each a MM module and each a SoC.
-
-Base on v5.14-rc1, and a jpeg[1] and mdp[2] patchset.
-
-[1] https://lore.kernel.org/linux-mediatek/20210702102304.3346429-1-hsinyi@chromium.org/
-[2] https://lore.kernel.org/linux-mediatek/20210709022324.1607884-1-eizan@chromium.org/
-
-Change notes:
-v6: 1) rebase on v5.14-rc1.
-    2) Fix the issue commented in v5 from Dafna and Hsin-Yi.
-    3) Remove the patches about using pm_runtime_resume_and_get since they have
-       already been merged by other patches.
-
-v5: https://lore.kernel.org/linux-mediatek/20210410091128.31823-1-yong.wu@mediatek.com/
-    1) Base v5.12-rc2.
-    2) Remove changing the mtk-iommu to module_platform_driver patch, It have already been a
-    independent patch.
-
-v4: https://lore.kernel.org/linux-mediatek/1590826218-23653-1-git-send-email-yong.wu@mediatek.com/ 
-    base on v5.7-rc1.
-  1) Move drm PM patch before smi patchs.
-  2) Change builtin_platform_driver to module_platform_driver since we may need
-     build as module.
-  3) Rebase many patchset as above.
-
-v3: https://lore.kernel.org/linux-iommu/1567503456-24725-1-git-send-email-yong.wu@mediatek.com/
-    1) rebase on v5.3-rc1 and the latest mt8183 patchset.
-    2) Use device_is_bound to check whether the driver is ready from Matthias.    
-    3) Add DL_FLAG_STATELESS flag when calling device_link_add and explain the
-   reason in the commit message[3/14].
-    4) Add a display patch[12/14] into this series. otherwise it may affect
-   display HW fastlogo even though it don't happen in mt8183.
-   
-v2: https://lore.kernel.org/linux-iommu/1560171313-28299-1-git-send-email-yong.wu@mediatek.com/
-   1) rebase on v5.2-rc1.
-   2) Move adding device_link between the consumer and smi-larb into
-iommu_add_device from Robin.
-   3) add DL_FLAG_AUTOREMOVE_CONSUMER even though the smi is built-in from Evan.
-   4) Remove the shutdown callback in iommu.   
-
-v1: https://lore.kernel.org/linux-iommu/1546318276-18993-1-git-send-email-yong.wu@mediatek.com/
-
-Yong Wu (10):
-  dt-binding: mediatek: Get rid of mediatek,larb for multimedia HW
-  iommu/mediatek: Add probe_defer for smi-larb
-  iommu/mediatek: Add device_link between the consumer and the larb
-    devices
-  media: mtk-jpeg: Get rid of mtk_smi_larb_get/put
-  media: mtk-mdp: Get rid of mtk_smi_larb_get/put
-  drm/mediatek: Get rid of mtk_smi_larb_get/put
-  media: mtk-vcodec: Get rid of mtk_smi_larb_get/put
-  memory: mtk-smi: Get rid of mtk_smi_larb_get/put
-  arm: dts: mediatek: Get rid of mediatek,larb for MM nodes
-  arm64: dts: mediatek: Get rid of mediatek,larb for MM nodes
-
-Yongqiang Niu (1):
-  drm/mediatek: Add pm runtime support for ovl and rdma
-
- .../display/mediatek/mediatek,disp.txt        |  9 ----
- .../bindings/media/mediatek-jpeg-decoder.yaml |  9 ----
- .../bindings/media/mediatek-jpeg-encoder.yaml |  9 ----
- .../bindings/media/mediatek-mdp.txt           |  8 ----
- .../bindings/media/mediatek-vcodec.txt        |  4 --
- arch/arm/boot/dts/mt2701.dtsi                 |  2 -
- arch/arm/boot/dts/mt7623n.dtsi                |  5 --
- arch/arm64/boot/dts/mediatek/mt8173.dtsi      | 16 -------
- arch/arm64/boot/dts/mediatek/mt8183.dtsi      |  6 ---
- drivers/gpu/drm/mediatek/mtk_disp_ovl.c       |  9 +++-
- drivers/gpu/drm/mediatek/mtk_disp_rdma.c      |  9 +++-
- drivers/gpu/drm/mediatek/mtk_drm_crtc.c       | 19 ++++----
- drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c   | 36 +--------------
- drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h   |  1 -
- drivers/gpu/drm/mediatek/mtk_drm_drv.c        |  5 +-
- drivers/iommu/mtk_iommu.c                     | 24 +++++++++-
- drivers/iommu/mtk_iommu_v1.c                  | 22 ++++++++-
- .../media/platform/mtk-jpeg/mtk_jpeg_core.c   | 45 +-----------------
- .../media/platform/mtk-jpeg/mtk_jpeg_core.h   |  2 -
- drivers/media/platform/mtk-mdp/mtk_mdp_comp.c | 46 +------------------
- drivers/media/platform/mtk-mdp/mtk_mdp_comp.h |  2 -
- drivers/media/platform/mtk-mdp/mtk_mdp_core.c |  1 -
- .../platform/mtk-vcodec/mtk_vcodec_dec_pm.c   | 37 ++-------------
- .../platform/mtk-vcodec/mtk_vcodec_drv.h      |  3 --
- .../platform/mtk-vcodec/mtk_vcodec_enc.c      |  1 -
- .../platform/mtk-vcodec/mtk_vcodec_enc_pm.c   | 44 ++----------------
- drivers/memory/mtk-smi.c                      | 14 ------
- include/soc/mediatek/smi.h                    | 20 --------
- 28 files changed, 85 insertions(+), 323 deletions(-)
-
+diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,disp.txt b/Documentation/devicetree/bindings/display/mediatek/mediatek,disp.txt
+index fbb59c9ddda6..867bd82e2f03 100644
+--- a/Documentation/devicetree/bindings/display/mediatek/mediatek,disp.txt
++++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,disp.txt
+@@ -61,8 +61,6 @@ Required properties (DMA function blocks):
+ 	"mediatek,<chip>-disp-rdma"
+ 	"mediatek,<chip>-disp-wdma"
+   the supported chips are mt2701, mt8167 and mt8173.
+-- larb: Should contain a phandle pointing to the local arbiter device as defined
+-  in Documentation/devicetree/bindings/memory-controllers/mediatek,smi-larb.yaml
+ - iommus: Should point to the respective IOMMU block with master port as
+   argument, see Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml
+   for details.
+@@ -91,7 +89,6 @@ ovl0: ovl@1400c000 {
+ 	power-domains = <&scpsys MT8173_POWER_DOMAIN_MM>;
+ 	clocks = <&mmsys CLK_MM_DISP_OVL0>;
+ 	iommus = <&iommu M4U_PORT_DISP_OVL0>;
+-	mediatek,larb = <&larb0>;
+ };
+ 
+ ovl1: ovl@1400d000 {
+@@ -101,7 +98,6 @@ ovl1: ovl@1400d000 {
+ 	power-domains = <&scpsys MT8173_POWER_DOMAIN_MM>;
+ 	clocks = <&mmsys CLK_MM_DISP_OVL1>;
+ 	iommus = <&iommu M4U_PORT_DISP_OVL1>;
+-	mediatek,larb = <&larb4>;
+ };
+ 
+ rdma0: rdma@1400e000 {
+@@ -111,7 +107,6 @@ rdma0: rdma@1400e000 {
+ 	power-domains = <&scpsys MT8173_POWER_DOMAIN_MM>;
+ 	clocks = <&mmsys CLK_MM_DISP_RDMA0>;
+ 	iommus = <&iommu M4U_PORT_DISP_RDMA0>;
+-	mediatek,larb = <&larb0>;
+ 	mediatek,rdma-fifosize = <8192>;
+ };
+ 
+@@ -122,7 +117,6 @@ rdma1: rdma@1400f000 {
+ 	power-domains = <&scpsys MT8173_POWER_DOMAIN_MM>;
+ 	clocks = <&mmsys CLK_MM_DISP_RDMA1>;
+ 	iommus = <&iommu M4U_PORT_DISP_RDMA1>;
+-	mediatek,larb = <&larb4>;
+ };
+ 
+ rdma2: rdma@14010000 {
+@@ -132,7 +126,6 @@ rdma2: rdma@14010000 {
+ 	power-domains = <&scpsys MT8173_POWER_DOMAIN_MM>;
+ 	clocks = <&mmsys CLK_MM_DISP_RDMA2>;
+ 	iommus = <&iommu M4U_PORT_DISP_RDMA2>;
+-	mediatek,larb = <&larb4>;
+ };
+ 
+ wdma0: wdma@14011000 {
+@@ -142,7 +135,6 @@ wdma0: wdma@14011000 {
+ 	power-domains = <&scpsys MT8173_POWER_DOMAIN_MM>;
+ 	clocks = <&mmsys CLK_MM_DISP_WDMA0>;
+ 	iommus = <&iommu M4U_PORT_DISP_WDMA0>;
+-	mediatek,larb = <&larb0>;
+ };
+ 
+ wdma1: wdma@14012000 {
+@@ -152,7 +144,6 @@ wdma1: wdma@14012000 {
+ 	power-domains = <&scpsys MT8173_POWER_DOMAIN_MM>;
+ 	clocks = <&mmsys CLK_MM_DISP_WDMA1>;
+ 	iommus = <&iommu M4U_PORT_DISP_WDMA1>;
+-	mediatek,larb = <&larb4>;
+ };
+ 
+ color0: color@14013000 {
+diff --git a/Documentation/devicetree/bindings/media/mediatek-jpeg-decoder.yaml b/Documentation/devicetree/bindings/media/mediatek-jpeg-decoder.yaml
+index 9b87f036f178..052e752157b4 100644
+--- a/Documentation/devicetree/bindings/media/mediatek-jpeg-decoder.yaml
++++ b/Documentation/devicetree/bindings/media/mediatek-jpeg-decoder.yaml
+@@ -42,13 +42,6 @@ properties:
+   power-domains:
+     maxItems: 1
+ 
+-  mediatek,larb:
+-    $ref: '/schemas/types.yaml#/definitions/phandle'
+-    description: |
+-      Must contain the local arbiters in the current Socs, see
+-      Documentation/devicetree/bindings/memory-controllers/mediatek,smi-larb.yaml
+-      for details.
+-
+   iommus:
+     maxItems: 2
+     description: |
+@@ -63,7 +56,6 @@ required:
+   - clocks
+   - clock-names
+   - power-domains
+-  - mediatek,larb
+   - iommus
+ 
+ additionalProperties: false
+@@ -83,7 +75,6 @@ examples:
+       clock-names = "jpgdec-smi",
+                     "jpgdec";
+       power-domains = <&scpsys MT2701_POWER_DOMAIN_ISP>;
+-      mediatek,larb = <&larb2>;
+       iommus = <&iommu MT2701_M4U_PORT_JPGDEC_WDMA>,
+                <&iommu MT2701_M4U_PORT_JPGDEC_BSDMA>;
+     };
+diff --git a/Documentation/devicetree/bindings/media/mediatek-jpeg-encoder.yaml b/Documentation/devicetree/bindings/media/mediatek-jpeg-encoder.yaml
+index fcd9b829e036..8bfdfdfaba59 100644
+--- a/Documentation/devicetree/bindings/media/mediatek-jpeg-encoder.yaml
++++ b/Documentation/devicetree/bindings/media/mediatek-jpeg-encoder.yaml
+@@ -35,13 +35,6 @@ properties:
+   power-domains:
+     maxItems: 1
+ 
+-  mediatek,larb:
+-    $ref: '/schemas/types.yaml#/definitions/phandle'
+-    description: |
+-      Must contain the local arbiters in the current Socs, see
+-      Documentation/devicetree/bindings/memory-controllers/mediatek,smi-larb.yaml
+-      for details.
+-
+   iommus:
+     maxItems: 2
+     description: |
+@@ -56,7 +49,6 @@ required:
+   - clocks
+   - clock-names
+   - power-domains
+-  - mediatek,larb
+   - iommus
+ 
+ additionalProperties: false
+@@ -75,7 +67,6 @@ examples:
+       clocks =  <&imgsys CLK_IMG_VENC>;
+       clock-names = "jpgenc";
+       power-domains = <&scpsys MT2701_POWER_DOMAIN_ISP>;
+-      mediatek,larb = <&larb2>;
+       iommus = <&iommu MT2701_M4U_PORT_JPGENC_RDMA>,
+                <&iommu MT2701_M4U_PORT_JPGENC_BSDMA>;
+     };
+diff --git a/Documentation/devicetree/bindings/media/mediatek-mdp.txt b/Documentation/devicetree/bindings/media/mediatek-mdp.txt
+index caa24943da33..53ef26e2c857 100644
+--- a/Documentation/devicetree/bindings/media/mediatek-mdp.txt
++++ b/Documentation/devicetree/bindings/media/mediatek-mdp.txt
+@@ -27,9 +27,6 @@ Required properties (DMA function blocks, child node):
+ - iommus: should point to the respective IOMMU block with master port as
+   argument, see Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml
+   for details.
+-- mediatek,larb: must contain the local arbiters in the current Socs, see
+-  Documentation/devicetree/bindings/memory-controllers/mediatek,smi-larb.yaml
+-  for details.
+ 
+ Example:
+ 	mdp_rdma0: rdma@14001000 {
+@@ -40,7 +37,6 @@ Example:
+ 			 <&mmsys CLK_MM_MUTEX_32K>;
+ 		power-domains = <&scpsys MT8173_POWER_DOMAIN_MM>;
+ 		iommus = <&iommu M4U_PORT_MDP_RDMA0>;
+-		mediatek,larb = <&larb0>;
+ 		mediatek,vpu = <&vpu>;
+ 	};
+ 
+@@ -51,7 +47,6 @@ Example:
+ 			 <&mmsys CLK_MM_MUTEX_32K>;
+ 		power-domains = <&scpsys MT8173_POWER_DOMAIN_MM>;
+ 		iommus = <&iommu M4U_PORT_MDP_RDMA1>;
+-		mediatek,larb = <&larb4>;
+ 	};
+ 
+ 	mdp_rsz0: rsz@14003000 {
+@@ -81,7 +76,6 @@ Example:
+ 		clocks = <&mmsys CLK_MM_MDP_WDMA>;
+ 		power-domains = <&scpsys MT8173_POWER_DOMAIN_MM>;
+ 		iommus = <&iommu M4U_PORT_MDP_WDMA>;
+-		mediatek,larb = <&larb0>;
+ 	};
+ 
+ 	mdp_wrot0: wrot@14007000 {
+@@ -90,7 +84,6 @@ Example:
+ 		clocks = <&mmsys CLK_MM_MDP_WROT0>;
+ 		power-domains = <&scpsys MT8173_POWER_DOMAIN_MM>;
+ 		iommus = <&iommu M4U_PORT_MDP_WROT0>;
+-		mediatek,larb = <&larb0>;
+ 	};
+ 
+ 	mdp_wrot1: wrot@14008000 {
+@@ -99,5 +92,4 @@ Example:
+ 		clocks = <&mmsys CLK_MM_MDP_WROT1>;
+ 		power-domains = <&scpsys MT8173_POWER_DOMAIN_MM>;
+ 		iommus = <&iommu M4U_PORT_MDP_WROT1>;
+-		mediatek,larb = <&larb4>;
+ 	};
+diff --git a/Documentation/devicetree/bindings/media/mediatek-vcodec.txt b/Documentation/devicetree/bindings/media/mediatek-vcodec.txt
+index ad1321e5a22d..71237355cc7e 100644
+--- a/Documentation/devicetree/bindings/media/mediatek-vcodec.txt
++++ b/Documentation/devicetree/bindings/media/mediatek-vcodec.txt
+@@ -13,7 +13,6 @@ Required properties:
+ - reg : Physical base address of the video codec registers and length of
+   memory mapped region.
+ - interrupts : interrupt number to the cpu.
+-- mediatek,larb : must contain the local arbiters in the current Socs.
+ - clocks : list of clock specifiers, corresponding to entries in
+   the clock-names property.
+ - clock-names: avc encoder must contain "venc_sel", vp8 encoder must
+@@ -46,7 +45,6 @@ vcodec_dec: vcodec@16000000 {
+           <0 0x16027800 0 0x800>,   /*VP8_VL*/
+           <0 0x16028400 0 0x400>;   /*VP9_VD*/
+     interrupts = <GIC_SPI 204 IRQ_TYPE_LEVEL_LOW>;
+-    mediatek,larb = <&larb1>;
+     iommus = <&iommu M4U_PORT_HW_VDEC_MC_EXT>,
+              <&iommu M4U_PORT_HW_VDEC_PP_EXT>,
+              <&iommu M4U_PORT_HW_VDEC_AVC_MV_EXT>,
+@@ -99,7 +97,6 @@ vcodec_enc_avc: vcodec@18002000 {
+              <&iommu M4U_PORT_VENC_REF_CHROMA>,
+              <&iommu M4U_PORT_VENC_NBM_RDMA>,
+              <&iommu M4U_PORT_VENC_NBM_WDMA>;
+-    mediatek,larb = <&larb3>;
+     mediatek,vpu = <&vpu>;
+     clocks = <&topckgen CLK_TOP_VENC_SEL>;
+     clock-names = "venc_sel";
+@@ -120,7 +117,6 @@ vcodec_enc_vp8: vcodec@19002000 {
+              <&iommu M4U_PORT_VENC_CUR_CHROMA_SET2>,
+              <&iommu M4U_PORT_VENC_REF_LUMA_SET2>,
+              <&iommu M4U_PORT_VENC_REC_CHROMA_SET2>;
+-    mediatek,larb = <&larb5>;
+     mediatek,vpu = <&vpu>;
+     clocks = <&topckgen CLK_TOP_VENC_LT_SEL>;
+     clock-names = "venc_lt_sel";
 -- 
 2.18.0
-
 
