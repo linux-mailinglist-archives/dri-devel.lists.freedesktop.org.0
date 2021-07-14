@@ -1,124 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E69053C80B2
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Jul 2021 10:51:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 34D0F3C80CB
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Jul 2021 10:56:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4DA506E1CF;
-	Wed, 14 Jul 2021 08:51:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F56B6E1D3;
+	Wed, 14 Jul 2021 08:56:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2040.outbound.protection.outlook.com [40.107.237.40])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A5D646E1CD;
- Wed, 14 Jul 2021 08:51:08 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NiGRi0HzdOTugltBniCFALUM4rXVyDgr49KMTeIXB0jYRE/5zrzQ71xjm/aYLI8+ZssJJ5SCVRwh4deHanAEeZ19xevXHRqTrH2vkIwTdhihmJjnRDXb8X2gBFALnhfZb+Sy0cbuFPefUqnD2OKwdfeXYcNmpdFuEI+ItxMPtTI7OvM6D7+HTnbGOw5qjusMWBO0ODXNga5VD/ACYQB7Tn+cJc3JU9L8O9BSZSDkng40VMZA3CaEdqrm5M8qSYs7R4nPorQQDga5K6R40r0PHFPsmpkRGTlexDrnWdhbvzTBzckSwLHCITpANZSVNj+3eR/iMoNbSobIvmLZugD1uw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4ltEWAXzHyd+pjoXT73vrgvR6fG5ECBfC2vG/naWnRY=;
- b=OoR3Yp5zjy57TAxcLxjYKiyWhP5a/Z5WXysYVX//hW/svlkJJN8jmmYMbkZx0Iev0SZ7J0MdV0RM9dpyvUYFW0RlGYpkIGWfbopqV5MK+/UWVUxtYg+rzIGkoNHsH7vzEvxiLNDEbFKXQlN2DZELTSo1kUxrN6OHqteS9HlYZkQzW2bijvOqNO9RfFSxG9bENc79yz+9INV4AHCk5FEjGqUNwlfyAXYIaTw/wxpZPt2O1smkLaaMjSeEX71BLcIAW0V8FDmJQ0saScZq2OI5LJ6823tv4umu+Yvt0jHjvO/6WO6cB4RWOLisRreqRvEcQUfESaWwES+SkvN7CkHeRw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4ltEWAXzHyd+pjoXT73vrgvR6fG5ECBfC2vG/naWnRY=;
- b=fiDq8R0gZ5tUjwh7xOUX0tlD6wrd5xiDX1/YEb8OgFXRn0fkLkRNp1NkVa/VlQ89WS6R6FytNS5YsEq78IzuQp6UByI2O3iWE2ywKBtT/JbzslruqfBECf47cMdbiPnKHPjNaK7HcuhvhzqB5bMJswtHGnxvShkDr/e3ezvfjSs=
-Authentication-Results: amd.com; dkim=none (message not signed)
- header.d=none;amd.com; dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
- by MN2PR12MB4317.namprd12.prod.outlook.com (2603:10b6:208:1d0::16)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.21; Wed, 14 Jul
- 2021 08:51:06 +0000
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::6c9e:1e08:7617:f756]) by MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::6c9e:1e08:7617:f756%5]) with mapi id 15.20.4308.027; Wed, 14 Jul 2021
- 08:51:06 +0000
-Subject: Re: [PATCH v3 1/1] drm/ttm: Fix COW check
-To: Alex Deucher <alexdeucher@gmail.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-References: <20210712220636.475675-1-Felix.Kuehling@amd.com>
- <d617d831-7168-51a4-042e-e36a5af7761d@gmail.com>
- <CADnq5_NCg6VnWgH7Hn61CjZBZiRuAdROW5s6imwQ8AR=9Bm4=g@mail.gmail.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <1dd35814-c2bb-6e71-6259-e9d4f77d8969@amd.com>
-Date: Wed, 14 Jul 2021 10:51:01 +0200
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE46C6E1D3
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Jul 2021 08:56:25 +0000 (UTC)
+Received: from [IPv6:2a02:810a:880:f54:e49e:3ed0:1a77:5623] (unknown
+ [IPv6:2a02:810a:880:f54:e49e:3ed0:1a77:5623])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: dafna)
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 4DB701F42B69;
+ Wed, 14 Jul 2021 09:56:23 +0100 (BST)
+Subject: Re: [PATCH v6 00/11] Clean up "mediatek,larb"
+To: Yong Wu <yong.wu@mediatek.com>, Matthias Brugger
+ <matthias.bgg@gmail.com>, Joerg Roedel <joro@8bytes.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+ David Airlie <airlied@linux.ie>, Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <20210714025626.5528-1-yong.wu@mediatek.com>
+From: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Message-ID: <672ef386-aa95-da45-0f17-acb398a1f6e0@collabora.com>
+Date: Wed, 14 Jul 2021 10:56:20 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
-In-Reply-To: <CADnq5_NCg6VnWgH7Hn61CjZBZiRuAdROW5s6imwQ8AR=9Bm4=g@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-ClientProxiedBy: AM4PR07CA0026.eurprd07.prod.outlook.com
- (2603:10a6:205:1::39) To MN2PR12MB3775.namprd12.prod.outlook.com
- (2603:10b6:208:159::19)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:908:1252:fb60:fe2b:fec6:eeb5:c7dc]
- (2a02:908:1252:fb60:fe2b:fec6:eeb5:c7dc) by
- AM4PR07CA0026.eurprd07.prod.outlook.com (2603:10a6:205:1::39) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4352.8 via Frontend Transport; Wed, 14 Jul 2021 08:51:05 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 84c3f1b4-2e21-490e-4acc-08d946a484a1
-X-MS-TrafficTypeDiagnostic: MN2PR12MB4317:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <MN2PR12MB4317E4D78F247F397E3F2CF183139@MN2PR12MB4317.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:218;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ytXgDweSKE6fSeAb06i1dbr05Gov/jq3+TF/djxPXaGcwAz7C75qIMCMMMucOoqRADynwDfFpylGt9smJTNbZPT0v/qREuBokmINL5f0NyTCAZaYUK9ivmvhhhG72nXk6iu4BOonqaqcrxlIDSFQuRPlPId0oFEgV2HgnS4jhO/USnJJT8tgY2qEKrJRAMqUtl1rL5gMgUZJmFtMXGKzZneePnccpmDuyyuoM/aoaysSQKgWjoluFtrTQmHIdcnEYPGKcsD6cLG0E0EEzpnWxC5mZ798oSbiMulzqMDU6KbNtnLgBAfvSxFzZtkJeON3omSIoFtBjNe0WBIGkr/gfDIEh1BI6eLtZaDG5n2xMW5CvJiVOSeSW/DhoDXCRs1jv+cIWa/hr1zopc2ZBV6iJJCNwFgSHYOFzPkFAHB5Vmpv/0YSHVuEkzJdclX7S5WxqMsDV3maXZoLPeswYYN0bWdOV/3gtxTaEUgqY9tFgM+panynNSDt2mkRfhIIZdRSWeWNqBcM/hcPhC9QS7MS1mv6eJsyVhFv93quCMKx0mEBm0eW2/AdchMq+PeaPStyTR0wPWO6kwZ0vNJq6BJDyVXVDVQ2ZUyghZOIXya8oARoMohe6Z8pPKPxFJwJV7w6UU1q6PDT4BUoPDuXZqwRex2ShyajzWwZPMpDrGx3OxfNASkQCDS5cLsE7kGQQighnXdN5erw4ezTJn4ydsrYUi8TzHPcSXoySkQDg+t0Nx6BOvug+XptYRhzGudS3pXD
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39850400004)(366004)(346002)(136003)(396003)(376002)(31686004)(38100700002)(6486002)(5660300002)(53546011)(186003)(4326008)(66946007)(66556008)(66476007)(83380400001)(316002)(31696002)(8676002)(86362001)(110136005)(66574015)(2616005)(54906003)(8936002)(6666004)(478600001)(36756003)(2906002)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TTRaUVV5WDZ0Z1h2aitrRndIeDFBUFZnd1JGSlovbkVQZTVua2JrZUVPZjlE?=
- =?utf-8?B?NVZXZTY3UGJITDBOd0g4Zyt6TXE2eWU4Mm40dWhMOC9yL0JPZXc2SzdkWWpx?=
- =?utf-8?B?UU82cSt2V01QRXdDY3RjdFoyTzQ2LzJYWUNMRXVWeVIwQlZpN0FZTlh1MzhS?=
- =?utf-8?B?ZCs4bHplcXFzZm9GS0loTkR5SVIxR2FwYS8yc2hzWGlSeDI4N2FMQzNIdTBx?=
- =?utf-8?B?WCtUREJuM3FEZ3hJRXB2ZTYzRy9KU1JacmMwYUIxUGFIbnNFK0RpQjRQRjQx?=
- =?utf-8?B?ZFhZMHZPN0w3VkRxcW1Fd3pRQWNvRGMzZzgrNnFORVJWUmR4eTYzNFJ3dU5O?=
- =?utf-8?B?SzVONnMwMGlFdS9tZWNheDB6UEo0ZGFTd2hwYkNtdGV3MTU0NGJsT0ZXOTRW?=
- =?utf-8?B?M2IrUy9STEd1KzUwT0tibS82dHRTK3BBcGtOQURlaWFHNzZDZU1vMWFZcGpG?=
- =?utf-8?B?RElVOU81d3FlTlpoa0JBVDdTSXBML0Zxak15VGorUXY4MnR5WkFuaG5telh5?=
- =?utf-8?B?YktTdnhhTFF5TW5ndjFQSC9ocngvWGIybkNrcStrV2c0eGZHSEd5aXNWRWZY?=
- =?utf-8?B?cFVqLzZJNk9MeVBPVUN4RFU1SlFaUTZyWW16VkVZRk9OTWgxQXYwOVJUV0tm?=
- =?utf-8?B?L1FqZ1ZYNUtsTEkzM09IVmpkZmVobmRocEpxa3BFM0UzTG9jRVRGMEMyc0dH?=
- =?utf-8?B?TzV6TVdXNnV3SnNhcjRvbGZnOUZPS0lWa2pFZE5mZEFBWWVFSGF2RjNvSm1Q?=
- =?utf-8?B?bVgvVWtoR0E4TmViV3pZTlJvb252WjFHQUMwTVc5WFJQTklLUnJpQklPU3pZ?=
- =?utf-8?B?TzI3ZHoxejU2QlZCcnFqZHU5NVkvUE9lcUxYNzVXV0RVZlV6a0daQXM2OE9x?=
- =?utf-8?B?d3lGN1RmK2czUEx6aWtCaFZTb1BRUEdOSXplSC9RV0xwaUtQamJRME03eFBP?=
- =?utf-8?B?cWRkRkFYVVRKY2JYYkZ1RDdBdzZVbjZqa1hvWjQ3T05jWFIrLy9nRWRHZzVT?=
- =?utf-8?B?K09jeGNmY2hweXBTai9VaGt4dlE2QWpPU01IVkV5VU1LMlA1aExFa0grVHVE?=
- =?utf-8?B?bWZ3UzRScVo0ZzBMdXZPUXRSdnNLUzZVQTc5eWJFVDl5VUZsa0gwNmhNVFJJ?=
- =?utf-8?B?V0pyN2E0eG9YTSs5R1lxVTZyc3NCb3VGcGtjRGk5Z0N2aUVyai9nZ1BNOUkr?=
- =?utf-8?B?N1JDeld4ZWtpZUNQSmJvUm9NckNsaHVkYnlxUFZRRnlGUkVPT20zMWhzQTN0?=
- =?utf-8?B?dGROd3lJM0kzeFd6Tm5qS1JyVGFqN2hES0VMeDJDaERyOG9HV0l6dHBoUS9X?=
- =?utf-8?B?UkpYL2ZQOGJZMURDTzRpL0RzQ3lEakFuaWpqaVE2bHBESksrQ1lkd296eDdt?=
- =?utf-8?B?TTZCdmc2N2gycFYrdEFQdy9qVXZMdmVNL2RSV0pvTkpNcmFqc1ZqdnVHamJB?=
- =?utf-8?B?YXNFNjJzV1lLc0JNOWg0cWtGY3pyQnZXTkw4U1B0SmpVOHJCZTdxMm5CTVJG?=
- =?utf-8?B?Z0VoU1RDd3E1M09mOVM3cE9hYkExTlJ1Nm55RE9HQ1dMMWFJQmhKOXZzMzhH?=
- =?utf-8?B?c3F5U0tSWG1iM1N4Tzg5T1BKa2xBV1ljcnhjanhRdXB1cjFXeG43dDJYU1JT?=
- =?utf-8?B?dFc2d0NEWkpyQ3VzS0ZPcStjWEtkY3E4TlJZT1JXSGFOK3p6YVhLbTR2ajIr?=
- =?utf-8?B?Tm93cDVQcHd4WCtHZ3dzS2k5WExjQjQzUkJ0azRVOHZUODZkajFlbzVBZnVZ?=
- =?utf-8?B?OG1kUVloY3ptUTRoTVE0bGtUQk9CN3JGa082Wk9lYzFmaklndzBlRGRhNFpJ?=
- =?utf-8?B?OWRFR0k0d2RqNy9iZVNtVkxUa0Y0NlFER0pxU1VSYWMwRjV4ekVGUUlMUlV4?=
- =?utf-8?Q?kvmvRJKN1ig3x?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 84c3f1b4-2e21-490e-4acc-08d946a484a1
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jul 2021 08:51:06.8176 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ajEDCXXtGAkSypCm3bFHLXAaDvFjwX43mp4bgZeqccl6jpDLybN8pT4FHaRPTfSp
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4317
+In-Reply-To: <20210714025626.5528-1-yong.wu@mediatek.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -131,153 +47,153 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>,
- Felix Kuehling <Felix.Kuehling@amd.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>
+Cc: Xia Jiang <xia.jiang@mediatek.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Will Deacon <will.deacon@arm.com>, dri-devel@lists.freedesktop.org,
+ anthony.huang@mediatek.com, youlin.pei@mediatek.com,
+ Nicolas Boichat <drinkcat@chromium.org>, Evan Green <evgreen@chromium.org>,
+ Eizan Miyamoto <eizan@chromium.org>, Matthias Kaehlcke <mka@chromium.org>,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org, yi.kuo@mediatek.com,
+ linux-mediatek@lists.infradead.org, Hsin-Yi Wang <hsinyi@chromium.org>,
+ ming-fan.chen@mediatek.com, Tiffany Lin <tiffany.lin@mediatek.com>,
+ linux-arm-kernel@lists.infradead.org, anan.sun@mediatek.com,
+ srv_heupstream@mediatek.com, acourbot@chromium.org,
+ linux-kernel@vger.kernel.org, Tomasz Figa <tfiga@chromium.org>,
+ iommu@lists.linux-foundation.org, Robin Murphy <robin.murphy@arm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi
+
+Thanks for the patchset.
+
+I tested it on mt8173 (elm) with chromeos userspace.
+Before that patchset, the test:
+
+tast -verbose run -build=false 10.42.0.175 video.DecodeAccel.h264
+
+sometimes passed and sometimes failed with 'context deadline exceeded'.
+With this patchset it seems that the test always passes so I added tested-by:
+
+Tested-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+
+Thanks,
+Dafna
 
 
-Am 13.07.21 um 17:28 schrieb Alex Deucher:
-> On Tue, Jul 13, 2021 at 2:57 AM Christian König
-> <ckoenig.leichtzumerken@gmail.com> wrote:
->>
->>
->> Am 13.07.21 um 00:06 schrieb Felix Kuehling:
->>> KFD Thunk maps invisible VRAM BOs with PROT_NONE, MAP_PRIVATE.
->>> is_cow_mapping returns true for these mappings. Add a check for
->>> vm_flags & VM_WRITE to avoid mmap failures on private read-only or
->>> PROT_NONE mappings.
->>>
->>> v2: protect against mprotect making a mapping writable after the fact
->>> v3: update driver-specific vm_operations_structs
->>>
->>> Fixes: f91142c62161 ("drm/ttm: nuke VM_MIXEDMAP on BO mappings v3")
->>> Signed-off-by: Felix Kuehling <Felix.Kuehling@amd.com>
->>> Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
->> Reviewed-by: Christian König <christian.koenig@amd.com>
-> Are you planning to push this to drm-misc?
 
-Yes, just didn't found time yesterday.
 
-Christian.
-
->
-> Alex
->
->>> ---
->>>    drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c  |  3 ++-
->>>    drivers/gpu/drm/nouveau/nouveau_gem.c    |  3 ++-
->>>    drivers/gpu/drm/radeon/radeon_gem.c      |  3 ++-
->>>    drivers/gpu/drm/ttm/ttm_bo_vm.c          | 14 +++++++++++++-
->>>    drivers/gpu/drm/vmwgfx/vmwgfx_ttm_glue.c |  1 +
->>>    include/drm/ttm/ttm_bo_api.h             |  4 ++++
->>>    6 files changed, 24 insertions(+), 4 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
->>> index b3404c43a911..1aa750a6a5d2 100644
->>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
->>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
->>> @@ -79,7 +79,8 @@ static const struct vm_operations_struct amdgpu_gem_vm_ops = {
->>>        .fault = amdgpu_gem_fault,
->>>        .open = ttm_bo_vm_open,
->>>        .close = ttm_bo_vm_close,
->>> -     .access = ttm_bo_vm_access
->>> +     .access = ttm_bo_vm_access,
->>> +     .mprotect = ttm_bo_vm_mprotect
->>>    };
->>>
->>>    static void amdgpu_gem_object_free(struct drm_gem_object *gobj)
->>> diff --git a/drivers/gpu/drm/nouveau/nouveau_gem.c b/drivers/gpu/drm/nouveau/nouveau_gem.c
->>> index 5b27845075a1..164ea564bb7a 100644
->>> --- a/drivers/gpu/drm/nouveau/nouveau_gem.c
->>> +++ b/drivers/gpu/drm/nouveau/nouveau_gem.c
->>> @@ -70,7 +70,8 @@ static const struct vm_operations_struct nouveau_ttm_vm_ops = {
->>>        .fault = nouveau_ttm_fault,
->>>        .open = ttm_bo_vm_open,
->>>        .close = ttm_bo_vm_close,
->>> -     .access = ttm_bo_vm_access
->>> +     .access = ttm_bo_vm_access,
->>> +     .mprotect = ttm_bo_vm_mprotect
->>>    };
->>>
->>>    void
->>> diff --git a/drivers/gpu/drm/radeon/radeon_gem.c b/drivers/gpu/drm/radeon/radeon_gem.c
->>> index 458f92a70887..c19ad07eb7b5 100644
->>> --- a/drivers/gpu/drm/radeon/radeon_gem.c
->>> +++ b/drivers/gpu/drm/radeon/radeon_gem.c
->>> @@ -77,7 +77,8 @@ static const struct vm_operations_struct radeon_gem_vm_ops = {
->>>        .fault = radeon_gem_fault,
->>>        .open = ttm_bo_vm_open,
->>>        .close = ttm_bo_vm_close,
->>> -     .access = ttm_bo_vm_access
->>> +     .access = ttm_bo_vm_access,
->>> +     .mprotect = ttm_bo_vm_mprotect
->>>    };
->>>
->>>    static void radeon_gem_object_free(struct drm_gem_object *gobj)
->>> diff --git a/drivers/gpu/drm/ttm/ttm_bo_vm.c b/drivers/gpu/drm/ttm/ttm_bo_vm.c
->>> index f56be5bc0861..fb325bad5db6 100644
->>> --- a/drivers/gpu/drm/ttm/ttm_bo_vm.c
->>> +++ b/drivers/gpu/drm/ttm/ttm_bo_vm.c
->>> @@ -542,17 +542,29 @@ int ttm_bo_vm_access(struct vm_area_struct *vma, unsigned long addr,
->>>    }
->>>    EXPORT_SYMBOL(ttm_bo_vm_access);
->>>
->>> +int ttm_bo_vm_mprotect(struct vm_area_struct *vma, unsigned long start,
->>> +                    unsigned long end, unsigned long newflags)
->>> +{
->>> +     /* Enforce no COW since would have really strange behavior with it. */
->>> +     if (is_cow_mapping(newflags) && (newflags & VM_WRITE))
->>> +             return -EINVAL;
->>> +
->>> +     return 0;
->>> +}
->>> +EXPORT_SYMBOL(ttm_bo_vm_mprotect);
->>> +
->>>    static const struct vm_operations_struct ttm_bo_vm_ops = {
->>>        .fault = ttm_bo_vm_fault,
->>>        .open = ttm_bo_vm_open,
->>>        .close = ttm_bo_vm_close,
->>>        .access = ttm_bo_vm_access,
->>> +     .mprotect = ttm_bo_vm_mprotect,
->>>    };
->>>
->>>    int ttm_bo_mmap_obj(struct vm_area_struct *vma, struct ttm_buffer_object *bo)
->>>    {
->>>        /* Enforce no COW since would have really strange behavior with it. */
->>> -     if (is_cow_mapping(vma->vm_flags))
->>> +     if (is_cow_mapping(vma->vm_flags) && (vma->vm_flags & VM_WRITE))
->>>                return -EINVAL;
->>>
->>>        ttm_bo_get(bo);
->>> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_glue.c b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_glue.c
->>> index e6b1f98ec99f..e4bf7dc99320 100644
->>> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_glue.c
->>> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_glue.c
->>> @@ -61,6 +61,7 @@ int vmw_mmap(struct file *filp, struct vm_area_struct *vma)
->>>                .fault = vmw_bo_vm_fault,
->>>                .open = ttm_bo_vm_open,
->>>                .close = ttm_bo_vm_close,
->>> +             .mprotect = ttm_bo_vm_mprotect,
->>>    #ifdef CONFIG_TRANSPARENT_HUGEPAGE
->>>                .huge_fault = vmw_bo_vm_huge_fault,
->>>    #endif
->>> diff --git a/include/drm/ttm/ttm_bo_api.h b/include/drm/ttm/ttm_bo_api.h
->>> index f681bbdbc698..40eb95875355 100644
->>> --- a/include/drm/ttm/ttm_bo_api.h
->>> +++ b/include/drm/ttm/ttm_bo_api.h
->>> @@ -605,6 +605,10 @@ void ttm_bo_vm_close(struct vm_area_struct *vma);
->>>
->>>    int ttm_bo_vm_access(struct vm_area_struct *vma, unsigned long addr,
->>>                     void *buf, int len, int write);
->>> +
->>> +int ttm_bo_vm_mprotect(struct vm_area_struct *vma, unsigned long start,
->>> +                    unsigned long end, unsigned long newflags);
->>> +
->>>    bool ttm_bo_delayed_delete(struct ttm_device *bdev, bool remove_all);
->>>
->>>    vm_fault_t ttm_bo_vm_dummy_page(struct vm_fault *vmf, pgprot_t prot);
-
+On 14.07.21 04:56, Yong Wu wrote:
+> MediaTek IOMMU block diagram always like below:
+> 
+>          M4U
+>           |
+>      smi-common
+>           |
+>    -------------
+>    |         |  ...
+>    |         |
+> larb1     larb2
+>    |         |
+> vdec       venc
+> 
+> All the consumer connect with smi-larb, then connect with smi-common.
+> 
+> When the consumer works, it should enable the smi-larb's power which also
+> need enable the smi-common's power firstly.
+> 
+> Thus, Firstly, use the device link connect the consumer and the
+> smi-larbs. then add device link between the smi-larb and smi-common.
+> 
+> After adding the device_link, then "mediatek,larb" property can be removed.
+> the iommu consumer don't need call the mtk_smi_larb_get/put to enable
+> the power and clock of smi-larb and smi-common.
+> 
+> About the MM dt-binding/dtsi patches, I guess they should go together, thus
+> I don't split them for each a MM module and each a SoC.
+> 
+> Base on v5.14-rc1, and a jpeg[1] and mdp[2] patchset.
+> 
+> [1] https://lore.kernel.org/linux-mediatek/20210702102304.3346429-1-hsinyi@chromium.org/
+> [2] https://lore.kernel.org/linux-mediatek/20210709022324.1607884-1-eizan@chromium.org/
+> 
+> Change notes:
+> v6: 1) rebase on v5.14-rc1.
+>      2) Fix the issue commented in v5 from Dafna and Hsin-Yi.
+>      3) Remove the patches about using pm_runtime_resume_and_get since they have
+>         already been merged by other patches.
+> 
+> v5: https://lore.kernel.org/linux-mediatek/20210410091128.31823-1-yong.wu@mediatek.com/
+>      1) Base v5.12-rc2.
+>      2) Remove changing the mtk-iommu to module_platform_driver patch, It have already been a
+>      independent patch.
+> 
+> v4: https://lore.kernel.org/linux-mediatek/1590826218-23653-1-git-send-email-yong.wu@mediatek.com/
+>      base on v5.7-rc1.
+>    1) Move drm PM patch before smi patchs.
+>    2) Change builtin_platform_driver to module_platform_driver since we may need
+>       build as module.
+>    3) Rebase many patchset as above.
+> 
+> v3: https://lore.kernel.org/linux-iommu/1567503456-24725-1-git-send-email-yong.wu@mediatek.com/
+>      1) rebase on v5.3-rc1 and the latest mt8183 patchset.
+>      2) Use device_is_bound to check whether the driver is ready from Matthias.
+>      3) Add DL_FLAG_STATELESS flag when calling device_link_add and explain the
+>     reason in the commit message[3/14].
+>      4) Add a display patch[12/14] into this series. otherwise it may affect
+>     display HW fastlogo even though it don't happen in mt8183.
+>     
+> v2: https://lore.kernel.org/linux-iommu/1560171313-28299-1-git-send-email-yong.wu@mediatek.com/
+>     1) rebase on v5.2-rc1.
+>     2) Move adding device_link between the consumer and smi-larb into
+> iommu_add_device from Robin.
+>     3) add DL_FLAG_AUTOREMOVE_CONSUMER even though the smi is built-in from Evan.
+>     4) Remove the shutdown callback in iommu.
+> 
+> v1: https://lore.kernel.org/linux-iommu/1546318276-18993-1-git-send-email-yong.wu@mediatek.com/
+> 
+> Yong Wu (10):
+>    dt-binding: mediatek: Get rid of mediatek,larb for multimedia HW
+>    iommu/mediatek: Add probe_defer for smi-larb
+>    iommu/mediatek: Add device_link between the consumer and the larb
+>      devices
+>    media: mtk-jpeg: Get rid of mtk_smi_larb_get/put
+>    media: mtk-mdp: Get rid of mtk_smi_larb_get/put
+>    drm/mediatek: Get rid of mtk_smi_larb_get/put
+>    media: mtk-vcodec: Get rid of mtk_smi_larb_get/put
+>    memory: mtk-smi: Get rid of mtk_smi_larb_get/put
+>    arm: dts: mediatek: Get rid of mediatek,larb for MM nodes
+>    arm64: dts: mediatek: Get rid of mediatek,larb for MM nodes
+> 
+> Yongqiang Niu (1):
+>    drm/mediatek: Add pm runtime support for ovl and rdma
+> 
+>   .../display/mediatek/mediatek,disp.txt        |  9 ----
+>   .../bindings/media/mediatek-jpeg-decoder.yaml |  9 ----
+>   .../bindings/media/mediatek-jpeg-encoder.yaml |  9 ----
+>   .../bindings/media/mediatek-mdp.txt           |  8 ----
+>   .../bindings/media/mediatek-vcodec.txt        |  4 --
+>   arch/arm/boot/dts/mt2701.dtsi                 |  2 -
+>   arch/arm/boot/dts/mt7623n.dtsi                |  5 --
+>   arch/arm64/boot/dts/mediatek/mt8173.dtsi      | 16 -------
+>   arch/arm64/boot/dts/mediatek/mt8183.dtsi      |  6 ---
+>   drivers/gpu/drm/mediatek/mtk_disp_ovl.c       |  9 +++-
+>   drivers/gpu/drm/mediatek/mtk_disp_rdma.c      |  9 +++-
+>   drivers/gpu/drm/mediatek/mtk_drm_crtc.c       | 19 ++++----
+>   drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c   | 36 +--------------
+>   drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h   |  1 -
+>   drivers/gpu/drm/mediatek/mtk_drm_drv.c        |  5 +-
+>   drivers/iommu/mtk_iommu.c                     | 24 +++++++++-
+>   drivers/iommu/mtk_iommu_v1.c                  | 22 ++++++++-
+>   .../media/platform/mtk-jpeg/mtk_jpeg_core.c   | 45 +-----------------
+>   .../media/platform/mtk-jpeg/mtk_jpeg_core.h   |  2 -
+>   drivers/media/platform/mtk-mdp/mtk_mdp_comp.c | 46 +------------------
+>   drivers/media/platform/mtk-mdp/mtk_mdp_comp.h |  2 -
+>   drivers/media/platform/mtk-mdp/mtk_mdp_core.c |  1 -
+>   .../platform/mtk-vcodec/mtk_vcodec_dec_pm.c   | 37 ++-------------
+>   .../platform/mtk-vcodec/mtk_vcodec_drv.h      |  3 --
+>   .../platform/mtk-vcodec/mtk_vcodec_enc.c      |  1 -
+>   .../platform/mtk-vcodec/mtk_vcodec_enc_pm.c   | 44 ++----------------
+>   drivers/memory/mtk-smi.c                      | 14 ------
+>   include/soc/mediatek/smi.h                    | 20 --------
+>   28 files changed, 85 insertions(+), 323 deletions(-)
+> 
