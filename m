@@ -2,58 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A950B3C93ED
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jul 2021 00:40:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78D403C940D
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jul 2021 00:52:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 60FB96E50C;
-	Wed, 14 Jul 2021 22:40:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 20D1D6E46B;
+	Wed, 14 Jul 2021 22:52:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 07E736E46B
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jul 2021 22:40:32 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1626302434; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=dN9FeDkip9Ae1ehWv6t+0cl0YVXUST9OaSt8TvUu8iE=;
- b=n9vNadXzzvZD3zn578b/h7yVtDYyfMwRocvsB3fM24/+2GHfx79+pZ+z0BMumJd5gzfYndAx
- 6mbKIjPLr8zMkYtMZC+sNaDYIVMZw7rFGwCogFUS0ua2Yq0v2R/puPJU9KbInFwnH5ziOl4b
- FN/Elk24Uc+hsIP6tI/KGgEeH4g=
-X-Mailgun-Sending-Ip: 69.72.43.7
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n01.prod.us-west-2.postgun.com with SMTP id
- 60ef67da25e56632782a76eb (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 14 Jul 2021 22:40:26
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id F066AC43217; Wed, 14 Jul 2021 22:40:25 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
- URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
- (No client certificate requested) (Authenticated sender: abhinavk)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id BA39FC433F1;
- Wed, 14 Jul 2021 22:40:24 +0000 (UTC)
+Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com
+ [IPv6:2a00:1450:4864:20::232])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A9AC6E46B
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Jul 2021 22:52:09 +0000 (UTC)
+Received: by mail-lj1-x232.google.com with SMTP id u25so5765352ljj.11
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Jul 2021 15:52:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=vc1795qvLpUqEdDnFv1A73y0n5CUCOk1ko3r9sb3Sx0=;
+ b=nxc0PfF+vcpPyOd7wizP6Qq8XgwEGMvP+b0wo88UNeoTCIUvTu4QhMo2t7Yfw5pUdt
+ WkLIfeTxJaOuf6Xi9NXmUM2+BPH07qole1NgZngPcaI0qRHcCI95amaJRsh9rk4mivV6
+ g8VQ5SHNrOIdqNEB3N9mXsZi3PQwHKm4UO4JeLWRAToht4FNhS8eq7mUIMUkvo23Cciz
+ FPyHPl5qLuzw5YW0aKKroNZn6sc+EaHddghvNE/hFcEAk1rLFv0RECf7kKghA44lPE3d
+ Ra9KaDIgRFONPbCvBdAVPH4AfVoLvtDqATNPZZ2cNfeODSBeer0EeUjbgN0W4aRqwiYS
+ R9+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=vc1795qvLpUqEdDnFv1A73y0n5CUCOk1ko3r9sb3Sx0=;
+ b=BZTpvUIUEgAUgJa3TeCa5zX5mA+pLQcL8rYA5y+gLu3yF+Kllegxb090DQQoTYkz1A
+ 4Ixyy4h4HRBVHYa7n9cshGMNX9uJpi+F1lPrm4tZAw86TxWZa9igGOH4M15JKEyAOtMr
+ LRcyefwOCdcOIAo8AooPIpTCo5Xi+JVFs3IQOC4/nzjVEwLLU9OZG9ukouJBVNj3psap
+ RsFcyp4uvC0HgQuXQY56wwwgOm6aJk0y0sgXnbO8MMx5Yx7iVciKf+uKgHZSwFyrMN+F
+ Fqa/oiv7SDol2eSgbhU1oUyK+3PEe2AYNB5h4dVHkFxMuaCAwkW2daIOCzKIeP8xyaKK
+ R2KA==
+X-Gm-Message-State: AOAM530vKJe3SDQqpBn3Bf/SAiHMSFEvFLxXH/dwgD3OUqYPr0st8f3p
+ bGcVRtbeZ7A0frdmHjxClK3Fng==
+X-Google-Smtp-Source: ABdhPJxDXhj2BLMGMjFb1MJmvVrRCVFza7h3BYAxpmGa8zBkaoag7+E02+PhIRS+h7Jp8yaKlFSUcw==
+X-Received: by 2002:a2e:80c2:: with SMTP id r2mr173089ljg.164.1626303127507;
+ Wed, 14 Jul 2021 15:52:07 -0700 (PDT)
+Received: from localhost.localdomain
+ (c-fdcc225c.014-348-6c756e10.bbcust.telenor.se. [92.34.204.253])
+ by smtp.gmail.com with ESMTPSA id m4sm205984ljq.96.2021.07.14.15.52.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 14 Jul 2021 15:52:06 -0700 (PDT)
+From: Linus Walleij <linus.walleij@linaro.org>
+To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH 1/2 v4] drm/panel: Add DT bindings for Samsung LMS380KF01
+Date: Thu, 15 Jul 2021 00:50:01 +0200
+Message-Id: <20210714225002.1065107-1-linus.walleij@linaro.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date: Wed, 14 Jul 2021 15:40:24 -0700
-From: abhinavk@codeaurora.org
-To: Sean Paul <sean@poorly.run>
-Subject: Re: [Freedreno] [PATCH] drm/msm/dp: Initialize dp->aux->drm_dev
- before registration
-In-Reply-To: <20210714152910.55093-1-sean@poorly.run>
-References: <20210714152910.55093-1-sean@poorly.run>
-Message-ID: <6aaaf808dbde4d71170c06437800ed1b@codeaurora.org>
-X-Sender: abhinavk@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,99 +68,146 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <seanpaul@chromium.org>, freedreno@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org
+Cc: devicetree@vger.kernel.org, Douglas Anderson <dianders@chromium.org>,
+ =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>,
+ phone-devel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021-07-14 08:28, Sean Paul wrote:
-> From: Sean Paul <seanpaul@chromium.org>
-> 
-> Avoids the following WARN:
-> [    3.009556] ------------[ cut here ]------------
-> [    3.014306] WARNING: CPU: 7 PID: 109 at
-> drivers/gpu/drm/drm_dp_helper.c:1796 drm_dp_aux_register+0xa4/0xac
-> [    3.024209] Modules linked in:
-> [    3.027351] CPU: 7 PID: 109 Comm: kworker/7:8 Not tainted 5.10.47 
-> #69
-> [    3.033958] Hardware name: Google Lazor (rev1 - 2) (DT)
-> [    3.039323] Workqueue: events deferred_probe_work_func
-> [    3.044596] pstate: 60c00009 (nZCv daif +PAN +UAO -TCO BTYPE=--)
-> [    3.050761] pc : drm_dp_aux_register+0xa4/0xac
-> [    3.055329] lr : dp_aux_register+0x40/0x88
-> [    3.059538] sp : ffffffc010ad3920
-> [    3.062948] x29: ffffffc010ad3920 x28: ffffffa64196ac70
-> [    3.067239] mmc1: Command Queue Engine enabled
-> [    3.068406] x27: ffffffa64196ac68 x26: 0000000000000001
-> [    3.068407] x25: 0000000000000002 x24: 0000000000000060
-> [    3.068409] x23: ffffffa642ab3400 x22: ffffffe126c10e5b
-> [    3.068410] x21: ffffffa641dc3188 x20: ffffffa641963c10
-> [    3.068412] x19: ffffffa642aba910 x18: 00000000ffff0a00
-> [    3.068414] x17: 000000476f8e002a x16: 00000000000000b8
-> [    3.073008] mmc1: new HS400 Enhanced strobe MMC card at address 0001
-> [    3.078448] x15: ffffffffffffffff x14: ffffffffffffffff
-> [    3.078450] x13: 0000000000000030 x12: 0000000000000030
-> [    3.078452] x11: 0101010101010101 x10: ffffffe12647a914
-> [    3.078453] x9 : ffffffe12647a8cc x8 : 0000000000000000
-> [    3.084452] mmcblk1: mmc1:0001 DA4032 29.1 GiB
-> [    3.089372]
-> [    3.089372] x7 : 6c6064717372fefe x6 : ffffffa642b11494
-> [    3.089374] x5 : 0000000000000000 x4 : 6d006c657869ffff
-> [    3.089375] x3 : 000000006c657869 x2 : 000000000000000c
-> [    3.089376] x1 : ffffffe126c3ae3c x0 : ffffffa642aba910
-> [    3.089381] Call trace:
-> [    3.094931] mmcblk1boot0: mmc1:0001 DA4032 partition 1 4.00 MiB
-> [    3.100291]  drm_dp_aux_register+0xa4/0xac
-> [    3.100292]  dp_aux_register+0x40/0x88
-> [    3.100294]  dp_display_bind+0x64/0xcc
-> [    3.100295]  component_bind_all+0xdc/0x210
-> [    3.100298]  msm_drm_bind+0x1e8/0x5d4
-> [    3.100301]  try_to_bring_up_master+0x168/0x1b0
-> [    3.105861] mmcblk1boot1: mmc1:0001 DA4032 partition 2 4.00 MiB
-> [    3.112282]  __component_add+0xa0/0x158
-> [    3.112283]  component_add+0x1c/0x28
-> [    3.112284]  dp_display_probe+0x33c/0x380
-> [    3.112286]  platform_drv_probe+0x9c/0xbc
-> [    3.112287]  really_probe+0x140/0x35c
-> [    3.112289]  driver_probe_device+0x84/0xc0
-> [    3.112292]  __device_attach_driver+0x94/0xb0
-> [    3.117967] mmcblk1rpmb: mmc1:0001 DA4032 partition 3 16.0 MiB,
-> chardev (239:0)
-> [    3.123201]  bus_for_each_drv+0x8c/0xd8
-> [    3.123202]  __device_attach+0xc4/0x150
-> [    3.123204]  device_initial_probe+0x1c/0x28
-> [    3.123205]  bus_probe_device+0x3c/0x9c
-> [    3.123206]  deferred_probe_work_func+0x90/0xcc
-> [    3.123211]  process_one_work+0x218/0x3ec
-> [    3.131976]  mmcblk1: p1 p2 p3 p4 p5 p6 p7 p8 p9 p10 p11 p12
-> [    3.134123]  worker_thread+0x288/0x3e8
-> [    3.134124]  kthread+0x148/0x1b0
-> [    3.134127]  ret_from_fork+0x10/0x30
-> [    3.134128] ---[ end trace cfb9fce3f70f824d ]---
-> 
-> Signed-off-by: Sean Paul <seanpaul@chromium.org>
-It looks like 
-https://github.com/torvalds/linux/commit/6cba3fe433415b2549c909ce72601902c8254a83 
-is not yet present
-in the lazor codebase, once it gets backported we will hit the same 
-issue, Hence
+This adds device tree bindings for the Samsung Mobile Displays
+LMS380KF01 RGB DPI display panel.
 
-Reviewed-by: Abhinav Kumar <abhinavk@codeaurora.org>
-> ---
->  drivers/gpu/drm/msm/dp/dp_display.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c
-> b/drivers/gpu/drm/msm/dp/dp_display.c
-> index 051c1be1de7e..987f9e330138 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_display.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-> @@ -219,6 +219,7 @@ static int dp_display_bind(struct device *dev,
-> struct device *master,
->  		goto end;
->  	}
-> 
-> +	dp->aux->drm_dev = drm;
->  	rc = dp_aux_register(dp->aux);
->  	if (rc) {
->  		DRM_ERROR("DRM DP AUX register failed\n");
+Cc: devicetree@vger.kernel.org
+Cc: phone-devel@vger.kernel.org
+Cc: Noralf Trønnes <noralf@tronnes.org>
+Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
+Reviewed-by: Rob Herring <robh@kernel.org>
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+---
+ChangeLog v3->v4:
+- Collect a few Reviewed-by's
+- Mention that the node must be an SPI child.
+- Indent example by 4 spaces.
+- Resend with the driver updates.
+ChangeLog v2->v3:
+- No changes just resending with the series.
+ChangeLog v1->v2:
+- Expect SPI bindings to be pulled in for the client and state
+  spi-cpha: true etc.
+- Make port a required node.
+- Update the example to use a proper SPI controller (spi-gpio)
+  so we get full validation of the example.
+---
+ .../display/panel/samsung,lms380kf01.yaml     | 99 +++++++++++++++++++
+ 1 file changed, 99 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/samsung,lms380kf01.yaml
+
+diff --git a/Documentation/devicetree/bindings/display/panel/samsung,lms380kf01.yaml b/Documentation/devicetree/bindings/display/panel/samsung,lms380kf01.yaml
+new file mode 100644
+index 000000000000..251f0c7115aa
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/panel/samsung,lms380kf01.yaml
+@@ -0,0 +1,99 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/panel/samsung,lms380kf01.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Samsung LMS380KF01 display panel
++
++description: The LMS380KF01 is a 480x800 DPI display panel from Samsung Mobile
++  Displays (SMD) utilizing the WideChips WS2401 display controller. It can be
++  used with internal or external backlight control.
++  The panel must obey the rules for a SPI slave device as specified in
++  spi/spi-controller.yaml
++
++maintainers:
++  - Linus Walleij <linus.walleij@linaro.org>
++
++allOf:
++  - $ref: panel-common.yaml#
++
++properties:
++  compatible:
++    const: samsung,lms380kf01
++
++  reg: true
++
++  interrupts:
++    description: provides an optional ESD (electrostatic discharge)
++      interrupt that signals abnormalities in the display hardware.
++      This can also be raised for other reasons like erroneous
++      configuration.
++    maxItems: 1
++
++  reset-gpios: true
++
++  vci-supply:
++    description: regulator that supplies the VCI analog voltage
++      usually around 3.0 V
++
++  vccio-supply:
++    description: regulator that supplies the VCCIO voltage usually
++      around 1.8 V
++
++  backlight: true
++
++  spi-cpha: true
++
++  spi-cpol: true
++
++  spi-max-frequency:
++    maximum: 1200000
++
++  port: true
++
++required:
++  - compatible
++  - reg
++  - spi-cpha
++  - spi-cpol
++  - port
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++    #include <dt-bindings/interrupt-controller/irq.h>
++
++    spi {
++        compatible = "spi-gpio";
++        sck-gpios = <&gpio 0 GPIO_ACTIVE_HIGH>;
++        miso-gpios = <&gpio 1 GPIO_ACTIVE_HIGH>;
++        mosi-gpios = <&gpio 2 GPIO_ACTIVE_HIGH>;
++        cs-gpios = <&gpio 3 GPIO_ACTIVE_HIGH>;
++        num-chipselects = <1>;
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        panel@0 {
++            compatible = "samsung,lms380kf01";
++            spi-max-frequency = <1200000>;
++            spi-cpha;
++            spi-cpol;
++            reg = <0>;
++            vci-supply = <&lcd_3v0_reg>;
++            vccio-supply = <&lcd_1v8_reg>;
++            reset-gpios = <&gpio 4 GPIO_ACTIVE_LOW>;
++            interrupt-parent = <&gpio>;
++            interrupts = <5 IRQ_TYPE_EDGE_RISING>;
++
++            port {
++                panel_in: endpoint {
++                    remote-endpoint = <&display_out>;
++                };
++            };
++        };
++    };
++
++...
+-- 
+2.31.1
+
