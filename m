@@ -1,71 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20F9D3C8B29
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Jul 2021 20:47:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD64B3C8B43
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Jul 2021 20:48:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F6236E48C;
-	Wed, 14 Jul 2021 18:47:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE047896EC;
+	Wed, 14 Jul 2021 18:48:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C30A26E48C
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jul 2021 18:47:18 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1FB0389690
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Jul 2021 18:48:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626288437;
+ s=mimecast20190719; t=1626288516;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1ZAdf0GJIbLpyyVrXbwjxcRS9oM/2mE5p8d6as6VgdU=;
- b=JixztGN9O8WlKJIyYaD9gUNE47OkYB3lTXHvXLOCLqQhBbuujmXBc87NtcxiqRikYt7sP1
- Rnr6+Qwb1krix1USA9h1HL9d9NK7Jbp1EzOoHlLyug91ZNZJlQ9GlhEzLX9cEBNLAYIeAL
- +AtkpFFF39jZACS5CQZwWNHVsQkADo4=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-237-IYhX5AkOPTG1MMBs3zi4XA-1; Wed, 14 Jul 2021 14:47:16 -0400
-X-MC-Unique: IYhX5AkOPTG1MMBs3zi4XA-1
-Received: by mail-qt1-f198.google.com with SMTP id
- v17-20020a05622a1451b02902533c8b7139so2521814qtx.3
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jul 2021 11:47:16 -0700 (PDT)
+ bh=IAAG1k0NOT+ym7PfZu/f9WCZIsLgpHJ+m+NpG0hxB7k=;
+ b=bmKq37HmdYD/xxnD0FX1Unkgw7IMHFYckIlSm7jjUIGwOBY1OXuogG2azPqu39c1yAc+9E
+ 4ECcMGY+O+T3F9Sp1axvDG60VaRAoBjd2pJg9inrH/gtDGzDhnvJpeN0VmyCX+CrBhIj2z
+ KGXkuQtcPaMyf8RcsPjTGF4f24XnF0Q=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-545-2MRdVKsxNVGd9n3N1lXwng-1; Wed, 14 Jul 2021 14:48:35 -0400
+X-MC-Unique: 2MRdVKsxNVGd9n3N1lXwng-1
+Received: by mail-qk1-f197.google.com with SMTP id
+ o14-20020a05620a0d4eb02903a5eee61155so1945082qkl.9
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Jul 2021 11:48:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
  :references:organization:user-agent:mime-version
  :content-transfer-encoding;
- bh=1ZAdf0GJIbLpyyVrXbwjxcRS9oM/2mE5p8d6as6VgdU=;
- b=XiHoUgGRJfDgYrjNuODYWRwGQmYSt/acTzl7tyOwooRBwSb+4ELZZQnWrrsffzyM+M
- KXHDwBwL9aw/I2JiDYsmf2SWUINgrkEnKKUUJ1agH5mZaAas3HCJstlW6UglaY6JAN54
- acdmr4H6nxM1LubSlx+86XPmyu0CNnTy9Cd1zFEMucJB+kgTLKuBnSM6fKJ1d/cEis7h
- cSoFsQsH9avjezwh+U6dEw9coy/82R3giHfr/fEK73BiVCdjDmmXwLanI4BKzX6ZdoWE
- tnkZqjeQubZ4ARzZivOn2s875uY6DitO/cQLZIp9MRS2GchlQoR16WUbgeG2C1HvTjnH
- Ts7g==
-X-Gm-Message-State: AOAM5313rYc9ipXFa9TfjhTkhT8UvYUs8lpgyP4QyoLjtxrB/sJgJBqN
- gC2TR8Zvz6kw74Gcm4RGcELw0jaCqm5FR4ZUTGNWwxpLRoxfjUw7CxDVyOYBAJHKCx9mS+H4LqK
- nMwfYkgPpjd3nSFjE11gsLxfMxvUL
-X-Received: by 2002:a37:92c6:: with SMTP id
- u189mr11120306qkd.237.1626288436373; 
- Wed, 14 Jul 2021 11:47:16 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyyuPjo6u3d3oihQtSUPwjxpsOvapJdz8AnSL3MR4aGpMOemxXK7gfWNaVRhGG4ZtPhG0lJQg==
-X-Received: by 2002:a37:92c6:: with SMTP id
- u189mr11120295qkd.237.1626288436230; 
- Wed, 14 Jul 2021 11:47:16 -0700 (PDT)
+ bh=IAAG1k0NOT+ym7PfZu/f9WCZIsLgpHJ+m+NpG0hxB7k=;
+ b=n83VqD9caHqMacCd6L2nwC8y1MxYyXdo0QY3I0e5ua4N3uYEb5760vDCN5U1Iv7wGH
+ flZgY+/zpP/oeCYEBpudejXTKnMjOBoJVYVy8D+2sXTtk4prtA4RwXDC0HoglBxe3/pb
+ 2TZVCBjpl0Ut+r88YtHhl+CFEQvfCH7pJLXDHAng4L2HhVdgBuF7Xkdcb6A57OlGwx01
+ iofMyAnixS/b2AatK5Sxp1tSFXNLUZLSQX36NIfbd4P3uMnhvI5vBPPxp3ofjl2700al
+ lt5JKQbKzYhenB8h5RQyNKwIg2BCBBJhXUw06CpNs06BJIYcyCWJXsH69j0fJLx6D9y5
+ v7zg==
+X-Gm-Message-State: AOAM533qNZDIFYVBAQsgugXLX0trPogonE3lmPYBdjRHmVzEyGX8FLcb
+ tKfKEpKwgwkJCnEwZsbzt4B0RQ6oil8yKOEgADDqgv5uXsgz+Ufxq4HsENY9Mj2nhYvIvgR5i60
+ 6MdjoJJJWwkDbufSuMB2pfMuo7TAo
+X-Received: by 2002:a05:620a:2486:: with SMTP id
+ i6mr11706226qkn.142.1626288514788; 
+ Wed, 14 Jul 2021 11:48:34 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzTzkuZkVkZeDwSGZU5OrDpRxFfb/p+SDHUynGKRITTybPtm0GFBfFCAzQogD2Ky5fRu2d1fg==
+X-Received: by 2002:a05:620a:2486:: with SMTP id
+ i6mr11706211qkn.142.1626288514646; 
+ Wed, 14 Jul 2021 11:48:34 -0700 (PDT)
 Received: from Ruby.lyude.net (pool-108-49-102-102.bstnma.fios.verizon.net.
  [108.49.102.102])
- by smtp.gmail.com with ESMTPSA id d24sm1398962qkk.61.2021.07.14.11.47.15
+ by smtp.gmail.com with ESMTPSA id c16sm1355706qka.122.2021.07.14.11.48.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 14 Jul 2021 11:47:15 -0700 (PDT)
-Message-ID: <64687ac7602bfd44914ca5b31fe70bb8b87ef313.camel@redhat.com>
-Subject: Re: [PATCH] drm/dp: For drm_panel_dp_aux_backlight(), init
- backlight as disabled
+ Wed, 14 Jul 2021 11:48:34 -0700 (PDT)
+Message-ID: <a1ece28471de34abbc8238836622f662dc2f27af.camel@redhat.com>
+Subject: Re: [PATCH] drm/panel-simple: Power the panel when probing DP AUX
+ backlight
 From: Lyude Paul <lyude@redhat.com>
 To: Douglas Anderson <dianders@chromium.org>, Rajeev Nandan
  <rajeevny@codeaurora.org>, Robert Foss <robert.foss@linaro.org>
-Date: Wed, 14 Jul 2021 14:47:14 -0400
-In-Reply-To: <20210714101744.1.Ifc22696b27930749915e383f0108b7bcdc015a6e@changeid>
-References: <20210714101744.1.Ifc22696b27930749915e383f0108b7bcdc015a6e@changeid>
+Date: Wed, 14 Jul 2021 14:48:33 -0400
+In-Reply-To: <20210714093334.1.Idb41f87e5abae4aee0705db7458b0097fc50e7ab@changeid>
+References: <20210714093334.1.Idb41f87e5abae4aee0705db7458b0097fc50e7ab@changeid>
 Organization: Red Hat
 User-Agent: Evolution 3.38.4 (3.38.4-1.fc33)
 MIME-Version: 1.0
@@ -87,67 +87,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Thompson <daniel.thompson@linaro.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- Jingoo Han <jingoohan1@gmail.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Lee Jones <lee.jones@linaro.org>
+Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Reviewed-by: Lyude Paul <lyude@redhat.com>
 
-On Wed, 2021-07-14 at 10:17 -0700, Douglas Anderson wrote:
-> Even after the DP AUX backlight on my board worked OK after applying
-> the patch ("drm/panel-simple: Power the panel when probing DP AUX
-> backlight") [1], I still noticed some strange timeouts being reported
-> by ti_sn_aux_transfer(). Digging, I realized the problem was this:
-> * Even though `enabled` in `struct dp_aux_backlight` was false, the
->   base backlight structure (`base` in that structure) thought that the
->   backlight was powered on.
-> * If userspace wrote to sysfs in this state then we'd try to enable
->   the backlight.
-> * Unfortunatley, enabling the backlight didn't work because the panel
->   itself wasn't powered.
+On Wed, 2021-07-14 at 09:33 -0700, Douglas Anderson wrote:
+> When I tried booting up a device that needed the DP AUX backlight, I
+> found an error in the logs:
+>   panel-simple-dp-aux: probe of aux-ti_sn65dsi86.aux.0 failed with error -
+> 110
 > 
-> We can only use the backlight if the panel is on and the panel is not
-> officially on when we probe (it's temporarily just on enough for us to
-> talk to it).
+> The aux transfers were failing because the panel wasn't powered. Just
+> like when reading the EDID we need to power the panel when trying to
+> talk to it. Add the needed pm_runtime calls.
 > 
-> The important thing we want here is to get `BL_CORE_FBBLANK` set since
-> userspace can't mess with that. This will keep us disabled until
-> drm_panel enables us, which means that the panel is enabled
-> first. Ideally we'd just set this in our `props` before calling
-> devm_backlight_device_register() but the comments in the header file
-> are pretty explicit that we're not supposed to much with the `state`
-> ourselves. Because of this, there may be a small window where the
-> backlight device is registered and someone could try to tweak with the
-> backlight. This isn't likely to happen and even if it did, I don't
-> believe this causes any huge problem.
+> After I do this I can successfully probe the panel and adjust the
+> backlight on my board.
 > 
-> [1]
-> https://lore.kernel.org/lkml/20210714093334.1.Idb41f87e5abae4aee0705db7458b0097fc50e7ab@changeid/
-> 
+> Fixes: bfd451403d70 ("drm/panel-simple: Support DP AUX backlight")
 > Signed-off-by: Douglas Anderson <dianders@chromium.org>
 > ---
 > 
->  drivers/gpu/drm/drm_dp_helper.c | 2 ++
->  1 file changed, 2 insertions(+)
+>  drivers/gpu/drm/panel/panel-simple.c | 3 +++
+>  1 file changed, 3 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/drm_dp_helper.c
-> b/drivers/gpu/drm/drm_dp_helper.c
-> index e8eec20ab364..b5f75ca05774 100644
-> --- a/drivers/gpu/drm/drm_dp_helper.c
-> +++ b/drivers/gpu/drm/drm_dp_helper.c
-> @@ -3568,6 +3568,8 @@ int drm_panel_dp_aux_backlight(struct drm_panel
-> *panel, struct drm_dp_aux *aux)
->         if (IS_ERR(bl->base))
->                 return PTR_ERR(bl->base);
+> diff --git a/drivers/gpu/drm/panel/panel-simple.c
+> b/drivers/gpu/drm/panel/panel-simple.c
+> index e0a05f366ce6..9b286bd4444f 100644
+> --- a/drivers/gpu/drm/panel/panel-simple.c
+> +++ b/drivers/gpu/drm/panel/panel-simple.c
+> @@ -827,7 +827,10 @@ static int panel_simple_probe(struct device *dev, const
+> struct panel_desc *desc,
+>                 goto disable_pm_runtime;
 >  
-> +       backlight_disable(bl->base);
-> +
->         panel->backlight = bl->base;
->  
->         return 0;
+>         if (!panel->base.backlight && panel->aux) {
+> +               pm_runtime_get_sync(dev);
+>                 err = drm_panel_dp_aux_backlight(&panel->base, panel->aux);
+> +               pm_runtime_mark_last_busy(dev);
+> +               pm_runtime_put_autosuspend(dev);
+>                 if (err)
+>                         goto disable_pm_runtime;
+>         }
 
 -- 
 Cheers,
