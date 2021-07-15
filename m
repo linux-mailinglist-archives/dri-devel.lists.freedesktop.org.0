@@ -1,56 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B63A3C9D83
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jul 2021 13:10:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 83C363C9D8E
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jul 2021 13:13:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CADF66E822;
-	Thu, 15 Jul 2021 11:09:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 238E26E826;
+	Thu, 15 Jul 2021 11:12:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x329.google.com (mail-ot1-x329.google.com
- [IPv6:2607:f8b0:4864:20::329])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A81606E822;
- Thu, 15 Jul 2021 11:09:55 +0000 (UTC)
-Received: by mail-ot1-x329.google.com with SMTP id
- h24-20020a9d64180000b029036edcf8f9a6so5759505otl.3; 
- Thu, 15 Jul 2021 04:09:55 -0700 (PDT)
+Received: from mail-oi1-x22e.google.com (mail-oi1-x22e.google.com
+ [IPv6:2607:f8b0:4864:20::22e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A95E6E823;
+ Thu, 15 Jul 2021 11:12:56 +0000 (UTC)
+Received: by mail-oi1-x22e.google.com with SMTP id u15so6134742oiw.3;
+ Thu, 15 Jul 2021 04:12:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=VnIvSXzuiLKWuvgulqfarspmLG2dOzwb7htWyTzwsjw=;
- b=jZSvmaYSy8ADTgcCb9b7ny+VGlsNNLLNOYJdU7McebyVX4mq0pGAcstpYcMq1Aiv6S
- XOo3xy1FWet7MXd7e7bhh9ULV6oDNaPZwU83/HY/YN+avkBCc7WRn8rrw01zsWV94kqD
- zveDrhVhYXZNw9+xQg2SBfo7OMbtziipz+BPTRr2nVTwTX5Zbj3LNmo5gqPZla4YgjUr
- CMVnzDdH9YVyJCAxYWCz6i0n7jvRINXJv0bLBQO52VA4L5QduTy2cR8drOamqk/LOftw
- kysUkWgyiG6dY9FlEfnonTf57JurQjQ+0MQUH4y/eduUeozIhN6rWYTFT2mAUx+bFtCa
- eVcA==
+ :cc; bh=G7yK9VzLEQCG6XE//c9cVdti/iHPJ3DxnhKwu9cnsjI=;
+ b=NlMo7/06IiuX+CxJRiTWwRLYAECimiW0KcSKx3FPDyhg//qYD+xUnzoPnUGxdN/YZM
+ L8QIWKpiGVXGMzF5Rs1pbhzfiDd0bVzRgb6E8/AAdfrIYlE/fhxV8s1Ngwmvlsrz/GIl
+ aL/RlzPYC5j6aQfvfY8kkeK45rCPEJ4hTqhPn/q2dWzSGd2k18aUnDJbE7e6eLaFSpmr
+ 1PgjcCYt04tTWmzSvtIw0MeTyl4+C2pESNcbZ9Vi9HMI5ZmESxO85j6Jgemf6Xe6L2fV
+ 2D02skzT9DUri5jE0CHzIMB1Cg+ysuyMYfXTwi5W9Adrjbhtxq/GC9Dvro4VcA20R42q
+ /elw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=VnIvSXzuiLKWuvgulqfarspmLG2dOzwb7htWyTzwsjw=;
- b=e6STrcDKzWNO3T2Ev2Bp9sh2akAJ2k6ao22iba10cUA7tbqKXEgf66H1/FXu4y1LJm
- iHRHJcB3hq/pF0ldX7y/dk2gWRfdcffWggazqp1YopOY1Cqyr3DOg1QENBoDdMXSI0Dh
- 0jyYQAHv6TTL/x9BgTgq3RJAcAgJ7ayxCpRnJnYv8p78YEAt7eZDP4veL7UT8ax5vk3o
- Lsu+WjA2iPu+PfW0WOPTg6nX6cOHPo5rKzm4Zhm0W0VsxHuCplIZflzu344oU1jqxyDc
- EmrnT/eR5NjMXcuy7ircbGygQ6le8oClZ8iUojpSXyWMIsn9R3kY2CVrQYRZS11Phgkw
- GveQ==
-X-Gm-Message-State: AOAM530pPwPyb8ecPcN9ifkzS4qArBvM+XulUmxvOxl+BykV7YRNn65D
- ZsHuxxwcD7uxS8jFwy2dzlXGm1XpIyJBxL/BTMU=
-X-Google-Smtp-Source: ABdhPJyE6O2CsuPYvTE0fEvIRod8YkMOcqSCGJb0RhRrpq/XyumDEFhAFhjuy8zGn19Bma0gQJuRs9BuxAPgAU8c3Mw=
-X-Received: by 2002:a05:6830:19cd:: with SMTP id
- p13mr2307456otp.362.1626347395013; 
- Thu, 15 Jul 2021 04:09:55 -0700 (PDT)
+ bh=G7yK9VzLEQCG6XE//c9cVdti/iHPJ3DxnhKwu9cnsjI=;
+ b=PjV8TyNxiQkO9UzDgWHUO8uCvaGADgYlHlXI2LaOBzWnCKOUXFEjP/VzYukLEW37JC
+ E5KfIIugAdBpJf5RupsUBrtRqnZ+HVmeFwzRkVMif/4bLSTFmybqnwx/pHuW7ia+i3vl
+ EyBHRWrf4pBnRGukVFihBx+QIfipaFnDX1XBdMrq8sB2BZ+W0UDcfCJxxB3SwfoTCI8T
+ RAbNjwa5y6W7mQIWgbxImBCtS8PxiXJ0JCTFCXM5Q+8IoZVfLSig5aq5TdY82ml4YMDI
+ jJA0QgCgWOqq09fRHSFECD5IDjbs35X5Hl3kBDKvsa1ihkZHenFTBwkNdbHHKEZrYW9O
+ Ymgw==
+X-Gm-Message-State: AOAM532Yuky3mwlllh6v0YKNhhy0PnxwuGMSU8YoCN3dT0A2g7dG8exn
+ hMfCtuZeBsNyWjFih4zYns35Z6hh2GjyC3fSRbU=
+X-Google-Smtp-Source: ABdhPJzOFkRPM1F5bStdEZ0HnTr0PNZpn8ngy3uh/IeBzMB96wnzSxAwpctzKDpwPU357CBdQwPf/oPm4PKS8eRVHl0=
+X-Received: by 2002:aca:c6c9:: with SMTP id w192mr3095017oif.47.1626347575562; 
+ Thu, 15 Jul 2021 04:12:55 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210624105517.3886963-1-hsinyi@chromium.org>
- <20210624105517.3886963-2-hsinyi@chromium.org>
-In-Reply-To: <20210624105517.3886963-2-hsinyi@chromium.org>
+References: <20210527074202.1706724-1-hsinyi@chromium.org>
+ <20210527074202.1706724-3-hsinyi@chromium.org>
+In-Reply-To: <20210527074202.1706724-3-hsinyi@chromium.org>
 From: Enric Balletbo Serra <eballetbo@gmail.com>
-Date: Thu, 15 Jul 2021 13:09:43 +0200
-Message-ID: <CAFqH_51zDMC6N-1DBiSfARTM-SG0SH9VAXOX=G1W6yHJaVBL3A@mail.gmail.com>
-Subject: Re: [PATCH v6 RESEND 2/3] drm/mediatek: init panel orientation
- property
+Date: Thu, 15 Jul 2021 13:12:44 +0200
+Message-ID: <CAFqH_50_EP_aBs3UuBNCFbgqFHS=jizberM8pZY6EhpOnWnbVw@mail.gmail.com>
+Subject: Re: [PATCH v6 RESEND 3/3] arm64: dts: mt8183: Add panel rotation
 To: Hsin-Yi Wang <hsinyi@chromium.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -66,11 +63,11 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
  devicetree <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
  intel-gfx@lists.freedesktop.org, linux-kernel <linux-kernel@vger.kernel.org>,
  dri-devel <dri-devel@lists.freedesktop.org>, Rob Herring <robh+dt@kernel.org>,
  "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Robert Foss <robert.foss@linaro.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  Matthias Brugger <matthias.bgg@gmail.com>, Sean Paul <sean@poorly.run>,
  Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -78,46 +75,41 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi Hsin-Yi,
 
-Thank you for your patch.
+Thank you for the patch.
 
-Missatge de Hsin-Yi Wang <hsinyi@chromium.org> del dia dj., 24 de juny
-2021 a les 12:55:
+Missatge de Hsin-Yi Wang <hsinyi@chromium.org> del dia dj., 27 de maig
+2021 a les 9:42:
 >
-> Init panel orientation property after connector is initialized. Let the
-> panel driver decides the orientation value later.
+> krane, kakadu, and kodama boards have a default panel rotation.
 >
 > Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
-> Acked-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+
+It looks good to me, so
+
+Reviewed-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+
+and, on a Lenovo IdeaPad Duet. The display appears well rotated now.
 
 Tested-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
 
-As together with the other two patches works and I don't see any
-problem on the Lenovo IdeaPad Duet, and the panel has the proper
-orientation
-
-
+Thanks,
+  Enric
 > ---
->  drivers/gpu/drm/mediatek/mtk_dsi.c | 7 +++++++
->  1 file changed, 7 insertions(+)
+>  arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi | 1 +
+>  1 file changed, 1 insertion(+)
 >
-> diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
-> index ae403c67cbd92..9da1fd6491319 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
-> @@ -964,6 +964,13 @@ static int mtk_dsi_encoder_init(struct drm_device *drm, struct mtk_dsi *dsi)
->                 ret = PTR_ERR(dsi->connector);
->                 goto err_cleanup_encoder;
->         }
-> +
-> +       ret = drm_connector_init_panel_orientation_property(dsi->connector);
-> +       if (ret) {
-> +               DRM_ERROR("Unable to init panel orientation\n");
-> +               goto err_cleanup_encoder;
-> +       }
-> +
->         drm_connector_attach_encoder(dsi->connector, &dsi->encoder);
->
->         return 0;
+> diff --git a/arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi b/arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi
+> index ff56bcfa3370..793cc9501337 100644
+> --- a/arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi
+> +++ b/arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi
+> @@ -263,6 +263,7 @@ panel: panel@0 {
+>                 avee-supply = <&ppvarp_lcd>;
+>                 pp1800-supply = <&pp1800_lcd>;
+>                 backlight = <&backlight_lcd0>;
+> +               rotation = <270>;
+>                 port {
+>                         panel_in: endpoint {
+>                                 remote-endpoint = <&dsi_out>;
 > --
-> 2.32.0.288.g62a8d224e6-goog
+> 2.31.1.818.g46aad6cb9e-goog
 >
