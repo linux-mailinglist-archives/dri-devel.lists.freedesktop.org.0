@@ -1,35 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBB3C3CA949
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jul 2021 21:03:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C43003CAAF6
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jul 2021 21:13:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE7E56E89E;
-	Thu, 15 Jul 2021 19:03:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8324D6E84F;
+	Thu, 15 Jul 2021 19:13:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A3756E89E
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jul 2021 19:03:12 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id EFF7C613CF;
- Thu, 15 Jul 2021 19:03:11 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A7356E84F
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jul 2021 19:13:32 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 986C4613EB;
+ Thu, 15 Jul 2021 19:13:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1626375792;
+ s=korg; t=1626376412;
  bh=LcNL+hWRmsP7dl5Pm/XW7pnFZsSnmwQz0WjmeYEgdL0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=b/hY5G21JmxTWZZVCaBGTJniOOzoUOkM5jIrSF/ZbwK7BYR4n7qjgIwn61klI6Ldz
- EGR1UNWY6Ih23e+qp9n+TVGkugTK2GUaAxz8zhZuugOgQAGFm3rq9npAuCmkveKEdr
- oNPYs2dpZ1nA9hg0qKdmDhKmT183hUrnz2hkNTE8=
+ b=foEnumCmMkz2smauFQU99wkyYgGXL+bdesKxR5dl2p1lRGAyueWDOCe1A2/L8+Eab
+ 0jUnizcuDYjCvH1zc70Zi1Xszo5GaFIUd3kIj57a9bw8doQeMSThgL1OrvJbQXSm9W
+ ePK8bH2gYppgBSR7tPi/3EwZbNht9cSBj+L3U4rg=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH 5.12 237/242] drm/ast: Remove reference to struct
+Subject: [PATCH 5.13 261/266] drm/ast: Remove reference to struct
  drm_device.pdev
-Date: Thu, 15 Jul 2021 20:39:59 +0200
-Message-Id: <20210715182634.577299401@linuxfoundation.org>
+Date: Thu, 15 Jul 2021 20:40:16 +0200
+Message-Id: <20210715182653.185690342@linuxfoundation.org>
 X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20210715182551.731989182@linuxfoundation.org>
-References: <20210715182551.731989182@linuxfoundation.org>
+In-Reply-To: <20210715182613.933608881@linuxfoundation.org>
+References: <20210715182613.933608881@linuxfoundation.org>
 User-Agent: quilt/0.66
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
