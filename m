@@ -1,56 +1,115 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 906E03C9F05
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jul 2021 15:00:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 006593C9F7A
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jul 2021 15:29:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D1A36E84C;
-	Thu, 15 Jul 2021 13:00:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 794FA6E851;
+	Thu, 15 Jul 2021 13:29:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x72a.google.com (mail-qk1-x72a.google.com
- [IPv6:2607:f8b0:4864:20::72a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B17F66E854;
- Thu, 15 Jul 2021 13:00:13 +0000 (UTC)
-Received: by mail-qk1-x72a.google.com with SMTP id 23so5072403qke.0;
- Thu, 15 Jul 2021 06:00:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=P9NP2ZXCtnUixASNcl6G9GBrniLmGpcnxXddxH11xYE=;
- b=DpNyUJdmjjeTxYHJSTQu5bApOZCfBYI9TiT53q77VDCcKkG0crGcJI4dKKDAJbVsXh
- ttbUHGXNl1D04/lrS2i0y49P83+W9tuDMsCHwwp+FquoPR3PDRgAaNkLYXQQPwTLEXTC
- eDh+lZwf7mfqgDp6Vr6tTnJJkYtV0C4Li+bii2KOL5uDMN0veOUCVuxO9T/iM+FL7Mvy
- 7L+o059XVb3VdNyMb17OIRb0XKoSEwchn61l2M2zS/PHqmbWMqfqjvONVry7uPHjcAnm
- FYKWCKcHchOe11MIWaEAreNBtJE4bgkIoW7WBCq30VgcxCdcLqvFJ20pQ9wkPuj/Yovx
- qOjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=P9NP2ZXCtnUixASNcl6G9GBrniLmGpcnxXddxH11xYE=;
- b=JEIbGTaof3SOjnGRMW9QHQj9y70RarXOUEKgU534tMh2It6IWkQYS4N0Hx3kqbpGta
- 4ZdPvmT9QwXHH/9rsXAspN8JvZmV3lUUV3ctTRKiIwCpZzlPMlWCykJ6Q8R4Ke0RocML
- p/vVx7r7ePZtNLBqiwG23a8TMooMyqfxcMP1wrxHB/L8SdTiO3cSn414VfbI0KWyClHl
- fVqtWHwXIefVcc2nBDjdET/i5wkGRk+3r4DwebtlbkxMBeWnzI9crRlZ5yryhCHqlsvn
- /3Jy7vCjNTjP0JJ6gW26WDuhZtkJVM0VnW2BURZEYXhVvG1DkaQJ6fYZmLgsuqyX2hga
- iGFw==
-X-Gm-Message-State: AOAM531n3uEKMBjakRFW7lZnye01u9/xGEFqRrNIlbmMQGExOGh3KCFN
- uef7406RQ3cr5Q3WNKVRgG1OmlcRGNWOKLsPTZo36TBg82I=
-X-Google-Smtp-Source: ABdhPJwf9lGcmHmZ47eylIAmZLK2Kf7ice6qZu1iIEVx7DjWUzTHc02P4/xcZB1UD+z3uv3LEQ9DRnP+gy4RBQpeAdI=
-X-Received: by 2002:a05:620a:a19:: with SMTP id
- i25mr3906149qka.426.1626354012928; 
- Thu, 15 Jul 2021 06:00:12 -0700 (PDT)
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2062.outbound.protection.outlook.com [40.107.93.62])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE0936E851;
+ Thu, 15 Jul 2021 13:29:02 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=C1fM//49DoJiK6F8PZH6aVsAmJfIs+Krg49nH7HkYmFO8vr1oar1F86ECOQyMgqGrqP9KWVLe8NBBTPP4gIiX60Rspd5J1rV4wKbf5swZBR/0kW9+8Ms007GgpZB1qm5bF3bze9pI+206r4SYdW4gLW9BhMZ1Mn7XsgVnKSw3B2/pDUKfSvFehVwMn8NHQ2M3SL9vGBh1vKOJjQPmDowvx3pyNpqtGPSyktdXkIND1prdrqWJ8ByomBr1W4knJ2F4rWaEn/86BdAURRMF4OIDyxBG+gq+WqyQ+ACC8dA5uN05fWofHZulKYinwWV4CgX6iMHzf41niNe6KhdY1NWPA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mf0cYvUfkQHZe1ox9dAKWC9ViRnGRvsvRKpLWwVzJ98=;
+ b=Vy2bHnjuob/Pv0T046lsbuzw/tjPTBASMImqTjhbd0uxzwgDkthfuHTvXeUvL/sh80k04Qf+lTA/HJMcOPNk0NP2pW47tApfLhpXNrbWRTA/958g23sHHvCkgRH+MjTR+n10WH9iXt41wG+e7vgPTu6XqfcAPwYzrG+YnaUkD1RYFRu9P34JNjcquif6OG0rymMtHaaN/7xRBqoKoDcTyR3dr45g/689egKkyWiOT0xziVVBipYTEKhUfZNXif1+Eb+gmUtXIMMs68c0zHiMH7S/EzATknk80kW/HjM0hJzBc4dSXVxmDgufGvUDmy4/m3dKEb9HEJiNUyiEq7YRTw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.112.34) smtp.rcpttodomain=linux.ibm.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=nvidia.com; 
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mf0cYvUfkQHZe1ox9dAKWC9ViRnGRvsvRKpLWwVzJ98=;
+ b=lyIXnDQuE9+gTqXb/KGbfaIiqjMpaLFpbl0CgmyholSKTxRBUzc63RGt2lSacSAYu+WyRHtjcHEXaxSTOKJ9i0+BDl8616H+3ycWpOJ5YDOjvmRzi7Ev1/7NIZ7QdKdFfw4qYS28YgiXHrCvfp9pZcXk7MDFy0VwgYMyy/M5wEOESgBZzat0suT1RjaQYhvsFrYdDyWExUg1yv4RVR2g2fP36dSlpniMRK/9pR1NNXerqFr19sgBlS0VrshGpzIM3YgTJC6WkfePaWmo2Stk8IMEHbampL9c5m7POAi4krU4HSGYNU4QxJdvJ9w22TF2N0EKNKLUhtc8I7lJhT5pXw==
+Received: from DM5PR18CA0087.namprd18.prod.outlook.com (2603:10b6:3:3::25) by
+ BYAPR12MB2728.namprd12.prod.outlook.com (2603:10b6:a03:61::25) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4308.26; Thu, 15 Jul 2021 13:29:00 +0000
+Received: from DM6NAM11FT011.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:3:3:cafe::4e) by DM5PR18CA0087.outlook.office365.com
+ (2603:10b6:3:3::25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.21 via Frontend
+ Transport; Thu, 15 Jul 2021 13:28:59 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
+ smtp.mailfrom=nvidia.com; linux.ibm.com; dkim=none (message not signed)
+ header.d=none;linux.ibm.com; dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.112.34 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.112.34; helo=mail.nvidia.com;
+Received: from mail.nvidia.com (216.228.112.34) by
+ DM6NAM11FT011.mail.protection.outlook.com (10.13.172.108) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.4331.21 via Frontend Transport; Thu, 15 Jul 2021 13:28:59 +0000
+Received: from [10.40.102.146] (172.20.187.6) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 15 Jul
+ 2021 13:28:35 +0000
+Subject: Re: [PATCH 00/13] Provide core infrastructure for managing
+ open/release
+To: Jason Gunthorpe <jgg@nvidia.com>, David Airlie <airlied@linux.ie>, "Tony
+ Krowiak" <akrowiak@linux.ibm.com>, Alex Williamson
+ <alex.williamson@redhat.com>, Christian Borntraeger <borntraeger@de.ibm.com>, 
+ Cornelia Huck <cohuck@redhat.com>, Jonathan Corbet <corbet@lwn.net>, "Daniel
+ Vetter" <daniel@ffwll.ch>, Diana Craciun <diana.craciun@oss.nxp.com>,
+ <dri-devel@lists.freedesktop.org>, Eric Auger <eric.auger@redhat.com>, "Eric
+ Farman" <farman@linux.ibm.com>, Harald Freudenberger <freude@linux.ibm.com>,
+ Vasily Gorbik <gor@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>,
+ <intel-gfx@lists.freedesktop.org>, <intel-gvt-dev@lists.freedesktop.org>,
+ Jani Nikula <jani.nikula@linux.intel.com>, Jason Herne
+ <jjherne@linux.ibm.com>, Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ <kvm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+ <linux-s390@vger.kernel.org>, Matthew Rosato <mjrosato@linux.ibm.com>, "Peter
+ Oberparleiter" <oberpar@linux.ibm.com>, Halil Pasic <pasic@linux.ibm.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Vineeth Vijayan
+ <vneethv@linux.ibm.com>, Zhenyu Wang <zhenyuw@linux.intel.com>, Zhi Wang
+ <zhi.a.wang@intel.com>
+References: <0-v1-eaf3ccbba33c+1add0-vfio_reflck_jgg@nvidia.com>
+X-Nvconfidentiality: public
+From: Kirti Wankhede <kwankhede@nvidia.com>
+Message-ID: <862e9ad9-e1f8-4179-4809-9b5b2743e640@nvidia.com>
+Date: Thu, 15 Jul 2021 18:58:31 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210714204452.1481805-1-jason@jlekstrand.net>
-In-Reply-To: <20210714204452.1481805-1-jason@jlekstrand.net>
-From: Matthew Auld <matthew.william.auld@gmail.com>
-Date: Thu, 15 Jul 2021 13:59:44 +0100
-Message-ID: <CAM0jSHMm2Y6vtzHK8eLc2ZmhaTRWntbbcO5qM1iL53sc=dxS=Q@mail.gmail.com>
-Subject: Re: [Intel-gfx] [PATCH] drm/i915: Check object_can_migrate from
- object_migrate
-To: Jason Ekstrand <jason@jlekstrand.net>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <0-v1-eaf3ccbba33c+1add0-vfio_reflck_jgg@nvidia.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [172.20.187.6]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 9e4580cd-12bf-41ea-6436-08d94794812c
+X-MS-TrafficTypeDiagnostic: BYAPR12MB2728:
+X-Microsoft-Antispam-PRVS: <BYAPR12MB27287B674779581AFD834915DC129@BYAPR12MB2728.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 280SWfZXn+Bgu9Ux5mhCqtwQOxRZf6xUlvKL8y06d+EByphs6AuCF+ewQOceWFlSUso1/HSoelgSiJO7kkF7UfaHPCNgOTt5FzpuCGvtlghrBgXLqPFWD1wlGpWyYMdimCDvZz0arox3ygxf+CdPPv1GsmTdKmebfh2LApERHLK+A21fTDe0s/mU4iMi1L5VsapxFXtZEF+1qpLwmp1UlI4YfqZ5+DuaOOBuwrFra8ch+GV1qN9/NDhA2xr0PBL3oGgWonKxADVx38ECWfgcvB6vrgUHTFv9XnPoDOkMbNUARojWi7hYldT8tmRYicD+WNsagP5nAdbSW7peD2VULG57worjeaSaNyyQ2dxCUamUcgrtOOf5tHUsh+EM2buIoWvBVpLtXoRGRP3p7BLCCZvZiTeM/zVgeq2fibsqif2G9eKX7UQQzWKHbPIY001/+5BxCnmlgZKxZL2ArPutFm12z8DJ78lPLK+/awJKxAerXuoqri1nfdWaVk/vKC8EEwlNJhNyC5L2rgeTye0qJ1jdeKcpEzwkNQj48t/xc3r2Z3kkozIQKiXpeb2G5M7L2Q3970qiHGJ8I8GoKLda5xoIGAwbbBmWVMXLun8JzJS1A3Bo4PGu5bYa9zBLHWTmGAlfEYqlnu5BEsVeCNleetjdByS3CqnnrWKobDl0AUqfhaJZ4muy3u5Js/SjJsAlDW7TITPqFl27Oxf/XvDKRfhEDWE1ijVSVedT/H7zsPTvezatnLxOTvsYTvT4SdM1yN89vcEQv0jSBlDEIwwsAZuRfWBrhopdduYh/sR73zaxXF7dlEMQvnhkpS3bWoREcfTUdP+1e4ew7UbPb3BNZYUFJjTRNTv1+fdYD60cDLrH7kfsakAiM70XpRKCd5SRIy/Drxmvyg56MmQBvYveNUJLrImVWVaR0ElydhckwTE=
+X-Forefront-Antispam-Report: CIP:216.228.112.34; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:schybrid03.nvidia.com; CAT:NONE;
+ SFS:(4636009)(46966006)(36840700001)(7636003)(86362001)(26005)(53546011)(36756003)(356005)(186003)(478600001)(16526019)(5660300002)(31696002)(6666004)(36860700001)(966005)(4326008)(31686004)(107886003)(47076005)(7406005)(82310400003)(110136005)(921005)(2906002)(34020700004)(83380400001)(336012)(16576012)(8936002)(426003)(8676002)(7416002)(70206006)(70586007)(54906003)(36906005)(2616005)(316002)(43740500002)(2101003)(83996005);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jul 2021 13:28:59.5988 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9e4580cd-12bf-41ea-6436-08d94794812c
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.112.34];
+ Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT011.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB2728
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,26 +122,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Matthew Auld <matthew.auld@intel.com>,
- ML dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Max Gurtovoy <mgurtovoy@nvidia.com>, Yishai
+ Hadas <yishaih@nvidia.com>, Leon
+ Romanovsky <leonro@nvidia.com>, "Raj, Ashok" <ashok.raj@intel.com>,
+ Christoph Hellwig <hch@lst.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 14 Jul 2021 at 21:45, Jason Ekstrand <jason@jlekstrand.net> wrote:
->
-> We don't roll them together entirely because there are still a couple
-> cases where we want a separate can_migrate check.  For instance, the
-> display code checks that you can migrate a buffer to LMEM before it
-> accepts it in fb_create.  The dma-buf import code also uses it to do an
-> early check and return a different error code if someone tries to attach
-> a LMEM-only dma-buf to another driver.
->
-> However, no one actually wants to call object_migrate when can_migrate
-> has failed.  The stated intention is for self-tests but none of those
-> actually take advantage of this unsafe migration.
->
-> Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Matthew Auld <matthew.auld@intel.com>
-Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+
+
+On 7/15/2021 5:50 AM, Jason Gunthorpe wrote:
+> Prologue:
+> 
+> This is the first series of three to send the "mlx5_vfio_pci" driver that has
+> been discussed on the list for a while now.
+>   - Reorganize reflck to support splitting vfio_pci
+>   - Split vfio_pci into vfio_pci/vfio_pci_core and provide infrastructure
+>     for non-generic VFIO PCI drivers
+>   - The new driver mlx5_vfio_pci that is a full implementation of
+>     suspend/resume functionality for mlx5 devices.
+> 
+> A preview of all the patches can be seen here:
+> 
+> https://github.com/jgunthorpe/linux/commits/mlx5_vfio_pci
+> 
+> ===============
+> 
+> This is in support of Max's series to split vfio-pci. For that to work the
+> reflck concept embedded in vfio-pci needs to be sharable across all of the
+> new VFIO PCI drivers which motivated re-examining how this is
+> implemented.
+> 
+> Another significant issue is how the VFIO PCI core includes code like:
+> 
+>     if (pci_dev_driver(pdev) != &vfio_pci_driver)
+> 
+> Which is not scalable if there are going to be multiple different driver
+> types.
+> 
+> This series takes the approach of moving the "reflck" mechanism into the
+> core code as a "device set". Each vfio_device driver can specify how
+> vfio_devices are grouped into the set using a key and the set comes along
+> with a set-global mutex. The core code manages creating per-device set
+> memory and associating it with each vfio_device.
+> 
+> In turn this allows the core code to provide an open/close_device()
+> operation that is called only for the first/last FD, and is called under
+> the global device set lock.
+> 
+> Review of all the drivers show that they are either already open coding
+> the first/last semantic or are buggy and missing it. All drivers are
+> migrated/fixed to the new open/close_device ops and the unused per-FD
+> open()/release() ops are deleted.
+> 
+
+Why can't open()/release() ops be reused instead of adding 
+open_device()/close_device().
+
+Thanks,
+Kirti
