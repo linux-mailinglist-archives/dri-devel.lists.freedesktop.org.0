@@ -2,32 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1A7D3CA744
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jul 2021 20:50:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05F483CA746
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jul 2021 20:50:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4CB946E8A0;
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA3C06E8A2;
 	Thu, 15 Jul 2021 18:50:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C38006E898;
- Thu, 15 Jul 2021 18:50:05 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10046"; a="210657856"
-X-IronPort-AV: E=Sophos;i="5.84,243,1620716400"; d="scan'208";a="210657856"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Jul 2021 11:50:02 -0700
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F9F96E89E;
+ Thu, 15 Jul 2021 18:50:06 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10046"; a="232439395"
+X-IronPort-AV: E=Sophos;i="5.84,243,1620716400"; d="scan'208";a="232439395"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Jul 2021 11:50:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,243,1620716400"; d="scan'208";a="452504628"
+X-IronPort-AV: E=Sophos;i="5.84,243,1620716400"; d="scan'208";a="466858112"
 Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
- by orsmga007.jf.intel.com with SMTP; 15 Jul 2021 11:49:58 -0700
+ by fmsmga008.fm.intel.com with SMTP; 15 Jul 2021 11:50:02 -0700
 Received: by stinkbox (sSMTP sendmail emulation);
- Thu, 15 Jul 2021 21:49:57 +0300
+ Thu, 15 Jul 2021 21:50:01 +0300
 From: Ville Syrjala <ville.syrjala@linux.intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 1/4] drm: Introduce drm_modeset_lock_ctx_retry()
-Date: Thu, 15 Jul 2021 21:49:51 +0300
-Message-Id: <20210715184954.7794-2-ville.syrjala@linux.intel.com>
+Subject: [PATCH 2/4] drm: Introduce drm_modeset_lock_all_ctx_retry()
+Date: Thu, 15 Jul 2021 21:49:52 +0300
+Message-Id: <20210715184954.7794-3-ville.syrjala@linux.intel.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210715184954.7794-1-ville.syrjala@linux.intel.com>
 References: <20210715184954.7794-1-ville.syrjala@linux.intel.com>
@@ -52,109 +52,37 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
-Quite a few places are hand rolling the modeset lock backoff dance.
-Let's suck that into a helper macro that is easier to use without
-forgetting some steps.
+Layer drm_modeset_lock_all_ctx_retry() on top of
+drm_modeset_lock_ctx_retry() to make the fairly common
+"let's lock everything" pattern nicer.
 
-The main downside is probably that the implementation of
-drm_with_modeset_lock_ctx() is a bit harder to read than a hand
-rolled version on account of being split across three functions,
-but the actual code using it ends up being much simpler.
+Currently we have DRM_MODESET_LOCK_ALL_{BEGIN,END}() for this
+but I don't really like it due to the magic gotos within,
+which makes it hard to use if you want to do multiple steps
+between the BEGING/END. One would either have to know the
+name of the magic label, or always wrap the whole thing into
+a function so only the single call appears between the BEGIN/END.
 
 Cc: Sean Paul <seanpaul@chromium.org>
 Cc: Daniel Vetter <daniel@ffwll.ch>
 Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 ---
- drivers/gpu/drm/drm_modeset_lock.c | 44 ++++++++++++++++++++++++++++++
- include/drm/drm_modeset_lock.h     | 20 ++++++++++++++
- 2 files changed, 64 insertions(+)
+ include/drm/drm_modeset_lock.h | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_modeset_lock.c b/drivers/gpu/drm/drm_modeset_lock.c
-index fcfe1a03c4a1..083df96632e8 100644
---- a/drivers/gpu/drm/drm_modeset_lock.c
-+++ b/drivers/gpu/drm/drm_modeset_lock.c
-@@ -425,3 +425,47 @@ int drm_modeset_lock_all_ctx(struct drm_device *dev,
- 	return 0;
- }
- EXPORT_SYMBOL(drm_modeset_lock_all_ctx);
-+
-+void _drm_modeset_lock_begin(struct drm_modeset_acquire_ctx *ctx,
-+			     struct drm_atomic_state *state,
-+			     unsigned int flags, int *ret)
-+{
-+	drm_modeset_acquire_init(ctx, flags);
-+
-+	if (state)
-+		state->acquire_ctx = ctx;
-+
-+	*ret = -EDEADLK;
-+}
-+EXPORT_SYMBOL(_drm_modeset_lock_begin);
-+
-+bool _drm_modeset_lock_loop(int *ret)
-+{
-+	if (*ret == -EDEADLK) {
-+		*ret = 0;
-+		return true;
-+	}
-+
-+	return false;
-+}
-+EXPORT_SYMBOL(_drm_modeset_lock_loop);
-+
-+void _drm_modeset_lock_end(struct drm_modeset_acquire_ctx *ctx,
-+			   struct drm_atomic_state *state,
-+			   int *ret)
-+{
-+	if (*ret == -EDEADLK) {
-+		if (state)
-+			drm_atomic_state_clear(state);
-+
-+		*ret = drm_modeset_backoff(ctx);
-+		if (*ret == 0) {
-+			*ret = -EDEADLK;
-+			return;
-+		}
-+	}
-+
-+	drm_modeset_drop_locks(ctx);
-+	drm_modeset_acquire_fini(ctx);
-+}
-+EXPORT_SYMBOL(_drm_modeset_lock_end);
 diff --git a/include/drm/drm_modeset_lock.h b/include/drm/drm_modeset_lock.h
-index aafd07388eb7..5eaad2533de5 100644
+index 5eaad2533de5..2e2548680aaa 100644
 --- a/include/drm/drm_modeset_lock.h
 +++ b/include/drm/drm_modeset_lock.h
-@@ -26,6 +26,7 @@
+@@ -223,4 +223,10 @@ void _drm_modeset_lock_end(struct drm_modeset_acquire_ctx *ctx,
+ 	     _drm_modeset_lock_loop(&(ret)); \
+ 	     _drm_modeset_lock_end((ctx), (state), &(ret)))
  
- #include <linux/ww_mutex.h>
- 
-+struct drm_atomic_state;
- struct drm_modeset_lock;
- 
- /**
-@@ -203,4 +204,23 @@ modeset_lock_fail:							\
- 	if (!drm_drv_uses_atomic_modeset(dev))				\
- 		mutex_unlock(&dev->mode_config.mutex);
- 
-+void _drm_modeset_lock_begin(struct drm_modeset_acquire_ctx *ctx,
-+			     struct drm_atomic_state *state,
-+			     unsigned int flags,
-+			     int *ret);
-+bool _drm_modeset_lock_loop(int *ret);
-+void _drm_modeset_lock_end(struct drm_modeset_acquire_ctx *ctx,
-+			   struct drm_atomic_state *state,
-+			   int *ret);
-+
-+/*
-+ * Note that one must always use "continue" rather than
-+ * "break" or "return" to handle errors within the
-+ * drm_modeset_lock_ctx_retry() block.
-+ */
-+#define drm_modeset_lock_ctx_retry(ctx, state, flags, ret) \
++#define drm_modeset_lock_all_ctx_retry(dev, ctx, state, flags, ret) \
 +	for (_drm_modeset_lock_begin((ctx), (state), (flags), &(ret)); \
 +	     _drm_modeset_lock_loop(&(ret)); \
-+	     _drm_modeset_lock_end((ctx), (state), &(ret)))
++	     _drm_modeset_lock_end((ctx), (state), &(ret))) \
++		for_each_if(((ret) = drm_modeset_lock_all_ctx((dev), (ctx))) == 0)
 +
  #endif /* DRM_MODESET_LOCK_H_ */
 -- 
