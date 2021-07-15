@@ -2,52 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBCD13C9C46
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jul 2021 11:57:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5785B3C9C58
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jul 2021 12:03:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0075E6E7E6;
-	Thu, 15 Jul 2021 09:57:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 830F76E7F5;
+	Thu, 15 Jul 2021 10:03:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D1FC6E7E6
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jul 2021 09:57:33 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD57F6E7F5
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jul 2021 10:03:02 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id D586222939;
- Thu, 15 Jul 2021 09:57:31 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 937582292E;
+ Thu, 15 Jul 2021 10:03:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1626343051; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1626343381; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=45c4rkKtav1lWZNdvAZWjveinipQsV5RWF5UbHCNdvw=;
- b=A2W+e38M9qfVOnPYaI9JlCYWgF0sKKaUJ+CPDCY/p06cXn1qw+RuEgczjU3hfDhTODCzsI
- /vtPtN4PIRprQIKNOWrFXKNn6zVp60iwGevBPzgmLF5sNoOXIQ+Ge9YKe64yEstDXQ5Cdk
- rAv2abs4/WkwvRKL4Zc7KVgKMQqz25o=
+ bh=TTJiLS1SqZqXUpzarqa9iMdem2gom5jB+GbHREAEndo=;
+ b=ompT4TVYfygAeL+16TklyknkJ3GUtUmDQsyogyYLrTVjJ2eL+yvX/rBf2atpPPjEuSq9Zk
+ r1LEUKLtFlMOKIUHjQodm17AYdAsLNjTa5pF7GmkqLsTSmXG9AGl1Q8H4kbSSQsBPd9okJ
+ e/DIBL6GeyeqIWr/wU0Nl3GVg27Phgo=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1626343051;
+ s=susede2_ed25519; t=1626343381;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=45c4rkKtav1lWZNdvAZWjveinipQsV5RWF5UbHCNdvw=;
- b=SVECuLAEcY0aeLume9Gp1Ni2R+nejPiJuTVpQEZwHXRfLUjHfPqKnDxyNeCMwSoUX4Hhq1
- LcEUH3CZ+HgiNVBA==
+ bh=TTJiLS1SqZqXUpzarqa9iMdem2gom5jB+GbHREAEndo=;
+ b=F5iMgUiYf/qaamh8p7kjtDd9iEeEXzwij4iXp+hEdkw3P7nMlKAvs0+1HQ/rjYeBu7iIAz
+ Nmxwvqet7ihLpADA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9EEE613C31;
- Thu, 15 Jul 2021 09:57:31 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 634FD13C31;
+ Thu, 15 Jul 2021 10:03:01 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id IkjDJYsG8GDnDwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Thu, 15 Jul 2021 09:57:31 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id XlNAF9UH8GCMEQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Thu, 15 Jul 2021 10:03:01 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
-To: laurent.pinchart@ideasonboard.com, kieran.bingham+renesas@ideasonboard.com,
- airlied@linux.ie, daniel@ffwll.ch, sam@ravnborg.org, geert@linux-m68k.org,
- sergei.shtylyov@gmail.com
-Subject: [PATCH v2] drm/shmobile: Convert to Linux IRQ interfaces
-Date: Thu, 15 Jul 2021 11:57:29 +0200
-Message-Id: <20210715095729.6510-1-tzimmermann@suse.de>
+To: paul@crapouillou.net, airlied@linux.ie, daniel@ffwll.ch, sam@ravnborg.org
+Subject: [PATCH v2] drm/ingenic: Convert to Linux IRQ interfaces
+Date: Thu, 15 Jul 2021 12:02:58 +0200
+Message-Id: <20210715100258.6638-1-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -63,7 +61,7 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-renesas-soc@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, linux-mips@vger.kernel.org,
  dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
@@ -72,84 +70,49 @@ Drop the DRM IRQ midlayer in favor of Linux IRQ interfaces. DRM's
 IRQ helpers are mostly useful for UMS drivers. Modern KMS drivers
 don't benefit from using it.
 
+This patch also fixes a bug where the driver didn't release the
+IRQ.
+
 v2:
-	* handle errors in platform_get_irq() (Geert, Sergei)
-	* store IRQ number in struct shmob_drm_device (Laurent)
+	* automatically release IRQ via devm_request_irq() (Paul)
+	* mention the bugfix (Sam)
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
+Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
 ---
- drivers/gpu/drm/shmobile/shmob_drm_drv.c | 16 +++++++++++-----
- drivers/gpu/drm/shmobile/shmob_drm_drv.h |  1 +
- 2 files changed, 12 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/shmobile/shmob_drm_drv.c b/drivers/gpu/drm/shmobile/shmob_drm_drv.c
-index 0a02b7092c04..07878f4ef23e 100644
---- a/drivers/gpu/drm/shmobile/shmob_drm_drv.c
-+++ b/drivers/gpu/drm/shmobile/shmob_drm_drv.c
-@@ -18,7 +18,6 @@
- #include <drm/drm_crtc_helper.h>
- #include <drm/drm_drv.h>
- #include <drm/drm_gem_cma_helper.h>
+diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+index c296472164d9..857ed070b21b 100644
+--- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
++++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+@@ -33,7 +33,6 @@
+ #include <drm/drm_fourcc.h>
+ #include <drm/drm_gem_atomic_helper.h>
+ #include <drm/drm_gem_framebuffer_helper.h>
 -#include <drm/drm_irq.h>
- #include <drm/drm_probe_helper.h>
- #include <drm/drm_vblank.h>
- 
-@@ -130,7 +129,6 @@ DEFINE_DRM_GEM_CMA_FOPS(shmob_drm_fops);
- 
- static const struct drm_driver shmob_drm_driver = {
- 	.driver_features	= DRIVER_GEM | DRIVER_MODESET,
--	.irq_handler		= shmob_drm_irq,
+ #include <drm/drm_managed.h>
+ #include <drm/drm_of.h>
+ #include <drm/drm_panel.h>
+@@ -799,8 +798,6 @@ static const struct drm_driver ingenic_drm_driver_data = {
+ 	.fops			= &ingenic_drm_fops,
+ 	.gem_create_object	= ingenic_drm_gem_create_object,
  	DRM_GEM_CMA_DRIVER_OPS,
- 	.fops			= &shmob_drm_fops,
- 	.name			= "shmob-drm",
-@@ -183,7 +181,7 @@ static int shmob_drm_remove(struct platform_device *pdev)
+-
+-	.irq_handler		= ingenic_drm_irq_handler,
+ };
  
- 	drm_dev_unregister(ddev);
- 	drm_kms_helper_poll_fini(ddev);
--	drm_irq_uninstall(ddev);
-+	free_irq(sdev->irq, ddev);
- 	drm_dev_put(ddev);
- 
- 	return 0;
-@@ -258,7 +256,15 @@ static int shmob_drm_probe(struct platform_device *pdev)
- 		goto err_modeset_cleanup;
+ static const struct drm_plane_funcs ingenic_drm_primary_plane_funcs = {
+@@ -1098,7 +1095,7 @@ static int ingenic_drm_bind(struct device *dev, bool has_components)
+ 		encoder->possible_clones = clone_mask;
  	}
  
--	ret = drm_irq_install(ddev, platform_get_irq(pdev, 0));
-+	ret = platform_get_irq(pdev, 0);
-+	if (ret) {
-+		dev_err(&pdev->dev, "failed to get IRQ number\n");
-+		goto err_modeset_cleanup;
-+	}
-+	sdev->irq = ret;
-+
-+	ret = request_irq(sdev->irq, shmob_drm_irq, 0, ddev->driver->name,
-+			  ddev);
- 	if (ret < 0) {
- 		dev_err(&pdev->dev, "failed to install IRQ handler\n");
- 		goto err_modeset_cleanup;
-@@ -275,7 +281,7 @@ static int shmob_drm_probe(struct platform_device *pdev)
- 	return 0;
- 
- err_irq_uninstall:
--	drm_irq_uninstall(ddev);
-+	free_irq(sdev->irq, ddev);
- err_modeset_cleanup:
- 	drm_kms_helper_poll_fini(ddev);
- err_free_drm_dev:
-diff --git a/drivers/gpu/drm/shmobile/shmob_drm_drv.h b/drivers/gpu/drm/shmobile/shmob_drm_drv.h
-index 80dc4b1020aa..4964ddd5ab74 100644
---- a/drivers/gpu/drm/shmobile/shmob_drm_drv.h
-+++ b/drivers/gpu/drm/shmobile/shmob_drm_drv.h
-@@ -29,6 +29,7 @@ struct shmob_drm_device {
- 	u32 lddckr;
- 	u32 ldmt1r;
- 
-+	unsigned int irq;
- 	spinlock_t irq_lock;		/* Protects hardware LDINTR register */
- 
- 	struct drm_device *ddev;
+-	ret = drm_irq_install(drm, irq);
++	ret = devm_request_irq(dev, irq, ingenic_drm_irq_handler, 0, drm->driver->name, drm);
+ 	if (ret) {
+ 		dev_err(dev, "Unable to install IRQ handler\n");
+ 		return ret;
 -- 
 2.32.0
 
