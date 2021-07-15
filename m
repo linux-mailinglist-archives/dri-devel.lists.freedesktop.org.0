@@ -2,180 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD4A83CA280
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jul 2021 18:36:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81CFB3CA4E9
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jul 2021 20:01:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D5E26E889;
-	Thu, 15 Jul 2021 16:36:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E4446E88A;
+	Thu, 15 Jul 2021 18:01:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3FBBE6E889
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jul 2021 16:36:01 +0000 (UTC)
-Received: from [192.168.1.107] ([37.4.249.97]) by mrelayeu.kundenserver.de
- (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis) id
- 1MPXMa-1liZBL0lRC-00MY9j; Thu, 15 Jul 2021 18:35:53 +0200
-From: Stefan Wahren <stefan.wahren@i2se.com>
-Subject: [Regression] No framebuffer console on Rpi since 5.14-rc1
-Autocrypt: addr=stefan.wahren@i2se.com; keydata=
- LS0tLS1CRUdJTiBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tClZlcnNpb246IEdudVBHIHYy
- CgptUUlOQkZ0NmdCTUJFQUN1Yi9wQmV2SHhidkplZnlaRzMySklObW4yYnNFUFgyNVY2ZmVq
- bXlZd21DR0tqRnRMCi9Eb1VNRVZIRHhDSjQ3Qk1YbzM0NGZIVjFDM0FudWRnTjFCZWhMb0J0
- TEh4bW5lQ3pnSDNLY1B0V1c3cHRqNEcKdEp2OUNRRFp5MjdTS29FUHh5YUk4Q0YweWdSeEpj
- NzJNOUk5d21zUFo1YlVIc0x1WVdNcVE3SmNSbVBzNkQ4ZwpCa2srOC95bmdFeU5FeHd4SnBS
- MXlsajVianhXREh5WVF2dUo1THpaS3VPOUxCM2xYVnNjNGJxWEVqYzZWRnVaCkZDQ2svc3lp
- by9ZaHNlOE4rUXN4N01RYWd6NHdLVWtRUWJmWGcxVnFrVG5BaXZYczQyVm5Ja211NWd6SXcv
- MHQKUkp2NTBGUmhIaHhweUtBSThCOG5oTjhRdng3TVZrUGM1dkRmZDN1R1lXNDdKUGhWUUJj
- VXdKd05rLzQ5RjllQQp2ZzJtdE1QRm5GT1JrV1VSdlArRzZGSmZtNitDdk92N1lmUDF1ZXdB
- aTRsbitKTzFnK2dqVklXbC9XSnB5MG5UCmlwZGZlSDlkSGtnU2lmUXVuWWN1Y2lzTXlvUmJG
- OTU1dENna0VZOUVNRWRZMXQ4aUdEaUNnWDZzNTBMSGJpM2sKNDUzdWFjcHhmUVhTYUF3UGtz
- bDhNa0NPc3YyZUVyNElOQ0hZUUR5WmljbEJ1dUNnOEVOYlI2QUdWdFpTUGNRYgplbnpTektS
- Wm9POUNhcUlEK2ZhdkxpQi9kaHptSEErOWJnSWhtWGZ2WFJMRFp6ZThwbzFkeXQzRTFzaFhp
- ZGRaClBBOE51SlZ6RUl0MmxtSTZWOHBaRHBuMjIxcmZLaml2UlFpYW9zNTRUZ1pqak1ZSTdu
- bko3ZTZ4endBUkFRQUIKdENCVGRHVm1ZVzRnVjJGb2NtVnVJRHgzWVdoeVpXNXpkRUJuYlhn
- dWJtVjBQb2tDTndRVEFRZ0FJUVVDWElkYwo0Z0liQXdVTENRZ0hBZ1lWQ0FrS0N3SUVGZ0lE
- QVFJZUFRSVhnQUFLQ1JDVWdld1BFWkR5MjFPVEQvOUdpWkxkCnRSWWNteVJKZ2x0aVFRekFp
- UWRjSUQ3OGxHb1dwL3grci92Y1U2YjZqdVl1ZVR3Z1Iwclc3djdsMklSQnlEN24KSEp4YSt0
- SVNvUVpCZ2hvbE1JZmI5TXRoR09KTENZNzdrL1FoQWhuMzJOR1prZWp3OXR6a3MvNDBtclpT
- VVQ4NApaeWJzUVhyTE0vSFI2VElJL0RlUEIwbktEM0ppcHBzMlVIUUQ5cUQySWpFd1NRUGxI
- akNPckVaaDQ1UFo3bTkrClo5M0x6aVRlc1dabFlRdUxpSndzNHJLcHRIVzFkL3dSZWxzaG1t
- NlFxY0wybDRDL2U0MGVEQjlncTRkU1poOVgKUEVZbGxpeU5RaDdhMkxTZHVtRTFyK2NTd0lq
- RS91ZHRSdmRPOWFLb0psT2JVSzVkTmpTUEg3d0tUYndkWGRZRApHUHdEaFhkNThOQXdyK1BY
- QmxQajB0STFMQ3ErTEJ4ZUt6aFdYK0dWcTlEb2pWanlVREV4Rk5Ga1h1b0M3ZzhtClY5VDB0
- ZUJpdVpSbm91WEt3VjJGcHRaT0hIN0JVRVd0a0t0aGgxZXRmT1dwaWdCemtVN2JQc2ZJWVQr
- cnk5dGIKMW9KK3Y0MVBOYXFaRW1QVXBKeHZmek5UN3Ayd01lRDdaajlmMHJ1YlJQdExBSjJR
- R2pyRkhzdVh3QU9xcHl6ZQoxOEVidHNZazBOMHp1SEVoY2orUEJJQmZoMFlJWWQ1MW9mNkdJ
- aU95UjlxMFhYdHBsVUo3VDIvSDF1UXFrWGxwCitnVzRWa2lmc2NJckl1eWZueFpXMTJlSXZq
- NnlicVdMN2FZS0dZbVQ2aUxDUGJIWXlZY2F5bDRFa0ZjckNGN0UKZTBXVC9zY1ZNaE8vNVgv
- SGFOQTVIQngvcjUycGdMY3Y0aTlNeExRbVUzUmxabUZ1SUZkaGFISmxiaUE4YzNSbApabUZ1
- TG5kaGFISmxia0JwTW5ObExtTnZiVDZKQWpnRUV3RUNBQ0lGQWx0NmdCTUNHd01HQ3drSUJ3
- TUNCaFVJCkFna0tDd1FXQWdNQkFoNEJBaGVBQUFvSkVKU0I3QThSa1BMYmpic1AvamdqYVNz
- NUh0bGtBSXZXUytGcm15N2MKaG5jT0F4TFRWL0Q2UkV3SU95R0poRkt3d29pck55UTJnOXZV
- YTNZQ1lDZjFmSjh3RWhhS09COWQwTHBNUm5MNApkRVQ4ZDgyMzhFL3BLK0hxTktpSXNKaHM2
- SnNLOFpnalZRR3JtbWZua0dyWisxdjBIQnV4ZGljZ0duUC9XdHVBClVsOGw2Mi9BTGJheXlq
- KzYxQ2xyc0V0UklhcU82N0xJWXdQaVBEUkkrWGlNek5pR3pIRi8xUTZHUjAyUkg2YTMKRjg5
- ejhhUHhjSGkxWnZDdDJ5a3o2VUVjaHpQMHI1Z3FGSisvTC9VcHU4ME1YaVk0djVlSWFCNTJn
- VlBnaXlNQQpsTDJkRHMxbUladm5yUkxSWTJ0YjNtQVlOa1Y1QjVJRFQzcGtXeTZrS281T0Nn
- SytZZFlPUjhGTloyb04ydDhPCnJLK1ZudGFLN01NU0tIbG1ZL3NPd3RSbEVoMU9CbXJjQ3dH
- d21wLzA1R2tSNDZmL0lzaFJWZUZPUmF3K0dBcXQKUDIrQ0ZhMkNOQS9JSG5aTm95aWtsRHpQ
- UUhVVUdzck5wcERyaFg5Sm1oQm1nMXYyeXdIMU5YdTFpRGZQMUJBdwpLZ29rdDVmNVVhUkY5
- c0FBNTN2V0V2YlVVTjllZXNGR0x6UFdkSkdRNWhwZC9WSDVJUXk5U0JyaC93SWNla3E1Cm4w
- a042cGJUSHhHRTUyU2kvTVZJa05UdURaM2FwbjJqbERaNHBPdHBCWEkydlAzYlBPK05pcUJa
- anNVM3R4TGkKV2R2MkZqeXp6NlhMUndlV1JZVkw1SGE2TER0eG9yMnZ1NlVQMDdwOXh6MXhS
- WmFPRFczb1lsSEZ6WXBhNFc1ZwpMSGIybEVrSXVVZlNjaWNHYmpqQXRDbFRkR1ZtWVc0Z1Yy
- Rm9jbVZ1SUR4emRHVm1ZVzR1ZDJGb2NtVnVRR2x1CkxYUmxZMmd1WTI5dFBva0NOd1FUQVFn
- QUlRVUNYSWRlaHdJYkF3VUxDUWdIQWdZVkNBa0tDd0lFRmdJREFRSWUKQVFJWGdBQUtDUkNV
- Z2V3UEVaRHkyeUhURC85VUY3UWxEa0d4elE3QWFDSTZOOTVpUWY4LzFvU1VhRE51Mlk2SQpL
- K0R6UXBiMVRiVE9yM1ZKd3dZOGEzT1d6NU5MU09MTVdlVnh0K29zTW1sUUlHdWJEM09EWko4
- aXpQbEcvSnJOCnQ1elNkbU41SUE1ZjNlc1dXUVZLdmdoWkFnVERxZHB2K1pIVzJFbXhuQUox
- dUxGWFhlUWQzVVpjQzVyMy9nL3YKU2FNbzl4ZWszSjVtTnVEbTcxbEVXc0FzL0JBY0ZjK3lu
- TGh4d0JXQld3c3Z3UjhiSHRKNURPTVd2YUt1RHNrcApJR0ZVZS9LYjJCK2pyYXZRM1RuNnMv
- SHFKTTBjZXhTSHo1cGUrMHNHdlArdDlKNzIzNEJGUXdlRkV4cmlleThVCkl4T3I0WEFiYWFi
- U3J5WW5VL3pWSDlVMWkyQUlRWk1XSkFldkN2VmdRL1UrTmVSaFh1ZGU5WVVtRE1EbzJzQjIK
- VkFGRUFxaUYyUVVIUEEybThhN0VPM3lmTDRyTWswaUh6TElLdmg2L3JIOFFDWThpM1h4VE5M
- OWlDTHpCV3UvTgpPbkNBYlMremx2TFphaVNNaDVFZnV4VHR2NFBsVmRFamY2MlArWkhJRDE2
- Z1VEd0VtYXpMQU1yeDY2NmpINWt1ClVDVFZ5bWJMMFR2Qis2TDZBUmw4QU55TTRBRG1rV2tw
- eU0yMmtDdUlTWUFFZlFSM3VXWFo5WWd4YVBNcWJWK3cKQnJoSmc0SGFONkM2eFRxR3YzcjRC
- MmFxYjc3L0NWb1JKMVo5Y3BIQ3dpT3pJYUFtdnl6UFU2TXhDRFhaOEZnWQpsVDR2MjNHNWlt
- SlAyemdYNXMrRjZBQ1VKOVVRUEQwdVRmK0o5RGEycitza2gvc1dPbloreWNvSE5CUXZvY1pF
- Ck5BSFFmN2tDRFFSYmVvQVRBUkFBMkhkMGZzRFZLNzJSTFNESGJ5ME9oZ0RjRGxWQk0yTSto
- WVlwTzNmWDFyKysKc2hpcVBLQ0hWQXNRNWJ4ZTdIbUppbUhhNEtLWXMya3YvbWx0L0NhdUNK
- Ly9wbWN5Y0JNN0d2d25Lem11WHp1QQpHbVZUWkM2V1I1TGtha0ZydEhPelZtc0VHcE52NVJj
- OWw2SFlGcExrYlNrVmk1U1BRWkp5K0VNZ01DRmdqclpmClZGNnlvdHdFMWFmN0hOdE1oTlBh
- TEROMW9VS0Y1aitSeVJnNWl3SnVDRGtuSGp3QlFWNHBndzIvNXZTOEE3WlEKdjJNYlcvVExF
- eXBLWGlmNzhJaGdBelh0RTJYck0xbi9vNlpINzFvUkZGS096NDJsRmR6ZHJTWDBZc3FYZ0hD
- WAo1Z0l0TGZxemoxcHNNYTlvMWVpTlRFbTFkVlFyVHFueXMwbDE4b2FsUk5zd1lsUW1uWUJ3
- cHdDa2FUSExNSHdLCmZHQmJvNWRMUEVzaHRWb3dJNm5zZ3FMVHlRSG1xSFlxVVpZSXBpZ21t
- QzNTd0JXWTFWNmZmVUVta3FwQUFDRW4KTDQvZ1Vnbjd5US81ZDBzZXFuQXEycFNCSE1VVW9D
- Y1R6RVFVV1ZraUR2M1JrN2hURm1oVHNNcTc4eHYyWFJzWApNUjZ5UWhTVFBGWkNZRFVFeEVs
- RXNTbzlGV0hXcjZ6SHlZY2M4cURMRnZHOUZQaG1RdVQyczlCbHg2Z0kzMjNHCm5FcTFsd1dQ
- SlZ6UDRqUWtKS0lBWHdGcHYrVzhDV0xxekRXT3ZkbHJEYVRhVk1zY0ZUZUg1VzZVcHJsNjVq
- cUYKUUdNcGNSR0NzOEdDVVcxM0gwSXlPdFF0d1dYQTRueStTTDgxcHZpQW1hU1hVOGxhS2FS
- dTkxVk9WYUY5ZjRzQQpFUUVBQVlrQ0h3UVlBUUlBQ1FVQ1czcUFFd0liREFBS0NSQ1VnZXdQ
- RVpEeTIrb1hELzljSEhSa0JaT2ZrbVNxCjE0U3Z4MDYyUHRVMEtWNDcwVFNucC9qV29ZSm5L
- SXczRzBtWElSZ3J0SDJkUHdwSWdWanNZeVJTVk1LbVNwdDUKWnJEZjlOdFRiTldnazhWb0xl
- WnpZRW8rSjNvUHFGclRNczNhWVl2N2U0K0pLNjk1WW5tUSttT0Q5bmlhOTE1dApyNUFaajk1
- VWZTVGx5VW15aWMxZDhvdnNmMWZQN1hDVVZSRmNSamZOZkRGMW9ML3BEZ01QNUdaMk93YVRl
- am15CkN1SGpNOElSMUNpYXZCcFlEbUJuVFlrN1B0aHk2YXRXdllsMGZ5L0NxYWpUS3N4Nytw
- OXh6aXU4WmZWWCtpS0IKQ2MrSGUrRURFZEdJRGh2TlovSVFIZk9CMlBVWFdHUytzOUZOVHhy
- L0E2bkxHWG5BOVk2dzkzaVBkWUl3eFM3SwpYTG9LSmVlMTBEamx6c1lzUmZsRk9XMFpPaVNp
- aElDWGlRVjF1cU02dHpGRzlndFJjaXVzNVVBdGhXYU8xT3dVClNDUW1mQ09tNGZ2TUlKSUE5
- cnh0b1M2T3FSUWNpRjNjcm1vMHJKQ3ROMmF3WmZnaThYRWlmN2Q2aGp2MEVLTTkKWFpvaUFa
- WVpEKy9pTG01VGFLV042b0dJdGkwVmpKdjhaWk9aT2ZDYjZ2cUZJa0pXK2FPdTRvclRMRk16
- MjhhbwpVM1F5V3BOQzhGRm1kWXNWdWE4czZnTjFOSWE2eTNxYS9aQjhiQS9pa3k1OUFFejRp
- RElScmdVek1FZzhBazdUCmZtMUtpWWVpVHRCRENvMjVCdlhqYnFzeXhrUUQxbmtSbTZGQVZ6
- RXVPUEllOEp1cVcyeEQ5aXhHWXZqVTVoa1IKZ0pwM2dQNWIrY25HM0xQcXF1UTJFNmdvS1VN
- TEFia0NEUVJiZmw5REFSQUFzRExjYStMbFAydm5mdEVHaHBjQQpCR1ZOUUVGbkdQckNhdVU2
- SGhOODA1V3RQVHRtc1JPdUp6cWdVVDBtcHFXSWZacTZzTXd5dkhLOVRzL0tIM0paClVWYlJD
- M3oyaDNLZmhIL0RhZjk1cGQ2bVBjL2g5dkYvT3kzK2VUV2hnR25QNmNBNWtsUitmTzFXaEc4
- VnJpWHYKck5lUkcyMHN6emplSG9jblNJY1Q1WHVaUjB1REhPaUd4T2l6MXNNUkZUR3h6R095
- MTlSOXJ2dTYzdGlJM2Q3dgpnYzc1T0NBZGtlQi9TZUNFbGFSdzBUZjdMWmJQampzRjI2M0JZ
- bk1mNGtrTkVLdnFXY1UyaWNNcCtxZXpqeW5CCnB2ZXVlMHJDVFFCWUFRbG9GQ1ZUR0hyV1dB
- NkQ0VzVPMkFmSWRJYzF1MUpDWnAyZjVMV1ZvVUZUVklyUW5RUVUKU0hDaWZyOU1aeExUdFBK
- ZFU1Mm9TUHczZGs0aExQOGlKSUx1dnYvYXZhakNzUVlIRXR3WXNiZUZaeGl1TGdscApBN1lj
- Sk5ObXBnQ3BNRDR3VWh2bEN0QUtOQlFXeXIyOTc2OThFUVRuNDZlQmVVNkttMkNpaFhrZ3dD
- eWY4ZXlLCkxFM3NYZXdhcTVrZ1pXdk5xNml1NXFZSVJCOXl3K2NYYzYwZE9aRE9scTkzWDVT
- QVJZemFvZXBrSHo0cmtMa1AKUG8rdENIeUhRUHNHblBYYzlXVDgwREM5Tm5KR2R2VWx5NXJk
- TUk0eHBaeWdlb2tqd293VlFsUFV1Y1M2TXluNwpmOHc4Y2dmQjdDMklBSWNEeDJwUC9IendY
- dmtDT1FOQTdtVjFsTTA4bitnVmtUcnpweGlwNURicTRDSW9ZeDJNCkpaVDhiR1JINlhqY1VE
- S2EwOVFoeVpzQUVRRUFBWWtFUkFRWUFRZ0FEd1VDVzM1ZlF3SWJBZ1VKQThKbkFBSXAKQ1JD
- VWdld1BFWkR5MjhGZElBUVpBUWdBQmdVQ1czNWZRd0FLQ1JCVnhETFBjVk1NamNkc0QvMFJo
- QXN1UVlPeQpyMTNCbDNOaFhrWUFaR3AyWkZER3VrZTdPU2tWOG9qT09UZFR5ei9jT1JHQ2J5
- ZEQrRGd2cUZ5VmRuT1hLZ08wCmxKbUd3ckdlTGRnZ0F2aDBpaHJwNU8wWVVKOWJCU1htR01t
- UVRZSC9BbUxUR2FkYnVqQ1dqNWZGVWtDeXd4aW0KSHV5MFBiMjRwelR2UzUwR1k1WStxSDBG
- SE5haWdka2tpV04zcnVnN0haRXUvQ3lsUFpqT1h6K0QxUVBNckV4dwo3ZC9NS2FiVis5YU5i
- UVlabGRJajk4UXd2VUYxS1N6YThqbFVJdnBoUnEyN0FUOGZER1lHUGZERU1nMmNCT2FlCkty
- N29uUXM0YjdhV082aWZEbHhRVHB6c3pvK0FuODA3Tk1TdFZFRmYrczNBaFZEM2U3bmY4SkJh
- dmJWckFlMGsKb20yNm96elBubnh6K2xxVlZ0dzZVazRYTUl6dGl4L0h3SFl3dUNuY1VYWndL
- MEkzeUFKd2pZd29vck9DaEozUwpFVWJKUVB0R3NneFJERXhWQkZlNk5MUC82MnhQOU82dGFj
- d09kYjBNbVAxYjM5cFJBVEM3YmdkMWxkVUxpNzVaCmxKckowL1NpVkVyb3FOWXk3OXRmbWdB
- WjJVeFptczlTckV5Nm85UVNmc24xYVh2K01QTDlKYUNHbWtQNnpiTFEKTm5kajBKY2FRbmtD
- MHZneWRPMUJtNk11OTZQOXVmbEtaY0FTNndtTE01SWRIT3lqTDg4d0h3anVjakFPQnRjdwpw
- MG9HVG5WT25Sc05ZU084VzhZWi9LZGJ1Nzg1ZGF6TXFKMmlOakFEdUJiZG02TjRqNUVkTW5r
- TG4wQklmUEpwCmRnbTR2bDJVcExqd1JHci9NM3dtbTVwdnMrNnVCN2hrL0ZKaUQvNGxsRU5Q
- NGVNMWg3U200aitWcTZOMSt6VEIKSVhKQWViSXFhc0RwNXlaUzdYcnk0STM2bjg1WEVZZkcw
- MWx0QXlob05WMkRPOFNJUlFwdWkydHErOVJQM1JLMQpKREJ4eEVKWTJFTzVKWjhNeGFQSFEw
- RFQwNWxSRmpLMkFsaGRFSXRqTGpwSjNmVW05c3FMeE1XeHpQNlV6M2lpCjJ1YTR1bnJ0Nk9D
- VHFRd2lqRi8zYlRXaXd2VkFBSG5NRlVpb1hzaEhhb2hWRGNWZm5lSU1mVjBiUUNYWWkzTnAK
- WTB2MFp3Y2lGSCtnU0M3cUQ2WE51aHBWR1NMNElpbGlGeS9TemNhSkV6QUhlTERTaFpQMkNX
- ZG5DNHZnbDM3dApocHg4aDU1WWhKbjZIU3VVelBnaGFLdFZCMmsrajdaZXlaK1NGeHA3SXVi
- SEN3TEhsUWhUNzVSd1EzaUF4S242CjBxajUxY1lUbnF4ZFpYVzZmSDNQa3VNellVNUdwcVIv
- MU9sNWMvd2ZJNmc2QW04eUtXLzBFVUx0K0tuNExGc1MKbTdZM201SDV2MTJVNkpCWXZWK3Ix
- M2paaW9zNEVFREU5M0Q1c05IMk1JeVJ6Q0RxMXpkZHQ0WHV5S0ZqUEtXMQo5aWJaRGZGVjdL
- dUNzdnVMMjNzQmMxc0NNb3ArRTFtVC9ReE9JQTZvRFQxTVFzdHdPVnVReURDdi9PdktTZ2Z6
- CjhGWEdMNkFQY2xqQ3FqOEFKaHhReXN4ZG9pUVA4bS92dStialdHR3Z4dzVzMWxncGlSRFRS
- VVBnY0pKTmFHWTIKVklEclpRaTROU2lOUTBOSWkrZGp1NGZOTW1DcFFxZzh0YkMzY0FhNnl3
- bTZvUUIxU0JobURYMmUxMWdSbGx1SQpPblRHUEUwSFRvM2w3MmxoYmc9PQo9cVpNVgotLS0t
- LUVORCBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tCg==
-To: Maxime Ripard <maxime@cerno.tech>, Kees Cook <keescook@google.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, David Airlie <airlied@linux.ie>
-Message-ID: <69c4f25d-7b48-081b-f609-8e1fd5f950cb@i2se.com>
-Date: Thu, 15 Jul 2021 18:35:51 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 61D9C6E88A
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jul 2021 18:01:37 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 171C922AE3;
+ Thu, 15 Jul 2021 18:01:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1626372096; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=cgXRADfXViWd1mlD86xN94x8bi78mY0GryH+z9/obvo=;
+ b=baUJVwJOPVefeDS3Om6n8kzwenlRcdO4Uc33KSPlVOaqmkdo1p+Bv18iW4rNEn5rA0itvX
+ gqTCQu6bqn0cjTh1elADWwvdDEdC3TkkMaO5Gl8FSf1fAi4r4nTWMcQPjEFHWifdZYoomi
+ yuocoCMbegi4B2ep6wOgEY8VIlg59bI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1626372096;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=cgXRADfXViWd1mlD86xN94x8bi78mY0GryH+z9/obvo=;
+ b=A4APjalT/OSpXh0fw2qvd/Ac6r8zn6JNqFh87Ly0ug/1/qp2yLyiMkWXNoqE0utpDYnsaL
+ wqomLqm3aysudZBg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D2EC413C45;
+ Thu, 15 Jul 2021 18:01:35 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id cAiMMv938GBoIgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Thu, 15 Jul 2021 18:01:35 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@linux.ie,
+ daniel@ffwll.ch, noralf@tronnes.org, rodrigosiqueiramelo@gmail.com,
+ melissa.srw@gmail.com, hamohammed.sa@gmail.com
+Subject: [PATCH 1/5] drm: Define DRM_FORMAT_MAX_PLANES
+Date: Thu, 15 Jul 2021 20:01:29 +0200
+Message-Id: <20210715180133.3675-2-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20210715180133.3675-1-tzimmermann@suse.de>
+References: <20210715180133.3675-1-tzimmermann@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Content-Language: en-US
-X-Provags-ID: V03:K1:95cl8g8TQlKCTTghuX7SoPlx+8wjtfz0fs1KE95viYVn5teHojv
- 2mJ7u7QOmkoYoX+d7DY6rHzWY8O0f7O3L7C4LuT9lbfrtM5G9N9CmhdCRX3IgIgnK8Qu/1H
- AmUjj1V6xIdeVsUoOFRg//WdrMgBSelFk78XqyGlHyFdM3M6VXA5AJ93E1FP7d2WhXWCcv9
- zGDEuWvoiWBpzFjSHK9vw==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:ih5NSDfo+rw=:s6gYI+ZJ2pCYp//D9x6woQ
- AWHz4gj9aLc7uPrGrXvv7u4FmJa4RtB3+t6UFD87tTsibAl8+GZNbJqE6HTttWDG/oJskt0Zk
- /zrtCZMn1d2OpLb0Q0DMFrrVuSCSmF/oUeyB76NvXC9+dAq5rWpkd9Nm7DkOQiGpOtmoQOlIt
- Te0oO/KXFQ2ADUYdmCFdesYQRLWiD+vKC74xzzWqpg5ZaxWxOW0DRBwkuoNTWmknRwbrcOohZ
- GMJ5+bbg/PtYPSQSOUsH3OvhV6h9pHfM3a/ldGdLVIGAWziUNho8eimrfSgEgvZCwrlI4HF8c
- 66yhEWaD3klc5V7XXv7h0rktol0EAnOOYXyp5+J7uCAVXOKzFVC+0R1VBPYiNC1/Jwo2FqOnl
- PtYwscUJV6DcyZhaWLFeOwMRH9OtU0eEuo1PkCp4aaGrSW3plv2gF9bIzccZWTnHD62I8u/cu
- BXp2jEJPkwmLWCJGn+ByAPckMxZrlqp9pOgp09j6c8KNr+/howJJGwkQHIwoFi0a+3lMvB2EP
- hGyRE/RMGO8CDfFETkMg6DcHanCGYsJPLJAycmekwSYz9jKin3jZXYtmOUFaB7y9XNlGLirjb
- 7ZbQyCjm2DkH+68xv/C1db6ls56f0CJAYbR2KfDUvGvtl7Z4OFy7jnFHRBGvunTU54+axL65H
- 0klsgLpB44mV/sn5dfOY8JDbOO9wZdtl/HlyLgFOahesOyyE/gZ3oImlNru54P2hGXAxQutMS
- N4ZgUIecQ5FhhIfW6oDbpq+kAIgfwB2tPHJ33R2eNnhUBsrsz80cAE9FLLn8n/eX7FDBbAqlv
- LFanksDO+pow+I+3nPJbbLBsUVW1k/FUubPpXGwlxRZmMj7SjW1um/QSt1NeQufNDue5IVeOl
- 1tNvuHo8hWtN3lr9mLzw==
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -188,57 +69,179 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Arnd Bergmann <arnd@kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi guys,
+DRM uses a magic number of 4 for the maximum number of planes per color
+format. Declare this constant via DRM_FORMAT_MAX_PLANES and update the
+related code.
 
-starting with Linux 5.14-rc1 the framebuffer console on Raspberry Pi 3/4
-(no U-Boot, multi_v7_defconfig) isn't available anymore. The display
-shows the rainbow screen from the bootloader and than the HDMI screen
-goes black instead of kernel messages.
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+---
+ drivers/gpu/drm/drm_gem_framebuffer_helper.c | 14 ++++++++------
+ include/drm/drm_fourcc.h                     | 13 +++++++++----
+ include/drm/drm_framebuffer.h                |  8 ++++----
+ include/drm/drm_gem_atomic_helper.h          |  2 +-
+ 4 files changed, 22 insertions(+), 15 deletions(-)
 
-I bisected the issue:
-
-62fb9874f5da54fdb243003b386128037319b219 good
-e73f0f0ee7541171d89f2e2491130c7771ba58d3 bad
-e058a84bfddc42ba356a2316f2cf1141974625c9 bad
-a6eaf3850cb171c328a8b0db6d3c79286a1eba9d good
-007b312c6f294770de01fbc0643610145012d244 good
-18703923a66aecf6f7ded0e16d22eb412ddae72f good
-334200bf52f0637a5ab8331c557dfcecbb9c30fa bad
-c707b73f0cfb1acc94a20389aecde65e6385349b bad
-caa18dd6dd9305d52943a6b59f410cbc960ad0a0 good
-691cf8cd7a531dbfcc29d09a23c509a86fd9b24f bad
-2fdcb55dfc86835e4845e3f422180b5596d23cb4 bad
-6c3f953381e526a1623d4575660afae8b19ffa20 bad
-5ea4dba68305d9648b9dba30036cc36d4e877bca bad
-4a888ba03fd97d1cb0253581973533965bf348c4 good
-c5ef15ae09637fb51ae43e1d1d98329d67dd4fd6 good
-f611b1e7624ccdbd495c19e9805629e22265aa16 bad
-ff323d6d72e1e4971c8ba9e2f3cf8afc48f22383 good
-
-f611b1e7624ccdbd495c19e9805629e22265aa16 is the first bad commit
-commit f611b1e7624ccdbd495c19e9805629e22265aa16
-Author: Kees Cook <keescook@chromium.org>
-Date:=C2=A0=C2=A0 Wed Jun 2 14:52:50 2021 -0700
-
-=C2=A0=C2=A0=C2=A0 drm: Avoid circular dependencies for CONFIG_FB
-=C2=A0=C2=A0=C2=A0
-=C2=A0=C2=A0=C2=A0 When cleaning up other drm config dependencies, it is =
-too easy to create
-=C2=A0=C2=A0=C2=A0 larger problems. Instead, mark CONFIG_FB as a "depends=
-":
-=C2=A0=C2=A0=C2=A0
-=C2=A0=C2=A0=C2=A0 drivers/gpu/drm/Kconfig:74:error: recursive dependency=
- detected!
-
-I compared the changes to the config (based on multi_v7_defconfig) with
-and without this patch and it shows a lot of changes. Is this intended?
-
-Best regards
-Stefan
-
+diff --git a/drivers/gpu/drm/drm_gem_framebuffer_helper.c b/drivers/gpu/drm/drm_gem_framebuffer_helper.c
+index e2c68822e05c..975a3df0561e 100644
+--- a/drivers/gpu/drm/drm_gem_framebuffer_helper.c
++++ b/drivers/gpu/drm/drm_gem_framebuffer_helper.c
+@@ -48,7 +48,7 @@
+ struct drm_gem_object *drm_gem_fb_get_obj(struct drm_framebuffer *fb,
+ 					  unsigned int plane)
+ {
+-	if (plane >= 4)
++	if (plane >= ARRAY_SIZE(fb->obj))
+ 		return NULL;
+ 
+ 	return fb->obj[plane];
+@@ -62,7 +62,8 @@ drm_gem_fb_init(struct drm_device *dev,
+ 		 struct drm_gem_object **obj, unsigned int num_planes,
+ 		 const struct drm_framebuffer_funcs *funcs)
+ {
+-	int ret, i;
++	unsigned int i;
++	int ret;
+ 
+ 	drm_helper_mode_fill_fb_struct(dev, fb, mode_cmd);
+ 
+@@ -86,9 +87,9 @@ drm_gem_fb_init(struct drm_device *dev,
+  */
+ void drm_gem_fb_destroy(struct drm_framebuffer *fb)
+ {
+-	int i;
++	size_t i;
+ 
+-	for (i = 0; i < 4; i++)
++	for (i = 0; i < ARRAY_SIZE(fb->obj); i++)
+ 		drm_gem_object_put(fb->obj[i]);
+ 
+ 	drm_framebuffer_cleanup(fb);
+@@ -145,8 +146,9 @@ int drm_gem_fb_init_with_funcs(struct drm_device *dev,
+ 			       const struct drm_framebuffer_funcs *funcs)
+ {
+ 	const struct drm_format_info *info;
+-	struct drm_gem_object *objs[4];
+-	int ret, i;
++	struct drm_gem_object *objs[DRM_FORMAT_MAX_PLANES];
++	unsigned int i;
++	int ret;
+ 
+ 	info = drm_get_format_info(dev, mode_cmd);
+ 	if (!info) {
+diff --git a/include/drm/drm_fourcc.h b/include/drm/drm_fourcc.h
+index 3b138d4ae67e..22aa64d07c79 100644
+--- a/include/drm/drm_fourcc.h
++++ b/include/drm/drm_fourcc.h
+@@ -25,6 +25,11 @@
+ #include <linux/types.h>
+ #include <uapi/drm/drm_fourcc.h>
+ 
++/**
++ * DRM_FORMAT_MAX_PLANES - maximum number of planes a DRM format can have
++ */
++#define DRM_FORMAT_MAX_PLANES	4u
++
+ /*
+  * DRM formats are little endian.  Define host endian variants for the
+  * most common formats here, to reduce the #ifdefs needed in drivers.
+@@ -78,7 +83,7 @@ struct drm_format_info {
+ 		 * triplet @char_per_block, @block_w, @block_h for better
+ 		 * describing the pixel format.
+ 		 */
+-		u8 cpp[4];
++		u8 cpp[DRM_FORMAT_MAX_PLANES];
+ 
+ 		/**
+ 		 * @char_per_block:
+@@ -104,7 +109,7 @@ struct drm_format_info {
+ 		 * information from their drm_mode_config.get_format_info hook
+ 		 * if they want the core to be validating the pitch.
+ 		 */
+-		u8 char_per_block[4];
++		u8 char_per_block[DRM_FORMAT_MAX_PLANES];
+ 	};
+ 
+ 	/**
+@@ -113,7 +118,7 @@ struct drm_format_info {
+ 	 * Block width in pixels, this is intended to be accessed through
+ 	 * drm_format_info_block_width()
+ 	 */
+-	u8 block_w[4];
++	u8 block_w[DRM_FORMAT_MAX_PLANES];
+ 
+ 	/**
+ 	 * @block_h:
+@@ -121,7 +126,7 @@ struct drm_format_info {
+ 	 * Block height in pixels, this is intended to be accessed through
+ 	 * drm_format_info_block_height()
+ 	 */
+-	u8 block_h[4];
++	u8 block_h[DRM_FORMAT_MAX_PLANES];
+ 
+ 	/** @hsub: Horizontal chroma subsampling factor */
+ 	u8 hsub;
+diff --git a/include/drm/drm_framebuffer.h b/include/drm/drm_framebuffer.h
+index be658ebbec72..f67c5b7bcb68 100644
+--- a/include/drm/drm_framebuffer.h
++++ b/include/drm/drm_framebuffer.h
+@@ -27,12 +27,12 @@
+ #include <linux/list.h>
+ #include <linux/sched.h>
+ 
++#include <drm/drm_fourcc.h>
+ #include <drm/drm_mode_object.h>
+ 
+ struct drm_clip_rect;
+ struct drm_device;
+ struct drm_file;
+-struct drm_format_info;
+ struct drm_framebuffer;
+ struct drm_gem_object;
+ 
+@@ -147,7 +147,7 @@ struct drm_framebuffer {
+ 	 * @pitches: Line stride per buffer. For userspace created object this
+ 	 * is copied from drm_mode_fb_cmd2.
+ 	 */
+-	unsigned int pitches[4];
++	unsigned int pitches[DRM_FORMAT_MAX_PLANES];
+ 	/**
+ 	 * @offsets: Offset from buffer start to the actual pixel data in bytes,
+ 	 * per buffer. For userspace created object this is copied from
+@@ -165,7 +165,7 @@ struct drm_framebuffer {
+ 	 * data (even for linear buffers). Specifying an x/y pixel offset is
+ 	 * instead done through the source rectangle in &struct drm_plane_state.
+ 	 */
+-	unsigned int offsets[4];
++	unsigned int offsets[DRM_FORMAT_MAX_PLANES];
+ 	/**
+ 	 * @modifier: Data layout modifier. This is used to describe
+ 	 * tiling, or also special layouts (like compression) of auxiliary
+@@ -210,7 +210,7 @@ struct drm_framebuffer {
+ 	 * This is used by the GEM framebuffer helpers, see e.g.
+ 	 * drm_gem_fb_create().
+ 	 */
+-	struct drm_gem_object *obj[4];
++	struct drm_gem_object *obj[DRM_FORMAT_MAX_PLANES];
+ };
+ 
+ #define obj_to_fb(x) container_of(x, struct drm_framebuffer, base)
+diff --git a/include/drm/drm_gem_atomic_helper.h b/include/drm/drm_gem_atomic_helper.h
+index d82c23622156..b2b441361051 100644
+--- a/include/drm/drm_gem_atomic_helper.h
++++ b/include/drm/drm_gem_atomic_helper.h
+@@ -40,7 +40,7 @@ struct drm_shadow_plane_state {
+ 	 * The memory mappings stored in map should be established in the plane's
+ 	 * prepare_fb callback and removed in the cleanup_fb callback.
+ 	 */
+-	struct dma_buf_map map[4];
++	struct dma_buf_map map[DRM_FORMAT_MAX_PLANES];
+ };
+ 
+ /**
+-- 
+2.32.0
 
