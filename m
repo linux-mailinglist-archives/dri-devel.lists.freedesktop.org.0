@@ -1,73 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EFF73C9ADA
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jul 2021 10:51:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 22EEE3C9ADF
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jul 2021 10:52:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 382456E5AB;
-	Thu, 15 Jul 2021 08:50:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3AC796E5A9;
+	Thu, 15 Jul 2021 08:52:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com
- [64.147.123.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 799786E5AB
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jul 2021 08:50:57 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.west.internal (Postfix) with ESMTP id 0DE652B0123A;
- Thu, 15 Jul 2021 04:50:53 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Thu, 15 Jul 2021 04:50:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm3; bh=M62QmRJ7jfZ7a1XtGtHuOAWYYSW
- wR+kSOaB6+SmVLRQ=; b=uHQrz46SB4AlRrqZRmnIGrRuad2JA/Ocz6DDilfxtug
- QSghwY+JKkd70u+mFEnFLl4XoIgs0zKCzFO0CiRoV1PPG1XwNLFa3prM5FXSCtPY
- e1j+WtFLfXZ8dFknkJCilYNk/xAqFHtxQ+zry262vOMTwan/gJWWQMCUEhK3c9BA
- usVaUY4V9o8jo+OpXg4g20SLmCRJwYp1zvDYb69ewcSvxV8740TcCqjrQJvHiMzz
- GTCw3SUQRMyspP8t3E4Kcfn7/ApOhNDew/fUVuCjVSf+wwSyTEBqYdlpQ3PRvEQf
- HUYgc5IB3ZASuLtk248iHOiaO7hw/VfEyzkd5jP0m7Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=M62QmR
- J7jfZ7a1XtGtHuOAWYYSWwR+kSOaB6+SmVLRQ=; b=YWcIxaWQeWZfhRrYjY0Je6
- gJhvJRMMfd+Ys3BSIljxs4630nSCijWYNfynMsDBEbNSUN5xFf1kD7wO8VPQiXg/
- kMu7XjczvRQ6omdd6569TxH67pWMblhAqbK5ShPbUAVED0eKiAacV+bm5m2zRaEd
- NMh+bnpf7hS8eUsCHHoBEZAuyVv7B4Y3yl0gPK1JrJBgPaUMWz3kQFElLOPAjrVv
- CCZ9wcj31tb09jhWf2fK2tuO+c6wWEtNZpkzRHFDvBBrDWiRCb3//19B4mwnQoYc
- Sl2VfqEFSEcaYh4m9S5ohOVNuRedWJyEu0WwQA9IY36rVI+xwoKr8lekJSVwVAWQ
- ==
-X-ME-Sender: <xms:6_bvYNzOgMQfnPW4TBgwI3eJOJe9C_ZmmTC5Ad-TVGGeDel24l8XVQ>
- <xme:6_bvYNTXdycciScMO7Z1Mx6b8TiEjpZ3N8B_La_n8RG2CNeF-CPX_X2pSTlneo26H
- POmRUPoS_mrlb_mygo>
-X-ME-Received: <xmr:6_bvYHW1v0AwjHsl_KXIoVxVAjiBvI7nw432qbYHH__HF4n70FpNdGfRDHzFnBRAKv33Q1TfT8TfLOorllrPqj1I9G4jZM8ignUW>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrvddtgddtiecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
- ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
- gvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheeiheeg
- udenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
- igihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:6_bvYPjMZtH6Hi8ERaOcw5iXNB9vewotb1dg6bePbuSj-0mFOq0jUQ>
- <xmx:6_bvYPDZz8UUvJ1LAcHdUpJhhF01tQ4m6iDaS6z07yfGk-e7dvlJaA>
- <xmx:6_bvYIIHdIE33OV28QHTr2J7rLPZz61kTlu1dkAj8rZ5wPo5vGKWWg>
- <xmx:7fbvYHbx1pXnKOVPd_up3EXOKrTCHG22xhrcDXFKX2vZbKWIJjrQrZyuKeg>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 15 Jul 2021 04:50:51 -0400 (EDT)
-Date: Thu, 15 Jul 2021 10:50:48 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: Re: [PATCH 0/3] drm/vc4: hdmi: Interrupt fixes
-Message-ID: <20210715085048.ij547jpeawmooqxh@gilmour>
-References: <20210707095112.1469670-1-maxime@cerno.tech>
- <CAPY8ntD-fi1Zm5eDQd4JR9qOcwfQukkEbMQvYaOgdhOHcQMUDw@mail.gmail.com>
+Received: from mail-oi1-x22d.google.com (mail-oi1-x22d.google.com
+ [IPv6:2607:f8b0:4864:20::22d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2858E6E5A9
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jul 2021 08:52:17 +0000 (UTC)
+Received: by mail-oi1-x22d.google.com with SMTP id w194so5754934oie.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jul 2021 01:52:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=RAf0f97MmIhZvtB+APA2xQ10y7p9bTqNCPlvTRo+PMA=;
+ b=lX2OjtvXnkjttAevWT3Pbs0HioNflvR5Y8J8n6DItrNg180Cq8ffUHgPm6VMdSul6h
+ 0dk+QLbtnufD9ApK+cEFvH5dX3fAITLpx2cSMBQ4+bB3+X2udywv6fFKBCE5YHQ9ga6h
+ LuY3DRJt2hsXOmCfXO3UpkBBvZz4exVuyxt10=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=RAf0f97MmIhZvtB+APA2xQ10y7p9bTqNCPlvTRo+PMA=;
+ b=ix8ah3vVgVqgx4ZF9wbnv5wt9GqMcNVYRTEpT61ALQqqcnUdEFgEMrU5iMKfmF/Qqt
+ 8QormZloZaIxyxTPxX0xyXcchf9J6L4OfzqHiHfPFuuZ11/zomcOYDsca77AWa1BGBOd
+ 0Y3osUI0raVcE0k10trjDYM3rOINx6GlU2rmbZTJJXc0sdQYVo0/1ENzLpErJdJqtBl5
+ SG/em9UNgcMZCbakxEBoPPazWBiPB+Vw/Ud9ag3r35v3Pw9+DeRS/3LKGJYruc22l8Yc
+ //XIvfp0YEVGEdisRpImVEcjNWjocpUIfYl2OhrxcxmiaxsJ2rH72Brz0GgYsKSJnGV5
+ 4Udw==
+X-Gm-Message-State: AOAM531zG+nxvEtT2gVMi/OE2pM6kZbyAIon9x9s//jnqpifutteJOwe
+ oqJ4kBzHMhs4KDnha4jlfA9wEBxHqaN+INZgAu8MQA==
+X-Google-Smtp-Source: ABdhPJwLtqQVYv/tJGeptuf1lwmr1aETKxirUNNSqUgbZMR8439pmSRRmvi6yuS4JxLrHzMFlLH7jckDiL/6W+Ka/C0=
+X-Received: by 2002:aca:d4cf:: with SMTP id l198mr6968741oig.14.1626339136544; 
+ Thu, 15 Jul 2021 01:52:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="ssgiwnlmwhlnlhsx"
-Content-Disposition: inline
-In-Reply-To: <CAPY8ntD-fi1Zm5eDQd4JR9qOcwfQukkEbMQvYaOgdhOHcQMUDw@mail.gmail.com>
+References: <20210715080017.239633-1-linus.walleij@linaro.org>
+In-Reply-To: <20210715080017.239633-1-linus.walleij@linaro.org>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Thu, 15 Jul 2021 10:52:05 +0200
+Message-ID: <CAKMK7uHqn9_CFaKYJ=X9SbMi3yXOXECe4tEyhW4noDfB_PaS+Q@mail.gmail.com>
+Subject: Re: [PATCH] drm/panel: Document internal backlight handling
+To: Linus Walleij <linus.walleij@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,60 +58,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nicolas Saenz Julienne <nsaenz@kernel.org>, Emma Anholt <emma@anholt.net>,
- David Airlie <airlied@linux.ie>, Tim Gover <tim.gover@raspberrypi.com>,
- LKML <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Hans Verkuil <hans.verkuil@cisco.com>, linux-rpi-kernel@lists.infradead.org,
- Thomas Zimmermann <tzimmermann@suse.de>, bcm-kernel-feedback-list@broadcom.com,
- Daniel Vetter <daniel.vetter@intel.com>, Phil Elwell <phil@raspberrypi.com>,
- Dom Cobley <dom@raspberrypi.com>
+Cc: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Doug Anderson <dianders@chromium.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, Jul 15, 2021 at 10:02 AM Linus Walleij <linus.walleij@linaro.org> wrote:
+>
+> Panels with internal backlight need to assign their backlight member
+> directly.
+>
+> Reported-by: Doug Anderson <dianders@chromium.org>
+> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+> ---
+>  include/drm/drm_panel.h | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+>
+> diff --git a/include/drm/drm_panel.h b/include/drm/drm_panel.h
+> index 33605c3f0eba..1e63fadf1368 100644
+> --- a/include/drm/drm_panel.h
+> +++ b/include/drm/drm_panel.h
+> @@ -144,8 +144,9 @@ struct drm_panel {
+>          * Backlight device, used to turn on backlight after the call
+>          * to enable(), and to turn off backlight before the call to
+>          * disable().
+> -        * backlight is set by drm_panel_of_backlight() and drivers
+> -        * shall not assign it.
+> +        * External backlight is assigned by drm_panel_of_backlight() while
+> +        * panel-internal backlight is assigned directly to this member by the
+> +        * panel driver.
 
---ssgiwnlmwhlnlhsx
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+External/internal feels a bit like imprecise wording. Maybe something like
 
-On Wed, Jul 07, 2021 at 11:05:12AM +0100, Dave Stevenson wrote:
-> Hi Maxime
->=20
-> On Wed, 7 Jul 2021 at 10:51, Maxime Ripard <maxime@cerno.tech> wrote:
-> >
-> > Hi,
-> >
-> > Those are three fixes for race conditions we currently have in the vc4 =
-HDMI
-> > driver with regard to the interrupts handling.
-> >
-> > The first two are fixing an issue where the handler will be removed by =
-devm
-> > after the resources it uses have been free'd already.
-> >
-> > The last one is there to deal with an interrupt coming in the window be=
-tween
-> > the end of the driver's bind and the  DRM device registration.
-> >
-> > Let me know what you think,
-> > Maxime
->=20
-> For the series
-> Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+drm_panel_of_backlight() automatically sets this, drivers which obtain
+their backlight through some other means need to explicitly set this
+themselves.
 
-Applied all three patches, thanks!
-Maxime
+And then perhaps also update the kerneldoc for drm_panel_of_backlight?
 
---ssgiwnlmwhlnlhsx
-Content-Type: application/pgp-signature; name="signature.asc"
+Maybe in the future we'll have some similar helpers for acpi or the
+backlight on dp aux or whatever might happen with hardware.
 
------BEGIN PGP SIGNATURE-----
+Either way: Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYO/26AAKCRDj7w1vZxhR
-xfefAQCYoMbP4eIscMPpXfK079e68sQVNNEbdZX4NQ5951zZswEAgSU2CcYAw1M3
-T9OBBpolpINn+DasnplcUfmCczAmlg8=
-=8xff
------END PGP SIGNATURE-----
+Because updating and clarifying docs is always great!
+-Daniel
 
---ssgiwnlmwhlnlhsx--
+>          */
+>         struct backlight_device *backlight;
+>
+> --
+> 2.31.1
+>
+
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
