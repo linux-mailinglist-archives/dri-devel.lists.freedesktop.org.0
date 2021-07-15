@@ -1,34 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D065C3C9EDA
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jul 2021 14:42:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C6D063C9EDF
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jul 2021 14:44:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A66E6E7EF;
-	Thu, 15 Jul 2021 12:42:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED8C089F9F;
+	Thu, 15 Jul 2021 12:43:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB2746E7EF
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jul 2021 12:42:37 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 41FFE613C1;
- Thu, 15 Jul 2021 12:42:37 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E7A4189F9F
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jul 2021 12:43:58 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 500ED613C1;
+ Thu, 15 Jul 2021 12:43:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1626352957;
- bh=/xZ008HKRaDT9uQflZXvWc7StfU79jGG4sXFaak29lM=;
+ s=korg; t=1626353038;
+ bh=g0wfRogQKrUtRK1px4x7jWNOi0FxncigQhmIlie7acU=;
  h=Subject:To:Cc:From:Date:From;
- b=2H1shb2++zyuHR12Ix6r4Rq1qMAYdy0HcvFGzhO9JH5vhFhPj1qiGh3nIIm4trEVh
- /ayOGB54bCWXWkPbDzAHV7hFxY8RDPsF7viE0eieu3NOWo8BDjQupjZknKHK2mFqEQ
- kFC9PxeDF2frhODdDo/UPnI/e8uFDnJWGbjmWdYQ=
+ b=CXnL34UzcJ7KABi0HU42Hrhj9wURGTyPOrfOf+EPbhyOstL90wqibpp33hgyr0Lvr
+ s6uw7RccYn//NeoXG5J+zbzLqkB8mhNZxUgkQPpwzm7vqcPnl2314FG8/hbReG1+AR
+ RWRyKgbK2smxXpUbwCRtTqYOBrkaoYOTW3mQLwOo=
 Subject: Patch "drm/dp_mst: Do not set proposed vcpi directly" has been added
- to the 5.12-stable tree
+ to the 5.13-stable tree
 To: Wayne.Lin@amd.com, dri-devel@lists.freedesktop.org,
  gregkh@linuxfoundation.org, lyude@redhat.com,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de
 From: <gregkh@linuxfoundation.org>
-Date: Thu, 15 Jul 2021 14:40:33 +0200
-Message-ID: <1626352833225168@kroah.com>
+Date: Thu, 15 Jul 2021 14:40:57 +0200
+Message-ID: <1626352857125138@kroah.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=ANSI_X3.4-1968
 Content-Transfer-Encoding: 8bit
@@ -55,12 +55,12 @@ This is a note to let you know that I've just added the patch titled
 
     drm/dp_mst: Do not set proposed vcpi directly
 
-to the 5.12-stable tree which can be found at:
+to the 5.13-stable tree which can be found at:
     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
 The filename of the patch is:
      drm-dp_mst-do-not-set-proposed-vcpi-directly.patch
-and it can be found in the queue-5.12 subdirectory.
+and it can be found in the queue-5.13 subdirectory.
 
 If you, or anyone else, feels it should not be added to the stable tree,
 please let <stable@vger.kernel.org> know about it.
@@ -129,7 +129,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 --- a/drivers/gpu/drm/drm_dp_mst_topology.c
 +++ b/drivers/gpu/drm/drm_dp_mst_topology.c
-@@ -2499,7 +2499,7 @@ drm_dp_mst_handle_conn_stat(struct drm_d
+@@ -2497,7 +2497,7 @@ drm_dp_mst_handle_conn_stat(struct drm_d
  {
  	struct drm_dp_mst_topology_mgr *mgr = mstb->mgr;
  	struct drm_dp_mst_port *port;
@@ -138,7 +138,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  	u8 new_pdt;
  	bool new_mcs;
  	bool dowork = false, create_connector = false;
-@@ -2531,7 +2531,6 @@ drm_dp_mst_handle_conn_stat(struct drm_d
+@@ -2529,7 +2529,6 @@ drm_dp_mst_handle_conn_stat(struct drm_d
  	}
  
  	old_ddps = port->ddps;
@@ -146,7 +146,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  	port->input = conn_stat->input_port;
  	port->ldps = conn_stat->legacy_device_plug_status;
  	port->ddps = conn_stat->displayport_device_plug_status;
-@@ -2554,28 +2553,6 @@ drm_dp_mst_handle_conn_stat(struct drm_d
+@@ -2552,28 +2551,6 @@ drm_dp_mst_handle_conn_stat(struct drm_d
  		dowork = false;
  	}
  
@@ -175,7 +175,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  	if (port->connector)
  		drm_modeset_unlock(&mgr->base.lock);
  	else if (create_connector)
-@@ -3406,8 +3383,15 @@ int drm_dp_update_payload_part1(struct d
+@@ -3404,8 +3381,15 @@ int drm_dp_update_payload_part1(struct d
  				port = drm_dp_mst_topology_get_port_validated(
  				    mgr, port);
  				if (!port) {
@@ -197,4 +197,4 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 Patches currently in stable-queue which might be from Wayne.Lin@amd.com are
 
-queue-5.12/drm-dp_mst-do-not-set-proposed-vcpi-directly.patch
+queue-5.13/drm-dp_mst-do-not-set-proposed-vcpi-directly.patch
