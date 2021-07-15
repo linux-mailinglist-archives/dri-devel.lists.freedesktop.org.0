@@ -1,33 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 314A83C9C7E
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jul 2021 12:16:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D0C2E3C9C80
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jul 2021 12:16:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C3BCA6E7F1;
-	Thu, 15 Jul 2021 10:16:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 902A36E7FE;
+	Thu, 15 Jul 2021 10:16:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C1CBD6E7DD;
- Thu, 15 Jul 2021 10:16:00 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10045"; a="190198900"
-X-IronPort-AV: E=Sophos;i="5.84,240,1620716400"; d="scan'208";a="190198900"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F16A96E7FA;
+ Thu, 15 Jul 2021 10:16:02 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10045"; a="190198906"
+X-IronPort-AV: E=Sophos;i="5.84,240,1620716400"; d="scan'208";a="190198906"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Jul 2021 03:16:00 -0700
-X-IronPort-AV: E=Sophos;i="5.84,240,1620716400"; d="scan'208";a="460341167"
+ 15 Jul 2021 03:16:02 -0700
+X-IronPort-AV: E=Sophos;i="5.84,240,1620716400"; d="scan'208";a="460341185"
 Received: from omurra1x-mobl.ger.corp.intel.com (HELO mwauld-desk1.intel.com)
  ([10.213.240.195])
  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Jul 2021 03:15:59 -0700
+ 15 Jul 2021 03:16:00 -0700
 From: Matthew Auld <matthew.auld@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 0/4] Some DG1 uAPI cleanup
-Date: Thu, 15 Jul 2021 11:15:32 +0100
-Message-Id: <20210715101536.2606307-1-matthew.auld@intel.com>
+Subject: [PATCH 1/4] drm/i915/uapi: reject caching ioctls for discrete
+Date: Thu, 15 Jul 2021 11:15:33 +0100
+Message-Id: <20210715101536.2606307-2-matthew.auld@intel.com>
 X-Mailer: git-send-email 2.26.3
+In-Reply-To: <20210715101536.2606307-1-matthew.auld@intel.com>
+References: <20210715101536.2606307-1-matthew.auld@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -43,27 +45,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Jason Ekstrand <jason@jlekstrand.net>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Jordan Justen <jordan.l.justen@intel.com>, dri-devel@lists.freedesktop.org,
+ Kenneth Graunke <kenneth@whitecape.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Test-with: 20210715100932.2605648-1-matthew.auld@intel.com
+It's a noop on DG1, and in the future when need to support other devices
+which let us control the coherency, then it should be an immutable
+creation time property for the BO. This will likely be controlled
+through a new gem_create_ext extension.
 
-Chris Wilson (1):
-  drm/i915/userptr: Probe existence of backing struct pages upon
-    creation
+v2: add some kernel doc for the discrete changes, and document the
+    implicit rules
 
-Matthew Auld (3):
-  drm/i915/uapi: reject caching ioctls for discrete
-  drm/i915/uapi: convert drm_i915_gem_userptr to kernel doc
-  drm/i915/uapi: reject set_domain for discrete
+Suggested-by: Daniel Vetter <daniel@ffwll.ch>
+Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Cc: Jordan Justen <jordan.l.justen@intel.com>
+Cc: Kenneth Graunke <kenneth@whitecape.org>
+Cc: Jason Ekstrand <jason@jlekstrand.net>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Ramalingam C <ramalingam.c@intel.com>
+Reviewed-by: Ramalingam C <ramalingam.c@intel.com>
+Reviewed-by: Kenneth Graunke <kenneth@whitecape.org>
+---
+ drivers/gpu/drm/i915/gem/i915_gem_domain.c |  6 +++++
+ include/uapi/drm/i915_drm.h                | 29 ++++++++++++++++++++++
+ 2 files changed, 35 insertions(+)
 
- drivers/gpu/drm/i915/gem/i915_gem_domain.c  |   9 ++
- drivers/gpu/drm/i915/gem/i915_gem_userptr.c |  40 +++++++-
- drivers/gpu/drm/i915/i915_getparam.c        |   3 +
- include/uapi/drm/i915_drm.h                 | 106 +++++++++++++++++++-
- 4 files changed, 156 insertions(+), 2 deletions(-)
-
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_domain.c b/drivers/gpu/drm/i915/gem/i915_gem_domain.c
+index 7d1400b13429..43004bef55cb 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_domain.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_domain.c
+@@ -268,6 +268,9 @@ int i915_gem_get_caching_ioctl(struct drm_device *dev, void *data,
+ 	struct drm_i915_gem_object *obj;
+ 	int err = 0;
+ 
++	if (IS_DGFX(to_i915(dev)))
++		return -ENODEV;
++
+ 	rcu_read_lock();
+ 	obj = i915_gem_object_lookup_rcu(file, args->handle);
+ 	if (!obj) {
+@@ -303,6 +306,9 @@ int i915_gem_set_caching_ioctl(struct drm_device *dev, void *data,
+ 	enum i915_cache_level level;
+ 	int ret = 0;
+ 
++	if (IS_DGFX(i915))
++		return -ENODEV;
++
+ 	switch (args->caching) {
+ 	case I915_CACHING_NONE:
+ 		level = I915_CACHE_NONE;
+diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
+index e54f9efaead0..868c2ee7be60 100644
+--- a/include/uapi/drm/i915_drm.h
++++ b/include/uapi/drm/i915_drm.h
+@@ -1395,6 +1395,35 @@ struct drm_i915_gem_busy {
+  * ppGTT support, or if the object is used for scanout). Note that this might
+  * require unbinding the object from the GTT first, if its current caching value
+  * doesn't match.
++ *
++ * Note that this all changes on discrete platforms, starting from DG1, the
++ * set/get caching is no longer supported, and is now rejected.  Instead the CPU
++ * caching attributes(WB vs WC) will become an immutable creation time property
++ * for the object, along with the GTT caching level. For now we don't expose any
++ * new uAPI for this, instead on DG1 this is all implicit, although this largely
++ * shouldn't matter since DG1 is coherent by default(without any way of
++ * controlling it).
++ *
++ * Implicit caching rules, starting from DG1:
++ *
++ *     - If any of the object placements (see &drm_i915_gem_create_ext_memory_regions)
++ *       contain I915_MEMORY_CLASS_DEVICE then the object will be allocated and
++ *       mapped as write-combined only.
++ *
++ *     - Everything else is always allocated and mapped as write-back, with the
++ *       guarantee that everything is also coherent with the GPU.
++ *
++ * Note that this is likely to change in the future again, where we might need
++ * more flexibility on future devices, so making this all explicit as part of a
++ * new &drm_i915_gem_create_ext extension is probable.
++ *
++ * Side note: Part of the reason for this is that changing the at-allocation-time CPU
++ * caching attributes for the pages might be required(and is expensive) if we
++ * need to then CPU map the pages later with different caching attributes. This
++ * inconsistent caching behaviour, while supported on x86, is not universally
++ * supported on other architectures. So for simplicity we opt for setting
++ * everything at creation time, whilst also making it immutable, on discrete
++ * platforms.
+  */
+ struct drm_i915_gem_caching {
+ 	/**
 -- 
 2.26.3
 
