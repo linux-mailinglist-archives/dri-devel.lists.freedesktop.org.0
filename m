@@ -2,57 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 452513C9F93
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jul 2021 15:35:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FA003CA006
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jul 2021 15:49:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B3F9B6E854;
-	Thu, 15 Jul 2021 13:35:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 31DA26E856;
+	Thu, 15 Jul 2021 13:49:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F7B26E854
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jul 2021 13:35:53 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 46440613D2
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jul 2021 13:35:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1626356153;
- bh=nYJys1CybIPodcxhuS1RZITMcRo0/nEXlgWG5Dl+8Qg=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=r54mWZJytCI34DJhmCENBgCs79Kh+s7UvTr4+reEgHA0GUOGJQJqNWjox60fzecdH
- noW4s/SzHbe4Uh0htvJgENNDfI6/FLapgrKLT4TXVCYIRP0it0eWODm01xvuOMwhvp
- pcgUtSmxMfn6JMK1yVnykvE/jLjQ8rz7Y16FdI73J4liZAOi0Dz+P93eqnM9OL+yVY
- 3jHOQdVrK3Z97HEICtQDkXOaRPCgqloOlLXgacKQ/weedn8d62TApKVKqXpL7isroI
- SenXwttCd0bCsymhGmXwbEs4vVNqavfquWd28eO+RZsXiUl6QB/6PTg5Osl3A9Rzf1
- PtNweDizlkzUg==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 42C00612A4; Thu, 15 Jul 2021 13:35:53 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 209457] AMDGPU resume fail with RX 580 GPU
-Date: Thu, 15 Jul 2021 13:35:52 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: lsrzj@yahoo.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-209457-2300-tEIgOormVm@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-209457-2300@https.bugzilla.kernel.org/>
-References: <bug-209457-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 408526E856;
+ Thu, 15 Jul 2021 13:49:03 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10045"; a="197733026"
+X-IronPort-AV: E=Sophos;i="5.84,242,1620716400"; d="scan'208";a="197733026"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Jul 2021 06:49:02 -0700
+X-IronPort-AV: E=Sophos;i="5.84,242,1620716400"; d="scan'208";a="505800052"
+Received: from gzhao-mobl1.amr.corp.intel.com (HELO intel.com)
+ ([10.212.69.157])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Jul 2021 06:49:00 -0700
+Date: Thu, 15 Jul 2021 09:48:59 -0400
+From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PULL] drm-intel-fixes
+Message-ID: <YPA8y1DSCp2EbtpC@intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,23 +43,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
+ intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D209457
+Hi Dave and Daniel,
 
---- Comment #39 from Leandro Jacques (lsrzj@yahoo.com) ---
-(In reply to Alex Deucher from comment #38)
->=20
-> You have a Picasso system.  The original bug was about an RX 580.  I don't
-> think this is the same issue.  Sounds like you are seeing this issue:
-> https://lists.freedesktop.org/archives/amd-gfx/2021-July/066452.html
+I was unsure about the -EDEADLK one based on Daniel's
+comment on dri-devel, but Ville's response and the patch
+looks reasonable to me. Also they are in sync with the
+test cases. So if anything needs to still change on that
+area I believe it can be a follow-up work.
 
-No, the error message is exactly the same of this one
-https://bugzilla.kernel.org/show_bug.cgi?id=3D213391
+Here goes drm-intel-fixes-2021-07-15:
 
---=20
-You may reply to this email to add a comment.
+Two regression fixes targeting stable:
+- Fix -EDEADLK handling regression (Ville)
+- Drop the page table optimisation (Matt)
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+Thanks,
+Rodrigo.
+
+The following changes since commit e73f0f0ee7541171d89f2e2491130c7771ba58d3:
+
+  Linux 5.14-rc1 (2021-07-11 15:07:40 -0700)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-fixes-2021-07-15
+
+for you to fetch changes up to 0abb33bfca0fb74df76aac03e90ce685016ef7be:
+
+  drm/i915/gtt: drop the page table optimisation (2021-07-14 08:46:18 -0400)
+
+----------------------------------------------------------------
+Two regression fixes targeting stable:
+- Fix -EDEADLK handling regression (Ville)
+- Drop the page table optimisation (Matt)
+
+----------------------------------------------------------------
+Matthew Auld (1):
+      drm/i915/gtt: drop the page table optimisation
+
+Ville Syrjälä (1):
+      drm/i915/gt: Fix -EDEADLK handling regression
+
+ drivers/gpu/drm/i915/gt/gen8_ppgtt.c         | 5 +----
+ drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c | 2 +-
+ 2 files changed, 2 insertions(+), 5 deletions(-)
