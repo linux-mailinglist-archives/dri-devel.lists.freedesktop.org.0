@@ -2,58 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DD303C989A
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jul 2021 07:57:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A4993C98A6
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jul 2021 08:06:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D2BF6E52C;
-	Thu, 15 Jul 2021 05:57:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C5B936E52D;
+	Thu, 15 Jul 2021 06:06:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com
- [IPv6:2607:f8b0:4864:20::230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C7F6F6E52C
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jul 2021 05:57:38 +0000 (UTC)
-Received: by mail-oi1-x230.google.com with SMTP id c197so5222127oib.11
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jul 2021 22:57:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=5uJA4MF5IXjAK2IFNMu8bwFbh5v6mfekotBnk8n6EJc=;
- b=TR5fgVXeorF8FqfOGx0r/7jTi44lpbhbbfhd0R4D5nwwF1gomN54t84jPqNaPLza4Q
- rNxP2ONAQBW1c/EuV1m5/MS5ofFpZ8cji49KzaAg/7R48c9zlR3KhpYa23RsLUzlp6hT
- GVQ6e9RE2jZRP4C496BCTcjv7KgF1MlopzhSA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=5uJA4MF5IXjAK2IFNMu8bwFbh5v6mfekotBnk8n6EJc=;
- b=f/PSRTGvngA2PlmdP72X4UzgjbleFGuWlXYOHOUhIgCWCKrAg1MfFfwuzojL3eYAcv
- PRPbTMDuFt6LMbnyXYN2U5tVYgyvCmMjODymMhwB6b/DFCPoNjK1zH/u7t41IfVNqGVp
- hAt9bB2MAJRgtJxDLtgbOAS9BH0qiEhaTU9LicTih8e9WIUomrpr+UFDVlz0FGNErBCY
- 4g4ThiBlJRgITI1RREDZxOfW1OAxyYWlXf8WrnWDgL6QFz7+ASoh9tee7wlaYoRHAgS5
- TYuBvJbiOh3yJwtflFjcxANX60Yl/lS0DkxzrfUGsjRr3j870SCRABC3i7FvJpWCIjBW
- tvfA==
-X-Gm-Message-State: AOAM530mZBy+ufCrIeGfIpUStFXqHfoJgP2b1g955HL1oa/TwsQ3SlaY
- vvfc1wv8/8LHFKKYqiJzTraXQRGp3orjJSjr0SHqng==
-X-Google-Smtp-Source: ABdhPJx+lMrZIEeuwDNifNOp5QnoTtgJ59lwMcinSCqE58A1kW5ucEHD70VNWWbPO0Cw7ryv/4UW1sswkRTQvDutJxA=
-X-Received: by 2002:aca:3085:: with SMTP id w127mr6279097oiw.101.1626328658161; 
- Wed, 14 Jul 2021 22:57:38 -0700 (PDT)
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A8506E52D
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jul 2021 06:06:17 +0000 (UTC)
+X-UUID: 40aeff00ac31441ca8e334c1ffb4b277-20210715
+X-UUID: 40aeff00ac31441ca8e334c1ffb4b277-20210715
+Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw01.mediatek.com
+ (envelope-from <guangming.cao@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 11811868; Thu, 15 Jul 2021 14:06:13 +0800
+Received: from mtkcas07.mediatek.inc (172.21.101.84) by
+ mtkmbs01n1.mediatek.inc (172.21.101.68) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Thu, 15 Jul 2021 14:06:11 +0800
+Received: from mszswglt01.gcn.mediatek.inc (10.16.20.20) by
+ mtkcas07.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.0.1497.2 via Frontend Transport; Thu, 15 Jul 2021 14:06:11 +0800
+From: <guangming.cao@mediatek.com>
+To: <christian.koenig@amd.com>
+Subject: Re: [PATCH] dma-buf: add kernel count for dma_buf
+Date: Thu, 15 Jul 2021 14:06:07 +0800
+Message-ID: <20210715060607.98339-1-guangming.cao@mediatek.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <424d5f2e-2ad5-cc33-5615-7d4a235af3dc@amd.com>
+References: <424d5f2e-2ad5-cc33-5615-7d4a235af3dc@amd.com>
 MIME-Version: 1.0
-References: <20210712231234.1031975-1-jason@jlekstrand.net>
- <20210712231234.1031975-2-jason@jlekstrand.net>
- <YO2m36je6vf6Wgwu@phenom.ffwll.local>
- <CAM0jSHP3WyNwwr3VJ6zxKd5NqqXGJ+m_gSXACrptWO6zHnTAWw@mail.gmail.com>
- <YO2v2WbyseJ2PfkJ@phenom.ffwll.local>
- <CAOFGe97=BRTTeXgHdQG=2MpQKqoc78W74mgRHjp5mWweriW+OQ@mail.gmail.com>
-In-Reply-To: <CAOFGe97=BRTTeXgHdQG=2MpQKqoc78W74mgRHjp5mWweriW+OQ@mail.gmail.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Thu, 15 Jul 2021 07:57:27 +0200
-Message-ID: <CAKMK7uGYgc5mdD81a=-fw2L0+s3UsmyRh+DYmsn2aB=XwZedRw@mail.gmail.com>
-Subject: Re: [PATCH 2/2] drm/i915/gem: Migrate to system at dma-buf attach
- time (v5)
-To: Jason Ekstrand <jason@jlekstrand.net>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,194 +48,353 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- kernel test robot <lkp@intel.com>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Matthew Auld <matthew.william.auld@gmail.com>,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- "Michael J . Ruhl" <michael.j.ruhl@intel.com>,
- Matthew Auld <matthew.auld@intel.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: linaro-mm-sig@lists.linaro.org, guangming.cao@mediatek.com,
+ wsd_upstream@mediatek.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, caoguangming34@gmail.com,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 14, 2021 at 11:01 PM Jason Ekstrand <jason@jlekstrand.net> wrot=
-e:
->
-> On Tue, Jul 13, 2021 at 10:23 AM Daniel Vetter <daniel@ffwll.ch> wrote:
-> >
-> > On Tue, Jul 13, 2021 at 04:06:13PM +0100, Matthew Auld wrote:
-> > > On Tue, 13 Jul 2021 at 15:44, Daniel Vetter <daniel@ffwll.ch> wrote:
-> > > >
-> > > > On Mon, Jul 12, 2021 at 06:12:34PM -0500, Jason Ekstrand wrote:
-> > > > > From: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
-> > > > >
-> > > > > Until we support p2p dma or as a complement to that, migrate data
-> > > > > to system memory at dma-buf attach time if possible.
-> > > > >
-> > > > > v2:
-> > > > > - Rebase on dynamic exporter. Update the igt_dmabuf_import_same_d=
-river
-> > > > >   selftest to migrate if we are LMEM capable.
-> > > > > v3:
-> > > > > - Migrate also in the pin() callback.
-> > > > > v4:
-> > > > > - Migrate in attach
-> > > > > v5: (jason)
-> > > > > - Lock around the migration
-> > > > >
-> > > > > Signed-off-by: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.inte=
-l.com>
-> > > > > Signed-off-by: Michael J. Ruhl <michael.j.ruhl@intel.com>
-> > > > > Reported-by: kernel test robot <lkp@intel.com>
-> > > > > Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
-> > > > > Reviewed-by: Jason Ekstrand <jason@jlekstrand.net>
-> > > > > ---
-> > > > >  drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c    | 25 +++++++++++++=
-+++++-
-> > > > >  .../drm/i915/gem/selftests/i915_gem_dmabuf.c  |  4 ++-
-> > > > >  2 files changed, 27 insertions(+), 2 deletions(-)
-> > > > >
-> > > > > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c b/drivers=
-/gpu/drm/i915/gem/i915_gem_dmabuf.c
-> > > > > index 9a655f69a0671..3163f00554476 100644
-> > > > > --- a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
-> > > > > +++ b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
-> > > > > @@ -170,8 +170,31 @@ static int i915_gem_dmabuf_attach(struct dma=
-_buf *dmabuf,
-> > > > >                                 struct dma_buf_attachment *attach=
-)
-> > > > >  {
-> > > > >       struct drm_i915_gem_object *obj =3D dma_buf_to_obj(dmabuf);
-> > > > > +     struct i915_gem_ww_ctx ww;
-> > > > > +     int err;
-> > > > > +
-> > > > > +     for_i915_gem_ww(&ww, err, true) {
-> > > > > +             err =3D i915_gem_object_lock(obj, &ww);
-> > > > > +             if (err)
-> > > > > +                     continue;
-> > > > > +
-> > > > > +             if (!i915_gem_object_can_migrate(obj, INTEL_REGION_=
-SMEM)) {
-> > > > > +                     err =3D -EOPNOTSUPP;
-> > > > > +                     continue;
-> > > > > +             }
-> > > > > +
-> > > > > +             err =3D i915_gem_object_migrate(obj, &ww, INTEL_REG=
-ION_SMEM);
-> > > > > +             if (err)
-> > > > > +                     continue;
-> > > > >
-> > > > > -     return i915_gem_object_pin_pages_unlocked(obj);
-> > > > > +             err =3D i915_gem_object_wait_migration(obj, 0);
-> > > > > +             if (err)
-> > > > > +                     continue;
-> > > > > +
-> > > > > +             err =3D i915_gem_object_pin_pages(obj);
-> > > > > +     }
-> > > > > +
-> > > > > +     return err;
-> > > > >  }
-> > > > >
-> > > > >  static void i915_gem_dmabuf_detach(struct dma_buf *dmabuf,
-> > > > > diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c=
- b/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c
-> > > > > index 3dc0f8b3cdab0..4f7e77b1c0152 100644
-> > > > > --- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c
-> > > > > +++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c
-> > > > > @@ -106,7 +106,9 @@ static int igt_dmabuf_import_same_driver(void=
- *arg)
-> > > > >       int err;
-> > > > >
-> > > > >       force_different_devices =3D true;
-> > > > > -     obj =3D i915_gem_object_create_shmem(i915, PAGE_SIZE);
-> > > > > +     obj =3D i915_gem_object_create_lmem(i915, PAGE_SIZE, 0);
-> > > >
-> > > > I'm wondering (and couldn't answer) whether this creates an lmem+sm=
-em
-> > > > buffer, since if we create an lmem-only buffer then the migration a=
-bove
-> > > > should fail.
-> > >
-> > > It's lmem-only, but it's also a kernel internal object, so the
-> > > migration path will still happily migrate it if asked. On the other
-> > > hand if it's a userspace object then we always have to respect the
-> > > placements.
-> > >
-> > > I think for now the only usecase for that is in the selftests.
-> >
-> > Yeah I've read the kerneldoc, it's all nicely documented but feels a bi=
-t
-> > dangerous. What I proposed on irc:
-> > - i915_gem_object_migrate does the placement check, i.e. as strict as
-> >   can_migrate.
-> > - A new __i915_gem_object_migrate is for selftest that do special stuff=
-.
->
-> I just sent out a patch which does this except we don't actually need
-> the __ version because there are no self-tests that want to do a
-> dangerous migrate.  We could add such a helper later if we needed.
->
-> > - In the import selftest we check that lmem-only fails (because we can'=
-t
-> >   pin it into smem) for a non-dynamic importer, but lmem+smem works and
-> >   gets migrated.
->
-> I think we maybe want multiple things here?  The test we have right
-> now is useful because, by creating an internal LMEM buffer we ensure
-> that the migration actually happens.  If we create LMEM+SMEM, then
-> it's possible it'll start off in SMEM and the migration would be a
-> no-op.  Not sure how likely that is in reality in a self-test
-> environment, though.
+From: Guangming.Cao <guangming.cao@mediatek.com>
 
-lmem+smem is supposed to allocate in lmem first (I guess we could
-verify this by peeking behind the curtain), so it should migrate.
--Daniel
+On Wed, 2021-07-14 at 14:28 +0200, Christian König wrote:
+> Am 14.07.21 um 14:03 schrieb guangming.cao@mediatek.com:
+> > From: Guangming.Cao <guangming.cao@mediatek.com>
+> > 
+> > On Wed, 2021-07-14 at 12:43 +0200, Christian K鰊ig wrote:
+> > > Am 14.07.21 um 11:44 schrieb guangming.cao@mediatek.com:
+> > > > From: Guangming Cao <Guangming.Cao@mediatek.com>
+> > > > 
+> > > > On Wed, 2021-07-14 at 10:46 +0200, Christian K鰊ig wrote:
+> > > > > Am 14.07.21 um 09:11 schrieb guangming.cao@mediatek.com:
+> > > > > > From: Guangming Cao <Guangming.Cao@mediatek.com>
+> > > > > > 
+> > > > > > Add a refcount for kernel to prevent UAF(Use After Free)
+> > > > > > issue.
+> > > > > 
+> > > > > Well NAK on so many levels.
+> > > > > 
+> > > > > > We can assume a case like below:
+> > > > > >        1. kernel space alloc dma_buf(file count = 1)
+> > > > > >        2. kernel use dma_buf to get fd(file count = 1)
+> > > > > >        3. userspace use fd to do mapping (file count = 2)
+> > > > > 
+> > > > > Creating an userspace mapping increases the reference count
+> > > > > for
+> > > > > the
+> > > > > underlying file object.
+> > > > > 
+> > > > > See the implementation of mmap_region():
+> > > > > ...
+> > > > >                    vma->vm_file = get_file(file);
+> > > > >                    error = call_mmap(file, vma);
+> > > > > ...
+> > > > > 
+> > > > > What can happen is the the underlying exporter redirects the
+> > > > > mmap
+> > > > > to
+> > > > > a
+> > > > > different file, e.g. TTM or GEM drivers do that all the time.
+> > > > > 
+> > > > > But this is fine since then the VA mapping is independent of
+> > > > > the
+> > > > > DMA-
+> > > > > buf.
+> > > > > 
+> > > > > >        4. kernel call dma_buf_put (file count = 1)
+> > > > > >        5. userpsace close buffer fd(file count = 0)
+> > > > > >        6. at this time, buffer is released, but va is
+> > > > > > valid!!
+> > > > > >           So we still can read/write buffer via mmap va,
+> > > > > >           it maybe cause memory leak, or kernel exception.
+> > > > > >           And also, if we use "ls -ll" to watch
+> > > > > > corresponding
+> > > > > > process
+> > > > > >               fd link info, it also will cause kernel
+> > > > > > exception.
+> > > > > > 
+> > > > > > Another case:
+> > > > > >         Using dma_buf_fd to generate more than 1 fd,
+> > > > > > because
+> > > > > >         dma_buf_fd will not increase file count, thus, when
+> > > > > > close
+> > > > > >         the second fd, it maybe occurs error.
+> > > > > 
+> > > > > Each opened fd will increase the reference count so this is
+> > > > > certainly
+> > > > > not correct what you describe here.
+> > > > > 
+> > > > > Regards,
+> > > > > Christian.
+> > > > > 
+> > > > 
+> > > > Yes, mmap will increase file count by calling get_file, so
+> > > > step[2]
+> > > > ->
+> > > > step[3], file count increase 1.
+> > > > 
+> > > > But, dma_buf_fd() will not increase file count.
+> > > > function "dma_buf_fd(struct dma_buf *dmabuf, int flags)" just
+> > > > get
+> > > > an
+> > > > unused fd, via call "get_unused_fd_flags(flags)", and call
+> > > > "fd_install(fd, dmabuf->file)", it will let associated "struct
+> > > > file*"
+> > > > in task's fdt->fd[fd] points to this dma_buf.file, not increase
+> > > > the
+> > > > file count of dma_buf.file.
+> > > > I think this is confusing, I can get more than 1 fds via
+> > > > dma_buf_fd,
+> > > > but they don't need to close it because they don't increase
+> > > > file
+> > > > count.
+> > > > 
+> > > > However, dma_buf_put() can decrease file count at kernel side
+> > > > directly.
+> > > > If somebody write a ko to put file count of dma_buf.file many
+> > > > times, it
+> > > > will cause buffer freed earlier than except. At last on
+> > > > Android, I
+> > > > think this is a little bit dangerous.
+> > > 
+> > > dma_buf_fd() takes the dma_buf pointer and converts it into a fd.
+> > > So
+> > > the
+> > > reference is consumed.
+> > > 
+> > > That's why users of this interface make sure to get a separate
+> > > reference, see drm_gem_prime_handle_to_fd() for example:
+> > > 
+> > > ...
+> > > out_have_handle:
+> > >       ret = dma_buf_fd(dmabuf, flags);
+> > >       /*
+> > >        * We must _not_ remove the buffer from the handle cache
+> > > since
+> > > the
+> > > newly
+> > >        * created dma buf is already linked in the global obj-
+> > > >dma_buf
+> > > pointer,
+> > >        * and that is invariant as long as a userspace gem handle
+> > > exists.
+> > >        * Closing the handle will clean out the cache anyway, so
+> > > we
+> > > don't
+> > > leak.
+> > >        */
+> > >       if (ret < 0) {
+> > >           goto fail_put_dmabuf;
+> > >       } else {
+> > >           *prime_fd = ret;
+> > >           ret = 0;
+> > >       }
+> > > 
+> > >       goto out;
+> > > 
+> > > fail_put_dmabuf:
+> > >       dma_buf_put(dmabuf);
+> > > out:
+> > > ...
+> > > 
+> > > You could submit a patch to improve the documentation and
+> > > explicitly
+> > > note on dma_buf_fd() that the reference is consumed, but all of
+> > > this
+> > > is
+> > > working perfectly fine.
+> > > 
+> > > Regards,
+> > > Christian.
+> > > 
+> > 
+> > Thanks for your reply!
+> > 
+> > Yes, drm works fine because it fully understand what dma-buf api
+> > will
+> > do. Improve the documentation is really good idea to prevent this
+> > case.
+> > 
+> > But, what I can't understand is, for kernel api exported to
+> > corresponding users, we don't need to ensure all api is safe?
+> 
+> Well the API is perfectly safe, it is just not what you are
+> expecting.
+> 
+> > And for general cases, dma-buf framework also need to prevent this
+> > case, isn't it, it will make dma-buf framework more strong?
+> 
+> What we could do is to move getting the reference into that function
+> if 
+> all users of that function does that anyway.
+> 
+> This would then be more defensive because new users of dma_buf_fd() 
+> can't forget to grab a reference.
+> 
+> But this needs a complete audit of the kernel with all of the users
+> of 
+> dma_buf_fd().
+> 
+> Regards,
+> Christian.
+> 
+Thanks for your patient explanation! Now I think I get what you said.
+dmabuf framework works fine, no risk, and reference should grab by users.
 
->
-> --Jason
->
-> > - Once we have dynamic dma-buf for p2p pci, then we'll have another
-> >   selftest which checks that things work for lmem only if and only if t=
-he
-> >   importer is dynamic and has set the allow_p2p flag.
-> >
-> > We could also add the can_migrate check everywhere (including
-> > dma_buf->attach), but that feels like the less save api.
-> > -Daniel
-> >
-> >
-> > >
-> > > >
-> > > > Which I'm also not sure we have a testcase for that testcase either=
- ...
-> > > >
-> > > > I tried to read some code here, but got a bit lost. Ideas?
-> > > > -Daniel
-> > > >
-> > > > > +     if (IS_ERR(obj))
-> > > > > +             obj =3D i915_gem_object_create_shmem(i915, PAGE_SIZ=
-E);
-> > > > >       if (IS_ERR(obj))
-> > > > >               goto out_ret;
-> > > > >
-> > > > > --
-> > > > > 2.31.1
-> > > > >
-> > > >
-> > > > --
-> > > > Daniel Vetter
-> > > > Software Engineer, Intel Corporation
-> > > > http://blog.ffwll.ch
-> >
-> > --
-> > Daniel Vetter
-> > Software Engineer, Intel Corporation
-> > http://blog.ffwll.ch
+This discussion can be terminated now.
+Thanks Christian!
 
-
-
---=20
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+BRs!
+Guangming.
+> > 
+> > 
+> > BRs!
+> > Guangming
+> > > > > > Solution:
+> > > > > >        Add a kernel count for dma_buf, and make sure the
+> > > > > > file
+> > > > > > count
+> > > > > >            of dma_buf.file hold by kernel is 1.
+> > > > > > 
+> > > > > > Notes: For this solution, kref couldn't work because kernel
+> > > > > > ref
+> > > > > >           maybe added from 0, but kref don't allow it.
+> > > > > > 
+> > > > > > Signed-off-by: Guangming Cao <Guangming.Cao@mediatek.com>
+> > > > > > ---
+> > > > > >     drivers/dma-buf/dma-buf.c | 23 +++++++++++++++++++----
+> > > > > >     include/linux/dma-buf.h   |  6 ++++--
+> > > > > >     2 files changed, 23 insertions(+), 6 deletions(-)
+> > > > > > 
+> > > > > > diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-
+> > > > > > buf/dma-
+> > > > > > buf.c
+> > > > > > index 511fe0d217a0..04ee92aac8b9 100644
+> > > > > > --- a/drivers/dma-buf/dma-buf.c
+> > > > > > +++ b/drivers/dma-buf/dma-buf.c
+> > > > > > @@ -62,6 +62,7 @@ static void dma_buf_release(struct dentry
+> > > > > > *dentry)
+> > > > > >       if (unlikely(!dmabuf))
+> > > > > >               return;
+> > > > > >     
+> > > > > > +   WARN_ON(atomic64_read(&dmabuf->kernel_ref));
+> > > > > >       BUG_ON(dmabuf->vmapping_counter);
+> > > > > >     
+> > > > > >       /*
+> > > > > > @@ -555,6 +556,7 @@ struct dma_buf *dma_buf_export(const
+> > > > > > struct
+> > > > > > dma_buf_export_info *exp_info)
+> > > > > >               goto err_module;
+> > > > > >       }
+> > > > > >     
+> > > > > > +   atomic64_set(&dmabuf->kernel_ref, 1);
+> > > > > >       dmabuf->priv = exp_info->priv;
+> > > > > >       dmabuf->ops = exp_info->ops;
+> > > > > >       dmabuf->size = exp_info->size;
+> > > > > > @@ -617,6 +619,9 @@ int dma_buf_fd(struct dma_buf *dmabuf,
+> > > > > > int
+> > > > > > flags)
+> > > > > >     
+> > > > > >       fd_install(fd, dmabuf->file);
+> > > > > >     
+> > > > > > +   /* Add file cnt for each new fd */
+> > > > > > +   get_file(dmabuf->file);
+> > > > > > +
+> > > > > >       return fd;
+> > > > > >     }
+> > > > > >     EXPORT_SYMBOL_GPL(dma_buf_fd);
+> > > > > > @@ -626,12 +631,13 @@ EXPORT_SYMBOL_GPL(dma_buf_fd);
+> > > > > >      * @fd:   [in]    fd associated with the struct dma_buf
+> > > > > > to
+> > > > > > be
+> > > > > > returned
+> > > > > >      *
+> > > > > >      * On success, returns the struct dma_buf associated
+> > > > > > with an
+> > > > > > fd;
+> > > > > > uses
+> > > > > > - * file's refcounting done by fget to increase refcount.
+> > > > > > returns
+> > > > > > ERR_PTR
+> > > > > > - * otherwise.
+> > > > > > + * dmabuf's ref refcounting done by kref_get to increase
+> > > > > > refcount.
+> > > > > > + * Returns ERR_PTR otherwise.
+> > > > > >      */
+> > > > > >     struct dma_buf *dma_buf_get(int fd)
+> > > > > >     {
+> > > > > >       struct file *file;
+> > > > > > +   struct dma_buf *dmabuf;
+> > > > > >     
+> > > > > >       file = fget(fd);
+> > > > > >     
+> > > > > > @@ -643,7 +649,12 @@ struct dma_buf *dma_buf_get(int fd)
+> > > > > >               return ERR_PTR(-EINVAL);
+> > > > > >       }
+> > > > > >     
+> > > > > > -   return file->private_data;
+> > > > > > +   dmabuf = file->private_data;
+> > > > > > +   /* replace file count increase as ref increase for
+> > > > > > kernel
+> > > > > > user
+> > > > > > */
+> > > > > > +   get_dma_buf(dmabuf);
+> > > > > > +   fput(file);
+> > > > > > +
+> > > > > > +   return dmabuf;
+> > > > > >     }
+> > > > > >     EXPORT_SYMBOL_GPL(dma_buf_get);
+> > > > > >     
+> > > > > > @@ -662,7 +673,11 @@ void dma_buf_put(struct dma_buf
+> > > > > > *dmabuf)
+> > > > > >       if (WARN_ON(!dmabuf || !dmabuf->file))
+> > > > > >               return;
+> > > > > >     
+> > > > > > -   fput(dmabuf->file);
+> > > > > > +   if (WARN_ON(!atomic64_read(&dmabuf->kernel_ref)))
+> > > > > > +           return;
+> > > > > > +
+> > > > > > +   if (!atomic64_dec_return(&dmabuf->kernel_ref))
+> > > > > > +           fput(dmabuf->file);
+> > > > > >     }
+> > > > > >     EXPORT_SYMBOL_GPL(dma_buf_put);
+> > > > > >     
+> > > > > > diff --git a/include/linux/dma-buf.h b/include/linux/dma-
+> > > > > > buf.h
+> > > > > > index efdc56b9d95f..bc790cb028eb 100644
+> > > > > > --- a/include/linux/dma-buf.h
+> > > > > > +++ b/include/linux/dma-buf.h
+> > > > > > @@ -308,6 +308,7 @@ struct dma_buf_ops {
+> > > > > >     struct dma_buf {
+> > > > > >       size_t size;
+> > > > > >       struct file *file;
+> > > > > > +   atomic64_t kernel_ref;
+> > > > > >       struct list_head attachments;
+> > > > > >       const struct dma_buf_ops *ops;
+> > > > > >       struct mutex lock;
+> > > > > > @@ -436,7 +437,7 @@ struct dma_buf_export_info {
+> > > > > >                                        .owner = THIS_MODULE
+> > > > > > }
+> > > > > >     
+> > > > > >     /**
+> > > > > > - * get_dma_buf - convenience wrapper for get_file.
+> > > > > > + * get_dma_buf - increase a kernel ref of dma-buf
+> > > > > >      * @dmabuf:       [in]    pointer to dma_buf
+> > > > > >      *
+> > > > > >      * Increments the reference count on the dma-buf,
+> > > > > > needed in
+> > > > > > case
+> > > > > > of drivers
+> > > > > > @@ -446,7 +447,8 @@ struct dma_buf_export_info {
+> > > > > >      */
+> > > > > >     static inline void get_dma_buf(struct dma_buf *dmabuf)
+> > > > > >     {
+> > > > > > -   get_file(dmabuf->file);
+> > > > > > +   if (atomic64_inc_return(&dmabuf->kernel_ref) == 1)
+> > > > > > +           get_file(dmabuf->file);
+> > > > > >     }
+> > > > > >     
+> > > > > >     /**
+> 
+> 
