@@ -2,56 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 535C63C9AB5
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jul 2021 10:32:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8374D3C9AD8
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jul 2021 10:48:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C71AC6E59F;
-	Thu, 15 Jul 2021 08:32:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E4CDC6E5A3;
+	Thu, 15 Jul 2021 08:48:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 682186E593;
- Thu, 15 Jul 2021 08:32:35 +0000 (UTC)
-Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 1DAEB1FDE5;
- Thu, 15 Jul 2021 08:32:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1626337954; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=cPRZqYFFDXsr1nfWshGUSVxlMQPbMs7W/lQIgkkruFA=;
- b=gexQKfyPGFYFbjrIf14YaOxc+fcjNjmRcgMsq0YFakTauMlMsSCRx8mn8F8L7uEBA1DiLf
- 2Za5dGxGZeVne/EGB4ECWFuqNHydxS9Spv8D3a6fe3S6yIADZ3X8/ma5BBeoXaobx0IDc2
- WK6ZzkVDdMSP0EqnyTbtLjTrfmbDX8E=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1626337954;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=cPRZqYFFDXsr1nfWshGUSVxlMQPbMs7W/lQIgkkruFA=;
- b=TMiv4VBrwOFXpwUGUWNFRaHL7yti39ygzdgRQem82DGB3G5XYNDUJk1izlYVyCTKKUtAmb
- V71iTq0FHe7aiqDQ==
-Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap1.suse-dmz.suse.de (Postfix) with ESMTPS id D4B1513AB1;
- Thu, 15 Jul 2021 08:32:33 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap1.suse-dmz.suse.de with ESMTPSA id TVcIMqHy72DocQAAGKfGzw
- (envelope-from <tzimmermann@suse.de>); Thu, 15 Jul 2021 08:32:33 +0000
-Date: Thu, 15 Jul 2021 10:32:32 +0200
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-misc-fixes
-Message-ID: <YO/yoFO+iSEqnIH0@linux-uq9g>
+Received: from mail-oi1-x231.google.com (mail-oi1-x231.google.com
+ [IPv6:2607:f8b0:4864:20::231])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF5CB6E5A3
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jul 2021 08:48:17 +0000 (UTC)
+Received: by mail-oi1-x231.google.com with SMTP id p67so5753588oig.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jul 2021 01:48:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=DkcvonWLnhMMqKa/y2nSULzW4DKFzRwKecGJuhH/crI=;
+ b=YUWWQj0Z5TCn7OLwLZ4IjryuzLXQ4Umv78OZZCTkL2lIRJuPt9h+pKNf5BnHt2NwzB
+ hAu2+vUsRNwVdFUePtzxP+AecVoxFUO7pNqdbJMNaTPkKVq11pLF3e8Pa73TaJ90q0FO
+ 0uRa+DdJqW9PyF99MBbW+Bt/t8JgGfFVI6IXc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=DkcvonWLnhMMqKa/y2nSULzW4DKFzRwKecGJuhH/crI=;
+ b=fvxSAD/2eNxu/klWyJpJbq6sBrtV/X5TymbOU/kyzGpmRZlwraiacjigt/xxHMO/3w
+ P3eOAZt+8gLKjgvKVzNIE+dCK+1jMy2lHqu13IaBuhfpvGTp7bnOgu73Y/G1vNl5xDIV
+ QyxmP3hwL/l3Epvss6YfLJvqIeAU6cp5d9WGd5/ImHfPp9HDlndBoBc1Z637zXc+Zc/o
+ RKxqTk5fXvmEQFEurgubczsuWW/wCN6ngxVx6lQ+A4ewi6mqglxsWRSp66nBn46KfOD4
+ qXGQOexmQ8S8XFqISQuMBNFGIk0BUMiXW/TD0ZDt0dHu19HpBFwUeppRhA7InzFRMXoO
+ FZlA==
+X-Gm-Message-State: AOAM532WKV1uqrD2ES26bw2fL4Hu2lKeD1kprS71F0i10eJFzGLK96NN
+ OzEKWx99ul/0RFDpahspqbpRJFpmtiKKYm5c+lFbvw==
+X-Google-Smtp-Source: ABdhPJwtCEFUxVjG4dJGgcyOUYmbQ2xc2m4aWQAQh1HhS9aWJkl61mTu4MVdwN2fYutjMniiYHnDa+RtwVO7RhGwROo=
+X-Received: by 2002:aca:3085:: with SMTP id w127mr6913492oiw.101.1626338897093; 
+ Thu, 15 Jul 2021 01:48:17 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+References: <20210706073125.7689-1-tzimmermann@suse.de>
+ <695f4a61-ef43-c08d-41d2-992059791cb8@suse.de>
+In-Reply-To: <695f4a61-ef43-c08d-41d2-992059791cb8@suse.de>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Thu, 15 Jul 2021 10:48:06 +0200
+Message-ID: <CAKMK7uHxxgRoN6UPUkYxVxCVjSfo8wxAUUY0yP3cGzcVRdHB8g@mail.gmail.com>
+Subject: Re: [PATCH] drm/omapdrm: Remove outdated comment
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,75 +61,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
- intel-gfx@lists.freedesktop.org
+Cc: Dave Airlie <airlied@linux.ie>, dri-devel <dri-devel@lists.freedesktop.org>,
+ Tomi Valkeinen <tomba@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave and Daniel,
+On Thu, Jul 15, 2021 at 10:13 AM Thomas Zimmermann <tzimmermann@suse.de> wr=
+ote:
+>
+> ping for review
+>
+> Am 06.07.21 um 09:31 schrieb Thomas Zimmermann:
+> > The comment refers to drm_irq_install() et al, which are not used by
+> > omapdrm. The functions are part of the DRM IRQ midlayer and shouldn't
+> > be used any longer. Remove the comment.
+> >
+> > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-here's the PR for drm-misc-fixes. I merged drm-misc-next-fixes into
-it to pick up patches that were left over from the previous release
-cycle. The vmwgfx change comes from that. The other patches fix
-current errors.
+Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
-Best regards
-Thomas
+> > ---
+> >   drivers/gpu/drm/omapdrm/omap_irq.c | 7 -------
+> >   1 file changed, 7 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/omapdrm/omap_irq.c b/drivers/gpu/drm/omapd=
+rm/omap_irq.c
+> > index bb6e3fc18204..4aca14dab927 100644
+> > --- a/drivers/gpu/drm/omapdrm/omap_irq.c
+> > +++ b/drivers/gpu/drm/omapdrm/omap_irq.c
+> > @@ -253,13 +253,6 @@ static const u32 omap_underflow_irqs[] =3D {
+> >       [OMAP_DSS_VIDEO3] =3D DISPC_IRQ_VID3_FIFO_UNDERFLOW,
+> >   };
+> >
+> > -/*
+> > - * We need a special version, instead of just using drm_irq_install(),
+> > - * because we need to register the irq via omapdss.  Once omapdss and
+> > - * omapdrm are merged together we can assign the dispc hwmod data to
+> > - * ourselves and drop these and just use drm_irq_{install,uninstall}()
+> > - */
+> > -
+> >   int omap_drm_irq_install(struct drm_device *dev)
+> >   {
+> >       struct omap_drm_private *priv =3D dev->dev_private;
+> > --
+> > 2.32.0
+> >
+>
+> --
+> Thomas Zimmermann
+> Graphics Driver Developer
+> SUSE Software Solutions Germany GmbH
+> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+> (HRB 36809, AG N=C3=BCrnberg)
+> Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+>
 
-drm-misc-fixes-2021-07-15:
-Short summary of fixes pull (less than what git shortlog provides):
 
- * fbdev: Avoid use-after-free by not deleting current video mode
- * ttm: Avoid NULL-ptr deref in ttm_range_man_fini()
- * vmwgfx: Fix a merge commit
-The following changes since commit 1e7b5812f4890ad84058bbb6c4a5deddfb2c5b25:
-
-  Merge tag 'drm-misc-fixes-2021-07-13' of git://anongit.freedesktop.org/drm/drm-misc into drm-fixes (2021-07-13 15:15:17 +0200)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-fixes-2021-07-15
-
-for you to fetch changes up to 9e5c772954406829e928dbe59891d08938ead04b:
-
-  drm/ttm: add a check against null pointer dereference (2021-07-14 17:16:16 +0200)
-
-----------------------------------------------------------------
-Short summary of fixes pull (less than what git shortlog provides):
-
- * fbdev: Avoid use-after-free by not deleting current video mode
- * ttm: Avoid NULL-ptr deref in ttm_range_man_fini()
- * vmwgfx: Fix a merge commit
-
-----------------------------------------------------------------
-Christian König (1):
-      drm/qxl: add NULL check for bo->resource
-
-Thomas Zimmermann (1):
-      Merge remote-tracking branch 'drm-misc/drm-misc-next-fixes' into drm-misc-fixes
-
-Zack Rusin (2):
-      drm/vmwgfx: Fix implicit declaration error
-      drm/vmwgfx: Fix a bad merge in otable batch takedown
-
-Zhen Lei (1):
-      fbmem: Do not delete the mode that is still in use
-
-Zheyu Ma (1):
-      drm/ttm: add a check against null pointer dereference
-
- drivers/gpu/drm/qxl/qxl_ttm.c           |  2 +-
- drivers/gpu/drm/ttm/ttm_range_manager.c |  3 +++
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.c     |  1 +
- drivers/gpu/drm/vmwgfx/vmwgfx_mob.c     |  1 -
- drivers/video/fbdev/core/fbmem.c        | 12 +++++-------
- 5 files changed, 10 insertions(+), 9 deletions(-)
-
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 Nürnberg, Germany
-(HRB 36809, AG Nürnberg)
-Geschäftsführer: Felix Imendörffer
+--=20
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
