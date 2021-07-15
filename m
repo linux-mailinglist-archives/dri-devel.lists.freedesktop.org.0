@@ -2,33 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E30BB3CA53D
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jul 2021 20:18:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F1283CA541
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jul 2021 20:18:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 482866E89A;
-	Thu, 15 Jul 2021 18:17:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 519AC6E897;
+	Thu, 15 Jul 2021 18:18:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E9416E89A
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jul 2021 18:17:58 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id B627A613CC;
- Thu, 15 Jul 2021 18:17:57 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6204E6E897
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jul 2021 18:18:38 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id BB82C613CF;
+ Thu, 15 Jul 2021 18:18:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1626373078;
- bh=1ab5WPif+Dsc0L5Mju8rcTdCMoC/8SXGSgNa+2AGJrw=;
+ s=korg; t=1626373118;
+ bh=iJJpTjAeNHSkWBMWFdKXvgnQKBKcC3ZkzIScTTL1LPA=;
  h=Subject:To:Cc:From:Date:From;
- b=VPkpSYuybvqu1/ox8nIf0s6hpe30n+tYGNrwyTIPPrZlwvyG028wMxromPz4Yal2V
- 7HXCV9vbMg4XDi/CAO4LFnFGhUKII4A0xm6IQPOJrQUoSc0RvB4Y9+KWE1GwYfqa2Y
- pLNIa8+AmA1PvaG3bj3n4WUYqjwguOb84Ci1mRKs=
+ b=JpV9CzMYC21vPuHMFfKKQqD4x5zP92+I1FscdG/d6AOtwAU339C5Z7bKjEzde6AON
+ MQlcsd0rJ8MhS7fj5Ty6kp7uCNmvGveeWngn9hCu7b2zCvVP64+ZWneEx+9rEofNUN
+ eyCPmvh/NbfMy1Elew8AG8ANIgrZ9Llx5T5Qy1SI=
 Subject: Patch "drm/ast: Remove reference to struct drm_device.pdev" has been
- added to the 5.12-stable tree
+ added to the 5.13-stable tree
 To: airlied@redhat.com, dri-devel@lists.freedesktop.org,
  gregkh@linuxfoundation.org, kuohsiang_chou@aspeedtech.com, lkp@intel.com,
  michael.j.ruhl@intel.com, tzimmermann@suse.de
 From: <gregkh@linuxfoundation.org>
-Date: Thu, 15 Jul 2021 20:17:48 +0200
-Message-ID: <1626373068107134@kroah.com>
+Date: Thu, 15 Jul 2021 20:18:04 +0200
+Message-ID: <162637308422132@kroah.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=ANSI_X3.4-1968
 Content-Transfer-Encoding: 8bit
@@ -55,12 +55,12 @@ This is a note to let you know that I've just added the patch titled
 
     drm/ast: Remove reference to struct drm_device.pdev
 
-to the 5.12-stable tree which can be found at:
+to the 5.13-stable tree which can be found at:
     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
 The filename of the patch is:
      drm-ast-remove-reference-to-struct-drm_device.pdev.patch
-and it can be found in the queue-5.12 subdirectory.
+and it can be found in the queue-5.13 subdirectory.
 
 If you, or anyone else, feels it should not be added to the stable tree,
 please let <stable@vger.kernel.org> know about it.
@@ -120,10 +120,10 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 Patches currently in stable-queue which might be from tzimmermann@suse.de are
 
-queue-5.12/drm-ingenic-fix-pixclock-rate-for-24-bit-serial-panels.patch
-queue-5.12/drm-mxsfb-don-t-select-drm_kms_fb_helper.patch
-queue-5.12/drm-ast-remove-reference-to-struct-drm_device.pdev.patch
-queue-5.12/drm-vc4-crtc-skip-the-txp.patch
-queue-5.12/drm-zte-don-t-select-drm_kms_fb_helper.patch
-queue-5.12/drm-ast-fixed-cve-for-dp501.patch
-queue-5.12/drm-vc4-txp-properly-set-the-possible_crtcs-mask.patch
+queue-5.13/drm-ingenic-fix-pixclock-rate-for-24-bit-serial-panels.patch
+queue-5.13/drm-mxsfb-don-t-select-drm_kms_fb_helper.patch
+queue-5.13/drm-ast-remove-reference-to-struct-drm_device.pdev.patch
+queue-5.13/drm-vc4-crtc-skip-the-txp.patch
+queue-5.13/drm-zte-don-t-select-drm_kms_fb_helper.patch
+queue-5.13/drm-ast-fixed-cve-for-dp501.patch
+queue-5.13/drm-vc4-txp-properly-set-the-possible_crtcs-mask.patch
