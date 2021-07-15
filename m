@@ -2,50 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22EEE3C9ADF
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jul 2021 10:52:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22FC93C9B01
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jul 2021 11:09:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3AC796E5A9;
-	Thu, 15 Jul 2021 08:52:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 224296E5B4;
+	Thu, 15 Jul 2021 09:09:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22d.google.com (mail-oi1-x22d.google.com
- [IPv6:2607:f8b0:4864:20::22d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2858E6E5A9
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jul 2021 08:52:17 +0000 (UTC)
-Received: by mail-oi1-x22d.google.com with SMTP id w194so5754934oie.5
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jul 2021 01:52:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=RAf0f97MmIhZvtB+APA2xQ10y7p9bTqNCPlvTRo+PMA=;
- b=lX2OjtvXnkjttAevWT3Pbs0HioNflvR5Y8J8n6DItrNg180Cq8ffUHgPm6VMdSul6h
- 0dk+QLbtnufD9ApK+cEFvH5dX3fAITLpx2cSMBQ4+bB3+X2udywv6fFKBCE5YHQ9ga6h
- LuY3DRJt2hsXOmCfXO3UpkBBvZz4exVuyxt10=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=RAf0f97MmIhZvtB+APA2xQ10y7p9bTqNCPlvTRo+PMA=;
- b=ix8ah3vVgVqgx4ZF9wbnv5wt9GqMcNVYRTEpT61ALQqqcnUdEFgEMrU5iMKfmF/Qqt
- 8QormZloZaIxyxTPxX0xyXcchf9J6L4OfzqHiHfPFuuZ11/zomcOYDsca77AWa1BGBOd
- 0Y3osUI0raVcE0k10trjDYM3rOINx6GlU2rmbZTJJXc0sdQYVo0/1ENzLpErJdJqtBl5
- SG/em9UNgcMZCbakxEBoPPazWBiPB+Vw/Ud9ag3r35v3Pw9+DeRS/3LKGJYruc22l8Yc
- //XIvfp0YEVGEdisRpImVEcjNWjocpUIfYl2OhrxcxmiaxsJ2rH72Brz0GgYsKSJnGV5
- 4Udw==
-X-Gm-Message-State: AOAM531zG+nxvEtT2gVMi/OE2pM6kZbyAIon9x9s//jnqpifutteJOwe
- oqJ4kBzHMhs4KDnha4jlfA9wEBxHqaN+INZgAu8MQA==
-X-Google-Smtp-Source: ABdhPJwLtqQVYv/tJGeptuf1lwmr1aETKxirUNNSqUgbZMR8439pmSRRmvi6yuS4JxLrHzMFlLH7jckDiL/6W+Ka/C0=
-X-Received: by 2002:aca:d4cf:: with SMTP id l198mr6968741oig.14.1626339136544; 
- Thu, 15 Jul 2021 01:52:16 -0700 (PDT)
+Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com
+ [64.147.123.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F19B6E5B4
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jul 2021 09:09:15 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailnew.west.internal (Postfix) with ESMTP id 529F62B01171;
+ Thu, 15 Jul 2021 05:09:14 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute3.internal (MEProxy); Thu, 15 Jul 2021 05:09:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm3; bh=ScnZcDkeqgi021UbtkLgSOvzBFI
+ mwJYFF65EbFt7ZYA=; b=O1jTplhyaASxc60iLclqKp5lYz8dIoTLFvKV1/ohUwB
+ kJqY2jRRCJP+J6SeZQ0t/XbTy4Ygs0dw1PGZdiYTqIbCOkvs3pRg/m8AxRZ7vU7W
+ I254ka2fYr52zeL+F5kORD++L+AF/R8ojjkbW4X2lX1KR6p/oAegVPtA+73GPzBr
+ e2ev3FGwj9nKT3wfou65KMbMfywG9tpkhFT/k6SA/QRRoMojeMawILetitbjo9vX
+ Y2QvZPQpk+WmbM5ASqGWb1kvh9BcKD9XVftab5N9Bsdm8LwqsYIwEeIS4bB4DMM7
+ nhoLT947iiWuLcyJ2u5l2FpnZcQ8AbcbJ4zQk08NuzQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=ScnZcD
+ keqgi021UbtkLgSOvzBFImwJYFF65EbFt7ZYA=; b=LRjtKGywStqnLNrFQ0JVIm
+ XfRNF5jB/uiYbhK5BABUXivHG+irftoH/azEY328oP6xiC+EZtXYymlmov4w/lly
+ 6frmK7KIqkr7Dv3vACRNzvzuuyn8GNtLdwC4hIbg/AmPDK1rg3RepmrUK62Bc3TU
+ SMaaS+TcWFqpXyTSy7IHXZqA2e81W3thGFj6LjM+kwq1TlBolUeGH8QlEEke9DGi
+ YrNmUAsBd/n67nSfE4AJPpL8OyMwA7Iqvj/OVgMasij9cchvsm2CSswiA/fSPyyY
+ xSOlEi+3Vq0n32ppQ+Sf0R7Uvp/iNQFbaiwnpLnHwreFWug6LUWyUn65HyixXkbQ
+ ==
+X-ME-Sender: <xms:OPvvYDGKdmCtwMyqGXPtlXtzPWz0-w58Tf4eKAYYe4rWzrw0N_hQEg>
+ <xme:OPvvYAX5wr2-fYAwAx_mIYERVN1SU-By-WXSHRWDliVNas2mSWmhtmVmjTeD1_JLZ
+ 5C0uUct737NiJX7Tgc>
+X-ME-Received: <xmr:OPvvYFLdutWS_ucGw1BCkc9qJ_ApPDUkQ8Rom1kNk-CE8gaSMdqN50nEVmyUROP6PZvmTw2U46_GyARK7dAhh8RVbGqcULomIzoK>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrvddtgddtkecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+ gvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheeiheeg
+ udenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
+ igihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:OPvvYBFU40vVqURQ-vOXsSZLxqDf_o5uobtTj2VboXisnUE12R1cxw>
+ <xmx:OPvvYJXVQQfz2OZgN7ro-CGxU0cdQGxcW3Gtxjic4BvbWEQ891YwAQ>
+ <xmx:OPvvYMNqLtk8OY4TjyAnjQXSHG8UW6wzgjhTx613dStBbuYHdBR3XA>
+ <xmx:OfvvYCP3TJOX3-cwDANDj11pgPe1EyCzKFdikMlt9sCEXr9pmDltZNzQZjs>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 15 Jul 2021 05:09:11 -0400 (EDT)
+Date: Thu, 15 Jul 2021 11:09:10 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH] drm/vc4: hdmi: Remove drm_encoder->crtc usage
+Message-ID: <20210715090910.5ttvydtcgdcuz7nb@gilmour>
+References: <20210707141930.1811128-1-maxime@cerno.tech>
+ <ef4c5e92-f564-402d-4224-6fc24c720cab@suse.de>
 MIME-Version: 1.0
-References: <20210715080017.239633-1-linus.walleij@linaro.org>
-In-Reply-To: <20210715080017.239633-1-linus.walleij@linaro.org>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Thu, 15 Jul 2021 10:52:05 +0200
-Message-ID: <CAKMK7uHqn9_CFaKYJ=X9SbMi3yXOXECe4tEyhW4noDfB_PaS+Q@mail.gmail.com>
-Subject: Re: [PATCH] drm/panel: Document internal backlight handling
-To: Linus Walleij <linus.walleij@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="2ndycn3oocozy7tw"
+Content-Disposition: inline
+In-Reply-To: <ef4c5e92-f564-402d-4224-6fc24c720cab@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,62 +80,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- Doug Anderson <dianders@chromium.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Nicolas Saenz Julienne <nsaenz@kernel.org>,
+ Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
+ Daniel Vetter <daniel.vetter@intel.com>, Phil Elwell <phil@raspberrypi.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 15, 2021 at 10:02 AM Linus Walleij <linus.walleij@linaro.org> wrote:
->
-> Panels with internal backlight need to assign their backlight member
-> directly.
->
-> Reported-by: Doug Anderson <dianders@chromium.org>
-> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
-> ---
->  include/drm/drm_panel.h | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
->
-> diff --git a/include/drm/drm_panel.h b/include/drm/drm_panel.h
-> index 33605c3f0eba..1e63fadf1368 100644
-> --- a/include/drm/drm_panel.h
-> +++ b/include/drm/drm_panel.h
-> @@ -144,8 +144,9 @@ struct drm_panel {
->          * Backlight device, used to turn on backlight after the call
->          * to enable(), and to turn off backlight before the call to
->          * disable().
-> -        * backlight is set by drm_panel_of_backlight() and drivers
-> -        * shall not assign it.
-> +        * External backlight is assigned by drm_panel_of_backlight() while
-> +        * panel-internal backlight is assigned directly to this member by the
-> +        * panel driver.
 
-External/internal feels a bit like imprecise wording. Maybe something like
+--2ndycn3oocozy7tw
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-drm_panel_of_backlight() automatically sets this, drivers which obtain
-their backlight through some other means need to explicitly set this
-themselves.
+On Wed, Jul 07, 2021 at 05:35:53PM +0200, Thomas Zimmermann wrote:
+>=20
+>=20
+> Am 07.07.21 um 16:19 schrieb Maxime Ripard:
+> > The drm_encoder crtc pointer isn't really fit for an atomic driver,
+> > let's rely on the connector state instead.
+> >=20
+> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+>=20
+> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-And then perhaps also update the kerneldoc for drm_panel_of_backlight?
+Applied, thanks
+Maxime
 
-Maybe in the future we'll have some similar helpers for acpi or the
-backlight on dp aux or whatever might happen with hardware.
+--2ndycn3oocozy7tw
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Either way: Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+-----BEGIN PGP SIGNATURE-----
 
-Because updating and clarifying docs is always great!
--Daniel
+iHQEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYO/7NgAKCRDj7w1vZxhR
+xRRyAQCNuYHZpGd2YiOCCslVAbCike84dB2dsJwURmmPLRe5VwD3VjnMrfoXfqcv
+bR0rLX0gYx1QP2a4K+nSa7Dhk5nlAQ==
+=+3ch
+-----END PGP SIGNATURE-----
 
->          */
->         struct backlight_device *backlight;
->
-> --
-> 2.31.1
->
-
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+--2ndycn3oocozy7tw--
