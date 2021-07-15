@@ -1,52 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2F743C9CA0
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jul 2021 12:29:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 93BFB3C9CB5
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jul 2021 12:32:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E4A16E529;
-	Thu, 15 Jul 2021 10:29:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5BC616E81B;
+	Thu, 15 Jul 2021 10:32:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd31.google.com (mail-io1-xd31.google.com
- [IPv6:2607:f8b0:4864:20::d31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EEC656E529
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jul 2021 10:29:19 +0000 (UTC)
-Received: by mail-io1-xd31.google.com with SMTP id z9so5765338iob.8
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jul 2021 03:29:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=kyAUEtVezo404CIhWOUhgzbjRjPd8h5hzpJdBeSKQTA=;
- b=MgSlsyn3Nhbd3AUpNvhT2NNSOEuryc1QPty6/CeUj7ZT/L8YGN9vfY/5WhcT8oFpLq
- +ZzDbI1DcXeY1bi612mypZhwKG1kbXlZuvQJEuYfkNWtHqrj196LtO9j93x2Xlo8GWk/
- P2pJZFPwBtHM27073EVY13e4IEJ+71ppA5W2M=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=kyAUEtVezo404CIhWOUhgzbjRjPd8h5hzpJdBeSKQTA=;
- b=gQokkACGJVNaN5oEl49IWptj2vYAT7dCeF2wGqa0yi+fnM9C7edK1iDgx0Vfqtaf6p
- 9pjiJZLLxCutATOZK8t10Z7s2aFTOIfU0Gxf+EZ3ScPgV+8iCcb03BorLiFpgd763PUF
- a36QuCmY6+Scw+tsDoWzP4A/j8JO91/xH6izoNe9ya4gsY5ZdNKy9rrf0KdWG6kFeJjF
- zGicQyV8q2UN9MMaswgLFgeba99oYzK5mbYJgCQ+a7rKUMWFVbK2LrbWSDIr4/qXznab
- xRn7r3hB4mkpjXezk49rUSdmPet3WqX/i03aHGU419J8NLiYkZRFCXFOhy8aj/JdF5VO
- ZkNQ==
-X-Gm-Message-State: AOAM533udWj8fpKYt9QE4B5owXzj9SRWy65PPXeRTBuQBzCaa90Itpmq
- KH2bq0oYBYTyt8W62hpywKB4UxP2glbr6Y66sIW5tA==
-X-Google-Smtp-Source: ABdhPJw2mxWU+xXAkJO3mI+OX6znH1/i0GZ7cnWBtNO+Lv/xTP1hKsZ7ryl5bIuMk2imtrZIb2VbdDupmxJUEhRymko=
-X-Received: by 2002:a02:cce6:: with SMTP id l6mr3377311jaq.114.1626344959355; 
- Thu, 15 Jul 2021 03:29:19 -0700 (PDT)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 306906E81B
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jul 2021 10:32:54 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 607D21042;
+ Thu, 15 Jul 2021 03:32:53 -0700 (PDT)
+Received: from [192.168.1.179] (unknown [172.31.20.19])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E13A03F694;
+ Thu, 15 Jul 2021 03:32:51 -0700 (PDT)
+Subject: Re: [PATCH v2] drm/of: free the iterator object on failure
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20210712155758.48286-1-steven.price@arm.com>
+ <20210714143300.20632-1-steven.price@arm.com>
+ <YO8CODO4TRP+qr9H@pendragon.ideasonboard.com>
+From: Steven Price <steven.price@arm.com>
+Message-ID: <f723a5e0-5b9a-c807-f51d-9acc57058a80@arm.com>
+Date: Thu, 15 Jul 2021 11:32:50 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210712080736.116435-1-linux@fw-web.de>
-In-Reply-To: <20210712080736.116435-1-linux@fw-web.de>
-From: Hsin-Yi Wang <hsinyi@chromium.org>
-Date: Thu, 15 Jul 2021 18:28:53 +0800
-Message-ID: <CAJMQK-i9cGUUXLDr95nCghLd6jmR0tmdPv_PiyN1gC1+JD-2Mw@mail.gmail.com>
-Subject: Re: [PATCH] drm/mediatek: dpi: fix NULL dereference in
- mtk_dpi_bridge_atomic_check
-To: Frank Wunderlich <linux@fw-web.de>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <YO8CODO4TRP+qr9H@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,55 +45,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Jitao Shi <jitao.shi@mediatek.com>,
- Frank Wunderlich <frank-w@public-files.de>, David Airlie <airlied@linux.ie>,
- lkml <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Rex-BC Chen <rex-bc.chen@mediatek.com>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
- <linux-arm-kernel@lists.infradead.org>
+Cc: David Airlie <airlied@linux.ie>, Pavel Machek <pavel@denx.de>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Biju Das <biju.das.jz@bp.renesas.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jul 12, 2021 at 4:08 PM Frank Wunderlich <linux@fw-web.de> wrote:
->
-> From: Frank Wunderlich <frank-w@public-files.de>
->
-> bridge->driver_private is not set (NULL) so use bridge_to_dpi(bridge)
-> like it's done in bridge_atomic_get_output_bus_fmts
->
-> Fixes: ec8747c52434 ("drm/mediatek: dpi: Add bus format negotiation")
-> Signed-off-by: Frank Wunderlich <frank-w@public-files.de>
+On 14/07/2021 16:26, Laurent Pinchart wrote:
+> Hi Steven,
+> 
+> Thank you for the patch.
+> 
+> On Wed, Jul 14, 2021 at 03:33:00PM +0100, Steven Price wrote:
+>> When bailing out due to the sanity check the iterator value needs to be
+>> freed because the early return prevents for_each_child_of_node() from
+>> doing the dereference itself.
+>>
+>> Fixes: 6529007522de ("drm: of: Add drm_of_lvds_get_dual_link_pixel_order")
+>> Signed-off-by: Steven Price <steven.price@arm.com>
+> 
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-Tested-by: Hsin-Yi Wang <hsinyi@chromium.org>
+Thanks! Applied to drm-misc-next.
 
-Tested on a mt8183 device.
+Steve
 
+>> ---
+>>  drivers/gpu/drm/drm_of.c | 4 +++-
+>>  1 file changed, 3 insertions(+), 1 deletion(-)
+>>
+>> v2: Fixes now refers to the original commit as suggested by Laurent, rather
+>> than 4ee48cc5586b ("drm: of: Fix double-free bug") which only fixed part of
+>> the problem. Note that 4ee48cc5586b is a dependency for this patch to
+>> cleanly apply.
+>>
+>> diff --git a/drivers/gpu/drm/drm_of.c b/drivers/gpu/drm/drm_of.c
+>> index 197c57477344..997b8827fed2 100644
+>> --- a/drivers/gpu/drm/drm_of.c
+>> +++ b/drivers/gpu/drm/drm_of.c
+>> @@ -331,8 +331,10 @@ static int drm_of_lvds_get_remote_pixels_type(
+>>  		 * configurations by passing the endpoints explicitly to
+>>  		 * drm_of_lvds_get_dual_link_pixel_order().
+>>  		 */
+>> -		if (!current_pt || pixels_type != current_pt)
+>> +		if (!current_pt || pixels_type != current_pt) {
+>> +			of_node_put(endpoint);
+>>  			return -EINVAL;
+>> +		}
+>>  	}
+>>  
+>>  	return pixels_type;
+> 
 
-> ---
->  drivers/gpu/drm/mediatek/mtk_dpi.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediatek/mtk_dpi.c
-> index bced555648b0..a2eca1f66984 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_dpi.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
-> @@ -605,7 +605,7 @@ static int mtk_dpi_bridge_atomic_check(struct drm_bridge *bridge,
->                                        struct drm_crtc_state *crtc_state,
->                                        struct drm_connector_state *conn_state)
->  {
-> -       struct mtk_dpi *dpi = bridge->driver_private;
-> +       struct mtk_dpi *dpi = bridge_to_dpi(bridge);
->         unsigned int out_bus_format;
->
->         out_bus_format = bridge_state->output_bus_cfg.format;
-> --
-> 2.25.1
->
->
-> _______________________________________________
-> Linux-mediatek mailing list
-> Linux-mediatek@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-mediatek
