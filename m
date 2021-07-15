@@ -2,62 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 554603C9A43
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jul 2021 10:11:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45C423C9A48
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jul 2021 10:13:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B713D89381;
-	Thu, 15 Jul 2021 08:11:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 71CB26E58E;
+	Thu, 15 Jul 2021 08:13:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B54889381
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jul 2021 08:11:54 +0000 (UTC)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D0E166E58E
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jul 2021 08:13:11 +0000 (UTC)
 Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id ED8EC1FDE5;
- Thu, 15 Jul 2021 08:11:51 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 45E1B228C2;
+ Thu, 15 Jul 2021 08:13:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1626336711; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1626336790; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=HqXB8FwbR4mWpXDEB856YL88ZL4zpytqwWSg0MK4Er0=;
- b=LHKTszttqznz72msYhWWLK1zPzgNrcB+dS3HiqvBes9ppU+jpyPba5y2HYbEjULgBG3/AV
- epTkUDMw1E2/4Wntdv56xMOgytYwbaPcStEJBedjAPKj+N23oSreLjdkUg36UE/xwMYH7W
- Jz+o6kupe6rb2gHOG+dtK1n/Z7UCsHM=
+ bh=z2yvnvwmkz+TXRejTz6xIv6FvT7llrAkuSgTP0OyZGI=;
+ b=06ZQIyHFCGY0wFeFC4EPSg8OAs2ZObnnf4/hS4pbupoOEi9hnvC04mpTyrfm0D8oFSF7HD
+ hfIpY6WS6FXmLYNMMcujW3QpHFl/R/PmAOm8cK3OfPszbOLGhw7OggtIy/4E24uGewKRxO
+ UDyHJz02YSHJF7HYPMk1Yj5xEyhalYo=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1626336711;
+ s=susede2_ed25519; t=1626336790;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=HqXB8FwbR4mWpXDEB856YL88ZL4zpytqwWSg0MK4Er0=;
- b=I2b3kJ8MW05joOEVymY6wqDkHjgqqNfRErhlTZWfvH5QGu6TP9k69zTpGDWjYpr+mE/3on
- OLuKRBgrY5YGmbCg==
+ bh=z2yvnvwmkz+TXRejTz6xIv6FvT7llrAkuSgTP0OyZGI=;
+ b=sKpVzg8c4I21mdRD8GSNz5gH08AmHtDR3ts0sGc18ll93qwdJp6M99r0sHRdI+fkieCGgz
+ ItEhHbdqZQFEsHAg==
 Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap1.suse-dmz.suse.de (Postfix) with ESMTPS id 459FD13AB3;
- Thu, 15 Jul 2021 08:11:51 +0000 (UTC)
+ by imap1.suse-dmz.suse.de (Postfix) with ESMTPS id 2931313AB3;
+ Thu, 15 Jul 2021 08:13:10 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap1.suse-dmz.suse.de with ESMTPSA id b0TXDsft72C/agAAGKfGzw
- (envelope-from <tzimmermann@suse.de>); Thu, 15 Jul 2021 08:11:51 +0000
-Subject: Re: [PATCH v3 0/2] allow simple{fb, drm} drivers to be used on
- non-x86 EFI platforms
-To: Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org
-References: <20210625130947.1803678-1-javierm@redhat.com>
- <e61cf77c-6bff-dfcc-d3df-2fb6b48e5897@redhat.com>
+ by imap1.suse-dmz.suse.de with ESMTPSA id oHceCRbu72AyawAAGKfGzw
+ (envelope-from <tzimmermann@suse.de>); Thu, 15 Jul 2021 08:13:10 +0000
+Subject: Re: [PATCH] drm/omapdrm: Remove outdated comment
+To: tomba@kernel.org, airlied@linux.ie, daniel@ffwll.ch
+References: <20210706073125.7689-1-tzimmermann@suse.de>
 From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <8dd26141-a09c-39e2-5174-4cad8d21c49c@suse.de>
-Date: Thu, 15 Jul 2021 10:11:50 +0200
+Message-ID: <695f4a61-ef43-c08d-41d2-992059791cb8@suse.de>
+Date: Thu, 15 Jul 2021 10:13:09 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <e61cf77c-6bff-dfcc-d3df-2fb6b48e5897@redhat.com>
+In-Reply-To: <20210706073125.7689-1-tzimmermann@suse.de>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="iu6zN0OFsiQ8WAhMAHq5Yk61xpQgmcPTH"
+ boundary="96ZF5Ndsd5d3ZbnZQkk71fqktN5U8QCuU"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,99 +68,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-kernel@lists.infradead.org, linux-efi@vger.kernel.org,
- Hans de Goede <hdegoede@redhat.com>, David Airlie <airlied@linux.ie>,
- Catalin Marinas <catalin.marinas@arm.com>, x86@kernel.org,
- Russell King <linux@armlinux.org.uk>, dri-devel@lists.freedesktop.org,
- Atish Patra <atish.patra@wdc.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Ingo Molnar <mingo@redhat.com>, Thomas Gleixner <tglx@linutronix.de>,
- Peter Robinson <pbrobinson@gmail.com>,
- Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- linux-riscv@lists.infradead.org, Borislav Petkov <bp@suse.de>,
- Will Deacon <will@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
- Albert Ou <aou@eecs.berkeley.edu>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---iu6zN0OFsiQ8WAhMAHq5Yk61xpQgmcPTH
-Content-Type: multipart/mixed; boundary="oERJS9i9SRexZTdXWB5psyaCpbIofUtkZ";
+--96ZF5Ndsd5d3ZbnZQkk71fqktN5U8QCuU
+Content-Type: multipart/mixed; boundary="cFRGOpWTvj8bFNb3zfAuAXxpSOBWCOQy8";
  protected-headers="v1"
 From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Javier Martinez Canillas <javierm@redhat.com>,
- linux-kernel@vger.kernel.org
-Cc: linux-efi@vger.kernel.org, David Airlie <airlied@linux.ie>,
- Catalin Marinas <catalin.marinas@arm.com>, dri-devel@lists.freedesktop.org,
- Atish Patra <atish.patra@wdc.com>, linux-riscv@lists.infradead.org,
- Will Deacon <will@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
- x86@kernel.org, Russell King <linux@armlinux.org.uk>,
- Ingo Molnar <mingo@redhat.com>, Peter Robinson <pbrobinson@gmail.com>,
- Borislav Petkov <bp@suse.de>, Albert Ou <aou@eecs.berkeley.edu>,
- Hans de Goede <hdegoede@redhat.com>, Paul Walmsley
- <paul.walmsley@sifive.com>, Thomas Gleixner <tglx@linutronix.de>,
- linux-arm-kernel@lists.infradead.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Palmer Dabbelt <palmer@dabbelt.com>
-Message-ID: <8dd26141-a09c-39e2-5174-4cad8d21c49c@suse.de>
-Subject: Re: [PATCH v3 0/2] allow simple{fb, drm} drivers to be used on
- non-x86 EFI platforms
-References: <20210625130947.1803678-1-javierm@redhat.com>
- <e61cf77c-6bff-dfcc-d3df-2fb6b48e5897@redhat.com>
-In-Reply-To: <e61cf77c-6bff-dfcc-d3df-2fb6b48e5897@redhat.com>
+To: tomba@kernel.org, airlied@linux.ie, daniel@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org
+Message-ID: <695f4a61-ef43-c08d-41d2-992059791cb8@suse.de>
+Subject: Re: [PATCH] drm/omapdrm: Remove outdated comment
+References: <20210706073125.7689-1-tzimmermann@suse.de>
+In-Reply-To: <20210706073125.7689-1-tzimmermann@suse.de>
 
---oERJS9i9SRexZTdXWB5psyaCpbIofUtkZ
+--cFRGOpWTvj8bFNb3zfAuAXxpSOBWCOQy8
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-Hi
+ping for review
 
-Am 13.07.21 um 18:59 schrieb Javier Martinez Canillas:
-> On 6/25/21 3:09 PM, Javier Martinez Canillas wrote:
->> The simplefb and simpledrm drivers match against a "simple-framebuffer=
-"
->> device, but for aarch64 this is only registered when using Device Tree=
-s
->> and there's a node with a "simple-framebuffer" compatible string.
->>
->> There is no code to register a "simple-framebuffer" platform device wh=
-en
->> using EFI instead. In fact, the only platform device that's registered=
- in
->> this case is an "efi-framebuffer", which means that the efifb driver i=
-s
->> the only driver supported to have an early console with EFI on aarch64=
-=2E
->>
->> The x86 architecture platform has a Generic System Framebuffers (sysfb=
-)
->> support, that register a system frambuffer platform device. It either
->> registers a "simple-framebuffer" for the simple{fb,drm} drivers or leg=
-acy
->> VGA/EFI FB devices for the vgafb/efifb drivers.
->>
->> The sysfb is generic enough to be reused by other architectures and ca=
-n be
->> moved out of the arch/x86 directory to drivers/firmware, allowing the =
-EFI
->> logic used by non-x86 architectures to be folded into sysfb as well.
->>
+Am 06.07.21 um 09:31 schrieb Thomas Zimmermann:
+> The comment refers to drm_irq_install() et al, which are not used by
+> omapdrm. The functions are part of the DRM IRQ midlayer and shouldn't
+> be used any longer. Remove the comment.
 >=20
-> Any more comments on this series? It would be nice for this to land so =
-the
-> simpledrm driver could be used on aarch64 EFI systems as well.
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>   drivers/gpu/drm/omapdrm/omap_irq.c | 7 -------
+>   1 file changed, 7 deletions(-)
 >=20
-> The patches have already been acked by x86 and DRM folks.
-
-Time to get this merged, I'd say. People are asking for these patches=20
-already.
-
-Best regards
-Thomas
-
+> diff --git a/drivers/gpu/drm/omapdrm/omap_irq.c b/drivers/gpu/drm/omapd=
+rm/omap_irq.c
+> index bb6e3fc18204..4aca14dab927 100644
+> --- a/drivers/gpu/drm/omapdrm/omap_irq.c
+> +++ b/drivers/gpu/drm/omapdrm/omap_irq.c
+> @@ -253,13 +253,6 @@ static const u32 omap_underflow_irqs[] =3D {
+>   	[OMAP_DSS_VIDEO3] =3D DISPC_IRQ_VID3_FIFO_UNDERFLOW,
+>   };
 >=20
-> Best regards,
+> -/*
+> - * We need a special version, instead of just using drm_irq_install(),=
+
+> - * because we need to register the irq via omapdss.  Once omapdss and
+> - * omapdrm are merged together we can assign the dispc hwmod data to
+> - * ourselves and drop these and just use drm_irq_{install,uninstall}()=
+
+> - */
+> -
+>   int omap_drm_irq_install(struct drm_device *dev)
+>   {
+>   	struct omap_drm_private *priv =3D dev->dev_private;
+> --
+> 2.32.0
 >=20
 
 --=20
@@ -174,27 +135,27 @@ Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
 Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
 
---oERJS9i9SRexZTdXWB5psyaCpbIofUtkZ--
+--cFRGOpWTvj8bFNb3zfAuAXxpSOBWCOQy8--
 
---iu6zN0OFsiQ8WAhMAHq5Yk61xpQgmcPTH
+--96ZF5Ndsd5d3ZbnZQkk71fqktN5U8QCuU
 Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmDv7cYFAwAAAAAACgkQlh/E3EQov+B8
-UxAAy4fbawz3l/323R44323T5tao9iLYrR1CirJHLwuir/wLpyBCiKntH12jR0bEROIu/rUG/KrQ
-gtMsLgxRwNOIF2VTrz6I1cTS5/J83Q5NApEuFHJE1lXT24JV9LFtZTnDjCUIrrY5Yc1X5WIkC8Yi
-KnFrEakP86onMRRc51y/B7RuGGHg+7k95LTGtbrsry4Yeu//SQyCnffr8jR3uWgF8ft3BKc51O19
-7I2KkhlafdRS0R6jxhcuemVGgTxo3NfAe439lw2HMI+7PagXjf+ZirgSt34QsNVO2JuKPT3jymW3
-m0u80hkUAv8kPc7gHL6CNN1eSKgR3s6yydi5uzlYQQR3I98v2OErLfLcBRwwjVqFpYv4lbDJqqBR
-5tCt/78LRkoa/pBN6u7E0MSWd5JyBNJxcOGvLmMWJ5TsnCK3G0i0S78YUaBXOfKcYiSvO2i1xnrs
-uzyvAJbq6Il71SL2clOXmmgstbGfBqJMewei4vjATq/O+k2SzkEZMuiksq7YyJxXU79LkbTo6PW8
-fMWVWy1pmZqfQgwKfE2BPjTzu1UwAPHVBN8vQOgu2M7CcQ3MmrjnWLYem3tDloyRAzrHnSOkZ5MY
-ZbkBlTsBqKJdTO4dA6dyJt15i30RV2k6DohnF5DCXepAF3fbWjv+Rm30/Acvs43UgtecBvWu68rh
-ofQ=
-=fW1p
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmDv7hUFAwAAAAAACgkQlh/E3EQov+BP
+nA//YAVO1kp9dCgf1tBG0Oi2u9PvQyYR6xLvc33pzHioATzVe6pICC/e61/c+CNgFqzHpepT+deg
+jPlKqWOYWCqAY0uhvdm+iiMer4e6UvjQTN5ITQ5wTck7A2vfgR+eWlOAYlYf/z5jIZMmkF/T8oH/
+ZR5X/yav1T2KEOCo711AYFYHo/BdBeEsAhwRiIXBLl3Nf+UjpIdjV0VuwWwBRh9pe/r/p2h4pr93
+qJe3VkFvmJq5yzILVAt+kYGUBo+IZY+RfBpOhRa/FRYUkBX7EdVp08+2mhllYW7fn1ONh0Mm7L4N
+d/ojWAvajbXjiMPfR27nKqFpjzLGEXH2Dn98vEKD6QfSeYCftTe9z8SU+tlVMF5Hr6+9NXYTQ1pN
+YRER1rmJPvgPzwjiFxAFEck9Yh27oAowLaxhPO8MTcTKX9uQUmZfbDKAp2qdbtEZe5TmjoKa5rKM
++z50Tku0qG4k4QGnif615RLymYj9xg+ygPKsFgqIoNrqY9oZULl2CphW69tojTZa7HJ0YuqOquqz
+t7nEzdZFM0z+4eISoXDhfN1Be+aJMuyTkwZ22U4wlZ+t2b/OE/JuCiORJTLUYj2xaRy2tqzKyfKB
+hLbgj0FsuxinQrpli2+ixftYUUK3xL8hCwun+o+1VkFh7kCfjPc/5yZvB+XYTbvsO6CRkxWwGVed
+x9U=
+=+Z4o
 -----END PGP SIGNATURE-----
 
---iu6zN0OFsiQ8WAhMAHq5Yk61xpQgmcPTH--
+--96ZF5Ndsd5d3ZbnZQkk71fqktN5U8QCuU--
