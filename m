@@ -2,42 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D86993C9CB8
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jul 2021 12:33:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 549793C9CBD
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jul 2021 12:34:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CAF376E821;
-	Thu, 15 Jul 2021 10:33:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3855B6E509;
+	Thu, 15 Jul 2021 10:34:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A16A6E81D;
- Thu, 15 Jul 2021 10:33:15 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10045"; a="296162711"
-X-IronPort-AV: E=Sophos;i="5.84,240,1620716400"; d="scan'208";a="296162711"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Jul 2021 03:33:15 -0700
-X-IronPort-AV: E=Sophos;i="5.84,240,1620716400"; d="scan'208";a="494527959"
-Received: from shyland-mobl2.ger.corp.intel.com (HELO [10.213.241.81])
- ([10.213.241.81])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Jul 2021 03:33:12 -0700
-Subject: Re: [PATCH 3/4] drm/i915/userptr: Probe existence of backing struct
- pages upon creation
-To: Matthew Auld <matthew.auld@intel.com>, intel-gfx@lists.freedesktop.org
-References: <20210715101536.2606307-1-matthew.auld@intel.com>
- <20210715101536.2606307-4-matthew.auld@intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-Message-ID: <997238fe-075b-380d-3ef2-b9f528193623@linux.intel.com>
-Date: Thu, 15 Jul 2021 11:33:10 +0100
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 576FE6E509
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jul 2021 10:34:03 +0000 (UTC)
+Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 0C8B5227C4;
+ Thu, 15 Jul 2021 10:34:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1626345242; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=C3r+MoQUZftGFnoLGddjeoKLQ4Jj5UP2WoHBg7J4MxQ=;
+ b=dBrJ9y99WLWDqycColkJmBYqNv/okAiBYmaifn3GyvmTS5Y70MlK75NgUsFTdpZghUt9xc
+ gUtnFCCVez4U4PAGI24qiOMenU9a9o/PVUG4BwtQks0dePBrMMmsPbQImyNwyDqFAKf0aq
+ ERb8jtiZuy0rM3f0+wjM8yTRkwgM2Xg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1626345242;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=C3r+MoQUZftGFnoLGddjeoKLQ4Jj5UP2WoHBg7J4MxQ=;
+ b=EEiHlCuyPF/SdBoCvwuZ2kMt+zt2eqp+Q04zCUNfWMDi0yr7tI54oTC852fFjDReNCnu2T
+ +SQe8gCXy+muKXBA==
+Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap1.suse-dmz.suse.de (Postfix) with ESMTPS id CF27713D7E;
+ Thu, 15 Jul 2021 10:34:01 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap1.suse-dmz.suse.de with ESMTPSA id tayqMBkP8GD9GgAAGKfGzw
+ (envelope-from <tzimmermann@suse.de>); Thu, 15 Jul 2021 10:34:01 +0000
+Subject: Re: [PATCH v2] drm/shmobile: Convert to Linux IRQ interfaces
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+References: <20210715095729.6510-1-tzimmermann@suse.de>
+ <CAMuHMdU6Dxod3pGo3pCjRsXu0O5YTJWTcTFnAzg4F_8kD7bdxg@mail.gmail.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <09c12fee-4698-18bc-0bb1-db8ae31caed5@suse.de>
+Date: Thu, 15 Jul 2021 12:34:01 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210715101536.2606307-4-matthew.auld@intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMuHMdU6Dxod3pGo3pCjRsXu0O5YTJWTcTFnAzg4F_8kD7bdxg@mail.gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="QlEDNAiSROcThjuLbZwhf8SHcE7IAZqwl"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,196 +69,127 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- Jordan Justen <jordan.l.justen@intel.com>, dri-devel@lists.freedesktop.org,
- Chris Wilson <chris@chris-wilson.co.uk>,
- Kenneth Graunke <kenneth@whitecape.org>, Jason Ekstrand <jason@jlekstrand.net>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: David Airlie <airlied@linux.ie>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+ Sergei Shtylyov <sergei.shtylyov@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--QlEDNAiSROcThjuLbZwhf8SHcE7IAZqwl
+Content-Type: multipart/mixed; boundary="cggzFFcQel5JbHQ8e5Pz6I6E79ipARwNv";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Sam Ravnborg <sam@ravnborg.org>, Sergei Shtylyov
+ <sergei.shtylyov@gmail.com>,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>
+Message-ID: <09c12fee-4698-18bc-0bb1-db8ae31caed5@suse.de>
+Subject: Re: [PATCH v2] drm/shmobile: Convert to Linux IRQ interfaces
+References: <20210715095729.6510-1-tzimmermann@suse.de>
+ <CAMuHMdU6Dxod3pGo3pCjRsXu0O5YTJWTcTFnAzg4F_8kD7bdxg@mail.gmail.com>
+In-Reply-To: <CAMuHMdU6Dxod3pGo3pCjRsXu0O5YTJWTcTFnAzg4F_8kD7bdxg@mail.gmail.com>
 
-On 15/07/2021 11:15, Matthew Auld wrote:
-> From: Chris Wilson <chris@chris-wilson.co.uk>
-> 
-> Jason Ekstrand requested a more efficient method than userptr+set-domain
-> to determine if the userptr object was backed by a complete set of pages
-> upon creation. To be more efficient than simply populating the userptr
-> using get_user_pages() (as done by the call to set-domain or execbuf),
-> we can walk the tree of vm_area_struct and check for gaps or vma not
-> backed by struct page (VM_PFNMAP). The question is how to handle
-> VM_MIXEDMAP which may be either struct page or pfn backed...
-> 
-> With discrete are going to drop support for set_domain(), so offering a
-> way to probe the pages, without having to resort to dummy batches has
-> been requested.
-> 
-> v2:
-> - add new query param for the PROPBE flag, so userspace can easily
->    check if the kernel supports it(Jason).
-> - use mmap_read_{lock, unlock}.
-> - add some kernel-doc.
+--cggzFFcQel5JbHQ8e5Pz6I6E79ipARwNv
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-1)
 
-I think probing is too weak to be offered as part of the uapi. What 
-probes successfully at create time might not be there anymore at usage 
-time. So if the pointer is not trusted at one point, why should it be at 
-a later stage?
 
-Only thing which works for me is populate (so get_pages) at create time. 
-But again with no guarantees they are still there at use time clearly 
-documented.
+Am 15.07.21 um 12:16 schrieb Geert Uytterhoeven:
+> Hi Thomas,
+>=20
+> On Thu, Jul 15, 2021 at 11:57 AM Thomas Zimmermann <tzimmermann@suse.de=
+> wrote:
+>> Drop the DRM IRQ midlayer in favor of Linux IRQ interfaces. DRM's
+>> IRQ helpers are mostly useful for UMS drivers. Modern KMS drivers
+>> don't benefit from using it.
+>>
+>> v2:
+>>          * handle errors in platform_get_irq() (Geert, Sergei)
+>>          * store IRQ number in struct shmob_drm_device (Laurent)
+>>
+>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>=20
+> Thanks for the update!
+>=20
+>> --- a/drivers/gpu/drm/shmobile/shmob_drm_drv.c
+>> +++ b/drivers/gpu/drm/shmobile/shmob_drm_drv.c
+>> @@ -258,7 +256,15 @@ static int shmob_drm_probe(struct platform_device=
+ *pdev)
+>>                  goto err_modeset_cleanup;
+>>          }
+>>
+>> -       ret =3D drm_irq_install(ddev, platform_get_irq(pdev, 0));
+>> +       ret =3D platform_get_irq(pdev, 0);
+>> +       if (ret) {
+>=20
+> if (ret < 0) {
 
-2)
+Indeed :/
 
-I am also not a fan of getparam for individual ioctl flags since I don't 
-think it scales nicely. How about add a param which returns all 
-supported flags like I915_PARAM_USERPTR_SUPPORTED_FLAGS?
+>=20
+>> +               dev_err(&pdev->dev, "failed to get IRQ number\n");
+>=20
+> platform_get_irq() already prints an error message, so no need to
+> repeat it.
+>=20
+>> +               goto err_modeset_cleanup;
+>> +       }
+>> +       sdev->irq =3D ret;
+>> +
+>> +       ret =3D request_irq(sdev->irq, shmob_drm_irq, 0, ddev->driver-=
+>name,
+>> +                         ddev);
+>>          if (ret < 0) {
+>>                  dev_err(&pdev->dev, "failed to install IRQ handler\n"=
+);
+>>                  goto err_modeset_cleanup;
+>=20
+> Gr{oetje,eeting}s,
+>=20
+>                          Geert
+>=20
 
-Downside is it only works for 32-bit flag fields with getparam. Or it 
-could be a query to solve that as well.
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
-Regards,
 
-Tvrtko
+--cggzFFcQel5JbHQ8e5Pz6I6E79ipARwNv--
 
-> Testcase: igt/gem_userptr_blits/probe
-> Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
-> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
-> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-> Cc: Jordan Justen <jordan.l.justen@intel.com>
-> Cc: Kenneth Graunke <kenneth@whitecape.org>
-> Cc: Jason Ekstrand <jason@jlekstrand.net>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: Ramalingam C <ramalingam.c@intel.com>
-> ---
->   drivers/gpu/drm/i915/gem/i915_gem_userptr.c | 40 ++++++++++++++++++++-
->   drivers/gpu/drm/i915/i915_getparam.c        |  3 ++
->   include/uapi/drm/i915_drm.h                 | 18 ++++++++++
->   3 files changed, 60 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_userptr.c b/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
-> index 56edfeff8c02..fd6880328596 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
-> @@ -422,6 +422,33 @@ static const struct drm_i915_gem_object_ops i915_gem_userptr_ops = {
->   
->   #endif
->   
-> +static int
-> +probe_range(struct mm_struct *mm, unsigned long addr, unsigned long len)
-> +{
-> +	const unsigned long end = addr + len;
-> +	struct vm_area_struct *vma;
-> +	int ret = -EFAULT;
-> +
-> +	mmap_read_lock(mm);
-> +	for (vma = find_vma(mm, addr); vma; vma = vma->vm_next) {
-> +		if (vma->vm_start > addr)
-> +			break;
-> +
-> +		if (vma->vm_flags & (VM_PFNMAP | VM_MIXEDMAP))
-> +			break;
-> +
-> +		if (vma->vm_end >= end) {
-> +			ret = 0;
-> +			break;
-> +		}
-> +
-> +		addr = vma->vm_end;
-> +	}
-> +	mmap_read_unlock(mm);
-> +
-> +	return ret;
-> +}
-> +
->   /*
->    * Creates a new mm object that wraps some normal memory from the process
->    * context - user memory.
-> @@ -477,7 +504,8 @@ i915_gem_userptr_ioctl(struct drm_device *dev,
->   	}
->   
->   	if (args->flags & ~(I915_USERPTR_READ_ONLY |
-> -			    I915_USERPTR_UNSYNCHRONIZED))
-> +			    I915_USERPTR_UNSYNCHRONIZED |
-> +			    I915_USERPTR_PROBE))
->   		return -EINVAL;
->   
->   	if (i915_gem_object_size_2big(args->user_size))
-> @@ -504,6 +532,16 @@ i915_gem_userptr_ioctl(struct drm_device *dev,
->   			return -ENODEV;
->   	}
->   
-> +	if (args->flags & I915_USERPTR_PROBE) {
-> +		/*
-> +		 * Check that the range pointed to represents real struct
-> +		 * pages and not iomappings (at this moment in time!)
-> +		 */
-> +		ret = probe_range(current->mm, args->user_ptr, args->user_size);
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
->   #ifdef CONFIG_MMU_NOTIFIER
->   	obj = i915_gem_object_alloc();
->   	if (obj == NULL)
-> diff --git a/drivers/gpu/drm/i915/i915_getparam.c b/drivers/gpu/drm/i915/i915_getparam.c
-> index 24e18219eb50..d6d2e1a10d14 100644
-> --- a/drivers/gpu/drm/i915/i915_getparam.c
-> +++ b/drivers/gpu/drm/i915/i915_getparam.c
-> @@ -163,6 +163,9 @@ int i915_getparam_ioctl(struct drm_device *dev, void *data,
->   	case I915_PARAM_PERF_REVISION:
->   		value = i915_perf_ioctl_version();
->   		break;
-> +	case I915_PARAM_HAS_USERPTR_PROBE:
-> +		value = true;
-> +		break;
->   	default:
->   		DRM_DEBUG("Unknown parameter %d\n", param->param);
->   		return -EINVAL;
-> diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
-> index e20eeeca7a1c..2e4112bf4d38 100644
-> --- a/include/uapi/drm/i915_drm.h
-> +++ b/include/uapi/drm/i915_drm.h
-> @@ -674,6 +674,9 @@ typedef struct drm_i915_irq_wait {
->    */
->   #define I915_PARAM_HAS_EXEC_TIMELINE_FENCES 55
->   
-> +/* Query if the kernel supports the I915_USERPTR_PROBE flag. */
-> +#define I915_PARAM_HAS_USERPTR_PROBE 56
-> +
->   /* Must be kept compact -- no holes and well documented */
->   
->   typedef struct drm_i915_getparam {
-> @@ -2178,12 +2181,27 @@ struct drm_i915_gem_userptr {
->   	 * through the GTT. If the HW can't support readonly access, an error is
->   	 * returned.
->   	 *
-> +	 * I915_USERPTR_PROBE:
-> +	 *
-> +	 * Probe the provided @user_ptr range and validate that the @user_ptr is
-> +	 * indeed pointing to normal memory and that the range is also valid.
-> +	 * For example if some garbage address is given to the kernel, then this
-> +	 * should complain.
-> +	 *
-> +	 * Returns -EFAULT if the probe failed.
-> +	 *
-> +	 * Note that this doesn't populate the backing pages.
-> +	 *
-> +	 * The kernel supports this feature if I915_PARAM_HAS_USERPTR_PROBE
-> +	 * returns a non-zero value.
-> +	 *
->   	 * I915_USERPTR_UNSYNCHRONIZED:
->   	 *
->   	 * NOT USED. Setting this flag will result in an error.
->   	 */
->   	__u32 flags;
->   #define I915_USERPTR_READ_ONLY 0x1
-> +#define I915_USERPTR_PROBE 0x2
->   #define I915_USERPTR_UNSYNCHRONIZED 0x80000000
->   	/**
->   	 * @handle: Returned handle for the object.
-> 
+--QlEDNAiSROcThjuLbZwhf8SHcE7IAZqwl
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmDwDxkFAwAAAAAACgkQlh/E3EQov+Bk
+EBAAgIhEvBHfKwf19G0lkreQfqww5H74xCJvVgA2iotGEW3Xq5ywzmsSdFjE0aEusqT7dJAgqz+v
+6daRrqwn+sw8S2+3DdEvz1vt7JgWVyz5hbLcFhagOpDiTe2ylyGoaLAKV8ozrL/gjy6rRZvrAtnh
+clEAus2qiP9MoWZjMy/2Kxynoa/bkTetfqbKv+K6NnYVy8I7ZZOjh2RNv/+eL4vgspotoT/LFbSs
+W1tqnMZ2re8aKn3zDMozdYgWLcDr0Q+Hgy2zhF1fKhSVzAc/Pe2icPNYXWJUPtaVhNE3HPXMvIWt
+arqbR4bVsYg3rPdcTtSVJOU9jmXwBaqUj1v1gae/mukswvW7MRaYpPnMo8hloc1SoTqN8ZRXrN+A
+xJD2sdvXqQEYvjJ1v9WwR33B0ypmDK+3omMDWIvsy5971a5d6r8XESXBUsK84y85NsNGQdCvdVHk
+Qmu5N2saR8JUWRwHXOxyLCvhcLE9b4z+gcuZ2YlVSASbZ7xMwCcP/e+9gbybTqOteOn8iKe1ZjPN
+d6GQr0YR7b1znqTuSOWhaWYXcVIZa3b49oyNqJeBb/btrnlRmLhZTVphWTK+8569ApWFr6PWIUux
+05Vf5eBQCj0ife8bQ1EjlqEJsdaRKrs77n+Sn5hxuyoT4Bz9uWNlcoF7bkr4Ef5Ni9AW58UKj6BT
+XWo=
+=l3ly
+-----END PGP SIGNATURE-----
+
+--QlEDNAiSROcThjuLbZwhf8SHcE7IAZqwl--
