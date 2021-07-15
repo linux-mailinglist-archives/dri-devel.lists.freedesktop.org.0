@@ -2,32 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BEC33C9C84
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jul 2021 12:16:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EB593C9C88
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jul 2021 12:16:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B377F6E80B;
-	Thu, 15 Jul 2021 10:16:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3EC446E819;
+	Thu, 15 Jul 2021 10:16:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B448F6E80B;
- Thu, 15 Jul 2021 10:16:08 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10045"; a="190198919"
-X-IronPort-AV: E=Sophos;i="5.84,240,1620716400"; d="scan'208";a="190198919"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 653686E819;
+ Thu, 15 Jul 2021 10:16:11 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10045"; a="190198927"
+X-IronPort-AV: E=Sophos;i="5.84,240,1620716400"; d="scan'208";a="190198927"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Jul 2021 03:16:08 -0700
-X-IronPort-AV: E=Sophos;i="5.84,240,1620716400"; d="scan'208";a="460341213"
+ 15 Jul 2021 03:16:11 -0700
+X-IronPort-AV: E=Sophos;i="5.84,240,1620716400"; d="scan'208";a="460341223"
 Received: from omurra1x-mobl.ger.corp.intel.com (HELO mwauld-desk1.intel.com)
  ([10.213.240.195])
  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Jul 2021 03:16:05 -0700
+ 15 Jul 2021 03:16:08 -0700
 From: Matthew Auld <matthew.auld@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 3/4] drm/i915/userptr: Probe existence of backing struct pages
- upon creation
-Date: Thu, 15 Jul 2021 11:15:35 +0100
-Message-Id: <20210715101536.2606307-4-matthew.auld@intel.com>
+Subject: [PATCH 4/4] drm/i915/uapi: reject set_domain for discrete
+Date: Thu, 15 Jul 2021 11:15:36 +0100
+Message-Id: <20210715101536.2606307-5-matthew.auld@intel.com>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210715101536.2606307-1-matthew.auld@intel.com>
 References: <20210715101536.2606307-1-matthew.auld@intel.com>
@@ -47,36 +46,27 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Jason Ekstrand <jason@jlekstrand.net>,
  Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
  Jordan Justen <jordan.l.justen@intel.com>, dri-devel@lists.freedesktop.org,
- Chris Wilson <chris@chris-wilson.co.uk>,
- Kenneth Graunke <kenneth@whitecape.org>, Jason Ekstrand <jason@jlekstrand.net>,
+ Kenneth Graunke <kenneth@whitecape.org>,
  Daniel Vetter <daniel.vetter@ffwll.ch>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Chris Wilson <chris@chris-wilson.co.uk>
+The CPU domain should be static for discrete, and on DG1 we don't need
+any flushing since everything is already coherent, so really all this
+does is an object wait, for which we have an ioctl. Longer term the
+desired caching should be an immutable creation time property for the
+BO, which can be set with something like gem_create_ext.
 
-Jason Ekstrand requested a more efficient method than userptr+set-domain
-to determine if the userptr object was backed by a complete set of pages
-upon creation. To be more efficient than simply populating the userptr
-using get_user_pages() (as done by the call to set-domain or execbuf),
-we can walk the tree of vm_area_struct and check for gaps or vma not
-backed by struct page (VM_PFNMAP). The question is how to handle
-VM_MIXEDMAP which may be either struct page or pfn backed...
+One other user is iris + userptr, which uses the set_domain to probe all
+the pages to check if the GUP succeeds, however we now have a PROBE
+flag for this purpose.
 
-With discrete are going to drop support for set_domain(), so offering a
-way to probe the pages, without having to resort to dummy batches has
-been requested.
+v2: add some more kernel doc, also add the implicit rules with caching
 
-v2:
-- add new query param for the PROPBE flag, so userspace can easily
-  check if the kernel supports it(Jason).
-- use mmap_read_{lock, unlock}.
-- add some kernel-doc.
-
-Testcase: igt/gem_userptr_blits/probe
-Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
+Suggested-by: Daniel Vetter <daniel@ffwll.ch>
 Signed-off-by: Matthew Auld <matthew.auld@intel.com>
 Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
@@ -86,133 +76,56 @@ Cc: Kenneth Graunke <kenneth@whitecape.org>
 Cc: Jason Ekstrand <jason@jlekstrand.net>
 Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
 Cc: Ramalingam C <ramalingam.c@intel.com>
+Reviewed-by: Ramalingam C <ramalingam.c@intel.com>
 ---
- drivers/gpu/drm/i915/gem/i915_gem_userptr.c | 40 ++++++++++++++++++++-
- drivers/gpu/drm/i915/i915_getparam.c        |  3 ++
- include/uapi/drm/i915_drm.h                 | 18 ++++++++++
- 3 files changed, 60 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/i915/gem/i915_gem_domain.c |  3 +++
+ include/uapi/drm/i915_drm.h                | 19 +++++++++++++++++++
+ 2 files changed, 22 insertions(+)
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_userptr.c b/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
-index 56edfeff8c02..fd6880328596 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
-@@ -422,6 +422,33 @@ static const struct drm_i915_gem_object_ops i915_gem_userptr_ops = {
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_domain.c b/drivers/gpu/drm/i915/gem/i915_gem_domain.c
+index 43004bef55cb..b684a62bf3b0 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_domain.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_domain.c
+@@ -490,6 +490,9 @@ i915_gem_set_domain_ioctl(struct drm_device *dev, void *data,
+ 	u32 write_domain = args->write_domain;
+ 	int err;
  
- #endif
- 
-+static int
-+probe_range(struct mm_struct *mm, unsigned long addr, unsigned long len)
-+{
-+	const unsigned long end = addr + len;
-+	struct vm_area_struct *vma;
-+	int ret = -EFAULT;
++	if (IS_DGFX(to_i915(dev)))
++		return -ENODEV;
 +
-+	mmap_read_lock(mm);
-+	for (vma = find_vma(mm, addr); vma; vma = vma->vm_next) {
-+		if (vma->vm_start > addr)
-+			break;
-+
-+		if (vma->vm_flags & (VM_PFNMAP | VM_MIXEDMAP))
-+			break;
-+
-+		if (vma->vm_end >= end) {
-+			ret = 0;
-+			break;
-+		}
-+
-+		addr = vma->vm_end;
-+	}
-+	mmap_read_unlock(mm);
-+
-+	return ret;
-+}
-+
- /*
-  * Creates a new mm object that wraps some normal memory from the process
-  * context - user memory.
-@@ -477,7 +504,8 @@ i915_gem_userptr_ioctl(struct drm_device *dev,
- 	}
- 
- 	if (args->flags & ~(I915_USERPTR_READ_ONLY |
--			    I915_USERPTR_UNSYNCHRONIZED))
-+			    I915_USERPTR_UNSYNCHRONIZED |
-+			    I915_USERPTR_PROBE))
- 		return -EINVAL;
- 
- 	if (i915_gem_object_size_2big(args->user_size))
-@@ -504,6 +532,16 @@ i915_gem_userptr_ioctl(struct drm_device *dev,
- 			return -ENODEV;
- 	}
- 
-+	if (args->flags & I915_USERPTR_PROBE) {
-+		/*
-+		 * Check that the range pointed to represents real struct
-+		 * pages and not iomappings (at this moment in time!)
-+		 */
-+		ret = probe_range(current->mm, args->user_ptr, args->user_size);
-+		if (ret)
-+			return ret;
-+	}
-+
- #ifdef CONFIG_MMU_NOTIFIER
- 	obj = i915_gem_object_alloc();
- 	if (obj == NULL)
-diff --git a/drivers/gpu/drm/i915/i915_getparam.c b/drivers/gpu/drm/i915/i915_getparam.c
-index 24e18219eb50..d6d2e1a10d14 100644
---- a/drivers/gpu/drm/i915/i915_getparam.c
-+++ b/drivers/gpu/drm/i915/i915_getparam.c
-@@ -163,6 +163,9 @@ int i915_getparam_ioctl(struct drm_device *dev, void *data,
- 	case I915_PARAM_PERF_REVISION:
- 		value = i915_perf_ioctl_version();
- 		break;
-+	case I915_PARAM_HAS_USERPTR_PROBE:
-+		value = true;
-+		break;
- 	default:
- 		DRM_DEBUG("Unknown parameter %d\n", param->param);
+ 	/* Only handle setting domains to types used by the CPU. */
+ 	if ((write_domain | read_domains) & I915_GEM_GPU_DOMAINS)
  		return -EINVAL;
 diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
-index e20eeeca7a1c..2e4112bf4d38 100644
+index 2e4112bf4d38..04ce310e7ee6 100644
 --- a/include/uapi/drm/i915_drm.h
 +++ b/include/uapi/drm/i915_drm.h
-@@ -674,6 +674,9 @@ typedef struct drm_i915_irq_wait {
+@@ -901,6 +901,25 @@ struct drm_i915_gem_mmap_offset {
+  *	- I915_GEM_DOMAIN_GTT: Mappable aperture domain
+  *
+  * All other domains are rejected.
++ *
++ * Note that for discrete, starting from DG1, this is no longer supported, and
++ * is instead rejected. On such platforms the CPU domain is effectively static,
++ * where we also only support a single &drm_i915_gem_mmap_offset cache mode,
++ * which can't be set explicitly and instead depends on the object placements,
++ * as per the below.
++ *
++ * Implicit caching rules, starting from DG1:
++ *
++ *	- If any of the object placements (see &drm_i915_gem_create_ext_memory_regions)
++ *	  contain I915_MEMORY_CLASS_DEVICE then the object will be allocated and
++ *	  mapped as write-combined only.
++ *
++ *	- Everything else is always allocated and mapped as write-back, with the
++ *	  guarantee that everything is also coherent with the GPU.
++ *
++ * Note that this is likely to change in the future again, where we might need
++ * more flexibility on future devices, so making this all explicit as part of a
++ * new &drm_i915_gem_create_ext extension is probable.
   */
- #define I915_PARAM_HAS_EXEC_TIMELINE_FENCES 55
- 
-+/* Query if the kernel supports the I915_USERPTR_PROBE flag. */
-+#define I915_PARAM_HAS_USERPTR_PROBE 56
-+
- /* Must be kept compact -- no holes and well documented */
- 
- typedef struct drm_i915_getparam {
-@@ -2178,12 +2181,27 @@ struct drm_i915_gem_userptr {
- 	 * through the GTT. If the HW can't support readonly access, an error is
- 	 * returned.
- 	 *
-+	 * I915_USERPTR_PROBE:
-+	 *
-+	 * Probe the provided @user_ptr range and validate that the @user_ptr is
-+	 * indeed pointing to normal memory and that the range is also valid.
-+	 * For example if some garbage address is given to the kernel, then this
-+	 * should complain.
-+	 *
-+	 * Returns -EFAULT if the probe failed.
-+	 *
-+	 * Note that this doesn't populate the backing pages.
-+	 *
-+	 * The kernel supports this feature if I915_PARAM_HAS_USERPTR_PROBE
-+	 * returns a non-zero value.
-+	 *
- 	 * I915_USERPTR_UNSYNCHRONIZED:
- 	 *
- 	 * NOT USED. Setting this flag will result in an error.
- 	 */
- 	__u32 flags;
- #define I915_USERPTR_READ_ONLY 0x1
-+#define I915_USERPTR_PROBE 0x2
- #define I915_USERPTR_UNSYNCHRONIZED 0x80000000
- 	/**
- 	 * @handle: Returned handle for the object.
+ struct drm_i915_gem_set_domain {
+ 	/** @handle: Handle for the object. */
 -- 
 2.26.3
 
