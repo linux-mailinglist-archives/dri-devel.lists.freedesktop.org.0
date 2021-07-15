@@ -1,55 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83C363C9D8E
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jul 2021 13:13:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B32613C9DA8
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jul 2021 13:21:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 238E26E826;
-	Thu, 15 Jul 2021 11:12:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A805F6E5A4;
+	Thu, 15 Jul 2021 11:20:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22e.google.com (mail-oi1-x22e.google.com
- [IPv6:2607:f8b0:4864:20::22e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A95E6E823;
- Thu, 15 Jul 2021 11:12:56 +0000 (UTC)
-Received: by mail-oi1-x22e.google.com with SMTP id u15so6134742oiw.3;
- Thu, 15 Jul 2021 04:12:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=G7yK9VzLEQCG6XE//c9cVdti/iHPJ3DxnhKwu9cnsjI=;
- b=NlMo7/06IiuX+CxJRiTWwRLYAECimiW0KcSKx3FPDyhg//qYD+xUnzoPnUGxdN/YZM
- L8QIWKpiGVXGMzF5Rs1pbhzfiDd0bVzRgb6E8/AAdfrIYlE/fhxV8s1Ngwmvlsrz/GIl
- aL/RlzPYC5j6aQfvfY8kkeK45rCPEJ4hTqhPn/q2dWzSGd2k18aUnDJbE7e6eLaFSpmr
- 1PgjcCYt04tTWmzSvtIw0MeTyl4+C2pESNcbZ9Vi9HMI5ZmESxO85j6Jgemf6Xe6L2fV
- 2D02skzT9DUri5jE0CHzIMB1Cg+ysuyMYfXTwi5W9Adrjbhtxq/GC9Dvro4VcA20R42q
- /elw==
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
+ [IPv6:2a00:1450:4864:20::435])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F09576E5A4
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jul 2021 11:20:55 +0000 (UTC)
+Received: by mail-wr1-x435.google.com with SMTP id u1so7325880wrs.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jul 2021 04:20:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=VujR+RG/xHuDo2Jj/n++B3DGmrisPobQrMRb6HDhkOU=;
+ b=Euo25SnUR8y/xIH4wZ+DcBaGxBPQdJAkAKhJE4pxtSQ99ChleOcLf06Un+9H72r4/W
+ 0Rdp+KzRiHnC4dxDzncSwz3ZK83TxdLTEmqhEJAOonY8qUKU6sTBOIrKn4xg4IkvdHyN
+ RVh1eL77hG8P3t7j6V/AX8csFP68dbqj+Evgcr5Cd3fK3Q9kD+UVv/Iim7S/FilKL0qR
+ QrfpmNiy+8JLGFO5jSw0YUyOJ+a9nQLG/yZWMCz9CC2rzO5SsvKV9s0E8hX4s6DekW0F
+ 16XHqtkeLFg9AR7jRSBS7PZWCfbEHTZBYVghenVLdz0ccgcIm3a5baL5uw21FhZCVHZq
+ nzrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=G7yK9VzLEQCG6XE//c9cVdti/iHPJ3DxnhKwu9cnsjI=;
- b=PjV8TyNxiQkO9UzDgWHUO8uCvaGADgYlHlXI2LaOBzWnCKOUXFEjP/VzYukLEW37JC
- E5KfIIugAdBpJf5RupsUBrtRqnZ+HVmeFwzRkVMif/4bLSTFmybqnwx/pHuW7ia+i3vl
- EyBHRWrf4pBnRGukVFihBx+QIfipaFnDX1XBdMrq8sB2BZ+W0UDcfCJxxB3SwfoTCI8T
- RAbNjwa5y6W7mQIWgbxImBCtS8PxiXJ0JCTFCXM5Q+8IoZVfLSig5aq5TdY82ml4YMDI
- jJA0QgCgWOqq09fRHSFECD5IDjbs35X5Hl3kBDKvsa1ihkZHenFTBwkNdbHHKEZrYW9O
- Ymgw==
-X-Gm-Message-State: AOAM532Yuky3mwlllh6v0YKNhhy0PnxwuGMSU8YoCN3dT0A2g7dG8exn
- hMfCtuZeBsNyWjFih4zYns35Z6hh2GjyC3fSRbU=
-X-Google-Smtp-Source: ABdhPJzOFkRPM1F5bStdEZ0HnTr0PNZpn8ngy3uh/IeBzMB96wnzSxAwpctzKDpwPU357CBdQwPf/oPm4PKS8eRVHl0=
-X-Received: by 2002:aca:c6c9:: with SMTP id w192mr3095017oif.47.1626347575562; 
- Thu, 15 Jul 2021 04:12:55 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=VujR+RG/xHuDo2Jj/n++B3DGmrisPobQrMRb6HDhkOU=;
+ b=QUQI8/Fnx+LKVL4Rg4xWDPW5JpDmVOQ7s4RQJ4He+qkEi4imm/n/nxWXmYVTfNN516
+ sG9PLKvH0I92sxjg1pGrh6X3IbfWLxv85Ns/43tAvjsQha0kaOf+msLsQZWIe+Bv9wJ7
+ fbGhHnCL1BcBELpnNmWScweYWZR3zAW4YRUjoGV5mLFDK/KdAyRmz90dqSH2LwVwkSO0
+ rX/AToxepttsKF1UA3yk0AX+QRVC09uFasReOYOtzESOqXltOasarUJvUwM3IM8FDjFy
+ A2Hy4xYN3BcQ9bdyLzub9tN8HVr+I7unu9DIyKsauOQ8kjviY9lwm3rarLpylUpcl6Lv
+ FVmA==
+X-Gm-Message-State: AOAM531X9kdXHwPp8kPjSu+73PwXu9Xj5g6BIqTW2u5rHcwmh5b1rAkx
+ sA7reZSEqe4/Msv3xgUYQqWdKg==
+X-Google-Smtp-Source: ABdhPJyYTHhMv+lyjlzAvNZqFRBCgFbp4UAevLihRGGlZhdmskEj4ptYiSpmCOauw85Ayb65udVA0w==
+X-Received: by 2002:a05:6000:154c:: with SMTP id
+ 12mr4921083wry.393.1626348054686; 
+ Thu, 15 Jul 2021 04:20:54 -0700 (PDT)
+Received: from google.com ([109.180.115.218])
+ by smtp.gmail.com with ESMTPSA id x8sm6171255wrt.93.2021.07.15.04.20.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 15 Jul 2021 04:20:54 -0700 (PDT)
+Date: Thu, 15 Jul 2021 12:20:52 +0100
+From: Lee Jones <lee.jones@linaro.org>
+To: Linus Walleij <linus.walleij@linaro.org>
+Subject: Re: [PATCH v3] backlight: ktd253: Stabilize backlight
+Message-ID: <YPAaFMC62hApTG9g@google.com>
+References: <20210604063201.3235245-1-linus.walleij@linaro.org>
+ <CACRpkdbacfR52__8ZuwWV3B56w1KTvhOKe2_7OiVdPoLXrWbnQ@mail.gmail.com>
 MIME-Version: 1.0
-References: <20210527074202.1706724-1-hsinyi@chromium.org>
- <20210527074202.1706724-3-hsinyi@chromium.org>
-In-Reply-To: <20210527074202.1706724-3-hsinyi@chromium.org>
-From: Enric Balletbo Serra <eballetbo@gmail.com>
-Date: Thu, 15 Jul 2021 13:12:44 +0200
-Message-ID: <CAFqH_50_EP_aBs3UuBNCFbgqFHS=jizberM8pZY6EhpOnWnbVw@mail.gmail.com>
-Subject: Re: [PATCH v6 RESEND 3/3] arm64: dts: mt8183: Add panel rotation
-To: Hsin-Yi Wang <hsinyi@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CACRpkdbacfR52__8ZuwWV3B56w1KTvhOKe2_7OiVdPoLXrWbnQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,54 +71,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- devicetree <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
- intel-gfx@lists.freedesktop.org, linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Rob Herring <robh+dt@kernel.org>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Robert Foss <robert.foss@linaro.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Matthias Brugger <matthias.bgg@gmail.com>, Sean Paul <sean@poorly.run>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: Jingoo Han <jingoohan1@gmail.com>,
+ Daniel Thompson <daniel.thompson@linaro.org>, newbyte@disroot.org,
+ Stephan Gerhold <stephan@gerhold.net>,
+ "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Hsin-Yi,
+On Tue, 13 Jul 2021, Linus Walleij wrote:
 
-Thank you for the patch.
+> On Fri, Jun 4, 2021 at 8:34 AM Linus Walleij <linus.walleij@linaro.org> wrote:
+> 
+> > Remove interrupt disablement during backlight setting. It is
+> > way to dangerous and makes platforms instable by having it
+> > miss vblank IRQs leading to the graphics derailing.
+> >
+> > The code is using ndelay() which is not available on
+> > platforms such as ARM and will result in 32 * udelay(1)
+> > which is substantial.
+> >
+> > Add some code to detect if an interrupt occurs during the
+> > tight loop and in that case just redo it from the top.
+> >
+> > Fixes: 5317f37e48b9 ("backlight: Add Kinetic KTD253 backlight driver")
+> > Cc: Stephan Gerhold <stephan@gerhold.net>
+> > Reported-by: newbyte@disroot.org
+> > Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+> 
+> Hm it seems this patch did not make it into v5.14-rc1, could it be applied
+> as a fix for the -rc:s?
 
-Missatge de Hsin-Yi Wang <hsinyi@chromium.org> del dia dj., 27 de maig
-2021 a les 9:42:
->
-> krane, kakadu, and kodama boards have a default panel rotation.
->
-> Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
+Ah, it was sent late in the cycle, so I postponed it.
 
-It looks good to me, so
+> Shall I resend it with Daniel's ACK?
 
-Reviewed-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+Yes please.
 
-and, on a Lenovo IdeaPad Duet. The display appears well rotated now.
-
-Tested-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
-
-Thanks,
-  Enric
-> ---
->  arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi b/arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi
-> index ff56bcfa3370..793cc9501337 100644
-> --- a/arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi
-> +++ b/arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi
-> @@ -263,6 +263,7 @@ panel: panel@0 {
->                 avee-supply = <&ppvarp_lcd>;
->                 pp1800-supply = <&pp1800_lcd>;
->                 backlight = <&backlight_lcd0>;
-> +               rotation = <270>;
->                 port {
->                         panel_in: endpoint {
->                                 remote-endpoint = <&dsi_out>;
-> --
-> 2.31.1.818.g46aad6cb9e-goog
->
+-- 
+Lee Jones [李琼斯]
+Senior Technical Lead - Developer Services
+Linaro.org │ Open source software for Arm SoCs
+Follow Linaro: Facebook | Twitter | Blog
