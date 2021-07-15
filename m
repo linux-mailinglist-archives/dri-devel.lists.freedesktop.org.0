@@ -2,54 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AFE43CA039
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jul 2021 16:07:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCA463CA07A
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jul 2021 16:18:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA8A36E864;
-	Thu, 15 Jul 2021 14:07:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C47236E86A;
+	Thu, 15 Jul 2021 14:18:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com
- [IPv6:2607:f8b0:4864:20::22b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 399996E864;
- Thu, 15 Jul 2021 14:07:30 +0000 (UTC)
-Received: by mail-oi1-x22b.google.com with SMTP id h9so6735527oih.4;
- Thu, 15 Jul 2021 07:07:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Wd27DEr1E/QgRt9+LAOHHXGHaGJPQeFul0EaBUCJi5E=;
- b=FXf0E7T8xJ07pqsOK2pr9Cfp1wMLErGzJV2wcLPmS7Vh7BinMGkG7jbvYdrfAr6rHa
- pcHmpmlfOH0PgE8yv62FegDUPsQDa5zWuxfsKFOG6Lm2v1H4UBClsOQ5Pj7gtYH1kIjK
- DWIi+ICNwgmBMsELTyogZ1VQx+3qqP+Sj0aBBbPSqFS/wUjlwfBSPedIqpDiCcQyyBLa
- 5TjdB0bPdkg51I+tqQ6aOuBamCn11Q0e4MO0/hwj5w2uVfrLzc4b8qMoHEW8uOJICWKJ
- HyxPTMFTqM2rRsvwyEC7GSmg+nVYr6rX129ihdwxllkGkm01VylbZ7K/sIS7eLlAaz8X
- GDdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Wd27DEr1E/QgRt9+LAOHHXGHaGJPQeFul0EaBUCJi5E=;
- b=e8LnzYPmf0h6wj6JyfIm+KNrk9d6SW0lUM8Jc7rTHJD57PiVQBPyPJJgVspEStc1TO
- 01PjalStUYOhv68lqdauLQfOaCnmQ9XyV6ctSM0jQBjx+Vcaiemzcra6VXsfYPC/Hm4x
- Fpb8Mvjg2GngTc6qqcS7Bict64TukSSm6SBf3qJVzsmdMNLRILy/sA1igFP4I7bslm1N
- 8lcjWoMIlX/8vo/gEOu4XEpIO6vsBfuwG21WY1R5u4AWdj6q5bdm5PYJ6TpQXhOULjV0
- bstsrVG6uWyxWKJ8Lmn001SU0BguCSxpjy16KMZCv/lr3cbHMeb83VRUpM7m5pJYgQu1
- X76g==
-X-Gm-Message-State: AOAM531cKN7Qy5eoh1ITvIUf2Gx57LATTA8FeMFYnCpnNKmAEcg05Lh3
- 5PDLqY+dRlMdZ7VwJvvSdjG01HffUBLIFpPppj8=
-X-Google-Smtp-Source: ABdhPJycQPIgA6Orp3hDXE6mb3cB+XnNHiJqRke4rwpt7C4aMqzEBwexz5AqgcAGz52swASEEf6jKcP7SQm0g+Ndhvg=
-X-Received: by 2002:aca:3446:: with SMTP id b67mr3775753oia.120.1626358049509; 
- Thu, 15 Jul 2021 07:07:29 -0700 (PDT)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C6CA26E869;
+ Thu, 15 Jul 2021 14:18:24 +0000 (UTC)
+Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 4AD1022A8B;
+ Thu, 15 Jul 2021 14:18:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1626358703; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=TQXfSsIkrTmVPDSUwdFYqSttG1hX5cRxn8pvdf1rXfQ=;
+ b=J62+G4rz5G5v+OuMUVzSDAZILdguFPA70x68a7Q9I1nilVzCxjjDaoQIt0NmBvDRM9RIC6
+ d5g33KBlCCRg8AjvcL79H/L2riw8sMV4c5+cBxqDWASzN8lxOoxzFDmdIdwQrgfLJ/8lTT
+ nE0HcAA2Wx3wJhpGMKnh6/cETzWoNc4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1626358703;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=TQXfSsIkrTmVPDSUwdFYqSttG1hX5cRxn8pvdf1rXfQ=;
+ b=1OAEPbalcS+i4hoP/v5+iM6TtzFp5Bn52KnLWIpgHGIfwwH29zTvB4OYO1zWc7NiGtzkE0
+ SIBOrPwdS4X1waDg==
+Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap1.suse-dmz.suse.de (Postfix) with ESMTPS id 2777113D93;
+ Thu, 15 Jul 2021 14:18:23 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap1.suse-dmz.suse.de with ESMTPSA id lfGpCK9D8GDmZAAAGKfGzw
+ (envelope-from <tzimmermann@suse.de>); Thu, 15 Jul 2021 14:18:23 +0000
+Subject: Re: [PATCH] drm/fb-helper: Try to protect cleanup against delayed
+ setup
+To: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ DRI Development <dri-devel@lists.freedesktop.org>
+References: <20210713135922.1384264-1-daniel.vetter@ffwll.ch>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <200e709c-0a06-7ffb-bc34-4fa1088b78c3@suse.de>
+Date: Thu, 15 Jul 2021 16:18:22 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210714220858.5553-1-alexander.deucher@amd.com>
- <YO+++Tj94RRjVqwV@ravnborg.org>
-In-Reply-To: <YO+++Tj94RRjVqwV@ravnborg.org>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 15 Jul 2021 10:07:18 -0400
-Message-ID: <CADnq5_Oj1Totqe=fGeF3AeQsodR9_6ki7EChs3CmJzC7txMu1A@mail.gmail.com>
-Subject: Re: [pull] amdgpu, amdkfd drm-fixes-5.14
-To: Sam Ravnborg <sam@ravnborg.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20210713135922.1384264-1-daniel.vetter@ffwll.ch>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="NLjOjlVxtlZwXHMgrCimjuQ33YvXW4Jru"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,33 +70,139 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>
+Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@intel.com>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Chris Wilson <chris@chris-wilson.co.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 15, 2021 at 12:52 AM Sam Ravnborg <sam@ravnborg.org> wrote:
->
-> Hi Alex,
->
-> On Wed, Jul 14, 2021 at 06:08:58PM -0400, Alex Deucher wrote:
-> > Hi Dave, Daniel,
-> >
-> > Fixes for 5.14.  The big change here is unifying the SMU13 code.  This was
-> > new code added in 5.14 to support Yellow Carp, but we've since cleaned it
-> > up and removed a lot of duplication, so better to merge it now to facilitate
-> > any bug fixes in the future that need to go back to this kernel via stable.
-> > Only affects Yellow Carp which is new for 5.14 anyway so not much chance for
-> > regressions.  The rest is just standard bug fixes.
->
-> This pull seems not to include any fixes for the W=1 warnings that
-> has crept in again. It would be nice if the amdgpu could be warning free
-> again, this would maybe motivate the others to fix theirs too so we
-> could keep most/all of drivers/gpu/ free of W=1 warnings.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--NLjOjlVxtlZwXHMgrCimjuQ33YvXW4Jru
+Content-Type: multipart/mixed; boundary="SK5e8ch9lzjOzQBG3pvfaa7bvqhhJQH1B";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ DRI Development <dri-devel@lists.freedesktop.org>
+Cc: David Airlie <airlied@linux.ie>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ Daniel Vetter <daniel.vetter@intel.com>
+Message-ID: <200e709c-0a06-7ffb-bc34-4fa1088b78c3@suse.de>
+Subject: Re: [PATCH] drm/fb-helper: Try to protect cleanup against delayed
+ setup
+References: <20210713135922.1384264-1-daniel.vetter@ffwll.ch>
+In-Reply-To: <20210713135922.1384264-1-daniel.vetter@ffwll.ch>
 
-We haven't really been monitoring the W=1 stuff that closely.  I'll
-see what we can do going forward.
+--SK5e8ch9lzjOzQBG3pvfaa7bvqhhJQH1B
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-Alex
+
+
+Am 13.07.21 um 15:59 schrieb Daniel Vetter:
+> Some vague evidences suggests this can go wrong. Try to prevent it by
+> holding the right mutex and clearing ->deferred_setup to make sure we
+> later on don't accidentally try to re-register the fbdev when the
+> driver thought it had it all cleaned up already.
+>=20
+> v2: I realized that this is fundamentally butchered, and CI complained
+> about lockdep splats. So limit the critical section again and just add
+> a few notes what the proper fix is.
+>=20
+> References: https://intel-gfx-ci.01.org/tree/linux-next/next-20201215/f=
+i-byt-j1900/igt@i915_pm_rpm@module-reload.html
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> Cc: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
+> Cc: Chris Wilson <chris@chris-wilson.co.uk>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: David Airlie <airlied@linux.ie>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+
+Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+
+> ---
+>   drivers/gpu/drm/drm_fb_helper.c | 10 ++++++++++
+>   1 file changed, 10 insertions(+)
+>=20
+> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_h=
+elper.c
+> index 9d82fda274eb..8f11e5abb222 100644
+> --- a/drivers/gpu/drm/drm_fb_helper.c
+> +++ b/drivers/gpu/drm/drm_fb_helper.c
+> @@ -598,6 +598,9 @@ EXPORT_SYMBOL(drm_fb_helper_alloc_fbi);
+>    * A wrapper around unregister_framebuffer, to release the fb_info
+>    * framebuffer device. This must be called before releasing all resou=
+rces for
+>    * @fb_helper by calling drm_fb_helper_fini().
+> + *
+> + * Note that this is fundamentally racy on hotunload because it doen't=
+ handle
+> + * open fbdev file descriptors at all. Use drm_fbdev_generic_setup() i=
+nstead.
+>    */
+>   void drm_fb_helper_unregister_fbi(struct drm_fb_helper *fb_helper)
+>   {
+> @@ -611,6 +614,9 @@ EXPORT_SYMBOL(drm_fb_helper_unregister_fbi);
+>    * @fb_helper: driver-allocated fbdev helper, can be NULL
+>    *
+>    * This cleans up all remaining resources associated with @fb_helper.=
+
+> + *
+> + * Note that this is fundamentally racy on hotunload because it doen't=
+ handle
+> + * open fbdev file descriptors at all. Use drm_fbdev_generic_setup() i=
+nstead.
+>    */
+>   void drm_fb_helper_fini(struct drm_fb_helper *fb_helper)
+>   {
+> @@ -2382,6 +2388,10 @@ static void drm_fbdev_client_unregister(struct d=
+rm_client_dev *client)
+>   {
+>   	struct drm_fb_helper *fb_helper =3D drm_fb_helper_from_client(client=
+);
+>  =20
+> +	mutex_lock(&fb_helper->lock);
+> +	fb_helper->deferred_setup =3D false;
+> +	mutex_unlock(&fb_helper->lock);
+> +
+>   	if (fb_helper->fbdev)
+>   		/* drm_fbdev_fb_destroy() takes care of cleanup */
+>   		drm_fb_helper_unregister_fbi(fb_helper);
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--SK5e8ch9lzjOzQBG3pvfaa7bvqhhJQH1B--
+
+--NLjOjlVxtlZwXHMgrCimjuQ33YvXW4Jru
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmDwQ64FAwAAAAAACgkQlh/E3EQov+Ai
+6xAArheuEhv60V3YaqNkOP9+cWIZ+qFe1ipaKfB5tvwZb1EdnrQi/csgIC29OL1mWWZpq/wz0Ulv
+MBJffP9cZOVC1vIK6dLGZkGIYllPkdSnsm/37bne5fTmq9IO3Cw3fI6m4rC25heYBBYwl+sTJMNU
+RkD80BSWLsyDnS23QA2WQrq+IufEJG5Bj4AfDU6qqLkFEx37onfzxQuS8ROO0CXes536eIe4gfmc
+tg5MDcr7atJTule2DPdqa1mxHUb1dsOFvwPv4FDzYb75FTskO3ZqZdbVgM3iZYl1WEazwhwvo6zv
+86PPhj2bcfsdSNX3Krc6C7XAmn1mn7XK/3aEJ6zXClyoi+UTpLJVOqUCfUGlibcDiA6+mBo6eOFX
+wrsOiO35yjIqkC1j5s+7jE1T5vBb12l1qtHWBHdb8f7FXN0gjrTrPgd2DHtKTd3zWPCd0jDta/B+
+1gntbzs99GBleYwH7X1VOgeeJWq/vduW7YRlKvqgGsc4lpqnmOqrnqScaMx06G2hhwnceEcC+SGF
+aE9H+c86ZVghfd1f7sQ+xTaI1SEcs9VE4QQ8fYEhyevDcV5XCXpdZUQRmkTL7BWz+M/RDnH4xfxg
+Qy4PkZSQ7jh9pQuf9GzKUhRJxCKroAXLUEshVl77tlRfwM2QHnPBSX5oX8RfWSJTshfb5g0n0pMi
++TU=
+=4miC
+-----END PGP SIGNATURE-----
+
+--NLjOjlVxtlZwXHMgrCimjuQ33YvXW4Jru--
