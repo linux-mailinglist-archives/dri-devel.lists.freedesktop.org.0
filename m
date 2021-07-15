@@ -1,77 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DFF13C9C23
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jul 2021 11:50:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 29F283C9C3B
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jul 2021 11:55:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F087089A83;
-	Thu, 15 Jul 2021 09:50:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 25AC76E7E2;
+	Thu, 15 Jul 2021 09:55:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com
- [64.147.123.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7DD7A89A83
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jul 2021 09:50:26 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailout.west.internal (Postfix) with ESMTP id 918563200952;
- Thu, 15 Jul 2021 05:50:25 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute6.internal (MEProxy); Thu, 15 Jul 2021 05:50:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm3; bh=YXGFB/y4986b9zrnJJbuoa9Q9vP
- oHSqEmc/uf6zd8Xg=; b=q8dhFPIQX84NyjJ0EKZjtUxqDtJEqydTk4ibbVFncca
- CXlUnv0ypSycre6b3HRK+VSAPah9TtV8oaRHkE02mjw0wNS3fJblciCdxMmlMFBN
- pwmoVyi52Bv1MWuyOFvYEcqZiLFNLhRpZkz6LUJU94TNfWDAdInBJoynOZh5QHjv
- XWHZbapmpEJEctHfwF9Mrh3N3cp5VSqeHtxlIJBY/hZSK0ZccHNn+r7BZaGrdYVl
- VvqMqQ0b3RGofugLcD0bxM547UQlQn6iCdiQ9ETjm4uvNo2u4ou0HdvtoeRnozCX
- oE0hGvIeecPJdvL8OIRxgwccvPZewCeWcbXF/C+4rWg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=YXGFB/
- y4986b9zrnJJbuoa9Q9vPoHSqEmc/uf6zd8Xg=; b=noibdgNNCSu8L2E3ChchCY
- ahvv4U4vlmb0B+4By2OGkkPORDdKIob1S64aRDgFqhv8O+HZZ3uYlLEKRq3tVHmL
- OBp1RDZp6A7CNP1nCpAHzlQwjRE0mlElislVbRWtrIDLcXo6zahZxY5dh8kdMQd1
- YDXa+QtdhBuT1Cp+kKcx+dfPgiQceIvnUuz3AUvOpvyLi2BjBdiigdcIe7Htau0g
- KeQ5rN7Esej+Cnez7Zr6gCx/xdli3c1ev/dkVtPSLKqPlYW3nfzQ2t6V8XxPGqfn
- VhyqDyMM9qEwEOkj1yW3Ol+vIDKAYhsSLYCHsgLPqi2r6h7DjL0i9oa6p8965jeQ
- ==
-X-ME-Sender: <xms:4ATwYKhEFS3dmb-GcyVCkyFon2gAluNdZIopcH4dnCcWZcA9nCeUFA>
- <xme:4ATwYLBHk5Cdx4zcvco1vi3LqGXliUZsiaLUbEvxXRdgIjcKeMAVAcw7BqrzzEo43
- SpwvmaJqjBUiK591Gc>
-X-ME-Received: <xmr:4ATwYCH-vY4DfXUWOb3FbQoTofoL5TcpjNquoytzVHG5jLtxdrSkPbJ0TEMzPs3-zLjvxRtFjv89gfcJup9I1fS4usCKHxYM54mC>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrvddtgddufecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
- ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
- gvrhhnpeehteejgfefueegteevtdekteelvdeujeeigeffueefveejleffvdehhfejhfei
- geenucffohhmrghinhepshgvmhhitghonhdqshhtohhrrghgvgdrtghomhenucevlhhush
- htvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggv
- rhhnohdrthgvtghh
-X-ME-Proxy: <xmx:4ATwYDRGhqKtl6RMxR8ZWGafv89lFgi-3n9bFE8uwnBIU0mFb3WukQ>
- <xmx:4ATwYHxgcuJCXjoKYiGmIi3wMx_QXCv6TRlB9V1tfbJXpFwSmrciwQ>
- <xmx:4ATwYB4ZmShRQ7FyfLnjGLm-9WHJVvQfZ-kiXMbWltmnChK90P_0oA>
- <xmx:4QTwYH9EVHtW4XgUSD6lF7zHAirvUhYa8uLjJ7WCbMBS43qm_BXpMA>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 15 Jul 2021 05:50:24 -0400 (EDT)
-Date: Thu, 15 Jul 2021 11:50:22 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: Re: Questions over DSI within DRM.
-Message-ID: <20210715095022.5plcocz6plxnb3xr@gilmour>
-References: <CAPY8ntBUKRkSam59Y+72dW_6XOeKVswPWffzPj3uvgE6pV4ZGQ@mail.gmail.com>
- <YN9BxNP5IfhbJGGk@pendragon.ideasonboard.com>
- <CAPY8ntDRKcq0V_q04q25_EemsBiT4xHKNv1260Fr8kKGtZDpxw@mail.gmail.com>
- <20210706151320.kwn4dwu6buvy4isa@gilmour>
- <CAPY8ntDPQg76JTgZ5iJG=m3sWjKMwi-vXUHyAPqS_HGFbGGkkA@mail.gmail.com>
+Received: from mail-ot1-x330.google.com (mail-ot1-x330.google.com
+ [IPv6:2607:f8b0:4864:20::330])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A0CB6E5B0;
+ Thu, 15 Jul 2021 09:55:31 +0000 (UTC)
+Received: by mail-ot1-x330.google.com with SMTP id
+ e1-20020a9d63c10000b02904b8b87ecc43so5576658otl.4; 
+ Thu, 15 Jul 2021 02:55:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=yWF3Hvbgh08HpLzNYqi8W7Brg9KKqZnQKe3nWZ0LC5s=;
+ b=HPhiKoMkJZXa9bsTbSdkwz7TUv6P9ceRvRKuYcrse7TVngZPeqfeHPdYi8OsBVQiAW
+ NkCwWWYCyhftC1Ny141mwLwk6XdOq7zXLnqqApCPqCj70nhfhpQtRigKSt9Prj11FP1H
+ qA8rf4LA/lrsjiY+qQtI7b1l1EZVvjUIl++m1mvAsRMEmn6+qohwZlXmVMlxqwtEVxaQ
+ taPFtClWlgYRNoXrPN3xbC5lxbIonzk7JQ3F+umayQnE/q9ER+Fu0yH5FMpU3PL8gZez
+ mT9kiAhWe7J5FNDB84dUpiPBhs/f1BK7eDGx3I4kDE/Tt/J3UUcgKYjvvC3VykpbbS+R
+ LN3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=yWF3Hvbgh08HpLzNYqi8W7Brg9KKqZnQKe3nWZ0LC5s=;
+ b=p6XFpS9rD3cGU3QgCvqJDLTbNkgcY77WEc9dzN7ZWW1mqrq1bXr/cJU/EX43udznrn
+ Ol0ZMmmcyaWEefHVWDqf/6CgqOwMBEL1TpNCc1JNTBFRV+BFtXs52w0REJ9bMBaWy8c8
+ gatSjEf+chNzo7SSvnHmsUaN364L3OlgADXG0vIaVIH6dhhHdGlbWPtLLbE1p/hExZk3
+ hXuEMYz+gqglPOzjtMBOvtXfHaRvRFkKW83UO+jpUdHy/jIjytJWCG1224efa5UC2OGp
+ hDppzdi1FFRKMBehPbQPVGxItm89RtXIyhxMOHvYYJ5GUoRAu1tdDZh8uvSRrN6ht7Zm
+ M6PA==
+X-Gm-Message-State: AOAM531VkYEcUaBKdGWT9VZ36908iYrkehTF6eab03HBVTz3+UoOQOnX
+ X10ewxa6n9MJiFkOxdodu7AN/k4UYf86BjrtivY=
+X-Google-Smtp-Source: ABdhPJyIgNb7oBpKMThx7HzTU8Ne7Cr5wa3uzuGtL50ndLqf4fL2il7J/7s2sHuu+CohNSPurKfAa/Bq86/XWGpeG/k=
+X-Received: by 2002:a05:6830:19cd:: with SMTP id
+ p13mr2053060otp.362.1626342930535; 
+ Thu, 15 Jul 2021 02:55:30 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="fouajuiw7nltbl6q"
-Content-Disposition: inline
-In-Reply-To: <CAPY8ntDPQg76JTgZ5iJG=m3sWjKMwi-vXUHyAPqS_HGFbGGkkA@mail.gmail.com>
+References: <20210624105517.3886963-1-hsinyi@chromium.org>
+In-Reply-To: <20210624105517.3886963-1-hsinyi@chromium.org>
+From: Enric Balletbo Serra <eballetbo@gmail.com>
+Date: Thu, 15 Jul 2021 11:55:19 +0200
+Message-ID: <CAFqH_51_QxzhDuHT823StDQ4esYtnFXwz1OLTFrxXA7MpX06+Q@mail.gmail.com>
+Subject: Re: [PATCH v6 RESEND 1/3] gpu: drm: separate panel orientation
+ property creating and value setting
+To: Hsin-Yi Wang <hsinyi@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,309 +64,255 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel <dri-devel@lists.freedesktop.org>,
+ Rob Herring <robh+dt@kernel.org>, linux-mediatek@lists.infradead.org,
+ Matthias Brugger <matthias.bgg@gmail.com>, Sean Paul <sean@poorly.run>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Hsin-Yi,
 
---fouajuiw7nltbl6q
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Thank you for your patch.
 
-Hi Dave,
-
-On Tue, Jul 06, 2021 at 05:44:58PM +0100, Dave Stevenson wrote:
-> On Tue, 6 Jul 2021 at 16:13, Maxime Ripard <maxime@cerno.tech> wrote:
-> > > > > On a similar theme, some devices want the clock lane in HS mode e=
-arly
-> > > > > so they can use it in place of an external oscillator, but the da=
-ta
-> > > > > lanes still in LP-11. There appears to be no way for the
-> > > > > display/bridge to signal this requirement or it be achieved.
-> > > >
-> > > > You're right. A loooong time ago, the omapdrm driver had an internal
-> > > > infrastructure that didn't use drm_bridge or drm_panel and instead
-> > > > required omapdrm-specific drivers for those components. It used to =
-model
-> > > > the display pipeline in a different way than drm_bridge, with the s=
-ync
-> > > > explicitly setting the source state. A DSI sink could thus control =
-its
-> > > > enable sequence, interleaving programming of the sink with control =
-of
-> > > > the source.
-> > > >
-> > > > Migrating omapdrm to the drm_bridge model took a really large effor=
-t,
-> > > > which makes me believe that transitioning the whole subsystem to
-> > > > sink-controlled sources would be close to impossible. We could add
-> > > > DSI-specific operations, or add another enable bridge operation
-> > > > (post_pre_enable ? :-D). Neither would scale, but it may be enough.
-> > >
-> > > I haven't thought it through for all generic cases, but I suspect it's
-> > > more a pre_pre_enable that is needed to initialise the PHY etc,
-> > > probably from source to sink.
-> > > If the panel/bridge can set a flag that can be checked at this point
-> > > for whether an early clock is required or not, I think that allows us
-> > > to comply with the requirements for a large number of panels/bridges
-> > > (LP-11 vs HS config for clock and or data lanes before pre_enable is
-> > > called).
-> > >
-> > > pre_enable retains the current behaviour (initialise the chain from
-> > > sink to source).
-> > > enable then actually starts sending video and enabling outputs.
-> >
-> > Flags indeed seem like a more contained option. Another one could be to
-> > have a mipi_dsi_host to (for example) power up the clock lane that would
-> > be called by default before the bridge's enable, or at the downstream
-> > bridge driver discretion before that.
->=20
-> Which driver will that call?
-
-The parent DSI Host
-
-> An extreme example perhaps, but Toshiba make the TC358860 eDP to DSI
-> bridge chip[1]. So the encoder will be eDP, but the DSI config needs
-> to go to that bridge. Does that happen automatically within the
-> framework? I guess so as the bridge will have called
-> mipi_dsi_host_register for the DSI sink to attach to.
-
-In that case, whatever sink would be connected to the bridge would call
-the bridge clock enable hook if it needs it in its pre_enable, or it
-would be called automatically before enable if it doesn't
-
-Would that help?
-
-> Perhaps a new mipi_dsi_host function to configure the PHY is the
-> easier solution. If it can allow the sink to request whatever
-> combination of states from clock and data lanes that it fancies, then
-> it can be as explicit as required for the initialisation sequence, and
-> the host driver does its best to comply with the requests.
-
-I don't know, I'm not really fond in general of solutions that try to
-cover any single case if we don't need it and / or have today an issue
-with this. I'd rather have something that works for the particular
-bridge we were discussing, see if it applies to other bridges and modify
-it if it doesn't until it works for all our cases. Trying to reason in
-all possible cases tend to lead to solutions that are difficult to
-maintain and usually over-engineered.
-
-> I'd have a slight query over when and how the host would drop to ULPS
-> or power off. It probably shouldn't be in post_disable as the sink
-> hasn't had a chance to finalise everything in its post_disable.
+Missatge de Hsin-Yi Wang <hsinyi@chromium.org> del dia dj., 24 de juny
+2021 a les 12:55:
 >
-> Perhaps pm_runtime with autosuspend is the right call there?
-
-pm_runtime semantics mean that once the device is suspended, its power
-domains, regulators, clocks, etc. are all shut down, so it doesn't
-really fit the low power state expected by DSI
-
-> [1] https://toshiba.semicon-storage.com/ap-en/semiconductor/product/inter=
-face-bridge-ics-for-mobile-peripheral-devices/display-interface-bridge-ics/=
-detail.TC358860XBG.html
->=20
-> > > When I discussed this briefly with Maxime there was a suggestion of
-> > > using pm_runtime to be able to power up the pipeline as a whole. If
-> > > the bridge driver can use pm_runtime to power up the PHY when
-> > > required, then that may solve the issue, however I know too little of
-> > > the details to say whether that is actually practical.
-> >
-> > I'm not sure it was about this topic in particular. If I remember well
-> > our discussion, this was about the vc4 driver that tries to circumvent
-> > the framework and call the pre_enable and enable hooks itself because it
-> > wasn't properly powered before and thus any DCS-related call by the
-> > downstream bridge or panel would end up creating a CPU stall.
-> >
-> > I suggested to use runtime_pm in the DCS related calls to make sure the
-> > device is powered because there's no relation between the state of the
-> > downstream bridge or panel and whether it can send DCS commands or not.
-> > For all we know, it could do it at probe time.
->=20
-> pm_runtime is all a bit of a magic black box to me.
->=20
-> We had discussed shifting to using pm_runtime from DCS (and enable)
-> calls to power up the PHY on demand, and that's what I implemented.
-> However Laurent flagged up that using
-> dsi->encoder->crtc->state->adjusted_mode to get the HS clock info
-> required to send a HS DCS command from that call is deprecated, so how
-> do we specify the clock rate to use at that point?
-
-I guess the most sensible would be to have a custom bridge state, and
-add a pointer to the current bridge state in struct drm_bridge. Then, as
-long as you have a bridge pointer you have a way to get the current
-state associated to it, and since we already have atomic_duplicate_state
-/ atomic_destroy_state we can create our own structure around it storing
-whatever we want.
-
-> > > > > host_transfer calls can supposedly be made at any time, however u=
-nless
-> > > > > MIPI_DSI_MSG_USE_LPM is set in the message then we're meant to se=
-nd it
-> > > > > in high speed mode. If this is before a mode has been set, what
-> > > > > defines the link frequency parameters at this point? Adopting a r=
-andom
-> > > > > default sounds like a good way to get undefined behaviour.
-> > > > >
-> > > > > DSI burst mode needs to set the DSI link frequency independently =
-of
-> > > > > the display mode. How is that meant to be configured? I would have
-> > > > > expected it to come from DT due to link frequency often being cho=
-sen
-> > > > > based on EMC restrictions, but I don't see such a thing in any
-> > > > > binding.
-> > > >
-> > > > Undefined too. DSI support was added to DRM without any design effo=
-rt,
-> > > > it's more a hack than a real solution. The issue with devices that =
-can
-> > > > be controlled over both DSI and I2C is completely unhandled. So far
-> > > > nobody has really cared about implementing DSI right as far as I can
-> > > > tell.
-> > >
-> > > :-(
-> > >
-> > > Thinking aloud, does having the option to set a burst link frequency
-> > > from DT (or ACPI) have any issue for other platforms?
-> > > Looking at the handling of MIPI_DSI_MODE_VIDEO_BURST in the various
-> > > drivers, all except stm/dw_mipi_dsi-stm.c appear to take it as a "use
-> > > all the defined timings, but drop to LP during blanking" option. The
-> > > link frequency has therefore remained a property of the
-> > > display/bridge.
-> > > dw_mipi_dsi-stm.c cranks the PLL up by 20%, but I haven't followed
-> > > through the full detail of the parameters it computes from there.
-> >
-> > I don't see anything wrong with using link-frequency from the DT to
-> > setup the burst frequency. It's what v4l2 has been using for a while
-> > without any known (to me) drawback, and we're using the same of-graph
-> > bindings, so it shouldn't be too controversial there.
->=20
-> OK, that sounds like a vague plan.
->=20
-> > > DSI and I2C controlled devices is yet another issue that I haven't
-> > > even looked at.
-> > > I think it's more that vc4 wants to ignore DSI should the DSI host
-> > > node be enabled in DT, but there's no panel bound to it. One could say
-> > > that is a DT error and tough luck, but from a user's perspective that
-> > > is a bit harsh.
-> >
-> > I guess the larger "issue" is that the tree in the DT is done following
-> > the "control" bus, and Linux likes to tie the life cycle of a given
-> > device to its parent bus. Both these decisions make sense, but they
-> > interact in a weird way in some occurrences (like this one, or Allwinner
-> > has an Ethernet PHY controlled through MMIO which end up in the same
-> > case).
-> >
-> > I wonder if using device links here could help though.
->=20
-> I really don't know about that one.
-
-It's a piece of infrastructure that was created at first (I think?) to
-model the power dependency between devices that don't have a parent /
-child relationship. For example, if you use DMA, you probably want to
-keep the IOMMU powered as long as you are, but it is in a completely
-separate branch of the "device tree" (not one from the DTB, the one that
-linux DM creates).
-
-It was later expanded to also cover probe order and make sure a supplier
-would probe before its consumer, effectively making EPROBE_DEFER
-obsolete.
-
-The second part is still fairly new, but I think we can solve this by
-adding a device link between the DSI host and whatever is at the end of
-the OF-Graph endpoint.
-
-> > > > > As a follow on, bridge devices can support burst mode (eg TI's
-> > > > > SN65DSI83 that's just been merged), so it needs to know the desir=
-ed
-> > > > > panel timings for the output side of the bridge, but the DSI link
-> > > > > timings to set up the bridge's PLL. What's the correct way for
-> > > > > signalling that? drm_crtc_state->adjusted_mode vs
-> > > > > drm_crtc_state->mode? Except mode is userspace's request, not wha=
-t has
-> > > > > been validated/updated by the panel/bridge.
-> > > >
-> > > > adjusted_mode is also a bit of a hack, it solves very specific issu=
-es,
-> > > > and its design assumes a single encoder in the chain with no extra
-> > > > bridges. We should instead add modes to the bridge state, and negot=
-iate
-> > > > modes along the pipeline the same way we negotiate formats.
-> > >
-> > > So as I understand it we already have format negotiation between
-> > > bridges via atomic_get_output_bus_fmts and atomic_get_input_bus_fmts,
-> > > so is it possible to extend that to modes?
-> > > Are you thinking bridge state that is owned by the framework, or by
-> > > the individual bridge drivers?
-> >
-> > atomic_check is made for that. I guess we could improve its call
-> > sequence to each time a mode is modified along the bridge list we
-> > restart the sequence until all components agree (or reject it entirely
-> > if they can't), but I don't really see why we would need yet another
-> > hook.
->=20
-> Why do all nodes in the bridge list need to agree? Adjacent nodes need
-> to agree, but they then also need to retain that agreed timing
-> somewhere.
-
-We might have mutually exclusive requirements though? Let's use the
-example of the VC4 HDMI driver that can't have odd horizontal timings,
-and assume it's a constraint of our DSI driver instead.
-
-Then, we have a DSI->LVDS bridge, a LVDS->RGB bridge and a panel (which
-is a bit ridiculous, but whatever). If the LVDS->RGB bridge can't have
-even horizontal timings, then you just can't display it, even though
-they are not adjacent (unless the bridge in the middle can modify the
-timings between the input and output, but that's not always possible).
-
-Similarly, if for the RGB panel we need to increase a bit some timings
-to accommodate for a larger pixel clock and end up above what the DSI
-host can provide, we're also done.
-
-> Taking SN65DSI8[3|4|5] as an example, it supports burst mode, and the
-> DSI frequency and timings are permitted to be different from that
-> which it uses on the LVDS side. The LVDS panel and LVDS side of DSI83
-> need to agree over the format, and the DSI host and DSI side of DSI83
-> need to agree, but they may be two different timings.
-> Register 0x0B (DSI_CLK_DIVIDER & REFCLK_MULTIPLIER) allows you to
-> configure the LVDS rate compared to the DSI rate (the driver currently
-> goes for 1:1), and registers 0x20 to 0x34 allow you to set the number
-> of active pixel and blanking on the LVDS side (again currently just
-> copied across).
+> drm_dev_register() sets connector->registration_state to
+> DRM_CONNECTOR_REGISTERED and dev->registered to true. If
+> drm_connector_set_panel_orientation() is first called after
+> drm_dev_register(), it will fail several checks and results in following
+> warning.
 >
-> The way I'm seeing burst mode as having been interpreted at present is
-> that it's largely just a flag to say "drop to LP mode between lines".
-> The timing that needs to be passed to the crtc is therefore going to
-> be based on the DSI link rate (converted to pixels) with increased
-> blanking periods.
->=20
-> I guess there are similarities with Media Controller and V4L2 here. A
-> typical chain there could be:
->  sensor -> scaler -> crop -> CSI-2 receiver.
-> The format on each of those links may be different, but the chain as a
-> whole needs to be valid. Media Controller largely relies on userspace
-> to configure all links, but with a DRM chain that isn't really an
-> option as it's expected that the display chain configures itself.
 
-Also, the userspace has no concept of media sub-devices in DRM, so it
-just sets the mode on the whole DRM/KMS device, unlike what v4l2 does.
-In v4l2, afaik, if you ended up with the above scenarios it would just
-be rejected when you set the format on the link, letting the userspace
-figure it out. We can't really do that here
+In fact, results with the following warning
 
-Maxime
 
---fouajuiw7nltbl6q
-Content-Type: application/pgp-signature; name="signature.asc"
+> Add a function to create panel orientation property and set default value
+> to UNKNOWN, so drivers can call this function to init the property earlier
+> , and let the panel set the real value later.
+>
+> [    4.480976] ------------[ cut here ]------------
+> [    4.485603] WARNING: CPU: 5 PID: 369 at drivers/gpu/drm/drm_mode_object.c:45 __drm_mode_object_add+0xb4/0xbc
+> <snip>
+> [    4.609772] Call trace:
+> [    4.612208]  __drm_mode_object_add+0xb4/0xbc
+> [    4.616466]  drm_mode_object_add+0x20/0x2c
+> [    4.620552]  drm_property_create+0xdc/0x174
+> [    4.624723]  drm_property_create_enum+0x34/0x98
+> [    4.629241]  drm_connector_set_panel_orientation+0x64/0xa0
+> [    4.634716]  boe_panel_get_modes+0x88/0xd8
+> [    4.638802]  drm_panel_get_modes+0x2c/0x48
+> [    4.642887]  panel_bridge_get_modes+0x1c/0x28
+> [    4.647233]  drm_bridge_connector_get_modes+0xa0/0xd4
+> [    4.652273]  drm_helper_probe_single_connector_modes+0x218/0x700
+> [    4.658266]  drm_mode_getconnector+0x1b4/0x45c
+> [    4.662699]  drm_ioctl_kernel+0xac/0x128
+> [    4.666611]  drm_ioctl+0x268/0x410
+> [    4.670002]  drm_compat_ioctl+0xdc/0xf0
+> [    4.673829]  __arm64_compat_sys_ioctl+0xc8/0x100
+> [    4.678436]  el0_svc_common+0xf4/0x1c0
+> [    4.682174]  do_el0_svc_compat+0x28/0x3c
+> [    4.686088]  el0_svc_compat+0x10/0x1c
+> [    4.689738]  el0_sync_compat_handler+0xa8/0xcc
+> [    4.694171]  el0_sync_compat+0x178/0x180
+> [    4.698082] ---[ end trace b4f2db9d9c88610b ]---
+> [    4.702721] ------------[ cut here ]------------
+> [    4.707329] WARNING: CPU: 5 PID: 369 at drivers/gpu/drm/drm_mode_object.c:243 drm_object_attach_property+0x48/0xb8
+> <snip>
+> [    4.833830] Call trace:
+> [    4.836266]  drm_object_attach_property+0x48/0xb8
+> [    4.840958]  drm_connector_set_panel_orientation+0x84/0xa0
+> [    4.846432]  boe_panel_get_modes+0x88/0xd8
+> [    4.850516]  drm_panel_get_modes+0x2c/0x48
+> [    4.854600]  panel_bridge_get_modes+0x1c/0x28
+> [    4.858946]  drm_bridge_connector_get_modes+0xa0/0xd4
+> [    4.863984]  drm_helper_probe_single_connector_modes+0x218/0x700
+> [    4.869978]  drm_mode_getconnector+0x1b4/0x45c
+> [    4.874410]  drm_ioctl_kernel+0xac/0x128
+> [    4.878320]  drm_ioctl+0x268/0x410
+> [    4.881711]  drm_compat_ioctl+0xdc/0xf0
+> [    4.885536]  __arm64_compat_sys_ioctl+0xc8/0x100
+> [    4.890142]  el0_svc_common+0xf4/0x1c0
+> [    4.893879]  do_el0_svc_compat+0x28/0x3c
+> [    4.897791]  el0_svc_compat+0x10/0x1c
+> [    4.901441]  el0_sync_compat_handler+0xa8/0xcc
+> [    4.905873]  el0_sync_compat+0x178/0x180
+> [    4.909783] ---[ end trace b4f2db9d9c88610c ]---
+>
+> Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
+> Reviewed-by: Sean Paul <seanpaul@chromium.org>
 
------BEGIN PGP SIGNATURE-----
+And that patch fixes the problem, apart from, not being an expert, but
+the change looks reasonable to me, there is already some reviewed tags
+and I'm not sure I am the appropriate to review it but I can
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYPAE3gAKCRDj7w1vZxhR
-xXwwAQCLzFWsk0QoCBCoXwyAR8NSp+50Ax8CMS4xUHrDrmqc1AEAtfnU5kuwcgOm
-/z7ZQCoe6SgZzvR5FwcccRnyndva0Ag=
-=mpbl
------END PGP SIGNATURE-----
+Tested-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
 
---fouajuiw7nltbl6q--
+As together with the other two patches works and I don't see any
+problem on the Lenovo IdeaPad Duet.
+
+> ---
+>  drivers/gpu/drm/drm_connector.c         | 58 ++++++++++++++++++-------
+>  drivers/gpu/drm/i915/display/icl_dsi.c  |  1 +
+>  drivers/gpu/drm/i915/display/intel_dp.c |  1 +
+>  drivers/gpu/drm/i915/display/vlv_dsi.c  |  1 +
+>  include/drm/drm_connector.h             |  2 +
+>  5 files changed, 47 insertions(+), 16 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+> index 7631f76e7f345..7189baaabf416 100644
+> --- a/drivers/gpu/drm/drm_connector.c
+> +++ b/drivers/gpu/drm/drm_connector.c
+> @@ -1210,7 +1210,7 @@ static const struct drm_prop_enum_list dp_colorspaces[] = {
+>   *     INPUT_PROP_DIRECT) will still map 1:1 to the actual LCD panel
+>   *     coordinates, so if userspace rotates the picture to adjust for
+>   *     the orientation it must also apply the same transformation to the
+> - *     touchscreen input coordinates. This property is initialized by calling
+> + *     touchscreen input coordinates. This property value is set by calling
+>   *     drm_connector_set_panel_orientation() or
+>   *     drm_connector_set_panel_orientation_with_quirk()
+>   *
+> @@ -2173,8 +2173,8 @@ EXPORT_SYMBOL(drm_connector_set_vrr_capable_property);
+>   * @connector: connector for which to set the panel-orientation property.
+>   * @panel_orientation: drm_panel_orientation value to set
+>   *
+> - * This function sets the connector's panel_orientation and attaches
+> - * a "panel orientation" property to the connector.
+> + * This function sets the connector's panel_orientation value. If the property
+> + * doesn't exist, it will return an error.
+>   *
+>   * Calling this function on a connector where the panel_orientation has
+>   * already been set is a no-op (e.g. the orientation has been overridden with
+> @@ -2205,19 +2205,11 @@ int drm_connector_set_panel_orientation(
+>         info->panel_orientation = panel_orientation;
+>
+>         prop = dev->mode_config.panel_orientation_property;
+> -       if (!prop) {
+> -               prop = drm_property_create_enum(dev, DRM_MODE_PROP_IMMUTABLE,
+> -                               "panel orientation",
+> -                               drm_panel_orientation_enum_list,
+> -                               ARRAY_SIZE(drm_panel_orientation_enum_list));
+> -               if (!prop)
+> -                       return -ENOMEM;
+> -
+> -               dev->mode_config.panel_orientation_property = prop;
+> -       }
+> +       if (WARN_ON(!prop))
+> +               return -EINVAL;
+>
+> -       drm_object_attach_property(&connector->base, prop,
+> -                                  info->panel_orientation);
+> +       drm_object_property_set_value(&connector->base, prop,
+> +                                     info->panel_orientation);
+>         return 0;
+>  }
+>  EXPORT_SYMBOL(drm_connector_set_panel_orientation);
+> @@ -2225,7 +2217,7 @@ EXPORT_SYMBOL(drm_connector_set_panel_orientation);
+>  /**
+>   * drm_connector_set_panel_orientation_with_quirk -
+>   *     set the connector's panel_orientation after checking for quirks
+> - * @connector: connector for which to init the panel-orientation property.
+> + * @connector: connector for which to set the panel-orientation property.
+>   * @panel_orientation: drm_panel_orientation value to set
+>   * @width: width in pixels of the panel, used for panel quirk detection
+>   * @height: height in pixels of the panel, used for panel quirk detection
+> @@ -2252,6 +2244,40 @@ int drm_connector_set_panel_orientation_with_quirk(
+>  }
+>  EXPORT_SYMBOL(drm_connector_set_panel_orientation_with_quirk);
+>
+> +/**
+> + * drm_connector_init_panel_orientation_property -
+> + *     create the connector's panel orientation property
+> + *
+> + * This function attaches a "panel orientation" property to the connector
+> + * and initializes its value to DRM_MODE_PANEL_ORIENTATION_UNKNOWN.
+> + *
+> + * The value of the property can be set by drm_connector_set_panel_orientation()
+> + * or drm_connector_set_panel_orientation_with_quirk() later.
+> + *
+> + * Returns:
+> + * Zero on success, negative errno on failure.
+> + */
+> +int drm_connector_init_panel_orientation_property(
+> +       struct drm_connector *connector)
+> +{
+> +       struct drm_device *dev = connector->dev;
+> +       struct drm_property *prop;
+> +
+> +       prop = drm_property_create_enum(dev, DRM_MODE_PROP_IMMUTABLE,
+> +                       "panel orientation",
+> +                       drm_panel_orientation_enum_list,
+> +                       ARRAY_SIZE(drm_panel_orientation_enum_list));
+> +       if (!prop)
+> +               return -ENOMEM;
+> +
+> +       dev->mode_config.panel_orientation_property = prop;
+> +       drm_object_attach_property(&connector->base, prop,
+> +                                  DRM_MODE_PANEL_ORIENTATION_UNKNOWN);
+> +
+> +       return 0;
+> +}
+> +EXPORT_SYMBOL(drm_connector_init_panel_orientation_property);
+> +
+>  int drm_connector_set_obj_prop(struct drm_mode_object *obj,
+>                                     struct drm_property *property,
+>                                     uint64_t value)
+> diff --git a/drivers/gpu/drm/i915/display/icl_dsi.c b/drivers/gpu/drm/i915/display/icl_dsi.c
+> index 9282978060b08..5ac4538e42833 100644
+> --- a/drivers/gpu/drm/i915/display/icl_dsi.c
+> +++ b/drivers/gpu/drm/i915/display/icl_dsi.c
+> @@ -1903,6 +1903,7 @@ static void icl_dsi_add_properties(struct intel_connector *connector)
+>
+>         connector->base.state->scaling_mode = DRM_MODE_SCALE_ASPECT;
+>
+> +       drm_connector_init_panel_orientation_property(&connector->base);
+>         drm_connector_set_panel_orientation_with_quirk(&connector->base,
+>                                 intel_dsi_get_panel_orientation(connector),
+>                                 connector->panel.fixed_mode->hdisplay,
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
+> index a5231ac3443aa..f1d664e5abb28 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
+> @@ -5263,6 +5263,7 @@ static bool intel_edp_init_connector(struct intel_dp *intel_dp,
+>         intel_panel_setup_backlight(connector, pipe);
+>
+>         if (fixed_mode) {
+> +               drm_connector_init_panel_orientation_property(connector);
+>                 drm_connector_set_panel_orientation_with_quirk(connector,
+>                                 dev_priv->vbt.orientation,
+>                                 fixed_mode->hdisplay, fixed_mode->vdisplay);
+> diff --git a/drivers/gpu/drm/i915/display/vlv_dsi.c b/drivers/gpu/drm/i915/display/vlv_dsi.c
+> index 9bee99fe54954..853855482af14 100644
+> --- a/drivers/gpu/drm/i915/display/vlv_dsi.c
+> +++ b/drivers/gpu/drm/i915/display/vlv_dsi.c
+> @@ -1632,6 +1632,7 @@ static void vlv_dsi_add_properties(struct intel_connector *connector)
+>
+>                 connector->base.state->scaling_mode = DRM_MODE_SCALE_ASPECT;
+>
+> +               drm_connector_init_panel_orientation_property(&connector->base);
+>                 drm_connector_set_panel_orientation_with_quirk(
+>                                 &connector->base,
+>                                 intel_dsi_get_panel_orientation(connector),
+> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+> index 1922b278ffadf..4396c1c4a5dbc 100644
+> --- a/include/drm/drm_connector.h
+> +++ b/include/drm/drm_connector.h
+> @@ -1696,6 +1696,8 @@ int drm_connector_set_panel_orientation_with_quirk(
+>         struct drm_connector *connector,
+>         enum drm_panel_orientation panel_orientation,
+>         int width, int height);
+> +int drm_connector_init_panel_orientation_property(
+> +       struct drm_connector *connector);
+
+nit: this could be probably in one line
+
+>  int drm_connector_attach_max_bpc_property(struct drm_connector *connector,
+>                                           int min, int max);
+>
+> --
+> 2.32.0.288.g62a8d224e6-goog
+>
