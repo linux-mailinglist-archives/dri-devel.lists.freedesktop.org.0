@@ -1,65 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5290D3CA170
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jul 2021 17:27:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E2283CA1B0
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jul 2021 17:51:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E3466E87D;
-	Thu, 15 Jul 2021 15:27:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 354FA6E87B;
+	Thu, 15 Jul 2021 15:51:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com
- [IPv6:2a00:1450:4864:20::22d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5CA386E88E
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jul 2021 15:27:25 +0000 (UTC)
-Received: by mail-lj1-x22d.google.com with SMTP id r16so9413487ljk.9
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jul 2021 08:27:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=xN5nwQhQGUrXuksqSdFQcf0YAddDFXMs40qw1Ze2qr4=;
- b=LSXtlQAAcA25pZsvDm9c7ZsYvpTCN7Uk0glC10eflwx4ZqcYtuNCq6Zi7lgsHUm2su
- 9KrEopTi8WodyfuMfA4DYBGM6X5UQXKX3AzgQIdp+eiAuAZCR8bWjC6RdwY8Isv/mAa2
- CJU2SDEj3SjfAX1wR27jmvZ6yXmegxRKY//wB8aUtzrfjkkc4EvzcLbVV871TFgYqpG0
- uVlR20FlLIJy95K6HJaX0OmUXzwLWfMVVQqSJ42DWPxbqRXzt8MP7JqB6Xlnzm8M/+Ej
- z2y6T17/fb5HDi80fi16pU0xDa2S1+DFsk19NLVK/XDZJNjFDH4XGCvDAGwVOjDpB0Lw
- Gysw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=xN5nwQhQGUrXuksqSdFQcf0YAddDFXMs40qw1Ze2qr4=;
- b=Yh4Hg6xHIiNMYu+U7ALqhPUmHBqdPz4FEDkFDiDbleOjMQE3GfdkTOcTf2JaUtOpZ3
- jn7+v/+7KmBwRUrR+6a/uEofBnurj1n977XvLfcdKU6MoxjeHOul2rHDb72/hoNRGa1P
- QEwAB6toT0M0zHqWhkOmxvqRMXoLVTnG0HgHpwz9Jh+GGIEkbpXdyDp+Pp7ae9oB2eaY
- U5Wxkf9fqkRpCJnYH4wzV8lW8yV5PKvlh6MzT+HhiiRurERWFD+xpYJ8M2MK3n6U32BY
- KeA49HP+ETeCstWg3HwFhg1FchJ1QlMu94ljxvhaMbcK7KRPCHDpNC2TJGlQknn0mDRy
- 5bkw==
-X-Gm-Message-State: AOAM5338+uizqlMSupFfHUrW+gsKYAkscJL/09gKiD722iuEsyC1iQvk
- 6cIGXCgDU0ND1clMppzmeZ4=
-X-Google-Smtp-Source: ABdhPJxnrw87zO1lePrRxNhXx2vfzzDY2UtMaEkyPPCNeRsT4ZW/JTpVdl6ADPqTQHcIAmzyJ4dfCA==
-X-Received: by 2002:a2e:720f:: with SMTP id n15mr97549ljc.333.1626362843891;
- Thu, 15 Jul 2021 08:27:23 -0700 (PDT)
-Received: from [192.168.2.145] (94-29-37-113.dynamic.spd-mgts.ru.
- [94.29.37.113])
- by smtp.googlemail.com with ESMTPSA id z10sm437313lfe.22.2021.07.15.08.27.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 15 Jul 2021 08:27:23 -0700 (PDT)
-Subject: Re: [PATCH v8 09/14] drm/tegra: Implement new UAPI
-To: Thierry Reding <thierry.reding@gmail.com>
-References: <20210709193146.2859516-1-thierry.reding@gmail.com>
- <20210709193146.2859516-10-thierry.reding@gmail.com>
-From: Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <c8999755-f47b-ae08-60fb-cc430b1fbad5@gmail.com>
-Date: Thu, 15 Jul 2021 18:27:22 +0300
+Received: from netline-mail3.netline.ch (mail.netline.ch [148.251.143.180])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 555436E87F;
+ Thu, 15 Jul 2021 15:51:36 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by netline-mail3.netline.ch (Postfix) with ESMTP id 1AE5920201E;
+ Thu, 15 Jul 2021 17:51:35 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at netline-mail3.netline.ch
+Received: from netline-mail3.netline.ch ([127.0.0.1])
+ by localhost (netline-mail3.netline.ch [127.0.0.1]) (amavisd-new, port 10024)
+ with LMTP id sx6L0055-jNz; Thu, 15 Jul 2021 17:51:34 +0200 (CEST)
+Received: from thor (24.99.2.85.dynamic.wline.res.cust.swisscom.ch
+ [85.2.99.24])
+ by netline-mail3.netline.ch (Postfix) with ESMTPA id 76FC820201D;
+ Thu, 15 Jul 2021 17:51:34 +0200 (CEST)
+Received: from [::1] by thor with esmtp (Exim 4.94.2)
+ (envelope-from <michel@daenzer.net>)
+ id 1m43e1-0002oe-9T; Thu, 15 Jul 2021 17:51:25 +0200
+To: Alex Deucher <alexdeucher@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
+References: <20210714220858.5553-1-alexander.deucher@amd.com>
+ <YO+++Tj94RRjVqwV@ravnborg.org>
+ <CADnq5_Oj1Totqe=fGeF3AeQsodR9_6ki7EChs3CmJzC7txMu1A@mail.gmail.com>
+From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>
+Subject: Re: [pull] amdgpu, amdkfd drm-fixes-5.14
+Message-ID: <7e831a9a-5365-552a-0f14-7b43847302fb@daenzer.net>
+Date: Thu, 15 Jul 2021 17:51:10 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210709193146.2859516-10-thierry.reding@gmail.com>
+In-Reply-To: <CADnq5_Oj1Totqe=fGeF3AeQsodR9_6ki7EChs3CmJzC7txMu1A@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Language: en-CA
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,22 +53,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Mikko Perttunen <mperttunen@nvidia.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-09.07.2021 22:31, Thierry Reding пишет:
-> diff --git a/drivers/gpu/drm/tegra/drm.c b/drivers/gpu/drm/tegra/drm.c
-> index cddee6425461..6ee08e49ec57 100644
-> --- a/drivers/gpu/drm/tegra/drm.c
-> +++ b/drivers/gpu/drm/tegra/drm.c
-> @@ -21,6 +21,7 @@
->  #include <drm/drm_prime.h>
->  #include <drm/drm_vblank.h>
->  
-> +#include "uapi.h"
->  #include "drm.h"
->  #include "gem.h"
+On 2021-07-15 4:07 p.m., Alex Deucher wrote:
+> On Thu, Jul 15, 2021 at 12:52 AM Sam Ravnborg <sam@ravnborg.org> wrote:
+>> On Wed, Jul 14, 2021 at 06:08:58PM -0400, Alex Deucher wrote:
+>>> Hi Dave, Daniel,
+>>>
+>>> Fixes for 5.14.  The big change here is unifying the SMU13 code.  This was
+>>> new code added in 5.14 to support Yellow Carp, but we've since cleaned it
+>>> up and removed a lot of duplication, so better to merge it now to facilitate
+>>> any bug fixes in the future that need to go back to this kernel via stable.
+>>> Only affects Yellow Carp which is new for 5.14 anyway so not much chance for
+>>> regressions.  The rest is just standard bug fixes.
+>>
+>> This pull seems not to include any fixes for the W=1 warnings that
+>> has crept in again. It would be nice if the amdgpu could be warning free
+>> again, this would maybe motivate the others to fix theirs too so we
+>> could keep most/all of drivers/gpu/ free of W=1 warnings.
+> 
+> We haven't really been monitoring the W=1 stuff that closely.  I'll
+> see what we can do going forward.
 
-alphabet order
+IMHO keeping the W=1 build clean isn't realistic without enforcing it in CI.
+
+
+-- 
+Earthling Michel Dänzer               |               https://redhat.com
+Libre software enthusiast             |             Mesa and X developer
