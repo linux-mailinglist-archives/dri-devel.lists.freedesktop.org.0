@@ -2,40 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A4993C98A6
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jul 2021 08:06:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B58823C98C2
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jul 2021 08:24:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C5B936E52D;
-	Thu, 15 Jul 2021 06:06:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E56A76E52F;
+	Thu, 15 Jul 2021 06:24:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A8506E52D
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jul 2021 06:06:17 +0000 (UTC)
-X-UUID: 40aeff00ac31441ca8e334c1ffb4b277-20210715
-X-UUID: 40aeff00ac31441ca8e334c1ffb4b277-20210715
-Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw01.mediatek.com
+Received: from mailgw02.mediatek.com (unknown [1.203.163.81])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 7F9496E52F
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jul 2021 06:24:14 +0000 (UTC)
+X-UUID: 0a5205d548114b71bf449392ac64c6d6-20210715
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
+ bh=FdJEfNIhRevGn/F/LNRstNPMVmwpSKWT+XSRG+RptUo=; 
+ b=XwcGYvS5eBEW2tM7yKQuXk4RNV6DmpPFDWGENSlPuFnEwQSJXNoRyAOCwMMeYXtRYceq1lpEl36aLbSJSBpnvnuru//JIBbV0w3pt04fCU3tTl5FdEgEkWfDHVNhEtI7E0bEIe2vTgoOK97xYsA1o1YhDZiXATIDr8zLsEFJvy8=;
+X-UUID: 0a5205d548114b71bf449392ac64c6d6-20210715
+Received: from mtkcas36.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
  (envelope-from <guangming.cao@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 11811868; Thu, 15 Jul 2021 14:06:13 +0800
-Received: from mtkcas07.mediatek.inc (172.21.101.84) by
- mtkmbs01n1.mediatek.inc (172.21.101.68) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Thu, 15 Jul 2021 14:06:11 +0800
+ (mailgw01.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 149916070; Thu, 15 Jul 2021 14:24:11 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ MTKMBS33N2.mediatek.inc (172.27.4.76) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Thu, 15 Jul 2021 14:24:08 +0800
 Received: from mszswglt01.gcn.mediatek.inc (10.16.20.20) by
- mtkcas07.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.0.1497.2 via Frontend Transport; Thu, 15 Jul 2021 14:06:11 +0800
+ mtkcas11.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.0.1497.2 via Frontend Transport; Thu, 15 Jul 2021 14:24:07 +0800
 From: <guangming.cao@mediatek.com>
-To: <christian.koenig@amd.com>
-Subject: Re: [PATCH] dma-buf: add kernel count for dma_buf
-Date: Thu, 15 Jul 2021 14:06:07 +0800
-Message-ID: <20210715060607.98339-1-guangming.cao@mediatek.com>
+To: <guangming.cao@mediatek.com>
+Subject: [PATCH] dma-heap: Let dma heap use dma_map_attrs to map & unmap iova
+Date: Thu, 15 Jul 2021 14:24:05 +0800
+Message-ID: <20210715062405.98932-1-guangming.cao@mediatek.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <424d5f2e-2ad5-cc33-5615-7d4a235af3dc@amd.com>
-References: <424d5f2e-2ad5-cc33-5615-7d4a235af3dc@amd.com>
+In-Reply-To: <20210708101421.9101-1-guangming.cao@mediatek.com>
+References: <20210708101421.9101-1-guangming.cao@mediatek.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-TM-SNTS-SMTP: D20BB1BADB131EDFEA63427CEE31F7C3446A8B841868204EDF379FDAF8A9A92E2000:8
 X-MTK: N
+Content-Transfer-Encoding: base64
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,353 +54,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linaro-mm-sig@lists.linaro.org, guangming.cao@mediatek.com,
- wsd_upstream@mediatek.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, caoguangming34@gmail.com,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-media@vger.kernel.org
+Cc: Guangming Cao <Guangming.Cao@mediatek.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, christian.koenig@amd.com,
+ linaro-mm-sig@lists.linaro.org, lmark@codeaurora.org,
+ benjamin.gaignard@linaro.org, matthias.bgg@gmail.com,
+ linux-mediatek@lists.infradead.org, labbott@redhat.com,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Guangming.Cao <guangming.cao@mediatek.com>
+RnJvbTogR3VhbmdtaW5nIENhbyA8R3VhbmdtaW5nLkNhb0BtZWRpYXRlay5jb20+DQoNCk9uIFRo
+dSwgMjAyMS0wNy0wOCBhdCAxODoxNCArMDgwMCwgZ3VhbmdtaW5nLmNhb0BtZWRpYXRlay5jb20g
+d3JvdGU6DQoNCkhpIFN1bWl0LCBDaHJpc3RpYW4sIE1hdHRoaWFzLA0KDQpnZW50bGUgcGluZyBm
+b3IgdGhpcyBwYXRjaCA6KQ0KDQpCUnMhDQpHdWFuZ21pbmcNCg0KPiBGcm9tOiBHdWFuZ21pbmcg
+Q2FvIDxHdWFuZ21pbmcuQ2FvQG1lZGlhdGVrLmNvbT4NCj4gDQo+IEZvciBkbWEtaGVhcCB1c2Vy
+cywgdGhleSBjYW4ndCBieXBhc3MgY2FjaGUgc3luYyB3aGVuIG1hcC91bm1hcCBpb3ZhDQo+IHdp
+dGggZG1hIGhlYXAuIEJ1dCB0aGV5IGNhbiBkbyBpdCBieSBhZGRpbmcgRE1BX0FUVFJfU0tJUF9D
+UFVfU1lOQw0KPiBpbnRvIGRtYV9hbGxvY19hdHRycy4NCj4gDQo+IFRvIGtlZXAgYWxpZ25tZW50
+LCBhdCBkbWFfaGVhcCBzaWRlLCBhbHNvIHVzZQ0KPiBkbWFfYnVmX2F0dGFjaG1lbnQuZG1hX21h
+cF9hdHRycyB0byBkbyBpb3ZhIG1hcCAmIHVubWFwLg0KPiANCj4gU2lnbmVkLW9mZi1ieTogR3Vh
+bmdtaW5nIENhbyA8R3VhbmdtaW5nLkNhb0BtZWRpYXRlay5jb20+DQo+IC0tLQ0KPiAgZHJpdmVy
+cy9kbWEtYnVmL2hlYXBzL2NtYV9oZWFwLmMgICAgfCA2ICsrKystLQ0KPiAgZHJpdmVycy9kbWEt
+YnVmL2hlYXBzL3N5c3RlbV9oZWFwLmMgfCA2ICsrKystLQ0KPiAgMiBmaWxlcyBjaGFuZ2VkLCA4
+IGluc2VydGlvbnMoKyksIDQgZGVsZXRpb25zKC0pDQo+IA0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVy
+cy9kbWEtYnVmL2hlYXBzL2NtYV9oZWFwLmMgYi9kcml2ZXJzL2RtYS0NCj4gYnVmL2hlYXBzL2Nt
+YV9oZWFwLmMNCj4gaW5kZXggMGMwNWI3OTg3MGY5Li4yYzlmZWIzYmZjM2UgMTAwNjQ0DQo+IC0t
+LSBhL2RyaXZlcnMvZG1hLWJ1Zi9oZWFwcy9jbWFfaGVhcC5jDQo+ICsrKyBiL2RyaXZlcnMvZG1h
+LWJ1Zi9oZWFwcy9jbWFfaGVhcC5jDQo+IEBAIC05OSw5ICs5OSwxMCBAQCBzdGF0aWMgc3RydWN0
+IHNnX3RhYmxlDQo+ICpjbWFfaGVhcF9tYXBfZG1hX2J1ZihzdHJ1Y3QgZG1hX2J1Zl9hdHRhY2ht
+ZW50ICphdHRhY2htZQ0KPiAgew0KPiAgCXN0cnVjdCBkbWFfaGVhcF9hdHRhY2htZW50ICphID0g
+YXR0YWNobWVudC0+cHJpdjsNCj4gIAlzdHJ1Y3Qgc2dfdGFibGUgKnRhYmxlID0gJmEtPnRhYmxl
+Ow0KPiArCWludCBhdHRycyA9IGF0dGFjaG1lbnQtPmRtYV9tYXBfYXR0cnM7DQo+ICAJaW50IHJl
+dDsNCj4gIA0KPiAtCXJldCA9IGRtYV9tYXBfc2d0YWJsZShhdHRhY2htZW50LT5kZXYsIHRhYmxl
+LCBkaXJlY3Rpb24sIDApOw0KPiArCXJldCA9IGRtYV9tYXBfc2d0YWJsZShhdHRhY2htZW50LT5k
+ZXYsIHRhYmxlLCBkaXJlY3Rpb24sDQo+IGF0dHJzKTsNCj4gIAlpZiAocmV0KQ0KPiAgCQlyZXR1
+cm4gRVJSX1BUUigtRU5PTUVNKTsNCj4gIAlhLT5tYXBwZWQgPSB0cnVlOw0KPiBAQCAtMTEzLDkg
+KzExNCwxMCBAQCBzdGF0aWMgdm9pZCBjbWFfaGVhcF91bm1hcF9kbWFfYnVmKHN0cnVjdA0KPiBk
+bWFfYnVmX2F0dGFjaG1lbnQgKmF0dGFjaG1lbnQsDQo+ICAJCQkJICAgZW51bSBkbWFfZGF0YV9k
+aXJlY3Rpb24gZGlyZWN0aW9uKQ0KPiAgew0KPiAgCXN0cnVjdCBkbWFfaGVhcF9hdHRhY2htZW50
+ICphID0gYXR0YWNobWVudC0+cHJpdjsNCj4gKwlpbnQgYXR0cnMgPSBhdHRhY2htZW50LT5kbWFf
+bWFwX2F0dHJzOw0KPiAgDQo+ICAJYS0+bWFwcGVkID0gZmFsc2U7DQo+IC0JZG1hX3VubWFwX3Nn
+dGFibGUoYXR0YWNobWVudC0+ZGV2LCB0YWJsZSwgZGlyZWN0aW9uLCAwKTsNCj4gKwlkbWFfdW5t
+YXBfc2d0YWJsZShhdHRhY2htZW50LT5kZXYsIHRhYmxlLCBkaXJlY3Rpb24sIGF0dHJzKTsNCj4g
+IH0NCj4gIA0KPiAgc3RhdGljIGludCBjbWFfaGVhcF9kbWFfYnVmX2JlZ2luX2NwdV9hY2Nlc3Mo
+c3RydWN0IGRtYV9idWYgKmRtYWJ1ZiwNCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZG1hLWJ1Zi9o
+ZWFwcy9zeXN0ZW1faGVhcC5jIGIvZHJpdmVycy9kbWEtDQo+IGJ1Zi9oZWFwcy9zeXN0ZW1faGVh
+cC5jDQo+IGluZGV4IDIzYTdlNzRlZjk2Ni4uZmM3YjFlMDI5ODhlIDEwMDY0NA0KPiAtLS0gYS9k
+cml2ZXJzL2RtYS1idWYvaGVhcHMvc3lzdGVtX2hlYXAuYw0KPiArKysgYi9kcml2ZXJzL2RtYS1i
+dWYvaGVhcHMvc3lzdGVtX2hlYXAuYw0KPiBAQCAtMTMwLDkgKzEzMCwxMCBAQCBzdGF0aWMgc3Ry
+dWN0IHNnX3RhYmxlDQo+ICpzeXN0ZW1faGVhcF9tYXBfZG1hX2J1ZihzdHJ1Y3QgZG1hX2J1Zl9h
+dHRhY2htZW50ICphdHRhYw0KPiAgew0KPiAgCXN0cnVjdCBkbWFfaGVhcF9hdHRhY2htZW50ICph
+ID0gYXR0YWNobWVudC0+cHJpdjsNCj4gIAlzdHJ1Y3Qgc2dfdGFibGUgKnRhYmxlID0gYS0+dGFi
+bGU7DQo+ICsJaW50IGF0dHJzID0gYXR0YWNobWVudC0+ZG1hX21hcF9hdHRyczsNCj4gIAlpbnQg
+cmV0Ow0KPiAgDQo+IC0JcmV0ID0gZG1hX21hcF9zZ3RhYmxlKGF0dGFjaG1lbnQtPmRldiwgdGFi
+bGUsIGRpcmVjdGlvbiwgMCk7DQo+ICsJcmV0ID0gZG1hX21hcF9zZ3RhYmxlKGF0dGFjaG1lbnQt
+PmRldiwgdGFibGUsIGRpcmVjdGlvbiwNCj4gYXR0cnMpOw0KPiAgCWlmIChyZXQpDQo+ICAJCXJl
+dHVybiBFUlJfUFRSKHJldCk7DQo+ICANCj4gQEAgLTE0NSw5ICsxNDYsMTAgQEAgc3RhdGljIHZv
+aWQgc3lzdGVtX2hlYXBfdW5tYXBfZG1hX2J1ZihzdHJ1Y3QNCj4gZG1hX2J1Zl9hdHRhY2htZW50
+ICphdHRhY2htZW50LA0KPiAgCQkJCSAgICAgIGVudW0gZG1hX2RhdGFfZGlyZWN0aW9uDQo+IGRp
+cmVjdGlvbikNCj4gIHsNCj4gIAlzdHJ1Y3QgZG1hX2hlYXBfYXR0YWNobWVudCAqYSA9IGF0dGFj
+aG1lbnQtPnByaXY7DQo+ICsJaW50IGF0dHJzID0gYXR0YWNobWVudC0+ZG1hX21hcF9hdHRyczsN
+Cj4gIA0KPiAgCWEtPm1hcHBlZCA9IGZhbHNlOw0KPiAtCWRtYV91bm1hcF9zZ3RhYmxlKGF0dGFj
+aG1lbnQtPmRldiwgdGFibGUsIGRpcmVjdGlvbiwgMCk7DQo+ICsJZG1hX3VubWFwX3NndGFibGUo
+YXR0YWNobWVudC0+ZGV2LCB0YWJsZSwgZGlyZWN0aW9uLCBhdHRycyk7DQo+ICB9DQo+ICANCj4g
+IHN0YXRpYyBpbnQgc3lzdGVtX2hlYXBfZG1hX2J1Zl9iZWdpbl9jcHVfYWNjZXNzKHN0cnVjdCBk
+bWFfYnVmDQo+ICpkbWFidWYsDQo+IC0tIA0KPiAyLjE3LjENCj4g
 
-On Wed, 2021-07-14 at 14:28 +0200, Christian König wrote:
-> Am 14.07.21 um 14:03 schrieb guangming.cao@mediatek.com:
-> > From: Guangming.Cao <guangming.cao@mediatek.com>
-> > 
-> > On Wed, 2021-07-14 at 12:43 +0200, Christian K鰊ig wrote:
-> > > Am 14.07.21 um 11:44 schrieb guangming.cao@mediatek.com:
-> > > > From: Guangming Cao <Guangming.Cao@mediatek.com>
-> > > > 
-> > > > On Wed, 2021-07-14 at 10:46 +0200, Christian K鰊ig wrote:
-> > > > > Am 14.07.21 um 09:11 schrieb guangming.cao@mediatek.com:
-> > > > > > From: Guangming Cao <Guangming.Cao@mediatek.com>
-> > > > > > 
-> > > > > > Add a refcount for kernel to prevent UAF(Use After Free)
-> > > > > > issue.
-> > > > > 
-> > > > > Well NAK on so many levels.
-> > > > > 
-> > > > > > We can assume a case like below:
-> > > > > >        1. kernel space alloc dma_buf(file count = 1)
-> > > > > >        2. kernel use dma_buf to get fd(file count = 1)
-> > > > > >        3. userspace use fd to do mapping (file count = 2)
-> > > > > 
-> > > > > Creating an userspace mapping increases the reference count
-> > > > > for
-> > > > > the
-> > > > > underlying file object.
-> > > > > 
-> > > > > See the implementation of mmap_region():
-> > > > > ...
-> > > > >                    vma->vm_file = get_file(file);
-> > > > >                    error = call_mmap(file, vma);
-> > > > > ...
-> > > > > 
-> > > > > What can happen is the the underlying exporter redirects the
-> > > > > mmap
-> > > > > to
-> > > > > a
-> > > > > different file, e.g. TTM or GEM drivers do that all the time.
-> > > > > 
-> > > > > But this is fine since then the VA mapping is independent of
-> > > > > the
-> > > > > DMA-
-> > > > > buf.
-> > > > > 
-> > > > > >        4. kernel call dma_buf_put (file count = 1)
-> > > > > >        5. userpsace close buffer fd(file count = 0)
-> > > > > >        6. at this time, buffer is released, but va is
-> > > > > > valid!!
-> > > > > >           So we still can read/write buffer via mmap va,
-> > > > > >           it maybe cause memory leak, or kernel exception.
-> > > > > >           And also, if we use "ls -ll" to watch
-> > > > > > corresponding
-> > > > > > process
-> > > > > >               fd link info, it also will cause kernel
-> > > > > > exception.
-> > > > > > 
-> > > > > > Another case:
-> > > > > >         Using dma_buf_fd to generate more than 1 fd,
-> > > > > > because
-> > > > > >         dma_buf_fd will not increase file count, thus, when
-> > > > > > close
-> > > > > >         the second fd, it maybe occurs error.
-> > > > > 
-> > > > > Each opened fd will increase the reference count so this is
-> > > > > certainly
-> > > > > not correct what you describe here.
-> > > > > 
-> > > > > Regards,
-> > > > > Christian.
-> > > > > 
-> > > > 
-> > > > Yes, mmap will increase file count by calling get_file, so
-> > > > step[2]
-> > > > ->
-> > > > step[3], file count increase 1.
-> > > > 
-> > > > But, dma_buf_fd() will not increase file count.
-> > > > function "dma_buf_fd(struct dma_buf *dmabuf, int flags)" just
-> > > > get
-> > > > an
-> > > > unused fd, via call "get_unused_fd_flags(flags)", and call
-> > > > "fd_install(fd, dmabuf->file)", it will let associated "struct
-> > > > file*"
-> > > > in task's fdt->fd[fd] points to this dma_buf.file, not increase
-> > > > the
-> > > > file count of dma_buf.file.
-> > > > I think this is confusing, I can get more than 1 fds via
-> > > > dma_buf_fd,
-> > > > but they don't need to close it because they don't increase
-> > > > file
-> > > > count.
-> > > > 
-> > > > However, dma_buf_put() can decrease file count at kernel side
-> > > > directly.
-> > > > If somebody write a ko to put file count of dma_buf.file many
-> > > > times, it
-> > > > will cause buffer freed earlier than except. At last on
-> > > > Android, I
-> > > > think this is a little bit dangerous.
-> > > 
-> > > dma_buf_fd() takes the dma_buf pointer and converts it into a fd.
-> > > So
-> > > the
-> > > reference is consumed.
-> > > 
-> > > That's why users of this interface make sure to get a separate
-> > > reference, see drm_gem_prime_handle_to_fd() for example:
-> > > 
-> > > ...
-> > > out_have_handle:
-> > >       ret = dma_buf_fd(dmabuf, flags);
-> > >       /*
-> > >        * We must _not_ remove the buffer from the handle cache
-> > > since
-> > > the
-> > > newly
-> > >        * created dma buf is already linked in the global obj-
-> > > >dma_buf
-> > > pointer,
-> > >        * and that is invariant as long as a userspace gem handle
-> > > exists.
-> > >        * Closing the handle will clean out the cache anyway, so
-> > > we
-> > > don't
-> > > leak.
-> > >        */
-> > >       if (ret < 0) {
-> > >           goto fail_put_dmabuf;
-> > >       } else {
-> > >           *prime_fd = ret;
-> > >           ret = 0;
-> > >       }
-> > > 
-> > >       goto out;
-> > > 
-> > > fail_put_dmabuf:
-> > >       dma_buf_put(dmabuf);
-> > > out:
-> > > ...
-> > > 
-> > > You could submit a patch to improve the documentation and
-> > > explicitly
-> > > note on dma_buf_fd() that the reference is consumed, but all of
-> > > this
-> > > is
-> > > working perfectly fine.
-> > > 
-> > > Regards,
-> > > Christian.
-> > > 
-> > 
-> > Thanks for your reply!
-> > 
-> > Yes, drm works fine because it fully understand what dma-buf api
-> > will
-> > do. Improve the documentation is really good idea to prevent this
-> > case.
-> > 
-> > But, what I can't understand is, for kernel api exported to
-> > corresponding users, we don't need to ensure all api is safe?
-> 
-> Well the API is perfectly safe, it is just not what you are
-> expecting.
-> 
-> > And for general cases, dma-buf framework also need to prevent this
-> > case, isn't it, it will make dma-buf framework more strong?
-> 
-> What we could do is to move getting the reference into that function
-> if 
-> all users of that function does that anyway.
-> 
-> This would then be more defensive because new users of dma_buf_fd() 
-> can't forget to grab a reference.
-> 
-> But this needs a complete audit of the kernel with all of the users
-> of 
-> dma_buf_fd().
-> 
-> Regards,
-> Christian.
-> 
-Thanks for your patient explanation! Now I think I get what you said.
-dmabuf framework works fine, no risk, and reference should grab by users.
-
-This discussion can be terminated now.
-Thanks Christian!
-
-BRs!
-Guangming.
-> > 
-> > 
-> > BRs!
-> > Guangming
-> > > > > > Solution:
-> > > > > >        Add a kernel count for dma_buf, and make sure the
-> > > > > > file
-> > > > > > count
-> > > > > >            of dma_buf.file hold by kernel is 1.
-> > > > > > 
-> > > > > > Notes: For this solution, kref couldn't work because kernel
-> > > > > > ref
-> > > > > >           maybe added from 0, but kref don't allow it.
-> > > > > > 
-> > > > > > Signed-off-by: Guangming Cao <Guangming.Cao@mediatek.com>
-> > > > > > ---
-> > > > > >     drivers/dma-buf/dma-buf.c | 23 +++++++++++++++++++----
-> > > > > >     include/linux/dma-buf.h   |  6 ++++--
-> > > > > >     2 files changed, 23 insertions(+), 6 deletions(-)
-> > > > > > 
-> > > > > > diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-
-> > > > > > buf/dma-
-> > > > > > buf.c
-> > > > > > index 511fe0d217a0..04ee92aac8b9 100644
-> > > > > > --- a/drivers/dma-buf/dma-buf.c
-> > > > > > +++ b/drivers/dma-buf/dma-buf.c
-> > > > > > @@ -62,6 +62,7 @@ static void dma_buf_release(struct dentry
-> > > > > > *dentry)
-> > > > > >       if (unlikely(!dmabuf))
-> > > > > >               return;
-> > > > > >     
-> > > > > > +   WARN_ON(atomic64_read(&dmabuf->kernel_ref));
-> > > > > >       BUG_ON(dmabuf->vmapping_counter);
-> > > > > >     
-> > > > > >       /*
-> > > > > > @@ -555,6 +556,7 @@ struct dma_buf *dma_buf_export(const
-> > > > > > struct
-> > > > > > dma_buf_export_info *exp_info)
-> > > > > >               goto err_module;
-> > > > > >       }
-> > > > > >     
-> > > > > > +   atomic64_set(&dmabuf->kernel_ref, 1);
-> > > > > >       dmabuf->priv = exp_info->priv;
-> > > > > >       dmabuf->ops = exp_info->ops;
-> > > > > >       dmabuf->size = exp_info->size;
-> > > > > > @@ -617,6 +619,9 @@ int dma_buf_fd(struct dma_buf *dmabuf,
-> > > > > > int
-> > > > > > flags)
-> > > > > >     
-> > > > > >       fd_install(fd, dmabuf->file);
-> > > > > >     
-> > > > > > +   /* Add file cnt for each new fd */
-> > > > > > +   get_file(dmabuf->file);
-> > > > > > +
-> > > > > >       return fd;
-> > > > > >     }
-> > > > > >     EXPORT_SYMBOL_GPL(dma_buf_fd);
-> > > > > > @@ -626,12 +631,13 @@ EXPORT_SYMBOL_GPL(dma_buf_fd);
-> > > > > >      * @fd:   [in]    fd associated with the struct dma_buf
-> > > > > > to
-> > > > > > be
-> > > > > > returned
-> > > > > >      *
-> > > > > >      * On success, returns the struct dma_buf associated
-> > > > > > with an
-> > > > > > fd;
-> > > > > > uses
-> > > > > > - * file's refcounting done by fget to increase refcount.
-> > > > > > returns
-> > > > > > ERR_PTR
-> > > > > > - * otherwise.
-> > > > > > + * dmabuf's ref refcounting done by kref_get to increase
-> > > > > > refcount.
-> > > > > > + * Returns ERR_PTR otherwise.
-> > > > > >      */
-> > > > > >     struct dma_buf *dma_buf_get(int fd)
-> > > > > >     {
-> > > > > >       struct file *file;
-> > > > > > +   struct dma_buf *dmabuf;
-> > > > > >     
-> > > > > >       file = fget(fd);
-> > > > > >     
-> > > > > > @@ -643,7 +649,12 @@ struct dma_buf *dma_buf_get(int fd)
-> > > > > >               return ERR_PTR(-EINVAL);
-> > > > > >       }
-> > > > > >     
-> > > > > > -   return file->private_data;
-> > > > > > +   dmabuf = file->private_data;
-> > > > > > +   /* replace file count increase as ref increase for
-> > > > > > kernel
-> > > > > > user
-> > > > > > */
-> > > > > > +   get_dma_buf(dmabuf);
-> > > > > > +   fput(file);
-> > > > > > +
-> > > > > > +   return dmabuf;
-> > > > > >     }
-> > > > > >     EXPORT_SYMBOL_GPL(dma_buf_get);
-> > > > > >     
-> > > > > > @@ -662,7 +673,11 @@ void dma_buf_put(struct dma_buf
-> > > > > > *dmabuf)
-> > > > > >       if (WARN_ON(!dmabuf || !dmabuf->file))
-> > > > > >               return;
-> > > > > >     
-> > > > > > -   fput(dmabuf->file);
-> > > > > > +   if (WARN_ON(!atomic64_read(&dmabuf->kernel_ref)))
-> > > > > > +           return;
-> > > > > > +
-> > > > > > +   if (!atomic64_dec_return(&dmabuf->kernel_ref))
-> > > > > > +           fput(dmabuf->file);
-> > > > > >     }
-> > > > > >     EXPORT_SYMBOL_GPL(dma_buf_put);
-> > > > > >     
-> > > > > > diff --git a/include/linux/dma-buf.h b/include/linux/dma-
-> > > > > > buf.h
-> > > > > > index efdc56b9d95f..bc790cb028eb 100644
-> > > > > > --- a/include/linux/dma-buf.h
-> > > > > > +++ b/include/linux/dma-buf.h
-> > > > > > @@ -308,6 +308,7 @@ struct dma_buf_ops {
-> > > > > >     struct dma_buf {
-> > > > > >       size_t size;
-> > > > > >       struct file *file;
-> > > > > > +   atomic64_t kernel_ref;
-> > > > > >       struct list_head attachments;
-> > > > > >       const struct dma_buf_ops *ops;
-> > > > > >       struct mutex lock;
-> > > > > > @@ -436,7 +437,7 @@ struct dma_buf_export_info {
-> > > > > >                                        .owner = THIS_MODULE
-> > > > > > }
-> > > > > >     
-> > > > > >     /**
-> > > > > > - * get_dma_buf - convenience wrapper for get_file.
-> > > > > > + * get_dma_buf - increase a kernel ref of dma-buf
-> > > > > >      * @dmabuf:       [in]    pointer to dma_buf
-> > > > > >      *
-> > > > > >      * Increments the reference count on the dma-buf,
-> > > > > > needed in
-> > > > > > case
-> > > > > > of drivers
-> > > > > > @@ -446,7 +447,8 @@ struct dma_buf_export_info {
-> > > > > >      */
-> > > > > >     static inline void get_dma_buf(struct dma_buf *dmabuf)
-> > > > > >     {
-> > > > > > -   get_file(dmabuf->file);
-> > > > > > +   if (atomic64_inc_return(&dmabuf->kernel_ref) == 1)
-> > > > > > +           get_file(dmabuf->file);
-> > > > > >     }
-> > > > > >     
-> > > > > >     /**
-> 
-> 
