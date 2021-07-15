@@ -1,54 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8374D3C9AD8
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jul 2021 10:48:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EFF73C9ADA
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jul 2021 10:51:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E4CDC6E5A3;
-	Thu, 15 Jul 2021 08:48:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 382456E5AB;
+	Thu, 15 Jul 2021 08:50:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x231.google.com (mail-oi1-x231.google.com
- [IPv6:2607:f8b0:4864:20::231])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF5CB6E5A3
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jul 2021 08:48:17 +0000 (UTC)
-Received: by mail-oi1-x231.google.com with SMTP id p67so5753588oig.2
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jul 2021 01:48:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=DkcvonWLnhMMqKa/y2nSULzW4DKFzRwKecGJuhH/crI=;
- b=YUWWQj0Z5TCn7OLwLZ4IjryuzLXQ4Umv78OZZCTkL2lIRJuPt9h+pKNf5BnHt2NwzB
- hAu2+vUsRNwVdFUePtzxP+AecVoxFUO7pNqdbJMNaTPkKVq11pLF3e8Pa73TaJ90q0FO
- 0uRa+DdJqW9PyF99MBbW+Bt/t8JgGfFVI6IXc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=DkcvonWLnhMMqKa/y2nSULzW4DKFzRwKecGJuhH/crI=;
- b=fvxSAD/2eNxu/klWyJpJbq6sBrtV/X5TymbOU/kyzGpmRZlwraiacjigt/xxHMO/3w
- P3eOAZt+8gLKjgvKVzNIE+dCK+1jMy2lHqu13IaBuhfpvGTp7bnOgu73Y/G1vNl5xDIV
- QyxmP3hwL/l3Epvss6YfLJvqIeAU6cp5d9WGd5/ImHfPp9HDlndBoBc1Z637zXc+Zc/o
- RKxqTk5fXvmEQFEurgubczsuWW/wCN6ngxVx6lQ+A4ewi6mqglxsWRSp66nBn46KfOD4
- qXGQOexmQ8S8XFqISQuMBNFGIk0BUMiXW/TD0ZDt0dHu19HpBFwUeppRhA7InzFRMXoO
- FZlA==
-X-Gm-Message-State: AOAM532WKV1uqrD2ES26bw2fL4Hu2lKeD1kprS71F0i10eJFzGLK96NN
- OzEKWx99ul/0RFDpahspqbpRJFpmtiKKYm5c+lFbvw==
-X-Google-Smtp-Source: ABdhPJwtCEFUxVjG4dJGgcyOUYmbQ2xc2m4aWQAQh1HhS9aWJkl61mTu4MVdwN2fYutjMniiYHnDa+RtwVO7RhGwROo=
-X-Received: by 2002:aca:3085:: with SMTP id w127mr6913492oiw.101.1626338897093; 
- Thu, 15 Jul 2021 01:48:17 -0700 (PDT)
+Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com
+ [64.147.123.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 799786E5AB
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jul 2021 08:50:57 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.west.internal (Postfix) with ESMTP id 0DE652B0123A;
+ Thu, 15 Jul 2021 04:50:53 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Thu, 15 Jul 2021 04:50:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm3; bh=M62QmRJ7jfZ7a1XtGtHuOAWYYSW
+ wR+kSOaB6+SmVLRQ=; b=uHQrz46SB4AlRrqZRmnIGrRuad2JA/Ocz6DDilfxtug
+ QSghwY+JKkd70u+mFEnFLl4XoIgs0zKCzFO0CiRoV1PPG1XwNLFa3prM5FXSCtPY
+ e1j+WtFLfXZ8dFknkJCilYNk/xAqFHtxQ+zry262vOMTwan/gJWWQMCUEhK3c9BA
+ usVaUY4V9o8jo+OpXg4g20SLmCRJwYp1zvDYb69ewcSvxV8740TcCqjrQJvHiMzz
+ GTCw3SUQRMyspP8t3E4Kcfn7/ApOhNDew/fUVuCjVSf+wwSyTEBqYdlpQ3PRvEQf
+ HUYgc5IB3ZASuLtk248iHOiaO7hw/VfEyzkd5jP0m7Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=M62QmR
+ J7jfZ7a1XtGtHuOAWYYSWwR+kSOaB6+SmVLRQ=; b=YWcIxaWQeWZfhRrYjY0Je6
+ gJhvJRMMfd+Ys3BSIljxs4630nSCijWYNfynMsDBEbNSUN5xFf1kD7wO8VPQiXg/
+ kMu7XjczvRQ6omdd6569TxH67pWMblhAqbK5ShPbUAVED0eKiAacV+bm5m2zRaEd
+ NMh+bnpf7hS8eUsCHHoBEZAuyVv7B4Y3yl0gPK1JrJBgPaUMWz3kQFElLOPAjrVv
+ CCZ9wcj31tb09jhWf2fK2tuO+c6wWEtNZpkzRHFDvBBrDWiRCb3//19B4mwnQoYc
+ Sl2VfqEFSEcaYh4m9S5ohOVNuRedWJyEu0WwQA9IY36rVI+xwoKr8lekJSVwVAWQ
+ ==
+X-ME-Sender: <xms:6_bvYNzOgMQfnPW4TBgwI3eJOJe9C_ZmmTC5Ad-TVGGeDel24l8XVQ>
+ <xme:6_bvYNTXdycciScMO7Z1Mx6b8TiEjpZ3N8B_La_n8RG2CNeF-CPX_X2pSTlneo26H
+ POmRUPoS_mrlb_mygo>
+X-ME-Received: <xmr:6_bvYHW1v0AwjHsl_KXIoVxVAjiBvI7nw432qbYHH__HF4n70FpNdGfRDHzFnBRAKv33Q1TfT8TfLOorllrPqj1I9G4jZM8ignUW>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrvddtgddtiecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+ gvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheeiheeg
+ udenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
+ igihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:6_bvYPjMZtH6Hi8ERaOcw5iXNB9vewotb1dg6bePbuSj-0mFOq0jUQ>
+ <xmx:6_bvYPDZz8UUvJ1LAcHdUpJhhF01tQ4m6iDaS6z07yfGk-e7dvlJaA>
+ <xmx:6_bvYIIHdIE33OV28QHTr2J7rLPZz61kTlu1dkAj8rZ5wPo5vGKWWg>
+ <xmx:7fbvYHbx1pXnKOVPd_up3EXOKrTCHG22xhrcDXFKX2vZbKWIJjrQrZyuKeg>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 15 Jul 2021 04:50:51 -0400 (EDT)
+Date: Thu, 15 Jul 2021 10:50:48 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Subject: Re: [PATCH 0/3] drm/vc4: hdmi: Interrupt fixes
+Message-ID: <20210715085048.ij547jpeawmooqxh@gilmour>
+References: <20210707095112.1469670-1-maxime@cerno.tech>
+ <CAPY8ntD-fi1Zm5eDQd4JR9qOcwfQukkEbMQvYaOgdhOHcQMUDw@mail.gmail.com>
 MIME-Version: 1.0
-References: <20210706073125.7689-1-tzimmermann@suse.de>
- <695f4a61-ef43-c08d-41d2-992059791cb8@suse.de>
-In-Reply-To: <695f4a61-ef43-c08d-41d2-992059791cb8@suse.de>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Thu, 15 Jul 2021 10:48:06 +0200
-Message-ID: <CAKMK7uHxxgRoN6UPUkYxVxCVjSfo8wxAUUY0yP3cGzcVRdHB8g@mail.gmail.com>
-Subject: Re: [PATCH] drm/omapdrm: Remove outdated comment
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="ssgiwnlmwhlnlhsx"
+Content-Disposition: inline
+In-Reply-To: <CAPY8ntD-fi1Zm5eDQd4JR9qOcwfQukkEbMQvYaOgdhOHcQMUDw@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,63 +80,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@linux.ie>, dri-devel <dri-devel@lists.freedesktop.org>,
- Tomi Valkeinen <tomba@kernel.org>
+Cc: Nicolas Saenz Julienne <nsaenz@kernel.org>, Emma Anholt <emma@anholt.net>,
+ David Airlie <airlied@linux.ie>, Tim Gover <tim.gover@raspberrypi.com>,
+ LKML <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Hans Verkuil <hans.verkuil@cisco.com>, linux-rpi-kernel@lists.infradead.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, bcm-kernel-feedback-list@broadcom.com,
+ Daniel Vetter <daniel.vetter@intel.com>, Phil Elwell <phil@raspberrypi.com>,
+ Dom Cobley <dom@raspberrypi.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 15, 2021 at 10:13 AM Thomas Zimmermann <tzimmermann@suse.de> wr=
-ote:
->
-> ping for review
->
-> Am 06.07.21 um 09:31 schrieb Thomas Zimmermann:
-> > The comment refers to drm_irq_install() et al, which are not used by
-> > omapdrm. The functions are part of the DRM IRQ midlayer and shouldn't
-> > be used any longer. Remove the comment.
-> >
-> > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+--ssgiwnlmwhlnlhsx
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> > ---
-> >   drivers/gpu/drm/omapdrm/omap_irq.c | 7 -------
-> >   1 file changed, 7 deletions(-)
+On Wed, Jul 07, 2021 at 11:05:12AM +0100, Dave Stevenson wrote:
+> Hi Maxime
+>=20
+> On Wed, 7 Jul 2021 at 10:51, Maxime Ripard <maxime@cerno.tech> wrote:
 > >
-> > diff --git a/drivers/gpu/drm/omapdrm/omap_irq.c b/drivers/gpu/drm/omapd=
-rm/omap_irq.c
-> > index bb6e3fc18204..4aca14dab927 100644
-> > --- a/drivers/gpu/drm/omapdrm/omap_irq.c
-> > +++ b/drivers/gpu/drm/omapdrm/omap_irq.c
-> > @@ -253,13 +253,6 @@ static const u32 omap_underflow_irqs[] =3D {
-> >       [OMAP_DSS_VIDEO3] =3D DISPC_IRQ_VID3_FIFO_UNDERFLOW,
-> >   };
+> > Hi,
 > >
-> > -/*
-> > - * We need a special version, instead of just using drm_irq_install(),
-> > - * because we need to register the irq via omapdss.  Once omapdss and
-> > - * omapdrm are merged together we can assign the dispc hwmod data to
-> > - * ourselves and drop these and just use drm_irq_{install,uninstall}()
-> > - */
-> > -
-> >   int omap_drm_irq_install(struct drm_device *dev)
-> >   {
-> >       struct omap_drm_private *priv =3D dev->dev_private;
-> > --
-> > 2.32.0
+> > Those are three fixes for race conditions we currently have in the vc4 =
+HDMI
+> > driver with regard to the interrupts handling.
 > >
->
-> --
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-> (HRB 36809, AG N=C3=BCrnberg)
-> Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
->
+> > The first two are fixing an issue where the handler will be removed by =
+devm
+> > after the resources it uses have been free'd already.
+> >
+> > The last one is there to deal with an interrupt coming in the window be=
+tween
+> > the end of the driver's bind and the  DRM device registration.
+> >
+> > Let me know what you think,
+> > Maxime
+>=20
+> For the series
+> Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
+Applied all three patches, thanks!
+Maxime
 
---=20
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+--ssgiwnlmwhlnlhsx
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYO/26AAKCRDj7w1vZxhR
+xfefAQCYoMbP4eIscMPpXfK079e68sQVNNEbdZX4NQ5951zZswEAgSU2CcYAw1M3
+T9OBBpolpINn+DasnplcUfmCczAmlg8=
+=8xff
+-----END PGP SIGNATURE-----
+
+--ssgiwnlmwhlnlhsx--
