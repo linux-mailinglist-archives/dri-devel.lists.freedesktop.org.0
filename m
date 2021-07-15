@@ -2,58 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D2A93CAF45
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Jul 2021 00:39:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75AAA3CAF44
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Jul 2021 00:39:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 951756E8C1;
-	Thu, 15 Jul 2021 22:39:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E5D906E8BE;
+	Thu, 15 Jul 2021 22:39:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com
- [IPv6:2607:f8b0:4864:20::102f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 199A86E8BE
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jul 2021 22:39:15 +0000 (UTC)
-Received: by mail-pj1-x102f.google.com with SMTP id
- me13-20020a17090b17cdb0290173bac8b9c9so7575032pjb.3
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jul 2021 15:39:15 -0700 (PDT)
+Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com
+ [IPv6:2607:f8b0:4864:20::42b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 05D606E8BE
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jul 2021 22:39:17 +0000 (UTC)
+Received: by mail-pf1-x42b.google.com with SMTP id p22so6995479pfh.8
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jul 2021 15:39:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=WciUpITvEcHMdrnkAxX4EGa72kGWHk1hAVU4U/kERfQ=;
- b=bAAD2MAvv4do4lfSoOsyQp0dNCGz2SxmzldW3v2FLw0MjnDkf+hvIzT6+rqcrAxA2o
- qPqP83F2fgffxdpYeUFW/yMyMditQ+V6pYhszovcXeOB+C1uq6qv+aRm53H6PMmkWwLG
- kJ4ZsYPhQx53jUmf9f3X5nmz8BLA4NgDszaXEzsk5kesTDFNwm2S6m793gFUJs8TYSXp
- Rrm+scyRIrggf26+w/t/y/FqtFqRojXP/zx+dXQpvbrhR2DZ0roWnYbneLXMmYMuH+eA
- /FnaPve6pwK2L8xv5wmMdb7XLliOfJlNwB1dJ68svgfk6O7e77MM0uxvLklF+mWC6rFZ
- Tsaw==
+ bh=8pTOymRDqWskKnKmtLphb8tat5i85/mb3yEa5IkiVBc=;
+ b=MWtlj8+O5xBkZ9mHU7RLV54ZZJ7p51SLZ7x18vbvixWheF2KXR0D4dLpDphMy3P/JN
+ SiDgc7yuizXGzsyuiis75qRnFL6RLj9bPVB8vDN2hKGACqDMPbgEpZp/QHzSRvmMUbBC
+ dNhi2gE6jcTdIQdt4LImKt+DqaypAfBgwyotLGK7ecTHW5/bexuYyG17inNueE3JR74G
+ rs4NBTZnjEffIDX5rdLLmzbUffOCUziXPPqpegDVet4JP8x5Uqojli4z/7ANean+gW83
+ 3GpObVRqLN4n9jX0snZvInxZ4+NfUV/E6ESshUjQFkZ1YwRhEHp+5FB31PxCEmKN34Gq
+ toTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=WciUpITvEcHMdrnkAxX4EGa72kGWHk1hAVU4U/kERfQ=;
- b=gCDayokhxLkxGoGmUEq11ldGpznALswWhBcPxFh+rt4AFIgjJtqktN+JPVKtJPYmtC
- UE7xjJRKcjxVRIUzZvzYHHybqRCmK6hpobZ68d6/IV1K2moRasG+vvqnieXhIGLy32IA
- xXk4G7NSHYhDpQYnxKJ/q0EXjVecGEhSMyvLF+1zNZrmwd61VZFjERlm7c3rqvkb1eef
- 7UNvy77KF5eTAkoe6aGhBPrG8PVc45OOGzOHgZEXBru6XaGzisaF3T/UnUNWsaMCWf/V
- j7p2dO5f59yCzOJaHmJuBQGtxD83aXk9dWjVwLMMl5DSd6QcgSFeuoK5v0KF/H+/mu6a
- d+ug==
-X-Gm-Message-State: AOAM53187aTLgAR+QMOcGoaMJKELctnU8vDVdUaahqg2rAimFnxabVbg
- /A+B6KBgRWZxr5Sa+4n5PF+SO4MA1VAdjg==
-X-Google-Smtp-Source: ABdhPJwln5alaY0SRCNgr7HQimiY6NvglQIPRqZMtXsuuUDJPZS7T/NL9JrFSbr7WddJjrbPrkk8/Q==
-X-Received: by 2002:a17:90b:4b4e:: with SMTP id
- mi14mr12504357pjb.109.1626388754644; 
- Thu, 15 Jul 2021 15:39:14 -0700 (PDT)
+ bh=8pTOymRDqWskKnKmtLphb8tat5i85/mb3yEa5IkiVBc=;
+ b=UV96oxYdAfmeV76VH108Z9CumGiwLOJkUOZ6zH7Ea4lrPjN9NoYgdxYwpfce6HHEcx
+ 5dHdBenPMXOgYIyB+FTRojxV3Mf3rNTJoV1tIkVhPhgXtfM5ryKYwNzRYArpHxT5GdbB
+ 1pboprJeS57b0+PV+sVzI1bQ0QLhkXIROFa4ntAip1O9RKc+ln9l5I03wc+cVa06ICkx
+ +35fZ4OG9crBWkC5wphNcT4Q3jmjpLnxrn0cShyDCaFF7IC0Bs9kBLRE+QMWhFu6zAdJ
+ +OfD4Ax6uOfQq7YZcYKmV6PBvMQfWu86kWIfduXHFkF3NhwusvhQ9MwQF6VcC78Iyrhr
+ it/g==
+X-Gm-Message-State: AOAM533fGntXKP4ahhtbcmVBvMHYz09gCkQ//DxeNCQKGuLXwrgWwSgs
+ VX4AdNhCTylTBuIs98QXnHESaQ==
+X-Google-Smtp-Source: ABdhPJyj9IH5gQGCAb5nrGiMdhg576lPjnEyY0Qh9FnZqwvuCU7aUd1ZO2OrdSqt7GiDyl0GxB1lNg==
+X-Received: by 2002:aa7:8d5a:0:b029:302:e2cb:6d79 with SMTP id
+ s26-20020aa78d5a0000b0290302e2cb6d79mr6845687pfe.71.1626388756586; 
+ Thu, 15 Jul 2021 15:39:16 -0700 (PDT)
 Received: from omlet.com ([134.134.137.87])
- by smtp.gmail.com with ESMTPSA id ft7sm9959459pjb.32.2021.07.15.15.39.12
+ by smtp.gmail.com with ESMTPSA id ft7sm9959459pjb.32.2021.07.15.15.39.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 15 Jul 2021 15:39:14 -0700 (PDT)
+ Thu, 15 Jul 2021 15:39:16 -0700 (PDT)
 From: Jason Ekstrand <jason@jlekstrand.net>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH 4/7] drm/i915/gem/ttm: Place new BOs in the requested region
-Date: Thu, 15 Jul 2021 17:38:57 -0500
-Message-Id: <20210715223900.1840576-5-jason@jlekstrand.net>
+Subject: [PATCH 5/7] drm/i915/gem/ttm: Respect the objection region in
+ placement_from_obj
+Date: Thu, 15 Jul 2021 17:38:58 -0500
+Message-Id: <20210715223900.1840576-6-jason@jlekstrand.net>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210715223900.1840576-1-jason@jlekstrand.net>
 References: <20210715223900.1840576-1-jason@jlekstrand.net>
@@ -77,52 +77,34 @@ Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-__i915_gem_ttm_object_init() was ignoring the placement requests coming
-from the client and always placing all BOs in SMEM upon creation.
-Instead, compute the requested placement set from the object and pass
-that into ttm_bo_init_reserved().
+Whenever we had a user object (n_placements > 0), we were ignoring
+obj->mm.region and always putting obj->placements[0] as the requested
+region.  For LMEM+SMEM objects, this was causing them to get shoved into
+LMEM on every i915_ttm_get_pages() even when SMEM was requested by, say,
+i915_gem_object_migrate().
 
 Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
 Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 Cc: Matthew Auld <matthew.auld@intel.com>
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 ---
- drivers/gpu/drm/i915/gem/i915_gem_ttm.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-index 6589411396d3f..d30f274c329c7 100644
+index d30f274c329c7..5985e994d56cf 100644
 --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
 +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-@@ -898,6 +898,8 @@ int __i915_gem_ttm_object_init(struct intel_memory_region *mem,
- {
- 	static struct lock_class_key lock_class;
- 	struct drm_i915_private *i915 = mem->i915;
-+	struct ttm_place requested, busy[I915_TTM_MAX_PLACEMENTS];
-+	struct ttm_placement placement;
- 	struct ttm_operation_ctx ctx = {
- 		.interruptible = true,
- 		.no_wait_gpu = false,
-@@ -919,6 +921,9 @@ int __i915_gem_ttm_object_init(struct intel_memory_region *mem,
- 	/* Forcing the page size is kernel internal only */
- 	GEM_BUG_ON(page_size && obj->mm.n_placements);
+@@ -150,8 +150,7 @@ i915_ttm_placement_from_obj(const struct drm_i915_gem_object *obj,
+ 	unsigned int i;
  
-+	GEM_BUG_ON(obj->mm.n_placements > I915_TTM_MAX_PLACEMENTS);
-+	i915_ttm_placement_from_obj(obj, &requested, busy, &placement);
-+
- 	/*
- 	 * If this function fails, it will call the destructor, but
- 	 * our caller still owns the object. So no freeing in the
-@@ -927,8 +932,7 @@ int __i915_gem_ttm_object_init(struct intel_memory_region *mem,
- 	 * until successful initialization.
- 	 */
- 	ret = ttm_bo_init_reserved(&i915->bdev, i915_gem_to_ttm(obj), size,
--				   bo_type, &i915_sys_placement,
--				   page_size >> PAGE_SHIFT,
-+				   bo_type, &placement, page_size >> PAGE_SHIFT,
- 				   &ctx, NULL, NULL, i915_ttm_bo_destroy);
- 	if (ret)
- 		return i915_ttm_err_to_gem(ret);
+ 	placement->num_placement = 1;
+-	i915_ttm_place_from_region(num_allowed ? obj->mm.placements[0] :
+-				   obj->mm.region, requested, flags);
++	i915_ttm_place_from_region(obj->mm.region, requested, flags);
+ 
+ 	/* Cache this on object? */
+ 	placement->num_busy_placement = num_allowed;
 -- 
 2.31.1
 
