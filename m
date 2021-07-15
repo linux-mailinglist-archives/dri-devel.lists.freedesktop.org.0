@@ -1,34 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EDDE3CA53C
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jul 2021 20:17:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E30BB3CA53D
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jul 2021 20:18:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EFCD16E899;
-	Thu, 15 Jul 2021 18:17:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 482866E89A;
+	Thu, 15 Jul 2021 18:17:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F16F26E899
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jul 2021 18:17:53 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 49ECB61396;
- Thu, 15 Jul 2021 18:17:53 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E9416E89A
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jul 2021 18:17:58 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B627A613CC;
+ Thu, 15 Jul 2021 18:17:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1626373073;
- bh=fpDhl2U4QQnsR9Xf8dlruBqdKtnD76+H9Ch3Dp1TISs=;
+ s=korg; t=1626373078;
+ bh=1ab5WPif+Dsc0L5Mju8rcTdCMoC/8SXGSgNa+2AGJrw=;
  h=Subject:To:Cc:From:Date:From;
- b=mCNm3MgIzDtQnB7e0slfniUPloU+uJVurxcrSX7JMl2uW5cf/Nty/RqX7Sycgg+sv
- h4TnmmhdPvJ6RRtGdiNS/Y7ZtkGnz2E2paKVt9dlIsAlEBpDimlm7AeiiipEdRd33S
- EN+Qxp+5PJLO23NYbd8YmRlNXE83UnxJApmvQBBE=
+ b=VPkpSYuybvqu1/ox8nIf0s6hpe30n+tYGNrwyTIPPrZlwvyG028wMxromPz4Yal2V
+ 7HXCV9vbMg4XDi/CAO4LFnFGhUKII4A0xm6IQPOJrQUoSc0RvB4Y9+KWE1GwYfqa2Y
+ pLNIa8+AmA1PvaG3bj3n4WUYqjwguOb84Ci1mRKs=
 Subject: Patch "drm/ast: Remove reference to struct drm_device.pdev" has been
- added to the 5.10-stable tree
+ added to the 5.12-stable tree
 To: airlied@redhat.com, dri-devel@lists.freedesktop.org,
  gregkh@linuxfoundation.org, kuohsiang_chou@aspeedtech.com, lkp@intel.com,
  michael.j.ruhl@intel.com, tzimmermann@suse.de
 From: <gregkh@linuxfoundation.org>
-Date: Thu, 15 Jul 2021 20:17:32 +0200
-Message-ID: <1626373052253229@kroah.com>
+Date: Thu, 15 Jul 2021 20:17:48 +0200
+Message-ID: <1626373068107134@kroah.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=ANSI_X3.4-1968
 Content-Transfer-Encoding: 8bit
@@ -55,12 +55,12 @@ This is a note to let you know that I've just added the patch titled
 
     drm/ast: Remove reference to struct drm_device.pdev
 
-to the 5.10-stable tree which can be found at:
+to the 5.12-stable tree which can be found at:
     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
 The filename of the patch is:
      drm-ast-remove-reference-to-struct-drm_device.pdev.patch
-and it can be found in the queue-5.10 subdirectory.
+and it can be found in the queue-5.12 subdirectory.
 
 If you, or anyone else, feels it should not be added to the stable tree,
 please let <stable@vger.kernel.org> know about it.
@@ -97,7 +97,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 --- a/drivers/gpu/drm/ast/ast_main.c
 +++ b/drivers/gpu/drm/ast/ast_main.c
-@@ -406,7 +406,6 @@ struct ast_private *ast_device_create(st
+@@ -411,7 +411,6 @@ struct ast_private *ast_device_create(co
  		return ast;
  	dev = &ast->base;
  
@@ -105,7 +105,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  	pci_set_drvdata(pdev, dev);
  
  	ast->regs = pcim_iomap(pdev, 1, 0);
-@@ -448,8 +447,8 @@ struct ast_private *ast_device_create(st
+@@ -453,8 +452,8 @@ struct ast_private *ast_device_create(co
  
  	/* map reserved buffer */
  	ast->dp501_fw_buf = NULL;
@@ -120,9 +120,10 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 Patches currently in stable-queue which might be from tzimmermann@suse.de are
 
-queue-5.10/drm-mxsfb-don-t-select-drm_kms_fb_helper.patch
-queue-5.10/drm-ast-remove-reference-to-struct-drm_device.pdev.patch
-queue-5.10/drm-vc4-crtc-skip-the-txp.patch
-queue-5.10/drm-zte-don-t-select-drm_kms_fb_helper.patch
-queue-5.10/drm-ast-fixed-cve-for-dp501.patch
-queue-5.10/drm-vc4-txp-properly-set-the-possible_crtcs-mask.patch
+queue-5.12/drm-ingenic-fix-pixclock-rate-for-24-bit-serial-panels.patch
+queue-5.12/drm-mxsfb-don-t-select-drm_kms_fb_helper.patch
+queue-5.12/drm-ast-remove-reference-to-struct-drm_device.pdev.patch
+queue-5.12/drm-vc4-crtc-skip-the-txp.patch
+queue-5.12/drm-zte-don-t-select-drm_kms_fb_helper.patch
+queue-5.12/drm-ast-fixed-cve-for-dp501.patch
+queue-5.12/drm-vc4-txp-properly-set-the-possible_crtcs-mask.patch
