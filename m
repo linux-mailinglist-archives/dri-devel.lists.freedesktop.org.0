@@ -2,55 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25C943CA1D0
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jul 2021 18:04:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 002723CA202
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jul 2021 18:10:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC68B6E87C;
-	Thu, 15 Jul 2021 16:04:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A7F806E884;
+	Thu, 15 Jul 2021 16:10:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32b.google.com (mail-ot1-x32b.google.com
- [IPv6:2607:f8b0:4864:20::32b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C88126E880;
- Thu, 15 Jul 2021 16:04:26 +0000 (UTC)
-Received: by mail-ot1-x32b.google.com with SMTP id
- v32-20020a0568300920b02904b90fde9029so6674483ott.7; 
- Thu, 15 Jul 2021 09:04:26 -0700 (PDT)
+Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com
+ [IPv6:2607:f8b0:4864:20::22b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 875486E87E;
+ Thu, 15 Jul 2021 16:10:12 +0000 (UTC)
+Received: by mail-oi1-x22b.google.com with SMTP id u15so7239863oiw.3;
+ Thu, 15 Jul 2021 09:10:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=pDgo4aZEEERbVkoaBcaAe2QHHX9WVxAXJi1OtCjtkTM=;
- b=YqCnUt7Dm2F4+/3Rb71Adj77P9AGyQtomoFeo1/XCi/Fm5LB6jzB/pYpJUaAHoPxes
- jcDgGYADmp4xBu2KQGrQlNslohr/NFj1U3q+KruDrAfGGOjtF+XJKR0NdT+hDS0yjMxO
- ePw3zpXowf/yp63GDp2P3AYAJXfXCqP5lkpuytglp/wMRKEdjpeSkgb46tDhwwY1MgcF
- HSLzU3TdpuO7ANbm9fiNbBsJv5dVIzVx5a7a70P5sd0J0DMOdF7Y6n7Vzb1TUKBt/iFh
- nN1AM2F3Ljd8sfIQCYJEDNK0hoK07iaREQEDYRl/4Vr5jJa9bAP6vHb0qCwBp9gJ/0f/
- Ebyg==
+ :cc; bh=6c3zyMYOnu8f5V0VEW0ba+C0gb8GX+p+9qHajQ6vagk=;
+ b=ky2omVb78fdTIgHSoV6mfHrwbcyGxVRmdbWzk6MLrtzpjB+9YIZzxHelwVAd3LKV+Q
+ UFfn8+ds8zYXDUtMiGqgx84L44tIlAoRVa+N5bFrVFkWHb75GKPrhJ4j8FuZ7lfPnKOH
+ +pg0qcn15QrD/RSLV4aTO1lDeB0xnh/5ly3iKrn/mRauK97lweuJU1NKYaygj+qSpn4P
+ nFMMlBRguz6x3SapXagwLr4hg4RS+OFC0uGStRO3oCLY6ybHJ2Hlk04guFvmj7UDN1av
+ bhMM5oKTtP47NEZGDVj5rgKq+9RbecBcmQMnTknECHpOxLIagKTGkInBHvzAIK1G6Kow
+ QbKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=pDgo4aZEEERbVkoaBcaAe2QHHX9WVxAXJi1OtCjtkTM=;
- b=ChmwyXVGMl7WMge9idTXYqqgYFe4hU6DrReBp0asPOYS9S/JBD0+ttI8RtNSAhiLDy
- vPTkRhaH3Mp74TVoBE2XElTNioaWhLkW6MDcT4hqGLNorrHgK+VjU41jjE5+3l5WDDZD
- 9Y94BVtqlF0Steupoa1awzqYrIv7fMBc3sGR64xmkppBmpDlUcqhv0rBPqc1U2OUbIw0
- JgzdOdtIt+nFX74A/SU1H65EuobO4hkiQgZ+qEvCMSgilu9a8pHSlcxvsXB/id3rYYQS
- qiZ/HEo5sKWmy2Za9hp8aSwKmVpybmFA7j5e78M9CwyJqYeRKDbt3OISnZVb1JEftA9w
- FgBQ==
-X-Gm-Message-State: AOAM531h7mdg/0+4KscW8GbzzRT1GllMN7y/GDPrVJKYzZX9MFWKQLi3
- hb5ffiKAv+kV/dwzFb3vVRKGsOoei5q+qP47iVqWXCAl
-X-Google-Smtp-Source: ABdhPJytpHPsR7Psh+/kvUqKqvdOAb+qm1HyOVCZ8FzhnBWZ9JWAfapoFgqqNcWF62mrNZTJ0whN3cjvEj8Au3UfNSQ=
-X-Received: by 2002:a05:6830:14cd:: with SMTP id
- t13mr4401878otq.23.1626365066132; 
- Thu, 15 Jul 2021 09:04:26 -0700 (PDT)
+ bh=6c3zyMYOnu8f5V0VEW0ba+C0gb8GX+p+9qHajQ6vagk=;
+ b=SbNiqPsDQ2pBWYEVIjnCH/3basxEwtAEDQg/zb3CpuBxODE/VU3s4kgLIX7x8lNFcf
+ 9J/JvIKnF+Td1Z3ugDjuTbLIy+Y8hz4Za6Kl7msFbrbtcT1SbM8/pgkMv9bUNhW2TDkw
+ i84R6tTKLi0ezrd/Vj9V5+k957gBZ38gMUGP2s1xzAqfJRhgCeZ0rLbBgTdowGFmevFo
+ He/V8rGiFPoPxOnHxF7rEOvdJYyvQOur93PC6QFilweApwWwlr3z9eBj3YWAkBv+lWbF
+ cZRCsuMSFspWdShgmpaLn55oOdPIfTpNS3dNqwH9sRgH/TYhQPSfv55oue2ddbGHHLii
+ FbBQ==
+X-Gm-Message-State: AOAM530EvJ18SQ7F1HTa7/rduenKvqo5O/B/Oo5TBrMzPsLwqJ486p9U
+ Zfu21J/xcguLJHp7M1N0u5o0DOYX1WtUjMfX1N8=
+X-Google-Smtp-Source: ABdhPJzEq72ZaeVqWHRV9xBl988kk8YBBxczyWyRPiiSGDCmqJSum/5U8fkHz6YIoJumevbUrAXhI5T4FOdLnqOhd9c=
+X-Received: by 2002:aca:ac15:: with SMTP id v21mr8249953oie.5.1626365411814;
+ Thu, 15 Jul 2021 09:10:11 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210715143740.28403-1-colin.king@canonical.com>
-In-Reply-To: <20210715143740.28403-1-colin.king@canonical.com>
+References: <20210714080652.113381-1-liviu@dudau.co.uk>
+In-Reply-To: <20210714080652.113381-1-liviu@dudau.co.uk>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 15 Jul 2021 12:04:14 -0400
-Message-ID: <CADnq5_NHEksy0hfBaFWEPO8Dz3gMJgojqk5R8sSN_+7aVSht7Q@mail.gmail.com>
-Subject: Re: [PATCH] drm/amdgpu/display: make a const array common_rates
- static, makes object smaller
-To: Colin King <colin.king@canonical.com>
+Date: Thu, 15 Jul 2021 12:10:01 -0400
+Message-ID: <CADnq5_OA-em2jM-vmwaM7xxycOS-18EPC0r_myb7REy9b4h_vA@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/display: Fix 10bit 4K display on CIK GPUs
+To: Liviu Dudau <liviu@dudau.co.uk>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,61 +61,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leo Li <sunpeng.li@amd.com>, xinhui pan <Xinhui.Pan@amd.com>,
- kernel-janitors@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>, David Airlie <airlied@linux.ie>,
+Cc: Leo Li <sunpeng.li@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ LKML <linux-kernel@vger.kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
  Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
  Alex Deucher <alexander.deucher@amd.com>,
  =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 15, 2021 at 10:37 AM Colin King <colin.king@canonical.com> wrote:
+On Wed, Jul 14, 2021 at 4:15 AM Liviu Dudau <liviu@dudau.co.uk> wrote:
 >
-> From: Colin Ian King <colin.king@canonical.com>
+> Commit 72a7cf0aec0c ("drm/amd/display: Keep linebuffer pixel depth at
+> 30bpp for DCE-11.0.") doesn't seems to have fixed 10bit 4K rendering over
+> DisplayPort for CIK GPUs. On my machine with a HAWAII GPU I get a broken
+> image that looks like it has an effective resolution of 1920x1080 but
+> scaled up in an irregular way. Reverting the commit or applying this
+> patch fixes the problem on v5.14-rc1.
 >
-> Don't populate the const array common_rates on the stack but instead it
-> static. Makes the object code smaller by 80 bytes:
->
-> Before:
->    text    data     bss     dec     hex filename
->  268019   98322     256  366597   59805 ../display/amdgpu_dm/amdgpu_dm.o
->
-> After:
->    text    data     bss     dec     hex filename
->  267843   98418     256  366517   597b5 ../display/amdgpu_dm/amdgpu_dm.o
->
-> Reduction of 80 bytes
->
-> (gcc version 10.3.0)
->
-> Signed-off-by: Colin Ian King <colin.king@canonical.com>
+> Fixes: 72a7cf0aec0c ("drm/amd/display: Keep linebuffer pixel depth at 30bpp for DCE-11.0.")
+> Signed-off-by: Liviu Dudau <liviu@dudau.co.uk>
 
-Applied.  Thanks!
+Harry or Mario any ideas?  Maybe we need finer grained DCE version
+checking?  I don't remember all of the caveats of this stuff.  DCE11
+and older is getting to be pretty old at this point.  I can just apply
+this if you don't have any insights.
 
 Alex
 
 > ---
->  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
+>  drivers/gpu/drm/amd/display/dc/core/dc_resource.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> index 2d48bb09645f..b196bb6eafc0 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> @@ -7580,8 +7580,10 @@ static uint add_fs_modes(struct amdgpu_dm_connector *aconnector)
->          * 60       - Commonly used
->          * 48,72,96 - Multiples of 24
+> diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_resource.c b/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
+> index a6a67244a322e..1596f6b7fed7c 100644
+> --- a/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
+> +++ b/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
+> @@ -1062,7 +1062,7 @@ bool resource_build_scaling_params(struct pipe_ctx *pipe_ctx)
+>          * so use only 30 bpp on DCE_VERSION_11_0. Testing with DCE 11.2 and 8.3
+>          * did not show such problems, so this seems to be the exception.
 >          */
-> -       const uint32_t common_rates[] = { 23976, 24000, 25000, 29970, 30000,
-> -                                        48000, 50000, 60000, 72000, 96000 };
-> +       static const uint32_t common_rates[] = {
-> +               23976, 24000, 25000, 29970, 30000,
-> +               48000, 50000, 60000, 72000, 96000
-> +       };
->
->         /*
->          * Find mode with highest refresh rate with the same resolution
+> -       if (plane_state->ctx->dce_version != DCE_VERSION_11_0)
+> +       if (plane_state->ctx->dce_version > DCE_VERSION_11_0)
+>                 pipe_ctx->plane_res.scl_data.lb_params.depth = LB_PIXEL_DEPTH_36BPP;
+>         else
+>                 pipe_ctx->plane_res.scl_data.lb_params.depth = LB_PIXEL_DEPTH_30BPP;
 > --
-> 2.31.1
+> 2.32.0
 >
+> _______________________________________________
+> amd-gfx mailing list
+> amd-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
