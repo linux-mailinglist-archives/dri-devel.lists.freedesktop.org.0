@@ -1,33 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05F483CA746
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jul 2021 20:50:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F2EB03CA749
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jul 2021 20:50:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA3C06E8A2;
-	Thu, 15 Jul 2021 18:50:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC3176E8A6;
+	Thu, 15 Jul 2021 18:50:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F9F96E89E;
- Thu, 15 Jul 2021 18:50:06 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10046"; a="232439395"
-X-IronPort-AV: E=Sophos;i="5.84,243,1620716400"; d="scan'208";a="232439395"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Jul 2021 11:50:05 -0700
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 33C086E8A6;
+ Thu, 15 Jul 2021 18:50:09 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10046"; a="210657870"
+X-IronPort-AV: E=Sophos;i="5.84,243,1620716400"; d="scan'208";a="210657870"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Jul 2021 11:50:08 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,243,1620716400"; d="scan'208";a="466858112"
+X-IronPort-AV: E=Sophos;i="5.84,243,1620716400"; d="scan'208";a="495603414"
 Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
- by fmsmga008.fm.intel.com with SMTP; 15 Jul 2021 11:50:02 -0700
+ by FMSMGA003.fm.intel.com with SMTP; 15 Jul 2021 11:50:05 -0700
 Received: by stinkbox (sSMTP sendmail emulation);
- Thu, 15 Jul 2021 21:50:01 +0300
+ Thu, 15 Jul 2021 21:50:05 +0300
 From: Ville Syrjala <ville.syrjala@linux.intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 2/4] drm: Introduce drm_modeset_lock_all_ctx_retry()
-Date: Thu, 15 Jul 2021 21:49:52 +0300
-Message-Id: <20210715184954.7794-3-ville.syrjala@linux.intel.com>
+Subject: [PATCH 3/4] drm/i915: Extract intel_crtc_initial_commit()
+Date: Thu, 15 Jul 2021 21:49:53 +0300
+Message-Id: <20210715184954.7794-4-ville.syrjala@linux.intel.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210715184954.7794-1-ville.syrjala@linux.intel.com>
 References: <20210715184954.7794-1-ville.syrjala@linux.intel.com>
@@ -52,39 +52,135 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
-Layer drm_modeset_lock_all_ctx_retry() on top of
-drm_modeset_lock_ctx_retry() to make the fairly common
-"let's lock everything" pattern nicer.
-
-Currently we have DRM_MODESET_LOCK_ALL_{BEGIN,END}() for this
-but I don't really like it due to the magic gotos within,
-which makes it hard to use if you want to do multiple steps
-between the BEGING/END. One would either have to know the
-name of the magic label, or always wrap the whole thing into
-a function so only the single call appears between the BEGIN/END.
+Extract intel_crtc_initial_commit() from intel_initial_commit().
+Should make subsequent changes a bit less convoluted.
 
 Cc: Sean Paul <seanpaul@chromium.org>
 Cc: Daniel Vetter <daniel@ffwll.ch>
 Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 ---
- include/drm/drm_modeset_lock.h | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/gpu/drm/i915/display/intel_display.c | 96 +++++++++++---------
+ 1 file changed, 52 insertions(+), 44 deletions(-)
 
-diff --git a/include/drm/drm_modeset_lock.h b/include/drm/drm_modeset_lock.h
-index 5eaad2533de5..2e2548680aaa 100644
---- a/include/drm/drm_modeset_lock.h
-+++ b/include/drm/drm_modeset_lock.h
-@@ -223,4 +223,10 @@ void _drm_modeset_lock_end(struct drm_modeset_acquire_ctx *ctx,
- 	     _drm_modeset_lock_loop(&(ret)); \
- 	     _drm_modeset_lock_end((ctx), (state), &(ret)))
+diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
+index 65ddb6ca16e6..3718399c4c2f 100644
+--- a/drivers/gpu/drm/i915/display/intel_display.c
++++ b/drivers/gpu/drm/i915/display/intel_display.c
+@@ -12129,12 +12129,60 @@ static void intel_update_fdi_pll_freq(struct drm_i915_private *dev_priv)
+ 	drm_dbg(&dev_priv->drm, "FDI PLL freq=%d\n", dev_priv->fdi_pll_freq);
+ }
  
-+#define drm_modeset_lock_all_ctx_retry(dev, ctx, state, flags, ret) \
-+	for (_drm_modeset_lock_begin((ctx), (state), (flags), &(ret)); \
-+	     _drm_modeset_lock_loop(&(ret)); \
-+	     _drm_modeset_lock_end((ctx), (state), &(ret))) \
-+		for_each_if(((ret) = drm_modeset_lock_all_ctx((dev), (ctx))) == 0)
++static int intel_crtc_initial_commit(struct intel_atomic_state *state,
++				     struct intel_crtc *crtc)
++{
++	struct intel_crtc_state *crtc_state;
++	struct intel_encoder *encoder;
++	int ret;
 +
- #endif /* DRM_MODESET_LOCK_H_ */
++	crtc_state = intel_atomic_get_crtc_state(&state->base, crtc);
++	if (IS_ERR(crtc_state))
++		return PTR_ERR(crtc_state);
++
++	if (!crtc_state->hw.active)
++		return 0;
++
++	/*
++	 * We've not yet detected sink capabilities
++	 * (audio,infoframes,etc.) and thus we don't want to
++	 * force a full state recomputation yet. We want that to
++	 * happen only for the first real commit from userspace.
++	 * So preserve the inherited flag for the time being.
++	 */
++	crtc_state->inherited = true;
++
++	ret = drm_atomic_add_affected_planes(&state->base, &crtc->base);
++	if (ret)
++		return ret;
++
++	/*
++	 * FIXME hack to force a LUT update to avoid the
++	 * plane update forcing the pipe gamma on without
++	 * having a proper LUT loaded. Remove once we
++	 * have readout for pipe gamma enable.
++	 */
++	crtc_state->uapi.color_mgmt_changed = true;
++
++	for_each_intel_encoder_mask(state->base.dev, encoder, crtc_state->uapi.encoder_mask) {
++		if (encoder->initial_fastset_check &&
++		    !encoder->initial_fastset_check(encoder, crtc_state)) {
++			ret = drm_atomic_add_affected_connectors(&state->base,
++								 &crtc->base);
++			if (ret)
++				return ret;
++		}
++	}
++
++	return 0;
++}
++
+ static int intel_initial_commit(struct drm_device *dev)
+ {
+-	struct drm_atomic_state *state = NULL;
+ 	struct drm_modeset_acquire_ctx ctx;
++	struct drm_atomic_state *state;
+ 	struct intel_crtc *crtc;
+-	int ret = 0;
++	int ret;
+ 
+ 	state = drm_atomic_state_alloc(dev);
+ 	if (!state)
+@@ -12146,49 +12194,9 @@ static int intel_initial_commit(struct drm_device *dev)
+ 	state->acquire_ctx = &ctx;
+ 
+ 	for_each_intel_crtc(dev, crtc) {
+-		struct intel_crtc_state *crtc_state =
+-			intel_atomic_get_crtc_state(state, crtc);
+-
+-		if (IS_ERR(crtc_state)) {
+-			ret = PTR_ERR(crtc_state);
++		ret = intel_crtc_initial_commit(to_intel_atomic_state(state), crtc);
++		if (ret)
+ 			goto out;
+-		}
+-
+-		if (crtc_state->hw.active) {
+-			struct intel_encoder *encoder;
+-
+-			/*
+-			 * We've not yet detected sink capabilities
+-			 * (audio,infoframes,etc.) and thus we don't want to
+-			 * force a full state recomputation yet. We want that to
+-			 * happen only for the first real commit from userspace.
+-			 * So preserve the inherited flag for the time being.
+-			 */
+-			crtc_state->inherited = true;
+-
+-			ret = drm_atomic_add_affected_planes(state, &crtc->base);
+-			if (ret)
+-				goto out;
+-
+-			/*
+-			 * FIXME hack to force a LUT update to avoid the
+-			 * plane update forcing the pipe gamma on without
+-			 * having a proper LUT loaded. Remove once we
+-			 * have readout for pipe gamma enable.
+-			 */
+-			crtc_state->uapi.color_mgmt_changed = true;
+-
+-			for_each_intel_encoder_mask(dev, encoder,
+-						    crtc_state->uapi.encoder_mask) {
+-				if (encoder->initial_fastset_check &&
+-				    !encoder->initial_fastset_check(encoder, crtc_state)) {
+-					ret = drm_atomic_add_affected_connectors(state,
+-										 &crtc->base);
+-					if (ret)
+-						goto out;
+-				}
+-			}
+-		}
+ 	}
+ 
+ 	ret = drm_atomic_commit(state);
 -- 
 2.31.1
 
