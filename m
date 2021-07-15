@@ -2,33 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DD0A3C9ED5
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jul 2021 14:41:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D065C3C9EDA
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jul 2021 14:42:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2DF096E82B;
-	Thu, 15 Jul 2021 12:41:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A66E6E7EF;
+	Thu, 15 Jul 2021 12:42:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D9BE6E83A
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jul 2021 12:41:38 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id EC863613C9;
- Thu, 15 Jul 2021 12:41:37 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB2746E7EF
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jul 2021 12:42:37 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 41FFE613C1;
+ Thu, 15 Jul 2021 12:42:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1626352898;
- bh=tLixSh7E9+cFh2C9mRig7PlKenBTqZ1O1igI9BxTDbg=;
+ s=korg; t=1626352957;
+ bh=/xZ008HKRaDT9uQflZXvWc7StfU79jGG4sXFaak29lM=;
  h=Subject:To:Cc:From:Date:From;
- b=Dg4WcMGWbfhsgUByCAbtnwVYKS3Cb2KtKJ3pwKYLwimHlzuuwdjk7oqqrENv42QHw
- AHIeq8RrQAp99cKNbriWUWLNrHGXv1dDyTs7lVzxD58+kK2BL/+CHd54PPZgU5DE5n
- C7/MeW8IHG/kA0BpTtRso3d0dftXKuRZu3DSlEE8=
+ b=2H1shb2++zyuHR12Ix6r4Rq1qMAYdy0HcvFGzhO9JH5vhFhPj1qiGh3nIIm4trEVh
+ /ayOGB54bCWXWkPbDzAHV7hFxY8RDPsF7viE0eieu3NOWo8BDjQupjZknKHK2mFqEQ
+ kFC9PxeDF2frhODdDo/UPnI/e8uFDnJWGbjmWdYQ=
 Subject: Patch "drm/dp_mst: Do not set proposed vcpi directly" has been added
- to the 5.10-stable tree
+ to the 5.12-stable tree
 To: Wayne.Lin@amd.com, dri-devel@lists.freedesktop.org,
  gregkh@linuxfoundation.org, lyude@redhat.com,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de
 From: <gregkh@linuxfoundation.org>
-Date: Thu, 15 Jul 2021 14:40:10 +0200
-Message-ID: <162635281026167@kroah.com>
+Date: Thu, 15 Jul 2021 14:40:33 +0200
+Message-ID: <1626352833225168@kroah.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=ANSI_X3.4-1968
 Content-Transfer-Encoding: 8bit
@@ -55,12 +55,12 @@ This is a note to let you know that I've just added the patch titled
 
     drm/dp_mst: Do not set proposed vcpi directly
 
-to the 5.10-stable tree which can be found at:
+to the 5.12-stable tree which can be found at:
     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
 The filename of the patch is:
      drm-dp_mst-do-not-set-proposed-vcpi-directly.patch
-and it can be found in the queue-5.10 subdirectory.
+and it can be found in the queue-5.12 subdirectory.
 
 If you, or anyone else, feels it should not be added to the stable tree,
 please let <stable@vger.kernel.org> know about it.
@@ -197,4 +197,4 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 Patches currently in stable-queue which might be from Wayne.Lin@amd.com are
 
-queue-5.10/drm-dp_mst-do-not-set-proposed-vcpi-directly.patch
+queue-5.12/drm-dp_mst-do-not-set-proposed-vcpi-directly.patch
