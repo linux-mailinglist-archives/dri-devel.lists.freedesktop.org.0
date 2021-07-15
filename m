@@ -2,59 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2FC33C9BD2
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jul 2021 11:30:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C238F3C9BDA
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jul 2021 11:30:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 54C2D6E7D2;
-	Thu, 15 Jul 2021 09:30:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ECFB26E7D5;
+	Thu, 15 Jul 2021 09:30:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
- [IPv6:2a00:1450:4864:20::136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 36B966E7D2
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jul 2021 09:30:16 +0000 (UTC)
-Received: by mail-lf1-x136.google.com with SMTP id 8so8695834lfp.9
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jul 2021 02:30:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=/4J+UA5scvj7b6HcOQ6RHEexwkkfUiUgGl4lp097QQc=;
- b=TSeH7kAJF1Q/qDnooiYkoZ3NVvVZyVTurC3pcf+htAAtfIS/gptUC4mFhC3F9fqGMF
- UGX9D8jQjDDUtegztKa/x3fSLvulL329WF6r5IW9YJ9U1U3TcQcGT84CkiriRqUzVXEq
- h04muPAvNpUJgr/I2tmeD5L2sv2TYdczwr/MCNFIkJGFn9v1HmWQrTz8CFbL76lPByci
- n0NMrnY6uzKKQXlKSkbeyFgFSFz/elGvuY7ucPPJOypYYYDTx1F56chl2QtXlVZ/RLl/
- OfpfwfGAq9EDIuVyVdQF4mYmhUJ/VtBvhkooL9xKs04V3rt8kQokzRv/olQLgsYPO8H5
- OHIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=/4J+UA5scvj7b6HcOQ6RHEexwkkfUiUgGl4lp097QQc=;
- b=J4aT0J7Cq3CPUZ5LngE940HIVMWC7IskDJQd4+4uxDThZ3b4ybYRelHQ+BYSRKzj35
- SEfwOZET0HqFVf5GCozBPuO36DpylyLmthub5APCA1v4uE4Ye+pn6RQAoeJ4UVWMlCOH
- G7AjWUCJoDA7nAeyfpS1GtQi3+x85yh9xLUaRbzMyim/uMbJYNkUpExAp4k1Bc/NWqT3
- 2esmwaGCVsIq+yI5729pYsVC/IpOJyZGLFVhn8KPLUMCKpN0fUWnYSNcryGT6CFnBBDj
- o4TlzTmV7T2+vfwZjc0+c6lteL9zd8gw5xqUChh1AAROB0NoRQlvTYntr60rKq0nb/XT
- ptUg==
-X-Gm-Message-State: AOAM530FBIWjzrMQYRhFkO2XvXzo573+iUdU/Y8z4EgCaMM9LEUocFSo
- npjNrInu9AFLXbq/vbPLZRQ8Gg==
-X-Google-Smtp-Source: ABdhPJwVRZS6buSz0OkBe4ThzqBPQJM7r+TRR3vIccvkLLxeRXS8Le3GVRZRJP4ot4BAsoqbAT2AwQ==
-X-Received: by 2002:a19:7512:: with SMTP id y18mr2729462lfe.533.1626341414627; 
- Thu, 15 Jul 2021 02:30:14 -0700 (PDT)
-Received: from localhost.localdomain
- (c-fdcc225c.014-348-6c756e10.bbcust.telenor.se. [92.34.204.253])
- by smtp.gmail.com with ESMTPSA id n5sm367343lft.139.2021.07.15.02.30.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 15 Jul 2021 02:30:14 -0700 (PDT)
-From: Linus Walleij <linus.walleij@linaro.org>
-To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/panel-sony-acx424akp: Modernize backlight handling
-Date: Thu, 15 Jul 2021 11:28:08 +0200
-Message-Id: <20210715092808.1100106-1-linus.walleij@linaro.org>
-X-Mailer: git-send-email 2.31.1
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C2686E7D5
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jul 2021 09:30:41 +0000 (UTC)
+Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 1272A2292A;
+ Thu, 15 Jul 2021 09:30:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1626341440; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=nJ/9Gr3eoqAJctk2n0YKskrK9wmCBCiTnG1XoGzapDI=;
+ b=mM6TvzD+WxjROMOi/gWqrn7PSiPCDpLD6WFrsvluzyQRIdSW5GdZnzQNDsXahukZSgNZVl
+ kxFRryMdyn6YEoKww+M/YVZZVZSXtELAQx/t5aEgE4wtUdQ4A05yTpjchHzvP3KUTFB3i4
+ UBviofXBgCZ66eXH7JxGD88RPtfE7g0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1626341440;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=nJ/9Gr3eoqAJctk2n0YKskrK9wmCBCiTnG1XoGzapDI=;
+ b=9n4RAZIl1JRu0f5W7QK7mpSfUC0/LJ7Rj6J5FOqSeOobNUdqOlmG1ET6mISiFvOME+JjCm
+ G8CJrusBP8iRvxAw==
+Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap1.suse-dmz.suse.de (Postfix) with ESMTPS id D7EC613AB6;
+ Thu, 15 Jul 2021 09:30:39 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap1.suse-dmz.suse.de with ESMTPSA id cp57Mz8A8GDcBgAAGKfGzw
+ (envelope-from <tzimmermann@suse.de>); Thu, 15 Jul 2021 09:30:39 +0000
+Subject: Re: [PATCH -next v2] drm/bochs: Fix missing pci_disable_device() on
+ error in bochs_pci_probe()
+To: Yang Yingliang <yangyingliang@huawei.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org
+References: <20210715020551.1030812-1-yangyingliang@huawei.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <49771e7d-666a-bac3-2cd7-23008a95ad8e@suse.de>
+Date: Thu, 15 Jul 2021 11:30:39 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210715020551.1030812-1-yangyingliang@huawei.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="ABSJuNRvgtVRizXpSLt8b9avW36PfrpRS"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,181 +70,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: airlied@linux.ie, kraxel@redhat.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This converts the internal backlight in the Sony ACX424AKP
-driver to do it the canonical way:
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--ABSJuNRvgtVRizXpSLt8b9avW36PfrpRS
+Content-Type: multipart/mixed; boundary="HFvtUBen1oNeXSkMyBE7tGhl5aQoTXbSv";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Yang Yingliang <yangyingliang@huawei.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org
+Cc: airlied@linux.ie, kraxel@redhat.com
+Message-ID: <49771e7d-666a-bac3-2cd7-23008a95ad8e@suse.de>
+Subject: Re: [PATCH -next v2] drm/bochs: Fix missing pci_disable_device() on
+ error in bochs_pci_probe()
+References: <20210715020551.1030812-1-yangyingliang@huawei.com>
+In-Reply-To: <20210715020551.1030812-1-yangyingliang@huawei.com>
 
-- Assign the panel->backlight during probe.
-- Let the panel framework handle the backlight.
-- Make the backlight .set_brightness() turn the backlight
-  off completely if blank.
-- Fix some dev_err_probe() use cases along the way.
+--HFvtUBen1oNeXSkMyBE7tGhl5aQoTXbSv
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-Tested on the U8500 HREF520 reference design.
+Hi,
 
-Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
----
- drivers/gpu/drm/panel/panel-sony-acx424akp.c | 84 +++++++-------------
- 1 file changed, 28 insertions(+), 56 deletions(-)
+for the change
 
-diff --git a/drivers/gpu/drm/panel/panel-sony-acx424akp.c b/drivers/gpu/drm/panel/panel-sony-acx424akp.c
-index 95659a4d15e9..163f0e0cee1c 100644
---- a/drivers/gpu/drm/panel/panel-sony-acx424akp.c
-+++ b/drivers/gpu/drm/panel/panel-sony-acx424akp.c
-@@ -40,7 +40,6 @@
- struct acx424akp {
- 	struct drm_panel panel;
- 	struct device *dev;
--	struct backlight_device *bl;
- 	struct regulator *supply;
- 	struct gpio_desc *reset_gpio;
- 	bool video_mode;
-@@ -102,6 +101,20 @@ static int acx424akp_set_brightness(struct backlight_device *bl)
- 	u8 par;
- 	int ret;
- 
-+
-+	if (backlight_is_blank(bl)) {
-+		/* Disable backlight */
-+		par = 0x00;
-+		ret = mipi_dsi_dcs_write(dsi, MIPI_DCS_WRITE_CONTROL_DISPLAY,
-+					 &par, 1);
-+		if (ret) {
-+			dev_err(acx->dev, "failed to disable display backlight (%d)\n", ret);
-+			return ret;
-+		}
-+		return 0;
-+	}
-+
-+
- 	/* Calculate the PWM duty cycle in n/256's */
- 	pwm_ratio = max(((duty_ns * 256) / period_ns) - 1, 1);
- 	pwm_div = max(1,
-@@ -172,6 +185,12 @@ static const struct backlight_ops acx424akp_bl_ops = {
- 	.update_status = acx424akp_set_brightness,
- };
- 
-+static const struct backlight_properties acx424akp_bl_props = {
-+	.type = BACKLIGHT_PLATFORM,
-+	.brightness = 512,
-+	.max_brightness = 1023,
-+};
-+
- static int acx424akp_read_id(struct acx424akp *acx)
- {
- 	struct mipi_dsi_device *dsi = to_mipi_dsi_device(acx->dev);
-@@ -310,8 +329,6 @@ static int acx424akp_prepare(struct drm_panel *panel)
- 		}
- 	}
- 
--	acx->bl->props.power = FB_BLANK_NORMAL;
--
- 	return 0;
- 
- err_power_off:
-@@ -323,18 +340,8 @@ static int acx424akp_unprepare(struct drm_panel *panel)
- {
- 	struct acx424akp *acx = panel_to_acx424akp(panel);
- 	struct mipi_dsi_device *dsi = to_mipi_dsi_device(acx->dev);
--	u8 par;
- 	int ret;
- 
--	/* Disable backlight */
--	par = 0x00;
--	ret = mipi_dsi_dcs_write(dsi, MIPI_DCS_WRITE_CONTROL_DISPLAY,
--				 &par, 1);
--	if (ret) {
--		dev_err(acx->dev, "failed to disable display backlight (%d)\n", ret);
--		return ret;
--	}
--
- 	ret = mipi_dsi_dcs_set_display_off(dsi);
- 	if (ret) {
- 		dev_err(acx->dev, "failed to turn display off (%d)\n", ret);
-@@ -350,36 +357,10 @@ static int acx424akp_unprepare(struct drm_panel *panel)
- 	msleep(85);
- 
- 	acx424akp_power_off(acx);
--	acx->bl->props.power = FB_BLANK_POWERDOWN;
--
--	return 0;
--}
--
--static int acx424akp_enable(struct drm_panel *panel)
--{
--	struct acx424akp *acx = panel_to_acx424akp(panel);
--
--	/*
--	 * The backlight is on as long as the display is on
--	 * so no use to call backlight_enable() here.
--	 */
--	acx->bl->props.power = FB_BLANK_UNBLANK;
- 
- 	return 0;
- }
- 
--static int acx424akp_disable(struct drm_panel *panel)
--{
--	struct acx424akp *acx = panel_to_acx424akp(panel);
--
--	/*
--	 * The backlight is on as long as the display is on
--	 * so no use to call backlight_disable() here.
--	 */
--	acx->bl->props.power = FB_BLANK_NORMAL;
--
--	return 0;
--}
- 
- static int acx424akp_get_modes(struct drm_panel *panel,
- 			       struct drm_connector *connector)
-@@ -409,10 +390,8 @@ static int acx424akp_get_modes(struct drm_panel *panel,
- }
- 
- static const struct drm_panel_funcs acx424akp_drm_funcs = {
--	.disable = acx424akp_disable,
- 	.unprepare = acx424akp_unprepare,
- 	.prepare = acx424akp_prepare,
--	.enable = acx424akp_enable,
- 	.get_modes = acx424akp_get_modes,
- };
- 
-@@ -458,25 +437,18 @@ static int acx424akp_probe(struct mipi_dsi_device *dsi)
- 	/* This asserts RESET by default */
- 	acx->reset_gpio = devm_gpiod_get_optional(dev, "reset",
- 						  GPIOD_OUT_HIGH);
--	if (IS_ERR(acx->reset_gpio)) {
--		ret = PTR_ERR(acx->reset_gpio);
--		if (ret != -EPROBE_DEFER)
--			dev_err(dev, "failed to request GPIO (%d)\n", ret);
--		return ret;
--	}
-+	if (IS_ERR(acx->reset_gpio))
-+		return dev_err_probe(dev, PTR_ERR(acx->reset_gpio),
-+				     "failed to request GPIO\n");
- 
- 	drm_panel_init(&acx->panel, dev, &acx424akp_drm_funcs,
- 		       DRM_MODE_CONNECTOR_DSI);
- 
--	acx->bl = devm_backlight_device_register(dev, "acx424akp", dev, acx,
--						 &acx424akp_bl_ops, NULL);
--	if (IS_ERR(acx->bl)) {
--		dev_err(dev, "failed to register backlight device\n");
--		return PTR_ERR(acx->bl);
--	}
--	acx->bl->props.max_brightness = 1023;
--	acx->bl->props.brightness = 512;
--	acx->bl->props.power = FB_BLANK_POWERDOWN;
-+	acx->panel.backlight = devm_backlight_device_register(dev, "acx424akp", dev, acx,
-+					&acx424akp_bl_ops, &acx424akp_bl_props);
-+	if (IS_ERR(acx->panel.backlight))
-+		return dev_err_probe(dev, PTR_ERR(acx->panel.backlight),
-+				     "failed to register backlight device\n");
- 
- 	drm_panel_add(&acx->panel);
- 
--- 
-2.31.1
 
+Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+
+
+but there are some style issues AFAICS.
+
+Am 15.07.21 um 04:05 schrieb Yang Yingliang:
+> Replace pci_enable_device() with pcim_enable_device(),
+> pci_disable_device() will be called in release automatically.
+>=20
+> Reported-by: Hulk Robot <hulkci@huawei.com>
+> Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
+
+S-o-b line goes first
+
+> ---
+> v2:
+>    use pcim_enable_device()
+
+This changelog should rather be located between the commit description=20
+and the first S-o-b line.
+
+Best regards
+Thomas
+
+> ---
+>   drivers/gpu/drm/tiny/bochs.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/gpu/drm/tiny/bochs.c b/drivers/gpu/drm/tiny/bochs.=
+c
+> index a2cfecfa8556..73415fa9ae0f 100644
+> --- a/drivers/gpu/drm/tiny/bochs.c
+> +++ b/drivers/gpu/drm/tiny/bochs.c
+> @@ -648,7 +648,7 @@ static int bochs_pci_probe(struct pci_dev *pdev, co=
+nst struct pci_device_id *ent
+>   	if (IS_ERR(dev))
+>   		return PTR_ERR(dev);
+>  =20
+> -	ret =3D pci_enable_device(pdev);
+> +	ret =3D pcim_enable_device(pdev);
+>   	if (ret)
+>   		goto err_free_dev;
+>  =20
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--HFvtUBen1oNeXSkMyBE7tGhl5aQoTXbSv--
+
+--ABSJuNRvgtVRizXpSLt8b9avW36PfrpRS
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmDwAD8FAwAAAAAACgkQlh/E3EQov+By
+NRAAiUrdLMyeq9mv4+Lh9MLnJbPei3guqnKqDae5PhaAELNBNS1kxK9CBkoXXa5rfFGx4PeBowCF
+KB5fcMs9Px8a3zj9cNbt2DBAa0pJ9aQP49C8iVJulvrheK8aCOnxv0mF0KFtieZZB1UmGHon9zRf
+FfpqsipdPHsmUvkDnsI/zlDbfiSG2SnOog64OsRhJFUhVaHs9Nkpv0rvKdzr+Y3BhNWnYk+wCJqp
+ftYah5H63xFFt2SZ1oY4FGh0RqaarA1p191k5AArg9W5fFnS37dN/K8C97nbcQTWfk7JzqnZAjiv
+MFSc+S6Bh0wHV9r0eOXZeyvAHSrg2glkXx8U5fGNpGU8WJdJZGoT8ag32iPpMLsn+uQR+RaoTh2W
+yPe6A6QICOOzS9b8KWccfloAPPKN6YWK52gw2i6qO99UflkDaOkYbDl2aIcmOVl8wHc2mU+UI1OD
+vegZ7Soc1Ixp8DDhJj/2KIjz1+N9nQECY5KNqM8H/1vkZE53pS/VdWkAtK41fHtMG4jP6cDMwze1
+34p+OH/BmjTLwaSatoZGgcsqJpwse7BnzF1Mhtr7FJ43IXmbO+68nxVsuEeTWsJrFSKQgYyXBmsl
+1ZV2CWHa7/KmyMPhDWBDEYqsv6oNiY2T3ESmtlkjgWGIapzby7nhJFE00n03hYhE6Umrb2g0SoJR
+4nM=
+=+QTY
+-----END PGP SIGNATURE-----
+
+--ABSJuNRvgtVRizXpSLt8b9avW36PfrpRS--
