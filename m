@@ -2,34 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F15143CB2E5
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Jul 2021 08:58:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35CD03CB2E6
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Jul 2021 08:58:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B0996E917;
-	Fri, 16 Jul 2021 06:58:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 09E2A6E918;
+	Fri, 16 Jul 2021 06:58:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9CB156E917
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jul 2021 06:58:28 +0000 (UTC)
-X-UUID: b68ef4a43c62471782163bc8c1a7c2d6-20210716
-X-UUID: b68ef4a43c62471782163bc8c1a7c2d6-20210716
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
- (envelope-from <yongqiang.niu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1471585733; Fri, 16 Jul 2021 14:58:25 +0800
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A700E6E917
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jul 2021 06:58:29 +0000 (UTC)
+X-UUID: af6493dfd4774539861903ba29ad2fec-20210716
+X-UUID: af6493dfd4774539861903ba29ad2fec-20210716
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
+ mailgw02.mediatek.com (envelope-from <yongqiang.niu@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1260778623; Fri, 16 Jul 2021 14:58:26 +0800
 Received: from mtkcas07.mediatek.inc (172.21.101.84) by
  mtkmbs02n1.mediatek.inc (172.21.101.77) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Fri, 16 Jul 2021 14:58:23 +0800
+ 15.0.1497.2; Fri, 16 Jul 2021 14:58:24 +0800
 Received: from localhost.localdomain (10.17.3.153) by mtkcas07.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Fri, 16 Jul 2021 14:58:22 +0800
+ Transport; Fri, 16 Jul 2021 14:58:23 +0800
 From: Yongqiang Niu <yongqiang.niu@mediatek.com>
 To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Subject: [PATCHi v1] add instruction time-out interrupt support
-Date: Fri, 16 Jul 2021 14:58:20 +0800
-Message-ID: <1626418701-28467-1-git-send-email-yongqiang.niu@mediatek.com>
+Subject: [PATCH v1] mailbox: cmdq: add instruction time-out interrupt support
+Date: Fri, 16 Jul 2021 14:58:21 +0800
+Message-ID: <1626418701-28467-2-git-send-email-yongqiang.niu@mediatek.com>
 X-Mailer: git-send-email 1.8.1.1.dirty
+In-Reply-To: <1626418701-28467-1-git-send-email-yongqiang.niu@mediatek.com>
+References: <1626418701-28467-1-git-send-email-yongqiang.niu@mediatek.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-MTK: N
@@ -58,13 +60,50 @@ Cc: devicetree@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+add time-out cycle setting to make sure time-out interrupt irq
+will happened when instruction time-out for wait and poll
 
-Yongqiang Niu (1):
-  mailbox: cmdq: add instruction time-out interrupt support
-
+Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
+---
  drivers/mailbox/mtk-cmdq-mailbox.c | 11 +++++++++++
  1 file changed, 11 insertions(+)
 
+diff --git a/drivers/mailbox/mtk-cmdq-mailbox.c b/drivers/mailbox/mtk-cmdq-mailbox.c
+index de4793e..9a76bcd 100644
+--- a/drivers/mailbox/mtk-cmdq-mailbox.c
++++ b/drivers/mailbox/mtk-cmdq-mailbox.c
+@@ -35,6 +35,7 @@
+ #define CMDQ_THR_END_ADDR		0x24
+ #define CMDQ_THR_WAIT_TOKEN		0x30
+ #define CMDQ_THR_PRIORITY		0x40
++#define CMDQ_THR_INSTN_TIMEOUT_CYCLES	0x50
+ 
+ #define GCE_GCTL_VALUE			0x48
+ 
+@@ -53,6 +54,15 @@
+ #define CMDQ_JUMP_BY_OFFSET		0x10000000
+ #define CMDQ_JUMP_BY_PA			0x10000001
+ 
++/*
++ * instruction time-out
++ * cycles to issue instruction time-out interrupt for wait and poll instructions
++ * GCE axi_clock 156MHz
++ * 1 cycle = 6.41ns
++ * instruction time out 2^22*2*6.41ns = 53ms
++ */
++#define CMDQ_INSTN_TIMEOUT_CYCLES	22
++
+ struct cmdq_thread {
+ 	struct mbox_chan	*chan;
+ 	void __iomem		*base;
+@@ -368,6 +378,7 @@ static int cmdq_mbox_send_data(struct mbox_chan *chan, void *data)
+ 		writel((task->pa_base + pkt->cmd_buf_size) >> cmdq->shift_pa,
+ 		       thread->base + CMDQ_THR_END_ADDR);
+ 
++		writel(CMDQ_INSTN_TIMEOUT_CYCLES, thread->base + CMDQ_THR_INSTN_TIMEOUT_CYCLES);
+ 		writel(thread->priority, thread->base + CMDQ_THR_PRIORITY);
+ 		writel(CMDQ_THR_IRQ_EN, thread->base + CMDQ_THR_IRQ_ENABLE);
+ 		writel(CMDQ_THR_ENABLED, thread->base + CMDQ_THR_ENABLE_TASK);
 -- 
 1.8.1.1.dirty
 
