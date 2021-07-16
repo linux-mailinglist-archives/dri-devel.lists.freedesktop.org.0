@@ -1,101 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 249813CB34B
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Jul 2021 09:36:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FF383CB356
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Jul 2021 09:37:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 105266E930;
-	Fri, 16 Jul 2021 07:36:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 716886E931;
+	Fri, 16 Jul 2021 07:37:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2089.outbound.protection.outlook.com [40.107.237.89])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA3866E930
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jul 2021 07:36:19 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VBaJdm4u5+z7rr+6qK5GoKofRrZ+HovK9HLgjUHsfNpeMxSgNcUthxC34yr2iU1nesC05klPAPjq2IS4tYjL46fdaGzhJ/fWGVT61QL1G3ERF4X1z4GGoruO5Y7uFvlm2lj197XbfqG4sza9WbE3fGqJyJhCwjkXoFJyoENN3TeaS23Nvt7lWe5nRhsvuPMPySHfTxajBezda8Jt4oVqYysrajgOSDN9OHueTP4I0KgRDDbwPeJSugt9tfGv7HEXaErISbhBl8jPTWewRoeogjzyPi1T5zCmFxOMdiwz0QGWL/alvVAoym97TmNe53J6U/UYbGLInuNSBLYUGAy1cg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bJVIrkB/79/ZMZfPQEJ/HRX2YUdRaOJLE0dfmcDfdK4=;
- b=c/KT/mcAqhaNOyKeN3qA73oewjMLVTDdXSQFy9MFaHNs5OJZs9wTQ0p52Y6Q7W2nEi2ocUclFXq7IdfgcrkshmwGJS6YUuq0mnHLmCHaP7XBgpuFNtnuL6hiJ7ziXaqCt5NzwAhMVxglUMpbC7ZR5kAiJ3m4YrIRVd5KhanNUmhpuHkA1k05D2ZNJ6l217ScW2hPsvDY9bawO3KeDclm2N24fwNF6qtjwc0lvDMplfOprbCjFTmvdTtY+PxZIF0MdD79GMDdJGz0bqMvSyYgoTH/1xRM78dufPp9zEVUFHNoEJlOJ96QaTuQf+6ItC3ViMoyKoHO7S59KyO0UeYKyA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=linuxfoundation.org smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bJVIrkB/79/ZMZfPQEJ/HRX2YUdRaOJLE0dfmcDfdK4=;
- b=qkUSohEu35PN9aMBnN4gbSqHKJzvtM8oVXCPv9Iqf9MHbvbQEy6AZnHOzo5FjKW6cQzw6O/A+tlz/RD0beWpd4tSTSw64UoaPqSe2nhDjYbisORGZ+3vTxaVQkRQQvFfD/EHLqOPm3Ndf045FBg08K5jyEZCzoDlBN4EEDkPRm8=
-Received: from BN9PR03CA0846.namprd03.prod.outlook.com (2603:10b6:408:13d::11)
- by DM6PR12MB4745.namprd12.prod.outlook.com (2603:10b6:5:7b::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.21; Fri, 16 Jul
- 2021 07:36:17 +0000
-Received: from BN8NAM11FT043.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:13d:cafe::40) by BN9PR03CA0846.outlook.office365.com
- (2603:10b6:408:13d::11) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.24 via Frontend
- Transport; Fri, 16 Jul 2021 07:36:17 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; linuxfoundation.org; dkim=none (message not signed)
- header.d=none;linuxfoundation.org; dmarc=pass action=none
- header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BN8NAM11FT043.mail.protection.outlook.com (10.13.177.218) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.4331.21 via Frontend Transport; Fri, 16 Jul 2021 07:36:17 +0000
-Received: from SATLEXMB06.amd.com (10.181.40.147) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4; Fri, 16 Jul
- 2021 02:36:17 -0500
-Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB06.amd.com
- (10.181.40.147) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4; Fri, 16 Jul
- 2021 02:36:16 -0500
-Received: from wayne-System-Product-Name.amd.com (10.180.168.240) by
- SATLEXMB03.amd.com (10.181.40.144) with Microsoft SMTP Server id 15.1.2242.4
- via Frontend Transport; Fri, 16 Jul 2021 02:36:15 -0500
-From: Wayne Lin <Wayne.Lin@amd.com>
-To: <gregkh@linuxfoundation.org>, <stable@vger.kernel.org>
-Subject: [PATCH 3/3] drm/dp_mst: Add missing drm parameters to recently added
- call to drm_dbg_kms()
-Date: Fri, 16 Jul 2021 15:34:50 +0800
-Message-ID: <20210716073450.26497-4-Wayne.Lin@amd.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210716073450.26497-1-Wayne.Lin@amd.com>
-References: <20210716073450.26497-1-Wayne.Lin@amd.com>
+Received: from mail-il1-x135.google.com (mail-il1-x135.google.com
+ [IPv6:2607:f8b0:4864:20::135])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC1036E931
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jul 2021 07:37:32 +0000 (UTC)
+Received: by mail-il1-x135.google.com with SMTP id w1so7435113ilg.10
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jul 2021 00:37:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ANiQyDq/folOxbicLwy3YOWgSYI5J0bEHqTHjcfWpeE=;
+ b=NZ/hguWCrTo//AU1Q0svGXlehzVRhlRy/nSls8iodhXXHgSEeCwbBTZ/daP8ru1+2y
+ BxRBJiEgjMWnZOPOkNow345Owj7290E/vXITWK+0+xpPLDyrmWtEgAaLi1EYLiW0H96w
+ NuqSZvzGC2Z4C51n2jOptN+DVowI83OLjjCDE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ANiQyDq/folOxbicLwy3YOWgSYI5J0bEHqTHjcfWpeE=;
+ b=OrebohvOKq7q+x124RwipOxA2Pxd00jP7Nvi88b8nrMCnd5KND5T0ZvNTk9I4JDLAD
+ Cw292XL537tIMm+OCAOhzBuBqgV4IvYk27DTwvHHU4sGGqszhH8VdhscGgHFnSi4YGWq
+ 91Y3X0zmq/SYsY78ZVnr3LuM9Cy9SAjzS9Y49MO0l19s3HDAxRgiSqhtOl1g9CI4MVnk
+ UtNMirTY0R568qZDw0CoEuabj0NVdrqKGfB3TFOGJ+N4YarfSdIqg8cLnNlYlu2BlmZO
+ ogXZu+yMrK9icqT8UrefMuBlFmsC5BFl/due1SL6/OyChG3/cs+6R/9ZCzDIuBvEAFjo
+ kXdA==
+X-Gm-Message-State: AOAM532we/jDEVT0u/Ni6WVKQ0ILVkE3ZWgNj/n9UP8m1pJbZdQEmEe0
+ KA+opUxqaInqOwgyWYgKv52XOMPVYFAhgR0NKa9now==
+X-Google-Smtp-Source: ABdhPJyT8V6x97LXNxXCsukgUCvYDKNceqkLDBqaokboRJb34I4xEcF3g0U8Zw6BQAhoQ5hGaStIUlO4jTjCi2i7VqY=
+X-Received: by 2002:a92:d305:: with SMTP id x5mr5796115ila.150.1626421051833; 
+ Fri, 16 Jul 2021 00:37:31 -0700 (PDT)
 MIME-Version: 1.0
+References: <1626418701-28467-1-git-send-email-yongqiang.niu@mediatek.com>
+ <1626418701-28467-2-git-send-email-yongqiang.niu@mediatek.com>
+In-Reply-To: <1626418701-28467-2-git-send-email-yongqiang.niu@mediatek.com>
+From: Hsin-Yi Wang <hsinyi@chromium.org>
+Date: Fri, 16 Jul 2021 15:37:05 +0800
+Message-ID: <CAJMQK-ghGCR3L89NzBx-6X6rJK-4VQYZT18DqdKM780r2bLvpA@mail.gmail.com>
+Subject: Re: [PATCH v1] mailbox: cmdq: add instruction time-out interrupt
+ support
+To: Yongqiang Niu <yongqiang.niu@mediatek.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 64607744-c9e8-420b-e443-08d9482c65df
-X-MS-TrafficTypeDiagnostic: DM6PR12MB4745:
-X-Microsoft-Antispam-PRVS: <DM6PR12MB47456331F5EF29C8E7567A47FC119@DM6PR12MB4745.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:127;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: SJi3+rgKJCa3ehQAnYuKk0DgSjB+afDGnkwJxr2R9fFX/lDzvasKNM2Mj86BX7HrNRT00cM7MgwJMqSDXR+z3fUThVaCJPsF7eb3h7u6CqO02pLZd1ZVUaV287xF00D7KOQjd4GjLaSewzHt6NqvNm3TaKuWQglzjtgzAPN3iQ6CNzT66Fz0+6163ROA1QHZSlb8jINo1SFCpz4dRGuDHPLpm5BTmzFRxgl12eephcgxNpGcQ6ppC73tqRYhstND3gRxqBtCaAG7ocpqJ0IV9HjCzJVSo8simuTk2mgOo/mnhu69rmwNhqlv/U7YIPH2t8lyKHFpIQnyUFL8I2mysAcHq1pm7WmSObHcO64DKcbWMpE74RHrSyU8SV0FbDaq6yXb5AE7OLceO/uO9kwVBsMd1K3aRSGdK6pyYfwaxpQCkVKOjej2S8vTOlERIpaRCyyg1moOShGZq7XcgILd/FZJ4cPOMNMKCFnXPMj1CLlgOftZNU3sa+gdnztuKVy7EVBHsPTFsfAXThQj8OxP5vG1QTOPTNLibUrB/WOWDQtNjxplSTzuZrrRRasM0Dg7txx2PPV/0M6GuXGrYAJdmotpjvD5+gz90h+hBXbKc5v8K3vorWISNKJqmK3TTBvE8COSwaum7naSvx/JLI/uRng35/LJfcr6Slz3ibgGzUZf0B3ULIvnYchufH+urNCkQYW85ZNAGSOLooVQHx9g3lzWrR4mSZ6m/DZ7IeIQxog=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(4636009)(46966006)(36840700001)(5660300002)(8936002)(82310400003)(8676002)(86362001)(186003)(26005)(2906002)(83380400001)(2616005)(426003)(70206006)(70586007)(7696005)(336012)(4326008)(54906003)(1076003)(356005)(36860700001)(47076005)(81166007)(966005)(6666004)(478600001)(316002)(110136005)(36756003)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jul 2021 07:36:17.4038 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 64607744-c9e8-420b-e443-08d9482c65df
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT043.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4745
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,56 +60,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org,
- =?UTF-8?q?Jos=C3=A9=20Roberto=20de=20Souza?= <jose.souza@intel.com>,
- Wayne Lin <Wayne.Lin@amd.com>
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ Devicetree List <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
+ Jassi Brar <jassisinghbrar@gmail.com>, lkml <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Dennis YC Hsieh <dennis-yc.hsieh@mediatek.com>,
+ Fabien Parent <fparent@baylibre.com>, Rob Herring <robh+dt@kernel.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
+ <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: José Roberto de Souza <jose.souza@intel.com>
+On Fri, Jul 16, 2021 at 2:58 PM Yongqiang Niu
+<yongqiang.niu@mediatek.com> wrote:
+>
+> add time-out cycle setting to make sure time-out interrupt irq
+> will happened when instruction time-out for wait and poll
+>
+> Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
 
-Commit 3769e4c0af5b ("drm/dp_mst: Avoid to mess up payload table by
-ports in stale topology") added to calls to drm_dbg_kms() but it
-missed the first parameter, the drm device breaking the build.
+Hi, it seems that this series is based on
+https://patchwork.kernel.org/project/linux-mediatek/patch/1624440623-4585-4-git-send-email-yongqiang.niu@mediatek.com/?
 
-Fixes: 3769e4c0af5b ("drm/dp_mst: Avoid to mess up payload table by ports in stale topology")
-Cc: Wayne Lin <Wayne.Lin@amd.com>
-Cc: Lyude Paul <lyude@redhat.com>
-Cc: dri-devel@lists.freedesktop.org
-Cc: stable@vger.kernel.org
-Signed-off-by: José Roberto de Souza <jose.souza@intel.com>
-Reviewed-by: Lyude Paul <lyude@redhat.com>
-Signed-off-by: Lyude Paul <lyude@redhat.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20210616194415.36926-1-jose.souza@intel.com
----
- drivers/gpu/drm/drm_dp_mst_topology.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+Please state it if it's not based on linux-next, thanks!
 
-diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_dp_mst_topology.c
-index 01570f2549e1..861f16dfd1a3 100644
---- a/drivers/gpu/drm/drm_dp_mst_topology.c
-+++ b/drivers/gpu/drm/drm_dp_mst_topology.c
-@@ -3385,7 +3385,9 @@ int drm_dp_update_payload_part1(struct drm_dp_mst_topology_mgr *mgr)
- 			mutex_unlock(&mgr->lock);
- 
- 			if (skip) {
--				drm_dbg_kms("Virtual channel %d is not in current topology\n", i);
-+				drm_dbg_kms(mgr->dev,
-+					    "Virtual channel %d is not in current topology\n",
-+					    i);
- 				continue;
- 			}
- 			/* Validated ports don't matter if we're releasing
-@@ -3400,7 +3402,8 @@ int drm_dp_update_payload_part1(struct drm_dp_mst_topology_mgr *mgr)
- 						payload->start_slot = req_payload.start_slot;
- 						continue;
- 					} else {
--						drm_dbg_kms("Fail:set payload to invalid sink");
-+						drm_dbg_kms(mgr->dev,
-+							    "Fail:set payload to invalid sink");
- 						mutex_unlock(&mgr->payload_lock);
- 						return -EINVAL;
- 					}
--- 
-2.17.1
-
+> ---
+>  drivers/mailbox/mtk-cmdq-mailbox.c | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
+>
+> diff --git a/drivers/mailbox/mtk-cmdq-mailbox.c b/drivers/mailbox/mtk-cmdq-mailbox.c
+> index de4793e..9a76bcd 100644
+> --- a/drivers/mailbox/mtk-cmdq-mailbox.c
+> +++ b/drivers/mailbox/mtk-cmdq-mailbox.c
+> @@ -35,6 +35,7 @@
+>  #define CMDQ_THR_END_ADDR              0x24
+>  #define CMDQ_THR_WAIT_TOKEN            0x30
+>  #define CMDQ_THR_PRIORITY              0x40
+> +#define CMDQ_THR_INSTN_TIMEOUT_CYCLES  0x50
+>
+>  #define GCE_GCTL_VALUE                 0x48
+>
+> @@ -53,6 +54,15 @@
+>  #define CMDQ_JUMP_BY_OFFSET            0x10000000
+>  #define CMDQ_JUMP_BY_PA                        0x10000001
+>
+> +/*
+> + * instruction time-out
+> + * cycles to issue instruction time-out interrupt for wait and poll instructions
+> + * GCE axi_clock 156MHz
+> + * 1 cycle = 6.41ns
+> + * instruction time out 2^22*2*6.41ns = 53ms
+> + */
+> +#define CMDQ_INSTN_TIMEOUT_CYCLES      22
+> +
+>  struct cmdq_thread {
+>         struct mbox_chan        *chan;
+>         void __iomem            *base;
+> @@ -368,6 +378,7 @@ static int cmdq_mbox_send_data(struct mbox_chan *chan, void *data)
+>                 writel((task->pa_base + pkt->cmd_buf_size) >> cmdq->shift_pa,
+>                        thread->base + CMDQ_THR_END_ADDR);
+>
+> +               writel(CMDQ_INSTN_TIMEOUT_CYCLES, thread->base + CMDQ_THR_INSTN_TIMEOUT_CYCLES);
+>                 writel(thread->priority, thread->base + CMDQ_THR_PRIORITY);
+>                 writel(CMDQ_THR_IRQ_EN, thread->base + CMDQ_THR_IRQ_ENABLE);
+>                 writel(CMDQ_THR_ENABLED, thread->base + CMDQ_THR_ENABLE_TASK);
+> --
+> 1.8.1.1.dirty
+>
