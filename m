@@ -2,116 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7FD03CB1F2
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Jul 2021 07:35:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 227643CB1FF
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Jul 2021 07:41:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B0F76E90A;
-	Fri, 16 Jul 2021 05:35:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E31096E90B;
+	Fri, 16 Jul 2021 05:41:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam08on2134.outbound.protection.outlook.com [40.107.101.134])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CFBE56E90A
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jul 2021 05:35:30 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=aZaRBmGmz56vz6pHEcLImNXOtcEXEWS+A6oBznlGaAemnWdDcHc7eHCyGsdDLEtJ5BLZ6y3auNSQbId6bnQpj2jLF0w9/9kgiq+TdTdUqp3PlqugT70XqiqXJHTFLf899O0kRrcdeOOpxtsXmy1vAqZqcSeO3nysGXyDB1WTzhkTASjQ9AG7EZmmcKVSpHuNtQ9kzab8HVW+efk1TAmuZJMz9ARnQCWjgV0wt9EXKK59XuoNMXDkTPKsWtm6FueLyCcrrF2YG26Qwi7L6fvx1piPeHidbh1dVjJvzoWzAK5O5ExyN0PzkbqecUlrRVxBoAB/3XTyLectR8dlI4EVSA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7gNG/t+B3o/LT9X1R0PRKBQHiRHD66Tq74x4Iql3BNQ=;
- b=XahvlItRlIwWGK9BGnvS0GFm6c0VuQju6djQWW/b4D2XCQ0QB7BJoCQP5r4gt9p/VHHawW7vpOjnwF/RQcMIjKAkQ8VDc2HUSu8XbXH1ZDBtKOtAkwHedo+6ZjM6xuBj//cmZASyZWolh4VbpjFzeiRD06koeU5r8RqQ+CdAO+tHJXDKK3I9mjfYThCU6Xo7dakPQZown9iWddABHMWb3tGNVy3Y+UtiBVvSrmrWtjlU5ER2+PWxaroIl91lUjQ6Ao/aI1iw0J/47u5Nsh8fAGd89Nx8TxnI20SEVm2jK643ihed+tgGchwm91eDPzJdyweYjfzxEKZYtTB4TxG2aA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=analogixsemi.com; dmarc=pass action=none
- header.from=analogixsemi.com; dkim=pass header.d=analogixsemi.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=Analogixsemi.onmicrosoft.com; s=selector2-Analogixsemi-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7gNG/t+B3o/LT9X1R0PRKBQHiRHD66Tq74x4Iql3BNQ=;
- b=LHEQW2/El0Cwf60qO3EgcmcLHlZnzfwrM72C8BdPeytau1KEbdqpYeF0ElXQW0+h3CC/GeOGFWTPviqtfAwEmRyksqZvqu78Qt1E9qc30aph9p6Mz5Ft4cFj3g060YmFn+1yWBOiDF5tg/i7ARfEdkLtz88WcYUc+bxkOhZLkDg=
-Authentication-Results: vger.kernel.org; dkim=none (message not signed)
- header.d=none;vger.kernel.org; dmarc=none action=none
- header.from=analogixsemi.com;
-Received: from BY5PR04MB6739.namprd04.prod.outlook.com (2603:10b6:a03:229::8)
- by BYAPR04MB3925.namprd04.prod.outlook.com (2603:10b6:a02:ae::12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.21; Fri, 16 Jul
- 2021 05:35:29 +0000
-Received: from BY5PR04MB6739.namprd04.prod.outlook.com
- ([fe80::5c0e:fbe5:2bd6:ec6]) by BY5PR04MB6739.namprd04.prod.outlook.com
- ([fe80::5c0e:fbe5:2bd6:ec6%4]) with mapi id 15.20.4331.026; Fri, 16 Jul 2021
- 05:35:29 +0000
-Date: Fri, 16 Jul 2021 13:35:23 +0800
-From: Xin Ji <xji@analogixsemi.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH v9 1/4] dt-bindings:drm/bridge:anx7625:add vendor define
- flags
-Message-ID: <20210716053523.GB1121520@anxtwsw-Precision-3640-Tower>
-References: <cover.1624349479.git.xji@analogixsemi.com>
- <308427448195e2db37a32997c6d32905c96ca876.1624349480.git.xji@analogixsemi.com>
- <CAG3jFys6D=-L-Aez4aWuE4nM7qJCtn4wPws3TKxbkRzcAoFR0A@mail.gmail.com>
- <20210707073051.GA936385@anxtwsw-Precision-3640-Tower>
- <YO6hIzlOuMsDXztW@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YO6hIzlOuMsDXztW@pendragon.ideasonboard.com>
-X-ClientProxiedBy: HK2PR0401CA0018.apcprd04.prod.outlook.com
- (2603:1096:202:2::28) To BY5PR04MB6739.namprd04.prod.outlook.com
- (2603:10b6:a03:229::8)
+Received: from mail-io1-xd36.google.com (mail-io1-xd36.google.com
+ [IPv6:2607:f8b0:4864:20::d36])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E20C26E90B
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jul 2021 05:41:33 +0000 (UTC)
+Received: by mail-io1-xd36.google.com with SMTP id u7so9300553ion.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jul 2021 22:41:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=hVeiqlDQpWsqA051Fvf75Hm/Xj52EQN3m2hB85idz5Q=;
+ b=FbO4R18c6dPs1awbG0lG90gFJxibfGcZzhP2ICYaGZNAQ8lBQZ+nNfuOAFvHtLrBlK
+ Cl23FSqRwmZObMo7iehSBas8bQQO3mKi8y4N8UfShgS45XHgLgiOOtCkK7titCSfnjE9
+ 7ML4kXVC5UIIOdaZmRLbyfkvgyN1uo2LFuExg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=hVeiqlDQpWsqA051Fvf75Hm/Xj52EQN3m2hB85idz5Q=;
+ b=aooQamV8ZsPW/CQIU9+mMXxvCtH5rHNnjpTop7ZKOE0mINOGIaxmwB6Jr8+9G+ZaTh
+ MVOLRuGzqBhTcUENdzMKtNJm0ujIgDE6d1DTaUuMk68KKRoMxMg2eIWM+N1uAs2pbtv5
+ DlzG/rvXNDOWjf9tdnzq8yRSyMDK+IbtycEWaJQ6AjQUWUoVfIxNs47RvN/NSQARXfHU
+ zZBaXH9txyDwDyV4Qm+QJYMFOxpUMzLkM+SRJbG0d/gLnTL880A9bg3Tvd8J+FOxJFME
+ 9blF3ghsV+kSCISEAGZ6/FQz95EzZXobsBX4HOUsY9pJI2Oq7HzsAhyMDbLuZq6fl1Yr
+ PuqQ==
+X-Gm-Message-State: AOAM532ROj/wwWEcbQdQh2eVw+sM7btWm/HZkD0CSPEjEpyAksaKlbO4
+ cbdhLMz5QiAPVIb1+XpcLHR1wRCrOSPAOzgwxWm4Hw==
+X-Google-Smtp-Source: ABdhPJwBF1ColsNS/SoK2NQDjnoDSSfgNIoYt1UOtKSuGmhulJf0pm+RJ25Qw/8eUcbUQgLA23Rvq7g/fu77Rtn+x7o=
+X-Received: by 2002:a02:6946:: with SMTP id e67mr7460482jac.4.1626414093158;
+ Thu, 15 Jul 2021 22:41:33 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from anxtwsw-Precision-3640-Tower (60.251.58.79) by
- HK2PR0401CA0018.apcprd04.prod.outlook.com (2603:1096:202:2::28) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.21 via Frontend
- Transport; Fri, 16 Jul 2021 05:35:28 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 1ee802cc-9906-43ff-a797-08d9481b858a
-X-MS-TrafficTypeDiagnostic: BYAPR04MB3925:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BYAPR04MB3925396988BC70DB0E075DEBC7119@BYAPR04MB3925.namprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: wjrpXH6loFu4MErWz7taK3j694Ph4CkduuYZE+vtDYB13KQ/hVvMrVbfVgWveFk6Q91pCMLPupW2HoX8h9ZyCyL9Mui0y2UxeErhyL7Nt/uHI3zQMo8dQT40FDWbyCCJ+En4Pj5qldxHAXK9Ck2VA6bEkARmLj2H5iEs/BOowgm5dxpi8T8bQlm0+o+q8yl1FEWgpB8Dc5Y/VPCrALMDx9RAvhv+y2c0rO0nFH/8B+fizEd7rSsLfdh2/BgDXbO34g+5oDNOndaCWzD9p0u+X31SCdBTxKFkI16Tq7a5/yQXeLCt+X6s4RUzxVpkqlyeoPOFo5e5g5VQg5q8Q4L32/ZGL8i56xHNWfWMYG5T4+pWLn6vYRZ0YdDj18obJCGHimTen1Gy8dAv57atVV5glis64AHqgbXuH/Fgkd4yyC6wdsAXOaUACw2LHJGsi3elvgmEfcXSqONrwUDNY8pTY0WFOUj5I0SejClBfvYv5i2A2ylEO+INmpobzxOjn5o2pmrTFczPBFfQRzZipiRXCHTsMWWjezrQCRJw5h87gHmnxrjw88zWEEtUlx/3xDhNYAJm4vYAuLXjEedI7SNV7IE7RZXqSFqc9bREgnRCqKWEU8BTqo1J1JRn7HiufryB6XYiESWKV6tMJ9u8DxTLF3CtgbG0W+xr4m9/Ti8xyyunJvXlT3mxfV2T8xCQ2C7Ymt7ckyTtSa53dJxxNDkFJQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BY5PR04MB6739.namprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(366004)(6666004)(55236004)(956004)(7416002)(316002)(33656002)(4326008)(38100700002)(38350700002)(54906003)(1076003)(478600001)(8676002)(33716001)(8936002)(2906002)(55016002)(52116002)(5660300002)(186003)(66476007)(83380400001)(66946007)(66556008)(6496006)(6916009)(86362001)(9686003)(26005);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?NsPmpvcJLXB6iSPnkHo1DL0RItJvDrrK9999girQfvD241K/pLMpDtWRUwEQ?=
- =?us-ascii?Q?ucasj44Cd4OAIpEQHeUJ3efJ6kwfh1Hp+vqFwXy6kEpeQrgxyYFdDxP8dIS+?=
- =?us-ascii?Q?NgzRXkAtez4bPsVBmTqZ0xvfIFIaxcUpbzLIpz5zVFZOVTbT2dxhi/olIr2n?=
- =?us-ascii?Q?Bpo1vV9SbM30Lq+uiZdxJYMI+Y+8fmi9QAorpJbD/VAfnmV2irtVfjWTgEIZ?=
- =?us-ascii?Q?LiY+PbAavzGq23e3gxTNth2IYA8iVUcva0y6hy3hAQzY0NOr3QQyx03DSG0t?=
- =?us-ascii?Q?yKdMXcoy2+r+wxt9QfjS+qVm/1v4GsYxbxZEdsazA80m14icr9d6fg471f9I?=
- =?us-ascii?Q?q8NB+g7qQQHbkluInvDy+bH6nsuojIyNpefRYDmspdRvd9MrMNE86/FDNYcx?=
- =?us-ascii?Q?3kLP0o9j3eA9ODAXGlxnATKldUlh5x+ivksJEU1a5xf0ZAnsi94EVtKpDLs1?=
- =?us-ascii?Q?imTFW8gXF6sgZcfwJ/sC1xOQuCz5YTGZNpbVfIGlNYhytCH8ve6deHb7xgl2?=
- =?us-ascii?Q?mAUZKav6426XIWYx0q+rwjzLBisC++dy2A0Lp9I1qjLwuEHq/VhPwNGAUEJo?=
- =?us-ascii?Q?6xUIKTamlcNxev0mW8f3M6qyw84Y5N7ZpXqAR8jnmF7Tu6VJ+4DGaKHHe7Df?=
- =?us-ascii?Q?1DZfTBB/0Z1jBAz2qJ9kv/6yy2LCaV1fBWrFkANjanOFFky/e+gtSBx0RvVZ?=
- =?us-ascii?Q?woI2lkORddMjabBmoloSqWu6CBUs9ZJZqPQDMB7vXkHxYtFicXuRyy177dsi?=
- =?us-ascii?Q?0/aWl8P4ImmCR4W45vTVURibzASVGXYOTwcoK4/gdtuD92sAsUpuuUnQDqkY?=
- =?us-ascii?Q?Q+OVumXBNb/WjBBZKpWEcwY0RTbN5ambBL1NZlSpNffjgUgQyDPSM0xy9tY3?=
- =?us-ascii?Q?hS4k2W3erSipyiWtdjJRrC1SuSLYERROoJLP1R37UGU+8PQczX6n5yk1YbB0?=
- =?us-ascii?Q?7u1G/bqXX+IaQUFCndpwGReOmyO2pRoulY5XAKIEDkqJ6pvxMyW4YVhFoTEA?=
- =?us-ascii?Q?wijaSI1l9c/B2NwkzifhL4lntYrL8DrwuA0lJo9clcROuuG9u9ZNM96JzGkM?=
- =?us-ascii?Q?lx1+taV+dLIp1CuqbEmZqvbU+A+toan5Kqo5DEvOL26qCPZCblhbwn991DP8?=
- =?us-ascii?Q?pEWsM0L0G+oXRZdeprSSOjLytHcokNN5CH6+iGBaOffJ/OYAuP3z87ukAvcb?=
- =?us-ascii?Q?sCVl57hgekfZQ0b/CbMQsJbABulflKaf9PkQbFRUh5pYP5LG35IQWlkjonI+?=
- =?us-ascii?Q?TXnOujOJN3g+ZXxlOjsGtglqm2un7yfsz65nJFmnPHsyNtyft7IznMvJCi6l?=
- =?us-ascii?Q?AW1i4H/rgySdlvvuY1DhhLGf?=
-X-OriginatorOrg: analogixsemi.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1ee802cc-9906-43ff-a797-08d9481b858a
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR04MB6739.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jul 2021 05:35:29.4585 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: b099b0b4-f26c-4cf5-9a0f-d5be9acab205
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: vlZ/3LA4JdrXEBAqf81pTJhnrKikOCpGiAzrm/0JCJ26P1EFoV3nRBuH/ToY5Yq958mr7KLcHMIZYw+41uwM9A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR04MB3925
+References: <1626051778-13577-1-git-send-email-yongqiang.niu@mediatek.com>
+ <1626051778-13577-2-git-send-email-yongqiang.niu@mediatek.com>
+In-Reply-To: <1626051778-13577-2-git-send-email-yongqiang.niu@mediatek.com>
+From: Hsin-Yi Wang <hsinyi@chromium.org>
+Date: Fri, 16 Jul 2021 13:41:07 +0800
+Message-ID: <CAJMQK-gL1X7RveDVqfQQpkpqJPXzrBT5q1BdG28G6nPxbhNJ-w@mail.gmail.com>
+Subject: Re: [PATCH v2, 1/3] drm/mediatek: Separate aal module
+To: Yongqiang Niu <yongqiang.niu@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -124,151 +59,374 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nicolas Boichat <drinkcat@google.com>, devicetree@vger.kernel.org,
- David Airlie <airlied@linux.ie>,
- Ricardo =?iso-8859-1?Q?Ca=F1uelo?= <ricardo.canuelo@collabora.com>,
- Mark Brown <broonie@kernel.org>, Zhen Li <zhenli@analogixsemi.com>,
- linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- dri-devel@lists.freedesktop.org, Hsin-Yi Wang <hsinyi@chromium.org>,
- Sam Ravnborg <sam@ravnborg.org>, Bernie Liang <bliang@analogixsemi.com>,
- Sheng Pan <span@analogixsemi.com>
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ Devicetree List <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
+ Jassi Brar <jassisinghbrar@gmail.com>, lkml <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Dennis YC Hsieh <dennis-yc.hsieh@mediatek.com>,
+ Fabien Parent <fparent@baylibre.com>, Rob Herring <robh+dt@kernel.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
+ <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 14, 2021 at 11:32:35AM +0300, Laurent Pinchart wrote:
-> Hi Xin,
-> 
-> On Wed, Jul 07, 2021 at 03:30:51PM +0800, Xin Ji wrote:
-> > On Thu, Jun 24, 2021 at 01:57:22PM +0200, Robert Foss wrote:
-> > > Hey Xin,
-> > > 
-> > > I would like to merge this series now, but this patch needs a review
-> > > first. Maybe Laurent/Rob Herring are good candidates.
-> >
-> > Hi Rob, I get Laurent/Rob comments before, and explained why we needs
-> > these DT properties, so far, I didn't get any response.
-> > 
-> > Hi Rob Herring and Laurent, for the DT property lane0/1-swing, Google
-> > engineer has strong demond for them, they don't want to move DP swing
-> > adjusting to kernel, thus may cause change the driver code in each
-> > project, so config them in DT is a best option.
-> 
-> Hardcoding it in the driver is certainly not a good option, but
-> hardcoding it in DT isn't either unless you can explain how the value
-> should be computed. "Contact the vendor" isn't good enough.
-Hi Laurent Pinchart, thanks for the coment, I'll add more detail explain
-about the value means.
+On Mon, Jul 12, 2021 at 9:03 AM Yongqiang Niu
+<yongqiang.niu@mediatek.com> wrote:
+>
+> mt8183 aal has no gamma function
+>
+> Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
+> ---
+>  drivers/gpu/drm/mediatek/Makefile           |   3 +-
+>  drivers/gpu/drm/mediatek/mtk_disp_aal.c     | 166 ++++++++++++++++++++++++++++
+>  drivers/gpu/drm/mediatek/mtk_disp_drv.h     |   9 ++
+>  drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c |  39 +------
+>  drivers/gpu/drm/mediatek/mtk_drm_drv.c      |   6 +-
+>  drivers/gpu/drm/mediatek/mtk_drm_drv.h      |   1 +
+>  6 files changed, 184 insertions(+), 40 deletions(-)
+>  create mode 100644 drivers/gpu/drm/mediatek/mtk_disp_aal.c
+>
+> diff --git a/drivers/gpu/drm/mediatek/Makefile b/drivers/gpu/drm/mediatek/Makefile
+> index dc54a7a..29098d7 100644
+> --- a/drivers/gpu/drm/mediatek/Makefile
+> +++ b/drivers/gpu/drm/mediatek/Makefile
+> @@ -1,6 +1,7 @@
+>  # SPDX-License-Identifier: GPL-2.0
+>
+> -mediatek-drm-y := mtk_disp_ccorr.o \
+> +mediatek-drm-y := mtk_disp_aal.o \
+> +                 mtk_disp_ccorr.o \
+>                   mtk_disp_color.o \
+>                   mtk_disp_gamma.o \
+>                   mtk_disp_ovl.o \
+> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_aal.c b/drivers/gpu/drm/mediatek/mtk_disp_aal.c
+> new file mode 100644
+> index 0000000..fb212e96
+> --- /dev/null
+> +++ b/drivers/gpu/drm/mediatek/mtk_disp_aal.c
+> @@ -0,0 +1,166 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright (c) 2021 MediaTek Inc.
+> + */
+> +
+> +#include <linux/clk.h>
+> +#include <linux/component.h>
+> +#include <linux/module.h>
+> +#include <linux/of_device.h>
+> +#include <linux/of_irq.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/soc/mediatek/mtk-cmdq.h>
+> +
+> +#include "mtk_disp_drv.h"
+> +#include "mtk_drm_crtc.h"
+> +#include "mtk_drm_ddp_comp.h"
+> +
+> +#define DISP_AAL_EN                            0x0000
+> +#define AAL_EN                                         BIT(0)
+> +#define DISP_AAL_SIZE                          0x0030
+> +
+> +
+> +struct mtk_disp_aal_data {
+> +       bool has_gamma;
+> +};
+> +
+> +/**
+> + * struct mtk_disp_aal - DISP_AAL driver structure
+> + * @ddp_comp - structure containing type enum and hardware resources
+> + * @crtc - associated crtc to report irq events to
+> + */
+> +struct mtk_disp_aal {
+> +       struct clk *clk;
+> +       void __iomem *regs;
+> +       struct cmdq_client_reg cmdq_reg;
+> +       const struct mtk_disp_aal_data *data;
+> +};
+> +
+> +int mtk_aal_clk_enable(struct device *dev)
+> +{
+> +       struct mtk_disp_aal *aal = dev_get_drvdata(dev);
+> +
+> +       return clk_prepare_enable(aal->clk);
+> +}
+> +
+> +void mtk_aal_clk_disable(struct device *dev)
+> +{
+> +       struct mtk_disp_aal *aal = dev_get_drvdata(dev);
+> +
+> +       clk_disable_unprepare(aal->clk);
+> +}
+> +
+> +void mtk_aal_config(struct device *dev, unsigned int w,
+> +                          unsigned int h, unsigned int vrefresh,
+> +                          unsigned int bpc, struct cmdq_pkt *cmdq_pkt)
+> +{
+> +       struct mtk_disp_aal *aal = dev_get_drvdata(dev);
+> +
+> +       mtk_ddp_write(cmdq_pkt, w << 16 | h, &aal->cmdq_reg, aal->regs, DISP_AAL_SIZE);
+> +}
+> +
+> +void mtk_aal_gamma_set(struct device *dev, struct drm_crtc_state *state)
+> +{
+> +       struct mtk_disp_aal *aal = dev_get_drvdata(dev);
+> +
+> +       if (aal->data && aal->data->has_gamma)
+> +               mtk_gamma_set_common(aal->regs, state);
+> +}
+> +
+> +void mtk_aal_start(struct device *dev)
+> +{
+> +       struct mtk_disp_aal *aal = dev_get_drvdata(dev);
+> +
+> +       writel(AAL_EN, aal->regs + DISP_AAL_EN);
+> +}
+> +
+> +void mtk_aal_stop(struct device *dev)
+> +{
+> +       struct mtk_disp_aal *aal = dev_get_drvdata(dev);
+> +
+> +       writel_relaxed(0x0, aal->regs + DISP_AAL_EN);
+> +}
+> +
+> +static int mtk_disp_aal_bind(struct device *dev, struct device *master,
+> +                              void *data)
+> +{
+> +       return 0;
+> +}
+> +
+> +static void mtk_disp_aal_unbind(struct device *dev, struct device *master,
+> +                                 void *data)
+> +{
+> +}
+> +
+> +static const struct component_ops mtk_disp_aal_component_ops = {
+> +       .bind   = mtk_disp_aal_bind,
+> +       .unbind = mtk_disp_aal_unbind,
+> +};
+> +
+> +static int mtk_disp_aal_probe(struct platform_device *pdev)
+> +{
+> +       struct device *dev = &pdev->dev;
+> +       struct mtk_disp_aal *priv;
+> +       struct resource *res;
+> +       int ret;
+> +
+> +       priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+> +       if (!priv)
+> +               return -ENOMEM;
+> +
+> +       priv->clk = devm_clk_get(dev, NULL);
+> +       if (IS_ERR(priv->clk)) {
+> +               dev_err(dev, "failed to get aal clk\n");
+> +               return PTR_ERR(priv->clk);
+> +       }
+> +
+> +       res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> +       priv->regs = devm_ioremap_resource(dev, res);
+> +       if (IS_ERR(priv->regs)) {
+> +               dev_err(dev, "failed to ioremap aal\n");
+> +               return PTR_ERR(priv->regs);
+> +       }
+> +
+> +#if IS_REACHABLE(CONFIG_MTK_CMDQ)
+> +       ret = cmdq_dev_get_client_reg(dev, &priv->cmdq_reg, 0);
+> +       if (ret)
+> +               dev_dbg(dev, "get mediatek,gce-client-reg fail!\n");
+> +#endif
+> +
+> +       priv->data = of_device_get_match_data(dev);
+> +       platform_set_drvdata(pdev, priv);
+> +
+> +       ret = component_add(dev, &mtk_disp_aal_component_ops);
+> +       if (ret)
+> +               dev_err(dev, "Failed to add component: %d\n", ret);
+> +
+> +       return ret;
+> +}
+> +
+> +static int mtk_disp_aal_remove(struct platform_device *pdev)
+> +{
+> +       component_del(&pdev->dev, &mtk_disp_aal_component_ops);
+> +
+> +       return 0;
+> +}
+> +
+> +static const struct mtk_disp_aal_data mt8173_aal_driver_data = {
+> +       .has_gamma = true,
+> +};
+> +
+> +static const struct of_device_id mtk_disp_aal_driver_dt_match[] = {
+> +       { .compatible = "mediatek,mt8173-disp-aal",
+> +         .data = &mt8173_aal_driver_data},
+> +       {},
+> +};
+> +MODULE_DEVICE_TABLE(of, mtk_disp_aal_driver_dt_match);
+> +
+> +struct platform_driver mtk_disp_aal_driver = {
+> +       .probe          = mtk_disp_aal_probe,
+> +       .remove         = mtk_disp_aal_remove,
+> +       .driver         = {
+> +               .name   = "mediatek-disp-aal",
+> +               .owner  = THIS_MODULE,
+> +               .of_match_table = mtk_disp_aal_driver_dt_match,
+> +       },
+> +};
+> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_drv.h b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
+> index cafd9df..86c3068 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_disp_drv.h
+> +++ b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
+> @@ -9,6 +9,15 @@
+>  #include <linux/soc/mediatek/mtk-cmdq.h>
+>  #include "mtk_drm_plane.h"
+>
+> +int mtk_aal_clk_enable(struct device *dev);
+> +void mtk_aal_clk_disable(struct device *dev);
+> +void mtk_aal_config(struct device *dev, unsigned int w,
+> +                   unsigned int h, unsigned int vrefresh,
+> +                   unsigned int bpc, struct cmdq_pkt *cmdq_pkt);
+> +void mtk_aal_gamma_set(struct device *dev, struct drm_crtc_state *state);
+> +void mtk_aal_start(struct device *dev);
+> +void mtk_aal_stop(struct device *dev);
+> +
+>  void mtk_ccorr_ctm_set(struct device *dev, struct drm_crtc_state *state);
+>  int mtk_ccorr_clk_enable(struct device *dev);
+>  void mtk_ccorr_clk_disable(struct device *dev);
+> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
+> index 75bc00e..f367142 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
 
-Thanks,
-Xin
-> 
-> > > On Tue, 22 Jun 2021 at 14:31, Xin Ji <xji@analogixsemi.com> wrote:
-> > > >
-> > > > Add 'bus-type' and 'data-lanes' define for port0. Define DP tx lane0,
-> > > > lane1 swing register array define, and audio enable flag.
-> > > >
-> > > > Signed-off-by: Xin Ji <xji@analogixsemi.com>
-> > > > ---
-> > > >  .../display/bridge/analogix,anx7625.yaml      | 57 ++++++++++++++++++-
-> > > >  1 file changed, 56 insertions(+), 1 deletion(-)
-> > > >
-> > > > diff --git a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
-> > > > index ab48ab2f4240..9e604d19a3d5 100644
-> > > > --- a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
-> > > > +++ b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
-> > > > @@ -43,6 +43,26 @@ properties:
-> > > >    vdd33-supply:
-> > > >      description: Regulator that provides the supply 3.3V power.
-> > > >
-> > > > +  analogix,lane0-swing:
-> > > > +    $ref: /schemas/types.yaml#/definitions/uint32-array
-> > > > +    minItems: 1
-> > > > +    maxItems: 20
-> > > > +    description:
-> > > > +      an array of swing register setting for DP tx lane0 PHY, please don't
-> > > > +      add this property, or contact vendor.
-> > > > +
-> > > > +  analogix,lane1-swing:
-> > > > +    $ref: /schemas/types.yaml#/definitions/uint32-array
-> > > > +    minItems: 1
-> > > > +    maxItems: 20
-> > > > +    description:
-> > > > +      an array of swing register setting for DP tx lane1 PHY, please don't
-> > > > +      add this property, or contact vendor.
-> > > > +
-> > > > +  analogix,audio-enable:
-> > > > +    type: boolean
-> > > > +    description: let the driver enable audio HDMI codec function or not.
-> > > > +
-> > > >    ports:
-> > > >      $ref: /schemas/graph.yaml#/properties/ports
-> > > >
-> > > > @@ -50,13 +70,43 @@ properties:
-> > > >        port@0:
-> > > >          $ref: /schemas/graph.yaml#/properties/port
-> > > >          description:
-> > > > -          Video port for MIPI DSI input.
-> > > > +          MIPI DSI/DPI input.
-> > > > +
-> > > > +        properties:
-> > > > +          endpoint:
-> > > > +            $ref: /schemas/media/video-interfaces.yaml#
-> > > > +            type: object
-> > > > +            additionalProperties: false
-> > > > +
-> > > > +            properties:
-> > > > +              remote-endpoint: true
-> > > > +              bus-type: true
-> > > > +              data-lanes: true
-> > > > +
-> > > > +            required:
-> > > > +              - remote-endpoint
-> > > > +
-> > > > +        required:
-> > > > +          - endpoint
-> > > > +
-> > > >
-> > > >        port@1:
-> > > >          $ref: /schemas/graph.yaml#/properties/port
-> > > >          description:
-> > > >            Video port for panel or connector.
-> > > >
-> > > > +        properties:
-> > > > +          endpoint:
-> > > > +            $ref: /schemas/media/video-interfaces.yaml#
-> > > > +            type: object
-> > > > +            additionalProperties: false
-> > > > +
-> > > > +            properties:
-> > > > +              remote-endpoint: true
-> > > > +
-> > > > +            required:
-> > > > +              - remote-endpoint
-> > > > +
-> > > >      required:
-> > > >        - port@0
-> > > >        - port@1
-> > > > @@ -87,6 +137,9 @@ examples:
-> > > >              vdd10-supply = <&pp1000_mipibrdg>;
-> > > >              vdd18-supply = <&pp1800_mipibrdg>;
-> > > >              vdd33-supply = <&pp3300_mipibrdg>;
-> > > > +            analogix,audio-enable;
-> > > > +            analogix,lane0-swing = <0x14 0x54 0x64 0x74 0x29 0x7b 0x77 0x5b>;
-> > > > +            analogix,lane1-swing = <0x14 0x54 0x64 0x74 0x29 0x7b 0x77 0x5b>;
-> > > >
-> > > >              ports {
-> > > >                  #address-cells = <1>;
-> > > > @@ -96,6 +149,8 @@ examples:
-> > > >                      reg = <0>;
-> > > >                      anx7625_in: endpoint {
-> > > >                          remote-endpoint = <&mipi_dsi>;
-> > > > +                        bus-type = <5>;
-> > > > +                        data-lanes = <0 1 2 3>;
-> > > >                      };
-> > > >                  };
-> > > >
-> 
-> -- 
-> Regards,
-> 
-> Laurent Pinchart
+in mtk_ddp_comp_init(), MTK_DISP_AAL should be skipped in the if()
+block to avoid creating priv again.
+
+@@ -435,7 +435,8 @@ int mtk_ddp_comp_init(struct device_node *node,
+struct mtk_ddp_comp *comp,
+        }
+        comp->dev = &comp_pdev->dev;
+
+-       if (type == MTK_DISP_BLS ||
++       if (type == MTK_DISP_AAL ||
++           type == MTK_DISP_BLS ||
+            type == MTK_DISP_CCORR ||
+
+Otherwise we would see
+
+[    0.216759] mediatek-drm mediatek-drm.1.auto: Adding component
+match for /soc/aal@14010000
+[    0.431996] platform 14010000.aal: Resources present before probing
+
+and the display is completely black.
+
+
+> @@ -32,9 +32,6 @@
+>
+>  #define DISP_REG_UFO_START                     0x0000
+>
+> -#define DISP_AAL_EN                            0x0000
+> -#define DISP_AAL_SIZE                          0x0030
+> -
+>  #define DISP_DITHER_EN                         0x0000
+>  #define DITHER_EN                              BIT(0)
+>  #define DISP_DITHER_CFG                                0x0020
+> @@ -48,8 +45,6 @@
+>
+>  #define UFO_BYPASS                             BIT(2)
+>
+> -#define AAL_EN                                 BIT(0)
+> -
+>  #define DISP_DITHERING                         BIT(2)
+>  #define DITHER_LSB_ERR_SHIFT_R(x)              (((x) & 0x7) << 28)
+>  #define DITHER_OVFLW_BIT_R(x)                  (((x) & 0x7) << 24)
+> @@ -190,36 +185,6 @@ static void mtk_ufoe_start(struct device *dev)
+>         writel(UFO_BYPASS, priv->regs + DISP_REG_UFO_START);
+>  }
+>
+> -static void mtk_aal_config(struct device *dev, unsigned int w,
+> -                          unsigned int h, unsigned int vrefresh,
+> -                          unsigned int bpc, struct cmdq_pkt *cmdq_pkt)
+> -{
+> -       struct mtk_ddp_comp_dev *priv = dev_get_drvdata(dev);
+> -
+> -       mtk_ddp_write(cmdq_pkt, w << 16 | h, &priv->cmdq_reg, priv->regs, DISP_AAL_SIZE);
+> -}
+> -
+> -static void mtk_aal_gamma_set(struct device *dev, struct drm_crtc_state *state)
+> -{
+> -       struct mtk_ddp_comp_dev *priv = dev_get_drvdata(dev);
+> -
+> -       mtk_gamma_set_common(priv->regs, state);
+> -}
+> -
+> -static void mtk_aal_start(struct device *dev)
+> -{
+> -       struct mtk_ddp_comp_dev *priv = dev_get_drvdata(dev);
+> -
+> -       writel(AAL_EN, priv->regs + DISP_AAL_EN);
+> -}
+> -
+> -static void mtk_aal_stop(struct device *dev)
+> -{
+> -       struct mtk_ddp_comp_dev *priv = dev_get_drvdata(dev);
+> -
+> -       writel_relaxed(0x0, priv->regs + DISP_AAL_EN);
+> -}
+> -
+>  static void mtk_dither_config(struct device *dev, unsigned int w,
+>                               unsigned int h, unsigned int vrefresh,
+>                               unsigned int bpc, struct cmdq_pkt *cmdq_pkt)
+> @@ -247,8 +212,8 @@ static void mtk_dither_stop(struct device *dev)
+>  }
+>
+>  static const struct mtk_ddp_comp_funcs ddp_aal = {
+> -       .clk_enable = mtk_ddp_clk_enable,
+> -       .clk_disable = mtk_ddp_clk_disable,
+> +       .clk_enable = mtk_aal_clk_enable,
+> +       .clk_disable = mtk_aal_clk_disable,
+>         .gamma_set = mtk_aal_gamma_set,
+>         .config = mtk_aal_config,
+>         .start = mtk_aal_start,
+> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+> index b46bdb8..67a585e 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+> @@ -532,11 +532,12 @@ static int mtk_drm_probe(struct platform_device *pdev)
+>                 private->comp_node[comp_id] = of_node_get(node);
+>
+>                 /*
+> -                * Currently only the CCORR, COLOR, GAMMA, OVL, RDMA, DSI, and DPI
+> +                * Currently only the AAL, CCORR, COLOR, GAMMA, OVL, RDMA, DSI, and DPI
+>                  * blocks have separate component platform drivers and initialize their own
+>                  * DDP component structure. The others are initialized here.
+>                  */
+> -               if (comp_type == MTK_DISP_CCORR ||
+> +               if (comp_type == MTK_DISP_AAL ||
+> +                   comp_type == MTK_DISP_CCORR ||
+>                     comp_type == MTK_DISP_COLOR ||
+>                     comp_type == MTK_DISP_GAMMA ||
+>                     comp_type == MTK_DISP_OVL ||
+> @@ -636,6 +637,7 @@ static SIMPLE_DEV_PM_OPS(mtk_drm_pm_ops, mtk_drm_sys_suspend,
+>  };
+>
+>  static struct platform_driver * const mtk_drm_drivers[] = {
+> +       &mtk_disp_aal_driver,
+>         &mtk_disp_ccorr_driver,
+>         &mtk_disp_color_driver,
+>         &mtk_disp_gamma_driver,
+> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.h b/drivers/gpu/drm/mediatek/mtk_drm_drv.h
+> index 637f566..3e7d1e6 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_drm_drv.h
+> +++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.h
+> @@ -46,6 +46,7 @@ struct mtk_drm_private {
+>         struct drm_atomic_state *suspend_state;
+>  };
+>
+> +extern struct platform_driver mtk_disp_aal_driver;
+>  extern struct platform_driver mtk_disp_ccorr_driver;
+>  extern struct platform_driver mtk_disp_color_driver;
+>  extern struct platform_driver mtk_disp_gamma_driver;
+> --
+> 1.8.1.1.dirty
+>
