@@ -2,60 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F9B43CB883
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Jul 2021 16:10:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C23793CB889
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Jul 2021 16:14:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6BBE76E99B;
-	Fri, 16 Jul 2021 14:10:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 015006E99D;
+	Fri, 16 Jul 2021 14:14:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com
- [IPv6:2607:f8b0:4864:20::b36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F205D6E99B
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jul 2021 14:10:40 +0000 (UTC)
-Received: by mail-yb1-xb36.google.com with SMTP id b13so15071076ybk.4
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jul 2021 07:10:40 -0700 (PDT)
+Received: from mail-ot1-x32c.google.com (mail-ot1-x32c.google.com
+ [IPv6:2607:f8b0:4864:20::32c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 86DB66E99D
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jul 2021 14:14:29 +0000 (UTC)
+Received: by mail-ot1-x32c.google.com with SMTP id
+ 59-20020a9d0ac10000b0290462f0ab0800so9975026otq.11
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jul 2021 07:14:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=IialkKlO1QfxRfNOevGxiK6VDX8foERQw+UWNyzrLCc=;
- b=CD6i7EMooTnSpQaxHdXYkA7TATFP60lyZ0gUpJuHDXtNnP+KPve5A37QOMOrTdtxDG
- c7SREaUkZJCuekUdJ/AeKfkiWiVS2kfVrPDsaD1vRYUscxeM/m8rHJ+6C+iiDtUEU0hO
- vPUpLHgQgGUGYc4hhANxdEaMISYdgTVKM8a9QomzltNjzf/Pj14f5UXkMeYzglMEceJ7
- IhuNLS1IlgRY9qAFHSaLzuw9JmgUMdUaknn0cQ5METVCtpMFV1mwpc6pM6unyKqcJrYa
- EcWxQya2ylUREwoHUMd7Bh0+cIUFuE6A2feZzY91AN9vEKpLLiLi+Xs7kqqkcqMP8c1y
- OA4A==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Oim7jPrTVkM2pDEEkqpUZTCntMS1B3Z5p458DzstJgQ=;
+ b=xE/bJXQcnpsya7VSVPy1JltYVko++gFnbQLjMEdnzeOrPxtnjhWUpLOYR3qxq8S/T0
+ evHab9hZFVzcWh8BtOiuMDbfdnj5Ieev1qIMEeKpdXYKIlqi2niSt9fhibwa0q3RYH2a
+ UJwErp5mhRquduhyZGiN/6QMxgkk0CvK3rn/jHvFfRtAeVloNE+Fl1T/Tk0BFYJua9tS
+ LCgVYbVXSMfKY+l9pN1iGOedXCnm3KolTZ13mOs4Ysv/B+jejroVkdMzhjojGDRLoIJE
+ hGQo/zm5jZbnCOQFKIT3cW0SSMNVz+QbZIL3zS+VyGpLpmp0W2c/KQX7hL3S7xxAOava
+ 8qGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=IialkKlO1QfxRfNOevGxiK6VDX8foERQw+UWNyzrLCc=;
- b=KINuQzUXwNyyC0keNmKHD7Js3G39Bqer4CpHZXCfJZJmzCZZ5QTpGHiwrGKspLiPmY
- 7WgZJe5FR1ktq8GMvp7BW5pPgEnAGmZRrQS18VP5UILr5Ve7fkvOUie5/aLvWyqCfe8T
- yDQxG7EkGa/sVBAPOIDjYdyy4cJ0+OOzLEkml1t2wrCZeyEm6TXuCvpPHsIw3oVI8FII
- iSyQ8mqqbeq05WFPOYCRMFPyoCwQbbl4mJ3YwP9VY0N6IdR15G6onrIjg9lhv7E9sZAD
- j38WccbLtqUe39wuoGKzEDLU/mqUCO8P3BwAjgNwwp5HkSfa8pstIoD3yuiKjEMa1HFf
- 5+Pg==
-X-Gm-Message-State: AOAM533B51VFos/aqcLvSFESq7M1WT2b/MEel6gExFmiMo1Xe4LjQLZJ
- P2/sLlJS9oZ4zW1Fs2Mb8K1mC5FQuUE8LioHqP6scA==
-X-Google-Smtp-Source: ABdhPJwBk/rEtKcJNxTz3uz1i/alMA0aSzahdbhjatb0Bq1SRLevugLNS/ywkTKhReArFoDpL2m0jSIwJuTYTc8yHdk=
-X-Received: by 2002:a25:d3c1:: with SMTP id
- e184mr13230517ybf.139.1626444640094; 
- Fri, 16 Jul 2021 07:10:40 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210715223900.1840576-1-jason@jlekstrand.net>
- <20210715223900.1840576-6-jason@jlekstrand.net>
- <CAM0jSHPu1EBfnAJ06Dp51a1Qbg+9QnmP=EyUfYXS0fZnJzxR8g@mail.gmail.com>
-In-Reply-To: <CAM0jSHPu1EBfnAJ06Dp51a1Qbg+9QnmP=EyUfYXS0fZnJzxR8g@mail.gmail.com>
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Oim7jPrTVkM2pDEEkqpUZTCntMS1B3Z5p458DzstJgQ=;
+ b=g7i24ebGQPEK+XkCmHde4W+xnkwa6tji4s0fQT4sScxfYmee5DWWCtWmV54zVT5nsy
+ 3yetU3fuSNYq/T9/D3q1HDd08XwE78YPYm8f1if40HSZCG1jsO+MG8YlVvYLF1bEWoIm
+ yYtTEmYc5QaO+gCnufsn3nF7C+U1klXvqK33tRZIoJr2/Yzz606y5U8oEOsu1XjgaWVG
+ bP8ztsfPupQoRy3KagFPaWdNHawjBn4AcgHizNOF2fAIv4Z4axZrOEM7sZ7uX5lPm6G/
+ OKk0ztQ2NEOLSxcWw1EXqCY6hH7iqDoLNI6ae14eI+k0Hf8KCJCGtQHY0l1VwCu8hUcy
+ Ud1g==
+X-Gm-Message-State: AOAM533aIukaHgqlQ/VDdKOxil+pPO/NDhlrIaOgzUi/WUKKDCeOJZcj
+ y42kxsAWuAzaLN2gcbA8L7UfOQ==
+X-Google-Smtp-Source: ABdhPJx/qotWSX56earD3luVu3JbTu3DfHWojqG3m+weY5JezEx+D/EGo012BQuwLdrX8miD90DPOw==
+X-Received: by 2002:a9d:190e:: with SMTP id j14mr8246767ota.48.1626444868759; 
+ Fri, 16 Jul 2021 07:14:28 -0700 (PDT)
+Received: from omlet.lan ([68.203.99.148])
+ by smtp.gmail.com with ESMTPSA id v42sm1852266ott.70.2021.07.16.07.14.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 16 Jul 2021 07:14:28 -0700 (PDT)
 From: Jason Ekstrand <jason@jlekstrand.net>
-Date: Fri, 16 Jul 2021 09:10:29 -0500
-Message-ID: <CAOFGe95gEUNsjCh+30AXhrQLz8_OKbHwwxv=_OhaGKQxGpvcew@mail.gmail.com>
-Subject: Re: [PATCH 5/7] drm/i915/gem/ttm: Respect the objection region in
- placement_from_obj
-To: Matthew Auld <matthew.william.auld@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH 0/7] drm/i915: Migrate memory to SMEM when imported
+ cross-device (v7)
+Date: Fri, 16 Jul 2021 09:14:19 -0500
+Message-Id: <20210716141426.1904528-1-jason@jlekstrand.net>
+X-Mailer: git-send-email 2.31.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,79 +70,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Matthew Auld <matthew.auld@intel.com>,
- ML dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Jason Ekstrand <jason@jlekstrand.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jul 16, 2021 at 8:54 AM Matthew Auld
-<matthew.william.auld@gmail.com> wrote:
->
-> On Thu, 15 Jul 2021 at 23:39, Jason Ekstrand <jason@jlekstrand.net> wrote=
-:
-> >
-> > Whenever we had a user object (n_placements > 0), we were ignoring
-> > obj->mm.region and always putting obj->placements[0] as the requested
-> > region.  For LMEM+SMEM objects, this was causing them to get shoved int=
-o
-> > LMEM on every i915_ttm_get_pages() even when SMEM was requested by, say=
-,
-> > i915_gem_object_migrate().
->
-> i915_ttm_migrate calls i915_ttm_place_from_region() directly with the
-> requested region, so there shouldn't be an issue with migration right?
-> Do you have some more details?
+This patch series fixes an issue with discrete graphics on Intel where we
+allowed dma-buf import while leaving the object in local memory.  This
+breaks down pretty badly if the import happened on a different physical
+device.
 
-With i915_ttm_migrate directly, no.  But, in the last patch in the
-series, we're trying to migrate LMEM+SMEM buffers into SMEM on
-attach() and pin it there.  This blows up in a very unexpected (IMO)
-way.  The flow goes something like this:
+v7:
+ - Drop "drm/i915/gem/ttm: Place new BOs in the requested region"
+ - Add a new "drm/i915/gem: Call i915_gem_flush_free_objects() in i915_gem_dumb_create()"
+ - Misc. review feedback from Matthew Auld
 
- - Client attempts a dma-buf import from another device
- - In attach() we call i915_gem_object_migrate() which calls
-i915_ttm_migrate() which migrates as requested.
- - Once the migration is complete, we call i915_gem_object_pin_pages()
-which calls i915_ttm_get_pages() which depends on
-i915_ttm_placement_from_obj() and so migrates it right back to LMEM.
+Jason Ekstrand (5):
+  drm/i915/gem: Check object_can_migrate from object_migrate
+  drm/i915/gem: Refactor placement setup for i915_gem_object_create*
+    (v2)
+  drm/i915/gem: Call i915_gem_flush_free_objects() in
+    i915_gem_dumb_create()
+  drm/i915/gem: Unify user object creation (v2)
+  drm/i915/gem/ttm: Respect the objection region in placement_from_obj
 
-Maybe the problem here is actually that our TTM code isn't respecting
-obj->mm.pages_pin_count?
+Thomas Hellström (2):
+  drm/i915/gem: Correct the locking and pin pattern for dma-buf (v6)
+  drm/i915/gem: Migrate to system at dma-buf attach time (v6)
 
-In case you can't tell, I really have no clue what I'm doing here.
-I'm really stumbling around in the dark finding things that make my
-bug go away.  I'm happy for the feedback.
+ drivers/gpu/drm/i915/gem/i915_gem_create.c    | 165 ++++++++--------
+ drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c    |  64 ++++--
+ drivers/gpu/drm/i915/gem/i915_gem_object.c    |  13 +-
+ drivers/gpu/drm/i915/gem/i915_gem_object.h    |   4 +
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.c       |   3 +-
+ .../drm/i915/gem/selftests/i915_gem_dmabuf.c  | 184 +++++++++++++++++-
+ .../drm/i915/gem/selftests/i915_gem_migrate.c |  15 --
+ 7 files changed, 318 insertions(+), 130 deletions(-)
 
---Jason
+-- 
+2.31.1
 
->
-> >
-> > Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
-> > Cc: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
-> > Cc: Matthew Auld <matthew.auld@intel.com>
-> > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> > ---
-> >  drivers/gpu/drm/i915/gem/i915_gem_ttm.c | 3 +--
-> >  1 file changed, 1 insertion(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/=
-i915/gem/i915_gem_ttm.c
-> > index d30f274c329c7..5985e994d56cf 100644
-> > --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> > +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> > @@ -150,8 +150,7 @@ i915_ttm_placement_from_obj(const struct drm_i915_g=
-em_object *obj,
-> >         unsigned int i;
-> >
-> >         placement->num_placement =3D 1;
-> > -       i915_ttm_place_from_region(num_allowed ? obj->mm.placements[0] =
-:
-> > -                                  obj->mm.region, requested, flags);
-> > +       i915_ttm_place_from_region(obj->mm.region, requested, flags);
-> >
-> >         /* Cache this on object? */
-> >         placement->num_busy_placement =3D num_allowed;
-> > --
-> > 2.31.1
-> >
