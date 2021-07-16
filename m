@@ -2,56 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D035C3CB23F
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Jul 2021 08:13:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C85D3CB28B
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Jul 2021 08:29:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D31CC6E90F;
-	Fri, 16 Jul 2021 06:13:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 49A236E90E;
+	Fri, 16 Jul 2021 06:29:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe33.google.com (mail-vs1-xe33.google.com
- [IPv6:2607:f8b0:4864:20::e33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 81EA86E90F
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jul 2021 06:13:49 +0000 (UTC)
-Received: by mail-vs1-xe33.google.com with SMTP id j8so4464066vsd.0
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jul 2021 23:13:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=BaWOg4i1QyFovhcvCT5O/tinkkoBzWCthCbXwwL19/s=;
- b=Gpq//oAZWIx4e5//RMNF3P0AZmL3DAqBXSoas7dyXNiARwlJ3YCeDmk+iP/iiN5f3R
- J9Sw7KU9sF2OLf7L5bU0T61owRSw7AGbii0Q4W2lDibUyyQi248Oamvf07qvDxxhLNu7
- QExc5vWjhHp5kPZB3JFxt5GGYbmOjWOynZ1v8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=BaWOg4i1QyFovhcvCT5O/tinkkoBzWCthCbXwwL19/s=;
- b=Tp5cOdkL+eTeX9oHfv51X8gM3Gi67zNiTSMqBLauDmOZzwAZ4Z+w4w6bdvniZa3/RJ
- 9qK4yq+R5mM4KqZWcOJjH8O5wn4fLQq/N4RePME9AnPs1evCGdGJ8lynwdJj1RymzT/E
- PHnXvTeKwIc0B9LQU7v4fg1D0/I4hJuPBurp9wdBOGM5prfhqASkIJQanoYtD7gtvgZO
- fyD5c+HrDIDrIyCQEfmT5kylOs5oPVHRagO3bPGN7LtsOEIs8hTYx3Iny+qeyinuHi2o
- 8qHzD/Srfkh3X2E6U02wEGAbye9wcQDyI8SH7ELJDtLnwCjHi2oVNnaKgobCogsEPPrS
- Qn0Q==
-X-Gm-Message-State: AOAM532lh6cr2tcADZs+iAR5sy3RXw4cxSFm7yIlxFwJZ5ALbGEWZ27d
- Oj1exWswL5mCAp8k/OCyOICMegjUPAVfZMHX01L0yg==
-X-Google-Smtp-Source: ABdhPJyUCBVFTZ95KegdcIpYpw6fUVW81J7XQ+o86thpKF6Pwc143zDeg+GjOAmfOak9O9kcvzTMOFLOWOswj5GjunU=
-X-Received: by 2002:a67:87c7:: with SMTP id j190mr11270602vsd.47.1626416028582; 
- Thu, 15 Jul 2021 23:13:48 -0700 (PDT)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E86C6E90E
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jul 2021 06:29:50 +0000 (UTC)
+Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 6B0D322B2C;
+ Fri, 16 Jul 2021 06:29:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1626416988; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=c3Y5jrP1Ajm9QGSDWNLBQxo3g/JY5NcuS7RdlMFsoaw=;
+ b=17t1mZxgJbs1JrzsZE0acIpkK9U3F5b3SYwHnyfiJfnQOd7dUlnASvuRAGoU7n0Yt/GP8X
+ Rl9Fmmkj6MoRjDq3nRipvtO1PMo79sm/cCswBBk+MTS4DEWVSZewVr3p2yczOtN6HOOGKD
+ 6DKYcDTVB/fYuj0+BSS7Y+CFIWR/F/I=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1626416988;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=c3Y5jrP1Ajm9QGSDWNLBQxo3g/JY5NcuS7RdlMFsoaw=;
+ b=3hqXebwL/C7Uw13PJuD06xVfq73dTIJzfZkqS8A2hwQm1mVICv8Lh+tns+rRND3+HCNfad
+ LDtGiFxM0DT0BoDw==
+Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap1.suse-dmz.suse.de (Postfix) with ESMTPS id 3C67313357;
+ Fri, 16 Jul 2021 06:29:48 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap1.suse-dmz.suse.de with ESMTPSA id sslGDVwn8WBmQQAAGKfGzw
+ (envelope-from <tzimmermann@suse.de>); Fri, 16 Jul 2021 06:29:48 +0000
+To: ainux.wang@gmail.com, airlied@redhat.com, airlied@linux.ie, daniel@ffwll.ch
+References: <20210716015615.9150-1-ainux.wang@gmail.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH] drm/ast: Zero is missing in detect function
+Message-ID: <aefcd1a7-fa2b-5342-58c0-314876c9bc32@suse.de>
+Date: Fri, 16 Jul 2021 08:29:47 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <cover.1624349479.git.xji@analogixsemi.com>
- <308427448195e2db37a32997c6d32905c96ca876.1624349480.git.xji@analogixsemi.com>
- <CAG3jFys6D=-L-Aez4aWuE4nM7qJCtn4wPws3TKxbkRzcAoFR0A@mail.gmail.com>
- <20210707073051.GA936385@anxtwsw-Precision-3640-Tower>
- <20210713221010.GA916196@robh.at.kernel.org>
- <20210716053215.GA1121520@anxtwsw-Precision-3640-Tower>
-In-Reply-To: <20210716053215.GA1121520@anxtwsw-Precision-3640-Tower>
-From: Nicolas Boichat <drinkcat@chromium.org>
-Date: Fri, 16 Jul 2021 14:13:37 +0800
-Message-ID: <CANMq1KDprHg2eVN6p_PBOt4O9uw6Qt+5o0QasxhO9oPD=w5CAg@mail.gmail.com>
-Subject: Re: [PATCH v9 1/4] dt-bindings:drm/bridge:anx7625:add vendor define
- flags
-To: Xin Ji <xji@analogixsemi.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20210716015615.9150-1-ainux.wang@gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="MC6HbLw4VEuwdOfiGJ9Lg6htf83LU9uno"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,56 +68,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>, Devicetree List <devicetree@vger.kernel.org>,
- David Airlie <airlied@linux.ie>, Zhen Li <zhenli@analogixsemi.com>,
- lkml <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Mark Brown <broonie@kernel.org>,
- Sheng Pan <span@analogixsemi.com>, Hsin-Yi Wang <hsinyi@chromium.org>,
- Nicolas Boichat <drinkcat@google.com>,
- =?UTF-8?Q?Ricardo_Ca=C3=B1uelo?= <ricardo.canuelo@collabora.com>,
- Bernie Liang <bliang@analogixsemi.com>
+Cc: sterlingteng@gmail.com, chenhuacai@kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jul 16, 2021 at 1:32 PM Xin Ji <xji@analogixsemi.com> wrote:
->
-> On Tue, Jul 13, 2021 at 04:10:10PM -0600, Rob Herring wrote:
-> > On Wed, Jul 07, 2021 at 03:30:51PM +0800, Xin Ji wrote:
-> > > On Thu, Jun 24, 2021 at 01:57:22PM +0200, Robert Foss wrote:
-> > > > Hey Xin,
-> > > >
-> > > > I would like to merge this series now, but this patch needs a review
-> > > > first. Maybe Laurent/Rob Herring are good candidates.
-> > > >
-> > > >
-> > > > Rob.
-> > > Hi Rob, I get Laurent/Rob comments before, and explained why we needs
-> > > these DT properties, so far, I didn't get any response.
-> >
-> > Do I have to go dig that up? If it was more than a week ago, assume I
-> > don't remember. This is 1 of 100 bindings a week.
-> >
-> > Justify why this is needed in your commit message.
-> Hi Rob, I'll give more detail description in commit message.
-> >
-> > > Hi Rob Herring and Laurent, for the DT property lane0/1-swing, Google
-> > > engineer has strong demond for them, they don't want to move DP swing
-> > > adjusting to kernel, thus may cause change the driver code in each
-> > > project, so config them in DT is a best option.
-> >
-> > Where's the ack from a Google engineer?
-> They didn't give the review ack, but we discussed it offline. Nicolas
-> Boichat known this.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--MC6HbLw4VEuwdOfiGJ9Lg6htf83LU9uno
+Content-Type: multipart/mixed; boundary="XFIEm7qxFIKjUwxXFwGgpdtX20C8IxvFh";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: ainux.wang@gmail.com, airlied@redhat.com, airlied@linux.ie,
+ daniel@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org, sterlingteng@gmail.com,
+ chenhuacai@kernel.org
+Message-ID: <aefcd1a7-fa2b-5342-58c0-314876c9bc32@suse.de>
+Subject: Re: [PATCH] drm/ast: Zero is missing in detect function
+References: <20210716015615.9150-1-ainux.wang@gmail.com>
+In-Reply-To: <20210716015615.9150-1-ainux.wang@gmail.com>
 
-Yeah I suggested this here:
-https://lore.kernel.org/patchwork/patch/1359670/#1564682 .
+--XFIEm7qxFIKjUwxXFwGgpdtX20C8IxvFh
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-I also looked at the ANX7625 datasheet at the time and it was pretty
-clear to me that this was not something customers could tune without
-ANX's help, but it'd be great if Xin Ji can describe a bit more.
+Hi
 
->
-> Thanks,
-> Xin
-> [snip]
+Am 16.07.21 um 03:56 schrieb ainux.wang@gmail.com:
+> From: "Ainux.Wang" <ainux.wang@gmail.com>
+>=20
+> The function ast_get_modes() will also return 0, when it try to get the=
+
+> edid, but it also do not get the edid.
+>=20
+> Signed-off-by: Ainux.Wang <ainux.wang@gmail.com>
+> ---
+>   drivers/gpu/drm/ast/ast_mode.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_m=
+ode.c
+> index e5996ae03c49..b7dcf7821ec6 100644
+> --- a/drivers/gpu/drm/ast/ast_mode.c
+> +++ b/drivers/gpu/drm/ast/ast_mode.c
+> @@ -1299,7 +1299,7 @@ static enum drm_connector_status ast_connector_de=
+tect(struct drm_connector
+>   	int r;
+>  =20
+>   	r =3D ast_get_modes(connector);
+> -	if (r < 0)
+> +	if (r <=3D 0)
+>   		return connector_status_disconnected;
+
+Thanks for caring.
+
+I thought about the case of (r =3D=3D 0) when reviewing the patch that ad=
+ded=20
+it, but found it to be correct. If (r < 0) it's clearly an error and we=20
+should return 'disconnected'. If (r =3D=3D 0), we were able to retrieve t=
+he=20
+EDID, but could not find any meaningful modes. Still, it's 'connected'.
+
+Unless there is a concrete bug where the status is mis-detected, I think =
+
+that the current code is correct.
+
+Best regards
+Thomas
+
+>  =20
+>   	return connector_status_connected;
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--XFIEm7qxFIKjUwxXFwGgpdtX20C8IxvFh--
+
+--MC6HbLw4VEuwdOfiGJ9Lg6htf83LU9uno
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmDxJ1sFAwAAAAAACgkQlh/E3EQov+DY
+Qw//ejR6llp+imlH+GOFCrJcqo8RXpAfQsXqlISe4E5FAbyFNOhP8xtgdReBhfhsuYpPAKux8a4P
+11rg9xiNJC0p3SF4eAiugTikfudJo1mlbFzNjAMLQHWqYXS/rU7Uz3wszSwKAF7kwp3S0s+l1ebi
+6oJOZMPgxp3N2pd7ul50yEUeC0aTY7BYbdJTS9+DvOKnQxpGD/7Gu07KaYZ/sZ3k6RShwnaemZXT
+aN+5LM10ElRW+xiqlLvv9XExCwYWiZ9lsovBFaaSOPirD5XM484jpO8GQ0CETwfIJc3JRmLSc6OY
+pKUKfW3v0oHA2f1lUuA2agBKRxlHPmChCS1qlNJyq2+NNg3ipyQiU0vtfjXoo9MJJxvzzDOswNqw
+QWtj0ZWOWcyJW2+t/CD++q4tdD5R2YGmT1SGbX7TjkV0Gm5r/FwhNyJ9VqeR1MRqHWRp18hOCGA/
+7JVISONJMXaJNeJCxF4xA1BY51isL0YI/WYocHs7NwchkSMhYYuN2RC0S844lfwS4lV1hU4+eWAy
+frw4jfytaAUNgsXp0I4vWu/Cm4sm+d5wKGO21CQnD+DuoqEdNecjOahri/47z+zFtJY2x7YQOW3j
+scyjcR9SkP4bA/YDZYZMCfCgXFW+sUbgD50mn2oqB8Dmc79wcxKbqAcJtX1SWDnR0wBLIksoYvQb
+CKQ=
+=oIRY
+-----END PGP SIGNATURE-----
+
+--MC6HbLw4VEuwdOfiGJ9Lg6htf83LU9uno--
