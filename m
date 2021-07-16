@@ -1,63 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 699043CB894
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Jul 2021 16:14:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 57AE13CB8C6
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Jul 2021 16:36:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 168B76E9AB;
-	Fri, 16 Jul 2021 14:14:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA1DD6E9A3;
+	Fri, 16 Jul 2021 14:36:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x233.google.com (mail-oi1-x233.google.com
- [IPv6:2607:f8b0:4864:20::233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9BE9E6E9AB
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jul 2021 14:14:36 +0000 (UTC)
-Received: by mail-oi1-x233.google.com with SMTP id e11so7991181oii.9
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jul 2021 07:14:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=iwESnNdVb8Ql0T+r09B5hLFoFY4TsIMumU8Vn60f698=;
- b=vR+2D6eDT8yL3l+WGb2B0R9gPRTqbfdNRrFEPBcZ0AtwVHrvo4gIbmE78fLQGLUfAy
- mC+VW4oj54o1rX/qGxgbL2soI+6+aWB+OwumWJTUJhOx8ux0r6GC1dzeBp72rvLKisg3
- 2oEcjN7AeHRiVUCAFJYm1DnimI/9euQr8GyNQXW2sc/aCBFDdGYbIzqI2+rxIsZGogTS
- KwRwRFJ2JjeMuXMBWcB0Od3qs22wIu0WvYvTAYGXSJ94uJc0X8ibg0rSkvIlJeGMzQVh
- 7w/mJXSG2zoG50lR11NhFdl+4l22LbY3PFyIuitSeOqPTK6SfYz5+j5Ch/cXEdyn9Ndo
- KpGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=iwESnNdVb8Ql0T+r09B5hLFoFY4TsIMumU8Vn60f698=;
- b=PzXZeReWKc6zIsR2D+kcVPddzwHaeEvIWVzehTYRouIDFrSXgkvz23aKEL9nm+F6wa
- xGwEuKuFKqdF0AwtopErLGLiypHjTHAvaKkpFG8+G1Fb9WE0B9/kql5zoTzSPrykKW0r
- BruKUU5z1/cZequelXJh+C4NCVAjbmyxHdW3FUhvLAt+/FKDuPMkRPPgIjuts98X68ri
- oshSm0Rdc05frAo2LwToWG1tA2kpeb+oFwVmQ+8Id6qrcQWlbWN2pzfMOb//I/xr0//G
- Vxb9iyuHY2BjugTwkgABz4Ly+YjXrHK6l0MrG1FvKsQpfjHvQgkor56MatmeTMmfWmwy
- p8eA==
-X-Gm-Message-State: AOAM531CYtRU+Wly7YmtmHyU8njOuQEtSWZgbiZ4rb2Xj0oUQj97I2sx
- ZmzUT7wGgte0UHPRdjkTykZM9g==
-X-Google-Smtp-Source: ABdhPJwF0zbCi/sMNX1FGANRLJiLGHHvLoNOWWNHG8I2wWswXkqMrViZbP5CpdSCLtZStbDieU94Kw==
-X-Received: by 2002:aca:aaca:: with SMTP id t193mr12208413oie.94.1626444875876; 
- Fri, 16 Jul 2021 07:14:35 -0700 (PDT)
-Received: from omlet.lan ([68.203.99.148])
- by smtp.gmail.com with ESMTPSA id v42sm1852266ott.70.2021.07.16.07.14.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Jul 2021 07:14:35 -0700 (PDT)
-From: Jason Ekstrand <jason@jlekstrand.net>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH 7/7] drm/i915/gem: Migrate to system at dma-buf attach time
- (v6)
-Date: Fri, 16 Jul 2021 09:14:26 -0500
-Message-Id: <20210716141426.1904528-8-jason@jlekstrand.net>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210716141426.1904528-1-jason@jlekstrand.net>
-References: <20210716141426.1904528-1-jason@jlekstrand.net>
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E5C26E98D;
+ Fri, 16 Jul 2021 14:36:16 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10046"; a="198001333"
+X-IronPort-AV: E=Sophos;i="5.84,245,1620716400"; d="scan'208";a="198001333"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Jul 2021 07:36:15 -0700
+X-IronPort-AV: E=Sophos;i="5.84,245,1620716400"; d="scan'208";a="656414209"
+Received: from kjmurthy-mobl.ger.corp.intel.com (HELO [10.213.193.231])
+ ([10.213.193.231])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Jul 2021 07:36:12 -0700
+Subject: Re: [PATCH 3/4] drm/i915/userptr: Probe existence of backing struct
+ pages upon creation
+To: Matthew Auld <matthew.auld@intel.com>, intel-gfx@lists.freedesktop.org
+References: <20210715101536.2606307-1-matthew.auld@intel.com>
+ <20210715101536.2606307-4-matthew.auld@intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+Message-ID: <a7be2190-37d2-7f2b-9441-4f7c18803564@linux.intel.com>
+Date: Fri, 16 Jul 2021 15:36:10 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20210715101536.2606307-4-matthew.auld@intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,230 +50,191 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- kernel test robot <lkp@intel.com>, Jason Ekstrand <jason@jlekstrand.net>,
- "Michael J . Ruhl" <michael.j.ruhl@intel.com>
+Cc: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
+ Jordan Justen <jordan.l.justen@intel.com>, dri-devel@lists.freedesktop.org,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ Kenneth Graunke <kenneth@whitecape.org>, Jason Ekstrand <jason@jlekstrand.net>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 
-Until we support p2p dma or as a complement to that, migrate data
-to system memory at dma-buf attach time if possible.
+On 15/07/2021 11:15, Matthew Auld wrote:
+> From: Chris Wilson <chris@chris-wilson.co.uk>
+> 
+> Jason Ekstrand requested a more efficient method than userptr+set-domain
+> to determine if the userptr object was backed by a complete set of pages
+> upon creation. To be more efficient than simply populating the userptr
+> using get_user_pages() (as done by the call to set-domain or execbuf),
+> we can walk the tree of vm_area_struct and check for gaps or vma not
+> backed by struct page (VM_PFNMAP). The question is how to handle
+> VM_MIXEDMAP which may be either struct page or pfn backed...
+> 
+> With discrete are going to drop support for set_domain(), so offering a
+> way to probe the pages, without having to resort to dummy batches has
+> been requested.
+> 
+> v2:
+> - add new query param for the PROPBE flag, so userspace can easily
 
-v2:
-- Rebase on dynamic exporter. Update the igt_dmabuf_import_same_driver
-  selftest to migrate if we are LMEM capable.
-v3:
-- Migrate also in the pin() callback.
-v4:
-- Migrate in attach
-v5: (jason)
-- Lock around the migration
-v6: (jason)
-- Move the can_migrate check outside the lock
-- Rework the selftests to test more migration conditions.  In
-  particular, SMEM, LMEM, and LMEM+SMEM are all checked.
+PROBE
 
-Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Signed-off-by: Michael J. Ruhl <michael.j.ruhl@intel.com>
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
-Reviewed-by: Jason Ekstrand <jason@jlekstrand.net>
----
- drivers/gpu/drm/i915/gem/i915_gem_create.c    |  2 +-
- drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c    | 23 ++++-
- drivers/gpu/drm/i915/gem/i915_gem_object.h    |  4 +
- .../drm/i915/gem/selftests/i915_gem_dmabuf.c  | 89 ++++++++++++++++++-
- 4 files changed, 112 insertions(+), 6 deletions(-)
+>    check if the kernel supports it(Jason).
+> - use mmap_read_{lock, unlock}.
+> - add some kernel-doc.
+> 
+> Testcase: igt/gem_userptr_blits/probe
+> Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
+> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+> Cc: Jordan Justen <jordan.l.justen@intel.com>
+> Cc: Kenneth Graunke <kenneth@whitecape.org>
+> Cc: Jason Ekstrand <jason@jlekstrand.net>
+> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Cc: Ramalingam C <ramalingam.c@intel.com>
+> ---
+>   drivers/gpu/drm/i915/gem/i915_gem_userptr.c | 40 ++++++++++++++++++++-
+>   drivers/gpu/drm/i915/i915_getparam.c        |  3 ++
+>   include/uapi/drm/i915_drm.h                 | 18 ++++++++++
+>   3 files changed, 60 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_userptr.c b/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
+> index 56edfeff8c02..fd6880328596 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
+> @@ -422,6 +422,33 @@ static const struct drm_i915_gem_object_ops i915_gem_userptr_ops = {
+>   
+>   #endif
+>   
+> +static int
+> +probe_range(struct mm_struct *mm, unsigned long addr, unsigned long len)
+> +{
+> +	const unsigned long end = addr + len;
+> +	struct vm_area_struct *vma;
+> +	int ret = -EFAULT;
+> +
+> +	mmap_read_lock(mm);
+> +	for (vma = find_vma(mm, addr); vma; vma = vma->vm_next) {
+> +		if (vma->vm_start > addr)
+> +			break;
+> +
+> +		if (vma->vm_flags & (VM_PFNMAP | VM_MIXEDMAP))
+> +			break;
+> +
+> +		if (vma->vm_end >= end) {
+> +			ret = 0;
+> +			break;
+> +		}
+> +
+> +		addr = vma->vm_end;
+> +	}
+> +	mmap_read_unlock(mm);
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_create.c b/drivers/gpu/drm/i915/gem/i915_gem_create.c
-index 039e4f3b39c79..41c4cd3e1ea01 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_create.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_create.c
-@@ -82,7 +82,7 @@ static int i915_gem_publish(struct drm_i915_gem_object *obj,
- 	return 0;
- }
- 
--static struct drm_i915_gem_object *
-+struct drm_i915_gem_object *
- i915_gem_object_create_user(struct drm_i915_private *i915, u64 size,
- 			    struct intel_memory_region **placements,
- 			    unsigned int n_placements)
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
-index 9a655f69a0671..5d438b95826b9 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
-@@ -170,8 +170,29 @@ static int i915_gem_dmabuf_attach(struct dma_buf *dmabuf,
- 				  struct dma_buf_attachment *attach)
- {
- 	struct drm_i915_gem_object *obj = dma_buf_to_obj(dmabuf);
-+	struct i915_gem_ww_ctx ww;
-+	int err;
-+
-+	if (!i915_gem_object_can_migrate(obj, INTEL_REGION_SMEM))
-+		return -EOPNOTSUPP;
-+
-+	for_i915_gem_ww(&ww, err, true) {
-+		err = i915_gem_object_lock(obj, &ww);
-+		if (err)
-+			continue;
-+
-+		err = i915_gem_object_migrate(obj, &ww, INTEL_REGION_SMEM);
-+		if (err)
-+			continue;
- 
--	return i915_gem_object_pin_pages_unlocked(obj);
-+		err = i915_gem_object_wait_migration(obj, 0);
-+		if (err)
-+			continue;
-+
-+		err = i915_gem_object_pin_pages(obj);
-+	}
-+
-+	return err;
- }
- 
- static void i915_gem_dmabuf_detach(struct dma_buf *dmabuf,
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h b/drivers/gpu/drm/i915/gem/i915_gem_object.h
-index 8be4fadeee487..fbae53bd46384 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
-@@ -61,6 +61,10 @@ i915_gem_object_create_shmem(struct drm_i915_private *i915,
- struct drm_i915_gem_object *
- i915_gem_object_create_shmem_from_data(struct drm_i915_private *i915,
- 				       const void *data, resource_size_t size);
-+struct drm_i915_gem_object *
-+i915_gem_object_create_user(struct drm_i915_private *i915, u64 size,
-+			    struct intel_memory_region **placements,
-+			    unsigned int n_placements);
- 
- extern const struct drm_i915_gem_object_ops i915_gem_shmem_ops;
- 
-diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c
-index 4451bbb4917e4..7b7647e7e220a 100644
---- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c
-+++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c
-@@ -85,9 +85,62 @@ static int igt_dmabuf_import_self(void *arg)
- 	return err;
- }
- 
--static int igt_dmabuf_import_same_driver(void *arg)
-+static int igt_dmabuf_import_same_driver_lmem(void *arg)
- {
- 	struct drm_i915_private *i915 = arg;
-+	struct intel_memory_region *lmem = i915->mm.regions[INTEL_REGION_LMEM];
-+	struct drm_i915_gem_object *obj;
-+	struct drm_gem_object *import;
-+	struct dma_buf *dmabuf;
-+	int err;
-+
-+	if (!i915->mm.regions[INTEL_REGION_LMEM])
-+		return 0;
-+
-+	force_different_devices = true;
-+
-+	obj = i915_gem_object_create_user(i915, PAGE_SIZE, &lmem, 1);
-+	if (IS_ERR(obj)) {
-+		pr_err("i915_gem_object_create_user failed with err=%d\n",
-+		       (int)PTR_ERR(dmabuf));
-+		err = PTR_ERR(obj);
-+		goto out_ret;
-+	}
-+
-+	dmabuf = i915_gem_prime_export(&obj->base, 0);
-+	if (IS_ERR(dmabuf)) {
-+		pr_err("i915_gem_prime_export failed with err=%d\n",
-+		       (int)PTR_ERR(dmabuf));
-+		err = PTR_ERR(dmabuf);
-+		goto out;
-+	}
-+
-+	/* We expect an import of an LMEM-only object to fail with
-+	 * -EOPNOTSUPP because it can't be migrated to SMEM.
-+	 */
-+	import = i915_gem_prime_import(&i915->drm, dmabuf);
-+	if (!IS_ERR(import)) {
-+		drm_gem_object_put(import);
-+		pr_err("i915_gem_prime_import succeeded when it shouldn't have\n");
-+		err = -EINVAL;
-+	} else if (PTR_ERR(import) != -EOPNOTSUPP) {
-+		pr_err("i915_gem_prime_import failed with the wrong err=%d\n",
-+		       (int)PTR_ERR(import));
-+		err = PTR_ERR(import);
-+	}
-+
-+	dma_buf_put(dmabuf);
-+out:
-+	i915_gem_object_put(obj);
-+out_ret:
-+	force_different_devices = false;
-+	return err;
-+}
-+
-+static int igt_dmabuf_import_same_driver(struct drm_i915_private *i915,
-+					 struct intel_memory_region **regions,
-+					 unsigned int num_regions)
-+{
- 	struct drm_i915_gem_object *obj, *import_obj;
- 	struct drm_gem_object *import;
- 	struct dma_buf *dmabuf;
-@@ -97,9 +150,15 @@ static int igt_dmabuf_import_same_driver(void *arg)
- 	int err;
- 
- 	force_different_devices = true;
--	obj = i915_gem_object_create_shmem(i915, PAGE_SIZE);
--	if (IS_ERR(obj))
-+
-+	obj = i915_gem_object_create_user(i915, PAGE_SIZE,
-+					  regions, num_regions);
-+	if (IS_ERR(obj)) {
-+		pr_err("i915_gem_object_create_user failed with err=%d\n",
-+		       (int)PTR_ERR(dmabuf));
-+		err = PTR_ERR(obj);
- 		goto out_ret;
-+	}
- 
- 	dmabuf = i915_gem_prime_export(&obj->base, 0);
- 	if (IS_ERR(dmabuf)) {
-@@ -174,6 +233,26 @@ static int igt_dmabuf_import_same_driver(void *arg)
- 	return err;
- }
- 
-+static int igt_dmabuf_import_same_driver_smem(void *arg)
-+{
-+	struct drm_i915_private *i915 = arg;
-+	struct intel_memory_region *smem = i915->mm.regions[INTEL_REGION_SMEM];
-+	return igt_dmabuf_import_same_driver(i915, &smem, 1);
-+}
-+
-+static int igt_dmabuf_import_same_driver_lmem_smem(void *arg)
-+{
-+	struct drm_i915_private *i915 = arg;
-+	struct intel_memory_region *regions[2];
-+
-+	if (!i915->mm.regions[INTEL_REGION_LMEM])
-+		return 0;
-+
-+	regions[0] = i915->mm.regions[INTEL_REGION_LMEM];
-+	regions[1] = i915->mm.regions[INTEL_REGION_SMEM];
-+	return igt_dmabuf_import_same_driver(i915, regions, 2);
-+}
-+
- static int igt_dmabuf_import(void *arg)
- {
- 	struct drm_i915_private *i915 = arg;
-@@ -384,7 +463,9 @@ int i915_gem_dmabuf_live_selftests(struct drm_i915_private *i915)
- {
- 	static const struct i915_subtest tests[] = {
- 		SUBTEST(igt_dmabuf_export),
--		SUBTEST(igt_dmabuf_import_same_driver),
-+		SUBTEST(igt_dmabuf_import_same_driver_lmem),
-+		SUBTEST(igt_dmabuf_import_same_driver_smem),
-+		SUBTEST(igt_dmabuf_import_same_driver_lmem_smem),
- 	};
- 
- 	return i915_subtests(tests, i915);
--- 
-2.31.1
+Logic here looks good to me.
 
+> +
+> +	return ret;
+> +}
+> +
+>   /*
+>    * Creates a new mm object that wraps some normal memory from the process
+>    * context - user memory.
+> @@ -477,7 +504,8 @@ i915_gem_userptr_ioctl(struct drm_device *dev,
+>   	}
+>   
+>   	if (args->flags & ~(I915_USERPTR_READ_ONLY |
+> -			    I915_USERPTR_UNSYNCHRONIZED))
+> +			    I915_USERPTR_UNSYNCHRONIZED |
+> +			    I915_USERPTR_PROBE))
+>   		return -EINVAL;
+>   
+>   	if (i915_gem_object_size_2big(args->user_size))
+> @@ -504,6 +532,16 @@ i915_gem_userptr_ioctl(struct drm_device *dev,
+>   			return -ENODEV;
+>   	}
+>   
+> +	if (args->flags & I915_USERPTR_PROBE) {
+> +		/*
+> +		 * Check that the range pointed to represents real struct
+> +		 * pages and not iomappings (at this moment in time!)
+> +		 */
+> +		ret = probe_range(current->mm, args->user_ptr, args->user_size);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+>   #ifdef CONFIG_MMU_NOTIFIER
+>   	obj = i915_gem_object_alloc();
+>   	if (obj == NULL)
+> diff --git a/drivers/gpu/drm/i915/i915_getparam.c b/drivers/gpu/drm/i915/i915_getparam.c
+> index 24e18219eb50..d6d2e1a10d14 100644
+> --- a/drivers/gpu/drm/i915/i915_getparam.c
+> +++ b/drivers/gpu/drm/i915/i915_getparam.c
+> @@ -163,6 +163,9 @@ int i915_getparam_ioctl(struct drm_device *dev, void *data,
+>   	case I915_PARAM_PERF_REVISION:
+>   		value = i915_perf_ioctl_version();
+>   		break;
+> +	case I915_PARAM_HAS_USERPTR_PROBE:
+> +		value = true;
+> +		break;
+>   	default:
+>   		DRM_DEBUG("Unknown parameter %d\n", param->param);
+>   		return -EINVAL;
+> diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
+> index e20eeeca7a1c..2e4112bf4d38 100644
+> --- a/include/uapi/drm/i915_drm.h
+> +++ b/include/uapi/drm/i915_drm.h
+> @@ -674,6 +674,9 @@ typedef struct drm_i915_irq_wait {
+>    */
+>   #define I915_PARAM_HAS_EXEC_TIMELINE_FENCES 55
+>   
+> +/* Query if the kernel supports the I915_USERPTR_PROBE flag. */
+> +#define I915_PARAM_HAS_USERPTR_PROBE 56
+> +
+>   /* Must be kept compact -- no holes and well documented */
+>   
+>   typedef struct drm_i915_getparam {
+> @@ -2178,12 +2181,27 @@ struct drm_i915_gem_userptr {
+>   	 * through the GTT. If the HW can't support readonly access, an error is
+>   	 * returned.
+>   	 *
+> +	 * I915_USERPTR_PROBE:
+> +	 *
+> +	 * Probe the provided @user_ptr range and validate that the @user_ptr is
+> +	 * indeed pointing to normal memory and that the range is also valid.
+> +	 * For example if some garbage address is given to the kernel, then this
+> +	 * should complain.
+> +	 *
+> +	 * Returns -EFAULT if the probe failed.
+> +	 *
+> +	 * Note that this doesn't populate the backing pages.
+
+I'd also add a note on how validation at create time may not mean object 
+will still be valid at use time.
+
+With that added, and ignoring the question of whether to have setparam 
+or not:
+
+Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+
+Regards,
+
+Tvrtko
+
+> +	 *
+> +	 * The kernel supports this feature if I915_PARAM_HAS_USERPTR_PROBE
+> +	 * returns a non-zero value.
+> +	 *
+>   	 * I915_USERPTR_UNSYNCHRONIZED:
+>   	 *
+>   	 * NOT USED. Setting this flag will result in an error.
+>   	 */
+>   	__u32 flags;
+>   #define I915_USERPTR_READ_ONLY 0x1
+> +#define I915_USERPTR_PROBE 0x2
+>   #define I915_USERPTR_UNSYNCHRONIZED 0x80000000
+>   	/**
+>   	 * @handle: Returned handle for the object.
+> 
