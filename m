@@ -1,66 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 989743CAF4B
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Jul 2021 00:39:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EFAF3CAFD2
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Jul 2021 02:01:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 671216E8C5;
-	Thu, 15 Jul 2021 22:39:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF2BF6E8C9;
+	Fri, 16 Jul 2021 00:01:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com
- [IPv6:2607:f8b0:4864:20::1029])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0BCA96E8C5
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jul 2021 22:39:21 +0000 (UTC)
-Received: by mail-pj1-x1029.google.com with SMTP id
- g6-20020a17090adac6b029015d1a9a6f1aso6438102pjx.1
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jul 2021 15:39:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=uTvb5nCOZNBFjkHb/A0OT2QdNDoGq3FEFV5E3JS80iA=;
- b=JmtVnbT5kDFSjpkjRVGjGcpfcRgBk7LeFBfR+uOvOVp/hkgbhWjCLrB83O2InRAxJq
- 8pG5roHvCiSoIS8qamFzruU5/IWH1Oaft2Pz1cuFizUqQ09vE87i71ZZa/CSDwrWvpYi
- yEtg6jS3bBww1jtzpgcMbZw8dx3Xvl7TjKwLYLCisNmasIm+ijlHXBbvO3y8s7NemPRi
- rLdzX2dNN5dWaItniReVYfECFnv8Mqph3VFLsORIC0LjpvDez5N9fCLAh9xinvpcS+0H
- N1bXXBitFWzkduodEGV+Mm0g/wuvCQvzKWf9QbJecHy1v6a11ZiqjPOWtJN//qd3rvnE
- f1AA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=uTvb5nCOZNBFjkHb/A0OT2QdNDoGq3FEFV5E3JS80iA=;
- b=HXC/q3qvs1Q3xhb4Ynw7ksEVNq4cufD0R9Np0+QhPnm6nZshSzYQyK898/yDBJFWsI
- FIGiZOpFofYgbtLL/t87Xuzpv4iy7XjMwSnY9s8sML8QzP8YzUUo4w/7H191/+da4qse
- 44A3HXIPczExEZpK/M+pg7lsmPj/jSuqX/xvCdr19cCq+eLV+wA06QVAYrmZvCkG1sUF
- t8o1TH7SXION8PCSU/vX5ny8ew8M7qxdhM8VaZ4Uz9F1od3PNG0JMrtWgecqIZgeK2Si
- cRishvckCVMlxEMtg8TVBc0MuiSEYhm4PD01XbE74ubGInEL/mAGSQuES8nG8ssssbDT
- 8Axg==
-X-Gm-Message-State: AOAM533ql5MRlQKkAWT+z6wsPOfoIXfcRXBwJPGW1x0CrLfiFktcBfr0
- 63fxZSpzXDxokQlwsmxISsQaGg==
-X-Google-Smtp-Source: ABdhPJxyhJv81KVkp7JZiyi9kHmYNr5psMEV2RHJ3qgPbebMHV02Zef1CSJp+VQ+2aD12SUixWV6zQ==
-X-Received: by 2002:a17:902:c246:b029:129:b2e0:be90 with SMTP id
- 6-20020a170902c246b0290129b2e0be90mr5203729plg.84.1626388760480; 
- Thu, 15 Jul 2021 15:39:20 -0700 (PDT)
-Received: from omlet.com ([134.134.137.87])
- by smtp.gmail.com with ESMTPSA id ft7sm9959459pjb.32.2021.07.15.15.39.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 15 Jul 2021 15:39:20 -0700 (PDT)
-From: Jason Ekstrand <jason@jlekstrand.net>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH 7/7] drm/i915/gem: Migrate to system at dma-buf attach time
- (v6)
-Date: Thu, 15 Jul 2021 17:39:00 -0500
-Message-Id: <20210715223900.1840576-8-jason@jlekstrand.net>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210715223900.1840576-1-jason@jlekstrand.net>
-References: <20210715223900.1840576-1-jason@jlekstrand.net>
+Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 888B76E8C9
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jul 2021 00:01:24 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1626393686; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=erJIzto7qZXuzK61BLf7SS5WdFm+Xt4zEFeRyvOUY1o=;
+ b=v57Ad9ioSMXT77x9aU7+sppQfOBZ/dkS/h5+nfZLTALd0Bs7wQBeVl4FolBzp0L6eNjFiivv
+ Lx4TIF1T8P+dJABeL/SmqRRCbBTsbMVFWY/Cc5trfqHby8S8q63FzF8V6PSQcsYS7ffBNLOr
+ 6nXSNpJq2ZcQ/suqHC107U7VFzU=
+X-Mailgun-Sending-Ip: 198.61.254.9
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n02.prod.us-east-1.postgun.com with SMTP id
+ 60f0cc4517c2b4047d417b08 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 16 Jul 2021 00:01:09
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 848CDC4338A; Fri, 16 Jul 2021 00:01:08 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00
+ autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ (No client certificate requested) (Authenticated sender: abhinavk)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 9E2DEC433D3;
+ Fri, 16 Jul 2021 00:01:07 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date: Thu, 15 Jul 2021 17:01:07 -0700
+From: abhinavk@codeaurora.org
+To: Marijn Suijten <marijn.suijten@somainline.org>
+Subject: Re: [PATCH] drm/msm/dsi: add support for dsi test pattern generator
+In-Reply-To: <61cdcd07-5bff-a8ae-7156-b85b9c6c8801@somainline.org>
+References: <1624993464-20447-1-git-send-email-abhinavk@codeaurora.org>
+ <61cdcd07-5bff-a8ae-7156-b85b9c6c8801@somainline.org>
+Message-ID: <f6235d170811ad02bf6321dcb5ef3568@codeaurora.org>
+X-Sender: abhinavk@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,230 +66,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- kernel test robot <lkp@intel.com>, Jason Ekstrand <jason@jlekstrand.net>,
- "Michael J . Ruhl" <michael.j.ruhl@intel.com>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ swboyd@chromium.org, khsieh@codeaurora.org, seanpaul@chromium.org,
+ dmitry.baryshkov@linaro.org, aravindh@codeaurora.org,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Hi Marijn
 
-Until we support p2p dma or as a complement to that, migrate data
-to system memory at dma-buf attach time if possible.
+Sorry for the late response.
 
-v2:
-- Rebase on dynamic exporter. Update the igt_dmabuf_import_same_driver
-  selftest to migrate if we are LMEM capable.
-v3:
-- Migrate also in the pin() callback.
-v4:
-- Migrate in attach
-v5: (jason)
-- Lock around the migration
-v6: (jason)
-- Move the can_migrate check outside the lock
-- Rework the selftests to test more migration conditions.  In
-  particular, SMEM, LMEM, and LMEM+SMEM are all checked.
+On 2021-07-13 02:10, Marijn Suijten wrote:
+> On 6/29/21 9:04 PM, Abhinav Kumar wrote:
+>> During board bringups its useful to have a DSI test pattern
+>> generator to isolate a DPU vs a DSI issue and focus on the relevant
+>> hardware block.
+>> 
+>> To facilitate this, add an API which triggers the DSI controller
+>> test pattern. The expected output is a rectangular checkered pattern.
+>> 
+>> This has been validated on a single DSI video mode panel by calling it
+>> right after drm_panel_enable() which is also the ideal location to use
+>> this as the DSI host and the panel have been initialized by then.
+>> 
+>> Further validation on dual DSI and command mode panel is pending.
+>> If there are any fix ups needed for those, it shall be applied on top
+>> of this change.
+>> 
+>> Signed-off-by: Abhinav Kumar <abhinavk@codeaurora.org>
+>> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> 
+> 
+> Tested-by: Marijn Suijten <marijn.suijten@somainline.org>
+> 
+> [...]
+Thanks for testing this.
+>> +static void msm_dsi_host_cmd_test_pattern_setup(struct msm_dsi_host 
+>> *msm_host)
+>> +{
+>> +	u32 reg;
+>> +
+>> +	reg = dsi_read(msm_host, REG_DSI_TEST_PATTERN_GEN_CTRL);
+>> +
+>> +	dsi_write(msm_host, REG_DSI_TEST_PATTERN_GEN_CMD_MDP_INIT_VAL0, 
+>> 0xff);
+>> +
+>> +	reg |= (0x3 << 0x8);
+>> +	dsi_write(msm_host, REG_DSI_TEST_PATTERN_GEN_CTRL, reg);
+>> +	/* draw checkered rectangle pattern */
+>> +	dsi_write(msm_host, REG_DSI_TPG_MAIN_CONTROL2, (0x1 << 0x7));
+> 
+> 
+> How about BIT(7)?
 
-Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Signed-off-by: Michael J. Ruhl <michael.j.ruhl@intel.com>
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
-Reviewed-by: Jason Ekstrand <jason@jlekstrand.net>
----
- drivers/gpu/drm/i915/gem/i915_gem_create.c    |  2 +-
- drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c    | 23 ++++-
- drivers/gpu/drm/i915/gem/i915_gem_object.h    |  4 +
- .../drm/i915/gem/selftests/i915_gem_dmabuf.c  | 89 ++++++++++++++++++-
- 4 files changed, 112 insertions(+), 6 deletions(-)
+You mean BIT(7) of REG_DSI_TPG_MAIN_CONTROL2? Thats what this is right?
+Did you mean some other bit?
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_create.c b/drivers/gpu/drm/i915/gem/i915_gem_create.c
-index 69bf9ec777642..ed6b0d75ff801 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_create.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_create.c
-@@ -82,7 +82,7 @@ static int i915_gem_publish(struct drm_i915_gem_object *obj,
- 	return 0;
- }
- 
--static struct drm_i915_gem_object *
-+struct drm_i915_gem_object *
- i915_gem_object_create_user(struct drm_i915_private *i915, u64 size,
- 			    struct intel_memory_region **placements,
- 			    unsigned int n_placements)
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
-index 9a655f69a0671..5d438b95826b9 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
-@@ -170,8 +170,29 @@ static int i915_gem_dmabuf_attach(struct dma_buf *dmabuf,
- 				  struct dma_buf_attachment *attach)
- {
- 	struct drm_i915_gem_object *obj = dma_buf_to_obj(dmabuf);
-+	struct i915_gem_ww_ctx ww;
-+	int err;
-+
-+	if (!i915_gem_object_can_migrate(obj, INTEL_REGION_SMEM))
-+		return -EOPNOTSUPP;
-+
-+	for_i915_gem_ww(&ww, err, true) {
-+		err = i915_gem_object_lock(obj, &ww);
-+		if (err)
-+			continue;
-+
-+		err = i915_gem_object_migrate(obj, &ww, INTEL_REGION_SMEM);
-+		if (err)
-+			continue;
- 
--	return i915_gem_object_pin_pages_unlocked(obj);
-+		err = i915_gem_object_wait_migration(obj, 0);
-+		if (err)
-+			continue;
-+
-+		err = i915_gem_object_pin_pages(obj);
-+	}
-+
-+	return err;
- }
- 
- static void i915_gem_dmabuf_detach(struct dma_buf *dmabuf,
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h b/drivers/gpu/drm/i915/gem/i915_gem_object.h
-index 8be4fadeee487..fbae53bd46384 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
-@@ -61,6 +61,10 @@ i915_gem_object_create_shmem(struct drm_i915_private *i915,
- struct drm_i915_gem_object *
- i915_gem_object_create_shmem_from_data(struct drm_i915_private *i915,
- 				       const void *data, resource_size_t size);
-+struct drm_i915_gem_object *
-+i915_gem_object_create_user(struct drm_i915_private *i915, u64 size,
-+			    struct intel_memory_region **placements,
-+			    unsigned int n_placements);
- 
- extern const struct drm_i915_gem_object_ops i915_gem_shmem_ops;
- 
-diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c
-index 4451bbb4917e4..7b7647e7e220a 100644
---- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c
-+++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c
-@@ -85,9 +85,62 @@ static int igt_dmabuf_import_self(void *arg)
- 	return err;
- }
- 
--static int igt_dmabuf_import_same_driver(void *arg)
-+static int igt_dmabuf_import_same_driver_lmem(void *arg)
- {
- 	struct drm_i915_private *i915 = arg;
-+	struct intel_memory_region *lmem = i915->mm.regions[INTEL_REGION_LMEM];
-+	struct drm_i915_gem_object *obj;
-+	struct drm_gem_object *import;
-+	struct dma_buf *dmabuf;
-+	int err;
-+
-+	if (!i915->mm.regions[INTEL_REGION_LMEM])
-+		return 0;
-+
-+	force_different_devices = true;
-+
-+	obj = i915_gem_object_create_user(i915, PAGE_SIZE, &lmem, 1);
-+	if (IS_ERR(obj)) {
-+		pr_err("i915_gem_object_create_user failed with err=%d\n",
-+		       (int)PTR_ERR(dmabuf));
-+		err = PTR_ERR(obj);
-+		goto out_ret;
-+	}
-+
-+	dmabuf = i915_gem_prime_export(&obj->base, 0);
-+	if (IS_ERR(dmabuf)) {
-+		pr_err("i915_gem_prime_export failed with err=%d\n",
-+		       (int)PTR_ERR(dmabuf));
-+		err = PTR_ERR(dmabuf);
-+		goto out;
-+	}
-+
-+	/* We expect an import of an LMEM-only object to fail with
-+	 * -EOPNOTSUPP because it can't be migrated to SMEM.
-+	 */
-+	import = i915_gem_prime_import(&i915->drm, dmabuf);
-+	if (!IS_ERR(import)) {
-+		drm_gem_object_put(import);
-+		pr_err("i915_gem_prime_import succeeded when it shouldn't have\n");
-+		err = -EINVAL;
-+	} else if (PTR_ERR(import) != -EOPNOTSUPP) {
-+		pr_err("i915_gem_prime_import failed with the wrong err=%d\n",
-+		       (int)PTR_ERR(import));
-+		err = PTR_ERR(import);
-+	}
-+
-+	dma_buf_put(dmabuf);
-+out:
-+	i915_gem_object_put(obj);
-+out_ret:
-+	force_different_devices = false;
-+	return err;
-+}
-+
-+static int igt_dmabuf_import_same_driver(struct drm_i915_private *i915,
-+					 struct intel_memory_region **regions,
-+					 unsigned int num_regions)
-+{
- 	struct drm_i915_gem_object *obj, *import_obj;
- 	struct drm_gem_object *import;
- 	struct dma_buf *dmabuf;
-@@ -97,9 +150,15 @@ static int igt_dmabuf_import_same_driver(void *arg)
- 	int err;
- 
- 	force_different_devices = true;
--	obj = i915_gem_object_create_shmem(i915, PAGE_SIZE);
--	if (IS_ERR(obj))
-+
-+	obj = i915_gem_object_create_user(i915, PAGE_SIZE,
-+					  regions, num_regions);
-+	if (IS_ERR(obj)) {
-+		pr_err("i915_gem_object_create_user failed with err=%d\n",
-+		       (int)PTR_ERR(dmabuf));
-+		err = PTR_ERR(obj);
- 		goto out_ret;
-+	}
- 
- 	dmabuf = i915_gem_prime_export(&obj->base, 0);
- 	if (IS_ERR(dmabuf)) {
-@@ -174,6 +233,26 @@ static int igt_dmabuf_import_same_driver(void *arg)
- 	return err;
- }
- 
-+static int igt_dmabuf_import_same_driver_smem(void *arg)
-+{
-+	struct drm_i915_private *i915 = arg;
-+	struct intel_memory_region *smem = i915->mm.regions[INTEL_REGION_SMEM];
-+	return igt_dmabuf_import_same_driver(i915, &smem, 1);
-+}
-+
-+static int igt_dmabuf_import_same_driver_lmem_smem(void *arg)
-+{
-+	struct drm_i915_private *i915 = arg;
-+	struct intel_memory_region *regions[2];
-+
-+	if (!i915->mm.regions[INTEL_REGION_LMEM])
-+		return 0;
-+
-+	regions[0] = i915->mm.regions[INTEL_REGION_LMEM];
-+	regions[1] = i915->mm.regions[INTEL_REGION_SMEM];
-+	return igt_dmabuf_import_same_driver(i915, regions, 2);
-+}
-+
- static int igt_dmabuf_import(void *arg)
- {
- 	struct drm_i915_private *i915 = arg;
-@@ -384,7 +463,9 @@ int i915_gem_dmabuf_live_selftests(struct drm_i915_private *i915)
- {
- 	static const struct i915_subtest tests[] = {
- 		SUBTEST(igt_dmabuf_export),
--		SUBTEST(igt_dmabuf_import_same_driver),
-+		SUBTEST(igt_dmabuf_import_same_driver_lmem),
-+		SUBTEST(igt_dmabuf_import_same_driver_smem),
-+		SUBTEST(igt_dmabuf_import_same_driver_lmem_smem),
- 	};
- 
- 	return i915_subtests(tests, i915);
--- 
-2.31.1
+> 
+> On SM6125 this seems to change the color intensity of the pattern; it
+> is always colored lines of a few pixels wide alternating R, B and G
+> from left to right.  Is it possible to document the meaning and
+> available values of these registers, especially if they differ between
+> SoC / DSI block?
+> 
 
+I have requested access for SM6125, will check this register on that to 
+see if there
+is any difference.
+
+Are you saying you are not seeing a rectangular checkered pattern while 
+testing?
+Also are you testing on command mode or video mode?
+
+As requested by Rob, I will add the bit definitions and update the 
+dsi.xml.h in the
+next patchset for the registers and the bits which I am using here.
+
+With that the meaning of these bits will be more clear.
+
+I dont think I will be able to document all the bits because the goal of 
+this patch
+was only to draw a test pattern to help with validation. Different bits 
+of the REG_DSI_TPG_MAIN_CONTROL2
+register only draw different patterns so the goal wasnt that we can draw 
+any pattern, it was just to
+draw some pattern on the screen.
+
+When we add support for all other patterns, we can expose those bits as 
+well but it should not
+be required in my opinion.
+
+> Kind regards,
+> Marijn
+> 
+>> +	DBG("Cmd test pattern setup done\n");
+>> +}
+> [...]
