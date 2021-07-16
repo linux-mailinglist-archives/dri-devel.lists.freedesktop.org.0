@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB19A3CB365
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Jul 2021 09:40:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 488503CB366
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Jul 2021 09:40:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 077876E933;
-	Fri, 16 Jul 2021 07:40:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C17B6E934;
+	Fri, 16 Jul 2021 07:40:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2085.outbound.protection.outlook.com [40.107.237.85])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4FF626E933
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jul 2021 07:39:59 +0000 (UTC)
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com
+ (mail-bn1nam07on2078.outbound.protection.outlook.com [40.107.212.78])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C62C56E934
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jul 2021 07:40:04 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EJeXWMrSdvFcf0WbkGthgxanttO/qeGWyg6u1Vz6v+XwXiNUOrH00hlUugxg0H6hiTgr718vJZ1z2hHH7NP2viWU/+W/+BY3YDkEaS+p+U6wdp1pVJy64ddHPWEScwGx1hGv5hRAHYMvsHOdt5tVuV3SYsDgVPOLFQhIcWlodEn8P0aSVnxyUxmv+RnIyGlo5Kmp0ZuHv4eZebbAWiuKLdy2gspqQZA03g8VeRnyoUWCS7biKusRkwDa6P6oqRigb5YXiVG1CwzwdACOuYjzGuHJYNVI/fa7OkXjEbZMiMsdOTI0cCQ+Mpok0mdVor0NDb1hv5cOAN40JMuorXvY4Q==
+ b=hml73SE6wuLbd0fDPZhFWOBhrS0ADwV+SSVbFzq0CsFe8Ow2f5Q8kcFToegPBGuDgZzu68iTWU6l6bCyMA/VBJOexkspzShOFwjpERryv2z7TkH7cmAVzreAQ6tveJyWjV39+QE0ghrSA90jwmpyHKQAoE9A05hLVHuRYs33pr37wKdVuylfdQ/WI5pDoXt12CTOS4hZfbSLZy9MzPW1SK0V+NYpe4F7szn1rk3e4avtgv3zDwOX2YPfrFIjAZG+9yjLddNMfjVqF96BaOnYP66lwtyJXaTSVBpnhHSZ852rN3Inx98TH1P+25QIwJY5IGuckRSUaGmgDMklRulj0w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zhtGvcuU2SdSFx1Sny8kOF31+LtWoW/Csa9MSf5IzY4=;
- b=XP3x1yumR1/HAnHwHki92vkKsYmE2IR6KrUQEaphwauQHcofio8iAR0cvZzBgy7FCxP52GAsZmpiz2HlaE4GSlgzsp7ty9mmRGMu3lQ0cDcYiknkQ/z1gy9hu0kjcFK1MvT1TnWuItSXpQgUiLCJvt5gOVf1osMf0g/z+nFzSAYkDBzp8/vMu4RymWdcV3Dwq1V9xi8lyXhy6NmO4jn1l9PEvyXjnDTPNQ+1kbS78uzG6FhlQU88hG7GX+QIEaiV8L5Rud/8w8mJeWzoSK6DMXD+/aVbQOC8rCumPbEZjM1+SrU+lBNRyoL/ridyHgR2zxCaeXsbqVq/dMtMrksGOQ==
+ bh=SXzevfx3nbeXgxVN+ji8/XAT90y4RJ3s610eYwu2ocA=;
+ b=liRIo9MCO55XaXaBlN64I70sztfgUPR8tcDvfHfdk6/Pv6ez0hRwkq6KgfKFaVbraJPJxop/43gH3uxnQqsZinFWKA/7/lvh/GU0ZDburYfUWWuXs9zJMAet1RA2z7BCHmghK1Bq6mUoXl6yKIY+xoZyyNlJDo+6gtseC2Ik8LzLLGxsII1a/4aq4fm3wCJahMI2/RhvS/KQ3v9BaACwHpIHacKRwtyGKwjnfnHz6/P7fEAQjFQs3ZkXPJCT8SOMz9TnYCYHY9ok5DrKCSrrI4rjDttYCnFFd7kiSEi1xwPqeT2neiwFhKyD3R0b5eGzu7Hkir1T/8e8EKMwFj4IwQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=linuxfoundation.org smtp.mailfrom=amd.com;
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zhtGvcuU2SdSFx1Sny8kOF31+LtWoW/Csa9MSf5IzY4=;
- b=nUUIR3tD6H6WXozHW7SYUOAW4MUp93CA4y6cAXnI+Dku6wIOz5PUqisv6uja8grYy3z5y/+IWduh4iNuKSF5YXBudjyhZtoBvpPlSCCCkdL9utUARUXj9XunYsLjE/Nn2vh5oY9mowcaNKxnDBl3hk+i0A0z1YP1psPD6oe/CZ8=
-Received: from DM5PR18CA0090.namprd18.prod.outlook.com (2603:10b6:3:3::28) by
- DM6PR12MB2620.namprd12.prod.outlook.com (2603:10b6:5:42::33) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4331.21; Fri, 16 Jul 2021 07:39:56 +0000
-Received: from DM6NAM11FT030.eop-nam11.prod.protection.outlook.com
- (2603:10b6:3:3:cafe::a) by DM5PR18CA0090.outlook.office365.com
- (2603:10b6:3:3::28) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.22 via Frontend
- Transport; Fri, 16 Jul 2021 07:39:56 +0000
+ bh=SXzevfx3nbeXgxVN+ji8/XAT90y4RJ3s610eYwu2ocA=;
+ b=VCQgTc8GkrIaYSca1MfO758x4h9FAt8ghH2Ss2P6r2gp+rNY3hMQj9br0UWqfWyuNxszfKxourajnVlQypgiGGhX5XpPm4J0/sd6fghYtxxUtbr3nTYCaH5JhmH5waPmkX6OLrH9+QzO8mKYNcoKcsCMb+AVV96Q3kGTYIHQtYs=
+Received: from DM6PR06CA0101.namprd06.prod.outlook.com (2603:10b6:5:336::34)
+ by BYAPR12MB3158.namprd12.prod.outlook.com (2603:10b6:a03:13a::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4308.23; Fri, 16 Jul
+ 2021 07:40:01 +0000
+Received: from DM6NAM11FT037.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:5:336:cafe::a2) by DM6PR06CA0101.outlook.office365.com
+ (2603:10b6:5:336::34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.23 via Frontend
+ Transport; Fri, 16 Jul 2021 07:40:01 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; linuxfoundation.org; dkim=none (message not signed)
  header.d=none;linuxfoundation.org; dmarc=pass action=none
@@ -46,53 +46,52 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- DM6NAM11FT030.mail.protection.outlook.com (10.13.172.146) with Microsoft SMTP
+ DM6NAM11FT037.mail.protection.outlook.com (10.13.172.122) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.4331.21 via Frontend Transport; Fri, 16 Jul 2021 07:39:56 +0000
-Received: from SATLEXMB05.amd.com (10.181.40.146) by SATLEXMB04.amd.com
+ 15.20.4331.21 via Frontend Transport; Fri, 16 Jul 2021 07:40:00 +0000
+Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4; Fri, 16 Jul
- 2021 02:39:54 -0500
-Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB05.amd.com
- (10.181.40.146) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4; Fri, 16 Jul
- 2021 02:39:54 -0500
+ 2021 02:40:00 -0500
 Received: from wayne-System-Product-Name.amd.com (10.180.168.240) by
  SATLEXMB03.amd.com (10.181.40.144) with Microsoft SMTP Server id 15.1.2242.4
- via Frontend Transport; Fri, 16 Jul 2021 02:39:52 -0500
+ via Frontend Transport; Fri, 16 Jul 2021 02:39:58 -0500
 From: Wayne Lin <Wayne.Lin@amd.com>
 To: <gregkh@linuxfoundation.org>, <stable@vger.kernel.org>
-Subject: [PATCH 1/3] drm/dp_mst: Do not set proposed vcpi directly
-Date: Fri, 16 Jul 2021 15:38:29 +0800
-Message-ID: <20210716073831.27500-2-Wayne.Lin@amd.com>
+Subject: [PATCH 3/3] drm/dp_mst: Add missing drm parameters to recently added
+ call to drm_dbg_kms()
+Date: Fri, 16 Jul 2021 15:38:31 +0800
+Message-ID: <20210716073831.27500-4-Wayne.Lin@amd.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210716073831.27500-1-Wayne.Lin@amd.com>
 References: <20210716073831.27500-1-Wayne.Lin@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 665ad1e1-8cd0-4b06-ab6a-08d9482ce838
-X-MS-TrafficTypeDiagnostic: DM6PR12MB2620:
-X-Microsoft-Antispam-PRVS: <DM6PR12MB2620FCCA09F381C2EED63756FC119@DM6PR12MB2620.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:31;
+X-MS-Office365-Filtering-Correlation-Id: bb7351ab-e5d3-4ed6-4ec3-08d9482ceb27
+X-MS-TrafficTypeDiagnostic: BYAPR12MB3158:
+X-Microsoft-Antispam-PRVS: <BYAPR12MB3158EB726FA2012D26E68C25FC119@BYAPR12MB3158.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:127;
 X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: EvbF9YDvJq/1pXiQItmOHOU952vgqpfC33oqirpMMC+9R87WeQ2WM621VNibgBlJT6LEHLtflOcTX76B37z9grMgRla09p88JAwfUQg35nXvNurryL4YOhy+R+X0EwLzuYXh9hSfHpPnNG4v3AA0NIBxBpqqsiXImAZl2o+M3+0XXSNGcim8zwXAQePQ+p5m/rvJGlAsrkr8Wfy5cKvCJkH8u4u9LfkSFZHE7xSoxNfycSQDX9zlQ/AYgnqAGQp2Zey4Piqw4mBU+pYjAsdKyZRl3tgeO00Es0+hCY2fM5bHHDj+pQY9thI0Y1p9f01WtyJm7uvsRa55O53c6K1x+KGsTH9nHdYdDP2waxD8tUscKmOy2sBRa1YTrG3JXBQOc01p/L1Gn3Y5kU+yqpRURstaM3/99Lq2wQuONeJcDdxv7ezKox8BdKbK4jSpwAbYqs5hslsbSL/e6x4kXXAchvxajT6A5jTBsoC95svZq0cul8Gy8QkfhSOUCxJII52ARYwSNWJ0krrRciCLbugeBliguFx7qsIsbQhansWAvw1jvf1tiEKFIDrYFUU8lBbkKv/+8XCwQKYn32Y1HwpHTtJtSvLu7D+D4YsBh9Rv275wtA9LCtb40mpT8sDk7wfzepD25WkWQSzyF3XpkVawTcT5Fmdp4ED8TByk3Z3I1uegLGx2fe0K8pwIuo2Zb7f8ZxeYJblQlzlrm3UEv6l41SmpHlIVd1W2rsJ9mShaN+0=
+X-Microsoft-Antispam-Message-Info: Z+dbZWTGkOiMIqJ6RNSquh1hbeiU9tD7GVuru/VSJsFu6PzBlZPtgBwsBtLUamcZvg4Fufp29OKcNJ5krqQuLA8UWZH8WYOMuOOQgtHZVdXTGtmP+5+WN33ictgawYCwGE/nDgMi0TqsrunytsOkMTCPKL0gEgD7wpHWAgQXMW75JBjpy49jPbyuF+kDk8brn936csjnIIdAGgmdyfJgFy4ZIovQeusdatwh6FZG295yg6Icwn78k4itPlclxt+O2Qpj29ZRSW/csIUhzUAuC3tF5D8zx2l9yWqOYd7gOmTf6SVZyEvNVxaiTluXCcBIdScxzMqVudPAg9Zhz9vNbULyHuUNtW26a6pTRG5p+WHvKOWa26ncYG9c3bWRFR7GzLsoFkr5u6oxD1ip2+XKj02Ini7z8rLEgikm4tQtSYhJzDNL8I5zpby1Mi9ddrtJq4dNkoagBrHv7ApZWL99iOujwEdUNeGE2stjK+BvS6oYpJgrDaHGQi2AXB/LVRxYQzDLj8NeecubAsJab8hUySQbvvzNVT22oSaigtntqKtrT+vqOdMSRd7cL/HfUY2MRUyEDl43GBSl8lVylufxltDXtVwBPAtRRZGgA+zTFeD7B1hd6C5tK+DG6N0qSmGa4oszSIuYYWQJPnYvVt8ymOl0k/vZFykuP+qYlc79U2E1ciV6pHvAP1KhSIu4+52tX3xBKwIcRPw5CDLluPaulNkvO4rJAZxH6k29r6cP0Vo=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(4636009)(346002)(396003)(136003)(376002)(39860400002)(36840700001)(46966006)(478600001)(966005)(426003)(36756003)(336012)(4326008)(82310400003)(36860700001)(7696005)(186003)(26005)(86362001)(2616005)(82740400003)(54906003)(316002)(356005)(5660300002)(6666004)(70586007)(110136005)(70206006)(2906002)(8676002)(83380400001)(81166007)(47076005)(1076003)(8936002)(36900700001);
+ SFS:(4636009)(46966006)(36840700001)(47076005)(186003)(70586007)(8676002)(7696005)(6666004)(83380400001)(5660300002)(8936002)(336012)(110136005)(2906002)(36756003)(1076003)(4326008)(70206006)(86362001)(36860700001)(966005)(2616005)(26005)(426003)(82310400003)(316002)(81166007)(54906003)(478600001)(356005)(36900700001);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jul 2021 07:39:56.0325 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 665ad1e1-8cd0-4b06-ab6a-08d9482ce838
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jul 2021 07:40:00.9599 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: bb7351ab-e5d3-4ed6-4ec3-08d9482ceb27
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT030.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT037.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB2620
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB3158
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,129 +104,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+Cc: dri-devel@lists.freedesktop.org,
+ =?UTF-8?q?Jos=C3=A9=20Roberto=20de=20Souza?= <jose.souza@intel.com>,
  Wayne Lin <Wayne.Lin@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[Why]
-When we receive CSN message to notify one port is disconnected, we will
-implicitly set its corresponding num_slots to 0. Later on, we will
-eventually call drm_dp_update_payload_part1() to arrange down streams.
+From: José Roberto de Souza <jose.souza@intel.com>
 
-In drm_dp_update_payload_part1(), we iterate over all proposed_vcpis[]
-to do the update. Not specific to a target sink only. For example, if we
-light up 2 monitors, Monitor_A and Monitor_B, and then we unplug
-Monitor_B. Later on, when we call drm_dp_update_payload_part1() to try
-to update payload for Monitor_A, we'll also implicitly clean payload for
-Monitor_B at the same time. And finally, when we try to call
-drm_dp_update_payload_part1() to clean payload for Monitor_B, we will do
-nothing at this time since payload for Monitor_B has been cleaned up
-previously.
+Commit 3769e4c0af5b ("drm/dp_mst: Avoid to mess up payload table by
+ports in stale topology") added to calls to drm_dbg_kms() but it
+missed the first parameter, the drm device breaking the build.
 
-For StarTech 1to3 DP hub, it seems like if we didn't update DPCD payload
-ID table then polling for "ACT Handled"(BIT_1 of DPCD 002C0h) will fail
-and this polling will last for 3 seconds.
-
-Therefore, guess the best way is we don't set the proposed_vcpi[]
-diretly. Let user of these herlper functions to set the proposed_vcpi
-directly.
-
-[How]
-1. Revert commit 7617e9621bf2 ("drm/dp_mst: clear time slots for ports
-invalid")
-2. Tackle the issue in previous commit by skipping those trasient
-proposed VCPIs. These stale VCPIs shoulde be explicitly cleared by
-user later on.
-
-Changes since v1:
-* Change debug macro to use drm_dbg_kms() instead
-* Amend the commit message to add Fixed & Cc tags
-
-Signed-off-by: Wayne Lin <Wayne.Lin@amd.com>
-Fixes: 7617e9621bf2 ("drm/dp_mst: clear time slots for ports invalid")
-Cc: Lyude Paul <lyude@redhat.com>
+Fixes: 3769e4c0af5b ("drm/dp_mst: Avoid to mess up payload table by ports in stale topology")
 Cc: Wayne Lin <Wayne.Lin@amd.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Lyude Paul <lyude@redhat.com>
 Cc: dri-devel@lists.freedesktop.org
-Cc: <stable@vger.kernel.org> # v5.5+
-Signed-off-by: Lyude Paul <lyude@redhat.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20210616035501.3776-2-Wayne.Lin@amd.com
+Cc: stable@vger.kernel.org
+Signed-off-by: José Roberto de Souza <jose.souza@intel.com>
 Reviewed-by: Lyude Paul <lyude@redhat.com>
+Signed-off-by: Lyude Paul <lyude@redhat.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20210616194415.36926-1-jose.souza@intel.com
 ---
- drivers/gpu/drm/drm_dp_mst_topology.c | 36 ++++++++-------------------
- 1 file changed, 10 insertions(+), 26 deletions(-)
+ drivers/gpu/drm/drm_dp_mst_topology.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_dp_mst_topology.c
-index 9c75c8815056..41d790df81bb 100644
+index b86a2b7fef39..dfbd90431043 100644
 --- a/drivers/gpu/drm/drm_dp_mst_topology.c
 +++ b/drivers/gpu/drm/drm_dp_mst_topology.c
-@@ -2499,7 +2499,7 @@ drm_dp_mst_handle_conn_stat(struct drm_dp_mst_branch *mstb,
- {
- 	struct drm_dp_mst_topology_mgr *mgr = mstb->mgr;
- 	struct drm_dp_mst_port *port;
--	int old_ddps, old_input, ret, i;
-+	int old_ddps, ret;
- 	u8 new_pdt;
- 	bool new_mcs;
- 	bool dowork = false, create_connector = false;
-@@ -2531,7 +2531,6 @@ drm_dp_mst_handle_conn_stat(struct drm_dp_mst_branch *mstb,
- 	}
+@@ -3385,7 +3385,9 @@ int drm_dp_update_payload_part1(struct drm_dp_mst_topology_mgr *mgr)
+ 			mutex_unlock(&mgr->lock);
  
- 	old_ddps = port->ddps;
--	old_input = port->input;
- 	port->input = conn_stat->input_port;
- 	port->ldps = conn_stat->legacy_device_plug_status;
- 	port->ddps = conn_stat->displayport_device_plug_status;
-@@ -2554,28 +2553,6 @@ drm_dp_mst_handle_conn_stat(struct drm_dp_mst_branch *mstb,
- 		dowork = false;
- 	}
- 
--	if (!old_input && old_ddps != port->ddps && !port->ddps) {
--		for (i = 0; i < mgr->max_payloads; i++) {
--			struct drm_dp_vcpi *vcpi = mgr->proposed_vcpis[i];
--			struct drm_dp_mst_port *port_validated;
--
--			if (!vcpi)
--				continue;
--
--			port_validated =
--				container_of(vcpi, struct drm_dp_mst_port, vcpi);
--			port_validated =
--				drm_dp_mst_topology_get_port_validated(mgr, port_validated);
--			if (!port_validated) {
--				mutex_lock(&mgr->payload_lock);
--				vcpi->num_slots = 0;
--				mutex_unlock(&mgr->payload_lock);
--			} else {
--				drm_dp_mst_topology_put_port(port_validated);
--			}
--		}
--	}
--
- 	if (port->connector)
- 		drm_modeset_unlock(&mgr->base.lock);
- 	else if (create_connector)
-@@ -3406,8 +3383,15 @@ int drm_dp_update_payload_part1(struct drm_dp_mst_topology_mgr *mgr)
- 				port = drm_dp_mst_topology_get_port_validated(
- 				    mgr, port);
- 				if (!port) {
--					mutex_unlock(&mgr->payload_lock);
--					return -EINVAL;
-+					if (vcpi->num_slots == payload->num_slots) {
-+						cur_slots += vcpi->num_slots;
-+						payload->start_slot = req_payload.start_slot;
-+						continue;
-+					} else {
-+						drm_dbg_kms("Fail:set payload to invalid sink");
-+						mutex_unlock(&mgr->payload_lock);
-+						return -EINVAL;
-+					}
- 				}
- 				put_port = true;
+ 			if (skip) {
+-				drm_dbg_kms("Virtual channel %d is not in current topology\n", i);
++				drm_dbg_kms(mgr->dev,
++					    "Virtual channel %d is not in current topology\n",
++					    i);
+ 				continue;
  			}
+ 			/* Validated ports don't matter if we're releasing
+@@ -3400,7 +3402,8 @@ int drm_dp_update_payload_part1(struct drm_dp_mst_topology_mgr *mgr)
+ 						payload->start_slot = req_payload.start_slot;
+ 						continue;
+ 					} else {
+-						drm_dbg_kms("Fail:set payload to invalid sink");
++						drm_dbg_kms(mgr->dev,
++							    "Fail:set payload to invalid sink");
+ 						mutex_unlock(&mgr->payload_lock);
+ 						return -EINVAL;
+ 					}
 -- 
 2.17.1
 
