@@ -2,56 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4ADA13CB302
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Jul 2021 09:13:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3ED43CB300
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Jul 2021 09:12:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C8726E91C;
-	Fri, 16 Jul 2021 07:13:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4CD476E91F;
+	Fri, 16 Jul 2021 07:12:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com
- [IPv6:2607:f8b0:4864:20::42f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 589F46E8DB
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jul 2021 01:56:36 +0000 (UTC)
-Received: by mail-pf1-x42f.google.com with SMTP id a127so7493368pfa.10
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jul 2021 18:56:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=2McT0l3ZwHsK72Lrfxt3UTYxRxN0nEYR81V1ezUranY=;
- b=ZbP3n2J0qQd3f7hBowB7OyFvD1Tkr5Ji0KJ9SdPWT5RnjBV3KF2bIgi7pKPLJA5cBd
- WPWndEecL5cpPN4c7/tAyLyW8ypzV4CnxtHbK92AOg44CJTQw0hW71ettq8gPEt9+VVd
- p+16hIuFdbj/e9QdZi9GW80qoaAtDY8dSbruq20YoeoZqECxPIMrZPM8a667mJTqxh7f
- bTSYpNvWnjU4wxxY+3w/Qty4hVlKRwYvomKoHIS3U1mt6uqpuYFPN23BgajNvai3TpMz
- iV3Q9xom1WZkTCyKihym4hVpcwIqePytGZl5f/mwxMNzsj+gtD2itMpgfYdY4lyH2L6v
- fzVA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=2McT0l3ZwHsK72Lrfxt3UTYxRxN0nEYR81V1ezUranY=;
- b=KsqvJU+q7SAai8BH1pEYNpw3QAAc8HtAphf9CC+MeilFWaePil8J/rAdo2p838Llfj
- EM9M/fWJ8kYKP8+ir2bqkZdarGuv5Q/xfzlwIqqLKlXFPy1x/i5Lhln/zPAC6JUv8+ks
- 9yGZKQL199I0lIX3z0aF8TztyNjKoW7P7SGl7eTuhBgr/amjCeGcaOaKMOLDA28Nt+SL
- o/8GjD+hgTJZvYO9pVhNg7U3gfHlroz9TAKL/3EbK0OKK8V/OjOWOTtHkMF0FqecTa+E
- Ko2Hxnf6vWkgMaIixYAGDAeS5G/JA+KU3ZKJStvtLtX5NThgA7Ru9O6wLseyb/W/kzyz
- 3VoA==
-X-Gm-Message-State: AOAM531Uu3dVfjvcrp9z2XJQyNWMRU06dJ0gGkYM2HWScBIJlJdT+jEg
- 4D5OQ9PQrMzC6qyH0ioBeVQ=
-X-Google-Smtp-Source: ABdhPJx73uNbeUzxvkqzK7VLX3g2HdiDbbp1RWhUzTY0m1s27QvLwUNO75sdIEWuMWqbcWlXsdTYUQ==
-X-Received: by 2002:a62:830a:0:b029:32b:43a4:10b0 with SMTP id
- h10-20020a62830a0000b029032b43a410b0mr7460786pfe.38.1626400595977; 
- Thu, 15 Jul 2021 18:56:35 -0700 (PDT)
-Received: from localhost.localdomain ([52.175.51.83])
- by smtp.gmail.com with ESMTPSA id a5sm7888680pff.143.2021.07.15.18.56.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 15 Jul 2021 18:56:35 -0700 (PDT)
-From: ainux.wang@gmail.com
-To: airlied@redhat.com, tzimmermann@suse.de, airlied@linux.ie, daniel@ffwll.ch,
- ainux.wang@gmail.com
-Subject: [PATCH] drm/ast: Zero is missing in detect function
-Date: Fri, 16 Jul 2021 09:56:15 +0800
-Message-Id: <20210716015615.9150-1-ainux.wang@gmail.com>
-X-Mailer: git-send-email 2.18.1
-X-Mailman-Approved-At: Fri, 16 Jul 2021 07:13:01 +0000
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 25E186E919;
+ Fri, 16 Jul 2021 07:12:31 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10046"; a="271800646"
+X-IronPort-AV: E=Sophos;i="5.84,244,1620716400"; 
+ d="asc'?scan'208";a="271800646"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Jul 2021 00:12:29 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.84,244,1620716400"; 
+ d="asc'?scan'208";a="495951551"
+Received: from zhen-hp.sh.intel.com (HELO zhen-hp) ([10.239.160.143])
+ by FMSMGA003.fm.intel.com with ESMTP; 16 Jul 2021 00:12:21 -0700
+Date: Fri, 16 Jul 2021 14:50:57 +0800
+From: Zhenyu Wang <zhenyuw@linux.intel.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Subject: Re: [PATCH 12/13] vfio/gvt: Fix open/close when multiple device FDs
+ are open
+Message-ID: <20210716065057.GA13928@zhen-hp.sh.intel.com>
+References: <0-v1-eaf3ccbba33c+1add0-vfio_reflck_jgg@nvidia.com>
+ <12-v1-eaf3ccbba33c+1add0-vfio_reflck_jgg@nvidia.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha1;
+ protocol="application/pgp-signature"; boundary="k+w/mQv8wyuph6w0"
+Content-Disposition: inline
+In-Reply-To: <12-v1-eaf3ccbba33c+1add0-vfio_reflck_jgg@nvidia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,34 +48,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: sterlingteng@gmail.com, chenhuacai@kernel.org,
- dri-devel@lists.freedesktop.org
+Reply-To: Zhenyu Wang <zhenyuw@linux.intel.com>
+Cc: kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Kirti Wankhede <kwankhede@nvidia.com>, Max Gurtovoy <mgurtovoy@nvidia.com>,
+ Vineeth Vijayan <vneethv@linux.ibm.com>,
+ Diana Craciun <diana.craciun@oss.nxp.com>, Leon Romanovsky <leonro@nvidia.com>,
+ Christoph Hellwig <hch@lst.de>, linux-s390@vger.kernel.org,
+ Matthew Rosato <mjrosato@linux.ibm.com>, Jonathan Corbet <corbet@lwn.net>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ intel-gfx@lists.freedesktop.org, Zhi Wang <zhi.a.wang@intel.com>,
+ Jason Herne <jjherne@linux.ibm.com>, Eric Farman <farman@linux.ibm.com>,
+ Vasily Gorbik <gor@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>,
+ Eric Auger <eric.auger@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Harald Freudenberger <freude@linux.ibm.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gvt-dev@lists.freedesktop.org,
+ "Raj, Ashok" <ashok.raj@intel.com>, Tony Krowiak <akrowiak@linux.ibm.com>,
+ Yishai Hadas <yishaih@nvidia.com>, Cornelia Huck <cohuck@redhat.com>,
+ Peter Oberparleiter <oberpar@linux.ibm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: "Ainux.Wang" <ainux.wang@gmail.com>
 
-The function ast_get_modes() will also return 0, when it try to get the
-edid, but it also do not get the edid.
+--k+w/mQv8wyuph6w0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Ainux.Wang <ainux.wang@gmail.com>
----
- drivers/gpu/drm/ast/ast_mode.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 2021.07.14 21:20:41 -0300, Jason Gunthorpe wrote:
+> The user can open multiple device FDs if it likes, however the open
+> function calls vfio_register_notifier() on device global state. Calling
+> vfio_register_notifier() twice will trigger a WARN_ON from
+> notifier_chain_register() and the first close will wrongly delete the
+> notifier and more.
+>=20
+> Since these really want the new open/close_device() semantics just change
+> the function over.
+>=20
+> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+> ---
+>  drivers/gpu/drm/i915/gvt/kvmgt.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/i915/gvt/kvmgt.c b/drivers/gpu/drm/i915/gvt/=
+kvmgt.c
+> index 1ac98f8aba31e6..7efa386449d104 100644
+> --- a/drivers/gpu/drm/i915/gvt/kvmgt.c
+> +++ b/drivers/gpu/drm/i915/gvt/kvmgt.c
+> @@ -885,7 +885,7 @@ static int intel_vgpu_group_notifier(struct notifier_=
+block *nb,
+>  	return NOTIFY_OK;
+>  }
+> =20
+> -static int intel_vgpu_open(struct mdev_device *mdev)
+> +static int intel_vgpu_open_device(struct mdev_device *mdev)
+>  {
+>  	struct intel_vgpu *vgpu =3D mdev_get_drvdata(mdev);
+>  	struct kvmgt_vdev *vdev =3D kvmgt_vdev(vgpu);
+> @@ -1004,7 +1004,7 @@ static void __intel_vgpu_release(struct intel_vgpu =
+*vgpu)
+>  	vgpu->handle =3D 0;
+>  }
+> =20
+> -static void intel_vgpu_release(struct mdev_device *mdev)
+> +static void intel_vgpu_close_device(struct mdev_device *mdev)
+>  {
+>  	struct intel_vgpu *vgpu =3D mdev_get_drvdata(mdev);
+> =20
+> @@ -1753,8 +1753,8 @@ static struct mdev_parent_ops intel_vgpu_ops =3D {
+>  	.create			=3D intel_vgpu_create,
+>  	.remove			=3D intel_vgpu_remove,
+> =20
+> -	.open			=3D intel_vgpu_open,
+> -	.release		=3D intel_vgpu_release,
+> +	.open_device		=3D intel_vgpu_open_device,
+> +	.close_device		=3D intel_vgpu_close_device,
+> =20
+>  	.read			=3D intel_vgpu_read,
+>  	.write			=3D intel_vgpu_write,
 
-diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
-index e5996ae03c49..b7dcf7821ec6 100644
---- a/drivers/gpu/drm/ast/ast_mode.c
-+++ b/drivers/gpu/drm/ast/ast_mode.c
-@@ -1299,7 +1299,7 @@ static enum drm_connector_status ast_connector_detect(struct drm_connector
- 	int r;
- 
- 	r = ast_get_modes(connector);
--	if (r < 0)
-+	if (r <= 0)
- 		return connector_status_disconnected;
- 
- 	return connector_status_connected;
--- 
-2.18.1
+Looks ok to me. Thanks!
 
+Reviewed-by: Zhenyu Wang <zhenyuw@linux.intel.com>
+
+--k+w/mQv8wyuph6w0
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EARECAB0WIQTXuabgHDW6LPt9CICxBBozTXgYJwUCYPEsTAAKCRCxBBozTXgY
+Jx7CAJwL3rjxtO0hmyVLloknYXTNq4Pl4gCcC95wG37YNR4DYMf5Ns1jbuH5Nqk=
+=WTLJ
+-----END PGP SIGNATURE-----
+
+--k+w/mQv8wyuph6w0--
