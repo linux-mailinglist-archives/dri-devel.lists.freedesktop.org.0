@@ -1,56 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E909C3CB12B
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Jul 2021 05:41:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EF7A3CB140
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Jul 2021 05:55:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D2F16E8E9;
-	Fri, 16 Jul 2021 03:41:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 881886E8EA;
+	Fri, 16 Jul 2021 03:55:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com
- [IPv6:2a00:1450:4864:20::631])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 40F836E8E9
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jul 2021 03:41:31 +0000 (UTC)
-Received: by mail-ej1-x631.google.com with SMTP id gb6so12972317ejc.5
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jul 2021 20:41:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to:cc
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com
+ [IPv6:2607:f8b0:4864:20::636])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA0DE6E8EA
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jul 2021 03:55:28 +0000 (UTC)
+Received: by mail-pl1-x636.google.com with SMTP id v14so4645881plg.9
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jul 2021 20:55:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=/um/AlCUBmByR0rvZO/k9T0+BbJn7ibDjUpgDUtFG/Y=;
- b=WT95uDjSHd66/2F/vQbncNPUhmp7RAk4w7Pg7JWIQi9LcUhUMDxFaQATX1YFlom0FR
- NX6WznzC2e/1J3puN8Id2OGSz4kHY/KcQ73VQSXluWGd5jBeEooc4RMrVbGm6S89prLx
- CPhB3IiM5+zMO5mpHgHiDlJ4XXPTpDnu5LbwiNqFE/wjTXvMaH6lewLJ3UFr0/NKiqFT
- OHkYlZcBaO1NDidHv4gSDQ30FLSZQLiBi5hYV4/3yI8De783IfRoZGFQDdJVxPJsQhkS
- uUOt9s66HI+5d5NdZyBxn/mbkxqy1UvugOjL4y+6E8DHtPJ+Tqjk5ml1aqvtjkY1P/DP
- k1Mw==
+ bh=OXr2IL73KqKSEhqzjtj2b2SQAFe1cnXxezkrG5GSZR4=;
+ b=n0e6cNg4wOYQjjg4wSKUIo+aUss1pGYIQr+kh/cjQ6jWpuqvNAsZsrJbDzULT/YVfs
+ KCSh785EaXNFUsrIx/tFa66Qf7XXRf3UFktUDfwoY0Zc0MGY3rnCn7/lLbROXU2JwbAI
+ l+V5hpVYOxG4Pt4tA675gF0bKfKFPnmM1JF0Q=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=/um/AlCUBmByR0rvZO/k9T0+BbJn7ibDjUpgDUtFG/Y=;
- b=twPrnRSkNVz/sE3IdmGaaATVS7Xbz2v86ZgMUyiIYPjGw0yms+yaEXkK4HwFWjV90J
- DgQIukuEgiQxfIXSCObxcZ6Fg4lilsplUHjD3+AxDaFCX63d5Wzup1ZnwhnhdGFqD1E9
- i5dnwxX1QluhbjE62rGqYmV7pm4J31C6mi4K7ckP+mLjw0PE0+kQjdiU2DEy9kCRZmug
- YdECSSMxS7xio+6hyEMfqI3Q/44rAJ1TnT/Vw0YXl/JOe+/idO3gYawonMKWRSeZd7/3
- KyzZSqJ/zLXRCswn5HD8Xu0rs4SD37f76EwiITVCIci7HJVYBjfAz2190nqOvusLikqc
- rCpw==
-X-Gm-Message-State: AOAM530DWJlLETlImRbPf5OmDV4DSFLt7BU9Nf57oCzjbIDTOFT+TZ7k
- XUKS3e8wTSz/+Y3OwaGV1P75N6yt4Lsq4uhlViU=
-X-Google-Smtp-Source: ABdhPJwk5tuPqvbQahNAOKuKuhwRUfUMnOomg0K2jyRPSqlfMPVIceOB1/9qz5PqFtf1rX9JZvhc8NK06/LHP74fTEA=
-X-Received: by 2002:a17:906:1487:: with SMTP id
- x7mr9255767ejc.456.1626406889804; 
- Thu, 15 Jul 2021 20:41:29 -0700 (PDT)
+ bh=OXr2IL73KqKSEhqzjtj2b2SQAFe1cnXxezkrG5GSZR4=;
+ b=BH5XXFgWlS/hhi+euaoeA/6i/DQV5yOrYaI8BzvGem2IXKZxuLn49i5e1nHSwegt7c
+ dsOlBhUpOoedYTV0X/45KOV0IntDG05yEmJKVCbkHTMsodJZPDbDCenujk9wiVhlJcea
+ mDytwdi+53ybmTV7NRWi6prd7AFOEoOSwF5gD10cVKWLRB54KmsXMMsBCZZoAC2PnGJC
+ cDQPA8Lc4R592iEof+4Phiiz6yP3p8EXW2WznGR1kfNpKQ6vaKGNGyHOMEqoKI99wJF/
+ s5pvuBMi7xgVHgMhP6Dhdf7b7j/5y7oLRVKgf5BQcrk540hGs7QjS1UtFP+qD+HmAr2b
+ pufw==
+X-Gm-Message-State: AOAM53244ZODJY72Tnq/6CUBoxJsfGeSq0kZKkgddo869g/zjUKE9V3U
+ r/Q+VnV6EaKctTmzw4YEJblp8g==
+X-Google-Smtp-Source: ABdhPJywILfiQFJdS3vmyq763HMhOMCOgENKBWKRE+qCTIdRbbXSPe4ckgbhzrJlxLmSfHi9U2KMFQ==
+X-Received: by 2002:a17:902:7c18:b029:117:e575:473e with SMTP id
+ x24-20020a1709027c18b0290117e575473emr6162532pll.37.1626407728524; 
+ Thu, 15 Jul 2021 20:55:28 -0700 (PDT)
+Received: from localhost ([2401:fa00:8f:203:3685:a3f6:891d:2a86])
+ by smtp.gmail.com with UTF8SMTPSA id f11sm9167043pga.61.2021.07.15.20.55.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 15 Jul 2021 20:55:28 -0700 (PDT)
+From: David Stevens <stevensd@chromium.org>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: [PATCH] drm/virtio: support mapping exported vram
+Date: Fri, 16 Jul 2021 12:55:01 +0900
+Message-Id: <20210716035501.3099919-1-stevensd@chromium.org>
+X-Mailer: git-send-email 2.32.0.402.g57bb445576-goog
 MIME-Version: 1.0
-From: Dave Airlie <airlied@gmail.com>
-Date: Fri, 16 Jul 2021 13:41:18 +1000
-Message-ID: <CAPM=9tzb9KSspAtVkSH3pYN97hQ815MoOBTSiuHzUJnnb2fhRA@mail.gmail.com>
-Subject: [git pull] drm fixes for 5.14-rc2
-To: Linus Torvalds <torvalds@linux-foundation.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,256 +63,171 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: David Stevens <stevensd@chromium.org>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Linus,
+Implement virtgpu specific map_dma_buf callback to support mapping
+exported vram object dma-bufs. The dma-buf callback is used directly, as
+vram objects don't have backing pages and thus can't implement the
+drm_gem_object_funcs.get_sg_table callback.
 
-Regular rc2 fixes though a bit more than usual at rc2 stage, people
-must have been testing early or else some fixes from last week got a
-bit laggy. There is one larger change in the amd fixes to amalgamate
-some power management code on the newer chips with the code from the
-older chips, it should only affects chips where support was introduced
-in rc1 and it should make future fixes easier to maintain probably a
-good idea to merge it now. Otherwise it's mostly fixes across the
-board.
+Signed-off-by: David Stevens <stevensd@chromium.org>
+---
+ drivers/gpu/drm/virtio/virtgpu_drv.h   |  8 ++++
+ drivers/gpu/drm/virtio/virtgpu_prime.c | 30 ++++++++++++-
+ drivers/gpu/drm/virtio/virtgpu_vram.c  | 61 ++++++++++++++++++++++++++
+ 3 files changed, 97 insertions(+), 2 deletions(-)
 
-Dave.
+diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
+index d4e610a44e12..0c4810982530 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_drv.h
++++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
+@@ -26,6 +26,7 @@
+ #ifndef VIRTIO_DRV_H
+ #define VIRTIO_DRV_H
+ 
++#include <linux/dma-direction.h>
+ #include <linux/virtio.h>
+ #include <linux/virtio_ids.h>
+ #include <linux/virtio_config.h>
+@@ -459,4 +460,11 @@ bool virtio_gpu_is_vram(struct virtio_gpu_object *bo);
+ int virtio_gpu_vram_create(struct virtio_gpu_device *vgdev,
+ 			   struct virtio_gpu_object_params *params,
+ 			   struct virtio_gpu_object **bo_ptr);
++struct sg_table *virtio_gpu_vram_map_dma_buf(struct virtio_gpu_object *bo,
++					     struct device *dev,
++					     enum dma_data_direction dir);
++void virtio_gpu_vram_unmap_dma_buf(struct device *dev,
++				   struct sg_table *sgt,
++				   enum dma_data_direction dir);
++
+ #endif
+diff --git a/drivers/gpu/drm/virtio/virtgpu_prime.c b/drivers/gpu/drm/virtio/virtgpu_prime.c
+index 807a27a16365..79efc878f508 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_prime.c
++++ b/drivers/gpu/drm/virtio/virtgpu_prime.c
+@@ -43,13 +43,39 @@ static int virtgpu_virtio_get_uuid(struct dma_buf *buf,
+ 	return 0;
+ }
+ 
++static struct sg_table *virtgpu_gem_map_dma_buf(
++		struct dma_buf_attachment *attach,
++		enum dma_data_direction dir)
++{
++	struct drm_gem_object *obj = attach->dmabuf->priv;
++	struct virtio_gpu_object *bo = gem_to_virtio_gpu_obj(obj);
++
++	if (virtio_gpu_is_vram(bo))
++		return virtio_gpu_vram_map_dma_buf(bo, attach->dev, dir);
++
++	return drm_gem_map_dma_buf(attach, dir);
++}
++
++static void virtgpu_gem_unmap_dma_buf(struct dma_buf_attachment *attach,
++				      struct sg_table *sgt,
++				      enum dma_data_direction dir)
++{
++	struct drm_gem_object *obj = attach->dmabuf->priv;
++	struct virtio_gpu_object *bo = gem_to_virtio_gpu_obj(obj);
++
++	if (virtio_gpu_is_vram(bo))
++		virtio_gpu_vram_unmap_dma_buf(attach->dev, sgt, dir);
++	else
++		drm_gem_unmap_dma_buf(attach, sgt, dir);
++}
++
+ static const struct virtio_dma_buf_ops virtgpu_dmabuf_ops =  {
+ 	.ops = {
+ 		.cache_sgt_mapping = true,
+ 		.attach = virtio_dma_buf_attach,
+ 		.detach = drm_gem_map_detach,
+-		.map_dma_buf = drm_gem_map_dma_buf,
+-		.unmap_dma_buf = drm_gem_unmap_dma_buf,
++		.map_dma_buf = virtgpu_gem_map_dma_buf,
++		.unmap_dma_buf = virtgpu_gem_unmap_dma_buf,
+ 		.release = drm_gem_dmabuf_release,
+ 		.mmap = drm_gem_dmabuf_mmap,
+ 		.vmap = drm_gem_dmabuf_vmap,
+diff --git a/drivers/gpu/drm/virtio/virtgpu_vram.c b/drivers/gpu/drm/virtio/virtgpu_vram.c
+index 5cc34e7330fa..6b45b0429fef 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_vram.c
++++ b/drivers/gpu/drm/virtio/virtgpu_vram.c
+@@ -1,6 +1,8 @@
+ // SPDX-License-Identifier: GPL-2.0
+ #include "virtgpu_drv.h"
+ 
++#include <linux/dma-mapping.h>
++
+ static void virtio_gpu_vram_free(struct drm_gem_object *obj)
+ {
+ 	struct virtio_gpu_object *bo = gem_to_virtio_gpu_obj(obj);
+@@ -64,6 +66,65 @@ static int virtio_gpu_vram_mmap(struct drm_gem_object *obj,
+ 	return ret;
+ }
+ 
++struct sg_table *virtio_gpu_vram_map_dma_buf(struct virtio_gpu_object *bo,
++					     struct device *dev,
++					     enum dma_data_direction dir)
++{
++	struct virtio_gpu_device *vgdev = bo->base.base.dev->dev_private;
++	struct virtio_gpu_object_vram *vram = to_virtio_gpu_vram(bo);
++	struct sg_table *sgt;
++	dma_addr_t addr;
++	int ret;
++
++	sgt = kzalloc(sizeof(*sgt), GFP_KERNEL);
++	if (!sgt)
++		return ERR_PTR(-ENOMEM);
++
++	if (!(bo->blob_flags & VIRTGPU_BLOB_FLAG_USE_MAPPABLE)) {
++		// Virtio devices can access the dma-buf via its UUID. Return a stub
++		// sg_table so the dma-buf API still works.
++		if (!is_virtio_device(dev) || !vgdev->has_resource_assign_uuid) {
++			ret = -EIO;
++			goto out;
++		}
++		return sgt;
++	}
++
++	ret = sg_alloc_table(sgt, 1, GFP_KERNEL);
++	if (ret)
++		goto out;
++
++	addr = dma_map_resource(dev, vram->vram_node.start,
++				vram->vram_node.size, dir,
++				DMA_ATTR_SKIP_CPU_SYNC);
++	ret = dma_mapping_error(dev, addr);
++	if (ret)
++		goto out;
++
++	sg_set_page(sgt->sgl, NULL, vram->vram_node.size, 0);
++	sg_dma_address(sgt->sgl) = addr;
++	sg_dma_len(sgt->sgl) = vram->vram_node.size;
++
++	return sgt;
++out:
++	sg_free_table(sgt);
++	kfree(sgt);
++	return ERR_PTR(ret);
++}
++
++void virtio_gpu_vram_unmap_dma_buf(struct device *dev,
++				   struct sg_table *sgt,
++				   enum dma_data_direction dir)
++{
++	if (sgt->nents) {
++		dma_unmap_resource(dev, sg_dma_address(sgt->sgl),
++				   sg_dma_len(sgt->sgl), dir,
++				   DMA_ATTR_SKIP_CPU_SYNC);
++	}
++	sg_free_table(sgt);
++	kfree(sgt);
++}
++
+ static const struct drm_gem_object_funcs virtio_gpu_vram_funcs = {
+ 	.open = virtio_gpu_gem_object_open,
+ 	.close = virtio_gpu_gem_object_close,
+-- 
+2.32.0.402.g57bb445576-goog
 
-drm-fixes-2021-07-16:
-drm fixes for 5.14-rc2
-
-dma-buf:
-- Fix fence leak in sync_file_merge() error code
-
-drm/panel:
-- nt35510: Don't fail on DSI reads
-
-fbdev:
-- Avoid use-after-free by not deleting current video mode
-
-ttm:
-- Avoid NULL-ptr deref in ttm_range_man_fini()
-
-vmwgfx:
-- Fix a merge commit
-
-qxl:
-- fix a TTM regression
-
-amdgpu:
-- SR-IOV fixes
-- RAS fixes
-- eDP fixes
-- SMU13 code unification to facilitate fixes in the future
-- Add new renoir DID
-- Yellow Carp fixes
-- Beige Goby fixes
-- Revert a bunch of TLB fixes that caused regressions
-- Revert an LTTPR display regression
-
-amdkfd
-- Fix VRAM access regression
-- SVM fixes
-
-i915:
-- Fix -EDEADLK handling regression
-- Drop the page table optimisation
-The following changes since commit e73f0f0ee7541171d89f2e2491130c7771ba58d3=
-:
-
-  Linux 5.14-rc1 (2021-07-11 15:07:40 -0700)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2021-07-16
-
-for you to fetch changes up to 876d98e5511d8cfd12fc617a6717e7a8ea07be17:
-
-  Merge tag 'drm-intel-fixes-2021-07-15' of
-git://anongit.freedesktop.org/drm/drm-intel into drm-fixes (2021-07-16
-10:53:02 +1000)
-
-----------------------------------------------------------------
-drm fixes for 5.14-rc2
-
-dma-buf:
-- Fix fence leak in sync_file_merge() error code
-
-drm/panel:
-- nt35510: Don't fail on DSI reads
-
-fbdev:
-- Avoid use-after-free by not deleting current video mode
-
-ttm:
-- Avoid NULL-ptr deref in ttm_range_man_fini()
-
-vmwgfx:
-- Fix a merge commit
-
-qxl:
-- fix a TTM regression
-
-amdgpu:
-- SR-IOV fixes
-- RAS fixes
-- eDP fixes
-- SMU13 code unification to facilitate fixes in the future
-- Add new renoir DID
-- Yellow Carp fixes
-- Beige Goby fixes
-- Revert a bunch of TLB fixes that caused regressions
-- Revert an LTTPR display regression
-
-amdkfd
-- Fix VRAM access regression
-- SVM fixes
-
-i915:
-- Fix -EDEADLK handling regression
-- Drop the page table optimisation
-
-----------------------------------------------------------------
-Aaron Liu (1):
-      drm/amd/pm: Add waiting for response of mode-reset message for yellow=
- carp
-
-Chengming Gui (1):
-      drm/amd/pm: Fix BACO state setting for Beige_Goby
-
-Christian K=C3=B6nig (1):
-      drm/qxl: add NULL check for bo->resource
-
-Daniel Vetter (1):
-      Merge tag 'drm-misc-fixes-2021-07-13' of
-git://anongit.freedesktop.org/drm/drm-misc into drm-fixes
-
-Dave Airlie (3):
-      Merge tag 'amd-drm-fixes-5.14-2021-07-14' of
-https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
-      Merge tag 'drm-misc-fixes-2021-07-15' of
-git://anongit.freedesktop.org/drm/drm-misc into drm-fixes
-      Merge tag 'drm-intel-fixes-2021-07-15' of
-git://anongit.freedesktop.org/drm/drm-intel into drm-fixes
-
-Dmytro Laktyushkin (1):
-      drm/amd/display: remove faulty assert
-
-Emily Deng (1):
-      drm/amdgpu: Correct the irq numbers for virtual crtc
-
-Emily.Deng (1):
-      drm/amdgpu: Restore msix after FLR
-
-Eric Huang (5):
-      Revert "drm/amdkfd: Add memory sync before TLB flush on unmap"
-      Revert "drm/amdgpu: Fix warning of Function parameter or member
-not described"
-      Revert "drm/amdkfd: Make TLB flush conditional on mapping"
-      Revert "drm/amdgpu: Add table_freed parameter to amdgpu_vm_bo_update"
-      Revert "drm/amdkfd: Add heavy-weight TLB flush after unmapping"
-
-Felix Kuehling (1):
-      drm/amdkfd: Allow CPU access for all VRAM BOs
-
-Jason Ekstrand (1):
-      dma-buf/sync_file: Don't leak fences on merge failure
-
-Jingwen Chen (1):
-      drm/amdgpu: SRIOV flr_work should take write_lock
-
-Jinzhou Su (1):
-      drm/amdgpu: add another Renoir DID
-
-Linus Walleij (1):
-      drm/panel: nt35510: Do not fail if DSI read fails
-
-Luben Tuikov (1):
-      drm/amdgpu: Return error if no RAS
-
-Matthew Auld (1):
-      drm/i915/gtt: drop the page table optimisation
-
-Nicholas Kazlauskas (1):
-      drm/amd/display: Fix updating infoframe for DCN3.1 eDP
-
-Philip Yang (1):
-      drm/amdkfd: handle fault counters on invalid address
-
-Thomas Zimmermann (1):
-      Merge remote-tracking branch 'drm-misc/drm-misc-next-fixes' into
-drm-misc-fixes
-
-Ville Syrj=C3=A4l=C3=A4 (1):
-      drm/i915/gt: Fix -EDEADLK handling regression
-
-Wesley Chalmers (1):
-      Revert "drm/amd/display: Always write repeater mode regardless of LTT=
-PR"
-
-Xiaomeng Hou (2):
-      drm/amd/pm: drop smu_v13_0_1.c|h files for yellow carp
-      drm/amd/display: update header file name
-
-Zack Rusin (2):
-      drm/vmwgfx: Fix implicit declaration error
-      drm/vmwgfx: Fix a bad merge in otable batch takedown
-
-Zhan Liu (1):
-      drm/amdgpu/display - only update eDP's backlight level when necessary
-
-Zhen Lei (1):
-      fbmem: Do not delete the mode that is still in use
-
-Zheyu Ma (1):
-      drm/ttm: add a check against null pointer dereference
-
- drivers/dma-buf/sync_file.c                        |  13 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h         |   2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c   |  22 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c             |   6 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c            |   1 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c            |   2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c            |  18 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c            |  49 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_ras.h            |   6 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c             |  11 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h             |   2 +-
- drivers/gpu/drm/amd/amdgpu/dce_virtual.c           |   2 +-
- drivers/gpu/drm/amd/amdgpu/mxgpu_ai.c              |   4 +-
- drivers/gpu/drm/amd/amdgpu/mxgpu_nv.c              |   4 +-
- drivers/gpu/drm/amd/amdkfd/kfd_chardev.c           |  45 +-
- drivers/gpu/drm/amd/amdkfd/kfd_process.c           |   3 +-
- drivers/gpu/drm/amd/amdkfd/kfd_svm.c               |  30 +-
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  |   2 +-
- .../drm/amd/display/dc/clk_mgr/dcn31/dcn31_smu.c   |   4 +-
- drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c   |   8 +-
- drivers/gpu/drm/amd/display/dc/dcn31/dcn31_hwseq.c |   2 +-
- .../drm/amd/include/asic_reg/mp/mp_13_0_1_offset.h | 355 --------------
- .../amd/include/asic_reg/mp/mp_13_0_1_sh_mask.h    | 531 -----------------=
-----
- drivers/gpu/drm/amd/pm/inc/smu_v13_0.h             |   1 +
- drivers/gpu/drm/amd/pm/inc/smu_v13_0_1.h           |  57 ---
- drivers/gpu/drm/amd/pm/swsmu/smu11/smu_v11_0.c     |   1 +
- drivers/gpu/drm/amd/pm/swsmu/smu13/Makefile        |   2 +-
- drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0.c     |  24 +
- drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_1.c   | 311 ------------
- .../gpu/drm/amd/pm/swsmu/smu13/yellow_carp_ppt.c   |  49 +-
- drivers/gpu/drm/i915/gt/gen8_ppgtt.c               |   5 +-
- drivers/gpu/drm/i915/gt/intel_ggtt_fencing.c       |   2 +-
- drivers/gpu/drm/panel/panel-novatek-nt35510.c      |   4 +-
- drivers/gpu/drm/qxl/qxl_ttm.c                      |   2 +-
- drivers/gpu/drm/ttm/ttm_range_manager.c            |   3 +
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.c                |   1 +
- drivers/gpu/drm/vmwgfx/vmwgfx_mob.c                |   1 -
- drivers/video/fbdev/core/fbmem.c                   |  12 +-
- 38 files changed, 202 insertions(+), 1395 deletions(-)
- delete mode 100644 drivers/gpu/drm/amd/include/asic_reg/mp/mp_13_0_1_offse=
-t.h
- delete mode 100644 drivers/gpu/drm/amd/include/asic_reg/mp/mp_13_0_1_sh_ma=
-sk.h
- delete mode 100644 drivers/gpu/drm/amd/pm/inc/smu_v13_0_1.h
- delete mode 100644 drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_1.c
