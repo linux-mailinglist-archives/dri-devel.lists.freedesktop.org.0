@@ -2,58 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DBBC3CB5E4
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Jul 2021 12:21:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C15E33CB68F
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Jul 2021 13:07:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 80CE26E959;
-	Fri, 16 Jul 2021 10:20:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 095BF6E95E;
+	Fri, 16 Jul 2021 11:07:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com
- [IPv6:2607:f8b0:4864:20::630])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4542C6E959
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jul 2021 10:20:56 +0000 (UTC)
-Received: by mail-pl1-x630.google.com with SMTP id x16so5101965plg.3
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jul 2021 03:20:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=PQrFNsoIGmT2LoUMqe6PoQOBe1QlDuIUP56bNyPpsyw=;
- b=EcGfUhZjcCRS8o5yiwKt4kvXCI3j83VoEmDEQImkD+8p3/r0riEaL6KLvI/x1QZ6eH
- oyajtbcX0tQov7tTHsTefxlZ1mXFFFoo2Ml/Ft6zcLL9WlZijNJs3g6rGRM5PAkRj1ch
- Aa//IxyYNYCLgRoeZ8sL3KTuLbEjdF3o5i1qc88PiI4swPLOjlgNJKd+CMhZU5JyWB1Y
- UeGVsAlo6ZLF1upcSb8A+CaicqaJIWa7pnjFAQH7eLOrdCkPwuLTzwQa2sVIJC1UK0sG
- IYwelCY7KDFHUH65vVnnuBR9NGE1ijV77uxyqUZIBuOpByRKsrL2+esuOKYKrilqLuSl
- l6tA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=PQrFNsoIGmT2LoUMqe6PoQOBe1QlDuIUP56bNyPpsyw=;
- b=bjBMx+o3WNFd/pyDtIretmdv0ZepABRuxqeCMi3RCdlHmm61EeRGavxzYCTRYGWuoD
- PSFsdfd/DyFAggIXL+vT/mgl5aqAVNB08m/yqqj2ufkqqYTFzAQ38cmwj6n0Y3G6AVsV
- RvhUqiseOtdqtVoDVBVvVVbDP6gy7U1Ya+KLgOBJ572y9RlG5uh5Oriot64u5sosNWoF
- VQLr7iE5+9iH2U9sZUPwvyUvwXw54AxsKTW7QRwV7B+eOTW6XcRr1PV8lj8rU/Oe0j5k
- q+jNrm0gjrMDpC4aIS+XuMNdQswBopylowXggQQ5ZwgAWOaHfgXkFwaTJou505UAe8DV
- UhEA==
-X-Gm-Message-State: AOAM530rCCqopgJ0z0R6i5JD3ouoDFEkiWF5opMF2iCSRXitG/iYIst2
- lZ6yQLTtfuR3TcdGTAzy7GY=
-X-Google-Smtp-Source: ABdhPJyz5cgqPQ5RANxO7Yxd4f7sAx0VdnY5Fm1itQvnGNZX2B8pEoR6cpEW+DmSM4DmCRgTlr/dDQ==
-X-Received: by 2002:a17:903:1243:b029:ed:8298:7628 with SMTP id
- u3-20020a1709031243b02900ed82987628mr7290404plh.11.1626430855453; 
- Fri, 16 Jul 2021 03:20:55 -0700 (PDT)
-Received: from fmin-OptiPlex-7060.nreal.work ([137.59.103.165])
- by smtp.gmail.com with ESMTPSA id f3sm8051285pjt.19.2021.07.16.03.20.52
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 16 Jul 2021 03:20:55 -0700 (PDT)
-From: dillon.minfei@gmail.com
-To: thierry.reding@gmail.com, sam@ravnborg.org, airlied@linux.ie,
- daniel@ffwll.ch, robh+dt@kernel.org, linus.walleij@linaro.org
-Subject: [PATCH 2/2] drm/panel: Add ilitek ili9341 panel driver
-Date: Fri, 16 Jul 2021 18:20:43 +0800
-Message-Id: <1626430843-23823-3-git-send-email-dillon.minfei@gmail.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1626430843-23823-1-git-send-email-dillon.minfei@gmail.com>
-References: <1626430843-23823-1-git-send-email-dillon.minfei@gmail.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C0396E95E;
+ Fri, 16 Jul 2021 11:07:36 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10046"; a="207690177"
+X-IronPort-AV: E=Sophos;i="5.84,244,1620716400"; d="scan'208";a="207690177"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Jul 2021 04:07:32 -0700
+X-IronPort-AV: E=Sophos;i="5.84,244,1620716400"; d="scan'208";a="506856856"
+Received: from kmbaku-mobl.ger.corp.intel.com (HELO [10.252.62.109])
+ ([10.252.62.109])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Jul 2021 04:07:29 -0700
+From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PULL] drm-misc-next
+Message-ID: <444811c3-cbec-e9d5-9a6b-9632eda7962a@linux.intel.com>
+Date: Fri, 16 Jul 2021 13:07:26 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.9.0
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,846 +45,720 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, alexandre.torgue@foss.st.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- dianders@chromium.org, noralf@tronnes.org,
- Dillon Min <dillon.minfei@gmail.com>
+Cc: dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
+ intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dillon Min <dillon.minfei@gmail.com>
+Hi Dave & Daniel,
 
-This driver combine tiny/ili9341.c mipi_dbi_interface driver
-with mipi_dpi_interface driver, can support ili9341 with serial
-mode or parallel rgb interface mode by register configuration.
+Lots of stuff this time around.
 
-Signed-off-by: Dillon Min <dillon.minfei@gmail.com>
----
- drivers/gpu/drm/panel/Kconfig                |  12 +
- drivers/gpu/drm/panel/Makefile               |   1 +
- drivers/gpu/drm/panel/panel-ilitek-ili9341.c | 778 +++++++++++++++++++++++++++
- 3 files changed, 791 insertions(+)
- create mode 100644 drivers/gpu/drm/panel/panel-ilitek-ili9341.c
+Enjoy!
 
-diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
-index ef87d92cdf49..eb34b8d1b19a 100644
---- a/drivers/gpu/drm/panel/Kconfig
-+++ b/drivers/gpu/drm/panel/Kconfig
-@@ -124,6 +124,18 @@ config DRM_PANEL_ILITEK_IL9322
- 	  Say Y here if you want to enable support for Ilitek IL9322
- 	  QVGA (320x240) RGB, YUV and ITU-T BT.656 panels.
- 
-+config DRM_PANEL_ILITEK_ILI9341
-+	tristate "Ilitek ILI9341 240x320 QVGA panels"
-+	depends on OF && SPI
-+	depends on DRM_KMS_HELPER
-+	depends on DRM_KMS_CMA_HELPER
-+	depends on BACKLIGHT_CLASS_DEVICE
-+	select DRM_MIPI_DBI
-+	help
-+	  Say Y here if you want to enable support for Ilitek IL9341
-+	  QVGA (240x320) RGB panels. support serial & parallel rgb
-+	  interface.
-+
- config DRM_PANEL_ILITEK_ILI9881C
- 	tristate "Ilitek ILI9881C-based panels"
- 	depends on OF
-diff --git a/drivers/gpu/drm/panel/Makefile b/drivers/gpu/drm/panel/Makefile
-index cae4d976c069..0ecde184665d 100644
---- a/drivers/gpu/drm/panel/Makefile
-+++ b/drivers/gpu/drm/panel/Makefile
-@@ -11,6 +11,7 @@ obj-$(CONFIG_DRM_PANEL_ELIDA_KD35T133) += panel-elida-kd35t133.o
- obj-$(CONFIG_DRM_PANEL_FEIXIN_K101_IM2BA02) += panel-feixin-k101-im2ba02.o
- obj-$(CONFIG_DRM_PANEL_FEIYANG_FY07024DI26A30D) += panel-feiyang-fy07024di26a30d.o
- obj-$(CONFIG_DRM_PANEL_ILITEK_IL9322) += panel-ilitek-ili9322.o
-+obj-$(CONFIG_DRM_PANEL_ILITEK_ILI9341) += panel-ilitek-ili9341.o
- obj-$(CONFIG_DRM_PANEL_ILITEK_ILI9881C) += panel-ilitek-ili9881c.o
- obj-$(CONFIG_DRM_PANEL_INNOLUX_P079ZCA) += panel-innolux-p079zca.o
- obj-$(CONFIG_DRM_PANEL_JDI_LT070ME05000) += panel-jdi-lt070me05000.o
-diff --git a/drivers/gpu/drm/panel/panel-ilitek-ili9341.c b/drivers/gpu/drm/panel/panel-ilitek-ili9341.c
-new file mode 100644
-index 000000000000..4fc312a43d3a
---- /dev/null
-+++ b/drivers/gpu/drm/panel/panel-ilitek-ili9341.c
-@@ -0,0 +1,778 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Ilitek ILI9341 TFT LCD drm_panel driver.
-+ *
-+ * This panel can be configured to support:
-+ * - 16-bit parallel RGB interface
-+ * - 18-bit parallel RGB interface
-+ * - 4-line serial spi interface
-+ *
-+ * Copyright (C) 2021 Dillon Min <dillon.minfei@gmail.com>
-+ * Derived from drivers/drm/gpu/panel/panel-ilitek-ili9322.c
-+ * the reuse of DBI abstraction part referred from Linus's patch
-+ * "drm/panel: s6e63m0: Switch to DBI abstraction for SPI"
-+ */
-+
-+#include <linux/bitops.h>
-+#include <linux/gpio/consumer.h>
-+#include <linux/module.h>
-+#include <linux/of_device.h>
-+#include <linux/regulator/consumer.h>
-+#include <linux/spi/spi.h>
-+#include <linux/delay.h>
-+#include <video/mipi_display.h>
-+#include <drm/drm_mipi_dbi.h>
-+#include <drm/drm_gem_framebuffer_helper.h>
-+#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_fb_helper.h>
-+#include <drm/drm_gem_atomic_helper.h>
-+#include <drm/drm_atomic_helper.h>
-+
-+#include <drm/drm_drv.h>
-+#include <drm/drm_modes.h>
-+#include <drm/drm_panel.h>
-+#include <drm/drm_print.h>
-+
-+#define ILI9341_RGB_INTERFACE  0xb0   /* RGB Interface Signal Control */
-+#define ILI9341_FRC            0xb1   /* Frame Rate Control register */
-+#define ILI9341_DFC            0xb6   /* Display Function Control register */
-+#define ILI9341_POWER1         0xc0   /* Power Control 1 register */
-+#define ILI9341_POWER2         0xc1   /* Power Control 2 register */
-+#define ILI9341_VCOM1          0xc5   /* VCOM Control 1 register */
-+#define ILI9341_VCOM2          0xc7   /* VCOM Control 2 register */
-+#define ILI9341_POWERA         0xcb   /* Power control A register */
-+#define ILI9341_POWERB         0xcf   /* Power control B register */
-+#define ILI9341_PGAMMA         0xe0   /* Positive Gamma Correction register */
-+#define ILI9341_NGAMMA         0xe1   /* Negative Gamma Correction register */
-+#define ILI9341_DTCA           0xe8   /* Driver timing control A */
-+#define ILI9341_DTCB           0xea   /* Driver timing control B */
-+#define ILI9341_POWER_SEQ      0xed   /* Power on sequence register */
-+#define ILI9341_3GAMMA_EN      0xf2   /* 3 Gamma enable register */
-+#define ILI9341_INTERFACE      0xf6   /* Interface control register */
-+#define ILI9341_PRC            0xf7   /* Pump ratio control register */
-+#define ILI9341_ETMOD	       0xb7   /* Entry mode set */
-+
-+#define ILI9341_MADCTL_BGR	BIT(3)
-+#define ILI9341_MADCTL_MV	BIT(5)
-+#define ILI9341_MADCTL_MX	BIT(6)
-+#define ILI9341_MADCTL_MY	BIT(7)
-+
-+#define ILI9341_POWER_B_LEN	3
-+#define ILI9341_POWER_SEQ_LEN	4
-+#define ILI9341_DTCA_LEN	3
-+#define ILI9341_DTCB_LEN	2
-+#define ILI9341_POWER_A_LEN	5
-+#define ILI9341_DFC_1_LEN	2
-+#define ILI9341_FRC_LEN		2
-+#define ILI9341_VCOM_1_LEN	2
-+#define ILI9341_DFC_2_LEN	4
-+#define ILI9341_COLUMN_ADDR_LEN	4
-+#define ILI9341_PAGE_ADDR_LEN	4
-+#define ILI9341_INTERFACE_LEN	3
-+#define ILI9341_PGAMMA_LEN	15
-+#define ILI9341_NGAMMA_LEN	15
-+#define ILI9341_CA_LEN		3
-+
-+#define ILI9341_PIXEL_DPI_16_BITS	(BIT(6) | BIT(4))
-+#define ILI9341_PIXEL_DPI_18_BITS	(BIT(6) | BIT(5))
-+#define ILI9341_GAMMA_CURVE_1		BIT(0)
-+#define ILI9341_IF_WE_MODE		BIT(0)
-+#define ILI9341_IF_BIG_ENDIAN		0x00
-+#define ILI9341_IF_DM_RGB		BIT(2)
-+#define ILI9341_IF_DM_INTERNAL		0x00
-+#define ILI9341_IF_DM_VSYNC		BIT(3)
-+#define ILI9341_IF_RM_RGB		BIT(1)
-+#define ILI9341_IF_RIM_RGB		0x00
-+
-+#define ILI9341_COLUMN_ADDR		0x00ef
-+#define ILI9341_PAGE_ADDR		0x013f
-+
-+#define ILI9341_RGB_EPL			BIT(0)
-+#define ILI9341_RGB_DPL			BIT(1)
-+#define ILI9341_RGB_HSPL		BIT(2)
-+#define ILI9341_RGB_VSPL		BIT(3)
-+#define ILI9341_RGB_DE_MODE		BIT(6)
-+#define ILI9341_RGB_DISP_PATH_MEM	BIT(7)
-+
-+#define ILI9341_DBI_VCOMH_4P6V		0x23
-+#define ILI9341_DBI_PWR_2_DEFAULT	0x10
-+#define ILI9341_DBI_PRC_NORMAL		0x20
-+#define ILI9341_DBI_VCOM_1_VMH_4P25V	0x3e
-+#define ILI9341_DBI_VCOM_1_VML_1P5V	0x28
-+#define ILI9341_DBI_VCOM_2_DEC_58	0x86
-+#define ILI9341_DBI_FRC_DIVA		0x00
-+#define ILI9341_DBI_FRC_RTNA		0x1b
-+#define ILI9341_DBI_EMS_GAS		BIT(0)
-+#define ILI9341_DBI_EMS_DTS		BIT(1)
-+#define ILI9341_DBI_EMS_GON		BIT(2)
-+
-+/**
-+ * struct ili9341_config - the system specific ILI9341 configuration
-+ * @max_spi_speed: 10000000
-+ */
-+struct ili9341_config {
-+	u32 max_spi_speed;
-+	/** @mode: the drm display mode */
-+	const struct drm_display_mode mode;
-+	/* @ca: TODO: need comments for this register */
-+	u8 ca[ILI9341_CA_LEN];
-+	/* @power_b: TODO: need comments for this register */
-+	u8 power_b[ILI9341_POWER_B_LEN];
-+	/* @power_seq: TODO: need comments for this register */
-+	u8 power_seq[ILI9341_POWER_SEQ_LEN];
-+	/* @dtca: TODO: need comments for this register */
-+	u8 dtca[ILI9341_DTCA_LEN];
-+	/* @dtcb: TODO: need comments for this register */
-+	u8 dtcb[ILI9341_DTCB_LEN];
-+	/* @power_a: TODO: need comments for this register */
-+	u8 power_a[ILI9341_POWER_A_LEN];
-+	/* @frc: Frame Rate Control (In Normal Mode/Full Colors) (B1h) */
-+	u8 frc[ILI9341_FRC_LEN];
-+	/* @prc: TODO: need comments for this register */
-+	u8 prc;
-+	/* @dfc_1: B6h DISCTRL (Display Function Control) */
-+	u8 dfc_1[ILI9341_DFC_1_LEN];
-+	/* @power_1: Power Control 1 (C0h) */
-+	u8 power_1;
-+	/* @power_2: Power Control 2 (C1h) */
-+	u8 power_2;
-+	/* @vcom_1: VCOM Control 1(C5h) */
-+	u8 vcom_1[ILI9341_VCOM_1_LEN];
-+	/* @vcom_2: VCOM Control 2(C7h) */
-+	u8 vcom_2;
-+	/* @address_mode: Memory Access Control (36h) */
-+	u8 address_mode;
-+	/* @g3amma_en: TODO: need comments for this register */
-+	u8 g3amma_en;
-+	/* @rgb_interface: RGB Interface Signal Control (B0h) */
-+	u8 rgb_interface;
-+	/* @dfc_2: refer to dfc_1 */
-+	u8 dfc_2[ILI9341_DFC_2_LEN];
-+	/* @column_addr: Column Address Set (2Ah) */
-+	u8 column_addr[ILI9341_COLUMN_ADDR_LEN];
-+	/* @page_addr: Page Address Set (2Bh) */
-+	u8 page_addr[ILI9341_PAGE_ADDR_LEN];
-+	/* @interface: Interface Control (F6h) */
-+	u8 interface[ILI9341_INTERFACE_LEN];
-+	/* @pixel_format: This command sets the pixel format for the RGB
-+	 * image data used by
-+	 */
-+	u8 pixel_format;
-+	/* @gamma_curve: This command is used to select the desired Gamma
-+	 * curve for the
-+	 */
-+	u8 gamma_curve;
-+	/* @pgamma: Positive Gamma Correction (E0h) */
-+	u8 pgamma[ILI9341_PGAMMA_LEN];
-+	/* @ngamma: Negative Gamma Correction (E1h) */
-+	u8 ngamma[ILI9341_NGAMMA_LEN];
-+};
-+
-+struct ili9341 {
-+	struct device *dev;
-+	const struct ili9341_config *conf;
-+	struct drm_panel panel;
-+	struct gpio_desc *reset_gpio;
-+	struct gpio_desc *dc_gpio;
-+	struct mipi_dbi *dbi;
-+	u32 max_spi_speed;
-+	struct regulator *vcc;
-+};
-+
-+/*
-+ * The Stm32f429-disco board has a panel ili9341 connected to ltdc controller
-+ */
-+static const struct ili9341_config ili9341_stm32f429_disco_data = {
-+	.max_spi_speed = 10000000,
-+	.mode = {
-+		.clock = 6100,
-+		.hdisplay = 240,
-+		.hsync_start = 240 + 10,/* hfp 10 */
-+		.hsync_end = 240 + 10 + 10,/* hsync 10 */
-+		.htotal = 240 + 10 + 10 + 20,/* hbp 20 */
-+		.vdisplay = 320,
-+		.vsync_start = 320 + 4,/* vfp 4 */
-+		.vsync_end = 320 + 4 + 2,/* vsync 2 */
-+		.vtotal = 320 + 4 + 2 + 2,/* vbp 2 */
-+		.flags = 0,
-+		.width_mm = 65,
-+		.height_mm = 50,
-+		.type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED,
-+	},
-+	/* TODO: need comments for this register */
-+	.ca = {0xc3, 0x08, 0x50},
-+	/* TODO: need comments for this register */
-+	.power_b = {0x00, 0xc1, 0x30},
-+	/* TODO: need comments for this register */
-+	.power_seq = {0x64, 0x03, 0x12, 0x81},
-+	/* TODO: need comments for this register */
-+	.dtca = {0x85, 0x00, 0x78},
-+	/* TODO: need comments for this register */
-+	.power_a = {0x39, 0x2c, 0x00, 0x34, 0x02},
-+	/* TODO: need comments for this register */
-+	.prc = 0x20,
-+	/* TODO: need comments for this register */
-+	.dtcb = {0x00, 0x00},
-+	/* 0x00 fosc, 0x1b 70hz */
-+	.frc = {0x00, 0x1b},
-+	/* 0x0a Interval scan, AGND AGND AGND AGND
-+	 * 0xa2 Normally white, G1 -> G320, S720 -> S1,
-+	 *	Scan Cycle 5 frames,85ms
-+	 */
-+	.dfc_1 = {0x0a, 0xa2},
-+	/* 0x10 3.65v */
-+	.power_1 = 0x10,
-+	/* 0x10 AVDD=vci*2, VGH=vci*7, VGL=-vci*4 */
-+	.power_2 = 0x10,
-+	/* 0x45 VCOMH 4.425v, 0x15 VCOML -1.975*/
-+	.vcom_1 = {0x45, 0x15},
-+	/* 0x90 offset voltage, VMH-48, VML-48 */
-+	.vcom_2 = 0x90,
-+	/* 0xc8 Row Address Order, Column Address Order
-+	 * BGR 1
-+	 */
-+	.address_mode = 0xc8,
-+	.g3amma_en = 0x00,
-+	/* 0xc2
-+	 * Display Data Path: Memory
-+	 * RGB: DE mode
-+	 * DOTCLK polarity set (data fetched at the falling time)
-+	 */
-+	.rgb_interface = ILI9341_RGB_DISP_PATH_MEM |
-+			ILI9341_RGB_DE_MODE |
-+			ILI9341_RGB_DPL,
-+	/*
-+	 * 0x0a
-+	 * Gate outputs in non-display area: Interval scan
-+	 * Determine source/VCOM output in a non-display area in the partial
-+	 * display mode: AGND AGND AGND AGND
-+	 *
-+	 * 0xa7
-+	 * Scan Cycle: 15 frames
-+	 * fFLM = 60Hz: 255ms
-+	 * Liquid crystal type: Normally white
-+	 * Gate Output Scan Direction: G1 -> G320
-+	 * Source Output Scan Direction: S720 -> S1
-+	 *
-+	 * 0x27
-+	 * LCD Driver Line: 320 lines
-+	 *
-+	 * 0x04
-+	 * PCDIV: 4
-+	 */
-+	.dfc_2 = {0x0a, 0xa7, 0x27, 0x04},
-+	/* column address: 240 */
-+	.column_addr = {0x00, 0x00, (ILI9341_COLUMN_ADDR >> 4) & 0xff,
-+				ILI9341_COLUMN_ADDR & 0xff},
-+	/* page address: 320 */
-+	.page_addr = {0x00, 0x00, (ILI9341_PAGE_ADDR >> 4) & 0xff,
-+				ILI9341_PAGE_ADDR & 0xff},
-+	/* Memory write control: When the transfer number of data exceeds
-+	 * (EC-SC+1)*(EP-SP+1), the column and page number will be
-+	 * reset, and the exceeding data will be written into the following
-+	 * column and page.
-+	 * Display Operation Mode: RGB Interface Mode
-+	 * Interface for RAM Access: RGB interface
-+	 * 16- bit RGB interface (1 transfer/pixel)
-+	 */
-+	.interface = {ILI9341_IF_WE_MODE, 0x00,
-+			ILI9341_IF_DM_RGB | ILI9341_IF_RM_RGB},
-+	/* DPI: 16 bits / pixel */
-+	.pixel_format = ILI9341_PIXEL_DPI_16_BITS,
-+	/* Curve Selected: Gamma curve 1 (G2.2) */
-+	.gamma_curve = ILI9341_GAMMA_CURVE_1,
-+	.pgamma = {0x0f, 0x29, 0x24, 0x0c, 0x0e,
-+			0x09, 0x4e, 0x78, 0x3c, 0x09,
-+			0x13, 0x05, 0x17, 0x11, 0x00},
-+	.ngamma = {0x00, 0x16, 0x1b, 0x04, 0x11,
-+			0x07, 0x31, 0x33, 0x42, 0x05,
-+			0x0c, 0x0a, 0x28, 0x2f, 0x0f},
-+};
-+
-+static inline struct ili9341 *panel_to_ili9341(struct drm_panel *panel)
-+{
-+	return container_of(panel, struct ili9341, panel);
-+}
-+
-+static void ili9341_dpi_init(struct ili9341 *ili)
-+{
-+	struct mipi_dbi *dbi = ili->dbi;
-+	struct ili9341_config *cfg = (struct ili9341_config *)ili->conf;
-+
-+	/* Power Control */
-+	mipi_dbi_command_stackbuf(dbi, 0xca, cfg->ca, ILI9341_CA_LEN);
-+	mipi_dbi_command_stackbuf(dbi, ILI9341_POWERB, cfg->power_b,
-+				  ILI9341_POWER_B_LEN);
-+	mipi_dbi_command_stackbuf(dbi, ILI9341_POWER_SEQ, cfg->power_seq,
-+				  ILI9341_POWER_SEQ_LEN);
-+	mipi_dbi_command_stackbuf(dbi, ILI9341_DTCA, cfg->dtca,
-+				  ILI9341_DTCA_LEN);
-+	mipi_dbi_command_stackbuf(dbi, ILI9341_POWERA, cfg->power_a,
-+				  ILI9341_POWER_A_LEN);
-+	mipi_dbi_command(ili->dbi, ILI9341_PRC, cfg->prc);
-+	mipi_dbi_command_stackbuf(dbi, ILI9341_DTCB, cfg->dtcb,
-+				  ILI9341_DTCB_LEN);
-+	mipi_dbi_command_stackbuf(dbi, ILI9341_FRC, cfg->frc, ILI9341_FRC_LEN);
-+	mipi_dbi_command_stackbuf(dbi, ILI9341_DFC, cfg->dfc_1,
-+				  ILI9341_DFC_1_LEN);
-+	mipi_dbi_command(dbi, ILI9341_POWER1, cfg->power_1);
-+	mipi_dbi_command(dbi, ILI9341_POWER2, cfg->power_2);
-+
-+	/* VCOM */
-+	mipi_dbi_command_stackbuf(dbi, ILI9341_VCOM1, cfg->vcom_1,
-+				  ILI9341_VCOM_1_LEN);
-+	mipi_dbi_command(dbi, ILI9341_VCOM2, cfg->vcom_2);
-+	mipi_dbi_command(dbi, MIPI_DCS_SET_ADDRESS_MODE, cfg->address_mode);
-+
-+	/* Gamma */
-+	mipi_dbi_command(dbi, ILI9341_3GAMMA_EN, cfg->g3amma_en);
-+	mipi_dbi_command(dbi, ILI9341_RGB_INTERFACE, cfg->rgb_interface);
-+	mipi_dbi_command_stackbuf(dbi, ILI9341_DFC, cfg->dfc_2,
-+				  ILI9341_DFC_2_LEN);
-+
-+	/* Colomn address set */
-+	mipi_dbi_command_stackbuf(dbi, MIPI_DCS_SET_COLUMN_ADDRESS,
-+				  cfg->column_addr, ILI9341_COLUMN_ADDR_LEN);
-+
-+	/* Page address set */
-+	mipi_dbi_command_stackbuf(dbi, MIPI_DCS_SET_PAGE_ADDRESS,
-+				  cfg->page_addr, ILI9341_PAGE_ADDR_LEN);
-+	mipi_dbi_command_stackbuf(dbi, ILI9341_INTERFACE, cfg->interface,
-+				  ILI9341_INTERFACE_LEN);
-+
-+	/* Format */
-+	mipi_dbi_command(dbi, MIPI_DCS_SET_PIXEL_FORMAT, cfg->pixel_format);
-+	mipi_dbi_command(dbi, MIPI_DCS_WRITE_MEMORY_START);
-+	msleep(200);
-+	mipi_dbi_command(dbi, MIPI_DCS_SET_GAMMA_CURVE, cfg->gamma_curve);
-+	mipi_dbi_command_stackbuf(dbi, ILI9341_PGAMMA, cfg->pgamma,
-+				  ILI9341_PGAMMA_LEN);
-+	mipi_dbi_command_stackbuf(dbi, ILI9341_NGAMMA, cfg->ngamma,
-+				  ILI9341_NGAMMA_LEN);
-+	mipi_dbi_command(dbi, MIPI_DCS_EXIT_SLEEP_MODE);
-+	msleep(200);
-+	mipi_dbi_command(dbi, MIPI_DCS_SET_DISPLAY_ON);
-+	mipi_dbi_command(dbi, MIPI_DCS_WRITE_MEMORY_START);
-+
-+	dev_info(ili->dev, "initialized display rgb interface\n");
-+}
-+
-+static int ili9341_dpi_power_on(struct ili9341 *ili)
-+{
-+	int ret = 0;
-+
-+	/* Assert RESET */
-+	gpiod_set_value(ili->reset_gpio, 1);
-+
-+	/* Enable power */
-+	if (!IS_ERR(ili->vcc)) {
-+		ret = regulator_enable(ili->vcc);
-+		if (ret < 0) {
-+			dev_err(ili->dev, "unable to enable vcc\n");
-+			return ret;
-+		}
-+	}
-+	msleep(20);
-+
-+	/* De-assert RESET */
-+	gpiod_set_value(ili->reset_gpio, 0);
-+	msleep(20);
-+
-+	return 0;
-+}
-+
-+static int ili9341_dpi_power_off(struct ili9341 *ili)
-+{
-+	/* Assert RESET */
-+	gpiod_set_value(ili->reset_gpio, 1);
-+
-+	/* Disable power */
-+	if (!IS_ERR(ili->vcc))
-+		return regulator_disable(ili->vcc);
-+
-+	return 0;
-+}
-+
-+static int ili9341_dpi_disable(struct drm_panel *panel)
-+{
-+	struct ili9341 *ili = panel_to_ili9341(panel);
-+
-+	mipi_dbi_command(ili->dbi, MIPI_DCS_SET_DISPLAY_OFF);
-+	return 0;
-+}
-+
-+static int ili9341_dpi_unprepare(struct drm_panel *panel)
-+{
-+	struct ili9341 *ili = panel_to_ili9341(panel);
-+
-+	return ili9341_dpi_power_off(ili);
-+}
-+
-+static int ili9341_dpi_prepare(struct drm_panel *panel)
-+{
-+	struct ili9341 *ili = panel_to_ili9341(panel);
-+	int ret;
-+
-+	ret = ili9341_dpi_power_on(ili);
-+	if (ret < 0)
-+		return ret;
-+
-+	ili9341_dpi_init(ili);
-+
-+	return ret;
-+}
-+
-+static int ili9341_dpi_enable(struct drm_panel *panel)
-+{
-+	struct ili9341 *ili = panel_to_ili9341(panel);
-+
-+	mipi_dbi_command(ili->dbi, MIPI_DCS_SET_DISPLAY_ON);
-+	return 0;
-+}
-+
-+static int ili9341_dpi_get_modes(struct drm_panel *panel,
-+				 struct drm_connector *connector)
-+{
-+	struct ili9341 *ili = panel_to_ili9341(panel);
-+	struct drm_device *drm = connector->dev;
-+	struct drm_display_mode *mode;
-+	struct drm_display_info *info;
-+
-+	info = &connector->display_info;
-+	info->width_mm = ili->conf->mode.width_mm;
-+	info->height_mm = ili->conf->mode.height_mm;
-+
-+	if (ili->conf->rgb_interface & ILI9341_RGB_DPL)
-+		info->bus_flags |= DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE;
-+	else
-+		info->bus_flags |= DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE;
-+
-+	if (ili->conf->rgb_interface & ILI9341_RGB_EPL)
-+		info->bus_flags |= DRM_BUS_FLAG_DE_LOW;
-+	else
-+		info->bus_flags |= DRM_BUS_FLAG_DE_HIGH;
-+
-+	mode = drm_mode_duplicate(drm, &ili->conf->mode);
-+	if (!mode) {
-+		DRM_ERROR("bad mode or failed to add mode\n");
-+		return -EINVAL;
-+	}
-+	drm_mode_set_name(mode);
-+
-+	/* Set up the polarity */
-+	if (ili->conf->rgb_interface & ILI9341_RGB_HSPL)
-+		mode->flags |= DRM_MODE_FLAG_PHSYNC;
-+	else
-+		mode->flags |= DRM_MODE_FLAG_NHSYNC;
-+
-+	if (ili->conf->rgb_interface & ILI9341_RGB_VSPL)
-+		mode->flags |= DRM_MODE_FLAG_PVSYNC;
-+	else
-+		mode->flags |= DRM_MODE_FLAG_NVSYNC;
-+
-+	drm_mode_probed_add(connector, mode);
-+
-+	return 1; /* Number of modes */
-+}
-+
-+static const struct drm_panel_funcs ili9341_dpi_funcs = {
-+	.disable = ili9341_dpi_disable,
-+	.unprepare = ili9341_dpi_unprepare,
-+	.prepare = ili9341_dpi_prepare,
-+	.enable = ili9341_dpi_enable,
-+	.get_modes = ili9341_dpi_get_modes,
-+};
-+
-+static void ili9341_dbi_enable(struct drm_simple_display_pipe *pipe,
-+			       struct drm_crtc_state *crtc_state,
-+			       struct drm_plane_state *plane_state)
-+{
-+	struct mipi_dbi_dev *dbidev = drm_to_mipi_dbi_dev(pipe->crtc.dev);
-+	struct mipi_dbi *dbi = &dbidev->dbi;
-+	u8 addr_mode;
-+	int ret, idx;
-+
-+	if (!drm_dev_enter(pipe->crtc.dev, &idx))
-+		return;
-+
-+	DRM_DEBUG_KMS("\n");
-+
-+	ret = mipi_dbi_poweron_conditional_reset(dbidev);
-+	if (ret < 0)
-+		goto out_exit;
-+	if (ret == 1)
-+		goto out_enable;
-+
-+	mipi_dbi_command(dbi, MIPI_DCS_SET_DISPLAY_OFF);
-+
-+	mipi_dbi_command(dbi, ILI9341_POWERB, 0x00, 0xc1, 0x30);
-+	mipi_dbi_command(dbi, ILI9341_POWER_SEQ, 0x64, 0x03, 0x12, 0x81);
-+	mipi_dbi_command(dbi, ILI9341_DTCA, 0x85, 0x00, 0x78);
-+	mipi_dbi_command(dbi, ILI9341_POWERA, 0x39, 0x2c, 0x00, 0x34, 0x02);
-+	mipi_dbi_command(dbi, ILI9341_PRC, ILI9341_DBI_PRC_NORMAL);
-+	mipi_dbi_command(dbi, ILI9341_DTCB, 0x00, 0x00);
-+
-+	/* Power Control */
-+	mipi_dbi_command(dbi, ILI9341_POWER1, ILI9341_DBI_VCOMH_4P6V);
-+	mipi_dbi_command(dbi, ILI9341_POWER2, ILI9341_DBI_PWR_2_DEFAULT);
-+	/* VCOM */
-+	mipi_dbi_command(dbi, ILI9341_VCOM1, ILI9341_DBI_VCOM_1_VMH_4P25V,
-+			 ILI9341_DBI_VCOM_1_VML_1P5V);
-+	mipi_dbi_command(dbi, ILI9341_VCOM2, ILI9341_DBI_VCOM_2_DEC_58);
-+
-+	/* Memory Access Control */
-+	mipi_dbi_command(dbi, MIPI_DCS_SET_PIXEL_FORMAT,
-+			 MIPI_DCS_PIXEL_FMT_16BIT);
-+
-+	/* Frame Rate */
-+	mipi_dbi_command(dbi, ILI9341_FRC, ILI9341_DBI_FRC_DIVA & 0x03,
-+			 ILI9341_DBI_FRC_RTNA & 0x1f);
-+
-+	/* Gamma */
-+	mipi_dbi_command(dbi, ILI9341_3GAMMA_EN, 0x00);
-+	mipi_dbi_command(dbi, MIPI_DCS_SET_GAMMA_CURVE, ILI9341_GAMMA_CURVE_1);
-+	mipi_dbi_command(dbi, ILI9341_PGAMMA,
-+			 0x0f, 0x31, 0x2b, 0x0c, 0x0e, 0x08, 0x4e, 0xf1,
-+			 0x37, 0x07, 0x10, 0x03, 0x0e, 0x09, 0x00);
-+	mipi_dbi_command(dbi, ILI9341_NGAMMA,
-+			 0x00, 0x0e, 0x14, 0x03, 0x11, 0x07, 0x31, 0xc1,
-+			 0x48, 0x08, 0x0f, 0x0c, 0x31, 0x36, 0x0f);
-+
-+	/* DDRAM */
-+	mipi_dbi_command(dbi, ILI9341_ETMOD, ILI9341_DBI_EMS_GAS |
-+			 ILI9341_DBI_EMS_DTS |
-+			 ILI9341_DBI_EMS_GON);
-+
-+	/* Display */
-+	mipi_dbi_command(dbi, ILI9341_DFC, 0x08, 0x82, 0x27, 0x00);
-+	mipi_dbi_command(dbi, MIPI_DCS_EXIT_SLEEP_MODE);
-+	msleep(100);
-+
-+	mipi_dbi_command(dbi, MIPI_DCS_SET_DISPLAY_ON);
-+	msleep(100);
-+
-+out_enable:
-+	switch (dbidev->rotation) {
-+	default:
-+		addr_mode = ILI9341_MADCTL_MX;
-+		break;
-+	case 90:
-+		addr_mode = ILI9341_MADCTL_MV;
-+		break;
-+	case 180:
-+		addr_mode = ILI9341_MADCTL_MY;
-+		break;
-+	case 270:
-+		addr_mode = ILI9341_MADCTL_MV | ILI9341_MADCTL_MY |
-+			    ILI9341_MADCTL_MX;
-+		break;
-+	}
-+	addr_mode |= ILI9341_MADCTL_BGR;
-+	mipi_dbi_command(dbi, MIPI_DCS_SET_ADDRESS_MODE, addr_mode);
-+	mipi_dbi_enable_flush(dbidev, crtc_state, plane_state);
-+	DRM_DEBUG_KMS("initialized display serial interface\n");
-+out_exit:
-+	drm_dev_exit(idx);
-+}
-+
-+static const struct drm_simple_display_pipe_funcs ili9341_dbi_funcs = {
-+	.enable = ili9341_dbi_enable,
-+	.disable = mipi_dbi_pipe_disable,
-+	.update = mipi_dbi_pipe_update,
-+	.prepare_fb = drm_gem_simple_display_pipe_prepare_fb,
-+};
-+
-+static const struct drm_display_mode ili9341_dbi_mode = {
-+	DRM_SIMPLE_MODE(240, 320, 37, 49),
-+};
-+
-+DEFINE_DRM_GEM_CMA_FOPS(ili9341_dbi_fops);
-+
-+static struct drm_driver ili9341_dbi_driver = {
-+	.driver_features	= DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
-+	.fops			= &ili9341_dbi_fops,
-+	DRM_GEM_CMA_DRIVER_OPS_VMAP,
-+	.debugfs_init		= mipi_dbi_debugfs_init,
-+	.name			= "ili9341",
-+	.desc			= "Ilitek ILI9341",
-+	.date			= "20210716",
-+	.major			= 1,
-+	.minor			= 0,
-+};
-+
-+static int _ili9341_probe(struct spi_device *spi, bool dpi)
-+{
-+	struct gpio_desc *dc;
-+	struct gpio_desc *reset;
-+	struct regulator *vcc;
-+	struct device *dev = &spi->dev;
-+	int ret;
-+
-+	reset = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_HIGH);
-+	if (IS_ERR(reset))
-+		DRM_DEV_ERROR(dev, "Failed to get gpio 'reset'\n");
-+
-+	dc = devm_gpiod_get_optional(dev, "dc", GPIOD_OUT_LOW);
-+	if (IS_ERR(dc))
-+		DRM_DEV_ERROR(dev, "Failed to get gpio 'dc'\n");
-+
-+	vcc = devm_regulator_get_optional(dev, "vcc");
-+	if (IS_ERR(vcc))
-+		DRM_DEV_ERROR(dev, "get optional vcc failed\n");
-+
-+	if (!dpi) {
-+		struct mipi_dbi_dev *dbidev;
-+		struct mipi_dbi *dbi;
-+		struct drm_device *drm;
-+		u32 rotation = 0;
-+
-+		dbidev = devm_drm_dev_alloc(dev, &ili9341_dbi_driver,
-+					    struct mipi_dbi_dev, drm);
-+		if (IS_ERR(dbidev))
-+			return PTR_ERR(dbidev);
-+
-+		dbi = &dbidev->dbi;
-+		drm = &dbidev->drm;
-+		dbi->reset = reset;
-+		dbidev->regulator = vcc;
-+
-+		drm_mode_config_init(drm);
-+		dbidev->backlight = devm_of_find_backlight(dev);
-+		if (IS_ERR(dbidev->backlight))
-+			return PTR_ERR(dbidev->backlight);
-+
-+		device_property_read_u32(dev, "rotation", &rotation);
-+
-+		ret = mipi_dbi_spi_init(spi, dbi, dc);
-+		if (ret)
-+			return ret;
-+
-+		ret = mipi_dbi_dev_init(dbidev, &ili9341_dbi_funcs,
-+					&ili9341_dbi_mode, rotation);
-+		if (ret)
-+			return ret;
-+
-+		drm_mode_config_reset(drm);
-+
-+		ret = drm_dev_register(drm, 0);
-+		if (ret)
-+			return ret;
-+
-+		spi_set_drvdata(spi, drm);
-+
-+		drm_fbdev_generic_setup(drm, 0);
-+	} else {
-+		struct ili9341 *ili;
-+
-+		ili = devm_kzalloc(dev, sizeof(struct ili9341), GFP_KERNEL);
-+		if (!ili)
-+			return -ENOMEM;
-+
-+		ili->dbi = devm_kzalloc(dev, sizeof(struct mipi_dbi),
-+					GFP_KERNEL);
-+		if (!ili->dbi)
-+			return -ENOMEM;
-+
-+		ret = mipi_dbi_spi_init(spi, ili->dbi, dc);
-+		if (ret)
-+			return ret;
-+
-+		spi_set_drvdata(spi, ili);
-+
-+		ili->dev = dev;
-+		ili->vcc = vcc;
-+		ili->reset_gpio = reset;
-+		/*
-+		 * Every new incarnation of this display must have a unique
-+		 * data entry for the system in this driver.
-+		 */
-+		ili->conf = of_device_get_match_data(dev);
-+		if (!ili->conf) {
-+			dev_err(dev, "missing device configuration\n");
-+			return -ENODEV;
-+		}
-+
-+		ili->max_spi_speed = ili->conf->max_spi_speed;
-+
-+		drm_panel_init(&ili->panel, dev, &ili9341_dpi_funcs,
-+			       DRM_MODE_CONNECTOR_DPI);
-+
-+		drm_panel_add(&ili->panel);
-+	}
-+
-+	return 0;
-+}
-+
-+static int ili9341_probe(struct spi_device *spi)
-+{
-+	const struct spi_device_id *id = spi_get_device_id(spi);
-+
-+	if (!strcmp(id->name, "sf-tc240t-9370-t"))
-+		return _ili9341_probe(spi, true);
-+	else if (!strcmp(id->name, "yx240qv29"))
-+		return _ili9341_probe(spi, false);
-+
-+	return -1;
-+}
-+
-+static int ili9341_remove(struct spi_device *spi)
-+{
-+	const struct spi_device_id *id = spi_get_device_id(spi);
-+	struct ili9341 *ili = spi_get_drvdata(spi);
-+	struct drm_device *drm = spi_get_drvdata(spi);
-+
-+	if (!strcmp(id->name, "sf-tc240t-9370-t")) {
-+		ili9341_dpi_power_off(ili);
-+		drm_panel_remove(&ili->panel);
-+	} else if (!strcmp(id->name, "yx240qv29")) {
-+		drm_dev_unplug(drm);
-+		drm_atomic_helper_shutdown(drm);
-+	}
-+	return 0;
-+}
-+
-+static void ili9341_shutdown(struct spi_device *spi)
-+{
-+	const struct spi_device_id *id = spi_get_device_id(spi);
-+
-+	if (!strcmp(id->name, "yx240qv29"))
-+		drm_atomic_helper_shutdown(spi_get_drvdata(spi));
-+}
-+
-+static const struct of_device_id ili9341_of_match[] = {
-+	{
-+		.compatible = "st,sf-tc240t-9370-t",
-+		.data = &ili9341_stm32f429_disco_data,
-+	},
-+	{
-+		/* porting from tiny/ili9341.c
-+		 * for original mipi dbi compitable
-+		 */
-+		.compatible = "adafruit,yx240qv29",
-+		.data = NULL,
-+	},
-+};
-+MODULE_DEVICE_TABLE(of, ili9341_of_match);
-+
-+static const struct spi_device_id ili9341_id[] = {
-+	{ "yx240qv29", 0 },
-+	{ "sf-tc240t-9370-t", 0 },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(spi, ili9341_id);
-+
-+static struct spi_driver ili9341_driver = {
-+	.probe = ili9341_probe,
-+	.remove = ili9341_remove,
-+	.shutdown = ili9341_shutdown,
-+	.id_table = ili9341_id,
-+	.driver = {
-+		.name = "panel-ilitek-ili9341",
-+		.of_match_table = ili9341_of_match,
-+	},
-+};
-+module_spi_driver(ili9341_driver);
-+
-+MODULE_AUTHOR("Dillon Min <dillon.minfei@gmail.com>");
-+MODULE_DESCRIPTION("ILI9341 LCD panel driver");
-+MODULE_LICENSE("GPL v2");
--- 
-2.7.4
+~Maarten
 
+drm-misc-next-2021-07-16:
+drm-misc-next for v5.15:
+
+UAPI Changes:
+
+Cross-subsystem Changes:
+- udmabuf: Add support for mapping hugepages
+- Add dma-buf stats to sysfs.
+- Assorted fixes to fbdev/omap2.
+- dma-buf: Document DMA_BUF_IOCTL_SYNC
+- Improve dma-buf non-dynamic exporter expectations better.
+- Add module parameters for dma-buf size and list limit.
+- Add HDMI codec support to vc4, to replace vc4's own codec.
+- Document dma-buf implicit fencing rules.
+- dma_resv_test_signaled test_all handling.
+
+Core Changes:
+- Extract i915's eDP backlight code into DRM helpers.
+- Assorted docbook updates.
+- Rework drm_dp_aux documentation.
+- Add support for the DP aux bus.
+- Shrink dma-fence-chain slightly.
+- Add alloc/free helpers for dma-fence-chain.
+- Assorted fixes to TTM., drm/of, bridge
+- drm_gem_plane_helper_prepare/cleanup_fb is now the default for gem drivers.
+- Small fix for scheduler completion.
+- Remove use of drm_device.irq_enabled.
+- Print the driver name to dmesg when registering framebuffer.
+- Export drm/gem's shadow plane handling, and use it in vkms.
+- Assorted small fixes.
+
+Driver Changes:
+- Add eDP backlight to nouveau.
+- Assorted fixes and cleanups to nouveau, panfrost, vmwgfx, anx7625,
+  amdgpu, gma500, radeon, mgag200, vgem, vc4, vkms, omapdrm.
+- Add support for Samsung DB7430, Samsung ATNA33XC20, EDT ETMV570G2DHU,
+  EDT ETM0350G0DH6, Innolux EJ030NA panels.
+- Fix some simple pannels missing bus_format and connector types.
+- Add mks-guest-stats instrumentation support to vmwgfx.
+- Merge i915-ttm topic branch.
+- Make s6e63m0 panel use Mipi-DBI helpers.
+- Add detect() supoprt for AST.
+- Use interrupts for hotplug on vc4.
+- vmwgfx is now moved to drm-misc-next, as sroland is no longer a maintainer for now.
+- vmwgfx now uses copies of vmware's internal device headers.
+- Slowly convert ti-sn65dsi83 over to atomic.
+- Rework amdgpu dma-resv handling.
+- Fix virtio fencing for planes.
+- Ensure amdgpu can always evict to SYSTEM.
+- Many drivers fixed for implicit fencing rules.
+- Set default prepare/cleanup fb for tiny, vram and simple helpers too.
+- Rework panfrost gpu reset and related serialization.
+- Update VKMS todo list.
+- Make bochs a tiny gpu driver, and use vram helper.
+- Use linux irq interfaces instead of drm_irq in some drivers.
+- Add support for Raspberry Pi Pico to GUD.
+
+The following changes since commit 1bd8a7dc28c1c410f1ceefae1f2a97c06d1a67c2:
+
+  Merge tag 'exynos-drm-next-for-v5.14' of git://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos into drm-next (2021-06-11 14:19:12 +1000)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-next-2021-07-16
+
+for you to fetch changes up to 17a1837d07be38d957af453e08788edbe1f9343a:
+
+  drm/dp: For drm_panel_dp_aux_backlight(), init backlight as disabled (2021-07-15 08:03:29 -0700)
+
+----------------------------------------------------------------
+Ainux (1):
+      drm/ast: Add detect function support
+
+Andrey Grodzovsky (2):
+      drm/ttm: Fix multihop assert on eviction.
+      drm/amdgpu: Fix BUG_ON assert
+
+Beatriz Martins de Carvalho (2):
+      drm/vkms: replace macro in vkms_release()
+      drm/vkms: Create a debugfs file to get vkms config data
+
+Boris Brezillon (17):
+      drm/panfrost: Make sure MMU context lifetime is not bound to panfrost_priv
+      drm/sched: Declare entity idle only after HW submission
+      drm/sched: Document what the timedout_job method should do
+      drm/sched: Allow using a dedicated workqueue for the timeout/fault tdr
+      drm/panfrost: Make ->run_job() return an ERR_PTR() when appropriate
+      drm/panfrost: Get rid of the unused JS_STATUS_EVENT_ACTIVE definition
+      drm/panfrost: Drop the pfdev argument passed to panfrost_exception_name()
+      drm/panfrost: Do the exception -> string translation using a table
+      drm/panfrost: Expose a helper to trigger a GPU reset
+      drm/panfrost: Use a threaded IRQ for job interrupts
+      drm/panfrost: Simplify the reset serialization logic
+      drm/panfrost: Make sure job interrupts are masked before resetting
+      drm/panfrost: Disable the AS on unhandled page faults
+      drm/panfrost: Reset the GPU when the AS_ACTIVE bit is stuck
+      drm/panfrost: Don't reset the GPU on job faults unless we really have to
+      drm/panfrost: Kill in-flight jobs on FD close
+      drm/panfrost: Increase the AS_ACTIVE polling timeout
+
+Christian König (9):
+      drm/nouveau: init the base GEM fields for internal BOs
+      dma-buf: some dma_fence_chain improvements
+      dma-buf: add dma_fence_chain_alloc/free v3
+      drm/amdgpu: unwrap fence chains in the explicit sync fence
+      drm/amdgpu: rework dma_resv handling v3
+      ydrm/amdgpu: always allow evicting to SYSTEM domain
+      dma-buf: fix dma_resv_test_signaled test_all handling v2
+      drm/nouveau: always wait for the exclusive fence
+      drm/msm: always wait for the exclusive fence
+
+Christophe Branchereau (1):
+      drm/panel: Add Innolux EJ030NA 3.0" 320x480 panel
+
+ChunyouTang (1):
+      drm/panfrost:fix the exception name always "UNKNOWN"
+
+Colin Ian King (1):
+      drm/gma500/oaktrail_lvds: replace continue with break
+
+Dan Carpenter (1):
+      drm/amdgpu: fix amdgpu_preempt_mgr_new()
+
+Daniel Vetter (16):
+      dma-buf: Document non-dynamic exporter expectations better
+      dma-resv: Fix kerneldoc
+      drm/panfrost: Shrink sched_lock
+      drm/panfrost: Use xarray and helpers for depedency tracking
+      drm/panfrost: Fix implicit sync
+      drm/gem: Tiny kernel clarification for drm_gem_fence_array_add
+      dma-buf: Switch to inline kerneldoc
+      dma-buf: Document dma-buf implicit fencing/resv fencing rules
+      drm/atomic-helper: make drm_gem_plane_helper_prepare_fb the default
+      drm/<driver>: drm_gem_plane_helper_prepare_fb is now the default
+      drm/armada: Remove prepare/cleanup_fb hooks
+      drm/vram-helpers: Create DRM_GEM_VRAM_PLANE_HELPER_FUNCS
+      drm/omap: Follow implicit fencing in prepare_fb
+      drm/simple-helper: drm_gem_simple_display_pipe_prepare_fb as default
+      drm/tiny: drm_gem_simple_display_pipe_prepare_fb is the default
+      drm/shmem-helper: Align to page size in dumb_create
+
+Dom Cobley (4):
+      drm/vc4: hdmi: Set HD_CTL_WHOLSMP and HD_CTL_CHALIGN_SET
+      drm/vc4: hdmi: Set HDMI_MAI_FMT
+      drm/vc4: hdmi: Set VC4_HDMI_MAI_CONFIG_FORMAT_REVERSE
+      drm/vc4: hdmi: Remove firmware logic for MAI threshold setting
+
+Dongwon Kim (1):
+      udmabuf: configurable list_limit and size_limit_mb
+
+Douglas Anderson (14):
+      dt-bindings: display: simple: List hpd properties in panel-simple
+      dt-bindings: drm: Introduce the DP AUX bus
+      dt-bindings: drm/bridge: ti-sn65dsi86: Add aux-bus child
+      drm: Introduce the DP AUX bus
+      drm/panel: panel-simple: Allow panel-simple be a DP AUX endpoint device
+      drm/panel: panel-simple: Stash DP AUX bus; allow using it for DDC
+      drm/bridge: ti-sn65dsi86: Promote the AUX channel to its own sub-dev
+      drm/bridge: ti-sn65dsi86: Add support for the DP AUX bus
+      drm/bridge: ti-sn65dsi86: Don't read EDID blob over DDC
+      drm/bridge: ti-sn65dsi86: Improve probe errors with dev_err_probe()
+      arm64: dts: qcom: sc7180-trogdor: Move panel under the bridge chip
+      drm/dp: Move panel DP AUX backlight support to drm_dp_helper
+      drm/panel-simple: Power the panel when probing DP AUX backlight
+      drm/dp: For drm_panel_dp_aux_backlight(), init backlight as disabled
+
+Harshvardhan Jha (1):
+      drm/gma500: Fix end of loop tests for list_for_each_entry
+
+Hridya Valsaraju (1):
+      dmabuf: Add the capability to expose DMA-BUF stats in sysfs
+
+Jagan Teki (1):
+      drm: bridge: nwl-dsi: Drop unused nwl_dsi_plat_clk_config
+
+Jason Ekstrand (1):
+      dma-buf: Document DMA_BUF_IOCTL_SYNC (v3)
+
+Jiahua Yu (1):
+      fbdev/omap2: use DEFINE_SPINLOCK() instead of spin_lock_init().
+
+Jing Xiangfeng (1):
+      drm/gma500: Add the missed drm_gem_object_put() in psb_user_framebuffer_create()
+
+Julia Lawall (1):
+      drm/of: free the right object
+
+Lang Yu (3):
+      drm/ttm: add TTM_PL_FLAG_TEMPORARY flag v3
+      drm/amdgpu: user temporary GTT as bounce buffer
+      drm/amdgpu: switch gtt_mgr to counting used pages
+
+Laurent Pinchart (11):
+      drm: bridge: ti-sn65dsi83: Move LVDS format selection to .mode_set()
+      drm: bridge: ti-sn65dsi83: Pass mode explicitly to helper functions
+      drm: bridge: ti-sn65dsi83: Switch to atomic operations
+      drm: bridge: ti-sn65dsi83: Retrieve output format from bridge state
+      drm: bridge: ti-sn65dsi83: Retrieve the display mode from the state
+      dt-bindings: drm/bridge: ti-sn65dsi8: Make enable GPIO optional
+      drm/bridge: ti-sn65dsi86: Make enable GPIO optional
+      drm/bridge: ti-sn65dsi86: Use bitmask to store valid rates
+      drm/bridge: ti-sn65dsi86: Wrap panel with panel-bridge
+      drm/bridge: ti-sn65dsi86: Group code in sections
+      drm/bridge: ti-sn65dsi86: Split connector creation to a function
+
+Leandro Ribeiro (2):
+      drm/doc: document how userspace should find out CRTC index
+      drm/doc: document drm_mode_get_plane
+
+Linus Walleij (5):
+      drm/panel: db7430: Add driver for Samsung DB7430
+      drm/dbi: Support DBI typec1 read operations
+      drm/panel: s6e63m0: Switch to DBI abstraction for SPI
+      drm/dbi: Print errors for mipi_dbi_command()
+      drm/panel: Fix up DT bindings for Samsung lms397kf04
+
+Lyude Paul (9):
+      drm/i915/dpcd_bl: Remove redundant AUX backlight frequency calculations
+      drm/i915/dpcd_bl: Handle drm_dpcd_read/write() return values correctly
+      drm/i915/dpcd_bl: Cleanup intel_dp_aux_vesa_enable_backlight() a bit
+      drm/i915/dpcd_bl: Cache some backlight capabilities in intel_panel.backlight
+      drm/i915/dpcd_bl: Move VESA backlight enabling code closer together
+      drm/i915/dpcd_bl: Return early in vesa_calc_max_backlight if we can't read PWMGEN_BIT_COUNT
+      drm/i915/dpcd_bl: Print return codes for VESA backlight failures
+      drm/dp: Extract i915's eDP backlight code into DRM helpers
+      drm/nouveau/kms/nv50-: Add basic DPCD backlight support for nouveau
+
+Maarten Lankhorst (2):
+      drm/vma: Add a driver_private member to vma_node.
+      drm/i915: Use ttm mmap handling for ttm bo's.
+
+Marek Vasut (2):
+      drm/bridge: ti-sn65dsi83: Fix sparse warnings
+      drm/bridge: ti-sn65dsi83: Replace connector format patching with atomic_get_input_bus_fmts
+
+Martin Krastev (3):
+      drm/vmwgfx: Introduce VMware mks-guest-stats
+      drm/vmwgfx: Refactor vmw_mksstat_remove_ioctl to expect pgid match with vmw_mksstat_add_ioctl to authorise removal.
+      drm/vmwgfx: Fix build issues in mksGuestStats discovered by the kernel test robot
+
+Maxime Ripard (9):
+      drm/vc4: hdmi: Rely on interrupts to handle hotplug
+      drm/dp_helper: Rework the drm_dp_aux documentation
+      drm/dp_helper: Mention the concurrency requirement hw_mutex
+      drm: Mention the power state requirement on side-channel operations
+      Merge tag 'asoc-hdmi-codec-improvements-v2' of git://git.kernel.org/pub/scm/linux/kernel/git/mripard/linux into drm-misc-next
+      drm/vc4: hdmi: Register HDMI codec
+      drm/vc4: hdmi: Drop devm interrupt handler for hotplug interrupts
+      drm/vc4: hdmi: Only call into DRM framework if registered
+      drm/vc4: hdmi: Remove drm_encoder->crtc usage
+
+Melissa Wen (1):
+      drm/vkms: update the current status of todo list
+
+Mikel Rychliski (1):
+      drm/radeon: Fix NULL dereference when updating memory stats
+
+Nicolas Saenz Julienne (1):
+      drm/vc4: hdmi: Limit noise when deferring snd card registration
+
+Noralf Trønnes (4):
+      drm/gud: Free buffers on device removal
+      drm/gud: Use scatter-gather USB bulk transfer
+      drm/gud: Add Raspberry Pi Pico ID
+      drm/gud: Add async_flush module parameter
+
+Paul Cercueil (1):
+      dt-bindings: display/panel: Add Innolux EJ030NA
+
+Pi-Hsun Shih (1):
+      drm/bridge: anx7625: Make hpd workqueue freezable
+
+Rajeev Nandan (6):
+      drm/panel: add basic DP AUX backlight support
+      drm/panel-simple: Support DP AUX backlight
+      drm/panel-simple: Support for delays between GPIO & regulator
+      drm/panel-simple: Update validation warnings for eDP panel description
+      dt-bindings: display: simple: Add Samsung ATNA33XC20
+      drm/panel-simple: Add Samsung ATNA33XC20
+
+Sam Ravnborg (1):
+      drm: bridge: Mark deprecated operations in drm_bridge_funcs
+
+Stefan Riedmueller (5):
+      drm/panel: Add connector_type and bus_format for AUO G104SN02 V2 panel
+      drm/panel: Add connector_type for some EDT displays
+      drm/panel: Add bus_format and bus_flags for EDT ETM0430G0DH6
+      drm/panel: simple: Add support for EDT ETMV570G2DHU panel
+      drm/panel: simple: Add support for EDT ETM0350G0DH6 panel
+
+Steven Price (2):
+      drm/panfrost: Queue jobs on the hardware
+      drm/of: free the iterator object on failure
+
+Thomas Hellström (2):
+      drm/i915/ttm: Introduce a TTM i915 gem object backend
+      drm/i915/lmem: Verify checks for lmem residency
+
+Thomas Zimmermann (52):
+      Merge drm/drm-next into drm-misc-next
+      Merge drm/drm-next into drm-misc-next
+      Merge tag 'tags/topic/i915-ttm-2021-06-11' into drm-misc-next
+      drm/amdgpu: Track IRQ state in local device state
+      drm/hibmc: Call drm_irq_uninstall() unconditionally
+      drm/radeon: Track IRQ state in local device state
+      drm: Don't test for IRQ support in VBLANK ioctls
+      drm/armada: Don't set struct drm_device.irq_enabled
+      drm/i915: Track IRQ state in local device state
+      drm/komeda: Don't set struct drm_device.irq_enabled
+      drm/malidp: Don't set struct drm_device.irq_enabled
+      drm/exynos: Don't set struct drm_device.irq_enabled
+      drm/kirin: Don't set struct drm_device.irq_enabled
+      drm/imx: Don't set struct drm_device.irq_enabled
+      drm/imx/dcss: Don't set struct drm_device.irq_enabled
+      drm/mediatek: Don't set struct drm_device.irq_enabled
+      drm/nouveau: Don't set struct drm_device.irq_enabled
+      drm/omapdrm: Track IRQ state in local device state
+      drm/rcar-du: Don't set struct drm_device.irq_enabled
+      drm/rockchip: Don't set struct drm_device.irq_enabled
+      drm/sti: Don't set struct drm_device.irq_enabled
+      drm/stm: Don't set struct drm_device.irq_enabled
+      drm/sun4i: Don't set struct drm_device.irq_enabled
+      drm/tegra: Don't set struct drm_device.irq_enabled
+      drm/tidss: Don't use struct drm_device.irq_enabled
+      drm/vc4: Don't set struct drm_device.irq_enabled
+      drm/vkms: Don't set struct drm_device.irq_enabled
+      drm/vmwgfx: Don't set struct drm_device.irq_enabled
+      drm/xlnx: Don't set struct drm_device.irq_enabled
+      drm/zte: Don't set struct drm_device.irq_enabled
+      drm/aperture: Pass DRM driver structure instead of driver name
+      drm/bochs: Move to tiny/
+      drm/bochs: Use managed initialization for GEM VRAM helpers
+      drm/vram-helper: Unexport drm_vram_helper_{alloc,release}_mm()
+      drm/mgag200: Don't pass flags to drm_dev_register()
+      drm/mgag200: Inline mgag200_device_init()
+      drm/mgag200: Extract device type and flags in mgag200_pci_probe()
+      drm/mgag200: Constify LUT for programming bpp
+      drm/vgem: Implement mmap as GEM object function
+      drm/qxl: Remove empty qxl_gem_prime_mmap()
+      drm/meson: Convert to Linux IRQ interfaces
+      drm/arm/komeda: Don't include drm_irq.h
+      drm/vmwgfx: Convert to Linux IRQ interfaces
+      drm/hisilicon/hibmc: Convert to Linux IRQ interfaces
+      Revert "drm/vgem: Implement mmap as GEM object function"
+      drm/gem: Export implementation of shadow-plane helpers
+      drm/vkms: Inherit plane state from struct drm_shadow_plane_state
+      drm/vkms: Let shadow-plane helpers prepare the plane's FB
+      drm/vkms: Use dma-buf mapping from shadow-plane state for composing
+      drm/qxl: Convert to Linux IRQ interfaces
+      drm/vbox: Convert to Linux IRQ interfaces
+      drm/omapdrm: Remove outdated comment
+
+Tim Gover (1):
+      drm: vc4: Fix pixel-wrap issue with DVP teardown
+
+Vivek Kasireddy (4):
+      udmabuf: Add support for mapping hugepages (v4)
+      drm/virtio: Add fences for Guest blobs
+      drm/virtio: Prepare resource_flush to accept a fence
+      drm/virtio: Add the fence in resource_flush if present
+
+Wei Yongjun (1):
+      drm/panfrost: Fix missing clk_disable_unprepare() on error in panfrost_clk_init()
+
+Yu Jiahua (1):
+      drivers: gpu: add missing MODULE_DEVICE_TABLE in anx7625.c
+
+Yunus Bas (2):
+      dt-bindings: display: simple: Add EDT ETMV570G2DHU
+      dt-bindings: display: simple: Add EDT ETM0350G0DH6
+
+Zack Rusin (11):
+      drm/vmwgfx: Simplify devcaps code
+      drm/vmwgfx: Fix subresource updates with new contexts
+      drm/vmwgfx: Fix some static checker warnings
+      drm/vmwgfx: remove code that was using physical page addresses
+      drm/vmwgfx: inline access to the pages from the piter
+      drm/vmwgfx: Remove vmw_chipset
+      drm/vmwgfx: Fix implicit declaration error
+      MAINTAINERS: update vmwgfx info
+      drm/vmwgfx: Update device headers
+      drm/vmwgfx: Fix a 64bit regression on svga3
+      drm/vmwgfx: Fix a bad merge in otable batch takedown
+
+ .../ABI/testing/sysfs-kernel-dmabuf-buffers        |   52 +
+ .../bindings/display/bridge/ti,sn65dsi86.yaml      |   21 +-
+ .../devicetree/bindings/display/dp-aux-bus.yaml    |   37 +
+ .../bindings/display/panel/innolux,ej030na.yaml    |   62 +
+ .../bindings/display/panel/panel-simple.yaml       |   10 +
+ .../bindings/display/panel/samsung,lms397kf04.yaml |   18 +-
+ Documentation/driver-api/dma-buf.rst               |   13 +
+ Documentation/gpu/drm-uapi.rst                     |   13 +
+ Documentation/gpu/vkms.rst                         |   38 +-
+ .../sound/kernel-api/writing-an-alsa-driver.rst    |   13 +-
+ MAINTAINERS                                        |   12 +-
+ arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi       |   30 +-
+ drivers/dma-buf/Kconfig                            |   11 +
+ drivers/dma-buf/Makefile                           |    1 +
+ drivers/dma-buf/dma-buf-sysfs-stats.c              |  337 ++
+ drivers/dma-buf/dma-buf-sysfs-stats.h              |   62 +
+ drivers/dma-buf/dma-buf.c                          |   40 +
+ drivers/dma-buf/dma-fence-chain.c                  |    2 +-
+ drivers/dma-buf/dma-resv.c                         |   33 +-
+ drivers/dma-buf/st-dma-fence-chain.c               |   16 +-
+ drivers/dma-buf/udmabuf.c                          |   59 +-
+ drivers/gpu/drm/Kconfig                            |    7 +-
+ drivers/gpu/drm/Makefile                           |    3 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_bo_list.h        |    1 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c             |   66 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c        |   65 -
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c            |    2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c          |    2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c            |    3 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c        |   26 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c            |    6 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_object.c         |    4 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_object.h         |    1 -
+ drivers/gpu/drm/amd/amdgpu/amdgpu_preempt_mgr.c    |    2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c           |  118 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c            |    8 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h            |    2 +-
+ drivers/gpu/drm/arm/display/komeda/komeda_kms.c    |    5 -
+ drivers/gpu/drm/arm/malidp_drv.c                   |    4 -
+ drivers/gpu/drm/armada/armada_drv.c                |    4 +-
+ drivers/gpu/drm/armada/armada_overlay.c            |    2 -
+ drivers/gpu/drm/armada/armada_plane.c              |   29 -
+ drivers/gpu/drm/armada/armada_plane.h              |    2 -
+ drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c           |    1 -
+ drivers/gpu/drm/ast/ast_drv.c                      |    2 +-
+ drivers/gpu/drm/ast/ast_mode.c                     |   21 +-
+ drivers/gpu/drm/bochs/Kconfig                      |   11 -
+ drivers/gpu/drm/bochs/Makefile                     |    4 -
+ drivers/gpu/drm/bochs/bochs.h                      |   98 -
+ drivers/gpu/drm/bochs/bochs_drv.c                  |  205 --
+ drivers/gpu/drm/bochs/bochs_hw.c                   |  323 --
+ drivers/gpu/drm/bochs/bochs_kms.c                  |  178 -
+ drivers/gpu/drm/bochs/bochs_mm.c                   |   24 -
+ drivers/gpu/drm/bridge/Kconfig                     |    1 +
+ drivers/gpu/drm/bridge/analogix/anx7625.c          |    5 +-
+ drivers/gpu/drm/bridge/nwl-dsi.c                   |    6 -
+ drivers/gpu/drm/bridge/ti-sn65dsi83.c              |  200 +-
+ drivers/gpu/drm/bridge/ti-sn65dsi86.c              |  744 ++--
+ drivers/gpu/drm/drm_aperture.c                     |   19 +-
+ drivers/gpu/drm/drm_atomic_helper.c                |   10 +
+ drivers/gpu/drm/drm_debugfs_crc.c                  |    8 +-
+ drivers/gpu/drm/drm_dp_aux_bus.c                   |  326 ++
+ drivers/gpu/drm/drm_dp_helper.c                    |  462 +++
+ drivers/gpu/drm/drm_gem.c                          |   12 +-
+ drivers/gpu/drm/drm_gem_atomic_helper.c            |   58 +-
+ drivers/gpu/drm/drm_gem_shmem_helper.c             |    4 +-
+ drivers/gpu/drm/drm_gem_vram_helper.c              |    9 +-
+ drivers/gpu/drm/drm_irq.c                          |   13 +-
+ drivers/gpu/drm/drm_mipi_dbi.c                     |   55 +-
+ drivers/gpu/drm/drm_of.c                           |    6 +-
+ drivers/gpu/drm/drm_simple_kms_helper.c            |   12 +-
+ drivers/gpu/drm/drm_syncobj.c                      |    6 +-
+ drivers/gpu/drm/drm_vblank.c                       |   15 +-
+ drivers/gpu/drm/etnaviv/etnaviv_sched.c            |    3 +-
+ drivers/gpu/drm/exynos/exynos_drm_drv.c            |   10 -
+ drivers/gpu/drm/gma500/framebuffer.c               |    7 +-
+ drivers/gpu/drm/gma500/oaktrail_lvds.c             |    6 +-
+ drivers/gpu/drm/gud/gud_drv.c                      |   61 +-
+ drivers/gpu/drm/gud/gud_internal.h                 |    2 +
+ drivers/gpu/drm/gud/gud_pipe.c                     |   62 +-
+ drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c     |    3 +-
+ drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c    |   16 +-
+ drivers/gpu/drm/hisilicon/kirin/kirin_drm_drv.c    |    2 -
+ drivers/gpu/drm/hyperv/hyperv_drm_drv.c            |    4 +-
+ drivers/gpu/drm/i915/Makefile                      |    1 +
+ drivers/gpu/drm/i915/display/intel_display.c       |    2 +-
+ drivers/gpu/drm/i915/display/intel_display_types.h |    2 +-
+ .../gpu/drm/i915/display/intel_dp_aux_backlight.c  |  329 +-
+ drivers/gpu/drm/i915/gem/i915_gem_create.c         |    9 +-
+ drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c     |    6 +-
+ drivers/gpu/drm/i915/gem/i915_gem_lmem.c           |  126 +-
+ drivers/gpu/drm/i915/gem/i915_gem_lmem.h           |    5 -
+ drivers/gpu/drm/i915/gem/i915_gem_mman.c           |   83 +-
+ drivers/gpu/drm/i915/gem/i915_gem_object.c         |  143 +-
+ drivers/gpu/drm/i915/gem/i915_gem_object.h         |   19 +-
+ drivers/gpu/drm/i915/gem/i915_gem_object_types.h   |   30 +-
+ drivers/gpu/drm/i915/gem/i915_gem_pages.c          |    3 +-
+ drivers/gpu/drm/i915/gem/i915_gem_region.c         |    6 +-
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.c            |  647 ++++
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.h            |   48 +
+ drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c |   90 +-
+ drivers/gpu/drm/i915/gt/intel_region_lmem.c        |    3 +-
+ drivers/gpu/drm/i915/i915_drv.c                    |    2 +-
+ drivers/gpu/drm/i915/i915_drv.h                    |    2 +
+ drivers/gpu/drm/i915/i915_gem.c                    |    5 +-
+ drivers/gpu/drm/i915/i915_irq.c                    |    8 +-
+ drivers/gpu/drm/i915/intel_memory_region.c         |    1 -
+ drivers/gpu/drm/i915/intel_memory_region.h         |    1 -
+ drivers/gpu/drm/i915/intel_region_ttm.c            |    8 +-
+ drivers/gpu/drm/i915/intel_region_ttm.h            |   11 +-
+ drivers/gpu/drm/i915/selftests/igt_mmap.c          |   25 +-
+ drivers/gpu/drm/i915/selftests/igt_mmap.h          |   12 +-
+ drivers/gpu/drm/imx/dcss/dcss-kms.c                |    3 -
+ drivers/gpu/drm/imx/dcss/dcss-plane.c              |    1 -
+ drivers/gpu/drm/imx/imx-drm-core.c                 |   11 -
+ drivers/gpu/drm/imx/ipuv3-plane.c                  |    1 -
+ drivers/gpu/drm/ingenic/ingenic-drm-drv.c          |    1 -
+ drivers/gpu/drm/ingenic/ingenic-ipu.c              |    1 -
+ drivers/gpu/drm/lima/lima_sched.c                  |    3 +-
+ drivers/gpu/drm/mcde/mcde_display.c                |    1 -
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c             |    6 -
+ drivers/gpu/drm/mediatek/mtk_drm_plane.c           |    1 -
+ drivers/gpu/drm/meson/meson_drv.c                  |   12 +-
+ drivers/gpu/drm/meson/meson_overlay.c              |    1 -
+ drivers/gpu/drm/meson/meson_plane.c                |    1 -
+ drivers/gpu/drm/mgag200/mgag200_drv.c              |   64 +-
+ drivers/gpu/drm/mgag200/mgag200_drv.h              |   14 -
+ drivers/gpu/drm/mgag200/mgag200_mode.c             |   16 +-
+ drivers/gpu/drm/msm/msm_fbdev.c                    |    2 +-
+ drivers/gpu/drm/msm/msm_gem.c                      |   16 +-
+ drivers/gpu/drm/msm/msm_gem_submit.c               |    6 +-
+ drivers/gpu/drm/mxsfb/mxsfb_kms.c                  |    2 -
+ drivers/gpu/drm/nouveau/dispnv50/disp.c            |   28 +
+ drivers/gpu/drm/nouveau/nouveau_backlight.c        |  166 +-
+ drivers/gpu/drm/nouveau/nouveau_bo.c               |    6 +
+ drivers/gpu/drm/nouveau/nouveau_connector.h        |    9 +-
+ drivers/gpu/drm/nouveau/nouveau_drm.c              |    5 +-
+ drivers/gpu/drm/nouveau/nouveau_encoder.h          |    1 +
+ drivers/gpu/drm/nouveau/nouveau_fence.c            |    2 +-
+ drivers/gpu/drm/omapdrm/omap_drv.h                 |    2 +
+ drivers/gpu/drm/omapdrm/omap_irq.c                 |   13 +-
+ drivers/gpu/drm/omapdrm/omap_plane.c               |    3 +
+ drivers/gpu/drm/panel/Kconfig                      |   21 +
+ drivers/gpu/drm/panel/Makefile                     |    2 +
+ drivers/gpu/drm/panel/panel-innolux-ej030na.c      |  289 ++
+ drivers/gpu/drm/panel/panel-samsung-db7430.c       |  347 ++
+ drivers/gpu/drm/panel/panel-samsung-s6e63m0-dsi.c  |   10 +-
+ drivers/gpu/drm/panel/panel-samsung-s6e63m0-spi.c  |   83 +-
+ drivers/gpu/drm/panel/panel-samsung-s6e63m0.c      |   41 +-
+ drivers/gpu/drm/panel/panel-samsung-s6e63m0.h      |   33 +-
+ drivers/gpu/drm/panel/panel-simple.c               |  208 +-
+ drivers/gpu/drm/panfrost/panfrost_device.c         |  142 +-
+ drivers/gpu/drm/panfrost/panfrost_device.h         |   99 +-
+ drivers/gpu/drm/panfrost/panfrost_drv.c            |   91 +-
+ drivers/gpu/drm/panfrost/panfrost_gem.c            |   20 +-
+ drivers/gpu/drm/panfrost/panfrost_gpu.c            |    2 +-
+ drivers/gpu/drm/panfrost/panfrost_job.c            |  695 ++--
+ drivers/gpu/drm/panfrost/panfrost_job.h            |    8 +-
+ drivers/gpu/drm/panfrost/panfrost_mmu.c            |  203 +-
+ drivers/gpu/drm/panfrost/panfrost_mmu.h            |    5 +-
+ drivers/gpu/drm/panfrost/panfrost_regs.h           |    3 -
+ drivers/gpu/drm/pl111/pl111_display.c              |    1 -
+ drivers/gpu/drm/qxl/qxl_drv.c                      |    4 +-
+ drivers/gpu/drm/qxl/qxl_drv.h                      |    3 -
+ drivers/gpu/drm/qxl/qxl_irq.c                      |    9 +-
+ drivers/gpu/drm/qxl/qxl_prime.c                    |    6 -
+ drivers/gpu/drm/radeon/radeon_drv.c                |    2 +-
+ drivers/gpu/drm/radeon/radeon_fence.c              |    2 +-
+ drivers/gpu/drm/radeon/radeon_irq_kms.c            |   16 +-
+ drivers/gpu/drm/radeon/radeon_object.c             |   29 +-
+ drivers/gpu/drm/radeon/radeon_object.h             |    2 +-
+ drivers/gpu/drm/radeon/radeon_ttm.c                |   13 +-
+ drivers/gpu/drm/rcar-du/rcar_du_drv.c              |    2 -
+ drivers/gpu/drm/rockchip/rockchip_drm_drv.c        |    8 +-
+ drivers/gpu/drm/rockchip/rockchip_drm_vop.c        |    1 -
+ drivers/gpu/drm/scheduler/sched_main.c             |   21 +-
+ drivers/gpu/drm/sti/sti_compositor.c               |    2 -
+ drivers/gpu/drm/stm/ltdc.c                         |    4 -
+ drivers/gpu/drm/sun4i/sun4i_drv.c                  |    4 +-
+ drivers/gpu/drm/sun4i/sun4i_layer.c                |    1 -
+ drivers/gpu/drm/sun4i/sun8i_ui_layer.c             |    1 -
+ drivers/gpu/drm/sun4i/sun8i_vi_layer.c             |    1 -
+ drivers/gpu/drm/tegra/drm.c                        |    9 +-
+ drivers/gpu/drm/tidss/tidss_irq.c                  |    3 -
+ drivers/gpu/drm/tidss/tidss_plane.c                |    1 -
+ drivers/gpu/drm/tiny/Kconfig                       |   13 +
+ drivers/gpu/drm/tiny/Makefile                      |    1 +
+ drivers/gpu/drm/tiny/bochs.c                       |  733 ++++
+ drivers/gpu/drm/tiny/cirrus.c                      |    2 +-
+ drivers/gpu/drm/tiny/hx8357d.c                     |    1 -
+ drivers/gpu/drm/tiny/ili9225.c                     |    1 -
+ drivers/gpu/drm/tiny/ili9341.c                     |    1 -
+ drivers/gpu/drm/tiny/ili9486.c                     |    1 -
+ drivers/gpu/drm/tiny/mi0283qt.c                    |    1 -
+ drivers/gpu/drm/tiny/repaper.c                     |    1 -
+ drivers/gpu/drm/tiny/st7586.c                      |    1 -
+ drivers/gpu/drm/tiny/st7735r.c                     |    1 -
+ drivers/gpu/drm/ttm/ttm_bo.c                       |   66 +-
+ drivers/gpu/drm/tve200/tve200_display.c            |    1 -
+ drivers/gpu/drm/v3d/v3d_sched.c                    |   10 +-
+ drivers/gpu/drm/vboxvideo/vbox_drv.c               |    3 +-
+ drivers/gpu/drm/vboxvideo/vbox_drv.h               |    1 -
+ drivers/gpu/drm/vboxvideo/vbox_irq.c               |   16 +-
+ drivers/gpu/drm/vboxvideo/vbox_mode.c              |    3 +-
+ drivers/gpu/drm/vc4/Kconfig                        |    1 +
+ drivers/gpu/drm/vc4/vc4_drv.c                      |    2 +-
+ drivers/gpu/drm/vc4/vc4_hdmi.c                     |  424 +--
+ drivers/gpu/drm/vc4/vc4_hdmi.h                     |    3 +-
+ drivers/gpu/drm/vc4/vc4_kms.c                      |    1 -
+ drivers/gpu/drm/vc4/vc4_regs.h                     |   30 +
+ drivers/gpu/drm/virtio/virtgpu_drv.c               |    2 +-
+ drivers/gpu/drm/virtio/virtgpu_drv.h               |    4 +-
+ drivers/gpu/drm/virtio/virtgpu_plane.c             |   64 +-
+ drivers/gpu/drm/virtio/virtgpu_vq.c                |    7 +-
+ drivers/gpu/drm/vkms/vkms_composer.c               |   26 +-
+ drivers/gpu/drm/vkms/vkms_drv.c                    |   32 +-
+ drivers/gpu/drm/vkms/vkms_drv.h                    |    6 +-
+ drivers/gpu/drm/vkms/vkms_plane.c                  |   57 +-
+ drivers/gpu/drm/vmwgfx/Kconfig                     |    8 +
+ drivers/gpu/drm/vmwgfx/Makefile                    |    2 +-
+ .../gpu/drm/vmwgfx/device_include/includeCheck.h   |    3 -
+ .../gpu/drm/vmwgfx/device_include/svga3d_caps.h    |  111 -
+ drivers/gpu/drm/vmwgfx/device_include/svga3d_cmd.h | 3680 ++++++++------------
+ .../gpu/drm/vmwgfx/device_include/svga3d_devcaps.h |  793 ++---
+ drivers/gpu/drm/vmwgfx/device_include/svga3d_dx.h  | 3503 +++++++++----------
+ .../gpu/drm/vmwgfx/device_include/svga3d_limits.h  |  101 +-
+ drivers/gpu/drm/vmwgfx/device_include/svga3d_reg.h |   15 +-
+ .../drm/vmwgfx/device_include/svga3d_surfacedefs.h | 3132 ++++++++---------
+ .../gpu/drm/vmwgfx/device_include/svga3d_types.h   | 3020 +++++++---------
+ .../gpu/drm/vmwgfx/device_include/svga_escape.h    |   68 +-
+ .../gpu/drm/vmwgfx/device_include/svga_overlay.h   |  203 +-
+ drivers/gpu/drm/vmwgfx/device_include/svga_reg.h   | 2847 ++++-----------
+ drivers/gpu/drm/vmwgfx/device_include/svga_types.h |   51 -
+ .../gpu/drm/vmwgfx/device_include/vm_basic_types.h |  131 +-
+ .../drm/vmwgfx/device_include/vmware_pack_begin.h  |    2 -
+ .../drm/vmwgfx/device_include/vmware_pack_end.h    |    2 -
+ drivers/gpu/drm/vmwgfx/ttm_memory.c                |    2 +
+ drivers/gpu/drm/vmwgfx/vmw_surface_cache.h         |  539 +++
+ drivers/gpu/drm/vmwgfx/vmwgfx_binding.c            |   24 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_cmd.c                |    6 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c             |    2 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf_res.c         |    4 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_context.c            |    4 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_devcaps.c            |  142 +
+ drivers/gpu/drm/vmwgfx/vmwgfx_devcaps.h            |   50 +
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.c                |   69 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.h                |   42 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c            |   17 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_ioctl.c              |  111 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_irq.c                |   24 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_kms.c                |    6 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_mksstat.h            |  144 +
+ drivers/gpu/drm/vmwgfx/vmwgfx_mob.c                |   41 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_msg.c                |  579 ++-
+ drivers/gpu/drm/vmwgfx/vmwgfx_resource.c           |    8 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_so.c                 |    3 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c               |    2 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_surface.c            |   80 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c         |   35 -
+ drivers/gpu/drm/vmwgfx/vmwgfx_validation.c         |    4 +-
+ drivers/gpu/drm/xen/xen_drm_front_kms.c            |    1 -
+ drivers/gpu/drm/xlnx/zynqmp_dpsub.c                |    2 -
+ drivers/gpu/drm/zte/zx_drm_drv.c                   |    6 -
+ drivers/video/fbdev/omap2/omapfb/dss/apply.c       |    4 +-
+ include/drm/drm_aperture.h                         |   14 +-
+ include/drm/drm_bridge.h                           |   26 +-
+ include/drm/drm_connector.h                        |    5 +
+ include/drm/drm_dp_aux_bus.h                       |   57 +
+ include/drm/drm_dp_helper.h                        |  175 +-
+ include/drm/drm_gem_atomic_helper.h                |    6 +
+ include/drm/drm_gem_vram_helper.h                  |   16 +-
+ include/drm/drm_mipi_dbi.h                         |    7 +-
+ include/drm/drm_mipi_dsi.h                         |    5 +
+ include/drm/drm_modeset_helper_vtables.h           |    7 +-
+ include/drm/drm_panel.h                            |    8 +-
+ include/drm/drm_simple_kms_helper.h                |    7 +-
+ include/drm/drm_vma_manager.h                      |    2 +-
+ include/drm/gpu_scheduler.h                        |   37 +-
+ include/drm/ttm/ttm_placement.h                    |    7 +-
+ include/linux/dma-buf.h                            |  177 +-
+ include/linux/dma-fence-chain.h                    |   52 +-
+ include/linux/dma-resv.h                           |    2 +-
+ include/sound/hdmi-codec.h                         |   12 +-
+ include/sound/pcm_iec958.h                         |    8 +
+ include/uapi/drm/drm.h                             |    4 +-
+ include/uapi/drm/drm_mode.h                        |   32 +
+ include/uapi/drm/vmwgfx_drm.h                      |   41 +
+ include/uapi/linux/dma-buf.h                       |   50 +-
+ sound/core/pcm_iec958.c                            |  174 +-
+ sound/soc/codecs/hdmi-codec.c                      |  217 +-
+ 290 files changed, 16695 insertions(+), 14320 deletions(-)
+ create mode 100644 Documentation/ABI/testing/sysfs-kernel-dmabuf-buffers
+ create mode 100644 Documentation/devicetree/bindings/display/dp-aux-bus.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/panel/innolux,ej030na.yaml
+ create mode 100644 drivers/dma-buf/dma-buf-sysfs-stats.c
+ create mode 100644 drivers/dma-buf/dma-buf-sysfs-stats.h
+ delete mode 100644 drivers/gpu/drm/bochs/Kconfig
+ delete mode 100644 drivers/gpu/drm/bochs/Makefile
+ delete mode 100644 drivers/gpu/drm/bochs/bochs.h
+ delete mode 100644 drivers/gpu/drm/bochs/bochs_drv.c
+ delete mode 100644 drivers/gpu/drm/bochs/bochs_hw.c
+ delete mode 100644 drivers/gpu/drm/bochs/bochs_kms.c
+ delete mode 100644 drivers/gpu/drm/bochs/bochs_mm.c
+ create mode 100644 drivers/gpu/drm/drm_dp_aux_bus.c
+ create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+ create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_ttm.h
+ create mode 100644 drivers/gpu/drm/panel/panel-innolux-ej030na.c
+ create mode 100644 drivers/gpu/drm/panel/panel-samsung-db7430.c
+ create mode 100644 drivers/gpu/drm/tiny/bochs.c
+ delete mode 100644 drivers/gpu/drm/vmwgfx/device_include/includeCheck.h
+ delete mode 100644 drivers/gpu/drm/vmwgfx/device_include/svga3d_caps.h
+ delete mode 100644 drivers/gpu/drm/vmwgfx/device_include/svga_types.h
+ delete mode 100644 drivers/gpu/drm/vmwgfx/device_include/vmware_pack_begin.h
+ delete mode 100644 drivers/gpu/drm/vmwgfx/device_include/vmware_pack_end.h
+ create mode 100644 drivers/gpu/drm/vmwgfx/vmw_surface_cache.h
+ create mode 100644 drivers/gpu/drm/vmwgfx/vmwgfx_devcaps.c
+ create mode 100644 drivers/gpu/drm/vmwgfx/vmwgfx_devcaps.h
+ create mode 100644 drivers/gpu/drm/vmwgfx/vmwgfx_mksstat.h
+ create mode 100644 include/drm/drm_dp_aux_bus.h
