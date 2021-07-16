@@ -1,63 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D6573CBCF7
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Jul 2021 21:49:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DAF1B3CBD01
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Jul 2021 21:59:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 90D656E9D8;
-	Fri, 16 Jul 2021 19:49:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E31C86E9D2;
+	Fri, 16 Jul 2021 19:59:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb33.google.com (mail-yb1-xb33.google.com
- [IPv6:2607:f8b0:4864:20::b33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C15F6E9D4
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jul 2021 19:49:18 +0000 (UTC)
-Received: by mail-yb1-xb33.google.com with SMTP id v189so16694806ybg.3
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jul 2021 12:49:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=UzjGgFUtHPHk4mtkEkY+oMHVSqXsZpl49iGD+maxsDU=;
- b=F1iWJApapl/w6+uWWLzu7W8VvnkKnv4duroWsin9t/al1NHx+V6tgFE8XVTnf3VSZR
- 1lfZB+j2lIdm5NyVi/6JPPj3lhs+v20R2+KgIWGHmYDl0HKYmqzo9nBkjmRRjuCUR46q
- Mpk7retLFVuS6advFdHt79ErO1H0IXx7inmcSAupljueNDB+yDUeqEOMKuvuZpJc9cF+
- gdUlK5ktH+79kudPmIIqfkRCx6dX8qmSK8OXTKg2N7eE5nHszGUHERHxw+EoBhfxK6G3
- cWFHhCKdcI2TvXz3gADHkAHV3CLciJQNJOvcFt2zpX40S9wMiIJRPfkhTY+Un5rA/vWf
- YDCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=UzjGgFUtHPHk4mtkEkY+oMHVSqXsZpl49iGD+maxsDU=;
- b=O6cI37WRTnrI09pK4tRbu4gKTYJzYRCKA3mhQ4KavJqtnmBiJk8n5dOJi8Yx+sfwUY
- V4tKjL7h+RBaW6cpQku9/vCAsxgNXUQDw0C7fWjQczu1fcRGi+GCHabqoaEq/gQh7VqV
- sNmMN/J6466wN8hMjLjMLQB95csv6N5TzwuDIqwyrCom3hQxcmz3/DXTpiVRXf1UYLBc
- 6bkS/ILZ89aAj3RePKgZDyuFj4TH63M1N+fDIqyQEmZIGO0XBsnC/OGg00iTs9NNAolg
- QPfYAxpCa8t950JS3Z389iW8rIHuyimTUP+j8V9RDGnf94GKnBBrLHiuoPUCFtqm3ouR
- 1Grw==
-X-Gm-Message-State: AOAM531Q8L+ZlYAHeGXR+LNwauHuVgqsUjuGMXp9yQotaahEh4LnivgW
- CMSagHB8+4RTh2pw5j4pq6skFxxGnouLKexn10V/Fw==
-X-Google-Smtp-Source: ABdhPJxCtDO6nfX3/54XMoa7G3lnnTVGTYemTkdsTl2rRQ5P4Ga5GDFC/Ks56T7gDpjAU6DIVO24NhAHHK1CMSJ5Hp8=
-X-Received: by 2002:a25:d113:: with SMTP id i19mr15626226ybg.180.1626464957526; 
- Fri, 16 Jul 2021 12:49:17 -0700 (PDT)
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 07C996E9D0;
+ Fri, 16 Jul 2021 19:59:34 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10047"; a="210596701"
+X-IronPort-AV: E=Sophos;i="5.84,245,1620716400"; d="scan'208";a="210596701"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Jul 2021 12:59:34 -0700
+X-IronPort-AV: E=Sophos;i="5.84,245,1620716400"; d="scan'208";a="507238855"
+Received: from dhiatt-server.jf.intel.com ([10.54.81.3])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Jul 2021 12:59:34 -0700
+From: Matthew Brost <matthew.brost@intel.com>
+To: <intel-gfx@lists.freedesktop.org>,
+	<dri-devel@lists.freedesktop.org>
+Subject: [PATCH 00/51] GuC submission support
+Date: Fri, 16 Jul 2021 13:16:33 -0700
+Message-Id: <20210716201724.54804-1-matthew.brost@intel.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-References: <20210715223900.1840576-1-jason@jlekstrand.net>
- <20210715223900.1840576-6-jason@jlekstrand.net>
- <CAM0jSHPu1EBfnAJ06Dp51a1Qbg+9QnmP=EyUfYXS0fZnJzxR8g@mail.gmail.com>
- <CAOFGe95gEUNsjCh+30AXhrQLz8_OKbHwwxv=_OhaGKQxGpvcew@mail.gmail.com>
- <CAM0jSHO4EU_gBXo-56GtDJffezfVHYoUhCeOnb97ZgBj5vyA7Q@mail.gmail.com>
- <CAM0jSHOHCr6ppLhUBVSd_JUnBDFAcsYEYtma01benzs_nkhtGg@mail.gmail.com>
- <CAOFGe95YYjS=k9SnQg0EuOR02FWGPyCAvJH7Ymm6ZhiHq5iNCw@mail.gmail.com>
- <CAM0jSHP8vS9FeEjKx9sQqek2-eGVEK+=6y03eNnf0zpnxmmP6w@mail.gmail.com>
-In-Reply-To: <CAM0jSHP8vS9FeEjKx9sQqek2-eGVEK+=6y03eNnf0zpnxmmP6w@mail.gmail.com>
-From: Jason Ekstrand <jason@jlekstrand.net>
-Date: Fri, 16 Jul 2021 14:49:06 -0500
-Message-ID: <CAOFGe94C48djm1uWXC2Tn-ssSvGr=sTOaEDORG355s72ysfqQg@mail.gmail.com>
-Subject: Re: [PATCH 5/7] drm/i915/gem/ttm: Respect the objection region in
- placement_from_obj
-To: Matthew Auld <matthew.william.auld@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,124 +42,166 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Matthew Auld <matthew.auld@intel.com>,
- ML dri-devel <dri-devel@lists.freedesktop.org>
+Cc: daniele.ceraolospurio@intel.com, john.c.harrison@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jul 16, 2021 at 1:45 PM Matthew Auld
-<matthew.william.auld@gmail.com> wrote:
->
-> On Fri, 16 Jul 2021 at 18:39, Jason Ekstrand <jason@jlekstrand.net> wrote:
-> >
-> > On Fri, Jul 16, 2021 at 11:00 AM Matthew Auld
-> > <matthew.william.auld@gmail.com> wrote:
-> > >
-> > > On Fri, 16 Jul 2021 at 16:52, Matthew Auld
-> > > <matthew.william.auld@gmail.com> wrote:
-> > > >
-> > > > On Fri, 16 Jul 2021 at 15:10, Jason Ekstrand <jason@jlekstrand.net> wrote:
-> > > > >
-> > > > > On Fri, Jul 16, 2021 at 8:54 AM Matthew Auld
-> > > > > <matthew.william.auld@gmail.com> wrote:
-> > > > > >
-> > > > > > On Thu, 15 Jul 2021 at 23:39, Jason Ekstrand <jason@jlekstrand.net> wrote:
-> > > > > > >
-> > > > > > > Whenever we had a user object (n_placements > 0), we were ignoring
-> > > > > > > obj->mm.region and always putting obj->placements[0] as the requested
-> > > > > > > region.  For LMEM+SMEM objects, this was causing them to get shoved into
-> > > > > > > LMEM on every i915_ttm_get_pages() even when SMEM was requested by, say,
-> > > > > > > i915_gem_object_migrate().
-> > > > > >
-> > > > > > i915_ttm_migrate calls i915_ttm_place_from_region() directly with the
-> > > > > > requested region, so there shouldn't be an issue with migration right?
-> > > > > > Do you have some more details?
-> > > > >
-> > > > > With i915_ttm_migrate directly, no.  But, in the last patch in the
-> > > > > series, we're trying to migrate LMEM+SMEM buffers into SMEM on
-> > > > > attach() and pin it there.  This blows up in a very unexpected (IMO)
-> > > > > way.  The flow goes something like this:
-> > > > >
-> > > > >  - Client attempts a dma-buf import from another device
-> > > > >  - In attach() we call i915_gem_object_migrate() which calls
-> > > > > i915_ttm_migrate() which migrates as requested.
-> > > > >  - Once the migration is complete, we call i915_gem_object_pin_pages()
-> > > > > which calls i915_ttm_get_pages() which depends on
-> > > > > i915_ttm_placement_from_obj() and so migrates it right back to LMEM.
-> > > >
-> > > > The mm.pages must be NULL here, otherwise it would just increment the
-> > > > pages_pin_count?
-> >
-> > Given that the test is using the ____four_underscores version, it
-> > doesn't have that check.  However, this executes after we've done the
-> > dma-buf import which pinned pages.  So we should definitely have
-> > pages.
->
-> We shouldn't call ____four_underscores() if we might already have
-> pages though. Under non-TTM that would leak the pages, and in TTM we
-> might hit the WARN_ON(mm->pages) in __i915_ttm_get_pages(), if for
-> example nothing was moved. I take it we can't just call pin_pages()?
-> Four scary underscores usually means "don't call this in normal code".
+As discussed in [1], [2] we are enabling GuC submission support in the
+i915. This is a subset of the patches in step 5 described in [1],
+basically it is absolute to enable CI with GuC submission on gen11+
+platforms.
 
-I've switched the ____four_underscores call to a __two_underscores in
-the selftests and it had no effect, good or bad.  But, still, probably
-better to call that one.
+This series itself will likely be broken down into smaller patch sets to
+merge. Likely into CTBs changes, basic submission, virtual engines, and
+resets.
 
-> >
-> > > > >
-> > > > > Maybe the problem here is actually that our TTM code isn't respecting
-> > > > > obj->mm.pages_pin_count?
-> > > >
-> > > > I think if the resource is moved, we always nuke the mm.pages after
-> > > > being notified of the move. Also TTM is also not allowed to move
-> > > > pinned buffers.
-> > > >
-> > > > I guess if we are evicted/swapped, so assuming we are not holding the
-> > > > object lock, and it's not pinned, the future call to get_pages() will
-> > > > see mm.pages = NULL, even though the ttm_resource is still there, and
-> > > > because we prioritise the placements[0], instead of mm.region we end
-> > > > up moving it for no good reason. But in your case you are holding the
-> > > > lock, or it's pinned? Also is this just with the selftest, or
-> > > > something real?
-> > >
-> > > Or at least in the selftest I see ____i915_gem_object_get_pages()
-> > > which doesn't even consider the mm.pages AFAIK.
-> >
-> > The bogus migration is happening as part of the
-> > __i915_gem_object_get_pages() (2 __underscores) call in
-> > i915_gem_dmabuf_attach (see last patch).  That code is attempting to
-> > migrate the BO to SMEM and then pin it there using the obvious calls
-> > to do so.  However, in the pin_pages call, it gets implicitly migrated
-> > back to LMEM thanks to i915_ttm_get_pages().  Why is _get_pages()
-> > migrating things at all?
->
-> Not sure yet, but __two_underscores() checks if
-> i915_gem_object_has_pages() before actually calling into
-> i915_ttm_get_pages(), so the mm.pages would have to be NULL here for
-> some reason, so best guess is something to do with move_notify().
+A following series will address the missing patches remaining from [1].
 
-Did a bit of experimenting along those lines and added the following
-to the self-test BEFORE the export/import:
+Locally tested on TGL machine and basic tests seem to be passing.
 
-    i915_gem_object_lock(obj, NULL);
-    err = __i915_gem_object_get_pages(obj);
-    __i915_gem_object_unpin_pages(obj);
-    i915_gem_object_unlock(obj);
-    if (err) {
-        pr_err("__i915_gem_object_get_pages failed with err=%d\n", err);
-        goto out_ret;
-    }
+v2: Address all review comments in [3], include several more patches to
+make CI [4] happy.
 
-This seems to make the migration happen as expected without this
-patch.  So it seems the problem only exists on buffers that haven't
-gotten any backing storage yet (if I'm understanding get_pages
-correctly).
+Signed-off-by: Matthew Brost <matthew.brost@intel.com>
 
-One potential work-around (not sure if this is a good idea or not!)
-would be to do this inside dmabuf_attach().  Is this reliable?  Once
-it has pages will it always have pages?  Or are there crazy races I
-need to be worried about here?
+[1] https://patchwork.freedesktop.org/series/89844/
+[2] https://patchwork.freedesktop.org/series/91417/
+[3] https://patchwork.freedesktop.org/series/91840/
+[4] https://patchwork.freedesktop.org/series/91885/
 
---Jason
+Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+
+Daniele Ceraolo Spurio (1):
+  drm/i915/guc: Unblock GuC submission on Gen11+
+
+John Harrison (12):
+  drm/i915: Track 'serial' counts for virtual engines
+  drm/i915/guc: Provide mmio list to be saved/restored on engine reset
+  drm/i915/guc: Don't complain about reset races
+  drm/i915/guc: Enable GuC engine reset
+  drm/i915/guc: Fix for error capture after full GPU reset with GuC
+  drm/i915/guc: Hook GuC scheduling policies up
+  drm/i915/guc: Connect reset modparam updates to GuC policy flags
+  drm/i915/guc: Include scheduling policies in the debugfs state dump
+  drm/i915/guc: Add golden context to GuC ADS
+  drm/i915/selftest: Better error reporting from hangcheck selftest
+  drm/i915/selftest: Fix hangcheck self test for GuC submission
+  drm/i915/selftest: Bump selftest timeouts for hangcheck
+
+Matthew Brost (36):
+  drm/i915/guc: Add new GuC interface defines and structures
+  drm/i915/guc: Remove GuC stage descriptor, add LRC descriptor
+  drm/i915/guc: Add LRC descriptor context lookup array
+  drm/i915/guc: Implement GuC submission tasklet
+  drm/i915/guc: Add bypass tasklet submission path to GuC
+  drm/i915/guc: Implement GuC context operations for new inteface
+  drm/i915/guc: Insert fence on context when deregistering
+  drm/i915/guc: Defer context unpin until scheduling is disabled
+  drm/i915/guc: Disable engine barriers with GuC during unpin
+  drm/i915/guc: Extend deregistration fence to schedule disable
+  drm/i915: Disable preempt busywait when using GuC scheduling
+  drm/i915/guc: Ensure request ordering via completion fences
+  drm/i915/guc: Disable semaphores when using GuC scheduling
+  drm/i915/guc: Ensure G2H response has space in buffer
+  drm/i915/guc: Update intel_gt_wait_for_idle to work with GuC
+  drm/i915/guc: Update GuC debugfs to support new GuC
+  drm/i915/guc: Add several request trace points
+  drm/i915: Add intel_context tracing
+  drm/i915/guc: GuC virtual engines
+  drm/i915: Hold reference to intel_context over life of i915_request
+  drm/i915/guc: Disable bonding extension with GuC submission
+  drm/i915/guc: Direct all breadcrumbs for a class to single breadcrumbs
+  drm/i915: Add i915_sched_engine destroy vfunc
+  drm/i915: Move active request tracking to a vfunc
+  drm/i915/guc: Reset implementation for new GuC interface
+  drm/i915: Reset GPU immediately if submission is disabled
+  drm/i915/guc: Add disable interrupts to guc sanitize
+  drm/i915/guc: Suspend/resume implementation for new interface
+  drm/i915/guc: Handle context reset notification
+  drm/i915/guc: Handle engine reset failure notification
+  drm/i915/guc: Enable the timer expired interrupt for GuC
+  drm/i915/guc: Capture error state on context reset
+  drm/i915/guc: Implement banned contexts for GuC submission
+  drm/i915/guc: Support request cancellation
+  drm/i915/selftest: Increase some timeouts in live_requests
+  drm/i915/guc: Implement GuC priority management
+
+Rahul Kumar Singh (2):
+  drm/i915/selftest: Fix workarounds selftest for GuC submission
+  drm/i915/selftest: Fix MOCS selftest for GuC submission
+
+ drivers/gpu/drm/i915/Makefile                 |    1 +
+ drivers/gpu/drm/i915/gem/i915_gem_context.c   |   21 +-
+ drivers/gpu/drm/i915/gem/i915_gem_context.h   |    1 +
+ drivers/gpu/drm/i915/gem/i915_gem_mman.c      |    3 +-
+ drivers/gpu/drm/i915/gt/gen8_engine_cs.c      |    6 +-
+ drivers/gpu/drm/i915/gt/intel_breadcrumbs.c   |   44 +-
+ drivers/gpu/drm/i915/gt/intel_breadcrumbs.h   |   16 +-
+ .../gpu/drm/i915/gt/intel_breadcrumbs_types.h |    7 +
+ drivers/gpu/drm/i915/gt/intel_context.c       |   50 +-
+ drivers/gpu/drm/i915/gt/intel_context.h       |   50 +-
+ drivers/gpu/drm/i915/gt/intel_context_types.h |   63 +-
+ drivers/gpu/drm/i915/gt/intel_engine.h        |   54 +-
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c     |  182 +-
+ .../gpu/drm/i915/gt/intel_engine_heartbeat.c  |   71 +-
+ .../gpu/drm/i915/gt/intel_engine_heartbeat.h  |    4 +
+ drivers/gpu/drm/i915/gt/intel_engine_types.h  |   13 +-
+ drivers/gpu/drm/i915/gt/intel_engine_user.c   |    4 +
+ .../drm/i915/gt/intel_execlists_submission.c  |   95 +-
+ .../drm/i915/gt/intel_execlists_submission.h  |    4 -
+ drivers/gpu/drm/i915/gt/intel_gt.c            |   21 +
+ drivers/gpu/drm/i915/gt/intel_gt.h            |    2 +
+ drivers/gpu/drm/i915/gt/intel_gt_pm.c         |    6 +-
+ drivers/gpu/drm/i915/gt/intel_gt_requests.c   |   21 +-
+ drivers/gpu/drm/i915/gt/intel_gt_requests.h   |    7 +-
+ drivers/gpu/drm/i915/gt/intel_lrc_reg.h       |    1 -
+ drivers/gpu/drm/i915/gt/intel_reset.c         |   50 +-
+ .../gpu/drm/i915/gt/intel_ring_submission.c   |   48 +
+ drivers/gpu/drm/i915/gt/intel_rps.c           |    4 +
+ drivers/gpu/drm/i915/gt/intel_workarounds.c   |   46 +-
+ .../gpu/drm/i915/gt/intel_workarounds_types.h |    1 +
+ drivers/gpu/drm/i915/gt/mock_engine.c         |   40 +-
+ drivers/gpu/drm/i915/gt/selftest_context.c    |   10 +
+ .../drm/i915/gt/selftest_engine_heartbeat.c   |   22 +
+ .../drm/i915/gt/selftest_engine_heartbeat.h   |    2 +
+ drivers/gpu/drm/i915/gt/selftest_execlists.c  |   12 +-
+ drivers/gpu/drm/i915/gt/selftest_hangcheck.c  |  314 +-
+ drivers/gpu/drm/i915/gt/selftest_mocs.c       |   50 +-
+ .../gpu/drm/i915/gt/selftest_workarounds.c    |  132 +-
+ .../gpu/drm/i915/gt/uc/abi/guc_actions_abi.h  |   15 +
+ drivers/gpu/drm/i915/gt/uc/intel_guc.c        |   82 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc.h        |  101 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c    |  461 ++-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ads.h    |    4 +
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c     |  132 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h     |   16 +-
+ .../gpu/drm/i915/gt/uc/intel_guc_debugfs.c    |   25 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h   |   88 +-
+ .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 2776 +++++++++++++++--
+ .../gpu/drm/i915/gt/uc/intel_guc_submission.h |   18 +-
+ drivers/gpu/drm/i915/gt/uc/intel_uc.c         |  101 +-
+ drivers/gpu/drm/i915/gt/uc/intel_uc.h         |   11 +
+ drivers/gpu/drm/i915/i915_debugfs_params.c    |   31 +
+ drivers/gpu/drm/i915/i915_gem_evict.c         |    1 +
+ drivers/gpu/drm/i915/i915_gpu_error.c         |   25 +-
+ drivers/gpu/drm/i915/i915_reg.h               |    2 +
+ drivers/gpu/drm/i915/i915_request.c           |  174 +-
+ drivers/gpu/drm/i915/i915_request.h           |   29 +
+ drivers/gpu/drm/i915/i915_scheduler.c         |   16 +-
+ drivers/gpu/drm/i915/i915_scheduler.h         |   10 +-
+ drivers/gpu/drm/i915/i915_scheduler_types.h   |   22 +
+ drivers/gpu/drm/i915/i915_trace.h             |  219 +-
+ drivers/gpu/drm/i915/selftests/i915_request.c |    4 +-
+ .../gpu/drm/i915/selftests/igt_flush_test.c   |    2 +-
+ .../gpu/drm/i915/selftests/igt_live_test.c    |    2 +-
+ .../i915/selftests/intel_scheduler_helpers.c  |   89 +
+ .../i915/selftests/intel_scheduler_helpers.h  |   35 +
+ .../gpu/drm/i915/selftests/mock_gem_device.c  |    3 +-
+ include/uapi/drm/i915_drm.h                   |    9 +
+ 68 files changed, 5119 insertions(+), 862 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/selftests/intel_scheduler_helpers.c
+ create mode 100644 drivers/gpu/drm/i915/selftests/intel_scheduler_helpers.h
+
+-- 
+2.28.0
+
