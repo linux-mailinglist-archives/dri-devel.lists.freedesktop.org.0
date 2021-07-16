@@ -1,66 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78A893CBBB0
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Jul 2021 20:09:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 162953CBBC3
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Jul 2021 20:21:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BFD466E21C;
-	Fri, 16 Jul 2021 18:09:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 654C16E9CB;
+	Fri, 16 Jul 2021 18:20:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1139 seconds by postgrey-1.36 at gabe;
- Fri, 16 Jul 2021 18:09:05 UTC
-Received: from vern.gendns.com (vern.gendns.com [98.142.107.122])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 14DB86E21C
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jul 2021 18:09:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=lechnology.com; s=default; h=Content-Transfer-Encoding:Content-Type:
- In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
- :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
- Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
- List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=aq7ckziDr7LRnw7KCX79LUFZvdTuuHjD/zKTHJm9hNo=; b=b8NvUAEy3KDBBAC2Ijf3u97kHZ
- cAgljENyOoDixV/oVVMA8wxOwy55M5Oga0028A5dBBbVdLYjdQU1EDYi6N7xeWL35GbeOeju71Wxh
- kvHnuBieudJ1ysAFn0R38JlWbL7GLxAFssxQ9wy8LPOhdGLATxowJFNptT1RcieHp6ZmfbyYYx24t
- tEi2LqzDk0KNeSeu+wkQI1EZnmOY4ulf4fUVi7qiAfHCUlDXIHQxJBIxtr5W2EPDbK8rshhpz0qtE
- NoK8La/PmBy6BLbKra0pnGIwsVLP30eLeK+OfC1rQZI4jTXx3hDweyYo13NR9rA3hKwzJx0WZmyvx
- Qb5zyZBQ==;
-Received: from 108-198-5-147.lightspeed.okcbok.sbcglobal.net
- ([108.198.5.147]:42830 helo=[192.168.0.134])
- by vern.gendns.com with esmtpsa (TLS1.2) tls
- TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.94.2)
- (envelope-from <david@lechnology.com>)
- id 1m4Ry9-000IKi-Tj; Fri, 16 Jul 2021 13:50:03 -0400
-Subject: Re: [PATCH 7/7] drm/st7586: Use framebuffer dma-buf helpers
-To: Thomas Zimmermann <tzimmermann@suse.de>,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@linux.ie,
- daniel@ffwll.ch, noralf@tronnes.org, hdegoede@redhat.com,
- airlied@redhat.com, sean@poorly.run
-References: <20210716140801.1215-1-tzimmermann@suse.de>
- <20210716140801.1215-8-tzimmermann@suse.de>
-From: David Lechner <david@lechnology.com>
-Message-ID: <7fb8bb05-dcd3-6498-a2bc-feb2230ea8e0@lechnology.com>
-Date: Fri, 16 Jul 2021 12:50:01 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B28F46E9C9
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jul 2021 18:20:56 +0000 (UTC)
+Received: from tr.lan (ip-89-176-112-137.net.upcbroadband.cz [89.176.112.137])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id 7F3038296F;
+ Fri, 16 Jul 2021 20:20:54 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1626459654;
+ bh=WV6qYHrBtiiQJpGD/7gS+7yeByyNWoTpo29lEwVHHAk=;
+ h=From:To:Cc:Subject:Date:From;
+ b=R63ljb64b/NP2WWjn7DFtiN6LHbE5puc30XGBHZNfvBZSk3SFZ105xUY7NKwjYd1m
+ iOaWts7CWNw0swsTFL0fROtHdjLQ+O+zNkJImZlL3WH4mht2a7IOeuQcox3u2LfN81
+ Jk9YSRPeXtsAZ1FcrT6x7Dwb0jbFscHSwhhUy5hCiXlSNIK1XtCYRyQT6Ks3D3UrD5
+ I3gwctn70LPLmebmLwOPef572MtecR9pTZR0HfGIH/dub6pFWkHX6hORg9IeYGiTmB
+ EX1/xiE4ul/RizsYJ56Og+VprO2QVf889hMZcqxcUZpupdsXhkt1IcRr/YXkmy71D7
+ xHk7045spzlgg==
+From: Marek Vasut <marex@denx.de>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/lima: Convert to clk_bulk API
+Date: Fri, 16 Jul 2021 20:20:51 +0200
+Message-Id: <20210716182051.218575-1-marex@denx.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-In-Reply-To: <20210716140801.1215-8-tzimmermann@suse.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse,
- please include it with any abuse report
-X-AntiAbuse: Primary Hostname - vern.gendns.com
-X-AntiAbuse: Original Domain - lists.freedesktop.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - lechnology.com
-X-Get-Message-Sender-Via: vern.gendns.com: authenticated_id:
- davidmain+lechnology.com/only user confirmed/virtual account not confirmed
-X-Authenticated-Sender: vern.gendns.com: davidmain@lechnology.com
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: clamav-milter 0.103.2 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,18 +50,191 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Marek Vasut <marex@denx.de>, Qiang Yu <yuq825@gmail.com>,
+ lima@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/16/21 9:08 AM, Thomas Zimmermann wrote:
-> Replace dma_buf_begin_cpu_access() with drm_gem_fb_begin_cpu_access();
-> same for _end_cpu_access(). Remove some boiler-plate code. No functional
-> changes.
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
+Instead of requesting two separate clock and then handling them
+separately in various places of the driver, use clk_bulk_*() API.
+This permits handling devices with more than "bus"/"core" clock,
+like ZynqMP, which has "gpu"/"gpu_pp0"/"gpu_pp1" all as separate
+clock.
 
-Acked-by: David Lechner <david@lechnology.com>
+Signed-off-by: Marek Vasut <marex@denx.de>
+Cc: Qiang Yu <yuq825@gmail.com>
+Cc: lima@lists.freedesktop.org
+---
+ drivers/gpu/drm/lima/lima_devfreq.c | 17 +++++++++---
+ drivers/gpu/drm/lima/lima_devfreq.h |  1 +
+ drivers/gpu/drm/lima/lima_device.c  | 42 +++++++++++------------------
+ drivers/gpu/drm/lima/lima_device.h  |  4 +--
+ 4 files changed, 32 insertions(+), 32 deletions(-)
 
+diff --git a/drivers/gpu/drm/lima/lima_devfreq.c b/drivers/gpu/drm/lima/lima_devfreq.c
+index 8989e215dfc9..533b36932f79 100644
+--- a/drivers/gpu/drm/lima/lima_devfreq.c
++++ b/drivers/gpu/drm/lima/lima_devfreq.c
+@@ -58,7 +58,7 @@ static int lima_devfreq_get_dev_status(struct device *dev,
+ 	struct lima_devfreq *devfreq = &ldev->devfreq;
+ 	unsigned long irqflags;
+ 
+-	status->current_frequency = clk_get_rate(ldev->clk_gpu);
++	status->current_frequency = clk_get_rate(devfreq->clk_gpu);
+ 
+ 	spin_lock_irqsave(&devfreq->lock, irqflags);
+ 
+@@ -110,12 +110,23 @@ int lima_devfreq_init(struct lima_device *ldev)
+ 	struct lima_devfreq *ldevfreq = &ldev->devfreq;
+ 	struct dev_pm_opp *opp;
+ 	unsigned long cur_freq;
+-	int ret;
++	int i, ret;
+ 
+ 	if (!device_property_present(dev, "operating-points-v2"))
+ 		/* Optional, continue without devfreq */
+ 		return 0;
+ 
++	/* Find first clock which are not "bus" clock */
++	for (i = 0; i < ldev->nr_clks; i++) {
++		if (!strcmp(ldev->clks[i].id, "bus"))
++			continue;
++		ldevfreq->clk_gpu = ldev->clks[i].clk;
++		break;
++	}
++
++	if (!ldevfreq->clk_gpu)
++		return -ENODEV;
++
+ 	spin_lock_init(&ldevfreq->lock);
+ 
+ 	ret = devm_pm_opp_set_clkname(dev, "core");
+@@ -135,7 +146,7 @@ int lima_devfreq_init(struct lima_device *ldev)
+ 
+ 	lima_devfreq_reset(ldevfreq);
+ 
+-	cur_freq = clk_get_rate(ldev->clk_gpu);
++	cur_freq = clk_get_rate(ldevfreq->clk_gpu);
+ 
+ 	opp = devfreq_recommended_opp(dev, &cur_freq, 0);
+ 	if (IS_ERR(opp))
+diff --git a/drivers/gpu/drm/lima/lima_devfreq.h b/drivers/gpu/drm/lima/lima_devfreq.h
+index b8e50feaeab6..ffef5c91795d 100644
+--- a/drivers/gpu/drm/lima/lima_devfreq.h
++++ b/drivers/gpu/drm/lima/lima_devfreq.h
+@@ -17,6 +17,7 @@ struct lima_devfreq {
+ 	struct devfreq *devfreq;
+ 	struct thermal_cooling_device *cooling;
+ 	struct devfreq_simple_ondemand_data gov_data;
++	struct clk *clk_gpu;
+ 
+ 	ktime_t busy_time;
+ 	ktime_t idle_time;
+diff --git a/drivers/gpu/drm/lima/lima_device.c b/drivers/gpu/drm/lima/lima_device.c
+index 65fdca366e41..9f7bde7e9d22 100644
+--- a/drivers/gpu/drm/lima/lima_device.c
++++ b/drivers/gpu/drm/lima/lima_device.c
+@@ -85,29 +85,23 @@ static int lima_clk_enable(struct lima_device *dev)
+ {
+ 	int err;
+ 
+-	err = clk_prepare_enable(dev->clk_bus);
++	err = clk_bulk_prepare_enable(dev->nr_clks, dev->clks);
+ 	if (err)
+ 		return err;
+ 
+-	err = clk_prepare_enable(dev->clk_gpu);
+-	if (err)
+-		goto error_out0;
+-
+ 	if (dev->reset) {
+ 		err = reset_control_deassert(dev->reset);
+ 		if (err) {
+ 			dev_err(dev->dev,
+ 				"reset controller deassert failed %d\n", err);
+-			goto error_out1;
++			goto error;
+ 		}
+ 	}
+ 
+ 	return 0;
+ 
+-error_out1:
+-	clk_disable_unprepare(dev->clk_gpu);
+-error_out0:
+-	clk_disable_unprepare(dev->clk_bus);
++error:
++	clk_bulk_disable_unprepare(dev->nr_clks, dev->clks);
+ 	return err;
+ }
+ 
+@@ -115,31 +109,23 @@ static void lima_clk_disable(struct lima_device *dev)
+ {
+ 	if (dev->reset)
+ 		reset_control_assert(dev->reset);
+-	clk_disable_unprepare(dev->clk_gpu);
+-	clk_disable_unprepare(dev->clk_bus);
++	clk_bulk_disable_unprepare(dev->nr_clks, dev->clks);
+ }
+ 
+ static int lima_clk_init(struct lima_device *dev)
+ {
+ 	int err;
+ 
+-	dev->clk_bus = devm_clk_get(dev->dev, "bus");
+-	if (IS_ERR(dev->clk_bus)) {
+-		err = PTR_ERR(dev->clk_bus);
++	err = devm_clk_bulk_get_all(dev->dev, &dev->clks);
++	if (err < 1) {
++		if (err == 0)	/* No clock at all is an error too */
++			err = -ENODEV;
+ 		if (err != -EPROBE_DEFER)
+-			dev_err(dev->dev, "get bus clk failed %d\n", err);
+-		dev->clk_bus = NULL;
++			dev_err(dev->dev, "get clk failed %d\n", err);
+ 		return err;
+ 	}
+ 
+-	dev->clk_gpu = devm_clk_get(dev->dev, "core");
+-	if (IS_ERR(dev->clk_gpu)) {
+-		err = PTR_ERR(dev->clk_gpu);
+-		if (err != -EPROBE_DEFER)
+-			dev_err(dev->dev, "get core clk failed %d\n", err);
+-		dev->clk_gpu = NULL;
+-		return err;
+-	}
++	dev->nr_clks = err;
+ 
+ 	dev->reset = devm_reset_control_array_get_optional_shared(dev->dev);
+ 	if (IS_ERR(dev->reset)) {
+@@ -412,8 +398,10 @@ int lima_device_init(struct lima_device *ldev)
+ 	INIT_LIST_HEAD(&ldev->error_task_list);
+ 	mutex_init(&ldev->error_task_list_lock);
+ 
+-	dev_info(ldev->dev, "bus rate = %lu\n", clk_get_rate(ldev->clk_bus));
+-	dev_info(ldev->dev, "mod rate = %lu", clk_get_rate(ldev->clk_gpu));
++	for (i = 0; i < ldev->nr_clks; i++) {
++		dev_info(ldev->dev, "clk %s = %lu Hz\n", ldev->clks[i].id,
++			 clk_get_rate(ldev->clks[i].clk));
++	}
+ 
+ 	return 0;
+ 
+diff --git a/drivers/gpu/drm/lima/lima_device.h b/drivers/gpu/drm/lima/lima_device.h
+index 41b9d7b4bcc7..de11570c9903 100644
+--- a/drivers/gpu/drm/lima/lima_device.h
++++ b/drivers/gpu/drm/lima/lima_device.h
+@@ -85,8 +85,8 @@ struct lima_device {
+ 	int num_pp;
+ 
+ 	void __iomem *iomem;
+-	struct clk *clk_bus;
+-	struct clk *clk_gpu;
++	struct clk_bulk_data *clks;
++	int nr_clks;
+ 	struct reset_control *reset;
+ 	struct regulator *regulator;
+ 
+-- 
+2.30.2
 
