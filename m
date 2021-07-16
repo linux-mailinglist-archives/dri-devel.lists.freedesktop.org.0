@@ -2,62 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A611F3CB4A3
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Jul 2021 10:50:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 278BB3CB4F8
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Jul 2021 11:04:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A70456E947;
-	Fri, 16 Jul 2021 08:50:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4BF746E94A;
+	Fri, 16 Jul 2021 09:03:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B31B86E947
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jul 2021 08:50:10 +0000 (UTC)
-Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 482201FD37;
- Fri, 16 Jul 2021 08:50:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1626425409; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=07Av3HN6QGQhumlMU9OI17/+qPIxv62ajS0v7Al+WAY=;
- b=hThjncWmBvTnJuE+QYx+ujDMTA5xC/MIR25FB9l4UHT+i5fhSRVv4V7LtbHajaIvI+E/Vp
- 3WWspOi30UJp2C1PgkXXtstoLk++2goa2PXrk1WXBPA05tRuk8i3e0pS9FDcr++e+UgpQ3
- PUH+wAF7kKTfcwCkI9Iuigf1uEPPotQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1626425409;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=07Av3HN6QGQhumlMU9OI17/+qPIxv62ajS0v7Al+WAY=;
- b=eseBHaApW/9Eggnel9l5XrntKkOy6/JJEme11PoKKSsGGrk31rCHp8yWXlCV5q7aGobloI
- rQ0ipYxSpgZvk+Ag==
-Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap1.suse-dmz.suse.de (Postfix) with ESMTPS id 2080813748;
- Fri, 16 Jul 2021 08:50:09 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap1.suse-dmz.suse.de with ESMTPSA id wHvnBkFI8WBgZwAAGKfGzw
- (envelope-from <tzimmermann@suse.de>); Fri, 16 Jul 2021 08:50:09 +0000
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB3366E94A
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jul 2021 09:03:55 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10046"; a="210514966"
+X-IronPort-AV: E=Sophos;i="5.84,244,1620716400"; d="scan'208";a="210514966"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Jul 2021 02:03:52 -0700
+X-IronPort-AV: E=Sophos;i="5.84,244,1620716400"; d="scan'208";a="495986443"
+Received: from rongch2-mobl.ccr.corp.intel.com (HELO [10.255.28.42])
+ ([10.255.28.42])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Jul 2021 02:03:49 -0700
 Subject: Re: [PATCH 1/5] drm: Define DRM_FORMAT_MAX_PLANES
-To: Maxime Ripard <maxime@cerno.tech>
-References: <20210715180133.3675-1-tzimmermann@suse.de>
- <20210715180133.3675-2-tzimmermann@suse.de>
- <20210716073044.ff3avcrd5swruele@gilmour>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <a7c7da93-5728-513a-7f6a-f54f42a7fb50@suse.de>
-Date: Fri, 16 Jul 2021 10:50:08 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+References: <202107160729.dsfkD3VR-lkp@intel.com>
+In-Reply-To: <202107160729.dsfkD3VR-lkp@intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@linux.ie,
+ daniel@ffwll.ch, noralf@tronnes.org, rodrigosiqueiramelo@gmail.com,
+ melissa.srw@gmail.com, hamohammed.sa@gmail.com
+From: kernel test robot <rong.a.chen@intel.com>
+X-Forwarded-Message-Id: <202107160729.dsfkD3VR-lkp@intel.com>
+Message-ID: <4c72622c-67c6-afa0-6f06-3266dbfecbf9@intel.com>
+Date: Fri, 16 Jul 2021 17:03:47 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.12.0
 MIME-Version: 1.0
-In-Reply-To: <20210716073044.ff3avcrd5swruele@gilmour>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="tGx9Xl2c5iZOJo6wTkrvMuoS222JX3kjM"
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,135 +51,158 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hamohammed.sa@gmail.com, rodrigosiqueiramelo@gmail.com, airlied@linux.ie,
- dri-devel@lists.freedesktop.org, melissa.srw@gmail.com, noralf@tronnes.org
+Cc: kbuild-all@lists.01.org, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---tGx9Xl2c5iZOJo6wTkrvMuoS222JX3kjM
-Content-Type: multipart/mixed; boundary="aYIM1akLChnrmr5UlH7QaTVeIhLnxw6Lq";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Maxime Ripard <maxime@cerno.tech>
-Cc: hamohammed.sa@gmail.com, rodrigosiqueiramelo@gmail.com, airlied@linux.ie,
- dri-devel@lists.freedesktop.org, melissa.srw@gmail.com, noralf@tronnes.org
-Message-ID: <a7c7da93-5728-513a-7f6a-f54f42a7fb50@suse.de>
-Subject: Re: [PATCH 1/5] drm: Define DRM_FORMAT_MAX_PLANES
-References: <20210715180133.3675-1-tzimmermann@suse.de>
- <20210715180133.3675-2-tzimmermann@suse.de>
- <20210716073044.ff3avcrd5swruele@gilmour>
-In-Reply-To: <20210716073044.ff3avcrd5swruele@gilmour>
 
---aYIM1akLChnrmr5UlH7QaTVeIhLnxw6Lq
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Hi Thomas,
 
-Hi
+I love your patch! Perhaps something to improve:
 
-Am 16.07.21 um 09:30 schrieb Maxime Ripard:
-> Hi,
->=20
-> On Thu, Jul 15, 2021 at 08:01:29PM +0200, Thomas Zimmermann wrote:
->> DRM uses a magic number of 4 for the maximum number of planes per colo=
-r
->> format. Declare this constant via DRM_FORMAT_MAX_PLANES and update the=
+[auto build test WARNING on 4d00e2309398147acdbfefbe1deb4b0e78868466]
 
->> related code.
->>
->> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->> ---
->>   drivers/gpu/drm/drm_gem_framebuffer_helper.c | 14 ++++++++------
->>   include/drm/drm_fourcc.h                     | 13 +++++++++----
->>   include/drm/drm_framebuffer.h                |  8 ++++----
->>   include/drm/drm_gem_atomic_helper.h          |  2 +-
->>   4 files changed, 22 insertions(+), 15 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/drm_gem_framebuffer_helper.c b/drivers/gp=
-u/drm/drm_gem_framebuffer_helper.c
->> index e2c68822e05c..975a3df0561e 100644
->> --- a/drivers/gpu/drm/drm_gem_framebuffer_helper.c
->> +++ b/drivers/gpu/drm/drm_gem_framebuffer_helper.c
->> @@ -48,7 +48,7 @@
->>   struct drm_gem_object *drm_gem_fb_get_obj(struct drm_framebuffer *fb=
-,
->>   					  unsigned int plane)
->>   {
->> -	if (plane >=3D 4)
->> +	if (plane >=3D ARRAY_SIZE(fb->obj))
->>   		return NULL;
->=20
-> This doesn't look related to what's mentionned in the commit log though=
-?
->=20
->>   	return fb->obj[plane];
->> @@ -62,7 +62,8 @@ drm_gem_fb_init(struct drm_device *dev,
->>   		 struct drm_gem_object **obj, unsigned int num_planes,
->>   		 const struct drm_framebuffer_funcs *funcs)
->>   {
->> -	int ret, i;
->> +	unsigned int i;
->> +	int ret;
->>  =20
->>   	drm_helper_mode_fill_fb_struct(dev, fb, mode_cmd);
->>  =20
->> @@ -86,9 +87,9 @@ drm_gem_fb_init(struct drm_device *dev,
->>    */
->>   void drm_gem_fb_destroy(struct drm_framebuffer *fb)
->>   {
->> -	int i;
->> +	size_t i;
->>  =20
->> -	for (i =3D 0; i < 4; i++)
->> +	for (i =3D 0; i < ARRAY_SIZE(fb->obj); i++)
->>   		drm_gem_object_put(fb->obj[i]);
->=20
-> Ditto
->=20
-> Both these changes look fine though, but I guess you should just mentio=
-n it
+url: 
+https://github.com/0day-ci/linux/commits/Thomas-Zimmermann/drm-Provide-framebuffer-vmap-helpers/20210716-020508
+base:   4d00e2309398147acdbfefbe1deb4b0e78868466
+compiler: hppa-linux-gcc (GCC) 10.3.0
 
-Well, good point. I thought it would be cleaner than using=20
-FORMAT_MAX_PLANES here. I'll leave a note in the commit log.
-
-Best regards
-Thomas
-
->=20
-> Maxime
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
 
---aYIM1akLChnrmr5UlH7QaTVeIhLnxw6Lq--
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
---tGx9Xl2c5iZOJo6wTkrvMuoS222JX3kjM
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+>> drivers/gpu/drm/drm_gem_framebuffer_helper.c:192:14: warning: Unsigned variable 'i' can't be negative so it is unnecessary to test it. [unsignedPositive]
+     for (i--; i >= 0; i--)
+                 ^
 
------BEGIN PGP SIGNATURE-----
+vim +192 drivers/gpu/drm/drm_gem_framebuffer_helper.c
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmDxSEAFAwAAAAAACgkQlh/E3EQov+AY
-TA//ZHyu0STqIAIoN86izfQ4biMnqokGegjnaTk/sP66bFloylIhV8jT49csFeHNo7EHGGprDncW
-b+0Tjrcz33vM+pyu80yazqV2ZwpaRaofUCiHipfB2lf8zhlJcWWhj60XVefuMHHnhZQ1NSTI0iMh
-2IdERNLmNE1jVNfBy6plon8dvWdR5Z5bO5c5W/05+EsOwDX2B4anZ9RB+FEDAYEZiovhDeaku85x
-rv7VZTSQLZIkrY2CGrnImw1iwCtuos3r+xhHAl0i+AXn2GyouBPXJB/RY12fvcK8v1Km9ZFyobtS
-Q7UtccYKTq9vWzUM4T8Xlg2OJ9DmL+yt3YRnEgu+0kSw7kY2wKvMIc6uS0uug434KiHWGSLL7OVx
-ozdA+M+6DMSgvxNnVMMwCc8GWGi4lROt5YsU8Hm/C63hBoQh10CpjKSMxEe42UlkLmzbctZaQdRL
-WP+oRW+wEyQaHtMLlPvelwkiCWWwfuhQl7hxUo48TzxzaGn9EmBG4kFC4QQGKW9Guhxok+eoadAS
-+rLMLHAH7mqpzdRp2OWi309SL3MI09hf5PEsQe0Mk3uw6LTxFb6ZF++YbVCRN2FO8ypNR+pRuzTo
-BfpcTC4NDZ5ZRU4ZSN6QEvt4SWhJHDt0G3b6adr14U6gobKgJtkaig4h0fhurZMQ0URa1B4wySlJ
-LG8=
-=jpuK
------END PGP SIGNATURE-----
-
---tGx9Xl2c5iZOJo6wTkrvMuoS222JX3kjM--
+4c3dbb2c312c9f Noralf Trønnes        2017-08-13  119  4c3dbb2c312c9f 
+Noralf Trønnes        2017-08-13  120  /**
+f2b816d78a9431 Andrzej Pietrasiewicz 2020-03-11  121   * 
+drm_gem_fb_init_with_funcs() - Helper function for implementing
+4c3dbb2c312c9f Noralf Trønnes        2017-08-13  122   *				 
+&drm_mode_config_funcs.fb_create
+f2b816d78a9431 Andrzej Pietrasiewicz 2020-03-11  123   *				  callback 
+in cases when the driver
+f2b816d78a9431 Andrzej Pietrasiewicz 2020-03-11  124   *				  allocates 
+a subclass of
+f2b816d78a9431 Andrzej Pietrasiewicz 2020-03-11  125   *				  struct 
+drm_framebuffer
+4c3dbb2c312c9f Noralf Trønnes        2017-08-13  126   * @dev: DRM device
+f2b816d78a9431 Andrzej Pietrasiewicz 2020-03-11  127   * @fb: 
+framebuffer object
+2e187b2099034a Noralf Trønnes        2017-09-22  128   * @file: DRM file 
+that holds the GEM handle(s) backing the framebuffer
+2e187b2099034a Noralf Trønnes        2017-09-22  129   * @mode_cmd: 
+Metadata from the userspace framebuffer creation request
+4c3dbb2c312c9f Noralf Trønnes        2017-08-13  130   * @funcs: vtable 
+to be used for the new framebuffer object
+4c3dbb2c312c9f Noralf Trønnes        2017-08-13  131   *
+dbd62e16fd53d3 Noralf Trønnes        2019-01-15  132   * This function 
+can be used to set &drm_framebuffer_funcs for drivers that need
+dbd62e16fd53d3 Noralf Trønnes        2019-01-15  133   * custom 
+framebuffer callbacks. Use drm_gem_fb_create() if you don't need to
+dbd62e16fd53d3 Noralf Trønnes        2019-01-15  134   * change 
+&drm_framebuffer_funcs. The function does buffer size validation.
+f2b816d78a9431 Andrzej Pietrasiewicz 2020-03-11  135   * The buffer size 
+validation is for a general case, though, so users should
+f2b816d78a9431 Andrzej Pietrasiewicz 2020-03-11  136   * pay attention 
+to the checks being appropriate for them or, at least,
+f2b816d78a9431 Andrzej Pietrasiewicz 2020-03-11  137   * non-conflicting.
+2e187b2099034a Noralf Trønnes        2017-09-22  138   *
+2e187b2099034a Noralf Trønnes        2017-09-22  139   * Returns:
+f2b816d78a9431 Andrzej Pietrasiewicz 2020-03-11  140   * Zero or a 
+negative error code.
+4c3dbb2c312c9f Noralf Trønnes        2017-08-13  141   */
+f2b816d78a9431 Andrzej Pietrasiewicz 2020-03-11  142  int 
+drm_gem_fb_init_with_funcs(struct drm_device *dev,
+f2b816d78a9431 Andrzej Pietrasiewicz 2020-03-11  143  			       struct 
+drm_framebuffer *fb,
+f2b816d78a9431 Andrzej Pietrasiewicz 2020-03-11  144  			       struct 
+drm_file *file,
+4c3dbb2c312c9f Noralf Trønnes        2017-08-13  145  			       const 
+struct drm_mode_fb_cmd2 *mode_cmd,
+4c3dbb2c312c9f Noralf Trønnes        2017-08-13  146  			       const 
+struct drm_framebuffer_funcs *funcs)
+4c3dbb2c312c9f Noralf Trønnes        2017-08-13  147  {
+4c3dbb2c312c9f Noralf Trønnes        2017-08-13  148  	const struct 
+drm_format_info *info;
+6065e7036e073e Thomas Zimmermann     2021-07-15  149  	struct 
+drm_gem_object *objs[DRM_FORMAT_MAX_PLANES];
+6065e7036e073e Thomas Zimmermann     2021-07-15  150  	unsigned int i;
+6065e7036e073e Thomas Zimmermann     2021-07-15  151  	int ret;
+4c3dbb2c312c9f Noralf Trønnes        2017-08-13  152  4c3dbb2c312c9f 
+Noralf Trønnes        2017-08-13  153  	info = drm_get_format_info(dev, 
+mode_cmd);
+f7f525030854b1 Simon Ser             2021-05-03  154  	if (!info) {
+f7f525030854b1 Simon Ser             2021-05-03  155  		drm_dbg_kms(dev, 
+"Failed to get FB format info\n");
+f2b816d78a9431 Andrzej Pietrasiewicz 2020-03-11  156  		return -EINVAL;
+f7f525030854b1 Simon Ser             2021-05-03  157  	}
+4c3dbb2c312c9f Noralf Trønnes        2017-08-13  158  4c3dbb2c312c9f 
+Noralf Trønnes        2017-08-13  159  	for (i = 0; i < 
+info->num_planes; i++) {
+4c3dbb2c312c9f Noralf Trønnes        2017-08-13  160  		unsigned int 
+width = mode_cmd->width / (i ? info->hsub : 1);
+4c3dbb2c312c9f Noralf Trønnes        2017-08-13  161  		unsigned int 
+height = mode_cmd->height / (i ? info->vsub : 1);
+4c3dbb2c312c9f Noralf Trønnes        2017-08-13  162  		unsigned int 
+min_size;
+4c3dbb2c312c9f Noralf Trønnes        2017-08-13  163  4c3dbb2c312c9f 
+Noralf Trønnes        2017-08-13  164  		objs[i] = 
+drm_gem_object_lookup(file, mode_cmd->handles[i]);
+4c3dbb2c312c9f Noralf Trønnes        2017-08-13  165  		if (!objs[i]) {
+24f03be4aa7922 Jani Nikula           2019-12-10  166  		 
+drm_dbg_kms(dev, "Failed to lookup GEM object\n");
+4c3dbb2c312c9f Noralf Trønnes        2017-08-13  167  			ret = -ENOENT;
+4c3dbb2c312c9f Noralf Trønnes        2017-08-13  168  			goto 
+err_gem_object_put;
+4c3dbb2c312c9f Noralf Trønnes        2017-08-13  169  		}
+4c3dbb2c312c9f Noralf Trønnes        2017-08-13  170  4c3dbb2c312c9f 
+Noralf Trønnes        2017-08-13  171  		min_size = (height - 1) * 
+mode_cmd->pitches[i]
+042bf753842ddb Alexandru Gheorghe    2018-11-01  172  			 + 
+drm_format_info_min_pitch(info, i, width)
+4c3dbb2c312c9f Noralf Trønnes        2017-08-13  173  			 + 
+mode_cmd->offsets[i];
+4c3dbb2c312c9f Noralf Trønnes        2017-08-13  174  4c3dbb2c312c9f 
+Noralf Trønnes        2017-08-13  175  		if (objs[i]->size < min_size) {
+f7f525030854b1 Simon Ser             2021-05-03  176  			drm_dbg_kms(dev,
+f7f525030854b1 Simon Ser             2021-05-03  177  				    "GEM 
+object size (%zu) smaller than minimum size (%u) for plane %d\n",
+f7f525030854b1 Simon Ser             2021-05-03  178  				 
+objs[i]->size, min_size, i);
+be6ee102341bc4 Emil Velikov          2020-05-15  179  		 
+drm_gem_object_put(objs[i]);
+4c3dbb2c312c9f Noralf Trønnes        2017-08-13  180  			ret = -EINVAL;
+4c3dbb2c312c9f Noralf Trønnes        2017-08-13  181  			goto 
+err_gem_object_put;
+4c3dbb2c312c9f Noralf Trønnes        2017-08-13  182  		}
+4c3dbb2c312c9f Noralf Trønnes        2017-08-13  183  	}
+4c3dbb2c312c9f Noralf Trønnes        2017-08-13  184  f2b816d78a9431 
+Andrzej Pietrasiewicz 2020-03-11  185  	ret = drm_gem_fb_init(dev, fb, 
+mode_cmd, objs, i, funcs);
+f2b816d78a9431 Andrzej Pietrasiewicz 2020-03-11  186  	if (ret)
+4c3dbb2c312c9f Noralf Trønnes        2017-08-13  187  		goto 
+err_gem_object_put;
+4c3dbb2c312c9f Noralf Trønnes        2017-08-13  188  f2b816d78a9431 
+Andrzej Pietrasiewicz 2020-03-11  189  	return 0;
+4c3dbb2c312c9f Noralf Trønnes        2017-08-13  190  4c3dbb2c312c9f 
+Noralf Trønnes        2017-08-13  191  err_gem_object_put:
+4c3dbb2c312c9f Noralf Trønnes        2017-08-13 @192  	for (i--; i >= 0; 
+i--)
+be6ee102341bc4 Emil Velikov          2020-05-15  193  	 
+drm_gem_object_put(objs[i]);
+4c3dbb2c312c9f Noralf Trønnes        2017-08-13  194  f2b816d78a9431 
+Andrzej Pietrasiewicz 2020-03-11  195  	return ret;
+f2b816d78a9431 Andrzej Pietrasiewicz 2020-03-11  196  }
+f2b816d78a9431 Andrzej Pietrasiewicz 2020-03-11  197 
+EXPORT_SYMBOL_GPL(drm_gem_fb_init_with_funcs);
+f2b816d78a9431 Andrzej Pietrasiewicz 2020-03-11  198
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
