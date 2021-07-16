@@ -2,60 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 610E23CB80A
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Jul 2021 15:46:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 266623CB816
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Jul 2021 15:52:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5CBB96E986;
-	Fri, 16 Jul 2021 13:46:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4BD646E97E;
+	Fri, 16 Jul 2021 13:52:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-yb1-xb33.google.com (mail-yb1-xb33.google.com
  [IPv6:2607:f8b0:4864:20::b33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 28DB06E986
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jul 2021 13:46:35 +0000 (UTC)
-Received: by mail-yb1-xb33.google.com with SMTP id x192so14922534ybe.6
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jul 2021 06:46:35 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF3546E97E
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jul 2021 13:52:12 +0000 (UTC)
+Received: by mail-yb1-xb33.google.com with SMTP id r132so14974835yba.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jul 2021 06:52:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=NiIsFPTYk8lsZDMHZvx0abLXOLT+nLIoyG/QYfrHdRg=;
- b=EB1jb0zcasugoYMCXkeeIAtpAGgGdehCXCDI3sVjIme/6jB2XotC4HYmRTjqBFMWfx
- GWVS9J3dLwXX26A3sKzs3JkwZN5oV4Q3lujSrRLCcJ87Raqd5p+MB4bUnfHvHSomKMXL
- X7ZbBbBGa5sk9mcckiGoz9WG8NMKbypQYeBo6iPAPqs9bPk3aQBhSkmsghWkbTOFUwgD
- exKWanC5u6+sj8sjiGoVveFikU844GPvzLscbK/WCTAI7gNfv9DQUMixp9waUjb8TAic
- VpWnX1bzc5qbvxdSdRlUE9F8dsZgMq+C9kyPFQTiSXlBG2TL/Rdq47TaDtroK0WcIsEc
- Gb3w==
+ :cc; bh=wIp35/PBXnMiRRgyQR6IV+dBlBTg1W+8SzDs6b2zxeA=;
+ b=RW+ll6BcnT2b9ZVtaFD5j7ATmjXgEcgzrq78KKmTGDmhXiC2pm+awiBMF69KVoDE3H
+ UIh0bjmpGJ6NcBPjgEsPYy209JHKKX5TqiTlNLS7cuCFoaeAIzcFKkcmyVYmSaBydT/O
+ cBVqXDk4eVOY5a+M+Z99/QDSKKNyEN9dKkoUzyDKuWPBEuon84W5LCmJ2QBah+NbL+Aa
+ bpJAyfcJHBd/NWVSfGlWIho7ZAOZnS0c1tFp45J333ClnrVNJED8JuLsEyecYynSdVk3
+ HC69/T9ablCrHFFmnoCG3cLQirwL4Dqe0kH3gCaGxDmaTZqHTtl0Z/glA9bxVL0x6HIT
+ e5Gw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=NiIsFPTYk8lsZDMHZvx0abLXOLT+nLIoyG/QYfrHdRg=;
- b=kUaQA7AHgvvrbnbqsLKT2glTjsn+Pk7Tp7mo8gSiQfem6EMJLJ0DCcOp8bTqtTMaAM
- S9YL3dnXEFFU57QhgmQs9v0zRJw8yptcW2sD6U2bLALmXS7yo/mqL1N3vzFIRkgAX40/
- BJAeVSIueRk0yvsfbCy0WvUGV/BPbLvpt5mQA6Ma7m6q0EKSr9wPEJ5Sxj9+tZdOqsGh
- stIMa8EKkjm0ANYf5XfKcqzleWhmHzVfrHM2Incttoh7f47ykJwKRZAH54vs3hcCr34n
- 9QnEMZhQh4xZvgEuQ3m+MX0QfAEWOWmBARWh0/vLa6DFTnZgpwoEYzvqDOcGNkiyFVCw
- LC/w==
-X-Gm-Message-State: AOAM532WnatuKN1m8Mc2H+Wd1UZrw1kcCTSwlM632WpTcWi0b6uFxd9o
- RYnFAjsIzRsBP9nvNNT8ZuEZdipmRebVGtl8BShywg==
-X-Google-Smtp-Source: ABdhPJzNI0YEXkprbkQiMCzCDFtf2MxFyTlu+ghPmq93S4KQwR56XZVSgnGoosKHHDzfC4yN1NynqIvAb7rUJwMre1c=
-X-Received: by 2002:a25:d3c1:: with SMTP id
- e184mr13076274ybf.139.1626443194125; 
- Fri, 16 Jul 2021 06:46:34 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=wIp35/PBXnMiRRgyQR6IV+dBlBTg1W+8SzDs6b2zxeA=;
+ b=O/lfT3VBC4Ml/oICz6K5SjUiuh43aWhnARBxoAqMjPHKdLAPuDXYoYQYpWa83ec/0M
+ Y81Ya6XIJ/iRuyMNfgtGt1+5CxxjU87S0ASV4nAd2m5kir9ypROXJ3gh0FJLlA4SG0ha
+ tPRt46j9bbqwWZdob+53H/TV58EwLBZEhYi+P9eKVUwU2sDg5c1kk7cDZt8ADj6zLoNF
+ KEWq640qzkEl+hcTyeTcfS/EEg8wGBVfK/F3tDxEfH0Qo02jBNA4th73GE0AFDTrcRUU
+ Y7KRG0nUF9OB1ctpr7WvtK+U72sgrVyfs6+ula/7F1IZ2fBfJD4MOaLO/1dV7I3OrzhZ
+ FBkQ==
+X-Gm-Message-State: AOAM530t0Wxig/fBjhQhbsmH7tR9ejD6qHQdwazMWSIpGNTaBTwSsXFA
+ nfstrFG0MzOu4th3U6T5ePXv90GTZqIXDKITSbQdoA==
+X-Google-Smtp-Source: ABdhPJzZiTYdzR9R88d4hO5ehdQOba9EgcIA/KAqSRZ4TvhLxa5PC5L/PmKR08m6W4rPSzx8Xe/5YfL/ia2+F2jamTA=
+X-Received: by 2002:a25:aa69:: with SMTP id s96mr13182074ybi.241.1626443531775; 
+ Fri, 16 Jul 2021 06:52:11 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210715223900.1840576-1-jason@jlekstrand.net>
- <20210715223900.1840576-5-jason@jlekstrand.net>
- <CAM0jSHN3kwyTuz=j4DAuBr0WxcB5-XyeGiPapDe8XS80jGpJ_g@mail.gmail.com>
-In-Reply-To: <CAM0jSHN3kwyTuz=j4DAuBr0WxcB5-XyeGiPapDe8XS80jGpJ_g@mail.gmail.com>
+ <20210715223900.1840576-3-jason@jlekstrand.net>
+ <CAM0jSHO0Pauw157x5CRTvNitsurPUu-k_8VcVyzrJ9Q=UBY4dw@mail.gmail.com>
+In-Reply-To: <CAM0jSHO0Pauw157x5CRTvNitsurPUu-k_8VcVyzrJ9Q=UBY4dw@mail.gmail.com>
 From: Jason Ekstrand <jason@jlekstrand.net>
-Date: Fri, 16 Jul 2021 08:46:23 -0500
-Message-ID: <CAOFGe9566FrvwkE3LkY-8RYmheHbcbA2-Yt4KZt928WdJ837Lw@mail.gmail.com>
-Subject: Re: [PATCH 4/7] drm/i915/gem/ttm: Place new BOs in the requested
- region
+Date: Fri, 16 Jul 2021 08:52:01 -0500
+Message-ID: <CAOFGe96=XqYfed3nEbm2ZG-NtXLwEGVohJ+0zWozNxzpWdtHug@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH 2/7] drm/i915/gem: Refactor placement setup
+ for i915_gem_object_create*
 To: Matthew Auld <matthew.william.auld@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,91 +65,177 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Matthew Auld <matthew.auld@intel.com>,
+Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
  ML dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jul 16, 2021 at 8:18 AM Matthew Auld
+On Fri, Jul 16, 2021 at 6:12 AM Matthew Auld
 <matthew.william.auld@gmail.com> wrote:
 >
-> On Thu, 15 Jul 2021 at 23:39, Jason Ekstrand <jason@jlekstrand.net> wrote=
-:
+> On Thu, 15 Jul 2021 at 23:39, Jason Ekstrand <jason@jlekstrand.net> wrote:
 > >
-> > __i915_gem_ttm_object_init() was ignoring the placement requests coming
-> > from the client and always placing all BOs in SMEM upon creation.
-> > Instead, compute the requested placement set from the object and pass
-> > that into ttm_bo_init_reserved().
->
-> AFAIK this is intentional, where we use SYS as a safe placeholder
-> specifically for object creation, since that avoids allocating any
-> actual pages. Later at get_pages() time we do the real allocation,
-> where we need to consider the placements.
->
-> If we set the real placements here, the ttm_bo_validate() call in
-> init_reserved() might allocate the backing pages here for the
-> lmem-only case, which is not what we want in i915.
-
-I'm happy to drop this patch.  It doesn't actually fix anything AFAIK.
-It makes the behavior more what I expected but my expectations are not
-to be trusted here.
-
-The other TTM patch does fix a real bug AFAIK.
-
---Jason
-
-
+> > Since we don't allow changing the set of regions after creation, we can
+> > make ext_set_placements() build up the region set directly in the
+> > create_ext and assign it to the object later.  This is similar to what
+> > we did for contexts with the proto-context only simpler because there's
+> > no funny object shuffling.  This will be used in the next patch to allow
+> > us to de-duplicate a bunch of code.  Also, since we know the maximum
+> > number of regions up-front, we can use a fixed-size temporary array for
+> > the regions.  This simplifies memory management a bit for this new
+> > delayed approach.
 > >
 > > Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
-> > Cc: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
-> > Cc: Matthew Auld <matthew.auld@intel.com>
-> > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+>
+> I think the plan was to have each extension directly hang/apply their
+> state on the vanilla/proto object, or at least that was the idea
+> behind: 357814f878f9 ("drm/i915: rework gem_create flow for upcoming
+> extensions"). A previous version looked similar to this IIRC.
+
+Right.  In my mind, struct create_extis that proto-obj, more-or-less.
+If we wanted to codify that somehow, we could rename it
+i915_gem_object_create_params and make _create_user take one instead
+of separate parameters.  With only having three right now, it didn't
+seem necessary to go that far.
+
 > > ---
-> >  drivers/gpu/drm/i915/gem/i915_gem_ttm.c | 8 ++++++--
-> >  1 file changed, 6 insertions(+), 2 deletions(-)
+> >  drivers/gpu/drm/i915/gem/i915_gem_create.c | 75 +++++++++++++---------
+> >  1 file changed, 45 insertions(+), 30 deletions(-)
 > >
-> > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/=
-i915/gem/i915_gem_ttm.c
-> > index 6589411396d3f..d30f274c329c7 100644
-> > --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> > +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> > @@ -898,6 +898,8 @@ int __i915_gem_ttm_object_init(struct intel_memory_=
-region *mem,
+> > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_create.c b/drivers/gpu/drm/i915/gem/i915_gem_create.c
+> > index 51f92e4b1a69d..391c8c4a12172 100644
+> > --- a/drivers/gpu/drm/i915/gem/i915_gem_create.c
+> > +++ b/drivers/gpu/drm/i915/gem/i915_gem_create.c
+> > @@ -27,10 +27,13 @@ static u32 object_max_page_size(struct drm_i915_gem_object *obj)
+> >         return max_page_size;
+> >  }
+> >
+> > -static void object_set_placements(struct drm_i915_gem_object *obj,
+> > -                                 struct intel_memory_region **placements,
+> > -                                 unsigned int n_placements)
+> > +static int object_set_placements(struct drm_i915_gem_object *obj,
+> > +                                struct intel_memory_region **placements,
+> > +                                unsigned int n_placements)
 > >  {
-> >         static struct lock_class_key lock_class;
-> >         struct drm_i915_private *i915 =3D mem->i915;
-> > +       struct ttm_place requested, busy[I915_TTM_MAX_PLACEMENTS];
-> > +       struct ttm_placement placement;
-> >         struct ttm_operation_ctx ctx =3D {
-> >                 .interruptible =3D true,
-> >                 .no_wait_gpu =3D false,
-> > @@ -919,6 +921,9 @@ int __i915_gem_ttm_object_init(struct intel_memory_=
-region *mem,
-> >         /* Forcing the page size is kernel internal only */
-> >         GEM_BUG_ON(page_size && obj->mm.n_placements);
-> >
-> > +       GEM_BUG_ON(obj->mm.n_placements > I915_TTM_MAX_PLACEMENTS);
-> > +       i915_ttm_placement_from_obj(obj, &requested, busy, &placement);
+> > +       struct intel_memory_region **arr;
+> > +       unsigned int i;
 > > +
-> >         /*
-> >          * If this function fails, it will call the destructor, but
-> >          * our caller still owns the object. So no freeing in the
-> > @@ -927,8 +932,7 @@ int __i915_gem_ttm_object_init(struct intel_memory_=
-region *mem,
-> >          * until successful initialization.
-> >          */
-> >         ret =3D ttm_bo_init_reserved(&i915->bdev, i915_gem_to_ttm(obj),=
- size,
-> > -                                  bo_type, &i915_sys_placement,
-> > -                                  page_size >> PAGE_SHIFT,
-> > +                                  bo_type, &placement, page_size >> PA=
-GE_SHIFT,
-> >                                    &ctx, NULL, NULL, i915_ttm_bo_destro=
-y);
-> >         if (ret)
-> >                 return i915_ttm_err_to_gem(ret);
-> > --
-> > 2.31.1
+> >         GEM_BUG_ON(!n_placements);
 > >
+> >         /*
+> > @@ -44,9 +47,20 @@ static void object_set_placements(struct drm_i915_gem_object *obj,
+> >                 obj->mm.placements = &i915->mm.regions[mr->id];
+> >                 obj->mm.n_placements = 1;
+> >         } else {
+> > -               obj->mm.placements = placements;
+> > +               arr = kmalloc_array(n_placements,
+> > +                                   sizeof(struct intel_memory_region *),
+> > +                                   GFP_KERNEL);
+> > +               if (!arr)
+> > +                       return -ENOMEM;
+> > +
+> > +               for (i = 0; i < n_placements; i++)
+> > +                       arr[i] = placements[i];
+> > +
+> > +               obj->mm.placements = arr;
+> >                 obj->mm.n_placements = n_placements;
+> >         }
+> > +
+> > +       return 0;
+> >  }
+> >
+> >  static int i915_gem_publish(struct drm_i915_gem_object *obj,
+> > @@ -148,7 +162,9 @@ i915_gem_dumb_create(struct drm_file *file,
+> >                 return -ENOMEM;
+> >
+> >         mr = intel_memory_region_by_type(to_i915(dev), mem_type);
+> > -       object_set_placements(obj, &mr, 1);
+> > +       ret = object_set_placements(obj, &mr, 1);
+> > +       if (ret)
+> > +               goto object_free;
+> >
+> >         ret = i915_gem_setup(obj, args->size);
+> >         if (ret)
+> > @@ -184,7 +200,9 @@ i915_gem_create_ioctl(struct drm_device *dev, void *data,
+> >                 return -ENOMEM;
+> >
+> >         mr = intel_memory_region_by_type(i915, INTEL_MEMORY_SYSTEM);
+> > -       object_set_placements(obj, &mr, 1);
+> > +       ret = object_set_placements(obj, &mr, 1);
+> > +       if (ret)
+> > +               goto object_free;
+> >
+> >         ret = i915_gem_setup(obj, args->size);
+> >         if (ret)
+> > @@ -197,9 +215,12 @@ i915_gem_create_ioctl(struct drm_device *dev, void *data,
+> >         return ret;
+> >  }
+> >
+> > +#define MAX_N_PLACEMENTS = (INTEL_REGION_UNKNOWN + 1)
+>
+> Unused?
+
+Yup.  Left-over from an earlier version.  Dropped.
+
+> > +
+> >  struct create_ext {
+> >         struct drm_i915_private *i915;
+> > -       struct drm_i915_gem_object *vanilla_object;
+> > +       struct intel_memory_region *placements[INTEL_REGION_UNKNOWN];
+> > +       unsigned int n_placements;
+> >  };
+> >
+> >  static void repr_placements(char *buf, size_t size,
+> > @@ -230,8 +251,7 @@ static int set_placements(struct drm_i915_gem_create_ext_memory_regions *args,
+> >         struct drm_i915_private *i915 = ext_data->i915;
+> >         struct drm_i915_gem_memory_class_instance __user *uregions =
+> >                 u64_to_user_ptr(args->regions);
+> > -       struct drm_i915_gem_object *obj = ext_data->vanilla_object;
+> > -       struct intel_memory_region **placements;
+> > +       struct intel_memory_region *placements[INTEL_REGION_UNKNOWN];
+> >         u32 mask;
+> >         int i, ret = 0;
+> >
+> > @@ -245,6 +265,8 @@ static int set_placements(struct drm_i915_gem_create_ext_memory_regions *args,
+> >                 ret = -EINVAL;
+> >         }
+> >
+> > +       BUILD_BUG_ON(ARRAY_SIZE(i915->mm.regions) != ARRAY_SIZE(placements));
+> > +       BUILD_BUG_ON(ARRAY_SIZE(ext_data->placements) != ARRAY_SIZE(placements));
+> >         if (args->num_regions > ARRAY_SIZE(i915->mm.regions)) {
+> >                 drm_dbg(&i915->drm, "num_regions is too large\n");
+> >                 ret = -EINVAL;
+> > @@ -253,12 +275,6 @@ static int set_placements(struct drm_i915_gem_create_ext_memory_regions *args,
+> >         if (ret)
+> >                 return ret;
+> >
+> > -       placements = kmalloc_array(args->num_regions,
+> > -                                  sizeof(struct intel_memory_region *),
+> > -                                  GFP_KERNEL);
+> > -       if (!placements)
+> > -               return -ENOMEM;
+> > -
+> >         mask = 0;
+> >         for (i = 0; i < args->num_regions; i++) {
+> >                 struct drm_i915_gem_memory_class_instance region;
+> > @@ -293,14 +309,13 @@ static int set_placements(struct drm_i915_gem_create_ext_memory_regions *args,
+> >                 ++uregions;
+> >         }
+> >
+> > -       if (obj->mm.placements) {
+> > +       if (ext_data->n_placements) {
+> >                 ret = -EINVAL;
+> >                 goto out_dump;
+> >         }
+> >
+> > -       object_set_placements(obj, placements, args->num_regions);
+> > -       if (args->num_regions == 1)
+> > -               kfree(placements);
+> > +       for (i = 0; i < args->num_regions; i++)
+> > +               ext_data->placements[i] = placements[i];
+>
+> kfree(placements) is still in the error unwind?
+
+Yup.  Fixed.  Thanks!
+
+--Jason
