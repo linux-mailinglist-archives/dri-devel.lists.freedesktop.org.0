@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91A583CB877
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Jul 2021 16:08:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76EFC3CB875
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Jul 2021 16:08:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 51FD96E98C;
-	Fri, 16 Jul 2021 14:08:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1679F6E994;
+	Fri, 16 Jul 2021 14:08:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F2526E991
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D881A6E994
  for <dri-devel@lists.freedesktop.org>; Fri, 16 Jul 2021 14:08:08 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 3D46D22B6E;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 7C5E6205E6;
  Fri, 16 Jul 2021 14:08:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1626444487; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MhoSg01bCydqku+GJOAIhCF7vsLeSMJTe0/WrEsfpbk=;
- b=XtqmDtBj0yjCSb1DYaGTP2RljoGHcUUMIYspONRsH2VzEGdtEY9GoXoC9w2rj8HI+iD8vO
- K/oKYovCQctcQxf5WhMbZOn7hqCE91f5l27fqz36oe1SBw8e26xHIJA7yXlXuct++jhc+3
- O4rtJB5xEzQ99CQB2LedNW54llnVnMo=
+ bh=pnALY7j8K+wzeEPjg5PXtyiJPUNcivqdbmho8DuHSZU=;
+ b=tu555Ep0U9rS6QUQTXDsiTbVJJ9JQl/AID8tqnpbwiBYiC2R86gVvvijkV4B0rALuAgrVt
+ PzGYVJ7NpzRC/6BHA92GllTNGDjbRZpd8MpoXQDeK6eXlI1DibmIlFYh0vREAK6aCDctdB
+ jSD+9dDYDlj6RnliHp/9HywfD5/+dcM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1626444487;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MhoSg01bCydqku+GJOAIhCF7vsLeSMJTe0/WrEsfpbk=;
- b=hsNP1yTVqTfd7GCyskhqQ7Vz5KGrcdFkR10Jys9F8b8gb7kiXblgXSMT8FTXm7pqtkBNk4
- Le7PfuwrBjfVQeDg==
+ bh=pnALY7j8K+wzeEPjg5PXtyiJPUNcivqdbmho8DuHSZU=;
+ b=W3clzocuahq48T/BO4rC2jY4O1AtAV4m32NmDMvmdtVRMweffJ2vXwhk5/QO0kN4n4eXAG
+ R4Pw8DhQgLhmu4Cw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 02EBE13C70;
- Fri, 16 Jul 2021 14:08:06 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 414DD13C75;
+ Fri, 16 Jul 2021 14:08:07 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id SFZYO8aS8WBTSwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Fri, 16 Jul 2021 14:08:06 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id MK3wDseS8WBTSwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Fri, 16 Jul 2021 14:08:07 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@linux.ie,
  daniel@ffwll.ch, noralf@tronnes.org, hdegoede@redhat.com,
  david@lechnology.com, airlied@redhat.com, sean@poorly.run
-Subject: [PATCH 6/7] drm/repaper: Use framebuffer dma-buf helpers
-Date: Fri, 16 Jul 2021 16:08:00 +0200
-Message-Id: <20210716140801.1215-7-tzimmermann@suse.de>
+Subject: [PATCH 7/7] drm/st7586: Use framebuffer dma-buf helpers
+Date: Fri, 16 Jul 2021 16:08:01 +0200
+Message-Id: <20210716140801.1215-8-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210716140801.1215-1-tzimmermann@suse.de>
 References: <20210716140801.1215-1-tzimmermann@suse.de>
@@ -79,14 +79,14 @@ changes.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/tiny/repaper.c | 18 ++++--------------
- 1 file changed, 4 insertions(+), 14 deletions(-)
+ drivers/gpu/drm/tiny/st7586.c | 18 ++++++------------
+ 1 file changed, 6 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/gpu/drm/tiny/repaper.c b/drivers/gpu/drm/tiny/repaper.c
-index 007d9d59f01c..4d07b21a16e6 100644
---- a/drivers/gpu/drm/tiny/repaper.c
-+++ b/drivers/gpu/drm/tiny/repaper.c
-@@ -14,7 +14,6 @@
+diff --git a/drivers/gpu/drm/tiny/st7586.c b/drivers/gpu/drm/tiny/st7586.c
+index 1be55bed609a..ad0faa8723c2 100644
+--- a/drivers/gpu/drm/tiny/st7586.c
++++ b/drivers/gpu/drm/tiny/st7586.c
+@@ -6,7 +6,6 @@
   */
  
  #include <linux/delay.h>
@@ -94,40 +94,44 @@ index 007d9d59f01c..4d07b21a16e6 100644
  #include <linux/gpio/consumer.h>
  #include <linux/module.h>
  #include <linux/property.h>
-@@ -532,7 +531,6 @@ static void repaper_gray8_to_mono_reversed(u8 *buf, u32 width, u32 height)
- static int repaper_fb_dirty(struct drm_framebuffer *fb)
+@@ -21,6 +20,7 @@
+ #include <drm/drm_format_helper.h>
+ #include <drm/drm_gem_atomic_helper.h>
+ #include <drm/drm_gem_cma_helper.h>
++#include <drm/drm_gem_framebuffer_helper.h>
+ #include <drm/drm_managed.h>
+ #include <drm/drm_mipi_dbi.h>
+ #include <drm/drm_rect.h>
+@@ -92,24 +92,18 @@ static int st7586_buf_copy(void *dst, struct drm_framebuffer *fb,
+ 			   struct drm_rect *clip)
  {
  	struct drm_gem_cma_object *cma_obj = drm_fb_cma_get_gem_obj(fb, 0);
 -	struct dma_buf_attachment *import_attach = cma_obj->base.import_attach;
- 	struct repaper_epd *epd = drm_to_epd(fb->dev);
- 	struct drm_rect clip;
- 	int idx, ret = 0;
-@@ -558,21 +556,13 @@ static int repaper_fb_dirty(struct drm_framebuffer *fb)
- 		goto out_exit;
- 	}
+ 	void *src = cma_obj->vaddr;
+ 	int ret = 0;
  
 -	if (import_attach) {
 -		ret = dma_buf_begin_cpu_access(import_attach->dmabuf,
 -					       DMA_FROM_DEVICE);
 -		if (ret)
--			goto out_free;
+-			return ret;
 -	}
 +	ret = drm_gem_fb_begin_cpu_access(fb, DMA_FROM_DEVICE);
 +	if (ret)
-+		goto out_free;
++		return ret;
  
- 	drm_fb_xrgb8888_to_gray8(buf, cma_obj->vaddr, fb, &clip);
+ 	st7586_xrgb8888_to_gray332(dst, src, fb, clip);
  
--	if (import_attach) {
+-	if (import_attach)
 -		ret = dma_buf_end_cpu_access(import_attach->dmabuf,
 -					     DMA_FROM_DEVICE);
--		if (ret)
--			goto out_free;
--	}
 +	drm_gem_fb_end_cpu_access(fb, DMA_FROM_DEVICE);
  
- 	repaper_gray8_to_mono_reversed(buf, fb->width, fb->height);
+-	return ret;
++	return 0;
+ }
  
+ static void st7586_fb_dirty(struct drm_framebuffer *fb, struct drm_rect *rect)
 -- 
 2.32.0
 
