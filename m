@@ -1,38 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19EAD3CBF38
-	for <lists+dri-devel@lfdr.de>; Sat, 17 Jul 2021 00:23:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0312D3CBF75
+	for <lists+dri-devel@lfdr.de>; Sat, 17 Jul 2021 00:48:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 844146E9DC;
-	Fri, 16 Jul 2021 22:23:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A67B6E952;
+	Fri, 16 Jul 2021 22:48:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BAE5E6E8C8;
- Fri, 16 Jul 2021 22:23:31 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10047"; a="210849575"
-X-IronPort-AV: E=Sophos;i="5.84,246,1620716400"; d="scan'208";a="210849575"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Jul 2021 15:23:31 -0700
-X-IronPort-AV: E=Sophos;i="5.84,246,1620716400"; d="scan'208";a="413571892"
-Received: from dut151-iclu.fm.intel.com ([10.105.23.43])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Jul 2021 15:23:30 -0700
-Date: Fri, 16 Jul 2021 22:23:27 +0000
-From: Matthew Brost <matthew.brost@intel.com>
-To: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 49/51] drm/i915/selftest: Bump selftest timeouts for
- hangcheck
-Message-ID: <20210716222327.GA10146@DUT151-ICLU.fm.intel.com>
-References: <20210716201724.54804-1-matthew.brost@intel.com>
- <20210716201724.54804-50-matthew.brost@intel.com>
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com
+ [IPv6:2607:f8b0:4864:20::102e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 87CCC6E8C8
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jul 2021 22:48:05 +0000 (UTC)
+Received: by mail-pj1-x102e.google.com with SMTP id cu14so7287668pjb.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jul 2021 15:48:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=26BfJp5P7eFvEwspn0bZn+OrsVxNX++BisccW8Z+Oe4=;
+ b=MjEi3RoRlDVK7ZRGa/CCM4Z2uU9RTRIixNhcNRPaxUKU3mvJLwjqnAnaBgsuYD32hv
+ CrBhgnPd9SUkOt4sAzOZC3zmHSlKpY6J2coyo5+zB9AA5cT+5Gu2tinASllQhq4dj8Da
+ Gq3QpIZUC0RWEaySkfFgbEHUjTwly2ESsZS/voQUZ1wd5nm4FwMlmu6yBORhWG3Oxi4w
+ +6H5CIKr7dQyvIOK1SvSdLn7NuOLoLtC1lpp/3CUEOGa7wS0gZif4KVwL4Wb0QNDx2Ih
+ OcKztb4Ul+OUxJ20mVJ26v05LUXrl2bc8hP6FH+1EfNoaYLwlFW7RTfj7BVj7PNjgfXR
+ 4hwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=26BfJp5P7eFvEwspn0bZn+OrsVxNX++BisccW8Z+Oe4=;
+ b=ik2cNp92cnJa5PLG3AWA9gjlu1NonhxU5Y0KbAY0W+Yd3+aIaE+B7RnJVfzQbYcuQu
+ IFt/P57o7P9Gj07ZmphQwY4gQmG39Ha5xkI7fBLFoTRkm+s1nIPtLt9El+ZOis2Vq9/1
+ fij9EB2QP/vY67THF5eVOEcJYX0hI6OEhr0J5dDF77S6Xzjsk9BVZnB/iizCf3gaS2mA
+ kTfViwJ7be5sLv5lhlW03WgiXyf67qfY3RkOdOs5ygHm3JtXC7mQdFffSBZcTDFE2CZO
+ uSE5jv1KHmGpV128xmhFdz679uekjMYUdRqbEw7D0q314TZCk6P7DukU+nYzg+rzaw3U
+ BECw==
+X-Gm-Message-State: AOAM532HgWMrfFJYJZ3aUgdra4TPcrdb9kwwz/bssZVACuq0Li6JCs5E
+ kuKaLYozD+nfGHAvckYOxWBuU8/nrAVCxQ==
+X-Google-Smtp-Source: ABdhPJy1BDHpLHZlEZ+6VefSJXtTPuOJHs1y9CP2sGSyRPut6NuK1h3srvyxGQVhkZ0Cl5cciva4dg==
+X-Received: by 2002:a17:90a:a6e:: with SMTP id
+ o101mr12037103pjo.208.1626475684933; 
+ Fri, 16 Jul 2021 15:48:04 -0700 (PDT)
+Received: from omlet.com ([134.134.139.84])
+ by smtp.gmail.com with ESMTPSA id u24sm11991993pfm.141.2021.07.16.15.48.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 16 Jul 2021 15:48:04 -0700 (PDT)
+From: Jason Ekstrand <jason@jlekstrand.net>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH 1/2] drm/i915: Call i915_globals_exit() after i915_pmu_exit()
+Date: Fri, 16 Jul 2021 17:47:57 -0500
+Message-Id: <20210716224758.2162003-1-jason@jlekstrand.net>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210716201724.54804-50-matthew.brost@intel.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,80 +68,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniele.ceraolospurio@intel.com, john.c.harrison@intel.com
+Cc: Jason Ekstrand <jason@jlekstrand.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jul 16, 2021 at 01:17:22PM -0700, Matthew Brost wrote:
-> From: John Harrison <John.C.Harrison@Intel.com>
-> 
-> Some testing environments and some heavier tests are slower than
-> previous limits allowed for. For example, it can take multiple seconds
-> for the 'context has been reset' notification handler to reach the
-> 'kill the requests' code in the 'active' version of the 'reset
-> engines' test. During which time the selftest gets bored, gives up
-> waiting and fails the test.
-> 
-> There is also an async thread that the selftest uses to pump work
-> through the hardware in parallel to the context that is marked for
-> reset. That also could get bored waiting for completions and kill the
-> test off.
-> 
-> Lastly, the flush at the of various test sections can also see
-> timeouts due to the large amount of work backed up. This is also true
-> of the live_hwsp_read test.
-> 
-> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
-> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+We should tear down in the opposite order we set up.
 
-Reviewed-by: Matthew Brost <matthew.brost@intel.com>
+Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
+Fixes: 537f9c84a427 ("drm/i915/pmu: Fix CPU hotplug with multiple GPUs")
+Cc: Daniel Vetter <daniel@ffwll.ch>
+---
+ drivers/gpu/drm/i915/i915_pci.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> ---
->  drivers/gpu/drm/i915/gt/selftest_hangcheck.c             | 2 +-
->  drivers/gpu/drm/i915/selftests/igt_flush_test.c          | 2 +-
->  drivers/gpu/drm/i915/selftests/intel_scheduler_helpers.c | 2 +-
->  3 files changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/selftest_hangcheck.c b/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
-> index 971c0c249eb0..a93a9b0d258e 100644
-> --- a/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
-> +++ b/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
-> @@ -876,7 +876,7 @@ static int active_request_put(struct i915_request *rq)
->  	if (!rq)
->  		return 0;
->  
-> -	if (i915_request_wait(rq, 0, 5 * HZ) < 0) {
-> +	if (i915_request_wait(rq, 0, 10 * HZ) < 0) {
->  		GEM_TRACE("%s timed out waiting for completion of fence %llx:%lld\n",
->  			  rq->engine->name,
->  			  rq->fence.context,
-> diff --git a/drivers/gpu/drm/i915/selftests/igt_flush_test.c b/drivers/gpu/drm/i915/selftests/igt_flush_test.c
-> index 7b0939e3f007..a6c71fca61aa 100644
-> --- a/drivers/gpu/drm/i915/selftests/igt_flush_test.c
-> +++ b/drivers/gpu/drm/i915/selftests/igt_flush_test.c
-> @@ -19,7 +19,7 @@ int igt_flush_test(struct drm_i915_private *i915)
->  
->  	cond_resched();
->  
-> -	if (intel_gt_wait_for_idle(gt, HZ / 5) == -ETIME) {
-> +	if (intel_gt_wait_for_idle(gt, HZ) == -ETIME) {
->  		pr_err("%pS timed out, cancelling all further testing.\n",
->  		       __builtin_return_address(0));
->  
-> diff --git a/drivers/gpu/drm/i915/selftests/intel_scheduler_helpers.c b/drivers/gpu/drm/i915/selftests/intel_scheduler_helpers.c
-> index 69db139f9e0d..ebd6d69b3315 100644
-> --- a/drivers/gpu/drm/i915/selftests/intel_scheduler_helpers.c
-> +++ b/drivers/gpu/drm/i915/selftests/intel_scheduler_helpers.c
-> @@ -13,7 +13,7 @@
->  
->  #define REDUCED_TIMESLICE	5
->  #define REDUCED_PREEMPT		10
-> -#define WAIT_FOR_RESET_TIME	1000
-> +#define WAIT_FOR_RESET_TIME	10000
->  
->  int intel_selftest_modify_policy(struct intel_engine_cs *engine,
->  				 struct intel_selftest_saved_policy *saved,
-> -- 
-> 2.28.0
-> 
+diff --git a/drivers/gpu/drm/i915/i915_pci.c b/drivers/gpu/drm/i915/i915_pci.c
+index 67696d7522718..50ed93b03e582 100644
+--- a/drivers/gpu/drm/i915/i915_pci.c
++++ b/drivers/gpu/drm/i915/i915_pci.c
+@@ -1244,8 +1244,8 @@ static void __exit i915_exit(void)
+ 
+ 	i915_perf_sysctl_unregister();
+ 	pci_unregister_driver(&i915_pci_driver);
+-	i915_globals_exit();
+ 	i915_pmu_exit();
++	i915_globals_exit();
+ }
+ 
+ module_init(i915_init);
+-- 
+2.31.1
+
