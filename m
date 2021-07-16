@@ -2,39 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35CD03CB2E6
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Jul 2021 08:58:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4ADA13CB302
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Jul 2021 09:13:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 09E2A6E918;
-	Fri, 16 Jul 2021 06:58:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C8726E91C;
+	Fri, 16 Jul 2021 07:13:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A700E6E917
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jul 2021 06:58:29 +0000 (UTC)
-X-UUID: af6493dfd4774539861903ba29ad2fec-20210716
-X-UUID: af6493dfd4774539861903ba29ad2fec-20210716
-Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
- mailgw02.mediatek.com (envelope-from <yongqiang.niu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1260778623; Fri, 16 Jul 2021 14:58:26 +0800
-Received: from mtkcas07.mediatek.inc (172.21.101.84) by
- mtkmbs02n1.mediatek.inc (172.21.101.77) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Fri, 16 Jul 2021 14:58:24 +0800
-Received: from localhost.localdomain (10.17.3.153) by mtkcas07.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Fri, 16 Jul 2021 14:58:23 +0800
-From: Yongqiang Niu <yongqiang.niu@mediatek.com>
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Subject: [PATCH v1] mailbox: cmdq: add instruction time-out interrupt support
-Date: Fri, 16 Jul 2021 14:58:21 +0800
-Message-ID: <1626418701-28467-2-git-send-email-yongqiang.niu@mediatek.com>
-X-Mailer: git-send-email 1.8.1.1.dirty
-In-Reply-To: <1626418701-28467-1-git-send-email-yongqiang.niu@mediatek.com>
-References: <1626418701-28467-1-git-send-email-yongqiang.niu@mediatek.com>
-MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK: N
+Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com
+ [IPv6:2607:f8b0:4864:20::42f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 589F46E8DB
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jul 2021 01:56:36 +0000 (UTC)
+Received: by mail-pf1-x42f.google.com with SMTP id a127so7493368pfa.10
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jul 2021 18:56:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=2McT0l3ZwHsK72Lrfxt3UTYxRxN0nEYR81V1ezUranY=;
+ b=ZbP3n2J0qQd3f7hBowB7OyFvD1Tkr5Ji0KJ9SdPWT5RnjBV3KF2bIgi7pKPLJA5cBd
+ WPWndEecL5cpPN4c7/tAyLyW8ypzV4CnxtHbK92AOg44CJTQw0hW71ettq8gPEt9+VVd
+ p+16hIuFdbj/e9QdZi9GW80qoaAtDY8dSbruq20YoeoZqECxPIMrZPM8a667mJTqxh7f
+ bTSYpNvWnjU4wxxY+3w/Qty4hVlKRwYvomKoHIS3U1mt6uqpuYFPN23BgajNvai3TpMz
+ iV3Q9xom1WZkTCyKihym4hVpcwIqePytGZl5f/mwxMNzsj+gtD2itMpgfYdY4lyH2L6v
+ fzVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=2McT0l3ZwHsK72Lrfxt3UTYxRxN0nEYR81V1ezUranY=;
+ b=KsqvJU+q7SAai8BH1pEYNpw3QAAc8HtAphf9CC+MeilFWaePil8J/rAdo2p838Llfj
+ EM9M/fWJ8kYKP8+ir2bqkZdarGuv5Q/xfzlwIqqLKlXFPy1x/i5Lhln/zPAC6JUv8+ks
+ 9yGZKQL199I0lIX3z0aF8TztyNjKoW7P7SGl7eTuhBgr/amjCeGcaOaKMOLDA28Nt+SL
+ o/8GjD+hgTJZvYO9pVhNg7U3gfHlroz9TAKL/3EbK0OKK8V/OjOWOTtHkMF0FqecTa+E
+ Ko2Hxnf6vWkgMaIixYAGDAeS5G/JA+KU3ZKJStvtLtX5NThgA7Ru9O6wLseyb/W/kzyz
+ 3VoA==
+X-Gm-Message-State: AOAM531Uu3dVfjvcrp9z2XJQyNWMRU06dJ0gGkYM2HWScBIJlJdT+jEg
+ 4D5OQ9PQrMzC6qyH0ioBeVQ=
+X-Google-Smtp-Source: ABdhPJx73uNbeUzxvkqzK7VLX3g2HdiDbbp1RWhUzTY0m1s27QvLwUNO75sdIEWuMWqbcWlXsdTYUQ==
+X-Received: by 2002:a62:830a:0:b029:32b:43a4:10b0 with SMTP id
+ h10-20020a62830a0000b029032b43a410b0mr7460786pfe.38.1626400595977; 
+ Thu, 15 Jul 2021 18:56:35 -0700 (PDT)
+Received: from localhost.localdomain ([52.175.51.83])
+ by smtp.gmail.com with ESMTPSA id a5sm7888680pff.143.2021.07.15.18.56.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 15 Jul 2021 18:56:35 -0700 (PDT)
+From: ainux.wang@gmail.com
+To: airlied@redhat.com, tzimmermann@suse.de, airlied@linux.ie, daniel@ffwll.ch,
+ ainux.wang@gmail.com
+Subject: [PATCH] drm/ast: Zero is missing in detect function
+Date: Fri, 16 Jul 2021 09:56:15 +0800
+Message-Id: <20210716015615.9150-1-ainux.wang@gmail.com>
+X-Mailer: git-send-email 2.18.1
+X-Mailman-Approved-At: Fri, 16 Jul 2021 07:13:01 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,63 +64,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- David Airlie <airlied@linux.ie>, Jassi Brar <jassisinghbrar@gmail.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Yongqiang Niu <yongqiang.niu@mediatek.com>,
- Dennis YC Hsieh <dennis-yc.hsieh@mediatek.com>,
- Fabien Parent <fparent@baylibre.com>, Rob Herring <robh+dt@kernel.org>,
- linux-mediatek@lists.infradead.org, Hsin-Yi Wang <hsinyi@chromium.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: sterlingteng@gmail.com, chenhuacai@kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-add time-out cycle setting to make sure time-out interrupt irq
-will happened when instruction time-out for wait and poll
+From: "Ainux.Wang" <ainux.wang@gmail.com>
 
-Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
+The function ast_get_modes() will also return 0, when it try to get the
+edid, but it also do not get the edid.
+
+Signed-off-by: Ainux.Wang <ainux.wang@gmail.com>
 ---
- drivers/mailbox/mtk-cmdq-mailbox.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ drivers/gpu/drm/ast/ast_mode.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/mailbox/mtk-cmdq-mailbox.c b/drivers/mailbox/mtk-cmdq-mailbox.c
-index de4793e..9a76bcd 100644
---- a/drivers/mailbox/mtk-cmdq-mailbox.c
-+++ b/drivers/mailbox/mtk-cmdq-mailbox.c
-@@ -35,6 +35,7 @@
- #define CMDQ_THR_END_ADDR		0x24
- #define CMDQ_THR_WAIT_TOKEN		0x30
- #define CMDQ_THR_PRIORITY		0x40
-+#define CMDQ_THR_INSTN_TIMEOUT_CYCLES	0x50
+diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
+index e5996ae03c49..b7dcf7821ec6 100644
+--- a/drivers/gpu/drm/ast/ast_mode.c
++++ b/drivers/gpu/drm/ast/ast_mode.c
+@@ -1299,7 +1299,7 @@ static enum drm_connector_status ast_connector_detect(struct drm_connector
+ 	int r;
  
- #define GCE_GCTL_VALUE			0x48
+ 	r = ast_get_modes(connector);
+-	if (r < 0)
++	if (r <= 0)
+ 		return connector_status_disconnected;
  
-@@ -53,6 +54,15 @@
- #define CMDQ_JUMP_BY_OFFSET		0x10000000
- #define CMDQ_JUMP_BY_PA			0x10000001
- 
-+/*
-+ * instruction time-out
-+ * cycles to issue instruction time-out interrupt for wait and poll instructions
-+ * GCE axi_clock 156MHz
-+ * 1 cycle = 6.41ns
-+ * instruction time out 2^22*2*6.41ns = 53ms
-+ */
-+#define CMDQ_INSTN_TIMEOUT_CYCLES	22
-+
- struct cmdq_thread {
- 	struct mbox_chan	*chan;
- 	void __iomem		*base;
-@@ -368,6 +378,7 @@ static int cmdq_mbox_send_data(struct mbox_chan *chan, void *data)
- 		writel((task->pa_base + pkt->cmd_buf_size) >> cmdq->shift_pa,
- 		       thread->base + CMDQ_THR_END_ADDR);
- 
-+		writel(CMDQ_INSTN_TIMEOUT_CYCLES, thread->base + CMDQ_THR_INSTN_TIMEOUT_CYCLES);
- 		writel(thread->priority, thread->base + CMDQ_THR_PRIORITY);
- 		writel(CMDQ_THR_IRQ_EN, thread->base + CMDQ_THR_IRQ_ENABLE);
- 		writel(CMDQ_THR_ENABLED, thread->base + CMDQ_THR_ENABLE_TASK);
+ 	return connector_status_connected;
 -- 
-1.8.1.1.dirty
+2.18.1
 
