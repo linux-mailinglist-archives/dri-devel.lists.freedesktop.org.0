@@ -2,123 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0EF73CB316
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Jul 2021 09:14:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19EAE3CB341
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Jul 2021 09:30:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E9206E929;
-	Fri, 16 Jul 2021 07:14:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 920626E92D;
+	Fri, 16 Jul 2021 07:30:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on2075.outbound.protection.outlook.com [40.107.243.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 22CFC6E919;
- Fri, 16 Jul 2021 07:14:11 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=c7rKeOpefamX+MRtYspqu+id9hQrWOLM2CK3tjGl2hD04Olu1d/tg6AD8WDh26yzXvkOc9otkf1ZrMmPArod6bXX5/HwP3AVEbWEj1iznI7AnmHlOy4nwxugNCyrudvFU62eFIGX17dkzOEfgIuZEZCetKZkj7plm7sarB+NCJcWWJKMbRG5h2ui3jJvntTEUoouj13A0NyiYNNxCNnXn86CmxTvu8OFPfAfyhQq57FGWf3qNRppBL/LeFbGH7cFGNdRXJ3G7UTHfa1lhvNHrgr4n4VOtNDHCU58E2IfpgyG9AtI6V5S5oOExnYSuRjrt9EcI9XY8Kv7B4m15fokqw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6s3HULAHpH/8G3nZpJEN6arzpcIWy4KVbDhKnSw3FME=;
- b=ZvTVYrwngDT3dN+XKZzffGvaOUVtCgKecMdC7/SmG1Mtc5m1jasad1j9QesEBL187nLvmo0jWKFPraCXqHQ04WgUngQtCWbPFP4a8IQOB4nwbM1Sw25H9orKsaQrsss0sixvycjv2N2/kbf+OALQpTOoDjyWgUuKLlzQ/jMv5qbRNu/a4hNi7jR2bQn3BZUcWJ0W9MRgw2jNBN7+DlZQ98EsE+DySzCnicf7GZSFZRIsJBtPWv1Oqw2lwo9SaR9EMghtmvwLC9w3Nc5eQsZKqFh5yEE1ta8expVw5pNdovFbvajp+ojXWIeXQrInwtBfi2Z04DTqMesdtxiU7qAxYg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6s3HULAHpH/8G3nZpJEN6arzpcIWy4KVbDhKnSw3FME=;
- b=YtbENP1PMZDclWraJ60WcK17ksjWoMGcEPTNuoju0AQp1pX4JUnK1/Jsx7nqGICGQNgz8tDY9La1C/MjGHEAgR3ZQszsgWc8uLtQXBTza1nSS0b3+wkk14ePUZvM25ObcRu8vCikiJMNYIaPsdK3px4Vh8V/5EP1yl12Up9neq4=
-Authentication-Results: vger.kernel.org; dkim=none (message not signed)
- header.d=none;vger.kernel.org; dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
- by MN2PR12MB3790.namprd12.prod.outlook.com (2603:10b6:208:164::31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.21; Fri, 16 Jul
- 2021 07:14:09 +0000
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::6c9e:1e08:7617:f756]) by MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::6c9e:1e08:7617:f756%5]) with mapi id 15.20.4331.026; Fri, 16 Jul 2021
- 07:14:09 +0000
-Subject: Re: [PATCH 1/7] vgaarb: remove VGA_DEFAULT_DEVICE
-To: Christoph Hellwig <hch@lst.de>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>
-References: <20210716061634.2446357-1-hch@lst.de>
- <20210716061634.2446357-2-hch@lst.de>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <f171831b-3281-5a5a-04d3-2d69cb77f1a2@amd.com>
-Date: Fri, 16 Jul 2021 09:14:02 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-In-Reply-To: <20210716061634.2446357-2-hch@lst.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-ClientProxiedBy: AM0PR05CA0085.eurprd05.prod.outlook.com
- (2603:10a6:208:136::25) To MN2PR12MB3775.namprd12.prod.outlook.com
- (2603:10b6:208:159::19)
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
+ [66.111.4.25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B04946E92D
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jul 2021 07:30:51 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.nyi.internal (Postfix) with ESMTP id BD3D75C015E;
+ Fri, 16 Jul 2021 03:30:48 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute5.internal (MEProxy); Fri, 16 Jul 2021 03:30:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:content-transfer-encoding:in-reply-to; s=fm3; bh=9
+ cu5nt0G2+zON1HSxnAUZmT6I2/KCuA1/XNq5Jbxq68=; b=ZTZmABM8xyt1Rqud0
+ yW55wutkGz+6GaC6nXzJVMRKnCJicBOEAe3ojqyoHefN52V1FLpSMKnfRcF7qJH/
+ 7uoMNY9Gg2IX2T3REgbynivXOVD+xFl6nPWXWjH5BpO4oOtSiK+HMby6kg/goNLT
+ 1vmEPI26OOVdBvF/nKXGfqkWE3F6hrxD/083y7GhYT5NLN+cQhc1uwcbV+aHHsxR
+ AV+wx+HIGd8M3bdAVGgkPLF8o1aTWI8NECAKzYhtKFcMizG0HPKYHdrk4VIwHhdx
+ 5HjQf546ji/qqpOkcv9bTdxiTCKWedWCPgP2dR/UfQaKf1fGz2n3udrCGBau2GEk
+ bj/hQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:in-reply-to:message-id:mime-version:references
+ :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm3; bh=9cu5nt0G2+zON1HSxnAUZmT6I2/KCuA1/XNq5Jbxq
+ 68=; b=dK8/h7ZwzqtJYUlT0zUsGRlZcEkULX1/ew/COYkVWU900kvrzp6C7TICB
+ oy8pTwgHxi1WmbnBYUATpBGsD6ZrcgDow849GqA6ps+FGHDcUODzrNqyLCJ9D0e0
+ qjck3NmtRA1fkiZNasEXjl8qrJhIBrCoPz977YfdSVv/kKmHyy167tB/AKTumQNs
+ b8vW1TETDxY0ZSsCyeaiPv4d3cgbWgG7sqXpYjhf+Oa1tZHFGMvNUPWeXg7smePa
+ rEvlg3fJ6JtgFDTnzUThb8JqpAVOYOZ1g3jCw3TlglaCdf7jmw9jw5VroJoq7qp4
+ +dL5iAMzlrqMUGrXYqRnKk+9CTf+g==
+X-ME-Sender: <xms:pzXxYFQWbqu209bzvZz5H_bJKRz-GVb0DAToiU-5Tz2AkLZqlR3dHw>
+ <xme:pzXxYOwVVZtpqn2HGBFwRsSvMl3ZfxE3rFuHuit8wtmkYN3jv3gRNDklOdNyruBv1
+ RrSM2sYXVS2TKCJgn8>
+X-ME-Received: <xmr:pzXxYK213Gk07pidUvch42QjrGjt3a31TDIxvJI2XsluWw3sgXUZF6oT8DKdhH1ML5a58vWrwdBII-pWgSERyiul-pOdl9MPI7z0>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrvddvgdduudegucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtugfgjgesthhqredttddtvdenucfhrhhomhepofgrgihi
+ mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+ htthgvrhhnpefgjeettdejgffgffdvteeutdehtdehgeehueetkeefgefhtdetjeekledu
+ gedvudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ hmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:pzXxYNA0kiQe_NhYx6-Y14v5OqtcIDzyLSQqLk982R434N4upUVE9w>
+ <xmx:pzXxYOggtzl56UtV3gnRgvG5DF3dPuttUshV6Ccwp6z8CbqW9UptpQ>
+ <xmx:pzXxYBoPUCGOWLa12gftpGpJrR7ESnTKXl9hYTJyCvd1vhK6_ZDSsg>
+ <xmx:qDXxYCjzH3xbEX3qzRfSyKYF9aV6jbQJ0yDC5V9RtBaRjVAvsRFBOQ>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 16 Jul 2021 03:30:46 -0400 (EDT)
+Date: Fri, 16 Jul 2021 09:30:44 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 1/5] drm: Define DRM_FORMAT_MAX_PLANES
+Message-ID: <20210716073044.ff3avcrd5swruele@gilmour>
+References: <20210715180133.3675-1-tzimmermann@suse.de>
+ <20210715180133.3675-2-tzimmermann@suse.de>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:908:1252:fb60:e013:2fad:8ece:8234]
- (2a02:908:1252:fb60:e013:2fad:8ece:8234) by
- AM0PR05CA0085.eurprd05.prod.outlook.com (2603:10a6:208:136::25) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.21 via Frontend
- Transport; Fri, 16 Jul 2021 07:14:06 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 8aebc0f1-1977-42dd-bc36-08d948294ddd
-X-MS-TrafficTypeDiagnostic: MN2PR12MB3790:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <MN2PR12MB379002903B1A1EC4D253D1B883119@MN2PR12MB3790.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: M8BCX88+XcAp4FVhXnz7Mj63uVnAfZRXeoC+KyodQ76SZ7Z20857UPuhcUZ9SyAWm+pRP5Glb/RFOCmbJBYadjlXyFJujIg9vLqk+QlGmT/NAh8ZxAbawEaXwunUm2RrNGAqvvzbxAAkBgsm8LBVM+Fxdv0LkGCBYIn8tmkTxhZ7TiA2oTCfgxT39AYojn7dyqHv5dJtN+nWG2dWMI2nM71r5bGXWiy0WZSZpoanSXhqz5DVks6AVMMzhJdbujM2YtkMxYQIcIWAzeJGD+OqsQqsDZuApRGeQ5IIX2tewYYQXiB0DwQQxgKaS9zk4KCEcj3BBre3MpKOpN6G+ktso2Ff0LClHc7leIbW+bmqB4uiVDlJqdHKqz1guOOFJF7Bc0fYWojMlgWSpmRcFUdP+zl9qiaSTeT4EOcUhK5ZchrlwUrlCgDPWeuK3uAxPbyd5Dz1UHamGkd61Rj6UTU+Moq0tffm4+uXKgwOyVyI/FGhAaXRwDmpD8oBQgu7rZ5Zw2728Xc4MLZ9My/7GUQuGlu6oXGh8s6Fo6tgFxWTCANXPpCywfD9Y1zBHdCtWpQerYqUAgRpSjjQ4sn/wWgug+mGrmAQ8PFroHgyMlaJ2PEGnLoscQKy/2shbpdQbWmd6ROYfmYm4DEtDhR1Pc/sdx6G78/JqslW6E/DUyH9WExxJk9jh4pKull1HIWj2mgXlXOMznst8vNOGzlN3qRtYl2KjqSMIudEtqTIjR45GcQNwfQCRGs5qLKzC6V8wC72
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39860400002)(136003)(366004)(376002)(396003)(346002)(38100700002)(5660300002)(110136005)(2616005)(83380400001)(8676002)(66946007)(4744005)(186003)(31686004)(6486002)(86362001)(316002)(8936002)(6666004)(2906002)(54906003)(478600001)(36756003)(66476007)(4326008)(66556008)(7416002)(31696002)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Y09KM3Y4Rzh6Nm1TZEFpaG1Gc0d3VVoxdkFNbnVUdWdjZjlRVm9RZzd3b2to?=
- =?utf-8?B?ZUpVOEJOb2dYNkoxWU9sVklnaU9zbkI4c1I4VE1lelQzalJ5RmtiZ3JtMnRM?=
- =?utf-8?B?a2plY20ya2Z3N1FBODRZdFU3eUVNSkhpSEpzOUtNWU1KWHNrSXorLzlCVTAy?=
- =?utf-8?B?MWlyM3FTMWRrSlhKdTNMTDlyUFF0SGFxRWRjV3dqVEtlSm9HZ3huR0tTeEdT?=
- =?utf-8?B?SlM5bmpGdHFEWmVBNmIrdllwT3RaVCtlQWhla1hwM3ptc2dDaHBFZkJKamRi?=
- =?utf-8?B?RTg2SGs2OFd6V3BabTNXRjFaSGUzVHRUNXpueXNGRG5qMXFhc0h2YVNaSEJ5?=
- =?utf-8?B?b3dHdGpJQVJmMW1IRzNldUZ3dDdseUJMTjFmdUdXYVN6YXpKWEY0cm9qZ1ZK?=
- =?utf-8?B?VkJRSnBMWi9va00vMkZ0Q0UydzdhazA3ZThZbEdqNmZKMzVnZnRPZnNpTnhs?=
- =?utf-8?B?TGNBdWtveXdTS0pYMVhxYkdWOTVHMVR0Q2dydWNwUE5xYVR5NkRkOWFONSth?=
- =?utf-8?B?TG5Xa2dub2ZMRGpPMU8xRWpiSis5dXdHSVFyTEZnS1MvSDkxY1IwSlpHeEhP?=
- =?utf-8?B?RzVjcEtaMFZCZ0lUL1hGajN3T1JUWEk3VEM5SWhIYmFodElHKzJYRkgzTm1V?=
- =?utf-8?B?K2RoR25RNDUyUTRjRUFiKzNrZzFvanpxTzR3K2wvb3RhckRpa21CeFMzcGRQ?=
- =?utf-8?B?Q3JzeWhZd25ZNm9TWkFIR3VEeDNPNENXckw4cjQzdEZUV05qVjg0WUNIbXp0?=
- =?utf-8?B?aTZocVdrRmt3eHdkaGMxbkNIc1dKQU1NSmZtWnhTT00zeEdxS1JwN0EyQlJH?=
- =?utf-8?B?aVZaZmdvYTJQTEpnODhJWExtcVphVmxpU2sxZnpmSGlUSGVjdTVlTkMxTjRB?=
- =?utf-8?B?RkNZYjBldDFwK1ZwUUx0NklpR2tQd1dsZWVJZWxTWXFHRnQ2b2RjQ3VCSlha?=
- =?utf-8?B?TkQ5RWlvQjZjNHdRVXRIZHJRd3gzWmE2VGI3eWJ3ZzFEYzB5ZmF3N0M0QzNF?=
- =?utf-8?B?T3JxRDhZUldLdWV4ZjFtd2ZUTnlndDRyeWRyeGluTFlJZEFqYVFwV21RVzdC?=
- =?utf-8?B?b3d0ajF4U3ZvWkluNkxVbzN1Y1JyS3g5eDgycURpLzd3ejBFRzZCUkM1aW5Z?=
- =?utf-8?B?cHBzdjdyYkpOa2Y0cXVOQjE0VEw2ekdZb1p3RHJRcXI5cGR3VzkwVW9hZXBP?=
- =?utf-8?B?YTljck5WTE56M3hodlF6WmJzNDJHVkx5amowNHo1WEJ5V042ZlR4Ry85OGF5?=
- =?utf-8?B?YlZMYmt0UE93RGxIR2hza1dONE9xY215Ly92ckd0SWcrbk1vOGRtRDRtQ2Z1?=
- =?utf-8?B?ZHhVeW81aXVWekVScG5CcUZGNGZoUVkveUtrVGozMjdybUhNRngzQmIxajFC?=
- =?utf-8?B?Nkxhc1NjUFNYTWV4aXlxMHpNYjh6NTZEenRYTUdJbGxCVVhlN3puZ3RHQS90?=
- =?utf-8?B?MDVUK1B0Z3F5ZytHdVpPOGlRNWQ2Q0oxaWw5YjloeHY0UTBWZFV5V1MySXBT?=
- =?utf-8?B?ZVZ3QmhFZnVieHM4M1RORTZ1VHhxNGdjTWZRNUc0WXpHdmgzYUVrSWxHRVl5?=
- =?utf-8?B?R01lVEFMdGNJRHdSYm5QYVRPRDVmQXFuYVpaQzh6Uzhta0xBMTF5YjNZVzkw?=
- =?utf-8?B?Z1Z5T1lNM05mSy9YTk1xQk9WT1BGMkEwN2hVTVM1VjQvZk9SV21YMU5ZTkFq?=
- =?utf-8?B?aDd0dDZuc3Y3Wmh3c1p6cXp0MjVDSUZFTCtteHA1TURnNmZQK3MzelhQdkV3?=
- =?utf-8?B?aTQrKzhyL3oyWkVGa2wwcWE3OFZsQ2NPNDRNNFp6OWNIZm9LY3JuRW9qSzhv?=
- =?utf-8?B?TG5xSkxsMmdmRlBFV2xrUXgxTWU2ZDFpbktDbytGOGw2ajlPcExHMXpDUGVz?=
- =?utf-8?Q?9naPV9ygiMwep?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8aebc0f1-1977-42dd-bc36-08d948294ddd
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jul 2021 07:14:08.9800 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: R9rR080WXzQ96bzhGe5JYvFUP4o+NFOr9ZU4CFxN3nOtx8UrnYZ8tc6beqgX1q9N
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3790
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20210715180133.3675-2-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -131,47 +81,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>, Alex Williamson <alex.williamson@redhat.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Alex Deucher <alexander.deucher@amd.com>, intel-gfx@lists.freedesktop.org,
- Ben Skeggs <bskeggs@redhat.com>
+Cc: hamohammed.sa@gmail.com, rodrigosiqueiramelo@gmail.com, airlied@linux.ie,
+ dri-devel@lists.freedesktop.org, melissa.srw@gmail.com, noralf@tronnes.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 16.07.21 um 08:16 schrieb Christoph Hellwig:
-> The define is entirely unused.
->
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
+Hi,
 
-I'm not an expert for this particular code, but at least of hand 
-everything you do here makes totally sense.
-
-Whole series is Acked-by: Christian König <christian.koenig@amd.com>
-
-Regards,
-Christian.
-
+On Thu, Jul 15, 2021 at 08:01:29PM +0200, Thomas Zimmermann wrote:
+> DRM uses a magic number of 4 for the maximum number of planes per color
+> format. Declare this constant via DRM_FORMAT_MAX_PLANES and update the
+> related code.
+>=20
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > ---
->   include/linux/vgaarb.h | 6 ------
->   1 file changed, 6 deletions(-)
->
-> diff --git a/include/linux/vgaarb.h b/include/linux/vgaarb.h
-> index dc6ddce92066..26ec8a057d2a 100644
-> --- a/include/linux/vgaarb.h
-> +++ b/include/linux/vgaarb.h
-> @@ -42,12 +42,6 @@
->   #define VGA_RSRC_NORMAL_IO     0x04
->   #define VGA_RSRC_NORMAL_MEM    0x08
->   
-> -/* Passing that instead of a pci_dev to use the system "default"
-> - * device, that is the one used by vgacon. Archs will probably
-> - * have to provide their own vga_default_device();
-> - */
-> -#define VGA_DEFAULT_DEVICE     (NULL)
-> -
->   struct pci_dev;
->   
->   /* For use by clients */
+>  drivers/gpu/drm/drm_gem_framebuffer_helper.c | 14 ++++++++------
+>  include/drm/drm_fourcc.h                     | 13 +++++++++----
+>  include/drm/drm_framebuffer.h                |  8 ++++----
+>  include/drm/drm_gem_atomic_helper.h          |  2 +-
+>  4 files changed, 22 insertions(+), 15 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/drm_gem_framebuffer_helper.c b/drivers/gpu/d=
+rm/drm_gem_framebuffer_helper.c
+> index e2c68822e05c..975a3df0561e 100644
+> --- a/drivers/gpu/drm/drm_gem_framebuffer_helper.c
+> +++ b/drivers/gpu/drm/drm_gem_framebuffer_helper.c
+> @@ -48,7 +48,7 @@
+>  struct drm_gem_object *drm_gem_fb_get_obj(struct drm_framebuffer *fb,
+>  					  unsigned int plane)
+>  {
+> -	if (plane >=3D 4)
+> +	if (plane >=3D ARRAY_SIZE(fb->obj))
+>  		return NULL;
 
+This doesn't look related to what's mentionned in the commit log though?
+
+>  	return fb->obj[plane];
+> @@ -62,7 +62,8 @@ drm_gem_fb_init(struct drm_device *dev,
+>  		 struct drm_gem_object **obj, unsigned int num_planes,
+>  		 const struct drm_framebuffer_funcs *funcs)
+>  {
+> -	int ret, i;
+> +	unsigned int i;
+> +	int ret;
+> =20
+>  	drm_helper_mode_fill_fb_struct(dev, fb, mode_cmd);
+> =20
+> @@ -86,9 +87,9 @@ drm_gem_fb_init(struct drm_device *dev,
+>   */
+>  void drm_gem_fb_destroy(struct drm_framebuffer *fb)
+>  {
+> -	int i;
+> +	size_t i;
+> =20
+> -	for (i =3D 0; i < 4; i++)
+> +	for (i =3D 0; i < ARRAY_SIZE(fb->obj); i++)
+>  		drm_gem_object_put(fb->obj[i]);
+
+Ditto
+
+Both these changes look fine though, but I guess you should just mention it
+
+Maxime
