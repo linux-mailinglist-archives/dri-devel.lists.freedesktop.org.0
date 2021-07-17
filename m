@@ -2,29 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EC783CC6CA
-	for <lists+dri-devel@lfdr.de>; Sun, 18 Jul 2021 01:29:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8DB93CC6E6
+	for <lists+dri-devel@lfdr.de>; Sun, 18 Jul 2021 01:47:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F5D989E5B;
-	Sat, 17 Jul 2021 23:29:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9ACED89F49;
+	Sat, 17 Jul 2021 23:47:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 98EB489E5B
- for <dri-devel@lists.freedesktop.org>; Sat, 17 Jul 2021 23:29:42 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0EDEB89F49
+ for <dri-devel@lists.freedesktop.org>; Sat, 17 Jul 2021 23:47:31 +0000 (UTC)
 Received: from ip5f5aa64a.dynamic.kabel-deutschland.de ([95.90.166.74]
  helo=diego.localnet)
  by gloria.sntech.de with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <heiko@sntech.de>)
- id 1m4tkV-0007Jc-F1; Sun, 18 Jul 2021 01:29:35 +0200
+ id 1m4u1k-0007Nq-DG; Sun, 18 Jul 2021 01:47:24 +0200
 From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
-To: hjc@rock-chips.com, airlied@linux.ie, daniel@ffwll.ch,
- Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH] drm/rockchip: Implement mmap as GEM object function
-Date: Sun, 18 Jul 2021 01:29:34 +0200
-Message-ID: <8019180.LvFx2qVVIh@diego>
-In-Reply-To: <20210624095502.8945-1-tzimmermann@suse.de>
-References: <20210624095502.8945-1-tzimmermann@suse.de>
+To: Andrzej Hajda <a.hajda@samsung.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, Robert Foss <robert.foss@linaro.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonathan Liu <net147@gmail.com>, Yannick Fertre <yannick.fertre@foss.st.com>,
+ Jagan Teki <jagan@amarulasolutions.com>
+Subject: Re: [PATCH] drm/bridge: dw-mipi-dsi: Find the possible DSI devices
+Date: Sun, 18 Jul 2021 01:47:23 +0200
+Message-ID: <8327301.GXAFRqVoOG@diego>
+In-Reply-To: <20210704140309.268469-1-jagan@amarulasolutions.com>
+References: <20210704140309.268469-1-jagan@amarulasolutions.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
@@ -40,176 +43,169 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: linux-amarula@amarulasolutions.com,
+ linux-stm32@st-md-mailman.stormreply.com, dri-devel@lists.freedesktop.org,
+ Jagan Teki <jagan@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Donnerstag, 24. Juni 2021, 11:55:02 CEST schrieb Thomas Zimmermann:
-> Moving the driver-specific mmap code into a GEM object function allows
-> for using DRM helpers for various mmap callbacks.
+Am Sonntag, 4. Juli 2021, 16:03:09 CEST schrieb Jagan Teki:
+> Finding panel_or_bridge might vary based on associated
+> DSI devices like DSI panel, bridge, and I2C based DSI
+> bridge.
 > 
-> The respective rockchip functions are being removed. The file_operations
-> structure fops is now being created by the helper macro
-> DEFINE_DRM_GEM_FOPS().
+> 1. DSI panels and bridges will invoke the host attach
+>    from probe in order to find the panel_or_bridge.
 > 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>    chipone_probe()
+>        dw_mipi_dsi_host_attach().start
+> 	   dw_mipi_dsi_panel_or_bridge()
+> 		...found the panel_or_bridge...
+> 
+>    ltdc_encoder_init().start
+>        dw_mipi_dsi_bridge_attach().start
+> 		   dw_mipi_dsi_host_attach().start
+> 		       chipone_attach(). start
+> 
+> 	               chipone_attach(). done
+> 		   dw_mipi_dsi_host_attach().done
+>        dw_mipi_dsi_bridge_attach(). done
+>    ltdc_encoder_init().done
+> 
+> 2. I2C based DSI bridge will invoke the drm_bridge_attach
+>    from bridge attach in order to find the panel_or_bridge.
+> 
+>    ltdc_encoder_init().start
+>        dw_mipi_dsi_bridge_attach().start
+> 	   dw_mipi_dsi_panel_or_bridge()
+> 		...found the panel_or_bridge...
+> 		   dw_mipi_dsi_host_attach().start
+> 		       sn65dsi83_attach(). start
+> 
+> 	               sn65dsi83_attach(). done
+> 		   dw_mipi_dsi_host_attach().done
+>        dw_mipi_dsi_bridge_attach(). done
+>    ltdc_encoder_init().done
+> 
+> So, invoke the panel_or_bridge from host attach and
+> bridge attach in order to find all possible DSI devices.
+> 
+> Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
 
-On rk3288 (pinky), rk3399 (gru-kevin, puma) and rk3328 (rock64)
+On px30 with a dsi-display and rk3399 with my csi-phy patches
+hooking into the rockchip-dsi
 Tested-by: Heiko Stuebner <heiko@sntech.de>
 
+
 > ---
->  drivers/gpu/drm/rockchip/rockchip_drm_drv.c   | 13 +-----
->  drivers/gpu/drm/rockchip/rockchip_drm_fbdev.c |  3 +-
->  drivers/gpu/drm/rockchip/rockchip_drm_gem.c   | 44 +++++--------------
->  drivers/gpu/drm/rockchip/rockchip_drm_gem.h   |  7 ---
->  4 files changed, 15 insertions(+), 52 deletions(-)
+>  drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c | 58 ++++++++++++++-----
+>  1 file changed, 43 insertions(+), 15 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_drv.c b/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
-> index b730b8d5d949..2e3ab573a817 100644
-> --- a/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
-> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
-> @@ -208,16 +208,7 @@ static void rockchip_drm_unbind(struct device *dev)
->  	drm_dev_put(drm_dev);
+> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
+> index 6b268f9445b3..45f4515dda00 100644
+> --- a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
+> +++ b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
+> @@ -246,6 +246,7 @@ struct dw_mipi_dsi {
+>  
+>  	struct clk *pclk;
+>  
+> +	bool device_found;
+>  	unsigned int lane_mbps; /* per lane */
+>  	u32 channel;
+>  	u32 lanes;
+> @@ -309,13 +310,37 @@ static inline u32 dsi_read(struct dw_mipi_dsi *dsi, u32 reg)
+>  	return readl(dsi->base + reg);
 >  }
 >  
-> -static const struct file_operations rockchip_drm_driver_fops = {
-> -	.owner = THIS_MODULE,
-> -	.open = drm_open,
-> -	.mmap = rockchip_gem_mmap,
-> -	.poll = drm_poll,
-> -	.read = drm_read,
-> -	.unlocked_ioctl = drm_ioctl,
-> -	.compat_ioctl = drm_compat_ioctl,
-> -	.release = drm_release,
-> -};
-> +DEFINE_DRM_GEM_FOPS(rockchip_drm_driver_fops);
->  
->  static const struct drm_driver rockchip_drm_driver = {
->  	.driver_features	= DRIVER_MODESET | DRIVER_GEM | DRIVER_ATOMIC,
-> @@ -226,7 +217,7 @@ static const struct drm_driver rockchip_drm_driver = {
->  	.prime_handle_to_fd	= drm_gem_prime_handle_to_fd,
->  	.prime_fd_to_handle	= drm_gem_prime_fd_to_handle,
->  	.gem_prime_import_sg_table	= rockchip_gem_prime_import_sg_table,
-> -	.gem_prime_mmap		= rockchip_gem_mmap_buf,
-> +	.gem_prime_mmap		= drm_gem_prime_mmap,
->  	.fops			= &rockchip_drm_driver_fops,
->  	.name	= DRIVER_NAME,
->  	.desc	= DRIVER_DESC,
-> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_fbdev.c b/drivers/gpu/drm/rockchip/rockchip_drm_fbdev.c
-> index 2fdc455c4ad7..d8418dd39d0e 100644
-> --- a/drivers/gpu/drm/rockchip/rockchip_drm_fbdev.c
-> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_fbdev.c
-> @@ -7,6 +7,7 @@
->  #include <drm/drm.h>
->  #include <drm/drm_fb_helper.h>
->  #include <drm/drm_fourcc.h>
-> +#include <drm/drm_prime.h>
->  #include <drm/drm_probe_helper.h>
->  
->  #include "rockchip_drm_drv.h"
-> @@ -24,7 +25,7 @@ static int rockchip_fbdev_mmap(struct fb_info *info,
->  	struct drm_fb_helper *helper = info->par;
->  	struct rockchip_drm_private *private = to_drm_private(helper);
->  
-> -	return rockchip_gem_mmap_buf(private->fbdev_bo, vma);
-> +	return drm_gem_prime_mmap(private->fbdev_bo, vma);
->  }
->  
->  static const struct fb_ops rockchip_drm_fbdev_ops = {
-> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_gem.c b/drivers/gpu/drm/rockchip/rockchip_drm_gem.c
-> index 7971f57436dd..63eb73b624aa 100644
-> --- a/drivers/gpu/drm/rockchip/rockchip_drm_gem.c
-> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_gem.c
-> @@ -240,12 +240,22 @@ static int rockchip_drm_gem_object_mmap(struct drm_gem_object *obj,
->  	int ret;
->  	struct rockchip_gem_object *rk_obj = to_rockchip_obj(obj);
->  
-> +	/*
-> +	 * Set vm_pgoff (used as a fake buffer offset by DRM) to 0 and map the
-> +	 * whole buffer from the start.
-> +	 */
-> +	vma->vm_pgoff = 0;
+> +static int dw_mipi_dsi_panel_or_bridge(struct dw_mipi_dsi *dsi,
+> +				       struct device_node *node)
+> +{
+> +	struct drm_bridge *bridge;
+> +	struct drm_panel *panel;
+> +	int ret;
 > +
->  	/*
->  	 * We allocated a struct page table for rk_obj, so clear
->  	 * VM_PFNMAP flag that was set by drm_gem_mmap_obj()/drm_gem_mmap().
->  	 */
-> +	vma->vm_flags |= VM_IO | VM_DONTEXPAND | VM_DONTDUMP;
->  	vma->vm_flags &= ~VM_PFNMAP;
->  
-> +	vma->vm_page_prot = pgprot_writecombine(vm_get_page_prot(vma->vm_flags));
-> +	vma->vm_page_prot = pgprot_decrypted(vma->vm_page_prot);
+> +	ret = drm_of_find_panel_or_bridge(node, 1, 0, &panel, &bridge);
+> +	if (ret)
+> +		return ret;
 > +
->  	if (rk_obj->pages)
->  		ret = rockchip_drm_gem_object_mmap_iommu(obj, vma);
->  	else
-> @@ -257,39 +267,6 @@ static int rockchip_drm_gem_object_mmap(struct drm_gem_object *obj,
->  	return ret;
->  }
->  
-> -int rockchip_gem_mmap_buf(struct drm_gem_object *obj,
-> -			  struct vm_area_struct *vma)
-> -{
-> -	int ret;
-> -
-> -	ret = drm_gem_mmap_obj(obj, obj->size, vma);
-> -	if (ret)
-> -		return ret;
-> -
-> -	return rockchip_drm_gem_object_mmap(obj, vma);
-> -}
-> -
-> -/* drm driver mmap file operations */
-> -int rockchip_gem_mmap(struct file *filp, struct vm_area_struct *vma)
-> -{
-> -	struct drm_gem_object *obj;
-> -	int ret;
-> -
-> -	ret = drm_gem_mmap(filp, vma);
-> -	if (ret)
-> -		return ret;
-> -
-> -	/*
-> -	 * Set vm_pgoff (used as a fake buffer offset by DRM) to 0 and map the
-> -	 * whole buffer from the start.
-> -	 */
-> -	vma->vm_pgoff = 0;
-> -
-> -	obj = vma->vm_private_data;
-> -
-> -	return rockchip_drm_gem_object_mmap(obj, vma);
-> -}
-> -
->  static void rockchip_gem_release_object(struct rockchip_gem_object *rk_obj)
+> +	if (panel) {
+> +		bridge = drm_panel_bridge_add_typed(panel,
+> +						    DRM_MODE_CONNECTOR_DSI);
+> +		if (IS_ERR(bridge))
+> +			return PTR_ERR(bridge);
+> +	}
+> +
+> +	dsi->panel_bridge = bridge;
+> +
+> +	if (!dsi->panel_bridge)
+> +		return -EPROBE_DEFER;
+> +
+> +	return 0;
+> +}
+> +
+>  static int dw_mipi_dsi_host_attach(struct mipi_dsi_host *host,
+>  				   struct mipi_dsi_device *device)
 >  {
->  	drm_gem_object_release(&rk_obj->base);
-> @@ -301,6 +278,7 @@ static const struct drm_gem_object_funcs rockchip_gem_object_funcs = {
->  	.get_sg_table = rockchip_gem_prime_get_sg_table,
->  	.vmap = rockchip_gem_prime_vmap,
->  	.vunmap	= rockchip_gem_prime_vunmap,
-> +	.mmap = rockchip_drm_gem_object_mmap,
->  	.vm_ops = &drm_gem_cma_vm_ops,
->  };
+>  	struct dw_mipi_dsi *dsi = host_to_dsi(host);
+>  	const struct dw_mipi_dsi_plat_data *pdata = dsi->plat_data;
+> -	struct drm_bridge *bridge;
+> -	struct drm_panel *panel;
+>  	int ret;
 >  
-> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_gem.h b/drivers/gpu/drm/rockchip/rockchip_drm_gem.h
-> index 5a70a56cd406..47c1861eece0 100644
-> --- a/drivers/gpu/drm/rockchip/rockchip_drm_gem.h
-> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_gem.h
-> @@ -34,13 +34,6 @@ rockchip_gem_prime_import_sg_table(struct drm_device *dev,
->  int rockchip_gem_prime_vmap(struct drm_gem_object *obj, struct dma_buf_map *map);
->  void rockchip_gem_prime_vunmap(struct drm_gem_object *obj, struct dma_buf_map *map);
+>  	if (device->lanes > dsi->plat_data->max_data_lanes) {
+> @@ -329,22 +354,14 @@ static int dw_mipi_dsi_host_attach(struct mipi_dsi_host *host,
+>  	dsi->format = device->format;
+>  	dsi->mode_flags = device->mode_flags;
 >  
-> -/* drm driver mmap file operations */
-> -int rockchip_gem_mmap(struct file *filp, struct vm_area_struct *vma);
+> -	ret = drm_of_find_panel_or_bridge(host->dev->of_node, 1, 0,
+> -					  &panel, &bridge);
+> -	if (ret)
+> -		return ret;
+> +	if (!dsi->device_found) {
+> +		ret = dw_mipi_dsi_panel_or_bridge(dsi, host->dev->of_node);
+> +		if (ret)
+> +			return ret;
+>  
+> -	if (panel) {
+> -		bridge = drm_panel_bridge_add_typed(panel,
+> -						    DRM_MODE_CONNECTOR_DSI);
+> -		if (IS_ERR(bridge))
+> -			return PTR_ERR(bridge);
+> +		dsi->device_found = true;
+>  	}
+>  
+> -	dsi->panel_bridge = bridge;
 > -
-> -/* mmap a gem object to userspace. */
-> -int rockchip_gem_mmap_buf(struct drm_gem_object *obj,
-> -			  struct vm_area_struct *vma);
+> -	drm_bridge_add(&dsi->bridge);
 > -
->  struct rockchip_gem_object *
->  	rockchip_gem_create_object(struct drm_device *drm, unsigned int size,
->  				   bool alloc_kmap);
+>  	if (pdata->host_ops && pdata->host_ops->attach) {
+>  		ret = pdata->host_ops->attach(pdata->priv_data, device);
+>  		if (ret < 0)
+> @@ -999,6 +1016,16 @@ static int dw_mipi_dsi_bridge_attach(struct drm_bridge *bridge,
+>  	/* Set the encoder type as caller does not know it */
+>  	bridge->encoder->encoder_type = DRM_MODE_ENCODER_DSI;
+>  
+> +	if (!dsi->device_found) {
+> +		int ret;
+> +
+> +		ret = dw_mipi_dsi_panel_or_bridge(dsi, dsi->dev->of_node);
+> +		if (ret)
+> +			return ret;
+> +
+> +		dsi->device_found = true;
+> +	}
+> +
+>  	/* Attach the panel-bridge to the dsi bridge */
+>  	return drm_bridge_attach(bridge->encoder, dsi->panel_bridge, bridge,
+>  				 flags);
+> @@ -1181,6 +1208,7 @@ __dw_mipi_dsi_probe(struct platform_device *pdev,
+>  #ifdef CONFIG_OF
+>  	dsi->bridge.of_node = pdev->dev.of_node;
+>  #endif
+> +	drm_bridge_add(&dsi->bridge);
+>  
+>  	return dsi;
+>  }
 > 
 
 
