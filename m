@@ -2,37 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7873D3CBFE5
-	for <lists+dri-devel@lfdr.de>; Sat, 17 Jul 2021 01:57:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 983D43CBFF2
+	for <lists+dri-devel@lfdr.de>; Sat, 17 Jul 2021 02:03:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B2A56E9EC;
-	Fri, 16 Jul 2021 23:57:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D84DF6E953;
+	Sat, 17 Jul 2021 00:03:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C57436E953;
- Fri, 16 Jul 2021 23:57:23 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10047"; a="271919237"
-X-IronPort-AV: E=Sophos;i="5.84,246,1620716400"; d="scan'208";a="271919237"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Jul 2021 16:57:20 -0700
-X-IronPort-AV: E=Sophos;i="5.84,246,1620716400"; d="scan'208";a="574488682"
-Received: from dut151-iclu.fm.intel.com ([10.105.23.43])
- by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Jul 2021 16:57:20 -0700
-Date: Fri, 16 Jul 2021 23:57:18 +0000
-From: Matthew Brost <matthew.brost@intel.com>
-To: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 46/51] drm/i915/selftest: Fix MOCS selftest for GuC
- submission
-Message-ID: <20210716235718.GA10498@DUT151-ICLU.fm.intel.com>
-References: <20210716201724.54804-1-matthew.brost@intel.com>
- <20210716201724.54804-47-matthew.brost@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210716201724.54804-47-matthew.brost@intel.com>
+Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com
+ [IPv6:2607:f8b0:4864:20::b4a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A78BF6E953
+ for <dri-devel@lists.freedesktop.org>; Sat, 17 Jul 2021 00:03:52 +0000 (UTC)
+Received: by mail-yb1-xb4a.google.com with SMTP id
+ z39-20020a25ada70000b029056092741626so14660542ybi.19
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jul 2021 17:03:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=date:message-id:mime-version:subject:from:to:cc;
+ bh=RDUgVelj+CPe4t6KMZ4n5EMZaDtjmTsbCz6doNCZT/Y=;
+ b=mPUoPVF+UTyT3Xl5NHYNtSv/jypRlVxeOpMlkbcT24Zgqmwt/mtY8uJWvmoDPasjGd
+ CW1nKH2M2c45U6oB5xKM4ycZTubjmL+c0EUYs4yKoqDRId8jq7EMAaIIzK4TVvbhC/rs
+ EEazyyXLFmoUZUbHy9s64iwrCDniZW29p/ynuq9sMCH8kmXZ+VbiwDQZtFsh9aB4HAKu
+ zfYt/l7dCFIVoeVE7DgrNY9C0qWB24ULvTR7IuvgVSTDRDn9UzjbU4V6FL/TGXhEYE48
+ ZS8G/oTDvabtrBrK4ei+jRt4WVeh3IF8wWgBAJhaTUrftWep+uwNMvITgW1I3vUxyt7T
+ nckg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+ bh=RDUgVelj+CPe4t6KMZ4n5EMZaDtjmTsbCz6doNCZT/Y=;
+ b=jJEv1UZ9n0G6NNAsNKWKNRYMVrX3xRvDRLaWUJ1HyIqdHN2HWg+Bt3PC0YpLnI3Orb
+ cMo8pJoee82Z3XyXMi2vig5HlBwjiGCjwKZDlVxpWeAzzHUCL6pJtmNUzSJEpYYfHgQe
+ qZacQIcJQfuLdJVmsaWFpL+hUCa3Kn89GcNJ6cSq8PKUJo8IKpKITWtfbtKIoLAunhFR
+ 3wNAVzy0aXKN/A9J6W4kQreO5OYzzx1/azcBwqyWn+GCird8z20Q3V9P016f4cbs6j4c
+ 5SSlTlKXkMziJmtjBc3T1HmMUMGLKgVJ6HCxBc1mA0k5OmDEdrlQrtS3RqKo+wcA/lUj
+ GdaQ==
+X-Gm-Message-State: AOAM530M3JgocLCI6fovkHTHloUdLVTHJ2i+5JQHvEswpPc07URm0Huj
+ knQXafbhkz8RoHUlnBxPC6yfLKcZNhrF6Sf2qCY=
+X-Google-Smtp-Source: ABdhPJwSrg4qElhxKhNcrm6xV1ytMGy0zO80SmC4fYKzdGyzuW2mJn9UxS+CxIPPFfgIwa6nvBIRVIKrIB5dHLYaDqo=
+X-Received: from willmcvicker.c.googlers.com
+ ([fda3:e722:ac3:cc00:24:72f4:c0a8:2dd0])
+ (user=willmcvicker job=sendgmr) by 2002:a25:8b0d:: with SMTP id
+ i13mr16613822ybl.398.1626480231660; Fri, 16 Jul 2021 17:03:51 -0700 (PDT)
+Date: Sat, 17 Jul 2021 00:03:45 +0000
+Message-Id: <20210717000345.2345429-1-willmcvicker@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.32.0.402.g57bb445576-goog
+Subject: [PATCH] drm/mipi: set fwnode when a mipi_dsi_device is registered
+From: Will McVicker <willmcvicker@google.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,135 +65,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniele.ceraolospurio@intel.com, john.c.harrison@intel.com
+Cc: Will McVicker <willmcvicker@google.com>, kernel-team@android.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Saravana Kannan <saravanak@google.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jul 16, 2021 at 01:17:19PM -0700, Matthew Brost wrote:
-> From: Rahul Kumar Singh <rahul.kumar.singh@intel.com>
-> 
-> When GuC submission is enabled, the GuC controls engine resets. Rather
-> than explicitly triggering a reset, the driver must submit a hanging
-> context to GuC and wait for the reset to occur.
-> 
-> Signed-off-by: Rahul Kumar Singh <rahul.kumar.singh@intel.com>
-> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
-> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-> Cc: Matthew Brost <matthew.brost@intel.com>
+This allows the fw_devlink feature to work across mipi_dsi bus devices too.
+This feature avoids unnecessary probe deferrals of mipi_dsi devices, defers
+consumers of mipi_dsi devices till the mipi_dsi devices probe, and allows
+mipi_dsi drivers to implement sync_state() callbacks.
 
-Reviewed-by: Matthew Brost <matthew.brost@intel.com>
+Suggested-by: Saravana Kannan <saravanak@google.com>
+Signed-off-by: Will McVicker <willmcvicker@google.com>
+Reviewed-by: Saravana Kannan <saravanak@google.com>
+---
+ drivers/gpu/drm/drm_mipi_dsi.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-> ---
->  drivers/gpu/drm/i915/gt/selftest_mocs.c | 49 ++++++++++++++++++-------
->  1 file changed, 35 insertions(+), 14 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/selftest_mocs.c b/drivers/gpu/drm/i915/gt/selftest_mocs.c
-> index 8763bbeca0f7..b7314739ee40 100644
-> --- a/drivers/gpu/drm/i915/gt/selftest_mocs.c
-> +++ b/drivers/gpu/drm/i915/gt/selftest_mocs.c
-> @@ -10,6 +10,7 @@
->  #include "gem/selftests/mock_context.h"
->  #include "selftests/igt_reset.h"
->  #include "selftests/igt_spinner.h"
-> +#include "selftests/intel_scheduler_helpers.h"
->  
->  struct live_mocs {
->  	struct drm_i915_mocs_table table;
-> @@ -318,7 +319,8 @@ static int live_mocs_clean(void *arg)
->  }
->  
->  static int active_engine_reset(struct intel_context *ce,
-> -			       const char *reason)
-> +			       const char *reason,
-> +			       bool using_guc)
->  {
->  	struct igt_spinner spin;
->  	struct i915_request *rq;
-> @@ -335,9 +337,13 @@ static int active_engine_reset(struct intel_context *ce,
->  	}
->  
->  	err = request_add_spin(rq, &spin);
-> -	if (err == 0)
-> +	if (err == 0 && !using_guc)
->  		err = intel_engine_reset(ce->engine, reason);
->  
-> +	/* Ensure the reset happens and kills the engine */
-> +	if (err == 0)
-> +		err = intel_selftest_wait_for_rq(rq);
-> +
->  	igt_spinner_end(&spin);
->  	igt_spinner_fini(&spin);
->  
-> @@ -345,21 +351,23 @@ static int active_engine_reset(struct intel_context *ce,
->  }
->  
->  static int __live_mocs_reset(struct live_mocs *mocs,
-> -			     struct intel_context *ce)
-> +			     struct intel_context *ce, bool using_guc)
->  {
->  	struct intel_gt *gt = ce->engine->gt;
->  	int err;
->  
->  	if (intel_has_reset_engine(gt)) {
-> -		err = intel_engine_reset(ce->engine, "mocs");
-> -		if (err)
-> -			return err;
-> -
-> -		err = check_mocs_engine(mocs, ce);
-> -		if (err)
-> -			return err;
-> +		if (!using_guc) {
-> +			err = intel_engine_reset(ce->engine, "mocs");
-> +			if (err)
-> +				return err;
-> +
-> +			err = check_mocs_engine(mocs, ce);
-> +			if (err)
-> +				return err;
-> +		}
->  
-> -		err = active_engine_reset(ce, "mocs");
-> +		err = active_engine_reset(ce, "mocs", using_guc);
->  		if (err)
->  			return err;
->  
-> @@ -395,19 +403,32 @@ static int live_mocs_reset(void *arg)
->  
->  	igt_global_reset_lock(gt);
->  	for_each_engine(engine, gt, id) {
-> +		bool using_guc = intel_engine_uses_guc(engine);
-> +		struct intel_selftest_saved_policy saved;
->  		struct intel_context *ce;
-> +		int err2;
-> +
-> +		err = intel_selftest_modify_policy(engine, &saved);
-> +		if (err)
-> +			break;
->  
->  		ce = mocs_context_create(engine);
->  		if (IS_ERR(ce)) {
->  			err = PTR_ERR(ce);
-> -			break;
-> +			goto restore;
->  		}
->  
->  		intel_engine_pm_get(engine);
-> -		err = __live_mocs_reset(&mocs, ce);
-> -		intel_engine_pm_put(engine);
->  
-> +		err = __live_mocs_reset(&mocs, ce, using_guc);
-> +
-> +		intel_engine_pm_put(engine);
->  		intel_context_put(ce);
-> +
-> +restore:
-> +		err2 = intel_selftest_restore_policy(engine, &saved);
-> +		if (err == 0)
-> +			err = err2;
->  		if (err)
->  			break;
->  	}
-> -- 
-> 2.28.0
-> 
+v2:
+ Thanks Saravana for the comments! I updated the commit message and added your
+ reviewed-by.
+
+diff --git a/drivers/gpu/drm/drm_mipi_dsi.c b/drivers/gpu/drm/drm_mipi_dsi.c
+index 5dd475e82995..469d56cf2a50 100644
+--- a/drivers/gpu/drm/drm_mipi_dsi.c
++++ b/drivers/gpu/drm/drm_mipi_dsi.c
+@@ -222,6 +222,7 @@ mipi_dsi_device_register_full(struct mipi_dsi_host *host,
+ 	}
+ 
+ 	dsi->dev.of_node = info->node;
++	dsi->dev.fwnode = of_fwnode_handle(info->node);
+ 	dsi->channel = info->channel;
+ 	strlcpy(dsi->name, info->type, sizeof(dsi->name));
+ 
+-- 
+2.32.0.402.g57bb445576-goog
+
