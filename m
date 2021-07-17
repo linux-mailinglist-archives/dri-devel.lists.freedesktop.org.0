@@ -2,51 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED9AC3CC3E2
-	for <lists+dri-devel@lfdr.de>; Sat, 17 Jul 2021 16:52:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7EB73CC4B6
+	for <lists+dri-devel@lfdr.de>; Sat, 17 Jul 2021 19:08:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE20A6EA87;
-	Sat, 17 Jul 2021 14:52:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 34E496EA91;
+	Sat, 17 Jul 2021 17:08:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de
- [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 271E86EA87;
- Sat, 17 Jul 2021 14:52:44 +0000 (UTC)
-Received: from [IPv6:::1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id F3F1180C8A;
- Sat, 17 Jul 2021 16:52:42 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1626533563;
- bh=npH7CBycRu6EBqjl4EyMtUkvdmFvaHCRoFwTmw25Hik=;
- h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=eZnHjUH4Iksdn6yji/v1i7X/nL1Ewf32Nu5FjF7QaRjYYtO+LoZfF8njxxzsVFk9j
- MRZFZMzo1jPwF5ydzhdHFlYjlCD2e3qZ7o5tIWBVZPdlgXl/WR63v0f0C9IPnalH5m
- E2AgZoT3Dih2gHb2TpxVUehZ6DClCYm8LPa6UPjMM8uXk+QvxTkML9bZEoxaHnTsTi
- peohb9RxgXzU1miMHnUVJUyQJEXHKlyqpyttpjjkidKlftWmb/YqmbSxBXFL3moHjN
- bCCuvLUA5itx/6cXnsz5l6n7sEwiKtKhOFkYK3ehp7DloX/6sERb8uBZ3gJnJMX+1w
- p6Hix8PbFxA/g==
-Subject: Re: [PATCH] drm/lima: Convert to clk_bulk API
-To: Qiang Yu <yuq825@gmail.com>
-References: <20210716182051.218575-1-marex@denx.de>
- <CAKGbVbsingxFiCARSu_-S_KxMHpQEJRkQn5hq9vAGUDwsBSh_g@mail.gmail.com>
- <e12734e8-71aa-375a-d544-c75b7379e576@denx.de>
- <CAKGbVbtRuVeUBD+m3J5U5AP_FM5S7i_qGXR-AHNeLnRogutVEQ@mail.gmail.com>
-From: Marek Vasut <marex@denx.de>
-Message-ID: <7462de54-5193-1606-7a93-390ad93c3b17@denx.de>
-Date: Sat, 17 Jul 2021 16:52:42 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1CC7E6EA1D
+ for <dri-devel@lists.freedesktop.org>; Sat, 17 Jul 2021 09:09:32 +0000 (UTC)
+X-UUID: 2157498aca424e82b6ab02a77d95bd58-20210717
+X-UUID: 2157498aca424e82b6ab02a77d95bd58-20210717
+Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw01.mediatek.com
+ (envelope-from <nancy.lin@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 730742864; Sat, 17 Jul 2021 17:04:25 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by
+ mtkmbs05n2.mediatek.inc (172.21.101.140) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Sat, 17 Jul 2021 17:04:23 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas10.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via
+ Frontend Transport; Sat, 17 Jul 2021 17:04:23 +0800
+From: Nancy.Lin <nancy.lin@mediatek.com>
+To: CK Hu <ck.hu@mediatek.com>
+Subject: [PATCH v1 00/10] Add MediaTek SoC DRM (vdosys1) support for mt8195
+Date: Sat, 17 Jul 2021 17:03:58 +0800
+Message-ID: <20210717090408.28283-1-nancy.lin@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-In-Reply-To: <CAKGbVbtRuVeUBD+m3J5U5AP_FM5S7i_qGXR-AHNeLnRogutVEQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.103.2 at phobos.denx.de
-X-Virus-Status: Clean
+Content-Type: text/plain
+X-MTK: N
+X-Mailman-Approved-At: Sat, 17 Jul 2021 17:08:05 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,100 +46,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Michal Simek <monstr@monstr.eu>, lima@lists.freedesktop.org,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Michal Simek <michal.simek@xilinx.com>
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, srv_heupstream@mediatek.com,
+ devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ "jason-jh . lin" <jason-jh.lin@mediatek.com>, singo.chang@mediatek.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Yongqiang Niu <yongqiang.niu@mediatek.com>, Rob Herring <robh+dt@kernel.org>,
+ linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
+ "Nancy . Lin" <nancy.lin@mediatek.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/17/21 4:21 PM, Qiang Yu wrote:
-> On Sat, Jul 17, 2021 at 9:08 PM Marek Vasut <marex@denx.de> wrote:
->>
->> On 7/17/21 2:34 PM, Qiang Yu wrote:
->>> On Sat, Jul 17, 2021 at 2:20 AM Marek Vasut <marex@denx.de> wrote:
->>>>
->>>> Instead of requesting two separate clock and then handling them
->>>> separately in various places of the driver, use clk_bulk_*() API.
->>>> This permits handling devices with more than "bus"/"core" clock,
->>>> like ZynqMP, which has "gpu"/"gpu_pp0"/"gpu_pp1" all as separate
->>>> clock.
->>>
->>> I can't find the ZynqMP DTS file under arch/arm64/boot/dts/xilinx
->>> which has mali GPU node with an upstream kernel, where is it?
->>
->> Posted here:
->> https://patchwork.kernel.org/project/linux-arm-kernel/patch/20210716182544.219490-1-marex@denx.de/
->>
->>> So what's the relationship between "gpu" clk and "gpu_pp0"/"gpu_pp1"
->>> clk? Do they need to be controlled separately or we can just control the
->>> "gpu" clk? Because the devfreq code just controls a single module clk.
->>
->> Per the docs, they are separate enable bits and the zynqmp clock
->> controller exports them as separate clock, see bits 24..26 here:
->>
->> https://www.xilinx.com/html_docs/registers/ug1087/crf_apb___gpu_ref_ctrl.html
->>
->>>> Signed-off-by: Marek Vasut <marex@denx.de>
->>>> Cc: Qiang Yu <yuq825@gmail.com>
->>>> Cc: lima@lists.freedesktop.org
->>>> ---
->>>>    drivers/gpu/drm/lima/lima_devfreq.c | 17 +++++++++---
->>>>    drivers/gpu/drm/lima/lima_devfreq.h |  1 +
->>>>    drivers/gpu/drm/lima/lima_device.c  | 42 +++++++++++------------------
->>>>    drivers/gpu/drm/lima/lima_device.h  |  4 +--
->>>>    4 files changed, 32 insertions(+), 32 deletions(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/lima/lima_devfreq.c b/drivers/gpu/drm/lima/lima_devfreq.c
->>>> index 8989e215dfc9..533b36932f79 100644
->>>> --- a/drivers/gpu/drm/lima/lima_devfreq.c
->>>> +++ b/drivers/gpu/drm/lima/lima_devfreq.c
->>>> @@ -58,7 +58,7 @@ static int lima_devfreq_get_dev_status(struct device *dev,
->>>>           struct lima_devfreq *devfreq = &ldev->devfreq;
->>>>           unsigned long irqflags;
->>>>
->>>> -       status->current_frequency = clk_get_rate(ldev->clk_gpu);
->>>> +       status->current_frequency = clk_get_rate(devfreq->clk_gpu);
->>>>
->>>>           spin_lock_irqsave(&devfreq->lock, irqflags);
->>>>
->>>> @@ -110,12 +110,23 @@ int lima_devfreq_init(struct lima_device *ldev)
->>>>           struct lima_devfreq *ldevfreq = &ldev->devfreq;
->>>>           struct dev_pm_opp *opp;
->>>>           unsigned long cur_freq;
->>>> -       int ret;
->>>> +       int i, ret;
->>>>
->>>>           if (!device_property_present(dev, "operating-points-v2"))
->>>>                   /* Optional, continue without devfreq */
->>>>                   return 0;
->>>>
->>>> +       /* Find first clock which are not "bus" clock */
->>>> +       for (i = 0; i < ldev->nr_clks; i++) {
->>>> +               if (!strcmp(ldev->clks[i].id, "bus"))
->>>> +                       continue;
->>>> +               ldevfreq->clk_gpu = ldev->clks[i].clk;
->>>> +               break;
->>>> +       }
->>>
->>> I'd prefer an explicit name for the required clk name. If some DTS has different
->>> name other than "core" for the module clk (ie. "gpu"), it should be changed to
->>> "core".
->>
->> The problem here is, the zynqmp has no core clock, it has "gpu and both
->> pixel pipes" super-clock-gate which controls everything, and then
->> per-pixel-pipe sub-clock-gates.
-> 
-> So the "gpu" clk can gate both "gpu_pp0" and "gpu_pp1" clk, how about frequency?
+The hardware path of vdosys1 with DPTx output need to go through
+by several modules, such as, PSEUDO_OVL, ETHDR, and MERGE.
 
-I don't think it is a good idea to just gate off the root clock while 
-the sub-clock are still enabled. That might lead to latch ups (+CC 
-Michal, he might know more).
+Add DRM and these modules support by the patches below:
 
-And who would enable the sub-clock anyway, it should be the GPU driver, no?
+Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
+---
+This series are based on the following patch:
+[1] arm64: dts: Add Mediatek SoC MT8195 and evaluation board dts and Makefile
+    https://patchwork.kernel.org/project/linux-mediatek/patch/20210601075350.31515-2-seiya.wang@mediatek.com/
+[2] arm64: dts: mt8195: add IOMMU and smi nodes
+    https://patchwork.kernel.org/project/linux-mediatek/patch/20210615173233.26682-15-tinghan.shen@mediatek.com/
+[3] [01/24] dt-bindings: mediatek: mt8195: Add binding for MM IOMMU
+    https://patchwork.kernel.org/project/linux-mediatek/patch/20210630023504.18177-2-yong.wu@mediatek.com/
+[4] Add gce support for mt8195
+    https://patchwork.kernel.org/project/linux-mediatek/list/?series=515599
+[5] Add MediaTek SoC DRM (vdosys0) support for mt8195
+    https://patchwork.kernel.org/project/linux-mediatek/list/?series=516277
+---
 
-> Can we set clock rate for "gpu" then "gpu_pp0" and "gpu_pp1" pass
-> through the same
-> rate? If so, "gpu" works just like "core".
+Nancy.Lin (10):
+  [PATCH v1 01/10] dt-bindings: mediatek: add pseudo-ovl definition for mt8195
+  [PATCH v1 02/10] dt-bindings: mediatek: add ethdr definition for mt8195
+  [PATCH v1 03/10] arm64: dts: mt8195: add display node for vdosys1
+  [PATCH v1 04/10] soc: mediatek: add mtk-mmsys support for mt8195 vdosys1
+  [PATCH v1 05/10] soc: mediatek: add mtk-mutex support for mt8195 vdosys1
+  [PATCH v1 06/10] drm/mediatek: add ETHDR support for MT8195
+  [PATCH v1 07/10] drm/mediatek: add pseudo ovl support for MT8195
+  [PATCH v1 08/10] drm/mediatek: add merge vblank support for MT8195
+  [PATCH v1 09/10] soc: mediatek: mmsys: add new mtk_mmsys struct member to store drm
+    data.
+  [PATCH v1 10/10] drm/mediatek: add mediatek-drm of vdosys1 support for MT8195
 
-I don't think the zynqmp is capable of any DVFS on the GPU at all, it 
-just runs at fixed frequency.
+ .../display/mediatek/mediatek,disp.yaml       |  10 +
+ .../display/mediatek/mediatek,ethdr.yaml      | 137 ++++
+ .../display/mediatek/mediatek,pseudo-ovl.yaml | 105 +++
+ arch/arm64/boot/dts/mediatek/mt8195.dtsi      | 206 ++++++
+ drivers/gpu/drm/mediatek/Makefile             |   5 +-
+ drivers/gpu/drm/mediatek/mtk_disp_drv.h       |  24 +
+ drivers/gpu/drm/mediatek/mtk_disp_merge.c     |  56 ++
+ .../gpu/drm/mediatek/mtk_disp_pseudo_ovl.c    | 655 ++++++++++++++++++
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.c       |  37 +-
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.h       |   3 +-
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c   |  63 ++
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h   |  18 +-
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c        | 375 ++++++++--
+ drivers/gpu/drm/mediatek/mtk_drm_drv.h        |  17 +-
+ drivers/gpu/drm/mediatek/mtk_ethdr.c          | 537 ++++++++++++++
+ drivers/gpu/drm/mediatek/mtk_ethdr.h          |  20 +
+ drivers/gpu/drm/mediatek/mtk_mdp_rdma.c       | 456 ++++++++++++
+ drivers/gpu/drm/mediatek/mtk_mdp_rdma.h       | 109 +++
+ drivers/gpu/drm/mediatek/mtk_mdp_reg_rdma.h   | 160 +++++
+ drivers/soc/mediatek/mt8195-mmsys.h           |  83 ++-
+ drivers/soc/mediatek/mtk-mmsys.c              |  11 +
+ drivers/soc/mediatek/mtk-mutex.c              | 270 +++++---
+ include/linux/soc/mediatek/mtk-mmsys.h        |   3 +
+ 23 files changed, 3166 insertions(+), 194 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,ethdr.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,pseudo-ovl.yaml
+ create mode 100644 drivers/gpu/drm/mediatek/mtk_disp_pseudo_ovl.c
+ create mode 100644 drivers/gpu/drm/mediatek/mtk_ethdr.c
+ create mode 100644 drivers/gpu/drm/mediatek/mtk_ethdr.h
+ create mode 100644 drivers/gpu/drm/mediatek/mtk_mdp_rdma.c
+ create mode 100644 drivers/gpu/drm/mediatek/mtk_mdp_rdma.h
+ create mode 100644 drivers/gpu/drm/mediatek/mtk_mdp_reg_rdma.h
+
+-- 
+2.18.0
+
