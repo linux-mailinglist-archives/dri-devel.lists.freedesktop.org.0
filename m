@@ -2,57 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 177573CC95C
-	for <lists+dri-devel@lfdr.de>; Sun, 18 Jul 2021 15:40:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5021E3CCA7F
+	for <lists+dri-devel@lfdr.de>; Sun, 18 Jul 2021 21:43:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 386C989CCE;
-	Sun, 18 Jul 2021 13:40:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C3CD89D99;
+	Sun, 18 Jul 2021 19:43:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9EDD489CCE
- for <dri-devel@lists.freedesktop.org>; Sun, 18 Jul 2021 13:39:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1626615586;
- bh=1HpwNTaa7/EOz5SUy/Y+rxrxigaB7TM0uOC1wehYCrg=;
- h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
- b=XMibZM4erFJb4DEiqrUJM6aUE++xgTCwLSt9gbtnCFTXlapvMb6C/X/Ej9DcWFBWE
- UPffHDxauTm2chsRSrjtJAeQd1bzRMvKuTzl4b3bWoq62dtDG88/TQS1eWSydXKe1v
- YKeY4TFTUlnG3zmZ4PY67jSASp5y2KOQ3OKbJSJE=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from localhost.localdomain ([83.52.228.41]) by mail.gmx.net
- (mrgmx105 [212.227.17.174]) with ESMTPSA (Nemesis) id
- 1MpDJX-1lKkFJ0T5L-00qhpO; Sun, 18 Jul 2021 15:39:46 +0200
-From: Len Baker <len.baker@gmx.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH] staging/fbtft: Remove all strcpy() uses
-Date: Sun, 18 Jul 2021 15:39:20 +0200
-Message-Id: <20210718133920.15825-1-len.baker@gmx.com>
-X-Mailer: git-send-email 2.25.1
+Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com
+ [IPv6:2607:f8b0:4864:20::62b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E882A89D99
+ for <dri-devel@lists.freedesktop.org>; Sun, 18 Jul 2021 19:43:18 +0000 (UTC)
+Received: by mail-pl1-x62b.google.com with SMTP id e14so5635225plh.8
+ for <dri-devel@lists.freedesktop.org>; Sun, 18 Jul 2021 12:43:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=7exFBskhTjXcI0G1jQYaweC6zi6nB0YxhW9GhW8QVJk=;
+ b=hTAqgsHvvgfNcEagZtVOoEg9FPZ1K7swFoeQE74LVxhVPjWe4cMJ36z1icfI5N90l0
+ Q5NEeHaePN4cZlD/CHtW4Q3HajTJXac5NUjQ3Tfn2qYdk7cJOxD93QiuahCUEOdvoYan
+ yWAQXjAMKElZboyb3fVwi3x1JZL/sJ6Kaf4cbOmJ4HWzjIM7H5CRcv+C/ovoiTK5KLZO
+ MewH468+Xkk/Jq2ehDT+j7bKEfHjqYerJXYXfL+fUWicAa9dKBPN3mXL6A41iuyJcvu0
+ q699wJgigkj4sMp84K14HXfLRz4drOEqjzlqLQhWSBDA6e5vjBNH9oe/EgXH+w0RCd+7
+ LXXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=7exFBskhTjXcI0G1jQYaweC6zi6nB0YxhW9GhW8QVJk=;
+ b=EZGCxtB4e9248CZtOyilBUw4VMhOU1aejWx84+M24Y1FqBFbC0wTdSd73kqrLYaHnF
+ F+i4cd9rlr35D8l6vNQpiHbSB4aCdDPVpXXQWgtftDLK2Pc25v7QfiKlIzL6FwmSu2PB
+ HaR7knFkF9D9lrbkE6azaN8yZBS9O+Hv2j14B8JlWOmGNh8uuuzQrUPJIVmLKsiwUS+e
+ BRfs5/ZdDIrcqdlxZ0CEPZriXiGalrZwAS6J9LVWYnEHsAilBXVv3iveefJ2FTEOZ0N1
+ lLvruDaDzDKf6zw3Hg61QQiu/CJFX+FM9SyJJuCKO3fdBL/aZjgGUA58kajOHAVWm/qa
+ MjWA==
+X-Gm-Message-State: AOAM532me6t9Rqg0KRM3gqpeXClSAVbI2UI599R5OPQjK8VNT8tM/xna
+ rjvLO3CrhG0sDqoDdF/QrPBTsnatjLxiCkRvXlQ=
+X-Google-Smtp-Source: ABdhPJxzjFnbQny4tL/Gtmd96c7VmxuNdY93ug+tJ2p9Dj5gOXvWXiaA+eeh1wWvAvNR+4wesFTmw2sp9FFlCmRM9oI=
+X-Received: by 2002:a17:902:b198:b029:11b:2246:e374 with SMTP id
+ s24-20020a170902b198b029011b2246e374mr16552094plr.17.1626637398478; Sun, 18
+ Jul 2021 12:43:18 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:HvTzj7KWNq6lSz5rqYyCxz1ImlYgklH3XUyeJLH414jVQCNGtlD
- H7cs5ERBdJ56v8O/OP3sv+soRp7147NkxxBubzDV+FcZ2KAi3NKUAetOG6G4RR3aaxIKG7r
- XTdfgl9+Amv2+X0EiqIlaozKA1rZwqSvHbGpNrBUd+BVU1/vIfNFjwv+jYxVxJyVr9+lODZ
- FF/eigpKaZGpE735rCNJA==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:ErRWAeYtbLk=:FXoDg8bzIG7LnbErPnu/F4
- Ebd61X57ICWz1bIIviyeV7DXSv4+28BdSm5JY1EElzcEaA79ja+EVZiraGLGEaH2GOwvGNlTu
- AjATrZCxr8eDXFxPW9Jw+DjvE44mZTM3JUomg45LsVUk/Q+NUCff4F2GtDRfXsEKcDPeEQE8O
- BFF7Vabl+TOWoxO9JhzQw1CC9gHo3JNbxFZfZNtozDHnqtNW6gb/JGruFSfoQSsn4dHYjbNuL
- QeconA+Rg4pN6CgN2NMNluaX9vdLhWrhXc3KrCoc2ct7w01ggODgWXX0O6ae6H3ZEgR/bSir/
- OdSx0OArvBsQ7TYLmp6+i8Y5DGVtMUYf8iQ5P3Cui/F4ipIPX09g0rKbXDZqtJuRefah1mxZf
- /NtddXTo1bNhwB84h4lBLL7yaZqW/p41ciyzQmgQjfx4b/VDpf2qblULn7VmHZwaj3i05iCZf
- t3SG5Sm0T0edhKilXt2Zp2jZequwP409Q3hn+NlmCGn1/NiBUOGKtbBW6wldNxl+YbbYRa+bU
- Mr9dBVv9i/RiXTovKXFMPuWCr1sGuIpHDz6rgSXdtgI/ZqLYnoN2RzM5fafJSOVGNWQvbxr1d
- 0K7l2Y2UbibOdPF2QXL+KJIT/ClxuSzQoJZrChAdFUdON7ulOiuBd7zeXJOCCmqh5LCunR5bc
- lRQ7Hkg9rmtuE5lcV6R9qz7cayJM83jsZpOUznwhzNd66u8NjLyJLLQ4qG8JDmdyBsB7Ck9Wo
- f0wh9MsqSBzf4Zo1u5oZAD1IxkZqc1vpdsqYAhdjty5SMIe7p+ALn4f27LX0Vf1nzxBHnhZHk
- nr9tJFJ64s5/iASUNtkOGElaNEW9mmWs39LNr772/1KT6J8CxFDbOGRxEHG6ZIFpWqmUAf00u
- bx/TQgALY1tnbIEpIyau3hoUuu7pIr3SdcxdH0B0knvQlQzu8/H4CKHsOJyDeWCBrqtGHN/DQ
- fNBM4bXr+q6pOaT8yKdZzxQsKYuXiRywYmiKFmajmfBJijGHK2yEQbQ4wndhVmClRXZ7AlSlU
- Jgki++0PRRhcDAHiXzHBkTPwhpYvPSrAwKgj/Y9EPIoVC5XWh2djhO+fB2dXmMe3MBkjGrPD7
- nQTbLWG3ywsCXzj3IcltbNm1q4BxhOx5Lkm
+References: <20210718133920.15825-1-len.baker@gmx.com>
+In-Reply-To: <20210718133920.15825-1-len.baker@gmx.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Sun, 18 Jul 2021 22:42:42 +0300
+Message-ID: <CAHp75VeEA0=KFsfdjCnBm-b9+F+NnFWJ38nkh+qtb85XdXVWog@mail.gmail.com>
+Subject: Re: [PATCH] staging/fbtft: Remove all strcpy() uses
+To: Len Baker <len.baker@gmx.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,40 +62,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Phil Reid <preid@electromag.com.au>,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Len Baker <len.baker@gmx.com>,
+Cc: "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>,
+ Phil Reid <preid@electromag.com.au>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
  Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-strcpy() performs no bounds checking on the destination buffer. This
-could result in linear overflows beyond the end of the buffer, leading
-to all kinds of misbehaviors. The safe replacement is strscpy() but in
-this case it is simpler to add NULL to the first position since we want
-to empty the string.
+On Sun, Jul 18, 2021 at 4:43 PM Len Baker <len.baker@gmx.com> wrote:
+>
+> strcpy() performs no bounds checking on the destination buffer. This
+> could result in linear overflows beyond the end of the buffer, leading
+> to all kinds of misbehaviors. The safe replacement is strscpy() but in
+> this case it is simpler to add NULL to the first position since we want
+> to empty the string.
 
-This is a previous step in the path to remove the strcpy() function.
+> This is a previous step in the path to remove the strcpy() function.
 
-Signed-off-by: Len Baker <len.baker@gmx.com>
-=2D--
- drivers/staging/fbtft/fbtft-core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Any document behind this (something to read on the site(s) more or
+less affiliated with what is going to happen in the kernel) to read
+background?
 
-diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fb=
-tft-core.c
-index 3723269890d5..b8791806cb20 100644
-=2D-- a/drivers/staging/fbtft/fbtft-core.c
-+++ b/drivers/staging/fbtft/fbtft-core.c
-@@ -1037,7 +1037,7 @@ int fbtft_init_display(struct fbtft_par *par)
- 		case -1:
- 			i++;
- 			/* make debug message */
--			strcpy(msg, "");
-+			msg[0] =3D 0;
- 			j =3D i + 1;
- 			while (par->init_sequence[j] >=3D 0) {
- 				sprintf(str, "0x%02X ", par->init_sequence[j]);
-=2D-
-2.25.1
+...
 
+>                 case -1:
+>                         i++;
+>                         /* make debug message */
+> -                       strcpy(msg, "");
+> +                       msg[0] = 0;
+
+Strictly speaking it should be '\0'.
+
+>                         j = i + 1;
+>                         while (par->init_sequence[j] >= 0) {
+>                                 sprintf(str, "0x%02X ", par->init_sequence[j]);
+
+
+-- 
+With Best Regards,
+Andy Shevchenko
