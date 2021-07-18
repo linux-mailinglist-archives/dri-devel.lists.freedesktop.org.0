@@ -1,55 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2AAF3CC709
-	for <lists+dri-devel@lfdr.de>; Sun, 18 Jul 2021 02:32:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B27E3CC73F
+	for <lists+dri-devel@lfdr.de>; Sun, 18 Jul 2021 04:57:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 52E096EAC7;
-	Sun, 18 Jul 2021 00:32:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C5D3889E98;
+	Sun, 18 Jul 2021 02:57:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
- [IPv6:2a00:1450:4864:20::12d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BEAD76EAC7
- for <dri-devel@lists.freedesktop.org>; Sun, 18 Jul 2021 00:32:00 +0000 (UTC)
-Received: by mail-lf1-x12d.google.com with SMTP id x25so22508130lfu.13
- for <dri-devel@lists.freedesktop.org>; Sat, 17 Jul 2021 17:32:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+Received: from mail-yb1-xb31.google.com (mail-yb1-xb31.google.com
+ [IPv6:2607:f8b0:4864:20::b31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 974A289E98;
+ Sun, 18 Jul 2021 02:57:02 +0000 (UTC)
+Received: by mail-yb1-xb31.google.com with SMTP id v189so21670125ybg.3;
+ Sat, 17 Jul 2021 19:57:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=GiOcA9fDhX332QQkbECnDAuU57MnDvjKhHt74brAsd4=;
- b=QqbnQgsv/ajdlgCbOM0gq0g7FZNs0AbFigA/0ipXJiEXJGly+tlK9erNMERE8PA2rQ
- fV/gVY5xNUty2kHdSElmFKDGFoS+yMK3mf7CiRP6LrqKaFPtW5EDm9I4uFh2ZtZh4s3m
- z4bMO4lo51Dd3Qwhrc++2IKRxPSBmqwPAiUYFMlSPYHp9flltp5ibXqvq61dJlPGJTaQ
- 0okiiInLKbfmBTEFnH1VyZdD2Ug8K3mh4o2jS+fAxh6J1K14jl3StwsfqWVPhzPYeRRp
- H45cRIUF/dYngweD8xQ0drMSaJrVAdN3Yn8w3t1wXnRcgfvCknH9ovNC64WK2NC7ho+i
- WMBA==
+ :cc; bh=W00iW7/aRwpr/fF4CZMcS7RN1Ej6rdo9JxILF1BhP5k=;
+ b=dnMbb2hrbBthMM7r1v2LSNsNmeQtNG3nELaH2LlvIbaXZipIcT4Y/9kIE0LbKezQ+D
+ FzuTVHtaPl3tXZ40ySFSxZ41XUX9N7a4OmO+S5vwSuRCn6gJy/FaztVBnZyL5cojBIZB
+ tDA32eGPg7kwqVfZS5w3Hn4cpjlNMLYXN5Bi4VDV0pKjW7MFkkhoC2tBB4Pr+UXWXAw2
+ tUU+fUrvFs6VgiZMkOV+B+9LZq3KdewRlpXuz14eYONZlvHcg4EhBb5e/DgfCUkxkNs2
+ sMcTAU0pJoNEFdfQVEAqAtlip310VPS31J6F61Qs5VktqVIHOracjGf+KZ31bLbo8tKp
+ Iqmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=GiOcA9fDhX332QQkbECnDAuU57MnDvjKhHt74brAsd4=;
- b=ei6RGbkZN6DN44I9i0zVLimJ+MamSKAiwhYayJ1/zat02WJRSnNkMc6vJOB508fr5m
- zyQeHkQrf3DeojYIqkSo7g4qRHffdMiYsxEQhM4t/o/m0V3Q94m2db50l2EblC9v7QO1
- mWfx0RnZPpwhzZwFaVxt/Kn0Yk2ABWdOXmSmZo6crB6YrRurdy+kb23Z7zUTndmXooeB
- 2EIt5qrc9GTFmOyeEWc3B99chQZ2HgVCom881/pgd/qjLyj7ttxBa124NYw6WCGsNmsb
- KVX3N5ebZNQc7mCkUL0IzDsYslOHoBTPVWGiSVkmBRyez3i0bv6Gyt82B83FrRG9WFCp
- 8EwA==
-X-Gm-Message-State: AOAM532+G/J5P/zBmeKG7dA+fc77Ktxp7dw9GgpMPCuIrMAWhK/THDo9
- i0f4kAiUPwQAbJHESK0utp1mNRjADlUC4p0c0oc8Gw==
-X-Google-Smtp-Source: ABdhPJzUE4mwcMvftXDt9OelhGDF5Xj2/T270B5egWGsaIKWTNtuSaIt9NhYbKXb4xTog5SSevqmX/HoABHDg7tXXbs=
-X-Received: by 2002:a05:6512:3f1f:: with SMTP id
- y31mr6296371lfa.29.1626568319143; 
- Sat, 17 Jul 2021 17:31:59 -0700 (PDT)
+ bh=W00iW7/aRwpr/fF4CZMcS7RN1Ej6rdo9JxILF1BhP5k=;
+ b=UkVqrlZVJgnSLY/fjag3bm/vihUQ1SnHnwY2KUuIMjbJkvF+H2bUFrGrudkLUUusbs
+ FoZmU3MhIbkSfReJ9XEj9f2MSus559qjIee+hcya51lXN2BoZVIVzMNTzJ19ldE+Wwtr
+ Un4qZSPKVS1h3dd3ouwo0YSl6T/X4p4JsayY2jNn1lUd/GtnNaTzA40mahGpUErXaadz
+ QmzFjM0YFCwFPWQEAuuUf/O3f15ISjc36gY7FjHRBe3yIjozI/+vAUCtB0wayokhJiIQ
+ 9b6dXoNPyjsH5ZV6muFXHXx1JDQFOHIrcnKhpkFnNqvqN6+r0Z+HbyNw91ZXwRSQbWT/
+ msNg==
+X-Gm-Message-State: AOAM530aRXdTtAy3DvyzebyD5n5HEy8BHo8zUTLgZzbXWu/cExiog0+h
+ hDVYEqhb4q/S4IvNDGK3YqLs3XpJPN61Uk1T4A4=
+X-Google-Smtp-Source: ABdhPJyOseyf1ytT2vxfnCG67AFqPadhMHlEt2XvX7PmxNijLMXdoof0zwCUG4WE32R0H83kkdSjNR1RRrA8IufxVNI=
+X-Received: by 2002:a25:c78f:: with SMTP id
+ w137mr22790367ybe.381.1626577021699; 
+ Sat, 17 Jul 2021 19:57:01 -0700 (PDT)
 MIME-Version: 1.0
-References: <1626430843-23823-1-git-send-email-dillon.minfei@gmail.com>
- <1626430843-23823-3-git-send-email-dillon.minfei@gmail.com>
-In-Reply-To: <1626430843-23823-3-git-send-email-dillon.minfei@gmail.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Sun, 18 Jul 2021 02:31:48 +0200
-Message-ID: <CACRpkdZZyN_8ND52+piHYaksujwwwTMigkv6eL0fih_2dYZ4Lg@mail.gmail.com>
-Subject: Re: [PATCH 2/2] drm/panel: Add ilitek ili9341 panel driver
-To: dillon min <dillon.minfei@gmail.com>
+References: <20210716182051.218575-1-marex@denx.de>
+ <CAKGbVbsingxFiCARSu_-S_KxMHpQEJRkQn5hq9vAGUDwsBSh_g@mail.gmail.com>
+ <e12734e8-71aa-375a-d544-c75b7379e576@denx.de>
+ <CAKGbVbtRuVeUBD+m3J5U5AP_FM5S7i_qGXR-AHNeLnRogutVEQ@mail.gmail.com>
+ <7462de54-5193-1606-7a93-390ad93c3b17@denx.de>
+In-Reply-To: <7462de54-5193-1606-7a93-390ad93c3b17@denx.de>
+From: Qiang Yu <yuq825@gmail.com>
+Date: Sun, 18 Jul 2021 10:56:50 +0800
+Message-ID: <CAKGbVbt2nwcpf-H=gzR1-jEus7Dse36ikBt5Rg+QjmxKWLYOQw@mail.gmail.com>
+Subject: Re: [PATCH] drm/lima: Convert to clk_bulk API
+To: Marek Vasut <marex@denx.de>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,71 +66,112 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>,
- =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>,
- Dave Airlie <airlied@linux.ie>, linux-kernel <linux-kernel@vger.kernel.org>,
- Doug Anderson <dianders@chromium.org>,
- "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Rob Herring <robh+dt@kernel.org>,
- "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: Michal Simek <monstr@monstr.eu>, lima@lists.freedesktop.org,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Michal Simek <michal.simek@xilinx.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dillon,
-
-thanks for your patch!
-
-On Fri, Jul 16, 2021 at 12:20 PM <dillon.minfei@gmail.com> wrote:
-
-> From: Dillon Min <dillon.minfei@gmail.com>
+On Sat, Jul 17, 2021 at 10:52 PM Marek Vasut <marex@denx.de> wrote:
 >
-> This driver combine tiny/ili9341.c mipi_dbi_interface driver
-> with mipi_dpi_interface driver, can support ili9341 with serial
-> mode or parallel rgb interface mode by register configuration.
+> On 7/17/21 4:21 PM, Qiang Yu wrote:
+> > On Sat, Jul 17, 2021 at 9:08 PM Marek Vasut <marex@denx.de> wrote:
+> >>
+> >> On 7/17/21 2:34 PM, Qiang Yu wrote:
+> >>> On Sat, Jul 17, 2021 at 2:20 AM Marek Vasut <marex@denx.de> wrote:
+> >>>>
+> >>>> Instead of requesting two separate clock and then handling them
+> >>>> separately in various places of the driver, use clk_bulk_*() API.
+> >>>> This permits handling devices with more than "bus"/"core" clock,
+> >>>> like ZynqMP, which has "gpu"/"gpu_pp0"/"gpu_pp1" all as separate
+> >>>> clock.
+> >>>
+> >>> I can't find the ZynqMP DTS file under arch/arm64/boot/dts/xilinx
+> >>> which has mali GPU node with an upstream kernel, where is it?
+> >>
+> >> Posted here:
+> >> https://patchwork.kernel.org/project/linux-arm-kernel/patch/20210716182544.219490-1-marex@denx.de/
+> >>
+> >>> So what's the relationship between "gpu" clk and "gpu_pp0"/"gpu_pp1"
+> >>> clk? Do they need to be controlled separately or we can just control the
+> >>> "gpu" clk? Because the devfreq code just controls a single module clk.
+> >>
+> >> Per the docs, they are separate enable bits and the zynqmp clock
+> >> controller exports them as separate clock, see bits 24..26 here:
+> >>
+> >> https://www.xilinx.com/html_docs/registers/ug1087/crf_apb___gpu_ref_ctrl.html
+> >>
+> >>>> Signed-off-by: Marek Vasut <marex@denx.de>
+> >>>> Cc: Qiang Yu <yuq825@gmail.com>
+> >>>> Cc: lima@lists.freedesktop.org
+> >>>> ---
+> >>>>    drivers/gpu/drm/lima/lima_devfreq.c | 17 +++++++++---
+> >>>>    drivers/gpu/drm/lima/lima_devfreq.h |  1 +
+> >>>>    drivers/gpu/drm/lima/lima_device.c  | 42 +++++++++++------------------
+> >>>>    drivers/gpu/drm/lima/lima_device.h  |  4 +--
+> >>>>    4 files changed, 32 insertions(+), 32 deletions(-)
+> >>>>
+> >>>> diff --git a/drivers/gpu/drm/lima/lima_devfreq.c b/drivers/gpu/drm/lima/lima_devfreq.c
+> >>>> index 8989e215dfc9..533b36932f79 100644
+> >>>> --- a/drivers/gpu/drm/lima/lima_devfreq.c
+> >>>> +++ b/drivers/gpu/drm/lima/lima_devfreq.c
+> >>>> @@ -58,7 +58,7 @@ static int lima_devfreq_get_dev_status(struct device *dev,
+> >>>>           struct lima_devfreq *devfreq = &ldev->devfreq;
+> >>>>           unsigned long irqflags;
+> >>>>
+> >>>> -       status->current_frequency = clk_get_rate(ldev->clk_gpu);
+> >>>> +       status->current_frequency = clk_get_rate(devfreq->clk_gpu);
+> >>>>
+> >>>>           spin_lock_irqsave(&devfreq->lock, irqflags);
+> >>>>
+> >>>> @@ -110,12 +110,23 @@ int lima_devfreq_init(struct lima_device *ldev)
+> >>>>           struct lima_devfreq *ldevfreq = &ldev->devfreq;
+> >>>>           struct dev_pm_opp *opp;
+> >>>>           unsigned long cur_freq;
+> >>>> -       int ret;
+> >>>> +       int i, ret;
+> >>>>
+> >>>>           if (!device_property_present(dev, "operating-points-v2"))
+> >>>>                   /* Optional, continue without devfreq */
+> >>>>                   return 0;
+> >>>>
+> >>>> +       /* Find first clock which are not "bus" clock */
+> >>>> +       for (i = 0; i < ldev->nr_clks; i++) {
+> >>>> +               if (!strcmp(ldev->clks[i].id, "bus"))
+> >>>> +                       continue;
+> >>>> +               ldevfreq->clk_gpu = ldev->clks[i].clk;
+> >>>> +               break;
+> >>>> +       }
+> >>>
+> >>> I'd prefer an explicit name for the required clk name. If some DTS has different
+> >>> name other than "core" for the module clk (ie. "gpu"), it should be changed to
+> >>> "core".
+> >>
+> >> The problem here is, the zynqmp has no core clock, it has "gpu and both
+> >> pixel pipes" super-clock-gate which controls everything, and then
+> >> per-pixel-pipe sub-clock-gates.
+> >
+> > So the "gpu" clk can gate both "gpu_pp0" and "gpu_pp1" clk, how about frequency?
 >
-> Signed-off-by: Dillon Min <dillon.minfei@gmail.com>
+> I don't think it is a good idea to just gate off the root clock while
+> the sub-clock are still enabled. That might lead to latch ups (+CC
+> Michal, he might know more).
+>
+> And who would enable the sub-clock anyway, it should be the GPU driver, no?
+>
+Right, I understand it's not proper either by HW or SW point of view to just
+use root clk gate.
 
-Nice!
+> > Can we set clock rate for "gpu" then "gpu_pp0" and "gpu_pp1" pass
+> > through the same
+> > rate? If so, "gpu" works just like "core".
+>
+> I don't think the zynqmp is capable of any DVFS on the GPU at all, it
+> just runs at fixed frequency.
 
-> +config DRM_PANEL_ILITEK_ILI9341
-> +       tristate "Ilitek ILI9341 240x320 QVGA panels"
-> +       depends on OF && SPI
-> +       depends on DRM_KMS_HELPER
-> +       depends on DRM_KMS_CMA_HELPER
-(...)
-> +#include <drm/drm_gem_framebuffer_helper.h>
-> +#include <drm/drm_gem_cma_helper.h>
-> +#include <drm/drm_fb_helper.h>
-> +#include <drm/drm_gem_atomic_helper.h>
-> +#include <drm/drm_atomic_helper.h>
-
-Hm now there is a (partial) KMS driver in the panel driver, kinda, sorta.
-Is this the right split? I'm not the best with DRM infrastructure,
-just asking.
-
-> +struct ili9341_config {
-> +       u32 max_spi_speed;
-> +       /** @mode: the drm display mode */
-> +       const struct drm_display_mode mode;
-> +       /* @ca: TODO: need comments for this register */
-> +       u8 ca[ILI9341_CA_LEN];
-
-These are all in the datasheet but I guess you plan to add these
-TODOs later. (It's fine I suppose, the driver is already very nice.)
-
-> +       struct regulator *vcc;
-
-Use the right name of the pin for the regulator. I guess this is actually
-vci. I would implement all three regulators and get them as bulk.
-See e.g. drivers/gpu/drm/panel/panel-samsung-s6e3ha2.c
-for an example on how to get and enable several regulators
-using bulk.
-
-The regulator framework will provide dummy regulators if you
-didn't define some of them so it is fine to just provide one or two.
-
-Yours,
-Linus Walleij
+I see the GPU_REF_CTRL register 13:8 is a divisor, is this for all
+"gpu"/"gpu_pp0"/"gpu_pp1" clk rating? If so, can we use it to dynamically
+change the GPU clk freq because other SoC also use system clock
+to do GPU DVFS, see sun8i-h3.dtsi. If we can't then zynqmp won't finish
+lima_devfreq_init() and get here at all because it does not have
+an OPP table.
