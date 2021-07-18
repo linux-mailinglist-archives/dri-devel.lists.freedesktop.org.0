@@ -1,55 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5021E3CCA7F
-	for <lists+dri-devel@lfdr.de>; Sun, 18 Jul 2021 21:43:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D75813CCA99
+	for <lists+dri-devel@lfdr.de>; Sun, 18 Jul 2021 22:22:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C3CD89D99;
-	Sun, 18 Jul 2021 19:43:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 78D4C89F45;
+	Sun, 18 Jul 2021 20:22:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com
- [IPv6:2607:f8b0:4864:20::62b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E882A89D99
- for <dri-devel@lists.freedesktop.org>; Sun, 18 Jul 2021 19:43:18 +0000 (UTC)
-Received: by mail-pl1-x62b.google.com with SMTP id e14so5635225plh.8
- for <dri-devel@lists.freedesktop.org>; Sun, 18 Jul 2021 12:43:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=7exFBskhTjXcI0G1jQYaweC6zi6nB0YxhW9GhW8QVJk=;
- b=hTAqgsHvvgfNcEagZtVOoEg9FPZ1K7swFoeQE74LVxhVPjWe4cMJ36z1icfI5N90l0
- Q5NEeHaePN4cZlD/CHtW4Q3HajTJXac5NUjQ3Tfn2qYdk7cJOxD93QiuahCUEOdvoYan
- yWAQXjAMKElZboyb3fVwi3x1JZL/sJ6Kaf4cbOmJ4HWzjIM7H5CRcv+C/ovoiTK5KLZO
- MewH468+Xkk/Jq2ehDT+j7bKEfHjqYerJXYXfL+fUWicAa9dKBPN3mXL6A41iuyJcvu0
- q699wJgigkj4sMp84K14HXfLRz4drOEqjzlqLQhWSBDA6e5vjBNH9oe/EgXH+w0RCd+7
- LXXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=7exFBskhTjXcI0G1jQYaweC6zi6nB0YxhW9GhW8QVJk=;
- b=EZGCxtB4e9248CZtOyilBUw4VMhOU1aejWx84+M24Y1FqBFbC0wTdSd73kqrLYaHnF
- F+i4cd9rlr35D8l6vNQpiHbSB4aCdDPVpXXQWgtftDLK2Pc25v7QfiKlIzL6FwmSu2PB
- HaR7knFkF9D9lrbkE6azaN8yZBS9O+Hv2j14B8JlWOmGNh8uuuzQrUPJIVmLKsiwUS+e
- BRfs5/ZdDIrcqdlxZ0CEPZriXiGalrZwAS6J9LVWYnEHsAilBXVv3iveefJ2FTEOZ0N1
- lLvruDaDzDKf6zw3Hg61QQiu/CJFX+FM9SyJJuCKO3fdBL/aZjgGUA58kajOHAVWm/qa
- MjWA==
-X-Gm-Message-State: AOAM532me6t9Rqg0KRM3gqpeXClSAVbI2UI599R5OPQjK8VNT8tM/xna
- rjvLO3CrhG0sDqoDdF/QrPBTsnatjLxiCkRvXlQ=
-X-Google-Smtp-Source: ABdhPJxzjFnbQny4tL/Gtmd96c7VmxuNdY93ug+tJ2p9Dj5gOXvWXiaA+eeh1wWvAvNR+4wesFTmw2sp9FFlCmRM9oI=
-X-Received: by 2002:a17:902:b198:b029:11b:2246:e374 with SMTP id
- s24-20020a170902b198b029011b2246e374mr16552094plr.17.1626637398478; Sun, 18
- Jul 2021 12:43:18 -0700 (PDT)
+Received: from mx1.smtp.larsendata.com (mx1.smtp.larsendata.com
+ [91.221.196.215])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3131A89F45
+ for <dri-devel@lists.freedesktop.org>; Sun, 18 Jul 2021 20:22:20 +0000 (UTC)
+Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
+ by mx1.smtp.larsendata.com (Halon) with ESMTPS
+ id d9970e3e-e805-11eb-9082-0050568c148b;
+ Sun, 18 Jul 2021 20:22:18 +0000 (UTC)
+Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
+ [80.162.45.141])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: sam@ravnborg.org)
+ by mail01.mxhotel.dk (Postfix) with ESMTPSA id 1F2EA194B06;
+ Sun, 18 Jul 2021 22:22:30 +0200 (CEST)
+Date: Sun, 18 Jul 2021 22:22:14 +0200
+X-Report-Abuse-To: abuse@mxhotel.dk
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Oleksij Rempel <o.rempel@pengutronix.de>
+Subject: Re: [PATCH v2 4/4] ARM: dts: add SKOV imx6q and imx6dl based boards
+Message-ID: <YPSNdvUhQ6fCTUjj@ravnborg.org>
+References: <20210714045349.10963-1-o.rempel@pengutronix.de>
+ <20210714045349.10963-5-o.rempel@pengutronix.de>
 MIME-Version: 1.0
-References: <20210718133920.15825-1-len.baker@gmx.com>
-In-Reply-To: <20210718133920.15825-1-len.baker@gmx.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Sun, 18 Jul 2021 22:42:42 +0300
-Message-ID: <CAHp75VeEA0=KFsfdjCnBm-b9+F+NnFWJ38nkh+qtb85XdXVWog@mail.gmail.com>
-Subject: Re: [PATCH] staging/fbtft: Remove all strcpy() uses
-To: Len Baker <len.baker@gmx.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210714045349.10963-5-o.rempel@pengutronix.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,44 +49,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>,
- Phil Reid <preid@electromag.com.au>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Ulrich =?iso-8859-1?Q?=D6lmann?= <u.oelmann@pengutronix.de>,
+ Michael Grzeschik <m.grzeschik@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>, Arnd Bergmann <arnd@arndb.de>,
+ devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Juergen Borleis <jbe@pengutronix.de>,
+ Marco Felsch <m.felsch@pengutronix.de>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, soc@kernel.org, Rob Herring <robh+dt@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ =?iso-8859-1?Q?S=F8ren?= Andersen <san@skov.dk>,
+ Shawn Guo <shawnguo@kernel.org>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Jul 18, 2021 at 4:43 PM Len Baker <len.baker@gmx.com> wrote:
->
-> strcpy() performs no bounds checking on the destination buffer. This
-> could result in linear overflows beyond the end of the buffer, leading
-> to all kinds of misbehaviors. The safe replacement is strscpy() but in
-> this case it is simpler to add NULL to the first position since we want
-> to empty the string.
+Hi Oleksij,
+On Wed, Jul 14, 2021 at 06:53:49AM +0200, Oleksij Rempel wrote:
+> From: Sam Ravnborg <sam@ravnborg.org>
 
-> This is a previous step in the path to remove the strcpy() function.
+The real author one these dts files are Juergen Borleis IIRC.
+I made some internal refactoring / renaming which is why I thing git
+says otherwise.
+So onless Juergen says otherwise we should give him the author credit.
 
-Any document behind this (something to read on the site(s) more or
-less affiliated with what is going to happen in the kernel) to read
-background?
+Arnd - would it be OK if I take the bindings patches through
+drm-misc-next, and then you can take the DTS files via arm-soc?
 
+	Sam
+
+
+> 
+> Add SKOV imx6q/dl LT2, LT6 and mi1010ait-1cp1 boards.
+> 
+> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> Signed-off-by: Søren Andersen <san@skov.dk>
+> Signed-off-by: Juergen Borleis <jbe@pengutronix.de>
+> Signed-off-by: Ulrich Ölmann <u.oelmann@pengutronix.de>
+> Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
+> Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
+> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+> Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
+> ---
+>  arch/arm/boot/dts/Makefile                    |   5 +
+>  arch/arm/boot/dts/imx6dl-skov-revc-lt2.dts    |  13 +
+>  arch/arm/boot/dts/imx6dl-skov-revc-lt6.dts    | 108 ++++
+>  arch/arm/boot/dts/imx6q-skov-revc-lt2.dts     |  36 ++
+>  arch/arm/boot/dts/imx6q-skov-revc-lt6.dts     | 128 +++++
+>  .../dts/imx6q-skov-reve-mi1010ait-1cp1.dts    | 127 +++++
+>  arch/arm/boot/dts/imx6qdl-skov-cpu-revc.dtsi  |  54 ++
+>  arch/arm/boot/dts/imx6qdl-skov-cpu.dtsi       | 475 ++++++++++++++++++
+>  8 files changed, 946 insertions(+)
+>  create mode 100644 arch/arm/boot/dts/imx6dl-skov-revc-lt2.dts
+>  create mode 100644 arch/arm/boot/dts/imx6dl-skov-revc-lt6.dts
+>  create mode 100644 arch/arm/boot/dts/imx6q-skov-revc-lt2.dts
+>  create mode 100644 arch/arm/boot/dts/imx6q-skov-revc-lt6.dts
+>  create mode 100644 arch/arm/boot/dts/imx6q-skov-reve-mi1010ait-1cp1.dts
+>  create mode 100644 arch/arm/boot/dts/imx6qdl-skov-cpu-revc.dtsi
+>  create mode 100644 arch/arm/boot/dts/imx6qdl-skov-cpu.dtsi
 ...
-
->                 case -1:
->                         i++;
->                         /* make debug message */
-> -                       strcpy(msg, "");
-> +                       msg[0] = 0;
-
-Strictly speaking it should be '\0'.
-
->                         j = i + 1;
->                         while (par->init_sequence[j] >= 0) {
->                                 sprintf(str, "0x%02X ", par->init_sequence[j]);
-
-
--- 
-With Best Regards,
-Andy Shevchenko
