@@ -2,35 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A91E83CC8B2
-	for <lists+dri-devel@lfdr.de>; Sun, 18 Jul 2021 13:09:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A625A3CC8B0
+	for <lists+dri-devel@lfdr.de>; Sun, 18 Jul 2021 13:09:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 177F16E03B;
-	Sun, 18 Jul 2021 11:09:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1672E89F4F;
+	Sun, 18 Jul 2021 11:09:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2FE346E03B;
- Sun, 18 Jul 2021 11:09:25 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 385AE61108;
- Sun, 18 Jul 2021 11:09:24 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EDD5C89F4F;
+ Sun, 18 Jul 2021 11:09:21 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D170C61179;
+ Sun, 18 Jul 2021 11:09:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1626606564;
- bh=9I9suquaeUoy7KIKMGoROMwdPP0OyiicuKCa0o4yGMg=;
+ s=k20201202; t=1626606561;
+ bh=WymSd8E+zl7DWfXzmH25kO8A3dUQu5ir04bp7X4oYAA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=a1mzsgZy5c1Eg0AJacl+hISBGmuLwlGqyOZf2HsHdsHIgRokBv8E6ZZL/6IhYfHxR
- g1UTiQF4ToPUmRXSut65zXJ9ywAsH6WnX7281Rki3Ar1MpVaxcbzKM0BwZRQLQEYCb
- G3iLNdpPi10y0LMDMz1xE59fh6bEadc8SlpXloiftEIIVOlwPMIV8JsNSYOtQ6Jcnd
- VB7Xxijzh4YsyX6n1KpUOiWwQsFwdd0+3M60a2S9s2CLmWJhCkeZesrI8zYOvcQUnW
- he9kdkpitK3JSgV/VLJO4YimNLE0l6t+LdOAweP30QwMdrYXA0J5xLrg7WgjWFCycz
- kXgcev36t1VyQ==
+ b=Div0VZukZii6DFdi3WLQD0ZvarEV7dglobaNb+w0/Scbg2FC5tYP5i5jFlzh7anCX
+ 7o7sa1GMtbxk4on4UNLLEk6CJK9oNmxIzlRfzHjGoGPZp6Q0KGPhlGSAEidLjnO+HR
+ IBzlu/01IgAY0KTsz8sw6CcP34n1OZYJi985kyvfe3H3oKLLH1U5gUmFu5l8BOIjv5
+ QT2HSgUF846o0Qgsm7XNA28f5YXe5tmdD+Jnq4OSR+jaDCIphgMh29h5syJtjFpzUQ
+ 3w6lQsAVOdfow3cwwoTAdf6+EAaCzxRhyNXs2aByW6+a59ySw97WUKTnrBH3PD4XDj
+ LODAllrPnn2qg==
 From: Leon Romanovsky <leon@kernel.org>
 To: Doug Ledford <dledford@redhat.com>, Jason Gunthorpe <jgg@nvidia.com>,
  Christoph Hellwig <hch@infradead.org>
-Subject: [PATCH rdma-next v2 1/2] lib/scatterlist: Fix wrong update of
- orig_nents
-Date: Sun, 18 Jul 2021 14:09:12 +0300
-Message-Id: <36d655a0ff45f4c86762358c7b6a7b58939313fb.1626605893.git.leonro@nvidia.com>
+Subject: [PATCH rdma-next v2 2/2] RDMA: Use dma_map_sgtable for map umem pages
+Date: Sun, 18 Jul 2021 14:09:13 +0300
+Message-Id: <009740c35873683e401da3f86d0e7a78b2f25601.1626605893.git.leonro@nvidia.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1626605893.git.leonro@nvidia.com>
 References: <cover.1626605893.git.leonro@nvidia.com>
@@ -63,365 +62,221 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Maor Gottlieb <maorg@nvidia.com>
 
-orig_nents should represent the number of entries with pages,
-but __sg_alloc_table_from_pages sets orig_nents as the number of
-total entries in the table. This is wrong when the API is used for
-dynamic allocation where not all the table entries are mapped with
-pages. It wasn't observed until now, since RDMA umem who uses this
-API in the dynamic form doesn't use orig_nents implicit or explicit
-by the scatterlist APIs.
+In order to avoid incorrect usage of sg_table fields, change umem to
+use dma_map_sgtable for map the pages for DMA. Since dma_map_sgtable
+update the nents field (number of DMA entries), there is no need
+anymore for nmap variable, hence do some cleanups accordingly.
 
-Fix it by:
-1. Set orig_nents as number of entries with pages also in
-   __sg_alloc_table_from_pages.
-2. To fix the release flow, add a new output argument to
-   __sg_alloc_table_from_pages which will be set to the
-   number of total entries in the table. User like umem that use
-   this function for dynamic allocation, should free the table by
-   calling to sg_free_table_entries and pass the number of entries.
-
-Fixes: 07da1223ec93 ("lib/scatterlist: Add support in dynamic allocation of SG table from pages")
 Signed-off-by: Maor Gottlieb <maorg@nvidia.com>
 Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
 ---
- drivers/gpu/drm/drm_prime.c                 |  2 +-
- drivers/gpu/drm/i915/gem/i915_gem_userptr.c |  2 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c  |  2 +-
- drivers/infiniband/core/umem.c              |  5 +-
- include/linux/scatterlist.h                 |  3 +-
- include/rdma/ib_umem.h                      |  3 +-
- lib/scatterlist.c                           | 88 ++++++++++++++-------
- tools/testing/scatterlist/main.c            | 15 +++-
- 8 files changed, 80 insertions(+), 40 deletions(-)
+ drivers/infiniband/core/umem.c        | 28 +++++++++++----------------
+ drivers/infiniband/core/umem_dmabuf.c |  1 -
+ drivers/infiniband/hw/mlx4/mr.c       |  4 ++--
+ drivers/infiniband/hw/mlx5/mr.c       |  3 ++-
+ drivers/infiniband/sw/rdmavt/mr.c     |  2 +-
+ drivers/infiniband/sw/rxe/rxe_mr.c    |  3 ++-
+ include/rdma/ib_umem.h                |  3 ++-
+ include/rdma/ib_verbs.h               | 28 +++++++++++++++++++++++++++
+ 8 files changed, 48 insertions(+), 24 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
-index 2a54f86856af..1739d10a2c55 100644
---- a/drivers/gpu/drm/drm_prime.c
-+++ b/drivers/gpu/drm/drm_prime.c
-@@ -821,7 +821,7 @@ struct sg_table *drm_prime_pages_to_sg(struct drm_device *dev,
- 	sge = __sg_alloc_table_from_pages(sg, pages, nr_pages, 0,
- 					  nr_pages << PAGE_SHIFT,
- 					  max_segment,
--					  NULL, 0, GFP_KERNEL);
-+					  NULL, 0, GFP_KERNEL, NULL);
- 	if (IS_ERR(sge)) {
- 		kfree(sg);
- 		sg = ERR_CAST(sge);
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_userptr.c b/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
-index 7487bab11f0b..c341d3e3386c 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
-@@ -155,7 +155,7 @@ static int i915_gem_userptr_get_pages(struct drm_i915_gem_object *obj)
- alloc_table:
- 	sg = __sg_alloc_table_from_pages(st, pvec, num_pages, 0,
- 					 num_pages << PAGE_SHIFT, max_segment,
--					 NULL, 0, GFP_KERNEL);
-+					 NULL, 0, GFP_KERNEL, NULL);
- 	if (IS_ERR(sg)) {
- 		ret = PTR_ERR(sg);
- 		goto err;
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
-index 0488042fb287..2ad889272b0a 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
-@@ -390,7 +390,7 @@ static int vmw_ttm_map_dma(struct vmw_ttm_tt *vmw_tt)
- 				vsgt->num_pages, 0,
- 				(unsigned long) vsgt->num_pages << PAGE_SHIFT,
- 				dma_get_max_seg_size(dev_priv->drm.dev),
--				NULL, 0, GFP_KERNEL);
-+				NULL, 0, GFP_KERNEL, NULL);
- 		if (IS_ERR(sg)) {
- 			ret = PTR_ERR(sg);
- 			goto out_sg_alloc_fail;
 diff --git a/drivers/infiniband/core/umem.c b/drivers/infiniband/core/umem.c
-index 0eb40025075f..cf4197363346 100644
+index cf4197363346..77c2df1c91d1 100644
 --- a/drivers/infiniband/core/umem.c
 +++ b/drivers/infiniband/core/umem.c
-@@ -59,7 +59,7 @@ static void __ib_umem_release(struct ib_device *dev, struct ib_umem *umem, int d
+@@ -51,11 +51,11 @@ static void __ib_umem_release(struct ib_device *dev, struct ib_umem *umem, int d
+ 	struct scatterlist *sg;
+ 	unsigned int i;
+ 
+-	if (umem->nmap > 0)
+-		ib_dma_unmap_sg(dev, umem->sg_head.sgl, umem->sg_nents,
+-				DMA_BIDIRECTIONAL);
++	if (dirty)
++		ib_dma_unmap_sgtable_attrs(dev, &umem->sg_head,
++					   DMA_BIDIRECTIONAL, 0);
+ 
+-	for_each_sg(umem->sg_head.sgl, sg, umem->sg_nents, i)
++	for_each_sgtable_sg(&umem->sg_head, sg, i)
  		unpin_user_page_range_dirty_lock(sg_page(sg),
  			DIV_ROUND_UP(sg->length, PAGE_SIZE), make_dirty);
  
--	sg_free_table(&umem->sg_head);
-+	sg_free_table_entries(&umem->sg_head, umem->total_nents);
- }
+@@ -111,7 +111,7 @@ unsigned long ib_umem_find_best_pgsz(struct ib_umem *umem,
+ 	/* offset into first SGL */
+ 	pgoff = umem->address & ~PAGE_MASK;
  
- /**
-@@ -229,8 +229,7 @@ struct ib_umem *ib_umem_get(struct ib_device *device, unsigned long addr,
- 		sg = __sg_alloc_table_from_pages(&umem->sg_head, page_list, ret,
- 				0, ret << PAGE_SHIFT,
- 				ib_dma_max_seg_size(device), sg, npages,
--				GFP_KERNEL);
--		umem->sg_nents = umem->sg_head.nents;
-+				GFP_KERNEL, &umem->total_nents);
- 		if (IS_ERR(sg)) {
- 			unpin_user_pages_dirty_lock(page_list, ret, 0);
- 			ret = PTR_ERR(sg);
-diff --git a/include/linux/scatterlist.h b/include/linux/scatterlist.h
-index ecf87484814f..c796c165d5ee 100644
---- a/include/linux/scatterlist.h
-+++ b/include/linux/scatterlist.h
-@@ -282,6 +282,7 @@ typedef void (sg_free_fn)(struct scatterlist *, unsigned int);
- void __sg_free_table(struct sg_table *, unsigned int, unsigned int,
- 		     sg_free_fn *);
- void sg_free_table(struct sg_table *);
-+void sg_free_table_entries(struct sg_table *sgt, unsigned int num_entries);
- int __sg_alloc_table(struct sg_table *, unsigned int, unsigned int,
- 		     struct scatterlist *, unsigned int, gfp_t, sg_alloc_fn *);
- int sg_alloc_table(struct sg_table *, unsigned int, gfp_t);
-@@ -289,7 +290,7 @@ struct scatterlist *__sg_alloc_table_from_pages(struct sg_table *sgt,
- 		struct page **pages, unsigned int n_pages, unsigned int offset,
- 		unsigned long size, unsigned int max_segment,
- 		struct scatterlist *prv, unsigned int left_pages,
--		gfp_t gfp_mask);
-+		gfp_t gfp_mask, unsigned int *total_nents);
- int sg_alloc_table_from_pages(struct sg_table *sgt, struct page **pages,
- 			      unsigned int n_pages, unsigned int offset,
- 			      unsigned long size, gfp_t gfp_mask);
+-	for_each_sg(umem->sg_head.sgl, sg, umem->nmap, i) {
++	for_each_sgtable_dma_sg(&umem->sg_head, sg, i) {
+ 		/* Walk SGL and reduce max page size if VA/PA bits differ
+ 		 * for any address.
+ 		 */
+@@ -121,7 +121,7 @@ unsigned long ib_umem_find_best_pgsz(struct ib_umem *umem,
+ 		 * the maximum possible page size as the low bits of the iova
+ 		 * must be zero when starting the next chunk.
+ 		 */
+-		if (i != (umem->nmap - 1))
++		if (i != (umem->sg_head.nents - 1))
+ 			mask |= va;
+ 		pgoff = 0;
+ 	}
+@@ -240,16 +240,10 @@ struct ib_umem *ib_umem_get(struct ib_device *device, unsigned long addr,
+ 	if (access & IB_ACCESS_RELAXED_ORDERING)
+ 		dma_attr |= DMA_ATTR_WEAK_ORDERING;
+ 
+-	umem->nmap =
+-		ib_dma_map_sg_attrs(device, umem->sg_head.sgl, umem->sg_nents,
+-				    DMA_BIDIRECTIONAL, dma_attr);
+-
+-	if (!umem->nmap) {
+-		ret = -ENOMEM;
++	ret = ib_dma_map_sgtable_attrs(device, &umem->sg_head,
++				       DMA_BIDIRECTIONAL, dma_attr);
++	if (ret)
+ 		goto umem_release;
+-	}
+-
+-	ret = 0;
+ 	goto out;
+ 
+ umem_release:
+@@ -309,8 +303,8 @@ int ib_umem_copy_from(void *dst, struct ib_umem *umem, size_t offset,
+ 		return -EINVAL;
+ 	}
+ 
+-	ret = sg_pcopy_to_buffer(umem->sg_head.sgl, umem->sg_nents, dst, length,
+-				 offset + ib_umem_offset(umem));
++	ret = sg_pcopy_to_buffer(umem->sg_head.sgl, umem->sg_head.orig_nents,
++				 dst, length, offset + ib_umem_offset(umem));
+ 
+ 	if (ret < 0)
+ 		return ret;
+diff --git a/drivers/infiniband/core/umem_dmabuf.c b/drivers/infiniband/core/umem_dmabuf.c
+index c6e875619fac..2884e4526d78 100644
+--- a/drivers/infiniband/core/umem_dmabuf.c
++++ b/drivers/infiniband/core/umem_dmabuf.c
+@@ -57,7 +57,6 @@ int ib_umem_dmabuf_map_pages(struct ib_umem_dmabuf *umem_dmabuf)
+ 
+ 	umem_dmabuf->umem.sg_head.sgl = umem_dmabuf->first_sg;
+ 	umem_dmabuf->umem.sg_head.nents = nmap;
+-	umem_dmabuf->umem.nmap = nmap;
+ 	umem_dmabuf->sgt = sgt;
+ 
+ wait_fence:
+diff --git a/drivers/infiniband/hw/mlx4/mr.c b/drivers/infiniband/hw/mlx4/mr.c
+index 50becc0e4b62..ab5dc8eac7f8 100644
+--- a/drivers/infiniband/hw/mlx4/mr.c
++++ b/drivers/infiniband/hw/mlx4/mr.c
+@@ -200,7 +200,7 @@ int mlx4_ib_umem_write_mtt(struct mlx4_ib_dev *dev, struct mlx4_mtt *mtt,
+ 	mtt_shift = mtt->page_shift;
+ 	mtt_size = 1ULL << mtt_shift;
+ 
+-	for_each_sg(umem->sg_head.sgl, sg, umem->nmap, i) {
++	for_each_sgtable_dma_sg(&umem->sg_head, sg, i) {
+ 		if (cur_start_addr + len == sg_dma_address(sg)) {
+ 			/* still the same block */
+ 			len += sg_dma_len(sg);
+@@ -273,7 +273,7 @@ int mlx4_ib_umem_calc_optimal_mtt_size(struct ib_umem *umem, u64 start_va,
+ 
+ 	*num_of_mtts = ib_umem_num_dma_blocks(umem, PAGE_SIZE);
+ 
+-	for_each_sg(umem->sg_head.sgl, sg, umem->nmap, i) {
++	for_each_sgtable_dma_sg(&umem->sg_head, sg, i) {
+ 		/*
+ 		 * Initialization - save the first chunk start as the
+ 		 * current_block_start - block means contiguous pages.
+diff --git a/drivers/infiniband/hw/mlx5/mr.c b/drivers/infiniband/hw/mlx5/mr.c
+index 3263851ea574..4954fb9eb6dc 100644
+--- a/drivers/infiniband/hw/mlx5/mr.c
++++ b/drivers/infiniband/hw/mlx5/mr.c
+@@ -1226,7 +1226,8 @@ int mlx5_ib_update_mr_pas(struct mlx5_ib_mr *mr, unsigned int flags)
+ 	orig_sg_length = sg.length;
+ 
+ 	cur_mtt = mtt;
+-	rdma_for_each_block (mr->umem->sg_head.sgl, &biter, mr->umem->nmap,
++	rdma_for_each_block (mr->umem->sg_head.sgl, &biter,
++			     mr->umem->sg_head.nents,
+ 			     BIT(mr->page_shift)) {
+ 		if (cur_mtt == (void *)mtt + sg.length) {
+ 			dma_sync_single_for_device(ddev, sg.addr, sg.length,
+diff --git a/drivers/infiniband/sw/rdmavt/mr.c b/drivers/infiniband/sw/rdmavt/mr.c
+index 34b7af6ab9c2..d955c8c4acc4 100644
+--- a/drivers/infiniband/sw/rdmavt/mr.c
++++ b/drivers/infiniband/sw/rdmavt/mr.c
+@@ -410,7 +410,7 @@ struct ib_mr *rvt_reg_user_mr(struct ib_pd *pd, u64 start, u64 length,
+ 	mr->mr.page_shift = PAGE_SHIFT;
+ 	m = 0;
+ 	n = 0;
+-	for_each_sg_page (umem->sg_head.sgl, &sg_iter, umem->nmap, 0) {
++	for_each_sg_page (umem->sg_head.sgl, &sg_iter, umem->sg_head.nents, 0) {
+ 		void *vaddr;
+ 
+ 		vaddr = page_address(sg_page_iter_page(&sg_iter));
+diff --git a/drivers/infiniband/sw/rxe/rxe_mr.c b/drivers/infiniband/sw/rxe/rxe_mr.c
+index 1ee5bd8291e5..ba534b6c67f0 100644
+--- a/drivers/infiniband/sw/rxe/rxe_mr.c
++++ b/drivers/infiniband/sw/rxe/rxe_mr.c
+@@ -141,7 +141,8 @@ int rxe_mr_init_user(struct rxe_pd *pd, u64 start, u64 length, u64 iova,
+ 	if (length > 0) {
+ 		buf = map[0]->buf;
+ 
+-		for_each_sg_page(umem->sg_head.sgl, &sg_iter, umem->nmap, 0) {
++		for_each_sg_page(umem->sg_head.sgl, &sg_iter,
++				 umem->sg_head.nents, 0) {
+ 			if (num_buf >= RXE_BUF_PER_MAP) {
+ 				map++;
+ 				buf = map[0]->buf;
 diff --git a/include/rdma/ib_umem.h b/include/rdma/ib_umem.h
-index 676c57f5ca80..5a65212efc2e 100644
+index 5a65212efc2e..3f5576877072 100644
 --- a/include/rdma/ib_umem.h
 +++ b/include/rdma/ib_umem.h
-@@ -27,8 +27,7 @@ struct ib_umem {
- 	u32 is_dmabuf : 1;
- 	struct work_struct	work;
- 	struct sg_table sg_head;
--	int             nmap;
--	unsigned int    sg_nents;
-+	unsigned int total_nents;
- };
- 
- struct ib_umem_dmabuf {
-diff --git a/lib/scatterlist.c b/lib/scatterlist.c
-index 27efa6178153..5cc41ae962ec 100644
---- a/lib/scatterlist.c
-+++ b/lib/scatterlist.c
-@@ -175,22 +175,11 @@ static void sg_kfree(struct scatterlist *sg, unsigned int nents)
- 		kfree(sg);
- }
- 
--/**
-- * __sg_free_table - Free a previously mapped sg table
-- * @table:	The sg table header to use
-- * @max_ents:	The maximum number of entries per single scatterlist
-- * @nents_first_chunk: Number of entries int the (preallocated) first
-- * 	scatterlist chunk, 0 means no such preallocated first chunk
-- * @free_fn:	Free function
-- *
-- *  Description:
-- *    Free an sg table previously allocated and setup with
-- *    __sg_alloc_table().  The @max_ents value must be identical to
-- *    that previously used with __sg_alloc_table().
-- *
-- **/
--void __sg_free_table(struct sg_table *table, unsigned int max_ents,
--		     unsigned int nents_first_chunk, sg_free_fn *free_fn)
-+static void __sg_free_table_entries(struct sg_table *table,
-+				    unsigned int max_ents,
-+				    unsigned int nents_first_chunk,
-+				    sg_free_fn *free_fn,
-+				    unsigned int num_entries)
+@@ -76,7 +76,8 @@ static inline void __rdma_umem_block_iter_start(struct ib_block_iter *biter,
+ 						struct ib_umem *umem,
+ 						unsigned long pgsz)
  {
- 	struct scatterlist *sgl, *next;
- 	unsigned curr_max_ents = nents_first_chunk ?: max_ents;
-@@ -199,8 +188,8 @@ void __sg_free_table(struct sg_table *table, unsigned int max_ents,
- 		return;
- 
- 	sgl = table->sgl;
--	while (table->orig_nents) {
--		unsigned int alloc_size = table->orig_nents;
-+	while (num_entries) {
-+		unsigned int alloc_size = num_entries;
- 		unsigned int sg_size;
- 
- 		/*
-@@ -218,7 +207,7 @@ void __sg_free_table(struct sg_table *table, unsigned int max_ents,
- 			next = NULL;
- 		}
- 
--		table->orig_nents -= sg_size;
-+		num_entries -= sg_size;
- 		if (nents_first_chunk)
- 			nents_first_chunk = 0;
- 		else
-@@ -229,6 +218,43 @@ void __sg_free_table(struct sg_table *table, unsigned int max_ents,
- 
- 	table->sgl = NULL;
+-	__rdma_block_iter_start(biter, umem->sg_head.sgl, umem->nmap, pgsz);
++	__rdma_block_iter_start(biter, umem->sg_head.sgl, umem->sg_head.nents,
++				pgsz);
  }
-+
-+/**
-+ * sg_free_table_entries - Free a previously allocated sg table according to
-+ *                         the total number of entries in the table.
-+ * @table:	 The mapped sg table header
-+ * @num_entries: The number of entries in the table.
-+ *
-+ **/
-+void sg_free_table_entries(struct sg_table *table, unsigned int num_entries)
-+{
-+	__sg_free_table_entries(table, SG_MAX_SINGLE_ALLOC, false, sg_kfree,
-+				num_entries);
-+}
-+EXPORT_SYMBOL(sg_free_table_entries);
-+
-+/**
-+ * __sg_free_table - Free a previously mapped sg table
-+ * @table:	The sg table header to use
-+ * @max_ents:	The maximum number of entries per single scatterlist
-+ * @total_ents:	The total number of entries in the table
-+ * @nents_first_chunk: Number of entries int the (preallocated) first
-+ *                     scatterlist chunk, 0 means no such preallocated
-+ *                     first chunk
-+ * @free_fn:	Free function
-+ *
-+ *  Description:
-+ *    Free an sg table previously allocated and setup with
-+ *    __sg_alloc_table().  The @max_ents value must be identical to
-+ *    that previously used with __sg_alloc_table().
-+ *
-+ **/
-+void __sg_free_table(struct sg_table *table, unsigned int max_ents,
-+		     unsigned int nents_first_chunk, sg_free_fn *free_fn)
-+{
-+	__sg_free_table_entries(table, max_ents, nents_first_chunk, free_fn,
-+				table->orig_nents);
-+}
- EXPORT_SYMBOL(__sg_free_table);
  
  /**
-@@ -238,7 +264,8 @@ EXPORT_SYMBOL(__sg_free_table);
-  **/
- void sg_free_table(struct sg_table *table)
- {
--	__sg_free_table(table, SG_MAX_SINGLE_ALLOC, false, sg_kfree);
-+	__sg_free_table_entries(table, SG_MAX_SINGLE_ALLOC, false, sg_kfree,
-+				table->orig_nents);
+diff --git a/include/rdma/ib_verbs.h b/include/rdma/ib_verbs.h
+index 371df1c80aeb..2dba30849731 100644
+--- a/include/rdma/ib_verbs.h
++++ b/include/rdma/ib_verbs.h
+@@ -4057,6 +4057,34 @@ static inline void ib_dma_unmap_sg_attrs(struct ib_device *dev,
+ 				   dma_attrs);
  }
- EXPORT_SYMBOL(sg_free_table);
  
-@@ -368,7 +395,8 @@ EXPORT_SYMBOL(sg_alloc_table);
- static struct scatterlist *get_next_sg(struct sg_table *table,
- 				       struct scatterlist *cur,
- 				       unsigned long needed_sges,
--				       gfp_t gfp_mask)
-+				       gfp_t gfp_mask,
-+				       unsigned int *total_nents)
- {
- 	struct scatterlist *new_sg, *next_sg;
- 	unsigned int alloc_size;
-@@ -386,12 +414,14 @@ static struct scatterlist *get_next_sg(struct sg_table *table,
- 		return ERR_PTR(-ENOMEM);
- 	sg_init_table(new_sg, alloc_size);
- 	if (cur) {
-+		if (total_nents)
-+			*total_nents += alloc_size - 1;
- 		__sg_chain(next_sg, new_sg);
--		table->orig_nents += alloc_size - 1;
- 	} else {
- 		table->sgl = new_sg;
--		table->orig_nents = alloc_size;
- 		table->nents = 0;
-+		if (total_nents)
-+			*total_nents = alloc_size;
- 	}
- 	return new_sg;
- }
-@@ -408,6 +438,7 @@ static struct scatterlist *get_next_sg(struct sg_table *table,
-  * @prv:	 Last populated sge in sgt
-  * @left_pages:  Left pages caller have to set after this call
-  * @gfp_mask:	 GFP allocation mask
-+ * @total_nents: Output of total number of entries in the table
-  *
-  * Description:
-  *    If @prv is NULL, allocate and initialize an sg table from a list of pages,
-@@ -419,7 +450,8 @@ static struct scatterlist *get_next_sg(struct sg_table *table,
-  *
-  * Returns:
-  *   Last SGE in sgt on success, PTR_ERR on otherwise.
-- *   The allocation in @sgt must be released by sg_free_table.
-+ *   The allocation in @sgt must be released by sg_free_table or
-+ *   sg_free_table_entries.
-  *
-  * Notes:
-  *   If this function returns non-0 (eg failure), the caller must call
-@@ -429,7 +461,7 @@ struct scatterlist *__sg_alloc_table_from_pages(struct sg_table *sgt,
- 		struct page **pages, unsigned int n_pages, unsigned int offset,
- 		unsigned long size, unsigned int max_segment,
- 		struct scatterlist *prv, unsigned int left_pages,
--		gfp_t gfp_mask)
-+		gfp_t gfp_mask, unsigned int *total_nents)
- {
- 	unsigned int chunks, cur_page, seg_len, i, prv_len = 0;
- 	unsigned int added_nents = 0;
-@@ -496,7 +528,8 @@ struct scatterlist *__sg_alloc_table_from_pages(struct sg_table *sgt,
- 		}
- 
- 		/* Pass how many chunks might be left */
--		s = get_next_sg(sgt, s, chunks - i + left_pages, gfp_mask);
-+		s = get_next_sg(sgt, s, chunks - i + left_pages, gfp_mask,
-+				total_nents);
- 		if (IS_ERR(s)) {
- 			/*
- 			 * Adjust entry length to be as before function was
-@@ -515,6 +548,7 @@ struct scatterlist *__sg_alloc_table_from_pages(struct sg_table *sgt,
- 		cur_page = j;
- 	}
- 	sgt->nents += added_nents;
-+	sgt->orig_nents = sgt->nents;
- out:
- 	if (!left_pages)
- 		sg_mark_end(s);
-@@ -547,7 +581,7 @@ int sg_alloc_table_from_pages(struct sg_table *sgt, struct page **pages,
- 			      unsigned long size, gfp_t gfp_mask)
- {
- 	return PTR_ERR_OR_ZERO(__sg_alloc_table_from_pages(sgt, pages, n_pages,
--			offset, size, UINT_MAX, NULL, 0, gfp_mask));
-+			offset, size, UINT_MAX, NULL, 0, gfp_mask, NULL));
- }
- EXPORT_SYMBOL(sg_alloc_table_from_pages);
- 
-diff --git a/tools/testing/scatterlist/main.c b/tools/testing/scatterlist/main.c
-index 652254754b4c..00576c86971e 100644
---- a/tools/testing/scatterlist/main.c
-+++ b/tools/testing/scatterlist/main.c
-@@ -88,11 +88,14 @@ int main(void)
- 		struct page *pages[MAX_PAGES];
- 		struct sg_table st;
- 		struct scatterlist *sg;
-+		unsigned int total_nents;
- 
- 		set_pages(pages, test->pfn, test->num_pages);
- 
- 		sg = __sg_alloc_table_from_pages(&st, pages, test->num_pages, 0,
--				test->size, test->max_seg, NULL, left_pages, GFP_KERNEL);
-+						 test->size, test->max_seg,
-+						 NULL, left_pages, GFP_KERNEL,
-+						 &total_nents);
- 		assert(PTR_ERR_OR_ZERO(sg) == test->alloc_ret);
- 
- 		if (test->alloc_ret)
-@@ -100,8 +103,9 @@ int main(void)
- 
- 		if (test->pfn_app) {
- 			set_pages(pages, test->pfn_app, test->num_pages);
--			sg = __sg_alloc_table_from_pages(&st, pages, test->num_pages, 0,
--					test->size, test->max_seg, sg, 0, GFP_KERNEL);
-+			sg = __sg_alloc_table_from_pages(
-+				&st, pages, test->num_pages, 0, test->size,
-+				test->max_seg, sg, 0, GFP_KERNEL, &total_nents);
- 
- 			assert(PTR_ERR_OR_ZERO(sg) == test->alloc_ret);
- 		}
-@@ -110,7 +114,10 @@ int main(void)
- 		if (!test->pfn_app)
- 			VALIDATE(st.orig_nents == test->expected_segments, &st, test);
- 
--		sg_free_table(&st);
-+		if (test->pfn_app)
-+			sg_free_table_entries(&st, total_nents);
-+		else
-+			sg_free_table(&st);
- 	}
- 
- 	assert(i == (sizeof(tests) / sizeof(tests[0])) - 1);
++/**
++ * ib_dma_map_sgtable_attrs - Map a scatter/gather table to DMA addresses
++ * @dev: The device for which the DMA addresses are to be created
++ * @sg: The sg_table object describing the buffer
++ * @direction: The direction of the DMA
++ * @attrs: Optional DMA attributes for the map operation
++ */
++static inline int ib_dma_map_sgtable_attrs(struct ib_device *dev,
++					   struct sg_table *sgt,
++					   enum dma_data_direction direction,
++					   unsigned long dma_attrs)
++{
++	if (ib_uses_virt_dma(dev)) {
++		ib_dma_virt_map_sg(dev, sgt->sgl, sgt->orig_nents);
++		return 0;
++	}
++	return dma_map_sgtable(dev->dma_device, sgt, direction, dma_attrs);
++}
++
++static inline void ib_dma_unmap_sgtable_attrs(struct ib_device *dev,
++					      struct sg_table *sgt,
++					      enum dma_data_direction direction,
++					      unsigned long dma_attrs)
++{
++	if (!ib_uses_virt_dma(dev))
++		dma_unmap_sgtable(dev->dma_device, sgt, direction, dma_attrs);
++}
++
+ /**
+  * ib_dma_map_sg - Map a scatter/gather list to DMA addresses
+  * @dev: The device for which the DMA addresses are to be created
 -- 
 2.31.1
 
