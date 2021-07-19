@@ -1,58 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 707C43CEAFD
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Jul 2021 20:31:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 397C23CEB01
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Jul 2021 20:31:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A735389D56;
-	Mon, 19 Jul 2021 18:30:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9CE8189DF7;
+	Mon, 19 Jul 2021 18:30:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com
- [IPv6:2607:f8b0:4864:20::52f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 10C5E89D56
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Jul 2021 18:30:55 +0000 (UTC)
-Received: by mail-pg1-x52f.google.com with SMTP id 37so19946881pgq.0
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Jul 2021 11:30:55 -0700 (PDT)
+Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com
+ [IPv6:2607:f8b0:4864:20::1029])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B6BE89D56
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Jul 2021 18:30:56 +0000 (UTC)
+Received: by mail-pj1-x1029.google.com with SMTP id
+ i16-20020a17090acf90b02901736d9d2218so559611pju.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Jul 2021 11:30:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=dnXFAvNsp4VhwTehs3gkAabKcxBUBsGHtr27v2mGrwU=;
- b=Yzy6Q+lPCBSRFI4vehA0kxzDLPBF7/hOVr4BjpL8Io9yxSv8qQtUoOJMGf/0fymsoh
- fnpn5R7U+E3x3jmy1ldUDvHp5DQbgn12tf6W+u4uuYWouCjEdwxQW25Wat8vg+AAZ/Ar
- x9CAyTUJt71AaUqXRV0grYiHXzjJKgJsnweeoWJ21fw4wENyJs+WSeh4CLSHEdIBLgWx
- FeA5RYp3Xx0GvCmPpAYf1rNEKmNkyKKhehYx6lmMkuCEPZ0De8UQ9LxviNS4Aeikjc6x
- Pnq8Md0pqG93wLd8G79a6li9ayo2Zb9QBmhT1qQCTrZwtsPQ9aKB3s9T0X2A3xirKm8A
- XE6A==
+ bh=3PudCVQU2PCqP7pn5iCbGILZ8XUpfJcSPWpnuGkDbfg=;
+ b=PqggbUah24VP/C6HhXeC4GM9AqL4qRRub+REo6xg9FAVZkiYb9NuYH51D9xyb6C9b7
+ 9d/X0dObK2apq5CCGgN0Y6fIpHzk6lOfr0kBwjMyXVvFUDIh1W/2PVAW/OmGmi1u0vBp
+ O1FCMHVxvVzlOWZT9Jw7+qmOPnHrXmU7QYso7qLjd+aVdMJFbPOrixPSaLDgIq5hebRv
+ XoyoyMzWajJOUhtZcOEPuyk//60W1W8ePbKz16o1jGcXmgNt0d5qdfyW0o8BxG0sy07A
+ ppO4NX46rdTv9MbizsxGfZ9CfrezpV8tEnRGtqjopOhz5qLhaqJO7VE8Jqp3aGVryid/
+ G/ZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=dnXFAvNsp4VhwTehs3gkAabKcxBUBsGHtr27v2mGrwU=;
- b=TrI1PxN/niZpUxUi9cvpvg2XAivKenG25AZxMja9oBLxglVyTRLtkaVe9V8r5nOfY2
- OXjPd/NMIxmOHvqbbrXsmgGAP4xHp3C7Eg7OZUIFs8BYHZej7H5yi0f208vVtkpot2Y/
- CpOjVqTa2c8UHcVaKFCcoFSbA4aFDrfUhZ3y9AQUkVHu5nsZn7Xv+tsVFMCBm9XesJyO
- tujemN3Oyx6DpkfJU0GqVhvynB7DkewDjaqDW1BnFE1cb9pkqzSwtmvXvamfTte3XbqN
- GjyJcFmdVlYMCg0nUFMi0ilqIqXbNvtMM+zyzCs2H61/Hqrhj+wIpwXIi/8KRbIuaMsR
- /ccA==
-X-Gm-Message-State: AOAM532rJpvUZbcurdzJoD9UcPVbPdSDuvRouWwRqHJMu+YvFWi7xL1H
- NlLGsHep3YeEmoWNKZpr2EFamw==
-X-Google-Smtp-Source: ABdhPJwFGcpS1KY6LYWmB3ab+eMdliHYuXyUCL+z1ob55EJrr6OGXEf8Yd5gCa5vFeNzEKQBgU9oUA==
-X-Received: by 2002:a63:d84b:: with SMTP id k11mr26769538pgj.372.1626719454638; 
- Mon, 19 Jul 2021 11:30:54 -0700 (PDT)
+ bh=3PudCVQU2PCqP7pn5iCbGILZ8XUpfJcSPWpnuGkDbfg=;
+ b=TbxmT9i2ZdoJYjYpGHKhf3mXegXLmpnaQaHrxeNe1qwwRVjI+2yweT+YQf6pPhHiUn
+ YTUc07AExcACcnRAe5sM2hRwtAU9nEe5PbCCPm1Nk1CUdokHHEGRLvugeyfxVgwo48Cg
+ J8YyVROKnbLD4UbwLHgjoMLhgGQhm/WMEsekTSoLmJUUTP7RLAFRbgD/nhM4dejhnxsJ
+ SxJjCfWV5A+RDW4Z04xI04OpSYlUO6pfERCGVcp6MWWXS6zN+ALpC8TZyl4yZUXgTBwr
+ drMDH2loAPAyQQn/Y41VB1wvkju+4fTEaMdDLoKPAIlSwceqT6RQZmDyP2MbCPg+2cXw
+ G4Qw==
+X-Gm-Message-State: AOAM531OXWyQ+hzMuDL9AQJoQaDMDXivS/Z0z7XrETMrVTbI0OkI6nd/
+ n5DTyRWcxEQo3lyivcNAj/vK3UUYCKhRxA==
+X-Google-Smtp-Source: ABdhPJxAPECcQuoJbVXo2jKq/NX+T4JGnp/Ul9k7ganeqejH6IsKsZGPf2/oYtgRs18k2GPcICy1jg==
+X-Received: by 2002:a17:90a:4302:: with SMTP id
+ q2mr30005914pjg.189.1626719455849; 
+ Mon, 19 Jul 2021 11:30:55 -0700 (PDT)
 Received: from omlet.com ([134.134.137.83])
- by smtp.gmail.com with ESMTPSA id w23sm6961555pfc.60.2021.07.19.11.30.53
+ by smtp.gmail.com with ESMTPSA id w23sm6961555pfc.60.2021.07.19.11.30.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 19 Jul 2021 11:30:54 -0700 (PDT)
+ Mon, 19 Jul 2021 11:30:55 -0700 (PDT)
 From: Jason Ekstrand <jason@jlekstrand.net>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/6] drm/i915: Call i915_globals_exit() if
- pci_register_device() fails
-Date: Mon, 19 Jul 2021 13:30:43 -0500
-Message-Id: <20210719183047.2624569-3-jason@jlekstrand.net>
+Subject: [PATCH 3/6] drm/i915: Always call i915_globals_exit() from i915_exit()
+Date: Mon, 19 Jul 2021 13:30:44 -0500
+Message-Id: <20210719183047.2624569-4-jason@jlekstrand.net>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210719183047.2624569-1-jason@jlekstrand.net>
 References: <20210719183047.2624569-1-jason@jlekstrand.net>
@@ -74,51 +75,131 @@ Cc: Jason Ekstrand <jason@jlekstrand.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In the unlikely event that pci_register_device() fails, we were tearing
-down our PMU setup but not globals.  This leaves a bunch of memory slabs
-lying around.
+If the driver was not fully loaded, we may still have globals lying
+around.  If we don't tear those down in i915_exit(), we'll leak a bunch
+of memory slabs.  This can happen two ways: use_kms = false and if we've
+run mock selftests.  In either case, we have an early exit from
+i915_init which happens after i915_globals_init() and we need to clean
+up those globals.  While we're here, add an explicit boolean instead of
+using a random field from i915_pci_device to detect partial loads.
+
+The mock selftests case gets especially sticky.  The load isn't entirely
+a no-op.  We actually do quite a bit inside those selftests including
+allocating a bunch of mock objects and running tests on them.  Once all
+those tests are complete, we exit early from i915_init().  Perviously,
+i915_init() would return a non-zero error code on failure and a zero
+error code on success.  In the success case, we would get to i915_exit()
+and check i915_pci_driver.driver.owner to detect if i915_init exited early
+and do nothing.  In the failure case, we would fail i915_init() but
+there would be no opportunity to clean up globals.
+
+The most annoying part is that you don't actually notice the failure as
+part of the self-tests since leaking a bit of memory, while bad, doesn't
+result in anything observable from userspace.  Instead, the next time we
+load the driver (usually for next IGT test), i915_globals_init() gets
+invoked again, we go to allocate a bunch of new memory slabs, those
+implicitly create debugfs entries, and debugfs warns that we're trying
+to create directories and files that already exist.  Since this all
+happens as part of the next driver load, it shows up in the dmesg-warn
+of whatever IGT test ran after the mock selftests.
+
+While the obvious thing to do here might be to call i915_globals_exit()
+after selftests, that's not actually safe.  The dma-buf selftests call
+i915_gem_prime_export which creates a file.  We call dma_buf_put() on
+the resulting dmabuf which calls fput() on the file.  However, fput()
+isn't immediate and gets flushed right before syscall returns.  This
+means that all the fput()s from the selftests don't happen until right
+before the module load syscall used to fire off the selftests returns
+which is after i915_init().  If we call i915_globals_exit() in
+i915_init() after selftests, we end up freeing slabs out from under
+objects which won't get released until fput() is flushed at the end of
+the module load.
+
+The solution here is to let i915_init() return success early and detect
+the early success in i915_exit() and only tear down globals and nothing
+else.  This way the module loads successfully, regardless of the success
+or failure of the tests.  Because we've not enumerated any PCI devices,
+no device nodes are created and it's entirely useless from userspace.
+The only thing the module does at that point is hold on to a bit of
+memory until we unload it and i915_exit() is called.  Importantly, this
+means that everything from our selftests has the ability to properly
+flush out between i915_init() and i915_exit() because there are a couple
+syscall boundaries in between.
 
 Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
 Fixes: 32eb6bcfdda9 ("drm/i915: Make request allocation caches global")
 Cc: Daniel Vetter <daniel@ffwll.ch>
 ---
- drivers/gpu/drm/i915/i915_globals.c | 4 ++--
- drivers/gpu/drm/i915/i915_pci.c     | 1 +
- 2 files changed, 3 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/i915/i915_pci.c | 32 +++++++++++++++++++++++++-------
+ 1 file changed, 25 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/i915_globals.c b/drivers/gpu/drm/i915/i915_globals.c
-index 77f1911c463b8..87267e1d2ad92 100644
---- a/drivers/gpu/drm/i915/i915_globals.c
-+++ b/drivers/gpu/drm/i915/i915_globals.c
-@@ -138,7 +138,7 @@ void i915_globals_unpark(void)
- 	atomic_inc(&active);
- }
- 
--static void __exit __i915_globals_flush(void)
-+static void __i915_globals_flush(void)
- {
- 	atomic_inc(&active); /* skip shrinking */
- 
-@@ -148,7 +148,7 @@ static void __exit __i915_globals_flush(void)
- 	atomic_dec(&active);
- }
- 
--void __exit i915_globals_exit(void)
-+void i915_globals_exit(void)
- {
- 	GEM_BUG_ON(atomic_read(&active));
- 
 diff --git a/drivers/gpu/drm/i915/i915_pci.c b/drivers/gpu/drm/i915/i915_pci.c
-index 50ed93b03e582..4e627b57d31a2 100644
+index 4e627b57d31a2..24e4e54516936 100644
 --- a/drivers/gpu/drm/i915/i915_pci.c
 +++ b/drivers/gpu/drm/i915/i915_pci.c
-@@ -1230,6 +1230,7 @@ static int __init i915_init(void)
- 	err = pci_register_driver(&i915_pci_driver);
- 	if (err) {
- 		i915_pmu_exit();
-+		i915_globals_exit();
+@@ -1194,18 +1194,31 @@ static struct pci_driver i915_pci_driver = {
+ 	.driver.pm = &i915_pm_ops,
+ };
+ 
++static bool i915_fully_loaded = false;
++
+ static int __init i915_init(void)
+ {
+ 	bool use_kms = true;
+ 	int err;
+ 
++	i915_fully_loaded = false;
++
+ 	err = i915_globals_init();
+ 	if (err)
  		return err;
+ 
++	/* i915_mock_selftests() only returns zero if no mock subtests were
++	 * run.  If we get any non-zero error code, we return early here.
++	 * We always return success because selftests may have allocated
++	 * objects from slabs which will get cleaned up by i915_exit().  We
++	 * could attempt to clean up immediately and fail module load but,
++	 * thanks to interactions with other parts of the kernel (struct
++	 * file, in particular), it's safer to let the module fully load
++	 * and then clean up on unload.
++	 */
+ 	err = i915_mock_selftests();
+ 	if (err)
+-		return err > 0 ? 0 : err;
++		return 0;
+ 
+ 	/*
+ 	 * Enable KMS by default, unless explicitly overriden by
+@@ -1225,6 +1238,12 @@ static int __init i915_init(void)
+ 		return 0;
  	}
+ 
++	/* After this point, i915_init() must either fully succeed or
++	 * properly tear everything down and fail.  We don't have separate
++	 * flags for each set-up bit.
++	 */
++	i915_fully_loaded = true;
++
+ 	i915_pmu_init();
+ 
+ 	err = pci_register_driver(&i915_pci_driver);
+@@ -1240,12 +1259,11 @@ static int __init i915_init(void)
+ 
+ static void __exit i915_exit(void)
+ {
+-	if (!i915_pci_driver.driver.owner)
+-		return;
+-
+-	i915_perf_sysctl_unregister();
+-	pci_unregister_driver(&i915_pci_driver);
+-	i915_pmu_exit();
++	if (i915_fully_loaded) {
++		i915_perf_sysctl_unregister();
++		pci_unregister_driver(&i915_pci_driver);
++		i915_pmu_exit();
++	}
+ 	i915_globals_exit();
+ }
  
 -- 
 2.31.1
