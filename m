@@ -1,35 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92EA23CD573
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Jul 2021 15:06:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C38D3CD574
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Jul 2021 15:06:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BAC416E096;
-	Mon, 19 Jul 2021 13:06:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CFB6D6E0B7;
+	Mon, 19 Jul 2021 13:06:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6777B6E096
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Jul 2021 13:06:26 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C3B9E6100C;
- Mon, 19 Jul 2021 13:06:25 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A02716E0B7
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Jul 2021 13:06:36 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 0A60C6100C;
+ Mon, 19 Jul 2021 13:06:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1626699986;
- bh=rVyZRoqUxUgXPzVgw1mN5sXkLz9OHRFf9asXgqWZd3M=;
+ s=korg; t=1626699996;
+ bh=4dq1Lh+kSB9NR6YxEBhA9GV1tH2LUFUeS72cHlMNs+M=;
  h=Subject:To:Cc:From:Date:From;
- b=upQdySaTex8JbyDg0vsQ3wG2Ljjidy6WKvXUI3cvxfhR9hPO6/kHZAnt7Isg/cktL
- 1TTJZnJUts47UCgU4y2EMS5bdXuIw1LQ7rhjVQ+p2aejDB9UWWzbAYP+3SDhMN8qjS
- fmBgG2ImJGQnIZIe0vPdFhVUWBOGHRxJtp3CjRqo=
-Subject: Patch "drm/dp_mst: Add missing drm parameters to recently added call
- to drm_dbg_kms()" has been added to the 5.10-stable tree
+ b=uYqP3QjuuZrIKRbyG4zb/mZvlmOYAmtY/Sd5QDDWLmCqgmGJ1RB/YLRtaPfWtnEq7
+ jdUGVXJYD2x58ttUZvyn6dyy68kTWHVWswqDwxTaUvko9Qhd3u5rwKKcGpMQMP1Yg6
+ VxcrMTndjn4jKpJovg8lUHBRrsmdiMcNrKzYre2U=
+Subject: Patch "drm/dp_mst: Do not set proposed vcpi directly" has been added
+ to the 5.10-stable tree
 To: Wayne.Lin@amd.com, dri-devel@lists.freedesktop.org,
- gregkh@linuxfoundation.org, jose.souza@intel.com, lyude@redhat.com
+ gregkh@linuxfoundation.org, lyude@redhat.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de
 From: <gregkh@linuxfoundation.org>
 Date: Mon, 19 Jul 2021 15:06:24 +0200
-Message-ID: <162669998418281@kroah.com>
+Message-ID: <162669998414389@kroah.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=ANSI_X3.4-1968
 Content-Transfer-Encoding: 8bit
 X-stable: commit
 X-Patchwork-Hint: ignore 
@@ -52,74 +53,149 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is a note to let you know that I've just added the patch titled
 
-    drm/dp_mst: Add missing drm parameters to recently added call to drm_dbg_kms()
+    drm/dp_mst: Do not set proposed vcpi directly
 
 to the 5.10-stable tree which can be found at:
     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
 The filename of the patch is:
-     drm-dp_mst-add-missing-drm-parameters-to-recently-added-call-to-drm_dbg_kms.patch
+     drm-dp_mst-do-not-set-proposed-vcpi-directly.patch
 and it can be found in the queue-5.10 subdirectory.
 
 If you, or anyone else, feels it should not be added to the stable tree,
 please let <stable@vger.kernel.org> know about it.
 
 
-From 24ff3dc18b99c4b912ab1746e803ddb3be5ced4c Mon Sep 17 00:00:00 2001
-From: =?UTF-8?q?Jos=C3=A9=20Roberto=20de=20Souza?= <jose.souza@intel.com>
-Date: Wed, 16 Jun 2021 12:44:15 -0700
-Subject: drm/dp_mst: Add missing drm parameters to recently added call to drm_dbg_kms()
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+From 35d3e8cb35e75450f87f87e3d314e2d418b6954b Mon Sep 17 00:00:00 2001
+From: Wayne Lin <Wayne.Lin@amd.com>
+Date: Wed, 16 Jun 2021 11:55:00 +0800
+Subject: drm/dp_mst: Do not set proposed vcpi directly
 
-From: José Roberto de Souza <jose.souza@intel.com>
+From: Wayne Lin <Wayne.Lin@amd.com>
 
-commit 24ff3dc18b99c4b912ab1746e803ddb3be5ced4c upstream.
+commit 35d3e8cb35e75450f87f87e3d314e2d418b6954b upstream.
 
-Commit 3769e4c0af5b ("drm/dp_mst: Avoid to mess up payload table by
-ports in stale topology") added to calls to drm_dbg_kms() but it
-missed the first parameter, the drm device breaking the build.
+[Why]
+When we receive CSN message to notify one port is disconnected, we will
+implicitly set its corresponding num_slots to 0. Later on, we will
+eventually call drm_dp_update_payload_part1() to arrange down streams.
 
-Fixes: 3769e4c0af5b ("drm/dp_mst: Avoid to mess up payload table by ports in stale topology")
-Cc: Wayne Lin <Wayne.Lin@amd.com>
+In drm_dp_update_payload_part1(), we iterate over all proposed_vcpis[]
+to do the update. Not specific to a target sink only. For example, if we
+light up 2 monitors, Monitor_A and Monitor_B, and then we unplug
+Monitor_B. Later on, when we call drm_dp_update_payload_part1() to try
+to update payload for Monitor_A, we'll also implicitly clean payload for
+Monitor_B at the same time. And finally, when we try to call
+drm_dp_update_payload_part1() to clean payload for Monitor_B, we will do
+nothing at this time since payload for Monitor_B has been cleaned up
+previously.
+
+For StarTech 1to3 DP hub, it seems like if we didn't update DPCD payload
+ID table then polling for "ACT Handled"(BIT_1 of DPCD 002C0h) will fail
+and this polling will last for 3 seconds.
+
+Therefore, guess the best way is we don't set the proposed_vcpi[]
+diretly. Let user of these herlper functions to set the proposed_vcpi
+directly.
+
+[How]
+1. Revert commit 7617e9621bf2 ("drm/dp_mst: clear time slots for ports
+invalid")
+2. Tackle the issue in previous commit by skipping those trasient
+proposed VCPIs. These stale VCPIs shoulde be explicitly cleared by
+user later on.
+
+Changes since v1:
+* Change debug macro to use drm_dbg_kms() instead
+* Amend the commit message to add Fixed & Cc tags
+
+Signed-off-by: Wayne Lin <Wayne.Lin@amd.com>
+Fixes: 7617e9621bf2 ("drm/dp_mst: clear time slots for ports invalid")
 Cc: Lyude Paul <lyude@redhat.com>
+Cc: Wayne Lin <Wayne.Lin@amd.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
 Cc: dri-devel@lists.freedesktop.org
-Cc: stable@vger.kernel.org
-Signed-off-by: José Roberto de Souza <jose.souza@intel.com>
-Reviewed-by: Lyude Paul <lyude@redhat.com>
+Cc: <stable@vger.kernel.org> # v5.5+
 Signed-off-by: Lyude Paul <lyude@redhat.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20210616194415.36926-1-jose.souza@intel.com
+Link: https://patchwork.freedesktop.org/patch/msgid/20210616035501.3776-2-Wayne.Lin@amd.com
+Reviewed-by: Lyude Paul <lyude@redhat.com>
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/gpu/drm/drm_dp_mst_topology.c |    7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/drm_dp_mst_topology.c |   36 +++++++++-------------------------
+ 1 file changed, 10 insertions(+), 26 deletions(-)
 
 --- a/drivers/gpu/drm/drm_dp_mst_topology.c
 +++ b/drivers/gpu/drm/drm_dp_mst_topology.c
-@@ -3385,7 +3385,9 @@ int drm_dp_update_payload_part1(struct d
- 			mutex_unlock(&mgr->lock);
+@@ -2499,7 +2499,7 @@ drm_dp_mst_handle_conn_stat(struct drm_d
+ {
+ 	struct drm_dp_mst_topology_mgr *mgr = mstb->mgr;
+ 	struct drm_dp_mst_port *port;
+-	int old_ddps, old_input, ret, i;
++	int old_ddps, ret;
+ 	u8 new_pdt;
+ 	bool new_mcs;
+ 	bool dowork = false, create_connector = false;
+@@ -2531,7 +2531,6 @@ drm_dp_mst_handle_conn_stat(struct drm_d
+ 	}
  
- 			if (skip) {
--				drm_dbg_kms("Virtual channel %d is not in current topology\n", i);
-+				drm_dbg_kms(mgr->dev,
-+					    "Virtual channel %d is not in current topology\n",
-+					    i);
- 				continue;
+ 	old_ddps = port->ddps;
+-	old_input = port->input;
+ 	port->input = conn_stat->input_port;
+ 	port->ldps = conn_stat->legacy_device_plug_status;
+ 	port->ddps = conn_stat->displayport_device_plug_status;
+@@ -2554,28 +2553,6 @@ drm_dp_mst_handle_conn_stat(struct drm_d
+ 		dowork = false;
+ 	}
+ 
+-	if (!old_input && old_ddps != port->ddps && !port->ddps) {
+-		for (i = 0; i < mgr->max_payloads; i++) {
+-			struct drm_dp_vcpi *vcpi = mgr->proposed_vcpis[i];
+-			struct drm_dp_mst_port *port_validated;
+-
+-			if (!vcpi)
+-				continue;
+-
+-			port_validated =
+-				container_of(vcpi, struct drm_dp_mst_port, vcpi);
+-			port_validated =
+-				drm_dp_mst_topology_get_port_validated(mgr, port_validated);
+-			if (!port_validated) {
+-				mutex_lock(&mgr->payload_lock);
+-				vcpi->num_slots = 0;
+-				mutex_unlock(&mgr->payload_lock);
+-			} else {
+-				drm_dp_mst_topology_put_port(port_validated);
+-			}
+-		}
+-	}
+-
+ 	if (port->connector)
+ 		drm_modeset_unlock(&mgr->base.lock);
+ 	else if (create_connector)
+@@ -3406,8 +3383,15 @@ int drm_dp_update_payload_part1(struct d
+ 				port = drm_dp_mst_topology_get_port_validated(
+ 				    mgr, port);
+ 				if (!port) {
+-					mutex_unlock(&mgr->payload_lock);
+-					return -EINVAL;
++					if (vcpi->num_slots == payload->num_slots) {
++						cur_slots += vcpi->num_slots;
++						payload->start_slot = req_payload.start_slot;
++						continue;
++					} else {
++						drm_dbg_kms("Fail:set payload to invalid sink");
++						mutex_unlock(&mgr->payload_lock);
++						return -EINVAL;
++					}
+ 				}
+ 				put_port = true;
  			}
- 			/* Validated ports don't matter if we're releasing
-@@ -3400,7 +3402,8 @@ int drm_dp_update_payload_part1(struct d
- 						payload->start_slot = req_payload.start_slot;
- 						continue;
- 					} else {
--						drm_dbg_kms("Fail:set payload to invalid sink");
-+						drm_dbg_kms(mgr->dev,
-+							    "Fail:set payload to invalid sink");
- 						mutex_unlock(&mgr->payload_lock);
- 						return -EINVAL;
- 					}
 
 
-Patches currently in stable-queue which might be from jose.souza@intel.com are
+Patches currently in stable-queue which might be from Wayne.Lin@amd.com are
 
 queue-5.10/drm-dp_mst-add-missing-drm-parameters-to-recently-added-call-to-drm_dbg_kms.patch
+queue-5.10/drm-dp_mst-avoid-to-mess-up-payload-table-by-ports-in-stale-topology.patch
+queue-5.10/drm-dp_mst-do-not-set-proposed-vcpi-directly.patch
