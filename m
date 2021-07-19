@@ -2,62 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA2A73CD3A9
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Jul 2021 13:22:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C06EA3CD3AA
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Jul 2021 13:23:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 22D826E0FE;
-	Mon, 19 Jul 2021 11:22:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C1A4C89A76;
+	Mon, 19 Jul 2021 11:23:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
- [IPv6:2a00:1450:4864:20::434])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC6DE6E0FE
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Jul 2021 11:22:06 +0000 (UTC)
-Received: by mail-wr1-x434.google.com with SMTP id g16so21579164wrw.5
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Jul 2021 04:22:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=19Ti1NA8xVHCqT+B8GYPMXpjdTLfZFTkg7dVmDYiAEs=;
- b=jAyCwfKi2yqyRkfxA82+bQyCTExzPurK7LDyypufme3eSHYHBzPBWBBBnUzo9GBfRs
- NJ3jnlfG8TJxNXEc/L4SnQfF9D7h7uBmkJLc1cdMiJ7RbSW4WKDeZpSy9zsDkUjHxqmb
- 8nrIEwuTsY4HuqFcbixvcihqEuKWBMazj63bwpma3KAtWLMewuGZZJq2u4pH2tQaznkh
- nJiP/BSTiYrXkBeS5bWQcjpr5T8xEePeNmxEmxVEpmqHWjOFynRLzTAQMTrsBNumWF9g
- 6iAReWVOaKoSOJpTMYTewADer5Nk0IgOlnR1I+sw76QkwhtfZzvMNtas7DZebVVSdYNo
- QzRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=19Ti1NA8xVHCqT+B8GYPMXpjdTLfZFTkg7dVmDYiAEs=;
- b=ECZdYBvig6iNFnCIKuzsF6TBt4dGgnyNUYrD6tr9+uFfYPh7jiCwC2sZyx8YlWWovA
- Kdk+zSMpas52Xm1/BNk4xceFR7gpPgxJ/Ipxk9Qz5YVFLSEhJyMnjmyyNzppMUHF7HIE
- FwEx5qoS+Ch7Q1pbISPFzvzcxM1vqUpKswtWV6g3eWMtQNIz3qwNqXPTvEvuBFjsmQpG
- jnMk20cXqHjZPnTgtguqG/l2rnLNkUIydCZFNjW8HLUoYe3cA897Y1kqv7b0KuYCEyjy
- EdMw0CCpGZzJcGGWBQojEuaG4yKxO0QRC9iw2QP/AMKziRowC0UvcKqI2LIaDO8GrJ63
- XncQ==
-X-Gm-Message-State: AOAM531nvWjlAa71RwkexN9EplOsnKy9fGdaOGWmD2VDHflrpmFra6o8
- YS1Slj0fURa2LjIy+GBG3eMq/w==
-X-Google-Smtp-Source: ABdhPJx1HmRU4Pb7pJdzPw2qozjXr9k8BAezOmNqwPaNbmc9C7dUNiBMx3ODTUPKpcXItKDcBZArEg==
-X-Received: by 2002:a05:6000:1867:: with SMTP id
- d7mr29237501wri.199.1626693725475; 
- Mon, 19 Jul 2021 04:22:05 -0700 (PDT)
-Received: from maple.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net.
- [80.7.220.175])
- by smtp.gmail.com with ESMTPSA id d67sm20703707wmd.9.2021.07.19.04.22.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 19 Jul 2021 04:22:04 -0700 (PDT)
-Date: Mon, 19 Jul 2021 12:22:02 +0100
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Marek Vasut <marex@denx.de>
-Subject: Re: [PATCH] backlight: pwm_bl: Avoid backlight flicker if backlight
- control GPIO is input
-Message-ID: <20210719112202.4fvmn57ibgy3yesa@maple.lan>
-References: <20210718211415.143709-1-marex@denx.de>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9636489000
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Jul 2021 11:23:38 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 09334610CC;
+ Mon, 19 Jul 2021 11:23:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1626693818;
+ bh=+MNpgNaFqW2ZiZAktLeNlF/Hkgwafj2mHobAqr4pDLA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=ScUCC1Y7kdv7dK2/NeDyS8NhlT2mNvZk32vV1wVVFmvB720kHlqaDVhu3JyWjai5x
+ 4cOLogx6sH/0OaHVrHkK0GXQYujlWsBNb5kkS1HAXR/On3dXD/tqJq9UFXJpf5GA3u
+ Qei34IAUauGndiVVJW6lM5P/K7Kw9bZMMlOMOqMg=
+Date: Mon, 19 Jul 2021 13:23:35 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Xiaotian Feng <xtfeng@gmail.com>
+Subject: Re: [PATCH 5.12 237/242] drm/ast: Remove reference to struct
+ drm_device.pdev
+Message-ID: <YPVgtybrZLxe3XeW@kroah.com>
+References: <20210715182551.731989182@linuxfoundation.org>
+ <20210715182634.577299401@linuxfoundation.org>
+ <CAJn8CcF+gfXToErpZv=pWmBKF-i--oVWmaM=6AQ8YZCb21X=oA@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210718211415.143709-1-marex@denx.de>
+In-Reply-To: <CAJn8CcF+gfXToErpZv=pWmBKF-i--oVWmaM=6AQ8YZCb21X=oA@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,127 +46,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-pwm@vger.kernel.org, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Thierry Reding <treding@nvidia.com>
+Cc: kernel test robot <lkp@intel.com>,
+ linux-kernel <linux-kernel@vger.kernel.org>, stable@vger.kernel.org,
+ "Michael J. Ruhl" <michael.j.ruhl@intel.com>, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Dave Airlie <airlied@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Jul 18, 2021 at 11:14:15PM +0200, Marek Vasut wrote:
-> If the backlight enable GPIO is configured as input, the driver currently
-> unconditionally forces the GPIO to output-enable. This can cause backlight
-> flicker on boot e.g. in case the GPIO should not be enabled before the PWM
-> is configured and is correctly pulled low by external resistor.
+On Mon, Jul 19, 2021 at 05:57:30PM +0800, Xiaotian Feng wrote:
+> On Fri, Jul 16, 2021 at 5:13 AM Greg Kroah-Hartman
+> <gregkh@linuxfoundation.org> wrote:
+> >
+> > From: Thomas Zimmermann <tzimmermann@suse.de>
+> >
+> > commit 0ecb51824e838372e01330752503ddf9c0430ef7 upstream.
+> >
+> > Using struct drm_device.pdev is deprecated. Upcast with to_pci_dev()
+> > from struct drm_device.dev to get the PCI device structure.
+> >
+> > v9:
+> >         * fix remaining pdev references
+> >
+> > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> > Reviewed-by: Michael J. Ruhl <michael.j.ruhl@intel.com>
+> > Fixes: ba4e0339a6a3 ("drm/ast: Fixed CVE for DP501")
+> > Cc: KuoHsiang Chou <kuohsiang_chou@aspeedtech.com>
+> > Cc: kernel test robot <lkp@intel.com>
+> > Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> > Cc: Dave Airlie <airlied@redhat.com>
+> > Cc: dri-devel@lists.freedesktop.org
+> > Link: https://patchwork.freedesktop.org/patch/msgid/20210429105101.25667-2-tzimmermann@suse.de
+> > Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > ---
+> >  drivers/gpu/drm/ast/ast_main.c |    5 ++---
+> >  1 file changed, 2 insertions(+), 3 deletions(-)
+> >
+> > --- a/drivers/gpu/drm/ast/ast_main.c
+> > +++ b/drivers/gpu/drm/ast/ast_main.c
+> > @@ -411,7 +411,6 @@ struct ast_private *ast_device_create(co
+> >                 return ast;
+> >         dev = &ast->base;
+> >
+> > -       dev->pdev = pdev;
+> >         pci_set_drvdata(pdev, dev);
+> >
+> >         ast->regs = pcim_iomap(pdev, 1, 0);
+> > @@ -453,8 +452,8 @@ struct ast_private *ast_device_create(co
+> >
+> >         /* map reserved buffer */
+> >         ast->dp501_fw_buf = NULL;
+> > -       if (dev->vram_mm->vram_size < pci_resource_len(dev->pdev, 0)) {
+> > -               ast->dp501_fw_buf = pci_iomap_range(dev->pdev, 0, dev->vram_mm->vram_size, 0);
+> > +       if (dev->vram_mm->vram_size < pci_resource_len(pdev, 0)) {
+> > +               ast->dp501_fw_buf = pci_iomap_range(pdev, 0, dev->vram_mm->vram_size, 0);
+> >                 if (!ast->dp501_fw_buf)
+> >                         drm_info(dev, "failed to map reserved buffer!\n");
+> >         }
+> >
 > 
-> Fix this by extending the current check to differentiate between backlight
-> GPIO enable set as input and set as direction unknown. In case of input,
-> read the GPIO value to determine the pull resistor placement, set the GPIO
-> as output, and drive that exact value it was pulled to. In case of unknown
-> direction, retain previous behavior, that is set the GPIO as output-enable.
+> Hi Greg,
 > 
-> Fixes: 3698d7e7d221 ("backlight: pwm_bl: Avoid backlight flicker when probed from DT")
-> Signed-off-by: Marek Vasut <marex@denx.de>
-> Cc: Christian Gmeiner <christian.gmeiner@gmail.com>
-> Cc: Daniel Thompson <daniel.thompson@linaro.org>
-> Cc: Heiko Stuebner <heiko@sntech.de>
-> Cc: Philipp Zabel <p.zabel@pengutronix.de>
-> Cc: Thierry Reding <treding@nvidia.com>
-> Cc: linux-pwm@vger.kernel.org
-> Cc: linux-fbdev@vger.kernel.org
-> To: dri-devel@lists.freedesktop.org
-> ---
-> NOTE: I think this whole auto-detection scheme should just be replaced by a
->       DT prop, because it is very fragile.
-
-I have some sympathy for this view... although I think the boat has
-already set sail.
-
-However, on the basis of making things less fragile, I think the
-underlying problem here is the assumption that it is safe to modify
-enable_gpio before the driver has imposed state upon the PWM (this
-assumption has always been made and, in addition to systems where the BL
-has a phandle will also risks flicker problems on systems where
-power_pwm_on_delay is not zero).
-
-This patch does not change the assumption that we can configure the
-GPIO before we modify the PWM state. This means it won't fix the problem
-for cases there the pin is HiZ by default but whose GPIOD_ASIS state is
-neither input nor output.
-
-I wonder if it might be better to move the code to configure the
-direction of enable_gpio out of the probe function and into
-pwm_backlight_power_on():
-
-	if (pb->enable_gpio) {
-		if (gpiod_get_direction(pb->enable_gpio) != 0))
-			gpiod_direction_output(pb->enable_gpio, 1);
-		else
-			gpiod_set_value_can_sleep(pb->enable_gpio, 1);
-	}
-
-By the time we reach this function the driver explicitly applies state
-to the GPIO then we know what the value must be.
-
-
-Daniel.
-
-> ---
->  drivers/video/backlight/pwm_bl.c | 35 +++++++++++++++++++++++---------
->  1 file changed, 25 insertions(+), 10 deletions(-)
+>      This backport is incomplete for 5.10 kernel,  kernel is panicked
+> on RIP: ast_device_create+0x7d.  When I look into the crash code, I
+> found
 > 
-> diff --git a/drivers/video/backlight/pwm_bl.c b/drivers/video/backlight/pwm_bl.c
-> index e48fded3e414..7ec992b722eb 100644
-> --- a/drivers/video/backlight/pwm_bl.c
-> +++ b/drivers/video/backlight/pwm_bl.c
-> @@ -445,7 +445,7 @@ static int pwm_backlight_probe(struct platform_device *pdev)
->  	struct device_node *node = pdev->dev.of_node;
->  	struct pwm_bl_data *pb;
->  	struct pwm_state state;
-> -	unsigned int i;
-> +	unsigned int i, dir, val;
->  	int ret;
->  
->  	if (!data) {
-> @@ -487,16 +487,31 @@ static int pwm_backlight_probe(struct platform_device *pdev)
->  	}
->  
->  	/*
-> -	 * If the GPIO is not known to be already configured as output, that
-> -	 * is, if gpiod_get_direction returns either 1 or -EINVAL, change the
-> -	 * direction to output and set the GPIO as active.
-> -	 * Do not force the GPIO to active when it was already output as it
-> -	 * could cause backlight flickering or we would enable the backlight too
-> -	 * early. Leave the decision of the initial backlight state for later.
-> +	 * If the GPIO is not known to be already configured as output, then:
-> +	 * - if the GPIO direction is input, read its current value to find out
-> +	 *   whether the pin is pulled high or low (it is backlight control, so
-> +	 *   it cannot be floating), change the direction to output and set the
-> +	 *   GPIO such that it drives this strapped value.
-> +	 *   Do not force the GPIO to state which is different than that to
-> +	 *   which the GPIO was pulled to, this could cause backlight flicker
-> +	 *   on boot e.g. in case the PWM is not ready yet.
-> +	 * - if the GPIO direction is unknown, tahat is, if gpiod_get_direction
-> +	 *   returns -EINVAL, change the direction to output and set the GPIO
-> +	 *   as active.
-> +	 *   Do not force the GPIO to active when it was already output as it
-> +	 *   could cause backlight flickering or we would enable the backlight
-> +	 *   too early. Leave the decision of the initial backlight state for
-> +	 *   later.
->  	 */
-> -	if (pb->enable_gpio &&
-> -	    gpiod_get_direction(pb->enable_gpio) != 0)
-> -		gpiod_direction_output(pb->enable_gpio, 1);
-> +	if (pb->enable_gpio) {
-> +		dir = gpiod_get_direction(pb->enable_gpio);
-> +		if (dir != 0) {
-> +			val = 1;
-> +			if (dir == 1)
-> +				val = gpiod_get_value_cansleep(pb->enable_gpio);
-> +			gpiod_direction_output(pb->enable_gpio, val);
-> +		}
-> +	}
->  
->  	pb->power_supply = devm_regulator_get(&pdev->dev, "power");
->  	if (IS_ERR(pb->power_supply)) {
-> -- 
-> 2.30.2
+> struct ast_private *ast_device_create(struct drm_driver *drv,
+>                                       struct pci_dev *pdev,
+>                                       unsigned long flags)
+> {
+> .......
+>         dev->pdev = pdev;  // This is removed
+>         pci_set_drvdata(pdev, dev);
 > 
+>         ast->regs = pcim_iomap(pdev, 1, 0);
+>         if (!ast->regs)
+>                 return ERR_PTR(-EIO);
+> 
+>         /*
+>          * If we don't have IO space at all, use MMIO now and
+>          * assume the chip has MMIO enabled by default (rev 0x20
+>          * and higher).
+>          */
+>         if (!(pci_resource_flags(dev->pdev, 2) & IORESOURCE_IO)) { //
+> dev->pdev is in used here.
+>                 drm_info(dev, "platform has no IO space, trying MMIO\n");
+>                 ast->ioregs = ast->regs + AST_IO_MM_OFFSET;
+>         }
+> 
+>         That's because commit 46fb883c3d0d8a823ef995ddb1f9b0817dea6882
+> is not backported to 5.10 kernel.
+
+So what should I do here?  Backport that commit (was was not called
+out), or just revert this?
+
+thanks,
+
+greg k-h
