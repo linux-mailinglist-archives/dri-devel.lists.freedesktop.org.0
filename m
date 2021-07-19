@@ -2,65 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11D203CD6A4
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Jul 2021 16:35:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E27143CD6F3
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Jul 2021 16:41:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D2746E153;
-	Mon, 19 Jul 2021 14:35:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3475A89C1C;
+	Mon, 19 Jul 2021 14:41:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 61C046E153
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Jul 2021 14:35:25 +0000 (UTC)
-Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 605C322353;
- Mon, 19 Jul 2021 14:35:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1626705323; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 68B3E89C1C
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Jul 2021 14:41:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1626705664;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=BGVZLgJqWs3a00b2vv0tQcdiRENNOXJTkR9VWIdz7lw=;
- b=Nw1gBtQyF+JwTNxPsdxczOzLEKKT6WMrP4zOwqEDMbJO/TPRYRGs+56eAu3Q0lZV/DnoHs
- UooxDGDKXjdpoL8SMDCjxg1rodKLxvG7v9qVkq8hSTLuIPBGeyUD2LVkOYQbb8RyUo5DIr
- Y1Rx0NvdruKN3PN+E8lemddB8DPOngI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1626705323;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=BGVZLgJqWs3a00b2vv0tQcdiRENNOXJTkR9VWIdz7lw=;
- b=ELNmcz10seAzUTLbyHY5qz7jVU7We8j+nZ0j8Jx2fzq7E+WLAJVTzuZapz2Hb6BzCzb5wA
- 0N6N9BfgVYSe3bCQ==
-Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ bh=uisns9yt90kWM49tx27JUkXBcrqG48kz/iXIfY6XeUs=;
+ b=JrlQGXK+Kk5sLX++BbUukSdvpL1YEwDearbnWqz3ESdF+rWEDEpBqBCDdMpPquJE2dXz53
+ kcxb41N4yhIkrLjN+YNUSgl7JYPLvj4Qz3DJiQDvY3vovU7p28Chg03OMrx+cNMO0ZL0Xu
+ OVsMC5Ggjc8DsAA6/eoFnxeY/1JgK7U=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-8-ORcvDXgKME68wDiU7fvhyg-1; Mon, 19 Jul 2021 10:41:03 -0400
+X-MC-Unique: ORcvDXgKME68wDiU7fvhyg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by imap1.suse-dmz.suse.de (Postfix) with ESMTPS id 1ADA6137F8;
- Mon, 19 Jul 2021 14:35:23 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap1.suse-dmz.suse.de with ESMTPSA id 15kcBauN9WCcBwAAGKfGzw
- (envelope-from <tzimmermann@suse.de>); Mon, 19 Jul 2021 14:35:23 +0000
-Subject: Re: [PATCH 5.12 237/242] drm/ast: Remove reference to struct
- drm_device.pdev
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Xiaotian Feng <xtfeng@gmail.com>
-References: <20210715182551.731989182@linuxfoundation.org>
- <20210715182634.577299401@linuxfoundation.org>
- <CAJn8CcF+gfXToErpZv=pWmBKF-i--oVWmaM=6AQ8YZCb21X=oA@mail.gmail.com>
- <YPVgtybrZLxe3XeW@kroah.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <2ba3d853-f334-ba0e-3cdc-1e9a03f99b51@suse.de>
-Date: Mon, 19 Jul 2021 16:35:21 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5B6A0804140;
+ Mon, 19 Jul 2021 14:40:58 +0000 (UTC)
+Received: from localhost (ovpn-112-158.ams2.redhat.com [10.36.112.158])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9524960918;
+ Mon, 19 Jul 2021 14:40:48 +0000 (UTC)
+From: Cornelia Huck <cohuck@redhat.com>
+To: Jason Gunthorpe <jgg@nvidia.com>, David Airlie <airlied@linux.ie>, Tony
+ Krowiak <akrowiak@linux.ibm.com>, Alex Williamson
+ <alex.williamson@redhat.com>, Christian Borntraeger
+ <borntraeger@de.ibm.com>, Jonathan Corbet <corbet@lwn.net>, Daniel Vetter
+ <daniel@ffwll.ch>, Diana Craciun <diana.craciun@oss.nxp.com>,
+ dri-devel@lists.freedesktop.org, Eric Auger <eric.auger@redhat.com>, Eric
+ Farman <farman@linux.ibm.com>, Harald Freudenberger
+ <freude@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, Heiko Carstens
+ <hca@linux.ibm.com>, intel-gfx@lists.freedesktop.org,
+ intel-gvt-dev@lists.freedesktop.org, Jani Nikula
+ <jani.nikula@linux.intel.com>, Jason Herne <jjherne@linux.ibm.com>, Joonas
+ Lahtinen <joonas.lahtinen@linux.intel.com>, kvm@vger.kernel.org, Kirti
+ Wankhede <kwankhede@nvidia.com>, linux-doc@vger.kernel.org,
+ linux-s390@vger.kernel.org, Matthew Rosato <mjrosato@linux.ibm.com>, Peter
+ Oberparleiter <oberpar@linux.ibm.com>, Halil Pasic <pasic@linux.ibm.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Vineeth Vijayan
+ <vneethv@linux.ibm.com>, Zhenyu Wang <zhenyuw@linux.intel.com>, Zhi Wang
+ <zhi.a.wang@intel.com>
+Subject: Re: [PATCH 11/13] vfio/ap,ccw: Fix open/close when multiple device
+ FDs are open
+In-Reply-To: <11-v1-eaf3ccbba33c+1add0-vfio_reflck_jgg@nvidia.com>
+Organization: Red Hat GmbH
+References: <11-v1-eaf3ccbba33c+1add0-vfio_reflck_jgg@nvidia.com>
+User-Agent: Notmuch/0.32.1 (https://notmuchmail.org)
+Date: Mon, 19 Jul 2021 16:40:47 +0200
+Message-ID: <87r1fu9xjk.fsf@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <YPVgtybrZLxe3XeW@kroah.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="aKGIbJWn7ki9aQLImBobZhlry4ehARXJe"
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,178 +77,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel test robot <lkp@intel.com>,
- linux-kernel <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
- "Michael J. Ruhl" <michael.j.ruhl@intel.com>, stable@vger.kernel.org,
- Dave Airlie <airlied@redhat.com>
+Cc: Max Gurtovoy <mgurtovoy@nvidia.com>, Yishai Hadas <yishaih@nvidia.com>,
+ Leon Romanovsky <leonro@nvidia.com>, "Raj, Ashok" <ashok.raj@intel.com>,
+ Christoph Hellwig <hch@lst.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---aKGIbJWn7ki9aQLImBobZhlry4ehARXJe
-Content-Type: multipart/mixed; boundary="D5YOslm5qCYSUm3Ouyzc0GNFwrUZvc4ck";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Xiaotian Feng <xtfeng@gmail.com>
-Cc: kernel test robot <lkp@intel.com>,
- linux-kernel <linux-kernel@vger.kernel.org>, stable@vger.kernel.org,
- "Michael J. Ruhl" <michael.j.ruhl@intel.com>,
- dri-devel@lists.freedesktop.org, Dave Airlie <airlied@redhat.com>
-Message-ID: <2ba3d853-f334-ba0e-3cdc-1e9a03f99b51@suse.de>
-Subject: Re: [PATCH 5.12 237/242] drm/ast: Remove reference to struct
- drm_device.pdev
-References: <20210715182551.731989182@linuxfoundation.org>
- <20210715182634.577299401@linuxfoundation.org>
- <CAJn8CcF+gfXToErpZv=pWmBKF-i--oVWmaM=6AQ8YZCb21X=oA@mail.gmail.com>
- <YPVgtybrZLxe3XeW@kroah.com>
-In-Reply-To: <YPVgtybrZLxe3XeW@kroah.com>
+On Wed, Jul 14 2021, Jason Gunthorpe <jgg@nvidia.com> wrote:
 
---D5YOslm5qCYSUm3Ouyzc0GNFwrUZvc4ck
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+> The user can open multiple device FDs if it likes, however these open()
+> functions call vfio_register_notifier() on some device global
+> state. Calling vfio_register_notifier() twice in will trigger a WARN_ON
+> from notifier_chain_register() and the first close will wrongly delete the
+> notifier and more.
+>
+> Since these really want the new open/close_device() semantics just change
+> the functions over.
+>
+> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+> ---
+>  drivers/s390/cio/vfio_ccw_ops.c   | 8 ++++----
+>  drivers/s390/crypto/vfio_ap_ops.c | 8 ++++----
+>  2 files changed, 8 insertions(+), 8 deletions(-)
 
-hi
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 
-Am 19.07.21 um 13:23 schrieb Greg Kroah-Hartman:
-> On Mon, Jul 19, 2021 at 05:57:30PM +0800, Xiaotian Feng wrote:
->> On Fri, Jul 16, 2021 at 5:13 AM Greg Kroah-Hartman
->> <gregkh@linuxfoundation.org> wrote:
->>>
->>> From: Thomas Zimmermann <tzimmermann@suse.de>
->>>
->>> commit 0ecb51824e838372e01330752503ddf9c0430ef7 upstream.
->>>
->>> Using struct drm_device.pdev is deprecated. Upcast with to_pci_dev()
->>> from struct drm_device.dev to get the PCI device structure.
->>>
->>> v9:
->>>          * fix remaining pdev references
->>>
->>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->>> Reviewed-by: Michael J. Ruhl <michael.j.ruhl@intel.com>
->>> Fixes: ba4e0339a6a3 ("drm/ast: Fixed CVE for DP501")
->>> Cc: KuoHsiang Chou <kuohsiang_chou@aspeedtech.com>
->>> Cc: kernel test robot <lkp@intel.com>
->>> Cc: Thomas Zimmermann <tzimmermann@suse.de>
->>> Cc: Dave Airlie <airlied@redhat.com>
->>> Cc: dri-devel@lists.freedesktop.org
->>> Link: https://patchwork.freedesktop.org/patch/msgid/20210429105101.25=
-667-2-tzimmermann@suse.de
->>> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
->>> ---
->>>   drivers/gpu/drm/ast/ast_main.c |    5 ++---
->>>   1 file changed, 2 insertions(+), 3 deletions(-)
->>>
->>> --- a/drivers/gpu/drm/ast/ast_main.c
->>> +++ b/drivers/gpu/drm/ast/ast_main.c
->>> @@ -411,7 +411,6 @@ struct ast_private *ast_device_create(co
->>>                  return ast;
->>>          dev =3D &ast->base;
->>>
->>> -       dev->pdev =3D pdev;
->>>          pci_set_drvdata(pdev, dev);
->>>
->>>          ast->regs =3D pcim_iomap(pdev, 1, 0);
->>> @@ -453,8 +452,8 @@ struct ast_private *ast_device_create(co
->>>
->>>          /* map reserved buffer */
->>>          ast->dp501_fw_buf =3D NULL;
->>> -       if (dev->vram_mm->vram_size < pci_resource_len(dev->pdev, 0))=
- {
->>> -               ast->dp501_fw_buf =3D pci_iomap_range(dev->pdev, 0, d=
-ev->vram_mm->vram_size, 0);
->>> +       if (dev->vram_mm->vram_size < pci_resource_len(pdev, 0)) {
->>> +               ast->dp501_fw_buf =3D pci_iomap_range(pdev, 0, dev->v=
-ram_mm->vram_size, 0);
->>>                  if (!ast->dp501_fw_buf)
->>>                          drm_info(dev, "failed to map reserved buffer=
-!\n");
->>>          }
->>>
->>
->> Hi Greg,
->>
->>       This backport is incomplete for 5.10 kernel,  kernel is panicked=
-
->> on RIP: ast_device_create+0x7d.  When I look into the crash code, I
->> found
->>
->> struct ast_private *ast_device_create(struct drm_driver *drv,
->>                                        struct pci_dev *pdev,
->>                                        unsigned long flags)
->> {
->> .......
->>          dev->pdev =3D pdev;  // This is removed
->>          pci_set_drvdata(pdev, dev);
->>
->>          ast->regs =3D pcim_iomap(pdev, 1, 0);
->>          if (!ast->regs)
->>                  return ERR_PTR(-EIO);
->>
->>          /*
->>           * If we don't have IO space at all, use MMIO now and
->>           * assume the chip has MMIO enabled by default (rev 0x20
->>           * and higher).
->>           */
->>          if (!(pci_resource_flags(dev->pdev, 2) & IORESOURCE_IO)) { //=
-
->> dev->pdev is in used here.
->>                  drm_info(dev, "platform has no IO space, trying MMIO\=
-n");
->>                  ast->ioregs =3D ast->regs + AST_IO_MM_OFFSET;
->>          }
->>
->>          That's because commit 46fb883c3d0d8a823ef995ddb1f9b0817dea688=
-2
->> is not backported to 5.10 kernel.
->=20
-> So what should I do here?  Backport that commit (was was not called
-> out), or just revert this?
-
-Best drop all these 'remove pdev' patches from stable. They are no bugfix=
-es.
-
-Best regards
-Thomas
-
->=20
-> thanks,
->=20
-> greg k-h
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---D5YOslm5qCYSUm3Ouyzc0GNFwrUZvc4ck--
-
---aKGIbJWn7ki9aQLImBobZhlry4ehARXJe
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmD1jakFAwAAAAAACgkQlh/E3EQov+By
-ThAAgJpRz0bpcIRmMDyuqdNuSV9EoNk9bWeTAuWDUMUAP67pdddb85g/khOcUJpwKcKtMBcEpOVk
-uJlRQgNRxV8yVsSI9MlxRVkUrJHzncFn9AwTl5C1nDeHk/tM5UpvTkSQGjnbqHDpJByhwUBcHrZd
-fmUelaf5bA/TJyL+KTHQDba1HJMTaJnYUPUtxX2OzhexJf1iIq5tAQDwpfqtQZn6mIXU2mL66BVD
-gFvC3kBNgFPvtFpNVE4BRxTn7lF0nHBMMtlzVOWznkOXxi9PzLvUEs+6PV48wvyk1poTjr1cSLoA
-sX00NKA3mF0wsXu3p9OpKbEjRlltXpwRqsuPLilv0rXCtdc39+hxtqujT9YMNYl0fAU3vW3b5GZ/
-brymrko321EWv6fIswClIdpR+SR8e3iiZLc2npB1TJHRk+WN7Wtf5UxW+rBvU/ySzBE7Bp/OcrWw
-jlW3vw6ONeRc/g+d2SRLXrYoioAlh5kwlLL4/NtYDJVrXWtoMvuP9DUPOy7RBIzhFUUS+5FD9zMU
-vWsB6wdqimeuAUab3Ppids+pr7SK1caX5en07IssFYlZrmgMVRaMEXMrPctcmTUn6fQldxZHh9Db
-MM61n5krHHNhma5iq5IQhMxB1Rhpypi11xG88ZFR8Y4kEuP2L69i6fMaRNdGE2zCkTAKaJKjVzgP
-PMw=
-=uvP3
------END PGP SIGNATURE-----
-
---aKGIbJWn7ki9aQLImBobZhlry4ehARXJe--
