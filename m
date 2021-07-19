@@ -2,43 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4C523CCF1D
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Jul 2021 10:06:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85B553CCF45
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Jul 2021 10:13:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 27A3689C6B;
-	Mon, 19 Jul 2021 08:06:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C0776E0A5;
+	Mon, 19 Jul 2021 08:13:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com
- [209.85.222.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D556A89C6B
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Jul 2021 08:06:41 +0000 (UTC)
-Received: by mail-ua1-f43.google.com with SMTP id 109so6489361uar.10
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Jul 2021 01:06:41 -0700 (PDT)
+Received: from mail-qk1-x733.google.com (mail-qk1-x733.google.com
+ [IPv6:2607:f8b0:4864:20::733])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3BEE96E0A5;
+ Mon, 19 Jul 2021 08:13:25 +0000 (UTC)
+Received: by mail-qk1-x733.google.com with SMTP id z9so15939392qkg.5;
+ Mon, 19 Jul 2021 01:13:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=3vqAe3KxjzT7cwWvnRTQ366qLe+IapQtvR9/glMcwkk=;
+ b=tVVgGwalsRjRWsDOvdQlGwbcEBJ1JDqyXiyXJyhhopRUVoyZ3z7y4N8rKB7VO3Jb0y
+ uhycFNVOo+i89dQU9TwXgT0wNIxJ56wM27uDiVBtoGh/NIHBmFeLy694uvOLdDMzE5fL
+ OFzCY+IbFpemnPCk8QTbkdUtqtPN+CTvgDb7quBaKe8Pf6sX78k+ITNPh5VjO8k22a3A
+ eMQOms7ZzFEf9IgWPqjQ2cjvGWcbPYUOCfeDaYDxRQzK8V/H9Dwf8ucOx7i8aUsMxyGV
+ gon425Vg9DRoZjTMK2lgKH663VSXFXi2pbSLu9FoeUGT+kqIO5gvKSca0qlGVAuXFSMY
+ Os3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=8I5GR8j5EB13OmhGDxaQ/eMHgskRO2Z8XPEh2y9oGGs=;
- b=QGShBcFAyJowtsWBb3OIEnJzB2xkeBcozH4Aj6Wh+9IVeyPiqIvlMTUUZFRIVBK4c6
- Vjn/XkE14fTjESX7S3IfKZ0BrFpBWf5Wtv0Y2ImsiM0IqprXqsro9bO0pYF/RfS25PW9
- lYHy3Yor32r/oBpk18lyJwDmYW8hx12PZTfpXM8xfS/P6sPIW1oFJGQfquya7AypEar7
- ua0T8jhfT96dztDHwZpkXxzvm4uUZxm2W0W1a1EXGDFZgLBDxCVm2IGD0kOYqIlGjpTG
- GpFuGItuewP+gkblldSpEgqRDfz5aJ9hVzisWxuAXFRD87XYx8Rtr7vdnREtOKql8g/p
- zQQA==
-X-Gm-Message-State: AOAM533/ipWSXfHLYy1Nz6WPiOxKezJP9/egMVF+ueDcQp8rq/d2kFiN
- Q4bntjbYDPevSWOVBhmZ2E1dQ0sd/OU5BK0938U=
-X-Google-Smtp-Source: ABdhPJxEfdNR8WTLBETJ8aBjqwssc4hSfq24N1pgWQfVOrc0KFFptPwJOXDTHaVHfXQK6vdKb7jXURZfe/QBqX3k8nc=
-X-Received: by 2002:ab0:6710:: with SMTP id q16mr1934879uam.106.1626682001086; 
- Mon, 19 Jul 2021 01:06:41 -0700 (PDT)
+ bh=3vqAe3KxjzT7cwWvnRTQ366qLe+IapQtvR9/glMcwkk=;
+ b=cJzYUhKTRT4yRRphNPkj24+uMeUX7d+9X2O6WtV12JHpqfifsIH6VkWtIP0bahnLxy
+ ZzyVaCGslHLXaNdGT8FhBIwZopxfxptxJs/5Gwn+Uae/24MfKbH0F1pTNred3weoZK37
+ Xc+PheWKyOpYHrkiPupcd7Y0kgseZpAqdPX3fa7L7gmzBbsLYWVB39x9F5gZTY2lETjy
+ XXWXpK5uAhHDI5tPG5MgDGpeEb9Q4XvqYF53y04QcsZ/T4k7/kF1YzuFDy9x4sssgB1x
+ Dd4OIVbs8ei3VpeLS9XKZachmgAeBmm7/vFl+YSb1rKY1xZ0N8BToXiw3MFlMqAakbuX
+ jDDg==
+X-Gm-Message-State: AOAM531IgkR04aPVbgMmheRGFnzKf7LbaHwW1YJqNHvlNLPKoD1kGxK4
+ oAcLv1MQZGFQKglwsngfUxEfhSHA5EhbZRxYP8w=
+X-Google-Smtp-Source: ABdhPJwWDNZKkfdzXyHGX/CRxUkzWSLZLu0fh+yDRLP6Gt5sIrwGEPGM8K/ee6b10ipBNCBaPCIuEOr+aCfOkq8usKQ=
+X-Received: by 2002:a05:620a:1581:: with SMTP id
+ d1mr21944415qkk.327.1626682404425; 
+ Mon, 19 Jul 2021 01:13:24 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210719023327.17039-1-rdunlap@infradead.org>
-In-Reply-To: <20210719023327.17039-1-rdunlap@infradead.org>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 19 Jul 2021 10:06:29 +0200
-Message-ID: <CAMuHMdUtTzgnP4GR5phFcVnFVCrU1J87sner-XN6Koc_eZ7Zhg@mail.gmail.com>
-Subject: Re: [PATCH] fbdev: simplefb: limit its use to DRM_SIMPLEDRM=n
-To: Randy Dunlap <rdunlap@infradead.org>
+References: <20210716141426.1904528-1-jason@jlekstrand.net>
+ <20210716141426.1904528-5-jason@jlekstrand.net>
+ <CAM0jSHNjG9ozYM1w3-G2LQgajrGCMnFXTjOPhAeDbLRhO4ejZw@mail.gmail.com>
+In-Reply-To: <CAM0jSHNjG9ozYM1w3-G2LQgajrGCMnFXTjOPhAeDbLRhO4ejZw@mail.gmail.com>
+From: Matthew Auld <matthew.william.auld@gmail.com>
+Date: Mon, 19 Jul 2021 09:12:58 +0100
+Message-ID: <CAM0jSHMX0+VkybtE3PKOXqMYg9R4FO6WcpmxK+-W0gkS9SFYBg@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH 4/7] drm/i915/gem: Unify user object creation
+ (v2)
+To: Jason Ekstrand <jason@jlekstrand.net>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -52,59 +65,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- kernel test robot <lkp@intel.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Hans de Goede <hdegoede@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Matthew Auld <matthew.auld@intel.com>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Randy,
-
-On Mon, Jul 19, 2021 at 4:34 AM Randy Dunlap <rdunlap@infradead.org> wrote:
-> When DRM_SIMPLEDRM=m, all of FB_CFB_{FILLRECT,COPYAREA,IMAGEBLIT} are =m,
-
-Why does that happen?
-FB_SIMPLE does select FB_CFB_*, so all of the latter should be builtin?
-Do I need my morning coffee? I'm about to fetch it...
-
-> causing undefined references in fbdev/simplefb.o.
+On Fri, 16 Jul 2021 at 20:21, Matthew Auld
+<matthew.william.auld@gmail.com> wrote:
 >
-> By restricting FB_SIMPLEFB to be set only when DRM_SIMPLEDRM is not set,
-> the FB_CFB_* symbols are =y and the build completes without these
-> undefined references.
+> On Fri, 16 Jul 2021 at 15:14, Jason Ekstrand <jason@jlekstrand.net> wrote:
+> >
+> > Instead of hand-rolling the same three calls in each function, pull them
+> > into an i915_gem_object_create_user helper.  Apart from re-ordering of
+> > the placements array ENOMEM check, there should be no functional change.
+> >
+> > v2 (Matthew Auld):
+> >  - Add the call to i915_gem_flush_free_objects() from
+> >    i915_gem_dumb_create() in a separate patch
+> >  - Move i915_gem_object_alloc() below the simple error checks
+> >
+> > Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
+> > Cc: Matthew Auld <matthew.auld@intel.com>
 >
-> IOW, really "disable simplefb if simpledrm has been selected".
+> If CI is happy,
+> Reviewed-by: Matthew Auld <matthew.auld@intel.com>
 
-That does make sense, regardless of my question above ;-)
-
-> or1k-linux-ld: drivers/video/fbdev/simplefb.o:(.rodata+0x2c): undefined reference to `cfb_fillrect'
-> or1k-linux-ld: drivers/video/fbdev/simplefb.o:(.rodata+0x30): undefined reference to `cfb_copyarea'
-> or1k-linux-ld: drivers/video/fbdev/simplefb.o:(.rodata+0x34): undefined reference to `cfb_imageblit'
->
-> Fixes: 11e8f5fd223b ("drm: Add simpledrm driver")
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-
-> --- linux-next-20210716.orig/drivers/video/fbdev/Kconfig
-> +++ linux-next-20210716/drivers/video/fbdev/Kconfig
-> @@ -2192,7 +2192,7 @@ config FB_HYPERV
->
->  config FB_SIMPLE
->         bool "Simple framebuffer support"
-> -       depends on (FB = y) && !DRM_SIMPLEDRM
-> +       depends on (FB = y) && DRM_SIMPLEDRM=n
->         select FB_CFB_FILLRECT
->         select FB_CFB_COPYAREA
->         select FB_CFB_IMAGEBLIT
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Might be good to also update the mman selftests to use this new helper.
