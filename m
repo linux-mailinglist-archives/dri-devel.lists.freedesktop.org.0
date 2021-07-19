@@ -1,36 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86E973CD5B5
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Jul 2021 15:30:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 229733CD5BF
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Jul 2021 15:32:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A111A89F8B;
-	Mon, 19 Jul 2021 13:30:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 49E2A6E155;
+	Mon, 19 Jul 2021 13:32:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A27676E14D
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Jul 2021 13:30:37 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 1AB0061026
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Jul 2021 13:30:37 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 78CF56E155
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Jul 2021 13:32:35 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 26ADA61026
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Jul 2021 13:32:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1626701437;
- bh=M4rCthbTJ1FycRrm3MYK8VItCl0tyGJ6zytrEAwmYZg=;
+ s=k20201202; t=1626701555;
+ bh=AEv0HjGP0RU7Pk3g/gsawQC34sGOO8sgXI2ebdeyjdY=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=ZFjvTyI4xfOxahoXkinjGPIsnC4CBDewxID0XhyTawfH7gbfo54fZIR2dRQf2Bm2s
- SL+EidW2I8hcYrs58Mn7S+wd9dOFiw2VhJ0ZvSNptTuIOIzi+bCm/qTaEs4mKCDMqV
- ZtuT5VFecMoCGpj39Eax0E28X8xrL8CKAAHC/5RkR3J/qoNMKZC5VXRRXmtLRRVORN
- AtgIrEloHiGCuZ5b9PcZpSo5RvJ7+YMJxTXiiDN/5e6yz7ffYjnydMl2sm7tcz2jWZ
- zzVKNJf3vXZMB+0pDIZl58Zp8lB0cBm4gJM/f6xmAj/gjgcmo798GID35ZjBO7QyVh
- 2X2QmIAXDM+gQ==
+ b=kCzs4otub10zklkewLOcz6rZn6a3Z/t+LeR9tqpnGwajXcYr2Q62tPCURK4AS1y14
+ PyAtSNPUGRy4/9mM1AVlEBz4x+qMMHFu8z5mS/s/gxtSfkF4Icxsn7YHt1qhYsk1vU
+ mWc5YA8BVk4sfdIy+djGLpOzxW382YOSTyXUrxgv3Hs9OcaPSSXvciRL8G3pDOBTj2
+ lS8Xr4yKfUY5gq8HXFFSe91xLt5AFvoDaloaeWYoiHDX+1iq33ET6bXo4GvQ10tz0c
+ CE0UhLswvPTZ7yXk0C25b1N1pjI4t3dGv4oRZa3VKoorGuYqPZ5HAO+iJuR0iNEiq1
+ Ca7UR35shqU7w==
 Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 17D00611BE; Mon, 19 Jul 2021 13:30:37 +0000 (UTC)
+ id 23D0961186; Mon, 19 Jul 2021 13:32:35 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 213201] [KAVERI] memory leak - unreferenced object
  0xffff8881700cf988 (size 56)
-Date: Mon, 19 Jul 2021 13:30:36 +0000
+Date: Mon, 19 Jul 2021 13:32:34 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -46,7 +46,7 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-213201-2300-AbvRxxllO3@https.bugzilla.kernel.org/>
+Message-ID: <bug-213201-2300-cKoUWmieEW@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-213201-2300@https.bugzilla.kernel.org/>
 References: <bug-213201-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -71,10 +71,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D213201
 
---- Comment #9 from Erhard F. (erhard_f@mailbox.org) ---
-Created attachment 297923
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D297923&action=3Dedit
-kernel dmesg (5.14-rc2, AMD A10-8750)
+--- Comment #10 from Erhard F. (erhard_f@mailbox.org) ---
+Created attachment 297925
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D297925&action=3Dedit
+kernel .config (5.14-rc2, AMD A10-8750)
 
 --=20
 You may reply to this email to add a comment.
