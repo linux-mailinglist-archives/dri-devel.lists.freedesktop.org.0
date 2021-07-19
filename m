@@ -2,68 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2132D3CD407
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Jul 2021 13:42:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FE383CD427
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Jul 2021 13:51:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 87FC16E10F;
-	Mon, 19 Jul 2021 11:42:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 61D216E064;
+	Mon, 19 Jul 2021 11:51:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E4CC76E10A
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Jul 2021 11:42:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626694967;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=QFvbmLxaTL7ZR1JOPuD7J5PG0/Wd11FgMA0Fpfbp4YU=;
- b=HAYwfsC0Y+00Ol+8lPEM6etNBnJlGnDTv5s3voXOvPTwyynuvmWiLCKRtSwYlVVbnEOmUq
- 42lFcTwxgmxj2Fn0Ag3v9ZNIoEwD3YNEmOAa8YaVgZCqN711cJMJw1NSkuRV+i85wO7cIJ
- mApLeIOq+w1Lb9QOCN0sjg7eYe1FIA0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-209-_ZipgJfiNrK0MGH1D7bbcA-1; Mon, 19 Jul 2021 07:42:44 -0400
-X-MC-Unique: _ZipgJfiNrK0MGH1D7bbcA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E555C1023F4F;
- Mon, 19 Jul 2021 11:42:39 +0000 (UTC)
-Received: from localhost (ovpn-112-158.ams2.redhat.com [10.36.112.158])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2379719C79;
- Mon, 19 Jul 2021 11:42:31 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: Jason Gunthorpe <jgg@nvidia.com>, David Airlie <airlied@linux.ie>, Tony
- Krowiak <akrowiak@linux.ibm.com>, Alex Williamson
- <alex.williamson@redhat.com>, Christian Borntraeger
- <borntraeger@de.ibm.com>, Jonathan Corbet <corbet@lwn.net>, Daniel Vetter
- <daniel@ffwll.ch>, Diana Craciun <diana.craciun@oss.nxp.com>,
- dri-devel@lists.freedesktop.org, Eric Auger <eric.auger@redhat.com>, Eric
- Farman <farman@linux.ibm.com>, Harald Freudenberger
- <freude@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, Heiko Carstens
- <hca@linux.ibm.com>, intel-gfx@lists.freedesktop.org,
- intel-gvt-dev@lists.freedesktop.org, Jani Nikula
- <jani.nikula@linux.intel.com>, Jason Herne <jjherne@linux.ibm.com>, Joonas
- Lahtinen <joonas.lahtinen@linux.intel.com>, kvm@vger.kernel.org, Kirti
- Wankhede <kwankhede@nvidia.com>, linux-doc@vger.kernel.org,
- linux-s390@vger.kernel.org, Matthew Rosato <mjrosato@linux.ibm.com>, Peter
- Oberparleiter <oberpar@linux.ibm.com>, Halil Pasic <pasic@linux.ibm.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Vineeth Vijayan
- <vneethv@linux.ibm.com>, Zhenyu Wang <zhenyuw@linux.intel.com>, Zhi Wang
- <zhi.a.wang@intel.com>
-Subject: Re: [PATCH 01/13] vfio/samples: Remove module get/put
-In-Reply-To: <1-v1-eaf3ccbba33c+1add0-vfio_reflck_jgg@nvidia.com>
-Organization: Red Hat GmbH
-References: <1-v1-eaf3ccbba33c+1add0-vfio_reflck_jgg@nvidia.com>
-User-Agent: Notmuch/0.32.1 (https://notmuchmail.org)
-Date: Mon, 19 Jul 2021 13:42:29 +0200
-Message-ID: <875yx6bkd6.fsf@redhat.com>
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com
+ [IPv6:2a00:1450:4864:20::333])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 72EB26E064
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Jul 2021 11:51:48 +0000 (UTC)
+Received: by mail-wm1-x333.google.com with SMTP id
+ q18-20020a1ce9120000b02901f259f3a250so10315674wmc.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Jul 2021 04:51:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ghoVNwvsrr9T33USohPlLcZV++g7cgeRTTFhGrVS6Qs=;
+ b=cMVcAbo9fuxcZSaxq/fFLZzd+ZxveB2GiiDHP09ORGt6vY5wuy31bi681+tc7bnKV4
+ sfloZdwI5pWnmGDuiaHaaU5f2Tg+A3nR8VVYQNn0mslXN3BSXH5RPAC0W/TBChLDCcOD
+ YRprgY9nPbHLgz9AIIz9eZb4zcQ8OOl4wKO13b1O2wqogYtFNuoeRGeZGI38vHNY0bn4
+ UBvNtmzMr4TUTAsI8pxYV9+7vKAt1zzxBNh9tke2cLDxkfw3iSa8L1oUi8Qj8NCb7ay0
+ HilrpHKS4vGkL3N5wHknvYfXWc/Px0Q8EejKgJY+NRAVbHK5r4qVilv1S1o1PxyKEK21
+ NllA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ghoVNwvsrr9T33USohPlLcZV++g7cgeRTTFhGrVS6Qs=;
+ b=W+mX8K/kOmljiH5iraL3m1l28WnkYZZqK2VZl3aA2FRUMmb31BkH9+v30krKNeRGdy
+ TizJs5kaHUHpxwV0VoaMkWu3C/lrADjHT4yZUwMU39ii5HRJlQekTfReAuzVsLomZHoy
+ RUqBtT7CcxiR7jQpSL8OY9Dt1H8Q7qq+OCFsGSaLp4XJW0htXW5yhiETq7w21pqJwPHn
+ LvW+ff9hBNSc3So1VRtw96QUU7Hk/PJR/zflm/jY1hlAZ49CQVa7HeN6L08aaXpHDi1H
+ LKdfQW/+a28O0o8CGoIMcZJoIXQ9H9tPTKp2AP21v8dPcxLzQJnkCM85qreRPVU5olBT
+ TiAw==
+X-Gm-Message-State: AOAM531XFZEEvFPVMoffRLs8Krk8/e2qS3EvWNm531bXEjP35uNqZ4tR
+ 7Nqbk2POOkmk0qY1Aqg2D8NvC4vpHfo=
+X-Google-Smtp-Source: ABdhPJwOOcjPmQjwKavgeSHHmPFpn9dC4LTcl5XYtkdlVz3wxtkhQdb6IJxLxUrAc5vZXvKHipj56Q==
+X-Received: by 2002:a1c:7918:: with SMTP id l24mr25648934wme.107.1626695506993; 
+ Mon, 19 Jul 2021 04:51:46 -0700 (PDT)
+Received: from abel.fritz.box ([2a02:908:1252:fb60:bb37:8df9:3c3c:217f])
+ by smtp.gmail.com with ESMTPSA id p5sm16034104wme.2.2021.07.19.04.51.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 19 Jul 2021 04:51:46 -0700 (PDT)
+From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>
+To: thomas.hellstrom@linux.intel.com,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH 1/5] drm/ttm: add a weak BO reference to the resource v2
+Date: Mon, 19 Jul 2021 13:51:41 +0200
+Message-Id: <20210719115145.1260-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,25 +70,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Max Gurtovoy <mgurtovoy@nvidia.com>, Yishai Hadas <yishaih@nvidia.com>,
- Leon Romanovsky <leonro@nvidia.com>, "Raj, Ashok" <ashok.raj@intel.com>,
- Christoph Hellwig <hch@lst.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 14 2021, Jason Gunthorpe <jgg@nvidia.com> wrote:
+Keep track for which BO a resource was allocated.
+This is necessary to move the LRU handling into the resources.
 
-> The patch to move the get/put to core and the patch to convert the samples
-> to use vfio_device crossed in a way that this was missed. When both
-> patches are together the samples do not need their own get/put.
->
-> Fixes: 437e41368c01 ("vfio/mdpy: Convert to use vfio_register_group_dev()")
-> Fixes: 681c1615f891 ("vfio/mbochs: Convert to use vfio_register_group_dev()")
-> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
-> ---
->  samples/vfio-mdev/mbochs.c | 4 ----
->  samples/vfio-mdev/mdpy.c   | 4 ----
->  2 files changed, 8 deletions(-)
+A bit problematic is i915 since it tries to use the resource
+interface without a BO which is illegal from the conceptional
+point of view.
 
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+v2: Document that this is a weak reference and add a workaround for i915
+
+Signed-off-by: Christian König <christian.koenig@amd.com>
+---
+ drivers/gpu/drm/i915/intel_region_ttm.c | 5 +++++
+ drivers/gpu/drm/ttm/ttm_bo_util.c       | 7 +++++--
+ drivers/gpu/drm/ttm/ttm_resource.c      | 1 +
+ include/drm/ttm/ttm_resource.h          | 2 ++
+ 4 files changed, 13 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/i915/intel_region_ttm.c b/drivers/gpu/drm/i915/intel_region_ttm.c
+index 27fe0668d094..980b10a7debf 100644
+--- a/drivers/gpu/drm/i915/intel_region_ttm.c
++++ b/drivers/gpu/drm/i915/intel_region_ttm.c
+@@ -88,6 +88,7 @@ intel_region_ttm_node_reserve(struct intel_memory_region *mem,
+ 	place.fpfn = offset >> PAGE_SHIFT;
+ 	place.lpfn = place.fpfn + (size >> PAGE_SHIFT);
+ 	mock_bo.base.size = size;
++	mock_bo.bdev = &mem->i915->bdev;
+ 	ret = man->func->alloc(man, &mock_bo, &place, &res);
+ 	if (ret == -ENOSPC)
+ 		ret = -ENXIO;
+@@ -104,7 +105,11 @@ void intel_region_ttm_node_free(struct intel_memory_region *mem,
+ 				struct ttm_resource *res)
+ {
+ 	struct ttm_resource_manager *man = mem->region_private;
++	struct ttm_buffer_object mock_bo = {};
+ 
++	mock_bo.base.size = res->num_pages * PAGE_SIZE;
++	mock_bo.bdev = &mem->i915->bdev;
++	res->bo = &mock_bo;
+ 	man->func->free(man, res);
+ }
+ 
+diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_bo_util.c
+index 2f57f824e6db..a1570aa8ff56 100644
+--- a/drivers/gpu/drm/ttm/ttm_bo_util.c
++++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
+@@ -239,6 +239,11 @@ static int ttm_buffer_object_transfer(struct ttm_buffer_object *bo,
+ 	if (bo->type != ttm_bo_type_sg)
+ 		fbo->base.base.resv = &fbo->base.base._resv;
+ 
++	if (fbo->base.resource) {
++		fbo->base.resource->bo = &fbo->base;
++		bo->resource = NULL;
++	}
++
+ 	dma_resv_init(&fbo->base.base._resv);
+ 	fbo->base.base.dev = NULL;
+ 	ret = dma_resv_trylock(&fbo->base.base._resv);
+@@ -507,7 +512,6 @@ static int ttm_bo_move_to_ghost(struct ttm_buffer_object *bo,
+ 		ghost_obj->ttm = NULL;
+ 	else
+ 		bo->ttm = NULL;
+-	bo->resource = NULL;
+ 
+ 	dma_resv_unlock(&ghost_obj->base._resv);
+ 	ttm_bo_put(ghost_obj);
+@@ -635,7 +639,6 @@ int ttm_bo_pipeline_gutting(struct ttm_buffer_object *bo)
+ 	dma_resv_unlock(&ghost->base._resv);
+ 	ttm_bo_put(ghost);
+ 	bo->ttm = ttm;
+-	bo->resource = NULL;
+ 	ttm_bo_assign_mem(bo, sys_res);
+ 	return 0;
+ 
+diff --git a/drivers/gpu/drm/ttm/ttm_resource.c b/drivers/gpu/drm/ttm/ttm_resource.c
+index 2431717376e7..7ff6194154fe 100644
+--- a/drivers/gpu/drm/ttm/ttm_resource.c
++++ b/drivers/gpu/drm/ttm/ttm_resource.c
+@@ -41,6 +41,7 @@ void ttm_resource_init(struct ttm_buffer_object *bo,
+ 	res->bus.offset = 0;
+ 	res->bus.is_iomem = false;
+ 	res->bus.caching = ttm_cached;
++	res->bo = bo;
+ }
+ EXPORT_SYMBOL(ttm_resource_init);
+ 
+diff --git a/include/drm/ttm/ttm_resource.h b/include/drm/ttm/ttm_resource.h
+index 140b6b9a8bbe..c73b35fb7d42 100644
+--- a/include/drm/ttm/ttm_resource.h
++++ b/include/drm/ttm/ttm_resource.h
+@@ -161,6 +161,7 @@ struct ttm_bus_placement {
+  * @mem_type: Resource type of the allocation.
+  * @placement: Placement flags.
+  * @bus: Placement on io bus accessible to the CPU
++ * @bo: weak reference to the BO using this resource
+  *
+  * Structure indicating the placement and space resources used by a
+  * buffer object.
+@@ -171,6 +172,7 @@ struct ttm_resource {
+ 	uint32_t mem_type;
+ 	uint32_t placement;
+ 	struct ttm_bus_placement bus;
++	struct ttm_buffer_object *bo;
+ };
+ 
+ /**
+-- 
+2.25.1
 
