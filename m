@@ -1,58 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 874E63CCC75
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Jul 2021 04:59:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F10D43CCD4D
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Jul 2021 07:19:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8469889E57;
-	Mon, 19 Jul 2021 02:59:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E76589F07;
+	Mon, 19 Jul 2021 05:19:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com
- [IPv6:2a00:1450:4864:20::534])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF2B189E57
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Jul 2021 02:59:18 +0000 (UTC)
-Received: by mail-ed1-x534.google.com with SMTP id x17so21770370edd.12
- for <dri-devel@lists.freedesktop.org>; Sun, 18 Jul 2021 19:59:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=pw/ymT7jTI4vbe9EaHsLlpbaG3qADekUdaOoeZi9DCI=;
- b=N6dvNJGmplWlVHUfqKxCiO2YRlq9xOWASWYoxMFmKqo8XQSvSmc/KzvxC5n5K3/qcC
- mXivOogsUDIFmfvM1VFQcoltPPbrVhryDHWYIzFjFxCpL1KwD+m88meKroRfJ98DeAO4
- rYuKsPmdg4byYvJ7UNo3h9AWz8WOiGUbwRTuNuht/WjMsSDu2Tn1KS1+AzadNNr6kz2B
- Z0xBg3B8qB8mzBjxQS/subjiXw5ND9R8DH/+LN4g0hHJATcXWeqUjtCgAz0n3yAw7Mes
- AvMCR0txSFHoIfw+m9F3cbKHbZ8/zpprDfcBNywDMH+VQUf8VJcG137+oFoelGqFfHB6
- PUNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=pw/ymT7jTI4vbe9EaHsLlpbaG3qADekUdaOoeZi9DCI=;
- b=qBRkIpfgFgpzDIKChDp0cxq5561JnTLPNQxwulSFiE2SLw49EIffZClkMzuOocqoQK
- wCXcGtLOcQEhpG/s3R4cdOTV4gJD2zMMduOsjd+Beq1m6N1CMupCVpiNLCeYYYfvJ0bd
- P3bpiK83vVOlacGNaAbAqjFh8Gd9solMhPXpuDK7JF14ApDqGwgL18KthnvmNblSGT6F
- 9vyNP0HwJal2aFH21rDj0lH38lG2W3XP7VXNF7z/4s4895p0+VZ0oNQqLVcT3Ds/7l5S
- sdB884hHmYFmfwFBWgQvXldpeYnORoHCJbG8pstQP887c84cU3QbKHaWArsv3jc0y8j7
- GDMA==
-X-Gm-Message-State: AOAM531bd1hpZZai2pb+kRR0dghkPkzCaQFYgDDhu9v7TtqctiTFIZBa
- S643m9KIjx+Yjs5aXcEuEX3fTju2dZ0QILmzwaM=
-X-Google-Smtp-Source: ABdhPJzDYG5f7P7jdkKSk8KghE2W4nVdpPNwQo3VTesZyc9brB+mQqwde7gjS7CS/C495OdoAgptMS7+b1KWthjJxgU=
-X-Received: by 2002:a05:6402:291a:: with SMTP id
- ee26mr31661153edb.220.1626663557377; 
- Sun, 18 Jul 2021 19:59:17 -0700 (PDT)
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F2EA889F07
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Jul 2021 05:19:52 +0000 (UTC)
+X-UUID: 55cc68f87f38451c8374012eec6793c7-20210719
+X-UUID: 55cc68f87f38451c8374012eec6793c7-20210719
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
+ mailgw02.mediatek.com (envelope-from <guangming.cao@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 485152648; Mon, 19 Jul 2021 13:19:47 +0800
+Received: from mtkcas07.mediatek.inc (172.21.101.84) by
+ mtkmbs01n2.mediatek.inc (172.21.101.79) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Mon, 19 Jul 2021 13:19:46 +0800
+Received: from mszswglt01.gcn.mediatek.inc (10.16.20.20) by
+ mtkcas07.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.0.1497.2 via Frontend Transport; Mon, 19 Jul 2021 13:19:46 +0800
+From: <guangming.cao@mediatek.com>
+To: Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>, Matthias Brugger <matthias.bgg@gmail.com>,
+ "open
+ list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>, "open
+ list:DMA BUFFER SHARING FRAMEWORK" <dri-devel@lists.freedesktop.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK"
+ <linaro-mm-sig@lists.linaro.org>, open list <linux-kernel@vger.kernel.org>,
+ "moderated list:ARM/Mediatek SoC support"
+ <linux-arm-kernel@lists.infradead.org>, "moderated list:ARM/Mediatek SoC
+ support" <linux-mediatek@lists.infradead.org>
+Subject: [PATCH] dma_buf: remove dmabuf sysfs teardown before release/detach
+Date: Mon, 19 Jul 2021 13:19:44 +0800
+Message-ID: <20210719051944.40871-1-guangming.cao@mediatek.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-References: <20210625130947.1803678-1-javierm@redhat.com>
- <e61cf77c-6bff-dfcc-d3df-2fb6b48e5897@redhat.com>
- <8dd26141-a09c-39e2-5174-4cad8d21c49c@suse.de>
-In-Reply-To: <8dd26141-a09c-39e2-5174-4cad8d21c49c@suse.de>
-From: Dave Airlie <airlied@gmail.com>
-Date: Mon, 19 Jul 2021 12:59:06 +1000
-Message-ID: <CAPM=9tyfNPa2f5PDBLm4w_H_riEQ5P3rEhX73YGE1y_ygRox+w@mail.gmail.com>
-Subject: Re: [PATCH v3 0/2] allow simple{fb, drm} drivers to be used on
- non-x86 EFI platforms
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,56 +54,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-efi@vger.kernel.org, David Airlie <airlied@linux.ie>,
- Catalin Marinas <catalin.marinas@arm.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Russell King <linux@armlinux.org.uk>, Atish Patra <atish.patra@wdc.com>,
- linux-riscv@lists.infradead.org, Will Deacon <will@kernel.org>,
- Ard Biesheuvel <ardb@kernel.org>, the arch/x86 maintainers <x86@kernel.org>,
- Javier Martinez Canillas <javierm@redhat.com>, Ingo Molnar <mingo@redhat.com>,
- Peter Robinson <pbrobinson@gmail.com>, Borislav Petkov <bp@suse.de>,
- Albert Ou <aou@eecs.berkeley.edu>, Hans de Goede <hdegoede@redhat.com>,
- Paul Walmsley <paul.walmsley@sifive.com>, Thomas Gleixner <tglx@linutronix.de>,
- linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- LKML <linux-kernel@vger.kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>
+Cc: Guangming Cao <Guangming.Cao@mediatek.com>, wsd_upstream@mediatek.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 15 Jul 2021 at 18:11, Thomas Zimmermann <tzimmermann@suse.de> wrote:
->
-> Hi
->
-> Am 13.07.21 um 18:59 schrieb Javier Martinez Canillas:
-> > On 6/25/21 3:09 PM, Javier Martinez Canillas wrote:
-> >> The simplefb and simpledrm drivers match against a "simple-framebuffer"
-> >> device, but for aarch64 this is only registered when using Device Trees
-> >> and there's a node with a "simple-framebuffer" compatible string.
-> >>
-> >> There is no code to register a "simple-framebuffer" platform device when
-> >> using EFI instead. In fact, the only platform device that's registered in
-> >> this case is an "efi-framebuffer", which means that the efifb driver is
-> >> the only driver supported to have an early console with EFI on aarch64.
-> >>
-> >> The x86 architecture platform has a Generic System Framebuffers (sysfb)
-> >> support, that register a system frambuffer platform device. It either
-> >> registers a "simple-framebuffer" for the simple{fb,drm} drivers or legacy
-> >> VGA/EFI FB devices for the vgafb/efifb drivers.
-> >>
-> >> The sysfb is generic enough to be reused by other architectures and can be
-> >> moved out of the arch/x86 directory to drivers/firmware, allowing the EFI
-> >> logic used by non-x86 architectures to be folded into sysfb as well.
-> >>
-> >
-> > Any more comments on this series? It would be nice for this to land so the
-> > simpledrm driver could be used on aarch64 EFI systems as well.
-> >
-> > The patches have already been acked by x86 and DRM folks.
->
-> Time to get this merged, I'd say. People are asking for these patches
-> already.
+From: Guangming Cao <Guangming.Cao@mediatek.com>
 
-Can we just merge via drm-misc and make sure the acks are present and
-I'll deal with the fallout if any.
+Dmabuf sysfs stat is used for dmabuf info track.
+but these file maybe still use after buffer release/detach,
+should clear it before buffer release/detach.
 
-Dave.
+Signed-off-by: Guangming Cao <Guangming.Cao@mediatek.com>
+---
+ drivers/dma-buf/dma-buf.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+index 510b42771974..9fa4620bd4bb 100644
+--- a/drivers/dma-buf/dma-buf.c
++++ b/drivers/dma-buf/dma-buf.c
+@@ -76,12 +76,12 @@ static void dma_buf_release(struct dentry *dentry)
+ 	 */
+ 	BUG_ON(dmabuf->cb_shared.active || dmabuf->cb_excl.active);
+ 
++	dma_buf_stats_teardown(dmabuf);
+ 	dmabuf->ops->release(dmabuf);
+ 
+ 	if (dmabuf->resv == (struct dma_resv *)&dmabuf[1])
+ 		dma_resv_fini(dmabuf->resv);
+ 
+-	dma_buf_stats_teardown(dmabuf);
+ 	module_put(dmabuf->owner);
+ 	kfree(dmabuf->name);
+ 	kfree(dmabuf);
+@@ -875,10 +875,11 @@ void dma_buf_detach(struct dma_buf *dmabuf, struct dma_buf_attachment *attach)
+ 	dma_resv_lock(dmabuf->resv, NULL);
+ 	list_del(&attach->node);
+ 	dma_resv_unlock(dmabuf->resv);
++
++	dma_buf_attach_stats_teardown(attach);
+ 	if (dmabuf->ops->detach)
+ 		dmabuf->ops->detach(dmabuf, attach);
+ 
+-	dma_buf_attach_stats_teardown(attach);
+ 	kfree(attach);
+ }
+ EXPORT_SYMBOL_GPL(dma_buf_detach);
+-- 
+2.17.1
+
