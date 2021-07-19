@@ -1,32 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5C0D3CDF81
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Jul 2021 17:52:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CBFC3CDF82
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Jul 2021 17:52:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C92CB89CF9;
-	Mon, 19 Jul 2021 15:52:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8FB6789D84;
+	Mon, 19 Jul 2021 15:52:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5EDFB89CF9
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Jul 2021 15:52:39 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id B9B536135C;
- Mon, 19 Jul 2021 15:52:38 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F01E89D84
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Jul 2021 15:52:48 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D1EDF61355;
+ Mon, 19 Jul 2021 15:52:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1626709959;
- bh=clzoqKNetUcJ+lkLQDWwtYU9CiEyEKAkHpiyoVX86Eo=;
+ s=korg; t=1626709968;
+ bh=bLkTOJtbe8Helps9fOjz0NsV36Nty9glQZHdOPbH0Uc=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=dDCVq3Exqxh/2gG35oSrrWAu22TJplYUA/IRpz0M/9LxGAZ7W0EldZdxoxNN8vbyd
- rYF/gq0kUKBv2Atr0rP5MIWF5J9soxoakyOPnCqVciflbOGitGaSBYj3NQhXb1GqQd
- MJMdsvEvrutk4txZiolpu40+z5POzU2Tq3EeLjPM=
+ b=rGXm+QmxDwNx06YAuHAX2QSyvAftseCmarIF6sApPImF3ydIdHIQq4hSNU50Lykt/
+ PMmvN4cxaiLh+j7QnnfB/XPBpD3uh2czM842UPcUyXl4tljHG9pIXnfupb+1P5Knbz
+ V3F/+793WsE0ERfo14Ph8cdtCx2nG8HNBrHzecLw=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH 5.10 017/243] drm/dp_mst: Add missing drm parameters to
- recently added call to drm_dbg_kms()
-Date: Mon, 19 Jul 2021 16:50:46 +0200
-Message-Id: <20210719144941.475992307@linuxfoundation.org>
+Subject: [PATCH 5.10 020/243] Revert "drm/ast: Remove reference to struct
+ drm_device.pdev"
+Date: Mon, 19 Jul 2021 16:50:49 +0200
+Message-Id: <20210719144941.585775782@linuxfoundation.org>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210719144940.904087935@linuxfoundation.org>
 References: <20210719144940.904087935@linuxfoundation.org>
@@ -46,57 +46,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- =?UTF-8?q?Jos=C3=A9=20Roberto=20de=20Souza?= <jose.souza@intel.com>,
- dri-devel@lists.freedesktop.org, Wayne Lin <Wayne.Lin@amd.com>,
- stable@vger.kernel.org
+Cc: kernel test robot <lkp@intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, stable@vger.kernel.org,
+ "Michael J. Ruhl" <michael.j.ruhl@intel.com>, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Dave Airlie <airlied@redhat.com>,
+ Xiaotian Feng <xtfeng@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: José Roberto de Souza <jose.souza@intel.com>
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
-commit 24ff3dc18b99c4b912ab1746e803ddb3be5ced4c upstream.
+This reverts commit fcb041ca5c7787b096aafc899e45f93583e66cbd which is
+commit 0ecb51824e838372e01330752503ddf9c0430ef7 upstream.
 
-Commit 3769e4c0af5b ("drm/dp_mst: Avoid to mess up payload table by
-ports in stale topology") added to calls to drm_dbg_kms() but it
-missed the first parameter, the drm device breaking the build.
+Turns out this was incomplete, as it is missing a dependancy, so drop it
+from the tree.
 
-Fixes: 3769e4c0af5b ("drm/dp_mst: Avoid to mess up payload table by ports in stale topology")
-Cc: Wayne Lin <Wayne.Lin@amd.com>
-Cc: Lyude Paul <lyude@redhat.com>
+Link: https://lore.kernel.org/r/CAJn8CcHHKSo7GF29Z1ufXJJpMUzn6+fdvwiqe9=JvgpcfvnbHQ@mail.gmail.com
+Reported-by: Xiaotian Feng <xtfeng@gmail.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Michael J. Ruhl <michael.j.ruhl@intel.com>
+Cc: KuoHsiang Chou <kuohsiang_chou@aspeedtech.com>
+Cc: kernel test robot <lkp@intel.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Dave Airlie <airlied@redhat.com>
 Cc: dri-devel@lists.freedesktop.org
-Cc: stable@vger.kernel.org
-Signed-off-by: José Roberto de Souza <jose.souza@intel.com>
-Reviewed-by: Lyude Paul <lyude@redhat.com>
-Signed-off-by: Lyude Paul <lyude@redhat.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20210616194415.36926-1-jose.souza@intel.com
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/gpu/drm/drm_dp_mst_topology.c |    7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/ast/ast_main.c |    5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
---- a/drivers/gpu/drm/drm_dp_mst_topology.c
-+++ b/drivers/gpu/drm/drm_dp_mst_topology.c
-@@ -3385,7 +3385,9 @@ int drm_dp_update_payload_part1(struct d
- 			mutex_unlock(&mgr->lock);
+--- a/drivers/gpu/drm/ast/ast_main.c
++++ b/drivers/gpu/drm/ast/ast_main.c
+@@ -406,6 +406,7 @@ struct ast_private *ast_device_create(st
+ 		return ast;
+ 	dev = &ast->base;
  
- 			if (skip) {
--				drm_dbg_kms("Virtual channel %d is not in current topology\n", i);
-+				drm_dbg_kms(mgr->dev,
-+					    "Virtual channel %d is not in current topology\n",
-+					    i);
- 				continue;
- 			}
- 			/* Validated ports don't matter if we're releasing
-@@ -3400,7 +3402,8 @@ int drm_dp_update_payload_part1(struct d
- 						payload->start_slot = req_payload.start_slot;
- 						continue;
- 					} else {
--						drm_dbg_kms("Fail:set payload to invalid sink");
-+						drm_dbg_kms(mgr->dev,
-+							    "Fail:set payload to invalid sink");
- 						mutex_unlock(&mgr->payload_lock);
- 						return -EINVAL;
- 					}
++	dev->pdev = pdev;
+ 	pci_set_drvdata(pdev, dev);
+ 
+ 	ast->regs = pcim_iomap(pdev, 1, 0);
+@@ -447,8 +448,8 @@ struct ast_private *ast_device_create(st
+ 
+ 	/* map reserved buffer */
+ 	ast->dp501_fw_buf = NULL;
+-	if (dev->vram_mm->vram_size < pci_resource_len(pdev, 0)) {
+-		ast->dp501_fw_buf = pci_iomap_range(pdev, 0, dev->vram_mm->vram_size, 0);
++	if (dev->vram_mm->vram_size < pci_resource_len(dev->pdev, 0)) {
++		ast->dp501_fw_buf = pci_iomap_range(dev->pdev, 0, dev->vram_mm->vram_size, 0);
+ 		if (!ast->dp501_fw_buf)
+ 			drm_info(dev, "failed to map reserved buffer!\n");
+ 	}
 
 
