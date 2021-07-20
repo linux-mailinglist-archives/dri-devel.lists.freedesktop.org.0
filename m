@@ -1,60 +1,77 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1ED13D0422
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jul 2021 23:56:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 438C83D042F
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 00:01:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6459B6E32A;
-	Tue, 20 Jul 2021 21:56:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B6CAC6E570;
+	Tue, 20 Jul 2021 22:01:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com
- [IPv6:2607:f8b0:4864:20::b2d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 420B06E311
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 21:56:01 +0000 (UTC)
-Received: by mail-yb1-xb2d.google.com with SMTP id y38so582626ybi.1
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 14:56:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=sfBEshtiz3b3zWuLinvp78jOMvb3f/T6hm1sv7DHfbA=;
- b=Rq3BWE5SVRsS9GRXCGxhimGG/VUdFsqhpfMrFdllU1aGDpolrP7VcMthAm0x3Ztmau
- sI8UNSNZ6d4lxvbu9Hf/2ErJyOeaA8UDzC8+0VmOQJ306rwv64RLZMMOqxr97jNJngmu
- AyvtByCfxZYUH4vKmG5xO5VnOdsC8K63YUflep9Ns2GVnSjs0zNY94tPc2hMxTQAwOUS
- 3U4bfsEgv6cSPvy3m3j6EUt6L3mV96BExBbSjsAgtTlOSWQ+SNohKO99pXq4uiZ1fYsp
- RssnvoTmdiwVTWI95OBdRbb6DYOLzC5/J4pUcnimetfEf7wVXvSW3fR4N2Ve62OLF0vT
- xzSQ==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C3C086E479
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 22:01:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1626818493;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=DGxLxC73Q30FLZh4kHloeV2LTAZ2CJRDqzZBDuBEMfM=;
+ b=Ty6BN3NVh1tbncLXYO5K+ZGbp3ho5S8x+Hry/Nlf+J2EDkFSAFfLt4jbi3QTpiBM9zALCR
+ owCtdHz5w6tODcx7oUteVm1faC9NtzB0HQyDwr4LgKQCDL2gBPIeVy6gY+06lqzLZx3HB3
+ r3azSQQqPJPHLyYTHwl31Vj7CZvtG9E=
+Received: from mail-oo1-f70.google.com (mail-oo1-f70.google.com
+ [209.85.161.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-260-98jfpeQHP5qbiwwToqsHYw-1; Tue, 20 Jul 2021 18:01:32 -0400
+X-MC-Unique: 98jfpeQHP5qbiwwToqsHYw-1
+Received: by mail-oo1-f70.google.com with SMTP id
+ m24-20020a4a39180000b02902690a9a92feso264724ooa.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 15:01:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=sfBEshtiz3b3zWuLinvp78jOMvb3f/T6hm1sv7DHfbA=;
- b=HZjV9bybhkmeK2F+nycPnBrVcQ9MMPhFzSozlZ+tG4W4dfB4dUpLcGHMBlUXVfFILx
- 5LpB6+soAICNA/30RSltdG+cDfn0s1lhr+r0QDDTaFxMVRiAnwwwV71dKSBchr8tTArK
- 5oq0jG/aE36vgcl97vIbwYJiOsFpoopjJd05WK/3rchfPNOOH030Mjylp035sUSwLUh1
- 1a7G8eLYoOWNiMegT+uEObHrD9ziXDOxLkeHt5l2ajznRC+OklSZbseSUY82peNt6utH
- HRukb0c+yP7WyG6rawnLJ/jkZQu4ltMpfdbLN/4trNIRh2/sVksZZYpLPwvI1LDFMvlz
- MpCQ==
-X-Gm-Message-State: AOAM530NxqE567csPEARzZLb4/VUFW+3ZMeH4InXUOpCmfnH9cf0oXKp
- B74LA4qQOTvQXCbXptE5mP9/aeT6Spi2K9flss0srA==
-X-Google-Smtp-Source: ABdhPJynJuu9G4It/JBdq9J9m0pKEqVN08FgWvOaF4j4i2j2Ofd44KghjbcjhbcQyBoHOSSD0LI1YtAxwZssZqGM1yY=
-X-Received: by 2002:a25:aa69:: with SMTP id s96mr42275803ybi.241.1626818160322; 
- Tue, 20 Jul 2021 14:56:00 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=DGxLxC73Q30FLZh4kHloeV2LTAZ2CJRDqzZBDuBEMfM=;
+ b=Hqb0sIV0+t94KDXPU9fGKmd8hQnVb2a8nqhcCAHO3LOk1FaLR9jBdI8GZphPWvsRkU
+ yFbjEJ+EvbHcezYRdtG1wMGDj3C76pOlLopCIQkFC/RKiu9rfMIzbE848dgxRDrlCc9H
+ FcXm58PASYT0g5cNEnB5ownxxi6/PODUJebXsLL21Yz3suEdNtEpT3nKJQiAFBPmq2tu
+ ZFaWzkFNxGNR9apeNpCKACHhcrPYA+hRbiiAJQB9XXiBW0ntpz1fRebgvnN/pPWGa5Tn
+ qSgTD8hpoKKnSeqyZcgrLmxo9xBVY81uRTFKLF2X4mNifua6xZadjtd89Lkv6onMWDJi
+ KDFQ==
+X-Gm-Message-State: AOAM531RRnOjhJjd603KJzjmhjFwP6ayNEb9WrOsCux4XgpuCwtrUfPY
+ 5GGchZFknkV8Mn6/1cTGeGA6TrvJe6IznBX4K6H5/vdIy5L3i9hlAZiLe5Mhw3WdQSNrRn/JZex
+ Uzz/+WX74sMRkhLnYc+0QXzQvdi8U
+X-Received: by 2002:a05:6808:aa3:: with SMTP id
+ r3mr18166263oij.133.1626818491769; 
+ Tue, 20 Jul 2021 15:01:31 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwuyDIfTXjm5YKo9TBgR+HrFk2cZEkVnlsdeNA/JOY8RcUjz3Wmb8/jGMHDDitpmXWLkurNEg==
+X-Received: by 2002:a05:6808:aa3:: with SMTP id
+ r3mr18166225oij.133.1626818491525; 
+ Tue, 20 Jul 2021 15:01:31 -0700 (PDT)
+Received: from redhat.com ([198.99.80.109])
+ by smtp.gmail.com with ESMTPSA id q187sm259680oif.2.2021.07.20.15.01.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 20 Jul 2021 15:01:30 -0700 (PDT)
+Date: Tue, 20 Jul 2021 16:01:27 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Subject: Re: [PATCH v2 02/14] vfio/mbochs: Fix missing error unwind in
+ mbochs_probe()
+Message-ID: <20210720160127.17bf3c19.alex.williamson@redhat.com>
+In-Reply-To: <2-v2-b6a5582525c9+ff96-vfio_reflck_jgg@nvidia.com>
+References: <0-v2-b6a5582525c9+ff96-vfio_reflck_jgg@nvidia.com>
+ <2-v2-b6a5582525c9+ff96-vfio_reflck_jgg@nvidia.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20210716141426.1904528-1-jason@jlekstrand.net>
- <20210716141426.1904528-7-jason@jlekstrand.net>
- <CAM0jSHP0CThxGJ-ABAO2kzhtKgh=ypbp+7iPsxPWd5F+Ydc7Tw@mail.gmail.com>
-In-Reply-To: <CAM0jSHP0CThxGJ-ABAO2kzhtKgh=ypbp+7iPsxPWd5F+Ydc7Tw@mail.gmail.com>
-From: Jason Ekstrand <jason@jlekstrand.net>
-Date: Tue, 20 Jul 2021 16:55:49 -0500
-Message-ID: <CAOFGe96mL5jNegWTO=JXyJ4LLzpT=xFCBqQSyXRMa=maC5WoAQ@mail.gmail.com>
-Subject: Re: [PATCH 6/7] drm/i915/gem: Correct the locking and pin pattern for
- dma-buf (v6)
-To: Matthew Auld <matthew.william.auld@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,195 +84,159 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- "Michael J . Ruhl" <michael.j.ruhl@intel.com>
+Cc: kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Kirti Wankhede <kwankhede@nvidia.com>, Max Gurtovoy <mgurtovoy@nvidia.com>,
+ Vineeth Vijayan <vneethv@linux.ibm.com>,
+ Diana Craciun <diana.craciun@oss.nxp.com>, Leon Romanovsky <leonro@nvidia.com>,
+ Christoph Hellwig <hch@lst.de>, linux-s390@vger.kernel.org,
+ Matthew Rosato <mjrosato@linux.ibm.com>, Jonathan Corbet <corbet@lwn.net>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ intel-gfx@lists.freedesktop.org, Zhi Wang <zhi.a.wang@intel.com>,
+ Jason Herne <jjherne@linux.ibm.com>, Eric Farman <farman@linux.ibm.com>,
+ Vasily Gorbik <gor@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>,
+ Eric Auger <eric.auger@redhat.com>,
+ Harald Freudenberger <freude@linux.ibm.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gvt-dev@lists.freedesktop.org,
+ "Raj, Ashok" <ashok.raj@intel.com>, Tony Krowiak <akrowiak@linux.ibm.com>,
+ Yishai Hadas <yishaih@nvidia.com>, Cornelia Huck <cohuck@redhat.com>,
+ Peter Oberparleiter <oberpar@linux.ibm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 20, 2021 at 4:07 AM Matthew Auld
-<matthew.william.auld@gmail.com> wrote:
->
-> On Fri, 16 Jul 2021 at 15:14, Jason Ekstrand <jason@jlekstrand.net> wrote=
-:
-> >
-> > From: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
-> >
-> > If our exported dma-bufs are imported by another instance of our driver=
-,
-> > that instance will typically have the imported dma-bufs locked during
-> > dma_buf_map_attachment(). But the exporter also locks the same reservat=
-ion
-> > object in the map_dma_buf() callback, which leads to recursive locking.
-> >
-> > So taking the lock inside _pin_pages_unlocked() is incorrect.
-> >
-> > Additionally, the current pinning code path is contrary to the defined
-> > way that pinning should occur.
-> >
-> > Remove the explicit pin/unpin from the map/umap functions and move them
-> > to the attach/detach allowing correct locking to occur, and to match
-> > the static dma-buf drm_prime pattern.
-> >
-> > Add a live selftest to exercise both dynamic and non-dynamic
-> > exports.
-> >
-> > v2:
-> > - Extend the selftest with a fake dynamic importer.
-> > - Provide real pin and unpin callbacks to not abuse the interface.
-> > v3: (ruhl)
-> > - Remove the dynamic export support and move the pinning into the
-> >   attach/detach path.
-> > v4: (ruhl)
-> > - Put pages does not need to assert on the dma-resv
-> > v5: (jason)
-> > - Lock around dma_buf_unmap_attachment() when emulating a dynamic
-> >   importer in the subtests.
-> > - Use pin_pages_unlocked
-> > v6: (jason)
-> > - Use dma_buf_attach instead of dma_buf_attach_dynamic in the selftests
-> >
-> > Reported-by: Michael J. Ruhl <michael.j.ruhl@intel.com>
-> > Signed-off-by: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
-> > Signed-off-by: Michael J. Ruhl <michael.j.ruhl@intel.com>
-> > Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
-> > Reviewed-by: Jason Ekstrand <jason@jlekstrand.net>
-> > ---
-> >  drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c    |  43 ++++++--
-> >  .../drm/i915/gem/selftests/i915_gem_dmabuf.c  | 103 +++++++++++++++++-
-> >  2 files changed, 132 insertions(+), 14 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c b/drivers/gpu/d=
-rm/i915/gem/i915_gem_dmabuf.c
-> > index 616c3a2f1baf0..9a655f69a0671 100644
-> > --- a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
-> > +++ b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
-> > @@ -12,6 +12,8 @@
-> >  #include "i915_gem_object.h"
-> >  #include "i915_scatterlist.h"
-> >
-> > +I915_SELFTEST_DECLARE(static bool force_different_devices;)
-> > +
-> >  static struct drm_i915_gem_object *dma_buf_to_obj(struct dma_buf *buf)
-> >  {
-> >         return to_intel_bo(buf->priv);
-> > @@ -25,15 +27,11 @@ static struct sg_table *i915_gem_map_dma_buf(struct=
- dma_buf_attachment *attachme
-> >         struct scatterlist *src, *dst;
-> >         int ret, i;
-> >
-> > -       ret =3D i915_gem_object_pin_pages_unlocked(obj);
-> > -       if (ret)
-> > -               goto err;
-> > -
-> >         /* Copy sg so that we make an independent mapping */
-> >         st =3D kmalloc(sizeof(struct sg_table), GFP_KERNEL);
-> >         if (st =3D=3D NULL) {
-> >                 ret =3D -ENOMEM;
-> > -               goto err_unpin_pages;
-> > +               goto err;
-> >         }
-> >
-> >         ret =3D sg_alloc_table(st, obj->mm.pages->nents, GFP_KERNEL);
-> > @@ -58,8 +56,6 @@ static struct sg_table *i915_gem_map_dma_buf(struct d=
-ma_buf_attachment *attachme
-> >         sg_free_table(st);
-> >  err_free:
-> >         kfree(st);
-> > -err_unpin_pages:
-> > -       i915_gem_object_unpin_pages(obj);
-> >  err:
-> >         return ERR_PTR(ret);
-> >  }
-> > @@ -68,13 +64,9 @@ static void i915_gem_unmap_dma_buf(struct dma_buf_at=
-tachment *attachment,
-> >                                    struct sg_table *sg,
-> >                                    enum dma_data_direction dir)
-> >  {
-> > -       struct drm_i915_gem_object *obj =3D dma_buf_to_obj(attachment->=
-dmabuf);
-> > -
-> >         dma_unmap_sgtable(attachment->dev, sg, dir, DMA_ATTR_SKIP_CPU_S=
-YNC);
-> >         sg_free_table(sg);
-> >         kfree(sg);
-> > -
-> > -       i915_gem_object_unpin_pages(obj);
-> >  }
-> >
-> >  static int i915_gem_dmabuf_vmap(struct dma_buf *dma_buf, struct dma_bu=
-f_map *map)
-> > @@ -168,7 +160,31 @@ static int i915_gem_end_cpu_access(struct dma_buf =
-*dma_buf, enum dma_data_direct
-> >         return err;
-> >  }
-> >
-> > +/**
-> > + * i915_gem_dmabuf_attach - Do any extra attach work necessary
-> > + * @dmabuf: imported dma-buf
-> > + * @attach: new attach to do work on
-> > + *
-> > + */
-> > +static int i915_gem_dmabuf_attach(struct dma_buf *dmabuf,
-> > +                                 struct dma_buf_attachment *attach)
-> > +{
-> > +       struct drm_i915_gem_object *obj =3D dma_buf_to_obj(dmabuf);
-> > +
-> > +       return i915_gem_object_pin_pages_unlocked(obj);
-> > +}
-> > +
-> > +static void i915_gem_dmabuf_detach(struct dma_buf *dmabuf,
-> > +                                  struct dma_buf_attachment *attach)
-> > +{
-> > +       struct drm_i915_gem_object *obj =3D dma_buf_to_obj(dmabuf);
-> > +
-> > +       i915_gem_object_unpin_pages(obj);
-> > +}
-> > +
->
-> We don't normally add kernel-doc for static functions? Otherwise
-> dmabuf_detach() needs matching kernel-doc.
+On Tue, 20 Jul 2021 14:42:48 -0300
+Jason Gunthorpe <jgg@nvidia.com> wrote:
 
-Dropped.
+> Compared to mbochs_remove() two cases are missing from the
+> vfio_register_group_dev() unwind. Add them in.
+> 
+> Fixes: 681c1615f891 ("vfio/mbochs: Convert to use vfio_register_group_dev()")
+> Reported-by: Cornelia Huck <cohuck@redhat.com>
+> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+> ---
+>  samples/vfio-mdev/mbochs.c | 7 +++++--
+>  1 file changed, 5 insertions(+), 2 deletions(-)
+> 
+> diff --git a/samples/vfio-mdev/mbochs.c b/samples/vfio-mdev/mbochs.c
+> index e81b875b4d87b4..501845b08c0974 100644
+> --- a/samples/vfio-mdev/mbochs.c
+> +++ b/samples/vfio-mdev/mbochs.c
+> @@ -553,11 +553,14 @@ static int mbochs_probe(struct mdev_device *mdev)
+>  
+>  	ret = vfio_register_group_dev(&mdev_state->vdev);
+>  	if (ret)
+> -		goto err_mem;
+> +		goto err_bytes;
+>  	dev_set_drvdata(&mdev->dev, mdev_state);
+>  	return 0;
+>  
+> +err_bytes:
+> +	mbochs_used_mbytes -= mdev_state->type->mbytes;
+>  err_mem:
+> +	kfree(mdev_state->pages);
+>  	kfree(mdev_state->vconfig);
+>  	kfree(mdev_state);
+>  	return ret;
+> @@ -567,8 +570,8 @@ static void mbochs_remove(struct mdev_device *mdev)
+>  {
+>  	struct mdev_state *mdev_state = dev_get_drvdata(&mdev->dev);
+>  
+> -	mbochs_used_mbytes -= mdev_state->type->mbytes;
+>  	vfio_unregister_group_dev(&mdev_state->vdev);
+> +	mbochs_used_mbytes -= mdev_state->type->mbytes;
+>  	kfree(mdev_state->pages);
+>  	kfree(mdev_state->vconfig);
+>  	kfree(mdev_state);
 
-> <snip>
->
-> > +
-> > +static int igt_dmabuf_import_same_driver(void *arg)
-> > +{
-> > +       struct drm_i915_private *i915 =3D arg;
-> > +       struct drm_i915_gem_object *obj, *import_obj;
-> > +       struct drm_gem_object *import;
-> > +       struct dma_buf *dmabuf;
-> > +       struct dma_buf_attachment *import_attach;
-> > +       struct sg_table *st;
-> > +       long timeout;
-> > +       int err;
-> > +
-> > +       force_different_devices =3D true;
-> > +       obj =3D i915_gem_object_create_shmem(i915, PAGE_SIZE);
-> > +       if (IS_ERR(obj))
->
-> err =3D PTR_ERR(obj)
+Hmm, doesn't this suggest we need another atomic conversion?  (untested)
 
-Done.
+diff --git a/samples/vfio-mdev/mbochs.c b/samples/vfio-mdev/mbochs.c
+index e81b875b4d87..842819e29c6b 100644
+--- a/samples/vfio-mdev/mbochs.c
++++ b/samples/vfio-mdev/mbochs.c
+@@ -129,7 +129,7 @@ static dev_t		mbochs_devt;
+ static struct class	*mbochs_class;
+ static struct cdev	mbochs_cdev;
+ static struct device	mbochs_dev;
+-static int		mbochs_used_mbytes;
++static atomic_t		mbochs_avail_mbytes;
+ static const struct vfio_device_ops mbochs_dev_ops;
+ 
+ struct vfio_region_info_ext {
+@@ -511,14 +511,19 @@ static int mbochs_probe(struct mdev_device *mdev)
+ 		&mbochs_types[mdev_get_type_group_id(mdev)];
+ 	struct device *dev = mdev_dev(mdev);
+ 	struct mdev_state *mdev_state;
++	int avail_mbytes = atomic_read(&mbochs_avail_mbytes);
+ 	int ret = -ENOMEM;
+ 
+-	if (type->mbytes + mbochs_used_mbytes > max_mbytes)
+-		return -ENOMEM;
++	do {
++		if (avail_mbytes < type->mbytes)
++			return ret;
++	} while (!atomic_try_cmpxchg(&mbochs_avail_mbytes, &avail_mbytes,
++				     avail_mbytes - type->mbytes));
+ 
+ 	mdev_state = kzalloc(sizeof(struct mdev_state), GFP_KERNEL);
+ 	if (mdev_state == NULL)
+-		return -ENOMEM;
++		goto err_resv;
++
+ 	vfio_init_group_dev(&mdev_state->vdev, &mdev->dev, &mbochs_dev_ops);
+ 
+ 	mdev_state->vconfig = kzalloc(MBOCHS_CONFIG_SPACE_SIZE, GFP_KERNEL);
+@@ -549,8 +554,6 @@ static int mbochs_probe(struct mdev_device *mdev)
+ 	mbochs_create_config_space(mdev_state);
+ 	mbochs_reset(mdev_state);
+ 
+-	mbochs_used_mbytes += type->mbytes;
+-
+ 	ret = vfio_register_group_dev(&mdev_state->vdev);
+ 	if (ret)
+ 		goto err_mem;
+@@ -558,8 +561,11 @@ static int mbochs_probe(struct mdev_device *mdev)
+ 	return 0;
+ 
+ err_mem:
++	kfree(mdev_state->pages);
+ 	kfree(mdev_state->vconfig);
+ 	kfree(mdev_state);
++err_resv:
++	atomic_add(mdev_state->type->mbytes, &mbochs_avail_mbytes);
+ 	return ret;
+ }
+ 
+@@ -567,11 +573,11 @@ static void mbochs_remove(struct mdev_device *mdev)
+ {
+ 	struct mdev_state *mdev_state = dev_get_drvdata(&mdev->dev);
+ 
+-	mbochs_used_mbytes -= mdev_state->type->mbytes;
+ 	vfio_unregister_group_dev(&mdev_state->vdev);
+ 	kfree(mdev_state->pages);
+ 	kfree(mdev_state->vconfig);
+ 	kfree(mdev_state);
++	atomic_add(mdev_state->type->mbytes, &mbochs_avail_mbytes);
+ }
+ 
+ static ssize_t mbochs_read(struct vfio_device *vdev, char __user *buf,
+@@ -1351,7 +1357,7 @@ static ssize_t available_instances_show(struct mdev_type *mtype,
+ {
+ 	const struct mbochs_type *type =
+ 		&mbochs_types[mtype_get_type_group_id(mtype)];
+-	int count = (max_mbytes - mbochs_used_mbytes) / type->mbytes;
++	int count = atomic_read(&mbochs_avail_mbytes) / type->mbytes;
+ 
+ 	return sprintf(buf, "%d\n", count);
+ }
+@@ -1460,6 +1466,8 @@ static int __init mbochs_dev_init(void)
+ 	if (ret)
+ 		goto err_class;
+ 
++	atomic_set(&mbochs_avail_mbytes, max_mbytes);
++
+ 	ret = mdev_register_device(&mbochs_dev, &mdev_fops);
+ 	if (ret)
+ 		goto err_device;
 
-> <snip>
->
-> > +       /* Now try a fake an importer */
-> > +       import_attach =3D dma_buf_attach(dmabuf, obj->base.dev->dev);
-> > +       if (IS_ERR(import_attach))
-> > +               goto out_import;
-> > +
-> > +       st =3D dma_buf_map_attachment(import_attach, DMA_BIDIRECTIONAL)=
-;
-> > +       if (IS_ERR(st))
-> > +               goto out_detach;
->
-> For these two maybe missing err =3D ?
-
-Yup.  Fixed.  I also changed the (int)PTR_ERR() in the error prints
-like you asked for in the next patch.
-
---Jason
