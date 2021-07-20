@@ -2,40 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A16933CFDA4
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jul 2021 17:34:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BCB83CFDCD
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jul 2021 17:44:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F99789C6A;
-	Tue, 20 Jul 2021 15:34:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D15A489950;
+	Tue, 20 Jul 2021 15:43:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-41104.protonmail.ch (mail-41104.protonmail.ch
- [185.70.41.104])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD8EA89C6A
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 15:34:01 +0000 (UTC)
-Received: from mail-0201.mail-europe.com (mail-0201.mail-europe.com
- [51.77.79.158])
+Received: from mail-4321.protonmail.ch (mail-4321.protonmail.ch [185.70.43.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C37AA89950
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 15:43:56 +0000 (UTC)
+Received: from mail-0301.mail-europe.com (mail-0301.mail-europe.com
+ [188.165.51.139])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits))
  (No client certificate requested)
- by mail-41104.protonmail.ch (Postfix) with ESMTPS id 4GTjRr3kxWz50MKT
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 15:34:00 +0000 (UTC)
-Authentication-Results: mail-41104.protonmail.ch;
+ by mail-4321.protonmail.ch (Postfix) with ESMTPS id 4GTjRs6kQJz4xZhJ
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 15:34:01 +0000 (UTC)
+Authentication-Results: mail-4321.protonmail.ch;
  dkim=pass (1024-bit key) header.d=connolly.tech header.i=@connolly.tech
- header.b="I/jQhWai"
-Date: Tue, 20 Jul 2021 15:33:51 +0000
+ header.b="D7bktiGR"
+Date: Tue, 20 Jul 2021 15:33:55 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=connolly.tech;
- s=protonmail; t=1626795236;
- bh=XWgo5tzaR5dmJQplOfD1SfTmwFn2t+d0+Cn+rl7ZkEo=;
+ s=protonmail; t=1626795238;
+ bh=RnMIEFW0cr7ror7ncy8lldAb81ApdL3lOqR9uUsxN48=;
  h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
- b=I/jQhWaiRYOBhX65293I4SO7cFOCf3VqEs634mhUEWvyxZI2N9r7KjC2Mxpk7JfNK
- EN1eK3EL4BZNNquIqq56sPwVO4JXRYbdO8mQIbs+VWNJNhgvIwA39NTbUbHmZnrUHA
- PiZQydfaHHxaejppVYrNrkEF7tNXyNExIFclGsnY=
+ b=D7bktiGRDFoTLhsP5GS5WcgNCpIZCa1yv1xYjTKuqheYL9sBaGkJoztqGM+YxuEUV
+ KTGSyUUjqZDZjuysBdl94a7fKGesku8BZO6miND7p4o55m6eYRYXFXdltu9R0Ovw4e
+ Syg/Q7PNoqc4eJ3ObFWPLVyNs94PZA+hjAO1iF8Y=
 To: Caleb Connolly <caleb@connolly.tech>
 From: Caleb Connolly <caleb@connolly.tech>
-Subject: [PATCH 4/5] arm64: dts: qcom: sdm845-oneplus-fajita: remove panel
- reset gpio
-Message-ID: <20210720153125.43389-5-caleb@connolly.tech>
+Subject: [PATCH 5/5] arm64: dts: qcom: sdm845-oneplus: add ipa firmware names
+Message-ID: <20210720153125.43389-6-caleb@connolly.tech>
 In-Reply-To: <20210720153125.43389-1-caleb@connolly.tech>
 References: <20210720153125.43389-1-caleb@connolly.tech>
 MIME-Version: 1.0
@@ -67,51 +65,27 @@ Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Don't specify the reset GPIO for the OnePlus 6T, the panel in the 6T
-will refuse to initialise if it has been reset so use this as a
-workaround.
+Add the correct patch to the ipa firmware now that custom paths are
+supported.
 
 Signed-off-by: Caleb Connolly <caleb@connolly.tech>
 ---
- arch/arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi   | 4 +---
- arch/arm64/boot/dts/qcom/sdm845-oneplus-enchilada.dts | 2 ++
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ arch/arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/arch/arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi b/arch/arm=
 64/boot/dts/qcom/sdm845-oneplus-common.dtsi
-index e81f5cc9f26d..1339bac8afc2 100644
+index 1339bac8afc2..96304f8688ed 100644
 --- a/arch/arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi
 +++ b/arch/arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi
-@@ -331,8 +331,6 @@ display_panel: panel@0 {
-
- =09=09vddio-supply =3D <&vreg_l14a_1p88>;
-
--=09=09reset-gpios =3D <&tlmm 6 GPIO_ACTIVE_LOW>;
--
- =09=09pinctrl-names =3D "default";
- =09=09pinctrl-0 =3D <&panel_reset_pins &panel_te_pin &panel_esd_pin>;
-
-@@ -615,7 +613,7 @@ mux {
- =09=09=09pins =3D "gpio6", "gpio25", "gpio26";
- =09=09=09function =3D "gpio";
- =09=09=09drive-strength =3D <8>;
--=09=09=09bias-disable =3D <0>;
-+=09=09=09bias-disable;
- =09=09};
- =09};
-
-diff --git a/arch/arm64/boot/dts/qcom/sdm845-oneplus-enchilada.dts b/arch/a=
-rm64/boot/dts/qcom/sdm845-oneplus-enchilada.dts
-index 72842c887617..5c728c1555f3 100644
---- a/arch/arm64/boot/dts/qcom/sdm845-oneplus-enchilada.dts
-+++ b/arch/arm64/boot/dts/qcom/sdm845-oneplus-enchilada.dts
-@@ -16,4 +16,6 @@ &display_panel {
+@@ -406,6 +406,7 @@ &ipa {
  =09status =3D "okay";
 
- =09compatible =3D "samsung,sofef00";
-+
-+=09reset-gpios =3D <&tlmm 6 GPIO_ACTIVE_LOW>;
+ =09memory-region =3D <&ipa_fw_mem>;
++=09firmware-name =3D "qcom/sdm845/oneplus6/ipa_fws.mbn";
  };
+
+ &mdss {
 --
 2.32.0
 
