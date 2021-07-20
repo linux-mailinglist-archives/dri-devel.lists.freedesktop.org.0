@@ -2,57 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 090F13CFCEB
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jul 2021 17:05:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F4703CFCDB
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jul 2021 17:03:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B6B46E14B;
-	Tue, 20 Jul 2021 15:05:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE2EB89C1B;
+	Tue, 20 Jul 2021 15:03:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com
- [IPv6:2607:f8b0:4864:20::b36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0FE6E6E24D
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 15:05:46 +0000 (UTC)
-Received: by mail-yb1-xb36.google.com with SMTP id i18so33070817yba.13
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 08:05:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=MJQ1NjTy/w3VologKneh5wleywvx9x35RYHNSSBF5FM=;
- b=BkU7jmJ4xlWh50XDZ+DifHd/NSYFMb7mroLRiRSDZRGvz+jJ5Uy6urX6C3In498vXr
- P1+bn0zTePiQ989uUVsMR4jgCff5DR+/MBhW1vuCTMbtTApcCXja9kgKcfsdj83FEKHF
- zNauQWYjePY7eTIBEgK26MTqmpuMvtOq5DRZZgEGkX8iNrs3Zqr0MEadN5ncICFN4HsM
- +lR+7CB3Q+XACXojiQI519DlLqZGbLHtRifg8yyquCSRz2//zyCSSSIMiwl6DGRdDTpa
- JX0cDfK3D4889lm2ykSAuuV1ptJgsX29amzVCJUG8EpsA5fMPczuVuswmJF7SxeE9AFk
- N7xQ==
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com
+ [IPv6:2607:f8b0:4864:20::102c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CCB5589C1B;
+ Tue, 20 Jul 2021 15:03:09 +0000 (UTC)
+Received: by mail-pj1-x102c.google.com with SMTP id
+ jx7-20020a17090b46c7b02901757deaf2c8so2631235pjb.0; 
+ Tue, 20 Jul 2021 08:03:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=YjsQqg/cyLrvH6AHlxUB+OYVHKKVa13wNGyeIOclLuU=;
+ b=Bwya6iL1RBmmeGnDLmxE++cJ04phd36pitzI5Fg/6+79njD2oyBhzaQONWmikFuB3v
+ sWOWXVU3XANaWQj6Mi6PD79h7wIzAVu1HT5fHWRFBtYKzK/VsiyBK8irALWIFOIiPfxe
+ SumHHYYFE/6VlsrVL32MklAzmYQxlvTV8x+UX/RKxN55gzSmbxS8xlL4D7T69pZKCxbR
+ 3hYVNceHlNyb9ju3HO0FaWK5vUkOa2sK4hDRDzVTPA6C74H9YQRSKcZpzQ6vKkwD7Vc1
+ wKRMpVzAniHaoAw89XEZFEc1YserHm/AzRtW2TvB5ztJbmXl6LqeWx5XcSyxPYcY6teZ
+ VvQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=MJQ1NjTy/w3VologKneh5wleywvx9x35RYHNSSBF5FM=;
- b=hFmLHT5wS5rqGq8jkGfaWdhmxaZkScjmehu25nixo3/yLWIy2dwZOCsJsYVkdQVb7J
- ER2U9Af9zrTGUo/67W7JfO/Yz48Dm+6tMRNv+4GGolQer9ECXd11ta/exJ+yS01KWkut
- +6l1GfmygFNlqv4D7APXO0BJSTIyoQio75xMF+Wa46pu2K04fov10gtyquh+UTcO29mH
- SHJhQXqrZsgapNZnHihGmApnxZMr2KgruFaRgLklYrz08PyfYWUyIu7FZHCJFr377rSY
- u1sXeFMGELEd5+C6VkZZ/yHXLCV6t3ZO/auxktNNNvf0++SgAUk1acfOI3EHao5tD6aN
- h1Ow==
-X-Gm-Message-State: AOAM533RlNcBgC3+ey9ihCVbyoVEAQZ52Wzj6/UpQx8gC6cUVDhnH24c
- WasXceAxl3A0BI7m0vM2ul8tSryMvT8LxGwt1wchWw==
-X-Google-Smtp-Source: ABdhPJxOBl+AUErwuRfF2UZqFr/ai8K+whVNYkV79Geyh7SUk7jGZojCwz7s/wy4+1C5gqsySomESo9Kwo65AuPfmv8=
-X-Received: by 2002:a25:aa69:: with SMTP id s96mr39912461ybi.241.1626793545002; 
- Tue, 20 Jul 2021 08:05:45 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=YjsQqg/cyLrvH6AHlxUB+OYVHKKVa13wNGyeIOclLuU=;
+ b=Gm6WTdLOfNKuIgQp03gabICJ+rY9bAPUTZJUWC9Dpz7aYpajCLd3xoitnMIZWO/m++
+ 3E91BHnioni8hUTSwf47fd0wh4lr4pLAhkI/FBF6YylqGcKVCs2o5I2/S2wA+TCaOMJK
+ poVlggqbtUlkWy954bNvDVeiMEGvJCAzJiRzCFopUmIIFX9xxg5xg/JGqFZRh8h5ozrh
+ yQ5qt3N3G/VvJG7l9xdPAmslSjTHEjkJwg2ScFiCiCJEp5tdjacFo+Ih8uuUl9y2j5x9
+ OQdRQSNV2ERdMpAgCxttcTLzeQFDQMRZoaazRnCHyLoQ99CqquSzZHFwv+WJahwlUNdC
+ vK5Q==
+X-Gm-Message-State: AOAM533VBSuxFJgEDp8PN1KdMYhQtDK6e68cf5mLod06FE05QtriRVLH
+ fp65iz+/77RGQJYFh7sT57kIeBLQKu+/ww==
+X-Google-Smtp-Source: ABdhPJwocdDotiRQoMrd8AmM4D5t8eT0K3LGBIo2EKCjfzv73zaEHoy2PrNocwn0na8156wCs4B80g==
+X-Received: by 2002:a17:903:2309:b029:12a:965b:333 with SMTP id
+ d9-20020a1709032309b029012a965b0333mr23822909plh.31.1626793388619; 
+ Tue, 20 Jul 2021 08:03:08 -0700 (PDT)
+Received: from localhost ([2601:1c0:5200:a6:307:a401:7b76:c6e5])
+ by smtp.gmail.com with ESMTPSA id k19sm20330779pji.32.2021.07.20.08.03.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 20 Jul 2021 08:03:06 -0700 (PDT)
+From: Rob Clark <robdclark@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/msm: Add fence->wait() op
+Date: Tue, 20 Jul 2021 08:07:15 -0700
+Message-Id: <20210720150716.1213775-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-References: <20210719183047.2624569-1-jason@jlekstrand.net>
- <20210719183047.2624569-4-jason@jlekstrand.net>
- <6ecf6891-67c2-94ac-32ce-28c1a1a7db0b@linux.intel.com>
-In-Reply-To: <6ecf6891-67c2-94ac-32ce-28c1a1a7db0b@linux.intel.com>
-From: Jason Ekstrand <jason@jlekstrand.net>
-Date: Tue, 20 Jul 2021 10:05:33 -0500
-Message-ID: <CAOFGe94uZ8r1f_NXWU0puQ6o+KKsxjspwMDgwi1zf7GuBfP_Jw@mail.gmail.com>
-Subject: Re: [Intel-gfx] [PATCH 3/6] drm/i915: Always call i915_globals_exit()
- from i915_exit()
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,189 +67,126 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel GFX <intel-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>
+Cc: Rob Clark <robdclark@chromium.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU"
+ <freedreno@lists.freedesktop.org>, David Airlie <airlied@linux.ie>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Sean Paul <sean@poorly.run>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Sorry... didn't reply to everything the first time
+From: Rob Clark <robdclark@chromium.org>
 
-On Tue, Jul 20, 2021 at 3:25 AM Tvrtko Ursulin
-<tvrtko.ursulin@linux.intel.com> wrote:
->
->
-> On 19/07/2021 19:30, Jason Ekstrand wrote:
-> > If the driver was not fully loaded, we may still have globals lying
-> > around.  If we don't tear those down in i915_exit(), we'll leak a bunch
-> > of memory slabs.  This can happen two ways: use_kms = false and if we've
-> > run mock selftests.  In either case, we have an early exit from
-> > i915_init which happens after i915_globals_init() and we need to clean
-> > up those globals.  While we're here, add an explicit boolean instead of
-> > using a random field from i915_pci_device to detect partial loads.
-> >
-> > The mock selftests case gets especially sticky.  The load isn't entirely
-> > a no-op.  We actually do quite a bit inside those selftests including
-> > allocating a bunch of mock objects and running tests on them.  Once all
-> > those tests are complete, we exit early from i915_init().  Perviously,
-> > i915_init() would return a non-zero error code on failure and a zero
-> > error code on success.  In the success case, we would get to i915_exit()
-> > and check i915_pci_driver.driver.owner to detect if i915_init exited early
-> > and do nothing.  In the failure case, we would fail i915_init() but
-> > there would be no opportunity to clean up globals.
-> >
-> > The most annoying part is that you don't actually notice the failure as
-> > part of the self-tests since leaking a bit of memory, while bad, doesn't
-> > result in anything observable from userspace.  Instead, the next time we
-> > load the driver (usually for next IGT test), i915_globals_init() gets
-> > invoked again, we go to allocate a bunch of new memory slabs, those
-> > implicitly create debugfs entries, and debugfs warns that we're trying
-> > to create directories and files that already exist.  Since this all
-> > happens as part of the next driver load, it shows up in the dmesg-warn
-> > of whatever IGT test ran after the mock selftests.
->
-> Story checks out but I totally don't get why it wouldn't be noticed
-> until now. Was it perhaps part of the selfetsts contract that a reboot
-> is required after failure?
+Somehow we had neither ->wait() nor dma_fence_signal() calls, and no
+one noticed.  Oops.
 
-If there is such a contract, CI doesn't follow it.  We unload the
-driver after selftests but that's it.
+Note that this removes the !timeout case, which has not been used in
+a long time.
 
-> > While the obvious thing to do here might be to call i915_globals_exit()
-> > after selftests, that's not actually safe.  The dma-buf selftests call
-> > i915_gem_prime_export which creates a file.  We call dma_buf_put() on
-> > the resulting dmabuf which calls fput() on the file.  However, fput()
-> > isn't immediate and gets flushed right before syscall returns.  This
-> > means that all the fput()s from the selftests don't happen until right
-> > before the module load syscall used to fire off the selftests returns
-> > which is after i915_init().  If we call i915_globals_exit() in
-> > i915_init() after selftests, we end up freeing slabs out from under
-> > objects which won't get released until fput() is flushed at the end of
-> > the module load.
->
-> Nasty. Wasn't visible while globals memory leak was "in place". :I
->
-> > The solution here is to let i915_init() return success early and detect
-> > the early success in i915_exit() and only tear down globals and nothing
-> > else.  This way the module loads successfully, regardless of the success
-> > or failure of the tests.  Because we've not enumerated any PCI devices,
-> > no device nodes are created and it's entirely useless from userspace.
-> > The only thing the module does at that point is hold on to a bit of
-> > memory until we unload it and i915_exit() is called.  Importantly, this
-> > means that everything from our selftests has the ability to properly
-> > flush out between i915_init() and i915_exit() because there are a couple
-> > syscall boundaries in between.
->
-> When you say "couple of syscall boundaries" you mean exactly two (module
-> init/unload) or there is more to it? Like why "couple" is needed and not
-> just that the module load syscall has exited? That part sounds
-> potentially dodgy. What mechanism is used by the delayed flush?
+Signed-off-by: Rob Clark <robdclark@chromium.org>
+---
+ drivers/gpu/drm/msm/msm_fence.c | 59 +++++++++++++++++++--------------
+ 1 file changed, 34 insertions(+), 25 deletions(-)
 
-It only needs the one syscall.  I've changed the text to say "at least
-one syscall boundary".  I think that's more clear without providing an
-exact count which may not be tractable.
+diff --git a/drivers/gpu/drm/msm/msm_fence.c b/drivers/gpu/drm/msm/msm_fence.c
+index cd59a5918038..8ee96b90ded6 100644
+--- a/drivers/gpu/drm/msm/msm_fence.c
++++ b/drivers/gpu/drm/msm/msm_fence.c
+@@ -38,11 +38,10 @@ static inline bool fence_completed(struct msm_fence_context *fctx, uint32_t fenc
+ 	return (int32_t)(fctx->completed_fence - fence) >= 0;
+ }
+ 
+-/* legacy path for WAIT_FENCE ioctl: */
+-int msm_wait_fence(struct msm_fence_context *fctx, uint32_t fence,
+-		ktime_t *timeout, bool interruptible)
++static signed long wait_fence(struct msm_fence_context *fctx, uint32_t fence,
++		signed long remaining_jiffies, bool interruptible)
+ {
+-	int ret;
++	signed long ret;
+ 
+ 	if (fence > fctx->last_fence) {
+ 		DRM_ERROR_RATELIMITED("%s: waiting on invalid fence: %u (of %u)\n",
+@@ -50,33 +49,34 @@ int msm_wait_fence(struct msm_fence_context *fctx, uint32_t fence,
+ 		return -EINVAL;
+ 	}
+ 
+-	if (!timeout) {
+-		/* no-wait: */
+-		ret = fence_completed(fctx, fence) ? 0 : -EBUSY;
++	if (interruptible) {
++		ret = wait_event_interruptible_timeout(fctx->event,
++			fence_completed(fctx, fence),
++			remaining_jiffies);
+ 	} else {
+-		unsigned long remaining_jiffies = timeout_to_jiffies(timeout);
+-
+-		if (interruptible)
+-			ret = wait_event_interruptible_timeout(fctx->event,
+-				fence_completed(fctx, fence),
+-				remaining_jiffies);
+-		else
+-			ret = wait_event_timeout(fctx->event,
+-				fence_completed(fctx, fence),
+-				remaining_jiffies);
+-
+-		if (ret == 0) {
+-			DBG("timeout waiting for fence: %u (completed: %u)",
+-					fence, fctx->completed_fence);
+-			ret = -ETIMEDOUT;
+-		} else if (ret != -ERESTARTSYS) {
+-			ret = 0;
+-		}
++		ret = wait_event_timeout(fctx->event,
++			fence_completed(fctx, fence),
++			remaining_jiffies);
++	}
++
++	if (ret == 0) {
++		DBG("timeout waiting for fence: %u (completed: %u)",
++				fence, fctx->completed_fence);
++		ret = -ETIMEDOUT;
++	} else if (ret != -ERESTARTSYS) {
++		ret = 0;
+ 	}
+ 
+ 	return ret;
+ }
+ 
++/* legacy path for WAIT_FENCE ioctl: */
++int msm_wait_fence(struct msm_fence_context *fctx, uint32_t fence,
++		ktime_t *timeout, bool interruptible)
++{
++	return wait_fence(fctx, fence, timeout_to_jiffies(timeout), interruptible);
++}
++
+ /* called from workqueue */
+ void msm_update_fence(struct msm_fence_context *fctx, uint32_t fence)
+ {
+@@ -114,10 +114,19 @@ static bool msm_fence_signaled(struct dma_fence *fence)
+ 	return fence_completed(f->fctx, f->base.seqno);
+ }
+ 
++static signed long msm_fence_wait(struct dma_fence *fence, bool intr,
++		signed long timeout)
++{
++	struct msm_fence *f = to_msm_fence(fence);
++
++	return wait_fence(f->fctx, fence->seqno, timeout, intr);
++}
++
+ static const struct dma_fence_ops msm_fence_ops = {
+ 	.get_driver_name = msm_fence_get_driver_name,
+ 	.get_timeline_name = msm_fence_get_timeline_name,
+ 	.signaled = msm_fence_signaled,
++	.wait = msm_fence_wait,
+ };
+ 
+ struct dma_fence *
+-- 
+2.31.1
 
-> Have you checked how this change interacts with the test runner and CI?
-
-As far as I know, there's no interesting interaction here.  That said,
-I did just find that the live selftests fail the modprobe on selftest
-failure which means they're tearing down globals before a full syscall
-boundary which may be sketchy.  Fortunately, now that we have
-i915_globals_exit() on the tear-down path if PCI probe fails, if
-someone ever does do something sketchy there, we'll catch it in dmesg
-immediately.  Maybe we should switch those to always return 0 as well
-while we're here?
-
-> >
-> > Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
-> > Fixes: 32eb6bcfdda9 ("drm/i915: Make request allocation caches global")
-> > Cc: Daniel Vetter <daniel@ffwll.ch>
-> > ---
-> >   drivers/gpu/drm/i915/i915_pci.c | 32 +++++++++++++++++++++++++-------
-> >   1 file changed, 25 insertions(+), 7 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/i915/i915_pci.c b/drivers/gpu/drm/i915/i915_pci.c
-> > index 4e627b57d31a2..24e4e54516936 100644
-> > --- a/drivers/gpu/drm/i915/i915_pci.c
-> > +++ b/drivers/gpu/drm/i915/i915_pci.c
-> > @@ -1194,18 +1194,31 @@ static struct pci_driver i915_pci_driver = {
-> >       .driver.pm = &i915_pm_ops,
-> >   };
-> >
-> > +static bool i915_fully_loaded = false;
->
-> No need to initialize.
->
-> > +
-> >   static int __init i915_init(void)
-> >   {
-> >       bool use_kms = true;
-> >       int err;
-> >
-> > +     i915_fully_loaded = false;
->
-> Ditto.
->
-> > +
-> >       err = i915_globals_init();
-> >       if (err)
-> >               return err;
-> >
-> > +     /* i915_mock_selftests() only returns zero if no mock subtests were
->
->
-> /*
->   * Please use this multi line comment style in i915.
->   */
->
->
-> > +      * run.  If we get any non-zero error code, we return early here.
-> > +      * We always return success because selftests may have allocated
-> > +      * objects from slabs which will get cleaned up by i915_exit().  We
-> > +      * could attempt to clean up immediately and fail module load but,
-> > +      * thanks to interactions with other parts of the kernel (struct
-> > +      * file, in particular), it's safer to let the module fully load
-> > +      * and then clean up on unload.
-> > +      */
-> >       err = i915_mock_selftests();
-> >       if (err)
-> > -             return err > 0 ? 0 : err;
-> > +             return 0;
-> >
-> >       /*
-> >        * Enable KMS by default, unless explicitly overriden by
-> > @@ -1225,6 +1238,12 @@ static int __init i915_init(void)
-> >               return 0;
-> >       }
-> >
-> > +     /* After this point, i915_init() must either fully succeed or
-> > +      * properly tear everything down and fail.  We don't have separate
-> > +      * flags for each set-up bit.
-> > +      */
-> > +     i915_fully_loaded = true;
-> > +
-> >       i915_pmu_init();
-> >
-> >       err = pci_register_driver(&i915_pci_driver);
-> > @@ -1240,12 +1259,11 @@ static int __init i915_init(void)
-> >
-> >   static void __exit i915_exit(void)
-> >   {
-> > -     if (!i915_pci_driver.driver.owner)
-> > -             return;
-> > -
-> > -     i915_perf_sysctl_unregister();
-> > -     pci_unregister_driver(&i915_pci_driver);
-> > -     i915_pmu_exit();
-> > +     if (i915_fully_loaded) {
-> > +             i915_perf_sysctl_unregister();
-> > +             pci_unregister_driver(&i915_pci_driver);
-> > +             i915_pmu_exit();
-> > +     }
-> >       i915_globals_exit();
-> >   }
-> >
-> >
->
-> Regards,
->
-> Tvrtko
