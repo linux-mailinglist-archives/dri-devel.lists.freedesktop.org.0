@@ -1,58 +1,122 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A8B73CF85E
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jul 2021 12:53:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B33C33CF883
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jul 2021 13:00:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E103D89842;
-	Tue, 20 Jul 2021 10:53:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E74189C69;
+	Tue, 20 Jul 2021 11:00:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf2d.google.com (mail-qv1-xf2d.google.com
- [IPv6:2607:f8b0:4864:20::f2d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 538D989471;
- Tue, 20 Jul 2021 10:53:50 +0000 (UTC)
-Received: by mail-qv1-xf2d.google.com with SMTP id o31so4489742qvo.1;
- Tue, 20 Jul 2021 03:53:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=tBTuc7Iq+lu2XvSD42SCyxBWmZoIbcrFIOYn6sxO2MA=;
- b=u/sCtSBXopKFzZ7rKpa4aAov0T0h0KP7k6FZ66WuFV/XLTwp2oKbC2tZyAEzdCg1Vf
- KN6XHFQykKohgCv6KCl+gsWNq3iTGAdFEJh4u0FX+1VR/02JC/Eh5l8yuyI2N49dGqx4
- pxiIpGXPvPWLWVokMMdp48MhgOgw3c8AK45EdUp/CZq5WEbrQFSCAvkNxvWqTMlVr+a2
- kEUUJVgFzzaxgB9SBlcdBOge8z0ItmfLLVn1iiASxaTCEOaMwe6fUYnIWeyHfTU2pRm6
- oUJ6vYLuI4kxtM1+hzB/lEGFK9U59LXpNk+q/ADID3Wzc2EZ566mxrgp1QjZDHmYx4w5
- s75g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=tBTuc7Iq+lu2XvSD42SCyxBWmZoIbcrFIOYn6sxO2MA=;
- b=DzE894s40EQjD+XIKxwVc3mKMDIMck5aFHvkfl8UWoogD9QbPpNQOAW5vV1qyAxs1L
- bMDQ24gpi52qKpwh/ap0x+ZYAy9zF675dXqJREWqPJfgpHWT9ap8xG7Zi2CYJCPPRTWQ
- j9ZJTvbtf5vV+SC/d725RFtZno4MFlylwvhlsiPp+EY7cDIe0qUXAPETZIsVp7ZzCwfd
- kaX1x5RHlDloF9RJ0WD1ai9qG08jZwaTxC22UaXoG34kK/LMTJwucFSEKIz/y3YBWav8
- xyksq/P03zdnz4FAAFWo0q1GOirc3ojR9DtEmlSW0KcTTk9rmxsmaDQdwNFJ9jYNmAX5
- Sgfw==
-X-Gm-Message-State: AOAM533fUBmiP5IRufIcU/Ixa8+tihfIZdZHbQdigs+XMdKuCUoBOtPy
- ZPgWDyRu2AiESR9m0Y5D8cvXDK77fBNcjtrZbws=
-X-Google-Smtp-Source: ABdhPJxk4noqhD14HYiC9qf+OnA/igIkF3Gys1IvWYFDq+IYVjrCCCIPhf2OR/9S76fKUtxLYaubfL0ZoQH78qsS9Eg=
-X-Received: by 2002:a0c:e54e:: with SMTP id n14mr29732005qvm.41.1626778429663; 
- Tue, 20 Jul 2021 03:53:49 -0700 (PDT)
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam08on2067.outbound.protection.outlook.com [40.107.102.67])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 127EB89C69
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 11:00:54 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=HrIim88j1tuepynqupZvAXB0P+0UpaDyWK6VoQG3W8GknjlcqPLRcMrr0iF66kNz89w2EhD2uLdi0XvwWLl5Um+Yw/ADn6TIcFE8TjYfgPOmZOEgOIgV5pZyQ8hPumUzM44k0Npb20swye9hrv921hVFeyZxDoYXbRykTwYBrjIco6YA552vn0b2b881BbahyTC+rWEL0186xSJCB6I8QRbOL5NoGXqY7un3uDLQQImqJ0+xC3NWDdUv9tYA8FdaNPLKFoOYYOrKGgg0GkXLVHlSLwxPY6f0WtmSODhI11aGAD1Q7ijBeUZXwSNtPXOl3zHYd195vf7xlsZxuofoIw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PvaE8AtmHGcKjsyBBUGafXkOuJRv4aBKMcqGzECqITY=;
+ b=fx6rw7GifFdK5Q8sxkfF2WXrB4Jv31W45J+ag/gFWYXfTzvCxNaTmh571svXRnWNVk8Pz8wii/8OGYq2sieTF6A4W3Vo2zrV3UijxvLJEtLStYRIC/WIMN4umqA1dNcPIF8/iEk0uqLlr2TB36QyjYaCtXoSkRW3aljtx5vBFAap+45enDjLAmwDww2fMk8iIaFaFAMam7VYE7lqyWF9lwIJJsxkKR8qvuJmmdqEAm9iyicOPym0rUQVhmpdt8BEHCiO12UOMFV5V2xntnPIhBW16AhXUvEvCjLZv3cGRFh/4nUfxDukdWBg5kHb+jhwWIRtnQ4l3xR+20I0D97+Bg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PvaE8AtmHGcKjsyBBUGafXkOuJRv4aBKMcqGzECqITY=;
+ b=0gfxrXBh5PnYOaIB7d+MKhnK3LUcvPpoN6E6vCIGK9AG60iitW+gc/0hXWGssDueNkOAget9BsMpiXn6ruvSWdrSQDoAAJK6w2BHMlBIzXI0srys+XohSU8eF4zwT7vnX3JHKIGpsx8Fj2QmtOMfNLiyarNPeY2X/tuZnB/ks5E=
+Authentication-Results: mediatek.com; dkim=none (message not signed)
+ header.d=none;mediatek.com; dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
+ by MN2PR12MB3902.namprd12.prod.outlook.com (2603:10b6:208:169::23)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.23; Tue, 20 Jul
+ 2021 11:00:51 +0000
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::6c9e:1e08:7617:f756]) by MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::6c9e:1e08:7617:f756%5]) with mapi id 15.20.4331.034; Tue, 20 Jul 2021
+ 11:00:50 +0000
+Subject: Re: [PATCH v2] dma_buf: remove dmabuf sysfs teardown before release
+To: guangming.cao@mediatek.com
+References: <8d7dfc78-aa85-48b5-2828-21ec6b463ac3@amd.com>
+ <20210720103158.83439-1-guangming.cao@mediatek.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <a12fc0c7-ed60-0724-fa56-097cb9a694ee@amd.com>
+Date: Tue, 20 Jul 2021 13:00:37 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
+In-Reply-To: <20210720103158.83439-1-guangming.cao@mediatek.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-ClientProxiedBy: PR0P264CA0238.FRAP264.PROD.OUTLOOK.COM
+ (2603:10a6:100:1e::34) To MN2PR12MB3775.namprd12.prod.outlook.com
+ (2603:10b6:208:159::19)
 MIME-Version: 1.0
-References: <20210716141426.1904528-1-jason@jlekstrand.net>
- <20210716141426.1904528-8-jason@jlekstrand.net>
-In-Reply-To: <20210716141426.1904528-8-jason@jlekstrand.net>
-From: Matthew Auld <matthew.william.auld@gmail.com>
-Date: Tue, 20 Jul 2021 11:53:23 +0100
-Message-ID: <CAM0jSHNqgEpt6cjm3yERyPFN8jXDiSi8zUfLM4PpZL3jroXsmQ@mail.gmail.com>
-Subject: Re: [Intel-gfx] [PATCH 7/7] drm/i915/gem: Migrate to system at
- dma-buf attach time (v6)
-To: Jason Ekstrand <jason@jlekstrand.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2a02:908:1252:fb60:8651:5b5e:8648:2fd0]
+ (2a02:908:1252:fb60:8651:5b5e:8648:2fd0) by
+ PR0P264CA0238.FRAP264.PROD.OUTLOOK.COM (2603:10a6:100:1e::34) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4331.23 via Frontend Transport; Tue, 20 Jul 2021 11:00:44 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 3769e975-0835-47ec-af06-08d94b6da2a0
+X-MS-TrafficTypeDiagnostic: MN2PR12MB3902:
+X-Microsoft-Antispam-PRVS: <MN2PR12MB390202C74762B2AF6D2F8EBE83E29@MN2PR12MB3902.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4502;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: MWS337TOR35i1gKd05DkAsSvzaE+7nsunCre3xgmLBHuka6WFh/4N+ac3ymqcY82I+qGWXCmoIz1b3/dcJjnpOXl7y2/a0InZnN03SoesbRom+dfkkG+PLInmbWEej3FGpsxwKKlAIHk/WdWLv2edLbMdgL9QcDgYVhRVaqX4rD3Rnq/w67h/HHfCtiU3AeLWCIJ5EOMMWIYtOnnd865acEEU0Ve0KGNntEiSHjLrG0ZzTlz/LgQ/3xKVJdCE9OfUXg4f5vcZ8C/rtLuxqbcnFLUM0o78R53AfK+TV36eHZKKPy1XoWzvvNL3JdT+5JKOvqQ2ngx9nKgMnD8+w4qRAS9XGDaprfo3QjOiV4HOumMrXmN9kb8Qq3XgletmX66zcJdyHwFDcnDBdkyGCKgBltMooBUjXjUsPc5Jeph8vB1V8r0LaXPwQu5vr87VM9pr2hGuL4DQljwySpRdWzG9f+VP8OYxs5lTDQ42vzvcEGXUqOXY3fb5xDvqh+hNX0oys7bxF5KsGK0guljqNh1FaG+XGfpiQ/eWdyoNfcebW9zTN3jh3Iiw0+aghcqsv9DXqNIfz0TAzs+xTHCjRreP8EECCpOGimDen7DGS8oFV9yALq3GcrBbd8ehXhdYoYxiwUrWoU/ZMhRXxcw0GMir7q2cKtqfIZEDLswwKn6lib88wmd/JKDFzRJKAK7lL4KDRnAhKdt7U5VAS9MV2bTALXxG5Mv9fNO6YbbWxqb87I6irMG2FtjLYFbgFwtl6nE
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(31686004)(6486002)(31696002)(36756003)(5660300002)(86362001)(508600001)(83380400001)(8936002)(2906002)(6916009)(6666004)(2616005)(66556008)(4326008)(66476007)(8676002)(66946007)(38100700002)(7416002)(186003)(316002)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cnRmK254azhVaklWMHJKTkQzOUcwS2ErVXNuVlo3YkxkTzNGZmRsSGpTQjNR?=
+ =?utf-8?B?UE1rZU1xa25nT2R6ak1aeGY5NGdvVFJ4eHExM25ENjFsenBsc2g3NW5UTVg4?=
+ =?utf-8?B?djZTazhYRnozbm4yU3pIYmtKUnlTZHFOYkZKMTloU2p5YksvU3dvM0dZQXhn?=
+ =?utf-8?B?dFROWTJXNFcvWFlyblB0SFFnZ2p2S2VtSUl4WDdmaFpHTlIyTXlOL3JIU0w0?=
+ =?utf-8?B?dmRZWjA2RFByeW1EOURrNjNwbmVIWmhGVGlDYWtDcHpjWDl5WEVNdVAyYkt3?=
+ =?utf-8?B?OUNnNGtPRTlBcHh1bEpqcThveGFtdnBCdzZXWWJ2Mk92bysxak9YNGQ0cFNk?=
+ =?utf-8?B?N2p1ckdZaEUrTTB1MU5VWHRoMGFjcmMyK0RYTEY3Z0tPMVFGSE1yckY2bkJu?=
+ =?utf-8?B?OFRWWmdtNFlVdWhrWDhWWGsvd0dFMUdQbW9IUmdqL3NBZnFIS0lWeWRyVTZq?=
+ =?utf-8?B?WmN3cmVFVkhQOGlleXk0WXhjWGhYRUFaMEdwNjNOa1h4bDJWN0l2QUQrTGxz?=
+ =?utf-8?B?clRRV3FnWUhvcmFHUUdvdUc4SklYSTNKQ3pPbitSOUpSN2gzQ1Rvbmw1dzBQ?=
+ =?utf-8?B?ZkIrR0ZONjJiTmluWnRMUDVjbzdnc2orNGJDUEhaKzNJMExOTjd3ZVNjSHlZ?=
+ =?utf-8?B?TTVEV01rMTNIK2VVYTdCOXhiR1grTVAyTmhISVhmMHZCMnlrSzQ5NVVPbWl6?=
+ =?utf-8?B?bGlhQ2gxNmFxejJOWmttMUlLRDRuNXdmZ2w0SlBOaHhRMU9wM1gzcldKd3hF?=
+ =?utf-8?B?aUhZTzBIQWk3di95WmllblNBa3czOHg1Tyt1Q1U0MDQzYTJkdWVUSUFzWGF6?=
+ =?utf-8?B?S2F2QXN2NGd0dlpncTRMUVZaWlVLaHplMWttTzMxanFTVFZ0dzJSc2FlaVFH?=
+ =?utf-8?B?cTBIQ1lYUnU4Rml0OFg0RVZrTlVwS1A2T09sRUIwSkpsN0R6V3VWOW0xbFJo?=
+ =?utf-8?B?OVA4cUovMkpIZjF1ZDBkNEU1VUJLK2Z5ZlJtOFRlMmpWc2FCQWh2S21VYjNq?=
+ =?utf-8?B?c3VYbmo1eHErWldmQm1TOGhKZGdXL2taV3k1RDdYblhFSGFXdWFrNU5lT2tO?=
+ =?utf-8?B?eG0rSTUzKzVYc2dJc0JjQnBSUkZCNzBWMjJUVUY5dWtDdXQ5eGFwbDR5TVBX?=
+ =?utf-8?B?OXRqSWNpTVI3U1Fjb1hZcEl0c3pjZ1M5dEpnTmxpNW15b1RET3FBRzdQM0U5?=
+ =?utf-8?B?Y3FEUDhwUVFPbWR6RnBpNktIdFdrOTA4Tit3RUJVSE02WnJHSlZFdUlBRkcx?=
+ =?utf-8?B?VVl6bXh3YW95QWtkM21SZm5wWFRhYVA4M1RtMVhxTnpsc25vYTVDRW5FQ3BR?=
+ =?utf-8?B?UU50ZjRSV3kzYzJuYzF0bDZ6UXhLa01HR3RqQ1MvZjJZZmZ2ZzQ0TEs3MENR?=
+ =?utf-8?B?ZUdEaXdQNWxpTUdGYXlTaWN0WDFmKzh1S2ZvY251MjVPOEg1Qkh1Yi9DYjBW?=
+ =?utf-8?B?bjQ3L2xaZ1AzTU85NjFMT0E2R2E5QzZwM2RKeHFML2lQVVY0Wll3Z0ZXc0xx?=
+ =?utf-8?B?RzZraGhwelpoa0F4UXNYc2N6VzlTTkpNN2hvYyszVW1QY3FHbVA1WG5ubFRB?=
+ =?utf-8?B?THZUVTB1NG9GLzB0SU1sZm0rYU9XdVZkQllVeUhCOU1iUXYwYkNpdUVLNXR1?=
+ =?utf-8?B?bU1yQTZCVVFSeEpZYnpjZk5VMmlnVmpEcjFXTkVyKzQzVjhJVVBXTTk3V1RI?=
+ =?utf-8?B?U1hXeDNXRmxPZGxuVEgyQ0VDT29NOXpSYlNCTDM5WGd2Y0dnK1V3NWlnYjF2?=
+ =?utf-8?B?ZVIrbnRBUUtQVGtIOG1HQ3ArQTdMYWZnSnZiTHB2ZUJtUGc5anQ3ek1mNWJI?=
+ =?utf-8?B?QUNuUjFoeW92dE5Nb3p2QlRoWDdOZ3FQWE5oaDQxaGZzZ3doVEJxYWNvd1Fu?=
+ =?utf-8?Q?gmGJnlbc3bSry?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3769e975-0835-47ec-af06-08d94b6da2a0
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jul 2021 11:00:50.8749 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: j1T3tPMMO0eankp8XxZQOepBzbmmKhlVGdxrVHa3JV+WclUpGlEGz4f53ZPyJqHJ
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3902
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,270 +129,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- ML dri-devel <dri-devel@lists.freedesktop.org>
+Cc: wsd_upstream@mediatek.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 16 Jul 2021 at 15:14, Jason Ekstrand <jason@jlekstrand.net> wrote:
+Am 20.07.21 um 12:31 schrieb guangming.cao@mediatek.com:
+> From: Guangming Cao <Guangming.Cao@mediatek.com>
 >
-> From: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
+> Dmabuf sysfs stat is used for dmabuf info track.
+> But these file maybe still in use after buffer released,
+> should clear it before buffer release.
 >
-> Until we support p2p dma or as a complement to that, migrate data
-> to system memory at dma-buf attach time if possible.
->
-> v2:
-> - Rebase on dynamic exporter. Update the igt_dmabuf_import_same_driver
->   selftest to migrate if we are LMEM capable.
-> v3:
-> - Migrate also in the pin() callback.
-> v4:
-> - Migrate in attach
-> v5: (jason)
-> - Lock around the migration
-> v6: (jason)
-> - Move the can_migrate check outside the lock
-> - Rework the selftests to test more migration conditions.  In
->   particular, SMEM, LMEM, and LMEM+SMEM are all checked.
->
-> Signed-off-by: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
-> Signed-off-by: Michael J. Ruhl <michael.j.ruhl@intel.com>
-> Reported-by: kernel test robot <lkp@intel.com>
-> Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
-> Reviewed-by: Jason Ekstrand <jason@jlekstrand.net>
+> Signed-off-by: Guangming Cao <Guangming.Cao@mediatek.com>
+
+Reviewed and pushed to drm-misc-next.
+
+Thanks,
+Christian.
+
 > ---
->  drivers/gpu/drm/i915/gem/i915_gem_create.c    |  2 +-
->  drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c    | 23 ++++-
->  drivers/gpu/drm/i915/gem/i915_gem_object.h    |  4 +
->  .../drm/i915/gem/selftests/i915_gem_dmabuf.c  | 89 ++++++++++++++++++-
->  4 files changed, 112 insertions(+), 6 deletions(-)
+>   drivers/dma-buf/dma-buf.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_create.c b/drivers/gpu/drm=
-/i915/gem/i915_gem_create.c
-> index 039e4f3b39c79..41c4cd3e1ea01 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_create.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_create.c
-> @@ -82,7 +82,7 @@ static int i915_gem_publish(struct drm_i915_gem_object =
-*obj,
->         return 0;
->  }
->
-> -static struct drm_i915_gem_object *
-> +struct drm_i915_gem_object *
->  i915_gem_object_create_user(struct drm_i915_private *i915, u64 size,
->                             struct intel_memory_region **placements,
->                             unsigned int n_placements)
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c b/drivers/gpu/drm=
-/i915/gem/i915_gem_dmabuf.c
-> index 9a655f69a0671..5d438b95826b9 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
-> @@ -170,8 +170,29 @@ static int i915_gem_dmabuf_attach(struct dma_buf *dm=
-abuf,
->                                   struct dma_buf_attachment *attach)
->  {
->         struct drm_i915_gem_object *obj =3D dma_buf_to_obj(dmabuf);
-> +       struct i915_gem_ww_ctx ww;
-> +       int err;
-> +
-> +       if (!i915_gem_object_can_migrate(obj, INTEL_REGION_SMEM))
-> +               return -EOPNOTSUPP;
-> +
-> +       for_i915_gem_ww(&ww, err, true) {
-> +               err =3D i915_gem_object_lock(obj, &ww);
-> +               if (err)
-> +                       continue;
-> +
-> +               err =3D i915_gem_object_migrate(obj, &ww, INTEL_REGION_SM=
-EM);
-> +               if (err)
-> +                       continue;
->
-> -       return i915_gem_object_pin_pages_unlocked(obj);
-> +               err =3D i915_gem_object_wait_migration(obj, 0);
-> +               if (err)
-> +                       continue;
-> +
-> +               err =3D i915_gem_object_pin_pages(obj);
-> +       }
-> +
-> +       return err;
->  }
->
->  static void i915_gem_dmabuf_detach(struct dma_buf *dmabuf,
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h b/drivers/gpu/drm=
-/i915/gem/i915_gem_object.h
-> index 8be4fadeee487..fbae53bd46384 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
-> @@ -61,6 +61,10 @@ i915_gem_object_create_shmem(struct drm_i915_private *=
-i915,
->  struct drm_i915_gem_object *
->  i915_gem_object_create_shmem_from_data(struct drm_i915_private *i915,
->                                        const void *data, resource_size_t =
-size);
-> +struct drm_i915_gem_object *
-> +i915_gem_object_create_user(struct drm_i915_private *i915, u64 size,
-> +                           struct intel_memory_region **placements,
-> +                           unsigned int n_placements);
->
->  extern const struct drm_i915_gem_object_ops i915_gem_shmem_ops;
->
-> diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c b/drive=
-rs/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c
-> index 4451bbb4917e4..7b7647e7e220a 100644
-> --- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c
-> +++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c
-> @@ -85,9 +85,62 @@ static int igt_dmabuf_import_self(void *arg)
->         return err;
->  }
->
-> -static int igt_dmabuf_import_same_driver(void *arg)
-> +static int igt_dmabuf_import_same_driver_lmem(void *arg)
->  {
->         struct drm_i915_private *i915 =3D arg;
-> +       struct intel_memory_region *lmem =3D i915->mm.regions[INTEL_REGIO=
-N_LMEM];
-> +       struct drm_i915_gem_object *obj;
-> +       struct drm_gem_object *import;
-> +       struct dma_buf *dmabuf;
-> +       int err;
-> +
-> +       if (!i915->mm.regions[INTEL_REGION_LMEM])
+> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> index b1a6db71c656..63d32261b63f 100644
+> --- a/drivers/dma-buf/dma-buf.c
+> +++ b/drivers/dma-buf/dma-buf.c
+> @@ -76,12 +76,12 @@ static void dma_buf_release(struct dentry *dentry)
+>   	 */
+>   	BUG_ON(dmabuf->cb_shared.active || dmabuf->cb_excl.active);
+>   
+> +	dma_buf_stats_teardown(dmabuf);
+>   	dmabuf->ops->release(dmabuf);
+>   
+>   	if (dmabuf->resv == (struct dma_resv *)&dmabuf[1])
+>   		dma_resv_fini(dmabuf->resv);
+>   
+> -	dma_buf_stats_teardown(dmabuf);
+>   	module_put(dmabuf->owner);
+>   	kfree(dmabuf->name);
+>   	kfree(dmabuf);
 
-!lmem
-
-> +               return 0;
-> +
-> +       force_different_devices =3D true;
-> +
-> +       obj =3D i915_gem_object_create_user(i915, PAGE_SIZE, &lmem, 1);
-> +       if (IS_ERR(obj)) {
-> +               pr_err("i915_gem_object_create_user failed with err=3D%d\=
-n",
-> +                      (int)PTR_ERR(dmabuf));
-
-PTR_ERR(obj)
-
-> +               err =3D PTR_ERR(obj);
-> +               goto out_ret;
-> +       }
-> +
-> +       dmabuf =3D i915_gem_prime_export(&obj->base, 0);
-> +       if (IS_ERR(dmabuf)) {
-> +               pr_err("i915_gem_prime_export failed with err=3D%d\n",
-> +                      (int)PTR_ERR(dmabuf));
-> +               err =3D PTR_ERR(dmabuf);
-> +               goto out;
-> +       }
-> +
-> +       /* We expect an import of an LMEM-only object to fail with
-> +        * -EOPNOTSUPP because it can't be migrated to SMEM.
-> +        */
-
-/*
- * We expect...
- */
-
-> +       import =3D i915_gem_prime_import(&i915->drm, dmabuf);
-> +       if (!IS_ERR(import)) {
-> +               drm_gem_object_put(import);
-> +               pr_err("i915_gem_prime_import succeeded when it shouldn't=
- have\n");
-> +               err =3D -EINVAL;
-> +       } else if (PTR_ERR(import) !=3D -EOPNOTSUPP) {
-> +               pr_err("i915_gem_prime_import failed with the wrong err=
-=3D%d\n",
-> +                      (int)PTR_ERR(import));
-> +               err =3D PTR_ERR(import);
-> +       }
-> +
-> +       dma_buf_put(dmabuf);
-> +out:
-> +       i915_gem_object_put(obj);
-> +out_ret:
-> +       force_different_devices =3D false;
-> +       return err;
-> +}
-> +
-> +static int igt_dmabuf_import_same_driver(struct drm_i915_private *i915,
-> +                                        struct intel_memory_region **reg=
-ions,
-> +                                        unsigned int num_regions)
-> +{
->         struct drm_i915_gem_object *obj, *import_obj;
->         struct drm_gem_object *import;
->         struct dma_buf *dmabuf;
-> @@ -97,9 +150,15 @@ static int igt_dmabuf_import_same_driver(void *arg)
->         int err;
->
->         force_different_devices =3D true;
-> -       obj =3D i915_gem_object_create_shmem(i915, PAGE_SIZE);
-> -       if (IS_ERR(obj))
-> +
-> +       obj =3D i915_gem_object_create_user(i915, PAGE_SIZE,
-> +                                         regions, num_regions);
-> +       if (IS_ERR(obj)) {
-> +               pr_err("i915_gem_object_create_user failed with err=3D%d\=
-n",
-> +                      (int)PTR_ERR(dmabuf));
-
-PTR_ERR(obj)
-
-> +               err =3D PTR_ERR(obj);
->                 goto out_ret;
-> +       }
->
->         dmabuf =3D i915_gem_prime_export(&obj->base, 0);
->         if (IS_ERR(dmabuf)) {
-> @@ -174,6 +233,26 @@ static int igt_dmabuf_import_same_driver(void *arg)
->         return err;
->  }
->
-> +static int igt_dmabuf_import_same_driver_smem(void *arg)
-> +{
-> +       struct drm_i915_private *i915 =3D arg;
-> +       struct intel_memory_region *smem =3D i915->mm.regions[INTEL_REGIO=
-N_SMEM];
-
-Newline.
-
-> +       return igt_dmabuf_import_same_driver(i915, &smem, 1);
-> +}
-> +
-> +static int igt_dmabuf_import_same_driver_lmem_smem(void *arg)
-> +{
-> +       struct drm_i915_private *i915 =3D arg;
-> +       struct intel_memory_region *regions[2];
-> +
-> +       if (!i915->mm.regions[INTEL_REGION_LMEM])
-> +               return 0;
-> +
-> +       regions[0] =3D i915->mm.regions[INTEL_REGION_LMEM];
-> +       regions[1] =3D i915->mm.regions[INTEL_REGION_SMEM];
-> +       return igt_dmabuf_import_same_driver(i915, regions, 2);
-> +}
-> +
->  static int igt_dmabuf_import(void *arg)
->  {
->         struct drm_i915_private *i915 =3D arg;
-> @@ -384,7 +463,9 @@ int i915_gem_dmabuf_live_selftests(struct drm_i915_pr=
-ivate *i915)
->  {
->         static const struct i915_subtest tests[] =3D {
->                 SUBTEST(igt_dmabuf_export),
-> -               SUBTEST(igt_dmabuf_import_same_driver),
-> +               SUBTEST(igt_dmabuf_import_same_driver_lmem),
-> +               SUBTEST(igt_dmabuf_import_same_driver_smem),
-> +               SUBTEST(igt_dmabuf_import_same_driver_lmem_smem),
->         };
->
->         return i915_subtests(tests, i915);
-> --
-> 2.31.1
->
-> _______________________________________________
-> Intel-gfx mailing list
-> Intel-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
