@@ -1,53 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2358F3CF42C
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jul 2021 08:00:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2651C3CF443
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jul 2021 08:12:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B6C489DF9;
-	Tue, 20 Jul 2021 06:00:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 377F96E255;
+	Tue, 20 Jul 2021 06:12:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 2726 seconds by postgrey-1.36 at gabe;
- Tue, 20 Jul 2021 06:00:39 UTC
-Received: from regular1.263xmail.com (regular1.263xmail.com [211.150.70.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 849B589DF9;
- Tue, 20 Jul 2021 06:00:39 +0000 (UTC)
-Received: from localhost (unknown [192.168.167.13])
- by regular1.263xmail.com (Postfix) with ESMTP id 6F0061BFD;
- Tue, 20 Jul 2021 14:00:36 +0800 (CST)
-X-MAIL-GRAY: 0
-X-MAIL-DELIVERY: 1
-X-ADDR-CHECKED: 0
-X-SKE-CHECKED: 1
-X-ABS-CHECKED: 1
-X-ANTISPAM-LEVEL: 2
-Received: from localhost.localdomain (unknown [111.207.172.18])
- by smtp.263.net (postfix) whith ESMTP id
- P30160T139874264110848S1626760826533946_; 
- Tue, 20 Jul 2021 14:00:36 +0800 (CST)
-X-IP-DOMAINF: 1
-X-UNIQUE-TAG: <b85de854ca89f4566868732de4f340b9>
-X-RL-SENDER: zhaoxiao@uniontech.com
-X-SENDER: zhaoxiao@uniontech.com
-X-LOGIN-NAME: zhaoxiao@uniontech.com
-X-FST-TO: airlied@linux.ie
-X-RCPT-COUNT: 7
-X-SENDER-IP: 111.207.172.18
-X-ATTACHMENT-NUM: 0
-X-System-Flag: 0
-From: zhaoxiao <zhaoxiao@uniontech.com>
-To: airlied@linux.ie,
-	daniel@ffwll.ch
-Subject: [PATCH] drivers/gpu/drm/nouveau/nouveau_bo: Remove a bunch of unused
- variables
-Date: Tue, 20 Jul 2021 14:00:25 +0800
-Message-Id: <20210720060025.25492-1-zhaoxiao@uniontech.com>
-X-Mailer: git-send-email 2.20.1
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 485146E255
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 06:12:34 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10050"; a="198455189"
+X-IronPort-AV: E=Sophos;i="5.84,254,1620716400"; d="scan'208";a="198455189"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Jul 2021 23:12:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.84,254,1620716400"; d="scan'208";a="414569029"
+Received: from lkp-server02.sh.intel.com (HELO 1b5a72ed9419) ([10.239.97.151])
+ by orsmga006.jf.intel.com with ESMTP; 19 Jul 2021 23:12:30 -0700
+Received: from kbuild by 1b5a72ed9419 with local (Exim 4.92)
+ (envelope-from <lkp@intel.com>)
+ id 1m5izV-00004j-Ln; Tue, 20 Jul 2021 06:12:29 +0000
+Date: Tue, 20 Jul 2021 13:32:34 +0800
+From: kernel test robot <lkp@intel.com>
+To: dillon.minfei@gmail.com, thierry.reding@gmail.com, sam@ravnborg.org,
+ airlied@linux.ie, daniel@ffwll.ch, robh+dt@kernel.org,
+ linus.walleij@linaro.org
+Subject: Re: [PATCH 1/2] dt-bindings: display: panel: Add ilitek ili9341
+ panel bindings
+Message-ID: <202107201305.FPUQWvWk-lkp@intel.com>
+References: <1626430843-23823-2-git-send-email-dillon.minfei@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1626430843-23823-2-git-send-email-dillon.minfei@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,65 +50,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, zhaoxiao <zhaoxiao@uniontech.com>,
- bskeggs@redhat.com, dri-devel@lists.freedesktop.org,
+Cc: devicetree@vger.kernel.org, kbuild-all@lists.01.org,
+ alexandre.torgue@foss.st.com, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fixes the following W=1 kernel build warning(s):
+Hi,
 
-drivers/gpu/drm/nouveau/nouveau_bo.c: In function ‘nouveau_ttm_tt_populate’:
-drivers/gpu/drm/nouveau/nouveau_bo.c:1245:17: warning: variable ‘dev’ set but not used [-Wunused-but-set-variable]
-  struct device *dev;
-                 ^~~
-drivers/gpu/drm/nouveau/nouveau_bo.c: In function ‘nouveau_ttm_tt_unpopulate’:
-drivers/gpu/drm/nouveau/nouveau_bo.c:1268:17: warning: variable ‘dev’ set but not used [-Wunused-but-set-variable]
-  struct device *dev;
-                 ^~~
-Signed-off-by: zhaoxiao <zhaoxiao@uniontech.com>
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on linus/master v5.14-rc2 next-20210719]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/0day-ci/linux/commits/dillon-minfei-gmail-com/Add-ilitek-ili9341-panel-driver/20210718-103113
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+compiler: arm-linux-gnueabi-gcc (GCC) 10.3.0
+reproduce: make ARCH=arm dtbs_check
+
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
+
+
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm/boot/dts/stm32f429-disco.dt.yaml:0:0: /interrupt-controller@e000e100: failed to match any schema with compatible: ['arm,armv7m-nvic']
+   arch/arm/boot/dts/stm32f429-disco.dt.yaml:0:0: /timer@e000e010: failed to match any schema with compatible: ['arm,armv7m-systick']
+   arch/arm/boot/dts/stm32f429-disco.dt.yaml:0:0: /soc/i2c@40005c00/stmpe811@41: failed to match any schema with compatible: ['st,stmpe811']
+   arch/arm/boot/dts/stm32f429-disco.dt.yaml:0:0: /soc/i2c@40005c00/stmpe811@41/stmpe_touchscreen: failed to match any schema with compatible: ['st,stmpe-ts']
+   arch/arm/boot/dts/stm32f429-disco.dt.yaml: l3gd20@0: 'spi-max-frequency' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	From schema: Documentation/devicetree/bindings/iio/st,st-sensors.yaml
+>> arch/arm/boot/dts/stm32f429-disco.dt.yaml: display@1: compatible: ['st,sf-tc240t-9370-t'] is too short
+   	From schema: Documentation/devicetree/bindings/display/panel/ilitek,ili9341.yaml
+   arch/arm/boot/dts/stm32f429-disco.dt.yaml:0:0: /soc/crc@40023000: failed to match any schema with compatible: ['st,stm32f4-crc']
+   arch/arm/boot/dts/stm32f429-disco.dt.yaml:0:0: /soc/rcc@40023800: failed to match any schema with compatible: ['st,stm32f42xx-rcc', 'st,stm32-rcc']
+   arch/arm/boot/dts/stm32f429-disco.dt.yaml:0:0: /soc/rcc@40023800: failed to match any schema with compatible: ['st,stm32f42xx-rcc', 'st,stm32-rcc']
+
 ---
- drivers/gpu/drm/nouveau/nouveau_bo.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
-
-diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c b/drivers/gpu/drm/nouveau/nouveau_bo.c
-index 4f3a5357dd56..692d63d08b5a 100644
---- a/drivers/gpu/drm/nouveau/nouveau_bo.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
-@@ -1242,7 +1242,7 @@ nouveau_ttm_tt_populate(struct ttm_device *bdev,
- {
- 	struct ttm_tt *ttm_dma = (void *)ttm;
- 	struct nouveau_drm *drm;
--	struct device *dev;
-+
- 	bool slave = !!(ttm->page_flags & TTM_PAGE_FLAG_SG);
- 
- 	if (ttm_tt_is_populated(ttm))
-@@ -1255,7 +1255,6 @@ nouveau_ttm_tt_populate(struct ttm_device *bdev,
- 	}
- 
- 	drm = nouveau_bdev(bdev);
--	dev = drm->dev->dev;
- 
- 	return ttm_pool_alloc(&drm->ttm.bdev.pool, ttm, ctx);
- }
-@@ -1265,14 +1264,12 @@ nouveau_ttm_tt_unpopulate(struct ttm_device *bdev,
- 			  struct ttm_tt *ttm)
- {
- 	struct nouveau_drm *drm;
--	struct device *dev;
- 	bool slave = !!(ttm->page_flags & TTM_PAGE_FLAG_SG);
- 
- 	if (slave)
- 		return;
- 
- 	drm = nouveau_bdev(bdev);
--	dev = drm->dev->dev;
- 
- 	return ttm_pool_free(&drm->ttm.bdev.pool, ttm);
- }
--- 
-2.20.1
-
-
-
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
