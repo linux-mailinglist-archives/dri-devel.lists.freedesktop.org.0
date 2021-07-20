@@ -1,116 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8A453CFF3D
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jul 2021 18:25:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C8AEA3CFFD8
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jul 2021 18:58:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C70176E2D7;
-	Tue, 20 Jul 2021 16:25:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E0B8589FF9;
+	Tue, 20 Jul 2021 16:58:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam12on2046.outbound.protection.outlook.com [40.107.244.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 33A796E408;
- Tue, 20 Jul 2021 16:25:11 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=CWvNZdraR7WU+d5394CpDCi0aHMxf1VqzSOD5jmUueChURr78S+nOaBBQSQrLNdtWztWnlIyetQOgF6Qwj6AOxGw1Qfbb3a+6wX50f3P9cDplnc/wslbhBaduna08sTvTokv+W1dOPZuQHf+1bldgAEzmed4lC4eW3xrNyhLeIGIt+v4+CV8TXYsFL4QEFoejVcxjgc3ybUplo4O7YWTg0C9HZgAXJmF+cAxSJSoVxIaKwTl6zyctZzwdvbShMEU05KpTiTlO+G1hR1WYgi+xmJ69vlAg92qCIJgXE9VR73y3Z4D+xDm/hOYutYo7dpxejKaCzWMtrstUVfgUTrNaw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eXhr7NBtAh2g1mdiedm7a00Qpu1WBxx3T+l9CwzOyVc=;
- b=lROAeYD5Ip17BIC8WgcoTx6XXkktk3MFSVciF6tpWbYIRVx8jzUtS78DGY1u+QuZZ9hYodsek5XucFglfVeV43WB9qpJgyR9+322TLcoQmRLe54c6jVVd0oQxWbzvyNEawk5L3RXXwh8dswCDPEGgiyqowC3IK61qt9GaMEqQ+9qCKyu13rrKVdRH+wT0sgeTtXpQN1KvFrE+K7I4yLEqmFBhxEYFUlU+AhIU0dxCRGXL0hcTVw8vhp1rTXJWSTFy/ZUhPflMiR8DPUdKATJgZpUo8eSogvSVuS7EI2nDRINVF1kdAVJoWFcGjsyknhNICb+PutOgpH3hBLQvJ4kVg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eXhr7NBtAh2g1mdiedm7a00Qpu1WBxx3T+l9CwzOyVc=;
- b=guFPICwIMBUQ+bEfPicT/GzHw+ii4l/AAlwvi/OFAYhYuCcP2TD9Hj+DY3rNPpO6rvMixYw5Byo0/X4iHbd906wNLwmf+mjBUuwpEt9DaHo+uN4uQUwEOap5Tn0MrR6vgjbEqhYZGd5bvNyeAtsaLee/JZMSFY17XdKwZjRsVvs6aD2WiSDv7CXTncqZQx2bIuGuHffNAMoxhn7nruPxio6qLrWM7cx3OWRdYJ6EZ8sDFpZLVukkWZ/PG+B9YaJSBSRRySBWGWe/9E96yml8dULG9gSoJT8i+XS+35Wm98zE4yWWny2tVuVeNPtZdD0STqNBVrpLh/60MQFpUtI7pw==
-Authentication-Results: oss.nxp.com; dkim=none (message not signed)
- header.d=none;oss.nxp.com; dmarc=none action=none header.from=nvidia.com;
-Received: from BL0PR12MB5506.namprd12.prod.outlook.com (2603:10b6:208:1cb::22)
- by BL1PR12MB5032.namprd12.prod.outlook.com (2603:10b6:208:30a::12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.21; Tue, 20 Jul
- 2021 16:25:09 +0000
-Received: from BL0PR12MB5506.namprd12.prod.outlook.com
- ([fe80::d017:af2f:7049:5482]) by BL0PR12MB5506.namprd12.prod.outlook.com
- ([fe80::d017:af2f:7049:5482%5]) with mapi id 15.20.4331.034; Tue, 20 Jul 2021
- 16:25:09 +0000
-Date: Tue, 20 Jul 2021 13:25:07 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Diana Craciun OSS <diana.craciun@oss.nxp.com>
-Subject: Re: [PATCH 05/13] vfio/fsl: Move to the device set infrastructure
-Message-ID: <20210720162507.GC1117491@nvidia.com>
-References: <5-v1-eaf3ccbba33c+1add0-vfio_reflck_jgg@nvidia.com>
- <44639398-d50f-ac6a-d52b-4e964465ca6f@oss.nxp.com>
- <20210720161713.GB1117491@nvidia.com>
- <5181d7f9-0a4f-c594-c5e9-820bdf97f6f2@oss.nxp.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 920AE89A6D;
+ Tue, 20 Jul 2021 16:58:44 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10051"; a="210996785"
+X-IronPort-AV: E=Sophos;i="5.84,255,1620716400"; d="scan'208";a="210996785"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Jul 2021 09:58:44 -0700
+X-IronPort-AV: E=Sophos;i="5.84,255,1620716400"; d="scan'208";a="575944172"
+Received: from unknown (HELO sdutt-i7) ([10.165.21.147])
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Jul 2021 09:58:43 -0700
+Date: Tue, 20 Jul 2021 09:47:28 -0700
+From: Matthew Brost <matthew.brost@intel.com>
+To: John Harrison <john.c.harrison@intel.com>
+Subject: Re: [PATCH 20/51] drm/i915: Track 'serial' counts for virtual engines
+Message-ID: <20210720164728.GA26575@sdutt-i7>
+References: <20210716201724.54804-1-matthew.brost@intel.com>
+ <20210716201724.54804-21-matthew.brost@intel.com>
+ <bb16d191-b605-9a93-0686-d6dacd722f1b@intel.com>
+ <20210720015400.GA13888@sdutt-i7>
+MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <5181d7f9-0a4f-c594-c5e9-820bdf97f6f2@oss.nxp.com>
-X-ClientProxiedBy: BL1PR13CA0368.namprd13.prod.outlook.com
- (2603:10b6:208:2c0::13) To BL0PR12MB5506.namprd12.prod.outlook.com
- (2603:10b6:208:1cb::22)
-MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from mlx.ziepe.ca (142.162.113.129) by
- BL1PR13CA0368.namprd13.prod.outlook.com (2603:10b6:208:2c0::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4352.11 via Frontend
- Transport; Tue, 20 Jul 2021 16:25:09 +0000
-Received: from jgg by mlx with local (Exim 4.94)	(envelope-from
- <jgg@nvidia.com>)	id 1m5sYN-004z4U-Vr; Tue, 20 Jul 2021 13:25:08 -0300
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: b5b23f0a-22a7-4b7c-f0e4-08d94b9af100
-X-MS-TrafficTypeDiagnostic: BL1PR12MB5032:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BL1PR12MB503260152401C8A62F71F4A8C2E29@BL1PR12MB5032.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3513;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: LDIbS/xyqPxpEW23U+JZTvpVnNKBILzbuTBgH387MIDXQZ9dY6PgU0wjUi91BV1z7uDojIJlMO4LZB636x1WU45PGR+fCkesA6Xjcg1xFZilrpZpnrn+IybEgGcLYi2/pHSGKBm9644k66vjWReTvefFrb0fLZqfI2uFSfd0etDgE/7UnoP94hrLnRa1aXn6zAQZwW59xgYNbv0tqTGf7GC/LA9x2h4zWVJ0TWCtOOlZrATTqYCHszS30hZJpTg5bPR+pHuQqdiYRcsVcIW3jH0MyPkcouoQW1dKpZq3G57M+o4IPk0/gSBpGxOH5FKi3nUgKUO9b645vTv5v55Z7qkf44MMHdKnQFfAQpTW8IZXiz1MbHxfsTV6R1NzOHVIoI5Co1r1na2B0SRVnVn0iVEQNucz5jd5itfO3WaPMFcOur5bEFDdfHiGYUfRmv+gbepdwz5jGYyUxchlmSR/QeQxvVEoe1zfV0ZcuRdFa5/K8ls8mz4b5O0eOUX44HZvYFjeMVdtn0/hYsWQrPWUpYR8RRM8bxvAFIRGR3IWu/EWmn9cOEH67fj8NNhWoNredRRBCjv7x7LVSf/NOhGYvwUFb6TiaRzDcExU9IGbsQT6jpri8J82uz9RxLxGhv8PdGLrXQKvrzP24hPuqZCm5g==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BL0PR12MB5506.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(396003)(39860400002)(376002)(136003)(366004)(346002)(8676002)(5660300002)(36756003)(33656002)(38100700002)(8936002)(426003)(2616005)(66946007)(26005)(9746002)(86362001)(2906002)(6916009)(107886003)(558084003)(66556008)(66476007)(9786002)(54906003)(1076003)(186003)(4326008)(478600001)(7416002)(7406005)(316002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Wde9/8ozJXweuptQVF+V//lJxYFKqGMYXaUJl+YrSWEFx2je/8GZehwPN5ge?=
- =?us-ascii?Q?+mw7r/suLrUae66qbhDF63JZ1poBQQcNjE5QQZy9tYmnV6hoZMgR+U1voU6x?=
- =?us-ascii?Q?nkOlHwlYCchfUb6KOXvI65hJH8mQmayDnnw9jMdkfTpSnjDY3n7se+CnWb8f?=
- =?us-ascii?Q?0uLDcyFuVqCeA0sH61LCfCKSsnmetoygLOvmK0knzycfMIFdWmP9S9tfaCPx?=
- =?us-ascii?Q?2VN7T63mc13Zpb23c4C+7xDXHpk68kU/6qGM8Mrjp9tRbU2pLobo2GdDJ3wH?=
- =?us-ascii?Q?vysR1KWWn9W9kdD59IrrHvuFtgGWAnZtF0KLxZmQYFUUOlmqo53qjxby/CPX?=
- =?us-ascii?Q?v5/9RWQaVwed98Qr6eW3VKeg+wxg2NfFoel45IK0fqTeoTPEoS0vprIZJ95/?=
- =?us-ascii?Q?Ed2NzTR10O57AQPfesoy9kketjrpDFqCVmiPu5RkvlAgyu6/jOza0iwq1dwk?=
- =?us-ascii?Q?eHdthldYdA8/pmxLiW9RZJj5XQ2mYDkvubxBryE3ItHLdO3dm6zLFUNJECEY?=
- =?us-ascii?Q?O0f7NSbnK0bE43nVR8WNghSBrk9Uj+Mjx7JxBr1ce/HGdX0UR4JVphvJHaaz?=
- =?us-ascii?Q?sGU7sRTWPHC6wJ9LY8EFspOtnJnY9wTYxoXc3s3ZgkTOVAYYmpVbQCg8MNQP?=
- =?us-ascii?Q?jZuuP26nZXV3l4xiqDNoQCq+tSKXNOs67Oi2HAXyLT7RsPKTUGTidmZ6yaz2?=
- =?us-ascii?Q?NEicZ/YFwlefQdDFVIFvivOQhd9YyxpVKGvnk4KYb5pJ/oh4voJ1EqLKCRIk?=
- =?us-ascii?Q?zBdRIPnfGN5CXG8jZwVhGrZajuIUjVLRD5c4qKkRD43PPBKKH4gMszaaIwSC?=
- =?us-ascii?Q?WiVbpVdIY+ZkfqYZTiH1ZbdvR1nVVQsQLlZRHC/7k9DMTA+2RnTpQKKSIxgL?=
- =?us-ascii?Q?JktLPalP2Qeu/a+KjbW4rGr6tfVlzb81/Slo2Hv4I/P00Z8IGpqSNKY9QTTu?=
- =?us-ascii?Q?Msqb+VLoszk4p5wsE5ImklB3t36bMaLqcV0SLNL64MBz71ja8CkWKjpJUint?=
- =?us-ascii?Q?m2JQIXOHRW1JLqrU8qXSLds0tDLnJ5GkAhrmAJlVenclSKvuJdAisYznTnmD?=
- =?us-ascii?Q?GjQG7nlxmb+ds/ioYVRPJCSDZfVUTQcPciqt+zgxIwVrZejoCsL1LxCQqIIX?=
- =?us-ascii?Q?wkWITJ8LmSMDUQN7BUuDZMTB7AiRjxwpaxsWGu29svXRluoTxBDui7/ehncF?=
- =?us-ascii?Q?OSpYsZvJtghI2KGMe+2w+oExIwMY7DekPf++sLl5s6XDL6ZtDs7rqv1kDlHq?=
- =?us-ascii?Q?qYePcABufU7synqjMZ8PIaEIj5macbL//Hhf50/WECfX3MYsk1PHxMxUrNrG?=
- =?us-ascii?Q?1hBa0DHtQGQqp4E5/oi4gKU4?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b5b23f0a-22a7-4b7c-f0e4-08d94b9af100
-X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB5506.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jul 2021 16:25:09.2482 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: yXliKp6dUsJ/NZsxaIYirzdXmQmwhJZA1kWJrgpjuNcZta5Btld/v07RFWsyr6Qw
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5032
+In-Reply-To: <20210720015400.GA13888@sdutt-i7>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -123,30 +47,178 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, linux-doc@vger.kernel.org,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Kirti Wankhede <kwankhede@nvidia.com>, Max Gurtovoy <mgurtovoy@nvidia.com>,
- Vineeth Vijayan <vneethv@linux.ibm.com>, Leon Romanovsky <leonro@nvidia.com>,
- Christoph Hellwig <hch@lst.de>, linux-s390@vger.kernel.org,
- Matthew Rosato <mjrosato@linux.ibm.com>, Jonathan Corbet <corbet@lwn.net>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- intel-gfx@lists.freedesktop.org, Zhi Wang <zhi.a.wang@intel.com>,
- Jason Herne <jjherne@linux.ibm.com>, Eric Farman <farman@linux.ibm.com>,
- Vasily Gorbik <gor@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>,
- Eric Auger <eric.auger@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Harald Freudenberger <freude@linux.ibm.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gvt-dev@lists.freedesktop.org,
- "Raj, Ashok" <ashok.raj@intel.com>, Tony Krowiak <akrowiak@linux.ibm.com>,
- Yishai Hadas <yishaih@nvidia.com>, Cornelia Huck <cohuck@redhat.com>,
- Peter Oberparleiter <oberpar@linux.ibm.com>
+Cc: intel-gfx@lists.freedesktop.org, daniele.ceraolospurio@intel.com,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 20, 2021 at 07:23:35PM +0300, Diana Craciun OSS wrote:
-> I have tested the changes and everything works as expected.
+On Mon, Jul 19, 2021 at 06:54:00PM -0700, Matthew Brost wrote:
+> On Mon, Jul 19, 2021 at 06:28:47PM -0700, John Harrison wrote:
+> > On 7/16/2021 13:16, Matthew Brost wrote:
+> > > From: John Harrison <John.C.Harrison@Intel.com>
+> > > 
+> > > The serial number tracking of engines happens at the backend of
+> > > request submission and was expecting to only be given physical
+> > > engines. However, in GuC submission mode, the decomposition of virtual
+> > > to physical engines does not happen in i915. Instead, requests are
+> > > submitted to their virtual engine mask all the way through to the
+> > > hardware (i.e. to GuC). This would mean that the heart beat code
+> > > thinks the physical engines are idle due to the serial number not
+> > > incrementing.
+> > > 
+> > > This patch updates the tracking to decompose virtual engines into
+> > > their physical constituents and tracks the request against each. This
+> > > is not entirely accurate as the GuC will only be issuing the request
+> > > to one physical engine. However, it is the best that i915 can do given
+> > > that it has no knowledge of the GuC's scheduling decisions.
+> > > 
+> > > Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+> > > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> > Still needs to pull in Tvrtko's updated subject and description.
+> > 
+> 
+> Forgot this in the post, already have it fixed locally.
+> 
 
-Great, thanks, I added a Tested-by for you
+In addition to updated comment, I took his advise to have a default
+behavior without the vfunc to just increment engine->serial.
 
-Jason
+With those changes:
+Reviewed-by: Matthew Brost <matthew.brost@intel.com> 
+
+> Matt
+> 
+> > John.
+> > 
+> > > ---
+> > >   drivers/gpu/drm/i915/gt/intel_engine_types.h     |  2 ++
+> > >   .../gpu/drm/i915/gt/intel_execlists_submission.c |  6 ++++++
+> > >   drivers/gpu/drm/i915/gt/intel_ring_submission.c  |  6 ++++++
+> > >   drivers/gpu/drm/i915/gt/mock_engine.c            |  6 ++++++
+> > >   .../gpu/drm/i915/gt/uc/intel_guc_submission.c    | 16 ++++++++++++++++
+> > >   drivers/gpu/drm/i915/i915_request.c              |  4 +++-
+> > >   6 files changed, 39 insertions(+), 1 deletion(-)
+> > > 
+> > > diff --git a/drivers/gpu/drm/i915/gt/intel_engine_types.h b/drivers/gpu/drm/i915/gt/intel_engine_types.h
+> > > index 1cb9c3b70b29..8ad304b2f2e4 100644
+> > > --- a/drivers/gpu/drm/i915/gt/intel_engine_types.h
+> > > +++ b/drivers/gpu/drm/i915/gt/intel_engine_types.h
+> > > @@ -388,6 +388,8 @@ struct intel_engine_cs {
+> > >   	void		(*park)(struct intel_engine_cs *engine);
+> > >   	void		(*unpark)(struct intel_engine_cs *engine);
+> > > +	void		(*bump_serial)(struct intel_engine_cs *engine);
+> > > +
+> > >   	void		(*set_default_submission)(struct intel_engine_cs *engine);
+> > >   	const struct intel_context_ops *cops;
+> > > diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> > > index 28492cdce706..920707e22eb0 100644
+> > > --- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> > > +++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> > > @@ -3191,6 +3191,11 @@ static void execlists_release(struct intel_engine_cs *engine)
+> > >   	lrc_fini_wa_ctx(engine);
+> > >   }
+> > > +static void execlist_bump_serial(struct intel_engine_cs *engine)
+> > > +{
+> > > +	engine->serial++;
+> > > +}
+> > > +
+> > >   static void
+> > >   logical_ring_default_vfuncs(struct intel_engine_cs *engine)
+> > >   {
+> > > @@ -3200,6 +3205,7 @@ logical_ring_default_vfuncs(struct intel_engine_cs *engine)
+> > >   	engine->cops = &execlists_context_ops;
+> > >   	engine->request_alloc = execlists_request_alloc;
+> > > +	engine->bump_serial = execlist_bump_serial;
+> > >   	engine->reset.prepare = execlists_reset_prepare;
+> > >   	engine->reset.rewind = execlists_reset_rewind;
+> > > diff --git a/drivers/gpu/drm/i915/gt/intel_ring_submission.c b/drivers/gpu/drm/i915/gt/intel_ring_submission.c
+> > > index 5c4d204d07cc..61469c631057 100644
+> > > --- a/drivers/gpu/drm/i915/gt/intel_ring_submission.c
+> > > +++ b/drivers/gpu/drm/i915/gt/intel_ring_submission.c
+> > > @@ -1047,6 +1047,11 @@ static void setup_irq(struct intel_engine_cs *engine)
+> > >   	}
+> > >   }
+> > > +static void ring_bump_serial(struct intel_engine_cs *engine)
+> > > +{
+> > > +	engine->serial++;
+> > > +}
+> > > +
+> > >   static void setup_common(struct intel_engine_cs *engine)
+> > >   {
+> > >   	struct drm_i915_private *i915 = engine->i915;
+> > > @@ -1066,6 +1071,7 @@ static void setup_common(struct intel_engine_cs *engine)
+> > >   	engine->cops = &ring_context_ops;
+> > >   	engine->request_alloc = ring_request_alloc;
+> > > +	engine->bump_serial = ring_bump_serial;
+> > >   	/*
+> > >   	 * Using a global execution timeline; the previous final breadcrumb is
+> > > diff --git a/drivers/gpu/drm/i915/gt/mock_engine.c b/drivers/gpu/drm/i915/gt/mock_engine.c
+> > > index 68970398e4ef..9203c766db80 100644
+> > > --- a/drivers/gpu/drm/i915/gt/mock_engine.c
+> > > +++ b/drivers/gpu/drm/i915/gt/mock_engine.c
+> > > @@ -292,6 +292,11 @@ static void mock_engine_release(struct intel_engine_cs *engine)
+> > >   	intel_engine_fini_retire(engine);
+> > >   }
+> > > +static void mock_bump_serial(struct intel_engine_cs *engine)
+> > > +{
+> > > +	engine->serial++;
+> > > +}
+> > > +
+> > >   struct intel_engine_cs *mock_engine(struct drm_i915_private *i915,
+> > >   				    const char *name,
+> > >   				    int id)
+> > > @@ -318,6 +323,7 @@ struct intel_engine_cs *mock_engine(struct drm_i915_private *i915,
+> > >   	engine->base.cops = &mock_context_ops;
+> > >   	engine->base.request_alloc = mock_request_alloc;
+> > > +	engine->base.bump_serial = mock_bump_serial;
+> > >   	engine->base.emit_flush = mock_emit_flush;
+> > >   	engine->base.emit_fini_breadcrumb = mock_emit_breadcrumb;
+> > >   	engine->base.submit_request = mock_submit_request;
+> > > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > > index 7b3e1c91e689..372e0dc7617a 100644
+> > > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > > @@ -1485,6 +1485,20 @@ static void guc_release(struct intel_engine_cs *engine)
+> > >   	lrc_fini_wa_ctx(engine);
+> > >   }
+> > > +static void guc_bump_serial(struct intel_engine_cs *engine)
+> > > +{
+> > > +	engine->serial++;
+> > > +}
+> > > +
+> > > +static void virtual_guc_bump_serial(struct intel_engine_cs *engine)
+> > > +{
+> > > +	struct intel_engine_cs *e;
+> > > +	intel_engine_mask_t tmp, mask = engine->mask;
+> > > +
+> > > +	for_each_engine_masked(e, engine->gt, mask, tmp)
+> > > +		e->serial++;
+> > > +}
+> > > +
+> > >   static void guc_default_vfuncs(struct intel_engine_cs *engine)
+> > >   {
+> > >   	/* Default vfuncs which can be overridden by each engine. */
+> > > @@ -1493,6 +1507,7 @@ static void guc_default_vfuncs(struct intel_engine_cs *engine)
+> > >   	engine->cops = &guc_context_ops;
+> > >   	engine->request_alloc = guc_request_alloc;
+> > > +	engine->bump_serial = guc_bump_serial;
+> > >   	engine->sched_engine->schedule = i915_schedule;
+> > > @@ -1828,6 +1843,7 @@ guc_create_virtual(struct intel_engine_cs **siblings, unsigned int count)
+> > >   	ve->base.cops = &virtual_guc_context_ops;
+> > >   	ve->base.request_alloc = guc_request_alloc;
+> > > +	ve->base.bump_serial = virtual_guc_bump_serial;
+> > >   	ve->base.submit_request = guc_submit_request;
+> > > diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
+> > > index 01aa3d1ee2b1..30ecdc46a12f 100644
+> > > --- a/drivers/gpu/drm/i915/i915_request.c
+> > > +++ b/drivers/gpu/drm/i915/i915_request.c
+> > > @@ -669,7 +669,9 @@ bool __i915_request_submit(struct i915_request *request)
+> > >   				     request->ring->vaddr + request->postfix);
+> > >   	trace_i915_request_execute(request);
+> > > -	engine->serial++;
+> > > +	if (engine->bump_serial)
+> > > +		engine->bump_serial(engine);
+> > > +
+> > >   	result = true;
+> > >   	GEM_BUG_ON(test_bit(I915_FENCE_FLAG_ACTIVE, &request->fence.flags));
+> > 
