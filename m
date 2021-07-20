@@ -1,61 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 215CB3CFAF8
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jul 2021 15:45:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A4473CFAFA
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jul 2021 15:45:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4006A89DB8;
-	Tue, 20 Jul 2021 13:45:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 73A5989E19;
+	Tue, 20 Jul 2021 13:45:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com
  [64.147.123.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4AEDF89DB8
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 13:45:35 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailnew.west.internal (Postfix) with ESMTP id D4A0C2B01187;
- Tue, 20 Jul 2021 09:45:31 -0400 (EDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4ECE589EA3
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 13:45:37 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.west.internal (Postfix) with ESMTP id 182F22B01189;
+ Tue, 20 Jul 2021 09:45:36 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute1.internal (MEProxy); Tue, 20 Jul 2021 09:45:32 -0400
+ by compute4.internal (MEProxy); Tue, 20 Jul 2021 09:45:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- from:to:cc:subject:date:message-id:content-type:mime-version
- :content-transfer-encoding; s=fm3; bh=II6ZIwPuUDm1QQYI4VVjCMhViz
- c1ZeIOHaCA5ME/VuE=; b=gcOLuDgHYfhlXLonM7NgoN4W0fNt95JmWcnUbCpBLk
- unKumIG+yEWLJZAc5fvSYUyOR9fiB3vWBrcUt5Jx0p6NKE0OCNblqDfSVovl+wso
- tmqRFY0D+Ti6WYx300UuzkJTTN5+2TLpUyIRUNjLmwoZ755jrsJl/QFsr8CGqYSt
- D8q5lxjBK+pBgKrHGsmdV18SGP3wZwIcmlBorUQTPRNGo7gFnLW2wv6BRgDqb2Yc
- qvITlgljLI0B0GbWuKux0Mkk1NCobjQfiez+kFNRlOJXhM00BsVmdzF5NtTDa2mb
- HE3eeOa2C3oQ/fzJQNGlmlB/TogmOwGfLwuVviccIsyA==
+ from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding; s=fm3; bh=s1/AGqxR15g+h
+ Pk2op+DrdT6xO3KSQkr55JaRssrGcY=; b=EbC4yCxjXxo6DS/vKoYyfM/ORjISk
+ uu1uLEFJgthMaHxG/pUXxz+5mWDCMlFnLNDbC5VFYOv7D5niZCh+Blu6JnC2mwFj
+ lxMJkHlSzAWeFT0JI95aLwSQy5SwTBUy+RtzQGLoRt1K+J+H7P7GcsY13taMNbfP
+ mf6gq2TYoS6EyjKnZgzwUGDkwx3UGDnAKVS/isoD/wWRxGSLQ97iJeCpoBH57Oa0
+ HK3CJkBQ3fAFlpH5rlvld/be4BSiZeTfLH1ahn08TaRrQjHkd+mU6a5/OqrcRelP
+ U401+gqmX2ThdL0BwXMitE9zAEuIqOoHs4L7lQqmxmoy5qT9sjRF8eZFQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:content-type
- :date:from:message-id:mime-version:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=II6ZIw
- PuUDm1QQYI4VVjCMhVizc1ZeIOHaCA5ME/VuE=; b=IF8P3CKsEfjTO1dCrQet9p
- 78O5S2+HYB3YRKQ9BbLDIS715ddf/TruhvXrYetja+dtUZv1P9ojB1Sf67bFwf9u
- HwI3l/8ds9QDfJ3vWubdEwxprnqcQK1i9y1D5j7jyVKSAfoJJhCPDAUerkwX/RGf
- alF7EokG1+rbhGDmx14LfEw2WOaO90x4TPsXtl9fnWH/k0H+HyltcwAMoXa71EZv
- JnYdLklbrlQIfvCFRd+ojE2CBGdLseA/b5xLdqsr+HGs3Fk2oN+SLBmJQW3KdC7N
- tK+k158NHb2hDUTqLKC4RXJzzeOxFm4dAVp924ZaGE44548OI7JVzHnwllDJXFtw
- ==
-X-ME-Sender: <xms:edP2YCOygzu9NYZTbM-vh1ca7SmogOpd_BRVZSWMWRj0bBENRrzU5A>
- <xme:edP2YA9nWIO8l1qVURFGagGPF89a9kUvDYi9vzifGCuskxFLWocyyAOHCHnRruA8w
- FIyBYNJP_s6sAcA8ho>
-X-ME-Received: <xmr:edP2YJSzb1SIZ9n_n3GjBBxjQhu91GoQ1nrq3YsLBg1O2FZr2ekqmM_p80MrQQlQ_mwVq8yu5Mg_yTobcFJR0aRUWX2yPtqBH2Kl>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrfedvgdeijecutefuodetggdotefrodftvf
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :in-reply-to:message-id:mime-version:references:subject:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm3; bh=s1/AGqxR15g+hPk2op+DrdT6xO3KSQkr55JaRssrGcY=; b=Iq0S8KeP
+ N1NUOw1XSE+kw9ebJzm8UXOa4J8Vae2JAldVuBioqFD0D7kaSYjSwLUAsXDx/V6S
+ Vojze0ZW4HXvy0hhOSWUFQMUhU/WuT336lfIFbLrqlJSwr0pS2QFx/L7UOL9bvyy
+ JHPZYUuyy6Nl7LKxXJ7YtILMtgC7zJ4qmSZiq/iCdk9rC/N7lwSxchfz83OmxwNk
+ nxR2EFtXLg1Sogwb2PBdDTEbRfF70IhvszqX75nGiUKmcJPVZFX+fMexGIDOYOC0
+ DDFmMLR3Fl5fpK4v5piGb3E+MbVwJ+8VwXYX0uAcfOSQ+4A9efyTO+twCDP0dYft
+ pnTVjynvzGbhgA==
+X-ME-Sender: <xms:ftP2YDLR4odIl0zz2dO3Pg1oncTEQm8CMIWXvobXHfbCdg1H1jlL2g>
+ <xme:ftP2YHIalCFSkEt4FnqRpmEIR4bwIo1t1j0nqKqwrbwvR0GSYcmk__XBm79njqHAT
+ Dw-UnMLDw72Jg9jlUE>
+X-ME-Received: <xmr:ftP2YLsGSpB8UML5w2M7Ye6-AplPjY0H3CeVGQOEnLroQB9lDd8MWykJUMoLHxox51r1E2iwxuMohez_a4WM1uci9i-AU5NlHM0j>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrfedvgdeikecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefhvffufffkofgtggfgsehtqhertdertdejnecuhfhrohhmpeforgigihhmvgcu
- tfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrthhtvg
- hrnhepteeikefgffekgeekledtheduteetjefgkeeuvefhhfetgedugfektdeugeffgfef
- necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgi
- himhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:edP2YCvaOXjFum2x9DVkBx0cgqWzc9OXGQcucvymczdYWcu3Gw_P3g>
- <xmx:edP2YKdKjNCdY6Bco6r2FtvkSVswbzHWiueT_HzG7GF0PrXyyvL_2Q>
- <xmx:edP2YG1vqPtFTvEw6uWab_jTSGmfBWZ1gkLsiLqleBgkw2asgf7Q9g>
- <xmx:e9P2YB_elgH-R2XMOqxtBm6Q3Ww2aWidkNVAtPMYLdER87q5q92lRvc9FgA>
+ fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+ gvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveevheeh
+ vdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
+ igihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:ftP2YMZL2JSk0OvdvKoHKrNG7Yfp-ncfdZ5U0SZNEEzjRSwQ936MLQ>
+ <xmx:ftP2YKbr937UhCXD0RpI5spebW-cCCknxGgPzpeBTueK4GiMzDLcjg>
+ <xmx:ftP2YAAWNX-k01TWcYVxzej_BvFuQI3pnc_GBPbLG0Ro3WbGn6Bkqw>
+ <xmx:f9P2YCqXiQIddCna21XWNvS2eBwKREEO60bdoW1xjjo9gJGlAYYSsUWhyW0>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 20 Jul 2021 09:45:28 -0400 (EDT)
+ 20 Jul 2021 09:45:34 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Robert Foss <robert.foss@linaro.org>, Andrzej Hajda <a.hajda@samsung.com>,
  Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
@@ -66,13 +66,15 @@ To: Robert Foss <robert.foss@linaro.org>, Andrzej Hajda <a.hajda@samsung.com>,
  Jernej Skrabec <jernej.skrabec@gmail.com>,
  Thierry Reding <thierry.reding@gmail.com>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-Subject: [PATCH 00/10] drm/bridge: Make panel and bridge probe order consistent
-Date: Tue, 20 Jul 2021 15:45:15 +0200
-Message-Id: <20210720134525.563936-1-maxime@cerno.tech>
+Subject: [PATCH 01/10] Revert "drm/vc4: dsi: Only register our component once
+ a DSI device is attached"
+Date: Tue, 20 Jul 2021 15:45:16 +0200
+Message-Id: <20210720134525.563936-2-maxime@cerno.tech>
 X-Mailer: git-send-email 2.31.1
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20210720134525.563936-1-maxime@cerno.tech>
+References: <20210720134525.563936-1-maxime@cerno.tech>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,101 +91,94 @@ Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,=0D
-=0D
-We've encountered an issue with the RaspberryPi DSI panel that prevented th=
-e=0D
-whole display driver from probing.=0D
-=0D
-The issue is described in detail in the commit 7213246a803f ("drm/vc4: dsi:=
-=0D
-Only register our component once a DSI device is attached"), but the basic =
-idea=0D
-is that since the panel is probed through i2c, there's no synchronization=0D
-between its probe and the registration of the MIPI-DSI host it's attached t=
-o.=0D
-=0D
-We initially moved the component framework registration to the MIPI-DSI Hos=
-t=0D
-attach hook to make sure we register our component only when we have a DSI=
-=0D
-device attached to our MIPI-DSI host, and then use lookup our DSI device in=
- our=0D
-bind hook.=0D
-=0D
-However, all the DSI bridges controlled through i2c are only registering th=
-eir=0D
-associated DSI device in their bridge attach hook, meaning with our change=
-=0D
-above, we never got that far, and therefore ended up in the same situation =
-than=0D
-the one we were trying to fix for panels.=0D
-=0D
-Since the RaspberryPi panel is the only driver in that situation, whereas i=
-t=0D
-seems like there's a consensus in bridge drivers, it makes more sense to tr=
-y to=0D
-mimic the bridge pattern in the panel driver.=0D
-=0D
-However, panels don't have an attach hook, and adding more panel hooks woul=
-d=0D
-lead to more path to maintain in each and every driver, while the general p=
-ush=0D
-is towards bridges. We also have to make sure that each and every DSI host =
-and=0D
-device driver behaves the same in order to have expectations to rely on.=0D
-=0D
-The solution I'm proposing is thus done in several steps:=0D
-=0D
-  - We get rid of the initial patch to make sure we support the bridge case=
-,=0D
-    and not the odd-panel one.=0D
-=0D
-  - Add a function that returns a bridge from a DT node, reducing the amoun=
-t of=0D
-    churn in each and every driver and making it a real incentive to not ca=
-re=0D
-    about panels in display drivers but only bridges.=0D
-=0D
-  - Add an attach and detach hook into the panel operations, and make it ca=
-lled=0D
-    automatically by the DRM panel bridge.=0D
-=0D
-  - Convert the VC4 DSI host to this new bridge function, and the Raspberry=
-Pi=0D
-    Panel to the new attach and detach hooks.=0D
-=0D
-If the general approach is agreed upon, other drivers will obviously be=0D
-converted to drm_of_get_next.=0D
-=0D
-Let me know what you think,=0D
-Maxime=0D
-=0D
-Maxime Ripard (10):=0D
-  Revert "drm/vc4: dsi: Only register our component once a DSI device is=0D
-    attached"=0D
-  drm/bridge: Add a function to abstract away panels=0D
-  drm/bridge: Add documentation sections=0D
-  drm/bridge: Document the probe issue with MIPI-DSI bridges=0D
-  drm/panel: Create attach and detach callbacks=0D
-  drm/bridge: panel: Call attach and detach for the panel=0D
-  drm/vc4: dsi: Switch to drm_of_get_next=0D
-  drm/panel: raspberrypi-touchscreen: Prevent double-free=0D
-  drm/panel: raspberrypi-touchscreen: Use the attach hook=0D
-  drm/panel: raspberrypi-touchscreen: Remove MIPI-DSI driver=0D
-=0D
- Documentation/gpu/drm-kms-helpers.rst         |  12 ++=0D
- drivers/gpu/drm/bridge/panel.c                |   4 +=0D
- drivers/gpu/drm/drm_bridge.c                  | 134 ++++++++++++++-=0D
- drivers/gpu/drm/drm_of.c                      |   3 +=0D
- drivers/gpu/drm/drm_panel.c                   |  20 +++=0D
- .../drm/panel/panel-raspberrypi-touchscreen.c | 159 +++++++++---------=0D
- drivers/gpu/drm/vc4/vc4_drv.c                 |   2 +=0D
- drivers/gpu/drm/vc4/vc4_dsi.c                 |  53 +++---=0D
- include/drm/drm_bridge.h                      |   2 +=0D
- include/drm/drm_panel.h                       |   6 +=0D
- 10 files changed, 273 insertions(+), 122 deletions(-)=0D
-=0D
--- =0D
-2.31.1=0D
-=0D
+This reverts commit 7213246a803f9b8da0677adb9ae06a3d8b806d02.
+
+The commit 7213246a803f ("drm/vc4: dsi: Only register our component once
+a DSI device is attached") aimed at preventing an endless probe loop
+between the DSI host driver and its panel/bridge where both would wait
+for each other to probe.
+
+The solution implemented in that commit however relies on the fact that
+MIPI-DSI device will either be a MIPI-DSI device, or would call
+mipi_dsi_device_register_full() at probe time.
+
+This assumption isn't true for bridges though where most drivers will do
+so in the bridge attach hook. However, the drm_bridge_attach is usually
+called in the DSI host bind hook, and thus we never get this far,
+resulting in a DSI bridge that will never have its attach run, and the
+DSI host that will never be bound, effectively creating the same
+situation we were trying to avoid for panels.
+
+Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+---
+ drivers/gpu/drm/vc4/vc4_dsi.c | 25 +++++++++++++++++--------
+ 1 file changed, 17 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/gpu/drm/vc4/vc4_dsi.c b/drivers/gpu/drm/vc4/vc4_dsi.c
+index a55256ed0955..6dfcbd9e234e 100644
+--- a/drivers/gpu/drm/vc4/vc4_dsi.c
++++ b/drivers/gpu/drm/vc4/vc4_dsi.c
+@@ -1257,12 +1257,10 @@ static ssize_t vc4_dsi_host_transfer(struct mipi_dsi_host *host,
+ 	return ret;
+ }
+ 
+-static const struct component_ops vc4_dsi_ops;
+ static int vc4_dsi_host_attach(struct mipi_dsi_host *host,
+ 			       struct mipi_dsi_device *device)
+ {
+ 	struct vc4_dsi *dsi = host_to_dsi(host);
+-	int ret;
+ 
+ 	dsi->lanes = device->lanes;
+ 	dsi->channel = device->channel;
+@@ -1297,12 +1295,6 @@ static int vc4_dsi_host_attach(struct mipi_dsi_host *host,
+ 		return 0;
+ 	}
+ 
+-	ret = component_add(&dsi->pdev->dev, &vc4_dsi_ops);
+-	if (ret) {
+-		mipi_dsi_host_unregister(&dsi->dsi_host);
+-		return ret;
+-	}
+-
+ 	return 0;
+ }
+ 
+@@ -1689,6 +1681,7 @@ static int vc4_dsi_dev_probe(struct platform_device *pdev)
+ {
+ 	struct device *dev = &pdev->dev;
+ 	struct vc4_dsi *dsi;
++	int ret;
+ 
+ 	dsi = devm_kzalloc(dev, sizeof(*dsi), GFP_KERNEL);
+ 	if (!dsi)
+@@ -1696,10 +1689,26 @@ static int vc4_dsi_dev_probe(struct platform_device *pdev)
+ 	dev_set_drvdata(dev, dsi);
+ 
+ 	dsi->pdev = pdev;
++
++	/* Note, the initialization sequence for DSI and panels is
++	 * tricky.  The component bind above won't get past its
++	 * -EPROBE_DEFER until the panel/bridge probes.  The
++	 * panel/bridge will return -EPROBE_DEFER until it has a
++	 * mipi_dsi_host to register its device to.  So, we register
++	 * the host during pdev probe time, so vc4 as a whole can then
++	 * -EPROBE_DEFER its component bind process until the panel
++	 * successfully attaches.
++	 */
+ 	dsi->dsi_host.ops = &vc4_dsi_host_ops;
+ 	dsi->dsi_host.dev = dev;
+ 	mipi_dsi_host_register(&dsi->dsi_host);
+ 
++	ret = component_add(&pdev->dev, &vc4_dsi_ops);
++	if (ret) {
++		mipi_dsi_host_unregister(&dsi->dsi_host);
++		return ret;
++	}
++
+ 	return 0;
+ }
+ 
+-- 
+2.31.1
+
