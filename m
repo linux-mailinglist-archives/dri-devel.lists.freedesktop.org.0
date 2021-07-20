@@ -1,40 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 517553CFDA0
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jul 2021 17:33:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D1A4B3CFDAB
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jul 2021 17:39:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AECD689C17;
-	Tue, 20 Jul 2021 15:33:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E914789B3B;
+	Tue, 20 Jul 2021 15:38:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-41103.protonmail.ch (mail-41103.protonmail.ch
- [185.70.41.103])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E08B89C17
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 15:33:49 +0000 (UTC)
+Received: from mail-4321.protonmail.ch (mail-4321.protonmail.ch [185.70.43.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 47D8489B20
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 15:38:57 +0000 (UTC)
 Received: from mail-0201.mail-europe.com (mail-0201.mail-europe.com
  [51.77.79.158])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits))
  (No client certificate requested)
- by mail-41103.protonmail.ch (Postfix) with ESMTPS id 4GTjRb4Sh9z50W7L
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 15:33:47 +0000 (UTC)
-Authentication-Results: mail-41103.protonmail.ch;
+ by mail-4321.protonmail.ch (Postfix) with ESMTPS id 4GTjRg3sFhz4xZhG
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 15:33:51 +0000 (UTC)
+Authentication-Results: mail-4321.protonmail.ch;
  dkim=pass (1024-bit key) header.d=connolly.tech header.i=@connolly.tech
- header.b="e5PSRNYV"
-Date: Tue, 20 Jul 2021 15:33:38 +0000
+ header.b="hlkCq9KK"
+Date: Tue, 20 Jul 2021 15:33:42 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=connolly.tech;
- s=protonmail; t=1626795223;
- bh=a/cXIJple0tXhCo8wBmyM+liGV06lwy6xissR4KIOBE=;
+ s=protonmail; t=1626795227;
+ bh=t8DojydpgKrlFaF/reC4F/AKwWgGLBuBD8TTSdpGt7c=;
  h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
- b=e5PSRNYVIfDTCyWKFDdtWRV/a1CHmQ6s52JrLyxXS9rbHzfboI5GOSvtNzvZnBWcV
- VCtwbsy8K5xipPFOva8gx7eiSn8BNhQ5xQQq5zzs6BlYwOF35MdXmrIdQsjpEhxOkH
- KUCJjs5/nplTVb5VpmyJpLmCUZSvkNe21BMEdoYo=
+ b=hlkCq9KKy2ZQ3nNdVgMg9staiv/IPPp6A0ezhebLzmGZdpKNozDStzUQ28gYP3c58
+ Anwo8piiEyT67Bc23otsWBOdpduTHKIfnf5GqQqih0AvB1OSCtCrxfj2CpdU9n9PBm
+ M5wKHrl0iAh3ARXiPWTsjAtEL08PmwuugbKeUiuU=
 To: Caleb Connolly <caleb@connolly.tech>
 From: Caleb Connolly <caleb@connolly.tech>
-Subject: [PATCH 1/5] arm64: dts: qcom: sdm845-oneplus: fix reserved-mem
-Message-ID: <20210720153125.43389-2-caleb@connolly.tech>
+Subject: [PATCH 2/5] dts: arm64: sdm845-oneplus-common: enable debug UART
+Message-ID: <20210720153125.43389-3-caleb@connolly.tech>
 In-Reply-To: <20210720153125.43389-1-caleb@connolly.tech>
 References: <20210720153125.43389-1-caleb@connolly.tech>
 MIME-Version: 1.0
@@ -66,41 +65,51 @@ Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix the upper guard and the "removed_region", this fixes the random
-crashes which used to occur in memory intensive loads. I'm not sure WHY
-the upper guard being 0x2000 instead of 0x1000 doesn't fix this, but it
-HAS to be 0x1000.
+A labelled diagram showing the location of the Rx and Tx testpoints for
+the OnePlus 6 is available on the postmarketOS wiki:
+
+https://wiki.postmarketos.org/wiki/Serial_debugging:Cable_schematics
+
+The device uses 1.8v UART at a baud rate of 115200, bootloader output is
+also available here.
 
 Signed-off-by: Caleb Connolly <caleb@connolly.tech>
-Fixes: e60fd5ac1f68 ("arm64: dts: qcom: sdm845-oneplus-common: guard
-rmtfs-mem")
 ---
- arch/arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ arch/arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi b/arch/arm=
 64/boot/dts/qcom/sdm845-oneplus-common.dtsi
-index 4d052e39b348..eb6b1d15293d 100644
+index eb6b1d15293d..e81f5cc9f26d 100644
 --- a/arch/arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi
 +++ b/arch/arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi
-@@ -69,7 +69,7 @@ rmtfs_mem: memory@f5b01000 {
- =09=09};
- =09=09rmtfs_upper_guard: memory@f5d01000 {
- =09=09=09no-map;
--=09=09=09reg =3D <0 0xf5d01000 0 0x2000>;
-+=09=09=09reg =3D <0 0xf5d01000 0 0x1000>;
- =09=09};
+@@ -19,9 +19,14 @@
 
- =09=09/*
-@@ -78,7 +78,7 @@ rmtfs_upper_guard: memory@f5d01000 {
- =09=09 */
- =09=09removed_region: memory@88f00000 {
- =09=09=09no-map;
--=09=09=09reg =3D <0 0x88f00000 0 0x200000>;
-+=09=09=09reg =3D <0 0x88f00000 0 0x1c00000>;
- =09=09};
+ / {
+ =09aliases {
++=09=09serial0 =3D &uart9;
+ =09=09hsuart0 =3D &uart6;
+ =09};
 
- =09=09ramoops: ramoops@ac300000 {
++=09chosen {
++=09=09stdout-path =3D "serial0:115200n8";
++=09};
++
+ =09gpio-keys {
+ =09=09compatible =3D "gpio-keys";
+ =09=09label =3D "Volume keys";
+@@ -526,6 +531,11 @@ bluetooth {
+ =09};
+ };
+
++&uart9 {
++=09label =3D "LS-UART1";
++=09status =3D "okay";
++};
++
+ &ufs_mem_hc {
+ =09status =3D "okay";
+
 --
 2.32.0
 
