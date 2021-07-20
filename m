@@ -2,59 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2097E3CF9F8
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jul 2021 14:59:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94B473CF9FF
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jul 2021 15:01:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4BC1689B12;
-	Tue, 20 Jul 2021 12:58:57 +0000 (UTC)
-X-Original-To: DRI-Devel@lists.freedesktop.org
-Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
- [IPv6:2a00:1450:4864:20::431])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A0C0489AEE
- for <DRI-Devel@lists.freedesktop.org>; Tue, 20 Jul 2021 12:58:55 +0000 (UTC)
-Received: by mail-wr1-x431.google.com with SMTP id c12so7887233wrt.3
- for <DRI-Devel@lists.freedesktop.org>; Tue, 20 Jul 2021 05:58:55 -0700 (PDT)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F5726E133;
+	Tue, 20 Jul 2021 13:01:33 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
+ [IPv6:2a00:1450:4864:20::335])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1FBAF6E133
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 13:01:32 +0000 (UTC)
+Received: by mail-wm1-x335.google.com with SMTP id
+ q18-20020a1ce9120000b02901f259f3a250so2007440wmc.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 06:01:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=TcTp0wobItD6AuKo9qIA9DC0sXZDvU6Zw78LL0e3Un8=;
- b=hp9aI4S4ySgXltACuCVM1NtzhsUlFuf/5xfGaPOweWkhyqTu1YUzCzkzoCkrxoBCnD
- 0ZMhY44EzJb66foqVdYZ43JRIwzAoQU1UeIuQ3jO3sgSadMVbz8/E2tt+ScoKeUqTQ4e
- s2WrbukFcv2LPnXuHtvsk1FjxGBHL9jRXKWlQ=
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=aT7B7aLtrHA38WRCCkcWibI+OBLuTfXFqvYRJ204kL8=;
+ b=WQOOu9EUP4QZrBDWS9EctGVO+GmPjrxym15Qbs5R69qSSEdvCHmpIY1/pk31fA69bp
+ 3bhC+HD4e8CKzboAfJ+pob2QA2TRhC1Np5OjjzICbqkxEwpGsaSp5RJW4pQU+z0OC23I
+ 0sG4uqigJR5y1K6AdXcTXz1r+jHYxj5pVPrh8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=TcTp0wobItD6AuKo9qIA9DC0sXZDvU6Zw78LL0e3Un8=;
- b=d6BTozEvOMjIHyXCw3FESDlC+oAhIzRVGbsgz0mNfqYM2hF+tMLa6ck/+B1SfIpvIG
- CwaebRUZc9c8ivlh2zg0GBMh08U9lfycw4LxpuMvddWTdIwF002lheZ++t180MX4rCFK
- vjzCuSQW8OxxPw+zdQ0UYnoxw8CK4NR8mapsyXyYgID8UpndlinE6QiS2a3fdD33Zav+
- PpoNikAwQ9/eMTrVAi0uZXtkRxsbU7uBt9pJNCwE41mk5U/+hs0KXZd45zV42ZEhS4CA
- aAxPofQ2D19nI3Hzzh80czJahQHX8KejxP489CC+twMcahhnZdBRb2WjxugTnUBEo6S+
- +rdA==
-X-Gm-Message-State: AOAM531EHKSYpgaC42yL4d8aKEF2C2Oqp1ID3cAFgCcoGHjfLw0Bx3yW
- gEVULiyKXhM7bu7mtF5YyW30JwKeOFcFlw==
-X-Google-Smtp-Source: ABdhPJzo1gNkWbMJv45R3wNpOxwiQD4mM3Z0a/jZXLfzKY1hNQ+LEPnIJr5HZjLb2KKvrEViHthaHg==
-X-Received: by 2002:a5d:4e81:: with SMTP id e1mr35469113wru.48.1626785934335; 
- Tue, 20 Jul 2021 05:58:54 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=aT7B7aLtrHA38WRCCkcWibI+OBLuTfXFqvYRJ204kL8=;
+ b=NzUu8j8kuZ89gH/UhQstB5NqrNijJobeZmUvHipf5jTZ6IQa1l5TARv3FH6HmY7QzN
+ OEQuSQvf2BErjOWwQkaz6SP1irVx8QcLJ2Vr8CQfTibsxYg0/nD+m78ah26IgkrUdWAm
+ CUWmd+OKEfR3CcFzGamWcq+zPjHJ5L8LNdGSMf/DZH2wjHDsL37IxNeH6UZkJ/ujFUsR
+ scwK8kVHB+Vl0yX7B1LO9cju4YIHheyi3+hpTIrcLtaFn3FAzEGu8bTt0dgrb9/KVrpJ
+ kxueOWhoHeV+4DldMDTTSiQZBlqbtg6KjTARphk0OYUanRnKVAg1LQQhr/4SLeLKOluo
+ 0JhQ==
+X-Gm-Message-State: AOAM5313/W4nBzlRbwFk8gY3Ptr7+T5EcgSg1AP4d+5qCxA51rkY88oY
+ Brf0BtD/oYVkE4TQ5wmGOrqYeg==
+X-Google-Smtp-Source: ABdhPJwyy66JJKeYq0Mz7cYqrI/HK2CM9a/YOzkD7Z06g/Y6R4UrwQlWLQ5wT2w19Z/rHR9fxuhTcg==
+X-Received: by 2002:a05:600c:2948:: with SMTP id
+ n8mr32984505wmd.11.1626786090699; 
+ Tue, 20 Jul 2021 06:01:30 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id p7sm18753143wmq.5.2021.07.20.05.58.52
+ by smtp.gmail.com with ESMTPSA id g18sm19422048wmk.37.2021.07.20.06.01.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Jul 2021 05:58:53 -0700 (PDT)
-Date: Tue, 20 Jul 2021 14:58:51 +0200
+ Tue, 20 Jul 2021 06:01:30 -0700 (PDT)
+Date: Tue, 20 Jul 2021 15:01:27 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: John Harrison <john.c.harrison@intel.com>
-Subject: Re: [Intel-gfx] [PATCH 3/3] drm/i915/uapi: Add query for L3 bank count
-Message-ID: <YPbIi2vcYh7/3ELv@phenom.ffwll.local>
-References: <20210610204626.2995262-1-John.C.Harrison@Intel.com>
- <20210610204626.2995262-4-John.C.Harrison@Intel.com>
- <CAKMK7uGO8U9a8yq73MV=xSbTA+tCQi5nqiZSD9Hwbi==fZ=R5A@mail.gmail.com>
- <84e44807-6cbb-b156-0a13-ef7715bad66b@intel.com>
+To: Ard Biesheuvel <ardb@kernel.org>
+Subject: Re: [PATCH v3 0/2] allow simple{fb, drm} drivers to be used on
+ non-x86 EFI platforms
+Message-ID: <YPbJJ/0tSO/fuW7a@phenom.ffwll.local>
+Mail-Followup-To: Ard Biesheuvel <ardb@kernel.org>,
+ Dave Airlie <airlied@gmail.com>,
+ linux-efi <linux-efi@vger.kernel.org>,
+ David Airlie <airlied@linux.ie>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Russell King <linux@armlinux.org.uk>,
+ Atish Patra <atish.patra@wdc.com>,
+ linux-riscv <linux-riscv@lists.infradead.org>,
+ Will Deacon <will@kernel.org>,
+ the arch/x86 maintainers <x86@kernel.org>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Ingo Molnar <mingo@redhat.com>,
+ Peter Robinson <pbrobinson@gmail.com>, Borislav Petkov <bp@suse.de>,
+ Albert Ou <aou@eecs.berkeley.edu>,
+ Hans de Goede <hdegoede@redhat.com>,
+ Paul Walmsley <paul.walmsley@sifive.com>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>
+References: <20210625130947.1803678-1-javierm@redhat.com>
+ <e61cf77c-6bff-dfcc-d3df-2fb6b48e5897@redhat.com>
+ <8dd26141-a09c-39e2-5174-4cad8d21c49c@suse.de>
+ <CAPM=9tyfNPa2f5PDBLm4w_H_riEQ5P3rEhX73YGE1y_ygRox+w@mail.gmail.com>
+ <CAMj1kXErHteZ+MKYvp=yYmwVxV3A=vjtnG351hZHV+3BPwDQvw@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <84e44807-6cbb-b156-0a13-ef7715bad66b@intel.com>
+In-Reply-To: <CAMj1kXErHteZ+MKYvp=yYmwVxV3A=vjtnG351hZHV+3BPwDQvw@mail.gmail.com>
 X-Operating-System: Linux phenom 5.10.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,174 +96,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx <Intel-GFX@lists.freedesktop.org>,
- dri-devel <DRI-Devel@lists.freedesktop.org>
+Cc: linux-efi <linux-efi@vger.kernel.org>, David Airlie <airlied@linux.ie>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Atish Patra <atish.patra@wdc.com>,
+ linux-riscv <linux-riscv@lists.infradead.org>, Will Deacon <will@kernel.org>,
+ the arch/x86 maintainers <x86@kernel.org>,
+ Russell King <linux@armlinux.org.uk>, Ingo Molnar <mingo@redhat.com>,
+ Peter Robinson <pbrobinson@gmail.com>, Borislav Petkov <bp@suse.de>,
+ Albert Ou <aou@eecs.berkeley.edu>, Hans de Goede <hdegoede@redhat.com>,
+ Paul Walmsley <paul.walmsley@sifive.com>, Thomas Gleixner <tglx@linutronix.de>,
+ linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ LKML <linux-kernel@vger.kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 15, 2021 at 03:16:08PM -0700, John Harrison wrote:
-> On 6/16/2021 03:25, Daniel Vetter wrote:
-> > On Thu, Jun 10, 2021 at 10:46 PM <John.C.Harrison@intel.com> wrote:
-> > > From: John Harrison <John.C.Harrison@Intel.com>
-> > > 
-> > > Various UMDs need to know the L3 bank count. So add a query API for it.
-> > Please link to both the igt test submission for this (there's not even
-> > a Test-with: on the cover letter)
-> Is there a wiki page that describes all such tags? That is not one I was
-> aware of and I can't find anything in the Kernel patch submission wiki or
-> DRM maintainers wiki that mentions it.
+On Mon, Jul 19, 2021 at 09:10:52AM +0200, Ard Biesheuvel wrote:
+> On Mon, 19 Jul 2021 at 04:59, Dave Airlie <airlied@gmail.com> wrote:
+> >
+> > On Thu, 15 Jul 2021 at 18:11, Thomas Zimmermann <tzimmermann@suse.de> wrote:
+> > >
+> > > Hi
+> > >
+> > > Am 13.07.21 um 18:59 schrieb Javier Martinez Canillas:
+> > > > On 6/25/21 3:09 PM, Javier Martinez Canillas wrote:
+> > > >> The simplefb and simpledrm drivers match against a "simple-framebuffer"
+> > > >> device, but for aarch64 this is only registered when using Device Trees
+> > > >> and there's a node with a "simple-framebuffer" compatible string.
+> > > >>
+> > > >> There is no code to register a "simple-framebuffer" platform device when
+> > > >> using EFI instead. In fact, the only platform device that's registered in
+> > > >> this case is an "efi-framebuffer", which means that the efifb driver is
+> > > >> the only driver supported to have an early console with EFI on aarch64.
+> > > >>
+> > > >> The x86 architecture platform has a Generic System Framebuffers (sysfb)
+> > > >> support, that register a system frambuffer platform device. It either
+> > > >> registers a "simple-framebuffer" for the simple{fb,drm} drivers or legacy
+> > > >> VGA/EFI FB devices for the vgafb/efifb drivers.
+> > > >>
+> > > >> The sysfb is generic enough to be reused by other architectures and can be
+> > > >> moved out of the arch/x86 directory to drivers/firmware, allowing the EFI
+> > > >> logic used by non-x86 architectures to be folded into sysfb as well.
+> > > >>
+> > > >
+> > > > Any more comments on this series? It would be nice for this to land so the
+> > > > simpledrm driver could be used on aarch64 EFI systems as well.
+> > > >
+> > > > The patches have already been acked by x86 and DRM folks.
+> > >
+> > > Time to get this merged, I'd say. People are asking for these patches
+> > > already.
+> >
+> > Can we just merge via drm-misc and make sure the acks are present and
+> > I'll deal with the fallout if any.
+> >
+> 
+> Fine with me. Could you stick it on a separate branch so I can double
+> check whether there are any issues wrt the EFI tree?
 
-It's in the CI docs (linked from the main page too)
+It'll pop up in linux-next for integration testing or you can pick up the
+patch here for test-merge if you want.
 
-https://intel-gfx-ci.01.org/test-with.html
-
-> >   and the merge requests for the
-> > various UMD which uses new uapi.
-> Is there a particular tag to use for this?
-
-I think often just a link to the merge request in the cover letter.
-Sometimes people also put the link in the uapi patch itself in the commit
-message. Which I think would be best.
+And since Dave has given a blanket cheque for handling fallout he'll deal
+with the need for fixups too if there's any.
 -Daniel
-
-
-
-> 
-> John.
-> 
-> >   Also as other mentioned, full uapi
-> > kerneldoc is needed too. Please fill in any gaps in the existing docs
-> > that relate to your addition directly (like we've e.g. done for the
-> > extension chaining when adding lmem support).
-> > 
-> > Thanks, Daniel
-> > 
-> > > Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
-> > > ---
-> > >   drivers/gpu/drm/i915/gt/intel_gt.c | 15 +++++++++++++++
-> > >   drivers/gpu/drm/i915/gt/intel_gt.h |  1 +
-> > >   drivers/gpu/drm/i915/i915_query.c  | 22 ++++++++++++++++++++++
-> > >   drivers/gpu/drm/i915/i915_reg.h    |  1 +
-> > >   include/uapi/drm/i915_drm.h        |  1 +
-> > >   5 files changed, 40 insertions(+)
-> > > 
-> > > diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
-> > > index 2161bf01ef8b..708bb3581d83 100644
-> > > --- a/drivers/gpu/drm/i915/gt/intel_gt.c
-> > > +++ b/drivers/gpu/drm/i915/gt/intel_gt.c
-> > > @@ -704,3 +704,18 @@ void intel_gt_info_print(const struct intel_gt_info *info,
-> > > 
-> > >          intel_sseu_dump(&info->sseu, p);
-> > >   }
-> > > +
-> > > +int intel_gt_get_l3bank_count(struct intel_gt *gt)
-> > > +{
-> > > +       struct drm_i915_private *i915 = gt->i915;
-> > > +       intel_wakeref_t wakeref;
-> > > +       u32 fuse3;
-> > > +
-> > > +       if (GRAPHICS_VER(i915) < 12)
-> > > +               return -ENODEV;
-> > > +
-> > > +       with_intel_runtime_pm(gt->uncore->rpm, wakeref)
-> > > +               fuse3 = intel_uncore_read(gt->uncore, GEN10_MIRROR_FUSE3);
-> > > +
-> > > +       return hweight32(REG_FIELD_GET(GEN12_GT_L3_MODE_MASK, ~fuse3));
-> > > +}
-> > > diff --git a/drivers/gpu/drm/i915/gt/intel_gt.h b/drivers/gpu/drm/i915/gt/intel_gt.h
-> > > index 7ec395cace69..46aa1cf4cf30 100644
-> > > --- a/drivers/gpu/drm/i915/gt/intel_gt.h
-> > > +++ b/drivers/gpu/drm/i915/gt/intel_gt.h
-> > > @@ -77,6 +77,7 @@ static inline bool intel_gt_is_wedged(const struct intel_gt *gt)
-> > > 
-> > >   void intel_gt_info_print(const struct intel_gt_info *info,
-> > >                           struct drm_printer *p);
-> > > +int intel_gt_get_l3bank_count(struct intel_gt *gt);
-> > > 
-> > >   void intel_gt_watchdog_work(struct work_struct *work);
-> > > 
-> > > diff --git a/drivers/gpu/drm/i915/i915_query.c b/drivers/gpu/drm/i915/i915_query.c
-> > > index 96bd8fb3e895..0e92bb2d21b2 100644
-> > > --- a/drivers/gpu/drm/i915/i915_query.c
-> > > +++ b/drivers/gpu/drm/i915/i915_query.c
-> > > @@ -10,6 +10,7 @@
-> > >   #include "i915_perf.h"
-> > >   #include "i915_query.h"
-> > >   #include <uapi/drm/i915_drm.h>
-> > > +#include "gt/intel_gt.h"
-> > > 
-> > >   static int copy_query_item(void *query_hdr, size_t query_sz,
-> > >                             u32 total_length,
-> > > @@ -502,6 +503,26 @@ static int query_hwconfig_table(struct drm_i915_private *i915,
-> > >          return hwconfig->size;
-> > >   }
-> > > 
-> > > +static int query_l3banks(struct drm_i915_private *i915,
-> > > +                        struct drm_i915_query_item *query_item)
-> > > +{
-> > > +       u32 banks;
-> > > +
-> > > +       if (query_item->length == 0)
-> > > +               return sizeof(banks);
-> > > +
-> > > +       if (query_item->length < sizeof(banks))
-> > > +               return -EINVAL;
-> > > +
-> > > +       banks = intel_gt_get_l3bank_count(&i915->gt);
-> > > +
-> > > +       if (copy_to_user(u64_to_user_ptr(query_item->data_ptr),
-> > > +                        &banks, sizeof(banks)))
-> > > +               return -EFAULT;
-> > > +
-> > > +       return sizeof(banks);
-> > > +}
-> > > +
-> > >   static int (* const i915_query_funcs[])(struct drm_i915_private *dev_priv,
-> > >                                          struct drm_i915_query_item *query_item) = {
-> > >          query_topology_info,
-> > > @@ -509,6 +530,7 @@ static int (* const i915_query_funcs[])(struct drm_i915_private *dev_priv,
-> > >          query_perf_config,
-> > >          query_memregion_info,
-> > >          query_hwconfig_table,
-> > > +       query_l3banks,
-> > >   };
-> > > 
-> > >   int i915_query_ioctl(struct drm_device *dev, void *data, struct drm_file *file)
-> > > diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
-> > > index eb13c601d680..e9ba88fe3db7 100644
-> > > --- a/drivers/gpu/drm/i915/i915_reg.h
-> > > +++ b/drivers/gpu/drm/i915/i915_reg.h
-> > > @@ -3099,6 +3099,7 @@ static inline bool i915_mmio_reg_valid(i915_reg_t reg)
-> > >   #define        GEN10_MIRROR_FUSE3              _MMIO(0x9118)
-> > >   #define GEN10_L3BANK_PAIR_COUNT     4
-> > >   #define GEN10_L3BANK_MASK   0x0F
-> > > +#define GEN12_GT_L3_MODE_MASK 0xFF
-> > > 
-> > >   #define GEN8_EU_DISABLE0               _MMIO(0x9134)
-> > >   #define   GEN8_EU_DIS0_S0_MASK         0xffffff
-> > > diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
-> > > index 87d369cae22a..20d18cca5066 100644
-> > > --- a/include/uapi/drm/i915_drm.h
-> > > +++ b/include/uapi/drm/i915_drm.h
-> > > @@ -2234,6 +2234,7 @@ struct drm_i915_query_item {
-> > >   #define DRM_I915_QUERY_PERF_CONFIG      3
-> > >   #define DRM_I915_QUERY_MEMORY_REGIONS   4
-> > >   #define DRM_I915_QUERY_HWCONFIG_TABLE   5
-> > > +#define DRM_I915_QUERY_L3_BANK_COUNT    6
-> > >   /* Must be kept compact -- no holes and well documented */
-> > > 
-> > >          /**
-> > > --
-> > > 2.25.1
-> > > 
-> > > _______________________________________________
-> > > Intel-gfx mailing list
-> > > Intel-gfx@lists.freedesktop.org
-> > > https://lists.freedesktop.org/mailman/listinfo/intel-gfx
-> > 
-> > 
-> 
-
 -- 
 Daniel Vetter
 Software Engineer, Intel Corporation
