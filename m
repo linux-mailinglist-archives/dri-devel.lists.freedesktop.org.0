@@ -1,33 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 394553D0486
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 00:22:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 412683D047B
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 00:22:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7379E6E7DD;
-	Tue, 20 Jul 2021 22:21:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D4F406E7DA;
+	Tue, 20 Jul 2021 22:21:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 26B586E59F;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 47D1E6E591;
  Tue, 20 Jul 2021 22:21:33 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10051"; a="211056153"
-X-IronPort-AV: E=Sophos;i="5.84,256,1620716400"; d="scan'208";a="211056153"
+X-IronPort-AV: E=McAfee;i="6200,9189,10051"; a="211056154"
+X-IronPort-AV: E=Sophos;i="5.84,256,1620716400"; d="scan'208";a="211056154"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jul 2021 15:21:32 -0700
-X-IronPort-AV: E=Sophos;i="5.84,256,1620716400"; d="scan'208";a="500940125"
+ 20 Jul 2021 15:21:33 -0700
+X-IronPort-AV: E=Sophos;i="5.84,256,1620716400"; d="scan'208";a="500940130"
 Received: from dhiatt-server.jf.intel.com ([10.54.81.3])
  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  20 Jul 2021 15:21:32 -0700
 From: Matthew Brost <matthew.brost@intel.com>
 To: <intel-gfx@lists.freedesktop.org>,
 	<dri-devel@lists.freedesktop.org>
-Subject: [PATCH 08/18] drm/i915/guc: Defer context unpin until scheduling is
- disabled
-Date: Tue, 20 Jul 2021 15:39:11 -0700
-Message-Id: <20210720223921.56160-9-matthew.brost@intel.com>
+Subject: [PATCH 09/18] drm/i915/guc: Disable engine barriers with GuC during
+ unpin
+Date: Tue, 20 Jul 2021 15:39:12 -0700
+Message-Id: <20210720223921.56160-10-matthew.brost@intel.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20210720223921.56160-1-matthew.brost@intel.com>
 References: <20210720223921.56160-1-matthew.brost@intel.com>
@@ -49,346 +49,64 @@ Cc: daniele.ceraolospurio@intel.com, john.c.harrison@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-With GuC scheduling, it isn't safe to unpin a context while scheduling
-is enabled for that context as the GuC may touch some of the pinned
-state (e.g. LRC). To ensure scheduling isn't enabled when an unpin is
-done, a call back is added to intel_context_unpin when pin count == 1
-to disable scheduling for that context. When the response CTB is
-received it is safe to do the final unpin.
-
-Future patches may add a heuristic / delay to schedule the disable
-call back to avoid thrashing on schedule enable / disable.
-
-v2:
- (John H)
-  - s/drm_dbg/drm_err
- (Daneiel)
-  - Clean up sched state function
+Disable engine barriers for unpinning with GuC. This feature isn't
+needed with the GuC as it disables context scheduling before unpinning
+which guarantees the HW will not reference the context. Hence it is
+not necessary to defer unpinning until a kernel context request
+completes on each engine in the context engine mask.
 
 Cc: John Harrison <john.c.harrison@intel.com>
 Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
 Reviewed-by: John Harrison <John.C.Harrison@Intel.com>
 ---
- drivers/gpu/drm/i915/gt/intel_context.c       |   4 +-
- drivers/gpu/drm/i915/gt/intel_context.h       |  27 +++-
- drivers/gpu/drm/i915/gt/intel_context_types.h |   2 +
- drivers/gpu/drm/i915/gt/uc/intel_guc.h        |   2 +
- drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c     |   3 +
- .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 146 +++++++++++++++++-
- 6 files changed, 180 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/i915/gt/intel_context.c    |  2 +-
+ drivers/gpu/drm/i915/gt/selftest_context.c | 10 ++++++++++
+ 2 files changed, 11 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/i915/gt/intel_context.c b/drivers/gpu/drm/i915/gt/intel_context.c
-index ad7197c5910f..3d5b4116617f 100644
+index 3d5b4116617f..91349d071e0e 100644
 --- a/drivers/gpu/drm/i915/gt/intel_context.c
 +++ b/drivers/gpu/drm/i915/gt/intel_context.c
-@@ -306,9 +306,9 @@ int __intel_context_do_pin(struct intel_context *ce)
- 	return err;
- }
+@@ -80,7 +80,7 @@ static int intel_context_active_acquire(struct intel_context *ce)
  
--void intel_context_unpin(struct intel_context *ce)
-+void __intel_context_do_unpin(struct intel_context *ce, int sub)
- {
--	if (!atomic_dec_and_test(&ce->pin_count))
-+	if (!atomic_sub_and_test(sub, &ce->pin_count))
- 		return;
+ 	__i915_active_acquire(&ce->active);
  
- 	CE_TRACE(ce, "unpin\n");
-diff --git a/drivers/gpu/drm/i915/gt/intel_context.h b/drivers/gpu/drm/i915/gt/intel_context.h
-index b10cbe8fee99..974ef85320c2 100644
---- a/drivers/gpu/drm/i915/gt/intel_context.h
-+++ b/drivers/gpu/drm/i915/gt/intel_context.h
-@@ -113,7 +113,32 @@ static inline void __intel_context_pin(struct intel_context *ce)
- 	atomic_inc(&ce->pin_count);
- }
+-	if (intel_context_is_barrier(ce))
++	if (intel_context_is_barrier(ce) || intel_engine_uses_guc(ce->engine))
+ 		return 0;
  
--void intel_context_unpin(struct intel_context *ce);
-+void __intel_context_do_unpin(struct intel_context *ce, int sub);
-+
-+static inline void intel_context_sched_disable_unpin(struct intel_context *ce)
-+{
-+	__intel_context_do_unpin(ce, 2);
-+}
-+
-+static inline void intel_context_unpin(struct intel_context *ce)
-+{
-+	if (!ce->ops->sched_disable) {
-+		__intel_context_do_unpin(ce, 1);
-+	} else {
-+		/*
-+		 * Move ownership of this pin to the scheduling disable which is
-+		 * an async operation. When that operation completes the above
-+		 * intel_context_sched_disable_unpin is called potentially
-+		 * unpinning the context.
-+		 */
-+		while (!atomic_add_unless(&ce->pin_count, -1, 1)) {
-+			if (atomic_cmpxchg(&ce->pin_count, 1, 2) == 1) {
-+				ce->ops->sched_disable(ce);
-+				break;
-+			}
-+		}
-+	}
-+}
+ 	/* Preallocate tracking nodes */
+diff --git a/drivers/gpu/drm/i915/gt/selftest_context.c b/drivers/gpu/drm/i915/gt/selftest_context.c
+index 26685b927169..fa7b99a671dd 100644
+--- a/drivers/gpu/drm/i915/gt/selftest_context.c
++++ b/drivers/gpu/drm/i915/gt/selftest_context.c
+@@ -209,7 +209,13 @@ static int __live_active_context(struct intel_engine_cs *engine)
+ 	 * This test makes sure that the context is kept alive until a
+ 	 * subsequent idle-barrier (emitted when the engine wakeref hits 0
+ 	 * with no more outstanding requests).
++	 *
++	 * In GuC submission mode we don't use idle barriers and we instead
++	 * get a message from the GuC to signal that it is safe to unpin the
++	 * context from memory.
+ 	 */
++	if (intel_engine_uses_guc(engine))
++		return 0;
  
- void intel_context_enter_engine(struct intel_context *ce);
- void intel_context_exit_engine(struct intel_context *ce);
-diff --git a/drivers/gpu/drm/i915/gt/intel_context_types.h b/drivers/gpu/drm/i915/gt/intel_context_types.h
-index e0e3a937f709..4a5518d295c2 100644
---- a/drivers/gpu/drm/i915/gt/intel_context_types.h
-+++ b/drivers/gpu/drm/i915/gt/intel_context_types.h
-@@ -43,6 +43,8 @@ struct intel_context_ops {
- 	void (*enter)(struct intel_context *ce);
- 	void (*exit)(struct intel_context *ce);
+ 	if (intel_engine_pm_is_awake(engine)) {
+ 		pr_err("%s is awake before starting %s!\n",
+@@ -357,7 +363,11 @@ static int __live_remote_context(struct intel_engine_cs *engine)
+ 	 * on the context image remotely (intel_context_prepare_remote_request),
+ 	 * which inserts foreign fences into intel_context.active, does not
+ 	 * clobber the idle-barrier.
++	 *
++	 * In GuC submission mode we don't use idle barriers.
+ 	 */
++	if (intel_engine_uses_guc(engine))
++		return 0;
  
-+	void (*sched_disable)(struct intel_context *ce);
-+
- 	void (*reset)(struct intel_context *ce);
- 	void (*destroy)(struct kref *kref);
- };
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-index 30773cd699f5..03b7222b04a2 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-@@ -241,6 +241,8 @@ int intel_guc_reset_engine(struct intel_guc *guc,
- 
- int intel_guc_deregister_done_process_msg(struct intel_guc *guc,
- 					  const u32 *msg, u32 len);
-+int intel_guc_sched_done_process_msg(struct intel_guc *guc,
-+				     const u32 *msg, u32 len);
- 
- void intel_guc_load_status(struct intel_guc *guc, struct drm_printer *p);
- 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-index 28ff82c5be45..019b25ff1888 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-@@ -932,6 +932,9 @@ static int ct_process_request(struct intel_guc_ct *ct, struct ct_incoming_msg *r
- 		ret = intel_guc_deregister_done_process_msg(guc, payload,
- 							    len);
- 		break;
-+	case INTEL_GUC_ACTION_SCHED_CONTEXT_MODE_DONE:
-+		ret = intel_guc_sched_done_process_msg(guc, payload, len);
-+		break;
- 	default:
- 		ret = -EOPNOTSUPP;
- 		break;
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-index 8fd4479bad14..cdd776722063 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-@@ -70,6 +70,7 @@
-  * possible for some of the bits to changing at the same time though.
-  */
- #define SCHED_STATE_NO_LOCK_ENABLED			BIT(0)
-+#define SCHED_STATE_NO_LOCK_PENDING_ENABLE		BIT(1)
- static inline bool context_enabled(struct intel_context *ce)
- {
- 	return (atomic_read(&ce->guc_sched_state_no_lock) &
-@@ -87,6 +88,24 @@ static inline void clr_context_enabled(struct intel_context *ce)
- 		   &ce->guc_sched_state_no_lock);
- }
- 
-+static inline bool context_pending_enable(struct intel_context *ce)
-+{
-+	return (atomic_read(&ce->guc_sched_state_no_lock) &
-+		SCHED_STATE_NO_LOCK_PENDING_ENABLE);
-+}
-+
-+static inline void set_context_pending_enable(struct intel_context *ce)
-+{
-+	atomic_or(SCHED_STATE_NO_LOCK_PENDING_ENABLE,
-+		  &ce->guc_sched_state_no_lock);
-+}
-+
-+static inline void clr_context_pending_enable(struct intel_context *ce)
-+{
-+	atomic_and((u32)~SCHED_STATE_NO_LOCK_PENDING_ENABLE,
-+		   &ce->guc_sched_state_no_lock);
-+}
-+
- /*
-  * Below is a set of functions which control the GuC scheduling state which
-  * require a lock, aside from the special case where the functions are called
-@@ -95,6 +114,7 @@ static inline void clr_context_enabled(struct intel_context *ce)
-  */
- #define SCHED_STATE_WAIT_FOR_DEREGISTER_TO_REGISTER	BIT(0)
- #define SCHED_STATE_DESTROYED				BIT(1)
-+#define SCHED_STATE_PENDING_DISABLE			BIT(2)
- static inline void init_sched_state(struct intel_context *ce)
- {
- 	/* Only should be called from guc_lrc_desc_pin() */
-@@ -138,6 +158,23 @@ set_context_destroyed(struct intel_context *ce)
- 	ce->guc_state.sched_state |= SCHED_STATE_DESTROYED;
- }
- 
-+static inline bool context_pending_disable(struct intel_context *ce)
-+{
-+	return ce->guc_state.sched_state & SCHED_STATE_PENDING_DISABLE;
-+}
-+
-+static inline void set_context_pending_disable(struct intel_context *ce)
-+{
-+	lockdep_assert_held(&ce->guc_state.lock);
-+	ce->guc_state.sched_state |= SCHED_STATE_PENDING_DISABLE;
-+}
-+
-+static inline void clr_context_pending_disable(struct intel_context *ce)
-+{
-+	lockdep_assert_held(&ce->guc_state.lock);
-+	ce->guc_state.sched_state &= ~SCHED_STATE_PENDING_DISABLE;
-+}
-+
- static inline bool context_guc_id_invalid(struct intel_context *ce)
- {
- 	return (ce->guc_id == GUC_INVALID_LRC_ID);
-@@ -230,6 +267,8 @@ static int guc_add_request(struct intel_guc *guc, struct i915_request *rq)
- 		action[len++] = INTEL_GUC_ACTION_SCHED_CONTEXT_MODE_SET;
- 		action[len++] = ce->guc_id;
- 		action[len++] = GUC_CONTEXT_ENABLE;
-+		set_context_pending_enable(ce);
-+		intel_context_get(ce);
- 	} else {
- 		action[len++] = INTEL_GUC_ACTION_SCHED_CONTEXT;
- 		action[len++] = ce->guc_id;
-@@ -237,8 +276,12 @@ static int guc_add_request(struct intel_guc *guc, struct i915_request *rq)
- 
- 	err = intel_guc_send_nb(guc, action, len);
- 
--	if (!enabled && !err)
-+	if (!enabled && !err) {
- 		set_context_enabled(ce);
-+	} else if (!enabled) {
-+		clr_context_pending_enable(ce);
-+		intel_context_put(ce);
-+	}
- 
- 	return err;
- }
-@@ -839,6 +882,62 @@ static void guc_context_post_unpin(struct intel_context *ce)
- 	lrc_post_unpin(ce);
- }
- 
-+static void __guc_context_sched_disable(struct intel_guc *guc,
-+					struct intel_context *ce,
-+					u16 guc_id)
-+{
-+	u32 action[] = {
-+		INTEL_GUC_ACTION_SCHED_CONTEXT_MODE_SET,
-+		guc_id,	/* ce->guc_id not stable */
-+		GUC_CONTEXT_DISABLE
-+	};
-+
-+	GEM_BUG_ON(guc_id == GUC_INVALID_LRC_ID);
-+
-+	intel_context_get(ce);
-+
-+	intel_guc_send_busy_loop(guc, action, ARRAY_SIZE(action), true);
-+}
-+
-+static u16 prep_context_pending_disable(struct intel_context *ce)
-+{
-+	lockdep_assert_held(&ce->guc_state.lock);
-+
-+	set_context_pending_disable(ce);
-+	clr_context_enabled(ce);
-+
-+	return ce->guc_id;
-+}
-+
-+static void guc_context_sched_disable(struct intel_context *ce)
-+{
-+	struct intel_guc *guc = ce_to_guc(ce);
-+	struct intel_runtime_pm *runtime_pm = &ce->engine->gt->i915->runtime_pm;
-+	unsigned long flags;
-+	u16 guc_id;
-+	intel_wakeref_t wakeref;
-+
-+	if (context_guc_id_invalid(ce) ||
-+	    !lrc_desc_registered(guc, ce->guc_id)) {
-+		clr_context_enabled(ce);
-+		goto unpin;
-+	}
-+
-+	if (!context_enabled(ce))
-+		goto unpin;
-+
-+	spin_lock_irqsave(&ce->guc_state.lock, flags);
-+	guc_id = prep_context_pending_disable(ce);
-+	spin_unlock_irqrestore(&ce->guc_state.lock, flags);
-+
-+	with_intel_runtime_pm(runtime_pm, wakeref)
-+		__guc_context_sched_disable(guc, ce, guc_id);
-+
-+	return;
-+unpin:
-+	intel_context_sched_disable_unpin(ce);
-+}
-+
- static inline void guc_lrc_desc_unpin(struct intel_context *ce)
- {
- 	struct intel_guc *guc = ce_to_guc(ce);
-@@ -846,6 +945,7 @@ static inline void guc_lrc_desc_unpin(struct intel_context *ce)
- 
- 	GEM_BUG_ON(!lrc_desc_registered(guc, ce->guc_id));
- 	GEM_BUG_ON(ce != __get_context(guc, ce->guc_id));
-+	GEM_BUG_ON(context_enabled(ce));
- 
- 	spin_lock_irqsave(&ce->guc_state.lock, flags);
- 	set_context_destroyed(ce);
-@@ -928,6 +1028,8 @@ static const struct intel_context_ops guc_context_ops = {
- 	.enter = intel_context_enter_engine,
- 	.exit = intel_context_exit_engine,
- 
-+	.sched_disable = guc_context_sched_disable,
-+
- 	.reset = lrc_reset,
- 	.destroy = guc_context_destroy,
- };
-@@ -1355,3 +1457,45 @@ int intel_guc_deregister_done_process_msg(struct intel_guc *guc,
- 
- 	return 0;
- }
-+
-+int intel_guc_sched_done_process_msg(struct intel_guc *guc,
-+				     const u32 *msg,
-+				     u32 len)
-+{
-+	struct intel_context *ce;
-+	unsigned long flags;
-+	u32 desc_idx = msg[0];
-+
-+	if (unlikely(len < 2)) {
-+		drm_err(&guc_to_gt(guc)->i915->drm, "Invalid length %u", len);
-+		return -EPROTO;
-+	}
-+
-+	ce = g2h_context_lookup(guc, desc_idx);
-+	if (unlikely(!ce))
-+		return -EPROTO;
-+
-+	if (unlikely(context_destroyed(ce) ||
-+		     (!context_pending_enable(ce) &&
-+		     !context_pending_disable(ce)))) {
-+		drm_err(&guc_to_gt(guc)->i915->drm,
-+			"Bad context sched_state 0x%x, 0x%x, desc_idx %u",
-+			atomic_read(&ce->guc_sched_state_no_lock),
-+			ce->guc_state.sched_state, desc_idx);
-+		return -EPROTO;
-+	}
-+
-+	if (context_pending_enable(ce)) {
-+		clr_context_pending_enable(ce);
-+	} else if (context_pending_disable(ce)) {
-+		intel_context_sched_disable_unpin(ce);
-+
-+		spin_lock_irqsave(&ce->guc_state.lock, flags);
-+		clr_context_pending_disable(ce);
-+		spin_unlock_irqrestore(&ce->guc_state.lock, flags);
-+	}
-+
-+	intel_context_put(ce);
-+
-+	return 0;
-+}
+ 	if (intel_engine_pm_is_awake(engine)) {
+ 		pr_err("%s is awake before starting %s!\n",
 -- 
 2.28.0
 
