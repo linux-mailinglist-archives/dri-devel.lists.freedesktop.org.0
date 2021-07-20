@@ -1,43 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2651C3CF443
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jul 2021 08:12:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F25123CF437
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jul 2021 08:03:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 377F96E255;
-	Tue, 20 Jul 2021 06:12:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4BBFF89F0B;
+	Tue, 20 Jul 2021 06:03:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 485146E255
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 06:12:34 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10050"; a="198455189"
-X-IronPort-AV: E=Sophos;i="5.84,254,1620716400"; d="scan'208";a="198455189"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Jul 2021 23:12:33 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,254,1620716400"; d="scan'208";a="414569029"
-Received: from lkp-server02.sh.intel.com (HELO 1b5a72ed9419) ([10.239.97.151])
- by orsmga006.jf.intel.com with ESMTP; 19 Jul 2021 23:12:30 -0700
-Received: from kbuild by 1b5a72ed9419 with local (Exim 4.92)
- (envelope-from <lkp@intel.com>)
- id 1m5izV-00004j-Ln; Tue, 20 Jul 2021 06:12:29 +0000
-Date: Tue, 20 Jul 2021 13:32:34 +0800
-From: kernel test robot <lkp@intel.com>
-To: dillon.minfei@gmail.com, thierry.reding@gmail.com, sam@ravnborg.org,
- airlied@linux.ie, daniel@ffwll.ch, robh+dt@kernel.org,
- linus.walleij@linaro.org
-Subject: Re: [PATCH 1/2] dt-bindings: display: panel: Add ilitek ili9341
- panel bindings
-Message-ID: <202107201305.FPUQWvWk-lkp@intel.com>
-References: <1626430843-23823-2-git-send-email-dillon.minfei@gmail.com>
+Received: from mail-il1-x134.google.com (mail-il1-x134.google.com
+ [IPv6:2607:f8b0:4864:20::134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 32F0F89F0B
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 06:03:10 +0000 (UTC)
+Received: by mail-il1-x134.google.com with SMTP id o8so18204271ilf.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Jul 2021 23:03:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=86QVHJVxOCndQaXxHRwaOxxcq7eMK28HT05PxvcoBYI=;
+ b=bu4dAUXhDfU3dlbFBsoThBblvvUC91XDro9V2evK/M12RqO1wW4gp88UdAm/F2rtFC
+ Q/1ToZcP/0N8Nvxc65pfwLiL5UsrZuJIsOZIglgaGTuSjDq2XEYJy8yhmbnivp59FXrO
+ 5dgDFoUDO3t/Gm2bavuKXttbdx1eZLMxFrMqY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=86QVHJVxOCndQaXxHRwaOxxcq7eMK28HT05PxvcoBYI=;
+ b=K7/vh4fSYLj5aTyf10zNt8XRtwlb6rlTCDXHfqz17FHPKdFmfdbaca34k7IcMmIW3Q
+ jn6Sku9qalAllHOwI2RiFW5iQsdF0xh5SsTMRA08RBnz8ilkqHr6IM81ymKDCyn+xOXI
+ VkAPc8bitLdUx8ORxRBj0+KjfmAe6c/hPHULdL0lzV9xQdL8wgdGsUyYm1MlR4DTzBHh
+ pswnu6Tg5H675LObnMssTWDYnzdtXsXVs2oNCQvi8W99sst+mhe/G/VSVUkCzGfG5k1h
+ qSf944I8LvqJJTxLEo0AXaCDUmxbeCMXG9qCrcqhZIPQNP2nP/eplDysozQ2kersysL7
+ EAmA==
+X-Gm-Message-State: AOAM530RPE35r9G4/AdlxHT0sw+gxv1djmrgiT4tm+RzWMdwiV9a0N1l
+ x58qOywLGgo1RDZaVMqNuGWlYpJwvwPDPSD9XGu2qA==
+X-Google-Smtp-Source: ABdhPJwFk6YVkmc9gpzvQzRgdkNx/5Ot14DkNuPE+cqjEdJYOOoLrPx04nhKCCVAgpn8DccUvt9FPHZ2ECPmqkXRtQk=
+X-Received: by 2002:a92:d305:: with SMTP id x5mr20209347ila.150.1626760989584; 
+ Mon, 19 Jul 2021 23:03:09 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1626430843-23823-2-git-send-email-dillon.minfei@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <1626760277-5733-1-git-send-email-yongqiang.niu@mediatek.com>
+ <1626760277-5733-2-git-send-email-yongqiang.niu@mediatek.com>
+In-Reply-To: <1626760277-5733-2-git-send-email-yongqiang.niu@mediatek.com>
+From: Hsin-Yi Wang <hsinyi@chromium.org>
+Date: Tue, 20 Jul 2021 14:02:43 +0800
+Message-ID: <CAJMQK-jK0WRgU47YZ8+Jdt50y2CnkUjHKT2C+xfTvgst9bTmTg@mail.gmail.com>
+Subject: Re: [PATCH v3] Fixes: a6b7c98afdca(drm/mediatek: add
+ mtk_dither_set_common() function)
+To: Yongqiang Niu <yongqiang.niu@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,44 +60,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, kbuild-all@lists.01.org,
- alexandre.torgue@foss.st.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ Devicetree List <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
+ Jassi Brar <jassisinghbrar@gmail.com>, lkml <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Dennis YC Hsieh <dennis-yc.hsieh@mediatek.com>,
+ Fabien Parent <fparent@baylibre.com>, Rob Herring <robh+dt@kernel.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
+ <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Tue, Jul 20, 2021 at 1:51 PM Yongqiang Niu
+<yongqiang.niu@mediatek.com> wrote:
+>
+> dither 6 setting is missed in a6b7c98afdca
+> bit 1 is lfsr_en( "Enables LFSR-type dithering"), need enable
+> bit 2 is rdither_en(Enables running order dithering), need disable
+>
 
-Thank you for the patch! Perhaps something to improve:
+Fixes tag should be here, and the title of this patch should be the
+same as v2: drm/mediatek: add dither 6 setting
 
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on linus/master v5.14-rc2 next-20210719]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/0day-ci/linux/commits/dillon-minfei-gmail-com/Add-ilitek-ili9341-panel-driver/20210718-103113
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-compiler: arm-linux-gnueabi-gcc (GCC) 10.3.0
-reproduce: make ARCH=arm dtbs_check
-
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
-
-
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm/boot/dts/stm32f429-disco.dt.yaml:0:0: /interrupt-controller@e000e100: failed to match any schema with compatible: ['arm,armv7m-nvic']
-   arch/arm/boot/dts/stm32f429-disco.dt.yaml:0:0: /timer@e000e010: failed to match any schema with compatible: ['arm,armv7m-systick']
-   arch/arm/boot/dts/stm32f429-disco.dt.yaml:0:0: /soc/i2c@40005c00/stmpe811@41: failed to match any schema with compatible: ['st,stmpe811']
-   arch/arm/boot/dts/stm32f429-disco.dt.yaml:0:0: /soc/i2c@40005c00/stmpe811@41/stmpe_touchscreen: failed to match any schema with compatible: ['st,stmpe-ts']
-   arch/arm/boot/dts/stm32f429-disco.dt.yaml: l3gd20@0: 'spi-max-frequency' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	From schema: Documentation/devicetree/bindings/iio/st,st-sensors.yaml
->> arch/arm/boot/dts/stm32f429-disco.dt.yaml: display@1: compatible: ['st,sf-tc240t-9370-t'] is too short
-   	From schema: Documentation/devicetree/bindings/display/panel/ilitek,ili9341.yaml
-   arch/arm/boot/dts/stm32f429-disco.dt.yaml:0:0: /soc/crc@40023000: failed to match any schema with compatible: ['st,stm32f4-crc']
-   arch/arm/boot/dts/stm32f429-disco.dt.yaml:0:0: /soc/rcc@40023800: failed to match any schema with compatible: ['st,stm32f42xx-rcc', 'st,stm32-rcc']
-   arch/arm/boot/dts/stm32f429-disco.dt.yaml:0:0: /soc/rcc@40023800: failed to match any schema with compatible: ['st,stm32f42xx-rcc', 'st,stm32-rcc']
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+> Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
+> ---
+>  drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
+> index 99cbf44..7dd8e05 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
+> @@ -26,6 +26,7 @@
+>  #define DISP_OD_CFG                            0x0020
+>  #define DISP_OD_SIZE                           0x0030
+>  #define DISP_DITHER_5                          0x0114
+> +#define DISP_DITHER_6                          0x0118
+>  #define DISP_DITHER_7                          0x011c
+>  #define DISP_DITHER_15                         0x013c
+>  #define DISP_DITHER_16                         0x0140
+> @@ -135,6 +136,7 @@ void mtk_dither_set_common(void __iomem *regs, struct cmdq_client_reg *cmdq_reg,
+>
+>         if (bpc >= MTK_MIN_BPC) {
+>                 mtk_ddp_write(cmdq_pkt, 0, cmdq_reg, regs, DISP_DITHER_5);
+> +               mtk_ddp_write(cmdq_pkt, 0x3002, cmdq_reg, regs, DISP_DITHER_6);
+>                 mtk_ddp_write(cmdq_pkt, 0, cmdq_reg, regs, DISP_DITHER_7);
+>                 mtk_ddp_write(cmdq_pkt,
+>                               DITHER_LSB_ERR_SHIFT_R(MTK_MAX_BPC - bpc) |
+> --
+> 1.8.1.1.dirty
+>
