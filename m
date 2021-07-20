@@ -2,40 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5AF03CFDAA
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jul 2021 17:39:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 517553CFDA0
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jul 2021 17:33:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E7C9089B20;
-	Tue, 20 Jul 2021 15:38:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AECD689C17;
+	Tue, 20 Jul 2021 15:33:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 311 seconds by postgrey-1.36 at gabe;
- Tue, 20 Jul 2021 15:38:56 UTC
-Received: from mail-4327.protonmail.ch (mail-4327.protonmail.ch [185.70.43.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA98089B20
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 15:38:56 +0000 (UTC)
-Received: from mail-0301.mail-europe.com (mail-0301.mail-europe.com
- [188.165.51.139])
+Received: from mail-41103.protonmail.ch (mail-41103.protonmail.ch
+ [185.70.41.103])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E08B89C17
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 15:33:49 +0000 (UTC)
+Received: from mail-0201.mail-europe.com (mail-0201.mail-europe.com
+ [51.77.79.158])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits))
  (No client certificate requested)
- by mail-4321.protonmail.ch (Postfix) with ESMTPS id 4GTjRX237nz4xZhF
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 15:33:44 +0000 (UTC)
-Authentication-Results: mail-4321.protonmail.ch;
+ by mail-41103.protonmail.ch (Postfix) with ESMTPS id 4GTjRb4Sh9z50W7L
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 15:33:47 +0000 (UTC)
+Authentication-Results: mail-41103.protonmail.ch;
  dkim=pass (1024-bit key) header.d=connolly.tech header.i=@connolly.tech
- header.b="H6UaAWJa"
-Date: Tue, 20 Jul 2021 15:33:34 +0000
+ header.b="e5PSRNYV"
+Date: Tue, 20 Jul 2021 15:33:38 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=connolly.tech;
- s=protonmail; t=1626795219;
- bh=szBIPFUr6CqEljCYQ32/qAOWp1c+Iy40CcFm212YhCQ=;
- h=Date:To:From:Cc:Reply-To:Subject:From;
- b=H6UaAWJa1yDEuy4fEFsuMMrwULeQsJvzjkHM39TS1VGBNg1IGfwxZLwPGKt3kM57X
- RUZW9JFHMX0BJvSqVMJ8eH8hCo9I4nFmwT3pjZHa9qTStCk0WnmC4S94N2WdYLPo6u
- jHfrJ9CUCPGx5GDanRO8561RS1UACOKRKjzt/2wQ=
+ s=protonmail; t=1626795223;
+ bh=a/cXIJple0tXhCo8wBmyM+liGV06lwy6xissR4KIOBE=;
+ h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
+ b=e5PSRNYVIfDTCyWKFDdtWRV/a1CHmQ6s52JrLyxXS9rbHzfboI5GOSvtNzvZnBWcV
+ VCtwbsy8K5xipPFOva8gx7eiSn8BNhQ5xQQq5zzs6BlYwOF35MdXmrIdQsjpEhxOkH
+ KUCJjs5/nplTVb5VpmyJpLmCUZSvkNe21BMEdoYo=
 To: Caleb Connolly <caleb@connolly.tech>
 From: Caleb Connolly <caleb@connolly.tech>
-Subject: [PATCH 0/5] OnePlus 6 fixes
-Message-ID: <20210720153125.43389-1-caleb@connolly.tech>
+Subject: [PATCH 1/5] arm64: dts: qcom: sdm845-oneplus: fix reserved-mem
+Message-ID: <20210720153125.43389-2-caleb@connolly.tech>
+In-Reply-To: <20210720153125.43389-1-caleb@connolly.tech>
+References: <20210720153125.43389-1-caleb@connolly.tech>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
@@ -65,35 +66,41 @@ Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This series is another collection of small fixes for the OnePlus 6 and 6T.
-Notably we finally have finally tracked down and fixed the reserved memory
-related crashes!
-We also enable UART as well as take Bjorns approach to working around the p=
-anel
-reset GPIO issue making the reset GPIO optional in the panel driver. Lastly=
- we
-fix up the ipa firmware path now that firmware-names is supported for it in
-5.14.
+Fix the upper guard and the "removed_region", this fixes the random
+crashes which used to occur in memory intensive loads. I'm not sure WHY
+the upper guard being 0x2000 instead of 0x1000 doesn't fix this, but it
+HAS to be 0x1000.
 
-The patch ("drm/panel/samsung-sofef00: make gpio optional") is a reworked
-version of a patch from a previous series which was not accepted: ("drm: pa=
-nel:
-sofef00: remove reset GPIO handling")
-https://lore.kernel.org/linux-arm-msm/20210502014146.85642-3-caleb@connolly=
-.tech/
+Signed-off-by: Caleb Connolly <caleb@connolly.tech>
+Fixes: e60fd5ac1f68 ("arm64: dts: qcom: sdm845-oneplus-common: guard
+rmtfs-mem")
+---
+ arch/arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Caleb Connolly (5):
-  arm64: dts: qcom: sdm845-oneplus: fix reserved-mem
-  dts: arm64: sdm845-oneplus-common: enable debug UART
-  drm/panel/samsung-sofef00: make gpio optional
-  arm64: dts: qcom: sdm845-oneplus-fajita: remove panel reset gpio
-  arm64: dts: qcom: sdm845-oneplus: add ipa firmware names
+diff --git a/arch/arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi b/arch/arm=
+64/boot/dts/qcom/sdm845-oneplus-common.dtsi
+index 4d052e39b348..eb6b1d15293d 100644
+--- a/arch/arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi
++++ b/arch/arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi
+@@ -69,7 +69,7 @@ rmtfs_mem: memory@f5b01000 {
+ =09=09};
+ =09=09rmtfs_upper_guard: memory@f5d01000 {
+ =09=09=09no-map;
+-=09=09=09reg =3D <0 0xf5d01000 0 0x2000>;
++=09=09=09reg =3D <0 0xf5d01000 0 0x1000>;
+ =09=09};
 
- .../boot/dts/qcom/sdm845-oneplus-common.dtsi  | 19 ++++++++++++++-----
- .../dts/qcom/sdm845-oneplus-enchilada.dts     |  2 ++
- drivers/gpu/drm/panel/panel-samsung-sofef00.c |  7 +++++--
- 3 files changed, 21 insertions(+), 7 deletions(-)
+ =09=09/*
+@@ -78,7 +78,7 @@ rmtfs_upper_guard: memory@f5d01000 {
+ =09=09 */
+ =09=09removed_region: memory@88f00000 {
+ =09=09=09no-map;
+-=09=09=09reg =3D <0 0x88f00000 0 0x200000>;
++=09=09=09reg =3D <0 0x88f00000 0 0x1c00000>;
+ =09=09};
 
+ =09=09ramoops: ramoops@ac300000 {
 --
 2.32.0
 
