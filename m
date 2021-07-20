@@ -1,62 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5FD83D015F
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jul 2021 20:14:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 33AC83D0190
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jul 2021 20:24:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B6846E4DD;
-	Tue, 20 Jul 2021 18:14:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 31B126E195;
+	Tue, 20 Jul 2021 18:24:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com
- [IPv6:2607:f8b0:4864:20::429])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F60F6E4CA
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 18:14:16 +0000 (UTC)
-Received: by mail-pf1-x429.google.com with SMTP id j199so206547pfd.7
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 11:14:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=E/GP8kKx9GV1KDV40SZ5oe0nrG9fM0ehQJYkajDCId0=;
- b=KDon7F5ZPiwgQaHfm3hMpY/JQaliLw9fedU3kdG9jnvNbUO8zZTDVqKPd3DMz8KLpN
- TUZrUrQdrbcq4aMP7z3x+2D+/+3CUyhRvA6g16PTZ/pao1Klyy8c5KezSnscnB0P29xC
- AH6LbkBy4mrrRHJXIHIzGnn00LQYKDojdVH3wout8MVrv+IqMyV/MnxOxrU0eVpkGi/+
- 2gj294Y6kQg79Hlb5ZGbrE6NF82LItuRmKsnuGA/fGQGn6g1pIKEqLCVpXMwhpDRl7G5
- dk1cT0I6m3+MsPeGOtVAH7shcY6yzQhofsNDNjjT3QCVJ+06qMEX+zCmg1ditDXLOjsJ
- dZ+Q==
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com
+ [IPv6:2a00:1450:4864:20::336])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DFD126E207
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 18:24:37 +0000 (UTC)
+Received: by mail-wm1-x336.google.com with SMTP id f190so11224714wmf.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 11:24:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=fZortMfUJ6sP9V4mv+JXrwjkFsuKqC8sCrT1IfxE2IQ=;
+ b=XUVux13s5c4XE3la6sNsDVnV5wsJPDf/esKROaTiOV8tSVRTmYXOJTY8JKuikYyZZy
+ XNq6hOye5f5dgGbDzB+YonO8zlet92Ln7TuqPcypBNArxSXUeL0ON7mgBEcnbSwB8z+o
+ Y/YfhB3M9AvmOGssbFid8ROltS8CDgfGo1RHw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=E/GP8kKx9GV1KDV40SZ5oe0nrG9fM0ehQJYkajDCId0=;
- b=ZYoLpC+wm4ioLinxRNoV3wv0Q0hZzhyMkzDQ08o+iYZxQh29P5+80Ew/aHy/6LDV+5
- J2i+pMngA87NUFoJIYLmgOWqDMCMrKqpqOcEjahEi2C3NwJpZCxzGgWqcX4reqmTsDnD
- 5W2TnxPtFmtATuPDtz+v06PIH12PxCejAcfOIVICMMkUJrCFsawY/8psL+XRVYfHV0dJ
- +VnpCFklpKx2zPSpNl2jguPfgJDvtqcOaOVmHWi+1QagfgN2xEvjf3aTIykCisNJEer4
- mA9kDuur9KjGUSxNFONgwkALV17boCJREwSWfQdDy5Hn5yHZtYrQ/ZsMVY1qhuzAF51M
- dsUQ==
-X-Gm-Message-State: AOAM5316s+Y2iViNI9hdWHfIZF7bQ9foEEa9I4tQVAJDQNa5s2aIUMpX
- prWkYps+vh6xL79ECJcNEesMbw==
-X-Google-Smtp-Source: ABdhPJwn0kYUAeL+Z4kpVEj9orPCiXFT//zior0KZH89LOvIui0ooTFAGR//tmVPea49cK3Zh1PQLg==
-X-Received: by 2002:a65:4342:: with SMTP id k2mr19791740pgq.138.1626804855778; 
- Tue, 20 Jul 2021 11:14:15 -0700 (PDT)
-Received: from omlet.lan ([134.134.137.86])
- by smtp.gmail.com with ESMTPSA id c2sm26436573pgh.82.2021.07.20.11.14.13
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=fZortMfUJ6sP9V4mv+JXrwjkFsuKqC8sCrT1IfxE2IQ=;
+ b=hkxMVO0OLGQUiDJz+g24hVsrb3Ide/oSIq3azGBB+/XatMjR7ZdQC3ecHlLTzRi3Ru
+ egT8L8pNfEq7wiGrmD2HMtMohtr6mO9qcVYL/kxhL8bg5kvOJxD246RM6W0zMu7ThQrY
+ 5NFwKxsExweR7EiXCxQPXzER8YJIlhvjGq83SsJAH/Bty0A2qckfPVZQXWXTm1m6uF+v
+ otK2c2J31vzULSx9gesLVBDqLvFU4gMoD0b2nIYGQBp5gfRyb0fsLLTDGY/pBHE0hjss
+ l2ZUdOpdl86sL3z8kkaiP9gQ2CZDkRBJwH9RdMSrdlsvM+6UR+Iqm9sWKSC+8a+F9Sxr
+ RPZQ==
+X-Gm-Message-State: AOAM533zVVA4M7zNxVn8TG0TnIEINs3BW2amM0i5lW3A4PRIgpHvKMq2
+ Mk6Are24Wyw3VedRoYihEh8KbO122SFk1w==
+X-Google-Smtp-Source: ABdhPJxJxuXAAbG2g8VfRjxtITgkDdi2Iec/QZfgBKKrqV+PIsMHUm2HQjbGOW/zVNRBi991fnD58w==
+X-Received: by 2002:a05:600c:2f1a:: with SMTP id
+ r26mr38841077wmn.41.1626805476463; 
+ Tue, 20 Jul 2021 11:24:36 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id q19sm2943917wmq.38.2021.07.20.11.24.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Jul 2021 11:14:15 -0700 (PDT)
-From: Jason Ekstrand <jason@jlekstrand.net>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH 6/6] drm/i915: Make the kmem slab for i915_buddy_block a global
-Date: Tue, 20 Jul 2021 13:13:57 -0500
-Message-Id: <20210720181357.2760720-7-jason@jlekstrand.net>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210720181357.2760720-1-jason@jlekstrand.net>
-References: <20210720181357.2760720-1-jason@jlekstrand.net>
+ Tue, 20 Jul 2021 11:24:33 -0700 (PDT)
+Date: Tue, 20 Jul 2021 20:24:31 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+Subject: Re: [PATCH v8 0/5] drm: address potential UAF bugs with drm_master
+ ptrs
+Message-ID: <YPcU3wJK7kC5b7kv@phenom.ffwll.local>
+Mail-Followup-To: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@linux.ie, sumit.semwal@linaro.org,
+ christian.koenig@amd.com, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ skhan@linuxfoundation.org, gregkh@linuxfoundation.org,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ emil.l.velikov@gmail.com
+References: <20210712043508.11584-1-desmondcheongzx@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210712043508.11584-1-desmondcheongzx@gmail.com>
+X-Operating-System: Linux phenom 5.10.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,175 +77,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matthew Auld <matthew.auld@intel.com>,
- Jason Ekstrand <jason@jlekstrand.net>
+Cc: tzimmermann@suse.de, airlied@linux.ie, gregkh@linuxfoundation.org,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ christian.koenig@amd.com, linaro-mm-sig@lists.linaro.org,
+ emil.l.velikov@gmail.com, dri-devel@lists.freedesktop.org,
+ skhan@linuxfoundation.org, linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There's no reason that I can tell why this should be per-i915_buddy_mm
-and doing so causes KMEM_CACHE to throw dmesg warnings because it tries
-to create a debugfs entry with the name i915_buddy_block multiple times.
-We could handle this by carefully giving each slab its own name but that
-brings its own pain because then we have to store that string somewhere
-and manage the lifetimes of the different slabs.  The most likely
-outcome would be a global atomic which we increment to get a new name or
-something like that.
+On Mon, Jul 12, 2021 at 12:35:03PM +0800, Desmond Cheong Zhi Xi wrote:
+> Hi,
+> 
+> In the previous thread on this series we decided to remove a patch that was violating a lockdep requirement in drm_lease. In addition to this change, I took a closer look at the CI logs for the Basic Acceptance Tests and noticed that another regression was introduced. The new patch 2 is a response to this.
+> 
+> Overall, this series addresses potential use-after-free errors when dereferencing pointers to struct drm_master. These were identified after one such bug was caught by Syzbot in drm_getunique():
+> https://syzkaller.appspot.com/bug?id=148d2f1dfac64af52ffd27b661981a540724f803
+> 
+> The series is broken up into five patches:
+> 
+> 1. Move a call to drm_is_current_master() out from a section locked by &dev->mode_config.mutex in drm_mode_getconnector(). This patch does not apply to stable.
+> 
+> 2. Move a call to drm_is_current_master() out from the RCU read-side critical section in drm_clients_info().
+> 
+> 3. Implement a locked version of drm_is_current_master() function that's used within drm_auth.c.
+> 
+> 4. Serialize drm_file.master by introducing a new spinlock that's held whenever the value of drm_file.master changes.
+> 
+> 5. Identify areas in drm_lease.c where pointers to struct drm_master are dereferenced, and ensure that the master pointers are not freed during use.
+> 
+> v7 -> v8:
+> - Remove the patch that moves the call to _drm_lease_held out from the section locked by &dev->mode_config.idr_mutex in __drm_mode_object_find. This patch violated an existing lockdep requirement as reported by the intel-gfx CI.
+> - Added a new patch that moves a call to drm_is_current_master out from the RCU critical section in drm_clients_info. This was reported by the intel-gfx CI.
+> 
+> v6 -> v7:
+> - Modify code alignment as suggested by the intel-gfx CI.
+> - Add a new patch to the series that adds a new lock to serialize drm_file.master, in response to the lockdep splat by the intel-gfx CI.
+> - Update drm_file_get_master to use the new drm_file.master_lock instead of drm_device.master_mutex, in response to the lockdep splat by the intel-gfx CI.
+> 
+> v5 -> v6:
+> - Add a new patch to the series that moves the call to _drm_lease_held out from the section locked by &dev->mode_config.idr_mutex in __drm_mode_object_find.
+> - Clarify the kerneldoc for dereferencing drm_file.master, as suggested by Daniel Vetter.
+> - Refactor error paths with goto labels so that each function only has a single drm_master_put(), as suggested by Emil Velikov.
+> - Modify comparisons to NULL into "!master", as suggested by the intel-gfx CI.
+> 
+> v4 -> v5:
+> - Add a new patch to the series that moves the call to drm_is_current_master in drm_mode_getconnector out from the section locked by &dev->mode_config.mutex.
+> - Additionally, added a missing semicolon to the patch, caught by the intel-gfx CI.
+> 
+> v3 -> v4:
+> - Move the call to drm_is_current_master in drm_mode_getconnector out from the section locked by &dev->mode_config.mutex. As suggested by Daniel Vetter. This avoids a circular lock lock dependency as reported here https://patchwork.freedesktop.org/patch/440406/
+> - Inside drm_is_current_master, instead of grabbing &fpriv->master->dev->master_mutex, we grab &fpriv->minor->dev->master_mutex to avoid dereferencing a null ptr if fpriv->master is not set.
+> - Modify kerneldoc formatting for drm_file.master, as suggested by Daniel Vetter.
+> - Additionally, add a file_priv->master NULL check inside drm_file_get_master, and handle the NULL result accordingly in drm_lease.c. As suggested by Daniel Vetter.
+> 
+> v2 -> v3:
+> - Move the definition of drm_is_current_master and the _locked version higher up in drm_auth.c to avoid needing a forward declaration of drm_is_current_master_locked. As suggested by Daniel Vetter.
+> - Instead of leaking drm_device.master_mutex into drm_lease.c to protect drm_master pointers, add a new drm_file_get_master() function that returns drm_file->master while increasing its reference count, to prevent drm_file->master from being freed. As suggested by Daniel Vetter.
+> 
+> v1 -> v2:
+> - Move the lock and assignment before the DRM_DEBUG_LEASE in drm_mode_get_lease_ioctl, as suggested by Emil Velikov.
 
-The much easier solution is to use the i915_globals system like we do
-for every other slab in i915.  This ensures that we have exactly one of
-them for each i915 driver load and it gets neatly created on module load
-and destroyed on module unload.  Using the globals system also means
-that its now tied into the shrink handler so we can properly respond to
-low-memory situations.
+Apologies for the delay, I missed your series. Maybe just ping next time
+around there's silence.
 
-Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
-Fixes: 88be9a0a06b7 ("drm/i915/ttm: add ttm_buddy_man")
-Cc: Matthew Auld <matthew.auld@intel.com>
----
- drivers/gpu/drm/i915/i915_buddy.c   | 44 ++++++++++++++++++++++-------
- drivers/gpu/drm/i915/i915_buddy.h   |  3 +-
- drivers/gpu/drm/i915/i915_globals.c |  2 ++
- 3 files changed, 38 insertions(+), 11 deletions(-)
+Looks all great, merged to drm-misc-next. Given how complex this was I'm
+vary of just pushing this to -fixes without some solid testing.
 
-diff --git a/drivers/gpu/drm/i915/i915_buddy.c b/drivers/gpu/drm/i915/i915_buddy.c
-index 29dd7d0310c1f..911feedad4513 100644
---- a/drivers/gpu/drm/i915/i915_buddy.c
-+++ b/drivers/gpu/drm/i915/i915_buddy.c
-@@ -8,8 +8,14 @@
- #include "i915_buddy.h"
- 
- #include "i915_gem.h"
-+#include "i915_globals.h"
- #include "i915_utils.h"
- 
-+static struct i915_global_buddy {
-+	struct i915_global base;
-+	struct kmem_cache *slab_blocks;
-+} global;
-+
- static struct i915_buddy_block *i915_block_alloc(struct i915_buddy_mm *mm,
- 						 struct i915_buddy_block *parent,
- 						 unsigned int order,
-@@ -19,7 +25,7 @@ static struct i915_buddy_block *i915_block_alloc(struct i915_buddy_mm *mm,
- 
- 	GEM_BUG_ON(order > I915_BUDDY_MAX_ORDER);
- 
--	block = kmem_cache_zalloc(mm->slab_blocks, GFP_KERNEL);
-+	block = kmem_cache_zalloc(global.slab_blocks, GFP_KERNEL);
- 	if (!block)
- 		return NULL;
- 
-@@ -34,7 +40,7 @@ static struct i915_buddy_block *i915_block_alloc(struct i915_buddy_mm *mm,
- static void i915_block_free(struct i915_buddy_mm *mm,
- 			    struct i915_buddy_block *block)
- {
--	kmem_cache_free(mm->slab_blocks, block);
-+	kmem_cache_free(global.slab_blocks, block);
- }
- 
- static void mark_allocated(struct i915_buddy_block *block)
-@@ -85,15 +91,11 @@ int i915_buddy_init(struct i915_buddy_mm *mm, u64 size, u64 chunk_size)
- 
- 	GEM_BUG_ON(mm->max_order > I915_BUDDY_MAX_ORDER);
- 
--	mm->slab_blocks = KMEM_CACHE(i915_buddy_block, SLAB_HWCACHE_ALIGN);
--	if (!mm->slab_blocks)
--		return -ENOMEM;
--
- 	mm->free_list = kmalloc_array(mm->max_order + 1,
- 				      sizeof(struct list_head),
- 				      GFP_KERNEL);
- 	if (!mm->free_list)
--		goto out_destroy_slab;
-+		return -ENOMEM;
- 
- 	for (i = 0; i <= mm->max_order; ++i)
- 		INIT_LIST_HEAD(&mm->free_list[i]);
-@@ -145,8 +147,6 @@ int i915_buddy_init(struct i915_buddy_mm *mm, u64 size, u64 chunk_size)
- 	kfree(mm->roots);
- out_free_list:
- 	kfree(mm->free_list);
--out_destroy_slab:
--	kmem_cache_destroy(mm->slab_blocks);
- 	return -ENOMEM;
- }
- 
-@@ -161,7 +161,6 @@ void i915_buddy_fini(struct i915_buddy_mm *mm)
- 
- 	kfree(mm->roots);
- 	kfree(mm->free_list);
--	kmem_cache_destroy(mm->slab_blocks);
- }
- 
- static int split_block(struct i915_buddy_mm *mm,
-@@ -410,3 +409,28 @@ int i915_buddy_alloc_range(struct i915_buddy_mm *mm,
- #if IS_ENABLED(CONFIG_DRM_I915_SELFTEST)
- #include "selftests/i915_buddy.c"
- #endif
-+
-+static void i915_global_buddy_shrink(void)
-+{
-+	kmem_cache_shrink(global.slab_blocks);
-+}
-+
-+static void i915_global_buddy_exit(void)
-+{
-+	kmem_cache_destroy(global.slab_blocks);
-+}
-+
-+static struct i915_global_buddy global = { {
-+	.shrink = i915_global_buddy_shrink,
-+	.exit = i915_global_buddy_exit,
-+} };
-+
-+int __init i915_global_buddy_init(void)
-+{
-+	global.slab_blocks = KMEM_CACHE(i915_buddy_block, 0);
-+	if (!global.slab_blocks)
-+		return -ENOMEM;
-+
-+	i915_global_register(&global.base);
-+	return 0;
-+}
-diff --git a/drivers/gpu/drm/i915/i915_buddy.h b/drivers/gpu/drm/i915/i915_buddy.h
-index 37f8c42071d12..d8f26706de52f 100644
---- a/drivers/gpu/drm/i915/i915_buddy.h
-+++ b/drivers/gpu/drm/i915/i915_buddy.h
-@@ -47,7 +47,6 @@ struct i915_buddy_block {
-  * i915_buddy_alloc* and i915_buddy_free* should suffice.
-  */
- struct i915_buddy_mm {
--	struct kmem_cache *slab_blocks;
- 	/* Maintain a free list for each order. */
- 	struct list_head *free_list;
- 
-@@ -130,4 +129,6 @@ void i915_buddy_free(struct i915_buddy_mm *mm, struct i915_buddy_block *block);
- 
- void i915_buddy_free_list(struct i915_buddy_mm *mm, struct list_head *objects);
- 
-+int i915_global_buddy_init(void);
-+
- #endif
-diff --git a/drivers/gpu/drm/i915/i915_globals.c b/drivers/gpu/drm/i915/i915_globals.c
-index 87267e1d2ad92..e57102a4c8d16 100644
---- a/drivers/gpu/drm/i915/i915_globals.c
-+++ b/drivers/gpu/drm/i915/i915_globals.c
-@@ -8,6 +8,7 @@
- #include <linux/workqueue.h>
- 
- #include "i915_active.h"
-+#include "i915_buddy.h"
- #include "gem/i915_gem_context.h"
- #include "gem/i915_gem_object.h"
- #include "i915_globals.h"
-@@ -87,6 +88,7 @@ static void __i915_globals_cleanup(void)
- 
- static __initconst int (* const initfn[])(void) = {
- 	i915_global_active_init,
-+	i915_global_buddy_init,
- 	i915_global_context_init,
- 	i915_global_gem_context_init,
- 	i915_global_objects_init,
+One thing I noticed is that drm_is_current_master could just use the
+spinlock, since it's only doing a read access. Care to type up that patch?
+
+Also, do you plan to look into that idea we've discussed to flush pending
+access when we revoke a master or a lease? I think that would be really
+nice improvement here.
+-Daniel
+
+> 
+> Desmond Cheong Zhi Xi (5):
+>   drm: avoid circular locks in drm_mode_getconnector
+>   drm: avoid blocking in drm_clients_info's rcu section
+>   drm: add a locked version of drm_is_current_master
+>   drm: serialize drm_file.master with a new spinlock
+>   drm: protect drm_master pointers in drm_lease.c
+> 
+>  drivers/gpu/drm/drm_auth.c      | 93 ++++++++++++++++++++++++---------
+>  drivers/gpu/drm/drm_connector.c |  5 +-
+>  drivers/gpu/drm/drm_debugfs.c   |  3 +-
+>  drivers/gpu/drm/drm_file.c      |  1 +
+>  drivers/gpu/drm/drm_lease.c     | 81 +++++++++++++++++++++-------
+>  include/drm/drm_auth.h          |  1 +
+>  include/drm/drm_file.h          | 18 +++++--
+>  7 files changed, 152 insertions(+), 50 deletions(-)
+> 
+> -- 
+> 2.25.1
+> 
+
 -- 
-2.31.1
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
