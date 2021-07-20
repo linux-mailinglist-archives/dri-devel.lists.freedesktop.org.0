@@ -1,80 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C212C3CFB0E
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jul 2021 15:46:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CC9243CFB2C
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jul 2021 15:51:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 028656E32F;
-	Tue, 20 Jul 2021 13:46:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6217689DBF;
+	Tue, 20 Jul 2021 13:50:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com
- [64.147.123.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E4926E3BB
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 13:46:17 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailnew.west.internal (Postfix) with ESMTP id F40112B00919;
- Tue, 20 Jul 2021 09:46:15 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute1.internal (MEProxy); Tue, 20 Jul 2021 09:46:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=oj0uWTcP4eN/7
- CWZDuDel6GfjZzcOM2ouml6hFdmYPA=; b=2UcA+t8Z1Ne7llgHOKoxMJN85t7E7
- Zw8vW751X1WKI3aM+j1A/mn2QmUb3QTZ86GFJohZ4aB0i58ZTREja3DuUNCI8tsA
- R4/qbcOyDD/+pnajpjWU/RbeMfSu8kd6pbubyJzTGB26+PVHLA9HjzFE2dik9Ts1
- RvWQEuTqbMqr+zx7MqjJ1vQPEK6bggmv8wsqR2J/A0+umULvrd/T7/wEYmrC/LBL
- p2frPhzdzXYfgu1nWk6lMo5SaqdKDZm7ZX1dyuMhsilmZwE1N+jPdccLxjcsHW/3
- OfglniPjIvV+ltveQl9UIAsUwzBQZSlDg4WPVYAC0tJyz1IYb0OlS2gnQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=oj0uWTcP4eN/7CWZDuDel6GfjZzcOM2ouml6hFdmYPA=; b=fQEL1Kxh
- R+4RnVcSaWFI+5xnYRu5NbPJl+NkA0zDFINLCIdSEs+LOTHZPW4DhtKsyKABcYKn
- 3hz543/ff4aQJQVkU3pfS724/lW+libLC/dRStCUbLY0/eJoMYr1GqqAeHLSgyGj
- wwYETWosS8BhU+0aO89lkuvcLUG2aW+5YB6w91mdMfvBEi1ZiAirO4Cu7nZMaeVz
- KEvkCQKa0eKvdR9NezigJ7akHd9YM+XUnYn0X1m/ROyNBwQWP9yeIjewJhyA2PRh
- EyTe9xZwynZ7psRAy8Dwafe9Y31/7SujUVBzN9fMzoa8knTSU0kkpfJ7RVZwX78l
- 5L/SyKyxVyZILg==
-X-ME-Sender: <xms:ptP2YK_RyO3ceGn9GJIQKI0LwWtcLu_4arUOpTCX_TceheGuoOYHqw>
- <xme:ptP2YKudLgLm8lYfPY5t4qZBclKSJk6b0EPo_xQ_fx9Q3xq2oUJBC-SYovWiPpnmM
- p-bjmNXu1_XoMaFZ1I>
-X-ME-Received: <xmr:ptP2YAAchWqvqTEb4W2QZVrIAqSkupt-4qB7D2qNoHDlHjb0fFrNg-WKxaHIT7RMaP70tI9-Nn7OrbVaqLk2Rbz_ysoRPIeuTbqo>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrfedvgdeijecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihimhgv
- ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
- gvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveevheeh
- vdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
- igihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:ptP2YCdYuAaFF4eQlb7GHmv1eg6YuPyFldCTVQ0WQo9qRV97wACBGg>
- <xmx:ptP2YPNW6M2CrQ9VMuwUmVotfs0swVzrujiNbzcUWS9MxLkgHEn0FQ>
- <xmx:ptP2YMnz9czHJtyQhMNwT5BPNiepAyDVMKbngI5JizeiPsUXOqhIkA>
- <xmx:p9P2YNumuYg7WcKpeKB_xeg-4xp1pUp4LbK_97U9xeD6r961XcNxCeVEA3E>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 20 Jul 2021 09:46:14 -0400 (EDT)
-From: Maxime Ripard <maxime@cerno.tech>
-To: Robert Foss <robert.foss@linaro.org>, Andrzej Hajda <a.hajda@samsung.com>,
- Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
- Sam Ravnborg <sam@ravnborg.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>,
- Neil Armstrong <narmstrong@baylibre.com>, Jonas Karlman <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-Subject: [PATCH 10/10] drm/panel: raspberrypi-touchscreen: Remove MIPI-DSI
- driver
-Date: Tue, 20 Jul 2021 15:45:25 +0200
-Message-Id: <20210720134525.563936-11-maxime@cerno.tech>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210720134525.563936-1-maxime@cerno.tech>
-References: <20210720134525.563936-1-maxime@cerno.tech>
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
+ [IPv6:2a00:1450:4864:20::435])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EDA4589DBF
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 13:50:56 +0000 (UTC)
+Received: by mail-wr1-x435.google.com with SMTP id i94so26092704wri.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 06:50:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=sI4lOFqRzupKkYq98Gmd5BUFkdbcZOoG/UvAcZHjLDY=;
+ b=QBbwhpFEg138cFF13OlHokR7JOS4muXESJoP0GE8o7KEv35eNms/xuto9Ggx61MJnV
+ pv5yMUhlTXtwC0gs7+LZigEVtzx6FeEYFBjFZISkgcMiS1iksMJxxE9AQ75qX/XxMULb
+ sMeC2UURwOTw9xD6wYT2FjKji3DINZHhYE1LY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=sI4lOFqRzupKkYq98Gmd5BUFkdbcZOoG/UvAcZHjLDY=;
+ b=nfyGnj2XUr42Ollo4AE6djmewMWsipMug+WvIGTkDnE/oWZunJX51OAfuontZZuNDy
+ 5V69urnScnq7qeWprOtlW9+VXZ2/KXA5KynTqelsIrYJP3ulobquM6kJEUi28dlh42zB
+ epEuuwNDLTLlYMUrPqRSgbcG6YTHa434/DrFo6rGUbZBoY+MezBFKf+ydFFBGZIoo44e
+ DT6g+Jfcgt1YtKwIbziiqwwsPghQf3hfU9pRcAlLgAV4o94ljiR2WkoRe4wYqUWJ5PTw
+ Cv5KZtfhzwsUNArzA7cXSz0hepSyXBqK8GO2aujPvorYgk1aJlbXtby9S5eFqs6eqroO
+ 25pA==
+X-Gm-Message-State: AOAM533G2JZ2cn/GP5ND3D5YQtnVDgau+s6munQaWfMnbwq7gK1lyY1J
+ rEK4DbljNwbiri+j2asioqPMSA==
+X-Google-Smtp-Source: ABdhPJxQV3Ee2pwcwbIe/vS8ucyfghhnzHjKP4KrgLfr14bAgT3gr9xSuwjFXjaR+rGwh3KUvvzTOA==
+X-Received: by 2002:adf:c803:: with SMTP id d3mr30463317wrh.345.1626789055598; 
+ Tue, 20 Jul 2021 06:50:55 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id f2sm23731613wrq.69.2021.07.20.06.50.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 20 Jul 2021 06:50:54 -0700 (PDT)
+Date: Tue, 20 Jul 2021 15:50:52 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Subject: Re: [PATCH 1/7] vgaarb: remove VGA_DEFAULT_DEVICE
+Message-ID: <YPbUvIYmu3WfyM2C@phenom.ffwll.local>
+References: <20210716061634.2446357-1-hch@lst.de>
+ <20210716061634.2446357-2-hch@lst.de>
+ <f171831b-3281-5a5a-04d3-2d69cb77f1a2@amd.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <f171831b-3281-5a5a-04d3-2d69cb77f1a2@amd.com>
+X-Operating-System: Linux phenom 5.10.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,67 +69,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, kvm@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, nouveau@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Alex Deucher <alexander.deucher@amd.com>, amd-gfx@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, Christoph Hellwig <hch@lst.de>,
+ Ben Skeggs <bskeggs@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The driver was using a two-steps initialisation when probing with the
-i2c probe first registering the MIPI-DSI device, and then when that
-device was probed the driver would attach the device to its host. This
-resulted in a fairly non-standard probe logic.
+On Fri, Jul 16, 2021 at 09:14:02AM +0200, Christian König wrote:
+> Am 16.07.21 um 08:16 schrieb Christoph Hellwig:
+> > The define is entirely unused.
+> > 
+> > Signed-off-by: Christoph Hellwig <hch@lst.de>
+> 
+> I'm not an expert for this particular code, but at least of hand everything
+> you do here makes totally sense.
+> 
+> Whole series is Acked-by: Christian König <christian.koenig@amd.com>
 
-The previous commit changed that logic entirely though, resulting in a
-completely empty MIPI-DSI device probe. Let's simplify the driver by
-removing it entirely and just behave as a normal i2c driver.
+Care to also push this into drm-misc-next since you looked already?
+-Daniel
 
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
----
- .../drm/panel/panel-raspberrypi-touchscreen.c | 25 +------------------
- 1 file changed, 1 insertion(+), 24 deletions(-)
+> 
+> Regards,
+> Christian.
+> 
+> > ---
+> >   include/linux/vgaarb.h | 6 ------
+> >   1 file changed, 6 deletions(-)
+> > 
+> > diff --git a/include/linux/vgaarb.h b/include/linux/vgaarb.h
+> > index dc6ddce92066..26ec8a057d2a 100644
+> > --- a/include/linux/vgaarb.h
+> > +++ b/include/linux/vgaarb.h
+> > @@ -42,12 +42,6 @@
+> >   #define VGA_RSRC_NORMAL_IO     0x04
+> >   #define VGA_RSRC_NORMAL_MEM    0x08
+> > -/* Passing that instead of a pci_dev to use the system "default"
+> > - * device, that is the one used by vgacon. Archs will probably
+> > - * have to provide their own vga_default_device();
+> > - */
+> > -#define VGA_DEFAULT_DEVICE     (NULL)
+> > -
+> >   struct pci_dev;
+> >   /* For use by clients */
+> 
 
-diff --git a/drivers/gpu/drm/panel/panel-raspberrypi-touchscreen.c b/drivers/gpu/drm/panel/panel-raspberrypi-touchscreen.c
-index 995c5cafb970..09937aa26c6a 100644
---- a/drivers/gpu/drm/panel/panel-raspberrypi-touchscreen.c
-+++ b/drivers/gpu/drm/panel/panel-raspberrypi-touchscreen.c
-@@ -483,16 +483,6 @@ static int rpi_touchscreen_remove(struct i2c_client *i2c)
- 	return 0;
- }
- 
--static int rpi_touchscreen_dsi_probe(struct mipi_dsi_device *dsi)
--{
--	return 0;
--}
--
--static struct mipi_dsi_driver rpi_touchscreen_dsi_driver = {
--	.driver.name = RPI_DSI_DRIVER_NAME,
--	.probe = rpi_touchscreen_dsi_probe,
--};
--
- static const struct of_device_id rpi_touchscreen_of_ids[] = {
- 	{ .compatible = "raspberrypi,7inch-touchscreen-panel" },
- 	{ } /* sentinel */
-@@ -507,20 +497,7 @@ static struct i2c_driver rpi_touchscreen_driver = {
- 	.probe = rpi_touchscreen_probe,
- 	.remove = rpi_touchscreen_remove,
- };
--
--static int __init rpi_touchscreen_init(void)
--{
--	mipi_dsi_driver_register(&rpi_touchscreen_dsi_driver);
--	return i2c_add_driver(&rpi_touchscreen_driver);
--}
--module_init(rpi_touchscreen_init);
--
--static void __exit rpi_touchscreen_exit(void)
--{
--	i2c_del_driver(&rpi_touchscreen_driver);
--	mipi_dsi_driver_unregister(&rpi_touchscreen_dsi_driver);
--}
--module_exit(rpi_touchscreen_exit);
-+module_i2c_driver(rpi_touchscreen_driver);
- 
- MODULE_AUTHOR("Eric Anholt <eric@anholt.net>");
- MODULE_DESCRIPTION("Raspberry Pi 7-inch touchscreen driver");
 -- 
-2.31.1
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
