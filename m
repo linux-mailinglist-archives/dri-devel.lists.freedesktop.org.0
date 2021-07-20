@@ -2,55 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AA693D0433
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 00:04:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70D883D043E
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 00:07:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C8E26E33F;
-	Tue, 20 Jul 2021 22:04:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA1556E573;
+	Tue, 20 Jul 2021 22:07:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb33.google.com (mail-yb1-xb33.google.com
- [IPv6:2607:f8b0:4864:20::b33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 86B5F6E479
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 22:04:48 +0000 (UTC)
-Received: by mail-yb1-xb33.google.com with SMTP id c16so560064ybl.9
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 15:04:48 -0700 (PDT)
+Received: from mail-yb1-xb2f.google.com (mail-yb1-xb2f.google.com
+ [IPv6:2607:f8b0:4864:20::b2f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC54C6E575
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 22:07:02 +0000 (UTC)
+Received: by mail-yb1-xb2f.google.com with SMTP id a16so568206ybt.8
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 15:07:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=MlMYdfS3CZqIrJSCUlmdKEKcRbfUeG3060IKS1Zohew=;
- b=Wk2sXGWrFJW4CHq+gOTK4cU3b4BdS0G+83O7+0uHQ3tk0vqbeJEDnXkUX+IiZbs6Cc
- NENr+PXloehFTZLljUPgNOGFi11Nd12+oME3RfT+ClyX/epS7IskWvgMP6q4OFxHQM2n
- aw9THaS5w085Ax9NbE6UG1fM8cEZOYXNc8N/V02VU9aeQyLYsSReYX5WM490KgrmTN/k
- PUYS1jL2DZD/S31iGXBjB3dDu+b/D13PE3ISk4XIJspeibWhzVzQ+iVK8sVZCMVZaPJz
- Zs3sVYzY3G9OugxTX/PXrdckI4QjgQHGRZ+RwVzk/qCHCt6b4LVXtQNGGBdM8dyO/Q7s
- LiCw==
+ :cc; bh=Nf5fJ4NM1G4kYJu2OvaEjjoSryHta6nu5v5fYiErDFI=;
+ b=fyO1U8fmjdQ9bkRcWmubVc9zETqsWC45AfCC5PLMW5Tjy/JsBDWaef/4F0voTp5UU2
+ JSwluYjNH3jlpQm0sZioV0rx3HCcu4he2ody/kVvM/g782qbzJJvayRwbu02Udbhx1dm
+ gs/y5uFNPtZ7wvTM/4lnUIy95EG9pRshITT97h6q12SeQE8k621CaMtoclPZeNdy1Nyo
+ Syl04ZHRGkb0ss8rGXbKRM4KSPXyrJ7uXYGlKvWgIlMGPeiRT2WHtuoLHhaQkzeEvN86
+ k+2/5Bi2XBbUvwI4SYNIhs9tJxvQ2VXp18guc3a0vYYYtfYyuKl2XEtM4A6SxvOYIsyN
+ moWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=MlMYdfS3CZqIrJSCUlmdKEKcRbfUeG3060IKS1Zohew=;
- b=NahzgMqNU2IzSZYJ2u13ETvOWwT/Stq5jBptqrMFOtvprGELSkns0P5582DYYnASXe
- BskZrBBCZz4cpR2nzrFufJHXc/uGn+/DY5ufuDx1S5cmnqSTFi3OatYsQmZ2xLosyi+w
- OeaeMy354Vs97/ML7O5dzlIaUzM9qdLvMM5xFVlEuPySlQch3B//34id1R49Ml+Ah9lS
- PukqT23dVdzu7RIWHkHdqn8m3MjcdAXV3gKfoz8FsDH6MRAlyBPlnHvT9NCHHCfnBHPa
- utio8+iWzFY/rDh1oFNGC8Q0dbBWhRvUUa0eOPdC+jykqKS7fj3T+xcRtRL8cDtj+da1
- KMEg==
-X-Gm-Message-State: AOAM531HccdtNlfwZx2DfKmBC7uHRA3oC2InxHdEFTixaagtJFRmVBHa
- hB2xI/1vpRARG/B6/oRO2ZqlxUJqqkO2y6I4dAuZwA==
-X-Google-Smtp-Source: ABdhPJyb9ndXVtvCOcKxKUk78kwXpMx8fKU5YYGsOKlBYR3E4Eem7EzSQ0R9YtPEVIGZ/I1LZN8z0dzDeyI9vpPL9cc=
-X-Received: by 2002:a25:208b:: with SMTP id
- g133mr40066973ybg.211.1626818686827; 
- Tue, 20 Jul 2021 15:04:46 -0700 (PDT)
+ bh=Nf5fJ4NM1G4kYJu2OvaEjjoSryHta6nu5v5fYiErDFI=;
+ b=EUAU+LbFFYl7e94fJsTRODtaCSGl3Y7Rmws1Dl1i66CQeCd/fx/woIfO6e86S6d6zO
+ yFbMMOHHoP89Y7cFDLePknexTb/bgZ8aP9LSqZQ/hDPi9KtV3dR4ErdDMDftiWUXaCBw
+ zplKLaH3CthC7qtv1416G5GlB8rP9VQoFYaSGUucTOi+6P0JTfCVm1dyYGmU9YCKaab+
+ ZNVIFJJ85ifNTvL15jXM4WdCZyT+k1k2hmO46kx9dEaJbDAKfU6e82MZt4nDxlSkjlmx
+ yBJCudhrPk9m53+keTEpoyc68lXi0HPbWwegDyJ1BUg4lapIpY1A21H69ZmH79Hxznr/
+ XkUg==
+X-Gm-Message-State: AOAM531lkggnP3HLLjkgYGOYp7PKBlV2TA42tg2ajp4WcCsFUAFqy8C4
+ qrlu5CR07vWjvhPLWdvjhhy5dS0cJ2azXyVWGKAI5w==
+X-Google-Smtp-Source: ABdhPJy2rX1yEo2kUPy5bBoVuTicVd0zt3LPdFzFRT7dX9VHSQKnXLkKGJgeTDVBwfNVmEKzKyeYzAx+/jp7/soh30Q=
+X-Received: by 2002:a25:d3c1:: with SMTP id
+ e184mr41729161ybf.139.1626818821926; 
+ Tue, 20 Jul 2021 15:07:01 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210715223900.1840576-1-jason@jlekstrand.net>
- <20210715223900.1840576-4-jason@jlekstrand.net>
- <CAM0jSHPKaFkT=U-Ra1V8HS88ciAKhQ32ZZtBDkHutH74P5i8BQ@mail.gmail.com>
-In-Reply-To: <CAM0jSHPKaFkT=U-Ra1V8HS88ciAKhQ32ZZtBDkHutH74P5i8BQ@mail.gmail.com>
+References: <20210716141426.1904528-1-jason@jlekstrand.net>
+ <20210716141426.1904528-3-jason@jlekstrand.net>
+ <CAM0jSHME+vRSDpTPAO74Z+xwjofZB4i1pbFH2Yvn+eeGYL-aqA@mail.gmail.com>
+In-Reply-To: <CAM0jSHME+vRSDpTPAO74Z+xwjofZB4i1pbFH2Yvn+eeGYL-aqA@mail.gmail.com>
 From: Jason Ekstrand <jason@jlekstrand.net>
-Date: Tue, 20 Jul 2021 17:04:35 -0500
-Message-ID: <CAOFGe96dsX4x6CFYL+CT+b11Lwkv6a-Pn=MKJqgtbPBC+nZ60w@mail.gmail.com>
-Subject: Re: [PATCH 3/7] drm/i915/gem: Unify user object creation
+Date: Tue, 20 Jul 2021 17:06:50 -0500
+Message-ID: <CAOFGe97RoL1+L+i5Qgoipnv=ta8isPiAWYhfYncF1KYBX+8t9g@mail.gmail.com>
+Subject: Re: [PATCH 2/7] drm/i915/gem: Refactor placement setup for
+ i915_gem_object_create* (v2)
 To: Matthew Auld <matthew.william.auld@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -66,103 +67,171 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Matthew Auld <matthew.auld@intel.com>,
  ML dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 20, 2021 at 4:35 AM Matthew Auld
+On Mon, Jul 19, 2021 at 3:18 AM Matthew Auld
 <matthew.william.auld@gmail.com> wrote:
 >
-> On Thu, 15 Jul 2021 at 23:39, Jason Ekstrand <jason@jlekstrand.net> wrote:
+> On Fri, 16 Jul 2021 at 15:14, Jason Ekstrand <jason@jlekstrand.net> wrote:
 > >
-> > Instead of hand-rolling the same three calls in each function, pull them
-> > into an i915_gem_object_create_user helper.  Apart from re-ordering of
-> > the placements array ENOMEM check, the only functional change here
-> > should be that i915_gem_dumb_create now calls i915_gem_flush_free_objects
-> > which it probably should have been calling all along.
+> > Since we don't allow changing the set of regions after creation, we can
+> > make ext_set_placements() build up the region set directly in the
+> > create_ext and assign it to the object later.  This is similar to what
+> > we did for contexts with the proto-context only simpler because there's
+> > no funny object shuffling.  This will be used in the next patch to allow
+> > us to de-duplicate a bunch of code.  Also, since we know the maximum
+> > number of regions up-front, we can use a fixed-size temporary array for
+> > the regions.  This simplifies memory management a bit for this new
+> > delayed approach.
+> >
+> > v2 (Matthew Auld):
+> >  - Get rid of MAX_N_PLACEMENTS
+> >  - Drop kfree(placements) from set_placements()
 > >
 > > Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
+> > Cc: Matthew Auld <matthew.auld@intel.com>
 > > ---
-> >  drivers/gpu/drm/i915/gem/i915_gem_create.c | 106 +++++++++------------
-> >  1 file changed, 43 insertions(+), 63 deletions(-)
+> >  drivers/gpu/drm/i915/gem/i915_gem_create.c | 81 ++++++++++++----------
+> >  1 file changed, 45 insertions(+), 36 deletions(-)
 > >
 > > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_create.c b/drivers/gpu/drm/i915/gem/i915_gem_create.c
-> > index 391c8c4a12172..69bf9ec777642 100644
+> > index 51f92e4b1a69d..5766749a449c0 100644
 > > --- a/drivers/gpu/drm/i915/gem/i915_gem_create.c
 > > +++ b/drivers/gpu/drm/i915/gem/i915_gem_create.c
-> > @@ -11,13 +11,14 @@
-> >  #include "i915_trace.h"
-> >  #include "i915_user_extensions.h"
-> >
-> > -static u32 object_max_page_size(struct drm_i915_gem_object *obj)
-> > +static u32 object_max_page_size(struct intel_memory_region **placements,
-> > +                               unsigned int n_placements)
-> >  {
-> >         u32 max_page_size = 0;
-> >         int i;
-> >
-> > -       for (i = 0; i < obj->mm.n_placements; i++) {
-> > -               struct intel_memory_region *mr = obj->mm.placements[i];
-> > +       for (i = 0; i < n_placements; i++) {
-> > +               struct intel_memory_region *mr = placements[i];
-> >
-> >                 GEM_BUG_ON(!is_power_of_2(mr->min_page_size));
-> >                 max_page_size = max_t(u32, max_page_size, mr->min_page_size);
-> > @@ -81,22 +82,35 @@ static int i915_gem_publish(struct drm_i915_gem_object *obj,
-> >         return 0;
+> > @@ -27,10 +27,13 @@ static u32 object_max_page_size(struct drm_i915_gem_object *obj)
+> >         return max_page_size;
 > >  }
 > >
-> > -static int
-> > -i915_gem_setup(struct drm_i915_gem_object *obj, u64 size)
-> > +static struct drm_i915_gem_object *
-> > +i915_gem_object_create_user(struct drm_i915_private *i915, u64 size,
-> > +                           struct intel_memory_region **placements,
-> > +                           unsigned int n_placements)
+> > -static void object_set_placements(struct drm_i915_gem_object *obj,
+> > -                                 struct intel_memory_region **placements,
+> > -                                 unsigned int n_placements)
+> > +static int object_set_placements(struct drm_i915_gem_object *obj,
+> > +                                struct intel_memory_region **placements,
+> > +                                unsigned int n_placements)
 > >  {
-> > -       struct intel_memory_region *mr = obj->mm.placements[0];
-> > +       struct intel_memory_region *mr = placements[0];
-> > +       struct drm_i915_gem_object *obj;
-> >         unsigned int flags;
-> >         int ret;
-> >
-> > -       size = round_up(size, object_max_page_size(obj));
-> > +       i915_gem_flush_free_objects(i915);
+> > +       struct intel_memory_region **arr;
+> > +       unsigned int i;
 > > +
-> > +       obj = i915_gem_object_alloc();
-> > +       if (!obj)
-> > +               return ERR_PTR(-ENOMEM);
-> > +
-> > +       size = round_up(size, object_max_page_size(placements, n_placements));
-> >         if (size == 0)
-> > -               return -EINVAL;
-> > +               return ERR_PTR(-EINVAL);
+> >         GEM_BUG_ON(!n_placements);
 > >
-> >         /* For most of the ABI (e.g. mmap) we think in system pages */
-> >         GEM_BUG_ON(!IS_ALIGNED(size, PAGE_SIZE));
-> >
-> >         if (i915_gem_object_size_2big(size))
-> > -               return -E2BIG;
-> > +               return ERR_PTR(-E2BIG);
+> >         /*
+> > @@ -44,9 +47,20 @@ static void object_set_placements(struct drm_i915_gem_object *obj,
+> >                 obj->mm.placements = &i915->mm.regions[mr->id];
+> >                 obj->mm.n_placements = 1;
+> >         } else {
+> > -               obj->mm.placements = placements;
+> > +               arr = kmalloc_array(n_placements,
+> > +                                   sizeof(struct intel_memory_region *),
+> > +                                   GFP_KERNEL);
+> > +               if (!arr)
+> > +                       return -ENOMEM;
 > > +
-> > +       ret = object_set_placements(obj, placements, n_placements);
+> > +               for (i = 0; i < n_placements; i++)
+> > +                       arr[i] = placements[i];
+> > +
+> > +               obj->mm.placements = arr;
+> >                 obj->mm.n_placements = n_placements;
+> >         }
+> > +
+> > +       return 0;
+> >  }
+> >
+> >  static int i915_gem_publish(struct drm_i915_gem_object *obj,
+> > @@ -148,7 +162,9 @@ i915_gem_dumb_create(struct drm_file *file,
+> >                 return -ENOMEM;
+> >
+> >         mr = intel_memory_region_by_type(to_i915(dev), mem_type);
+> > -       object_set_placements(obj, &mr, 1);
+> > +       ret = object_set_placements(obj, &mr, 1);
 > > +       if (ret)
 > > +               goto object_free;
+> >
+> >         ret = i915_gem_setup(obj, args->size);
+> >         if (ret)
+> > @@ -184,7 +200,9 @@ i915_gem_create_ioctl(struct drm_device *dev, void *data,
+> >                 return -ENOMEM;
+> >
+> >         mr = intel_memory_region_by_type(i915, INTEL_MEMORY_SYSTEM);
+> > -       object_set_placements(obj, &mr, 1);
+> > +       ret = object_set_placements(obj, &mr, 1);
+> > +       if (ret)
+> > +               goto object_free;
+> >
+> >         ret = i915_gem_setup(obj, args->size);
+> >         if (ret)
+> > @@ -199,7 +217,8 @@ i915_gem_create_ioctl(struct drm_device *dev, void *data,
+> >
+> >  struct create_ext {
+> >         struct drm_i915_private *i915;
+> > -       struct drm_i915_gem_object *vanilla_object;
+> > +       struct intel_memory_region *placements[INTEL_REGION_UNKNOWN];
+> > +       unsigned int n_placements;
+> >  };
+> >
+> >  static void repr_placements(char *buf, size_t size,
+> > @@ -230,8 +249,7 @@ static int set_placements(struct drm_i915_gem_create_ext_memory_regions *args,
+> >         struct drm_i915_private *i915 = ext_data->i915;
+> >         struct drm_i915_gem_memory_class_instance __user *uregions =
+> >                 u64_to_user_ptr(args->regions);
+> > -       struct drm_i915_gem_object *obj = ext_data->vanilla_object;
+> > -       struct intel_memory_region **placements;
+> > +       struct intel_memory_region *placements[INTEL_REGION_UNKNOWN];
+> >         u32 mask;
+> >         int i, ret = 0;
+> >
+> > @@ -245,6 +263,8 @@ static int set_placements(struct drm_i915_gem_create_ext_memory_regions *args,
+> >                 ret = -EINVAL;
+> >         }
+> >
+> > +       BUILD_BUG_ON(ARRAY_SIZE(i915->mm.regions) != ARRAY_SIZE(placements));
+> > +       BUILD_BUG_ON(ARRAY_SIZE(ext_data->placements) != ARRAY_SIZE(placements));
+> >         if (args->num_regions > ARRAY_SIZE(i915->mm.regions)) {
+> >                 drm_dbg(&i915->drm, "num_regions is too large\n");
+> >                 ret = -EINVAL;
+> > @@ -253,21 +273,13 @@ static int set_placements(struct drm_i915_gem_create_ext_memory_regions *args,
+> >         if (ret)
+> >                 return ret;
+> >
+> > -       placements = kmalloc_array(args->num_regions,
+> > -                                  sizeof(struct intel_memory_region *),
+> > -                                  GFP_KERNEL);
+> > -       if (!placements)
+> > -               return -ENOMEM;
+> > -
+> >         mask = 0;
+> >         for (i = 0; i < args->num_regions; i++) {
+> >                 struct drm_i915_gem_memory_class_instance region;
+> >                 struct intel_memory_region *mr;
+> >
+> > -               if (copy_from_user(&region, uregions, sizeof(region))) {
+> > -                       ret = -EFAULT;
+> > -                       goto out_free;
+> > -               }
+> > +               if (copy_from_user(&region, uregions, sizeof(region)))
+> > +                       return -EFAULT;
+> >
+> >                 mr = intel_memory_region_lookup(i915,
+> >                                                 region.memory_class,
+> > @@ -293,14 +305,13 @@ static int set_placements(struct drm_i915_gem_create_ext_memory_regions *args,
+> >                 ++uregions;
+> >         }
+> >
+> > -       if (obj->mm.placements) {
+> > +       if (ext_data->n_placements) {
+> >                 ret = -EINVAL;
+> >                 goto out_dump;
+> >         }
+> >
+> > -       object_set_placements(obj, placements, args->num_regions);
+> > -       if (args->num_regions == 1)
+> > -               kfree(placements);
+> > +       for (i = 0; i < args->num_regions; i++)
+> > +               ext_data->placements[i] = placements[i];
 >
-> Thinking on this again, it might be way too thorny to expose
-> create_user as-is to other parts of i915, like we do in the last
-> patch. Since the caller will be expected to manually validate the
-> placements, otherwise we might crash and burn in weird ways as new
-> users pop up. i.e it needs the same validation that happens as part of
-> the extension. Also as new extensions arrive, like with PXP, that also
-> has to get bolted onto create_user, which might have its own hidden
-> constraints.
+> I guess here we forget to set the ext_data->n_placements, which would
+> explain the CI failure.
 
-Perhaps.  Do you have a suggestion for how to make it available to
-selftests without exposing it to "the rest of i915"?  If you want, I
-can make create_user duplicate the placements uniqueness check.
-That's really the only validation currently in the ioctl besides all
-the stuff for making sure that the class/instance provided by the user
-isn't bogus.  But if we've got real i915_memory_region pointers, we
-don't need that.
-
---Jason
+What CI failure are you referring to?
