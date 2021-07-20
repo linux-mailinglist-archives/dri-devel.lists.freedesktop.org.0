@@ -1,61 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 421103CFB06
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jul 2021 15:45:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E81F3CFB08
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jul 2021 15:46:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 72E386E314;
-	Tue, 20 Jul 2021 13:45:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7AF796E321;
+	Tue, 20 Jul 2021 13:46:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com
  [64.147.123.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C57CD6E314
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 13:45:53 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.west.internal (Postfix) with ESMTP id 941872B01187;
- Tue, 20 Jul 2021 09:45:52 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Tue, 20 Jul 2021 09:45:53 -0400
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 94E8A6E321
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 13:45:59 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailnew.west.internal (Postfix) with ESMTP id 61D722B0008E;
+ Tue, 20 Jul 2021 09:45:58 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute3.internal (MEProxy); Tue, 20 Jul 2021 09:45:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=8yAEGsFt+FTE6
- Oglj0fT1zDjBqe/OTSnpQ+lXQWNmQI=; b=RxhxK2sJ9lnaAnyxBhS5odAYTWl6K
- RK4JFMbjDVeiLlX6B1apYmEoB2LJS1YmMxAvnh48ksfLvBmE/mH4zDr8gfx2XU6/
- lKUiMk3lKHt/VgAa2OW5g0MfaGzWPobbwr7/bYdr34ZMeQmHJRw6PdBowyE5gxhC
- 14WrQMNAubyjsxdnIkpfyZmKvmaxASVXGkL9SLHJaPMSdpQJuZin6W4bO4EjuTdz
- nmp+BK2GHACwoNHCMrr0byBiXWK9OsLO0ggmSkthSyRJI5srZ0Snc1SCaHOXSHcP
- xsJOu5zoxLhktZspOejNrM39aQxJGsM+0M6wNq8yQFJv9ajDFvyZhSvLw==
+ :mime-version:content-transfer-encoding; s=fm3; bh=RJHCd20ztixx0
+ Jw0hO0kTjsLqhDgzKUjg5r4sge0A3k=; b=b/Dqp/4SuZ4fRuuF0mw63N6FkvEiK
+ XWVE5SG3erjQu3d4EMkDN3KxLukIlAVW5M0FA9qZay+yPkXN8vWNA6owNahtsr7J
+ d2wsBOkziMvOhjeyXyYU283mcSs5x6S9qj5gru8uNNLnxYSkQAgjlgwzihO4htDQ
+ jzEYDkUkXf8djMLBYuNfx43BzU1eoNeJVqTEvaoG5Ky06sCrs/RtMCCpQF/t9tgw
+ RS9dPTMEnX0tHLSBY4W1Ql2ym44WMbmtWNGv7fzOdEa97UgqKRXy3znn7L/+eT17
+ REZjrvipA9JRsNkQMbKLfdEhUEDloVqG1mR/G8RojrWqxRuttNMyQcseQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=8yAEGsFt+FTE6Oglj0fT1zDjBqe/OTSnpQ+lXQWNmQI=; b=HBkKpOXd
- po1yKVaQrn7c1QFp2kX8A71zvW3Id8RF2c2nfbCZ4PNXNQYv8YWK7ZtyU0DUKTzD
- 1XMuc0T0nLbejPpreoW4ZMkSeUNK2+i+/tcfI45zQj9iynujyasaAws5Iz7Y2Dy0
- zlXP+aTtnX1uoaORIUcUmhkd49dIfoxmbROo6KZbJNKMt3VRMKhzuB6xveEz0zwV
- TkHZx4qs8XTtNdFHH3MTnoLSp8Z81RoEvGFICJuO2Vf08pH8PIeBIKwx1f47c8H8
- 57Wmv0PS6/6XWyqhOQAWAbmy8L4wvG0JKJy5svUFfoJiJYlvBA/NSLDmNQriXBYn
- Ol+NumLtA9dCrg==
-X-ME-Sender: <xms:kNP2YGy9JnAmK-Ob440GybMeuQDw3aqEO1xehxhVlrXYeYe394wtKA>
- <xme:kNP2YCTLMx57n2nt9KoDKBM7oEEvfEomrvlYjdy8OQhuzcQkPLv-mD42AVQ8ShVbc
- Np7HTXQm3JponbUuPk>
-X-ME-Received: <xmr:kNP2YIUuINkMm1KdFHXYTa0BaRr_f3TssKrV1-icsUI6v7TgEMf4uv3yXYEkOFcyJp6oJAhf2Gr6ZRqWFFkFpgfBqE5eeOiq1xf->
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrfedvgdeikecutefuodetggdotefrodftvf
+ fm3; bh=RJHCd20ztixx0Jw0hO0kTjsLqhDgzKUjg5r4sge0A3k=; b=BNzg5woU
+ ZlQOd4XT3rvqi69Bbgc5meQVUsppSMwEAVwgU1VewteLmpjEIAKQv9WQsIp/Pfo9
+ tswUWAVAS1uaox43hx41w8u2x2SmIu+OTGaLZju1KM0BUgxBZ6xnyE5f6NQOj/99
+ wE+Ogly3BioO30klFOFvMHCASJMD3l5uGqcbu5fa7HHha5FnAfcFa/dJtX3/udcA
+ n/GtikGBbUxmU2ycza0AMO1eVBlXVwFTol5fjJCPu7mHNPnan8UgbpZrtcTOWqfF
+ 6i+inil0RUvR6p/DUhYrvpDJ2+T71Dv0oOI4lZ2TF4H2ytj/v+GrMmDCsJaiaqbk
+ jznmgqbAUM4E9A==
+X-ME-Sender: <xms:k9P2YNX8JLeGaeQv4_wUCiQML_gA5fEDXkslKiIGRKauI-RRZcfNoQ>
+ <xme:k9P2YNkgOUi4G_J4cN2R5IQS0yQUdSQYOOa1ZNsSsYcKFwkdlsEQqMCnMRS0SzsTe
+ 1pNtO8fjqPrktAZczI>
+X-ME-Received: <xmr:k9P2YJZKQoGnTLJ0sAo0EfGEivnq8JRuhlhrQgXShX7KXWOTneQhf9H9VV1ovZX-DuExA1wqjqMgvQuMxUbFHyWMWFj5bkHzFhlr>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrfedvgdeijecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihimhgv
  ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
  gvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveevheeh
- vdenucevlhhushhtvghrufhiiigvpeefnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
+ vdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
  igihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:kNP2YMi4_tntY8eISDbDcQSFWlb04u0UEQcsK3y-8WD4qZUnWdk0uw>
- <xmx:kNP2YIAhHLDPtT2INzZ9iBlaaUZTbZcLRTJ4azoQ6VlBjkWB_VlLzA>
- <xmx:kNP2YNLf-aQoyj9Gob9OCng4j7IgJGejiXWMMe1iiIL-Ci_i2yfNoA>
- <xmx:kNP2YMyef9qefPyF90LahoZB5ugS5GQ9gw_GvFonR-O316EX0cxHu5AZ-RE>
+X-ME-Proxy: <xmx:k9P2YAXyZ7Nz0U9kAa4azhcmkyovIYdmp8uqSXou2g517B6Tp25ccg>
+ <xmx:k9P2YHlOknX-Aq5gItTTUkh9gN6N-4Yg8byd9nwJbXj05XU3KToCLg>
+ <xmx:k9P2YNe7PkiBr8VoMFups02fg1xExQtRNzC41cKWfDFOzMF2ZZdYhg>
+ <xmx:ltP2YBkslghzxG3JnCirVhr5Eq1H3SoIGb0Flo7TI7m9kHdw-bcVjeR6v6I>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 20 Jul 2021 09:45:51 -0400 (EDT)
+ 20 Jul 2021 09:45:55 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Robert Foss <robert.foss@linaro.org>, Andrzej Hajda <a.hajda@samsung.com>,
  Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
@@ -66,9 +66,9 @@ To: Robert Foss <robert.foss@linaro.org>, Andrzej Hajda <a.hajda@samsung.com>,
  Jernej Skrabec <jernej.skrabec@gmail.com>,
  Thierry Reding <thierry.reding@gmail.com>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-Subject: [PATCH 05/10] drm/panel: Create attach and detach callbacks
-Date: Tue, 20 Jul 2021 15:45:20 +0200
-Message-Id: <20210720134525.563936-6-maxime@cerno.tech>
+Subject: [PATCH 06/10] drm/bridge: panel: Call attach and detach for the panel
+Date: Tue, 20 Jul 2021 15:45:21 +0200
+Message-Id: <20210720134525.563936-7-maxime@cerno.tech>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210720134525.563936-1-maxime@cerno.tech>
 References: <20210720134525.563936-1-maxime@cerno.tech>
@@ -90,71 +90,36 @@ Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In order to make the probe order expectation more consistent between
-bridges, let's create attach and detach hooks for the panels as well to
-match what is there for bridges.
+Now that we have additional attach and detach hooks for panels, make
+sure that the panel bridge driver calls them when relevant.
 
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/drm_panel.c | 20 ++++++++++++++++++++
- include/drm/drm_panel.h     |  6 ++++++
- 2 files changed, 26 insertions(+)
+ drivers/gpu/drm/bridge/panel.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_panel.c b/drivers/gpu/drm/drm_panel.c
-index f634371c717a..23bca798a2f3 100644
---- a/drivers/gpu/drm/drm_panel.c
-+++ b/drivers/gpu/drm/drm_panel.c
-@@ -223,6 +223,26 @@ int drm_panel_get_modes(struct drm_panel *panel,
- }
- EXPORT_SYMBOL(drm_panel_get_modes);
+diff --git a/drivers/gpu/drm/bridge/panel.c b/drivers/gpu/drm/bridge/panel.c
+index c916f4b8907e..c2249f3fd357 100644
+--- a/drivers/gpu/drm/bridge/panel.c
++++ b/drivers/gpu/drm/bridge/panel.c
+@@ -60,6 +60,8 @@ static int panel_bridge_attach(struct drm_bridge *bridge,
+ 	struct drm_connector *connector = &panel_bridge->connector;
+ 	int ret;
  
-+int drm_panel_attach(struct drm_panel *panel)
-+{
-+	if (!panel)
-+		return -EINVAL;
++	drm_panel_attach(panel_bridge->panel);
 +
-+	if (panel->funcs && panel->funcs->attach)
-+		return panel->funcs->attach(panel);
+ 	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR)
+ 		return 0;
+ 
+@@ -90,6 +92,8 @@ static void panel_bridge_detach(struct drm_bridge *bridge)
+ 	struct panel_bridge *panel_bridge = drm_bridge_to_panel_bridge(bridge);
+ 	struct drm_connector *connector = &panel_bridge->connector;
+ 
++	drm_panel_detach(panel_bridge->panel);
 +
-+	return -EOPNOTSUPP;
-+}
-+
-+void drm_panel_detach(struct drm_panel *panel)
-+{
-+	if (!panel)
-+		return;
-+
-+	if (panel->funcs && panel->funcs->detach)
-+		panel->funcs->detach(panel);
-+}
-+
- #ifdef CONFIG_OF
- /**
-  * of_drm_find_panel - look up a panel using a device tree node
-diff --git a/include/drm/drm_panel.h b/include/drm/drm_panel.h
-index 4602f833eb51..b9201d520754 100644
---- a/include/drm/drm_panel.h
-+++ b/include/drm/drm_panel.h
-@@ -68,6 +68,9 @@ enum drm_panel_orientation;
-  * does not need to implement the functionality to enable/disable backlight.
-  */
- struct drm_panel_funcs {
-+	int (*attach)(struct drm_panel *panel);
-+	void (*detach)(struct drm_panel *panel);
-+
- 	/**
- 	 * @prepare:
+ 	/*
+ 	 * Cleanup the connector if we know it was initialized.
  	 *
-@@ -180,6 +183,9 @@ void drm_panel_init(struct drm_panel *panel, struct device *dev,
- void drm_panel_add(struct drm_panel *panel);
- void drm_panel_remove(struct drm_panel *panel);
- 
-+int drm_panel_attach(struct drm_panel *panel);
-+void drm_panel_detach(struct drm_panel *panel);
-+
- int drm_panel_prepare(struct drm_panel *panel);
- int drm_panel_unprepare(struct drm_panel *panel);
- 
 -- 
 2.31.1
 
