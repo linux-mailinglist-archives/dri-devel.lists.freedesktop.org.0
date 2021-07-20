@@ -2,43 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEDF33CF7AF
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jul 2021 12:20:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 850A33CF7DF
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jul 2021 12:29:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 02B1189FDD;
-	Tue, 20 Jul 2021 10:20:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6590B6E0B9;
+	Tue, 20 Jul 2021 10:29:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from netline-mail3.netline.ch (mail.netline.ch [148.251.143.180])
- by gabe.freedesktop.org (Postfix) with ESMTP id 29E7089FC9
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 10:20:46 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by netline-mail3.netline.ch (Postfix) with ESMTP id D1A4620201E;
- Tue, 20 Jul 2021 12:20:44 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at netline-mail3.netline.ch
-Received: from netline-mail3.netline.ch ([127.0.0.1])
- by localhost (netline-mail3.netline.ch [127.0.0.1]) (amavisd-new, port 10024)
- with LMTP id OCS8MDNA7x9a; Tue, 20 Jul 2021 12:20:44 +0200 (CEST)
-Received: from thor (24.99.2.85.dynamic.wline.res.cust.swisscom.ch
- [85.2.99.24])
- by netline-mail3.netline.ch (Postfix) with ESMTPA id 50A4820201D;
- Tue, 20 Jul 2021 12:20:44 +0200 (CEST)
-Received: from localhost ([::1]) by thor with esmtp (Exim 4.94.2)
- (envelope-from <michel@daenzer.net>)
- id 1m5mrj-000d4g-57; Tue, 20 Jul 2021 12:20:43 +0200
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-References: <20210709120756.205856-1-christian.koenig@amd.com>
-From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>
-Subject: Re: [PATCH] dma-buf: fix and rework dma_buf_poll v6
-Message-ID: <d2e9c946-f7ff-33ab-a30e-fd8b89ed74aa@daenzer.net>
-Date: Tue, 20 Jul 2021 12:20:42 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2BCF26E0B9
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 10:29:44 +0000 (UTC)
+X-UUID: a2fa50a6c4404291b4e25540da31ebec-20210720
+X-UUID: a2fa50a6c4404291b4e25540da31ebec-20210720
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
+ (envelope-from <guangming.cao@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 55608880; Tue, 20 Jul 2021 18:29:39 +0800
+Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
+ mtkmbs01n1.mediatek.inc (172.21.101.68) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Tue, 20 Jul 2021 18:29:37 +0800
+Received: from mszswglt01.gcn.mediatek.inc (10.16.20.20) by
+ MTKCAS06.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.0.1497.2 via Frontend Transport; Tue, 20 Jul 2021 18:29:37 +0800
+From: <guangming.cao@mediatek.com>
+To: <christian.koenig@amd.com>
+Subject: Re: [PATCH] dma_buf: remove dmabuf sysfs teardown before
+ release/detach
+Date: Tue, 20 Jul 2021 18:29:35 +0800
+Message-ID: <20210720102935.83187-1-guangming.cao@mediatek.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <8d7dfc78-aa85-48b5-2828-21ec6b463ac3@amd.com>
+References: <8d7dfc78-aa85-48b5-2828-21ec6b463ac3@amd.com>
 MIME-Version: 1.0
-In-Reply-To: <20210709120756.205856-1-christian.koenig@amd.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-CA
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,107 +49,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniel.vetter@ffwll.ch, dri-devel@lists.freedesktop.org
+Cc: Guangming Cao <Guangming.Cao@mediatek.com>, wsd_upstream@mediatek.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, linux-mediatek@lists.infradead.org,
+ matthias.bgg@gmail.com, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021-07-09 2:07 p.m., Christian König wrote:
-> Daniel pointed me towards this function and there are multiple obvious problems
-> in the implementation.
+From: Guangming Cao <Guangming.Cao@mediatek.com>
+
+On Tue, 2021-07-20 at 11:31 +0200, Christian König wrote:
+> Am 19.07.21 um 07:19 schrieb guangming.cao@mediatek.com:
+> > From: Guangming Cao <Guangming.Cao@mediatek.com>
+> > 
+> > Dmabuf sysfs stat is used for dmabuf info track.
+> > but these file maybe still use after buffer release/detach,
+> > should clear it before buffer release/detach.
 > 
-> First of all the retry loop is not working as intended. In general the retry
-> makes only sense if you grab the reference first and then check the sequence
-> values.
+> Please rebase on current drm-misc-next. The attachment sysfs files
+> have 
+> been removed in the meantime.
 > 
-> Then we should always also wait for the exclusive fence.
+> Thanks,
+> Christian.
 > 
-> It's also good practice to keep the reference around when installing callbacks
-> to fences you don't own.
-> 
-> And last the whole implementation was unnecessary complex and rather hard to
-> understand which could lead to probably unexpected behavior of the IOCTL.
-> 
-> Fix all this by reworking the implementation from scratch. Dropping the
-> whole RCU approach and taking the lock instead.
-> 
-> Only mildly tested and needs a thoughtful review of the code.
-> 
-> v2: fix the reference counting as well
-> v3: keep the excl fence handling as is for stable
-> v4: back to testing all fences, drop RCU
-> v5: handle in and out separately
-> v6: add missing clear of events
-> 
-> Signed-off-by: Christian König <christian.koenig@amd.com>
-> CC: stable@vger.kernel.org
-> ---
->  drivers/dma-buf/dma-buf.c | 156 +++++++++++++++++---------------------
->  include/linux/dma-buf.h   |   2 +-
->  2 files changed, 72 insertions(+), 86 deletions(-)
-> 
-> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> index eadd1eaa2fb5..39e1ef872829 100644
-> --- a/drivers/dma-buf/dma-buf.c
-> +++ b/drivers/dma-buf/dma-buf.c
-[...]
->  
->  static __poll_t dma_buf_poll(struct file *file, poll_table *poll)
->  {
->  	struct dma_buf *dmabuf;
->  	struct dma_resv *resv;
-> -	struct dma_resv_list *fobj;
-> -	struct dma_fence *fence_excl;
-> +	unsigned shared_count;
->  	__poll_t events;
-> -	unsigned shared_count, seq;
-> +	int r, i;
-
-shared_count, r & i are unused with this patch.
-
-
-
-> +		if (events & EPOLLOUT && !dma_buf_poll_shared(resv, dcb) &&
-> +		    !dma_buf_poll_excl(resv, dcb))
-> +			/* No callback queued, wake up any other waiters */
-> +			dma_buf_poll_cb(NULL, &dcb->cb);
-> +		else
-> +			events &= ~EPOLLOUT;
-
-Something like this might be clearer:
-
-		if (events & EPOLLOUT) {
-			if (!dma_buf_poll_shared(resv, dcb) &&
-			    !dma_buf_poll_excl(resv, dcb))
-				/* No callback queued, wake up any other waiters */
-				dma_buf_poll_cb(NULL, &dcb->cb);
-			else
-				events &= ~EPOLLOUT;
-		}
-
-
-> +		if (events & EPOLLIN && !dma_buf_poll_excl(resv, dcb))
-> +			/* No callback queued, wake up any other waiters */
->  			dma_buf_poll_cb(NULL, &dcb->cb);
-> +		else
-> +			events &= ~EPOLLIN;
-
-Similarly:
-
-		if (events & EPOLLIN) {
-			if (!dma_buf_poll_excl(resv, dcb))
-				/* No callback queued, wake up any other waiters */
-				dma_buf_poll_cb(NULL, &dcb->cb);
-			else
-				events &= ~EPOLLIN;
-		}
-
-
-Other than that, looks good to me, can't say anything about the locking though.
-
-
-Haven't been able to test this yet, hopefully later this week.
-
-
--- 
-Earthling Michel Dänzer               |               https://redhat.com
-Libre software enthusiast             |             Mesa and X developer
+updated, thanks for your reminding.
