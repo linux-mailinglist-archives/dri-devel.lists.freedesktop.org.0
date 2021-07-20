@@ -2,95 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E3943CFAEB
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jul 2021 15:42:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9ADCD3CFAF6
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jul 2021 15:44:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8658B6E2BC;
-	Tue, 20 Jul 2021 13:42:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B46F289DA3;
+	Tue, 20 Jul 2021 13:44:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A33726E2BC
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 13:42:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626788570;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Wm1/1+rm0pNTec68SF0ULMEoMpPgTZgtvpTbWM+bk38=;
- b=fG+LIy8oP1CN1RjxGLffxzgglVKC1l4Zx7+1f/r/Aik039kNwmQn5rtXoGGSFVyKQEMoyx
- 2oCLF742VwGBFDuwj22DjX7z9YGxPIMUq9eXbVd1MRhzg+y8AbAI8AEgeU8lPWmcQZ83UF
- 3wQ/vDC2VBpH7Qvx0td5OghcJDsHLQI=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-419-hzKFC6mHMhWexui-0z3BlA-1; Tue, 20 Jul 2021 09:42:49 -0400
-X-MC-Unique: hzKFC6mHMhWexui-0z3BlA-1
-Received: by mail-wr1-f71.google.com with SMTP id
- r18-20020adff1120000b029013e2b4ee624so10389372wro.1
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 06:42:48 -0700 (PDT)
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
+ [IPv6:2a00:1450:4864:20::435])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DCE0989DAB
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 13:44:52 +0000 (UTC)
+Received: by mail-wr1-x435.google.com with SMTP id i94so26070721wri.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 06:44:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=Be4HZXEp40HUXvq7QmzTRqYXQphz7ay/OwQix79gbbA=;
+ b=izhhlKN6HpBuFS+OJ0XVF3bPGkfIu1LANouXgWkEWOhcTzORgKEwnUEEZGt79Ni/bh
+ 0aSKd4v4ZNCHu+iAfw+APT+oU+VMB4tRKGuW/vGdbJVxs/cv2JlTU2xonEfODF9tKamh
+ ifr/J8tMQL90Hna0ZrYvb2X2bVE8usHH073MQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Wm1/1+rm0pNTec68SF0ULMEoMpPgTZgtvpTbWM+bk38=;
- b=FBVCgnOnu70NuWTBYfv7YiBIQywWuB8yP/KtFD0n2SPR9LxJiyMw3J4MdwnA79w2kM
- vLh/P9ctS0hDeaXKcXEPWKo8oSpGxe2PJrVj7/1ot5IeWU0T9jWg/FIVw0uBMbtA9H5u
- GicVusig/GPxjFN1u4ru4NNCyEfpPjCqMEP8XHR0aFhzl39rpKI1xtKwBsvRtisD2i68
- UBhqhFpuszuXKCBWA22Zk8WHNvfgpsttT+KnkTs12fTsWFe9Rsv13Q0P1Wjeuy447Qbt
- BEGojGmfhQTUehX06xotNvrehBMgd+gnMxo49EL2qPfq8yznSBkv7z0gR9/XdOqbXrMQ
- 0foA==
-X-Gm-Message-State: AOAM531Bm6Mg/05qN7gAe+7Oq6R4gJSOAgw40JM+cFmVYkYjOO+7TtjX
- CsUYNGkdIsIKhi7uqo5eHuISQoN2POwfGlBR9B5tm49ji7kLVdEJmoDZVat6HKQGeEZOSm9Lx/+
- Idt/EkkWOyvp3xAqgBkZkkDh4u8Pl
-X-Received: by 2002:a7b:c844:: with SMTP id c4mr37859292wml.107.1626788567976; 
- Tue, 20 Jul 2021 06:42:47 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyPDFoW1ztyceGEmsvaxxt+vRNnwbErZ3TkLOyCXvoT5YQ2hwIH+j61ex10oljV9GpyUb7Cpw==
-X-Received: by 2002:a7b:c844:: with SMTP id c4mr37859268wml.107.1626788567798; 
- Tue, 20 Jul 2021 06:42:47 -0700 (PDT)
-Received: from [192.168.1.101] ([92.176.231.106])
- by smtp.gmail.com with ESMTPSA id g15sm19533112wmh.44.2021.07.20.06.42.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 20 Jul 2021 06:42:47 -0700 (PDT)
-Subject: Re: [PATCH v3 0/2] allow simple{fb, drm} drivers to be used on
- non-x86 EFI platforms
-To: Ard Biesheuvel <ardb@kernel.org>, Dave Airlie <airlied@gmail.com>,
- linux-efi <linux-efi@vger.kernel.org>, David Airlie <airlied@linux.ie>,
- Catalin Marinas <catalin.marinas@arm.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Russell King <linux@armlinux.org.uk>, Atish Patra <atish.patra@wdc.com>,
- linux-riscv <linux-riscv@lists.infradead.org>, Will Deacon
- <will@kernel.org>, the arch/x86 maintainers <x86@kernel.org>,
- Ingo Molnar <mingo@redhat.com>, Peter Robinson <pbrobinson@gmail.com>,
- Borislav Petkov <bp@suse.de>, Albert Ou <aou@eecs.berkeley.edu>,
- Hans de Goede <hdegoede@redhat.com>, Paul Walmsley
- <paul.walmsley@sifive.com>, Thomas Gleixner <tglx@linutronix.de>,
- linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- LKML <linux-kernel@vger.kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
- Thomas Zimmermann <tzimmermann@suse.de>
-References: <20210625130947.1803678-1-javierm@redhat.com>
- <e61cf77c-6bff-dfcc-d3df-2fb6b48e5897@redhat.com>
- <8dd26141-a09c-39e2-5174-4cad8d21c49c@suse.de>
- <CAPM=9tyfNPa2f5PDBLm4w_H_riEQ5P3rEhX73YGE1y_ygRox+w@mail.gmail.com>
- <CAMj1kXErHteZ+MKYvp=yYmwVxV3A=vjtnG351hZHV+3BPwDQvw@mail.gmail.com>
- <YPbJJ/0tSO/fuW7a@phenom.ffwll.local>
-From: Javier Martinez Canillas <javierm@redhat.com>
-Message-ID: <03f0edef-e54e-8a2a-4b50-683d3d42e249@redhat.com>
-Date: Tue, 20 Jul 2021 15:42:45 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=Be4HZXEp40HUXvq7QmzTRqYXQphz7ay/OwQix79gbbA=;
+ b=DpknQXYvE62P3tyV6odgRBD54sFtmBj3qgnRDench3JbzBYamuKk86K4hUnDkWTOLN
+ Gk90kapcBrpYpFwJtwHNoGeoCUlVowU01z/yDlhtYoQzuJOkp4Czq85fKH7PvP/C5v+B
+ ndfLmasbr4Mnw/efYb0Cv8nl0wdz0qxRwK15J+S+MhXpcd2SAXn4eCL8kLHmyA8iuZOW
+ FPgoCqm61YeEkHhTIYIKeA5wH20PU9Nfv7wHL/U3D7vZqXt6e9abTSOlTnVX4YnyUs0t
+ t60AiFeC7f7Ljkj1JC07wgBk1q0+HpgNvXgE6h1A23LDGjhKJrEwX+B5YJD7iZW1KBSR
+ nQ4w==
+X-Gm-Message-State: AOAM530GxTFMyogfhfHej6gW0ca+rp24scduRiyWBF5HAyRNG1hBsCSD
+ /mMQUyr0VUveZVT3sUDe1Qq1yw==
+X-Google-Smtp-Source: ABdhPJz73QdlbsoKOLRzeUOJVVMHCbFPUwoAnf+Y5YRWRGf4t1PlZRgsgJRcHXbZN3/yYVbsTA4Nvw==
+X-Received: by 2002:a5d:4c8c:: with SMTP id z12mr37428582wrs.97.1626788691601; 
+ Tue, 20 Jul 2021 06:44:51 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id v2sm23989555wro.48.2021.07.20.06.44.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 20 Jul 2021 06:44:50 -0700 (PDT)
+Date: Tue, 20 Jul 2021 15:44:49 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Ville Syrjala <ville.syrjala@linux.intel.com>
+Subject: Re: [PATCH 1/4] drm: Introduce drm_modeset_lock_ctx_retry()
+Message-ID: <YPbTUf9KfiZ5GnFz@phenom.ffwll.local>
+References: <20210715184954.7794-1-ville.syrjala@linux.intel.com>
+ <20210715184954.7794-2-ville.syrjala@linux.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <YPbJJ/0tSO/fuW7a@phenom.ffwll.local>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210715184954.7794-2-ville.syrjala@linux.intel.com>
+X-Operating-System: Linux phenom 5.10.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,37 +68,137 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: intel-gfx@lists.freedesktop.org, Sean Paul <seanpaul@chromium.org>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/20/21 3:01 PM, Daniel Vetter wrote:
-> On Mon, Jul 19, 2021 at 09:10:52AM +0200, Ard Biesheuvel wrote:
->> On Mon, 19 Jul 2021 at 04:59, Dave Airlie <airlied@gmail.com> wrote:
-
-[snip]
-
->>>
->>> Can we just merge via drm-misc and make sure the acks are present and
->>> I'll deal with the fallout if any.
->>>
->>
->> Fine with me. Could you stick it on a separate branch so I can double
->> check whether there are any issues wrt the EFI tree?
+On Thu, Jul 15, 2021 at 09:49:51PM +0300, Ville Syrjala wrote:
+> From: Ville Syrjälä <ville.syrjala@linux.intel.com>
 > 
-> It'll pop up in linux-next for integration testing or you can pick up the
-> patch here for test-merge if you want.
->
+> Quite a few places are hand rolling the modeset lock backoff dance.
+> Let's suck that into a helper macro that is easier to use without
+> forgetting some steps.
+> 
+> The main downside is probably that the implementation of
+> drm_with_modeset_lock_ctx() is a bit harder to read than a hand
+> rolled version on account of being split across three functions,
+> but the actual code using it ends up being much simpler.
+> 
+> Cc: Sean Paul <seanpaul@chromium.org>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> ---
+>  drivers/gpu/drm/drm_modeset_lock.c | 44 ++++++++++++++++++++++++++++++
+>  include/drm/drm_modeset_lock.h     | 20 ++++++++++++++
+>  2 files changed, 64 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/drm_modeset_lock.c b/drivers/gpu/drm/drm_modeset_lock.c
+> index fcfe1a03c4a1..083df96632e8 100644
+> --- a/drivers/gpu/drm/drm_modeset_lock.c
+> +++ b/drivers/gpu/drm/drm_modeset_lock.c
+> @@ -425,3 +425,47 @@ int drm_modeset_lock_all_ctx(struct drm_device *dev,
+>  	return 0;
+>  }
+>  EXPORT_SYMBOL(drm_modeset_lock_all_ctx);
+> +
+> +void _drm_modeset_lock_begin(struct drm_modeset_acquire_ctx *ctx,
+> +			     struct drm_atomic_state *state,
+> +			     unsigned int flags, int *ret)
+> +{
+> +	drm_modeset_acquire_init(ctx, flags);
+> +
+> +	if (state)
+> +		state->acquire_ctx = ctx;
+> +
+> +	*ret = -EDEADLK;
+> +}
+> +EXPORT_SYMBOL(_drm_modeset_lock_begin);
+> +
+> +bool _drm_modeset_lock_loop(int *ret)
+> +{
+> +	if (*ret == -EDEADLK) {
+> +		*ret = 0;
+> +		return true;
+> +	}
+> +
+> +	return false;
+> +}
+> +EXPORT_SYMBOL(_drm_modeset_lock_loop);
+> +
+> +void _drm_modeset_lock_end(struct drm_modeset_acquire_ctx *ctx,
+> +			   struct drm_atomic_state *state,
+> +			   int *ret)
+> +{
+> +	if (*ret == -EDEADLK) {
+> +		if (state)
+> +			drm_atomic_state_clear(state);
+> +
+> +		*ret = drm_modeset_backoff(ctx);
+> +		if (*ret == 0) {
+> +			*ret = -EDEADLK;
+> +			return;
+> +		}
+> +	}
+> +
+> +	drm_modeset_drop_locks(ctx);
+> +	drm_modeset_acquire_fini(ctx);
+> +}
+> +EXPORT_SYMBOL(_drm_modeset_lock_end);
+> diff --git a/include/drm/drm_modeset_lock.h b/include/drm/drm_modeset_lock.h
+> index aafd07388eb7..5eaad2533de5 100644
+> --- a/include/drm/drm_modeset_lock.h
+> +++ b/include/drm/drm_modeset_lock.h
+> @@ -26,6 +26,7 @@
+>  
+>  #include <linux/ww_mutex.h>
+>  
+> +struct drm_atomic_state;
+>  struct drm_modeset_lock;
+>  
+>  /**
+> @@ -203,4 +204,23 @@ modeset_lock_fail:							\
+>  	if (!drm_drv_uses_atomic_modeset(dev))				\
+>  		mutex_unlock(&dev->mode_config.mutex);
+>  
+> +void _drm_modeset_lock_begin(struct drm_modeset_acquire_ctx *ctx,
+> +			     struct drm_atomic_state *state,
+> +			     unsigned int flags,
+> +			     int *ret);
+> +bool _drm_modeset_lock_loop(int *ret);
+> +void _drm_modeset_lock_end(struct drm_modeset_acquire_ctx *ctx,
+> +			   struct drm_atomic_state *state,
+> +			   int *ret);
+> +
+> +/*
+> + * Note that one must always use "continue" rather than
+> + * "break" or "return" to handle errors within the
+> + * drm_modeset_lock_ctx_retry() block.
 
-Thanks a lot Dave and Daniel!
- 
-> And since Dave has given a blanket cheque for handling fallout he'll deal
-> with the need for fixups too if there's any.
+I'm not sold on loop macros with these kind of restrictions, C just isn't
+a great language for these. That's why e.g. drm_connector_iter doesn't
+give you a macro, but only the begin/next/end function calls explicitly.
 
-I also plan to look at any regression that might had been introduced by these.
+Yes the macro we have is also not nice, but at least it's a screaming
+macro since it's all uppercase, so options are all a bit sucky. Which
+leads me to think we have a bit a https://xkcd.com/927/ situation going
+on.
 
-Best regards,
+I think minimally we should have one way to do this.
+-Daniel
+
+> + */
+> +#define drm_modeset_lock_ctx_retry(ctx, state, flags, ret) \
+> +	for (_drm_modeset_lock_begin((ctx), (state), (flags), &(ret)); \
+> +	     _drm_modeset_lock_loop(&(ret)); \
+> +	     _drm_modeset_lock_end((ctx), (state), &(ret)))
+> +
+>  #endif /* DRM_MODESET_LOCK_H_ */
+> -- 
+> 2.31.1
+> 
+
 -- 
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
