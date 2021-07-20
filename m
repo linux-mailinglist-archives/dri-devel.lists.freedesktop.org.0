@@ -2,56 +2,115 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1579E3D04B8
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 00:39:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECD2D3D04C7
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 00:50:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 17C3F6E364;
-	Tue, 20 Jul 2021 22:39:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D19646E45C;
+	Tue, 20 Jul 2021 22:50:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 87C816E364
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 22:39:50 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1626820793; h=Message-Id: Date: Subject: Cc: To: From:
- Sender; bh=xcgwHh5tl/wnq223kHMKu8lruSxqe3r0xjF0PcaL1A8=;
- b=F6eJ7KgSujmH52tLBgrwkAo+WAs20+TvHxDok6H3xTLptu7N5+HOV8D0H/b88VwDXs24nsQn
- clENRaasD9Re/0gYEw0gHYqxTHuPjAazWJn8D8gWe0I1AQEnfYWvEKgiTjOZYjKMouYBlRN8
- XPpEQLS8BRyH8Uvb6dJp7rY5ZZ4=
-X-Mailgun-Sending-Ip: 69.72.43.7
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n07.prod.us-west-2.postgun.com with SMTP id
- 60f750ace31d882d18d2edc8 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 20 Jul 2021 22:39:40
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 8F4C9C43143; Tue, 20 Jul 2021 22:39:40 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
- SPF_FAIL, 
- URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
-Received: from nganji-linux.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: maitreye)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 908FAC433F1;
- Tue, 20 Jul 2021 22:39:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 908FAC433F1
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=fail smtp.mailfrom=maitreye@codeaurora.org
-From: maitreye <maitreye@codeaurora.org>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v3] drm/msm/dp: add logs across DP driver for ease of debugging
-Date: Tue, 20 Jul 2021 15:39:30 -0700
-Message-Id: <1626820770-28158-1-git-send-email-maitreye@codeaurora.org>
-X-Mailer: git-send-email 2.7.4
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2065.outbound.protection.outlook.com [40.107.223.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C5676E3A0;
+ Tue, 20 Jul 2021 22:49:58 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=c0xx9U4ljDSuzVXDf2FTdiFzD2n27NxvPtp2YWNMavkXnHnj7hvTfWP2AjD/Q2gzVGLJw8TlONYPjZpeF0w4VX19BuwTELl0kbZV2QKMbTrP8v6vP+131d13dMa01ohDrh7GMkPNP5aYi+sxOhlcD5NpztWpIl2fS7Oy8evgbQ2wiG0p2NlkoIAyEn2v4BbwidKGgZI/JpRb4AR6yM8yqIQb22G51vEoIcPXDBptdpz5RBRZB86+WEOviunJkdi7F402+dlwAa5fLgMuDK/eBe3Qb7hyxxYkqdQdrCd5iJcT3EK/OB6dhYmYTIB5jru2rTZHwPS1atcfew4ac/rVFg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=cEzZa841vkeBoC2mxG/NMGrzpkXdRWDE4qhF5crkf3M=;
+ b=XAzQAR9ug/xqBMGerkJioTYojxTvtzDv6ENn1CEzmvDmKGtU2XjOrYYCDONmE54Bal3JEWqy0z/r8rj8Mi4EaOVUDxS1WW6Rwlw54V74M0a2HNpUzxGFWvtwi5RWgLdibKWMNcSv8ePO7ffa82HCwfh7NS/gEyujSQWbeu4U3dg95k9kkaPF9/qNysHbzY3n2crLNGL4p0O9VJpebaUCrP+Q2bLIGsKm+Pr0h4Am+lEElL2ef1k73Mknxnvf4/mmh0gjw9GVE7UvEy6Oxm6DbRWD9fdfCzYUO9axEElrnQBUNBIw5YuWtV4efzU1kTQ+M5yGpbg5l4HqHrAcBYMSwA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=cEzZa841vkeBoC2mxG/NMGrzpkXdRWDE4qhF5crkf3M=;
+ b=PQF0uLxHdqWTKdmgDzVnbX0/VGjfFrkW//h6oMm8zT1SdEefOrEuPiukiM8kHxCHQ5xKCiRLr8KdAXBHOa78wTZ7nkap83xGfW96DQyrv8jCeSewe+jOTnM8VOKoZayNXLrhapzGCqN5qrWA6kgG6Uum3wA0HMadyRdQNOG8QtXSOAeaXROexODKJ1I4wY0lcZA9y1317Jo5X1zDzDyRGICZPsoIpwlSHgQH+7pAwjPuoXbD8j4skIKp7SWw1quWNFYJADoq4CWk5ZSqvBdu/vYqsLT+e2JCzwtOhgAGy3HJScYLpxTVA0X3vGutorwQ1y0DZiiGTKisN1DvKT9HPg==
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=nvidia.com;
+Received: from BL0PR12MB5506.namprd12.prod.outlook.com (2603:10b6:208:1cb::22)
+ by BL1PR12MB5093.namprd12.prod.outlook.com (2603:10b6:208:309::22)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.24; Tue, 20 Jul
+ 2021 22:49:56 +0000
+Received: from BL0PR12MB5506.namprd12.prod.outlook.com
+ ([fe80::d017:af2f:7049:5482]) by BL0PR12MB5506.namprd12.prod.outlook.com
+ ([fe80::d017:af2f:7049:5482%5]) with mapi id 15.20.4331.034; Tue, 20 Jul 2021
+ 22:49:56 +0000
+Date: Tue, 20 Jul 2021 19:49:55 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Alex Williamson <alex.williamson@redhat.com>
+Subject: Re: [PATCH v2 02/14] vfio/mbochs: Fix missing error unwind in
+ mbochs_probe()
+Message-ID: <20210720224955.GD1117491@nvidia.com>
+References: <0-v2-b6a5582525c9+ff96-vfio_reflck_jgg@nvidia.com>
+ <2-v2-b6a5582525c9+ff96-vfio_reflck_jgg@nvidia.com>
+ <20210720160127.17bf3c19.alex.williamson@redhat.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210720160127.17bf3c19.alex.williamson@redhat.com>
+X-ClientProxiedBy: BL1PR13CA0127.namprd13.prod.outlook.com
+ (2603:10b6:208:2bb::12) To BL0PR12MB5506.namprd12.prod.outlook.com
+ (2603:10b6:208:1cb::22)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from mlx.ziepe.ca (142.162.113.129) by
+ BL1PR13CA0127.namprd13.prod.outlook.com (2603:10b6:208:2bb::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4352.14 via Frontend
+ Transport; Tue, 20 Jul 2021 22:49:56 +0000
+Received: from jgg by mlx with local (Exim 4.94)	(envelope-from
+ <jgg@nvidia.com>)	id 1m5yYl-005FvT-GW; Tue, 20 Jul 2021 19:49:55 -0300
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 7e149845-a2b7-42d8-af5d-08d94bd0b215
+X-MS-TrafficTypeDiagnostic: BL1PR12MB5093:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <BL1PR12MB5093002E4432772CED8815FAC2E29@BL1PR12MB5093.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: izSsyVeA01tMbZ9LxfYyca9ju7t7qPT/SkFHz/Sl0j0wKP5NBy8nDkxtafo8429B/Y0wNYvUICYKaTxHoQdA1NJcBby6XHhWMn8pGJ9rMylCPz6iykqD5nia71KHek2r0sPQwcdodrpQnm54LMoLR4Iqn4xW3NZEChuQNIJjoHctj2TQ9abMFzvAqxkarQQLrQdTtZ1f+AQ4yiSdpKkLdKS1Et/SzKX3TctYq+FIsbArOTLv8D42BZDcCFV4SM7Zg9o0XjTLvRa6WqRfcI1cnZw3LUYJ6iRrGpsiRBlF56vaDzxD5X6nTdBo7y7+i32YROH5DZKrIY/5V7W2r3viiTI9YQ4Q08iTtWMU43BVKpLa4dBYL9xqYuLMTM8qVJTv/pOKAr0J7UX4Gd0VhO16nv/IDsuccoyOP4/wPcuMDtCpNXDwDIQEmoz6hdK2Pkw8f9XB25Puj3kNocWO3zvnvYwFldMmvg5Wyt1Rg7WQe1aH8GKgGNUlQRuoim39JkOhMa6xFrXoGI59w1fcKzqr+aXHq4NlRQ0lDJZR2+X7WzoTJzLrx1ivQ0RnaiIHfwL5Fb4yguggRwmaIFe/V593BAVjKzszlGP/2+qjDzxxQaoXYm1VodLWt1yELsETM98M1YlWdSWQhyVKaONLisjf9g==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BL0PR12MB5506.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(396003)(136003)(39860400002)(376002)(366004)(346002)(7406005)(7416002)(38100700002)(5660300002)(36756003)(6916009)(26005)(83380400001)(2906002)(1076003)(33656002)(86362001)(9746002)(66476007)(66946007)(8936002)(186003)(8676002)(2616005)(426003)(54906003)(316002)(66556008)(478600001)(9786002)(4326008);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?6voRhEnl9cUve/9Gf1xKFyVnrrkcTJ4oDBhyDqSDt7lsc5PSA4jjkr7LpshN?=
+ =?us-ascii?Q?+wQVlZDIS9g4lVJyMDwGJefYZtKwZzmNVLfbfdchSoEpLWtDy+bbKznKBvNf?=
+ =?us-ascii?Q?E9FwIAz7m+WEvGJdxynxA1/z7N8G0RukAP3EkGZzBxMPJcIJWuFPacos2CVF?=
+ =?us-ascii?Q?qju3nzfAJvjKYQ/1a9aic8GlXjSOUZjKJIqL1VZnzx8oZ9bBwPIYxdd+rVPB?=
+ =?us-ascii?Q?on15VU0srb85L8z6NaV3K5mhfWWSiD4u1BCQyBqQH51vYA97ydYSYX9jWRjD?=
+ =?us-ascii?Q?hmWne5HKUNR8aTW4VHTjb2dZJd71LS8Ny428xlTQPRhirvpS3T3cRKqGc4oI?=
+ =?us-ascii?Q?YDH7a/dY0dqqprEYCVZ6A5z8NAJZy4Q8IG7nJA/JGV+Lar9ThwAjUTW1FFvh?=
+ =?us-ascii?Q?c92jhU0vzSBsdiUlDNYIs6yxe8icGAbuFupfqx/5B8QlR+pLMvGaoL8/gktm?=
+ =?us-ascii?Q?cY0AZqXInkOwo0CuVQdqA7L8KdBjBkzTHwr/wl5DqbFuFYbg4IBRHLMZxwmb?=
+ =?us-ascii?Q?OMfF/B+A+quWw23i3f7esRX3UAxHewCsv/svoaZhA9iwphv+cjxvkMPLFyna?=
+ =?us-ascii?Q?WKfrhwa/QUBbTe+86rnX+5SyPFmqNq92veAapAccPw275yS9sXg9vwjBZ1kn?=
+ =?us-ascii?Q?zLI0ZMxggWa8fcynWAv8W+U6otLDzyHD5cQ8scwaZ27u69awlz4LEenajPgn?=
+ =?us-ascii?Q?Ooi7BAfMcflsQyfBOnLOZtU4L20bQhY0CIcHkEWVPZj13TWC4dcX6f3qiv9j?=
+ =?us-ascii?Q?lWEUMLbbUwQGxR/CkuVyb9d5P3MuFgEHeaYjh7A/2kWkAWIEahvzSUx/9641?=
+ =?us-ascii?Q?kqsTqAQ35e8SQ3XzH88jWbkMPKmks2Cmd0zdFuknvZZhVpfMJUwUD8zWRmqq?=
+ =?us-ascii?Q?PJN75d/9nI25OIYPUuFy+uSg3EyfPqo0AXcoOqxIEccPCiBKoiB2AYYNnjwb?=
+ =?us-ascii?Q?njUlquTXm6pkBH+7h/UeU3wZCuJRZA+QdNLtALmEl9DAQQkc0DIQJ0t4RjYz?=
+ =?us-ascii?Q?pM5R2SgvB2rm7wrAIlBDr9tuK9J30AQ6TTcZSVEWQQV3E0GxS3IZStRXfXZX?=
+ =?us-ascii?Q?qI8MqMvFiIli2Wc4O7ddKLakfzDvlfxslMsoggTdEwX0mPU3l2cuvhrQrZ7W?=
+ =?us-ascii?Q?XhTv//1jG5jWlifFq/aHqN36tGi2wOHYONG+odN4J5H7fgLWatyG+F191ubE?=
+ =?us-ascii?Q?oj6RKX6F0YZYWHtTpluSv3ouuJ+x1pasNijJVr+PBuGI+eCuE8UTp1LSH8WQ?=
+ =?us-ascii?Q?gWOAMmQho8GCg6ALW8Jpkcw7CUlW/s5QPB5jLrBvmn4js6qAQ068jcbWC9ef?=
+ =?us-ascii?Q?ZZT4Na8XCekWBOlDVgKslBSs?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7e149845-a2b7-42d8-af5d-08d94bd0b215
+X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB5506.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jul 2021 22:49:56.5529 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: +ULIbNaI/rq0lQXSR/MjpYJwcaIUYXJVinwrAmjUEfjP9jIiIHwD3CNeQ2gr513w
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5093
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,292 +123,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maitreyee Rao <maitreye@codeaurora.org>, linux-arm-msm@vger.kernel.org,
- abhinavk@codeaurora.org, swboyd@chromium.org, khsieh@codeaurora.org,
- seanpaul@chromium.org, aravindh@codeaurora.org,
- freedreno@lists.freedesktop.org
+Cc: kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Kirti Wankhede <kwankhede@nvidia.com>, Max Gurtovoy <mgurtovoy@nvidia.com>,
+ Vineeth Vijayan <vneethv@linux.ibm.com>,
+ Diana Craciun <diana.craciun@oss.nxp.com>, Leon Romanovsky <leonro@nvidia.com>,
+ Christoph Hellwig <hch@lst.de>, linux-s390@vger.kernel.org,
+ Matthew Rosato <mjrosato@linux.ibm.com>, Jonathan Corbet <corbet@lwn.net>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ intel-gfx@lists.freedesktop.org, Zhi Wang <zhi.a.wang@intel.com>,
+ Jason Herne <jjherne@linux.ibm.com>, Eric Farman <farman@linux.ibm.com>,
+ Vasily Gorbik <gor@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>,
+ Eric Auger <eric.auger@redhat.com>,
+ Harald Freudenberger <freude@linux.ibm.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gvt-dev@lists.freedesktop.org,
+ "Raj, Ashok" <ashok.raj@intel.com>, Tony Krowiak <akrowiak@linux.ibm.com>,
+ Yishai Hadas <yishaih@nvidia.com>, Cornelia Huck <cohuck@redhat.com>,
+ Peter Oberparleiter <oberpar@linux.ibm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Maitreyee Rao <maitreye@codeaurora.org>
+On Tue, Jul 20, 2021 at 04:01:27PM -0600, Alex Williamson wrote:
+> On Tue, 20 Jul 2021 14:42:48 -0300
+> Jason Gunthorpe <jgg@nvidia.com> wrote:
+> 
+> > Compared to mbochs_remove() two cases are missing from the
+> > vfio_register_group_dev() unwind. Add them in.
+> > 
+> > Fixes: 681c1615f891 ("vfio/mbochs: Convert to use vfio_register_group_dev()")
+> > Reported-by: Cornelia Huck <cohuck@redhat.com>
+> > Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+> >  samples/vfio-mdev/mbochs.c | 7 +++++--
+> >  1 file changed, 5 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/samples/vfio-mdev/mbochs.c b/samples/vfio-mdev/mbochs.c
+> > index e81b875b4d87b4..501845b08c0974 100644
+> > +++ b/samples/vfio-mdev/mbochs.c
+> > @@ -553,11 +553,14 @@ static int mbochs_probe(struct mdev_device *mdev)
+> >  
+> >  	ret = vfio_register_group_dev(&mdev_state->vdev);
+> >  	if (ret)
+> > -		goto err_mem;
+> > +		goto err_bytes;
+> >  	dev_set_drvdata(&mdev->dev, mdev_state);
+> >  	return 0;
+> >  
+> > +err_bytes:
+> > +	mbochs_used_mbytes -= mdev_state->type->mbytes;
+> >  err_mem:
+> > +	kfree(mdev_state->pages);
+> >  	kfree(mdev_state->vconfig);
+> >  	kfree(mdev_state);
+> >  	return ret;
+> > @@ -567,8 +570,8 @@ static void mbochs_remove(struct mdev_device *mdev)
+> >  {
+> >  	struct mdev_state *mdev_state = dev_get_drvdata(&mdev->dev);
+> >  
+> > -	mbochs_used_mbytes -= mdev_state->type->mbytes;
+> >  	vfio_unregister_group_dev(&mdev_state->vdev);
+> > +	mbochs_used_mbytes -= mdev_state->type->mbytes;
+> >  	kfree(mdev_state->pages);
+> >  	kfree(mdev_state->vconfig);
+> >  	kfree(mdev_state);
+> 
+> Hmm, doesn't this suggest we need another atomic conversion?  (untested)
 
-Add trace points across the MSM DP driver to help debug
-interop issues.
+Sure why not, I can add this as another patch
 
-Changes in v3:
- - Got rid of redundant log messages.
- - Unstuck colon from printf specifier in various places.
+> @@ -567,11 +573,11 @@ static void mbochs_remove(struct mdev_device *mdev)
+>  {
+>  	struct mdev_state *mdev_state = dev_get_drvdata(&mdev->dev);
+>  
+> -	mbochs_used_mbytes -= mdev_state->type->mbytes;
+>  	vfio_unregister_group_dev(&mdev_state->vdev);
+>  	kfree(mdev_state->pages);
+>  	kfree(mdev_state->vconfig);
+>  	kfree(mdev_state);
+> +	atomic_add(mdev_state->type->mbytes, &mbochs_avail_mbytes);
 
-Signed-off-by: Maitreyee Rao <maitreye@codeaurora.org>
----
- drivers/gpu/drm/msm/dp/dp_catalog.c |  8 ++++++--
- drivers/gpu/drm/msm/dp/dp_ctrl.c    |  5 ++++-
- drivers/gpu/drm/msm/dp/dp_display.c | 14 ++++++++++++++
- drivers/gpu/drm/msm/dp/dp_link.c    | 17 ++++++++++-------
- drivers/gpu/drm/msm/dp/dp_power.c   |  3 +++
- 5 files changed, 37 insertions(+), 10 deletions(-)
+This should be up after the vfio_unregister_group_dev(), it is a use after free?
 
-diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.c b/drivers/gpu/drm/msm/dp/dp_catalog.c
-index 32f3575..958d3fa3 100644
---- a/drivers/gpu/drm/msm/dp/dp_catalog.c
-+++ b/drivers/gpu/drm/msm/dp/dp_catalog.c
-@@ -372,6 +372,7 @@ void dp_catalog_ctrl_mainlink_ctrl(struct dp_catalog *dp_catalog,
- 	struct dp_catalog_private *catalog = container_of(dp_catalog,
- 				struct dp_catalog_private, dp_catalog);
- 
-+	DRM_DEBUG_DP("enable=%d\n", enable);
- 	if (enable) {
- 		/*
- 		 * To make sure link reg writes happens before other operation,
-@@ -580,6 +581,7 @@ void dp_catalog_hpd_config_intr(struct dp_catalog *dp_catalog,
- 
- 	config = (en ? config | intr_mask : config & ~intr_mask);
- 
-+	DRM_DEBUG_DP("intr_mask=%#x config=%#x\n", intr_mask, config);
- 	dp_write_aux(catalog, REG_DP_DP_HPD_INT_MASK,
- 				config & DP_DP_HPD_INT_MASK);
- }
-@@ -610,6 +612,7 @@ u32 dp_catalog_link_is_connected(struct dp_catalog *dp_catalog)
- 	u32 status;
- 
- 	status = dp_read_aux(catalog, REG_DP_DP_HPD_INT_STATUS);
-+	DRM_DEBUG_DP("aux status: %#x\n", status);
- 	status >>= DP_DP_HPD_STATE_STATUS_BITS_SHIFT;
- 	status &= DP_DP_HPD_STATE_STATUS_BITS_MASK;
- 
-@@ -685,6 +688,7 @@ void dp_catalog_ctrl_send_phy_pattern(struct dp_catalog *dp_catalog,
- 	/* Make sure to clear the current pattern before starting a new one */
- 	dp_write_link(catalog, REG_DP_STATE_CTRL, 0x0);
- 
-+	DRM_DEBUG_DP("pattern: %#x\n", pattern);
- 	switch (pattern) {
- 	case DP_PHY_TEST_PATTERN_D10_2:
- 		dp_write_link(catalog, REG_DP_STATE_CTRL,
-@@ -745,7 +749,7 @@ void dp_catalog_ctrl_send_phy_pattern(struct dp_catalog *dp_catalog,
- 				DP_STATE_CTRL_LINK_TRAINING_PATTERN4);
- 		break;
- 	default:
--		DRM_DEBUG_DP("No valid test pattern requested:0x%x\n", pattern);
-+		DRM_DEBUG_DP("No valid test pattern requested: %#x\n", pattern);
- 		break;
- 	}
- }
-@@ -928,7 +932,7 @@ void dp_catalog_audio_config_acr(struct dp_catalog *dp_catalog)
- 	select = dp_catalog->audio_data;
- 	acr_ctrl = select << 4 | BIT(31) | BIT(8) | BIT(14);
- 
--	DRM_DEBUG_DP("select = 0x%x, acr_ctrl = 0x%x\n", select, acr_ctrl);
-+	DRM_DEBUG_DP("select: %#x, acr_ctrl: %#x\n", select, acr_ctrl);
- 
- 	dp_write_link(catalog, MMSS_DP_AUDIO_ACR_CTRL, acr_ctrl);
- }
-diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-index 2a8955c..72de71a 100644
---- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
-+++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-@@ -122,7 +122,7 @@ void dp_ctrl_push_idle(struct dp_ctrl *dp_ctrl)
- 			IDLE_PATTERN_COMPLETION_TIMEOUT_JIFFIES))
- 		pr_warn("PUSH_IDLE pattern timedout\n");
- 
--	pr_debug("mainlink off done\n");
-+	DRM_DEBUG_DP("mainlink off done\n");
- }
- 
- static void dp_ctrl_config_ctrl(struct dp_ctrl_private *ctrl)
-@@ -1013,6 +1013,8 @@ static int dp_ctrl_update_vx_px(struct dp_ctrl_private *ctrl)
- 	u32 voltage_swing_level = link->phy_params.v_level;
- 	u32 pre_emphasis_level = link->phy_params.p_level;
- 
-+	DRM_DEBUG_DP("voltage level: %d emphasis level: %d\n", voltage_swing_level,
-+			pre_emphasis_level);
- 	ret = dp_catalog_ctrl_update_vx_px(ctrl->catalog,
- 		voltage_swing_level, pre_emphasis_level);
- 
-@@ -1384,6 +1386,7 @@ int dp_ctrl_host_init(struct dp_ctrl *dp_ctrl, bool flip, bool reset)
- 	if (reset)
- 		dp_catalog_ctrl_reset(ctrl->catalog);
- 
-+	DRM_DEBUG_DP("flip=%d\n", flip);
- 	dp_catalog_ctrl_phy_reset(ctrl->catalog);
- 	phy_init(phy);
- 	dp_catalog_ctrl_enable_irq(ctrl->catalog, true);
-diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-index cf9c645..97e21fa 100644
---- a/drivers/gpu/drm/msm/dp/dp_display.c
-+++ b/drivers/gpu/drm/msm/dp/dp_display.c
-@@ -275,6 +275,8 @@ static bool dp_display_is_ds_bridge(struct dp_panel *panel)
- 
- static bool dp_display_is_sink_count_zero(struct dp_display_private *dp)
- {
-+	DRM_DEBUG_DP("present=%#x sink_count=%d\n", dp->panel->dpcd[DP_DOWNSTREAMPORT_PRESENT],
-+			dp->link->sink_count);
- 	return dp_display_is_ds_bridge(dp->panel) &&
- 		(dp->link->sink_count == 0);
- }
-@@ -320,6 +322,7 @@ static int dp_display_send_hpd_notification(struct dp_display_private *dp,
- 
- 	dp->dp_display.is_connected = hpd;
- 
-+	DRM_DEBUG_DP("hpd=%d\n", hpd);
- 	dp_display_send_hpd_event(&dp->dp_display);
- 
- 	return 0;
-@@ -369,6 +372,7 @@ static void dp_display_host_init(struct dp_display_private *dp, int reset)
- {
- 	bool flip = false;
- 
-+	DRM_DEBUG_DP("core_initialized=%d\n", dp->core_initialized);
- 	if (dp->core_initialized) {
- 		DRM_DEBUG_DP("DP core already initialized\n");
- 		return;
-@@ -483,8 +487,10 @@ static int dp_display_handle_irq_hpd(struct dp_display_private *dp)
- {
- 	u32 sink_request = dp->link->sink_request;
- 
-+	DRM_DEBUG_DP("%d\n", sink_request);
- 	if (dp->hpd_state == ST_DISCONNECTED) {
- 		if (sink_request & DP_LINK_STATUS_UPDATED) {
-+			DRM_DEBUG_DP("Disconnected sink_count: %d\n", sink_request);
- 			DRM_ERROR("Disconnected, no DP_LINK_STATUS_UPDATED\n");
- 			return -EINVAL;
- 		}
-@@ -509,6 +515,7 @@ static int dp_display_usbpd_attention_cb(struct device *dev)
- 		DRM_ERROR("invalid dev\n");
- 		return -EINVAL;
- 	}
-+	DRM_DEBUG_DP("sink_request: %d\n", sink_request);
- 
- 	dp = container_of(g_dp_display,
- 			struct dp_display_private, dp_display);
-@@ -523,6 +530,7 @@ static int dp_display_usbpd_attention_cb(struct device *dev)
- 	rc = dp_link_process_request(dp->link);
- 	if (!rc) {
- 		sink_request = dp->link->sink_request;
-+		DRM_DEBUG_DP("hpd_state=%d sink_count=%d\n", dp->hpd_state, sink_request);
- 		if (sink_request & DS_PORT_STATUS_CHANGED)
- 			rc = dp_display_handle_port_ststus_changed(dp);
- 		else
-@@ -545,6 +553,7 @@ static int dp_hpd_plug_handle(struct dp_display_private *dp, u32 data)
- 	mutex_lock(&dp->event_mutex);
- 
- 	state =  dp->hpd_state;
-+	DRM_DEBUG_DP("hpd_state=%d\n", state);
- 	if (state == ST_DISPLAY_OFF || state == ST_SUSPENDED) {
- 		mutex_unlock(&dp->event_mutex);
- 		return 0;
-@@ -680,6 +689,7 @@ static int dp_hpd_unplug_handle(struct dp_display_private *dp, u32 data)
- 	/* start sentinel checking in case of missing uevent */
- 	dp_add_event(dp, EV_DISCONNECT_PENDING_TIMEOUT, 0, DP_TIMEOUT_5_SECOND);
- 
-+	DRM_DEBUG_DP("hpd_state=%d\n", state);
- 	/* signal the disconnect event early to ensure proper teardown */
- 	dp_display_handle_plugged_change(g_dp_display, false);
- 
-@@ -738,6 +748,7 @@ static int dp_irq_hpd_handle(struct dp_display_private *dp, u32 data)
- 	if (ret == -ECONNRESET) { /* cable unplugged */
- 		dp->core_initialized = false;
- 	}
-+	DRM_DEBUG_DP("hpd_state=%d\n", state);
- 
- 	mutex_unlock(&dp->event_mutex);
- 
-@@ -882,6 +893,7 @@ static int dp_display_enable(struct dp_display_private *dp, u32 data)
- 
- 	dp_display = g_dp_display;
- 
-+	DRM_DEBUG_DP("sink_count=%d\n", dp->link->sink_count);
- 	if (dp_display->power_on) {
- 		DRM_DEBUG_DP("Link already setup, return\n");
- 		return 0;
-@@ -943,6 +955,7 @@ static int dp_display_disable(struct dp_display_private *dp, u32 data)
- 
- 	dp_display->power_on = false;
- 
-+	DRM_DEBUG_DP("sink count: %d\n", dp->link->sink_count);
- 	return 0;
- }
- 
-@@ -1190,6 +1203,7 @@ static irqreturn_t dp_display_irq_handler(int irq, void *dev_id)
- 
- 	hpd_isr_status = dp_catalog_hpd_get_intr_status(dp->catalog);
- 
-+	DRM_DEBUG_DP("hpd isr status=%#x\n", hpd_isr_status);
- 	if (hpd_isr_status & 0x0F) {
- 		/* hpd related interrupts */
- 		if (hpd_isr_status & DP_DP_HPD_PLUG_INT_MASK ||
-diff --git a/drivers/gpu/drm/msm/dp/dp_link.c b/drivers/gpu/drm/msm/dp/dp_link.c
-index be986da..316e8e6 100644
---- a/drivers/gpu/drm/msm/dp/dp_link.c
-+++ b/drivers/gpu/drm/msm/dp/dp_link.c
-@@ -1036,43 +1036,46 @@ int dp_link_process_request(struct dp_link *dp_link)
- 
- 	if (link->request.test_requested == DP_TEST_LINK_EDID_READ) {
- 		dp_link->sink_request |= DP_TEST_LINK_EDID_READ;
--		return ret;
-+		goto out;
- 	}
- 
- 	ret = dp_link_process_ds_port_status_change(link);
- 	if (!ret) {
- 		dp_link->sink_request |= DS_PORT_STATUS_CHANGED;
--		return ret;
-+		goto out;
- 	}
- 
- 	ret = dp_link_process_link_training_request(link);
- 	if (!ret) {
- 		dp_link->sink_request |= DP_TEST_LINK_TRAINING;
--		return ret;
-+		goto out;
- 	}
- 
- 	ret = dp_link_process_phy_test_pattern_request(link);
- 	if (!ret) {
- 		dp_link->sink_request |= DP_TEST_LINK_PHY_TEST_PATTERN;
--		return ret;
-+		goto out;
- 	}
- 
- 	ret = dp_link_process_link_status_update(link);
- 	if (!ret) {
- 		dp_link->sink_request |= DP_LINK_STATUS_UPDATED;
--		return ret;
-+		goto out;
- 	}
- 
- 	if (dp_link_is_video_pattern_requested(link)) {
--		ret = 0;
- 		dp_link->sink_request |= DP_TEST_LINK_VIDEO_PATTERN;
-+		goto out;
- 	}
- 
- 	if (dp_link_is_audio_pattern_requested(link)) {
- 		dp_link->sink_request |= DP_TEST_LINK_AUDIO_PATTERN;
--		return -EINVAL;
-+		ret = -EINVAL;
-+		goto out;
- 	}
- 
-+out:
-+	DRM_DEBUG_DP("sink request=%#x", dp_link->sink_request);
- 	return ret;
- }
- 
-diff --git a/drivers/gpu/drm/msm/dp/dp_power.c b/drivers/gpu/drm/msm/dp/dp_power.c
-index 3961ba4..37c214b 100644
---- a/drivers/gpu/drm/msm/dp/dp_power.c
-+++ b/drivers/gpu/drm/msm/dp/dp_power.c
-@@ -208,6 +208,9 @@ static int dp_power_clk_set_rate(struct dp_power_private *power,
- 
- int dp_power_clk_status(struct dp_power *dp_power, enum dp_pm_type pm_type)
- {
-+	DRM_DEBUG_DP("core_clk_on=%d link_clk_on=%d stream_clk_on=%d\n",
-+			dp_power->core_clks_on, dp_power->link_clks_on, dp_power->stream_clks_on);
-+
- 	if (pm_type == DP_CORE_PM)
- 		return dp_power->core_clks_on;
- 
--- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
-
+Jason
