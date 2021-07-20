@@ -1,52 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD7813CFC87
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jul 2021 16:41:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 049B03CFC95
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jul 2021 16:45:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EAA2E6E40C;
-	Tue, 20 Jul 2021 14:41:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 680896E183;
+	Tue, 20 Jul 2021 14:45:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f46.google.com (mail-io1-f46.google.com
- [209.85.166.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 02B706E40C
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 14:41:26 +0000 (UTC)
-Received: by mail-io1-f46.google.com with SMTP id z9so24163142iob.8
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 07:41:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=XBmEtxGuro5AHDRV4MlIOBSIJE60xpP6Q488vaMtT4w=;
- b=EnKOZft947gK8bMLPNo6ZK9jGnKQw/LcyOHdFomHv1vqwg3AlDJ0lLTBQWpgteIctw
- 8sg7C8+f0I1iTSG5OO9LrjNXxUoHKxGxcmINfk6OhpLo1umwSZhzeReFDQ+1XH0srwm+
- fRDkvabtmh4xRlMi2vbR0c+yolXkJPYw2MjEc/CRpqr3pvN8xV9q4c1Q8A7KcjBxeJPt
- jUmkRWb/W7jE7wB5TpfRTaao7GoKIQRKZljZ3f0xyy/wHHEs8Qmt62ju+dKU+rOgBN+H
- KOJrUj53+4B5kN2v7bAvUgIN5F2FYP0U2ptdN0it9giaM/ayYXgTsyBlOnUHhJbbgfEm
- g+Bg==
-X-Gm-Message-State: AOAM53371Y4HoIltEsPejRNGQOdJ37BFXipewJGNjpRQczq+DIu3JtDK
- E2deDSbj96Pl1OOZA45egQ==
-X-Google-Smtp-Source: ABdhPJxooJfH/EtsqVVp9aWaE7jnvJiJKvu2tMzpZa406I+JYIozF7V3Rmk+KzkVPfszh9YcgMuFVA==
-X-Received: by 2002:a6b:e60f:: with SMTP id g15mr22562813ioh.48.1626792086375; 
- Tue, 20 Jul 2021 07:41:26 -0700 (PDT)
-Received: from xps15.herring.priv ([64.188.179.248])
- by smtp.googlemail.com with ESMTPSA id 10sm2091407iln.39.2021.07.20.07.41.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Jul 2021 07:41:25 -0700 (PDT)
-From: Rob Herring <robh@kernel.org>
-To: Viresh Kumar <viresh.kumar@linaro.org>,
-	Tony Lindgren <tony@atomide.com>
-Subject: [PATCH v3 2/3] dt-bindings: Clean-up OPP binding node names in
- examples
-Date: Tue, 20 Jul 2021 08:41:20 -0600
-Message-Id: <20210720144121.66713-2-robh@kernel.org>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20210720144121.66713-1-robh@kernel.org>
-References: <20210720144121.66713-1-robh@kernel.org>
+Received: from mx1.smtp.larsendata.com (mx1.smtp.larsendata.com
+ [91.221.196.215])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8099D6E183
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 14:45:44 +0000 (UTC)
+Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
+ by mx1.smtp.larsendata.com (Halon) with ESMTPS
+ id 2a39336e-e969-11eb-9082-0050568c148b;
+ Tue, 20 Jul 2021 14:45:45 +0000 (UTC)
+Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
+ [80.162.45.141])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: sam@ravnborg.org)
+ by mail01.mxhotel.dk (Postfix) with ESMTPSA id A6564194B81;
+ Tue, 20 Jul 2021 16:45:58 +0200 (CEST)
+Date: Tue, 20 Jul 2021 16:45:41 +0200
+X-Report-Abuse-To: abuse@mxhotel.dk
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: Re: [PATCH resend 0/5] video: fbdev: ssd1307fb: Optimizations and
+ improvements
+Message-ID: <YPbhlanL295gVnfU@ravnborg.org>
+References: <20210714145804.2530727-1-geert@linux-m68k.org>
+ <YPXRMXQxCW+Agaz8@ravnborg.org>
+ <CAMuHMdXK5X5Zawgp=SivGQSvOi=p_PwarYUR4QikGuB+f_d6YQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdXK5X5Zawgp=SivGQSvOi=p_PwarYUR4QikGuB+f_d6YQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,75 +50,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Leonard Crestez <leonard.crestez@nxp.com>,
- linux-pm@vger.kernel.org, Sascha Hauer <s.hauer@pengutronix.de>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- =?UTF-8?q?Beno=C3=AEt=20Cousson?= <bcousson@baylibre.com>,
- Georgi Djakov <djakov@kernel.org>, linux-omap@vger.kernel.org,
- Shawn Guo <shawnguo@kernel.org>
+Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ David Airlie <airlied@linux.ie>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In preparation to convert OPP bindings to DT schema, clean-up a few OPP
-binding node names in the binding examples.
+Hi Geert,
+On Tue, Jul 20, 2021 at 09:33:11AM +0200, Geert Uytterhoeven wrote:
+> Hi Sam,
+> 
+> On Mon, Jul 19, 2021 at 9:23 PM Sam Ravnborg <sam@ravnborg.org> wrote:
+> > On Wed, Jul 14, 2021 at 04:57:59PM +0200, Geert Uytterhoeven wrote:
+> > > This patch series optimizes console operations on ssd1307fb, after the
+> > > customary fixes and cleanups.
+> > >
+> > > Currently, each screen update triggers an I2C transfer of all screen
+> > > data, up to 1 KiB of data for a 128x64 display, which takes at least 20
+> > > ms in Fast mode.  While many displays are smaller, and thus require less
+> > > data to be transferred, 20 ms is still an optimistic value, as the
+> > > actual data transfer may be much slower, especially on bitbanged I2C
+> > > drivers.  After this series, the amount of data transfer is reduced, as
+> > > fillrect, copyarea, and imageblit only update the rectangle that
+> > > changed.
+> > >
+> > > This has been tested on an Adafruit FeatherWing OLED with an SSD1306
+> > > controller and a 128x32 OLED, connected to an OrangeCrab ECP5 FPGA board
+> > > running a 64 MHz VexRiscv RISC-V softcore, where it reduced the CPU
+> > > usage for blinking the cursor from more than 70% to ca. 10%.
+> > >
+> > > Thanks for your comments!
+> > >
+> > > Geert Uytterhoeven (5):
+> > >   video: fbdev: ssd1307fb: Propagate errors via
+> > >     ssd1307fb_update_display()
+> > >   video: fbdev: ssd1307fb: Simplify ssd1307fb_update_display()
+> > >   video: fbdev: ssd1307fb: Extract ssd1307fb_set_address_range()
+> > >   video: fbdev: ssd1307fb: Optimize screen updates
+> > >   video: fbdev: ssd1307fb: Cache address ranges
+> >
+> > A few comments left for a couple of patches.
+> > The remaining patches are:
+> > Acked-by: Sam Ravnborg <sam@ravnborg.org>
+> 
+> Thank you!
+> 
+> > Do you have commit rights to drm-misc-next?
+> 
+> No I have not (and I don't think I should).
+I would love to have you around for the fbdev stuff, as you knows a ton
+more about fbdev than I do - I am just pretending.
+And it would then be good if you could apply patches too. I for one may
+be off for shorter or longer periods as this is purely driven by interest.
 
-Cc: Georgi Djakov <djakov@kernel.org>
-Cc: Shawn Guo <shawnguo@kernel.org>
-Cc: Sascha Hauer <s.hauer@pengutronix.de>
-Cc: Leonard Crestez <leonard.crestez@nxp.com>
-Cc: dri-devel@lists.freedesktop.org
-Cc: linux-pm@vger.kernel.org
-Acked-by: Viresh Kumar <viresh.kumar@linaro.org>
-Signed-off-by: Rob Herring <robh@kernel.org>
----
- Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml   | 2 +-
- Documentation/devicetree/bindings/gpu/arm,mali-midgard.yaml   | 2 +-
- .../devicetree/bindings/interconnect/fsl,imx8m-noc.yaml       | 4 ++--
- 3 files changed, 4 insertions(+), 4 deletions(-)
+Note: I assume you will resend the series - then I can apply.
 
-diff --git a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
-index 0f73f436bea7..4bea51d1e7ea 100644
---- a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
-+++ b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
-@@ -136,7 +136,7 @@ examples:
-       resets = <&reset 0>, <&reset 1>;
-     };
- 
--    gpu_opp_table: opp_table0 {
-+    gpu_opp_table: opp-table {
-       compatible = "operating-points-v2";
- 
-       opp-533000000 {
-diff --git a/Documentation/devicetree/bindings/gpu/arm,mali-midgard.yaml b/Documentation/devicetree/bindings/gpu/arm,mali-midgard.yaml
-index 696c17aedbbe..d209f272625d 100644
---- a/Documentation/devicetree/bindings/gpu/arm,mali-midgard.yaml
-+++ b/Documentation/devicetree/bindings/gpu/arm,mali-midgard.yaml
-@@ -160,7 +160,7 @@ examples:
-       #cooling-cells = <2>;
-     };
- 
--    gpu_opp_table: opp_table0 {
-+    gpu_opp_table: opp-table {
-       compatible = "operating-points-v2";
- 
-       opp-533000000 {
-diff --git a/Documentation/devicetree/bindings/interconnect/fsl,imx8m-noc.yaml b/Documentation/devicetree/bindings/interconnect/fsl,imx8m-noc.yaml
-index a8873739d61a..b8204ed22dd5 100644
---- a/Documentation/devicetree/bindings/interconnect/fsl,imx8m-noc.yaml
-+++ b/Documentation/devicetree/bindings/interconnect/fsl,imx8m-noc.yaml
-@@ -81,10 +81,10 @@ examples:
-         noc_opp_table: opp-table {
-             compatible = "operating-points-v2";
- 
--            opp-133M {
-+            opp-133333333 {
-                 opp-hz = /bits/ 64 <133333333>;
-             };
--            opp-800M {
-+            opp-800000000 {
-                 opp-hz = /bits/ 64 <800000000>;
-             };
-         };
--- 
-2.27.0
-
+	Sam
