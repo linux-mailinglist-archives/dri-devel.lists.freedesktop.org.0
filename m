@@ -2,57 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB6133CF68F
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jul 2021 11:07:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDB7A3CF68D
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jul 2021 11:07:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A02889F38;
-	Tue, 20 Jul 2021 09:07:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B07F89F35;
+	Tue, 20 Jul 2021 09:07:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf32.google.com (mail-qv1-xf32.google.com
- [IPv6:2607:f8b0:4864:20::f32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 57E4189F38;
- Tue, 20 Jul 2021 09:07:46 +0000 (UTC)
-Received: by mail-qv1-xf32.google.com with SMTP id ck17so9763523qvb.9;
- Tue, 20 Jul 2021 02:07:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=/Q5L2a9jfb4khNE0pAjygNWB9Ut3AiXd2FZFom5CMmo=;
- b=S1iv3zWNz0TanPjy4jNGBYX4XRzDZXlQPKzN0CyBZ466J85N0aP/Sgyr3f5zZLmpdr
- iU4TDYMviWkucAdUnuB4Obcehu7FV15MwSgLk5YddYzwQvjGdu8Mqcs7Hm+YrGLn8OwP
- ZDjM0SsxLLGfR4mfhP/vE7SypySkIjTkS4ZhUy9bpzU224LbLrkyR8fNZVDGwU8LkH3t
- rr1X2BcSBCjzORYXpNo3HUb80YdonNohM9/voTK1ZOJ+PosTl8kbUC2yFGVpQyra0khf
- Y123MB24GQfEjngV+BevWSBfXWNbq8je2KXC6Q2uEH9YfQVtidjd/zSipJ5J0cs9u++l
- XmWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=/Q5L2a9jfb4khNE0pAjygNWB9Ut3AiXd2FZFom5CMmo=;
- b=rS0ph9AnEuN8YeSFLUkkJWG4JukYcQ9abvxFk+S5AjqOUY7HqPoJt3Ld1CzMIThILd
- ZiEcU9Fn9ZSK7iIWbyABzV9g4Lq5tSS5l//fRjO9b94LpnSwwvilT+gEF/azyRfvQWcb
- w3HYB0cdUEsNdqFOByhBjWizovRJu4ygpfUjtb8TCAoUwZEd/ZGxw3uSkzlZbDrG6Asj
- 4cOYKU06HSAzUfuAfPCyFDZ+t+4wFAItwG4J9V9mKd2rwCuSgiWfnh0SV2TK6pPuT4iJ
- 26hhMNiQ1jocupUH204jzcGKH9dYSwIZ9tnOkRl69Dokw3Xzn0DOAlLtYaUl7vWn5cQa
- 7SXA==
-X-Gm-Message-State: AOAM53151vmM9m0+NLF1dyY7HOvQ93c9j+eMyNntPhbUtlgiTwT1iW1S
- KkTlfauyntG7ZQ6L+N0c75tTC4reomB5f8QGKHs=
-X-Google-Smtp-Source: ABdhPJxB7EPM3v/mmgrhO7WGyXFx2rav1EG/Earx5dzyjlFJ44KN44zDsv5KqRY7AOqdvPvXpgYskRfK4OlTQyTf7ks=
-X-Received: by 2002:ad4:456d:: with SMTP id o13mr29264233qvu.48.1626772065059; 
- Tue, 20 Jul 2021 02:07:45 -0700 (PDT)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 849CE89F35
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 09:07:34 +0000 (UTC)
+Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 3F96F1FD3E;
+ Tue, 20 Jul 2021 09:07:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1626772053; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=QfevtJ7CO69XvR/FgxUv0tcNBb6dOkmnHZF1Y+3ecPE=;
+ b=qPP+VPihQCLt5SbGo30Cs//xoYyzsjBqGVUjA1v7oynKA9Cpsold5dkRVWMNHDcSRlokhM
+ LCow4zT5u2rnHLYUO2ZSdDffdy0kluHmt+QDRZjUPkycsfob/l4ri3ItuHoA1M49cw+IO6
+ 6tZ/1WMRGEGu9BMKvVp4Kr+7n7Rcpac=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1626772053;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=QfevtJ7CO69XvR/FgxUv0tcNBb6dOkmnHZF1Y+3ecPE=;
+ b=Cqa4nl1n11cdmVl8DLDjDwA/2gnzCV/ihRUyR8BgzbHvrr18EHskqB+DQPNMIsOG1Ft4ET
+ YFTG7BbQu9ai/GAA==
+Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap1.suse-dmz.suse.de (Postfix) with ESMTPS id 0403213A2E;
+ Tue, 20 Jul 2021 09:07:32 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap1.suse-dmz.suse.de with ESMTPSA id pTTIOVSS9mD+FgAAGKfGzw
+ (envelope-from <tzimmermann@suse.de>); Tue, 20 Jul 2021 09:07:32 +0000
+Subject: Re: [PATCH -next v2 resend] drm/bochs: Fix missing
+ pci_disable_device() on error in bochs_pci_probe()
+To: Yang Yingliang <yangyingliang@huawei.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org
+References: <20210715132845.2415619-1-yangyingliang@huawei.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <5c3f06d5-509a-0e59-7021-d25180f82de9@suse.de>
+Date: Tue, 20 Jul 2021 11:07:32 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210716141426.1904528-1-jason@jlekstrand.net>
- <20210716141426.1904528-7-jason@jlekstrand.net>
-In-Reply-To: <20210716141426.1904528-7-jason@jlekstrand.net>
-From: Matthew Auld <matthew.william.auld@gmail.com>
-Date: Tue, 20 Jul 2021 10:07:18 +0100
-Message-ID: <CAM0jSHP0CThxGJ-ABAO2kzhtKgh=ypbp+7iPsxPWd5F+Ydc7Tw@mail.gmail.com>
-Subject: Re: [PATCH 6/7] drm/i915/gem: Correct the locking and pin pattern for
- dma-buf (v6)
-To: Jason Ekstrand <jason@jlekstrand.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20210715132845.2415619-1-yangyingliang@huawei.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="1tWaCOjUssnJCaas5KXmJJXzgakIpD6xl"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,180 +70,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- "Michael J . Ruhl" <michael.j.ruhl@intel.com>
+Cc: airlied@linux.ie, kraxel@redhat.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 16 Jul 2021 at 15:14, Jason Ekstrand <jason@jlekstrand.net> wrote:
->
-> From: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
->
-> If our exported dma-bufs are imported by another instance of our driver,
-> that instance will typically have the imported dma-bufs locked during
-> dma_buf_map_attachment(). But the exporter also locks the same reservatio=
-n
-> object in the map_dma_buf() callback, which leads to recursive locking.
->
-> So taking the lock inside _pin_pages_unlocked() is incorrect.
->
-> Additionally, the current pinning code path is contrary to the defined
-> way that pinning should occur.
->
-> Remove the explicit pin/unpin from the map/umap functions and move them
-> to the attach/detach allowing correct locking to occur, and to match
-> the static dma-buf drm_prime pattern.
->
-> Add a live selftest to exercise both dynamic and non-dynamic
-> exports.
->
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--1tWaCOjUssnJCaas5KXmJJXzgakIpD6xl
+Content-Type: multipart/mixed; boundary="3UkehBvmd5mFqfwTL1h90To2blVmYbJVN";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Yang Yingliang <yangyingliang@huawei.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org
+Cc: kraxel@redhat.com, airlied@linux.ie, daniel@ffwll.ch
+Message-ID: <5c3f06d5-509a-0e59-7021-d25180f82de9@suse.de>
+Subject: Re: [PATCH -next v2 resend] drm/bochs: Fix missing
+ pci_disable_device() on error in bochs_pci_probe()
+References: <20210715132845.2415619-1-yangyingliang@huawei.com>
+In-Reply-To: <20210715132845.2415619-1-yangyingliang@huawei.com>
+
+--3UkehBvmd5mFqfwTL1h90To2blVmYbJVN
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+Hi
+
+Am 15.07.21 um 15:28 schrieb Yang Yingliang:
+> Replace pci_enable_device() with pcim_enable_device(),
+> pci_disable_device() will be called in release automatically.
+>=20
 > v2:
-> - Extend the selftest with a fake dynamic importer.
-> - Provide real pin and unpin callbacks to not abuse the interface.
-> v3: (ruhl)
-> - Remove the dynamic export support and move the pinning into the
->   attach/detach path.
-> v4: (ruhl)
-> - Put pages does not need to assert on the dma-resv
-> v5: (jason)
-> - Lock around dma_buf_unmap_attachment() when emulating a dynamic
->   importer in the subtests.
-> - Use pin_pages_unlocked
-> v6: (jason)
-> - Use dma_buf_attach instead of dma_buf_attach_dynamic in the selftests
->
-> Reported-by: Michael J. Ruhl <michael.j.ruhl@intel.com>
-> Signed-off-by: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
-> Signed-off-by: Michael J. Ruhl <michael.j.ruhl@intel.com>
-> Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
-> Reviewed-by: Jason Ekstrand <jason@jlekstrand.net>
+>    use pcim_enable_device()
+>=20
+> Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
+> Reported-by: Hulk Robot <hulkci@huawei.com>
+> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+
+Thanks, I'll merge it into drm-misc-next as v3. I also had to update the =
+
+path to the bochs driver meanwhile.
+
+Best regards
+Thomas
+
 > ---
->  drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c    |  43 ++++++--
->  .../drm/i915/gem/selftests/i915_gem_dmabuf.c  | 103 +++++++++++++++++-
->  2 files changed, 132 insertions(+), 14 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c b/drivers/gpu/drm=
-/i915/gem/i915_gem_dmabuf.c
-> index 616c3a2f1baf0..9a655f69a0671 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
-> @@ -12,6 +12,8 @@
->  #include "i915_gem_object.h"
->  #include "i915_scatterlist.h"
->
-> +I915_SELFTEST_DECLARE(static bool force_different_devices;)
-> +
->  static struct drm_i915_gem_object *dma_buf_to_obj(struct dma_buf *buf)
->  {
->         return to_intel_bo(buf->priv);
-> @@ -25,15 +27,11 @@ static struct sg_table *i915_gem_map_dma_buf(struct d=
-ma_buf_attachment *attachme
->         struct scatterlist *src, *dst;
->         int ret, i;
->
-> -       ret =3D i915_gem_object_pin_pages_unlocked(obj);
-> -       if (ret)
-> -               goto err;
-> -
->         /* Copy sg so that we make an independent mapping */
->         st =3D kmalloc(sizeof(struct sg_table), GFP_KERNEL);
->         if (st =3D=3D NULL) {
->                 ret =3D -ENOMEM;
-> -               goto err_unpin_pages;
-> +               goto err;
->         }
->
->         ret =3D sg_alloc_table(st, obj->mm.pages->nents, GFP_KERNEL);
-> @@ -58,8 +56,6 @@ static struct sg_table *i915_gem_map_dma_buf(struct dma=
-_buf_attachment *attachme
->         sg_free_table(st);
->  err_free:
->         kfree(st);
-> -err_unpin_pages:
-> -       i915_gem_object_unpin_pages(obj);
->  err:
->         return ERR_PTR(ret);
->  }
-> @@ -68,13 +64,9 @@ static void i915_gem_unmap_dma_buf(struct dma_buf_atta=
-chment *attachment,
->                                    struct sg_table *sg,
->                                    enum dma_data_direction dir)
->  {
-> -       struct drm_i915_gem_object *obj =3D dma_buf_to_obj(attachment->dm=
-abuf);
-> -
->         dma_unmap_sgtable(attachment->dev, sg, dir, DMA_ATTR_SKIP_CPU_SYN=
-C);
->         sg_free_table(sg);
->         kfree(sg);
-> -
-> -       i915_gem_object_unpin_pages(obj);
->  }
->
->  static int i915_gem_dmabuf_vmap(struct dma_buf *dma_buf, struct dma_buf_=
-map *map)
-> @@ -168,7 +160,31 @@ static int i915_gem_end_cpu_access(struct dma_buf *d=
-ma_buf, enum dma_data_direct
->         return err;
->  }
->
-> +/**
-> + * i915_gem_dmabuf_attach - Do any extra attach work necessary
-> + * @dmabuf: imported dma-buf
-> + * @attach: new attach to do work on
-> + *
-> + */
-> +static int i915_gem_dmabuf_attach(struct dma_buf *dmabuf,
-> +                                 struct dma_buf_attachment *attach)
-> +{
-> +       struct drm_i915_gem_object *obj =3D dma_buf_to_obj(dmabuf);
-> +
-> +       return i915_gem_object_pin_pages_unlocked(obj);
-> +}
-> +
-> +static void i915_gem_dmabuf_detach(struct dma_buf *dmabuf,
-> +                                  struct dma_buf_attachment *attach)
-> +{
-> +       struct drm_i915_gem_object *obj =3D dma_buf_to_obj(dmabuf);
-> +
-> +       i915_gem_object_unpin_pages(obj);
-> +}
-> +
+>   drivers/gpu/drm/bochs/bochs_drv.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/gpu/drm/bochs/bochs_drv.c b/drivers/gpu/drm/bochs/=
+bochs_drv.c
+> index c828cadbabff..8065c9537237 100644
+> --- a/drivers/gpu/drm/bochs/bochs_drv.c
+> +++ b/drivers/gpu/drm/bochs/bochs_drv.c
+> @@ -118,7 +118,7 @@ static int bochs_pci_probe(struct pci_dev *pdev,
+>   	if (IS_ERR(dev))
+>   		return PTR_ERR(dev);
+>  =20
+> -	ret =3D pci_enable_device(pdev);
+> +	ret =3D pcim_enable_device(pdev);
+>   	if (ret)
+>   		goto err_free_dev;
+>  =20
+>=20
 
-We don't normally add kernel-doc for static functions? Otherwise
-dmabuf_detach() needs matching kernel-doc.
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
-<snip>
 
-> +
-> +static int igt_dmabuf_import_same_driver(void *arg)
-> +{
-> +       struct drm_i915_private *i915 =3D arg;
-> +       struct drm_i915_gem_object *obj, *import_obj;
-> +       struct drm_gem_object *import;
-> +       struct dma_buf *dmabuf;
-> +       struct dma_buf_attachment *import_attach;
-> +       struct sg_table *st;
-> +       long timeout;
-> +       int err;
-> +
-> +       force_different_devices =3D true;
-> +       obj =3D i915_gem_object_create_shmem(i915, PAGE_SIZE);
-> +       if (IS_ERR(obj))
+--3UkehBvmd5mFqfwTL1h90To2blVmYbJVN--
 
-err =3D PTR_ERR(obj)
+--1tWaCOjUssnJCaas5KXmJJXzgakIpD6xl
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-<snip>
+-----BEGIN PGP SIGNATURE-----
 
-> +       /* Now try a fake an importer */
-> +       import_attach =3D dma_buf_attach(dmabuf, obj->base.dev->dev);
-> +       if (IS_ERR(import_attach))
-> +               goto out_import;
-> +
-> +       st =3D dma_buf_map_attachment(import_attach, DMA_BIDIRECTIONAL);
-> +       if (IS_ERR(st))
-> +               goto out_detach;
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmD2klQFAwAAAAAACgkQlh/E3EQov+Dn
+LRAAytKE28XZKTScOgeBjGLyb6I50t+nAoIMtve7Gc22yETMye3+lkQ8ulGWm8OC931jHub2Qz8v
+3VsC3q2YuJSdXLPpPRGe59bgtnzSqgvvmEYzGXJ/dB6yhS4DDbks885mZBg5HusB5hvpwyE29lki
+67RuwzuQQ1tXmxSSuPmI5kT2BtawUxvP1bbU/44xgmhfUP4YMm53eLV/ELRvyvDjFfSJOxF857hQ
+ijfX6xWc3i7zLES4EPIc0sqNj0PPrP2wnuzUf6X65phtbS276Ym7tG9vTuI18YTnk7On9boiFtDr
+ZWeTSEmBq4nTi+XRsY3JPRQaGOmzMVx8vjex6iht5Uf835wX1j3F7FOEac9vP+/XFSVv4hAJ2/cy
+n2kuvhhLbko1TDgquFTqBI2cYZofEe6kkHqi0SSrIKn7/K7bJehJIBAZcHyqpBB5S6P1BkiusACM
+cqgM6NZ5t1OwFm1YFM9Oop4Hj2Kyat6Ucuv6O1sOLCfvWFS16g0jaJBUPfEar58Ly6FFefRvPD5v
++3Ma64SwyLbRkVLxJjPYL2VuqDuVlTyGca8G42iHSi9P8gUTEJ797lWVLtKUi0HFxIPk75G6ctaU
+70sbjXHpsnIPS/+c6ekVJKDyDog2VBXAH7ip+tgDDxxYdlU1ssUGG5GqyETK65Y+bGqGTNcl0sJa
+rlI=
+=Sdka
+-----END PGP SIGNATURE-----
 
-For these two maybe missing err =3D ?
+--1tWaCOjUssnJCaas5KXmJJXzgakIpD6xl--
