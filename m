@@ -1,49 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0725A3CF56E
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jul 2021 09:43:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 434B03CF57E
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jul 2021 09:47:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 752D96E28B;
-	Tue, 20 Jul 2021 07:43:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 21C4B6E2A3;
+	Tue, 20 Jul 2021 07:47:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com
- [209.85.217.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E641F6E28B
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 07:43:34 +0000 (UTC)
-Received: by mail-vs1-f49.google.com with SMTP id a66so10755873vsd.10
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 00:43:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=HkbFPSCh7E2GNVgDLGmZQaSXqDJjyX+benlbPIfM6pQ=;
- b=NYcnqq/cbV3gpLZN6AXjfFbOp8B28+vVBo644DiF4wZpoAR64b2UrYHjVOGNRoIXdc
- xYctD/eW4uR0KzqYRB845t7fOvf3AifsiCtQYfre8e/2fX7OhIuUfTvS10t8Bn87wVo5
- mvzp3xHAKGD/MosvyjuKEuk7T6uwm8yqMz1xnyp8MmEdDxn7F4YqR1jhSXLxE7gGt4cW
- B/HMr8HKf3uwkFJ77Uef0nIFq80XPabiQkwThAzXCYOqijbIPh2BIIbUARbdZUSSL8A0
- vThBQy/FHMyYt2bReNj7qiyUfp7/DBOCu5K9blCrqqcZKYJZPpGtZdzolJ25ZmVrFX30
- Y3BA==
-X-Gm-Message-State: AOAM530m8Q54d/IMSqB6iX8b1q00h9DXkQ1vdKVtu/EmLDo9JJHPeNbO
- TsdI4x36hjPVWMml7igpzVANcuHjsRhr2ZEIuJk=
-X-Google-Smtp-Source: ABdhPJyYlmc3X5ogaM2YCN+ZHjp31T159xYrBHR1iUCbkq8Cwh9HpbKTX06IJtME6LP+AGswyxAbmP74MJhqkDc7akg=
-X-Received: by 2002:a05:6102:321c:: with SMTP id
- r28mr28139380vsf.40.1626767013827; 
- Tue, 20 Jul 2021 00:43:33 -0700 (PDT)
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D82AA6E2A3
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 07:47:50 +0000 (UTC)
+X-UUID: 368b74cac7374b058f380ffda2f694ff-20210720
+X-UUID: 368b74cac7374b058f380ffda2f694ff-20210720
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
+ mailgw02.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 736542103; Tue, 20 Jul 2021 15:47:37 +0800
+Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
+ mtkmbs02n1.mediatek.inc (172.21.101.77) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Tue, 20 Jul 2021 15:47:35 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by MTKCAS06.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via
+ Frontend Transport; Tue, 20 Jul 2021 15:47:36 +0800
+From: jason-jh.lin <jason-jh.lin@mediatek.com>
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>, Maxime Ripard <maxime@cerno.tech>,
+ <enric.balletbo@collabora.com>
+Subject: [PATCH v3 0/1] Fix cursor plane didn't update
+Date: Tue, 20 Jul 2021 15:47:33 +0800
+Message-ID: <20210720074734.22287-1-jason-jh.lin@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-References: <20210714145804.2530727-1-geert@linux-m68k.org>
- <20210714145804.2530727-3-geert@linux-m68k.org>
- <YPXM8AXNje7GXf+i@ravnborg.org>
-In-Reply-To: <YPXM8AXNje7GXf+i@ravnborg.org>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 20 Jul 2021 09:43:22 +0200
-Message-ID: <CAMuHMdXgKkJeTstLdwh9h8ywe0a5=77izAW4eYyaOtk8ktSjWg@mail.gmail.com>
-Subject: Re: [PATCH resend 2/5] video: fbdev: ssd1307fb: Simplify
- ssd1307fb_update_display()
-To: Sam Ravnborg <sam@ravnborg.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,90 +47,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- David Airlie <airlied@linux.ie>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>
+Cc: fshao@chromium.org, David Airlie <airlied@linux.ie>,
+ Thomas Zimmermann <tzimmermann@suse.de>, singo.chang@mediatek.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ nancy.lin@mediatek.com, linux-mediatek@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, jason-jh.lin@mediatek.com,
+ David-YH.Chiu@mediatek.com, hsinyi@google.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sam,
+Change in v3:
+- Fix patch title and drop new line after Fixes tag. 
+- Add more detail information to commit message.
 
-On Mon, Jul 19, 2021 at 9:05 PM Sam Ravnborg <sam@ravnborg.org> wrote:
-> On Wed, Jul 14, 2021 at 04:58:01PM +0200, Geert Uytterhoeven wrote:
-> > Simplify the nested loops to handle conversion from linear frame buffer
-> > to ssd1307 page layout:
-> >   1. Move last page handling one level up, as the value of "m" is the
-> >      same inside a page,
-> >   2. array->data[] is filled linearly, so there is no need to
-> >      recalculate array_idx over and over again; a simple increment is
-> >      sufficient.
-> >
-> > Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
-> > ---
-> >  drivers/video/fbdev/ssd1307fb.c | 17 ++++++++++-------
-> >  1 file changed, 10 insertions(+), 7 deletions(-)
-> >
-> > diff --git a/drivers/video/fbdev/ssd1307fb.c b/drivers/video/fbdev/ssd1307fb.c
-> > index e6b6263e3bef847f..6d7bd025bca1a175 100644
-> > --- a/drivers/video/fbdev/ssd1307fb.c
-> > +++ b/drivers/video/fbdev/ssd1307fb.c
-> > @@ -158,6 +158,7 @@ static int ssd1307fb_update_display(struct ssd1307fb_par *par)
-> >       u8 *vmem = par->info->screen_buffer;
-> >       unsigned int line_length = par->info->fix.line_length;
-> >       unsigned int pages = DIV_ROUND_UP(par->height, 8);
-> > +     u32 array_idx = 0;
-> >       int ret, i, j, k;
-> >
-> >       array = ssd1307fb_alloc_array(par->width * pages, SSD1307FB_DATA);
-> > @@ -194,19 +195,21 @@ static int ssd1307fb_update_display(struct ssd1307fb_par *par)
-> >        */
-> >
-> >       for (i = 0; i < pages; i++) {
-> > +             int m = 8;
-> > +
-> > +             /* Last page may be partial */
-> > +             if (i + 1 == pages && par->height % 8)
-> > +                     m = par->height % 8;
-> >               for (j = 0; j < par->width; j++) {
-> > -                     int m = 8;
-> > -                     u32 array_idx = i * par->width + j;
-> > -                     array->data[array_idx] = 0;
-> > -                     /* Last page may be partial */
-> > -                     if (i + 1 == pages && par->height % 8)
-> > -                             m = par->height % 8;
-> > +                     u8 data = 0;
-> > +
-> >                       for (k = 0; k < m; k++) {
-> If the last page is partial then m will be less than 8 for all bytes in
-> j = 0..par-width - but m should only be less than 8 for the last
-> iteration of the loop.
->
-> Do I miss something or is the code buggy?
+Change in v2:
+- Fix typo in patch message.
 
-"the loop" is the j-loop?
-If m is less than 8 for the last page, it should be less than 8 for
-all iterations of j, as all last bytes in each "line" (visible
-row) are partial, cfr. the comments above the code, explaining the
-representation of the screen.
+jason-jh.lin (1):
+  drm/mediatek: Fix cursor plane didn't update
 
-> >                               u8 byte = vmem[(8 * i + k) * line_length +
-> >                                              j / 8];
-> >                               u8 bit = (byte >> (j % 8)) & 1;
-> > -                             array->data[array_idx] |= bit << k;
-> > +                             data |= bit << k;
-> >                       }
-> > +                     array->data[array_idx++] = data;
-> >               }
-> >       }
-
-Gr{oetje,eeting}s,
-
-                        Geert
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.c  |  1 -
+ drivers/gpu/drm/mediatek/mtk_drm_plane.c | 60 ++++++++++++++----------
+ 2 files changed, 34 insertions(+), 27 deletions(-)
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.18.0
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
