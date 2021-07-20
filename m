@@ -1,37 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9ADF33D0491
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 00:22:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 05C0F3D04A8
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 00:32:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E57436E5C3;
-	Tue, 20 Jul 2021 22:21:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9125D6E44F;
+	Tue, 20 Jul 2021 22:32:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0CFC06E5D1;
- Tue, 20 Jul 2021 22:21:34 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10051"; a="211056167"
-X-IronPort-AV: E=Sophos;i="5.84,256,1620716400"; d="scan'208";a="211056167"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jul 2021 15:21:34 -0700
-X-IronPort-AV: E=Sophos;i="5.84,256,1620716400"; d="scan'208";a="500940164"
-Received: from dhiatt-server.jf.intel.com ([10.54.81.3])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jul 2021 15:21:34 -0700
-From: Matthew Brost <matthew.brost@intel.com>
-To: <intel-gfx@lists.freedesktop.org>,
-	<dri-devel@lists.freedesktop.org>
-Subject: [PATCH 18/18] drm/i915: Add intel_context tracing
-Date: Tue, 20 Jul 2021 15:39:21 -0700
-Message-Id: <20210720223921.56160-19-matthew.brost@intel.com>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20210720223921.56160-1-matthew.brost@intel.com>
-References: <20210720223921.56160-1-matthew.brost@intel.com>
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com
+ [IPv6:2a00:1450:4864:20::430])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 253576E44F;
+ Tue, 20 Jul 2021 22:32:08 +0000 (UTC)
+Received: by mail-wr1-x430.google.com with SMTP id r11so54954wro.9;
+ Tue, 20 Jul 2021 15:32:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=AUq62xTOdEE9yZyZ9SmyAw/53N8FF+p9iTgcqqLGQAc=;
+ b=Xjb45xC/ATHW+Ja5+SAtaovYI7YvU3BVBREZpvHqi2Yr36Ug5CxT2Jh9jHTQ+rO4Wk
+ a1dEGmIcFSKewgblnu3ieGcW5eAdwzbnQEyK5YiC5xoDqz9Y2kQTOFpYSEKDj39l9oHb
+ qsxvHJI/jTpQ1do86Tv8jXattuEFUhdgiLT7Zuaodl9GhsCb/rlxyTLnC4t6AItH06D4
+ Cv6/rUqLqW7oUYjUoNPccMLs+AqQwXB/FBK3SPaymFuYwEWimmJ/0001IEd277kUFi1W
+ derIw/mOzJQhUQhR/TNjaRsNAK+DxgHfEAmqtfIPWjlk4Pfj7fh9g+shZ2+cfPL1McEG
+ aa9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=AUq62xTOdEE9yZyZ9SmyAw/53N8FF+p9iTgcqqLGQAc=;
+ b=mi2wDwbqMGGvEgB4YAp7KFoQYFsBb5BGi4wRENavOJ/3Bxa52HnT9LoEaOKPX6zOdw
+ TNOc05zR1JcKze+59nsC/+nwoJhD2FG0btfIW6uq6d/RImq+oBPA9DCYe/T4BjxBU1B4
+ oDBJDwklw5M0AKFZx0ymChRFd5ibSub3xwi+sn0yuy+D2WvkTFMwZqGlwdGDfF5F/y9n
+ iXcIk6JcJU+TqhcdO4GRYROGSeJPx5vnxYFv4ofBfTyOWYtiELDoM5aBxYBh+C2hR44x
+ gYpVxQIb+5vMv5N9/7y5ArsLoRYLPg4QJz6p2b6o1iu+bs6IvcwEHlYk+8t2xOuupsHJ
+ FyAA==
+X-Gm-Message-State: AOAM532IuM2ZGhruJtUS4jrs3bcELR5/p3CRffh8DPSaLB6CRtGwCAB0
+ IVqBlxg1gwAFFE8tZOC1H3s0Z89doNRQ7ybcapc=
+X-Google-Smtp-Source: ABdhPJxRCaU0mgbRBKXCUtmzHce0yeXRyivNRpNTgJgdzNX98VwZiuLceogME2jUho6sOGR5XAEUBw+FRtjqHARE+DE=
+X-Received: by 2002:a5d:4e43:: with SMTP id r3mr38668459wrt.132.1626820326738; 
+ Tue, 20 Jul 2021 15:32:06 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210720150716.1213775-1-robdclark@gmail.com>
+ <60ffb6f3-e932-d9af-3b90-81adf0c15250@gmail.com>
+ <CAF6AEGtOW3EjZWo36ij8U1om=gAqvg8CSkJJq2GkyHFGWUH4kQ@mail.gmail.com>
+ <CAKMK7uF1=Y6_9znGoWG8GrteXBBRmyW8C3bFE+eJQqOj0A1buA@mail.gmail.com>
+In-Reply-To: <CAKMK7uF1=Y6_9znGoWG8GrteXBBRmyW8C3bFE+eJQqOj0A1buA@mail.gmail.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Tue, 20 Jul 2021 15:36:14 -0700
+Message-ID: <CAF6AEGsOVPdMkXwU9C+nDfQpPThveJ2A0jbXi43RRkkJKtnz3w@mail.gmail.com>
+Subject: Re: [Linaro-mm-sig] [PATCH] drm/msm: Add fence->wait() op
+To: Daniel Vetter <daniel@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,304 +66,214 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniele.ceraolospurio@intel.com, john.c.harrison@intel.com
+Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ open list <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Sean Paul <sean@poorly.run>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <freedreno@lists.freedesktop.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add intel_context tracing. These trace points are particular helpful
-when debugging the GuC firmware and can be enabled via
-CONFIG_DRM_I915_LOW_LEVEL_TRACEPOINTS kernel config option.
+On Tue, Jul 20, 2021 at 1:55 PM Daniel Vetter <daniel@ffwll.ch> wrote:
+>
+> On Tue, Jul 20, 2021 at 8:26 PM Rob Clark <robdclark@gmail.com> wrote:
+> >
+> > On Tue, Jul 20, 2021 at 11:03 AM Christian K=C3=B6nig
+> > <ckoenig.leichtzumerken@gmail.com> wrote:
+> > >
+> > > Hi Rob,
+> > >
+> > > Am 20.07.21 um 17:07 schrieb Rob Clark:
+> > > > From: Rob Clark <robdclark@chromium.org>
+> > > >
+> > > > Somehow we had neither ->wait() nor dma_fence_signal() calls, and n=
+o
+> > > > one noticed.  Oops.
+> > >
+> > >
+> > > I'm not sure if that is a good idea.
+> > >
+> > > The dma_fence->wait() callback is pretty much deprecated and should n=
+ot
+> > > be used any more.
+> > >
+> > > What exactly do you need that for?
+> >
+> > Well, the alternative is to track the set of fences which have
+> > signalling enabled, and then figure out which ones to signal, which
+> > seems like a lot more work, vs just re-purposing the wait
+> > implementation we already have for non-dma_fence cases ;-)
+> >
+> > Why is the ->wait() callback (pretty much) deprecated?
+>
+> Because if you need it that means for your driver dma_fence_add_cb is
+> broken, which means a _lot_ of things don't work. Like dma_buf poll
+> (compositors have patches to start using that), and I think
+> drm/scheduler also becomes rather unhappy.
 
-Cc: John Harrison <john.c.harrison@intel.com>
-Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-Reviewed-by: John Harrison <John.C.Harrison@Intel.com>
----
- drivers/gpu/drm/i915/gt/intel_context.c       |   6 +
- .../gpu/drm/i915/gt/uc/intel_guc_submission.c |  14 ++
- drivers/gpu/drm/i915/i915_trace.h             | 144 ++++++++++++++++++
- 3 files changed, 164 insertions(+)
+I'm starting to page back in how this works.. fence cb's aren't broken
+(which is also why dma_fence_wait() was not completely broken),
+because in retire_submits() we call
+dma_fence_is_signaled(submit->hw_fence).
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_context.c b/drivers/gpu/drm/i915/gt/intel_context.c
-index 91349d071e0e..251ff7eea22d 100644
---- a/drivers/gpu/drm/i915/gt/intel_context.c
-+++ b/drivers/gpu/drm/i915/gt/intel_context.c
-@@ -8,6 +8,7 @@
- 
- #include "i915_drv.h"
- #include "i915_globals.h"
-+#include "i915_trace.h"
- 
- #include "intel_context.h"
- #include "intel_engine.h"
-@@ -28,6 +29,7 @@ static void rcu_context_free(struct rcu_head *rcu)
- {
- 	struct intel_context *ce = container_of(rcu, typeof(*ce), rcu);
- 
-+	trace_intel_context_free(ce);
- 	kmem_cache_free(global.slab_ce, ce);
- }
- 
-@@ -46,6 +48,7 @@ intel_context_create(struct intel_engine_cs *engine)
- 		return ERR_PTR(-ENOMEM);
- 
- 	intel_context_init(ce, engine);
-+	trace_intel_context_create(ce);
- 	return ce;
- }
- 
-@@ -268,6 +271,8 @@ int __intel_context_do_pin_ww(struct intel_context *ce,
- 
- 	GEM_BUG_ON(!intel_context_is_pinned(ce)); /* no overflow! */
- 
-+	trace_intel_context_do_pin(ce);
-+
- err_unlock:
- 	mutex_unlock(&ce->pin_mutex);
- err_post_unpin:
-@@ -323,6 +328,7 @@ void __intel_context_do_unpin(struct intel_context *ce, int sub)
- 	 */
- 	intel_context_get(ce);
- 	intel_context_active_release(ce);
-+	trace_intel_context_do_unpin(ce);
- 	intel_context_put(ce);
- }
- 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-index ff613e1ed9c3..cf746111dddc 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-@@ -344,6 +344,7 @@ static int guc_add_request(struct intel_guc *guc, struct i915_request *rq)
- 
- 	err = intel_guc_send_nb(guc, action, len, g2h_len_dw);
- 	if (!enabled && !err) {
-+		trace_intel_context_sched_enable(ce);
- 		atomic_inc(&guc->outstanding_submission_g2h);
- 		set_context_enabled(ce);
- 	} else if (!enabled) {
-@@ -812,6 +813,8 @@ static int register_context(struct intel_context *ce)
- 	u32 offset = intel_guc_ggtt_offset(guc, guc->lrc_desc_pool) +
- 		ce->guc_id * sizeof(struct guc_lrc_desc);
- 
-+	trace_intel_context_register(ce);
-+
- 	return __guc_action_register_context(guc, ce->guc_id, offset);
- }
- 
-@@ -832,6 +835,8 @@ static int deregister_context(struct intel_context *ce, u32 guc_id)
- {
- 	struct intel_guc *guc = ce_to_guc(ce);
- 
-+	trace_intel_context_deregister(ce);
-+
- 	return __guc_action_deregister_context(guc, guc_id);
- }
- 
-@@ -905,6 +910,7 @@ static int guc_lrc_desc_pin(struct intel_context *ce)
- 	 * GuC before registering this context.
- 	 */
- 	if (context_registered) {
-+		trace_intel_context_steal_guc_id(ce);
- 		set_context_wait_for_deregister_to_register(ce);
- 		intel_context_get(ce);
- 
-@@ -968,6 +974,7 @@ static void __guc_context_sched_disable(struct intel_guc *guc,
- 
- 	GEM_BUG_ON(guc_id == GUC_INVALID_LRC_ID);
- 
-+	trace_intel_context_sched_disable(ce);
- 	intel_context_get(ce);
- 
- 	guc_submission_send_busy_loop(guc, action, ARRAY_SIZE(action),
-@@ -1130,6 +1137,9 @@ static void __guc_signal_context_fence(struct intel_context *ce)
- 
- 	lockdep_assert_held(&ce->guc_state.lock);
- 
-+	if (!list_empty(&ce->guc_state.fences))
-+		trace_intel_context_fence_release(ce);
-+
- 	list_for_each_entry(rq, &ce->guc_state.fences, guc_fence_link)
- 		i915_sw_fence_complete(&rq->submit);
- 
-@@ -1535,6 +1545,8 @@ int intel_guc_deregister_done_process_msg(struct intel_guc *guc,
- 	if (unlikely(!ce))
- 		return -EPROTO;
- 
-+	trace_intel_context_deregister_done(ce);
-+
- 	if (context_wait_for_deregister_to_register(ce)) {
- 		struct intel_runtime_pm *runtime_pm =
- 			&ce->engine->gt->i915->runtime_pm;
-@@ -1586,6 +1598,8 @@ int intel_guc_sched_done_process_msg(struct intel_guc *guc,
- 		return -EPROTO;
- 	}
- 
-+	trace_intel_context_sched_done(ce);
-+
- 	if (context_pending_enable(ce)) {
- 		clr_context_pending_enable(ce);
- 	} else if (context_pending_disable(ce)) {
-diff --git a/drivers/gpu/drm/i915/i915_trace.h b/drivers/gpu/drm/i915/i915_trace.h
-index 478f5427531d..3a939bd57dcf 100644
---- a/drivers/gpu/drm/i915/i915_trace.h
-+++ b/drivers/gpu/drm/i915/i915_trace.h
-@@ -895,6 +895,90 @@ TRACE_EVENT(i915_request_out,
- 			      __entry->ctx, __entry->seqno, __entry->completed)
- );
- 
-+DECLARE_EVENT_CLASS(intel_context,
-+	    TP_PROTO(struct intel_context *ce),
-+	    TP_ARGS(ce),
-+
-+	    TP_STRUCT__entry(
-+			     __field(u32, guc_id)
-+			     __field(int, pin_count)
-+			     __field(u32, sched_state)
-+			     __field(u32, guc_sched_state_no_lock)
-+			     ),
-+
-+	    TP_fast_assign(
-+			   __entry->guc_id = ce->guc_id;
-+			   __entry->pin_count = atomic_read(&ce->pin_count);
-+			   __entry->sched_state = ce->guc_state.sched_state;
-+			   __entry->guc_sched_state_no_lock =
-+			   atomic_read(&ce->guc_sched_state_no_lock);
-+			   ),
-+
-+	    TP_printk("guc_id=%d, pin_count=%d sched_state=0x%x,0x%x",
-+		      __entry->guc_id, __entry->pin_count, __entry->sched_state,
-+		      __entry->guc_sched_state_no_lock)
-+);
-+
-+DEFINE_EVENT(intel_context, intel_context_register,
-+	     TP_PROTO(struct intel_context *ce),
-+	     TP_ARGS(ce)
-+);
-+
-+DEFINE_EVENT(intel_context, intel_context_deregister,
-+	     TP_PROTO(struct intel_context *ce),
-+	     TP_ARGS(ce)
-+);
-+
-+DEFINE_EVENT(intel_context, intel_context_deregister_done,
-+	     TP_PROTO(struct intel_context *ce),
-+	     TP_ARGS(ce)
-+);
-+
-+DEFINE_EVENT(intel_context, intel_context_sched_enable,
-+	     TP_PROTO(struct intel_context *ce),
-+	     TP_ARGS(ce)
-+);
-+
-+DEFINE_EVENT(intel_context, intel_context_sched_disable,
-+	     TP_PROTO(struct intel_context *ce),
-+	     TP_ARGS(ce)
-+);
-+
-+DEFINE_EVENT(intel_context, intel_context_sched_done,
-+	     TP_PROTO(struct intel_context *ce),
-+	     TP_ARGS(ce)
-+);
-+
-+DEFINE_EVENT(intel_context, intel_context_create,
-+	     TP_PROTO(struct intel_context *ce),
-+	     TP_ARGS(ce)
-+);
-+
-+DEFINE_EVENT(intel_context, intel_context_fence_release,
-+	     TP_PROTO(struct intel_context *ce),
-+	     TP_ARGS(ce)
-+);
-+
-+DEFINE_EVENT(intel_context, intel_context_free,
-+	     TP_PROTO(struct intel_context *ce),
-+	     TP_ARGS(ce)
-+);
-+
-+DEFINE_EVENT(intel_context, intel_context_steal_guc_id,
-+	     TP_PROTO(struct intel_context *ce),
-+	     TP_ARGS(ce)
-+);
-+
-+DEFINE_EVENT(intel_context, intel_context_do_pin,
-+	     TP_PROTO(struct intel_context *ce),
-+	     TP_ARGS(ce)
-+);
-+
-+DEFINE_EVENT(intel_context, intel_context_do_unpin,
-+	     TP_PROTO(struct intel_context *ce),
-+	     TP_ARGS(ce)
-+);
-+
- #else
- #if !defined(TRACE_HEADER_MULTI_READ)
- static inline void
-@@ -921,6 +1005,66 @@ static inline void
- trace_i915_request_out(struct i915_request *rq)
- {
- }
-+
-+static inline void
-+trace_intel_context_register(struct intel_context *ce)
-+{
-+}
-+
-+static inline void
-+trace_intel_context_deregister(struct intel_context *ce)
-+{
-+}
-+
-+static inline void
-+trace_intel_context_deregister_done(struct intel_context *ce)
-+{
-+}
-+
-+static inline void
-+trace_intel_context_sched_enable(struct intel_context *ce)
-+{
-+}
-+
-+static inline void
-+trace_intel_context_sched_disable(struct intel_context *ce)
-+{
-+}
-+
-+static inline void
-+trace_intel_context_sched_done(struct intel_context *ce)
-+{
-+}
-+
-+static inline void
-+trace_intel_context_create(struct intel_context *ce)
-+{
-+}
-+
-+static inline void
-+trace_intel_context_fence_release(struct intel_context *ce)
-+{
-+}
-+
-+static inline void
-+trace_intel_context_free(struct intel_context *ce)
-+{
-+}
-+
-+static inline void
-+trace_intel_context_steal_guc_id(struct intel_context *ce)
-+{
-+}
-+
-+static inline void
-+trace_intel_context_do_pin(struct intel_context *ce)
-+{
-+}
-+
-+static inline void
-+trace_intel_context_do_unpin(struct intel_context *ce)
-+{
-+}
- #endif
- #endif
- 
--- 
-2.28.0
+But the reason that the custom wait function cleans up a tiny bit of
+jank is that the wait_queue_head_t gets signaled earlier, before we
+start iterating the submits and doing all that retire_submit() stuff
+(unpin/unref bo's, etc).  I suppose I could just split things up to
+call dma_fence_signal() earlier, and *then* do the retire_submits()
+stuff.
 
+BR,
+-R
+
+> It essentially exists only for old drivers where ->enable_signalling
+> is unreliable and we paper over that with a retry loop in ->wait and
+> pray no one notices that it's too butchered. The proper fix is to have
+> a driver thread to guarantee that ->enable_signalling works reliable,
+> so you don't need a ->wait.
+>
+> Can you type up a kerneldoc patch for dma_fence_ops->wait to hammer
+> this in please?
+> -Daniel
+>
+> >
+> > BR,
+> > -R
+> >
+> > > Regards,
+> > > Christian.
+> > >
+> > > >
+> > > > Note that this removes the !timeout case, which has not been used i=
+n
+> > > > a long time.
+> > >
+> > >
+> > > >
+> > > > Signed-off-by: Rob Clark <robdclark@chromium.org>
+> > > > ---
+> > > >   drivers/gpu/drm/msm/msm_fence.c | 59 +++++++++++++++++++---------=
+-----
+> > > >   1 file changed, 34 insertions(+), 25 deletions(-)
+> > > >
+> > > > diff --git a/drivers/gpu/drm/msm/msm_fence.c b/drivers/gpu/drm/msm/=
+msm_fence.c
+> > > > index cd59a5918038..8ee96b90ded6 100644
+> > > > --- a/drivers/gpu/drm/msm/msm_fence.c
+> > > > +++ b/drivers/gpu/drm/msm/msm_fence.c
+> > > > @@ -38,11 +38,10 @@ static inline bool fence_completed(struct msm_f=
+ence_context *fctx, uint32_t fenc
+> > > >       return (int32_t)(fctx->completed_fence - fence) >=3D 0;
+> > > >   }
+> > > >
+> > > > -/* legacy path for WAIT_FENCE ioctl: */
+> > > > -int msm_wait_fence(struct msm_fence_context *fctx, uint32_t fence,
+> > > > -             ktime_t *timeout, bool interruptible)
+> > > > +static signed long wait_fence(struct msm_fence_context *fctx, uint=
+32_t fence,
+> > > > +             signed long remaining_jiffies, bool interruptible)
+> > > >   {
+> > > > -     int ret;
+> > > > +     signed long ret;
+> > > >
+> > > >       if (fence > fctx->last_fence) {
+> > > >               DRM_ERROR_RATELIMITED("%s: waiting on invalid fence: =
+%u (of %u)\n",
+> > > > @@ -50,33 +49,34 @@ int msm_wait_fence(struct msm_fence_context *fc=
+tx, uint32_t fence,
+> > > >               return -EINVAL;
+> > > >       }
+> > > >
+> > > > -     if (!timeout) {
+> > > > -             /* no-wait: */
+> > > > -             ret =3D fence_completed(fctx, fence) ? 0 : -EBUSY;
+> > > > +     if (interruptible) {
+> > > > +             ret =3D wait_event_interruptible_timeout(fctx->event,
+> > > > +                     fence_completed(fctx, fence),
+> > > > +                     remaining_jiffies);
+> > > >       } else {
+> > > > -             unsigned long remaining_jiffies =3D timeout_to_jiffie=
+s(timeout);
+> > > > -
+> > > > -             if (interruptible)
+> > > > -                     ret =3D wait_event_interruptible_timeout(fctx=
+->event,
+> > > > -                             fence_completed(fctx, fence),
+> > > > -                             remaining_jiffies);
+> > > > -             else
+> > > > -                     ret =3D wait_event_timeout(fctx->event,
+> > > > -                             fence_completed(fctx, fence),
+> > > > -                             remaining_jiffies);
+> > > > -
+> > > > -             if (ret =3D=3D 0) {
+> > > > -                     DBG("timeout waiting for fence: %u (completed=
+: %u)",
+> > > > -                                     fence, fctx->completed_fence)=
+;
+> > > > -                     ret =3D -ETIMEDOUT;
+> > > > -             } else if (ret !=3D -ERESTARTSYS) {
+> > > > -                     ret =3D 0;
+> > > > -             }
+> > > > +             ret =3D wait_event_timeout(fctx->event,
+> > > > +                     fence_completed(fctx, fence),
+> > > > +                     remaining_jiffies);
+> > > > +     }
+> > > > +
+> > > > +     if (ret =3D=3D 0) {
+> > > > +             DBG("timeout waiting for fence: %u (completed: %u)",
+> > > > +                             fence, fctx->completed_fence);
+> > > > +             ret =3D -ETIMEDOUT;
+> > > > +     } else if (ret !=3D -ERESTARTSYS) {
+> > > > +             ret =3D 0;
+> > > >       }
+> > > >
+> > > >       return ret;
+> > > >   }
+> > > >
+> > > > +/* legacy path for WAIT_FENCE ioctl: */
+> > > > +int msm_wait_fence(struct msm_fence_context *fctx, uint32_t fence,
+> > > > +             ktime_t *timeout, bool interruptible)
+> > > > +{
+> > > > +     return wait_fence(fctx, fence, timeout_to_jiffies(timeout), i=
+nterruptible);
+> > > > +}
+> > > > +
+> > > >   /* called from workqueue */
+> > > >   void msm_update_fence(struct msm_fence_context *fctx, uint32_t fe=
+nce)
+> > > >   {
+> > > > @@ -114,10 +114,19 @@ static bool msm_fence_signaled(struct dma_fen=
+ce *fence)
+> > > >       return fence_completed(f->fctx, f->base.seqno);
+> > > >   }
+> > > >
+> > > > +static signed long msm_fence_wait(struct dma_fence *fence, bool in=
+tr,
+> > > > +             signed long timeout)
+> > > > +{
+> > > > +     struct msm_fence *f =3D to_msm_fence(fence);
+> > > > +
+> > > > +     return wait_fence(f->fctx, fence->seqno, timeout, intr);
+> > > > +}
+> > > > +
+> > > >   static const struct dma_fence_ops msm_fence_ops =3D {
+> > > >       .get_driver_name =3D msm_fence_get_driver_name,
+> > > >       .get_timeline_name =3D msm_fence_get_timeline_name,
+> > > >       .signaled =3D msm_fence_signaled,
+> > > > +     .wait =3D msm_fence_wait,
+> > > >   };
+> > > >
+> > > >   struct dma_fence *
+> > >
+>
+>
+>
+> --
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
