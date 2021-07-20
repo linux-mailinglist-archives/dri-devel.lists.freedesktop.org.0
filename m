@@ -1,43 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FD273CF0F0
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jul 2021 02:49:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 340CD3CF0F1
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jul 2021 02:49:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA6056E0A0;
-	Tue, 20 Jul 2021 00:49:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 26F0B6E176;
+	Tue, 20 Jul 2021 00:49:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2080.outbound.protection.outlook.com [40.107.236.80])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD76C6E0A0;
- Tue, 20 Jul 2021 00:49:33 +0000 (UTC)
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2079.outbound.protection.outlook.com [40.107.243.79])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 076A36E15E;
+ Tue, 20 Jul 2021 00:49:34 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=cDojE8eog/1Yptlk6nqWS2lNOQEDDsWhm8OxkZ+Z4cfdoICKXolHsNHYO9rQ7kJgf+YoduN6aIpShD3WsQDdN57PqdbK3r2aNT4L/DTji9XzqXNGa58pdl5qGE4TyLv796HDQNoF1eKIluY1X9LIyONeNYA4W5O07KCRCLCS6OUfvhX/l6dzBdgQCdCc/u64E7IGqWvIqBl8Ev8TIBxcw/QI9QLneBdyPqievInz5E/2vhdMkMjFIiaE9/9L/Yw7RAkDV/sd1TzArBdV7NqVXQeuFW/7HehkZnTkuuGXKZWWYxX3oakN/r38B9lDhEhLQk1/lYJIYosPd9PU35AQYg==
+ b=La25EDrUvJJYQzSFPEQaxzuAquoCNJPCY1hFsY1DTTVdUu85fsuCo/gu5NWRpnKVD3oyGuzu4z478zLbJV3z0RwaIa37AsLT7uvw3Hzj17I84tzucO1Pi9jn8sE5bax0JHjI/q7fc6kSSndUvo7eVFIyz3004VqCKejlD7pMVgJVVYF1hF9KaqY9qC0G7z4Mw0JDDlwnQQ5PDyISnYSQwghzhTXQxPGesrznvePczWBB8u4unsilHbSdsrkaysdWL5A3DXqzT8rFpz8P1n3ji4+NdnWSv9oE7JYn69M2qY+UR2iS3yfKxjuirO6/9K3HNfVp6RI5fHgJpaxctGsBlw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vbxQexAp6s8BslCHoQO0OW5MGb+pSV0h8hcm1x7opNk=;
- b=LQYz+5WjezCuKcSdam1d1ujH9l98aG8fs/gDCCLekxtWjum+hSX7E58CU8OLrF7VbKd0IEvdA/RiGiLWdepbKmBJ6GMO+34ZsJO0z6VryQTOjQf+RFhq2Wx1LRI1KBIDo+nfG9la4YW93VK9yFUpk+VVqBwUVQwzSSdIUuPYi8bJxXIItRDB4fKc1vcmf4a8eHpHdI8BtCi3dfBFX4XK2i8RRyV9TP5d+TjSGlOD/nBFIGh67r89bS+cQkhjETUr7cVyaAYr+1HpxfWfhGsAkNW/5txCZipdr3tuqttEvReR4G0BexlSdi5J/LL7aZ4BxQoZYs5xOHbKonb1QvFTsQ==
+ bh=2dBt126uCiBnN2jSieRkteK5vnQEkFdUDmJ4eVv1nv4=;
+ b=R0YeQsFoWMkXc9VFT9MXbxvzccQkSJ/zybS4u7HIdGZrpkkJCukYASjzCGbr04pkUw8k/hHMnbBFvp+kyKXQNGp9Z0EnbtMrnr6MannB/WTmfSRtgJi+Thk8sp82xTsiiaNpmONX8ZZMAqbyjqfZBFB99xjJGbIZudsFKPvIQ11JM2w2FSgYwMgSzdfII9SLPCqWP1C5Z0fgZLMdyNDj81GVscqZ1mkLQ5AZcWjp1lBf/c1pk5CUGcyMIs54/QDGfhsz7CfVLQQYNAMxG+BaeRNgd4TfNB/B9lRwyF1+7z3KwU6ICPiUPpp1+JdlUck1iP9jRMxFZ5SQFUmhDvEAkw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=infradead.org smtp.mailfrom=amd.com;
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vbxQexAp6s8BslCHoQO0OW5MGb+pSV0h8hcm1x7opNk=;
- b=NzXrtorAs2x+QfG4DjP/fklxivNslAElp8o/0Qw9t8rDW2V/Md/mveRIBBZEudF795eOyL9v/GFFJ4To2tofY+wKUroc2gdVAGl2zwW3U6wXrph9Tr4ZLcxww6t5Rc6w5BbruKdv5P8/caPtyQY5CoGFXKIxIC7pjS6rF40tbMw=
-Received: from BN0PR02CA0025.namprd02.prod.outlook.com (2603:10b6:408:e4::30)
- by MW2PR12MB2588.namprd12.prod.outlook.com (2603:10b6:907:a::19) with
+ bh=2dBt126uCiBnN2jSieRkteK5vnQEkFdUDmJ4eVv1nv4=;
+ b=a+qWKG5fC3tu4ue6WDx4A17GdgK09hvME2TyldayNenZprPxt0k4fJ6eWL8CgVFPcZao3Ric5dc2tgozn6Zo/DT0/Ow5+cP8tQBjKhNRepgSPFbvkTButUoTAy5iuz/MeEaDxMcc9s2EUF5DS0tjERvqaBS7djPCTXfo+p/rmgc=
+Received: from BN9P223CA0020.NAMP223.PROD.OUTLOOK.COM (2603:10b6:408:10b::25)
+ by DM5PR12MB2534.namprd12.prod.outlook.com (2603:10b6:4:b4::31) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.31; Tue, 20 Jul
- 2021 00:49:31 +0000
-Received: from BN8NAM11FT046.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:e4:cafe::9f) by BN0PR02CA0025.outlook.office365.com
- (2603:10b6:408:e4::30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.21 via Frontend
- Transport; Tue, 20 Jul 2021 00:49:30 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.26; Tue, 20 Jul
+ 2021 00:49:32 +0000
+Received: from BN8NAM11FT025.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:10b:cafe::d5) by BN9P223CA0020.outlook.office365.com
+ (2603:10b6:408:10b::25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.22 via Frontend
+ Transport; Tue, 20 Jul 2021 00:49:32 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; infradead.org; dkim=none (message not signed)
  header.d=none;infradead.org; dmarc=pass action=none header.from=amd.com;
@@ -45,20 +45,19 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BN8NAM11FT046.mail.protection.outlook.com (10.13.177.127) with Microsoft SMTP
+ BN8NAM11FT025.mail.protection.outlook.com (10.13.177.136) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.4331.21 via Frontend Transport; Tue, 20 Jul 2021 00:49:30 +0000
+ 15.20.4331.21 via Frontend Transport; Tue, 20 Jul 2021 00:49:31 +0000
 Received: from atma2.hitronhub.home (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4; Mon, 19 Jul
- 2021 19:49:29 -0500
+ 2021 19:49:30 -0500
 From: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
 To: Peter Zijlstra <peterz@infradead.org>, Daniel Vetter <daniel@ffwll.ch>,
  <roman.li@amd.com>, <sunpeng.li@amd.com>
-Subject: [PATCH v3 3/4] drm/amd/display: Add control mechanism for FPU
- utilization
-Date: Mon, 19 Jul 2021 20:49:13 -0400
-Message-ID: <20210720004914.3060879-4-Rodrigo.Siqueira@amd.com>
+Subject: [PATCH v3 4/4] drm/amd/display: Add DC_FP helper to check FPU state
+Date: Mon, 19 Jul 2021 20:49:14 -0400
+Message-ID: <20210720004914.3060879-5-Rodrigo.Siqueira@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210720004914.3060879-1-Rodrigo.Siqueira@amd.com>
 References: <20210720004914.3060879-1-Rodrigo.Siqueira@amd.com>
@@ -70,28 +69,28 @@ X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 9f735936-2d5a-4309-214d-08d94b183c1a
-X-MS-TrafficTypeDiagnostic: MW2PR12MB2588:
-X-Microsoft-Antispam-PRVS: <MW2PR12MB25882EE378F60FADEB3CAB6798E29@MW2PR12MB2588.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:156;
+X-MS-Office365-Filtering-Correlation-Id: 17383591-646b-4e89-c404-08d94b183ca2
+X-MS-TrafficTypeDiagnostic: DM5PR12MB2534:
+X-Microsoft-Antispam-PRVS: <DM5PR12MB2534349504AC330764F480F198E29@DM5PR12MB2534.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Ftzw7Fh7z4BNYpcVJe4cZEGMvxeKwKz8xUSMnSubmwoKcOrtWpcAUGH/kwbrS2JBb5aYemba8eOjt/SI7t20haSw2y/Lgx8g0NlRzTG5ODGa2+9cnU4TugR1FS9WCTG5Ge/we4NEtYpYv+ieuc8JpoGomyH7aAhPc3leD1ccyngZFAHe6qUpxIzm8cdEM8sf1cIs3idCi6MBqK/1ZAD5RN/kJd61UXD357abkviFkNI0oV3qlvHIDbC32ij8Hk7NX7OgZhCFwW7jeiGxUHvBUZtbQ54jvkc3c8EWTgrcWumSMPqml8R73d7p8tYUJ89pth64fKVFAXaVsv2HNylUP/xIONJd3gHl8RDw66E+axohf+Nwf+hDhGZ3S+8R9Zcky8LvYRQ4EKsnX5jvzeps5Grnd8syV3PVrTi0oyFQtX7eTMinuvG9Ld2t4YH106cMlDdy48yJfulFieG1npSkrTbN2c1qutPslzD9GZDbshTGyu3KxRsYPnlW4AElyrpt5QbAmB2Gak5N+SoQGszJKb0z155WB5yW8qL1QqdTvVkXGzyKilkVyGLdLKVMTwjBdJ3hV0rMKCuRIcstfw+nOj1HrE1YAX1pZ6zksX68FFNQnK9koxbb5CjE9EWRi/MR5Jn/YsZlbfze4OXXow+d2FrilPyplq1bCBDtFbUy84HqNqXD3wbCW0ixyUT/j6vsiYx7wz23AsVPcZIo085be844hmFYD26IKmIaQt8x2sU=
+X-Microsoft-Antispam-Message-Info: tXbKHiAmBBCdfYSrvQIkZe4bzoK+Zwcw8YQC3xguwitYCfFbXfuMscsGZh8EkspZxV+zCWcag8iva39XaU7hCzMcOiW8IRa5U8YVWSIYZHk6rE9yYuguX7WsxlCro3lNxiMzQRmmdXGS/yRLEdKeZm5hB5A1Opqkp5PbwZrB8NmtMgIpGsJhRAmvNicckPS7zvsSMF49fsHNgKtmAvvdGeWRdWUhR0TErpOGqd+r8PT9D729E1T1jxmLoPlsWjscNMeK035sSwcyKsbCaA1CNAO+++n20apXKm6MT2YaMTmeXjAZsZpiLPN7hu5as/+HarPo5Ymwhfux7glDq7L54PMuvr+5kLtME5QhlTs72vI467j97+HuQutD/WnQzsienlI0kqgGi8sza65W7sOnx0yu9exQA/soR2KZPBrXSdIuUrQX5+suwPyWqGqnnzuxY6FusvXIpOjUOGz40pj4DCq86jNg6TBEWrMvuILKfxJhUT3t0FaiUHnbr10XyXUZ4vJExiPXXlT3xFSn75i89JC3vA5OnAyd6M+hTLQRi/EBzWbmVRYiKF+SDTsiddF4X9UoOOL9qEuSrq6/tGAx3pPcO4VPgpeYjzj2cBYnrPeZ/Uk54ghY9YCNC2Lxgh04udwSTqHwr5h5Dn1WBEBJpV241T6deWZxWPhJEusBS+MT9LHAxIKXcGA9FppDzgk3rEDKixFuHJa7uf03dhMOCDf+g6R/lLTAKTZbb95VeLo=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(4636009)(346002)(136003)(376002)(396003)(39860400002)(36840700001)(46966006)(47076005)(316002)(26005)(356005)(8676002)(336012)(8936002)(6636002)(86362001)(66574015)(54906003)(2616005)(36756003)(83380400001)(81166007)(82740400003)(82310400003)(2906002)(5660300002)(70206006)(36860700001)(4326008)(478600001)(186003)(426003)(1076003)(110136005)(6666004)(70586007)(16526019)(36900700001);
+ SFS:(4636009)(46966006)(36840700001)(316002)(5660300002)(6636002)(2906002)(54906003)(4326008)(508600001)(110136005)(336012)(1076003)(83380400001)(82310400003)(66574015)(426003)(81166007)(6666004)(47076005)(86362001)(2616005)(70586007)(70206006)(8936002)(186003)(36756003)(356005)(8676002)(16526019)(36860700001)(26005)(36900700001);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jul 2021 00:49:30.8549 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9f735936-2d5a-4309-214d-08d94b183c1a
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jul 2021 00:49:31.7724 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 17383591-646b-4e89-c404-08d94b183ca2
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT046.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT025.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW2PR12MB2588
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB2534
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -110,19 +109,26 @@ Cc: Anson Jacob <Anson.Jacob@amd.com>, dri-devel@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DC invokes DC_FPU_START/END in multiple parts of the code; this can
-create a situation where we invoke this FPU operation in a nested way or
-exit too early. For avoiding this situation, this commit adds a
-mechanism where dc_fpu_begin/end manages the access to
-kernel_fpu_begin/end.
+To fully isolate FPU operations in a single place, we must avoid
+situations where compilers spill FP values to registers due to FP enable
+in a specific C file. Note that even if we isolate all FPU functions in
+a single file and call its interface from other files, the compiler
+might enable the use of FPU before we call DC_FP_START. Nevertheless, it
+is the programmer's responsibility to invoke DC_FP_START/END in the
+correct place. To highlight situations where developers forgot to use
+the FP protection before calling the DC FPU interface functions, we
+introduce a helper that checks if the function is invoked under FP
+protection. If not, it will trigger a kernel warning.
 
-Change since V2:
-- Christian: Do not use this_cpu_* between get/put_cpu_ptr().
+Changes cince V2 (Christian):
+- Do not use this_cpu_* between get/put_cpu_ptr().
+- In the kernel documentation, better describe restrictions.
+- Make dc_assert_fp_enabled trigger the ASSERT message.
 
-Change since V1:
-- Use a better variable names
-- Use get_cpu_ptr and put_cpu_ptr to better balance preemption enable
-and disable
+Changes since V1:
+- Remove fp_enable variables
+- Rename dc_is_fp_enabled to dc_assert_fp_enabled
+- Replace wrong variable type
 
 Cc: Harry Wentland <harry.wentland@amd.com>
 Cc: Anson Jacob <Anson.Jacob@amd.com>
@@ -131,118 +137,104 @@ Cc: Hersen Wu <hersenxs.wu@amd.com>
 Cc: Aric Cyr <aric.cyr@amd.com>
 Signed-off-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
 ---
- .../amd/display/amdgpu_dm/amdgpu_dm_trace.h   | 13 ++++---
- .../gpu/drm/amd/display/amdgpu_dm/dc_fpu.c    | 36 ++++++++++++++++---
- drivers/gpu/drm/amd/display/dc/dc_trace.h     |  4 +--
- 3 files changed, 42 insertions(+), 11 deletions(-)
+ .../gpu/drm/amd/display/amdgpu_dm/dc_fpu.c    | 19 +++++++++++++++++++
+ .../gpu/drm/amd/display/amdgpu_dm/dc_fpu.h    |  1 +
+ .../drm/amd/display/dc/dcn20/dcn20_resource.c |  2 ++
+ .../drm/amd/display/dc/fpu_operations/dcn2x.c | 18 ++++++++++++++++++
+ 4 files changed, 40 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_trace.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_trace.h
-index 230bb12c405e..fdcaea22b456 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_trace.h
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_trace.h
-@@ -638,23 +638,26 @@ TRACE_EVENT(amdgpu_refresh_rate_track,
- );
- 
- TRACE_EVENT(dcn_fpu,
--	    TP_PROTO(bool begin, const char *function, const int line),
--	    TP_ARGS(begin, function, line),
-+	    TP_PROTO(bool begin, const char *function, const int line, const int recursion_depth),
-+	    TP_ARGS(begin, function, line, recursion_depth),
- 
- 	    TP_STRUCT__entry(
- 			     __field(bool, begin)
- 			     __field(const char *, function)
- 			     __field(int, line)
-+			     __field(int, recursion_depth)
- 	    ),
- 	    TP_fast_assign(
- 			   __entry->begin = begin;
- 			   __entry->function = function;
- 			   __entry->line = line;
-+			   __entry->recursion_depth = recursion_depth;
- 	    ),
--	    TP_printk("%s()+%d: %s",
-+	    TP_printk("%s: recursion_depth: %d: %s()+%d:",
-+		      __entry->begin ? "begin" : "end",
-+		      __entry->recursion_depth,
- 		      __entry->function,
--		      __entry->line,
--		      __entry->begin ? "begin" : "end"
-+		      __entry->line
- 	    )
- );
- 
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/dc_fpu.c b/drivers/gpu/drm/amd/display/amdgpu_dm/dc_fpu.c
-index d5d156a4517e..d0d3e8a34db5 100644
+index d0d3e8a34db5..107e1c50576e 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/dc_fpu.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/dc_fpu.c
-@@ -28,6 +28,19 @@
+@@ -41,6 +41,25 @@
  
- #include <asm/fpu/api.h>
+ static DEFINE_PER_CPU(int, fpu_recursion_depth);
  
 +/**
-+ * DOC: DC FPU manipulation overview
++ * dc_assert_fp_enabled - Check if FPU protection is enabled
 + *
-+ * DC core uses FPU operations in multiple parts of the code, which requires a
-+ * more specialized way to manage these areas' entrance. To fulfill this
-+ * requirement, we created some wrapper functions that encapsulate
-+ * kernel_fpu_begin/end to better fit our need in the display component. In
-+ * summary, in this file, you can find functions related to FPU operation
-+ * management.
++ * This function tells if the code is already under FPU protection or not. A
++ * function that works as an API for a set of FPU operations can use this
++ * function for checking if the caller invoked it after DC_FP_START(). For
++ * example, take a look at dcn2x.c file.
 + */
++inline void dc_assert_fp_enabled(void)
++{
++	int *pcpu, depth = 0;
 +
-+static DEFINE_PER_CPU(int, fpu_recursion_depth);
++	pcpu = get_cpu_ptr(&fpu_recursion_depth);
++	depth = *pcpu;
++	put_cpu_ptr(&fpu_recursion_depth);
++
++	ASSERT(depth > 1);
++}
 +
  /**
   * dc_fpu_begin - Enables FPU protection
   * @function_name: A string containing the function name for debug purposes
-@@ -43,8 +56,16 @@
-  */
- void dc_fpu_begin(const char *function_name, const int line)
- {
--	TRACE_DCN_FPU(true, function_name, line);
--	kernel_fpu_begin();
-+	int *pcpu;
-+
-+	pcpu = get_cpu_ptr(&fpu_recursion_depth);
-+	*pcpu += 1;
-+
-+	if (*pcpu == 1)
-+		kernel_fpu_begin();
-+
-+	TRACE_DCN_FPU(true, function_name, line, *pcpu);
-+	put_cpu_ptr(&fpu_recursion_depth);
- }
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/dc_fpu.h b/drivers/gpu/drm/amd/display/amdgpu_dm/dc_fpu.h
+index fb54983c5c60..b8275b397920 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/dc_fpu.h
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/dc_fpu.h
+@@ -27,6 +27,7 @@
+ #ifndef __DC_FPU_H__
+ #define __DC_FPU_H__
  
- /**
-@@ -59,6 +80,13 @@ void dc_fpu_begin(const char *function_name, const int line)
-  */
- void dc_fpu_end(const char *function_name, const int line)
- {
--	TRACE_DCN_FPU(false, function_name, line);
--	kernel_fpu_end();
-+	int *pcpu;
-+
-+	pcpu = get_cpu_ptr(&fpu_recursion_depth);
-+	*pcpu -= 1;
-+	if (*pcpu <= 0)
-+		kernel_fpu_end();
-+
-+	TRACE_DCN_FPU(false, function_name, line, *pcpu);
-+	put_cpu_ptr(&fpu_recursion_depth);
- }
-diff --git a/drivers/gpu/drm/amd/display/dc/dc_trace.h b/drivers/gpu/drm/amd/display/dc/dc_trace.h
-index d598ba697e45..c711797e5c9e 100644
---- a/drivers/gpu/drm/amd/display/dc/dc_trace.h
-+++ b/drivers/gpu/drm/amd/display/dc/dc_trace.h
-@@ -38,5 +38,5 @@
- #define TRACE_DCN_CLOCK_STATE(dcn_clocks) \
- 	trace_amdgpu_dm_dc_clocks_state(dcn_clocks)
++void dc_assert_fp_enabled(void);
+ void dc_fpu_begin(const char *function_name, const int line);
+ void dc_fpu_end(const char *function_name, const int line);
  
--#define TRACE_DCN_FPU(begin, function, line) \
--	trace_dcn_fpu(begin, function, line)
-+#define TRACE_DCN_FPU(begin, function, line, ref_count) \
-+	trace_dcn_fpu(begin, function, line, ref_count)
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c
+index f99b09643a52..d0b34c7f99dc 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c
+@@ -2355,7 +2355,9 @@ int dcn20_populate_dml_pipes_from_context(
+ 	}
+ 
+ 	/* populate writeback information */
++	DC_FP_START();
+ 	dc->res_pool->funcs->populate_dml_writeback_from_context(dc, res_ctx, pipes);
++	DC_FP_END();
+ 
+ 	return pipe_cnt;
+ }
+diff --git a/drivers/gpu/drm/amd/display/dc/fpu_operations/dcn2x.c b/drivers/gpu/drm/amd/display/dc/fpu_operations/dcn2x.c
+index 95a0b89302a9..3ea90090264c 100644
+--- a/drivers/gpu/drm/amd/display/dc/fpu_operations/dcn2x.c
++++ b/drivers/gpu/drm/amd/display/dc/fpu_operations/dcn2x.c
+@@ -43,6 +43,22 @@
+  *    that deals with FP register is contained within this call.
+  * 3. All function that needs to be accessed outside this file requires a
+  *    public interface that not uses any FPU reference.
++ * 4. Developers **must not** use DC_FP_START/END in this file, but they need
++ *    to ensure that the caller invokes it before access any function available
++ *    in this file. For this reason, public functions in this file must invoke
++ *    dc_assert_fp_enabled();
++ *
++ * Let's expand a little bit more the idea in the code pattern. To fully
++ * isolate FPU operations in a single place, we must avoid situations where
++ * compilers spill FP values to registers due to FP enable in a specific C
++ * file. Note that even if we isolate all FPU functions in a single file and
++ * call its interface from other files, the compiler might enable the use of
++ * FPU before we call DC_FP_START. Nevertheless, it is the programmer's
++ * responsibility to invoke DC_FP_START/END in the correct place. To highlight
++ * situations where developers forgot to use the FP protection before calling
++ * the DC FPU interface functions, we introduce a helper that checks if the
++ * function is invoked under FP protection. If not, it will trigger a kernel
++ * warning.
+  */
+ 
+ void dcn20_populate_dml_writeback_from_context(struct dc *dc,
+@@ -51,6 +67,8 @@ void dcn20_populate_dml_writeback_from_context(struct dc *dc,
+ {
+ 	int pipe_cnt, i;
+ 
++	dc_assert_fp_enabled();
++
+ 	for (i = 0, pipe_cnt = 0; i < dc->res_pool->pipe_count; i++) {
+ 		struct dc_writeback_info *wb_info = &res_ctx->pipe_ctx[i].stream->writeback_info[0];
+ 
 -- 
 2.25.1
 
