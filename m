@@ -1,144 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D49B73D040F
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jul 2021 23:47:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E1ED13D0422
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jul 2021 23:56:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 70DD76E563;
-	Tue, 20 Jul 2021 21:47:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6459B6E32A;
+	Tue, 20 Jul 2021 21:56:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8567E6E560;
- Tue, 20 Jul 2021 21:47:03 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10051"; a="272447855"
-X-IronPort-AV: E=Sophos;i="5.84,256,1620716400"; d="scan'208";a="272447855"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jul 2021 14:47:02 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,256,1620716400"; d="scan'208";a="661667327"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
- by fmsmga005.fm.intel.com with ESMTP; 20 Jul 2021 14:47:02 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.10; Tue, 20 Jul 2021 14:47:02 -0700
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.10 via Frontend Transport; Tue, 20 Jul 2021 14:46:58 -0700
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com (104.47.51.45) by
- edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2242.10; Tue, 20 Jul 2021 14:46:58 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Tepy8ywbarCs5CMbqGV3ljBC9g8YKxebwM3hkoQQsXodn32m8AsL8jahUAiESghneBg8kal03J1jniFIdxImsDLqMKUpO/1BOv0H1PXn8VaBzVrVpcJbW2TteGh2L/YUNVOZV0ZRUUnAsgyOqiMgTJ2K65F/cUBlg4/B/Y39uEisleHDRf9qfdvJOMadho7Ujd0PvABQbypHUS7f3vst7J+C5KmQdlHN0OmqqZRzldvZAnLHb2F7KEr59Y3+7i0U+2mxVfmy7ivxaG6038/agZm/EIOH9+pna8laoNeRP/3/wXa8jU1BK2LHRKCwJrkFWQH7Sr7o8wu47JuIeDSodA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CjW2hSWuvEYN2QbrWGOnO4/3A1kI8fy/0tbVR3iVxEo=;
- b=X/ezSmbSNv9VYaDjkG4Llu4ekGGQw/B/iB6pDBhlsZmde1kgF0C/naRwNy+9fOoQR1CN9lR9ofguk1uI76VbhDrZseIx5LhNZkfGDhWhSY1byZosmMDKOuyZrZU8KetMncb0g4V11ayNyquZBBpwm9YvrDe7Wm4mwCm+GJXhpKJ4UIXoqKnqKwO8xO85Mhrm8Wh7CKz/HlN+nnqlFOjzsibe+Nxvd0gARBYUzsjqAkCpmt+QFaAHIBD/sfnfnMmp8Mh/6ItUqCRjsUja72KmTWLk+u2xdWB/DpqdPN51fPm2VhgIAs/m0A6XVvIeMTPb6xWchugRjdzu4dQyaIj5lQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
- s=selector2-intel-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CjW2hSWuvEYN2QbrWGOnO4/3A1kI8fy/0tbVR3iVxEo=;
- b=P7rzfNgU1x5NwgjBkvU5VX/KjiRibEetPt8U0g00RXyt/t5Va9GJQAsDmqirFPSkE+m+UepJ2Jlfh10N3EDZCqXb5NOyXooNOIv9MZ7AOuoi9p3IRUbVcy2yI6bIE+epPP+wZxyMg6IyMJMYlx9rfkGaWmh4OOvHCEdiJXW4I00=
-Authentication-Results: intel.com; dkim=none (message not signed)
- header.d=none;intel.com; dmarc=none action=none header.from=intel.com;
-Received: from PH0PR11MB5642.namprd11.prod.outlook.com (2603:10b6:510:e5::13)
- by PH0PR11MB5675.namprd11.prod.outlook.com (2603:10b6:510:d4::17)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.22; Tue, 20 Jul
- 2021 21:46:56 +0000
-Received: from PH0PR11MB5642.namprd11.prod.outlook.com
- ([fe80::c5a8:5a64:9118:95c4]) by PH0PR11MB5642.namprd11.prod.outlook.com
- ([fe80::c5a8:5a64:9118:95c4%8]) with mapi id 15.20.4331.034; Tue, 20 Jul 2021
- 21:46:56 +0000
-Subject: Re: [PATCH 47/51] drm/i915/selftest: Increase some timeouts in
- live_requests
-To: Matthew Brost <matthew.brost@intel.com>,
- <intel-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
-References: <20210716201724.54804-1-matthew.brost@intel.com>
- <20210716201724.54804-48-matthew.brost@intel.com>
-From: John Harrison <john.c.harrison@intel.com>
-Message-ID: <92494014-1aa0-5109-903a-9a78faa0d092@intel.com>
-Date: Tue, 20 Jul 2021 14:46:54 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.12.0
-In-Reply-To: <20210716201724.54804-48-matthew.brost@intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-GB
-X-ClientProxiedBy: SJ0PR03CA0272.namprd03.prod.outlook.com
- (2603:10b6:a03:39e::7) To PH0PR11MB5642.namprd11.prod.outlook.com
- (2603:10b6:510:e5::13)
+Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com
+ [IPv6:2607:f8b0:4864:20::b2d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 420B06E311
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 21:56:01 +0000 (UTC)
+Received: by mail-yb1-xb2d.google.com with SMTP id y38so582626ybi.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 14:56:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=sfBEshtiz3b3zWuLinvp78jOMvb3f/T6hm1sv7DHfbA=;
+ b=Rq3BWE5SVRsS9GRXCGxhimGG/VUdFsqhpfMrFdllU1aGDpolrP7VcMthAm0x3Ztmau
+ sI8UNSNZ6d4lxvbu9Hf/2ErJyOeaA8UDzC8+0VmOQJ306rwv64RLZMMOqxr97jNJngmu
+ AyvtByCfxZYUH4vKmG5xO5VnOdsC8K63YUflep9Ns2GVnSjs0zNY94tPc2hMxTQAwOUS
+ 3U4bfsEgv6cSPvy3m3j6EUt6L3mV96BExBbSjsAgtTlOSWQ+SNohKO99pXq4uiZ1fYsp
+ RssnvoTmdiwVTWI95OBdRbb6DYOLzC5/J4pUcnimetfEf7wVXvSW3fR4N2Ve62OLF0vT
+ xzSQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=sfBEshtiz3b3zWuLinvp78jOMvb3f/T6hm1sv7DHfbA=;
+ b=HZjV9bybhkmeK2F+nycPnBrVcQ9MMPhFzSozlZ+tG4W4dfB4dUpLcGHMBlUXVfFILx
+ 5LpB6+soAICNA/30RSltdG+cDfn0s1lhr+r0QDDTaFxMVRiAnwwwV71dKSBchr8tTArK
+ 5oq0jG/aE36vgcl97vIbwYJiOsFpoopjJd05WK/3rchfPNOOH030Mjylp035sUSwLUh1
+ 1a7G8eLYoOWNiMegT+uEObHrD9ziXDOxLkeHt5l2ajznRC+OklSZbseSUY82peNt6utH
+ HRukb0c+yP7WyG6rawnLJ/jkZQu4ltMpfdbLN/4trNIRh2/sVksZZYpLPwvI1LDFMvlz
+ MpCQ==
+X-Gm-Message-State: AOAM530NxqE567csPEARzZLb4/VUFW+3ZMeH4InXUOpCmfnH9cf0oXKp
+ B74LA4qQOTvQXCbXptE5mP9/aeT6Spi2K9flss0srA==
+X-Google-Smtp-Source: ABdhPJynJuu9G4It/JBdq9J9m0pKEqVN08FgWvOaF4j4i2j2Ofd44KghjbcjhbcQyBoHOSSD0LI1YtAxwZssZqGM1yY=
+X-Received: by 2002:a25:aa69:: with SMTP id s96mr42275803ybi.241.1626818160322; 
+ Tue, 20 Jul 2021 14:56:00 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.1.221] (73.157.192.58) by
- SJ0PR03CA0272.namprd03.prod.outlook.com (2603:10b6:a03:39e::7) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4331.21 via Frontend Transport; Tue, 20 Jul 2021 21:46:55 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d7e18ad2-c462-47cb-8c5c-08d94bc7e4fc
-X-MS-TrafficTypeDiagnostic: PH0PR11MB5675:
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <PH0PR11MB5675CA5BDE556795E7CA4A36BDE29@PH0PR11MB5675.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2887;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: VQb/n44Kzt4fdyZINj7r6P+dlW4TrrF3EyQAF+hgXeiqzdsBqqHMOD8uYwKKSdn/uf4jkMywMCcEP1gixh3902Vu9gFAvYR8gm1uwZMW1H5PNxvZ71Zbt5zPFO1sJlJVebz5gfhIildHRmVc2yK2NWHs0aLBGS6+53ry1iPVKwLBJCXjPQ3zhPGG4E1CH9HHiekH+gQR6niD1TS9EEu5UMJFx8szoPCcsXYd8TKwr0j0atnM27vGakLb4f5BVq6hsjDmOK8AAtK1fXCR51pgB19mhv1LhrZxJ+9hpteIpNQdkHy3Y7UJmzsatIDst0YHMfOJbl4vqKKlrO/9vSzfdlbVLAPBHCHrWL5ouHCTvpySf5uS7V/qkOENEOqVjx1UkoRVkJx9JFDnHeSCtKYI+XoimhjY5AxQy7V2BkSvC+RZmHkMn8enyQhPPaRZ2JNzjkyNNnPipqM8KbVtkBpguy7ER8ULRoIhRPTTOr4kwRcVmeCxHHHQK/Pg86LlFRR2TTE6WCzcrGUy8YS2ZTELJWVsurQ35jrs+gheJ+MeQYYInVXnvq8GlYj2QnMmwI0BR7d4vOVGUyeXeduycF8DW7CFZEHmMgqhydT19ZRpDnwCjgN+7gNGvwnxQah6ml7wLOSjBp8f1CDReH9+JShpl1wxMN/ie9L1n2muAcBMZ1L/CRpcElml+BkgEdLGMHyym6bd2v7o8/V9p+PGwH0eNEUC0V0NdSu7AZ+b1q2XXnKH7QZflj3qj0+kreuF/3Q/
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH0PR11MB5642.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(396003)(346002)(376002)(136003)(366004)(39860400002)(4326008)(16576012)(38100700002)(86362001)(107886003)(26005)(316002)(186003)(53546011)(31686004)(83380400001)(5660300002)(6486002)(66946007)(31696002)(66556008)(66476007)(478600001)(36756003)(2616005)(450100002)(2906002)(8936002)(956004)(8676002)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ejR3bGY5bXd4dDhrQ2NQYlZCVGx3dEdRM3E3d2REZ1JqR0VyTkdPTnZjeDFt?=
- =?utf-8?B?ZEY2djFGNXppcFpxYjFpRlNlbFVaNGRJanpGTjRNUk9WS3Rhb3hoTTZaZTUz?=
- =?utf-8?B?OHRxWVo3TGloejZKSGpobk8yS0Q5TGIzNDRLaGsxVGozZStBTlNxbXVIUGZ2?=
- =?utf-8?B?eUFxSjA0cERMQlBReTUwczBHYlFXaXZFcXZTTnFSYjFacXY5NU9lWHJraDVU?=
- =?utf-8?B?WDFwMnRWTG5QM2hyWmFBUFBZcWFCelNibHk3SGJndHlwcHJNUVVDSnBaQUo5?=
- =?utf-8?B?a3JjUTV1OFZTSjBhdWptM0JYTU1ERDBkVlNwY0dON29sdTJtUVlEeE9TSmt6?=
- =?utf-8?B?Y25iTzZ3MjcxZGsxVi84WDNzVkRyTjlKaGFjQ0J4cHZGVEJvS0pnVnFpNlBE?=
- =?utf-8?B?WitPbEx5U3k5N1hZc2JTMXFQaDg0dWxqYzFidFV0L0pXdW40cDJZM1daV3Na?=
- =?utf-8?B?c2JpRWVNeUFtRUQzenF5Nmk0TjVqSnBhKzFKRyt6YkQ0cFVlK2lTYWpuemta?=
- =?utf-8?B?TDRRQ0xoTUpnNWowOEplVVR6VnJqWW5TdnV1aFNDWm14S2hRNlpkeWhRZ2NZ?=
- =?utf-8?B?QXhFY0pTanplZ29ialY4VGl1ZmZOVmd2OENaUnVFUVBmUDhsTTJJU21kMWFJ?=
- =?utf-8?B?aFVLbXVMVkFZcDc4NGVkYytQamNlVUVqRjdBMU52SE9BSnVDWmo4MXlYLzB2?=
- =?utf-8?B?Q3FPSHFQTzFyUWtGOEFCOEk3Z01Xak1YZ3ViOFZKQys2Rm8ydTZadHRwRkxn?=
- =?utf-8?B?R1hmZm9iUE5abEI2Z1BIa09FaC9wZTJUSWhJZ3F2VjRXWUozZ2dpcXFRdUph?=
- =?utf-8?B?UW8vbTVTRCtZT2VhaTFuS2hGbjJSVlNQVGQyTzdOZ3dET3VQcTg5M293M3g0?=
- =?utf-8?B?bUVrMkhxOE0zdG5BYkxRRGxCcmZ6ZUpBSUExTiszczh0ZkJRV1lZL09adjd3?=
- =?utf-8?B?Z1AxcmdQYW5KTjIrdmFZN1BuYzd3cGRnbDZLM1BFRjlJd0dNTnNOZUVNc0Z4?=
- =?utf-8?B?SFdVd2NOTDRKWjdTcHI5eFlHU1h6N2FBOE9lUHU0RjdVdHdVN2hZYXpEazIv?=
- =?utf-8?B?bkttQWVkalVoTlZ6d1RhRTlIVzlxLzBvU1RweW9HaWd2dGs5bnZZVnVZb3U1?=
- =?utf-8?B?REs4dHNVU0ZYOEpnT2N0bEZXSklUVUJGd3AwWkV4L3o0a21XcWJGN2MrR1BN?=
- =?utf-8?B?Q1QvdWp0Y3N0ZEFiMW92aDdvYldxZzZhRzZkWlp4bHVPOWI5VUlmUmhXVU51?=
- =?utf-8?B?RzlBTW1qMGFnQUxZa0lyc0I4aHRRWktJMU5rK2wyalN6bm5URUQ1RmJsZ0lt?=
- =?utf-8?B?TGxXMDVSajR3OXdGMVh6Nnk0SDBhRC9iK3g2Q3d3QXR5OXJKUDhiUkxqSVAw?=
- =?utf-8?B?K29uL3JBemNITCtOOXNmb24ycDdwbHR5U3FaN3EyTWE3Qk5xRVYzQ09sWU5W?=
- =?utf-8?B?ZkMyRys1aFRWRUdNc2QvT29vOE9TVE5mOHM3Vm8wSVhIaW5mTk53dTUwOExi?=
- =?utf-8?B?RWJQRDh1SHlxa2lWTmJZMnZuM3J6OHZSUWJMeExneFdkSW5lbzJXK3A2Wll5?=
- =?utf-8?B?VGtUTzcrRHJ4VUdJRjlwVks2Z0Uya1BSVitlR3Y0dTNCUzhENThEcmFYdTlJ?=
- =?utf-8?B?aVhKRWRIN3FMVm5WNEowQjdDVFBEamltS1d4emFXbWxPaHRCVjJicFk0bXJr?=
- =?utf-8?B?R2tlMTBCcFhyWmV2OFNsZUlZVFdjU29zMmFKN1hrTzNMNzM3TnQvdWJFNEd6?=
- =?utf-8?Q?uSqCMAxBigDNRfJ5vKFJ3JpFOfhCxy5kC1ecSZL?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: d7e18ad2-c462-47cb-8c5c-08d94bc7e4fc
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5642.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jul 2021 21:46:56.3062 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: diXTdL/51+TpbGYVDUxtq4Xogci6ou/Jg7JfAThk2wRwf+wOHb40Npi+s/hSf6b+l2/Z8DafSOI553VkHFoWQvP1dlQa/q3BTEtSAnnO9X0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB5675
-X-OriginatorOrg: intel.com
+References: <20210716141426.1904528-1-jason@jlekstrand.net>
+ <20210716141426.1904528-7-jason@jlekstrand.net>
+ <CAM0jSHP0CThxGJ-ABAO2kzhtKgh=ypbp+7iPsxPWd5F+Ydc7Tw@mail.gmail.com>
+In-Reply-To: <CAM0jSHP0CThxGJ-ABAO2kzhtKgh=ypbp+7iPsxPWd5F+Ydc7Tw@mail.gmail.com>
+From: Jason Ekstrand <jason@jlekstrand.net>
+Date: Tue, 20 Jul 2021 16:55:49 -0500
+Message-ID: <CAOFGe96mL5jNegWTO=JXyJ4LLzpT=xFCBqQSyXRMa=maC5WoAQ@mail.gmail.com>
+Subject: Re: [PATCH 6/7] drm/i915/gem: Correct the locking and pin pattern for
+ dma-buf (v6)
+To: Matthew Auld <matthew.william.auld@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -151,41 +67,195 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniele.ceraolospurio@intel.com
+Cc: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ "Michael J . Ruhl" <michael.j.ruhl@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/16/2021 13:17, Matthew Brost wrote:
-> Requests may take slightly longer with GuC submission, let's increase
-> the timeouts in live_requests.
+On Tue, Jul 20, 2021 at 4:07 AM Matthew Auld
+<matthew.william.auld@gmail.com> wrote:
 >
-> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-Reviewed-by: John Harrison <John.C.Harrison@Intel.com>
-
-> ---
->   drivers/gpu/drm/i915/selftests/i915_request.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+> On Fri, 16 Jul 2021 at 15:14, Jason Ekstrand <jason@jlekstrand.net> wrote=
+:
+> >
+> > From: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
+> >
+> > If our exported dma-bufs are imported by another instance of our driver=
+,
+> > that instance will typically have the imported dma-bufs locked during
+> > dma_buf_map_attachment(). But the exporter also locks the same reservat=
+ion
+> > object in the map_dma_buf() callback, which leads to recursive locking.
+> >
+> > So taking the lock inside _pin_pages_unlocked() is incorrect.
+> >
+> > Additionally, the current pinning code path is contrary to the defined
+> > way that pinning should occur.
+> >
+> > Remove the explicit pin/unpin from the map/umap functions and move them
+> > to the attach/detach allowing correct locking to occur, and to match
+> > the static dma-buf drm_prime pattern.
+> >
+> > Add a live selftest to exercise both dynamic and non-dynamic
+> > exports.
+> >
+> > v2:
+> > - Extend the selftest with a fake dynamic importer.
+> > - Provide real pin and unpin callbacks to not abuse the interface.
+> > v3: (ruhl)
+> > - Remove the dynamic export support and move the pinning into the
+> >   attach/detach path.
+> > v4: (ruhl)
+> > - Put pages does not need to assert on the dma-resv
+> > v5: (jason)
+> > - Lock around dma_buf_unmap_attachment() when emulating a dynamic
+> >   importer in the subtests.
+> > - Use pin_pages_unlocked
+> > v6: (jason)
+> > - Use dma_buf_attach instead of dma_buf_attach_dynamic in the selftests
+> >
+> > Reported-by: Michael J. Ruhl <michael.j.ruhl@intel.com>
+> > Signed-off-by: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
+> > Signed-off-by: Michael J. Ruhl <michael.j.ruhl@intel.com>
+> > Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
+> > Reviewed-by: Jason Ekstrand <jason@jlekstrand.net>
+> > ---
+> >  drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c    |  43 ++++++--
+> >  .../drm/i915/gem/selftests/i915_gem_dmabuf.c  | 103 +++++++++++++++++-
+> >  2 files changed, 132 insertions(+), 14 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c b/drivers/gpu/d=
+rm/i915/gem/i915_gem_dmabuf.c
+> > index 616c3a2f1baf0..9a655f69a0671 100644
+> > --- a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
+> > +++ b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
+> > @@ -12,6 +12,8 @@
+> >  #include "i915_gem_object.h"
+> >  #include "i915_scatterlist.h"
+> >
+> > +I915_SELFTEST_DECLARE(static bool force_different_devices;)
+> > +
+> >  static struct drm_i915_gem_object *dma_buf_to_obj(struct dma_buf *buf)
+> >  {
+> >         return to_intel_bo(buf->priv);
+> > @@ -25,15 +27,11 @@ static struct sg_table *i915_gem_map_dma_buf(struct=
+ dma_buf_attachment *attachme
+> >         struct scatterlist *src, *dst;
+> >         int ret, i;
+> >
+> > -       ret =3D i915_gem_object_pin_pages_unlocked(obj);
+> > -       if (ret)
+> > -               goto err;
+> > -
+> >         /* Copy sg so that we make an independent mapping */
+> >         st =3D kmalloc(sizeof(struct sg_table), GFP_KERNEL);
+> >         if (st =3D=3D NULL) {
+> >                 ret =3D -ENOMEM;
+> > -               goto err_unpin_pages;
+> > +               goto err;
+> >         }
+> >
+> >         ret =3D sg_alloc_table(st, obj->mm.pages->nents, GFP_KERNEL);
+> > @@ -58,8 +56,6 @@ static struct sg_table *i915_gem_map_dma_buf(struct d=
+ma_buf_attachment *attachme
+> >         sg_free_table(st);
+> >  err_free:
+> >         kfree(st);
+> > -err_unpin_pages:
+> > -       i915_gem_object_unpin_pages(obj);
+> >  err:
+> >         return ERR_PTR(ret);
+> >  }
+> > @@ -68,13 +64,9 @@ static void i915_gem_unmap_dma_buf(struct dma_buf_at=
+tachment *attachment,
+> >                                    struct sg_table *sg,
+> >                                    enum dma_data_direction dir)
+> >  {
+> > -       struct drm_i915_gem_object *obj =3D dma_buf_to_obj(attachment->=
+dmabuf);
+> > -
+> >         dma_unmap_sgtable(attachment->dev, sg, dir, DMA_ATTR_SKIP_CPU_S=
+YNC);
+> >         sg_free_table(sg);
+> >         kfree(sg);
+> > -
+> > -       i915_gem_object_unpin_pages(obj);
+> >  }
+> >
+> >  static int i915_gem_dmabuf_vmap(struct dma_buf *dma_buf, struct dma_bu=
+f_map *map)
+> > @@ -168,7 +160,31 @@ static int i915_gem_end_cpu_access(struct dma_buf =
+*dma_buf, enum dma_data_direct
+> >         return err;
+> >  }
+> >
+> > +/**
+> > + * i915_gem_dmabuf_attach - Do any extra attach work necessary
+> > + * @dmabuf: imported dma-buf
+> > + * @attach: new attach to do work on
+> > + *
+> > + */
+> > +static int i915_gem_dmabuf_attach(struct dma_buf *dmabuf,
+> > +                                 struct dma_buf_attachment *attach)
+> > +{
+> > +       struct drm_i915_gem_object *obj =3D dma_buf_to_obj(dmabuf);
+> > +
+> > +       return i915_gem_object_pin_pages_unlocked(obj);
+> > +}
+> > +
+> > +static void i915_gem_dmabuf_detach(struct dma_buf *dmabuf,
+> > +                                  struct dma_buf_attachment *attach)
+> > +{
+> > +       struct drm_i915_gem_object *obj =3D dma_buf_to_obj(dmabuf);
+> > +
+> > +       i915_gem_object_unpin_pages(obj);
+> > +}
+> > +
 >
-> diff --git a/drivers/gpu/drm/i915/selftests/i915_request.c b/drivers/gpu/drm/i915/selftests/i915_request.c
-> index bd5c96a77ba3..d67710d10615 100644
-> --- a/drivers/gpu/drm/i915/selftests/i915_request.c
-> +++ b/drivers/gpu/drm/i915/selftests/i915_request.c
-> @@ -1313,7 +1313,7 @@ static int __live_parallel_engine1(void *arg)
->   		i915_request_add(rq);
->   
->   		err = 0;
-> -		if (i915_request_wait(rq, 0, HZ / 5) < 0)
-> +		if (i915_request_wait(rq, 0, HZ) < 0)
->   			err = -ETIME;
->   		i915_request_put(rq);
->   		if (err)
-> @@ -1419,7 +1419,7 @@ static int __live_parallel_spin(void *arg)
->   	}
->   	igt_spinner_end(&spin);
->   
-> -	if (err == 0 && i915_request_wait(rq, 0, HZ / 5) < 0)
-> +	if (err == 0 && i915_request_wait(rq, 0, HZ) < 0)
->   		err = -EIO;
->   	i915_request_put(rq);
->   
+> We don't normally add kernel-doc for static functions? Otherwise
+> dmabuf_detach() needs matching kernel-doc.
 
+Dropped.
+
+> <snip>
+>
+> > +
+> > +static int igt_dmabuf_import_same_driver(void *arg)
+> > +{
+> > +       struct drm_i915_private *i915 =3D arg;
+> > +       struct drm_i915_gem_object *obj, *import_obj;
+> > +       struct drm_gem_object *import;
+> > +       struct dma_buf *dmabuf;
+> > +       struct dma_buf_attachment *import_attach;
+> > +       struct sg_table *st;
+> > +       long timeout;
+> > +       int err;
+> > +
+> > +       force_different_devices =3D true;
+> > +       obj =3D i915_gem_object_create_shmem(i915, PAGE_SIZE);
+> > +       if (IS_ERR(obj))
+>
+> err =3D PTR_ERR(obj)
+
+Done.
+
+> <snip>
+>
+> > +       /* Now try a fake an importer */
+> > +       import_attach =3D dma_buf_attach(dmabuf, obj->base.dev->dev);
+> > +       if (IS_ERR(import_attach))
+> > +               goto out_import;
+> > +
+> > +       st =3D dma_buf_map_attachment(import_attach, DMA_BIDIRECTIONAL)=
+;
+> > +       if (IS_ERR(st))
+> > +               goto out_detach;
+>
+> For these two maybe missing err =3D ?
+
+Yup.  Fixed.  I also changed the (int)PTR_ERR() in the error prints
+like you asked for in the next patch.
+
+--Jason
