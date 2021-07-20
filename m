@@ -2,60 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 415F33CF664
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jul 2021 10:57:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB6133CF68F
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jul 2021 11:07:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A2DF16E09A;
-	Tue, 20 Jul 2021 08:57:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A02889F38;
+	Tue, 20 Jul 2021 09:07:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 494836E09A
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 08:57:31 +0000 (UTC)
-Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 02BF71FDDC;
- Tue, 20 Jul 2021 08:57:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1626771450; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ZXNnH6D1Q32/FJ1I4xXSlZSda7tbLPV20AyNdNWH554=;
- b=ripcJOAob/isB17J5mrJMngv5wZ2R0BNMzFnSVeJtHDvOQ/n4P4IqpL7n8w+1z6+Dcmqhj
- JsiPFnUZ2f+jyqIOoAZOMCnPyud8Kt9sJ6frlZRnc5um4dnH8hFNLiQ/Ol8Da1wWj4D4CW
- QC7EBUFQI1fKkfcRAbVesSEMtBwsA+c=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1626771450;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ZXNnH6D1Q32/FJ1I4xXSlZSda7tbLPV20AyNdNWH554=;
- b=Xq/r2Ym8/l5nTKGsZPim+oElzrhM+XwQMDePpRyNuby8CWfs4eXzdxqIGrLu487g72tQhb
- TCg6hhlcprXMJgBQ==
-Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap1.suse-dmz.suse.de (Postfix) with ESMTPS id CEB0913A2E;
- Tue, 20 Jul 2021 08:57:29 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap1.suse-dmz.suse.de with ESMTPSA id zsduMfmP9mABEwAAGKfGzw
- (envelope-from <tzimmermann@suse.de>); Tue, 20 Jul 2021 08:57:29 +0000
-Subject: Re: [PATCH] drm/ast: Zero is missing in detect function
-To: ainux.wang@gmail.com, airlied@redhat.com, airlied@linux.ie, daniel@ffwll.ch
-References: <20210716015615.9150-1-ainux.wang@gmail.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <81a3d5e6-7998-b839-9303-c7759eb86907@suse.de>
-Date: Tue, 20 Jul 2021 10:57:29 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+Received: from mail-qv1-xf32.google.com (mail-qv1-xf32.google.com
+ [IPv6:2607:f8b0:4864:20::f32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 57E4189F38;
+ Tue, 20 Jul 2021 09:07:46 +0000 (UTC)
+Received: by mail-qv1-xf32.google.com with SMTP id ck17so9763523qvb.9;
+ Tue, 20 Jul 2021 02:07:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=/Q5L2a9jfb4khNE0pAjygNWB9Ut3AiXd2FZFom5CMmo=;
+ b=S1iv3zWNz0TanPjy4jNGBYX4XRzDZXlQPKzN0CyBZ466J85N0aP/Sgyr3f5zZLmpdr
+ iU4TDYMviWkucAdUnuB4Obcehu7FV15MwSgLk5YddYzwQvjGdu8Mqcs7Hm+YrGLn8OwP
+ ZDjM0SsxLLGfR4mfhP/vE7SypySkIjTkS4ZhUy9bpzU224LbLrkyR8fNZVDGwU8LkH3t
+ rr1X2BcSBCjzORYXpNo3HUb80YdonNohM9/voTK1ZOJ+PosTl8kbUC2yFGVpQyra0khf
+ Y123MB24GQfEjngV+BevWSBfXWNbq8je2KXC6Q2uEH9YfQVtidjd/zSipJ5J0cs9u++l
+ XmWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=/Q5L2a9jfb4khNE0pAjygNWB9Ut3AiXd2FZFom5CMmo=;
+ b=rS0ph9AnEuN8YeSFLUkkJWG4JukYcQ9abvxFk+S5AjqOUY7HqPoJt3Ld1CzMIThILd
+ ZiEcU9Fn9ZSK7iIWbyABzV9g4Lq5tSS5l//fRjO9b94LpnSwwvilT+gEF/azyRfvQWcb
+ w3HYB0cdUEsNdqFOByhBjWizovRJu4ygpfUjtb8TCAoUwZEd/ZGxw3uSkzlZbDrG6Asj
+ 4cOYKU06HSAzUfuAfPCyFDZ+t+4wFAItwG4J9V9mKd2rwCuSgiWfnh0SV2TK6pPuT4iJ
+ 26hhMNiQ1jocupUH204jzcGKH9dYSwIZ9tnOkRl69Dokw3Xzn0DOAlLtYaUl7vWn5cQa
+ 7SXA==
+X-Gm-Message-State: AOAM53151vmM9m0+NLF1dyY7HOvQ93c9j+eMyNntPhbUtlgiTwT1iW1S
+ KkTlfauyntG7ZQ6L+N0c75tTC4reomB5f8QGKHs=
+X-Google-Smtp-Source: ABdhPJxB7EPM3v/mmgrhO7WGyXFx2rav1EG/Earx5dzyjlFJ44KN44zDsv5KqRY7AOqdvPvXpgYskRfK4OlTQyTf7ks=
+X-Received: by 2002:ad4:456d:: with SMTP id o13mr29264233qvu.48.1626772065059; 
+ Tue, 20 Jul 2021 02:07:45 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210716015615.9150-1-ainux.wang@gmail.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="643VSKineCFUNxtt919Xxt5YhEyWpbGXz"
+References: <20210716141426.1904528-1-jason@jlekstrand.net>
+ <20210716141426.1904528-7-jason@jlekstrand.net>
+In-Reply-To: <20210716141426.1904528-7-jason@jlekstrand.net>
+From: Matthew Auld <matthew.william.auld@gmail.com>
+Date: Tue, 20 Jul 2021 10:07:18 +0100
+Message-ID: <CAM0jSHP0CThxGJ-ABAO2kzhtKgh=ypbp+7iPsxPWd5F+Ydc7Tw@mail.gmail.com>
+Subject: Re: [PATCH 6/7] drm/i915/gem: Correct the locking and pin pattern for
+ dma-buf (v6)
+To: Jason Ekstrand <jason@jlekstrand.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,100 +65,180 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: sterlingteng@gmail.com, chenhuacai@kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ "Michael J . Ruhl" <michael.j.ruhl@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---643VSKineCFUNxtt919Xxt5YhEyWpbGXz
-Content-Type: multipart/mixed; boundary="ZPumEoFlbOXT7VFWQdcMdwph6HYuYU2bw";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: ainux.wang@gmail.com, airlied@redhat.com, airlied@linux.ie,
- daniel@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org, sterlingteng@gmail.com,
- chenhuacai@kernel.org
-Message-ID: <81a3d5e6-7998-b839-9303-c7759eb86907@suse.de>
-Subject: Re: [PATCH] drm/ast: Zero is missing in detect function
-References: <20210716015615.9150-1-ainux.wang@gmail.com>
-In-Reply-To: <20210716015615.9150-1-ainux.wang@gmail.com>
-
---ZPumEoFlbOXT7VFWQdcMdwph6HYuYU2bw
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-Hi
-
-Am 16.07.21 um 03:56 schrieb ainux.wang@gmail.com:
-> From: "Ainux.Wang" <ainux.wang@gmail.com>
->=20
-> The function ast_get_modes() will also return 0, when it try to get the=
-
-> edid, but it also do not get the edid.
->=20
-> Signed-off-by: Ainux.Wang <ainux.wang@gmail.com>
-
-Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-
-after the issue has been discussed a bit. I'll merge the patch into=20
-drm-misc-next soon.
-
-Best regards
-Thomas
-
+On Fri, 16 Jul 2021 at 15:14, Jason Ekstrand <jason@jlekstrand.net> wrote:
+>
+> From: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
+>
+> If our exported dma-bufs are imported by another instance of our driver,
+> that instance will typically have the imported dma-bufs locked during
+> dma_buf_map_attachment(). But the exporter also locks the same reservatio=
+n
+> object in the map_dma_buf() callback, which leads to recursive locking.
+>
+> So taking the lock inside _pin_pages_unlocked() is incorrect.
+>
+> Additionally, the current pinning code path is contrary to the defined
+> way that pinning should occur.
+>
+> Remove the explicit pin/unpin from the map/umap functions and move them
+> to the attach/detach allowing correct locking to occur, and to match
+> the static dma-buf drm_prime pattern.
+>
+> Add a live selftest to exercise both dynamic and non-dynamic
+> exports.
+>
+> v2:
+> - Extend the selftest with a fake dynamic importer.
+> - Provide real pin and unpin callbacks to not abuse the interface.
+> v3: (ruhl)
+> - Remove the dynamic export support and move the pinning into the
+>   attach/detach path.
+> v4: (ruhl)
+> - Put pages does not need to assert on the dma-resv
+> v5: (jason)
+> - Lock around dma_buf_unmap_attachment() when emulating a dynamic
+>   importer in the subtests.
+> - Use pin_pages_unlocked
+> v6: (jason)
+> - Use dma_buf_attach instead of dma_buf_attach_dynamic in the selftests
+>
+> Reported-by: Michael J. Ruhl <michael.j.ruhl@intel.com>
+> Signed-off-by: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
+> Signed-off-by: Michael J. Ruhl <michael.j.ruhl@intel.com>
+> Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
+> Reviewed-by: Jason Ekstrand <jason@jlekstrand.net>
 > ---
->   drivers/gpu/drm/ast/ast_mode.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_m=
-ode.c
-> index e5996ae03c49..b7dcf7821ec6 100644
-> --- a/drivers/gpu/drm/ast/ast_mode.c
-> +++ b/drivers/gpu/drm/ast/ast_mode.c
-> @@ -1299,7 +1299,7 @@ static enum drm_connector_status ast_connector_de=
-tect(struct drm_connector
->   	int r;
->  =20
->   	r =3D ast_get_modes(connector);
-> -	if (r < 0)
-> +	if (r <=3D 0)
->   		return connector_status_disconnected;
->  =20
->   	return connector_status_connected;
->=20
+>  drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c    |  43 ++++++--
+>  .../drm/i915/gem/selftests/i915_gem_dmabuf.c  | 103 +++++++++++++++++-
+>  2 files changed, 132 insertions(+), 14 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c b/drivers/gpu/drm=
+/i915/gem/i915_gem_dmabuf.c
+> index 616c3a2f1baf0..9a655f69a0671 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
+> @@ -12,6 +12,8 @@
+>  #include "i915_gem_object.h"
+>  #include "i915_scatterlist.h"
+>
+> +I915_SELFTEST_DECLARE(static bool force_different_devices;)
+> +
+>  static struct drm_i915_gem_object *dma_buf_to_obj(struct dma_buf *buf)
+>  {
+>         return to_intel_bo(buf->priv);
+> @@ -25,15 +27,11 @@ static struct sg_table *i915_gem_map_dma_buf(struct d=
+ma_buf_attachment *attachme
+>         struct scatterlist *src, *dst;
+>         int ret, i;
+>
+> -       ret =3D i915_gem_object_pin_pages_unlocked(obj);
+> -       if (ret)
+> -               goto err;
+> -
+>         /* Copy sg so that we make an independent mapping */
+>         st =3D kmalloc(sizeof(struct sg_table), GFP_KERNEL);
+>         if (st =3D=3D NULL) {
+>                 ret =3D -ENOMEM;
+> -               goto err_unpin_pages;
+> +               goto err;
+>         }
+>
+>         ret =3D sg_alloc_table(st, obj->mm.pages->nents, GFP_KERNEL);
+> @@ -58,8 +56,6 @@ static struct sg_table *i915_gem_map_dma_buf(struct dma=
+_buf_attachment *attachme
+>         sg_free_table(st);
+>  err_free:
+>         kfree(st);
+> -err_unpin_pages:
+> -       i915_gem_object_unpin_pages(obj);
+>  err:
+>         return ERR_PTR(ret);
+>  }
+> @@ -68,13 +64,9 @@ static void i915_gem_unmap_dma_buf(struct dma_buf_atta=
+chment *attachment,
+>                                    struct sg_table *sg,
+>                                    enum dma_data_direction dir)
+>  {
+> -       struct drm_i915_gem_object *obj =3D dma_buf_to_obj(attachment->dm=
+abuf);
+> -
+>         dma_unmap_sgtable(attachment->dev, sg, dir, DMA_ATTR_SKIP_CPU_SYN=
+C);
+>         sg_free_table(sg);
+>         kfree(sg);
+> -
+> -       i915_gem_object_unpin_pages(obj);
+>  }
+>
+>  static int i915_gem_dmabuf_vmap(struct dma_buf *dma_buf, struct dma_buf_=
+map *map)
+> @@ -168,7 +160,31 @@ static int i915_gem_end_cpu_access(struct dma_buf *d=
+ma_buf, enum dma_data_direct
+>         return err;
+>  }
+>
+> +/**
+> + * i915_gem_dmabuf_attach - Do any extra attach work necessary
+> + * @dmabuf: imported dma-buf
+> + * @attach: new attach to do work on
+> + *
+> + */
+> +static int i915_gem_dmabuf_attach(struct dma_buf *dmabuf,
+> +                                 struct dma_buf_attachment *attach)
+> +{
+> +       struct drm_i915_gem_object *obj =3D dma_buf_to_obj(dmabuf);
+> +
+> +       return i915_gem_object_pin_pages_unlocked(obj);
+> +}
+> +
+> +static void i915_gem_dmabuf_detach(struct dma_buf *dmabuf,
+> +                                  struct dma_buf_attachment *attach)
+> +{
+> +       struct drm_i915_gem_object *obj =3D dma_buf_to_obj(dmabuf);
+> +
+> +       i915_gem_object_unpin_pages(obj);
+> +}
+> +
 
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+We don't normally add kernel-doc for static functions? Otherwise
+dmabuf_detach() needs matching kernel-doc.
 
+<snip>
 
---ZPumEoFlbOXT7VFWQdcMdwph6HYuYU2bw--
+> +
+> +static int igt_dmabuf_import_same_driver(void *arg)
+> +{
+> +       struct drm_i915_private *i915 =3D arg;
+> +       struct drm_i915_gem_object *obj, *import_obj;
+> +       struct drm_gem_object *import;
+> +       struct dma_buf *dmabuf;
+> +       struct dma_buf_attachment *import_attach;
+> +       struct sg_table *st;
+> +       long timeout;
+> +       int err;
+> +
+> +       force_different_devices =3D true;
+> +       obj =3D i915_gem_object_create_shmem(i915, PAGE_SIZE);
+> +       if (IS_ERR(obj))
 
---643VSKineCFUNxtt919Xxt5YhEyWpbGXz
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+err =3D PTR_ERR(obj)
 
------BEGIN PGP SIGNATURE-----
+<snip>
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmD2j/kFAwAAAAAACgkQlh/E3EQov+A8
-rQ//esrncfgqyM9hFmFhbFxmpEqO9cods184rjfYzA0z1pYJiJcLk7f3Ty802IbGdLQFMHmAE0R4
-qKNb3a0BS7mSiM3ompMlxbcQi6JtCmobpg6bcQPn/GUPP2WnAZCuVueRJ7VXQKoXc0wlfJ5E3K50
-A6uhPihY56N3jxWk2kaVsCIiwGbkEMORswK2YKujvLisn8i3pmZZtHS65rDk+Da3S/XpWH23Ib4f
-k1Ye3S8iKunD48kUQ5KdWdLsYyHEgAyf/j8goZTvPImwEFu08DQ5mbQuN55Y5hKUJIALKdj4jdAy
-ri+162Lonr15tbFT4e8iFbnFZIbktG27LnRwlUZIbD/nJcu+Nm3+TOnMsGFe180FPIxL45PzaUt8
-5KLiX9TEvs946eN/o9Dtwf7398Nz+rNFs/nurY2AT5hzJ+VoZDN52OMti/1z52TCAdP51KZ0SCcO
-wBPcXRnLugryK27V+hlTj5ImgRaUfcGvVGGNBtFBbB0PVoXgiWfGNp6uO1EA41U1wtirr1I4iKvC
-ZCxZzn9QVlO2qXu2IshM6/8JNum7/GHwqFWHR6JDJ6IGhG1RiTH7vv0MDdvqjkFDJBk6o30WMm2z
-2Kle2xEt3Dg66lUSns5k9KqtuJz4uzJFISX8jyF/ZG0t75LP05trv0dWH6QpiPJ6MdLsDJy4gki+
-xFY=
-=D5Pp
------END PGP SIGNATURE-----
+> +       /* Now try a fake an importer */
+> +       import_attach =3D dma_buf_attach(dmabuf, obj->base.dev->dev);
+> +       if (IS_ERR(import_attach))
+> +               goto out_import;
+> +
+> +       st =3D dma_buf_map_attachment(import_attach, DMA_BIDIRECTIONAL);
+> +       if (IS_ERR(st))
+> +               goto out_detach;
 
---643VSKineCFUNxtt919Xxt5YhEyWpbGXz--
+For these two maybe missing err =3D ?
