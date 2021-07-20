@@ -2,45 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 342C53D0046
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jul 2021 19:31:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 977293D0051
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jul 2021 19:34:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 53DB66E48E;
-	Tue, 20 Jul 2021 17:31:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ADEE46E108;
+	Tue, 20 Jul 2021 17:34:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 530 seconds by postgrey-1.36 at gabe;
- Tue, 20 Jul 2021 17:31:26 UTC
-Received: from smtp-relay-canonical-1.canonical.com
- (smtp-relay-canonical-1.canonical.com [185.125.188.121])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5213B6E48E;
- Tue, 20 Jul 2021 17:31:26 +0000 (UTC)
-Received: from localhost (1.general.khfeng.us.vpn [10.172.68.174])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by smtp-relay-canonical-1.canonical.com (Postfix) with ESMTPSA id 3BFD84190E; 
- Tue, 20 Jul 2021 17:22:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
- s=20210705; t=1626801755;
- bh=5YmhnRLdqZyFJAvdBy/8Yt8zIQhoQiJZyrRN8A2vmhU=;
- h=From:To:Cc:Subject:Date:Message-Id:MIME-Version;
- b=UB35vx9InXtWTrgVgrM7Pl9pS9Mk61ouKzs2KcQpYgan7/mjq7QO2LkhKzvCBFFbJ
- XVZODl+NI9ccNN6d13JUhG4LiD4XWX/7wCkaY6f/P7UT/n+7fFSuhzoLETGWD4Ltiv
- 7IX9Lt6YVFpt5ZYjXhTBmxk0EOudw7QccS5pltW7xXKEuXIlDDdZ3w4WpiRPE1DDfp
- 937SfjkEd5g6Wkdkm5yKpPox3JRxQ2qM4tvt1kIU1EjkEB4U0vpTdgViiU7MF2CCSZ
- Y+M6XYiEwnGTJqf+ce9U2DQ3DwhHya+/Vjr0jfvIdTURftpNlDP55/pF7aOiiNLZ54
- hJlo7YGyJZjhA==
-From: Kai-Heng Feng <kai.heng.feng@canonical.com>
-To: alexander.deucher@amd.com,
-	christian.koenig@amd.com,
-	Xinhui.Pan@amd.com
-Subject: [PATCH] drm/amdgpu/acp: Make PM domain really work
-Date: Wed, 21 Jul 2021 01:22:15 +0800
-Message-Id: <20210720172216.59613-1-kai.heng.feng@canonical.com>
-X-Mailer: git-send-email 2.31.1
+Received: from mx2.smtp.larsendata.com (mx2.smtp.larsendata.com
+ [91.221.196.228])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 743566E108
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 17:34:44 +0000 (UTC)
+Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
+ by mx2.smtp.larsendata.com (Halon) with ESMTPS
+ id caccbd04-e980-11eb-8d1a-0050568cd888;
+ Tue, 20 Jul 2021 17:34:53 +0000 (UTC)
+Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
+ [80.162.45.141])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: sam@ravnborg.org)
+ by mail01.mxhotel.dk (Postfix) with ESMTPSA id A24F6194B7F;
+ Tue, 20 Jul 2021 19:34:55 +0200 (CEST)
+Date: Tue, 20 Jul 2021 19:34:38 +0200
+X-Report-Abuse-To: abuse@mxhotel.dk
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Maxime Ripard <maxime@cerno.tech>
+Subject: Re: [PATCH 02/10] drm/bridge: Add a function to abstract away panels
+Message-ID: <YPcJLu+nv3k4GC7k@ravnborg.org>
+References: <20210720134525.563936-1-maxime@cerno.tech>
+ <20210720134525.563936-3-maxime@cerno.tech>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210720134525.563936-3-maxime@cerno.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,214 +48,164 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Song Liu <songliubraving@fb.com>,
- Maruthi Srinivas Bayyavarapu <Maruthi.Bayyavarapu@amd.com>,
- Deepak R Varma <mh12gx2825@gmail.com>, Daniel Borkmann <daniel@iogearbox.net>,
- David Airlie <airlied@linux.ie>, open list <linux-kernel@vger.kernel.org>,
- John Fastabend <john.fastabend@gmail.com>, Alexei Starovoitov <ast@kernel.org>,
- "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
- Andrii Nakryiko <andrii@kernel.org>,
- Kai-Heng Feng <kai.heng.feng@canonical.com>, Nirmoy Das <nirmoy.das@amd.com>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- "open list:BPF Safe dynamic programs and tools" <netdev@vger.kernel.org>,
- KP Singh <kpsingh@kernel.org>, Yonghong Song <yhs@fb.com>,
- "open list:BPF Safe dynamic programs and tools" <bpf@vger.kernel.org>,
- Evan Quan <evan.quan@amd.com>, Lee Jones <lee.jones@linaro.org>,
- Martin KaFai Lau <kafai@fb.com>
+Cc: Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, Jonas Karlman <jonas@kwiboo.se>,
+ linux-kernel@vger.kernel.org, Robert Foss <robert.foss@linaro.org>,
+ Andrzej Hajda <a.hajda@samsung.com>, Thierry Reding <thierry.reding@gmail.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Devices created by mfd_add_hotplug_devices() don't really increase the
-index of its name, so get_mfd_cell_dev() cannot find any device, hence a
-NULL dev is passed to pm_genpd_add_device():
-[   56.974926] (NULL device *): amdgpu: device acp_audio_dma.0.auto added t=
-o pm domain
-[   56.974933] (NULL device *): amdgpu: Failed to add dev to genpd
-[   56.974941] [drm:amdgpu_device_ip_init [amdgpu]] *ERROR* hw_init of IP b=
-lock <acp_ip> failed -22
-[   56.975810] amdgpu 0000:00:01.0: amdgpu: amdgpu_device_ip_init failed
-[   56.975839] amdgpu 0000:00:01.0: amdgpu: Fatal error during GPU init
-[   56.977136] ------------[ cut here ]------------
-[   56.977143] kernel BUG at mm/slub.c:4206!
-[   56.977158] invalid opcode: 0000 [#1] SMP NOPTI
-[   56.977167] CPU: 1 PID: 1648 Comm: modprobe Not tainted 5.12.0-051200rc8=
--generic #202104182230
-[   56.977175] Hardware name: To Be Filled By O.E.M. To Be Filled By O.E.M.=
-/FM2A68M-HD+, BIOS P5.20 02/13/2019
-[   56.977180] RIP: 0010:kfree+0x3bf/0x410
-[   56.977195] Code: 89 e7 48 d3 e2 f7 da e8 5f 0d 02 00 80 e7 02 75 3e 44 =
-89 ee 4c 89 e7 e8 ef 5f fd ff e9 fa fe ff ff 49 8b 44 24 08 a8 01 75 b7 <0f=
-> 0b 4c 8b 4d b0 48 8b 4d a8 48 89 da 4c 89 e6 41 b8 01 00 00 00
-[   56.977202] RSP: 0018:ffffa48640ff79f0 EFLAGS: 00010246
-[   56.977210] RAX: 0000000000000000 RBX: ffff9286127d5608 RCX: 00000000000=
-00000
-[   56.977215] RDX: 0000000000000000 RSI: ffffffffc099d0fb RDI: ffff9286127=
-d5608
-[   56.977220] RBP: ffffa48640ff7a48 R08: 0000000000000001 R09: 00000000000=
-00001
-[   56.977224] R10: 0000000000000000 R11: ffff9286087d8458 R12: fffff3ae044=
-9f540
-[   56.977229] R13: 0000000000000000 R14: dead000000000122 R15: dead0000000=
-00100
-[   56.977234] FS:  00007f9de5929540(0000) GS:ffff928612e80000(0000) knlGS:=
-0000000000000000
-[   56.977240] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[   56.977245] CR2: 00007f697dd97160 CR3: 00000001110f0000 CR4: 00000000001=
-506e0
-[   56.977251] Call Trace:
-[   56.977261]  amdgpu_dm_encoder_destroy+0x1b/0x30 [amdgpu]
-[   56.978056]  drm_mode_config_cleanup+0x4f/0x2e0 [drm]
-[   56.978147]  ? kfree+0x3dd/0x410
-[   56.978157]  ? drm_managed_release+0xc8/0x100 [drm]
-[   56.978232]  drm_mode_config_init_release+0xe/0x10 [drm]
-[   56.978311]  drm_managed_release+0x9d/0x100 [drm]
-[   56.978388]  devm_drm_dev_init_release+0x4d/0x70 [drm]
-[   56.978450]  devm_action_release+0x15/0x20
-[   56.978459]  release_nodes+0x77/0xc0
-[   56.978469]  devres_release_all+0x3f/0x50
-[   56.978477]  really_probe+0x245/0x460
-[   56.978485]  driver_probe_device+0xe9/0x160
-[   56.978492]  device_driver_attach+0xab/0xb0
-[   56.978499]  __driver_attach+0x8f/0x150
-[   56.978506]  ? device_driver_attach+0xb0/0xb0
-[   56.978513]  bus_for_each_dev+0x7e/0xc0
-[   56.978521]  driver_attach+0x1e/0x20
-[   56.978528]  bus_add_driver+0x135/0x1f0
-[   56.978534]  driver_register+0x91/0xf0
-[   56.978540]  __pci_register_driver+0x54/0x60
-[   56.978549]  amdgpu_init+0x77/0x1000 [amdgpu]
-[   56.979246]  ? 0xffffffffc0dbc000
-[   56.979254]  do_one_initcall+0x48/0x1d0
-[   56.979265]  ? kmem_cache_alloc_trace+0x120/0x230
-[   56.979274]  ? do_init_module+0x28/0x280
-[   56.979282]  do_init_module+0x62/0x280
-[   56.979288]  load_module+0x71c/0x7a0
-[   56.979296]  __do_sys_finit_module+0xc2/0x120
-[   56.979305]  __x64_sys_finit_module+0x1a/0x20
-[   56.979311]  do_syscall_64+0x38/0x90
-[   56.979319]  entry_SYSCALL_64_after_hwframe+0x44/0xae
-[   56.979328] RIP: 0033:0x7f9de54f989d
-[   56.979335] Code: 00 c3 66 2e 0f 1f 84 00 00 00 00 00 90 f3 0f 1e fa 48 =
-89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48=
-> 3d 01 f0 ff ff 73 01 c3 48 8b 0d c3 f5 0c 00 f7 d8 64 89 01 48
-[   56.979342] RSP: 002b:00007ffe3c395a28 EFLAGS: 00000246 ORIG_RAX: 000000=
-0000000139
-[   56.979350] RAX: ffffffffffffffda RBX: 0000560df3ef4330 RCX: 00007f9de54=
-f989d
-[   56.979355] RDX: 0000000000000000 RSI: 0000560df3a07358 RDI: 00000000000=
-0000f
-[   56.979360] RBP: 0000000000040000 R08: 0000000000000000 R09: 00000000000=
-00000
-[   56.979365] R10: 000000000000000f R11: 0000000000000246 R12: 0000560df3a=
-07358
-[   56.979369] R13: 0000000000000000 R14: 0000560df3ef4460 R15: 0000560df3e=
-f4330
-[   56.979377] Modules linked in: amdgpu(+) iommu_v2 gpu_sched drm_ttm_help=
-er ttm drm_kms_helper cec rc_core i2c_algo_bit fb_sys_fops syscopyarea sysf=
-illrect sysimgblt nft_counter xt_tcpudp ipt_REJECT nf_reject_ipv4 xt_conntr=
-ack iptable_nat nf_nat nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 iptable_m=
-angle iptable_raw iptable_security ip_set nf_tables libcrc32c nfnetlink ip6=
-_tables iptable_filter bpfilter input_leds binfmt_misc edac_mce_amd kvm_amd=
- ccp kvm snd_hda_codec_realtek snd_hda_codec_generic crct10dif_pclmul snd_h=
-da_codec_hdmi ledtrig_audio ghash_clmulni_intel aesni_intel snd_hda_intel s=
-nd_intel_dspcfg snd_seq_midi crypto_simd snd_intel_sdw_acpi cryptd snd_hda_=
-codec snd_seq_midi_event snd_rawmidi snd_hda_core snd_hwdep snd_seq fam15h_=
-power k10temp snd_pcm snd_seq_device snd_timer snd mac_hid soundcore sch_fq=
-_codel nct6775 hwmon_vid drm ip_tables x_tables autofs4 dm_mirror dm_region=
-_hash dm_log hid_generic usbhid hid uas usb_storage r8169 crc32_pclmul real=
-tek ahci xhci_pci i2c_piix4
-[   56.979521]  xhci_pci_renesas libahci video
-[   56.979541] ---[ end trace cb8f6a346f18da7b ]---
+Hi Maxime,
 
-Instead of finding MFD hotplugged device by its name, simply iterate
-over the child devices to avoid the issue.
+On Tue, Jul 20, 2021 at 03:45:17PM +0200, Maxime Ripard wrote:
+> Display drivers so far need to have a lot of boilerplate to first
+> retrieve either the panel or bridge that they are connected to using
+> drm_of_find_panel_or_bridge(), and then either deal with each with ad-hoc
+> functions or create a drm panel bridge through drm_panel_bridge_add.
+> 
+> In order to reduce the boilerplate and hopefully create a path of least
+> resistance towards using the DRM panel bridge layer, let's create the
+> function devm_drm_of_get_next to reduce that boilerplate.
+> 
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> ---
+>  drivers/gpu/drm/drm_bridge.c | 62 +++++++++++++++++++++++++++++++++---
+>  drivers/gpu/drm/drm_of.c     |  3 ++
+>  include/drm/drm_bridge.h     |  2 ++
+>  3 files changed, 63 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+> index 044acd07c153..aef8c9f4fb9f 100644
+> --- a/drivers/gpu/drm/drm_bridge.c
+> +++ b/drivers/gpu/drm/drm_bridge.c
+> @@ -24,10 +24,12 @@
+>  #include <linux/err.h>
+>  #include <linux/module.h>
+>  #include <linux/mutex.h>
+> +#include <linux/of_graph.h>
+>  
+>  #include <drm/drm_atomic_state_helper.h>
+>  #include <drm/drm_bridge.h>
+>  #include <drm/drm_encoder.h>
+> +#include <drm/drm_panel.h>
+>  
+>  #include "drm_crtc_internal.h"
+>  
+> @@ -50,10 +52,8 @@
+>   *
+>   * Display drivers are responsible for linking encoders with the first bridge
+>   * in the chains. This is done by acquiring the appropriate bridge with
+> - * of_drm_find_bridge() or drm_of_find_panel_or_bridge(), or creating it for a
+> - * panel with drm_panel_bridge_add_typed() (or the managed version
+> - * devm_drm_panel_bridge_add_typed()). Once acquired, the bridge shall be
+> - * attached to the encoder with a call to drm_bridge_attach().
+> + * drm_of_get_next(). Once acquired, the bridge shall be attached to the
+> + * encoder with a call to drm_bridge_attach().
+>   *
+>   * Bridges are responsible for linking themselves with the next bridge in the
+>   * chain, if any. This is done the same way as for encoders, with the call to
+> @@ -1223,6 +1223,60 @@ struct drm_bridge *of_drm_find_bridge(struct device_node *np)
+>  	return NULL;
+>  }
+>  EXPORT_SYMBOL(of_drm_find_bridge);
+> +
+> +/**
+> + * devm_drm_of_get_next - Return next bridge in the chain
 
-BugLink: https://bugs.launchpad.net/bugs/1920674
-Fixes: 25030321ba28 ("drm/amd: add pm domain for ACP IP sub blocks")
-Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_acp.c | 49 +++++++++++++------------
- 1 file changed, 25 insertions(+), 24 deletions(-)
+I would prefer a more IMO descriptive name - something like this:
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_acp.c b/drivers/gpu/drm/amd/=
-amdgpu/amdgpu_acp.c
-index b8655ff73a658..8522f46d5d725 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_acp.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_acp.c
-@@ -160,17 +160,28 @@ static int acp_poweron(struct generic_pm_domain *genp=
-d)
- 	return 0;
- }
-=20
--static struct device *get_mfd_cell_dev(const char *device_name, int r)
-+static int acp_genpd_add_device(struct device *dev, void *data)
- {
--	char auto_dev_name[25];
--	struct device *dev;
-+	struct generic_pm_domain *gpd =3D data;
-+	int ret;
-+
-+	ret =3D pm_genpd_add_device(gpd, dev);
-+	if (ret)
-+		dev_err(dev, "Failed to add dev to genpd %d\n", ret);
-=20
--	snprintf(auto_dev_name, sizeof(auto_dev_name),
--		 "%s.%d.auto", device_name, r);
--	dev =3D bus_find_device_by_name(&platform_bus_type, NULL, auto_dev_name);
--	dev_info(dev, "device %s added to pm domain\n", auto_dev_name);
-+	return ret;
-+}
-=20
--	return dev;
-+static int acp_genpd_remove_device(struct device *dev, void *data)
-+{
-+	int ret;
-+
-+	ret =3D pm_genpd_remove_device(dev);
-+	if (ret)
-+		dev_err(dev, "Failed to remove dev from genpd %d\n", ret);
-+
-+	/* Continue to remove */
-+	return 0;
- }
-=20
- /**
-@@ -341,15 +352,10 @@ static int acp_hw_init(void *handle)
- 	if (r)
- 		goto failure;
-=20
--	for (i =3D 0; i < ACP_DEVS ; i++) {
--		dev =3D get_mfd_cell_dev(adev->acp.acp_cell[i].name, i);
--		r =3D pm_genpd_add_device(&adev->acp.acp_genpd->gpd, dev);
--		if (r) {
--			dev_err(dev, "Failed to add dev to genpd\n");
--			goto failure;
--		}
--	}
--
-+	r =3D device_for_each_child(adev->acp.parent, &adev->acp.acp_genpd->gpd,
-+				  acp_genpd_add_device);
-+	if (r)
-+		goto failure;
-=20
- 	/* Assert Soft reset of ACP */
- 	val =3D cgs_read_register(adev->acp.cgs_device, mmACP_SOFT_RESET);
-@@ -458,13 +464,8 @@ static int acp_hw_fini(void *handle)
- 		udelay(100);
- 	}
-=20
--	for (i =3D 0; i < ACP_DEVS ; i++) {
--		dev =3D get_mfd_cell_dev(adev->acp.acp_cell[i].name, i);
--		ret =3D pm_genpd_remove_device(dev);
--		/* If removal fails, dont giveup and try rest */
--		if (ret)
--			dev_err(dev, "remove dev from genpd failed\n");
--	}
-+	device_for_each_child(adev->acp.parent, NULL,
-+			      acp_genpd_remove_device);
-=20
- 	mfd_remove_devices(adev->acp.parent);
- 	kfree(adev->acp.acp_res);
---=20
-2.31.1
+devm_drm_of_get_bridge - Return a bridge or a panel wrapped as a bridge
 
+
+> + * @dev: device to tie the bridge lifetime to
+> + * @np: device tree node containing encoder output ports
+> + * @port: port in the device tree node
+> + * @endpoint: endpoint in the device tree node
+> + *
+> + * Given a DT node's port and endpoint number, finds the connected node
+> + * and returns the associated bridge if any, or creates and returns a
+> + * drm panel bridge instance if a panel is connected.
+> + *
+> + * Returns a pointer to the bridge if successful, or an error pointer
+> + * otherwise.
+> + */
+> +struct drm_bridge *devm_drm_of_get_next(struct device *dev,
+> +					struct device_node *np,
+> +					unsigned int port,
+> +					unsigned int endpoint)
+> +{
+> +	struct device_node *remote;
+> +	struct drm_bridge *bridge;
+> +	struct drm_panel *panel;
+> +
+> +	/*
+> +	 * of_graph_get_remote_node() produces a noisy error message if port
+> +	 * node isn't found and the absence of the port is a legit case here,
+> +	 * so at first we silently check whether graph presents in the
+> +	 * device-tree node.
+> +	 */
+> +	if (!of_graph_is_present(np))
+> +		return ERR_PTR(-ENODEV);
+> +
+> +	remote = of_graph_get_remote_node(np, port, endpoint);
+> +	if (!remote)
+> +		return ERR_PTR(-ENODEV);
+> +
+> +	bridge = of_drm_find_bridge(remote);
+> +	if (bridge) {
+> +		of_node_put(remote);
+> +		return bridge;
+> +	}
+> +
+> +	panel = of_drm_find_panel(remote);
+> +	if (IS_ERR(panel)) {
+> +		of_node_put(remote);
+> +		return ERR_CAST(panel);
+> +	}
+Here panel may be NULL which is unhadled, as devm_drm_panel_bridge_add()
+will fault if the passed panel pointer is NULL.
+
+	Sam
+
+> +
+> +	of_node_put(remote);
+> +
+> +	return devm_drm_panel_bridge_add(dev, panel);
+> +}
+> +EXPORT_SYMBOL(devm_drm_of_get_next);
+>  #endif
+>  
+>  MODULE_AUTHOR("Ajay Kumar <ajaykumar.rs@samsung.com>");
+> diff --git a/drivers/gpu/drm/drm_of.c b/drivers/gpu/drm/drm_of.c
+> index 997b8827fed2..bbbdc4d17ac9 100644
+> --- a/drivers/gpu/drm/drm_of.c
+> +++ b/drivers/gpu/drm/drm_of.c
+> @@ -231,6 +231,9 @@ EXPORT_SYMBOL_GPL(drm_of_encoder_active_endpoint);
+>   * return either the associated struct drm_panel or drm_bridge device. Either
+>   * @panel or @bridge must not be NULL.
+>   *
+> + * This function is deprecated and should not be used in new drivers. Use
+> + * drm_of_get_next() instead.
+> + *
+>   * Returns zero if successful, or one of the standard error codes if it fails.
+>   */
+>  int drm_of_find_panel_or_bridge(const struct device_node *np,
+> diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
+> index 46bdfa48c413..e16fafc6f37d 100644
+> --- a/include/drm/drm_bridge.h
+> +++ b/include/drm/drm_bridge.h
+> @@ -911,6 +911,8 @@ struct drm_bridge *devm_drm_panel_bridge_add(struct device *dev,
+>  struct drm_bridge *devm_drm_panel_bridge_add_typed(struct device *dev,
+>  						   struct drm_panel *panel,
+>  						   u32 connector_type);
+> +struct drm_bridge *devm_drm_of_get_next(struct device *dev, struct device_node *node,
+> +					unsigned int port, unsigned int endpoint);
+>  struct drm_connector *drm_panel_bridge_connector(struct drm_bridge *bridge);
+>  #endif
+>  
+> -- 
+> 2.31.1
