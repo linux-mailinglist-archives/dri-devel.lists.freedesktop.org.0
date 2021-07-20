@@ -2,44 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01E593CFD8A
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jul 2021 17:30:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5AF03CFDAA
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jul 2021 17:39:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F15389836;
-	Tue, 20 Jul 2021 15:30:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7C9089B20;
+	Tue, 20 Jul 2021 15:38:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F34989836;
- Tue, 20 Jul 2021 15:30:12 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10050"; a="190844568"
-X-IronPort-AV: E=Sophos;i="5.84,255,1620716400"; d="scan'208";a="190844568"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jul 2021 08:30:11 -0700
-X-IronPort-AV: E=Sophos;i="5.84,255,1620716400"; d="scan'208";a="657577088"
-Received: from ekearns1-mobl.amr.corp.intel.com (HELO [10.213.195.253])
- ([10.213.195.253])
- by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jul 2021 08:30:10 -0700
-Subject: Re: [Intel-gfx] [PATCH 3/6] drm/i915: Always call i915_globals_exit()
- from i915_exit()
-To: Jason Ekstrand <jason@jlekstrand.net>
-References: <20210719183047.2624569-1-jason@jlekstrand.net>
- <20210719183047.2624569-4-jason@jlekstrand.net>
- <6ecf6891-67c2-94ac-32ce-28c1a1a7db0b@linux.intel.com>
- <CAOFGe96CemtS4hBoOR8g+V-6synP_WNdHj3ed0MgRaNasV24Xw@mail.gmail.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-Message-ID: <bb07da62-2c6b-e7a3-3563-72ca24ebee9f@linux.intel.com>
-Date: Tue, 20 Jul 2021 16:30:08 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+X-Greylist: delayed 311 seconds by postgrey-1.36 at gabe;
+ Tue, 20 Jul 2021 15:38:56 UTC
+Received: from mail-4327.protonmail.ch (mail-4327.protonmail.ch [185.70.43.27])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA98089B20
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 15:38:56 +0000 (UTC)
+Received: from mail-0301.mail-europe.com (mail-0301.mail-europe.com
+ [188.165.51.139])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
+ (No client certificate requested)
+ by mail-4321.protonmail.ch (Postfix) with ESMTPS id 4GTjRX237nz4xZhF
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 15:33:44 +0000 (UTC)
+Authentication-Results: mail-4321.protonmail.ch;
+ dkim=pass (1024-bit key) header.d=connolly.tech header.i=@connolly.tech
+ header.b="H6UaAWJa"
+Date: Tue, 20 Jul 2021 15:33:34 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=connolly.tech;
+ s=protonmail; t=1626795219;
+ bh=szBIPFUr6CqEljCYQ32/qAOWp1c+Iy40CcFm212YhCQ=;
+ h=Date:To:From:Cc:Reply-To:Subject:From;
+ b=H6UaAWJa1yDEuy4fEFsuMMrwULeQsJvzjkHM39TS1VGBNg1IGfwxZLwPGKt3kM57X
+ RUZW9JFHMX0BJvSqVMJ8eH8hCo9I4nFmwT3pjZHa9qTStCk0WnmC4S94N2WdYLPo6u
+ jHfrJ9CUCPGx5GDanRO8561RS1UACOKRKjzt/2wQ=
+To: Caleb Connolly <caleb@connolly.tech>
+From: Caleb Connolly <caleb@connolly.tech>
+Subject: [PATCH 0/5] OnePlus 6 fixes
+Message-ID: <20210720153125.43389-1-caleb@connolly.tech>
 MIME-Version: 1.0
-In-Reply-To: <CAOFGe96CemtS4hBoOR8g+V-6synP_WNdHj3ed0MgRaNasV24Xw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+ DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
+ autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
+ mailout.protonmail.ch
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,38 +56,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel GFX <intel-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>
+Reply-To: Caleb Connolly <caleb@connolly.tech>
+Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, Andy Gross <agross@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This series is another collection of small fixes for the OnePlus 6 and 6T.
+Notably we finally have finally tracked down and fixed the reserved memory
+related crashes!
+We also enable UART as well as take Bjorns approach to working around the p=
+anel
+reset GPIO issue making the reset GPIO optional in the panel driver. Lastly=
+ we
+fix up the ipa firmware path now that firmware-names is supported for it in
+5.14.
 
-Now you confused me with two replies I forgot to reply to all... :))
+The patch ("drm/panel/samsung-sofef00: make gpio optional") is a reworked
+version of a patch from a previous series which was not accepted: ("drm: pa=
+nel:
+sofef00: remove reset GPIO handling")
+https://lore.kernel.org/linux-arm-msm/20210502014146.85642-3-caleb@connolly=
+.tech/
 
-On 20/07/2021 15:53, Jason Ekstrand wrote:
-> On Tue, Jul 20, 2021 at 3:25 AM Tvrtko Ursulin
-> <tvrtko.ursulin@linux.intel.com> wrote:
+Caleb Connolly (5):
+  arm64: dts: qcom: sdm845-oneplus: fix reserved-mem
+  dts: arm64: sdm845-oneplus-common: enable debug UART
+  drm/panel/samsung-sofef00: make gpio optional
+  arm64: dts: qcom: sdm845-oneplus-fajita: remove panel reset gpio
+  arm64: dts: qcom: sdm845-oneplus: add ipa firmware names
 
-[snip]
+ .../boot/dts/qcom/sdm845-oneplus-common.dtsi  | 19 ++++++++++++++-----
+ .../dts/qcom/sdm845-oneplus-enchilada.dts     |  2 ++
+ drivers/gpu/drm/panel/panel-samsung-sofef00.c |  7 +++++--
+ 3 files changed, 21 insertions(+), 7 deletions(-)
 
->>> +
->>>    static int __init i915_init(void)
->>>    {
->>>        bool use_kms = true;
->>>        int err;
->>>
->>> +     i915_fully_loaded = false;
->>
->> Ditto.
-> 
-> So, this is something I'm unclear on.  I know that static memory gets
-> auto-initialized to zero but what happens if you unload and reload a
-> module?  Is it re-initialized to zero?  If it is then we can drop
-> this.
+--
+2.32.0
 
-Well it's not in memory after it is unloaded so clearly it has to get 
-initialised by the module loader every time it loads it.
 
-Regards,
-
-Tvrtko
