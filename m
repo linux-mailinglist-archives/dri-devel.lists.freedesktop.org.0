@@ -1,55 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C58673D036A
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jul 2021 22:55:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 82E493D02CA
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jul 2021 22:40:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 286686E17A;
-	Tue, 20 Jul 2021 20:55:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D146899FF;
+	Tue, 20 Jul 2021 20:40:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com
- [IPv6:2607:f8b0:4864:20::230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5811E6E542
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 20:55:51 +0000 (UTC)
-Received: by mail-oi1-x230.google.com with SMTP id w188so599746oif.10
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 13:55:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=0FQ82C/BDxcwvqgrHBgcLPp625UNp5/w2TKk6xmMVnk=;
- b=KjPwXABt1PYA4lXlmqRcKo/UhZkXVnJpWcYWrBKPXBcF9VKfFRLo21TwI+OyUdgzLs
- gDF0b+Lz41zSaYobRXX6QG1HT8VG+3GECdGGccD+cykHHTbrzzzjtLEsduKbKbyA4brk
- TmHou4NpNRxbhms9ARD+Pu4SO11RzqykGySGw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=0FQ82C/BDxcwvqgrHBgcLPp625UNp5/w2TKk6xmMVnk=;
- b=FDduAjOW5VCl2SJPTZPD/13tqC3hvh/3o7P75ccbngwyUXtDeiutc3eUkFL2x+oa3I
- fBkCz2zxzMAoO8nao3x4g7y5b92MiTKpNYjdcwX6qkf587IcGyRoI4+6As86Viy55o6O
- iE33GNKE0pm6q1bfhRxnP8LFVoXlQLiZPe2MOWnl3hLrtZzF8H9sa5+KH+8m/zZ7xIx9
- zOUPfhordQUf6LHMOoYYJAkEeENQZjlU3uUGXzqs6lyb1T6s/QXMfjy0acdpSh93aGX6
- gpcEbWE7VtWAms6ABVuvXDqWCedd4Ih2P1H0xrtzrAqU5wHylBl+7E+8p30l/xLNoWmd
- wcIw==
-X-Gm-Message-State: AOAM531rizBW1uYBqj5LrXL0p7apsqwfrGvA7Kgo4UfvF/4H3/jmXXfj
- s5vFKlda8xSnnOHpQC+hqPGvnmMkOPZ8ucIM7Do8XQ==
-X-Google-Smtp-Source: ABdhPJzYXoCxha1rxN7bdt/YYSiGbqPjD7v773ymPQkBBlM7PfF21QIL9NPCc7be3ecyZV3iFh61z8dmCCpZQ1n3F9g=
-X-Received: by 2002:aca:d4cf:: with SMTP id l198mr291067oig.14.1626814550571; 
- Tue, 20 Jul 2021 13:55:50 -0700 (PDT)
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B29EC899FF;
+ Tue, 20 Jul 2021 20:40:15 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10051"; a="209421872"
+X-IronPort-AV: E=Sophos;i="5.84,256,1620716400"; d="scan'208";a="209421872"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Jul 2021 13:40:14 -0700
+X-IronPort-AV: E=Sophos;i="5.84,256,1620716400"; d="scan'208";a="414906053"
+Received: from dhiatt-server.jf.intel.com ([10.54.81.3])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Jul 2021 13:40:14 -0700
+From: Matthew Brost <matthew.brost@intel.com>
+To: <intel-gfx@lists.freedesktop.org>,
+	<dri-devel@lists.freedesktop.org>
+Subject: [RFC PATCH 00/42] Parallel submission aka multi-bb execbuf 
+Date: Tue, 20 Jul 2021 13:57:20 -0700
+Message-Id: <20210720205802.39610-1-matthew.brost@intel.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-References: <20210720150716.1213775-1-robdclark@gmail.com>
- <60ffb6f3-e932-d9af-3b90-81adf0c15250@gmail.com>
- <CAF6AEGtOW3EjZWo36ij8U1om=gAqvg8CSkJJq2GkyHFGWUH4kQ@mail.gmail.com>
-In-Reply-To: <CAF6AEGtOW3EjZWo36ij8U1om=gAqvg8CSkJJq2GkyHFGWUH4kQ@mail.gmail.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Tue, 20 Jul 2021 22:55:39 +0200
-Message-ID: <CAKMK7uF1=Y6_9znGoWG8GrteXBBRmyW8C3bFE+eJQqOj0A1buA@mail.gmail.com>
-Subject: Re: [Linaro-mm-sig] [PATCH] drm/msm: Add fence->wait() op
-To: Rob Clark <robdclark@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,193 +42,183 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- open list <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Sean Paul <sean@poorly.run>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <freedreno@lists.freedesktop.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 20, 2021 at 8:26 PM Rob Clark <robdclark@gmail.com> wrote:
->
-> On Tue, Jul 20, 2021 at 11:03 AM Christian K=C3=B6nig
-> <ckoenig.leichtzumerken@gmail.com> wrote:
-> >
-> > Hi Rob,
-> >
-> > Am 20.07.21 um 17:07 schrieb Rob Clark:
-> > > From: Rob Clark <robdclark@chromium.org>
-> > >
-> > > Somehow we had neither ->wait() nor dma_fence_signal() calls, and no
-> > > one noticed.  Oops.
-> >
-> >
-> > I'm not sure if that is a good idea.
-> >
-> > The dma_fence->wait() callback is pretty much deprecated and should not
-> > be used any more.
-> >
-> > What exactly do you need that for?
->
-> Well, the alternative is to track the set of fences which have
-> signalling enabled, and then figure out which ones to signal, which
-> seems like a lot more work, vs just re-purposing the wait
-> implementation we already have for non-dma_fence cases ;-)
->
-> Why is the ->wait() callback (pretty much) deprecated?
+As discussed in [1] we are introducing a new parallel submission uAPI
+for the i915 which allows more than 1 BB to be submitted in an execbuf
+IOCTL. This is the implemenation for both GuC and execlists.
 
-Because if you need it that means for your driver dma_fence_add_cb is
-broken, which means a _lot_ of things don't work. Like dma_buf poll
-(compositors have patches to start using that), and I think
-drm/scheduler also becomes rather unhappy.
+This series is broken into 5 parts.
 
-It essentially exists only for old drivers where ->enable_signalling
-is unreliable and we paper over that with a retry loop in ->wait and
-pray no one notices that it's too butchered. The proper fix is to have
-a driver thread to guarantee that ->enable_signalling works reliable,
-so you don't need a ->wait.
+1. Basic GuC submission. Patch 1 which the squashed version of series
+[2].
 
-Can you type up a kerneldoc patch for dma_fence_ops->wait to hammer
-this in please?
--Daniel
+2. A series of GuC patches which introduces a state machine to deal with
+flow control conditions gracefully (e.g. don't punt them to the user).
+These are patches 2-13.
 
->
-> BR,
-> -R
->
-> > Regards,
-> > Christian.
-> >
-> > >
-> > > Note that this removes the !timeout case, which has not been used in
-> > > a long time.
-> >
-> >
-> > >
-> > > Signed-off-by: Rob Clark <robdclark@chromium.org>
-> > > ---
-> > >   drivers/gpu/drm/msm/msm_fence.c | 59 +++++++++++++++++++-----------=
----
-> > >   1 file changed, 34 insertions(+), 25 deletions(-)
-> > >
-> > > diff --git a/drivers/gpu/drm/msm/msm_fence.c b/drivers/gpu/drm/msm/ms=
-m_fence.c
-> > > index cd59a5918038..8ee96b90ded6 100644
-> > > --- a/drivers/gpu/drm/msm/msm_fence.c
-> > > +++ b/drivers/gpu/drm/msm/msm_fence.c
-> > > @@ -38,11 +38,10 @@ static inline bool fence_completed(struct msm_fen=
-ce_context *fctx, uint32_t fenc
-> > >       return (int32_t)(fctx->completed_fence - fence) >=3D 0;
-> > >   }
-> > >
-> > > -/* legacy path for WAIT_FENCE ioctl: */
-> > > -int msm_wait_fence(struct msm_fence_context *fctx, uint32_t fence,
-> > > -             ktime_t *timeout, bool interruptible)
-> > > +static signed long wait_fence(struct msm_fence_context *fctx, uint32=
-_t fence,
-> > > +             signed long remaining_jiffies, bool interruptible)
-> > >   {
-> > > -     int ret;
-> > > +     signed long ret;
-> > >
-> > >       if (fence > fctx->last_fence) {
-> > >               DRM_ERROR_RATELIMITED("%s: waiting on invalid fence: %u=
- (of %u)\n",
-> > > @@ -50,33 +49,34 @@ int msm_wait_fence(struct msm_fence_context *fctx=
-, uint32_t fence,
-> > >               return -EINVAL;
-> > >       }
-> > >
-> > > -     if (!timeout) {
-> > > -             /* no-wait: */
-> > > -             ret =3D fence_completed(fctx, fence) ? 0 : -EBUSY;
-> > > +     if (interruptible) {
-> > > +             ret =3D wait_event_interruptible_timeout(fctx->event,
-> > > +                     fence_completed(fctx, fence),
-> > > +                     remaining_jiffies);
-> > >       } else {
-> > > -             unsigned long remaining_jiffies =3D timeout_to_jiffies(=
-timeout);
-> > > -
-> > > -             if (interruptible)
-> > > -                     ret =3D wait_event_interruptible_timeout(fctx->=
-event,
-> > > -                             fence_completed(fctx, fence),
-> > > -                             remaining_jiffies);
-> > > -             else
-> > > -                     ret =3D wait_event_timeout(fctx->event,
-> > > -                             fence_completed(fctx, fence),
-> > > -                             remaining_jiffies);
-> > > -
-> > > -             if (ret =3D=3D 0) {
-> > > -                     DBG("timeout waiting for fence: %u (completed: =
-%u)",
-> > > -                                     fence, fctx->completed_fence);
-> > > -                     ret =3D -ETIMEDOUT;
-> > > -             } else if (ret !=3D -ERESTARTSYS) {
-> > > -                     ret =3D 0;
-> > > -             }
-> > > +             ret =3D wait_event_timeout(fctx->event,
-> > > +                     fence_completed(fctx, fence),
-> > > +                     remaining_jiffies);
-> > > +     }
-> > > +
-> > > +     if (ret =3D=3D 0) {
-> > > +             DBG("timeout waiting for fence: %u (completed: %u)",
-> > > +                             fence, fctx->completed_fence);
-> > > +             ret =3D -ETIMEDOUT;
-> > > +     } else if (ret !=3D -ERESTARTSYS) {
-> > > +             ret =3D 0;
-> > >       }
-> > >
-> > >       return ret;
-> > >   }
-> > >
-> > > +/* legacy path for WAIT_FENCE ioctl: */
-> > > +int msm_wait_fence(struct msm_fence_context *fctx, uint32_t fence,
-> > > +             ktime_t *timeout, bool interruptible)
-> > > +{
-> > > +     return wait_fence(fctx, fence, timeout_to_jiffies(timeout), int=
-erruptible);
-> > > +}
-> > > +
-> > >   /* called from workqueue */
-> > >   void msm_update_fence(struct msm_fence_context *fctx, uint32_t fenc=
-e)
-> > >   {
-> > > @@ -114,10 +114,19 @@ static bool msm_fence_signaled(struct dma_fence=
- *fence)
-> > >       return fence_completed(f->fctx, f->base.seqno);
-> > >   }
-> > >
-> > > +static signed long msm_fence_wait(struct dma_fence *fence, bool intr=
-,
-> > > +             signed long timeout)
-> > > +{
-> > > +     struct msm_fence *f =3D to_msm_fence(fence);
-> > > +
-> > > +     return wait_fence(f->fctx, fence->seqno, timeout, intr);
-> > > +}
-> > > +
-> > >   static const struct dma_fence_ops msm_fence_ops =3D {
-> > >       .get_driver_name =3D msm_fence_get_driver_name,
-> > >       .get_timeline_name =3D msm_fence_get_timeline_name,
-> > >       .signaled =3D msm_fence_signaled,
-> > > +     .wait =3D msm_fence_wait,
-> > >   };
-> > >
-> > >   struct dma_fence *
-> >
+3. Update the GuC backend / connections to uAPI to configure it for
+parallel submission. These are patches 14-29. 
 
+4. Update execbuf IOCTL to accept more than 1 BB in a single IOCTL.
+These are patches 30-41.
 
+5. A weak execlists implemenation for parallel submission. Patch 42. 
 
---=20
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Looking for initial feedback all parts except #1.
+
+Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+
+[1] https://patchwork.freedesktop.org/series/92028/
+[2] https://patchwork.freedesktop.org/series/91840/
+
+Matthew Brost (42):
+  drm/i915/guc: GuC submission squashed into single patch
+  drm/i915/guc: Allow flexible number of context ids
+  drm/i915/guc: Connect the number of guc_ids to debugfs
+  drm/i915/guc: Don't return -EAGAIN to user when guc_ids exhausted
+  drm/i915/guc: Don't allow requests not ready to consume all guc_ids
+  drm/i915/guc: Introduce guc_submit_engine object
+  drm/i915/guc: Check return of __xa_store when registering a context
+  drm/i915/guc: Non-static lrc descriptor registration buffer
+  drm/i915/guc: Take GT PM ref when deregistering context
+  drm/i915: Add GT PM unpark worker
+  drm/i915/guc: Take engine PM when a context is pinned with GuC
+    submission
+  drm/i915/guc: Don't call switch_to_kernel_context with GuC submission
+  drm/i915/guc: Selftest for GuC flow control
+  drm/i915: Add logical engine mapping
+  drm/i915: Expose logical engine instance to user
+  drm/i915/guc: Introduce context parent-child relationship
+  drm/i915/guc: Implement GuC parent-child context pin / unpin functions
+  drm/i915/guc: Add multi-lrc context registration
+  drm/i915/guc: Ensure GuC schedule operations do not operate on child
+    contexts
+  drm/i915/guc: Assign contexts in parent-child relationship consecutive
+    guc_ids
+  drm/i915/guc: Add hang check to GuC submit engine
+  drm/i915/guc: Add guc_child_context_destroy
+  drm/i915/guc: Implement multi-lrc submission
+  drm/i915/guc: Insert submit fences between requests in parent-child
+    relationship
+  drm/i915/guc: Implement multi-lrc reset
+  drm/i915/guc: Update debugfs for GuC multi-lrc
+  drm/i915: Connect UAPI to GuC multi-lrc interface
+  drm/i915/guc: Add basic GuC multi-lrc selftest
+  drm/i915/guc: Implement BB boundary preemption for multi-lrc
+  i915/drm: Move secure execbuf check to execbuf2
+  drm/i915: Move input/exec fence handling to i915_gem_execbuffer2
+  drm/i915: Move output fence handling to i915_gem_execbuffer2
+  drm/i915: Return output fence from i915_gem_do_execbuffer
+  drm/i915: Store batch index in struct i915_execbuffer
+  drm/i915: Allow callers of i915_gem_do_execbuffer to override the
+    batch index
+  drm/i915: Teach execbuf there can be more than one batch in the
+    objects list
+  drm/i915: Only track object dependencies on first request
+  drm/i915: Force parallel contexts to use copy engine for reloc
+  drm/i915: Multi-batch execbuffer2
+  drm/i915: Eliminate unnecessary VMA calls for multi-BB submission
+  drm/i915: Enable multi-bb execbuf
+  drm/i915/execlists: Parallel submission support for execlists
+
+ drivers/gpu/drm/i915/Makefile                 |    2 +
+ drivers/gpu/drm/i915/gem/i915_gem_context.c   |  176 +-
+ .../gpu/drm/i915/gem/i915_gem_context_types.h |    6 +
+ .../gpu/drm/i915/gem/i915_gem_execbuffer.c    |  541 +-
+ drivers/gpu/drm/i915/gem/i915_gem_mman.c      |    3 +-
+ .../i915/gem/selftests/i915_gem_execbuffer.c  |   14 +-
+ drivers/gpu/drm/i915/gt/gen8_engine_cs.c      |    6 +-
+ drivers/gpu/drm/i915/gt/intel_breadcrumbs.c   |   44 +-
+ drivers/gpu/drm/i915/gt/intel_breadcrumbs.h   |   16 +-
+ .../gpu/drm/i915/gt/intel_breadcrumbs_types.h |    7 +
+ drivers/gpu/drm/i915/gt/intel_context.c       |  275 +-
+ drivers/gpu/drm/i915/gt/intel_context.h       |   82 +-
+ drivers/gpu/drm/i915/gt/intel_context_types.h |  115 +-
+ drivers/gpu/drm/i915/gt/intel_engine.h        |   67 +-
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c     |  242 +-
+ .../gpu/drm/i915/gt/intel_engine_heartbeat.c  |   71 +-
+ .../gpu/drm/i915/gt/intel_engine_heartbeat.h  |    4 +
+ drivers/gpu/drm/i915/gt/intel_engine_pm.c     |    4 +
+ drivers/gpu/drm/i915/gt/intel_engine_pm.h     |    5 +
+ drivers/gpu/drm/i915/gt/intel_engine_types.h  |   14 +-
+ drivers/gpu/drm/i915/gt/intel_engine_user.c   |    4 +
+ .../drm/i915/gt/intel_execlists_submission.c  |  313 +-
+ .../drm/i915/gt/intel_execlists_submission.h  |    4 -
+ drivers/gpu/drm/i915/gt/intel_gt.c            |   24 +
+ drivers/gpu/drm/i915/gt/intel_gt.h            |    2 +
+ drivers/gpu/drm/i915/gt/intel_gt_pm.c         |   14 +-
+ drivers/gpu/drm/i915/gt/intel_gt_pm.h         |   13 +
+ .../gpu/drm/i915/gt/intel_gt_pm_unpark_work.c |   35 +
+ .../gpu/drm/i915/gt/intel_gt_pm_unpark_work.h |   32 +
+ drivers/gpu/drm/i915/gt/intel_gt_requests.c   |   21 +-
+ drivers/gpu/drm/i915/gt/intel_gt_requests.h   |    9 +-
+ drivers/gpu/drm/i915/gt/intel_gt_types.h      |    3 +
+ drivers/gpu/drm/i915/gt/intel_lrc.c           |   23 +-
+ drivers/gpu/drm/i915/gt/intel_lrc.h           |    6 +-
+ drivers/gpu/drm/i915/gt/intel_lrc_reg.h       |    1 -
+ drivers/gpu/drm/i915/gt/intel_reset.c         |   58 +-
+ .../gpu/drm/i915/gt/intel_ring_submission.c   |   47 +-
+ drivers/gpu/drm/i915/gt/intel_rps.c           |    4 +
+ drivers/gpu/drm/i915/gt/intel_workarounds.c   |   46 +-
+ .../gpu/drm/i915/gt/intel_workarounds_types.h |    1 +
+ drivers/gpu/drm/i915/gt/mock_engine.c         |   38 +-
+ drivers/gpu/drm/i915/gt/selftest_context.c    |   10 +
+ .../drm/i915/gt/selftest_engine_heartbeat.c   |   22 +
+ .../drm/i915/gt/selftest_engine_heartbeat.h   |    2 +
+ drivers/gpu/drm/i915/gt/selftest_execlists.c  |   12 +-
+ drivers/gpu/drm/i915/gt/selftest_hangcheck.c  |  314 +-
+ drivers/gpu/drm/i915/gt/selftest_mocs.c       |   50 +-
+ .../gpu/drm/i915/gt/selftest_workarounds.c    |  132 +-
+ .../gpu/drm/i915/gt/uc/abi/guc_actions_abi.h  |   16 +
+ drivers/gpu/drm/i915/gt/uc/intel_guc.c        |   82 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc.h        |  126 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c    |  465 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ads.h    |    4 +
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c     |  175 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h     |   25 +-
+ .../gpu/drm/i915/gt/uc/intel_guc_debugfs.c    |   56 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h   |   98 +-
+ .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 4961 +++++++++++++++--
+ .../gpu/drm/i915/gt/uc/intel_guc_submission.h |   20 +-
+ .../i915/gt/uc/intel_guc_submission_types.h   |   67 +
+ drivers/gpu/drm/i915/gt/uc/intel_uc.c         |  101 +-
+ drivers/gpu/drm/i915/gt/uc/intel_uc.h         |   11 +
+ .../i915/gt/uc/selftest_guc_flow_control.c    |  581 ++
+ .../drm/i915/gt/uc/selftest_guc_multi_lrc.c   |  168 +
+ drivers/gpu/drm/i915/i915_debugfs_params.c    |   31 +
+ drivers/gpu/drm/i915/i915_gem_evict.c         |    1 +
+ drivers/gpu/drm/i915/i915_gpu_error.c         |   25 +-
+ drivers/gpu/drm/i915/i915_query.c             |    2 +
+ drivers/gpu/drm/i915/i915_reg.h               |    2 +
+ drivers/gpu/drm/i915/i915_request.c           |  288 +-
+ drivers/gpu/drm/i915/i915_request.h           |   43 +
+ drivers/gpu/drm/i915/i915_scheduler.c         |   36 +-
+ drivers/gpu/drm/i915/i915_scheduler.h         |   13 +-
+ drivers/gpu/drm/i915/i915_scheduler_types.h   |   22 +
+ drivers/gpu/drm/i915/i915_trace.h             |  199 +-
+ drivers/gpu/drm/i915/i915_vma.c               |   13 +-
+ drivers/gpu/drm/i915/i915_vma.h               |   16 +-
+ drivers/gpu/drm/i915/intel_wakeref.c          |    5 +
+ drivers/gpu/drm/i915/intel_wakeref.h          |    1 +
+ .../drm/i915/selftests/i915_live_selftests.h  |    2 +
+ drivers/gpu/drm/i915/selftests/i915_request.c |    4 +-
+ .../gpu/drm/i915/selftests/igt_flush_test.c   |    2 +-
+ .../gpu/drm/i915/selftests/igt_live_test.c    |    2 +-
+ .../i915/selftests/intel_scheduler_helpers.c  |  101 +
+ .../i915/selftests/intel_scheduler_helpers.h  |   36 +
+ .../gpu/drm/i915/selftests/mock_gem_device.c  |    3 +-
+ include/uapi/drm/i915_drm.h                   |  135 +-
+ 87 files changed, 9648 insertions(+), 1224 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/gt/intel_gt_pm_unpark_work.c
+ create mode 100644 drivers/gpu/drm/i915/gt/intel_gt_pm_unpark_work.h
+ create mode 100644 drivers/gpu/drm/i915/gt/uc/intel_guc_submission_types.h
+ create mode 100644 drivers/gpu/drm/i915/gt/uc/selftest_guc_flow_control.c
+ create mode 100644 drivers/gpu/drm/i915/gt/uc/selftest_guc_multi_lrc.c
+ create mode 100644 drivers/gpu/drm/i915/selftests/intel_scheduler_helpers.c
+ create mode 100644 drivers/gpu/drm/i915/selftests/intel_scheduler_helpers.h
+
+-- 
+2.28.0
+
