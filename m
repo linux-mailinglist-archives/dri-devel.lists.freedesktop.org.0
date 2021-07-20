@@ -1,126 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 238253CF5EA
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jul 2021 10:17:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B486B3CF619
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jul 2021 10:25:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A0C026E1A3;
-	Tue, 20 Jul 2021 08:17:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E5C789BFB;
+	Tue, 20 Jul 2021 08:25:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2050.outbound.protection.outlook.com [40.107.220.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 172546E1A3;
- Tue, 20 Jul 2021 08:17:35 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=k1Devk/YlflaqzAShY0e7GmhycddVVY92fMD303rpp/2TBEdtrZ3ngkm8YTElq0GJN2ueZUuwZUPwKPWB7J+jQFG11QHrvUeWBGLcui7Wg69fomiA0OAnNHlDugq+C1WPeNCRTAWYsaEQk/NrujuQl9Qn1FH3uFgSpiMUzN8iKc/CQ4vPsrqIecAiYOo05RiPWhQt/9wB9+4nz3YmFvLEFqiadNRjbXX+hs5EnUEuFOpxDH5ugz/yWyv8BigPaBOZd7Nsbb2VgZOZrvwhBbJ0fHwdasyF6oZvYZsjWcZ+JVRs0H5R7FtfMzqKg6htdfvV85FSdd9urpiNY5i1pV1sw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/wk82qEYdky3qaTaDmXcKebA8AXYNofaorVIl6qrbkk=;
- b=MLxRhaxoJq3Zp3vA0UJJVA8MpmHlnS5zSm0rEXaYsGSpW3F+s7uWDtsO5nv/49YVyJ+DPaq05G51r9yL5v5fsIctfi5SZQZhX1p44s/pPNJimtQFRsz/3juu+9nNUMuUtFBRdi/hEt/k2zE40Y57eleN1lrSATqGwTtJgA+bdIeHh8PVwGAaie6LQvjPoAGA7QMFNGpSM/3Q7RmNJ3I2KAFDkKUORZrJRTuT1M1l2tqLXLFD/wpuZM3vYCW1NEq449q+xp5rrciVoxqld9PpWFY9Qm/Fysq+J+3wmUuDE/hz11Vo6WgBpH6HMpVatmrlPhTAen3zq+PmSC8HoiyyXA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/wk82qEYdky3qaTaDmXcKebA8AXYNofaorVIl6qrbkk=;
- b=3j0D4MeoTFsG28kOjq9q4RppGvX93nXYjPQd1BuVNYtLYi0KiEV1efqVmh3X2Oh+DAraM/kD9+G/DmmWssixC+i3HMiCd2W67zKXZB/Ci4WWYBGgrd839318WBDjfU+hkZNXJlJAO0h4wBRHMBziBzpJUdqD4EYH01npaR4uO5E=
-Authentication-Results: amd.com; dkim=none (message not signed)
- header.d=none;amd.com; dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
- by MN2PR12MB3998.namprd12.prod.outlook.com (2603:10b6:208:16d::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.21; Tue, 20 Jul
- 2021 08:17:30 +0000
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::6c9e:1e08:7617:f756]) by MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::6c9e:1e08:7617:f756%5]) with mapi id 15.20.4331.034; Tue, 20 Jul 2021
- 08:17:30 +0000
-Subject: Re: [PATCH v3 3/4] drm/amd/display: Add control mechanism for FPU
- utilization
-To: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- Peter Zijlstra <peterz@infradead.org>, Daniel Vetter <daniel@ffwll.ch>,
- roman.li@amd.com, sunpeng.li@amd.com
-References: <20210720004914.3060879-1-Rodrigo.Siqueira@amd.com>
- <20210720004914.3060879-4-Rodrigo.Siqueira@amd.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <27570b32-87ec-730c-31f7-e12fab277756@amd.com>
-Date: Tue, 20 Jul 2021 10:17:23 +0200
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD95E89BFB;
+ Tue, 20 Jul 2021 08:25:33 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10050"; a="272313214"
+X-IronPort-AV: E=Sophos;i="5.84,254,1620716400"; d="scan'208";a="272313214"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Jul 2021 01:25:33 -0700
+X-IronPort-AV: E=Sophos;i="5.84,254,1620716400"; d="scan'208";a="657416868"
+Received: from ekearns1-mobl.amr.corp.intel.com (HELO [10.213.195.253])
+ ([10.213.195.253])
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Jul 2021 01:25:31 -0700
+Subject: Re: [Intel-gfx] [PATCH 3/6] drm/i915: Always call i915_globals_exit()
+ from i915_exit()
+To: Jason Ekstrand <jason@jlekstrand.net>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+References: <20210719183047.2624569-1-jason@jlekstrand.net>
+ <20210719183047.2624569-4-jason@jlekstrand.net>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+Message-ID: <6ecf6891-67c2-94ac-32ce-28c1a1a7db0b@linux.intel.com>
+Date: Tue, 20 Jul 2021 09:25:30 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
-In-Reply-To: <20210720004914.3060879-4-Rodrigo.Siqueira@amd.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-ClientProxiedBy: PR0P264CA0162.FRAP264.PROD.OUTLOOK.COM
- (2603:10a6:100:1b::30) To MN2PR12MB3775.namprd12.prod.outlook.com
- (2603:10b6:208:159::19)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:908:1252:fb60:8651:5b5e:8648:2fd0]
- (2a02:908:1252:fb60:8651:5b5e:8648:2fd0) by
- PR0P264CA0162.FRAP264.PROD.OUTLOOK.COM (2603:10a6:100:1b::30) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4331.31 via Frontend Transport; Tue, 20 Jul 2021 08:17:28 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d65b53f2-4d8c-4956-edee-08d94b56d13c
-X-MS-TrafficTypeDiagnostic: MN2PR12MB3998:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <MN2PR12MB39981C01908C234440A7B92D83E29@MN2PR12MB3998.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:161;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 0Js6pNrKtfxMMOtNlEYvTiAnW4bOqawQdz8Q5hLTWJqFioAJoaKRRyNWXgCf4I4huy5hnKtZwF0/f3YSrZUNKB/oMyKNFhehniN9OOprS/M7qYrLewmo6Y7/rxqcF7jiI6sWpKjetYzrYLEDqnm9KX45be4TDLSMb0i/9WBFWtd8/+5A5bi6pSKHbR48fRR75urRDnbcmYQH6FMyqLgtWTMb7HdZ86MJMevaIlETgKZXr8+0oSVtroZttoQnkxMRfz2A1h2/jFVxACk4xQgf2J7JDuV5u0dOhWs7GflgxOhF8sv9j1dy7Ie0bPhUoaIbfr+iBqBsKNXhsVmpEciGs/2cv+HkkEeHw/sz6rQoVRXT8W9frK0a8gblG5Ca8XyZjdGb6/SSDAg+i7unS35rY/lB2wJO/TIXn2xE6jr/lr8RMYG3ksZQ/PFU7UFNTvyN3ZhUDpuQGLB3sIv+YF+28jd+/D8x1gilgzW7cRDMxo1SE7SIwAIS37LTexBRjgO4w/p/g7RZCTVvQ42Mf+h0RUnBN+jzsifQAfqmBoOwhsVmeIA5L/Fd/XdnA/MZC+4aiU55SB1nwTEX6ZlWNJDCO5gXQ5M44UNR9tXp5GAI6M4M9XhNFZuJq3EB1pPPFt99+7RlcmmKu1wug4YQXRdRz2oUR6fS4mMF3zN3SLWxVB8sWZwqQ4PQty7G07E81SCk29bR8dcbybkZ92F7uFOU2t3Qw40WHDj/t36+1YMAyzQ=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(396003)(346002)(136003)(376002)(39860400002)(186003)(31696002)(36756003)(83380400001)(8936002)(38100700002)(66476007)(66556008)(6636002)(2906002)(66946007)(6486002)(86362001)(8676002)(2616005)(316002)(54906003)(110136005)(6666004)(4326008)(478600001)(31686004)(66574015)(5660300002)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Vzh5VGxFVUdnaThFak0ycjUvSEZZZVJqNkQxLzVXM3pMYitMblphbkN1UzJR?=
- =?utf-8?B?bG1lTmlHWjQwa08rRXNSV1lrcFpDYTRpcGNMRDM5d2duTUZ5YlM5Q1JvVGhq?=
- =?utf-8?B?MUl5V0pFTDFQa0ErTTZpdkVKY0VjOUJZOWtZOEcxaDVZYzV1TzFDUFJqRHVw?=
- =?utf-8?B?R1V2ZTdGNnE0dVdjSVVXMjd5QVlLM201QXYzMERjQm54S2tZWnBPczh5ZG9S?=
- =?utf-8?B?SnFoSG1SRnMxMklzK29BcTN3TTNiY0puMnVWK3BVNmJEQ1llTU1xVTZGUXJn?=
- =?utf-8?B?djRCVlkwOWdtRisyQjVOMlBaWHlQRTdHT1dHU3l0Z09OMFJpeEVWYndncW12?=
- =?utf-8?B?NmRXd3hTVGVsWFNYdmNlR04wOUNSL05sbG9iLzFlejZXczRoS0swd080WW5n?=
- =?utf-8?B?RjArTjJkeXVybGJRcUZFQk9TbWVkazdCbWdQaUVFNGJ5KzNMa2dkVVdtVWlS?=
- =?utf-8?B?K2tZb0JETm1jUWJUZWtyc1REY1RKOXYxbGhlb2RFSFROVS9BQThvWnlEM2FQ?=
- =?utf-8?B?L0FTYkpUY3hPMitqQW1WR000akNocFNiWmtwdmIra2F0QUhpUlhlWWpwZGkz?=
- =?utf-8?B?d3lQUTZiODJ4U05PL3FUOE12WUtUMGozQ0hKZk5MUVduSUJaRFlvTHRHT1F0?=
- =?utf-8?B?NEhIbXNvRG1sYzYwa290K1JQdjJoSk80MmNsNTJ0UEFSUnNYOS9abXNtWE5Z?=
- =?utf-8?B?eVRER1NKWXRHOURNdHdpWm1talNURmhJb2hTV3dBbEZJTUpYUkNGeTZGeDlL?=
- =?utf-8?B?cys1dTVGQkJXS3hFS2w5Mm5KREdXUzFPMEUrVUJXdnlpSDV5VkE1NGdYVWJu?=
- =?utf-8?B?cXpBaDhvUGFIbjZBOFJ0NmIwN01NeC8yTXZ3aHp1NEVKaGZEdGZNOFRGMC9T?=
- =?utf-8?B?T1BCTmdIZnJXNmFtQkFPa1pxQ3FSdEp4V2xXN1REc2x2elArdkhtd3JDSVFQ?=
- =?utf-8?B?MldWTjRKU3Vla2xTMk5wRTNPWDdSczUrSnllWXdZSzZ3T3E4OEl0M0pyWjlL?=
- =?utf-8?B?U09vd0N6bTZRN1VFcEJXZlI4OVEwMmN2VlhPbm1XUnJibzR0VEhydElhRzlB?=
- =?utf-8?B?OGZDMmxjT3JYRzRnWWZXUVNNM1MxMjBrZkFhdkhSaFlNMFZpZHBhQWM1ck1W?=
- =?utf-8?B?dGFObk1TMW80c0syUmh6MFAyalJjMHZabUhwSkROQUIxWi8yQVNVQklSRDZ4?=
- =?utf-8?B?b0I1N3I1MC9SanF0cFF0R0t2bkViV21SZkQ4V0kwNW4wYTJ1MXRMYUtpZjlO?=
- =?utf-8?B?YW5hV09WZWl2UUlGTmFlVUt4cTFSd3phcXpNYllxbWhOUVNJSk1vNE5iYkp4?=
- =?utf-8?B?dDRsOXc1Y2tZSURkS0g5SmpLSHpUUDU2UmRWTWxxRjNSQXViWkJUdCs1SHNx?=
- =?utf-8?B?SGhtcklTc3lEOE5oZjV3blNNQlVPay9SaUtTRC9FSFl1T3ZOY2N3eWh2eUdl?=
- =?utf-8?B?bDVscG9YOGpGY29zZGRkQ3FvcHhIV29DUzVENUlhbldPNmVVclV6SUJCWDYz?=
- =?utf-8?B?dzA2Slo3TjZBZmF1ZEVXT25TT1J2UHQzZENGWmNmUWxKN1hCbmNkbkRxZ0Zk?=
- =?utf-8?B?K0xUZThNN2xqYUgycVptWm5XSmdmSlg5M25uNzFFck9WQlN1c2F3MGVOL0tr?=
- =?utf-8?B?aldxbHJJMGR4WHBOakhrY3cvbUFMNVpKdVV0SktVZDc4eWZoaVc0NkF3Qm1Q?=
- =?utf-8?B?MWxZNTcxZVNuN09oM2JQOVhBSGFjNlpJZVFKZVZjUC83c1JxRk9oNjFqVWZK?=
- =?utf-8?B?b2xWUVRLOVROclpIRjFQZmF4cGVLQ28rZ2tvNGRWazkvSUhkcG91eHpqSXFh?=
- =?utf-8?B?YmIwWFlNaEdBTDQrQTVWb0MvYm1EQ3lUUnFuNXpoNmRyUkJ4MDlwMTNPdVdq?=
- =?utf-8?Q?n6CFG6sRcmYjf?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d65b53f2-4d8c-4956-edee-08d94b56d13c
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jul 2021 08:17:30.0886 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: BDUHgzUAciZH4pfxv58ykVeC66EsWhSHEjCjLZIm1zXH6ZkibbEVE4HjpIgp0XyE
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3998
+In-Reply-To: <20210719183047.2624569-4-jason@jlekstrand.net>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -133,158 +51,166 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Anson Jacob <Anson.Jacob@amd.com>, dri-devel@lists.freedesktop.org,
- Hersen Wu <hersenxs.wu@amd.com>, amd-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 20.07.21 um 02:49 schrieb Rodrigo Siqueira:
-> DC invokes DC_FPU_START/END in multiple parts of the code; this can
-> create a situation where we invoke this FPU operation in a nested way or
-> exit too early. For avoiding this situation, this commit adds a
-> mechanism where dc_fpu_begin/end manages the access to
-> kernel_fpu_begin/end.
->
-> Change since V2:
-> - Christian: Do not use this_cpu_* between get/put_cpu_ptr().
->
-> Change since V1:
-> - Use a better variable names
-> - Use get_cpu_ptr and put_cpu_ptr to better balance preemption enable
-> and disable
->
-> Cc: Harry Wentland <harry.wentland@amd.com>
-> Cc: Anson Jacob <Anson.Jacob@amd.com>
-> Cc: Christian König <christian.koenig@amd.com>
-> Cc: Hersen Wu <hersenxs.wu@amd.com>
-> Cc: Aric Cyr <aric.cyr@amd.com>
-> Signed-off-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+
+On 19/07/2021 19:30, Jason Ekstrand wrote:
+> If the driver was not fully loaded, we may still have globals lying
+> around.  If we don't tear those down in i915_exit(), we'll leak a bunch
+> of memory slabs.  This can happen two ways: use_kms = false and if we've
+> run mock selftests.  In either case, we have an early exit from
+> i915_init which happens after i915_globals_init() and we need to clean
+> up those globals.  While we're here, add an explicit boolean instead of
+> using a random field from i915_pci_device to detect partial loads.
+> 
+> The mock selftests case gets especially sticky.  The load isn't entirely
+> a no-op.  We actually do quite a bit inside those selftests including
+> allocating a bunch of mock objects and running tests on them.  Once all
+> those tests are complete, we exit early from i915_init().  Perviously,
+> i915_init() would return a non-zero error code on failure and a zero
+> error code on success.  In the success case, we would get to i915_exit()
+> and check i915_pci_driver.driver.owner to detect if i915_init exited early
+> and do nothing.  In the failure case, we would fail i915_init() but
+> there would be no opportunity to clean up globals.
+> 
+> The most annoying part is that you don't actually notice the failure as
+> part of the self-tests since leaking a bit of memory, while bad, doesn't
+> result in anything observable from userspace.  Instead, the next time we
+> load the driver (usually for next IGT test), i915_globals_init() gets
+> invoked again, we go to allocate a bunch of new memory slabs, those
+> implicitly create debugfs entries, and debugfs warns that we're trying
+> to create directories and files that already exist.  Since this all
+> happens as part of the next driver load, it shows up in the dmesg-warn
+> of whatever IGT test ran after the mock selftests.
+
+Story checks out but I totally don't get why it wouldn't be noticed 
+until now. Was it perhaps part of the selfetsts contract that a reboot 
+is required after failure?
+
+> While the obvious thing to do here might be to call i915_globals_exit()
+> after selftests, that's not actually safe.  The dma-buf selftests call
+> i915_gem_prime_export which creates a file.  We call dma_buf_put() on
+> the resulting dmabuf which calls fput() on the file.  However, fput()
+> isn't immediate and gets flushed right before syscall returns.  This
+> means that all the fput()s from the selftests don't happen until right
+> before the module load syscall used to fire off the selftests returns
+> which is after i915_init().  If we call i915_globals_exit() in
+> i915_init() after selftests, we end up freeing slabs out from under
+> objects which won't get released until fput() is flushed at the end of
+> the module load.
+
+Nasty. Wasn't visible while globals memory leak was "in place". :I
+
+> The solution here is to let i915_init() return success early and detect
+> the early success in i915_exit() and only tear down globals and nothing
+> else.  This way the module loads successfully, regardless of the success
+> or failure of the tests.  Because we've not enumerated any PCI devices,
+> no device nodes are created and it's entirely useless from userspace.
+> The only thing the module does at that point is hold on to a bit of
+> memory until we unload it and i915_exit() is called.  Importantly, this
+> means that everything from our selftests has the ability to properly
+> flush out between i915_init() and i915_exit() because there are a couple
+> syscall boundaries in between.
+
+When you say "couple of syscall boundaries" you mean exactly two (module 
+init/unload) or there is more to it? Like why "couple" is needed and not 
+just that the module load syscall has exited? That part sounds 
+potentially dodgy. What mechanism is used by the delayed flush?
+
+Have you checked how this change interacts with the test runner and CI?
+
+> 
+> Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
+> Fixes: 32eb6bcfdda9 ("drm/i915: Make request allocation caches global")
+> Cc: Daniel Vetter <daniel@ffwll.ch>
 > ---
->   .../amd/display/amdgpu_dm/amdgpu_dm_trace.h   | 13 ++++---
->   .../gpu/drm/amd/display/amdgpu_dm/dc_fpu.c    | 36 ++++++++++++++++---
->   drivers/gpu/drm/amd/display/dc/dc_trace.h     |  4 +--
->   3 files changed, 42 insertions(+), 11 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_trace.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_trace.h
-> index 230bb12c405e..fdcaea22b456 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_trace.h
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_trace.h
-> @@ -638,23 +638,26 @@ TRACE_EVENT(amdgpu_refresh_rate_track,
->   );
+>   drivers/gpu/drm/i915/i915_pci.c | 32 +++++++++++++++++++++++++-------
+>   1 file changed, 25 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/i915_pci.c b/drivers/gpu/drm/i915/i915_pci.c
+> index 4e627b57d31a2..24e4e54516936 100644
+> --- a/drivers/gpu/drm/i915/i915_pci.c
+> +++ b/drivers/gpu/drm/i915/i915_pci.c
+> @@ -1194,18 +1194,31 @@ static struct pci_driver i915_pci_driver = {
+>   	.driver.pm = &i915_pm_ops,
+>   };
 >   
->   TRACE_EVENT(dcn_fpu,
-> -	    TP_PROTO(bool begin, const char *function, const int line),
-> -	    TP_ARGS(begin, function, line),
-> +	    TP_PROTO(bool begin, const char *function, const int line, const int recursion_depth),
-> +	    TP_ARGS(begin, function, line, recursion_depth),
->   
->   	    TP_STRUCT__entry(
->   			     __field(bool, begin)
->   			     __field(const char *, function)
->   			     __field(int, line)
-> +			     __field(int, recursion_depth)
->   	    ),
->   	    TP_fast_assign(
->   			   __entry->begin = begin;
->   			   __entry->function = function;
->   			   __entry->line = line;
-> +			   __entry->recursion_depth = recursion_depth;
->   	    ),
-> -	    TP_printk("%s()+%d: %s",
-> +	    TP_printk("%s: recursion_depth: %d: %s()+%d:",
-> +		      __entry->begin ? "begin" : "end",
-> +		      __entry->recursion_depth,
->   		      __entry->function,
-> -		      __entry->line,
-> -		      __entry->begin ? "begin" : "end"
-> +		      __entry->line
->   	    )
->   );
->   
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/dc_fpu.c b/drivers/gpu/drm/amd/display/amdgpu_dm/dc_fpu.c
-> index d5d156a4517e..d0d3e8a34db5 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/dc_fpu.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/dc_fpu.c
-> @@ -28,6 +28,19 @@
->   
->   #include <asm/fpu/api.h>
->   
-> +/**
-> + * DOC: DC FPU manipulation overview
-> + *
-> + * DC core uses FPU operations in multiple parts of the code, which requires a
-> + * more specialized way to manage these areas' entrance. To fulfill this
-> + * requirement, we created some wrapper functions that encapsulate
-> + * kernel_fpu_begin/end to better fit our need in the display component. In
-> + * summary, in this file, you can find functions related to FPU operation
-> + * management.
-> + */
+> +static bool i915_fully_loaded = false;
+
+No need to initialize.
+
 > +
-> +static DEFINE_PER_CPU(int, fpu_recursion_depth);
-> +
->   /**
->    * dc_fpu_begin - Enables FPU protection
->    * @function_name: A string containing the function name for debug purposes
-> @@ -43,8 +56,16 @@
->    */
->   void dc_fpu_begin(const char *function_name, const int line)
+>   static int __init i915_init(void)
 >   {
-> -	TRACE_DCN_FPU(true, function_name, line);
-> -	kernel_fpu_begin();
-> +	int *pcpu;
+>   	bool use_kms = true;
+>   	int err;
+>   
+> +	i915_fully_loaded = false;
+
+Ditto.
+
 > +
-> +	pcpu = get_cpu_ptr(&fpu_recursion_depth);
-> +	*pcpu += 1;
+>   	err = i915_globals_init();
+>   	if (err)
+>   		return err;
+>   
+> +	/* i915_mock_selftests() only returns zero if no mock subtests were
+
+
+/*
+  * Please use this multi line comment style in i915.
+  */
+
+
+> +	 * run.  If we get any non-zero error code, we return early here.
+> +	 * We always return success because selftests may have allocated
+> +	 * objects from slabs which will get cleaned up by i915_exit().  We
+> +	 * could attempt to clean up immediately and fail module load but,
+> +	 * thanks to interactions with other parts of the kernel (struct
+> +	 * file, in particular), it's safer to let the module fully load
+> +	 * and then clean up on unload.
+> +	 */
+>   	err = i915_mock_selftests();
+>   	if (err)
+> -		return err > 0 ? 0 : err;
+> +		return 0;
+>   
+>   	/*
+>   	 * Enable KMS by default, unless explicitly overriden by
+> @@ -1225,6 +1238,12 @@ static int __init i915_init(void)
+>   		return 0;
+>   	}
+>   
+> +	/* After this point, i915_init() must either fully succeed or
+> +	 * properly tear everything down and fail.  We don't have separate
+> +	 * flags for each set-up bit.
+> +	 */
+> +	i915_fully_loaded = true;
 > +
-
-This needs:
-
-#if defined(CONFIG_X86)
-
-> +	if (*pcpu == 1)
-> +		kernel_fpu_begin();
-
-#elif defined(CONFIG_PPC64)
-....
-
-
-Should I pick up the patches and help a bit with the non x86 support?
+>   	i915_pmu_init();
+>   
+>   	err = pci_register_driver(&i915_pci_driver);
+> @@ -1240,12 +1259,11 @@ static int __init i915_init(void)
+>   
+>   static void __exit i915_exit(void)
+>   {
+> -	if (!i915_pci_driver.driver.owner)
+> -		return;
+> -
+> -	i915_perf_sysctl_unregister();
+> -	pci_unregister_driver(&i915_pci_driver);
+> -	i915_pmu_exit();
+> +	if (i915_fully_loaded) {
+> +		i915_perf_sysctl_unregister();
+> +		pci_unregister_driver(&i915_pci_driver);
+> +		i915_pmu_exit();
+> +	}
+>   	i915_globals_exit();
+>   }
+>   
+> 
 
 Regards,
-Christian.
 
-> +
-> +	TRACE_DCN_FPU(true, function_name, line, *pcpu);
-> +	put_cpu_ptr(&fpu_recursion_depth);
->   }
->   
->   /**
-> @@ -59,6 +80,13 @@ void dc_fpu_begin(const char *function_name, const int line)
->    */
->   void dc_fpu_end(const char *function_name, const int line)
->   {
-> -	TRACE_DCN_FPU(false, function_name, line);
-> -	kernel_fpu_end();
-> +	int *pcpu;
-> +
-> +	pcpu = get_cpu_ptr(&fpu_recursion_depth);
-> +	*pcpu -= 1;
-> +	if (*pcpu <= 0)
-> +		kernel_fpu_end();
-> +
-> +	TRACE_DCN_FPU(false, function_name, line, *pcpu);
-> +	put_cpu_ptr(&fpu_recursion_depth);
->   }
-> diff --git a/drivers/gpu/drm/amd/display/dc/dc_trace.h b/drivers/gpu/drm/amd/display/dc/dc_trace.h
-> index d598ba697e45..c711797e5c9e 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dc_trace.h
-> +++ b/drivers/gpu/drm/amd/display/dc/dc_trace.h
-> @@ -38,5 +38,5 @@
->   #define TRACE_DCN_CLOCK_STATE(dcn_clocks) \
->   	trace_amdgpu_dm_dc_clocks_state(dcn_clocks)
->   
-> -#define TRACE_DCN_FPU(begin, function, line) \
-> -	trace_dcn_fpu(begin, function, line)
-> +#define TRACE_DCN_FPU(begin, function, line, ref_count) \
-> +	trace_dcn_fpu(begin, function, line, ref_count)
-
+Tvrtko
