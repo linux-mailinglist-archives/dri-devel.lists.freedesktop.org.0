@@ -2,37 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA0203D02B0
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jul 2021 22:38:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C58673D036A
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jul 2021 22:55:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 19A656E4FE;
-	Tue, 20 Jul 2021 20:38:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 286686E17A;
+	Tue, 20 Jul 2021 20:55:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B71E26E402;
- Tue, 20 Jul 2021 20:38:21 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10051"; a="296885122"
-X-IronPort-AV: E=Sophos;i="5.84,256,1620716400"; d="scan'208";a="296885122"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jul 2021 13:38:21 -0700
-X-IronPort-AV: E=Sophos;i="5.84,256,1620716400"; d="scan'208";a="469891929"
-Received: from dut151-iclu.fm.intel.com ([10.105.23.43])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jul 2021 13:38:21 -0700
-Date: Tue, 20 Jul 2021 20:38:19 +0000
-From: Matthew Brost <matthew.brost@intel.com>
-To: John Harrison <john.c.harrison@intel.com>
-Subject: Re: [PATCH 30/51] drm/i915/guc: Handle context reset notification
-Message-ID: <20210720203819.GA14430@DUT151-ICLU.fm.intel.com>
-References: <20210716201724.54804-1-matthew.brost@intel.com>
- <20210716201724.54804-31-matthew.brost@intel.com>
- <19438ac3-255f-78db-6ce3-ba919ea4e456@intel.com>
+Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com
+ [IPv6:2607:f8b0:4864:20::230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5811E6E542
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 20:55:51 +0000 (UTC)
+Received: by mail-oi1-x230.google.com with SMTP id w188so599746oif.10
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 13:55:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=0FQ82C/BDxcwvqgrHBgcLPp625UNp5/w2TKk6xmMVnk=;
+ b=KjPwXABt1PYA4lXlmqRcKo/UhZkXVnJpWcYWrBKPXBcF9VKfFRLo21TwI+OyUdgzLs
+ gDF0b+Lz41zSaYobRXX6QG1HT8VG+3GECdGGccD+cykHHTbrzzzjtLEsduKbKbyA4brk
+ TmHou4NpNRxbhms9ARD+Pu4SO11RzqykGySGw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=0FQ82C/BDxcwvqgrHBgcLPp625UNp5/w2TKk6xmMVnk=;
+ b=FDduAjOW5VCl2SJPTZPD/13tqC3hvh/3o7P75ccbngwyUXtDeiutc3eUkFL2x+oa3I
+ fBkCz2zxzMAoO8nao3x4g7y5b92MiTKpNYjdcwX6qkf587IcGyRoI4+6As86Viy55o6O
+ iE33GNKE0pm6q1bfhRxnP8LFVoXlQLiZPe2MOWnl3hLrtZzF8H9sa5+KH+8m/zZ7xIx9
+ zOUPfhordQUf6LHMOoYYJAkEeENQZjlU3uUGXzqs6lyb1T6s/QXMfjy0acdpSh93aGX6
+ gpcEbWE7VtWAms6ABVuvXDqWCedd4Ih2P1H0xrtzrAqU5wHylBl+7E+8p30l/xLNoWmd
+ wcIw==
+X-Gm-Message-State: AOAM531rizBW1uYBqj5LrXL0p7apsqwfrGvA7Kgo4UfvF/4H3/jmXXfj
+ s5vFKlda8xSnnOHpQC+hqPGvnmMkOPZ8ucIM7Do8XQ==
+X-Google-Smtp-Source: ABdhPJzYXoCxha1rxN7bdt/YYSiGbqPjD7v773ymPQkBBlM7PfF21QIL9NPCc7be3ecyZV3iFh61z8dmCCpZQ1n3F9g=
+X-Received: by 2002:aca:d4cf:: with SMTP id l198mr291067oig.14.1626814550571; 
+ Tue, 20 Jul 2021 13:55:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <19438ac3-255f-78db-6ce3-ba919ea4e456@intel.com>
+References: <20210720150716.1213775-1-robdclark@gmail.com>
+ <60ffb6f3-e932-d9af-3b90-81adf0c15250@gmail.com>
+ <CAF6AEGtOW3EjZWo36ij8U1om=gAqvg8CSkJJq2GkyHFGWUH4kQ@mail.gmail.com>
+In-Reply-To: <CAF6AEGtOW3EjZWo36ij8U1om=gAqvg8CSkJJq2GkyHFGWUH4kQ@mail.gmail.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Tue, 20 Jul 2021 22:55:39 +0200
+Message-ID: <CAKMK7uF1=Y6_9znGoWG8GrteXBBRmyW8C3bFE+eJQqOj0A1buA@mail.gmail.com>
+Subject: Re: [Linaro-mm-sig] [PATCH] drm/msm: Add fence->wait() op
+To: Rob Clark <robdclark@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,138 +62,193 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, daniele.ceraolospurio@intel.com,
- dri-devel@lists.freedesktop.org
+Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ open list <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Sean Paul <sean@poorly.run>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <freedreno@lists.freedesktop.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 20, 2021 at 01:29:26PM -0700, John Harrison wrote:
-> On 7/16/2021 13:17, Matthew Brost wrote:
-> > GuC will issue a reset on detecting an engine hang and will notify
-> > the driver via a G2H message. The driver will service the notification
-> > by resetting the guilty context to a simple state or banning it
-> > completely.
-> > 
-> > v2:
-> >   (John Harrison)
-> >    - Move msg[0] lookup after length check
-> > 
-> > Cc: Matthew Brost <matthew.brost@intel.com>
-> > Cc: John Harrison <John.C.Harrison@Intel.com>
-> > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> > ---
-> >   drivers/gpu/drm/i915/gt/uc/intel_guc.h        |  2 ++
-> >   drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c     |  3 ++
-> >   .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 36 +++++++++++++++++++
-> >   drivers/gpu/drm/i915/i915_trace.h             | 10 ++++++
-> >   4 files changed, 51 insertions(+)
-> > 
-> > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-> > index b3cfc52fe0bc..f23a3a618550 100644
-> > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-> > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-> > @@ -262,6 +262,8 @@ int intel_guc_deregister_done_process_msg(struct intel_guc *guc,
-> >   					  const u32 *msg, u32 len);
-> >   int intel_guc_sched_done_process_msg(struct intel_guc *guc,
-> >   				     const u32 *msg, u32 len);
-> > +int intel_guc_context_reset_process_msg(struct intel_guc *guc,
-> > +					const u32 *msg, u32 len);
-> >   void intel_guc_submission_reset_prepare(struct intel_guc *guc);
-> >   void intel_guc_submission_reset(struct intel_guc *guc, bool stalled);
-> > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-> > index 503a78517610..c4f9b44b9f86 100644
-> > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-> > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-> > @@ -981,6 +981,9 @@ static int ct_process_request(struct intel_guc_ct *ct, struct ct_incoming_msg *r
-> >   	case INTEL_GUC_ACTION_SCHED_CONTEXT_MODE_DONE:
-> >   		ret = intel_guc_sched_done_process_msg(guc, payload, len);
-> >   		break;
-> > +	case INTEL_GUC_ACTION_CONTEXT_RESET_NOTIFICATION:
-> > +		ret = intel_guc_context_reset_process_msg(guc, payload, len);
-> > +		break;
-> >   	default:
-> >   		ret = -EOPNOTSUPP;
-> >   		break;
-> > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> > index fdb17279095c..feaf1ca61eaa 100644
-> > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> > @@ -2196,6 +2196,42 @@ int intel_guc_sched_done_process_msg(struct intel_guc *guc,
-> >   	return 0;
-> >   }
-> > +static void guc_context_replay(struct intel_context *ce)
-> > +{
-> > +	struct i915_sched_engine *sched_engine = ce->engine->sched_engine;
-> > +
-> > +	__guc_reset_context(ce, true);
-> > +	tasklet_hi_schedule(&sched_engine->tasklet);
-> > +}
-> > +
-> > +static void guc_handle_context_reset(struct intel_guc *guc,
-> > +				     struct intel_context *ce)
-> > +{
-> > +	trace_intel_context_reset(ce);
-> > +	guc_context_replay(ce);
-> > +}
-> > +
-> > +int intel_guc_context_reset_process_msg(struct intel_guc *guc,
-> > +					const u32 *msg, u32 len)
-> > +{
-> > +	struct intel_context *ce;
-> > +	int desc_idx;
-> > +
-> > +	if (unlikely(len != 1)) {
-> > +		drm_dbg(&guc_to_gt(guc)->i915->drm, "Invalid length %u", len);
-> I think we decided that these should be drm_err rather than drm_dbg?
-> 
+On Tue, Jul 20, 2021 at 8:26 PM Rob Clark <robdclark@gmail.com> wrote:
+>
+> On Tue, Jul 20, 2021 at 11:03 AM Christian K=C3=B6nig
+> <ckoenig.leichtzumerken@gmail.com> wrote:
+> >
+> > Hi Rob,
+> >
+> > Am 20.07.21 um 17:07 schrieb Rob Clark:
+> > > From: Rob Clark <robdclark@chromium.org>
+> > >
+> > > Somehow we had neither ->wait() nor dma_fence_signal() calls, and no
+> > > one noticed.  Oops.
+> >
+> >
+> > I'm not sure if that is a good idea.
+> >
+> > The dma_fence->wait() callback is pretty much deprecated and should not
+> > be used any more.
+> >
+> > What exactly do you need that for?
+>
+> Well, the alternative is to track the set of fences which have
+> signalling enabled, and then figure out which ones to signal, which
+> seems like a lot more work, vs just re-purposing the wait
+> implementation we already have for non-dma_fence cases ;-)
+>
+> Why is the ->wait() callback (pretty much) deprecated?
 
-Yes, we did. Already fixed this message and all subsequent in my branch.
+Because if you need it that means for your driver dma_fence_add_cb is
+broken, which means a _lot_ of things don't work. Like dma_buf poll
+(compositors have patches to start using that), and I think
+drm/scheduler also becomes rather unhappy.
 
-Matt
+It essentially exists only for old drivers where ->enable_signalling
+is unreliable and we paper over that with a retry loop in ->wait and
+pray no one notices that it's too butchered. The proper fix is to have
+a driver thread to guarantee that ->enable_signalling works reliable,
+so you don't need a ->wait.
 
-> With that updated:
-> Reviewed-by: John Harrison <John.C.Harrison@Intel.com>
-> 
-> > +		return -EPROTO;
-> > +	}
-> > +
-> > +	desc_idx = msg[0];
-> > +	ce = g2h_context_lookup(guc, desc_idx);
-> > +	if (unlikely(!ce))
-> > +		return -EPROTO;
-> > +
-> > +	guc_handle_context_reset(guc, ce);
-> > +
-> > +	return 0;
-> > +}
-> > +
-> >   void intel_guc_submission_print_info(struct intel_guc *guc,
-> >   				     struct drm_printer *p)
-> >   {
-> > diff --git a/drivers/gpu/drm/i915/i915_trace.h b/drivers/gpu/drm/i915/i915_trace.h
-> > index 97c2e83984ed..c095c4d39456 100644
-> > --- a/drivers/gpu/drm/i915/i915_trace.h
-> > +++ b/drivers/gpu/drm/i915/i915_trace.h
-> > @@ -929,6 +929,11 @@ DECLARE_EVENT_CLASS(intel_context,
-> >   		      __entry->guc_sched_state_no_lock)
-> >   );
-> > +DEFINE_EVENT(intel_context, intel_context_reset,
-> > +	     TP_PROTO(struct intel_context *ce),
-> > +	     TP_ARGS(ce)
-> > +);
-> > +
-> >   DEFINE_EVENT(intel_context, intel_context_register,
-> >   	     TP_PROTO(struct intel_context *ce),
-> >   	     TP_ARGS(ce)
-> > @@ -1026,6 +1031,11 @@ trace_i915_request_out(struct i915_request *rq)
-> >   {
-> >   }
-> > +static inline void
-> > +trace_intel_context_reset(struct intel_context *ce)
-> > +{
-> > +}
-> > +
-> >   static inline void
-> >   trace_intel_context_register(struct intel_context *ce)
-> >   {
-> 
+Can you type up a kerneldoc patch for dma_fence_ops->wait to hammer
+this in please?
+-Daniel
+
+>
+> BR,
+> -R
+>
+> > Regards,
+> > Christian.
+> >
+> > >
+> > > Note that this removes the !timeout case, which has not been used in
+> > > a long time.
+> >
+> >
+> > >
+> > > Signed-off-by: Rob Clark <robdclark@chromium.org>
+> > > ---
+> > >   drivers/gpu/drm/msm/msm_fence.c | 59 +++++++++++++++++++-----------=
+---
+> > >   1 file changed, 34 insertions(+), 25 deletions(-)
+> > >
+> > > diff --git a/drivers/gpu/drm/msm/msm_fence.c b/drivers/gpu/drm/msm/ms=
+m_fence.c
+> > > index cd59a5918038..8ee96b90ded6 100644
+> > > --- a/drivers/gpu/drm/msm/msm_fence.c
+> > > +++ b/drivers/gpu/drm/msm/msm_fence.c
+> > > @@ -38,11 +38,10 @@ static inline bool fence_completed(struct msm_fen=
+ce_context *fctx, uint32_t fenc
+> > >       return (int32_t)(fctx->completed_fence - fence) >=3D 0;
+> > >   }
+> > >
+> > > -/* legacy path for WAIT_FENCE ioctl: */
+> > > -int msm_wait_fence(struct msm_fence_context *fctx, uint32_t fence,
+> > > -             ktime_t *timeout, bool interruptible)
+> > > +static signed long wait_fence(struct msm_fence_context *fctx, uint32=
+_t fence,
+> > > +             signed long remaining_jiffies, bool interruptible)
+> > >   {
+> > > -     int ret;
+> > > +     signed long ret;
+> > >
+> > >       if (fence > fctx->last_fence) {
+> > >               DRM_ERROR_RATELIMITED("%s: waiting on invalid fence: %u=
+ (of %u)\n",
+> > > @@ -50,33 +49,34 @@ int msm_wait_fence(struct msm_fence_context *fctx=
+, uint32_t fence,
+> > >               return -EINVAL;
+> > >       }
+> > >
+> > > -     if (!timeout) {
+> > > -             /* no-wait: */
+> > > -             ret =3D fence_completed(fctx, fence) ? 0 : -EBUSY;
+> > > +     if (interruptible) {
+> > > +             ret =3D wait_event_interruptible_timeout(fctx->event,
+> > > +                     fence_completed(fctx, fence),
+> > > +                     remaining_jiffies);
+> > >       } else {
+> > > -             unsigned long remaining_jiffies =3D timeout_to_jiffies(=
+timeout);
+> > > -
+> > > -             if (interruptible)
+> > > -                     ret =3D wait_event_interruptible_timeout(fctx->=
+event,
+> > > -                             fence_completed(fctx, fence),
+> > > -                             remaining_jiffies);
+> > > -             else
+> > > -                     ret =3D wait_event_timeout(fctx->event,
+> > > -                             fence_completed(fctx, fence),
+> > > -                             remaining_jiffies);
+> > > -
+> > > -             if (ret =3D=3D 0) {
+> > > -                     DBG("timeout waiting for fence: %u (completed: =
+%u)",
+> > > -                                     fence, fctx->completed_fence);
+> > > -                     ret =3D -ETIMEDOUT;
+> > > -             } else if (ret !=3D -ERESTARTSYS) {
+> > > -                     ret =3D 0;
+> > > -             }
+> > > +             ret =3D wait_event_timeout(fctx->event,
+> > > +                     fence_completed(fctx, fence),
+> > > +                     remaining_jiffies);
+> > > +     }
+> > > +
+> > > +     if (ret =3D=3D 0) {
+> > > +             DBG("timeout waiting for fence: %u (completed: %u)",
+> > > +                             fence, fctx->completed_fence);
+> > > +             ret =3D -ETIMEDOUT;
+> > > +     } else if (ret !=3D -ERESTARTSYS) {
+> > > +             ret =3D 0;
+> > >       }
+> > >
+> > >       return ret;
+> > >   }
+> > >
+> > > +/* legacy path for WAIT_FENCE ioctl: */
+> > > +int msm_wait_fence(struct msm_fence_context *fctx, uint32_t fence,
+> > > +             ktime_t *timeout, bool interruptible)
+> > > +{
+> > > +     return wait_fence(fctx, fence, timeout_to_jiffies(timeout), int=
+erruptible);
+> > > +}
+> > > +
+> > >   /* called from workqueue */
+> > >   void msm_update_fence(struct msm_fence_context *fctx, uint32_t fenc=
+e)
+> > >   {
+> > > @@ -114,10 +114,19 @@ static bool msm_fence_signaled(struct dma_fence=
+ *fence)
+> > >       return fence_completed(f->fctx, f->base.seqno);
+> > >   }
+> > >
+> > > +static signed long msm_fence_wait(struct dma_fence *fence, bool intr=
+,
+> > > +             signed long timeout)
+> > > +{
+> > > +     struct msm_fence *f =3D to_msm_fence(fence);
+> > > +
+> > > +     return wait_fence(f->fctx, fence->seqno, timeout, intr);
+> > > +}
+> > > +
+> > >   static const struct dma_fence_ops msm_fence_ops =3D {
+> > >       .get_driver_name =3D msm_fence_get_driver_name,
+> > >       .get_timeline_name =3D msm_fence_get_timeline_name,
+> > >       .signaled =3D msm_fence_signaled,
+> > > +     .wait =3D msm_fence_wait,
+> > >   };
+> > >
+> > >   struct dma_fence *
+> >
+
+
+
+--=20
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
