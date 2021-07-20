@@ -2,60 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EBBF3CFBE0
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jul 2021 16:18:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01DDD3CFBE8
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jul 2021 16:22:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B97D89B70;
-	Tue, 20 Jul 2021 14:18:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A2E326E3FE;
+	Tue, 20 Jul 2021 14:22:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com
- [IPv6:2a00:1450:4864:20::329])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2759F89BFD
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 14:18:52 +0000 (UTC)
-Received: by mail-wm1-x329.google.com with SMTP id
- b14-20020a1c1b0e0000b02901fc3a62af78so1599894wmb.3
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 07:18:52 -0700 (PDT)
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
+ [IPv6:2a00:1450:4864:20::436])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AAE486E3FE
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 14:22:21 +0000 (UTC)
+Received: by mail-wr1-x436.google.com with SMTP id d2so26272994wrn.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 07:22:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=GWeaWlNPLQ029t+Jfie5/MeiL/LFQkSRsgwMlX3Wz5A=;
- b=LOH0Xj5VJJ90Aie4EGRglMdUree4+WtLAIr01+XBWcFcdPul2OcJMEBreTVs9r3CX9
- e9xTigrQUk2dBWC1KF7rx4ccEgHEzcMLBNsACGOgkWkvbvhK4DS29SJL3QcIwy+n/pGh
- oLgxX+Nv5HpjbAjtjR9rtg1tvVJvplHIMKyFI=
+ bh=jxN9ChWomhzAE38K8djviogfBE8vle1UQBknCPwc6vk=;
+ b=eqDRRAxd+gGq7L7yJMxy1lQNkUi9vunl8inblnMLaK+44Po8m6tVXhAyiHSkiD41y5
+ 7Yz4P02qsuyyiRJonN+bQZ9LN/rTMuB1y8Z4rRNjQF8a+xMUI6TKhVXZ5Qt1e5sjJsOv
+ hSR0R75a3CKZlhKrTKufNAhHb8IH9A7B3bmys=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=GWeaWlNPLQ029t+Jfie5/MeiL/LFQkSRsgwMlX3Wz5A=;
- b=e1fukOmCCnug5ZA6XxJPBOP5phhZG9TLj1di+bc14CluzLhHqjstNR/yVeNPA7fGeS
- /jathsqHXottxNSVFi7m0BxhvHLzn9rXyhI79HvLnjem0EQ99NKPrTt1i/ViQvQP7g3n
- Se4cTamMqbQz80pIADh+uX/YJd4NNt0dYFDB+I2a+sJk48/4aJ2fU0wo/0M1WrYwlPqB
- bAQ7PmlZn7Fc3cGMk8Ddm5g6F10Tum7eLBWuSRx67kxZKfAjK6YQBEtwarLZ0BfqvIec
- nNh3Cb+mBEao5a2hZa4YWLdwd9UMMOzCEpXobxnyFTZDirhkskLberq1u74qYAZy6UbH
- d61Q==
-X-Gm-Message-State: AOAM530Xf1082U3qowT/GzTP3WbO9GCQEXDQG4YtxbtbhfH1ZMac/v1T
- SubXSzu05ZxGTJGG2aaQZQTUcT9qTxoobg==
-X-Google-Smtp-Source: ABdhPJwalM+WwiKgi/Zom6lLmRNal2jD2B7I9OtSzDMX9CV5hvd9hP+TCYtijpDdiaL/k/ElfFBWNA==
-X-Received: by 2002:a05:600c:2187:: with SMTP id
- e7mr37987477wme.161.1626790730711; 
- Tue, 20 Jul 2021 07:18:50 -0700 (PDT)
+ bh=jxN9ChWomhzAE38K8djviogfBE8vle1UQBknCPwc6vk=;
+ b=VpeGkZwuEcKZuvQhJEQASLAf6AsfTPAyaVecyomvIc/5b20AKZFWU5BUBLR4fN6fZO
+ yvwpBXt9kYy0IGbU5mIJBArtLLsXletikS/YGMyDpX6AkRTeuwOnppuQhtYtufX2RNOe
+ 7UwVi6wiNYe1BGkly4P6y0EQH/fNSTDSiPl39WUrt/XqnhJzVO0DXhRLV5xEIdHsf21t
+ 5FGEaD9o3uPzOtMNyV6YH6Zp/HeSIq1xmDIlGY9wAfrtYwV9q1ppPtFjbhF0I1dMJxoc
+ gNkeSYz4axZmb4fWrVC7cJqgqVf98QhWEEbzSXlbDq3XtQOQMpRhohoJIZNSj80i+1sY
+ yQCg==
+X-Gm-Message-State: AOAM5319NOA8JD0O6Mf639zlOXqEbEVYBvQdkyz1kS7t9ua9Z5Mq/zTj
+ HY5Ai3MNCIjJ2hZUfhttqYhRaM6TZKS83A==
+X-Google-Smtp-Source: ABdhPJyu00iDjlcUbTxxP1CoFV7U8k/UA59yVk8R72GcHGQlj7bygEsgGtuHzrvcI6MwESCWyJ8OlA==
+X-Received: by 2002:adf:ee05:: with SMTP id y5mr30341263wrn.235.1626790940416; 
+ Tue, 20 Jul 2021 07:22:20 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id z25sm20331364wmf.9.2021.07.20.07.18.49
+ by smtp.gmail.com with ESMTPSA id g3sm24502194wrv.64.2021.07.20.07.22.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Jul 2021 07:18:50 -0700 (PDT)
-Date: Tue, 20 Jul 2021 16:18:48 +0200
+ Tue, 20 Jul 2021 07:22:19 -0700 (PDT)
+Date: Tue, 20 Jul 2021 16:22:18 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
 To: Jason Ekstrand <jason@jlekstrand.net>
-Subject: Re: [PATCH 3/6] drm/i915: Always call i915_globals_exit() from
- i915_exit()
-Message-ID: <YPbbSKpaB7yZ8KtE@phenom.ffwll.local>
+Subject: Re: [PATCH 5/6] drm/ttm: Initialize debugfs from ttm_global_init()
+Message-ID: <YPbcGrJP3JPIEPDh@phenom.ffwll.local>
 References: <20210719183047.2624569-1-jason@jlekstrand.net>
- <20210719183047.2624569-4-jason@jlekstrand.net>
+ <20210719183047.2624569-6-jason@jlekstrand.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210719183047.2624569-4-jason@jlekstrand.net>
+In-Reply-To: <20210719183047.2624569-6-jason@jlekstrand.net>
 X-Operating-System: Linux phenom 5.10.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,146 +70,97 @@ Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jul 19, 2021 at 01:30:44PM -0500, Jason Ekstrand wrote:
-> If the driver was not fully loaded, we may still have globals lying
-> around.  If we don't tear those down in i915_exit(), we'll leak a bunch
-> of memory slabs.  This can happen two ways: use_kms = false and if we've
-> run mock selftests.  In either case, we have an early exit from
-> i915_init which happens after i915_globals_init() and we need to clean
-> up those globals.  While we're here, add an explicit boolean instead of
-> using a random field from i915_pci_device to detect partial loads.
-> 
-> The mock selftests case gets especially sticky.  The load isn't entirely
-> a no-op.  We actually do quite a bit inside those selftests including
-> allocating a bunch of mock objects and running tests on them.  Once all
-> those tests are complete, we exit early from i915_init().  Perviously,
-> i915_init() would return a non-zero error code on failure and a zero
-> error code on success.  In the success case, we would get to i915_exit()
-> and check i915_pci_driver.driver.owner to detect if i915_init exited early
-> and do nothing.  In the failure case, we would fail i915_init() but
-> there would be no opportunity to clean up globals.
-> 
-> The most annoying part is that you don't actually notice the failure as
-> part of the self-tests since leaking a bit of memory, while bad, doesn't
-> result in anything observable from userspace.  Instead, the next time we
-> load the driver (usually for next IGT test), i915_globals_init() gets
-> invoked again, we go to allocate a bunch of new memory slabs, those
-> implicitly create debugfs entries, and debugfs warns that we're trying
-> to create directories and files that already exist.  Since this all
-> happens as part of the next driver load, it shows up in the dmesg-warn
-> of whatever IGT test ran after the mock selftests.
-> 
-> While the obvious thing to do here might be to call i915_globals_exit()
-> after selftests, that's not actually safe.  The dma-buf selftests call
-> i915_gem_prime_export which creates a file.  We call dma_buf_put() on
-> the resulting dmabuf which calls fput() on the file.  However, fput()
-> isn't immediate and gets flushed right before syscall returns.  This
-> means that all the fput()s from the selftests don't happen until right
-> before the module load syscall used to fire off the selftests returns
-> which is after i915_init().  If we call i915_globals_exit() in
-> i915_init() after selftests, we end up freeing slabs out from under
-> objects which won't get released until fput() is flushed at the end of
-> the module load.
-> 
-> The solution here is to let i915_init() return success early and detect
-> the early success in i915_exit() and only tear down globals and nothing
-> else.  This way the module loads successfully, regardless of the success
-> or failure of the tests.  Because we've not enumerated any PCI devices,
-> no device nodes are created and it's entirely useless from userspace.
-> The only thing the module does at that point is hold on to a bit of
-> memory until we unload it and i915_exit() is called.  Importantly, this
-> means that everything from our selftests has the ability to properly
-> flush out between i915_init() and i915_exit() because there are a couple
-> syscall boundaries in between.
+On Mon, Jul 19, 2021 at 01:30:46PM -0500, Jason Ekstrand wrote:
+> We create a bunch of debugfs entries as a side-effect of
+> ttm_global_init() and then never clean them up.  This isn't usually a
+> problem because we free the whole debugfs directory on module unload.
+> However, if the global reference count ever goes to zero and then
+> ttm_global_init() is called again, we'll re-create those debugfs entries
+> and debugfs will complain in dmesg that we're creating entries that
+> already exist.  This patch fixes this problem by changing the lifetime
+> of the whole TTM debugfs directory to match that of the TTM global
+> state.
 > 
 > Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
-> Fixes: 32eb6bcfdda9 ("drm/i915: Make request allocation caches global")
-> Cc: Daniel Vetter <daniel@ffwll.ch>
 > ---
->  drivers/gpu/drm/i915/i915_pci.c | 32 +++++++++++++++++++++++++-------
->  1 file changed, 25 insertions(+), 7 deletions(-)
+>  drivers/gpu/drm/ttm/ttm_device.c | 12 ++++++++++++
+>  drivers/gpu/drm/ttm/ttm_module.c |  4 ----
+>  2 files changed, 12 insertions(+), 4 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/i915/i915_pci.c b/drivers/gpu/drm/i915/i915_pci.c
-> index 4e627b57d31a2..24e4e54516936 100644
-> --- a/drivers/gpu/drm/i915/i915_pci.c
-> +++ b/drivers/gpu/drm/i915/i915_pci.c
-> @@ -1194,18 +1194,31 @@ static struct pci_driver i915_pci_driver = {
->  	.driver.pm = &i915_pm_ops,
->  };
+> diff --git a/drivers/gpu/drm/ttm/ttm_device.c b/drivers/gpu/drm/ttm/ttm_device.c
+> index 519deea8e39b7..74e3b460132b3 100644
+> --- a/drivers/gpu/drm/ttm/ttm_device.c
+> +++ b/drivers/gpu/drm/ttm/ttm_device.c
+> @@ -44,6 +44,8 @@ static unsigned ttm_glob_use_count;
+>  struct ttm_global ttm_glob;
+>  EXPORT_SYMBOL(ttm_glob);
 >  
-> +static bool i915_fully_loaded = false;
+> +struct dentry *ttm_debugfs_root;
 > +
->  static int __init i915_init(void)
+>  static void ttm_global_release(void)
 >  {
->  	bool use_kms = true;
->  	int err;
+>  	struct ttm_global *glob = &ttm_glob;
+> @@ -53,6 +55,7 @@ static void ttm_global_release(void)
+>  		goto out;
 >  
-> +	i915_fully_loaded = false;
+>  	ttm_pool_mgr_fini();
+> +	debugfs_remove(ttm_debugfs_root);
+>  
+>  	__free_page(glob->dummy_read_page);
+>  	memset(glob, 0, sizeof(*glob));
+> @@ -73,6 +76,13 @@ static int ttm_global_init(void)
+>  
+>  	si_meminfo(&si);
+>  
+> +	ttm_debugfs_root = debugfs_create_dir("ttm", NULL);
+> +	if (IS_ERR(ttm_debugfs_root)) {
+> +		ret = PTR_ERR(ttm_debugfs_root);
+> +		ttm_debugfs_root = NULL;
+> +		goto out;
+> +	}
 > +
->  	err = i915_globals_init();
->  	if (err)
->  		return err;
+>  	/* Limit the number of pages in the pool to about 50% of the total
+>  	 * system memory.
+>  	 */
+> @@ -100,6 +110,8 @@ static int ttm_global_init(void)
+>  	debugfs_create_atomic_t("buffer_objects", 0444, ttm_debugfs_root,
+>  				&glob->bo_count);
+>  out:
+> +	if (ret && ttm_debugfs_root)
+> +		debugfs_remove(ttm_debugfs_root);
+>  	if (ret)
+>  		--ttm_glob_use_count;
+>  	mutex_unlock(&ttm_global_mutex);
+> diff --git a/drivers/gpu/drm/ttm/ttm_module.c b/drivers/gpu/drm/ttm/ttm_module.c
+> index 997c458f68a9a..88554f2db11fe 100644
+> --- a/drivers/gpu/drm/ttm/ttm_module.c
+> +++ b/drivers/gpu/drm/ttm/ttm_module.c
+> @@ -72,17 +72,13 @@ pgprot_t ttm_prot_from_caching(enum ttm_caching caching, pgprot_t tmp)
+>  	return tmp;
+>  }
 >  
-> +	/* i915_mock_selftests() only returns zero if no mock subtests were
-> +	 * run.  If we get any non-zero error code, we return early here.
-> +	 * We always return success because selftests may have allocated
-> +	 * objects from slabs which will get cleaned up by i915_exit().  We
-> +	 * could attempt to clean up immediately and fail module load but,
-> +	 * thanks to interactions with other parts of the kernel (struct
-> +	 * file, in particular), it's safer to let the module fully load
-> +	 * and then clean up on unload.
-> +	 */
->  	err = i915_mock_selftests();
->  	if (err)
-> -		return err > 0 ? 0 : err;
-> +		return 0;
+> -struct dentry *ttm_debugfs_root;
+> -
+>  static int __init ttm_init(void)
+>  {
+> -	ttm_debugfs_root = debugfs_create_dir("ttm", NULL);
+>  	return 0;
+>  }
+>  
+>  static void __exit ttm_exit(void)
+>  {
+> -	debugfs_remove(ttm_debugfs_root);
+>  }
 
-At least the module options still claim that you can run selftests and
-still load the driver. Which makes sense for perf/hw selftests, since
-those need the driver, but would result in the same old bug resurfacing
-that you're trying to fix there.
-
-Is that description just confused and needs some fixing, or do we have a
-gap here?
-
-Patch itself looks reasonable, with the nits from Tvrtko addressed:
+I think you can delete these functions and the lines below too, they
+should be optional. With that:
 
 Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
+-Daniel
+
 >  
->  	/*
->  	 * Enable KMS by default, unless explicitly overriden by
-> @@ -1225,6 +1238,12 @@ static int __init i915_init(void)
->  		return 0;
->  	}
->  
-> +	/* After this point, i915_init() must either fully succeed or
-> +	 * properly tear everything down and fail.  We don't have separate
-> +	 * flags for each set-up bit.
-> +	 */
-> +	i915_fully_loaded = true;
-> +
->  	i915_pmu_init();
->  
->  	err = pci_register_driver(&i915_pci_driver);
-> @@ -1240,12 +1259,11 @@ static int __init i915_init(void)
->  
->  static void __exit i915_exit(void)
->  {
-> -	if (!i915_pci_driver.driver.owner)
-> -		return;
-> -
-> -	i915_perf_sysctl_unregister();
-> -	pci_unregister_driver(&i915_pci_driver);
-> -	i915_pmu_exit();
-> +	if (i915_fully_loaded) {
-> +		i915_perf_sysctl_unregister();
-> +		pci_unregister_driver(&i915_pci_driver);
-> +		i915_pmu_exit();
-> +	}
->  	i915_globals_exit();
->  }
->  
+>  module_init(ttm_init);
 > -- 
 > 2.31.1
 > 
