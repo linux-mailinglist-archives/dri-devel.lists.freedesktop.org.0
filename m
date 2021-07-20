@@ -1,61 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9ADCD3CFAF6
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jul 2021 15:44:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 215CB3CFAF8
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jul 2021 15:45:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B46F289DA3;
-	Tue, 20 Jul 2021 13:44:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4006A89DB8;
+	Tue, 20 Jul 2021 13:45:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
- [IPv6:2a00:1450:4864:20::435])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DCE0989DAB
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 13:44:52 +0000 (UTC)
-Received: by mail-wr1-x435.google.com with SMTP id i94so26070721wri.4
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 06:44:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=Be4HZXEp40HUXvq7QmzTRqYXQphz7ay/OwQix79gbbA=;
- b=izhhlKN6HpBuFS+OJ0XVF3bPGkfIu1LANouXgWkEWOhcTzORgKEwnUEEZGt79Ni/bh
- 0aSKd4v4ZNCHu+iAfw+APT+oU+VMB4tRKGuW/vGdbJVxs/cv2JlTU2xonEfODF9tKamh
- ifr/J8tMQL90Hna0ZrYvb2X2bVE8usHH073MQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=Be4HZXEp40HUXvq7QmzTRqYXQphz7ay/OwQix79gbbA=;
- b=DpknQXYvE62P3tyV6odgRBD54sFtmBj3qgnRDench3JbzBYamuKk86K4hUnDkWTOLN
- Gk90kapcBrpYpFwJtwHNoGeoCUlVowU01z/yDlhtYoQzuJOkp4Czq85fKH7PvP/C5v+B
- ndfLmasbr4Mnw/efYb0Cv8nl0wdz0qxRwK15J+S+MhXpcd2SAXn4eCL8kLHmyA8iuZOW
- FPgoCqm61YeEkHhTIYIKeA5wH20PU9Nfv7wHL/U3D7vZqXt6e9abTSOlTnVX4YnyUs0t
- t60AiFeC7f7Ljkj1JC07wgBk1q0+HpgNvXgE6h1A23LDGjhKJrEwX+B5YJD7iZW1KBSR
- nQ4w==
-X-Gm-Message-State: AOAM530GxTFMyogfhfHej6gW0ca+rp24scduRiyWBF5HAyRNG1hBsCSD
- /mMQUyr0VUveZVT3sUDe1Qq1yw==
-X-Google-Smtp-Source: ABdhPJz73QdlbsoKOLRzeUOJVVMHCbFPUwoAnf+Y5YRWRGf4t1PlZRgsgJRcHXbZN3/yYVbsTA4Nvw==
-X-Received: by 2002:a5d:4c8c:: with SMTP id z12mr37428582wrs.97.1626788691601; 
- Tue, 20 Jul 2021 06:44:51 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id v2sm23989555wro.48.2021.07.20.06.44.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Jul 2021 06:44:50 -0700 (PDT)
-Date: Tue, 20 Jul 2021 15:44:49 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Ville Syrjala <ville.syrjala@linux.intel.com>
-Subject: Re: [PATCH 1/4] drm: Introduce drm_modeset_lock_ctx_retry()
-Message-ID: <YPbTUf9KfiZ5GnFz@phenom.ffwll.local>
-References: <20210715184954.7794-1-ville.syrjala@linux.intel.com>
- <20210715184954.7794-2-ville.syrjala@linux.intel.com>
+Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com
+ [64.147.123.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4AEDF89DB8
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 13:45:35 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailnew.west.internal (Postfix) with ESMTP id D4A0C2B01187;
+ Tue, 20 Jul 2021 09:45:31 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute1.internal (MEProxy); Tue, 20 Jul 2021 09:45:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ from:to:cc:subject:date:message-id:content-type:mime-version
+ :content-transfer-encoding; s=fm3; bh=II6ZIwPuUDm1QQYI4VVjCMhViz
+ c1ZeIOHaCA5ME/VuE=; b=gcOLuDgHYfhlXLonM7NgoN4W0fNt95JmWcnUbCpBLk
+ unKumIG+yEWLJZAc5fvSYUyOR9fiB3vWBrcUt5Jx0p6NKE0OCNblqDfSVovl+wso
+ tmqRFY0D+Ti6WYx300UuzkJTTN5+2TLpUyIRUNjLmwoZ755jrsJl/QFsr8CGqYSt
+ D8q5lxjBK+pBgKrHGsmdV18SGP3wZwIcmlBorUQTPRNGo7gFnLW2wv6BRgDqb2Yc
+ qvITlgljLI0B0GbWuKux0Mkk1NCobjQfiez+kFNRlOJXhM00BsVmdzF5NtTDa2mb
+ HE3eeOa2C3oQ/fzJQNGlmlB/TogmOwGfLwuVviccIsyA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:message-id:mime-version:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=II6ZIw
+ PuUDm1QQYI4VVjCMhVizc1ZeIOHaCA5ME/VuE=; b=IF8P3CKsEfjTO1dCrQet9p
+ 78O5S2+HYB3YRKQ9BbLDIS715ddf/TruhvXrYetja+dtUZv1P9ojB1Sf67bFwf9u
+ HwI3l/8ds9QDfJ3vWubdEwxprnqcQK1i9y1D5j7jyVKSAfoJJhCPDAUerkwX/RGf
+ alF7EokG1+rbhGDmx14LfEw2WOaO90x4TPsXtl9fnWH/k0H+HyltcwAMoXa71EZv
+ JnYdLklbrlQIfvCFRd+ojE2CBGdLseA/b5xLdqsr+HGs3Fk2oN+SLBmJQW3KdC7N
+ tK+k158NHb2hDUTqLKC4RXJzzeOxFm4dAVp924ZaGE44548OI7JVzHnwllDJXFtw
+ ==
+X-ME-Sender: <xms:edP2YCOygzu9NYZTbM-vh1ca7SmogOpd_BRVZSWMWRj0bBENRrzU5A>
+ <xme:edP2YA9nWIO8l1qVURFGagGPF89a9kUvDYi9vzifGCuskxFLWocyyAOHCHnRruA8w
+ FIyBYNJP_s6sAcA8ho>
+X-ME-Received: <xmr:edP2YJSzb1SIZ9n_n3GjBBxjQhu91GoQ1nrq3YsLBg1O2FZr2ekqmM_p80MrQQlQ_mwVq8yu5Mg_yTobcFJR0aRUWX2yPtqBH2Kl>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrfedvgdeijecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefhvffufffkofgtggfgsehtqhertdertdejnecuhfhrohhmpeforgigihhmvgcu
+ tfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrthhtvg
+ hrnhepteeikefgffekgeekledtheduteetjefgkeeuvefhhfetgedugfektdeugeffgfef
+ necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgi
+ himhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:edP2YCvaOXjFum2x9DVkBx0cgqWzc9OXGQcucvymczdYWcu3Gw_P3g>
+ <xmx:edP2YKdKjNCdY6Bco6r2FtvkSVswbzHWiueT_HzG7GF0PrXyyvL_2Q>
+ <xmx:edP2YG1vqPtFTvEw6uWab_jTSGmfBWZ1gkLsiLqleBgkw2asgf7Q9g>
+ <xmx:e9P2YB_elgH-R2XMOqxtBm6Q3Ww2aWidkNVAtPMYLdER87q5q92lRvc9FgA>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 20 Jul 2021 09:45:28 -0400 (EDT)
+From: Maxime Ripard <maxime@cerno.tech>
+To: Robert Foss <robert.foss@linaro.org>, Andrzej Hajda <a.hajda@samsung.com>,
+ Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
+ Sam Ravnborg <sam@ravnborg.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>,
+ Neil Armstrong <narmstrong@baylibre.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Subject: [PATCH 00/10] drm/bridge: Make panel and bridge probe order consistent
+Date: Tue, 20 Jul 2021 15:45:15 +0200
+Message-Id: <20210720134525.563936-1-maxime@cerno.tech>
+X-Mailer: git-send-email 2.31.1
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210715184954.7794-2-ville.syrjala@linux.intel.com>
-X-Operating-System: Linux phenom 5.10.0-7-amd64 
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,137 +85,105 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, Sean Paul <seanpaul@chromium.org>,
- dri-devel@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 15, 2021 at 09:49:51PM +0300, Ville Syrjala wrote:
-> From: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> 
-> Quite a few places are hand rolling the modeset lock backoff dance.
-> Let's suck that into a helper macro that is easier to use without
-> forgetting some steps.
-> 
-> The main downside is probably that the implementation of
-> drm_with_modeset_lock_ctx() is a bit harder to read than a hand
-> rolled version on account of being split across three functions,
-> but the actual code using it ends up being much simpler.
-> 
-> Cc: Sean Paul <seanpaul@chromium.org>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> ---
->  drivers/gpu/drm/drm_modeset_lock.c | 44 ++++++++++++++++++++++++++++++
->  include/drm/drm_modeset_lock.h     | 20 ++++++++++++++
->  2 files changed, 64 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/drm_modeset_lock.c b/drivers/gpu/drm/drm_modeset_lock.c
-> index fcfe1a03c4a1..083df96632e8 100644
-> --- a/drivers/gpu/drm/drm_modeset_lock.c
-> +++ b/drivers/gpu/drm/drm_modeset_lock.c
-> @@ -425,3 +425,47 @@ int drm_modeset_lock_all_ctx(struct drm_device *dev,
->  	return 0;
->  }
->  EXPORT_SYMBOL(drm_modeset_lock_all_ctx);
-> +
-> +void _drm_modeset_lock_begin(struct drm_modeset_acquire_ctx *ctx,
-> +			     struct drm_atomic_state *state,
-> +			     unsigned int flags, int *ret)
-> +{
-> +	drm_modeset_acquire_init(ctx, flags);
-> +
-> +	if (state)
-> +		state->acquire_ctx = ctx;
-> +
-> +	*ret = -EDEADLK;
-> +}
-> +EXPORT_SYMBOL(_drm_modeset_lock_begin);
-> +
-> +bool _drm_modeset_lock_loop(int *ret)
-> +{
-> +	if (*ret == -EDEADLK) {
-> +		*ret = 0;
-> +		return true;
-> +	}
-> +
-> +	return false;
-> +}
-> +EXPORT_SYMBOL(_drm_modeset_lock_loop);
-> +
-> +void _drm_modeset_lock_end(struct drm_modeset_acquire_ctx *ctx,
-> +			   struct drm_atomic_state *state,
-> +			   int *ret)
-> +{
-> +	if (*ret == -EDEADLK) {
-> +		if (state)
-> +			drm_atomic_state_clear(state);
-> +
-> +		*ret = drm_modeset_backoff(ctx);
-> +		if (*ret == 0) {
-> +			*ret = -EDEADLK;
-> +			return;
-> +		}
-> +	}
-> +
-> +	drm_modeset_drop_locks(ctx);
-> +	drm_modeset_acquire_fini(ctx);
-> +}
-> +EXPORT_SYMBOL(_drm_modeset_lock_end);
-> diff --git a/include/drm/drm_modeset_lock.h b/include/drm/drm_modeset_lock.h
-> index aafd07388eb7..5eaad2533de5 100644
-> --- a/include/drm/drm_modeset_lock.h
-> +++ b/include/drm/drm_modeset_lock.h
-> @@ -26,6 +26,7 @@
->  
->  #include <linux/ww_mutex.h>
->  
-> +struct drm_atomic_state;
->  struct drm_modeset_lock;
->  
->  /**
-> @@ -203,4 +204,23 @@ modeset_lock_fail:							\
->  	if (!drm_drv_uses_atomic_modeset(dev))				\
->  		mutex_unlock(&dev->mode_config.mutex);
->  
-> +void _drm_modeset_lock_begin(struct drm_modeset_acquire_ctx *ctx,
-> +			     struct drm_atomic_state *state,
-> +			     unsigned int flags,
-> +			     int *ret);
-> +bool _drm_modeset_lock_loop(int *ret);
-> +void _drm_modeset_lock_end(struct drm_modeset_acquire_ctx *ctx,
-> +			   struct drm_atomic_state *state,
-> +			   int *ret);
-> +
-> +/*
-> + * Note that one must always use "continue" rather than
-> + * "break" or "return" to handle errors within the
-> + * drm_modeset_lock_ctx_retry() block.
-
-I'm not sold on loop macros with these kind of restrictions, C just isn't
-a great language for these. That's why e.g. drm_connector_iter doesn't
-give you a macro, but only the begin/next/end function calls explicitly.
-
-Yes the macro we have is also not nice, but at least it's a screaming
-macro since it's all uppercase, so options are all a bit sucky. Which
-leads me to think we have a bit a https://xkcd.com/927/ situation going
-on.
-
-I think minimally we should have one way to do this.
--Daniel
-
-> + */
-> +#define drm_modeset_lock_ctx_retry(ctx, state, flags, ret) \
-> +	for (_drm_modeset_lock_begin((ctx), (state), (flags), &(ret)); \
-> +	     _drm_modeset_lock_loop(&(ret)); \
-> +	     _drm_modeset_lock_end((ctx), (state), &(ret)))
-> +
->  #endif /* DRM_MODESET_LOCK_H_ */
-> -- 
-> 2.31.1
-> 
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Hi,=0D
+=0D
+We've encountered an issue with the RaspberryPi DSI panel that prevented th=
+e=0D
+whole display driver from probing.=0D
+=0D
+The issue is described in detail in the commit 7213246a803f ("drm/vc4: dsi:=
+=0D
+Only register our component once a DSI device is attached"), but the basic =
+idea=0D
+is that since the panel is probed through i2c, there's no synchronization=0D
+between its probe and the registration of the MIPI-DSI host it's attached t=
+o.=0D
+=0D
+We initially moved the component framework registration to the MIPI-DSI Hos=
+t=0D
+attach hook to make sure we register our component only when we have a DSI=
+=0D
+device attached to our MIPI-DSI host, and then use lookup our DSI device in=
+ our=0D
+bind hook.=0D
+=0D
+However, all the DSI bridges controlled through i2c are only registering th=
+eir=0D
+associated DSI device in their bridge attach hook, meaning with our change=
+=0D
+above, we never got that far, and therefore ended up in the same situation =
+than=0D
+the one we were trying to fix for panels.=0D
+=0D
+Since the RaspberryPi panel is the only driver in that situation, whereas i=
+t=0D
+seems like there's a consensus in bridge drivers, it makes more sense to tr=
+y to=0D
+mimic the bridge pattern in the panel driver.=0D
+=0D
+However, panels don't have an attach hook, and adding more panel hooks woul=
+d=0D
+lead to more path to maintain in each and every driver, while the general p=
+ush=0D
+is towards bridges. We also have to make sure that each and every DSI host =
+and=0D
+device driver behaves the same in order to have expectations to rely on.=0D
+=0D
+The solution I'm proposing is thus done in several steps:=0D
+=0D
+  - We get rid of the initial patch to make sure we support the bridge case=
+,=0D
+    and not the odd-panel one.=0D
+=0D
+  - Add a function that returns a bridge from a DT node, reducing the amoun=
+t of=0D
+    churn in each and every driver and making it a real incentive to not ca=
+re=0D
+    about panels in display drivers but only bridges.=0D
+=0D
+  - Add an attach and detach hook into the panel operations, and make it ca=
+lled=0D
+    automatically by the DRM panel bridge.=0D
+=0D
+  - Convert the VC4 DSI host to this new bridge function, and the Raspberry=
+Pi=0D
+    Panel to the new attach and detach hooks.=0D
+=0D
+If the general approach is agreed upon, other drivers will obviously be=0D
+converted to drm_of_get_next.=0D
+=0D
+Let me know what you think,=0D
+Maxime=0D
+=0D
+Maxime Ripard (10):=0D
+  Revert "drm/vc4: dsi: Only register our component once a DSI device is=0D
+    attached"=0D
+  drm/bridge: Add a function to abstract away panels=0D
+  drm/bridge: Add documentation sections=0D
+  drm/bridge: Document the probe issue with MIPI-DSI bridges=0D
+  drm/panel: Create attach and detach callbacks=0D
+  drm/bridge: panel: Call attach and detach for the panel=0D
+  drm/vc4: dsi: Switch to drm_of_get_next=0D
+  drm/panel: raspberrypi-touchscreen: Prevent double-free=0D
+  drm/panel: raspberrypi-touchscreen: Use the attach hook=0D
+  drm/panel: raspberrypi-touchscreen: Remove MIPI-DSI driver=0D
+=0D
+ Documentation/gpu/drm-kms-helpers.rst         |  12 ++=0D
+ drivers/gpu/drm/bridge/panel.c                |   4 +=0D
+ drivers/gpu/drm/drm_bridge.c                  | 134 ++++++++++++++-=0D
+ drivers/gpu/drm/drm_of.c                      |   3 +=0D
+ drivers/gpu/drm/drm_panel.c                   |  20 +++=0D
+ .../drm/panel/panel-raspberrypi-touchscreen.c | 159 +++++++++---------=0D
+ drivers/gpu/drm/vc4/vc4_drv.c                 |   2 +=0D
+ drivers/gpu/drm/vc4/vc4_dsi.c                 |  53 +++---=0D
+ include/drm/drm_bridge.h                      |   2 +=0D
+ include/drm/drm_panel.h                       |   6 +=0D
+ 10 files changed, 273 insertions(+), 122 deletions(-)=0D
+=0D
+-- =0D
+2.31.1=0D
+=0D
