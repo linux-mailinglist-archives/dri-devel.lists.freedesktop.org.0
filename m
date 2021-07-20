@@ -1,41 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8792C3D0252
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jul 2021 21:51:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 016843D0258
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jul 2021 21:54:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 54FA66E1A2;
-	Tue, 20 Jul 2021 19:51:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C75CA89C14;
+	Tue, 20 Jul 2021 19:54:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.smtp.larsendata.com (mx2.smtp.larsendata.com
- [91.221.196.228])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C52C6E1A2
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 19:51:35 +0000 (UTC)
+Received: from mx1.smtp.larsendata.com (mx1.smtp.larsendata.com
+ [91.221.196.215])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A94989C14
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 19:54:03 +0000 (UTC)
 Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
- by mx2.smtp.larsendata.com (Halon) with ESMTPS
- id ea0573a4-e993-11eb-8d1a-0050568cd888;
- Tue, 20 Jul 2021 19:51:46 +0000 (UTC)
+ by mx1.smtp.larsendata.com (Halon) with ESMTPS
+ id 3c6071eb-e994-11eb-9082-0050568c148b;
+ Tue, 20 Jul 2021 19:54:04 +0000 (UTC)
 Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
  [80.162.45.141])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
  (Authenticated sender: sam@ravnborg.org)
- by mail01.mxhotel.dk (Postfix) with ESMTPSA id 205B4194B7A;
- Tue, 20 Jul 2021 21:51:47 +0200 (CEST)
-Date: Tue, 20 Jul 2021 21:51:30 +0200
+ by mail01.mxhotel.dk (Postfix) with ESMTPSA id 43833194B7A;
+ Tue, 20 Jul 2021 21:54:17 +0200 (CEST)
+Date: Tue, 20 Jul 2021 21:53:59 +0200
 X-Report-Abuse-To: abuse@mxhotel.dk
 From: Sam Ravnborg <sam@ravnborg.org>
 To: Maxime Ripard <maxime@cerno.tech>
-Subject: Re: [PATCH 03/10] drm/bridge: Add documentation sections
-Message-ID: <YPcpQuWF9eod5s7R@ravnborg.org>
+Subject: Re: [PATCH 05/10] drm/panel: Create attach and detach callbacks
+Message-ID: <YPcp1y+obUwdshCG@ravnborg.org>
 References: <20210720134525.563936-1-maxime@cerno.tech>
- <20210720134525.563936-4-maxime@cerno.tech>
+ <20210720134525.563936-6-maxime@cerno.tech>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210720134525.563936-4-maxime@cerno.tech>
+In-Reply-To: <20210720134525.563936-6-maxime@cerno.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,68 +59,81 @@ Cc: Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 20, 2021 at 03:45:18PM +0200, Maxime Ripard wrote:
-> The bridge documentation overview is quite packed already, and we'll add
-> some more documentation that isn't part of an overview at all.
-> 
-> Let's add some sections to the documentation to separare each bits.
-s/separare/separate/
+On Tue, Jul 20, 2021 at 03:45:20PM +0200, Maxime Ripard wrote:
+> In order to make the probe order expectation more consistent between
+> bridges, let's create attach and detach hooks for the panels as well to
+> match what is there for bridges.
+
+This is a partally revert of:
+87154ff86bf6 ("drm: Remove unnecessary drm_panel_attach and drm_panel_detach")
+
+The chanelog should say so - and please try to re-use the documentation
+from the revert. We do not want non-documneted operations in
+drm_panel_funcs.
+
+	Sam
+
 > 
 > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
 > ---
->  Documentation/gpu/drm-kms-helpers.rst |  6 ++++++
->  drivers/gpu/drm/drm_bridge.c          | 14 +++++++++-----
->  2 files changed, 15 insertions(+), 5 deletions(-)
+>  drivers/gpu/drm/drm_panel.c | 20 ++++++++++++++++++++
+>  include/drm/drm_panel.h     |  6 ++++++
+>  2 files changed, 26 insertions(+)
 > 
-> diff --git a/Documentation/gpu/drm-kms-helpers.rst b/Documentation/gpu/drm-kms-helpers.rst
-> index 389892f36185..10f8df7aecc0 100644
-> --- a/Documentation/gpu/drm-kms-helpers.rst
-> +++ b/Documentation/gpu/drm-kms-helpers.rst
-> @@ -151,6 +151,12 @@ Overview
->  .. kernel-doc:: drivers/gpu/drm/drm_bridge.c
->     :doc: overview
+> diff --git a/drivers/gpu/drm/drm_panel.c b/drivers/gpu/drm/drm_panel.c
+> index f634371c717a..23bca798a2f3 100644
+> --- a/drivers/gpu/drm/drm_panel.c
+> +++ b/drivers/gpu/drm/drm_panel.c
+> @@ -223,6 +223,26 @@ int drm_panel_get_modes(struct drm_panel *panel,
+>  }
+>  EXPORT_SYMBOL(drm_panel_get_modes);
 >  
-> +Display Driver Integration
-> +--------------------------
+> +int drm_panel_attach(struct drm_panel *panel)
+> +{
+> +	if (!panel)
+> +		return -EINVAL;
 > +
-> +.. kernel-doc:: drivers/gpu/drm/drm_bridge.c
-> +   :doc: display driver integration
+> +	if (panel->funcs && panel->funcs->attach)
+> +		return panel->funcs->attach(panel);
 > +
->  Bridge Operations
->  -----------------
->  
-> diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-> index aef8c9f4fb9f..c9a950bfdfe5 100644
-> --- a/drivers/gpu/drm/drm_bridge.c
-> +++ b/drivers/gpu/drm/drm_bridge.c
-> @@ -50,6 +50,15 @@
->   * Chaining multiple bridges to the output of a bridge, or the same bridge to
->   * the output of different bridges, is not supported.
->   *
-> + * &drm_bridge, like &drm_panel, aren't &drm_mode_object entities like planes,
-> + * CRTCs, encoders or connectors and hence are not visible to userspace. They
-> + * just provide additional hooks to get the desired output at the end of the
-> + * encoder chain.
-> + */
+> +	return -EOPNOTSUPP;
+> +}
 > +
-> +/**
-> + * DOC:	display driver integration
-> + *
->   * Display drivers are responsible for linking encoders with the first bridge
->   * in the chains. This is done by acquiring the appropriate bridge with
->   * drm_of_get_next(). Once acquired, the bridge shall be attached to the
-> @@ -84,11 +93,6 @@
->   * helper to create the &drm_connector, or implement it manually on top of the
->   * connector-related operations exposed by the bridge (see the overview
->   * documentation of bridge operations for more details).
-> - *
-> - * &drm_bridge, like &drm_panel, aren't &drm_mode_object entities like planes,
-> - * CRTCs, encoders or connectors and hence are not visible to userspace. They
-> - * just provide additional hooks to get the desired output at the end of the
-> - * encoder chain.
+> +void drm_panel_detach(struct drm_panel *panel)
+> +{
+> +	if (!panel)
+> +		return;
+> +
+> +	if (panel->funcs && panel->funcs->detach)
+> +		panel->funcs->detach(panel);
+> +}
+> +
+>  #ifdef CONFIG_OF
+>  /**
+>   * of_drm_find_panel - look up a panel using a device tree node
+> diff --git a/include/drm/drm_panel.h b/include/drm/drm_panel.h
+> index 4602f833eb51..b9201d520754 100644
+> --- a/include/drm/drm_panel.h
+> +++ b/include/drm/drm_panel.h
+> @@ -68,6 +68,9 @@ enum drm_panel_orientation;
+>   * does not need to implement the functionality to enable/disable backlight.
 >   */
+>  struct drm_panel_funcs {
+> +	int (*attach)(struct drm_panel *panel);
+> +	void (*detach)(struct drm_panel *panel);
+> +
+>  	/**
+>  	 * @prepare:
+>  	 *
+> @@ -180,6 +183,9 @@ void drm_panel_init(struct drm_panel *panel, struct device *dev,
+>  void drm_panel_add(struct drm_panel *panel);
+>  void drm_panel_remove(struct drm_panel *panel);
 >  
->  static DEFINE_MUTEX(bridge_lock);
+> +int drm_panel_attach(struct drm_panel *panel);
+> +void drm_panel_detach(struct drm_panel *panel);
+> +
+>  int drm_panel_prepare(struct drm_panel *panel);
+>  int drm_panel_unprepare(struct drm_panel *panel);
+>  
 > -- 
 > 2.31.1
