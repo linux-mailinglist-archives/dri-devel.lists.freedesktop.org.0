@@ -2,56 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA2E63CF763
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jul 2021 12:06:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEDF33CF7AF
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jul 2021 12:20:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A6CC89E9E;
-	Tue, 20 Jul 2021 10:06:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 02B1189FDD;
+	Tue, 20 Jul 2021 10:20:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com
- [IPv6:2607:f8b0:4864:20::102b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DCAC889E9E
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 10:06:02 +0000 (UTC)
-Received: by mail-pj1-x102b.google.com with SMTP id
- me13-20020a17090b17cdb0290173bac8b9c9so1588794pjb.3
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 03:06:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=E6dvoxU82sdq8hrtHo6MNtrAkdmF4Qfs1QHBwRf0tvA=;
- b=Cp59n2Cb272AzmErANtJnFMRXbhxIXwpy4y+lZNu4HXwA0rY3ycd0yal8gjH4KS/8B
- tX7HiQlqzbMpHXvkhj2/8EtDSZVA5KLyTBhW7d8tTrmJmBbNDOWpfkD76197FZBz7zti
- ydKpQM1bMd+Ia1gvMedLl7LNhCSltVNot4Bc8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=E6dvoxU82sdq8hrtHo6MNtrAkdmF4Qfs1QHBwRf0tvA=;
- b=MehXv8tsdMZqPGNtemBQvZrb+zk7vdhwMZ341U2PwYceQL+3yzlUaa2zcyaObCTh0q
- 5P+AX77ephsnQaNIBbYAlNMGRhXAbcPhf6/EuOC4Yku1yUYuiWe9r+cZZhho0YZDGNQZ
- cQhFkzMzKssN1vN1jcx3NbNv6ed6f/29lsPPV3eJoVlkJqXlQh0khoWRXAgeYwVccJxC
- ybwjE1guYamFn/KVTj4uv88lNRRZrE0IOJxEqbsTDACkqh++U6SUm7mxCg4aLZ5L9Xme
- ZOvQaFzm3NTmumecEnMJRlwpIaDBGFJyq113IvZ2KZePPXbsSXzaCVUjUYpSJzUdlhJa
- yxAA==
-X-Gm-Message-State: AOAM533hATuUS70wQQz6UfKX6/M/A5QkVRTrNuMuTVkitotZbDhQkpDi
- GG7cPR2uU6uJwqquO46GUN7xkw==
-X-Google-Smtp-Source: ABdhPJymK2i/4VfbrYc8qY2j3o9aCSyBSwL36wWIQBgl7jKUzWJ4Lv9BHbGe+7BeA9pC5I4dtFqRRw==
-X-Received: by 2002:a17:90a:4302:: with SMTP id
- q2mr33210703pjg.189.1626775562319; 
- Tue, 20 Jul 2021 03:06:02 -0700 (PDT)
-Received: from kafuu-chino.c.googlers.com.com
- (105.219.229.35.bc.googleusercontent.com. [35.229.219.105])
- by smtp.googlemail.com with ESMTPSA id y5sm22843830pfn.87.2021.07.20.03.05.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Jul 2021 03:06:01 -0700 (PDT)
-From: Pi-Hsun Shih <pihsun@chromium.org>
-To: 
-Subject: [PATCH v2] drm/bridge: anx7625: Use pm_runtime_force_{suspend, resume}
-Date: Tue, 20 Jul 2021 18:05:21 +0800
-Message-Id: <20210720100553.2340425-1-pihsun@chromium.org>
-X-Mailer: git-send-email 2.32.0.402.g57bb445576-goog
+Received: from netline-mail3.netline.ch (mail.netline.ch [148.251.143.180])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 29E7089FC9
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 10:20:46 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by netline-mail3.netline.ch (Postfix) with ESMTP id D1A4620201E;
+ Tue, 20 Jul 2021 12:20:44 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at netline-mail3.netline.ch
+Received: from netline-mail3.netline.ch ([127.0.0.1])
+ by localhost (netline-mail3.netline.ch [127.0.0.1]) (amavisd-new, port 10024)
+ with LMTP id OCS8MDNA7x9a; Tue, 20 Jul 2021 12:20:44 +0200 (CEST)
+Received: from thor (24.99.2.85.dynamic.wline.res.cust.swisscom.ch
+ [85.2.99.24])
+ by netline-mail3.netline.ch (Postfix) with ESMTPA id 50A4820201D;
+ Tue, 20 Jul 2021 12:20:44 +0200 (CEST)
+Received: from localhost ([::1]) by thor with esmtp (Exim 4.94.2)
+ (envelope-from <michel@daenzer.net>)
+ id 1m5mrj-000d4g-57; Tue, 20 Jul 2021 12:20:43 +0200
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+References: <20210709120756.205856-1-christian.koenig@amd.com>
+From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>
+Subject: Re: [PATCH] dma-buf: fix and rework dma_buf_poll v6
+Message-ID: <d2e9c946-f7ff-33ab-a30e-fd8b89ed74aa@daenzer.net>
+Date: Tue, 20 Jul 2021 12:20:42 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
+In-Reply-To: <20210709120756.205856-1-christian.koenig@amd.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-CA
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,170 +51,107 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Jonas Karlman <jonas@kwiboo.se>, open list <linux-kernel@vger.kernel.org>,
- Robert Foss <robert.foss@linaro.org>, Andrzej Hajda <a.hajda@samsung.com>,
- Tzung-Bi Shih <tzungbi@google.com>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Pi-Hsun Shih <pihsun@chromium.org>, Hsin-Yi Wang <hsinyi@chromium.org>,
- Matthias Brugger <matthias.bgg@gmail.com>, Xin Ji <xji@analogixsemi.com>,
- "moderated list:ARM/Mediatek SoC support"
- <linux-arm-kernel@lists.infradead.org>
+Cc: daniel.vetter@ffwll.ch, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use pm_runtime_force_{suspend,resume} as system suspend/resume hook, to
-ensure that anx7625 is always powered off on suspend.
+On 2021-07-09 2:07 p.m., Christian König wrote:
+> Daniel pointed me towards this function and there are multiple obvious problems
+> in the implementation.
+> 
+> First of all the retry loop is not working as intended. In general the retry
+> makes only sense if you grab the reference first and then check the sequence
+> values.
+> 
+> Then we should always also wait for the exclusive fence.
+> 
+> It's also good practice to keep the reference around when installing callbacks
+> to fences you don't own.
+> 
+> And last the whole implementation was unnecessary complex and rather hard to
+> understand which could lead to probably unexpected behavior of the IOCTL.
+> 
+> Fix all this by reworking the implementation from scratch. Dropping the
+> whole RCU approach and taking the lock instead.
+> 
+> Only mildly tested and needs a thoughtful review of the code.
+> 
+> v2: fix the reference counting as well
+> v3: keep the excl fence handling as is for stable
+> v4: back to testing all fences, drop RCU
+> v5: handle in and out separately
+> v6: add missing clear of events
+> 
+> Signed-off-by: Christian König <christian.koenig@amd.com>
+> CC: stable@vger.kernel.org
+> ---
+>  drivers/dma-buf/dma-buf.c | 156 +++++++++++++++++---------------------
+>  include/linux/dma-buf.h   |   2 +-
+>  2 files changed, 72 insertions(+), 86 deletions(-)
+> 
+> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> index eadd1eaa2fb5..39e1ef872829 100644
+> --- a/drivers/dma-buf/dma-buf.c
+> +++ b/drivers/dma-buf/dma-buf.c
+[...]
+>  
+>  static __poll_t dma_buf_poll(struct file *file, poll_table *poll)
+>  {
+>  	struct dma_buf *dmabuf;
+>  	struct dma_resv *resv;
+> -	struct dma_resv_list *fobj;
+> -	struct dma_fence *fence_excl;
+> +	unsigned shared_count;
+>  	__poll_t events;
+> -	unsigned shared_count, seq;
+> +	int r, i;
 
-Also add a device link between anx7625 driver and the encoder, to ensure
-that bridge_disable will be called before suspend.
+shared_count, r & i are unused with this patch.
 
-Signed-off-by: Pi-Hsun Shih <pihsun@chromium.org>
----
 
-Changes from v1:
-* Use device link to ensure suspend resume order, instead of manually
-  calling force resume.
 
-This is the second approach mentioned in v1 of this patch
-(https://lore.kernel.org/patchwork/patch/1459569/#1655836).
+> +		if (events & EPOLLOUT && !dma_buf_poll_shared(resv, dcb) &&
+> +		    !dma_buf_poll_excl(resv, dcb))
+> +			/* No callback queued, wake up any other waiters */
+> +			dma_buf_poll_cb(NULL, &dcb->cb);
+> +		else
+> +			events &= ~EPOLLOUT;
 
-An issue was found that the anx7625 driver won't power off when used as
-eDP bridge on Asurada board if suspend is entered via VT2.
+Something like this might be clearer:
 
-The reason is that in this case, anx7625_suspend won't power off anx7625
-(since intp_irq is not set). And anx7625_bridge_disable is only called
-indirectly by other driver's (mediatek-drm) suspend.
-pm_runtime_put_sync won't do anything since it's already in system
-suspend.
+		if (events & EPOLLOUT) {
+			if (!dma_buf_poll_shared(resv, dcb) &&
+			    !dma_buf_poll_excl(resv, dcb))
+				/* No callback queued, wake up any other waiters */
+				dma_buf_poll_cb(NULL, &dcb->cb);
+			else
+				events &= ~EPOLLOUT;
+		}
 
-If not in VT2, the bridge disable is indirectly called when Chrome
-stops, so anx7625 will be powered off correctly.
 
-To fix the issue, the suspend resume hooks are changed to
-pm_runtime_force_{suspend,resume} to ensure the runtime suspend / resume
-is always called correctly when system suspend / resume.
-(Note that IRQ no longer needs to be disabled on suspend after commit
-f03ab6629c7b ("drm/bridge: anx7625: Make hpd workqueue freezable"))
+> +		if (events & EPOLLIN && !dma_buf_poll_excl(resv, dcb))
+> +			/* No callback queued, wake up any other waiters */
+>  			dma_buf_poll_cb(NULL, &dcb->cb);
+> +		else
+> +			events &= ~EPOLLIN;
 
-Also adds a stateless device link to ensure that the bridge disable is
-called before anx7625 is suspended.
+Similarly:
 
----
- drivers/gpu/drm/bridge/analogix/anx7625.c | 54 +++++++++--------------
- drivers/gpu/drm/bridge/analogix/anx7625.h |  1 +
- 2 files changed, 22 insertions(+), 33 deletions(-)
+		if (events & EPOLLIN) {
+			if (!dma_buf_poll_excl(resv, dcb))
+				/* No callback queued, wake up any other waiters */
+				dma_buf_poll_cb(NULL, &dcb->cb);
+			else
+				events &= ~EPOLLIN;
+		}
 
-diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
-index 7519b7a0f29d..e248f0da2f8b 100644
---- a/drivers/gpu/drm/bridge/analogix/anx7625.c
-+++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
-@@ -1331,6 +1331,8 @@ static void anx7625_bridge_detach(struct drm_bridge *bridge)
- 		mipi_dsi_detach(ctx->dsi);
- 		mipi_dsi_device_unregister(ctx->dsi);
- 	}
-+	if (ctx->link)
-+		device_link_del(ctx->link);
- }
- 
- static int anx7625_bridge_attach(struct drm_bridge *bridge,
-@@ -1355,6 +1357,13 @@ static int anx7625_bridge_attach(struct drm_bridge *bridge,
- 		return err;
- 	}
- 
-+	ctx->link = device_link_add(bridge->dev->dev, dev, DL_FLAG_STATELESS);
-+	if (!ctx->link) {
-+		DRM_DEV_ERROR(dev, "device link creation failed");
-+		err = -EINVAL;
-+		goto detach_dsi;
-+	}
-+
- 	if (ctx->pdata.panel_bridge) {
- 		err = drm_bridge_attach(bridge->encoder,
- 					ctx->pdata.panel_bridge,
-@@ -1362,13 +1371,22 @@ static int anx7625_bridge_attach(struct drm_bridge *bridge,
- 		if (err) {
- 			DRM_DEV_ERROR(dev,
- 				      "Fail to attach panel bridge: %d\n", err);
--			return err;
-+			goto remove_device_link;
- 		}
- 	}
- 
- 	ctx->bridge_attached = 1;
- 
- 	return 0;
-+
-+remove_device_link:
-+	device_link_del(ctx->link);
-+detach_dsi:
-+	if (ctx->dsi) {
-+		mipi_dsi_detach(ctx->dsi);
-+		mipi_dsi_device_unregister(ctx->dsi);
-+	}
-+	return err;
- }
- 
- static enum drm_mode_status
-@@ -1705,39 +1723,9 @@ static int __maybe_unused anx7625_runtime_pm_resume(struct device *dev)
- 	return 0;
- }
- 
--static int __maybe_unused anx7625_resume(struct device *dev)
--{
--	struct anx7625_data *ctx = dev_get_drvdata(dev);
--
--	if (!ctx->pdata.intp_irq)
--		return 0;
--
--	if (!pm_runtime_enabled(dev) || !pm_runtime_suspended(dev)) {
--		enable_irq(ctx->pdata.intp_irq);
--		anx7625_runtime_pm_resume(dev);
--	}
--
--	return 0;
--}
--
--static int __maybe_unused anx7625_suspend(struct device *dev)
--{
--	struct anx7625_data *ctx = dev_get_drvdata(dev);
--
--	if (!ctx->pdata.intp_irq)
--		return 0;
--
--	if (!pm_runtime_enabled(dev) || !pm_runtime_suspended(dev)) {
--		anx7625_runtime_pm_suspend(dev);
--		disable_irq(ctx->pdata.intp_irq);
--		flush_workqueue(ctx->workqueue);
--	}
--
--	return 0;
--}
--
- static const struct dev_pm_ops anx7625_pm_ops = {
--	SET_SYSTEM_SLEEP_PM_OPS(anx7625_suspend, anx7625_resume)
-+	SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
-+				pm_runtime_force_resume)
- 	SET_RUNTIME_PM_OPS(anx7625_runtime_pm_suspend,
- 			   anx7625_runtime_pm_resume, NULL)
- };
-diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.h b/drivers/gpu/drm/bridge/analogix/anx7625.h
-index 034c3840028f..c941b7a32859 100644
---- a/drivers/gpu/drm/bridge/analogix/anx7625.h
-+++ b/drivers/gpu/drm/bridge/analogix/anx7625.h
-@@ -385,6 +385,7 @@ struct anx7625_data {
- 	struct drm_bridge bridge;
- 	u8 bridge_attached;
- 	struct mipi_dsi_device *dsi;
-+	struct device_link *link;
- };
- 
- #endif  /* __ANX7625_H__ */
 
-base-commit: 3568c2c543e25d1a47bd97a607171511e7d44a45
+Other than that, looks good to me, can't say anything about the locking though.
+
+
+Haven't been able to test this yet, hopefully later this week.
+
+
 -- 
-2.32.0.402.g57bb445576-goog
-
+Earthling Michel Dänzer               |               https://redhat.com
+Libre software enthusiast             |             Mesa and X developer
