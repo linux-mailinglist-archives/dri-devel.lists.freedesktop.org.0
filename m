@@ -1,42 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63EC83D025C
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jul 2021 21:56:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A503C3D027C
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jul 2021 22:04:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 891506E235;
-	Tue, 20 Jul 2021 19:56:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DBBF96E4F4;
+	Tue, 20 Jul 2021 20:04:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.smtp.larsendata.com (mx2.smtp.larsendata.com
- [91.221.196.228])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D2606E235
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 19:56:12 +0000 (UTC)
-Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
- by mx2.smtp.larsendata.com (Halon) with ESMTPS
- id 8ff743a7-e994-11eb-8d1a-0050568cd888;
- Tue, 20 Jul 2021 19:56:24 +0000 (UTC)
-Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
- [80.162.45.141])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: sam@ravnborg.org)
- by mail01.mxhotel.dk (Postfix) with ESMTPSA id 48CD9194B7A;
- Tue, 20 Jul 2021 21:56:27 +0200 (CEST)
-Date: Tue, 20 Jul 2021 21:56:09 +0200
-X-Report-Abuse-To: abuse@mxhotel.dk
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Maxime Ripard <maxime@cerno.tech>
-Subject: Re: [PATCH 06/10] drm/bridge: panel: Call attach and detach for the
- panel
-Message-ID: <YPcqWSSBHQwPFSNW@ravnborg.org>
-References: <20210720134525.563936-1-maxime@cerno.tech>
- <20210720134525.563936-7-maxime@cerno.tech>
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F35D6E3DB;
+ Tue, 20 Jul 2021 20:04:24 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10051"; a="191597409"
+X-IronPort-AV: E=Sophos;i="5.84,256,1620716400"; d="scan'208";a="191597409"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Jul 2021 13:04:22 -0700
+X-IronPort-AV: E=Sophos;i="5.84,256,1620716400"; d="scan'208";a="432678167"
+Received: from unknown (HELO sdutt-i7) ([10.165.21.147])
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Jul 2021 13:04:22 -0700
+Date: Tue, 20 Jul 2021 12:53:06 -0700
+From: Matthew Brost <matthew.brost@intel.com>
+To: John Harrison <john.c.harrison@intel.com>
+Subject: Re: [PATCH 24/51] drm/i915: Add i915_sched_engine destroy vfunc
+Message-ID: <20210720195306.GA16995@sdutt-i7>
+References: <20210716201724.54804-1-matthew.brost@intel.com>
+ <20210716201724.54804-25-matthew.brost@intel.com>
+ <f0490496-e7f9-c1ac-0a82-7b9140623560@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210720134525.563936-7-maxime@cerno.tech>
+In-Reply-To: <f0490496-e7f9-c1ac-0a82-7b9140623560@intel.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,54 +46,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, Jonas Karlman <jonas@kwiboo.se>,
- linux-kernel@vger.kernel.org, Robert Foss <robert.foss@linaro.org>,
- Andrzej Hajda <a.hajda@samsung.com>, Thierry Reding <thierry.reding@gmail.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: intel-gfx@lists.freedesktop.org, daniele.ceraolospurio@intel.com,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 20, 2021 at 03:45:21PM +0200, Maxime Ripard wrote:
-> Now that we have additional attach and detach hooks for panels, make
-> sure that the panel bridge driver calls them when relevant.
-
-Combine this with the previous patch as this is again a partial revert of
-the same patch.
-
-	Sam
+On Tue, Jul 20, 2021 at 12:55:08PM -0700, John Harrison wrote:
+> On 7/16/2021 13:16, Matthew Brost wrote:
+> > This help the backends clean up when the schedule engine object gets
+> help -> helps. Although, I would say it's more like 'this is required to
+> allow backend specific cleanup'. It doesn't just make life a bit easier, it
+> allows us to not leak stuff and/or dereference null pointers!
 > 
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> ---
->  drivers/gpu/drm/bridge/panel.c | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/bridge/panel.c b/drivers/gpu/drm/bridge/panel.c
-> index c916f4b8907e..c2249f3fd357 100644
-> --- a/drivers/gpu/drm/bridge/panel.c
-> +++ b/drivers/gpu/drm/bridge/panel.c
-> @@ -60,6 +60,8 @@ static int panel_bridge_attach(struct drm_bridge *bridge,
->  	struct drm_connector *connector = &panel_bridge->connector;
->  	int ret;
->  
-> +	drm_panel_attach(panel_bridge->panel);
-attach can fail...
+> Either way...
+> Reviewed-by: John Harrison <John.C.Harrison@Intel.com>
 
-> +
->  	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR)
->  		return 0;
->  
-> @@ -90,6 +92,8 @@ static void panel_bridge_detach(struct drm_bridge *bridge)
->  	struct panel_bridge *panel_bridge = drm_bridge_to_panel_bridge(bridge);
->  	struct drm_connector *connector = &panel_bridge->connector;
->  
-> +	drm_panel_detach(panel_bridge->panel);
-> +
->  	/*
->  	 * Cleanup the connector if we know it was initialized.
->  	 *
-> -- 
-> 2.31.1
+I'll reword it.
+
+Matt
+
+> 
+> > destroyed.
+> > 
+> > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> > ---
+> >   drivers/gpu/drm/i915/i915_scheduler.c       | 3 ++-
+> >   drivers/gpu/drm/i915/i915_scheduler.h       | 4 +---
+> >   drivers/gpu/drm/i915/i915_scheduler_types.h | 5 +++++
+> >   3 files changed, 8 insertions(+), 4 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/i915/i915_scheduler.c b/drivers/gpu/drm/i915/i915_scheduler.c
+> > index 3a58a9130309..4fceda96deed 100644
+> > --- a/drivers/gpu/drm/i915/i915_scheduler.c
+> > +++ b/drivers/gpu/drm/i915/i915_scheduler.c
+> > @@ -431,7 +431,7 @@ void i915_request_show_with_schedule(struct drm_printer *m,
+> >   	rcu_read_unlock();
+> >   }
+> > -void i915_sched_engine_free(struct kref *kref)
+> > +static void default_destroy(struct kref *kref)
+> >   {
+> >   	struct i915_sched_engine *sched_engine =
+> >   		container_of(kref, typeof(*sched_engine), ref);
+> > @@ -453,6 +453,7 @@ i915_sched_engine_create(unsigned int subclass)
+> >   	sched_engine->queue = RB_ROOT_CACHED;
+> >   	sched_engine->queue_priority_hint = INT_MIN;
+> > +	sched_engine->destroy = default_destroy;
+> >   	INIT_LIST_HEAD(&sched_engine->requests);
+> >   	INIT_LIST_HEAD(&sched_engine->hold);
+> > diff --git a/drivers/gpu/drm/i915/i915_scheduler.h b/drivers/gpu/drm/i915/i915_scheduler.h
+> > index 650ab8e0db9f..3c9504e9f409 100644
+> > --- a/drivers/gpu/drm/i915/i915_scheduler.h
+> > +++ b/drivers/gpu/drm/i915/i915_scheduler.h
+> > @@ -51,8 +51,6 @@ static inline void i915_priolist_free(struct i915_priolist *p)
+> >   struct i915_sched_engine *
+> >   i915_sched_engine_create(unsigned int subclass);
+> > -void i915_sched_engine_free(struct kref *kref);
+> > -
+> >   static inline struct i915_sched_engine *
+> >   i915_sched_engine_get(struct i915_sched_engine *sched_engine)
+> >   {
+> > @@ -63,7 +61,7 @@ i915_sched_engine_get(struct i915_sched_engine *sched_engine)
+> >   static inline void
+> >   i915_sched_engine_put(struct i915_sched_engine *sched_engine)
+> >   {
+> > -	kref_put(&sched_engine->ref, i915_sched_engine_free);
+> > +	kref_put(&sched_engine->ref, sched_engine->destroy);
+> >   }
+> >   static inline bool
+> > diff --git a/drivers/gpu/drm/i915/i915_scheduler_types.h b/drivers/gpu/drm/i915/i915_scheduler_types.h
+> > index 5935c3152bdc..00384e2c5273 100644
+> > --- a/drivers/gpu/drm/i915/i915_scheduler_types.h
+> > +++ b/drivers/gpu/drm/i915/i915_scheduler_types.h
+> > @@ -163,6 +163,11 @@ struct i915_sched_engine {
+> >   	 */
+> >   	void *private_data;
+> > +	/**
+> > +	 * @destroy: destroy schedule engine / cleanup in backend
+> > +	 */
+> > +	void	(*destroy)(struct kref *kref);
+> > +
+> >   	/**
+> >   	 * @kick_backend: kick backend after a request's priority has changed
+> >   	 */
+> 
