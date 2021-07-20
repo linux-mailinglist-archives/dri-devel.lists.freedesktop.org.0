@@ -1,83 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AE013D01CB
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jul 2021 20:38:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CC003D01D7
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jul 2021 20:42:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B747089FCC;
-	Tue, 20 Jul 2021 18:38:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D5D5D6E4C9;
+	Tue, 20 Jul 2021 18:42:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF97389FCC
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 18:38:44 +0000 (UTC)
-Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 80010202FE;
- Tue, 20 Jul 2021 18:38:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1626806323; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Itbuyl1CzYZ7paouos+Swyo4VPUIJaRt4atAD+g7b4E=;
- b=vA6iScBn4/u/Wziq8CzkVziwPhiPjDEH98IrUR1IQ5re1rpNrSe4mS29cI54SS2WSvrFSy
- B0diseP/p9EB+bvqo8x8SyLh8r1jSGENRGf5b5/B8okkZ9MeP2gL6EWZH0QbG3GL3m8FCc
- n24nMyq14PEzxE/Mq0xGl22TrCV38jY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1626806323;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Itbuyl1CzYZ7paouos+Swyo4VPUIJaRt4atAD+g7b4E=;
- b=1JIMXVY4pTlFUqFjyxJevhpnFGvHqQgrdOo+pkrgWpfa0IdruwQvoLQDc99O69fuLtZEtS
- nHTKbXeeMlZWEIAg==
-Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap1.suse-dmz.suse.de (Postfix) with ESMTPS id 13CD013BA3;
- Tue, 20 Jul 2021 18:38:43 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap1.suse-dmz.suse.de with ESMTPSA id XqtiAzMY92DSXAAAGKfGzw
- (envelope-from <tzimmermann@suse.de>); Tue, 20 Jul 2021 18:38:43 +0000
-Subject: Re: [PATCH v3 0/2] allow simple{fb, drm} drivers to be used on
- non-x86 EFI platforms
-To: Javier Martinez Canillas <javierm@redhat.com>,
- Ard Biesheuvel <ardb@kernel.org>, Dave Airlie <airlied@gmail.com>,
- linux-efi <linux-efi@vger.kernel.org>, David Airlie <airlied@linux.ie>,
- Catalin Marinas <catalin.marinas@arm.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Russell King <linux@armlinux.org.uk>, Atish Patra <atish.patra@wdc.com>,
- linux-riscv <linux-riscv@lists.infradead.org>, Will Deacon
- <will@kernel.org>, the arch/x86 maintainers <x86@kernel.org>,
- Ingo Molnar <mingo@redhat.com>, Peter Robinson <pbrobinson@gmail.com>,
- Borislav Petkov <bp@suse.de>, Albert Ou <aou@eecs.berkeley.edu>,
- Hans de Goede <hdegoede@redhat.com>, Paul Walmsley
- <paul.walmsley@sifive.com>, Thomas Gleixner <tglx@linutronix.de>,
- linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- LKML <linux-kernel@vger.kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>
-References: <20210625130947.1803678-1-javierm@redhat.com>
- <e61cf77c-6bff-dfcc-d3df-2fb6b48e5897@redhat.com>
- <8dd26141-a09c-39e2-5174-4cad8d21c49c@suse.de>
- <CAPM=9tyfNPa2f5PDBLm4w_H_riEQ5P3rEhX73YGE1y_ygRox+w@mail.gmail.com>
- <CAMj1kXErHteZ+MKYvp=yYmwVxV3A=vjtnG351hZHV+3BPwDQvw@mail.gmail.com>
- <YPbJJ/0tSO/fuW7a@phenom.ffwll.local>
- <03f0edef-e54e-8a2a-4b50-683d3d42e249@redhat.com>
- <YPbWrV/cIODdgu6A@phenom.ffwll.local>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <37e05f02-b810-0cb1-cc4f-95711cd148d9@suse.de>
-Date: Tue, 20 Jul 2021 20:38:42 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F07856E4C9
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 18:42:13 +0000 (UTC)
+Received: from relay7-d.mail.gandi.net (unknown [217.70.183.200])
+ by mslow1.mail.gandi.net (Postfix) with ESMTP id CE99BD0BC3
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 18:41:08 +0000 (UTC)
+Received: (Authenticated sender: alexandre.belloni@bootlin.com)
+ by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id BA49E20004;
+ Tue, 20 Jul 2021 18:40:42 +0000 (UTC)
+Date: Tue, 20 Jul 2021 20:40:42 +0200
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH] dt-bindings: Remove "status" from schema examples
+Message-ID: <YPcYqolGFpwbDsiv@piout.net>
+References: <20210720172025.363238-1-robh@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <YPbWrV/cIODdgu6A@phenom.ffwll.local>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="zqBJYs0jTVrrb3d3a45VU8trX1N28Y7W5"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210720172025.363238-1-robh@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,134 +40,404 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: alsa-devel@alsa-project.org, Olivier Moysan <olivier.moysan@st.com>,
+ Mateusz Holenko <mholenko@antmicro.com>, dri-devel@lists.freedesktop.org,
+ Peter Ujfalusi <peter.ujfalusi@ti.com>, ChiYuan Huang <cy_huang@richtek.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Karol Gugala <kgugala@antmicro.com>,
+ linux-rtc@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Dilip Kota <eswara.kota@linux.intel.com>, Wei Xu <xuwei5@hisilicon.com>,
+ Oleksij Rempel <o.rempel@pengutronix.de>, Chen-Yu Tsai <wens@csie.org>,
+ Jakub Kicinski <kuba@kernel.org>, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, Ramesh Shanmugasundaram <rashanmu@gmail.com>,
+ Rui Miguel Silva <rmfrfs@gmail.com>, Mark Brown <broonie@kernel.org>,
+ "G. Jaya Kumaran" <vineetha.g.jaya.kumaran@intel.com>,
+ Robert Marko <robert.marko@sartura.hr>,
+ Alessandro Zummo <a.zummo@towertech.it>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, "David S. Miller" <davem@davemloft.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---zqBJYs0jTVrrb3d3a45VU8trX1N28Y7W5
-Content-Type: multipart/mixed; boundary="1j8k54rxJM8w24eiu5PhN408CT5BxM6T4";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Javier Martinez Canillas <javierm@redhat.com>,
- Ard Biesheuvel <ardb@kernel.org>, Dave Airlie <airlied@gmail.com>,
- linux-efi <linux-efi@vger.kernel.org>, David Airlie <airlied@linux.ie>,
- Catalin Marinas <catalin.marinas@arm.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Russell King <linux@armlinux.org.uk>, Atish Patra <atish.patra@wdc.com>,
- linux-riscv <linux-riscv@lists.infradead.org>, Will Deacon
- <will@kernel.org>, the arch/x86 maintainers <x86@kernel.org>,
- Ingo Molnar <mingo@redhat.com>, Peter Robinson <pbrobinson@gmail.com>,
- Borislav Petkov <bp@suse.de>, Albert Ou <aou@eecs.berkeley.edu>,
- Hans de Goede <hdegoede@redhat.com>, Paul Walmsley
- <paul.walmsley@sifive.com>, Thomas Gleixner <tglx@linutronix.de>,
- linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- LKML <linux-kernel@vger.kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>
-Message-ID: <37e05f02-b810-0cb1-cc4f-95711cd148d9@suse.de>
-Subject: Re: [PATCH v3 0/2] allow simple{fb, drm} drivers to be used on
- non-x86 EFI platforms
-References: <20210625130947.1803678-1-javierm@redhat.com>
- <e61cf77c-6bff-dfcc-d3df-2fb6b48e5897@redhat.com>
- <8dd26141-a09c-39e2-5174-4cad8d21c49c@suse.de>
- <CAPM=9tyfNPa2f5PDBLm4w_H_riEQ5P3rEhX73YGE1y_ygRox+w@mail.gmail.com>
- <CAMj1kXErHteZ+MKYvp=yYmwVxV3A=vjtnG351hZHV+3BPwDQvw@mail.gmail.com>
- <YPbJJ/0tSO/fuW7a@phenom.ffwll.local>
- <03f0edef-e54e-8a2a-4b50-683d3d42e249@redhat.com>
- <YPbWrV/cIODdgu6A@phenom.ffwll.local>
-In-Reply-To: <YPbWrV/cIODdgu6A@phenom.ffwll.local>
+On 20/07/2021 11:20:25-0600, Rob Herring wrote:
+> There's no reason to have "status" properties in examples. "okay" is the
+> default, and "disabled" turns off some schema checks ('required'
+> specifically).
+> 
+> Enabling qca,ar71xx causes a warning, so let's fix the node names:
+> 
+> Documentation/devicetree/bindings/net/qca,ar71xx.example.dt.yaml: phy@3: '#phy-cells' is a required property
+>         From schema: schemas/phy/phy-provider.yaml
+> 
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Chen-Yu Tsai <wens@csie.org>
+> Cc: Thierry Reding <thierry.reding@gmail.com>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Rui Miguel Silva <rmfrfs@gmail.com>
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Cc: "David S. Miller" <davem@davemloft.net>
+> Cc: Jakub Kicinski <kuba@kernel.org>
+> Cc: Mark Brown <broonie@kernel.org>
+> Cc: Robert Marko <robert.marko@sartura.hr>
+> Cc: Philipp Zabel <p.zabel@pengutronix.de>
+> Cc: Alessandro Zummo <a.zummo@towertech.it>
+> Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
+> Cc: Ramesh Shanmugasundaram <rashanmu@gmail.com>
+> Cc: "G. Jaya Kumaran" <vineetha.g.jaya.kumaran@intel.com>
+> Cc: Linus Walleij <linus.walleij@linaro.org>
+> Cc: Oleksij Rempel <o.rempel@pengutronix.de>
+> Cc: ChiYuan Huang <cy_huang@richtek.com>
+> Cc: Wei Xu <xuwei5@hisilicon.com>
+> Cc: Dilip Kota <eswara.kota@linux.intel.com>
+> Cc: Karol Gugala <kgugala@antmicro.com>
+> Cc: Mateusz Holenko <mholenko@antmicro.com>
+> Cc: Olivier Moysan <olivier.moysan@st.com>
+> Cc: Peter Ujfalusi <peter.ujfalusi@ti.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linux-media@vger.kernel.org
+> Cc: netdev@vger.kernel.org
+> Cc: linux-rtc@vger.kernel.org
+> Cc: alsa-devel@alsa-project.org
+> Signed-off-by: Rob Herring <robh@kernel.org>
+Acked-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 
---1j8k54rxJM8w24eiu5PhN408CT5BxM6T4
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+> ---
+>  .../display/allwinner,sun8i-a83t-dw-hdmi.yaml |  2 --
+>  .../display/panel/boe,tv101wum-nl6.yaml       |  1 -
+>  .../bindings/media/nxp,imx7-mipi-csi2.yaml    |  2 --
+>  .../bindings/media/renesas,drif.yaml          |  1 -
+>  .../bindings/net/intel,dwmac-plat.yaml        |  2 --
+>  .../bindings/net/intel,ixp4xx-ethernet.yaml   |  2 --
+>  .../bindings/net/nfc/samsung,s3fwrn5.yaml     |  3 ---
+>  .../devicetree/bindings/net/qca,ar71xx.yaml   | 25 ++++---------------
+>  .../regulator/richtek,rt6245-regulator.yaml   |  1 -
+>  .../regulator/vqmmc-ipq4019-regulator.yaml    |  1 -
+>  .../reset/hisilicon,hi3660-reset.yaml         |  1 -
+>  .../bindings/reset/intel,rcu-gw.yaml          |  1 -
+>  .../bindings/rtc/microcrystal,rv3032.yaml     |  1 -
+>  .../soc/litex/litex,soc-controller.yaml       |  1 -
+>  .../bindings/sound/st,stm32-sai.yaml          |  2 --
+>  .../bindings/sound/ti,j721e-cpb-audio.yaml    |  2 --
+>  .../sound/ti,j721e-cpb-ivi-audio.yaml         |  2 --
+>  17 files changed, 5 insertions(+), 45 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/allwinner,sun8i-a83t-dw-hdmi.yaml b/Documentation/devicetree/bindings/display/allwinner,sun8i-a83t-dw-hdmi.yaml
+> index 5d42d36608d9..4951b5ef5c6a 100644
+> --- a/Documentation/devicetree/bindings/display/allwinner,sun8i-a83t-dw-hdmi.yaml
+> +++ b/Documentation/devicetree/bindings/display/allwinner,sun8i-a83t-dw-hdmi.yaml
+> @@ -174,7 +174,6 @@ examples:
+>          phy-names = "phy";
+>          pinctrl-names = "default";
+>          pinctrl-0 = <&hdmi_pins>;
+> -        status = "disabled";
+>  
+>          ports {
+>              #address-cells = <1>;
+> @@ -233,7 +232,6 @@ examples:
+>          phy-names = "phy";
+>          pinctrl-names = "default";
+>          pinctrl-0 = <&hdmi_pins>;
+> -        status = "disabled";
+>  
+>          ports {
+>              #address-cells = <1>;
+> diff --git a/Documentation/devicetree/bindings/display/panel/boe,tv101wum-nl6.yaml b/Documentation/devicetree/bindings/display/panel/boe,tv101wum-nl6.yaml
+> index 38bc1d1b511e..b87a2e28c866 100644
+> --- a/Documentation/devicetree/bindings/display/panel/boe,tv101wum-nl6.yaml
+> +++ b/Documentation/devicetree/bindings/display/panel/boe,tv101wum-nl6.yaml
+> @@ -70,7 +70,6 @@ examples:
+>              avee-supply = <&ppvarp_lcd>;
+>              pp1800-supply = <&pp1800_lcd>;
+>              backlight = <&backlight_lcd0>;
+> -            status = "okay";
+>              port {
+>                  panel_in: endpoint {
+>                      remote-endpoint = <&dsi_out>;
+> diff --git a/Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.yaml b/Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.yaml
+> index 7c09eec78ce5..877183cf4278 100644
+> --- a/Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.yaml
+> +++ b/Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.yaml
+> @@ -200,8 +200,6 @@ examples:
+>          clock-names = "pclk", "wrap", "phy", "axi";
+>          power-domains = <&mipi_pd>;
+>  
+> -        status = "disabled";
+> -
+>          ports {
+>              #address-cells = <1>;
+>              #size-cells = <0>;
+> diff --git a/Documentation/devicetree/bindings/media/renesas,drif.yaml b/Documentation/devicetree/bindings/media/renesas,drif.yaml
+> index 2867d11fe156..9403b235e976 100644
+> --- a/Documentation/devicetree/bindings/media/renesas,drif.yaml
+> +++ b/Documentation/devicetree/bindings/media/renesas,drif.yaml
+> @@ -242,7 +242,6 @@ examples:
+>                      power-domains = <&sysc R8A7795_PD_ALWAYS_ON>;
+>                      resets = <&cpg 513>;
+>                      renesas,bonding = <&drif11>;
+> -                    status = "disabled";
+>              };
+>  
+>              drif11: rif@e6f70000 {
+> diff --git a/Documentation/devicetree/bindings/net/intel,dwmac-plat.yaml b/Documentation/devicetree/bindings/net/intel,dwmac-plat.yaml
+> index c1948ce00081..79fa04f5e40d 100644
+> --- a/Documentation/devicetree/bindings/net/intel,dwmac-plat.yaml
+> +++ b/Documentation/devicetree/bindings/net/intel,dwmac-plat.yaml
+> @@ -116,8 +116,6 @@ examples:
+>          snps,mtl-rx-config = <&mtl_rx_setup>;
+>          snps,mtl-tx-config = <&mtl_tx_setup>;
+>          snps,tso;
+> -        status = "okay";
+> -
+>          mdio0 {
+>              #address-cells = <1>;
+>              #size-cells = <0>;
+> diff --git a/Documentation/devicetree/bindings/net/intel,ixp4xx-ethernet.yaml b/Documentation/devicetree/bindings/net/intel,ixp4xx-ethernet.yaml
+> index f2e91d1bf7d7..378ed2d3b003 100644
+> --- a/Documentation/devicetree/bindings/net/intel,ixp4xx-ethernet.yaml
+> +++ b/Documentation/devicetree/bindings/net/intel,ixp4xx-ethernet.yaml
+> @@ -71,7 +71,6 @@ examples:
+>      ethernet@c8009000 {
+>        compatible = "intel,ixp4xx-ethernet";
+>        reg = <0xc8009000 0x1000>;
+> -      status = "disabled";
+>        queue-rx = <&qmgr 4>;
+>        queue-txready = <&qmgr 21>;
+>        intel,npe-handle = <&npe 1>;
+> @@ -82,7 +81,6 @@ examples:
+>      ethernet@c800c000 {
+>        compatible = "intel,ixp4xx-ethernet";
+>        reg = <0xc800c000 0x1000>;
+> -      status = "disabled";
+>        queue-rx = <&qmgr 3>;
+>        queue-txready = <&qmgr 20>;
+>        intel,npe-handle = <&npe 2>;
+> diff --git a/Documentation/devicetree/bindings/net/nfc/samsung,s3fwrn5.yaml b/Documentation/devicetree/bindings/net/nfc/samsung,s3fwrn5.yaml
+> index 081742c2b726..64995cbb0f97 100644
+> --- a/Documentation/devicetree/bindings/net/nfc/samsung,s3fwrn5.yaml
+> +++ b/Documentation/devicetree/bindings/net/nfc/samsung,s3fwrn5.yaml
+> @@ -90,14 +90,11 @@ examples:
+>    # UART example on Raspberry Pi
+>    - |
+>      uart0 {
+> -        status = "okay";
+> -
+>          nfc {
+>              compatible = "samsung,s3fwrn82";
+>  
+>              en-gpios = <&gpio 20 GPIO_ACTIVE_HIGH>;
+>              wake-gpios = <&gpio 16 GPIO_ACTIVE_HIGH>;
+>  
+> -            status = "okay";
+>          };
+>      };
+> diff --git a/Documentation/devicetree/bindings/net/qca,ar71xx.yaml b/Documentation/devicetree/bindings/net/qca,ar71xx.yaml
+> index f0db22645d73..cf4d35edaa1b 100644
+> --- a/Documentation/devicetree/bindings/net/qca,ar71xx.yaml
+> +++ b/Documentation/devicetree/bindings/net/qca,ar71xx.yaml
+> @@ -101,8 +101,6 @@ examples:
+>  
+>          phy-mode = "gmii";
+>  
+> -        status = "disabled";
+> -
+>          fixed-link {
+>              speed = <1000>;
+>              full-duplex;
+> @@ -148,32 +146,24 @@ examples:
+>                          reg = <0x1>;
+>                          phy-handle = <&phy_port0>;
+>                          phy-mode = "internal";
+> -
+> -                        status = "disabled";
+>                      };
+>  
+>                      switch_port2: port@2 {
+>                          reg = <0x2>;
+>                          phy-handle = <&phy_port1>;
+>                          phy-mode = "internal";
+> -
+> -                        status = "disabled";
+>                      };
+>  
+>                      switch_port3: port@3 {
+>                          reg = <0x3>;
+>                          phy-handle = <&phy_port2>;
+>                          phy-mode = "internal";
+> -
+> -                        status = "disabled";
+>                      };
+>  
+>                      switch_port4: port@4 {
+>                          reg = <0x4>;
+>                          phy-handle = <&phy_port3>;
+>                          phy-mode = "internal";
+> -
+> -                        status = "disabled";
+>                      };
+>                  };
+>  
+> @@ -183,34 +173,29 @@ examples:
+>  
+>                      interrupt-parent = <&switch10>;
+>  
+> -                    phy_port0: phy@0 {
+> +                    phy_port0: ethernet-phy@0 {
+>                          reg = <0x0>;
+>                          interrupts = <0>;
+> -                        status = "disabled";
+>                      };
+>  
+> -                    phy_port1: phy@1 {
+> +                    phy_port1: ethernet-phy@1 {
+>                          reg = <0x1>;
+>                          interrupts = <0>;
+> -                        status = "disabled";
+>                      };
+>  
+> -                    phy_port2: phy@2 {
+> +                    phy_port2: ethernet-phy@2 {
+>                          reg = <0x2>;
+>                          interrupts = <0>;
+> -                        status = "disabled";
+>                      };
+>  
+> -                    phy_port3: phy@3 {
+> +                    phy_port3: ethernet-phy@3 {
+>                          reg = <0x3>;
+>                          interrupts = <0>;
+> -                        status = "disabled";
+>                      };
+>  
+> -                    phy_port4: phy@4 {
+> +                    phy_port4: ethernet-phy@4 {
+>                          reg = <0x4>;
+>                          interrupts = <0>;
+> -                        status = "disabled";
+>                      };
+>                  };
+>              };
+> diff --git a/Documentation/devicetree/bindings/regulator/richtek,rt6245-regulator.yaml b/Documentation/devicetree/bindings/regulator/richtek,rt6245-regulator.yaml
+> index 796ceac87445..e983d0e70c9b 100644
+> --- a/Documentation/devicetree/bindings/regulator/richtek,rt6245-regulator.yaml
+> +++ b/Documentation/devicetree/bindings/regulator/richtek,rt6245-regulator.yaml
+> @@ -77,7 +77,6 @@ examples:
+>  
+>        rt6245@34 {
+>          compatible = "richtek,rt6245";
+> -        status = "okay";
+>          reg = <0x34>;
+>          enable-gpios = <&gpio26 2 0>;
+>  
+> diff --git a/Documentation/devicetree/bindings/regulator/vqmmc-ipq4019-regulator.yaml b/Documentation/devicetree/bindings/regulator/vqmmc-ipq4019-regulator.yaml
+> index 6f45582c914e..dd7a2f92634c 100644
+> --- a/Documentation/devicetree/bindings/regulator/vqmmc-ipq4019-regulator.yaml
+> +++ b/Documentation/devicetree/bindings/regulator/vqmmc-ipq4019-regulator.yaml
+> @@ -39,6 +39,5 @@ examples:
+>        regulator-min-microvolt = <1500000>;
+>        regulator-max-microvolt = <3000000>;
+>        regulator-always-on;
+> -      status = "disabled";
+>      };
+>  ...
+> diff --git a/Documentation/devicetree/bindings/reset/hisilicon,hi3660-reset.yaml b/Documentation/devicetree/bindings/reset/hisilicon,hi3660-reset.yaml
+> index 9bf40952e5b7..b0c41ab1a746 100644
+> --- a/Documentation/devicetree/bindings/reset/hisilicon,hi3660-reset.yaml
+> +++ b/Documentation/devicetree/bindings/reset/hisilicon,hi3660-reset.yaml
+> @@ -72,6 +72,5 @@ examples:
+>          resets = <&iomcu_rst 0x20 3>;
+>          pinctrl-names = "default";
+>          pinctrl-0 = <&i2c0_pmx_func &i2c0_cfg_func>;
+> -        status = "disabled";
+>      };
+>  ...
+> diff --git a/Documentation/devicetree/bindings/reset/intel,rcu-gw.yaml b/Documentation/devicetree/bindings/reset/intel,rcu-gw.yaml
+> index 6b2d56cc3f38..13bf6bb3f097 100644
+> --- a/Documentation/devicetree/bindings/reset/intel,rcu-gw.yaml
+> +++ b/Documentation/devicetree/bindings/reset/intel,rcu-gw.yaml
+> @@ -57,7 +57,6 @@ examples:
+>      };
+>  
+>      pwm: pwm@e0d00000 {
+> -        status = "disabled";
+>          compatible = "intel,lgm-pwm";
+>          reg = <0xe0d00000 0x30>;
+>          clocks = <&cgu0 1>;
+> diff --git a/Documentation/devicetree/bindings/rtc/microcrystal,rv3032.yaml b/Documentation/devicetree/bindings/rtc/microcrystal,rv3032.yaml
+> index a2c55303810d..9593840a4a2b 100644
+> --- a/Documentation/devicetree/bindings/rtc/microcrystal,rv3032.yaml
+> +++ b/Documentation/devicetree/bindings/rtc/microcrystal,rv3032.yaml
+> @@ -53,7 +53,6 @@ examples:
+>          rtc@51 {
+>              compatible = "microcrystal,rv3032";
+>              reg = <0x51>;
+> -            status = "okay";
+>              pinctrl-0 = <&rtc_nint_pins>;
+>              interrupts-extended = <&gpio1 16 IRQ_TYPE_LEVEL_HIGH>;
+>              trickle-resistor-ohms = <7000>;
+> diff --git a/Documentation/devicetree/bindings/soc/litex/litex,soc-controller.yaml b/Documentation/devicetree/bindings/soc/litex/litex,soc-controller.yaml
+> index c8b57c7fd08c..ecae9fa8561b 100644
+> --- a/Documentation/devicetree/bindings/soc/litex/litex,soc-controller.yaml
+> +++ b/Documentation/devicetree/bindings/soc/litex/litex,soc-controller.yaml
+> @@ -35,7 +35,6 @@ examples:
+>      soc_ctrl0: soc-controller@f0000000 {
+>          compatible = "litex,soc-controller";
+>          reg = <0xf0000000 0xc>;
+> -        status = "okay";
+>      };
+>  
+>  ...
+> diff --git a/Documentation/devicetree/bindings/sound/st,stm32-sai.yaml b/Documentation/devicetree/bindings/sound/st,stm32-sai.yaml
+> index 06e83461705c..f97132400bb6 100644
+> --- a/Documentation/devicetree/bindings/sound/st,stm32-sai.yaml
+> +++ b/Documentation/devicetree/bindings/sound/st,stm32-sai.yaml
+> @@ -180,7 +180,6 @@ examples:
+>        pinctrl-names = "default", "sleep";
+>        pinctrl-0 = <&sai2a_pins_a>, <&sai2b_pins_b>;
+>        pinctrl-1 = <&sai2a_sleep_pins_a>, <&sai2b_sleep_pins_b>;
+> -      status = "okay";
+>  
+>        sai2a: audio-controller@4400b004 {
+>          #sound-dai-cells = <0>;
+> @@ -190,7 +189,6 @@ examples:
+>          dma-names = "tx";
+>          clocks = <&rcc SAI2_K>;
+>          clock-names = "sai_ck";
+> -        status = "okay";
+>        };
+>      };
+>  
+> diff --git a/Documentation/devicetree/bindings/sound/ti,j721e-cpb-audio.yaml b/Documentation/devicetree/bindings/sound/ti,j721e-cpb-audio.yaml
+> index ec06789b21df..6806f53a4aed 100644
+> --- a/Documentation/devicetree/bindings/sound/ti,j721e-cpb-audio.yaml
+> +++ b/Documentation/devicetree/bindings/sound/ti,j721e-cpb-audio.yaml
+> @@ -127,8 +127,6 @@ examples:
+>          compatible = "ti,j721e-cpb-audio";
+>          model = "j721e-cpb";
+>  
+> -        status = "okay";
+> -
+>          ti,cpb-mcasp = <&mcasp10>;
+>          ti,cpb-codec = <&pcm3168a_1>;
+>  
+> diff --git a/Documentation/devicetree/bindings/sound/ti,j721e-cpb-ivi-audio.yaml b/Documentation/devicetree/bindings/sound/ti,j721e-cpb-ivi-audio.yaml
+> index ee9f960de36b..859d369c71e2 100644
+> --- a/Documentation/devicetree/bindings/sound/ti,j721e-cpb-ivi-audio.yaml
+> +++ b/Documentation/devicetree/bindings/sound/ti,j721e-cpb-ivi-audio.yaml
+> @@ -119,8 +119,6 @@ examples:
+>          compatible = "ti,j721e-cpb-ivi-audio";
+>          model = "j721e-cpb-ivi";
+>  
+> -        status = "okay";
+> -
+>          ti,cpb-mcasp = <&mcasp10>;
+>          ti,cpb-codec = <&pcm3168a_1>;
+>  
+> -- 
+> 2.27.0
+> 
 
-Hi
-
-Am 20.07.21 um 15:59 schrieb Daniel Vetter:
-> On Tue, Jul 20, 2021 at 03:42:45PM +0200, Javier Martinez Canillas wrot=
-e:
->> On 7/20/21 3:01 PM, Daniel Vetter wrote:
->>> On Mon, Jul 19, 2021 at 09:10:52AM +0200, Ard Biesheuvel wrote:
->>>> On Mon, 19 Jul 2021 at 04:59, Dave Airlie <airlied@gmail.com> wrote:=
-
->>
->> [snip]
->>
->>>>>
->>>>> Can we just merge via drm-misc and make sure the acks are present a=
-nd
->>>>> I'll deal with the fallout if any.
->>>>>
->>>>
->>>> Fine with me. Could you stick it on a separate branch so I can doubl=
-e
->>>> check whether there are any issues wrt the EFI tree?
->>>
->>> It'll pop up in linux-next for integration testing or you can pick up=
- the
->>> patch here for test-merge if you want.
->>>
->>
->> Thanks a lot Dave and Daniel!
->=20
-> Oh I haven't merged them, I'm assuming Thomas will do that. Just figure=
-d
-
-Can I simply put the patches in to drm-misc-next? There was some talk=20
-about a topic branch?
-
-Best regards
-Thomas
-
-> I'll throw my ack on top:
->=20
-> Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
->=20
->>> And since Dave has given a blanket cheque for handling fallout he'll =
-deal
->>> with the need for fixups too if there's any.
->>
->> I also plan to look at any regression that might had been introduced b=
-y these.
->>
->> Best regards,
->> --=20
->> Javier Martinez Canillas
->> Linux Engineering
->> Red Hat
->>
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---1j8k54rxJM8w24eiu5PhN408CT5BxM6T4--
-
---zqBJYs0jTVrrb3d3a45VU8trX1N28Y7W5
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmD3GDIFAwAAAAAACgkQlh/E3EQov+Cy
-CA/+NPcliJKPQpDfrX9J8jEslefrqYJqDEMFIXRQUC0mvqHkXwSy2cKKK18NSQGAbLKlii82BeoM
-wCuaTJ6XUaZmBHsd6IqnkGHTBi6ytimeuGMHy9iNUqieuamxl/h3vIkUraDnAHgmeZtBxwVxSxKe
-8HX+XJI/OEtaFdNqeZCHefwD4u3FFBmcSvnJDGKYFt84Wcbyt5LsvrzwXvyVEvSixkB6VFSLjufc
-lRbdqMdtWs6At9YoxDcDsnZhnVCCnyWrCbfxptyPg77C7GfT4CM3ZF+HYby+gjNpsqKBbAgGvpxM
-pNWsJP92rucNPnCopzcuPdpo4v6IPET4QCg8BQjIZVBoWsU8JAzoz75shl0/nICkpeAiwN58sMBt
-/KtHCAcnwVgHhuTf5LR7u6la16IC7++lsuoW4qefmeKiPOCMfhIaWqWxCVz7sfo1rasobhJUw5f2
-kWd1N1ujR5pRSfxTdfDYTqjUP8HEXK57E/KINStLfI8J+ERHhN117XTmO38juIHMkhWuvwL9nyff
-Bn+E5q23QYw8j55D7KOX0MFcp8RtW18IPojaBkWjsPrNDfTdmMiPlZcLjzPuZxJahOhJhWbK1HTO
-SWPPXnZX9Sk4eDdTaKZw/MnqD60ofyvpZn5USkKKQrVps+KZcjb4rFgQVHd9nOZzT/hFWNvX1yc+
-Fh8=
-=OXq5
------END PGP SIGNATURE-----
-
---zqBJYs0jTVrrb3d3a45VU8trX1N28Y7W5--
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
