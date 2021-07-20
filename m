@@ -2,121 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B33C33CF883
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jul 2021 13:00:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 438C23CF94E
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jul 2021 14:04:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E74189C69;
-	Tue, 20 Jul 2021 11:00:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 79BFA6E1DE;
+	Tue, 20 Jul 2021 12:04:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam08on2067.outbound.protection.outlook.com [40.107.102.67])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 127EB89C69
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 11:00:54 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HrIim88j1tuepynqupZvAXB0P+0UpaDyWK6VoQG3W8GknjlcqPLRcMrr0iF66kNz89w2EhD2uLdi0XvwWLl5Um+Yw/ADn6TIcFE8TjYfgPOmZOEgOIgV5pZyQ8hPumUzM44k0Npb20swye9hrv921hVFeyZxDoYXbRykTwYBrjIco6YA552vn0b2b881BbahyTC+rWEL0186xSJCB6I8QRbOL5NoGXqY7un3uDLQQImqJ0+xC3NWDdUv9tYA8FdaNPLKFoOYYOrKGgg0GkXLVHlSLwxPY6f0WtmSODhI11aGAD1Q7ijBeUZXwSNtPXOl3zHYd195vf7xlsZxuofoIw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PvaE8AtmHGcKjsyBBUGafXkOuJRv4aBKMcqGzECqITY=;
- b=fx6rw7GifFdK5Q8sxkfF2WXrB4Jv31W45J+ag/gFWYXfTzvCxNaTmh571svXRnWNVk8Pz8wii/8OGYq2sieTF6A4W3Vo2zrV3UijxvLJEtLStYRIC/WIMN4umqA1dNcPIF8/iEk0uqLlr2TB36QyjYaCtXoSkRW3aljtx5vBFAap+45enDjLAmwDww2fMk8iIaFaFAMam7VYE7lqyWF9lwIJJsxkKR8qvuJmmdqEAm9iyicOPym0rUQVhmpdt8BEHCiO12UOMFV5V2xntnPIhBW16AhXUvEvCjLZv3cGRFh/4nUfxDukdWBg5kHb+jhwWIRtnQ4l3xR+20I0D97+Bg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PvaE8AtmHGcKjsyBBUGafXkOuJRv4aBKMcqGzECqITY=;
- b=0gfxrXBh5PnYOaIB7d+MKhnK3LUcvPpoN6E6vCIGK9AG60iitW+gc/0hXWGssDueNkOAget9BsMpiXn6ruvSWdrSQDoAAJK6w2BHMlBIzXI0srys+XohSU8eF4zwT7vnX3JHKIGpsx8Fj2QmtOMfNLiyarNPeY2X/tuZnB/ks5E=
-Authentication-Results: mediatek.com; dkim=none (message not signed)
- header.d=none;mediatek.com; dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
- by MN2PR12MB3902.namprd12.prod.outlook.com (2603:10b6:208:169::23)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.23; Tue, 20 Jul
- 2021 11:00:51 +0000
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::6c9e:1e08:7617:f756]) by MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::6c9e:1e08:7617:f756%5]) with mapi id 15.20.4331.034; Tue, 20 Jul 2021
- 11:00:50 +0000
-Subject: Re: [PATCH v2] dma_buf: remove dmabuf sysfs teardown before release
-To: guangming.cao@mediatek.com
-References: <8d7dfc78-aa85-48b5-2828-21ec6b463ac3@amd.com>
- <20210720103158.83439-1-guangming.cao@mediatek.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <a12fc0c7-ed60-0724-fa56-097cb9a694ee@amd.com>
-Date: Tue, 20 Jul 2021 13:00:37 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-In-Reply-To: <20210720103158.83439-1-guangming.cao@mediatek.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-ClientProxiedBy: PR0P264CA0238.FRAP264.PROD.OUTLOOK.COM
- (2603:10a6:100:1e::34) To MN2PR12MB3775.namprd12.prod.outlook.com
- (2603:10b6:208:159::19)
+Received: from mail-ot1-x32b.google.com (mail-ot1-x32b.google.com
+ [IPv6:2607:f8b0:4864:20::32b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 76CCB6E11F
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 12:04:39 +0000 (UTC)
+Received: by mail-ot1-x32b.google.com with SMTP id
+ b24-20020a9d60d80000b02904d14e47202cso3899581otk.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 05:04:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=yJtrrNxgb1Ztf4F2tl56QqDiH/orFMfkFD31xqcv3go=;
+ b=Rf6HLJn8OOnmhGZGB/ipx8f/ix7gYsrHHAD9De9xRU1LHsnFEKK4Vt20gt6d0luulV
+ oSL5psknMqPUEY9SrtJwdyr8AEHTO09SLfSEROxFKJwsbK7M6F+bUp+m6Axyir+OtNrQ
+ ue0TsUy/+PtqDfbSU/VUT/hCJvlVG11gXWgw8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=yJtrrNxgb1Ztf4F2tl56QqDiH/orFMfkFD31xqcv3go=;
+ b=qirIHTSYxmvninDnExCzqg9wHgTEXd1t4D4Gd9dTBmni17Zg23VbFAZVa7sLmNxyKY
+ olbDa5JcOuRszrzem7j3DcRRu2sbC6TLHjsyjHelY/vH+Gz0/ovxX08estKj6FA2ERsQ
+ 9TaJDqR5f8xMSAZ1DrEQLnCAl34mpn/TECaels1sMnm/2bpn7D9NsGjo08fqV4BaEx1K
+ J1sZPcOxK5GcbNnsX3HzA2otGo9gMnzLLUdMVa6+1ix4pj5Fi+GHnirv+b36J9e+5Qpu
+ ysxkJqLHUo54ZK5uSwUlAHxFJfIpsb0955+QCIvm/n05lgWIhJ1CYYSZ89cJxj0j8ga4
+ Fosw==
+X-Gm-Message-State: AOAM531kK8p5eL2tYIXx7dHq0Dmy9HO59IuHtiL/25IwPKKPXw0xFrL9
+ SjX3JrJ+gpRh5FDdBbe2U5ZxPBfDavP4taP2R5A4dQ==
+X-Google-Smtp-Source: ABdhPJzBsEr/WIpnDaItiyicMCMIA0vXZ4UMZ6uvfoGiOppNweu2019YCu7xUl2k/4jkvmvPuZH0heWngBJE9fy0HbQ=
+X-Received: by 2002:a9d:6d86:: with SMTP id x6mr8122799otp.188.1626782678681; 
+ Tue, 20 Jul 2021 05:04:38 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:908:1252:fb60:8651:5b5e:8648:2fd0]
- (2a02:908:1252:fb60:8651:5b5e:8648:2fd0) by
- PR0P264CA0238.FRAP264.PROD.OUTLOOK.COM (2603:10a6:100:1e::34) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4331.23 via Frontend Transport; Tue, 20 Jul 2021 11:00:44 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 3769e975-0835-47ec-af06-08d94b6da2a0
-X-MS-TrafficTypeDiagnostic: MN2PR12MB3902:
-X-Microsoft-Antispam-PRVS: <MN2PR12MB390202C74762B2AF6D2F8EBE83E29@MN2PR12MB3902.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4502;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: MWS337TOR35i1gKd05DkAsSvzaE+7nsunCre3xgmLBHuka6WFh/4N+ac3ymqcY82I+qGWXCmoIz1b3/dcJjnpOXl7y2/a0InZnN03SoesbRom+dfkkG+PLInmbWEej3FGpsxwKKlAIHk/WdWLv2edLbMdgL9QcDgYVhRVaqX4rD3Rnq/w67h/HHfCtiU3AeLWCIJ5EOMMWIYtOnnd865acEEU0Ve0KGNntEiSHjLrG0ZzTlz/LgQ/3xKVJdCE9OfUXg4f5vcZ8C/rtLuxqbcnFLUM0o78R53AfK+TV36eHZKKPy1XoWzvvNL3JdT+5JKOvqQ2ngx9nKgMnD8+w4qRAS9XGDaprfo3QjOiV4HOumMrXmN9kb8Qq3XgletmX66zcJdyHwFDcnDBdkyGCKgBltMooBUjXjUsPc5Jeph8vB1V8r0LaXPwQu5vr87VM9pr2hGuL4DQljwySpRdWzG9f+VP8OYxs5lTDQ42vzvcEGXUqOXY3fb5xDvqh+hNX0oys7bxF5KsGK0guljqNh1FaG+XGfpiQ/eWdyoNfcebW9zTN3jh3Iiw0+aghcqsv9DXqNIfz0TAzs+xTHCjRreP8EECCpOGimDen7DGS8oFV9yALq3GcrBbd8ehXhdYoYxiwUrWoU/ZMhRXxcw0GMir7q2cKtqfIZEDLswwKn6lib88wmd/JKDFzRJKAK7lL4KDRnAhKdt7U5VAS9MV2bTALXxG5Mv9fNO6YbbWxqb87I6irMG2FtjLYFbgFwtl6nE
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(31686004)(6486002)(31696002)(36756003)(5660300002)(86362001)(508600001)(83380400001)(8936002)(2906002)(6916009)(6666004)(2616005)(66556008)(4326008)(66476007)(8676002)(66946007)(38100700002)(7416002)(186003)(316002)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cnRmK254azhVaklWMHJKTkQzOUcwS2ErVXNuVlo3YkxkTzNGZmRsSGpTQjNR?=
- =?utf-8?B?UE1rZU1xa25nT2R6ak1aeGY5NGdvVFJ4eHExM25ENjFsenBsc2g3NW5UTVg4?=
- =?utf-8?B?djZTazhYRnozbm4yU3pIYmtKUnlTZHFOYkZKMTloU2p5YksvU3dvM0dZQXhn?=
- =?utf-8?B?dFROWTJXNFcvWFlyblB0SFFnZ2p2S2VtSUl4WDdmaFpHTlIyTXlOL3JIU0w0?=
- =?utf-8?B?dmRZWjA2RFByeW1EOURrNjNwbmVIWmhGVGlDYWtDcHpjWDl5WEVNdVAyYkt3?=
- =?utf-8?B?OUNnNGtPRTlBcHh1bEpqcThveGFtdnBCdzZXWWJ2Mk92bysxak9YNGQ0cFNk?=
- =?utf-8?B?N2p1ckdZaEUrTTB1MU5VWHRoMGFjcmMyK0RYTEY3Z0tPMVFGSE1yckY2bkJu?=
- =?utf-8?B?OFRWWmdtNFlVdWhrWDhWWGsvd0dFMUdQbW9IUmdqL3NBZnFIS0lWeWRyVTZq?=
- =?utf-8?B?WmN3cmVFVkhQOGlleXk0WXhjWGhYRUFaMEdwNjNOa1h4bDJWN0l2QUQrTGxz?=
- =?utf-8?B?clRRV3FnWUhvcmFHUUdvdUc4SklYSTNKQ3pPbitSOUpSN2gzQ1Rvbmw1dzBQ?=
- =?utf-8?B?ZkIrR0ZONjJiTmluWnRMUDVjbzdnc2orNGJDUEhaKzNJMExOTjd3ZVNjSHlZ?=
- =?utf-8?B?TTVEV01rMTNIK2VVYTdCOXhiR1grTVAyTmhISVhmMHZCMnlrSzQ5NVVPbWl6?=
- =?utf-8?B?bGlhQ2gxNmFxejJOWmttMUlLRDRuNXdmZ2w0SlBOaHhRMU9wM1gzcldKd3hF?=
- =?utf-8?B?aUhZTzBIQWk3di95WmllblNBa3czOHg1Tyt1Q1U0MDQzYTJkdWVUSUFzWGF6?=
- =?utf-8?B?S2F2QXN2NGd0dlpncTRMUVZaWlVLaHplMWttTzMxanFTVFZ0dzJSc2FlaVFH?=
- =?utf-8?B?cTBIQ1lYUnU4Rml0OFg0RVZrTlVwS1A2T09sRUIwSkpsN0R6V3VWOW0xbFJo?=
- =?utf-8?B?OVA4cUovMkpIZjF1ZDBkNEU1VUJLK2Z5ZlJtOFRlMmpWc2FCQWh2S21VYjNq?=
- =?utf-8?B?c3VYbmo1eHErWldmQm1TOGhKZGdXL2taV3k1RDdYblhFSGFXdWFrNU5lT2tO?=
- =?utf-8?B?eG0rSTUzKzVYc2dJc0JjQnBSUkZCNzBWMjJUVUY5dWtDdXQ5eGFwbDR5TVBX?=
- =?utf-8?B?OXRqSWNpTVI3U1Fjb1hZcEl0c3pjZ1M5dEpnTmxpNW15b1RET3FBRzdQM0U5?=
- =?utf-8?B?Y3FEUDhwUVFPbWR6RnBpNktIdFdrOTA4Tit3RUJVSE02WnJHSlZFdUlBRkcx?=
- =?utf-8?B?VVl6bXh3YW95QWtkM21SZm5wWFRhYVA4M1RtMVhxTnpsc25vYTVDRW5FQ3BR?=
- =?utf-8?B?UU50ZjRSV3kzYzJuYzF0bDZ6UXhLa01HR3RqQ1MvZjJZZmZ2ZzQ0TEs3MENR?=
- =?utf-8?B?ZUdEaXdQNWxpTUdGYXlTaWN0WDFmKzh1S2ZvY251MjVPOEg1Qkh1Yi9DYjBW?=
- =?utf-8?B?bjQ3L2xaZ1AzTU85NjFMT0E2R2E5QzZwM2RKeHFML2lQVVY0Wll3Z0ZXc0xx?=
- =?utf-8?B?RzZraGhwelpoa0F4UXNYc2N6VzlTTkpNN2hvYyszVW1QY3FHbVA1WG5ubFRB?=
- =?utf-8?B?THZUVTB1NG9GLzB0SU1sZm0rYU9XdVZkQllVeUhCOU1iUXYwYkNpdUVLNXR1?=
- =?utf-8?B?bU1yQTZCVVFSeEpZYnpjZk5VMmlnVmpEcjFXTkVyKzQzVjhJVVBXTTk3V1RI?=
- =?utf-8?B?U1hXeDNXRmxPZGxuVEgyQ0VDT29NOXpSYlNCTDM5WGd2Y0dnK1V3NWlnYjF2?=
- =?utf-8?B?ZVIrbnRBUUtQVGtIOG1HQ3ArQTdMYWZnSnZiTHB2ZUJtUGc5anQ3ek1mNWJI?=
- =?utf-8?B?QUNuUjFoeW92dE5Nb3p2QlRoWDdOZ3FQWE5oaDQxaGZzZ3doVEJxYWNvd1Fu?=
- =?utf-8?Q?gmGJnlbc3bSry?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3769e975-0835-47ec-af06-08d94b6da2a0
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jul 2021 11:00:50.8749 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: j1T3tPMMO0eankp8XxZQOepBzbmmKhlVGdxrVHa3JV+WclUpGlEGz4f53ZPyJqHJ
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3902
+References: <20210709120756.205856-1-christian.koenig@amd.com>
+ <48c338fd-c0ab-39fb-a45d-17fd51fa47b7@gmail.com>
+In-Reply-To: <48c338fd-c0ab-39fb-a45d-17fd51fa47b7@gmail.com>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Tue, 20 Jul 2021 14:04:27 +0200
+Message-ID: <CAKMK7uH-f5FT2H6knhz=XJvLE3OOcWVm+5PmbxfAwXJKQYW-kA@mail.gmail.com>
+Subject: Re: [PATCH] dma-buf: fix and rework dma_buf_poll v6
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -129,47 +62,309 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: wsd_upstream@mediatek.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Cc: dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 20.07.21 um 12:31 schrieb guangming.cao@mediatek.com:
-> From: Guangming Cao <Guangming.Cao@mediatek.com>
+On Wed, Jul 14, 2021 at 3:21 PM Christian K=C3=B6nig
+<ckoenig.leichtzumerken@gmail.com> wrote:
+> Just a gentle ping. Or have I missed your reply?
+
+Nah just got overwhelmed with dma-resv discussion and took a break. I
+still think some igt (or reviewing what we have) would be good. We
+could also just merge Jason's import/export series, since he's typed
+the igts for that which us dma_buf poll.
+-Daniel
+
 >
-> Dmabuf sysfs stat is used for dmabuf info track.
-> But these file maybe still in use after buffer released,
-> should clear it before buffer release.
+> Thanks,
+> Christian.
 >
-> Signed-off-by: Guangming Cao <Guangming.Cao@mediatek.com>
-
-Reviewed and pushed to drm-misc-next.
-
-Thanks,
-Christian.
-
-> ---
->   drivers/dma-buf/dma-buf.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+> Am 09.07.21 um 14:07 schrieb Christian K=C3=B6nig:
+> > Daniel pointed me towards this function and there are multiple obvious =
+problems
+> > in the implementation.
+> >
+> > First of all the retry loop is not working as intended. In general the =
+retry
+> > makes only sense if you grab the reference first and then check the seq=
+uence
+> > values.
+> >
+> > Then we should always also wait for the exclusive fence.
+> >
+> > It's also good practice to keep the reference around when installing ca=
+llbacks
+> > to fences you don't own.
+> >
+> > And last the whole implementation was unnecessary complex and rather ha=
+rd to
+> > understand which could lead to probably unexpected behavior of the IOCT=
+L.
+> >
+> > Fix all this by reworking the implementation from scratch. Dropping the
+> > whole RCU approach and taking the lock instead.
+> >
+> > Only mildly tested and needs a thoughtful review of the code.
+> >
+> > v2: fix the reference counting as well
+> > v3: keep the excl fence handling as is for stable
+> > v4: back to testing all fences, drop RCU
+> > v5: handle in and out separately
+> > v6: add missing clear of events
+> >
+> > Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+> > CC: stable@vger.kernel.org
+> > ---
+> >   drivers/dma-buf/dma-buf.c | 156 +++++++++++++++++--------------------=
+-
+> >   include/linux/dma-buf.h   |   2 +-
+> >   2 files changed, 72 insertions(+), 86 deletions(-)
+> >
+> > diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> > index eadd1eaa2fb5..39e1ef872829 100644
+> > --- a/drivers/dma-buf/dma-buf.c
+> > +++ b/drivers/dma-buf/dma-buf.c
+> > @@ -72,7 +72,7 @@ static void dma_buf_release(struct dentry *dentry)
+> >        * If you hit this BUG() it means someone dropped their ref to th=
+e
+> >        * dma-buf while still having pending operation to the buffer.
+> >        */
+> > -     BUG_ON(dmabuf->cb_shared.active || dmabuf->cb_excl.active);
+> > +     BUG_ON(dmabuf->cb_in.active || dmabuf->cb_out.active);
+> >
+> >       dmabuf->ops->release(dmabuf);
+> >
+> > @@ -202,16 +202,57 @@ static void dma_buf_poll_cb(struct dma_fence *fen=
+ce, struct dma_fence_cb *cb)
+> >       wake_up_locked_poll(dcb->poll, dcb->active);
+> >       dcb->active =3D 0;
+> >       spin_unlock_irqrestore(&dcb->poll->lock, flags);
+> > +     dma_fence_put(fence);
+> > +}
+> > +
+> > +static bool dma_buf_poll_shared(struct dma_resv *resv,
+> > +                             struct dma_buf_poll_cb_t *dcb)
+> > +{
+> > +     struct dma_resv_list *fobj =3D dma_resv_get_list(resv);
+> > +     struct dma_fence *fence;
+> > +     int i, r;
+> > +
+> > +     if (!fobj)
+> > +             return false;
+> > +
+> > +     for (i =3D 0; i < fobj->shared_count; ++i) {
+> > +             fence =3D rcu_dereference_protected(fobj->shared[i],
+> > +                                               dma_resv_held(resv));
+> > +             dma_fence_get(fence);
+> > +             r =3D dma_fence_add_callback(fence, &dcb->cb, dma_buf_pol=
+l_cb);
+> > +             if (!r)
+> > +                     return true;
+> > +             dma_fence_put(fence);
+> > +     }
+> > +
+> > +     return false;
+> > +}
+> > +
+> > +static bool dma_buf_poll_excl(struct dma_resv *resv,
+> > +                           struct dma_buf_poll_cb_t *dcb)
+> > +{
+> > +     struct dma_fence *fence =3D dma_resv_get_excl(resv);
+> > +     int r;
+> > +
+> > +     if (!fence)
+> > +             return false;
+> > +
+> > +     dma_fence_get(fence);
+> > +     r =3D dma_fence_add_callback(fence, &dcb->cb, dma_buf_poll_cb);
+> > +     if (!r)
+> > +             return true;
+> > +     dma_fence_put(fence);
+> > +
+> > +     return false;
+> >   }
+> >
+> >   static __poll_t dma_buf_poll(struct file *file, poll_table *poll)
+> >   {
+> >       struct dma_buf *dmabuf;
+> >       struct dma_resv *resv;
+> > -     struct dma_resv_list *fobj;
+> > -     struct dma_fence *fence_excl;
+> > +     unsigned shared_count;
+> >       __poll_t events;
+> > -     unsigned shared_count, seq;
+> > +     int r, i;
+> >
+> >       dmabuf =3D file->private_data;
+> >       if (!dmabuf || !dmabuf->resv)
+> > @@ -225,101 +266,46 @@ static __poll_t dma_buf_poll(struct file *file, =
+poll_table *poll)
+> >       if (!events)
+> >               return 0;
+> >
+> > -retry:
+> > -     seq =3D read_seqcount_begin(&resv->seq);
+> > -     rcu_read_lock();
+> > -
+> > -     fobj =3D rcu_dereference(resv->fence);
+> > -     if (fobj)
+> > -             shared_count =3D fobj->shared_count;
+> > -     else
+> > -             shared_count =3D 0;
+> > -     fence_excl =3D rcu_dereference(resv->fence_excl);
+> > -     if (read_seqcount_retry(&resv->seq, seq)) {
+> > -             rcu_read_unlock();
+> > -             goto retry;
+> > -     }
+> > +     dma_resv_lock(resv, NULL);
+> >
+> > -     if (fence_excl && (!(events & EPOLLOUT) || shared_count =3D=3D 0)=
+) {
+> > -             struct dma_buf_poll_cb_t *dcb =3D &dmabuf->cb_excl;
+> > -             __poll_t pevents =3D EPOLLIN;
+> > -
+> > -             if (shared_count =3D=3D 0)
+> > -                     pevents |=3D EPOLLOUT;
+> > +     if (events & EPOLLOUT) {
+> > +             struct dma_buf_poll_cb_t *dcb =3D &dmabuf->cb_out;
+> >
+> > +             /* Check that callback isn't busy */
+> >               spin_lock_irq(&dmabuf->poll.lock);
+> > -             if (dcb->active) {
+> > -                     dcb->active |=3D pevents;
+> > -                     events &=3D ~pevents;
+> > -             } else
+> > -                     dcb->active =3D pevents;
+> > +             if (dcb->active)
+> > +                     events &=3D ~EPOLLOUT;
+> > +             else
+> > +                     dcb->active =3D EPOLLOUT;
+> >               spin_unlock_irq(&dmabuf->poll.lock);
+> >
+> > -             if (events & pevents) {
+> > -                     if (!dma_fence_get_rcu(fence_excl)) {
+> > -                             /* force a recheck */
+> > -                             events &=3D ~pevents;
+> > -                             dma_buf_poll_cb(NULL, &dcb->cb);
+> > -                     } else if (!dma_fence_add_callback(fence_excl, &d=
+cb->cb,
+> > -                                                        dma_buf_poll_c=
+b)) {
+> > -                             events &=3D ~pevents;
+> > -                             dma_fence_put(fence_excl);
+> > -                     } else {
+> > -                             /*
+> > -                              * No callback queued, wake up any additi=
+onal
+> > -                              * waiters.
+> > -                              */
+> > -                             dma_fence_put(fence_excl);
+> > -                             dma_buf_poll_cb(NULL, &dcb->cb);
+> > -                     }
+> > -             }
+> > +             if (events & EPOLLOUT && !dma_buf_poll_shared(resv, dcb) =
+&&
+> > +                 !dma_buf_poll_excl(resv, dcb))
+> > +                     /* No callback queued, wake up any other waiters =
+*/
+> > +                     dma_buf_poll_cb(NULL, &dcb->cb);
+> > +             else
+> > +                     events &=3D ~EPOLLOUT;
+> >       }
+> >
+> > -     if ((events & EPOLLOUT) && shared_count > 0) {
+> > -             struct dma_buf_poll_cb_t *dcb =3D &dmabuf->cb_shared;
+> > -             int i;
+> > +     if (events & EPOLLIN) {
+> > +             struct dma_buf_poll_cb_t *dcb =3D &dmabuf->cb_in;
+> >
+> > -             /* Only queue a new callback if no event has fired yet */
+> > +             /* Check that callback isn't busy */
+> >               spin_lock_irq(&dmabuf->poll.lock);
+> >               if (dcb->active)
+> > -                     events &=3D ~EPOLLOUT;
+> > +                     events &=3D ~EPOLLIN;
+> >               else
+> > -                     dcb->active =3D EPOLLOUT;
+> > +                     dcb->active =3D EPOLLIN;
+> >               spin_unlock_irq(&dmabuf->poll.lock);
+> >
+> > -             if (!(events & EPOLLOUT))
+> > -                     goto out;
+> > -
+> > -             for (i =3D 0; i < shared_count; ++i) {
+> > -                     struct dma_fence *fence =3D rcu_dereference(fobj-=
+>shared[i]);
+> > -
+> > -                     if (!dma_fence_get_rcu(fence)) {
+> > -                             /*
+> > -                              * fence refcount dropped to zero, this m=
+eans
+> > -                              * that fobj has been freed
+> > -                              *
+> > -                              * call dma_buf_poll_cb and force a reche=
+ck!
+> > -                              */
+> > -                             events &=3D ~EPOLLOUT;
+> > -                             dma_buf_poll_cb(NULL, &dcb->cb);
+> > -                             break;
+> > -                     }
+> > -                     if (!dma_fence_add_callback(fence, &dcb->cb,
+> > -                                                 dma_buf_poll_cb)) {
+> > -                             dma_fence_put(fence);
+> > -                             events &=3D ~EPOLLOUT;
+> > -                             break;
+> > -                     }
+> > -                     dma_fence_put(fence);
+> > -             }
+> > -
+> > -             /* No callback queued, wake up any additional waiters. */
+> > -             if (i =3D=3D shared_count)
+> > +             if (events & EPOLLIN && !dma_buf_poll_excl(resv, dcb))
+> > +                     /* No callback queued, wake up any other waiters =
+*/
+> >                       dma_buf_poll_cb(NULL, &dcb->cb);
+> > +             else
+> > +                     events &=3D ~EPOLLIN;
+> >       }
+> >
+> > -out:
+> > -     rcu_read_unlock();
+> > +     dma_resv_unlock(resv);
+> >       return events;
+> >   }
+> >
+> > @@ -562,8 +548,8 @@ struct dma_buf *dma_buf_export(const struct dma_buf=
+_export_info *exp_info)
+> >       dmabuf->owner =3D exp_info->owner;
+> >       spin_lock_init(&dmabuf->name_lock);
+> >       init_waitqueue_head(&dmabuf->poll);
+> > -     dmabuf->cb_excl.poll =3D dmabuf->cb_shared.poll =3D &dmabuf->poll=
+;
+> > -     dmabuf->cb_excl.active =3D dmabuf->cb_shared.active =3D 0;
+> > +     dmabuf->cb_in.poll =3D dmabuf->cb_out.poll =3D &dmabuf->poll;
+> > +     dmabuf->cb_in.active =3D dmabuf->cb_out.active =3D 0;
+> >
+> >       if (!resv) {
+> >               resv =3D (struct dma_resv *)&dmabuf[1];
+> > diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+> > index efdc56b9d95f..7e747ad54c81 100644
+> > --- a/include/linux/dma-buf.h
+> > +++ b/include/linux/dma-buf.h
+> > @@ -329,7 +329,7 @@ struct dma_buf {
+> >               wait_queue_head_t *poll;
+> >
+> >               __poll_t active;
+> > -     } cb_excl, cb_shared;
+> > +     } cb_in, cb_out;
+> >   };
+> >
+> >   /**
 >
-> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> index b1a6db71c656..63d32261b63f 100644
-> --- a/drivers/dma-buf/dma-buf.c
-> +++ b/drivers/dma-buf/dma-buf.c
-> @@ -76,12 +76,12 @@ static void dma_buf_release(struct dentry *dentry)
->   	 */
->   	BUG_ON(dmabuf->cb_shared.active || dmabuf->cb_excl.active);
->   
-> +	dma_buf_stats_teardown(dmabuf);
->   	dmabuf->ops->release(dmabuf);
->   
->   	if (dmabuf->resv == (struct dma_resv *)&dmabuf[1])
->   		dma_resv_fini(dmabuf->resv);
->   
-> -	dma_buf_stats_teardown(dmabuf);
->   	module_put(dmabuf->owner);
->   	kfree(dmabuf->name);
->   	kfree(dmabuf);
 
+
+--=20
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
