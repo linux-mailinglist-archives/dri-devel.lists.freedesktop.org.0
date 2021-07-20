@@ -2,142 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3485C3D0443
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 00:08:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CFC13D0468
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 00:19:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D1018990D;
-	Tue, 20 Jul 2021 22:08:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C124F6E34B;
+	Tue, 20 Jul 2021 22:19:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 413D888894;
- Tue, 20 Jul 2021 22:08:38 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10051"; a="190919966"
-X-IronPort-AV: E=Sophos;i="5.84,256,1620716400"; d="scan'208";a="190919966"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jul 2021 15:08:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,256,1620716400"; d="scan'208";a="454241062"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
- by orsmga007.jf.intel.com with ESMTP; 20 Jul 2021 15:08:36 -0700
-Received: from orsmsx609.amr.corp.intel.com (10.22.229.22) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.10; Tue, 20 Jul 2021 15:08:36 -0700
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx609.amr.corp.intel.com (10.22.229.22) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.10 via Frontend Transport; Tue, 20 Jul 2021 15:08:36 -0700
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.170)
- by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2242.10; Tue, 20 Jul 2021 15:08:36 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=oQiOiZE2afVzKKADCVg7gC8srfVU9dPvqRlUnXKlB3DRGQLO33modsUpD2ThFAxnCrtk8xpzZdCaU774cLlTpCHdL+9p09NHKFhenTMitA5aWDdbL+G+4B+T6mIC8qEMPSugl3KJfRS7elFEoZjef14I80PVrkgRy2WNg8PW3Hd4O7qGe1YCoVVDXrjwePc7EqYkjMvRUEOINZMpM0UoklSZjBzDr9LAwnFuruc0zeSmifglEKN52HwLsFlgXJhXaU+uX1QIWmI0eo4LY6g4r3bjorEMvDdtR4wl8KlhMQPbbadf85CEirSDfTdjPr99dHYtD+YtBjfsWFnDDAYeLw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yjagaXHVzB1HHT8omQCz7gq9u2FV1Fh4fSDfyy0VxDY=;
- b=QGu3q9BDwvXxVN2OZPf0YddB2E3B5E1PiWwvYaclVMphuNM+ov9iw3OZB6c2A58GiFs8oGHi5WR3gqcSHskyh1ZM+506YJL0xRFuzvDtEPPvSzwsFnvRFWACn6AVkw5f+0V30a+FU6/eIgKgogpM9UOxm+QM+m4JAhuDUNux0+MzMrwCxf79UEq2xqVQamIllzbX0pVI15tq9ps2lbqnsVIocTNkEbDANP4Dw3cuY9kMdf8A2tchBtVJnvIefNCLqoU2hJzmfDs2LsaHg0RxN8Q7qFB1y8myqK16PxNwy9/5LNW+5OIWJh0S2EFSZSyB8/Lka4rj4W/OHPgC1NfDcA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
- s=selector2-intel-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yjagaXHVzB1HHT8omQCz7gq9u2FV1Fh4fSDfyy0VxDY=;
- b=zF2NXGkIRr7TWJr3knUKnEBbLxEYPWj9wPQgk5Uu58lw8spDktR6C3D9R4+9ri2+ANx56glSMOo/Bro6e/LWYdjuWBce43v57R38DJXrVgOucEXn22lghX8sGwzN8sJveQMQipKAeAl1h1F61Cf1cngDkmIW/DUWCkagRTINRLQ=
-Authentication-Results: intel.com; dkim=none (message not signed)
- header.d=none;intel.com; dmarc=none action=none header.from=intel.com;
-Received: from CO6PR11MB5634.namprd11.prod.outlook.com (2603:10b6:5:35d::20)
- by CO6PR11MB5569.namprd11.prod.outlook.com (2603:10b6:303:139::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.21; Tue, 20 Jul
- 2021 22:08:35 +0000
-Received: from CO6PR11MB5634.namprd11.prod.outlook.com
- ([fe80::5d5e:b6bf:aafa:ecd4]) by CO6PR11MB5634.namprd11.prod.outlook.com
- ([fe80::5d5e:b6bf:aafa:ecd4%8]) with mapi id 15.20.4331.034; Tue, 20 Jul 2021
- 22:08:35 +0000
-Subject: Re: [PATCH 09/16] drm/i915/guc/slpc: Add get max/min freq hooks
-To: Michal Wajdeczko <michal.wajdeczko@intel.com>,
- <intel-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
-References: <20210710012026.19705-1-vinay.belgaumkar@intel.com>
- <20210710012026.19705-10-vinay.belgaumkar@intel.com>
- <ac11aea5-b4ea-a3bd-9a72-94bb8cef4057@intel.com>
-From: "Belgaumkar, Vinay" <vinay.belgaumkar@intel.com>
-Message-ID: <241107ff-4606-91a7-0ae4-2887fb71793b@intel.com>
-Date: Tue, 20 Jul 2021 15:08:32 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.12.0
-In-Reply-To: <ac11aea5-b4ea-a3bd-9a72-94bb8cef4057@intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MW3PR06CA0026.namprd06.prod.outlook.com
- (2603:10b6:303:2a::31) To CO6PR11MB5634.namprd11.prod.outlook.com
- (2603:10b6:5:35d::20)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F08396E34B
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 22:19:24 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 539616120A;
+ Tue, 20 Jul 2021 22:19:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1626819564;
+ bh=t+CKoSrAOfvSe7mXkbhXmS4SNcbua5nIy9DHQJ0Dvy8=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:From;
+ b=V4BWg4f7vvc4a984VTUC0zXyVFCNS5nSuh0tykim2gu6KlmBKS/To4GGBBT2v8CWT
+ RzJ85vRT/lTwGgMjK5WzIMA+IeppQ4ltuWLzH8jXUXpXgFToJZfpN46cm4wECEks3E
+ Ty5RHR/C0rEmZuArkwzz44bJMTeKoeEfUjoRpl8XaOxdk8akS9oxXN64pTV+BRH5Rk
+ o7S7w2eebUkgBA9epYOrnOwJ+/i8vP6bbSqI/MLdvKoncU+0M5ydcu6UPTkrxwASvl
+ er5+JHVdVIqUkWyhxQnK18fN+ugaDEQ5ew2aSFFDciDgOFsr7r1ClKJKmZpRT5er24
+ CLAkZVQ2gkutQ==
+Date: Tue, 20 Jul 2021 17:19:23 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Huacai Chen <chenhuacai@loongson.cn>
+Subject: Re: [PATCH] vgaarb: Rework default VGA device selection
+Message-ID: <20210720221923.GA43331@bjorn-Precision-5520>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.1.71] (99.88.121.38) by
- MW3PR06CA0026.namprd06.prod.outlook.com (2603:10b6:303:2a::31) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4331.22 via Frontend Transport; Tue, 20 Jul 2021 22:08:34 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 318bfe87-8159-4d9c-25b1-08d94bcaeb09
-X-MS-TrafficTypeDiagnostic: CO6PR11MB5569:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <CO6PR11MB5569687120F0DF2541EF9FCC85E29@CO6PR11MB5569.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:5797;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: E+bSeHXxmScDhWQ+/51skbMNvEpAyugXVaLSHJ0M+HKfkK8UNbzAneDEZkjz02hGlpEHP9WC2oaDyKxAThMeRlgVQ4OXS1J9hbz1h+RNm4Oh6QWlYG/HQK0wcAFsuOpr0O7Edi0DUdCFIRwAkZjAsT/lbHHhCpzFpC1hxdk0fxcxR4s6ng9ktGTLp97NujYO/jtqGacmxrLBoRnwd0Ftew5FPpR4ET2iCGa9UDOy3DxUmqi1GHkyv8Rs5dyiOFc7Tlb4p8OuiXbuqQrzf0PCge0OvI2daGOsRTVsC99dY4o+2VzW2UL20EqmQ17Fe9rIlIIyAB9Ijqq0LBziSN2rfqHDwU4nHVPN7KhNTIvn165Wg/jKf00xAXbIKiYFPHvVr5q4H8POx8EOXS8s3ytL6uQSmIdJygoy5hJKeyZOS+PNu7aOw4J9zJZY2Yc+DDdA2qfzycsNnYrLptdOwppf692ZvHSQpGKCE+EqHyUwvLaZXNQS8wXR9mNCpCm/qDdAdBZDQVPvdzEx3OsF6pqwd6y+ycdD5H854nbqNeqp4uGXfbM7rMvhpvJWRp0IeXQqwFVexB/BPhPhCN7i0CHSEThSVxCE9AnlYz4zmuq9xLuQ0gtgW7SiIzb5GMqKgALJG1r1DX0TMEqGwpe00ZVMVGz/MSU6EggpYK0p/mfDCAOBHuN45+ICrKj5jPvLFIU5CSX5XfB3d57l66nFXN8E834yBWdMFdo+A/5Pp4A9S5A=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CO6PR11MB5634.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(396003)(39860400002)(376002)(366004)(136003)(8936002)(450100002)(186003)(478600001)(5660300002)(6486002)(107886003)(2906002)(4326008)(31686004)(31696002)(36756003)(8676002)(2616005)(86362001)(16576012)(316002)(66946007)(38100700002)(26005)(53546011)(956004)(66556008)(66476007)(83380400001)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?anlFZUg3UkdCUVZoMDVqQWxFOVFnR0JsWHNnVEJaVk43VzA5VUc4Mk8rbTN4?=
- =?utf-8?B?bjE0a1Z3eWdZaXZBZWx2N05pbm9Nb0RBNjBkYkRKVFFiREljZDJNY2o4S0NL?=
- =?utf-8?B?blV1MUlMVlVvanRFWUgyd3VVbmhRM2t6ajUwVG1EUy9ZTUtvNmhPcmxnSlF5?=
- =?utf-8?B?Q1U2YUdiS1dld3ZBMDcra296VjBHSzFBMk1xVnlITFpIZXlRTnA5TnJkU1k0?=
- =?utf-8?B?ejFqQnAxVjJsQ015T2ZaTEF2Y3A3cE9OZjZDckR6c0FBWTNvQlA1Z1ZMS3ZC?=
- =?utf-8?B?cDRxZEJjcHJGcWdJMDl4M0VYK3hYNFdCdVp1OFBrL1poNTNSY3h2d0pvNWlC?=
- =?utf-8?B?R29YKzNLcmVQUXhvUktEeFVpRzVBc0twQlhzSzhjamJrUzRpdVVrMUpVbDAr?=
- =?utf-8?B?OVdaVThFdlNkNG1KaXNwejBVTXpNS09oNHdtVVp1RTcwbUlpL2NCNUlmSjJx?=
- =?utf-8?B?NDRNQjAxV3F2Ti9DT3hRYnFVZFJwQ3ZGc25kc0tpdTlJMmk3U2x5VWtUYjk5?=
- =?utf-8?B?bjJuU1ppbXdZWTM4SFZiSHY0NjZsRTNYa3dEWmRiZWJKd2ZBNnZwSXh0R00v?=
- =?utf-8?B?c28yQ1dXRGppU1c0amh4RXFCME9UZnFGMWtSV0R0dUlud2doUHI1Y2hGaE03?=
- =?utf-8?B?aGJaMTNMbDE2eU9rNDE2eFo3dUhIVXhzZEVNRnlaTkdJSUVCRnBzNXgvRStS?=
- =?utf-8?B?dmJra2JRdHNqNWhmaUZ4ZTUxWTlMK3lmSk5EMHJ1R3BwZkRsQVR6dHErZkQy?=
- =?utf-8?B?dHdPa3lpV1JPQ21qTlZ4OXNFdFExOXd5SS9BQjNuU1VsMkdNTkZRZDhib2ti?=
- =?utf-8?B?cXg1UHExb29MYU1ic09aL2cya2JzVTBVUitnbHZZUUlNd2NWR3Z0eVlBdEU2?=
- =?utf-8?B?OTRWL2ZCcjdqMmhKRFdnWUx2M2dab21obnkvT2VJTEd1T1hQTEZaS1lpQUJB?=
- =?utf-8?B?UDZzYjFkWE9jL2k1QXU3Ujlyc1hpY00xZE9kK2RWMUFaREtPM1RLRWtoNEwy?=
- =?utf-8?B?VHhIL2Z0WFBTWUFhSmk4UDJUSEZMSWVKc2dTRUREOHF3ZEhxSWlTSW00OVZQ?=
- =?utf-8?B?T1RudTBqWXZwWnhpd3dvVmcxY0RjeDNQaTJaVmVJZ0kxbFVUYlBmVGpuS2px?=
- =?utf-8?B?S3pyZlRRa1hwVVUxcDVKeU01eHdmdzRFZXJDQ2VPUmlsYWtXZXJHNXpKVUNh?=
- =?utf-8?B?WFJORDNMREluVmlTTzRZWlVjWDZsWk5Bc0NXaGZ3K0pHOWxvbFgxaHp6dmdw?=
- =?utf-8?B?RUtmck9veEJtMDZwWXU2ZEtPMnNTeURhbXZEa1NVQThPdmJtNDhPNjhveEtW?=
- =?utf-8?B?bkVLQWZIL3lqRGxxRVA1d2l3akVjdFZJb2paQmdGTzFWM2lGMW5yVXc0aVVU?=
- =?utf-8?B?MUZTK1g2SjJzS2s4SmlZcVRFMzlFeU5HZWRvY2dpOWZKeUhoWGJkUS9NU2NR?=
- =?utf-8?B?aDI2MHRjcEdMOFpHVDR1ODNYRHNMaUw1Wlh4ZWlMeDhIRzZqekF3dVhtd3M2?=
- =?utf-8?B?cmZwZEdaYWtnSGc5TXNLeDl4ejJmWlpzRHFESFZnLzdDaHRIdXJaSlpiWmZl?=
- =?utf-8?B?YzdtWEtTV1JuR2h4WjVJUm9lSXJwclNPdE03b2IwbWswT2hFMVlzZ2U3ZWpL?=
- =?utf-8?B?WnRON01LRzcvdnFHR0k3QUx4UWV2Z29yTncwbDhkT0hlYmROV2EwdkdjTnpW?=
- =?utf-8?B?VXQ1VnVnd1EzUHQ5OEt2WDRhcjI1R0NiWVozT2I4VzFFS2JheWN1SHpvcXI2?=
- =?utf-8?Q?PzgXdcqudY7Ms6J1b+QX+Gdm72nKVPvdAig6Ds5?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 318bfe87-8159-4d9c-25b1-08d94bcaeb09
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5634.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jul 2021 22:08:34.9443 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: IeYZ/CKte+x/Acke1N4P7QQAlC7T2xpKHLyfxHbucG+qLxL4FaENlEd+o11E50PycxgZrHVOtarbi55e5GN7I2xC0nPiQfKL40fzL6ZcQgA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR11MB5569
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210705100503.1120643-1-chenhuacai@loongson.cn>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -150,152 +45,353 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sundaresan Sujaritha <sujaritha.sundaresan@intel.com>
+Cc: David Airlie <airlied@linux.ie>, linux-pci@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Bjorn Helgaas <bhelgaas@google.com>,
+ Xuefeng Li <lixuefeng@loongson.cn>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, Jul 05, 2021 at 06:05:03PM +0800, Huacai Chen wrote:
+> Currently, vga_arb_device_init() selects the first probed VGA device
+> with VGA legacy resources enabled as the default device. However, some
+> BMC-based VGA cards (e.g., AST2500 and HiSilicon D05) don't enable VGA
+> legacy resources because their built-in upstream bridges don't support
+> PCI_BRIDGE_CTL_VGA. This makes "no default VGA card" and breaks X.org
+> auto-detection.
+> 
+> Commit a37c0f48950b56f6ef2e ("vgaarb: Select a default VGA device even
+> if there's no legacy VGA") try to solve this problem but fails on some
+> platforms, because it relies on the initcall order:
+> 
+> We should call vga_arb_device_init() after PCI enumeration, otherwise it
+> may fail to select the default VGA device. Since vga_arb_device_init()
+> and PCI enumeration function (i.e., pcibios_init() or acpi_init()) are
+> both wrapped by subsys_initcall(), their sequence is not assured. So, it
+> is possible to use subsys_initcall_sync() instead of subsys_initcall()
+> to wrap vga_arb_device_init().
+> 
+> However, the above approach still has drawbacks, it cannot handle the
+> cases that a VGA card is hot-plugged, or the gpu driver is compiled as a
+> module.
+> 
+> So, as suggested by Bjorn Helgaas, this patch rework the selection:
+> 1, Remove direct vga_arb_select_default_device() calls in vga_arb_
+>    device_init().
+> 2, Rename vga_arb_select_default_device() to vga_arb_update_default_
+>    device(), which selects the first probed VGA device as the default
+>    (whether legacy resources enabled or not), and update the default
+>    device if a better one is found (device with legacy resources enabled
+>    is better, device owns the firmware framebuffer is even better).
+> 3, Every time a new VGA device is probed, vga_arbiter_add_pci_device()
+>    is called, and vga_arb_update_default_device() is also called. So the
+>    hotplug case and the module case can also be handled.
+> 
+> Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
+> ---
+>  drivers/gpu/vga/vgaarb.c | 219 +++++++++++++++++----------------------
+>  1 file changed, 97 insertions(+), 122 deletions(-)
 
+I think maybe it *would* be a good idea to move this to drivers/pci,
+and I think it would be nice to make the move the very first patch in
+a series because I think there may be follow-ons, and it would be nice
+to get more of the history in the new location after the break.
 
-On 7/10/2021 10:52 AM, Michal Wajdeczko wrote:
-> 
-> 
-> On 10.07.2021 03:20, Vinay Belgaumkar wrote:
->> Add helpers to read the min/max frequency being used
->> by SLPC. This is done by send a h2g command which forces
-> 
-> s/h2g/H2G
+For example, if it's in drivers/pci, we can call the arbiter directly
+from the enumeration/removal code instead of using a bus notifier.
 
-done.
+I put this on a branch so you can see what it looks like:
 
-> 
->> SLPC to update the shared data struct which can then be
->> read.
->>
->> Signed-off-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
->> Signed-off-by: Sundaresan Sujaritha <sujaritha.sundaresan@intel.com>
->> ---
->>   drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c | 58 +++++++++++++++++++++
->>   drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h |  2 +
->>   2 files changed, 60 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
->> index 19cb26479942..98a283d31734 100644
->> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
->> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
->> @@ -278,6 +278,35 @@ int intel_guc_slpc_set_max_freq(struct intel_guc_slpc *slpc, u32 val)
->>   	return ret;
->>   }
->>   
->> +int intel_guc_slpc_get_max_freq(struct intel_guc_slpc *slpc, u32 *val)
->> +{
->> +	struct slpc_shared_data *data;
->> +	intel_wakeref_t wakeref;
->> +	struct drm_i915_private *i915 = guc_to_gt(slpc_to_guc(slpc))->i915;
->> +	int ret = 0;
->> +
->> +	wakeref = intel_runtime_pm_get(&i915->runtime_pm);
->> +
->> +	/* Force GuC to update task data */
->> +	if (slpc_read_task_state(slpc)) {
->> +		DRM_ERROR("Unable to update task data");
-> 
-> use drm_err
-> missing \n
-> maybe this message could be moved to slpc_read_task_state ?
+  https://git.kernel.org/pub/scm/linux/kernel/git/helgaas/pci.git/log/?h=review/vga
 
-Done.
+I tried to pull out as much stuff as I could into smaller patches so
+this one is a little bit more understandable.
 
-> 
->> +		ret = -EIO;
->> +		goto done;
->> +	}
->> +
->> +	GEM_BUG_ON(!slpc->vma);
->> +
->> +	drm_clflush_virt_range(slpc->vaddr, sizeof(struct slpc_shared_data));
-> 
-> maybe this can also be part of slpc_read_task_state ?
+But we definitely need some work on the commit log.  The first three
+paragraphs seem to describe the approach you *didn't* use.  We don't
+need that.
 
-Yup.
+But we *do* need an explanation of why we need this patch and how it
+works.  Based on the patch, I assume the initcall ordering is
+different on your system, which exposes a problem in
+vga_arbiter_add_pci_device():
 
-> 
->> +	data = slpc->vaddr;
->> +
->> +	*val = DIV_ROUND_CLOSEST(data->task_state_data.max_unslice_freq *
->> +				GT_FREQUENCY_MULTIPLIER, GEN9_FREQ_SCALER);
->> +
->> +done:
->> +	intel_runtime_pm_put(&i915->runtime_pm, wakeref);
->> +	return ret;
->> +}
->> +
->>   /**
->>    * intel_guc_slpc_min_freq_set() - Set min frequency limit for SLPC.
->>    * @slpc: pointer to intel_guc_slpc.
->> @@ -312,6 +341,35 @@ int intel_guc_slpc_set_min_freq(struct intel_guc_slpc *slpc, u32 val)
->>   	return ret;
->>   }
->>   
->> +int intel_guc_slpc_get_min_freq(struct intel_guc_slpc *slpc, u32 *val)
-> 
-> missing kernel-doc (above intel_guc_slpc_min_freq_set has one)
+Looking at [1], I think that on your system, vga_arb_device_init()
+runs before the VGA card is enumerated, so it doesn't set the card as
+the default VGA device.
 
-done.
-> 
->> +{
->> +	struct slpc_shared_data *data;
->> +	intel_wakeref_t wakeref;
->> +	struct drm_i915_private *i915 = guc_to_gt(slpc_to_guc(slpc))->i915;
->> +	int ret = 0;
->> +
->> +	wakeref = intel_runtime_pm_get(&i915->runtime_pm);
->> +
->> +	/* Force GuC to update task data */
->> +	if (slpc_read_task_state(slpc)) {
->> +		DRM_ERROR("Unable to update task data");
-> 
-> see above
-> 
->> +		ret = -EIO;
->> +		goto done;
->> +	}
->> +
->> +	GEM_BUG_ON(!slpc->vma);
->> +
->> +	drm_clflush_virt_range(slpc->vaddr, sizeof(struct slpc_shared_data));
-> 
-> see above
-Done.
+We do call vga_arbiter_add_pci_device() when we enumerate the device,
+but it doesn't set the card as the default device either because the
+bridge upstream from it doesn't support PCI_BRIDGE_CTL_VGA.
 
-Thanks,
-Vinay.
+So the commit log needs to (1) explain why your initcall ordering is
+unusual, and (2) explain the approach, which IIUC is basically to add
+the vga_arb_select_default_device() functionality to
+vga_arbiter_add_pci_device().
 
+[1] https://lore.kernel.org/linux-pci/20210518193100.GA148462@bjorn-Precision-5520/
+
+> diff --git a/drivers/gpu/vga/vgaarb.c b/drivers/gpu/vga/vgaarb.c
+> index 949fde433ea2..07770aae3aaf 100644
+> --- a/drivers/gpu/vga/vgaarb.c
+> +++ b/drivers/gpu/vga/vgaarb.c
+> @@ -586,6 +586,97 @@ void vga_put(struct pci_dev *pdev, unsigned int rsrc)
+>  }
+>  EXPORT_SYMBOL(vga_put);
+>  
+> +#if defined(CONFIG_ACPI)
+> +static bool vga_arb_integrated_gpu(struct device *dev)
+> +{
+> +	struct acpi_device *adev = ACPI_COMPANION(dev);
+> +
+> +	return adev && !strcmp(acpi_device_hid(adev), ACPI_VIDEO_HID);
+> +}
+> +#else
+> +static bool vga_arb_integrated_gpu(struct device *dev)
+> +{
+> +	return false;
+> +}
+> +#endif
+> +
+> +static void vga_arb_update_default_device(struct vga_device *vgadev)
+> +{
+> +	struct pci_dev *pdev = vgadev->pdev;
+> +	struct device *dev = &pdev->dev;
+> +	struct vga_device *vgadev_default;
+> +#if defined(CONFIG_X86) || defined(CONFIG_IA64)
+> +	int i;
+> +	unsigned long flags;
+> +	u64 base = screen_info.lfb_base;
+> +	u64 size = screen_info.lfb_size;
+> +	u64 limit;
+> +	resource_size_t start, end;
+> +#endif
+> +
+> +	/* Deal with VGA default device. Use first enabled one
+> +	 * by default if arch doesn't have it's own hook
+> +	 */
+> +	if (!vga_default_device()) {
+> +		if ((vgadev->owns & VGA_RSRC_LEGACY_MASK) == VGA_RSRC_LEGACY_MASK)
+> +			vgaarb_info(dev, "setting as boot VGA device\n");
+> +		else
+> +			vgaarb_info(dev, "setting as boot device (VGA legacy resources not available)\n");
+> +		vga_set_default_device(pdev);
+> +	}
+> +
+> +	vgadev_default = vgadev_find(vga_default);
+> +
+> +	/* Overridden by a better device */
+> +	if (vgadev_default && ((vgadev_default->owns & VGA_RSRC_LEGACY_MASK) == 0)
+> +		&& ((vgadev->owns & VGA_RSRC_LEGACY_MASK) == VGA_RSRC_LEGACY_MASK)) {
+> +		vgaarb_info(dev, "overriding boot VGA device\n");
+> +		vga_set_default_device(pdev);
+> +	}
+> +
+> +	if (vga_arb_integrated_gpu(dev)) {
+> +		vgaarb_info(dev, "overriding boot VGA device\n");
+> +		vga_set_default_device(pdev);
+> +	}
+> +
+> +#if defined(CONFIG_X86) || defined(CONFIG_IA64)
+> +	if (screen_info.capabilities & VIDEO_CAPABILITY_64BIT_BASE)
+> +		base |= (u64)screen_info.ext_lfb_base << 32;
+> +
+> +	limit = base + size;
+> +
+> +	/*
+> +	 * Override vga_arbiter_add_pci_device()'s I/O based detection
+> +	 * as it may take the wrong device (e.g. on Apple system under
+> +	 * EFI).
+> +	 *
+> +	 * Select the device owning the boot framebuffer if there is
+> +	 * one.
+> +	 */
+> +
+> +	/* Does firmware framebuffer belong to us? */
+> +	for (i = 0; i < DEVICE_COUNT_RESOURCE; i++) {
+> +		flags = pci_resource_flags(vgadev->pdev, i);
+> +
+> +		if ((flags & IORESOURCE_MEM) == 0)
+> +			continue;
+> +
+> +		start = pci_resource_start(vgadev->pdev, i);
+> +		end  = pci_resource_end(vgadev->pdev, i);
+> +
+> +		if (!start || !end)
+> +			continue;
+> +
+> +		if (base < start || limit >= end)
+> +			continue;
+> +
+> +		if (vgadev->pdev != vga_default_device())
+> +			vgaarb_info(dev, "overriding boot device\n");
+> +		vga_set_default_device(vgadev->pdev);
+> +	}
+> +#endif
+> +}
+> +
+>  /*
+>   * Rules for using a bridge to control a VGA descendant decoding: if a bridge
+>   * has only one VGA descendant then it can be used to control the VGA routing
+> @@ -643,6 +734,11 @@ static void vga_arbiter_check_bridge_sharing(struct vga_device *vgadev)
+>  		}
+>  		new_bus = new_bus->parent;
+>  	}
+> +
+> +	if (vgadev->bridge_has_one_vga == true)
+> +		vgaarb_info(&vgadev->pdev->dev, "bridge control possible\n");
+> +	else
+> +		vgaarb_info(&vgadev->pdev->dev, "no bridge control possible\n");
+>  }
+>  
+>  /*
+> @@ -713,15 +809,7 @@ static bool vga_arbiter_add_pci_device(struct pci_dev *pdev)
+>  		bus = bus->parent;
+>  	}
+>  
+> -	/* Deal with VGA default device. Use first enabled one
+> -	 * by default if arch doesn't have it's own hook
+> -	 */
+> -	if (vga_default == NULL &&
+> -	    ((vgadev->owns & VGA_RSRC_LEGACY_MASK) == VGA_RSRC_LEGACY_MASK)) {
+> -		vgaarb_info(&pdev->dev, "setting as boot VGA device\n");
+> -		vga_set_default_device(pdev);
+> -	}
+> -
+> +	vga_arb_update_default_device(vgadev);
+>  	vga_arbiter_check_bridge_sharing(vgadev);
+>  
+>  	/* Add to the list */
+> @@ -1451,111 +1539,10 @@ static struct miscdevice vga_arb_device = {
+>  	MISC_DYNAMIC_MINOR, "vga_arbiter", &vga_arb_device_fops
+>  };
+>  
+> -#if defined(CONFIG_ACPI)
+> -static bool vga_arb_integrated_gpu(struct device *dev)
+> -{
+> -	struct acpi_device *adev = ACPI_COMPANION(dev);
+> -
+> -	return adev && !strcmp(acpi_device_hid(adev), ACPI_VIDEO_HID);
+> -}
+> -#else
+> -static bool vga_arb_integrated_gpu(struct device *dev)
+> -{
+> -	return false;
+> -}
+> -#endif
+> -
+> -static void __init vga_arb_select_default_device(void)
+> -{
+> -	struct pci_dev *pdev, *found = NULL;
+> -	struct vga_device *vgadev;
+> -
+> -#if defined(CONFIG_X86) || defined(CONFIG_IA64)
+> -	u64 base = screen_info.lfb_base;
+> -	u64 size = screen_info.lfb_size;
+> -	u64 limit;
+> -	resource_size_t start, end;
+> -	unsigned long flags;
+> -	int i;
+> -
+> -	if (screen_info.capabilities & VIDEO_CAPABILITY_64BIT_BASE)
+> -		base |= (u64)screen_info.ext_lfb_base << 32;
+> -
+> -	limit = base + size;
+> -
+> -	list_for_each_entry(vgadev, &vga_list, list) {
+> -		struct device *dev = &vgadev->pdev->dev;
+> -		/*
+> -		 * Override vga_arbiter_add_pci_device()'s I/O based detection
+> -		 * as it may take the wrong device (e.g. on Apple system under
+> -		 * EFI).
+> -		 *
+> -		 * Select the device owning the boot framebuffer if there is
+> -		 * one.
+> -		 */
+> -
+> -		/* Does firmware framebuffer belong to us? */
+> -		for (i = 0; i < DEVICE_COUNT_RESOURCE; i++) {
+> -			flags = pci_resource_flags(vgadev->pdev, i);
+> -
+> -			if ((flags & IORESOURCE_MEM) == 0)
+> -				continue;
+> -
+> -			start = pci_resource_start(vgadev->pdev, i);
+> -			end  = pci_resource_end(vgadev->pdev, i);
+> -
+> -			if (!start || !end)
+> -				continue;
+> -
+> -			if (base < start || limit >= end)
+> -				continue;
+> -
+> -			if (!vga_default_device())
+> -				vgaarb_info(dev, "setting as boot device\n");
+> -			else if (vgadev->pdev != vga_default_device())
+> -				vgaarb_info(dev, "overriding boot device\n");
+> -			vga_set_default_device(vgadev->pdev);
+> -		}
+> -	}
+> -#endif
+> -
+> -	if (!vga_default_device()) {
+> -		list_for_each_entry_reverse(vgadev, &vga_list, list) {
+> -			struct device *dev = &vgadev->pdev->dev;
+> -			u16 cmd;
+> -
+> -			pdev = vgadev->pdev;
+> -			pci_read_config_word(pdev, PCI_COMMAND, &cmd);
+> -			if (cmd & (PCI_COMMAND_IO | PCI_COMMAND_MEMORY)) {
+> -				found = pdev;
+> -				if (vga_arb_integrated_gpu(dev))
+> -					break;
+> -			}
+> -		}
+> -	}
+> -
+> -	if (found) {
+> -		vgaarb_info(&found->dev, "setting as boot device (VGA legacy resources not available)\n");
+> -		vga_set_default_device(found);
+> -		return;
+> -	}
+> -
+> -	if (!vga_default_device()) {
+> -		vgadev = list_first_entry_or_null(&vga_list,
+> -						  struct vga_device, list);
+> -		if (vgadev) {
+> -			struct device *dev = &vgadev->pdev->dev;
+> -			vgaarb_info(dev, "setting as boot device (VGA legacy resources not available)\n");
+> -			vga_set_default_device(vgadev->pdev);
+> -		}
+> -	}
+> -}
+> -
+>  static int __init vga_arb_device_init(void)
+>  {
+>  	int rc;
+>  	struct pci_dev *pdev;
+> -	struct vga_device *vgadev;
+>  
+>  	rc = misc_register(&vga_arb_device);
+>  	if (rc < 0)
+> @@ -1571,18 +1558,6 @@ static int __init vga_arb_device_init(void)
+>  			       PCI_ANY_ID, pdev)) != NULL)
+>  		vga_arbiter_add_pci_device(pdev);
+>  
+> -	list_for_each_entry(vgadev, &vga_list, list) {
+> -		struct device *dev = &vgadev->pdev->dev;
+> -
+> -		if (vgadev->bridge_has_one_vga)
+> -			vgaarb_info(dev, "bridge control possible\n");
+> -		else
+> -			vgaarb_info(dev, "no bridge control possible\n");
+> -	}
+> -
+> -	vga_arb_select_default_device();
+> -
+> -	pr_info("loaded\n");
+>  	return rc;
+>  }
+>  subsys_initcall(vga_arb_device_init);
+> -- 
+> 2.27.0
 > 
-> Michal
-> 
->> +	data = slpc->vaddr;
->> +
->> +	*val = DIV_ROUND_CLOSEST(data->task_state_data.min_unslice_freq *
->> +				GT_FREQUENCY_MULTIPLIER, GEN9_FREQ_SCALER);
->> +
->> +done:
->> +	intel_runtime_pm_put(&i915->runtime_pm, wakeref);
->> +	return ret;
->> +}
->> +
->>   /*
->>    * intel_guc_slpc_enable() - Start SLPC
->>    * @slpc: pointer to intel_guc_slpc.
->> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h
->> index a473e1ea7c10..2cb830cdacb5 100644
->> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h
->> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h
->> @@ -36,5 +36,7 @@ int intel_guc_slpc_enable(struct intel_guc_slpc *slpc);
->>   void intel_guc_slpc_fini(struct intel_guc_slpc *slpc);
->>   int intel_guc_slpc_set_max_freq(struct intel_guc_slpc *slpc, u32 val);
->>   int intel_guc_slpc_set_min_freq(struct intel_guc_slpc *slpc, u32 val);
->> +int intel_guc_slpc_get_max_freq(struct intel_guc_slpc *slpc, u32 *val);
->> +int intel_guc_slpc_get_min_freq(struct intel_guc_slpc *slpc, u32 *val);
->>   
->>   #endif
->>
