@@ -2,54 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 688CA3CFCB4
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jul 2021 16:53:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50A413CFCBC
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jul 2021 16:55:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6DACB89C9A;
-	Tue, 20 Jul 2021 14:53:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7FD1B89AB5;
+	Tue, 20 Jul 2021 14:55:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x332.google.com (mail-ot1-x332.google.com
- [IPv6:2607:f8b0:4864:20::332])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 83B35899BB
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 14:53:41 +0000 (UTC)
-Received: by mail-ot1-x332.google.com with SMTP id
- a17-20020a9d3e110000b02904ce97efee36so9993080otd.7
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 07:53:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com
+ [IPv6:2607:f8b0:4864:20::b2d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC4856E17E
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 14:55:34 +0000 (UTC)
+Received: by mail-yb1-xb2d.google.com with SMTP id a16so33077936ybt.8
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 07:55:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=j09lu3sICtnVWYbFQVf04X58J7J9DzrYfN54qh1JeP8=;
- b=ImwZmUTbQ1ngxEuIoZFjF/bP/zahZJ+7NJ9/6qY4DJQB/hYLzUuloIM75qHIeXH6dV
- Q6AOIDxTD7W9bj6TOp1x4KTmlk0CDYTUrLVPn/k8bkZR9FDj0tjR9d+g/WuRjiF65llR
- nEuw6sCuWe9aKfWNnjgUEPREI/MT4WRg85yTo=
+ :cc; bh=VO7FngHvjooR3pflYRMPQSr7EzehAIHkkEAxRVlGWYM=;
+ b=C6xq2GrEu+XiarK4lE4sffi9t8zqCdQnvWRc2kyQ4nfwUzGpfKlB916ScuUq5+8itA
+ L8KyEN1+Vy9oyCbEb5bv8azNbzMpp1l6dseUXfM10z+pJbJYZTwGSiUzVX3JrHyoAtc/
+ /M+p/YlIUXrsqe+EC1JOZ1FQv5FK/EXJgcr2bxB3A4F8ZKzaE9JC1GxfkkeeD7fTnP5f
+ NxCjMjyY1f3tMbq856TUw5wpwOcB0j61fpWmUkkQSgBCeuC7l3PTN/F7/ijjBYKjM02o
+ t24Vyhy6XZhqA8tBa/F6/KTyBYwjjUU0S3FczQPGsGNrw6zXXBhr8zcAln7V+ReKfXj1
+ jbpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=j09lu3sICtnVWYbFQVf04X58J7J9DzrYfN54qh1JeP8=;
- b=VNOxND0AC2GfWo04Rto3nQbUpqiuJ6FfuVGfBpn1JBmu+uhYK8RKxV/RN+mG/X8pvZ
- aArDQBE3f+Pcjv64HzuXnGtAp2YSUIyukoF9hSNaV6zQ3isf/G+rG2+7SK1jR0NTrA4P
- oek78KLODwqvGFUoK3atejuVbIeYELOnpZRZdVJRq7v5XU0RUZLElsd3C5lj74hN0Vla
- kQ1JcwKFR5W7oRQ+i6Ncz1n33Zb48A7iI+Cz6A+mgEqvH0d0bCjTpRZ6ny8fdzUJH60g
- UHLI5ycDDbgWGQRvR6NMB3XULlgspsqRBUylXQ3E2wHeHqARn76dV5g0E4hiBO52pc8w
- N8xw==
-X-Gm-Message-State: AOAM531YIjAr/Vg+LLkTEszve+sugFLEkk0JHyYsxVoOU32+JF+5LPcS
- 0ZPIQqJscGazu9YV6OAZii6rUL7hBFmqTdIZykRwKQ==
-X-Google-Smtp-Source: ABdhPJzl9J0lkEu4CIIjY+U4b76K2eGMh6WUo5jGAXXEoYBh2685zCiCh40ygbBUtWz6N55Q1gllGQQLiVPua84eQ6A=
-X-Received: by 2002:a05:6830:2802:: with SMTP id
- w2mr21307426otu.303.1626792820912; 
- Tue, 20 Jul 2021 07:53:40 -0700 (PDT)
+ bh=VO7FngHvjooR3pflYRMPQSr7EzehAIHkkEAxRVlGWYM=;
+ b=ScSoH2Dj+XMEbx1Q69I0NepJkkqiStscfGm2bS2vkvVAZZg+ZDClRUOfBXYIUwCiAB
+ LyUsYenj7GaqcPE+SEVNZ2SLbOxjIutKDbojmYSIY30In5//nVpT3D3bivK9wBl0/s+d
+ ZUeS5uRlcrRNthDfCK+s0UhCw6zpVV99M4tbeijwf24WiAURHKNFTdG3EWzYbqwiFqpL
+ ekyk3bWnU5c2L875f1+0OewmRMakxvVYNhmD3iRi+Gz0BGIMWOe5qsGa/JrNE40Odbvm
+ B6l5lig2DStF5tXz5wDZTAYANWxgDoECRmXZ/CLQLlgkqkxYjcLJ1hOvjGFnkcoiGRwr
+ 2bpA==
+X-Gm-Message-State: AOAM533aLesJ7zTMRjL13Rpwq6d04k8bvlk8hgKSKaZWn0mMeH90PxYP
+ XvySJo1cko+DMUJCtsj0bC8cPSqfNvuthaHT/TFxWg==
+X-Google-Smtp-Source: ABdhPJxkEXpFlWl5pCI5DfNr/N5xhywOim1AuIoDPkrlR1wAOlPms/EB6j64Srd3mndf700JcGaE6V8MJ6pDJjPR+Xo=
+X-Received: by 2002:a25:2345:: with SMTP id j66mr35757668ybj.287.1626792934060; 
+ Tue, 20 Jul 2021 07:55:34 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210714145804.2530727-1-geert@linux-m68k.org>
- <YO8CT+Hcw1wfhnH5@ravnborg.org>
- <CAMuHMdVjXhTE2x8mRrinmh9CCrdXQr+BYPfP-peaZ4AsLwsaaA@mail.gmail.com>
-In-Reply-To: <CAMuHMdVjXhTE2x8mRrinmh9CCrdXQr+BYPfP-peaZ4AsLwsaaA@mail.gmail.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Tue, 20 Jul 2021 16:53:29 +0200
-Message-ID: <CAKMK7uGpmQ3=OB52RYFgJoH7FWwhgx1t-TcSwpwjHPMWcyRd0w@mail.gmail.com>
-Subject: Re: [PATCH resend 0/5] video: fbdev: ssd1307fb: Optimizations and
- improvements
-To: Geert Uytterhoeven <geert@linux-m68k.org>
+References: <20210719183047.2624569-1-jason@jlekstrand.net>
+ <20210719183047.2624569-4-jason@jlekstrand.net>
+ <YPbbSKpaB7yZ8KtE@phenom.ffwll.local>
+In-Reply-To: <YPbbSKpaB7yZ8KtE@phenom.ffwll.local>
+From: Jason Ekstrand <jason@jlekstrand.net>
+Date: Tue, 20 Jul 2021 09:55:22 -0500
+Message-ID: <CAOFGe973b3YPNs+0aGThP0uFTu13t94To=wu3_ZwX5DJhSoGMw@mail.gmail.com>
+Subject: Re: [PATCH 3/6] drm/i915: Always call i915_globals_exit() from
+ i915_exit()
+To: Daniel Vetter <daniel@ffwll.ch>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,55 +65,168 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- David Airlie <airlied@linux.ie>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: Intel GFX <intel-gfx@lists.freedesktop.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 15, 2021 at 8:54 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+On Tue, Jul 20, 2021 at 9:18 AM Daniel Vetter <daniel@ffwll.ch> wrote:
 >
-> Hi Sam,
->
-> On Wed, Jul 14, 2021 at 5:27 PM Sam Ravnborg <sam@ravnborg.org> wrote:
-> > On Wed, Jul 14, 2021 at 04:57:59PM +0200, Geert Uytterhoeven wrote:
-> > > This patch series optimizes console operations on ssd1307fb, after the
-> > > customary fixes and cleanups.
+> On Mon, Jul 19, 2021 at 01:30:44PM -0500, Jason Ekstrand wrote:
+> > If the driver was not fully loaded, we may still have globals lying
+> > around.  If we don't tear those down in i915_exit(), we'll leak a bunch
+> > of memory slabs.  This can happen two ways: use_kms = false and if we've
+> > run mock selftests.  In either case, we have an early exit from
+> > i915_init which happens after i915_globals_init() and we need to clean
+> > up those globals.  While we're here, add an explicit boolean instead of
+> > using a random field from i915_pci_device to detect partial loads.
 > >
-> > What is required to to have a drm driver that could do the same?
+> > The mock selftests case gets especially sticky.  The load isn't entirely
+> > a no-op.  We actually do quite a bit inside those selftests including
+> > allocating a bunch of mock objects and running tests on them.  Once all
+> > those tests are complete, we exit early from i915_init().  Perviously,
+> > i915_init() would return a non-zero error code on failure and a zero
+> > error code on success.  In the success case, we would get to i915_exit()
+> > and check i915_pci_driver.driver.owner to detect if i915_init exited early
+> > and do nothing.  In the failure case, we would fail i915_init() but
+> > there would be no opportunity to clean up globals.
+> >
+> > The most annoying part is that you don't actually notice the failure as
+> > part of the self-tests since leaking a bit of memory, while bad, doesn't
+> > result in anything observable from userspace.  Instead, the next time we
+> > load the driver (usually for next IGT test), i915_globals_init() gets
+> > invoked again, we go to allocate a bunch of new memory slabs, those
+> > implicitly create debugfs entries, and debugfs warns that we're trying
+> > to create directories and files that already exist.  Since this all
+> > happens as part of the next driver load, it shows up in the dmesg-warn
+> > of whatever IGT test ran after the mock selftests.
+> >
+> > While the obvious thing to do here might be to call i915_globals_exit()
+> > after selftests, that's not actually safe.  The dma-buf selftests call
+> > i915_gem_prime_export which creates a file.  We call dma_buf_put() on
+> > the resulting dmabuf which calls fput() on the file.  However, fput()
+> > isn't immediate and gets flushed right before syscall returns.  This
+> > means that all the fput()s from the selftests don't happen until right
+> > before the module load syscall used to fire off the selftests returns
+> > which is after i915_init().  If we call i915_globals_exit() in
+> > i915_init() after selftests, we end up freeing slabs out from under
+> > objects which won't get released until fput() is flushed at the end of
+> > the module load.
+> >
+> > The solution here is to let i915_init() return success early and detect
+> > the early success in i915_exit() and only tear down globals and nothing
+> > else.  This way the module loads successfully, regardless of the success
+> > or failure of the tests.  Because we've not enumerated any PCI devices,
+> > no device nodes are created and it's entirely useless from userspace.
+> > The only thing the module does at that point is hold on to a bit of
+> > memory until we unload it and i915_exit() is called.  Importantly, this
+> > means that everything from our selftests has the ability to properly
+> > flush out between i915_init() and i915_exit() because there are a couple
+> > syscall boundaries in between.
+> >
+> > Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
+> > Fixes: 32eb6bcfdda9 ("drm/i915: Make request allocation caches global")
+> > Cc: Daniel Vetter <daniel@ffwll.ch>
+> > ---
+> >  drivers/gpu/drm/i915/i915_pci.c | 32 +++++++++++++++++++++++++-------
+> >  1 file changed, 25 insertions(+), 7 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/i915/i915_pci.c b/drivers/gpu/drm/i915/i915_pci.c
+> > index 4e627b57d31a2..24e4e54516936 100644
+> > --- a/drivers/gpu/drm/i915/i915_pci.c
+> > +++ b/drivers/gpu/drm/i915/i915_pci.c
+> > @@ -1194,18 +1194,31 @@ static struct pci_driver i915_pci_driver = {
+> >       .driver.pm = &i915_pm_ops,
+> >  };
+> >
+> > +static bool i915_fully_loaded = false;
+> > +
+> >  static int __init i915_init(void)
+> >  {
+> >       bool use_kms = true;
+> >       int err;
+> >
+> > +     i915_fully_loaded = false;
+> > +
+> >       err = i915_globals_init();
+> >       if (err)
+> >               return err;
+> >
+> > +     /* i915_mock_selftests() only returns zero if no mock subtests were
+> > +      * run.  If we get any non-zero error code, we return early here.
+> > +      * We always return success because selftests may have allocated
+> > +      * objects from slabs which will get cleaned up by i915_exit().  We
+> > +      * could attempt to clean up immediately and fail module load but,
+> > +      * thanks to interactions with other parts of the kernel (struct
+> > +      * file, in particular), it's safer to let the module fully load
+> > +      * and then clean up on unload.
+> > +      */
+> >       err = i915_mock_selftests();
+> >       if (err)
+> > -             return err > 0 ? 0 : err;
+> > +             return 0;
 >
-> Add monochrome support to DRM?
+> At least the module options still claim that you can run selftests and
+> still load the driver. Which makes sense for perf/hw selftests, since
+> those need the driver, but would result in the same old bug resurfacing
+> that you're trying to fix there.
+>
+> Is that description just confused and needs some fixing, or do we have a
+> gap here?
 
-I think the bits that are missing for that are
-- wiring up the conversion from R* formats to their fbdev counterparts
-in the emulation helper (if you want to support userspace sending the
-native format directly through fbdev
+I don't think there's real need for a fully loaded driver after mock
+selftests.  They exist entirely to run against a mock driver, not the
+real one.
 
-Everything else is there and we have drivers doing this, e.g.
-drm/tiny/repaper.c.
--Daniel
+> Patch itself looks reasonable, with the nits from Tvrtko addressed:
 
->
-> > Note: I will take a look at the patches a bit later.
->
-> TIA!
->
-> Gr{oetje,eeting}s,
->
->                         Geert
+Done
+
+> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+
+Thanks
+
+--Jason
+
+> >
+> >       /*
+> >        * Enable KMS by default, unless explicitly overriden by
+> > @@ -1225,6 +1238,12 @@ static int __init i915_init(void)
+> >               return 0;
+> >       }
+> >
+> > +     /* After this point, i915_init() must either fully succeed or
+> > +      * properly tear everything down and fail.  We don't have separate
+> > +      * flags for each set-up bit.
+> > +      */
+> > +     i915_fully_loaded = true;
+> > +
+> >       i915_pmu_init();
+> >
+> >       err = pci_register_driver(&i915_pci_driver);
+> > @@ -1240,12 +1259,11 @@ static int __init i915_init(void)
+> >
+> >  static void __exit i915_exit(void)
+> >  {
+> > -     if (!i915_pci_driver.driver.owner)
+> > -             return;
+> > -
+> > -     i915_perf_sysctl_unregister();
+> > -     pci_unregister_driver(&i915_pci_driver);
+> > -     i915_pmu_exit();
+> > +     if (i915_fully_loaded) {
+> > +             i915_perf_sysctl_unregister();
+> > +             pci_unregister_driver(&i915_pci_driver);
+> > +             i915_pmu_exit();
+> > +     }
+> >       i915_globals_exit();
+> >  }
+> >
+> > --
+> > 2.31.1
+> >
 >
 > --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
->
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
-
-
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
