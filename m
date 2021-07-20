@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CABFD3CFD62
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jul 2021 17:22:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C5503CFD76
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jul 2021 17:25:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 084B06E429;
-	Tue, 20 Jul 2021 15:22:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3652A6E1D6;
+	Tue, 20 Jul 2021 15:25:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 265316E429;
- Tue, 20 Jul 2021 15:22:28 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10050"; a="191535496"
-X-IronPort-AV: E=Sophos;i="5.84,255,1620716400"; d="scan'208";a="191535496"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C361889CA0;
+ Tue, 20 Jul 2021 15:25:12 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10050"; a="191536031"
+X-IronPort-AV: E=Sophos;i="5.84,255,1620716400"; d="scan'208";a="191536031"
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jul 2021 08:22:21 -0700
-X-IronPort-AV: E=Sophos;i="5.84,255,1620716400"; d="scan'208";a="657573547"
+ 20 Jul 2021 08:25:12 -0700
+X-IronPort-AV: E=Sophos;i="5.84,255,1620716400"; d="scan'208";a="657574576"
 Received: from ekearns1-mobl.amr.corp.intel.com (HELO [10.213.195.253])
  ([10.213.195.253])
  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jul 2021 08:22:21 -0700
+ 20 Jul 2021 08:25:11 -0700
 Subject: Re: [Intel-gfx] [PATCH 3/6] drm/i915: Always call i915_globals_exit()
  from i915_exit()
 To: Jason Ekstrand <jason@jlekstrand.net>
 References: <20210719183047.2624569-1-jason@jlekstrand.net>
  <20210719183047.2624569-4-jason@jlekstrand.net>
  <6ecf6891-67c2-94ac-32ce-28c1a1a7db0b@linux.intel.com>
- <CAOFGe96CemtS4hBoOR8g+V-6synP_WNdHj3ed0MgRaNasV24Xw@mail.gmail.com>
+ <CAOFGe94uZ8r1f_NXWU0puQ6o+KKsxjspwMDgwi1zf7GuBfP_Jw@mail.gmail.com>
 From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
 Organization: Intel Corporation UK Plc
-Message-ID: <680ab018-920b-dccf-56b1-511868f6a017@linux.intel.com>
-Date: Tue, 20 Jul 2021 16:22:19 +0100
+Message-ID: <293936f4-b4dc-8556-8778-14879a49d29a@linux.intel.com>
+Date: Tue, 20 Jul 2021 16:25:10 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <CAOFGe96CemtS4hBoOR8g+V-6synP_WNdHj3ed0MgRaNasV24Xw@mail.gmail.com>
+In-Reply-To: <CAOFGe94uZ8r1f_NXWU0puQ6o+KKsxjspwMDgwi1zf7GuBfP_Jw@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -58,7 +58,9 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 20/07/2021 15:53, Jason Ekstrand wrote:
+On 20/07/2021 16:05, Jason Ekstrand wrote:
+> Sorry... didn't reply to everything the first time
+> 
 > On Tue, Jul 20, 2021 at 3:25 AM Tvrtko Ursulin
 > <tvrtko.ursulin@linux.intel.com> wrote:
 >>
@@ -96,13 +98,9 @@ On 20/07/2021 15:53, Jason Ekstrand wrote:
 >> until now. Was it perhaps part of the selfetsts contract that a reboot
 >> is required after failure?
 > 
-> No.  They do unload the driver, though.  They just don't re-load it.
-
-I guess that does mean behaviour is reboot after first selftests 
-failure, which would explain why it wasn't caught until now. I was 
-running selftests and I know why I did not see it but that shall not be 
-mentioned here. :)
-
+> If there is such a contract, CI doesn't follow it.  We unload the
+> driver after selftests but that's it.
+> 
 >>> While the obvious thing to do here might be to call i915_globals_exit()
 >>> after selftests, that's not actually safe.  The dma-buf selftests call
 >>> i915_gem_prime_export which creates a file.  We call dma_buf_put() on
@@ -132,15 +130,122 @@ mentioned here. :)
 >> init/unload) or there is more to it? Like why "couple" is needed and not
 >> just that the module load syscall has exited? That part sounds
 >> potentially dodgy. What mechanism is used by the delayed flush?
->>
->> Have you checked how this change interacts with the test runner and CI?
 > 
-> By the end of the series, a bunch of tests are fixed.  In particular,
-> https://gitlab.freedesktop.org/drm/intel/-/issues/3746
+> It only needs the one syscall.  I've changed the text to say "at least
+> one syscall boundary".  I think that's more clear without providing an
+> exact count which may not be tractable.
 
-Wait but that means CI does reload the driver. So again I totally don't 
-understand why this is only popping up now.
+One additional syscall _after_ the module load one exits, or just that 
+one? What is the barrier used? I don't think "syscall boundary" is an 
+established synchronisation term so lets understand fully what's 
+happening here.
 
 Regards,
 
 Tvrtko
+
+>> Have you checked how this change interacts with the test runner and CI?
+> 
+> As far as I know, there's no interesting interaction here.  That said,
+> I did just find that the live selftests fail the modprobe on selftest
+> failure which means they're tearing down globals before a full syscall
+> boundary which may be sketchy.  Fortunately, now that we have
+> i915_globals_exit() on the tear-down path if PCI probe fails, if
+> someone ever does do something sketchy there, we'll catch it in dmesg
+> immediately.  Maybe we should switch those to always return 0 as well
+> while we're here?
+> 
+>>>
+>>> Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
+>>> Fixes: 32eb6bcfdda9 ("drm/i915: Make request allocation caches global")
+>>> Cc: Daniel Vetter <daniel@ffwll.ch>
+>>> ---
+>>>    drivers/gpu/drm/i915/i915_pci.c | 32 +++++++++++++++++++++++++-------
+>>>    1 file changed, 25 insertions(+), 7 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/i915/i915_pci.c b/drivers/gpu/drm/i915/i915_pci.c
+>>> index 4e627b57d31a2..24e4e54516936 100644
+>>> --- a/drivers/gpu/drm/i915/i915_pci.c
+>>> +++ b/drivers/gpu/drm/i915/i915_pci.c
+>>> @@ -1194,18 +1194,31 @@ static struct pci_driver i915_pci_driver = {
+>>>        .driver.pm = &i915_pm_ops,
+>>>    };
+>>>
+>>> +static bool i915_fully_loaded = false;
+>>
+>> No need to initialize.
+>>
+>>> +
+>>>    static int __init i915_init(void)
+>>>    {
+>>>        bool use_kms = true;
+>>>        int err;
+>>>
+>>> +     i915_fully_loaded = false;
+>>
+>> Ditto.
+>>
+>>> +
+>>>        err = i915_globals_init();
+>>>        if (err)
+>>>                return err;
+>>>
+>>> +     /* i915_mock_selftests() only returns zero if no mock subtests were
+>>
+>>
+>> /*
+>>    * Please use this multi line comment style in i915.
+>>    */
+>>
+>>
+>>> +      * run.  If we get any non-zero error code, we return early here.
+>>> +      * We always return success because selftests may have allocated
+>>> +      * objects from slabs which will get cleaned up by i915_exit().  We
+>>> +      * could attempt to clean up immediately and fail module load but,
+>>> +      * thanks to interactions with other parts of the kernel (struct
+>>> +      * file, in particular), it's safer to let the module fully load
+>>> +      * and then clean up on unload.
+>>> +      */
+>>>        err = i915_mock_selftests();
+>>>        if (err)
+>>> -             return err > 0 ? 0 : err;
+>>> +             return 0;
+>>>
+>>>        /*
+>>>         * Enable KMS by default, unless explicitly overriden by
+>>> @@ -1225,6 +1238,12 @@ static int __init i915_init(void)
+>>>                return 0;
+>>>        }
+>>>
+>>> +     /* After this point, i915_init() must either fully succeed or
+>>> +      * properly tear everything down and fail.  We don't have separate
+>>> +      * flags for each set-up bit.
+>>> +      */
+>>> +     i915_fully_loaded = true;
+>>> +
+>>>        i915_pmu_init();
+>>>
+>>>        err = pci_register_driver(&i915_pci_driver);
+>>> @@ -1240,12 +1259,11 @@ static int __init i915_init(void)
+>>>
+>>>    static void __exit i915_exit(void)
+>>>    {
+>>> -     if (!i915_pci_driver.driver.owner)
+>>> -             return;
+>>> -
+>>> -     i915_perf_sysctl_unregister();
+>>> -     pci_unregister_driver(&i915_pci_driver);
+>>> -     i915_pmu_exit();
+>>> +     if (i915_fully_loaded) {
+>>> +             i915_perf_sysctl_unregister();
+>>> +             pci_unregister_driver(&i915_pci_driver);
+>>> +             i915_pmu_exit();
+>>> +     }
+>>>        i915_globals_exit();
+>>>    }
+>>>
+>>>
+>>
+>> Regards,
+>>
+>> Tvrtko
