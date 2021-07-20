@@ -1,144 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94C3A3D057B
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 01:38:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 981E73D05E5
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 01:54:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F3E46E20C;
-	Tue, 20 Jul 2021 23:38:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D1FC16E425;
+	Tue, 20 Jul 2021 23:54:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 37CA76E194;
- Tue, 20 Jul 2021 23:38:50 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10051"; a="211403890"
-X-IronPort-AV: E=Sophos;i="5.84,256,1620716400"; d="scan'208";a="211403890"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jul 2021 16:38:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,256,1620716400"; d="scan'208";a="496388105"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
- by orsmga001.jf.intel.com with ESMTP; 20 Jul 2021 16:38:49 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.10; Tue, 20 Jul 2021 16:38:48 -0700
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.10 via Frontend Transport; Tue, 20 Jul 2021 16:38:48 -0700
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com (104.47.73.174)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2242.10; Tue, 20 Jul 2021 16:38:48 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gCvLPfdNbXIY+PgEEulrwGfqqWwRFh7zh9mmtmmSkwYNXKqCpKbKBY0WsgNYgdJMatDB7V9+R9Xv2BQCL2KbQd/+12nvWe6Faqugm6CTD/JAPWix9CdsO89uhAR9xqvIGfAiuP6OQZmLn2R4fzDT6iqTJe/MJYlPzZ53ubBvoDWc4/zT//JAYJeJVPEzTlkOsb5t7amH32zN6fY5Lc90Zswzm7TovMq82BQkdOuHpo2zMXS7JGQ88ausSDUD/410x+iyG9TFSJebUj8ZQpGOld/2YBfOfxVX5oejyZ3q1jU0W8cBqIDZiiy9ChoyOkwbjJbKDjwCAF3tkGeu7E3Klg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/uXo3hKGZ92LpM4D3tlVmDscTHSLxbKvpwBeL9laamg=;
- b=MhiZX33YKNorpO/0ftpp/0pKhjo3Dot7DwZHw5thT262ATBAyVERULMR+MOLWkSbYfPjSK0vg5niw1yuECyaD8DPXNkEUESy8DsAQubky6q2FCGz3nlWrrw3WidVSLmSa29egl8uhwt0D6KhxWS7UllJdAWAav90Su3J2OFw4QuJmyipUwLRYH4lFAmvNaRV3qKfayMJyeEyVt9I4WUwUhA5owVnZ2lTGjYH/OaowGeeGQqOY48veflq2NzA+kNBFXkfFzhEzIiUCgr4xY/i4JtUd6NPAo1SzK+urfgP+B8m6bGp0AwBkNVQiup57Xa9mzSDvxwYc0YMUeyJMKwVpQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
- s=selector2-intel-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/uXo3hKGZ92LpM4D3tlVmDscTHSLxbKvpwBeL9laamg=;
- b=GS/UrY6IvTJJUmDJiNfDxIDRc/1N8zpBPe/YOBnmeyqegUzY1Qr/VmID1A0zH1g45cbdq9mtFoWZDjbDznGGLn+L6meLGf3GNQ+tkInbm163G1YyyYg3NJWQiVia6+tSF1a0BXFoFWxQvzObxZSA0ZDZGBo+1UzpE/NclP6QaXo=
-Authentication-Results: linux.intel.com; dkim=none (message not signed)
- header.d=none;linux.intel.com; dmarc=none action=none header.from=intel.com;
-Received: from CO6PR11MB5634.namprd11.prod.outlook.com (2603:10b6:5:35d::20)
- by CO6PR11MB5650.namprd11.prod.outlook.com (2603:10b6:5:35a::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.32; Tue, 20 Jul
- 2021 23:38:46 +0000
-Received: from CO6PR11MB5634.namprd11.prod.outlook.com
- ([fe80::5d5e:b6bf:aafa:ecd4]) by CO6PR11MB5634.namprd11.prod.outlook.com
- ([fe80::5d5e:b6bf:aafa:ecd4%8]) with mapi id 15.20.4331.034; Tue, 20 Jul 2021
- 23:38:46 +0000
-Subject: Re: [PATCH 14/16] drm/i915/guc/slpc: Sysfs hooks for slpc
-To: Michal Wajdeczko <michal.wajdeczko@intel.com>,
- <intel-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
-References: <20210710012026.19705-1-vinay.belgaumkar@intel.com>
- <20210710012026.19705-15-vinay.belgaumkar@intel.com>
- <11439c24-118c-1dc2-17cd-5b7f9bcd97de@intel.com>
-From: "Belgaumkar, Vinay" <vinay.belgaumkar@intel.com>
-Message-ID: <6ac94843-ae76-dd2d-87b7-92f6748f4116@intel.com>
-Date: Tue, 20 Jul 2021 16:38:43 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.12.0
-In-Reply-To: <11439c24-118c-1dc2-17cd-5b7f9bcd97de@intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SJ0PR13CA0160.namprd13.prod.outlook.com
- (2603:10b6:a03:2c7::15) To CO6PR11MB5634.namprd11.prod.outlook.com
- (2603:10b6:5:35d::20)
+Received: from mail-yb1-xb2f.google.com (mail-yb1-xb2f.google.com
+ [IPv6:2607:f8b0:4864:20::b2f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE4E46E425
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 23:54:31 +0000 (UTC)
+Received: by mail-yb1-xb2f.google.com with SMTP id k184so826116ybf.12
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 16:54:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=mpOBZ2loMzbLGQNWUyaTanHMAQHwDu8FYmp579NAO18=;
+ b=srmi4YCCuQTx885EfAdWLazIg4qubxUFWfv66dr7W23WvwD+n8BKdz+DMZpn0d+xhI
+ hFI8c3TlTe1I2e+Pp1B2a+EXumNXz3C583iI1PoWpjtv5TQwwutOFFVEm8FgbQyQ2BnF
+ ZQIz5KsptvmbKhGlHUpShaoABGqSrXTVLV+0qS1S/5Zb2j1xyNsG3wwVPfhdUzqD4+5c
+ ts7FNKPxwkE2jpBavnsaWIu/TjdrFF3JyiovWha+yL9jD1O8WO5935sgT89Q/Rc4MFn+
+ Enaa/VemUrxJ/jwf3QFhno4xdcQROCh90vllg65J4VEwFuqkcom1RNARe7SjyGtraqTQ
+ sH+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=mpOBZ2loMzbLGQNWUyaTanHMAQHwDu8FYmp579NAO18=;
+ b=NK8gZBMNNA5MLnPCW97Ra4BS+NKzF/DXs3mf2Ove7ZhVE8EincQapeJtQxnYDiBZ6S
+ WsCDLDaV3L/pxHFA2uO2BdgLAKd0wSS9w6NAQ/HHeZcUpzR9qSAdOHrErN37nmCWxnH7
+ o3+zzgtBecajVFN/yPwWj6DNJHOTiqDHtNvd5gi80d0qw2KgE/tZfTs/P9Hp1rW8xYvJ
+ h+lU3rvdVIyoZavr6gLiqPRqSlBEGDpGbo7VOYmUWWVdRMV5fyA/nTzcSmsvUYb0e2mv
+ U0VIMwVvN9YN9LOiLWVQ7R7FIzweFHT7DlafRKKC/GF+BoD4/DiIfpnJRU5lsoklADcZ
+ /A1g==
+X-Gm-Message-State: AOAM5328E7QnvRJcz6Mgm4ulqcY8sVxRjeC9hxb19ewfAitOgCIWDQa2
+ sNn2Z15EgBVyn/HZi1Zt3TdPkBc3+oAbK5T27AIkBA==
+X-Google-Smtp-Source: ABdhPJxOWb6ZQpxv+aZoyl1rsqq9QC86iJo9s7RtNVh/K3pnv37JFZd+NhXLfaSVT4m3pzGetsJttnOaTeWb0mGa+RY=
+X-Received: by 2002:a25:bb91:: with SMTP id y17mr40882450ybg.177.1626825270766; 
+ Tue, 20 Jul 2021 16:54:30 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.1.71] (99.88.121.38) by
- SJ0PR13CA0160.namprd13.prod.outlook.com (2603:10b6:a03:2c7::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4352.9 via Frontend
- Transport; Tue, 20 Jul 2021 23:38:45 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 8eef48ee-df4e-4c84-d985-08d94bd7842d
-X-MS-TrafficTypeDiagnostic: CO6PR11MB5650:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <CO6PR11MB5650DA7D84B0EE776FFE815485E29@CO6PR11MB5650.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:5516;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 8pF2YGI4Eo6DNfKi5KjReC5OCx0P38SS6YpxdzcdViWwJdFg1Tno86DMcRqCD6RwnSlTzvrQWHUHkTruCweLwvWtaIio8W/rJyuBT9tL4BcWswrFVBu4ckYrB0tJRgP3ClZ5r8g1FctoO18ERnTtj5wWxb12W2ADSvcS1Ru5UYWOm0zRghHi5wrD8Vo9rrihD65sGL+l5Ea0UGyCZ1z8hU6se89pdVdIRIXX4RvQRQ8LpCjaSQExSafG6bduWJVHDQlAhIcII+iDibb9PaMia6Ee5L2dC3VgCprJjCbWBV4wPdAgsunD6isgaj4Rzk7gCGOScFErBgqCbDVFm+Z8TgPyh0P1onVADPE0J7fLduGWiWUI9VnHXIlkp666NKQSUa5CU793gbMBJCOb1YZquczq+k2PaDjuu5s1syGjCe0O259jR6ENJ9EiY2BU4kRVQ1sAfHDcmBlIlPqlhTV6AecxLSTa3IM5/HsmA70HIh+iKydsMpUojFO5aBOwYKdNFi1lTFo2nIV4g0+q3iv8uUldSmCXCHNKkxa4yKzxuUjzQHeQe1ArhkNyzPp54/9xBMujTzPMIkNntWr6eOSdBH/gVFGuiSbs4gxgrU59ABdwN32ZH+w4UqQ4pYBm/C/ngWxQPZ+ULWYUtRkmfK/YTFka9Uvc2UhY5GK0binRUz8cZcaEFwe5qUcDFq2EIc0Jx53EW/ozFsdTQUKeR+rhcFT5LwlBUa+lGTbQOulHpnU=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CO6PR11MB5634.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(366004)(39860400002)(136003)(376002)(396003)(38100700002)(186003)(86362001)(31696002)(66476007)(66556008)(66946007)(6486002)(8676002)(956004)(30864003)(26005)(2906002)(8936002)(36756003)(53546011)(4326008)(478600001)(2616005)(316002)(31686004)(16576012)(54906003)(5660300002)(83380400001)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RW1PWEZTS2YyRUlPNnA1UFhrLzZmM3hoRTlNZkJJNFNpTWoweFdoSlNncjJS?=
- =?utf-8?B?dWtLcXZuRWdMalFYQ2Jod1IrQmE0K2k1NG1GemhhOG5TemoyT2ZmMGJnWEtL?=
- =?utf-8?B?RFQ1VWtKdDROOEIzOURWemtBMjJIRWI1b1hBOUh1amJCem4xVTdtaHJSdzVM?=
- =?utf-8?B?LzFKN0FCSnFhQXlQMFQ3SnV5SUpZQXorSzN3bXRaR2tESkI4RitiaUdXd1Qr?=
- =?utf-8?B?eFpWd2tzMXhvdDVzSGZOKzVuMng3SlE4bUpVcm0rKzBwU3lqcUxOSlhDM0p1?=
- =?utf-8?B?RzBIWFREWHE4aUFpMTZnbnVKN0M2WDkzcllrMDFDREhtWjZDcjVnaUNoRFhB?=
- =?utf-8?B?UlpWRWFNN0tvWTdYdDlzRDY0UEw5eDljMG1Kem9Nbm81NGp2azcvRDhCQUd1?=
- =?utf-8?B?VlpnWVh6YjRQZUh2KzN0Um12NDFXS0VQYXQyUDcwUEpuT0VXTDdUV1pLUHVZ?=
- =?utf-8?B?MEhnRlJLb3RUV2xhajdISC9LU3U2aGowUXI4OG5lVElReW9JYUc4M3ArZEFk?=
- =?utf-8?B?c2EybElmdU00a3dsd041b053bG4rS2NnaldjWmlyMFRaa2ZWalNvSGhBNlE4?=
- =?utf-8?B?WUFDdnp4UmFuVGEwNVFlUTFQeXZickVSS2xXL09lWVB2TU95cmw4NjBUVDZl?=
- =?utf-8?B?R0pyZEdaTk40MUI5aGF3a2VnaFpnVFY0MmpkZHc1ODNlM2EybkxYNDM4aFR3?=
- =?utf-8?B?dDVlR3pRMFVpOE15UXVGNlNUQ3NUbmo4WllsSXNIbEJoT3ljaGczcEdnT3FG?=
- =?utf-8?B?cFdYYTJmQm9MVjErRStWWGpjVFQ2QzFnTUZxc0ZWZEJGSWtLalRCdGgrQUZC?=
- =?utf-8?B?NEt3ZEN5eDBCcWJ5cm9hT28wN3ovMnIzMDNOV2dQdzJOSnBCdytPMlhZUVdT?=
- =?utf-8?B?Vzhsc0xHNTlab0NmSUloQnBocTBkRm5pb2I3dks1Z3F2QWZ1UkRBcGxKUmJt?=
- =?utf-8?B?OC9Cb2lMT2ZzUWJEUWxVbktQSUV5RmFCcmd2VWhBcjlHK2lUY1dHQ3A0VzVp?=
- =?utf-8?B?VTg0Nk5ZTnJPZENoZFJIeExVZHlQZjdkZVRYdm5qMUpkRjdjaWZvQkRlWk51?=
- =?utf-8?B?WW5lQkVDckRNa05YWTBZYXNsckkwdmZOcEZkVGVTWUJZWlVjSEoyUzQ4b082?=
- =?utf-8?B?NGNlbnNVeDU3ODlUVTEzVjJWc240NUJVa0Z0SURpeDJrdzdEdlZCaytlL2My?=
- =?utf-8?B?bGZ2ZStuSWpmSUdpUTQ2ZzRpdjFMeDNNZ1k2SHJEM3JTbUxXSlg3OHViT0Fl?=
- =?utf-8?B?ZUdMUkc2M2tJdmVvS1hDaGZKY2hKTWFUOHhaeGxOOXJMVkNIVW16RFY5S0xk?=
- =?utf-8?B?aHpKc3FNYnNwSGlLZm5hOXpERUtTNWpTeWJNdFhRL1B1NVh6L2UybldHa3dk?=
- =?utf-8?B?OVE2WEJTR0JlTkdqRzgvYmxmK2kxTHNXTFZjREJNV0hOSG43VEtua3JDditp?=
- =?utf-8?B?NkNGczc2TDU0MkZBdm5FNElUYXlJR0g1ekpsSGErdnFmNnZWclZEVWNNUFh5?=
- =?utf-8?B?V0toSEsvemxGUlpPaHlsQi85dGdXR2JOUFRGRkpvMzVFQU45SjNTOWRpcGtD?=
- =?utf-8?B?WDYyeEtPUG1WWHc5QVlkWDZEeFVucFk4c3I1NVJkdS9aZHgrbklSbXpKa0FI?=
- =?utf-8?B?SFFuakR2S0pIR1pIbHFGSWJuL1ZPbGVnMzJnOEprYzJmNE1mQXVLTjRPSUkz?=
- =?utf-8?B?eGtpeHFEUmh4TkhsRmk1TzQydmNCUWRTQzBQVzBPS2Z3UXljbTZhSTF4azlY?=
- =?utf-8?Q?KiYM17Xsb6I+we+aATaxJ7OTacDi9ao/KDuDSGY?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8eef48ee-df4e-4c84-d985-08d94bd7842d
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5634.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jul 2021 23:38:45.8698 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: bobNyi8Qj5ifRLuV2P2o1qj2sB8dKRVg5KDRDhn31x4A9TvDi+je+cR2f+r+M7tSuDSlzGenMw2t5oZHxLo6bcHSTz3flARygug0q8i/kVo=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR11MB5650
-X-OriginatorOrg: intel.com
+References: <20210713040742.2680135-1-hridya@google.com>
+ <35bf2a85-f699-7179-402e-c39ddf0d9106@amd.com>
+In-Reply-To: <35bf2a85-f699-7179-402e-c39ddf0d9106@amd.com>
+From: Hridya Valsaraju <hridya@google.com>
+Date: Tue, 20 Jul 2021 16:53:54 -0700
+Message-ID: <CA+wgaPMHA+8+LxfGNL+q4=XrdXqfu4TXoWLX7e28z9Z7kPsf-w@mail.gmail.com>
+Subject: Re: [PATCH v2] dma-buf: Delete the DMA-BUF attachment sysfs statistics
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -151,371 +64,508 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Sujaritha Sundaresan <sujaritha.sundaresan@intel.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ surenb@google.com, kernel-team@android.com, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, Jul 20, 2021 at 2:11 AM Christian K=C3=B6nig
+<christian.koenig@amd.com> wrote:
+>
+> Am 13.07.21 um 06:07 schrieb Hridya Valsaraju:
+> > The DMA-BUF attachment statistics form a subset of the DMA-BUF
+> > sysfs statistics that recently merged to the drm-misc tree. They are no=
+t
+> > UABI yet since they have not merged to the upstream Linux kernel.
+> >
+> > Since there has been a reported a performance regression due to the
+> > overhead of sysfs directory creation/teardown during
+> > dma_buf_attach()/dma_buf_detach(), this patch deletes the DMA-BUF
+> > attachment statistics from sysfs.
+> >
+> > Fixes: bdb8d06dfefd (dmabuf: Add the capability to expose DMA-BUF stats
+> > in sysfs)
+> > Signed-off-by: Hridya Valsaraju <hridya@google.com>
+> > Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+> > Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > ---
+> >
+> > Changes in v2:
+> > Updated commit message to clarify that the sysfs files being removed
+> > have not yet merged to upstream Linux and are hence not ABI.
+> >
+> > Hi Christian,
+> >
+> > I have updated the commit message as per your suggestion. Please do tak=
+e
+> > another look when you get a chance.
+>
+> I've just pushed that one to drm-misc-next. Sorry for the delay.
 
+No worries at all, thank you Christian.
 
-On 7/10/2021 11:20 AM, Michal Wajdeczko wrote:
-> 
-> 
-> On 10.07.2021 03:20, Vinay Belgaumkar wrote:
->> Update the get/set min/max freq hooks to work for
->> slpc case as well. Consolidate helpers for requested/min/max
->> frequency get/set to intel_rps where the proper action can
->> be taken depending on whether slpc is enabled.
-> 
-> 2x s/slpc/SLPC
+Regards,
+Hridya
 
-done.
-> 
->>
->> Signed-off-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
->> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
->> Signed-off-by: Sujaritha Sundaresan <sujaritha.sundaresan@intel.com>
->> ---
->>   drivers/gpu/drm/i915/gt/intel_rps.c | 135 ++++++++++++++++++++++++++++
->>   drivers/gpu/drm/i915/gt/intel_rps.h |   5 ++
->>   drivers/gpu/drm/i915/i915_pmu.c     |   2 +-
->>   drivers/gpu/drm/i915/i915_reg.h     |   2 +
->>   drivers/gpu/drm/i915/i915_sysfs.c   |  71 +++------------
->>   5 files changed, 154 insertions(+), 61 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/i915/gt/intel_rps.c b/drivers/gpu/drm/i915/gt/intel_rps.c
->> index e858eeb2c59d..88ffc5d90730 100644
->> --- a/drivers/gpu/drm/i915/gt/intel_rps.c
->> +++ b/drivers/gpu/drm/i915/gt/intel_rps.c
->> @@ -37,6 +37,12 @@ static struct intel_uncore *rps_to_uncore(struct intel_rps *rps)
->>   	return rps_to_gt(rps)->uncore;
->>   }
->>   
->> +static struct intel_guc_slpc *rps_to_slpc(struct intel_rps *rps)
->> +{
->> +	struct intel_gt *gt = rps_to_gt(rps);
->> +	return &gt->uc.guc.slpc;
-> 
-> either add empty line between decl/code or make it one-liner
-
-done.
-
-> 
->> +}
->> +
->>   static bool rps_uses_slpc(struct intel_rps *rps)
->>   {
->>   	struct intel_gt *gt = rps_to_gt(rps);
->> @@ -1960,6 +1966,135 @@ u32 intel_rps_read_actual_frequency(struct intel_rps *rps)
->>   	return freq;
->>   }
->>   
->> +u32 intel_rps_read_punit_req(struct intel_rps *rps)
->> +{
->> +	struct intel_uncore *uncore = rps_to_uncore(rps);
->> +
-> 
-> drop empty line
-
-done.
-> 
->> +	u32 pureq = intel_uncore_read(uncore, GEN6_RPNSWREQ);
->> +
->> +	return pureq;
->> +}
->> +
->> +u32 intel_rps_get_req(struct intel_rps *rps, u32 pureq)
->> +{
->> +	u32 req = pureq >> GEN9_SW_REQ_UNSLICE_RATIO_SHIFT;
->> +
->> +	return req;
->> +}
->> +
->> +u32 intel_rps_read_punit_req_frequency(struct intel_rps *rps)
->> +{
->> +	u32 freq = intel_rps_get_req(rps, intel_rps_read_punit_req(rps));
->> +
->> +	return intel_gpu_freq(rps, freq);
->> +}
->> +
->> +u32 intel_rps_get_requested_frequency(struct intel_rps *rps)
->> +{
->> +	if (rps_uses_slpc(rps))
->> +		return intel_rps_read_punit_req_frequency(rps);
->> +	else
->> +		return intel_gpu_freq(rps, rps->cur_freq);
->> +}
->> +
->> +u32 intel_rps_get_max_frequency(struct intel_rps *rps)
->> +{
->> +	struct intel_guc_slpc *slpc = rps_to_slpc(rps);
->> +
->> +	if (rps_uses_slpc(rps))
->> +		return slpc->max_freq_softlimit;
->> +	else
->> +		return intel_gpu_freq(rps, rps->max_freq_softlimit);
->> +}
->> +
->> +int intel_rps_set_max_frequency(struct intel_rps *rps, u32 val)
->> +{
->> +	struct intel_guc_slpc *slpc = rps_to_slpc(rps);
->> +	int ret;
->> +
->> +	if (rps_uses_slpc(rps))
->> +		return intel_guc_slpc_set_max_freq(slpc, val);
->> +
->> +	mutex_lock(&rps->lock);
->> +
->> +	val = intel_freq_opcode(rps, val);
->> +	if (val < rps->min_freq ||
->> +	    val > rps->max_freq ||
->> +	    val < rps->min_freq_softlimit) {
->> +		ret = -EINVAL;
->> +		goto unlock;
->> +	}
->> +
->> +	if (val > rps->rp0_freq)
->> +		DRM_DEBUG("User requested overclocking to %d\n",
-> 
-> use drm_dbg
-
-Done.
-
-Thanks,
-Vinay.
-> 
-> Michal
-> 
->> +			  intel_gpu_freq(rps, val));
->> +
->> +	rps->max_freq_softlimit = val;
->> +
->> +	val = clamp_t(int, rps->cur_freq,
->> +		      rps->min_freq_softlimit,
->> +		      rps->max_freq_softlimit);
->> +
->> +	/*
->> +	 * We still need *_set_rps to process the new max_delay and
->> +	 * update the interrupt limits and PMINTRMSK even though
->> +	 * frequency request may be unchanged.
->> +	 */
->> +	intel_rps_set(rps, val);
->> +
->> +unlock:
->> +	mutex_unlock(&rps->lock);
->> +
->> +	return ret;
->> +}
->> +
->> +u32 intel_rps_get_min_frequency(struct intel_rps *rps)
->> +{
->> +	struct intel_guc_slpc *slpc = rps_to_slpc(rps);
->> +
->> +	if (rps_uses_slpc(rps))
->> +		return slpc->min_freq_softlimit;
->> +	else
->> +		return intel_gpu_freq(rps, rps->min_freq_softlimit);
->> +}
->> +
->> +int intel_rps_set_min_frequency(struct intel_rps *rps, u32 val)
->> +{
->> +	struct intel_guc_slpc *slpc = rps_to_slpc(rps);
->> +	int ret;
->> +
->> +	if (rps_uses_slpc(rps))
->> +		return intel_guc_slpc_set_min_freq(slpc, val);
->> +
->> +	mutex_lock(&rps->lock);
->> +
->> +	val = intel_freq_opcode(rps, val);
->> +	if (val < rps->min_freq ||
->> +	    val > rps->max_freq ||
->> +	    val > rps->max_freq_softlimit) {
->> +		ret = -EINVAL;
->> +		goto unlock;
->> +	}
->> +
->> +	rps->min_freq_softlimit = val;
->> +
->> +	val = clamp_t(int, rps->cur_freq,
->> +		      rps->min_freq_softlimit,
->> +		      rps->max_freq_softlimit);
->> +
->> +	/*
->> +	 * We still need *_set_rps to process the new min_delay and
->> +	 * update the interrupt limits and PMINTRMSK even though
->> +	 * frequency request may be unchanged.
->> +	 */
->> +	intel_rps_set(rps, val);
->> +
->> +unlock:
->> +	mutex_unlock(&rps->lock);
->> +
->> +	return ret;
->> +}
->> +
->>   /* External interface for intel_ips.ko */
->>   
->>   static struct drm_i915_private __rcu *ips_mchdev;
->> diff --git a/drivers/gpu/drm/i915/gt/intel_rps.h b/drivers/gpu/drm/i915/gt/intel_rps.h
->> index 1d2cfc98b510..9a09ff5ebf64 100644
->> --- a/drivers/gpu/drm/i915/gt/intel_rps.h
->> +++ b/drivers/gpu/drm/i915/gt/intel_rps.h
->> @@ -31,6 +31,11 @@ int intel_gpu_freq(struct intel_rps *rps, int val);
->>   int intel_freq_opcode(struct intel_rps *rps, int val);
->>   u32 intel_rps_get_cagf(struct intel_rps *rps, u32 rpstat1);
->>   u32 intel_rps_read_actual_frequency(struct intel_rps *rps);
->> +u32 intel_rps_get_requested_frequency(struct intel_rps *rps);
->> +u32 intel_rps_get_min_frequency(struct intel_rps *rps);
->> +int intel_rps_set_min_frequency(struct intel_rps *rps, u32 val);
->> +u32 intel_rps_get_max_frequency(struct intel_rps *rps);
->> +int intel_rps_set_max_frequency(struct intel_rps *rps, u32 val);
->>   
->>   void gen5_rps_irq_handler(struct intel_rps *rps);
->>   void gen6_rps_irq_handler(struct intel_rps *rps, u32 pm_iir);
->> diff --git a/drivers/gpu/drm/i915/i915_pmu.c b/drivers/gpu/drm/i915/i915_pmu.c
->> index 34d37d46a126..a896bec18255 100644
->> --- a/drivers/gpu/drm/i915/i915_pmu.c
->> +++ b/drivers/gpu/drm/i915/i915_pmu.c
->> @@ -407,7 +407,7 @@ frequency_sample(struct intel_gt *gt, unsigned int period_ns)
->>   
->>   	if (pmu->enable & config_mask(I915_PMU_REQUESTED_FREQUENCY)) {
->>   		add_sample_mult(&pmu->sample[__I915_SAMPLE_FREQ_REQ],
->> -				intel_gpu_freq(rps, rps->cur_freq),
->> +				intel_rps_get_requested_frequency(rps),
->>   				period_ns / 1000);
->>   	}
->>   
->> diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
->> index 7d9e90aa3ec0..8ab3c2f8f8e4 100644
->> --- a/drivers/gpu/drm/i915/i915_reg.h
->> +++ b/drivers/gpu/drm/i915/i915_reg.h
->> @@ -9195,6 +9195,8 @@ enum {
->>   #define   GEN9_FREQUENCY(x)			((x) << 23)
->>   #define   GEN6_OFFSET(x)			((x) << 19)
->>   #define   GEN6_AGGRESSIVE_TURBO			(0 << 15)
->> +#define   GEN9_SW_REQ_UNSLICE_RATIO_SHIFT 	23
->> +
->>   #define GEN6_RC_VIDEO_FREQ			_MMIO(0xA00C)
->>   #define GEN6_RC_CONTROL				_MMIO(0xA090)
->>   #define   GEN6_RC_CTL_RC6pp_ENABLE		(1 << 16)
->> diff --git a/drivers/gpu/drm/i915/i915_sysfs.c b/drivers/gpu/drm/i915/i915_sysfs.c
->> index 873bf996ceb5..f2eee8491b19 100644
->> --- a/drivers/gpu/drm/i915/i915_sysfs.c
->> +++ b/drivers/gpu/drm/i915/i915_sysfs.c
->> @@ -272,7 +272,7 @@ static ssize_t gt_cur_freq_mhz_show(struct device *kdev,
->>   	struct drm_i915_private *i915 = kdev_minor_to_i915(kdev);
->>   	struct intel_rps *rps = &i915->gt.rps;
->>   
->> -	return sysfs_emit(buf, "%d\n", intel_gpu_freq(rps, rps->cur_freq));
->> +	return sysfs_emit(buf, "%d\n", intel_rps_get_requested_frequency(rps));
->>   }
->>   
->>   static ssize_t gt_boost_freq_mhz_show(struct device *kdev, struct device_attribute *attr, char *buf)
->> @@ -326,9 +326,10 @@ static ssize_t vlv_rpe_freq_mhz_show(struct device *kdev,
->>   static ssize_t gt_max_freq_mhz_show(struct device *kdev, struct device_attribute *attr, char *buf)
->>   {
->>   	struct drm_i915_private *dev_priv = kdev_minor_to_i915(kdev);
->> -	struct intel_rps *rps = &dev_priv->gt.rps;
->> +	struct intel_gt *gt = &dev_priv->gt;
->> +	struct intel_rps *rps = &gt->rps;
->>   
->> -	return sysfs_emit(buf, "%d\n", intel_gpu_freq(rps, rps->max_freq_softlimit));
->> +	return sysfs_emit(buf, "%d\n", intel_rps_get_max_frequency(rps));
->>   }
->>   
->>   static ssize_t gt_max_freq_mhz_store(struct device *kdev,
->> @@ -336,7 +337,8 @@ static ssize_t gt_max_freq_mhz_store(struct device *kdev,
->>   				     const char *buf, size_t count)
->>   {
->>   	struct drm_i915_private *dev_priv = kdev_minor_to_i915(kdev);
->> -	struct intel_rps *rps = &dev_priv->gt.rps;
->> +	struct intel_gt *gt = &dev_priv->gt;
->> +	struct intel_rps *rps = &gt->rps;
->>   	ssize_t ret;
->>   	u32 val;
->>   
->> @@ -344,35 +346,7 @@ static ssize_t gt_max_freq_mhz_store(struct device *kdev,
->>   	if (ret)
->>   		return ret;
->>   
->> -	mutex_lock(&rps->lock);
->> -
->> -	val = intel_freq_opcode(rps, val);
->> -	if (val < rps->min_freq ||
->> -	    val > rps->max_freq ||
->> -	    val < rps->min_freq_softlimit) {
->> -		ret = -EINVAL;
->> -		goto unlock;
->> -	}
->> -
->> -	if (val > rps->rp0_freq)
->> -		DRM_DEBUG("User requested overclocking to %d\n",
->> -			  intel_gpu_freq(rps, val));
->> -
->> -	rps->max_freq_softlimit = val;
->> -
->> -	val = clamp_t(int, rps->cur_freq,
->> -		      rps->min_freq_softlimit,
->> -		      rps->max_freq_softlimit);
->> -
->> -	/*
->> -	 * We still need *_set_rps to process the new max_delay and
->> -	 * update the interrupt limits and PMINTRMSK even though
->> -	 * frequency request may be unchanged.
->> -	 */
->> -	intel_rps_set(rps, val);
->> -
->> -unlock:
->> -	mutex_unlock(&rps->lock);
->> +	ret = intel_rps_set_max_frequency(rps, val);
->>   
->>   	return ret ?: count;
->>   }
->> @@ -380,9 +354,10 @@ static ssize_t gt_max_freq_mhz_store(struct device *kdev,
->>   static ssize_t gt_min_freq_mhz_show(struct device *kdev, struct device_attribute *attr, char *buf)
->>   {
->>   	struct drm_i915_private *dev_priv = kdev_minor_to_i915(kdev);
->> -	struct intel_rps *rps = &dev_priv->gt.rps;
->> +	struct intel_gt *gt = &dev_priv->gt;
->> +	struct intel_rps *rps = &gt->rps;
->>   
->> -	return sysfs_emit(buf, "%d\n", intel_gpu_freq(rps, rps->min_freq_softlimit));
->> +	return sysfs_emit(buf, "%d\n", intel_rps_get_min_frequency(rps));
->>   }
->>   
->>   static ssize_t gt_min_freq_mhz_store(struct device *kdev,
->> @@ -398,31 +373,7 @@ static ssize_t gt_min_freq_mhz_store(struct device *kdev,
->>   	if (ret)
->>   		return ret;
->>   
->> -	mutex_lock(&rps->lock);
->> -
->> -	val = intel_freq_opcode(rps, val);
->> -	if (val < rps->min_freq ||
->> -	    val > rps->max_freq ||
->> -	    val > rps->max_freq_softlimit) {
->> -		ret = -EINVAL;
->> -		goto unlock;
->> -	}
->> -
->> -	rps->min_freq_softlimit = val;
->> -
->> -	val = clamp_t(int, rps->cur_freq,
->> -		      rps->min_freq_softlimit,
->> -		      rps->max_freq_softlimit);
->> -
->> -	/*
->> -	 * We still need *_set_rps to process the new min_delay and
->> -	 * update the interrupt limits and PMINTRMSK even though
->> -	 * frequency request may be unchanged.
->> -	 */
->> -	intel_rps_set(rps, val);
->> -
->> -unlock:
->> -	mutex_unlock(&rps->lock);
->> +	ret = intel_rps_set_min_frequency(rps, val);
->>   
->>   	return ret ?: count;
->>   }
->>
+>
+> Regards,
+> Christian.
+>
+> >
+> > Thanks,
+> > Hridya
+> >
+> >   .../ABI/testing/sysfs-kernel-dmabuf-buffers   |  28 ----
+> >   drivers/dma-buf/dma-buf-sysfs-stats.c         | 140 +----------------=
+-
+> >   drivers/dma-buf/dma-buf-sysfs-stats.h         |  27 ----
+> >   drivers/dma-buf/dma-buf.c                     |  16 --
+> >   include/linux/dma-buf.h                       |  17 ---
+> >   5 files changed, 4 insertions(+), 224 deletions(-)
+> >
+> > diff --git a/Documentation/ABI/testing/sysfs-kernel-dmabuf-buffers b/Do=
+cumentation/ABI/testing/sysfs-kernel-dmabuf-buffers
+> > index a243984ed420..5d3bc997dc64 100644
+> > --- a/Documentation/ABI/testing/sysfs-kernel-dmabuf-buffers
+> > +++ b/Documentation/ABI/testing/sysfs-kernel-dmabuf-buffers
+> > @@ -22,31 +22,3 @@ KernelVersion:     v5.13
+> >   Contact:    Hridya Valsaraju <hridya@google.com>
+> >   Description:        This file is read-only and specifies the size of =
+the DMA-BUF in
+> >               bytes.
+> > -
+> > -What:                /sys/kernel/dmabuf/buffers/<inode_number>/attachm=
+ents
+> > -Date:                May 2021
+> > -KernelVersion:       v5.13
+> > -Contact:     Hridya Valsaraju <hridya@google.com>
+> > -Description: This directory will contain subdirectories representing e=
+very
+> > -             attachment of the DMA-BUF.
+> > -
+> > -What:                /sys/kernel/dmabuf/buffers/<inode_number>/attachm=
+ents/<attachment_uid>
+> > -Date:                May 2021
+> > -KernelVersion:       v5.13
+> > -Contact:     Hridya Valsaraju <hridya@google.com>
+> > -Description: This directory will contain information on the attached d=
+evice
+> > -             and the number of current distinct device mappings.
+> > -
+> > -What:                /sys/kernel/dmabuf/buffers/<inode_number>/attachm=
+ents/<attachment_uid>/device
+> > -Date:                May 2021
+> > -KernelVersion:       v5.13
+> > -Contact:     Hridya Valsaraju <hridya@google.com>
+> > -Description: This file is read-only and is a symlink to the attached d=
+evice's
+> > -             sysfs entry.
+> > -
+> > -What:                /sys/kernel/dmabuf/buffers/<inode_number>/attachm=
+ents/<attachment_uid>/map_counter
+> > -Date:                May 2021
+> > -KernelVersion:       v5.13
+> > -Contact:     Hridya Valsaraju <hridya@google.com>
+> > -Description: This file is read-only and contains a map_counter indicat=
+ing the
+> > -             number of distinct device mappings of the attachment.
+> > diff --git a/drivers/dma-buf/dma-buf-sysfs-stats.c b/drivers/dma-buf/dm=
+a-buf-sysfs-stats.c
+> > index a2638e84199c..053baadcada9 100644
+> > --- a/drivers/dma-buf/dma-buf-sysfs-stats.c
+> > +++ b/drivers/dma-buf/dma-buf-sysfs-stats.c
+> > @@ -40,14 +40,11 @@
+> >    *
+> >    * * ``/sys/kernel/dmabuf/buffers/<inode_number>/exporter_name``
+> >    * * ``/sys/kernel/dmabuf/buffers/<inode_number>/size``
+> > - * * ``/sys/kernel/dmabuf/buffers/<inode_number>/attachments/<attach_u=
+id>/device``
+> > - * * ``/sys/kernel/dmabuf/buffers/<inode_number>/attachments/<attach_u=
+id>/map_counter``
+> >    *
+> > - * The information in the interface can also be used to derive per-exp=
+orter and
+> > - * per-device usage statistics. The data from the interface can be gat=
+hered
+> > - * on error conditions or other important events to provide a snapshot=
+ of
+> > - * DMA-BUF usage. It can also be collected periodically by telemetry t=
+o monitor
+> > - * various metrics.
+> > + * The information in the interface can also be used to derive per-exp=
+orter
+> > + * statistics. The data from the interface can be gathered on error co=
+nditions
+> > + * or other important events to provide a snapshot of DMA-BUF usage.
+> > + * It can also be collected periodically by telemetry to monitor vario=
+us metrics.
+> >    *
+> >    * Detailed documentation about the interface is present in
+> >    * Documentation/ABI/testing/sysfs-kernel-dmabuf-buffers.
+> > @@ -121,120 +118,6 @@ static struct kobj_type dma_buf_ktype =3D {
+> >       .default_groups =3D dma_buf_stats_default_groups,
+> >   };
+> >
+> > -#define to_dma_buf_attach_entry_from_kobj(x) container_of(x, struct dm=
+a_buf_attach_sysfs_entry, kobj)
+> > -
+> > -struct dma_buf_attach_stats_attribute {
+> > -     struct attribute attr;
+> > -     ssize_t (*show)(struct dma_buf_attach_sysfs_entry *sysfs_entry,
+> > -                     struct dma_buf_attach_stats_attribute *attr, char=
+ *buf);
+> > -};
+> > -#define to_dma_buf_attach_stats_attr(x) container_of(x, struct dma_buf=
+_attach_stats_attribute, attr)
+> > -
+> > -static ssize_t dma_buf_attach_stats_attribute_show(struct kobject *kob=
+j,
+> > -                                                struct attribute *attr=
+,
+> > -                                                char *buf)
+> > -{
+> > -     struct dma_buf_attach_stats_attribute *attribute;
+> > -     struct dma_buf_attach_sysfs_entry *sysfs_entry;
+> > -
+> > -     attribute =3D to_dma_buf_attach_stats_attr(attr);
+> > -     sysfs_entry =3D to_dma_buf_attach_entry_from_kobj(kobj);
+> > -
+> > -     if (!attribute->show)
+> > -             return -EIO;
+> > -
+> > -     return attribute->show(sysfs_entry, attribute, buf);
+> > -}
+> > -
+> > -static const struct sysfs_ops dma_buf_attach_stats_sysfs_ops =3D {
+> > -     .show =3D dma_buf_attach_stats_attribute_show,
+> > -};
+> > -
+> > -static ssize_t map_counter_show(struct dma_buf_attach_sysfs_entry *sys=
+fs_entry,
+> > -                             struct dma_buf_attach_stats_attribute *at=
+tr,
+> > -                             char *buf)
+> > -{
+> > -     return sysfs_emit(buf, "%u\n", sysfs_entry->map_counter);
+> > -}
+> > -
+> > -static struct dma_buf_attach_stats_attribute map_counter_attribute =3D
+> > -     __ATTR_RO(map_counter);
+> > -
+> > -static struct attribute *dma_buf_attach_stats_default_attrs[] =3D {
+> > -     &map_counter_attribute.attr,
+> > -     NULL,
+> > -};
+> > -ATTRIBUTE_GROUPS(dma_buf_attach_stats_default);
+> > -
+> > -static void dma_buf_attach_sysfs_release(struct kobject *kobj)
+> > -{
+> > -     struct dma_buf_attach_sysfs_entry *sysfs_entry;
+> > -
+> > -     sysfs_entry =3D to_dma_buf_attach_entry_from_kobj(kobj);
+> > -     kfree(sysfs_entry);
+> > -}
+> > -
+> > -static struct kobj_type dma_buf_attach_ktype =3D {
+> > -     .sysfs_ops =3D &dma_buf_attach_stats_sysfs_ops,
+> > -     .release =3D dma_buf_attach_sysfs_release,
+> > -     .default_groups =3D dma_buf_attach_stats_default_groups,
+> > -};
+> > -
+> > -void dma_buf_attach_stats_teardown(struct dma_buf_attachment *attach)
+> > -{
+> > -     struct dma_buf_attach_sysfs_entry *sysfs_entry;
+> > -
+> > -     sysfs_entry =3D attach->sysfs_entry;
+> > -     if (!sysfs_entry)
+> > -             return;
+> > -
+> > -     sysfs_delete_link(&sysfs_entry->kobj, &attach->dev->kobj, "device=
+");
+> > -
+> > -     kobject_del(&sysfs_entry->kobj);
+> > -     kobject_put(&sysfs_entry->kobj);
+> > -}
+> > -
+> > -int dma_buf_attach_stats_setup(struct dma_buf_attachment *attach,
+> > -                            unsigned int uid)
+> > -{
+> > -     struct dma_buf_attach_sysfs_entry *sysfs_entry;
+> > -     int ret;
+> > -     struct dma_buf *dmabuf;
+> > -
+> > -     if (!attach)
+> > -             return -EINVAL;
+> > -
+> > -     dmabuf =3D attach->dmabuf;
+> > -
+> > -     sysfs_entry =3D kzalloc(sizeof(struct dma_buf_attach_sysfs_entry)=
+,
+> > -                           GFP_KERNEL);
+> > -     if (!sysfs_entry)
+> > -             return -ENOMEM;
+> > -
+> > -     sysfs_entry->kobj.kset =3D dmabuf->sysfs_entry->attach_stats_kset=
+;
+> > -
+> > -     attach->sysfs_entry =3D sysfs_entry;
+> > -
+> > -     ret =3D kobject_init_and_add(&sysfs_entry->kobj, &dma_buf_attach_=
+ktype,
+> > -                                NULL, "%u", uid);
+> > -     if (ret)
+> > -             goto kobj_err;
+> > -
+> > -     ret =3D sysfs_create_link(&sysfs_entry->kobj, &attach->dev->kobj,
+> > -                             "device");
+> > -     if (ret)
+> > -             goto link_err;
+> > -
+> > -     return 0;
+> > -
+> > -link_err:
+> > -     kobject_del(&sysfs_entry->kobj);
+> > -kobj_err:
+> > -     kobject_put(&sysfs_entry->kobj);
+> > -     attach->sysfs_entry =3D NULL;
+> > -
+> > -     return ret;
+> > -}
+> >   void dma_buf_stats_teardown(struct dma_buf *dmabuf)
+> >   {
+> >       struct dma_buf_sysfs_entry *sysfs_entry;
+> > @@ -243,7 +126,6 @@ void dma_buf_stats_teardown(struct dma_buf *dmabuf)
+> >       if (!sysfs_entry)
+> >               return;
+> >
+> > -     kset_unregister(sysfs_entry->attach_stats_kset);
+> >       kobject_del(&sysfs_entry->kobj);
+> >       kobject_put(&sysfs_entry->kobj);
+> >   }
+> > @@ -290,7 +172,6 @@ int dma_buf_stats_setup(struct dma_buf *dmabuf)
+> >   {
+> >       struct dma_buf_sysfs_entry *sysfs_entry;
+> >       int ret;
+> > -     struct kset *attach_stats_kset;
+> >
+> >       if (!dmabuf || !dmabuf->file)
+> >               return -EINVAL;
+> > @@ -315,21 +196,8 @@ int dma_buf_stats_setup(struct dma_buf *dmabuf)
+> >       if (ret)
+> >               goto err_sysfs_dmabuf;
+> >
+> > -     /* create the directory for attachment stats */
+> > -     attach_stats_kset =3D kset_create_and_add("attachments",
+> > -                                             &dmabuf_sysfs_no_uevent_o=
+ps,
+> > -                                             &sysfs_entry->kobj);
+> > -     if (!attach_stats_kset) {
+> > -             ret =3D -ENOMEM;
+> > -             goto err_sysfs_attach;
+> > -     }
+> > -
+> > -     sysfs_entry->attach_stats_kset =3D attach_stats_kset;
+> > -
+> >       return 0;
+> >
+> > -err_sysfs_attach:
+> > -     kobject_del(&sysfs_entry->kobj);
+> >   err_sysfs_dmabuf:
+> >       kobject_put(&sysfs_entry->kobj);
+> >       dmabuf->sysfs_entry =3D NULL;
+> > diff --git a/drivers/dma-buf/dma-buf-sysfs-stats.h b/drivers/dma-buf/dm=
+a-buf-sysfs-stats.h
+> > index 5f4703249117..a49c6e2650cc 100644
+> > --- a/drivers/dma-buf/dma-buf-sysfs-stats.h
+> > +++ b/drivers/dma-buf/dma-buf-sysfs-stats.h
+> > @@ -14,23 +14,8 @@ int dma_buf_init_sysfs_statistics(void);
+> >   void dma_buf_uninit_sysfs_statistics(void);
+> >
+> >   int dma_buf_stats_setup(struct dma_buf *dmabuf);
+> > -int dma_buf_attach_stats_setup(struct dma_buf_attachment *attach,
+> > -                            unsigned int uid);
+> > -static inline void dma_buf_update_attachment_map_count(struct dma_buf_=
+attachment *attach,
+> > -                                                    int delta)
+> > -{
+> > -     struct dma_buf_attach_sysfs_entry *entry =3D attach->sysfs_entry;
+> >
+> > -     entry->map_counter +=3D delta;
+> > -}
+> >   void dma_buf_stats_teardown(struct dma_buf *dmabuf);
+> > -void dma_buf_attach_stats_teardown(struct dma_buf_attachment *attach);
+> > -static inline unsigned int dma_buf_update_attach_uid(struct dma_buf *d=
+mabuf)
+> > -{
+> > -     struct dma_buf_sysfs_entry *entry =3D dmabuf->sysfs_entry;
+> > -
+> > -     return entry->attachment_uid++;
+> > -}
+> >   #else
+> >
+> >   static inline int dma_buf_init_sysfs_statistics(void)
+> > @@ -44,19 +29,7 @@ static inline int dma_buf_stats_setup(struct dma_buf=
+ *dmabuf)
+> >   {
+> >       return 0;
+> >   }
+> > -static inline int dma_buf_attach_stats_setup(struct dma_buf_attachment=
+ *attach,
+> > -                                          unsigned int uid)
+> > -{
+> > -     return 0;
+> > -}
+> >
+> >   static inline void dma_buf_stats_teardown(struct dma_buf *dmabuf) {}
+> > -static inline void dma_buf_attach_stats_teardown(struct dma_buf_attach=
+ment *attach) {}
+> > -static inline void dma_buf_update_attachment_map_count(struct dma_buf_=
+attachment *attach,
+> > -                                                    int delta) {}
+> > -static inline unsigned int dma_buf_update_attach_uid(struct dma_buf *d=
+mabuf)
+> > -{
+> > -     return 0;
+> > -}
+> >   #endif
+> >   #endif // _DMA_BUF_SYSFS_STATS_H
+> > diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> > index 510b42771974..b1a6db71c656 100644
+> > --- a/drivers/dma-buf/dma-buf.c
+> > +++ b/drivers/dma-buf/dma-buf.c
+> > @@ -738,7 +738,6 @@ dma_buf_dynamic_attach(struct dma_buf *dmabuf, stru=
+ct device *dev,
+> >   {
+> >       struct dma_buf_attachment *attach;
+> >       int ret;
+> > -     unsigned int attach_uid;
+> >
+> >       if (WARN_ON(!dmabuf || !dev))
+> >               return ERR_PTR(-EINVAL);
+> > @@ -764,13 +763,8 @@ dma_buf_dynamic_attach(struct dma_buf *dmabuf, str=
+uct device *dev,
+> >       }
+> >       dma_resv_lock(dmabuf->resv, NULL);
+> >       list_add(&attach->node, &dmabuf->attachments);
+> > -     attach_uid =3D dma_buf_update_attach_uid(dmabuf);
+> >       dma_resv_unlock(dmabuf->resv);
+> >
+> > -     ret =3D dma_buf_attach_stats_setup(attach, attach_uid);
+> > -     if (ret)
+> > -             goto err_sysfs;
+> > -
+> >       /* When either the importer or the exporter can't handle dynamic
+> >        * mappings we cache the mapping here to avoid issues with the
+> >        * reservation object lock.
+> > @@ -797,7 +791,6 @@ dma_buf_dynamic_attach(struct dma_buf *dmabuf, stru=
+ct device *dev,
+> >                       dma_resv_unlock(attach->dmabuf->resv);
+> >               attach->sgt =3D sgt;
+> >               attach->dir =3D DMA_BIDIRECTIONAL;
+> > -             dma_buf_update_attachment_map_count(attach, 1 /* delta */=
+);
+> >       }
+> >
+> >       return attach;
+> > @@ -814,7 +807,6 @@ dma_buf_dynamic_attach(struct dma_buf *dmabuf, stru=
+ct device *dev,
+> >       if (dma_buf_is_dynamic(attach->dmabuf))
+> >               dma_resv_unlock(attach->dmabuf->resv);
+> >
+> > -err_sysfs:
+> >       dma_buf_detach(dmabuf, attach);
+> >       return ERR_PTR(ret);
+> >   }
+> > @@ -864,7 +856,6 @@ void dma_buf_detach(struct dma_buf *dmabuf, struct =
+dma_buf_attachment *attach)
+> >                       dma_resv_lock(attach->dmabuf->resv, NULL);
+> >
+> >               __unmap_dma_buf(attach, attach->sgt, attach->dir);
+> > -             dma_buf_update_attachment_map_count(attach, -1 /* delta *=
+/);
+> >
+> >               if (dma_buf_is_dynamic(attach->dmabuf)) {
+> >                       dmabuf->ops->unpin(attach);
+> > @@ -878,7 +869,6 @@ void dma_buf_detach(struct dma_buf *dmabuf, struct =
+dma_buf_attachment *attach)
+> >       if (dmabuf->ops->detach)
+> >               dmabuf->ops->detach(dmabuf, attach);
+> >
+> > -     dma_buf_attach_stats_teardown(attach);
+> >       kfree(attach);
+> >   }
+> >   EXPORT_SYMBOL_GPL(dma_buf_detach);
+> > @@ -1020,10 +1010,6 @@ struct sg_table *dma_buf_map_attachment(struct d=
+ma_buf_attachment *attach,
+> >               }
+> >       }
+> >   #endif /* CONFIG_DMA_API_DEBUG */
+> > -
+> > -     if (!IS_ERR(sg_table))
+> > -             dma_buf_update_attachment_map_count(attach, 1 /* delta */=
+);
+> > -
+> >       return sg_table;
+> >   }
+> >   EXPORT_SYMBOL_GPL(dma_buf_map_attachment);
+> > @@ -1061,8 +1047,6 @@ void dma_buf_unmap_attachment(struct dma_buf_atta=
+chment *attach,
+> >       if (dma_buf_is_dynamic(attach->dmabuf) &&
+> >           !IS_ENABLED(CONFIG_DMABUF_MOVE_NOTIFY))
+> >               dma_buf_unpin(attach);
+> > -
+> > -     dma_buf_update_attachment_map_count(attach, -1 /* delta */);
+> >   }
+> >   EXPORT_SYMBOL_GPL(dma_buf_unmap_attachment);
+> >
+> > diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+> > index 2b814fde0d11..678b2006be78 100644
+> > --- a/include/linux/dma-buf.h
+> > +++ b/include/linux/dma-buf.h
+> > @@ -444,15 +444,6 @@ struct dma_buf {
+> >       struct dma_buf_sysfs_entry {
+> >               struct kobject kobj;
+> >               struct dma_buf *dmabuf;
+> > -
+> > -             /**
+> > -              * @sysfs_entry.attachment_uid:
+> > -              *
+> > -              * This is protected by the dma_resv_lock() on @resv and =
+is
+> > -              * incremented on each attach.
+> > -              */
+> > -             unsigned int attachment_uid;
+> > -             struct kset *attach_stats_kset;
+> >       } *sysfs_entry;
+> >   #endif
+> >   };
+> > @@ -504,7 +495,6 @@ struct dma_buf_attach_ops {
+> >    * @importer_ops: importer operations for this attachment, if provide=
+d
+> >    * dma_buf_map/unmap_attachment() must be called with the dma_resv lo=
+ck held.
+> >    * @importer_priv: importer specific attachment data.
+> > - * @sysfs_entry: For exposing information about this attachment in sys=
+fs.
+> >    *
+> >    * This structure holds the attachment information between the dma_bu=
+f buffer
+> >    * and its user device(s). The list contains one attachment struct pe=
+r device
+> > @@ -525,13 +515,6 @@ struct dma_buf_attachment {
+> >       const struct dma_buf_attach_ops *importer_ops;
+> >       void *importer_priv;
+> >       void *priv;
+> > -#ifdef CONFIG_DMABUF_SYSFS_STATS
+> > -     /* for sysfs stats */
+> > -     struct dma_buf_attach_sysfs_entry {
+> > -             struct kobject kobj;
+> > -             unsigned int map_counter;
+> > -     } *sysfs_entry;
+> > -#endif
+> >   };
+> >
+> >   /**
+>
