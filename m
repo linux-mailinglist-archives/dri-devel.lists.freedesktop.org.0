@@ -2,86 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74F5B3CFB75
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jul 2021 15:59:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 473953CFB88
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jul 2021 16:03:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 98B136E193;
-	Tue, 20 Jul 2021 13:59:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A52EC89FC0;
+	Tue, 20 Jul 2021 14:03:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
- [IPv6:2a00:1450:4864:20::42e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C6996E193
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 13:59:13 +0000 (UTC)
-Received: by mail-wr1-x42e.google.com with SMTP id l7so26109558wrv.7
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 06:59:13 -0700 (PDT)
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com
+ [IPv6:2a00:1450:4864:20::32d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC79389FC0
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 14:03:08 +0000 (UTC)
+Received: by mail-wm1-x32d.google.com with SMTP id
+ u5-20020a7bc0450000b02901480e40338bso1600705wmc.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 07:03:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=4PzjYhUEKqwf9rpMim3c4GSraf9DBD8+oBQWlOrJstY=;
- b=AI35rGqFmoDtZhMThgKNFgUNoYDIf/Mv9ZklyKOQZalq+AMl7YLVcjrZWirr9cA4yo
- sKbC4G1SWhrZuNvvWd/s+tASUCHW2urdvLdU/fGsg7m7gz4UJqkLwhSo75ZdBcWM5aan
- ACfNWR23Qn0SiA+6OIT5YQxeAfXWZ5CXMJ0s8=
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=Y4gSvQBEj9KQ+XjWmOcAM0WFfh/axCIK0H/Z96eLWwI=;
+ b=jrh/MuvCk2x6gUwV0XAPsHOu7mWpZ6G2QzXpNVjcirC00gOlDZ6G12ccoxx0xMbOeM
+ ouls+7dDi3dPIj37C/1C5VOPtiGG0l4x2sPs7OwAs+Fiu2mAaoe94Ft9q/mudo4LnpcP
+ 5UtZ1jt66tKmjofHHTGgcBKHQT9fYYKxC5YqA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=4PzjYhUEKqwf9rpMim3c4GSraf9DBD8+oBQWlOrJstY=;
- b=mwBZYoJf4670ESydWQtdBEewBadHYpS5K345XmoGOzAYksVAO2KsAKcvBEUvD5K7RE
- w7OF3x7/Z1W72861jebb/JVvTLCFYn0xZNlAf/lD7809gnNLJ/a61w8de3B+IeDyIOTJ
- Ceesz/q/i7azHK8L0viH2YDssM2fCiCoEeClfcWBcXr/jieLtnsyZJQG943zbjstUjp8
- /f083HT2gL6vb94gGyBkbTFR47JkZIddFZ3a0DtJLpzCohL685ORfC+/fxzB41Durd4k
- kXy02IvVruVokrdE+P+kqP8Z/KWsEOlT28uxXSwTJ2TuqdPrX6q2YNcbIf3wDaXBFscK
- EoAw==
-X-Gm-Message-State: AOAM531trOmd7uQKu36e3zISjlNYK8cvZPmsWl2Ivz3LC/RGyZPbMLDZ
- oYnuCPFERlFgiBOu9HpH1XBdDw==
-X-Google-Smtp-Source: ABdhPJwsdFs8q+1yTXrNA7AHfumD9vqplXTE6zNI6BrnjDfVy+jzMEAdzrUlq1Fu/ILnx4cnr5axUA==
-X-Received: by 2002:adf:f405:: with SMTP id g5mr17004193wro.277.1626789551781; 
- Tue, 20 Jul 2021 06:59:11 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=Y4gSvQBEj9KQ+XjWmOcAM0WFfh/axCIK0H/Z96eLWwI=;
+ b=QxpI1OLZbnAhicVn7+WDio/E7YytElkTdM+/BqdxI5spjwxpXF8pI1bI3eJk47laJ2
+ /cWtErAOwMYabqbL5vb5uOPC06JiqFymX+QWknoGI7mbzfZoASLdCaj5DtOp07NKhMgz
+ fgi4VZaShldXOdqRLJs8DabaRdn2BkiqIKmgkoulXVLuMmcXROQL1vzEwspi53nZZVfz
+ otGhVssZPZdN1lK8e1E24XZcZlO5OWdf6AIDogoKRMxIiHZs8sWObaUfVi8D84tVlIDz
+ GzAtAS7eZbsBGs8xC3bcUj4bDlM8n2pDlnViR3fKT7BkMTUP4doRCfl3WZzLaNeWkvuI
+ QM2A==
+X-Gm-Message-State: AOAM530jD5SukjFArzcFBn35picF1B6MOkiM8d98WQy5KGAAaf0fmb83
+ l7XSH6c73TOoi0IljKcVuGIbeQ==
+X-Google-Smtp-Source: ABdhPJwNetJsgturCatC8nskb13AJmuTX3tF4KgWwHWkPk0zNMK6x95AHwptgNLpkhMtz37bgwHQJw==
+X-Received: by 2002:a05:600c:2298:: with SMTP id
+ 24mr38808121wmf.36.1626789787449; 
+ Tue, 20 Jul 2021 07:03:07 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id u2sm2632333wmm.37.2021.07.20.06.59.10
+ by smtp.gmail.com with ESMTPSA id m187sm24092718wmm.16.2021.07.20.07.03.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Jul 2021 06:59:11 -0700 (PDT)
-Date: Tue, 20 Jul 2021 15:59:09 +0200
+ Tue, 20 Jul 2021 07:03:06 -0700 (PDT)
+Date: Tue, 20 Jul 2021 16:03:04 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Javier Martinez Canillas <javierm@redhat.com>
-Subject: Re: [PATCH v3 0/2] allow simple{fb, drm} drivers to be used on
- non-x86 EFI platforms
-Message-ID: <YPbWrV/cIODdgu6A@phenom.ffwll.local>
-Mail-Followup-To: Javier Martinez Canillas <javierm@redhat.com>,
- Ard Biesheuvel <ardb@kernel.org>, Dave Airlie <airlied@gmail.com>,
- linux-efi <linux-efi@vger.kernel.org>,
- David Airlie <airlied@linux.ie>,
- Catalin Marinas <catalin.marinas@arm.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Russell King <linux@armlinux.org.uk>,
- Atish Patra <atish.patra@wdc.com>,
- linux-riscv <linux-riscv@lists.infradead.org>,
- Will Deacon <will@kernel.org>,
- the arch/x86 maintainers <x86@kernel.org>,
- Ingo Molnar <mingo@redhat.com>,
- Peter Robinson <pbrobinson@gmail.com>, Borislav Petkov <bp@suse.de>,
- Albert Ou <aou@eecs.berkeley.edu>,
- Hans de Goede <hdegoede@redhat.com>,
- Paul Walmsley <paul.walmsley@sifive.com>,
- Thomas Gleixner <tglx@linutronix.de>,
- linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- LKML <linux-kernel@vger.kernel.org>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Thomas Zimmermann <tzimmermann@suse.de>
-References: <20210625130947.1803678-1-javierm@redhat.com>
- <e61cf77c-6bff-dfcc-d3df-2fb6b48e5897@redhat.com>
- <8dd26141-a09c-39e2-5174-4cad8d21c49c@suse.de>
- <CAPM=9tyfNPa2f5PDBLm4w_H_riEQ5P3rEhX73YGE1y_ygRox+w@mail.gmail.com>
- <CAMj1kXErHteZ+MKYvp=yYmwVxV3A=vjtnG351hZHV+3BPwDQvw@mail.gmail.com>
- <YPbJJ/0tSO/fuW7a@phenom.ffwll.local>
- <03f0edef-e54e-8a2a-4b50-683d3d42e249@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 3/7] drm/mipi-dbi: Use framebuffer dma-buf helpers
+Message-ID: <YPbXmDGDhCo9M0Rd@phenom.ffwll.local>
+References: <20210716140801.1215-1-tzimmermann@suse.de>
+ <20210716140801.1215-4-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <03f0edef-e54e-8a2a-4b50-683d3d42e249@redhat.com>
+In-Reply-To: <20210716140801.1215-4-tzimmermann@suse.de>
 X-Operating-System: Linux phenom 5.10.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -95,58 +68,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-efi <linux-efi@vger.kernel.org>, David Airlie <airlied@linux.ie>,
- Catalin Marinas <catalin.marinas@arm.com>,
- dri-devel <dri-devel@lists.freedesktop.org>, Atish Patra <atish.patra@wdc.com>,
- linux-riscv <linux-riscv@lists.infradead.org>, Will Deacon <will@kernel.org>,
- Ard Biesheuvel <ardb@kernel.org>, the arch/x86 maintainers <x86@kernel.org>,
- Russell King <linux@armlinux.org.uk>, Ingo Molnar <mingo@redhat.com>,
- Peter Robinson <pbrobinson@gmail.com>, Borislav Petkov <bp@suse.de>,
- Albert Ou <aou@eecs.berkeley.edu>, Hans de Goede <hdegoede@redhat.com>,
- Paul Walmsley <paul.walmsley@sifive.com>, Thomas Gleixner <tglx@linutronix.de>,
- linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- LKML <linux-kernel@vger.kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: david@lechnology.com, airlied@linux.ie, hdegoede@redhat.com,
+ noralf@tronnes.org, dri-devel@lists.freedesktop.org, airlied@redhat.com,
+ sean@poorly.run
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 20, 2021 at 03:42:45PM +0200, Javier Martinez Canillas wrote:
-> On 7/20/21 3:01 PM, Daniel Vetter wrote:
-> > On Mon, Jul 19, 2021 at 09:10:52AM +0200, Ard Biesheuvel wrote:
-> >> On Mon, 19 Jul 2021 at 04:59, Dave Airlie <airlied@gmail.com> wrote:
+On Fri, Jul 16, 2021 at 04:07:57PM +0200, Thomas Zimmermann wrote:
+> Replace dma_buf_begin_cpu_access() with drm_gem_fb_begin_cpu_access();
+> same for _end_cpu_access(). Remove some boiler-plate code. No functional
+> changes.
 > 
-> [snip]
+> There's one left-over reference to the imported attachment that we
+> keep. GEM BOs with imported attachment are considered uncached and
+> enables special handling within the drm_fb_swab().
 > 
-> >>>
-> >>> Can we just merge via drm-misc and make sure the acks are present and
-> >>> I'll deal with the fallout if any.
-> >>>
-> >>
-> >> Fine with me. Could you stick it on a separate branch so I can double
-> >> check whether there are any issues wrt the EFI tree?
-> > 
-> > It'll pop up in linux-next for integration testing or you can pick up the
-> > patch here for test-merge if you want.
-> >
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>  drivers/gpu/drm/drm_mipi_dbi.c | 20 +++++++-------------
+>  1 file changed, 7 insertions(+), 13 deletions(-)
 > 
-> Thanks a lot Dave and Daniel!
+> diff --git a/drivers/gpu/drm/drm_mipi_dbi.c b/drivers/gpu/drm/drm_mipi_dbi.c
+> index 10b4e59384ae..71b646c4131f 100644
+> --- a/drivers/gpu/drm/drm_mipi_dbi.c
+> +++ b/drivers/gpu/drm/drm_mipi_dbi.c
+> @@ -7,7 +7,6 @@
+>  
+>  #include <linux/debugfs.h>
+>  #include <linux/delay.h>
+> -#include <linux/dma-buf.h>
+>  #include <linux/gpio/consumer.h>
+>  #include <linux/module.h>
+>  #include <linux/regulator/consumer.h>
+> @@ -202,21 +201,17 @@ int mipi_dbi_buf_copy(void *dst, struct drm_framebuffer *fb,
+>  {
+>  	struct drm_gem_object *gem = drm_gem_fb_get_obj(fb, 0);
+>  	struct drm_gem_cma_object *cma_obj = to_drm_gem_cma_obj(gem);
+> -	struct dma_buf_attachment *import_attach = gem->import_attach;
+>  	void *src = cma_obj->vaddr;
+> -	int ret = 0;
+> +	int ret;
+>  
+> -	if (import_attach) {
+> -		ret = dma_buf_begin_cpu_access(import_attach->dmabuf,
+> -					       DMA_FROM_DEVICE);
+> -		if (ret)
+> -			return ret;
+> -	}
+> +	ret = drm_gem_fb_begin_cpu_access(fb, DMA_FROM_DEVICE);
+> +	if (ret)
+> +		return ret;
+>  
+>  	switch (fb->format->format) {
+>  	case DRM_FORMAT_RGB565:
+>  		if (swap)
+> -			drm_fb_swab(dst, src, fb, clip, !import_attach);
+> +			drm_fb_swab(dst, src, fb, clip, !gem->import_attach);
 
-Oh I haven't merged them, I'm assuming Thomas will do that. Just figured
-I'll throw my ack on top:
+I freaked out about this because for dma-buf WC vs WB is undefined, but
+it's purely a perf optimization. So it's fine. Plus we're not even
+bothering with the iomem vs normal memory distinction here.
+
+Anyway, that aside, all looks good. On the series:
 
 Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
-> > And since Dave has given a blanket cheque for handling fallout he'll deal
-> > with the need for fixups too if there's any.
-> 
-> I also plan to look at any regression that might had been introduced by these.
-> 
-> Best regards,
+>  		else
+>  			drm_fb_memcpy(dst, src, fb, clip);
+>  		break;
+> @@ -229,9 +224,8 @@ int mipi_dbi_buf_copy(void *dst, struct drm_framebuffer *fb,
+>  		return -EINVAL;
+>  	}
+>  
+> -	if (import_attach)
+> -		ret = dma_buf_end_cpu_access(import_attach->dmabuf,
+> -					     DMA_FROM_DEVICE);
+> +	drm_gem_fb_end_cpu_access(fb, DMA_FROM_DEVICE);
+> +
+>  	return ret;
+>  }
+>  EXPORT_SYMBOL(mipi_dbi_buf_copy);
 > -- 
-> Javier Martinez Canillas
-> Linux Engineering
-> Red Hat
+> 2.32.0
 > 
 
 -- 
