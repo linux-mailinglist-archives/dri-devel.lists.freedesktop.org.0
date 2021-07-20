@@ -1,61 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E81F3CFB08
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jul 2021 15:46:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 885433CFB0A
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jul 2021 15:46:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7AF796E321;
-	Tue, 20 Jul 2021 13:46:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 88FE66E328;
+	Tue, 20 Jul 2021 13:46:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com
  [64.147.123.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 94E8A6E321
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 13:45:59 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 388916E328
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 13:46:03 +0000 (UTC)
 Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailnew.west.internal (Postfix) with ESMTP id 61D722B0008E;
- Tue, 20 Jul 2021 09:45:58 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute3.internal (MEProxy); Tue, 20 Jul 2021 09:45:59 -0400
+ by mailnew.west.internal (Postfix) with ESMTP id B8ABF2B000FA;
+ Tue, 20 Jul 2021 09:46:01 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute3.internal (MEProxy); Tue, 20 Jul 2021 09:46:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=RJHCd20ztixx0
- Jw0hO0kTjsLqhDgzKUjg5r4sge0A3k=; b=b/Dqp/4SuZ4fRuuF0mw63N6FkvEiK
- XWVE5SG3erjQu3d4EMkDN3KxLukIlAVW5M0FA9qZay+yPkXN8vWNA6owNahtsr7J
- d2wsBOkziMvOhjeyXyYU283mcSs5x6S9qj5gru8uNNLnxYSkQAgjlgwzihO4htDQ
- jzEYDkUkXf8djMLBYuNfx43BzU1eoNeJVqTEvaoG5Ky06sCrs/RtMCCpQF/t9tgw
- RS9dPTMEnX0tHLSBY4W1Ql2ym44WMbmtWNGv7fzOdEa97UgqKRXy3znn7L/+eT17
- REZjrvipA9JRsNkQMbKLfdEhUEDloVqG1mR/G8RojrWqxRuttNMyQcseQ==
+ :mime-version:content-transfer-encoding; s=fm3; bh=/nJufUMnp88VZ
+ Vd3czIYa6D3EC6WnnQ6c7BA6KgXV7Y=; b=aMvqStTXWSlDNDdbIa0UPHH7qrn5P
+ dRLMKxmVYSLc/PtVY2OLYCLkxc3bfkkjHvkpoTXCPIHXoy2vKeAWjYJnCObWCDpz
+ /9LfEHAP1IttUKYECwZsnyTNl1qN+skB/O8+pXBzEflGCephCkLPr4Vz230f/n9G
+ u1QRARL2FFWYuVcTBS5SQZnD3DHCpBh5wyhsJvhIVh4hvOE3XX/5m5ytgSbw0BQE
+ fQOpLsQBUUKArpY/iD9eF74+AydNMf8mxgz8N1JbUz2I7udZwCbITC810HLVzA8F
+ jwCuoY3rPqusrjWYX0a332dHmiiOPdrsE/+2/6SkDu0vYgznEUJxv0hmQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=RJHCd20ztixx0Jw0hO0kTjsLqhDgzKUjg5r4sge0A3k=; b=BNzg5woU
- ZlQOd4XT3rvqi69Bbgc5meQVUsppSMwEAVwgU1VewteLmpjEIAKQv9WQsIp/Pfo9
- tswUWAVAS1uaox43hx41w8u2x2SmIu+OTGaLZju1KM0BUgxBZ6xnyE5f6NQOj/99
- wE+Ogly3BioO30klFOFvMHCASJMD3l5uGqcbu5fa7HHha5FnAfcFa/dJtX3/udcA
- n/GtikGBbUxmU2ycza0AMO1eVBlXVwFTol5fjJCPu7mHNPnan8UgbpZrtcTOWqfF
- 6i+inil0RUvR6p/DUhYrvpDJ2+T71Dv0oOI4lZ2TF4H2ytj/v+GrMmDCsJaiaqbk
- jznmgqbAUM4E9A==
-X-ME-Sender: <xms:k9P2YNX8JLeGaeQv4_wUCiQML_gA5fEDXkslKiIGRKauI-RRZcfNoQ>
- <xme:k9P2YNkgOUi4G_J4cN2R5IQS0yQUdSQYOOa1ZNsSsYcKFwkdlsEQqMCnMRS0SzsTe
- 1pNtO8fjqPrktAZczI>
-X-ME-Received: <xmr:k9P2YJZKQoGnTLJ0sAo0EfGEivnq8JRuhlhrQgXShX7KXWOTneQhf9H9VV1ovZX-DuExA1wqjqMgvQuMxUbFHyWMWFj5bkHzFhlr>
+ fm3; bh=/nJufUMnp88VZVd3czIYa6D3EC6WnnQ6c7BA6KgXV7Y=; b=FEp2SJGr
+ 2Bq/SQF8U3ROqm5OdZ78XR11EzJgVR2ZCR5VhJrjX92yAASZQJ5D1nu3jsuck+VD
+ Xj5/GvmHyisCAc6M2lFr/Kl9rUg3E10+5ZA2opblHiP6Dy7IeY6D9AjsaK8SQYz3
+ orMNecvj8prD7fJjdFPZowKLlcs37u+X74qxwBiS2Wn+ZNqmRLipkXxR/am1hZ93
+ RJ0CRTxfNAsqhDT7XixJr27kdALbhHB7q/aSq2ckY4SzOyIqL3Vx3NI3IpvU58WI
+ Nlo2iuhqQKgTLD73Dh9zlzlRgUBVHQbBmEcR7w6TKaNxaxOrcdPy8e2lRfdziErk
+ M90Yw9Ow7PiX3g==
+X-ME-Sender: <xms:mdP2YLNY1lQKjBNFaDHtmnpWXCoUJKdOoXBQHXFXQlK43f383otXig>
+ <xme:mdP2YF-y7vmRM3MeVMsrDXnTzkz1Ik0xXM6JdcD_xXQZpzIZpeQbl8WMNEZI46skF
+ zy49dqp35f9XhIh1w0>
+X-ME-Received: <xmr:mdP2YKSk16egtl1MYkREjvNj8L47szr2cy7lp5NRRjxVqCx83dzBiMtMCn7b4hr74AvZMs1iCS93vRQCsNyTSFl9K3Hsf7Q4lX80>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrfedvgdeijecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihimhgv
  ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
  gvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveevheeh
- vdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
+ vdenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
  igihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:k9P2YAXyZ7Nz0U9kAa4azhcmkyovIYdmp8uqSXou2g517B6Tp25ccg>
- <xmx:k9P2YHlOknX-Aq5gItTTUkh9gN6N-4Yg8byd9nwJbXj05XU3KToCLg>
- <xmx:k9P2YNe7PkiBr8VoMFups02fg1xExQtRNzC41cKWfDFOzMF2ZZdYhg>
- <xmx:ltP2YBkslghzxG3JnCirVhr5Eq1H3SoIGb0Flo7TI7m9kHdw-bcVjeR6v6I>
+X-ME-Proxy: <xmx:mdP2YPvdz3gxf4PirqUw85eibSPlGlPEAytfIkc8HFr5cMz-ddcU3w>
+ <xmx:mdP2YDfKmLur3vX5xsdWP_WzLTzHKWH-zMvuxzKCf0YiRN-3fe4zRg>
+ <xmx:mdP2YL0fVsO60T-HqyuSCngruCTJhciWrBmb7yemb11qDQZ8K88h3A>
+ <xmx:mdP2YO8i9bVepAM91zmuESR5Tm6znN3KCYf-N6tTdJzIuzD3w2twjtm9BOc>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 20 Jul 2021 09:45:55 -0400 (EDT)
+ 20 Jul 2021 09:46:00 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Robert Foss <robert.foss@linaro.org>, Andrzej Hajda <a.hajda@samsung.com>,
  Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
@@ -66,9 +66,9 @@ To: Robert Foss <robert.foss@linaro.org>, Andrzej Hajda <a.hajda@samsung.com>,
  Jernej Skrabec <jernej.skrabec@gmail.com>,
  Thierry Reding <thierry.reding@gmail.com>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-Subject: [PATCH 06/10] drm/bridge: panel: Call attach and detach for the panel
-Date: Tue, 20 Jul 2021 15:45:21 +0200
-Message-Id: <20210720134525.563936-7-maxime@cerno.tech>
+Subject: [PATCH 07/10] drm/vc4: dsi: Switch to drm_of_get_next
+Date: Tue, 20 Jul 2021 15:45:22 +0200
+Message-Id: <20210720134525.563936-8-maxime@cerno.tech>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210720134525.563936-1-maxime@cerno.tech>
 References: <20210720134525.563936-1-maxime@cerno.tech>
@@ -90,36 +90,82 @@ Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that we have additional attach and detach hooks for panels, make
-sure that the panel bridge driver calls them when relevant.
+The new drm_of_get_next removes most of the boilerplate we have to deal
+with. Let's switch to it.
 
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/bridge/panel.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/gpu/drm/vc4/vc4_drv.c |  2 ++
+ drivers/gpu/drm/vc4/vc4_dsi.c | 28 ++++------------------------
+ 2 files changed, 6 insertions(+), 24 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/panel.c b/drivers/gpu/drm/bridge/panel.c
-index c916f4b8907e..c2249f3fd357 100644
---- a/drivers/gpu/drm/bridge/panel.c
-+++ b/drivers/gpu/drm/bridge/panel.c
-@@ -60,6 +60,8 @@ static int panel_bridge_attach(struct drm_bridge *bridge,
- 	struct drm_connector *connector = &panel_bridge->connector;
+diff --git a/drivers/gpu/drm/vc4/vc4_drv.c b/drivers/gpu/drm/vc4/vc4_drv.c
+index 73335feb712f..ff056ee8bc4b 100644
+--- a/drivers/gpu/drm/vc4/vc4_drv.c
++++ b/drivers/gpu/drm/vc4/vc4_drv.c
+@@ -25,7 +25,9 @@
+ #include <linux/device.h>
+ #include <linux/dma-mapping.h>
+ #include <linux/io.h>
++#include <linux/i2c.h>
+ #include <linux/module.h>
++#include <linux/of_graph.h>
+ #include <linux/of_platform.h>
+ #include <linux/platform_device.h>
+ #include <linux/pm_runtime.h>
+diff --git a/drivers/gpu/drm/vc4/vc4_dsi.c b/drivers/gpu/drm/vc4/vc4_dsi.c
+index 6dfcbd9e234e..f51ce8db0f4e 100644
+--- a/drivers/gpu/drm/vc4/vc4_dsi.c
++++ b/drivers/gpu/drm/vc4/vc4_dsi.c
+@@ -1489,7 +1489,6 @@ static int vc4_dsi_bind(struct device *dev, struct device *master, void *data)
+ 	struct drm_device *drm = dev_get_drvdata(master);
+ 	struct vc4_dsi *dsi = dev_get_drvdata(dev);
+ 	struct vc4_dsi_encoder *vc4_dsi_encoder;
+-	struct drm_panel *panel;
+ 	const struct of_device_id *match;
+ 	dma_cap_mask_t dma_mask;
  	int ret;
+@@ -1601,27 +1600,9 @@ static int vc4_dsi_bind(struct device *dev, struct device *master, void *data)
+ 		return ret;
+ 	}
  
-+	drm_panel_attach(panel_bridge->panel);
-+
- 	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR)
- 		return 0;
+-	ret = drm_of_find_panel_or_bridge(dev->of_node, 0, 0,
+-					  &panel, &dsi->bridge);
+-	if (ret) {
+-		/* If the bridge or panel pointed by dev->of_node is not
+-		 * enabled, just return 0 here so that we don't prevent the DRM
+-		 * dev from being registered. Of course that means the DSI
+-		 * encoder won't be exposed, but that's not a problem since
+-		 * nothing is connected to it.
+-		 */
+-		if (ret == -ENODEV)
+-			return 0;
+-
+-		return ret;
+-	}
+-
+-	if (panel) {
+-		dsi->bridge = devm_drm_panel_bridge_add_typed(dev, panel,
+-							      DRM_MODE_CONNECTOR_DSI);
+-		if (IS_ERR(dsi->bridge))
+-			return PTR_ERR(dsi->bridge);
+-	}
++	dsi->bridge = devm_drm_of_get_next(dev, dev->of_node, 0, 0);
++	if (IS_ERR(dsi->bridge))
++		return PTR_ERR(dsi->bridge);
  
-@@ -90,6 +92,8 @@ static void panel_bridge_detach(struct drm_bridge *bridge)
- 	struct panel_bridge *panel_bridge = drm_bridge_to_panel_bridge(bridge);
- 	struct drm_connector *connector = &panel_bridge->connector;
+ 	/* The esc clock rate is supposed to always be 100Mhz. */
+ 	ret = clk_set_rate(dsi->escape_clock, 100 * 1000000);
+@@ -1661,8 +1642,7 @@ static void vc4_dsi_unbind(struct device *dev, struct device *master,
+ {
+ 	struct vc4_dsi *dsi = dev_get_drvdata(dev);
  
-+	drm_panel_detach(panel_bridge->panel);
-+
+-	if (dsi->bridge)
+-		pm_runtime_disable(dev);
++	pm_runtime_disable(dev);
+ 
  	/*
- 	 * Cleanup the connector if we know it was initialized.
- 	 *
+ 	 * Restore the bridge_chain so the bridge detach procedure can happen
 -- 
 2.31.1
 
