@@ -1,41 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 547E23D1E2E
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jul 2021 08:23:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 98AC33D1E85
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jul 2021 08:54:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A46956ECD7;
-	Thu, 22 Jul 2021 06:23:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2CF2B6E950;
+	Thu, 22 Jul 2021 06:54:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.smtp.larsendata.com (mx1.smtp.larsendata.com
- [91.221.196.215])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A0716EB74
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jul 2021 06:23:08 +0000 (UTC)
-Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
- by mx1.smtp.larsendata.com (Halon) with ESMTPS
- id 49a34d20-eab5-11eb-9082-0050568c148b;
- Thu, 22 Jul 2021 06:23:11 +0000 (UTC)
-Received: from saturn.lan (80-162-45-141-cable.dk.customer.tdc.net
- [80.162.45.141])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: sam@ravnborg.org)
- by mail01.mxhotel.dk (Postfix) with ESMTPSA id 13542194B25;
- Thu, 22 Jul 2021 08:23:24 +0200 (CEST)
-X-Report-Abuse-To: abuse@mxhotel.dk
-From: Sam Ravnborg <sam@ravnborg.org>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v1 7/7] drm/todo: Add bridge related todo items
-Date: Thu, 22 Jul 2021 08:22:46 +0200
-Message-Id: <20210722062246.2512666-8-sam@ravnborg.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210722062246.2512666-1-sam@ravnborg.org>
-References: <20210722062246.2512666-1-sam@ravnborg.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com
+ [IPv6:2607:f8b0:4864:20::535])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 26B506E3F4
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 12:43:56 +0000 (UTC)
+Received: by mail-pg1-x535.google.com with SMTP id y4so1733024pgl.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 05:43:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=hRkHCKSSN064WZq1PoAF2chWbSrhzer+ob3WlnV1ZTg=;
+ b=i1ljmJ0xkOVkevu0L5R6bZJv23gy7JZLLudqY+ir1G582Mvkirwu4/WqTIRVls88U9
+ loA4ae9K4+A2QhtVGK/0Y9wXhlKbiMHhI7VbEipr0/8R82RrJXyuCBEYYhSjx9MmtIqk
+ d8S6GwUbQOvgSlNI/S27jARDLoLjYgq/821xXPz200VUv+WXyv/zxR+wSU/MIsRvyrCw
+ MfFoj9S+6s4j6bwY0lbJGeKjJifC3FhlXqmD/1O9sJMGB4SArTcF3zO1MxsyLoiDIzX+
+ jzueCOOOic+Tw38VaIhRd1p/NbyD7JV/CxzlfE8CTJdfEy4mnXCGcfxInELkYWW9REaA
+ w0VA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=hRkHCKSSN064WZq1PoAF2chWbSrhzer+ob3WlnV1ZTg=;
+ b=USmWIH+5LUqZO+Po15/EGbCIaB5qi5OOs9NU3ZqTaGldh+Wjxb60Dz821venHdUw3t
+ 0GfnB4TVdfsdGkRKln/SqdLfJN2WP1RJXVtKSidOJZ6G2oiveLSWRHvLBa+Z8vxvUSGH
+ ZBWp9gjHJ1n9jpkzjxxqVMLwLsBNeHKZrPtt0wwKR16FsNNJhXmMz1X3YMqAkUIVKMHm
+ rHN3/Zk0pmbssBT++z22g+fXo4qMCw5Ljp+rpiWag1N9CNZJxN28twi/oWiDlmhhIbUD
+ pIpXSnstAJhekG79q7QBlx0ldDkNCvwxzbel2rsaDdZ7sCmaR/s49mEPuM8fzb7AOqEF
+ 2tSQ==
+X-Gm-Message-State: AOAM532OUJDAWaZl07SN4W6vRyIZfkUMls74YM8zSLrfEdIUu8jegPNU
+ h5/FfDvcuwDLfzd9a/BrWg==
+X-Google-Smtp-Source: ABdhPJwCa7xYvom7hwj58FEfM880ND/5npe9pPzfK0Pv9KDM5la/3pyI+/q/gplYcT3mONUnoBm2mA==
+X-Received: by 2002:a62:19c9:0:b029:32a:129f:542d with SMTP id
+ 192-20020a6219c90000b029032a129f542dmr36137694pfz.8.1626871435789; 
+ Wed, 21 Jul 2021 05:43:55 -0700 (PDT)
+Received: from vultr.guest ([107.191.53.97])
+ by smtp.gmail.com with ESMTPSA id t3sm1877785pfd.153.2021.07.21.05.43.53
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 21 Jul 2021 05:43:55 -0700 (PDT)
+From: Zheyu Ma <zheyuma97@gmail.com>
+To: sam@ravnborg.org,
+	tzimmermann@suse.de
+Subject: [PATCH] video: fbdev: neofb: add a check against divide error
+Date: Wed, 21 Jul 2021 12:43:44 +0000
+Message-Id: <1626871424-27708-1-git-send-email-zheyuma97@gmail.com>
+X-Mailer: git-send-email 2.7.4
+X-Mailman-Approved-At: Thu, 22 Jul 2021 06:54:33 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,91 +64,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Jonas Karlman <jonas@kwiboo.se>,
- David Airlie <airlied@linux.ie>, Robert Foss <robert.foss@linaro.org>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Andrzej Hajda <a.hajda@samsung.com>,
- linux-mediatek@lists.infradead.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Matthias Brugger <matthias.bgg@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- linux-arm-kernel@lists.infradead.org
+Cc: linux-fbdev@vger.kernel.org, Zheyu Ma <zheyuma97@gmail.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-- deprecated callbacks in drm_bridge_funcs
-- move connector creation to display drivers
+The userspace program could pass any values to the driver through
+ioctl() interface. If the driver doesn't check the value of 'pixclock',
+it may cause divide error because of the 'PICOS2KHZ' macro.
 
-Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
+Fix this by checking whether 'pixclock' is zero first.
+
+The following log reveals it:
+
+[   53.093806] divide error: 0000 [#1] PREEMPT SMP KASAN PTI
+[   53.093838] CPU: 3 PID: 11763 Comm: hang Not tainted 5.14.0-rc2-00478-g2734d6c1b1a0 #215
+[   53.093859] RIP: 0010:neofb_check_var+0x80/0xe50
+[   53.093951] Call Trace:
+[   53.093956]  ? neofb_setcolreg+0x2b0/0x2b0
+[   53.093968]  fb_set_var+0x2e4/0xeb0
+[   53.093977]  ? fb_blank+0x1a0/0x1a0
+[   53.093984]  ? lock_acquire+0x1ef/0x530
+[   53.093996]  ? lock_release+0x810/0x810
+[   53.094005]  ? lock_is_held_type+0x100/0x140
+[   53.094016]  ? ___might_sleep+0x1ee/0x2d0
+[   53.094028]  ? __mutex_lock+0x620/0x1190
+[   53.094036]  ? do_fb_ioctl+0x313/0x700
+[   53.094044]  ? mutex_lock_io_nested+0xfa0/0xfa0
+[   53.094051]  ? __this_cpu_preempt_check+0x1d/0x30
+[   53.094060]  ? _raw_spin_unlock_irqrestore+0x46/0x60
+[   53.094069]  ? lockdep_hardirqs_on+0x59/0x100
+[   53.094076]  ? _raw_spin_unlock_irqrestore+0x46/0x60
+[   53.094085]  ? trace_hardirqs_on+0x6a/0x1c0
+[   53.094096]  do_fb_ioctl+0x31e/0x700
+
+Signed-off-by: Zheyu Ma <zheyuma97@gmail.com>
 ---
- Documentation/gpu/todo.rst | 47 ++++++++++++++++++++++++++++++++++++++
- 1 file changed, 47 insertions(+)
+ drivers/video/fbdev/neofb.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-index 12e61869939e..0ed1f49df73e 100644
---- a/Documentation/gpu/todo.rst
-+++ b/Documentation/gpu/todo.rst
-@@ -477,6 +477,53 @@ Contact: Thomas Zimmermann <tzimmermann@suse.de>, Christian König, Daniel Vette
+diff --git a/drivers/video/fbdev/neofb.c b/drivers/video/fbdev/neofb.c
+index c0f4f402da3f..966df2a07360 100644
+--- a/drivers/video/fbdev/neofb.c
++++ b/drivers/video/fbdev/neofb.c
+@@ -585,7 +585,7 @@ neofb_check_var(struct fb_var_screeninfo *var, struct fb_info *info)
  
- Level: Intermediate
+ 	DBG("neofb_check_var");
  
-+Drop use of deprecated callbacks in bridge drivers
-+--------------------------------------------------
-+
-+&struct drm_bridge_funcs contains a number of deprecated operations
-+which use can be replaced by the atomic variants.
-+
-+* pre_enable => atomic_pre_enable
-+* enable => atomic_enable
-+* disable => atomic_disable
-+* post_disable => atomic_post_disable
-+
-+The above are in most cases a simple adjustment of the arguments and names.
-+
-+* mode_set is no longer required and the implementation shall be merged
-+  with atomic_enable.
-+
-+* mode_fixup => atomic_check
-+  mode_fixup() was created a long time ago, when we were supposed to have
-+  a single bridge at the output of the CRTC. The bridge could then instruct
-+  the CRTC to output a different mode than what the display requires.
-+  Now that we have support for multiple bridges, it's not as straightforward,
-+  and we've so far just pretended to ignore the problem. The .mode_fixup()
-+  operation is used and abused, and just telling people to use .atomic_check()
-+  will likely make things worse as that operation has access to the full atomic
-+  commit and can alter the mode of pretty much anything. We need to define clear
-+  semantics for .atomic_check() in bridges.
-+
-+
-+Contact: Sam Ravnborg <sam@ravnborg.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-+
-+Level: Beginner or intermediate (depending on the driver)
-+
-+Move connector creation to display drivers
-+------------------------------------------
-+
-+With the introduction of chained bridges the creation of connectors are moved to the
-+display drivers. The flag DRM_BRIDGE_ATTACH_NO_CONNECTOR is used to signal to the bridge
-+driver that no connector shall be created and that the display driver will take care.
-+Display drivers will in most cases be able to utilise drm_bridge_connector_init() for all
-+the logic.
-+
-+This task requires all bridge drivers to support optional or no connector creation and all
-+display drivers using bridges to support creating the connector.
-+
-+Contact: Sam Ravnborg <sam@ravnborg.org>, bridge maintainers, driver maintainer
-+
-+Level: Intermediate or advanced (depending on the driver)
+-	if (PICOS2KHZ(var->pixclock) > par->maxClock)
++	if (var->pixclock && PICOS2KHZ(var->pixclock) > par->maxClock)
+ 		return -EINVAL;
  
- Core refactorings
- =================
+ 	/* Is the mode larger than the LCD panel? */
 -- 
-2.30.2
+2.17.6
 
