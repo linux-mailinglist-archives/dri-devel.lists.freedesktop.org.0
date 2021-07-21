@@ -2,44 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B19B3D1545
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 19:42:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C79C3D154A
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 19:42:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C70086E873;
-	Wed, 21 Jul 2021 17:42:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 22E816E85F;
+	Wed, 21 Jul 2021 17:42:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EDCDF6E873;
- Wed, 21 Jul 2021 17:42:31 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10052"; a="233290141"
-X-IronPort-AV: E=Sophos;i="5.84,258,1620716400"; d="scan'208";a="233290141"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Jul 2021 10:42:30 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,258,1620716400"; d="scan'208";a="632715195"
-Received: from irvmail001.ir.intel.com ([10.43.11.63])
- by orsmga005.jf.intel.com with ESMTP; 21 Jul 2021 10:42:29 -0700
-Received: from [10.249.140.99] (mwajdecz-MOBL.ger.corp.intel.com
- [10.249.140.99])
- by irvmail001.ir.intel.com (8.14.3/8.13.6/MailSET/Hub) with ESMTP id
- 16LHgS9J003910; Wed, 21 Jul 2021 18:42:28 +0100
-Subject: Re: [PATCH 07/14] drm/i915/guc/slpc: Add methods to set min/max
- frequency
-To: Vinay Belgaumkar <vinay.belgaumkar@intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-References: <20210721161120.24610-1-vinay.belgaumkar@intel.com>
- <20210721161120.24610-8-vinay.belgaumkar@intel.com>
-From: Michal Wajdeczko <michal.wajdeczko@intel.com>
-Message-ID: <e4a5657a-12f2-cb45-4021-47c9ebb36f2c@intel.com>
-Date: Wed, 21 Jul 2021 19:42:27 +0200
+Received: from smtp.domeneshop.no (smtp.domeneshop.no
+ [IPv6:2a01:5b40:0:3005::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 001556E85F
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 17:42:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+ ; s=ds202012;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
+ MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=TjEvLNNHsaSMgTUGcuTFfcltWUToJtf32CG/+sem9oM=; b=RWW2ghceWcYcdYf59J7wku4SgX
+ asTxnafzEldcqxfOMw1hGEdAJbe/ScWiax0dQA7D85esoVmpNgp8d4+5kXxKOvvLby8ISnjRMFJXW
+ HpX2W4ASw/7bu60u3IoHBLTlRxbEyA1chCshKjtqylSh896BX9g7YHb7zYSUGLBDYkgUwNoAphm/7
+ CBk3LLu6hK8QLzH0PGJDJkrVlqZVHCbe9yav+wQ+dQPlIFCGpZP5SRe7miyZOr4cYWO+lNXjDL9rv
+ 79wdYqYXlLNb52v/tXFO+VlJeXhMkMkk0lNl6C0tWfeFIvsTOiHpDKFpTY7m7HsMTo4/UE+KIukTK
+ TdpPnndg==;
+Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:61963
+ helo=[192.168.10.61])
+ by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <noralf@tronnes.org>)
+ id 1m6GF5-00034t-Ej; Wed, 21 Jul 2021 19:42:47 +0200
+Subject: Re: [PATCH v2 3/3] drm/panel: Add ilitek ili9341 panel driver
+To: dillon.minfei@gmail.com, thierry.reding@gmail.com, sam@ravnborg.org,
+ airlied@linux.ie, daniel@ffwll.ch, robh+dt@kernel.org,
+ linus.walleij@linaro.org, alexandre.torgue@foss.st.com,
+ mcoquelin.stm32@gmail.com
+References: <1626853288-31223-1-git-send-email-dillon.minfei@gmail.com>
+ <1626853288-31223-4-git-send-email-dillon.minfei@gmail.com>
+From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+Message-ID: <8e091b9c-764d-d410-559e-3c5e25de2a3c@tronnes.org>
+Date: Wed, 21 Jul 2021 19:42:42 +0200
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.12.0
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-In-Reply-To: <20210721161120.24610-8-vinay.belgaumkar@intel.com>
+In-Reply-To: <1626853288-31223-4-git-send-email-dillon.minfei@gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -53,155 +59,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sundaresan Sujaritha <sujaritha.sundaresan@intel.com>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, dianders@chromium.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 21.07.2021 18:11, Vinay Belgaumkar wrote:
-> Add param set h2g helpers to set the min and max frequencies
-> for use by SLPC.
+Den 21.07.2021 09.41, skrev dillon.minfei@gmail.com:
+> From: Dillon Min <dillon.minfei@gmail.com>
 > 
-> v2: Address review comments (Michal W)
+> This driver combine tiny/ili9341.c mipi_dbi_interface driver
+> with mipi_dpi_interface driver, can support ili9341 with serial
+> mode or parallel rgb interface mode by register configuration.
 > 
-> Signed-off-by: Sundaresan Sujaritha <sujaritha.sundaresan@intel.com>
-> Signed-off-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+> Cc: Linus Walleij <linus.walleij@linaro.org>
+> Signed-off-by: Dillon Min <dillon.minfei@gmail.com>
 > ---
->  drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c | 84 +++++++++++++++++++++
->  drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h |  2 +
->  2 files changed, 86 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
-> index 48db2a8f67d1..b40c39ba4049 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
-> @@ -109,6 +109,18 @@ static u32 slpc_get_state(struct intel_guc_slpc *slpc)
->  	return data->header.global_state;
->  }
->  
-> +static int guc_action_slpc_set_param(struct intel_guc *guc, u8 id, u32 value)
-> +{
-> +	u32 request[] = {
-> +		INTEL_GUC_ACTION_SLPC_REQUEST,
-> + 		SLPC_EVENT(SLPC_EVENT_PARAMETER_SET, 2),
-> +		id,
-> +		value,
-> +	};
-> +
-> + 	return intel_guc_send(guc, request, ARRAY_SIZE(request));
 
-beware of possible non-zero data0 returned by guc_send()
+> +static const struct of_device_id ili9341_of_match[] = {
+> +	{
+> +		.compatible = "st,sf-tc240t-9370-t",
+> +		.data = &ili9341_stm32f429_disco_data,
+> +	},
+> +	{
+> +		/* porting from tiny/ili9341.c
+> +		 * for original mipi dbi compitable
+> +		 */
+> +		.compatible = "adafruit,yx240qv29",
 
-> +}
-> +
->  static bool slpc_is_running(struct intel_guc_slpc *slpc)
->  {
->  	return (slpc_get_state(slpc) == SLPC_GLOBAL_STATE_RUNNING);
-> @@ -143,6 +155,15 @@ static int slpc_query_task_state(struct intel_guc_slpc *slpc)
->  	return ret;
->  }
->  
-> +static int slpc_set_param(struct intel_guc_slpc *slpc, u8 id, u32 value)
-> +{
-> +	struct intel_guc *guc = slpc_to_guc(slpc);
-> +
-> +	GEM_BUG_ON(id >= SLPC_MAX_PARAM);
-> +
-> +	return guc_action_slpc_set_param(guc, id, value);
-> +}
-> +
->  static const char *slpc_state_string(struct intel_guc_slpc *slpc)
->  {
->  	const char *str = NULL;
-> @@ -238,6 +259,69 @@ u32 slpc_decode_max_freq(struct intel_guc_slpc *slpc)
->  		GT_FREQUENCY_MULTIPLIER, GEN9_FREQ_SCALER);
->  }
->  
-> +/**
-> + * intel_guc_slpc_set_max_freq() - Set max frequency limit for SLPC.
-> + * @slpc: pointer to intel_guc_slpc.
-> + * @val: frequency (MHz)
-> + *
-> + * This function will invoke GuC SLPC action to update the max frequency
-> + * limit for unslice.
-> + *
-> + * Return: 0 on success, non-zero error code on failure.
-> + */
-> +int intel_guc_slpc_set_max_freq(struct intel_guc_slpc *slpc, u32 val)
-> +{
-> +	int ret;
-> +	struct drm_i915_private *i915 = slpc_to_i915(slpc);
-> +	intel_wakeref_t wakeref;
+I don't understand this, now there will be 2 drivers that support the
+same display?
 
-nit: move "ret" as last
+AFAICT drm/tiny/ili9341.c is just copied into this driver, is the plan
+to remove the tiny/ driver? If so I couldn't see this mentioned anywhere.
 
-> +
-> +	with_intel_runtime_pm(&i915->runtime_pm, wakeref) {
-> +		ret = slpc_set_param(slpc,
-> +			       SLPC_PARAM_GLOBAL_MAX_GT_UNSLICE_FREQ_MHZ,
-> +			       val);
-> +		if (ret) {
-> +			drm_err(&i915->drm,
-> +				"Set max frequency unslice returned (%pe)\n", ERR_PTR(ret));
-> +			/* Return standardized err code for sysfs */
-> +			ret = -EIO;
+Noralf.
 
-maybe caller (hook in sysfs) can sanitize this error ?
-
-Michal
-
-> +		}
-> +	}
-> +
-> +	return ret;
-> +}
-> +
-> +/**
-> + * intel_guc_slpc_set_min_freq() - Set min frequency limit for SLPC.
-> + * @slpc: pointer to intel_guc_slpc.
-> + * @val: frequency (MHz)
-> + *
-> + * This function will invoke GuC SLPC action to update the min unslice
-> + * frequency.
-> + *
-> + * Return: 0 on success, non-zero error code on failure.
-> + */
-> +int intel_guc_slpc_set_min_freq(struct intel_guc_slpc *slpc, u32 val)
-> +{
-> +	int ret;
-> +	struct intel_guc *guc = slpc_to_guc(slpc);
-> +	struct drm_i915_private *i915 = guc_to_gt(guc)->i915;
-> +	intel_wakeref_t wakeref;
-> +
-> +	with_intel_runtime_pm(&i915->runtime_pm, wakeref) {
-> +		ret = slpc_set_param(slpc,
-> +			       SLPC_PARAM_GLOBAL_MIN_GT_UNSLICE_FREQ_MHZ,
-> +			       val);
-> +		if (ret) {
-> +			drm_err(&i915->drm,
-> +				"Set min frequency for unslice returned (%pe)\n", ERR_PTR(ret));
-> +			/* Return standardized err code for sysfs */
-> +			ret = -EIO;
-> +		}
-> +	}
-> +
-> +	return ret;
-> +}
-> +
->  /*
->   * intel_guc_slpc_enable() - Start SLPC
->   * @slpc: pointer to intel_guc_slpc.
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h
-> index f02249ff5f1b..3a1a7eaafc12 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h
-> @@ -30,5 +30,7 @@ void intel_guc_slpc_init_early(struct intel_guc_slpc *slpc);
->  int intel_guc_slpc_init(struct intel_guc_slpc *slpc);
->  int intel_guc_slpc_enable(struct intel_guc_slpc *slpc);
->  void intel_guc_slpc_fini(struct intel_guc_slpc *slpc);
-> +int intel_guc_slpc_set_max_freq(struct intel_guc_slpc *slpc, u32 val);
-> +int intel_guc_slpc_set_min_freq(struct intel_guc_slpc *slpc, u32 val);
->  
->  #endif
-> 
+> +		.data = NULL,
+> +	},
+> +};
+> +MODULE_DEVICE_TABLE(of, ili9341_of_match);
