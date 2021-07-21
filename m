@@ -1,43 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B3313D0B07
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 11:18:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 774B73D0B0A
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 11:19:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E1EA76E8AE;
-	Wed, 21 Jul 2021 09:18:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D1596E8CF;
+	Wed, 21 Jul 2021 09:19:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 478816E897;
- Wed, 21 Jul 2021 09:18:29 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10051"; a="198605570"
-X-IronPort-AV: E=Sophos;i="5.84,257,1620716400"; d="scan'208";a="198605570"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Jul 2021 02:18:28 -0700
-X-IronPort-AV: E=Sophos;i="5.84,257,1620716400"; d="scan'208";a="496547579"
-Received: from jcornall-mobl.ger.corp.intel.com (HELO [10.213.197.250])
- ([10.213.197.250])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Jul 2021 02:18:27 -0700
-Subject: Re: [Intel-gfx] [PATCH 2/4] drm/i915/gt: nuke unused legacy engine
- hw_id
-To: Lucas De Marchi <lucas.demarchi@intel.com>, intel-gfx@lists.freedesktop.org
-References: <20210720232014.3302645-1-lucas.demarchi@intel.com>
- <20210720232014.3302645-3-lucas.demarchi@intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-Message-ID: <207065f0-c55a-fa1c-b995-5784d0a0342d@linux.intel.com>
-Date: Wed, 21 Jul 2021 10:18:25 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6DBEE6E81C
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 09:19:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1626859150;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=G4uKQ+XyDIPq8miRvKW7FnGQDeOllxOEPIevz0G83IY=;
+ b=PI40o/WmZ9u2QbId0skrXLcWM4M1KFir3bygM5QcJvC6DCIORfSgqjtUErzRmtVSISOeUz
+ tcJmvXO4QtKTsIByAvz94wlDzXjhhDIYcMMSV92xvo7D65JQJeSB0w+fk51Dsl2VUWSrxU
+ 9CweWp7FZCh06ZYFndJ6q4oHSWWr4ZQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-126-xTK1UUNpPL-Yt-rmTuormw-1; Wed, 21 Jul 2021 05:19:07 -0400
+X-MC-Unique: xTK1UUNpPL-Yt-rmTuormw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5ED63760C8;
+ Wed, 21 Jul 2021 09:19:03 +0000 (UTC)
+Received: from localhost (ovpn-112-135.ams2.redhat.com [10.36.112.135])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D6F1360C59;
+ Wed, 21 Jul 2021 09:18:55 +0000 (UTC)
+From: Cornelia Huck <cohuck@redhat.com>
+To: Jason Gunthorpe <jgg@nvidia.com>, Alex Williamson
+ <alex.williamson@redhat.com>
+Subject: Re: [PATCH v2 02/14] vfio/mbochs: Fix missing error unwind in
+ mbochs_probe()
+In-Reply-To: <20210720224955.GD1117491@nvidia.com>
+Organization: Red Hat GmbH
+References: <0-v2-b6a5582525c9+ff96-vfio_reflck_jgg@nvidia.com>
+ <2-v2-b6a5582525c9+ff96-vfio_reflck_jgg@nvidia.com>
+ <20210720160127.17bf3c19.alex.williamson@redhat.com>
+ <20210720224955.GD1117491@nvidia.com>
+User-Agent: Notmuch/0.32.1 (https://notmuchmail.org)
+Date: Wed, 21 Jul 2021 11:18:54 +0200
+Message-ID: <87a6mg81oh.fsf@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210720232014.3302645-3-lucas.demarchi@intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,80 +64,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomas Winkler <tomas.winkler@intel.com>, dri-devel@lists.freedesktop.org
+Cc: kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Kirti Wankhede <kwankhede@nvidia.com>, Max Gurtovoy <mgurtovoy@nvidia.com>,
+ Vineeth Vijayan <vneethv@linux.ibm.com>,
+ Diana Craciun <diana.craciun@oss.nxp.com>, Leon Romanovsky <leonro@nvidia.com>,
+ Christoph Hellwig <hch@lst.de>, linux-s390@vger.kernel.org,
+ Matthew Rosato <mjrosato@linux.ibm.com>, Jonathan Corbet <corbet@lwn.net>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ intel-gfx@lists.freedesktop.org, Zhi Wang <zhi.a.wang@intel.com>,
+ Jason Herne <jjherne@linux.ibm.com>, Eric Farman <farman@linux.ibm.com>,
+ Vasily Gorbik <gor@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>,
+ Eric Auger <eric.auger@redhat.com>,
+ Harald Freudenberger <freude@linux.ibm.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gvt-dev@lists.freedesktop.org,
+ "Raj, Ashok" <ashok.raj@intel.com>, Tony Krowiak <akrowiak@linux.ibm.com>,
+ Yishai Hadas <yishaih@nvidia.com>, Peter Oberparleiter <oberpar@linux.ibm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, Jul 20 2021, Jason Gunthorpe <jgg@nvidia.com> wrote:
 
-On 21/07/2021 00:20, Lucas De Marchi wrote:
-> The engine hw_id is only used by RING_FAULT_REG(), which is not used
-> since GRAPHICS_VER == 8. We tend to keep adding new defines just to be
-> consistent, but let's try to remove them and let them defined to 0 when
-> not used.
-> 
-> Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
-> ---
->   drivers/gpu/drm/i915/gt/intel_engine_cs.c    | 4 ----
->   drivers/gpu/drm/i915/gt/intel_engine_types.h | 4 ----
->   2 files changed, 8 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-> index d561573ed98c..a11f69f2e46e 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-> @@ -80,7 +80,6 @@ static const struct engine_info intel_engines[] = {
->   		},
->   	},
->   	[VCS1] = {
-> -		.hw_id = VCS1_HW,
->   		.class = VIDEO_DECODE_CLASS,
->   		.instance = 1,
->   		.mmio_bases = {
-> @@ -89,7 +88,6 @@ static const struct engine_info intel_engines[] = {
->   		},
->   	},
->   	[VCS2] = {
-> -		.hw_id = VCS2_HW,
->   		.class = VIDEO_DECODE_CLASS,
->   		.instance = 2,
->   		.mmio_bases = {
-> @@ -97,7 +95,6 @@ static const struct engine_info intel_engines[] = {
->   		},
->   	},
->   	[VCS3] = {
-> -		.hw_id = VCS3_HW,
->   		.class = VIDEO_DECODE_CLASS,
->   		.instance = 3,
->   		.mmio_bases = {
-> @@ -114,7 +111,6 @@ static const struct engine_info intel_engines[] = {
->   		},
->   	},
->   	[VECS1] = {
-> -		.hw_id = VECS1_HW,
->   		.class = VIDEO_ENHANCEMENT_CLASS,
->   		.instance = 1,
->   		.mmio_bases = {
-> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_types.h b/drivers/gpu/drm/i915/gt/intel_engine_types.h
-> index 1cb9c3b70b29..a107eb58ffa2 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_engine_types.h
-> +++ b/drivers/gpu/drm/i915/gt/intel_engine_types.h
-> @@ -34,10 +34,6 @@
->   #define VCS0_HW		1
->   #define BCS0_HW		2
->   #define VECS0_HW	3
-> -#define VCS1_HW		4
-> -#define VCS2_HW		6
-> -#define VCS3_HW		7
-> -#define VECS1_HW	12
->   
->   /* Gen11+ HW Engine class + instance */
->   #define RENDER_CLASS		0
-> 
+> On Tue, Jul 20, 2021 at 04:01:27PM -0600, Alex Williamson wrote:
+>> Hmm, doesn't this suggest we need another atomic conversion?  (untested)
+>
+> Sure why not, I can add this as another patch
 
-Story checks out AFAICS.
+Yes, I think that should be another patch.
 
-Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-
-Regards,
-
-Tvrtko
