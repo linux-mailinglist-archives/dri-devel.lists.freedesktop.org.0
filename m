@@ -2,57 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D32CD3D0C6A
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 12:29:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 844763D0C8C
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 12:49:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D40616E910;
-	Wed, 21 Jul 2021 10:29:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 77E3E6EB6D;
+	Wed, 21 Jul 2021 10:49:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x333.google.com (mail-ot1-x333.google.com
- [IPv6:2607:f8b0:4864:20::333])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1AE766E8A3
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 10:29:16 +0000 (UTC)
-Received: by mail-ot1-x333.google.com with SMTP id
- a17-20020a9d3e110000b02904ce97efee36so1602266otd.7
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 03:29:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=h417+5Nn2Pgd6WA/rkzrOB7f5qZl0K/oFZRySnon6fM=;
- b=dP5y0SRwrB1hjw/MVYi14vnTeaxW3RWgNT4XKLVwLQTSLYGNhUM8B/5tUKn/AjmG/e
- 87Dgni6usuZj0Gwd26LtGaiVnfb+Nb3LcfIks58zLNCluPjUgZ07/vDQPpH5UsVcLJnm
- DUBHIuwtqCITyO6+jd9Nl3a1Uz9J2CkocvlKU=
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
+ [IPv6:2a00:1450:4864:20::432])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B79DF6E8A3
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 10:49:18 +0000 (UTC)
+Received: by mail-wr1-x432.google.com with SMTP id m2so1690357wrq.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 03:49:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=PhuhEZQu6xfi2SdFUEihPZE1dx8y/3uy2iMDI/n/pwY=;
+ b=ZV6dj0NP4qcm1IioqkriQAySrfoVfqZFd55LSc+ZWqFwyGul7x3Ouqd8PcdZ9SGfGx
+ s7phb3Yi/ZYeVb7pEZy1yY4IPbKc7x1fa4Oo4xLQgQVFUBWxWyFTv0tV9mSarr8GANUZ
+ gTFX0arSeyhq8oSaMk8snyzk2/LOewmogwoXQICvFkc481JMHrQzt087WLtE9TChbwCa
+ MCbKwuNYQo5H0xXaC92VfAl7QAJzPMnym02+k4jtuJ4/w1U0dqWw3ic64RNtkVDreolN
+ zkyLUQU1xAB09HgmbznC3knWDbZqSola16nwcZ1gfgofT+Nzfk7WU3Gq0l2pdX0LmHH+
+ pKVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=h417+5Nn2Pgd6WA/rkzrOB7f5qZl0K/oFZRySnon6fM=;
- b=DndWVXz5eWfG54TXIdz6KFabUw75CPQ1Q3Rmo3kwmY5IDnNNOnett7cewvRNN3sWNf
- kIAOCfEhNLFNC+Tdw8lH+zq+RbemWuNE3v6S7AkhBhck0dvOj8Hv47ul6FR1HmYWElkS
- A72zuA3ElhsyihgJE+/A7ejzcyjDECYQ/Y0YahBzerXt67S+Ye1IBavPoM5Z7yAGIQQx
- DOEU0T/+E5FKxSMtkWXg79Vx0WPdYyBF4rJ1WzuzRWvRDjeR3RGW98BMeYgVhKd4aIDY
- ZU012pX1CJrjI8eYfO3Ba0GJlBZCJxIo6JfNHIkgZOI902jCk033B+8YqnAt29HANAZe
- zuzQ==
-X-Gm-Message-State: AOAM531uYlTbxCKL76idZeymtnOYKYUnwrOnXZWphL5zjjnRY5Vjdtlc
- tsOA8czPoUPwYt8gkfORuRiMjyzseNtrch/NqSvUjQ==
-X-Google-Smtp-Source: ABdhPJxnsfA3n87/jWpR0qUhPsWBSfRhmjyGwC0ANDR9tMSbPA64GLPwtsPMaBOTIwvd+I7FHsCQ2NOVZZiPWLN/Uko=
-X-Received: by 2002:a05:6830:2802:: with SMTP id
- w2mr24416395otu.303.1626863355405; 
- Wed, 21 Jul 2021 03:29:15 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=PhuhEZQu6xfi2SdFUEihPZE1dx8y/3uy2iMDI/n/pwY=;
+ b=GU3V8Dtg4KfOoxKBx8rs79GI+NaZpPeKA90Btk7Boze/85l6BRXMqE986jKkUYoDJ4
+ 1BlG94YLgXIwO7AsvonsdqpTJSMRXeysQER3OwL+PT8otCwCOCL5NyWRp68iO3R7hoHQ
+ adr5WvFv0eoHhGdHrD2ttIg8kGK1BD4dcVAWIhUflmYJ51mvbk0TkvSjjlGieGmc371Y
+ hkxYWpLhG6RqioBuuUuL1SO0wsei6P+04TQrABQK/kjMoPb1oG9U2dJ11oklFGAo0MMJ
+ CB5bui4c0BcUHws+w4y2IRAzOVl02iAWxgBH/fwrvcCIHhDWZOxmFCGf8ieKpYd+rz6i
+ henQ==
+X-Gm-Message-State: AOAM530F/S4fbODtYGZHrhZIZ2Ow++oXs+iE7FUkiWJNI40s9pnXqLmQ
+ ClE+CDhIbKtgk9dWAA19YM6tvQ==
+X-Google-Smtp-Source: ABdhPJziH3qaBI0faHBOvKO0ex4OvlqFW2mJSs79EkBsg3Y523+YYoDsva2zIDcDaHPhU7QuUOoT1A==
+X-Received: by 2002:a5d:5550:: with SMTP id g16mr9742327wrw.342.1626864557074; 
+ Wed, 21 Jul 2021 03:49:17 -0700 (PDT)
+Received: from maple.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net.
+ [80.7.220.175])
+ by smtp.gmail.com with ESMTPSA id k13sm27188857wrp.34.2021.07.21.03.49.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 21 Jul 2021 03:49:16 -0700 (PDT)
+Date: Wed, 21 Jul 2021 11:49:14 +0100
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: Marek Vasut <marex@denx.de>
+Subject: Re: [PATCH] backlight: pwm_bl: Avoid backlight flicker if backlight
+ control GPIO is input
+Message-ID: <20210721104914.4difos6w3ysjelnv@maple.lan>
+References: <20210718211415.143709-1-marex@denx.de>
+ <20210719112202.4fvmn57ibgy3yesa@maple.lan>
+ <bbaad78e-91c7-0787-fa72-b5cfabcc6dbd@denx.de>
 MIME-Version: 1.0
-References: <20210712043508.11584-1-desmondcheongzx@gmail.com>
- <YPcU3wJK7kC5b7kv@phenom.ffwll.local>
- <50c5582b-c674-4ef8-585f-7a3d78a49f85@gmail.com>
-In-Reply-To: <50c5582b-c674-4ef8-585f-7a3d78a49f85@gmail.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Wed, 21 Jul 2021 12:29:04 +0200
-Message-ID: <CAKMK7uGvb3O9Ypd73xZf6bdMcXJyGJw4C7GXGprkZLpN9Gx7qQ@mail.gmail.com>
-Subject: Re: [PATCH v8 0/5] drm: address potential UAF bugs with drm_master
- ptrs
-To: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <bbaad78e-91c7-0787-fa72-b5cfabcc6dbd@denx.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,199 +71,185 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@linux.ie>, Greg KH <gregkh@linuxfoundation.org>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Emil Velikov <emil.l.velikov@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Shuah Khan <skhan@linuxfoundation.org>,
- linux-kernel-mentees@lists.linuxfoundation.org,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
+Cc: linux-pwm@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Thierry Reding <treding@nvidia.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 21, 2021 at 6:12 AM Desmond Cheong Zhi Xi
-<desmondcheongzx@gmail.com> wrote:
-> On 21/7/21 2:24 am, Daniel Vetter wrote:
-> > On Mon, Jul 12, 2021 at 12:35:03PM +0800, Desmond Cheong Zhi Xi wrote:
-> >> Hi,
-> >>
-> >> In the previous thread on this series we decided to remove a patch tha=
-t was violating a lockdep requirement in drm_lease. In addition to this cha=
-nge, I took a closer look at the CI logs for the Basic Acceptance Tests and=
- noticed that another regression was introduced. The new patch 2 is a respo=
-nse to this.
-> >>
-> >> Overall, this series addresses potential use-after-free errors when de=
-referencing pointers to struct drm_master. These were identified after one =
-such bug was caught by Syzbot in drm_getunique():
-> >> https://syzkaller.appspot.com/bug?id=3D148d2f1dfac64af52ffd27b661981a5=
-40724f803
-> >>
-> >> The series is broken up into five patches:
-> >>
-> >> 1. Move a call to drm_is_current_master() out from a section locked by=
- &dev->mode_config.mutex in drm_mode_getconnector(). This patch does not ap=
-ply to stable.
-> >>
-> >> 2. Move a call to drm_is_current_master() out from the RCU read-side c=
-ritical section in drm_clients_info().
-> >>
-> >> 3. Implement a locked version of drm_is_current_master() function that=
-'s used within drm_auth.c.
-> >>
-> >> 4. Serialize drm_file.master by introducing a new spinlock that's held=
- whenever the value of drm_file.master changes.
-> >>
-> >> 5. Identify areas in drm_lease.c where pointers to struct drm_master a=
-re dereferenced, and ensure that the master pointers are not freed during u=
-se.
-> >>
-> >> v7 -> v8:
-> >> - Remove the patch that moves the call to _drm_lease_held out from the=
- section locked by &dev->mode_config.idr_mutex in __drm_mode_object_find. T=
-his patch violated an existing lockdep requirement as reported by the intel=
--gfx CI.
-> >> - Added a new patch that moves a call to drm_is_current_master out fro=
-m the RCU critical section in drm_clients_info. This was reported by the in=
-tel-gfx CI.
-> >>
-> >> v6 -> v7:
-> >> - Modify code alignment as suggested by the intel-gfx CI.
-> >> - Add a new patch to the series that adds a new lock to serialize drm_=
-file.master, in response to the lockdep splat by the intel-gfx CI.
-> >> - Update drm_file_get_master to use the new drm_file.master_lock inste=
-ad of drm_device.master_mutex, in response to the lockdep splat by the inte=
-l-gfx CI.
-> >>
-> >> v5 -> v6:
-> >> - Add a new patch to the series that moves the call to _drm_lease_held=
- out from the section locked by &dev->mode_config.idr_mutex in __drm_mode_o=
-bject_find.
-> >> - Clarify the kerneldoc for dereferencing drm_file.master, as suggeste=
-d by Daniel Vetter.
-> >> - Refactor error paths with goto labels so that each function only has=
- a single drm_master_put(), as suggested by Emil Velikov.
-> >> - Modify comparisons to NULL into "!master", as suggested by the intel=
--gfx CI.
-> >>
-> >> v4 -> v5:
-> >> - Add a new patch to the series that moves the call to drm_is_current_=
-master in drm_mode_getconnector out from the section locked by &dev->mode_c=
-onfig.mutex.
-> >> - Additionally, added a missing semicolon to the patch, caught by the =
-intel-gfx CI.
-> >>
-> >> v3 -> v4:
-> >> - Move the call to drm_is_current_master in drm_mode_getconnector out =
-from the section locked by &dev->mode_config.mutex. As suggested by Daniel =
-Vetter. This avoids a circular lock lock dependency as reported here https:=
-//patchwork.freedesktop.org/patch/440406/
-> >> - Inside drm_is_current_master, instead of grabbing &fpriv->master->de=
-v->master_mutex, we grab &fpriv->minor->dev->master_mutex to avoid derefere=
-ncing a null ptr if fpriv->master is not set.
-> >> - Modify kerneldoc formatting for drm_file.master, as suggested by Dan=
-iel Vetter.
-> >> - Additionally, add a file_priv->master NULL check inside drm_file_get=
-_master, and handle the NULL result accordingly in drm_lease.c. As suggeste=
-d by Daniel Vetter.
-> >>
-> >> v2 -> v3:
-> >> - Move the definition of drm_is_current_master and the _locked version=
- higher up in drm_auth.c to avoid needing a forward declaration of drm_is_c=
-urrent_master_locked. As suggested by Daniel Vetter.
-> >> - Instead of leaking drm_device.master_mutex into drm_lease.c to prote=
-ct drm_master pointers, add a new drm_file_get_master() function that retur=
-ns drm_file->master while increasing its reference count, to prevent drm_fi=
-le->master from being freed. As suggested by Daniel Vetter.
-> >>
-> >> v1 -> v2:
-> >> - Move the lock and assignment before the DRM_DEBUG_LEASE in drm_mode_=
-get_lease_ioctl, as suggested by Emil Velikov.
-> >
-> > Apologies for the delay, I missed your series. Maybe just ping next tim=
-e
-> > around there's silence.
-> >
-> > Looks all great, merged to drm-misc-next. Given how complex this was I'=
-m
-> > vary of just pushing this to -fixes without some solid testing.
-> >
->
-> Hi Daniel,
->
-> Thanks for merging, more testing definitely sounds good to me.
->
-> > One thing I noticed is that drm_is_current_master could just use the
-> > spinlock, since it's only doing a read access. Care to type up that pat=
-ch?
-> >
->
-> I thought about this too, but I'm not sure if that's the best solution.
->
-> drm_is_current_master calls drm_lease_owner which then walks up the tree
-> of master lessors. The spinlock protects the master of the current drm
-> file, but subsequent lessors aren't protected without holding the
-> device's master mutex.
+On Tue, Jul 20, 2021 at 10:28:32PM +0200, Marek Vasut wrote:
+> On 7/19/21 1:22 PM, Daniel Thompson wrote:
+> > On Sun, Jul 18, 2021 at 11:14:15PM +0200, Marek Vasut wrote:
+> > > If the backlight enable GPIO is configured as input, the driver currently
+> > > unconditionally forces the GPIO to output-enable. This can cause backlight
+> > > flicker on boot e.g. in case the GPIO should not be enabled before the PWM
+> > > is configured and is correctly pulled low by external resistor.
+> > > 
+> > > Fix this by extending the current check to differentiate between backlight
+> > > GPIO enable set as input and set as direction unknown. In case of input,
+> > > read the GPIO value to determine the pull resistor placement, set the GPIO
+> > > as output, and drive that exact value it was pulled to. In case of unknown
+> > > direction, retain previous behavior, that is set the GPIO as output-enable.
+> > > 
+> > > Fixes: 3698d7e7d221 ("backlight: pwm_bl: Avoid backlight flicker when probed from DT")
+> > > Signed-off-by: Marek Vasut <marex@denx.de>
+> > > Cc: Christian Gmeiner <christian.gmeiner@gmail.com>
+> > > Cc: Daniel Thompson <daniel.thompson@linaro.org>
+> > > Cc: Heiko Stuebner <heiko@sntech.de>
+> > > Cc: Philipp Zabel <p.zabel@pengutronix.de>
+> > > Cc: Thierry Reding <treding@nvidia.com>
+> > > Cc: linux-pwm@vger.kernel.org
+> > > Cc: linux-fbdev@vger.kernel.org
+> > > To: dri-devel@lists.freedesktop.org
+> > > ---
+> > > NOTE: I think this whole auto-detection scheme should just be replaced by a
+> > >        DT prop, because it is very fragile.
+> > 
+> > I have some sympathy for this view... although I think the boat has
+> > already set sail.
+> 
+> I'm not sure that's correct, we can simply say that any new uses of the
+> pwm-backlight should specify the initial GPIO configuration, and for the
+> legacy ones, use whatever is in the code now.
 
-But this isn't a fpriv->master pointer, but a master->lessor pointer.
-Which should never ever be able to change (we'd have tons of uaf bugs
-around drm_lease_owner otherwise). So I don't think there's anything
-that dev->master_lock protects here that fpriv->master_lookup_lock
-doesn't protect already?
-
-Or am I missing something?
-
-The comment in the struct drm_master says it's protected by
-mode_config.idr_mutex, but that only applies to the idrs and lists I
-think.
-
-> > Also, do you plan to look into that idea we've discussed to flush pendi=
-ng
-> > access when we revoke a master or a lease? I think that would be really
-> > nice improvement here.
-> > -Daniel
-> >
->
-> Yup, now that the potential UAFs are addressed (hopefully), I'll take a
-> closer look and propose a patch for this.
-
-Thanks a lot.
--Daniel
-
->
-> Best wishes,
-> Desmond
->
-> >>
-> >> Desmond Cheong Zhi Xi (5):
-> >>    drm: avoid circular locks in drm_mode_getconnector
-> >>    drm: avoid blocking in drm_clients_info's rcu section
-> >>    drm: add a locked version of drm_is_current_master
-> >>    drm: serialize drm_file.master with a new spinlock
-> >>    drm: protect drm_master pointers in drm_lease.c
-> >>
-> >>   drivers/gpu/drm/drm_auth.c      | 93 ++++++++++++++++++++++++-------=
---
-> >>   drivers/gpu/drm/drm_connector.c |  5 +-
-> >>   drivers/gpu/drm/drm_debugfs.c   |  3 +-
-> >>   drivers/gpu/drm/drm_file.c      |  1 +
-> >>   drivers/gpu/drm/drm_lease.c     | 81 +++++++++++++++++++++-------
-> >>   include/drm/drm_auth.h          |  1 +
-> >>   include/drm/drm_file.h          | 18 +++++--
-> >>   7 files changed, 152 insertions(+), 50 deletions(-)
-> >>
-> >> --
-> >> 2.25.1
-> >>
-> >
->
+I'm not 100% against the idea... however if we still have to get the
+code to read state from the hardware right for legacy cases that means
+we have to do the same work but with fewer people testing it.
 
 
---=20
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+> > However, on the basis of making things less fragile, I think the
+> > underlying problem here is the assumption that it is safe to modify
+> > enable_gpio before the driver has imposed state upon the PWM (this
+> > assumption has always been made and, in addition to systems where the BL
+> > has a phandle will also risks flicker problems on systems where
+> > power_pwm_on_delay is not zero).
+> 
+> It is safe to modify the GPIO into defined state, but that defined state is
+> not always out/enabled, that defined state depends on the hardware.
+
+It is only safe to do this once we know what the initial value should be
+and I'm not sure that value can comes exclusively from reading the pin.
+
+
+> > This patch does not change the assumption that we can configure the
+> > GPIO before we modify the PWM state. This means it won't fix the problem
+> > for cases there the pin is HiZ by default but whose GPIOD_ASIS state is
+> > neither input nor output.
+> 
+> That is correct, for pin that is floating, we lost. But then I would argue
+> that if your backlight-enable GPIO is floating, the hardware is buggy, I
+> would expect some pull resistor to keep the backlight off on power on on
+> that GPIO.
+
+I didn't say that the pin was floating. I said that the pin was in a HiZ
+state meaning it could still be subject to pull up/down.
+
+However there are cases, such as when the regulator is off, where I
+think it is entirely legitimate for the enable pin to be floating. The
+current driver does the wrong thing here if the pin is set as input
+since if the regulator is off the initial enable_gpio value should be 0.
+
+
+> > I wonder if it might be better to move the code to configure the
+> > direction of enable_gpio out of the probe function and into
+> > pwm_backlight_power_on():
+> 
+> No, I tried that already.
+> 
+> The first thing that is called on boot is pwm_backlight_power_off() to set
+> the backlight to 0 (and thus set pwm to 0), but since pb->enabled is false,
+> that is where the function exits with configuring PWM and without
+> configuring the GPIO state.
+>
+> I also experimented with some "first time only" flag in those functions, but
+> that looked ugly and complicated the runtime code.
+
+I followed that idea and came to a similar conclusion w.r.t. to the
+first time flag.
+
+I think a reasonably elegant approach can be reached by making
+pwm_backlight_initial_power_state() responsible for ensuring enable_gpio
+matches the observed hardware state (taking into account both the pin
+state and the regulator). I think this will fix both your flicker
+concerns whilst permitting the legitimate cases for a floating pin.
+
+Something like:
+
+diff --git a/drivers/video/backlight/pwm_bl.c b/drivers/video/backlight/pwm_bl.c
+index e48fded3e414..8d8959a70e44 100644
+--- a/drivers/video/backlight/pwm_bl.c
++++ b/drivers/video/backlight/pwm_bl.c
+@@ -409,6 +409,33 @@ static bool pwm_backlight_is_linear(struct platform_pwm_backlight_data *data)
+ static int pwm_backlight_initial_power_state(const struct pwm_bl_data *pb)
+ {
+ 	struct device_node *node = pb->dev->of_node;
++	bool active = true;
++
++	/*
++	 * If the enable GPIO is present, observable (either as input
++	 * or output) and off then the backlight is not currently active.
++	 * */
++	if (pb->enable_gpio && gpiod_get_value_cansleep(pb->enable_gpio) == 0)
++		active = false;
++
++	if (!regulator_is_enabled(pb->power_supply))
++		active = false;
++
++	if (!pwm_is_enabled(pb->pwm))
++		active = false;
++
++	/*
++	 * Synchronize the enable_gpio with the observed state of the
++	 * hardware.
++	 */
++	if (pb->enable_gpio)
++		gpiod_direction_output(pb->enable_gpio, active);
++
++	/*
++	 * Do not change pb->enabled here! pb->enabled essentially
++	 * tells us if we own one of the regulator's use counts and
++	 * right now we do not.
++	 */
+ 
+ 	/* Not booted with device tree or no phandle link to the node */
+ 	if (!node || !node->phandle)
+@@ -420,20 +447,7 @@ static int pwm_backlight_initial_power_state(const struct pwm_bl_data *pb)
+ 	 * assume that another driver will enable the backlight at the
+ 	 * appropriate time. Therefore, if it is disabled, keep it so.
+ 	 */
+-
+-	/* if the enable GPIO is disabled, do not enable the backlight */
+-	if (pb->enable_gpio && gpiod_get_value_cansleep(pb->enable_gpio) == 0)
+-		return FB_BLANK_POWERDOWN;
+-
+-	/* The regulator is disabled, do not enable the backlight */
+-	if (!regulator_is_enabled(pb->power_supply))
+-		return FB_BLANK_POWERDOWN;
+-
+-	/* The PWM is disabled, keep it like this */
+-	if (!pwm_is_enabled(pb->pwm))
+-		return FB_BLANK_POWERDOWN;
+-
+-	return FB_BLANK_UNBLANK;
++	return active ? FB_BLANK_UNBLANK: FB_BLANK_POWERDOWN;
+ }
+ 
+ static int pwm_backlight_probe(struct platform_device *pdev)
+@@ -486,18 +500,6 @@ static int pwm_backlight_probe(struct platform_device *pdev)
+ 		goto err_alloc;
+ 	}
+ 
+-	/*
+-	 * If the GPIO is not known to be already configured as output, that
+-	 * is, if gpiod_get_direction returns either 1 or -EINVAL, change the
+-	 * direction to output and set the GPIO as active.
+-	 * Do not force the GPIO to active when it was already output as it
+-	 * could cause backlight flickering or we would enable the backlight too
+-	 * early. Leave the decision of the initial backlight state for later.
+-	 */
+-	if (pb->enable_gpio &&
+-	    gpiod_get_direction(pb->enable_gpio) != 0)
+-		gpiod_direction_output(pb->enable_gpio, 1);
+-
+ 	pb->power_supply = devm_regulator_get(&pdev->dev, "power");
+ 	if (IS_ERR(pb->power_supply)) {
+ 		ret = PTR_ERR(pb->power_supply);
