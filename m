@@ -2,37 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB05F3D1227
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 17:18:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 942AD3D1230
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 17:21:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 855B16E958;
-	Wed, 21 Jul 2021 15:18:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E543D6EB95;
+	Wed, 21 Jul 2021 15:21:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A8B16E853
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 15:18:46 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id EB96F61246;
- Wed, 21 Jul 2021 15:18:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1626880726;
- bh=rHewC8c5p0knxx95PKPppJx1ZIfzczey+Q7nqFGbe1g=;
- h=From:To:Cc:Subject:Date:From;
- b=biu8xVWJdFQe9hPe1MR00MmTDZLvkdzJrXLSyc44H3ao7+QlvaF2qavXQqnwvznps
- +ZiKWdt6IAid+59oKGhrSqbnXZCEhQA68Ujpi/zVaEF8Qe6scucrjVw2ScLSu23fDs
- UGuh8jHTm0tWFqOc/3bxfMQIPhhpUjIib1gms4e3WkWl5hnd9EtlMDlXfaCZDjATrC
- Qfi7IWDPof+2XLJT96RQhpLpr4B72j0qIJswSVNpGjsSTebX7Njj5ZS2dHJAnUOGbm
- DooGKftfv1YwvTCXz4iTnBhHfG2/owHkaGiG1Y6uuxJQYikPKgRkxezcVvwuInngO+
- JWjlkmeAcPzOg==
-From: Arnd Bergmann <arnd@kernel.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Maxime Ripard <maxime@cerno.tech>
-Subject: [PATCH] fbdev: simplefb: fix Kconfig dependencies
-Date: Wed, 21 Jul 2021 17:17:46 +0200
-Message-Id: <20210721151839.2484245-1-arnd@kernel.org>
-X-Mailer: git-send-email 2.29.2
+Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com
+ [IPv6:2607:f8b0:4864:20::b29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 637246EC37
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 15:21:10 +0000 (UTC)
+Received: by mail-yb1-xb29.google.com with SMTP id k184so3720105ybf.12
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 08:21:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=IwwmCqrNiXZuvD1GxnInPknsoukG/WEU70RQQW9rHu0=;
+ b=2H7xo2SPE/WTH6wqu0ghi7N97yTFKFsM6b9WeLMO0kq/jtWa9jHc1tR6Rv+mlUuWN6
+ ohE42OffTanT0PCfrNdtwkviwOr6nHMyO3e2s7aLkv0df2OcpzJxexRppkuelHRsbYaw
+ 7y2FevTWCcRhm9+hynaxUniYMHD7LUVB4CJyPbOlK/FoDTy3kf/o4Lh4KQ/eXaMf8OpS
+ kxYiCsYukuoGxlVzR4hsXPQCXWla0nW94hv0rfOOxYP18iTj0rzkuZwlzrsa5YyxQuwX
+ hCborDNFIbwfugWS1XoftwEegiH/oaIuHDRQc1brVIrcbuwV9e2/onBFjvy3U1pV4+wK
+ J/gw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=IwwmCqrNiXZuvD1GxnInPknsoukG/WEU70RQQW9rHu0=;
+ b=eLUXl6wFoXvXT/+VBu3tiKTZ6wzf3YEcBRqU7WjpH6OG3mBLoR9aD3CwO69vRYb+H1
+ WpgOK839/OO8chSf0orq49WiRox9QiNSWB1CyplfjlHcL5Tq/XUVV+HA2TbFmuH0aa81
+ SX26ijDGWDuCEZhoSE5AgxNRE8Ya343E8qQ72YPl8LIhTZJ8nxrachiD+absyAlj9AjD
+ qsN7U/vU3077qVorjQ2tZZ/0rR2Z6+S99BOSy5CISj/iwFMV9ia0gMiA2ftIDuMuqeFR
+ RS12MfhKA92MI32wDB4VHJTYPjVGAWcBpNaASsQ5CW1oUcDe8rAWUmYl7klcwXYr87KW
+ RXrw==
+X-Gm-Message-State: AOAM531+lWJBH4P3xiLcyrHLPnh/LUz2qQgGA67pxaIQVn/dCJ9gIKlq
+ E6eqpkGmJLx6EHYHLesvZEML07muY2KCt6YNE8N86Q==
+X-Google-Smtp-Source: ABdhPJwwHdekdbfmCaoKhNmzqd3qaxg6WM4Rp7VJHqUqQb1I1Td0TBhEipMjclZF7lVQ0n1uxfxDHNJvNe13+bR+kik=
+X-Received: by 2002:a25:d113:: with SMTP id i19mr48130491ybg.180.1626880869439; 
+ Wed, 21 Jul 2021 08:21:09 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210719183047.2624569-1-jason@jlekstrand.net>
+ <20210719183047.2624569-4-jason@jlekstrand.net>
+ <YPbbSKpaB7yZ8KtE@phenom.ffwll.local>
+ <CAOFGe973b3YPNs+0aGThP0uFTu13t94To=wu3_ZwX5DJhSoGMw@mail.gmail.com>
+ <YPgEXZ4zXuR4374o@phenom.ffwll.local>
+In-Reply-To: <YPgEXZ4zXuR4374o@phenom.ffwll.local>
+From: Jason Ekstrand <jason@jlekstrand.net>
+Date: Wed, 21 Jul 2021 10:20:58 -0500
+Message-ID: <CAOFGe95C9FMxuriSYG_eC8y5bXBKMJfCF2QA7tmr-0Tg2cmwvQ@mail.gmail.com>
+Subject: Re: [PATCH 3/6] drm/i915: Always call i915_globals_exit() from
+ i915_exit()
+To: Daniel Vetter <daniel@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,72 +67,183 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
- Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>, Arnd Bergmann <arnd@arndb.de>,
- Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Rob Herring <robh+dt@kernel.org>, Frank Rowand <frowand.list@gmail.com>
+Cc: Intel GFX <intel-gfx@lists.freedesktop.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Arnd Bergmann <arnd@arndb.de>
+On Wed, Jul 21, 2021 at 6:26 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+>
+> On Tue, Jul 20, 2021 at 09:55:22AM -0500, Jason Ekstrand wrote:
+> > On Tue, Jul 20, 2021 at 9:18 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+> > >
+> > > On Mon, Jul 19, 2021 at 01:30:44PM -0500, Jason Ekstrand wrote:
+> > > > If the driver was not fully loaded, we may still have globals lying
+> > > > around.  If we don't tear those down in i915_exit(), we'll leak a bunch
+> > > > of memory slabs.  This can happen two ways: use_kms = false and if we've
+> > > > run mock selftests.  In either case, we have an early exit from
+> > > > i915_init which happens after i915_globals_init() and we need to clean
+> > > > up those globals.  While we're here, add an explicit boolean instead of
+> > > > using a random field from i915_pci_device to detect partial loads.
+> > > >
+> > > > The mock selftests case gets especially sticky.  The load isn't entirely
+> > > > a no-op.  We actually do quite a bit inside those selftests including
+> > > > allocating a bunch of mock objects and running tests on them.  Once all
+> > > > those tests are complete, we exit early from i915_init().  Perviously,
+> > > > i915_init() would return a non-zero error code on failure and a zero
+> > > > error code on success.  In the success case, we would get to i915_exit()
+> > > > and check i915_pci_driver.driver.owner to detect if i915_init exited early
+> > > > and do nothing.  In the failure case, we would fail i915_init() but
+> > > > there would be no opportunity to clean up globals.
+> > > >
+> > > > The most annoying part is that you don't actually notice the failure as
+> > > > part of the self-tests since leaking a bit of memory, while bad, doesn't
+> > > > result in anything observable from userspace.  Instead, the next time we
+> > > > load the driver (usually for next IGT test), i915_globals_init() gets
+> > > > invoked again, we go to allocate a bunch of new memory slabs, those
+> > > > implicitly create debugfs entries, and debugfs warns that we're trying
+> > > > to create directories and files that already exist.  Since this all
+> > > > happens as part of the next driver load, it shows up in the dmesg-warn
+> > > > of whatever IGT test ran after the mock selftests.
+> > > >
+> > > > While the obvious thing to do here might be to call i915_globals_exit()
+> > > > after selftests, that's not actually safe.  The dma-buf selftests call
+> > > > i915_gem_prime_export which creates a file.  We call dma_buf_put() on
+> > > > the resulting dmabuf which calls fput() on the file.  However, fput()
+> > > > isn't immediate and gets flushed right before syscall returns.  This
+> > > > means that all the fput()s from the selftests don't happen until right
+> > > > before the module load syscall used to fire off the selftests returns
+> > > > which is after i915_init().  If we call i915_globals_exit() in
+> > > > i915_init() after selftests, we end up freeing slabs out from under
+> > > > objects which won't get released until fput() is flushed at the end of
+> > > > the module load.
+> > > >
+> > > > The solution here is to let i915_init() return success early and detect
+> > > > the early success in i915_exit() and only tear down globals and nothing
+> > > > else.  This way the module loads successfully, regardless of the success
+> > > > or failure of the tests.  Because we've not enumerated any PCI devices,
+> > > > no device nodes are created and it's entirely useless from userspace.
+> > > > The only thing the module does at that point is hold on to a bit of
+> > > > memory until we unload it and i915_exit() is called.  Importantly, this
+> > > > means that everything from our selftests has the ability to properly
+> > > > flush out between i915_init() and i915_exit() because there are a couple
+> > > > syscall boundaries in between.
+> > > >
+> > > > Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
+> > > > Fixes: 32eb6bcfdda9 ("drm/i915: Make request allocation caches global")
+> > > > Cc: Daniel Vetter <daniel@ffwll.ch>
+> > > > ---
+> > > >  drivers/gpu/drm/i915/i915_pci.c | 32 +++++++++++++++++++++++++-------
+> > > >  1 file changed, 25 insertions(+), 7 deletions(-)
+> > > >
+> > > > diff --git a/drivers/gpu/drm/i915/i915_pci.c b/drivers/gpu/drm/i915/i915_pci.c
+> > > > index 4e627b57d31a2..24e4e54516936 100644
+> > > > --- a/drivers/gpu/drm/i915/i915_pci.c
+> > > > +++ b/drivers/gpu/drm/i915/i915_pci.c
+> > > > @@ -1194,18 +1194,31 @@ static struct pci_driver i915_pci_driver = {
+> > > >       .driver.pm = &i915_pm_ops,
+> > > >  };
+> > > >
+> > > > +static bool i915_fully_loaded = false;
+> > > > +
+> > > >  static int __init i915_init(void)
+> > > >  {
+> > > >       bool use_kms = true;
+> > > >       int err;
+> > > >
+> > > > +     i915_fully_loaded = false;
+> > > > +
+> > > >       err = i915_globals_init();
+> > > >       if (err)
+> > > >               return err;
+> > > >
+> > > > +     /* i915_mock_selftests() only returns zero if no mock subtests were
+> > > > +      * run.  If we get any non-zero error code, we return early here.
+> > > > +      * We always return success because selftests may have allocated
+> > > > +      * objects from slabs which will get cleaned up by i915_exit().  We
+> > > > +      * could attempt to clean up immediately and fail module load but,
+> > > > +      * thanks to interactions with other parts of the kernel (struct
+> > > > +      * file, in particular), it's safer to let the module fully load
+> > > > +      * and then clean up on unload.
+> > > > +      */
+> > > >       err = i915_mock_selftests();
+> > > >       if (err)
+> > > > -             return err > 0 ? 0 : err;
+> > > > +             return 0;
+> > >
+> > > At least the module options still claim that you can run selftests and
+> > > still load the driver. Which makes sense for perf/hw selftests, since
+> > > those need the driver, but would result in the same old bug resurfacing
+> > > that you're trying to fix there.
+> > >
+> > > Is that description just confused and needs some fixing, or do we have a
+> > > gap here?
+> >
+> > I don't think there's real need for a fully loaded driver after mock
+> > selftests.  They exist entirely to run against a mock driver, not the
+> > real one.
+>
+> Can you pls update the module option help then for the next round?
 
-Configurations with both CONFIG_FB_SIMPLE=y and CONFIG_DRM_SIMPLEDRM=m
-are allowed by Kconfig because the 'depends on !DRM_SIMPLEDRM' dependency
-does not disallow FB_SIMPLE as long as SIMPLEDRM is not built-in. This
-can however result in a build failure when cfb_fillrect() etc are then
-also in loadable modules:
+Done.
 
-x86_64-linux-ld: drivers/video/fbdev/simplefb.o:(.rodata+0x1f8): undefined reference to `cfb_fillrect'
-x86_64-linux-ld: drivers/video/fbdev/simplefb.o:(.rodata+0x200): undefined reference to `cfb_copyarea'
-x86_64-linux-ld: drivers/video/fbdev/simplefb.o:(.rodata+0x208): undefined reference to `cfb_imageblit'
-
-To work around this, change FB_SIMPLE to be a 'tristate' symbol,
-which still allows both to be =m together, but not one of them to
-be =y if the other one is =m. If a distro kernel picks this
-configuration, it can be determined by local policy which of
-the two modules gets loaded. The 'of_chosen' export is needed
-as this is the first loadable module referencing it.
-
-Alternatively, the Kconfig dependency could be changed to
-'depends on DRM_SIMPLEDRM=n', which would forbid the configuration
-with both drivers.
-
-Fixes: 11e8f5fd223b ("drm: Add simpledrm driver")
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- drivers/of/base.c           | 1 +
- drivers/video/fbdev/Kconfig | 5 +++--
- 2 files changed, 4 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/of/base.c b/drivers/of/base.c
-index 48e941f99558..073ea7cd007b 100644
---- a/drivers/of/base.c
-+++ b/drivers/of/base.c
-@@ -36,6 +36,7 @@ LIST_HEAD(aliases_lookup);
- struct device_node *of_root;
- EXPORT_SYMBOL(of_root);
- struct device_node *of_chosen;
-+EXPORT_SYMBOL(of_chosen);
- struct device_node *of_aliases;
- struct device_node *of_stdout;
- static const char *of_stdout_options;
-diff --git a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
-index 8a98539ec490..5fbcb3cc2e8e 100644
---- a/drivers/video/fbdev/Kconfig
-+++ b/drivers/video/fbdev/Kconfig
-@@ -2207,8 +2207,9 @@ config FB_HYPERV
- 	  This framebuffer driver supports Microsoft Hyper-V Synthetic Video.
- 
- config FB_SIMPLE
--	bool "Simple framebuffer support"
--	depends on (FB = y) && !DRM_SIMPLEDRM
-+	tristate "Simple framebuffer support"
-+	depends on FB
-+	depends on !DRM_SIMPLEDRM
- 	select FB_CFB_FILLRECT
- 	select FB_CFB_COPYAREA
- 	select FB_CFB_IMAGEBLIT
--- 
-2.29.2
-
+> -Daniel
+>
+> >
+> > > Patch itself looks reasonable, with the nits from Tvrtko addressed:
+> >
+> > Done
+> >
+> > > Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> >
+> > Thanks
+> >
+> > --Jason
+> >
+> > > >
+> > > >       /*
+> > > >        * Enable KMS by default, unless explicitly overriden by
+> > > > @@ -1225,6 +1238,12 @@ static int __init i915_init(void)
+> > > >               return 0;
+> > > >       }
+> > > >
+> > > > +     /* After this point, i915_init() must either fully succeed or
+> > > > +      * properly tear everything down and fail.  We don't have separate
+> > > > +      * flags for each set-up bit.
+> > > > +      */
+> > > > +     i915_fully_loaded = true;
+> > > > +
+> > > >       i915_pmu_init();
+> > > >
+> > > >       err = pci_register_driver(&i915_pci_driver);
+> > > > @@ -1240,12 +1259,11 @@ static int __init i915_init(void)
+> > > >
+> > > >  static void __exit i915_exit(void)
+> > > >  {
+> > > > -     if (!i915_pci_driver.driver.owner)
+> > > > -             return;
+> > > > -
+> > > > -     i915_perf_sysctl_unregister();
+> > > > -     pci_unregister_driver(&i915_pci_driver);
+> > > > -     i915_pmu_exit();
+> > > > +     if (i915_fully_loaded) {
+> > > > +             i915_perf_sysctl_unregister();
+> > > > +             pci_unregister_driver(&i915_pci_driver);
+> > > > +             i915_pmu_exit();
+> > > > +     }
+> > > >       i915_globals_exit();
+> > > >  }
+> > > >
+> > > > --
+> > > > 2.31.1
+> > > >
+> > >
+> > > --
+> > > Daniel Vetter
+> > > Software Engineer, Intel Corporation
+> > > http://blog.ffwll.ch
+>
+> --
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
