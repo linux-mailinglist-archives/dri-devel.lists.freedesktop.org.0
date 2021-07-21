@@ -1,40 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A8183D168F
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 20:44:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F09AA3D16A1
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 20:46:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 396FC6E0D9;
-	Wed, 21 Jul 2021 18:44:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D666F6E25B;
+	Wed, 21 Jul 2021 18:46:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A3A06E0D9;
- Wed, 21 Jul 2021 18:44:25 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10052"; a="208378651"
-X-IronPort-AV: E=Sophos;i="5.84,258,1620716400"; d="scan'208";a="208378651"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Jul 2021 11:44:24 -0700
-X-IronPort-AV: E=Sophos;i="5.84,258,1620716400"; d="scan'208";a="470249396"
-Received: from cjgolobi-mobl.amr.corp.intel.com (HELO ldmartin-desk2)
- ([10.252.136.69])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Jul 2021 11:44:23 -0700
-Date: Wed, 21 Jul 2021 11:44:22 -0700
-From: Lucas De Marchi <lucas.demarchi@intel.com>
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Subject: Re: [Intel-gfx] [PATCH 4/4] drm/i915/gt: nuke gen6_hw_id
-Message-ID: <20210721184422.fvpmhes2uw2tbax3@ldmartin-desk2>
-X-Patchwork-Hint: comment
-References: <20210720232014.3302645-1-lucas.demarchi@intel.com>
- <20210720232014.3302645-5-lucas.demarchi@intel.com>
- <079da526-6b19-3b44-e3d0-c23e1a61e9b1@linux.intel.com>
+Received: from phobos.denx.de (phobos.denx.de
+ [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE3EC6E25B
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 18:46:44 +0000 (UTC)
+Received: from [IPv6:::1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id A726781BC0;
+ Wed, 21 Jul 2021 20:46:42 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1626893203;
+ bh=FTSTkGX+tDvHXth2Qra7oYplcQ9wA4ZICxhqhW27y2g=;
+ h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+ b=MDzBHX/GMiiT8kDkjrvNdAA6yAwuSu8ZmVhGFAGMKwWbmVDs7IOmyIAFuoeQzf834
+ MVJdf2xE/nuVdUNN8G9i+fWTN7AVAezd0RC2uGFm70uVaoSyUczXPi4JaErH9i0WKe
+ xmneCQtH+JwNT+9gMnerR1MGIoplgYubLegM3ZTCSvCkozvQx57GIDNt5c+pWuCo3Z
+ RtMprbftkFAH8rJGuKwgqvqYybdtgqS4IiKhUSQSlB4a3miYb/W4t/KH8vpBQSdxIo
+ aphD8iByIJcLlX79bQIeYQqV5HMSvF6kNHPtukoV735C705HjE0o4H6JFwD0TZ1Uip
+ JHZ70y7GIPD9A==
+Subject: Re: [PATCH] backlight: pwm_bl: Avoid backlight flicker if backlight
+ control GPIO is input
+To: Daniel Thompson <daniel.thompson@linaro.org>
+References: <20210718211415.143709-1-marex@denx.de>
+ <20210719112202.4fvmn57ibgy3yesa@maple.lan>
+ <bbaad78e-91c7-0787-fa72-b5cfabcc6dbd@denx.de>
+ <20210721104914.4difos6w3ysjelnv@maple.lan>
+ <fee1ad9e-ae70-1644-5444-6c894473b48e@denx.de>
+ <20210721161249.gehnwkscto2hlh7s@maple.lan>
+From: Marek Vasut <marex@denx.de>
+Message-ID: <298f6a35-2120-60a6-598a-87b141118bfa@denx.de>
+Date: Wed, 21 Jul 2021 20:46:42 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <079da526-6b19-3b44-e3d0-c23e1a61e9b1@linux.intel.com>
+In-Reply-To: <20210721161249.gehnwkscto2hlh7s@maple.lan>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.2 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,157 +62,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- Tomas Winkler <tomas.winkler@intel.com>, dri-devel@lists.freedesktop.org
+Cc: linux-pwm@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Thierry Reding <treding@nvidia.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 21, 2021 at 10:25:59AM +0100, Tvrtko Ursulin wrote:
->
->On 21/07/2021 00:20, Lucas De Marchi wrote:
->>This is only used by GRAPHICS_VER == 6 and GRAPHICS_VER == 7. All other
->>recent platforms do not depend on this field, so it doesn't make much
->>sense to keep it generic like that. Instead, just do a mapping from
->>engine class to HW ID in the single place that is needed.
+On 7/21/21 6:12 PM, Daniel Thompson wrote:
+> On Wed, Jul 21, 2021 at 05:09:57PM +0200, Marek Vasut wrote:
+>> On 7/21/21 12:49 PM, Daniel Thompson wrote:
+>>>> I'm not sure that's correct, we can simply say that any new uses of the
+>>>> pwm-backlight should specify the initial GPIO configuration, and for the
+>>>> legacy ones, use whatever is in the code now.
+>>>
+>>> I'm not 100% against the idea... however if we still have to get the
+>>> code to read state from the hardware right for legacy cases that means
+>>> we have to do the same work but with fewer people testing it.
 >>
->>Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
->>---
->>  drivers/gpu/drm/i915/gt/intel_engine_cs.c    | 6 ------
->>  drivers/gpu/drm/i915/gt/intel_engine_types.h | 8 --------
->>  drivers/gpu/drm/i915/i915_reg.h              | 4 +++-
->>  3 files changed, 3 insertions(+), 15 deletions(-)
+>> We can do something like this:
 >>
->>diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
->>index 508221de411c..0a04e8d90e9e 100644
->>--- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
->>+++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
->>@@ -42,7 +42,6 @@
->>  #define MAX_MMIO_BASES 3
->>  struct engine_info {
->>-	u8 gen6_hw_id;
->>  	u8 class;
->>  	u8 instance;
->>  	/* mmio bases table *must* be sorted in reverse graphics_ver order */
->>@@ -54,7 +53,6 @@ struct engine_info {
->>  static const struct engine_info intel_engines[] = {
->>  	[RCS0] = {
->>-		.gen6_hw_id = RCS0_HW,
->>  		.class = RENDER_CLASS,
->>  		.instance = 0,
->>  		.mmio_bases = {
->>@@ -62,7 +60,6 @@ static const struct engine_info intel_engines[] = {
->>  		},
->>  	},
->>  	[BCS0] = {
->>-		.gen6_hw_id = BCS0_HW,
->>  		.class = COPY_ENGINE_CLASS,
->>  		.instance = 0,
->>  		.mmio_bases = {
->>@@ -70,7 +67,6 @@ static const struct engine_info intel_engines[] = {
->>  		},
->>  	},
->>  	[VCS0] = {
->>-		.gen6_hw_id = VCS0_HW,
->>  		.class = VIDEO_DECODE_CLASS,
->>  		.instance = 0,
->>  		.mmio_bases = {
->>@@ -102,7 +98,6 @@ static const struct engine_info intel_engines[] = {
->>  		},
->>  	},
->>  	[VECS0] = {
->>-		.gen6_hw_id = VECS0_HW,
->>  		.class = VIDEO_ENHANCEMENT_CLASS,
->>  		.instance = 0,
->>  		.mmio_bases = {
->>@@ -290,7 +285,6 @@ static int intel_engine_setup(struct intel_gt *gt, enum intel_engine_id id)
->>  	engine->i915 = i915;
->>  	engine->gt = gt;
->>  	engine->uncore = gt->uncore;
->>-	engine->gen6_hw_id = info->gen6_hw_id;
->>  	guc_class = engine_class_to_guc_class(info->class);
->>  	engine->guc_id = MAKE_GUC_ID(guc_class, info->instance);
->>  	engine->mmio_base = __engine_mmio_base(i915, info->mmio_bases);
->>diff --git a/drivers/gpu/drm/i915/gt/intel_engine_types.h b/drivers/gpu/drm/i915/gt/intel_engine_types.h
->>index 266422d8d1b1..64330bfb7641 100644
->>--- a/drivers/gpu/drm/i915/gt/intel_engine_types.h
->>+++ b/drivers/gpu/drm/i915/gt/intel_engine_types.h
->>@@ -28,13 +28,6 @@
->>  #include "intel_wakeref.h"
->>  #include "intel_workarounds_types.h"
->>-/* Legacy HW Engine ID */
->>-
->>-#define RCS0_HW		0
->>-#define VCS0_HW		1
->>-#define BCS0_HW		2
->>-#define VECS0_HW	3
->>-
->>  /* Gen11+ HW Engine class + instance */
->>  #define RENDER_CLASS		0
->>  #define VIDEO_DECODE_CLASS	1
->>@@ -268,7 +261,6 @@ struct intel_engine_cs {
->>  	intel_engine_mask_t mask;
->>-	u8 gen6_hw_id;
->>  	u8 class;
->>  	u8 instance;
->>diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
->>index 8750ffce9d61..d91386f4828e 100644
->>--- a/drivers/gpu/drm/i915/i915_reg.h
->>+++ b/drivers/gpu/drm/i915/i915_reg.h
->>@@ -2572,7 +2572,9 @@ static inline bool i915_mmio_reg_valid(i915_reg_t reg)
->>  #define   ARB_MODE_BWGTLB_DISABLE (1 << 9)
->>  #define   ARB_MODE_SWIZZLE_BDW	(1 << 1)
->>  #define RENDER_HWS_PGA_GEN7	_MMIO(0x04080)
->>-#define RING_FAULT_REG(engine)	_MMIO(0x4094 + 0x100 * (engine)->gen6_hw_id)
->>+
->>+#define _GEN6_ENGINE_CLASS_TO_ID(class) _PICK((class), 0, 1, 3, 2)
->>+#define RING_FAULT_REG(engine)	_MMIO(0x4094 + 0x100 * _GEN6_ENGINE_CLASS_TO_ID((engine)->class))
->
->Makes sense to me.
->
->Maybe HW_ID and HW_CLASS in the macro name? Not sure.
-
-I can do that... I think I avoided it because it makes the macro
-very big. Anyway, this should be called in just one place, so it doesn't
-matter much... I can add it.
-
->
->Only open I have is why the "Gen11+ HW Engine class + instance" 
->comment and now we would tie that, allegedly Gen11 concept, with 
->Gen6-7. Care to do some digging?
-
-Not sure. This comes from 3d7b3039741d ("drm/i915: Move engine IDs out of i915_reg.h")
-that I reviewed :-o
-
-Cc'ing  Daniele. I don't see "class" as a Gen11+ thing. Is it just that
-those numbers started to make sense for gen11?  Since
-
-a) we are using the class even for GRAPHICS_VER < 11
-b) the legacy HW IDs shouldn't be used anywhere else anymore
-
-
-we could
-
-1) move the legacy defines back to i915_reg.h
-2) use them in the macro above (IMO would slightly improve the
-readability of that _PICK() call)
-3) Remove the "Gen11+" comment in the _CLASS macros to avoid
-misunderstandings
-
-
-Thoughts?
-
-thanks
-Lucas De Marchi
-
-
-
->
->Regards,
->
->Tvrtko
->
->>  #define GEN8_RING_FAULT_REG	_MMIO(0x4094)
->>  #define GEN12_RING_FAULT_REG	_MMIO(0xcec4)
->>  #define   GEN8_RING_FAULT_ENGINE_ID(x)	(((x) >> 12) & 0x7)
+>> if (of_property_read_bool(np, "enable-active-high"))
+>>    gpiod_direction_output(pb->enable_gpio, 1);
+>> else if (of_property_read_bool(np, "enable-active-low"))
+>>    gpiod_direction_output(pb->enable_gpio, 0);
+>> else {
+>>    WARN_ON_ONCE("Fix your DT"); // or some such notification
+>>    ... legacy code path ...
+>> }
 >>
+>> Note that I picked the same DT prop names as drivers/gpio/gpiolib-of.c
+>> of_gpio_flags_quirks() uses, because we are headed into similar mess here
+>> I'm afraid.
+> 
+> I don't quite understand what you mean here. We are using gpiolib so
+> for us there is no concept of active-high or active-low. The only
+> concept for us is whether enable_gpio is asserted or not.
+
+It would look the same -- just substitute in "enable-on-boot" and 
+"disable-on-boot" DT property.
+
+> What the DT property would be describing is purely whether the
+> bootloader left the backlight on or off.
+
+Rather, it would simply control what is the default state of the 
+backlight enable GPIO (enabled/disabled).
+
+> This sails very close to the
+> edge of what is in-scope for DT (at least it does it we can read
+> the inherited state directly from the hardware).
+
+The problem with reading it out of hardware is that the hardware might 
+be in undefined state and expects Linux to define that state, so that 
+does not always work. Hence my initial suggestion to add a DT property 
+to define the state up front, instead of using these fragile heuristics.
+
+> What it also means decisions about the DT bindings are more about
+> whether, if the backlight is lit up, the bootloader should also disclose
+> what it thinks it has established as the PWM duty cycle as well.
+
+Please also consider the case where bootloader configures total minimum 
+of the hardware to start Linux as soon as possible, i.e. it puts Linux 
+in DRAM and jumps to Linux.
+
+> Overall I have fairly grave concerns that this simply moves
+> fragility into the bootloader rather then reducing it.
+
+Wait a minute, I think we disconnected somewhere. I would rather prefer 
+to remove the fragility and bootloader dependency altogether, exactly to 
+avoid depending on the state the bootloader left the hardware in.
