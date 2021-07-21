@@ -2,41 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A7723D09B0
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 09:28:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E90D3D0963
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 09:08:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3BEF26E870;
-	Wed, 21 Jul 2021 07:28:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD37D6E4A5;
+	Wed, 21 Jul 2021 07:08:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 543 seconds by postgrey-1.36 at gabe;
- Wed, 21 Jul 2021 02:41:30 UTC
-Received: from cmccmta1.chinamobile.com (cmccmta1.chinamobile.com
- [221.176.66.79])
- by gabe.freedesktop.org (Postfix) with ESMTP id DCBC06E85C
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 02:41:30 +0000 (UTC)
-Received: from spf.mail.chinamobile.com (unknown[172.16.121.17]) by
- rmmx-syy-dmz-app01-12001 (RichMail) with SMTP id 2ee160f7871b045-4461b;
- Wed, 21 Jul 2021 10:31:56 +0800 (CST)
-X-RM-TRANSID: 2ee160f7871b045-4461b
-X-RM-TagInfo: emlType=0                                       
-X-RM-SPAM-FLAG: 00000000
-Received: from localhost.localdomain (unknown[112.0.144.134])
- by rmsmtp-syy-appsvr09-12009 (RichMail) with SMTP id 2ee960f787184d6-c2b18;
- Wed, 21 Jul 2021 10:31:56 +0800 (CST)
-X-RM-TRANSID: 2ee960f787184d6-c2b18
-From: Tang Bin <tangbin@cmss.chinamobile.com>
-To: a.hajda@samsung.com, narmstrong@baylibre.com,
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, airlied@linux.ie,
- daniel@ffwll.ch
-Subject: [PATCH] drm/bridge/analogix/dp_core: Use
- devm_platform_ioremap_resource() to simplify code
-Date: Wed, 21 Jul 2021 10:32:39 +0800
-Message-Id: <20210721023239.29284-1-tangbin@cmss.chinamobile.com>
-X-Mailer: git-send-email 2.20.1.windows.1
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 508416E4A5
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 07:08:31 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 1197361181
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 07:08:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1626851311;
+ bh=9r9S/8uM8RruZlTDaK9Ra15gE8OyQie6JUP/PPdea1A=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=MMf2Z+j6VRx6iq+am1za11f0bnSieOPQ/7AKfq66Gc34LfgeDZ5qhov5mG/97jdeV
+ L8o0YtzUHexDDoRwFaMK36ctBGW07kmQG9gRcx3kHkUpr9XuPUcTdXO862uFDFBWJM
+ 1qH4eER02qXOjMBRpZtHO8U9G7t0uPWgjCXbQjPg0e94hZRVTRN0XY87ScngGEA82L
+ /HlmJEUgpGz8/LgvVANU1NUrxOsw13jyR/lToBIoT9vTIf4OOPmcbiyK1vniSIGlnY
+ a2O0z9VnuwZwtcqOcZ8O5PQviWpCVOwdRPTNetFcp+H4VJgJqSLSJktsFkvgWpfUl8
+ mMb+iaL4kqmCQ==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id 07CF86120A; Wed, 21 Jul 2021 07:08:31 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 211425] [drm:atom_op_jump] *ERROR* atombios stuck in loop for
+ more than 20secs aborting
+Date: Wed, 21 Jul 2021 07:08:30 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: high
+X-Bugzilla-Who: icedragon.aw@web.de
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cf_kernel_version
+Message-ID: <bug-211425-2300-gI2HGWgKu3@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-211425-2300@https.bugzilla.kernel.org/>
+References: <bug-211425-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Wed, 21 Jul 2021 07:27:54 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,44 +66,19 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Tang Bin <tangbin@cmss.chinamobile.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use devm_platform_ioremap_resource() instead of
-platform_get_resource() & devm_ioremap_resource().
+https://bugzilla.kernel.org/show_bug.cgi?id=3D211425
 
-Signed-off-by: Tang Bin <tangbin@cmss.chinamobile.com>
----
- drivers/gpu/drm/bridge/analogix/analogix_dp_core.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+Andreas (icedragon.aw@web.de) changed:
 
-diff --git a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-index 76736fb8e..71537cf8c 100644
---- a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-+++ b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-@@ -1656,7 +1656,6 @@ analogix_dp_probe(struct device *dev, struct analogix_dp_plat_data *plat_data)
- {
- 	struct platform_device *pdev = to_platform_device(dev);
- 	struct analogix_dp_device *dp;
--	struct resource *res;
- 	unsigned int irq_flags;
- 	int ret;
- 
-@@ -1710,9 +1709,7 @@ analogix_dp_probe(struct device *dev, struct analogix_dp_plat_data *plat_data)
- 
- 	clk_prepare_enable(dp->clock);
- 
--	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--
--	dp->reg_base = devm_ioremap_resource(&pdev->dev, res);
-+	dp->reg_base = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(dp->reg_base))
- 		return ERR_CAST(dp->reg_base);
- 
--- 
-2.20.1.windows.1
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+     Kernel Version|5.12.14                     |5.12.11 - 5.13.3
 
+--=20
+You may reply to this email to add a comment.
 
-
+You are receiving this mail because:
+You are watching the assignee of the bug.=
