@@ -2,68 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49B793D0EE4
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 14:44:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 320843D0F0E
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 15:01:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 040466E824;
-	Wed, 21 Jul 2021 12:44:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B4E66E8DA;
+	Wed, 21 Jul 2021 13:01:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com
- [IPv6:2607:f8b0:4864:20::1031])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4849D6E824;
- Wed, 21 Jul 2021 12:44:05 +0000 (UTC)
-Received: by mail-pj1-x1031.google.com with SMTP id bt15so1594070pjb.2;
- Wed, 21 Jul 2021 05:44:05 -0700 (PDT)
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com
+ [IPv6:2a00:1450:4864:20::332])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 91B4F6E89C
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 13:01:40 +0000 (UTC)
+Received: by mail-wm1-x332.google.com with SMTP id
+ l18-20020a1ced120000b029014c1adff1edso3373917wmh.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 06:01:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=mDcO9rSv0CwDOTDGsBa8hb+peHAKULXX/KhUGTkInL4=;
- b=kdestiJqyqNqzGtl1EryWfBW1Uz/yZjxVWbOGipFz4u/z2i8Zk3oRyrPvByp+Xv0Bl
- bE8u0+zVtNWQ9HrhFjVpH4xMWsl7U2czLVxC309aWdy3MdV4m9JSlU4FL4Yz/l6xUZmf
- vmUvNuUv455pA01iBHeIUq6P83rDbWlvsXFJTWL+2zLI5j0NvSfI3NPcmhDqnFKn7Zvb
- irS76f/DhhabDVLaPJ7isbxp7v7kp5HOBplIdTCXec+Xq89/mlzYtsh0dGeWcFAAb09t
- 3vD/cIYoCNxtls34T9zjdr2gwlh/bZ8DBOsQe83NP5KBoXKkoLBonjwI9Mcs0Ju+WQqI
- 3ezA==
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=YiW024uu64RKoSLCg8L6iDF7+iL98cCGTOlB6iZdPEc=;
+ b=rPYhduA1oZRUm9sY8WM0D6oMGbC+KhQJnEAPW4hryFjb2mzRmnhuNpXy3CpG41To1P
+ rmJnuEwu9bk7CL3cLeFUrpGs5kWqPadfr2IALSiHjYpkIHRQtC/4DBU8zhgUpLqRIukS
+ Y5zn6mox0BjsZ/+wCrXhnT6UHZ1zWcs8hHsS+gZdTXyve3/8MPl7RtxsWgvBphJOwj/V
+ gAicSR7dILj0d7oaOHgOL2XDlDR8/KxBaIRMmuqUsVs9qmt/eDq00m5pygvjJCxnWg8c
+ b3njEK++qGTFrZfRqD3pYmmVa9gByrGrHpa1TGfzKkdTpLB10cJo4GfMuGOQyNQ8KmuV
+ IbPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=mDcO9rSv0CwDOTDGsBa8hb+peHAKULXX/KhUGTkInL4=;
- b=dVhedRSMdS6erT1qCkuUrJqhdzUf4e7MkjTMj0LY7Rr/xqIyrd9kMLO4l1N3WqgbMe
- pt+RD5XsCEO8bbgjAMTtq9HS+LLMe1fARhjl1CXVvh2t7cdpEOZPVhNdIzJfp81f0RBh
- G27u2uKiR/d8O6U5J4OMhDRXh0NX2Lri2zGlkEQwn6Vzj88e+iRz52BCvV+OLEIGB6yw
- ZdnrKnSMQfbX5+x726MHXPjR8W5lujbybb6ujEOleytG/rzVpe4RSp8nZm81PvnwR9qd
- xIDUT3Te51TSL4RoawKj+smEWbB/FtXXRt87iDiwpa35dIAwNdIkJMT8VDqPQzRVcJaK
- 8DkA==
-X-Gm-Message-State: AOAM531xICEhJey5MzvqxGYcxhaBZiEgedj245+Vk6q/fnInib0Ygwdk
- N6sZT+hesP/UoJw+SVlxsCA=
-X-Google-Smtp-Source: ABdhPJwuSl5jkKmRAqUpEfZa0g9xbPiIkWL3vWnhlQtYHubheW20Ucmqo1Xkk8Q4Eoj11/peBJEhLA==
-X-Received: by 2002:a17:90a:8912:: with SMTP id
- u18mr35697665pjn.90.1626871444841; 
- Wed, 21 Jul 2021 05:44:04 -0700 (PDT)
-Received: from [192.168.1.237] ([118.200.190.93])
- by smtp.gmail.com with ESMTPSA id mu9sm5290903pjb.26.2021.07.21.05.44.00
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=YiW024uu64RKoSLCg8L6iDF7+iL98cCGTOlB6iZdPEc=;
+ b=lTT6jdSVXJ9hE39/boF96dSIZmV7p03MxMRO/SOzUJ5C+4WHXLii2FHE/D+gLpiCrI
+ ESCN5RDBD9Xm/DNLI2oZ5Pusiur7SDDqEWEDRPXLN7dQIYfL6l/LeQnOsyPSxrB2FtAl
+ hwMZ0ndPfDrAnBz6WvAlIbx3Uq/NaAep3t33gNWV8IICEJQ7ZSr5QcL7tKxu7CoLoCWu
+ XTOyvdDdiVQEEeeNZ9HMUYC+N7UoMnMr46cEXG/LbwuPqen4R1MBMff6WIg5fW+iiSna
+ oSJgtDmOirHltk3CVfffsfRK/UGt6Pl29ULaK8ZFywDabshJueG1yDJs7fcpeNWgQ83G
+ lo/g==
+X-Gm-Message-State: AOAM533KgK9fLH9X6jR8LQLe7gOG/fUvi2Zvd/C/lOPbf3J2xAzrEBIE
+ RRi2AT6PiuaFze6emCBBIOMXeU59Y7A=
+X-Google-Smtp-Source: ABdhPJxsSifYJHZt5RQIeIFKeUzJjr0fIDQuS7L2VEbeFQJirdL5KTQYHQcIMsTe9XAfwANH5GVhMg==
+X-Received: by 2002:a05:600c:511d:: with SMTP id
+ o29mr3923787wms.26.1626872499156; 
+ Wed, 21 Jul 2021 06:01:39 -0700 (PDT)
+Received: from ?IPv6:2a02:908:1252:fb60:9bcf:837a:d18c:dc66?
+ ([2a02:908:1252:fb60:9bcf:837a:d18c:dc66])
+ by smtp.gmail.com with ESMTPSA id r19sm28810227wrg.74.2021.07.21.06.01.38
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 21 Jul 2021 05:44:04 -0700 (PDT)
-Subject: Re: [PATCH v8 0/5] drm: address potential UAF bugs with drm_master
- ptrs
-To: Daniel Vetter <daniel@ffwll.ch>
-References: <20210712043508.11584-1-desmondcheongzx@gmail.com>
- <YPcU3wJK7kC5b7kv@phenom.ffwll.local>
- <50c5582b-c674-4ef8-585f-7a3d78a49f85@gmail.com>
- <CAKMK7uGvb3O9Ypd73xZf6bdMcXJyGJw4C7GXGprkZLpN9Gx7qQ@mail.gmail.com>
-From: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
-Message-ID: <52c4207a-6830-01c9-a28c-635c68de3e14@gmail.com>
-Date: Wed, 21 Jul 2021 20:43:58 +0800
+ Wed, 21 Jul 2021 06:01:38 -0700 (PDT)
+Subject: Re: [PATCH] drm/ttm: remove special handling for non GEM drivers
+To: Jamie Heilman <jamie@audible.transient.net>
+References: <20210419092853.1605-1-christian.koenig@amd.com>
+ <YPgZxiRY5/pl9IeK@audible.transient.net>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <f4f6a295-83b2-6ba3-149e-4a49933c9458@gmail.com>
+Date: Wed, 21 Jul 2021 15:01:37 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <CAKMK7uGvb3O9Ypd73xZf6bdMcXJyGJw4C7GXGprkZLpN9Gx7qQ@mail.gmail.com>
+In-Reply-To: <YPgZxiRY5/pl9IeK@audible.transient.net>
 Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,152 +75,192 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@linux.ie>, Greg KH <gregkh@linuxfoundation.org>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Emil Velikov <emil.l.velikov@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Shuah Khan <skhan@linuxfoundation.org>,
- linux-kernel-mentees@lists.linuxfoundation.org,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 21/7/21 6:29 pm, Daniel Vetter wrote:
-> On Wed, Jul 21, 2021 at 6:12 AM Desmond Cheong Zhi Xi
-> <desmondcheongzx@gmail.com> wrote:
->> On 21/7/21 2:24 am, Daniel Vetter wrote:
->>> On Mon, Jul 12, 2021 at 12:35:03PM +0800, Desmond Cheong Zhi Xi wrote:
->>>> Hi,
->>>>
->>>> In the previous thread on this series we decided to remove a patch that was violating a lockdep requirement in drm_lease. In addition to this change, I took a closer look at the CI logs for the Basic Acceptance Tests and noticed that another regression was introduced. The new patch 2 is a response to this.
->>>>
->>>> Overall, this series addresses potential use-after-free errors when dereferencing pointers to struct drm_master. These were identified after one such bug was caught by Syzbot in drm_getunique():
->>>> https://syzkaller.appspot.com/bug?id=148d2f1dfac64af52ffd27b661981a540724f803
->>>>
->>>> The series is broken up into five patches:
->>>>
->>>> 1. Move a call to drm_is_current_master() out from a section locked by &dev->mode_config.mutex in drm_mode_getconnector(). This patch does not apply to stable.
->>>>
->>>> 2. Move a call to drm_is_current_master() out from the RCU read-side critical section in drm_clients_info().
->>>>
->>>> 3. Implement a locked version of drm_is_current_master() function that's used within drm_auth.c.
->>>>
->>>> 4. Serialize drm_file.master by introducing a new spinlock that's held whenever the value of drm_file.master changes.
->>>>
->>>> 5. Identify areas in drm_lease.c where pointers to struct drm_master are dereferenced, and ensure that the master pointers are not freed during use.
->>>>
->>>> v7 -> v8:
->>>> - Remove the patch that moves the call to _drm_lease_held out from the section locked by &dev->mode_config.idr_mutex in __drm_mode_object_find. This patch violated an existing lockdep requirement as reported by the intel-gfx CI.
->>>> - Added a new patch that moves a call to drm_is_current_master out from the RCU critical section in drm_clients_info. This was reported by the intel-gfx CI.
->>>>
->>>> v6 -> v7:
->>>> - Modify code alignment as suggested by the intel-gfx CI.
->>>> - Add a new patch to the series that adds a new lock to serialize drm_file.master, in response to the lockdep splat by the intel-gfx CI.
->>>> - Update drm_file_get_master to use the new drm_file.master_lock instead of drm_device.master_mutex, in response to the lockdep splat by the intel-gfx CI.
->>>>
->>>> v5 -> v6:
->>>> - Add a new patch to the series that moves the call to _drm_lease_held out from the section locked by &dev->mode_config.idr_mutex in __drm_mode_object_find.
->>>> - Clarify the kerneldoc for dereferencing drm_file.master, as suggested by Daniel Vetter.
->>>> - Refactor error paths with goto labels so that each function only has a single drm_master_put(), as suggested by Emil Velikov.
->>>> - Modify comparisons to NULL into "!master", as suggested by the intel-gfx CI.
->>>>
->>>> v4 -> v5:
->>>> - Add a new patch to the series that moves the call to drm_is_current_master in drm_mode_getconnector out from the section locked by &dev->mode_config.mutex.
->>>> - Additionally, added a missing semicolon to the patch, caught by the intel-gfx CI.
->>>>
->>>> v3 -> v4:
->>>> - Move the call to drm_is_current_master in drm_mode_getconnector out from the section locked by &dev->mode_config.mutex. As suggested by Daniel Vetter. This avoids a circular lock lock dependency as reported here https://patchwork.freedesktop.org/patch/440406/
->>>> - Inside drm_is_current_master, instead of grabbing &fpriv->master->dev->master_mutex, we grab &fpriv->minor->dev->master_mutex to avoid dereferencing a null ptr if fpriv->master is not set.
->>>> - Modify kerneldoc formatting for drm_file.master, as suggested by Daniel Vetter.
->>>> - Additionally, add a file_priv->master NULL check inside drm_file_get_master, and handle the NULL result accordingly in drm_lease.c. As suggested by Daniel Vetter.
->>>>
->>>> v2 -> v3:
->>>> - Move the definition of drm_is_current_master and the _locked version higher up in drm_auth.c to avoid needing a forward declaration of drm_is_current_master_locked. As suggested by Daniel Vetter.
->>>> - Instead of leaking drm_device.master_mutex into drm_lease.c to protect drm_master pointers, add a new drm_file_get_master() function that returns drm_file->master while increasing its reference count, to prevent drm_file->master from being freed. As suggested by Daniel Vetter.
->>>>
->>>> v1 -> v2:
->>>> - Move the lock and assignment before the DRM_DEBUG_LEASE in drm_mode_get_lease_ioctl, as suggested by Emil Velikov.
->>>
->>> Apologies for the delay, I missed your series. Maybe just ping next time
->>> around there's silence.
->>>
->>> Looks all great, merged to drm-misc-next. Given how complex this was I'm
->>> vary of just pushing this to -fixes without some solid testing.
->>>
->>
->> Hi Daniel,
->>
->> Thanks for merging, more testing definitely sounds good to me.
->>
->>> One thing I noticed is that drm_is_current_master could just use the
->>> spinlock, since it's only doing a read access. Care to type up that patch?
->>>
->>
->> I thought about this too, but I'm not sure if that's the best solution.
->>
->> drm_is_current_master calls drm_lease_owner which then walks up the tree
->> of master lessors. The spinlock protects the master of the current drm
->> file, but subsequent lessors aren't protected without holding the
->> device's master mutex.
-> 
-> But this isn't a fpriv->master pointer, but a master->lessor pointer.
-> Which should never ever be able to change (we'd have tons of uaf bugs
-> around drm_lease_owner otherwise). So I don't think there's anything
-> that dev->master_lock protects here that fpriv->master_lookup_lock
-> doesn't protect already?
-> 
-> Or am I missing something?
->  > The comment in the struct drm_master says it's protected by
-> mode_config.idr_mutex, but that only applies to the idrs and lists I
-> think.
-> 
+This is a known issue and fixed by:
 
-Ah you're right, I also completely forgot that lessees hold a reference 
-to their lessor so nothing will be freed as long as the spinlock is 
-held. I'll prepare that patch then, thanks for pointing it out.
+commit a3a9ee4b5254f212c2adaa8cd8ca03bfa112f49d
+Author: Christian König <christian.koenig@amd.com>
+Date:   Wed Jun 9 19:25:56 2021 +0200
 
->>> Also, do you plan to look into that idea we've discussed to flush pending
->>> access when we revoke a master or a lease? I think that would be really
->>> nice improvement here.
->>> -Daniel
->>>
+     drm/nouveau: init the base GEM fields for internal BOs
+
+     TTMs buffer objects are based on GEM objects for quite a while
+     and rely on initializing those fields before initializing the TTM BO.
+
+     Nouveau now doesn't init the GEM object for internally allocated BOs,
+     so make sure that we at least initialize some necessary fields.
+
+Regards,
+Christian.
+
+Am 21.07.21 um 14:57 schrieb Jamie Heilman:
+> Christian König wrote:
+>> vmwgfx is the only driver actually using this. Move the handling into
+>> the driver instead.
+> Maybe it isn't the only driver?  This commit broke video on my system
+> with a G86 [Quadro NVS 290].  Bisected to
+> d02117f8efaa5fbc37437df1ae955a147a2a424a, and reverting it restored
+> functionality.
+>
+> dmesg of v5.14-rc2:
+>
+>   nouveau 0000:01:00.0: vgaarb: deactivate vga console
+>   Console: switching to colour dummy device 80x25
+>   nouveau 0000:01:00.0: NVIDIA G86 (086f00a2)
+>   nouveau 0000:01:00.0: bios: version 60.86.6c.00.21
+>   nouveau 0000:01:00.0: bios: M0203T not found
+>   nouveau 0000:01:00.0: bios: M0203E not matched!
+>   nouveau 0000:01:00.0: fb: 256 MiB DDR2
+>   nouveau 0000:01:00.0: DRM: VRAM: 256 MiB
+>   nouveau 0000:01:00.0: DRM: GART: 1048576 MiB
+>   nouveau 0000:01:00.0: DRM: TMDS table version 2.0
+>   nouveau 0000:01:00.0: DRM: DCB version 4.0
+>   nouveau 0000:01:00.0: DRM: DCB outp 00: 02011300 00000028
+>   nouveau 0000:01:00.0: DRM: DCB outp 01: 01011302 00000010
+>   nouveau 0000:01:00.0: DRM: DCB outp 02: 01000310 00000028
+>   nouveau 0000:01:00.0: DRM: DCB outp 03: 02000312 00000010
+>   nouveau 0000:01:00.0: DRM: DCB conn 00: 2030
+>   nouveau 0000:01:00.0: DRM: DCB conn 01: 1130
+>   nouveau 0000:01:00.0: DRM: failed to initialise sync subsystem, -28
+>   nouveau: probe of 0000:01:00.0 failed with error -28
+>
+> dmesg of v5.14-rc2 w/d02117f8efaa5fbc37437df1ae955a147a2a424a
+> reverted:
+>
+>   nouveau 0000:01:00.0: vgaarb: deactivate vga console
+>   Console: switching to colour dummy device 80x25
+>   nouveau 0000:01:00.0: NVIDIA G86 (086f00a2)
+>   nouveau 0000:01:00.0: bios: version 60.86.6c.00.21
+>   nouveau 0000:01:00.0: bios: M0203T not found
+>   nouveau 0000:01:00.0: bios: M0203E not matched!
+>   nouveau 0000:01:00.0: fb: 256 MiB DDR2
+>   nouveau 0000:01:00.0: DRM: VRAM: 256 MiB
+>   nouveau 0000:01:00.0: DRM: GART: 1048576 MiB
+>   nouveau 0000:01:00.0: DRM: TMDS table version 2.0
+>   nouveau 0000:01:00.0: DRM: DCB version 4.0
+>   nouveau 0000:01:00.0: DRM: DCB outp 00: 02011300 00000028
+>   nouveau 0000:01:00.0: DRM: DCB outp 01: 01011302 00000010
+>   nouveau 0000:01:00.0: DRM: DCB outp 02: 01000310 00000028
+>   nouveau 0000:01:00.0: DRM: DCB outp 03: 02000312 00000010
+>   nouveau 0000:01:00.0: DRM: DCB conn 00: 2030
+>   nouveau 0000:01:00.0: DRM: DCB conn 01: 1130
+>   nouveau 0000:01:00.0: DRM: MM: using CRYPT for buffer copies
+>   nouveau 0000:01:00.0: DRM: allocated 1920x1200 fb: 0x50000, bo 00000000d0819d42
+>   fbcon: nouveau (fb0) is primary device
+>   Console: switching to colour frame buffer device 240x75
+>   nouveau 0000:01:00.0: [drm] fb0: nouveau frame buffer device
+>   [drm] Initialized nouveau 1.3.1 20120801 for 0000:01:00.0 on minor 0
+>
+>
+>> Signed-off-by: Christian König <christian.koenig@amd.com>
+>> ---
+>>   drivers/gpu/drm/ttm/ttm_bo.c       | 11 -----------
+>>   drivers/gpu/drm/vmwgfx/vmwgfx_bo.c | 10 ++++++++++
+>>   include/drm/ttm/ttm_bo_api.h       | 19 -------------------
+>>   3 files changed, 10 insertions(+), 30 deletions(-)
 >>
->> Yup, now that the potential UAFs are addressed (hopefully), I'll take a
->> closer look and propose a patch for this.
-> 
-> Thanks a lot.
-> -Daniel
-> 
+>> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
+>> index 80831df0ef61..38183e227116 100644
+>> --- a/drivers/gpu/drm/ttm/ttm_bo.c
+>> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
+>> @@ -460,8 +460,6 @@ static void ttm_bo_release(struct kref *kref)
+>>   
+>>   	atomic_dec(&ttm_glob.bo_count);
+>>   	dma_fence_put(bo->moving);
+>> -	if (!ttm_bo_uses_embedded_gem_object(bo))
+>> -		dma_resv_fini(&bo->base._resv);
+>>   	bo->destroy(bo);
+>>   }
+>>   
+>> @@ -1056,15 +1054,6 @@ int ttm_bo_init_reserved(struct ttm_device *bdev,
+>>   	} else {
+>>   		bo->base.resv = &bo->base._resv;
+>>   	}
+>> -	if (!ttm_bo_uses_embedded_gem_object(bo)) {
+>> -		/*
+>> -		 * bo.base is not initialized, so we have to setup the
+>> -		 * struct elements we want use regardless.
+>> -		 */
+>> -		bo->base.size = size;
+>> -		dma_resv_init(&bo->base._resv);
+>> -		drm_vma_node_reset(&bo->base.vma_node);
+>> -	}
+>>   	atomic_inc(&ttm_glob.bo_count);
+>>   
+>>   	/*
+>> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c b/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
+>> index 50e529a01677..587314d57991 100644
+>> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
+>> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
+>> @@ -460,6 +460,7 @@ void vmw_bo_bo_free(struct ttm_buffer_object *bo)
+>>   	WARN_ON(vmw_bo->dirty);
+>>   	WARN_ON(!RB_EMPTY_ROOT(&vmw_bo->res_tree));
+>>   	vmw_bo_unmap(vmw_bo);
+>> +	dma_resv_fini(&bo->base._resv);
+>>   	kfree(vmw_bo);
+>>   }
+>>   
+>> @@ -512,6 +513,11 @@ int vmw_bo_create_kernel(struct vmw_private *dev_priv, unsigned long size,
+>>   	if (unlikely(ret))
+>>   		goto error_free;
+>>   
+>> +
+>> +	bo->base.size = size;
+>> +	dma_resv_init(&bo->base._resv);
+>> +	drm_vma_node_reset(&bo->base.vma_node);
+>> +
+>>   	ret = ttm_bo_init_reserved(&dev_priv->bdev, bo, size,
+>>   				   ttm_bo_type_device, placement, 0,
+>>   				   &ctx, NULL, NULL, NULL);
+>> @@ -570,6 +576,10 @@ int vmw_bo_init(struct vmw_private *dev_priv,
+>>   	if (unlikely(ret))
+>>   		return ret;
+>>   
+>> +	vmw_bo->base.base.size = size;
+>> +	dma_resv_init(&vmw_bo->base.base._resv);
+>> +	drm_vma_node_reset(&vmw_bo->base.base.vma_node);
+>> +
+>>   	ret = ttm_bo_init_reserved(bdev, &vmw_bo->base, size,
+>>   				   ttm_bo_type_device, placement,
+>>   				   0, &ctx, NULL, NULL, bo_free);
+>> diff --git a/include/drm/ttm/ttm_bo_api.h b/include/drm/ttm/ttm_bo_api.h
+>> index 3587f660e8f4..e88da481a976 100644
+>> --- a/include/drm/ttm/ttm_bo_api.h
+>> +++ b/include/drm/ttm/ttm_bo_api.h
+>> @@ -562,25 +562,6 @@ ssize_t ttm_bo_io(struct ttm_device *bdev, struct file *filp,
+>>   int ttm_bo_swapout(struct ttm_buffer_object *bo, struct ttm_operation_ctx *ctx,
+>>   		   gfp_t gfp_flags);
+>>   
+>> -/**
+>> - * ttm_bo_uses_embedded_gem_object - check if the given bo uses the
+>> - * embedded drm_gem_object.
+>> - *
+>> - * Most ttm drivers are using gem too, so the embedded
+>> - * ttm_buffer_object.base will be initialized by the driver (before
+>> - * calling ttm_bo_init).  It is also possible to use ttm without gem
+>> - * though (vmwgfx does that).
+>> - *
+>> - * This helper will figure whenever a given ttm bo is a gem object too
+>> - * or not.
+>> - *
+>> - * @bo: The bo to check.
+>> - */
+>> -static inline bool ttm_bo_uses_embedded_gem_object(struct ttm_buffer_object *bo)
+>> -{
+>> -	return bo->base.dev != NULL;
+>> -}
+>> -
+>>   /**
+>>    * ttm_bo_pin - Pin the buffer object.
+>>    * @bo: The buffer object to pin
+>> -- 
+>> 2.25.1
 >>
->> Best wishes,
->> Desmond
->>
->>>>
->>>> Desmond Cheong Zhi Xi (5):
->>>>     drm: avoid circular locks in drm_mode_getconnector
->>>>     drm: avoid blocking in drm_clients_info's rcu section
->>>>     drm: add a locked version of drm_is_current_master
->>>>     drm: serialize drm_file.master with a new spinlock
->>>>     drm: protect drm_master pointers in drm_lease.c
->>>>
->>>>    drivers/gpu/drm/drm_auth.c      | 93 ++++++++++++++++++++++++---------
->>>>    drivers/gpu/drm/drm_connector.c |  5 +-
->>>>    drivers/gpu/drm/drm_debugfs.c   |  3 +-
->>>>    drivers/gpu/drm/drm_file.c      |  1 +
->>>>    drivers/gpu/drm/drm_lease.c     | 81 +++++++++++++++++++++-------
->>>>    include/drm/drm_auth.h          |  1 +
->>>>    include/drm/drm_file.h          | 18 +++++--
->>>>    7 files changed, 152 insertions(+), 50 deletions(-)
->>>>
->>>> --
->>>> 2.25.1
->>>>
->>>
->>
-> 
-> 
+>> _______________________________________________
+>> dri-devel mailing list
+>> dri-devel@lists.freedesktop.org
+>> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
