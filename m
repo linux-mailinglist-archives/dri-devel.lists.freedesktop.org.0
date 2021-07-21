@@ -2,42 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1BEF3D141A
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 18:25:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CB323D1430
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 18:28:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A77B6E83A;
-	Wed, 21 Jul 2021 16:25:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D8D7E6E419;
+	Wed, 21 Jul 2021 16:28:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 33E246E419;
- Wed, 21 Jul 2021 16:25:48 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10052"; a="272583929"
-X-IronPort-AV: E=Sophos;i="5.84,258,1620716400"; d="scan'208";a="272583929"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Jul 2021 09:25:47 -0700
-X-IronPort-AV: E=Sophos;i="5.84,258,1620716400"; d="scan'208";a="495414860"
-Received: from darraghf-mobl.ger.corp.intel.com (HELO [10.213.232.142])
- ([10.213.232.142])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Jul 2021 09:25:44 -0700
-Subject: Re: [PATCH 6/6] drm/i915: Make the kmem slab for i915_buddy_block a
- global
-To: Jason Ekstrand <jason@jlekstrand.net>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-References: <20210721152358.2893314-1-jason@jlekstrand.net>
- <20210721152358.2893314-7-jason@jlekstrand.net>
-From: Matthew Auld <matthew.auld@intel.com>
-Message-ID: <23df1788-bd8e-ac44-337d-92bb5f345b8f@intel.com>
-Date: Wed, 21 Jul 2021 17:25:41 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
+ [IPv6:2a00:1450:4864:20::434])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 39C316E419
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 16:28:50 +0000 (UTC)
+Received: by mail-wr1-x434.google.com with SMTP id n1so2817065wri.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 09:28:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=87zUbz1C5W2YezlBPGoE/oRfgomWOIiqwbdvJRz3UsQ=;
+ b=w3Sm9dn4CA9P0CADAfnovH6ZEa15/lTy6uxy+QE6OyRp91druNovikPOnN0XWrREwD
+ 2bTtw96xizHcM73y86u4E1YY1sRFQrHTp7Hm+iOcOa5PAg+oehKX5GI1EsHeFqVpN/vX
+ 0AO5qr7bmbipeVoVKqonopdG3/UJaCEU+1HFoNqpO/mEtECiBWs84hkMV8evV3+snY+m
+ nLZTYf1DN1297CMN2rl1XbqVCgN5vR3Zi9hkZp6QtRhfF5hjr41Fm478jTxPS2cAmcm6
+ yQYpdsPoQo9iXNZeUvxU0Qa++CFGhNxnflDzFR4NuRNuAT7wcQZKedf3nR9JYscwb5zJ
+ ZlNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=87zUbz1C5W2YezlBPGoE/oRfgomWOIiqwbdvJRz3UsQ=;
+ b=E+giCN1M0JXgjgqE7GD3rmXQpX6Nk/aGSn2gw0mtxtbJPu1vvtorCWYLiJIrJwn4B4
+ 2XdFtr6tSIy7ZCH6u1SrwzhVBwaMKHH7Np3kVt7n/V3TIUsm32Y5h7lCzm0Glmlpcr4f
+ tbRuBj6nA9CcX/gZqscYTf+ntEza0nennRZ7DOdZZXB79MJ8A02qWrqHxoRupUFL1N9T
+ 8mOE4cirwI9EZUf/+wjSCDqrQN5xHYuZpdKv/k+hyuak4ol0G90j9SezbjtKW9A/a9LX
+ 2MfS9RSS2BKbf4YvcB8SuLIfw83xpyLqkuiCRi4v3SJnwL7H8/tAblpKe6JWrRnXaiOV
+ qpFw==
+X-Gm-Message-State: AOAM532O1xRHU7oS9pV8KSEC+JBBknIihslKF8hN3+dIyqqOVnhFlELC
+ wmyvJi1iIomARBYEaKJx+Zi6Yw==
+X-Google-Smtp-Source: ABdhPJwJBPfX6dh1eCAyJLjrCpduCB33AO9NkDFvKD2kD6175alBe9bavqvW2HOGSVTGrLnN1Xsc3w==
+X-Received: by 2002:a5d:5305:: with SMTP id e5mr10653335wrv.237.1626884928767; 
+ Wed, 21 Jul 2021 09:28:48 -0700 (PDT)
+Received: from google.com ([31.124.24.141])
+ by smtp.gmail.com with ESMTPSA id z11sm27170045wru.65.2021.07.21.09.28.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 21 Jul 2021 09:28:48 -0700 (PDT)
+Date: Wed, 21 Jul 2021 17:28:46 +0100
+From: Lee Jones <lee.jones@linaro.org>
+To: Linus Walleij <linus.walleij@linaro.org>
+Subject: Re: [PATCH v4] backlight: ktd253: Stabilize backlight
+Message-ID: <YPhLPpljqgAyp6QS@google.com>
+References: <20210715113636.1139465-1-linus.walleij@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20210721152358.2893314-7-jason@jlekstrand.net>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210715113636.1139465-1-linus.walleij@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,181 +69,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Cc: Jingoo Han <jingoohan1@gmail.com>,
+ Daniel Thompson <daniel.thompson@linaro.org>, newbyte@disroot.org,
+ Stephan Gerhold <stephan@gerhold.net>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 21/07/2021 16:23, Jason Ekstrand wrote:
-> There's no reason that I can tell why this should be per-i915_buddy_mm
-> and doing so causes KMEM_CACHE to throw dmesg warnings because it tries
-> to create a debugfs entry with the name i915_buddy_block multiple times.
-> We could handle this by carefully giving each slab its own name but that
-> brings its own pain because then we have to store that string somewhere
-> and manage the lifetimes of the different slabs.  The most likely
-> outcome would be a global atomic which we increment to get a new name or
-> something like that.
+On Thu, 15 Jul 2021, Linus Walleij wrote:
+
+> Remove interrupt disablement during backlight setting. It is
+> way to dangerous and makes platforms instable by having it
+> miss vblank IRQs leading to the graphics derailing.
 > 
-> The much easier solution is to use the i915_globals system like we do
-> for every other slab in i915.  This ensures that we have exactly one of
-> them for each i915 driver load and it gets neatly created on module load
-> and destroyed on module unload.  Using the globals system also means
-> that its now tied into the shrink handler so we can properly respond to
-> low-memory situations.
+> The code is using ndelay() which is not available on
+> platforms such as ARM and will result in 32 * udelay(1)
+> which is substantial.
 > 
-> Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
-> Fixes: 88be9a0a06b7 ("drm/i915/ttm: add ttm_buddy_man")
-> Cc: Matthew Auld <matthew.auld@intel.com>
-> Cc: Christian König <christian.koenig@amd.com>
-
-It was intentionally ripped it out with the idea that we would be moving 
-the buddy stuff into ttm, and so part of that was trying to get rid of 
-the some of the i915 specifics, like this globals thing.
-
-Reviewed-by: Matthew Auld <matthew.auld@intel.com>
-
+> Add some code to detect if an interrupt occurs during the
+> tight loop and in that case just redo it from the top.
+> 
+> Fixes: 5317f37e48b9 ("backlight: Add Kinetic KTD253 backlight driver")
+> Cc: Stephan Gerhold <stephan@gerhold.net>
+> Reported-by: newbyte@disroot.org
+> Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
+> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
 > ---
->   drivers/gpu/drm/i915/i915_buddy.c   | 44 ++++++++++++++++++++++-------
->   drivers/gpu/drm/i915/i915_buddy.h   |  3 +-
->   drivers/gpu/drm/i915/i915_globals.c |  2 ++
->   3 files changed, 38 insertions(+), 11 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/i915_buddy.c b/drivers/gpu/drm/i915/i915_buddy.c
-> index 29dd7d0310c1f..911feedad4513 100644
-> --- a/drivers/gpu/drm/i915/i915_buddy.c
-> +++ b/drivers/gpu/drm/i915/i915_buddy.c
-> @@ -8,8 +8,14 @@
->   #include "i915_buddy.h"
->   
->   #include "i915_gem.h"
-> +#include "i915_globals.h"
->   #include "i915_utils.h"
->   
-> +static struct i915_global_buddy {
-> +	struct i915_global base;
-> +	struct kmem_cache *slab_blocks;
-> +} global;
-> +
->   static struct i915_buddy_block *i915_block_alloc(struct i915_buddy_mm *mm,
->   						 struct i915_buddy_block *parent,
->   						 unsigned int order,
-> @@ -19,7 +25,7 @@ static struct i915_buddy_block *i915_block_alloc(struct i915_buddy_mm *mm,
->   
->   	GEM_BUG_ON(order > I915_BUDDY_MAX_ORDER);
->   
-> -	block = kmem_cache_zalloc(mm->slab_blocks, GFP_KERNEL);
-> +	block = kmem_cache_zalloc(global.slab_blocks, GFP_KERNEL);
->   	if (!block)
->   		return NULL;
->   
-> @@ -34,7 +40,7 @@ static struct i915_buddy_block *i915_block_alloc(struct i915_buddy_mm *mm,
->   static void i915_block_free(struct i915_buddy_mm *mm,
->   			    struct i915_buddy_block *block)
->   {
-> -	kmem_cache_free(mm->slab_blocks, block);
-> +	kmem_cache_free(global.slab_blocks, block);
->   }
->   
->   static void mark_allocated(struct i915_buddy_block *block)
-> @@ -85,15 +91,11 @@ int i915_buddy_init(struct i915_buddy_mm *mm, u64 size, u64 chunk_size)
->   
->   	GEM_BUG_ON(mm->max_order > I915_BUDDY_MAX_ORDER);
->   
-> -	mm->slab_blocks = KMEM_CACHE(i915_buddy_block, SLAB_HWCACHE_ALIGN);
-> -	if (!mm->slab_blocks)
-> -		return -ENOMEM;
-> -
->   	mm->free_list = kmalloc_array(mm->max_order + 1,
->   				      sizeof(struct list_head),
->   				      GFP_KERNEL);
->   	if (!mm->free_list)
-> -		goto out_destroy_slab;
-> +		return -ENOMEM;
->   
->   	for (i = 0; i <= mm->max_order; ++i)
->   		INIT_LIST_HEAD(&mm->free_list[i]);
-> @@ -145,8 +147,6 @@ int i915_buddy_init(struct i915_buddy_mm *mm, u64 size, u64 chunk_size)
->   	kfree(mm->roots);
->   out_free_list:
->   	kfree(mm->free_list);
-> -out_destroy_slab:
-> -	kmem_cache_destroy(mm->slab_blocks);
->   	return -ENOMEM;
->   }
->   
-> @@ -161,7 +161,6 @@ void i915_buddy_fini(struct i915_buddy_mm *mm)
->   
->   	kfree(mm->roots);
->   	kfree(mm->free_list);
-> -	kmem_cache_destroy(mm->slab_blocks);
->   }
->   
->   static int split_block(struct i915_buddy_mm *mm,
-> @@ -410,3 +409,28 @@ int i915_buddy_alloc_range(struct i915_buddy_mm *mm,
->   #if IS_ENABLED(CONFIG_DRM_I915_SELFTEST)
->   #include "selftests/i915_buddy.c"
->   #endif
-> +
-> +static void i915_global_buddy_shrink(void)
-> +{
-> +	kmem_cache_shrink(global.slab_blocks);
-> +}
-> +
-> +static void i915_global_buddy_exit(void)
-> +{
-> +	kmem_cache_destroy(global.slab_blocks);
-> +}
-> +
-> +static struct i915_global_buddy global = { {
-> +	.shrink = i915_global_buddy_shrink,
-> +	.exit = i915_global_buddy_exit,
-> +} };
-> +
-> +int __init i915_global_buddy_init(void)
-> +{
-> +	global.slab_blocks = KMEM_CACHE(i915_buddy_block, 0);
-> +	if (!global.slab_blocks)
-> +		return -ENOMEM;
-> +
-> +	i915_global_register(&global.base);
-> +	return 0;
-> +}
-> diff --git a/drivers/gpu/drm/i915/i915_buddy.h b/drivers/gpu/drm/i915/i915_buddy.h
-> index 37f8c42071d12..d8f26706de52f 100644
-> --- a/drivers/gpu/drm/i915/i915_buddy.h
-> +++ b/drivers/gpu/drm/i915/i915_buddy.h
-> @@ -47,7 +47,6 @@ struct i915_buddy_block {
->    * i915_buddy_alloc* and i915_buddy_free* should suffice.
->    */
->   struct i915_buddy_mm {
-> -	struct kmem_cache *slab_blocks;
->   	/* Maintain a free list for each order. */
->   	struct list_head *free_list;
->   
-> @@ -130,4 +129,6 @@ void i915_buddy_free(struct i915_buddy_mm *mm, struct i915_buddy_block *block);
->   
->   void i915_buddy_free_list(struct i915_buddy_mm *mm, struct list_head *objects);
->   
-> +int i915_global_buddy_init(void);
-> +
->   #endif
-> diff --git a/drivers/gpu/drm/i915/i915_globals.c b/drivers/gpu/drm/i915/i915_globals.c
-> index 87267e1d2ad92..e57102a4c8d16 100644
-> --- a/drivers/gpu/drm/i915/i915_globals.c
-> +++ b/drivers/gpu/drm/i915/i915_globals.c
-> @@ -8,6 +8,7 @@
->   #include <linux/workqueue.h>
->   
->   #include "i915_active.h"
-> +#include "i915_buddy.h"
->   #include "gem/i915_gem_context.h"
->   #include "gem/i915_gem_object.h"
->   #include "i915_globals.h"
-> @@ -87,6 +88,7 @@ static void __i915_globals_cleanup(void)
->   
->   static __initconst int (* const initfn[])(void) = {
->   	i915_global_active_init,
-> +	i915_global_buddy_init,
->   	i915_global_context_init,
->   	i915_global_gem_context_init,
->   	i915_global_objects_init,
-> 
+> ChangeLog v3->v4:
+> - Collect Daniel's Reviewed-by.
+> ChangeLog v2->v3:
+> - Read my own patch and realized a bug: when we get a timeout
+>   we bounce back to max period, but still count down the pwm
+>   with one leading to an off-by-one error. Fix it by extending
+>   some else clauses.
+> ChangeLog v1->v2:
+> - Alter the dimming code to check for how many ns the pulse
+>   is low, and if it gets to ~100 us then redo from start.
+>   This is to account for the advent that an IRQ arrives while
+>   setting backlight and hits the low pulse making it way
+>   too long.
+> ---
+>  drivers/video/backlight/ktd253-backlight.c | 75 ++++++++++++++++------
+>  1 file changed, 55 insertions(+), 20 deletions(-)
+
+Applied, thanks.
+
+-- 
+Lee Jones [李琼斯]
+Senior Technical Lead - Developer Services
+Linaro.org │ Open source software for Arm SoCs
+Follow Linaro: Facebook | Twitter | Blog
