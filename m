@@ -2,35 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6CFC3D1387
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 18:12:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0955F3D138B
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 18:12:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7CEBE6EC5D;
-	Wed, 21 Jul 2021 16:12:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A3EAB6EC66;
+	Wed, 21 Jul 2021 16:12:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 60F7A6EC5B;
- Wed, 21 Jul 2021 16:12:48 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10052"; a="297028334"
-X-IronPort-AV: E=Sophos;i="5.84,258,1620716400"; d="scan'208";a="297028334"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A47436EC66;
+ Wed, 21 Jul 2021 16:12:51 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10052"; a="297028344"
+X-IronPort-AV: E=Sophos;i="5.84,258,1620716400"; d="scan'208";a="297028344"
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Jul 2021 09:12:48 -0700
+ 21 Jul 2021 09:12:51 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,258,1620716400"; d="scan'208";a="564787122"
+X-IronPort-AV: E=Sophos;i="5.84,258,1620716400"; d="scan'208";a="564787137"
 Received: from vbelgaum-ubuntu.fm.intel.com ([10.1.27.27])
- by orsmga004.jf.intel.com with ESMTP; 21 Jul 2021 09:12:47 -0700
+ by orsmga004.jf.intel.com with ESMTP; 21 Jul 2021 09:12:51 -0700
 From: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH 12/14] drm/i915/guc/slpc: Sysfs hooks for SLPC
-Date: Wed, 21 Jul 2021 09:11:18 -0700
-Message-Id: <20210721161120.24610-13-vinay.belgaumkar@intel.com>
+Subject: [PATCH 13/14] drm/i915/guc/slpc: Add SLPC selftest
+Date: Wed, 21 Jul 2021 09:11:19 -0700
+Message-Id: <20210721161120.24610-14-vinay.belgaumkar@intel.com>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20210721161120.24610-1-vinay.belgaumkar@intel.com>
 References: <20210721161120.24610-1-vinay.belgaumkar@intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -44,446 +45,393 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Vinay Belgaumkar <vinay.belgaumkar@intel.com>,
- Sujaritha Sundaresan <sujaritha.sundaresan@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Cc: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Update the get/set min/max freq hooks to work for
-SLPC case as well. Consolidate helpers for requested/min/max
-frequency get/set to intel_rps where the proper action can
-be taken depending on whether slpc is enabled.
+Tests that exercise the SLPC get/set frequency interfaces.
 
-v2: Add wrappers for getting rp0/1/n frequencies, update
-softlimits in set min/max slpc functions. Also check for
-boundary conditions before setting them.
+Clamp_max will set max frequency to multiple levels and check
+that SLPC requests frequency lower than or equal to it.
 
-v3: Address review comments (Michal W)
+Clamp_min will set min frequency to different levels and check
+if SLPC requests are higher or equal to those levels.
+
+v2: Address review comments (Michal W)
 
 Signed-off-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
-Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Signed-off-by: Sujaritha Sundaresan <sujaritha.sundaresan@intel.com>
 ---
- drivers/gpu/drm/i915/gt/intel_rps.c         | 165 ++++++++++++++++++++
- drivers/gpu/drm/i915/gt/intel_rps.h         |  11 ++
- drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c |  14 ++
- drivers/gpu/drm/i915/i915_pmu.c             |   2 +-
- drivers/gpu/drm/i915/i915_reg.h             |   2 +
- drivers/gpu/drm/i915/i915_sysfs.c           |  77 ++-------
- 6 files changed, 207 insertions(+), 64 deletions(-)
+ drivers/gpu/drm/i915/gt/intel_rps.c           |   1 +
+ drivers/gpu/drm/i915/gt/selftest_slpc.c       | 318 ++++++++++++++++++
+ drivers/gpu/drm/i915/gt/selftest_slpc.h       |  12 +
+ .../drm/i915/selftests/i915_live_selftests.h  |   1 +
+ 4 files changed, 332 insertions(+)
+ create mode 100644 drivers/gpu/drm/i915/gt/selftest_slpc.c
+ create mode 100644 drivers/gpu/drm/i915/gt/selftest_slpc.h
 
 diff --git a/drivers/gpu/drm/i915/gt/intel_rps.c b/drivers/gpu/drm/i915/gt/intel_rps.c
-index e858eeb2c59d..48d4147165a9 100644
+index 48d4147165a9..6237332835fe 100644
 --- a/drivers/gpu/drm/i915/gt/intel_rps.c
 +++ b/drivers/gpu/drm/i915/gt/intel_rps.c
-@@ -37,6 +37,13 @@ static struct intel_uncore *rps_to_uncore(struct intel_rps *rps)
- 	return rps_to_gt(rps)->uncore;
- }
+@@ -2318,4 +2318,5 @@ EXPORT_SYMBOL_GPL(i915_gpu_turbo_disable);
  
-+static struct intel_guc_slpc *rps_to_slpc(struct intel_rps *rps)
+ #if IS_ENABLED(CONFIG_DRM_I915_SELFTEST)
+ #include "selftest_rps.c"
++#include "selftest_slpc.c"
+ #endif
+diff --git a/drivers/gpu/drm/i915/gt/selftest_slpc.c b/drivers/gpu/drm/i915/gt/selftest_slpc.c
+new file mode 100644
+index 000000000000..be3c664f714a
+--- /dev/null
++++ b/drivers/gpu/drm/i915/gt/selftest_slpc.c
+@@ -0,0 +1,318 @@
++// SPDX-License-Identifier: MIT
++/*
++ * Copyright © 2021 Intel Corporation
++ */
++
++#include "selftest_slpc.h"
++
++#define NUM_STEPS 5
++#define H2G_DELAY 50000
++#define delay_for_h2g() usleep_range(H2G_DELAY, H2G_DELAY + 10000)
++
++static int set_min_freq(struct intel_guc_slpc *slpc, int freq)
 +{
-+	struct intel_gt *gt = rps_to_gt(rps);
++	int ret;
 +
-+	return &gt->uc.guc.slpc;
-+}
-+
- static bool rps_uses_slpc(struct intel_rps *rps)
- {
- 	struct intel_gt *gt = rps_to_gt(rps);
-@@ -1960,6 +1967,164 @@ u32 intel_rps_read_actual_frequency(struct intel_rps *rps)
- 	return freq;
- }
- 
-+u32 intel_rps_read_punit_req(struct intel_rps *rps)
-+{
-+	struct intel_uncore *uncore = rps_to_uncore(rps);
-+
-+	return intel_uncore_read(uncore, GEN6_RPNSWREQ);
-+}
-+
-+u32 intel_rps_get_req(struct intel_rps *rps, u32 pureq)
-+{
-+	u32 req = pureq >> GEN9_SW_REQ_UNSLICE_RATIO_SHIFT;
-+
-+	return req;
-+}
-+
-+u32 intel_rps_read_punit_req_frequency(struct intel_rps *rps)
-+{
-+	u32 freq = intel_rps_get_req(rps, intel_rps_read_punit_req(rps));
-+
-+	return intel_gpu_freq(rps, freq);
-+}
-+
-+u32 intel_rps_get_requested_frequency(struct intel_rps *rps)
-+{
-+	if (rps_uses_slpc(rps))
-+		return intel_rps_read_punit_req_frequency(rps);
-+	else
-+		return intel_gpu_freq(rps, rps->cur_freq);
-+}
-+
-+u32 intel_rps_get_max_frequency(struct intel_rps *rps)
-+{
-+	struct intel_guc_slpc *slpc = rps_to_slpc(rps);
-+
-+	if (rps_uses_slpc(rps))
-+		return slpc->max_freq_softlimit;
-+	else
-+		return intel_gpu_freq(rps, rps->max_freq_softlimit);
-+}
-+
-+u32 intel_rps_get_rp0_frequency(struct intel_rps *rps)
-+{
-+	struct intel_guc_slpc *slpc = rps_to_slpc(rps);
-+
-+	if (rps_uses_slpc(rps))
-+		return slpc->rp0_freq;
-+	else
-+		return intel_gpu_freq(rps, rps->rp0_freq);
-+}
-+
-+u32 intel_rps_get_rp1_frequency(struct intel_rps *rps)
-+{
-+	struct intel_guc_slpc *slpc = rps_to_slpc(rps);
-+
-+	if (rps_uses_slpc(rps))
-+		return slpc->rp1_freq;
-+	else
-+		return intel_gpu_freq(rps, rps->rp1_freq);
-+}
-+
-+u32 intel_rps_get_rpn_frequency(struct intel_rps *rps)
-+{
-+	struct intel_guc_slpc *slpc = rps_to_slpc(rps);
-+
-+	if (rps_uses_slpc(rps))
-+		return slpc->min_freq;
-+	else
-+		return intel_gpu_freq(rps, rps->min_freq);
-+}
-+
-+int intel_rps_set_max_frequency(struct intel_rps *rps, u32 val)
-+{
-+	struct drm_i915_private *i915 = rps_to_i915(rps);
-+	struct intel_guc_slpc *slpc = rps_to_slpc(rps);
-+	int ret = 0;
-+
-+	if (rps_uses_slpc(rps))
-+		return intel_guc_slpc_set_max_freq(slpc, val);
-+
-+	mutex_lock(&rps->lock);
-+
-+	val = intel_freq_opcode(rps, val);
-+	if (val < rps->min_freq ||
-+	    val > rps->max_freq ||
-+	    val < rps->min_freq_softlimit) {
-+		ret = -EINVAL;
-+		goto unlock;
++	ret = intel_guc_slpc_set_min_freq(slpc, freq);
++	if (ret) {
++		pr_err("Could not set min frequency to [%d]\n", freq);
++		return ret;
++	} else {
++		/* Delay to ensure h2g completes */
++		delay_for_h2g();
 +	}
-+
-+	if (val > rps->rp0_freq)
-+		drm_dbg(&i915->drm, "User requested overclocking to %d\n",
-+			  intel_gpu_freq(rps, val));
-+
-+	rps->max_freq_softlimit = val;
-+
-+	val = clamp_t(int, rps->cur_freq,
-+		      rps->min_freq_softlimit,
-+		      rps->max_freq_softlimit);
-+
-+	/*
-+	 * We still need *_set_rps to process the new max_delay and
-+	 * update the interrupt limits and PMINTRMSK even though
-+	 * frequency request may be unchanged.
-+	 */
-+	intel_rps_set(rps, val);
-+
-+unlock:
-+	mutex_unlock(&rps->lock);
 +
 +	return ret;
 +}
 +
-+u32 intel_rps_get_min_frequency(struct intel_rps *rps)
++static int set_max_freq(struct intel_guc_slpc *slpc, int freq)
 +{
-+	struct intel_guc_slpc *slpc = rps_to_slpc(rps);
++	int ret;
 +
-+	if (rps_uses_slpc(rps))
-+		return slpc->min_freq_softlimit;
-+	else
-+		return intel_gpu_freq(rps, rps->min_freq_softlimit);
-+}
-+
-+int intel_rps_set_min_frequency(struct intel_rps *rps, u32 val)
-+{
-+	struct intel_guc_slpc *slpc = rps_to_slpc(rps);
-+	int ret = 0;
-+
-+	if (rps_uses_slpc(rps))
-+		return intel_guc_slpc_set_min_freq(slpc, val);
-+
-+	mutex_lock(&rps->lock);
-+
-+	val = intel_freq_opcode(rps, val);
-+	if (val < rps->min_freq ||
-+	    val > rps->max_freq ||
-+	    val > rps->max_freq_softlimit) {
-+		ret = -EINVAL;
-+		goto unlock;
++	ret = intel_guc_slpc_set_max_freq(slpc, freq);
++	if (ret) {
++		pr_err("Could not set maximum frequency [%d]\n",
++			freq);
++		return ret;
++	} else {
++		/* Delay to ensure h2g completes */
++		delay_for_h2g();
 +	}
-+
-+	rps->min_freq_softlimit = val;
-+
-+	val = clamp_t(int, rps->cur_freq,
-+		      rps->min_freq_softlimit,
-+		      rps->max_freq_softlimit);
-+
-+	/*
-+	 * We still need *_set_rps to process the new min_delay and
-+	 * update the interrupt limits and PMINTRMSK even though
-+	 * frequency request may be unchanged.
-+	 */
-+	intel_rps_set(rps, val);
-+
-+unlock:
-+	mutex_unlock(&rps->lock);
 +
 +	return ret;
 +}
 +
- /* External interface for intel_ips.ko */
- 
- static struct drm_i915_private __rcu *ips_mchdev;
-diff --git a/drivers/gpu/drm/i915/gt/intel_rps.h b/drivers/gpu/drm/i915/gt/intel_rps.h
-index 1d2cfc98b510..6a66690dfb0f 100644
---- a/drivers/gpu/drm/i915/gt/intel_rps.h
-+++ b/drivers/gpu/drm/i915/gt/intel_rps.h
-@@ -31,6 +31,17 @@ int intel_gpu_freq(struct intel_rps *rps, int val);
- int intel_freq_opcode(struct intel_rps *rps, int val);
- u32 intel_rps_get_cagf(struct intel_rps *rps, u32 rpstat1);
- u32 intel_rps_read_actual_frequency(struct intel_rps *rps);
-+u32 intel_rps_get_requested_frequency(struct intel_rps *rps);
-+u32 intel_rps_get_min_frequency(struct intel_rps *rps);
-+int intel_rps_set_min_frequency(struct intel_rps *rps, u32 val);
-+u32 intel_rps_get_max_frequency(struct intel_rps *rps);
-+int intel_rps_set_max_frequency(struct intel_rps *rps, u32 val);
-+u32 intel_rps_get_rp0_frequency(struct intel_rps *rps);
-+u32 intel_rps_get_rp1_frequency(struct intel_rps *rps);
-+u32 intel_rps_get_rpn_frequency(struct intel_rps *rps);
-+u32 intel_rps_read_punit_req(struct intel_rps *rps);
-+u32 intel_rps_get_req(struct intel_rps *rps, u32 pureq);
-+u32 intel_rps_read_punit_req_frequency(struct intel_rps *rps);
- 
- void gen5_rps_irq_handler(struct intel_rps *rps);
- void gen6_rps_irq_handler(struct intel_rps *rps, u32 pm_iir);
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
-index 134c57ca10b7..05d8870ec6da 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
-@@ -301,6 +301,11 @@ int intel_guc_slpc_set_max_freq(struct intel_guc_slpc *slpc, u32 val)
- 	struct drm_i915_private *i915 = slpc_to_i915(slpc);
- 	intel_wakeref_t wakeref;
- 
-+	if ((val < slpc->min_freq) ||
-+	    (val > slpc->rp0_freq) ||
-+	    (val < slpc->min_freq_softlimit))
++int live_slpc_clamp_min(void *arg)
++{
++	struct drm_i915_private *i915 = arg;
++	struct intel_gt *gt = &i915->gt;
++	struct intel_guc_slpc *slpc = &gt->uc.guc.slpc;
++	struct intel_rps *rps = &gt->rps;
++	struct intel_engine_cs *engine;
++	enum intel_engine_id id;
++	struct igt_spinner spin;
++	u32 slpc_min_freq, slpc_max_freq;
++	int err = 0;
++
++	if (!intel_uc_uses_guc_slpc(&gt->uc))
++		return 0;
++
++	if (igt_spinner_init(&spin, gt))
++		return -ENOMEM;
++
++	if (intel_guc_slpc_get_max_freq(slpc, &slpc_max_freq)) {
++		pr_err("Could not get SLPC max freq\n");
++		return -EIO;
++	}
++
++	if (intel_guc_slpc_get_min_freq(slpc, &slpc_min_freq)) {
++		pr_err("Could not get SLPC min freq\n");
++		return -EIO;
++	}
++
++	if (slpc_min_freq == slpc_max_freq) {
++		pr_err("Min/Max are fused to the same value\n");
 +		return -EINVAL;
++	}
 +
- 	with_intel_runtime_pm(&i915->runtime_pm, wakeref) {
- 		ret = slpc_set_param(slpc,
- 			       SLPC_PARAM_GLOBAL_MAX_GT_UNSLICE_FREQ_MHZ,
-@@ -313,6 +318,8 @@ int intel_guc_slpc_set_max_freq(struct intel_guc_slpc *slpc, u32 val)
- 		}
- 	}
- 
-+	slpc->max_freq_softlimit = val;
++	intel_gt_pm_wait_for_idle(gt);
++	intel_gt_pm_get(gt);
++	for_each_engine(engine, gt, id) {
++		struct i915_request *rq;
++		u32 step, min_freq, req_freq;
++		u32 act_freq, max_act_freq;
 +
- 	return ret;
- }
- 
-@@ -359,6 +366,11 @@ int intel_guc_slpc_set_min_freq(struct intel_guc_slpc *slpc, u32 val)
- 	struct drm_i915_private *i915 = guc_to_gt(guc)->i915;
- 	intel_wakeref_t wakeref;
- 
-+	if ((val < slpc->min_freq) ||
-+	    (val > slpc->rp0_freq) ||
-+	    (val > slpc->max_freq_softlimit))
++		if (!intel_engine_can_store_dword(engine))
++			continue;
++
++		/* Go from min to max in 5 steps */
++		step = (slpc_max_freq - slpc_min_freq) / NUM_STEPS;
++		max_act_freq = slpc_min_freq;
++		for (min_freq = slpc_min_freq; min_freq < slpc_max_freq;
++							min_freq += step)
++		{
++			err = set_min_freq(slpc, min_freq);
++			if (err)
++				break;
++
++			st_engine_heartbeat_disable(engine);
++
++			rq = igt_spinner_create_request(&spin,
++					engine->kernel_context,
++					MI_NOOP);
++			if (IS_ERR(rq)) {
++				err = PTR_ERR(rq);
++				st_engine_heartbeat_enable(engine);
++				break;
++			}
++
++			i915_request_add(rq);
++
++			if (!igt_wait_for_spinner(&spin, rq)) {
++				pr_err("%s: Spinner did not start\n",
++					engine->name);
++				igt_spinner_end(&spin);
++				st_engine_heartbeat_enable(engine);
++				intel_gt_set_wedged(engine->gt);
++				err = -EIO;
++				break;
++			}
++
++			/* Wait for GuC to detect business and raise
++			 * requested frequency if necessary */
++			delay_for_h2g();
++
++			req_freq = intel_rps_read_punit_req_frequency(rps);
++
++			/* GuC requests freq in multiples of 50/3 MHz */
++			if (req_freq < (min_freq - 50/3)) {
++				pr_err("SWReq is %d, should be at least %d\n", req_freq,
++					min_freq - 50/3);
++				igt_spinner_end(&spin);
++				st_engine_heartbeat_enable(engine);
++				err = -EINVAL;
++				break;
++			}
++
++			act_freq =  intel_rps_read_actual_frequency(rps);
++			if (act_freq > max_act_freq)
++				max_act_freq = act_freq;
++
++			igt_spinner_end(&spin);
++			st_engine_heartbeat_enable(engine);
++		}
++
++		pr_info("Max actual frequency for %s was %d\n",
++				engine->name, max_act_freq);
++
++		/* Actual frequency should rise above min */
++		if (max_act_freq == slpc_min_freq) {
++			pr_err("Actual freq did not rise above min\n");
++			err = -EINVAL;
++		}
++
++		if (err)
++			break;
++	}
++
++	/* Restore min/max frequencies */
++	set_max_freq(slpc, slpc_max_freq);
++	set_min_freq(slpc, slpc_min_freq);
++
++	if (igt_flush_test(gt->i915))
++		err = -EIO;
++
++	intel_gt_pm_put(gt);
++	igt_spinner_fini(&spin);
++	intel_gt_pm_wait_for_idle(gt);
++
++	return err;
++}
++
++int live_slpc_clamp_max(void *arg)
++{
++	struct drm_i915_private *i915 = arg;
++	struct intel_gt *gt = &i915->gt;
++	struct intel_guc_slpc *slpc;
++	struct intel_rps *rps;
++	struct intel_engine_cs *engine;
++	enum intel_engine_id id;
++	struct igt_spinner spin;
++	int err = 0;
++	u32 slpc_min_freq, slpc_max_freq;
++
++	slpc = &gt->uc.guc.slpc;
++	rps = &gt->rps;
++
++	if (!intel_uc_uses_guc_slpc(&gt->uc))
++		return 0;
++
++	if (igt_spinner_init(&spin, gt))
++		return -ENOMEM;
++
++	if (intel_guc_slpc_get_max_freq(slpc, &slpc_max_freq)) {
++		pr_err("Could not get SLPC max freq\n");
++		return -EIO;
++	}
++
++	if (intel_guc_slpc_get_min_freq(slpc, &slpc_min_freq)) {
++		pr_err("Could not get SLPC min freq\n");
++		return -EIO;
++	}
++
++	if (slpc_min_freq == slpc_max_freq) {
++		pr_err("Min/Max are fused to the same value\n");
 +		return -EINVAL;
++	}
 +
- 	with_intel_runtime_pm(&i915->runtime_pm, wakeref) {
- 		ret = slpc_set_param(slpc,
- 			       SLPC_PARAM_GLOBAL_MIN_GT_UNSLICE_FREQ_MHZ,
-@@ -371,6 +383,8 @@ int intel_guc_slpc_set_min_freq(struct intel_guc_slpc *slpc, u32 val)
- 		}
- 	}
- 
-+	slpc->min_freq_softlimit = val;
++	intel_gt_pm_wait_for_idle(gt);
++	intel_gt_pm_get(gt);
++	for_each_engine(engine, gt, id) {
++		struct i915_request *rq;
++		u32 max_freq, req_freq;
++		u32 act_freq, max_act_freq;
++		u32 step;
 +
- 	return ret;
- }
- 
-diff --git a/drivers/gpu/drm/i915/i915_pmu.c b/drivers/gpu/drm/i915/i915_pmu.c
-index 34d37d46a126..a896bec18255 100644
---- a/drivers/gpu/drm/i915/i915_pmu.c
-+++ b/drivers/gpu/drm/i915/i915_pmu.c
-@@ -407,7 +407,7 @@ frequency_sample(struct intel_gt *gt, unsigned int period_ns)
- 
- 	if (pmu->enable & config_mask(I915_PMU_REQUESTED_FREQUENCY)) {
- 		add_sample_mult(&pmu->sample[__I915_SAMPLE_FREQ_REQ],
--				intel_gpu_freq(rps, rps->cur_freq),
-+				intel_rps_get_requested_frequency(rps),
- 				period_ns / 1000);
- 	}
- 
-diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
-index 92392c1da0e6..a5d893625736 100644
---- a/drivers/gpu/drm/i915/i915_reg.h
-+++ b/drivers/gpu/drm/i915/i915_reg.h
-@@ -9198,6 +9198,8 @@ enum {
- #define   GEN9_FREQUENCY(x)			((x) << 23)
- #define   GEN6_OFFSET(x)			((x) << 19)
- #define   GEN6_AGGRESSIVE_TURBO			(0 << 15)
-+#define   GEN9_SW_REQ_UNSLICE_RATIO_SHIFT 	23
++		if (!intel_engine_can_store_dword(engine))
++			continue;
 +
- #define GEN6_RC_VIDEO_FREQ			_MMIO(0xA00C)
- #define GEN6_RC_CONTROL				_MMIO(0xA090)
- #define   GEN6_RC_CTL_RC6pp_ENABLE		(1 << 16)
-diff --git a/drivers/gpu/drm/i915/i915_sysfs.c b/drivers/gpu/drm/i915/i915_sysfs.c
-index 873bf996ceb5..346646a0b43b 100644
---- a/drivers/gpu/drm/i915/i915_sysfs.c
-+++ b/drivers/gpu/drm/i915/i915_sysfs.c
-@@ -272,7 +272,7 @@ static ssize_t gt_cur_freq_mhz_show(struct device *kdev,
- 	struct drm_i915_private *i915 = kdev_minor_to_i915(kdev);
- 	struct intel_rps *rps = &i915->gt.rps;
- 
--	return sysfs_emit(buf, "%d\n", intel_gpu_freq(rps, rps->cur_freq));
-+	return sysfs_emit(buf, "%d\n", intel_rps_get_requested_frequency(rps));
- }
- 
- static ssize_t gt_boost_freq_mhz_show(struct device *kdev, struct device_attribute *attr, char *buf)
-@@ -326,9 +326,10 @@ static ssize_t vlv_rpe_freq_mhz_show(struct device *kdev,
- static ssize_t gt_max_freq_mhz_show(struct device *kdev, struct device_attribute *attr, char *buf)
- {
- 	struct drm_i915_private *dev_priv = kdev_minor_to_i915(kdev);
--	struct intel_rps *rps = &dev_priv->gt.rps;
-+	struct intel_gt *gt = &dev_priv->gt;
-+	struct intel_rps *rps = &gt->rps;
- 
--	return sysfs_emit(buf, "%d\n", intel_gpu_freq(rps, rps->max_freq_softlimit));
-+	return sysfs_emit(buf, "%d\n", intel_rps_get_max_frequency(rps));
- }
- 
- static ssize_t gt_max_freq_mhz_store(struct device *kdev,
-@@ -336,7 +337,8 @@ static ssize_t gt_max_freq_mhz_store(struct device *kdev,
- 				     const char *buf, size_t count)
- {
- 	struct drm_i915_private *dev_priv = kdev_minor_to_i915(kdev);
--	struct intel_rps *rps = &dev_priv->gt.rps;
-+	struct intel_gt *gt = &dev_priv->gt;
-+	struct intel_rps *rps = &gt->rps;
- 	ssize_t ret;
- 	u32 val;
- 
-@@ -344,35 +346,7 @@ static ssize_t gt_max_freq_mhz_store(struct device *kdev,
- 	if (ret)
- 		return ret;
- 
--	mutex_lock(&rps->lock);
--
--	val = intel_freq_opcode(rps, val);
--	if (val < rps->min_freq ||
--	    val > rps->max_freq ||
--	    val < rps->min_freq_softlimit) {
--		ret = -EINVAL;
--		goto unlock;
--	}
--
--	if (val > rps->rp0_freq)
--		DRM_DEBUG("User requested overclocking to %d\n",
--			  intel_gpu_freq(rps, val));
--
--	rps->max_freq_softlimit = val;
--
--	val = clamp_t(int, rps->cur_freq,
--		      rps->min_freq_softlimit,
--		      rps->max_freq_softlimit);
--
--	/*
--	 * We still need *_set_rps to process the new max_delay and
--	 * update the interrupt limits and PMINTRMSK even though
--	 * frequency request may be unchanged.
--	 */
--	intel_rps_set(rps, val);
--
--unlock:
--	mutex_unlock(&rps->lock);
-+	ret = intel_rps_set_max_frequency(rps, val);
- 
- 	return ret ?: count;
- }
-@@ -380,9 +354,10 @@ static ssize_t gt_max_freq_mhz_store(struct device *kdev,
- static ssize_t gt_min_freq_mhz_show(struct device *kdev, struct device_attribute *attr, char *buf)
- {
- 	struct drm_i915_private *dev_priv = kdev_minor_to_i915(kdev);
--	struct intel_rps *rps = &dev_priv->gt.rps;
-+	struct intel_gt *gt = &dev_priv->gt;
-+	struct intel_rps *rps = &gt->rps;
- 
--	return sysfs_emit(buf, "%d\n", intel_gpu_freq(rps, rps->min_freq_softlimit));
-+	return sysfs_emit(buf, "%d\n", intel_rps_get_min_frequency(rps));
- }
- 
- static ssize_t gt_min_freq_mhz_store(struct device *kdev,
-@@ -398,31 +373,7 @@ static ssize_t gt_min_freq_mhz_store(struct device *kdev,
- 	if (ret)
- 		return ret;
- 
--	mutex_lock(&rps->lock);
--
--	val = intel_freq_opcode(rps, val);
--	if (val < rps->min_freq ||
--	    val > rps->max_freq ||
--	    val > rps->max_freq_softlimit) {
--		ret = -EINVAL;
--		goto unlock;
--	}
--
--	rps->min_freq_softlimit = val;
--
--	val = clamp_t(int, rps->cur_freq,
--		      rps->min_freq_softlimit,
--		      rps->max_freq_softlimit);
--
--	/*
--	 * We still need *_set_rps to process the new min_delay and
--	 * update the interrupt limits and PMINTRMSK even though
--	 * frequency request may be unchanged.
--	 */
--	intel_rps_set(rps, val);
--
--unlock:
--	mutex_unlock(&rps->lock);
-+	ret = intel_rps_set_min_frequency(rps, val);
- 
- 	return ret ?: count;
- }
-@@ -448,11 +399,11 @@ static ssize_t gt_rp_mhz_show(struct device *kdev, struct device_attribute *attr
- 	u32 val;
- 
- 	if (attr == &dev_attr_gt_RP0_freq_mhz)
--		val = intel_gpu_freq(rps, rps->rp0_freq);
-+		val = intel_rps_get_rp0_frequency(rps);
- 	else if (attr == &dev_attr_gt_RP1_freq_mhz)
--		val = intel_gpu_freq(rps, rps->rp1_freq);
-+		val = intel_rps_get_rp1_frequency(rps);
- 	else if (attr == &dev_attr_gt_RPn_freq_mhz)
--		val = intel_gpu_freq(rps, rps->min_freq);
-+		val = intel_rps_get_rpn_frequency(rps);
- 	else
- 		BUG();
- 
++		/* Go from max to min in 5 steps */
++		step = (slpc_max_freq - slpc_min_freq) / NUM_STEPS;
++		max_act_freq = slpc_min_freq;
++		for (max_freq = slpc_max_freq; max_freq > slpc_min_freq;
++							max_freq -= step)
++		{
++			err = set_max_freq(slpc, max_freq);
++			if (err)
++				break;
++
++			st_engine_heartbeat_disable(engine);
++
++			rq = igt_spinner_create_request(&spin,
++						engine->kernel_context,
++						MI_NOOP);
++			if (IS_ERR(rq)) {
++				st_engine_heartbeat_enable(engine);
++				err = PTR_ERR(rq);
++				break;
++			}
++
++			i915_request_add(rq);
++
++			if (!igt_wait_for_spinner(&spin, rq)) {
++				pr_err("%s: SLPC spinner did not start\n",
++				       engine->name);
++				igt_spinner_end(&spin);
++				st_engine_heartbeat_enable(engine);
++				intel_gt_set_wedged(engine->gt);
++				err = -EIO;
++				break;
++			}
++
++			delay_for_h2g();
++
++			/* Verify that SWREQ indeed was set to specific value */
++			req_freq = intel_rps_read_punit_req_frequency(rps);
++
++			/* GuC requests freq in multiples of 50/3 MHz */
++			if (req_freq > (max_freq + 50/3)) {
++				pr_err("SWReq is %d, should be at most %d\n", req_freq,
++					max_freq + 50/3);
++				igt_spinner_end(&spin);
++				st_engine_heartbeat_enable(engine);
++				err = -EINVAL;
++				break;
++			}
++
++			act_freq =  intel_rps_read_actual_frequency(rps);
++			if (act_freq > max_act_freq)
++				max_act_freq = act_freq;
++
++			st_engine_heartbeat_enable(engine);
++			igt_spinner_end(&spin);
++
++			if (err)
++				break;
++		}
++
++		pr_info("Max actual frequency for %s was %d\n",
++				engine->name, max_act_freq);
++
++		/* Actual frequency should rise above min */
++		if (max_act_freq == slpc_min_freq) {
++			pr_err("Actual freq did not rise above min\n");
++			err = -EINVAL;
++		}
++
++		if (igt_flush_test(gt->i915)) {
++			err = -EIO;
++			break;
++		}
++
++		if (err)
++			break;
++	}
++
++	/* Restore min/max freq */
++	set_max_freq(slpc, slpc_max_freq);
++	set_min_freq(slpc, slpc_min_freq);
++
++	intel_gt_pm_put(gt);
++	igt_spinner_fini(&spin);
++	intel_gt_pm_wait_for_idle(gt);
++
++	return err;
++}
++
++int intel_slpc_live_selftests(struct drm_i915_private *i915)
++{
++	static const struct i915_subtest tests[] = {
++		SUBTEST(live_slpc_clamp_max),
++		SUBTEST(live_slpc_clamp_min),
++	};
++
++	if (intel_gt_is_wedged(&i915->gt))
++		return 0;
++
++	return i915_live_subtests(tests, i915);
++}
+diff --git a/drivers/gpu/drm/i915/gt/selftest_slpc.h b/drivers/gpu/drm/i915/gt/selftest_slpc.h
+new file mode 100644
+index 000000000000..0480e62ed3d7
+--- /dev/null
++++ b/drivers/gpu/drm/i915/gt/selftest_slpc.h
+@@ -0,0 +1,12 @@
++/* SPDX-License-Identifier: MIT */
++/*
++ * Copyright © 2021 Intel Corporation
++ */
++
++#ifndef SELFTEST_SLPC_H
++#define SELFTEST_SLPC_H
++
++int live_slpc_clamp_max(void *arg);
++int live_slpc_clamp_min(void *arg);
++
++#endif /* SELFTEST_SLPC_H */
+diff --git a/drivers/gpu/drm/i915/selftests/i915_live_selftests.h b/drivers/gpu/drm/i915/selftests/i915_live_selftests.h
+index e2fd1b61af71..1746a56dda06 100644
+--- a/drivers/gpu/drm/i915/selftests/i915_live_selftests.h
++++ b/drivers/gpu/drm/i915/selftests/i915_live_selftests.h
+@@ -47,5 +47,6 @@ selftest(hangcheck, intel_hangcheck_live_selftests)
+ selftest(execlists, intel_execlists_live_selftests)
+ selftest(ring_submission, intel_ring_submission_live_selftests)
+ selftest(perf, i915_perf_live_selftests)
++selftest(slpc, intel_slpc_live_selftests)
+ /* Here be dragons: keep last to run last! */
+ selftest(late_gt_pm, intel_gt_pm_late_selftests)
 -- 
 2.25.0
 
