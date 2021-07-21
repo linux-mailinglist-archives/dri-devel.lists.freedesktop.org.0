@@ -2,62 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5433D3D0AAE
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 10:44:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1483D3D0AF2
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 11:06:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A88A06E566;
-	Wed, 21 Jul 2021 08:44:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 628D46E578;
+	Wed, 21 Jul 2021 09:06:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E6496E20E;
- Wed, 21 Jul 2021 08:44:07 +0000 (UTC)
-Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id CF3B81FE7C;
- Wed, 21 Jul 2021 08:44:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1626857045; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ZC103whzQwrDrB98HUNqUFVuBTQ4fJENkEhlnkf8mro=;
- b=G38v/z5g0UKoMPgJcABxbjhcToBoCB03WoV2FnOzYikEApZtEaq62D6ZBUzW7MNi3xtnD8
- 6/UggJQNHKuupbyIYMf4nRC4S7JMhsaisB4q0J49opsjMOg4b4Pw+uJMVh0lGRZ0jtXk3F
- bLIfaFa3G84/WWZGAo54RghbfypKQv0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1626857045;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ZC103whzQwrDrB98HUNqUFVuBTQ4fJENkEhlnkf8mro=;
- b=i4a4fnQAvp7Wcd8nJ9AKKvsoj8btBPCophtbIf7y8IzSR8p1oqVBVofkXwJRa2V3MV8kkZ
- ZUrpwNjPAMBhKjAQ==
-Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap1.suse-dmz.suse.de (Postfix) with ESMTPS id A232613BC9;
- Wed, 21 Jul 2021 08:44:05 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap1.suse-dmz.suse.de with ESMTPSA id iVGOJlXe92CyKQAAGKfGzw
- (envelope-from <tzimmermann@suse.de>); Wed, 21 Jul 2021 08:44:05 +0000
-Subject: Re: [PULL] drm-misc-next
-To: Dave Airlie <airlied@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-References: <444811c3-cbec-e9d5-9a6b-9632eda7962a@linux.intel.com>
- <CAPM=9twumCVtr+zFvy40GKt=6zFRsAMNYV+-5cUKfwV76RfBEw@mail.gmail.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <cc8832ce-f8f9-53c7-fa60-8274631a77b1@suse.de>
-Date: Wed, 21 Jul 2021 10:44:05 +0200
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 059EA6E419;
+ Wed, 21 Jul 2021 09:06:10 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10051"; a="233194274"
+X-IronPort-AV: E=Sophos;i="5.84,257,1620716400"; d="scan'208";a="233194274"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Jul 2021 02:06:10 -0700
+X-IronPort-AV: E=Sophos;i="5.84,257,1620716400"; d="scan'208";a="496545457"
+Received: from jcornall-mobl.ger.corp.intel.com (HELO [10.213.197.250])
+ ([10.213.197.250])
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Jul 2021 02:06:08 -0700
+Subject: Re: [Intel-gfx] [PATCH 3/6] drm/i915: Use a table for i915_init/exit
+To: Jason Ekstrand <jason@jlekstrand.net>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+References: <20210720181357.2760720-1-jason@jlekstrand.net>
+ <20210720181357.2760720-4-jason@jlekstrand.net>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+Message-ID: <9116c496-289d-6c8d-bd8d-956d4903a05d@linux.intel.com>
+Date: Wed, 21 Jul 2021 10:06:06 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <CAPM=9twumCVtr+zFvy40GKt=6zFRsAMNYV+-5cUKfwV76RfBEw@mail.gmail.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="KNuQ7x1jod3j6lutUiMXuyBEBretcx6RA"
+In-Reply-To: <20210720181357.2760720-4-jason@jlekstrand.net>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,103 +50,326 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "DRM maintainer tools announcements, discussion,
- and development" <dim-tools@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---KNuQ7x1jod3j6lutUiMXuyBEBretcx6RA
-Content-Type: multipart/mixed; boundary="vw9oMrxuWWuMFve4z7klTAxd0S58pUEwh";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Dave Airlie <airlied@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: "DRM maintainer tools announcements, discussion, and development"
- <dim-tools@lists.freedesktop.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>
-Message-ID: <cc8832ce-f8f9-53c7-fa60-8274631a77b1@suse.de>
-Subject: Re: [PULL] drm-misc-next
-References: <444811c3-cbec-e9d5-9a6b-9632eda7962a@linux.intel.com>
- <CAPM=9twumCVtr+zFvy40GKt=6zFRsAMNYV+-5cUKfwV76RfBEw@mail.gmail.com>
-In-Reply-To: <CAPM=9twumCVtr+zFvy40GKt=6zFRsAMNYV+-5cUKfwV76RfBEw@mail.gmail.com>
 
---vw9oMrxuWWuMFve4z7klTAxd0S58pUEwh
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+On 20/07/2021 19:13, Jason Ekstrand wrote:
+> If the driver was not fully loaded, we may still have globals lying
+> around.  If we don't tear those down in i915_exit(), we'll leak a bunch
+> of memory slabs.  This can happen two ways: use_kms = false and if we've
+> run mock selftests.  In either case, we have an early exit from
+> i915_init which happens after i915_globals_init() and we need to clean
+> up those globals.
+> 
+> The mock selftests case is especially sticky.  The load isn't entirely
+> a no-op.  We actually do quite a bit inside those selftests including
+> allocating a bunch of mock objects and running tests on them.  Once all
+> those tests are complete, we exit early from i915_init().  Perviously,
+> i915_init() would return a non-zero error code on failure and a zero
+> error code on success.  In the success case, we would get to i915_exit()
+> and check i915_pci_driver.driver.owner to detect if i915_init exited early
+> and do nothing.  In the failure case, we would fail i915_init() but
+> there would be no opportunity to clean up globals.
+> 
+> The most annoying part is that you don't actually notice the failure as
+> part of the self-tests since leaking a bit of memory, while bad, doesn't
+> result in anything observable from userspace.  Instead, the next time we
+> load the driver (usually for next IGT test), i915_globals_init() gets
+> invoked again, we go to allocate a bunch of new memory slabs, those
+> implicitly create debugfs entries, and debugfs warns that we're trying
+> to create directories and files that already exist.  Since this all
+> happens as part of the next driver load, it shows up in the dmesg-warn
+> of whatever IGT test ran after the mock selftests.
+> 
+> While the obvious thing to do here might be to call i915_globals_exit()
+> after selftests, that's not actually safe.  The dma-buf selftests call
+> i915_gem_prime_export which creates a file.  We call dma_buf_put() on
+> the resulting dmabuf which calls fput() on the file.  However, fput()
+> isn't immediate and gets flushed right before syscall returns.  This
+> means that all the fput()s from the selftests don't happen until right
+> before the module load syscall used to fire off the selftests returns
+> which is after i915_init().  If we call i915_globals_exit() in
+> i915_init() after selftests, we end up freeing slabs out from under
+> objects which won't get released until fput() is flushed at the end of
+> the module load syscall.
+> 
+> The solution here is to let i915_init() return success early and detect
+> the early success in i915_exit() and only tear down globals and nothing
+> else.  This way the module loads successfully, regardless of the success
+> or failure of the tests.  Because we've not enumerated any PCI devices,
+> no device nodes are created and it's entirely useless from userspace.
+> The only thing the module does at that point is hold on to a bit of
+> memory until we unload it and i915_exit() is called.  Importantly, this
+> means that everything from our selftests has the ability to properly
+> flush out between i915_init() and i915_exit() because there is at least
+> one syscall boundary in between.
+> 
+> In order to handle all the delicate init/exit cases, we convert the
+> whole thing to a table of init/exit pairs and track the init status in
+> the new init_progress global.  This allows us to ensure that i915_exit()
+> always tears down exactly the things that i915_init() successfully
+> initialized.  We also allow early-exit of i915_init() without failure by
+> an init function returning > 0.  This is useful for nomodeset, and
+> selftests.  For the mock selftests, we convert them to always return 1
+> so we get the desired behavior of the driver always succeeding to load
+> the driver and then properly tearing down the partially loaded driver.
+> 
+> Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
+> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> ---
+>   drivers/gpu/drm/i915/i915_pci.c               | 104 ++++++++++++------
+>   drivers/gpu/drm/i915/i915_perf.c              |   3 +-
+>   drivers/gpu/drm/i915/i915_perf.h              |   2 +-
+>   drivers/gpu/drm/i915/i915_pmu.c               |   4 +-
+>   drivers/gpu/drm/i915/i915_pmu.h               |   4 +-
+>   .../gpu/drm/i915/selftests/i915_selftest.c    |   2 +-
+>   6 files changed, 80 insertions(+), 39 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/i915_pci.c b/drivers/gpu/drm/i915/i915_pci.c
+> index 4e627b57d31a2..64ebd89eae6ce 100644
+> --- a/drivers/gpu/drm/i915/i915_pci.c
+> +++ b/drivers/gpu/drm/i915/i915_pci.c
+> @@ -1185,27 +1185,9 @@ static void i915_pci_shutdown(struct pci_dev *pdev)
+>   	i915_driver_shutdown(i915);
+>   }
+>   
+> -static struct pci_driver i915_pci_driver = {
+> -	.name = DRIVER_NAME,
+> -	.id_table = pciidlist,
+> -	.probe = i915_pci_probe,
+> -	.remove = i915_pci_remove,
+> -	.shutdown = i915_pci_shutdown,
+> -	.driver.pm = &i915_pm_ops,
+> -};
+> -
+> -static int __init i915_init(void)
+> +static int i915_check_nomodeset(void)
+>   {
+>   	bool use_kms = true;
+> -	int err;
+> -
+> -	err = i915_globals_init();
+> -	if (err)
+> -		return err;
+> -
+> -	err = i915_mock_selftests();
+> -	if (err)
+> -		return err > 0 ? 0 : err;
+>   
+>   	/*
+>   	 * Enable KMS by default, unless explicitly overriden by
+> @@ -1222,31 +1204,87 @@ static int __init i915_init(void)
+>   	if (!use_kms) {
+>   		/* Silently fail loading to not upset userspace. */
+>   		DRM_DEBUG_DRIVER("KMS disabled.\n");
+> -		return 0;
+> +		return 1;
+>   	}
+>   
+> -	i915_pmu_init();
+> +	return 0;
+> +}
+>   
+> -	err = pci_register_driver(&i915_pci_driver);
+> -	if (err) {
+> -		i915_pmu_exit();
+> -		i915_globals_exit();
+> -		return err;
+> +static struct pci_driver i915_pci_driver = {
+> +	.name = DRIVER_NAME,
+> +	.id_table = pciidlist,
+> +	.probe = i915_pci_probe,
+> +	.remove = i915_pci_remove,
+> +	.shutdown = i915_pci_shutdown,
+> +	.driver.pm = &i915_pm_ops,
+> +};
+> +
+> +static int i915_register_pci_driver(void)
+> +{
+> +	return pci_register_driver(&i915_pci_driver);
+> +}
+> +
+> +static void i915_unregister_pci_driver(void)
+> +{
+> +	pci_unregister_driver(&i915_pci_driver);
+> +}
+> +
+> +static const struct {
+> +   int (*init)(void);
+> +   void (*exit)(void);
+> +} init_funcs[] = {
+> +	{ i915_globals_init, i915_globals_exit },
+> +	{ i915_mock_selftests, NULL },
+> +	{ i915_check_nomodeset, NULL },
+> +	{ i915_pmu_init, i915_pmu_exit },
+> +	{ i915_register_pci_driver, i915_unregister_pci_driver },
+> +	{ i915_perf_sysctl_register, i915_perf_sysctl_unregister },
+> +};
+> +static int init_progress;
+> +
+> +static int __init i915_init(void)
+> +{
+> +	int err, i;
+> +
+> +	for (i = 0; i < ARRAY_SIZE(init_funcs); i++) {
+> +		err = init_funcs[i].init();
+> +		if (err < 0) {
+> +			while (i--) {
+> +				if (init_funcs[i].exit)
+> +					init_funcs[i].exit();
+> +			}
+> +			return err;
+> +		} else if (err > 0) {
+> +			/*
+> +			 * Early-exit success is reserved for things which
+> +			 * don't have an exit() function because we have no
+> +			 * idea how far they got or how to partially tear
+> +			 * them down.
+> +			 */
+> +			WARN_ON(init_funcs[i].exit);
 
-Hi
+I'm not completely happy with the subtlety of where the knowledge of who 
+needs the module to remain loaded and why ends up. It's partly in the 
+change of return code from i915_mock_selftests and partly here. But I 
+don't have any better ideas, which wouldn't have downsides of their own, 
+on how to express this cleanly so just passing grumbling.
 
-Am 21.07.21 um 06:03 schrieb Dave Airlie:
-> On Fri, 16 Jul 2021 at 21:07, Maarten Lankhorst
-> <maarten.lankhorst@linux.intel.com> wrote:
->>
->> Hi Dave & Daniel,
->>
->> Lots of stuff this time around.
->>
->> Enjoy!
->=20
-> I've pulled this but there is an outstanding warning
->=20
-> /home/airlied/devel/kernel/dim/src/drivers/gpu/drm/hisilicon/hibmc/hibm=
-c_drm_drv.c:
-> In function =E2=80=98hibmc_unload=E2=80=99:
-> /home/airlied/devel/kernel/dim/src/drivers/gpu/drm/hisilicon/hibmc/hibm=
-c_drm_drv.c:252:28:
-> warning: unused variable =E2=80=98priv=E2=80=99 [-Wunused-variable]
->    252 |  struct hibmc_drm_private *priv =3D to_hibmc_drm_private(dev);=
+I mean ideally it should be only that specific dma buf test case which 
+sends out a specific return value requesting not to unload, when it 
+knows it has used fput. But that would need the i915 selftests runner to 
+accept the positive error and no idea if that would have some other 
+consequences without going very deep.
 
->        |                            ^~~~
->=20
-> Probably due to Thomas irq patches.
+> +
+> +			/*
+> +			 * We don't want to advertise devices with an only
+> +			 * partially initialized driver.
+> +			 */
+> +			WARN_ON(i915_pci_driver.driver.owner);
+> +			break;
+> +		}
+>   	}
+>   
+> -	i915_perf_sysctl_register();
+> +	init_progress = i;
+> +
+>   	return 0;
+>   }
+>   
+>   static void __exit i915_exit(void)
+>   {
+> -	if (!i915_pci_driver.driver.owner)
+> -		return;
+> +	int i;
+>   
+> -	i915_perf_sysctl_unregister();
+> -	pci_unregister_driver(&i915_pci_driver);
+> -	i915_pmu_exit();
+> -	i915_globals_exit();
+> +	for (i = init_progress - 1; i >= 0; i--) {
 
-I'll take a look.
+Perhaps GEM_BUG_ON(i >= ARRAY_SIZE(init_funcs)) here just in case?
 
-Best regards
-Thomas
+> +		if (init_funcs[i].exit)
+> +			init_funcs[i].exit();
+> +	}
+>   }
+>   
+>   module_init(i915_init);
+> diff --git a/drivers/gpu/drm/i915/i915_perf.c b/drivers/gpu/drm/i915/i915_perf.c
+> index b4ec114a4698b..48ddb363b3bda 100644
+> --- a/drivers/gpu/drm/i915/i915_perf.c
+> +++ b/drivers/gpu/drm/i915/i915_perf.c
+> @@ -4483,9 +4483,10 @@ static int destroy_config(int id, void *p, void *data)
+>   	return 0;
+>   }
+>   
+> -void i915_perf_sysctl_register(void)
+> +int i915_perf_sysctl_register(void)
+>   {
+>   	sysctl_header = register_sysctl_table(dev_root);
+> +	return 0;
+>   }
+>   
+>   void i915_perf_sysctl_unregister(void)
+> diff --git a/drivers/gpu/drm/i915/i915_perf.h b/drivers/gpu/drm/i915/i915_perf.h
+> index 882fdd0a76800..1d1329e5af3ae 100644
+> --- a/drivers/gpu/drm/i915/i915_perf.h
+> +++ b/drivers/gpu/drm/i915/i915_perf.h
+> @@ -23,7 +23,7 @@ void i915_perf_fini(struct drm_i915_private *i915);
+>   void i915_perf_register(struct drm_i915_private *i915);
+>   void i915_perf_unregister(struct drm_i915_private *i915);
+>   int i915_perf_ioctl_version(void);
+> -void i915_perf_sysctl_register(void);
+> +int i915_perf_sysctl_register(void);
+>   void i915_perf_sysctl_unregister(void);
+>   
+>   int i915_perf_open_ioctl(struct drm_device *dev, void *data,
+> diff --git a/drivers/gpu/drm/i915/i915_pmu.c b/drivers/gpu/drm/i915/i915_pmu.c
+> index 34d37d46a1262..eca92076f31d2 100644
+> --- a/drivers/gpu/drm/i915/i915_pmu.c
+> +++ b/drivers/gpu/drm/i915/i915_pmu.c
+> @@ -1088,7 +1088,7 @@ static int i915_pmu_cpu_offline(unsigned int cpu, struct hlist_node *node)
+>   
+>   static enum cpuhp_state cpuhp_slot = CPUHP_INVALID;
+>   
+> -void i915_pmu_init(void)
+> +int i915_pmu_init(void)
+>   {
+>   	int ret;
+>   
+> @@ -1101,6 +1101,8 @@ void i915_pmu_init(void)
+>   			  ret);
+>   	else
+>   		cpuhp_slot = ret;
+> +
+> +	return 0;
+>   }
+>   
+>   void i915_pmu_exit(void)
+> diff --git a/drivers/gpu/drm/i915/i915_pmu.h b/drivers/gpu/drm/i915/i915_pmu.h
+> index 60f9595f902cd..449057648f39b 100644
+> --- a/drivers/gpu/drm/i915/i915_pmu.h
+> +++ b/drivers/gpu/drm/i915/i915_pmu.h
+> @@ -147,14 +147,14 @@ struct i915_pmu {
+>   };
+>   
+>   #ifdef CONFIG_PERF_EVENTS
+> -void i915_pmu_init(void);
+> +int i915_pmu_init(void);
+>   void i915_pmu_exit(void);
+>   void i915_pmu_register(struct drm_i915_private *i915);
+>   void i915_pmu_unregister(struct drm_i915_private *i915);
+>   void i915_pmu_gt_parked(struct drm_i915_private *i915);
+>   void i915_pmu_gt_unparked(struct drm_i915_private *i915);
+>   #else
+> -static inline void i915_pmu_init(void) {}
+> +static inline int i915_pmu_init(void) { return 0; }
+>   static inline void i915_pmu_exit(void) {}
+>   static inline void i915_pmu_register(struct drm_i915_private *i915) {}
+>   static inline void i915_pmu_unregister(struct drm_i915_private *i915) {}
+> diff --git a/drivers/gpu/drm/i915/selftests/i915_selftest.c b/drivers/gpu/drm/i915/selftests/i915_selftest.c
+> index 1bc11c09faef5..935d065725345 100644
+> --- a/drivers/gpu/drm/i915/selftests/i915_selftest.c
+> +++ b/drivers/gpu/drm/i915/selftests/i915_selftest.c
+> @@ -187,7 +187,7 @@ int i915_mock_selftests(void)
+>   	err = run_selftests(mock, NULL);
+>   	if (err) {
+>   		i915_selftest.mock = err;
+> -		return err;
+> +		return 1;
 
->=20
-> Dave.
->=20
+I checked igt_kselftest_execute and it looks like it will handle this 
+change in behaviour so that's fine.
 
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+>   	}
+>   
+>   	if (i915_selftest.mock < 0) {
+> 
 
+Regards,
 
---vw9oMrxuWWuMFve4z7klTAxd0S58pUEwh--
-
---KNuQ7x1jod3j6lutUiMXuyBEBretcx6RA
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmD33lUFAwAAAAAACgkQlh/E3EQov+CX
-qRAAxROs6z0HlnbzpQMYd1KgfKp6g5UYcK752TQZJxzhCMdbufU0Bl/j+8s6Ly3yFAE8ANewrmVb
-f5pxc6zjv1HFlGT1dJQb+JIwcRTOVuVR7S49XCUaBeWz5XEqXPYpiwVwHc+Ps+gpDtOG3OrGcPRg
-t30yogNSf/YPj70y+BKGqjCGN3aP7TRYFRre2KlIvxlqzTC7KUjfFVUlz5E7pF17tZDxRg/LYQFR
-7tscqvDYN4lNoz4HwKfkJhoctVFga2o7Wlon9Z6Q6yB7GNlwHTu5NLJugsLWqEsWl9J+7Gsx+YUz
-PKytfnFjNy7e/ILlJMp5YKCCANn1hmdWHr5ycPwFF/yQCEz5VODC0h2dlONyhSvNkkPIHzsTbAjS
-gawJwXYzlrfy0D2s9Rgto+kafbykSIdcxOg4QT3dkD3gYY1Ux6nCLvBFbTyLH3frI0qD9NAsght5
-bXUvk70c1raUKZ4H9k7OZzFdUAxjiTFAzpgeWoS2Mp+z30jjAtj9YJLTbrYSa5r+ZbZhdiMeLuul
-JQ4olEsQh9lIThr8D2IxRXqq1GLMn9LVxKh/IlSWQM7mUHI9hFIpBx0/OiGZmsVyVCw8uDUx9XeJ
-xCekdIrseqHcOw8y2mWTFojY3CJD71EXdDWFaKvDOG2U91B33BZDDXq1IpdBU0YdBw01/+lKoh4n
-MwU=
-=+09S
------END PGP SIGNATURE-----
-
---KNuQ7x1jod3j6lutUiMXuyBEBretcx6RA--
+Tvrtko
