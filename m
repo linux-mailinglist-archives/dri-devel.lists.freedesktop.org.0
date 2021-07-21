@@ -1,38 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 652EF3D19C8
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jul 2021 00:34:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B5E1B3D19D2
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jul 2021 00:40:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 727846E8F1;
-	Wed, 21 Jul 2021 22:34:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E85356EB47;
+	Wed, 21 Jul 2021 22:40:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D79B6E899;
- Wed, 21 Jul 2021 22:34:15 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10052"; a="211528592"
-X-IronPort-AV: E=Sophos;i="5.84,258,1620716400"; d="scan'208";a="211528592"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Jul 2021 15:34:15 -0700
-X-IronPort-AV: E=Sophos;i="5.84,258,1620716400"; d="scan'208";a="564877475"
-Received: from mdroper-desk1.fm.intel.com (HELO
- mdroper-desk1.amr.corp.intel.com) ([10.1.27.134])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Jul 2021 15:34:14 -0700
-Date: Wed, 21 Jul 2021 15:34:13 -0700
-From: Matt Roper <matthew.d.roper@intel.com>
-To: Lucas De Marchi <lucas.demarchi@intel.com>
-Subject: Re: [PATCH 1/4] drm/i915/gt: fix platform prefix
-Message-ID: <20210721223413.GL4174536@mdroper-desk1.amr.corp.intel.com>
-References: <20210720232014.3302645-1-lucas.demarchi@intel.com>
- <20210720232014.3302645-2-lucas.demarchi@intel.com>
+Received: from mail-ot1-x329.google.com (mail-ot1-x329.google.com
+ [IPv6:2607:f8b0:4864:20::329])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D7136EB3A
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 22:40:12 +0000 (UTC)
+Received: by mail-ot1-x329.google.com with SMTP id
+ o17-20020a9d76510000b02903eabfc221a9so3627504otl.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 15:40:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+ :subject:to:cc;
+ bh=Q4wvBXyV2lJ1aTRox0e1+Ok+AEaw/CVcGBs0YMHYsP0=;
+ b=XqZH1FzW4TAdt+62lo9scgkSGaBidkfe9huO0q1U3Ro1mui8RWXUgDF4qzAHCY6Ru+
+ iZ8zSponbgyYt6LXGU0IodEXLM8IGxpYpjT2JbWrcYJxLuLC7ydskbWTAd4EndoQ0uzM
+ zAZJ+shbHzcPMS1D4t5gFzBXtgmxI7uFF4NFo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:in-reply-to:references:from
+ :user-agent:date:message-id:subject:to:cc;
+ bh=Q4wvBXyV2lJ1aTRox0e1+Ok+AEaw/CVcGBs0YMHYsP0=;
+ b=EwWNxQSxSedDyxYZwMAxVE/lQMfXj/Q7vk8mh8d79ViNb48DEAuEDqrzEIJ/f8yJzH
+ D3CVKzRMjgdXCifBPpK3zUca789wPY8UNXsD2wAwBJtI6yTEalobgCi/7F7fg1jMtpyi
+ +UkGLOYewzJ7U2Z9XdaRTHsYjBlYbL66gzLYVWGw+PlpdQauObwjDsPJyHrXHnwABvIQ
+ ZjIybsWpq+FWZgbOmjtfYptLtdUHSiZdy4OEiSNvUkU2Dgy0zj9WLKmSngCrs7NF55Js
+ yF/n9TWqhikUkzV++2zclLoKLo17zICYLawhSAefr97//BMEv54OWVFQmIMcT6mm5aYP
+ QJFw==
+X-Gm-Message-State: AOAM5331OBfznD4NcCAH/jwGMuZqNPFC7TqYr8OeyzBdCa9/tx7SwI/1
+ FmsIZGNpc1DZfyivupLNlUv1GkA9RQyOrF5r9q7Iog==
+X-Google-Smtp-Source: ABdhPJwocIiRhFwFOnsM81FkofvQbBA36K0D5dCAYY3+kDkw8/j6vCVRW/AWV4EzATwWCQE40EPyTZCpO+0f5mG/y5g=
+X-Received: by 2002:a9d:8c7:: with SMTP id 65mr27826933otf.25.1626907211418;
+ Wed, 21 Jul 2021 15:40:11 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Wed, 21 Jul 2021 22:40:11 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210720232014.3302645-2-lucas.demarchi@intel.com>
+In-Reply-To: <1624365748-24224-2-git-send-email-rajeevny@codeaurora.org>
+References: <1624365748-24224-1-git-send-email-rajeevny@codeaurora.org>
+ <1624365748-24224-2-git-send-email-rajeevny@codeaurora.org>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.9.1
+Date: Wed, 21 Jul 2021 22:40:10 +0000
+Message-ID: <CAE-0n50Km=XxJ93ZJkwcWWJdzvBba_We=bZYzkdYKoB-cwTYkg@mail.gmail.com>
+Subject: Re: [v2 1/3] dt-bindings: msm/dsi: Add sc7280 7nm dsi phy
+To: Rajeev Nandan <rajeevny@codeaurora.org>, devicetree@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+ linux-arm-msm@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,55 +66,16 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- Tomas Winkler <tomas.winkler@intel.com>, dri-devel@lists.freedesktop.org,
- John Harrison <John.C.Harrison@intel.com>
+Cc: jonathan@marek.ca, mkrishn@codeaurora.org, linux-kernel@vger.kernel.org,
+ abhinavk@codeaurora.org, robh+dt@kernel.org, kalyan_t@codeaurora.org,
+ dmitry.baryshkov@linaro.org, sean@poorly.run
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 20, 2021 at 04:20:11PM -0700, Lucas De Marchi wrote:
-> gen8_clear_engine_error_register() is actually not used by
-> GRAPHICS_VER >= 8, since for those we are using another register that is
-> not engine-dependent. Fix the platform prefix, to make clear we are not
-> using any GEN6_RING_FAULT_REG_* one GRAPHICS_VER >= 8.
-> 
-> Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
-
-Reviewed-by: Matt Roper <matthew.d.roper@intel.com>
-
+Quoting Rajeev Nandan (2021-06-22 05:42:26)
+> The SC7280 SoC uses the 7nm (V4.1) DSI PHY driver.
+>
+> Signed-off-by: Rajeev Nandan <rajeevny@codeaurora.org>
 > ---
->  drivers/gpu/drm/i915/gt/intel_gt.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
-> index e714e21c0a4d..a8efdd44e9cf 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_gt.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_gt.c
-> @@ -205,7 +205,7 @@ static void clear_register(struct intel_uncore *uncore, i915_reg_t reg)
->  	intel_uncore_rmw(uncore, reg, 0, 0);
->  }
->  
-> -static void gen8_clear_engine_error_register(struct intel_engine_cs *engine)
-> +static void gen6_clear_engine_error_register(struct intel_engine_cs *engine)
->  {
->  	GEN6_RING_FAULT_REG_RMW(engine, RING_FAULT_VALID, 0);
->  	GEN6_RING_FAULT_REG_POSTING_READ(engine);
-> @@ -251,7 +251,7 @@ intel_gt_clear_error_registers(struct intel_gt *gt,
->  		enum intel_engine_id id;
->  
->  		for_each_engine_masked(engine, gt, engine_mask, id)
-> -			gen8_clear_engine_error_register(engine);
-> +			gen6_clear_engine_error_register(engine);
->  	}
->  }
->  
-> -- 
-> 2.31.1
-> 
 
--- 
-Matt Roper
-Graphics Software Engineer
-VTT-OSGC Platform Enablement
-Intel Corporation
-(916) 356-2795
+Reviewed-by: Stephen Boyd <swboyd@chromium.org>
