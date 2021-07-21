@@ -1,37 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF0253D16BB
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 20:59:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE4303D16C6
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 21:01:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D4576E492;
-	Wed, 21 Jul 2021 18:59:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 265946E8C7;
+	Wed, 21 Jul 2021 19:01:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 90D0D6E492
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 18:59:15 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10052"; a="233303148"
-X-IronPort-AV: E=Sophos;i="5.84,258,1620716400"; d="scan'208";a="233303148"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Jul 2021 11:59:15 -0700
-X-IronPort-AV: E=Sophos;i="5.84,258,1620716400"; d="scan'208";a="511901968"
-Received: from unknown (HELO intel.com) ([10.212.44.180])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Jul 2021 11:59:14 -0700
-Date: Wed, 21 Jul 2021 14:59:12 -0400
-From: Rodrigo Vivi <rodrigo.vivi@intel.com>
-To: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-Subject: Re: [PATCH v5 09/15] drm/i915/pxp: Implement PXP irq handler
-Message-ID: <YPhugNxZoVjIhiXY@intel.com>
-References: <20210716041034.382-1-daniele.ceraolospurio@intel.com>
- <20210716041034.382-10-daniele.ceraolospurio@intel.com>
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F08F66E8C7
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 19:01:03 +0000 (UTC)
+Received: from [IPv6:::1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id A254F81BC0;
+ Wed, 21 Jul 2021 21:01:01 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1626894062;
+ bh=71iB0AP2uo1+ZtiFwmKYH+Vix8g5YJOtJvdq/JuL5MQ=;
+ h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+ b=Xy+/9BvihvtCwsNFLZCmESCUcSZ9CMti3/uRjV+zkHFKuf2vzn/Z9Gwc7DUhbvzAx
+ QVomUKH4ZgoRI0Qxl2ZpEkprgRqtp6jWFynGvtXlxQK7Fh00qYeB3Ks8+G/LtVgn4s
+ cXatY+GRFnSRL3lQcCBsqkg781jYWAbf6apoi+5h1kRJjPv6xW7tAa7uFji5K4B2RB
+ 0jKXEXUXuqzgsqb5N5y5LA50lAh3+KIHgKLRaFAcchWzVU7C8afM8M3JmFx+aYH1JF
+ URAB85cm2TWf74Z1jKQ7VW9GD5K6MT3mHkE/6s6+d1/rYljW7oCkMPsD0SbMipMdkM
+ 9QYfRl9l2F2DA==
+Subject: Re: [PATCH] backlight: pwm_bl: Avoid backlight flicker if backlight
+ control GPIO is input
+To: Daniel Thompson <daniel.thompson@linaro.org>
+References: <20210718211415.143709-1-marex@denx.de>
+ <20210719112202.4fvmn57ibgy3yesa@maple.lan>
+ <bbaad78e-91c7-0787-fa72-b5cfabcc6dbd@denx.de>
+ <20210721104914.4difos6w3ysjelnv@maple.lan>
+ <fee1ad9e-ae70-1644-5444-6c894473b48e@denx.de>
+ <20210721164319.uaf4qyr62dnktadv@maple.lan>
+From: Marek Vasut <marex@denx.de>
+Message-ID: <f8b2bc71-2d2d-09f1-913d-0a6b93a1da31@denx.de>
+Date: Wed, 21 Jul 2021 21:01:01 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210716041034.382-10-daniele.ceraolospurio@intel.com>
+In-Reply-To: <20210721164319.uaf4qyr62dnktadv@maple.lan>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.2 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,557 +61,136 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Huang@freedesktop.org, "Huang, Sean Z" <sean.z.huang@intel.com>,
- dri-devel@lists.freedesktop.org, Chris Wilson <chris@chris-wilson.co.uk>
+Cc: linux-pwm@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Thierry Reding <treding@nvidia.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 15, 2021 at 09:10:28PM -0700, Daniele Ceraolo Spurio wrote:
-> From: "Huang, Sean Z" <sean.z.huang@intel.com>
+On 7/21/21 6:43 PM, Daniel Thompson wrote:
+> On Wed, Jul 21, 2021 at 05:09:57PM +0200, Marek Vasut wrote:
+>> On 7/21/21 12:49 PM, Daniel Thompson wrote:
+>>>>> However, on the basis of making things less fragile, I think the
+>>>>> underlying problem here is the assumption that it is safe to modify
+>>>>> enable_gpio before the driver has imposed state upon the PWM (this
+>>>>> assumption has always been made and, in addition to systems where the BL
+>>>>> has a phandle will also risks flicker problems on systems where
+>>>>> power_pwm_on_delay is not zero).
+>>>>
+>>>> It is safe to modify the GPIO into defined state, but that defined state is
+>>>> not always out/enabled, that defined state depends on the hardware.
+>>>
+>>> It is only safe to do this once we know what the initial value should be
+>>> and I'm not sure that value can comes exclusively from reading the pin.
+>>
+>> I agree, it is far from perfect, but so is the current code.
 > 
-> The HW will generate a teardown interrupt when session termination is
-> required, which requires i915 to submit a terminating batch. Once the HW
-> is done with the termination it will generate another interrupt, at
-> which point it is safe to re-create the session.
+> Agreed. Current handling of enable pin isn't right.
 > 
-> Since the termination and re-creation flow is something we want to
-> trigger from the driver as well, use a common work function that can be
-> called both from the irq handler and from the driver set-up flows, which
-> has the addded benefit of allowing us to skip any extra locks because
-> the work itself serializes the operations.
 > 
-> v2: use struct completion instead of bool (Chris)
-> v3: drop locks, clean up functions and improve comments (Chris),
->     move to common work function.
-> v4: improve comments, simplify wait logic (Rodrigo)
-> v5: unconditionally set interrupts,
-
-I didn't find this... this looks the same as v4
-
-> rename state_attacked var (Rodrigo)
-
-thanks
-
-
-
+>> However, see below regarding the floating backlight enable pin.
+>>
+>>>>> This patch does not change the assumption that we can configure the
+>>>>> GPIO before we modify the PWM state. This means it won't fix the problem
+>>>>> for cases there the pin is HiZ by default but whose GPIOD_ASIS state is
+>>>>> neither input nor output.
+>>>>
+>>>> That is correct, for pin that is floating, we lost. But then I would argue
+>>>> that if your backlight-enable GPIO is floating, the hardware is buggy, I
+>>>> would expect some pull resistor to keep the backlight off on power on on
+>>>> that GPIO.
+>>>
+>>> I didn't say that the pin was floating. I said that the pin was in a HiZ
+>>> state meaning it could still be subject to pull up/down.
+>>>
+>>> However there are cases, such as when the regulator is off, where I
+>>> think it is entirely legitimate for the enable pin to be floating. The
+>>> current driver does the wrong thing here if the pin is set as input
+>>> since if the regulator is off the initial enable_gpio value should be 0.
+>>
+>> Oh, right, that's a valid point.
+>>
+>> So if the pin is input, we can basically toss a coin.
 > 
-> Signed-off-by: Huang, Sean Z <sean.z.huang@intel.com>
-> Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-> Cc: Chris Wilson <chris@chris-wilson.co.uk>
-> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com> #v4
+> I don't think it is quite as bad as that: if the PWM and regulator
+> are enabled then it is not okay for this pin to be floating.
 
-anyway, this patch looks good to me...
+So then we would have to check the regulator and pwm state, however 
+Linux driver for those can reinit both the regulator and pwm block, so 
+we are growing more and more heuristics.
 
-Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
-
-
-
-> ---
->  drivers/gpu/drm/i915/Makefile                |  1 +
->  drivers/gpu/drm/i915/gt/intel_gt_irq.c       |  7 ++
->  drivers/gpu/drm/i915/i915_reg.h              |  1 +
->  drivers/gpu/drm/i915/pxp/intel_pxp.c         | 66 +++++++++++--
->  drivers/gpu/drm/i915/pxp/intel_pxp.h         |  8 ++
->  drivers/gpu/drm/i915/pxp/intel_pxp_irq.c     | 99 ++++++++++++++++++++
->  drivers/gpu/drm/i915/pxp/intel_pxp_irq.h     | 32 +++++++
->  drivers/gpu/drm/i915/pxp/intel_pxp_session.c | 54 ++++++++++-
->  drivers/gpu/drm/i915/pxp/intel_pxp_session.h |  5 +-
->  drivers/gpu/drm/i915/pxp/intel_pxp_tee.c     |  8 +-
->  drivers/gpu/drm/i915/pxp/intel_pxp_types.h   | 18 ++++
->  11 files changed, 283 insertions(+), 16 deletions(-)
->  create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_irq.c
->  create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_irq.h
+>>> [...]
+>>> I think a reasonably elegant approach can be reached by making
+>>> pwm_backlight_initial_power_state() responsible for ensuring enable_gpio
+>>> matches the observed hardware state (taking into account both the pin
+>>> state and the regulator). I think this will fix both your flicker
+>>> concerns whilst permitting the legitimate cases for a floating pin.
+>>>
+>>> Something like:
+>>
+>> I think we are getting closer, but there is extra problem to this.
+>>
+>>> diff --git a/drivers/video/backlight/pwm_bl.c b/drivers/video/backlight/pwm_bl.c
+>>> index e48fded3e414..8d8959a70e44 100644
+>>> --- a/drivers/video/backlight/pwm_bl.c
+>>> +++ b/drivers/video/backlight/pwm_bl.c
+>>> @@ -409,6 +409,33 @@ static bool pwm_backlight_is_linear(struct platform_pwm_backlight_data *data)
+>>>    static int pwm_backlight_initial_power_state(const struct pwm_bl_data *pb)
+>>>    {
+>>>    	struct device_node *node = pb->dev->of_node;
+>>> +	bool active = true;
+>>> +
+>>> +	/*
+>>> +	 * If the enable GPIO is present, observable (either as input
+>>> +	 * or output) and off then the backlight is not currently active.
+>>> +	 * */
+>>> +	if (pb->enable_gpio && gpiod_get_value_cansleep(pb->enable_gpio) == 0)
+>>> +		active = false;
+>>
+>> This will fail on iMX GPIO controller, where if the GPIO is output, you can
+>> read its state, but by default that state is what you wrote into the GPIO
+>> output value register, not what is the actual value on the pin (i.e.
+>> consider you have a strong pull resistor that overpowers the driver).
+>>
+>> To have a GPIO which is output and sample the actual pin value, you have to
+>> tweak the pinmux and enable the SION bit, then you get the actual value. But
+>> that is specific to the iMX GPIO controller/pinmux.
 > 
-> diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
-> index 44d3a2bcb64c..1714089a10f0 100644
-> --- a/drivers/gpu/drm/i915/Makefile
-> +++ b/drivers/gpu/drm/i915/Makefile
-> @@ -279,6 +279,7 @@ i915-y += i915_perf.o
->  i915-$(CONFIG_DRM_I915_PXP) += \
->  	pxp/intel_pxp.o \
->  	pxp/intel_pxp_cmd.o \
-> +	pxp/intel_pxp_irq.o \
->  	pxp/intel_pxp_session.o \
->  	pxp/intel_pxp_tee.o
->  
-> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_irq.c b/drivers/gpu/drm/i915/gt/intel_gt_irq.c
-> index c13462274fe8..96f0e9172a09 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_gt_irq.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_gt_irq.c
-> @@ -13,6 +13,7 @@
->  #include "intel_lrc_reg.h"
->  #include "intel_uncore.h"
->  #include "intel_rps.h"
-> +#include "pxp/intel_pxp_irq.h"
->  
->  static void guc_irq_handler(struct intel_guc *guc, u16 iir)
->  {
-> @@ -64,6 +65,9 @@ gen11_other_irq_handler(struct intel_gt *gt, const u8 instance,
->  	if (instance == OTHER_GTPM_INSTANCE)
->  		return gen11_rps_irq_handler(&gt->rps, iir);
->  
-> +	if (instance == OTHER_KCR_INSTANCE)
-> +		return intel_pxp_irq_handler(&gt->pxp, iir);
-> +
->  	WARN_ONCE(1, "unhandled other interrupt instance=0x%x, iir=0x%x\n",
->  		  instance, iir);
->  }
-> @@ -190,6 +194,9 @@ void gen11_gt_irq_reset(struct intel_gt *gt)
->  	intel_uncore_write(uncore, GEN11_GPM_WGBOXPERF_INTR_MASK,  ~0);
->  	intel_uncore_write(uncore, GEN11_GUC_SG_INTR_ENABLE, 0);
->  	intel_uncore_write(uncore, GEN11_GUC_SG_INTR_MASK,  ~0);
-> +
-> +	intel_uncore_write(uncore, GEN11_CRYPTO_RSVD_INTR_ENABLE, 0);
-> +	intel_uncore_write(uncore, GEN11_CRYPTO_RSVD_INTR_MASK,  ~0);
->  }
->  
->  void gen11_gt_irq_postinstall(struct intel_gt *gt)
-> diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
-> index 943fe485c662..2c583f2d410d 100644
-> --- a/drivers/gpu/drm/i915/i915_reg.h
-> +++ b/drivers/gpu/drm/i915/i915_reg.h
-> @@ -8051,6 +8051,7 @@ enum {
->  /* irq instances for OTHER_CLASS */
->  #define OTHER_GUC_INSTANCE	0
->  #define OTHER_GTPM_INSTANCE	1
-> +#define OTHER_KCR_INSTANCE	4
->  
->  #define GEN11_INTR_IDENTITY_REG(x)	_MMIO(0x190060 + ((x) * 4))
->  
-> diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp.c b/drivers/gpu/drm/i915/pxp/intel_pxp.c
-> index 26176d43a02d..b0c7edc10cc3 100644
-> --- a/drivers/gpu/drm/i915/pxp/intel_pxp.c
-> +++ b/drivers/gpu/drm/i915/pxp/intel_pxp.c
-> @@ -2,7 +2,9 @@
->  /*
->   * Copyright(c) 2020 Intel Corporation.
->   */
-> +#include <linux/workqueue.h>
->  #include "intel_pxp.h"
-> +#include "intel_pxp_irq.h"
->  #include "intel_pxp_session.h"
->  #include "intel_pxp_tee.h"
->  #include "gt/intel_context.h"
-> @@ -68,6 +70,16 @@ void intel_pxp_init(struct intel_pxp *pxp)
->  
->  	mutex_init(&pxp->tee_mutex);
->  
-> +	/*
-> +	 * we'll use the completion to check if there is a termination pending,
-> +	 * so we start it as completed and we reinit it when a termination
-> +	 * is triggered.
-> +	 */
-> +	init_completion(&pxp->termination);
-> +	complete_all(&pxp->termination);
-> +
-> +	INIT_WORK(&pxp->session_work, intel_pxp_session_work);
-> +
->  	ret = create_vcs_context(pxp);
->  	if (ret)
->  		return;
-> @@ -96,19 +108,61 @@ void intel_pxp_fini(struct intel_pxp *pxp)
->  	destroy_vcs_context(pxp);
->  }
->  
-> -void intel_pxp_init_hw(struct intel_pxp *pxp)
-> +void intel_pxp_mark_termination_in_progress(struct intel_pxp *pxp)
->  {
-> -	int ret;
-> +	pxp->arb_is_valid = false;
-> +	reinit_completion(&pxp->termination);
-> +}
-> +
-> +static void intel_pxp_queue_termination(struct intel_pxp *pxp)
-> +{
-> +	struct intel_gt *gt = pxp_to_gt(pxp);
-> +
-> +	/*
-> +	 * We want to get the same effect as if we received a termination
-> +	 * interrupt, so just pretend that we did.
-> +	 */
-> +	spin_lock_irq(&gt->irq_lock);
-> +	intel_pxp_mark_termination_in_progress(pxp);
-> +	pxp->session_events |= PXP_TERMINATION_REQUEST;
-> +	queue_work(system_unbound_wq, &pxp->session_work);
-> +	spin_unlock_irq(&gt->irq_lock);
-> +}
->  
-> +/*
-> + * the arb session is restarted from the irq work when we receive the
-> + * termination completion interrupt
-> + */
-> +int intel_pxp_wait_for_arb_start(struct intel_pxp *pxp)
-> +{
-> +	if (!intel_pxp_is_enabled(pxp))
-> +		return 0;
-> +
-> +	if (!wait_for_completion_timeout(&pxp->termination,
-> +					 msecs_to_jiffies(100)))
-> +		return -ETIMEDOUT;
-> +
-> +	if (!pxp->arb_is_valid)
-> +		return -EIO;
-> +
-> +	return 0;
-> +}
-> +
-> +void intel_pxp_init_hw(struct intel_pxp *pxp)
-> +{
->  	kcr_pxp_enable(pxp_to_gt(pxp));
-> +	intel_pxp_irq_enable(pxp);
->  
-> -	/* always emit a full termination to clean the state */
-> -	ret = intel_pxp_terminate_arb_session_and_global(pxp);
-> -	if (!ret)
-> -		intel_pxp_create_arb_session(pxp);
-> +	/*
-> +	 * the session could've been attacked while we weren't loaded, so
-> +	 * handle it as if it was and re-create it.
-> +	 */
-> +	intel_pxp_queue_termination(pxp);
->  }
->  
->  void intel_pxp_fini_hw(struct intel_pxp *pxp)
->  {
->  	kcr_pxp_disable(pxp_to_gt(pxp));
-> +
-> +	intel_pxp_irq_disable(pxp);
->  }
-> diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp.h b/drivers/gpu/drm/i915/pxp/intel_pxp.h
-> index 8eeb65af78b1..074b3b980957 100644
-> --- a/drivers/gpu/drm/i915/pxp/intel_pxp.h
-> +++ b/drivers/gpu/drm/i915/pxp/intel_pxp.h
-> @@ -30,6 +30,9 @@ void intel_pxp_fini(struct intel_pxp *pxp);
->  
->  void intel_pxp_init_hw(struct intel_pxp *pxp);
->  void intel_pxp_fini_hw(struct intel_pxp *pxp);
-> +
-> +void intel_pxp_mark_termination_in_progress(struct intel_pxp *pxp);
-> +int intel_pxp_wait_for_arb_start(struct intel_pxp *pxp);
->  #else
->  static inline void intel_pxp_init(struct intel_pxp *pxp)
->  {
-> @@ -38,6 +41,11 @@ static inline void intel_pxp_init(struct intel_pxp *pxp)
->  static inline void intel_pxp_fini(struct intel_pxp *pxp)
->  {
->  }
-> +
-> +static inline int intel_pxp_wait_for_arb_start(struct intel_pxp *pxp)
-> +{
-> +	return 0;
-> +}
->  #endif
->  
->  #endif /* __INTEL_PXP_H__ */
-> diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_irq.c b/drivers/gpu/drm/i915/pxp/intel_pxp_irq.c
-> new file mode 100644
-> index 000000000000..46eca1e81b9b
-> --- /dev/null
-> +++ b/drivers/gpu/drm/i915/pxp/intel_pxp_irq.c
-> @@ -0,0 +1,99 @@
-> +// SPDX-License-Identifier: MIT
-> +/*
-> + * Copyright(c) 2020 Intel Corporation.
-> + */
-> +#include <linux/workqueue.h>
-> +#include "intel_pxp.h"
-> +#include "intel_pxp_irq.h"
-> +#include "intel_pxp_session.h"
-> +#include "gt/intel_gt_irq.h"
-> +#include "i915_irq.h"
-> +#include "i915_reg.h"
-> +
-> +/**
-> + * intel_pxp_irq_handler - Handles PXP interrupts.
-> + * @pxp: pointer to pxp struct
-> + * @iir: interrupt vector
-> + */
-> +void intel_pxp_irq_handler(struct intel_pxp *pxp, u16 iir)
-> +{
-> +	struct intel_gt *gt = pxp_to_gt(pxp);
-> +
-> +	if (GEM_WARN_ON(!intel_pxp_is_enabled(pxp)))
-> +		return;
-> +
-> +	lockdep_assert_held(&gt->irq_lock);
-> +
-> +	if (unlikely(!iir))
-> +		return;
-> +
-> +	if (iir & (GEN12_DISPLAY_PXP_STATE_TERMINATED_INTERRUPT |
-> +		   GEN12_DISPLAY_APP_TERMINATED_PER_FW_REQ_INTERRUPT)) {
-> +		/* immediately mark PXP as inactive on termination */
-> +		intel_pxp_mark_termination_in_progress(pxp);
-> +		pxp->session_events |= PXP_TERMINATION_REQUEST;
-> +	}
-> +
-> +	if (iir & GEN12_DISPLAY_STATE_RESET_COMPLETE_INTERRUPT)
-> +		pxp->session_events |= PXP_TERMINATION_COMPLETE;
-> +
-> +	if (pxp->session_events)
-> +		queue_work(system_unbound_wq, &pxp->session_work);
-> +}
-> +
-> +static inline void __pxp_set_interrupts(struct intel_gt *gt, u32 interrupts)
-> +{
-> +	struct intel_uncore *uncore = gt->uncore;
-> +	const u32 mask = interrupts << 16;
-> +
-> +	intel_uncore_write(uncore, GEN11_CRYPTO_RSVD_INTR_ENABLE, mask);
-> +	intel_uncore_write(uncore, GEN11_CRYPTO_RSVD_INTR_MASK,  ~mask);
-> +}
-> +
-> +static inline void pxp_irq_reset(struct intel_gt *gt)
-> +{
-> +	spin_lock_irq(&gt->irq_lock);
-> +	gen11_gt_reset_one_iir(gt, 0, GEN11_KCR);
-> +	spin_unlock_irq(&gt->irq_lock);
-> +}
-> +
-> +void intel_pxp_irq_enable(struct intel_pxp *pxp)
-> +{
-> +	struct intel_gt *gt = pxp_to_gt(pxp);
-> +
-> +	spin_lock_irq(&gt->irq_lock);
-> +
-> +	if (!pxp->irq_enabled)
-> +		WARN_ON_ONCE(gen11_gt_reset_one_iir(gt, 0, GEN11_KCR));
-> +
-> +	__pxp_set_interrupts(gt, GEN12_PXP_INTERRUPTS);
-> +	pxp->irq_enabled = true;
-> +
-> +	spin_unlock_irq(&gt->irq_lock);
-> +}
-> +
-> +void intel_pxp_irq_disable(struct intel_pxp *pxp)
-> +{
-> +	struct intel_gt *gt = pxp_to_gt(pxp);
-> +
-> +	/*
-> +	 * We always need to submit a global termination when we re-enable the
-> +	 * interrupts, so there is no need to make sure that the session state
-> +	 * makes sense at the end of this function. Just make sure this is not
-> +	 * called in a path were the driver consider the session as valid and
-> +	 * doesn't call a termination on restart.
-> +	 */
-> +	GEM_WARN_ON(intel_pxp_is_active(pxp));
-> +
-> +	spin_lock_irq(&gt->irq_lock);
-> +
-> +	pxp->irq_enabled = false;
-> +	__pxp_set_interrupts(gt, 0);
-> +
-> +	spin_unlock_irq(&gt->irq_lock);
-> +	intel_synchronize_irq(gt->i915);
-> +
-> +	pxp_irq_reset(gt);
-> +
-> +	flush_work(&pxp->session_work);
-> +}
-> diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_irq.h b/drivers/gpu/drm/i915/pxp/intel_pxp_irq.h
-> new file mode 100644
-> index 000000000000..8b5793654844
-> --- /dev/null
-> +++ b/drivers/gpu/drm/i915/pxp/intel_pxp_irq.h
-> @@ -0,0 +1,32 @@
-> +/* SPDX-License-Identifier: MIT */
-> +/*
-> + * Copyright(c) 2020, Intel Corporation. All rights reserved.
-> + */
-> +
-> +#ifndef __INTEL_PXP_IRQ_H__
-> +#define __INTEL_PXP_IRQ_H__
-> +
-> +#include <linux/types.h>
-> +
-> +struct intel_pxp;
-> +
-> +#define GEN12_DISPLAY_PXP_STATE_TERMINATED_INTERRUPT BIT(1)
-> +#define GEN12_DISPLAY_APP_TERMINATED_PER_FW_REQ_INTERRUPT BIT(2)
-> +#define GEN12_DISPLAY_STATE_RESET_COMPLETE_INTERRUPT BIT(3)
-> +
-> +#define GEN12_PXP_INTERRUPTS \
-> +	(GEN12_DISPLAY_PXP_STATE_TERMINATED_INTERRUPT | \
-> +	 GEN12_DISPLAY_APP_TERMINATED_PER_FW_REQ_INTERRUPT | \
-> +	 GEN12_DISPLAY_STATE_RESET_COMPLETE_INTERRUPT)
-> +
-> +#ifdef CONFIG_DRM_I915_PXP
-> +void intel_pxp_irq_enable(struct intel_pxp *pxp);
-> +void intel_pxp_irq_disable(struct intel_pxp *pxp);
-> +void intel_pxp_irq_handler(struct intel_pxp *pxp, u16 iir);
-> +#else
-> +static inline void intel_pxp_irq_handler(struct intel_pxp *pxp, u16 iir)
-> +{
-> +}
-> +#endif
-> +
-> +#endif /* __INTEL_PXP_IRQ_H__ */
-> diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_session.c b/drivers/gpu/drm/i915/pxp/intel_pxp_session.c
-> index b8e24adeb1f3..67c30e534d50 100644
-> --- a/drivers/gpu/drm/i915/pxp/intel_pxp_session.c
-> +++ b/drivers/gpu/drm/i915/pxp/intel_pxp_session.c
-> @@ -48,7 +48,7 @@ static int pxp_wait_for_session_state(struct intel_pxp *pxp, u32 id, bool in_pla
->  	return ret;
->  }
->  
-> -int intel_pxp_create_arb_session(struct intel_pxp *pxp)
-> +static int pxp_create_arb_session(struct intel_pxp *pxp)
->  {
->  	struct intel_gt *gt = pxp_to_gt(pxp);
->  	int ret;
-> @@ -77,12 +77,13 @@ int intel_pxp_create_arb_session(struct intel_pxp *pxp)
->  	return 0;
->  }
->  
-> -int intel_pxp_terminate_arb_session_and_global(struct intel_pxp *pxp)
-> +static int pxp_terminate_arb_session_and_global(struct intel_pxp *pxp)
->  {
->  	int ret;
->  	struct intel_gt *gt = pxp_to_gt(pxp);
->  
-> -	pxp->arb_is_valid = false;
-> +	/* must mark termination in progress calling this function */
-> +	GEM_WARN_ON(pxp->arb_is_valid);
->  
->  	/* terminate the hw sessions */
->  	ret = intel_pxp_terminate_session(pxp, ARB_SESSION);
-> @@ -101,3 +102,50 @@ int intel_pxp_terminate_arb_session_and_global(struct intel_pxp *pxp)
->  
->  	return ret;
->  }
-> +
-> +static void pxp_terminate(struct intel_pxp *pxp)
-> +{
-> +	int ret;
-> +
-> +	pxp->hw_state_invalidated = true;
-> +
-> +	/*
-> +	 * if we fail to submit the termination there is no point in waiting for
-> +	 * it to complete. PXP will be marked as non-active until the next
-> +	 * termination is issued.
-> +	 */
-> +	ret = pxp_terminate_arb_session_and_global(pxp);
-> +	if (ret)
-> +		complete_all(&pxp->termination);
-> +}
-> +
-> +static void pxp_terminate_complete(struct intel_pxp *pxp)
-> +{
-> +	/* Re-create the arb session after teardown handle complete */
-> +	if (fetch_and_zero(&pxp->hw_state_invalidated))
-> +		pxp_create_arb_session(pxp);
-> +
-> +	complete_all(&pxp->termination);
-> +}
-> +
-> +void intel_pxp_session_work(struct work_struct *work)
-> +{
-> +	struct intel_pxp *pxp = container_of(work, typeof(*pxp), session_work);
-> +	struct intel_gt *gt = pxp_to_gt(pxp);
-> +	u32 events = 0;
-> +
-> +	spin_lock_irq(&gt->irq_lock);
-> +	events = fetch_and_zero(&pxp->session_events);
-> +	spin_unlock_irq(&gt->irq_lock);
-> +
-> +	if (!events)
-> +		return;
-> +
-> +	if (events & PXP_TERMINATION_REQUEST) {
-> +		events &= ~PXP_TERMINATION_COMPLETE;
-> +		pxp_terminate(pxp);
-> +	}
-> +
-> +	if (events & PXP_TERMINATION_COMPLETE)
-> +		pxp_terminate_complete(pxp);
-> +}
-> diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_session.h b/drivers/gpu/drm/i915/pxp/intel_pxp_session.h
-> index 7354314b1cc4..ba4c9d2b94b7 100644
-> --- a/drivers/gpu/drm/i915/pxp/intel_pxp_session.h
-> +++ b/drivers/gpu/drm/i915/pxp/intel_pxp_session.h
-> @@ -8,9 +8,8 @@
->  
->  #include <linux/types.h>
->  
-> -struct intel_pxp;
-> +struct work_struct;
->  
-> -int intel_pxp_create_arb_session(struct intel_pxp *pxp);
-> -int intel_pxp_terminate_arb_session_and_global(struct intel_pxp *pxp);
-> +void intel_pxp_session_work(struct work_struct *work);
->  
->  #endif /* __INTEL_PXP_SESSION_H__ */
-> diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_tee.c b/drivers/gpu/drm/i915/pxp/intel_pxp_tee.c
-> index 3662bf67407a..7693540dc1f9 100644
-> --- a/drivers/gpu/drm/i915/pxp/intel_pxp_tee.c
-> +++ b/drivers/gpu/drm/i915/pxp/intel_pxp_tee.c
-> @@ -80,6 +80,7 @@ static int i915_pxp_tee_component_bind(struct device *i915_kdev,
->  {
->  	struct drm_i915_private *i915 = kdev_to_i915(i915_kdev);
->  	struct intel_pxp *pxp = i915_dev_to_pxp(i915_kdev);
-> +	int ret;
->  
->  	mutex_lock(&pxp->tee_mutex);
->  	pxp->pxp_component = data;
-> @@ -88,15 +89,14 @@ static int i915_pxp_tee_component_bind(struct device *i915_kdev,
->  
->  	/* the component is required to fully start the PXP HW */
->  	intel_pxp_init_hw(pxp);
-> -
-> -	if (!pxp->arb_is_valid) {
-> +	ret = intel_pxp_wait_for_arb_start(pxp);
-> +	if (ret) {
->  		drm_err(&i915->drm, "Failed to create arb session during bind\n");
->  		intel_pxp_fini_hw(pxp);
->  		pxp->pxp_component = NULL;
-> -		return -EIO;
->  	}
->  
-> -	return 0;
-> +	return ret;
->  }
->  
->  static void i915_pxp_tee_component_unbind(struct device *i915_kdev,
-> diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_types.h b/drivers/gpu/drm/i915/pxp/intel_pxp_types.h
-> index a4797a98c1f9..475e3312c287 100644
-> --- a/drivers/gpu/drm/i915/pxp/intel_pxp_types.h
-> +++ b/drivers/gpu/drm/i915/pxp/intel_pxp_types.h
-> @@ -6,8 +6,10 @@
->  #ifndef __INTEL_PXP_TYPES_H__
->  #define __INTEL_PXP_TYPES_H__
->  
-> +#include <linux/completion.h>
->  #include <linux/mutex.h>
->  #include <linux/types.h>
-> +#include <linux/workqueue.h>
->  
->  struct intel_context;
->  struct i915_pxp_component;
-> @@ -25,6 +27,22 @@ struct intel_pxp {
->  	bool arb_is_valid;
->  
->  	struct mutex tee_mutex; /* protects the tee channel binding */
-> +
-> +	/*
-> +	 * If the HW perceives an attack on the integrity of the encryption it
-> +	 * will invalidate the keys and expect SW to re-initialize the session.
-> +	 * We keep track of this state to make sure we only re-start the arb
-> +	 * session when required.
-> +	 */
-> +	bool hw_state_invalidated;
-> +
-> +	bool irq_enabled;
-> +	struct completion termination;
-> +
-> +	struct work_struct session_work;
-> +	u32 session_events; /* protected with gt->irq_lock */
-> +#define PXP_TERMINATION_REQUEST  BIT(0)
-> +#define PXP_TERMINATION_COMPLETE BIT(1)
->  };
->  
->  #endif /* __INTEL_PXP_TYPES_H__ */
-> -- 
-> 2.32.0
+> You're describing a situation where we own a GPIO output pin and the
+> value we believe we are driving into the pin is not being achieved due
+> to some additional factor.
+
+E.g. disabled PWM or regulator.
+
+> Do we need to care about that? It sounds like
+> the backlight driver won't work properly in this case since whatever
+> value we set the enable_gpio then it will stay at the same value.
+
+Possibly.
+
+>>> [...]
+>>> @@ -486,18 +500,6 @@ static int pwm_backlight_probe(struct platform_device *pdev)
+>>>    		goto err_alloc;
+>>>    	}
+>>> -	/*
+>>> -	 * If the GPIO is not known to be already configured as output, that
+>>> -	 * is, if gpiod_get_direction returns either 1 or -EINVAL, change the
+>>> -	 * direction to output and set the GPIO as active.
+>>> -	 * Do not force the GPIO to active when it was already output as it
+>>> -	 * could cause backlight flickering or we would enable the backlight too
+>>> -	 * early. Leave the decision of the initial backlight state for later.
+>>> -	 */
+>>> -	if (pb->enable_gpio &&
+>>> -	    gpiod_get_direction(pb->enable_gpio) != 0)
+>>> -		gpiod_direction_output(pb->enable_gpio, 1);
+>>
+>> pwm_backlight_initial_power_state() is still called after pwm_apply_state()
+>> in pwm_backlight_probe(), so that might still be too late, no ?
 > 
+> The initial pwm_apply_state() is essentially a nop or, perhaps, a sanity
+> check if you prefer to think if it that way.
+> 
+> It can change the PWM period in some (non-DT) cases but only if the PWM
+> is not already running... and the change of period should not start it
+> running.
+
+All right, let me give this a try.
