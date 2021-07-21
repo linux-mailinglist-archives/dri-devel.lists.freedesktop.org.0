@@ -1,59 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C0D13D0E11
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 13:47:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 98EEE3D0E21
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 13:52:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC7096EBFD;
-	Wed, 21 Jul 2021 11:47:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B667F6E90D;
+	Wed, 21 Jul 2021 11:52:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
- [IPv6:2a00:1450:4864:20::42b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 214C36EBFD
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 11:47:20 +0000 (UTC)
-Received: by mail-wr1-x42b.google.com with SMTP id n1so1840360wri.10
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 04:47:20 -0700 (PDT)
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
+ [IPv6:2a00:1450:4864:20::42f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1415F6E90D
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 11:52:16 +0000 (UTC)
+Received: by mail-wr1-x42f.google.com with SMTP id t5so1856733wrw.12
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 04:52:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:content-transfer-encoding:in-reply-to;
- bh=2DhNzX8SHDQYkdoHCXzFmXHJ0VGGgo8O+g7jT63btcI=;
- b=CMU97kNDTLD1n7EjFse7TTD/xCp+yw1yzqStCL1b2pIQKPqbyNoAomQ4Fb/Z1HHcxg
- 3fN47Uq0e8d0huflxNZsRfdxLPW2lOxy7QEgoyjVm+DRZ0uOJrZrzWuZP1LNxsqxfANf
- UyUQHxdlxoMZRoJEym4r5skvpnYy/N2IaaDFI=
+ bh=jeAQ1G++rPnF+hp7ksDH4lyQwwycI5U2loZxtSOENKc=;
+ b=gweIyTUDDIJQ+eRdC9susBC5MgKBStq8p32/FzZkbHGflYbAN7fN94wua6i+nboMYT
+ odAlqkyO9C6k3ev5FgHAVE8OsDEb6TjJws3OC4QJU5SsSmcx3tWeD6D79tWA+NXxwkRO
+ 6zfI4gCK7IUJ6puv8GSrjQDBmJMVrPzUM3pSs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=2DhNzX8SHDQYkdoHCXzFmXHJ0VGGgo8O+g7jT63btcI=;
- b=n1yK9ft6ut1G6I1omqW91KSxBfYu9elp4cgzsTAwAzog2yhO0+HERfCa7pnDIHmycr
- vc5h48fdeMChWac1vmm6LCnlwFLX/GQzKRKCgXw18os+Q/ZyCzD+pfeym5E02aq0C9WO
- 6/JyU3DTohO6IALN4diyOKup7z5iV8aLuZzgm+seeCkGEVGDMvambIgPp2ZHwvqB0Kir
- rfxut5YZ8sbR6/DkYQ9OmU870b8zqE1t+Dwm42+ZAZ7BwmQQTwlyQXp4Tp957f56yba2
- sTbVVgqvcqh9aFAWKa0mdeIP1BoP/gd8JIxTEbHMay4Xjuuib77cJhalmvVwmI1krZc8
- 3u4A==
-X-Gm-Message-State: AOAM530lZeXMda9SqYpPFLdKZ4s4WWIt0vHx7qq/mf6WiKZhhIZBxTKy
- l1/h0n5sCED2xlZ7Sog2ZDDU2A==
-X-Google-Smtp-Source: ABdhPJwaTaBSsgi4GgmNHg48EINvFVy1+zfMC3VRCRsSulWOUgpm3eNi2JgIEY4VCXEzJ6aCii/HCg==
-X-Received: by 2002:adf:e409:: with SMTP id g9mr44045639wrm.66.1626868038997; 
- Wed, 21 Jul 2021 04:47:18 -0700 (PDT)
+ bh=jeAQ1G++rPnF+hp7ksDH4lyQwwycI5U2loZxtSOENKc=;
+ b=ai5q5gMKo0Mxk2chmbl4BwgG249Hjqykm20RJIpdKxtc2MPFnMOKNALv+r/s6O8SHb
+ rGEwm4QyIaNerknh5uK8xZaTYBK3IKjb0fnyGhRk7O2aibFkclXaIDxYJcSVF6dREEAo
+ S9dqtD28+w8Lat9BwyNet2FtggKSoMkukpd+qjUMRmOjYMqCJbs6A29d5M7rTE0tkqVY
+ yTE3BGjAUYNIzdix9hsCcqVWOs8LBOUnGCr8OCervD3STpgRjjon1Ct7ztoVefiWRp7e
+ I8r7b/iO3CFMIRfydE17tm3EpGWgeO2pEBcnHXqbgRoSU7f+A8NIpXPLDyK6tI/zcGI5
+ D29w==
+X-Gm-Message-State: AOAM530/KlPVGrBl10o7r/dTwMQfC64134g1/owSHvEdiwjyu3ukasow
+ ZSaz5xw6LY5Qh/1XvcE+CMheAA==
+X-Google-Smtp-Source: ABdhPJydbPVmzq7HOjw4k/D7MP0M5CNmweFiGy4v8cEPRYYaP5jWPqiPOLh/cext6sTPcgMJLdM8Fw==
+X-Received: by 2002:a5d:5550:: with SMTP id g16mr10055411wrw.342.1626868334820; 
+ Wed, 21 Jul 2021 04:52:14 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id o7sm19267295wrs.52.2021.07.21.04.47.18
+ by smtp.gmail.com with ESMTPSA id b6sm4920177wmj.34.2021.07.21.04.52.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Jul 2021 04:47:18 -0700 (PDT)
-Date: Wed, 21 Jul 2021 13:47:16 +0200
+ Wed, 21 Jul 2021 04:52:14 -0700 (PDT)
+Date: Wed, 21 Jul 2021 13:52:12 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
 To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
-Subject: Re: [PATCH 1/2] dma-buf: clarify dma_fence_ops->wait documentation
-Message-ID: <YPgJRAEeRKsD4NHw@phenom.ffwll.local>
+Subject: Re: [PATCH 2/2] dma-buf: clarify dma_fence_add_callback documentation
+Message-ID: <YPgKbBXpoEZFHcHE@phenom.ffwll.local>
 References: <20210721092133.2817-1-christian.koenig@amd.com>
+ <20210721092133.2817-2-christian.koenig@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210721092133.2817-1-christian.koenig@amd.com>
+In-Reply-To: <20210721092133.2817-2-christian.koenig@amd.com>
 X-Operating-System: Linux phenom 5.10.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,58 +72,68 @@ Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 21, 2021 at 11:21:32AM +0200, Christian König wrote:
-> This callback is pretty much deprecated and should not be used by new implementations.
+On Wed, Jul 21, 2021 at 11:21:33AM +0200, Christian König wrote:
+> That the caller doesn't need to keep a reference is rather
+> risky and not defensive at all.
 > 
-> Clarify that in the documentation as well.
+> Especially dma_buf_poll got that horrible wrong, so better
+> remove that sentence and also clarify that the callback
+> might be called in atomic or interrupt context.
 > 
 > Signed-off-by: Christian König <christian.koenig@amd.com>
+
+I'm very vary of aspirational interface docs for cross-anything, it just
+means everyone does whatever they feel like. I think I get what you aim
+for here, but this needs more careful wording.
+
+
 > ---
->  include/linux/dma-fence.h | 10 +++-------
->  1 file changed, 3 insertions(+), 7 deletions(-)
+>  drivers/dma-buf/dma-fence.c | 13 +++++--------
+>  1 file changed, 5 insertions(+), 8 deletions(-)
 > 
-> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
-> index 6ffb4b2c6371..a44e42b86c2a 100644
-> --- a/include/linux/dma-fence.h
-> +++ b/include/linux/dma-fence.h
-> @@ -214,19 +214,15 @@ struct dma_fence_ops {
->  	 * Custom wait implementation, defaults to dma_fence_default_wait() if
->  	 * not set.
->  	 *
-> -	 * The dma_fence_default_wait implementation should work for any fence, as long
-> -	 * as @enable_signaling works correctly. This hook allows drivers to
-> -	 * have an optimized version for the case where a process context is
-> -	 * already available, e.g. if @enable_signaling for the general case
-> -	 * needs to set up a worker thread.
-> +	 * Deprecated and should not be used by new implementations. Only used
-> +	 * by existing implementations which need special handling for their
-> +	 * hardware reset procedure.
+> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
+> index ce0f5eff575d..1e82ecd443fa 100644
+> --- a/drivers/dma-buf/dma-fence.c
+> +++ b/drivers/dma-buf/dma-fence.c
+> @@ -616,20 +616,17 @@ EXPORT_SYMBOL(dma_fence_enable_sw_signaling);
+>   * @cb: the callback to register
+>   * @func: the function to call
+>   *
+> + * Add a software callback to the fence. The caller should keep a reference to
+> + * the fence.
 
-I thought the other reason was unreliable interrupts, so waiters had to
-wake up once per jiffy? So maybe: "... for their hw reset procedure or for
-handling missed interrupts".
+Instead of your "The caller should" what about:
 
-Maybe also add here:
+It is not required to hold rerence to @fence. But since the fence can
+disappear as soon as @cb has returned callers generally must hold their
+own reference to prevent issues.
 
-New implementations must have an @enable_signalling and dma_fence_signal()
-implementation which does not require special handling to make
-dma_fence_wait() work.
 
-With these:
+With that or something similar that explains when we must do what and not
+vague "should" wording.
 
 Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
->  	 *
->  	 * Must return -ERESTARTSYS if the wait is intr = true and the wait was
->  	 * interrupted, and remaining jiffies if fence has signaled, or 0 if wait
->  	 * timed out. Can also return other error values on custom implementations,
->  	 * which should be treated as if the fence is signaled. For example a hardware
->  	 * lockup could be reported like that.
-> -	 *
-> -	 * This callback is optional.
->  	 */
->  	signed long (*wait)(struct dma_fence *fence,
->  			    bool intr, signed long timeout);
+> + *
+>   * @cb will be initialized by dma_fence_add_callback(), no initialization
+>   * by the caller is required. Any number of callbacks can be registered
+>   * to a fence, but a callback can only be registered to one fence at a time.
+>   *
+> - * Note that the callback can be called from an atomic context.  If
+> - * fence is already signaled, this function will return -ENOENT (and
+> + * If fence is already signaled, this function will return -ENOENT (and
+>   * *not* call the callback).
+>   *
+> - * Add a software callback to the fence. Same restrictions apply to
+> - * refcount as it does to dma_fence_wait(), however the caller doesn't need to
+> - * keep a refcount to fence afterward dma_fence_add_callback() has returned:
+> - * when software access is enabled, the creator of the fence is required to keep
+> - * the fence alive until after it signals with dma_fence_signal(). The callback
+> - * itself can be called from irq context.
+> + * Note that the callback can be called from an atomic context or irq context.
+>   *
+>   * Returns 0 in case of success, -ENOENT if the fence is already signaled
+>   * and -EINVAL in case of error.
 > -- 
 > 2.25.1
 > 
