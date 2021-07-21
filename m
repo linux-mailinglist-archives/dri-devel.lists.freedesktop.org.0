@@ -1,53 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A9043D0EAE
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 14:16:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 49B793D0EE4
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 14:44:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 30A696E866;
-	Wed, 21 Jul 2021 12:16:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 040466E824;
+	Wed, 21 Jul 2021 12:44:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x236.google.com (mail-oi1-x236.google.com
- [IPv6:2607:f8b0:4864:20::236])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 34DF26E866
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 12:16:32 +0000 (UTC)
-Received: by mail-oi1-x236.google.com with SMTP id r80so2578836oie.13
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 05:16:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=njwSea1ziU6BVgw7H9ot2aaFW7+Ie/+5EFwNmxJigRY=;
- b=iCZ62XQwr1FrYEvnKb9rhhPrbVVBCbWISvYHoMIvi86Yv4WXFKydrtqXeQiN7uArHa
- dXu5Y135xXgrmthZ3sWeS1z286+y039pnUqzcwl0hM+ZYV8k0fcO0haDBG8LHp9itZ7f
- gVWJo02EmdRlyrkc7Q/bTOQYvOf9OTu/DW/o8=
+Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com
+ [IPv6:2607:f8b0:4864:20::1031])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4849D6E824;
+ Wed, 21 Jul 2021 12:44:05 +0000 (UTC)
+Received: by mail-pj1-x1031.google.com with SMTP id bt15so1594070pjb.2;
+ Wed, 21 Jul 2021 05:44:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=mDcO9rSv0CwDOTDGsBa8hb+peHAKULXX/KhUGTkInL4=;
+ b=kdestiJqyqNqzGtl1EryWfBW1Uz/yZjxVWbOGipFz4u/z2i8Zk3oRyrPvByp+Xv0Bl
+ bE8u0+zVtNWQ9HrhFjVpH4xMWsl7U2czLVxC309aWdy3MdV4m9JSlU4FL4Yz/l6xUZmf
+ vmUvNuUv455pA01iBHeIUq6P83rDbWlvsXFJTWL+2zLI5j0NvSfI3NPcmhDqnFKn7Zvb
+ irS76f/DhhabDVLaPJ7isbxp7v7kp5HOBplIdTCXec+Xq89/mlzYtsh0dGeWcFAAb09t
+ 3vD/cIYoCNxtls34T9zjdr2gwlh/bZ8DBOsQe83NP5KBoXKkoLBonjwI9Mcs0Ju+WQqI
+ 3ezA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=njwSea1ziU6BVgw7H9ot2aaFW7+Ie/+5EFwNmxJigRY=;
- b=H111B0nJg38U/Nlf39wcryTB1cyurCbfoJXYyxvHCVvbzm7jKvQYKw7Bz4ikqJktx1
- V8SzwH7vR/blImtQBcoFfGvMJfJpYvHtTYEVMfAhmV2XFQnI6peKUDyWsQrcl7OOfPIy
- M/qondf7SDcU0FXkdU4tp07KeNLiYZvZYT3Il2ojUFy9yINTHWTYGg4b2xWnmZb61Xi6
- 2oxeMYGYK57N0Xjf29PQz3lUr1vp/G/v+aCHCJCPiRdHZzRlqADLNVpoupfcG+hyf2Et
- RG3oB+aMJ1Be2g1IMjgUfd/tApBHzWyuTO2FEffDt0BbSBtWyBLI51xXDRjhkWjmVQaB
- zeIA==
-X-Gm-Message-State: AOAM530+C0QAg1j5O6BIjpRSrkqHkvk2DM4PahjZ/wji9clRbnTZtMdD
- tXM7nA00vRy+Rl6KGu4FD7qXB6vRkrrHpxfTzZsr4A+qdc0=
-X-Google-Smtp-Source: ABdhPJxnsSvGUe2SYBYOzQqGDqeKXLifu1FOdR+xo6Tw9PsKKOjbs1rBcUBMT0sijUL7Y1m20+qEyDHxAW9uDrLT/Qs=
-X-Received: by 2002:aca:3085:: with SMTP id w127mr2298842oiw.101.1626869791382; 
- Wed, 21 Jul 2021 05:16:31 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=mDcO9rSv0CwDOTDGsBa8hb+peHAKULXX/KhUGTkInL4=;
+ b=dVhedRSMdS6erT1qCkuUrJqhdzUf4e7MkjTMj0LY7Rr/xqIyrd9kMLO4l1N3WqgbMe
+ pt+RD5XsCEO8bbgjAMTtq9HS+LLMe1fARhjl1CXVvh2t7cdpEOZPVhNdIzJfp81f0RBh
+ G27u2uKiR/d8O6U5J4OMhDRXh0NX2Lri2zGlkEQwn6Vzj88e+iRz52BCvV+OLEIGB6yw
+ ZdnrKnSMQfbX5+x726MHXPjR8W5lujbybb6ujEOleytG/rzVpe4RSp8nZm81PvnwR9qd
+ xIDUT3Te51TSL4RoawKj+smEWbB/FtXXRt87iDiwpa35dIAwNdIkJMT8VDqPQzRVcJaK
+ 8DkA==
+X-Gm-Message-State: AOAM531xICEhJey5MzvqxGYcxhaBZiEgedj245+Vk6q/fnInib0Ygwdk
+ N6sZT+hesP/UoJw+SVlxsCA=
+X-Google-Smtp-Source: ABdhPJwuSl5jkKmRAqUpEfZa0g9xbPiIkWL3vWnhlQtYHubheW20Ucmqo1Xkk8Q4Eoj11/peBJEhLA==
+X-Received: by 2002:a17:90a:8912:: with SMTP id
+ u18mr35697665pjn.90.1626871444841; 
+ Wed, 21 Jul 2021 05:44:04 -0700 (PDT)
+Received: from [192.168.1.237] ([118.200.190.93])
+ by smtp.gmail.com with ESMTPSA id mu9sm5290903pjb.26.2021.07.21.05.44.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 21 Jul 2021 05:44:04 -0700 (PDT)
+Subject: Re: [PATCH v8 0/5] drm: address potential UAF bugs with drm_master
+ ptrs
+To: Daniel Vetter <daniel@ffwll.ch>
+References: <20210712043508.11584-1-desmondcheongzx@gmail.com>
+ <YPcU3wJK7kC5b7kv@phenom.ffwll.local>
+ <50c5582b-c674-4ef8-585f-7a3d78a49f85@gmail.com>
+ <CAKMK7uGvb3O9Ypd73xZf6bdMcXJyGJw4C7GXGprkZLpN9Gx7qQ@mail.gmail.com>
+From: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+Message-ID: <52c4207a-6830-01c9-a28c-635c68de3e14@gmail.com>
+Date: Wed, 21 Jul 2021 20:43:58 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210721114449.196015-1-matthew.auld@intel.com>
-In-Reply-To: <20210721114449.196015-1-matthew.auld@intel.com>
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Wed, 21 Jul 2021 14:16:20 +0200
-Message-ID: <CAKMK7uEDKc838yoF3R7JMS4O3qetVZqfiM9YT58DtRCkbnP=6g@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] drm/i915: document caching related bits
-To: Matthew Auld <matthew.auld@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <CAKMK7uGvb3O9Ypd73xZf6bdMcXJyGJw4C7GXGprkZLpN9Gx7qQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,361 +76,152 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mika Kuoppala <mika.kuoppala@linux.intel.com>,
+Cc: Dave Airlie <airlied@linux.ie>, Greg KH <gregkh@linuxfoundation.org>,
  intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Emil Velikov <emil.l.velikov@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Shuah Khan <skhan@linuxfoundation.org>,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 21, 2021 at 1:46 PM Matthew Auld <matthew.auld@intel.com> wrote=
-:
->
-> Try to document the object caching related bits, like cache_coherent and
-> cache_dirty.
->
-> v2(Ville):
->  - As pointed out by Ville, fix the completely incorrect assumptions
->    about the "partial" coherency on shared LLC platforms.
->
-> Suggested-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
-> Cc: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
-> Cc: Mika Kuoppala <mika.kuoppala@linux.intel.com>
-> ---
->  .../gpu/drm/i915/gem/i915_gem_object_types.h  | 173 +++++++++++++++++-
->  drivers/gpu/drm/i915/i915_drv.h               |   9 -
->  2 files changed, 169 insertions(+), 13 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h b/drivers/g=
-pu/drm/i915/gem/i915_gem_object_types.h
-> index ef3de2ae9723..a809424bc8c1 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
-> @@ -92,6 +92,76 @@ struct drm_i915_gem_object_ops {
->         const char *name; /* friendly name for debug, e.g. lockdep classe=
-s */
->  };
->
-> +/**
-> + * enum i915_cache_level - The supported GTT caching values for system m=
-emory
-> + * pages.
-> + *
-> + * These translate to some special GTT PTE bits when binding pages into =
-some
-> + * address space. It also determines whether an object, or rather its pa=
-ges are
-> + * coherent with the GPU, when also reading or writing through the CPU c=
-ache
-> + * with those pages.
-> + *
-> + * Userspace can also control this through struct drm_i915_gem_caching.
-> + */
-> +enum i915_cache_level {
-> +       /**
-> +        * @I915_CACHE_NONE:
-> +        *
-> +        * Not coherent with the CPU cache. If the cache is dirty and we =
-need
-> +        * the underlying pages to be coherent with some later GPU access=
- then
-> +        * we need to manually flush the pages.
-> +        *
-> +        * Note that on shared LLC platforms reads and writes through the=
- CPU
-> +        * cache are still coherent even with this setting. See also
-> +        * &drm_i915_gem_object.cache_coherent for more details.
-> +        *
-> +        * Note that on platforms with a shared LLC this should ideally o=
-nly be
-> +        * used for scanout surfaces, otherwise we end up over-flushing i=
-n some
-> +        * places.
-> +        */
-> +       I915_CACHE_NONE =3D 0,
-> +       /**
-> +        * @I915_CACHE_LLC:
-> +        *
-> +        * Coherent with the CPU cache. If the cache is dirty, then the G=
-PU will
-> +        * ensure that access remains coherent, when both reading and wri=
-ting
-> +        * through the CPU cache.
-> +        *
-> +        * Not used for scanout surfaces.
-> +        *
-> +        * Applies to both platforms with shared LLC(HAS_LLC), and snoopi=
-ng
-> +        * based platforms(HAS_SNOOP).
-> +        *
-> +        * This should be the default for platforms which share the LLC w=
-ith the
-> +        * CPU. The only exception is scanout objects, where the display =
-engine
-> +        * is not coherent with the LLC. For such objects I915_CACHE_NONE=
- or
-> +        * I915_CACHE_WT should be used.
-> +        */
-> +       I915_CACHE_LLC,
-> +       /**
-> +        * @I915_CACHE_L3_LLC:
-> +        *
-> +        * Explicitly enable the Gfx L3 cache, with snooped LLC.
-> +        *
-> +        * The Gfx L3 sits between the domain specific caches, e.g
-> +        * sampler/render caches, and the larger LLC. LLC is coherent wit=
-h the
-> +        * GPU, but L3 is only visible to the GPU, so likely needs to be =
-flushed
-> +        * when the workload completes.
-> +        *
-> +        * Not used for scanout surfaces.
-> +        *
-> +        * Only exposed on some gen7 + GGTT. More recent hardware has dro=
-pped
-> +        * this.
-> +        */
-> +       I915_CACHE_L3_LLC,
-> +       /**
-> +        * @I915_CACHE_WT:
-> +        *
-> +        * hsw:gt3e Write-through for scanout buffers.
-> +        */
-> +       I915_CACHE_WT,
-> +};
-> +
->  enum i915_map_type {
->         I915_MAP_WB =3D 0,
->         I915_MAP_WC,
-> @@ -228,14 +298,109 @@ struct drm_i915_gem_object {
->         unsigned int mem_flags;
->  #define I915_BO_FLAG_STRUCT_PAGE BIT(0) /* Object backed by struct pages=
- */
->  #define I915_BO_FLAG_IOMEM       BIT(1) /* Object backed by IO memory */
-> -       /*
-> -        * Is the object to be mapped as read-only to the GPU
-> -        * Only honoured if hardware has relevant pte bit
-> +       /**
-> +        * @cache_level: The desired GTT caching level.
-> +        *
-> +        * See enum i915_cache_level for possible values, along with what
-> +        * each does.
->          */
->         unsigned int cache_level:3;
-> -       unsigned int cache_coherent:2;
-> +       /**
-> +        * @cache_coherent:
-> +        *
-> +        * Track whether the pages are coherent with the GPU if reading o=
-r
-> +        * writing through the CPU caches. The largely depends on the
-> +        * @cache_level setting.
-> +        *
-> +        * On platforms which don't have the shared LLC(HAS_SNOOP), like =
-on Atom
-> +        * platforms, coherency must be explicitly requested with some sp=
-ecial
-> +        * GTT caching bits(see enum i915_cache_level). When enabling coh=
-erency
-> +        * it does come at a performance and power cost on such platforms=
-. On
-> +        * the flip side the kernel does need to manually flush any buffe=
-rs
-> +        * which need to be coherent with the GPU, if the object is not
-> +        * coherent i.e @cache_coherent is zero.
-> +        *
-> +        * On platforms that share the LLC with the CPU(HAS_LLC), all GT =
-memory
-> +        * access will automatically snoop the CPU caches(even with CACHE=
-_NONE).
-> +        * The one exception is when dealing with the display engine, lik=
-e with
-> +        * scanout surfaces. To handle this the kernel will always flush =
-the
-> +        * surface out of the CPU caches when preparing it for scanout.  =
-Also
-> +        * note that since scanout surfaces are only ever read by the dis=
-play
-> +        * engine we only need to care about flushing any writes through =
-the CPU
-> +        * cache, reads on the other hand will always be coherent.
-> +        *
-> +        * Something strange here is why @cache_coherent is not a simple
-> +        * boolean, i.e coherent vs non-coherent. The reasoning for this =
-is back
-> +        * to the display engine not being fully coherent. As a result sc=
-anout
-> +        * surfaces will either be marked as I915_CACHE_NONE or I915_CACH=
-E_WT.
-> +        * In the case of seeing I915_CACHE_NONE the kernel makes the ass=
-umption
-> +        * that this is likely a scanout surface, and will set @cache_coh=
-erent
-> +        * as only I915_BO_CACHE_COHERENT_FOR_READ, on platforms with the=
- shared
-> +        * LLC. The kernel uses this to avoid flushing reads, while then =
-also
-> +        * applying some optimisations to always flush writes through the=
- CPU
-> +        * cache as early as possible, where it can, in effect keeping
-> +        * @cache_dirty clean, so we can potentially avoid stalling when
-> +        * flushing the surface just before doing the scanout.  This does=
- mean
-> +        * we might unnecessarily flush non-scanout objects in some place=
-s, but
-> +        * the default assumption is that all normal objects should be us=
-ing
-> +        * I915_CACHE_LLC, at least on platforms with the shared LLC.
-> +        *
-> +        * I915_BO_CACHE_COHERENT_FOR_READ:
-> +        *
-> +        * When reading through the CPU cache, the GPU is still coherent.=
- Reads
-> +        * through the CPU cache only become a concern when writes can by=
-pass
-> +        * the CPU cache.
-> +        *
-> +        * As an example, if some object is mapped on the CPU with write-=
-back
-> +        * caching, and we read some page, then the cache likely now cont=
-ains
-> +        * the data from that read. At this point the cache and main memo=
-ry
-> +        * match up, so all good. But next the GPU needs to write some da=
-ta to
-> +        * that same page. Now if the @cache_level is I915_CACHE_NONE and=
- the
-> +        * the platform doesn't have the shared LLC, then the GPU will
-> +        * effectively skip invalidating the cache(or however that works
-> +        * internally) when writing the new value.  This is really bad si=
-nce the
-> +        * GPU has just written some new data to main memory, but the CPU=
- cache
-> +        * is still valid and now contains stale data. As a result the ne=
-xt time
-> +        * we do a cached read with the CPU, we are rewarded with stale d=
-ata.
-> +        * Likewise if the cache is later flushed, we might be rewarded w=
-ith
-> +        * overwriting main memory with stale data.
+On 21/7/21 6:29 pm, Daniel Vetter wrote:
+> On Wed, Jul 21, 2021 at 6:12 AM Desmond Cheong Zhi Xi
+> <desmondcheongzx@gmail.com> wrote:
+>> On 21/7/21 2:24 am, Daniel Vetter wrote:
+>>> On Mon, Jul 12, 2021 at 12:35:03PM +0800, Desmond Cheong Zhi Xi wrote:
+>>>> Hi,
+>>>>
+>>>> In the previous thread on this series we decided to remove a patch that was violating a lockdep requirement in drm_lease. In addition to this change, I took a closer look at the CI logs for the Basic Acceptance Tests and noticed that another regression was introduced. The new patch 2 is a response to this.
+>>>>
+>>>> Overall, this series addresses potential use-after-free errors when dereferencing pointers to struct drm_master. These were identified after one such bug was caught by Syzbot in drm_getunique():
+>>>> https://syzkaller.appspot.com/bug?id=148d2f1dfac64af52ffd27b661981a540724f803
+>>>>
+>>>> The series is broken up into five patches:
+>>>>
+>>>> 1. Move a call to drm_is_current_master() out from a section locked by &dev->mode_config.mutex in drm_mode_getconnector(). This patch does not apply to stable.
+>>>>
+>>>> 2. Move a call to drm_is_current_master() out from the RCU read-side critical section in drm_clients_info().
+>>>>
+>>>> 3. Implement a locked version of drm_is_current_master() function that's used within drm_auth.c.
+>>>>
+>>>> 4. Serialize drm_file.master by introducing a new spinlock that's held whenever the value of drm_file.master changes.
+>>>>
+>>>> 5. Identify areas in drm_lease.c where pointers to struct drm_master are dereferenced, and ensure that the master pointers are not freed during use.
+>>>>
+>>>> v7 -> v8:
+>>>> - Remove the patch that moves the call to _drm_lease_held out from the section locked by &dev->mode_config.idr_mutex in __drm_mode_object_find. This patch violated an existing lockdep requirement as reported by the intel-gfx CI.
+>>>> - Added a new patch that moves a call to drm_is_current_master out from the RCU critical section in drm_clients_info. This was reported by the intel-gfx CI.
+>>>>
+>>>> v6 -> v7:
+>>>> - Modify code alignment as suggested by the intel-gfx CI.
+>>>> - Add a new patch to the series that adds a new lock to serialize drm_file.master, in response to the lockdep splat by the intel-gfx CI.
+>>>> - Update drm_file_get_master to use the new drm_file.master_lock instead of drm_device.master_mutex, in response to the lockdep splat by the intel-gfx CI.
+>>>>
+>>>> v5 -> v6:
+>>>> - Add a new patch to the series that moves the call to _drm_lease_held out from the section locked by &dev->mode_config.idr_mutex in __drm_mode_object_find.
+>>>> - Clarify the kerneldoc for dereferencing drm_file.master, as suggested by Daniel Vetter.
+>>>> - Refactor error paths with goto labels so that each function only has a single drm_master_put(), as suggested by Emil Velikov.
+>>>> - Modify comparisons to NULL into "!master", as suggested by the intel-gfx CI.
+>>>>
+>>>> v4 -> v5:
+>>>> - Add a new patch to the series that moves the call to drm_is_current_master in drm_mode_getconnector out from the section locked by &dev->mode_config.mutex.
+>>>> - Additionally, added a missing semicolon to the patch, caught by the intel-gfx CI.
+>>>>
+>>>> v3 -> v4:
+>>>> - Move the call to drm_is_current_master in drm_mode_getconnector out from the section locked by &dev->mode_config.mutex. As suggested by Daniel Vetter. This avoids a circular lock lock dependency as reported here https://patchwork.freedesktop.org/patch/440406/
+>>>> - Inside drm_is_current_master, instead of grabbing &fpriv->master->dev->master_mutex, we grab &fpriv->minor->dev->master_mutex to avoid dereferencing a null ptr if fpriv->master is not set.
+>>>> - Modify kerneldoc formatting for drm_file.master, as suggested by Daniel Vetter.
+>>>> - Additionally, add a file_priv->master NULL check inside drm_file_get_master, and handle the NULL result accordingly in drm_lease.c. As suggested by Daniel Vetter.
+>>>>
+>>>> v2 -> v3:
+>>>> - Move the definition of drm_is_current_master and the _locked version higher up in drm_auth.c to avoid needing a forward declaration of drm_is_current_master_locked. As suggested by Daniel Vetter.
+>>>> - Instead of leaking drm_device.master_mutex into drm_lease.c to protect drm_master pointers, add a new drm_file_get_master() function that returns drm_file->master while increasing its reference count, to prevent drm_file->master from being freed. As suggested by Daniel Vetter.
+>>>>
+>>>> v1 -> v2:
+>>>> - Move the lock and assignment before the DRM_DEBUG_LEASE in drm_mode_get_lease_ioctl, as suggested by Emil Velikov.
+>>>
+>>> Apologies for the delay, I missed your series. Maybe just ping next time
+>>> around there's silence.
+>>>
+>>> Looks all great, merged to drm-misc-next. Given how complex this was I'm
+>>> vary of just pushing this to -fixes without some solid testing.
+>>>
+>>
+>> Hi Daniel,
+>>
+>> Thanks for merging, more testing definitely sounds good to me.
+>>
+>>> One thing I noticed is that drm_is_current_master could just use the
+>>> spinlock, since it's only doing a read access. Care to type up that patch?
+>>>
+>>
+>> I thought about this too, but I'm not sure if that's the best solution.
+>>
+>> drm_is_current_master calls drm_lease_owner which then walks up the tree
+>> of master lessors. The spinlock protects the master of the current drm
+>> file, but subsequent lessors aren't protected without holding the
+>> device's master mutex.
+> 
+> But this isn't a fpriv->master pointer, but a master->lessor pointer.
+> Which should never ever be able to change (we'd have tons of uaf bugs
+> around drm_lease_owner otherwise). So I don't think there's anything
+> that dev->master_lock protects here that fpriv->master_lookup_lock
+> doesn't protect already?
+> 
+> Or am I missing something?
+>  > The comment in the struct drm_master says it's protected by
+> mode_config.idr_mutex, but that only applies to the idrs and lists I
+> think.
+> 
 
-This cannot happen.
+Ah you're right, I also completely forgot that lessees hold a reference 
+to their lessor so nothing will be freed as long as the spinlock is 
+held. I'll prepare that patch then, thanks for pointing it out.
 
-If it does our entire clflush scheme would fall apart. We rely on an
-IA guarantee that clean cachelines are dropped, never written back.
+>>> Also, do you plan to look into that idea we've discussed to flush pending
+>>> access when we revoke a master or a lease? I think that would be really
+>>> nice improvement here.
+>>> -Daniel
+>>>
+>>
+>> Yup, now that the potential UAFs are addressed (hopefully), I'll take a
+>> closer look and propose a patch for this.
+> 
+> Thanks a lot.
+> -Daniel
+> 
+>>
+>> Best wishes,
+>> Desmond
+>>
+>>>>
+>>>> Desmond Cheong Zhi Xi (5):
+>>>>     drm: avoid circular locks in drm_mode_getconnector
+>>>>     drm: avoid blocking in drm_clients_info's rcu section
+>>>>     drm: add a locked version of drm_is_current_master
+>>>>     drm: serialize drm_file.master with a new spinlock
+>>>>     drm: protect drm_master pointers in drm_lease.c
+>>>>
+>>>>    drivers/gpu/drm/drm_auth.c      | 93 ++++++++++++++++++++++++---------
+>>>>    drivers/gpu/drm/drm_connector.c |  5 +-
+>>>>    drivers/gpu/drm/drm_debugfs.c   |  3 +-
+>>>>    drivers/gpu/drm/drm_file.c      |  1 +
+>>>>    drivers/gpu/drm/drm_lease.c     | 81 +++++++++++++++++++++-------
+>>>>    include/drm/drm_auth.h          |  1 +
+>>>>    include/drm/drm_file.h          | 18 +++++--
+>>>>    7 files changed, 152 insertions(+), 50 deletions(-)
+>>>>
+>>>> --
+>>>> 2.25.1
+>>>>
+>>>
+>>
+> 
+> 
 
-Also I'm honeslty wondering why we're storing this in the object and
-not computing from cache_level and the platform? Or is this indeed set
-anytime later on?
-
-> +        *
-> +        * I915_BO_CACHE_COHERENT_FOR_WRITE:
-> +        *
-> +        * When writing through the CPU cache, the GPU is still coherent.=
- Note
-> +        * that this also implies I915_BO_CACHE_COHERENT_FOR_READ.
-> +        */
->  #define I915_BO_CACHE_COHERENT_FOR_READ BIT(0)
->  #define I915_BO_CACHE_COHERENT_FOR_WRITE BIT(1)
-> +       unsigned int cache_coherent:2;
-> +
-> +       /**
-> +        * @cache_dirty:
-> +        *
-> +        * Track if we are we dirty with writes through the CPU cache for=
- this
-> +        * object. As a result reading directly from main memory might yi=
-eld
-> +        * stale data.
-> +        *
-> +        * This also ties into whether the kernel is tracking the object =
-as
-> +        * coherent with the GPU, as per @cache_coherent, as it determine=
-s if
-> +        * flushing might be needed at various points.
-> +        *
-> +        * Another part of @cache_dirty is managing flushing when first
-> +        * acquiring the pages for system memory, at this point the pages=
- are
-> +        * considered foreign, so the default assumption is that the cach=
-e is
-> +        * dirty, for example the page zeroing done by the kernel might l=
-eave
-> +        * writes though the CPU cache, or swapping-in, while the actual =
-data in
-> +        * main memory is potentially stale.  Note that this is a potenti=
-al
-> +        * security issue when dealing with userspace objects and zeroing=
-. Now,
-> +        * whether we actually need apply the big sledgehammer of flushin=
-g all
-> +        * the pages on acquire depends on if @cache_coherent is marked a=
-s
-> +        * I915_BO_CACHE_COHERENT_FOR_WRITE, i.e that the GPU will be coh=
-erent
-> +        * for both reads and writes though the CPU cache.
-> +        *
-> +        * Note that on shared LLC platforms we still apply the heavy flu=
-sh for
-> +        * I915_CACHE_NONE objects, under the assumption that this is goi=
-ng to
-> +        * be used for scanout.
-
-Uh, this makes me feel like the ehl w/a is extremely fragile.
-
-Essentially what we're exploiting is the fact that on LLC the gpu
-cannot ever do a non-coherent write, it's always coherent with cpu
-caches. And so all this does is make sure we keep flushing for display
-reads, which also happens to be good enough for other reads that
-bypass the coherence with the new MOCS setting.
-
-I feel like Ville's take of making this explicit about "needs
-invalidate" and "needs flush" (which is what this stuff was all called
-way back), maybe as functions even instead of bits we set that might
-go out of sync, would be a lot clearer?
-
-And then that function could have lots of comments about why we needs
-flushes/invalidates in certain cases and why not in others.
-
-Anyway that would be future work I guess, for now lets try to just
-document this as correctly as we can.
--Daniel
-
-
-> +        */
->         unsigned int cache_dirty:1;
->
->         /**
-> diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_=
-drv.h
-> index f99b6c0dd068..ac144d0c69a5 100644
-> --- a/drivers/gpu/drm/i915/i915_drv.h
-> +++ b/drivers/gpu/drm/i915/i915_drv.h
-> @@ -394,15 +394,6 @@ struct drm_i915_display_funcs {
->         void (*read_luts)(struct intel_crtc_state *crtc_state);
->  };
->
-> -enum i915_cache_level {
-> -       I915_CACHE_NONE =3D 0,
-> -       I915_CACHE_LLC, /* also used for snoopable memory on non-LLC */
-> -       I915_CACHE_L3_LLC, /* gen7+, L3 sits between the domain specifc
-> -                             caches, eg sampler/render caches, and the
-> -                             large Last-Level-Cache. LLC is coherent wit=
-h
-> -                             the CPU, but L3 is only visible to the GPU.=
- */
-> -       I915_CACHE_WT, /* hsw:gt3e WriteThrough for scanouts */
-> -};
->
->  #define I915_COLOR_UNEVICTABLE (-1) /* a non-vma sharing the address spa=
-ce */
->
-> --
-> 2.26.3
->
-
-
---=20
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
