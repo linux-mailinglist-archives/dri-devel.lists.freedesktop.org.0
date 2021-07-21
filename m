@@ -1,59 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 684B93D09E2
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 09:41:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E0BC3D0A2A
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 09:59:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A3D266E8B7;
-	Wed, 21 Jul 2021 07:41:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F30766E311;
+	Wed, 21 Jul 2021 07:59:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com
- [IPv6:2607:f8b0:4864:20::532])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8096D6E8B7
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 07:41:48 +0000 (UTC)
-Received: by mail-pg1-x532.google.com with SMTP id u14so1068630pga.11
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 00:41:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=EHrMYnmrqqps7KOsbQ+zFfjy1540sLGCjNN4no0R6dc=;
- b=ae57HW7kcFptNiRrnwFFXWx0zWINl/dooiA0FotW58YpUUrl7UK8y3DhbqWU4bcHl6
- VWnb744kJu48bZFP/4V+zRfOE3aTPidXn/ozRy8HM7oo+xptW3zFKLi4HXvBgJiHSa47
- U4jWvkbgPHnQw11TDv6LKfoPQwqh3q1Vb+FzumOMaattsg+mNLb6Byz83Z4vRBZ1efUh
- T8Dtw2aU3VJlHIV75Upm/JcEIjFI4jLWNpqIDPM+BpqYbUnhnvqaLJRyCO9nReLeE2Ck
- Hzh5BiSa1BabBuTL+LFEGlMsAYsH9sfsZ0HZ8mqxAqaBsKLWJo9bAyvl95wiBTUyeQLc
- sdXQ==
+Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com
+ [IPv6:2607:f8b0:4864:20::32e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A37FC6E311
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 07:59:31 +0000 (UTC)
+Received: by mail-ot1-x32e.google.com with SMTP id
+ s2-20020a0568301e02b02904ce2c1a843eso1269713otr.13
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 00:59:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=i1uzYLmR5eIDsH2uz91oXJvOO8JLzGZfgbFg19OYUOg=;
+ b=iIIO8uiPJd8ABtw13Umn0Qzy4qd108xTqg9zeHtryzTqn1f23VsT6sj+Xdy7fw5pB0
+ JXSSOKWxIHPm+DTThfW4L7RTzyfLxc59rBMx365YGzyk7XQRM47pp7v+T9hNYttlfAKv
+ plx0mOufPHR8h5iNXoImM0LMpyzeJIirrUpPY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=EHrMYnmrqqps7KOsbQ+zFfjy1540sLGCjNN4no0R6dc=;
- b=IvvWGmM4dz+Ij4QHb1Ii9QF1hrUKibRoNiwYbH5V/6Wy84JdKup01pGpXAyE2wJe0/
- jpGJKEIr6g4N6wVrtDH+A7tCiAocqfkVsyoad6BWw2sOsxoIgwSrxy+cjszz5drUkMWd
- jyNo7QHYoPXYd/bVL+71TuYTVAWV6GN8B3+lB+GGZxL/yzn/o3I0QnmXTpKl4cPVfYUS
- +y4bFWQReNAXcXR99vuEyQzhQxnehr12gnLin98P7C6kr8TJThQH7TNN0nPdgeowVMLY
- ja22PAhwYpmTyI7PKRvwFqu9L71eho2n5FUfP9Sbu3nkycQWE90RzNjOfI3zq6ttvO9Y
- NfCg==
-X-Gm-Message-State: AOAM531iL4uG1q45i5ttoWHbbQVMALo9daU51/gnv1YvXcmOe5kwzRXg
- bUN3amftKsZF192BiwVgJ4c=
-X-Google-Smtp-Source: ABdhPJw+3ppVMsdVk3HkWvXD4RIXRLHbraq26VqRGVt+zhZiw3NgUc5g8Pl6uJrq74M/8vjkcxF5Iw==
-X-Received: by 2002:a65:578e:: with SMTP id b14mr34778556pgr.117.1626853308000; 
- Wed, 21 Jul 2021 00:41:48 -0700 (PDT)
-Received: from fmin-OptiPlex-7060.nreal.work ([137.59.103.165])
- by smtp.gmail.com with ESMTPSA id i8sm4841867pjh.36.2021.07.21.00.41.44
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 21 Jul 2021 00:41:47 -0700 (PDT)
-From: dillon.minfei@gmail.com
-To: thierry.reding@gmail.com, sam@ravnborg.org, airlied@linux.ie,
- daniel@ffwll.ch, robh+dt@kernel.org, linus.walleij@linaro.org,
- alexandre.torgue@foss.st.com, mcoquelin.stm32@gmail.com
-Subject: [PATCH v2 3/3] drm/panel: Add ilitek ili9341 panel driver
-Date: Wed, 21 Jul 2021 15:41:28 +0800
-Message-Id: <1626853288-31223-4-git-send-email-dillon.minfei@gmail.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1626853288-31223-1-git-send-email-dillon.minfei@gmail.com>
-References: <1626853288-31223-1-git-send-email-dillon.minfei@gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=i1uzYLmR5eIDsH2uz91oXJvOO8JLzGZfgbFg19OYUOg=;
+ b=daKE8w1eTEgNsSepOFXhzIDDRvimvOJX9EJnVZ+drGQnFrwvNNsyqFFc2wI93hVyZ2
+ yVwcd5dUoWcCh8hxHd+gRmIt4iCRS/WZmdVEg9gJa5sQ6TgN+P8t5jZ+ikK5ywI0kqLz
+ cNVzhZOV13lGx40wduwby8INAfmJDPkNN5J8jzALZGhdUjDJ9PgjH0+s1uF7c+w04Brm
+ YQPAFzJdmUoYrWEeHYi6Btf9sWXUh2yn12QJLp6TcDHFjKWCWsOMzFal/sWJUBHbL8GJ
+ KTyrzjmQnSSkxuvm1BO2P1ZfTE+n+BtdAj38FHil1lKvH9pozhvycrfPW4y//h0TJbq2
+ CvqA==
+X-Gm-Message-State: AOAM533piZf/j6NJX17UPhFYIM7MGU9JpsfAgOqEZmXZVsimz/LHeGCM
+ +P3Qi6stUaO2byGKBdBAWoqYR/fJ77iQghqEXCcDGA==
+X-Google-Smtp-Source: ABdhPJzlBV2SpVcZvVFa40w7afLAaXHdHt5EO5vd/HzIEfGT9t2nEOfXFCaT4JwjLsT9zv7LjEY872P7lUIno55+qlo=
+X-Received: by 2002:a9d:6d86:: with SMTP id x6mr11443606otp.188.1626854370953; 
+ Wed, 21 Jul 2021 00:59:30 -0700 (PDT)
+MIME-Version: 1.0
+References: <20210720150716.1213775-1-robdclark@gmail.com>
+ <60ffb6f3-e932-d9af-3b90-81adf0c15250@gmail.com>
+ <CAF6AEGtOW3EjZWo36ij8U1om=gAqvg8CSkJJq2GkyHFGWUH4kQ@mail.gmail.com>
+ <CAKMK7uF1=Y6_9znGoWG8GrteXBBRmyW8C3bFE+eJQqOj0A1buA@mail.gmail.com>
+ <CAF6AEGsOVPdMkXwU9C+nDfQpPThveJ2A0jbXi43RRkkJKtnz3w@mail.gmail.com>
+In-Reply-To: <CAF6AEGsOVPdMkXwU9C+nDfQpPThveJ2A0jbXi43RRkkJKtnz3w@mail.gmail.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Wed, 21 Jul 2021 09:59:20 +0200
+Message-ID: <CAKMK7uHMXFqic=9APJrSf6totB8nGZTDe4x8+sv-drmV4Q+4Bg@mail.gmail.com>
+Subject: Re: [Linaro-mm-sig] [PATCH] drm/msm: Add fence->wait() op
+To: Rob Clark <robdclark@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,851 +65,231 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, dianders@chromium.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- noralf@tronnes.org, Dillon Min <dillon.minfei@gmail.com>,
- linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org
+Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ open list <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Sean Paul <sean@poorly.run>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <freedreno@lists.freedesktop.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dillon Min <dillon.minfei@gmail.com>
+On Wed, Jul 21, 2021 at 12:32 AM Rob Clark <robdclark@gmail.com> wrote:
+>
+> On Tue, Jul 20, 2021 at 1:55 PM Daniel Vetter <daniel@ffwll.ch> wrote:
+> >
+> > On Tue, Jul 20, 2021 at 8:26 PM Rob Clark <robdclark@gmail.com> wrote:
+> > >
+> > > On Tue, Jul 20, 2021 at 11:03 AM Christian K=C3=B6nig
+> > > <ckoenig.leichtzumerken@gmail.com> wrote:
+> > > >
+> > > > Hi Rob,
+> > > >
+> > > > Am 20.07.21 um 17:07 schrieb Rob Clark:
+> > > > > From: Rob Clark <robdclark@chromium.org>
+> > > > >
+> > > > > Somehow we had neither ->wait() nor dma_fence_signal() calls, and=
+ no
+> > > > > one noticed.  Oops.
+> > > >
+> > > >
+> > > > I'm not sure if that is a good idea.
+> > > >
+> > > > The dma_fence->wait() callback is pretty much deprecated and should=
+ not
+> > > > be used any more.
+> > > >
+> > > > What exactly do you need that for?
+> > >
+> > > Well, the alternative is to track the set of fences which have
+> > > signalling enabled, and then figure out which ones to signal, which
+> > > seems like a lot more work, vs just re-purposing the wait
+> > > implementation we already have for non-dma_fence cases ;-)
+> > >
+> > > Why is the ->wait() callback (pretty much) deprecated?
+> >
+> > Because if you need it that means for your driver dma_fence_add_cb is
+> > broken, which means a _lot_ of things don't work. Like dma_buf poll
+> > (compositors have patches to start using that), and I think
+> > drm/scheduler also becomes rather unhappy.
+>
+> I'm starting to page back in how this works.. fence cb's aren't broken
+> (which is also why dma_fence_wait() was not completely broken),
+> because in retire_submits() we call
+> dma_fence_is_signaled(submit->hw_fence).
+>
+> But the reason that the custom wait function cleans up a tiny bit of
+> jank is that the wait_queue_head_t gets signaled earlier, before we
+> start iterating the submits and doing all that retire_submit() stuff
+> (unpin/unref bo's, etc).  I suppose I could just split things up to
+> call dma_fence_signal() earlier, and *then* do the retire_submits()
+> stuff.
 
-This driver combine tiny/ili9341.c mipi_dbi_interface driver
-with mipi_dpi_interface driver, can support ili9341 with serial
-mode or parallel rgb interface mode by register configuration.
+Yeah reducing the latency there sounds like a good idea.
+-Daniel
 
-Cc: Linus Walleij <linus.walleij@linaro.org>
-Signed-off-by: Dillon Min <dillon.minfei@gmail.com>
----
-changes in v2:
-- replace vcc regulator to three bulk regulators(vci, vddi, vddi-led)
-  according to linus suggestion, thanks.
+>
+> BR,
+> -R
+>
+> > It essentially exists only for old drivers where ->enable_signalling
+> > is unreliable and we paper over that with a retry loop in ->wait and
+> > pray no one notices that it's too butchered. The proper fix is to have
+> > a driver thread to guarantee that ->enable_signalling works reliable,
+> > so you don't need a ->wait.
+> >
+> > Can you type up a kerneldoc patch for dma_fence_ops->wait to hammer
+> > this in please?
+> > -Daniel
+> >
+> > >
+> > > BR,
+> > > -R
+> > >
+> > > > Regards,
+> > > > Christian.
+> > > >
+> > > > >
+> > > > > Note that this removes the !timeout case, which has not been used=
+ in
+> > > > > a long time.
+> > > >
+> > > >
+> > > > >
+> > > > > Signed-off-by: Rob Clark <robdclark@chromium.org>
+> > > > > ---
+> > > > >   drivers/gpu/drm/msm/msm_fence.c | 59 +++++++++++++++++++-------=
+-------
+> > > > >   1 file changed, 34 insertions(+), 25 deletions(-)
+> > > > >
+> > > > > diff --git a/drivers/gpu/drm/msm/msm_fence.c b/drivers/gpu/drm/ms=
+m/msm_fence.c
+> > > > > index cd59a5918038..8ee96b90ded6 100644
+> > > > > --- a/drivers/gpu/drm/msm/msm_fence.c
+> > > > > +++ b/drivers/gpu/drm/msm/msm_fence.c
+> > > > > @@ -38,11 +38,10 @@ static inline bool fence_completed(struct msm=
+_fence_context *fctx, uint32_t fenc
+> > > > >       return (int32_t)(fctx->completed_fence - fence) >=3D 0;
+> > > > >   }
+> > > > >
+> > > > > -/* legacy path for WAIT_FENCE ioctl: */
+> > > > > -int msm_wait_fence(struct msm_fence_context *fctx, uint32_t fenc=
+e,
+> > > > > -             ktime_t *timeout, bool interruptible)
+> > > > > +static signed long wait_fence(struct msm_fence_context *fctx, ui=
+nt32_t fence,
+> > > > > +             signed long remaining_jiffies, bool interruptible)
+> > > > >   {
+> > > > > -     int ret;
+> > > > > +     signed long ret;
+> > > > >
+> > > > >       if (fence > fctx->last_fence) {
+> > > > >               DRM_ERROR_RATELIMITED("%s: waiting on invalid fence=
+: %u (of %u)\n",
+> > > > > @@ -50,33 +49,34 @@ int msm_wait_fence(struct msm_fence_context *=
+fctx, uint32_t fence,
+> > > > >               return -EINVAL;
+> > > > >       }
+> > > > >
+> > > > > -     if (!timeout) {
+> > > > > -             /* no-wait: */
+> > > > > -             ret =3D fence_completed(fctx, fence) ? 0 : -EBUSY;
+> > > > > +     if (interruptible) {
+> > > > > +             ret =3D wait_event_interruptible_timeout(fctx->even=
+t,
+> > > > > +                     fence_completed(fctx, fence),
+> > > > > +                     remaining_jiffies);
+> > > > >       } else {
+> > > > > -             unsigned long remaining_jiffies =3D timeout_to_jiff=
+ies(timeout);
+> > > > > -
+> > > > > -             if (interruptible)
+> > > > > -                     ret =3D wait_event_interruptible_timeout(fc=
+tx->event,
+> > > > > -                             fence_completed(fctx, fence),
+> > > > > -                             remaining_jiffies);
+> > > > > -             else
+> > > > > -                     ret =3D wait_event_timeout(fctx->event,
+> > > > > -                             fence_completed(fctx, fence),
+> > > > > -                             remaining_jiffies);
+> > > > > -
+> > > > > -             if (ret =3D=3D 0) {
+> > > > > -                     DBG("timeout waiting for fence: %u (complet=
+ed: %u)",
+> > > > > -                                     fence, fctx->completed_fenc=
+e);
+> > > > > -                     ret =3D -ETIMEDOUT;
+> > > > > -             } else if (ret !=3D -ERESTARTSYS) {
+> > > > > -                     ret =3D 0;
+> > > > > -             }
+> > > > > +             ret =3D wait_event_timeout(fctx->event,
+> > > > > +                     fence_completed(fctx, fence),
+> > > > > +                     remaining_jiffies);
+> > > > > +     }
+> > > > > +
+> > > > > +     if (ret =3D=3D 0) {
+> > > > > +             DBG("timeout waiting for fence: %u (completed: %u)"=
+,
+> > > > > +                             fence, fctx->completed_fence);
+> > > > > +             ret =3D -ETIMEDOUT;
+> > > > > +     } else if (ret !=3D -ERESTARTSYS) {
+> > > > > +             ret =3D 0;
+> > > > >       }
+> > > > >
+> > > > >       return ret;
+> > > > >   }
+> > > > >
+> > > > > +/* legacy path for WAIT_FENCE ioctl: */
+> > > > > +int msm_wait_fence(struct msm_fence_context *fctx, uint32_t fenc=
+e,
+> > > > > +             ktime_t *timeout, bool interruptible)
+> > > > > +{
+> > > > > +     return wait_fence(fctx, fence, timeout_to_jiffies(timeout),=
+ interruptible);
+> > > > > +}
+> > > > > +
+> > > > >   /* called from workqueue */
+> > > > >   void msm_update_fence(struct msm_fence_context *fctx, uint32_t =
+fence)
+> > > > >   {
+> > > > > @@ -114,10 +114,19 @@ static bool msm_fence_signaled(struct dma_f=
+ence *fence)
+> > > > >       return fence_completed(f->fctx, f->base.seqno);
+> > > > >   }
+> > > > >
+> > > > > +static signed long msm_fence_wait(struct dma_fence *fence, bool =
+intr,
+> > > > > +             signed long timeout)
+> > > > > +{
+> > > > > +     struct msm_fence *f =3D to_msm_fence(fence);
+> > > > > +
+> > > > > +     return wait_fence(f->fctx, fence->seqno, timeout, intr);
+> > > > > +}
+> > > > > +
+> > > > >   static const struct dma_fence_ops msm_fence_ops =3D {
+> > > > >       .get_driver_name =3D msm_fence_get_driver_name,
+> > > > >       .get_timeline_name =3D msm_fence_get_timeline_name,
+> > > > >       .signaled =3D msm_fence_signaled,
+> > > > > +     .wait =3D msm_fence_wait,
+> > > > >   };
+> > > > >
+> > > > >   struct dma_fence *
+> > > >
+> >
+> >
+> >
+> > --
+> > Daniel Vetter
+> > Software Engineer, Intel Corporation
+> > http://blog.ffwll.ch
 
- drivers/gpu/drm/panel/Kconfig                |  12 +
- drivers/gpu/drm/panel/Makefile               |   1 +
- drivers/gpu/drm/panel/panel-ilitek-ili9341.c | 778 +++++++++++++++++++++++++++
- 3 files changed, 791 insertions(+)
- create mode 100644 drivers/gpu/drm/panel/panel-ilitek-ili9341.c
 
-diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
-index ef87d92cdf49..eb34b8d1b19a 100644
---- a/drivers/gpu/drm/panel/Kconfig
-+++ b/drivers/gpu/drm/panel/Kconfig
-@@ -124,6 +124,18 @@ config DRM_PANEL_ILITEK_IL9322
- 	  Say Y here if you want to enable support for Ilitek IL9322
- 	  QVGA (320x240) RGB, YUV and ITU-T BT.656 panels.
- 
-+config DRM_PANEL_ILITEK_ILI9341
-+	tristate "Ilitek ILI9341 240x320 QVGA panels"
-+	depends on OF && SPI
-+	depends on DRM_KMS_HELPER
-+	depends on DRM_KMS_CMA_HELPER
-+	depends on BACKLIGHT_CLASS_DEVICE
-+	select DRM_MIPI_DBI
-+	help
-+	  Say Y here if you want to enable support for Ilitek IL9341
-+	  QVGA (240x320) RGB panels. support serial & parallel rgb
-+	  interface.
-+
- config DRM_PANEL_ILITEK_ILI9881C
- 	tristate "Ilitek ILI9881C-based panels"
- 	depends on OF
-diff --git a/drivers/gpu/drm/panel/Makefile b/drivers/gpu/drm/panel/Makefile
-index cae4d976c069..0ecde184665d 100644
---- a/drivers/gpu/drm/panel/Makefile
-+++ b/drivers/gpu/drm/panel/Makefile
-@@ -11,6 +11,7 @@ obj-$(CONFIG_DRM_PANEL_ELIDA_KD35T133) += panel-elida-kd35t133.o
- obj-$(CONFIG_DRM_PANEL_FEIXIN_K101_IM2BA02) += panel-feixin-k101-im2ba02.o
- obj-$(CONFIG_DRM_PANEL_FEIYANG_FY07024DI26A30D) += panel-feiyang-fy07024di26a30d.o
- obj-$(CONFIG_DRM_PANEL_ILITEK_IL9322) += panel-ilitek-ili9322.o
-+obj-$(CONFIG_DRM_PANEL_ILITEK_ILI9341) += panel-ilitek-ili9341.o
- obj-$(CONFIG_DRM_PANEL_ILITEK_ILI9881C) += panel-ilitek-ili9881c.o
- obj-$(CONFIG_DRM_PANEL_INNOLUX_P079ZCA) += panel-innolux-p079zca.o
- obj-$(CONFIG_DRM_PANEL_JDI_LT070ME05000) += panel-jdi-lt070me05000.o
-diff --git a/drivers/gpu/drm/panel/panel-ilitek-ili9341.c b/drivers/gpu/drm/panel/panel-ilitek-ili9341.c
-new file mode 100644
-index 000000000000..717b0b930e2f
---- /dev/null
-+++ b/drivers/gpu/drm/panel/panel-ilitek-ili9341.c
-@@ -0,0 +1,778 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Ilitek ILI9341 TFT LCD drm_panel driver.
-+ *
-+ * This panel can be configured to support:
-+ * - 16-bit parallel RGB interface
-+ * - 18-bit parallel RGB interface
-+ * - 4-line serial spi interface
-+ *
-+ * Copyright (C) 2021 Dillon Min <dillon.minfei@gmail.com>
-+ * Derived from drivers/drm/gpu/panel/panel-ilitek-ili9322.c
-+ * the reuse of DBI abstraction part referred from Linus's patch
-+ * "drm/panel: s6e63m0: Switch to DBI abstraction for SPI"
-+ */
-+
-+#include <linux/bitops.h>
-+#include <linux/gpio/consumer.h>
-+#include <linux/module.h>
-+#include <linux/of_device.h>
-+#include <linux/regulator/consumer.h>
-+#include <linux/spi/spi.h>
-+#include <linux/delay.h>
-+#include <video/mipi_display.h>
-+#include <drm/drm_mipi_dbi.h>
-+#include <drm/drm_gem_framebuffer_helper.h>
-+#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_fb_helper.h>
-+#include <drm/drm_atomic_helper.h>
-+#include <drm/drm_gem_atomic_helper.h>
-+
-+#include <drm/drm_drv.h>
-+#include <drm/drm_modes.h>
-+#include <drm/drm_panel.h>
-+#include <drm/drm_print.h>
-+
-+#define ILI9341_RGB_INTERFACE  0xb0   /* RGB Interface Signal Control */
-+#define ILI9341_FRC            0xb1   /* Frame Rate Control register */
-+#define ILI9341_DFC            0xb6   /* Display Function Control register */
-+#define ILI9341_POWER1         0xc0   /* Power Control 1 register */
-+#define ILI9341_POWER2         0xc1   /* Power Control 2 register */
-+#define ILI9341_VCOM1          0xc5   /* VCOM Control 1 register */
-+#define ILI9341_VCOM2          0xc7   /* VCOM Control 2 register */
-+#define ILI9341_POWERA         0xcb   /* Power control A register */
-+#define ILI9341_POWERB         0xcf   /* Power control B register */
-+#define ILI9341_PGAMMA         0xe0   /* Positive Gamma Correction register */
-+#define ILI9341_NGAMMA         0xe1   /* Negative Gamma Correction register */
-+#define ILI9341_DTCA           0xe8   /* Driver timing control A */
-+#define ILI9341_DTCB           0xea   /* Driver timing control B */
-+#define ILI9341_POWER_SEQ      0xed   /* Power on sequence register */
-+#define ILI9341_3GAMMA_EN      0xf2   /* 3 Gamma enable register */
-+#define ILI9341_INTERFACE      0xf6   /* Interface control register */
-+#define ILI9341_PRC            0xf7   /* Pump ratio control register */
-+#define ILI9341_ETMOD	       0xb7   /* Entry mode set */
-+
-+#define ILI9341_MADCTL_BGR	BIT(3)
-+#define ILI9341_MADCTL_MV	BIT(5)
-+#define ILI9341_MADCTL_MX	BIT(6)
-+#define ILI9341_MADCTL_MY	BIT(7)
-+
-+#define ILI9341_POWER_B_LEN	3
-+#define ILI9341_POWER_SEQ_LEN	4
-+#define ILI9341_DTCA_LEN	3
-+#define ILI9341_DTCB_LEN	2
-+#define ILI9341_POWER_A_LEN	5
-+#define ILI9341_DFC_1_LEN	2
-+#define ILI9341_FRC_LEN		2
-+#define ILI9341_VCOM_1_LEN	2
-+#define ILI9341_DFC_2_LEN	4
-+#define ILI9341_COLUMN_ADDR_LEN	4
-+#define ILI9341_PAGE_ADDR_LEN	4
-+#define ILI9341_INTERFACE_LEN	3
-+#define ILI9341_PGAMMA_LEN	15
-+#define ILI9341_NGAMMA_LEN	15
-+#define ILI9341_CA_LEN		3
-+
-+#define ILI9341_PIXEL_DPI_16_BITS	(BIT(6) | BIT(4))
-+#define ILI9341_PIXEL_DPI_18_BITS	(BIT(6) | BIT(5))
-+#define ILI9341_GAMMA_CURVE_1		BIT(0)
-+#define ILI9341_IF_WE_MODE		BIT(0)
-+#define ILI9341_IF_BIG_ENDIAN		0x00
-+#define ILI9341_IF_DM_RGB		BIT(2)
-+#define ILI9341_IF_DM_INTERNAL		0x00
-+#define ILI9341_IF_DM_VSYNC		BIT(3)
-+#define ILI9341_IF_RM_RGB		BIT(1)
-+#define ILI9341_IF_RIM_RGB		0x00
-+
-+#define ILI9341_COLUMN_ADDR		0x00ef
-+#define ILI9341_PAGE_ADDR		0x013f
-+
-+#define ILI9341_RGB_EPL			BIT(0)
-+#define ILI9341_RGB_DPL			BIT(1)
-+#define ILI9341_RGB_HSPL		BIT(2)
-+#define ILI9341_RGB_VSPL		BIT(3)
-+#define ILI9341_RGB_DE_MODE		BIT(6)
-+#define ILI9341_RGB_DISP_PATH_MEM	BIT(7)
-+
-+#define ILI9341_DBI_VCOMH_4P6V		0x23
-+#define ILI9341_DBI_PWR_2_DEFAULT	0x10
-+#define ILI9341_DBI_PRC_NORMAL		0x20
-+#define ILI9341_DBI_VCOM_1_VMH_4P25V	0x3e
-+#define ILI9341_DBI_VCOM_1_VML_1P5V	0x28
-+#define ILI9341_DBI_VCOM_2_DEC_58	0x86
-+#define ILI9341_DBI_FRC_DIVA		0x00
-+#define ILI9341_DBI_FRC_RTNA		0x1b
-+#define ILI9341_DBI_EMS_GAS		BIT(0)
-+#define ILI9341_DBI_EMS_DTS		BIT(1)
-+#define ILI9341_DBI_EMS_GON		BIT(2)
-+
-+/**
-+ * struct ili9341_config - the system specific ILI9341 configuration
-+ * @max_spi_speed: 10000000
-+ */
-+struct ili9341_config {
-+	u32 max_spi_speed;
-+	/** @mode: the drm display mode */
-+	const struct drm_display_mode mode;
-+	/** @ca: TODO: need comments for this register */
-+	u8 ca[ILI9341_CA_LEN];
-+	/** @power_b: TODO: need comments for this register */
-+	u8 power_b[ILI9341_POWER_B_LEN];
-+	/** @power_seq: TODO: need comments for this register */
-+	u8 power_seq[ILI9341_POWER_SEQ_LEN];
-+	/** @dtca: TODO: need comments for this register */
-+	u8 dtca[ILI9341_DTCA_LEN];
-+	/** @dtcb: TODO: need comments for this register */
-+	u8 dtcb[ILI9341_DTCB_LEN];
-+	/** @power_a: TODO: need comments for this register */
-+	u8 power_a[ILI9341_POWER_A_LEN];
-+	/** @frc: Frame Rate Control (In Normal Mode/Full Colors) (B1h) */
-+	u8 frc[ILI9341_FRC_LEN];
-+	/** @prc: TODO: need comments for this register */
-+	u8 prc;
-+	/** @dfc_1: B6h DISCTRL (Display Function Control) */
-+	u8 dfc_1[ILI9341_DFC_1_LEN];
-+	/** @power_1: Power Control 1 (C0h) */
-+	u8 power_1;
-+	/** @power_2: Power Control 2 (C1h) */
-+	u8 power_2;
-+	/** @vcom_1: VCOM Control 1(C5h) */
-+	u8 vcom_1[ILI9341_VCOM_1_LEN];
-+	/** @vcom_2: VCOM Control 2(C7h) */
-+	u8 vcom_2;
-+	/** @address_mode: Memory Access Control (36h) */
-+	u8 address_mode;
-+	/** @g3amma_en: TODO: need comments for this register */
-+	u8 g3amma_en;
-+	/** @rgb_interface: RGB Interface Signal Control (B0h) */
-+	u8 rgb_interface;
-+	/** @dfc_2: refer to dfc_1 */
-+	u8 dfc_2[ILI9341_DFC_2_LEN];
-+	/** @column_addr: Column Address Set (2Ah) */
-+	u8 column_addr[ILI9341_COLUMN_ADDR_LEN];
-+	/** @page_addr: Page Address Set (2Bh) */
-+	u8 page_addr[ILI9341_PAGE_ADDR_LEN];
-+	/** @interface: Interface Control (F6h) */
-+	u8 interface[ILI9341_INTERFACE_LEN];
-+	/** @pixel_format: This command sets the pixel format for the RGB */
-+	/* image data used by
-+	 */
-+	u8 pixel_format;
-+	/** @gamma_curve: This command is used to select the desired Gamma */
-+	/* curve for the
-+	 */
-+	u8 gamma_curve;
-+	/** @pgamma: Positive Gamma Correction (E0h) */
-+	u8 pgamma[ILI9341_PGAMMA_LEN];
-+	/** @ngamma: Negative Gamma Correction (E1h) */
-+	u8 ngamma[ILI9341_NGAMMA_LEN];
-+};
-+
-+struct ili9341 {
-+	struct device *dev;
-+	const struct ili9341_config *conf;
-+	struct drm_panel panel;
-+	struct gpio_desc *reset_gpio;
-+	struct gpio_desc *dc_gpio;
-+	struct mipi_dbi *dbi;
-+	u32 max_spi_speed;
-+	struct regulator_bulk_data supplies[3];
-+};
-+
-+/*
-+ * The Stm32f429-disco board has a panel ili9341 connected to ltdc controller
-+ */
-+static const struct ili9341_config ili9341_stm32f429_disco_data = {
-+	.max_spi_speed = 10000000,
-+	.mode = {
-+		.clock = 6100,
-+		.hdisplay = 240,
-+		.hsync_start = 240 + 10,/* hfp 10 */
-+		.hsync_end = 240 + 10 + 10,/* hsync 10 */
-+		.htotal = 240 + 10 + 10 + 20,/* hbp 20 */
-+		.vdisplay = 320,
-+		.vsync_start = 320 + 4,/* vfp 4 */
-+		.vsync_end = 320 + 4 + 2,/* vsync 2 */
-+		.vtotal = 320 + 4 + 2 + 2,/* vbp 2 */
-+		.flags = 0,
-+		.width_mm = 65,
-+		.height_mm = 50,
-+		.type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED,
-+	},
-+	.ca = {0xc3, 0x08, 0x50},
-+	.power_b = {0x00, 0xc1, 0x30},
-+	.power_seq = {0x64, 0x03, 0x12, 0x81},
-+	.dtca = {0x85, 0x00, 0x78},
-+	.power_a = {0x39, 0x2c, 0x00, 0x34, 0x02},
-+	.prc = 0x20,
-+	.dtcb = {0x00, 0x00},
-+	/* 0x00 fosc, 0x1b 70hz */
-+	.frc = {0x00, 0x1b},
-+	/* 0x0a Interval scan, AGND AGND AGND AGND
-+	 * 0xa2 Normally white, G1 -> G320, S720 -> S1,
-+	 *	Scan Cycle 5 frames,85ms
-+	 */
-+	.dfc_1 = {0x0a, 0xa2},
-+	/* 0x10 3.65v */
-+	.power_1 = 0x10,
-+	/* 0x10 AVDD=vci*2, VGH=vci*7, VGL=-vci*4 */
-+	.power_2 = 0x10,
-+	/* 0x45 VCOMH 4.425v, 0x15 VCOML -1.975*/
-+	.vcom_1 = {0x45, 0x15},
-+	/* 0x90 offset voltage, VMH-48, VML-48 */
-+	.vcom_2 = 0x90,
-+	/* 0xc8 Row Address Order, Column Address Order
-+	 * BGR 1
-+	 */
-+	.address_mode = 0xc8,
-+	.g3amma_en = 0x00,
-+	/* 0xc2
-+	 * Display Data Path: Memory
-+	 * RGB: DE mode
-+	 * DOTCLK polarity set (data fetched at the falling time)
-+	 */
-+	.rgb_interface = ILI9341_RGB_DISP_PATH_MEM |
-+			ILI9341_RGB_DE_MODE |
-+			ILI9341_RGB_DPL,
-+	/*
-+	 * 0x0a
-+	 * Gate outputs in non-display area: Interval scan
-+	 * Determine source/VCOM output in a non-display area in the partial
-+	 * display mode: AGND AGND AGND AGND
-+	 *
-+	 * 0xa7
-+	 * Scan Cycle: 15 frames
-+	 * fFLM = 60Hz: 255ms
-+	 * Liquid crystal type: Normally white
-+	 * Gate Output Scan Direction: G1 -> G320
-+	 * Source Output Scan Direction: S720 -> S1
-+	 *
-+	 * 0x27
-+	 * LCD Driver Line: 320 lines
-+	 *
-+	 * 0x04
-+	 * PCDIV: 4
-+	 */
-+	.dfc_2 = {0x0a, 0xa7, 0x27, 0x04},
-+	/* column address: 240 */
-+	.column_addr = {0x00, 0x00, (ILI9341_COLUMN_ADDR >> 4) & 0xff,
-+				ILI9341_COLUMN_ADDR & 0xff},
-+	/* page address: 320 */
-+	.page_addr = {0x00, 0x00, (ILI9341_PAGE_ADDR >> 4) & 0xff,
-+				ILI9341_PAGE_ADDR & 0xff},
-+	/* Memory write control: When the transfer number of data exceeds
-+	 * (EC-SC+1)*(EP-SP+1), the column and page number will be
-+	 * reset, and the exceeding data will be written into the following
-+	 * column and page.
-+	 * Display Operation Mode: RGB Interface Mode
-+	 * Interface for RAM Access: RGB interface
-+	 * 16- bit RGB interface (1 transfer/pixel)
-+	 */
-+	.interface = {ILI9341_IF_WE_MODE, 0x00,
-+			ILI9341_IF_DM_RGB | ILI9341_IF_RM_RGB},
-+	/* DPI: 16 bits / pixel */
-+	.pixel_format = ILI9341_PIXEL_DPI_16_BITS,
-+	/* Curve Selected: Gamma curve 1 (G2.2) */
-+	.gamma_curve = ILI9341_GAMMA_CURVE_1,
-+	.pgamma = {0x0f, 0x29, 0x24, 0x0c, 0x0e,
-+			0x09, 0x4e, 0x78, 0x3c, 0x09,
-+			0x13, 0x05, 0x17, 0x11, 0x00},
-+	.ngamma = {0x00, 0x16, 0x1b, 0x04, 0x11,
-+			0x07, 0x31, 0x33, 0x42, 0x05,
-+			0x0c, 0x0a, 0x28, 0x2f, 0x0f},
-+};
-+
-+static inline struct ili9341 *panel_to_ili9341(struct drm_panel *panel)
-+{
-+	return container_of(panel, struct ili9341, panel);
-+}
-+
-+static void ili9341_dpi_init(struct ili9341 *ili)
-+{
-+	struct mipi_dbi *dbi = ili->dbi;
-+	struct ili9341_config *cfg = (struct ili9341_config *)ili->conf;
-+
-+	/* Power Control */
-+	mipi_dbi_command_stackbuf(dbi, 0xca, cfg->ca, ILI9341_CA_LEN);
-+	mipi_dbi_command_stackbuf(dbi, ILI9341_POWERB, cfg->power_b,
-+				  ILI9341_POWER_B_LEN);
-+	mipi_dbi_command_stackbuf(dbi, ILI9341_POWER_SEQ, cfg->power_seq,
-+				  ILI9341_POWER_SEQ_LEN);
-+	mipi_dbi_command_stackbuf(dbi, ILI9341_DTCA, cfg->dtca,
-+				  ILI9341_DTCA_LEN);
-+	mipi_dbi_command_stackbuf(dbi, ILI9341_POWERA, cfg->power_a,
-+				  ILI9341_POWER_A_LEN);
-+	mipi_dbi_command(ili->dbi, ILI9341_PRC, cfg->prc);
-+	mipi_dbi_command_stackbuf(dbi, ILI9341_DTCB, cfg->dtcb,
-+				  ILI9341_DTCB_LEN);
-+	mipi_dbi_command_stackbuf(dbi, ILI9341_FRC, cfg->frc, ILI9341_FRC_LEN);
-+	mipi_dbi_command_stackbuf(dbi, ILI9341_DFC, cfg->dfc_1,
-+				  ILI9341_DFC_1_LEN);
-+	mipi_dbi_command(dbi, ILI9341_POWER1, cfg->power_1);
-+	mipi_dbi_command(dbi, ILI9341_POWER2, cfg->power_2);
-+
-+	/* VCOM */
-+	mipi_dbi_command_stackbuf(dbi, ILI9341_VCOM1, cfg->vcom_1,
-+				  ILI9341_VCOM_1_LEN);
-+	mipi_dbi_command(dbi, ILI9341_VCOM2, cfg->vcom_2);
-+	mipi_dbi_command(dbi, MIPI_DCS_SET_ADDRESS_MODE, cfg->address_mode);
-+
-+	/* Gamma */
-+	mipi_dbi_command(dbi, ILI9341_3GAMMA_EN, cfg->g3amma_en);
-+	mipi_dbi_command(dbi, ILI9341_RGB_INTERFACE, cfg->rgb_interface);
-+	mipi_dbi_command_stackbuf(dbi, ILI9341_DFC, cfg->dfc_2,
-+				  ILI9341_DFC_2_LEN);
-+
-+	/* Colomn address set */
-+	mipi_dbi_command_stackbuf(dbi, MIPI_DCS_SET_COLUMN_ADDRESS,
-+				  cfg->column_addr, ILI9341_COLUMN_ADDR_LEN);
-+
-+	/* Page address set */
-+	mipi_dbi_command_stackbuf(dbi, MIPI_DCS_SET_PAGE_ADDRESS,
-+				  cfg->page_addr, ILI9341_PAGE_ADDR_LEN);
-+	mipi_dbi_command_stackbuf(dbi, ILI9341_INTERFACE, cfg->interface,
-+				  ILI9341_INTERFACE_LEN);
-+
-+	/* Format */
-+	mipi_dbi_command(dbi, MIPI_DCS_SET_PIXEL_FORMAT, cfg->pixel_format);
-+	mipi_dbi_command(dbi, MIPI_DCS_WRITE_MEMORY_START);
-+	msleep(200);
-+	mipi_dbi_command(dbi, MIPI_DCS_SET_GAMMA_CURVE, cfg->gamma_curve);
-+	mipi_dbi_command_stackbuf(dbi, ILI9341_PGAMMA, cfg->pgamma,
-+				  ILI9341_PGAMMA_LEN);
-+	mipi_dbi_command_stackbuf(dbi, ILI9341_NGAMMA, cfg->ngamma,
-+				  ILI9341_NGAMMA_LEN);
-+	mipi_dbi_command(dbi, MIPI_DCS_EXIT_SLEEP_MODE);
-+	msleep(200);
-+	mipi_dbi_command(dbi, MIPI_DCS_SET_DISPLAY_ON);
-+	mipi_dbi_command(dbi, MIPI_DCS_WRITE_MEMORY_START);
-+
-+	dev_info(ili->dev, "initialized display rgb interface\n");
-+}
-+
-+static int ili9341_dpi_power_on(struct ili9341 *ili)
-+{
-+	int ret = 0;
-+
-+	/* Assert RESET */
-+	gpiod_set_value(ili->reset_gpio, 1);
-+
-+	/* Enable power */
-+	ret = regulator_bulk_enable(ARRAY_SIZE(ili->supplies),
-+				    ili->supplies);
-+	if (ret < 0) {
-+		dev_err(ili->dev, "unable to enable vcc\n");
-+		return ret;
-+	}
-+	msleep(20);
-+
-+	/* De-assert RESET */
-+	gpiod_set_value(ili->reset_gpio, 0);
-+	msleep(20);
-+
-+	return 0;
-+}
-+
-+static int ili9341_dpi_power_off(struct ili9341 *ili)
-+{
-+	/* Assert RESET */
-+	gpiod_set_value(ili->reset_gpio, 1);
-+
-+	/* Disable power */
-+	return regulator_bulk_disable(ARRAY_SIZE(ili->supplies),
-+				      ili->supplies);
-+}
-+
-+static int ili9341_dpi_disable(struct drm_panel *panel)
-+{
-+	struct ili9341 *ili = panel_to_ili9341(panel);
-+
-+	mipi_dbi_command(ili->dbi, MIPI_DCS_SET_DISPLAY_OFF);
-+	return 0;
-+}
-+
-+static int ili9341_dpi_unprepare(struct drm_panel *panel)
-+{
-+	struct ili9341 *ili = panel_to_ili9341(panel);
-+
-+	return ili9341_dpi_power_off(ili);
-+}
-+
-+static int ili9341_dpi_prepare(struct drm_panel *panel)
-+{
-+	struct ili9341 *ili = panel_to_ili9341(panel);
-+	int ret;
-+
-+	ret = ili9341_dpi_power_on(ili);
-+	if (ret < 0)
-+		return ret;
-+
-+	ili9341_dpi_init(ili);
-+
-+	return ret;
-+}
-+
-+static int ili9341_dpi_enable(struct drm_panel *panel)
-+{
-+	struct ili9341 *ili = panel_to_ili9341(panel);
-+
-+	mipi_dbi_command(ili->dbi, MIPI_DCS_SET_DISPLAY_ON);
-+	return 0;
-+}
-+
-+static int ili9341_dpi_get_modes(struct drm_panel *panel,
-+				 struct drm_connector *connector)
-+{
-+	struct ili9341 *ili = panel_to_ili9341(panel);
-+	struct drm_device *drm = connector->dev;
-+	struct drm_display_mode *mode;
-+	struct drm_display_info *info;
-+
-+	info = &connector->display_info;
-+	info->width_mm = ili->conf->mode.width_mm;
-+	info->height_mm = ili->conf->mode.height_mm;
-+
-+	if (ili->conf->rgb_interface & ILI9341_RGB_DPL)
-+		info->bus_flags |= DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE;
-+	else
-+		info->bus_flags |= DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE;
-+
-+	if (ili->conf->rgb_interface & ILI9341_RGB_EPL)
-+		info->bus_flags |= DRM_BUS_FLAG_DE_LOW;
-+	else
-+		info->bus_flags |= DRM_BUS_FLAG_DE_HIGH;
-+
-+	mode = drm_mode_duplicate(drm, &ili->conf->mode);
-+	if (!mode) {
-+		DRM_ERROR("bad mode or failed to add mode\n");
-+		return -EINVAL;
-+	}
-+	drm_mode_set_name(mode);
-+
-+	/* Set up the polarity */
-+	if (ili->conf->rgb_interface & ILI9341_RGB_HSPL)
-+		mode->flags |= DRM_MODE_FLAG_PHSYNC;
-+	else
-+		mode->flags |= DRM_MODE_FLAG_NHSYNC;
-+
-+	if (ili->conf->rgb_interface & ILI9341_RGB_VSPL)
-+		mode->flags |= DRM_MODE_FLAG_PVSYNC;
-+	else
-+		mode->flags |= DRM_MODE_FLAG_NVSYNC;
-+
-+	drm_mode_probed_add(connector, mode);
-+
-+	return 1; /* Number of modes */
-+}
-+
-+static const struct drm_panel_funcs ili9341_dpi_funcs = {
-+	.disable = ili9341_dpi_disable,
-+	.unprepare = ili9341_dpi_unprepare,
-+	.prepare = ili9341_dpi_prepare,
-+	.enable = ili9341_dpi_enable,
-+	.get_modes = ili9341_dpi_get_modes,
-+};
-+
-+static void ili9341_dbi_enable(struct drm_simple_display_pipe *pipe,
-+			       struct drm_crtc_state *crtc_state,
-+			       struct drm_plane_state *plane_state)
-+{
-+	struct mipi_dbi_dev *dbidev = drm_to_mipi_dbi_dev(pipe->crtc.dev);
-+	struct mipi_dbi *dbi = &dbidev->dbi;
-+	u8 addr_mode;
-+	int ret, idx;
-+
-+	if (!drm_dev_enter(pipe->crtc.dev, &idx))
-+		return;
-+
-+	DRM_DEBUG_KMS("\n");
-+
-+	ret = mipi_dbi_poweron_conditional_reset(dbidev);
-+	if (ret < 0)
-+		goto out_exit;
-+	if (ret == 1)
-+		goto out_enable;
-+
-+	mipi_dbi_command(dbi, MIPI_DCS_SET_DISPLAY_OFF);
-+
-+	mipi_dbi_command(dbi, ILI9341_POWERB, 0x00, 0xc1, 0x30);
-+	mipi_dbi_command(dbi, ILI9341_POWER_SEQ, 0x64, 0x03, 0x12, 0x81);
-+	mipi_dbi_command(dbi, ILI9341_DTCA, 0x85, 0x00, 0x78);
-+	mipi_dbi_command(dbi, ILI9341_POWERA, 0x39, 0x2c, 0x00, 0x34, 0x02);
-+	mipi_dbi_command(dbi, ILI9341_PRC, ILI9341_DBI_PRC_NORMAL);
-+	mipi_dbi_command(dbi, ILI9341_DTCB, 0x00, 0x00);
-+
-+	/* Power Control */
-+	mipi_dbi_command(dbi, ILI9341_POWER1, ILI9341_DBI_VCOMH_4P6V);
-+	mipi_dbi_command(dbi, ILI9341_POWER2, ILI9341_DBI_PWR_2_DEFAULT);
-+	/* VCOM */
-+	mipi_dbi_command(dbi, ILI9341_VCOM1, ILI9341_DBI_VCOM_1_VMH_4P25V,
-+			 ILI9341_DBI_VCOM_1_VML_1P5V);
-+	mipi_dbi_command(dbi, ILI9341_VCOM2, ILI9341_DBI_VCOM_2_DEC_58);
-+
-+	/* Memory Access Control */
-+	mipi_dbi_command(dbi, MIPI_DCS_SET_PIXEL_FORMAT,
-+			 MIPI_DCS_PIXEL_FMT_16BIT);
-+
-+	/* Frame Rate */
-+	mipi_dbi_command(dbi, ILI9341_FRC, ILI9341_DBI_FRC_DIVA & 0x03,
-+			 ILI9341_DBI_FRC_RTNA & 0x1f);
-+
-+	/* Gamma */
-+	mipi_dbi_command(dbi, ILI9341_3GAMMA_EN, 0x00);
-+	mipi_dbi_command(dbi, MIPI_DCS_SET_GAMMA_CURVE, ILI9341_GAMMA_CURVE_1);
-+	mipi_dbi_command(dbi, ILI9341_PGAMMA,
-+			 0x0f, 0x31, 0x2b, 0x0c, 0x0e, 0x08, 0x4e, 0xf1,
-+			 0x37, 0x07, 0x10, 0x03, 0x0e, 0x09, 0x00);
-+	mipi_dbi_command(dbi, ILI9341_NGAMMA,
-+			 0x00, 0x0e, 0x14, 0x03, 0x11, 0x07, 0x31, 0xc1,
-+			 0x48, 0x08, 0x0f, 0x0c, 0x31, 0x36, 0x0f);
-+
-+	/* DDRAM */
-+	mipi_dbi_command(dbi, ILI9341_ETMOD, ILI9341_DBI_EMS_GAS |
-+			 ILI9341_DBI_EMS_DTS |
-+			 ILI9341_DBI_EMS_GON);
-+
-+	/* Display */
-+	mipi_dbi_command(dbi, ILI9341_DFC, 0x08, 0x82, 0x27, 0x00);
-+	mipi_dbi_command(dbi, MIPI_DCS_EXIT_SLEEP_MODE);
-+	msleep(100);
-+
-+	mipi_dbi_command(dbi, MIPI_DCS_SET_DISPLAY_ON);
-+	msleep(100);
-+
-+out_enable:
-+	switch (dbidev->rotation) {
-+	default:
-+		addr_mode = ILI9341_MADCTL_MX;
-+		break;
-+	case 90:
-+		addr_mode = ILI9341_MADCTL_MV;
-+		break;
-+	case 180:
-+		addr_mode = ILI9341_MADCTL_MY;
-+		break;
-+	case 270:
-+		addr_mode = ILI9341_MADCTL_MV | ILI9341_MADCTL_MY |
-+			    ILI9341_MADCTL_MX;
-+		break;
-+	}
-+	addr_mode |= ILI9341_MADCTL_BGR;
-+	mipi_dbi_command(dbi, MIPI_DCS_SET_ADDRESS_MODE, addr_mode);
-+	mipi_dbi_enable_flush(dbidev, crtc_state, plane_state);
-+	DRM_DEBUG_KMS("initialized display serial interface\n");
-+out_exit:
-+	drm_dev_exit(idx);
-+}
-+
-+static const struct drm_simple_display_pipe_funcs ili9341_dbi_funcs = {
-+	.enable = ili9341_dbi_enable,
-+	.disable = mipi_dbi_pipe_disable,
-+	.update = mipi_dbi_pipe_update,
-+	.prepare_fb = drm_gem_simple_display_pipe_prepare_fb,
-+};
-+
-+static const struct drm_display_mode ili9341_dbi_mode = {
-+	DRM_SIMPLE_MODE(240, 320, 37, 49),
-+};
-+
-+DEFINE_DRM_GEM_CMA_FOPS(ili9341_dbi_fops);
-+
-+static struct drm_driver ili9341_dbi_driver = {
-+	.driver_features	= DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
-+	.fops			= &ili9341_dbi_fops,
-+	DRM_GEM_CMA_DRIVER_OPS_VMAP,
-+	.debugfs_init		= mipi_dbi_debugfs_init,
-+	.name			= "ili9341",
-+	.desc			= "Ilitek ILI9341",
-+	.date			= "20210716",
-+	.major			= 1,
-+	.minor			= 0,
-+};
-+
-+static int _ili9341_probe(struct spi_device *spi, bool dpi)
-+{
-+	struct gpio_desc *dc;
-+	struct gpio_desc *reset;
-+	struct device *dev = &spi->dev;
-+	int ret;
-+
-+	reset = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_HIGH);
-+	if (IS_ERR(reset))
-+		DRM_DEV_ERROR(dev, "Failed to get gpio 'reset'\n");
-+
-+	dc = devm_gpiod_get_optional(dev, "dc", GPIOD_OUT_LOW);
-+	if (IS_ERR(dc))
-+		DRM_DEV_ERROR(dev, "Failed to get gpio 'dc'\n");
-+
-+	if (!dpi) {
-+		struct mipi_dbi_dev *dbidev;
-+		struct mipi_dbi *dbi;
-+		struct drm_device *drm;
-+		struct regulator *vcc;
-+		u32 rotation = 0;
-+
-+		vcc = devm_regulator_get_optional(dev, "vcc");
-+		if (IS_ERR(vcc))
-+			DRM_DEV_ERROR(dev, "get optional vcc failed\n");
-+
-+		dbidev = devm_drm_dev_alloc(dev, &ili9341_dbi_driver,
-+					    struct mipi_dbi_dev, drm);
-+		if (IS_ERR(dbidev))
-+			return PTR_ERR(dbidev);
-+
-+		dbi = &dbidev->dbi;
-+		drm = &dbidev->drm;
-+		dbi->reset = reset;
-+		dbidev->regulator = vcc;
-+
-+		drm_mode_config_init(drm);
-+		dbidev->backlight = devm_of_find_backlight(dev);
-+		if (IS_ERR(dbidev->backlight))
-+			return PTR_ERR(dbidev->backlight);
-+
-+		device_property_read_u32(dev, "rotation", &rotation);
-+
-+		ret = mipi_dbi_spi_init(spi, dbi, dc);
-+		if (ret)
-+			return ret;
-+
-+		ret = mipi_dbi_dev_init(dbidev, &ili9341_dbi_funcs,
-+					&ili9341_dbi_mode, rotation);
-+		if (ret)
-+			return ret;
-+
-+		drm_mode_config_reset(drm);
-+
-+		ret = drm_dev_register(drm, 0);
-+		if (ret)
-+			return ret;
-+
-+		spi_set_drvdata(spi, drm);
-+
-+		drm_fbdev_generic_setup(drm, 0);
-+	} else {
-+		struct ili9341 *ili;
-+
-+		ili = devm_kzalloc(dev, sizeof(struct ili9341), GFP_KERNEL);
-+		if (!ili)
-+			return -ENOMEM;
-+
-+		ili->dbi = devm_kzalloc(dev, sizeof(struct mipi_dbi),
-+					GFP_KERNEL);
-+		if (!ili->dbi)
-+			return -ENOMEM;
-+
-+		ili->supplies[0].supply = "vci";
-+		ili->supplies[1].supply = "vddi";
-+		ili->supplies[2].supply = "vddi-led";
-+
-+		ret = devm_regulator_bulk_get(dev, ARRAY_SIZE(ili->supplies),
-+					      ili->supplies);
-+		if (ret < 0) {
-+			dev_err(dev, "failed to get regulators: %d\n", ret);
-+			return ret;
-+		}
-+
-+		ret = mipi_dbi_spi_init(spi, ili->dbi, dc);
-+		if (ret)
-+			return ret;
-+
-+		spi_set_drvdata(spi, ili);
-+
-+		ili->dev = dev;
-+		ili->reset_gpio = reset;
-+		/*
-+		 * Every new incarnation of this display must have a unique
-+		 * data entry for the system in this driver.
-+		 */
-+		ili->conf = of_device_get_match_data(dev);
-+		if (!ili->conf) {
-+			dev_err(dev, "missing device configuration\n");
-+			return -ENODEV;
-+		}
-+
-+		ili->max_spi_speed = ili->conf->max_spi_speed;
-+
-+		drm_panel_init(&ili->panel, dev, &ili9341_dpi_funcs,
-+			       DRM_MODE_CONNECTOR_DPI);
-+
-+		drm_panel_add(&ili->panel);
-+	}
-+
-+	return 0;
-+}
-+
-+static int ili9341_probe(struct spi_device *spi)
-+{
-+	const struct spi_device_id *id = spi_get_device_id(spi);
-+
-+	if (!strcmp(id->name, "sf-tc240t-9370-t"))
-+		return _ili9341_probe(spi, true);
-+	else if (!strcmp(id->name, "yx240qv29"))
-+		return _ili9341_probe(spi, false);
-+
-+	return -1;
-+}
-+
-+static int ili9341_remove(struct spi_device *spi)
-+{
-+	const struct spi_device_id *id = spi_get_device_id(spi);
-+	struct ili9341 *ili = spi_get_drvdata(spi);
-+	struct drm_device *drm = spi_get_drvdata(spi);
-+
-+	if (!strcmp(id->name, "sf-tc240t-9370-t")) {
-+		ili9341_dpi_power_off(ili);
-+		drm_panel_remove(&ili->panel);
-+	} else if (!strcmp(id->name, "yx240qv29")) {
-+		drm_dev_unplug(drm);
-+		drm_atomic_helper_shutdown(drm);
-+	}
-+	return 0;
-+}
-+
-+static void ili9341_shutdown(struct spi_device *spi)
-+{
-+	const struct spi_device_id *id = spi_get_device_id(spi);
-+
-+	if (!strcmp(id->name, "yx240qv29"))
-+		drm_atomic_helper_shutdown(spi_get_drvdata(spi));
-+}
-+
-+static const struct of_device_id ili9341_of_match[] = {
-+	{
-+		.compatible = "st,sf-tc240t-9370-t",
-+		.data = &ili9341_stm32f429_disco_data,
-+	},
-+	{
-+		/* porting from tiny/ili9341.c
-+		 * for original mipi dbi compitable
-+		 */
-+		.compatible = "adafruit,yx240qv29",
-+		.data = NULL,
-+	},
-+};
-+MODULE_DEVICE_TABLE(of, ili9341_of_match);
-+
-+static const struct spi_device_id ili9341_id[] = {
-+	{ "yx240qv29", 0 },
-+	{ "sf-tc240t-9370-t", 0 },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(spi, ili9341_id);
-+
-+static struct spi_driver ili9341_driver = {
-+	.probe = ili9341_probe,
-+	.remove = ili9341_remove,
-+	.shutdown = ili9341_shutdown,
-+	.id_table = ili9341_id,
-+	.driver = {
-+		.name = "panel-ilitek-ili9341",
-+		.of_match_table = ili9341_of_match,
-+	},
-+};
-+module_spi_driver(ili9341_driver);
-+
-+MODULE_AUTHOR("Dillon Min <dillon.minfei@gmail.com>");
-+MODULE_DESCRIPTION("ILI9341 LCD panel driver");
-+MODULE_LICENSE("GPL v2");
--- 
-2.7.4
 
+--=20
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
