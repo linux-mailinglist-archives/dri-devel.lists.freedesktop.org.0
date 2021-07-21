@@ -1,51 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 102FD3D0FB3
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 15:40:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 03CCB3D1038
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 15:49:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 766626E862;
-	Wed, 21 Jul 2021 13:40:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C4D86E875;
+	Wed, 21 Jul 2021 13:49:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x236.google.com (mail-oi1-x236.google.com
- [IPv6:2607:f8b0:4864:20::236])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 444116E817
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 13:40:16 +0000 (UTC)
-Received: by mail-oi1-x236.google.com with SMTP id s23so2830314oiw.12
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 06:40:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=z7UkEptjvInHKXG2zHRwBqlKv4cVFdQoOtseise/qIs=;
- b=G0U7OVjiiUVeiKxwMmwlfo7aD7fHtiHJrT8NrP788+2IRmDNxZeusBtL4+8xntrEfe
- Cr2QhruE/ysNEzq+WbzxdfKhBbKD2Ag3VyR7mUKRnRx6mv+cFGk58fYaeXzY8CNhDsc2
- oBYQqAK+9oVUUN6NvNKbZCBEHon85dy7xkSzA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=z7UkEptjvInHKXG2zHRwBqlKv4cVFdQoOtseise/qIs=;
- b=Pj0756ni49Wa2yHgidE6S5HGlh8Y+klQ2ciKiY17vvUF7wWUj1LftOdEtDkzEAX5Zq
- rmtamjD3a9bFKJWyTw2CKc6hzNpwR+cwBKAqPqdG+ZFxAQk1KXHT32CPEam07rAh/ahn
- kEppVJzhmNQ4JJaM6Ik5e9U8PZU42h0zPSZor9r40RQGuNNDd9REiZxXhe3nuFDOmnxN
- m0+sTbdlOH2zqhcyxMs4Mt6fORf51liXtBtjGWo01OIi8fMeMPzAlWSabvz0Q2Op1oq0
- kuX5Jmie2kAhrd9JPNCKKGE06MQ3v3c/DZxf/uohkeXg1P2wDkCAayGsz4QVDQOPcrLV
- Z52A==
-X-Gm-Message-State: AOAM533roMY8RZ46od2R8EDd9itCh8Y2uJD0iZbWlmwhQC7uCeln+w1i
- TLshClvGEQbriXwkszXNCAaTurjPPUcdo9xwtt1UsA==
-X-Google-Smtp-Source: ABdhPJyw9hbcxBWtaBfrj5MECbnJoFCG8fR8nWdxwWzHaAdOBQwpiAH4KSqHZzPH01nxiasPhRttAu1UHIEJhlWei8E=
-X-Received: by 2002:aca:b902:: with SMTP id j2mr25262845oif.128.1626874815669; 
- Wed, 21 Jul 2021 06:40:15 -0700 (PDT)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC5476E875
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 13:49:44 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 4406461248
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 13:49:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1626875384;
+ bh=Fcd46JsRF5Xzokx8EbEQAOvgZr4ne1Di199XOOqGdXI=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=MlngOFVzPy6D4n/vJS8cjv7UbvZgk2BbOpnI5+S4srLE5uyBvjmuzvuK6bVFb3fFj
+ 19HPLZGZUuiHcV3pVbD+3M2mCNVMqiZ2hmQprUrNSSdqQ2+6HZZKs4XkkeMRjPgsCF
+ j/6ZYtYhD/trRr673VMxc9e6EOc0rL1pUmfUtUijh5aOHbIGCnCQ8Nxi8CTPWlypNM
+ uCXisRccE7jOfEPF/4SZTKVHS8JIOZ6Wsk0Zon74S97Bmb3BzdgmWrhehfUzALQmrN
+ +an+o4ZhXnKawCDxTNtX0d6jgAw7c+hMbNWhkva58kZcDvUDKAJ5khJ/kid8yv0l2q
+ VRaXfzTQnwJtw==
+Received: by mail-ej1-f46.google.com with SMTP id nd37so3376399ejc.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 06:49:44 -0700 (PDT)
+X-Gm-Message-State: AOAM530/GPT/9kHun5QmJi2kXI3wXcsH7b3GZV5SJctGsjK5h8czlfbH
+ THjyd81XSmf9K4I8dLoQiSE5lAG1WG79T64cjw==
+X-Google-Smtp-Source: ABdhPJzh5cj++jO5fwUbg47UmcOOhxrwvB/MBLzILA/PNS+iWEyxrXcgOCfI8OpXmusl3DEp7otnJa9jAjW0ixfrR7g=
+X-Received: by 2002:a17:906:5fc1:: with SMTP id
+ k1mr37644013ejv.360.1626875382783; 
+ Wed, 21 Jul 2021 06:49:42 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210721131704.10306-1-tzimmermann@suse.de>
-In-Reply-To: <20210721131704.10306-1-tzimmermann@suse.de>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Wed, 21 Jul 2021 15:40:04 +0200
-Message-ID: <CAKMK7uGU4OpQt9s75K6e5Z=WsruhtWunPJ9g-sME0ZUiF4R0Tw@mail.gmail.com>
-Subject: Re: [PATCH] drm/hisilicon/hibmc: Remove variable 'priv' from
- hibmc_unload()
-To: Thomas Zimmermann <tzimmermann@suse.de>
+References: <20210720172025.363238-1-robh@kernel.org>
+ <8343dfe9d1af1ad4ab806104b74a95819c765dea.camel@pengutronix.de>
+In-Reply-To: <8343dfe9d1af1ad4ab806104b74a95819c765dea.camel@pengutronix.de>
+From: Rob Herring <robh@kernel.org>
+Date: Wed, 21 Jul 2021 07:49:30 -0600
+X-Gmail-Original-Message-ID: <CAL_Jsq+XEbEJuoSiQ=PeL-34FkLqG-eYA86FvNK7K-uGbaTFwg@mail.gmail.com>
+Message-ID: <CAL_Jsq+XEbEJuoSiQ=PeL-34FkLqG-eYA86FvNK7K-uGbaTFwg@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: Remove "status" from schema examples
+To: Philipp Zabel <p.zabel@pengutronix.de>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -59,52 +55,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Xinliang Liu <xinliang.liu@linaro.org>, Feng Chen <puck.chen@hisilicon.com>,
- dri-devel <dri-devel@lists.freedesktop.org>, Dave Airlie <airlied@linux.ie>,
- Xinwei Kong <kong.kongxinwei@hisilicon.com>, Maxime Ripard <maxime@cerno.tech>,
- Tian Tao <tiantao6@hisilicon.com>, Sam Ravnborg <sam@ravnborg.org>
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Olivier Moysan <olivier.moysan@st.com>,
+ Mateusz Holenko <mholenko@antmicro.com>,
+ Linux-ALSA <alsa-devel@alsa-project.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Peter Ujfalusi <peter.ujfalusi@ti.com>, ChiYuan Huang <cy_huang@richtek.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Karol Gugala <kgugala@antmicro.com>,
+ "open list:REAL TIME CLOCK \(RTC\) SUBSYSTEM" <linux-rtc@vger.kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Dilip Kota <eswara.kota@linux.intel.com>, Wei Xu <xuwei5@hisilicon.com>,
+ Oleksij Rempel <o.rempel@pengutronix.de>, Chen-Yu Tsai <wens@csie.org>,
+ Jakub Kicinski <kuba@kernel.org>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
+ devicetree@vger.kernel.org, Ramesh Shanmugasundaram <rashanmu@gmail.com>,
+ Rui Miguel Silva <rmfrfs@gmail.com>, Mark Brown <broonie@kernel.org>,
+ "G. Jaya Kumaran" <vineetha.g.jaya.kumaran@intel.com>,
+ Robert Marko <robert.marko@sartura.hr>,
+ Alessandro Zummo <a.zummo@towertech.it>, netdev <netdev@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "David S. Miller" <davem@davemloft.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 21, 2021 at 3:17 PM Thomas Zimmermann <tzimmermann@suse.de> wrote:
+On Wed, Jul 21, 2021 at 2:33 AM Philipp Zabel <p.zabel@pengutronix.de> wrote:
 >
-> The variable 'priv' got introduced in commit 39a364a19e03
-> ("drm/hisilicon/hibmc: Convert to Linux IRQ interfaces") by accident.
-> It's unused; remove it. Fixes a compiler warning.
+> Hi Rob,
 >
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Fixes: 39a364a19e03 ("drm/hisilicon/hibmc: Convert to Linux IRQ interfaces")
-> Reported-by: Dave Airlie <airlied@gmail.com>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Tian Tao <tiantao6@hisilicon.com>
-> Cc: Maxime Ripard <maxime@cerno.tech>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
+> On Tue, 2021-07-20 at 11:20 -0600, Rob Herring wrote:
+> > There's no reason to have "status" properties in examples. "okay" is the
+> > default, and "disabled" turns off some schema checks ('required'
+> > specifically).
+>
+> Is this documented somewhere? If not, should it be? (Maybe in writing-
+> schema.rst -> Schema Contents -> examples?)
 
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+I don't think it is. I'm writing a schema for it which works for both
+those that read documentation and those that don't.
 
-> ---
->  drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c | 1 -
->  1 file changed, 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-> index f73a8e0ea12e..610fc8e135f9 100644
-> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-> @@ -249,7 +249,6 @@ static int hibmc_hw_init(struct hibmc_drm_private *priv)
->
->  static int hibmc_unload(struct drm_device *dev)
->  {
-> -       struct hibmc_drm_private *priv = to_hibmc_drm_private(dev);
->         struct pci_dev *pdev = to_pci_dev(dev->dev);
->
->         drm_atomic_helper_shutdown(dev);
-> --
-> 2.32.0
->
-
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Rob
