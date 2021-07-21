@@ -1,61 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A36223D1242
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 17:24:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DFED23D1245
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 17:25:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C35E56E4EC;
-	Wed, 21 Jul 2021 15:24:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CACF36E98E;
+	Wed, 21 Jul 2021 15:25:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com
- [IPv6:2607:f8b0:4864:20::62b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 086146E4EC
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 15:24:57 +0000 (UTC)
-Received: by mail-pl1-x62b.google.com with SMTP id b2so1130972plx.1
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 08:24:57 -0700 (PDT)
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com
+ [IPv6:2607:f8b0:4864:20::1033])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CFAC26E8A4
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 15:24:58 +0000 (UTC)
+Received: by mail-pj1-x1033.google.com with SMTP id
+ gv20-20020a17090b11d4b0290173b9578f1cso1137649pjb.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 08:24:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=IUFS9JScH7K5vVor56zPcPsX6I51skx868VgLMYWUto=;
- b=ho2qtJA8u9IgSBDcg0VpRR5I5gzJdykkQRC0dJ7TYNiWPogkWsAOtHC96pUT2dTi4k
- nsypt5QZqomAsiAKccq+gMVlJOyk2e8j1POstJ5dzPrDFI/Xw2j0ROxBLCt/6M37r+jn
- sSR7mP/heMqVE5644py74ls79IikH6nHKzlzzsRnewqgPfCZCYAAbjGq15PPuozRP+Z0
- rdE81Dxb+KPd9pA37mIDZ4UL4EKF0Xi047i99bVccIVM9XonvrGAusHWzlU6D+YfA60F
- qtV88IZBpcGQURaFqmAC+Ixa7KcmktuHTVcJTwaYMEjyfFioO6JU10lv1I8D9tYTuWrS
- PReQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=fxrOgIujpF8i4wx+EiH358bwMj50Ob54hlyrZAnhxWw=;
+ b=ZTZWdei5NlKvXYiDTGiCpLCoDa907cXvxISKOfdXrVbIOLyXT5BbvfAfOT+As3pBi7
+ glmd6OccYAtlMwn5OuWEKe470d57rGQM3jPO/y0MWtI+F2Wyj/d62AYOGpjIviU7oALa
+ Fg9yBoypwsDQQncxlmKVVX5Y29YMoixsjXJmgpiM+MN6YKZ+5oMT1OHPxmCrwKzFytWM
+ GmMvo9MMx7pDO/M+plS5kwOr586ZPCMEBD7vml+vjFABJUwKHcFhRlK4h5k6mfRTcOvc
+ y9vvIid+OeWCsP7PW0H/bEQQnAdvBImb2zbZWSBJBEhoNlHNbmpEg+3AeTKLfEwFecbQ
+ fFAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=IUFS9JScH7K5vVor56zPcPsX6I51skx868VgLMYWUto=;
- b=Gdke0DRHC6yT2j/5I//re1hjRsRXUYLbGuju99mvXr3o7MlTCwTAhYQF5uEyV2qilB
- thjCNPg0D2WVzrQetRSdiYMlpkb8WeSY8IpsVALdB1yCnwwQ5OT7P2mv77p8OWP9pqAT
- Voaht3uEWeVjhhiiv3h0o0/ObBr4kV92b0fSVkXfHz1qdCubWZ6H1VKjnoZ7vQB34xct
- InzD7JQ6AXRUL8kZm1KlKWk1ET4kVKbsyMiDage67morsyQhMZl4wJXQ67UhRNuzXI8x
- Pz3zcl8l3fwFnQ6gVTPn6xDplM6A8btDrxO5swGKB3rLv4HnpK/THfcdeBiKCR7kwDqH
- L6UA==
-X-Gm-Message-State: AOAM532Yeeu/DzX2EDcvby2dSe0wVJ+ZzEqPYQ7HjmDumn2sOQMUH8xF
- gKXkbwd3AE03LGm36Lm4OLnbgQ==
-X-Google-Smtp-Source: ABdhPJyF559yMeUil6M9Tqu3IZeVcTNqNWv57mvgOXT7kghIjMUCXz0mWLfotP9bM3BSrpBAvHhN3Q==
-X-Received: by 2002:a17:902:eccc:b029:12b:a750:cc3a with SMTP id
- a12-20020a170902ecccb029012ba750cc3amr3198591plh.57.1626881096470; 
- Wed, 21 Jul 2021 08:24:56 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=fxrOgIujpF8i4wx+EiH358bwMj50Ob54hlyrZAnhxWw=;
+ b=cIOSsYBkynoXHs7wndKbqE3QzmvpePUCSyXrHlBOqHboxZMxPvQjxp6qLqAvpvJYKU
+ mtQ2UVFHqM36pfiERQWklxIvQn+37ZpRNDSuHee865SzDbqfIaW1TbWNO88dG995Mx3O
+ 6yZRy1tnn5eFwdnQTbvLIHEGEftegW3prkOx8oc0u9G8eCBAMODOwRCnexGG+sZ9SiZu
+ KAYA1Z5gE6hHRXWE2gbtapq86eWmHZDTpUG28A+UoIEQR8ngjIFElmM9goahEjgJ94KG
+ s9p1PMMNXgIHNac1ZxEzxzV2uplML2lXLRiy1kGT3S0E+S3PMKSYq6UPi+wi8GwYcui/
+ imfA==
+X-Gm-Message-State: AOAM532eqFc4qXengPkHmTjwgH/OOZMN1Eb5NAi7U2DBHBu2Exu6kEwq
+ fax7T1FzcqdlqT1RNilm11oOuSYwPxbzZQ==
+X-Google-Smtp-Source: ABdhPJwF1Ny4BhYMjEnpJFkvHCEYUQeXvffSorR8q6UDpztUnjFv86YpoyDgDaoepYYC3r+zCI/SJw==
+X-Received: by 2002:a17:90a:e7c7:: with SMTP id
+ kb7mr35317769pjb.43.1626881098331; 
+ Wed, 21 Jul 2021 08:24:58 -0700 (PDT)
 Received: from omlet.com ([134.134.137.82])
- by smtp.gmail.com with ESMTPSA id e4sm32451034pgi.94.2021.07.21.08.24.55
+ by smtp.gmail.com with ESMTPSA id e4sm32451034pgi.94.2021.07.21.08.24.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Jul 2021 08:24:56 -0700 (PDT)
+ Wed, 21 Jul 2021 08:24:57 -0700 (PDT)
 From: Jason Ekstrand <jason@jlekstrand.net>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH 0/6] Fix the debugfs splat from mock selftests (v3)
-Date: Wed, 21 Jul 2021 10:23:52 -0500
-Message-Id: <20210721152358.2893314-1-jason@jlekstrand.net>
+Subject: [PATCH 1/6] drm/i915: Call i915_globals_exit() after i915_pmu_exit()
+Date: Wed, 21 Jul 2021 10:23:53 -0500
+Message-Id: <20210721152358.2893314-2-jason@jlekstrand.net>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210721152358.2893314-1-jason@jlekstrand.net>
+References: <20210721152358.2893314-1-jason@jlekstrand.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,37 +71,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jason Ekstrand <jason@jlekstrand.net>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Jason Ekstrand <jason@jlekstrand.net>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch series fixes a miscellaneous collection of bugs that all add up
-to all our mock selftests throwing dmesg warnings in CI.  As can be seen
-from "drm/i915: Use a table for i915_init/exit", it's especially fun since
-those warnings don't always show up in the selftests but can show up in
-other random IGTs depending on test execution order.
+We should tear down in the opposite order we set up.
 
-Jason Ekstrand (6):
-  drm/i915: Call i915_globals_exit() after i915_pmu_exit()
-  drm/i915: Call i915_globals_exit() if pci_register_device() fails
-  drm/i915: Use a table for i915_init/exit (v2)
-  drm/ttm: Force re-init if ttm_global_init() fails
-  drm/ttm: Initialize debugfs from ttm_global_init()
-  drm/i915: Make the kmem slab for i915_buddy_block a global
+Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+---
+ drivers/gpu/drm/i915/i915_pci.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- drivers/gpu/drm/i915/i915_buddy.c             |  44 ++++++--
- drivers/gpu/drm/i915/i915_buddy.h             |   3 +-
- drivers/gpu/drm/i915/i915_globals.c           |   6 +-
- drivers/gpu/drm/i915/i915_pci.c               | 104 ++++++++++++------
- drivers/gpu/drm/i915/i915_perf.c              |   3 +-
- drivers/gpu/drm/i915/i915_perf.h              |   2 +-
- drivers/gpu/drm/i915/i915_pmu.c               |   4 +-
- drivers/gpu/drm/i915/i915_pmu.h               |   4 +-
- .../gpu/drm/i915/selftests/i915_selftest.c    |   4 +-
- drivers/gpu/drm/ttm/ttm_device.c              |  14 +++
- drivers/gpu/drm/ttm/ttm_module.c              |  16 ---
- 11 files changed, 136 insertions(+), 68 deletions(-)
-
+diff --git a/drivers/gpu/drm/i915/i915_pci.c b/drivers/gpu/drm/i915/i915_pci.c
+index 67696d7522718..50ed93b03e582 100644
+--- a/drivers/gpu/drm/i915/i915_pci.c
++++ b/drivers/gpu/drm/i915/i915_pci.c
+@@ -1244,8 +1244,8 @@ static void __exit i915_exit(void)
+ 
+ 	i915_perf_sysctl_unregister();
+ 	pci_unregister_driver(&i915_pci_driver);
+-	i915_globals_exit();
+ 	i915_pmu_exit();
++	i915_globals_exit();
+ }
+ 
+ module_init(i915_init);
 -- 
 2.31.1
 
