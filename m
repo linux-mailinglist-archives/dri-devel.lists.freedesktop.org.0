@@ -1,32 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0955F3D138B
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 18:12:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D99F13D1391
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 18:13:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A3EAB6EC66;
-	Wed, 21 Jul 2021 16:12:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C2756E9B1;
+	Wed, 21 Jul 2021 16:13:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A47436EC66;
- Wed, 21 Jul 2021 16:12:51 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10052"; a="297028344"
-X-IronPort-AV: E=Sophos;i="5.84,258,1620716400"; d="scan'208";a="297028344"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE3FF6EC6D;
+ Wed, 21 Jul 2021 16:12:54 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10052"; a="297028356"
+X-IronPort-AV: E=Sophos;i="5.84,258,1620716400"; d="scan'208";a="297028356"
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Jul 2021 09:12:51 -0700
+ 21 Jul 2021 09:12:54 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,258,1620716400"; d="scan'208";a="564787137"
+X-IronPort-AV: E=Sophos;i="5.84,258,1620716400"; d="scan'208";a="564787151"
 Received: from vbelgaum-ubuntu.fm.intel.com ([10.1.27.27])
- by orsmga004.jf.intel.com with ESMTP; 21 Jul 2021 09:12:51 -0700
+ by orsmga004.jf.intel.com with ESMTP; 21 Jul 2021 09:12:54 -0700
 From: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH 13/14] drm/i915/guc/slpc: Add SLPC selftest
-Date: Wed, 21 Jul 2021 09:11:19 -0700
-Message-Id: <20210721161120.24610-14-vinay.belgaumkar@intel.com>
+Subject: [PATCH 14/14] drm/i915/guc/rc: Setup and enable GUCRC feature
+Date: Wed, 21 Jul 2021 09:11:20 -0700
+Message-Id: <20210721161120.24610-15-vinay.belgaumkar@intel.com>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20210721161120.24610-1-vinay.belgaumkar@intel.com>
 References: <20210721161120.24610-1-vinay.belgaumkar@intel.com>
@@ -49,389 +49,278 @@ Cc: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Tests that exercise the SLPC get/set frequency interfaces.
+This feature hands over the control of HW RC6 to the GuC.
+GuC decides when to put HW into RC6 based on it's internal
+busyness algorithms.
 
-Clamp_max will set max frequency to multiple levels and check
-that SLPC requests frequency lower than or equal to it.
+GUCRC needs GuC submission to be enabled, and only
+supported on Gen12+ for now.
 
-Clamp_min will set min frequency to different levels and check
-if SLPC requests are higher or equal to those levels.
+When GUCRC is enabled, do not set HW RC6. Use a H2G message
+to tell GuC to enable GUCRC. When disabling RC6, tell GuC to
+revert RC6 control back to KMD.
 
-v2: Address review comments (Michal W)
+v2: Address comments (Michal W)
 
 Signed-off-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
 ---
- drivers/gpu/drm/i915/gt/intel_rps.c           |   1 +
- drivers/gpu/drm/i915/gt/selftest_slpc.c       | 318 ++++++++++++++++++
- drivers/gpu/drm/i915/gt/selftest_slpc.h       |  12 +
- .../drm/i915/selftests/i915_live_selftests.h  |   1 +
- 4 files changed, 332 insertions(+)
- create mode 100644 drivers/gpu/drm/i915/gt/selftest_slpc.c
- create mode 100644 drivers/gpu/drm/i915/gt/selftest_slpc.h
+ drivers/gpu/drm/i915/Makefile                 |  1 +
+ drivers/gpu/drm/i915/gt/intel_rc6.c           | 22 +++--
+ .../gpu/drm/i915/gt/uc/abi/guc_actions_abi.h  |  6 ++
+ drivers/gpu/drm/i915/gt/uc/intel_guc.c        |  1 +
+ drivers/gpu/drm/i915/gt/uc/intel_guc.h        |  2 +
+ drivers/gpu/drm/i915/gt/uc/intel_guc_rc.c     | 81 +++++++++++++++++++
+ drivers/gpu/drm/i915/gt/uc/intel_guc_rc.h     | 31 +++++++
+ drivers/gpu/drm/i915/gt/uc/intel_uc.h         |  2 +
+ 8 files changed, 141 insertions(+), 5 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/gt/uc/intel_guc_rc.c
+ create mode 100644 drivers/gpu/drm/i915/gt/uc/intel_guc_rc.h
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_rps.c b/drivers/gpu/drm/i915/gt/intel_rps.c
-index 48d4147165a9..6237332835fe 100644
---- a/drivers/gpu/drm/i915/gt/intel_rps.c
-+++ b/drivers/gpu/drm/i915/gt/intel_rps.c
-@@ -2318,4 +2318,5 @@ EXPORT_SYMBOL_GPL(i915_gpu_turbo_disable);
+diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
+index d8eac4468df9..3fc17f20d88e 100644
+--- a/drivers/gpu/drm/i915/Makefile
++++ b/drivers/gpu/drm/i915/Makefile
+@@ -186,6 +186,7 @@ i915-y += gt/uc/intel_uc.o \
+ 	  gt/uc/intel_guc_fw.o \
+ 	  gt/uc/intel_guc_log.o \
+ 	  gt/uc/intel_guc_log_debugfs.o \
++	  gt/uc/intel_guc_rc.o \
+ 	  gt/uc/intel_guc_slpc.o \
+ 	  gt/uc/intel_guc_submission.o \
+ 	  gt/uc/intel_huc.o \
+diff --git a/drivers/gpu/drm/i915/gt/intel_rc6.c b/drivers/gpu/drm/i915/gt/intel_rc6.c
+index 259d7eb4e165..299fcf10b04b 100644
+--- a/drivers/gpu/drm/i915/gt/intel_rc6.c
++++ b/drivers/gpu/drm/i915/gt/intel_rc6.c
+@@ -98,11 +98,19 @@ static void gen11_rc6_enable(struct intel_rc6 *rc6)
+ 	set(uncore, GEN9_MEDIA_PG_IDLE_HYSTERESIS, 60);
+ 	set(uncore, GEN9_RENDER_PG_IDLE_HYSTERESIS, 60);
  
- #if IS_ENABLED(CONFIG_DRM_I915_SELFTEST)
- #include "selftest_rps.c"
-+#include "selftest_slpc.c"
- #endif
-diff --git a/drivers/gpu/drm/i915/gt/selftest_slpc.c b/drivers/gpu/drm/i915/gt/selftest_slpc.c
+-	/* 3a: Enable RC6 */
+-	rc6->ctl_enable =
+-		GEN6_RC_CTL_HW_ENABLE |
+-		GEN6_RC_CTL_RC6_ENABLE |
+-		GEN6_RC_CTL_EI_MODE(1);
++	/* 3a: Enable RC6
++	 *
++	 * With GUCRC, we do not enable bit 31 of RC_CTL,
++	 * thus allowing GuC to control RC6 entry/exit fully instead.
++	 * We will not set the HW ENABLE and EI bits
++	 */
++	if (!intel_guc_rc_enable(&gt->uc.guc))
++		rc6->ctl_enable = GEN6_RC_CTL_RC6_ENABLE;
++	else
++		rc6->ctl_enable =
++			GEN6_RC_CTL_HW_ENABLE |
++			GEN6_RC_CTL_RC6_ENABLE |
++			GEN6_RC_CTL_EI_MODE(1);
+ 
+ 	pg_enable =
+ 		GEN9_RENDER_PG_ENABLE |
+@@ -513,6 +521,10 @@ static void __intel_rc6_disable(struct intel_rc6 *rc6)
+ {
+ 	struct drm_i915_private *i915 = rc6_to_i915(rc6);
+ 	struct intel_uncore *uncore = rc6_to_uncore(rc6);
++	struct intel_gt *gt = rc6_to_gt(rc6);
++
++	/* Take control of RC6 back from GuC */
++	intel_guc_rc_disable(&gt->uc.guc);
+ 
+ 	intel_uncore_forcewake_get(uncore, FORCEWAKE_ALL);
+ 	if (GRAPHICS_VER(i915) >= 9)
+diff --git a/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h b/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h
+index d832c8f11c11..5f1c82f35d97 100644
+--- a/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h
++++ b/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h
+@@ -136,6 +136,7 @@ enum intel_guc_action {
+ 	INTEL_GUC_ACTION_CONTEXT_RESET_NOTIFICATION = 0x1008,
+ 	INTEL_GUC_ACTION_ENGINE_FAILURE_NOTIFICATION = 0x1009,
+ 	INTEL_GUC_ACTION_SLPC_REQUEST = 0x3003,
++	INTEL_GUC_ACTION_SETUP_PC_GUCRC = 0x3004,
+ 	INTEL_GUC_ACTION_AUTHENTICATE_HUC = 0x4000,
+ 	INTEL_GUC_ACTION_REGISTER_CONTEXT = 0x4502,
+ 	INTEL_GUC_ACTION_DEREGISTER_CONTEXT = 0x4503,
+@@ -146,6 +147,11 @@ enum intel_guc_action {
+ 	INTEL_GUC_ACTION_LIMIT
+ };
+ 
++enum intel_guc_rc_options {
++	INTEL_GUCRC_HOST_CONTROL,
++	INTEL_GUCRC_FIRMWARE_CONTROL,
++};
++
+ enum intel_guc_preempt_options {
+ 	INTEL_GUC_PREEMPT_OPTION_DROP_WORK_Q = 0x4,
+ 	INTEL_GUC_PREEMPT_OPTION_DROP_SUBMIT_Q = 0x8,
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
+index 686cb978662d..e474f554b17a 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
+@@ -159,6 +159,7 @@ void intel_guc_init_early(struct intel_guc *guc)
+ 	intel_guc_log_init_early(&guc->log);
+ 	intel_guc_submission_init_early(guc);
+ 	intel_guc_slpc_init_early(&guc->slpc);
++	intel_guc_rc_init_early(guc);
+ 
+ 	mutex_init(&guc->send_mutex);
+ 	spin_lock_init(&guc->irq_lock);
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
+index 8cecfad9d7b1..dcac31098687 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc.h
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
+@@ -59,6 +59,8 @@ struct intel_guc {
+ 
+ 	bool submission_supported;
+ 	bool submission_selected;
++	bool rc_supported;
++	bool rc_selected;
+ 	bool slpc_supported;
+ 	bool slpc_selected;
+ 
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_rc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_rc.c
 new file mode 100644
-index 000000000000..be3c664f714a
+index 000000000000..f1970342c0ab
 --- /dev/null
-+++ b/drivers/gpu/drm/i915/gt/selftest_slpc.c
-@@ -0,0 +1,318 @@
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_rc.c
+@@ -0,0 +1,81 @@
 +// SPDX-License-Identifier: MIT
 +/*
 + * Copyright © 2021 Intel Corporation
 + */
 +
-+#include "selftest_slpc.h"
++#include "intel_guc_rc.h"
++#include "gt/intel_gt.h"
++#include "i915_drv.h"
 +
-+#define NUM_STEPS 5
-+#define H2G_DELAY 50000
-+#define delay_for_h2g() usleep_range(H2G_DELAY, H2G_DELAY + 10000)
-+
-+static int set_min_freq(struct intel_guc_slpc *slpc, int freq)
++static bool __guc_rc_supported(struct intel_guc *guc)
 +{
-+	int ret;
-+
-+	ret = intel_guc_slpc_set_min_freq(slpc, freq);
-+	if (ret) {
-+		pr_err("Could not set min frequency to [%d]\n", freq);
-+		return ret;
-+	} else {
-+		/* Delay to ensure h2g completes */
-+		delay_for_h2g();
-+	}
-+
-+	return ret;
++	/* GuC RC is unavailable for pre-Gen12 */
++	return guc->submission_supported &&
++		GRAPHICS_VER(guc_to_gt(guc)->i915) >= 12;
 +}
 +
-+static int set_max_freq(struct intel_guc_slpc *slpc, int freq)
++static bool __guc_rc_selected(struct intel_guc *guc)
 +{
-+	int ret;
++	if (!intel_guc_rc_is_supported(guc))
++		return false;
 +
-+	ret = intel_guc_slpc_set_max_freq(slpc, freq);
-+	if (ret) {
-+		pr_err("Could not set maximum frequency [%d]\n",
-+			freq);
-+		return ret;
-+	} else {
-+		/* Delay to ensure h2g completes */
-+		delay_for_h2g();
-+	}
-+
-+	return ret;
++	return guc->submission_selected;
 +}
 +
-+int live_slpc_clamp_min(void *arg)
++void intel_guc_rc_init_early(struct intel_guc *guc)
 +{
-+	struct drm_i915_private *i915 = arg;
-+	struct intel_gt *gt = &i915->gt;
-+	struct intel_guc_slpc *slpc = &gt->uc.guc.slpc;
-+	struct intel_rps *rps = &gt->rps;
-+	struct intel_engine_cs *engine;
-+	enum intel_engine_id id;
-+	struct igt_spinner spin;
-+	u32 slpc_min_freq, slpc_max_freq;
-+	int err = 0;
-+
-+	if (!intel_uc_uses_guc_slpc(&gt->uc))
-+		return 0;
-+
-+	if (igt_spinner_init(&spin, gt))
-+		return -ENOMEM;
-+
-+	if (intel_guc_slpc_get_max_freq(slpc, &slpc_max_freq)) {
-+		pr_err("Could not get SLPC max freq\n");
-+		return -EIO;
-+	}
-+
-+	if (intel_guc_slpc_get_min_freq(slpc, &slpc_min_freq)) {
-+		pr_err("Could not get SLPC min freq\n");
-+		return -EIO;
-+	}
-+
-+	if (slpc_min_freq == slpc_max_freq) {
-+		pr_err("Min/Max are fused to the same value\n");
-+		return -EINVAL;
-+	}
-+
-+	intel_gt_pm_wait_for_idle(gt);
-+	intel_gt_pm_get(gt);
-+	for_each_engine(engine, gt, id) {
-+		struct i915_request *rq;
-+		u32 step, min_freq, req_freq;
-+		u32 act_freq, max_act_freq;
-+
-+		if (!intel_engine_can_store_dword(engine))
-+			continue;
-+
-+		/* Go from min to max in 5 steps */
-+		step = (slpc_max_freq - slpc_min_freq) / NUM_STEPS;
-+		max_act_freq = slpc_min_freq;
-+		for (min_freq = slpc_min_freq; min_freq < slpc_max_freq;
-+							min_freq += step)
-+		{
-+			err = set_min_freq(slpc, min_freq);
-+			if (err)
-+				break;
-+
-+			st_engine_heartbeat_disable(engine);
-+
-+			rq = igt_spinner_create_request(&spin,
-+					engine->kernel_context,
-+					MI_NOOP);
-+			if (IS_ERR(rq)) {
-+				err = PTR_ERR(rq);
-+				st_engine_heartbeat_enable(engine);
-+				break;
-+			}
-+
-+			i915_request_add(rq);
-+
-+			if (!igt_wait_for_spinner(&spin, rq)) {
-+				pr_err("%s: Spinner did not start\n",
-+					engine->name);
-+				igt_spinner_end(&spin);
-+				st_engine_heartbeat_enable(engine);
-+				intel_gt_set_wedged(engine->gt);
-+				err = -EIO;
-+				break;
-+			}
-+
-+			/* Wait for GuC to detect business and raise
-+			 * requested frequency if necessary */
-+			delay_for_h2g();
-+
-+			req_freq = intel_rps_read_punit_req_frequency(rps);
-+
-+			/* GuC requests freq in multiples of 50/3 MHz */
-+			if (req_freq < (min_freq - 50/3)) {
-+				pr_err("SWReq is %d, should be at least %d\n", req_freq,
-+					min_freq - 50/3);
-+				igt_spinner_end(&spin);
-+				st_engine_heartbeat_enable(engine);
-+				err = -EINVAL;
-+				break;
-+			}
-+
-+			act_freq =  intel_rps_read_actual_frequency(rps);
-+			if (act_freq > max_act_freq)
-+				max_act_freq = act_freq;
-+
-+			igt_spinner_end(&spin);
-+			st_engine_heartbeat_enable(engine);
-+		}
-+
-+		pr_info("Max actual frequency for %s was %d\n",
-+				engine->name, max_act_freq);
-+
-+		/* Actual frequency should rise above min */
-+		if (max_act_freq == slpc_min_freq) {
-+			pr_err("Actual freq did not rise above min\n");
-+			err = -EINVAL;
-+		}
-+
-+		if (err)
-+			break;
-+	}
-+
-+	/* Restore min/max frequencies */
-+	set_max_freq(slpc, slpc_max_freq);
-+	set_min_freq(slpc, slpc_min_freq);
-+
-+	if (igt_flush_test(gt->i915))
-+		err = -EIO;
-+
-+	intel_gt_pm_put(gt);
-+	igt_spinner_fini(&spin);
-+	intel_gt_pm_wait_for_idle(gt);
-+
-+	return err;
++	guc->rc_supported = __guc_rc_supported(guc);
++	guc->rc_selected = __guc_rc_selected(guc);
 +}
 +
-+int live_slpc_clamp_max(void *arg)
++static int guc_action_control_gucrc(struct intel_guc *guc, bool enable)
 +{
-+	struct drm_i915_private *i915 = arg;
-+	struct intel_gt *gt = &i915->gt;
-+	struct intel_guc_slpc *slpc;
-+	struct intel_rps *rps;
-+	struct intel_engine_cs *engine;
-+	enum intel_engine_id id;
-+	struct igt_spinner spin;
-+	int err = 0;
-+	u32 slpc_min_freq, slpc_max_freq;
-+
-+	slpc = &gt->uc.guc.slpc;
-+	rps = &gt->rps;
-+
-+	if (!intel_uc_uses_guc_slpc(&gt->uc))
-+		return 0;
-+
-+	if (igt_spinner_init(&spin, gt))
-+		return -ENOMEM;
-+
-+	if (intel_guc_slpc_get_max_freq(slpc, &slpc_max_freq)) {
-+		pr_err("Could not get SLPC max freq\n");
-+		return -EIO;
-+	}
-+
-+	if (intel_guc_slpc_get_min_freq(slpc, &slpc_min_freq)) {
-+		pr_err("Could not get SLPC min freq\n");
-+		return -EIO;
-+	}
-+
-+	if (slpc_min_freq == slpc_max_freq) {
-+		pr_err("Min/Max are fused to the same value\n");
-+		return -EINVAL;
-+	}
-+
-+	intel_gt_pm_wait_for_idle(gt);
-+	intel_gt_pm_get(gt);
-+	for_each_engine(engine, gt, id) {
-+		struct i915_request *rq;
-+		u32 max_freq, req_freq;
-+		u32 act_freq, max_act_freq;
-+		u32 step;
-+
-+		if (!intel_engine_can_store_dword(engine))
-+			continue;
-+
-+		/* Go from max to min in 5 steps */
-+		step = (slpc_max_freq - slpc_min_freq) / NUM_STEPS;
-+		max_act_freq = slpc_min_freq;
-+		for (max_freq = slpc_max_freq; max_freq > slpc_min_freq;
-+							max_freq -= step)
-+		{
-+			err = set_max_freq(slpc, max_freq);
-+			if (err)
-+				break;
-+
-+			st_engine_heartbeat_disable(engine);
-+
-+			rq = igt_spinner_create_request(&spin,
-+						engine->kernel_context,
-+						MI_NOOP);
-+			if (IS_ERR(rq)) {
-+				st_engine_heartbeat_enable(engine);
-+				err = PTR_ERR(rq);
-+				break;
-+			}
-+
-+			i915_request_add(rq);
-+
-+			if (!igt_wait_for_spinner(&spin, rq)) {
-+				pr_err("%s: SLPC spinner did not start\n",
-+				       engine->name);
-+				igt_spinner_end(&spin);
-+				st_engine_heartbeat_enable(engine);
-+				intel_gt_set_wedged(engine->gt);
-+				err = -EIO;
-+				break;
-+			}
-+
-+			delay_for_h2g();
-+
-+			/* Verify that SWREQ indeed was set to specific value */
-+			req_freq = intel_rps_read_punit_req_frequency(rps);
-+
-+			/* GuC requests freq in multiples of 50/3 MHz */
-+			if (req_freq > (max_freq + 50/3)) {
-+				pr_err("SWReq is %d, should be at most %d\n", req_freq,
-+					max_freq + 50/3);
-+				igt_spinner_end(&spin);
-+				st_engine_heartbeat_enable(engine);
-+				err = -EINVAL;
-+				break;
-+			}
-+
-+			act_freq =  intel_rps_read_actual_frequency(rps);
-+			if (act_freq > max_act_freq)
-+				max_act_freq = act_freq;
-+
-+			st_engine_heartbeat_enable(engine);
-+			igt_spinner_end(&spin);
-+
-+			if (err)
-+				break;
-+		}
-+
-+		pr_info("Max actual frequency for %s was %d\n",
-+				engine->name, max_act_freq);
-+
-+		/* Actual frequency should rise above min */
-+		if (max_act_freq == slpc_min_freq) {
-+			pr_err("Actual freq did not rise above min\n");
-+			err = -EINVAL;
-+		}
-+
-+		if (igt_flush_test(gt->i915)) {
-+			err = -EIO;
-+			break;
-+		}
-+
-+		if (err)
-+			break;
-+	}
-+
-+	/* Restore min/max freq */
-+	set_max_freq(slpc, slpc_max_freq);
-+	set_min_freq(slpc, slpc_min_freq);
-+
-+	intel_gt_pm_put(gt);
-+	igt_spinner_fini(&spin);
-+	intel_gt_pm_wait_for_idle(gt);
-+
-+	return err;
-+}
-+
-+int intel_slpc_live_selftests(struct drm_i915_private *i915)
-+{
-+	static const struct i915_subtest tests[] = {
-+		SUBTEST(live_slpc_clamp_max),
-+		SUBTEST(live_slpc_clamp_min),
++	u32 rc_mode = enable ? INTEL_GUCRC_FIRMWARE_CONTROL :
++				INTEL_GUCRC_HOST_CONTROL;
++	u32 action[] = {
++		INTEL_GUC_ACTION_SETUP_PC_GUCRC,
++		rc_mode
 +	};
++	int ret;
 +
-+	if (intel_gt_is_wedged(&i915->gt))
-+		return 0;
++	ret = intel_guc_send(guc, action, ARRAY_SIZE(action));
++	ret = ret > 0 ? -EPROTO : ret;
 +
-+	return i915_live_subtests(tests, i915);
++	return ret;
 +}
-diff --git a/drivers/gpu/drm/i915/gt/selftest_slpc.h b/drivers/gpu/drm/i915/gt/selftest_slpc.h
++
++static int __guc_rc_control(struct intel_guc *guc, bool enable)
++{
++	struct intel_gt *gt = guc_to_gt(guc);
++	struct drm_device *drm = &guc_to_gt(guc)->i915->drm;
++	int ret;
++
++	if (!intel_uc_uses_guc_rc(&gt->uc))
++		return -ENOTSUPP;
++
++	if (!intel_guc_is_ready(guc))
++		return -EINVAL;
++
++	ret = guc_action_control_gucrc(guc, enable);
++	if (ret) {
++		drm_err(drm, "Failed to set GUCRC mode(%d), err=(%pe)\n",
++			enable ? INTEL_GUCRC_FIRMWARE_CONTROL:
++			INTEL_GUCRC_HOST_CONTROL, ERR_PTR(ret));
++		return ret;
++	}
++
++	drm_info(&gt->i915->drm, "GuC RC %s\n",
++	         enableddisabled(enable));
++
++	return 0;
++}
++
++int intel_guc_rc_enable(struct intel_guc *guc)
++{
++	return __guc_rc_control(guc, true);
++}
++
++int intel_guc_rc_disable(struct intel_guc *guc)
++{
++	return __guc_rc_control(guc, false);
++}
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_rc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_rc.h
 new file mode 100644
-index 000000000000..0480e62ed3d7
+index 000000000000..57e86c337838
 --- /dev/null
-+++ b/drivers/gpu/drm/i915/gt/selftest_slpc.h
-@@ -0,0 +1,12 @@
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_rc.h
+@@ -0,0 +1,31 @@
 +/* SPDX-License-Identifier: MIT */
 +/*
 + * Copyright © 2021 Intel Corporation
 + */
 +
-+#ifndef SELFTEST_SLPC_H
-+#define SELFTEST_SLPC_H
++#ifndef _INTEL_GUC_RC_H_
++#define _INTEL_GUC_RC_H_
 +
-+int live_slpc_clamp_max(void *arg);
-+int live_slpc_clamp_min(void *arg);
++#include "intel_guc_submission.h"
 +
-+#endif /* SELFTEST_SLPC_H */
-diff --git a/drivers/gpu/drm/i915/selftests/i915_live_selftests.h b/drivers/gpu/drm/i915/selftests/i915_live_selftests.h
-index e2fd1b61af71..1746a56dda06 100644
---- a/drivers/gpu/drm/i915/selftests/i915_live_selftests.h
-+++ b/drivers/gpu/drm/i915/selftests/i915_live_selftests.h
-@@ -47,5 +47,6 @@ selftest(hangcheck, intel_hangcheck_live_selftests)
- selftest(execlists, intel_execlists_live_selftests)
- selftest(ring_submission, intel_ring_submission_live_selftests)
- selftest(perf, i915_perf_live_selftests)
-+selftest(slpc, intel_slpc_live_selftests)
- /* Here be dragons: keep last to run last! */
- selftest(late_gt_pm, intel_gt_pm_late_selftests)
++void intel_guc_rc_init_early(struct intel_guc *guc);
++
++static inline bool intel_guc_rc_is_supported(struct intel_guc *guc)
++{
++	return guc->rc_supported;
++}
++
++static inline bool intel_guc_rc_is_wanted(struct intel_guc *guc)
++{
++	return guc->submission_selected && intel_guc_rc_is_supported(guc);
++}
++
++static inline bool intel_guc_rc_is_used(struct intel_guc *guc)
++{
++	return intel_guc_submission_is_used(guc) && intel_guc_rc_is_wanted(guc);
++}
++
++int intel_guc_rc_enable(struct intel_guc *guc);
++int intel_guc_rc_disable(struct intel_guc *guc);
++
++#endif
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc.h b/drivers/gpu/drm/i915/gt/uc/intel_uc.h
+index 925a58ca6b94..866b462821c0 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_uc.h
++++ b/drivers/gpu/drm/i915/gt/uc/intel_uc.h
+@@ -7,6 +7,7 @@
+ #define _INTEL_UC_H_
+ 
+ #include "intel_guc.h"
++#include "intel_guc_rc.h"
+ #include "intel_guc_submission.h"
+ #include "intel_guc_slpc.h"
+ #include "intel_huc.h"
+@@ -85,6 +86,7 @@ uc_state_checkers(guc, guc);
+ uc_state_checkers(huc, huc);
+ uc_state_checkers(guc, guc_submission);
+ uc_state_checkers(guc, guc_slpc);
++uc_state_checkers(guc, guc_rc);
+ 
+ #undef uc_state_checkers
+ #undef __uc_state_checker
 -- 
 2.25.0
 
