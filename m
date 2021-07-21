@@ -1,58 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B6163D15B7
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 19:56:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E474C3D15B9
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 19:56:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C0A106EC20;
-	Wed, 21 Jul 2021 17:56:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C8CFA6EC24;
+	Wed, 21 Jul 2021 17:56:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x735.google.com (mail-qk1-x735.google.com
- [IPv6:2607:f8b0:4864:20::735])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8BE586EC20
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 17:56:19 +0000 (UTC)
-Received: by mail-qk1-x735.google.com with SMTP id q15so2861138qkm.8
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 10:56:19 -0700 (PDT)
+Received: from mail-qk1-x734.google.com (mail-qk1-x734.google.com
+ [IPv6:2607:f8b0:4864:20::734])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9CF796EC24
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 17:56:23 +0000 (UTC)
+Received: by mail-qk1-x734.google.com with SMTP id bm6so2906746qkb.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 10:56:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=poorly.run; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=s5kCoPIWaEgRDHab51bWpg6a/Dd81e6wqtHD2wi+BP0=;
- b=ChenSsXdbDl5aTq0sUbNKneDgbSYSdDxayK9i9rCcKZ095PGXsfVPlh2c9G6I6WYuj
- KsovBQ1GzgxlhkHp6RdhSnlEWusfNFpmLRm5a4MUsTCke1FLaFZMTzt3zsZ8xrWHUiUH
- HuhG9AotnX3wimxTqax0Jdhp16PxdILEDDVvIrdoDZ0l2pNNgOXIoh7ZzHnoJ83sy5+p
- FoblAN/LqzKcb0kllRcf9Pg6q5qywtE+ZivyAeJflIToNz3GVaJR05assbYYdptevixT
- JsP0AqHtn6Zt43k+nNGd4hUy/0oqzdyUdJ7grgYGZ8gn+QGvGX3KJfXNu9i0Nviti/4r
- //vQ==
+ bh=3aPSv8mU3AbCHcMFdN+dylgnKrMQgvv2xeAE6ndQ/lg=;
+ b=UEKAiKxwuGl5DOU7RytreKynZZtulprGu3JD7GVZtOo8cxtjHOX2hzYUdMNWqN1WWM
+ eecbQaoYNGqioKrOviRkvfWAahOpQtBk4bE1qEFxpij9tLnt/EOUM3SEylZOxcnjxs4t
+ rt5DIiaC9hVuk0fbnzH/jqAfgQ7qpePV5sjisubF8LCNKVNPjMQyX5NWrZ0sKJcIEHug
+ 74dyFPxJDrNR0W884yFkb1WbQsFiSk3X2S+yXZnkOdJCUMvOZUgOOQUECK2I4dGjuZQp
+ WHZC9dOL0IXzKgm9/vU8w0TkhsFQX26TJ28TKCFnV373QnrUFm6EdC9qzfHxpeXPvSHg
+ eN+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=s5kCoPIWaEgRDHab51bWpg6a/Dd81e6wqtHD2wi+BP0=;
- b=Xz698UOAMDd6MPqJ5+LvgUw8hBKtpJSIH96LIBwSk5uZckyfaaPVANrpfXzyBIQcmJ
- rQxY+9I83rohpapUg9Y1C786VA3FYCZeRvetbpCx3LaHmm9cM5PzNdYXSSg2RC45o5Xx
- OXMNoAsQitJ4k7+BYWy9pM1Eqe3foFRLluPNW7ljAE5nuwF1RqvlzsrpD6eDKG0lI7lz
- 3r3OWM0UqHOlwgKhzMNwzHgm5C9a9RbTFYzPFiC2fSHeiGtdmOBWIK1ac6m3Q+NIiNMM
- d3C/yhNWieJnHZwhwpo/hsAcfQWn+SZxmmS+5ciyjN0nnnFq//sgq/J84Hv6LeulZVxF
- c2GQ==
-X-Gm-Message-State: AOAM533VeSSccNGjXFZN26GYvC3Thfgg9PyOEQ9L+qYWG0VbNAZXnANY
- +U6jvwt1zcjxQT60A026KwAiwZFGXTaDpg==
-X-Google-Smtp-Source: ABdhPJz5cpVzsaV5ztunMqTbe1NPaosx1FiDSV8tkfqz1rNWBgF6WEINhrr8tZTPT3O9OcOvcRLGbA==
-X-Received: by 2002:a37:66d6:: with SMTP id a205mr4953679qkc.422.1626890178622; 
- Wed, 21 Jul 2021 10:56:18 -0700 (PDT)
+ bh=3aPSv8mU3AbCHcMFdN+dylgnKrMQgvv2xeAE6ndQ/lg=;
+ b=Ix+5Yxu+VWyX34vpZfY06vEyZYa0MP50f1x09k2sVzRUSh98C+cttccMESEzYFPBjt
+ FEYkB4qY0qUCd435lfLAyYQRkr0+ppAOgCm0JrMkoyMQww23dKjwScPFbLRIalnSONij
+ O9yrCkt+LJPxWOoWCsBMS0qIMIkx12MUtudTgPJbLRwIIc2azLF/7jB1/P6NpmUpHxyc
+ ZFuC6vz4UdBoofG3JA5xhDpEtLCCkAz5aeGdbBMVtBx+N6+w10AiD1xK5cCzvUnSMe5R
+ RwUczaHLvpE3hMhStrs/jCYCyJ5EJ9Wf5J6v4yfEVwrmMcZxe38YWnpQX3Jw+kvcAgqh
+ Vl+Q==
+X-Gm-Message-State: AOAM531fQUhizO6oJse6NKYQEZ9u3rfsufUEHHWEBdue7vYX0Zmag//Q
+ zCrAoCb4VmAx7dQ1fpu3rJvhI9hiFcuOKA==
+X-Google-Smtp-Source: ABdhPJytrLby92pWZXaux2n8Ywej7baHIvSrQti78yqoxO4kXC/jEucxQ9yxi5aOpS5mFrtrro3RzA==
+X-Received: by 2002:ae9:f201:: with SMTP id m1mr35493084qkg.381.1626890182775; 
+ Wed, 21 Jul 2021 10:56:22 -0700 (PDT)
 Received: from localhost ([167.100.64.199])
- by smtp.gmail.com with ESMTPSA id d16sm9183955qtj.69.2021.07.21.10.56.18
+ by smtp.gmail.com with ESMTPSA id f15sm7497848qtv.60.2021.07.21.10.56.22
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Wed, 21 Jul 2021 10:56:18 -0700 (PDT)
+ Wed, 21 Jul 2021 10:56:22 -0700 (PDT)
 From: Sean Paul <sean@poorly.run>
 To: dri-devel@lists.freedesktop.org, ppaalanen@gmail.com,
  maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, airlied@linux.ie,
  daniel.vetter@ffwll.ch
-Subject: [RESEND PATCH v6 11/14] drm/mst: Convert debug printers to debug
- category printers
-Date: Wed, 21 Jul 2021 13:55:18 -0400
-Message-Id: <20210721175526.22020-12-sean@poorly.run>
+Subject: [RESEND PATCH v6 12/14] drm/i915: Use debug category printer for
+ welcome message
+Date: Wed, 21 Jul 2021 13:55:19 -0400
+Message-Id: <20210721175526.22020-13-sean@poorly.run>
 X-Mailer: git-send-email 2.31.0
 In-Reply-To: <20210721175526.22020-1-sean@poorly.run>
 References: <20210721175526.22020-1-sean@poorly.run>
@@ -70,62 +70,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <seanpaul@chromium.org>
+Cc: intel-gfx@lists.freedesktop.org, Sean Paul <seanpaul@chromium.org>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Sean Paul <seanpaul@chromium.org>
 
-The printers in dp_mst are meant to be gated on DRM_UT_DP, so use the
-debug category printer to avoid dumping mst transactions to the wrong
+The welcome printer is meant to be gated on DRM_UT_DRIVER, so use the
+debug category printer to avoid dumping the message in the wrong
 place.
 
 Signed-off-by: Sean Paul <seanpaul@chromium.org>
-Link: https://patchwork.freedesktop.org/patch/msgid/20200608210505.48519-12-sean@poorly.run #v5
+Link: https://patchwork.freedesktop.org/patch/msgid/20200608210505.48519-13-sean@poorly.run #v5
 
 Changes in v5:
 -Added to the set
 Changes in v6:
 -None
-Reviewed-by: Lyude Paul <lyude@redhat.com>
 ---
- drivers/gpu/drm/drm_dp_mst_topology.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/i915/i915_drv.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_dp_mst_topology.c
-index ad0795afc21c..b1dddecad4c6 100644
---- a/drivers/gpu/drm/drm_dp_mst_topology.c
-+++ b/drivers/gpu/drm/drm_dp_mst_topology.c
-@@ -1356,7 +1356,8 @@ static int drm_dp_mst_wait_tx_reply(struct drm_dp_mst_branch *mstb,
- 	}
- out:
- 	if (unlikely(ret == -EIO) && drm_debug_enabled(DRM_UT_DP)) {
--		struct drm_printer p = drm_debug_printer(DBG_PREFIX);
-+		struct drm_printer p = drm_debug_category_printer(DRM_UT_DP,
-+								  DBG_PREFIX);
+diff --git a/drivers/gpu/drm/i915/i915_drv.c b/drivers/gpu/drm/i915/i915_drv.c
+index c43b698bf0b9..93299af1e853 100644
+--- a/drivers/gpu/drm/i915/i915_drv.c
++++ b/drivers/gpu/drm/i915/i915_drv.c
+@@ -731,7 +731,8 @@ static void i915_driver_unregister(struct drm_i915_private *dev_priv)
+ static void i915_welcome_messages(struct drm_i915_private *dev_priv)
+ {
+ 	if (drm_debug_enabled(DRM_UT_DRIVER)) {
+-		struct drm_printer p = drm_debug_printer("i915 device info:");
++		struct drm_printer p = drm_debug_category_printer(DRM_UT_DRIVER,
++						"i915 device info:");
  
- 		drm_dp_mst_dump_sideband_msg_tx(&p, txmsg);
- 	}
-@@ -2873,7 +2874,8 @@ static int process_single_tx_qlock(struct drm_dp_mst_topology_mgr *mgr,
- 
- 	ret = drm_dp_send_sideband_msg(mgr, up, chunk, idx);
- 	if (unlikely(ret) && drm_debug_enabled(DRM_UT_DP)) {
--		struct drm_printer p = drm_debug_printer(DBG_PREFIX);
-+		struct drm_printer p = drm_debug_category_printer(DRM_UT_DP,
-+								  DBG_PREFIX);
- 
- 		drm_printf(&p, "sideband msg failed to send\n");
- 		drm_dp_mst_dump_sideband_msg_tx(&p, txmsg);
-@@ -2917,7 +2919,8 @@ static void drm_dp_queue_down_tx(struct drm_dp_mst_topology_mgr *mgr,
- 	list_add_tail(&txmsg->next, &mgr->tx_msg_downq);
- 
- 	if (drm_debug_enabled(DRM_UT_DP)) {
--		struct drm_printer p = drm_debug_printer(DBG_PREFIX);
-+		struct drm_printer p = drm_debug_category_printer(DRM_UT_DP,
-+								  DBG_PREFIX);
- 
- 		drm_dp_mst_dump_sideband_msg_tx(&p, txmsg);
- 	}
+ 		drm_printf(&p, "pciid=0x%04x rev=0x%02x platform=%s (subplatform=0x%x) gen=%i\n",
+ 			   INTEL_DEVID(dev_priv),
 -- 
 Sean Paul, Software Engineer, Google / Chromium OS
 
