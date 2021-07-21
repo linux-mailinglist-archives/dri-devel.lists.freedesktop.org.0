@@ -1,58 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBAD13D0F91
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 15:30:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DC6223D0F99
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 15:36:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF88C6EB2F;
-	Wed, 21 Jul 2021 13:30:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D6FDC6EB59;
+	Wed, 21 Jul 2021 13:36:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
- [IPv6:2a00:1450:4864:20::436])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2616C6EB12
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 13:30:24 +0000 (UTC)
-Received: by mail-wr1-x436.google.com with SMTP id u1so2234200wrs.1
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 06:30:23 -0700 (PDT)
+Received: from mail-oi1-x236.google.com (mail-oi1-x236.google.com
+ [IPv6:2607:f8b0:4864:20::236])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB7F46EB52
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 13:36:50 +0000 (UTC)
+Received: by mail-oi1-x236.google.com with SMTP id t6so2930985oic.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 06:36:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=Rwfs5+AW0M9YMzsGWjOsQQtX6ZLGDGpVWAUp13x/Y5I=;
- b=CCed9AFJH2Xw+zjsZyy/h1hYyPpLgbE9YK7sn0843CH3SmHqg+MN8xbZfkZGwCdG87
- KEJ/rKlAjoTPTEWoLdTNrD+YlLIeEka9l7j4ACOUXSsLRMz8wUZ5voktkLXrPtMiZCgq
- xMlkw7mTQdKCSBuY0F/oLdcsfmlF+ObFd0yXU=
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=5aqtbD9FuJivGbs33TkxySBJRzBoG1BJBI4J4xEyucc=;
+ b=G3UoEFuIblazyrF5o2yFYsqiyF3RJ06wFJaOGgeVx5i81Gdt5CFOJFsLj5Yd5wesnJ
+ wXdDdoDlb2Ep5FFJwXvLZziAuNslWbYnAJwqkYJxVipSC94Gx/o1vv9YCm8GbkO1FYEa
+ 7dB9+ENlNsj9/uy4DZNkJfXgIUL1bC2Da/WzQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Rwfs5+AW0M9YMzsGWjOsQQtX6ZLGDGpVWAUp13x/Y5I=;
- b=Nk7aM7kqJcAdkSSbkLd8lYmVppM0lmoRwz+GsZFhHRhWBnPt5I2lvpMJkJVbPrz9p+
- ZYEyoI/QTpYjV5J+4sIoSYnrdNLlz9mJk3MQ7p3BEkE3VvsUfroxTKHuVOiLsSM8FbxA
- UQBUB/7GfZpiCoIet/4956F5Ai7SqR1Rw1q3kLPsIIMG89aXLGKCJJqMt3yGVyynXnDw
- py19T/NyHRC//T2roa9SADKkzfCF3E07658XBvUtW+5a9m3BdB2WxJncgz9TQ+pR81z/
- 93BJnsFz79krOpecBfm2MIpVAVzUOpAgC754Xx1QIeQnW0nSyumstBi2T348dTTNHopV
- EJHA==
-X-Gm-Message-State: AOAM530SFcg0d07IGztLsKXwPgKK7ubwvtRb9be0hSGMNpJJ4sxLwrp0
- 0ygOAtSlWxJObONUYw+/0sTMsLsLChofeQ==
-X-Google-Smtp-Source: ABdhPJwA/sneHEcPSZJwCCeBy17/RKYZuFaZMD8E/dnTqfYDScAd6zarC1UOisJdcgILtmtF/eCcGg==
-X-Received: by 2002:adf:e0c4:: with SMTP id m4mr42798039wri.312.1626874222741; 
- Wed, 21 Jul 2021 06:30:22 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id l22sm4962624wmp.41.2021.07.21.06.30.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Jul 2021 06:30:22 -0700 (PDT)
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 3/3] drm/plane: Move drm_plane_enable_fb_damage_clips into core
-Date: Wed, 21 Jul 2021 15:30:14 +0200
-Message-Id: <20210721133014.3880922-3-daniel.vetter@ffwll.ch>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20210721133014.3880922-1-daniel.vetter@ffwll.ch>
-References: <20210721133014.3880922-1-daniel.vetter@ffwll.ch>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=5aqtbD9FuJivGbs33TkxySBJRzBoG1BJBI4J4xEyucc=;
+ b=o7I+rdO/ciu2ocils2pO19kxIfSIy3e3mb1RgUnn906NWiM83v8wg3J58BHkKqYsff
+ jj36iUArFxk99qWs065oykpk8zJ6bzRtBws26md8j6AnHcHsp35pBNUtTfOKBw53AhUJ
+ nk2fJ/OaMzBGi6iLOR5vclre255foYd7osPOpvzWqP2RaUAGpYKUQ4in7Bnx9Tm96h5w
+ 7JRdA6n5YP6q+Y1oir98sutNZiGf5sSU8T/pdGB40xCLNqpyH0yYYXgH2OQPdOrDRyBU
+ lR8FXMBwvLfTXeISlIal9yY//vWDBTUAorX8NliaQFUY8V1QZuPGksaIwY54Qx7XA34/
+ L9XQ==
+X-Gm-Message-State: AOAM532yIcD/xXo5KksBfvziBnEXES/OxUu6UmNetzCoTTCsabeR8tjV
+ cg/CQ7rBSuaUUoOs6EDRGegy6MxxVmjQo6fRTaANig==
+X-Google-Smtp-Source: ABdhPJw0XLyQGaKbAgt3m4CtXAKbGv8rlRmY38KQqj2cbZCqL8DTqpdI8s5ZVkoe+gWKzR5hummVq7cEBu+d69D49Hc=
+X-Received: by 2002:aca:3085:: with SMTP id w127mr2522234oiw.101.1626874609935; 
+ Wed, 21 Jul 2021 06:36:49 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20210721092133.2817-1-christian.koenig@amd.com>
+ <20210721092133.2817-2-christian.koenig@amd.com>
+ <YPgKbBXpoEZFHcHE@phenom.ffwll.local>
+ <a3b4026b-5133-1ed6-91d4-044d4caec604@gmail.com>
+In-Reply-To: <a3b4026b-5133-1ed6-91d4-044d4caec604@gmail.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Wed, 21 Jul 2021 15:36:38 +0200
+Message-ID: <CAKMK7uFyN8CESxibfyCWqZvi7QHYhXK1-=r9cP82vZAYz7DMOg@mail.gmail.com>
+Subject: Re: [PATCH 2/2] dma-buf: clarify dma_fence_add_callback documentation
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,220 +63,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- =?UTF-8?q?Jos=C3=A9=20Roberto=20de=20Souza?= <jose.souza@intel.com>,
- Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>,
- Hans de Goede <hdegoede@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We're trying to have a fairly strict split between core functionality
-that defines the uapi, including the docs, and the helper functions to
-implement it.
+On Wed, Jul 21, 2021 at 3:18 PM Christian K=C3=B6nig
+<ckoenig.leichtzumerken@gmail.com> wrote:
+> Am 21.07.21 um 13:52 schrieb Daniel Vetter:
+> > On Wed, Jul 21, 2021 at 11:21:33AM +0200, Christian K=C3=B6nig wrote:
+> >> That the caller doesn't need to keep a reference is rather
+> >> risky and not defensive at all.
+> >>
+> >> Especially dma_buf_poll got that horrible wrong, so better
+> >> remove that sentence and also clarify that the callback
+> >> might be called in atomic or interrupt context.
+> >>
+> >> Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+> > I'm very vary of aspirational interface docs for cross-anything, it jus=
+t
+> > means everyone does whatever they feel like. I think I get what you aim
+> > for here, but this needs more careful wording.
+>
+> Yeah, I'm seeing the problems but I'm not really good at documenting
+> things either.
+>
+> >
+> >
+> >> ---
+> >>   drivers/dma-buf/dma-fence.c | 13 +++++--------
+> >>   1 file changed, 5 insertions(+), 8 deletions(-)
+> >>
+> >> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
+> >> index ce0f5eff575d..1e82ecd443fa 100644
+> >> --- a/drivers/dma-buf/dma-fence.c
+> >> +++ b/drivers/dma-buf/dma-fence.c
+> >> @@ -616,20 +616,17 @@ EXPORT_SYMBOL(dma_fence_enable_sw_signaling);
+> >>    * @cb: the callback to register
+> >>    * @func: the function to call
+> >>    *
+> >> + * Add a software callback to the fence. The caller should keep a ref=
+erence to
+> >> + * the fence.
+> > Instead of your "The caller should" what about:
+> >
+> > It is not required to hold rerence to @fence.
+>
+> I'm not sure that is a good wording since it can be misinterpreted once
+> more.
+>
+> >   But since the fence can
+> > disappear as soon as @cb has returned callers generally must hold their
+> > own reference to prevent issues.
+> >
+> >
+> > With that or something similar that explains when we must do what and n=
+ot
+> > vague "should" wording.
+>
+> Ok if you want to avoid "should" then I would rather write:
+>
+> The caller must make sure that there is a reference to the fence until
+> the callback is called or removed.
 
-Move drm_plane_enable_fb_damage_clips and associated kerneldoc into
-drm_plane from drm_damage_helper.c to fix this.
+Yeah but is that really the case? If you never remove the callback
+yourself and instead just wait until the cb is called, then that
+should be safe? Assuming you don't look at the fence afterwards at
+all. It's just that in practice there's tons of reasons why you might
+need to bail out and remove the cb, and at that point you can race and
+need your own reference, or things go boom.
 
-Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
-Cc: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
-Cc: José Roberto de Souza <jose.souza@intel.com>
-Cc: Hans de Goede <hdegoede@redhat.com>
-Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
----
- Documentation/gpu/drm-kms.rst       |  4 +--
- drivers/gpu/drm/drm_damage_helper.c | 54 -----------------------------
- drivers/gpu/drm/drm_plane.c         | 54 +++++++++++++++++++++++++++++
- include/drm/drm_damage_helper.h     |  1 -
- include/drm/drm_plane.h             |  3 +-
- 5 files changed, 58 insertions(+), 58 deletions(-)
+So there's no unconditional requirement to hold a reference.
+-Daniel
 
-diff --git a/Documentation/gpu/drm-kms.rst b/Documentation/gpu/drm-kms.rst
-index 87e5023e3f55..7399f497e7e2 100644
---- a/Documentation/gpu/drm-kms.rst
-+++ b/Documentation/gpu/drm-kms.rst
-@@ -508,8 +508,8 @@ Plane Composition Properties
- Damage Tracking Properties
- --------------------------
- 
--.. kernel-doc:: drivers/gpu/drm/drm_damage_helper.c
--   :doc: overview
-+.. kernel-doc:: drivers/gpu/drm/drm_plane.c
-+   :doc: damage tracking
- 
- Color Management Properties
- ---------------------------
-diff --git a/drivers/gpu/drm/drm_damage_helper.c b/drivers/gpu/drm/drm_damage_helper.c
-index eb69b7123af5..245959dad7bb 100644
---- a/drivers/gpu/drm/drm_damage_helper.c
-+++ b/drivers/gpu/drm/drm_damage_helper.c
-@@ -34,44 +34,6 @@
- #include <drm/drm_damage_helper.h>
- #include <drm/drm_device.h>
- 
--/**
-- * DOC: overview
-- *
-- * FB_DAMAGE_CLIPS is an optional plane property which provides a means to
-- * specify a list of damage rectangles on a plane in framebuffer coordinates of
-- * the framebuffer attached to the plane. In current context damage is the area
-- * of plane framebuffer that has changed since last plane update (also called
-- * page-flip), irrespective of whether currently attached framebuffer is same as
-- * framebuffer attached during last plane update or not.
-- *
-- * FB_DAMAGE_CLIPS is a hint to kernel which could be helpful for some drivers
-- * to optimize internally especially for virtual devices where each framebuffer
-- * change needs to be transmitted over network, usb, etc.
-- *
-- * Since FB_DAMAGE_CLIPS is a hint so it is an optional property. User-space can
-- * ignore damage clips property and in that case driver will do a full plane
-- * update. In case damage clips are provided then it is guaranteed that the area
-- * inside damage clips will be updated to plane. For efficiency driver can do
-- * full update or can update more than specified in damage clips. Since driver
-- * is free to read more, user-space must always render the entire visible
-- * framebuffer. Otherwise there can be corruptions. Also, if a user-space
-- * provides damage clips which doesn't encompass the actual damage to
-- * framebuffer (since last plane update) can result in incorrect rendering.
-- *
-- * FB_DAMAGE_CLIPS is a blob property with the layout of blob data is simply an
-- * array of &drm_mode_rect. Unlike plane &drm_plane_state.src coordinates,
-- * damage clips are not in 16.16 fixed point. Similar to plane src in
-- * framebuffer, damage clips cannot be negative. In damage clip, x1/y1 are
-- * inclusive and x2/y2 are exclusive. While kernel does not error for overlapped
-- * damage clips, it is strongly discouraged.
-- *
-- * Drivers that are interested in damage interface for plane should enable
-- * FB_DAMAGE_CLIPS property by calling drm_plane_enable_fb_damage_clips().
-- * Drivers implementing damage can use drm_atomic_helper_damage_iter_init() and
-- * drm_atomic_helper_damage_iter_next() helper iterator function to get damage
-- * rectangles clipped to &drm_plane_state.src.
-- */
--
- static void convert_clip_rect_to_rect(const struct drm_clip_rect *src,
- 				      struct drm_mode_rect *dest,
- 				      uint32_t num_clips, uint32_t src_inc)
-@@ -87,22 +49,6 @@ static void convert_clip_rect_to_rect(const struct drm_clip_rect *src,
- 	}
- }
- 
--/**
-- * drm_plane_enable_fb_damage_clips - Enables plane fb damage clips property.
-- * @plane: Plane on which to enable damage clips property.
-- *
-- * This function lets driver to enable the damage clips property on a plane.
-- */
--void drm_plane_enable_fb_damage_clips(struct drm_plane *plane)
--{
--	struct drm_device *dev = plane->dev;
--	struct drm_mode_config *config = &dev->mode_config;
--
--	drm_object_attach_property(&plane->base, config->prop_fb_damage_clips,
--				   0);
--}
--EXPORT_SYMBOL(drm_plane_enable_fb_damage_clips);
--
- /**
-  * drm_atomic_helper_check_plane_damage - Verify plane damage on atomic_check.
-  * @state: The driver state object.
-diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
-index 40f099c67a8d..b68d06f536fa 100644
---- a/drivers/gpu/drm/drm_plane.c
-+++ b/drivers/gpu/drm/drm_plane.c
-@@ -1397,6 +1397,60 @@ int drm_mode_page_flip_ioctl(struct drm_device *dev,
- 	return ret;
- }
- 
-+/**
-+ * DOC: damage tracking
-+ *
-+ * FB_DAMAGE_CLIPS is an optional plane property which provides a means to
-+ * specify a list of damage rectangles on a plane in framebuffer coordinates of
-+ * the framebuffer attached to the plane. In current context damage is the area
-+ * of plane framebuffer that has changed since last plane update (also called
-+ * page-flip), irrespective of whether currently attached framebuffer is same as
-+ * framebuffer attached during last plane update or not.
-+ *
-+ * FB_DAMAGE_CLIPS is a hint to kernel which could be helpful for some drivers
-+ * to optimize internally especially for virtual devices where each framebuffer
-+ * change needs to be transmitted over network, usb, etc.
-+ *
-+ * Since FB_DAMAGE_CLIPS is a hint so it is an optional property. User-space can
-+ * ignore damage clips property and in that case driver will do a full plane
-+ * update. In case damage clips are provided then it is guaranteed that the area
-+ * inside damage clips will be updated to plane. For efficiency driver can do
-+ * full update or can update more than specified in damage clips. Since driver
-+ * is free to read more, user-space must always render the entire visible
-+ * framebuffer. Otherwise there can be corruptions. Also, if a user-space
-+ * provides damage clips which doesn't encompass the actual damage to
-+ * framebuffer (since last plane update) can result in incorrect rendering.
-+ *
-+ * FB_DAMAGE_CLIPS is a blob property with the layout of blob data is simply an
-+ * array of &drm_mode_rect. Unlike plane &drm_plane_state.src coordinates,
-+ * damage clips are not in 16.16 fixed point. Similar to plane src in
-+ * framebuffer, damage clips cannot be negative. In damage clip, x1/y1 are
-+ * inclusive and x2/y2 are exclusive. While kernel does not error for overlapped
-+ * damage clips, it is strongly discouraged.
-+ *
-+ * Drivers that are interested in damage interface for plane should enable
-+ * FB_DAMAGE_CLIPS property by calling drm_plane_enable_fb_damage_clips().
-+ * Drivers implementing damage can use drm_atomic_helper_damage_iter_init() and
-+ * drm_atomic_helper_damage_iter_next() helper iterator function to get damage
-+ * rectangles clipped to &drm_plane_state.src.
-+ */
-+
-+/**
-+ * drm_plane_enable_fb_damage_clips - Enables plane fb damage clips property.
-+ * @plane: Plane on which to enable damage clips property.
-+ *
-+ * This function lets driver to enable the damage clips property on a plane.
-+ */
-+void drm_plane_enable_fb_damage_clips(struct drm_plane *plane)
-+{
-+	struct drm_device *dev = plane->dev;
-+	struct drm_mode_config *config = &dev->mode_config;
-+
-+	drm_object_attach_property(&plane->base, config->prop_fb_damage_clips,
-+				   0);
-+}
-+EXPORT_SYMBOL(drm_plane_enable_fb_damage_clips);
-+
- /**
-  * drm_plane_get_damage_clips_count - Returns damage clips count.
-  * @state: Plane state.
-diff --git a/include/drm/drm_damage_helper.h b/include/drm/drm_damage_helper.h
-index 1ae8bce6a5ce..effda42cce31 100644
---- a/include/drm/drm_damage_helper.h
-+++ b/include/drm/drm_damage_helper.h
-@@ -64,7 +64,6 @@ struct drm_atomic_helper_damage_iter {
- 	bool full_update;
- };
- 
--void drm_plane_enable_fb_damage_clips(struct drm_plane *plane);
- void drm_atomic_helper_check_plane_damage(struct drm_atomic_state *state,
- 					  struct drm_plane_state *plane_state);
- int drm_atomic_helper_dirtyfb(struct drm_framebuffer *fb,
-diff --git a/include/drm/drm_plane.h b/include/drm/drm_plane.h
-index a2684aab8372..fed97e35626f 100644
---- a/include/drm/drm_plane.h
-+++ b/include/drm/drm_plane.h
-@@ -897,9 +897,10 @@ static inline struct drm_plane *drm_plane_find(struct drm_device *dev,
- 
- bool drm_any_plane_has_format(struct drm_device *dev,
- 			      u32 format, u64 modifier);
-+
-+void drm_plane_enable_fb_damage_clips(struct drm_plane *plane);
- unsigned int
- drm_plane_get_damage_clips_count(const struct drm_plane_state *state);
--
- struct drm_mode_rect *
- drm_plane_get_damage_clips(const struct drm_plane_state *state);
- 
--- 
-2.32.0
+> Christian.
+>
+> >
+> > Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> >
+> >> + *
+> >>    * @cb will be initialized by dma_fence_add_callback(), no initializ=
+ation
+> >>    * by the caller is required. Any number of callbacks can be registe=
+red
+> >>    * to a fence, but a callback can only be registered to one fence at=
+ a time.
+> >>    *
+> >> - * Note that the callback can be called from an atomic context.  If
+> >> - * fence is already signaled, this function will return -ENOENT (and
+> >> + * If fence is already signaled, this function will return -ENOENT (a=
+nd
+> >>    * *not* call the callback).
+> >>    *
+> >> - * Add a software callback to the fence. Same restrictions apply to
+> >> - * refcount as it does to dma_fence_wait(), however the caller doesn'=
+t need to
+> >> - * keep a refcount to fence afterward dma_fence_add_callback() has re=
+turned:
+> >> - * when software access is enabled, the creator of the fence is requi=
+red to keep
+> >> - * the fence alive until after it signals with dma_fence_signal(). Th=
+e callback
+> >> - * itself can be called from irq context.
+> >> + * Note that the callback can be called from an atomic context or irq=
+ context.
+> >>    *
+> >>    * Returns 0 in case of success, -ENOENT if the fence is already sig=
+naled
+> >>    * and -EINVAL in case of error.
+> >> --
+> >> 2.25.1
+> >>
+>
 
+
+--=20
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
