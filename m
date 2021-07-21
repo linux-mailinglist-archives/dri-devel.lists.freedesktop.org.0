@@ -1,42 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 503103D0B71
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 11:26:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 74EBB3D0B88
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 11:40:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F33AF6E426;
-	Wed, 21 Jul 2021 09:26:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 51D716EB53;
+	Wed, 21 Jul 2021 09:40:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 016CD6E426;
- Wed, 21 Jul 2021 09:26:02 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10051"; a="211120446"
-X-IronPort-AV: E=Sophos;i="5.84,257,1620716400"; d="scan'208";a="211120446"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Jul 2021 02:26:02 -0700
-X-IronPort-AV: E=Sophos;i="5.84,257,1620716400"; d="scan'208";a="496549372"
-Received: from jcornall-mobl.ger.corp.intel.com (HELO [10.213.197.250])
- ([10.213.197.250])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Jul 2021 02:26:01 -0700
-Subject: Re: [Intel-gfx] [PATCH 4/4] drm/i915/gt: nuke gen6_hw_id
-To: Lucas De Marchi <lucas.demarchi@intel.com>, intel-gfx@lists.freedesktop.org
-References: <20210720232014.3302645-1-lucas.demarchi@intel.com>
- <20210720232014.3302645-5-lucas.demarchi@intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-Message-ID: <079da526-6b19-3b44-e3d0-c23e1a61e9b1@linux.intel.com>
-Date: Wed, 21 Jul 2021 10:25:59 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+Received: from mail-ot1-x330.google.com (mail-ot1-x330.google.com
+ [IPv6:2607:f8b0:4864:20::330])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E50AC6E949
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 09:40:51 +0000 (UTC)
+Received: by mail-ot1-x330.google.com with SMTP id
+ h24-20020a9d64180000b029036edcf8f9a6so1517333otl.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 02:40:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=9jxXwVV+aN3Rmsz4UMzvrUtjRp7srjOGboK+OYH5Kdk=;
+ b=LhPCk9YyyxbWlHb+cowVth1I1M2cCfTUqkyPp/DmxHuTijTiqeLfgLgB3he7N4ahyY
+ SzP6z27w2Vca6UHnE0gLq2VLIbYpjKZcPIIxSXmbY3o7PuQ6vrnA8zueyvOE/PYa9xnW
+ RTpOmb5mtmXZk3W7p5oIGUF9GHPij+4+2T9QQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=9jxXwVV+aN3Rmsz4UMzvrUtjRp7srjOGboK+OYH5Kdk=;
+ b=ISQtxUuskGeIjJRlxxqRE+2/nk4mr6XIZNWPguFuzW9lrghtsw4PwLQhN0WdLQf7bL
+ gPyvApkkLOWq7puTamYlu++vHcBzvvNB69hCNYY+jPgZURUC6xU6Jf5iTnkJBN0kz/LW
+ S0a0ApQf5Tb1bcxXL7zaFIdAj1i2N6OTYZrQv1C0u1U2nPeG2Wlo0m6uKdeT4VNjX1Du
+ nhStaRq9K0b7TCcH7teyebZEHB5fArKi4Ixi3sszmNf5GsJ+EJvt26jgi7g764gjmUiR
+ NgvOvOoaDI+0FEGu+v1ipw0/OnNZhJvi3YbSh5XfCEEEDmg1JCEmPT2+4StEb8kc9+yK
+ DwbQ==
+X-Gm-Message-State: AOAM530Eo4GXGlrWGtPz9hVSgcNHvpOH6d68zKjQNTm6WfVxDhQcD320
+ reWiBGnGF60BIzBZ3atu1aXtmL8QJ7CN5AyAb6zhN4Ki7VU=
+X-Google-Smtp-Source: ABdhPJyqySVeOWrWftIeRooADmFBeof6NbpCffW0JVFgb69i4kcAx9TNZlp/PU0RIAEv3xq05jVx8xpvz+fgHjLB9VM=
+X-Received: by 2002:a9d:27a4:: with SMTP id c33mr26204874otb.281.1626860451258; 
+ Wed, 21 Jul 2021 02:40:51 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210720232014.3302645-5-lucas.demarchi@intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <1626432098-27626-1-git-send-email-xiyuyang19@fudan.edu.cn>
+ <20210721020009.GG13928@zhen-hp.sh.intel.com>
+In-Reply-To: <20210721020009.GG13928@zhen-hp.sh.intel.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Wed, 21 Jul 2021 11:40:40 +0200
+Message-ID: <CAKMK7uHFarZMChcVNdxpP=1XKqc+WJCayELvpiAjmzO9YXk+hA@mail.gmail.com>
+Subject: Re: [PATCH] drm/i915/gvt: Convert from atomic_t to refcount_t on
+ intel_vgpu_ppgtt_spt->refcount
+To: Zhenyu Wang <zhenyuw@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,128 +61,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomas Winkler <tomas.winkler@intel.com>, dri-devel@lists.freedesktop.org
+Cc: Xin Tan <tanxin.ctf@gmail.com>, yuanxzhang@fudan.edu.cn,
+ Xiyu Yang <xiyuyang19@fudan.edu.cn>, David Airlie <airlied@linux.ie>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ intel-gvt-dev <intel-gvt-dev@lists.freedesktop.org>,
+ Zhi Wang <zhi.a.wang@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, Jul 21, 2021 at 4:21 AM Zhenyu Wang <zhenyuw@linux.intel.com> wrote:
+> On 2021.07.16 18:41:38 +0800, Xiyu Yang wrote:
+> > refcount_t type and corresponding API can protect refcounters from
+> > accidental underflow and overflow and further use-after-free situations
+> >
+>
+> Thanks for the patch. Is there any specific problem you run with current code?
+> Any shadow ppgtt error?
 
-On 21/07/2021 00:20, Lucas De Marchi wrote:
-> This is only used by GRAPHICS_VER == 6 and GRAPHICS_VER == 7. All other
-> recent platforms do not depend on this field, so it doesn't make much
-> sense to keep it generic like that. Instead, just do a mapping from
-> engine class to HW ID in the single place that is needed.
-> 
-> Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
-> ---
->   drivers/gpu/drm/i915/gt/intel_engine_cs.c    | 6 ------
->   drivers/gpu/drm/i915/gt/intel_engine_types.h | 8 --------
->   drivers/gpu/drm/i915/i915_reg.h              | 4 +++-
->   3 files changed, 3 insertions(+), 15 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-> index 508221de411c..0a04e8d90e9e 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-> @@ -42,7 +42,6 @@
->   
->   #define MAX_MMIO_BASES 3
->   struct engine_info {
-> -	u8 gen6_hw_id;
->   	u8 class;
->   	u8 instance;
->   	/* mmio bases table *must* be sorted in reverse graphics_ver order */
-> @@ -54,7 +53,6 @@ struct engine_info {
->   
->   static const struct engine_info intel_engines[] = {
->   	[RCS0] = {
-> -		.gen6_hw_id = RCS0_HW,
->   		.class = RENDER_CLASS,
->   		.instance = 0,
->   		.mmio_bases = {
-> @@ -62,7 +60,6 @@ static const struct engine_info intel_engines[] = {
->   		},
->   	},
->   	[BCS0] = {
-> -		.gen6_hw_id = BCS0_HW,
->   		.class = COPY_ENGINE_CLASS,
->   		.instance = 0,
->   		.mmio_bases = {
-> @@ -70,7 +67,6 @@ static const struct engine_info intel_engines[] = {
->   		},
->   	},
->   	[VCS0] = {
-> -		.gen6_hw_id = VCS0_HW,
->   		.class = VIDEO_DECODE_CLASS,
->   		.instance = 0,
->   		.mmio_bases = {
-> @@ -102,7 +98,6 @@ static const struct engine_info intel_engines[] = {
->   		},
->   	},
->   	[VECS0] = {
-> -		.gen6_hw_id = VECS0_HW,
->   		.class = VIDEO_ENHANCEMENT_CLASS,
->   		.instance = 0,
->   		.mmio_bases = {
-> @@ -290,7 +285,6 @@ static int intel_engine_setup(struct intel_gt *gt, enum intel_engine_id id)
->   	engine->i915 = i915;
->   	engine->gt = gt;
->   	engine->uncore = gt->uncore;
-> -	engine->gen6_hw_id = info->gen6_hw_id;
->   	guc_class = engine_class_to_guc_class(info->class);
->   	engine->guc_id = MAKE_GUC_ID(guc_class, info->instance);
->   	engine->mmio_base = __engine_mmio_base(i915, info->mmio_bases);
-> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_types.h b/drivers/gpu/drm/i915/gt/intel_engine_types.h
-> index 266422d8d1b1..64330bfb7641 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_engine_types.h
-> +++ b/drivers/gpu/drm/i915/gt/intel_engine_types.h
-> @@ -28,13 +28,6 @@
->   #include "intel_wakeref.h"
->   #include "intel_workarounds_types.h"
->   
-> -/* Legacy HW Engine ID */
-> -
-> -#define RCS0_HW		0
-> -#define VCS0_HW		1
-> -#define BCS0_HW		2
-> -#define VECS0_HW	3
-> -
->   /* Gen11+ HW Engine class + instance */
->   #define RENDER_CLASS		0
->   #define VIDEO_DECODE_CLASS	1
-> @@ -268,7 +261,6 @@ struct intel_engine_cs {
->   
->   	intel_engine_mask_t mask;
->   
-> -	u8 gen6_hw_id;
->   	u8 class;
->   	u8 instance;
->   
-> diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
-> index 8750ffce9d61..d91386f4828e 100644
-> --- a/drivers/gpu/drm/i915/i915_reg.h
-> +++ b/drivers/gpu/drm/i915/i915_reg.h
-> @@ -2572,7 +2572,9 @@ static inline bool i915_mmio_reg_valid(i915_reg_t reg)
->   #define   ARB_MODE_BWGTLB_DISABLE (1 << 9)
->   #define   ARB_MODE_SWIZZLE_BDW	(1 << 1)
->   #define RENDER_HWS_PGA_GEN7	_MMIO(0x04080)
-> -#define RING_FAULT_REG(engine)	_MMIO(0x4094 + 0x100 * (engine)->gen6_hw_id)
-> +
-> +#define _GEN6_ENGINE_CLASS_TO_ID(class) _PICK((class), 0, 1, 3, 2)
-> +#define RING_FAULT_REG(engine)	_MMIO(0x4094 + 0x100 * _GEN6_ENGINE_CLASS_TO_ID((engine)->class))
+refcount_t is just part of the kernel hardening project, and
+recommeded to be used anywhere it's possible. It doesn't fix bugs
+itself, but makes it impossible to exploit at least some of them and
+warns in other cases, so easier to catch them if they do exist.
+-Daniel
 
-Makes sense to me.
+> > Signed-off-by: Xiyu Yang <xiyuyang19@fudan.edu.cn>
+> > Signed-off-by: Xin Tan <tanxin.ctf@gmail.com>
+> > ---
+> >  drivers/gpu/drm/i915/gvt/gtt.c | 11 ++++++-----
+> >  drivers/gpu/drm/i915/gvt/gtt.h |  3 ++-
+> >  2 files changed, 8 insertions(+), 6 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/i915/gvt/gtt.c b/drivers/gpu/drm/i915/gvt/gtt.c
+> > index cc2c05e18206..62f3daff5a36 100644
+> > --- a/drivers/gpu/drm/i915/gvt/gtt.c
+> > +++ b/drivers/gpu/drm/i915/gvt/gtt.c
+> > @@ -841,7 +841,7 @@ static struct intel_vgpu_ppgtt_spt *ppgtt_alloc_spt(
+> >       }
+> >
+> >       spt->vgpu = vgpu;
+> > -     atomic_set(&spt->refcount, 1);
+> > +     refcount_set(&spt->refcount, 1);
+> >       INIT_LIST_HEAD(&spt->post_shadow_list);
+> >
+> >       /*
+> > @@ -927,18 +927,19 @@ static struct intel_vgpu_ppgtt_spt *ppgtt_alloc_spt_gfn(
+> >
+> >  static inline void ppgtt_get_spt(struct intel_vgpu_ppgtt_spt *spt)
+> >  {
+> > -     int v = atomic_read(&spt->refcount);
+> > +     int v = refcount_read(&spt->refcount);
+> >
+> >       trace_spt_refcount(spt->vgpu->id, "inc", spt, v, (v + 1));
+> > -     atomic_inc(&spt->refcount);
+> > +     refcount_inc(&spt->refcount);
+> >  }
+> >
+> >  static inline int ppgtt_put_spt(struct intel_vgpu_ppgtt_spt *spt)
+> >  {
+> > -     int v = atomic_read(&spt->refcount);
+> > +     int v = refcount_read(&spt->refcount);
+> >
+> >       trace_spt_refcount(spt->vgpu->id, "dec", spt, v, (v - 1));
+> > -     return atomic_dec_return(&spt->refcount);
+> > +     refcount_dec(&spt->refcount);
+> > +     return refcount_read(&spt->refcount);
+> >  }
+> >
+> >  static int ppgtt_invalidate_spt(struct intel_vgpu_ppgtt_spt *spt);
+> > diff --git a/drivers/gpu/drm/i915/gvt/gtt.h b/drivers/gpu/drm/i915/gvt/gtt.h
+> > index 3bf45672ef98..944c2d0739df 100644
+> > --- a/drivers/gpu/drm/i915/gvt/gtt.h
+> > +++ b/drivers/gpu/drm/i915/gvt/gtt.h
+> > @@ -38,6 +38,7 @@
+> >  #include <linux/kref.h>
+> >  #include <linux/mutex.h>
+> >  #include <linux/radix-tree.h>
+> > +#include <linux/refcount.h>
+> >
+> >  #include "gt/intel_gtt.h"
+> >
+> > @@ -243,7 +244,7 @@ struct intel_vgpu_oos_page {
+> >
+> >  /* Represent a vgpu shadow page table. */
+> >  struct intel_vgpu_ppgtt_spt {
+> > -     atomic_t refcount;
+> > +     refcount_t refcount;
+> >       struct intel_vgpu *vgpu;
+> >
+> >       struct {
+> > --
+> > 2.7.4
+> >
+> > _______________________________________________
+> > intel-gvt-dev mailing list
+> > intel-gvt-dev@lists.freedesktop.org
+> > https://lists.freedesktop.org/mailman/listinfo/intel-gvt-dev
 
-Maybe HW_ID and HW_CLASS in the macro name? Not sure.
 
-Only open I have is why the "Gen11+ HW Engine class + instance" comment 
-and now we would tie that, allegedly Gen11 concept, with Gen6-7. Care to 
-do some digging?
 
-Regards,
-
-Tvrtko
-
->   #define GEN8_RING_FAULT_REG	_MMIO(0x4094)
->   #define GEN12_RING_FAULT_REG	_MMIO(0xcec4)
->   #define   GEN8_RING_FAULT_ENGINE_ID(x)	(((x) >> 12) & 0x7)
-> 
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
