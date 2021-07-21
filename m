@@ -2,63 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E75D3D0787
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 06:13:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 326C23D0816
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 07:09:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D1A56E48F;
-	Wed, 21 Jul 2021 04:12:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8013D6E8EE;
+	Wed, 21 Jul 2021 05:09:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com
- [IPv6:2607:f8b0:4864:20::529])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D1B4D6E48F;
- Wed, 21 Jul 2021 04:12:56 +0000 (UTC)
-Received: by mail-pg1-x529.google.com with SMTP id k20so692362pgg.7;
- Tue, 20 Jul 2021 21:12:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:references:cc:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=OweqAn0jjaaJ1nkpX09td2gsbVc7s9T7jQnGd97x/HU=;
- b=mQyzJWewVy53W2a4rYsw86+Kbq0Q0kylQKJAOe7JEYV/dim81wNt2bu3ZQ0+zlUkS3
- MeU7ue/ZtdwJVzG6bnbqwiWsNjmJgEcfYFFKfw5jGGlEl+iX2ruwyHc2BkO3xCAimcHF
- /U9fVrT4Kz+PrDrwmnganUCbjMV1NanHaBCC1xoXaVhShhNUowSzcadnREfXuTLGzm2I
- NHZEQgMmG0ul72tnmp4tvPteGAELhYf7Wz7QoUQpgkTQKxuMyZimaMSfbGOBfho0+oGT
- m43kOBcBE0njffTKaQrV/5ksIx4GEAc6M7xMHqBJnnd9Dkg9XaJu8dYkwFvde8l00IRa
- GEZw==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA9156E8EE
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 05:09:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1626844169;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=S+zWfy2tC40xUQfOhENAkA+DP5zrQupivowwlpIU07g=;
+ b=OKvQMBfJdOMJzGla1xXeLHAtj4kHE/ygi2s72aJf/7lRxWF/gVycMHi7Wwj8MJKvAUnRBH
+ 47oeUp6V4Uheu25aj9ej3rvcFZMRke6yRQZm04PVlHVFORP7/TMlcvBJ5URYCWi1WSQjwb
+ XdEA7jKEhWxophxmjn9EX0gKAE1LNk0=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-132-MFfYVMPwNfu8CERI91KlKQ-1; Wed, 21 Jul 2021 01:09:27 -0400
+X-MC-Unique: MFfYVMPwNfu8CERI91KlKQ-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ k3-20020a5d52430000b0290138092aea94so411822wrc.20
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jul 2021 22:09:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:cc:from:message-id:date
+ h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=OweqAn0jjaaJ1nkpX09td2gsbVc7s9T7jQnGd97x/HU=;
- b=kYhuL2mngWIDTMftXKIZjTYuDZjPDs58/5gchTI/opuu4FFQBFt2ddo5VYSS4ahEY9
- 2m1VHw2TsR3hwts244CMKGV9b/dLs2BbgqBmmui4B2hQawAgmnENYnpsL4+RrzgdEYFR
- JAC+PRaIm1LMa5iaoer/yZsnWy4aS5FJiwrZXN49QHXh8P9qXrNwGhR7xV/AVPU+QPBd
- x9TlsTQlkSiFzhbljrrDElI7RZ+u+gKiZy3SNg075uryE3sS2nF56jYFPyknjZIMfUOB
- 7UOzyHxcBqMT5OJs8U/a6TDGYXPMx24NAx/f2nAaPzUQTwqmSApTb3o4l00ZB7dlq1ua
- 1kLg==
-X-Gm-Message-State: AOAM530JiSNgf5+A64gTVYUJCdsZIVxSMfDVfykVLiHhgRWzUh/Q4dK2
- pK6tweUCaGL2WSbKysTU1iU=
-X-Google-Smtp-Source: ABdhPJyiOMiOqi1c4EcFJnIcFX2VG125433D3Ouk72IpcFYjdlK34CJ4U4WYIZV4r3+SBCUmD0adUw==
-X-Received: by 2002:a63:44a:: with SMTP id 71mr5536716pge.259.1626840775662;
- Tue, 20 Jul 2021 21:12:55 -0700 (PDT)
-Received: from [192.168.1.237] ([118.200.190.93])
- by smtp.gmail.com with ESMTPSA id x7sm9124061pfn.70.2021.07.20.21.12.51
+ bh=S+zWfy2tC40xUQfOhENAkA+DP5zrQupivowwlpIU07g=;
+ b=AiFEfcgauWgfXhwQgpJIwwKSG6otiC6dEEYla9mdrTtssL7zor78l2v55C54puYSHr
+ NeiP+RESExiBcp+M+Z7pncOgNxMBpeWGP1jj1mbrLjzjKXQg/IqYmneGlp7be1MBCvRW
+ dr+pJ7SyEQCuRI3aj1XQbPt2+6aw76iIKCjPkm8fK2k+KkBJkNzBrIl7jHIjt5Z2w8to
+ yEFi/NeMfuDwFD+Rj1OI5LF+OFnQjtz1zkSKu6Y/G+ATz4zi3/Tdfs9RLFpFuAMQjEXX
+ dd0hhj/cbaA5/pnwTF3L7hl08HYsROSqPv3O/UITvX55Az+qo7/gGfjcTV8VoSfWHIMV
+ gyLw==
+X-Gm-Message-State: AOAM5323MHAik/+qCNFByXbzuRk/wJemlSpmUWViTy+4XvUkCs+jmgY3
+ hOi7j3fJ0OeC6O/G3+5wxkDC7c7ltIpVjMPCRd7saW/+ykRZRV+g1m13f/65QKL4ybxd4PCCUn8
+ 3O/EP9vowI0FDLVjsn1I9GOkvmQNy
+X-Received: by 2002:a7b:c747:: with SMTP id w7mr2031959wmk.148.1626844166554; 
+ Tue, 20 Jul 2021 22:09:26 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwCxXonukubT9gJL2Rc7x0XVeUSko96/DCQuDEhTryxASNBDgCxR12O8zMwgWe3dBuGqn9kQg==
+X-Received: by 2002:a7b:c747:: with SMTP id w7mr2031926wmk.148.1626844166269; 
+ Tue, 20 Jul 2021 22:09:26 -0700 (PDT)
+Received: from [192.168.1.101] ([92.176.231.106])
+ by smtp.gmail.com with ESMTPSA id k24sm26722409wrh.30.2021.07.20.22.09.24
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 20 Jul 2021 21:12:55 -0700 (PDT)
-Subject: Re: [PATCH v8 0/5] drm: address potential UAF bugs with drm_master
- ptrs
-To: Daniel Vetter <daniel@ffwll.ch>
-References: <20210712043508.11584-1-desmondcheongzx@gmail.com>
- <YPcU3wJK7kC5b7kv@phenom.ffwll.local>
-From: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
-Message-ID: <50c5582b-c674-4ef8-585f-7a3d78a49f85@gmail.com>
-Date: Wed, 21 Jul 2021 12:12:49 +0800
+ Tue, 20 Jul 2021 22:09:25 -0700 (PDT)
+Subject: Re: [PATCH v3 0/2] allow simple{fb, drm} drivers to be used on
+ non-x86 EFI platforms
+To: Thomas Zimmermann <tzimmermann@suse.de>, Ard Biesheuvel
+ <ardb@kernel.org>, Dave Airlie <airlied@gmail.com>,
+ linux-efi <linux-efi@vger.kernel.org>, David Airlie <airlied@linux.ie>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Russell King <linux@armlinux.org.uk>, Atish Patra <atish.patra@wdc.com>,
+ linux-riscv <linux-riscv@lists.infradead.org>, Will Deacon
+ <will@kernel.org>, the arch/x86 maintainers <x86@kernel.org>,
+ Ingo Molnar <mingo@redhat.com>, Peter Robinson <pbrobinson@gmail.com>,
+ Borislav Petkov <bp@suse.de>, Albert Ou <aou@eecs.berkeley.edu>,
+ Hans de Goede <hdegoede@redhat.com>, Paul Walmsley
+ <paul.walmsley@sifive.com>, Thomas Gleixner <tglx@linutronix.de>,
+ linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ LKML <linux-kernel@vger.kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>
+References: <20210625130947.1803678-1-javierm@redhat.com>
+ <e61cf77c-6bff-dfcc-d3df-2fb6b48e5897@redhat.com>
+ <8dd26141-a09c-39e2-5174-4cad8d21c49c@suse.de>
+ <CAPM=9tyfNPa2f5PDBLm4w_H_riEQ5P3rEhX73YGE1y_ygRox+w@mail.gmail.com>
+ <CAMj1kXErHteZ+MKYvp=yYmwVxV3A=vjtnG351hZHV+3BPwDQvw@mail.gmail.com>
+ <YPbJJ/0tSO/fuW7a@phenom.ffwll.local>
+ <03f0edef-e54e-8a2a-4b50-683d3d42e249@redhat.com>
+ <YPbWrV/cIODdgu6A@phenom.ffwll.local>
+ <37e05f02-b810-0cb1-cc4f-95711cd148d9@suse.de>
+From: Javier Martinez Canillas <javierm@redhat.com>
+Message-ID: <44a75f18-e3a6-f764-b0ec-ce3ac05805a9@redhat.com>
+Date: Wed, 21 Jul 2021 07:09:23 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <YPcU3wJK7kC5b7kv@phenom.ffwll.local>
-Content-Type: text/plain; charset=windows-1252; format=flowed
+In-Reply-To: <37e05f02-b810-0cb1-cc4f-95711cd148d9@suse.de>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -73,121 +106,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, gregkh@linuxfoundation.org,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, emil.l.velikov@gmail.com,
- dri-devel@lists.freedesktop.org, tzimmermann@suse.de,
- skhan@linuxfoundation.org, linux-kernel-mentees@lists.linuxfoundation.org,
- christian.koenig@amd.com, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 21/7/21 2:24 am, Daniel Vetter wrote:
-> On Mon, Jul 12, 2021 at 12:35:03PM +0800, Desmond Cheong Zhi Xi wrote:
->> Hi,
+Hello Thomas,
+
+On 7/20/21 8:38 PM, Thomas Zimmermann wrote:
+> Am 20.07.21 um 15:59 schrieb Daniel Vetter:
+>> On Tue, Jul 20, 2021 at 03:42:45PM +0200, Javier Martinez Canillas wrote:
+>>> On 7/20/21 3:01 PM, Daniel Vetter wrote:
+>>>> On Mon, Jul 19, 2021 at 09:10:52AM +0200, Ard Biesheuvel wrote:
+>>>>> On Mon, 19 Jul 2021 at 04:59, Dave Airlie <airlied@gmail.com> wrote:
+
+[snip]
+
+>>>>>> Can we just merge via drm-misc and make sure the acks are present and
+>>>>>> I'll deal with the fallout if any.
+>>>>>>
+>>>>>
+>>>>> Fine with me. Could you stick it on a separate branch so I can double
+>>>>> check whether there are any issues wrt the EFI tree?
+>>>>
+>>>> It'll pop up in linux-next for integration testing or you can pick up the
+>>>> patch here for test-merge if you want.
+>>>>
+
+This is what Daniel said...
+
+>>>
+>>> Thanks a lot Dave and Daniel!
 >>
->> In the previous thread on this series we decided to remove a patch that was violating a lockdep requirement in drm_lease. In addition to this change, I took a closer look at the CI logs for the Basic Acceptance Tests and noticed that another regression was introduced. The new patch 2 is a response to this.
->>
->> Overall, this series addresses potential use-after-free errors when dereferencing pointers to struct drm_master. These were identified after one such bug was caught by Syzbot in drm_getunique():
->> https://syzkaller.appspot.com/bug?id=148d2f1dfac64af52ffd27b661981a540724f803
->>
->> The series is broken up into five patches:
->>
->> 1. Move a call to drm_is_current_master() out from a section locked by &dev->mode_config.mutex in drm_mode_getconnector(). This patch does not apply to stable.
->>
->> 2. Move a call to drm_is_current_master() out from the RCU read-side critical section in drm_clients_info().
->>
->> 3. Implement a locked version of drm_is_current_master() function that's used within drm_auth.c.
->>
->> 4. Serialize drm_file.master by introducing a new spinlock that's held whenever the value of drm_file.master changes.
->>
->> 5. Identify areas in drm_lease.c where pointers to struct drm_master are dereferenced, and ensure that the master pointers are not freed during use.
->>
->> v7 -> v8:
->> - Remove the patch that moves the call to _drm_lease_held out from the section locked by &dev->mode_config.idr_mutex in __drm_mode_object_find. This patch violated an existing lockdep requirement as reported by the intel-gfx CI.
->> - Added a new patch that moves a call to drm_is_current_master out from the RCU critical section in drm_clients_info. This was reported by the intel-gfx CI.
->>
->> v6 -> v7:
->> - Modify code alignment as suggested by the intel-gfx CI.
->> - Add a new patch to the series that adds a new lock to serialize drm_file.master, in response to the lockdep splat by the intel-gfx CI.
->> - Update drm_file_get_master to use the new drm_file.master_lock instead of drm_device.master_mutex, in response to the lockdep splat by the intel-gfx CI.
->>
->> v5 -> v6:
->> - Add a new patch to the series that moves the call to _drm_lease_held out from the section locked by &dev->mode_config.idr_mutex in __drm_mode_object_find.
->> - Clarify the kerneldoc for dereferencing drm_file.master, as suggested by Daniel Vetter.
->> - Refactor error paths with goto labels so that each function only has a single drm_master_put(), as suggested by Emil Velikov.
->> - Modify comparisons to NULL into "!master", as suggested by the intel-gfx CI.
->>
->> v4 -> v5:
->> - Add a new patch to the series that moves the call to drm_is_current_master in drm_mode_getconnector out from the section locked by &dev->mode_config.mutex.
->> - Additionally, added a missing semicolon to the patch, caught by the intel-gfx CI.
->>
->> v3 -> v4:
->> - Move the call to drm_is_current_master in drm_mode_getconnector out from the section locked by &dev->mode_config.mutex. As suggested by Daniel Vetter. This avoids a circular lock lock dependency as reported here https://patchwork.freedesktop.org/patch/440406/
->> - Inside drm_is_current_master, instead of grabbing &fpriv->master->dev->master_mutex, we grab &fpriv->minor->dev->master_mutex to avoid dereferencing a null ptr if fpriv->master is not set.
->> - Modify kerneldoc formatting for drm_file.master, as suggested by Daniel Vetter.
->> - Additionally, add a file_priv->master NULL check inside drm_file_get_master, and handle the NULL result accordingly in drm_lease.c. As suggested by Daniel Vetter.
->>
->> v2 -> v3:
->> - Move the definition of drm_is_current_master and the _locked version higher up in drm_auth.c to avoid needing a forward declaration of drm_is_current_master_locked. As suggested by Daniel Vetter.
->> - Instead of leaking drm_device.master_mutex into drm_lease.c to protect drm_master pointers, add a new drm_file_get_master() function that returns drm_file->master while increasing its reference count, to prevent drm_file->master from being freed. As suggested by Daniel Vetter.
->>
->> v1 -> v2:
->> - Move the lock and assignment before the DRM_DEBUG_LEASE in drm_mode_get_lease_ioctl, as suggested by Emil Velikov.
+>> Oh I haven't merged them, I'm assuming Thomas will do that. Just figured
 > 
-> Apologies for the delay, I missed your series. Maybe just ping next time
-> around there's silence.
-> 
-> Looks all great, merged to drm-misc-next. Given how complex this was I'm
-> vary of just pushing this to -fixes without some solid testing.
+> Can I simply put the patches in to drm-misc-next? There was some talk 
+> about a topic branch?
+>
+
+... which AFAIU means that there's no need for a topic branch, since the
+patches will be present in linux-next. And the EFI folks can use that to
+check if there are any integration issues or regressions caused by these.
+ 
+> Best regards
+> Thomas
 > 
 
-Hi Daniel,
-
-Thanks for merging, more testing definitely sounds good to me.
-
-> One thing I noticed is that drm_is_current_master could just use the
-> spinlock, since it's only doing a read access. Care to type up that patch?
-> 
-
-I thought about this too, but I'm not sure if that's the best solution.
-
-drm_is_current_master calls drm_lease_owner which then walks up the tree 
-of master lessors. The spinlock protects the master of the current drm 
-file, but subsequent lessors aren't protected without holding the 
-device's master mutex.
-
-> Also, do you plan to look into that idea we've discussed to flush pending
-> access when we revoke a master or a lease? I think that would be really
-> nice improvement here.
-> -Daniel
-> 
-
-Yup, now that the potential UAFs are addressed (hopefully), I'll take a 
-closer look and propose a patch for this.
-
-Best wishes,
-Desmond
-
->>
->> Desmond Cheong Zhi Xi (5):
->>    drm: avoid circular locks in drm_mode_getconnector
->>    drm: avoid blocking in drm_clients_info's rcu section
->>    drm: add a locked version of drm_is_current_master
->>    drm: serialize drm_file.master with a new spinlock
->>    drm: protect drm_master pointers in drm_lease.c
->>
->>   drivers/gpu/drm/drm_auth.c      | 93 ++++++++++++++++++++++++---------
->>   drivers/gpu/drm/drm_connector.c |  5 +-
->>   drivers/gpu/drm/drm_debugfs.c   |  3 +-
->>   drivers/gpu/drm/drm_file.c      |  1 +
->>   drivers/gpu/drm/drm_lease.c     | 81 +++++++++++++++++++++-------
->>   include/drm/drm_auth.h          |  1 +
->>   include/drm/drm_file.h          | 18 +++++--
->>   7 files changed, 152 insertions(+), 50 deletions(-)
->>
->> -- 
->> 2.25.1
->>
-> 
+Best regards,
+-- 
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
 
