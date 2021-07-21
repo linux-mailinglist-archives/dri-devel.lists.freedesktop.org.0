@@ -1,42 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DA333D1510
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 19:24:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 485F93D1511
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 19:26:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 86F9C6E8EC;
-	Wed, 21 Jul 2021 17:24:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB48F6E8E8;
+	Wed, 21 Jul 2021 17:26:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 050B76E8E8;
- Wed, 21 Jul 2021 17:24:38 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10052"; a="211481360"
-X-IronPort-AV: E=Sophos;i="5.84,258,1620716400"; d="scan'208";a="211481360"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Jul 2021 10:24:36 -0700
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A6FDF6E8E8;
+ Wed, 21 Jul 2021 17:26:30 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10052"; a="297043190"
+X-IronPort-AV: E=Sophos;i="5.84,258,1620716400"; d="scan'208";a="297043190"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Jul 2021 10:25:41 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,258,1620716400"; d="scan'208";a="501368211"
+X-IronPort-AV: E=Sophos;i="5.84,258,1620716400"; d="scan'208";a="511872281"
 Received: from irvmail001.ir.intel.com ([10.43.11.63])
- by FMSMGA003.fm.intel.com with ESMTP; 21 Jul 2021 10:24:34 -0700
+ by fmsmga002.fm.intel.com with ESMTP; 21 Jul 2021 10:25:40 -0700
 Received: from [10.249.140.99] (mwajdecz-MOBL.ger.corp.intel.com
  [10.249.140.99])
  by irvmail001.ir.intel.com (8.14.3/8.13.6/MailSET/Hub) with ESMTP id
- 16LHOX34029028; Wed, 21 Jul 2021 18:24:33 +0100
-Subject: Re: [PATCH 02/14] drm/i915/guc/slpc: Initial definitions for SLPC
+ 16LHPceU029273; Wed, 21 Jul 2021 18:25:38 +0100
+Subject: Re: [PATCH 04/14] drm/i915/guc/slpc: Adding SLPC communication
+ interfaces
 To: Vinay Belgaumkar <vinay.belgaumkar@intel.com>,
  intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 References: <20210721161120.24610-1-vinay.belgaumkar@intel.com>
- <20210721161120.24610-3-vinay.belgaumkar@intel.com>
+ <20210721161120.24610-5-vinay.belgaumkar@intel.com>
 From: Michal Wajdeczko <michal.wajdeczko@intel.com>
-Message-ID: <039a95d3-c44c-bab7-0f53-75098a55acc6@intel.com>
-Date: Wed, 21 Jul 2021 19:24:33 +0200
+Message-ID: <4cd00217-6620-b766-9d2e-dce21ad4c1df@intel.com>
+Date: Wed, 21 Jul 2021 19:25:38 +0200
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
  Firefox/78.0 Thunderbird/78.12.0
 MIME-Version: 1.0
-In-Reply-To: <20210721161120.24610-3-vinay.belgaumkar@intel.com>
+In-Reply-To: <20210721161120.24610-5-vinay.belgaumkar@intel.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -52,298 +53,287 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- Sundaresan Sujaritha <sujaritha.sundaresan@intel.com>
+Cc: Sundaresan Sujaritha <sujaritha.sundaresan@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
 On 21.07.2021 18:11, Vinay Belgaumkar wrote:
-> Add macros to check for SLPC support. This feature is currently supported
-> for Gen12+ and enabled whenever GuC submission is enabled/selected.
+> Add constants and params that are needed to configure SLPC.
 > 
-> Include templates for SLPC init/fini and enable.
-> 
-> v2: Move SLPC helper functions to intel_guc_slpc.c/.h. Define basic
-> template for SLPC structure in intel_guc_slpc_types.h. Fix copyright (Michal W)
-> 
-> Signed-off-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
-> Signed-off-by: Sundaresan Sujaritha <sujaritha.sundaresan@intel.com>
-> Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-> 
-> drm/i915/guc/slpc: Lay out slpc init/enable/fini
-> 
-> Declare init/fini and enable function templates.
-> 
-> v2: Rebase
+> v2: Add a new abi header for SLPC. Replace bitfields with
+> genmasks. Address other comments from Michal W.
 > 
 > Signed-off-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
 > Signed-off-by: Sundaresan Sujaritha <sujaritha.sundaresan@intel.com>
 > ---
->  drivers/gpu/drm/i915/Makefile                 |  1 +
->  drivers/gpu/drm/i915/gt/uc/intel_guc.c        |  2 +
->  drivers/gpu/drm/i915/gt/uc/intel_guc.h        |  4 ++
->  drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c   | 63 +++++++++++++++++++
->  drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h   | 33 ++++++++++
->  .../gpu/drm/i915/gt/uc/intel_guc_slpc_types.h | 15 +++++
->  drivers/gpu/drm/i915/gt/uc/intel_uc.c         |  6 +-
->  drivers/gpu/drm/i915/gt/uc/intel_uc.h         |  2 +
->  8 files changed, 124 insertions(+), 2 deletions(-)
->  create mode 100644 drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
->  create mode 100644 drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h
->  create mode 100644 drivers/gpu/drm/i915/gt/uc/intel_guc_slpc_types.h
+>  .../drm/i915/gt/uc/abi/guc_actions_slpc_abi.h | 201 ++++++++++++++++++
+>  drivers/gpu/drm/i915/gt/uc/intel_guc.c        |   4 +
+>  drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h   |   1 +
+>  3 files changed, 206 insertions(+)
+>  create mode 100644 drivers/gpu/drm/i915/gt/uc/abi/guc_actions_slpc_abi.h
 > 
-> diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
-> index ab7679957623..d8eac4468df9 100644
-> --- a/drivers/gpu/drm/i915/Makefile
-> +++ b/drivers/gpu/drm/i915/Makefile
-> @@ -186,6 +186,7 @@ i915-y += gt/uc/intel_uc.o \
->  	  gt/uc/intel_guc_fw.o \
->  	  gt/uc/intel_guc_log.o \
->  	  gt/uc/intel_guc_log_debugfs.o \
-> +	  gt/uc/intel_guc_slpc.o \
->  	  gt/uc/intel_guc_submission.o \
->  	  gt/uc/intel_huc.o \
->  	  gt/uc/intel_huc_debugfs.o \
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-> index 979128e28372..39bc3c16057b 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-> @@ -7,6 +7,7 @@
->  #include "gt/intel_gt_irq.h"
->  #include "gt/intel_gt_pm_irq.h"
->  #include "intel_guc.h"
-> +#include "intel_guc_slpc.h"
->  #include "intel_guc_ads.h"
->  #include "intel_guc_submission.h"
->  #include "i915_drv.h"
-> @@ -157,6 +158,7 @@ void intel_guc_init_early(struct intel_guc *guc)
->  	intel_guc_ct_init_early(&guc->ct);
->  	intel_guc_log_init_early(&guc->log);
->  	intel_guc_submission_init_early(guc);
-> +	intel_guc_slpc_init_early(&guc->slpc);
->  
->  	mutex_init(&guc->send_mutex);
->  	spin_lock_init(&guc->irq_lock);
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-> index 9c62c68fb132..8cecfad9d7b1 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-> @@ -15,6 +15,7 @@
->  #include "intel_guc_ct.h"
->  #include "intel_guc_log.h"
->  #include "intel_guc_reg.h"
-> +#include "intel_guc_slpc_types.h"
->  #include "intel_uc_fw.h"
->  #include "i915_utils.h"
->  #include "i915_vma.h"
-> @@ -30,6 +31,7 @@ struct intel_guc {
->  	struct intel_uc_fw fw;
->  	struct intel_guc_log log;
->  	struct intel_guc_ct ct;
-> +	struct intel_guc_slpc slpc;
->  
->  	/* Global engine used to submit requests to GuC */
->  	struct i915_sched_engine *sched_engine;
-> @@ -57,6 +59,8 @@ struct intel_guc {
->  
->  	bool submission_supported;
->  	bool submission_selected;
-> +	bool slpc_supported;
-> +	bool slpc_selected;
->  
->  	struct i915_vma *ads_vma;
->  	struct __guc_ads_blob *ads_blob;
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
+> diff --git a/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_slpc_abi.h b/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_slpc_abi.h
 > new file mode 100644
-> index 000000000000..d9feb430ce35
+> index 000000000000..05d809746b32
 > --- /dev/null
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
-> @@ -0,0 +1,63 @@
-> +// SPDX-License-Identifier: MIT
-> +/*
-> + * Copyright © 2021 Intel Corporation
-> + */
-> +
-> +#include "i915_drv.h"
-> +#include "intel_guc_slpc.h"
-> +#include "gt/intel_gt.h"
-> +
-> +static inline struct intel_guc *slpc_to_guc(struct intel_guc_slpc *slpc)
-> +{
-> +	return container_of(slpc, struct intel_guc, slpc);
-> +}
-> +
-> +static bool __detect_slpc_supported(struct intel_guc *guc)
-> +{
-> +	/* GuC SLPC is unavailable for pre-Gen12 */
-> +	return guc->submission_supported &&
-> +		GRAPHICS_VER(guc_to_gt(guc)->i915) >= 12;
-> +}
-> +
-> +static bool __guc_slpc_selected(struct intel_guc *guc)
-> +{
-> +	if (!intel_guc_slpc_is_supported(guc))
-> +		return false;
-> +
-> +	return guc->submission_selected;
-> +}
-> +
-> +void intel_guc_slpc_init_early(struct intel_guc_slpc *slpc)
-> +{
-> +	struct intel_guc *guc = slpc_to_guc(slpc);
-> +
-> +	guc->slpc_supported = __detect_slpc_supported(guc);
-> +	guc->slpc_selected = __guc_slpc_selected(guc);
-> +}
-> +
-> +int intel_guc_slpc_init(struct intel_guc_slpc *slpc)
-> +{
-> +	return 0;
-> +}
-> +
-> +/*
-> + * intel_guc_slpc_enable() - Start SLPC
-> + * @slpc: pointer to intel_guc_slpc.
-> + *
-> + * SLPC is enabled by setting up the shared data structure and
-> + * sending reset event to GuC SLPC. Initial data is setup in
-> + * intel_guc_slpc_init. Here we send the reset event. We do
-> + * not currently need a slpc_disable since this is taken care
-
-s/slpc/SLPC
-
-> + * of automatically when a reset/suspend occurs and the GuC
-> + * CTB is destroyed.
-
-quite large description of the empty function ;)
-better to add it together with actual body
-
-> + *
-> + * Return: 0 on success, non-zero error code on failure.
-> + */
-> +int intel_guc_slpc_enable(struct intel_guc_slpc *slpc)
-> +{
-> +	return 0;
-> +}
-> +
-> +void intel_guc_slpc_fini(struct intel_guc_slpc *slpc)
-> +{
-> +}
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h
-> new file mode 100644
-> index 000000000000..c3b0ad7f0f93
-> --- /dev/null
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h
-> @@ -0,0 +1,33 @@
+> +++ b/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_slpc_abi.h
+> @@ -0,0 +1,201 @@
 > +/* SPDX-License-Identifier: MIT */
 > +/*
 > + * Copyright © 2021 Intel Corporation
 > + */
 > +
-> +#ifndef _INTEL_GUC_SLPC_H_
-> +#define _INTEL_GUC_SLPC_H_
-> +
-> +#include "intel_guc_submission.h"
-> +#include "intel_guc_slpc_types.h"
-> +
-> +static inline bool intel_guc_slpc_is_supported(struct intel_guc *guc)
-> +{
-> +	return guc->slpc_supported;
-> +}
-> +
-> +static inline bool intel_guc_slpc_is_wanted(struct intel_guc *guc)
-> +{
-> +	return guc->slpc_selected;
-> +}
-> +
-> +static inline bool intel_guc_slpc_is_used(struct intel_guc *guc)
-> +{
-> +	return intel_guc_submission_is_used(guc) && intel_guc_slpc_is_wanted(guc);
-> +}
-> +
-> +void intel_guc_slpc_init_early(struct intel_guc_slpc *slpc);
-> +
-> +int intel_guc_slpc_init(struct intel_guc_slpc *slpc);
-> +int intel_guc_slpc_enable(struct intel_guc_slpc *slpc);
-> +void intel_guc_slpc_fini(struct intel_guc_slpc *slpc);
-> +
-> +#endif
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc_types.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc_types.h
-> new file mode 100644
-> index 000000000000..b85148265b1f
-> --- /dev/null
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc_types.h
-> @@ -0,0 +1,15 @@
-> +/* SPDX-License-Identifier: MIT */
-> +/*
-> + * Copyright © 2021 Intel Corporation
-> + */
-> +
-> +#ifndef _INTEL_GUC_SLPC_TYPES_H_
-> +#define _INTEL_GUC_SLPC_TYPES_H_
+> +#ifndef _GUC_ACTIONS_SLPC_ABI_H_
+> +#define _GUC_ACTIONS_SLPC_ABI_H_
 > +
 > +#include <linux/types.h>
+> +
+> +/**
+> + * SLPC SHARED DATA STRUCTURE
 
-likely not needed at this point, add when needed
+if you want to use kernel-doc, then add DOC: tag
+
+> + *
+> + *  +---+-------+--------------------------------------------------------------+
+> + *  | CL| Bytes | Description                                                  |
+> + *  +===+=======+==============================================================+
+> + *  | 1 | 0-3   | SHARED DATA SIZE                                             |
+> + *  |   +-------+--------------------------------------------------------------+
+> + *  |   | 4-7   | GLOBAL STATE                                                 |
+> + *  |   +-------+--------------------------------------------------------------+
+> + *  |   | 8-11  | DISPLAY DATA ADDRESS                                         |
+> + *  |   +-------+--------------------------------------------------------------+
+> + *  |   | 12:63 | PADDING                                                      |
+> + *  +---+-------+--------------------------------------------------------------+
+> + *  |   | 0:63  | PADDING(PLATFORM INFO)                                       |
+> + *  +---+-------+--------------------------------------------------------------+
+> + *  | 3 | 0-3   | TASK STATE DATA                                              |
+> + *  +   +-------+--------------------------------------------------------------+
+> + *  |   | 4:63  | PADDING                                                      |
+> + *  +---+-------+--------------------------------------------------------------+
+> + *  |4-21 0:1087| OVERRIDE PARAMS AND BIT FIELDS                               |
+       ^^^^^
+something didn't work here
+
+> + *  +---+-------+--------------------------------------------------------------+
+> + *  |   |       | PADDING + EXTRA RESERVED PAGE                                |
+> + *  +---+-------+--------------------------------------------------------------+
+> + */
+> +
+> +/*
+> + * SLPC exposes certain parameters for global configuration by the host.
+> + * These are referred to as override parameters, because in most cases
+> + * the host will not need to modify the default values used by SLPC.
+> + * SLPC remembers the default values which allows the host to easily restore
+> + * them by simply unsetting the override. The host can set or unset override
+> + * parameters during SLPC (re-)initialization using the SLPC Reset event.
+> + * The host can also set or unset override parameters on the fly using the
+> + * Parameter Set and Parameter Unset events
+> + */
+> +
+> +#define SLPC_MAX_OVERRIDE_PARAMETERS		256
+> +#define SLPC_OVERRIDE_BITFIELD_SIZE \
+> +		(SLPC_MAX_OVERRIDE_PARAMETERS / 32)
+> +
+> +#define SLPC_PAGE_SIZE_BYTES			4096
+> +#define SLPC_CACHELINE_SIZE_BYTES		64
+> +#define SLPC_SHARED_DATA_SIZE_BYTE_HEADER	SLPC_CACHELINE_SIZE_BYTES
+> +#define SLPC_SHARED_DATA_SIZE_BYTE_PLATFORM_INFO	SLPC_CACHELINE_SIZE_BYTES
+> +#define SLPC_SHARED_DATA_SIZE_BYTE_TASK_STATE	SLPC_CACHELINE_SIZE_BYTES
+> +#define SLPC_SHARED_DATA_MODE_DEFN_TABLE_SIZE	SLPC_PAGE_SIZE_BYTES
+> +#define SLPC_SHARED_DATA_SIZE_BYTE_MAX		(2 * SLPC_PAGE_SIZE_BYTES)
+> +#define SLPC_EVENT(id, argc)			((u32)(id) << 8 | (argc))
+> +#define SLPC_EVENT_MAX_INPUT_ARGS		9
+
+above two are likely used in H2G SLPC message that is not fully defined,
+maybe at the end of this file add separate section with H2G format,
+using plain C #defines, and move SLPC_EVENT helper macro to fwif.h
 
 > +
-> +struct intel_guc_slpc {
+> +/*
+> + * Cacheline size aligned (Total size needed for
+> + * SLPM_KMD_MAX_OVERRIDE_PARAMETERS=256 is 1088 bytes)
+> + */
+> +#define SLPC_OVERRIDE_PARAMS_TOTAL_BYTES	(((((SLPC_MAX_OVERRIDE_PARAMETERS * 4) \
+> +						+ ((SLPC_MAX_OVERRIDE_PARAMETERS / 32) * 4)) \
+> +		+ (SLPC_CACHELINE_SIZE_BYTES-1)) / SLPC_CACHELINE_SIZE_BYTES)*SLPC_CACHELINE_SIZE_BYTES)
 > +
+> +#define SLPC_SHARED_DATA_SIZE_BYTE_OTHER	(SLPC_SHARED_DATA_SIZE_BYTE_MAX - \
+> +					(SLPC_SHARED_DATA_SIZE_BYTE_HEADER \
+> +					+ SLPC_SHARED_DATA_SIZE_BYTE_PLATFORM_INFO \
+> +					+ SLPC_SHARED_DATA_SIZE_BYTE_TASK_STATE \
+> +					+ SLPC_OVERRIDE_PARAMS_TOTAL_BYTES \
+> +					+ SLPC_SHARED_DATA_MODE_DEFN_TABLE_SIZE))
+> +
+> +enum slpc_task_enable {
+> +	SLPC_PARAM_TASK_DEFAULT = 0,
+> +	SLPC_PARAM_TASK_ENABLED,
+> +	SLPC_PARAM_TASK_DISABLED,
+> +	SLPC_PARAM_TASK_UNKNOWN
+> +};
+> +
+> +enum slpc_global_state {
+> +	SLPC_GLOBAL_STATE_NOT_RUNNING = 0,
+> +	SLPC_GLOBAL_STATE_INITIALIZING = 1,
+> +	SLPC_GLOBAL_STATE_RESETTING = 2,
+> +	SLPC_GLOBAL_STATE_RUNNING = 3,
+> +	SLPC_GLOBAL_STATE_SHUTTING_DOWN = 4,
+> +	SLPC_GLOBAL_STATE_ERROR = 5
+> +};
+> +
+> +enum slpc_param_id {
+> +	SLPC_PARAM_TASK_ENABLE_GTPERF = 0,
+> +	SLPC_PARAM_TASK_DISABLE_GTPERF = 1,
+> +	SLPC_PARAM_TASK_ENABLE_BALANCER = 2,
+> +	SLPC_PARAM_TASK_DISABLE_BALANCER = 3,
+> +	SLPC_PARAM_TASK_ENABLE_DCC = 4,
+> +	SLPC_PARAM_TASK_DISABLE_DCC = 5,
+> +	SLPC_PARAM_GLOBAL_MIN_GT_UNSLICE_FREQ_MHZ = 6,
+> +	SLPC_PARAM_GLOBAL_MAX_GT_UNSLICE_FREQ_MHZ = 7,
+> +	SLPC_PARAM_GLOBAL_MIN_GT_SLICE_FREQ_MHZ = 8,
+> +	SLPC_PARAM_GLOBAL_MAX_GT_SLICE_FREQ_MHZ = 9,
+> +	SLPC_PARAM_GTPERF_THRESHOLD_MAX_FPS = 10,
+> +	SLPC_PARAM_GLOBAL_DISABLE_GT_FREQ_MANAGEMENT = 11,
+> +	SLPC_PARAM_GTPERF_ENABLE_FRAMERATE_STALLING = 12,
+> +	SLPC_PARAM_GLOBAL_DISABLE_RC6_MODE_CHANGE = 13,
+> +	SLPC_PARAM_GLOBAL_OC_UNSLICE_FREQ_MHZ = 14,
+> +	SLPC_PARAM_GLOBAL_OC_SLICE_FREQ_MHZ = 15,
+> +	SLPC_PARAM_GLOBAL_ENABLE_IA_GT_BALANCING = 16,
+> +	SLPC_PARAM_GLOBAL_ENABLE_ADAPTIVE_BURST_TURBO = 17,
+> +	SLPC_PARAM_GLOBAL_ENABLE_EVAL_MODE = 18,
+> +	SLPC_PARAM_GLOBAL_ENABLE_BALANCER_IN_NON_GAMING_MODE = 19,
+> +	SLPC_PARAM_GLOBAL_RT_MODE_TURBO_FREQ_DELTA_MHZ = 20,
+> +	SLPC_PARAM_PWRGATE_RC_MODE = 21,
+> +	SLPC_PARAM_EDR_MODE_COMPUTE_TIMEOUT_MS = 22,
+> +	SLPC_PARAM_EDR_QOS_FREQ_MHZ = 23,
+> +	SLPC_PARAM_MEDIA_FF_RATIO_MODE = 24,
+> +	SLPC_PARAM_ENABLE_IA_FREQ_LIMITING = 25,
+> +	SLPC_PARAM_STRATEGIES = 26,
+> +	SLPC_PARAM_POWER_PROFILE = 27,
+> +	SLPC_PARAM_IGNORE_EFFICIENT_FREQUENCY = 28,
+> +	SLPC_MAX_PARAM = 32,
+> +};
+> +
+> +enum slpc_event_id {
+> +	SLPC_EVENT_RESET = 0,
+> +	SLPC_EVENT_SHUTDOWN = 1,
+> +	SLPC_EVENT_PLATFORM_INFO_CHANGE = 2,
+> +	SLPC_EVENT_DISPLAY_MODE_CHANGE = 3,
+> +	SLPC_EVENT_FLIP_COMPLETE = 4,
+> +	SLPC_EVENT_QUERY_TASK_STATE = 5,
+> +	SLPC_EVENT_PARAMETER_SET = 6,
+> +	SLPC_EVENT_PARAMETER_UNSET = 7,
+> +};
+> +
+> +struct slpc_task_state_data {
+> +	union {
+> +		u32 task_status_padding;
+> +		struct {
+> +			u32 status;
+> +#define SLPC_GTPERF_TASK_ACTIVE		BIT(0)
+> +#define SLPC_GTPERF_STALL_POSSIBLE	BIT(1)
+> +#define SLPC_GTPERF_GAMING_MODE		BIT(2)
+> +#define SLPC_GTPERF_TARGET_FPS		BIT(3)
+> +#define SLPC_DCC_TASK_ACTIVE		BIT(4)
+> +#define SLPC_IN_DCC			BIT(5)
+> +#define SLPC_IN_DCT			BIT(6)
+> +#define SLPC_FREQ_SWITCH_ACTIVE		BIT(7)
+> +#define SLPC_IBC_ENABLED		BIT(8)
+> +#define SLPC_IBC_ACTIVE			BIT(9)
+> +#define SLPC_PG1_ENABLED		BIT(10)
+> +#define SLPC_PG1_ACTIVE			BIT(11)
+> +		};
+> +	};
+> +	union {
+> +		u32 freq_padding;
+> +		struct {
+> +#define SLPC_MAX_UNSLICE_FREQ_MASK	REG_GENMASK(7, 0)
+> +#define SLPC_MIN_UNSLICE_FREQ_MASK	REG_GENMASK(15, 8)
+> +#define SLPC_MAX_SLICE_FREQ_MASK	REG_GENMASK(23, 16)
+> +#define SLPC_MIN_SLICE_FREQ_MASK	REG_GENMASK(31, 24)
+> +			u32 freq;
+> +		};
+> +	};
+> +} __packed;
+> +
+> +struct slpc_shared_data_header {
+> +	/* Total size in bytes of this shared buffer. */
+> +	u32 size;
+> +	u32 global_state;
+> +	u32 display_data_addr;
+> +};
 
-no need to have this empty line
+__packed ?
+
+> +
+> +struct slpc_override_params {
+> +	u32 bits[SLPC_OVERRIDE_BITFIELD_SIZE];
+> +	u32 values[SLPC_MAX_OVERRIDE_PARAMETERS];
+> +};
+
+__packed ?
+
+> +
+> +struct slpc_shared_data {
+> +	struct slpc_shared_data_header header;
+> +	u8 shared_data_header_pad[SLPC_SHARED_DATA_SIZE_BYTE_HEADER -
+> +				sizeof(struct slpc_shared_data_header)];
+> +
+> +	u8 platform_info_pad[SLPC_SHARED_DATA_SIZE_BYTE_PLATFORM_INFO];
+> +
+> +	struct slpc_task_state_data task_state_data;
+> +	u8 task_state_data_pad[SLPC_SHARED_DATA_SIZE_BYTE_TASK_STATE -
+> +				sizeof(struct slpc_task_state_data)];
+> +
+> +	struct slpc_override_params override_params ;
+> +	u8 override_params_pad[SLPC_OVERRIDE_PARAMS_TOTAL_BYTES -
+> +				sizeof(struct slpc_override_params)];
+> +
+> +	u8 shared_data_pad[SLPC_SHARED_DATA_SIZE_BYTE_OTHER];
+> +
+> +	/* PAGE 2 (4096 bytes), mode based parameter will be removed soon */
+> +	u8 reserved_mode_definition[4096];
+> +} __packed;
+> +
+> +#endif
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
+> index 39bc3c16057b..fcccb103a21a 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
+> @@ -203,11 +203,15 @@ static u32 guc_ctl_debug_flags(struct intel_guc *guc)
+>  
+>  static u32 guc_ctl_feature_flags(struct intel_guc *guc)
+>  {
+> +	struct intel_gt *gt = guc_to_gt(guc);
+>  	u32 flags = 0;
+>  
+>  	if (!intel_guc_submission_is_used(guc))
+>  		flags |= GUC_CTL_DISABLE_SCHEDULER;
+>  
+> +	if (intel_uc_uses_guc_slpc(&gt->uc))
+
+we should have intel_guc_uses_slpc()
 
 Thanks,
 Michal
 
-> +};
+> +		flags |= GUC_CTL_ENABLE_SLPC;
 > +
-> +#endif
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc.c b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-> index da57d18d9f6b..e6bd9406c7b2 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-> @@ -75,16 +75,18 @@ static void __confirm_options(struct intel_uc *uc)
->  	struct drm_i915_private *i915 = uc_to_gt(uc)->i915;
+>  	return flags;
+>  }
 >  
->  	drm_dbg(&i915->drm,
-> -		"enable_guc=%d (guc:%s submission:%s huc:%s)\n",
-> +		"enable_guc=%d (guc:%s submission:%s huc:%s slpc:%s)\n",
->  		i915->params.enable_guc,
->  		yesno(intel_uc_wants_guc(uc)),
->  		yesno(intel_uc_wants_guc_submission(uc)),
-> -		yesno(intel_uc_wants_huc(uc)));
-> +		yesno(intel_uc_wants_huc(uc)),
-> +		yesno(intel_uc_wants_guc_slpc(uc)));
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
+> index 82534259b7ad..c3122ca5407b 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
+> @@ -95,6 +95,7 @@
+>  #define GUC_CTL_WA			1
+>  #define GUC_CTL_FEATURE			2
+>  #define   GUC_CTL_DISABLE_SCHEDULER	(1 << 14)
+> +#define   GUC_CTL_ENABLE_SLPC		BIT(2)
 >  
->  	if (i915->params.enable_guc == 0) {
->  		GEM_BUG_ON(intel_uc_wants_guc(uc));
->  		GEM_BUG_ON(intel_uc_wants_guc_submission(uc));
->  		GEM_BUG_ON(intel_uc_wants_huc(uc));
-> +		GEM_BUG_ON(intel_uc_wants_guc_slpc(uc));
->  		return;
->  	}
->  
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc.h b/drivers/gpu/drm/i915/gt/uc/intel_uc.h
-> index e2da2b6e76e1..925a58ca6b94 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_uc.h
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_uc.h
-> @@ -8,6 +8,7 @@
->  
->  #include "intel_guc.h"
->  #include "intel_guc_submission.h"
-> +#include "intel_guc_slpc.h"
->  #include "intel_huc.h"
->  #include "i915_params.h"
->  
-> @@ -83,6 +84,7 @@ __uc_state_checker(x, func, uses, used)
->  uc_state_checkers(guc, guc);
->  uc_state_checkers(huc, huc);
->  uc_state_checkers(guc, guc_submission);
-> +uc_state_checkers(guc, guc_slpc);
->  
->  #undef uc_state_checkers
->  #undef __uc_state_checker
+>  #define GUC_CTL_DEBUG			3
+>  #define   GUC_LOG_VERBOSITY_SHIFT	0
 > 
-
