@@ -2,54 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F09AA3D16A1
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 20:46:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 213773D16A2
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 20:47:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D666F6E25B;
-	Wed, 21 Jul 2021 18:46:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A40F6E839;
+	Wed, 21 Jul 2021 18:47:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de
- [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CE3EC6E25B
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 18:46:44 +0000 (UTC)
-Received: from [IPv6:::1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id A726781BC0;
- Wed, 21 Jul 2021 20:46:42 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1626893203;
- bh=FTSTkGX+tDvHXth2Qra7oYplcQ9wA4ZICxhqhW27y2g=;
- h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=MDzBHX/GMiiT8kDkjrvNdAA6yAwuSu8ZmVhGFAGMKwWbmVDs7IOmyIAFuoeQzf834
- MVJdf2xE/nuVdUNN8G9i+fWTN7AVAezd0RC2uGFm70uVaoSyUczXPi4JaErH9i0WKe
- xmneCQtH+JwNT+9gMnerR1MGIoplgYubLegM3ZTCSvCkozvQx57GIDNt5c+pWuCo3Z
- RtMprbftkFAH8rJGuKwgqvqYybdtgqS4IiKhUSQSlB4a3miYb/W4t/KH8vpBQSdxIo
- aphD8iByIJcLlX79bQIeYQqV5HMSvF6kNHPtukoV735C705HjE0o4H6JFwD0TZ1Uip
- JHZ70y7GIPD9A==
-Subject: Re: [PATCH] backlight: pwm_bl: Avoid backlight flicker if backlight
- control GPIO is input
-To: Daniel Thompson <daniel.thompson@linaro.org>
-References: <20210718211415.143709-1-marex@denx.de>
- <20210719112202.4fvmn57ibgy3yesa@maple.lan>
- <bbaad78e-91c7-0787-fa72-b5cfabcc6dbd@denx.de>
- <20210721104914.4difos6w3ysjelnv@maple.lan>
- <fee1ad9e-ae70-1644-5444-6c894473b48e@denx.de>
- <20210721161249.gehnwkscto2hlh7s@maple.lan>
-From: Marek Vasut <marex@denx.de>
-Message-ID: <298f6a35-2120-60a6-598a-87b141118bfa@denx.de>
-Date: Wed, 21 Jul 2021 20:46:42 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 360166E839
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 18:47:50 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10052"; a="211555029"
+X-IronPort-AV: E=Sophos;i="5.84,258,1620716400"; d="scan'208";a="211555029"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Jul 2021 11:47:49 -0700
+X-IronPort-AV: E=Sophos;i="5.84,258,1620716400"; d="scan'208";a="432972119"
+Received: from unknown (HELO intel.com) ([10.212.44.180])
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Jul 2021 11:47:48 -0700
+Date: Wed, 21 Jul 2021 14:47:47 -0400
+From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+Subject: Re: [PATCH v5 05/15] drm/i915/pxp: Implement funcs to create the TEE
+ channel
+Message-ID: <YPhr060BxH6oN+6B@intel.com>
+References: <20210716041034.382-1-daniele.ceraolospurio@intel.com>
+ <20210716041034.382-6-daniele.ceraolospurio@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20210721161249.gehnwkscto2hlh7s@maple.lan>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.103.2 at phobos.denx.de
-X-Virus-Status: Clean
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210716041034.382-6-daniele.ceraolospurio@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,70 +45,216 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-pwm@vger.kernel.org, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Thierry Reding <treding@nvidia.com>
+Cc: Huang@freedesktop.org, "Huang, Sean Z" <sean.z.huang@intel.com>,
+ dri-devel@lists.freedesktop.org, Chris Wilson <chris@chris-wilson.co.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/21/21 6:12 PM, Daniel Thompson wrote:
-> On Wed, Jul 21, 2021 at 05:09:57PM +0200, Marek Vasut wrote:
->> On 7/21/21 12:49 PM, Daniel Thompson wrote:
->>>> I'm not sure that's correct, we can simply say that any new uses of the
->>>> pwm-backlight should specify the initial GPIO configuration, and for the
->>>> legacy ones, use whatever is in the code now.
->>>
->>> I'm not 100% against the idea... however if we still have to get the
->>> code to read state from the hardware right for legacy cases that means
->>> we have to do the same work but with fewer people testing it.
->>
->> We can do something like this:
->>
->> if (of_property_read_bool(np, "enable-active-high"))
->>    gpiod_direction_output(pb->enable_gpio, 1);
->> else if (of_property_read_bool(np, "enable-active-low"))
->>    gpiod_direction_output(pb->enable_gpio, 0);
->> else {
->>    WARN_ON_ONCE("Fix your DT"); // or some such notification
->>    ... legacy code path ...
->> }
->>
->> Note that I picked the same DT prop names as drivers/gpio/gpiolib-of.c
->> of_gpio_flags_quirks() uses, because we are headed into similar mess here
->> I'm afraid.
+On Thu, Jul 15, 2021 at 09:10:24PM -0700, Daniele Ceraolo Spurio wrote:
+> From: "Huang, Sean Z" <sean.z.huang@intel.com>
 > 
-> I don't quite understand what you mean here. We are using gpiolib so
-> for us there is no concept of active-high or active-low. The only
-> concept for us is whether enable_gpio is asserted or not.
+> Implement the funcs to create the TEE channel, so kernel can
+> send the TEE commands directly to TEE for creating the arbitrary
+> (default) session.
+> 
+> v2: fix locking, don't pollute dev_priv (Chris)
+> 
+> v3: wait for mei PXP component to be bound.
+> 
+> v4: drop the wait, as the component might be bound after i915 load
+> completes. We'll instead check when sending a tee message.
 
-It would look the same -- just substitute in "enable-on-boot" and 
-"disable-on-boot" DT property.
+ack
 
-> What the DT property would be describing is purely whether the
-> bootloader left the backlight on or off.
+> 
+> Signed-off-by: Huang, Sean Z <sean.z.huang@intel.com>
+> Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+> Cc: Chris Wilson <chris@chris-wilson.co.uk>
+> Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com> #v2
 
-Rather, it would simply control what is the default state of the 
-backlight enable GPIO (enabled/disabled).
+rvb still valid
 
-> This sails very close to the
-> edge of what is in-scope for DT (at least it does it we can read
-> the inherited state directly from the hardware).
-
-The problem with reading it out of hardware is that the hardware might 
-be in undefined state and expects Linux to define that state, so that 
-does not always work. Hence my initial suggestion to add a DT property 
-to define the state up front, instead of using these fragile heuristics.
-
-> What it also means decisions about the DT bindings are more about
-> whether, if the backlight is lit up, the bootloader should also disclose
-> what it thinks it has established as the PWM duty cycle as well.
-
-Please also consider the case where bootloader configures total minimum 
-of the hardware to start Linux as soon as possible, i.e. it puts Linux 
-in DRAM and jumps to Linux.
-
-> Overall I have fairly grave concerns that this simply moves
-> fragility into the bootloader rather then reducing it.
-
-Wait a minute, I think we disconnected somewhere. I would rather prefer 
-to remove the fragility and bootloader dependency altogether, exactly to 
-avoid depending on the state the bootloader left the hardware in.
+> ---
+>  drivers/gpu/drm/i915/Makefile              |  3 +-
+>  drivers/gpu/drm/i915/pxp/intel_pxp.c       | 13 ++++
+>  drivers/gpu/drm/i915/pxp/intel_pxp_tee.c   | 77 ++++++++++++++++++++++
+>  drivers/gpu/drm/i915/pxp/intel_pxp_tee.h   | 14 ++++
+>  drivers/gpu/drm/i915/pxp/intel_pxp_types.h |  3 +
+>  5 files changed, 109 insertions(+), 1 deletion(-)
+>  create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_tee.c
+>  create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_tee.h
+> 
+> diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
+> index fe054918837d..05eb6b7753cc 100644
+> --- a/drivers/gpu/drm/i915/Makefile
+> +++ b/drivers/gpu/drm/i915/Makefile
+> @@ -277,7 +277,8 @@ i915-y += i915_perf.o
+>  
+>  # Protected execution platform (PXP) support
+>  i915-$(CONFIG_DRM_I915_PXP) += \
+> -	pxp/intel_pxp.o
+> +	pxp/intel_pxp.o \
+> +	pxp/intel_pxp_tee.o
+>  
+>  # Post-mortem debug and GPU hang state capture
+>  i915-$(CONFIG_DRM_I915_CAPTURE_ERROR) += i915_gpu_error.o
+> diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp.c b/drivers/gpu/drm/i915/pxp/intel_pxp.c
+> index 7b2053902146..400deaea2d8a 100644
+> --- a/drivers/gpu/drm/i915/pxp/intel_pxp.c
+> +++ b/drivers/gpu/drm/i915/pxp/intel_pxp.c
+> @@ -3,6 +3,7 @@
+>   * Copyright(c) 2020 Intel Corporation.
+>   */
+>  #include "intel_pxp.h"
+> +#include "intel_pxp_tee.h"
+>  #include "gt/intel_context.h"
+>  #include "i915_drv.h"
+>  
+> @@ -50,7 +51,16 @@ void intel_pxp_init(struct intel_pxp *pxp)
+>  	if (ret)
+>  		return;
+>  
+> +	ret = intel_pxp_tee_component_init(pxp);
+> +	if (ret)
+> +		goto out_context;
+> +
+>  	drm_info(&gt->i915->drm, "Protected Xe Path (PXP) protected content support initialized\n");
+> +
+> +	return;
+> +
+> +out_context:
+> +	destroy_vcs_context(pxp);
+>  }
+>  
+>  void intel_pxp_fini(struct intel_pxp *pxp)
+> @@ -58,5 +68,8 @@ void intel_pxp_fini(struct intel_pxp *pxp)
+>  	if (!intel_pxp_is_enabled(pxp))
+>  		return;
+>  
+> +	intel_pxp_tee_component_fini(pxp);
+> +
+>  	destroy_vcs_context(pxp);
+> +
+>  }
+> diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_tee.c b/drivers/gpu/drm/i915/pxp/intel_pxp_tee.c
+> new file mode 100644
+> index 000000000000..21916ec0f6ff
+> --- /dev/null
+> +++ b/drivers/gpu/drm/i915/pxp/intel_pxp_tee.c
+> @@ -0,0 +1,77 @@
+> +// SPDX-License-Identifier: MIT
+> +/*
+> + * Copyright(c) 2020 Intel Corporation.
+> + */
+> +
+> +#include <linux/component.h>
+> +#include "drm/i915_pxp_tee_interface.h"
+> +#include "drm/i915_component.h"
+> +#include "i915_drv.h"
+> +#include "intel_pxp.h"
+> +#include "intel_pxp_tee.h"
+> +
+> +static inline struct intel_pxp *i915_dev_to_pxp(struct device *i915_kdev)
+> +{
+> +	return &kdev_to_i915(i915_kdev)->gt.pxp;
+> +}
+> +
+> +/**
+> + * i915_pxp_tee_component_bind - bind function to pass the function pointers to pxp_tee
+> + * @i915_kdev: pointer to i915 kernel device
+> + * @tee_kdev: pointer to tee kernel device
+> + * @data: pointer to pxp_tee_master containing the function pointers
+> + *
+> + * This bind function is called during the system boot or resume from system sleep.
+> + *
+> + * Return: return 0 if successful.
+> + */
+> +static int i915_pxp_tee_component_bind(struct device *i915_kdev,
+> +				       struct device *tee_kdev, void *data)
+> +{
+> +	struct intel_pxp *pxp = i915_dev_to_pxp(i915_kdev);
+> +
+> +	pxp->pxp_component = data;
+> +	pxp->pxp_component->tee_dev = tee_kdev;
+> +
+> +	return 0;
+> +}
+> +
+> +static void i915_pxp_tee_component_unbind(struct device *i915_kdev,
+> +					  struct device *tee_kdev, void *data)
+> +{
+> +	struct intel_pxp *pxp = i915_dev_to_pxp(i915_kdev);
+> +
+> +	pxp->pxp_component = NULL;
+> +}
+> +
+> +static const struct component_ops i915_pxp_tee_component_ops = {
+> +	.bind   = i915_pxp_tee_component_bind,
+> +	.unbind = i915_pxp_tee_component_unbind,
+> +};
+> +
+> +int intel_pxp_tee_component_init(struct intel_pxp *pxp)
+> +{
+> +	int ret;
+> +	struct intel_gt *gt = pxp_to_gt(pxp);
+> +	struct drm_i915_private *i915 = gt->i915;
+> +
+> +	ret = component_add_typed(i915->drm.dev, &i915_pxp_tee_component_ops,
+> +				  I915_COMPONENT_PXP);
+> +	if (ret < 0) {
+> +		drm_err(&i915->drm, "Failed to add PXP component (%d)\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +void intel_pxp_tee_component_fini(struct intel_pxp *pxp)
+> +{
+> +	struct intel_gt *gt = pxp_to_gt(pxp);
+> +	struct drm_i915_private *i915 = gt->i915;
+> +
+> +	if (!pxp->pxp_component)
+> +		return;
+> +
+> +	component_del(i915->drm.dev, &i915_pxp_tee_component_ops);
+> +}
+> diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_tee.h b/drivers/gpu/drm/i915/pxp/intel_pxp_tee.h
+> new file mode 100644
+> index 000000000000..23d050a5d3e7
+> --- /dev/null
+> +++ b/drivers/gpu/drm/i915/pxp/intel_pxp_tee.h
+> @@ -0,0 +1,14 @@
+> +/* SPDX-License-Identifier: MIT */
+> +/*
+> + * Copyright(c) 2020, Intel Corporation. All rights reserved.
+> + */
+> +
+> +#ifndef __INTEL_PXP_TEE_H__
+> +#define __INTEL_PXP_TEE_H__
+> +
+> +#include "intel_pxp.h"
+> +
+> +int intel_pxp_tee_component_init(struct intel_pxp *pxp);
+> +void intel_pxp_tee_component_fini(struct intel_pxp *pxp);
+> +
+> +#endif /* __INTEL_PXP_TEE_H__ */
+> diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_types.h b/drivers/gpu/drm/i915/pxp/intel_pxp_types.h
+> index bd12c520e60a..3e95d21513e8 100644
+> --- a/drivers/gpu/drm/i915/pxp/intel_pxp_types.h
+> +++ b/drivers/gpu/drm/i915/pxp/intel_pxp_types.h
+> @@ -7,8 +7,11 @@
+>  #define __INTEL_PXP_TYPES_H__
+>  
+>  struct intel_context;
+> +struct i915_pxp_component;
+>  
+>  struct intel_pxp {
+> +	struct i915_pxp_component *pxp_component;
+> +
+>  	struct intel_context *ce;
+>  };
+>  
+> -- 
+> 2.32.0
+> 
