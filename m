@@ -1,58 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 075853D09B9
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 09:30:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C41CC3D09DB
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 09:40:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D33EC6E85A;
-	Wed, 21 Jul 2021 07:30:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 895026E423;
+	Wed, 21 Jul 2021 07:39:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x12c.google.com (mail-il1-x12c.google.com
- [IPv6:2607:f8b0:4864:20::12c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E5836E85A
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 07:30:00 +0000 (UTC)
-Received: by mail-il1-x12c.google.com with SMTP id y6so1463945ilj.13
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 00:30:00 -0700 (PDT)
+Received: from mail-io1-xd34.google.com (mail-io1-xd34.google.com
+ [IPv6:2607:f8b0:4864:20::d34])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 882EB6E423
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 07:39:57 +0000 (UTC)
+Received: by mail-io1-xd34.google.com with SMTP id u7so1345044ion.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 00:39:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=JJyapWso43cKxu7exR6UDB9SXEcP2zO2ejL6sTcse9U=;
- b=draIOqOnpPvTHBMPDajHYxnZpgi3hCpg1BxirrVgoEYxghc3TcRRz0/xxRvpShQl2y
- QRfeyP2nf4Yx3eBaLVfC1pihBjTXaPHGttywezWhikOFcGHneCk2GT0Nao1l9czoSKZj
- Aw4jTYrCrc+1hLgqrUlMyzOnkHhg3aLmqWC+1+1eu6SLQGz9CpwJq5KpSJop0o9jlK/W
- lDQWyc4D9GnFw3y6SHXtI08cbPppDFrCva60xhsgVAoxFK33INN2tA8MmOeBGltQzSd/
- rS+sQxYdp1FjCfIOJGetNFAEA3ZuaS7tI6Du1FjFTlr2vM/geuMnMVJpSFOHeB90EWFK
- U32A==
+ :cc; bh=OOvvFl7W/npbtRfiMMZP7Yo/sIDp7oHI35KNqHVdthA=;
+ b=lfB0pgyux+hnxoWgpFscsYJj4Kz5XcUMP7q8c4RPDNFJwZMEvCnOeDHk8s8IQOGpXj
+ ly4h1gSN688SBs5B4idNmabNB8ru5/vQDQujpY32PXcAhHhv9M66kbiKiCLC85mv1zyi
+ 3QXmyuzas1mVeK2rxbgCaZi0iOOkW0BTauVSbldna8RV1XcvUpmpkY7rv5uH0pe3k1PD
+ Ygi1f8NG1FygkJOqIbe/Nzc2qU6bAn/zk1fsMt9q4pmbmEwoeVyOMuQIHChTyD4QGV8v
+ 0Gpi9KCuQib+xGY5orveNS57AQc+YekUphKD5ukY2cS/decJEtCiT7c/3WCV0B4Aj4kW
+ SJkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=JJyapWso43cKxu7exR6UDB9SXEcP2zO2ejL6sTcse9U=;
- b=AeCjG36t/A5s7Bnr0LPHDNiX0U3sCmyulNTEzboEppDtpOFWbYek4SZKx47BRWIVIZ
- ZRZhdwEBNNeATsgCB8fKBNjQxUIzNoH0BGs0ZJaUzX/cRkf3gcsMO3J9AUFO6VwsoOPS
- J4ZWPb/bWXMssZgjwxBRGFhcpE/4oRY2TrtFDLgHofn3rJ7V6jDxRG6AlAgvbPFbu6wu
- BIf7gjWPZGXVDAcy8IyV2cYfACKIRVuSX2XCkSMPgY3KQzSNztSnT/Oot71X/ke5QUzg
- g0BqDLD2o20RzY5Doq90W0//RcXzG0cN0yBK+fz+Da4darkWQdB7OB+Btabu9IGLmkrD
- l6KA==
-X-Gm-Message-State: AOAM5325yVw9eIeS+k6RYQfUpcXJk5ZYB478SaW5OpP+x9jCmOTwPGuU
- 1EPhWRe+eqvMNbPpOlep00t3dudxNKBYfHrRJjQ=
-X-Google-Smtp-Source: ABdhPJwgZTtkv63YIk04u138pE+AS+Biq6n5UJESA7lfXXhZ+X6P39wlRoF2kGHKp3Xbkqqzt5aEcXzq2cwEpD0hdcI=
-X-Received: by 2002:a05:6e02:e82:: with SMTP id
- t2mr23356675ilj.218.1626852599569; 
- Wed, 21 Jul 2021 00:29:59 -0700 (PDT)
+ bh=OOvvFl7W/npbtRfiMMZP7Yo/sIDp7oHI35KNqHVdthA=;
+ b=q0Qn+SQcVr67lSaSUf9xF4UyJim/8eKrt3gjg1HEYjy8+anR4DN9CxGqdKXQWOk6Zx
+ /k+iFgEMXLlWziZ8t0A7Iz7t0WUGx9DUD8irnjPXeB5r/rZI7ChaMeddaREnc4CIMxCk
+ 4byaKsac6GhNxuSfu18OfoXV1E+8C9ce/0xFJc9DKT/qb+bloTmHxxtwx/jYHwsNMt2+
+ u6vl4p8vX+YlH1OWFWvb3D+YhLE52lxY2khbS/VMZDedl/HOUbDXrqQsMCFUtq1B3/a5
+ 7hhcN4OWo/eDuCZM89Pce1iH1RPgHghoOTAzUUIlxjdv53ZMq9msd5s9Zdy3G5vx6/Af
+ J4NA==
+X-Gm-Message-State: AOAM5332+LiukuXd+ukCn2Ph9aGw/fqoEQMys3nGVK4EZtfz9qwtF6Nk
+ sZAP2oDZByjiOipwhRm+37mdsdBFU+fYzxiABAY=
+X-Google-Smtp-Source: ABdhPJxaukYYXw2bkG1PIsn+tuTUpnKzRtB9SKFS+2QlvhhsPD59R5j290mOG3OeHSNqpOoxGw0WzxXwNAbKOTArq+U=
+X-Received: by 2002:a6b:1642:: with SMTP id 63mr16444184iow.68.1626853196821; 
+ Wed, 21 Jul 2021 00:39:56 -0700 (PDT)
 MIME-Version: 1.0
-References: <1626430843-23823-1-git-send-email-dillon.minfei@gmail.com>
- <1626430843-23823-2-git-send-email-dillon.minfei@gmail.com>
- <CACRpkdbkOY08THPsPHfOOMeToHGXZvN2DBoKG9+WHeke9jypzQ@mail.gmail.com>
-In-Reply-To: <CACRpkdbkOY08THPsPHfOOMeToHGXZvN2DBoKG9+WHeke9jypzQ@mail.gmail.com>
+References: <1626430843-23823-2-git-send-email-dillon.minfei@gmail.com>
+ <202107201305.FPUQWvWk-lkp@intel.com>
+In-Reply-To: <202107201305.FPUQWvWk-lkp@intel.com>
 From: Dillon Min <dillon.minfei@gmail.com>
-Date: Wed, 21 Jul 2021 15:29:23 +0800
-Message-ID: <CAL9mu0JufzC_2p+X0PHdEpuYUqCNJ6XoT+f18oEsRa5Wm7wS3g@mail.gmail.com>
+Date: Wed, 21 Jul 2021 15:39:20 +0800
+Message-ID: <CAL9mu0LVdt1wtKzBa=201AJ-Eb4BdKtVx18hzQfaB0-Ga0jx9g@mail.gmail.com>
 Subject: Re: [PATCH 1/2] dt-bindings: display: panel: Add ilitek ili9341 panel
  bindings
-To: Linus Walleij <linus.walleij@linaro.org>
-Content-Type: multipart/alternative; boundary="0000000000004ca0fd05c79d2384"
+To: kernel test robot <lkp@intel.com>
+Content-Type: multipart/alternative; boundary="000000000000e5f82105c79d4649"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,149 +64,191 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>,
- =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>,
- Dave Airlie <airlied@linux.ie>, linux-kernel <linux-kernel@vger.kernel.org>,
- Doug Anderson <dianders@chromium.org>,
+ <devicetree@vger.kernel.org>, kbuild-all@lists.01.org,
+ Dave Airlie <airlied@linux.ie>,
+ Alexandre TORGUE <alexandre.torgue@foss.st.com>,
  "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Rob Herring <robh+dt@kernel.org>,
- "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, thierry.reding@gmail.com,
  Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---0000000000004ca0fd05c79d2384
+--000000000000e5f82105c79d4649
 Content-Type: text/plain; charset="UTF-8"
 
-Hi Linus,
+Hi Kernel test robot,
 
-Thanks for your detailed reply.
+Thanks for your time to test my patch.
 
-On Sun, 18 Jul 2021 at 08:17, Linus Walleij <linus.walleij@linaro.org>
-wrote:
+I did the dtbs_check on my side, and got the same warnings.
 
-> Hi Dillon,
+But I guess these warnings do not come from this submission,
+So, I will not be going to fix it at this time, but will at other
+submissions
+to fix these, add arm,armv7m-nvic.yaml ... to describe compatibles, etc.
+
+by the way, i did find a warning from the stm32f429-disco.dts and fixt it
+in "[PATCH v2 2/3] ARM: dts: stm32: fix dtbs_check warning on ili9341
+dts binding",
+
+the warning:
+arch/arm/boot/dts/stm32f429-disco.dt.yaml: display@1: compatible:
+['st,sf-tc240t-9370-t'] is too short
+
+my make command:
+make ARCH=arm dtbs_check
+DT_SCHEMA_FILES=Documentation/devicetree/bindings/display/panel/ilitek,ili9341.yaml
+
+Best regards
+thanks
+
+Dillon
+
+On Tue, 20 Jul 2021 at 14:12, kernel test robot <lkp@intel.com> wrote:
+
+> Hi,
 >
-> thanks for your patch!
+> Thank you for the patch! Perhaps something to improve:
 >
-> On Fri, Jul 16, 2021 at 12:20 PM <dillon.minfei@gmail.com> wrote:
+> [auto build test WARNING on robh/for-next]
+> [also build test WARNING on linus/master v5.14-rc2 next-20210719]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch]
 >
-> > From: Dillon Min <dillon.minfei@gmail.com>
-> >
-> > Add documentation for "ilitek,ili9341" panel.
-> >
-> > Signed-off-by: Dillon Min <dillon.minfei@gmail.com>
+> url:
+> https://github.com/0day-ci/linux/commits/dillon-minfei-gmail-com/Add-ilitek-ili9341-panel-driver/20210718-103113
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git
+> for-next
+> compiler: arm-linux-gnueabi-gcc (GCC) 10.3.0
+> reproduce: make ARCH=arm dtbs_check
 >
-> > +  dc-gpios:
-> > +    maxItems: 1
-> > +    description: Display data/command selection (D/CX)
+> If you fix the issue, kindly add following tag as appropriate
+> Reported-by: kernel test robot <lkp@intel.com>
 >
-> This is a DBI feature so mention in the description that this is a
-> DBI panel.
+>
+> dtcheck warnings: (new ones prefixed by >>)
+>    arch/arm/boot/dts/stm32f429-disco.dt.yaml:0:0:
+> /interrupt-controller@e000e100: failed to match any schema with
+> compatible: ['arm,armv7m-nvic']
+>    arch/arm/boot/dts/stm32f429-disco.dt.yaml:0:0: /timer@e000e010: failed
+> to match any schema with compatible: ['arm,armv7m-systick']
+>    arch/arm/boot/dts/stm32f429-disco.dt.yaml:0:0: /soc/i2c@40005c00
+> /stmpe811@41: failed to match any schema with compatible: ['st,stmpe811']
+>    arch/arm/boot/dts/stm32f429-disco.dt.yaml:0:0: /soc/i2c@40005c00
+> /stmpe811@41/stmpe_touchscreen: failed to match any schema with
+> compatible: ['st,stmpe-ts']
+>    arch/arm/boot/dts/stm32f429-disco.dt.yaml: l3gd20@0:
+> 'spi-max-frequency' does not match any of the regexes: 'pinctrl-[0-9]+'
+>         From schema:
+> Documentation/devicetree/bindings/iio/st,st-sensors.yaml
+> >> arch/arm/boot/dts/stm32f429-disco.dt.yaml: display@1: compatible:
+> ['st,sf-tc240t-9370-t'] is too short
+>         From schema:
+> Documentation/devicetree/bindings/display/panel/ilitek,ili9341.yaml
+>    arch/arm/boot/dts/stm32f429-disco.dt.yaml:0:0: /soc/crc@40023000:
+> failed to match any schema with compatible: ['st,stm32f4-crc']
+>    arch/arm/boot/dts/stm32f429-disco.dt.yaml:0:0: /soc/rcc@40023800:
+> failed to match any schema with compatible: ['st,stm32f42xx-rcc',
+> 'st,stm32-rcc']
+>    arch/arm/boot/dts/stm32f429-disco.dt.yaml:0:0: /soc/rcc@40023800:
+> failed to match any schema with compatible: ['st,stm32f42xx-rcc',
+> 'st,stm32-rcc']
+>
+> ---
+> 0-DAY CI Kernel Test Service, Intel Corporation
+> https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
 >
 
-Okay, I will add the DBI panel to v2.
-
-
->
-> > +  spi-3wire: true
-> > +
-> > +  spi-max-frequency:
-> > +    const: 10000000
-> > +
-> > +  port: true
-> > +
-> > +additionalProperties: false
->
-> Please add regulator supplies for the power lines, it's fine
-> not to implement code handling them in the driver but they
-> should be in the bindings.
->
-> For the ili9341 it should be
->
->   vci-supply:
->     description: Analog voltage supply (2.5 .. 3.3V)
->
->   vddi-supply:
->     description: Voltage supply for interface logic (1.65 .. 3.3 V)
->
->   vddi-led-supply:
->     description: Voltage supply for the LED driver (1.65 .. 3.3 V)
->
->
-Thanks so much, I will add it to v2.
-
-
-> Yours,
-> Linus Walleij
->
-
---0000000000004ca0fd05c79d2384
+--000000000000e5f82105c79d4649
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr">Hi Linus,<div><br></div><div>Thanks for y=
-our detailed reply.</div></div><br><div class=3D"gmail_quote"><div dir=3D"l=
-tr" class=3D"gmail_attr">On Sun, 18 Jul 2021 at 08:17, Linus Walleij &lt;<a=
- href=3D"mailto:linus.walleij@linaro.org">linus.walleij@linaro.org</a>&gt; =
-wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
-px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Hi Dillon=
-,<br>
-<br>
-thanks for your patch!<br>
-<br>
-On Fri, Jul 16, 2021 at 12:20 PM &lt;<a href=3D"mailto:dillon.minfei@gmail.=
-com" target=3D"_blank">dillon.minfei@gmail.com</a>&gt; wrote:<br>
-<br>
-&gt; From: Dillon Min &lt;<a href=3D"mailto:dillon.minfei@gmail.com" target=
-=3D"_blank">dillon.minfei@gmail.com</a>&gt;<br>
-&gt;<br>
-&gt; Add documentation for &quot;ilitek,ili9341&quot; panel.<br>
-&gt;<br>
-&gt; Signed-off-by: Dillon Min &lt;<a href=3D"mailto:dillon.minfei@gmail.co=
-m" target=3D"_blank">dillon.minfei@gmail.com</a>&gt;<br>
-<br>
-&gt; +=C2=A0 dc-gpios:<br>
-&gt; +=C2=A0 =C2=A0 maxItems: 1<br>
-&gt; +=C2=A0 =C2=A0 description: Display data/command selection (D/CX)<br>
-<br>
-This is a DBI feature so mention in the description that this is a<br>
-DBI panel.<br></blockquote><div><br></div><div>Okay, I will add the DBI pan=
-el to v2.</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"=
-margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-lef=
-t:1ex">
-<br>
-&gt; +=C2=A0 spi-3wire: true<br>
-&gt; +<br>
-&gt; +=C2=A0 spi-max-frequency:<br>
-&gt; +=C2=A0 =C2=A0 const: 10000000<br>
-&gt; +<br>
-&gt; +=C2=A0 port: true<br>
-&gt; +<br>
-&gt; +additionalProperties: false<br>
-<br>
-Please add regulator supplies for the power lines, it&#39;s fine<br>
-not to implement code handling them in the driver but they<br>
-should be in the bindings.<br>
-<br>
-For the ili9341 it should be<br>
-<br>
-=C2=A0 vci-supply:<br>
-=C2=A0 =C2=A0 description: Analog voltage supply (2.5 .. 3.3V)<br>
-<br>
-=C2=A0 vddi-supply:<br>
-=C2=A0 =C2=A0 description: Voltage supply for interface logic (1.65 .. 3.3 =
-V)<br>
-<br>
-=C2=A0 vddi-led-supply:<br>
-=C2=A0 =C2=A0 description: Voltage supply for the LED driver (1.65 .. 3.3 V=
-)<br>
-<br></blockquote><div><br></div><div>Thanks so much, I will add it to v2.</=
-div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
-0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-Yours,<br>
-Linus Walleij<br>
-</blockquote></div></div>
+<div dir=3D"ltr"><div dir=3D"ltr">Hi=C2=A0Kernel test robot,<div><br></div>=
+<div>Thanks for your time to test my patch.</div><div><br></div><div>I did =
+the dtbs_check on my side, and got the same warnings.</div><div><br></div><=
+div>But I guess these warnings do not come from this submission,</div><div>=
+So, I will not be going to fix it at this time, but will at other submissio=
+ns</div><div>to fix these, add arm,armv7m-nvic.yaml ... to describe=C2=A0co=
+mpatibles, etc.</div></div><div><br></div>by the way, i did find a warning =
+from the stm32f429-disco.dts and fixt it<div>in &quot;[PATCH v2 2/3] ARM: d=
+ts: stm32: fix dtbs_check warning on ili9341</div><div>dts binding&quot;,</=
+div><div><br><div>the=C2=A0warning:<div>arch/arm/boot/dts/stm32f429-disco.d=
+t.yaml: display@1: compatible:</div><div>[&#39;st,sf-tc240t-9370-t&#39;] is=
+ too short</div><div><br></div><div>my make command:</div><div>make ARCH=3D=
+arm dtbs_check=C2=A0
 
---0000000000004ca0fd05c79d2384--
+DT_SCHEMA_FILES=3DDocumentation/devicetree/bindings/display/panel/ilitek,il=
+i9341.yaml</div><div><br></div><div>Best regards</div><div>thanks</div><div=
+><br></div><div>Dillon</div><div><br></div><div><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Tue, 20 Jul 2021 at 14:12, kernel =
+test robot &lt;<a href=3D"mailto:lkp@intel.com">lkp@intel.com</a>&gt; wrote=
+:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.=
+8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Hi,<br>
+<br>
+Thank you for the patch! Perhaps something to improve:<br>
+<br>
+[auto build test WARNING on robh/for-next]<br>
+[also build test WARNING on linus/master v5.14-rc2 next-20210719]<br>
+[If your patch is applied to the wrong git tree, kindly drop us a note.<br>
+And when submitting patch, we suggest to use &#39;--base&#39; as documented=
+ in<br>
+<a href=3D"https://git-scm.com/docs/git-format-patch" rel=3D"noreferrer" ta=
+rget=3D"_blank">https://git-scm.com/docs/git-format-patch</a>]<br>
+<br>
+url:=C2=A0 =C2=A0 <a href=3D"https://github.com/0day-ci/linux/commits/dillo=
+n-minfei-gmail-com/Add-ilitek-ili9341-panel-driver/20210718-103113" rel=3D"=
+noreferrer" target=3D"_blank">https://github.com/0day-ci/linux/commits/dill=
+on-minfei-gmail-com/Add-ilitek-ili9341-panel-driver/20210718-103113</a><br>
+base:=C2=A0 =C2=A0<a href=3D"https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/robh/linux.git" rel=3D"noreferrer" target=3D"_blank">https://git.kernel.o=
+rg/pub/scm/linux/kernel/git/robh/linux.git</a> for-next<br>
+compiler: arm-linux-gnueabi-gcc (GCC) 10.3.0<br>
+reproduce: make ARCH=3Darm dtbs_check<br>
+<br>
+If you fix the issue, kindly add following tag as appropriate<br>
+Reported-by: kernel test robot &lt;<a href=3D"mailto:lkp@intel.com" target=
+=3D"_blank">lkp@intel.com</a>&gt;<br>
+<br>
+<br>
+dtcheck warnings: (new ones prefixed by &gt;&gt;)<br>
+=C2=A0 =C2=A0arch/arm/boot/dts/stm32f429-disco.dt.yaml:0:0: /interrupt-cont=
+roller@e000e100: failed to match any schema with compatible: [&#39;arm,armv=
+7m-nvic&#39;]<br>
+=C2=A0 =C2=A0arch/arm/boot/dts/stm32f429-disco.dt.yaml:0:0: /timer@e000e010=
+: failed to match any schema with compatible: [&#39;arm,armv7m-systick&#39;=
+]<br>
+=C2=A0 =C2=A0arch/arm/boot/dts/stm32f429-disco.dt.yaml:0:0: /soc/i2c@40005c=
+00/stmpe811@41: failed to match any schema with compatible: [&#39;st,stmpe8=
+11&#39;]<br>
+=C2=A0 =C2=A0arch/arm/boot/dts/stm32f429-disco.dt.yaml:0:0: /soc/i2c@40005c=
+00/stmpe811@41/stmpe_touchscreen: failed to match any schema with compatibl=
+e: [&#39;st,stmpe-ts&#39;]<br>
+=C2=A0 =C2=A0arch/arm/boot/dts/stm32f429-disco.dt.yaml: l3gd20@0: &#39;spi-=
+max-frequency&#39; does not match any of the regexes: &#39;pinctrl-[0-9]+&#=
+39;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 From schema: Documentation/devicetree/bindings/=
+iio/st,st-sensors.yaml<br>
+&gt;&gt; arch/arm/boot/dts/stm32f429-disco.dt.yaml: display@1: compatible: =
+[&#39;st,sf-tc240t-9370-t&#39;] is too short<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 From schema: Documentation/devicetree/bindings/=
+display/panel/ilitek,ili9341.yaml<br>
+=C2=A0 =C2=A0arch/arm/boot/dts/stm32f429-disco.dt.yaml:0:0: /soc/crc@400230=
+00: failed to match any schema with compatible: [&#39;st,stm32f4-crc&#39;]<=
+br>
+=C2=A0 =C2=A0arch/arm/boot/dts/stm32f429-disco.dt.yaml:0:0: /soc/rcc@400238=
+00: failed to match any schema with compatible: [&#39;st,stm32f42xx-rcc&#39=
+;, &#39;st,stm32-rcc&#39;]<br>
+=C2=A0 =C2=A0arch/arm/boot/dts/stm32f429-disco.dt.yaml:0:0: /soc/rcc@400238=
+00: failed to match any schema with compatible: [&#39;st,stm32f42xx-rcc&#39=
+;, &#39;st,stm32-rcc&#39;]<br>
+<br>
+---<br>
+0-DAY CI Kernel Test Service, Intel Corporation<br>
+<a href=3D"https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org" re=
+l=3D"noreferrer" target=3D"_blank">https://lists.01.org/hyperkitty/list/kbu=
+ild-all@lists.01.org</a><br>
+</blockquote></div></div></div></div></div>
+
+--000000000000e5f82105c79d4649--
