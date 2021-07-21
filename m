@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 927C03D1706
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 21:26:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 579203D1724
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 21:31:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B2FB6ECE3;
-	Wed, 21 Jul 2021 19:26:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D1C16EB0B;
+	Wed, 21 Jul 2021 19:31:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 441 seconds by postgrey-1.36 at gabe;
- Wed, 21 Jul 2021 19:26:42 UTC
-Received: from smtp119.ord1c.emailsrvr.com (smtp119.ord1c.emailsrvr.com
- [108.166.43.119])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9FAAB6ECE3;
- Wed, 21 Jul 2021 19:26:42 +0000 (UTC)
+X-Greylist: delayed 585 seconds by postgrey-1.36 at gabe;
+ Wed, 21 Jul 2021 19:31:43 UTC
+Received: from smtp67.iad3a.emailsrvr.com (smtp67.iad3a.emailsrvr.com
+ [173.203.187.67])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B70526EB0B
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 19:31:43 +0000 (UTC)
 X-Auth-ID: kenneth@whitecape.org
-Received: by smtp15.relay.ord1c.emailsrvr.com (Authenticated sender:
- kenneth-AT-whitecape.org) with ESMTPSA id AE7BD20245; 
- Wed, 21 Jul 2021 15:19:19 -0400 (EDT)
+Received: by smtp17.relay.iad3a.emailsrvr.com (Authenticated sender:
+ kenneth-AT-whitecape.org) with ESMTPSA id 8048D25598; 
+ Wed, 21 Jul 2021 15:21:56 -0400 (EDT)
 From: Kenneth Graunke <kenneth@whitecape.org>
 To: intel-gfx@lists.freedesktop.org, Matthew Auld <matthew.auld@intel.com>
 Subject: Re: [PATCH 3/4] drm/i915/userptr: Probe existence of backing struct
  pages upon creation
-Date: Wed, 21 Jul 2021 12:18:55 -0700
-Message-ID: <1839899.5eojKT8Dyj@mizzik>
+Date: Wed, 21 Jul 2021 12:21:55 -0700
+Message-ID: <6955087.IfOn3HktAb@mizzik>
 In-Reply-To: <20210715101536.2606307-4-matthew.auld@intel.com>
 References: <20210715101536.2606307-1-matthew.auld@intel.com>
  <20210715101536.2606307-4-matthew.auld@intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="nextPart5739491.D0ShQg1dhF";
+Content-Type: multipart/signed; boundary="nextPart8104812.jiXgHm6IiM";
  micalg="pgp-sha256"; protocol="application/pgp-signature"
-X-Classification-ID: 6156cfba-c837-4735-a561-4dbc9dab694c-1-1
+X-Classification-ID: 6803ccd9-77ba-4f5a-865d-d63fbda830bc-1-1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,24 +52,24 @@ Cc: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---nextPart5739491.D0ShQg1dhF
+--nextPart8104812.jiXgHm6IiM
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="iso-8859-1"; protected-headers="v1"
 From: Kenneth Graunke <kenneth@whitecape.org>
 To: intel-gfx@lists.freedesktop.org, Matthew Auld <matthew.auld@intel.com>
 Cc: dri-devel@lists.freedesktop.org, Chris Wilson <chris@chris-wilson.co.uk>, Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, Jordan Justen <jordan.l.justen@intel.com>, Jason Ekstrand <jason@jlekstrand.net>, Daniel Vetter <daniel.vetter@ffwll.ch>, Ramalingam C <ramalingam.c@intel.com>
 Subject: Re: [PATCH 3/4] drm/i915/userptr: Probe existence of backing struct pages upon creation
-Date: Wed, 21 Jul 2021 12:18:55 -0700
-Message-ID: <1839899.5eojKT8Dyj@mizzik>
+Date: Wed, 21 Jul 2021 12:21:55 -0700
+Message-ID: <6955087.IfOn3HktAb@mizzik>
 In-Reply-To: <20210715101536.2606307-4-matthew.auld@intel.com>
 References: <20210715101536.2606307-1-matthew.auld@intel.com> <20210715101536.2606307-4-matthew.auld@intel.com>
 
-Thanks for this!  Series is:
+Thanks!  Series is:
 
 Acked-by: Kenneth Graunke <kenneth@whitecape.org>
 
 https://gitlab.freedesktop.org/kwg/mesa/-/commits/iris-userptr-probe
-is an untested branch that uses the new probe API in Mesa.
+is an untested Mesa branch that makes use of the new probe uAPI.
 
 On Thursday, July 15, 2021 3:15:35 AM PDT Matthew Auld wrote:
 > From: Chris Wilson <chris@chris-wilson.co.uk>
@@ -237,29 +237,29 @@ i915_getparam.c
 >=20
 
 
---nextPart5739491.D0ShQg1dhF
+--nextPart8104812.jiXgHm6IiM
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part.
 Content-Transfer-Encoding: 7Bit
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEE6OtbNAgc4e6ibv4ZW1vaBx1JzDgFAmD4cx8ACgkQW1vaBx1J
-zDiuNg/8CgLBUyZImwRDjD5tKKn2m8MIRrIzPpNQlBdoMDQhHmkQXGY5dnonM2ex
-3QMlJ0mfLSutsayeVf8z9lOS798obk0Sr29t193Ht/AQzLBslZ9vmuQjdMRVEbil
-Zm66eHNp/UAtlpmgdHvujVki8adC5+t4R/5Xa1GY4pWohzlSXaFEwKJjfO9dJdTO
-z68HaLtId30IgVQfHTP81DsTfr605N9lSkqNoMAJUKnabFANLgCjXRmRDBb9EGZP
-t1qP57fFfRskBsQzo8jG60dghLk1iKHj3LKzDkiX0wJWTxE/Hh+XzLjo9lEAvEkS
-L5hMakB6qEFnT3Pa+X2Z2SHcer7WC7Dy7XjdT2rb/+lsrlkMTAXLsRYKVM8lES58
-DIndvRJFdkCrh4kCa9UR0uiZhMUNtiFVkFrmYtjXO205mVxhtyriNdoY8Kfikrnx
-rNaUK20BuPaKf6mM/IxcjaCXwJ06AhWIsIVuFFwaoZhO6iTb6ZsjTu6AEHeNDQ+K
-34l0Gi2BWHnhSm1VkFh/scZWE828QmTWq8OLgp74a/7nYyiNI5CCrPC526rtvPKs
-YO0FFvlD7U37rQSXHrBnfyepnOlMWFsrMoRSWIod01+Y5VzJhvu2XM5s1AySg4vy
-drxXPVL++sHTFRG4qAyqJABWYy8yaHAeEX+9NC6Z+DdeqW6mvlQ=
-=b+LC
+iQIzBAABCAAdFiEE6OtbNAgc4e6ibv4ZW1vaBx1JzDgFAmD4c9MACgkQW1vaBx1J
+zDigew//a0MMGjIBdAyxY27BhWejYjYtCSBzOxqo5qved4Oq2PUeohZRVmxd5By1
+fqe0AWnn9UU+YCLojXALU0S+s2u0DBbqdAfJGsxzfsinZ/bERIQzAsCfOmncSx31
+VBYS655WTdPqpPLEa0T3pBViaquvzqZs1AixACvdXtMbQwBvHLL1yl/EmoEAhzUq
+9URQYYUEtFz9257KnTJSYtzfOoWGuH63KJgpFjkEAxTBpkZHUtTHHSbiusOADrRH
+9Tkrp0RT2hqNYI62H/aoQYOoijDFeOTpCP38XLzrrtdu8pZJeVOTqUArH4KH94zt
+omqgs+dBz5MNgPSBqyTgtRzYnHwPWir0AdhogK2wbQLNHQeEooFh+gP5F2LertNN
+Hjce/Q/njvAB9J0KbCTn6c/KqIGlO5HXSApRvbX530FkQvLuZ+TE6M0r1ozes0sT
+EKptJ7lGBSwBrEkEVrewL8Rjo5yq0JzVRsIzCysUEgpSZ+hQncDp/xNZ9A9Suqew
+TRo8FaVeOjZu2RLr2Wr75pJp7IJ3quVcvmJk7DEWODU3O+VQrL0FXwD1LlMyc6hp
+CYXelEzuiMWyWM63hV8N3Ry9eh6KFpl8aobzUfovu+CatMeZTkjbttNMoPygDRr2
+x1PozmCkDm1GYCH07PdhAFlOut4aVPBUwEzwxn/I/iwZrEn+4zU=
+=DDaU
 -----END PGP SIGNATURE-----
 
---nextPart5739491.D0ShQg1dhF--
+--nextPart8104812.jiXgHm6IiM--
 
 
 
