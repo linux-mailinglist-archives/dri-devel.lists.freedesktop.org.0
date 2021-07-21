@@ -1,44 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A993B3D065A
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 03:22:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 56F0D3D065F
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 03:24:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B7A26E49B;
-	Wed, 21 Jul 2021 01:22:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F0A389C60;
+	Wed, 21 Jul 2021 01:24:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 428 seconds by postgrey-1.36 at gabe;
- Wed, 21 Jul 2021 01:22:44 UTC
-Received: from qq.com (smtpbg556.qq.com [183.3.226.209])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 96D466E49B;
- Wed, 21 Jul 2021 01:22:44 +0000 (UTC)
-X-QQ-mid: bizesmtp32t1626830092tvk0adgn
+X-Greylist: delayed 429 seconds by postgrey-1.36 at gabe;
+ Wed, 21 Jul 2021 01:23:58 UTC
+Received: from qq.com (unknown [183.3.255.213])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CCB9789C60;
+ Wed, 21 Jul 2021 01:23:58 +0000 (UTC)
+X-QQ-mid: bizesmtp43t1626830166tcfq04q1
 Received: from localhost.localdomain (unknown [111.207.172.18])
  by esmtp6.qq.com (ESMTP) with 
- id ; Wed, 21 Jul 2021 09:14:50 +0800 (CST)
+ id ; Wed, 21 Jul 2021 09:16:05 +0800 (CST)
 X-QQ-SSF: 00400000008000209000B00A0000000
-X-QQ-FEAT: vVcPbn/qd608TjkLW+lP1vQk+x9mgReMe3lNJie/TUFqAXdwnWFDlL1b/rUzE
- v5UiGTjPaQiKMAhyLt6tDbkWRI3jILrtxhGS4KYE1hHy0+lsiT0/3mFMcrdT8naRg+05Nf+
- ORhRlqb6qcKKXP+yqZ3YTYybTNRyR1zLnZlX59oUkPJYI4AsPH5WZHKJqN4YP23qTpQPxt+
- xSevRrO7x6QU4nACNnnKjvMiBmzrQ/5UcK5Ak6r4wcIiEyYNlN5gcz1elzff/87drG3dkfv
- lrGuFmm6QXalaifafG1PsmQUfJXuInD0zubOBk/vqlpyF2chewaYFpCkCLDpfJu9LXk3Zlz
- FCnrHFa
+X-QQ-FEAT: Bz4iJZMGBshKP32tryI7ouacP2lfin6x1ddkHk6YXAxVdMbxioWR/Ovj7cTQ6
+ GUdhlecI3ZtlXk+koIbEV2HKSfpVAAWgC3IpjqM7aZqe+VCSgr0HO/quJF+xFTMz/euA1nD
+ +XWShZBNQDdEn8EQCZdGKcHFVnWPzINE/FdZ88op27OLr6y7nnQiPxxBx+A5E+WqJxDuf7Q
+ CH9HgVDA6G+vkSdlUImUhKwxwdjNqJ/kCTU1JD8/j3XxLTDmd2STkNFf8H+EHZqDnYLCQde
+ 4SlckoJT0oEmyGsp4m+PPo4DGN8YM1TzN/NQS6n5FjoOSOy6mtI3JtfY4CIMgn4gIsLWMjv
+ 5qKVsgk
 X-QQ-GoodBg: 2
 From: zhaoxiao <zhaoxiao@uniontech.com>
 To: airlied@linux.ie,
 	daniel@ffwll.ch
-Subject: [PATCH] drivers/gpu/drm/nouveau/dispnv50/headc57d.c: mark
- headc57d_olut() as static
-Date: Wed, 21 Jul 2021 09:14:48 +0800
-Message-Id: <20210721011448.24333-1-zhaoxiao@uniontech.com>
+Subject: [PATCH] drivers/gpu/drm/nouveau/nouveau_bo: Remove a bunch of unused
+ variables
+Date: Wed, 21 Jul 2021 09:15:54 +0800
+Message-Id: <20210721011554.24658-1-zhaoxiao@uniontech.com>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:uniontech.com:qybgforeign:qybgforeign5
+Feedback-ID: bizesmtp:uniontech.com:qybgforeign:qybgforeign1
 X-QQ-Bgrelay: 1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -60,30 +60,55 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Fixes the following W=1 kernel build warning(s):
 
-drivers/gpu/drm/nouveau/dispnv50/headc57d.c:173:1: warning: no previous prototype for ‘headc57d_olut’ [-Wmissing-prototypes]
-headc57d_olut(struct nv50_head *head, struct nv50_head_atom *asyh, int size)
-
-And no header file define a prototype for this function, so we should
-mark it as static.
-
+drivers/gpu/drm/nouveau/nouveau_bo.c: In function ‘nouveau_ttm_tt_populate’:
+drivers/gpu/drm/nouveau/nouveau_bo.c:1245:17: warning: variable ‘dev’ set but not used [-Wunused-but-set-variable]
+  struct device *dev;
+                 ^~~
+drivers/gpu/drm/nouveau/nouveau_bo.c: In function ‘nouveau_ttm_tt_unpopulate’:
+drivers/gpu/drm/nouveau/nouveau_bo.c:1268:17: warning: variable ‘dev’ set but not used [-Wunused-but-set-variable]
+  struct device *dev;
+                 ^~~
 Signed-off-by: zhaoxiao <zhaoxiao@uniontech.com>
 ---
- drivers/gpu/drm/nouveau/dispnv50/headc57d.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/nouveau/nouveau_bo.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/headc57d.c b/drivers/gpu/drm/nouveau/dispnv50/headc57d.c
-index fd51527b56b8..bdcfd240d61c 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/headc57d.c
-+++ b/drivers/gpu/drm/nouveau/dispnv50/headc57d.c
-@@ -169,7 +169,7 @@ headc57d_olut_load(struct drm_color_lut *in, int size, void __iomem *mem)
- 	writew(readw(mem - 4), mem + 4);
- }
- 
--bool
-+static bool
- headc57d_olut(struct nv50_head *head, struct nv50_head_atom *asyh, int size)
+diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c b/drivers/gpu/drm/nouveau/nouveau_bo.c
+index 4f3a5357dd56..692d63d08b5a 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_bo.c
++++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
+@@ -1242,7 +1242,7 @@ nouveau_ttm_tt_populate(struct ttm_device *bdev,
  {
- 	if (size != 0 && size != 256 && size != 1024)
+ 	struct ttm_tt *ttm_dma = (void *)ttm;
+ 	struct nouveau_drm *drm;
+-	struct device *dev;
++
+ 	bool slave = !!(ttm->page_flags & TTM_PAGE_FLAG_SG);
+ 
+ 	if (ttm_tt_is_populated(ttm))
+@@ -1255,7 +1255,6 @@ nouveau_ttm_tt_populate(struct ttm_device *bdev,
+ 	}
+ 
+ 	drm = nouveau_bdev(bdev);
+-	dev = drm->dev->dev;
+ 
+ 	return ttm_pool_alloc(&drm->ttm.bdev.pool, ttm, ctx);
+ }
+@@ -1265,14 +1264,12 @@ nouveau_ttm_tt_unpopulate(struct ttm_device *bdev,
+ 			  struct ttm_tt *ttm)
+ {
+ 	struct nouveau_drm *drm;
+-	struct device *dev;
+ 	bool slave = !!(ttm->page_flags & TTM_PAGE_FLAG_SG);
+ 
+ 	if (slave)
+ 		return;
+ 
+ 	drm = nouveau_bdev(bdev);
+-	dev = drm->dev->dev;
+ 
+ 	return ttm_pool_free(&drm->ttm.bdev.pool, ttm);
+ }
 -- 
 2.20.1
 
