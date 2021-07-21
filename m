@@ -2,68 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B7F63D0A7B
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 10:30:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C9403D0A80
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 10:32:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 77DCC6E8D0;
-	Wed, 21 Jul 2021 08:30:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA8BC6E916;
+	Wed, 21 Jul 2021 08:32:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
- [IPv6:2a00:1450:4864:20::42a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 63E496E8D0;
- Wed, 21 Jul 2021 08:30:20 +0000 (UTC)
-Received: by mail-wr1-x42a.google.com with SMTP id c15so1224977wrs.5;
- Wed, 21 Jul 2021 01:30:20 -0700 (PDT)
+Received: from mail-qv1-xf34.google.com (mail-qv1-xf34.google.com
+ [IPv6:2607:f8b0:4864:20::f34])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F0EAB6E916;
+ Wed, 21 Jul 2021 08:32:15 +0000 (UTC)
+Received: by mail-qv1-xf34.google.com with SMTP id o9so559589qvu.5;
+ Wed, 21 Jul 2021 01:32:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=yUJHVWQTlhcEWMO4DydR2xNVcklNcrzSF7aJbrXgfvg=;
- b=GwdmBlYvKMUbfBL/G94R3vphXcZlpRXLWB5bF6QGSKL6pV85wsV22JWa094sGOGZ7g
- P7qZ2LHJQBo4PwG/TNgCHOaSgH2i2SjcyzRNDuX20bIJxYhvzaR4zaGWcHvYfz7FosQ1
- +yN7E9DcdXpiJYZyNTefp+5fVA6/p0Iih4ldiljoRyOGgUM/UJfxsJv02X3wzob4Rndq
- IFXhZkCFEChrGwQ0t0RNvLKWhe0VX5MuIqQGR6jl1KGLr0E0wvw3SXlB/oyfvLUR0i77
- BLKvwGfPp8i9fxGt49K+cQN7ANcz5BjuZM8eJYMmSGGv2iBwzBMt/VngBYxrBWcVPqtB
- SFaw==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=SNsVoTi33ntWSldj4skGgRfv8OpN1MHrMtXlRrxkjWg=;
+ b=C96TOJswETkFJ0ABqSUbGbcPsGjvjAMu+SioQG87gQfuWogH1/WwPJp0ZXvcs365sg
+ SFMNXqIhCCg+xybbRLx1guqs1Obcp/JFR8OGYpvKjYsHdlexRIYqiQwppBens6BggTuC
+ fKLNKgOIpe6ALhoik4Ws1KrzX1Fw4pUDM88Oy+TkhPq13+APDiVMcpCHLkoVdhRA1dO4
+ YPug3kt7QzMLEJ8G8VYzrmCjouy0JVvabTlK8H1EcuJ/dHQa3M7Ka6vauDuT/Kne7lN2
+ IMSewMwKfdoGfNn3k7B9oqOx6IBnh8NP7/399Jtu7AbmbRaUuyhXewv1Dp+d8H6DRHlu
+ WoGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=yUJHVWQTlhcEWMO4DydR2xNVcklNcrzSF7aJbrXgfvg=;
- b=QVG+z32ihdZiZyAC+TXXqgHdxQgCwvLrvO48rlX3wa1s3W9Nmvsz0AxyTDlBuqMpFE
- /TSVz9EOTiTOm1zK0y5HNRNlBdtgDbyie591cQJekHBo8tBIMAPY6CWGgB31azywLS+e
- X6T722oETBip0oLgJSa4LZ5YnB5o58s882RTbjYUPsWJ1rLgYXrrMkSQP+8wVe7DjqkQ
- iGQEzR2R7nDNaX53QhBsjc1+0mCUtTDpCtYZKgM2+Cz4qrFxun5O/dw8iybgWqBQ4JlV
- wkaemjzw52WdVtsFLk3FZe/ohTsNNhanQngsJen1UyZBVD0SPW7CK9IauZqR0j1rr/D8
- ao3w==
-X-Gm-Message-State: AOAM531SPMlzgTmo03pzs0LXmA6z9BrDEl1CPSmd4Q7MuF5/s4G2bet2
- w9/4D+UeuBq2Kx/mGlrhcdw=
-X-Google-Smtp-Source: ABdhPJw/bXojKZq/3rBVxc6LypfZ1k0EVFJuDmJugmtJ7S6ZqIPs+VTOFVKLsKXR1S8VTaSs6Vqj4A==
-X-Received: by 2002:adf:b605:: with SMTP id f5mr41299570wre.419.1626856219104; 
- Wed, 21 Jul 2021 01:30:19 -0700 (PDT)
-Received: from ?IPv6:2a02:908:1252:fb60:9bcf:837a:d18c:dc66?
- ([2a02:908:1252:fb60:9bcf:837a:d18c:dc66])
- by smtp.gmail.com with ESMTPSA id w3sm26068057wrt.55.2021.07.21.01.30.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 21 Jul 2021 01:30:18 -0700 (PDT)
-Subject: Re: [PATCH 1/7] vgaarb: remove VGA_DEFAULT_DEVICE
-To: Daniel Vetter <daniel@ffwll.ch>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-References: <20210716061634.2446357-1-hch@lst.de>
- <20210716061634.2446357-2-hch@lst.de>
- <f171831b-3281-5a5a-04d3-2d69cb77f1a2@amd.com>
- <YPbUvIYmu3WfyM2C@phenom.ffwll.local>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <81094b7d-1846-9d43-dc58-44ff9bd60995@gmail.com>
-Date: Wed, 21 Jul 2021 10:30:17 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=SNsVoTi33ntWSldj4skGgRfv8OpN1MHrMtXlRrxkjWg=;
+ b=JSRcct9JjpD14nSMiAS1BWSljxW2uhrCoR1msdN8n2AC/CxTY/au80dr20KoNlOSnD
+ soWuvTmpaADWZeHJ8p9Wo0RQzpqHWOYAEuvA+jUimHqpetJ5vef0WsOQ9GYLieUNC4++
+ JhzLv5mULMQIjs491/CBDqlITbf/3/iYEfrJeT/InIGSBLsHtWwJkE+KWm9D5PRB+WEy
+ b3oQgVvqoS3t2jdpdxiXnK9FPHcbdddB05kL75fwBzQaeyZInaPUyg9Ev4L540a/p18O
+ GQo1JbPa8Htkkdzb6Dg9Unm4k74T8RHdLyUSkTA2+L126Rxu+DzlpVEQd+Nnz+7P4TPS
+ bEZw==
+X-Gm-Message-State: AOAM531Ym0zPXfOI5JgO+pc2ttJJQaA+ZLh2K5omywYHZiTwbQhHjN8F
+ 71gENbUi//2v4hZ+1T8DZdYEKW1/cFUUb9bY1YKCwRatrmuGvQ==
+X-Google-Smtp-Source: ABdhPJz5c4hGZbdt2dz9GvozxXV/ZG3SrYtw0c/JSNlKJryJkMpewWu2ZqsK2mZ7vkiAzO/Qbb+k//ua0ZiORlClXMQ=
+X-Received: by 2002:a0c:e54e:: with SMTP id n14mr34883079qvm.41.1626856335010; 
+ Wed, 21 Jul 2021 01:32:15 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <YPbUvIYmu3WfyM2C@phenom.ffwll.local>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+References: <20210716141426.1904528-1-jason@jlekstrand.net>
+ <20210716141426.1904528-3-jason@jlekstrand.net>
+ <CAM0jSHME+vRSDpTPAO74Z+xwjofZB4i1pbFH2Yvn+eeGYL-aqA@mail.gmail.com>
+ <CAOFGe97RoL1+L+i5Qgoipnv=ta8isPiAWYhfYncF1KYBX+8t9g@mail.gmail.com>
+In-Reply-To: <CAOFGe97RoL1+L+i5Qgoipnv=ta8isPiAWYhfYncF1KYBX+8t9g@mail.gmail.com>
+From: Matthew Auld <matthew.william.auld@gmail.com>
+Date: Wed, 21 Jul 2021 09:31:48 +0100
+Message-ID: <CAM0jSHM6LNLbEQNS3EQmMU6-1XsiopZtUxmGEokzrcHn5SsfmQ@mail.gmail.com>
+Subject: Re: [PATCH 2/7] drm/i915/gem: Refactor placement setup for
+ i915_gem_object_create* (v2)
+To: Jason Ekstrand <jason@jlekstrand.net>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,56 +65,185 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>, kvm@vger.kernel.org,
- David Airlie <airlied@linux.ie>, nouveau@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Alex Williamson <alex.williamson@redhat.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Alex Deucher <alexander.deucher@amd.com>, amd-gfx@lists.freedesktop.org,
- Christoph Hellwig <hch@lst.de>, Ben Skeggs <bskeggs@redhat.com>
+Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Matthew Auld <matthew.auld@intel.com>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-Am 20.07.21 um 15:50 schrieb Daniel Vetter:
-> On Fri, Jul 16, 2021 at 09:14:02AM +0200, Christian König wrote:
->> Am 16.07.21 um 08:16 schrieb Christoph Hellwig:
->>> The define is entirely unused.
->>>
->>> Signed-off-by: Christoph Hellwig <hch@lst.de>
->> I'm not an expert for this particular code, but at least of hand everything
->> you do here makes totally sense.
->>
->> Whole series is Acked-by: Christian König <christian.koenig@amd.com>
-> Care to also push this into drm-misc-next since you looked already?
-
-Done.
-
-Christian.
-
-> -Daniel
+On Tue, 20 Jul 2021 at 23:07, Jason Ekstrand <jason@jlekstrand.net> wrote:
 >
->> Regards,
->> Christian.
->>
->>> ---
->>>    include/linux/vgaarb.h | 6 ------
->>>    1 file changed, 6 deletions(-)
->>>
->>> diff --git a/include/linux/vgaarb.h b/include/linux/vgaarb.h
->>> index dc6ddce92066..26ec8a057d2a 100644
->>> --- a/include/linux/vgaarb.h
->>> +++ b/include/linux/vgaarb.h
->>> @@ -42,12 +42,6 @@
->>>    #define VGA_RSRC_NORMAL_IO     0x04
->>>    #define VGA_RSRC_NORMAL_MEM    0x08
->>> -/* Passing that instead of a pci_dev to use the system "default"
->>> - * device, that is the one used by vgacon. Archs will probably
->>> - * have to provide their own vga_default_device();
->>> - */
->>> -#define VGA_DEFAULT_DEVICE     (NULL)
->>> -
->>>    struct pci_dev;
->>>    /* For use by clients */
+> On Mon, Jul 19, 2021 at 3:18 AM Matthew Auld
+> <matthew.william.auld@gmail.com> wrote:
+> >
+> > On Fri, 16 Jul 2021 at 15:14, Jason Ekstrand <jason@jlekstrand.net> wrote:
+> > >
+> > > Since we don't allow changing the set of regions after creation, we can
+> > > make ext_set_placements() build up the region set directly in the
+> > > create_ext and assign it to the object later.  This is similar to what
+> > > we did for contexts with the proto-context only simpler because there's
+> > > no funny object shuffling.  This will be used in the next patch to allow
+> > > us to de-duplicate a bunch of code.  Also, since we know the maximum
+> > > number of regions up-front, we can use a fixed-size temporary array for
+> > > the regions.  This simplifies memory management a bit for this new
+> > > delayed approach.
+> > >
+> > > v2 (Matthew Auld):
+> > >  - Get rid of MAX_N_PLACEMENTS
+> > >  - Drop kfree(placements) from set_placements()
+> > >
+> > > Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
+> > > Cc: Matthew Auld <matthew.auld@intel.com>
+> > > ---
+> > >  drivers/gpu/drm/i915/gem/i915_gem_create.c | 81 ++++++++++++----------
+> > >  1 file changed, 45 insertions(+), 36 deletions(-)
+> > >
+> > > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_create.c b/drivers/gpu/drm/i915/gem/i915_gem_create.c
+> > > index 51f92e4b1a69d..5766749a449c0 100644
+> > > --- a/drivers/gpu/drm/i915/gem/i915_gem_create.c
+> > > +++ b/drivers/gpu/drm/i915/gem/i915_gem_create.c
+> > > @@ -27,10 +27,13 @@ static u32 object_max_page_size(struct drm_i915_gem_object *obj)
+> > >         return max_page_size;
+> > >  }
+> > >
+> > > -static void object_set_placements(struct drm_i915_gem_object *obj,
+> > > -                                 struct intel_memory_region **placements,
+> > > -                                 unsigned int n_placements)
+> > > +static int object_set_placements(struct drm_i915_gem_object *obj,
+> > > +                                struct intel_memory_region **placements,
+> > > +                                unsigned int n_placements)
+> > >  {
+> > > +       struct intel_memory_region **arr;
+> > > +       unsigned int i;
+> > > +
+> > >         GEM_BUG_ON(!n_placements);
+> > >
+> > >         /*
+> > > @@ -44,9 +47,20 @@ static void object_set_placements(struct drm_i915_gem_object *obj,
+> > >                 obj->mm.placements = &i915->mm.regions[mr->id];
+> > >                 obj->mm.n_placements = 1;
+> > >         } else {
+> > > -               obj->mm.placements = placements;
+> > > +               arr = kmalloc_array(n_placements,
+> > > +                                   sizeof(struct intel_memory_region *),
+> > > +                                   GFP_KERNEL);
+> > > +               if (!arr)
+> > > +                       return -ENOMEM;
+> > > +
+> > > +               for (i = 0; i < n_placements; i++)
+> > > +                       arr[i] = placements[i];
+> > > +
+> > > +               obj->mm.placements = arr;
+> > >                 obj->mm.n_placements = n_placements;
+> > >         }
+> > > +
+> > > +       return 0;
+> > >  }
+> > >
+> > >  static int i915_gem_publish(struct drm_i915_gem_object *obj,
+> > > @@ -148,7 +162,9 @@ i915_gem_dumb_create(struct drm_file *file,
+> > >                 return -ENOMEM;
+> > >
+> > >         mr = intel_memory_region_by_type(to_i915(dev), mem_type);
+> > > -       object_set_placements(obj, &mr, 1);
+> > > +       ret = object_set_placements(obj, &mr, 1);
+> > > +       if (ret)
+> > > +               goto object_free;
+> > >
+> > >         ret = i915_gem_setup(obj, args->size);
+> > >         if (ret)
+> > > @@ -184,7 +200,9 @@ i915_gem_create_ioctl(struct drm_device *dev, void *data,
+> > >                 return -ENOMEM;
+> > >
+> > >         mr = intel_memory_region_by_type(i915, INTEL_MEMORY_SYSTEM);
+> > > -       object_set_placements(obj, &mr, 1);
+> > > +       ret = object_set_placements(obj, &mr, 1);
+> > > +       if (ret)
+> > > +               goto object_free;
+> > >
+> > >         ret = i915_gem_setup(obj, args->size);
+> > >         if (ret)
+> > > @@ -199,7 +217,8 @@ i915_gem_create_ioctl(struct drm_device *dev, void *data,
+> > >
+> > >  struct create_ext {
+> > >         struct drm_i915_private *i915;
+> > > -       struct drm_i915_gem_object *vanilla_object;
+> > > +       struct intel_memory_region *placements[INTEL_REGION_UNKNOWN];
+> > > +       unsigned int n_placements;
+> > >  };
+> > >
+> > >  static void repr_placements(char *buf, size_t size,
+> > > @@ -230,8 +249,7 @@ static int set_placements(struct drm_i915_gem_create_ext_memory_regions *args,
+> > >         struct drm_i915_private *i915 = ext_data->i915;
+> > >         struct drm_i915_gem_memory_class_instance __user *uregions =
+> > >                 u64_to_user_ptr(args->regions);
+> > > -       struct drm_i915_gem_object *obj = ext_data->vanilla_object;
+> > > -       struct intel_memory_region **placements;
+> > > +       struct intel_memory_region *placements[INTEL_REGION_UNKNOWN];
+> > >         u32 mask;
+> > >         int i, ret = 0;
+> > >
+> > > @@ -245,6 +263,8 @@ static int set_placements(struct drm_i915_gem_create_ext_memory_regions *args,
+> > >                 ret = -EINVAL;
+> > >         }
+> > >
+> > > +       BUILD_BUG_ON(ARRAY_SIZE(i915->mm.regions) != ARRAY_SIZE(placements));
+> > > +       BUILD_BUG_ON(ARRAY_SIZE(ext_data->placements) != ARRAY_SIZE(placements));
+> > >         if (args->num_regions > ARRAY_SIZE(i915->mm.regions)) {
+> > >                 drm_dbg(&i915->drm, "num_regions is too large\n");
+> > >                 ret = -EINVAL;
+> > > @@ -253,21 +273,13 @@ static int set_placements(struct drm_i915_gem_create_ext_memory_regions *args,
+> > >         if (ret)
+> > >                 return ret;
+> > >
+> > > -       placements = kmalloc_array(args->num_regions,
+> > > -                                  sizeof(struct intel_memory_region *),
+> > > -                                  GFP_KERNEL);
+> > > -       if (!placements)
+> > > -               return -ENOMEM;
+> > > -
+> > >         mask = 0;
+> > >         for (i = 0; i < args->num_regions; i++) {
+> > >                 struct drm_i915_gem_memory_class_instance region;
+> > >                 struct intel_memory_region *mr;
+> > >
+> > > -               if (copy_from_user(&region, uregions, sizeof(region))) {
+> > > -                       ret = -EFAULT;
+> > > -                       goto out_free;
+> > > -               }
+> > > +               if (copy_from_user(&region, uregions, sizeof(region)))
+> > > +                       return -EFAULT;
+> > >
+> > >                 mr = intel_memory_region_lookup(i915,
+> > >                                                 region.memory_class,
+> > > @@ -293,14 +305,13 @@ static int set_placements(struct drm_i915_gem_create_ext_memory_regions *args,
+> > >                 ++uregions;
+> > >         }
+> > >
+> > > -       if (obj->mm.placements) {
+> > > +       if (ext_data->n_placements) {
+> > >                 ret = -EINVAL;
+> > >                 goto out_dump;
+> > >         }
+> > >
+> > > -       object_set_placements(obj, placements, args->num_regions);
+> > > -       if (args->num_regions == 1)
+> > > -               kfree(placements);
+> > > +       for (i = 0; i < args->num_regions; i++)
+> > > +               ext_data->placements[i] = placements[i];
+> >
+> > I guess here we forget to set the ext_data->n_placements, which would
+> > explain the CI failure.
+>
+> What CI failure are you referring to?
 
+Pre-merge results for this series:
+
+igt@gem_create@create-ext-placement-sanity-check:
+
+shard-skl: PASS -> FAIL +1 similar issue
+shard-apl: NOTRUN -> FAIL
+shard-glk: PASS -> FAIL
+shard-iclb: PASS -> FAIL
+shard-kbl: PASS -> FAIL
+shard-tglb: NOTRUN -> FAIL
