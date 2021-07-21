@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA5EB3D15B0
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 19:56:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40C383D15B3
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 19:56:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03C886EB9B;
-	Wed, 21 Jul 2021 17:56:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F42136EBED;
+	Wed, 21 Jul 2021 17:56:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x736.google.com (mail-qk1-x736.google.com
- [IPv6:2607:f8b0:4864:20::736])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D7F56EB9B
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 17:56:03 +0000 (UTC)
-Received: by mail-qk1-x736.google.com with SMTP id c68so2858188qkf.9
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 10:56:03 -0700 (PDT)
+Received: from mail-qt1-x82d.google.com (mail-qt1-x82d.google.com
+ [IPv6:2607:f8b0:4864:20::82d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AACDD6EBED
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 17:56:07 +0000 (UTC)
+Received: by mail-qt1-x82d.google.com with SMTP id k9so2476316qtx.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 10:56:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=poorly.run; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=eJajPBJwhf0xkvC8Oc1cscrVWsD0SBsh6BLFW6m+BMo=;
- b=Y+nsyUWFzVgiQIYW7sTA3tIlsuW/nl99urrJ3NdUug231lxe3jrgAvDWvFQE7tCbI5
- 21YruvE83bUgTlRbdEE+z4BWfW1HF2y3MGRFAvJgyD98XbJ0/y/MGXJKX2AsVX8CM53J
- A9wTDCCvnUCLoXfiWS6x4lrlBxBTs5/Qz4R6QtZAJt6B1+JX0GHfeXKUPRxc6QDKnV1W
- 9+lWbYPKbPQNMsT8t3kcyKTyQdCHarHowm/W56WlnfNGV7M7c2gO/jLkMNb90PWoveNz
- irYV2/aA7L4/fKVj+7DU27pqyzPpmKgrjGJqe8EnGxv1mfZ97BAXld31uvSejB38UxWD
- eHaw==
+ bh=GUwvh6F0pQ4ZVFR78iCJytl/tOQMbNgvBCeSAoGO32w=;
+ b=SA4Zrn25cfpJIaL1oes57Z7JCR3eBnrUW+LbmmYg2NoYKgy89T9xfgbzU26RKLeq85
+ /56pmzOU/P8oZ7k66zL0/6gKhIeI0QYTfOOoLVgK/9JGhAdVi3VvLnNCgKxbNbnNqXcC
+ FRPqIWTf1PlLHiTcakkqVqYqmdHe+kwYxVFAgBdESqvkiu0A9GWBR7u3l53u43iGwGbo
+ NQFEW8EOKuza0N5jXmKEjzmLyr42gzcq8dDjIEn+1U58Ea93QgSI6eYldtPtgMY5zdId
+ FK46NymLFaDajXeqq/p+XcQGzj++BXlSCDOr1KV38bOinIyLVLtYl6r5rtna+1PRMcGH
+ QNgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=eJajPBJwhf0xkvC8Oc1cscrVWsD0SBsh6BLFW6m+BMo=;
- b=LqlQXYzcZ2gXkQnl36yHAENXp0O2UUveQAOPc3b/GRC1Z4j8NQlaI+KzfgOY5fe9yv
- NjCZM8t46q4F30SPt+WaHAT/dTDumErBtarACRwLAXiq8fo9QZELKuD/iwrKibnGwwKS
- 2bQZNQEaALfKDcT1p1jbBp4LzlGY+6LDsLP3zMAQKM8nv8GmSwjZjJ3MxEseVippsEvQ
- cWnlf2sH9NNW2d70+axnj6ucvyOGcDFW48BGf+8xq/FqBYmZVsp1IHK38ViEn64oMSbC
- Wh2aJSuVhxFhLgS9JzJ+PsL9Z742p16O2tj9Co4TVxuxesi+8WP3lkmodToBA6ytWNoY
- IqvA==
-X-Gm-Message-State: AOAM530LoMio5u2pAY22sq+aDfoUQtsOFgqODyS9kL9NaueVczLC8+yf
- ZobcHjAQ46WuN0qIvryPGVMW5IacwxSCNA==
-X-Google-Smtp-Source: ABdhPJzWRa/fAH7WwN/95bHK8iq5i7MUlrXC1A1uaG0usBMGrf7krfV6gtM2+zieR1s8y8XzyOrCPw==
-X-Received: by 2002:a37:a647:: with SMTP id p68mr35490185qke.133.1626890162671; 
- Wed, 21 Jul 2021 10:56:02 -0700 (PDT)
+ bh=GUwvh6F0pQ4ZVFR78iCJytl/tOQMbNgvBCeSAoGO32w=;
+ b=C9PDzBtbcxhvoT58tRt+cQ5LoPyCjAMZEvY0AWJ5YQ0FxnFRwpDLVMsGHLPArG1ghH
+ ZQ4GJDDNwbIL7LUCx6/ZMXrn8+1Hy4ReveVr1qQnwraVp8Ok5uJgBo5RHOiQK79augu/
+ WiYyUPzUcFd0aqQ2BaA1fiHBeCYZkTEuvtQuIt/NbTaC3GKX/BoP4gai4VY9Oin1CRb5
+ hliYcZ+AweOxX2hRAN3wuw+L+uWJQ9A70bnXC9MPzBKQDH3/+MW2f3Yxxjv1Q5FYJ4DK
+ 4h5khhYVLbs0t/dLYC7jzDTBhZ2V1Ex0US49vx/dmQkpdF1qHsDpbn19G5Wlh2HcAUc9
+ G3xg==
+X-Gm-Message-State: AOAM531YReaJc/NfwMjayNJz4jk+0C5Ehm0hLqac3m6UO4UZOTycfA88
+ Ss8hO5yHjQDnFbtSKqI8WQmTviemcpk5xQ==
+X-Google-Smtp-Source: ABdhPJxqL3Z3uzLnVy2E2LxuR435PtjjUG1Jd5JQfh+eyTJXtq/EnC0WqJtxzZimSwr0+IVbfvjjjQ==
+X-Received: by 2002:ac8:531a:: with SMTP id t26mr32998247qtn.207.1626890166796; 
+ Wed, 21 Jul 2021 10:56:06 -0700 (PDT)
 Received: from localhost ([167.100.64.199])
- by smtp.gmail.com with ESMTPSA id q206sm11670559qka.19.2021.07.21.10.56.02
+ by smtp.gmail.com with ESMTPSA id ay31sm1780760qkb.41.2021.07.21.10.56.06
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Wed, 21 Jul 2021 10:56:02 -0700 (PDT)
+ Wed, 21 Jul 2021 10:56:06 -0700 (PDT)
 From: Sean Paul <sean@poorly.run>
 To: dri-devel@lists.freedesktop.org, ppaalanen@gmail.com,
  maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, airlied@linux.ie,
  daniel.vetter@ffwll.ch
-Subject: [RESEND PATCH v6 07/14] drm/etnaviv: Change buffer dump checks to
- target syslog
-Date: Wed, 21 Jul 2021 13:55:14 -0400
-Message-Id: <20210721175526.22020-8-sean@poorly.run>
+Subject: [RESEND PATCH v6 08/14] drm/nouveau: Change debug checks to
+ specifically target syslog
+Date: Wed, 21 Jul 2021 13:55:15 -0400
+Message-Id: <20210721175526.22020-9-sean@poorly.run>
 X-Mailer: git-send-email 2.31.0
 In-Reply-To: <20210721175526.22020-1-sean@poorly.run>
 References: <20210721175526.22020-1-sean@poorly.run>
@@ -70,8 +70,8 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: etnaviv@lists.freedesktop.org, Sean Paul <seanpaul@chromium.org>,
- Russell King <linux+etnaviv@armlinux.org.uk>
+Cc: nouveau@lists.freedesktop.org, Sean Paul <seanpaul@chromium.org>,
+ Ben Skeggs <bskeggs@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -82,53 +82,34 @@ use the new drm_debug_syslog_enabled() call to avoid triggering
 these prints when only trace is enabled.
 
 Signed-off-by: Sean Paul <seanpaul@chromium.org>
-Link: https://patchwork.freedesktop.org/patch/msgid/20200608210505.48519-8-sean@poorly.run #v5
+Link: https://patchwork.freedesktop.org/patch/msgid/20200608210505.48519-9-sean@poorly.run #v5
 
 Changes in v5:
 -Added to the set
 Changes in v6:
--None
+-Rebased on drm-tip, changes in dispnv50/disp.h were rebased out
 ---
- drivers/gpu/drm/etnaviv/etnaviv_buffer.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/nouveau/nouveau_drv.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_buffer.c b/drivers/gpu/drm/etnaviv/etnaviv_buffer.c
-index 76d38561c910..7713474800e8 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_buffer.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_buffer.c
-@@ -353,7 +353,7 @@ void etnaviv_buffer_queue(struct etnaviv_gpu *gpu, u32 exec_state,
+diff --git a/drivers/gpu/drm/nouveau/nouveau_drv.h b/drivers/gpu/drm/nouveau/nouveau_drv.h
+index ba65f136cf48..2caa5720f451 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_drv.h
++++ b/drivers/gpu/drm/nouveau/nouveau_drv.h
+@@ -260,11 +260,11 @@ void nouveau_drm_device_remove(struct drm_device *dev);
+ #define NV_INFO(drm,f,a...) NV_PRINTK(info, &(drm)->client, f, ##a)
  
- 	lockdep_assert_held(&gpu->lock);
+ #define NV_DEBUG(drm,f,a...) do {                                              \
+-	if (drm_debug_enabled(DRM_UT_DRIVER))                                  \
++	if (drm_debug_syslog_enabled(DRM_UT_DRIVER))                                  \
+ 		NV_PRINTK(info, &(drm)->client, f, ##a);                       \
+ } while(0)
+ #define NV_ATOMIC(drm,f,a...) do {                                             \
+-	if (drm_debug_enabled(DRM_UT_ATOMIC))                                  \
++	if (drm_debug_syslog_enabled(DRM_UT_ATOMIC))                                  \
+ 		NV_PRINTK(info, &(drm)->client, f, ##a);                       \
+ } while(0)
  
--	if (drm_debug_enabled(DRM_UT_DRIVER))
-+	if (drm_debug_syslog_enabled(DRM_UT_DRIVER))
- 		etnaviv_buffer_dump(gpu, buffer, 0, 0x50);
- 
- 	link_target = etnaviv_cmdbuf_get_va(cmdbuf,
-@@ -509,13 +509,13 @@ void etnaviv_buffer_queue(struct etnaviv_gpu *gpu, u32 exec_state,
- 		 etnaviv_cmdbuf_get_va(buffer, &gpu->mmu_context->cmdbuf_mapping)
- 		 + buffer->user_size - 4);
- 
--	if (drm_debug_enabled(DRM_UT_DRIVER))
-+	if (drm_debug_syslog_enabled(DRM_UT_DRIVER))
- 		pr_info("stream link to 0x%08x @ 0x%08x %p\n",
- 			return_target,
- 			etnaviv_cmdbuf_get_va(cmdbuf, &gpu->mmu_context->cmdbuf_mapping),
- 			cmdbuf->vaddr);
- 
--	if (drm_debug_enabled(DRM_UT_DRIVER)) {
-+	if (drm_debug_syslog_enabled(DRM_UT_DRIVER)) {
- 		print_hex_dump(KERN_INFO, "cmd ", DUMP_PREFIX_OFFSET, 16, 4,
- 			       cmdbuf->vaddr, cmdbuf->size, 0);
- 
-@@ -534,6 +534,6 @@ void etnaviv_buffer_queue(struct etnaviv_gpu *gpu, u32 exec_state,
- 				    VIV_FE_LINK_HEADER_PREFETCH(link_dwords),
- 				    link_target);
- 
--	if (drm_debug_enabled(DRM_UT_DRIVER))
-+	if (drm_debug_syslog_enabled(DRM_UT_DRIVER))
- 		etnaviv_buffer_dump(gpu, buffer, 0, 0x50);
- }
 -- 
 Sean Paul, Software Engineer, Google / Chromium OS
 
