@@ -1,69 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A5493D108A
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 16:04:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BDD723D108F
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 16:05:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 61F5F6E4CA;
-	Wed, 21 Jul 2021 14:04:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC1656E8B0;
+	Wed, 21 Jul 2021 14:04:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
- [66.111.4.230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 62A4D6E4CA
+Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
+ [66.111.4.27])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C40736E4CA
  for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 14:04:53 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailnew.nyi.internal (Postfix) with ESMTP id 030E558046C;
- Wed, 21 Jul 2021 10:04:50 -0400 (EDT)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailout.nyi.internal (Postfix) with ESMTP id 25AE55C0211;
+ Wed, 21 Jul 2021 10:04:53 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute1.internal (MEProxy); Wed, 21 Jul 2021 10:04:50 -0400
+ by compute6.internal (MEProxy); Wed, 21 Jul 2021 10:04:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=+9YaThr8txEJp
- s+BUwDjKHeJ9kUGyYux8hfurYpNnpA=; b=AQ2FmL1TotNE9HUlG6ZWTHu7BNVsa
- i+HrAORN+Of1iDkbuokmvhQwvIDBKU9AYtSxBWIHcN9y6nH8v2QRC2uB+NQgPJUI
- brdkntFYdJbR7foiHxptDUZB4Moqs6M8WLT5+aLffjFxYRM9z33luEUkThiJFZtL
- FLfNIqFRAK7zW6V5hQ4SbBkT0rxYNjulusJ3O55jZWfP91GWH21RStOVD33woNT+
- kFntKqRVmx56BgSEhXrH5evAv8XPv2m5dHPUH69qhNEm8c3n7ndj1iRCSnjmsrwv
- ZzseVhiYzRduC+FFs07u9IYX7bRMgYofFbrppAv1nbiB8+RoUuiEX7IDg==
+ :mime-version:content-transfer-encoding; s=fm3; bh=jlhcm8eaPYQZt
+ iKdBXOJHc6jhab187whDJ7yb0XbDwM=; b=yHWfsVq1awzocyaKnbKqxeD7JVnpk
+ efj6G8lRPCF1+LeERliEZqLh+dQUdQAWXHwV905behrZUn9K8xjNm4XViQjNEnl3
+ Av0tPoqBBtHhdiArcNrwbFj9nvtH2R+CVZ+nzsBZex8ZMt6F4yewEQmi7SJbwHZb
+ u3BAYvftlkYr4R4wh0VIh+P/A+QINDduBPkmnr30TQhaZLtmIznYv35FEqeWwT4J
+ d4Adrsnz4OzYThxcbuD+CPPy20dAKzsTKGtbGFxkagxHlDSbypxBtsujghtiiYKK
+ CUtWxAf+ZicesFDifkmbPHIX4YwmvINMo9a4t3n6fEyGyNGtE11BCcWJg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=+9YaThr8txEJps+BUwDjKHeJ9kUGyYux8hfurYpNnpA=; b=IdkDw7uW
- +fmmKpe4XXowfHt0hWT7eShsvjGXyVwKkDV1uWyxH2asLlSMaU0A/KNtslWHWg5D
- JedGGQ9ZiMdEBIW/KE7FJOqfN+tO771KHnkFZSn5mG7so9vyvUsy8B4ckRifEe2R
- kdQqrH4Ub6B6fVWkOIAhixHctzt3gkPjQKCCpjpI3vCmiF/zLpln8sYfVc1YCqy8
- yOmW42cYuVc4AH6JLBfRGgtmtAhMPQDDaLNh6BuxF9l3XNjRRs7Bi1B+Ty428P97
- ptLLUwmwhXteDGVL3BVWt+0zeDE4MlwrRWVd1Q5uipTfBjeOyGfwyYCuvPVsMrfC
- iDJRs4qWDnGrHg==
-X-ME-Sender: <xms:gCn4YAv5iPBtrpg0YBoR_Y1Ek0IrsKrjnKD8J3OAAfQIqft1QdByig>
- <xme:gCn4YNcHLOLSykLPm5AnP3VFefBvFjret8Tjyh0qQmn7Q0LxZVcwTWs9pBisjaEfI
- uTB9x94MZ_4tl_7BXk>
-X-ME-Received: <xmr:gCn4YLzYXn_UhyfMGekKc8ZYCeaQ7DoYAm0SkVK-w4ghHL7X39zNYvnMdmkr00J7KOgwp9yzYOWByvutkoRTHowPXOeD4pBFp8_Z>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrfeeggdeiiecutefuodetggdotefrodftvf
+ fm3; bh=jlhcm8eaPYQZtiKdBXOJHc6jhab187whDJ7yb0XbDwM=; b=b5ktYydm
+ hXzsE6lPplwat41uTI5maH2DsE9uJwH/xtzzZ15plZ9R1glypSh0a6BRv0PYdHpe
+ U+xbSXEfMHmCWc10eYFe7UJSb+SlkyRSbhvQKAjSjSMIDGhKjNZU0xwDDvPn6TNu
+ jbZYBScBdqrDYeEd/4d4SZExy96GJceEavH+GEC6by+m51kGpvJmG1C9aiZWt8qb
+ HJJww7ZT6IcDbeEdOGhFQmKw8DE/zrNxcQ65p+3J/eTwwUJy7mu5YkMDRHhpzTN9
+ SSSrNR9By+y8MTZxLFPkY0n0Ha3Rc6QpHHBgzT254Ao1TWIZLsFQPVW4qzEeuFvj
+ j+TfnNtBiVKn6Q==
+X-ME-Sender: <xms:gyn4YFKBf70677kmVkRTvw2BOUIuxaQUGyoA9isT4bsxa-4cSl2XHA>
+ <xme:gyn4YBLYB9ncFQSMDbCqb7bx5AMA2Xxc_-aakDO-3L34BLm_eo2T34ekpfAVjCEB_
+ d4jUCZbH4amn4YzxT8>
+X-ME-Received: <xmr:gyn4YNuDbzi3HWhkEEnsMSRjJAl1hxEe2tpcUms3XqYRYx4LCAW5r_fpfNrwpM2M0SlS8BtPu03-WxWJylJjyAPNq-bDPnfCqIr9>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrfeeggdeijecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihimhgv
  ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
  gvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveevheeh
- vdenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
+ vdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
  igihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:gCn4YDOcTozfzaxWqaRB1Sj9F2vhkZlk2rN0PYQZAf4bGcFcFUoI-g>
- <xmx:gCn4YA8YFtP0SnByj2qIwA5vGS-VCxd3NeLkyg4iTeyqYPGdYc0etg>
- <xmx:gCn4YLVUwGpofrPnzVdVMHYzGH3vLIRCIpw9ajQDYC_4a12bQbpYUA>
- <xmx:gSn4YB3M_tu6VRMfFyiKdx_gQbEMJHadc4cbUMvNZGMh5Hcj3FBrWg>
+X-ME-Proxy: <xmx:gyn4YGZSufTjfrq0cQpO5BK5WAxlN9KAtV0fON4au21Fa6GCJoH77w>
+ <xmx:gyn4YMZ9O1lkccOXHNrVaVbBKIFcbQ8kHfMGHteqM8UXioHpA6Af3g>
+ <xmx:gyn4YKANw5iBQGfAnyBR0gQ1LnatNCsLXMUvLhutKVKwbROAE8qfUg>
+ <xmx:hSn4YCMZQ0q1AbjKrpAy_6JRI2h5124ptpQkoXRkvwnO7hdSGJR7PQ>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 21 Jul 2021 10:04:48 -0400 (EDT)
+ 21 Jul 2021 10:04:51 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Chen-Yu Tsai <wens@csie.org>, Maxime Ripard <maxime@cerno.tech>,
  Jernej Skrabec <jernej.skrabec@siol.net>, devicetree@vger.kernel.org,
  Rob Herring <robh+dt@kernel.org>, Frank Rowand <frowand.list@gmail.com>
-Subject: [PATCH 10/54] dt-bindings: display: panel-lvds: Document panel
- compatibles
-Date: Wed, 21 Jul 2021 16:03:40 +0200
-Message-Id: <20210721140424.725744-11-maxime@cerno.tech>
+Subject: [PATCH 11/54] dt-bindings: display: simple-bridge: Add corpro,
+ gm7123 compatible
+Date: Wed, 21 Jul 2021 16:03:41 +0200
+Message-Id: <20210721140424.725744-12-maxime@cerno.tech>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210721140424.725744-1-maxime@cerno.tech>
 References: <20210721140424.725744-1-maxime@cerno.tech>
@@ -81,58 +81,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, linux-sunxi@googlegroups.com,
- Thierry Reding <thierry.reding@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>, linux-arm-kernel@lists.infradead.org
+Cc: linux-sunxi@googlegroups.com, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The binding mentions that all the drivers using that driver must use a
-vendor-specific compatible but never enforces it, nor documents the
-vendor-specific compatibles.
-
-Let's make we document all of them, and that the binding will create an
-error if we add one that isn't.
+The corpro,gm7123 was in use in a DT but was never properly documented,
+let's add it.
 
 Cc: dri-devel@lists.freedesktop.org
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Sam Ravnborg <sam@ravnborg.org>
-Cc: Thierry Reding <thierry.reding@gmail.com>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
----
- .../bindings/display/panel/lvds.yaml           | 18 ++++++++++++------
- 1 file changed, 12 insertions(+), 6 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/display/panel/lvds.yaml b/Documentation/devicetree/bindings/display/panel/lvds.yaml
-index 49460c9dceea..d1513111eb48 100644
---- a/Documentation/devicetree/bindings/display/panel/lvds.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/lvds.yaml
-@@ -31,12 +31,18 @@ allOf:
- 
- properties:
-   compatible:
--    contains:
--      const: panel-lvds
--    description:
--      Shall contain "panel-lvds" in addition to a mandatory panel-specific
--      compatible string defined in individual panel bindings. The "panel-lvds"
--      value shall never be used on its own.
-+    items:
-+      - enum:
-+          - advantech,idk-1110wr
-+          - advantech,idk-2121wr
-+          - auo,b101ew05
-+          - innolux,ee101ia-01d
-+          - mitsubishi,aa104xd12
-+          - mitsubishi,aa121td01
-+          - sgd,gktw70sdae4se
-+          - sharp,lq150x1lg11
-+          - tbs,a711-panel
-+      - const: panel-lvds
- 
-   data-mapping:
-     enum:
+---
+
+Changes from v1:
+  - Removed the dumb-vga-dac compatible from the list
+---
+ .../devicetree/bindings/display/bridge/simple-bridge.yaml      | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/display/bridge/simple-bridge.yaml b/Documentation/devicetree/bindings/display/bridge/simple-bridge.yaml
+index 6c7b577fd471..43cf4df9811a 100644
+--- a/Documentation/devicetree/bindings/display/bridge/simple-bridge.yaml
++++ b/Documentation/devicetree/bindings/display/bridge/simple-bridge.yaml
+@@ -22,6 +22,9 @@ properties:
+               - ti,ths8134a
+               - ti,ths8134b
+           - const: ti,ths8134
++      - items:
++          - const: corpro,gm7123
++          - const: adi,adv7123
+       - enum:
+           - adi,adv7123
+           - dumb-vga-dac
 -- 
 2.31.1
 
