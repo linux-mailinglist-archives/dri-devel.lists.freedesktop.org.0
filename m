@@ -2,52 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 275903D17E7
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 22:24:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8870B3D17EE
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 22:28:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1EB676E984;
-	Wed, 21 Jul 2021 20:24:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B0526E9C9;
+	Wed, 21 Jul 2021 20:28:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x332.google.com (mail-ot1-x332.google.com
- [IPv6:2607:f8b0:4864:20::332])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 69F6F6E91C
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 20:24:13 +0000 (UTC)
-Received: by mail-ot1-x332.google.com with SMTP id
- b18-20020a0568303112b02904cf73f54f4bso259974ots.2
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 13:24:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+Received: from mail-yb1-xb33.google.com (mail-yb1-xb33.google.com
+ [IPv6:2607:f8b0:4864:20::b33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1881B6E9C9
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 20:28:01 +0000 (UTC)
+Received: by mail-yb1-xb33.google.com with SMTP id y38so2127017ybi.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 13:28:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=mgYCKFv0OLVsc8Q1ZTPBjkItJoR3Xv8yUK6W0DAT8JQ=;
- b=FJs8AR1e3XVTIwiYCAqmhl7Z4S0gYV0xjBzS+jAjLi+FD2o8OfXlZW3+RObgCcqqDp
- 8kR2hv464WZsCgpTwoJhx2m29jvudVE1dCujLmKDOw1kAUFHjglpIwzOe/s/YORHxA/n
- Bw9j4zmadjyngZx0EsEsQ5EkFu/Du6hrolhiI=
+ :cc:content-transfer-encoding;
+ bh=upuSMfXKDZhE1IRVL7CXE+rPq8mnLnLf/0ybQcb2Q0s=;
+ b=thGxgDZIsqhhVOgeWUOFjJtHGJBHvrczNrQhd5RR4Bv91L3ctqlN2mxOly7so9AlX8
+ /qAbSrQwxq/WtWC5Reox2C1SEL/OSeF+Meyckdan3uNrXsqJEnViTTd+EWYClh577y+H
+ da3/kQomVHhNSVjk/PeP6Vv3teAY7V+TfNBXA2Z3R3lgHi8I5f1MM5/CPiEGCIgEl6Uc
+ 61NXEl6cjWSqZlmBzsax9LJb1JmKa8cQdh7m7VICSSdZppdW2+D4ZANv34Gth7g3mtPE
+ xY7Wt0/rW/dWI0dISpOV5UbfqANqxpttL48fd2tO+3fZ59HYGI10cm8g8kwDKQ2p20CT
+ unmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=mgYCKFv0OLVsc8Q1ZTPBjkItJoR3Xv8yUK6W0DAT8JQ=;
- b=BykiPyZvt4LAWkF8OVWkhL5NhaZJfo+r6MaOK0ftUM/fRSsZGNhr5/veLR98sqDp0g
- TmlPuN90tXYl/gmlMCJdGP5bDeOdOrf8yZcto99Bj2v6w4xtCIhJHZKiUa3xZ/4WihtQ
- ZlNpkumuGiOPzSOdMOdPE6WK2LZp4pXEV6TCHL1/QlsBmIcQRyXyeqliAM/M9iGjG2rj
- q3s/Fw+JGo6N6NzW6ZEkwYtDwTPNQKIB0rD057ftNn1lCinTSbabFGdm94M5e14VfpBS
- 60Mqf58xxtyG9UMe2Zw+sDdl1eMyOO8eMHKt8qa9p0PrwHQWDKQNLS2jS+lUHH5X01wH
- BGxg==
-X-Gm-Message-State: AOAM5313GvgDrIFIzVZ+nu19+QiD/wruxPQy+zMb2won+kjQfskdOir4
- uaT03xkOqN96rtbFDevEUcIpOtD289hAwfp4RNHvAQ==
-X-Google-Smtp-Source: ABdhPJxu3mayd11uQNyALLIUCctQouTlptAXHsK/TAcd+28f4WNla2vpgm86UHWm/t8xAIeStB2GhNMub7hoAUNLkFI=
-X-Received: by 2002:a9d:6d86:: with SMTP id x6mr13463736otp.188.1626899052412; 
- Wed, 21 Jul 2021 13:24:12 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=upuSMfXKDZhE1IRVL7CXE+rPq8mnLnLf/0ybQcb2Q0s=;
+ b=pdSW0vld9GUabI9SAxLTcnE+WdupKIZ8KSDgfsUvZCPy/1c5QRHHryGbwuapj1SoCA
+ biOS9GNKOnIiUj/+nRNrZ+sUXNsN3fw8Fjl0pqN2X2M1cx52/Z8QWrxKsMiEMp2xeEf5
+ dWK2d/3pzRYw7bBE56UlfaRNIzLUQZatnIZlcTrmOkTdtd/oUsR+5wxmNkiAQ1VVdjD7
+ iBkKOvbCbjkG+VVWpgirXpIReh9ruEBAems2xb5SbtFs8qNXBGLiMFDdnNXChd5a2WX/
+ QBLEzt017fRtBKjOA8n1oe4XRa5cISeOwCXTktILvz8LMm2tMzbyK38un68CJxIWTHsi
+ jkAQ==
+X-Gm-Message-State: AOAM532Wktoy5tjv4RC+eg9auO4DAZRDvrf5F8gQl6tAF80OJL8fX8wQ
+ rrshHxbr5iG1xLR3ALN0CeyywKpG23EBUIPcPKNqOw==
+X-Google-Smtp-Source: ABdhPJyBj8zNUtcKy34p1qrEGTQieMHkkNIk8vNWVUC5B1V9crnFMrTtHMyxeS5ePY9kq4ALBqOubsXRmaOTGFd9nLw=
+X-Received: by 2002:a25:2345:: with SMTP id j66mr43855267ybj.287.1626899280132; 
+ Wed, 21 Jul 2021 13:28:00 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210721183229.4136488-1-daniel.vetter@ffwll.ch>
- <CAOFGe97MQZ0JSNfq4eJs2rN3rRhGadaRUh3=_2Oy=Kaq7V2suw@mail.gmail.com>
-In-Reply-To: <CAOFGe97MQZ0JSNfq4eJs2rN3rRhGadaRUh3=_2Oy=Kaq7V2suw@mail.gmail.com>
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Wed, 21 Jul 2021 22:24:01 +0200
-Message-ID: <CAKMK7uFysP6a8zAPUa9ux1ahz7pzyNFj9u_VXx7bwG=BbGH9ww@mail.gmail.com>
-Subject: Re: [PATCH] drm/i915: Ditch i915 globals shrink infrastructure
-To: Jason Ekstrand <jason@jlekstrand.net>
+References: <20210715101536.2606307-1-matthew.auld@intel.com>
+ <20210715101536.2606307-4-matthew.auld@intel.com>
+In-Reply-To: <20210715101536.2606307-4-matthew.auld@intel.com>
+From: Jason Ekstrand <jason@jlekstrand.net>
+Date: Wed, 21 Jul 2021 15:27:48 -0500
+Message-ID: <CAOFGe9667Mi9pJWNmzQP6LmiWvTmHWN5UVVs7B046FDozcwcPw@mail.gmail.com>
+Subject: Re: [PATCH 3/4] drm/i915/userptr: Probe existence of backing struct
+ pages upon creation
+To: Matthew Auld <matthew.auld@intel.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,404 +66,193 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@intel.com>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- DRI Development <dri-devel@lists.freedesktop.org>
+Cc: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Jordan Justen <jordan.l.justen@intel.com>,
+ Intel GFX <intel-gfx@lists.freedesktop.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ Kenneth Graunke <kenneth@whitecape.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 21, 2021 at 10:17 PM Jason Ekstrand <jason@jlekstrand.net> wrote:
+On Thu, Jul 15, 2021 at 5:16 AM Matthew Auld <matthew.auld@intel.com> wrote=
+:
 >
-> On Wed, Jul 21, 2021 at 1:32 PM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
-> >
-> > This essentially reverts
-> >
-> > commit 84a1074920523430f9dc30ff907f4801b4820072
-> > Author: Chris Wilson <chris@chris-wilson.co.uk>
-> > Date:   Wed Jan 24 11:36:08 2018 +0000
-> >
-> >     drm/i915: Shrink the GEM kmem_caches upon idling
-> >
-> > mm/vmscan.c:do_shrink_slab() is a thing, if there's an issue with it
-> > then we need to fix that there, not hand-roll our own slab shrinking
-> > code in i915.
-> >
-> > Noticed while reviewing a patch set from Jason to fix up some issues
-> > in our i915_init() and i915_exit() module load/cleanup code. Now that
-> > i915_globals.c isn't any different than normal init/exit functions, we
-> > should convert them over to one unified table and remove
-> > i915_globals.[hc] entirely.
+> From: Chris Wilson <chris@chris-wilson.co.uk>
 >
-> Mind throwing in a comment somewhere about how i915 is one of only two
-> users of kmem_cache_shrink() in the entire kernel?  That also seems to
-> be pretty good evidence that it's not useful.
-
-I missed one, there's also on in kunit (I think just got in, it's from
-this year at least per commit). That one seems actually legit, it's a
-selftest for some statistics around slabs I think, so has a legit
-reason to carefully control the state and trim anything that just
-hangs around.
-
-I'll add something and push when CI approves.
-
-> Reviewed-by: Jason Ekstrand <jason@jlekstrand.net>
+> Jason Ekstrand requested a more efficient method than userptr+set-domain
+> to determine if the userptr object was backed by a complete set of pages
+> upon creation. To be more efficient than simply populating the userptr
+> using get_user_pages() (as done by the call to set-domain or execbuf),
+> we can walk the tree of vm_area_struct and check for gaps or vma not
+> backed by struct page (VM_PFNMAP). The question is how to handle
+> VM_MIXEDMAP which may be either struct page or pfn backed...
 >
-> Feel free to land at-will and I'll deal with merge conflicts on my end.
-
-I think if we can land this, then yours, then I type the conversion to
-explicit init/exit and we're done.
--Daniel
-
+> With discrete are going to drop support for set_domain(), so offering a
+> way to probe the pages, without having to resort to dummy batches has
+> been requested.
 >
-> > Cc: David Airlie <airlied@linux.ie>
-> > Cc: Jason Ekstrand <jason@jlekstrand.net>
-> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > ---
-> >  drivers/gpu/drm/i915/gem/i915_gem_context.c |  6 --
-> >  drivers/gpu/drm/i915/gem/i915_gem_object.c  |  6 --
-> >  drivers/gpu/drm/i915/gt/intel_context.c     |  6 --
-> >  drivers/gpu/drm/i915/gt/intel_gt_pm.c       |  4 -
-> >  drivers/gpu/drm/i915/i915_active.c          |  6 --
-> >  drivers/gpu/drm/i915/i915_globals.c         | 95 ---------------------
-> >  drivers/gpu/drm/i915/i915_globals.h         |  3 -
-> >  drivers/gpu/drm/i915/i915_request.c         |  7 --
-> >  drivers/gpu/drm/i915/i915_scheduler.c       |  7 --
-> >  drivers/gpu/drm/i915/i915_vma.c             |  6 --
-> >  10 files changed, 146 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> > index 7d6f52d8a801..bf2a2319353a 100644
-> > --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> > +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> > @@ -2280,18 +2280,12 @@ i915_gem_engines_iter_next(struct i915_gem_engines_iter *it)
-> >  #include "selftests/i915_gem_context.c"
-> >  #endif
-> >
-> > -static void i915_global_gem_context_shrink(void)
-> > -{
-> > -       kmem_cache_shrink(global.slab_luts);
-> > -}
-> > -
-> >  static void i915_global_gem_context_exit(void)
-> >  {
-> >         kmem_cache_destroy(global.slab_luts);
-> >  }
-> >
-> >  static struct i915_global_gem_context global = { {
-> > -       .shrink = i915_global_gem_context_shrink,
-> >         .exit = i915_global_gem_context_exit,
-> >  } };
-> >
-> > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.c b/drivers/gpu/drm/i915/gem/i915_gem_object.c
-> > index 9da7b288b7ed..5c21cff33199 100644
-> > --- a/drivers/gpu/drm/i915/gem/i915_gem_object.c
-> > +++ b/drivers/gpu/drm/i915/gem/i915_gem_object.c
-> > @@ -664,18 +664,12 @@ void i915_gem_init__objects(struct drm_i915_private *i915)
-> >         INIT_WORK(&i915->mm.free_work, __i915_gem_free_work);
-> >  }
-> >
-> > -static void i915_global_objects_shrink(void)
-> > -{
-> > -       kmem_cache_shrink(global.slab_objects);
-> > -}
-> > -
-> >  static void i915_global_objects_exit(void)
-> >  {
-> >         kmem_cache_destroy(global.slab_objects);
-> >  }
-> >
-> >  static struct i915_global_object global = { {
-> > -       .shrink = i915_global_objects_shrink,
-> >         .exit = i915_global_objects_exit,
-> >  } };
-> >
-> > diff --git a/drivers/gpu/drm/i915/gt/intel_context.c b/drivers/gpu/drm/i915/gt/intel_context.c
-> > index bd63813c8a80..c1338441cc1d 100644
-> > --- a/drivers/gpu/drm/i915/gt/intel_context.c
-> > +++ b/drivers/gpu/drm/i915/gt/intel_context.c
-> > @@ -398,18 +398,12 @@ void intel_context_fini(struct intel_context *ce)
-> >         i915_active_fini(&ce->active);
-> >  }
-> >
-> > -static void i915_global_context_shrink(void)
-> > -{
-> > -       kmem_cache_shrink(global.slab_ce);
-> > -}
-> > -
-> >  static void i915_global_context_exit(void)
-> >  {
-> >         kmem_cache_destroy(global.slab_ce);
-> >  }
-> >
-> >  static struct i915_global_context global = { {
-> > -       .shrink = i915_global_context_shrink,
-> >         .exit = i915_global_context_exit,
-> >  } };
-> >
-> > diff --git a/drivers/gpu/drm/i915/gt/intel_gt_pm.c b/drivers/gpu/drm/i915/gt/intel_gt_pm.c
-> > index aef3084e8b16..d86825437516 100644
-> > --- a/drivers/gpu/drm/i915/gt/intel_gt_pm.c
-> > +++ b/drivers/gpu/drm/i915/gt/intel_gt_pm.c
-> > @@ -67,8 +67,6 @@ static int __gt_unpark(struct intel_wakeref *wf)
-> >
-> >         GT_TRACE(gt, "\n");
-> >
-> > -       i915_globals_unpark();
-> > -
-> >         /*
-> >          * It seems that the DMC likes to transition between the DC states a lot
-> >          * when there are no connected displays (no active power domains) during
-> > @@ -116,8 +114,6 @@ static int __gt_park(struct intel_wakeref *wf)
-> >         GEM_BUG_ON(!wakeref);
-> >         intel_display_power_put_async(i915, POWER_DOMAIN_GT_IRQ, wakeref);
-> >
-> > -       i915_globals_park();
-> > -
-> >         return 0;
-> >  }
-> >
-> > diff --git a/drivers/gpu/drm/i915/i915_active.c b/drivers/gpu/drm/i915/i915_active.c
-> > index b1aa1c482c32..91723123ae9f 100644
-> > --- a/drivers/gpu/drm/i915/i915_active.c
-> > +++ b/drivers/gpu/drm/i915/i915_active.c
-> > @@ -1176,18 +1176,12 @@ struct i915_active *i915_active_create(void)
-> >  #include "selftests/i915_active.c"
-> >  #endif
-> >
-> > -static void i915_global_active_shrink(void)
-> > -{
-> > -       kmem_cache_shrink(global.slab_cache);
-> > -}
-> > -
-> >  static void i915_global_active_exit(void)
-> >  {
-> >         kmem_cache_destroy(global.slab_cache);
-> >  }
-> >
-> >  static struct i915_global_active global = { {
-> > -       .shrink = i915_global_active_shrink,
-> >         .exit = i915_global_active_exit,
-> >  } };
-> >
-> > diff --git a/drivers/gpu/drm/i915/i915_globals.c b/drivers/gpu/drm/i915/i915_globals.c
-> > index 77f1911c463b..7fe2e503897b 100644
-> > --- a/drivers/gpu/drm/i915/i915_globals.c
-> > +++ b/drivers/gpu/drm/i915/i915_globals.c
-> > @@ -17,61 +17,8 @@
-> >
-> >  static LIST_HEAD(globals);
-> >
-> > -static atomic_t active;
-> > -static atomic_t epoch;
-> > -static struct park_work {
-> > -       struct delayed_work work;
-> > -       struct rcu_head rcu;
-> > -       unsigned long flags;
-> > -#define PENDING 0
-> > -       int epoch;
-> > -} park;
-> > -
-> > -static void i915_globals_shrink(void)
-> > -{
-> > -       struct i915_global *global;
-> > -
-> > -       /*
-> > -        * kmem_cache_shrink() discards empty slabs and reorders partially
-> > -        * filled slabs to prioritise allocating from the mostly full slabs,
-> > -        * with the aim of reducing fragmentation.
-> > -        */
-> > -       list_for_each_entry(global, &globals, link)
-> > -               global->shrink();
-> > -}
-> > -
-> > -static void __i915_globals_grace(struct rcu_head *rcu)
-> > -{
-> > -       /* Ratelimit parking as shrinking is quite slow */
-> > -       schedule_delayed_work(&park.work, round_jiffies_up_relative(2 * HZ));
-> > -}
-> > -
-> > -static void __i915_globals_queue_rcu(void)
-> > -{
-> > -       park.epoch = atomic_inc_return(&epoch);
-> > -       if (!atomic_read(&active)) {
-> > -               init_rcu_head(&park.rcu);
-> > -               call_rcu(&park.rcu, __i915_globals_grace);
-> > -       }
-> > -}
-> > -
-> > -static void __i915_globals_park(struct work_struct *work)
-> > -{
-> > -       destroy_rcu_head(&park.rcu);
-> > -
-> > -       /* Confirm nothing woke up in the last grace period */
-> > -       if (park.epoch != atomic_read(&epoch)) {
-> > -               __i915_globals_queue_rcu();
-> > -               return;
-> > -       }
-> > -
-> > -       clear_bit(PENDING, &park.flags);
-> > -       i915_globals_shrink();
-> > -}
-> > -
-> >  void __init i915_global_register(struct i915_global *global)
-> >  {
-> > -       GEM_BUG_ON(!global->shrink);
-> >         GEM_BUG_ON(!global->exit);
-> >
-> >         list_add_tail(&global->link, &globals);
-> > @@ -109,52 +56,10 @@ int __init i915_globals_init(void)
-> >                 }
-> >         }
-> >
-> > -       INIT_DELAYED_WORK(&park.work, __i915_globals_park);
-> >         return 0;
-> >  }
-> >
-> > -void i915_globals_park(void)
-> > -{
-> > -       /*
-> > -        * Defer shrinking the global slab caches (and other work) until
-> > -        * after a RCU grace period has completed with no activity. This
-> > -        * is to try and reduce the latency impact on the consumers caused
-> > -        * by us shrinking the caches the same time as they are trying to
-> > -        * allocate, with the assumption being that if we idle long enough
-> > -        * for an RCU grace period to elapse since the last use, it is likely
-> > -        * to be longer until we need the caches again.
-> > -        */
-> > -       if (!atomic_dec_and_test(&active))
-> > -               return;
-> > -
-> > -       /* Queue cleanup after the next RCU grace period has freed slabs */
-> > -       if (!test_and_set_bit(PENDING, &park.flags))
-> > -               __i915_globals_queue_rcu();
-> > -}
-> > -
-> > -void i915_globals_unpark(void)
-> > -{
-> > -       atomic_inc(&epoch);
-> > -       atomic_inc(&active);
-> > -}
-> > -
-> > -static void __exit __i915_globals_flush(void)
-> > -{
-> > -       atomic_inc(&active); /* skip shrinking */
-> > -
-> > -       rcu_barrier(); /* wait for the work to be queued */
-> > -       flush_delayed_work(&park.work);
-> > -
-> > -       atomic_dec(&active);
-> > -}
-> > -
-> >  void __exit i915_globals_exit(void)
-> >  {
-> > -       GEM_BUG_ON(atomic_read(&active));
-> > -
-> > -       __i915_globals_flush();
-> >         __i915_globals_cleanup();
-> > -
-> > -       /* And ensure that our DESTROY_BY_RCU slabs are truly destroyed */
-> > -       rcu_barrier();
-> >  }
-> > diff --git a/drivers/gpu/drm/i915/i915_globals.h b/drivers/gpu/drm/i915/i915_globals.h
-> > index 2d199f411a4a..9e6b4fd07528 100644
-> > --- a/drivers/gpu/drm/i915/i915_globals.h
-> > +++ b/drivers/gpu/drm/i915/i915_globals.h
-> > @@ -14,15 +14,12 @@ typedef void (*i915_global_func_t)(void);
-> >  struct i915_global {
-> >         struct list_head link;
-> >
-> > -       i915_global_func_t shrink;
-> >         i915_global_func_t exit;
-> >  };
-> >
-> >  void i915_global_register(struct i915_global *global);
-> >
-> >  int i915_globals_init(void);
-> > -void i915_globals_park(void);
-> > -void i915_globals_unpark(void);
-> >  void i915_globals_exit(void);
-> >
-> >  /* constructors */
-> > diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
-> > index 09ebea9a0090..d3de9f60e03a 100644
-> > --- a/drivers/gpu/drm/i915/i915_request.c
-> > +++ b/drivers/gpu/drm/i915/i915_request.c
-> > @@ -2077,12 +2077,6 @@ void i915_request_show(struct drm_printer *m,
-> >  #include "selftests/i915_request.c"
-> >  #endif
-> >
-> > -static void i915_global_request_shrink(void)
-> > -{
-> > -       kmem_cache_shrink(global.slab_execute_cbs);
-> > -       kmem_cache_shrink(global.slab_requests);
-> > -}
-> > -
-> >  static void i915_global_request_exit(void)
-> >  {
-> >         kmem_cache_destroy(global.slab_execute_cbs);
-> > @@ -2090,7 +2084,6 @@ static void i915_global_request_exit(void)
-> >  }
-> >
-> >  static struct i915_global_request global = { {
-> > -       .shrink = i915_global_request_shrink,
-> >         .exit = i915_global_request_exit,
-> >  } };
-> >
-> > diff --git a/drivers/gpu/drm/i915/i915_scheduler.c b/drivers/gpu/drm/i915/i915_scheduler.c
-> > index 3a58a9130309..561c649e59f7 100644
-> > --- a/drivers/gpu/drm/i915/i915_scheduler.c
-> > +++ b/drivers/gpu/drm/i915/i915_scheduler.c
-> > @@ -475,12 +475,6 @@ i915_sched_engine_create(unsigned int subclass)
-> >         return sched_engine;
-> >  }
-> >
-> > -static void i915_global_scheduler_shrink(void)
-> > -{
-> > -       kmem_cache_shrink(global.slab_dependencies);
-> > -       kmem_cache_shrink(global.slab_priorities);
-> > -}
-> > -
-> >  static void i915_global_scheduler_exit(void)
-> >  {
-> >         kmem_cache_destroy(global.slab_dependencies);
-> > @@ -488,7 +482,6 @@ static void i915_global_scheduler_exit(void)
-> >  }
-> >
-> >  static struct i915_global_scheduler global = { {
-> > -       .shrink = i915_global_scheduler_shrink,
-> >         .exit = i915_global_scheduler_exit,
-> >  } };
-> >
-> > diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
-> > index 5b9dce0f443b..09a7c47926f7 100644
-> > --- a/drivers/gpu/drm/i915/i915_vma.c
-> > +++ b/drivers/gpu/drm/i915/i915_vma.c
-> > @@ -1414,18 +1414,12 @@ void i915_vma_make_purgeable(struct i915_vma *vma)
-> >  #include "selftests/i915_vma.c"
-> >  #endif
-> >
-> > -static void i915_global_vma_shrink(void)
-> > -{
-> > -       kmem_cache_shrink(global.slab_vmas);
-> > -}
-> > -
-> >  static void i915_global_vma_exit(void)
-> >  {
-> >         kmem_cache_destroy(global.slab_vmas);
-> >  }
-> >
-> >  static struct i915_global_vma global = { {
-> > -       .shrink = i915_global_vma_shrink,
-> >         .exit = i915_global_vma_exit,
-> >  } };
-> >
-> > --
-> > 2.32.0
-> >
+> v2:
+> - add new query param for the PROPBE flag, so userspace can easily
+>   check if the kernel supports it(Jason).
+> - use mmap_read_{lock, unlock}.
+> - add some kernel-doc.
+>
+> Testcase: igt/gem_userptr_blits/probe
+> Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
+> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+> Cc: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+> Cc: Jordan Justen <jordan.l.justen@intel.com>
+> Cc: Kenneth Graunke <kenneth@whitecape.org>
+> Cc: Jason Ekstrand <jason@jlekstrand.net>
+> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Cc: Ramalingam C <ramalingam.c@intel.com>
+> ---
+>  drivers/gpu/drm/i915/gem/i915_gem_userptr.c | 40 ++++++++++++++++++++-
+>  drivers/gpu/drm/i915/i915_getparam.c        |  3 ++
+>  include/uapi/drm/i915_drm.h                 | 18 ++++++++++
+>  3 files changed, 60 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_userptr.c b/drivers/gpu/dr=
+m/i915/gem/i915_gem_userptr.c
+> index 56edfeff8c02..fd6880328596 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
+> @@ -422,6 +422,33 @@ static const struct drm_i915_gem_object_ops i915_gem=
+_userptr_ops =3D {
+>
+>  #endif
+>
+> +static int
+> +probe_range(struct mm_struct *mm, unsigned long addr, unsigned long len)
+> +{
+> +       const unsigned long end =3D addr + len;
+> +       struct vm_area_struct *vma;
+> +       int ret =3D -EFAULT;
+> +
+> +       mmap_read_lock(mm);
+> +       for (vma =3D find_vma(mm, addr); vma; vma =3D vma->vm_next) {
+> +               if (vma->vm_start > addr)
 
+Why isn't this > end?  Are we somehow guaranteed that one vma covers
+the entire range?
 
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+> +                       break;
+> +
+> +               if (vma->vm_flags & (VM_PFNMAP | VM_MIXEDMAP))
+> +                       break;
+> +
+> +               if (vma->vm_end >=3D end) {
+> +                       ret =3D 0;
+> +                       break;
+> +               }
+> +
+> +               addr =3D vma->vm_end;
+> +       }
+> +       mmap_read_unlock(mm);
+> +
+> +       return ret;
+> +}
+> +
+>  /*
+>   * Creates a new mm object that wraps some normal memory from the proces=
+s
+>   * context - user memory.
+> @@ -477,7 +504,8 @@ i915_gem_userptr_ioctl(struct drm_device *dev,
+>         }
+>
+>         if (args->flags & ~(I915_USERPTR_READ_ONLY |
+> -                           I915_USERPTR_UNSYNCHRONIZED))
+> +                           I915_USERPTR_UNSYNCHRONIZED |
+> +                           I915_USERPTR_PROBE))
+>                 return -EINVAL;
+>
+>         if (i915_gem_object_size_2big(args->user_size))
+> @@ -504,6 +532,16 @@ i915_gem_userptr_ioctl(struct drm_device *dev,
+>                         return -ENODEV;
+>         }
+>
+> +       if (args->flags & I915_USERPTR_PROBE) {
+> +               /*
+> +                * Check that the range pointed to represents real struct
+> +                * pages and not iomappings (at this moment in time!)
+> +                */
+> +               ret =3D probe_range(current->mm, args->user_ptr, args->us=
+er_size);
+> +               if (ret)
+> +                       return ret;
+> +       }
+> +
+>  #ifdef CONFIG_MMU_NOTIFIER
+>         obj =3D i915_gem_object_alloc();
+>         if (obj =3D=3D NULL)
+> diff --git a/drivers/gpu/drm/i915/i915_getparam.c b/drivers/gpu/drm/i915/=
+i915_getparam.c
+> index 24e18219eb50..d6d2e1a10d14 100644
+> --- a/drivers/gpu/drm/i915/i915_getparam.c
+> +++ b/drivers/gpu/drm/i915/i915_getparam.c
+> @@ -163,6 +163,9 @@ int i915_getparam_ioctl(struct drm_device *dev, void =
+*data,
+>         case I915_PARAM_PERF_REVISION:
+>                 value =3D i915_perf_ioctl_version();
+>                 break;
+> +       case I915_PARAM_HAS_USERPTR_PROBE:
+> +               value =3D true;
+> +               break;
+>         default:
+>                 DRM_DEBUG("Unknown parameter %d\n", param->param);
+>                 return -EINVAL;
+> diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
+> index e20eeeca7a1c..2e4112bf4d38 100644
+> --- a/include/uapi/drm/i915_drm.h
+> +++ b/include/uapi/drm/i915_drm.h
+> @@ -674,6 +674,9 @@ typedef struct drm_i915_irq_wait {
+>   */
+>  #define I915_PARAM_HAS_EXEC_TIMELINE_FENCES 55
+>
+> +/* Query if the kernel supports the I915_USERPTR_PROBE flag. */
+> +#define I915_PARAM_HAS_USERPTR_PROBE 56
+> +
+>  /* Must be kept compact -- no holes and well documented */
+>
+>  typedef struct drm_i915_getparam {
+> @@ -2178,12 +2181,27 @@ struct drm_i915_gem_userptr {
+>          * through the GTT. If the HW can't support readonly access, an e=
+rror is
+>          * returned.
+>          *
+> +        * I915_USERPTR_PROBE:
+> +        *
+> +        * Probe the provided @user_ptr range and validate that the @user=
+_ptr is
+> +        * indeed pointing to normal memory and that the range is also va=
+lid.
+> +        * For example if some garbage address is given to the kernel, th=
+en this
+> +        * should complain.
+> +        *
+> +        * Returns -EFAULT if the probe failed.
+> +        *
+> +        * Note that this doesn't populate the backing pages.
+> +        *
+> +        * The kernel supports this feature if I915_PARAM_HAS_USERPTR_PRO=
+BE
+> +        * returns a non-zero value.
+> +        *
+>          * I915_USERPTR_UNSYNCHRONIZED:
+>          *
+>          * NOT USED. Setting this flag will result in an error.
+>          */
+>         __u32 flags;
+>  #define I915_USERPTR_READ_ONLY 0x1
+> +#define I915_USERPTR_PROBE 0x2
+>  #define I915_USERPTR_UNSYNCHRONIZED 0x80000000
+>         /**
+>          * @handle: Returned handle for the object.
+> --
+> 2.26.3
+>
