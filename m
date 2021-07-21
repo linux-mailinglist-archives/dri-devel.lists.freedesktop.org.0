@@ -1,62 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CB323D1430
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 18:28:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 58A423D1433
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 18:29:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D8D7E6E419;
-	Wed, 21 Jul 2021 16:28:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC7CC6E89B;
+	Wed, 21 Jul 2021 16:29:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
- [IPv6:2a00:1450:4864:20::434])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 39C316E419
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 16:28:50 +0000 (UTC)
-Received: by mail-wr1-x434.google.com with SMTP id n1so2817065wri.10
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 09:28:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=87zUbz1C5W2YezlBPGoE/oRfgomWOIiqwbdvJRz3UsQ=;
- b=w3Sm9dn4CA9P0CADAfnovH6ZEa15/lTy6uxy+QE6OyRp91druNovikPOnN0XWrREwD
- 2bTtw96xizHcM73y86u4E1YY1sRFQrHTp7Hm+iOcOa5PAg+oehKX5GI1EsHeFqVpN/vX
- 0AO5qr7bmbipeVoVKqonopdG3/UJaCEU+1HFoNqpO/mEtECiBWs84hkMV8evV3+snY+m
- nLZTYf1DN1297CMN2rl1XbqVCgN5vR3Zi9hkZp6QtRhfF5hjr41Fm478jTxPS2cAmcm6
- yQYpdsPoQo9iXNZeUvxU0Qa++CFGhNxnflDzFR4NuRNuAT7wcQZKedf3nR9JYscwb5zJ
- ZlNA==
+Received: from mail-qk1-x732.google.com (mail-qk1-x732.google.com
+ [IPv6:2607:f8b0:4864:20::732])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F9D56E492;
+ Wed, 21 Jul 2021 16:29:50 +0000 (UTC)
+Received: by mail-qk1-x732.google.com with SMTP id m68so2611065qke.7;
+ Wed, 21 Jul 2021 09:29:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=vmZC8RwCDPt5j3h2gD+FrEvMYlrL4687xb3GjrKTjRw=;
+ b=qApaHeb7BeuOMBQwmpMmQMQ0iAtirfa7mw7IT/wjZwDU8+Koe0XqR6SzUN7pG5u+KZ
+ +eykdA/ICLJJiJumxE6XIp6binl/ZKyxeWR1XQspyWjZHoGgmOr0hcd9XRwZwwmyhTjP
+ PBu+e6oTS2mX+tHj1+OxVb30ynIGOIbnHCcVJICfX4BfZFdha8o1EB2Pi5KGaY8wDLPC
+ cmCGloVY6timyOYgMz2PVowztCPMS/tu2yOInztmiLzKVfvxpR9fD6igTPUwzGp31McZ
+ IXhfWrxovDFanSuSZENUC5zi0udmuvBzMiKi4jj1xu3CUu1767fEXNVfnbpJuptR36I3
+ QeqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=87zUbz1C5W2YezlBPGoE/oRfgomWOIiqwbdvJRz3UsQ=;
- b=E+giCN1M0JXgjgqE7GD3rmXQpX6Nk/aGSn2gw0mtxtbJPu1vvtorCWYLiJIrJwn4B4
- 2XdFtr6tSIy7ZCH6u1SrwzhVBwaMKHH7Np3kVt7n/V3TIUsm32Y5h7lCzm0Glmlpcr4f
- tbRuBj6nA9CcX/gZqscYTf+ntEza0nennRZ7DOdZZXB79MJ8A02qWrqHxoRupUFL1N9T
- 8mOE4cirwI9EZUf/+wjSCDqrQN5xHYuZpdKv/k+hyuak4ol0G90j9SezbjtKW9A/a9LX
- 2MfS9RSS2BKbf4YvcB8SuLIfw83xpyLqkuiCRi4v3SJnwL7H8/tAblpKe6JWrRnXaiOV
- qpFw==
-X-Gm-Message-State: AOAM532O1xRHU7oS9pV8KSEC+JBBknIihslKF8hN3+dIyqqOVnhFlELC
- wmyvJi1iIomARBYEaKJx+Zi6Yw==
-X-Google-Smtp-Source: ABdhPJwJBPfX6dh1eCAyJLjrCpduCB33AO9NkDFvKD2kD6175alBe9bavqvW2HOGSVTGrLnN1Xsc3w==
-X-Received: by 2002:a5d:5305:: with SMTP id e5mr10653335wrv.237.1626884928767; 
- Wed, 21 Jul 2021 09:28:48 -0700 (PDT)
-Received: from google.com ([31.124.24.141])
- by smtp.gmail.com with ESMTPSA id z11sm27170045wru.65.2021.07.21.09.28.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Jul 2021 09:28:48 -0700 (PDT)
-Date: Wed, 21 Jul 2021 17:28:46 +0100
-From: Lee Jones <lee.jones@linaro.org>
-To: Linus Walleij <linus.walleij@linaro.org>
-Subject: Re: [PATCH v4] backlight: ktd253: Stabilize backlight
-Message-ID: <YPhLPpljqgAyp6QS@google.com>
-References: <20210715113636.1139465-1-linus.walleij@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=vmZC8RwCDPt5j3h2gD+FrEvMYlrL4687xb3GjrKTjRw=;
+ b=lzqhzTkKnhU7YJc8xPocg3tb6s8QJmufe0T4JsNJyMyHhbCtFWbm34fj0EOl1FYtjW
+ D26uRYZJ9tapC3xH+Wp1koBHhl3tPJkjdC8fkKHoUJqGhiJ4DGnOmfSpWzA5+2V6cjGo
+ bMVRpyfmhGEU8Diqkb1VClSUtEsrqOHUfqqyXebcYOMzWa1Eimje9ofnYJRWqb+30Snr
+ j0p7D5wZ+M0Sfk8W/9RGAe9PzRqIFepzwR+xhF8WIiiBNmBtOO8xrM4lC+hGmIjx0Tvi
+ PHxdoSeP95mUS1iKC7PnAwYSDfRqRT8lXjCWI5WPlPcgikG1ejKcEn28BvI/ejuQymRn
+ E9Rg==
+X-Gm-Message-State: AOAM533+0UmPuDZQTP3I+VzlGVrTuXi+vHrT8ETn9ieA+CJ9eyRd0n9i
+ zGAIFqqNt8kFZmVwZRlzoiG7Rd0h1wHNZlwM1VlrLIqDhRM=
+X-Google-Smtp-Source: ABdhPJzvhq3L/kpPYBVzaT22t/kQgxoFZ/LzjaIXe4qD1F1StLWvLieKirIwbLHPu3bTMCE25iQStqEPeGsRMrw6qH8=
+X-Received: by 2002:a37:5d5:: with SMTP id 204mr35977467qkf.17.1626884989465; 
+ Wed, 21 Jul 2021 09:29:49 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210715113636.1139465-1-linus.walleij@linaro.org>
+References: <20210715223900.1840576-1-jason@jlekstrand.net>
+ <20210715223900.1840576-4-jason@jlekstrand.net>
+ <CAM0jSHPKaFkT=U-Ra1V8HS88ciAKhQ32ZZtBDkHutH74P5i8BQ@mail.gmail.com>
+ <CAOFGe96dsX4x6CFYL+CT+b11Lwkv6a-Pn=MKJqgtbPBC+nZ60w@mail.gmail.com>
+ <CAM0jSHMMN6neG5DtiqWb54ZA46gh4iCmB94i7ZJCH=YTS8t=bg@mail.gmail.com>
+ <CAOFGe97n5i7YR0ik1cP4Cvp5x48Z15Muo8pHY1EjnyD7uKO-wg@mail.gmail.com>
+In-Reply-To: <CAOFGe97n5i7YR0ik1cP4Cvp5x48Z15Muo8pHY1EjnyD7uKO-wg@mail.gmail.com>
+From: Matthew Auld <matthew.william.auld@gmail.com>
+Date: Wed, 21 Jul 2021 17:29:23 +0100
+Message-ID: <CAM0jSHNbz_fytz1HeMynv+M3E6QO4mXpDFHS=qR04G1h-6zO3w@mail.gmail.com>
+Subject: Re: [PATCH 3/7] drm/i915/gem: Unify user object creation
+To: Jason Ekstrand <jason@jlekstrand.net>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,52 +66,129 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jingoo Han <jingoohan1@gmail.com>,
- Daniel Thompson <daniel.thompson@linaro.org>, newbyte@disroot.org,
- Stephan Gerhold <stephan@gerhold.net>, dri-devel@lists.freedesktop.org
+Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 15 Jul 2021, Linus Walleij wrote:
+On Wed, 21 Jul 2021 at 16:47, Jason Ekstrand <jason@jlekstrand.net> wrote:
+>
+> On Wed, Jul 21, 2021 at 3:25 AM Matthew Auld
+> <matthew.william.auld@gmail.com> wrote:
+> >
+> > On Tue, 20 Jul 2021 at 23:04, Jason Ekstrand <jason@jlekstrand.net> wrote:
+> > >
+> > > On Tue, Jul 20, 2021 at 4:35 AM Matthew Auld
+> > > <matthew.william.auld@gmail.com> wrote:
+> > > >
+> > > > On Thu, 15 Jul 2021 at 23:39, Jason Ekstrand <jason@jlekstrand.net> wrote:
+> > > > >
+> > > > > Instead of hand-rolling the same three calls in each function, pull them
+> > > > > into an i915_gem_object_create_user helper.  Apart from re-ordering of
+> > > > > the placements array ENOMEM check, the only functional change here
+> > > > > should be that i915_gem_dumb_create now calls i915_gem_flush_free_objects
+> > > > > which it probably should have been calling all along.
+> > > > >
+> > > > > Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
+> > > > > ---
+> > > > >  drivers/gpu/drm/i915/gem/i915_gem_create.c | 106 +++++++++------------
+> > > > >  1 file changed, 43 insertions(+), 63 deletions(-)
+> > > > >
+> > > > > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_create.c b/drivers/gpu/drm/i915/gem/i915_gem_create.c
+> > > > > index 391c8c4a12172..69bf9ec777642 100644
+> > > > > --- a/drivers/gpu/drm/i915/gem/i915_gem_create.c
+> > > > > +++ b/drivers/gpu/drm/i915/gem/i915_gem_create.c
+> > > > > @@ -11,13 +11,14 @@
+> > > > >  #include "i915_trace.h"
+> > > > >  #include "i915_user_extensions.h"
+> > > > >
+> > > > > -static u32 object_max_page_size(struct drm_i915_gem_object *obj)
+> > > > > +static u32 object_max_page_size(struct intel_memory_region **placements,
+> > > > > +                               unsigned int n_placements)
+> > > > >  {
+> > > > >         u32 max_page_size = 0;
+> > > > >         int i;
+> > > > >
+> > > > > -       for (i = 0; i < obj->mm.n_placements; i++) {
+> > > > > -               struct intel_memory_region *mr = obj->mm.placements[i];
+> > > > > +       for (i = 0; i < n_placements; i++) {
+> > > > > +               struct intel_memory_region *mr = placements[i];
+> > > > >
+> > > > >                 GEM_BUG_ON(!is_power_of_2(mr->min_page_size));
+> > > > >                 max_page_size = max_t(u32, max_page_size, mr->min_page_size);
+> > > > > @@ -81,22 +82,35 @@ static int i915_gem_publish(struct drm_i915_gem_object *obj,
+> > > > >         return 0;
+> > > > >  }
+> > > > >
+> > > > > -static int
+> > > > > -i915_gem_setup(struct drm_i915_gem_object *obj, u64 size)
+> > > > > +static struct drm_i915_gem_object *
+> > > > > +i915_gem_object_create_user(struct drm_i915_private *i915, u64 size,
+> > > > > +                           struct intel_memory_region **placements,
+> > > > > +                           unsigned int n_placements)
+> > > > >  {
+> > > > > -       struct intel_memory_region *mr = obj->mm.placements[0];
+> > > > > +       struct intel_memory_region *mr = placements[0];
+> > > > > +       struct drm_i915_gem_object *obj;
+> > > > >         unsigned int flags;
+> > > > >         int ret;
+> > > > >
+> > > > > -       size = round_up(size, object_max_page_size(obj));
+> > > > > +       i915_gem_flush_free_objects(i915);
+> > > > > +
+> > > > > +       obj = i915_gem_object_alloc();
+> > > > > +       if (!obj)
+> > > > > +               return ERR_PTR(-ENOMEM);
+> > > > > +
+> > > > > +       size = round_up(size, object_max_page_size(placements, n_placements));
+> > > > >         if (size == 0)
+> > > > > -               return -EINVAL;
+> > > > > +               return ERR_PTR(-EINVAL);
+> > > > >
+> > > > >         /* For most of the ABI (e.g. mmap) we think in system pages */
+> > > > >         GEM_BUG_ON(!IS_ALIGNED(size, PAGE_SIZE));
+> > > > >
+> > > > >         if (i915_gem_object_size_2big(size))
+> > > > > -               return -E2BIG;
+> > > > > +               return ERR_PTR(-E2BIG);
+> > > > > +
+> > > > > +       ret = object_set_placements(obj, placements, n_placements);
+> > > > > +       if (ret)
+> > > > > +               goto object_free;
+> > > >
+> > > > Thinking on this again, it might be way too thorny to expose
+> > > > create_user as-is to other parts of i915, like we do in the last
+> > > > patch. Since the caller will be expected to manually validate the
+> > > > placements, otherwise we might crash and burn in weird ways as new
+> > > > users pop up. i.e it needs the same validation that happens as part of
+> > > > the extension. Also as new extensions arrive, like with PXP, that also
+> > > > has to get bolted onto create_user, which might have its own hidden
+> > > > constraints.
+> > >
+> > > Perhaps.  Do you have a suggestion for how to make it available to
+> > > selftests without exposing it to "the rest of i915"?  If you want, I
+> > > can make create_user duplicate the placements uniqueness check.
+> > > That's really the only validation currently in the ioctl besides all
+> > > the stuff for making sure that the class/instance provided by the user
+> > > isn't bogus.  But if we've got real i915_memory_region pointers, we
+> > > don't need that.
+> >
+> > Yeah, I guess the concern here was duplicated placements(that would
+> > change the meaning of n_placements > 1), and then ofc regions not
+> > supported by the device. Also maybe stolen which doesn't have a TTM
+> > backend yet.
+> >
+> > If this is just for the selftests, doing what the mman selftests do
+> > with create_region + set_placements would be one option. Otherwise
+> > maybe just add  __two_underscores and a big comment, for why you
+> > should be careful when using this?
+>
+> I've added __two_underscores and some kerneldoc.  I also looked at
+> adding some validation to that function.  I'm happy to do so if you'd
+> like but didn't want to add overhead if you thought __ and a big fat
+> warning were enough.
 
-> Remove interrupt disablement during backlight setting. It is
-> way to dangerous and makes platforms instable by having it
-> miss vblank IRQs leading to the graphics derailing.
-> 
-> The code is using ndelay() which is not available on
-> platforms such as ARM and will result in 32 * udelay(1)
-> which is substantial.
-> 
-> Add some code to detect if an interrupt occurs during the
-> tight loop and in that case just redo it from the top.
-> 
-> Fixes: 5317f37e48b9 ("backlight: Add Kinetic KTD253 backlight driver")
-> Cc: Stephan Gerhold <stephan@gerhold.net>
-> Reported-by: newbyte@disroot.org
-> Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
-> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
-> ---
-> ChangeLog v3->v4:
-> - Collect Daniel's Reviewed-by.
-> ChangeLog v2->v3:
-> - Read my own patch and realized a bug: when we get a timeout
->   we bounce back to max period, but still count down the pwm
->   with one leading to an off-by-one error. Fix it by extending
->   some else clauses.
-> ChangeLog v1->v2:
-> - Alter the dimming code to check for how many ns the pulse
->   is low, and if it gets to ~100 us then redo from start.
->   This is to account for the advent that an IRQ arrives while
->   setting backlight and hits the low pulse making it way
->   too long.
-> ---
->  drivers/video/backlight/ktd253-backlight.c | 75 ++++++++++++++++------
->  1 file changed, 55 insertions(+), 20 deletions(-)
+__two_underscores and a comment should be fine for now.
 
-Applied, thanks.
-
--- 
-Lee Jones [李琼斯]
-Senior Technical Lead - Developer Services
-Linaro.org │ Open source software for Arm SoCs
-Follow Linaro: Facebook | Twitter | Blog
+>
+> --Jason
