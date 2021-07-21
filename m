@@ -2,36 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 579203D1724
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 21:31:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A87483D178F
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 22:10:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D1C16EB0B;
-	Wed, 21 Jul 2021 19:31:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B0ED6ECB7;
+	Wed, 21 Jul 2021 20:10:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 585 seconds by postgrey-1.36 at gabe;
- Wed, 21 Jul 2021 19:31:43 UTC
-Received: from smtp67.iad3a.emailsrvr.com (smtp67.iad3a.emailsrvr.com
- [173.203.187.67])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B70526EB0B
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 19:31:43 +0000 (UTC)
-X-Auth-ID: kenneth@whitecape.org
-Received: by smtp17.relay.iad3a.emailsrvr.com (Authenticated sender:
- kenneth-AT-whitecape.org) with ESMTPSA id 8048D25598; 
- Wed, 21 Jul 2021 15:21:56 -0400 (EDT)
-From: Kenneth Graunke <kenneth@whitecape.org>
-To: intel-gfx@lists.freedesktop.org, Matthew Auld <matthew.auld@intel.com>
-Subject: Re: [PATCH 3/4] drm/i915/userptr: Probe existence of backing struct
- pages upon creation
-Date: Wed, 21 Jul 2021 12:21:55 -0700
-Message-ID: <6955087.IfOn3HktAb@mizzik>
-In-Reply-To: <20210715101536.2606307-4-matthew.auld@intel.com>
-References: <20210715101536.2606307-1-matthew.auld@intel.com>
- <20210715101536.2606307-4-matthew.auld@intel.com>
+Received: from phobos.denx.de (phobos.denx.de
+ [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A6CF56ECB7
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 20:10:29 +0000 (UTC)
+Received: from [IPv6:::1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id 4454F8164D;
+ Wed, 21 Jul 2021 22:10:27 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1626898227;
+ bh=Nxg6D9/LNvGyyanXCtwvpqzrW0bClFd5ufksR+iD2ro=;
+ h=Subject:From:To:Cc:References:Date:In-Reply-To:From;
+ b=q5moY773ha3x3um5//G43YCFsmvOk/oy05rHfEQsbrUfVEacfY3dwlf4N+uPGqPZ+
+ OqtYJAyqPx+7fXQ+Ru0YSkHKGAo1FNR7VbfjKgLiVpjAmtn1Hu/ZpjD9SK4iKsR95u
+ UV42HlgMUraA3/ZhN83ZQDDeihOeiU/UAJp4l9/WOk7aJwXX2DonyfeIU3mnL7Pi1J
+ vyNX3J+JaE0vpJkM0+IHWrvpID3P3p8ufsQoQmWD4wTkWsCTiyK0OjbiHw6VScknMX
+ zdIxFVNKSSFRx6jvU1SxSi/kRZRvnJtUx0XrahDtE40JDSWPr2GSkwcbALO5KevWI/
+ Ci4FyV5bpmL0g==
+Subject: Re: [PATCH] backlight: pwm_bl: Avoid backlight flicker if backlight
+ control GPIO is input
+From: Marek Vasut <marex@denx.de>
+To: Daniel Thompson <daniel.thompson@linaro.org>
+References: <20210718211415.143709-1-marex@denx.de>
+ <20210719112202.4fvmn57ibgy3yesa@maple.lan>
+ <bbaad78e-91c7-0787-fa72-b5cfabcc6dbd@denx.de>
+ <20210721104914.4difos6w3ysjelnv@maple.lan>
+ <fee1ad9e-ae70-1644-5444-6c894473b48e@denx.de>
+ <20210721164319.uaf4qyr62dnktadv@maple.lan>
+ <f8b2bc71-2d2d-09f1-913d-0a6b93a1da31@denx.de>
+Message-ID: <7c354dc1-11d5-ed80-ed74-59c1aa6a9a31@denx.de>
+Date: Wed, 21 Jul 2021 22:10:26 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="nextPart8104812.jiXgHm6IiM";
- micalg="pgp-sha256"; protocol="application/pgp-signature"
-X-Classification-ID: 6803ccd9-77ba-4f5a-865d-d63fbda830bc-1-1
+In-Reply-To: <f8b2bc71-2d2d-09f1-913d-0a6b93a1da31@denx.de>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: clamav-milter 0.103.2 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,222 +63,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Jordan Justen <jordan.l.justen@intel.com>, dri-devel@lists.freedesktop.org,
- Chris Wilson <chris@chris-wilson.co.uk>, Jason Ekstrand <jason@jlekstrand.net>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: linux-pwm@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Thierry Reding <treding@nvidia.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---nextPart8104812.jiXgHm6IiM
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"; protected-headers="v1"
-From: Kenneth Graunke <kenneth@whitecape.org>
-To: intel-gfx@lists.freedesktop.org, Matthew Auld <matthew.auld@intel.com>
-Cc: dri-devel@lists.freedesktop.org, Chris Wilson <chris@chris-wilson.co.uk>, Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, Jordan Justen <jordan.l.justen@intel.com>, Jason Ekstrand <jason@jlekstrand.net>, Daniel Vetter <daniel.vetter@ffwll.ch>, Ramalingam C <ramalingam.c@intel.com>
-Subject: Re: [PATCH 3/4] drm/i915/userptr: Probe existence of backing struct pages upon creation
-Date: Wed, 21 Jul 2021 12:21:55 -0700
-Message-ID: <6955087.IfOn3HktAb@mizzik>
-In-Reply-To: <20210715101536.2606307-4-matthew.auld@intel.com>
-References: <20210715101536.2606307-1-matthew.auld@intel.com> <20210715101536.2606307-4-matthew.auld@intel.com>
+On 7/21/21 9:01 PM, Marek Vasut wrote:
 
-Thanks!  Series is:
+[...]
 
-Acked-by: Kenneth Graunke <kenneth@whitecape.org>
+>>>> @@ -486,18 +500,6 @@ static int pwm_backlight_probe(struct 
+>>>> platform_device *pdev)
+>>>>            goto err_alloc;
+>>>>        }
+>>>> -    /*
+>>>> -     * If the GPIO is not known to be already configured as output, 
+>>>> that
+>>>> -     * is, if gpiod_get_direction returns either 1 or -EINVAL, 
+>>>> change the
+>>>> -     * direction to output and set the GPIO as active.
+>>>> -     * Do not force the GPIO to active when it was already output 
+>>>> as it
+>>>> -     * could cause backlight flickering or we would enable the 
+>>>> backlight too
+>>>> -     * early. Leave the decision of the initial backlight state for 
+>>>> later.
+>>>> -     */
+>>>> -    if (pb->enable_gpio &&
+>>>> -        gpiod_get_direction(pb->enable_gpio) != 0)
+>>>> -        gpiod_direction_output(pb->enable_gpio, 1);
+>>>
+>>> pwm_backlight_initial_power_state() is still called after 
+>>> pwm_apply_state()
+>>> in pwm_backlight_probe(), so that might still be too late, no ?
+>>
+>> The initial pwm_apply_state() is essentially a nop or, perhaps, a sanity
+>> check if you prefer to think if it that way.
+>>
+>> It can change the PWM period in some (non-DT) cases but only if the PWM
+>> is not already running... and the change of period should not start it
+>> running.
+> 
+> All right, let me give this a try.
 
-https://gitlab.freedesktop.org/kwg/mesa/-/commits/iris-userptr-probe
-is an untested Mesa branch that makes use of the new probe uAPI.
-
-On Thursday, July 15, 2021 3:15:35 AM PDT Matthew Auld wrote:
-> From: Chris Wilson <chris@chris-wilson.co.uk>
->=20
-> Jason Ekstrand requested a more efficient method than userptr+set-domain
-> to determine if the userptr object was backed by a complete set of pages
-> upon creation. To be more efficient than simply populating the userptr
-> using get_user_pages() (as done by the call to set-domain or execbuf),
-> we can walk the tree of vm_area_struct and check for gaps or vma not
-> backed by struct page (VM_PFNMAP). The question is how to handle
-> VM_MIXEDMAP which may be either struct page or pfn backed...
->=20
-> With discrete are going to drop support for set_domain(), so offering a
-> way to probe the pages, without having to resort to dummy batches has
-> been requested.
->=20
-> v2:
-> - add new query param for the PROPBE flag, so userspace can easily
->   check if the kernel supports it(Jason).
-> - use mmap_read_{lock, unlock}.
-> - add some kernel-doc.
->=20
-> Testcase: igt/gem_userptr_blits/probe
-> Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
-> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
-> Cc: Thomas Hellstr=F6m <thomas.hellstrom@linux.intel.com>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-> Cc: Jordan Justen <jordan.l.justen@intel.com>
-> Cc: Kenneth Graunke <kenneth@whitecape.org>
-> Cc: Jason Ekstrand <jason@jlekstrand.net>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: Ramalingam C <ramalingam.c@intel.com>
-> ---
->  drivers/gpu/drm/i915/gem/i915_gem_userptr.c | 40 ++++++++++++++++++++-
->  drivers/gpu/drm/i915/i915_getparam.c        |  3 ++
->  include/uapi/drm/i915_drm.h                 | 18 ++++++++++
->  3 files changed, 60 insertions(+), 1 deletion(-)
->=20
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_userptr.c b/drivers/gpu/dr=
-m/i915/gem/i915_gem_userptr.c
-> index 56edfeff8c02..fd6880328596 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
-> @@ -422,6 +422,33 @@ static const struct drm_i915_gem_object_ops i915_gem=
-_userptr_ops =3D {
-> =20
->  #endif
-> =20
-> +static int
-> +probe_range(struct mm_struct *mm, unsigned long addr, unsigned long len)
-> +{
-> +	const unsigned long end =3D addr + len;
-> +	struct vm_area_struct *vma;
-> +	int ret =3D -EFAULT;
-> +
-> +	mmap_read_lock(mm);
-> +	for (vma =3D find_vma(mm, addr); vma; vma =3D vma->vm_next) {
-> +		if (vma->vm_start > addr)
-> +			break;
-> +
-> +		if (vma->vm_flags & (VM_PFNMAP | VM_MIXEDMAP))
-> +			break;
-> +
-> +		if (vma->vm_end >=3D end) {
-> +			ret =3D 0;
-> +			break;
-> +		}
-> +
-> +		addr =3D vma->vm_end;
-> +	}
-> +	mmap_read_unlock(mm);
-> +
-> +	return ret;
-> +}
-> +
->  /*
->   * Creates a new mm object that wraps some normal memory from the process
->   * context - user memory.
-> @@ -477,7 +504,8 @@ i915_gem_userptr_ioctl(struct drm_device *dev,
->  	}
-> =20
->  	if (args->flags & ~(I915_USERPTR_READ_ONLY |
-> -			    I915_USERPTR_UNSYNCHRONIZED))
-> +			    I915_USERPTR_UNSYNCHRONIZED |
-> +			    I915_USERPTR_PROBE))
->  		return -EINVAL;
-> =20
->  	if (i915_gem_object_size_2big(args->user_size))
-> @@ -504,6 +532,16 @@ i915_gem_userptr_ioctl(struct drm_device *dev,
->  			return -ENODEV;
->  	}
-> =20
-> +	if (args->flags & I915_USERPTR_PROBE) {
-> +		/*
-> +		 * Check that the range pointed to represents real struct
-> +		 * pages and not iomappings (at this moment in time!)
-> +		 */
-> +		ret =3D probe_range(current->mm, args->user_ptr, args->user_size);
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
->  #ifdef CONFIG_MMU_NOTIFIER
->  	obj =3D i915_gem_object_alloc();
->  	if (obj =3D=3D NULL)
-> diff --git a/drivers/gpu/drm/i915/i915_getparam.c b/drivers/gpu/drm/i915/=
-i915_getparam.c
-> index 24e18219eb50..d6d2e1a10d14 100644
-> --- a/drivers/gpu/drm/i915/i915_getparam.c
-> +++ b/drivers/gpu/drm/i915/i915_getparam.c
-> @@ -163,6 +163,9 @@ int i915_getparam_ioctl(struct drm_device *dev, void =
-*data,
->  	case I915_PARAM_PERF_REVISION:
->  		value =3D i915_perf_ioctl_version();
->  		break;
-> +	case I915_PARAM_HAS_USERPTR_PROBE:
-> +		value =3D true;
-> +		break;
->  	default:
->  		DRM_DEBUG("Unknown parameter %d\n", param->param);
->  		return -EINVAL;
-> diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
-> index e20eeeca7a1c..2e4112bf4d38 100644
-> --- a/include/uapi/drm/i915_drm.h
-> +++ b/include/uapi/drm/i915_drm.h
-> @@ -674,6 +674,9 @@ typedef struct drm_i915_irq_wait {
->   */
->  #define I915_PARAM_HAS_EXEC_TIMELINE_FENCES 55
-> =20
-> +/* Query if the kernel supports the I915_USERPTR_PROBE flag. */
-> +#define I915_PARAM_HAS_USERPTR_PROBE 56
-> +
->  /* Must be kept compact -- no holes and well documented */
-> =20
->  typedef struct drm_i915_getparam {
-> @@ -2178,12 +2181,27 @@ struct drm_i915_gem_userptr {
->  	 * through the GTT. If the HW can't support readonly access, an error is
->  	 * returned.
->  	 *
-> +	 * I915_USERPTR_PROBE:
-> +	 *
-> +	 * Probe the provided @user_ptr range and validate that the @user_ptr is
-> +	 * indeed pointing to normal memory and that the range is also valid.
-> +	 * For example if some garbage address is given to the kernel, then this
-> +	 * should complain.
-> +	 *
-> +	 * Returns -EFAULT if the probe failed.
-> +	 *
-> +	 * Note that this doesn't populate the backing pages.
-> +	 *
-> +	 * The kernel supports this feature if I915_PARAM_HAS_USERPTR_PROBE
-> +	 * returns a non-zero value.
-> +	 *
->  	 * I915_USERPTR_UNSYNCHRONIZED:
->  	 *
->  	 * NOT USED. Setting this flag will result in an error.
->  	 */
->  	__u32 flags;
->  #define I915_USERPTR_READ_ONLY 0x1
-> +#define I915_USERPTR_PROBE 0x2
->  #define I915_USERPTR_UNSYNCHRONIZED 0x80000000
->  	/**
->  	 * @handle: Returned handle for the object.
->=20
-
-
---nextPart8104812.jiXgHm6IiM
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part.
-Content-Transfer-Encoding: 7Bit
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEE6OtbNAgc4e6ibv4ZW1vaBx1JzDgFAmD4c9MACgkQW1vaBx1J
-zDigew//a0MMGjIBdAyxY27BhWejYjYtCSBzOxqo5qved4Oq2PUeohZRVmxd5By1
-fqe0AWnn9UU+YCLojXALU0S+s2u0DBbqdAfJGsxzfsinZ/bERIQzAsCfOmncSx31
-VBYS655WTdPqpPLEa0T3pBViaquvzqZs1AixACvdXtMbQwBvHLL1yl/EmoEAhzUq
-9URQYYUEtFz9257KnTJSYtzfOoWGuH63KJgpFjkEAxTBpkZHUtTHHSbiusOADrRH
-9Tkrp0RT2hqNYI62H/aoQYOoijDFeOTpCP38XLzrrtdu8pZJeVOTqUArH4KH94zt
-omqgs+dBz5MNgPSBqyTgtRzYnHwPWir0AdhogK2wbQLNHQeEooFh+gP5F2LertNN
-Hjce/Q/njvAB9J0KbCTn6c/KqIGlO5HXSApRvbX530FkQvLuZ+TE6M0r1ozes0sT
-EKptJ7lGBSwBrEkEVrewL8Rjo5yq0JzVRsIzCysUEgpSZ+hQncDp/xNZ9A9Suqew
-TRo8FaVeOjZu2RLr2Wr75pJp7IJ3quVcvmJk7DEWODU3O+VQrL0FXwD1LlMyc6hp
-CYXelEzuiMWyWM63hV8N3Ry9eh6KFpl8aobzUfovu+CatMeZTkjbttNMoPygDRr2
-x1PozmCkDm1GYCH07PdhAFlOut4aVPBUwEzwxn/I/iwZrEn+4zU=
-=DDaU
------END PGP SIGNATURE-----
-
---nextPart8104812.jiXgHm6IiM--
-
-
-
+ACK, for this case I have here, this works too. Can you submit a proper 
+patch, including my AB/TB and I think also the Fixes tag ?
