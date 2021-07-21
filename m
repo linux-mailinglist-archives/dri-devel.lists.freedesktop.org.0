@@ -1,61 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 166F13D17C1
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 22:15:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E2AF3D17C5
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 22:17:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03E0B6EC46;
-	Wed, 21 Jul 2021 20:15:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 35FAA6E169;
+	Wed, 21 Jul 2021 20:17:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com
- [IPv6:2607:f8b0:4864:20::b29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 653ED6E9C9
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 20:15:21 +0000 (UTC)
-Received: by mail-yb1-xb29.google.com with SMTP id v189so1132699ybg.3
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 13:15:21 -0700 (PDT)
+Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com
+ [IPv6:2607:f8b0:4864:20::b2a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C0B66E169
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 20:17:42 +0000 (UTC)
+Received: by mail-yb1-xb2a.google.com with SMTP id p22so4991211yba.7
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 13:17:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=BaFeBHqAdEHJ8sZ9wlap9CpFhKP22NmnG72he3Q2/FY=;
- b=NhQ1jdMP/HkHsV+VoSJMcrBYGuy6Dq76hgwKdoSYNSpwPb8tP9aKviSDf/wQG+Qi7W
- 0fzzrjdQmNWAHuRC50HSa1jTSsFSAypCx4AMqzdIC52nLhoatCYRdHbZc762EEyDS/mO
- QzMH4UE5g0jynGe7vh4zpXJ2FaxF095vtK3VAOzuU5KitGNw6SEwQCpVaRQihMeXL9Uu
- rRIga1594Rz82sok9vxbHvd+/KWoYSuAE/ogyWDLXnVb2CuLlz0as3qy91ezof/32w0H
- O4hG4/6ANOeZnZkqW+YZ7nz89IjiGkbSVpvrcVhIkVW0xC+jvQOjSfYuX0yAQaSiPYXk
- N4qA==
+ :cc; bh=8KGS30Ot/2ZhAUgNQAxnuzr+NnUh4+CoroaoIQogMBE=;
+ b=D4AXreUtylh9R30Y8bkFVWNvSd5rY97qN6HnqElGPrbEymXJmf8qBqjSu88JYN2fHj
+ GfQprdRfQvxYVEIxGfWMeKFikL+w27sNp+638aYBuIjR7rniA9gN8zSxrz+YSMu3bTRN
+ xQJ0gC13m9d1Get+XbrVRa8aGDz2gcpFF6IuaLcFtpG4Q9KzeTwBPyeNNrg6AGzkDZtN
+ 5L+ljjyB12JSORL8B2htCRND4gI3e8O2XlwdZRz3snlfAaN0tewqEVocSLE5wc/ym+e6
+ oNcDnEVG49GNja7ELSI3xtEA9H7NBhrIdR4S8j3bgGRmXBEJRXkht9p+RgLtn2WNfgQg
+ vj5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=BaFeBHqAdEHJ8sZ9wlap9CpFhKP22NmnG72he3Q2/FY=;
- b=XfZrV+8dJew+KHo5jstXEMe8NFvpKq8o5JW3r6SYAPMLcWyRrKGi89SBFh545NDIrP
- 7zPJkpFK/39DpTUoQtWnR49z6tHPNs0tAUbbaSHrD4OIqCkS716mbcUf6u/mUWU5rD8b
- 0kH7JAixwnInPozEDC9WKkM1RyV+A/suyDrCY50l0YAGAzodWbolo59u16IAcplBkLSB
- vMdJNwRV1SmYiNqGtKVnwe9KfEU+ci9CasYM6vEL25Ci/3+JnJnzkIxFVVYba8kZ7Esb
- p6dxLLWiCl7dPYXwLCXnICCoIxI5NIYQ6B0RJDewOCYZUPQ1KE9xApORBpMa7xjwztqI
- 3FjA==
-X-Gm-Message-State: AOAM533SktY71O3TjvBIccuuhMqqwKBE4MkiD4E/yqtYmGPIEVLNNKMP
- S72/6Xl9k03Z8yxUz3hyz+65VDADpFsvTkmzG0Jtnw==
-X-Google-Smtp-Source: ABdhPJx2fkSFgD4SB1a+EoXcmmkr13ozdx54fC1YXXp80yHHYtLhoG0duYkGWmdNHVwtReCjJeIC++JBWdBrkpIsoFI=
-X-Received: by 2002:a25:81c5:: with SMTP id n5mr49187061ybm.323.1626898520554; 
- Wed, 21 Jul 2021 13:15:20 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=8KGS30Ot/2ZhAUgNQAxnuzr+NnUh4+CoroaoIQogMBE=;
+ b=nmloLVCFDn5+z8Pe9rLNUBGS13j/Wd4VJNhAvMZE7TRlgQUAoxNCrKfKRVE6Xm69S0
+ qqamyRVYsqFi3gxFOAsTbtXi6B27Q57rnFyPIOSA1Qu1dz7GMGCtfgPgX0IcrMzkA9P9
+ Nh2UeJE9l7+lhaY2SmmVWIvaFOrvq8+LtPy/rUWvKUDRV0kjbEIcjsVSdaSHIQN1ZVKf
+ RdRdBF3q7+uJHwIQiM4MGabkPYVj+/n1GUPe7SK3GPfbODPN0B3d7gYxy7xyLOhxBIjO
+ iAThhVuBNTh07vxgV5U3+YXXRrN4ctRKFy/hHQk22GKmmi1Y7KSidPkXlG8fVpwRehzW
+ WFxQ==
+X-Gm-Message-State: AOAM531nRGZ47LLUcixjoJB3LRLSyKJHSr/87/1XcmrPFYx/Wg30CGYI
+ 1zL3VuWwrOIORvHjfd8unA9EOyk/rjD7zSx7blmtMg==
+X-Google-Smtp-Source: ABdhPJwzj3bO7T+8Esb7jvuADBYIvmdCF3UnQMFLP0iDH5itdQW/5p7RpdsQOfVaT/HD2c3UCKNzOGUvU829UIGY7fA=
+X-Received: by 2002:a25:2f89:: with SMTP id
+ v131mr48803718ybv.469.1626898661586; 
+ Wed, 21 Jul 2021 13:17:41 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210721152358.2893314-1-jason@jlekstrand.net>
- <20210721152358.2893314-7-jason@jlekstrand.net>
- <23df1788-bd8e-ac44-337d-92bb5f345b8f@intel.com>
- <YPht8s0wtnUxuF5q@phenom.ffwll.local>
-In-Reply-To: <YPht8s0wtnUxuF5q@phenom.ffwll.local>
+References: <20210721183229.4136488-1-daniel.vetter@ffwll.ch>
+In-Reply-To: <20210721183229.4136488-1-daniel.vetter@ffwll.ch>
 From: Jason Ekstrand <jason@jlekstrand.net>
-Date: Wed, 21 Jul 2021 15:15:09 -0500
-Message-ID: <CAOFGe97Z4NO=80LkyoLp0YnwegF_EGYVut7Ww0+Bc5qQQ7qfVQ@mail.gmail.com>
-Subject: Re: [Intel-gfx] [PATCH 6/6] drm/i915: Make the kmem slab for
- i915_buddy_block a global
-To: Daniel Vetter <daniel@ffwll.ch>
+Date: Wed, 21 Jul 2021 15:17:30 -0500
+Message-ID: <CAOFGe97MQZ0JSNfq4eJs2rN3rRhGadaRUh3=_2Oy=Kaq7V2suw@mail.gmail.com>
+Subject: Re: [PATCH] drm/i915: Ditch i915 globals shrink infrastructure
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,221 +63,382 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel GFX <intel-gfx@lists.freedesktop.org>,
- Matthew Auld <matthew.auld@intel.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@intel.com>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 21, 2021 at 1:56 PM Daniel Vetter <daniel@ffwll.ch> wrote:
+On Wed, Jul 21, 2021 at 1:32 PM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
 >
-> On Wed, Jul 21, 2021 at 05:25:41PM +0100, Matthew Auld wrote:
-> > On 21/07/2021 16:23, Jason Ekstrand wrote:
-> > > There's no reason that I can tell why this should be per-i915_buddy_m=
-m
-> > > and doing so causes KMEM_CACHE to throw dmesg warnings because it tri=
-es
-> > > to create a debugfs entry with the name i915_buddy_block multiple tim=
-es.
-> > > We could handle this by carefully giving each slab its own name but t=
-hat
-> > > brings its own pain because then we have to store that string somewhe=
-re
-> > > and manage the lifetimes of the different slabs.  The most likely
-> > > outcome would be a global atomic which we increment to get a new name=
- or
-> > > something like that.
-> > >
-> > > The much easier solution is to use the i915_globals system like we do
-> > > for every other slab in i915.  This ensures that we have exactly one =
-of
-> > > them for each i915 driver load and it gets neatly created on module l=
-oad
-> > > and destroyed on module unload.  Using the globals system also means
-> > > that its now tied into the shrink handler so we can properly respond =
-to
-> > > low-memory situations.
-> > >
-> > > Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
-> > > Fixes: 88be9a0a06b7 ("drm/i915/ttm: add ttm_buddy_man")
-> > > Cc: Matthew Auld <matthew.auld@intel.com>
-> > > Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
-> >
-> > It was intentionally ripped it out with the idea that we would be movin=
-g the
-> > buddy stuff into ttm, and so part of that was trying to get rid of the =
-some
-> > of the i915 specifics, like this globals thing.
-> >
-> > Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+> This essentially reverts
 >
-> I just sent out a patch to put i915_globals on a diet, so maybe we can
-> hold this patch here a bit when there's other reasons for why this is
-> special?
-
-This is required to get rid of the dmesg warnings.
-
-> Or at least no make this use the i915_globals stuff and instead just link
-> up the init/exit function calls directly into Jason's new table, so that
-> we don't have a merge conflict here?
-
-I'm happy to deal with merge conflicts however they land.
-
---Jason
-
-> -Daniel
+> commit 84a1074920523430f9dc30ff907f4801b4820072
+> Author: Chris Wilson <chris@chris-wilson.co.uk>
+> Date:   Wed Jan 24 11:36:08 2018 +0000
 >
-> >
-> > > ---
-> > >   drivers/gpu/drm/i915/i915_buddy.c   | 44 ++++++++++++++++++++++----=
----
-> > >   drivers/gpu/drm/i915/i915_buddy.h   |  3 +-
-> > >   drivers/gpu/drm/i915/i915_globals.c |  2 ++
-> > >   3 files changed, 38 insertions(+), 11 deletions(-)
-> > >
-> > > diff --git a/drivers/gpu/drm/i915/i915_buddy.c b/drivers/gpu/drm/i915=
-/i915_buddy.c
-> > > index 29dd7d0310c1f..911feedad4513 100644
-> > > --- a/drivers/gpu/drm/i915/i915_buddy.c
-> > > +++ b/drivers/gpu/drm/i915/i915_buddy.c
-> > > @@ -8,8 +8,14 @@
-> > >   #include "i915_buddy.h"
-> > >   #include "i915_gem.h"
-> > > +#include "i915_globals.h"
-> > >   #include "i915_utils.h"
-> > > +static struct i915_global_buddy {
-> > > +   struct i915_global base;
-> > > +   struct kmem_cache *slab_blocks;
-> > > +} global;
-> > > +
-> > >   static struct i915_buddy_block *i915_block_alloc(struct i915_buddy_=
-mm *mm,
-> > >                                              struct i915_buddy_block =
-*parent,
-> > >                                              unsigned int order,
-> > > @@ -19,7 +25,7 @@ static struct i915_buddy_block *i915_block_alloc(st=
-ruct i915_buddy_mm *mm,
-> > >     GEM_BUG_ON(order > I915_BUDDY_MAX_ORDER);
-> > > -   block =3D kmem_cache_zalloc(mm->slab_blocks, GFP_KERNEL);
-> > > +   block =3D kmem_cache_zalloc(global.slab_blocks, GFP_KERNEL);
-> > >     if (!block)
-> > >             return NULL;
-> > > @@ -34,7 +40,7 @@ static struct i915_buddy_block *i915_block_alloc(st=
-ruct i915_buddy_mm *mm,
-> > >   static void i915_block_free(struct i915_buddy_mm *mm,
-> > >                         struct i915_buddy_block *block)
-> > >   {
-> > > -   kmem_cache_free(mm->slab_blocks, block);
-> > > +   kmem_cache_free(global.slab_blocks, block);
-> > >   }
-> > >   static void mark_allocated(struct i915_buddy_block *block)
-> > > @@ -85,15 +91,11 @@ int i915_buddy_init(struct i915_buddy_mm *mm, u64=
- size, u64 chunk_size)
-> > >     GEM_BUG_ON(mm->max_order > I915_BUDDY_MAX_ORDER);
-> > > -   mm->slab_blocks =3D KMEM_CACHE(i915_buddy_block, SLAB_HWCACHE_ALI=
-GN);
-> > > -   if (!mm->slab_blocks)
-> > > -           return -ENOMEM;
-> > > -
-> > >     mm->free_list =3D kmalloc_array(mm->max_order + 1,
-> > >                                   sizeof(struct list_head),
-> > >                                   GFP_KERNEL);
-> > >     if (!mm->free_list)
-> > > -           goto out_destroy_slab;
-> > > +           return -ENOMEM;
-> > >     for (i =3D 0; i <=3D mm->max_order; ++i)
-> > >             INIT_LIST_HEAD(&mm->free_list[i]);
-> > > @@ -145,8 +147,6 @@ int i915_buddy_init(struct i915_buddy_mm *mm, u64=
- size, u64 chunk_size)
-> > >     kfree(mm->roots);
-> > >   out_free_list:
-> > >     kfree(mm->free_list);
-> > > -out_destroy_slab:
-> > > -   kmem_cache_destroy(mm->slab_blocks);
-> > >     return -ENOMEM;
-> > >   }
-> > > @@ -161,7 +161,6 @@ void i915_buddy_fini(struct i915_buddy_mm *mm)
-> > >     kfree(mm->roots);
-> > >     kfree(mm->free_list);
-> > > -   kmem_cache_destroy(mm->slab_blocks);
-> > >   }
-> > >   static int split_block(struct i915_buddy_mm *mm,
-> > > @@ -410,3 +409,28 @@ int i915_buddy_alloc_range(struct i915_buddy_mm =
-*mm,
-> > >   #if IS_ENABLED(CONFIG_DRM_I915_SELFTEST)
-> > >   #include "selftests/i915_buddy.c"
-> > >   #endif
-> > > +
-> > > +static void i915_global_buddy_shrink(void)
-> > > +{
-> > > +   kmem_cache_shrink(global.slab_blocks);
-> > > +}
-> > > +
-> > > +static void i915_global_buddy_exit(void)
-> > > +{
-> > > +   kmem_cache_destroy(global.slab_blocks);
-> > > +}
-> > > +
-> > > +static struct i915_global_buddy global =3D { {
-> > > +   .shrink =3D i915_global_buddy_shrink,
-> > > +   .exit =3D i915_global_buddy_exit,
-> > > +} };
-> > > +
-> > > +int __init i915_global_buddy_init(void)
-> > > +{
-> > > +   global.slab_blocks =3D KMEM_CACHE(i915_buddy_block, 0);
-> > > +   if (!global.slab_blocks)
-> > > +           return -ENOMEM;
-> > > +
-> > > +   i915_global_register(&global.base);
-> > > +   return 0;
-> > > +}
-> > > diff --git a/drivers/gpu/drm/i915/i915_buddy.h b/drivers/gpu/drm/i915=
-/i915_buddy.h
-> > > index 37f8c42071d12..d8f26706de52f 100644
-> > > --- a/drivers/gpu/drm/i915/i915_buddy.h
-> > > +++ b/drivers/gpu/drm/i915/i915_buddy.h
-> > > @@ -47,7 +47,6 @@ struct i915_buddy_block {
-> > >    * i915_buddy_alloc* and i915_buddy_free* should suffice.
-> > >    */
-> > >   struct i915_buddy_mm {
-> > > -   struct kmem_cache *slab_blocks;
-> > >     /* Maintain a free list for each order. */
-> > >     struct list_head *free_list;
-> > > @@ -130,4 +129,6 @@ void i915_buddy_free(struct i915_buddy_mm *mm, st=
-ruct i915_buddy_block *block);
-> > >   void i915_buddy_free_list(struct i915_buddy_mm *mm, struct list_hea=
-d *objects);
-> > > +int i915_global_buddy_init(void);
-> > > +
-> > >   #endif
-> > > diff --git a/drivers/gpu/drm/i915/i915_globals.c b/drivers/gpu/drm/i9=
-15/i915_globals.c
-> > > index 87267e1d2ad92..e57102a4c8d16 100644
-> > > --- a/drivers/gpu/drm/i915/i915_globals.c
-> > > +++ b/drivers/gpu/drm/i915/i915_globals.c
-> > > @@ -8,6 +8,7 @@
-> > >   #include <linux/workqueue.h>
-> > >   #include "i915_active.h"
-> > > +#include "i915_buddy.h"
-> > >   #include "gem/i915_gem_context.h"
-> > >   #include "gem/i915_gem_object.h"
-> > >   #include "i915_globals.h"
-> > > @@ -87,6 +88,7 @@ static void __i915_globals_cleanup(void)
-> > >   static __initconst int (* const initfn[])(void) =3D {
-> > >     i915_global_active_init,
-> > > +   i915_global_buddy_init,
-> > >     i915_global_context_init,
-> > >     i915_global_gem_context_init,
-> > >     i915_global_objects_init,
-> > >
-> > _______________________________________________
-> > Intel-gfx mailing list
-> > Intel-gfx@lists.freedesktop.org
-> > https://lists.freedesktop.org/mailman/listinfo/intel-gfx
+>     drm/i915: Shrink the GEM kmem_caches upon idling
+>
+> mm/vmscan.c:do_shrink_slab() is a thing, if there's an issue with it
+> then we need to fix that there, not hand-roll our own slab shrinking
+> code in i915.
+>
+> Noticed while reviewing a patch set from Jason to fix up some issues
+> in our i915_init() and i915_exit() module load/cleanup code. Now that
+> i915_globals.c isn't any different than normal init/exit functions, we
+> should convert them over to one unified table and remove
+> i915_globals.[hc] entirely.
+
+Mind throwing in a comment somewhere about how i915 is one of only two
+users of kmem_cache_shrink() in the entire kernel?  That also seems to
+be pretty good evidence that it's not useful.
+
+Reviewed-by: Jason Ekstrand <jason@jlekstrand.net>
+
+Feel free to land at-will and I'll deal with merge conflicts on my end.
+
+> Cc: David Airlie <airlied@linux.ie>
+> Cc: Jason Ekstrand <jason@jlekstrand.net>
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> ---
+>  drivers/gpu/drm/i915/gem/i915_gem_context.c |  6 --
+>  drivers/gpu/drm/i915/gem/i915_gem_object.c  |  6 --
+>  drivers/gpu/drm/i915/gt/intel_context.c     |  6 --
+>  drivers/gpu/drm/i915/gt/intel_gt_pm.c       |  4 -
+>  drivers/gpu/drm/i915/i915_active.c          |  6 --
+>  drivers/gpu/drm/i915/i915_globals.c         | 95 ---------------------
+>  drivers/gpu/drm/i915/i915_globals.h         |  3 -
+>  drivers/gpu/drm/i915/i915_request.c         |  7 --
+>  drivers/gpu/drm/i915/i915_scheduler.c       |  7 --
+>  drivers/gpu/drm/i915/i915_vma.c             |  6 --
+>  10 files changed, 146 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> index 7d6f52d8a801..bf2a2319353a 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> @@ -2280,18 +2280,12 @@ i915_gem_engines_iter_next(struct i915_gem_engines_iter *it)
+>  #include "selftests/i915_gem_context.c"
+>  #endif
+>
+> -static void i915_global_gem_context_shrink(void)
+> -{
+> -       kmem_cache_shrink(global.slab_luts);
+> -}
+> -
+>  static void i915_global_gem_context_exit(void)
+>  {
+>         kmem_cache_destroy(global.slab_luts);
+>  }
+>
+>  static struct i915_global_gem_context global = { {
+> -       .shrink = i915_global_gem_context_shrink,
+>         .exit = i915_global_gem_context_exit,
+>  } };
+>
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.c b/drivers/gpu/drm/i915/gem/i915_gem_object.c
+> index 9da7b288b7ed..5c21cff33199 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_object.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_object.c
+> @@ -664,18 +664,12 @@ void i915_gem_init__objects(struct drm_i915_private *i915)
+>         INIT_WORK(&i915->mm.free_work, __i915_gem_free_work);
+>  }
+>
+> -static void i915_global_objects_shrink(void)
+> -{
+> -       kmem_cache_shrink(global.slab_objects);
+> -}
+> -
+>  static void i915_global_objects_exit(void)
+>  {
+>         kmem_cache_destroy(global.slab_objects);
+>  }
+>
+>  static struct i915_global_object global = { {
+> -       .shrink = i915_global_objects_shrink,
+>         .exit = i915_global_objects_exit,
+>  } };
+>
+> diff --git a/drivers/gpu/drm/i915/gt/intel_context.c b/drivers/gpu/drm/i915/gt/intel_context.c
+> index bd63813c8a80..c1338441cc1d 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_context.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_context.c
+> @@ -398,18 +398,12 @@ void intel_context_fini(struct intel_context *ce)
+>         i915_active_fini(&ce->active);
+>  }
+>
+> -static void i915_global_context_shrink(void)
+> -{
+> -       kmem_cache_shrink(global.slab_ce);
+> -}
+> -
+>  static void i915_global_context_exit(void)
+>  {
+>         kmem_cache_destroy(global.slab_ce);
+>  }
+>
+>  static struct i915_global_context global = { {
+> -       .shrink = i915_global_context_shrink,
+>         .exit = i915_global_context_exit,
+>  } };
+>
+> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_pm.c b/drivers/gpu/drm/i915/gt/intel_gt_pm.c
+> index aef3084e8b16..d86825437516 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_gt_pm.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_gt_pm.c
+> @@ -67,8 +67,6 @@ static int __gt_unpark(struct intel_wakeref *wf)
+>
+>         GT_TRACE(gt, "\n");
+>
+> -       i915_globals_unpark();
+> -
+>         /*
+>          * It seems that the DMC likes to transition between the DC states a lot
+>          * when there are no connected displays (no active power domains) during
+> @@ -116,8 +114,6 @@ static int __gt_park(struct intel_wakeref *wf)
+>         GEM_BUG_ON(!wakeref);
+>         intel_display_power_put_async(i915, POWER_DOMAIN_GT_IRQ, wakeref);
+>
+> -       i915_globals_park();
+> -
+>         return 0;
+>  }
+>
+> diff --git a/drivers/gpu/drm/i915/i915_active.c b/drivers/gpu/drm/i915/i915_active.c
+> index b1aa1c482c32..91723123ae9f 100644
+> --- a/drivers/gpu/drm/i915/i915_active.c
+> +++ b/drivers/gpu/drm/i915/i915_active.c
+> @@ -1176,18 +1176,12 @@ struct i915_active *i915_active_create(void)
+>  #include "selftests/i915_active.c"
+>  #endif
+>
+> -static void i915_global_active_shrink(void)
+> -{
+> -       kmem_cache_shrink(global.slab_cache);
+> -}
+> -
+>  static void i915_global_active_exit(void)
+>  {
+>         kmem_cache_destroy(global.slab_cache);
+>  }
+>
+>  static struct i915_global_active global = { {
+> -       .shrink = i915_global_active_shrink,
+>         .exit = i915_global_active_exit,
+>  } };
+>
+> diff --git a/drivers/gpu/drm/i915/i915_globals.c b/drivers/gpu/drm/i915/i915_globals.c
+> index 77f1911c463b..7fe2e503897b 100644
+> --- a/drivers/gpu/drm/i915/i915_globals.c
+> +++ b/drivers/gpu/drm/i915/i915_globals.c
+> @@ -17,61 +17,8 @@
+>
+>  static LIST_HEAD(globals);
+>
+> -static atomic_t active;
+> -static atomic_t epoch;
+> -static struct park_work {
+> -       struct delayed_work work;
+> -       struct rcu_head rcu;
+> -       unsigned long flags;
+> -#define PENDING 0
+> -       int epoch;
+> -} park;
+> -
+> -static void i915_globals_shrink(void)
+> -{
+> -       struct i915_global *global;
+> -
+> -       /*
+> -        * kmem_cache_shrink() discards empty slabs and reorders partially
+> -        * filled slabs to prioritise allocating from the mostly full slabs,
+> -        * with the aim of reducing fragmentation.
+> -        */
+> -       list_for_each_entry(global, &globals, link)
+> -               global->shrink();
+> -}
+> -
+> -static void __i915_globals_grace(struct rcu_head *rcu)
+> -{
+> -       /* Ratelimit parking as shrinking is quite slow */
+> -       schedule_delayed_work(&park.work, round_jiffies_up_relative(2 * HZ));
+> -}
+> -
+> -static void __i915_globals_queue_rcu(void)
+> -{
+> -       park.epoch = atomic_inc_return(&epoch);
+> -       if (!atomic_read(&active)) {
+> -               init_rcu_head(&park.rcu);
+> -               call_rcu(&park.rcu, __i915_globals_grace);
+> -       }
+> -}
+> -
+> -static void __i915_globals_park(struct work_struct *work)
+> -{
+> -       destroy_rcu_head(&park.rcu);
+> -
+> -       /* Confirm nothing woke up in the last grace period */
+> -       if (park.epoch != atomic_read(&epoch)) {
+> -               __i915_globals_queue_rcu();
+> -               return;
+> -       }
+> -
+> -       clear_bit(PENDING, &park.flags);
+> -       i915_globals_shrink();
+> -}
+> -
+>  void __init i915_global_register(struct i915_global *global)
+>  {
+> -       GEM_BUG_ON(!global->shrink);
+>         GEM_BUG_ON(!global->exit);
+>
+>         list_add_tail(&global->link, &globals);
+> @@ -109,52 +56,10 @@ int __init i915_globals_init(void)
+>                 }
+>         }
+>
+> -       INIT_DELAYED_WORK(&park.work, __i915_globals_park);
+>         return 0;
+>  }
+>
+> -void i915_globals_park(void)
+> -{
+> -       /*
+> -        * Defer shrinking the global slab caches (and other work) until
+> -        * after a RCU grace period has completed with no activity. This
+> -        * is to try and reduce the latency impact on the consumers caused
+> -        * by us shrinking the caches the same time as they are trying to
+> -        * allocate, with the assumption being that if we idle long enough
+> -        * for an RCU grace period to elapse since the last use, it is likely
+> -        * to be longer until we need the caches again.
+> -        */
+> -       if (!atomic_dec_and_test(&active))
+> -               return;
+> -
+> -       /* Queue cleanup after the next RCU grace period has freed slabs */
+> -       if (!test_and_set_bit(PENDING, &park.flags))
+> -               __i915_globals_queue_rcu();
+> -}
+> -
+> -void i915_globals_unpark(void)
+> -{
+> -       atomic_inc(&epoch);
+> -       atomic_inc(&active);
+> -}
+> -
+> -static void __exit __i915_globals_flush(void)
+> -{
+> -       atomic_inc(&active); /* skip shrinking */
+> -
+> -       rcu_barrier(); /* wait for the work to be queued */
+> -       flush_delayed_work(&park.work);
+> -
+> -       atomic_dec(&active);
+> -}
+> -
+>  void __exit i915_globals_exit(void)
+>  {
+> -       GEM_BUG_ON(atomic_read(&active));
+> -
+> -       __i915_globals_flush();
+>         __i915_globals_cleanup();
+> -
+> -       /* And ensure that our DESTROY_BY_RCU slabs are truly destroyed */
+> -       rcu_barrier();
+>  }
+> diff --git a/drivers/gpu/drm/i915/i915_globals.h b/drivers/gpu/drm/i915/i915_globals.h
+> index 2d199f411a4a..9e6b4fd07528 100644
+> --- a/drivers/gpu/drm/i915/i915_globals.h
+> +++ b/drivers/gpu/drm/i915/i915_globals.h
+> @@ -14,15 +14,12 @@ typedef void (*i915_global_func_t)(void);
+>  struct i915_global {
+>         struct list_head link;
+>
+> -       i915_global_func_t shrink;
+>         i915_global_func_t exit;
+>  };
+>
+>  void i915_global_register(struct i915_global *global);
+>
+>  int i915_globals_init(void);
+> -void i915_globals_park(void);
+> -void i915_globals_unpark(void);
+>  void i915_globals_exit(void);
+>
+>  /* constructors */
+> diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
+> index 09ebea9a0090..d3de9f60e03a 100644
+> --- a/drivers/gpu/drm/i915/i915_request.c
+> +++ b/drivers/gpu/drm/i915/i915_request.c
+> @@ -2077,12 +2077,6 @@ void i915_request_show(struct drm_printer *m,
+>  #include "selftests/i915_request.c"
+>  #endif
+>
+> -static void i915_global_request_shrink(void)
+> -{
+> -       kmem_cache_shrink(global.slab_execute_cbs);
+> -       kmem_cache_shrink(global.slab_requests);
+> -}
+> -
+>  static void i915_global_request_exit(void)
+>  {
+>         kmem_cache_destroy(global.slab_execute_cbs);
+> @@ -2090,7 +2084,6 @@ static void i915_global_request_exit(void)
+>  }
+>
+>  static struct i915_global_request global = { {
+> -       .shrink = i915_global_request_shrink,
+>         .exit = i915_global_request_exit,
+>  } };
+>
+> diff --git a/drivers/gpu/drm/i915/i915_scheduler.c b/drivers/gpu/drm/i915/i915_scheduler.c
+> index 3a58a9130309..561c649e59f7 100644
+> --- a/drivers/gpu/drm/i915/i915_scheduler.c
+> +++ b/drivers/gpu/drm/i915/i915_scheduler.c
+> @@ -475,12 +475,6 @@ i915_sched_engine_create(unsigned int subclass)
+>         return sched_engine;
+>  }
+>
+> -static void i915_global_scheduler_shrink(void)
+> -{
+> -       kmem_cache_shrink(global.slab_dependencies);
+> -       kmem_cache_shrink(global.slab_priorities);
+> -}
+> -
+>  static void i915_global_scheduler_exit(void)
+>  {
+>         kmem_cache_destroy(global.slab_dependencies);
+> @@ -488,7 +482,6 @@ static void i915_global_scheduler_exit(void)
+>  }
+>
+>  static struct i915_global_scheduler global = { {
+> -       .shrink = i915_global_scheduler_shrink,
+>         .exit = i915_global_scheduler_exit,
+>  } };
+>
+> diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
+> index 5b9dce0f443b..09a7c47926f7 100644
+> --- a/drivers/gpu/drm/i915/i915_vma.c
+> +++ b/drivers/gpu/drm/i915/i915_vma.c
+> @@ -1414,18 +1414,12 @@ void i915_vma_make_purgeable(struct i915_vma *vma)
+>  #include "selftests/i915_vma.c"
+>  #endif
+>
+> -static void i915_global_vma_shrink(void)
+> -{
+> -       kmem_cache_shrink(global.slab_vmas);
+> -}
+> -
+>  static void i915_global_vma_exit(void)
+>  {
+>         kmem_cache_destroy(global.slab_vmas);
+>  }
+>
+>  static struct i915_global_vma global = { {
+> -       .shrink = i915_global_vma_shrink,
+>         .exit = i915_global_vma_exit,
+>  } };
 >
 > --
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
+> 2.32.0
+>
