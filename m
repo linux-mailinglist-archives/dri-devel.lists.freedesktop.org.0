@@ -2,45 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51F583D1519
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 19:29:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DD713D152B
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 19:36:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5115A6E832;
-	Wed, 21 Jul 2021 17:29:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 357AA6E998;
+	Wed, 21 Jul 2021 17:36:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E77086E0F6;
- Wed, 21 Jul 2021 17:29:04 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10052"; a="233287893"
-X-IronPort-AV: E=Sophos;i="5.84,258,1620716400"; d="scan'208";a="233287893"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Jul 2021 10:29:03 -0700
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9B38B6E996;
+ Wed, 21 Jul 2021 17:36:52 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10052"; a="191758237"
+X-IronPort-AV: E=Sophos;i="5.84,258,1620716400"; d="scan'208";a="191758237"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Jul 2021 10:36:52 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,258,1620716400"; d="scan'208";a="632711426"
+X-IronPort-AV: E=Sophos;i="5.84,258,1620716400"; d="scan'208";a="576764852"
 Received: from irvmail001.ir.intel.com ([10.43.11.63])
- by orsmga005.jf.intel.com with ESMTP; 21 Jul 2021 10:26:41 -0700
+ by fmsmga001.fm.intel.com with ESMTP; 21 Jul 2021 10:36:51 -0700
 Received: from [10.249.140.99] (mwajdecz-MOBL.ger.corp.intel.com
  [10.249.140.99])
  by irvmail001.ir.intel.com (8.14.3/8.13.6/MailSET/Hub) with ESMTP id
- 16LHQedl030773; Wed, 21 Jul 2021 18:26:40 +0100
-Subject: Re: [Intel-gfx] [PATCH 05/14] drm/i915/guc/slpc: Allocate, initialize
- and release SLPC
-To: Vinay Belgaumkar <vinay.belgaumkar@intel.com>,
+ 16LHanVY001973; Wed, 21 Jul 2021 18:36:50 +0100
+Subject: Re: [Intel-gfx] [PATCH 07/16] drm/i915/guc/slpc: Enable slpc and add
+ related H2G events
+To: "Belgaumkar, Vinay" <vinay.belgaumkar@intel.com>,
  intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-References: <20210721161120.24610-1-vinay.belgaumkar@intel.com>
- <20210721161120.24610-6-vinay.belgaumkar@intel.com>
+References: <20210710012026.19705-1-vinay.belgaumkar@intel.com>
+ <20210710012026.19705-8-vinay.belgaumkar@intel.com>
+ <24627794-12b3-1d4a-2ee0-d6ef45be0b05@intel.com>
+ <46aa5a21-c32e-9626-830a-43ff3fade57f@intel.com>
 From: Michal Wajdeczko <michal.wajdeczko@intel.com>
-Message-ID: <fa6e3691-d43b-1b42-f031-f3d533298eae@intel.com>
-Date: Wed, 21 Jul 2021 19:26:39 +0200
+Message-ID: <0aef5d78-71fa-d53a-d0da-7cc8f8d39841@intel.com>
+Date: Wed, 21 Jul 2021 19:36:49 +0200
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
  Firefox/78.0 Thunderbird/78.12.0
 MIME-Version: 1.0
-In-Reply-To: <20210721161120.24610-6-vinay.belgaumkar@intel.com>
+In-Reply-To: <46aa5a21-c32e-9626-830a-43ff3fade57f@intel.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,157 +60,36 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 21.07.2021 18:11, Vinay Belgaumkar wrote:
-> Allocate data structures for SLPC and functions for
-> initializing on host side.
+On 15.07.2021 03:58, Belgaumkar, Vinay wrote:
 > 
-> v2: Address review comments (Michal W)
 > 
-> Signed-off-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
-> Signed-off-by: Sundaresan Sujaritha <sujaritha.sundaresan@intel.com>
-> ---
->  drivers/gpu/drm/i915/gt/uc/intel_guc.c        | 11 ++++++
->  drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c   | 36 ++++++++++++++++++-
->  drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h   |  1 +
->  .../gpu/drm/i915/gt/uc/intel_guc_slpc_types.h |  3 ++
->  4 files changed, 50 insertions(+), 1 deletion(-)
+> On 7/10/2021 10:37 AM, Michal Wajdeczko wrote:
+>>
+>>
+>> On 10.07.2021 03:20, Vinay Belgaumkar wrote:
+...
+>>>   diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+>>> b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+>>> index e2644a05f298..3e76d4d5f7bb 100644
+>>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+>>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+>>> @@ -2321,10 +2321,6 @@ void intel_guc_submission_enable(struct
+>>> intel_guc *guc)
+>>>     void intel_guc_submission_disable(struct intel_guc *guc)
+>>>   {
+>>> -    struct intel_gt *gt = guc_to_gt(guc);
+>>> -
+>>> -    GEM_BUG_ON(gt->awake); /* GT should be parked first */
+>>
+>> if not mistake, can you explain why it was removed ?
 > 
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-> index fcccb103a21a..686cb978662d 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-> @@ -337,6 +337,12 @@ int intel_guc_init(struct intel_guc *guc)
->  			goto err_ct;
->  	}
->  
-> +	if (intel_guc_slpc_is_used(guc)) {
-> +		ret = intel_guc_slpc_init(&guc->slpc);
-> +		if (ret)
-> +			goto err_submission;
-> +	}
-> +
->  	/* now that everything is perma-pinned, initialize the parameters */
->  	guc_init_params(guc);
->  
-> @@ -347,6 +353,8 @@ int intel_guc_init(struct intel_guc *guc)
->  
->  	return 0;
->  
-> +err_submission:
-> +	intel_guc_submission_fini(guc);
->  err_ct:
->  	intel_guc_ct_fini(&guc->ct);
->  err_ads:
-> @@ -369,6 +377,9 @@ void intel_guc_fini(struct intel_guc *guc)
->  
->  	i915_ggtt_disable_guc(gt->ggtt);
->  
-> +	if (intel_guc_slpc_is_used(guc))
-> +		intel_guc_slpc_fini(&guc->slpc);
-> +
->  	if (intel_guc_submission_is_used(guc))
->  		intel_guc_submission_fini(guc);
->  
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
-> index d9feb430ce35..a99d727b5bf0 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
-> @@ -12,6 +12,16 @@ static inline struct intel_guc *slpc_to_guc(struct intel_guc_slpc *slpc)
->  	return container_of(slpc, struct intel_guc, slpc);
->  }
->  
-> +static inline struct intel_gt *slpc_to_gt(struct intel_guc_slpc *slpc)
-> +{
-> +	return guc_to_gt(slpc_to_guc(slpc));
-> +}
-> +
-> +static inline struct drm_i915_private *slpc_to_i915(struct intel_guc_slpc *slpc)
-> +{
-> +	return (slpc_to_gt(slpc))->i915;
+> This was part of a different commit. The BUG_ON in
+> disable_guc_submission was added with an assumption that it will be
+> called only during driver unload and not expected to hold any GT PM
+> references. Since this needs to be called from an error scenario during
+> slpc enable, remove the BUG_ON. Do we need this as a separate commit?
 
-redundant ( )
-
-> +}
-> +
->  static bool __detect_slpc_supported(struct intel_guc *guc)
->  {
->  	/* GuC SLPC is unavailable for pre-Gen12 */
-> @@ -35,9 +45,29 @@ void intel_guc_slpc_init_early(struct intel_guc_slpc *slpc)
->  	guc->slpc_selected = __guc_slpc_selected(guc);
->  }
->  
-> +static int slpc_shared_data_init(struct intel_guc_slpc *slpc)
-> +{
-> +	struct intel_guc *guc = slpc_to_guc(slpc);
-> +	struct drm_i915_private *i915 = slpc_to_i915(slpc);
-> +	u32 size = PAGE_ALIGN(sizeof(struct slpc_shared_data));
-> +	int err;
-> +
-> +	err = intel_guc_allocate_and_map_vma(guc, size, &slpc->vma, (void **)&slpc->vaddr);
-> +	if (unlikely(err)) {
-> +		drm_err(&i915->drm,
-> +			"Failed to allocate SLPC struct (err=%pe)\n",
-> +			ERR_PTR(err));
-> +		return err;
-> +	}
-> +
-> +	return err;
-> +}
-> +
->  int intel_guc_slpc_init(struct intel_guc_slpc *slpc)
->  {
-> -	return 0;
-> +	GEM_BUG_ON(slpc->vma);
-> +
-> +	return slpc_shared_data_init(slpc);
->  }
->  
->  /*
-> @@ -60,4 +90,8 @@ int intel_guc_slpc_enable(struct intel_guc_slpc *slpc)
->  
->  void intel_guc_slpc_fini(struct intel_guc_slpc *slpc)
->  {
-> +	if (!slpc->vma)
-> +		return;
-> +
-> +	i915_vma_unpin_and_release(&slpc->vma, I915_VMA_RELEASE_MAP);
->  }
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h
-> index c3b0ad7f0f93..f02249ff5f1b 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h
-> @@ -8,6 +8,7 @@
->  
->  #include "intel_guc_submission.h"
->  #include "intel_guc_slpc_types.h"
-> +#include "abi/guc_actions_slpc_abi.h"
-
-is this is needed here ?
-maybe abi.h could be included only in slcp.c ?
-
->  
->  static inline bool intel_guc_slpc_is_supported(struct intel_guc *guc)
->  {
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc_types.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc_types.h
-> index b85148265b1f..214a449e78f2 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc_types.h
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc_types.h
-> @@ -7,9 +7,12 @@
->  #define _INTEL_GUC_SLPC_TYPES_H_
->  
->  #include <linux/types.h>
-> +#include "abi/guc_actions_slpc_abi.h"
-
-for below pointers you don't need this header(s) to be included
+yes, please
 
 Michal
 
->  
->  struct intel_guc_slpc {
->  
-> +	struct i915_vma *vma;
-> +	struct slpc_shared_data *vaddr;
->  };
->  
->  #endif
-> 
