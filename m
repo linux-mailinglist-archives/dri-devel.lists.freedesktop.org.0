@@ -2,46 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B0B83D1995
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jul 2021 00:12:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 652EF3D19C8
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jul 2021 00:34:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F0D786E8EF;
-	Wed, 21 Jul 2021 22:12:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 727846E8F1;
+	Wed, 21 Jul 2021 22:34:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-relay-canonical-0.canonical.com
- (smtp-relay-canonical-0.canonical.com [185.125.188.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD8926E8D4
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 22:12:02 +0000 (UTC)
-Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net
- [80.193.200.194])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by smtp-relay-canonical-0.canonical.com (Postfix) with ESMTPSA id 0FE4A3F235; 
- Wed, 21 Jul 2021 22:11:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
- s=20210705; t=1626905521;
- bh=J0x7Mk1L5wZTTEhmdsCR4xaxJH/q6r74SfQ+T3WO81M=;
- h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type;
- b=F6JXIqyfwgCM+QUxviWiUftXatS9E5+eLjw7iO0ub1ji0ezhfiSrm/+fL3OmjxjSE
- vyEfMYJhtGrNJysNmegfjHqnvckALkM6ag2h0aLI0CjJFiRd36oLI4mJ9C4QlFb996
- +8kIO/BsfR7N+mbTmoOoVRuBCuLQTv2eNFE0SeyXMCcEK6BwkN9V3jXL6RfPjLtnXt
- nZgb7r3MLubAJu3kX5JYA+VX6xsMhnt5DsftPh3j8AWsYY2ZLx7MJaYwiQ3oXIP15j
- UdFubKABTdh8XFwCJxDW/5xHmHyVHKF1A7BpmBkJWLlJVuG0xCvqKx8YfAd2w3pThw
- c56ujzTWR35ow==
-From: Colin King <colin.king@canonical.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org
-Subject: [PATCH][next] drm: Fix space indentations, replace with tabs
-Date: Wed, 21 Jul 2021 23:11:48 +0100
-Message-Id: <20210721221148.18127-1-colin.king@canonical.com>
-X-Mailer: git-send-email 2.31.1
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D79B6E899;
+ Wed, 21 Jul 2021 22:34:15 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10052"; a="211528592"
+X-IronPort-AV: E=Sophos;i="5.84,258,1620716400"; d="scan'208";a="211528592"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Jul 2021 15:34:15 -0700
+X-IronPort-AV: E=Sophos;i="5.84,258,1620716400"; d="scan'208";a="564877475"
+Received: from mdroper-desk1.fm.intel.com (HELO
+ mdroper-desk1.amr.corp.intel.com) ([10.1.27.134])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Jul 2021 15:34:14 -0700
+Date: Wed, 21 Jul 2021 15:34:13 -0700
+From: Matt Roper <matthew.d.roper@intel.com>
+To: Lucas De Marchi <lucas.demarchi@intel.com>
+Subject: Re: [PATCH 1/4] drm/i915/gt: fix platform prefix
+Message-ID: <20210721223413.GL4174536@mdroper-desk1.amr.corp.intel.com>
+References: <20210720232014.3302645-1-lucas.demarchi@intel.com>
+ <20210720232014.3302645-2-lucas.demarchi@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210720232014.3302645-2-lucas.demarchi@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,35 +45,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: intel-gfx@lists.freedesktop.org, Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+ Tomas Winkler <tomas.winkler@intel.com>, dri-devel@lists.freedesktop.org,
+ John Harrison <John.C.Harrison@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Colin Ian King <colin.king@canonical.com>
+On Tue, Jul 20, 2021 at 04:20:11PM -0700, Lucas De Marchi wrote:
+> gen8_clear_engine_error_register() is actually not used by
+> GRAPHICS_VER >= 8, since for those we are using another register that is
+> not engine-dependent. Fix the platform prefix, to make clear we are not
+> using any GEN6_RING_FAULT_REG_* one GRAPHICS_VER >= 8.
+> 
+> Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
 
-A couple of statements are indented with spaces, clean this up
-by replacing spaces with tabs.
+Reviewed-by: Matt Roper <matthew.d.roper@intel.com>
 
-Signed-off-by: Colin Ian King <colin.king@canonical.com>
----
- drivers/gpu/drm/drm_ioctl.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+> ---
+>  drivers/gpu/drm/i915/gt/intel_gt.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
+> index e714e21c0a4d..a8efdd44e9cf 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_gt.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_gt.c
+> @@ -205,7 +205,7 @@ static void clear_register(struct intel_uncore *uncore, i915_reg_t reg)
+>  	intel_uncore_rmw(uncore, reg, 0, 0);
+>  }
+>  
+> -static void gen8_clear_engine_error_register(struct intel_engine_cs *engine)
+> +static void gen6_clear_engine_error_register(struct intel_engine_cs *engine)
+>  {
+>  	GEN6_RING_FAULT_REG_RMW(engine, RING_FAULT_VALID, 0);
+>  	GEN6_RING_FAULT_REG_POSTING_READ(engine);
+> @@ -251,7 +251,7 @@ intel_gt_clear_error_registers(struct intel_gt *gt,
+>  		enum intel_engine_id id;
+>  
+>  		for_each_engine_masked(engine, gt, engine_mask, id)
+> -			gen8_clear_engine_error_register(engine);
+> +			gen6_clear_engine_error_register(engine);
+>  	}
+>  }
+>  
+> -- 
+> 2.31.1
+> 
 
-diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
-index f454e0424086..c023da67ca7a 100644
---- a/drivers/gpu/drm/drm_ioctl.c
-+++ b/drivers/gpu/drm/drm_ioctl.c
-@@ -834,8 +834,8 @@ long drm_ioctl(struct file *filp,
- 	if (drm_dev_is_unplugged(dev))
- 		return -ENODEV;
- 
--       if (DRM_IOCTL_TYPE(cmd) != DRM_IOCTL_BASE)
--               return -ENOTTY;
-+	if (DRM_IOCTL_TYPE(cmd) != DRM_IOCTL_BASE)
-+		return -ENOTTY;
- 
- 	is_driver_ioctl = nr >= DRM_COMMAND_BASE && nr < DRM_COMMAND_END;
- 
 -- 
-2.31.1
-
+Matt Roper
+Graphics Software Engineer
+VTT-OSGC Platform Enablement
+Intel Corporation
+(916) 356-2795
