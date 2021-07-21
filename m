@@ -1,58 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58A423D1433
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 18:29:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 53FDC3D1435
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 18:30:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC7CC6E89B;
-	Wed, 21 Jul 2021 16:29:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 599076E992;
+	Wed, 21 Jul 2021 16:30:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x732.google.com (mail-qk1-x732.google.com
- [IPv6:2607:f8b0:4864:20::732])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F9D56E492;
- Wed, 21 Jul 2021 16:29:50 +0000 (UTC)
-Received: by mail-qk1-x732.google.com with SMTP id m68so2611065qke.7;
- Wed, 21 Jul 2021 09:29:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=vmZC8RwCDPt5j3h2gD+FrEvMYlrL4687xb3GjrKTjRw=;
- b=qApaHeb7BeuOMBQwmpMmQMQ0iAtirfa7mw7IT/wjZwDU8+Koe0XqR6SzUN7pG5u+KZ
- +eykdA/ICLJJiJumxE6XIp6binl/ZKyxeWR1XQspyWjZHoGgmOr0hcd9XRwZwwmyhTjP
- PBu+e6oTS2mX+tHj1+OxVb30ynIGOIbnHCcVJICfX4BfZFdha8o1EB2Pi5KGaY8wDLPC
- cmCGloVY6timyOYgMz2PVowztCPMS/tu2yOInztmiLzKVfvxpR9fD6igTPUwzGp31McZ
- IXhfWrxovDFanSuSZENUC5zi0udmuvBzMiKi4jj1xu3CUu1767fEXNVfnbpJuptR36I3
- QeqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=vmZC8RwCDPt5j3h2gD+FrEvMYlrL4687xb3GjrKTjRw=;
- b=lzqhzTkKnhU7YJc8xPocg3tb6s8QJmufe0T4JsNJyMyHhbCtFWbm34fj0EOl1FYtjW
- D26uRYZJ9tapC3xH+Wp1koBHhl3tPJkjdC8fkKHoUJqGhiJ4DGnOmfSpWzA5+2V6cjGo
- bMVRpyfmhGEU8Diqkb1VClSUtEsrqOHUfqqyXebcYOMzWa1Eimje9ofnYJRWqb+30Snr
- j0p7D5wZ+M0Sfk8W/9RGAe9PzRqIFepzwR+xhF8WIiiBNmBtOO8xrM4lC+hGmIjx0Tvi
- PHxdoSeP95mUS1iKC7PnAwYSDfRqRT8lXjCWI5WPlPcgikG1ejKcEn28BvI/ejuQymRn
- E9Rg==
-X-Gm-Message-State: AOAM533+0UmPuDZQTP3I+VzlGVrTuXi+vHrT8ETn9ieA+CJ9eyRd0n9i
- zGAIFqqNt8kFZmVwZRlzoiG7Rd0h1wHNZlwM1VlrLIqDhRM=
-X-Google-Smtp-Source: ABdhPJzvhq3L/kpPYBVzaT22t/kQgxoFZ/LzjaIXe4qD1F1StLWvLieKirIwbLHPu3bTMCE25iQStqEPeGsRMrw6qH8=
-X-Received: by 2002:a37:5d5:: with SMTP id 204mr35977467qkf.17.1626884989465; 
- Wed, 21 Jul 2021 09:29:49 -0700 (PDT)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC74F6E992
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 16:30:05 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7ED0A61246
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 16:30:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1626885005;
+ bh=/yc+E0kAuhJRP5Rh3EmC/tYRFWNCrNcyKuD79ykVRyg=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=fyoek8Bqt1r6Z9RyyoyDYkx2SLZbxehZG0+ZpXG+dhtohk48n5YRCHWCTv22aqBpb
+ VMNxImCHyu8s0asowGbJhIyevh6mfA3oobRdRne9ttQRpiTNCddxhU3QIX4ROYx8+O
+ v8QhFy+YxssLxfvgpqaSkXbL3R/gl4aLnhyDdpKd/As9AuD4wRSa6T5ijR8Qp7STkY
+ ICoqkA5i5l7bcW5lVmn+zea1xNvx1w9lKg+DSlCKww2PssF5xpFNQztWbgC7yQ7gzP
+ LurS9Y/St4SxcR21Xl3GI/V2/c7OC9UVAIVEGVLg+4PVq3ZcABaPYhX5D9d74MWsQ4
+ GJD7fXFFVChsQ==
+Received: by mail-ed1-f54.google.com with SMTP id t2so3110771edd.13
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 09:30:05 -0700 (PDT)
+X-Gm-Message-State: AOAM532BgkSy7snKK3zyl+FN/ACmC+tCUHhvsLdUbfp+V5dGWDiBBL7Y
+ D775aFCXZmHVZJ+Xflm779UR3raB15jwunsN0Q==
+X-Google-Smtp-Source: ABdhPJzEtVFObrsQpwr41HgLxTFwCfKhI/yLs9CyoCDtGBoAde4UHndoYEelcI1LxE6gOLfzns97J7HSCIC59jQJbZ8=
+X-Received: by 2002:aa7:df12:: with SMTP id c18mr49131896edy.62.1626885004024; 
+ Wed, 21 Jul 2021 09:30:04 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210715223900.1840576-1-jason@jlekstrand.net>
- <20210715223900.1840576-4-jason@jlekstrand.net>
- <CAM0jSHPKaFkT=U-Ra1V8HS88ciAKhQ32ZZtBDkHutH74P5i8BQ@mail.gmail.com>
- <CAOFGe96dsX4x6CFYL+CT+b11Lwkv6a-Pn=MKJqgtbPBC+nZ60w@mail.gmail.com>
- <CAM0jSHMMN6neG5DtiqWb54ZA46gh4iCmB94i7ZJCH=YTS8t=bg@mail.gmail.com>
- <CAOFGe97n5i7YR0ik1cP4Cvp5x48Z15Muo8pHY1EjnyD7uKO-wg@mail.gmail.com>
-In-Reply-To: <CAOFGe97n5i7YR0ik1cP4Cvp5x48Z15Muo8pHY1EjnyD7uKO-wg@mail.gmail.com>
-From: Matthew Auld <matthew.william.auld@gmail.com>
-Date: Wed, 21 Jul 2021 17:29:23 +0100
-Message-ID: <CAM0jSHNbz_fytz1HeMynv+M3E6QO4mXpDFHS=qR04G1h-6zO3w@mail.gmail.com>
-Subject: Re: [PATCH 3/7] drm/i915/gem: Unify user object creation
-To: Jason Ekstrand <jason@jlekstrand.net>
+References: <20210721151839.2484245-1-arnd@kernel.org>
+In-Reply-To: <20210721151839.2484245-1-arnd@kernel.org>
+From: Rob Herring <robh+dt@kernel.org>
+Date: Wed, 21 Jul 2021 10:29:52 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqKu=08VvrkP7hWeW=Sr0oYoDUsEZGKCQmTMgtPc9gxHkg@mail.gmail.com>
+Message-ID: <CAL_JsqKu=08VvrkP7hWeW=Sr0oYoDUsEZGKCQmTMgtPc9gxHkg@mail.gmail.com>
+Subject: Re: [PATCH] fbdev: simplefb: fix Kconfig dependencies
+To: Arnd Bergmann <arnd@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,129 +53,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- ML dri-devel <dri-devel@lists.freedesktop.org>
+Cc: devicetree@vger.kernel.org,
+ Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>, Arnd Bergmann <arnd@arndb.de>,
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Maxime Ripard <maxime@cerno.tech>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Frank Rowand <frowand.list@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 21 Jul 2021 at 16:47, Jason Ekstrand <jason@jlekstrand.net> wrote:
+On Wed, Jul 21, 2021 at 9:18 AM Arnd Bergmann <arnd@kernel.org> wrote:
 >
-> On Wed, Jul 21, 2021 at 3:25 AM Matthew Auld
-> <matthew.william.auld@gmail.com> wrote:
-> >
-> > On Tue, 20 Jul 2021 at 23:04, Jason Ekstrand <jason@jlekstrand.net> wrote:
-> > >
-> > > On Tue, Jul 20, 2021 at 4:35 AM Matthew Auld
-> > > <matthew.william.auld@gmail.com> wrote:
-> > > >
-> > > > On Thu, 15 Jul 2021 at 23:39, Jason Ekstrand <jason@jlekstrand.net> wrote:
-> > > > >
-> > > > > Instead of hand-rolling the same three calls in each function, pull them
-> > > > > into an i915_gem_object_create_user helper.  Apart from re-ordering of
-> > > > > the placements array ENOMEM check, the only functional change here
-> > > > > should be that i915_gem_dumb_create now calls i915_gem_flush_free_objects
-> > > > > which it probably should have been calling all along.
-> > > > >
-> > > > > Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
-> > > > > ---
-> > > > >  drivers/gpu/drm/i915/gem/i915_gem_create.c | 106 +++++++++------------
-> > > > >  1 file changed, 43 insertions(+), 63 deletions(-)
-> > > > >
-> > > > > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_create.c b/drivers/gpu/drm/i915/gem/i915_gem_create.c
-> > > > > index 391c8c4a12172..69bf9ec777642 100644
-> > > > > --- a/drivers/gpu/drm/i915/gem/i915_gem_create.c
-> > > > > +++ b/drivers/gpu/drm/i915/gem/i915_gem_create.c
-> > > > > @@ -11,13 +11,14 @@
-> > > > >  #include "i915_trace.h"
-> > > > >  #include "i915_user_extensions.h"
-> > > > >
-> > > > > -static u32 object_max_page_size(struct drm_i915_gem_object *obj)
-> > > > > +static u32 object_max_page_size(struct intel_memory_region **placements,
-> > > > > +                               unsigned int n_placements)
-> > > > >  {
-> > > > >         u32 max_page_size = 0;
-> > > > >         int i;
-> > > > >
-> > > > > -       for (i = 0; i < obj->mm.n_placements; i++) {
-> > > > > -               struct intel_memory_region *mr = obj->mm.placements[i];
-> > > > > +       for (i = 0; i < n_placements; i++) {
-> > > > > +               struct intel_memory_region *mr = placements[i];
-> > > > >
-> > > > >                 GEM_BUG_ON(!is_power_of_2(mr->min_page_size));
-> > > > >                 max_page_size = max_t(u32, max_page_size, mr->min_page_size);
-> > > > > @@ -81,22 +82,35 @@ static int i915_gem_publish(struct drm_i915_gem_object *obj,
-> > > > >         return 0;
-> > > > >  }
-> > > > >
-> > > > > -static int
-> > > > > -i915_gem_setup(struct drm_i915_gem_object *obj, u64 size)
-> > > > > +static struct drm_i915_gem_object *
-> > > > > +i915_gem_object_create_user(struct drm_i915_private *i915, u64 size,
-> > > > > +                           struct intel_memory_region **placements,
-> > > > > +                           unsigned int n_placements)
-> > > > >  {
-> > > > > -       struct intel_memory_region *mr = obj->mm.placements[0];
-> > > > > +       struct intel_memory_region *mr = placements[0];
-> > > > > +       struct drm_i915_gem_object *obj;
-> > > > >         unsigned int flags;
-> > > > >         int ret;
-> > > > >
-> > > > > -       size = round_up(size, object_max_page_size(obj));
-> > > > > +       i915_gem_flush_free_objects(i915);
-> > > > > +
-> > > > > +       obj = i915_gem_object_alloc();
-> > > > > +       if (!obj)
-> > > > > +               return ERR_PTR(-ENOMEM);
-> > > > > +
-> > > > > +       size = round_up(size, object_max_page_size(placements, n_placements));
-> > > > >         if (size == 0)
-> > > > > -               return -EINVAL;
-> > > > > +               return ERR_PTR(-EINVAL);
-> > > > >
-> > > > >         /* For most of the ABI (e.g. mmap) we think in system pages */
-> > > > >         GEM_BUG_ON(!IS_ALIGNED(size, PAGE_SIZE));
-> > > > >
-> > > > >         if (i915_gem_object_size_2big(size))
-> > > > > -               return -E2BIG;
-> > > > > +               return ERR_PTR(-E2BIG);
-> > > > > +
-> > > > > +       ret = object_set_placements(obj, placements, n_placements);
-> > > > > +       if (ret)
-> > > > > +               goto object_free;
-> > > >
-> > > > Thinking on this again, it might be way too thorny to expose
-> > > > create_user as-is to other parts of i915, like we do in the last
-> > > > patch. Since the caller will be expected to manually validate the
-> > > > placements, otherwise we might crash and burn in weird ways as new
-> > > > users pop up. i.e it needs the same validation that happens as part of
-> > > > the extension. Also as new extensions arrive, like with PXP, that also
-> > > > has to get bolted onto create_user, which might have its own hidden
-> > > > constraints.
-> > >
-> > > Perhaps.  Do you have a suggestion for how to make it available to
-> > > selftests without exposing it to "the rest of i915"?  If you want, I
-> > > can make create_user duplicate the placements uniqueness check.
-> > > That's really the only validation currently in the ioctl besides all
-> > > the stuff for making sure that the class/instance provided by the user
-> > > isn't bogus.  But if we've got real i915_memory_region pointers, we
-> > > don't need that.
-> >
-> > Yeah, I guess the concern here was duplicated placements(that would
-> > change the meaning of n_placements > 1), and then ofc regions not
-> > supported by the device. Also maybe stolen which doesn't have a TTM
-> > backend yet.
-> >
-> > If this is just for the selftests, doing what the mman selftests do
-> > with create_region + set_placements would be one option. Otherwise
-> > maybe just add  __two_underscores and a big comment, for why you
-> > should be careful when using this?
+> From: Arnd Bergmann <arnd@arndb.de>
 >
-> I've added __two_underscores and some kerneldoc.  I also looked at
-> adding some validation to that function.  I'm happy to do so if you'd
-> like but didn't want to add overhead if you thought __ and a big fat
-> warning were enough.
+> Configurations with both CONFIG_FB_SIMPLE=y and CONFIG_DRM_SIMPLEDRM=m
+> are allowed by Kconfig because the 'depends on !DRM_SIMPLEDRM' dependency
+> does not disallow FB_SIMPLE as long as SIMPLEDRM is not built-in. This
 
-__two_underscores and a comment should be fine for now.
+Double negative. How about:
 
+allows FB_SIMPLE as long as SIMPLEDRM is not built-in.
+
+> can however result in a build failure when cfb_fillrect() etc are then
+> also in loadable modules:
 >
-> --Jason
+> x86_64-linux-ld: drivers/video/fbdev/simplefb.o:(.rodata+0x1f8): undefined reference to `cfb_fillrect'
+> x86_64-linux-ld: drivers/video/fbdev/simplefb.o:(.rodata+0x200): undefined reference to `cfb_copyarea'
+> x86_64-linux-ld: drivers/video/fbdev/simplefb.o:(.rodata+0x208): undefined reference to `cfb_imageblit'
+>
+> To work around this, change FB_SIMPLE to be a 'tristate' symbol,
+> which still allows both to be =m together, but not one of them to
+> be =y if the other one is =m. If a distro kernel picks this
+> configuration, it can be determined by local policy which of
+> the two modules gets loaded. The 'of_chosen' export is needed
+> as this is the first loadable module referencing it.
+>
+> Alternatively, the Kconfig dependency could be changed to
+> 'depends on DRM_SIMPLEDRM=n', which would forbid the configuration
+> with both drivers.
+>
+> Fixes: 11e8f5fd223b ("drm: Add simpledrm driver")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+>  drivers/of/base.c           | 1 +
+>  drivers/video/fbdev/Kconfig | 5 +++--
+>  2 files changed, 4 insertions(+), 2 deletions(-)
+
+For the DT change:
+
+Acked-by: Rob Herring <robh@kernel.org>
