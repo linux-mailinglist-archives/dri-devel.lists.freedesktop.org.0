@@ -1,57 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A581D3D0DE6
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 13:39:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D947D3D0DEE
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 13:43:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8729F6E8CB;
-	Wed, 21 Jul 2021 11:39:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 26AAF6E96D;
+	Wed, 21 Jul 2021 11:43:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com
- [IPv6:2a00:1450:4864:20::333])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB19F6E8CB
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 11:39:39 +0000 (UTC)
-Received: by mail-wm1-x333.google.com with SMTP id c17so1123194wmb.5
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 04:39:39 -0700 (PDT)
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
+ [IPv6:2a00:1450:4864:20::331])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 956AA6E96D
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 11:43:08 +0000 (UTC)
+Received: by mail-wm1-x331.google.com with SMTP id
+ a23-20020a05600c2257b0290236ec98bebaso809149wmm.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 04:43:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=prTKXXkdJ+IAQFudGbZqYsmmfDKA9FNwV7upevuCRRg=;
- b=XDM0In7OzIhIkztmBqvoGlQDCmH7V8Gh+iSllOPsRdEaX32YuitwPdf0M8232qY2D1
- QN1If3Njcv2cYHBYBwwCFstxmppauJaNPTcHaEoZHgyE3Gi42HqgwT4DJmNacBYWRM5c
- FelUVk/GylDJ3kepmxkWw0fm3Raca4R4Kv09k=
+ bh=MHmFKg+tWyTO7m5Hho0WwXLCloPOypR1PtpADrUqxQ0=;
+ b=ZuDwxUvQVrRl8CCI+np4hZQMkIg7ouSAmJFYyq+Qru5vTdlEnVDve7aeLiYko+cQpe
+ RrnH2nABzGWZ9bxb8CWNaq5Z2DxEXenMku5bPnDHcs6Td2Ht+bemtJTCpwY4BN4AoiIt
+ n72gBK5IfygKE/xtU98f1zyGDHrojoOYYlyks=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=prTKXXkdJ+IAQFudGbZqYsmmfDKA9FNwV7upevuCRRg=;
- b=J81+dFzt5Uv5jO+Gd7u9rHIJOM/LruLcabRTK2vRQY83ISRUNXTLbqcNFx6GS1tJui
- qha4gm20T2agFc3WqTDKdGNRlxw3eH92c1//JgoNi3HIL46D+fWK9NYtt28BTviflkQY
- oWa80k/ythOaKubvGvjzfNvIHWDIKcYJjmHWEW0TK7I9JKxNw/7LOmVLg0BOqwmOlSzs
- 7zklcjlC2v1kGFaTVZseNL/q4obc77bpTaRbtqLdy2YQfG0y6G3LPg4i0HEjdRMCKUe7
- N2GMfOxRGexeMh15yvL6NVAR3xrJMqbOZ6SBxXObtEFA598V1+g2PCXOuCoUGfJzXRuD
- u1xA==
-X-Gm-Message-State: AOAM532N8XjGpoO7SCJZocHuuZFwB0L/qLjxRIvaQmwFV8vxv4Idh7vz
- ZPWgkXZnyb2DrDi3+VPzo6cmtvXzjHaFGA==
-X-Google-Smtp-Source: ABdhPJxec399HiuXnzJxle5IrJBOasFbRnKNbuI2zAlXkav1SRCniPeWj/0egXtGfUI2qnVUiNg/lw==
-X-Received: by 2002:a1c:9d46:: with SMTP id g67mr3655041wme.188.1626867578444; 
- Wed, 21 Jul 2021 04:39:38 -0700 (PDT)
+ bh=MHmFKg+tWyTO7m5Hho0WwXLCloPOypR1PtpADrUqxQ0=;
+ b=Xe271S1X0USCSEk4DWZuqjEjN7XDsJcpikuuCKGs5Hms6ASKfINj2C3XtATJyacIur
+ p68guILdCHY1JGaRW0Er5YBQVx/WJifWoJzrkMPMF7B/mvpucTLipoSHlPuG6+zz3gNz
+ Mi8nPpgLC7eIRyr6SGidtGh9R1XtI1KoBZ67g5yUdcIxltjuQRg3g1gGFSnjBbhWN5gs
+ ONsDJW6juy+8yjYOBZCJ1DV4GkwYFZQR21WikqaBijssnZe5nqqXumFSX7lfUSn8UYtG
+ EDNOsl10LUYEsyHuMrgkyaU5Hni5SdvW69sIv2VhrH5rab4JZB8ysV1JxkTtOgKZmirM
+ Pvwg==
+X-Gm-Message-State: AOAM530T6L6h5nPGzmZekJY+0rmxA+gsGPcQZoumMaXQCwqjq+Cm0y7g
+ HVyTXcSem9duKyOr9sobeP6Q50lL7kLcjw==
+X-Google-Smtp-Source: ABdhPJwsRzEcHbs4oYh90f8Soz3bQO2DrFC0gby/I7+5mI2+15tF0pf5q+QhAcvHQV4dGQylz3j35A==
+X-Received: by 2002:a05:600c:3b0a:: with SMTP id
+ m10mr36454697wms.79.1626867787354; 
+ Wed, 21 Jul 2021 04:43:07 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id m4sm3876460wmq.7.2021.07.21.04.39.37
+ by smtp.gmail.com with ESMTPSA id f11sm4742378wmb.14.2021.07.21.04.43.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Jul 2021 04:39:37 -0700 (PDT)
-Date: Wed, 21 Jul 2021 13:39:36 +0200
+ Wed, 21 Jul 2021 04:43:06 -0700 (PDT)
+Date: Wed, 21 Jul 2021 13:43:05 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
 To: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH] drm: document drm_mode_get_property
-Message-ID: <YPgHeJ4gcKI1YaUa@phenom.ffwll.local>
-References: <1tz9tpGFTp14Rdm6Qrih80WnzsUdM9GdHBqcT7t0zuc@cp3-web-021.plabs.ch>
+Subject: Re: [PATCH] drm: document drm_property_enum.value for bitfields
+Message-ID: <YPgISaTbkBxYaBHX@phenom.ffwll.local>
+References: <NUZTPTKKZtAlDhxIXFB1qrUqWBYKapkBxCnb1S1bc3g@cp3-web-033.plabs.ch>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1tz9tpGFTp14Rdm6Qrih80WnzsUdM9GdHBqcT7t0zuc@cp3-web-021.plabs.ch>
+In-Reply-To: <NUZTPTKKZtAlDhxIXFB1qrUqWBYKapkBxCnb1S1bc3g@cp3-web-033.plabs.ch>
 X-Operating-System: Linux phenom 5.10.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -72,106 +74,45 @@ Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 21, 2021 at 06:49:32AM +0000, Simon Ser wrote:
-> It's not obvious what the fields mean and how they should be used.
-> The most important detail is the link to drm_property.flags, which
-> describes how property types work.
+On Wed, Jul 21, 2021 at 06:51:30AM +0000, Simon Ser wrote:
+> When a property has the type DRM_MODE_PROP_BITMASK, the value field
+> stores a bitshift, not a bitmask, which can be surprising.
 > 
 > Signed-off-by: Simon Ser <contact@emersion.fr>
 > Cc: Pekka Paalanen <pekka.paalanen@collabora.com>
 > Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
 > Cc: Leandro Ribeiro <leandro.ribeiro@collabora.com>
 > ---
->  include/uapi/drm/drm_mode.h | 52 ++++++++++++++++++++++++++++++++++---
->  1 file changed, 48 insertions(+), 4 deletions(-)
+>  include/drm/drm_property.h | 5 +++++
+>  1 file changed, 5 insertions(+)
 > 
-> diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
-> index 98bf130feda5..dfdb595875aa 100644
-> --- a/include/uapi/drm/drm_mode.h
-> +++ b/include/uapi/drm/drm_mode.h
-> @@ -546,17 +546,61 @@ struct drm_mode_property_enum {
->  	char name[DRM_PROP_NAME_LEN];
->  };
->  
-> +/**
-> + * struct drm_mode_get_property - Get property metadata.
+> diff --git a/include/drm/drm_property.h b/include/drm/drm_property.h
+> index bbf5c1fdd7b0..f3ea7f97f372 100644
+> --- a/include/drm/drm_property.h
+> +++ b/include/drm/drm_property.h
+> @@ -37,6 +37,11 @@
+>   *
+>   * For enumeration and bitmask properties this structure stores the symbolic
+>   * decoding for each value. This is used for example for the rotation property.
 > + *
-> + * User-space can perform a GETPROPERTY ioctl to retrieve information about a
-> + * property.
-> + *
-> + * The meaning of the @values_ptr field changes depending on the property type.
-> + * See &drm_property.flags for more details.
-> + *
-> + * The @enum_blob_ptr and @count_enum_blobs fields are only meaningful when the
-> + * property has the type &DRM_MODE_PROP_ENUM or &DRM_MODE_PROP_BITMASK. For
-> + * backwards compatibility, the kernel will always set @count_enum_blobs to
-> + * zero when the property has the type &DRM_MODE_PROP_BLOB. User-space must
-> + * ignore these two fields if the property has a different type.
-> + *
-> + * User-space is expected to retrieve values and enums by performing this ioctl
-> + * at least twice: the first time to retrieve the number of elements, the
-> + * second time to retrieve the elements themselves.
-> + *
-> + * To retrieve the number of elements, set @count_values and @count_enum_blobs
-> + * to zero, then call the ioctl. @count_values will be updated with the number
-> + * of elements. If the property has the type &DRM_MODE_PROP_ENUM or
-> + * &DRM_MODE_PROP_BITMASK, @count_enum_blobs will be updated as well.
-> + *
-> + * To retrieve the elements themselves, allocate an array for @values_ptr and
-> + * set @count_values to its capacity. If the property has the type
-> + * &DRM_MODE_PROP_ENUM or &DRM_MODE_PROP_BITMASK, allocate an array for
-> + * @enum_blob_ptr and set @count_enum_blobs to its capacity. Calling the ioctl
-> + * again will fill the arrays.
+> + * If the property has the type &DRM_MODE_PROP_BITMASK, @value stores a
+> + * bitshift, not a bitmask. In other words, the enum entry is enabled if the
+> + * bit number @value is set in the property's value. This enum entry has the
+> + * bitmask ``1 << value``.
 
-I think it would be really good to link to
-
-https://dri.freedesktop.org/docs/drm/gpu/drm-kms.html#modeset-base-object-abstraction
-
-for all the property related ioctl. That entire class vs instance
-confusion is pretty common I think, which is why I even made a nice
-picture about it :-)
-
-> + */
->  struct drm_mode_get_property {
-> -	__u64 values_ptr; /* values and blob lengths */
-> -	__u64 enum_blob_ptr; /* enum and blob id ptrs */
-> +	/** @values_ptr: Pointer to a ``__u64`` array. */
-> +	__u64 values_ptr;
-> +	/** @enum_blob_ptr: Pointer to a struct drm_mode_property_enum array. */
-
-I guess would be nice to also document that drm_mode_property_enum.
-Especially whether we also have this nice confusion between value and
-bitmask there too (I guess so).
-
-> +	__u64 enum_blob_ptr;
->  
-> +	/**
-> +	 * @prop_id: Object ID of the property which should be retrieved. Set
-> +	 * by the caller.
-> +	 */
->  	__u32 prop_id;
-> +	/**
-> +	 * @flags: ``DRM_MODE_PROP_*`` bitfield. See &drm_property.flags for
-> +	 * a definition of the flags.
-> +	 */
->  	__u32 flags;
-> +	/**
-> +	 * @name: Symbolic property name. User-space should use this field to
-> +	 * recognize properties.
-> +	 */
->  	char name[DRM_PROP_NAME_LEN];
->  
-> +	/** @count_values: Number of elements in @values_ptr. */
->  	__u32 count_values;
-> -	/* This is only used to count enum values, not blobs. The _blobs is
-> -	 * simply because of a historical reason, i.e. backwards compat. */
-> +	/** @count_enum_blobs: Number of elements in @enum_blob_ptr. */
->  	__u32 count_enum_blobs;
+Please move this into an inline comment to make it clear that this is
+specifically about @value. With that:
 
 Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
->  };
->  
+I was also pondering whether we have a nice place to link to for
+"property's value" but really they're just uint64_t all over the place,
+and only stored in the drm_mode_object for non-atomic properties. So
+wording sounds like the best option we have.
+
+>   */
+>  struct drm_property_enum {
+>  	uint64_t value;
 > -- 
 > 2.32.0
 > 
