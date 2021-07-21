@@ -1,61 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5FEA3D143E
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 18:30:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CB003D1459
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 18:43:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1803F6EBA2;
-	Wed, 21 Jul 2021 16:30:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D18B6EC0A;
+	Wed, 21 Jul 2021 16:43:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
- [IPv6:2a00:1450:4864:20::429])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E59D6EB7C;
- Wed, 21 Jul 2021 16:30:37 +0000 (UTC)
-Received: by mail-wr1-x429.google.com with SMTP id c12so2852009wrt.3;
- Wed, 21 Jul 2021 09:30:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=695MrDT0K9k+DPPQVTnkggC9g+99Gebdftp/V5WcV7E=;
- b=tE2zlnUNHozA9P+a1k4lJpYerJo4F9LNDK32HUnwTz1qs0wNomMFs9f/Pshlq/v7nd
- 9mPRqllJS2yP58SJP/ixoCNTTeH1FKPTpRGtfKuSGVbv8GPStt6JtfABdp1oa53CMRds
- /YcCsSB6ARAKEs+r8XOaa8nU5DFlOodpM2XLmFAE4SudMNpAowoj/XXskrK1K2ElJkF9
- yzLeLFxuKDBIC11Pmm94FtMiCNApnXGTWY+6kIusmXhyGz5xwj/jl3ovmuco5JwzQMok
- ZB/owN9Hawj7xa5cr/ObrNSzhLTt80uv+ENdsYxBzHk9AX38hSjEB32IVK7SVHpeiyQ5
- xdxA==
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
+ [IPv6:2a00:1450:4864:20::42f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 206166EC0A
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 16:43:23 +0000 (UTC)
+Received: by mail-wr1-x42f.google.com with SMTP id l7so2879284wrv.7
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 09:43:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=nQO0vUaJebZ8yUobOfxAEXw8DG1tZACsGQaT/ABF1rM=;
+ b=J47DZctwJ55jmuyGRXHGf0iufMlj020N1WTJhljXm1xsI++nmhnoNgjk/XJihg0tYI
+ i0MsUJlDO7DieTeby8k95UhREvTXaXkxU6AHm0+4IYCEH7MssUAWNc3KUN4LPEYbFTmf
+ nPR0vhDHfDHS5fzIwbDkIqqQ/rdzJ5v+NFBwUPS/8Ep2sKjjB1yxrwrBXv3NUW2Sj+OS
+ pm4PBxZv+z331f7OdJ5wjxlSrAVXIqCAdc/ExYBh6LeUxcJYVnt0eYn8oHNlFasvc6AP
+ c+KzpgPcFC1GNMWrYL5qzbGtXw4DkpLV1vXcSyr2XI5U0gFB4ftuL8zC7Q8LBS9yqEhT
+ 4QZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=695MrDT0K9k+DPPQVTnkggC9g+99Gebdftp/V5WcV7E=;
- b=oadnuirbv+IF7N6Y0FgYpy4k+0Goj/gkYAzeEUWhvsCnzxEiwMmCmzWTvzM3MlRo1Q
- 3yNvGKhCyHW7P+CQgj87d43XT2DbwmE6s49LznUtHWQcdIXn+bD17ttA0d6IPJGG8XwE
- lWxDaoWcqEzMs4lOPB7zwXXsN/WRr2pTWHs8nd2q/nPVLX2y8PhsZPdB/iCzKOD8QG6r
- s3aj+3UyZDMKJUwfJUj/Iize1OqWKeRQup7JX+zUzgT4wkJxRdOubc5E5ZyIevagjb79
- sfQ4n/m1tSMn0l07h2lkPIwSpQ0IL/Sg7POJmOeshcwZOMPl8GNNf78swecBlV9Lf2gO
- r57A==
-X-Gm-Message-State: AOAM5314L6p2FLeo+241Kef5VHSWIhcL1VtWxcu8/YUzZF9+L94go1Ai
- K/+y6RYdA2KqDqNreH7ZyA2/lKT4Y4oFKw/nGfA=
-X-Google-Smtp-Source: ABdhPJwk21KU1klLs4pYnPOPgpXaJSial8OghcGwbfJeYDt/kG3Xb2Lx+UxjaPcp7ecwerwAvAc8mh0D3usKG8EzVoQ=
-X-Received: by 2002:adf:eb43:: with SMTP id u3mr43883874wrn.83.1626885035777; 
- Wed, 21 Jul 2021 09:30:35 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=nQO0vUaJebZ8yUobOfxAEXw8DG1tZACsGQaT/ABF1rM=;
+ b=LxKwC7p3pVw2Z0xU7vAvwV+rmOwmPaEr4qNi7rTCpetUV8n48wc+9t+Ud/FuA8n1H+
+ zFbHgIWKY4u4szCsYEZ0BMqzR8J8aRre3xZrMmln/1E9UbzyF9WeRnma+1tt9i+Mbn1L
+ 1x3aj1X7tIFq6p365Uim00B+hzbR7u665b0ozTMFCWDFkjUMe1kS0c+Oabou6ehqAaLa
+ rolgkXoPN1MPcGWkB+YExpeAq2MWOHAFFVHOPlTvsI6yhzRVlm+kmzndaVOJ4IorHz1q
+ aFB7DSD7rPocyuLVzBAJG96wSuJiJO+4Ho/KPLUlmts3eW7JdMK0Ma4yUzkXkWVyMwVl
+ H9+A==
+X-Gm-Message-State: AOAM532bxNk19mCHg1xES9haydQJvattUIhUaWt0/VYlwborsV+nngg/
+ Dg4oxyC9cHzXR3WO3VCbS+d5sw==
+X-Google-Smtp-Source: ABdhPJwRK7tf/HXiZC/QWXzBpX9EOm/2GFlAF4mJriq8sWZ7kI/u9d+AVN8PggUMpsc3+UygJ5kzSQ==
+X-Received: by 2002:adf:e488:: with SMTP id i8mr44097592wrm.285.1626885801663; 
+ Wed, 21 Jul 2021 09:43:21 -0700 (PDT)
+Received: from maple.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net.
+ [80.7.220.175])
+ by smtp.gmail.com with ESMTPSA id j16sm27353747wrw.62.2021.07.21.09.43.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 21 Jul 2021 09:43:20 -0700 (PDT)
+Date: Wed, 21 Jul 2021 17:43:19 +0100
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: Marek Vasut <marex@denx.de>
+Subject: Re: [PATCH] backlight: pwm_bl: Avoid backlight flicker if backlight
+ control GPIO is input
+Message-ID: <20210721164319.uaf4qyr62dnktadv@maple.lan>
+References: <20210718211415.143709-1-marex@denx.de>
+ <20210719112202.4fvmn57ibgy3yesa@maple.lan>
+ <bbaad78e-91c7-0787-fa72-b5cfabcc6dbd@denx.de>
+ <20210721104914.4difos6w3ysjelnv@maple.lan>
+ <fee1ad9e-ae70-1644-5444-6c894473b48e@denx.de>
 MIME-Version: 1.0
-References: <20210720150716.1213775-1-robdclark@gmail.com>
- <60ffb6f3-e932-d9af-3b90-81adf0c15250@gmail.com>
- <CAF6AEGtOW3EjZWo36ij8U1om=gAqvg8CSkJJq2GkyHFGWUH4kQ@mail.gmail.com>
- <CAKMK7uF1=Y6_9znGoWG8GrteXBBRmyW8C3bFE+eJQqOj0A1buA@mail.gmail.com>
- <CAF6AEGsOVPdMkXwU9C+nDfQpPThveJ2A0jbXi43RRkkJKtnz3w@mail.gmail.com>
- <CAKMK7uHMXFqic=9APJrSf6totB8nGZTDe4x8+sv-drmV4Q+4Bg@mail.gmail.com>
-In-Reply-To: <CAKMK7uHMXFqic=9APJrSf6totB8nGZTDe4x8+sv-drmV4Q+4Bg@mail.gmail.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Wed, 21 Jul 2021 09:34:43 -0700
-Message-ID: <CAF6AEGsKoucxt4a2pcdQM9+L0+YU-6TcAt8eF=3ur169646Jhw@mail.gmail.com>
-Subject: Re: [Linaro-mm-sig] [PATCH] drm/msm: Add fence->wait() op
-To: Daniel Vetter <daniel@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <fee1ad9e-ae70-1644-5444-6c894473b48e@denx.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,254 +73,128 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- open list <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Sean Paul <sean@poorly.run>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <freedreno@lists.freedesktop.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
+Cc: linux-pwm@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Thierry Reding <treding@nvidia.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 21, 2021 at 12:59 AM Daniel Vetter <daniel@ffwll.ch> wrote:
->
-> On Wed, Jul 21, 2021 at 12:32 AM Rob Clark <robdclark@gmail.com> wrote:
-> >
-> > On Tue, Jul 20, 2021 at 1:55 PM Daniel Vetter <daniel@ffwll.ch> wrote:
-> > >
-> > > On Tue, Jul 20, 2021 at 8:26 PM Rob Clark <robdclark@gmail.com> wrote=
-:
-> > > >
-> > > > On Tue, Jul 20, 2021 at 11:03 AM Christian K=C3=B6nig
-> > > > <ckoenig.leichtzumerken@gmail.com> wrote:
-> > > > >
-> > > > > Hi Rob,
-> > > > >
-> > > > > Am 20.07.21 um 17:07 schrieb Rob Clark:
-> > > > > > From: Rob Clark <robdclark@chromium.org>
-> > > > > >
-> > > > > > Somehow we had neither ->wait() nor dma_fence_signal() calls, a=
-nd no
-> > > > > > one noticed.  Oops.
-> > > > >
-> > > > >
-> > > > > I'm not sure if that is a good idea.
-> > > > >
-> > > > > The dma_fence->wait() callback is pretty much deprecated and shou=
-ld not
-> > > > > be used any more.
-> > > > >
-> > > > > What exactly do you need that for?
-> > > >
-> > > > Well, the alternative is to track the set of fences which have
-> > > > signalling enabled, and then figure out which ones to signal, which
-> > > > seems like a lot more work, vs just re-purposing the wait
-> > > > implementation we already have for non-dma_fence cases ;-)
-> > > >
-> > > > Why is the ->wait() callback (pretty much) deprecated?
-> > >
-> > > Because if you need it that means for your driver dma_fence_add_cb is
-> > > broken, which means a _lot_ of things don't work. Like dma_buf poll
-> > > (compositors have patches to start using that), and I think
-> > > drm/scheduler also becomes rather unhappy.
-> >
-> > I'm starting to page back in how this works.. fence cb's aren't broken
-> > (which is also why dma_fence_wait() was not completely broken),
-> > because in retire_submits() we call
-> > dma_fence_is_signaled(submit->hw_fence).
-> >
-> > But the reason that the custom wait function cleans up a tiny bit of
-> > jank is that the wait_queue_head_t gets signaled earlier, before we
-> > start iterating the submits and doing all that retire_submit() stuff
-> > (unpin/unref bo's, etc).  I suppose I could just split things up to
-> > call dma_fence_signal() earlier, and *then* do the retire_submits()
-> > stuff.
->
-> Yeah reducing the latency there sounds like a good idea.
-> -Daniel
->
+On Wed, Jul 21, 2021 at 05:09:57PM +0200, Marek Vasut wrote:
+> On 7/21/21 12:49 PM, Daniel Thompson wrote:
+> > > > However, on the basis of making things less fragile, I think the
+> > > > underlying problem here is the assumption that it is safe to modify
+> > > > enable_gpio before the driver has imposed state upon the PWM (this
+> > > > assumption has always been made and, in addition to systems where the BL
+> > > > has a phandle will also risks flicker problems on systems where
+> > > > power_pwm_on_delay is not zero).
+> > > 
+> > > It is safe to modify the GPIO into defined state, but that defined state is
+> > > not always out/enabled, that defined state depends on the hardware.
+> > 
+> > It is only safe to do this once we know what the initial value should be
+> > and I'm not sure that value can comes exclusively from reading the pin.
+> 
+> I agree, it is far from perfect, but so is the current code.
 
-Hmm, no, turns out that isn't the problem.. or, well, it is probably a
-good idea to call drm_fence_signal() earlier.  But it seems like
-waking up from wait_event_* is faster than wake_up_state(wait->task,
-TASK_NORMAL).  I suppose the wake_up_state() approach still needs for
-the scheduler to get around to schedule the runnable task.
+Agreed. Current handling of enable pin isn't right.
 
-So for now, I'm going back to my own wait function (plus earlier
-drm_fence_signal())
 
-Before removing dma_fence_opps::wait(), I guess we want to re-think
-dma_fence_default_wait().. but I think that would require a
-dma_fence_context base class (rather than just a raw integer).
+> However, see below regarding the floating backlight enable pin.
+> 
+> > > > This patch does not change the assumption that we can configure the
+> > > > GPIO before we modify the PWM state. This means it won't fix the problem
+> > > > for cases there the pin is HiZ by default but whose GPIOD_ASIS state is
+> > > > neither input nor output.
+> > > 
+> > > That is correct, for pin that is floating, we lost. But then I would argue
+> > > that if your backlight-enable GPIO is floating, the hardware is buggy, I
+> > > would expect some pull resistor to keep the backlight off on power on on
+> > > that GPIO.
+> > 
+> > I didn't say that the pin was floating. I said that the pin was in a HiZ
+> > state meaning it could still be subject to pull up/down.
+> > 
+> > However there are cases, such as when the regulator is off, where I
+> > think it is entirely legitimate for the enable pin to be floating. The
+> > current driver does the wrong thing here if the pin is set as input
+> > since if the regulator is off the initial enable_gpio value should be 0.
+> 
+> Oh, right, that's a valid point.
+> 
+> So if the pin is input, we can basically toss a coin.
 
-BR,
--R
+I don't think it is quite as bad as that: if the PWM and regulator
+are enabled then it is not okay for this pin to be floating.
 
-> >
-> > BR,
-> > -R
-> >
-> > > It essentially exists only for old drivers where ->enable_signalling
-> > > is unreliable and we paper over that with a retry loop in ->wait and
-> > > pray no one notices that it's too butchered. The proper fix is to hav=
-e
-> > > a driver thread to guarantee that ->enable_signalling works reliable,
-> > > so you don't need a ->wait.
-> > >
-> > > Can you type up a kerneldoc patch for dma_fence_ops->wait to hammer
-> > > this in please?
-> > > -Daniel
-> > >
-> > > >
-> > > > BR,
-> > > > -R
-> > > >
-> > > > > Regards,
-> > > > > Christian.
-> > > > >
-> > > > > >
-> > > > > > Note that this removes the !timeout case, which has not been us=
-ed in
-> > > > > > a long time.
-> > > > >
-> > > > >
-> > > > > >
-> > > > > > Signed-off-by: Rob Clark <robdclark@chromium.org>
-> > > > > > ---
-> > > > > >   drivers/gpu/drm/msm/msm_fence.c | 59 +++++++++++++++++++-----=
----------
-> > > > > >   1 file changed, 34 insertions(+), 25 deletions(-)
-> > > > > >
-> > > > > > diff --git a/drivers/gpu/drm/msm/msm_fence.c b/drivers/gpu/drm/=
-msm/msm_fence.c
-> > > > > > index cd59a5918038..8ee96b90ded6 100644
-> > > > > > --- a/drivers/gpu/drm/msm/msm_fence.c
-> > > > > > +++ b/drivers/gpu/drm/msm/msm_fence.c
-> > > > > > @@ -38,11 +38,10 @@ static inline bool fence_completed(struct m=
-sm_fence_context *fctx, uint32_t fenc
-> > > > > >       return (int32_t)(fctx->completed_fence - fence) >=3D 0;
-> > > > > >   }
-> > > > > >
-> > > > > > -/* legacy path for WAIT_FENCE ioctl: */
-> > > > > > -int msm_wait_fence(struct msm_fence_context *fctx, uint32_t fe=
-nce,
-> > > > > > -             ktime_t *timeout, bool interruptible)
-> > > > > > +static signed long wait_fence(struct msm_fence_context *fctx, =
-uint32_t fence,
-> > > > > > +             signed long remaining_jiffies, bool interruptible=
-)
-> > > > > >   {
-> > > > > > -     int ret;
-> > > > > > +     signed long ret;
-> > > > > >
-> > > > > >       if (fence > fctx->last_fence) {
-> > > > > >               DRM_ERROR_RATELIMITED("%s: waiting on invalid fen=
-ce: %u (of %u)\n",
-> > > > > > @@ -50,33 +49,34 @@ int msm_wait_fence(struct msm_fence_context=
- *fctx, uint32_t fence,
-> > > > > >               return -EINVAL;
-> > > > > >       }
-> > > > > >
-> > > > > > -     if (!timeout) {
-> > > > > > -             /* no-wait: */
-> > > > > > -             ret =3D fence_completed(fctx, fence) ? 0 : -EBUSY=
-;
-> > > > > > +     if (interruptible) {
-> > > > > > +             ret =3D wait_event_interruptible_timeout(fctx->ev=
-ent,
-> > > > > > +                     fence_completed(fctx, fence),
-> > > > > > +                     remaining_jiffies);
-> > > > > >       } else {
-> > > > > > -             unsigned long remaining_jiffies =3D timeout_to_ji=
-ffies(timeout);
-> > > > > > -
-> > > > > > -             if (interruptible)
-> > > > > > -                     ret =3D wait_event_interruptible_timeout(=
-fctx->event,
-> > > > > > -                             fence_completed(fctx, fence),
-> > > > > > -                             remaining_jiffies);
-> > > > > > -             else
-> > > > > > -                     ret =3D wait_event_timeout(fctx->event,
-> > > > > > -                             fence_completed(fctx, fence),
-> > > > > > -                             remaining_jiffies);
-> > > > > > -
-> > > > > > -             if (ret =3D=3D 0) {
-> > > > > > -                     DBG("timeout waiting for fence: %u (compl=
-eted: %u)",
-> > > > > > -                                     fence, fctx->completed_fe=
-nce);
-> > > > > > -                     ret =3D -ETIMEDOUT;
-> > > > > > -             } else if (ret !=3D -ERESTARTSYS) {
-> > > > > > -                     ret =3D 0;
-> > > > > > -             }
-> > > > > > +             ret =3D wait_event_timeout(fctx->event,
-> > > > > > +                     fence_completed(fctx, fence),
-> > > > > > +                     remaining_jiffies);
-> > > > > > +     }
-> > > > > > +
-> > > > > > +     if (ret =3D=3D 0) {
-> > > > > > +             DBG("timeout waiting for fence: %u (completed: %u=
-)",
-> > > > > > +                             fence, fctx->completed_fence);
-> > > > > > +             ret =3D -ETIMEDOUT;
-> > > > > > +     } else if (ret !=3D -ERESTARTSYS) {
-> > > > > > +             ret =3D 0;
-> > > > > >       }
-> > > > > >
-> > > > > >       return ret;
-> > > > > >   }
-> > > > > >
-> > > > > > +/* legacy path for WAIT_FENCE ioctl: */
-> > > > > > +int msm_wait_fence(struct msm_fence_context *fctx, uint32_t fe=
-nce,
-> > > > > > +             ktime_t *timeout, bool interruptible)
-> > > > > > +{
-> > > > > > +     return wait_fence(fctx, fence, timeout_to_jiffies(timeout=
-), interruptible);
-> > > > > > +}
-> > > > > > +
-> > > > > >   /* called from workqueue */
-> > > > > >   void msm_update_fence(struct msm_fence_context *fctx, uint32_=
-t fence)
-> > > > > >   {
-> > > > > > @@ -114,10 +114,19 @@ static bool msm_fence_signaled(struct dma=
-_fence *fence)
-> > > > > >       return fence_completed(f->fctx, f->base.seqno);
-> > > > > >   }
-> > > > > >
-> > > > > > +static signed long msm_fence_wait(struct dma_fence *fence, boo=
-l intr,
-> > > > > > +             signed long timeout)
-> > > > > > +{
-> > > > > > +     struct msm_fence *f =3D to_msm_fence(fence);
-> > > > > > +
-> > > > > > +     return wait_fence(f->fctx, fence->seqno, timeout, intr);
-> > > > > > +}
-> > > > > > +
-> > > > > >   static const struct dma_fence_ops msm_fence_ops =3D {
-> > > > > >       .get_driver_name =3D msm_fence_get_driver_name,
-> > > > > >       .get_timeline_name =3D msm_fence_get_timeline_name,
-> > > > > >       .signaled =3D msm_fence_signaled,
-> > > > > > +     .wait =3D msm_fence_wait,
-> > > > > >   };
-> > > > > >
-> > > > > >   struct dma_fence *
-> > > > >
-> > >
-> > >
-> > >
-> > > --
-> > > Daniel Vetter
-> > > Software Engineer, Intel Corporation
-> > > http://blog.ffwll.ch
->
->
->
-> --
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
+
+> > [...]
+> > I think a reasonably elegant approach can be reached by making
+> > pwm_backlight_initial_power_state() responsible for ensuring enable_gpio
+> > matches the observed hardware state (taking into account both the pin
+> > state and the regulator). I think this will fix both your flicker
+> > concerns whilst permitting the legitimate cases for a floating pin.
+> > 
+> > Something like:
+> 
+> I think we are getting closer, but there is extra problem to this.
+> 
+> > diff --git a/drivers/video/backlight/pwm_bl.c b/drivers/video/backlight/pwm_bl.c
+> > index e48fded3e414..8d8959a70e44 100644
+> > --- a/drivers/video/backlight/pwm_bl.c
+> > +++ b/drivers/video/backlight/pwm_bl.c
+> > @@ -409,6 +409,33 @@ static bool pwm_backlight_is_linear(struct platform_pwm_backlight_data *data)
+> >   static int pwm_backlight_initial_power_state(const struct pwm_bl_data *pb)
+> >   {
+> >   	struct device_node *node = pb->dev->of_node;
+> > +	bool active = true;
+> > +
+> > +	/*
+> > +	 * If the enable GPIO is present, observable (either as input
+> > +	 * or output) and off then the backlight is not currently active.
+> > +	 * */
+> > +	if (pb->enable_gpio && gpiod_get_value_cansleep(pb->enable_gpio) == 0)
+> > +		active = false;
+> 
+> This will fail on iMX GPIO controller, where if the GPIO is output, you can
+> read its state, but by default that state is what you wrote into the GPIO
+> output value register, not what is the actual value on the pin (i.e.
+> consider you have a strong pull resistor that overpowers the driver).
+> 
+> To have a GPIO which is output and sample the actual pin value, you have to
+> tweak the pinmux and enable the SION bit, then you get the actual value. But
+> that is specific to the iMX GPIO controller/pinmux.
+
+You're describing a situation where we own a GPIO output pin and the
+value we believe we are driving into the pin is not being achieved due
+to some additional factor. Do we need to care about that? It sounds like
+the backlight driver won't work properly in this case since whatever
+value we set the enable_gpio then it will stay at the same value.
+
+
+> > [...]
+> > @@ -486,18 +500,6 @@ static int pwm_backlight_probe(struct platform_device *pdev)
+> >   		goto err_alloc;
+> >   	}
+> > -	/*
+> > -	 * If the GPIO is not known to be already configured as output, that
+> > -	 * is, if gpiod_get_direction returns either 1 or -EINVAL, change the
+> > -	 * direction to output and set the GPIO as active.
+> > -	 * Do not force the GPIO to active when it was already output as it
+> > -	 * could cause backlight flickering or we would enable the backlight too
+> > -	 * early. Leave the decision of the initial backlight state for later.
+> > -	 */
+> > -	if (pb->enable_gpio &&
+> > -	    gpiod_get_direction(pb->enable_gpio) != 0)
+> > -		gpiod_direction_output(pb->enable_gpio, 1);
+> 
+> pwm_backlight_initial_power_state() is still called after pwm_apply_state()
+> in pwm_backlight_probe(), so that might still be too late, no ?
+
+The initial pwm_apply_state() is essentially a nop or, perhaps, a sanity
+check if you prefer to think if it that way.
+
+It can change the PWM period in some (non-DT) cases but only if the PWM
+is not already running... and the change of period should not start it
+running.
+
+
+Daniel.
