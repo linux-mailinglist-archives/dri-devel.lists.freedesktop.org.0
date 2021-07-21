@@ -1,60 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C18053D162A
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 20:22:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 21CAF3D166C
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 20:32:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E7F666E837;
-	Wed, 21 Jul 2021 18:22:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C82556E87C;
+	Wed, 21 Jul 2021 18:32:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com
- [IPv6:2607:f8b0:4864:20::b29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABAAF6E837
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 18:22:33 +0000 (UTC)
-Received: by mail-yb1-xb29.google.com with SMTP id c204so810036ybb.4
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 11:22:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=eQ8+5SOm7RD41JIBKv2i9SZfRDTZQZJutSNXbTOGlUE=;
- b=dYdXcMs8TI2NbKf8Vyq+1+L3QbdPTQ734Gqr2oYbQ0rlgpAN8RBYyVFG9jZeo6cmiX
- gslQ4A6md1ZsthfZ77vyDQRLSfD2P/FTkgqMDXQmliePhAeANmI3TJCF/otDV+xNYjCL
- TeWTxT/qpEx9PkFchSMgMRReiMaZlswNRptNMBn0J+s3lldvwMmtzjNvPUA5b9nCKmw9
- oOV3TgG9bg8CtaZyaJGAPGvPhCRZxsiHVQs6Km0i9n3IwGBuUJQGcDbFBpQyI5d7UmY1
- tATHv6Rl35zg3cFKR150AVLXl6kutqiQdAhRGVkqwXs50XQQkCD6yC3lrWqzVgUvncB/
- 1vXQ==
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com
+ [IPv6:2a00:1450:4864:20::336])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B04A6E422
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 18:32:36 +0000 (UTC)
+Received: by mail-wm1-x336.google.com with SMTP id w13so1879792wmc.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 11:32:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Z+xrOQjci7T555wtcivzXvmVsG6vbbTs0dsfj/lsoYw=;
+ b=Wi3f4Po4V92xvYd32CJwO+Lxc//0ZQe8rfHpZ4UQ5W7WBtHJUFWAM7KKNaqXlq03N6
+ OdIceLMAGyNMtFoyKxE+gssJ8UuPt/GguOLME5uV5DkYweP1V4a4pb0l1OT1oRaJZ9fL
+ a33iVb3Wz+e/16q/1GfBSXcVhIejMSmIXchFc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=eQ8+5SOm7RD41JIBKv2i9SZfRDTZQZJutSNXbTOGlUE=;
- b=sP2/nhJPpVWFrUP0FYj4l5QGjrD3h5rE7t372dYJ8ShHqA452GxEmX+ebkerzgsCgY
- X9S+2JbdLj+lQHbd/jXiB5WlLYGUdg2d8RKidSe/sLskWqUPrhZEcHFpwoMq6mu9Woff
- l2B2xaZJMKsWTgoxK/qphSiLR2sQ8i3LzuDBqjOkuS3Y8aaTP0v39eNXgHMn5hBefEdX
- Si2PMiJZfEPK8+og3Vq8UgKUuoEuxWXRV/0LTMkVEfXY6CuAGM3qZjy2rNwKnqbIOG8g
- CfHNE2jmmUcntSwNL56ywLf9LTeHbdnidEiMjA7f9ClU73BppzQtEWluB96M/SWwiZzh
- dQ4w==
-X-Gm-Message-State: AOAM533IuwjyB9WoixOBxgFiyqg0T8HHPh9OUmMTVYwdJV9aEQ/5GjSw
- ermwWXfBtwZoKQAspNDcgHtwdZlOTl7NE3ATVJt6Cg==
-X-Google-Smtp-Source: ABdhPJzeHc+27EvRx/t+Iw3n4JN9umUjZsKSRaZxQEwgaRAu8Xpg6RwGUG09hCz9PiySd2iCV3Gc1PQBllKyk/rLLGA=
-X-Received: by 2002:a25:aa69:: with SMTP id s96mr48205531ybi.241.1626891752764; 
- Wed, 21 Jul 2021 11:22:32 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Z+xrOQjci7T555wtcivzXvmVsG6vbbTs0dsfj/lsoYw=;
+ b=OWKE/3M8PF9hUQh4L0zBngVs7u0HijsqDXJB+6C+Q0pzd/wA3HJz+twvGtkiAexOCp
+ YmxOf0IgrzdFR+N5pv9JhpyX1ay3sy/aqsBUC8jBnQ3GBfo+Sg+iRhOz4SVdB6pc9rCa
+ sAkUC112lGWZgyCs52a1ex8PnxIavGrD9Hqc8X0pz0sqp8j6GoZOIoFrgYpQbgBEtDAj
+ kwIdVFUtXpbfGlK9TXpa9baQcVujD7qUIRKraWlq6onr7ZE6IettMym0ksZFUfkR409J
+ 8Cnkjd0AeICZzpCtHS28dD1mjs891BvmJYdRqvWNlnwc6Q2FMXrmvQysqM3WR7zFjfLB
+ Yx1Q==
+X-Gm-Message-State: AOAM530DaS3FLyBzhibfz35mIXMu7Ldjq3t+M2Jx5spsdHezWnAYqxXh
+ C7EV6zZoI9jQcuj7X3UEp52lr66yjNJmMA==
+X-Google-Smtp-Source: ABdhPJw3RJ5eGokh1f+W2z2CpEnBgzz+pg1IRQs9lI7ekE9DRZSpV1HiWGxnwoXSyTCiRYfG07/J8g==
+X-Received: by 2002:a05:600c:3581:: with SMTP id
+ p1mr5501170wmq.150.1626892355042; 
+ Wed, 21 Jul 2021 11:32:35 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id g18sm22674088wmk.37.2021.07.21.11.32.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 21 Jul 2021 11:32:34 -0700 (PDT)
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+To: DRI Development <dri-devel@lists.freedesktop.org>
+Subject: [PATCH] drm/i915: Ditch i915 globals shrink infrastructure
+Date: Wed, 21 Jul 2021 20:32:29 +0200
+Message-Id: <20210721183229.4136488-1-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-References: <20210716141426.1904528-1-jason@jlekstrand.net>
- <20210716141426.1904528-3-jason@jlekstrand.net>
- <CAM0jSHME+vRSDpTPAO74Z+xwjofZB4i1pbFH2Yvn+eeGYL-aqA@mail.gmail.com>
- <CAOFGe97RoL1+L+i5Qgoipnv=ta8isPiAWYhfYncF1KYBX+8t9g@mail.gmail.com>
- <CAM0jSHM6LNLbEQNS3EQmMU6-1XsiopZtUxmGEokzrcHn5SsfmQ@mail.gmail.com>
-In-Reply-To: <CAM0jSHM6LNLbEQNS3EQmMU6-1XsiopZtUxmGEokzrcHn5SsfmQ@mail.gmail.com>
-From: Jason Ekstrand <jason@jlekstrand.net>
-Date: Wed, 21 Jul 2021 13:22:21 -0500
-Message-ID: <CAOFGe97kHx3ESY3JaX=FPChCMzcvJ8q9fKFOkTxcpfnpYazhzw@mail.gmail.com>
-Subject: Re: [PATCH 2/7] drm/i915/gem: Refactor placement setup for
- i915_gem_object_create* (v2)
-To: Matthew Auld <matthew.william.auld@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,192 +63,372 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Matthew Auld <matthew.auld@intel.com>,
- ML dri-devel <dri-devel@lists.freedesktop.org>
+Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Jason Ekstrand <jason@jlekstrand.net>, Daniel Vetter <daniel.vetter@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 21, 2021 at 3:32 AM Matthew Auld
-<matthew.william.auld@gmail.com> wrote:
->
-> On Tue, 20 Jul 2021 at 23:07, Jason Ekstrand <jason@jlekstrand.net> wrote:
-> >
-> > On Mon, Jul 19, 2021 at 3:18 AM Matthew Auld
-> > <matthew.william.auld@gmail.com> wrote:
-> > >
-> > > On Fri, 16 Jul 2021 at 15:14, Jason Ekstrand <jason@jlekstrand.net> wrote:
-> > > >
-> > > > Since we don't allow changing the set of regions after creation, we can
-> > > > make ext_set_placements() build up the region set directly in the
-> > > > create_ext and assign it to the object later.  This is similar to what
-> > > > we did for contexts with the proto-context only simpler because there's
-> > > > no funny object shuffling.  This will be used in the next patch to allow
-> > > > us to de-duplicate a bunch of code.  Also, since we know the maximum
-> > > > number of regions up-front, we can use a fixed-size temporary array for
-> > > > the regions.  This simplifies memory management a bit for this new
-> > > > delayed approach.
-> > > >
-> > > > v2 (Matthew Auld):
-> > > >  - Get rid of MAX_N_PLACEMENTS
-> > > >  - Drop kfree(placements) from set_placements()
-> > > >
-> > > > Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
-> > > > Cc: Matthew Auld <matthew.auld@intel.com>
-> > > > ---
-> > > >  drivers/gpu/drm/i915/gem/i915_gem_create.c | 81 ++++++++++++----------
-> > > >  1 file changed, 45 insertions(+), 36 deletions(-)
-> > > >
-> > > > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_create.c b/drivers/gpu/drm/i915/gem/i915_gem_create.c
-> > > > index 51f92e4b1a69d..5766749a449c0 100644
-> > > > --- a/drivers/gpu/drm/i915/gem/i915_gem_create.c
-> > > > +++ b/drivers/gpu/drm/i915/gem/i915_gem_create.c
-> > > > @@ -27,10 +27,13 @@ static u32 object_max_page_size(struct drm_i915_gem_object *obj)
-> > > >         return max_page_size;
-> > > >  }
-> > > >
-> > > > -static void object_set_placements(struct drm_i915_gem_object *obj,
-> > > > -                                 struct intel_memory_region **placements,
-> > > > -                                 unsigned int n_placements)
-> > > > +static int object_set_placements(struct drm_i915_gem_object *obj,
-> > > > +                                struct intel_memory_region **placements,
-> > > > +                                unsigned int n_placements)
-> > > >  {
-> > > > +       struct intel_memory_region **arr;
-> > > > +       unsigned int i;
-> > > > +
-> > > >         GEM_BUG_ON(!n_placements);
-> > > >
-> > > >         /*
-> > > > @@ -44,9 +47,20 @@ static void object_set_placements(struct drm_i915_gem_object *obj,
-> > > >                 obj->mm.placements = &i915->mm.regions[mr->id];
-> > > >                 obj->mm.n_placements = 1;
-> > > >         } else {
-> > > > -               obj->mm.placements = placements;
-> > > > +               arr = kmalloc_array(n_placements,
-> > > > +                                   sizeof(struct intel_memory_region *),
-> > > > +                                   GFP_KERNEL);
-> > > > +               if (!arr)
-> > > > +                       return -ENOMEM;
-> > > > +
-> > > > +               for (i = 0; i < n_placements; i++)
-> > > > +                       arr[i] = placements[i];
-> > > > +
-> > > > +               obj->mm.placements = arr;
-> > > >                 obj->mm.n_placements = n_placements;
-> > > >         }
-> > > > +
-> > > > +       return 0;
-> > > >  }
-> > > >
-> > > >  static int i915_gem_publish(struct drm_i915_gem_object *obj,
-> > > > @@ -148,7 +162,9 @@ i915_gem_dumb_create(struct drm_file *file,
-> > > >                 return -ENOMEM;
-> > > >
-> > > >         mr = intel_memory_region_by_type(to_i915(dev), mem_type);
-> > > > -       object_set_placements(obj, &mr, 1);
-> > > > +       ret = object_set_placements(obj, &mr, 1);
-> > > > +       if (ret)
-> > > > +               goto object_free;
-> > > >
-> > > >         ret = i915_gem_setup(obj, args->size);
-> > > >         if (ret)
-> > > > @@ -184,7 +200,9 @@ i915_gem_create_ioctl(struct drm_device *dev, void *data,
-> > > >                 return -ENOMEM;
-> > > >
-> > > >         mr = intel_memory_region_by_type(i915, INTEL_MEMORY_SYSTEM);
-> > > > -       object_set_placements(obj, &mr, 1);
-> > > > +       ret = object_set_placements(obj, &mr, 1);
-> > > > +       if (ret)
-> > > > +               goto object_free;
-> > > >
-> > > >         ret = i915_gem_setup(obj, args->size);
-> > > >         if (ret)
-> > > > @@ -199,7 +217,8 @@ i915_gem_create_ioctl(struct drm_device *dev, void *data,
-> > > >
-> > > >  struct create_ext {
-> > > >         struct drm_i915_private *i915;
-> > > > -       struct drm_i915_gem_object *vanilla_object;
-> > > > +       struct intel_memory_region *placements[INTEL_REGION_UNKNOWN];
-> > > > +       unsigned int n_placements;
-> > > >  };
-> > > >
-> > > >  static void repr_placements(char *buf, size_t size,
-> > > > @@ -230,8 +249,7 @@ static int set_placements(struct drm_i915_gem_create_ext_memory_regions *args,
-> > > >         struct drm_i915_private *i915 = ext_data->i915;
-> > > >         struct drm_i915_gem_memory_class_instance __user *uregions =
-> > > >                 u64_to_user_ptr(args->regions);
-> > > > -       struct drm_i915_gem_object *obj = ext_data->vanilla_object;
-> > > > -       struct intel_memory_region **placements;
-> > > > +       struct intel_memory_region *placements[INTEL_REGION_UNKNOWN];
-> > > >         u32 mask;
-> > > >         int i, ret = 0;
-> > > >
-> > > > @@ -245,6 +263,8 @@ static int set_placements(struct drm_i915_gem_create_ext_memory_regions *args,
-> > > >                 ret = -EINVAL;
-> > > >         }
-> > > >
-> > > > +       BUILD_BUG_ON(ARRAY_SIZE(i915->mm.regions) != ARRAY_SIZE(placements));
-> > > > +       BUILD_BUG_ON(ARRAY_SIZE(ext_data->placements) != ARRAY_SIZE(placements));
-> > > >         if (args->num_regions > ARRAY_SIZE(i915->mm.regions)) {
-> > > >                 drm_dbg(&i915->drm, "num_regions is too large\n");
-> > > >                 ret = -EINVAL;
-> > > > @@ -253,21 +273,13 @@ static int set_placements(struct drm_i915_gem_create_ext_memory_regions *args,
-> > > >         if (ret)
-> > > >                 return ret;
-> > > >
-> > > > -       placements = kmalloc_array(args->num_regions,
-> > > > -                                  sizeof(struct intel_memory_region *),
-> > > > -                                  GFP_KERNEL);
-> > > > -       if (!placements)
-> > > > -               return -ENOMEM;
-> > > > -
-> > > >         mask = 0;
-> > > >         for (i = 0; i < args->num_regions; i++) {
-> > > >                 struct drm_i915_gem_memory_class_instance region;
-> > > >                 struct intel_memory_region *mr;
-> > > >
-> > > > -               if (copy_from_user(&region, uregions, sizeof(region))) {
-> > > > -                       ret = -EFAULT;
-> > > > -                       goto out_free;
-> > > > -               }
-> > > > +               if (copy_from_user(&region, uregions, sizeof(region)))
-> > > > +                       return -EFAULT;
-> > > >
-> > > >                 mr = intel_memory_region_lookup(i915,
-> > > >                                                 region.memory_class,
-> > > > @@ -293,14 +305,13 @@ static int set_placements(struct drm_i915_gem_create_ext_memory_regions *args,
-> > > >                 ++uregions;
-> > > >         }
-> > > >
-> > > > -       if (obj->mm.placements) {
-> > > > +       if (ext_data->n_placements) {
-> > > >                 ret = -EINVAL;
-> > > >                 goto out_dump;
-> > > >         }
-> > > >
-> > > > -       object_set_placements(obj, placements, args->num_regions);
-> > > > -       if (args->num_regions == 1)
-> > > > -               kfree(placements);
-> > > > +       for (i = 0; i < args->num_regions; i++)
-> > > > +               ext_data->placements[i] = placements[i];
-> > >
-> > > I guess here we forget to set the ext_data->n_placements, which would
-> > > explain the CI failure.
-> >
-> > What CI failure are you referring to?
->
-> Pre-merge results for this series:
->
-> igt@gem_create@create-ext-placement-sanity-check:
->
-> shard-skl: PASS -> FAIL +1 similar issue
-> shard-apl: NOTRUN -> FAIL
-> shard-glk: PASS -> FAIL
-> shard-iclb: PASS -> FAIL
-> shard-kbl: PASS -> FAIL
-> shard-tglb: NOTRUN -> FAIL
+This essentially reverts
 
-Yup.  That was it.  Thanks!  Not sure why I didn't notice those fails....
+commit 84a1074920523430f9dc30ff907f4801b4820072
+Author: Chris Wilson <chris@chris-wilson.co.uk>
+Date:   Wed Jan 24 11:36:08 2018 +0000
 
---Jason
+    drm/i915: Shrink the GEM kmem_caches upon idling
+
+mm/vmscan.c:do_shrink_slab() is a thing, if there's an issue with it
+then we need to fix that there, not hand-roll our own slab shrinking
+code in i915.
+
+Noticed while reviewing a patch set from Jason to fix up some issues
+in our i915_init() and i915_exit() module load/cleanup code. Now that
+i915_globals.c isn't any different than normal init/exit functions, we
+should convert them over to one unified table and remove
+i915_globals.[hc] entirely.
+
+Cc: David Airlie <airlied@linux.ie>
+Cc: Jason Ekstrand <jason@jlekstrand.net>
+Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+---
+ drivers/gpu/drm/i915/gem/i915_gem_context.c |  6 --
+ drivers/gpu/drm/i915/gem/i915_gem_object.c  |  6 --
+ drivers/gpu/drm/i915/gt/intel_context.c     |  6 --
+ drivers/gpu/drm/i915/gt/intel_gt_pm.c       |  4 -
+ drivers/gpu/drm/i915/i915_active.c          |  6 --
+ drivers/gpu/drm/i915/i915_globals.c         | 95 ---------------------
+ drivers/gpu/drm/i915/i915_globals.h         |  3 -
+ drivers/gpu/drm/i915/i915_request.c         |  7 --
+ drivers/gpu/drm/i915/i915_scheduler.c       |  7 --
+ drivers/gpu/drm/i915/i915_vma.c             |  6 --
+ 10 files changed, 146 deletions(-)
+
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+index 7d6f52d8a801..bf2a2319353a 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+@@ -2280,18 +2280,12 @@ i915_gem_engines_iter_next(struct i915_gem_engines_iter *it)
+ #include "selftests/i915_gem_context.c"
+ #endif
+ 
+-static void i915_global_gem_context_shrink(void)
+-{
+-	kmem_cache_shrink(global.slab_luts);
+-}
+-
+ static void i915_global_gem_context_exit(void)
+ {
+ 	kmem_cache_destroy(global.slab_luts);
+ }
+ 
+ static struct i915_global_gem_context global = { {
+-	.shrink = i915_global_gem_context_shrink,
+ 	.exit = i915_global_gem_context_exit,
+ } };
+ 
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.c b/drivers/gpu/drm/i915/gem/i915_gem_object.c
+index 9da7b288b7ed..5c21cff33199 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_object.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_object.c
+@@ -664,18 +664,12 @@ void i915_gem_init__objects(struct drm_i915_private *i915)
+ 	INIT_WORK(&i915->mm.free_work, __i915_gem_free_work);
+ }
+ 
+-static void i915_global_objects_shrink(void)
+-{
+-	kmem_cache_shrink(global.slab_objects);
+-}
+-
+ static void i915_global_objects_exit(void)
+ {
+ 	kmem_cache_destroy(global.slab_objects);
+ }
+ 
+ static struct i915_global_object global = { {
+-	.shrink = i915_global_objects_shrink,
+ 	.exit = i915_global_objects_exit,
+ } };
+ 
+diff --git a/drivers/gpu/drm/i915/gt/intel_context.c b/drivers/gpu/drm/i915/gt/intel_context.c
+index bd63813c8a80..c1338441cc1d 100644
+--- a/drivers/gpu/drm/i915/gt/intel_context.c
++++ b/drivers/gpu/drm/i915/gt/intel_context.c
+@@ -398,18 +398,12 @@ void intel_context_fini(struct intel_context *ce)
+ 	i915_active_fini(&ce->active);
+ }
+ 
+-static void i915_global_context_shrink(void)
+-{
+-	kmem_cache_shrink(global.slab_ce);
+-}
+-
+ static void i915_global_context_exit(void)
+ {
+ 	kmem_cache_destroy(global.slab_ce);
+ }
+ 
+ static struct i915_global_context global = { {
+-	.shrink = i915_global_context_shrink,
+ 	.exit = i915_global_context_exit,
+ } };
+ 
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt_pm.c b/drivers/gpu/drm/i915/gt/intel_gt_pm.c
+index aef3084e8b16..d86825437516 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt_pm.c
++++ b/drivers/gpu/drm/i915/gt/intel_gt_pm.c
+@@ -67,8 +67,6 @@ static int __gt_unpark(struct intel_wakeref *wf)
+ 
+ 	GT_TRACE(gt, "\n");
+ 
+-	i915_globals_unpark();
+-
+ 	/*
+ 	 * It seems that the DMC likes to transition between the DC states a lot
+ 	 * when there are no connected displays (no active power domains) during
+@@ -116,8 +114,6 @@ static int __gt_park(struct intel_wakeref *wf)
+ 	GEM_BUG_ON(!wakeref);
+ 	intel_display_power_put_async(i915, POWER_DOMAIN_GT_IRQ, wakeref);
+ 
+-	i915_globals_park();
+-
+ 	return 0;
+ }
+ 
+diff --git a/drivers/gpu/drm/i915/i915_active.c b/drivers/gpu/drm/i915/i915_active.c
+index b1aa1c482c32..91723123ae9f 100644
+--- a/drivers/gpu/drm/i915/i915_active.c
++++ b/drivers/gpu/drm/i915/i915_active.c
+@@ -1176,18 +1176,12 @@ struct i915_active *i915_active_create(void)
+ #include "selftests/i915_active.c"
+ #endif
+ 
+-static void i915_global_active_shrink(void)
+-{
+-	kmem_cache_shrink(global.slab_cache);
+-}
+-
+ static void i915_global_active_exit(void)
+ {
+ 	kmem_cache_destroy(global.slab_cache);
+ }
+ 
+ static struct i915_global_active global = { {
+-	.shrink = i915_global_active_shrink,
+ 	.exit = i915_global_active_exit,
+ } };
+ 
+diff --git a/drivers/gpu/drm/i915/i915_globals.c b/drivers/gpu/drm/i915/i915_globals.c
+index 77f1911c463b..7fe2e503897b 100644
+--- a/drivers/gpu/drm/i915/i915_globals.c
++++ b/drivers/gpu/drm/i915/i915_globals.c
+@@ -17,61 +17,8 @@
+ 
+ static LIST_HEAD(globals);
+ 
+-static atomic_t active;
+-static atomic_t epoch;
+-static struct park_work {
+-	struct delayed_work work;
+-	struct rcu_head rcu;
+-	unsigned long flags;
+-#define PENDING 0
+-	int epoch;
+-} park;
+-
+-static void i915_globals_shrink(void)
+-{
+-	struct i915_global *global;
+-
+-	/*
+-	 * kmem_cache_shrink() discards empty slabs and reorders partially
+-	 * filled slabs to prioritise allocating from the mostly full slabs,
+-	 * with the aim of reducing fragmentation.
+-	 */
+-	list_for_each_entry(global, &globals, link)
+-		global->shrink();
+-}
+-
+-static void __i915_globals_grace(struct rcu_head *rcu)
+-{
+-	/* Ratelimit parking as shrinking is quite slow */
+-	schedule_delayed_work(&park.work, round_jiffies_up_relative(2 * HZ));
+-}
+-
+-static void __i915_globals_queue_rcu(void)
+-{
+-	park.epoch = atomic_inc_return(&epoch);
+-	if (!atomic_read(&active)) {
+-		init_rcu_head(&park.rcu);
+-		call_rcu(&park.rcu, __i915_globals_grace);
+-	}
+-}
+-
+-static void __i915_globals_park(struct work_struct *work)
+-{
+-	destroy_rcu_head(&park.rcu);
+-
+-	/* Confirm nothing woke up in the last grace period */
+-	if (park.epoch != atomic_read(&epoch)) {
+-		__i915_globals_queue_rcu();
+-		return;
+-	}
+-
+-	clear_bit(PENDING, &park.flags);
+-	i915_globals_shrink();
+-}
+-
+ void __init i915_global_register(struct i915_global *global)
+ {
+-	GEM_BUG_ON(!global->shrink);
+ 	GEM_BUG_ON(!global->exit);
+ 
+ 	list_add_tail(&global->link, &globals);
+@@ -109,52 +56,10 @@ int __init i915_globals_init(void)
+ 		}
+ 	}
+ 
+-	INIT_DELAYED_WORK(&park.work, __i915_globals_park);
+ 	return 0;
+ }
+ 
+-void i915_globals_park(void)
+-{
+-	/*
+-	 * Defer shrinking the global slab caches (and other work) until
+-	 * after a RCU grace period has completed with no activity. This
+-	 * is to try and reduce the latency impact on the consumers caused
+-	 * by us shrinking the caches the same time as they are trying to
+-	 * allocate, with the assumption being that if we idle long enough
+-	 * for an RCU grace period to elapse since the last use, it is likely
+-	 * to be longer until we need the caches again.
+-	 */
+-	if (!atomic_dec_and_test(&active))
+-		return;
+-
+-	/* Queue cleanup after the next RCU grace period has freed slabs */
+-	if (!test_and_set_bit(PENDING, &park.flags))
+-		__i915_globals_queue_rcu();
+-}
+-
+-void i915_globals_unpark(void)
+-{
+-	atomic_inc(&epoch);
+-	atomic_inc(&active);
+-}
+-
+-static void __exit __i915_globals_flush(void)
+-{
+-	atomic_inc(&active); /* skip shrinking */
+-
+-	rcu_barrier(); /* wait for the work to be queued */
+-	flush_delayed_work(&park.work);
+-
+-	atomic_dec(&active);
+-}
+-
+ void __exit i915_globals_exit(void)
+ {
+-	GEM_BUG_ON(atomic_read(&active));
+-
+-	__i915_globals_flush();
+ 	__i915_globals_cleanup();
+-
+-	/* And ensure that our DESTROY_BY_RCU slabs are truly destroyed */
+-	rcu_barrier();
+ }
+diff --git a/drivers/gpu/drm/i915/i915_globals.h b/drivers/gpu/drm/i915/i915_globals.h
+index 2d199f411a4a..9e6b4fd07528 100644
+--- a/drivers/gpu/drm/i915/i915_globals.h
++++ b/drivers/gpu/drm/i915/i915_globals.h
+@@ -14,15 +14,12 @@ typedef void (*i915_global_func_t)(void);
+ struct i915_global {
+ 	struct list_head link;
+ 
+-	i915_global_func_t shrink;
+ 	i915_global_func_t exit;
+ };
+ 
+ void i915_global_register(struct i915_global *global);
+ 
+ int i915_globals_init(void);
+-void i915_globals_park(void);
+-void i915_globals_unpark(void);
+ void i915_globals_exit(void);
+ 
+ /* constructors */
+diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
+index 09ebea9a0090..d3de9f60e03a 100644
+--- a/drivers/gpu/drm/i915/i915_request.c
++++ b/drivers/gpu/drm/i915/i915_request.c
+@@ -2077,12 +2077,6 @@ void i915_request_show(struct drm_printer *m,
+ #include "selftests/i915_request.c"
+ #endif
+ 
+-static void i915_global_request_shrink(void)
+-{
+-	kmem_cache_shrink(global.slab_execute_cbs);
+-	kmem_cache_shrink(global.slab_requests);
+-}
+-
+ static void i915_global_request_exit(void)
+ {
+ 	kmem_cache_destroy(global.slab_execute_cbs);
+@@ -2090,7 +2084,6 @@ static void i915_global_request_exit(void)
+ }
+ 
+ static struct i915_global_request global = { {
+-	.shrink = i915_global_request_shrink,
+ 	.exit = i915_global_request_exit,
+ } };
+ 
+diff --git a/drivers/gpu/drm/i915/i915_scheduler.c b/drivers/gpu/drm/i915/i915_scheduler.c
+index 3a58a9130309..561c649e59f7 100644
+--- a/drivers/gpu/drm/i915/i915_scheduler.c
++++ b/drivers/gpu/drm/i915/i915_scheduler.c
+@@ -475,12 +475,6 @@ i915_sched_engine_create(unsigned int subclass)
+ 	return sched_engine;
+ }
+ 
+-static void i915_global_scheduler_shrink(void)
+-{
+-	kmem_cache_shrink(global.slab_dependencies);
+-	kmem_cache_shrink(global.slab_priorities);
+-}
+-
+ static void i915_global_scheduler_exit(void)
+ {
+ 	kmem_cache_destroy(global.slab_dependencies);
+@@ -488,7 +482,6 @@ static void i915_global_scheduler_exit(void)
+ }
+ 
+ static struct i915_global_scheduler global = { {
+-	.shrink = i915_global_scheduler_shrink,
+ 	.exit = i915_global_scheduler_exit,
+ } };
+ 
+diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
+index 5b9dce0f443b..09a7c47926f7 100644
+--- a/drivers/gpu/drm/i915/i915_vma.c
++++ b/drivers/gpu/drm/i915/i915_vma.c
+@@ -1414,18 +1414,12 @@ void i915_vma_make_purgeable(struct i915_vma *vma)
+ #include "selftests/i915_vma.c"
+ #endif
+ 
+-static void i915_global_vma_shrink(void)
+-{
+-	kmem_cache_shrink(global.slab_vmas);
+-}
+-
+ static void i915_global_vma_exit(void)
+ {
+ 	kmem_cache_destroy(global.slab_vmas);
+ }
+ 
+ static struct i915_global_vma global = { {
+-	.shrink = i915_global_vma_shrink,
+ 	.exit = i915_global_vma_exit,
+ } };
+ 
+-- 
+2.32.0
+
