@@ -2,39 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC1243D06AE
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 04:21:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C75BF3D0771
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jul 2021 06:03:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 10E0B6E849;
-	Wed, 21 Jul 2021 02:21:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F3A8D6E1F3;
+	Wed, 21 Jul 2021 04:03:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E14C36E171;
- Wed, 21 Jul 2021 02:21:48 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10051"; a="208241621"
-X-IronPort-AV: E=Sophos;i="5.84,256,1620716400"; 
- d="asc'?scan'208";a="208241621"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jul 2021 19:21:48 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,256,1620716400"; 
- d="asc'?scan'208";a="495105095"
-Received: from zhen-hp.sh.intel.com (HELO zhen-hp) ([10.239.160.143])
- by fmsmga004.fm.intel.com with ESMTP; 20 Jul 2021 19:21:45 -0700
-Date: Wed, 21 Jul 2021 10:00:09 +0800
-From: Zhenyu Wang <zhenyuw@linux.intel.com>
-To: Xiyu Yang <xiyuyang19@fudan.edu.cn>
-Subject: Re: [PATCH] drm/i915/gvt: Convert from atomic_t to refcount_t on
- intel_vgpu_ppgtt_spt->refcount
-Message-ID: <20210721020009.GG13928@zhen-hp.sh.intel.com>
-References: <1626432098-27626-1-git-send-email-xiyuyang19@fudan.edu.cn>
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
+ [IPv6:2a00:1450:4864:20::635])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B88C96E158;
+ Wed, 21 Jul 2021 04:03:45 +0000 (UTC)
+Received: by mail-ej1-x635.google.com with SMTP id bu12so1244579ejb.0;
+ Tue, 20 Jul 2021 21:03:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=eWPAOBWpUTLhpIrlxv1BnVJyH/3b0JQHSRlR/92W/kw=;
+ b=LezD5m6eyB7sLKhwbtJ/l01vXI6+/FTI6RY4BSOac2VzwShdCgrHX4HkmKvzKhdj4X
+ ntPOLp09ZrR7/kQhZKMYgO3KS7iOLXoxw3FtD8qBxKMf14tzsr3M/MN2iku1sWqETt9e
+ 2M+wzJuZwaIP/HcHCIyDPOPVWki0HlD6iSfNrPHNpAK1mPDdgYY2w9nLDrye9NwWMO6z
+ /5B+MCmHqws21nw5OjpP7F4fP/0qzWdQtOTNolBAysc2L2yLxYQ58U1CNB8/+uQh1TIa
+ pWfVYFfNHYEe3IgGtwfSDrBtzj3PrWCXd/QKLM19QPxIIu8hoqu4trwHFSkSC+K7e4P3
+ C4ow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=eWPAOBWpUTLhpIrlxv1BnVJyH/3b0JQHSRlR/92W/kw=;
+ b=AIpHXWwimo9i/oPmXBhnvhKHwRaaoduPIRd6jGtZMcf2Tligu3H2j2uYZggaGZfUsO
+ bQPnnII20rjitx/Xm/ueCQHOyrntkpLNXTD/MwuPeukLVRH/QYcNSeA87EtYZ1/Ak8uG
+ kH8Qk5EZACycdQdpAOFTRvXug+/mevH1n39KAZdgjj52QSVtNKoVzE5K88j2O6xJ2iOc
+ aB8u7Dm+j6LSgLorH1j6hoLr4FBwiEV8RC24by6IQ7+ulKY30RHVkyekyuIIg7jA/3ee
+ d/e7aX9bt20js/fSw71RFbtA8VUC14mUpsQ8zUes9BEHeUIlQn8ICK/8gV3SyOQ6coaJ
+ nUuQ==
+X-Gm-Message-State: AOAM530lOCDfHd/cKKlxcaEmaAFjsoYeIW70DZVvpybHBuXDPRlDQdEz
+ gu1MD3hkE2UJTE5G/Ry2CcwDaTWKMm3qZlQ5wCY=
+X-Google-Smtp-Source: ABdhPJyW9w3STxOnrxLTDp3Kk+KFzu57wSzYI+Glc2THFllQQbke05fm8pmtMs246HB/mAgZRQ0cDl5Mkx6NBRDfxL0=
+X-Received: by 2002:a17:906:5f99:: with SMTP id
+ a25mr36960115eju.101.1626840224358; 
+ Tue, 20 Jul 2021 21:03:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
- protocol="application/pgp-signature"; boundary="DNUSDXU7R7AVVM8C"
-Content-Disposition: inline
-In-Reply-To: <1626432098-27626-1-git-send-email-xiyuyang19@fudan.edu.cn>
+References: <444811c3-cbec-e9d5-9a6b-9632eda7962a@linux.intel.com>
+In-Reply-To: <444811c3-cbec-e9d5-9a6b-9632eda7962a@linux.intel.com>
+From: Dave Airlie <airlied@gmail.com>
+Date: Wed, 21 Jul 2021 14:03:33 +1000
+Message-ID: <CAPM=9twumCVtr+zFvy40GKt=6zFRsAMNYV+-5cUKfwV76RfBEw@mail.gmail.com>
+Subject: Re: [PULL] drm-misc-next
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,114 +65,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Zhenyu Wang <zhenyuw@linux.intel.com>
-Cc: Xin Tan <tanxin.ctf@gmail.com>, yuanxzhang@fudan.edu.cn,
- David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gvt-dev@lists.freedesktop.org,
- Zhi Wang <zhi.a.wang@intel.com>
+Cc: "DRM maintainer tools announcements, discussion,
+ and development" <dim-tools@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---DNUSDXU7R7AVVM8C
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On 2021.07.16 18:41:38 +0800, Xiyu Yang wrote:
-> refcount_t type and corresponding API can protect refcounters from
-> accidental underflow and overflow and further use-after-free situations
+On Fri, 16 Jul 2021 at 21:07, Maarten Lankhorst
+<maarten.lankhorst@linux.intel.com> wrote:
 >
+> Hi Dave & Daniel,
+>
+> Lots of stuff this time around.
+>
+> Enjoy!
 
-Thanks for the patch. Is there any specific problem you run with current co=
-de?
-Any shadow ppgtt error?
+I've pulled this but there is an outstanding warning
 
-> Signed-off-by: Xiyu Yang <xiyuyang19@fudan.edu.cn>
-> Signed-off-by: Xin Tan <tanxin.ctf@gmail.com>
-> ---
->  drivers/gpu/drm/i915/gvt/gtt.c | 11 ++++++-----
->  drivers/gpu/drm/i915/gvt/gtt.h |  3 ++-
->  2 files changed, 8 insertions(+), 6 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/i915/gvt/gtt.c b/drivers/gpu/drm/i915/gvt/gt=
-t.c
-> index cc2c05e18206..62f3daff5a36 100644
-> --- a/drivers/gpu/drm/i915/gvt/gtt.c
-> +++ b/drivers/gpu/drm/i915/gvt/gtt.c
-> @@ -841,7 +841,7 @@ static struct intel_vgpu_ppgtt_spt *ppgtt_alloc_spt(
->  	}
-> =20
->  	spt->vgpu =3D vgpu;
-> -	atomic_set(&spt->refcount, 1);
-> +	refcount_set(&spt->refcount, 1);
->  	INIT_LIST_HEAD(&spt->post_shadow_list);
-> =20
->  	/*
-> @@ -927,18 +927,19 @@ static struct intel_vgpu_ppgtt_spt *ppgtt_alloc_spt=
-_gfn(
-> =20
->  static inline void ppgtt_get_spt(struct intel_vgpu_ppgtt_spt *spt)
->  {
-> -	int v =3D atomic_read(&spt->refcount);
-> +	int v =3D refcount_read(&spt->refcount);
-> =20
->  	trace_spt_refcount(spt->vgpu->id, "inc", spt, v, (v + 1));
-> -	atomic_inc(&spt->refcount);
-> +	refcount_inc(&spt->refcount);
->  }
-> =20
->  static inline int ppgtt_put_spt(struct intel_vgpu_ppgtt_spt *spt)
->  {
-> -	int v =3D atomic_read(&spt->refcount);
-> +	int v =3D refcount_read(&spt->refcount);
-> =20
->  	trace_spt_refcount(spt->vgpu->id, "dec", spt, v, (v - 1));
-> -	return atomic_dec_return(&spt->refcount);
-> +	refcount_dec(&spt->refcount);
-> +	return refcount_read(&spt->refcount);
->  }
-> =20
->  static int ppgtt_invalidate_spt(struct intel_vgpu_ppgtt_spt *spt);
-> diff --git a/drivers/gpu/drm/i915/gvt/gtt.h b/drivers/gpu/drm/i915/gvt/gt=
-t.h
-> index 3bf45672ef98..944c2d0739df 100644
-> --- a/drivers/gpu/drm/i915/gvt/gtt.h
-> +++ b/drivers/gpu/drm/i915/gvt/gtt.h
-> @@ -38,6 +38,7 @@
->  #include <linux/kref.h>
->  #include <linux/mutex.h>
->  #include <linux/radix-tree.h>
-> +#include <linux/refcount.h>
-> =20
->  #include "gt/intel_gtt.h"
-> =20
-> @@ -243,7 +244,7 @@ struct intel_vgpu_oos_page {
-> =20
->  /* Represent a vgpu shadow page table. */
->  struct intel_vgpu_ppgtt_spt {
-> -	atomic_t refcount;
-> +	refcount_t refcount;
->  	struct intel_vgpu *vgpu;
-> =20
->  	struct {
-> --=20
-> 2.7.4
->=20
-> _______________________________________________
-> intel-gvt-dev mailing list
-> intel-gvt-dev@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/intel-gvt-dev
+/home/airlied/devel/kernel/dim/src/drivers/gpu/drm/hisilicon/hibmc/hibmc_dr=
+m_drv.c:
+In function =E2=80=98hibmc_unload=E2=80=99:
+/home/airlied/devel/kernel/dim/src/drivers/gpu/drm/hisilicon/hibmc/hibmc_dr=
+m_drv.c:252:28:
+warning: unused variable =E2=80=98priv=E2=80=99 [-Wunused-variable]
+  252 |  struct hibmc_drm_private *priv =3D to_hibmc_drm_private(dev);
+      |                            ^~~~
 
---DNUSDXU7R7AVVM8C
-Content-Type: application/pgp-signature; name="signature.asc"
+Probably due to Thomas irq patches.
 
------BEGIN PGP SIGNATURE-----
-
-iF0EARECAB0WIQTXuabgHDW6LPt9CICxBBozTXgYJwUCYPd/qQAKCRCxBBozTXgY
-J4MVAJ95yNAURQh6cNjOk/8THKqisqplMwCbBUeMC3+rNCFCjrGdgeMCTprr3WI=
-=isR6
------END PGP SIGNATURE-----
-
---DNUSDXU7R7AVVM8C--
+Dave.
