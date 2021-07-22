@@ -2,60 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EE7A3D261A
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jul 2021 16:47:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 919DD3D2623
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jul 2021 16:48:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D738F6E92A;
-	Thu, 22 Jul 2021 14:46:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 790356E943;
+	Thu, 22 Jul 2021 14:48:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
- [IPv6:2a00:1450:4864:20::330])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E4D526E908
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jul 2021 14:46:57 +0000 (UTC)
-Received: by mail-wm1-x330.google.com with SMTP id
- z8-20020a1c4c080000b029022d4c6cfc37so1700194wmf.5
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jul 2021 07:46:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=DnmHNNXEi+D67CdXt2sdtRiYmXnF0UzDAK5d1qxhJYo=;
- b=sh8hlv9dg7eFqGZTlCBS2fKOrpDKfSZK3zJeZAxqFqqhfvCmEK+p2ojCMdRWL4QTY1
- qHojFkfGdIg6xnOeJsgldaeFwrZXI+0iVQAYPS3CL4l1xCGYemJTMcW38fTnJoXCdl/x
- t/bhlRsTtobXIZx9KJPjblZFuuHKoNbtUftrzqGxFV6GnOBEyLkgCOHKzm89LzDkfnpy
- bo1lPduqlKiYJzUzLcbCGTFOQ5vPoPyPxk+9Bdj6CZ1itgw5tz7j/fFh6Fu4QFmrkKG+
- 8qS9w+idYQf/1f/QWfl6Bc6iw2Hp3K25vaDVrlWaCKyoCu2YX52X2iXDrh+XKwdT25hL
- SBbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=DnmHNNXEi+D67CdXt2sdtRiYmXnF0UzDAK5d1qxhJYo=;
- b=NboeTKz2PNYFEv5QlUMwqNH0tRiM+MOehcM02gEKshXmRPpalH1GJ6xOuEdSp3d2Ja
- WmnVotmxVQKECLV0QQiLDCBqaZEtfuiKm4oCSbavstKU45aoscK1vUCkOwM172LKwaH8
- l42/ZPpFB0BENXlitKVsjHq3WOeTL703vpK5aG6M2DNOisKM/pppa2xV80MJEOny/iVU
- FjWUbJblt0RO/g4R2uxWM35ZS/gHKP+dNlqk5pWso4ds+tcviBcYg35p23Im9bT97rYI
- YF91abuY0v7hx+FEkEKLwVYcya/5Mjnvm8MIrPA5aaPgb2BaaEeHzSXtKOARX2VYRXWf
- IaFg==
-X-Gm-Message-State: AOAM533rVNPmNW+3yJnAAJlHDa9mA8qXpN+Nqpi3cfdNAUcutvB9ecUe
- SgE3zB9ih6K1RGHh9zXvXuMpxw==
-X-Google-Smtp-Source: ABdhPJyXKXdBb+fuVyS8Yn0+pkXgwpRuUuzEuOXAMYs5CxxpmGCrWsN6xeN3PEe8irE+we8l+OBkxg==
-X-Received: by 2002:a7b:c7cb:: with SMTP id z11mr9558960wmk.102.1626965216396; 
- Thu, 22 Jul 2021 07:46:56 -0700 (PDT)
-Received: from maple.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net.
- [80.7.220.175])
- by smtp.gmail.com with ESMTPSA id z2sm10167362wma.45.2021.07.22.07.46.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 Jul 2021 07:46:55 -0700 (PDT)
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Lee Jones <lee.jones@linaro.org>,
-	Jingoo Han <jingoohan1@gmail.com>
-Subject: [PATCH] backlight: pwm_bl: Improve bootloader/kernel device handover
-Date: Thu, 22 Jul 2021 15:46:23 +0100
-Message-Id: <20210722144623.1572816-1-daniel.thompson@linaro.org>
-X-Mailer: git-send-email 2.30.2
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E33F86E908
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jul 2021 14:48:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1626965328;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=zcazrHRmrdUI7TLRVzAfUPzPLR8CDoZHugRg17DaTr8=;
+ b=gzJ2UcnwRzsSCIDR3eO9UIs5B/xJlPv/WHKx0ubjNKcCy25LrVDnXLGTBzBZWw4RF5pxo0
+ 6II2a1VsyqT5B2zMNRo35RnKZFHKgClc0ICj1pBdEdCrupI9KkjF53ugvRTwuXse9Brx1f
+ 7feZaSqKYiwRg7XLUYz28emaju1wnYM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-415-RATX3Rf1PGqQpwFT7SpNWQ-1; Thu, 22 Jul 2021 10:48:47 -0400
+X-MC-Unique: RATX3Rf1PGqQpwFT7SpNWQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0AB31804141;
+ Thu, 22 Jul 2021 14:48:43 +0000 (UTC)
+Received: from localhost (ovpn-112-132.ams2.redhat.com [10.36.112.132])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2648A5DA2D;
+ Thu, 22 Jul 2021 14:48:33 +0000 (UTC)
+From: Cornelia Huck <cohuck@redhat.com>
+To: Jason Gunthorpe <jgg@nvidia.com>, David Airlie <airlied@linux.ie>, Tony
+ Krowiak <akrowiak@linux.ibm.com>, Alex Williamson
+ <alex.williamson@redhat.com>, Christian Borntraeger
+ <borntraeger@de.ibm.com>, Jonathan Corbet <corbet@lwn.net>, Daniel Vetter
+ <daniel@ffwll.ch>, Diana Craciun <diana.craciun@oss.nxp.com>,
+ dri-devel@lists.freedesktop.org, Eric Auger <eric.auger@redhat.com>, Eric
+ Farman <farman@linux.ibm.com>, Harald Freudenberger
+ <freude@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, Heiko Carstens
+ <hca@linux.ibm.com>, intel-gfx@lists.freedesktop.org,
+ intel-gvt-dev@lists.freedesktop.org, Jani Nikula
+ <jani.nikula@linux.intel.com>, Jason Herne <jjherne@linux.ibm.com>, Joonas
+ Lahtinen <joonas.lahtinen@linux.intel.com>, kvm@vger.kernel.org, Kirti
+ Wankhede <kwankhede@nvidia.com>, linux-doc@vger.kernel.org,
+ linux-s390@vger.kernel.org, Matthew Rosato <mjrosato@linux.ibm.com>, Peter
+ Oberparleiter <oberpar@linux.ibm.com>, Halil Pasic <pasic@linux.ibm.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Vineeth Vijayan
+ <vneethv@linux.ibm.com>, Zhi Wang <zhi.a.wang@intel.com>
+Subject: Re: [PATCH v2 07/14] vfio/platform: Use open_device() instead of
+ open coding a refcnt scheme
+In-Reply-To: <7-v2-b6a5582525c9+ff96-vfio_reflck_jgg@nvidia.com>
+Organization: Red Hat GmbH
+References: <7-v2-b6a5582525c9+ff96-vfio_reflck_jgg@nvidia.com>
+User-Agent: Notmuch/0.32.1 (https://notmuchmail.org)
+Date: Thu, 22 Jul 2021 16:48:31 +0200
+Message-ID: <878s1y76bk.fsf@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,121 +76,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, linux-pwm@vger.kernel.org,
- Daniel Thompson <daniel.thompson@linaro.org>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Thierry Reding <thierry.reding@gmail.com>, stable@vger.kernel.org,
- =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: Max Gurtovoy <mgurtovoy@nvidia.com>, Yishai Hadas <yishaih@nvidia.com>,
+ "Raj, Ashok" <ashok.raj@intel.com>, Leon Romanovsky <leonro@nvidia.com>,
+ Christoph Hellwig <hch@lst.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently there are (at least) two problems in the way pwm_bl starts
-managing the enable_gpio pin. Both occur when the backlight is initially
-off and the driver finds the pin not already in output mode and, as a
-result, unconditionally switches it to output-mode and asserts the signal.
+On Tue, Jul 20 2021, Jason Gunthorpe <jgg@nvidia.com> wrote:
 
-Problem 1: This could cause the backlight to flicker since, at this stage
-in driver initialisation, we have no idea what the PWM and regulator are
-doing (an unconfigured PWM could easily "rest" at 100% duty cycle).
+> Platform simply wants to run some code when the device is first
+> opened/last closed. Use the core framework and locking for this.  Aside
+> from removing a bit of code this narrows the locking scope from a global
+> lock.
+>
+> Signed-off-by: Yishai Hadas <yishaih@nvidia.com>
+> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+> ---
+>  drivers/vfio/platform/vfio_platform_common.c  | 79 ++++++++-----------
+>  drivers/vfio/platform/vfio_platform_private.h |  1 -
+>  2 files changed, 32 insertions(+), 48 deletions(-)
 
-Problem 2: This will cause us not to correctly honour the
-post_pwm_on_delay (which also risks flickers).
-
-Fix this by moving the code to configure the GPIO output mode until after
-we have examines the handover state. That allows us to initialize
-enable_gpio to off if the backlight is currently off and on if the
-backlight is on.
-
-Reported-by: Marek Vasut <marex@denx.de>
-Signed-off-by: Daniel Thompson <daniel.thompson@linaro.org>
-Cc: stable@vger.kernel.org
-Acked-by: Marek Vasut <marex@denx.de>
-Tested-by: Marek Vasut <marex@denx.de>
----
- drivers/video/backlight/pwm_bl.c | 54 +++++++++++++++++---------------
- 1 file changed, 28 insertions(+), 26 deletions(-)
-
-diff --git a/drivers/video/backlight/pwm_bl.c b/drivers/video/backlight/pwm_bl.c
-index e48fded3e414..8d8959a70e44 100644
---- a/drivers/video/backlight/pwm_bl.c
-+++ b/drivers/video/backlight/pwm_bl.c
-@@ -409,6 +409,33 @@ static bool pwm_backlight_is_linear(struct platform_pwm_backlight_data *data)
- static int pwm_backlight_initial_power_state(const struct pwm_bl_data *pb)
- {
- 	struct device_node *node = pb->dev->of_node;
-+	bool active = true;
-+
-+	/*
-+	 * If the enable GPIO is present, observable (either as input
-+	 * or output) and off then the backlight is not currently active.
-+	 * */
-+	if (pb->enable_gpio && gpiod_get_value_cansleep(pb->enable_gpio) == 0)
-+		active = false;
-+
-+	if (!regulator_is_enabled(pb->power_supply))
-+		active = false;
-+
-+	if (!pwm_is_enabled(pb->pwm))
-+		active = false;
-+
-+	/*
-+	 * Synchronize the enable_gpio with the observed state of the
-+	 * hardware.
-+	 */
-+	if (pb->enable_gpio)
-+		gpiod_direction_output(pb->enable_gpio, active);
-+
-+	/*
-+	 * Do not change pb->enabled here! pb->enabled essentially
-+	 * tells us if we own one of the regulator's use counts and
-+	 * right now we do not.
-+	 */
-
- 	/* Not booted with device tree or no phandle link to the node */
- 	if (!node || !node->phandle)
-@@ -420,20 +447,7 @@ static int pwm_backlight_initial_power_state(const struct pwm_bl_data *pb)
- 	 * assume that another driver will enable the backlight at the
- 	 * appropriate time. Therefore, if it is disabled, keep it so.
- 	 */
--
--	/* if the enable GPIO is disabled, do not enable the backlight */
--	if (pb->enable_gpio && gpiod_get_value_cansleep(pb->enable_gpio) == 0)
--		return FB_BLANK_POWERDOWN;
--
--	/* The regulator is disabled, do not enable the backlight */
--	if (!regulator_is_enabled(pb->power_supply))
--		return FB_BLANK_POWERDOWN;
--
--	/* The PWM is disabled, keep it like this */
--	if (!pwm_is_enabled(pb->pwm))
--		return FB_BLANK_POWERDOWN;
--
--	return FB_BLANK_UNBLANK;
-+	return active ? FB_BLANK_UNBLANK: FB_BLANK_POWERDOWN;
- }
-
- static int pwm_backlight_probe(struct platform_device *pdev)
-@@ -486,18 +500,6 @@ static int pwm_backlight_probe(struct platform_device *pdev)
- 		goto err_alloc;
- 	}
-
--	/*
--	 * If the GPIO is not known to be already configured as output, that
--	 * is, if gpiod_get_direction returns either 1 or -EINVAL, change the
--	 * direction to output and set the GPIO as active.
--	 * Do not force the GPIO to active when it was already output as it
--	 * could cause backlight flickering or we would enable the backlight too
--	 * early. Leave the decision of the initial backlight state for later.
--	 */
--	if (pb->enable_gpio &&
--	    gpiod_get_direction(pb->enable_gpio) != 0)
--		gpiod_direction_output(pb->enable_gpio, 1);
--
- 	pb->power_supply = devm_regulator_get(&pdev->dev, "power");
- 	if (IS_ERR(pb->power_supply)) {
- 		ret = PTR_ERR(pb->power_supply);
-
-base-commit: 2734d6c1b1a089fb593ef6a23d4b70903526fe0c
---
-2.30.2
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 
