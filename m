@@ -1,33 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A6953D3045
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jul 2021 01:37:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 77A273D305C
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jul 2021 01:37:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB63B6F5AA;
-	Thu, 22 Jul 2021 23:36:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5304F6F5BB;
+	Thu, 22 Jul 2021 23:36:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 505236EADF;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 73F686F50D;
  Thu, 22 Jul 2021 23:36:36 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10053"; a="208659255"
-X-IronPort-AV: E=Sophos;i="5.84,262,1620716400"; d="scan'208";a="208659255"
+X-IronPort-AV: E=McAfee;i="6200,9189,10053"; a="208659257"
+X-IronPort-AV: E=Sophos;i="5.84,262,1620716400"; d="scan'208";a="208659257"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Jul 2021 16:36:35 -0700
-X-IronPort-AV: E=Sophos;i="5.84,262,1620716400"; d="scan'208";a="470860929"
+ 22 Jul 2021 16:36:36 -0700
+X-IronPort-AV: E=Sophos;i="5.84,262,1620716400"; d="scan'208";a="470860930"
 Received: from dhiatt-server.jf.intel.com ([10.54.81.3])
  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  22 Jul 2021 16:36:35 -0700
 From: Matthew Brost <matthew.brost@intel.com>
 To: <intel-gfx@lists.freedesktop.org>,
 	<dri-devel@lists.freedesktop.org>
-Subject: [PATCH 00/33] Remaining patches for basic GuC submission 
-Date: Thu, 22 Jul 2021 16:53:53 -0700
-Message-Id: <20210722235426.31831-1-matthew.brost@intel.com>
+Subject: [PATCH 01/33] drm/i915/guc: GuC virtual engines
+Date: Thu, 22 Jul 2021 16:53:54 -0700
+Message-Id: <20210722235426.31831-2-matthew.brost@intel.com>
 X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20210722235426.31831-1-matthew.brost@intel.com>
+References: <20210722235426.31831-1-matthew.brost@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -45,117 +47,632 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The remaining patches for basic GuC submission [1]. Need 4 more RB and
-CI results to get this merged. 
+Implement GuC virtual engines. Rather simple implementation, basically
+just allocate an engine, setup context enter / exit function to virtual
+engine specific functions, set all other variables / functions to guc
+versions, and set the engine mask to that of all the siblings.
 
+v2: Update to work with proto-ctx
+v3:
+ (Daniele)
+  - Drop include, add comment to intel_virtual_engine_has_heartbeat
+
+Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
 Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+---
+ drivers/gpu/drm/i915/gem/i915_gem_context.c   |   8 +-
+ drivers/gpu/drm/i915/gt/intel_context_types.h |   6 +
+ drivers/gpu/drm/i915/gt/intel_engine.h        |  30 ++-
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c     |  14 +
+ .../drm/i915/gt/intel_execlists_submission.c  |  29 ++-
+ .../drm/i915/gt/intel_execlists_submission.h  |   4 -
+ drivers/gpu/drm/i915/gt/selftest_execlists.c  |  12 +-
+ .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 244 +++++++++++++++++-
+ .../gpu/drm/i915/gt/uc/intel_guc_submission.h |   2 +
+ 9 files changed, 313 insertions(+), 36 deletions(-)
 
-[1] https://patchwork.freedesktop.org/series/91840/
-
-Daniele Ceraolo Spurio (1):
-  drm/i915/guc: Unblock GuC submission on Gen11+
-
-John Harrison (11):
-  drm/i915/guc: Make hangcheck work with GuC virtual engines
-  drm/i915/guc: Don't complain about reset races
-  drm/i915/guc: Enable GuC engine reset
-  drm/i915/guc: Fix for error capture after full GPU reset with GuC
-  drm/i915/guc: Hook GuC scheduling policies up
-  drm/i915/guc: Connect reset modparam updates to GuC policy flags
-  drm/i915/guc: Include scheduling policies in the debugfs state dump
-  drm/i915/guc: Add golden context to GuC ADS
-  drm/i915/selftest: Better error reporting from hangcheck selftest
-  drm/i915/selftest: Fix hangcheck self test for GuC submission
-  drm/i915/selftest: Bump selftest timeouts for hangcheck
-
-Matthew Brost (18):
-  drm/i915/guc: GuC virtual engines
-  drm/i915: Hold reference to intel_context over life of i915_request
-  drm/i915/guc: Disable bonding extension with GuC submission
-  drm/i915/guc: Direct all breadcrumbs for a class to single breadcrumbs
-  drm/i915: Add i915_sched_engine destroy vfunc
-  drm/i915: Move active request tracking to a vfunc
-  drm/i915/guc: Reset implementation for new GuC interface
-  drm/i915: Reset GPU immediately if submission is disabled
-  drm/i915/guc: Add disable interrupts to guc sanitize
-  drm/i915/guc: Suspend/resume implementation for new interface
-  drm/i915/guc: Handle context reset notification
-  drm/i915/guc: Handle engine reset failure notification
-  drm/i915/guc: Enable the timer expired interrupt for GuC
-  drm/i915/guc: Capture error state on context reset
-  drm/i915/guc: Implement banned contexts for GuC submission
-  drm/i915/guc: Support request cancellation
-  drm/i915/selftest: Increase some timeouts in live_requests
-  drm/i915/guc: Implement GuC priority management
-
-Rahul Kumar Singh (1):
-  drm/i915/selftest: Fix MOCS selftest for GuC submission
-
-Signed-off-by: John Harrison (1):
-  drm/i915/guc: Provide mmio list to be saved/restored on engine reset
-
-Signed-off-by: Rahul Kumar Singh (1):
-  drm/i915/selftest: Fix workarounds selftest for GuC submission
-
- drivers/gpu/drm/i915/Makefile                 |    1 +
- drivers/gpu/drm/i915/gem/i915_gem_context.c   |   15 +-
- drivers/gpu/drm/i915/gt/intel_breadcrumbs.c   |   44 +-
- drivers/gpu/drm/i915/gt/intel_breadcrumbs.h   |   16 +-
- .../gpu/drm/i915/gt/intel_breadcrumbs_types.h |    7 +
- drivers/gpu/drm/i915/gt/intel_context.c       |   36 +
- drivers/gpu/drm/i915/gt/intel_context.h       |   23 +
- drivers/gpu/drm/i915/gt/intel_context_types.h |   31 +-
- drivers/gpu/drm/i915/gt/intel_engine.h        |   57 +-
- drivers/gpu/drm/i915/gt/intel_engine_cs.c     |  182 +-
- .../gpu/drm/i915/gt/intel_engine_heartbeat.c  |   71 +-
- .../gpu/drm/i915/gt/intel_engine_heartbeat.h  |    4 +
- drivers/gpu/drm/i915/gt/intel_engine_types.h  |   13 +-
- drivers/gpu/drm/i915/gt/intel_engine_user.c   |    4 +
- .../drm/i915/gt/intel_execlists_submission.c  |   89 +-
- .../drm/i915/gt/intel_execlists_submission.h  |    4 -
- drivers/gpu/drm/i915/gt/intel_gt.c            |    2 +
- drivers/gpu/drm/i915/gt/intel_gt_pm.c         |    6 +-
- drivers/gpu/drm/i915/gt/intel_reset.c         |   50 +-
- .../gpu/drm/i915/gt/intel_ring_submission.c   |   58 +
- drivers/gpu/drm/i915/gt/intel_rps.c           |    4 +
- drivers/gpu/drm/i915/gt/intel_workarounds.c   |   46 +-
- .../gpu/drm/i915/gt/intel_workarounds_types.h |    1 +
- drivers/gpu/drm/i915/gt/mock_engine.c         |   34 +-
- .../drm/i915/gt/selftest_engine_heartbeat.c   |   22 +
- .../drm/i915/gt/selftest_engine_heartbeat.h   |    2 +
- drivers/gpu/drm/i915/gt/selftest_execlists.c  |   12 +-
- drivers/gpu/drm/i915/gt/selftest_hangcheck.c  |  322 +++-
- drivers/gpu/drm/i915/gt/selftest_mocs.c       |   50 +-
- .../gpu/drm/i915/gt/selftest_workarounds.c    |  134 +-
- .../gpu/drm/i915/gt/uc/abi/guc_actions_abi.h  |    1 +
- drivers/gpu/drm/i915/gt/uc/intel_guc.c        |   82 +-
- drivers/gpu/drm/i915/gt/uc/intel_guc.h        |   38 +-
- drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c    |  464 ++++-
- drivers/gpu/drm/i915/gt/uc/intel_guc_ads.h    |    4 +
- drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c     |   11 +-
- .../gpu/drm/i915/gt/uc/intel_guc_debugfs.c    |    2 +
- .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 1601 +++++++++++++++--
- .../gpu/drm/i915/gt/uc/intel_guc_submission.h |   13 +-
- drivers/gpu/drm/i915/gt/uc/intel_uc.c         |  101 +-
- drivers/gpu/drm/i915/gt/uc/intel_uc.h         |    6 +
- drivers/gpu/drm/i915/i915_debugfs_params.c    |   32 +
- drivers/gpu/drm/i915/i915_gpu_error.c         |   25 +-
- drivers/gpu/drm/i915/i915_reg.h               |    1 +
- drivers/gpu/drm/i915/i915_request.c           |  162 +-
- drivers/gpu/drm/i915/i915_request.h           |   21 +
- drivers/gpu/drm/i915/i915_scheduler.c         |   16 +-
- drivers/gpu/drm/i915/i915_scheduler.h         |   10 +-
- drivers/gpu/drm/i915/i915_scheduler_types.h   |   22 +
- drivers/gpu/drm/i915/i915_trace.h             |   37 +-
- drivers/gpu/drm/i915/selftests/i915_request.c |    4 +-
- .../gpu/drm/i915/selftests/igt_flush_test.c   |    2 +-
- .../i915/selftests/intel_scheduler_helpers.c  |   88 +
- .../i915/selftests/intel_scheduler_helpers.h  |   33 +
- include/uapi/drm/i915_drm.h                   |    9 +
- 55 files changed, 3490 insertions(+), 635 deletions(-)
- create mode 100644 drivers/gpu/drm/i915/selftests/intel_scheduler_helpers.c
- create mode 100644 drivers/gpu/drm/i915/selftests/intel_scheduler_helpers.h
-
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+index 89ca401bf9ae..bc52eeed782a 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+@@ -74,7 +74,6 @@
+ #include "gt/intel_context_param.h"
+ #include "gt/intel_engine_heartbeat.h"
+ #include "gt/intel_engine_user.h"
+-#include "gt/intel_execlists_submission.h" /* virtual_engine */
+ #include "gt/intel_gpu_commands.h"
+ #include "gt/intel_ring.h"
+ 
+@@ -363,9 +362,6 @@ set_proto_ctx_engines_balance(struct i915_user_extension __user *base,
+ 	if (!HAS_EXECLISTS(i915))
+ 		return -ENODEV;
+ 
+-	if (intel_uc_uses_guc_submission(&i915->gt.uc))
+-		return -ENODEV; /* not implement yet */
+-
+ 	if (get_user(idx, &ext->engine_index))
+ 		return -EFAULT;
+ 
+@@ -950,8 +946,8 @@ static struct i915_gem_engines *user_engines(struct i915_gem_context *ctx,
+ 			break;
+ 
+ 		case I915_GEM_ENGINE_TYPE_BALANCED:
+-			ce = intel_execlists_create_virtual(pe[n].siblings,
+-							    pe[n].num_siblings);
++			ce = intel_engine_create_virtual(pe[n].siblings,
++							 pe[n].num_siblings);
+ 			break;
+ 
+ 		case I915_GEM_ENGINE_TYPE_INVALID:
+diff --git a/drivers/gpu/drm/i915/gt/intel_context_types.h b/drivers/gpu/drm/i915/gt/intel_context_types.h
+index 4a5518d295c2..542c98418771 100644
+--- a/drivers/gpu/drm/i915/gt/intel_context_types.h
++++ b/drivers/gpu/drm/i915/gt/intel_context_types.h
+@@ -47,6 +47,12 @@ struct intel_context_ops {
+ 
+ 	void (*reset)(struct intel_context *ce);
+ 	void (*destroy)(struct kref *kref);
++
++	/* virtual engine/context interface */
++	struct intel_context *(*create_virtual)(struct intel_engine_cs **engine,
++						unsigned int count);
++	struct intel_engine_cs *(*get_sibling)(struct intel_engine_cs *engine,
++					       unsigned int sibling);
+ };
+ 
+ struct intel_context {
+diff --git a/drivers/gpu/drm/i915/gt/intel_engine.h b/drivers/gpu/drm/i915/gt/intel_engine.h
+index f911c1224ab2..13bfb7ec33b2 100644
+--- a/drivers/gpu/drm/i915/gt/intel_engine.h
++++ b/drivers/gpu/drm/i915/gt/intel_engine.h
+@@ -273,13 +273,41 @@ intel_engine_has_preempt_reset(const struct intel_engine_cs *engine)
+ 	return intel_engine_has_preemption(engine);
+ }
+ 
++struct intel_context *
++intel_engine_create_virtual(struct intel_engine_cs **siblings,
++			    unsigned int count);
++
++static inline bool
++intel_virtual_engine_has_heartbeat(const struct intel_engine_cs *engine)
++{
++	/*
++	 * For non-GuC submission we expect the back-end to look at the
++	 * heartbeat status of the actual physical engine that the work
++	 * has been (or is being) scheduled on, so we should only reach
++	 * here with GuC submission enabled.
++	 */
++	GEM_BUG_ON(!intel_engine_uses_guc(engine));
++
++	return intel_guc_virtual_engine_has_heartbeat(engine);
++}
++
+ static inline bool
+ intel_engine_has_heartbeat(const struct intel_engine_cs *engine)
+ {
+ 	if (!IS_ACTIVE(CONFIG_DRM_I915_HEARTBEAT_INTERVAL))
+ 		return false;
+ 
+-	return READ_ONCE(engine->props.heartbeat_interval_ms);
++	if (intel_engine_is_virtual(engine))
++		return intel_virtual_engine_has_heartbeat(engine);
++	else
++		return READ_ONCE(engine->props.heartbeat_interval_ms);
++}
++
++static inline struct intel_engine_cs *
++intel_engine_get_sibling(struct intel_engine_cs *engine, unsigned int sibling)
++{
++	GEM_BUG_ON(!intel_engine_is_virtual(engine));
++	return engine->cops->get_sibling(engine, sibling);
+ }
+ 
+ #endif /* _INTEL_RINGBUFFER_H_ */
+diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+index c1c96ced2a4b..7dee9a1209bc 100644
+--- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
++++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+@@ -1755,6 +1755,20 @@ ktime_t intel_engine_get_busy_time(struct intel_engine_cs *engine, ktime_t *now)
+ 	return total;
+ }
+ 
++struct intel_context *
++intel_engine_create_virtual(struct intel_engine_cs **siblings,
++			    unsigned int count)
++{
++	if (count == 0)
++		return ERR_PTR(-EINVAL);
++
++	if (count == 1)
++		return intel_context_create(siblings[0]);
++
++	GEM_BUG_ON(!siblings[0]->cops->create_virtual);
++	return siblings[0]->cops->create_virtual(siblings, count);
++}
++
+ static bool match_ring(struct i915_request *rq)
+ {
+ 	u32 ring = ENGINE_READ(rq->engine, RING_START);
+diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+index 87cedaeb4bf8..b2580cd2ce51 100644
+--- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
++++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+@@ -199,6 +199,9 @@ static struct virtual_engine *to_virtual_engine(struct intel_engine_cs *engine)
+ 	return container_of(engine, struct virtual_engine, base);
+ }
+ 
++static struct intel_context *
++execlists_create_virtual(struct intel_engine_cs **siblings, unsigned int count);
++
+ static struct i915_request *
+ __active_request(const struct intel_timeline * const tl,
+ 		 struct i915_request *rq,
+@@ -2599,6 +2602,8 @@ static const struct intel_context_ops execlists_context_ops = {
+ 
+ 	.reset = lrc_reset,
+ 	.destroy = lrc_destroy,
++
++	.create_virtual = execlists_create_virtual,
+ };
+ 
+ static int emit_pdps(struct i915_request *rq)
+@@ -3545,6 +3550,17 @@ static void virtual_context_exit(struct intel_context *ce)
+ 		intel_engine_pm_put(ve->siblings[n]);
+ }
+ 
++static struct intel_engine_cs *
++virtual_get_sibling(struct intel_engine_cs *engine, unsigned int sibling)
++{
++	struct virtual_engine *ve = to_virtual_engine(engine);
++
++	if (sibling >= ve->num_siblings)
++		return NULL;
++
++	return ve->siblings[sibling];
++}
++
+ static const struct intel_context_ops virtual_context_ops = {
+ 	.flags = COPS_HAS_INFLIGHT,
+ 
+@@ -3559,6 +3575,8 @@ static const struct intel_context_ops virtual_context_ops = {
+ 	.exit = virtual_context_exit,
+ 
+ 	.destroy = virtual_context_destroy,
++
++	.get_sibling = virtual_get_sibling,
+ };
+ 
+ static intel_engine_mask_t virtual_submission_mask(struct virtual_engine *ve)
+@@ -3707,20 +3725,13 @@ static void virtual_submit_request(struct i915_request *rq)
+ 	spin_unlock_irqrestore(&ve->base.sched_engine->lock, flags);
+ }
+ 
+-struct intel_context *
+-intel_execlists_create_virtual(struct intel_engine_cs **siblings,
+-			       unsigned int count)
++static struct intel_context *
++execlists_create_virtual(struct intel_engine_cs **siblings, unsigned int count)
+ {
+ 	struct virtual_engine *ve;
+ 	unsigned int n;
+ 	int err;
+ 
+-	if (count == 0)
+-		return ERR_PTR(-EINVAL);
+-
+-	if (count == 1)
+-		return intel_context_create(siblings[0]);
+-
+ 	ve = kzalloc(struct_size(ve, siblings, count), GFP_KERNEL);
+ 	if (!ve)
+ 		return ERR_PTR(-ENOMEM);
+diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.h b/drivers/gpu/drm/i915/gt/intel_execlists_submission.h
+index ad4f3e1a0fde..a1aa92c983a5 100644
+--- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.h
++++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.h
+@@ -32,10 +32,6 @@ void intel_execlists_show_requests(struct intel_engine_cs *engine,
+ 							int indent),
+ 				   unsigned int max);
+ 
+-struct intel_context *
+-intel_execlists_create_virtual(struct intel_engine_cs **siblings,
+-			       unsigned int count);
+-
+ bool
+ intel_engine_in_execlists_submission_mode(const struct intel_engine_cs *engine);
+ 
+diff --git a/drivers/gpu/drm/i915/gt/selftest_execlists.c b/drivers/gpu/drm/i915/gt/selftest_execlists.c
+index 22a124b134b6..f12ffe797639 100644
+--- a/drivers/gpu/drm/i915/gt/selftest_execlists.c
++++ b/drivers/gpu/drm/i915/gt/selftest_execlists.c
+@@ -3733,7 +3733,7 @@ static int nop_virtual_engine(struct intel_gt *gt,
+ 	GEM_BUG_ON(!nctx || nctx > ARRAY_SIZE(ve));
+ 
+ 	for (n = 0; n < nctx; n++) {
+-		ve[n] = intel_execlists_create_virtual(siblings, nsibling);
++		ve[n] = intel_engine_create_virtual(siblings, nsibling);
+ 		if (IS_ERR(ve[n])) {
+ 			err = PTR_ERR(ve[n]);
+ 			nctx = n;
+@@ -3929,7 +3929,7 @@ static int mask_virtual_engine(struct intel_gt *gt,
+ 	 * restrict it to our desired engine within the virtual engine.
+ 	 */
+ 
+-	ve = intel_execlists_create_virtual(siblings, nsibling);
++	ve = intel_engine_create_virtual(siblings, nsibling);
+ 	if (IS_ERR(ve)) {
+ 		err = PTR_ERR(ve);
+ 		goto out_close;
+@@ -4060,7 +4060,7 @@ static int slicein_virtual_engine(struct intel_gt *gt,
+ 		i915_request_add(rq);
+ 	}
+ 
+-	ce = intel_execlists_create_virtual(siblings, nsibling);
++	ce = intel_engine_create_virtual(siblings, nsibling);
+ 	if (IS_ERR(ce)) {
+ 		err = PTR_ERR(ce);
+ 		goto out;
+@@ -4112,7 +4112,7 @@ static int sliceout_virtual_engine(struct intel_gt *gt,
+ 
+ 	/* XXX We do not handle oversubscription and fairness with normal rq */
+ 	for (n = 0; n < nsibling; n++) {
+-		ce = intel_execlists_create_virtual(siblings, nsibling);
++		ce = intel_engine_create_virtual(siblings, nsibling);
+ 		if (IS_ERR(ce)) {
+ 			err = PTR_ERR(ce);
+ 			goto out;
+@@ -4214,7 +4214,7 @@ static int preserved_virtual_engine(struct intel_gt *gt,
+ 	if (err)
+ 		goto out_scratch;
+ 
+-	ve = intel_execlists_create_virtual(siblings, nsibling);
++	ve = intel_engine_create_virtual(siblings, nsibling);
+ 	if (IS_ERR(ve)) {
+ 		err = PTR_ERR(ve);
+ 		goto out_scratch;
+@@ -4354,7 +4354,7 @@ static int reset_virtual_engine(struct intel_gt *gt,
+ 	if (igt_spinner_init(&spin, gt))
+ 		return -ENOMEM;
+ 
+-	ve = intel_execlists_create_virtual(siblings, nsibling);
++	ve = intel_engine_create_virtual(siblings, nsibling);
+ 	if (IS_ERR(ve)) {
+ 		err = PTR_ERR(ve);
+ 		goto out_spin;
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+index 26aadad10b12..28404454a97a 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+@@ -60,6 +60,15 @@
+  *
+  */
+ 
++/* GuC Virtual Engine */
++struct guc_virtual_engine {
++	struct intel_engine_cs base;
++	struct intel_context context;
++};
++
++static struct intel_context *
++guc_create_virtual(struct intel_engine_cs **siblings, unsigned int count);
++
+ #define GUC_REQUEST_SIZE 64 /* bytes */
+ 
+ /*
+@@ -931,14 +940,17 @@ static int guc_lrc_desc_pin(struct intel_context *ce)
+ 	return ret;
+ }
+ 
+-static int guc_context_pre_pin(struct intel_context *ce,
+-			       struct i915_gem_ww_ctx *ww,
+-			       void **vaddr)
++static int __guc_context_pre_pin(struct intel_context *ce,
++				 struct intel_engine_cs *engine,
++				 struct i915_gem_ww_ctx *ww,
++				 void **vaddr)
+ {
+-	return lrc_pre_pin(ce, ce->engine, ww, vaddr);
++	return lrc_pre_pin(ce, engine, ww, vaddr);
+ }
+ 
+-static int guc_context_pin(struct intel_context *ce, void *vaddr)
++static int __guc_context_pin(struct intel_context *ce,
++			     struct intel_engine_cs *engine,
++			     void *vaddr)
+ {
+ 	if (i915_ggtt_offset(ce->state) !=
+ 	    (ce->lrc.lrca & CTX_GTT_ADDRESS_MASK))
+@@ -949,7 +961,19 @@ static int guc_context_pin(struct intel_context *ce, void *vaddr)
+ 	 * explaination of why.
+ 	 */
+ 
+-	return lrc_pin(ce, ce->engine, vaddr);
++	return lrc_pin(ce, engine, vaddr);
++}
++
++static int guc_context_pre_pin(struct intel_context *ce,
++			       struct i915_gem_ww_ctx *ww,
++			       void **vaddr)
++{
++	return __guc_context_pre_pin(ce, ce->engine, ww, vaddr);
++}
++
++static int guc_context_pin(struct intel_context *ce, void *vaddr)
++{
++	return __guc_context_pin(ce, ce->engine, vaddr);
+ }
+ 
+ static void guc_context_unpin(struct intel_context *ce)
+@@ -1054,6 +1078,21 @@ static inline void guc_lrc_desc_unpin(struct intel_context *ce)
+ 	deregister_context(ce, ce->guc_id);
+ }
+ 
++static void __guc_context_destroy(struct intel_context *ce)
++{
++	lrc_fini(ce);
++	intel_context_fini(ce);
++
++	if (intel_engine_is_virtual(ce->engine)) {
++		struct guc_virtual_engine *ve =
++			container_of(ce, typeof(*ve), context);
++
++		kfree(ve);
++	} else {
++		intel_context_free(ce);
++	}
++}
++
+ static void guc_context_destroy(struct kref *kref)
+ {
+ 	struct intel_context *ce = container_of(kref, typeof(*ce), ref);
+@@ -1068,11 +1107,11 @@ static void guc_context_destroy(struct kref *kref)
+ 	 * registered with the GuC.
+ 	 */
+ 	if (context_guc_id_invalid(ce)) {
+-		lrc_destroy(kref);
++		__guc_context_destroy(ce);
+ 		return;
+ 	} else if (!lrc_desc_registered(guc, ce->guc_id)) {
+ 		release_guc_id(guc, ce);
+-		lrc_destroy(kref);
++		__guc_context_destroy(ce);
+ 		return;
+ 	}
+ 
+@@ -1087,7 +1126,7 @@ static void guc_context_destroy(struct kref *kref)
+ 	spin_lock_irqsave(&guc->contexts_lock, flags);
+ 	if (context_guc_id_invalid(ce)) {
+ 		spin_unlock_irqrestore(&guc->contexts_lock, flags);
+-		lrc_destroy(kref);
++		__guc_context_destroy(ce);
+ 		return;
+ 	}
+ 
+@@ -1132,6 +1171,8 @@ static const struct intel_context_ops guc_context_ops = {
+ 
+ 	.reset = lrc_reset,
+ 	.destroy = guc_context_destroy,
++
++	.create_virtual = guc_create_virtual,
+ };
+ 
+ static void __guc_signal_context_fence(struct intel_context *ce)
+@@ -1260,6 +1301,83 @@ static int guc_request_alloc(struct i915_request *rq)
+ 	return 0;
+ }
+ 
++static struct intel_engine_cs *
++guc_virtual_get_sibling(struct intel_engine_cs *ve, unsigned int sibling)
++{
++	struct intel_engine_cs *engine;
++	intel_engine_mask_t tmp, mask = ve->mask;
++	unsigned int num_siblings = 0;
++
++	for_each_engine_masked(engine, ve->gt, mask, tmp)
++		if (num_siblings++ == sibling)
++			return engine;
++
++	return NULL;
++}
++
++static int guc_virtual_context_pre_pin(struct intel_context *ce,
++				       struct i915_gem_ww_ctx *ww,
++				       void **vaddr)
++{
++	struct intel_engine_cs *engine = guc_virtual_get_sibling(ce->engine, 0);
++
++	return __guc_context_pre_pin(ce, engine, ww, vaddr);
++}
++
++static int guc_virtual_context_pin(struct intel_context *ce, void *vaddr)
++{
++	struct intel_engine_cs *engine = guc_virtual_get_sibling(ce->engine, 0);
++
++	return __guc_context_pin(ce, engine, vaddr);
++}
++
++static void guc_virtual_context_enter(struct intel_context *ce)
++{
++	intel_engine_mask_t tmp, mask = ce->engine->mask;
++	struct intel_engine_cs *engine;
++
++	for_each_engine_masked(engine, ce->engine->gt, mask, tmp)
++		intel_engine_pm_get(engine);
++
++	intel_timeline_enter(ce->timeline);
++}
++
++static void guc_virtual_context_exit(struct intel_context *ce)
++{
++	intel_engine_mask_t tmp, mask = ce->engine->mask;
++	struct intel_engine_cs *engine;
++
++	for_each_engine_masked(engine, ce->engine->gt, mask, tmp)
++		intel_engine_pm_put(engine);
++
++	intel_timeline_exit(ce->timeline);
++}
++
++static int guc_virtual_context_alloc(struct intel_context *ce)
++{
++	struct intel_engine_cs *engine = guc_virtual_get_sibling(ce->engine, 0);
++
++	return lrc_alloc(ce, engine);
++}
++
++static const struct intel_context_ops virtual_guc_context_ops = {
++	.alloc = guc_virtual_context_alloc,
++
++	.pre_pin = guc_virtual_context_pre_pin,
++	.pin = guc_virtual_context_pin,
++	.unpin = guc_context_unpin,
++	.post_unpin = guc_context_post_unpin,
++
++	.enter = guc_virtual_context_enter,
++	.exit = guc_virtual_context_exit,
++
++	.sched_disable = guc_context_sched_disable,
++
++	.destroy = guc_context_destroy,
++
++	.get_sibling = guc_virtual_get_sibling,
++};
++
+ static void sanitize_hwsp(struct intel_engine_cs *engine)
+ {
+ 	struct intel_timeline *tl;
+@@ -1566,7 +1684,7 @@ int intel_guc_deregister_done_process_msg(struct intel_guc *guc,
+ 	} else if (context_destroyed(ce)) {
+ 		/* Context has been destroyed */
+ 		release_guc_id(guc, ce);
+-		lrc_destroy(&ce->ref);
++		__guc_context_destroy(ce);
+ 	}
+ 
+ 	decr_outstanding_submission_g2h(guc);
+@@ -1681,3 +1799,109 @@ void intel_guc_submission_print_context_info(struct intel_guc *guc,
+ 			   atomic_read(&ce->guc_sched_state_no_lock));
+ 	}
+ }
++
++static struct intel_context *
++guc_create_virtual(struct intel_engine_cs **siblings, unsigned int count)
++{
++	struct guc_virtual_engine *ve;
++	struct intel_guc *guc;
++	unsigned int n;
++	int err;
++
++	ve = kzalloc(sizeof(*ve), GFP_KERNEL);
++	if (!ve)
++		return ERR_PTR(-ENOMEM);
++
++	guc = &siblings[0]->gt->uc.guc;
++
++	ve->base.i915 = siblings[0]->i915;
++	ve->base.gt = siblings[0]->gt;
++	ve->base.uncore = siblings[0]->uncore;
++	ve->base.id = -1;
++
++	ve->base.uabi_class = I915_ENGINE_CLASS_INVALID;
++	ve->base.instance = I915_ENGINE_CLASS_INVALID_VIRTUAL;
++	ve->base.uabi_instance = I915_ENGINE_CLASS_INVALID_VIRTUAL;
++	ve->base.saturated = ALL_ENGINES;
++	ve->base.breadcrumbs = intel_breadcrumbs_create(&ve->base);
++	if (!ve->base.breadcrumbs) {
++		kfree(ve);
++		return ERR_PTR(-ENOMEM);
++	}
++
++	snprintf(ve->base.name, sizeof(ve->base.name), "virtual");
++
++	ve->base.sched_engine = i915_sched_engine_get(guc->sched_engine);
++
++	ve->base.cops = &virtual_guc_context_ops;
++	ve->base.request_alloc = guc_request_alloc;
++
++	ve->base.submit_request = guc_submit_request;
++
++	ve->base.flags = I915_ENGINE_IS_VIRTUAL;
++
++	intel_context_init(&ve->context, &ve->base);
++
++	for (n = 0; n < count; n++) {
++		struct intel_engine_cs *sibling = siblings[n];
++
++		GEM_BUG_ON(!is_power_of_2(sibling->mask));
++		if (sibling->mask & ve->base.mask) {
++			DRM_DEBUG("duplicate %s entry in load balancer\n",
++				  sibling->name);
++			err = -EINVAL;
++			goto err_put;
++		}
++
++		ve->base.mask |= sibling->mask;
++
++		if (n != 0 && ve->base.class != sibling->class) {
++			DRM_DEBUG("invalid mixing of engine class, sibling %d, already %d\n",
++				  sibling->class, ve->base.class);
++			err = -EINVAL;
++			goto err_put;
++		} else if (n == 0) {
++			ve->base.class = sibling->class;
++			ve->base.uabi_class = sibling->uabi_class;
++			snprintf(ve->base.name, sizeof(ve->base.name),
++				 "v%dx%d", ve->base.class, count);
++			ve->base.context_size = sibling->context_size;
++
++			ve->base.emit_bb_start = sibling->emit_bb_start;
++			ve->base.emit_flush = sibling->emit_flush;
++			ve->base.emit_init_breadcrumb =
++				sibling->emit_init_breadcrumb;
++			ve->base.emit_fini_breadcrumb =
++				sibling->emit_fini_breadcrumb;
++			ve->base.emit_fini_breadcrumb_dw =
++				sibling->emit_fini_breadcrumb_dw;
++
++			ve->base.flags |= sibling->flags;
++
++			ve->base.props.timeslice_duration_ms =
++				sibling->props.timeslice_duration_ms;
++			ve->base.props.preempt_timeout_ms =
++				sibling->props.preempt_timeout_ms;
++		}
++	}
++
++	return &ve->context;
++
++err_put:
++	intel_context_put(&ve->context);
++	return ERR_PTR(err);
++}
++
++
++
++bool intel_guc_virtual_engine_has_heartbeat(const struct intel_engine_cs *ve)
++{
++	struct intel_engine_cs *engine;
++	intel_engine_mask_t tmp, mask = ve->mask;
++
++	for_each_engine_masked(engine, ve->gt, mask, tmp)
++		if (READ_ONCE(engine->props.heartbeat_interval_ms))
++			return true;
++
++	return false;
++}
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h
+index 2b9470c90558..5f263ac4f46a 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h
+@@ -26,6 +26,8 @@ void intel_guc_submission_print_info(struct intel_guc *guc,
+ void intel_guc_submission_print_context_info(struct intel_guc *guc,
+ 					     struct drm_printer *p);
+ 
++bool intel_guc_virtual_engine_has_heartbeat(const struct intel_engine_cs *ve);
++
+ static inline bool intel_guc_submission_is_supported(struct intel_guc *guc)
+ {
+ 	/* XXX: GuC submission is unavailable for now */
 -- 
 2.28.0
 
