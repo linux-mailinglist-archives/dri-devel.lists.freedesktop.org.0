@@ -2,54 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C87D3D2D8F
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jul 2021 22:20:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 351823D2D93
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jul 2021 22:20:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0991A6E8A2;
-	Thu, 22 Jul 2021 20:20:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 139456E8B2;
+	Thu, 22 Jul 2021 20:20:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32f.google.com (mail-ot1-x32f.google.com
- [IPv6:2607:f8b0:4864:20::32f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D77156E8A2
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jul 2021 20:19:59 +0000 (UTC)
-Received: by mail-ot1-x32f.google.com with SMTP id
- 42-20020a9d012d0000b02904b98d90c82cso1695855otu.5
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jul 2021 13:19:59 -0700 (PDT)
+Received: from mail-oo1-xc33.google.com (mail-oo1-xc33.google.com
+ [IPv6:2607:f8b0:4864:20::c33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0DB4D6EA27
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jul 2021 20:20:10 +0000 (UTC)
+Received: by mail-oo1-xc33.google.com with SMTP id
+ x16-20020a4aea100000b0290263aab95660so1597279ood.13
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jul 2021 13:20:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:in-reply-to:references:from:user-agent:date:message-id
  :subject:to:cc;
- bh=Fe8pajUE7NDpP+KFoDH14YyaziM8HYOjmxDI4HcE0+Q=;
- b=MrwpkA0AeKDnvtOPhOU+UgtudfAtOHCjLbSpo3JiDU9qOHMaYB8ODyTaQa2sdqp2SR
- izy7tedILcpoCkkMAX8UpYpLS25bl26x1U+mXQo/9n7204kVjnVmNMwqnRTk+SnilJ6p
- yLBa/1IdvxnerBSnyho0pG+5tT5P5QtxJGemY=
+ bh=kq9pPpUXWfyOB70y0U/HqDgr6rOmQo21nOBEKCcoDWo=;
+ b=nk/s1qG0A/QiwX2ta+8tK85Sr6aMlB8FbNQ8SjuW96XHGaJ48vXa5yzgPwYsNbRA7T
+ D/FZ7xAAw87wm4bJ29D15Sk9vOjhmYxsbv/YMrqQQsdT7brH/bLx0hUA5JSbe4ADqXQV
+ nMQx1ErPAQ/glDIqsERTASMEyJMWEg0YV41z0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:in-reply-to:references:from
  :user-agent:date:message-id:subject:to:cc;
- bh=Fe8pajUE7NDpP+KFoDH14YyaziM8HYOjmxDI4HcE0+Q=;
- b=th/vDME9EK0z0rJq3LmPESXZNtarLbmPF2zAhwo5joDCbmZmzyWGm2RUZ5MNuJOp4z
- SBnyyQ3hZPOOJQCMUDAKVgtiGBuS1nJd9/geJ/WO6XTpuSZB4MXODhLwBOPRHYdhrYVI
- r0AzRzVA1hsTsLVvIBJRhiI4+AJhoTO7S/u104Hy0jOas956IgMyY24SUCxICkBckIeG
- wvRNSJ/5ZDzlfdgQqAfrHN0R4nxXooXhDzpJM6nxAA800cp40Zw4I/KW+O6SwbAbE2MK
- WfbICch0Z7F4pKiK/R1BQ3FIQ+Y6leBkleUEkvBwSGaqSrRRgg5XIkLbq5dRmK/E42kZ
- IVdg==
-X-Gm-Message-State: AOAM531MQV8WH+aAVrRKA1xSXWe8Aeb0bRqHbS+z+e7JU2rdE6oFJ6Tv
- Yfvx+13RkRHsjXTD1ANpzFidElSPrde4i5eBlbKbrQ==
-X-Google-Smtp-Source: ABdhPJwt7g/hkXpMcwuy3NhbJrzVZd1klNp7hUF1Csjwy5CxmWyIavZZtANOEVOAjS1O5p8mwwxI8J4B3J06pIKbg1k=
-X-Received: by 2002:a9d:8c7:: with SMTP id 65mr1004458otf.25.1626985199252;
- Thu, 22 Jul 2021 13:19:59 -0700 (PDT)
+ bh=kq9pPpUXWfyOB70y0U/HqDgr6rOmQo21nOBEKCcoDWo=;
+ b=Cz2m9Gt2kZXE6aDqXtLPgF57ERHXP4AeAv1M+QARNoOmtgNSDmUlFRoKGfYU/x0K05
+ FhJI4qcAZZDaw69XhHVDFqu5/OzfJsqjbEa6HRFDI+r1e7BrGKfyEjC1Qab2Q8bKd4qR
+ DsaglIRyzsY6pY+pgemR9ZsPI1peu7kD0f9kAmKcaAaRwJ/H2BbnCf0iQoeJP2Cu0O3+
+ viGylf7sdTuIOGCkOl5ZUJwvIF78kp3tZsXXHbIz2ECsVLBhGoFTWBBF1XcPpWRulWae
+ EhyQxrCIrHnZPBwGsItYBSe1rhLQe/XRDiUvTzwnjBuoMXeVe9AFD+rrx0h+lxHfBKkx
+ bBTw==
+X-Gm-Message-State: AOAM5307uFXSw/Z3cK9AAtjdv4T3Nrkvvha8BsOVN8OaFgtql2cO27JE
+ mGcPLotDFbzuLnHkGobJCiU4e5tuxFhx5wKocBxqjw==
+X-Google-Smtp-Source: ABdhPJws+s2WINOYmzqYr3vkrc2lrXmlRLDg4DQkooApeFXgDsOVANfXb7i2aeHXcsjJA4Y+mBakkGUzNHisCZtQiJs=
+X-Received: by 2002:a4a:a6c2:: with SMTP id i2mr762853oom.92.1626985209357;
+ Thu, 22 Jul 2021 13:20:09 -0700 (PDT)
 Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 22 Jul 2021 20:19:58 +0000
+ HTTPREST; Thu, 22 Jul 2021 20:20:09 +0000
 MIME-Version: 1.0
-In-Reply-To: <1626922232-29105-1-git-send-email-abhinavk@codeaurora.org>
+In-Reply-To: <1626922232-29105-2-git-send-email-abhinavk@codeaurora.org>
 References: <1626922232-29105-1-git-send-email-abhinavk@codeaurora.org>
+ <1626922232-29105-2-git-send-email-abhinavk@codeaurora.org>
 From: Stephen Boyd <swboyd@chromium.org>
 User-Agent: alot/0.9.1
-Date: Thu, 22 Jul 2021 20:19:58 +0000
-Message-ID: <CAE-0n52zudM+tiByvhNbiBeoYwb+hSqtH0yDgSPU1oTinnSO+Q@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] drm/msm/dsi: update dsi register header file for
- tpg
+Date: Thu, 22 Jul 2021 20:20:08 +0000
+Message-ID: <CAE-0n53H=eA-zaVNVfn=Thg=NjrJMeMSjXsA6oG8GwT-CiDXRQ@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] drm/msm/dsi: add support for dsi test pattern
+ generator
 To: Abhinav Kumar <abhinavk@codeaurora.org>, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -70,10 +71,24 @@ Cc: linux-arm-msm@vger.kernel.org, khsieh@codeaurora.org, seanpaul@chromium.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Abhinav Kumar (2021-07-21 19:50:31)
-> Update the DSI controller header XML file to add registers
-> and bitfields to support rectangular checkered pattern
-> generator.
+Quoting Abhinav Kumar (2021-07-21 19:50:32)
+> During board bringups its useful to have a DSI test pattern
+> generator to isolate a DPU vs a DSI issue and focus on the relevant
+> hardware block.
+>
+> To facilitate this, add an API which triggers the DSI controller
+> test pattern. The expected output is a rectangular checkered pattern.
+>
+> This has been validated on a single DSI video mode panel by calling it
+> right after drm_panel_enable() which is also the ideal location to use
+> this as the DSI host and the panel have been initialized by then.
+>
+> Further validation on dual DSI and command mode panel is pending.
+> If there are any fix ups needed for those, it shall be applied on top
+> of this change.
+>
+> Changes in v2:
+>  - generate the new dsi.xml.h and update the bitfield names
 >
 > Signed-off-by: Abhinav Kumar <abhinavk@codeaurora.org>
 > ---
