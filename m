@@ -1,18 +1,18 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1252A3D22CC
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jul 2021 13:35:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 368293D22E7
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jul 2021 13:49:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 13C446E57E;
-	Thu, 22 Jul 2021 11:35:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7EDAE6E4AB;
+	Thu, 22 Jul 2021 11:49:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp.domeneshop.no (smtp.domeneshop.no
  [IPv6:2a01:5b40:0:3005::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F15106E57E
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jul 2021 11:35:08 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 107BB6E4AB
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jul 2021 11:49:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
  ; s=ds202012;
  h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
@@ -20,30 +20,31 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
  Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
  Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=NPm1xS0JtbQ4ke6GTJz38UVACHbpRJBA05EM/WvMpso=; b=tZcbbBtNa5WeNLjATZC/sKfN+O
- BHncc4a3Q9p4s9hXzRN/u26HMF3lcrB7BEhTYEG1upiZrbKkEA3s8X/U5aBNYVGFK5Rb8pWp4tI9q
- n177HfrOS6wDHjOOO6f48T+eiODmBA4lb4zIyVKBqEUL6FAOalfUDRe2J+KBRSqVwJAiKbzDfxcaE
- PpWZVVIU11mfa2+BSjKhLw9IT+k+sSf94Es6kzKK2gKMDpDkGAyUlKYIZoSViiPCNeQszNUHtgdrr
- d/H7FximsaGEiZ0mptVpxr9DXl0jyJvmJ53sgeUuB4XogbaE7prLMKTaMVxyc+MQHzILO5Bwm6aj5
- Api0mFoA==;
-Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:58710
+ bh=H2GxAufCVDJeVkkQNzy0Z7SIJvesgH5xWPS2ImeU+D0=; b=ZcEJrUl0D8MlPDvkfL3JiKOPko
+ y/uAGRmXKmQRTrhoFitgIzKlVseT8W1mmkEcEkM9zX9ff45Th7w8m4pZ5fbvMTruMGSSwjJxVAj3f
+ prO9SyrUsED9JEQM3p1pu8C7uP0dAiW6AAkW315EdXgkzSAP7fZvrTv6hRiKPFqRe0wtOEDuvjCno
+ 4uB/09lvwI5EvCTdPZfRgY1Tkb3kwqLnIcyxj9qjQKEpoz4JMDCA9ySEVv/ktZNJyCV/1XquZbivh
+ GX6TpM5dXP7jpZfbRL/XcxwcQQ0Q7sUr7NbREejMoXGzx3Uqx9h7lNgZFdnq74O+4Ad3MXM9OShOc
+ sEt3aBfA==;
+Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:64209
  helo=[192.168.10.61])
  by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.92) (envelope-from <noralf@tronnes.org>)
- id 1m6Wyo-0004DC-J8; Thu, 22 Jul 2021 13:35:06 +0200
-Subject: Re: [PATCH 0/7] drm: Provide framebuffer dma-buf helpers
+ id 1m6XCU-0001L9-1d; Thu, 22 Jul 2021 13:49:14 +0200
+Subject: Re: [PATCH 4/5] drm/gud: Map framebuffer BOs with drm_gem_fb_vmap()
 To: Thomas Zimmermann <tzimmermann@suse.de>,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@linux.ie,
- daniel@ffwll.ch, hdegoede@redhat.com, david@lechnology.com,
- airlied@redhat.com, sean@poorly.run
-References: <20210716140801.1215-1-tzimmermann@suse.de>
+ daniel@ffwll.ch, rodrigosiqueiramelo@gmail.com, melissa.srw@gmail.com,
+ hamohammed.sa@gmail.com
+References: <20210715180133.3675-1-tzimmermann@suse.de>
+ <20210715180133.3675-5-tzimmermann@suse.de>
 From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-Message-ID: <411152ed-f091-719d-4160-e42481ab95de@tronnes.org>
-Date: Thu, 22 Jul 2021 13:35:00 +0200
+Message-ID: <9c72aa9d-c5d4-e53f-3690-9be9a8d6a726@tronnes.org>
+Date: Thu, 22 Jul 2021 13:49:11 +0200
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
  Thunderbird/78.12.0
 MIME-Version: 1.0
-In-Reply-To: <20210716140801.1215-1-tzimmermann@suse.de>
+In-Reply-To: <20210715180133.3675-5-tzimmermann@suse.de>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -64,36 +65,16 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-Den 16.07.2021 16.07, skrev Thomas Zimmermann:
-> Provide helpers that wrap dma_buf_{begin,end}_cpu_access() for all
-> GEM BOs attached to a framebuffer. Convert drivers and remove ugly
-> boilerplate code.
+Den 15.07.2021 20.01, skrev Thomas Zimmermann:
+> Abstract the framebuffer details by mapping its BOs with a call
+> to drm_gem_fb_vmap(). Unmap with drm_gem_fb_vunmap().
 > 
-
-Nice, for the series:
-
-Reviewed-by: Noralf Trønnes <noralf@tronnes.org>
-
-
-> Thomas Zimmermann (7):
->   drm/gem: Provide drm_gem_fb_{begin,end}_cpu_access() helpers
->   drm/udl: Use framebuffer dma-buf helpers
->   drm/mipi-dbi: Use framebuffer dma-buf helpers
->   drm/gud: Use framebuffer dma-buf helpers
->   drm/gm12u320: Use framebuffer dma-buf helpers
->   drm/repaper: Use framebuffer dma-buf helpers
->   drm/st7586: Use framebuffer dma-buf helpers
+> The call to drm_gem_fb_vmap() ensures that all BOs are mapped
+> correctly. Gud still only supports single-plane formats.
 > 
->  drivers/gpu/drm/drm_gem_framebuffer_helper.c | 89 ++++++++++++++++++++
->  drivers/gpu/drm/drm_mipi_dbi.c               | 20 ++---
->  drivers/gpu/drm/gud/gud_pipe.c               | 13 ++-
->  drivers/gpu/drm/tiny/gm12u320.c              | 19 ++---
->  drivers/gpu/drm/tiny/repaper.c               | 18 +---
->  drivers/gpu/drm/tiny/st7586.c                | 18 ++--
->  drivers/gpu/drm/udl/udl_modeset.c            | 29 ++-----
->  include/drm/drm_gem_framebuffer_helper.h     |  6 ++
->  8 files changed, 130 insertions(+), 82 deletions(-)
+> No functional changes.
 > 
-> --
-> 2.32.0
-> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+
+Acked-by: Noralf Trønnes <noralf@tronnes.org>
