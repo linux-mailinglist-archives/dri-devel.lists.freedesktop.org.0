@@ -1,63 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D9C13D2C66
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jul 2021 21:08:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E8D83D2C69
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jul 2021 21:08:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1344E6E98B;
-	Thu, 22 Jul 2021 19:07:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 90D766EB1A;
+	Thu, 22 Jul 2021 19:08:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com
- [IPv6:2607:f8b0:4864:20::b4a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 99D536E98B
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jul 2021 19:07:58 +0000 (UTC)
-Received: by mail-yb1-xb4a.google.com with SMTP id
- a4-20020a25f5040000b029054df41d5cceso8514476ybe.18
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jul 2021 12:07:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=date:message-id:mime-version:subject:from:to:cc;
- bh=Y+4Q1LkGSotu1XfmzHQ6ryO/eeqhw4mJ1FyIbndgjZg=;
- b=TqWxnT/Z73qrMHnDvvmdUmHFCBG2MowDGm9qbSkEGL5dCyrUWFCjRlmaCwPnwOV+vE
- felNomI4J14yW6cG4cK8/fe5EmLr6cUafKEfxaLZtrN+y4CuWRbV/1MgW8Oe6G1oUXYe
- U5/snPPITJfuRauEaIlN2IvmysFsXc4W/reebG3h71BcT4s14CNHFwziy8vhd3JaNZVt
- vSNZwIv97aznzS4Lk6SBEfxWNAH0IGp4XobMfkNcfnErx0N0/srvH32mvyN9DTsAGx3Z
- FmvNLWsFRkpdPxysCstLgzcENMdmM//CzmYiJbMaBjzRUoMw5jvq0sqmc91ET7vecjor
- H7cQ==
+Received: from mail-ot1-x32c.google.com (mail-ot1-x32c.google.com
+ [IPv6:2607:f8b0:4864:20::32c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9B2AC6EB1A
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jul 2021 19:08:04 +0000 (UTC)
+Received: by mail-ot1-x32c.google.com with SMTP id
+ 59-20020a9d0ac10000b0290462f0ab0800so6272006otq.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jul 2021 12:08:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+ :subject:to:cc;
+ bh=scp+1rc24jdnxfL7eF19kK3DL+3J9gDohwlrgvGebZ0=;
+ b=Kzg1+v+ASBz1l6YFdUYjoIJ1ycL30KyMVNUxiZbSsy/9xwgH7nYvbx0C2luXa/RK6v
+ hHxo0L2IjE8alE4iJAA9A3eGelmKnpSy2X9ID5+zVi+2oucyhkHRSZFjbrdICtI1EGtp
+ EERE2M2fk6+PWXVFGXH8veERzxrjmQZPsQdMI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
- bh=Y+4Q1LkGSotu1XfmzHQ6ryO/eeqhw4mJ1FyIbndgjZg=;
- b=pr9k9D80MM4L18m0SlUSx95dLmfQpZJsxBNfqyR8AfGWtMeTnUw3tOmW1N3KhYQbPE
- Ae7wvgfuTryKEDfilduYoDx63KWgOd1l3KOVV1+t2TyF5mrNS9oiBB1V+QGuHWmNpGVC
- f+IN3H6xkCH3vKYn5fmoRxHl5WMbIh1KALcQfPDx6UtWmpf/3Euy7kcjHPiodM5bbMbH
- npNCo7mjpOSS0eiPL2Uo7PF6S8kF4u4Drt+Vq0jcLWypBWEys5qgNzdWgcVpwKGbO1R0
- cIo9emH3A40E4ELFAw9xEvda+HtNLClkLbaAd2md1OKIjQYOIo4yABJxzJQrkO8EBTU7
- Jl1g==
-X-Gm-Message-State: AOAM5309dc5VdAuWNLW0gx81u9dp7lTZ0ESsTk1QcA81nkSu2GRWSzWE
- VktQXT/n+BOPC02udORmPm5uX3XYsa4=
-X-Google-Smtp-Source: ABdhPJyN1TtBAly+n7sAFHUMK7tG6nh3fqZuhlgbAzUczufLDXVA9cjmsxqDsLqVj7oNjCMvjWh3qW/7kdU=
-X-Received: from hridya.mtv.corp.google.com
- ([2620:15c:211:200:233e:4a37:d5d6:55d7])
- (user=hridya job=sendgmr) by 2002:a25:2589:: with SMTP id
- l131mr1337963ybl.451.1626980877695; 
- Thu, 22 Jul 2021 12:07:57 -0700 (PDT)
-Date: Thu, 22 Jul 2021 12:07:46 -0700
-Message-Id: <20210722190747.1986614-1-hridya@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.32.0.432.gabb21c7263-goog
-Subject: [PATCH] dma-buf: heaps: Set allocation limit for system heap
-From: Hridya Valsaraju <hridya@google.com>
-To: Sumit Semwal <sumit.semwal@linaro.org>, 
- Benjamin Gaignard <benjamin.gaignard@linaro.org>,
- Liam Mark <lmark@codeaurora.org>, 
- Laura Abbott <labbott@redhat.com>, Brian Starkey <Brian.Starkey@arm.com>, 
- John Stultz <john.stultz@linaro.org>, 
- "=?UTF-8?q?Christian=20K=C3=B6nig?=" <christian.koenig@amd.com>,
- linux-media@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
- linux-kernel@vger.kernel.org
+ h=x-gm-message-state:mime-version:in-reply-to:references:from
+ :user-agent:date:message-id:subject:to:cc;
+ bh=scp+1rc24jdnxfL7eF19kK3DL+3J9gDohwlrgvGebZ0=;
+ b=Hb3pi9cdXyw2lAErA2gpCSJncU12+CEyytRQdVmHtKCVBQI3p1YIcdm/mb2EW7TRA/
+ Gqi0OBKONbBrfMcAxp6+tqna5s2714OPsUlZCFB97rtE45w/v9lpLlJ5k2zwyYGIDSDO
+ rwlnUO6m1hbTaIMb0T8jCqhgEaWCkN6ZBBhUyTLLBP/QyvnwgUTsx7Xzct9LadBY4aui
+ rJKoq+/jy7uN6QMzBzmt5ReGH+5VTon+qB7inQr9+mKL/RzzB73fp9ZjjdwvMRTwI+ZV
+ 30GQi8HOu7nVqWtDMNhlMH/EPfOaJIr1F9x46YP9tERY+anp6HU7mUB6MCBP9Bz049vr
+ wpXA==
+X-Gm-Message-State: AOAM531g/sU0oIRpi9V1Khv24m9XaESzSdMbw1wGsnabjcgTPlw2Wnat
+ tfRW4XVH2KiHEXirQSJBlnVOH7s0DPtzvqyVEV3Xug==
+X-Google-Smtp-Source: ABdhPJzKPYX4blphNqYsrnAPfYagc8nG5lxdFDRdRvNxCcZa50YCfFPtbMdNhV6GjS7SG0R1yOQPOpaxxJ5vYACZZ0E=
+X-Received: by 2002:a9d:650e:: with SMTP id i14mr838011otl.233.1626980883940; 
+ Thu, 22 Jul 2021 12:08:03 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 22 Jul 2021 19:08:03 +0000
+MIME-Version: 1.0
+In-Reply-To: <1626191647-13901-4-git-send-email-khsieh@codeaurora.org>
+References: <1626191647-13901-1-git-send-email-khsieh@codeaurora.org>
+ <1626191647-13901-4-git-send-email-khsieh@codeaurora.org>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.9.1
+Date: Thu, 22 Jul 2021 19:08:03 +0000
+Message-ID: <CAE-0n5121VG4V9mqw6UTj2T4DrN66r53aCONMJr4bqe_niHz_w@mail.gmail.com>
+Subject: Re: [PATCH v2 3/7] drm/msm/dp: reset aux controller after
+ dp_aux_cmd_fifo_tx() failed.
+To: Kuogee Hsieh <khsieh@codeaurora.org>, dri-devel@lists.freedesktop.org, 
+ robdclark@gmail.com, sean@poorly.run
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,41 +66,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Hridya Valsaraju <hridya@google.com>, gregkh@linuxfoundation.org,
- kernel-team@android.com
+Cc: airlied@linux.ie, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, abhinavk@codeaurora.org,
+ bjorn.andersson@linaro.org, aravindh@codeaurora.org,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch limits the size of total memory that can be requested in a
-single allocation from the system heap. This would prevent a
-buggy/malicious client from depleting system memory by requesting for an
-extremely large allocation which might destabilize the system.
+Quoting Kuogee Hsieh (2021-07-13 08:54:03)
+> Aux hardware calibration sequence requires resetting the aux controller
+> in order for the new setting to take effect. However resetting the AUX
+> controller will also clear HPD interrupt status which may accidentally
+> cause pending unplug interrupt to get lost. Therefore reset aux
+> controller only when link is in connection state when dp_aux_cmd_fifo_tx()
+> fail. This fixes Link Layer CTS cases 4.2.1.1 and 4.2.1.2.
+>
+> Signed-off-by: Kuogee Hsieh <khsieh@codeaurora.org>
+> ---
 
-The limit is set to half the size of the device's total RAM which is the
-same as what was set by the deprecated ION system heap.
-
-Signed-off-by: Hridya Valsaraju <hridya@google.com>
----
- drivers/dma-buf/heaps/system_heap.c | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/system_heap.c
-index b7fbce66bcc0..099f5a8304b4 100644
---- a/drivers/dma-buf/heaps/system_heap.c
-+++ b/drivers/dma-buf/heaps/system_heap.c
-@@ -371,6 +371,12 @@ static struct dma_buf *system_heap_do_allocate(struct dma_heap *heap,
- 	struct page *page, *tmp_page;
- 	int i, ret = -ENOMEM;
- 
-+	if (len / PAGE_SIZE > totalram_pages() / 2) {
-+		pr_err("pid %d requested too large an allocation(size %lu) from system heap\n",
-+		       current->pid, len);
-+		return ERR_PTR(ret);
-+	}
-+
- 	buffer = kzalloc(sizeof(*buffer), GFP_KERNEL);
- 	if (!buffer)
- 		return ERR_PTR(-ENOMEM);
--- 
-2.32.0.432.gabb21c7263-goog
-
+Reviewed-by: Stephen Boyd <swboyd@chromium.org>
