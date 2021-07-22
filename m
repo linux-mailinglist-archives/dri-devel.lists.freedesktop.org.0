@@ -2,36 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B00993D3069
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jul 2021 01:37:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04F7B3D3078
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jul 2021 01:37:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0DE326F5CB;
-	Thu, 22 Jul 2021 23:36:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5CBF36F5CF;
+	Thu, 22 Jul 2021 23:36:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9ED496F5B9;
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B499E6F5BB;
  Thu, 22 Jul 2021 23:36:41 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10053"; a="272883250"
-X-IronPort-AV: E=Sophos;i="5.84,262,1620716400"; d="scan'208";a="272883250"
+X-IronPort-AV: E=McAfee;i="6200,9189,10053"; a="199037591"
+X-IronPort-AV: E=Sophos;i="5.84,262,1620716400"; d="scan'208";a="199037591"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  22 Jul 2021 16:36:40 -0700
-X-IronPort-AV: E=Sophos;i="5.84,262,1620716400"; d="scan'208";a="470860958"
+X-IronPort-AV: E=Sophos;i="5.84,262,1620716400"; d="scan'208";a="470860959"
 Received: from dhiatt-server.jf.intel.com ([10.54.81.3])
  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  22 Jul 2021 16:36:40 -0700
 From: Matthew Brost <matthew.brost@intel.com>
 To: <intel-gfx@lists.freedesktop.org>,
 	<dri-devel@lists.freedesktop.org>
-Subject: [PATCH 26/33] drm/i915/selftest: Better error reporting from
- hangcheck selftest
-Date: Thu, 22 Jul 2021 16:54:19 -0700
-Message-Id: <20210722235426.31831-27-matthew.brost@intel.com>
+Subject: [PATCH 27/33] drm/i915/selftest: Fix workarounds selftest for GuC
+ submission
+Date: Thu, 22 Jul 2021 16:54:20 -0700
+Message-Id: <20210722235426.31831-28-matthew.brost@intel.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20210722235426.31831-1-matthew.brost@intel.com>
 References: <20210722235426.31831-1-matthew.brost@intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -48,352 +49,379 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: John Harrison <John.C.Harrison@Intel.com>
+From: "Signed-off-by: Rahul Kumar Singh" <rahul.kumar.singh@intel.com>
 
-There are many ways in which the hangcheck selftest can fail. Very few
-of them actually printed an error message to say what happened. So,
-fill in the missing messages.
+When GuC submission is enabled, the GuC controls engine resets. Rather
+than explicitly triggering a reset, the driver must submit a hanging
+context to GuC and wait for the reset to occur.
 
+Signed-off-by: Rahul Kumar Singh <rahul.kumar.singh@intel.com>
 Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
 Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-Reviewed-by: Matthew Brost <matthew.brost@intel.com>
 Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+Cc: Matthew Brost <matthew.brost@intel.com>
+Reviewed-by: Matthew Brost <matthew.brost@intel.com>
 ---
- drivers/gpu/drm/i915/gt/selftest_hangcheck.c | 93 ++++++++++++++++----
- 1 file changed, 75 insertions(+), 18 deletions(-)
+ drivers/gpu/drm/i915/Makefile                 |   1 +
+ .../gpu/drm/i915/gt/selftest_workarounds.c    | 132 +++++++++++++-----
+ .../i915/selftests/intel_scheduler_helpers.c  |  75 ++++++++++
+ .../i915/selftests/intel_scheduler_helpers.h  |  27 ++++
+ 4 files changed, 200 insertions(+), 35 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/selftests/intel_scheduler_helpers.c
+ create mode 100644 drivers/gpu/drm/i915/selftests/intel_scheduler_helpers.h
 
-diff --git a/drivers/gpu/drm/i915/gt/selftest_hangcheck.c b/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
-index 7aea10aa1fb4..f93ba4076b2b 100644
---- a/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
-+++ b/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
-@@ -378,6 +378,7 @@ static int igt_reset_nop(void *arg)
- 			ce = intel_context_create(engine);
- 			if (IS_ERR(ce)) {
- 				err = PTR_ERR(ce);
-+				pr_err("[%s] Create context failed: %d!\n", engine->name, err);
- 				break;
- 			}
+diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
+index 10b3bb6207ba..ab7679957623 100644
+--- a/drivers/gpu/drm/i915/Makefile
++++ b/drivers/gpu/drm/i915/Makefile
+@@ -280,6 +280,7 @@ i915-$(CONFIG_DRM_I915_CAPTURE_ERROR) += i915_gpu_error.o
+ i915-$(CONFIG_DRM_I915_SELFTEST) += \
+ 	gem/selftests/i915_gem_client_blt.o \
+ 	gem/selftests/igt_gem_utils.o \
++	selftests/intel_scheduler_helpers.o \
+ 	selftests/i915_random.o \
+ 	selftests/i915_selftest.o \
+ 	selftests/igt_atomic.o \
+diff --git a/drivers/gpu/drm/i915/gt/selftest_workarounds.c b/drivers/gpu/drm/i915/gt/selftest_workarounds.c
+index 7a38ce40feb2..27bde7c28888 100644
+--- a/drivers/gpu/drm/i915/gt/selftest_workarounds.c
++++ b/drivers/gpu/drm/i915/gt/selftest_workarounds.c
+@@ -12,6 +12,7 @@
+ #include "selftests/igt_flush_test.h"
+ #include "selftests/igt_reset.h"
+ #include "selftests/igt_spinner.h"
++#include "selftests/intel_scheduler_helpers.h"
+ #include "selftests/mock_drm.h"
  
-@@ -387,6 +388,8 @@ static int igt_reset_nop(void *arg)
- 				rq = intel_context_create_request(ce);
- 				if (IS_ERR(rq)) {
- 					err = PTR_ERR(rq);
-+					pr_err("[%s] Create request failed: %d!\n",
-+					       engine->name, err);
- 					break;
- 				}
- 
-@@ -401,24 +404,31 @@ static int igt_reset_nop(void *arg)
- 		igt_global_reset_unlock(gt);
- 
- 		if (intel_gt_is_wedged(gt)) {
-+			pr_err("[%s] GT is wedged!\n", engine->name);
- 			err = -EIO;
- 			break;
- 		}
- 
- 		if (i915_reset_count(global) != reset_count + ++count) {
--			pr_err("Full GPU reset not recorded!\n");
-+			pr_err("[%s] Reset not recorded: %d vs %d + %d!\n",
-+			       engine->name, i915_reset_count(global), reset_count, count);
- 			err = -EINVAL;
- 			break;
- 		}
- 
- 		err = igt_flush_test(gt->i915);
--		if (err)
-+		if (err) {
-+			pr_err("[%s] Flush failed: %d!\n", engine->name, err);
- 			break;
-+		}
- 	} while (time_before(jiffies, end_time));
- 	pr_info("%s: %d resets\n", __func__, count);
- 
--	if (igt_flush_test(gt->i915))
-+	if (igt_flush_test(gt->i915)) {
-+		pr_err("Post flush failed: %d!\n", err);
- 		err = -EIO;
-+	}
-+
- 	return err;
+ #include "gem/selftests/igt_gem_utils.h"
+@@ -261,28 +262,34 @@ static int do_engine_reset(struct intel_engine_cs *engine)
+ 	return intel_engine_reset(engine, "live_workarounds");
  }
  
-@@ -441,8 +451,10 @@ static int igt_reset_nop_engine(void *arg)
- 		int err;
- 
- 		ce = intel_context_create(engine);
--		if (IS_ERR(ce))
-+		if (IS_ERR(ce)) {
-+			pr_err("[%s] Create context failed: %d!\n", engine->name, err);
- 			return PTR_ERR(ce);
-+		}
- 
- 		reset_count = i915_reset_count(global);
- 		reset_engine_count = i915_reset_engine_count(global, engine);
-@@ -550,8 +562,10 @@ static int igt_reset_fail_engine(void *arg)
- 		int err;
- 
- 		ce = intel_context_create(engine);
--		if (IS_ERR(ce))
-+		if (IS_ERR(ce)) {
-+			pr_err("[%s] Create context failed: %d!\n", engine->name, err);
- 			return PTR_ERR(ce);
-+		}
- 
- 		st_engine_heartbeat_disable(engine);
- 		set_bit(I915_RESET_ENGINE + id, &gt->reset.flags);
-@@ -711,6 +725,8 @@ static int __igt_reset_engine(struct intel_gt *gt, bool active)
- 				rq = hang_create_request(&h, engine);
- 				if (IS_ERR(rq)) {
- 					err = PTR_ERR(rq);
-+					pr_err("[%s] Create hang request failed: %d!\n",
-+					       engine->name, err);
- 					break;
- 				}
- 
-@@ -765,12 +781,16 @@ static int __igt_reset_engine(struct intel_gt *gt, bool active)
- 			break;
- 
- 		err = igt_flush_test(gt->i915);
--		if (err)
-+		if (err) {
-+			pr_err("[%s] Flush failed: %d!\n", engine->name, err);
- 			break;
-+		}
- 	}
- 
--	if (intel_gt_is_wedged(gt))
-+	if (intel_gt_is_wedged(gt)) {
-+		pr_err("GT is wedged!\n");
- 		err = -EIO;
-+	}
- 
- 	if (active)
- 		hang_fini(&h);
-@@ -837,6 +857,7 @@ static int active_engine(void *data)
- 		ce[count] = intel_context_create(engine);
- 		if (IS_ERR(ce[count])) {
- 			err = PTR_ERR(ce[count]);
-+			pr_err("[%s] Create context #%ld failed: %d!\n", engine->name, count, err);
- 			while (--count)
- 				intel_context_put(ce[count]);
- 			return err;
-@@ -852,6 +873,7 @@ static int active_engine(void *data)
- 		new = intel_context_create_request(ce[idx]);
- 		if (IS_ERR(new)) {
- 			err = PTR_ERR(new);
-+			pr_err("[%s] Create request #%d failed: %d!\n", engine->name, idx, err);
- 			break;
- 		}
- 
-@@ -867,8 +889,10 @@ static int active_engine(void *data)
- 		}
- 
- 		err = active_request_put(old);
--		if (err)
-+		if (err) {
-+			pr_err("[%s] Request put failed: %d!\n", engine->name, err);
- 			break;
-+		}
- 
- 		cond_resched();
- 	}
-@@ -876,6 +900,9 @@ static int active_engine(void *data)
- 	for (count = 0; count < ARRAY_SIZE(rq); count++) {
- 		int err__ = active_request_put(rq[count]);
- 
-+		if (err)
-+			pr_err("[%s] Request put #%ld failed: %d!\n", engine->name, count, err);
++static int do_guc_reset(struct intel_engine_cs *engine)
++{
++	/* Currently a no-op as the reset is handled by GuC */
++	return 0;
++}
 +
- 		/* Keep the first error */
- 		if (!err)
- 			err = err__;
-@@ -949,6 +976,7 @@ static int __igt_reset_engines(struct intel_gt *gt,
- 					  "igt/%s", other->name);
- 			if (IS_ERR(tsk)) {
- 				err = PTR_ERR(tsk);
-+				pr_err("[%s] Thread spawn failed: %d!\n", engine->name, err);
- 				goto unwind;
- 			}
+ static int
+ switch_to_scratch_context(struct intel_engine_cs *engine,
+-			  struct igt_spinner *spin)
++			  struct igt_spinner *spin,
++			  struct i915_request **rq)
+ {
+ 	struct intel_context *ce;
+-	struct i915_request *rq;
+ 	int err = 0;
  
-@@ -967,6 +995,8 @@ static int __igt_reset_engines(struct intel_gt *gt,
- 				rq = hang_create_request(&h, engine);
- 				if (IS_ERR(rq)) {
- 					err = PTR_ERR(rq);
-+					pr_err("[%s] Create hang request failed: %d!\n",
-+					       engine->name, err);
- 					break;
- 				}
+ 	ce = intel_context_create(engine);
+ 	if (IS_ERR(ce))
+ 		return PTR_ERR(ce);
  
-@@ -998,11 +1028,10 @@ static int __igt_reset_engines(struct intel_gt *gt,
+-	rq = igt_spinner_create_request(spin, ce, MI_NOOP);
++	*rq = igt_spinner_create_request(spin, ce, MI_NOOP);
+ 	intel_context_put(ce);
  
- 			if (rq) {
- 				if (rq->fence.error != -EIO) {
--					pr_err("i915_reset_engine(%s:%s):"
--					       " failed to reset request %llx:%lld\n",
-+					pr_err("i915_reset_engine(%s:%s): failed to reset request %lld:%lld [0x%04X]\n",
- 					       engine->name, test_name,
- 					       rq->fence.context,
--					       rq->fence.seqno);
-+					       rq->fence.seqno, rq->context->guc_id);
- 					i915_request_put(rq);
- 
- 					GEM_TRACE_DUMP();
-@@ -1101,8 +1130,10 @@ static int __igt_reset_engines(struct intel_gt *gt,
- 			break;
- 
- 		err = igt_flush_test(gt->i915);
--		if (err)
-+		if (err) {
-+			pr_err("[%s] Flush failed: %d!\n", engine->name, err);
- 			break;
-+		}
+-	if (IS_ERR(rq)) {
++	if (IS_ERR(*rq)) {
+ 		spin = NULL;
+-		err = PTR_ERR(rq);
++		err = PTR_ERR(*rq);
+ 		goto err;
  	}
  
- 	if (intel_gt_is_wedged(gt))
-@@ -1180,12 +1211,15 @@ static int igt_reset_wait(void *arg)
- 	igt_global_reset_lock(gt);
+-	err = request_add_spin(rq, spin);
++	err = request_add_spin(*rq, spin);
+ err:
+ 	if (err && spin)
+ 		igt_spinner_end(spin);
+@@ -296,6 +303,7 @@ static int check_whitelist_across_reset(struct intel_engine_cs *engine,
+ {
+ 	struct intel_context *ce, *tmp;
+ 	struct igt_spinner spin;
++	struct i915_request *rq;
+ 	intel_wakeref_t wakeref;
+ 	int err;
  
- 	err = hang_init(&h, gt);
--	if (err)
-+	if (err) {
-+		pr_err("[%s] Hang init failed: %d!\n", engine->name, err);
- 		goto unlock;
+@@ -316,13 +324,24 @@ static int check_whitelist_across_reset(struct intel_engine_cs *engine,
+ 		goto out_spin;
+ 	}
+ 
+-	err = switch_to_scratch_context(engine, &spin);
++	err = switch_to_scratch_context(engine, &spin, &rq);
+ 	if (err)
+ 		goto out_spin;
+ 
++	/* Ensure the spinner hasn't aborted */
++	if (i915_request_completed(rq)) {
++		pr_err("%s spinner failed to start\n", name);
++		err = -ETIMEDOUT;
++		goto out_spin;
 +	}
++
+ 	with_intel_runtime_pm(engine->uncore->rpm, wakeref)
+ 		err = reset(engine);
  
- 	rq = hang_create_request(&h, engine);
- 	if (IS_ERR(rq)) {
- 		err = PTR_ERR(rq);
-+		pr_err("[%s] Create hang request failed: %d!\n", engine->name, err);
- 		goto fini;
- 	}
++	/* Ensure the reset happens and kills the engine */
++	if (err == 0)
++		err = intel_selftest_wait_for_rq(rq);
++
+ 	igt_spinner_end(&spin);
  
-@@ -1310,12 +1344,15 @@ static int __igt_reset_evict_vma(struct intel_gt *gt,
- 	/* Check that we can recover an unbind stuck on a hanging request */
- 
- 	err = hang_init(&h, gt);
--	if (err)
-+	if (err) {
-+		pr_err("[%s] Hang init failed: %d!\n", engine->name, err);
- 		return err;
-+	}
- 
- 	obj = i915_gem_object_create_internal(gt->i915, SZ_1M);
- 	if (IS_ERR(obj)) {
- 		err = PTR_ERR(obj);
-+		pr_err("[%s] Create object failed: %d!\n", engine->name, err);
- 		goto fini;
- 	}
- 
-@@ -1330,12 +1367,14 @@ static int __igt_reset_evict_vma(struct intel_gt *gt,
- 	arg.vma = i915_vma_instance(obj, vm, NULL);
- 	if (IS_ERR(arg.vma)) {
- 		err = PTR_ERR(arg.vma);
-+		pr_err("[%s] VMA instance failed: %d!\n", engine->name, err);
- 		goto out_obj;
- 	}
- 
- 	rq = hang_create_request(&h, engine);
- 	if (IS_ERR(rq)) {
- 		err = PTR_ERR(rq);
-+		pr_err("[%s] Create hang request failed: %d!\n", engine->name, err);
- 		goto out_obj;
- 	}
- 
-@@ -1347,6 +1386,7 @@ static int __igt_reset_evict_vma(struct intel_gt *gt,
- 	err = i915_vma_pin(arg.vma, 0, 0, pin_flags);
  	if (err) {
- 		i915_request_add(rq);
-+		pr_err("[%s] VMA pin failed: %d!\n", engine->name, err);
- 		goto out_obj;
- 	}
+@@ -787,9 +806,26 @@ static int live_reset_whitelist(void *arg)
+ 			continue;
  
-@@ -1363,8 +1403,14 @@ static int __igt_reset_evict_vma(struct intel_gt *gt,
- 	i915_vma_lock(arg.vma);
- 	err = i915_request_await_object(rq, arg.vma->obj,
- 					flags & EXEC_OBJECT_WRITE);
--	if (err == 0)
-+	if (err == 0) {
- 		err = i915_vma_move_to_active(arg.vma, rq, flags);
-+		if (err)
-+			pr_err("[%s] Move to active failed: %d!\n", engine->name, err);
-+	} else {
-+		pr_err("[%s] Request await failed: %d!\n", engine->name, err);
-+	}
+ 		if (intel_has_reset_engine(gt)) {
+-			err = check_whitelist_across_reset(engine,
+-							   do_engine_reset,
+-							   "engine");
++			if (intel_engine_uses_guc(engine)) {
++				struct intel_selftest_saved_policy saved;
++				int err2;
 +
- 	i915_vma_unlock(arg.vma);
++				err = intel_selftest_modify_policy(engine, &saved);
++				if (err)
++					goto out;
++
++				err = check_whitelist_across_reset(engine,
++								   do_guc_reset,
++								   "guc");
++
++				err2 = intel_selftest_restore_policy(engine, &saved);
++				if (err == 0)
++					err = err2;
++			} else
++				err = check_whitelist_across_reset(engine,
++								   do_engine_reset,
++								   "engine");
++
+ 			if (err)
+ 				goto out;
+ 		}
+@@ -1235,31 +1271,40 @@ live_engine_reset_workarounds(void *arg)
+ 	reference_lists_init(gt, lists);
  
- 	if (flags & EXEC_OBJECT_NEEDS_FENCE)
-@@ -1392,6 +1438,7 @@ static int __igt_reset_evict_vma(struct intel_gt *gt,
- 	tsk = kthread_run(fn, &arg, "igt/evict_vma");
- 	if (IS_ERR(tsk)) {
- 		err = PTR_ERR(tsk);
-+		pr_err("[%s] Thread spawn failed: %d!\n", engine->name, err);
- 		tsk = NULL;
- 		goto out_reset;
- 	}
-@@ -1518,6 +1565,7 @@ static int igt_reset_queue(void *arg)
- 		prev = hang_create_request(&h, engine);
- 		if (IS_ERR(prev)) {
- 			err = PTR_ERR(prev);
-+			pr_err("[%s] Create 'prev' hang request failed: %d!\n", engine->name, err);
- 			goto fini;
+ 	for_each_engine(engine, gt, id) {
++		struct intel_selftest_saved_policy saved;
++		bool using_guc = intel_engine_uses_guc(engine);
+ 		bool ok;
++		int ret2;
+ 
+ 		pr_info("Verifying after %s reset...\n", engine->name);
++		ret = intel_selftest_modify_policy(engine, &saved);
++		if (ret)
++			break;
++
++
+ 		ce = intel_context_create(engine);
+ 		if (IS_ERR(ce)) {
+ 			ret = PTR_ERR(ce);
+-			break;
+-		}
+-
+-		ok = verify_wa_lists(gt, lists, "before reset");
+-		if (!ok) {
+-			ret = -ESRCH;
+-			goto err;
++			goto restore;
  		}
  
-@@ -1532,6 +1580,7 @@ static int igt_reset_queue(void *arg)
- 			rq = hang_create_request(&h, engine);
- 			if (IS_ERR(rq)) {
- 				err = PTR_ERR(rq);
-+				pr_err("[%s] Create hang request failed: %d!\n", engine->name, err);
- 				goto fini;
- 			}
+-		ret = intel_engine_reset(engine, "live_workarounds:idle");
+-		if (ret) {
+-			pr_err("%s: Reset failed while idle\n", engine->name);
+-			goto err;
+-		}
++		if (!using_guc) {
++			ok = verify_wa_lists(gt, lists, "before reset");
++			if (!ok) {
++				ret = -ESRCH;
++				goto err;
++			}
  
-@@ -1619,8 +1668,10 @@ static int igt_reset_queue(void *arg)
- 		i915_request_put(prev);
+-		ok = verify_wa_lists(gt, lists, "after idle reset");
+-		if (!ok) {
+-			ret = -ESRCH;
+-			goto err;
++			ret = intel_engine_reset(engine, "live_workarounds:idle");
++			if (ret) {
++				pr_err("%s: Reset failed while idle\n", engine->name);
++				goto err;
++			}
++			ok = verify_wa_lists(gt, lists, "after idle reset");
++			if (!ok) {
++				ret = -ESRCH;
++				goto err;
++			}
+ 		}
  
- 		err = igt_flush_test(gt->i915);
--		if (err)
-+		if (err) {
-+			pr_err("[%s] Flush failed: %d!\n", engine->name, err);
- 			break;
+ 		ret = igt_spinner_init(&spin, engine->gt);
+@@ -1280,25 +1325,42 @@ live_engine_reset_workarounds(void *arg)
+ 			goto err;
+ 		}
+ 
+-		ret = intel_engine_reset(engine, "live_workarounds:active");
+-		if (ret) {
+-			pr_err("%s: Reset failed on an active spinner\n",
+-			       engine->name);
+-			igt_spinner_fini(&spin);
+-			goto err;
++		/* Ensure the spinner hasn't aborted */
++		if (i915_request_completed(rq)) {
++			ret = -ETIMEDOUT;
++			goto skip;
 +		}
++
++		if (!using_guc) {
++			ret = intel_engine_reset(engine, "live_workarounds:active");
++			if (ret) {
++				pr_err("%s: Reset failed on an active spinner\n",
++				       engine->name);
++				igt_spinner_fini(&spin);
++				goto err;
++			}
+ 		}
+ 
++		/* Ensure the reset happens and kills the engine */
++		if (ret == 0)
++			ret = intel_selftest_wait_for_rq(rq);
++
++skip:
+ 		igt_spinner_end(&spin);
+ 		igt_spinner_fini(&spin);
+ 
+ 		ok = verify_wa_lists(gt, lists, "after busy reset");
+-		if (!ok) {
++		if (!ok)
+ 			ret = -ESRCH;
+-			goto err;
+-		}
+ 
+ err:
+ 		intel_context_put(ce);
++
++restore:
++		ret2 = intel_selftest_restore_policy(engine, &saved);
++		if (ret == 0)
++			ret = ret2;
++
+ 		if (ret)
+ 			break;
  	}
- 
- fini:
-@@ -1653,12 +1704,15 @@ static int igt_handle_error(void *arg)
- 		return 0;
- 
- 	err = hang_init(&h, gt);
--	if (err)
-+	if (err) {
-+		pr_err("[%s] Hang init failed: %d!\n", engine->name, err);
- 		return err;
-+	}
- 
- 	rq = hang_create_request(&h, engine);
- 	if (IS_ERR(rq)) {
- 		err = PTR_ERR(rq);
-+		pr_err("[%s] Create hang request failed: %d!\n", engine->name, err);
- 		goto err_fini;
- 	}
- 
-@@ -1743,12 +1797,15 @@ static int igt_atomic_reset_engine(struct intel_engine_cs *engine,
- 		return err;
- 
- 	err = hang_init(&h, engine->gt);
--	if (err)
-+	if (err) {
-+		pr_err("[%s] Hang init failed: %d!\n", engine->name, err);
- 		return err;
-+	}
- 
- 	rq = hang_create_request(&h, engine);
- 	if (IS_ERR(rq)) {
- 		err = PTR_ERR(rq);
-+		pr_err("[%s] Create hang request failed: %d!\n", engine->name, err);
- 		goto out;
- 	}
- 
+diff --git a/drivers/gpu/drm/i915/selftests/intel_scheduler_helpers.c b/drivers/gpu/drm/i915/selftests/intel_scheduler_helpers.c
+new file mode 100644
+index 000000000000..5cdee1378e98
+--- /dev/null
++++ b/drivers/gpu/drm/i915/selftests/intel_scheduler_helpers.c
+@@ -0,0 +1,75 @@
++// SPDX-License-Identifier: MIT
++/*
++ * Copyright © 2021 Intel Corporation
++ */
++
++//#include "gt/intel_engine_user.h"
++#include "gt/intel_gt.h"
++#include "i915_drv.h"
++#include "i915_selftest.h"
++
++#include "selftests/intel_scheduler_helpers.h"
++
++#define REDUCED_TIMESLICE	5
++#define REDUCED_PREEMPT		10
++#define WAIT_FOR_RESET_TIME	1000
++
++int intel_selftest_modify_policy(struct intel_engine_cs *engine,
++				 struct intel_selftest_saved_policy *saved)
++
++{
++	int err;
++
++	saved->reset = engine->i915->params.reset;
++	saved->flags = engine->flags;
++	saved->timeslice = engine->props.timeslice_duration_ms;
++	saved->preempt_timeout = engine->props.preempt_timeout_ms;
++
++	/*
++	 * Enable force pre-emption on time slice expiration
++	 * together with engine reset on pre-emption timeout.
++	 * This is required to make the GuC notice and reset
++	 * the single hanging context.
++	 * Also, reduce the preemption timeout to something
++	 * small to speed the test up.
++	 */
++	engine->i915->params.reset = 2;
++	engine->flags |= I915_ENGINE_WANT_FORCED_PREEMPTION;
++	engine->props.timeslice_duration_ms = REDUCED_TIMESLICE;
++	engine->props.preempt_timeout_ms = REDUCED_PREEMPT;
++
++	if (!intel_engine_uses_guc(engine))
++		return 0;
++
++	err = intel_guc_global_policies_update(&engine->gt->uc.guc);
++	if (err)
++		intel_selftest_restore_policy(engine, saved);
++
++	return err;
++}
++
++int intel_selftest_restore_policy(struct intel_engine_cs *engine,
++				  struct intel_selftest_saved_policy *saved)
++{
++	/* Restore the original policies */
++	engine->i915->params.reset = saved->reset;
++	engine->flags = saved->flags;
++	engine->props.timeslice_duration_ms = saved->timeslice;
++	engine->props.preempt_timeout_ms = saved->preempt_timeout;
++
++	if (!intel_engine_uses_guc(engine))
++		return 0;
++
++	return intel_guc_global_policies_update(&engine->gt->uc.guc);
++}
++
++int intel_selftest_wait_for_rq(struct i915_request *rq)
++{
++	long ret;
++
++	ret = i915_request_wait(rq, 0, WAIT_FOR_RESET_TIME);
++	if (ret < 0)
++		return ret;
++
++	return 0;
++}
+diff --git a/drivers/gpu/drm/i915/selftests/intel_scheduler_helpers.h b/drivers/gpu/drm/i915/selftests/intel_scheduler_helpers.h
+new file mode 100644
+index 000000000000..79605b14bc33
+--- /dev/null
++++ b/drivers/gpu/drm/i915/selftests/intel_scheduler_helpers.h
+@@ -0,0 +1,27 @@
++/* SPDX-License-Identifier: MIT */
++/*
++ * Copyright © 2021 Intel Corporation
++ */
++
++#ifndef _INTEL_SELFTEST_SCHEDULER_HELPERS_H_
++#define _INTEL_SELFTEST_SCHEDULER_HELPERS_H_
++
++#include <linux/types.h>
++
++struct i915_request;
++struct intel_engine_cs;
++
++struct intel_selftest_saved_policy {
++	u32 flags;
++	u32 reset;
++	u64 timeslice;
++	u64 preempt_timeout;
++};
++
++int intel_selftest_modify_policy(struct intel_engine_cs *engine,
++				 struct intel_selftest_saved_policy *saved);
++int intel_selftest_restore_policy(struct intel_engine_cs *engine,
++				  struct intel_selftest_saved_policy *saved);
++int intel_selftest_wait_for_rq(struct i915_request *rq);
++
++#endif
 -- 
 2.28.0
 
