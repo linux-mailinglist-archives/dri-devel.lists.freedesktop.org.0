@@ -2,34 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA9E23D1E2F
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jul 2021 08:23:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B0CB3D1E2C
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jul 2021 08:23:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DCC856ECC9;
-	Thu, 22 Jul 2021 06:23:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 691F06EB74;
+	Thu, 22 Jul 2021 06:23:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx1.smtp.larsendata.com (mx1.smtp.larsendata.com
  [91.221.196.215])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 167116EB22
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jul 2021 06:23:04 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E06186EB74
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jul 2021 06:23:05 +0000 (UTC)
 Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
  by mx1.smtp.larsendata.com (Halon) with ESMTPS
- id 4717710f-eab5-11eb-9082-0050568c148b;
- Thu, 22 Jul 2021 06:23:06 +0000 (UTC)
+ id 47bf6ecf-eab5-11eb-9082-0050568c148b;
+ Thu, 22 Jul 2021 06:23:07 +0000 (UTC)
 Received: from saturn.lan (80-162-45-141-cable.dk.customer.tdc.net
  [80.162.45.141])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
  (Authenticated sender: sam@ravnborg.org)
- by mail01.mxhotel.dk (Postfix) with ESMTPSA id CDB52194B25;
- Thu, 22 Jul 2021 08:23:19 +0200 (CEST)
+ by mail01.mxhotel.dk (Postfix) with ESMTPSA id DCE2F194B3A;
+ Thu, 22 Jul 2021 08:23:20 +0200 (CEST)
 X-Report-Abuse-To: abuse@mxhotel.dk
 From: Sam Ravnborg <sam@ravnborg.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v1 3/7] drm/bridge: Add drm_bridge_new_crtc_state() helper
-Date: Thu, 22 Jul 2021 08:22:42 +0200
-Message-Id: <20210722062246.2512666-4-sam@ravnborg.org>
+Subject: [PATCH v1 4/7] drm/bridge: lontium-lt9611: Use atomic variants of
+ drm_bridge_funcs
+Date: Thu, 22 Jul 2021 08:22:43 +0200
+Message-Id: <20210722062246.2512666-5-sam@ravnborg.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210722062246.2512666-1-sam@ravnborg.org>
 References: <20210722062246.2512666-1-sam@ravnborg.org>
@@ -54,91 +55,140 @@ Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
  Neil Armstrong <narmstrong@baylibre.com>,
  Jernej Skrabec <jernej.skrabec@gmail.com>, Andrzej Hajda <a.hajda@samsung.com>,
  linux-mediatek@lists.infradead.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Matthias Brugger <matthias.bgg@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
  linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm_bridge_new_crtc_state() will be used by bridge drivers to provide
-easy access to the mode from the drm_bridge_funcs operations.
+The atomic variants of enable/disable in drm_bridge_funcs are the
+preferred operations - introduce these.
 
-The helper will be useful in the atomic operations of
-struct drm_bridge_funcs.
+Use of mode_set is deprecated - merge the functionality with
+atomic_enable()
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-Suggested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
 Cc: Andrzej Hajda <a.hajda@samsung.com>
 Cc: Neil Armstrong <narmstrong@baylibre.com>
 Cc: Robert Foss <robert.foss@linaro.org>
-Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: Jonas Karlman <jonas@kwiboo.se>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
 ---
- drivers/gpu/drm/drm_atomic.c | 34 ++++++++++++++++++++++++++++++++++
- include/drm/drm_atomic.h     |  3 +++
- 2 files changed, 37 insertions(+)
+ drivers/gpu/drm/bridge/lontium-lt9611.c | 69 ++++++++++---------------
+ 1 file changed, 27 insertions(+), 42 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
-index a8bbb021684b..93d513078e9a 100644
---- a/drivers/gpu/drm/drm_atomic.c
-+++ b/drivers/gpu/drm/drm_atomic.c
-@@ -1133,6 +1133,40 @@ drm_atomic_get_new_bridge_state(struct drm_atomic_state *state,
+diff --git a/drivers/gpu/drm/bridge/lontium-lt9611.c b/drivers/gpu/drm/bridge/lontium-lt9611.c
+index 29b1ce2140ab..dfa7baefe2ab 100644
+--- a/drivers/gpu/drm/bridge/lontium-lt9611.c
++++ b/drivers/gpu/drm/bridge/lontium-lt9611.c
+@@ -700,9 +700,17 @@ lt9611_connector_mode_valid(struct drm_connector *connector,
  }
- EXPORT_SYMBOL(drm_atomic_get_new_bridge_state);
  
-+/**
-+ * drm_bridge_new_crtc_state - get crtc_state for the bridge
-+ * @bridge: bridge object
-+ * @old_bridge_state: state of the bridge
-+ *
-+ * This function returns the &struct drm_crtc_state for the given bridge/state,
-+ * or NULL if no crtc_state could be looked up. In case no crtc_state then this is
-+ * logged using WARN as the crtc_state is always expected to be present.
-+ * This function is often used in the &struct drm_bridge_funcs operations.
-+ */
-+const struct drm_crtc_state *
-+drm_bridge_new_crtc_state(struct drm_bridge *bridge,
-+			  struct drm_bridge_state *old_bridge_state)
-+{
-+	struct drm_atomic_state *state = old_bridge_state->base.state;
-+	const struct drm_connector_state *conn_state;
+ /* bridge funcs */
+-static void lt9611_bridge_enable(struct drm_bridge *bridge)
++static void lt9611_bridge_atomic_enable(struct drm_bridge *bridge,
++					struct drm_bridge_state *old_bridge_state)
+ {
+ 	struct lt9611 *lt9611 = bridge_to_lt9611(bridge);
++	const struct drm_display_mode *mode;
 +	const struct drm_crtc_state *crtc_state;
-+	struct drm_connector *connector;
++	struct hdmi_avi_infoframe avi_frame;
++	int ret;
 +
-+	connector = drm_atomic_get_new_connector_for_encoder(state, bridge->encoder);
-+	if (WARN_ON(!connector))
-+		return NULL;
-+
-+	conn_state = drm_atomic_get_new_connector_state(state, connector);
-+	if (WARN_ON(!conn_state || !conn_state->crtc))
-+		return NULL;
-+
-+	crtc_state = drm_atomic_get_new_crtc_state(state, conn_state->crtc);
-+	if (WARN_ON(!crtc_state))
-+		return NULL;
-+
-+	return crtc_state;
-+}
-+
- /**
-  * drm_atomic_add_encoder_bridges - add bridges attached to an encoder
-  * @state: atomic state
-diff --git a/include/drm/drm_atomic.h b/include/drm/drm_atomic.h
-index 1701c2128a5c..a3001eef98bf 100644
---- a/include/drm/drm_atomic.h
-+++ b/include/drm/drm_atomic.h
-@@ -1119,5 +1119,8 @@ drm_atomic_get_old_bridge_state(struct drm_atomic_state *state,
- struct drm_bridge_state *
- drm_atomic_get_new_bridge_state(struct drm_atomic_state *state,
- 				struct drm_bridge *bridge);
-+const struct drm_crtc_state *
-+drm_bridge_new_crtc_state(struct drm_bridge *bridge,
-+			  struct drm_bridge_state *old_bridge_state);
++	crtc_state = drm_bridge_new_crtc_state(bridge, old_bridge_state);
++	mode = &crtc_state->mode;
  
- #endif /* DRM_ATOMIC_H_ */
+ 	if (lt9611_power_on(lt9611)) {
+ 		dev_err(lt9611->dev, "power on failed\n");
+@@ -719,9 +727,21 @@ static void lt9611_bridge_enable(struct drm_bridge *bridge)
+ 
+ 	/* Enable HDMI output */
+ 	regmap_write(lt9611->regmap, 0x8130, 0xea);
++
++	lt9611_mipi_input_digital(lt9611, mode);
++	lt9611_pll_setup(lt9611, mode);
++	lt9611_mipi_video_setup(lt9611, mode);
++	lt9611_pcr_setup(lt9611, mode);
++
++	ret = drm_hdmi_avi_infoframe_from_display_mode(&avi_frame,
++						       &lt9611->connector,
++						       mode);
++	if (!ret)
++		lt9611->vic = avi_frame.video_code;
+ }
+ 
+-static void lt9611_bridge_disable(struct drm_bridge *bridge)
++static void lt9611_bridge_atomic_disable(struct drm_bridge *bridge,
++					 struct drm_bridge_state *old_bridge_state)
+ {
+ 	struct lt9611 *lt9611 = bridge_to_lt9611(bridge);
+ 	int ret;
+@@ -877,48 +897,14 @@ static enum drm_mode_status lt9611_bridge_mode_valid(struct drm_bridge *bridge,
+ 		return MODE_OK;
+ }
+ 
+-static void lt9611_bridge_pre_enable(struct drm_bridge *bridge)
+-{
+-	struct lt9611 *lt9611 = bridge_to_lt9611(bridge);
+-
+-	if (!lt9611->sleep)
+-		return;
+-
+-	lt9611_reset(lt9611);
+-	regmap_write(lt9611->regmap, 0x80ee, 0x01);
+-
+-	lt9611->sleep = false;
+-}
+-
+-static void lt9611_bridge_post_disable(struct drm_bridge *bridge)
++static void lt9611_bridge_atomic_post_disable(struct drm_bridge *bridge,
++					      struct drm_bridge_state *old_bridge_state)
+ {
+ 	struct lt9611 *lt9611 = bridge_to_lt9611(bridge);
+ 
+ 	lt9611_sleep_setup(lt9611);
+ }
+ 
+-static void lt9611_bridge_mode_set(struct drm_bridge *bridge,
+-				   const struct drm_display_mode *mode,
+-				   const struct drm_display_mode *adj_mode)
+-{
+-	struct lt9611 *lt9611 = bridge_to_lt9611(bridge);
+-	struct hdmi_avi_infoframe avi_frame;
+-	int ret;
+-
+-	lt9611_bridge_pre_enable(bridge);
+-
+-	lt9611_mipi_input_digital(lt9611, mode);
+-	lt9611_pll_setup(lt9611, mode);
+-	lt9611_mipi_video_setup(lt9611, mode);
+-	lt9611_pcr_setup(lt9611, mode);
+-
+-	ret = drm_hdmi_avi_infoframe_from_display_mode(&avi_frame,
+-						       &lt9611->connector,
+-						       mode);
+-	if (!ret)
+-		lt9611->vic = avi_frame.video_code;
+-}
+-
+ static enum drm_connector_status lt9611_bridge_detect(struct drm_bridge *bridge)
+ {
+ 	struct lt9611 *lt9611 = bridge_to_lt9611(bridge);
+@@ -954,10 +940,9 @@ static const struct drm_bridge_funcs lt9611_bridge_funcs = {
+ 	.attach = lt9611_bridge_attach,
+ 	.detach = lt9611_bridge_detach,
+ 	.mode_valid = lt9611_bridge_mode_valid,
+-	.enable = lt9611_bridge_enable,
+-	.disable = lt9611_bridge_disable,
+-	.post_disable = lt9611_bridge_post_disable,
+-	.mode_set = lt9611_bridge_mode_set,
++	.atomic_enable = lt9611_bridge_atomic_enable,
++	.atomic_disable = lt9611_bridge_atomic_disable,
++	.atomic_post_disable = lt9611_bridge_atomic_post_disable,
+ 	.detect = lt9611_bridge_detect,
+ 	.get_edid = lt9611_bridge_get_edid,
+ 	.hpd_enable = lt9611_bridge_hpd_enable,
 -- 
 2.30.2
 
