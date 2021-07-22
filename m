@@ -1,52 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 266853D1BA6
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jul 2021 04:10:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 338D83D1BC5
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jul 2021 04:29:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E8896ECF0;
-	Thu, 22 Jul 2021 02:10:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B6336E9BC;
+	Thu, 22 Jul 2021 02:29:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f52.google.com (mail-io1-f52.google.com
- [209.85.166.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E4A976ECF0
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jul 2021 02:10:04 +0000 (UTC)
-Received: by mail-io1-f52.google.com with SMTP id u7so4645828ion.3
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 19:10:04 -0700 (PDT)
+Received: from mail-io1-f44.google.com (mail-io1-f44.google.com
+ [209.85.166.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D36B6E9BC
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jul 2021 02:29:51 +0000 (UTC)
+Received: by mail-io1-f44.google.com with SMTP id k11so4668918ioa.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 19:29:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
- :message-id;
- bh=5kLJLZUyCa/nNnxOlQCQXuz6xdsojTMgp+d4EQ2QbHQ=;
- b=Ai9rmRbweMwsDfvWsoaPQioGa8QMvAZBv6e+N81snSJK3MsiS9DQrjqgUxNavFPBMd
- KXaShPDIO2RTmmg+uVR6JMGlNzLTPE398AtohIMhd1nSiqrtFg2kFXsMvoqTHKMiU213
- VCIknrBUP5vl2qFMma6BEGkhaexLMjXfANnovNSwtAgefmHKI0/Vbd/+OUF84X39Raee
- Ciz93Vb4kYTUT51zLew1eDd7kCYEFy7sJo9vX3vZnbV/zcCAxOoxIsn5w70pF67Ycjia
- frtKaENJQdVyazuVwETAFICPNfJMdHoqY9BQRVk1a2XPssvdPAQH+H6KkHp0/7zbgTNi
- bAFg==
-X-Gm-Message-State: AOAM533N1Mt97RDuJHJVKJtUlnoLAWfo+nDBW2WUNq7QJKzo93s2GqCM
- k3+D0BTfCahKtLo0uBuICQ==
-X-Google-Smtp-Source: ABdhPJwMLhd39uWwXBVgjOGL9sUVJPTwWC0SeOtzYs4b6QhOiDuOk/Cireqqm0B02NJINYM/XBe2uw==
-X-Received: by 2002:a6b:b5ce:: with SMTP id
- e197mr28813122iof.123.1626919804208; 
- Wed, 21 Jul 2021 19:10:04 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=Vbm9yduWjMJY5Qu5YDirMHSu1+ek7W9mcXgmGCm0CPU=;
+ b=Q5sJQgSXXwMtDXuOHxaxlZ4gKpqbq0yUt8qDw1A8yeJFTlVUME3Qbl3sgKstay8YN1
+ QMTx5Vm6di3tQX0nLk9j4pffT9nrG2t81qv5v9UpYPb1RWmtBfUpzh9aRw4eNBBXkD55
+ xqWoWeuUh5MoY40T/SarI/i3zHnEiaOgzuvzPJavNgZhvdHpzhbIEKQ3Hw1EiwwJ+HRZ
+ gmC2D/fzMaxNWHmeil/qXyQdJTY8yDS800X0zhvYVgJY53mGJYUUf1ayQADiXunTRqAE
+ N9t1YC9ykYLctymPszALB5LHLtZckIB5ef/qnt3rw9JjIIxC169/2ErvaxGf/3ZGXuwd
+ Nklw==
+X-Gm-Message-State: AOAM5319ZekBTrWD/6XFLDUEuPFWJ730f/f6+Ad/XGbxNZVNRZmSqmvY
+ j7/eRM65SCvMu2yLKTeZEw==
+X-Google-Smtp-Source: ABdhPJzKaG8Ei8yk6jblQllxcE3R6XvpisIpEnt3aFcCAx4LPObvRjHA51fMIi6L9FSCHTmaPWwQUA==
+X-Received: by 2002:a02:aa15:: with SMTP id r21mr10880858jam.37.1626920990785; 
+ Wed, 21 Jul 2021 19:29:50 -0700 (PDT)
 Received: from robh.at.kernel.org ([64.188.179.248])
- by smtp.gmail.com with ESMTPSA id u10sm10518117iop.15.2021.07.21.19.10.00
+ by smtp.gmail.com with ESMTPSA id b8sm13978039ilh.74.2021.07.21.19.29.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Jul 2021 19:10:03 -0700 (PDT)
-Received: (nullmailer pid 3145325 invoked by uid 1000);
- Thu, 22 Jul 2021 02:09:56 -0000
+ Wed, 21 Jul 2021 19:29:50 -0700 (PDT)
+Received: (nullmailer pid 3172014 invoked by uid 1000);
+ Thu, 22 Jul 2021 02:29:47 -0000
+Date: Wed, 21 Jul 2021 20:29:47 -0600
 From: Rob Herring <robh@kernel.org>
 To: Maxime Ripard <maxime@cerno.tech>
-In-Reply-To: <20210721140424.725744-11-maxime@cerno.tech>
-References: <20210721140424.725744-1-maxime@cerno.tech>
- <20210721140424.725744-11-maxime@cerno.tech>
 Subject: Re: [PATCH 10/54] dt-bindings: display: panel-lvds: Document panel
  compatibles
-Date: Wed, 21 Jul 2021 20:09:56 -0600
-Message-Id: <1626919796.956620.3145324.nullmailer@robh.at.kernel.org>
+Message-ID: <20210722022947.GA3168293@robh.at.kernel.org>
+References: <20210721140424.725744-1-maxime@cerno.tech>
+ <20210721140424.725744-11-maxime@cerno.tech>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210721140424.725744-11-maxime@cerno.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,15 +62,15 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@siol.net>,
- Sam Ravnborg <sam@ravnborg.org>, Chen-Yu Tsai <wens@csie.org>,
- dri-devel@lists.freedesktop.org, linux-sunxi@googlegroups.com,
- Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
+ Sam Ravnborg <sam@ravnborg.org>, linux-sunxi@googlegroups.com,
+ dri-devel@lists.freedesktop.org, Chen-Yu Tsai <wens@csie.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Frank Rowand <frowand.list@gmail.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 21 Jul 2021 16:03:40 +0200, Maxime Ripard wrote:
+On Wed, Jul 21, 2021 at 04:03:40PM +0200, Maxime Ripard wrote:
 > The binding mentions that all the drivers using that driver must use a
 > vendor-specific compatible but never enforces it, nor documents the
 > vendor-specific compatibles.
@@ -85,39 +87,46 @@ On Wed, 21 Jul 2021 16:03:40 +0200, Maxime Ripard wrote:
 >  .../bindings/display/panel/lvds.yaml           | 18 ++++++++++++------
 >  1 file changed, 12 insertions(+), 6 deletions(-)
 > 
+> diff --git a/Documentation/devicetree/bindings/display/panel/lvds.yaml b/Documentation/devicetree/bindings/display/panel/lvds.yaml
+> index 49460c9dceea..d1513111eb48 100644
+> --- a/Documentation/devicetree/bindings/display/panel/lvds.yaml
+> +++ b/Documentation/devicetree/bindings/display/panel/lvds.yaml
+> @@ -31,12 +31,18 @@ allOf:
+>  
+>  properties:
+>    compatible:
+> -    contains:
+> -      const: panel-lvds
+> -    description:
+> -      Shall contain "panel-lvds" in addition to a mandatory panel-specific
+> -      compatible string defined in individual panel bindings. The "panel-lvds"
+> -      value shall never be used on its own.
+> +    items:
+> +      - enum:
+> +          - advantech,idk-1110wr
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+At least this one is documented elsewhere. You can add 'minItems: 2' if 
+you want to just enforce having 2 compatibles. Or do:
 
-yamllint warnings/errors:
+items:
+  - {}
+  - const: panel-lvds
 
-dtschema/dtc warnings/errors:
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/panel/sharp,lq150x1lg11.example.dt.yaml: panel: compatible: ['sharp,lq150x1lg11'] is too short
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/panel/lvds.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/panel/sharp,lq150x1lg11.example.dt.yaml: panel: 'data-mapping' is a required property
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/panel/lvds.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/panel/sharp,lq150x1lg11.example.dt.yaml: panel: 'width-mm' is a required property
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/panel/lvds.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/panel/sharp,lq150x1lg11.example.dt.yaml: panel: 'height-mm' is a required property
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/panel/lvds.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/panel/sharp,lq150x1lg11.example.dt.yaml: panel: 'panel-timing' is a required property
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/panel/lvds.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/panel/sharp,lq150x1lg11.example.dt.yaml: panel: 'oneOf' conditional failed, one must be fixed:
-	'port' is a required property
-	'ports' is a required property
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/panel/lvds.yaml
-\ndoc reference errors (make refcheckdocs):
+Which also enforces the order.
 
-See https://patchwork.ozlabs.org/patch/1508254
-
-This check can fail if there are any dependencies. The base for a patch
-series is generally the most recent rc1.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit.
-
+> +          - advantech,idk-2121wr
+> +          - auo,b101ew05
+> +          - innolux,ee101ia-01d
+> +          - mitsubishi,aa104xd12
+> +          - mitsubishi,aa121td01
+> +          - sgd,gktw70sdae4se
+> +          - sharp,lq150x1lg11
+> +          - tbs,a711-panel
+> +      - const: panel-lvds
+>  
+>    data-mapping:
+>      enum:
+> -- 
+> 2.31.1
+> 
+> 
