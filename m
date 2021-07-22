@@ -1,36 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 580523D20D6
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jul 2021 11:26:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC5D93D20D2
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jul 2021 11:26:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 62F1F6EA1F;
-	Thu, 22 Jul 2021 09:26:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 46CE76EA14;
+	Thu, 22 Jul 2021 09:26:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B1E676E935
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jul 2021 09:26:32 +0000 (UTC)
-X-UUID: f4d1f4f72f7947438c004d3b54468d03-20210722
-X-UUID: f4d1f4f72f7947438c004d3b54468d03-20210722
-Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
- mailgw01.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B70E26EA14
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jul 2021 09:26:33 +0000 (UTC)
+X-UUID: edd9ba5fff30483fb88e0d7c63b942fc-20210722
+X-UUID: edd9ba5fff30483fb88e0d7c63b942fc-20210722
+Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw02.mediatek.com
+ (envelope-from <jason-jh.lin@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1048138424; Thu, 22 Jul 2021 17:26:28 +0800
+ with ESMTP id 2121166629; Thu, 22 Jul 2021 17:26:28 +0800
 Received: from mtkcas07.mediatek.inc (172.21.101.84) by
- mtkmbs02n2.mediatek.inc (172.21.101.101) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Thu, 22 Jul 2021 17:26:27 +0800
+ mtkmbs02n1.mediatek.inc (172.21.101.77) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Thu, 22 Jul 2021 17:26:28 +0800
 Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas07.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via
  Frontend Transport; Thu, 22 Jul 2021 17:26:28 +0800
 From: jason-jh.lin <jason-jh.lin@mediatek.com>
 To: Rob Herring <robh+dt@kernel.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
  Philipp Zabel <p.zabel@pengutronix.de>
-Subject: [PATCH v1 4/5] dt-bindings: mediatek: add mediatek,
- dsc.yaml for mt8195 SoC binding
-Date: Thu, 22 Jul 2021 17:26:23 +0800
-Message-ID: <20210722092624.14401-5-jason-jh.lin@mediatek.com>
+Subject: [PATCH v1 5/5] dt-bindings: mediatek: display: add mt8195 SoC binding
+Date: Thu, 22 Jul 2021 17:26:24 +0800
+Message-ID: <20210722092624.14401-6-jason-jh.lin@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20210722092624.14401-1-jason-jh.lin@mediatek.com>
 References: <20210722092624.14401-1-jason-jh.lin@mediatek.com>
@@ -59,94 +58,119 @@ Cc: devicetree@vger.kernel.org, Jitao shi <jitao.shi@mediatek.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-1. Add mediatek,dsc.yaml to decribe DSC module in details.
-2. Add mt8195 SoC binding to mediatek,dsc.yaml.
+Add mt8195 SoC display binding.
 
 Signed-off-by: jason-jh.lin <jason-jh.lin@mediatek.com>
 ---
- .../display/mediatek/mediatek,dsc.yaml        | 73 +++++++++++++++++++
- 1 file changed, 73 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,dsc.yaml
+ .../display/mediatek/mediatek,disp.yaml       | 24 +++++++++++++++++--
+ 1 file changed, 22 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,dsc.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,dsc.yaml
-new file mode 100644
-index 000000000000..f575532bfb21
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dsc.yaml
-@@ -0,0 +1,73 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/mediatek/mediatek,dsc.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: mediatek DSC Controller Device Tree Bindings
-+
-+maintainers:
-+  - CK Hu <ck.hu@mediatek.com>
-+  - Jitao shi <jitao.shi@mediatek.com>
-+  - Jason-JH Lin <jason-jh.lin@mediatek.com>
-+
-+description: |
-+  The DSC standard is a specification of the algorithms used for
-+  compressing and decompressing image display streams, including
-+  the specification of the syntax and semantics of the compressed
-+  video bit stream. DSC is designed for real-time systems with
-+  real-time compression, transmission, decompression and Display.
-+
-+properties:
-+  compatible:
-+    oneOf:
+diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,disp.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,disp.yaml
+index f16ee592735d..db0491ddb1d2 100644
+--- a/Documentation/devicetree/bindings/display/mediatek/mediatek,disp.yaml
++++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,disp.yaml
+@@ -54,6 +54,7 @@ properties:
+       - items:
+           - enum:
+               - mediatek,mt8192-disp-ovl
++              - mediatek,mt8195-disp-ovl
+           - enum:
+               - mediatek,mt8183-disp-ovl
+ 
+@@ -73,6 +74,8 @@ properties:
+           - const: mediatek,mt8173-disp-rdma
+       - items:
+           - const: mediatek,mt8183-disp-rdma
++      - items:
++          - const: mediatek,mt8195-disp-rdma
+       - items:
+           - enum:
+               - mediatek,mt7623-disp-rdma
+@@ -95,6 +98,7 @@ properties:
+       - items:
+           - enum:
+               - mediatek,mt8192-disp-ccorr
++              - mediatek,mt8195-disp-ccorr
+           - enum:
+               - mediatek,mt8183-disp-ccorr
+ 
+@@ -115,6 +119,7 @@ properties:
+           - enum:
+               - mediatek,mt8183-disp-color
+               - mediatek,mt8192-disp-color
++              - mediatek,mt8195-disp-color
+           - enum:
+               - mediatek,mt8173-disp-color
+ 
+@@ -124,6 +129,7 @@ properties:
+       - items:
+           - enum:
+               - mediatek,mt8192-disp-dither
++              - mediatek,mt8195-disp-dither
+           - enum:
+               - mediatek,mt8183-disp-dither
+ 
+@@ -135,6 +141,7 @@ properties:
+               - mediatek,mt2712-disp-aal
+               - mediatek,mt8183-disp-aal
+               - mediatek,mt8192-disp-aal
++              - mediatek,mt8195-disp-aal
+           - enum:
+               - mediatek,mt8173-disp-aal
+ 
+@@ -146,10 +153,17 @@ properties:
+       - items:
+           - enum:
+               - mediatek,mt8192-disp-gamma
++              - mediatek,mt8195-disp-gamma
+           - enum:
+               - mediatek,mt8183-disp-gamma
+ 
++      # DSC: see Documentation/devicetree/bindings/display/mediatek/mediatek,dsc.yaml for details.
 +      - items:
 +          - const: mediatek,mt8195-disp-dsc
 +
-+  reg:
-+    maxItems: 1
+       # MERGE: merge streams from two RDMA sources
++      - items:
++          - const: mediatek,mt8195-disp-merge
+ 
+       # POSTMASK: control round corner for display frame
+       - items:
+@@ -209,6 +223,8 @@ properties:
+           - const: mediatek,mt8183-disp-mutex
+       - items:
+           - const: mediatek,mt8192-disp-mutex
++      - items:
++          - const: mediatek,mt8195-disp-mutex
+ 
+       # OD: overdrive
+       - items:
+@@ -237,7 +253,7 @@ properties:
+   mediatek,larb:
+     description: The compatible property should be one of DMA function blocks,
+       such as "mediatek,<chip>-disp-ovl", "mediatek,<chip>-disp-rdma" or
+-      "mediatek,<chip>-disp-wdma". The supported chips are mt2701, mt8167 and mt8173.
++      "mediatek,<chip>-disp-wdma". The supported chips are mt2701, mt8167, mt8173 and mt8195.
+       Should contain a phandle pointing to the local arbiter device as defined in
+       Documentation/devicetree/bindings/memory-controllers/mediatek,smi-larb.yaml.
+       It must sort according to the local arbiter index, like larb0, larb1, larb2...
+@@ -248,7 +264,7 @@ properties:
+   iommus:
+     description: The compatible property should be one of DMA function blocks,
+       such as "mediatek,<chip>-disp-ovl", "mediatek,<chip>-disp-rdma" or
+-      "mediatek,<chip>-disp-wdma". The supported chips are mt2701, mt8167 and mt8173.
++      "mediatek,<chip>-disp-wdma". The supported chips are mt2701, mt8167, mt8173 and mt8195.
+       Should point to the respective IOMMU block with master port as argument, see
+       Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml for details.
+ 
+@@ -442,3 +458,7 @@ examples:
+         power-domains = <&scpsys MT8173_POWER_DOMAIN_MM>;
+         clocks = <&mmsys CLK_MM_DISP_OD>;
+     };
 +
-+  interrupts:
-+    maxItems: 1
-+
-+  clocks:
-+    items:
-+      - description: DSC Wrapper Clock
-+
-+  power-domains:
-+    description: A phandle and PM domain specifier as defined by bindings of
-+      the power controller specified by phandle. See
-+      Documentation/devicetree/bindings/power/power-domain.yaml for details.
-+
-+  mediatek,gce-client-reg:
-+    description: The register of display function block to be set by gce.
-+      There are 4 arguments in this property, such as gce node, subsys id, offset
-+      and register size. The subsys id that is mapping to the register of display
-+      function blocks is defined in the gce header
-+      include/include/dt-bindings/gce/<chip>-gce.h of each chips.
-+      For example, The mediatek,gce-client-reg property of OVL in mt8173 is
-+      <&gce SUBSYS_1400XXXX 0xc000 0x1000>.
-+    $ref: /schemas/types.yaml#/definitions/phandle-array
-+    maxItems: 1
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+  - clocks
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
 +    dsc0: disp_dsc_wrap@1c009000 {
-+        compatible = "mediatek,mt8195-disp-dsc";
-+        reg = <0 0x1c009000 0 0x1000>;
-+        interrupts = <GIC_SPI 645 IRQ_TYPE_LEVEL_HIGH 0>;
-+        power-domains = <&spm MT8195_POWER_DOMAIN_VDOSYS0>;
-+        clocks = <&vdosys0 CLK_VDO0_DSC_WRAP0>;
-+        mediatek,gce-client-reg =
-+             <&gce1 SUBSYS_1c00XXXX 0x9000 0x1000>;
++        /* See mediatek,dsc.yaml for details */
 +    };
-+
-+...
 -- 
 2.18.0
 
