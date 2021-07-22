@@ -2,55 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2C713D302B
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jul 2021 01:24:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A6953D3045
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jul 2021 01:37:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 394596F532;
-	Thu, 22 Jul 2021 23:24:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB63B6F5AA;
+	Thu, 22 Jul 2021 23:36:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E724F6F530;
- Thu, 22 Jul 2021 23:24:39 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10053"; a="191358129"
-X-IronPort-AV: E=Sophos;i="5.84,262,1620716400"; d="scan'208";a="191358129"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Jul 2021 16:24:39 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,262,1620716400"; d="scan'208";a="497139347"
-Received: from orsmsx604.amr.corp.intel.com ([10.22.229.17])
- by orsmga001.jf.intel.com with ESMTP; 22 Jul 2021 16:24:39 -0700
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX604.amr.corp.intel.com (10.22.229.17) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.10; Thu, 22 Jul 2021 16:24:38 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.10; Thu, 22 Jul 2021 16:24:37 -0700
-Received: from orsmsx610.amr.corp.intel.com ([10.22.229.23]) by
- ORSMSX610.amr.corp.intel.com ([10.22.229.23]) with mapi id 15.01.2242.010;
- Thu, 22 Jul 2021 16:24:37 -0700
-From: "Souza, Jose" <jose.souza@intel.com>
-To: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "daniel.vetter@ffwll.ch" <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH 1/3] drm/plane: remove drm_helper_get_plane_damage_clips
-Thread-Topic: [PATCH 1/3] drm/plane: remove drm_helper_get_plane_damage_clips
-Thread-Index: AQHXfjSQ13pvN+xoSkuG63dq0X7KjatQG6OA
-Date: Thu, 22 Jul 2021 23:24:37 +0000
-Message-ID: <9edea6756aea4859455c6bf3d4c901c8693fdc1c.camel@intel.com>
-References: <20210721133014.3880922-1-daniel.vetter@ffwll.ch>
-In-Reply-To: <20210721133014.3880922-1-daniel.vetter@ffwll.ch>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.22.254.132]
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <FAA4403FB3C95245A2D7F3A54E977B53@intel.com>
-Content-Transfer-Encoding: base64
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 505236EADF;
+ Thu, 22 Jul 2021 23:36:36 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10053"; a="208659255"
+X-IronPort-AV: E=Sophos;i="5.84,262,1620716400"; d="scan'208";a="208659255"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Jul 2021 16:36:35 -0700
+X-IronPort-AV: E=Sophos;i="5.84,262,1620716400"; d="scan'208";a="470860929"
+Received: from dhiatt-server.jf.intel.com ([10.54.81.3])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Jul 2021 16:36:35 -0700
+From: Matthew Brost <matthew.brost@intel.com>
+To: <intel-gfx@lists.freedesktop.org>,
+	<dri-devel@lists.freedesktop.org>
+Subject: [PATCH 00/33] Remaining patches for basic GuC submission 
+Date: Thu, 22 Jul 2021 16:53:53 -0700
+Message-Id: <20210722235426.31831-1-matthew.brost@intel.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,98 +42,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "airlied@linux.ie" <airlied@linux.ie>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>, "Mun,
- Gwan-gyeong" <gwan-gyeong.mun@intel.com>,
- "hdegoede@redhat.com" <hdegoede@redhat.com>,
- "tzimmermann@suse.de" <tzimmermann@suse.de>, "Vetter,
- Daniel" <daniel.vetter@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCAyMDIxLTA3LTIxIGF0IDE1OjMwICswMjAwLCBEYW5pZWwgVmV0dGVyIHdyb3RlOg0K
-PiBJdCdzIG5vdCB1c2VkLiBEcml2ZXJzIHNob3VsZCBpbnN0ZWFkIHVzZSB0aGUgaGVscGVycyBh
-bnl3YXkuDQo+IA0KPiBDdXJyZW50bHkgYm90aCB2Ym94IGFuZCBpOTE1IGhhbmQtcm9sbCB0aGlz
-IGFuZCBpdCdzIG5vdCB0aGUgZ3JlYXRlc3QuDQo+IHZib3ggbG9va3MgYnVnZ3ksIGFuZCBpOTE1
-IGRvZXMgYSBiaXQgbXVjaCB0aGF0IGhlbHBlcnMgd291bGQgdGFrZQ0KPiBjYXJlIG9mIEkgdGhp
-bmsuDQo+IA0KPiBBbHNvIGltcHJvdmUgdGhlIGtlcm5lbGRvY3Mgd2hpbGUgd2UncmUgYXQgaXQu
-DQoNClJldmlld2VkLWJ5OiBKb3PDqSBSb2JlcnRvIGRlIFNvdXphIDxqb3NlLnNvdXphQGludGVs
-LmNvbT4NCg0KPiANCj4gQ2M6IFZpbGxlIFN5cmrDpGzDpCA8dmlsbGUuc3lyamFsYUBsaW51eC5p
-bnRlbC5jb20+DQo+IENjOiBHd2FuLWd5ZW9uZyBNdW4gPGd3YW4tZ3llb25nLm11bkBpbnRlbC5j
-b20+DQo+IENjOiBKb3PDqSBSb2JlcnRvIGRlIFNvdXphIDxqb3NlLnNvdXphQGludGVsLmNvbT4N
-Cj4gQ2M6IEhhbnMgZGUgR29lZGUgPGhkZWdvZWRlQHJlZGhhdC5jb20+DQo+IFNpZ25lZC1vZmYt
-Ynk6IERhbmllbCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJAaW50ZWwuY29tPg0KPiBDYzogTWFhcnRl
-biBMYW5raG9yc3QgPG1hYXJ0ZW4ubGFua2hvcnN0QGxpbnV4LmludGVsLmNvbT4NCj4gQ2M6IE1h
-eGltZSBSaXBhcmQgPG1yaXBhcmRAa2VybmVsLm9yZz4NCj4gQ2M6IFRob21hcyBaaW1tZXJtYW5u
-IDx0emltbWVybWFubkBzdXNlLmRlPg0KPiBDYzogRGF2aWQgQWlybGllIDxhaXJsaWVkQGxpbnV4
-LmllPg0KPiBDYzogRGFuaWVsIFZldHRlciA8ZGFuaWVsQGZmd2xsLmNoPg0KPiAtLS0NCj4gIGRy
-aXZlcnMvZ3B1L2RybS9kcm1fZGFtYWdlX2hlbHBlci5jIHwgIDIgKy0NCj4gIGluY2x1ZGUvZHJt
-L2RybV9kYW1hZ2VfaGVscGVyLmggICAgIHwgMTcgLS0tLS0tLS0tLS0tLS0tLS0NCj4gIGluY2x1
-ZGUvZHJtL2RybV9wbGFuZS5oICAgICAgICAgICAgIHwgMTAgKysrKysrKy0tLQ0KPiAgaW5jbHVk
-ZS9kcm0vZHJtX3JlY3QuaCAgICAgICAgICAgICAgfCAgMyArKysNCj4gIDQgZmlsZXMgY2hhbmdl
-ZCwgMTEgaW5zZXJ0aW9ucygrKSwgMjEgZGVsZXRpb25zKC0pDQo+IA0KPiBkaWZmIC0tZ2l0IGEv
-ZHJpdmVycy9ncHUvZHJtL2RybV9kYW1hZ2VfaGVscGVyLmMgYi9kcml2ZXJzL2dwdS9kcm0vZHJt
-X2RhbWFnZV9oZWxwZXIuYw0KPiBpbmRleCAzYTQxMjZkYzI1MjAuLmViNjliNzEyM2FmNSAxMDA2
-NDQNCj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2RybV9kYW1hZ2VfaGVscGVyLmMNCj4gKysrIGIv
-ZHJpdmVycy9ncHUvZHJtL2RybV9kYW1hZ2VfaGVscGVyLmMNCj4gQEAgLTI4Miw3ICsyODIsNyBA
-QCBkcm1fYXRvbWljX2hlbHBlcl9kYW1hZ2VfaXRlcl9pbml0KHN0cnVjdCBkcm1fYXRvbWljX2hl
-bHBlcl9kYW1hZ2VfaXRlciAqaXRlciwNCj4gIAlpZiAoIXN0YXRlIHx8ICFzdGF0ZS0+Y3J0YyB8
-fCAhc3RhdGUtPmZiIHx8ICFzdGF0ZS0+dmlzaWJsZSkNCj4gIAkJcmV0dXJuOw0KPiAgDQo+IC0J
-aXRlci0+Y2xpcHMgPSBkcm1faGVscGVyX2dldF9wbGFuZV9kYW1hZ2VfY2xpcHMoc3RhdGUpOw0K
-PiArCWl0ZXItPmNsaXBzID0gKHN0cnVjdCBkcm1fcmVjdCAqKWRybV9wbGFuZV9nZXRfZGFtYWdl
-X2NsaXBzKHN0YXRlKTsNCj4gIAlpdGVyLT5udW1fY2xpcHMgPSBkcm1fcGxhbmVfZ2V0X2RhbWFn
-ZV9jbGlwc19jb3VudChzdGF0ZSk7DQo+ICANCj4gIAkvKiBSb3VuZCBkb3duIGZvciB4MS95MSBh
-bmQgcm91bmQgdXAgZm9yIHgyL3kyIHRvIGNhdGNoIGFsbCBwaXhlbHMgKi8NCj4gZGlmZiAtLWdp
-dCBhL2luY2x1ZGUvZHJtL2RybV9kYW1hZ2VfaGVscGVyLmggYi9pbmNsdWRlL2RybS9kcm1fZGFt
-YWdlX2hlbHBlci5oDQo+IGluZGV4IDQwYzM0YTViZjE0OS4uMWFlOGJjZTZhNWNlIDEwMDY0NA0K
-PiAtLS0gYS9pbmNsdWRlL2RybS9kcm1fZGFtYWdlX2hlbHBlci5oDQo+ICsrKyBiL2luY2x1ZGUv
-ZHJtL2RybV9kYW1hZ2VfaGVscGVyLmgNCj4gQEAgLTgyLDIxICs4Miw0IEBAIGJvb2wgZHJtX2F0
-b21pY19oZWxwZXJfZGFtYWdlX21lcmdlZChjb25zdCBzdHJ1Y3QgZHJtX3BsYW5lX3N0YXRlICpv
-bGRfc3RhdGUsDQo+ICAJCQkJICAgICBzdHJ1Y3QgZHJtX3BsYW5lX3N0YXRlICpzdGF0ZSwNCj4g
-IAkJCQkgICAgIHN0cnVjdCBkcm1fcmVjdCAqcmVjdCk7DQo+ICANCj4gLS8qKg0KPiAtICogZHJt
-X2hlbHBlcl9nZXRfcGxhbmVfZGFtYWdlX2NsaXBzIC0gUmV0dXJucyBkYW1hZ2UgY2xpcHMgaW4g
-JmRybV9yZWN0Lg0KPiAtICogQHN0YXRlOiBQbGFuZSBzdGF0ZS4NCj4gLSAqDQo+IC0gKiBSZXR1
-cm5zIHBsYW5lIGRhbWFnZSByZWN0YW5nbGVzIGluIGludGVybmFsICZkcm1fcmVjdC4gQ3VycmVu
-dGx5ICZkcm1fcmVjdA0KPiAtICogY2FuIGJlIG9idGFpbmVkIGJ5IHNpbXBseSB0eXBlY2FzdGlu
-ZyAmZHJtX21vZGVfcmVjdC4gVGhpcyBpcyBiZWNhdXNlIGJvdGgNCj4gLSAqIGFyZSBzaWduZWQg
-MzIgYW5kIGR1cmluZyBkcm1fYXRvbWljX2NoZWNrX29ubHkoKSBpdCBpcyB2ZXJpZmllZCB0aGF0
-IGRhbWFnZQ0KPiAtICogY2xpcHMgYXJlIGluc2lkZSBmYi4NCj4gLSAqDQo+IC0gKiBSZXR1cm46
-IENsaXBzIGluIHBsYW5lIGZiX2RhbWFnZV9jbGlwcyBibG9iIHByb3BlcnR5Lg0KPiAtICovDQo+
-IC1zdGF0aWMgaW5saW5lIHN0cnVjdCBkcm1fcmVjdCAqDQo+IC1kcm1faGVscGVyX2dldF9wbGFu
-ZV9kYW1hZ2VfY2xpcHMoY29uc3Qgc3RydWN0IGRybV9wbGFuZV9zdGF0ZSAqc3RhdGUpDQo+IC17
-DQo+IC0JcmV0dXJuIChzdHJ1Y3QgZHJtX3JlY3QgKilkcm1fcGxhbmVfZ2V0X2RhbWFnZV9jbGlw
-cyhzdGF0ZSk7DQo+IC19DQo+IC0NCj4gICNlbmRpZg0KPiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS9k
-cm0vZHJtX3BsYW5lLmggYi9pbmNsdWRlL2RybS9kcm1fcGxhbmUuaA0KPiBpbmRleCAxMjk0NjEw
-ZTg0ZjQuLjdmN2Q1MTQ4MzEwYyAxMDA2NDQNCj4gLS0tIGEvaW5jbHVkZS9kcm0vZHJtX3BsYW5l
-LmgNCj4gKysrIGIvaW5jbHVkZS9kcm0vZHJtX3BsYW5lLmgNCj4gQEAgLTE4Niw2ICsxODYsOSBA
-QCBzdHJ1Y3QgZHJtX3BsYW5lX3N0YXRlIHsNCj4gIAkgKiBzaW5jZSBsYXN0IHBsYW5lIHVwZGF0
-ZSkgYXMgYW4gYXJyYXkgb2YgJmRybV9tb2RlX3JlY3QgaW4gZnJhbWVidWZmZXINCj4gIAkgKiBj
-b29kaW5hdGVzIG9mIHRoZSBhdHRhY2hlZCBmcmFtZWJ1ZmZlci4gTm90ZSB0aGF0IHVubGlrZSBw
-bGFuZSBzcmMsDQo+ICAJICogZGFtYWdlIGNsaXBzIGFyZSBub3QgaW4gMTYuMTYgZml4ZWQgcG9p
-bnQuDQo+ICsJICoNCj4gKwkgKiBTZWUgZHJtX3BsYW5lX2dldF9kYW1hZ2VfY2xpcHMoKSBhbmQN
-Cj4gKwkgKiBkcm1fcGxhbmVfZ2V0X2RhbWFnZV9jbGlwc19jb3VudCgpIGZvciBhY2Nlc3Npbmcg
-dGhlc2UuDQo+ICAJICovDQo+ICAJc3RydWN0IGRybV9wcm9wZXJ0eV9ibG9iICpmYl9kYW1hZ2Vf
-Y2xpcHM7DQo+ICANCj4gQEAgLTkxNCw5ICs5MTcsMTAgQEAgZHJtX3BsYW5lX2dldF9kYW1hZ2Vf
-Y2xpcHNfY291bnQoY29uc3Qgc3RydWN0IGRybV9wbGFuZV9zdGF0ZSAqc3RhdGUpDQo+ICAgKiBk
-cm1fcGxhbmVfZ2V0X2RhbWFnZV9jbGlwcyAtIFJldHVybnMgZGFtYWdlIGNsaXBzLg0KPiAgICog
-QHN0YXRlOiBQbGFuZSBzdGF0ZS4NCj4gICAqDQo+IC0gKiBOb3RlIHRoYXQgdGhpcyBmdW5jdGlv
-biByZXR1cm5zIHVhcGkgdHlwZSAmZHJtX21vZGVfcmVjdC4gRHJpdmVycyBtaWdodA0KPiAtICog
-aW5zdGVhZCBiZSBpbnRlcmVzdGVkIGluIGludGVybmFsICZkcm1fcmVjdCB3aGljaCBjYW4gYmUg
-b2J0YWluZWQgYnkgY2FsbGluZw0KPiAtICogZHJtX2hlbHBlcl9nZXRfcGxhbmVfZGFtYWdlX2Ns
-aXBzKCkuDQo+ICsgKiBOb3RlIHRoYXQgdGhpcyBmdW5jdGlvbiByZXR1cm5zIHVhcGkgdHlwZSAm
-ZHJtX21vZGVfcmVjdC4gRHJpdmVycyBtaWdodCB3YW50DQo+ICsgKiB0byB1c2UgdGhlIGhlbHBl
-ciBmdW5jdGlvbnMgZHJtX2F0b21pY19oZWxwZXJfZGFtYWdlX2l0ZXJfaW5pdCgpIGFuZA0KPiAr
-ICogZHJtX2F0b21pY19oZWxwZXJfZGFtYWdlX2l0ZXJfbmV4dCgpIG9yIGRybV9hdG9taWNfaGVs
-cGVyX2RhbWFnZV9tZXJnZWQoKSBpZg0KPiArICogdGhlIGRyaXZlciBjYW4gb25seSBoYW5kbGUg
-YSBzaW5nbGUgZGFtYWdlIHJlZ2lvbiBhdCBtb3N0Lg0KPiAgICoNCj4gICAqIFJldHVybjogRGFt
-YWdlIGNsaXBzIGluIHBsYW5lIGZiX2RhbWFnZV9jbGlwcyBibG9iIHByb3BlcnR5Lg0KPiAgICov
-DQo+IGRpZmYgLS1naXQgYS9pbmNsdWRlL2RybS9kcm1fcmVjdC5oIGIvaW5jbHVkZS9kcm0vZHJt
-X3JlY3QuaA0KPiBpbmRleCAzOWYyZGVlZTcwOWMuLjZmNmUxOWJkNGRhYyAxMDA2NDQNCj4gLS0t
-IGEvaW5jbHVkZS9kcm0vZHJtX3JlY3QuaA0KPiArKysgYi9pbmNsdWRlL2RybS9kcm1fcmVjdC5o
-DQo+IEBAIC0zOSw2ICszOSw5IEBADQo+ICAgKiBAeDI6IGhvcml6b250YWwgZW5kaW5nIGNvb3Jk
-aW5hdGUgKGV4Y2x1c2l2ZSkNCj4gICAqIEB5MTogdmVydGljYWwgc3RhcnRpbmcgY29vcmRpbmF0
-ZSAoaW5jbHVzaXZlKQ0KPiAgICogQHkyOiB2ZXJ0aWNhbCBlbmRpbmcgY29vcmRpbmF0ZSAoZXhj
-bHVzaXZlKQ0KPiArICoNCj4gKyAqIE5vdGUgdGhhdCB0aGlzIG11c3QgbWF0Y2ggdGhlIGxheW91
-dCBvZiBzdHJ1Y3QgZHJtX21vZGVfcmVjdCBvciB0aGUgZGFtYWdlDQo+ICsgKiBoZWxwZXJzIGxp
-a2UgZHJtX2F0b21pY19oZWxwZXJfZGFtYWdlX2l0ZXJfaW5pdCgpIGJyZWFrLg0KPiAgICovDQo+
-ICBzdHJ1Y3QgZHJtX3JlY3Qgew0KPiAgCWludCB4MSwgeTEsIHgyLCB5MjsNCg0K
+The remaining patches for basic GuC submission [1]. Need 4 more RB and
+CI results to get this merged. 
+
+Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+
+[1] https://patchwork.freedesktop.org/series/91840/
+
+Daniele Ceraolo Spurio (1):
+  drm/i915/guc: Unblock GuC submission on Gen11+
+
+John Harrison (11):
+  drm/i915/guc: Make hangcheck work with GuC virtual engines
+  drm/i915/guc: Don't complain about reset races
+  drm/i915/guc: Enable GuC engine reset
+  drm/i915/guc: Fix for error capture after full GPU reset with GuC
+  drm/i915/guc: Hook GuC scheduling policies up
+  drm/i915/guc: Connect reset modparam updates to GuC policy flags
+  drm/i915/guc: Include scheduling policies in the debugfs state dump
+  drm/i915/guc: Add golden context to GuC ADS
+  drm/i915/selftest: Better error reporting from hangcheck selftest
+  drm/i915/selftest: Fix hangcheck self test for GuC submission
+  drm/i915/selftest: Bump selftest timeouts for hangcheck
+
+Matthew Brost (18):
+  drm/i915/guc: GuC virtual engines
+  drm/i915: Hold reference to intel_context over life of i915_request
+  drm/i915/guc: Disable bonding extension with GuC submission
+  drm/i915/guc: Direct all breadcrumbs for a class to single breadcrumbs
+  drm/i915: Add i915_sched_engine destroy vfunc
+  drm/i915: Move active request tracking to a vfunc
+  drm/i915/guc: Reset implementation for new GuC interface
+  drm/i915: Reset GPU immediately if submission is disabled
+  drm/i915/guc: Add disable interrupts to guc sanitize
+  drm/i915/guc: Suspend/resume implementation for new interface
+  drm/i915/guc: Handle context reset notification
+  drm/i915/guc: Handle engine reset failure notification
+  drm/i915/guc: Enable the timer expired interrupt for GuC
+  drm/i915/guc: Capture error state on context reset
+  drm/i915/guc: Implement banned contexts for GuC submission
+  drm/i915/guc: Support request cancellation
+  drm/i915/selftest: Increase some timeouts in live_requests
+  drm/i915/guc: Implement GuC priority management
+
+Rahul Kumar Singh (1):
+  drm/i915/selftest: Fix MOCS selftest for GuC submission
+
+Signed-off-by: John Harrison (1):
+  drm/i915/guc: Provide mmio list to be saved/restored on engine reset
+
+Signed-off-by: Rahul Kumar Singh (1):
+  drm/i915/selftest: Fix workarounds selftest for GuC submission
+
+ drivers/gpu/drm/i915/Makefile                 |    1 +
+ drivers/gpu/drm/i915/gem/i915_gem_context.c   |   15 +-
+ drivers/gpu/drm/i915/gt/intel_breadcrumbs.c   |   44 +-
+ drivers/gpu/drm/i915/gt/intel_breadcrumbs.h   |   16 +-
+ .../gpu/drm/i915/gt/intel_breadcrumbs_types.h |    7 +
+ drivers/gpu/drm/i915/gt/intel_context.c       |   36 +
+ drivers/gpu/drm/i915/gt/intel_context.h       |   23 +
+ drivers/gpu/drm/i915/gt/intel_context_types.h |   31 +-
+ drivers/gpu/drm/i915/gt/intel_engine.h        |   57 +-
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c     |  182 +-
+ .../gpu/drm/i915/gt/intel_engine_heartbeat.c  |   71 +-
+ .../gpu/drm/i915/gt/intel_engine_heartbeat.h  |    4 +
+ drivers/gpu/drm/i915/gt/intel_engine_types.h  |   13 +-
+ drivers/gpu/drm/i915/gt/intel_engine_user.c   |    4 +
+ .../drm/i915/gt/intel_execlists_submission.c  |   89 +-
+ .../drm/i915/gt/intel_execlists_submission.h  |    4 -
+ drivers/gpu/drm/i915/gt/intel_gt.c            |    2 +
+ drivers/gpu/drm/i915/gt/intel_gt_pm.c         |    6 +-
+ drivers/gpu/drm/i915/gt/intel_reset.c         |   50 +-
+ .../gpu/drm/i915/gt/intel_ring_submission.c   |   58 +
+ drivers/gpu/drm/i915/gt/intel_rps.c           |    4 +
+ drivers/gpu/drm/i915/gt/intel_workarounds.c   |   46 +-
+ .../gpu/drm/i915/gt/intel_workarounds_types.h |    1 +
+ drivers/gpu/drm/i915/gt/mock_engine.c         |   34 +-
+ .../drm/i915/gt/selftest_engine_heartbeat.c   |   22 +
+ .../drm/i915/gt/selftest_engine_heartbeat.h   |    2 +
+ drivers/gpu/drm/i915/gt/selftest_execlists.c  |   12 +-
+ drivers/gpu/drm/i915/gt/selftest_hangcheck.c  |  322 +++-
+ drivers/gpu/drm/i915/gt/selftest_mocs.c       |   50 +-
+ .../gpu/drm/i915/gt/selftest_workarounds.c    |  134 +-
+ .../gpu/drm/i915/gt/uc/abi/guc_actions_abi.h  |    1 +
+ drivers/gpu/drm/i915/gt/uc/intel_guc.c        |   82 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc.h        |   38 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c    |  464 ++++-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ads.h    |    4 +
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c     |   11 +-
+ .../gpu/drm/i915/gt/uc/intel_guc_debugfs.c    |    2 +
+ .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 1601 +++++++++++++++--
+ .../gpu/drm/i915/gt/uc/intel_guc_submission.h |   13 +-
+ drivers/gpu/drm/i915/gt/uc/intel_uc.c         |  101 +-
+ drivers/gpu/drm/i915/gt/uc/intel_uc.h         |    6 +
+ drivers/gpu/drm/i915/i915_debugfs_params.c    |   32 +
+ drivers/gpu/drm/i915/i915_gpu_error.c         |   25 +-
+ drivers/gpu/drm/i915/i915_reg.h               |    1 +
+ drivers/gpu/drm/i915/i915_request.c           |  162 +-
+ drivers/gpu/drm/i915/i915_request.h           |   21 +
+ drivers/gpu/drm/i915/i915_scheduler.c         |   16 +-
+ drivers/gpu/drm/i915/i915_scheduler.h         |   10 +-
+ drivers/gpu/drm/i915/i915_scheduler_types.h   |   22 +
+ drivers/gpu/drm/i915/i915_trace.h             |   37 +-
+ drivers/gpu/drm/i915/selftests/i915_request.c |    4 +-
+ .../gpu/drm/i915/selftests/igt_flush_test.c   |    2 +-
+ .../i915/selftests/intel_scheduler_helpers.c  |   88 +
+ .../i915/selftests/intel_scheduler_helpers.h  |   33 +
+ include/uapi/drm/i915_drm.h                   |    9 +
+ 55 files changed, 3490 insertions(+), 635 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/selftests/intel_scheduler_helpers.c
+ create mode 100644 drivers/gpu/drm/i915/selftests/intel_scheduler_helpers.h
+
+-- 
+2.28.0
+
