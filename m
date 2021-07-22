@@ -1,37 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B7D73D246C
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jul 2021 15:16:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CF0D3D24A1
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jul 2021 15:29:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 644286ED88;
-	Thu, 22 Jul 2021 13:16:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B948D6ED08;
+	Thu, 22 Jul 2021 13:29:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 91D036ED88;
- Thu, 22 Jul 2021 13:16:21 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 3188261003;
- Thu, 22 Jul 2021 13:16:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1626959780;
- bh=CrztZNaKVjON/d/4c724HSYw6X0K63o+ecpeTn4t92Q=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=twohJJ8smdG94+ivCw6JHpWyxc/qnlszhBccWg+IT0PNCF6RLAbwgvtAb4DN2qECG
- 1blRjx5cbIoNeAlvlElPmqUE78cShdo48RyrAA0wLts+zAOpVLveOXrx4KpCvFVSMQ
- 02DnOiltWrfxfI2rKpgeeftVW5Yy+cB37A0sQmus=
-Date: Thu, 22 Jul 2021 15:16:17 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: "Wang, Zhi A" <zhi.a.wang@intel.com>
-Subject: Re: refactor the i915 GVT support
-Message-ID: <YPlvoa4lZzfXXmvE@kroah.com>
-References: <20210721155355.173183-1-hch@lst.de>
- <DM4PR11MB55496531B246A4604FC86998CAE49@DM4PR11MB5549.namprd11.prod.outlook.com>
+Received: from mail-yb1-xb34.google.com (mail-yb1-xb34.google.com
+ [IPv6:2607:f8b0:4864:20::b34])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A77EC6ECCE
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jul 2021 13:29:47 +0000 (UTC)
+Received: by mail-yb1-xb34.google.com with SMTP id v189so4478107ybg.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jul 2021 06:29:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=wPmGoJD3OKEF5f5PV+c0Yp9ObsD+ox5Eu96+RMsI5Ms=;
+ b=06+K04zoBlg9iMnGBqxJdModZpC3WY75IHTQG2Fvabvkis5gPwhhklLP5Cwi62+GHK
+ lLZ2qI/58hyaRsz7DsoxXShoSm/48rZ7TbxB6wpmceXFcN9q49TlzKGzOouBuaUUVE0d
+ JyRM/ZuxnWBYjHSdc2oCoLeSAo6mNxKoO7o8Q9drcoFOUknieREFXnZuYojnlr0+ixpL
+ trRTOS5WrvjmrNdVpp5o30CBGLSrzgmrxE8TMvc/qmbWls6TckEL1v1YRcJcO1F+Hhdq
+ QybAAtjW2cbGW5hju6lGZpuI6P3MN2okPZGs/gH1LrIWzVhP88Vyw5+zs5ZxPyJ0ee5/
+ S9cQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=wPmGoJD3OKEF5f5PV+c0Yp9ObsD+ox5Eu96+RMsI5Ms=;
+ b=j/BZM0m6h8c0R5nwjeC5gkk3YR+80JJoOOIMNwsOgPsRiNpQcsDf0mktqNJz+EQaf6
+ EwTjG21+dHGE9w0WKUFfLZSRObNf7qLvfFeIfZJZjmO1FDe6r3IlNo25xrutkZ44PuRJ
+ UO8d80FY2dJDiPy2QOQbsMQnhZWWAaurgFlsQW77FBbwyNdZ8jUqkUGHji8BXx9Qhr8c
+ +RaouLLdWIG276jhUxRkp9Yy9iS4YQKf5WRcnuP13c0FR6R4OjHTugftj2RkH97jzZ1b
+ BJ/RrzBSAoI702riT6UWPDWy0Tw34Nw9xs91YcYpMFplzPtlGk3RpQBVIPmdBefqgkDb
+ t+1w==
+X-Gm-Message-State: AOAM533hkD594tqCHSf040WkUnVgyfW52k2d7PINQgMd1O7A0FEIkaGM
+ /EGUTXitwG/nJ87ncPzaKFrwB23/sTNQ1wcCTgNpoA==
+X-Google-Smtp-Source: ABdhPJyXsyg4e4OWdvAz8Y27/RGs0CfGup64r/qzMSrBkagap8fr/D2LufYQiwmq6cpv1Poi0vKVeBOZ/NX336a0Eug=
+X-Received: by 2002:a25:2f89:: with SMTP id
+ v131mr53394597ybv.469.1626960586717; 
+ Thu, 22 Jul 2021 06:29:46 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DM4PR11MB55496531B246A4604FC86998CAE49@DM4PR11MB5549.namprd11.prod.outlook.com>
+References: <20210715101536.2606307-1-matthew.auld@intel.com>
+ <20210715101536.2606307-4-matthew.auld@intel.com>
+ <CAOFGe9667Mi9pJWNmzQP6LmiWvTmHWN5UVVs7B046FDozcwcPw@mail.gmail.com>
+ <CAM0jSHPAhURYUVzdsaVKd+U8nYniO+vQVyU3zeYUyKddj4xW0Q@mail.gmail.com>
+In-Reply-To: <CAM0jSHPAhURYUVzdsaVKd+U8nYniO+vQVyU3zeYUyKddj4xW0Q@mail.gmail.com>
+From: Jason Ekstrand <jason@jlekstrand.net>
+Date: Thu, 22 Jul 2021 08:29:35 -0500
+Message-ID: <CAOFGe94uBHB2rvJncsquwBH4JqWSaHYA5EO9WFjgPLNW__Xy1w@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH 3/4] drm/i915/userptr: Probe existence of
+ backing struct pages upon creation
+To: Matthew Auld <matthew.william.auld@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,35 +69,227 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "Vivi,
- Rodrigo" <rodrigo.vivi@intel.com>,
- "intel-gvt-dev@lists.freedesktop.org" <intel-gvt-dev@lists.freedesktop.org>,
- Christoph Hellwig <hch@lst.de>
+Cc: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel GFX <intel-gfx@lists.freedesktop.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ Kenneth Graunke <kenneth@whitecape.org>, Matthew Auld <matthew.auld@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 22, 2021 at 10:49:47AM +0000, Wang, Zhi A wrote:
-> But it's hard for some customers to contribute their own "hypervisor"
-> module to the upstream Linux kernel.
+On Thu, Jul 22, 2021 at 3:44 AM Matthew Auld
+<matthew.william.auld@gmail.com> wrote:
+>
+> On Wed, 21 Jul 2021 at 21:28, Jason Ekstrand <jason@jlekstrand.net> wrote=
+:
+> >
+> > On Thu, Jul 15, 2021 at 5:16 AM Matthew Auld <matthew.auld@intel.com> w=
+rote:
+> > >
+> > > From: Chris Wilson <chris@chris-wilson.co.uk>
+> > >
+> > > Jason Ekstrand requested a more efficient method than userptr+set-dom=
+ain
+> > > to determine if the userptr object was backed by a complete set of pa=
+ges
+> > > upon creation. To be more efficient than simply populating the userpt=
+r
+> > > using get_user_pages() (as done by the call to set-domain or execbuf)=
+,
+> > > we can walk the tree of vm_area_struct and check for gaps or vma not
+> > > backed by struct page (VM_PFNMAP). The question is how to handle
+> > > VM_MIXEDMAP which may be either struct page or pfn backed...
+> > >
+> > > With discrete are going to drop support for set_domain(), so offering=
+ a
+> > > way to probe the pages, without having to resort to dummy batches has
+> > > been requested.
+> > >
+> > > v2:
+> > > - add new query param for the PROPBE flag, so userspace can easily
+> > >   check if the kernel supports it(Jason).
+> > > - use mmap_read_{lock, unlock}.
+> > > - add some kernel-doc.
+> > >
+> > > Testcase: igt/gem_userptr_blits/probe
+> > > Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
+> > > Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+> > > Cc: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
+> > > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> > > Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+> > > Cc: Jordan Justen <jordan.l.justen@intel.com>
+> > > Cc: Kenneth Graunke <kenneth@whitecape.org>
+> > > Cc: Jason Ekstrand <jason@jlekstrand.net>
+> > > Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> > > Cc: Ramalingam C <ramalingam.c@intel.com>
+> > > ---
+> > >  drivers/gpu/drm/i915/gem/i915_gem_userptr.c | 40 +++++++++++++++++++=
++-
+> > >  drivers/gpu/drm/i915/i915_getparam.c        |  3 ++
+> > >  include/uapi/drm/i915_drm.h                 | 18 ++++++++++
+> > >  3 files changed, 60 insertions(+), 1 deletion(-)
+> > >
+> > > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_userptr.c b/drivers/gp=
+u/drm/i915/gem/i915_gem_userptr.c
+> > > index 56edfeff8c02..fd6880328596 100644
+> > > --- a/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
+> > > +++ b/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
+> > > @@ -422,6 +422,33 @@ static const struct drm_i915_gem_object_ops i915=
+_gem_userptr_ops =3D {
+> > >
+> > >  #endif
+> > >
+> > > +static int
+> > > +probe_range(struct mm_struct *mm, unsigned long addr, unsigned long =
+len)
+> > > +{
+> > > +       const unsigned long end =3D addr + len;
+> > > +       struct vm_area_struct *vma;
+> > > +       int ret =3D -EFAULT;
+> > > +
+> > > +       mmap_read_lock(mm);
+> > > +       for (vma =3D find_vma(mm, addr); vma; vma =3D vma->vm_next) {
+> > > +               if (vma->vm_start > addr)
+> >
+> > Why isn't this > end?  Are we somehow guaranteed that one vma covers
+> > the entire range?
+>
+> AFAIK we are just making sure we don't have a hole(note that we also
+> update addr below), for example the user might have done a partial
+> munmap. There could be multiple vma's if the kernel was unable to
+> merge them. If we reach the vm_end >=3D end, then we know we have a
+> "valid" range.
 
-What prevents them from doing this?  We will take any code that meets
-our standards, what format is this external code in?
+Ok.  That wasn't obvious to me but I see the addr update now.  Makes
+sense.  Might be worth a one-line comment for the next guy.  Either
+way,
 
-> I am thinking what would be a
-> better solution here? The MPT layer in the kernel helps a lot for
-> customers, but only one open-source "hypervisor" module is there in
-> the kernel. That can confuse people which don't know the story. One
-> thing I was thinking is to put a document about the background and
-> more description in the MPT headers. So it won't confuse more people. 
+Reviewed-by: Jason Ekstrand <jason@jlekstrand.net>
 
-If no one is using it in the kernel, it needs to be removed.  No
-abstractions should be added that are not required by the in-tree code.
+Thanks for wiring this up!
 
-So this series should be accepted, _or_ the external code needs to be
-submitted for inclusion.
+--Jason
 
-thanks,
-
-greg k-h
+> >
+> > > +                       break;
+> > > +
+> > > +               if (vma->vm_flags & (VM_PFNMAP | VM_MIXEDMAP))
+> > > +                       break;
+> > > +
+> > > +               if (vma->vm_end >=3D end) {
+> > > +                       ret =3D 0;
+> > > +                       break;
+> > > +               }
+> > > +
+> > > +               addr =3D vma->vm_end;
+> > > +       }
+> > > +       mmap_read_unlock(mm);
+> > > +
+> > > +       return ret;
+> > > +}
+> > > +
+> > >  /*
+> > >   * Creates a new mm object that wraps some normal memory from the pr=
+ocess
+> > >   * context - user memory.
+> > > @@ -477,7 +504,8 @@ i915_gem_userptr_ioctl(struct drm_device *dev,
+> > >         }
+> > >
+> > >         if (args->flags & ~(I915_USERPTR_READ_ONLY |
+> > > -                           I915_USERPTR_UNSYNCHRONIZED))
+> > > +                           I915_USERPTR_UNSYNCHRONIZED |
+> > > +                           I915_USERPTR_PROBE))
+> > >                 return -EINVAL;
+> > >
+> > >         if (i915_gem_object_size_2big(args->user_size))
+> > > @@ -504,6 +532,16 @@ i915_gem_userptr_ioctl(struct drm_device *dev,
+> > >                         return -ENODEV;
+> > >         }
+> > >
+> > > +       if (args->flags & I915_USERPTR_PROBE) {
+> > > +               /*
+> > > +                * Check that the range pointed to represents real st=
+ruct
+> > > +                * pages and not iomappings (at this moment in time!)
+> > > +                */
+> > > +               ret =3D probe_range(current->mm, args->user_ptr, args=
+->user_size);
+> > > +               if (ret)
+> > > +                       return ret;
+> > > +       }
+> > > +
+> > >  #ifdef CONFIG_MMU_NOTIFIER
+> > >         obj =3D i915_gem_object_alloc();
+> > >         if (obj =3D=3D NULL)
+> > > diff --git a/drivers/gpu/drm/i915/i915_getparam.c b/drivers/gpu/drm/i=
+915/i915_getparam.c
+> > > index 24e18219eb50..d6d2e1a10d14 100644
+> > > --- a/drivers/gpu/drm/i915/i915_getparam.c
+> > > +++ b/drivers/gpu/drm/i915/i915_getparam.c
+> > > @@ -163,6 +163,9 @@ int i915_getparam_ioctl(struct drm_device *dev, v=
+oid *data,
+> > >         case I915_PARAM_PERF_REVISION:
+> > >                 value =3D i915_perf_ioctl_version();
+> > >                 break;
+> > > +       case I915_PARAM_HAS_USERPTR_PROBE:
+> > > +               value =3D true;
+> > > +               break;
+> > >         default:
+> > >                 DRM_DEBUG("Unknown parameter %d\n", param->param);
+> > >                 return -EINVAL;
+> > > diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.=
+h
+> > > index e20eeeca7a1c..2e4112bf4d38 100644
+> > > --- a/include/uapi/drm/i915_drm.h
+> > > +++ b/include/uapi/drm/i915_drm.h
+> > > @@ -674,6 +674,9 @@ typedef struct drm_i915_irq_wait {
+> > >   */
+> > >  #define I915_PARAM_HAS_EXEC_TIMELINE_FENCES 55
+> > >
+> > > +/* Query if the kernel supports the I915_USERPTR_PROBE flag. */
+> > > +#define I915_PARAM_HAS_USERPTR_PROBE 56
+> > > +
+> > >  /* Must be kept compact -- no holes and well documented */
+> > >
+> > >  typedef struct drm_i915_getparam {
+> > > @@ -2178,12 +2181,27 @@ struct drm_i915_gem_userptr {
+> > >          * through the GTT. If the HW can't support readonly access, =
+an error is
+> > >          * returned.
+> > >          *
+> > > +        * I915_USERPTR_PROBE:
+> > > +        *
+> > > +        * Probe the provided @user_ptr range and validate that the @=
+user_ptr is
+> > > +        * indeed pointing to normal memory and that the range is als=
+o valid.
+> > > +        * For example if some garbage address is given to the kernel=
+, then this
+> > > +        * should complain.
+> > > +        *
+> > > +        * Returns -EFAULT if the probe failed.
+> > > +        *
+> > > +        * Note that this doesn't populate the backing pages.
+> > > +        *
+> > > +        * The kernel supports this feature if I915_PARAM_HAS_USERPTR=
+_PROBE
+> > > +        * returns a non-zero value.
+> > > +        *
+> > >          * I915_USERPTR_UNSYNCHRONIZED:
+> > >          *
+> > >          * NOT USED. Setting this flag will result in an error.
+> > >          */
+> > >         __u32 flags;
+> > >  #define I915_USERPTR_READ_ONLY 0x1
+> > > +#define I915_USERPTR_PROBE 0x2
+> > >  #define I915_USERPTR_UNSYNCHRONIZED 0x80000000
+> > >         /**
+> > >          * @handle: Returned handle for the object.
+> > > --
+> > > 2.26.3
+> > >
+> > _______________________________________________
+> > Intel-gfx mailing list
+> > Intel-gfx@lists.freedesktop.org
+> > https://lists.freedesktop.org/mailman/listinfo/intel-gfx
