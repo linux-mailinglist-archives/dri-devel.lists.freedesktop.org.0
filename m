@@ -1,59 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB7DF3D20EB
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jul 2021 11:30:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4891D3D20F4
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jul 2021 11:30:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE8E66EEB2;
-	Thu, 22 Jul 2021 09:30:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3121B6EF21;
+	Thu, 22 Jul 2021 09:30:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com
- [IPv6:2607:f8b0:4864:20::102c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D5C76EE80;
- Thu, 22 Jul 2021 09:30:17 +0000 (UTC)
-Received: by mail-pj1-x102c.google.com with SMTP id
- k4-20020a17090a5144b02901731c776526so3405691pjm.4; 
- Thu, 22 Jul 2021 02:30:17 -0700 (PDT)
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com
+ [IPv6:2607:f8b0:4864:20::102a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B5636EF21;
+ Thu, 22 Jul 2021 09:30:22 +0000 (UTC)
+Received: by mail-pj1-x102a.google.com with SMTP id
+ h6-20020a17090a6486b029017613554465so4651006pjj.4; 
+ Thu, 22 Jul 2021 02:30:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=bWqoW1zaypI6FiOc+rFvxYhfwSyGe+LXhfGXUAMjokM=;
- b=q3mxk07wkguCFJ+lpuERPHN7UiaEpdxTgOavixSsHfPNPXKFiLSITtuEeLIwPZRjU7
- s42Q87ZjcaNTrLRJw+tOZoIdFlCwLflimzejiOKT9gyMkMLpthTiHeFKzQnJDsELOScM
- PtdXIj1ZZXVu3ZM9M3OBzrwO6lugRjWibip1gEsqKagfac6tObLaddc0jIOPyn0rQ/2Q
- SqIn/SBaRCLr760Fo23EQiVBqg1WabAQZKzLW5+nyHPy0emWxNaaJxxmEC5IAWoOYBMb
- 2w3ZGx0JEfCUFSrEa95ldc/WJZLAJYcicWU1cZ6niVobKKGPIESb53bReRPgOoJoRBug
- if1g==
+ bh=A2l/KYBC3bXoznTgQM09vSdqpXWqmsKUF+1UGlqjuAs=;
+ b=iVpkBp98NPm8dzyyjh2eWotbxQtjnGNI1V2cdYfzEqO8V2JwfDNWiljVhOnth5v9vV
+ JCLZ0eWSPMARC4eF7+5anNLBscRUOCtfHoDE9BKCnZ7WlthaGsCOmK+QXDfEM119EHAs
+ 9zlgS5BKQXnuI/wObxt9KXRXzsqsbN2pSrv1E0A32+AJpLQstfJPNoTDW/ZyBMRsjUP2
+ r2sAKbAPGA3A+lGRQQztqiF4D5bzJk3Q+J98dqlC5BzylIBi16x4VN1uqrrEBkPEEset
+ 6PuSnPzJSKGWMrW1iyPf8aoz8Uha7BQm5bq2xoH9ONbdjpUqxiJjkvhO0EgprYuGFl2/
+ dqCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=bWqoW1zaypI6FiOc+rFvxYhfwSyGe+LXhfGXUAMjokM=;
- b=kw5N2T3/J8empfEbSpMU8SpjQ82wRZ0ZEJ5bm+AY0qW7UY+TuWtJg3jkGKvNSf7c6N
- fW0YD+vVNeBkDzsfvzlDPXVEvhtThCzYg3Ncyemab7/F+B3Wi04aMvgNAjqkEgz0rbjt
- 4iWuLSZiefH9rs/p90dKI126nBORaMZXpvDfm2UNxnvu97y3RlKWtqE5ZXXgADbFX/5b
- ffPV1ch1S6jGxPS/EvP704wFVlSC/J4jU3LAOHGYJZ616nryd5DK0V/Q1LZM4erqkZFg
- Xgfiu1uljGbEU/nBNKzeKsM6+8sl3F+ED+1JTu98Hk7OK0ZbF/bmSbz5ZklUwTV1PNSa
- DVFg==
-X-Gm-Message-State: AOAM530xJhuOii7FFQxF7Cv/5tGRZKumB2CE2QYmnXfxAdU/f3ohEWVF
- JHV5PCJ66AJ3SXWwD6Cs88A=
-X-Google-Smtp-Source: ABdhPJzLwTR8vmDcr35rGyIbAv/nAj71D9TVKb48nTd5YFXyi6D7zffA6NSixOLxJopmOo9LLz5PwA==
-X-Received: by 2002:a63:cd4b:: with SMTP id a11mr21260014pgj.273.1626946216859; 
- Thu, 22 Jul 2021 02:30:16 -0700 (PDT)
+ bh=A2l/KYBC3bXoznTgQM09vSdqpXWqmsKUF+1UGlqjuAs=;
+ b=hC4xR1sLfaYe2wN7Cn9idfvvgQdqtXvCK/Kvm0JoWz2eoqLtTxL3r3Tm8H1nZgXc3K
+ 9lFpHi3/wewaa5OAmA2YEYFPa04WEZuzkhb4kCi7lQWW4ihpTpeapVKxaPmFAG4r4Q+E
+ mQ5j+x1t22DL17KP6WSyKODTV/D+vWFwY+xVh0CH8uUrnIX9sZeLIMxC7AZuv3j7hw2W
+ rWyIW7zWZ/nBsViPWTOijVrVQg17LyFfPja4Q55x1FPx2zWVk8a+OFHCT6pFfA0dnvPc
+ yNxdzdpy7EutMmPtkugzrZVXQzvJo8zouhp2SlsIu40mq6ruhmVPT3TbFWGXh4EHuKoM
+ 3vPw==
+X-Gm-Message-State: AOAM530zOWG35Hjhh/InZ0fwGLfmDHeZI8fzBIDv86rESDogmF/8yu6r
+ QzViPFqXNsnY79qypkfzQtg=
+X-Google-Smtp-Source: ABdhPJwWSq7bPLEO8MIHqEQ+hopaL1ENBkio6HpKz1UWTD3GAqFQS/Lxme9q8QwdqhvLTnGtDD1QDA==
+X-Received: by 2002:a17:90a:8811:: with SMTP id
+ s17mr8215397pjn.171.1626946221835; 
+ Thu, 22 Jul 2021 02:30:21 -0700 (PDT)
 Received: from localhost.localdomain ([118.200.190.93])
- by smtp.gmail.com with ESMTPSA id q5sm1069592pjo.7.2021.07.22.02.30.13
+ by smtp.gmail.com with ESMTPSA id q5sm1069592pjo.7.2021.07.22.02.30.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 Jul 2021 02:30:16 -0700 (PDT)
+ Thu, 22 Jul 2021 02:30:21 -0700 (PDT)
 From: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
 To: linux-graphics-maintainer@vmware.com, zackr@vmware.com, airlied@linux.ie,
  daniel@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
  tzimmermann@suse.de
-Subject: [PATCH 2/3] drm: clarify lifetime/locking for drm_master's lease
- fields
-Date: Thu, 22 Jul 2021 17:29:28 +0800
-Message-Id: <20210722092929.244629-3-desmondcheongzx@gmail.com>
+Subject: [PATCH 3/3] drm/vmwgfx: fix potential UAF in vmwgfx_surface.c
+Date: Thu, 22 Jul 2021 17:29:29 +0800
+Message-Id: <20210722092929.244629-4-desmondcheongzx@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210722092929.244629-1-desmondcheongzx@gmail.com>
 References: <20210722092929.244629-1-desmondcheongzx@gmail.com>
@@ -78,105 +78,40 @@ Cc: gregkh@linuxfoundation.org, intel-gfx@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In particular, we make it clear that &drm_device.mode_config.idr_mutex
-protects the lease idr and list structures for drm_master. The lessor
-field itself doesn't need to be protected as it doesn't change after
-it's set in drm_lease_create.
+drm_file.master should be protected by either drm_device.master_mutex
+or drm_file.master_lookup_lock when being dereferenced. However,
+drm_master_get is called on unprotected file_priv->master pointers in
+vmw_surface_define_ioctl and vmw_gb_surface_define_internal.
 
-Additionally, we add descriptions for the lifetime of lessors and
-leases to make it easier to reason about them.
+This is fixed by replacing drm_master_get with drm_file_get_master.
 
 Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
 ---
- include/drm/drm_auth.h | 62 ++++++++++++++++++++++++++++++++++--------
- 1 file changed, 51 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/vmwgfx/vmwgfx_surface.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/include/drm/drm_auth.h b/include/drm/drm_auth.h
-index f99d3417f304..c978c85464fa 100644
---- a/include/drm/drm_auth.h
-+++ b/include/drm/drm_auth.h
-@@ -58,12 +58,6 @@ struct drm_lock_data {
-  * @refcount: Refcount for this master object.
-  * @dev: Link back to the DRM device
-  * @driver_priv: Pointer to driver-private information.
-- * @lessor: Lease holder
-- * @lessee_id: id for lessees. Owners always have id 0
-- * @lessee_list: other lessees of the same master
-- * @lessees: drm_masters leasing from this one
-- * @leases: Objects leased to this drm_master.
-- * @lessee_idr: All lessees under this owner (only used where lessor == NULL)
-  *
-  * Note that master structures are only relevant for the legacy/primary device
-  * nodes, hence there can only be one per device, not one per drm_minor.
-@@ -88,17 +82,63 @@ struct drm_master {
- 	struct idr magic_map;
- 	void *driver_priv;
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_surface.c b/drivers/gpu/drm/vmwgfx/vmwgfx_surface.c
+index 0eba47762bed..5d53a5f9d123 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_surface.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_surface.c
+@@ -865,7 +865,7 @@ int vmw_surface_define_ioctl(struct drm_device *dev, void *data,
+ 	user_srf->prime.base.shareable = false;
+ 	user_srf->prime.base.tfile = NULL;
+ 	if (drm_is_primary_client(file_priv))
+-		user_srf->master = drm_master_get(file_priv->master);
++		user_srf->master = drm_file_get_master(file_priv);
  
--	/* Tree of display resource leases, each of which is a drm_master struct
--	 * All of these get activated simultaneously, so drm_device master points
--	 * at the top of the tree (for which lessor is NULL). Protected by
--	 * &drm_device.mode_config.idr_mutex.
-+	/**
-+	 * @lessor:
-+	 *
-+	 * Lease holder. The lessor does not change once it's set in
-+	 * drm_lease_create(). Each lessee holds a reference to its lessor that
-+	 * it releases upon being destroyed in drm_lease_destroy().
-+	 *
-+	 * Display resource leases form a tree of &struct drm_master. All of
-+	 * these get activated simultaneously, so &drm_device.master
-+	 * points at the top of the tree (for which lessor is NULL).
- 	 */
--
- 	struct drm_master *lessor;
-+
-+	/**
-+	 * @lessee_id:
-+	 *
-+	 * ID for lessees. Owners always have ID 0. Protected by
-+	 * &drm_device.mode_config's &drm_mode_config.idr_mutex.
-+	 */
- 	int	lessee_id;
-+
-+	/**
-+	 * @lessee_list:
-+	 *
-+	 * List of lessees of the same master. Protected by
-+	 * &drm_device.mode_config's &drm_mode_config.idr_mutex.
-+	 */
- 	struct list_head lessee_list;
-+
-+	/**
-+	 * @lessees:
-+	 *
-+	 * List of drm_masters leasing from this one. Protected by
-+	 * &drm_device.mode_config's &drm_mode_config.idr_mutex.
-+	 *
-+	 * This master cannot be destroyed unless this list is empty as lessors
-+	 * are referenced by all their lessees.
-+	 */
- 	struct list_head lessees;
-+
-+	/**
-+	 * @leases:
-+	 *
-+	 * Objects leased to this drm_master. Protected by
-+	 * &drm_device.mode_config's &drm_mode_config.idr_mutex.
-+	 *
-+	 * Objects are leased all together in drm_lease_create(), and are
-+	 * removed all together when the lease is revoked.
-+	 */
- 	struct idr leases;
-+
-+	/**
-+	 * @lessee_idr:
-+	 *
-+	 * All lessees under this owner (only used where lessor is NULL).
-+	 * Protected by &drm_device.mode_config's &drm_mode_config.idr_mutex.
-+	 */
- 	struct idr lessee_idr;
- 	/* private: */
- #if IS_ENABLED(CONFIG_DRM_LEGACY)
+ 	/**
+ 	 * From this point, the generic resource management functions
+@@ -1534,7 +1534,7 @@ vmw_gb_surface_define_internal(struct drm_device *dev,
+ 
+ 	user_srf = container_of(srf, struct vmw_user_surface, srf);
+ 	if (drm_is_primary_client(file_priv))
+-		user_srf->master = drm_master_get(file_priv->master);
++		user_srf->master = drm_file_get_master(file_priv);
+ 
+ 	res = &user_srf->srf.res;
+ 
 -- 
 2.25.1
 
