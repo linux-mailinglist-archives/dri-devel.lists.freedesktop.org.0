@@ -1,63 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADD563D2BD6
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jul 2021 20:22:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9355E3D2C04
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jul 2021 20:41:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 11C776EA92;
-	Thu, 22 Jul 2021 18:22:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 650516E8AF;
+	Thu, 22 Jul 2021 18:41:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 055BE6EA8F;
- Thu, 22 Jul 2021 18:22:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EFB276E8AF;
+ Thu, 22 Jul 2021 18:40:58 +0000 (UTC)
 Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id A938E226BF;
- Thu, 22 Jul 2021 18:22:44 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 7EA4E22654;
+ Thu, 22 Jul 2021 18:40:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1626978164; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1626979257; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=0BiNFIu0MEqXEfJZC+qyDSlJni8faM4VaraLZAbd0VE=;
- b=M+OVP8zvk8TMB4Eiw281i7mHk/UmSzx+SH4pjZbq17Cg9kyQgPaSc4LDznGo8hGnAj7eMK
- wdw9un21ggJ8SqowILivw7O7QM3NLwLf4mLYbc/78OudElZHQn+mALSr0Ox3JZC4EQmEQA
- 75CGuyhhji2m5plotR20PtWhVluDwEk=
+ bh=xXJijGRrkqiEQm5QGASMZ+HObJh2UD3vPLveLc5H25w=;
+ b=lyWhc338ZqWVOeKV1LbK1kglCeAxfQw+OBpKnSiY2kujDmTiyohFOLXXIOBTlBX7HeRstG
+ tYtzN8SOE+0iMS80wbzIsFQEAVjnEAUc2flEAPYDuggUWazoZ5Y7f6qTOuMh9aayxJPEaj
+ W8WGdH45YrRKsKwdu6eQezEM6rj1Gtc=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1626978164;
+ s=susede2_ed25519; t=1626979257;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=0BiNFIu0MEqXEfJZC+qyDSlJni8faM4VaraLZAbd0VE=;
- b=9T8HaMdY97AJmrZ6P7XhIe3OxbFdGzoe+fZtOpDj45GrDhAm7j5bCG4n3PAOpjMNpW8FeY
- NxQHjQbk54yHWJAw==
+ bh=xXJijGRrkqiEQm5QGASMZ+HObJh2UD3vPLveLc5H25w=;
+ b=eklJmOjHOOPfcGGRFKRMQFIbgsLfjB2YEB/a00Ct9r0kjVkxvR0V8bTXevYKrid+/0/3G7
+ /YAsmawTdedaN/AQ==
 Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap1.suse-dmz.suse.de (Postfix) with ESMTPS id 8A34F13C49;
- Thu, 22 Jul 2021 18:22:44 +0000 (UTC)
+ by imap1.suse-dmz.suse.de (Postfix) with ESMTPS id 4B470139A1;
+ Thu, 22 Jul 2021 18:40:57 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap1.suse-dmz.suse.de with ESMTPSA id ahhAIHS3+WB8PgAAGKfGzw
- (envelope-from <tzimmermann@suse.de>); Thu, 22 Jul 2021 18:22:44 +0000
+ by imap1.suse-dmz.suse.de with ESMTPSA id 2kJZEbm7+WAXQwAAGKfGzw
+ (envelope-from <tzimmermann@suse.de>); Thu, 22 Jul 2021 18:40:57 +0000
 To: Daniel Vetter <daniel.vetter@ffwll.ch>,
  Intel Graphics Development <intel-gfx@lists.freedesktop.org>
 References: <20210713205153.1896059-1-daniel.vetter@ffwll.ch>
- <20210713205153.1896059-3-daniel.vetter@ffwll.ch>
+ <20210713205153.1896059-4-daniel.vetter@ffwll.ch>
 From: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v4 2/4] drm/shmem-helper: Switch to vmf_insert_pfn
-Message-ID: <573242f9-a29e-73d9-3efb-51c436d636fd@suse.de>
-Date: Thu, 22 Jul 2021 20:22:43 +0200
+Subject: Re: [PATCH v4 3/4] drm/shmem-helpers: Allocate wc pages on x86
+Message-ID: <0e4eefe0-9282-672c-7678-8d3162de35e3@suse.de>
+Date: Thu, 22 Jul 2021 20:40:56 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210713205153.1896059-3-daniel.vetter@ffwll.ch>
+In-Reply-To: <20210713205153.1896059-4-daniel.vetter@ffwll.ch>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="AU4G00cJMaaK1LNjOnqQ1OhvEdBbg55W7"
+ boundary="SSo7Z9twJTGc49FEsCORsLjVLabvW7dlP"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,172 +70,140 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@intel.com>,
- DRI Development <dri-devel@lists.freedesktop.org>
+Cc: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
+ David Airlie <airlied@linux.ie>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---AU4G00cJMaaK1LNjOnqQ1OhvEdBbg55W7
-Content-Type: multipart/mixed; boundary="UYmxzJj7k7ciJgBGm6uMVhCao7f1vbknX";
+--SSo7Z9twJTGc49FEsCORsLjVLabvW7dlP
+Content-Type: multipart/mixed; boundary="mH44ynixz3fzqwiOC5L4ecIqCSTHcUXwm";
  protected-headers="v1"
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: Daniel Vetter <daniel.vetter@ffwll.ch>,
  Intel Graphics Development <intel-gfx@lists.freedesktop.org>
-Cc: David Airlie <airlied@linux.ie>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@intel.com>
-Message-ID: <573242f9-a29e-73d9-3efb-51c436d636fd@suse.de>
-Subject: Re: [PATCH v4 2/4] drm/shmem-helper: Switch to vmf_insert_pfn
+Cc: DRI Development <dri-devel@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>
+Message-ID: <0e4eefe0-9282-672c-7678-8d3162de35e3@suse.de>
+Subject: Re: [PATCH v4 3/4] drm/shmem-helpers: Allocate wc pages on x86
 References: <20210713205153.1896059-1-daniel.vetter@ffwll.ch>
- <20210713205153.1896059-3-daniel.vetter@ffwll.ch>
-In-Reply-To: <20210713205153.1896059-3-daniel.vetter@ffwll.ch>
+ <20210713205153.1896059-4-daniel.vetter@ffwll.ch>
+In-Reply-To: <20210713205153.1896059-4-daniel.vetter@ffwll.ch>
 
---UYmxzJj7k7ciJgBGm6uMVhCao7f1vbknX
+--mH44ynixz3fzqwiOC5L4ecIqCSTHcUXwm
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
-
-I'm not knowledgeable enougth to give this a full review. If you can=20
-just answer my questions, fell free to add an
-
-Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-
-to the patch. :)
+Hi
 
 Am 13.07.21 um 22:51 schrieb Daniel Vetter:
-> We want to stop gup, which isn't the case if we use vmf_insert_page
+> intel-gfx-ci realized that something is not quite coherent anymore on
+> some platforms for our i915+vgem tests, when I tried to switch vgem
+> over to shmem helpers.
+>=20
+> After lots of head-scratching I realized that I've removed calls to
+> drm_clflush. And we need those. To make this a bit cleaner use the
+> same page allocation tooling as ttm, which does internally clflush
+> (and more, as neeeded on any platform instead of just the intel x86
+> cpus i915 can be combined with).
 
-What is gup?
+Vgem would therefore not work correctly on non-X86 platforms?
 
-> and VM_MIXEDMAP, because that does not set pte_special.
 >=20
-> v2: With this shmem gem helpers now definitely need CONFIG_MMU (0day)
->=20
-> v3: add more depends on MMU. For usb drivers this is a bit awkward,
-> but really it's correct: To be able to provide a contig mapping of
-> buffers to userspace on !MMU platforms we'd need to use the cma
-> helpers for these drivers on those platforms. As-is this wont work.
->=20
-> Also not exactly sure why vm_insert_page doesn't go boom, because that
-> definitely wont fly in practice since the pages are non-contig to
-> begin with.
+> Unfortunately this doesn't exist on arm, or as a generic feature. For
+> that I think only the dma-api can get at wc memory reliably, so maybe
+> we'd need some kind of GFP_WC flag to do this properly.
 >=20
 > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
+> Cc: "Thomas Hellstr=C3=B6m" <thomas.hellstrom@linux.intel.com>
 > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 > Cc: Maxime Ripard <mripard@kernel.org>
 > Cc: Thomas Zimmermann <tzimmermann@suse.de>
 > Cc: David Airlie <airlied@linux.ie>
 > Cc: Daniel Vetter <daniel@ffwll.ch>
 > ---
->   drivers/gpu/drm/Kconfig                | 2 +-
->   drivers/gpu/drm/drm_gem_shmem_helper.c | 4 ++--
->   drivers/gpu/drm/gud/Kconfig            | 2 +-
->   drivers/gpu/drm/tiny/Kconfig           | 4 ++--
->   drivers/gpu/drm/udl/Kconfig            | 1 +
->   5 files changed, 7 insertions(+), 6 deletions(-)
+>   drivers/gpu/drm/drm_gem_shmem_helper.c | 14 ++++++++++++++
+>   1 file changed, 14 insertions(+)
 >=20
-> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-> index 0d372354c2d0..314eefa39892 100644
-> --- a/drivers/gpu/drm/Kconfig
-> +++ b/drivers/gpu/drm/Kconfig
-> @@ -211,7 +211,7 @@ config DRM_KMS_CMA_HELPER
->  =20
->   config DRM_GEM_SHMEM_HELPER
->   	bool
-> -	depends on DRM
-> +	depends on DRM && MMU
->   	help
->   	  Choose this if you need the GEM shmem helper functions
->  =20
 > diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/d=
 rm_gem_shmem_helper.c
-> index d5e6d4568f99..296ab1b7c07f 100644
+> index 296ab1b7c07f..657d2490aaa5 100644
 > --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
 > +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-> @@ -542,7 +542,7 @@ static vm_fault_t drm_gem_shmem_fault(struct vm_fau=
-lt *vmf)
->   	} else {
->   		page =3D shmem->pages[page_offset];
+> @@ -10,6 +10,10 @@
+>   #include <linux/slab.h>
+>   #include <linux/vmalloc.h>
 >  =20
-> -		ret =3D vmf_insert_page(vma, vmf->address, page);
-> +		ret =3D vmf_insert_pfn(vma, vmf->address, page_to_pfn(page));
+> +#ifdef CONFIG_X86
+> +#include <asm/set_memory.h>
+> +#endif
+> +
+>   #include <drm/drm.h>
+>   #include <drm/drm_device.h>
+>   #include <drm/drm_drv.h>
+> @@ -162,6 +166,11 @@ static int drm_gem_shmem_get_pages_locked(struct d=
+rm_gem_shmem_object *shmem)
+>   		return PTR_ERR(pages);
 >   	}
 >  =20
->   	mutex_unlock(&shmem->pages_lock);
-> @@ -612,7 +612,7 @@ int drm_gem_shmem_mmap(struct drm_gem_object *obj, =
-struct vm_area_struct *vma)
->   		return ret;
->   	}
->  =20
-> -	vma->vm_flags |=3D VM_MIXEDMAP | VM_DONTEXPAND;
-> +	vma->vm_flags |=3D VM_PFNMAP | VM_DONTEXPAND;
->   	vma->vm_page_prot =3D vm_get_page_prot(vma->vm_flags);
->   	if (shmem->map_wc)
->   		vma->vm_page_prot =3D pgprot_writecombine(vma->vm_page_prot);
-> diff --git a/drivers/gpu/drm/gud/Kconfig b/drivers/gpu/drm/gud/Kconfig
-> index 1c8601bf4d91..9c1e61f9eec3 100644
-> --- a/drivers/gpu/drm/gud/Kconfig
-> +++ b/drivers/gpu/drm/gud/Kconfig
-> @@ -2,7 +2,7 @@
->  =20
->   config DRM_GUD
->   	tristate "GUD USB Display"
-> -	depends on DRM && USB
-> +	depends on DRM && USB && MMU
->   	select LZ4_COMPRESS
->   	select DRM_KMS_HELPER
->   	select DRM_GEM_SHMEM_HELPER
+> +#ifdef CONFIG_X86
+> +	if (shmem->map_wc)
+> +		set_pages_array_wc(pages, obj->size >> PAGE_SHIFT);
+> +#endif
 
-I'm a kconfig noob, so this is rather a question than a review comment:
+I cannot comment much on the technical details of the caching of various =
 
+architectures. If this patch goes in, there should be a longer comment=20
+that reflects the discussion in this thread. It's apparently a workaround=
+=2E
 
+I think the call itself should be hidden behind a DRM API, which depends =
 
-If DRM_GEM_SHMEM_HELPER already depends on MMU, this select will fail on =
+on CONFIG_X86. Something simple like
 
-non-MMU platforms? Why does the driver also depend on MMU? Simply to=20
-make the item disappear in menuconfig?
+ifdef CONFIG_X86
+drm_set_pages_array_wc()
+{
+	set_pages_array_wc();
+}
+else
+drm_set_pages_array_wc()
+  {
+  }
+#endif
 
-Best regards
+Maybe in drm_cache.h?
+
+Best regard
 Thomas
 
-> diff --git a/drivers/gpu/drm/tiny/Kconfig b/drivers/gpu/drm/tiny/Kconfi=
-g
-> index 5593128eeff9..c11fb5be7d09 100644
-> --- a/drivers/gpu/drm/tiny/Kconfig
-> +++ b/drivers/gpu/drm/tiny/Kconfig
-> @@ -44,7 +44,7 @@ config DRM_CIRRUS_QEMU
+> +
+>   	shmem->pages =3D pages;
 >  =20
->   config DRM_GM12U320
->   	tristate "GM12U320 driver for USB projectors"
-> -	depends on DRM && USB
-> +	depends on DRM && USB && MMU
->   	select DRM_KMS_HELPER
->   	select DRM_GEM_SHMEM_HELPER
->   	help
-> @@ -53,7 +53,7 @@ config DRM_GM12U320
+>   	return 0;
+> @@ -203,6 +212,11 @@ static void drm_gem_shmem_put_pages_locked(struct =
+drm_gem_shmem_object *shmem)
+>   	if (--shmem->pages_use_count > 0)
+>   		return;
 >  =20
->   config DRM_SIMPLEDRM
->   	tristate "Simple framebuffer driver"
-> -	depends on DRM
-> +	depends on DRM && MMU
->   	select DRM_GEM_SHMEM_HELPER
->   	select DRM_KMS_HELPER
->   	help
-> diff --git a/drivers/gpu/drm/udl/Kconfig b/drivers/gpu/drm/udl/Kconfig
-> index 1f497d8f1ae5..c744175c6992 100644
-> --- a/drivers/gpu/drm/udl/Kconfig
-> +++ b/drivers/gpu/drm/udl/Kconfig
-> @@ -4,6 +4,7 @@ config DRM_UDL
->   	depends on DRM
->   	depends on USB
->   	depends on USB_ARCH_HAS_HCD
-> +	depends on MMU
->   	select DRM_GEM_SHMEM_HELPER
->   	select DRM_KMS_HELPER
->   	help
+> +#ifdef CONFIG_X86
+> +	if (shmem->map_wc)
+> +		set_pages_array_wb(shmem->pages, obj->size >> PAGE_SHIFT);
+> +#endif
+> +
+>   	drm_gem_put_pages(obj, shmem->pages,
+>   			  shmem->pages_mark_dirty_on_put,
+>   			  shmem->pages_mark_accessed_on_put);
 >=20
 
 --=20
@@ -247,27 +215,27 @@ Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
 Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
 
---UYmxzJj7k7ciJgBGm6uMVhCao7f1vbknX--
+--mH44ynixz3fzqwiOC5L4ecIqCSTHcUXwm--
 
---AU4G00cJMaaK1LNjOnqQ1OhvEdBbg55W7
+--SSo7Z9twJTGc49FEsCORsLjVLabvW7dlP
 Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmD5t3MFAwAAAAAACgkQlh/E3EQov+DO
-mg//aIaiwrqNj6OOeDx0je0Vq6lOAee2i1jJTip7MAzgPNP6nT5/2n8IJmfIsGrvEJKzC0fcysMQ
-nfNn+yYvGdr3okpO2iBCkKFK0y0zfOz+5p0yuuHlVxJi/GMOiSBkc29DSkb9r9JeOGIA7ZsPRi/L
-NRMjNtP7kLvRE3ZMIpea9pfX2cFuj+i7fEhUi2gl0bPGyAhZE4BhK4vEDtCq9uJyjz+/5lL3MbJY
-Yt/XLCx+4Y2AbVGoS0xs6bfnsPQKFi7kRMeBY9Tk5ELIKbB5qiD5h05knJGYt2vDEyyCAhP9e/Yl
-8LaBCp2+N5xk73DwQCsrr8+Suq7Er7YA9Iv6rXoBqWHGQrGbCAobD1vKLDXq3e+xkGPHxRMKhms8
-D8fZyniMjGXHzlu9EaTSzf9hRK7VM5509fbpyIqVrW5mPuSijLrCetRcA/6WlOT/Y0XZl5ZrewQp
-HHHCLIgtgCcc9NUP0UI21MWcCtTL9Mwy4GQDCnWqXIGZXnwFlmzEr2UTzXTOAASXA1nvDhpkiQBc
-6+Mab+rv1hOFktUcT3SPGjejcGHy4jAi2EqcUeCs41D0j6XqAy8gZH5Mm/3UKoHSKFoGrT9h/lNR
-1BPvPwIM4bZP3t5DN0XMzO0ZkRZEJmiOhFQrGGkMC37TyUQVN47BJoKwlwpmiNBTdrEWiHywzFew
-iHg=
-=88XR
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmD5u7gFAwAAAAAACgkQlh/E3EQov+D6
+YRAA0ZoQ9AlV5uA8Cu6rPFSe6OCINTh5guBiQO1i8zGgfMVck+uwTEcvx49dK+6Dtd1bZ3YenKs1
+L6SxopTfjzRPqlRNGFLOyVrn8SXKK4Sui/lBZZeTgEav8KjrdxAlhiUVpMAzd7HdK5KxXYuuXgQK
+l0tHdT9EI2OJKrnx3X18y8hCMVs4HNafaduzGqAUBX68Gm10O57MIwQ4uGr2LYOY5QuLlzlpNU2Z
+5aBaDTUCUWqQyQ9RcCQbh4V3ehhycGoqnrcc+juk+bbL+BIygYn7p9nrtwfKf+ril1RvnzniBJiy
+TUvL6jcZ7wqyXGOpV+vbJPPaIr8/kQxdNUEcydUPvPvVLaMjYU2fXiM986kuPgIOPxLPOqPgiCM6
+YR+ZUWDiZRWk+16ZPqOUI4U+PRg/HKP1+N3rwxa1YAJa5UUW76RUE/cjj48x8qIAbzhwtd4hv0jI
+sWY2sDarDsdanx/I0hQK3sO6EahmNpHNUnthgSukP78XvrEh7f1N8Bp12vdEwQvi4hs6Rmxk/QWG
+PKO8b5BMe1RHqFebGFEw6yCCsDV7kPHENkmTKvbjUvl+a93gIBWXHC3N/EoT9nhI0EyH+JZk2XzU
+DRn6YAW55MACdDCGfgv79PxwN/w41rH0zbL1GRx+rO22c8wUqt7ofOotrALt0ZGZwYsJV3t87UMi
+ZbA=
+=RUHM
 -----END PGP SIGNATURE-----
 
---AU4G00cJMaaK1LNjOnqQ1OhvEdBbg55W7--
+--SSo7Z9twJTGc49FEsCORsLjVLabvW7dlP--
