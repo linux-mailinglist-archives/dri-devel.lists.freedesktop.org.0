@@ -1,74 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5F593D1ED1
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jul 2021 09:19:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 435693D1EDC
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jul 2021 09:21:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E2E66EE03;
-	Thu, 22 Jul 2021 07:19:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C9866EE18;
+	Thu, 22 Jul 2021 07:21:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
- [66.111.4.224])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6FE7F6EE03
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jul 2021 07:19:16 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id AA5D1580A89;
- Thu, 22 Jul 2021 03:19:15 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute6.internal (MEProxy); Thu, 22 Jul 2021 03:19:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:content-transfer-encoding:in-reply-to; s=fm3; bh=p
- GUrYEwTJWxb00jR9voM7UpAPJOx9r172pFnflkjti0=; b=LAAUnSpG93dCyODtN
- REzGsm0Dt3R5L4lnlfi8q5hob2KCaLnuI11/eGAsXBSmfPrfp441fD4ygsPoYQmX
- IAU0iZDnnoR00gLR2a+VvEEkUGkZYcP1AC4hK8pn8Q+Or6EXEJyAlwNWJAAUgGNc
- FkySNcekHJJouCUdc0Qzq1POZMmIwzot7ui3/xthTGTyi6N5dPdqobWoerHRf4fE
- LGsNtWeGlyr4ts5tt4dAXYxAVpwDvkFRW704AlnW0KXZIA3akkbLTYUkxZSodUZt
- osIRugOjkWILrGrxtMZAPwr7e7kfLg3pKBZ9Ww1lHg9APHnu72Z9AevsD6S8POsl
- TNpZQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:content-type
- :date:from:in-reply-to:message-id:mime-version:references
- :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm3; bh=pGUrYEwTJWxb00jR9voM7UpAPJOx9r172pFnflkjt
- i0=; b=aYc+nI/gPfcOu5CFxzGkYcba6gbxviD2XdiYj+SbH8DezLxBAmkjUSs9+
- 3x50SZHmAKO6UFVaqEirsQxHqKzUcuvOCkPcPu6z+cacxgSo/p9WCrnqmKImfUaY
- I5I19eUtB04S8y8yygNSevA3qAAZ3hsFUMgxKzzTl6spmiRUwTGpQWajlq6WSQZ5
- MugIo0sn4lK3pYltt/L9nC9cfmAnHXENhwG8HEkHNmF3hBRQ+XPVqQ5ORnZICOpm
- w1rLKChW6bMCaLjGwvvcXCsBmItVGM2CAFbOIINNKdXHKxvbzdNWZv6kolT4r7mw
- H3JKWUkZ0azAyKTPQWa8PJHjLwgNw==
-X-ME-Sender: <xms:8Bv5YNAvui7DnxvETxporT66kBrDbenjq9jq5gUIVJ2-C0QO41Ztqw>
- <xme:8Bv5YLhX8ecGvDHuApfYub80wUg9_pTR-O7BZzDXUtU1eEsyZTub6291kjjmQEkHo
- dsUiFSsvAvxv5s8hyc>
-X-ME-Received: <xmr:8Bv5YIkBkvuzOc57gZxb6CbeX4Rggxcclg_UcPVwg_C4QjgfkOJT6fpK3C02PbTKpVVVVVlOywIb2OHEJ00SZ6CQrxjXsoPjvxTx>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrfeehgdduudeiucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtugfgjgesthhqredttddtvdenucfhrhhomhepofgrgihi
- mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
- htthgvrhhnpefgjeettdejgffgffdvteeutdehtdehgeehueetkeefgefhtdetjeekledu
- gedvudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
- hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:8Bv5YHwpu8c4EQ4tU5_7aUl_xz919iSBFe9ACcS_kXhJZcpubvgy7w>
- <xmx:8Bv5YCTWiTQ4KAhNuP4J-qhhYd-Mdktqm11HM-MXMiBTV7MKFtbwlw>
- <xmx:8Bv5YKYhK1cZssL7riwZzueX-JuOsVblTRk_MjELAsTq4J-xbuyz6w>
- <xmx:8xv5YLDh071K2X7S0FRF3Utro3dXptoYi6eZLrr_wrKY84XrAG1OFg>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 22 Jul 2021 03:19:12 -0400 (EDT)
-Date: Thu, 22 Jul 2021 09:19:09 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Sam Ravnborg <sam@ravnborg.org>
-Subject: Re: [PATCH v1 2/7] drm/bridge: Drop unused drm_bridge_chain functions
-Message-ID: <20210722071909.3sefghktl4dolhao@gilmour>
-References: <20210722062246.2512666-1-sam@ravnborg.org>
- <20210722062246.2512666-3-sam@ravnborg.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8733B6EE18
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jul 2021 07:21:48 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 52DF561279
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jul 2021 07:21:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1626938508;
+ bh=hGg136RKekT38fHTDPQK/dqupJtW7WVa8wtYtVKorEk=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=gDaNPwz4YT2jg6wFkwunxwJ/2fd5txbu7sMaPVyDBKLcOnGi1U6j6rxI/g+M82G51
+ eDcDOz8Y7OkGBrnM5XgBTUt6bVQoKZMk6VouQSJ5HzHuKz8CC9ShmDfWOSgkDqI/R1
+ qEk1IOOitM2J6LuyKyn3ktBN9BP0n5zeghEthAJjvG2Al0ux8vOKQSpMpEHal4VAIk
+ WVYTOPuwELGrXkGgXf4WVOWYwzgR1vfdaEQ+TikAFONd5TjytGhA0uFGhfxsyDIcIu
+ O27U0O0EMP4QiBqr9XNnv4L7uOFF1ZZ8ouaqh842vbglMt6mvVj56Jl2Tr4k3qvMJE
+ bhPFiOQXT0eoQ==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id 4F42461283; Thu, 22 Jul 2021 07:21:48 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 213053] WARNING on dcn30_hwseq.c dcn30_set_hubp_blank, AMD
+ Radeon 6700XT
+Date: Thu, 22 Jul 2021 07:21:47 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: heuborger@gmx.de
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-213053-2300-neQ0W2JqVx@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-213053-2300@https.bugzilla.kernel.org/>
+References: <bug-213053-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20210722062246.2512666-3-sam@ravnborg.org>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,36 +66,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Jonas Karlman <jonas@kwiboo.se>,
- David Airlie <airlied@linux.ie>, Robert Foss <robert.foss@linaro.org>,
- Neil Armstrong <narmstrong@baylibre.com>, dri-devel@lists.freedesktop.org,
- Andrzej Hajda <a.hajda@samsung.com>, linux-mediatek@lists.infradead.org,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm-kernel@lists.infradead.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 22, 2021 at 08:22:41AM +0200, Sam Ravnborg wrote:
-> The drm_bridge_chain_{pre_enable,enable,disable,post_disable} has no
-> users left and we have atomic variants that should be used.
-> Drop them so they do not gain new users.
->=20
-> Adjust a few comments to avoid references to the dropped functions.
->=20
-> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Andrzej Hajda <a.hajda@samsung.com>
-> Cc: Neil Armstrong <narmstrong@baylibre.com>
-> Cc: Robert Foss <robert.foss@linaro.org>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
+https://bugzilla.kernel.org/show_bug.cgi?id=3D213053
 
-Reviewed-by: Maxime Ripard <maxime@cerno.tech>
+heuborger@gmx.de changed:
 
-Maxime
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |heuborger@gmx.de
+
+--- Comment #4 from heuborger@gmx.de ---
+For me, this issue disappeared after updating the kernelto 5.13.=20
+I believe, this commit reverts the change that introduced this issue:=20
+https://github.com/torvalds/linux/commit/0b7421f0a6a41a8ce60c4dadf6f9e7c62f=
+bd2f1f#diff-80cc88d298a712966f02c4cd7f9eb372b675720a337d0cbe85385ccdfb9c5618
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
