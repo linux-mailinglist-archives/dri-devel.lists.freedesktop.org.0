@@ -2,59 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19DEC3D2FD3
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jul 2021 00:28:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CA483D3023
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jul 2021 01:22:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A66AC6EA5C;
-	Thu, 22 Jul 2021 22:28:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D9FD26F3E3;
+	Thu, 22 Jul 2021 23:22:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A1CBA6F496
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jul 2021 22:28:03 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1626992884; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=K/DRu7ZbFRWkRW5sB/eRdjwaX6w7K6Rjm3k0kWJYiN4=;
- b=jw1hUkWwUwn3/vSQniVFAYPEPcMX6ChPiZq7pnPTjd4h2JM8AwVV1kQp1hkdOGXNWKkbb583
- C5Xyb79tylhvFOSSFbf9O/U79KXMTJ+E44XDC9IpB+T8yWakuA+eIAA1UQz7uyVemsnhgZ3X
- ta8cn9xq8XISjmS4oqB5+k2W63s=
-X-Mailgun-Sending-Ip: 198.61.254.9
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n01.prod.us-west-2.postgun.com with SMTP id
- 60f9f0f2e81205dd0a6244f7 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 22 Jul 2021 22:28:02
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 8BD9FC4338A; Thu, 22 Jul 2021 22:28:02 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
- URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
- (No client certificate requested) (Authenticated sender: khsieh)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 35831C433D3;
- Thu, 22 Jul 2021 22:28:01 +0000 (UTC)
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 125746F3F4;
+ Thu, 22 Jul 2021 23:22:42 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10053"; a="208657715"
+X-IronPort-AV: E=Sophos;i="5.84,262,1620716400"; d="scan'208";a="208657715"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Jul 2021 16:22:41 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.84,262,1620716400"; d="scan'208";a="497139062"
+Received: from orsmsx604.amr.corp.intel.com ([10.22.229.17])
+ by orsmga001.jf.intel.com with ESMTP; 22 Jul 2021 16:22:41 -0700
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX604.amr.corp.intel.com (10.22.229.17) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.10; Thu, 22 Jul 2021 16:22:40 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.10; Thu, 22 Jul 2021 16:22:40 -0700
+Received: from orsmsx610.amr.corp.intel.com ([10.22.229.23]) by
+ ORSMSX610.amr.corp.intel.com ([10.22.229.23]) with mapi id 15.01.2242.010;
+ Thu, 22 Jul 2021 16:22:40 -0700
+From: "Souza, Jose" <jose.souza@intel.com>
+To: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "daniel.vetter@ffwll.ch" <daniel.vetter@ffwll.ch>
+Subject: Re: [PATCH 2/3] drm/plane: check that fb_damage is set up when used
+Thread-Topic: [PATCH 2/3] drm/plane: check that fb_damage is set up when used
+Thread-Index: AQHXfjSQD8GTIImB30mnul5SY6Juv6tQGxgA
+Date: Thu, 22 Jul 2021 23:22:40 +0000
+Message-ID: <1d89012169b63310f35145fe76c91e59578ef6b4.camel@intel.com>
+References: <20210721133014.3880922-1-daniel.vetter@ffwll.ch>
+ <20210721133014.3880922-2-daniel.vetter@ffwll.ch>
+In-Reply-To: <20210721133014.3880922-2-daniel.vetter@ffwll.ch>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.22.254.132]
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <81C19AD0146AC844B37F21407BBBF85A@intel.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
-Content-Transfer-Encoding: 8bit
-Date: Thu, 22 Jul 2021 15:28:01 -0700
-From: khsieh@codeaurora.org
-To: Lyude Paul <lyude@redhat.com>
-Subject: Re: [PATCH v3] drm/dp_mst: Fix return code on sideband message failure
-In-Reply-To: <2da3949fa3504592da42c9d01dc060691c6a8b8b.camel@redhat.com>
-References: <1625585434-9562-1-git-send-email-khsieh@codeaurora.org>
- <87zguy7c5a.fsf@intel.com> <a514c19f712a6feeddf854dc17cb8eb5@codeaurora.org>
- <2da3949fa3504592da42c9d01dc060691c6a8b8b.camel@redhat.com>
-Message-ID: <d9ec812b4be57e32246735ca2f5e9560@codeaurora.org>
-X-Sender: khsieh@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,88 +64,111 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: rnayak@codeaurora.org, tzimmermann@suse.de, airlied@linux.ie,
- freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, abhinavk@codeaurora.org, swboyd@chromium.org,
- aravindh@codeaurora.org, sean@poorly.run, rsubbia@codeaurora.org
+Cc: "airlied@linux.ie" <airlied@linux.ie>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>, "Mun,
+ Gwan-gyeong" <gwan-gyeong.mun@intel.com>,
+ "hdegoede@redhat.com" <hdegoede@redhat.com>,
+ "tzimmermann@suse.de" <tzimmermann@suse.de>, "Vetter,
+ Daniel" <daniel.vetter@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021-07-22 10:53, Lyude Paul wrote:
-> On Tue, 2021-07-13 at 15:24 -0700, khsieh@codeaurora.org wrote:
->> On 2021-07-07 01:37, Jani Nikula wrote:
->> > On Tue, 06 Jul 2021, Kuogee Hsieh <khsieh@codeaurora.org> wrote:
->> > > From: Rajkumar Subbiah <rsubbia@codeaurora.org>
->> > >
->> > > Commit 2f015ec6eab6 ("drm/dp_mst: Add sideband down request tracing +
->> > > selftests") added some debug code for sideband message tracing. But
->> > > it seems to have unintentionally changed the behavior on sideband
->> > > message
->> > > failure. It catches and returns failure only if DRM_UT_DP is enabled.
->> > > Otherwise it ignores the error code and returns success. So on an MST
->> > > unplug, the caller is unaware that the clear payload message failed
->> > > and
->> > > ends up waiting for 4 seconds for the response. Fixes the issue by
->> > > returning the proper error code.
->> > >
->> > > Changes in V2:
->> > > -- Revise commit text as review comment
->> > > -- add Fixes text
->> > >
->> > > Changes in V3:
->> > > -- remove "unlikely" optimization
->> > >
->> > > Fixes: 2f015ec6eab6 ("drm/dp_mst: Add sideband down request tracing +
->> > > selftests")
->> > >
->> > > Signed-off-by: Rajkumar Subbiah <rsubbia@codeaurora.org>
->> > > Signed-off-by: Kuogee Hsieh <khsieh@codeaurora.org>
->> > >
->> > > Reviewed-by: Stephen Boyd <swboyd@chromium.org>
->> >
->> > Reviewed-by: Jani Nikula <jani.nikula@intel.com>
->> >
->> >
->> > > ---
->> Lyude,
->> Any comments from you?
->> Thanks,
-> 
-> Hey! Sorry did I forget to respond to this?
-> 
-> Reviewed-by: Lyude Paul <lyude@redhat.com>
-> 
-
-It looks like this patch is good to go (mainlined).
-Anything needed from me to do?
-Thanks,
-
->> 
->> > >  drivers/gpu/drm/drm_dp_mst_topology.c | 10 ++++++----
->> > >  1 file changed, 6 insertions(+), 4 deletions(-)
->> > >
->> > > diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c
->> > > b/drivers/gpu/drm/drm_dp_mst_topology.c
->> > > index 1590144..df91110 100644
->> > > --- a/drivers/gpu/drm/drm_dp_mst_topology.c
->> > > +++ b/drivers/gpu/drm/drm_dp_mst_topology.c
->> > > @@ -2887,11 +2887,13 @@ static int process_single_tx_qlock(struct
->> > > drm_dp_mst_topology_mgr *mgr,
->> > >         idx += tosend + 1;
->> > >
->> > >         ret = drm_dp_send_sideband_msg(mgr, up, chunk, idx);
->> > > -       if (unlikely(ret) && drm_debug_enabled(DRM_UT_DP)) {
->> > > -               struct drm_printer p = drm_debug_printer(DBG_PREFIX);
->> > > +       if (ret) {
->> > > +               if (drm_debug_enabled(DRM_UT_DP)) {
->> > > +                       struct drm_printer p =
->> > > drm_debug_printer(DBG_PREFIX);
->> > >
->> > > -               drm_printf(&p, "sideband msg failed to send\n");
->> > > -               drm_dp_mst_dump_sideband_msg_tx(&p, txmsg);
->> > > +                       drm_printf(&p, "sideband msg failed to send\n");
->> > > +                       drm_dp_mst_dump_sideband_msg_tx(&p, txmsg);
->> > > +               }
->> > >                 return ret;
->> > >         }
->> 
+T24gV2VkLCAyMDIxLTA3LTIxIGF0IDE1OjMwICswMjAwLCBEYW5pZWwgVmV0dGVyIHdyb3RlOg0K
+PiBUaGVyZSdzIHR3byBzdGFnZXMgb2YgbWFudWFsIHVwbG9hZC9pbnZhbGlkYXRlIGRpc3BsYXlz
+Og0KPiAtIGp1c3QgaGFuZGxpbmcgZGlydHlmYiBhbmQgdXBsb2FkaW5nIHRoZSBlbnRpcmUgZmIg
+YWxsIHRoZSB0aW1lDQo+IC0gbG9va2luZyBhdCBkYW1hZ2UgY2xpcHMNCj4gDQo+IEluIHRoZSBs
+YXR0ZXIgY2FzZSB3ZSBzdXBwb3J0IGl0IHRocm91Z2ggZmJkZXYgZW11bGF0aW9uICh3aXRoDQo+
+IGZiX2RlZmlvKSwgYXRvbWljIHByb3BlcnR5LCBhbmQgd2l0aCB0aGUgZGlydGZ5IGNsaXAgcmVj
+dHMuDQo+IA0KPiBNYWtlIHN1cmUgYXQgbGVhc3QgdGhlIGF0b21pYyBwcm9wZXJ0eSBpcyBzZXQg
+dXAgYXMgdGhlIG1haW4gb2ZmaWNpYWwNCj4gaW50ZXJmYWNlIGZvciB0aGlzLiBJZGVhbGx5IHdl
+J2QgYWxzbyBjaGVjayB0aGF0DQo+IGRybV9hdG9taWNfaGVscGVyX2RpcnR5ZmIoKSBpcyB1c2Vk
+IGFuZCB0aGF0IGZiZGV2IGRlZmlvIGlzIHNldCB1cCwNCj4gYnV0IHRoYXQncyBxdWl0ZSBhIGJp
+dCBoYXJkZXIgdG8gZG8uIElkZWFzIHZlcnkgbXVjaCB3ZWxjb21lLg0KPiANCj4gRnJvbSBhIGN1
+cnNvciBhdWRpdCBkcml2ZXJzIHNlZW0gdG8gYmUgZ2V0dGluZyB0aGlzIHJpZ2h0IG1vc3RseSwg
+YnV0DQo+IGJldHRlciB0byBtYWtlIHN1cmUuIEF0IGxlYXN0IG5vIG9uZSBpcyBieXBhc3Npbmcg
+dGhlIGFjY2Vzc29yDQo+IGZ1bmN0aW9uLg0KPiANCj4gQ2M6IFZpbGxlIFN5cmrDpGzDpCA8dmls
+bGUuc3lyamFsYUBsaW51eC5pbnRlbC5jb20+DQo+IENjOiBHd2FuLWd5ZW9uZyBNdW4gPGd3YW4t
+Z3llb25nLm11bkBpbnRlbC5jb20+DQo+IENjOiBKb3PDqSBSb2JlcnRvIGRlIFNvdXphIDxqb3Nl
+LnNvdXphQGludGVsLmNvbT4NCj4gQ2M6IEhhbnMgZGUgR29lZGUgPGhkZWdvZWRlQHJlZGhhdC5j
+b20+DQo+IFNpZ25lZC1vZmYtYnk6IERhbmllbCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJAaW50ZWwu
+Y29tPg0KPiBDYzogTWFhcnRlbiBMYW5raG9yc3QgPG1hYXJ0ZW4ubGFua2hvcnN0QGxpbnV4Lmlu
+dGVsLmNvbT4NCj4gQ2M6IE1heGltZSBSaXBhcmQgPG1yaXBhcmRAa2VybmVsLm9yZz4NCj4gQ2M6
+IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPg0KPiBDYzogRGF2aWQgQWly
+bGllIDxhaXJsaWVkQGxpbnV4LmllPg0KPiBDYzogRGFuaWVsIFZldHRlciA8ZGFuaWVsQGZmd2xs
+LmNoPg0KPiAtLS0NCj4gIGRyaXZlcnMvZ3B1L2RybS9kcm1fcGxhbmUuYyB8IDQyICsrKysrKysr
+KysrKysrKysrKysrKysrKysrKysrKysrKysrKysNCj4gIGluY2x1ZGUvZHJtL2RybV9wbGFuZS5o
+ICAgICB8IDM2ICsrKystLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCj4gIDIgZmlsZXMgY2hh
+bmdlZCwgNDYgaW5zZXJ0aW9ucygrKSwgMzIgZGVsZXRpb25zKC0pDQo+IA0KPiBkaWZmIC0tZ2l0
+IGEvZHJpdmVycy9ncHUvZHJtL2RybV9wbGFuZS5jIGIvZHJpdmVycy9ncHUvZHJtL2RybV9wbGFu
+ZS5jDQo+IGluZGV4IGIzNzM5NThlY2IzMC4uNDBmMDk5YzY3YThkIDEwMDY0NA0KPiAtLS0gYS9k
+cml2ZXJzL2dwdS9kcm0vZHJtX3BsYW5lLmMNCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2RybV9w
+bGFuZS5jDQo+IEBAIC0xMzk3LDYgKzEzOTcsNDggQEAgaW50IGRybV9tb2RlX3BhZ2VfZmxpcF9p
+b2N0bChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LA0KPiAgCXJldHVybiByZXQ7DQo+ICB9DQo+ICAN
+Cj4gKy8qKg0KPiArICogZHJtX3BsYW5lX2dldF9kYW1hZ2VfY2xpcHNfY291bnQgLSBSZXR1cm5z
+IGRhbWFnZSBjbGlwcyBjb3VudC4NCj4gKyAqIEBzdGF0ZTogUGxhbmUgc3RhdGUuDQo+ICsgKg0K
+PiArICogU2ltcGxlIGhlbHBlciB0byBnZXQgdGhlIG51bWJlciBvZiAmZHJtX21vZGVfcmVjdCBj
+bGlwcyBzZXQgYnkgdXNlci1zcGFjZQ0KPiArICogZHVyaW5nIHBsYW5lIHVwZGF0ZS4NCj4gKyAq
+DQo+ICsgKiBSZXR1cm46IE51bWJlciBvZiBjbGlwcyBpbiBwbGFuZSBmYl9kYW1hZ2VfY2xpcHMg
+YmxvYiBwcm9wZXJ0eS4NCj4gKyAqLw0KPiArdW5zaWduZWQgaW50DQo+ICtkcm1fcGxhbmVfZ2V0
+X2RhbWFnZV9jbGlwc19jb3VudChjb25zdCBzdHJ1Y3QgZHJtX3BsYW5lX3N0YXRlICpzdGF0ZSkN
+Cj4gK3sNCj4gKwlyZXR1cm4gKHN0YXRlICYmIHN0YXRlLT5mYl9kYW1hZ2VfY2xpcHMpID8NCj4g
+KwkJc3RhdGUtPmZiX2RhbWFnZV9jbGlwcy0+bGVuZ3RoL3NpemVvZihzdHJ1Y3QgZHJtX21vZGVf
+cmVjdCkgOiAwOw0KPiArfQ0KPiArRVhQT1JUX1NZTUJPTChkcm1fcGxhbmVfZ2V0X2RhbWFnZV9j
+bGlwc19jb3VudCk7DQo+ICsNCj4gKy8qKg0KPiArICogZHJtX3BsYW5lX2dldF9kYW1hZ2VfY2xp
+cHMgLSBSZXR1cm5zIGRhbWFnZSBjbGlwcy4NCj4gKyAqIEBzdGF0ZTogUGxhbmUgc3RhdGUuDQo+
+ICsgKg0KPiArICogTm90ZSB0aGF0IHRoaXMgZnVuY3Rpb24gcmV0dXJucyB1YXBpIHR5cGUgJmRy
+bV9tb2RlX3JlY3QuIERyaXZlcnMgbWlnaHQgd2FudA0KPiArICogdG8gdXNlIHRoZSBoZWxwZXIg
+ZnVuY3Rpb25zIGRybV9hdG9taWNfaGVscGVyX2RhbWFnZV9pdGVyX2luaXQoKSBhbmQNCj4gKyAq
+IGRybV9hdG9taWNfaGVscGVyX2RhbWFnZV9pdGVyX25leHQoKSBvciBkcm1fYXRvbWljX2hlbHBl
+cl9kYW1hZ2VfbWVyZ2VkKCkgaWYNCj4gKyAqIHRoZSBkcml2ZXIgY2FuIG9ubHkgaGFuZGxlIGEg
+c2luZ2xlIGRhbWFnZSByZWdpb24gYXQgbW9zdC4NCj4gKyAqDQo+ICsgKiBSZXR1cm46IERhbWFn
+ZSBjbGlwcyBpbiBwbGFuZSBmYl9kYW1hZ2VfY2xpcHMgYmxvYiBwcm9wZXJ0eS4NCj4gKyAqLw0K
+PiArc3RydWN0IGRybV9tb2RlX3JlY3QgKg0KPiArZHJtX3BsYW5lX2dldF9kYW1hZ2VfY2xpcHMo
+Y29uc3Qgc3RydWN0IGRybV9wbGFuZV9zdGF0ZSAqc3RhdGUpDQo+ICt7DQo+ICsJc3RydWN0IGRy
+bV9tb2RlX2NvbmZpZyAqY29uZmlnID0gJnN0YXRlLT5wbGFuZS0+ZGV2LT5tb2RlX2NvbmZpZzsN
+Cj4gKw0KPiArCS8qIGNoZWNrIHRoYXQgZHJtX3BsYW5lX2VuYWJsZV9mYl9kYW1hZ2VfY2xpcHMo
+KSB3YXMgY2FsbGVkICovDQo+ICsJV0FSTl9PTl9PTkNFKCFkcm1fbW9kZV9vYmpfZmluZF9wcm9w
+X2lkKCZzdGF0ZS0+cGxhbmUtPmJhc2UsDQo+ICsJCQkJCQljb25maWctPnByb3BfZmJfZGFtYWdl
+X2NsaXBzLT5iYXNlLmlkKSk7DQoNCkNoYW5naW5nIHRvIGRybV93YXJuX29uY2UoKQ0KDQpSZXZp
+ZXdlZC1ieTogSm9zw6kgUm9iZXJ0byBkZSBTb3V6YSA8am9zZS5zb3V6YUBpbnRlbC5jb20+DQoN
+Cj4gKw0KPiArCXJldHVybiAoc3RydWN0IGRybV9tb2RlX3JlY3QgKikoKHN0YXRlICYmIHN0YXRl
+LT5mYl9kYW1hZ2VfY2xpcHMpID8NCj4gKwkJCQkJc3RhdGUtPmZiX2RhbWFnZV9jbGlwcy0+ZGF0
+YSA6IE5VTEwpOw0KPiArfQ0KPiArRVhQT1JUX1NZTUJPTChkcm1fcGxhbmVfZ2V0X2RhbWFnZV9j
+bGlwcyk7DQo+ICsNCj4gIHN0cnVjdCBkcm1fcHJvcGVydHkgKg0KPiAgZHJtX2NyZWF0ZV9zY2Fs
+aW5nX2ZpbHRlcl9wcm9wKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsDQo+ICAJCQkgICAgICAgdW5z
+aWduZWQgaW50IHN1cHBvcnRlZF9maWx0ZXJzKQ0KPiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS9kcm0v
+ZHJtX3BsYW5lLmggYi9pbmNsdWRlL2RybS9kcm1fcGxhbmUuaA0KPiBpbmRleCA3ZjdkNTE0ODMx
+MGMuLmEyNjg0YWFiODM3MiAxMDA2NDQNCj4gLS0tIGEvaW5jbHVkZS9kcm0vZHJtX3BsYW5lLmgN
+Cj4gKysrIGIvaW5jbHVkZS9kcm0vZHJtX3BsYW5lLmgNCj4gQEAgLTg5NywzOSArODk3LDExIEBA
+IHN0YXRpYyBpbmxpbmUgc3RydWN0IGRybV9wbGFuZSAqZHJtX3BsYW5lX2ZpbmQoc3RydWN0IGRy
+bV9kZXZpY2UgKmRldiwNCj4gIA0KPiAgYm9vbCBkcm1fYW55X3BsYW5lX2hhc19mb3JtYXQoc3Ry
+dWN0IGRybV9kZXZpY2UgKmRldiwNCj4gIAkJCSAgICAgIHUzMiBmb3JtYXQsIHU2NCBtb2RpZmll
+cik7DQo+IC0vKioNCj4gLSAqIGRybV9wbGFuZV9nZXRfZGFtYWdlX2NsaXBzX2NvdW50IC0gUmV0
+dXJucyBkYW1hZ2UgY2xpcHMgY291bnQuDQo+IC0gKiBAc3RhdGU6IFBsYW5lIHN0YXRlLg0KPiAt
+ICoNCj4gLSAqIFNpbXBsZSBoZWxwZXIgdG8gZ2V0IHRoZSBudW1iZXIgb2YgJmRybV9tb2RlX3Jl
+Y3QgY2xpcHMgc2V0IGJ5IHVzZXItc3BhY2UNCj4gLSAqIGR1cmluZyBwbGFuZSB1cGRhdGUuDQo+
+IC0gKg0KPiAtICogUmV0dXJuOiBOdW1iZXIgb2YgY2xpcHMgaW4gcGxhbmUgZmJfZGFtYWdlX2Ns
+aXBzIGJsb2IgcHJvcGVydHkuDQo+IC0gKi8NCj4gLXN0YXRpYyBpbmxpbmUgdW5zaWduZWQgaW50
+DQo+IC1kcm1fcGxhbmVfZ2V0X2RhbWFnZV9jbGlwc19jb3VudChjb25zdCBzdHJ1Y3QgZHJtX3Bs
+YW5lX3N0YXRlICpzdGF0ZSkNCj4gLXsNCj4gLQlyZXR1cm4gKHN0YXRlICYmIHN0YXRlLT5mYl9k
+YW1hZ2VfY2xpcHMpID8NCj4gLQkJc3RhdGUtPmZiX2RhbWFnZV9jbGlwcy0+bGVuZ3RoL3NpemVv
+ZihzdHJ1Y3QgZHJtX21vZGVfcmVjdCkgOiAwOw0KPiAtfQ0KPiArdW5zaWduZWQgaW50DQo+ICtk
+cm1fcGxhbmVfZ2V0X2RhbWFnZV9jbGlwc19jb3VudChjb25zdCBzdHJ1Y3QgZHJtX3BsYW5lX3N0
+YXRlICpzdGF0ZSk7DQo+ICANCj4gLS8qKg0KPiAtICogZHJtX3BsYW5lX2dldF9kYW1hZ2VfY2xp
+cHMgLSBSZXR1cm5zIGRhbWFnZSBjbGlwcy4NCj4gLSAqIEBzdGF0ZTogUGxhbmUgc3RhdGUuDQo+
+IC0gKg0KPiAtICogTm90ZSB0aGF0IHRoaXMgZnVuY3Rpb24gcmV0dXJucyB1YXBpIHR5cGUgJmRy
+bV9tb2RlX3JlY3QuIERyaXZlcnMgbWlnaHQgd2FudA0KPiAtICogdG8gdXNlIHRoZSBoZWxwZXIg
+ZnVuY3Rpb25zIGRybV9hdG9taWNfaGVscGVyX2RhbWFnZV9pdGVyX2luaXQoKSBhbmQNCj4gLSAq
+IGRybV9hdG9taWNfaGVscGVyX2RhbWFnZV9pdGVyX25leHQoKSBvciBkcm1fYXRvbWljX2hlbHBl
+cl9kYW1hZ2VfbWVyZ2VkKCkgaWYNCj4gLSAqIHRoZSBkcml2ZXIgY2FuIG9ubHkgaGFuZGxlIGEg
+c2luZ2xlIGRhbWFnZSByZWdpb24gYXQgbW9zdC4NCj4gLSAqDQo+IC0gKiBSZXR1cm46IERhbWFn
+ZSBjbGlwcyBpbiBwbGFuZSBmYl9kYW1hZ2VfY2xpcHMgYmxvYiBwcm9wZXJ0eS4NCj4gLSAqLw0K
+PiAtc3RhdGljIGlubGluZSBzdHJ1Y3QgZHJtX21vZGVfcmVjdCAqDQo+IC1kcm1fcGxhbmVfZ2V0
+X2RhbWFnZV9jbGlwcyhjb25zdCBzdHJ1Y3QgZHJtX3BsYW5lX3N0YXRlICpzdGF0ZSkNCj4gLXsN
+Cj4gLQlyZXR1cm4gKHN0cnVjdCBkcm1fbW9kZV9yZWN0ICopKChzdGF0ZSAmJiBzdGF0ZS0+ZmJf
+ZGFtYWdlX2NsaXBzKSA/DQo+IC0JCQkJCXN0YXRlLT5mYl9kYW1hZ2VfY2xpcHMtPmRhdGEgOiBO
+VUxMKTsNCj4gLX0NCj4gK3N0cnVjdCBkcm1fbW9kZV9yZWN0ICoNCj4gK2RybV9wbGFuZV9nZXRf
+ZGFtYWdlX2NsaXBzKGNvbnN0IHN0cnVjdCBkcm1fcGxhbmVfc3RhdGUgKnN0YXRlKTsNCj4gIA0K
+PiAgaW50IGRybV9wbGFuZV9jcmVhdGVfc2NhbGluZ19maWx0ZXJfcHJvcGVydHkoc3RydWN0IGRy
+bV9wbGFuZSAqcGxhbmUsDQo+ICAJCQkJCSAgICAgdW5zaWduZWQgaW50IHN1cHBvcnRlZF9maWx0
+ZXJzKTsNCg0K
