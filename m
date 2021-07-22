@@ -2,39 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6FD13D2F61
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jul 2021 23:55:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FE053D2F68
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jul 2021 23:55:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D2F26EC2D;
-	Thu, 22 Jul 2021 21:55:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 44C616ECCC;
+	Thu, 22 Jul 2021 21:55:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 58B446EC2D;
- Thu, 22 Jul 2021 21:55:03 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10053"; a="211470659"
-X-IronPort-AV: E=Sophos;i="5.84,262,1620716400"; d="scan'208";a="211470659"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Jul 2021 14:55:02 -0700
-X-IronPort-AV: E=Sophos;i="5.84,262,1620716400"; d="scan'208";a="416096168"
-Received: from dut151-iclu.fm.intel.com ([10.105.23.43])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Jul 2021 14:55:02 -0700
-Date: Thu, 22 Jul 2021 21:55:00 +0000
-From: Matthew Brost <matthew.brost@intel.com>
-To: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-Subject: Re: [PATCH 50/51] drm/i915/guc: Implement GuC priority management
-Message-ID: <20210722215500.GA22641@DUT151-ICLU.fm.intel.com>
-References: <20210716201724.54804-1-matthew.brost@intel.com>
- <20210716201724.54804-51-matthew.brost@intel.com>
- <c0bd8e5c-784c-18cc-d724-f676dd3546aa@intel.com>
- <20210722213835.GA22352@DUT151-ICLU.fm.intel.com>
- <ebe8c917-c4b0-90a3-29df-030009cd7d51@intel.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 84A0A6F41C
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jul 2021 21:55:49 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 096D060EB4;
+ Thu, 22 Jul 2021 21:55:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1626990949;
+ bh=38/gCLLIKRNs+3LlTom+83SP70ITg2eDDYyBdiaRcM0=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:From;
+ b=gwPTLMcqh6IZK4DjqkeRFtR3rE+94T1+Y0rWXqZUkBjwEHXFDoUM15zOYhX83L3WM
+ jz+QDDmtV1SRrgnf4o96O0IabnpgaxGfh7e0d1m+XubinAbe8eMaeqspA4EVTUZihM
+ dHTviUPYCjQi9vJRpsIAI/yJiOpCHXBR+1nkx2C8jGkQZQiBVBEgmmwJOg8MBuOuW6
+ wdm8mEoeOaXFh96Ys7LEuzzFm7DI2yLPE091ZXcfdRxHWZ82NdvoYnh2IcYnK/0fxm
+ rGfePFtavJnhQE/kEjVaXGCPskBrmFRSK3Oox0XZmBl++Sgt8svmkZ34XhNXs9Mz4r
+ T8YsYfCrGZl6A==
+Date: Thu, 22 Jul 2021 16:55:47 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH v2 1/9] PCI/VGA: Move vgaarb to drivers/pci
+Message-ID: <20210722215547.GA351340@bjorn-Precision-5520>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ebe8c917-c4b0-90a3-29df-030009cd7d51@intel.com>
+In-Reply-To: <7ae9d6b3-dce4-82f8-a315-56a0ecf657c0@infradead.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,65 +45,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, john.c.harrison@intel.com,
- dri-devel@lists.freedesktop.org
+Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ linux-pci@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>,
+ Xuefeng Li <lixuefeng@loongson.cn>, Huacai Chen <chenhuacai@loongson.cn>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 22, 2021 at 02:50:24PM -0700, Daniele Ceraolo Spurio wrote:
+On Thu, Jul 22, 2021 at 02:38:43PM -0700, Randy Dunlap wrote:
+> On 7/22/21 2:29 PM, Bjorn Helgaas wrote:
+> > From: Bjorn Helgaas <bhelgaas@google.com>
+> > 
+> > The VGA arbiter is really PCI-specific and doesn't depend on any GPU
+> > things.  Move it to the PCI subsystem.
+> > 
+> > Signed-off-by: Bjorn Helgaas <bhelgaas@google.com>
+> > ---
+> >  drivers/gpu/vga/Kconfig           | 19 -------------------
+> >  drivers/gpu/vga/Makefile          |  1 -
+> >  drivers/pci/Kconfig               | 19 +++++++++++++++++++
+> >  drivers/pci/Makefile              |  1 +
+> >  drivers/{gpu/vga => pci}/vgaarb.c |  0
+> >  5 files changed, 20 insertions(+), 20 deletions(-)
+> >  rename drivers/{gpu/vga => pci}/vgaarb.c (100%)
+> > 
 > 
-> <snip>
+> > diff --git a/drivers/pci/Kconfig b/drivers/pci/Kconfig
+> > index 0c473d75e625..7c9e56d7b857 100644
+> > --- a/drivers/pci/Kconfig
+> > +++ b/drivers/pci/Kconfig
+> > @@ -252,6 +252,25 @@ config PCIE_BUS_PEER2PEER
+> >  
+> >  endchoice
+> >  
+> > +config VGA_ARB
+> > +	bool "VGA Arbitration" if EXPERT
+> > +	default y
+> > +	depends on (PCI && !S390)
 > 
-> > > > @@ -1756,15 +1796,119 @@ static int guc_context_alloc(struct intel_context *ce)
-> > > >    	return lrc_alloc(ce, ce->engine);
-> > > >    }
-> > > > +static void guc_context_set_prio(struct intel_guc *guc,
-> > > > +				 struct intel_context *ce,
-> > > > +				 u8 prio)
-> > > > +{
-> > > > +	u32 action[] = {
-> > > > +		INTEL_GUC_ACTION_SET_CONTEXT_PRIORITY,
-> > > > +		ce->guc_id,
-> > > > +		prio,
-> > > > +	};
-> > > > +
-> > > > +	GEM_BUG_ON(prio < GUC_CLIENT_PRIORITY_KMD_HIGH ||
-> > > > +		   prio > GUC_CLIENT_PRIORITY_NORMAL);
-> > > > +
-> > > > +	if (ce->guc_prio == prio || submission_disabled(guc) ||
-> > > > +	    !context_registered(ce))
-> > > > +		return;
-> > > > +
-> > > > +	guc_submission_send_busy_loop(guc, action, ARRAY_SIZE(action), 0, true);
-> > > > +
-> > > > +	ce->guc_prio = prio;
-> > > > +	trace_intel_context_set_prio(ce);
-> > > > +}
-> > > > +
-> > > > +static inline u8 map_i915_prio_to_guc_prio(int prio)
-> > > > +{
-> > > > +	if (prio == I915_PRIORITY_NORMAL)
-> > > > +		return GUC_CLIENT_PRIORITY_KMD_NORMAL;
-> > > > +	else if (prio < I915_PRIORITY_NORMAL)
-> > > > +		return GUC_CLIENT_PRIORITY_NORMAL;
-> > > > +	else if (prio != I915_PRIORITY_BARRIER)
-> > > Shouldn't this be I915_PRIORITY_UNPREEMPTABLE?
-> > > 
-> > No, I915_PRIORITY_UNPREEMPTABLE is an execlists only concept.
+> You can drop the PCI part above.
 > 
-> then we need a
+> > +	help
+> > +	  Some "legacy" VGA devices implemented on PCI typically have the same
+> > +	  hard-decoded addresses as they did on ISA. When multiple PCI devices
+> > +	  are accessed at same time they need some kind of coordination. Please
+> > +	  see Documentation/gpu/vgaarbiter.rst for more details. Select this to
 > 
-> /* we don't expect umpreemptable submissions with the GuC */
-> GEM_BUG_ON(prio == I915_PRIORITY_UNPREEMPTABLE)
-> 
+> Move that Doc file also...
 
-Actually this probably should < I915_PRIORITY_DISPLAY as we really want
-pageflips to be high than any user context.
-
-Matt
-
-> or something, because that prio level would be assigned incorrectly
-> otherwise.
-> 
-> Daniele
-> 
+Thanks!  Fixed both locally.
