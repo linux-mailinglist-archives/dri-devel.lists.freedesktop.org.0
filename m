@@ -2,63 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4891D3D20F4
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jul 2021 11:30:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B6623D2105
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jul 2021 11:38:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3121B6EF21;
-	Thu, 22 Jul 2021 09:30:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B23AF6EA0B;
+	Thu, 22 Jul 2021 09:38:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com
- [IPv6:2607:f8b0:4864:20::102a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B5636EF21;
- Thu, 22 Jul 2021 09:30:22 +0000 (UTC)
-Received: by mail-pj1-x102a.google.com with SMTP id
- h6-20020a17090a6486b029017613554465so4651006pjj.4; 
- Thu, 22 Jul 2021 02:30:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=A2l/KYBC3bXoznTgQM09vSdqpXWqmsKUF+1UGlqjuAs=;
- b=iVpkBp98NPm8dzyyjh2eWotbxQtjnGNI1V2cdYfzEqO8V2JwfDNWiljVhOnth5v9vV
- JCLZ0eWSPMARC4eF7+5anNLBscRUOCtfHoDE9BKCnZ7WlthaGsCOmK+QXDfEM119EHAs
- 9zlgS5BKQXnuI/wObxt9KXRXzsqsbN2pSrv1E0A32+AJpLQstfJPNoTDW/ZyBMRsjUP2
- r2sAKbAPGA3A+lGRQQztqiF4D5bzJk3Q+J98dqlC5BzylIBi16x4VN1uqrrEBkPEEset
- 6PuSnPzJSKGWMrW1iyPf8aoz8Uha7BQm5bq2xoH9ONbdjpUqxiJjkvhO0EgprYuGFl2/
- dqCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=A2l/KYBC3bXoznTgQM09vSdqpXWqmsKUF+1UGlqjuAs=;
- b=hC4xR1sLfaYe2wN7Cn9idfvvgQdqtXvCK/Kvm0JoWz2eoqLtTxL3r3Tm8H1nZgXc3K
- 9lFpHi3/wewaa5OAmA2YEYFPa04WEZuzkhb4kCi7lQWW4ihpTpeapVKxaPmFAG4r4Q+E
- mQ5j+x1t22DL17KP6WSyKODTV/D+vWFwY+xVh0CH8uUrnIX9sZeLIMxC7AZuv3j7hw2W
- rWyIW7zWZ/nBsViPWTOijVrVQg17LyFfPja4Q55x1FPx2zWVk8a+OFHCT6pFfA0dnvPc
- yNxdzdpy7EutMmPtkugzrZVXQzvJo8zouhp2SlsIu40mq6ruhmVPT3TbFWGXh4EHuKoM
- 3vPw==
-X-Gm-Message-State: AOAM530zOWG35Hjhh/InZ0fwGLfmDHeZI8fzBIDv86rESDogmF/8yu6r
- QzViPFqXNsnY79qypkfzQtg=
-X-Google-Smtp-Source: ABdhPJwWSq7bPLEO8MIHqEQ+hopaL1ENBkio6HpKz1UWTD3GAqFQS/Lxme9q8QwdqhvLTnGtDD1QDA==
-X-Received: by 2002:a17:90a:8811:: with SMTP id
- s17mr8215397pjn.171.1626946221835; 
- Thu, 22 Jul 2021 02:30:21 -0700 (PDT)
-Received: from localhost.localdomain ([118.200.190.93])
- by smtp.gmail.com with ESMTPSA id q5sm1069592pjo.7.2021.07.22.02.30.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 Jul 2021 02:30:21 -0700 (PDT)
-From: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
-To: linux-graphics-maintainer@vmware.com, zackr@vmware.com, airlied@linux.ie,
- daniel@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de
-Subject: [PATCH 3/3] drm/vmwgfx: fix potential UAF in vmwgfx_surface.c
-Date: Thu, 22 Jul 2021 17:29:29 +0800
-Message-Id: <20210722092929.244629-4-desmondcheongzx@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210722092929.244629-1-desmondcheongzx@gmail.com>
-References: <20210722092929.244629-1-desmondcheongzx@gmail.com>
+Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
+ [66.111.4.224])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 70A376EA0B
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jul 2021 09:38:29 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
+ by mailnew.nyi.internal (Postfix) with ESMTP id BB3525816EA;
+ Thu, 22 Jul 2021 05:38:26 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute2.internal (MEProxy); Thu, 22 Jul 2021 05:38:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm3; bh=fPOCX/2GJ3M7cJqK5A8WsdKaQFZ
+ TFDE51BgTgEgH6K4=; b=RjJE3ndxavrfIPS4AxsI8NhCYTRZCu9J+6gMqiZHzv+
+ Diw3Mwt0D6aQIDwV/oH4Z2GL7uAtLZvnFQNQ+XxRMBDx59IzLpcMZkYO/DN3C3Ps
+ VwlzPu72jd5mT1yaNBt6TEMPSjFCTjnrzVkrQFGjnDy/EXdVspmmcJhh4SXDNiUN
+ fpghmptooEg2VEs+QhUbwGqquri2e4YhfgLnTdI36uvaX+i9pCS/8viqbinfrdlp
+ YYfjrQcQzJIicA1e8U+TJmrrBqC9d1K5+oBzonsncG5Uuybi7Q0msARZEB01UlTy
+ ceZIoj2HEdXcJd2N7Osc5lwE/5app9iHRw15IGvkB2Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=fPOCX/
+ 2GJ3M7cJqK5A8WsdKaQFZTFDE51BgTgEgH6K4=; b=bjQlXvnZC+CuosspSwIT1h
+ dCMcanQY5a9Ly/wS/cDZTJmuu/lB5iOXOQVxL9pyi2eMf7J0v0Ad7HX8QfE/BgzJ
+ Qpg22/XPgq1/DT3TbuQNXIS4ABXieAUizbdJZy9FX+vV/y64lSGwfGMt7GMwnmq7
+ vWU8YU7LREKX+akJBgPAUCjbpuWXNnzrib6enSEfwblc3Lc2/XW0WBh7xrElaM0K
+ wNp8Fiogchedc3PfffxWCMey/1GBu6GA6q9KlTmwUeqxjEziDCBnU7FMCG9rzitA
+ WlK6smoPgGPxnELKkTH0p3n3iZeNYokjuW8ElJawdp1j7U4lf+Yx3WkjhwD63f8g
+ ==
+X-ME-Sender: <xms:jzz5YNwVN47A4XUaEcxuxmHqcd_Kar6OZccuB2_tqK6-aM3zYu0xig>
+ <xme:jzz5YNQS3kF0gACnGJ77zqdadSlbaq4yHtyJfV6Ycg2T1D4_UdVv2v4-yJfhLujtv
+ 5_LDIPm-i5HLUZpWHY>
+X-ME-Received: <xmr:jzz5YHXUSLsRG14fRcDLmglwuDgw0UDUdKIP_FizKgYnJGpsz5cJLKjl9qzW_tyJs5h8kyARAQ73dZQND6ld4lj_VnhostecoRr3>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrfeeigdduiecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+ gvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheeiheeg
+ udenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
+ igihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:jzz5YPj_osM1RfLAHNpzhC12FfMgiaj5qIzVH-b8TmlJ_aXtkz6t9A>
+ <xmx:jzz5YPCQQwN7xkpp4As84VtBIy5jkcLWfcw_GwnIB8Z_8UpTu91aRA>
+ <xmx:jzz5YILyIlbbGO0H_rtOxHo6A61CIURr-lcdWn1JhcE1spzE_GEwrA>
+ <xmx:kjz5YD4XiTIS43qslMzSGJBQJKg2k-Wj4YxMoqeWba1lW0pRT0wlIA>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 22 Jul 2021 05:38:22 -0400 (EDT)
+Date: Thu, 22 Jul 2021 11:38:21 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH 08/10] drm/panel: raspberrypi-touchscreen: Prevent
+ double-free
+Message-ID: <20210722093821.nnmcldjts2boxctu@gilmour>
+References: <20210720134525.563936-1-maxime@cerno.tech>
+ <20210720134525.563936-9-maxime@cerno.tech>
+ <YPcFrKLq1dhTcOUL@ravnborg.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="fgqdyjawfptivtlq"
+Content-Disposition: inline
+In-Reply-To: <YPcFrKLq1dhTcOUL@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,47 +82,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: gregkh@linuxfoundation.org, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- skhan@linuxfoundation.org, Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
- linux-kernel-mentees@lists.linuxfoundation.org
+Cc: Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, Jonas Karlman <jonas@kwiboo.se>,
+ linux-kernel@vger.kernel.org, Robert Foss <robert.foss@linaro.org>,
+ Andrzej Hajda <a.hajda@samsung.com>, Thierry Reding <thierry.reding@gmail.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm_file.master should be protected by either drm_device.master_mutex
-or drm_file.master_lookup_lock when being dereferenced. However,
-drm_master_get is called on unprotected file_priv->master pointers in
-vmw_surface_define_ioctl and vmw_gb_surface_define_internal.
 
-This is fixed by replacing drm_master_get with drm_file_get_master.
+--fgqdyjawfptivtlq
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
----
- drivers/gpu/drm/vmwgfx/vmwgfx_surface.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+On Tue, Jul 20, 2021 at 07:19:40PM +0200, Sam Ravnborg wrote:
+> Hi Maxime,
+> On Tue, Jul 20, 2021 at 03:45:23PM +0200, Maxime Ripard wrote:
+> > The mipi_dsi_device allocated by mipi_dsi_device_register_full() is
+> > already free'd on release.
+> >=20
+> > Fixes: 2f733d6194bd ("drm/panel: Add support for the Raspberry Pi 7" To=
+uchscreen.")
+> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+>
+> Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_surface.c b/drivers/gpu/drm/vmwgfx/vmwgfx_surface.c
-index 0eba47762bed..5d53a5f9d123 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_surface.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_surface.c
-@@ -865,7 +865,7 @@ int vmw_surface_define_ioctl(struct drm_device *dev, void *data,
- 	user_srf->prime.base.shareable = false;
- 	user_srf->prime.base.tfile = NULL;
- 	if (drm_is_primary_client(file_priv))
--		user_srf->master = drm_master_get(file_priv->master);
-+		user_srf->master = drm_file_get_master(file_priv);
- 
- 	/**
- 	 * From this point, the generic resource management functions
-@@ -1534,7 +1534,7 @@ vmw_gb_surface_define_internal(struct drm_device *dev,
- 
- 	user_srf = container_of(srf, struct vmw_user_surface, srf);
- 	if (drm_is_primary_client(file_priv))
--		user_srf->master = drm_master_get(file_priv->master);
-+		user_srf->master = drm_file_get_master(file_priv);
- 
- 	res = &user_srf->srf.res;
- 
--- 
-2.25.1
+Thanks, I applied it to drm-misc-fixes
 
+> I did a quick audit (as using grep mostly) to see if other panels had
+> the same bug, but did not find others.
+
+Yeah, the RaspberryPi panel seems to be the only odd DSI panel not
+controlled through DCS, and the other panels don't have to allocate the
+mipi-dsi device anyway.
+
+No bridge seems to have the issue though.
+
+Maxime
+
+--fgqdyjawfptivtlq
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYPk8jQAKCRDj7w1vZxhR
+xYC+AQDajNGQcqMy8pCM0W9q6Ji0vEty86tBT6j+Tct9Hpp/6gD+MlZfK8T/f5sy
+i4i4KkiJB0fJmHJnkohwOa424wZFjAM=
+=NkL/
+-----END PGP SIGNATURE-----
+
+--fgqdyjawfptivtlq--
