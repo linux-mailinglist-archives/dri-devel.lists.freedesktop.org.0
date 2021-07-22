@@ -2,58 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B3553D20E3
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jul 2021 11:30:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A44A3D20E6
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jul 2021 11:30:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C37F46EE6D;
-	Thu, 22 Jul 2021 09:30:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA8806EE7C;
+	Thu, 22 Jul 2021 09:30:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com
- [IPv6:2607:f8b0:4864:20::1032])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 413C76EE6D;
- Thu, 22 Jul 2021 09:30:05 +0000 (UTC)
-Received: by mail-pj1-x1032.google.com with SMTP id
- nt18-20020a17090b2492b02901765d605e14so3685821pjb.5; 
- Thu, 22 Jul 2021 02:30:05 -0700 (PDT)
+Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com
+ [IPv6:2607:f8b0:4864:20::62d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C7A296EE7C;
+ Thu, 22 Jul 2021 09:30:11 +0000 (UTC)
+Received: by mail-pl1-x62d.google.com with SMTP id n11so3787738plc.2;
+ Thu, 22 Jul 2021 02:30:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=hdUv+GXySeA885YGpZmLXS+2jizmvcJ4lSDniuXWHI4=;
- b=EhYdQIseNy6lMDk8YjKQ1veyCiTbOgIoJ/VBVn2vLDHGjdPFhTNSRUWUK0bPWotrpJ
- XSI48OOBzprocJPN7b707Qc5XV1f9dLIpRoM7q+PNMy9LwG20xJmvNbKcGSK6p/43ngv
- jDxmxG5TXCq5VK530lsn/vAQrKCaKcQpM7lW3d1Fq/JexqDaA+V87C8Xhqbqp1A/6NrL
- WmSWXzObWM7UDCKqx7X0RGvebf9a9LFGYQcEiQtpFff0ndaFx1/emvMQExqEB3bVyCHs
- Z5PVVvZNWxv6xwAeBz0zwPyunJkYBvTruohXRBUZOy/c20hg9bs5aXsGxSpOS4Gj/5oz
- L9OA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=RSgVdB0+HpET8iLINuWOoeOWDDxUJjmmluxZNEz35KA=;
+ b=o6LJ/myMP6JO8ChH8dYoqq21TZnuVfWqQC7aMNZVbEwvgt/wmupSJe5X7mUycZZ1OP
+ wZUOpxPzR0Di4iK476owf2txOnd8aRvZIuWOSyNSQwF8qAfJx1gZjc1rqQNENDcoU4k8
+ pWfm16Rm2AyVdjC+e3kTofDMg7W/f1X4eU9NPEhv7mUcvN6ebC/kCdQLgGMJIgNOCd38
+ Z79Cpgk8vmBkJLmcW9tTTfCW8TJv/6nRrpzuj2HycvK3LMZlVo0xpmCpHif6k1kmeqBf
+ /hzT0Pmizi11dqx4L91lE1OKq6ULDL3w/A5pjP58k83vlOPYfDR9I9UDXt06Iw0JzA4O
+ hv7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=hdUv+GXySeA885YGpZmLXS+2jizmvcJ4lSDniuXWHI4=;
- b=Z3PE28vwqtIhUPrhVumQTrKOrOyhtzhMOseOfMiYScNgn3GHa1b1bUiebypLD0wi15
- SneK1iPW9EQXhUAXw5QxvxsISzJajO3rpWCxMmxIs411ZskoPLYjimJKbazLbeh1W0x3
- VU+x0rbqcvthh8hL0pJnudVRT4w/885SlIUaKgJ7CwRUMWNSplqUEQpxo9XDMo0b2Xsc
- BL7bsybEM3C7j5KCsG3JK44uQiK285qvhyngKBjl7fJDgKfMhsS4VZhydVUKwuph20hE
- H7a6y7HS2C9ya/mOGEDIJlD7LjfHADawH+KgK6LIWC5F9DtUghMJUw8iiccYAApq5dyQ
- 588A==
-X-Gm-Message-State: AOAM532rB8cZdGf6KFRjGsd61hMLRIqWHqIG9ffO3AhAEfqjGnf4xbUh
- P9mJANXnPW5GL1Pqoh60ueE=
-X-Google-Smtp-Source: ABdhPJzNOnM2Xiyy747iVpPkppzdexY5XMa3HjOqEYwbnOjXK0DTZlH0ZcQCcNQf3tlBT+6SeQX2yA==
-X-Received: by 2002:a63:e250:: with SMTP id y16mr40565172pgj.247.1626946204761; 
- Thu, 22 Jul 2021 02:30:04 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=RSgVdB0+HpET8iLINuWOoeOWDDxUJjmmluxZNEz35KA=;
+ b=ompWVo1nAMaZPZ9ck8m/pAr5jcWYm+23OvsMO0DYy95WPdzNSWicw07M99kOXEjF4I
+ 8RwKS80tqXJFJFN46gg+DdVpPSqvlLOdtM0R2I7fOgiHXbMqKkKIgBRAn2UcFA1ocfj9
+ aFDyy0xPSNlLV1dUt23h2ip0GsUhCKuJI/bVaBovHscBnAWJoGSlOcyQln9bcBkL5WBh
+ IH070SNaVPVz/2X24dI9J9ZujqL9trlGsupK/JwPVXJsCWS3lzNKkWtqJS5IH7uwGWnx
+ WXp4nE7Sq3crMRkkMxpUgDD/jHEZy1Vi6JZHAC1OIFmJ/lNK4sRgpWUfL61KOru1L6G+
+ apzA==
+X-Gm-Message-State: AOAM531cam2O4Ig1PV3/g2ha92gkAMxGn3Z+X55M7O3OIzMoTruvp24f
+ aq3t73qyLe9VGLVTBz9cWgw=
+X-Google-Smtp-Source: ABdhPJyscK7c550TzHfpDv1WRnYYvoBsSoBWYdMCW0natilUebpT1uRY7os1lbemOjfZnuzWFb0RqA==
+X-Received: by 2002:a05:6a00:2306:b029:331:ebe8:a4b4 with SMTP id
+ h6-20020a056a002306b0290331ebe8a4b4mr39978184pfh.15.1626946211504; 
+ Thu, 22 Jul 2021 02:30:11 -0700 (PDT)
 Received: from localhost.localdomain ([118.200.190.93])
- by smtp.gmail.com with ESMTPSA id q5sm1069592pjo.7.2021.07.22.02.30.00
+ by smtp.gmail.com with ESMTPSA id q5sm1069592pjo.7.2021.07.22.02.30.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 Jul 2021 02:30:04 -0700 (PDT)
+ Thu, 22 Jul 2021 02:30:11 -0700 (PDT)
 From: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
 To: linux-graphics-maintainer@vmware.com, zackr@vmware.com, airlied@linux.ie,
  daniel@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
  tzimmermann@suse.de
-Subject: [PATCH 0/3] drm, drm/vmwgfx: fixes and updates related to drm_master
-Date: Thu, 22 Jul 2021 17:29:26 +0800
-Message-Id: <20210722092929.244629-1-desmondcheongzx@gmail.com>
+Subject: [PATCH 1/3] drm: use the lookup lock in drm_is_current_master
+Date: Thu, 22 Jul 2021 17:29:27 +0800
+Message-Id: <20210722092929.244629-2-desmondcheongzx@gmail.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210722092929.244629-1-desmondcheongzx@gmail.com>
+References: <20210722092929.244629-1-desmondcheongzx@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -70,39 +72,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: gregkh@linuxfoundation.org, intel-gfx@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- skhan@linuxfoundation.org, Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, skhan@linuxfoundation.org,
+ Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
  linux-kernel-mentees@lists.linuxfoundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Inside drm_is_current_master, using the outer drm_device.master_mutex
+to protect reads of drm_file.master makes the function prone to creating
+lock hierarchy inversions. Instead, we can use the
+drm_file.master_lookup_lock that sits at the bottom of the lock
+hierarchy.
 
-This series contains some improvements that Daniel Vetter proposed following a discussion on a recent series:
-https://lore.kernel.org/lkml/20210712043508.11584-1-desmondcheongzx@gmail.com/
+Reported-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+---
+ drivers/gpu/drm/drm_auth.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-While preparing these patches, I also noticed some unprotected uses of drm_master in the vmwgfx driver that can be addressed by new functions from the previous series.
-
-This series is thus broken up into three patches:
-
-1. Switch from the outer drm_device.master_mutex to the inner drm_file.master_lookup_lock in drm_is_current_master.
-
-2. Update the kerneldoc for lease fields in drm_master to clarify lifetime/locking rules.
-
-3. Prevent potential use-after-free bugs by replacing calls to drm_master_get with drm_file_get_master in vmwgfx_surface.c.
-
-Best wishes,
-Desmond
-
-Desmond Cheong Zhi Xi (3):
-  drm: use the lookup lock in drm_is_current_master
-  drm: clarify lifetime/locking for drm_master's lease fields
-  drm/vmwgfx: fix potential UAF in vmwgfx_surface.c
-
- drivers/gpu/drm/drm_auth.c              |  9 ++--
- drivers/gpu/drm/vmwgfx/vmwgfx_surface.c |  4 +-
- include/drm/drm_auth.h                  | 62 ++++++++++++++++++++-----
- 3 files changed, 58 insertions(+), 17 deletions(-)
-
+diff --git a/drivers/gpu/drm/drm_auth.c b/drivers/gpu/drm/drm_auth.c
+index f00354bec3fb..9c24b8cc8e36 100644
+--- a/drivers/gpu/drm/drm_auth.c
++++ b/drivers/gpu/drm/drm_auth.c
+@@ -63,8 +63,9 @@
+ 
+ static bool drm_is_current_master_locked(struct drm_file *fpriv)
+ {
+-	lockdep_assert_held_once(&fpriv->minor->dev->master_mutex);
+-
++	/* Either drm_device.master_mutex or drm_file.master_lookup_lock
++	 * should be held here.
++	 */
+ 	return fpriv->is_master && drm_lease_owner(fpriv->master) == fpriv->minor->dev->master;
+ }
+ 
+@@ -82,9 +83,9 @@ bool drm_is_current_master(struct drm_file *fpriv)
+ {
+ 	bool ret;
+ 
+-	mutex_lock(&fpriv->minor->dev->master_mutex);
++	spin_lock(&fpriv->master_lookup_lock);
+ 	ret = drm_is_current_master_locked(fpriv);
+-	mutex_unlock(&fpriv->minor->dev->master_mutex);
++	spin_unlock(&fpriv->master_lookup_lock);
+ 
+ 	return ret;
+ }
 -- 
 2.25.1
 
