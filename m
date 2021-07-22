@@ -1,58 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EEB43D2C56
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jul 2021 21:05:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D9C13D2C66
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jul 2021 21:08:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 859276E97A;
-	Thu, 22 Jul 2021 19:05:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1344E6E98B;
+	Thu, 22 Jul 2021 19:07:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32c.google.com (mail-ot1-x32c.google.com
- [IPv6:2607:f8b0:4864:20::32c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 175BA6EA7D
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jul 2021 19:05:32 +0000 (UTC)
-Received: by mail-ot1-x32c.google.com with SMTP id
- b24-20020a9d60d80000b02904d14e47202cso6295418otk.4
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jul 2021 12:05:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:in-reply-to:references:from:user-agent:date:message-id
- :subject:to:cc;
- bh=congdFIKNx3UQvjcKCH7cpv7zvqp5GO1L/NygEo3sXY=;
- b=dDIPDFkyDDHfqVGTpIk+wx1GBgHwuS+5k3bX78JBMROdG0Il9Fa6gFRE3N4NL2Qk0f
- SqQZg2RIPA064hM8VFnMY2q+vHBzUFSnc7iN5K2p7p4BJ7A/sYHwrrcq3pXBnJC7CkMX
- 6ETr8WW+bTfkdyUukPtX19G0Yed7uhKTttRjU=
+Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com
+ [IPv6:2607:f8b0:4864:20::b4a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 99D536E98B
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jul 2021 19:07:58 +0000 (UTC)
+Received: by mail-yb1-xb4a.google.com with SMTP id
+ a4-20020a25f5040000b029054df41d5cceso8514476ybe.18
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jul 2021 12:07:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=date:message-id:mime-version:subject:from:to:cc;
+ bh=Y+4Q1LkGSotu1XfmzHQ6ryO/eeqhw4mJ1FyIbndgjZg=;
+ b=TqWxnT/Z73qrMHnDvvmdUmHFCBG2MowDGm9qbSkEGL5dCyrUWFCjRlmaCwPnwOV+vE
+ felNomI4J14yW6cG4cK8/fe5EmLr6cUafKEfxaLZtrN+y4CuWRbV/1MgW8Oe6G1oUXYe
+ U5/snPPITJfuRauEaIlN2IvmysFsXc4W/reebG3h71BcT4s14CNHFwziy8vhd3JaNZVt
+ vSNZwIv97aznzS4Lk6SBEfxWNAH0IGp4XobMfkNcfnErx0N0/srvH32mvyN9DTsAGx3Z
+ FmvNLWsFRkpdPxysCstLgzcENMdmM//CzmYiJbMaBjzRUoMw5jvq0sqmc91ET7vecjor
+ H7cQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:in-reply-to:references:from
- :user-agent:date:message-id:subject:to:cc;
- bh=congdFIKNx3UQvjcKCH7cpv7zvqp5GO1L/NygEo3sXY=;
- b=s8QbmzIby6VDs7bHjbI0+I2bno+BFoHNvs5TNChe22A4fHlAd1eDqHR5QI7cxbiPsE
- GaX41D2s3mNBAreqXlsWXaQdsg9z/0HOQnloJMbTgR/YIayTvCsVjeyTsLtUUaCM4Ibw
- KDC5Q7JJCwlJMW8+o7FIImJQREuDvJ+etCzrXT6+pqrGzwXE8uBYs8H6qgzhlrIqIYaU
- oNIEf2PnIbb4QeUAZivkVr0IoW9D0SQJJg1pimtEPpQaCPY7Ou1EHEMY27tBAnB7m+ys
- CASE8ofNquxXi31u26ZJUdX38aSAwm68sisPQ8MdaazLoaYrS7HMhCSpaRl64P+17f7M
- xdog==
-X-Gm-Message-State: AOAM532UIVhWJhniOF0SrSJ61vSmKZ44dRjR8vNAAAyIxlc3iueovBWp
- 5Hs+upT+tzhjuZy7RsuCMBe3yJhjmE7JV6TtMW1wEA==
-X-Google-Smtp-Source: ABdhPJxszP1Nvb9QVLAphQ4FMRQGZNgHTiAOHsXtE6VBCSK4Mkx8qQEaF06I/qJbcI+d9b6gULejIcgtbhtlsXTT8NA=
-X-Received: by 2002:a9d:8c7:: with SMTP id 65mr842433otf.25.1626980731332;
- Thu, 22 Jul 2021 12:05:31 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 22 Jul 2021 19:05:30 +0000
-MIME-Version: 1.0
-In-Reply-To: <1626191647-13901-3-git-send-email-khsieh@codeaurora.org>
-References: <1626191647-13901-1-git-send-email-khsieh@codeaurora.org>
- <1626191647-13901-3-git-send-email-khsieh@codeaurora.org>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.9.1
-Date: Thu, 22 Jul 2021 19:05:30 +0000
-Message-ID: <CAE-0n52JWbqwZtSCcLyzpsaFyd8mRLiXxLO-9YDk5xMbj_uQiw@mail.gmail.com>
-Subject: Re: [PATCH v2 2/7] drm/msm/dp: reduce link rate if failed at link
- training 1
-To: Kuogee Hsieh <khsieh@codeaurora.org>, dri-devel@lists.freedesktop.org, 
- robdclark@gmail.com, sean@poorly.run
+ h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+ bh=Y+4Q1LkGSotu1XfmzHQ6ryO/eeqhw4mJ1FyIbndgjZg=;
+ b=pr9k9D80MM4L18m0SlUSx95dLmfQpZJsxBNfqyR8AfGWtMeTnUw3tOmW1N3KhYQbPE
+ Ae7wvgfuTryKEDfilduYoDx63KWgOd1l3KOVV1+t2TyF5mrNS9oiBB1V+QGuHWmNpGVC
+ f+IN3H6xkCH3vKYn5fmoRxHl5WMbIh1KALcQfPDx6UtWmpf/3Euy7kcjHPiodM5bbMbH
+ npNCo7mjpOSS0eiPL2Uo7PF6S8kF4u4Drt+Vq0jcLWypBWEys5qgNzdWgcVpwKGbO1R0
+ cIo9emH3A40E4ELFAw9xEvda+HtNLClkLbaAd2md1OKIjQYOIo4yABJxzJQrkO8EBTU7
+ Jl1g==
+X-Gm-Message-State: AOAM5309dc5VdAuWNLW0gx81u9dp7lTZ0ESsTk1QcA81nkSu2GRWSzWE
+ VktQXT/n+BOPC02udORmPm5uX3XYsa4=
+X-Google-Smtp-Source: ABdhPJyN1TtBAly+n7sAFHUMK7tG6nh3fqZuhlgbAzUczufLDXVA9cjmsxqDsLqVj7oNjCMvjWh3qW/7kdU=
+X-Received: from hridya.mtv.corp.google.com
+ ([2620:15c:211:200:233e:4a37:d5d6:55d7])
+ (user=hridya job=sendgmr) by 2002:a25:2589:: with SMTP id
+ l131mr1337963ybl.451.1626980877695; 
+ Thu, 22 Jul 2021 12:07:57 -0700 (PDT)
+Date: Thu, 22 Jul 2021 12:07:46 -0700
+Message-Id: <20210722190747.1986614-1-hridya@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.32.0.432.gabb21c7263-goog
+Subject: [PATCH] dma-buf: heaps: Set allocation limit for system heap
+From: Hridya Valsaraju <hridya@google.com>
+To: Sumit Semwal <sumit.semwal@linaro.org>, 
+ Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+ Liam Mark <lmark@codeaurora.org>, 
+ Laura Abbott <labbott@redhat.com>, Brian Starkey <Brian.Starkey@arm.com>, 
+ John Stultz <john.stultz@linaro.org>, 
+ "=?UTF-8?q?Christian=20K=C3=B6nig?=" <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+ linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,46 +71,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, abhinavk@codeaurora.org,
- bjorn.andersson@linaro.org, aravindh@codeaurora.org,
- freedreno@lists.freedesktop.org
+Cc: Hridya Valsaraju <hridya@google.com>, gregkh@linuxfoundation.org,
+ kernel-team@android.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Kuogee Hsieh (2021-07-13 08:54:02)
-> diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-> index 27fb0f0..92cf331 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-> @@ -1634,6 +1617,24 @@ void dp_ctrl_handle_sink_request(struct dp_ctrl *dp_ctrl)
->         }
->  }
->
-> +static bool dp_ctrl_clock_recovery_any_ok(
-> +                       const u8 link_status[DP_LINK_STATUS_SIZE],
-> +                       int lane_count)
-> +{
-> +       int lane_cnt;
-> +
-> +       /*
-> +        * only interested in the lane number after reduced
-> +        * lane_cnt = 4, then only interested in 2 lanes
-> +        * lane_cnt = 2, then only interested in 1 lane
-> +        */
-> +       lane_cnt = lane_count >> 1;
-> +       if (lane_cnt == 0)
-> +               return false;
-> +
-> +       return drm_dp_clock_recovery_ok(link_status, lane_count);
+This patch limits the size of total memory that can be requested in a
+single allocation from the system heap. This would prevent a
+buggy/malicious client from depleting system memory by requesting for an
+extremely large allocation which might destabilize the system.
 
-This doesn't work? Because drm_dp_clock_recovery_ok() requires every
-lane to be OK whereas this function wants any lane to be OK? It may make
-sense to have drm_dp_clock_recovery_ok() return false if lane_count == 0
-too.
+The limit is set to half the size of the device's total RAM which is the
+same as what was set by the deprecated ION system heap.
 
-> +}
-> +
->  int dp_ctrl_on_link(struct dp_ctrl *dp_ctrl)
->  {
->         int rc = 0;
+Signed-off-by: Hridya Valsaraju <hridya@google.com>
+---
+ drivers/dma-buf/heaps/system_heap.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/system_heap.c
+index b7fbce66bcc0..099f5a8304b4 100644
+--- a/drivers/dma-buf/heaps/system_heap.c
++++ b/drivers/dma-buf/heaps/system_heap.c
+@@ -371,6 +371,12 @@ static struct dma_buf *system_heap_do_allocate(struct dma_heap *heap,
+ 	struct page *page, *tmp_page;
+ 	int i, ret = -ENOMEM;
+ 
++	if (len / PAGE_SIZE > totalram_pages() / 2) {
++		pr_err("pid %d requested too large an allocation(size %lu) from system heap\n",
++		       current->pid, len);
++		return ERR_PTR(ret);
++	}
++
+ 	buffer = kzalloc(sizeof(*buffer), GFP_KERNEL);
+ 	if (!buffer)
+ 		return ERR_PTR(-ENOMEM);
+-- 
+2.32.0.432.gabb21c7263-goog
+
