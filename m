@@ -2,61 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BAA63D1BE7
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jul 2021 04:44:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EE7F3D1C02
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jul 2021 04:46:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F00246EE9E;
-	Thu, 22 Jul 2021 02:44:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F3226EE96;
+	Thu, 22 Jul 2021 02:46:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x231.google.com (mail-oi1-x231.google.com
- [IPv6:2607:f8b0:4864:20::231])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE8BF6EE9F
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jul 2021 02:44:16 +0000 (UTC)
-Received: by mail-oi1-x231.google.com with SMTP id w194so5103135oie.5
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 19:44:16 -0700 (PDT)
+Received: from mail-ot1-x332.google.com (mail-ot1-x332.google.com
+ [IPv6:2607:f8b0:4864:20::332])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3ED916EE96
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jul 2021 02:46:18 +0000 (UTC)
+Received: by mail-ot1-x332.google.com with SMTP id
+ a17-20020a9d3e110000b02904ce97efee36so2037361otd.7
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 19:46:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=uhoriXxwuf3F+ep/Ax/y3D7yAyI4y+wKU+diem5MpTA=;
- b=ZdBi2xPCD1R0VnJO6SavUR7GyC1Qambh3gp4KeO0sbhvIYnOo6MPCsLJ6v1Cl5f4VA
- Anr4nQvC+6tFNE6CeRot/cI4AVIUFN2aHccBkHRvZ+JibvKCbHl2rH90fyEhMjZxegBq
- Q+S4kxj6APRr8EgUnH4xDmSNZXsIIT3w1SlYuTfeOvepP6A448tE5GTgO+Shk8sCkCyv
- HUZJeQhlMw3ByhEnOq/HHR84wSmAUArNiu55uIkyvPxtQVcMQ425L2jhoTc3hnfNvB7L
- hmmCCUij94G13agr+DrhgA7fq9PgnQ96VRlFlkAF5gXxg92nBKobk77Usgv+7rBUxLuP
- BeJg==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=PuEoL0cflmj88ic5E/HBFbgKYO0ZjMr2HcVskHGb4+8=;
+ b=gTWxU6v2EWpdjHWSdRsk7wGshB7EBoTxmSV8TDRq2yPSI+1sk7E66j1/hwyjO4OvR1
+ ERJYkBJc9Dy8API/rXeZ+l4O6oiASLlyq07LRhhazsHoV+RZPzB1EP2osUPlOKuTxtro
+ tsFgityqP73QzS4/Hp56+85gZF9n7sb3eGg9VoHjmF616Yi/u2Bg5wkfZ0cVrwkyb+1+
+ qRC9l9PhkTMIRd8JVck0BGGsS2UojXzmzZ7pGR8s6EnAUm/4lPqVA69zwov42viY5jbN
+ fO4SlDvt8c6ZkomLyW2cf93psDPozgx8QWP5ynKKkoZpwrY9e7uSlpxofWPei1rnnNsJ
+ u4rA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=uhoriXxwuf3F+ep/Ax/y3D7yAyI4y+wKU+diem5MpTA=;
- b=ibRZiSK04yBR2oJmxWUHNBJsZpeujgFMXvcV3h/LnKrhhf+HRZ6YkT+NOENZlL0PBx
- Uk1UNLfAjyCIKRwDCvbp6f2ZCUeO+sqVtb8Y5kTbnMlU3ZUR2EaYaLopHEM/L0t7r8ur
- SE8bR+tBj+PsJ1tXVcJQNF+w9jBHIK2KEke8uBbfqpPwLoSFbmosz1YKJeS/HAOQpW7s
- XhC33KTkDUwyLsybn4sKprAPopLgYJAIX+w862bdSIzb7rbJreososXdl2z4hCEjEX1l
- fXF0tAwxbXgqvWgm2ksC5lOJtALwcqs8W12KTEgza4cMNrkDx3+w5VF/+GppNrTp2GnY
- /w6w==
-X-Gm-Message-State: AOAM530ILxZrOa+01NyDakZ68jBiLuXcq+JnWNYQNcfPxDUXvo3ukw64
- LLfDr3fTfQ26EEiExo146wSooA==
-X-Google-Smtp-Source: ABdhPJyGElkKfHDf6jyZwFqec1oLyl/N/ypeSqKhVHIH8x4MMGHzo5HPp19meT7huH/WVt7TtNbxRw==
-X-Received: by 2002:a54:4102:: with SMTP id l2mr27057626oic.126.1626921856181; 
- Wed, 21 Jul 2021 19:44:16 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=PuEoL0cflmj88ic5E/HBFbgKYO0ZjMr2HcVskHGb4+8=;
+ b=Zj+fNFDeF4Q4X4Dukj/kisqIx8D8BhUQ/rSfnmzjrv7nmDGJce2iTgmdfneGip9pw6
+ 3xBW7ozenIzyL0oTL9s7g1HXIydypTs2Vh6IfUmlQJN4/P+0XzvoQfDlR34hd3Jb+R9F
+ 9yyRLBcl+hoNNFzw0JMrxUHahQPgmG4lE9E9qofpwF8XczvjbC3mon9dAy2ZaYhH9C3+
+ qDkG9oDheQF5OwtaOCiK9q8LKm4srKXP/CFZzNSHC1QiPzagaro7+1SB43seItisg5xQ
+ RiBgPtqYl8jPqGxPFDigb0+ed89HvaI0m5+YbC97TLgnWSmy3kGYCf7AL8qCjV1qzCDd
+ 1uhg==
+X-Gm-Message-State: AOAM533UGq7BTqyPYBeDyiHSA4LEI1On74QG9VTv0DSNinYmSbXs0iQ6
+ m5ijtCKnvBs4s0WUZxrhqAdJtQ==
+X-Google-Smtp-Source: ABdhPJzn5vDJKXScBg/5Zax5IQIFFmirfICOQE36McKeLi23Vbz6GYsDN43N0AUPf+NSyaLxhLNgXQ==
+X-Received: by 2002:a05:6830:1b6b:: with SMTP id
+ d11mr27389811ote.234.1626921977560; 
+ Wed, 21 Jul 2021 19:46:17 -0700 (PDT)
 Received: from localhost.localdomain
  (104-57-184-186.lightspeed.austtx.sbcglobal.net. [104.57.184.186])
- by smtp.gmail.com with ESMTPSA id u18sm5346519oif.9.2021.07.21.19.44.15
+ by smtp.gmail.com with ESMTPSA id x16sm390098ooj.1.2021.07.21.19.46.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Jul 2021 19:44:15 -0700 (PDT)
+ Wed, 21 Jul 2021 19:46:17 -0700 (PDT)
 From: Bjorn Andersson <bjorn.andersson@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>, Stephen Boyd <swboyd@chromium.org>,
- Abhinav Kumar <abhinavk@codeaurora.org>
-Subject: [PATCH 5/5] drm/msm/dp: Allow sub-regions to be specified in DT
-Date: Wed, 21 Jul 2021 19:42:27 -0700
-Message-Id: <20210722024227.3313096-6-bjorn.andersson@linaro.org>
+ Kuogee Hsieh <khsieh@codeaurora.org>
+Subject: [PATCH] drm/msm/dp: Initialize the INTF_CONFIG register
+Date: Wed, 21 Jul 2021 19:44:34 -0700
+Message-Id: <20210722024434.3313167-1-bjorn.andersson@linaro.org>
 X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210722024227.3313096-1-bjorn.andersson@linaro.org>
-References: <20210722024227.3313096-1-bjorn.andersson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -71,84 +70,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Kuogee Hsieh <khsieh@codeaurora.org>, Tanmay Shah <tanmay@codeaurora.org>,
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Tanmay Shah <tanmay@codeaurora.org>,
+ Stephen Boyd <swboyd@chromium.org>, Abhinav Kumar <abhinavk@codeaurora.org>,
+ Guenter Roeck <groeck@chromium.org>, Vara Reddy <varar@codeaurora.org>,
  freedreno@lists.freedesktop.org, Chandan Uddaraju <chandanu@codeaurora.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Not all platforms has P0 at an offset of 0x1000 from the base address,
-so add support for specifying each sub-region in DT. The code falls back
-to the predefined offsets in the case that only a single reg is
-specified, in order to support existing DT.
+Some bootloaders set the widebus enable bit in the INTF_CONFIG register,
+but configuration of widebus isn't yet supported ensure that the
+register has a known value, with widebus disabled.
 
+Fixes: c943b4948b58 ("drm/msm/dp: add displayPort driver support")
 Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
 ---
- drivers/gpu/drm/msm/dp/dp_parser.c | 49 +++++++++++++++++++++++-------
- 1 file changed, 38 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/msm/dp/dp_catalog.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/msm/dp/dp_parser.c b/drivers/gpu/drm/msm/dp/dp_parser.c
-index 1a10901ae574..fc8a6452f641 100644
---- a/drivers/gpu/drm/msm/dp/dp_parser.c
-+++ b/drivers/gpu/drm/msm/dp/dp_parser.c
-@@ -63,18 +63,45 @@ static int dp_parser_ctrl_res(struct dp_parser *parser)
- 		return PTR_ERR(dss->ahb);
- 	}
+diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.c b/drivers/gpu/drm/msm/dp/dp_catalog.c
+index 23458b0ddc37..37cb1102a0ca 100644
+--- a/drivers/gpu/drm/msm/dp/dp_catalog.c
++++ b/drivers/gpu/drm/msm/dp/dp_catalog.c
+@@ -747,6 +747,7 @@ int dp_catalog_panel_timing_cfg(struct dp_catalog *dp_catalog)
+ 	dp_write_link(catalog, REG_DP_HSYNC_VSYNC_WIDTH_POLARITY,
+ 				dp_catalog->width_blanking);
+ 	dp_write_link(catalog, REG_DP_ACTIVE_HOR_VER, dp_catalog->dp_active);
++	dp_write_p0(catalog, MMSS_DP_INTF_CONFIG, 0);
+ 	return 0;
+ }
  
--	if (dss->ahb_len < DP_DEFAULT_P0_OFFSET + DP_DEFAULT_P0_SIZE) {
--		DRM_ERROR("legacy memory region not large enough\n");
--		return -EINVAL;
--	}
-+	dss->aux = dp_ioremap(pdev, 1, &dss->aux_len);
-+	if (IS_ERR(dss->aux)) {
-+		/*
-+		 * The initial binding had a single reg, but in order to
-+		 * support variation in the sub-region sizes this was split.
-+		 * dp_ioremap() will fail with -ENODEV here if only a single
-+		 * reg is specified, so fill in the sub-region offsets and
-+		 * lengths based on this single region.
-+		 */
-+		if (PTR_ERR(dss->aux) == -ENODEV) {
-+			if (dss->ahb_len < DP_DEFAULT_P0_OFFSET + DP_DEFAULT_P0_SIZE) {
-+				DRM_ERROR("legacy memory region not large enough\n");
-+				return -EINVAL;
-+			}
-+
-+			dss->ahb_len = DP_DEFAULT_AHB_SIZE;
-+			dss->aux = dss->ahb + DP_DEFAULT_AUX_OFFSET;
-+			dss->aux_len = DP_DEFAULT_AUX_SIZE;
-+			dss->link = dss->ahb + DP_DEFAULT_LINK_OFFSET;
-+			dss->link_len = DP_DEFAULT_LINK_SIZE;
-+			dss->p0 = dss->ahb + DP_DEFAULT_P0_OFFSET;
-+			dss->p0_len = DP_DEFAULT_P0_SIZE;
-+		} else {
-+			DRM_ERROR("unable to remap aux region: %pe\n", dss->aux);
-+			return PTR_ERR(dss->aux);
-+		}
-+	} else {
-+		dss->link = dp_ioremap(pdev, 2, &dss->link_len);
-+		if (IS_ERR(dss->link)) {
-+			DRM_ERROR("unable to remap link region: %pe\n", dss->link);
-+			return PTR_ERR(dss->link);
-+		}
- 
--	dss->ahb_len = DP_DEFAULT_AHB_SIZE;
--	dss->aux = dss->ahb + DP_DEFAULT_AUX_OFFSET;
--	dss->aux_len = DP_DEFAULT_AUX_SIZE;
--	dss->link = dss->ahb + DP_DEFAULT_LINK_OFFSET;
--	dss->link_len = DP_DEFAULT_LINK_SIZE;
--	dss->p0 = dss->ahb + DP_DEFAULT_P0_OFFSET;
--	dss->p0_len = DP_DEFAULT_P0_SIZE;
-+		dss->p0 = dp_ioremap(pdev, 3, &dss->p0_len);
-+		if (IS_ERR(dss->p0)) {
-+			DRM_ERROR("unable to remap p0 region: %pe\n", dss->p0);
-+			return PTR_ERR(dss->p0);
-+		}
-+	}
- 
- 	io->phy = devm_phy_get(&pdev->dev, "dp");
- 	if (IS_ERR(io->phy))
 -- 
 2.29.2
 
