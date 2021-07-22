@@ -2,60 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C997A3D1F14
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jul 2021 09:34:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6103C3D1F29
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jul 2021 09:42:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E85EB6E9F6;
-	Thu, 22 Jul 2021 07:34:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 62A9F6EDA1;
+	Thu, 22 Jul 2021 07:42:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
- [IPv6:2a00:1450:4864:20::241])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A14226E869
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jul 2021 07:34:32 +0000 (UTC)
-Received: by mail-lj1-x241.google.com with SMTP id y25so5395602ljy.13
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jul 2021 00:34:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=ntwLw/pvmNhByaH8acN8/n/x3HsjAT+5ZjYrKVyc+34=;
- b=ButI5mIKqkSCY5guizoHAmDaRxkwngJjTZu6RW7nluA8tW7w4g6efwMwjbMzAZ54LY
- rZMWoyzmgeWrKV24/IZfwJkUxQ88xnQ+mbciDdrBFwXq9ooDw8wRRfyfxDTatytL3J8G
- Mo0LZBU39jjMYIt7fRLmkU9K3tto9WqzkQhU03QseNCu3HngSYyg5JvqG2d1K/eWz7aH
- yuBUYv7TDrN39TGACvas55tSQnX3e4jZSISaxoE/rvftDupgcGrZXAL1veDMyrHozVkb
- QvrRpUPSJrxDAeQacv6Qtv8u7KmbGCqplC8Vu8HCg7R1epNvkTADOhX2aXEVFI/OCYu/
- iDig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=ntwLw/pvmNhByaH8acN8/n/x3HsjAT+5ZjYrKVyc+34=;
- b=nP5MXmwlpXoGxXn9+2Xgc7C0+px5EOWSZNyITdhDljad/y3jz2htxU/k+ss+XEWItW
- KbOXL43ZqlfRbVYDsp81Dxo0hM+I82460t1yk+9d1l4YWQVxoopiFKijtYzRDOIkp+sd
- 42ama20F0VebsmkvAo6arroYBh/VyUGIUcfWTl8sQHokLzkGGkFCQSe5M9hFfFna1d0y
- Pn0Es7H3F4cqIeMuqcFH7pvn3knQmfhtcBcRshYSMNAu9sIqb6sX2R5BuI6wvkaBzXt1
- IWw8ebJv3pMa5g8hwyaY4BXipwlL4199b7zktEfVMUqT5IqGA5daa6aw5wLSEQsXvyZf
- BiKQ==
-X-Gm-Message-State: AOAM533Mqaul9fKUeCp+JWIBSAxY5k5x6h9JKhTbrf5KPavfJjF3pT7H
- Of5YgAwtfw3dnhai6+WHJus=
-X-Google-Smtp-Source: ABdhPJxuVvtWYt/Np1EhaS6O7DmEZ/rNiWbjhiOwdXQ4ZsBCgrvw5eilIFLI8gd4uHsHxqVtCtBlmw==
-X-Received: by 2002:a2e:a710:: with SMTP id s16mr34441617lje.459.1626939271138; 
- Thu, 22 Jul 2021 00:34:31 -0700 (PDT)
-Received: from eldfell ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id k11sm1912540lfu.27.2021.07.22.00.34.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 Jul 2021 00:34:30 -0700 (PDT)
-Date: Thu, 22 Jul 2021 10:34:27 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH] drm: document drm_property_enum.value for bitfields
-Message-ID: <20210722103427.1a75add8@eldfell>
-In-Reply-To: <YPgISaTbkBxYaBHX@phenom.ffwll.local>
-References: <NUZTPTKKZtAlDhxIXFB1qrUqWBYKapkBxCnb1S1bc3g@cp3-web-033.plabs.ch>
- <YPgISaTbkBxYaBHX@phenom.ffwll.local>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
+ [66.111.4.224])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8EE246EDA1
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jul 2021 07:42:06 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 9D2505816CC;
+ Thu, 22 Jul 2021 03:42:05 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute6.internal (MEProxy); Thu, 22 Jul 2021 03:42:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:content-transfer-encoding:in-reply-to; s=fm3; bh=v
+ uZq0a+OMUd1soOo7W326W3NzchpzZAcVaI98OVEzX4=; b=M0BwsKI4vEVw61j0P
+ /uaUaAiaXeFbJqbWJHfME/eiiSqnn7uE2IDjsf1Ba/GTHNZz+GVl99atm5/pZMqI
+ 8CFfw2ImdxQLBjDpyHt6QnofiBfiqWull5kXGFYsgzwENKPdAJFXRLYiWHLo2vFN
+ Dk9Ma15UmZ0b+Fev5/9rLDA+XyhSllylkIV39SP1wRELRcoT/Y109z+bFvup+yX8
+ rWM+76EoXklYxz9p7QTG+S6Zo7bKY2d0FxS37NAV66tpbMOX5DAE2+EmrRMqwK0L
+ AfVuUZqQVrcWjcN/RHV419Lu8LUx7JmHJk2UgiEilSHV70qq2VW+4ooTUJWHz7pv
+ LmqZw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:in-reply-to:message-id:mime-version:references
+ :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm3; bh=vuZq0a+OMUd1soOo7W326W3NzchpzZAcVaI98OVEz
+ X4=; b=MU7IrcR4M6oy+hGVA1r2Amoey7sa6stOWm1ksXXkUqASK8exmA8Hzs+qz
+ eQBPY5Z/nYLELR9hhNfXEjR8qoPkVffJb3a39V65wi/SYL8fnh2FiNErgWxdVVAI
+ CeUhtAUgxmvS9cVV9j79x4nbBoeZTzea1r2/A8ygDf/RkETBni/TsUTk8AIHobAM
+ U9UHNns6jTW/d4PcpfH6CB+eSWfoPgrNQZE6QERuv2mbeN5wiA82APmveiFnOWSa
+ /ROGn+VtRb7mGpGByJIlivTbltlHV585B6Snnp+8QZHsB0+9QfN75RoZ1Ie+y5DG
+ lvimLEqP75Xg+zetacosmv1aan+Tg==
+X-ME-Sender: <xms:SSH5YGx5ED3PKrYSkNiZtG5_53bbsm9emsGEUJ8txX6YZ6IbqlcYJg>
+ <xme:SSH5YCTXoKzBXwb_Toqku4OSGENVS8CAYBxFEJ7SH-BBkNraXXXtdPe2vX97-47S1
+ N-tT6lgr3nUoJGUa9c>
+X-ME-Received: <xmr:SSH5YIVKVoZW9dIWVeh6368kdwoPGlgtFfIZ5gv_gUo_71wvRKUqp_6OL-pxFDzZgw5BuAh9PWU-AmrJ53PdR5poOER61mnE2GwP>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrfeehgdduvdduucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtugfgjgesthhqredttddtvdenucfhrhhomhepofgrgihi
+ mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+ htthgvrhhnpeevheeuheekkefftdduveevheetfffhudeghfevkeegkeehiefggfdvkeeh
+ heeiheenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucevlhhushhtvghrufhiii
+ gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgv
+ tghh
+X-ME-Proxy: <xmx:SSH5YMikMAcMp78Z6mDpchr-CH2b4be7U1a9ekRjW0KOdZYGVSGDEw>
+ <xmx:SSH5YICdZVgBPDgvWWtU99izt9lPu2UACPRVn7LgjA41uHHirO8pHw>
+ <xmx:SSH5YNKrq6GU8YXrpM9T-CK0iY0a3acObkNZ8vHDrIK0TCmCiyf6SQ>
+ <xmx:TSH5YCzlZaI9-DMTqHMyZgb2ZNYgiUzFYqkQK2gquOviG5dsQROypA>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 22 Jul 2021 03:42:01 -0400 (EDT)
+Date: Thu, 22 Jul 2021 09:42:00 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH v1 4/7] drm/bridge: lontium-lt9611: Use atomic variants
+ of drm_bridge_funcs
+Message-ID: <20210722074200.3pdgt63vmex76oug@gilmour>
+References: <20210722062246.2512666-1-sam@ravnborg.org>
+ <20210722062246.2512666-5-sam@ravnborg.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/AawntBGoBNEZ1kY7Y1Empvz";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20210722062246.2512666-5-sam@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,96 +83,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
- Leandro Ribeiro <leandro.ribeiro@collabora.com>
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Jonas Karlman <jonas@kwiboo.se>,
+ David Airlie <airlied@linux.ie>, Robert Foss <robert.foss@linaro.org>,
+ Neil Armstrong <narmstrong@baylibre.com>, dri-devel@lists.freedesktop.org,
+ Andrzej Hajda <a.hajda@samsung.com>, linux-mediatek@lists.infradead.org,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-arm-kernel@lists.infradead.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/AawntBGoBNEZ1kY7Y1Empvz
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Hi,
 
-On Wed, 21 Jul 2021 13:43:05 +0200
-Daniel Vetter <daniel@ffwll.ch> wrote:
-
-> On Wed, Jul 21, 2021 at 06:51:30AM +0000, Simon Ser wrote:
-> > When a property has the type DRM_MODE_PROP_BITMASK, the value field
-> > stores a bitshift, not a bitmask, which can be surprising.
-> >=20
-> > Signed-off-by: Simon Ser <contact@emersion.fr>
-> > Cc: Pekka Paalanen <pekka.paalanen@collabora.com>
-> > Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> > Cc: Leandro Ribeiro <leandro.ribeiro@collabora.com>
-> > ---
-> >  include/drm/drm_property.h | 5 +++++
-> >  1 file changed, 5 insertions(+)
-> >=20
-> > diff --git a/include/drm/drm_property.h b/include/drm/drm_property.h
-> > index bbf5c1fdd7b0..f3ea7f97f372 100644
-> > --- a/include/drm/drm_property.h
-> > +++ b/include/drm/drm_property.h
-> > @@ -37,6 +37,11 @@
-> >   *
-> >   * For enumeration and bitmask properties this structure stores the sy=
-mbolic
-> >   * decoding for each value. This is used for example for the rotation =
-property.
-> > + *
-> > + * If the property has the type &DRM_MODE_PROP_BITMASK, @value stores a
-> > + * bitshift, not a bitmask. In other words, the enum entry is enabled =
-if the
-> > + * bit number @value is set in the property's value. This enum entry h=
-as the
-> > + * bitmask ``1 << value``. =20
+On Thu, Jul 22, 2021 at 08:22:43AM +0200, Sam Ravnborg wrote:
+> The atomic variants of enable/disable in drm_bridge_funcs are the
+> preferred operations - introduce these.
 >=20
-> Please move this into an inline comment to make it clear that this is
-> specifically about @value. With that:
+> Use of mode_set is deprecated - merge the functionality with
+> atomic_enable()
 >=20
-> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Andrzej Hajda <a.hajda@samsung.com>
+> Cc: Neil Armstrong <narmstrong@baylibre.com>
+> Cc: Robert Foss <robert.foss@linaro.org>
+> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> Cc: Jonas Karlman <jonas@kwiboo.se>
+> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+> ---
+>  drivers/gpu/drm/bridge/lontium-lt9611.c | 69 ++++++++++---------------
+>  1 file changed, 27 insertions(+), 42 deletions(-)
 >=20
+> diff --git a/drivers/gpu/drm/bridge/lontium-lt9611.c b/drivers/gpu/drm/br=
+idge/lontium-lt9611.c
+> index 29b1ce2140ab..dfa7baefe2ab 100644
+> --- a/drivers/gpu/drm/bridge/lontium-lt9611.c
+> +++ b/drivers/gpu/drm/bridge/lontium-lt9611.c
+> @@ -700,9 +700,17 @@ lt9611_connector_mode_valid(struct drm_connector *co=
+nnector,
+>  }
+> =20
+>  /* bridge funcs */
+> -static void lt9611_bridge_enable(struct drm_bridge *bridge)
+> +static void lt9611_bridge_atomic_enable(struct drm_bridge *bridge,
+> +					struct drm_bridge_state *old_bridge_state)
+>  {
+>  	struct lt9611 *lt9611 =3D bridge_to_lt9611(bridge);
+> +	const struct drm_display_mode *mode;
+> +	const struct drm_crtc_state *crtc_state;
+> +	struct hdmi_avi_infoframe avi_frame;
+> +	int ret;
+> +
+> +	crtc_state =3D drm_bridge_new_crtc_state(bridge, old_bridge_state);
+> +	mode =3D &crtc_state->mode;
 
-With that
+So, yeah, it looks like you can't make the assumption that crtc_state is
+going to be valid here.
 
-Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+I'm not entirely clear on how bridge states are allocated, but it looks
+to me that they are through drm_atomic_add_encoder_bridges, which is
+called for all the affected connectors in a commit here:
 
+https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/drm_atomic_h=
+elper.c#L744
 
-Thanks,
-pq
+Then, the atomic_enable call is made through
+drm_atomic_bridge_chain_enable(), which is called in
+drm_atomic_helper_commit_modeset_enables only if the CRTC is active and
+needs a modeset.
 
-> I was also pondering whether we have a nice place to link to for
-> "property's value" but really they're just uint64_t all over the place,
-> and only stored in the drm_mode_object for non-atomic properties. So
-> wording sounds like the best option we have.
->=20
-> >   */
-> >  struct drm_property_enum {
-> >  	uint64_t value;
-> > --=20
-> > 2.32.0
-> >=20
-> >  =20
->=20
+I guess this means that we won't have a null pointer for crtc_state
+there, but wouldn't that cause some issues? I can imagine a property
+like the bpc count or output format where it wouldn't imply a modeset
+but would definitely affect the bridges in the chain?
 
-
---Sig_/AawntBGoBNEZ1kY7Y1Empvz
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmD5H4MACgkQI1/ltBGq
-qqeRWBAAo2Hk7d9xdv+GXFfldRs2fiVUwe7v/6sqYUJgEfLDEmwZP0w0TNNxNhWZ
-AmyiYkp693uVUhxOa0h26rRFY4HHjD9PsMdfcXYppsvB7QBJP2Ik7cQ91n0ye9ih
-uUrYQ7jVJxVva/aB0NR1699sR+ae7hEnXEFpHsq9giwEuZzAs7sOPk8NkZsH1Mo5
-6mBZy52vBY5GZYihrtbZEEDyO+DoyULmn8OIPzq5h7gOR/coDfbodAv+tdNn9Imr
-w/iIHP/RgepBztmPDH3xtlp1KH5cEgEiscDyZhQOousXlpLrstjaGoohgBlYg511
-YC3pUH9HNtuson/2eo9kLmST20bQhBkWuhsdoxZdLhJs6KjOisAE+YKAAsqwD8VP
-6GW+6Wvn8iVrJlAbedZaYCuyqgMH/H7dsRXh+LdQ6dMigLD6VpNAuAUbaZvA6gb+
-0bp4IL5arUT5leuxpKjhkUeX3AyS0Z3p9JBmxbyMM50d69avAW8lDSzrFP5vb564
-dWdvDfa4gb4aFCvxuPnY+RpHByhMCL6Jbx2uOrG2z1fJzgNO3ltrvsNeHhqL6Zbo
-E8cYdxU92GJS7LtOlTOVv/0izrxgFt3cYGUciE9tHqeydbaEw1Y2O0DGAsReSXGm
-bW6sj93igVl3pXp+WkWrBb16hThpvaGEvZ8CbjGGddSGyP3XpKo=
-=DXRV
------END PGP SIGNATURE-----
-
---Sig_/AawntBGoBNEZ1kY7Y1Empvz--
+Maxime
