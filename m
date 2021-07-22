@@ -1,96 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92CE13D272B
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jul 2021 18:00:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 53DB03D26D0
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jul 2021 17:36:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 542F36E9D7;
-	Thu, 22 Jul 2021 16:00:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B66BE6E8C8;
+	Thu, 22 Jul 2021 15:36:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x130.google.com (mail-il1-x130.google.com
- [IPv6:2607:f8b0:4864:20::130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB7A96E872;
- Thu, 22 Jul 2021 15:04:58 +0000 (UTC)
-Received: by mail-il1-x130.google.com with SMTP id j5so5663818ilk.3;
- Thu, 22 Jul 2021 08:04:58 -0700 (PDT)
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
+ [IPv6:2a00:1450:4864:20::32e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A4D06E88B;
+ Thu, 22 Jul 2021 15:36:35 +0000 (UTC)
+Received: by mail-wm1-x32e.google.com with SMTP id
+ o30-20020a05600c511eb029022e0571d1a0so3210623wms.5; 
+ Thu, 22 Jul 2021 08:36:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=pdY6rhVpt2cvtRD9X+6uRamQHWbNgW9tGd+/rf6LByw=;
- b=LfsodAg1o0ijTbK+UfgG4wZc2ri4Sy1nUrT/7gxYKMSxuvQ+PZJee8lZ8iU8iY7YFF
- hYuYP7CWfASDCME7zXCXWrJMHrwbwEOoVAC6enIZFmZGsym+ZslNIazL0Yu3CiGMFDQm
- JLmWMtUrUa4HuratO6FsGooWyNX1Mna9Y0z7CHCNCJTkrW7QD+1CEu5sJMGbVjPKGoks
- JWXLdZ4HwnDvYbBD+1ckhsYvFxWiEFEs3T+198xWlTn0EU+Vrm4lspa2q6TFX+UWSY5+
- 0+GQHEm1qB+1uQyzFvO+k3OEIay5gz6KO2ZU7U1MSd44k0v3GKixXoOry47KjWPS3mTC
- i4dg==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=b0DoJx2BsbVVJrk2vhA6kDfquGRohjbc2PM7uCJo7AQ=;
+ b=qHf9OnWhVMewnBbcFMkLefFnXcpymEjYudSG0ys60GLD0Qqj29UwPxDjYRTi1bFgWE
+ Of7wRgf0ZZhtR5c+swf6vMqjVKSGhM1KD6PcZnqQ+Usgp/QkLWXaC1mJaJyEYuygJt78
+ Kj5/oQpBY/Z4gFgwiMrzmUEo2Ntd1oCRYdzfRiBKhy+R4QQybhfvqL/O2JZ7UudKEHh+
+ uZZIStXwovcNMremIcEh5hhEMEp+pXLcscxehmhWXdj8lGVZrSAev0auU2IFnIOX3ajk
+ JpaGrq3FPqzl0boPVilTPm8n9Oqllf3KvCPBOuLV/MNi32Q4iyfhpOk1NY7hMvYC4Jwr
+ PLXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=pdY6rhVpt2cvtRD9X+6uRamQHWbNgW9tGd+/rf6LByw=;
- b=MCSf+FvIBWwRwgpJ7KInwXTLqCstx+Zrt3vJNDPzwRED9eW+Rw4gOTmAfzL57fjjHK
- XxjHAiiEMWVBvCNTqHKSJjIu+oBkPQv1aBlf3x1/kUKtWn04357zr2392r9nHHQN81Hv
- jgsl/+NvHrnuiJ+ePYn5GyurTLjQGqcn+m/Ck6kgA1Ps75albNl6+rectzVjt6qjRNxf
- sWSh1bTeSTVV4SksWgE3cmP/pM7HDXlxHIXVms+H2Tm3ATvYnG8k4ucr1ZDQOnEdUBV6
- 8J8pLlQAmbGm0mb4ZNCkqsygNlJ/vL3Zq32U8WMzpFJ6bgxPEsVlFolkl6dfjbHiUY6B
- Gr/Q==
-X-Gm-Message-State: AOAM532xQB9I2XhGFCnoLXc1X55YrXNKoi9JyxTeldCLlx4smcPLsfcM
- 0uyB7+S+xbT0w8WgBj/Kbzg=
-X-Google-Smtp-Source: ABdhPJx/iCOEfKNx6SSZefLw/rcSZSwYcTvNl8FtSu3/Q1+/ix8XCODVcVTLTL+UhF83S6mF8+E0Ow==
-X-Received: by 2002:a92:c8c3:: with SMTP id c3mr193016ilq.153.1626966297417;
- Thu, 22 Jul 2021 08:04:57 -0700 (PDT)
-Received: from auth2-smtp.messagingengine.com (auth2-smtp.messagingengine.com.
- [66.111.4.228])
- by smtp.gmail.com with ESMTPSA id d9sm7011761ilv.62.2021.07.22.08.04.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 Jul 2021 08:04:56 -0700 (PDT)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailauth.nyi.internal (Postfix) with ESMTP id DE65C27C0054;
- Thu, 22 Jul 2021 11:04:54 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute6.internal (MEProxy); Thu, 22 Jul 2021 11:04:54 -0400
-X-ME-Sender: <xms:FYn5YAWD-wPR-RVw-WwgbE4Lz_ycSmb-gkti1iUf_GKPSuyM0GECsg>
- <xme:FYn5YEljXxBbC0VSh0ebQokzBVcIcnrl0abPWqqHKUFaXSoDB_y7md7LMg0moircI
- GhFOubvfNfPTQZQIg>
-X-ME-Received: <xmr:FYn5YEY0fXjO9nL8oqKGhmiVbxt2vJDbd4VVLFFaXI-DVT7NzWLz3N0GbW4>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrfeeigdekudcutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepuehoqhhunhcu
- hfgvnhhguceosghoqhhunhdrfhgvnhhgsehgmhgrihhlrdgtohhmqeenucggtffrrghtth
- gvrhhnpeegudegfedtjedtffdvleelteefuddvkefgheejuedujeehfeelkeetjeegtdef
- gfenucffohhmrghinhepfhhffihllhdrtghhnecuvehluhhsthgvrhfuihiivgeptdenuc
- frrghrrghmpehmrghilhhfrhhomhepsghoqhhunhdomhgvshhmthhprghuthhhphgvrhhs
- ohhnrghlihhthidqieelvdeghedtieegqddujeejkeehheehvddqsghoqhhunhdrfhgvnh
- hgpeepghhmrghilhdrtghomhesfhhigihmvgdrnhgrmhgv
-X-ME-Proxy: <xmx:FYn5YPWRsfO9ylx6MZT3WvV8V59fPf49rtUcHHSIj61yPQL1vpqR9g>
- <xmx:FYn5YKkH3YsWLAzswxzjeD3_KE1Ukrxn1L_fk7uLNJDu7P8Ge3LPSQ>
- <xmx:FYn5YEe1sEA8kHDMSNFZHjhtJ2AG0Ygx4w6cqst97KBNYafBlF2JCw>
- <xmx:Fon5YAl3nQwOwvJ0QPtpedI0pnNG0cRa7eC3mLZlyOQFW5BfYWOtepdQhhk>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 22 Jul 2021 11:04:52 -0400 (EDT)
-Date: Thu, 22 Jul 2021 23:04:49 +0800
-From: Boqun Feng <boqun.feng@gmail.com>
-To: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
- LKML <linux-kernel@vger.kernel.org>, Peter Zijlstra <peterz@infradead.org>,
- linux-graphics-maintainer@vmware.com, zackr@vmware.com,
- airlied@linux.ie, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- skhan@linuxfoundation.org, gregkh@linuxfoundation.org,
- linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [PATCH 1/3] drm: use the lookup lock in drm_is_current_master
-Message-ID: <YPmJEYrnB0j17cZV@boqun-archlinux>
-References: <20210722092929.244629-1-desmondcheongzx@gmail.com>
- <20210722092929.244629-2-desmondcheongzx@gmail.com>
- <YPlKkvelm/mcnCj0@phenom.ffwll.local>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=b0DoJx2BsbVVJrk2vhA6kDfquGRohjbc2PM7uCJo7AQ=;
+ b=Cl54yWljPpd352DksWV7LxFavCB0kY7DvgLm9BSp1bOLs1yNbm490nNIVbCJgZXfj/
+ biwiP/czllPlUQjL7F8d2WFVTuChlaYjdaUxDMHOck4hOfIj4SSsnZhdWmoBSqTqH5DL
+ PwtHSR+DrmOcbjmp7I2kITkeVe15JxiL4MPNGw556zH3aTw7640mr5zGy4hHb/cZMX9w
+ gZ4bzJF3n+oMX8FIQ1or9Q7bRV3+MlpwgxuZyo5XL8YGlT6Uo+Rxigh4tANcScOKhhv7
+ 3VpCiOUyJMZFGM3W+oy72VB06+fe38NL9HOBNw43BHSyVe6X5tbf1WjAB7PEXTt+ci/y
+ +z/Q==
+X-Gm-Message-State: AOAM532ul4dbzJt/YUal127uhBquNYxK4lOr0caKFuye6f+xnGycrkVu
+ ooQylGTzaDKMfFa8U8bbpBK2eC0frW0TpnnVl6k=
+X-Google-Smtp-Source: ABdhPJxCkdIVm7iTrG4HCBPglTT8Jd2ruOUzfhfaiqWM3gbxHRbhBAOwJMUcdcc5JmreBWyQuVeEjCRkg5PGbQro08k=
+X-Received: by 2002:a1c:7c05:: with SMTP id x5mr9870542wmc.123.1626968193910; 
+ Thu, 22 Jul 2021 08:36:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YPlKkvelm/mcnCj0@phenom.ffwll.local>
-X-Mailman-Approved-At: Thu, 22 Jul 2021 16:00:25 +0000
+References: <20210720150716.1213775-1-robdclark@gmail.com>
+ <60ffb6f3-e932-d9af-3b90-81adf0c15250@gmail.com>
+ <CAF6AEGtOW3EjZWo36ij8U1om=gAqvg8CSkJJq2GkyHFGWUH4kQ@mail.gmail.com>
+ <CAKMK7uF1=Y6_9znGoWG8GrteXBBRmyW8C3bFE+eJQqOj0A1buA@mail.gmail.com>
+ <CAF6AEGsOVPdMkXwU9C+nDfQpPThveJ2A0jbXi43RRkkJKtnz3w@mail.gmail.com>
+ <CAKMK7uHMXFqic=9APJrSf6totB8nGZTDe4x8+sv-drmV4Q+4Bg@mail.gmail.com>
+ <CAF6AEGsKoucxt4a2pcdQM9+L0+YU-6TcAt8eF=3ur169646Jhw@mail.gmail.com>
+ <YPhvein5e8do2AR+@phenom.ffwll.local>
+ <113b5858-9020-d1c1-292b-96b7f9cc717a@gmail.com>
+In-Reply-To: <113b5858-9020-d1c1-292b-96b7f9cc717a@gmail.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Thu, 22 Jul 2021 08:40:42 -0700
+Message-ID: <CAF6AEGuWFPway2_UThe9p=OwL1rLaADONHmt7++qC3PUX+y_SQ@mail.gmail.com>
+Subject: Re: [Linaro-mm-sig] [PATCH] drm/msm: Add fence->wait() op
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,115 +72,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Sean Paul <sean@poorly.run>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <freedreno@lists.freedesktop.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 22, 2021 at 12:38:10PM +0200, Daniel Vetter wrote:
-> On Thu, Jul 22, 2021 at 05:29:27PM +0800, Desmond Cheong Zhi Xi wrote:
-> > Inside drm_is_current_master, using the outer drm_device.master_mutex
-> > to protect reads of drm_file.master makes the function prone to creating
-> > lock hierarchy inversions. Instead, we can use the
-> > drm_file.master_lookup_lock that sits at the bottom of the lock
-> > hierarchy.
-> > 
-> > Reported-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> > Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
-> > ---
-> >  drivers/gpu/drm/drm_auth.c | 9 +++++----
-> >  1 file changed, 5 insertions(+), 4 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/drm_auth.c b/drivers/gpu/drm/drm_auth.c
-> > index f00354bec3fb..9c24b8cc8e36 100644
-> > --- a/drivers/gpu/drm/drm_auth.c
-> > +++ b/drivers/gpu/drm/drm_auth.c
-> > @@ -63,8 +63,9 @@
-> >  
-> >  static bool drm_is_current_master_locked(struct drm_file *fpriv)
-> >  {
-> > -	lockdep_assert_held_once(&fpriv->minor->dev->master_mutex);
-> > -
-> > +	/* Either drm_device.master_mutex or drm_file.master_lookup_lock
-> > +	 * should be held here.
-> > +	 */
-> 
-> Disappointing that lockdep can't check or conditions for us, a
-> lockdep_assert_held_either would be really neat in some cases.
-> 
+On Thu, Jul 22, 2021 at 1:42 AM Christian K=C3=B6nig
+<ckoenig.leichtzumerken@gmail.com> wrote:
+>
+> Am 21.07.21 um 21:03 schrieb Daniel Vetter:
+> > On Wed, Jul 21, 2021 at 09:34:43AM -0700, Rob Clark wrote:
+> >> On Wed, Jul 21, 2021 at 12:59 AM Daniel Vetter <daniel@ffwll.ch> wrote=
+:
+> >>> On Wed, Jul 21, 2021 at 12:32 AM Rob Clark <robdclark@gmail.com> wrot=
+e:
+> >>>> On Tue, Jul 20, 2021 at 1:55 PM Daniel Vetter <daniel@ffwll.ch> wrot=
+e:
+> >>>>> On Tue, Jul 20, 2021 at 8:26 PM Rob Clark <robdclark@gmail.com> wro=
+te:
+> >>>>>> On Tue, Jul 20, 2021 at 11:03 AM Christian K=C3=B6nig
+> >>>>>> <ckoenig.leichtzumerken@gmail.com> wrote:
+> >>>>>>> Hi Rob,
+> >>>>>>>
+> >>>>>>> Am 20.07.21 um 17:07 schrieb Rob Clark:
+> >>>>>>>> From: Rob Clark <robdclark@chromium.org>
+> >>>>>>>>
+> >>>>>>>> Somehow we had neither ->wait() nor dma_fence_signal() calls, an=
+d no
+> >>>>>>>> one noticed.  Oops.
+> >>>>>>>
+> >>>>>>> I'm not sure if that is a good idea.
+> >>>>>>>
+> >>>>>>> The dma_fence->wait() callback is pretty much deprecated and shou=
+ld not
+> >>>>>>> be used any more.
+> >>>>>>>
+> >>>>>>> What exactly do you need that for?
+> >>>>>> Well, the alternative is to track the set of fences which have
+> >>>>>> signalling enabled, and then figure out which ones to signal, whic=
+h
+> >>>>>> seems like a lot more work, vs just re-purposing the wait
+> >>>>>> implementation we already have for non-dma_fence cases ;-)
+> >>>>>>
+> >>>>>> Why is the ->wait() callback (pretty much) deprecated?
+> >>>>> Because if you need it that means for your driver dma_fence_add_cb =
+is
+> >>>>> broken, which means a _lot_ of things don't work. Like dma_buf poll
+> >>>>> (compositors have patches to start using that), and I think
+> >>>>> drm/scheduler also becomes rather unhappy.
+> >>>> I'm starting to page back in how this works.. fence cb's aren't brok=
+en
+> >>>> (which is also why dma_fence_wait() was not completely broken),
+> >>>> because in retire_submits() we call
+> >>>> dma_fence_is_signaled(submit->hw_fence).
+> >>>>
+> >>>> But the reason that the custom wait function cleans up a tiny bit of
+> >>>> jank is that the wait_queue_head_t gets signaled earlier, before we
+> >>>> start iterating the submits and doing all that retire_submit() stuff
+> >>>> (unpin/unref bo's, etc).  I suppose I could just split things up to
+> >>>> call dma_fence_signal() earlier, and *then* do the retire_submits()
+> >>>> stuff.
+> >>> Yeah reducing the latency there sounds like a good idea.
+> >>> -Daniel
+> >>>
+> >> Hmm, no, turns out that isn't the problem.. or, well, it is probably a
+> >> good idea to call drm_fence_signal() earlier.  But it seems like
+> >> waking up from wait_event_* is faster than wake_up_state(wait->task,
+> >> TASK_NORMAL).  I suppose the wake_up_state() approach still needs for
+> >> the scheduler to get around to schedule the runnable task.
+>
+> As far as I know wake_up_state() tries to run the thread on the CPU it
+> was scheduled last, while wait_event_* makes the thread run on the CPU
+> who issues the wake by default.
+>
+> And yes I've also noticed this already and it was one of the reason why
+> I suggested to use a wait_queue instead of the hand wired dma_fence_wait
+> implementation.
+>
+> >>
+> >> So for now, I'm going back to my own wait function (plus earlier
+> >> drm_fence_signal())
+> >>
+> >> Before removing dma_fence_opps::wait(), I guess we want to re-think
+> >> dma_fence_default_wait().. but I think that would require a
+> >> dma_fence_context base class (rather than just a raw integer).
+> > Uh that's not great ... can't we fix this instead of papering over it i=
+n
+> > drivers? Aside from maybe different wakeup flags it all is supposed to
+> > work exactly the same underneath, and whether using a wait queue or not
+> > really shouldn't matter.
+>
+> Well it would have been nicer if we used the existing infrastructure
+> instead of re-inventing stuff for dma_fence, but that chance is long gone=
+.
+>
+> And you don't need a dma_fence_context base class, but rather just a
+> flag in the dma_fence_ops if you want to change the behavior.
 
-The implementation is not hard but I don't understand the usage, for
-example, if we have a global variable x, and two locks L1 and L2, and
-the function
-
-	void do_something_to_x(void)
-	{
-		lockdep_assert_held_either(L1, L2);
-		x++;
-	}
-
-and two call sites:
-
-	void f(void)
-	{
-		lock(L1);
-		do_something_to_x();
-		unlock(L1);
-	}
-
-	void g(void)
-	{
-		lock(L2);
-		do_something_to_x();
-		unlock(L2);
-	}
-
-, wouldn't it be racy if f() and g() called by two threads at the same
-time? Usually I would expect there exists a third synchronazition
-mechanism (say M), which synchronizes the calls to f() and g(), and we
-put M in the lockdep_assert_held() check inside do_something_to_x()
-like:
-
-	void do_something_to_x(void)
-	{
-		lockdep_assert_held_once(M);
-		x++;
-	}
-
-But of course, M may not be a lock, so we cannot put the assert there.
-
-My cscope failed to find ->master_lookup_lock in -rc2 and seems it's not
-introduced in the patchset either, could you point me the branch this
-patchset is based on, so that I could understand this better, and maybe
-come up with a solution? Thanks ;-)
-
-Regards,
-Boqun
-
-> Adding lockdep folks, maybe they have ideas.
-> 
-> On the patch:
-> 
-> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> 
-> >  	return fpriv->is_master && drm_lease_owner(fpriv->master) == fpriv->minor->dev->master;
-> >  }
-> >  
-> > @@ -82,9 +83,9 @@ bool drm_is_current_master(struct drm_file *fpriv)
-> >  {
-> >  	bool ret;
-> >  
-> > -	mutex_lock(&fpriv->minor->dev->master_mutex);
-> > +	spin_lock(&fpriv->master_lookup_lock);
-> >  	ret = drm_is_current_master_locked(fpriv);
-> > -	mutex_unlock(&fpriv->minor->dev->master_mutex);
-> > +	spin_unlock(&fpriv->master_lookup_lock);
-> >  
-> >  	return ret;
-> >  }
-> > -- 
-> > 2.25.1
-> > 
-> 
-> -- 
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
+Hmm, I was thinking dma_fence_context to have a place for the
+wait_queue_head, but I guess that could also be per-dma_fence
