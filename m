@@ -1,32 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AFB73D3079
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jul 2021 01:37:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B1C843D307E
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jul 2021 01:37:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 51AF76F5CD;
-	Thu, 22 Jul 2021 23:36:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1DBD26F5DE;
+	Thu, 22 Jul 2021 23:36:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E926D6F5BC;
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC5166F5BA;
  Thu, 22 Jul 2021 23:36:41 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10053"; a="199037593"
-X-IronPort-AV: E=Sophos;i="5.84,262,1620716400"; d="scan'208";a="199037593"
+X-IronPort-AV: E=McAfee;i="6200,9189,10053"; a="272883251"
+X-IronPort-AV: E=Sophos;i="5.84,262,1620716400"; d="scan'208";a="272883251"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  22 Jul 2021 16:36:40 -0700
-X-IronPort-AV: E=Sophos;i="5.84,262,1620716400"; d="scan'208";a="470860960"
+X-IronPort-AV: E=Sophos;i="5.84,262,1620716400"; d="scan'208";a="470860961"
 Received: from dhiatt-server.jf.intel.com ([10.54.81.3])
  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  22 Jul 2021 16:36:40 -0700
 From: Matthew Brost <matthew.brost@intel.com>
 To: <intel-gfx@lists.freedesktop.org>,
 	<dri-devel@lists.freedesktop.org>
-Subject: [PATCH 28/33] drm/i915/selftest: Fix MOCS selftest for GuC submission
-Date: Thu, 22 Jul 2021 16:54:21 -0700
-Message-Id: <20210722235426.31831-29-matthew.brost@intel.com>
+Subject: [PATCH 29/33] drm/i915/selftest: Increase some timeouts in
+ live_requests
+Date: Thu, 22 Jul 2021 16:54:22 -0700
+Message-Id: <20210722235426.31831-30-matthew.brost@intel.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20210722235426.31831-1-matthew.brost@intel.com>
 References: <20210722235426.31831-1-matthew.brost@intel.com>
@@ -47,128 +48,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rahul Kumar Singh <rahul.kumar.singh@intel.com>
+Requests may take slightly longer with GuC submission, let's increase
+the timeouts in live_requests.
 
-When GuC submission is enabled, the GuC controls engine resets. Rather
-than explicitly triggering a reset, the driver must submit a hanging
-context to GuC and wait for the reset to occur.
-
-Signed-off-by: Rahul Kumar Singh <rahul.kumar.singh@intel.com>
-Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
 Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-Cc: Matthew Brost <matthew.brost@intel.com>
-Reviewed-by: Matthew Brost <matthew.brost@intel.com>
+Reviewed-by: John Harrison <John.C.Harrison@Intel.com>
 ---
- drivers/gpu/drm/i915/gt/selftest_mocs.c | 49 ++++++++++++++++++-------
- 1 file changed, 35 insertions(+), 14 deletions(-)
+ drivers/gpu/drm/i915/selftests/i915_request.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/selftest_mocs.c b/drivers/gpu/drm/i915/gt/selftest_mocs.c
-index 8763bbeca0f7..b7314739ee40 100644
---- a/drivers/gpu/drm/i915/gt/selftest_mocs.c
-+++ b/drivers/gpu/drm/i915/gt/selftest_mocs.c
-@@ -10,6 +10,7 @@
- #include "gem/selftests/mock_context.h"
- #include "selftests/igt_reset.h"
- #include "selftests/igt_spinner.h"
-+#include "selftests/intel_scheduler_helpers.h"
+diff --git a/drivers/gpu/drm/i915/selftests/i915_request.c b/drivers/gpu/drm/i915/selftests/i915_request.c
+index bd5c96a77ba3..d67710d10615 100644
+--- a/drivers/gpu/drm/i915/selftests/i915_request.c
++++ b/drivers/gpu/drm/i915/selftests/i915_request.c
+@@ -1313,7 +1313,7 @@ static int __live_parallel_engine1(void *arg)
+ 		i915_request_add(rq);
  
- struct live_mocs {
- 	struct drm_i915_mocs_table table;
-@@ -318,7 +319,8 @@ static int live_mocs_clean(void *arg)
- }
- 
- static int active_engine_reset(struct intel_context *ce,
--			       const char *reason)
-+			       const char *reason,
-+			       bool using_guc)
- {
- 	struct igt_spinner spin;
- 	struct i915_request *rq;
-@@ -335,9 +337,13 @@ static int active_engine_reset(struct intel_context *ce,
+ 		err = 0;
+-		if (i915_request_wait(rq, 0, HZ / 5) < 0)
++		if (i915_request_wait(rq, 0, HZ) < 0)
+ 			err = -ETIME;
+ 		i915_request_put(rq);
+ 		if (err)
+@@ -1419,7 +1419,7 @@ static int __live_parallel_spin(void *arg)
  	}
- 
- 	err = request_add_spin(rq, &spin);
--	if (err == 0)
-+	if (err == 0 && !using_guc)
- 		err = intel_engine_reset(ce->engine, reason);
- 
-+	/* Ensure the reset happens and kills the engine */
-+	if (err == 0)
-+		err = intel_selftest_wait_for_rq(rq);
-+
  	igt_spinner_end(&spin);
- 	igt_spinner_fini(&spin);
  
-@@ -345,21 +351,23 @@ static int active_engine_reset(struct intel_context *ce,
- }
+-	if (err == 0 && i915_request_wait(rq, 0, HZ / 5) < 0)
++	if (err == 0 && i915_request_wait(rq, 0, HZ) < 0)
+ 		err = -EIO;
+ 	i915_request_put(rq);
  
- static int __live_mocs_reset(struct live_mocs *mocs,
--			     struct intel_context *ce)
-+			     struct intel_context *ce, bool using_guc)
- {
- 	struct intel_gt *gt = ce->engine->gt;
- 	int err;
- 
- 	if (intel_has_reset_engine(gt)) {
--		err = intel_engine_reset(ce->engine, "mocs");
--		if (err)
--			return err;
--
--		err = check_mocs_engine(mocs, ce);
--		if (err)
--			return err;
-+		if (!using_guc) {
-+			err = intel_engine_reset(ce->engine, "mocs");
-+			if (err)
-+				return err;
-+
-+			err = check_mocs_engine(mocs, ce);
-+			if (err)
-+				return err;
-+		}
- 
--		err = active_engine_reset(ce, "mocs");
-+		err = active_engine_reset(ce, "mocs", using_guc);
- 		if (err)
- 			return err;
- 
-@@ -395,19 +403,32 @@ static int live_mocs_reset(void *arg)
- 
- 	igt_global_reset_lock(gt);
- 	for_each_engine(engine, gt, id) {
-+		bool using_guc = intel_engine_uses_guc(engine);
-+		struct intel_selftest_saved_policy saved;
- 		struct intel_context *ce;
-+		int err2;
-+
-+		err = intel_selftest_modify_policy(engine, &saved);
-+		if (err)
-+			break;
- 
- 		ce = mocs_context_create(engine);
- 		if (IS_ERR(ce)) {
- 			err = PTR_ERR(ce);
--			break;
-+			goto restore;
- 		}
- 
- 		intel_engine_pm_get(engine);
--		err = __live_mocs_reset(&mocs, ce);
--		intel_engine_pm_put(engine);
- 
-+		err = __live_mocs_reset(&mocs, ce, using_guc);
-+
-+		intel_engine_pm_put(engine);
- 		intel_context_put(ce);
-+
-+restore:
-+		err2 = intel_selftest_restore_policy(engine, &saved);
-+		if (err == 0)
-+			err = err2;
- 		if (err)
- 			break;
- 	}
 -- 
 2.28.0
 
