@@ -2,33 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 790D93D2F30
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jul 2021 23:29:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44ADF3D2F32
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jul 2021 23:29:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3951D6F388;
-	Thu, 22 Jul 2021 21:29:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 571E16F404;
+	Thu, 22 Jul 2021 21:29:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D4A96F3DC
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jul 2021 21:29:42 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D76A360EC0;
- Thu, 22 Jul 2021 21:29:41 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 91B296F384
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jul 2021 21:29:44 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 2208F60EB4;
+ Thu, 22 Jul 2021 21:29:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1626989382;
- bh=rDBL/DrcxrM8sheIRMWXyOuRj4OssHldiIThz+01+pY=;
+ s=k20201202; t=1626989384;
+ bh=rWA9U1DI5ZDX+nTcAKFLpU/M8BW7KefHvlzjEfOZ7/E=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=DmfvhOpcAxbW/UiRPvCqM03W5cJOJiAlpzo22zaQ90A+ExUd0uxu1P0okeL5YpCAM
- Mi6WIFUINXsMzeNbvK5hTyz6eIKH6zjbeVNKQ1r9x07laE5Sqwq0L8fYtbvOap06+N
- Oq8TYHIAeZjNsRX0DrOaosP4RgDP/Hz+dQFaQ+zbInHUsLFxUhPISOIt9bImV+zqGH
- CUZD16SDwmnxVX2StqT9LrQBrMzUgUv2g8yvEeSce8hnm2Np6IC/+VMqkgvGmb1o/W
- LvnvdAc9Tv++phZtC1g9BSWYfeWWYJmGFG4XhGjGsAp4GJr4pC35cBKB5x9t/WtofI
- pa0Ji3q9VD6zQ==
+ b=S1cg5xOweBpPMYAg1YSSjPtL04jR9dkL0cezMFBmBkIWHAo5EFQxpZwY8qDsz9cZG
+ q92L71BIPsEIH+hcGFvoAd9BBxii1w3WHy4SdzCm6q4gG0Av/jaw/z3h0n+e2qF3Qw
+ n9SpL7o6iz9pf5ch+ZEDcX4hd1o9Hct/DN2mbeCzhrjKkgpkrc70xX1a1y+6aenNjf
+ tCxcZ5syzqnmOFR3btXb59G/GP1WiyIxlSBLF7aI8jRvcpNuqTq8vjsZ+eU5r5k9q7
+ gqVNe6ovdHyG6npARaW8lyrVsph3WWkGG6pjXA97qeVXCTDATy9j2A+Yj8zO+I1eKa
+ FY/Ktn2tLiI8A==
 From: Bjorn Helgaas <helgaas@kernel.org>
 To: Huacai Chen <chenhuacai@loongson.cn>
-Subject: [PATCH v2 7/9] PCI/VGA: Split out vga_arb_update_default_device()
-Date: Thu, 22 Jul 2021 16:29:18 -0500
-Message-Id: <20210722212920.347118-8-helgaas@kernel.org>
+Subject: [PATCH v2 8/9] PCI/VGA: Log bridge control messages when adding
+ devices
+Date: Thu, 22 Jul 2021 16:29:19 -0500
+Message-Id: <20210722212920.347118-9-helgaas@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210722212920.347118-1-helgaas@kernel.org>
 References: <20210722212920.347118-1-helgaas@kernel.org>
@@ -54,62 +55,78 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Huacai Chen <chenhuacai@loongson.cn>
 
-If there's no default VGA device, and we find a VGA device that owns the
-legacy VGA resources, we make that device the default.  Split this logic
-out from vga_arbiter_add_pci_device() into a new function,
-vga_arb_update_default_device().
+Previously vga_arb_device_init() iterated through all VGA devices and
+indicated whether legacy VGA routing to each could be controlled by an
+upstream bridge.
 
-[bhelgaas: split another piece to separate patch]
+But we determine that information in vga_arbiter_add_pci_device(), which we
+call for every device, so we can log it there without iterating through the
+VGA devices again.
+
+Note that we call vga_arbiter_check_bridge_sharing() before adding the
+device to vga_list, so we have to handle the very first device separately.
+
+[bhelgaas: commit log, split another piece to separate patch, fix
+list_empty() issue]
 Link: https://lore.kernel.org/r/20210705100503.1120643-1-chenhuacai@loongson.cn
 Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
 Signed-off-by: Bjorn Helgaas <bhelgaas@google.com>
 ---
- drivers/pci/vgaarb.c | 25 ++++++++++++++++---------
- 1 file changed, 16 insertions(+), 9 deletions(-)
+ drivers/pci/vgaarb.c | 19 ++++++++-----------
+ 1 file changed, 8 insertions(+), 11 deletions(-)
 
 diff --git a/drivers/pci/vgaarb.c b/drivers/pci/vgaarb.c
-index a6a5864ff538..4cecb599f5ed 100644
+index 4cecb599f5ed..dd07b1c3205f 100644
 --- a/drivers/pci/vgaarb.c
 +++ b/drivers/pci/vgaarb.c
-@@ -577,6 +577,21 @@ static bool vga_arb_integrated_gpu(struct device *dev)
- }
- #endif
+@@ -609,8 +609,10 @@ static void vga_arbiter_check_bridge_sharing(struct vga_device *vgadev)
  
-+static void vga_arb_update_default_device(struct vga_device *vgadev)
-+{
-+	struct pci_dev *pdev = vgadev->pdev;
-+
-+	/*
-+	 * If we don't have a default VGA device yet, and this device owns
-+	 * the legacy VGA resources, make it the default.
-+	 */
-+	if (!vga_default_device() &&
-+	    ((vgadev->owns & VGA_RSRC_LEGACY_MASK) == VGA_RSRC_LEGACY_MASK)) {
-+		vgaarb_info(&pdev->dev, "setting as boot VGA device\n");
-+		vga_set_default_device(pdev);
+ 	vgadev->bridge_has_one_vga = true;
+ 
+-	if (list_empty(&vga_list))
++	if (list_empty(&vga_list)) {
++		vgaarb_info(&vgadev->pdev->dev, "bridge control possible\n");
+ 		return;
 +	}
-+}
-+
- /*
-  * Rules for using a bridge to control a VGA descendant decoding: if a bridge
-  * has only one VGA descendant then it can be used to control the VGA routing
-@@ -704,15 +719,7 @@ static bool vga_arbiter_add_pci_device(struct pci_dev *pdev)
- 		bus = bus->parent;
- 	}
  
--	/* Deal with VGA default device. Use first enabled one
--	 * by default if arch doesn't have it's own hook
--	 */
--	if (!vga_default_device() &&
--	    ((vgadev->owns & VGA_RSRC_LEGACY_MASK) == VGA_RSRC_LEGACY_MASK)) {
--		vgaarb_info(&pdev->dev, "setting as boot VGA device\n");
--		vga_set_default_device(pdev);
+ 	/* okay iterate the new devices bridge hierarachy */
+ 	new_bus = vgadev->pdev->bus;
+@@ -649,6 +651,11 @@ static void vga_arbiter_check_bridge_sharing(struct vga_device *vgadev)
+ 		}
+ 		new_bus = new_bus->parent;
+ 	}
++
++	if (vgadev->bridge_has_one_vga)
++		vgaarb_info(&vgadev->pdev->dev, "bridge control possible\n");
++	else
++		vgaarb_info(&vgadev->pdev->dev, "no bridge control possible\n");
+ }
+ 
+ /*
+@@ -1527,7 +1534,6 @@ static int __init vga_arb_device_init(void)
+ {
+ 	int rc;
+ 	struct pci_dev *pdev;
+-	struct vga_device *vgadev;
+ 
+ 	rc = misc_register(&vga_arb_device);
+ 	if (rc < 0)
+@@ -1543,15 +1549,6 @@ static int __init vga_arb_device_init(void)
+ 			       PCI_ANY_ID, pdev)) != NULL)
+ 		vga_arbiter_add_pci_device(pdev);
+ 
+-	list_for_each_entry(vgadev, &vga_list, list) {
+-		struct device *dev = &vgadev->pdev->dev;
+-
+-		if (vgadev->bridge_has_one_vga)
+-			vgaarb_info(dev, "bridge control possible\n");
+-		else
+-			vgaarb_info(dev, "no bridge control possible\n");
 -	}
 -
-+	vga_arb_update_default_device(vgadev);
- 	vga_arbiter_check_bridge_sharing(vgadev);
+ 	vga_arb_select_default_device();
  
- 	/* Add to the list */
+ 	pr_info("loaded\n");
 -- 
 2.25.1
 
