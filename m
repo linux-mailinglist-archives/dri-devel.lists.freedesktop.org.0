@@ -2,59 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 018053D1C13
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jul 2021 04:51:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D708A3D1D19
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jul 2021 06:42:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 314EA6EE97;
-	Thu, 22 Jul 2021 02:51:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9AA086EE68;
+	Thu, 22 Jul 2021 04:42:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A08B96EE94
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jul 2021 02:50:58 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1626922259; h=References: In-Reply-To: Message-Id: Date:
- Subject: Cc: To: From: Sender;
- bh=Y+/wkHthXmZDLajwAWsHJiH7R9xdjpqHvT4l4LMLXIA=;
- b=pRJAoOQtasTUfkjYCZfbTMR3hMrMMhSsc0qSsheP/LZvO36HDd0SaqD8QVcdfsLt9RJ4Gi88
- h8LOkGoSL+LO7rG2BO/1f4eF4vUyFxKvG9uE3VIVlHA0Lovd5rKaDtopdqYffBtvTKbFIJkg
- BhOJn/p9Hor6dOPZYeNtEaMjZxk=
-X-Mailgun-Sending-Ip: 198.61.254.9
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n07.prod.us-east-1.postgun.com with SMTP id
- 60f8dd10290ea35ee63745c2 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 22 Jul 2021 02:50:56
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 54157C43217; Thu, 22 Jul 2021 02:50:54 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
- SPF_FAIL, 
- URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
-Received: from abhinavk-linux.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: abhinavk)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id D29CFC43460;
- Thu, 22 Jul 2021 02:50:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org D29CFC43460
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=fail smtp.mailfrom=abhinavk@codeaurora.org
-From: Abhinav Kumar <abhinavk@codeaurora.org>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 2/2] drm/msm/dsi: add support for dsi test pattern generator
-Date: Wed, 21 Jul 2021 19:50:32 -0700
-Message-Id: <1626922232-29105-2-git-send-email-abhinavk@codeaurora.org>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1626922232-29105-1-git-send-email-abhinavk@codeaurora.org>
-References: <1626922232-29105-1-git-send-email-abhinavk@codeaurora.org>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DFD2D6EE68
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jul 2021 04:42:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1626928926;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Np6AqHl19Qnq+fc5f537Pv3JR0dA3FodDzznrUqUHhY=;
+ b=AETymSwU/A9Wosm23AShYUoKIRKtQFiE+yze67kslCX3ofFtvaqeZc+fi7u8D4iFcuIRDZ
+ 6H+AwKZgEnSftZzMeyNkQkpALvBgESmwWqwCq6R3mz2yJKCJZvOzSWurooFGnu0mJsGayT
+ /Q62aYtXA7CYOA//i9CtvByhbiQb4bI=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-590-PLlt1aWpNYGOgXsxfzAlhQ-1; Thu, 22 Jul 2021 00:42:05 -0400
+X-MC-Unique: PLlt1aWpNYGOgXsxfzAlhQ-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ 32-20020adf82a30000b029013b21c75294so1932506wrc.14
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jul 2021 21:42:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Np6AqHl19Qnq+fc5f537Pv3JR0dA3FodDzznrUqUHhY=;
+ b=sk7obuHBt5l/aCS7YG1migXkl5dzLNC+GPw7jyOOXakSahuixABAE6H0VRhietF8nu
+ LSR4uo2UiCM+FD2oAEJk2GLw7S5RmCNTg35gW6xHPxgktx/GNqKZ6GtCNrpp9bggY6Ox
+ tZsx0VTbrPxFIAMN6gdF2Nl6Fb/NohNWTMmR69CJk269UK7L5Gh8TJSrkXGZUGp4SHzV
+ FeESLhjpZMjgV3+yrkYOCtQ443Ys1n/n2Ah8xSjknIT505AEnBdOhpVdd6Bj9Ycqt4dO
+ AECJZPkdASAJHL1Vbt7Cz+UljchJ/l9XpyuX6Jp0B/OUosk6pv00OHeoynbPmRGi+pOO
+ YCQg==
+X-Gm-Message-State: AOAM531mXk1qrLliJ7uO3GEDx0iUDX8/inGGEQvsy8/6j52EYcMzZGQU
+ XLINtQR8cYR1QIDllfpoJEjh8OdzJS+79mNB4pbr10dnD0gwQdTpOQF7QNOGc1SmwGdO4CuoZPP
+ 88IUcZ6s4ncx8P8R5aIBAAmbetEKH
+X-Received: by 2002:a7b:ca43:: with SMTP id m3mr40451636wml.74.1626928924069; 
+ Wed, 21 Jul 2021 21:42:04 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyUBIHXzIjYaGO626+bK+iEh/ZLJSTjEs8WPcf4a0Ua/24DBKA4+HNNFqg4Xi4bHPzxIz4asg==
+X-Received: by 2002:a7b:ca43:: with SMTP id m3mr40451618wml.74.1626928923871; 
+ Wed, 21 Jul 2021 21:42:03 -0700 (PDT)
+Received: from minerva.home ([92.176.231.106])
+ by smtp.gmail.com with ESMTPSA id e6sm33694588wrg.18.2021.07.21.21.42.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 21 Jul 2021 21:42:02 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH] drivers/firmware: fix sysfb depends to prevent build failures
+Date: Thu, 22 Jul 2021 06:41:55 +0200
+Message-Id: <20210722044155.864600-1-javierm@redhat.com>
+X-Mailer: git-send-email 2.31.1
+MIME-Version: 1.0
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,153 +77,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, Abhinav Kumar <abhinavk@codeaurora.org>,
- swboyd@chromium.org, khsieh@codeaurora.org, seanpaul@chromium.org,
- dmitry.baryshkov@linaro.org, marijn.suijten@somainline.org,
- aravindh@codeaurora.org, freedreno@lists.freedesktop.org
+Cc: Nicolas Saenz Julienne <nsaenz@kernel.org>,
+ kernel test robot <lkp@intel.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Dinh Nguyen <dinguyen@kernel.org>,
+ Peter Robinson <pbrobinson@gmail.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Borislav Petkov <bp@suse.de>, He Ying <heying24@huawei.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-During board bringups its useful to have a DSI test pattern
-generator to isolate a DPU vs a DSI issue and focus on the relevant
-hardware block.
+The Generic System Framebuffers support is built when the COMPILE_TEST
+option is enabled. But this wrongly assumes that all the architectures
+declare a struct screen_info.
 
-To facilitate this, add an API which triggers the DSI controller
-test pattern. The expected output is a rectangular checkered pattern.
+This is true for most architectures, but at least the following do not:
+arc, m68k, microblaze, openrisc, parisc and s390.
 
-This has been validated on a single DSI video mode panel by calling it
-right after drm_panel_enable() which is also the ideal location to use
-this as the DSI host and the panel have been initialized by then.
+By attempting to make this compile testeable on all architectures, it
+leads to linking errors as reported by the kernel test robot for parisc:
 
-Further validation on dual DSI and command mode panel is pending.
-If there are any fix ups needed for those, it shall be applied on top
-of this change.
+  All errors (new ones prefixed by >>):
 
-Changes in v2:
- - generate the new dsi.xml.h and update the bitfield names
+     hppa-linux-ld: drivers/firmware/sysfb.o: in function `sysfb_init':
+     (.init.text+0x24): undefined reference to `screen_info'
+  >> hppa-linux-ld: (.init.text+0x28): undefined reference to `screen_info'
 
-Signed-off-by: Abhinav Kumar <abhinavk@codeaurora.org>
+To prevent these errors only allow sysfb to be built on systems that are
+going to need it, which are x86 BIOS and EFI.
+
+The EFI Kconfig symbol is used instead of (ARM || ARM64 || RISC) because
+some of these architectures only declare a struct screen_info if EFI is
+enabled. And also, because the sysfb code is only used for EFI on these
+architectures. For !EFI the "simple-framebuffer" device is registered by
+OF when parsing the Device Tree Blob (if a DT node for this is defined).
+
+Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
 ---
- drivers/gpu/drm/msm/dsi/dsi.h         |  3 ++
- drivers/gpu/drm/msm/dsi/dsi_host.c    | 61 +++++++++++++++++++++++++++++++++++
- drivers/gpu/drm/msm/dsi/dsi_manager.c | 13 ++++++++
- 3 files changed, 77 insertions(+)
 
-diff --git a/drivers/gpu/drm/msm/dsi/dsi.h b/drivers/gpu/drm/msm/dsi/dsi.h
-index 9b8e9b0..663ccbd 100644
---- a/drivers/gpu/drm/msm/dsi/dsi.h
-+++ b/drivers/gpu/drm/msm/dsi/dsi.h
-@@ -84,6 +84,7 @@ void msm_dsi_manager_setup_encoder(int id);
- int msm_dsi_manager_register(struct msm_dsi *msm_dsi);
- void msm_dsi_manager_unregister(struct msm_dsi *msm_dsi);
- bool msm_dsi_manager_validate_current_config(u8 id);
-+void msm_dsi_manager_tpg_enable(void);
+ drivers/firmware/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/firmware/Kconfig b/drivers/firmware/Kconfig
+index af6719cc576..897f5f25c64 100644
+--- a/drivers/firmware/Kconfig
++++ b/drivers/firmware/Kconfig
+@@ -254,7 +254,7 @@ config QCOM_SCM_DOWNLOAD_MODE_DEFAULT
+ config SYSFB
+ 	bool
+ 	default y
+-	depends on X86 || ARM || ARM64 || RISCV || COMPILE_TEST
++	depends on X86 || EFI
  
- /* msm dsi */
- static inline bool msm_dsi_device_connected(struct msm_dsi *msm_dsi)
-@@ -148,6 +149,8 @@ int dsi_clk_init_6g_v2(struct msm_dsi_host *msm_host);
- int dsi_calc_clk_rate_v2(struct msm_dsi_host *msm_host, bool is_dual_dsi);
- int dsi_calc_clk_rate_6g(struct msm_dsi_host *msm_host, bool is_dual_dsi);
- void msm_dsi_host_snapshot(struct msm_disp_state *disp_state, struct mipi_dsi_host *host);
-+void msm_dsi_host_test_pattern_en(struct mipi_dsi_host *host);
-+
- /* dsi phy */
- struct msm_dsi_phy;
- struct msm_dsi_phy_shared_timings {
-diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
-index ed504fe..e0a3581 100644
---- a/drivers/gpu/drm/msm/dsi/dsi_host.c
-+++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
-@@ -2495,3 +2495,64 @@ void msm_dsi_host_snapshot(struct msm_disp_state *disp_state, struct mipi_dsi_ho
- 
- 	pm_runtime_put_sync(&msm_host->pdev->dev);
- }
-+
-+static void msm_dsi_host_video_test_pattern_setup(struct msm_dsi_host *msm_host)
-+{
-+	u32 reg;
-+
-+	reg = dsi_read(msm_host, REG_DSI_TEST_PATTERN_GEN_CTRL);
-+
-+	dsi_write(msm_host, REG_DSI_TEST_PATTERN_GEN_VIDEO_INIT_VAL, 0xff);
-+	/* draw checkered rectangle pattern */
-+	dsi_write(msm_host, REG_DSI_TPG_MAIN_CONTROL,
-+			DSI_TPG_MAIN_CONTROL_CHECKERED_RECTANGLE_PATTERN);
-+	/* use 24-bit RGB test pttern */
-+	dsi_write(msm_host, REG_DSI_TPG_VIDEO_CONFIG,
-+			DSI_TPG_VIDEO_CONFIG_BPP(VIDEO_CONFIG_24BPP) |
-+			DSI_TPG_VIDEO_CONFIG_RGB);
-+
-+	reg |= DSI_TEST_PATTERN_GEN_CTRL_VIDEO_PATTERN_SEL(VID_MDSS_GENERAL_PATTERN);
-+	dsi_write(msm_host, REG_DSI_TEST_PATTERN_GEN_CTRL, reg);
-+
-+	DBG("Video test pattern setup done\n");
-+}
-+
-+static void msm_dsi_host_cmd_test_pattern_setup(struct msm_dsi_host *msm_host)
-+{
-+	u32 reg;
-+
-+	reg = dsi_read(msm_host, REG_DSI_TEST_PATTERN_GEN_CTRL);
-+
-+	/* initial value for test pattern */
-+	dsi_write(msm_host, REG_DSI_TEST_PATTERN_GEN_CMD_MDP_INIT_VAL0, 0xff);
-+
-+	reg |= DSI_TEST_PATTERN_GEN_CTRL_CMD_MDP_STREAM0_PATTERN_SEL(CMD_MDP_MDSS_GENERAL_PATTERN);
-+
-+	dsi_write(msm_host, REG_DSI_TEST_PATTERN_GEN_CTRL, reg);
-+	/* draw checkered rectangle pattern */
-+	dsi_write(msm_host, REG_DSI_TPG_MAIN_CONTROL2,
-+			DSI_TPG_MAIN_CONTROL2_CMD_MDP0_CHECKERED_RECTANGLE_PATTERN);
-+
-+	DBG("Cmd test pattern setup done\n");
-+}
-+
-+void msm_dsi_host_test_pattern_en(struct mipi_dsi_host *host)
-+{
-+	struct msm_dsi_host *msm_host = to_msm_dsi_host(host);
-+	bool is_video_mode = !!(msm_host->mode_flags & MIPI_DSI_MODE_VIDEO);
-+	u32 reg;
-+
-+	if (is_video_mode)
-+		msm_dsi_host_video_test_pattern_setup(msm_host);
-+	else
-+		msm_dsi_host_cmd_test_pattern_setup(msm_host);
-+
-+	reg = dsi_read(msm_host, REG_DSI_TEST_PATTERN_GEN_CTRL);
-+	/* enable the test pattern generator */
-+	dsi_write(msm_host, REG_DSI_TEST_PATTERN_GEN_CTRL, (reg | DSI_TEST_PATTERN_GEN_CTRL_EN));
-+
-+	/* for command mode need to trigger one frame from tpg */
-+	if (!is_video_mode)
-+		dsi_write(msm_host, REG_DSI_TEST_PATTERN_GEN_CMD_STREAM0_TRIGGER,
-+				DSI_TEST_PATTERN_GEN_CMD_STREAM0_TRIGGER_SW_TRIGGER);
-+}
-diff --git a/drivers/gpu/drm/msm/dsi/dsi_manager.c b/drivers/gpu/drm/msm/dsi/dsi_manager.c
-index 4ebfedc..db80de6 100644
---- a/drivers/gpu/drm/msm/dsi/dsi_manager.c
-+++ b/drivers/gpu/drm/msm/dsi/dsi_manager.c
-@@ -441,6 +441,19 @@ static void dsi_mgr_bridge_pre_enable(struct drm_bridge *bridge)
- 	return;
- }
- 
-+void msm_dsi_manager_tpg_enable(void)
-+{
-+	struct msm_dsi *m_dsi = dsi_mgr_get_dsi(DSI_0);
-+	struct msm_dsi *s_dsi = dsi_mgr_get_dsi(DSI_1);
-+
-+	/* if dual dsi, trigger tpg on master first then slave */
-+	if (m_dsi) {
-+		msm_dsi_host_test_pattern_en(m_dsi->host);
-+		if (IS_DUAL_DSI() && s_dsi)
-+			msm_dsi_host_test_pattern_en(s_dsi->host);
-+	}
-+}
-+
- static void dsi_mgr_bridge_enable(struct drm_bridge *bridge)
- {
- 	int id = dsi_mgr_bridge_get_id(bridge);
+ config SYSFB_SIMPLEFB
+ 	bool "Mark VGA/VBE/EFI FB as generic system framebuffer"
 -- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
+2.31.1
 
