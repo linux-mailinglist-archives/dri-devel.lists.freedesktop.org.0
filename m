@@ -1,36 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BBB53D2B4A
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jul 2021 19:40:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DBE5C3D2B51
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jul 2021 19:43:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 34BC66E9EF;
-	Thu, 22 Jul 2021 17:40:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A8B4F6EA85;
+	Thu, 22 Jul 2021 17:43:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D4886E9EF
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jul 2021 17:40:06 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 1A4936108B
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jul 2021 17:40:06 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E24DA6EA85
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jul 2021 17:43:30 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 96C906127C
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jul 2021 17:43:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1626975606;
- bh=5nhil9H6SVTEGMMgT1cTRbhGru596vbtIf7ZW5izLew=;
+ s=k20201202; t=1626975810;
+ bh=Skiii8K/GfF2Z+JnihMe2YzFAWKOJML0LSdqwm8p6S8=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=EFY3e19mqOmeRe5pSxUtZrwLMS2puo4zY1Ej8jYgDQyV5/+x0qEkOXyt3RCLTXtfw
- U0MlmAX0uFjtaqwhgxaEKEwKibzXt3qSuX1DZg9tj/UIEoQRgbHlD1U4+FxRdByjc9
- O4xyFe/A6lnPY6jTvUaed+1bLe7NWwr6/OWvblyrQPjdkPbBljSwhvgp+kY+IqcikF
- HFFZmpv1ZyFMW+4Cld0Z3uAm/x4Lhm9pufqNd4FwYhVBlxoR4H+5Sqi3P12sZNnZme
- yhjBp3tPO+Ja2Gj8ogCVKorIWYTgHPtRCRQvyNfpSSeuHpy4s7TEefiHTwukaABTYZ
- iuDOhwv7dSzhg==
+ b=h0elnLDxrx1a+XNsoe26eC8FtDs7L/YMGNdbzy+waZ+ptuuCAtkA5nSeq/Z0LSLjB
+ OPreREXiUVaNM0elelJAqnIFAdmSKkbT4HW2tUsV1AsIxrXyY9KedJKMimzeRgEgcm
+ I1x9kTQinv4TjU5YkgdgDW2CfUMehzh+EZlk5KUrMqjZVx2hI9KB3jYq9W7J2Jrm14
+ nC4X8YeIHy7z+u5iJzvr2j9Ih3sToyZxIGpJWBCav9NZNE1py0bHHslaPD8pcB9X02
+ 4Hsqb+rJFat9/0tGS4GeIDfsXc9/Hqi6bciEj08hMNT3tG+9RtcsPp3IBE1auCcb3m
+ 9V2CX+ACIzrlA==
 Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 124C261264; Thu, 22 Jul 2021 17:40:06 +0000 (UTC)
+ id 8E8DC6128A; Thu, 22 Jul 2021 17:43:30 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 211425] [drm:atom_op_jump] *ERROR* atombios stuck in loop for
  more than 20secs aborting
-Date: Thu, 22 Jul 2021 17:40:05 +0000
+Date: Thu, 22 Jul 2021 17:43:30 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -46,7 +46,7 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: cf_kernel_version
-Message-ID: <bug-211425-2300-Rvz67xYpVB@https.bugzilla.kernel.org/>
+Message-ID: <bug-211425-2300-fwbzBRK09Z@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-211425-2300@https.bugzilla.kernel.org/>
 References: <bug-211425-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -75,7 +75,11 @@ Andreas (icedragon.aw@web.de) changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-     Kernel Version|5.12.11 - 5.13.3            |5.12.11 - 5.13.4
+     Kernel Version|5.12.11 - 5.13.4            |5.13.4
+
+--- Comment #18 from Andreas (icedragon.aw@web.de) ---
+Still broken until current 5.13.4 kernel. Once a day the screen does not
+recovers and I have to reboot the system.
 
 --=20
 You may reply to this email to add a comment.
