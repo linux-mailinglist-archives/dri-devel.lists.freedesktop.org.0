@@ -1,35 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 519F13D2F7A
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jul 2021 00:06:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 469BC3D2F7F
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jul 2021 00:06:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E7DC76E908;
-	Thu, 22 Jul 2021 22:06:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 899186E898;
+	Thu, 22 Jul 2021 22:06:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE7C06E908
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jul 2021 22:06:28 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 89CD660C41
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jul 2021 22:06:28 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 086F16E898
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jul 2021 22:06:48 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id D726360EB6
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jul 2021 22:06:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1626991588;
- bh=4I79s1Xk6+ZH40uiWIJxkUTym2gWzv/tGfq+/Axtl0c=;
+ s=k20201202; t=1626991607;
+ bh=LWbAoD6Z833XYyWgQK1CXQ6fnKKlW3UBe08pwt/CRkY=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=j1Gcwfq7i+iAVAODXxkDRvJ6D/SlnA3JKSZJxboEtCsJUZKxxL5F+EpdTvT7U/O8l
- W2tlKxLPgpyys4S3GtxhtceQYwkF5ykcTRCbvwIj/KB4K0E0BR5me0knvYYtBuMbk9
- VoJ1oLPnbCZfWEroxnpVAd+UZ3ZTcFmBO5k96ZxGdqJdnMKUb1JviHa/hhkBM6TtZq
- /v9Z+HZVBwV5n2dH1tdjceH0QZyQpLylpTHGvvYueMownAJYJaUVncGovjbm4GEw9D
- mznun8J9XKEqARE0QqAFM9T0brg7xJFZi4ZaXtsgLpG7b1Hi0fyChOOB6Wr2O+S7Cq
- ryFQ/+jeDvFEg==
+ b=CbgrMcZrNgVPCLyAowObiSa9Wgwqf+s2b2MHPtRpW66QEt4jM5jR89nyRAUHyqJwY
+ gnzx+Nf8HHxnGCMCnir8yznMiUOfZ3TZH9bsE9UcaqtqhzNDejHbAK1VZoA/m2Akfr
+ +p2lPbBxDj3pF5xwPSw2zVimZcboR5Vl04Ss7EOmnzh86N3DvE9picirEsEJ/yqV4E
+ wV/hA1y78TzcQQeTqsk3lBkHxVYmTp4YJvBvPyU6bvSquQJCbyN6rG+nKXhBl0ve8J
+ VExeL9ZZD64Cucb6GdWgseUchgK27fAZWzRCMwazCVf3/R9JCt35mKTnz22VxEzN+a
+ 4B/M4jZkxH/ZA==
 Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 8144B602B1; Thu, 22 Jul 2021 22:06:28 +0000 (UTC)
+ id D458660237; Thu, 22 Jul 2021 22:06:47 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 213823] Broken power management for amdgpu
-Date: Thu, 22 Jul 2021 22:06:28 +0000
+Date: Thu, 22 Jul 2021 22:06:47 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -45,7 +45,7 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-213823-2300-C4jfFeGrOL@https.bugzilla.kernel.org/>
+Message-ID: <bug-213823-2300-hswtGAJZyO@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-213823-2300@https.bugzilla.kernel.org/>
 References: <bug-213823-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -70,10 +70,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D213823
 
---- Comment #3 from Bruno Pagani (bruno.n.pagani@gmail.com) ---
-Created attachment 298009
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D298009&action=3Dedit
-dmesg 5.12
+--- Comment #4 from Bruno Pagani (bruno.n.pagani@gmail.com) ---
+Created attachment 298011
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D298011&action=3Dedit
+dmesg 5.13
 
 --=20
 You may reply to this email to add a comment.
