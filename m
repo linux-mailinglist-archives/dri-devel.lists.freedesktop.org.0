@@ -1,57 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BEB03D24D9
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jul 2021 15:50:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F65B3D24EC
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jul 2021 15:55:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 76BF28910D;
-	Thu, 22 Jul 2021 13:50:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C8596E8D3;
+	Thu, 22 Jul 2021 13:55:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x12a.google.com (mail-il1-x12a.google.com
- [IPv6:2607:f8b0:4864:20::12a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E4B98910D
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jul 2021 13:50:09 +0000 (UTC)
-Received: by mail-il1-x12a.google.com with SMTP id a7so5425520iln.6
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jul 2021 06:50:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=poorly.run; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=tTWVd81ac2rDAKtJLNUUFCbfN2xjzN0t29bbX1t+k4k=;
- b=OncrXR8A5/2Shv1oK1pClmB6wTaZ6eOnz4FivGbQsFDLK0CDZeYdn3jJXEoGuHSYT5
- yIR+NC7hBJX5dBGWwGNsxCu0YLDbl7RYjwlYNuirX8gDzJI2Oqo/3XTsUFCFFVHXu0G5
- VgWbsnybWcpjhOBo+QZlckudgA9hRTk2dcLa6QH6L8YcfBWFm59HvM5y85JcrPfdmfJC
- Uo9V7TtWmiVnGSMxL3AaZvcLEJMOIjinCAP+/VqnWB1oTxzwZvQ4+6aYs5mkEZEV9zZu
- XUFmjyh7MrmNO46ciFTusi27dgNP0OiaQTJ8c0Tj2ERvVc12JC1U5RKZa4/smqg+trT3
- f1Rw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=tTWVd81ac2rDAKtJLNUUFCbfN2xjzN0t29bbX1t+k4k=;
- b=kt2aciNVfZ9xas9fm2XhZq9YgPj7ZpH40J1//EeT08WUQbpyo/KHG2G0zAkhauThj9
- 1W1o8s7UyKiquxSriZTUnp8dHw+oeo4t14IuQcRK0C1JihXijNvwNqrL32Z1yX96rvYi
- c9kZYjGWOxTyq50Ml0VOXvXRImsNkJxn9iw7mIXv5Oum2SOmG4UUVLGezE4wYMzsOVeZ
- 7CNU5oKa11ST3R/ctK7WWHwgPYoDsWL3OJVtSdkM+9lZ7F8v3mKB4aKYoIPWPfygdgQO
- CV275ovEddP5DMoVjJVVYXtO5J5pJUVXGS9D/LeHJRVZi7SRRnZ2NIIXsaIzCv8iBBOv
- MKzA==
-X-Gm-Message-State: AOAM5310DZ+0RP8m0Se6fLoS9pn4wmNGQYPdMtTVvldXqP5CAjMyU5pY
- UkJ/X8x5EuRarBiXq2IlhpP8VUJbgoPNrVLUApaZww==
-X-Google-Smtp-Source: ABdhPJyfoHuFEcSs66CBYHmhGfXDO9wXzV2aoQwA1qTGdqryAsOyjU6MVgRce7nmtsm8M/F08jmwZU297Mh8QYM+DII=
-X-Received: by 2002:a92:d8d2:: with SMTP id l18mr27923842ilo.165.1626961807414; 
- Thu, 22 Jul 2021 06:50:07 -0700 (PDT)
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 116366E8D3;
+ Thu, 22 Jul 2021 13:55:27 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10052"; a="211709297"
+X-IronPort-AV: E=Sophos;i="5.84,261,1620716400"; d="scan'208";a="211709297"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Jul 2021 06:55:26 -0700
+X-IronPort-AV: E=Sophos;i="5.84,261,1620716400"; d="scan'208";a="470649071"
+Received: from cstylian-mobl3.ger.corp.intel.com (HELO [10.213.198.98])
+ ([10.213.198.98])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Jul 2021 06:55:24 -0700
+Subject: Re: [Intel-gfx] [PATCH 24/47] drm/i915/guc: Add several request trace
+ points
+To: Matthew Brost <matthew.brost@intel.com>
+References: <20210624070516.21893-1-matthew.brost@intel.com>
+ <20210624070516.21893-25-matthew.brost@intel.com>
+ <e5d96ebb-f168-c1af-22c8-0b066388e70d@linux.intel.com>
+ <20210720015959.GA14012@sdutt-i7>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+Message-ID: <325be7ab-b495-cf2c-05ca-13bfa9f2a466@linux.intel.com>
+Date: Thu, 22 Jul 2021 14:55:23 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210721175526.22020-1-sean@poorly.run>
- <20210722104921.594d604c@eldfell>
- <CAMavQKKSHTjYfbEAqNSy-TeRy=qURGbCNi2vBdZq7UgVrrS0yQ@mail.gmail.com>
-In-Reply-To: <CAMavQKKSHTjYfbEAqNSy-TeRy=qURGbCNi2vBdZq7UgVrrS0yQ@mail.gmail.com>
-From: Sean Paul <sean@poorly.run>
-Date: Thu, 22 Jul 2021 09:49:31 -0400
-Message-ID: <CAMavQKLF7Y6e3Hkb-EKU0+28oc5MmDc+5u1mYvyc8gEs+hfPrA@mail.gmail.com>
-Subject: Re: [RESEND PATCH v6 00/14] drm/trace: Mirror DRM debug logs to
- tracefs
-To: Pekka Paalanen <ppaalanen@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20210720015959.GA14012@sdutt-i7>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,116 +52,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- dri-devel <dri-devel@lists.freedesktop.org>, Sean Paul <seanpaul@chromium.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 22, 2021 at 9:48 AM Sean Paul <sean@poorly.run> wrote:
->
-> On Thu, Jul 22, 2021 at 3:49 AM Pekka Paalanen <ppaalanen@gmail.com> wrote:
-> >
-> > On Wed, 21 Jul 2021 13:55:07 -0400
-> > Sean Paul <sean@poorly.run> wrote:
-> >
-> > > From: Sean Paul <seanpaul@chromium.org>
-> > >
-> > > Hi all,
-> > > I just had the pleasure of rebasing this set on our CrOS downstream
-> > > kernel and wanted to resend it for consideration once again. There
-> > > hasn't been any resistence to the set AFAIK, just perhaps not enough
-> > > motivation for anyone to hit the go bit. There was some interest from
-> > > the msm folks about a month ago, and it has been an invaluable tool
-> > > on CrOS for the past ~year. Hopefully someone can dig into this and
-> > > provide some feedback so we can move this forward.
-> > >
-> > > Thanks!
-> > >
-> > > Sean
-> > >
-> > > Changes since last v6:
-> > > -Rebased on drm-tip
-> > >
-> > > Original v6 of the set available here:
-> > > https://patchwork.freedesktop.org/series/78133/
-> > > https://lore.kernel.org/dri-devel/20200818210510.49730-1-sean@poorly.run/
-> > >
-> >
-> > Woo! Yes!
-> >
-> > Do you have a link to your userspace?
-> >
->
-> Hi Pekka,
-> Probably less interesting that you're hoping for, but here are the
-> CrOS patches to enable and collect tracing:
->
-> https://chromium-review.googlesource.com/c/chromiumos/platform2/+/2354674
-> https://chromium-review.googlesource.com/c/chromiumos/platform/crosutils/+/2354392
->
->
-> > You wouldn't happen to have already written a privileged userspace
-> > service that would deliver on request the logs to non-privileged actors
-> > like a compositor to be dumped in an error report?
->
-> Our feedback report generation (log_tool.cc above) collects the logs
-> (depending on user log preferences) from across the system and
-> packages them up for submission when requested by the user. For
-> drm_trace, we grab them from debugfs since we don't have tracefs
-> mounted.
->
 
-One more note:
+On 20/07/2021 02:59, Matthew Brost wrote:
+> On Tue, Jul 13, 2021 at 10:06:17AM +0100, Tvrtko Ursulin wrote:
+>>
+>> On 24/06/2021 08:04, Matthew Brost wrote:
+>>> Add trace points for request dependencies and GuC submit. Extended
+>>> existing request trace points to include submit fence value,, guc_id,
+>>> and ring tail value.
+>>>
+>>> Cc: John Harrison <john.c.harrison@intel.com>
+>>> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+>>> ---
+>>>    .../gpu/drm/i915/gt/uc/intel_guc_submission.c |  3 ++
+>>>    drivers/gpu/drm/i915/i915_request.c           |  3 ++
+>>>    drivers/gpu/drm/i915/i915_trace.h             | 39 ++++++++++++++++++-
+>>>    3 files changed, 43 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+>>> index 89b3c7e5d15b..c2327eebc09c 100644
+>>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+>>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+>>> @@ -422,6 +422,7 @@ static int guc_dequeue_one_context(struct intel_guc *guc)
+>>>    			guc->stalled_request = last;
+>>>    			return false;
+>>>    		}
+>>> +		trace_i915_request_guc_submit(last);
+>>>    	}
+>>>    	guc->stalled_request = NULL;
+>>> @@ -642,6 +643,8 @@ static int guc_bypass_tasklet_submit(struct intel_guc *guc,
+>>>    	ret = guc_add_request(guc, rq);
+>>>    	if (ret == -EBUSY)
+>>>    		guc->stalled_request = rq;
+>>> +	else
+>>> +		trace_i915_request_guc_submit(rq);
+>>>    	return ret;
+>>>    }
+>>> diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
+>>> index d92c9f25c9f4..7f7aa096e873 100644
+>>> --- a/drivers/gpu/drm/i915/i915_request.c
+>>> +++ b/drivers/gpu/drm/i915/i915_request.c
+>>> @@ -1344,6 +1344,9 @@ __i915_request_await_execution(struct i915_request *to,
+>>>    			return err;
+>>>    	}
+>>> +	trace_i915_request_dep_to(to);
+>>> +	trace_i915_request_dep_from(from);
+>>
+>> Are those two guaranteed to be atomic ie. no other dep_to/dep_from can get
+>> injected in the middle of them and if so what guarantees that?
+>>
+> 
+> These are not atomic but in practice I've never seen an out of order
+> tracepoints.
+>   
+>> Actually we had an internal discussion going in November 2019 on these very
+>> tracepoints which I think was left hanging in the air.
+>>
+>> There I was suggesting you create a single tracepoint in the format of "from
+>> -> to", so it's clear without any doubt what is going on.
+>>
+> 
+> Not sure if it worth adding a custom trace point fo rthis.
 
-If you have a chromebook with a 5.4+ kernel, you can check out the
-output yourself by navigating to chrome://system and expanding the
-"drm_trace" field.
+Custom as in not inherit from i915_request class you mean? It's not that 
+hard really.
 
-Sean
+>> I also suggested this should out outside the GuC patch since it is backend
+>> agnostic.
+> 
+> I guess, but it really matter?
 
-> You could adapt this code to change the delivery method, but I'm not
-> sure how much value it would add beyond writing your own purpose-built
-> service.
->
-> Sean
->
-> >
-> >
-> > Thanks,
-> > pq
-> >
-> > > Sean Paul (14):
-> > >   drm/mipi_dbi: Convert pr_debug calls to DRM_DEBUG_DRIVER
-> > >   drm/sil164: Convert dev_printk to drm_dev_dbg
-> > >   drm/i915/utils: Replace dev_printk with drm helpers
-> > >   drm/msm/dpu: Replace definitions for dpu debug macros
-> > >   drm/print: rename drm_debug* to be more syslog-centric
-> > >   drm/amd: Gate i2c transaction logs on drm_debug_syslog
-> > >   drm/etnaviv: Change buffer dump checks to target syslog
-> > >   drm/nouveau: Change debug checks to specifically target syslog
-> > >   drm/i915: Change infoframe debug checks to specify syslog
-> > >   drm/print: Add drm_debug_category_printer
-> > >   drm/mst: Convert debug printers to debug category printers
-> > >   drm/i915: Use debug category printer for welcome message
-> > >   drm/atomic: Use debug category printer for atomic state printer
-> > >   drm/print: Add tracefs support to the drm logging helpers
-> > >
-> > >  Documentation/gpu/drm-uapi.rst               |   6 +
-> > >  drivers/gpu/drm/amd/amdgpu/smu_v11_0_i2c.c   |   4 +-
-> > >  drivers/gpu/drm/drm_atomic_uapi.c            |   2 +-
-> > >  drivers/gpu/drm/drm_dp_mst_topology.c        |   9 +-
-> > >  drivers/gpu/drm/drm_drv.c                    |   3 +
-> > >  drivers/gpu/drm/drm_mipi_dbi.c               |   8 +-
-> > >  drivers/gpu/drm/drm_print.c                  | 242 ++++++++++++++++---
-> > >  drivers/gpu/drm/etnaviv/etnaviv_buffer.c     |   8 +-
-> > >  drivers/gpu/drm/i2c/sil164_drv.c             |  12 +-
-> > >  drivers/gpu/drm/i915/display/intel_display.c |   4 +-
-> > >  drivers/gpu/drm/i915/i915_drv.c              |   3 +-
-> > >  drivers/gpu/drm/i915/i915_utils.c            |   5 +-
-> > >  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h      |  20 +-
-> > >  drivers/gpu/drm/nouveau/nouveau_drv.h        |   4 +-
-> > >  include/drm/drm_print.h                      |  96 +++++++-
-> > >  15 files changed, 331 insertions(+), 95 deletions(-)
-> > >
-> >
+IMO following best practices and established conventions matters a lot.
+
+Regards,
+
+Tvrtko
