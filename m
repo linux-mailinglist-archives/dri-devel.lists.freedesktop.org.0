@@ -2,36 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98C413D22D1
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jul 2021 13:35:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1252A3D22CC
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jul 2021 13:35:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E03B06ED29;
-	Thu, 22 Jul 2021 11:35:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 13C446E57E;
+	Thu, 22 Jul 2021 11:35:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 52EBA6E5D4;
- Thu, 22 Jul 2021 11:35:16 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10052"; a="198896666"
-X-IronPort-AV: E=Sophos;i="5.84,260,1620716400"; d="scan'208";a="198896666"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Jul 2021 04:35:16 -0700
-X-IronPort-AV: E=Sophos;i="5.84,260,1620716400"; d="scan'208";a="470602874"
-Received: from kgreenan-mobl.ger.corp.intel.com (HELO mwauld-desk1.intel.com)
- ([10.252.29.109])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Jul 2021 04:35:13 -0700
-From: Matthew Auld <matthew.auld@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v3 2/2] drm/i915/ehl: unconditionally flush the pages on
- acquire
-Date: Thu, 22 Jul 2021 12:34:56 +0100
-Message-Id: <20210722113456.304882-2-matthew.auld@intel.com>
-X-Mailer: git-send-email 2.26.3
-In-Reply-To: <20210722113456.304882-1-matthew.auld@intel.com>
-References: <20210722113456.304882-1-matthew.auld@intel.com>
+Received: from smtp.domeneshop.no (smtp.domeneshop.no
+ [IPv6:2a01:5b40:0:3005::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F15106E57E
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jul 2021 11:35:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+ ; s=ds202012;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
+ MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=NPm1xS0JtbQ4ke6GTJz38UVACHbpRJBA05EM/WvMpso=; b=tZcbbBtNa5WeNLjATZC/sKfN+O
+ BHncc4a3Q9p4s9hXzRN/u26HMF3lcrB7BEhTYEG1upiZrbKkEA3s8X/U5aBNYVGFK5Rb8pWp4tI9q
+ n177HfrOS6wDHjOOO6f48T+eiODmBA4lb4zIyVKBqEUL6FAOalfUDRe2J+KBRSqVwJAiKbzDfxcaE
+ PpWZVVIU11mfa2+BSjKhLw9IT+k+sSf94Es6kzKK2gKMDpDkGAyUlKYIZoSViiPCNeQszNUHtgdrr
+ d/H7FximsaGEiZ0mptVpxr9DXl0jyJvmJ53sgeUuB4XogbaE7prLMKTaMVxyc+MQHzILO5Bwm6aj5
+ Api0mFoA==;
+Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:58710
+ helo=[192.168.10.61])
+ by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <noralf@tronnes.org>)
+ id 1m6Wyo-0004DC-J8; Thu, 22 Jul 2021 13:35:06 +0200
+Subject: Re: [PATCH 0/7] drm: Provide framebuffer dma-buf helpers
+To: Thomas Zimmermann <tzimmermann@suse.de>,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@linux.ie,
+ daniel@ffwll.ch, hdegoede@redhat.com, david@lechnology.com,
+ airlied@redhat.com, sean@poorly.run
+References: <20210716140801.1215-1-tzimmermann@suse.de>
+From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+Message-ID: <411152ed-f091-719d-4160-e42481ab95de@tronnes.org>
+Date: Thu, 22 Jul 2021 13:35:00 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 MIME-Version: 1.0
+In-Reply-To: <20210716140801.1215-1-tzimmermann@suse.de>
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -45,91 +58,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Lucas De Marchi <lucas.demarchi@intel.com>, dri-devel@lists.freedesktop.org,
- Jon Bloomfield <jon.bloomfield@intel.com>,
- Chris Wilson <chris.p.wilson@intel.com>,
- Francisco Jerez <francisco.jerez.plata@intel.com>,
- Tejas Upadhyay <tejaskumarx.surendrakumar.upadhyay@intel.com>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-EHL and JSL add the 'Bypass LLC' MOCS entry, which should make it
-possible for userspace to bypass the GTT caching bits set by the kernel,
-as per the given object cache_level. This is troublesome since the heavy
-flush we apply when first acquiring the pages is skipped if the kernel
-thinks the object is coherent with the GPU. As a result it might be
-possible to bypass the cache and read the contents of the page directly,
-which could be stale data. If it's just a case of userspace shooting
-themselves in the foot then so be it, but since i915 takes the stance of
-always zeroing memory before handing it to userspace, we need to prevent
-this.
 
-v2: this time actually set cache_dirty in put_pages()
-v3: move to get_pages() which looks simpler
 
-BSpec: 34007
-References: 046091758b50 ("Revert "drm/i915/ehl: Update MOCS table for EHL"")
-Signed-off-by: Matthew Auld <matthew.auld@intel.com>
-Cc: Tejas Upadhyay <tejaskumarx.surendrakumar.upadhyay@intel.com>
-Cc: Francisco Jerez <francisco.jerez.plata@intel.com>
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>
-Cc: Jon Bloomfield <jon.bloomfield@intel.com>
-Cc: Chris Wilson <chris.p.wilson@intel.com>
-Cc: Matt Roper <matthew.d.roper@intel.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
----
- .../gpu/drm/i915/gem/i915_gem_object_types.h   |  6 ++++++
- drivers/gpu/drm/i915/gem/i915_gem_shmem.c      | 18 ++++++++++++++++++
- 2 files changed, 24 insertions(+)
+Den 16.07.2021 16.07, skrev Thomas Zimmermann:
+> Provide helpers that wrap dma_buf_{begin,end}_cpu_access() for all
+> GEM BOs attached to a framebuffer. Convert drivers and remove ugly
+> boilerplate code.
+> 
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
-index 40cce816a7e3..f0948f6b1e1d 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
-@@ -404,6 +404,12 @@ struct drm_i915_gem_object {
- 	 * Note that on shared LLC platforms we still apply the heavy flush for
- 	 * I915_CACHE_NONE objects, under the assumption that this is going to
- 	 * be used for scanout.
-+	 *
-+	 * Update: On some hardware there is now also the 'Bypass LLC' MOCS
-+	 * entry, which defeats our @cache_coherent tracking, since userspace
-+	 * can freely bypass the CPU cache when touching the pages with the GPU,
-+	 * where the kernel is completely unaware. On such platform we need
-+	 * apply the sledgehammer-on-acquire regardless of the @cache_coherent.
- 	 */
- 	unsigned int cache_dirty:1;
- 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
-index 6a04cce188fc..11f072193f3b 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
-@@ -182,6 +182,24 @@ static int shmem_get_pages(struct drm_i915_gem_object *obj)
- 	if (i915_gem_object_needs_bit17_swizzle(obj))
- 		i915_gem_object_do_bit_17_swizzle(obj, st);
- 
-+	/*
-+	 * EHL and JSL add the 'Bypass LLC' MOCS entry, which should make it
-+	 * possible for userspace to bypass the GTT caching bits set by the
-+	 * kernel, as per the given object cache_level. This is troublesome
-+	 * since the heavy flush we apply when first gathering the pages is
-+	 * skipped if the kernel thinks the object is coherent with the GPU. As
-+	 * a result it might be possible to bypass the cache and read the
-+	 * contents of the page directly, which could be stale data. If it's
-+	 * just a case of userspace shooting themselves in the foot then so be
-+	 * it, but since i915 takes the stance of always zeroing memory before
-+	 * handing it to userspace, we need to prevent this.
-+	 *
-+	 * By setting cache_dirty here we make the clflush in set_pages
-+	 * unconditional on such platforms.
-+	 */
-+	if (IS_JSL_EHL(i915) && obj->flags & I915_BO_ALLOC_USER)
-+		obj->cache_dirty = true;
-+
- 	__i915_gem_object_set_pages(obj, st, sg_page_sizes);
- 
- 	return 0;
--- 
-2.26.3
+Nice, for the series:
 
+Reviewed-by: Noralf Trønnes <noralf@tronnes.org>
+
+
+> Thomas Zimmermann (7):
+>   drm/gem: Provide drm_gem_fb_{begin,end}_cpu_access() helpers
+>   drm/udl: Use framebuffer dma-buf helpers
+>   drm/mipi-dbi: Use framebuffer dma-buf helpers
+>   drm/gud: Use framebuffer dma-buf helpers
+>   drm/gm12u320: Use framebuffer dma-buf helpers
+>   drm/repaper: Use framebuffer dma-buf helpers
+>   drm/st7586: Use framebuffer dma-buf helpers
+> 
+>  drivers/gpu/drm/drm_gem_framebuffer_helper.c | 89 ++++++++++++++++++++
+>  drivers/gpu/drm/drm_mipi_dbi.c               | 20 ++---
+>  drivers/gpu/drm/gud/gud_pipe.c               | 13 ++-
+>  drivers/gpu/drm/tiny/gm12u320.c              | 19 ++---
+>  drivers/gpu/drm/tiny/repaper.c               | 18 +---
+>  drivers/gpu/drm/tiny/st7586.c                | 18 ++--
+>  drivers/gpu/drm/udl/udl_modeset.c            | 29 ++-----
+>  include/drm/drm_gem_framebuffer_helper.h     |  6 ++
+>  8 files changed, 130 insertions(+), 82 deletions(-)
+> 
+> --
+> 2.32.0
+> 
