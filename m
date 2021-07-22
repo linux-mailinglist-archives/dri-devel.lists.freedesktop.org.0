@@ -1,69 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 919DD3D2623
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jul 2021 16:48:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 21E4B3D2632
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jul 2021 16:51:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 790356E943;
-	Thu, 22 Jul 2021 14:48:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9362A6E995;
+	Thu, 22 Jul 2021 14:51:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E33F86E908
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jul 2021 14:48:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626965328;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=zcazrHRmrdUI7TLRVzAfUPzPLR8CDoZHugRg17DaTr8=;
- b=gzJ2UcnwRzsSCIDR3eO9UIs5B/xJlPv/WHKx0ubjNKcCy25LrVDnXLGTBzBZWw4RF5pxo0
- 6II2a1VsyqT5B2zMNRo35RnKZFHKgClc0ICj1pBdEdCrupI9KkjF53ugvRTwuXse9Brx1f
- 7feZaSqKYiwRg7XLUYz28emaju1wnYM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-415-RATX3Rf1PGqQpwFT7SpNWQ-1; Thu, 22 Jul 2021 10:48:47 -0400
-X-MC-Unique: RATX3Rf1PGqQpwFT7SpNWQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0AB31804141;
- Thu, 22 Jul 2021 14:48:43 +0000 (UTC)
-Received: from localhost (ovpn-112-132.ams2.redhat.com [10.36.112.132])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2648A5DA2D;
- Thu, 22 Jul 2021 14:48:33 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: Jason Gunthorpe <jgg@nvidia.com>, David Airlie <airlied@linux.ie>, Tony
- Krowiak <akrowiak@linux.ibm.com>, Alex Williamson
- <alex.williamson@redhat.com>, Christian Borntraeger
- <borntraeger@de.ibm.com>, Jonathan Corbet <corbet@lwn.net>, Daniel Vetter
- <daniel@ffwll.ch>, Diana Craciun <diana.craciun@oss.nxp.com>,
- dri-devel@lists.freedesktop.org, Eric Auger <eric.auger@redhat.com>, Eric
- Farman <farman@linux.ibm.com>, Harald Freudenberger
- <freude@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, Heiko Carstens
- <hca@linux.ibm.com>, intel-gfx@lists.freedesktop.org,
- intel-gvt-dev@lists.freedesktop.org, Jani Nikula
- <jani.nikula@linux.intel.com>, Jason Herne <jjherne@linux.ibm.com>, Joonas
- Lahtinen <joonas.lahtinen@linux.intel.com>, kvm@vger.kernel.org, Kirti
- Wankhede <kwankhede@nvidia.com>, linux-doc@vger.kernel.org,
- linux-s390@vger.kernel.org, Matthew Rosato <mjrosato@linux.ibm.com>, Peter
- Oberparleiter <oberpar@linux.ibm.com>, Halil Pasic <pasic@linux.ibm.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Vineeth Vijayan
- <vneethv@linux.ibm.com>, Zhi Wang <zhi.a.wang@intel.com>
-Subject: Re: [PATCH v2 07/14] vfio/platform: Use open_device() instead of
- open coding a refcnt scheme
-In-Reply-To: <7-v2-b6a5582525c9+ff96-vfio_reflck_jgg@nvidia.com>
-Organization: Red Hat GmbH
-References: <7-v2-b6a5582525c9+ff96-vfio_reflck_jgg@nvidia.com>
-User-Agent: Notmuch/0.32.1 (https://notmuchmail.org)
-Date: Thu, 22 Jul 2021 16:48:31 +0200
-Message-ID: <878s1y76bk.fsf@redhat.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F98E6E908
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jul 2021 14:51:02 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 1EC716135B
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jul 2021 14:51:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1626965462;
+ bh=rDztPuOCPFJ2+9Ze3k5dwFEynafTrGKeqobicVKw0AE=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=FItAMBymdxGzE4ZHnb6y7paPVcwIvjAQoCODh7Z7Y9b2pREP3xZLYJVFFc8i6JaI6
+ NKwsseq8ZxOu0uGb2GWdT5RT8ytt3z6CxOfxoujOICsIByCHCntEwzUsd+9UZf7yRP
+ Pz/cjokpbvQJJ/VkRqc77RDTmz5QwQrifU0+ssD70ahtWjKp+fPFhaQp0IwzRHe/uc
+ 1cCFxb4mIZDDGWcqpMvelgnPv04SD1FwFyl84Thqyrbg8Fsmj0V++uYSJi8TyHJ+wx
+ NlIp7b80918wMbpVsNOqfXFa7KhNM1r39xSFDW4ajWj3eB1BmAmcf/Xp3SLm4y3ahk
+ 3SZpZ7AE4L0fA==
+Received: by mail-ej1-f41.google.com with SMTP id go30so8749071ejc.8
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jul 2021 07:51:02 -0700 (PDT)
+X-Gm-Message-State: AOAM53037ZuLqvGkasKOwt88g79xJquWYxnCJhojoqEgjASTHiSjtFbf
+ SPRWFC3NIr60+JXBVyAO5MySSDT+qUy474v8IA==
+X-Google-Smtp-Source: ABdhPJz5/mZnlsGNENhdYohpLuYZ4p4GiuUxXURD2qTRYS9LvglwExorQzU2DBR/RKJAnW7NgpdmBLF7z8dFTiQQSug=
+X-Received: by 2002:a17:906:c097:: with SMTP id
+ f23mr293790ejz.194.1626965460605; 
+ Thu, 22 Jul 2021 07:51:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+References: <20210712094657.1159299-1-hsinyi@chromium.org>
+In-Reply-To: <20210712094657.1159299-1-hsinyi@chromium.org>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Thu, 22 Jul 2021 22:50:49 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_8b7KjPG+MarO8Z74FqpCOyDwnHmON2xMUvc6pub6Mjjg@mail.gmail.com>
+Message-ID: <CAAOTY_8b7KjPG+MarO8Z74FqpCOyDwnHmON2xMUvc6pub6Mjjg@mail.gmail.com>
+Subject: Re: [PATCH] drm/mediatek: mtk-dpi: Set out_fmt from config if not the
+ last bridge
+To: Hsin-Yi Wang <hsinyi@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,25 +56,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Max Gurtovoy <mgurtovoy@nvidia.com>, Yishai Hadas <yishaih@nvidia.com>,
- "Raj, Ashok" <ashok.raj@intel.com>, Leon Romanovsky <leonro@nvidia.com>,
- Christoph Hellwig <hch@lst.de>
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Jitao Shi <jitao.shi@mediatek.com>,
+ David Airlie <airlied@linux.ie>, linux-kernel <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Rex-BC Chen <rex-bc.chen@mediatek.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 20 2021, Jason Gunthorpe <jgg@nvidia.com> wrote:
+Hi, Hsin-yi:
 
-> Platform simply wants to run some code when the device is first
-> opened/last closed. Use the core framework and locking for this.  Aside
-> from removing a bit of code this narrows the locking scope from a global
-> lock.
+Hsin-Yi Wang <hsinyi@chromium.org> =E6=96=BC 2021=E5=B9=B47=E6=9C=8812=E6=
+=97=A5 =E9=80=B1=E4=B8=80 =E4=B8=8B=E5=8D=885:47=E5=AF=AB=E9=81=93=EF=BC=9A
 >
-> Signed-off-by: Yishai Hadas <yishaih@nvidia.com>
-> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+> atomic_get_output_bus_fmts() is only called when the bridge is the last
+> element in the bridge chain.
+>
+> If mtk-dpi is not the last bridge, the format of output_bus_cfg is
+> MEDIA_BUS_FMT_FIXED, and mtk_dpi_dual_edge() will fail to write correct
+> value to regs.
+
+Applied to mediatek-drm-fixes [1], thanks.
+
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git/=
+log/?h=3Dmediatek-drm-fixes
+
+Regards,
+Chun-Kuang.
+
+>
+> Fixes: ec8747c52434 ("drm/mediatek: dpi: Add bus format negotiation")
+> Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
 > ---
->  drivers/vfio/platform/vfio_platform_common.c  | 79 ++++++++-----------
->  drivers/vfio/platform/vfio_platform_private.h |  1 -
->  2 files changed, 32 insertions(+), 48 deletions(-)
-
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
-
+>  drivers/gpu/drm/mediatek/mtk_dpi.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediate=
+k/mtk_dpi.c
+> index bced555648b01..25c565f9179cc 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_dpi.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
+> @@ -610,6 +610,10 @@ static int mtk_dpi_bridge_atomic_check(struct drm_br=
+idge *bridge,
+>
+>         out_bus_format =3D bridge_state->output_bus_cfg.format;
+>
+> +       if (out_bus_format =3D=3D MEDIA_BUS_FMT_FIXED)
+> +               if (dpi->conf->num_output_fmts)
+> +                       out_bus_format =3D dpi->conf->output_fmts[0];
+> +
+>         dev_dbg(dpi->dev, "input format 0x%04x, output format 0x%04x\n",
+>                 bridge_state->input_bus_cfg.format,
+>                 bridge_state->output_bus_cfg.format);
+> --
+> 2.32.0.93.g670b81a890-goog
+>
