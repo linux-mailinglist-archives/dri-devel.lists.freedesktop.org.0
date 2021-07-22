@@ -1,58 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A44A3D20E6
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jul 2021 11:30:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB7DF3D20EB
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jul 2021 11:30:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA8806EE7C;
-	Thu, 22 Jul 2021 09:30:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE8E66EEB2;
+	Thu, 22 Jul 2021 09:30:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com
- [IPv6:2607:f8b0:4864:20::62d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C7A296EE7C;
- Thu, 22 Jul 2021 09:30:11 +0000 (UTC)
-Received: by mail-pl1-x62d.google.com with SMTP id n11so3787738plc.2;
- Thu, 22 Jul 2021 02:30:11 -0700 (PDT)
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com
+ [IPv6:2607:f8b0:4864:20::102c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D5C76EE80;
+ Thu, 22 Jul 2021 09:30:17 +0000 (UTC)
+Received: by mail-pj1-x102c.google.com with SMTP id
+ k4-20020a17090a5144b02901731c776526so3405691pjm.4; 
+ Thu, 22 Jul 2021 02:30:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=RSgVdB0+HpET8iLINuWOoeOWDDxUJjmmluxZNEz35KA=;
- b=o6LJ/myMP6JO8ChH8dYoqq21TZnuVfWqQC7aMNZVbEwvgt/wmupSJe5X7mUycZZ1OP
- wZUOpxPzR0Di4iK476owf2txOnd8aRvZIuWOSyNSQwF8qAfJx1gZjc1rqQNENDcoU4k8
- pWfm16Rm2AyVdjC+e3kTofDMg7W/f1X4eU9NPEhv7mUcvN6ebC/kCdQLgGMJIgNOCd38
- Z79Cpgk8vmBkJLmcW9tTTfCW8TJv/6nRrpzuj2HycvK3LMZlVo0xpmCpHif6k1kmeqBf
- /hzT0Pmizi11dqx4L91lE1OKq6ULDL3w/A5pjP58k83vlOPYfDR9I9UDXt06Iw0JzA4O
- hv7w==
+ bh=bWqoW1zaypI6FiOc+rFvxYhfwSyGe+LXhfGXUAMjokM=;
+ b=q3mxk07wkguCFJ+lpuERPHN7UiaEpdxTgOavixSsHfPNPXKFiLSITtuEeLIwPZRjU7
+ s42Q87ZjcaNTrLRJw+tOZoIdFlCwLflimzejiOKT9gyMkMLpthTiHeFKzQnJDsELOScM
+ PtdXIj1ZZXVu3ZM9M3OBzrwO6lugRjWibip1gEsqKagfac6tObLaddc0jIOPyn0rQ/2Q
+ SqIn/SBaRCLr760Fo23EQiVBqg1WabAQZKzLW5+nyHPy0emWxNaaJxxmEC5IAWoOYBMb
+ 2w3ZGx0JEfCUFSrEa95ldc/WJZLAJYcicWU1cZ6niVobKKGPIESb53bReRPgOoJoRBug
+ if1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=RSgVdB0+HpET8iLINuWOoeOWDDxUJjmmluxZNEz35KA=;
- b=ompWVo1nAMaZPZ9ck8m/pAr5jcWYm+23OvsMO0DYy95WPdzNSWicw07M99kOXEjF4I
- 8RwKS80tqXJFJFN46gg+DdVpPSqvlLOdtM0R2I7fOgiHXbMqKkKIgBRAn2UcFA1ocfj9
- aFDyy0xPSNlLV1dUt23h2ip0GsUhCKuJI/bVaBovHscBnAWJoGSlOcyQln9bcBkL5WBh
- IH070SNaVPVz/2X24dI9J9ZujqL9trlGsupK/JwPVXJsCWS3lzNKkWtqJS5IH7uwGWnx
- WXp4nE7Sq3crMRkkMxpUgDD/jHEZy1Vi6JZHAC1OIFmJ/lNK4sRgpWUfL61KOru1L6G+
- apzA==
-X-Gm-Message-State: AOAM531cam2O4Ig1PV3/g2ha92gkAMxGn3Z+X55M7O3OIzMoTruvp24f
- aq3t73qyLe9VGLVTBz9cWgw=
-X-Google-Smtp-Source: ABdhPJyscK7c550TzHfpDv1WRnYYvoBsSoBWYdMCW0natilUebpT1uRY7os1lbemOjfZnuzWFb0RqA==
-X-Received: by 2002:a05:6a00:2306:b029:331:ebe8:a4b4 with SMTP id
- h6-20020a056a002306b0290331ebe8a4b4mr39978184pfh.15.1626946211504; 
- Thu, 22 Jul 2021 02:30:11 -0700 (PDT)
+ bh=bWqoW1zaypI6FiOc+rFvxYhfwSyGe+LXhfGXUAMjokM=;
+ b=kw5N2T3/J8empfEbSpMU8SpjQ82wRZ0ZEJ5bm+AY0qW7UY+TuWtJg3jkGKvNSf7c6N
+ fW0YD+vVNeBkDzsfvzlDPXVEvhtThCzYg3Ncyemab7/F+B3Wi04aMvgNAjqkEgz0rbjt
+ 4iWuLSZiefH9rs/p90dKI126nBORaMZXpvDfm2UNxnvu97y3RlKWtqE5ZXXgADbFX/5b
+ ffPV1ch1S6jGxPS/EvP704wFVlSC/J4jU3LAOHGYJZ616nryd5DK0V/Q1LZM4erqkZFg
+ Xgfiu1uljGbEU/nBNKzeKsM6+8sl3F+ED+1JTu98Hk7OK0ZbF/bmSbz5ZklUwTV1PNSa
+ DVFg==
+X-Gm-Message-State: AOAM530xJhuOii7FFQxF7Cv/5tGRZKumB2CE2QYmnXfxAdU/f3ohEWVF
+ JHV5PCJ66AJ3SXWwD6Cs88A=
+X-Google-Smtp-Source: ABdhPJzLwTR8vmDcr35rGyIbAv/nAj71D9TVKb48nTd5YFXyi6D7zffA6NSixOLxJopmOo9LLz5PwA==
+X-Received: by 2002:a63:cd4b:: with SMTP id a11mr21260014pgj.273.1626946216859; 
+ Thu, 22 Jul 2021 02:30:16 -0700 (PDT)
 Received: from localhost.localdomain ([118.200.190.93])
- by smtp.gmail.com with ESMTPSA id q5sm1069592pjo.7.2021.07.22.02.30.07
+ by smtp.gmail.com with ESMTPSA id q5sm1069592pjo.7.2021.07.22.02.30.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 Jul 2021 02:30:11 -0700 (PDT)
+ Thu, 22 Jul 2021 02:30:16 -0700 (PDT)
 From: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
 To: linux-graphics-maintainer@vmware.com, zackr@vmware.com, airlied@linux.ie,
  daniel@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
  tzimmermann@suse.de
-Subject: [PATCH 1/3] drm: use the lookup lock in drm_is_current_master
-Date: Thu, 22 Jul 2021 17:29:27 +0800
-Message-Id: <20210722092929.244629-2-desmondcheongzx@gmail.com>
+Subject: [PATCH 2/3] drm: clarify lifetime/locking for drm_master's lease
+ fields
+Date: Thu, 22 Jul 2021 17:29:28 +0800
+Message-Id: <20210722092929.244629-3-desmondcheongzx@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210722092929.244629-1-desmondcheongzx@gmail.com>
 References: <20210722092929.244629-1-desmondcheongzx@gmail.com>
@@ -72,52 +73,110 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: gregkh@linuxfoundation.org, intel-gfx@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Daniel Vetter <daniel.vetter@ffwll.ch>, skhan@linuxfoundation.org,
- Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
+ skhan@linuxfoundation.org, Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
  linux-kernel-mentees@lists.linuxfoundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Inside drm_is_current_master, using the outer drm_device.master_mutex
-to protect reads of drm_file.master makes the function prone to creating
-lock hierarchy inversions. Instead, we can use the
-drm_file.master_lookup_lock that sits at the bottom of the lock
-hierarchy.
+In particular, we make it clear that &drm_device.mode_config.idr_mutex
+protects the lease idr and list structures for drm_master. The lessor
+field itself doesn't need to be protected as it doesn't change after
+it's set in drm_lease_create.
 
-Reported-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Additionally, we add descriptions for the lifetime of lessors and
+leases to make it easier to reason about them.
+
 Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
 ---
- drivers/gpu/drm/drm_auth.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ include/drm/drm_auth.h | 62 ++++++++++++++++++++++++++++++++++--------
+ 1 file changed, 51 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_auth.c b/drivers/gpu/drm/drm_auth.c
-index f00354bec3fb..9c24b8cc8e36 100644
---- a/drivers/gpu/drm/drm_auth.c
-+++ b/drivers/gpu/drm/drm_auth.c
-@@ -63,8 +63,9 @@
+diff --git a/include/drm/drm_auth.h b/include/drm/drm_auth.h
+index f99d3417f304..c978c85464fa 100644
+--- a/include/drm/drm_auth.h
++++ b/include/drm/drm_auth.h
+@@ -58,12 +58,6 @@ struct drm_lock_data {
+  * @refcount: Refcount for this master object.
+  * @dev: Link back to the DRM device
+  * @driver_priv: Pointer to driver-private information.
+- * @lessor: Lease holder
+- * @lessee_id: id for lessees. Owners always have id 0
+- * @lessee_list: other lessees of the same master
+- * @lessees: drm_masters leasing from this one
+- * @leases: Objects leased to this drm_master.
+- * @lessee_idr: All lessees under this owner (only used where lessor == NULL)
+  *
+  * Note that master structures are only relevant for the legacy/primary device
+  * nodes, hence there can only be one per device, not one per drm_minor.
+@@ -88,17 +82,63 @@ struct drm_master {
+ 	struct idr magic_map;
+ 	void *driver_priv;
  
- static bool drm_is_current_master_locked(struct drm_file *fpriv)
- {
--	lockdep_assert_held_once(&fpriv->minor->dev->master_mutex);
+-	/* Tree of display resource leases, each of which is a drm_master struct
+-	 * All of these get activated simultaneously, so drm_device master points
+-	 * at the top of the tree (for which lessor is NULL). Protected by
+-	 * &drm_device.mode_config.idr_mutex.
++	/**
++	 * @lessor:
++	 *
++	 * Lease holder. The lessor does not change once it's set in
++	 * drm_lease_create(). Each lessee holds a reference to its lessor that
++	 * it releases upon being destroyed in drm_lease_destroy().
++	 *
++	 * Display resource leases form a tree of &struct drm_master. All of
++	 * these get activated simultaneously, so &drm_device.master
++	 * points at the top of the tree (for which lessor is NULL).
+ 	 */
 -
-+	/* Either drm_device.master_mutex or drm_file.master_lookup_lock
-+	 * should be held here.
+ 	struct drm_master *lessor;
++
++	/**
++	 * @lessee_id:
++	 *
++	 * ID for lessees. Owners always have ID 0. Protected by
++	 * &drm_device.mode_config's &drm_mode_config.idr_mutex.
 +	 */
- 	return fpriv->is_master && drm_lease_owner(fpriv->master) == fpriv->minor->dev->master;
- }
- 
-@@ -82,9 +83,9 @@ bool drm_is_current_master(struct drm_file *fpriv)
- {
- 	bool ret;
- 
--	mutex_lock(&fpriv->minor->dev->master_mutex);
-+	spin_lock(&fpriv->master_lookup_lock);
- 	ret = drm_is_current_master_locked(fpriv);
--	mutex_unlock(&fpriv->minor->dev->master_mutex);
-+	spin_unlock(&fpriv->master_lookup_lock);
- 
- 	return ret;
- }
+ 	int	lessee_id;
++
++	/**
++	 * @lessee_list:
++	 *
++	 * List of lessees of the same master. Protected by
++	 * &drm_device.mode_config's &drm_mode_config.idr_mutex.
++	 */
+ 	struct list_head lessee_list;
++
++	/**
++	 * @lessees:
++	 *
++	 * List of drm_masters leasing from this one. Protected by
++	 * &drm_device.mode_config's &drm_mode_config.idr_mutex.
++	 *
++	 * This master cannot be destroyed unless this list is empty as lessors
++	 * are referenced by all their lessees.
++	 */
+ 	struct list_head lessees;
++
++	/**
++	 * @leases:
++	 *
++	 * Objects leased to this drm_master. Protected by
++	 * &drm_device.mode_config's &drm_mode_config.idr_mutex.
++	 *
++	 * Objects are leased all together in drm_lease_create(), and are
++	 * removed all together when the lease is revoked.
++	 */
+ 	struct idr leases;
++
++	/**
++	 * @lessee_idr:
++	 *
++	 * All lessees under this owner (only used where lessor is NULL).
++	 * Protected by &drm_device.mode_config's &drm_mode_config.idr_mutex.
++	 */
+ 	struct idr lessee_idr;
+ 	/* private: */
+ #if IS_ENABLED(CONFIG_DRM_LEGACY)
 -- 
 2.25.1
 
