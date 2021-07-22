@@ -1,38 +1,83 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF8FA3D223A
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jul 2021 12:46:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D9133D223D
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jul 2021 12:47:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF4316EE80;
-	Thu, 22 Jul 2021 10:46:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 45DE56EEA2;
+	Thu, 22 Jul 2021 10:47:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 708456EE80;
- Thu, 22 Jul 2021 10:46:35 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10052"; a="275436175"
-X-IronPort-AV: E=Sophos;i="5.84,260,1620716400"; d="scan'208";a="275436175"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Jul 2021 03:46:34 -0700
-X-IronPort-AV: E=Sophos;i="5.84,260,1620716400"; d="scan'208";a="512496105"
-Received: from acangian-mobl1.ger.corp.intel.com (HELO [10.249.47.93])
- ([10.249.47.93])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Jul 2021 03:46:31 -0700
-From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-misc-next
-Message-ID: <2d0d2fe8-01fc-e216-c3fd-38db9e69944e@linux.intel.com>
-Date: Thu, 22 Jul 2021 12:46:29 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.0
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
+ [IPv6:2a00:1450:4864:20::62e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 478846EEA3
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jul 2021 10:47:06 +0000 (UTC)
+Received: by mail-ej1-x62e.google.com with SMTP id hr1so7752188ejc.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jul 2021 03:47:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to; bh=UIjEw7LvBGrlUjquppZsCZAJs4MMNYvbssuJ9Tn9rvA=;
+ b=BSbiykPnrXMqDFLWYOlZ+Xx9F86RQC4xFFGNJKrQva9H34djT58I60UA0c2ryP0wMY
+ dQTMlwL7TZ+8OCgN8ZRAd5SpAQtoDzl5jb/O46f8bz9SLjuig5V0ZVlRUNdt8/szq8Jq
+ 4kgNG3kxl2U06Reo0PMNqg4flHxCgalyEb3wE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :content-transfer-encoding:in-reply-to;
+ bh=UIjEw7LvBGrlUjquppZsCZAJs4MMNYvbssuJ9Tn9rvA=;
+ b=s0PJo9gJyTIeTy1rC+5sEAuHH/4YeOa7Abyv2/VkDyTC0UUacZEm8JoLwx6eof/dj6
+ iIpegMZBKTipENlmhCz19TSjtNx9pi4WHPJj9IT0Bdfo4ApKMN9yQAsnmkrgZl9br9ad
+ K+I5VcZhnqPaApAnTosdvApvdjYXbNrctsu+3MN4OUiyfv0Hirofex6F+bEmBQZGjO2j
+ hBFIZLf2PVQ9k/hkUPlct0UW6TlpkTNLxWOM9T7VmWUUfue2qQB9niUVVGFhbwdIdS8B
+ ksYQcdykmd6oy41gdkRhlKVRBh47vAU1nO/87O0ySCjRtgSPRJ8TfwtyBBYjWTpN94Tu
+ UpIA==
+X-Gm-Message-State: AOAM532lAZIkMQjfkuG9xS4aDQsFwshkqOuTFiZFa2/HVNeZjdplBX9h
+ tiJ4okDsmuJnZqyjNgMEAvIwAkJ8K/Y6kg==
+X-Google-Smtp-Source: ABdhPJyWUvquD40hkzO6znrNFD5xu/fiLgEjV2e4u4CI8X3eyK2lLuG4uvvQqbM15R7qGLm57hx5bQ==
+X-Received: by 2002:a17:906:538e:: with SMTP id
+ g14mr23577022ejo.136.1626950824915; 
+ Thu, 22 Jul 2021 03:47:04 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id gw8sm9336666ejb.44.2021.07.22.03.47.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 22 Jul 2021 03:47:04 -0700 (PDT)
+Date: Thu, 22 Jul 2021 12:47:02 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
+Subject: Re: [Linaro-mm-sig] [PATCH] drm/msm: Add fence->wait() op
+Message-ID: <YPlMpoGbXYKUFwCq@phenom.ffwll.local>
+Mail-Followup-To: Christian =?iso-8859-1?Q?K=F6nig?=
+ <ckoenig.leichtzumerken@gmail.com>, 
+ Rob Clark <robdclark@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Rob Clark <robdclark@chromium.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <freedreno@lists.freedesktop.org>,
+ David Airlie <airlied@linux.ie>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Sean Paul <sean@poorly.run>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
+References: <60ffb6f3-e932-d9af-3b90-81adf0c15250@gmail.com>
+ <CAF6AEGtOW3EjZWo36ij8U1om=gAqvg8CSkJJq2GkyHFGWUH4kQ@mail.gmail.com>
+ <CAKMK7uF1=Y6_9znGoWG8GrteXBBRmyW8C3bFE+eJQqOj0A1buA@mail.gmail.com>
+ <CAF6AEGsOVPdMkXwU9C+nDfQpPThveJ2A0jbXi43RRkkJKtnz3w@mail.gmail.com>
+ <CAKMK7uHMXFqic=9APJrSf6totB8nGZTDe4x8+sv-drmV4Q+4Bg@mail.gmail.com>
+ <CAF6AEGsKoucxt4a2pcdQM9+L0+YU-6TcAt8eF=3ur169646Jhw@mail.gmail.com>
+ <YPhvein5e8do2AR+@phenom.ffwll.local>
+ <113b5858-9020-d1c1-292b-96b7f9cc717a@gmail.com>
+ <YPk1izQFR+tRV8js@phenom.ffwll.local>
+ <9c1e797b-8860-d1f5-e6f2-e06380ec9012@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <9c1e797b-8860-d1f5-e6f2-e06380ec9012@gmail.com>
+X-Operating-System: Linux phenom 5.10.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,208 +90,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
- intel-gfx@lists.freedesktop.org
+Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Sean Paul <sean@poorly.run>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <freedreno@lists.freedesktop.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm-misc-next-2021-07-22:
-drm-misc-next for v5.15-rc1:
+On Thu, Jul 22, 2021 at 11:28:01AM +0200, Christian König wrote:
+> Am 22.07.21 um 11:08 schrieb Daniel Vetter:
+> > [SNIP]
+> > > As far as I know wake_up_state() tries to run the thread on the CPU it was
+> > > scheduled last, while wait_event_* makes the thread run on the CPU who
+> > > issues the wake by default.
+> > > 
+> > > And yes I've also noticed this already and it was one of the reason why I
+> > > suggested to use a wait_queue instead of the hand wired dma_fence_wait
+> > > implementation.
+> > The first versions had used wait_queue, but iirc we had some issues with
+> > the callbacks and stuff and that was the reasons for hand-rolling. Or
+> > maybe it was the integration of the lockless fastpath for
+> > dma_fence_is_signalled().
+> > 
+> > > [SNIP]
+> > > Well it would have been nicer if we used the existing infrastructure instead
+> > > of re-inventing stuff for dma_fence, but that chance is long gone.
+> > > 
+> > > And you don't need a dma_fence_context base class, but rather just a flag in
+> > > the dma_fence_ops if you want to change the behavior.
+> > If there's something broken we should just fix it, not force everyone to
+> > set a random flag. dma_fence work like special wait_queues, so if we
+> > differ then we should go back to that.
+> 
+> Wait a second with that, this is not broken. It's just different behavior
+> and there are good arguments for both sides.
 
-UAPI Changes:
-- Remove sysfs stats for dma-buf attachments, as it causes a performance regression.
-  Previous merge is not in a rc kernel yet, so no userspace regression possible.
+Oh I know, but since dma_fence is meant to be a wait_queue with hw
+support, they really should work the same and have the same tuning.
 
-Cross-subsystem Changes:
-- Sanitize user input in kyro's viewport ioctl.
-- Use refcount_t in fb_info->count
-- Assorted fixes to dma-buf.
-- Extend x86 efifb handling to all archs.
-- Fix neofb divide by 0.
-- Document corpro,gm7123 bridge dt bindings.
+> If a wait is short you can have situations where you want to start the
+> thread on the original CPU.
+>     This is because you can assume that the caches on that CPU are still hot
+> and heating up the caches on the local CPU would take longer than an inter
+> CPU interrupt.
+> 
+> But if the wait is long it makes more sense to run the thread on the CPU
+> where you noticed the wake up event.
+>     This is because you can assume that the caches are cold anyway and
+> starting the thread on the current CPU (most likely from an interrupt
+> handler) gives you the absolutely best latency.
+>     In other words you usually return from the interrupt handler and just
+> directly switch to the now running thread.
+> 
+> I'm not sure if all drivers want the same behavior. Rob here seems to prefer
+> number 2, but we have used 1 for dma_fence for a rather long time now and it
+> could be that some people start to complain when we switch unconditionally.
 
-Core Changes:
-- Slightly rework drm master handling.
-- Cleanup vgaarb handling.
-- Assorted fixes.
+I think the defaults are different because usually if you wake up a wait
+queue, there's a 1:1 relationship between waker and waiter.
 
-Driver Changes:
-- Add support for ws2401 panel.
-- Assorted fixes to stm, ast, bochs.
-- Demidlayer ingenic irq.
-The following changes since commit 17a1837d07be38d957af453e08788edbe1f9343a:
+Otoh if you just wake a thread it's probably some kinda of service thread,
+so N:1 relationship between waker and waiter. And in that case moving the
+waiter is a really bad idea.
 
-  drm/dp: For drm_panel_dp_aux_backlight(), init backlight as disabled (2021-07-15 08:03:29 -0700)
+I think dma_fence is generally much closer to 1:1 (with the most common
+one irq handler -> scheduler thread for that engine), so having the "same
+cpu" wake behaviour really sounds like the right thing to do. And not
+anything that is specifically an issue with how qualcom gpus work, and
+hence should be msm specific.
 
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-next-2021-07-22
-
-for you to fetch changes up to 474596fc749ca8c87520fbd3529ff89464a94430:
-
-  dt-bindings: display: simple-bridge: Add corpro,gm7123 compatible (2021-07-22 11:42:54 +0200)
-
-----------------------------------------------------------------
-drm-misc-next for v5.15-rc1:
-
-UAPI Changes:
-- Remove sysfs stats for dma-buf attachments, as it causes a performance regression.
-  Previous merge is not in a rc kernel yet, so no userspace regression possible.
-
-Cross-subsystem Changes:
-- Sanitize user input in kyro's viewport ioctl.
-- Use refcount_t in fb_info->count
-- Assorted fixes to dma-buf.
-- Extend x86 efifb handling to all archs.
-- Fix neofb divide by 0.
-- Document corpro,gm7123 bridge dt bindings.
-
-Core Changes:
-- Slightly rework drm master handling.
-- Cleanup vgaarb handling.
-- Assorted fixes.
-
-Driver Changes:
-- Add support for ws2401 panel.
-- Assorted fixes to stm, ast, bochs.
-- Demidlayer ingenic irq.
-
-----------------------------------------------------------------
-Ainux.Wang (1):
-      drm/ast: Zero is missing in detect function
-
-Antonio Borneo (1):
-      drm/stm: dsi: compute the transition time from LP to HS and back
-
-Christoph Hellwig (7):
-      vgaarb: remove VGA_DEFAULT_DEVICE
-      vgaarb: remove vga_conflicts
-      vgaarb: move the kerneldoc for vga_set_legacy_decoding to vgaarb.c
-      vgaarb: cleanup vgaarb.h
-      vgaarb: provide a vga_client_unregister wrapper
-      vgaarb: remove the unused irq_set_state argument to vga_client_register
-      vgaarb: don't pass a cookie to vga_client_register
-
-Colin Ian King (1):
-      video: fbdev: arcfb: remove redundant initialization of variable err
-
-Desmond Cheong Zhi Xi (5):
-      drm: avoid circular locks in drm_mode_getconnector
-      drm: avoid blocking in drm_clients_info's rcu section
-      drm: add a locked version of drm_is_current_master
-      drm: serialize drm_file.master with a new spinlock
-      drm: protect drm_master pointers in drm_lease.c
-
-Guangming Cao (1):
-      dma_buf: remove dmabuf sysfs teardown before release
-
-Hridya Valsaraju (1):
-      dma-buf: Delete the DMA-BUF attachment sysfs statistics
-
-Jagan Teki (1):
-      drm/stm: ltdc: Silence -EPROBE_DEFER till bridge attached
-
-Javier Martinez Canillas (2):
-      drivers/firmware: move x86 Generic System Framebuffers support
-      drivers/firmware: consolidate EFI framebuffer setup for all arches
-
-Jim Cromie (1):
-      drm/print: fixup spelling in a comment
-
-Juan A. Suarez Romero (1):
-      drm/v3d: Expose performance counters to userspace
-
-KuoHsiang Chou (1):
-      drm/ast: Disable fast reset after DRAM initial
-
-Linus Walleij (2):
-      drm/panel: Add DT bindings for Samsung LMS380KF01
-      drm/panel: ws2401: Add driver for WideChips WS2401
-
-Maxime Ripard (1):
-      dt-bindings: display: simple-bridge: Add corpro,gm7123 compatible
-
-Thomas Zimmermann (1):
-      drm/ingenic: Convert to Linux IRQ interfaces
-
-Xiyu Yang (1):
-      fbmem: Convert from atomic_t to refcount_t on fb_info->count
-
-Yang Yingliang (1):
-      drm/bochs: Fix missing pci_disable_device() on error in bochs_pci_probe()
-
-Zheyu Ma (2):
-      video: fbdev: kyro: fix a DoS bug by restricting user input
-      video: fbdev: neofb: add a check against divide error
-
- .../ABI/testing/sysfs-kernel-dmabuf-buffers        |  28 --
- .../bindings/display/bridge/simple-bridge.yaml     |   3 +
- .../bindings/display/panel/samsung,lms380kf01.yaml |  99 +++++
- MAINTAINERS                                        |   7 +
- arch/arm/include/asm/efi.h                         |   5 +-
- arch/arm64/include/asm/efi.h                       |   5 +-
- arch/riscv/include/asm/efi.h                       |   5 +-
- arch/x86/Kconfig                                   |  26 --
- arch/x86/kernel/Makefile                           |   3 -
- drivers/dma-buf/dma-buf-sysfs-stats.c              | 140 +------
- drivers/dma-buf/dma-buf-sysfs-stats.h              |  27 --
- drivers/dma-buf/dma-buf.c                          |  18 +-
- drivers/firmware/Kconfig                           |  32 ++
- drivers/firmware/Makefile                          |   2 +
- drivers/firmware/efi/Makefile                      |   2 +
- drivers/firmware/efi/efi-init.c                    |  90 -----
- .../kernel => drivers/firmware/efi}/sysfb_efi.c    |  78 +++-
- {arch/x86/kernel => drivers/firmware}/sysfb.c      |  37 +-
- .../kernel => drivers/firmware}/sysfb_simplefb.c   |  33 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c         |  11 +-
- drivers/gpu/drm/ast/ast_drv.h                      |   6 +
- drivers/gpu/drm/ast/ast_main.c                     |   5 +
- drivers/gpu/drm/ast/ast_mode.c                     |   2 +-
- drivers/gpu/drm/ast/ast_post.c                     |  91 +++--
- drivers/gpu/drm/drm_auth.c                         |  93 +++--
- drivers/gpu/drm/drm_connector.c                    |   5 +-
- drivers/gpu/drm/drm_debugfs.c                      |   3 +-
- drivers/gpu/drm/drm_file.c                         |   1 +
- drivers/gpu/drm/drm_irq.c                          |   4 +-
- drivers/gpu/drm/drm_lease.c                        |  81 +++-
- drivers/gpu/drm/i915/display/intel_vga.c           |   9 +-
- drivers/gpu/drm/ingenic/ingenic-drm-drv.c          |   5 +-
- drivers/gpu/drm/nouveau/nouveau_vga.c              |   8 +-
- drivers/gpu/drm/panel/Kconfig                      |  10 +
- drivers/gpu/drm/panel/Makefile                     |   1 +
- drivers/gpu/drm/panel/panel-widechips-ws2401.c     | 441 +++++++++++++++++++++
- drivers/gpu/drm/radeon/radeon_device.c             |  11 +-
- drivers/gpu/drm/stm/dw_mipi_dsi-stm.c              |  17 +-
- drivers/gpu/drm/stm/ltdc.c                         |   8 +-
- drivers/gpu/drm/tiny/Kconfig                       |   4 +-
- drivers/gpu/drm/tiny/bochs.c                       |   2 +-
- drivers/gpu/drm/v3d/Makefile                       |   1 +
- drivers/gpu/drm/v3d/v3d_drv.c                      |   8 +
- drivers/gpu/drm/v3d/v3d_drv.h                      |  63 +++
- drivers/gpu/drm/v3d/v3d_gem.c                      |  31 ++
- drivers/gpu/drm/v3d/v3d_perfmon.c                  | 213 ++++++++++
- drivers/gpu/drm/v3d/v3d_regs.h                     |   2 +
- drivers/gpu/drm/v3d/v3d_sched.c                    |  16 +
- drivers/gpu/vga/vgaarb.c                           |  67 ++--
- drivers/vfio/pci/vfio_pci.c                        |  11 +-
- drivers/video/fbdev/arcfb.c                        |   2 +-
- drivers/video/fbdev/core/fbmem.c                   |   6 +-
- drivers/video/fbdev/kyro/fbdev.c                   |   5 +
- drivers/video/fbdev/neofb.c                        |   2 +-
- include/drm/drm_auth.h                             |   1 +
- include/drm/drm_file.h                             |  18 +-
- include/drm/drm_print.h                            |   2 +-
- include/linux/dma-buf.h                            |  17 -
- include/linux/fb.h                                 |   3 +-
- {arch/x86/include/asm => include/linux}/sysfb.h    |  32 +-
- include/linux/vgaarb.h                             | 118 ++----
- include/uapi/drm/v3d_drm.h                         | 136 +++++++
- 62 files changed, 1571 insertions(+), 641 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/display/panel/samsung,lms380kf01.yaml
- rename {arch/x86/kernel => drivers/firmware/efi}/sysfb_efi.c (84%)
- rename {arch/x86/kernel => drivers/firmware}/sysfb.c (75%)
- rename {arch/x86/kernel => drivers/firmware}/sysfb_simplefb.c (81%)
- create mode 100644 drivers/gpu/drm/panel/panel-widechips-ws2401.c
- create mode 100644 drivers/gpu/drm/v3d/v3d_perfmon.c
- rename {arch/x86/include/asm => include/linux}/sysfb.h (70%)
+If it turns out to be the wrong thing, well I guess we'll learn
+something. And then maybe we have a different version of dma_fence_wait.
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
