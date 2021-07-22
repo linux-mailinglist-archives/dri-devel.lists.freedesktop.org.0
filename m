@@ -2,58 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE3593D2D86
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jul 2021 22:16:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5F5D3D2D87
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jul 2021 22:16:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5878C6ED16;
-	Thu, 22 Jul 2021 20:16:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E34F16ECA1;
+	Thu, 22 Jul 2021 20:16:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com
- [IPv6:2607:f8b0:4864:20::22b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E8A16ECA1
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jul 2021 20:16:46 +0000 (UTC)
-Received: by mail-oi1-x22b.google.com with SMTP id e11so7916052oii.9
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jul 2021 13:16:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:in-reply-to:references:from:user-agent:date:message-id
- :subject:to:cc;
- bh=lGBGDn+lOFNngvvH3L1P75ECn+Xc69iUtWDhuizhmRk=;
- b=WBVq6pEiIdZU+GzhLnjTWPaJtocMzNL82BgTggr5nUPLGGS8R8sX+BOMVEApmfkRw9
- 8Y56V3g4r4I8SqKRkOSNP4326oh1kzb+1PuACxmp6HoAfAsgtrdlAJ556GV92PT7exzL
- McADJKZB9Lb+pcbQrmy4bQpGWLhDQQptnnwPY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:in-reply-to:references:from
- :user-agent:date:message-id:subject:to:cc;
- bh=lGBGDn+lOFNngvvH3L1P75ECn+Xc69iUtWDhuizhmRk=;
- b=PIk8ncmdy0yXai549lx6AVQdqyH4K0EF88H/fHbVzelv1jDjnBERstlzAEwjSBPbwh
- /3eQGBcJgi6JYb487eezC1dK56b/Gc4waUNuqzuuUyV8TOaHFByOi2AvroIUxLl41Chn
- YcR63QWEr+scdXT2AhdfEbao/YYJ/VAU1x98eyPc69KIJ/Kl3RQH7hEMkpW+eNh04Nrn
- IID+ds42qPqPHqhfKlOYK2Ps6y+L5UU91K2WMwXrROH24s4im4xj6SqRK1CvHUQswNqk
- bM2/V5gut5TWUNalKvqEv6zvMyWr4RK8GWVPpjj8OgYzrnF6j4lcCP/109NVBmFVnfe3
- H2fQ==
-X-Gm-Message-State: AOAM532vqwkXYdQJ+m0SCGR+XcigViVH+CfA+skj9DFlL0R4XmHdXua6
- XZITvil0A6REFSSjTyP+9ZN78/iWbG1BY05nTOMwAQ==
-X-Google-Smtp-Source: ABdhPJxjTaEbkRrBN/FqiRS6clBxB0FcklPeiI3sKW/kjDjrRLw/EbOnNhQjT9Uf5BJl9SFEVjqPUChYPfrbRGjQLhI=
-X-Received: by 2002:a05:6808:114a:: with SMTP id
- u10mr1175746oiu.19.1626985005662; 
- Thu, 22 Jul 2021 13:16:45 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 22 Jul 2021 20:16:45 +0000
-MIME-Version: 1.0
-In-Reply-To: <20210722024434.3313167-1-bjorn.andersson@linaro.org>
-References: <20210722024434.3313167-1-bjorn.andersson@linaro.org>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.9.1
-Date: Thu, 22 Jul 2021 20:16:45 +0000
-Message-ID: <CAE-0n50iOP5K8Q79ShmLowWErxMFRdYZRg=hDszYn8O4OJaz6A@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm/dp: Initialize the INTF_CONFIG register
-To: Bjorn Andersson <bjorn.andersson@linaro.org>,
- Daniel Vetter <daniel@ffwll.ch>, 
- David Airlie <airlied@linux.ie>, Kuogee Hsieh <khsieh@codeaurora.org>, 
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 936AD6EDA3
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jul 2021 20:16:54 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 69F6E60EB6
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jul 2021 20:16:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1626985014;
+ bh=8uN1+J3iLV97SINpsSA9/Axag79f9HPDs5Xg5J6QldE=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=JVU9SLxTeEVcvWpSAcbM1S2dGz4CqkT9npaQfUHmAI0pQp3pG8vSJ7MTj5ZUGd07x
+ 6MfKmwGx89nJAxahBof+kYSJFwQezWQNoq39kywRGX/E2lWn8thFyr35kraI+9sOkb
+ 8oViDHz4Z/29dZHhh1LLLcbXpwKGDETbNXyOsEEDH285S/kCszdM4HXUartgpWqYsI
+ vzyISNYAApm59inpewDb7CTThB9PoTf00PxmYpeJJm7pU7yoNpBNbf5Ktnqj37xfKx
+ AkoDz5GlcUr46F2/wYFiJ5d5j4sr/kiOgFHhDOG82q2QL5SKuKi+Ts48ApXJ+DiDE9
+ a9r2VD3vd6YaA==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id 5F4F960237; Thu, 22 Jul 2021 20:16:54 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 213823] Broken power management for amdgpu
+Date: Thu, 22 Jul 2021 20:16:54 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: high
+X-Bugzilla-Who: alexdeucher@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-213823-2300-7sc7Owh0JI@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-213823-2300@https.bugzilla.kernel.org/>
+References: <bug-213823-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,21 +65,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Tanmay Shah <tanmay@codeaurora.org>,
- Abhinav Kumar <abhinavk@codeaurora.org>, Guenter Roeck <groeck@chromium.org>,
- Vara Reddy <varar@codeaurora.org>, freedreno@lists.freedesktop.org,
- Chandan Uddaraju <chandanu@codeaurora.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Bjorn Andersson (2021-07-21 19:44:34)
-> Some bootloaders set the widebus enable bit in the INTF_CONFIG register,
-> but configuration of widebus isn't yet supported ensure that the
-> register has a known value, with widebus disabled.
->
-> Fixes: c943b4948b58 ("drm/msm/dp: add displayPort driver support")
-> Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-> ---
+https://bugzilla.kernel.org/show_bug.cgi?id=3D213823
 
-Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+Alex Deucher (alexdeucher@gmail.com) changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |alexdeucher@gmail.com
+
+--- Comment #2 from Alex Deucher (alexdeucher@gmail.com) ---
+Please attach your full dmesg outputs.  Can you bisect?
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
