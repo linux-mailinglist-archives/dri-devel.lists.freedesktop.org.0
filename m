@@ -1,54 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBAB33D36D6
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jul 2021 10:35:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D86FB3D36D7
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jul 2021 10:35:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B367E6EE3B;
-	Fri, 23 Jul 2021 08:35:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A9BC6ED20;
+	Fri, 23 Jul 2021 08:35:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
- [IPv6:2a00:1450:4864:20::62b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9AB536ED20
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jul 2021 08:35:08 +0000 (UTC)
-Received: by mail-ej1-x62b.google.com with SMTP id hs23so2365815ejc.13
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jul 2021 01:35:08 -0700 (PDT)
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
+ [IPv6:2a00:1450:4864:20::635])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B24126ED20
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jul 2021 08:35:09 +0000 (UTC)
+Received: by mail-ej1-x635.google.com with SMTP id l13so2604300ejo.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jul 2021 01:35:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=f4bn887uqWohEHf9tJtivGZU2B/OMsh89fDHBPHgucE=;
- b=GquE+FLUdLXKgierMdGxD5QMQi0V+Obx7uAPWKNMKtR8U7jSzEeBBmypZ9lVlQJ810
- r0uv2HgmXlbD6jQv2f1Cb2xRWp5HSy43Xe4LpB0vWSbwvVXHcSQi998uVbXlonToXZQg
- EABnUR4/Gkl2q8a3qAwJ1HzjckGxfO5Ezzug4=
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=riSufnz8Q+REZom/u8fUIv71a4+RLE2nXmWsA7dbp/A=;
+ b=HWTjcZqsJNZStwKgiBxgOMHKDb1HQlDoRLiv8/oo8skk34N6NgUTLJ+rwQQMWL/G4g
+ WjZb8mdMV6kVXprWVKiTAV05qTByQS1ZMtwqF8G9KTo6ZCCyin4bPKNtSupxkVG0RHup
+ hbK/cRQkP9vB6WC1p7D+fzOEpmS7O3ocY298g=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=f4bn887uqWohEHf9tJtivGZU2B/OMsh89fDHBPHgucE=;
- b=Am1yH0l4//M9q7mzWUnf8ZFhio+sdg+mlUrOxqmyTCdOMoUpxJ/Dma8OU2lNaqhXfG
- u9jKdr13GiGADrCS1TMmP8hilytk3O0S+wiSNDBBNVq0JVQ7GUgNTMBHJIxVykQep3Wn
- eGXvQWtCY/tKN6GTIgkJsETAu+IyCO01BNRjlow6EzcVu3fyF58WLBi6ztmFWsjsAsRF
- 7Q1NnRXATvPlYO9jMadJUla/ttg2g/NxQSzBcOBVv2zhp4IPG/CKLbMM1sXchAokf/9p
- tS9Hm3ZDVQMYsyUvzptOTWCbJs9B20K+twieTlEZZ8m1E8Dfyyycec5kwIehNmfPVE4Y
- ZVuw==
-X-Gm-Message-State: AOAM531AE23kQlU6BNwie6czNs1pbJ5WklgVZ5MV5KmtOMYLW53q7sWT
- W4r8j9ehWes4d4bFE9bsHJTaEsUA4xzaGg==
-X-Google-Smtp-Source: ABdhPJyo99sg1Z/X7gvWndHlguL4DGLiUMKtoBa59X7cFNiRAsgU/yHatubV3eSW7QcgvOl9eeCX7Q==
-X-Received: by 2002:a17:906:5509:: with SMTP id
- r9mr3798819ejp.74.1627029307206; 
- Fri, 23 Jul 2021 01:35:07 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=riSufnz8Q+REZom/u8fUIv71a4+RLE2nXmWsA7dbp/A=;
+ b=XMKsCVwI7zuRIWAwL3ipooqObsiMto1satF1pzQmVDKPIgFMgKB9VQSx6cDHhLS98S
+ LDCOYp5nlF3hnr+/Q8BFKX+MwNC2M92K3MiUqjYuUoXhIG0EBYV+e0wDgJHt+x0qHPqq
+ n2BHmkzAkCsUSb7PNjJOYG+mG2FZckFMiLUzPz0xeMgcannS3TFIeGu6CL/rJQmtWEXB
+ mjhTlgvyz5TLF7KJFA6AUfn1q7zne/1x3y1k5lK2VHQJmyalIHFJLDk3Nzk0LVTNh4Pd
+ CU4X6DHxzeRBkzSHEH+A+Ri1IyspmjHlY9EeDWX4wKom0v+UnWPEycztVm6Y3lfrZcMV
+ ZQPg==
+X-Gm-Message-State: AOAM533XuPSICMOx/CDyrzfBKxPyJrGHvFfFPnAaCtLX4Cm2F7IbFK6k
+ wYeIIZoR7c5PSUXV73oP7vWwXj2cTmHlzg==
+X-Google-Smtp-Source: ABdhPJxR5F3kC3q6czsWA/eSVris7rYMsvdEOuUIJKfR/W0i79YviaukEFw17qm/kWItDHPebUWY+Q==
+X-Received: by 2002:a17:906:f92:: with SMTP id
+ q18mr3744403ejj.353.1627029308261; 
+ Fri, 23 Jul 2021 01:35:08 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id s26sm10237758ejv.87.2021.07.23.01.35.06
+ by smtp.gmail.com with ESMTPSA id s26sm10237758ejv.87.2021.07.23.01.35.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 23 Jul 2021 01:35:06 -0700 (PDT)
+ Fri, 23 Jul 2021 01:35:07 -0700 (PDT)
 From: Daniel Vetter <daniel.vetter@ffwll.ch>
 To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 1/3] drm/plane: remove drm_helper_get_plane_damage_clips
-Date: Fri, 23 Jul 2021 10:34:55 +0200
-Message-Id: <20210723083457.696939-1-daniel.vetter@ffwll.ch>
+Subject: [PATCH 2/3] drm/plane: check that fb_damage is set up when used
+Date: Fri, 23 Jul 2021 10:34:56 +0200
+Message-Id: <20210723083457.696939-2-daniel.vetter@ffwll.ch>
 X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20210723083457.696939-1-daniel.vetter@ffwll.ch>
+References: <20210723083457.696939-1-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -73,15 +75,27 @@ Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-It's not used. Drivers should instead use the helpers anyway.
+There's two stages of manual upload/invalidate displays:
+- just handling dirtyfb and uploading the entire fb all the time
+- looking at damage clips
 
-Currently both vbox and i915 hand-roll this and it's not the greatest.
-vbox looks buggy, and i915 does a bit much that helpers would take
-care of I think.
+In the latter case we support it through fbdev emulation (with
+fb_defio), atomic property, and with the dirtfy clip rects.
 
-Also improve the kerneldocs while we're at it.
+Make sure at least the atomic property is set up as the main official
+interface for this. Ideally we'd also check that
+drm_atomic_helper_dirtyfb() is used and that fbdev defio is set up,
+but that's quite a bit harder to do. Ideas very much welcome.
 
-Reviewed-by: José Roberto de Souza <jose.souza@intel.com>
+From a cursor audit drivers seem to be getting this right mostly, but
+better to make sure. At least no one is bypassing the accessor
+function.
+
+v2:
+- use drm_warn_once with a meaningful warning string (José)
+- don't splat in the atomic check code for everyone (intel-gfx-ci)
+
+Reviewed-by: José Roberto de Souza <jose.souza@intel.com> (v1)
 Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
 Cc: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
 Cc: José Roberto de Souza <jose.souza@intel.com>
@@ -93,93 +107,147 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>
 Cc: David Airlie <airlied@linux.ie>
 Cc: Daniel Vetter <daniel@ffwll.ch>
 ---
- drivers/gpu/drm/drm_damage_helper.c |  2 +-
- include/drm/drm_damage_helper.h     | 17 -----------------
- include/drm/drm_plane.h             | 10 +++++++---
- include/drm/drm_rect.h              |  3 +++
- 4 files changed, 11 insertions(+), 21 deletions(-)
+ drivers/gpu/drm/drm_atomic.c        |  2 +-
+ drivers/gpu/drm/drm_crtc_internal.h |  2 ++
+ drivers/gpu/drm/drm_plane.c         | 50 +++++++++++++++++++++++++++++
+ include/drm/drm_plane.h             | 36 +++------------------
+ 4 files changed, 57 insertions(+), 33 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_damage_helper.c b/drivers/gpu/drm/drm_damage_helper.c
-index 3a4126dc2520..eb69b7123af5 100644
---- a/drivers/gpu/drm/drm_damage_helper.c
-+++ b/drivers/gpu/drm/drm_damage_helper.c
-@@ -282,7 +282,7 @@ drm_atomic_helper_damage_iter_init(struct drm_atomic_helper_damage_iter *iter,
- 	if (!state || !state->crtc || !state->fb || !state->visible)
- 		return;
+diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
+index d820423fac32..c85dcfd69158 100644
+--- a/drivers/gpu/drm/drm_atomic.c
++++ b/drivers/gpu/drm/drm_atomic.c
+@@ -660,7 +660,7 @@ static int drm_atomic_plane_check(const struct drm_plane_state *old_plane_state,
+ 		return -ENOSPC;
+ 	}
  
--	iter->clips = drm_helper_get_plane_damage_clips(state);
-+	iter->clips = (struct drm_rect *)drm_plane_get_damage_clips(state);
- 	iter->num_clips = drm_plane_get_damage_clips_count(state);
+-	clips = drm_plane_get_damage_clips(new_plane_state);
++	clips = __drm_plane_get_damage_clips(new_plane_state);
+ 	num_clips = drm_plane_get_damage_clips_count(new_plane_state);
  
- 	/* Round down for x1/y1 and round up for x2/y2 to catch all pixels */
-diff --git a/include/drm/drm_damage_helper.h b/include/drm/drm_damage_helper.h
-index 40c34a5bf149..1ae8bce6a5ce 100644
---- a/include/drm/drm_damage_helper.h
-+++ b/include/drm/drm_damage_helper.h
-@@ -82,21 +82,4 @@ bool drm_atomic_helper_damage_merged(const struct drm_plane_state *old_state,
- 				     struct drm_plane_state *state,
- 				     struct drm_rect *rect);
+ 	/* Make sure damage clips are valid and inside the fb. */
+diff --git a/drivers/gpu/drm/drm_crtc_internal.h b/drivers/gpu/drm/drm_crtc_internal.h
+index 1ca51addb589..edb772947cb4 100644
+--- a/drivers/gpu/drm/drm_crtc_internal.h
++++ b/drivers/gpu/drm/drm_crtc_internal.h
+@@ -262,6 +262,8 @@ int drm_plane_register_all(struct drm_device *dev);
+ void drm_plane_unregister_all(struct drm_device *dev);
+ int drm_plane_check_pixel_format(struct drm_plane *plane,
+ 				 u32 format, u64 modifier);
++struct drm_mode_rect *
++__drm_plane_get_damage_clips(const struct drm_plane_state *state);
  
--/**
-- * drm_helper_get_plane_damage_clips - Returns damage clips in &drm_rect.
-- * @state: Plane state.
-- *
-- * Returns plane damage rectangles in internal &drm_rect. Currently &drm_rect
-- * can be obtained by simply typecasting &drm_mode_rect. This is because both
-- * are signed 32 and during drm_atomic_check_only() it is verified that damage
-- * clips are inside fb.
-- *
-- * Return: Clips in plane fb_damage_clips blob property.
-- */
--static inline struct drm_rect *
--drm_helper_get_plane_damage_clips(const struct drm_plane_state *state)
--{
--	return (struct drm_rect *)drm_plane_get_damage_clips(state);
--}
--
- #endif
-diff --git a/include/drm/drm_plane.h b/include/drm/drm_plane.h
-index 1294610e84f4..7f7d5148310c 100644
---- a/include/drm/drm_plane.h
-+++ b/include/drm/drm_plane.h
-@@ -186,6 +186,9 @@ struct drm_plane_state {
- 	 * since last plane update) as an array of &drm_mode_rect in framebuffer
- 	 * coodinates of the attached framebuffer. Note that unlike plane src,
- 	 * damage clips are not in 16.16 fixed point.
-+	 *
-+	 * See drm_plane_get_damage_clips() and
-+	 * drm_plane_get_damage_clips_count() for accessing these.
- 	 */
- 	struct drm_property_blob *fb_damage_clips;
+ /* drm_bridge.c */
+ void drm_bridge_detach(struct drm_bridge *bridge);
+diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
+index b373958ecb30..f61315b61174 100644
+--- a/drivers/gpu/drm/drm_plane.c
++++ b/drivers/gpu/drm/drm_plane.c
+@@ -1397,6 +1397,56 @@ int drm_mode_page_flip_ioctl(struct drm_device *dev,
+ 	return ret;
+ }
  
-@@ -914,9 +917,10 @@ drm_plane_get_damage_clips_count(const struct drm_plane_state *state)
-  * drm_plane_get_damage_clips - Returns damage clips.
-  * @state: Plane state.
-  *
-- * Note that this function returns uapi type &drm_mode_rect. Drivers might
-- * instead be interested in internal &drm_rect which can be obtained by calling
-- * drm_helper_get_plane_damage_clips().
++/**
++ * drm_plane_get_damage_clips_count - Returns damage clips count.
++ * @state: Plane state.
++ *
++ * Simple helper to get the number of &drm_mode_rect clips set by user-space
++ * during plane update.
++ *
++ * Return: Number of clips in plane fb_damage_clips blob property.
++ */
++unsigned int
++drm_plane_get_damage_clips_count(const struct drm_plane_state *state)
++{
++	return (state && state->fb_damage_clips) ?
++		state->fb_damage_clips->length/sizeof(struct drm_mode_rect) : 0;
++}
++EXPORT_SYMBOL(drm_plane_get_damage_clips_count);
++
++struct drm_mode_rect *
++__drm_plane_get_damage_clips(const struct drm_plane_state *state)
++{
++	return (struct drm_mode_rect *)((state && state->fb_damage_clips) ?
++					state->fb_damage_clips->data : NULL);
++}
++
++/**
++ * drm_plane_get_damage_clips - Returns damage clips.
++ * @state: Plane state.
++ *
 + * Note that this function returns uapi type &drm_mode_rect. Drivers might want
 + * to use the helper functions drm_atomic_helper_damage_iter_init() and
 + * drm_atomic_helper_damage_iter_next() or drm_atomic_helper_damage_merged() if
 + * the driver can only handle a single damage region at most.
-  *
-  * Return: Damage clips in plane fb_damage_clips blob property.
-  */
-diff --git a/include/drm/drm_rect.h b/include/drm/drm_rect.h
-index 39f2deee709c..6f6e19bd4dac 100644
---- a/include/drm/drm_rect.h
-+++ b/include/drm/drm_rect.h
-@@ -39,6 +39,9 @@
-  * @x2: horizontal ending coordinate (exclusive)
-  * @y1: vertical starting coordinate (inclusive)
-  * @y2: vertical ending coordinate (exclusive)
 + *
-+ * Note that this must match the layout of struct drm_mode_rect or the damage
-+ * helpers like drm_atomic_helper_damage_iter_init() break.
-  */
- struct drm_rect {
- 	int x1, y1, x2, y2;
++ * Return: Damage clips in plane fb_damage_clips blob property.
++ */
++struct drm_mode_rect *
++drm_plane_get_damage_clips(const struct drm_plane_state *state)
++{
++	struct drm_device *dev = state->plane->dev;
++	struct drm_mode_config *config = &dev->mode_config;
++
++	/* check that drm_plane_enable_fb_damage_clips() was called */
++	if (!drm_mode_obj_find_prop_id(&state->plane->base,
++				       config->prop_fb_damage_clips->base.id))
++		drm_warn_once(dev, "drm_plane_enable_fb_damage_clips() not called\n");
++
++	return __drm_plane_get_damage_clips(state);
++}
++EXPORT_SYMBOL(drm_plane_get_damage_clips);
++
+ struct drm_property *
+ drm_create_scaling_filter_prop(struct drm_device *dev,
+ 			       unsigned int supported_filters)
+diff --git a/include/drm/drm_plane.h b/include/drm/drm_plane.h
+index 7f7d5148310c..a2684aab8372 100644
+--- a/include/drm/drm_plane.h
++++ b/include/drm/drm_plane.h
+@@ -897,39 +897,11 @@ static inline struct drm_plane *drm_plane_find(struct drm_device *dev,
+ 
+ bool drm_any_plane_has_format(struct drm_device *dev,
+ 			      u32 format, u64 modifier);
+-/**
+- * drm_plane_get_damage_clips_count - Returns damage clips count.
+- * @state: Plane state.
+- *
+- * Simple helper to get the number of &drm_mode_rect clips set by user-space
+- * during plane update.
+- *
+- * Return: Number of clips in plane fb_damage_clips blob property.
+- */
+-static inline unsigned int
+-drm_plane_get_damage_clips_count(const struct drm_plane_state *state)
+-{
+-	return (state && state->fb_damage_clips) ?
+-		state->fb_damage_clips->length/sizeof(struct drm_mode_rect) : 0;
+-}
++unsigned int
++drm_plane_get_damage_clips_count(const struct drm_plane_state *state);
+ 
+-/**
+- * drm_plane_get_damage_clips - Returns damage clips.
+- * @state: Plane state.
+- *
+- * Note that this function returns uapi type &drm_mode_rect. Drivers might want
+- * to use the helper functions drm_atomic_helper_damage_iter_init() and
+- * drm_atomic_helper_damage_iter_next() or drm_atomic_helper_damage_merged() if
+- * the driver can only handle a single damage region at most.
+- *
+- * Return: Damage clips in plane fb_damage_clips blob property.
+- */
+-static inline struct drm_mode_rect *
+-drm_plane_get_damage_clips(const struct drm_plane_state *state)
+-{
+-	return (struct drm_mode_rect *)((state && state->fb_damage_clips) ?
+-					state->fb_damage_clips->data : NULL);
+-}
++struct drm_mode_rect *
++drm_plane_get_damage_clips(const struct drm_plane_state *state);
+ 
+ int drm_plane_create_scaling_filter_property(struct drm_plane *plane,
+ 					     unsigned int supported_filters);
 -- 
 2.32.0
 
