@@ -1,37 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AAB73D390C
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jul 2021 13:06:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AB6AF3D392F
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jul 2021 13:10:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 730646FAD6;
-	Fri, 23 Jul 2021 11:06:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 33E676FADA;
+	Fri, 23 Jul 2021 11:10:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 6E0286FAD6
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jul 2021 11:06:14 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B8B0C106F;
- Fri, 23 Jul 2021 04:06:13 -0700 (PDT)
-Received: from [192.168.1.179] (unknown [172.31.20.19])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E5D303F694;
- Fri, 23 Jul 2021 04:06:12 -0700 (PDT)
-Subject: Re: [PATCH] drm/panfrost: devfreq: Don't display error for
- EPROBE_DEFER
-To: Chris Morgan <macroalpha82@gmail.com>, dri-devel@lists.freedesktop.org
-References: <20210721214830.25690-1-macroalpha82@gmail.com>
-From: Steven Price <steven.price@arm.com>
-Message-ID: <f086f519-f8c3-0ba3-61ef-4a28dd7aa654@arm.com>
-Date: Fri, 23 Jul 2021 12:06:11 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+Received: from mail-ot1-x332.google.com (mail-ot1-x332.google.com
+ [IPv6:2607:f8b0:4864:20::332])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 073516FADA
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jul 2021 11:10:27 +0000 (UTC)
+Received: by mail-ot1-x332.google.com with SMTP id
+ 68-20020a9d0f4a0000b02904b1f1d7c5f4so686768ott.9
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jul 2021 04:10:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ItsRsZ0+rGylQYA+RELfRwpVcM273u0/L6xue3YIFTA=;
+ b=mgZxllDJunjoK3CtlARUlfLQNAlHIMceNdssna93H1gvGsVkjbKCjeXwfaKALFHizP
+ +Y1XZcKvjH1iQnJ0/Ky5KHtTGpXSvz9a4yB31+JlI9uF3CHnUEVO1K2oEON+GxU4rCkI
+ L0wstpPWTGcGN3ukpI4x1nmdMQaYvvW8wHQbsFxP47E/bxFXJ4AF5QvtFeKtSnuJBKfg
+ MjUE2uePwDC+tZXum5IbjSHP8qOVpr5oXCFRJaxZXEyyxD8GK7q7EeAoC/fzug6goK73
+ mGfo5Lz8KQNUMm3jwzRPh5K0HgVo8KfnWG58LKxGV0f2KFcDCBE0PMNzrJHv6r/LAKNh
+ fCqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ItsRsZ0+rGylQYA+RELfRwpVcM273u0/L6xue3YIFTA=;
+ b=Kn9Q1t6Y3QiZMBUrFzaDWYOXMitG94BaC+DDEcnihG1Au4apiSoLaqJA7w2h8TFphA
+ ZVoxWERTgWz6y7HNNi+9t+yz95wvnMrQj4Ry0Q/SeI1MkpINvDsWp/KdUHwc5YV+LFPu
+ JqJNqxvv4hWWuEB6eI+ChYMv9gLhFe8aI6ox77LsIXjwGUHDMZXxx1t8jCHrGYRbzRRY
+ uwQyrdQ9cdOa3xSQtCGAYcepEN3FikZfbnOw3j4NcsA9Jp35Hff3kLS4Iua39Z4GXoWm
+ e6qyR+WLqdrNTW1lc6OqfAVYCxPoX7zZKURS/B6C1IfcNwd303YBiUppdwVxO5K+G3gQ
+ HJDw==
+X-Gm-Message-State: AOAM530UJFp3+UOnx5uhmRwuJxf1DgO7oM6Edn83K2Ic8U0lMRhodun6
+ k2xUAiS9isT4aKOSgpxPP3C2Bpt+TxQCJdjQY0g=
+X-Google-Smtp-Source: ABdhPJyTbyPS7OPxgzkKeQ0xejJgwTXa3EwT7cNdLuCl25tp5G3mArCVKEQZIg8TwboZwxHRabaGbXKTcoVEzwUnzvo=
+X-Received: by 2002:a9d:491:: with SMTP id 17mr2724546otm.184.1627038626371;
+ Fri, 23 Jul 2021 04:10:26 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210721214830.25690-1-macroalpha82@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+References: <20210722094551.15255-1-nancy.lin@mediatek.com>
+ <20210722094551.15255-5-nancy.lin@mediatek.com>
+In-Reply-To: <20210722094551.15255-5-nancy.lin@mediatek.com>
+From: Enric Balletbo Serra <eballetbo@gmail.com>
+Date: Fri, 23 Jul 2021 13:10:14 +0200
+Message-ID: <CAFqH_50qC985oTcPWDLRJt6yVvwtHsizPOTnTMBh84m6Hy6hFQ@mail.gmail.com>
+Subject: Re: [PATCH v2 04/14] dt-bindings: reset: mt8195: Move reset
+ controller constants into common location
+To: "Nancy.Lin" <nancy.lin@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,52 +64,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, alyssa.rosenzweig@collabora.com,
- Chris Morgan <macromorgan@hotmail.com>
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ srv_heupstream <srv_heupstream@mediatek.com>,
+ devicetree <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
+ "jason-jh . lin" <jason-jh.lin@mediatek.com>, singo.chang@mediatek.com,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Yongqiang Niu <yongqiang.niu@mediatek.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 21/07/2021 22:48, Chris Morgan wrote:
-> From: Chris Morgan <macromorgan@hotmail.com>
-> 
-> Set a condition for the message of "Couldn't set OPP regulators" to not
-> display if the error code is EPROBE_DEFER. Note that I used an if
-> statement to capture the condition instead of the dev_err_probe
-> function because I didn't want to change the DRM_DEV_ERROR usage.
+Hi Nancy,
 
-Note that this file (panfost_devfreq.c) is actually the odd one out in
-terms of using the DRM_DEV_xxx macros. The rest of the panfrost driver
-uses the standard dev_xxx ones. So tidying this up to match the rest of
-the driver would also allow us to use dev_err_probe(). But as a point
-fix this patch is fine and correct. Thanks!
+Thank you for your patch
 
-> Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+Missatge de Nancy.Lin <nancy.lin@mediatek.com> del dia dj., 22 de jul.
+2021 a les 11:46:
+>
+> The DT binding includes for reset controllers are located in
+> include/dt-bindings/reset/. Move the Mediatek reset constants in there.
+>
 
-Reviewed-by: Steven Price <steven.price@arm.com>
-
-I'll apply this to drm-misc-next.
+I think that the patch that introduces mt8195-resets.h into the
+reset-controller directory didn't land yet, please sync with the
+author of that patch and just put it in the correct place the first
+time.
 
 Thanks,
+  Enric
 
-Steve
-
+> Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
 > ---
->  drivers/gpu/drm/panfrost/panfrost_devfreq.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_devfreq.c b/drivers/gpu/drm/panfrost/panfrost_devfreq.c
-> index 3644652f726f..194af7f607a6 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_devfreq.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_devfreq.c
-> @@ -106,7 +106,8 @@ int panfrost_devfreq_init(struct panfrost_device *pfdev)
->  	if (ret) {
->  		/* Continue if the optional regulator is missing */
->  		if (ret != -ENODEV) {
-> -			DRM_DEV_ERROR(dev, "Couldn't set OPP regulators\n");
-> +			if (ret != -EPROBE_DEFER)
-> +				DRM_DEV_ERROR(dev, "Couldn't set OPP regulators\n");
->  			return ret;
->  		}
->  	}
-> 
-
+>  include/dt-bindings/{reset-controller => reset}/mt8195-resets.h | 0
+>  1 file changed, 0 insertions(+), 0 deletions(-)
+>  rename include/dt-bindings/{reset-controller => reset}/mt8195-resets.h (100%)
+>
+> diff --git a/include/dt-bindings/reset-controller/mt8195-resets.h b/include/dt-bindings/reset/mt8195-resets.h
+> similarity index 100%
+> rename from include/dt-bindings/reset-controller/mt8195-resets.h
+> rename to include/dt-bindings/reset/mt8195-resets.h
+> --
+> 2.18.0
+>
