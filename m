@@ -1,121 +1,115 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96F553D3A53
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jul 2021 14:34:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 095E73D3ACC
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jul 2021 14:59:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B6D396EC2B;
-	Fri, 23 Jul 2021 12:34:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 100486E150;
+	Fri, 23 Jul 2021 12:59:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam08on2076.outbound.protection.outlook.com [40.107.102.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 99D976EC2B
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jul 2021 12:34:24 +0000 (UTC)
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2052.outbound.protection.outlook.com [40.107.236.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A3EE989F49;
+ Fri, 23 Jul 2021 12:59:20 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dSvkoFP+0WgtNuQrrSzGngy5PnU1G/ngzZ93bG21f7VL/mhh2uWmvZ2xPvYKVW62Sfxuz1cVqGFAGA9reg4zTBxIMe2IY4RWGbHK8G8xgFtYpOU1dQi9feka7OHEyqTF4lbXFNOARwFHz2pv8dwwTIwbLFQ945LsdA1gFBH1O1J7zDfEa1oC9Ukis3DCa00rjAu9TsUSciufW9H9oHiBEAUZvXnR+PRJ+NqfUySY0L2szsXxUwffR3IW3qqEtG2/ukY93MdDDqPTNweRjqizC1iGMwbzZNNfqk6B4xj0pznY3DmkN8oETX+45MYdMcvXHQXLeqFhlHdTzR1+VPYCKQ==
+ b=HE58zL0l4kqZ2zIu3Bf0nB52CjPPBaTP0nAXQQ7TSOR7R52yDl/6E705pCEJurdKX/ZsSBAPQW7c8vrDayikHR2gBuFmgRorfVTte+e2g8yWnMrq327XPJitAQgIhj+VzhPqXbDGrrnQ06WxAxqwWaK/4a1s4KiPIkAkSSbSSEufMGpxhN5tJO/9m8JGPyeLK/cyeK57PwFT7Fo+9rwhPZ2h9WYxNDT32TUTu5AdkVjc6wExj/kCAfp+qbc2z7CI0xqkIHDu7nbHoMxX0IGnmuTiTHMu0RL1GIGsdHAtMOr6jIOPRuE88F1tBWYjdEDJyC/ATKl09Fq236dZ9AFEZA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=17BJ+A+Cc5O9NEHfK6tTa6wCNCnayhVTsjcCXD5rLU4=;
- b=ei6lldzxP0s13OtfEvy6SmJZIfqfhHsWyyjQCI0hws6wKxWla5yZmx1mV5V0tuXYTiSbeCKmJIIY4rCBUSon/9RHWO5lDG33Z/pN5WxAz29AGmOqY5cNbo61X8NdAklE93JMDio/oR8tN2xfeTrUlqbId5z4dhNVTwAJGwsdVN8AfMt/FI3w8HQ+igi9e34DGoM2VNZUEYB/f0boCC8KqXXvNAxGvLR9MNYm893fs+KL24vJXGrlJaHsU/2UAq4/AgzwzqfsTey0MM9icUPxio3Mcw3VhiAGcsg6u5ExPQhaKliZtH5XCpOknMJl6NA/xzJXWaun0GErfF1oRhZzdg==
+ bh=IE5sKyInBapmjBCbFdUSxCfyMVKnif7XvEUvp4KSTsk=;
+ b=nS/Qhvb9gr1dfBr1esdxunJ4Ng13dYmOFTjp+pRLMqB+Cl12xcoHo72U7b3lvRXqvzBOyEPKrX4ezGxE/G3Xo6PFf54W8K5Z32gTxM20qGEY1j18Hbqlw5g00N4A2puKryVPnVwzn8XeY47ZE002HfF70IBb/ZlNGdPUZ8nDQWGaz11imYexIudqSPgX3jps/a2zmqKlpxy9FXpMx9kW42FGr+xB4qmScCbhEcATfp/LtWoT0fMgQXvk9hHpUTv7oVZMQHqvjblHTDmFrBr9BOwPz2qWiyPYejSo6GFdoJ2Fw78+dASQBECVVS9twhbWwEzG56fhWpAg/ER8fbk5Qg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=17BJ+A+Cc5O9NEHfK6tTa6wCNCnayhVTsjcCXD5rLU4=;
- b=I5rM9K+CNsKqTav7ZDkMB8FtuNs3xu7/am/eOl8YNjbx7FnYcd/5S9fX7a/4rhv6R9ajqwMW2KxxGfuWskaYLyHzetqLAXcUNJzIUAzKzhA/2q2VYnu5O8tca2MV0/8+SXLsHpVLiPXEVjMKyet4SGjtIXbLHEh6wYWx1t532sY=
-Authentication-Results: codeaurora.org; dkim=none (message not signed)
- header.d=none;codeaurora.org; dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
- by MN2PR12MB4111.namprd12.prod.outlook.com (2603:10b6:208:1de::22)
+ bh=IE5sKyInBapmjBCbFdUSxCfyMVKnif7XvEUvp4KSTsk=;
+ b=tOzNjFeLGRh/dC6tACZco7ucz1CnoC8eLclO2YwRMnr+flf7YbPoWu1zs4kgIP4z6PRycxpbCCxXJ5l3zoR8OPaXm4Ad9lCFxIMg8+UQG8txm5vrPmRFEe1gSoCX1CJORZVikxdMWEE68qdnzQbANnvDRSPAeNiUEx7FKFegAZbzlRVikP2F8N7NUB7nQMyvuDQtbC3/SF92mTCuG5SWDrh7m/9wnnLkD/d3EzvhUgvNRniOl7oz1CVDG2q1EWNI+3+mVLBIiN4cTs6wV4CtCzazm2HSEkgk8Nn3FBHZ31AkAqs7kwTCgucbUoyT+6WFAedztdNjkKNwPazMNr/4ng==
+Authentication-Results: lst.de; dkim=none (message not signed)
+ header.d=none;lst.de; dmarc=none action=none header.from=nvidia.com;
+Received: from BL0PR12MB5506.namprd12.prod.outlook.com (2603:10b6:208:1cb::22)
+ by BL1PR12MB5271.namprd12.prod.outlook.com (2603:10b6:208:315::9)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4352.28; Fri, 23 Jul
- 2021 12:34:18 +0000
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::6c9e:1e08:7617:f756]) by MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::6c9e:1e08:7617:f756%5]) with mapi id 15.20.4352.028; Fri, 23 Jul 2021
- 12:34:18 +0000
-Subject: Re: [PATCH] dma-buf: WARN on dmabuf release with pending attachments
-To: Charan Teja Reddy <charante@codeaurora.org>, sumit.semwal@linaro.org
-References: <1627043468-16381-1-git-send-email-charante@codeaurora.org>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <b057b0fe-75ae-d872-f500-a307543d8233@amd.com>
-Date: Fri, 23 Jul 2021 14:34:13 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-In-Reply-To: <1627043468-16381-1-git-send-email-charante@codeaurora.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-ClientProxiedBy: PR0P264CA0085.FRAP264.PROD.OUTLOOK.COM
- (2603:10a6:100:18::25) To MN2PR12MB3775.namprd12.prod.outlook.com
- (2603:10b6:208:159::19)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4352.26; Fri, 23 Jul
+ 2021 12:59:19 +0000
+Received: from BL0PR12MB5506.namprd12.prod.outlook.com
+ ([fe80::d017:af2f:7049:5482]) by BL0PR12MB5506.namprd12.prod.outlook.com
+ ([fe80::d017:af2f:7049:5482%4]) with mapi id 15.20.4352.029; Fri, 23 Jul 2021
+ 12:59:18 +0000
+Date: Fri, 23 Jul 2021 09:59:16 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Christoph Hellwig <hch@lst.de>
+Subject: Re: [PATCH v2 08/14] vfio/pci: Move to the device set infrastructure
+Message-ID: <20210723125916.GT1117491@nvidia.com>
+References: <0-v2-b6a5582525c9+ff96-vfio_reflck_jgg@nvidia.com>
+ <8-v2-b6a5582525c9+ff96-vfio_reflck_jgg@nvidia.com>
+ <20210723074749.GC2795@lst.de>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210723074749.GC2795@lst.de>
+X-ClientProxiedBy: MN2PR15CA0049.namprd15.prod.outlook.com
+ (2603:10b6:208:237::18) To BL0PR12MB5506.namprd12.prod.outlook.com
+ (2603:10b6:208:1cb::22)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:908:1252:fb60:4ae7:63c0:5e49:6388]
- (2a02:908:1252:fb60:4ae7:63c0:5e49:6388) by
- PR0P264CA0085.FRAP264.PROD.OUTLOOK.COM (2603:10a6:100:18::25) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4352.25 via Frontend Transport; Fri, 23 Jul 2021 12:34:17 +0000
+Received: from mlx.ziepe.ca (142.162.113.129) by
+ MN2PR15CA0049.namprd15.prod.outlook.com (2603:10b6:208:237::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4352.25 via Frontend
+ Transport; Fri, 23 Jul 2021 12:59:18 +0000
+Received: from jgg by mlx with local (Exim 4.94)	(envelope-from
+ <jgg@nvidia.com>)	id 1m6ulo-006zuH-V2; Fri, 23 Jul 2021 09:59:16 -0300
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 723abce7-5b5e-479f-c837-08d94dd63065
-X-MS-TrafficTypeDiagnostic: MN2PR12MB4111:
-X-Microsoft-Antispam-PRVS: <MN2PR12MB4111CF20691913E345EC211583E59@MN2PR12MB4111.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-MS-Office365-Filtering-Correlation-Id: fcdc494c-9f1f-4e7a-8b73-08d94dd9ae82
+X-MS-TrafficTypeDiagnostic: BL1PR12MB5271:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <BL1PR12MB527176CAF2885637B6AF81AFC2E59@BL1PR12MB5271.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 9AGKMy6Tk/BoqskVWfstwgwltvWgFp9aYmypnhG7E8ScLAAYQn3XvwrfHC2YLwDre3Y2TaTAzDrS3R4Y4IORGS1Iz4xudWiAlPPEgvBD3Cqz8HYi/nw2y7QEsvrB1A6dNhC0XDVNtK7Sr534dFK/pYuxZxxTYfgjVeCc1EO1v4oQENqv6Y1m39aiIY9jzI+JXQyGbjESjddn/MG1sjGUj8gIhjOGm2qDi6eIuKOWsopVr3t/lbQlY9nCp8ptOfpTWNJ/+TSkBFBMACPrkqkK9oVw7nw9U9oPV29GS7Y7wqAwWqumwle3gqDElEofMNhccRAASoYVciDLaW6FFnFQFW8UOFLJhKE14jsUEFnPeJtjbvR5E9m4E6qgGfyaLQgYLby6TolPQz/+8WkkfjS6+S0kEi7tmCGWQDeJeWwq7XuGHEt0GvTCjjWQCpt+V3m9ZWQGSq3jXUmSA0YZmEy2nOtpQ3S00IEBF0cpMHX54+0IUa8hRfoa9b4K3ki1hUN5cygguxfvg7TBWNILFKeAOA4L5FLubKlQC06PhWZcIBwz/7OfbDYyfog69pV3TZOnkD2hr5fHVmgUXedD/OTtkc1EMK3fKKLpjrbstyCTuoug0eQHjVHt8m2ElnGgeKuF1/sTmW2NMTLAd+6RGlcicOsUrOoF+1zHnGaAKhspYTklA1qexoRFUMEb9aC5RJspqhnVaZKRiiGAZ1yi9f3r/ccKnjWwQI1x10u+cfnAB/ceOMhjbujsWCRShU4KCKEY
+X-Microsoft-Antispam-Message-Info: DPUDY/5vQ69JtFZoagZDMwDcrpj8bX6gpT6AvsjYrHMw8wXa/4WiAZW6ZQjsjLCS8L7d8Hl9dZQkKXpGe+Jh/KMuQ1KIplTQKdYzWQhkAwUcFfAE0+Mn4n+o4j0bkUQ++Z8MdeT96Y0F4nkHPXzhs0zLt05aeGSI9TAQG6/gizVca+P7cKB5/3pcNz91oqX7gaJ0P5UGr/UlT38OzosF4mdoqmXrC5dsrjXSRgylt1qTyDWApKTT9wNbsRtBKUpS/yz1RiaglCyry5pNhF5+m2dNdaylBfCggs9C0Y62x20BuCHHl3N0ZSc3yrHIA3ThjNwOt8yF0P4FEIlSyxD6KUs4CfAemeu9YZES+VAPo/cH200i8vvBZvwatcSB8dp8sQL42uCCVKO+ec+faZchORqCoKQSAJgEyUlXGCGYESfN0gxLBSB3TH8i7taHVBtWF+qMta+4wx4soKAqnFRwr4cyAaYAvvd0oX+FH3jZGNpyrO9XCQ+eNDXe1JIjbNeJbUFe/ZcHgBcWQDAxl68wAtCJRu1SHFVcygvJTXrDBv6aAdqges2cKlyrbRTheGO9+LFbxhJlLthSFpWcnAQ8Mx7UggX7BllE6ojm6+AdVtx2ID6RwshR6fP4AEu0F29QJhrhT5I9RvCM+2fzXp2O+w==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39860400002)(346002)(376002)(136003)(396003)(366004)(83380400001)(31686004)(36756003)(31696002)(38100700002)(86362001)(5660300002)(8936002)(8676002)(66574015)(2906002)(186003)(478600001)(6666004)(316002)(4326008)(6486002)(66946007)(66556008)(2616005)(66476007)(45980500001)(43740500002);
+ IPV:NLI; SFV:NSPM; H:BL0PR12MB5506.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(83380400001)(508600001)(7406005)(7416002)(1076003)(2906002)(8936002)(33656002)(186003)(86362001)(8676002)(54906003)(9786002)(9746002)(26005)(426003)(36756003)(66946007)(6916009)(5660300002)(4326008)(66556008)(66476007)(2616005)(316002)(38100700002);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YmJOdnhyU1FsOGVidHprTzVubkRZdzc2RzBGSk5Cclp4MlF4RStnNTdYSkJ5?=
- =?utf-8?B?WUlTZmNHL0R6NmF2L2V4ZjEwdTYyYWVIUG5OcDFBcWJVbGJQcnV2dFBsbUh2?=
- =?utf-8?B?RTVLR2V5MjJtZmtxZHNzU0hYNzAxd3J1MzdYMlcyUFJGZ0YxWlhFclVuQmdZ?=
- =?utf-8?B?Y2JSbE9zY0xldFQrOWlLSlpKNkpxR29vOHU5NVVHZVR4eEd3QURtSmZhRmtK?=
- =?utf-8?B?aUd0NWoxR2dPUFZCakVDUU1UQkVkTlZKeGhORG1FMlBVUi9DYW9KNDcwNG12?=
- =?utf-8?B?L2liejduUGJxc0ttSVU4TmN3cEJzUkc0QnRKOEw5d0hlOG1GVTlrRnFLWEZ1?=
- =?utf-8?B?K1UvUW5kdHFIZlFHZk11YWI5cWxEMHRkUU0wL2YyVVZNelBHZDdEU2RHSURt?=
- =?utf-8?B?NmlKampyRzBveVlwQnNxQmdHS0pKOU5wWngxR3JOVXVPS08xR3V1TXBWT2dy?=
- =?utf-8?B?cy9FbE9yQTYrbHRPRDJpMVU5QXVqSkJCSHpsWGN5WnZqSWxyL3hEM2RheW9o?=
- =?utf-8?B?YldHU3lyNktJWVlhaS9hOFVlM2hjQmJoM08vNUliN2JZT0ZtRXRYVDhadEFj?=
- =?utf-8?B?Y1hWWGt5K0lwa0E4ZjV2bEQ5NUt2VFpVY2xuekZhWTM1dGJkaTR2TCtsa0tD?=
- =?utf-8?B?dXZsdy9uSTNpMkUySzE3VWNrUWJIZGRQT1lEc2E3NEp3NklvNWZYamNjQkM3?=
- =?utf-8?B?S1dHVXdETE5VUGs1ekF1bDJLSGJjUkJEVTk1RW94c0FHN0c3WFdPbXlUNmo4?=
- =?utf-8?B?MjJwcXQvK2RNOUw3NHFFTkl2MjBmVUxhNzZNb09SY0RzWTJmQUpZS210VTk1?=
- =?utf-8?B?NkZ5Zk54NzEvWkd5R1pRMXdOK2lVRDc4R3FLcFE5QVBYQXdaTzRNWUlXc0RS?=
- =?utf-8?B?L0VqUDkwRXF5Z1gvWUZXTjVHZ0tjRHd2cHpaN1hqc01yOEFnaGJwYit3M2R5?=
- =?utf-8?B?YjQvcjlBMmw2NHgxYW91NktCWnJaYVRqWHEybGdidUpHOGx0bk9FOVZheTNH?=
- =?utf-8?B?M0VjSTVlS3oxVUZUV3dzNzU2bU5jNndIR2pwaGk3c25ya3g2ckxudlM2ZVpJ?=
- =?utf-8?B?UStYa05pbjFXVWRGVGdIRVBuK3F1YitWYm9JTHNnYkZkYUhzUnpkQ2NBQXp6?=
- =?utf-8?B?cUtvV0JqZmdJdWRVU3lOd3hKV2RvSHBOM0YyeGxBTzdNcFd5aDBRV0VrK2c4?=
- =?utf-8?B?SmplZ0hVU2VmNnp1WlVobGVISzc1RWhlOGRnQUYxaUozOE9IRTgxUUxPU3Ba?=
- =?utf-8?B?UzNwQS93amQramQ3SFVWdGNxaS85alpOa2xQdWQ5azRBV3dBeHdXSy80dWhV?=
- =?utf-8?B?Y1JtYThjeEE4NXRZYmhxN09VLzBSaUk4UC9OK2pHcVBVQ25GS1NsNzZpWjFE?=
- =?utf-8?B?dUVQUUg1cW9LSG9mVTNDRUZNMzdMaTNDNzYzM0VPQWV1UkdWbElRZy9PajNH?=
- =?utf-8?B?ZGh4Sm5CTktjTnFDeU1oYllGcVdkMjdEZ1k3UHNTUExRcy9ZUlYvZ09YQmly?=
- =?utf-8?B?eExIN2RGRVJ1cXRUbksrdW1OU2xXTlIvaGJXUlBOUGFNTXBUeDNCUVliRUpL?=
- =?utf-8?B?a2I4NkZpSU5zVy9OT1JLTWhYcy9PdUJiQXNXTEh4SEJOV01vNjBQMGNkUmZT?=
- =?utf-8?B?bDU4RFAvekNPTnZKLytJeFR2VEt6bzcvZndkcmloZ0Vqc3FtOTNmeEtHNzhx?=
- =?utf-8?B?cFFiVW5wOWIxVCtHUlJYOEtHQWFwamIxcWthQTh0dEI1SXY0Wmw3UGxoenpN?=
- =?utf-8?B?RGJjdXBJZmQyTDFkMWRjNDc4a1I1Rjd5SUgxSW8zUk5xakV0eU0vMnJ4eW1W?=
- =?utf-8?B?OUV0MFBxa2JFWWxpNzRaQ3hCakNNcGIyN1dKZVVleDFOTWduR3ZWQms0MXV6?=
- =?utf-8?Q?c/FfwW8zh9Xnr?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 723abce7-5b5e-479f-c837-08d94dd63065
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?6cjci35iO3W9fH0vOsTgZbunGL9X6iaJ1vOcUN2tM5F5uKzIKzAgrtjLfeIE?=
+ =?us-ascii?Q?IQIdOI/KFx6FjoSJTHBsy6fGK7q4AiL8SnhGyC25cTJjAqAdzr64BschvG1m?=
+ =?us-ascii?Q?rnNuUlJlo0Kt3Mz37AittTF+IeEPOGQ/ttTY7knuDxCHeg6Na7svEv6ykiNI?=
+ =?us-ascii?Q?q9Nq7xNLb9oFEFYMJtSFyzC3R5hIl3s2IjCi66vaL/8TnDBbrO/1gnMKswsm?=
+ =?us-ascii?Q?JJf5WoC1qeDNP3+CmHIDu2AYqQ/3UmVYMmfz9GSmen78X96l4WXYc1A+lxEN?=
+ =?us-ascii?Q?OtQFOGGx9F77BMjENAjCGoVxNr1K5PgTtTv9H2ZCn1KNq2o/3FGU+TcZWJLX?=
+ =?us-ascii?Q?mPQL2dsARZrxfGXAvM8PlFCab3VuMz+sGuYNmOtPPySFPHx9DUOTB2vXy+Fs?=
+ =?us-ascii?Q?QVVwIcWLcKE5xYbUN6Vmd31cJJqSDCvSX/UJl3M+WfyyGvFaaPkCjd3MNuXW?=
+ =?us-ascii?Q?bCEXLJb93lXVPOtvXNa+S3KJH/kk5HxqwFtJaGKktgsLMhYEIO43KS+wxY5i?=
+ =?us-ascii?Q?naj4ZIbAVo6cF+YWzcfF9I77o1mHFSPOz7+Ei+3QgFLAtMTNrtrr+DxC1ni9?=
+ =?us-ascii?Q?1uWj46qZ4zZPgqoNi5MLc16IZ8dtW+Z06KazBjm9hFDBQbhxMUheGe3XB9hi?=
+ =?us-ascii?Q?UbH4psmR+igYOXYjMfmzURWsWts/dr6vCKlF9NbnJAU3TRfF8uG1wsBkAPSi?=
+ =?us-ascii?Q?8IIgL+D20PUtLLt5Hf58R7EhgdOChv3w/F5wP2LeG9YKeolocA5ufMBpwNf+?=
+ =?us-ascii?Q?wzoZxEBE3T1rc1ew/4AMruMhmyR0zh9LQVd5xp/yKLsS7GOnnQY2ZUHOwtFe?=
+ =?us-ascii?Q?yPpDfEXyucy+kzFM36sVqGiNbidAiVvrqswNxRXaY/YUGgtej/P1sbytsXi0?=
+ =?us-ascii?Q?YpbomQczJB2JfT5sfFok1evSa5N5QHrujg7BeXSZKa+MnJbepXLDCqtNKfAp?=
+ =?us-ascii?Q?P76uzXeJiN3Oa27XR9ONIGjiyWkj28EhXOosjfF8fNh3kBPsr+lSI0N9B2WY?=
+ =?us-ascii?Q?vEvGeuu2BBMwvGnnpiAOURM540vuXI1qZwF/3wNKKyqUt0kzNQBQri/rw1y9?=
+ =?us-ascii?Q?1+sluWbeoLM10fVIkCBoENORkiXPw03AoLSKn/1pUYEwoNegbSfniIm7MF72?=
+ =?us-ascii?Q?BwZv1UpdiCWE7EMkLebWAG1cnOz3ct/Sm5ZLetHmN++5ydEyL9ZIynSxYQ1+?=
+ =?us-ascii?Q?BBqCebXEkqAnqP49X9YWWh89bGEm+ZEb5Kjxi5s7273UjkdQFjpHft/BT774?=
+ =?us-ascii?Q?mhLmSCM+rm3N573qF5v+6a3O32rOZIEXLg+I8k2tr+Wek3gYPU0+HLmSFaE+?=
+ =?us-ascii?Q?TuHsefeDhdBunPRzWAx81Bq4?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fcdc494c-9f1f-4e7a-8b73-08d94dd9ae82
+X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB5506.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jul 2021 12:34:18.2161 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jul 2021 12:59:18.3745 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: AGrVsVmWeL6nii9JwK1n1BCUNWvwxIeaHWWqdvP7+ViSXCiwm723HjETn6QS9oIF
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4111
+X-MS-Exchange-CrossTenant-UserPrincipalName: msEhKJM73HCSlLeEilj7qcQxjSqUbUpzVQCOZvODZ6qSty/G7+3mistklrsMkOcN
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5271
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -128,58 +122,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linaro-mm-sig@lists.linaro.org, vinmenon@codeaurora.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org
+Cc: kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Kirti Wankhede <kwankhede@nvidia.com>, Max Gurtovoy <mgurtovoy@nvidia.com>,
+ Vineeth Vijayan <vneethv@linux.ibm.com>,
+ Diana Craciun <diana.craciun@oss.nxp.com>, Leon Romanovsky <leonro@nvidia.com>,
+ linux-s390@vger.kernel.org, Matthew Rosato <mjrosato@linux.ibm.com>,
+ Jonathan Corbet <corbet@lwn.net>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ intel-gfx@lists.freedesktop.org, Zhi Wang <zhi.a.wang@intel.com>,
+ Jason Herne <jjherne@linux.ibm.com>, Eric Farman <farman@linux.ibm.com>,
+ Vasily Gorbik <gor@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>,
+ Eric Auger <eric.auger@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Harald Freudenberger <freude@linux.ibm.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gvt-dev@lists.freedesktop.org,
+ "Raj, Ashok" <ashok.raj@intel.com>, Tony Krowiak <akrowiak@linux.ibm.com>,
+ Yishai Hadas <yishaih@nvidia.com>, Cornelia Huck <cohuck@redhat.com>,
+ Peter Oberparleiter <oberpar@linux.ibm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 23.07.21 um 14:31 schrieb Charan Teja Reddy:
-> It is expected from the clients to follow the below steps on an imported
-> dmabuf fd:
-> a) dmabuf = dma_buf_get(fd) // Get the dmabuf from fd
-> b) dma_buf_attach(dmabuf); // Clients attach to the dmabuf
->     o Here the kernel does some slab allocations, say for
-> dma_buf_attachment and may be some other slab allocation in the
-> dmabuf->ops->attach().
-> c) Client may need to do dma_buf_map_attachment().
-> d) Accordingly dma_buf_unmap_attachment() should be called.
-> e) dma_buf_detach () // Clients detach to the dmabuf.
->     o Here the slab allocations made in b) are freed.
-> f) dma_buf_put(dmabuf) // Can free the dmabuf if it is the last
-> reference.
->
-> Now say an erroneous client failed at step c) above thus it directly
-> called dma_buf_put(), step f) above. Considering that it may be the last
-> reference to the dmabuf, buffer will be freed with pending attachments
-> left to the dmabuf which can show up as the 'memory leak'. This should
-> at least be reported as the WARN().
->
-> Signed-off-by: Charan Teja Reddy <charante@codeaurora.org>
+On Fri, Jul 23, 2021 at 09:47:49AM +0200, Christoph Hellwig wrote:
+> > @@ -2020,12 +2004,17 @@ static int vfio_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+> >  	INIT_LIST_HEAD(&vdev->vma_list);
+> >  	init_rwsem(&vdev->memory_lock);
+> >  
+> > -	ret = vfio_pci_reflck_attach(vdev);
+> > +	if (pci_is_root_bus(pdev->bus))
+> > +		ret = vfio_assign_device_set(&vdev->vdev, vdev);
+> > +	else if (!pci_probe_reset_slot(pdev->slot))
+> > +		ret = vfio_assign_device_set(&vdev->vdev, pdev->slot);
+> > +	else
+> > +		ret = vfio_assign_device_set(&vdev->vdev, pdev->bus);
+> 
+> Maybe invert this and add a comment:
+> 
+> 	if (pci_is_root_bus(pdev->bus))
+> 		ret = vfio_assign_device_set(&vdev->vdev, vdev);
+> 	/*
+> 	 * If there is no slot reset support for this device, the whole
+> 	 * bus needs to be grouped together to support bus-wide resets.
+> 	 */
 
-Good idea. I would expect a crash immediately, but from such a backtrace 
-it is quite hard to tell what the problem is.
+I like the comment
 
-Patch is Reviewed-by: Christian König <christian.koenig@amd.com> and I'm 
-going to push this to drm-misc-next on Monday if nobody objects.
+> 	else if (pci_probe_reset_slot(pdev->slot) < 0)
+> 		ret = vfio_assign_device_set(&vdev->vdev, pdev->bus);
+> 	else
+> 		ret = vfio_assign_device_set(&vdev->vdev, pdev->slot);
+
+The consensus idiom here is the !:
+
+drivers/pci/pci.c:      return (!pci_probe_reset_slot(pdev->slot)) ?
+drivers/vfio/pci/vfio_pci.c:            if (!pci_probe_reset_slot(vdev->pdev->slot))
+drivers/vfio/pci/vfio_pci.c:            if (!pci_probe_reset_slot(vdev->pdev->slot))
+drivers/vfio/pci/vfio_pci.c:    bool slot = !pci_probe_reset_slot(vdev->pdev->slot);
+drivers/vfio/pci/vfio_pci.c:    if (!pci_probe_reset_slot(vdev->pdev->slot))
+
+It reads quite poorly either way, IMHO, I'd rather switch it to a
+readable bool, but not for this series
 
 Thanks,
-Christian.
-
-> ---
->   drivers/dma-buf/dma-buf.c | 1 +
->   1 file changed, 1 insertion(+)
->
-> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> index 511fe0d..733c8b1 100644
-> --- a/drivers/dma-buf/dma-buf.c
-> +++ b/drivers/dma-buf/dma-buf.c
-> @@ -79,6 +79,7 @@ static void dma_buf_release(struct dentry *dentry)
->   	if (dmabuf->resv == (struct dma_resv *)&dmabuf[1])
->   		dma_resv_fini(dmabuf->resv);
->   
-> +	WARN_ON(!list_empty(&dmabuf->attachments));
->   	module_put(dmabuf->owner);
->   	kfree(dmabuf->name);
->   	kfree(dmabuf);
-
+Jason
