@@ -2,46 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9CB93D3DA0
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jul 2021 18:31:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63E313D3DA4
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jul 2021 18:32:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A54F26F9F9;
-	Fri, 23 Jul 2021 16:31:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 966D76FB2D;
+	Fri, 23 Jul 2021 16:32:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bombadil.infradead.org (bombadil.infradead.org
- [IPv6:2607:7c80:54:e::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 70B686F8A9;
- Fri, 23 Jul 2021 16:31:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
- Subject:Sender:Reply-To:Content-ID:Content-Description;
- bh=AJR4Uwi2twf+SqV3Z1Vf6OE1gwqoYjBswhC7GZxo0Zk=; b=DR8TH5p8tSmZN+rEb8dwHCUOaX
- hDANAh3CZGcYYS/mJ7ctrM3KkFNFb6vpT+5Q5ORTTNgbwzdgqTVoHZncRkq9KgTSeoac+6++u42xz
- +JKg6ni/pFSh704KbFdxwLBkOYQRl8Q2L4xHvNbHrLlz63VONrrdpih4hzTVi5TeKmnb4PG7Bn5ZG
- IYjMPpR0w7iuqajisWTNvwfoMTZS9NFEJrQ+DxZiX1vVujNBz/EHmYVesXU+LeUDZsYz5pPL5Uz3F
- 3DFjtTSonKSPbHFEb9r3Ig0iw1dVA4DjLXXANvEc9XXQ68dxxEh7arlCGBUgIG213/YHQcb9DJtfr
- kAfjfLEg==;
-Received: from [2601:1c0:6280:3f0::aefb]
- by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1m6y5G-005Lel-VX; Fri, 23 Jul 2021 16:31:35 +0000
-Subject: Re: [PATCH] drm/nouveau/kms/nv50-: fix build failure with
- CONFIG_BACKLIGHT=n
-To: Karol Herbst <kherbst@redhat.com>
-References: <20210723091534.1730564-1-arnd@kernel.org>
- <a618e29a-e4b7-bda4-a3e0-7dfd67d64e92@infradead.org>
- <CACO55tvQoCnjQWRJhrJ+8TzY5MuDDSUSnwd5AU8G1qsQYCSCBg@mail.gmail.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <7ddd0c7c-9bdc-9ea3-c635-f1d141d1e870@infradead.org>
-Date: Fri, 23 Jul 2021 09:31:34 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+Received: from mail-oi1-x235.google.com (mail-oi1-x235.google.com
+ [IPv6:2607:f8b0:4864:20::235])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A898C6FB2D
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jul 2021 16:32:50 +0000 (UTC)
+Received: by mail-oi1-x235.google.com with SMTP id q6so2400539oiw.7
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jul 2021 09:32:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=uD2GNkN3P0horNnh+JSCr7/ck5xlA1bV2NNdvr6qlgM=;
+ b=TccjKSmJR+ZvQbRne3d9iCsSFGkXQfmbGLzRgtG1d6JllUgEpVwyXoz19pKnpmp6BQ
+ PnFwNc61Jsk3btVEN81QLLfXPk6phB1lq2hjQX9uNjwCEL7wkZeyG6gIAJJyzqchrt5I
+ 534X/0jsNBWWxZadMB61kXQLJhewg4XsqNLic=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=uD2GNkN3P0horNnh+JSCr7/ck5xlA1bV2NNdvr6qlgM=;
+ b=RIIWCHQ4HAxS5Re57ppMkppMTBbwVsHblKcNbhl+RvjrxDBmZlB1Wk1gFm2E21oDma
+ K6ivi7NA0DWTDbTRo+eukATRPht8r022uoG8WKRZfP2N0g5rFoBcOWNrk79iqMZ+Vhf4
+ Jv/kCwEvzP6AdIKHPI9/59XYh8tSkFdXy0KQk4ESqKxQcWosw3vZmatuPQa1GEyvbqlk
+ IpQkeoETktQ0Lv9oqViq/zogeeXk0/bc0mJK+bcjx1PY4cu7xd5HGDxkZ5LaShi0j7sy
+ i8VefXaNmplpkjHRFHBgLux1ITkfxzyH6/99Ol45piQPK5V86/NC4NExWJJBeYsRhWgr
+ Eysg==
+X-Gm-Message-State: AOAM53049TzNeieQP0yW6LhYjbX29SfT+HqdHiItSCkKe6rM68CF5xt4
+ OGV4vPZqSaWZ37YiSxzhYbj1lPM9P/HlEi32r+ImOXpNbQo=
+X-Google-Smtp-Source: ABdhPJx9UiBFHY8dMyVFo4by22KSgGFwnQqk/w/8R1iaCLOutaQJSRiTTYAQhP1x5IS4q79RarYKCNLykdc8fMGYan4=
+X-Received: by 2002:aca:d682:: with SMTP id n124mr3659515oig.128.1627057970008; 
+ Fri, 23 Jul 2021 09:32:50 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CACO55tvQoCnjQWRJhrJ+8TzY5MuDDSUSnwd5AU8G1qsQYCSCBg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <xpuLEQstrPSZp6SF0CCWy59umtg3oW686DLB5VPai8w@cp4-web-037.plabs.ch>
+In-Reply-To: <xpuLEQstrPSZp6SF0CCWy59umtg3oW686DLB5VPai8w@cp4-web-037.plabs.ch>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Fri, 23 Jul 2021 18:32:38 +0200
+Message-ID: <CAKMK7uGmDgaLxeKM8L-UaP1qzQ8OKYPrZfjka=Gyc-811d7DgA@mail.gmail.com>
+Subject: Re: [PATCH] drm: add logging for RMFB ioctl
+To: Simon Ser <contact@emersion.fr>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,84 +60,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Arnd Bergmann <arnd@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- David Airlie <airlied@linux.ie>, nouveau <nouveau@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Nikola Cornij <nikola.cornij@amd.com>, Ben Skeggs <bskeggs@redhat.com>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/23/21 8:15 AM, Karol Herbst wrote:
-> On Fri, Jul 23, 2021 at 5:10 PM Randy Dunlap <rdunlap@infradead.org> wrote:
->>
->> On 7/23/21 2:15 AM, Arnd Bergmann wrote:
->>> From: Arnd Bergmann <arnd@arndb.de>
->>>
->>> When the backlight support is disabled, the driver fails to build:
->>>
->>> drivers/gpu/drm/nouveau/dispnv50/disp.c: In function 'nv50_sor_atomic_disable':
->>> drivers/gpu/drm/nouveau/dispnv50/disp.c:1665:59: error: 'struct nouveau_connector' has no member named 'backlight'
->>>  1665 |         struct nouveau_backlight *backlight = nv_connector->backlight;
->>>       |                                                           ^~
->>> drivers/gpu/drm/nouveau/dispnv50/disp.c:1670:35: error: invalid use of undefined type 'struct nouveau_backlight'
->>>  1670 |         if (backlight && backlight->uses_dpcd) {
->>>       |                                   ^~
->>> drivers/gpu/drm/nouveau/dispnv50/disp.c:1671:64: error: invalid use of undefined type 'struct nouveau_backlight'
->>>  1671 |                 ret = drm_edp_backlight_disable(aux, &backlight->edp_info);
->>>       |                                                                ^~
->>>
->>> The patch that introduced the problem already contains some #ifdef
->>> checks, so just add another one that makes it build again.
->>>
->>> Fixes: 6eca310e8924 ("drm/nouveau/kms/nv50-: Add basic DPCD backlight support for nouveau")
->>> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
->>> ---
->>>  drivers/gpu/drm/nouveau/dispnv50/disp.c | 11 +++++++----
->>>  1 file changed, 7 insertions(+), 4 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c b/drivers/gpu/drm/nouveau/dispnv50/disp.c
->>> index 093e1f7163b3..fcf53e24db21 100644
->>> --- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
->>> +++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
->>> @@ -1659,20 +1659,23 @@ static void
->>>  nv50_sor_atomic_disable(struct drm_encoder *encoder, struct drm_atomic_state *state)
->>>  {
->>>       struct nouveau_encoder *nv_encoder = nouveau_encoder(encoder);
->>> -     struct nouveau_drm *drm = nouveau_drm(nv_encoder->base.base.dev);
->>>       struct nouveau_crtc *nv_crtc = nouveau_crtc(nv_encoder->crtc);
->>>       struct nouveau_connector *nv_connector = nv50_outp_get_old_connector(state, nv_encoder);
->>> -     struct nouveau_backlight *backlight = nv_connector->backlight;
->>>       struct drm_dp_aux *aux = &nv_connector->aux;
->>> -     int ret;
->>>       u8 pwr;
->>>
->>> +#ifdef CONFIG_DRM_NOUVEAU_BACKLIGHT
->>> +     struct nouveau_drm *drm = nouveau_drm(nv_encoder->base.base.dev);
->>> +     struct nouveau_backlight *backlight = nv_connector->backlight;
->>> +
->>>       if (backlight && backlight->uses_dpcd) {
->>> -             ret = drm_edp_backlight_disable(aux, &backlight->edp_info);
->>> +             int ret = drm_edp_backlight_disable(aux, &backlight->edp_info);
->>> +
->>>               if (ret < 0)
->>>                       NV_ERROR(drm, "Failed to disable backlight on [CONNECTOR:%d:%s]: %d\n",
->>>                                nv_connector->base.base.id, nv_connector->base.name, ret);
->>>       }
->>> +#endif
->>>
->>>       if (nv_encoder->dcb->type == DCB_OUTPUT_DP) {
->>>               int ret = drm_dp_dpcd_readb(aux, DP_SET_POWER, &pwr);
->>>
->>
->> Hm, only Lyude Paul replied to this patch:
->>
->> https://lore.kernel.org/lkml/20210714171523.413-1-rdunlap@infradead.org/
->>
-> 
-> what's actually the use case of compiling with
-> CONFIG_DRM_NOUVEAU_BACKLIGHT=n anyway?
+On Fri, Jul 23, 2021 at 5:46 PM Simon Ser <contact@emersion.fr> wrote:
+>
+> We already have logging for ADDFB2. Add some logging for RMFB as
+> well.
+>
+> This can be handy when trying to find out why a CRTC gets magically
+> disabled.
+>
+> Signed-off-by: Simon Ser <contact@emersion.fr>
+> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> ---
+>  drivers/gpu/drm/drm_framebuffer.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/drivers/gpu/drm/drm_framebuffer.c b/drivers/gpu/drm/drm_fram=
+ebuffer.c
+> index 4d01464b6f95..da77ceeb35e3 100644
+> --- a/drivers/gpu/drm/drm_framebuffer.c
+> +++ b/drivers/gpu/drm/drm_framebuffer.c
+> @@ -404,6 +404,7 @@ static void drm_mode_rmfb_work_fn(struct work_struct =
+*w)
+>                 struct drm_framebuffer *fb =3D
+>                         list_first_entry(&arg->fbs, typeof(*fb), filp_hea=
+d);
+>
+> +               drm_dbg_kms(fb->dev, "Removing [FB:%d]\n", fb->base.id);
 
-Dunno. In this case it was just a randconfig. Still, it needs to be
-handled in some way - such as the other suggestion in this thread.
+I'd hammer more in what happens and why this happens. Maybe something like =
+this?
 
+"Disabling [FB:=C2=AFfrom all active usage due to RMFB IOCTL\n"
+
+Also I wonder whether we could put some additional debug output into
+drm_framebuffer_remove when we either disable just the plane or the
+entire crtc as further clue. Like
+
+"Disabling CRTC|PLANE because FB is being removed from all active use\n"
+
+Also, because you're this great at typing docs: Kerneldoc for RMFB
+would be nice, but there's not even a struct to attach it to :-/ Any
+ideas for how to do that?
+-Daniel
+
+>                 list_del_init(&fb->filp_head);
+>                 drm_framebuffer_remove(fb);
+>         }
+> --
+> 2.32.0
+>
+>
+
+
+--=20
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
