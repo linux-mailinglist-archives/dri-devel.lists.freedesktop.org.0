@@ -2,70 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33A193D36D2
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jul 2021 10:33:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A78023D36D4
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jul 2021 10:34:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 580546EA8F;
-	Fri, 23 Jul 2021 08:33:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D7256ECE9;
+	Fri, 23 Jul 2021 08:34:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com
- [IPv6:2a00:1450:4864:20::430])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB0446ECE9;
- Fri, 23 Jul 2021 08:33:51 +0000 (UTC)
-Received: by mail-wr1-x430.google.com with SMTP id r2so1494259wrl.1;
- Fri, 23 Jul 2021 01:33:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=RD4GbzMceWLz9CP8hjdkUNLDU7QROTuGuLW0cQi1m2Y=;
- b=XOHKuOgQoxgxetqI3Ou3wIKvyZuLfySk4NdzF2WUHL9CzUQ+PBpT66aje/zfdd+dU3
- vZztfn2mBt27LsOHXS5PRwQ5UXshEYOr9NmkY0qCYw8FdRzCoxbS1XZwUPld3ju5TzAn
- B0RslyUG5f6Q2zxLUFWRrsH2GOiPIK7ud7OzU6z+B5AeuSuFtxuMXeCBfa2oaWRjU+Zh
- dxHraq1h/Ks09OtU6sUJ+2YFV4DzoixcTfhCZ/12Ahk/2o5/MpJWBWXmjkQvYBdA0jFs
- wGwXcJwNmT6yH5jN4MoSQsiK1JPowDlmb0BE0qVkc/zymLpTNsTB2mrKuxfDk2vXlOlQ
- MmXw==
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com
+ [IPv6:2a00:1450:4864:20::530])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A8C56ECE9
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jul 2021 08:34:18 +0000 (UTC)
+Received: by mail-ed1-x530.google.com with SMTP id b7so782521edu.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jul 2021 01:34:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=oa9LsULNSF8G3grb64t/9N62g6dzTVHbnQnaT/3ZVD0=;
+ b=Uhj8q1dcnNzwe65TtgST0YcC9OKdf9lILHYSD7nmVihjSfs3a7m0h2yQFQiVTSDq7Y
+ U+0Gc4NNr5HkH8u8AwarHjkKOD/uvbOFs41i7wLPIeFYS2W359jAaSyTYyG9idPPEZ/Q
+ LNKILc2lKAM+RR3tSwFgGH8pFtok1WgagMABk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=RD4GbzMceWLz9CP8hjdkUNLDU7QROTuGuLW0cQi1m2Y=;
- b=qZFZkXznKRw1q6OTr+5wqAfgZaVhEpwMLmnvhSsj2w7WQfD7lS/cu3vAXdcECRG3D8
- pprFgRH4nXIOIPUzvIMzvnx6EqFT3BiclRaHm/Zvd6w1o8llFSRMwUoSeMGmd9fFjmmJ
- o8a2Uu7m86BgUmQMPY0YJpNUZBQNzH4O1NeM1mXxOSPyvILmWN5/s8iDiHIANQE+7CBg
- M/UKuWN0hj76sOyrzGMJ1jvJKqb4ghG5csBZXziSlGcy/MYPS7OW/WW6HWo4HEqWh3HW
- 6xSojdyiKkGB+0bi7EFvB/PtK1M/e0KhbNBeerRhxwcB6Rk8pBvjBdfBw/ZgZHoOvfiI
- MVUA==
-X-Gm-Message-State: AOAM532+IwfrSIy6CvsPuZ6V8wW8/MplyDgtVaPE47XyVkQthsSrKb41
- LMVoAvIn7Ib1mwEd8VpaQEU46IA46Hg=
-X-Google-Smtp-Source: ABdhPJyrRRBJ9n0/YOMgLRBbFTfi/kHBN3htjrNO5/iOjcB8zfZOGq8Ug0teHf9GtUQvUSXPO+vB6Q==
-X-Received: by 2002:a5d:4b0f:: with SMTP id v15mr3925711wrq.377.1627029230370; 
- Fri, 23 Jul 2021 01:33:50 -0700 (PDT)
-Received: from ?IPv6:2a02:908:1252:fb60:a0d7:cc1c:9090:5782?
- ([2a02:908:1252:fb60:a0d7:cc1c:9090:5782])
- by smtp.gmail.com with ESMTPSA id m21sm311109wml.32.2021.07.23.01.33.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 23 Jul 2021 01:33:50 -0700 (PDT)
-Subject: Re: [PATCH v3 1/1] drm/ttm: Fix COW check
-To: Daniel Vetter <daniel@ffwll.ch>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Thomas Zimmermann <tzimmermann@suse.de>
-References: <20210712220636.475675-1-Felix.Kuehling@amd.com>
- <d617d831-7168-51a4-042e-e36a5af7761d@gmail.com>
- <CADnq5_NCg6VnWgH7Hn61CjZBZiRuAdROW5s6imwQ8AR=9Bm4=g@mail.gmail.com>
- <1dd35814-c2bb-6e71-6259-e9d4f77d8969@amd.com>
- <CAKMK7uH7YUgFUkgdrRrxypqkHoYx_NN6vcvTB=LOwVGDriov9Q@mail.gmail.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <ab0b302e-436a-f5e6-b111-957f79d18da0@gmail.com>
-Date: Fri, 23 Jul 2021 10:33:48 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=oa9LsULNSF8G3grb64t/9N62g6dzTVHbnQnaT/3ZVD0=;
+ b=FwAaR72sXmI0nWO4IyLblneyBFhbG6qxtDgTfR7fFRbnUGMtiZN5TpDJy4d9o968If
+ bubh1nwYAJL2QL4VS43z83iTPeDkt63SUtSqFF0KPH6uw9RZSOSyzf6En6KSU4IrU7+9
+ NUlDxD7VBfPvWm5n7D7KMACkh5iF3+rkRnbENzMjl8uuoiTckVXmQTlelcKWTB9wbbx/
+ e8aXA+LcMiCZbDMof6JySedovUTY3ogDo3CaukBy/ambBxfs8+w/b0LTwksozeoeIXq0
+ 1nI4vDgUisRXlBd3pccM5ee1kab4YU2FyPP9KgSb/oJFY13/fjIItcNYCMvOB2GMho4Q
+ QbtQ==
+X-Gm-Message-State: AOAM532ZMrAGPeirkhvy+0gJF5rCJV80ZUmGHRsNTOX1fobNSmXxqGnO
+ Md/RBiUYsfcRZgSqJs7eJLqzVA==
+X-Google-Smtp-Source: ABdhPJwAIhi5U4YXs77s+0AJfvT2vvqtnpViuUbw9uCDnytuItqpaveRhwpze8KIjFZtcLeLfzihSQ==
+X-Received: by 2002:aa7:cd03:: with SMTP id b3mr4288127edw.112.1627029256573; 
+ Fri, 23 Jul 2021 01:34:16 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id jg9sm10185723ejc.6.2021.07.23.01.34.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 23 Jul 2021 01:34:15 -0700 (PDT)
+Date: Fri, 23 Jul 2021 10:34:14 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Subject: Re: [PATCH v4 3/4] drm/shmem-helpers: Allocate wc pages on x86
+Message-ID: <YPp/BlD8zrM98+6C@phenom.ffwll.local>
+References: <20210713205153.1896059-1-daniel.vetter@ffwll.ch>
+ <20210713205153.1896059-4-daniel.vetter@ffwll.ch>
+ <0e4eefe0-9282-672c-7678-8d3162de35e3@suse.de>
+ <YPpxh0QhILXESykX@phenom.ffwll.local>
+ <be56fbe8-5151-ef8d-13cb-0b8a71f4d1e0@amd.com>
 MIME-Version: 1.0
-In-Reply-To: <CAKMK7uH7YUgFUkgdrRrxypqkHoYx_NN6vcvTB=LOwVGDriov9Q@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+In-Reply-To: <be56fbe8-5151-ef8d-13cb-0b8a71f4d1e0@amd.com>
+X-Operating-System: Linux phenom 5.10.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,174 +71,136 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>,
- Felix Kuehling <Felix.Kuehling@amd.com>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>
+Cc: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, Jul 23, 2021 at 10:02:39AM +0200, Christian König wrote:
+> Am 23.07.21 um 09:36 schrieb Daniel Vetter:
+> > On Thu, Jul 22, 2021 at 08:40:56PM +0200, Thomas Zimmermann wrote:
+> > > Hi
+> > > 
+> > > Am 13.07.21 um 22:51 schrieb Daniel Vetter:
+> > > [SNIP]
+> > > > +#ifdef CONFIG_X86
+> > > > +	if (shmem->map_wc)
+> > > > +		set_pages_array_wc(pages, obj->size >> PAGE_SHIFT);
+> > > > +#endif
+> > > I cannot comment much on the technical details of the caching of various
+> > > architectures. If this patch goes in, there should be a longer comment that
+> > > reflects the discussion in this thread. It's apparently a workaround.
+> > > 
+> > > I think the call itself should be hidden behind a DRM API, which depends on
+> > > CONFIG_X86. Something simple like
+> > > 
+> > > ifdef CONFIG_X86
+> > > drm_set_pages_array_wc()
+> > > {
+> > > 	set_pages_array_wc();
+> > > }
+> > > else
+> > > drm_set_pages_array_wc()
+> > >   {
+> > >   }
+> > > #endif
+> > > 
+> > > Maybe in drm_cache.h?
+> > We do have a bunch of this in drm_cache.h already, and architecture
+> > maintainers hate us for it.
+> 
+> Yeah, for good reasons :)
+> 
+> > The real fix is to get at the architecture-specific wc allocator, which is
+> > currently not something that's exposed, but hidden within the dma api. I
+> > think having this stick out like this is better than hiding it behind fake
+> > generic code (like we do with drm_clflush, which defacto also only really
+> > works on x86).
+> 
+> The DMA API also doesn't really touch that stuff as far as I know.
+> 
+> What we rather do on other architectures is to set the appropriate caching
+> flags on the CPU mappings, see function ttm_prot_from_caching().
 
+This alone doesn't do cache flushes. And at least on some arm cpus having
+inconsistent mappings can lead to interconnect hangs, so you have to at
+least punch out the kernel linear map. Which on some arms isn't possible
+(because the kernel map is a special linear map and not done with
+pagetables). Which means you need to carve this out at boot and treat them
+as GFP_HIGHMEM.
 
-Am 23.07.21 um 10:21 schrieb Daniel Vetter:
-> On Wed, Jul 14, 2021 at 10:51 AM Christian KÃ¶nig
-> <christian.koenig@amd.com> wrote:
->>
->>
->> Am 13.07.21 um 17:28 schrieb Alex Deucher:
->>> On Tue, Jul 13, 2021 at 2:57 AM Christian KÃ¶nig
->>> <ckoenig.leichtzumerken@gmail.com> wrote:
->>>>
->>>> Am 13.07.21 um 00:06 schrieb Felix Kuehling:
->>>>> KFD Thunk maps invisible VRAM BOs with PROT_NONE, MAP_PRIVATE.
->>>>> is_cow_mapping returns true for these mappings. Add a check for
->>>>> vm_flags & VM_WRITE to avoid mmap failures on private read-only or
->>>>> PROT_NONE mappings.
->>>>>
->>>>> v2: protect against mprotect making a mapping writable after the fact
->>>>> v3: update driver-specific vm_operations_structs
->>>>>
->>>>> Fixes: f91142c62161 ("drm/ttm: nuke VM_MIXEDMAP on BO mappings v3")
->>>>> Signed-off-by: Felix Kuehling <Felix.Kuehling@amd.com>
->>>>> Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
->>>> Reviewed-by: Christian KÃ¶nig <christian.koenig@amd.com>
->>> Are you planning to push this to drm-misc?
->> Yes, just didn't found time yesterday.
-> This is pushed to the wrong tree drm-misc-next-fixes, should have been
-> in drm-misc-fixes. Please be careful with that because every time that
-> goes wrong the script gets confused about which the current tree is,
-> and pushes the wrong tree to linux-next branches.
->
-> I'm going to hard-reset drm-misc-next-fixes now and hope that's good
-> enough to fix things up (since Thomas is not around all the time for
-> this merge window).
+Afaik dma-api has that allocator somewhere which dtrt for
+dma_alloc_coherent.
 
-STOP! I'm about to push a revert for this patch.
+Also shmem helpers already set the caching pgprot.
 
-And yes that was pushed to the wrong branch, but it turned out that this 
-was fortunate since the patch doesn't work correctly.
+> > Also note that ttm has the exact same ifdef in its page allocator, but it
+> > does fall back to using dma_alloc_coherent on other platforms.
+> 
+> This works surprisingly well on non x86 architectures as well. We just don't
+> necessary update the kernel mappings everywhere which limits the kmap usage.
+> 
+> In other words radeon and nouveau still work on PowerPC AGP systems as far
+> as I know for example.
 
-Christian.
+The thing is, on most cpus you get away with just pgprot set to wc, and on
+many others it's only an issue while there's still some cpu dirt hanging
+around because they don't prefetch badly enough. It's very few were it's a
+persistent problem.
 
-> -Daniel
->
->
->> Christian.
->>
->>> Alex
->>>
->>>>> ---
->>>>>     drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c  |  3 ++-
->>>>>     drivers/gpu/drm/nouveau/nouveau_gem.c    |  3 ++-
->>>>>     drivers/gpu/drm/radeon/radeon_gem.c      |  3 ++-
->>>>>     drivers/gpu/drm/ttm/ttm_bo_vm.c          | 14 +++++++++++++-
->>>>>     drivers/gpu/drm/vmwgfx/vmwgfx_ttm_glue.c |  1 +
->>>>>     include/drm/ttm/ttm_bo_api.h             |  4 ++++
->>>>>     6 files changed, 24 insertions(+), 4 deletions(-)
->>>>>
->>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
->>>>> index b3404c43a911..1aa750a6a5d2 100644
->>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
->>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
->>>>> @@ -79,7 +79,8 @@ static const struct vm_operations_struct amdgpu_gem_vm_ops = {
->>>>>         .fault = amdgpu_gem_fault,
->>>>>         .open = ttm_bo_vm_open,
->>>>>         .close = ttm_bo_vm_close,
->>>>> -     .access = ttm_bo_vm_access
->>>>> +     .access = ttm_bo_vm_access,
->>>>> +     .mprotect = ttm_bo_vm_mprotect
->>>>>     };
->>>>>
->>>>>     static void amdgpu_gem_object_free(struct drm_gem_object *gobj)
->>>>> diff --git a/drivers/gpu/drm/nouveau/nouveau_gem.c b/drivers/gpu/drm/nouveau/nouveau_gem.c
->>>>> index 5b27845075a1..164ea564bb7a 100644
->>>>> --- a/drivers/gpu/drm/nouveau/nouveau_gem.c
->>>>> +++ b/drivers/gpu/drm/nouveau/nouveau_gem.c
->>>>> @@ -70,7 +70,8 @@ static const struct vm_operations_struct nouveau_ttm_vm_ops = {
->>>>>         .fault = nouveau_ttm_fault,
->>>>>         .open = ttm_bo_vm_open,
->>>>>         .close = ttm_bo_vm_close,
->>>>> -     .access = ttm_bo_vm_access
->>>>> +     .access = ttm_bo_vm_access,
->>>>> +     .mprotect = ttm_bo_vm_mprotect
->>>>>     };
->>>>>
->>>>>     void
->>>>> diff --git a/drivers/gpu/drm/radeon/radeon_gem.c b/drivers/gpu/drm/radeon/radeon_gem.c
->>>>> index 458f92a70887..c19ad07eb7b5 100644
->>>>> --- a/drivers/gpu/drm/radeon/radeon_gem.c
->>>>> +++ b/drivers/gpu/drm/radeon/radeon_gem.c
->>>>> @@ -77,7 +77,8 @@ static const struct vm_operations_struct radeon_gem_vm_ops = {
->>>>>         .fault = radeon_gem_fault,
->>>>>         .open = ttm_bo_vm_open,
->>>>>         .close = ttm_bo_vm_close,
->>>>> -     .access = ttm_bo_vm_access
->>>>> +     .access = ttm_bo_vm_access,
->>>>> +     .mprotect = ttm_bo_vm_mprotect
->>>>>     };
->>>>>
->>>>>     static void radeon_gem_object_free(struct drm_gem_object *gobj)
->>>>> diff --git a/drivers/gpu/drm/ttm/ttm_bo_vm.c b/drivers/gpu/drm/ttm/ttm_bo_vm.c
->>>>> index f56be5bc0861..fb325bad5db6 100644
->>>>> --- a/drivers/gpu/drm/ttm/ttm_bo_vm.c
->>>>> +++ b/drivers/gpu/drm/ttm/ttm_bo_vm.c
->>>>> @@ -542,17 +542,29 @@ int ttm_bo_vm_access(struct vm_area_struct *vma, unsigned long addr,
->>>>>     }
->>>>>     EXPORT_SYMBOL(ttm_bo_vm_access);
->>>>>
->>>>> +int ttm_bo_vm_mprotect(struct vm_area_struct *vma, unsigned long start,
->>>>> +                    unsigned long end, unsigned long newflags)
->>>>> +{
->>>>> +     /* Enforce no COW since would have really strange behavior with it. */
->>>>> +     if (is_cow_mapping(newflags) && (newflags & VM_WRITE))
->>>>> +             return -EINVAL;
->>>>> +
->>>>> +     return 0;
->>>>> +}
->>>>> +EXPORT_SYMBOL(ttm_bo_vm_mprotect);
->>>>> +
->>>>>     static const struct vm_operations_struct ttm_bo_vm_ops = {
->>>>>         .fault = ttm_bo_vm_fault,
->>>>>         .open = ttm_bo_vm_open,
->>>>>         .close = ttm_bo_vm_close,
->>>>>         .access = ttm_bo_vm_access,
->>>>> +     .mprotect = ttm_bo_vm_mprotect,
->>>>>     };
->>>>>
->>>>>     int ttm_bo_mmap_obj(struct vm_area_struct *vma, struct ttm_buffer_object *bo)
->>>>>     {
->>>>>         /* Enforce no COW since would have really strange behavior with it. */
->>>>> -     if (is_cow_mapping(vma->vm_flags))
->>>>> +     if (is_cow_mapping(vma->vm_flags) && (vma->vm_flags & VM_WRITE))
->>>>>                 return -EINVAL;
->>>>>
->>>>>         ttm_bo_get(bo);
->>>>> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_glue.c b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_glue.c
->>>>> index e6b1f98ec99f..e4bf7dc99320 100644
->>>>> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_glue.c
->>>>> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_glue.c
->>>>> @@ -61,6 +61,7 @@ int vmw_mmap(struct file *filp, struct vm_area_struct *vma)
->>>>>                 .fault = vmw_bo_vm_fault,
->>>>>                 .open = ttm_bo_vm_open,
->>>>>                 .close = ttm_bo_vm_close,
->>>>> +             .mprotect = ttm_bo_vm_mprotect,
->>>>>     #ifdef CONFIG_TRANSPARENT_HUGEPAGE
->>>>>                 .huge_fault = vmw_bo_vm_huge_fault,
->>>>>     #endif
->>>>> diff --git a/include/drm/ttm/ttm_bo_api.h b/include/drm/ttm/ttm_bo_api.h
->>>>> index f681bbdbc698..40eb95875355 100644
->>>>> --- a/include/drm/ttm/ttm_bo_api.h
->>>>> +++ b/include/drm/ttm/ttm_bo_api.h
->>>>> @@ -605,6 +605,10 @@ void ttm_bo_vm_close(struct vm_area_struct *vma);
->>>>>
->>>>>     int ttm_bo_vm_access(struct vm_area_struct *vma, unsigned long addr,
->>>>>                      void *buf, int len, int write);
->>>>> +
->>>>> +int ttm_bo_vm_mprotect(struct vm_area_struct *vma, unsigned long start,
->>>>> +                    unsigned long end, unsigned long newflags);
->>>>> +
->>>>>     bool ttm_bo_delayed_delete(struct ttm_device *bdev, bool remove_all);
->>>>>
->>>>>     vm_fault_t ttm_bo_vm_dummy_page(struct vm_fault *vmf, pgprot_t prot);
->
+Really the only reason I've even caught this was because some of the
+i915+vgem buffer sharing tests we have are very nasty and intentionally
+try to provoke the worst case :-)
 
+Anyway, since you're looking, can you pls review this and the previous
+patch for shmem helpers?
+
+The first one to make VM_PFNMAP standard for all dma-buf isn't ready yet,
+because I need to audit all the driver still. And at least i915 dma-buf
+mmap is still using gup-able memory too. So more work to do here.
+-Danel
+
+> 
+> Christian.
+> 
+> > -Daniel
+> > 
+> > > Best regard
+> > > Thomas
+> > > 
+> > > > +
+> > > >    	shmem->pages = pages;
+> > > >    	return 0;
+> > > > @@ -203,6 +212,11 @@ static void drm_gem_shmem_put_pages_locked(struct drm_gem_shmem_object *shmem)
+> > > >    	if (--shmem->pages_use_count > 0)
+> > > >    		return;
+> > > > +#ifdef CONFIG_X86
+> > > > +	if (shmem->map_wc)
+> > > > +		set_pages_array_wb(shmem->pages, obj->size >> PAGE_SHIFT);
+> > > > +#endif
+> > > > +
+> > > >    	drm_gem_put_pages(obj, shmem->pages,
+> > > >    			  shmem->pages_mark_dirty_on_put,
+> > > >    			  shmem->pages_mark_accessed_on_put);
+> > > > 
+> > > -- 
+> > > Thomas Zimmermann
+> > > Graphics Driver Developer
+> > > SUSE Software Solutions Germany GmbH
+> > > Maxfeldstr. 5, 90409 Nürnberg, Germany
+> > > (HRB 36809, AG Nürnberg)
+> > > Geschäftsführer: Felix Imendörffer
+> > > 
+> > 
+> > 
+> > 
+> 
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
