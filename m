@@ -2,54 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5485E3D379D
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jul 2021 11:22:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 336083D37A5
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jul 2021 11:24:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C3E546F58F;
-	Fri, 23 Jul 2021 09:22:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 587D46F8FE;
+	Fri, 23 Jul 2021 09:24:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com
- [IPv6:2607:f8b0:4864:20::22c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 416B46F58F
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jul 2021 09:22:08 +0000 (UTC)
-Received: by mail-oi1-x22c.google.com with SMTP id q6so1161784oiw.7
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jul 2021 02:22:08 -0700 (PDT)
+Received: from mail-oi1-x22a.google.com (mail-oi1-x22a.google.com
+ [IPv6:2607:f8b0:4864:20::22a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 11E6B6F902
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jul 2021 09:24:44 +0000 (UTC)
+Received: by mail-oi1-x22a.google.com with SMTP id t14so1244176oiw.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jul 2021 02:24:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=R2GBkm1+dYCdylnOQUaBIL+sywcJpYVK+B1WLnTME/0=;
- b=GwkSrlJgfhTPrLC1Sw8+7ijQYUqb1kBnUFzyYekZK+WN9s+VxvmoxpX59L2VXz0SKJ
- ipydnj0qXt8Ao/87V6bTyJogDbjWyHSvrE0YGLj9Ork8as817idy8J3/TcsXvupSEupa
- wzGqnJZm0tluNQIhvbBXEb3GZw2Sq2T6naoyE=
+ :cc; bh=e30m4UPG96stOKc9AAKHmmDvPceuMEjTC/oE9rnemL8=;
+ b=kqGrIiB/LDwg0WCxZ8DhN1/fGwYijFuvJQbIO3b1viS2rD29dJRysDWAOVB8Rubitl
+ AyY7ROW2xqDesH1d5+Sdx1fg6fqsPqp+Gjj9A8S8OibqPvLsWW998o0xN7+OXzkM+nVl
+ WGFurJZj5+2B5v68/fEm3CkgfS8MCZTQB3v6M=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=R2GBkm1+dYCdylnOQUaBIL+sywcJpYVK+B1WLnTME/0=;
- b=qEKT0ZHTilecgBp+Og/a/lMCRP44uT/uFQOvaZaxdwT3ajo1BE4qq5/2UuxLDF0LbK
- PlpLqrpw4wwT22yUYkL2WHXEJy7gSn7vldw6VSFerKhXjKsn7YKaZukkt8V5qIB+wV35
- dEDRqlYzYXfNnbAC8xvy1b5e7L8LpnjlEZvV3T61HoY70mNcUz/0rdN4I0IAFqobBPOl
- UnVYe0QGDNcrPmJZbFxSKd6ttN6qsWMFLDnCoaNod5QUgxDBwGC1E3ZmXP0/VOrFRHwx
- joO6HerbgGCx+N8huUBVO0hA2RxAXDttKyU/47rtyLsYjWg/+I2yubLvG9jxKmLD3cYv
- 8yrg==
-X-Gm-Message-State: AOAM531Szn0FQhdVvGNA+OUHEElCQJEglDDTj0MsGuoa9Knt4TMtie15
- MA4LXcXGe3aQrf2+VdJTYrCGM0o8pxICiqGnpf230g==
-X-Google-Smtp-Source: ABdhPJwHr8oCzDw2fd2jVsfcv9NrnLGXZwVeedoy/7Ca9/qxVy1x+CYPTwpqJSVAQo3CVoFxew4AQTC+W3zfwDi9nDw=
-X-Received: by 2002:aca:d682:: with SMTP id n124mr2508179oig.128.1627032127564; 
- Fri, 23 Jul 2021 02:22:07 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=e30m4UPG96stOKc9AAKHmmDvPceuMEjTC/oE9rnemL8=;
+ b=BoVTQRaoAOBDZrF4NZy+s9j5mY2mnf+Y9AsjXvyJyCZUDhsVegiWDkWZ4nznhxT4Im
+ kFRvBn5zk7iHXv0Co46kDvORWclKKiJ1MSdJxhdmSVGz0q3udYY/kjhUnHEQsRqMQVjU
+ xYt70dPOKV77bKqv1qn2z6f16UA/CZHYw00KWMWVD4XfIQD9KnDHucqtJWCeI1uNquix
+ 3XIWE3FRLLMd0GwfqH91WSDqJ5ZzRie5E+BD2Z4HvNINcNU4w1jdsu5VQEaWRy/jG9yQ
+ dXuU6DuN9qgqe3yLPqdG4GwxK+8fuEmlys0ajg6P1yO9gm3Z0XOyKBGmEgt8Zzjk2CLP
+ ALyw==
+X-Gm-Message-State: AOAM530Y6InKopSS7NQUfJhEimyLnWB7kD0ubbYFu7xEppZyeYGCw1sM
+ M8Vj8uiKRNfcp5gMWbTki7vpLcBigIBdh7VhpRAzBeaSfGw=
+X-Google-Smtp-Source: ABdhPJy2No+cuZ76/SxEQnH4zinzF2kmRucefQc9Y7v0x1BAgQW8WF9jPryfnWoCo+N0dsICDiQ1KmHu4e+YHQ1LzpI=
+X-Received: by 2002:aca:3085:: with SMTP id w127mr7843600oiw.101.1627032283413; 
+ Fri, 23 Jul 2021 02:24:43 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210722124127.17901-1-christian.koenig@amd.com>
- <YPqCBUDiibBWUs2/@phenom.ffwll.local>
- <c83ebc42-567c-4f4c-d6da-53ff21739222@gmail.com>
-In-Reply-To: <c83ebc42-567c-4f4c-d6da-53ff21739222@gmail.com>
+References: <20210723091534.1730564-1-arnd@kernel.org>
+In-Reply-To: <20210723091534.1730564-1-arnd@kernel.org>
 From: Daniel Vetter <daniel@ffwll.ch>
-Date: Fri, 23 Jul 2021 11:21:56 +0200
-Message-ID: <CAKMK7uGVPnsw2o=9E295CobiY_qYdCg5fZQN4Q8Bu22r9E3WUw@mail.gmail.com>
-Subject: Re: [PATCH 1/5] drm/vmwgfx: unbind in vmw_ttm_unpopulate
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+Date: Fri, 23 Jul 2021 11:24:32 +0200
+Message-ID: <CAKMK7uHG0T7kgHzrkxoGj+Cv1-5f=GaH1CviunoZd_wEL5G4YQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/nouveau/kms/nv50-: fix build failure with
+ CONFIG_BACKLIGHT=n
+To: Arnd Bergmann <arnd@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,138 +59,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@redhat.com>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Arnd Bergmann <arnd@arndb.de>, David Airlie <airlied@linux.ie>,
+ Nouveau Dev <nouveau@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Nikola Cornij <nikola.cornij@amd.com>, Ben Skeggs <bskeggs@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jul 23, 2021 at 11:13 AM Christian K=C3=B6nig
-<ckoenig.leichtzumerken@gmail.com> wrote:
+On Fri, Jul 23, 2021 at 11:15 AM Arnd Bergmann <arnd@kernel.org> wrote:
 >
-> Am 23.07.21 um 10:47 schrieb Daniel Vetter:
-> > On Thu, Jul 22, 2021 at 02:41:23PM +0200, Christian K=C3=B6nig wrote:
-> >> Doing this in vmw_ttm_destroy() is to late.
-> >>
-> >> It turned out that this is not a good idea at all because it leaves po=
-inters
-> >> to freed up system memory pages in the GART tables of the drivers.
-> > So I wanted to review this series, and I can't reconcile your claim her=
-e
-> > with the demidlayering Dave has done. The driver patches here don't
-> > ouright undo what Dave has done, but that means the bug has been
-> > preexisting since forever (or is due to some other change?), and your
-> > commit message is a bit confusing here.
-> >
-> > The final patch just undoes the demidlayering from Dave, and I really
-> > don't see where there's even a functional change there.
-> >
-> > And even these patches here don't really change a hole lot with the
-> > calling sequence for at least final teardown: ttm_tt_destroy_common cal=
-ls
-> > ttm_tt_unpopulate as the first thing, so at least there there's no chan=
-ge.
-> >
-> > Can you pls elaborate more clearly what exactly you're fixing and what
-> > exactly needs to be reordered and where this bug is from (commit sha1)?=
- As
-> > is I'm playing detective and the evidence presented is extremely since =
-and
-> > I can't reconcile it at all.
-> >
-> > I mean I know you don't like typing commit message and documentation, b=
-ut
-> > it does get occasionally rather frustrating on the reviewer side if I h=
-ave
-> > to interpolate between some very sparse hints for this stuff :-/
+> From: Arnd Bergmann <arnd@arndb.de>
 >
-> Yeah, when have seen the history it's rather obvious what's wrong here
-> and I expected Dave to review it himself.
+> When the backlight support is disabled, the driver fails to build:
 >
-> Previously we had three states in TTM for a tt object: Allocated ->
-> Populated -> Bound which on destruction where done in the order unbind
-> -> unpopulate -> free.
+> drivers/gpu/drm/nouveau/dispnv50/disp.c: In function 'nv50_sor_atomic_disable':
+> drivers/gpu/drm/nouveau/dispnv50/disp.c:1665:59: error: 'struct nouveau_connector' has no member named 'backlight'
+>  1665 |         struct nouveau_backlight *backlight = nv_connector->backlight;
+>       |                                                           ^~
+> drivers/gpu/drm/nouveau/dispnv50/disp.c:1670:35: error: invalid use of undefined type 'struct nouveau_backlight'
+>  1670 |         if (backlight && backlight->uses_dpcd) {
+>       |                                   ^~
+> drivers/gpu/drm/nouveau/dispnv50/disp.c:1671:64: error: invalid use of undefined type 'struct nouveau_backlight'
+>  1671 |                 ret = drm_edp_backlight_disable(aux, &backlight->edp_info);
+>       |                                                                ^~
 >
-> Dave moved handling of the bound state into the drivers since it is
-> basically a driver decision and not a TTM decision what should be bound
-> and what not (that part perfectly makes sense).
+> The patch that introduced the problem already contains some #ifdef
+> checks, so just add another one that makes it build again.
+>
+> Fixes: 6eca310e8924 ("drm/nouveau/kms/nv50-: Add basic DPCD backlight support for nouveau")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
-I haven't reviewed all the patches from Dave, only the one you pointed
-at (in the last patch). And that one I still can't match up with your
-description. If there's other commits relevant, can you pls dig them
-out?
+Can we just toss the idea that BACKTLIGHT=n is a reasonable config for
+drm drivers using backlights, and add depends BACKLIGHT to all of
+them?
 
-Like it all makes sense what you're saying and matches the code, I
-just can't match it up with the commit you're referencing.
-
-> The problem is that he also moved doing the unbind into the free
-> callback instead of the unpopulate callback. This result in stale page
-> pointers in the GART if that unpopulate operation isn't immediately
-> followed by a free.
->
-> Thinking more about it if we do populated->unpopulated->populated then
-> we would also have stale pointers to the old pages which is even worse.
->
-> This is also not de-midlayering since we already have a proper
-> ttm_tt_init()/ttm_tt_fini() functions which should work nicely for the
-> tt object.
-
-Well you're last patch moves the ttm_tt_destroy_common stuff back into
-ttm, which kinda is de-demidlayering. So I'm confused.
-
-Other bit: I think it'd be good to document this properly in the
-callbacks, and maybe ideally go about and kerneldoc-ify the entire
-ttm_tt.h header. Otherwise when we eventually (never?) get around to
-that, everyone has forgotten these semantic details and issues again.
+I mean this is a perfect source of continued patch streams to keep us
+all busy, but beyond that I really don't see the point ... I frankly
+have better things to do, and especially with the big drivers we have
+making backlight optional saves comparitively nothing.
 -Daniel
 
-> Christian.
+> ---
+>  drivers/gpu/drm/nouveau/dispnv50/disp.c | 11 +++++++----
+>  1 file changed, 7 insertions(+), 4 deletions(-)
 >
-> > -Daniel
-> >
-> >> Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-> >> ---
-> >>   drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c | 9 +++------
-> >>   1 file changed, 3 insertions(+), 6 deletions(-)
-> >>
-> >> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c b/drivers/gpu/=
-drm/vmwgfx/vmwgfx_ttm_buffer.c
-> >> index b0973c27e774..904031d03dbe 100644
-> >> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
-> >> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
-> >> @@ -526,14 +526,9 @@ static void vmw_ttm_destroy(struct ttm_device *bd=
-ev, struct ttm_tt *ttm)
-> >>      struct vmw_ttm_tt *vmw_be =3D
-> >>              container_of(ttm, struct vmw_ttm_tt, dma_ttm);
-> >>
-> >> -    vmw_ttm_unbind(bdev, ttm);
-> >>      ttm_tt_destroy_common(bdev, ttm);
-> >>      vmw_ttm_unmap_dma(vmw_be);
-> >> -    if (vmw_be->dev_priv->map_mode =3D=3D vmw_dma_alloc_coherent)
-> >> -            ttm_tt_fini(&vmw_be->dma_ttm);
-> >> -    else
-> >> -            ttm_tt_fini(ttm);
-> >> -
-> >> +    ttm_tt_fini(ttm);
-> >>      if (vmw_be->mob)
-> >>              vmw_mob_destroy(vmw_be->mob);
-> >>
-> >> @@ -578,6 +573,8 @@ static void vmw_ttm_unpopulate(struct ttm_device *=
-bdev,
-> >>                                               dma_ttm);
-> >>      unsigned int i;
-> >>
-> >> +    vmw_ttm_unbind(bdev, ttm);
-> >> +
-> >>      if (vmw_tt->mob) {
-> >>              vmw_mob_destroy(vmw_tt->mob);
-> >>              vmw_tt->mob =3D NULL;
-> >> --
-> >> 2.25.1
-> >>
+> diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c b/drivers/gpu/drm/nouveau/dispnv50/disp.c
+> index 093e1f7163b3..fcf53e24db21 100644
+> --- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
+> +++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
+> @@ -1659,20 +1659,23 @@ static void
+>  nv50_sor_atomic_disable(struct drm_encoder *encoder, struct drm_atomic_state *state)
+>  {
+>         struct nouveau_encoder *nv_encoder = nouveau_encoder(encoder);
+> -       struct nouveau_drm *drm = nouveau_drm(nv_encoder->base.base.dev);
+>         struct nouveau_crtc *nv_crtc = nouveau_crtc(nv_encoder->crtc);
+>         struct nouveau_connector *nv_connector = nv50_outp_get_old_connector(state, nv_encoder);
+> -       struct nouveau_backlight *backlight = nv_connector->backlight;
+>         struct drm_dp_aux *aux = &nv_connector->aux;
+> -       int ret;
+>         u8 pwr;
+>
+> +#ifdef CONFIG_DRM_NOUVEAU_BACKLIGHT
+> +       struct nouveau_drm *drm = nouveau_drm(nv_encoder->base.base.dev);
+> +       struct nouveau_backlight *backlight = nv_connector->backlight;
+> +
+>         if (backlight && backlight->uses_dpcd) {
+> -               ret = drm_edp_backlight_disable(aux, &backlight->edp_info);
+> +               int ret = drm_edp_backlight_disable(aux, &backlight->edp_info);
+> +
+>                 if (ret < 0)
+>                         NV_ERROR(drm, "Failed to disable backlight on [CONNECTOR:%d:%s]: %d\n",
+>                                  nv_connector->base.base.id, nv_connector->base.name, ret);
+>         }
+> +#endif
+>
+>         if (nv_encoder->dcb->type == DCB_OUTPUT_DP) {
+>                 int ret = drm_dp_dpcd_readb(aux, DP_SET_POWER, &pwr);
+> --
+> 2.29.2
 >
 
 
---=20
+-- 
 Daniel Vetter
 Software Engineer, Intel Corporation
 http://blog.ffwll.ch
