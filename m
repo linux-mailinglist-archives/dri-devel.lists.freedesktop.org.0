@@ -2,58 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 854853D3690
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jul 2021 10:21:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54BE13D3692
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jul 2021 10:22:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 230D06E9C3;
-	Fri, 23 Jul 2021 08:21:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8BA9F6E946;
+	Fri, 23 Jul 2021 08:22:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x331.google.com (mail-ot1-x331.google.com
- [IPv6:2607:f8b0:4864:20::331])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A110F6E9C3
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jul 2021 08:21:21 +0000 (UTC)
-Received: by mail-ot1-x331.google.com with SMTP id
- 48-20020a9d0bb30000b02904cd671b911bso1371129oth.1
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jul 2021 01:21:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=dyosij4uetTaOKYJdoRUCx8uK6Y+Pk1yK6Y86bo5prA=;
- b=RO4UXO6pWy71XWFDt3xQnjNscW97+2ODsznFrEmN3uGp1gb2lRpWXKp5BvEEtYcebN
- 52QWTWEd7QNTZw6FtkphqyWjotkWjee9B/v0ZmLLn0dMiG8w74t0OBGu+npO11GsReic
- Zcbo49nL7ZuhTOdsOAA+y5X0RJIjCwm0KYpFk=
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
+ [IPv6:2a00:1450:4864:20::436])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4DADA6E946
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jul 2021 08:22:38 +0000 (UTC)
+Received: by mail-wr1-x436.google.com with SMTP id w12so1347345wro.13
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jul 2021 01:22:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=eHQIcjQXUTuq7R+K/4eHvbaN0F5Gzr6UU0DXUwmBLJk=;
+ b=nzcmKaSw5a9/iHEpD8IGwqxpV6+wQbsa6rC46XSES6JjF07FEKVg5FjKb1JTD1MJUp
+ UWb+whYWfBLhf/apn1zGhcaT4qohXVV9Xxj+alDN1LG2wDWWnRrc4X6n0KHkAXqB4ry3
+ EuYXMqVBCY8zFOqB5Bl21/xMzA/+RuztnUcARafe2vZJkDUEysgxx9fP8cYwtGQeWGrr
+ KCFLMGwrWz1DZBQekRznkbB/lVRCjDPnvOmYPL749yv5CiBnHTr6FGF8M0FDMUoObyn7
+ lu/nEXdekEdZuKsYKFZGN/QFViN1Fvqo8TvwjUbGuzVt2NKGXWZHmUzfVR28BQ1W3bzs
+ x78A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=dyosij4uetTaOKYJdoRUCx8uK6Y+Pk1yK6Y86bo5prA=;
- b=oB91W1BTOnhgbMIicavZaIadWin0roSslgTbN5BgexDZb8j98TNux9Ex0xg3oVibzr
- B1uh2tTJYLn8/jmCVKBGg1FwC5dF0jTwLvKvJBlUTPrxso/O42ZsNNxEkgePreN+QZMs
- nh1G+obwwwQtkb4Sf8bZv/mvrvfBf3MJNgWXRM3bd3xhK4tFbnBsQl6h3lCwoACbJMUn
- 8Q0pmm2NAy6Z7ss+5A08c3KyHdRtkiUMTWh+bTjMDOqztCbxegkFpqRW0v99+K5hVtqF
- hCNdtWvkqrdIH+cNkfG3MseVs/JNB6ysHT6qTSu2ZN9kN8g6Yt4QmaEurlqDQf9/nGG+
- /aLw==
-X-Gm-Message-State: AOAM5338He9cCd2C4OboBExYy8LA9ymizcKAf7uaviKZo1h4KP1WZULY
- ljffbYFFMr135ghGtGQgaD2QdXeUN4pa7jnjKTT2oQ==
-X-Google-Smtp-Source: ABdhPJzRb0LMyGhTtSu3Xw7G5poCanJ1XyxArvodWr/KFw3tPt1FpddaS6wYK1+CVI1/OkWG26UQMZO9V0EM2dZa7i8=
-X-Received: by 2002:a05:6830:2802:: with SMTP id
- w2mr2239059otu.303.1627028480891; 
- Fri, 23 Jul 2021 01:21:20 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=eHQIcjQXUTuq7R+K/4eHvbaN0F5Gzr6UU0DXUwmBLJk=;
+ b=thjDdeXi1hPpR5RkemEGI+hFncqm5JkSFkfOc+feI0bs1+DtI1lfu/IDiWHbpF5zew
+ qjy3w+K6yoY2R/BdQ1+gyEFp9JbDDC8Y/lK57kD8IVOGTDnDVKZjNOdDm3rymxEkyQVR
+ LqTbyhyqwyvtJQScJMq/szjyKBGJiWyw2wAnB7KH/9YW386hsJbed7/0t7Jib1JdkbjL
+ qdsUEqxFHU1h+7o8pGUkaDeY7Hyq8r3861cGfdXXoUHNaYWUQ4Xd4AdpELPLAZE43U4G
+ 10ho85DG8ElhYDi+E22gWXI2Na66GmojZUc8LEh9RB9IXukAvnScqVAdQZT16zfLFlME
+ vwPg==
+X-Gm-Message-State: AOAM533nP/AAB8nUq0/ZIDyBCBShDiORC4QVTCMA1qXFPHj7rmmgPqXg
+ k5hTJIcRVNT9R61ck16tG4uw2PA9GBA=
+X-Google-Smtp-Source: ABdhPJzNsXd0xn+ZYk/hKsrkSpo+O4LewrB8Z7g153yCkw6fE4ToY+F0tCUlfnCAi8qU3Z4xnS7gPA==
+X-Received: by 2002:adf:f6cc:: with SMTP id y12mr1609495wrp.178.1627028556944; 
+ Fri, 23 Jul 2021 01:22:36 -0700 (PDT)
+Received: from ?IPv6:2a02:908:1252:fb60:a0d7:cc1c:9090:5782?
+ ([2a02:908:1252:fb60:a0d7:cc1c:9090:5782])
+ by smtp.gmail.com with ESMTPSA id s24sm34555606wra.33.2021.07.23.01.22.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 23 Jul 2021 01:22:36 -0700 (PDT)
+Subject: Re: [Linaro-mm-sig] [PATCH] dma-buf/poll: Get a file reference for
+ outstanding fence callbacks
+To: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+References: <20210723075857.4065-1-michel@daenzer.net>
+ <f5f37693-bfe2-e52f-172b-00f4aa94dbd9@amd.com>
+ <4cf94f59-f953-f5d7-9901-cfe5fd63bfbc@daenzer.net>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <884050b3-5e7d-c00b-5467-290cfc57e0ea@gmail.com>
+Date: Fri, 23 Jul 2021 10:22:34 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210712220636.475675-1-Felix.Kuehling@amd.com>
- <d617d831-7168-51a4-042e-e36a5af7761d@gmail.com>
- <CADnq5_NCg6VnWgH7Hn61CjZBZiRuAdROW5s6imwQ8AR=9Bm4=g@mail.gmail.com>
- <1dd35814-c2bb-6e71-6259-e9d4f77d8969@amd.com>
-In-Reply-To: <1dd35814-c2bb-6e71-6259-e9d4f77d8969@amd.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Fri, 23 Jul 2021 10:21:09 +0200
-Message-ID: <CAKMK7uH7YUgFUkgdrRrxypqkHoYx_NN6vcvTB=LOwVGDriov9Q@mail.gmail.com>
-Subject: Re: [PATCH v3 1/1] drm/ttm: Fix COW check
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <4cf94f59-f953-f5d7-9901-cfe5fd63bfbc@daenzer.net>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,196 +76,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Felix Kuehling <Felix.Kuehling@amd.com>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>
+Cc: linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 14, 2021 at 10:51 AM Christian K=C3=B6nig
-<christian.koenig@amd.com> wrote:
->
->
->
-> Am 13.07.21 um 17:28 schrieb Alex Deucher:
-> > On Tue, Jul 13, 2021 at 2:57 AM Christian K=C3=B6nig
-> > <ckoenig.leichtzumerken@gmail.com> wrote:
-> >>
-> >>
-> >> Am 13.07.21 um 00:06 schrieb Felix Kuehling:
-> >>> KFD Thunk maps invisible VRAM BOs with PROT_NONE, MAP_PRIVATE.
-> >>> is_cow_mapping returns true for these mappings. Add a check for
-> >>> vm_flags & VM_WRITE to avoid mmap failures on private read-only or
-> >>> PROT_NONE mappings.
-> >>>
-> >>> v2: protect against mprotect making a mapping writable after the fact
-> >>> v3: update driver-specific vm_operations_structs
-> >>>
-> >>> Fixes: f91142c62161 ("drm/ttm: nuke VM_MIXEDMAP on BO mappings v3")
-> >>> Signed-off-by: Felix Kuehling <Felix.Kuehling@amd.com>
-> >>> Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-> >> Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-> > Are you planning to push this to drm-misc?
->
-> Yes, just didn't found time yesterday.
-
-This is pushed to the wrong tree drm-misc-next-fixes, should have been
-in drm-misc-fixes. Please be careful with that because every time that
-goes wrong the script gets confused about which the current tree is,
-and pushes the wrong tree to linux-next branches.
-
-I'm going to hard-reset drm-misc-next-fixes now and hope that's good
-enough to fix things up (since Thomas is not around all the time for
-this merge window).
--Daniel
 
 
+Am 23.07.21 um 10:19 schrieb Michel Dänzer:
+> On 2021-07-23 10:04 a.m., Christian König wrote:
+>> Am 23.07.21 um 09:58 schrieb Michel Dänzer:
+>>> From: Michel Dänzer <mdaenzer@redhat.com>
+>>>
+>>> This makes sure we don't hit the
+>>>
+>>>      BUG_ON(dmabuf->cb_in.active || dmabuf->cb_out.active);
+>>>
+>>> in dma_buf_release, which could be triggered by user space closing the
+>>> dma-buf file description while there are outstanding fence callbacks
+>>> from dma_buf_poll.
+>> I was also wondering the same thing while working on this, but then thought that the poll interface would take care of this.
+> I was able to hit the BUG_ON with https://gitlab.gnome.org/GNOME/mutter/-/merge_requests/1880 .
 >
-> Christian.
 >
-> >
-> > Alex
-> >
-> >>> ---
-> >>>    drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c  |  3 ++-
-> >>>    drivers/gpu/drm/nouveau/nouveau_gem.c    |  3 ++-
-> >>>    drivers/gpu/drm/radeon/radeon_gem.c      |  3 ++-
-> >>>    drivers/gpu/drm/ttm/ttm_bo_vm.c          | 14 +++++++++++++-
-> >>>    drivers/gpu/drm/vmwgfx/vmwgfx_ttm_glue.c |  1 +
-> >>>    include/drm/ttm/ttm_bo_api.h             |  4 ++++
-> >>>    6 files changed, 24 insertions(+), 4 deletions(-)
-> >>>
-> >>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c b/drivers/gpu/dr=
-m/amd/amdgpu/amdgpu_gem.c
-> >>> index b3404c43a911..1aa750a6a5d2 100644
-> >>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
-> >>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
-> >>> @@ -79,7 +79,8 @@ static const struct vm_operations_struct amdgpu_gem=
-_vm_ops =3D {
-> >>>        .fault =3D amdgpu_gem_fault,
-> >>>        .open =3D ttm_bo_vm_open,
-> >>>        .close =3D ttm_bo_vm_close,
-> >>> -     .access =3D ttm_bo_vm_access
-> >>> +     .access =3D ttm_bo_vm_access,
-> >>> +     .mprotect =3D ttm_bo_vm_mprotect
-> >>>    };
-> >>>
-> >>>    static void amdgpu_gem_object_free(struct drm_gem_object *gobj)
-> >>> diff --git a/drivers/gpu/drm/nouveau/nouveau_gem.c b/drivers/gpu/drm/=
-nouveau/nouveau_gem.c
-> >>> index 5b27845075a1..164ea564bb7a 100644
-> >>> --- a/drivers/gpu/drm/nouveau/nouveau_gem.c
-> >>> +++ b/drivers/gpu/drm/nouveau/nouveau_gem.c
-> >>> @@ -70,7 +70,8 @@ static const struct vm_operations_struct nouveau_tt=
-m_vm_ops =3D {
-> >>>        .fault =3D nouveau_ttm_fault,
-> >>>        .open =3D ttm_bo_vm_open,
-> >>>        .close =3D ttm_bo_vm_close,
-> >>> -     .access =3D ttm_bo_vm_access
-> >>> +     .access =3D ttm_bo_vm_access,
-> >>> +     .mprotect =3D ttm_bo_vm_mprotect
-> >>>    };
-> >>>
-> >>>    void
-> >>> diff --git a/drivers/gpu/drm/radeon/radeon_gem.c b/drivers/gpu/drm/ra=
-deon/radeon_gem.c
-> >>> index 458f92a70887..c19ad07eb7b5 100644
-> >>> --- a/drivers/gpu/drm/radeon/radeon_gem.c
-> >>> +++ b/drivers/gpu/drm/radeon/radeon_gem.c
-> >>> @@ -77,7 +77,8 @@ static const struct vm_operations_struct radeon_gem=
-_vm_ops =3D {
-> >>>        .fault =3D radeon_gem_fault,
-> >>>        .open =3D ttm_bo_vm_open,
-> >>>        .close =3D ttm_bo_vm_close,
-> >>> -     .access =3D ttm_bo_vm_access
-> >>> +     .access =3D ttm_bo_vm_access,
-> >>> +     .mprotect =3D ttm_bo_vm_mprotect
-> >>>    };
-> >>>
-> >>>    static void radeon_gem_object_free(struct drm_gem_object *gobj)
-> >>> diff --git a/drivers/gpu/drm/ttm/ttm_bo_vm.c b/drivers/gpu/drm/ttm/tt=
-m_bo_vm.c
-> >>> index f56be5bc0861..fb325bad5db6 100644
-> >>> --- a/drivers/gpu/drm/ttm/ttm_bo_vm.c
-> >>> +++ b/drivers/gpu/drm/ttm/ttm_bo_vm.c
-> >>> @@ -542,17 +542,29 @@ int ttm_bo_vm_access(struct vm_area_struct *vma=
-, unsigned long addr,
-> >>>    }
-> >>>    EXPORT_SYMBOL(ttm_bo_vm_access);
-> >>>
-> >>> +int ttm_bo_vm_mprotect(struct vm_area_struct *vma, unsigned long sta=
-rt,
-> >>> +                    unsigned long end, unsigned long newflags)
-> >>> +{
-> >>> +     /* Enforce no COW since would have really strange behavior with=
- it. */
-> >>> +     if (is_cow_mapping(newflags) && (newflags & VM_WRITE))
-> >>> +             return -EINVAL;
-> >>> +
-> >>> +     return 0;
-> >>> +}
-> >>> +EXPORT_SYMBOL(ttm_bo_vm_mprotect);
-> >>> +
-> >>>    static const struct vm_operations_struct ttm_bo_vm_ops =3D {
-> >>>        .fault =3D ttm_bo_vm_fault,
-> >>>        .open =3D ttm_bo_vm_open,
-> >>>        .close =3D ttm_bo_vm_close,
-> >>>        .access =3D ttm_bo_vm_access,
-> >>> +     .mprotect =3D ttm_bo_vm_mprotect,
-> >>>    };
-> >>>
-> >>>    int ttm_bo_mmap_obj(struct vm_area_struct *vma, struct ttm_buffer_=
-object *bo)
-> >>>    {
-> >>>        /* Enforce no COW since would have really strange behavior wit=
-h it. */
-> >>> -     if (is_cow_mapping(vma->vm_flags))
-> >>> +     if (is_cow_mapping(vma->vm_flags) && (vma->vm_flags & VM_WRITE)=
-)
-> >>>                return -EINVAL;
-> >>>
-> >>>        ttm_bo_get(bo);
-> >>> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_glue.c b/drivers/gpu/d=
-rm/vmwgfx/vmwgfx_ttm_glue.c
-> >>> index e6b1f98ec99f..e4bf7dc99320 100644
-> >>> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_glue.c
-> >>> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_glue.c
-> >>> @@ -61,6 +61,7 @@ int vmw_mmap(struct file *filp, struct vm_area_stru=
-ct *vma)
-> >>>                .fault =3D vmw_bo_vm_fault,
-> >>>                .open =3D ttm_bo_vm_open,
-> >>>                .close =3D ttm_bo_vm_close,
-> >>> +             .mprotect =3D ttm_bo_vm_mprotect,
-> >>>    #ifdef CONFIG_TRANSPARENT_HUGEPAGE
-> >>>                .huge_fault =3D vmw_bo_vm_huge_fault,
-> >>>    #endif
-> >>> diff --git a/include/drm/ttm/ttm_bo_api.h b/include/drm/ttm/ttm_bo_ap=
-i.h
-> >>> index f681bbdbc698..40eb95875355 100644
-> >>> --- a/include/drm/ttm/ttm_bo_api.h
-> >>> +++ b/include/drm/ttm/ttm_bo_api.h
-> >>> @@ -605,6 +605,10 @@ void ttm_bo_vm_close(struct vm_area_struct *vma)=
-;
-> >>>
-> >>>    int ttm_bo_vm_access(struct vm_area_struct *vma, unsigned long add=
-r,
-> >>>                     void *buf, int len, int write);
-> >>> +
-> >>> +int ttm_bo_vm_mprotect(struct vm_area_struct *vma, unsigned long sta=
-rt,
-> >>> +                    unsigned long end, unsigned long newflags);
-> >>> +
-> >>>    bool ttm_bo_delayed_delete(struct ttm_device *bdev, bool remove_al=
-l);
-> >>>
-> >>>    vm_fault_t ttm_bo_vm_dummy_page(struct vm_fault *vmf, pgprot_t pro=
-t);
+>>> Cc: stable@vger.kernel.org
+>>> Signed-off-by: Michel Dänzer <mdaenzer@redhat.com>
+>>> ---
+>>>    drivers/dma-buf/dma-buf.c | 18 ++++++++++++------
+>>>    1 file changed, 12 insertions(+), 6 deletions(-)
+>>>
+>>> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+>>> index 6c520c9bd93c..ec25498a971f 100644
+>>> --- a/drivers/dma-buf/dma-buf.c
+>>> +++ b/drivers/dma-buf/dma-buf.c
+>>> @@ -65,12 +65,9 @@ static void dma_buf_release(struct dentry *dentry)
+>>>        BUG_ON(dmabuf->vmapping_counter);
+>>>          /*
+>>> -     * Any fences that a dma-buf poll can wait on should be signaled
+>>> -     * before releasing dma-buf. This is the responsibility of each
+>>> -     * driver that uses the reservation objects.
+>>> -     *
+>>> -     * If you hit this BUG() it means someone dropped their ref to the
+>>> -     * dma-buf while still having pending operation to the buffer.
+>>> +     * If you hit this BUG() it could mean:
+>>> +     * * There's a file reference imbalance in dma_buf_poll / dma_buf_poll_cb or somewhere else
+>>> +     * * dmabuf->cb_in/out.active are non-0 despite no pending fence callback
+>>>         */
+>>>        BUG_ON(dmabuf->cb_in.active || dmabuf->cb_out.active);
+>>>    @@ -196,6 +193,7 @@ static loff_t dma_buf_llseek(struct file *file, loff_t offset, int whence)
+>>>    static void dma_buf_poll_cb(struct dma_fence *fence, struct dma_fence_cb *cb)
+>>>    {
+>>>        struct dma_buf_poll_cb_t *dcb = (struct dma_buf_poll_cb_t *)cb;
+>>> +    struct dma_buf *dmabuf = container_of(dcb->poll, struct dma_buf, poll);
+>>>        unsigned long flags;
+>>>          spin_lock_irqsave(&dcb->poll->lock, flags);
+>>> @@ -203,6 +201,8 @@ static void dma_buf_poll_cb(struct dma_fence *fence, struct dma_fence_cb *cb)
+>>>        dcb->active = 0;
+>>>        spin_unlock_irqrestore(&dcb->poll->lock, flags);
+>>>        dma_fence_put(fence);
+>>> +    /* Paired with get_file in dma_buf_poll */
+>>> +    fput(dmabuf->file);
+>> Is calling fput() in interrupt context ok? IIRC that could potentially sleep.
+> Looks fine AFAICT: It has
 >
+> 		if (likely(!in_interrupt() && !(task->flags & PF_KTHREAD))) {
+>
+> and as a fallback for that, it adds the file to a lock-less delayed_fput_list which is processed by a workqueue.
 
+Ah, yes that makes sense.
 
---=20
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Fell free to add Reviewed-by: Christian König <christian.koenig@amd.com>
+
+Thanks,
+Christian.
