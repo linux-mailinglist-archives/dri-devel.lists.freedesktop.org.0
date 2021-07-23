@@ -1,48 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D9DC3D3765
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jul 2021 11:11:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B79C3D3769
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jul 2021 11:13:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 628056F611;
-	Fri, 23 Jul 2021 09:11:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8DA126F613;
+	Fri, 23 Jul 2021 09:13:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from netline-mail3.netline.ch (mail.netline.ch [148.251.143.180])
- by gabe.freedesktop.org (Postfix) with ESMTP id EFE5D6F611
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jul 2021 09:11:30 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by netline-mail3.netline.ch (Postfix) with ESMTP id 2CEB120201B;
- Fri, 23 Jul 2021 11:11:30 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at netline-mail3.netline.ch
-Received: from netline-mail3.netline.ch ([127.0.0.1])
- by localhost (netline-mail3.netline.ch [127.0.0.1]) (amavisd-new, port 10024)
- with LMTP id kxQLFzKYo8nX; Fri, 23 Jul 2021 11:11:29 +0200 (CEST)
-Received: from thor (24.99.2.85.dynamic.wline.res.cust.swisscom.ch
- [85.2.99.24])
- by netline-mail3.netline.ch (Postfix) with ESMTPA id BF6A920201A;
- Fri, 23 Jul 2021 11:11:29 +0200 (CEST)
-Received: from localhost ([::1]) by thor with esmtp (Exim 4.94.2)
- (envelope-from <michel@daenzer.net>)
- id 1m6rDM-000Bg4-UO; Fri, 23 Jul 2021 11:11:28 +0200
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-References: <20210723075857.4065-1-michel@daenzer.net>
- <f5f37693-bfe2-e52f-172b-00f4aa94dbd9@amd.com>
- <4cf94f59-f953-f5d7-9901-cfe5fd63bfbc@daenzer.net>
- <YPqFiPftjTUV4361@phenom.ffwll.local>
-From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>
-Subject: Re: [PATCH] dma-buf/poll: Get a file reference for outstanding fence
- callbacks
-Message-ID: <babe4878-d99b-2ae4-2389-8139477783db@daenzer.net>
-Date: Fri, 23 Jul 2021 11:11:28 +0200
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
+ [IPv6:2a00:1450:4864:20::42e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 98E8A6F613
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jul 2021 09:13:12 +0000 (UTC)
+Received: by mail-wr1-x42e.google.com with SMTP id q3so1643686wrx.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jul 2021 02:13:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=YtRUdDfw1syy5HBIgIsuXAtULUKGq43PWBbMLhSIx1c=;
+ b=NrE4NaY/Kjs1JXTgY/2sAdVcwHwuvo7oPHJ+vY7Kg/FGC5AMqlkMWvPANf49piyV0E
+ K1aqy7Mk3iOKdsJXZ2TTzADj2kiLojW7IOPuJ56SFk0sGOuFPr0mJcOAlwMRFsI8hVhC
+ 0vfLkONOF+B2UAV9sHRd3v7gRUX91oc8YnKcg3TxfHI/mtzieBbqZG0kmBbHrxpXcwbW
+ TShhfoJQbUyT+Doj5NzFh+NCaoukbWyJVu/1cRYFT4tCjvbquGSKadOyyHGJdsXt+QRJ
+ YmnpHGxm/iuMctiWs66fTATaqsu+jhUuy1wSdr4h6VoN4e5ceaxLch2nTSlDuLyOkBOc
+ rO1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=YtRUdDfw1syy5HBIgIsuXAtULUKGq43PWBbMLhSIx1c=;
+ b=si5Qjz60sWI9ArGQvTVzWx9R7qrrCAl6+DzkAcKmQb8fxEYNum8cGp9zU/u2WIh2M6
+ tSJVIVnyYe+bRDiFwAf6QucLPjsNSZKMBKX1VauhbWHjP8D2iGNTqZd/31n2cN1JMoLq
+ 3t/b1rjlK2igVEWBoXIkaomJFOGRIX4rkK6n/LVI4PfnIXxEX3JrfA0dVh4qeQh9cNzZ
+ YeHNFG685se+3zcpn0octRJHZpMxUY2jspnzt3BJo4xzyPiI573wYbTYxrpdL4rRCZaY
+ 8b7erIXhnEYrWy8EJnV8UbliIGVxGyB9UXWqfTvTCW0FrFaiP8I34Uu6kDdwmZcuZ11r
+ uHDg==
+X-Gm-Message-State: AOAM533e8rIcyqrzLIr46ANysgrcnD9ilKLVUSe5VI4NtfOYWwSgBqPu
+ OfWDNMp0IF2SvLOyDGUFoe8=
+X-Google-Smtp-Source: ABdhPJxJjeFkSeOBARP7XDn4yrn6KZoGZiArwOyIzVAduqkKQQJqDfL0MX9P6TerYKakGyhrjsKGPA==
+X-Received: by 2002:adf:f7cc:: with SMTP id a12mr4086781wrq.278.1627031591254; 
+ Fri, 23 Jul 2021 02:13:11 -0700 (PDT)
+Received: from ?IPv6:2a02:908:1252:fb60:a0d7:cc1c:9090:5782?
+ ([2a02:908:1252:fb60:a0d7:cc1c:9090:5782])
+ by smtp.gmail.com with ESMTPSA id s6sm38178228wrt.45.2021.07.23.02.13.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 23 Jul 2021 02:13:10 -0700 (PDT)
+Subject: Re: [PATCH 1/5] drm/vmwgfx: unbind in vmw_ttm_unpopulate
+To: Daniel Vetter <daniel@ffwll.ch>
+References: <20210722124127.17901-1-christian.koenig@amd.com>
+ <YPqCBUDiibBWUs2/@phenom.ffwll.local>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <c83ebc42-567c-4f4c-d6da-53ff21739222@gmail.com>
+Date: Fri, 23 Jul 2021 11:13:09 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <YPqFiPftjTUV4361@phenom.ffwll.local>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-CA
+In-Reply-To: <YPqCBUDiibBWUs2/@phenom.ffwll.local>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,35 +73,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org
+Cc: airlied@redhat.com, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021-07-23 11:02 a.m., Daniel Vetter wrote:
-> On Fri, Jul 23, 2021 at 10:19:49AM +0200, Michel Dänzer wrote:
->> On 2021-07-23 10:04 a.m., Christian König wrote:
->>> Am 23.07.21 um 09:58 schrieb Michel Dänzer:
->>>> From: Michel Dänzer <mdaenzer@redhat.com>
->>>>
->>>> This makes sure we don't hit the
->>>>
->>>>     BUG_ON(dmabuf->cb_in.active || dmabuf->cb_out.active);
->>>>
->>>> in dma_buf_release, which could be triggered by user space closing the
->>>> dma-buf file description while there are outstanding fence callbacks
->>>> from dma_buf_poll.
->>>
->>> I was also wondering the same thing while working on this, but then thought that the poll interface would take care of this.
+Am 23.07.21 um 10:47 schrieb Daniel Vetter:
+> On Thu, Jul 22, 2021 at 02:41:23PM +0200, Christian König wrote:
+>> Doing this in vmw_ttm_destroy() is to late.
 >>
->> I was able to hit the BUG_ON with https://gitlab.gnome.org/GNOME/mutter/-/merge_requests/1880 .
-> 
-> igt test would be really lovely. Maybe base something off the
-> import/export igts from Jason?
+>> It turned out that this is not a good idea at all because it leaves pointers
+>> to freed up system memory pages in the GART tables of the drivers.
+> So I wanted to review this series, and I can't reconcile your claim here
+> with the demidlayering Dave has done. The driver patches here don't
+> ouright undo what Dave has done, but that means the bug has been
+> preexisting since forever (or is due to some other change?), and your
+> commit message is a bit confusing here.
+>
+> The final patch just undoes the demidlayering from Dave, and I really
+> don't see where there's even a functional change there.
+>
+> And even these patches here don't really change a hole lot with the
+> calling sequence for at least final teardown: ttm_tt_destroy_common calls
+> ttm_tt_unpopulate as the first thing, so at least there there's no change.
+>
+> Can you pls elaborate more clearly what exactly you're fixing and what
+> exactly needs to be reordered and where this bug is from (commit sha1)? As
+> is I'm playing detective and the evidence presented is extremely since and
+> I can't reconcile it at all.
+>
+> I mean I know you don't like typing commit message and documentation, but
+> it does get occasionally rather frustrating on the reviewer side if I have
+> to interpolate between some very sparse hints for this stuff :-/
 
-I'll see what I can do, busy with other stuff right now though.
+Yeah, when have seen the history it's rather obvious what's wrong here 
+and I expected Dave to review it himself.
 
+Previously we had three states in TTM for a tt object: Allocated -> 
+Populated -> Bound which on destruction where done in the order unbind 
+-> unpopulate -> free.
 
--- 
-Earthling Michel Dänzer               |               https://redhat.com
-Libre software enthusiast             |             Mesa and X developer
+Dave moved handling of the bound state into the drivers since it is 
+basically a driver decision and not a TTM decision what should be bound 
+and what not (that part perfectly makes sense).
+
+The problem is that he also moved doing the unbind into the free 
+callback instead of the unpopulate callback. This result in stale page 
+pointers in the GART if that unpopulate operation isn't immediately 
+followed by a free.
+
+Thinking more about it if we do populated->unpopulated->populated then 
+we would also have stale pointers to the old pages which is even worse.
+
+This is also not de-midlayering since we already have a proper 
+ttm_tt_init()/ttm_tt_fini() functions which should work nicely for the 
+tt object.
+
+Christian.
+
+> -Daniel
+>
+>> Signed-off-by: Christian König <christian.koenig@amd.com>
+>> ---
+>>   drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c | 9 +++------
+>>   1 file changed, 3 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
+>> index b0973c27e774..904031d03dbe 100644
+>> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
+>> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
+>> @@ -526,14 +526,9 @@ static void vmw_ttm_destroy(struct ttm_device *bdev, struct ttm_tt *ttm)
+>>   	struct vmw_ttm_tt *vmw_be =
+>>   		container_of(ttm, struct vmw_ttm_tt, dma_ttm);
+>>   
+>> -	vmw_ttm_unbind(bdev, ttm);
+>>   	ttm_tt_destroy_common(bdev, ttm);
+>>   	vmw_ttm_unmap_dma(vmw_be);
+>> -	if (vmw_be->dev_priv->map_mode == vmw_dma_alloc_coherent)
+>> -		ttm_tt_fini(&vmw_be->dma_ttm);
+>> -	else
+>> -		ttm_tt_fini(ttm);
+>> -
+>> +	ttm_tt_fini(ttm);
+>>   	if (vmw_be->mob)
+>>   		vmw_mob_destroy(vmw_be->mob);
+>>   
+>> @@ -578,6 +573,8 @@ static void vmw_ttm_unpopulate(struct ttm_device *bdev,
+>>   						 dma_ttm);
+>>   	unsigned int i;
+>>   
+>> +	vmw_ttm_unbind(bdev, ttm);
+>> +
+>>   	if (vmw_tt->mob) {
+>>   		vmw_mob_destroy(vmw_tt->mob);
+>>   		vmw_tt->mob = NULL;
+>> -- 
+>> 2.25.1
+>>
+
