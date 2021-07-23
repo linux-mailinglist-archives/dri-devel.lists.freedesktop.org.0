@@ -1,57 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 655E83D3959
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jul 2021 13:21:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BC8C3D3958
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jul 2021 13:21:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E41C6FAE0;
-	Fri, 23 Jul 2021 11:21:34 +0000 (UTC)
-X-Original-To: dri-devel@freedesktop.org
-Delivered-To: dri-devel@freedesktop.org
-Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7EB756FAE0
- for <dri-devel@freedesktop.org>; Fri, 23 Jul 2021 11:21:31 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1627039293; h=Message-Id: Date: Subject: Cc: To: From:
- Sender; bh=fHwTtapl35FE2Ue6XQbrKD2NlRjdE4DDciMxOgEZwF8=;
- b=AZy/+wb8eoDnC5SvttdsZBt0FJ2pkAInxG+cTcNepCo1ntUzCJD9+UK0VGu1JA+t5MpQDB8k
- ZE15B/ojB7yziSRxqJ1Ooo+BnaASaExW67g4ollcfqKtw/DNgqULDday5GA9aEXMFh+1Dpjs
- tElEmp5T84DdfeKDacpXYAevHhM=
-X-Mailgun-Sending-Ip: 69.72.43.7
-X-Mailgun-Sid: WyIxOTRiMSIsICJkcmktZGV2ZWxAZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n04.prod.us-east-1.postgun.com with SMTP id
- 60faa6291dd16c8788e2ba60 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 23 Jul 2021 11:21:13
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 891DCC4360C; Fri, 23 Jul 2021 11:21:12 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
- SPF_FAIL, 
- URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
-Received: from hyd-lnxbld559.qualcomm.com (unknown [202.46.22.19])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: akhilpo)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 85FEDC433D3;
- Fri, 23 Jul 2021 11:21:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 85FEDC433D3
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=fail smtp.mailfrom=akhilpo@codeaurora.org
-From: Akhil P Oommen <akhilpo@codeaurora.org>
-To: freedreno@lists.freedesktop.org, robh@kernel.org, robh+dt@kernel.org,
- bjorn.andersson@linaro.org, georgi.djakov@linaro.org
-Subject: [PATCH] arm64: dts: qcom: sc7280: Add gpu support
-Date: Fri, 23 Jul 2021 16:50:54 +0530
-Message-Id: <1627039254-13083-1-git-send-email-akhilpo@codeaurora.org>
-X-Mailer: git-send-email 2.7.4
+	by gabe.freedesktop.org (Postfix) with ESMTP id 71B956FADE;
+	Fri, 23 Jul 2021 11:21:20 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F22F06FADE;
+ Fri, 23 Jul 2021 11:21:18 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10053"; a="233697310"
+X-IronPort-AV: E=Sophos;i="5.84,263,1620716400"; d="scan'208";a="233697310"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Jul 2021 04:21:17 -0700
+X-IronPort-AV: E=Sophos;i="5.84,263,1620716400"; d="scan'208";a="502479554"
+Received: from mrapopor-mobl.ger.corp.intel.com (HELO [10.213.214.117])
+ ([10.213.214.117])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Jul 2021 04:21:13 -0700
+Subject: Re: [Intel-gfx] [RFC 0/8] Per client GPU stats
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+To: Intel-gfx@lists.freedesktop.org
+References: <20210715091820.1613726-1-tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+Message-ID: <e6f53b40-b8bf-3d2b-2dbe-a568254e15d3@linux.intel.com>
+Date: Fri, 23 Jul 2021 12:21:12 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
+MIME-Version: 1.0
+In-Reply-To: <20210715091820.1613726-1-tvrtko.ursulin@linux.intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,148 +48,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dianders@chromium.org, jonathan@marek.ca, sboyd@kernel.org,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- jordan@cosmicpenguin.net, mka@chromium.org, dri-devel@freedesktop.org
+Cc: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org, "Nieto, David M" <David.Nieto@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add the necessary dt nodes for gpu support in sc7280.
 
-Signed-off-by: Akhil P Oommen <akhilpo@codeaurora.org>
----
-This patch has dependency on the GPUCC bindings patch here:
-https://patchwork.kernel.org/project/linux-arm-msm/patch/1619519590-3019-4-git-send-email-tdas@codeaurora.org/
+On 15/07/2021 10:18, Tvrtko Ursulin wrote:
+> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> 
+> Same old work but now rebased and series ending with some DRM docs proposing
+> the common specification which should enable nice common userspace tools to be
+> written.
+> 
+> For the moment I only have intel_gpu_top converted to use this and that seems to
+> work okay.
+> 
+> v2:
+>   * Added prototype of possible amdgpu changes and spec updates to align with the
+>     common spec.
 
- arch/arm64/boot/dts/qcom/sc7280.dtsi | 107 +++++++++++++++++++++++++++++++++++
- 1 file changed, 107 insertions(+)
+Not much interest for the common specification?
 
-diff --git a/arch/arm64/boot/dts/qcom/sc7280.dtsi b/arch/arm64/boot/dts/qcom/sc7280.dtsi
-index 029723a..beb313c 100644
---- a/arch/arm64/boot/dts/qcom/sc7280.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sc7280.dtsi
-@@ -16,6 +16,8 @@
- #include <dt-bindings/reset/qcom,sdm845-pdc.h>
- #include <dt-bindings/soc/qcom,rpmh-rsc.h>
- #include <dt-bindings/thermal/thermal.h>
-+#include <dt-bindings/interconnect/qcom,sc7280.h>
-+#include <dt-bindings/clock/qcom,gpucc-sc7280.h>
- 
- / {
- 	interrupt-parent = <&intc>;
-@@ -592,6 +594,111 @@
- 			qcom,bcm-voters = <&apps_bcm_voter>;
- 		};
- 
-+		gpu: gpu@3d00000 {
-+			compatible = "qcom,adreno-635.0", "qcom,adreno";
-+			#stream-id-cells = <16>;
-+			reg = <0 0x03d00000 0 0x40000>, <0 0x03d9e000 0 0x1000>,
-+				<0 0x03d61000 0 0x800>;
-+			reg-names = "kgsl_3d0_reg_memory", "cx_mem", "cx_dbgc";
-+			interrupts = <GIC_SPI 300 IRQ_TYPE_LEVEL_HIGH>;
-+			iommus = <&adreno_smmu 0 0x401>;
-+			operating-points-v2 = <&gpu_opp_table>;
-+			qcom,gmu = <&gmu>;
-+			interconnects = <&gem_noc MASTER_GFX3D 0 &mc_virt SLAVE_EBI1 0>;
-+			interconnect-names = "gfx-mem";
-+
-+			gpu_opp_table: opp-table {
-+				compatible = "operating-points-v2";
-+
-+				opp-550000000 {
-+					opp-hz = /bits/ 64 <550000000>;
-+					opp-level = <RPMH_REGULATOR_LEVEL_SVS_L1>;
-+					opp-peak-kBps = <6832000>;
-+				};
-+
-+				opp-450000000 {
-+					opp-hz = /bits/ 64 <450000000>;
-+					opp-level = <RPMH_REGULATOR_LEVEL_SVS>;
-+					opp-peak-kBps = <4068000>;
-+				};
-+
-+				opp-315000000 {
-+					opp-hz = /bits/ 64 <315000000>;
-+					opp-level = <RPMH_REGULATOR_LEVEL_LOW_SVS>;
-+					opp-peak-kBps = <1804000>;
-+				};
-+			};
-+		};
-+
-+		adreno_smmu: iommu@3da0000 {
-+			compatible = "qcom,sc7280-smmu-500", "qcom,adreno-smmu", "arm,mmu-500";
-+			reg = <0 0x03da0000 0 0x20000>;
-+			#iommu-cells = <2>;
-+			#global-interrupts = <2>;
-+			interrupts = <GIC_SPI 673 IRQ_TYPE_LEVEL_HIGH>,
-+					<GIC_SPI 675 IRQ_TYPE_LEVEL_HIGH>,
-+					<GIC_SPI 678 IRQ_TYPE_LEVEL_HIGH>,
-+					<GIC_SPI 679 IRQ_TYPE_LEVEL_HIGH>,
-+					<GIC_SPI 680 IRQ_TYPE_LEVEL_HIGH>,
-+					<GIC_SPI 681 IRQ_TYPE_LEVEL_HIGH>,
-+					<GIC_SPI 682 IRQ_TYPE_LEVEL_HIGH>,
-+					<GIC_SPI 683 IRQ_TYPE_LEVEL_HIGH>,
-+					<GIC_SPI 684 IRQ_TYPE_LEVEL_HIGH>,
-+					<GIC_SPI 685 IRQ_TYPE_LEVEL_HIGH>,
-+					<GIC_SPI 686 IRQ_TYPE_LEVEL_HIGH>,
-+					<GIC_SPI 687 IRQ_TYPE_LEVEL_HIGH>;
-+
-+			clocks = <&gcc GCC_GPU_MEMNOC_GFX_CLK>,
-+					<&gcc GCC_GPU_SNOC_DVM_GFX_CLK>,
-+					<&gpucc GPU_CC_AHB_CLK>,
-+					<&gpucc GPU_CC_HLOS1_VOTE_GPU_SMMU_CLK>,
-+					<&gpucc GPU_CC_CX_GMU_CLK>,
-+					<&gpucc GPU_CC_HUB_CX_INT_CLK>,
-+					<&gpucc GPU_CC_HUB_AON_CLK>;
-+			clock-names = "gcc_gpu_memnoc_gfx_clk",
-+					"gcc_gpu_snoc_dvm_gfx_clk",
-+					"gpu_cc_ahb_clk",
-+					"gpu_cc_hlos1_vote_gpu_smmu_clk",
-+					"gpu_cc_cx_gmu_clk",
-+					"gpu_cc_hub_cx_int_clk",
-+					"gpu_cc_hub_aon_clk";
-+
-+			power-domains = <&gpucc GPU_CC_CX_GDSC>;
-+		};
-+
-+		gmu: gmu@3d69000 {
-+			compatible="qcom,adreno-gmu-635.0", "qcom,adreno-gmu";
-+			reg = <0 0x03d6a000 0 0x34000>,
-+				<0 0x3de0000 0 0x10000>,
-+				<0 0x0b290000 0 0x10000>;
-+			reg-names = "gmu", "rscc", "gmu_pdc";
-+			interrupts = <GIC_SPI 304 IRQ_TYPE_LEVEL_HIGH>,
-+					<GIC_SPI 305 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "hfi", "gmu";
-+			clocks = <&gpucc GPU_CC_CX_GMU_CLK>,
-+					<&gpucc GPU_CC_CXO_CLK>,
-+					<&gcc GCC_DDRSS_GPU_AXI_CLK>,
-+					<&gcc GCC_GPU_MEMNOC_GFX_CLK>,
-+					<&gpucc GPU_CC_AHB_CLK>,
-+					<&gpucc GPU_CC_HUB_CX_INT_CLK>,
-+					<&gpucc GPU_CC_HLOS1_VOTE_GPU_SMMU_CLK>;
-+			clock-names = "gmu", "cxo", "axi", "memnoc", "ahb",
-+					"hub", "smmu_vote";
-+			power-domains = <&gpucc GPU_CC_CX_GDSC>, <&gpucc GPU_CC_GX_GDSC>;
-+			power-domain-names = "cx", "gx";
-+			iommus = <&adreno_smmu 5 0x400>;
-+			operating-points-v2 = <&gmu_opp_table>;
-+
-+			gmu_opp_table: opp-table {
-+				compatible = "operating-points-v2";
-+
-+				opp-200000000 {
-+					opp-hz = /bits/ 64 <200000000>;
-+					opp-level = <RPMH_REGULATOR_LEVEL_MIN_SVS>;
-+				};
-+			};
-+		};
-+
- 		gpucc: clock-controller@3d90000 {
- 			compatible = "qcom,sc7280-gpucc";
- 			reg = <0 0x03d90000 0 0x9000>;
--- 
-QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
-of Code Aurora Forum, hosted by The Linux Foundation.
+For reference I've just posted the intel-gpu-top adaptation required to parse it here: https://patchwork.freedesktop.org/patch/446041/?series=90464&rev=2.
 
+Note that this is not attempting to be a vendor agnostic tool but is adding per client data to existing i915 tool which uses PMU counters for global stats.
+
+intel-gpu-top: Intel Skylake (Gen9) @ /dev/dri/card0 -  335/ 339 MHz;  10% RC6;  1.24/ 4.18 W;      527 irqs/s
+
+       IMC reads:     3297 MiB/s
+      IMC writes:     2767 MiB/s
+
+          ENGINES     BUSY                                                                                                  MI_SEMA MI_WAIT
+        Render/3D   78.74% |██████████████████████████████████████████████████████████████████████████▏                   |      0%      0%
+          Blitter    0.00% |                                                                                              |      0%      0%
+            Video    0.00% |                                                                                              |      0%      0%
+     VideoEnhance    0.00% |                                                                                              |      0%      0%
+
+    PID              NAME          Render/3D                    Blitter                      Video                    VideoEnhance
+  10202         neverball |███████████████▎          ||                          ||                          ||                          |
+   5665              Xorg |███████▍                  ||                          ||                          ||                          |
+   5679     xfce4-session |                          ||                          ||                          ||                          |
+   5772      ibus-ui-gtk3 |                          ||                          ||                          ||                          |
+   5775   ibus-extension- |                          ||                          ||                          ||                          |
+   5777          ibus-x11 |                          ||                          ||                          ||                          |
+   5823             xfwm4 |                          ||                          ||                          ||                          |
+
+
+Regards,
+
+Tvrtko
+  
+> Tvrtko Ursulin (8):
+>    drm/i915: Explicitly track DRM clients
+>    drm/i915: Make GEM contexts track DRM clients
+>    drm/i915: Track runtime spent in closed and unreachable GEM contexts
+>    drm/i915: Track all user contexts per client
+>    drm/i915: Track context current active time
+>    drm: Document fdinfo format specification
+>    drm/i915: Expose client engine utilisation via fdinfo
+>    drm/amdgpu: Convert to common fdinfo format
+> 
+>   Documentation/gpu/amdgpu.rst                  |  26 ++++
+>   Documentation/gpu/drm-usage-stats.rst         | 108 +++++++++++++
+>   Documentation/gpu/i915.rst                    |  27 ++++
+>   Documentation/gpu/index.rst                   |   1 +
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c    |  18 ++-
+>   drivers/gpu/drm/i915/Makefile                 |   5 +-
+>   drivers/gpu/drm/i915/gem/i915_gem_context.c   |  42 ++++-
+>   .../gpu/drm/i915/gem/i915_gem_context_types.h |   6 +
+>   drivers/gpu/drm/i915/gt/intel_context.c       |  27 +++-
+>   drivers/gpu/drm/i915/gt/intel_context.h       |  15 +-
+>   drivers/gpu/drm/i915/gt/intel_context_types.h |  24 ++-
+>   .../drm/i915/gt/intel_execlists_submission.c  |  23 ++-
+>   .../gpu/drm/i915/gt/intel_gt_clock_utils.c    |   4 +
+>   drivers/gpu/drm/i915/gt/intel_lrc.c           |  27 ++--
+>   drivers/gpu/drm/i915/gt/intel_lrc.h           |  24 +++
+>   drivers/gpu/drm/i915/gt/selftest_lrc.c        |  10 +-
+>   drivers/gpu/drm/i915/i915_drm_client.c        | 143 ++++++++++++++++++
+>   drivers/gpu/drm/i915/i915_drm_client.h        |  66 ++++++++
+>   drivers/gpu/drm/i915/i915_drv.c               |   9 ++
+>   drivers/gpu/drm/i915/i915_drv.h               |   5 +
+>   drivers/gpu/drm/i915/i915_gem.c               |  21 ++-
+>   drivers/gpu/drm/i915/i915_gpu_error.c         |   9 +-
+>   drivers/gpu/drm/i915/i915_gpu_error.h         |   2 +-
+>   23 files changed, 581 insertions(+), 61 deletions(-)
+>   create mode 100644 Documentation/gpu/drm-usage-stats.rst
+>   create mode 100644 drivers/gpu/drm/i915/i915_drm_client.c
+>   create mode 100644 drivers/gpu/drm/i915/i915_drm_client.h
+> 
