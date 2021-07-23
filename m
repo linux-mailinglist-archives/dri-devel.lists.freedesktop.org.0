@@ -1,39 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EC543D33BA
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jul 2021 06:27:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E76013D33ED
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jul 2021 07:09:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EECD06EB5E;
-	Fri, 23 Jul 2021 04:27:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ACA4E6F446;
+	Fri, 23 Jul 2021 05:09:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 09C1F6EB5E
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jul 2021 04:27:33 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id EDE67255;
- Fri, 23 Jul 2021 06:27:31 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1627014452;
- bh=cIwic+eh4JDZqZlXGIA4RovSotmth8rVtxDucucRjVA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=mo6WfHrUnHGDxrfpmJlARIxXowTf0dCRYam8FHW3HLcwTpqmspoU7a9BKPqod2ZzJ
- bQNrpRMmQRtt26YWR80JxG7nEcr75NM+Z0ar4AG0dKtf9qFGFfMYSFNFr9rUX+hGTV
- UeXp5juQ7hz0oaAyAeXd5IY665aI5qp+clcidZD0=
-Date: Fri, 23 Jul 2021 07:27:31 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v3] drm/shmobile: Convert to Linux IRQ interfaces
-Message-ID: <YPpFM5FIzZWtjL0i@pendragon.ideasonboard.com>
-References: <20210720080941.23646-1-tzimmermann@suse.de>
+Received: from ozlabs.org (bilbo.ozlabs.org [IPv6:2401:3900:2:1::2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7BCD16F446
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jul 2021 05:09:50 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4GWHS96R4dz9sT6;
+ Fri, 23 Jul 2021 15:09:45 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
+ s=201702; t=1627016987;
+ bh=+N6PcGKTR+DbBT3V1RblqjraQfF6pgnYdiVqbtEWQoE=;
+ h=Date:From:To:Cc:Subject:From;
+ b=Z5BZaoGdWfIEMF9W3yW48wwmCnTf5IbiRMO3eB3dI/V4NTerkKQm5kD6xyxDZfaY4
+ 33wHvBD2uCNeLoGCLaqF3Pd98jTHSSdoU1cORW6ufkJY8+rLXVbPDjEKmzpD8Ukf5K
+ x0PXqGA/FxRxGW2vduxF6UvKfj/j+/A11fJDVJkaQVj9xBVdht02iDoS13RzodQgLc
+ Y1ZvQn9t5WJseMRyA8gRZY0R51UbYih9Lf+T9QTWwFyvZXi7JO27cykJt04CfCLcZw
+ QdOuJaK3OzlB5p6YKX5PvB+FgGz4p+HVg0aVj2s7/NmWbPGdqHDyP+98K4JSd3wC1w
+ sB5j0dobpuHnw==
+Date: Fri, 23 Jul 2021 15:09:44 +1000
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Greg KH <greg@kroah.com>, Dave Airlie <airlied@linux.ie>, DRI
+ <dri-devel@lists.freedesktop.org>
+Subject: linux-next: build failure after merge of the driver-core tree
+Message-ID: <20210723150944.528c10af@canb.auug.org.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210720080941.23646-1-tzimmermann@suse.de>
+Content-Type: multipart/signed; boundary="Sig_/N.p3av4.tDKwa2IJNFAHPjL";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,111 +49,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, sergei.shtylyov@gmail.com,
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- kieran.bingham+renesas@ideasonboard.com, geert@linux-m68k.org,
- sam@ravnborg.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Douglas Anderson <dianders@chromium.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Uwe =?UTF-8?B?S2xl?= =?UTF-8?B?aW5lLUvDtm5pZw==?=
+ <u.kleine-koenig@pengutronix.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
+--Sig_/N.p3av4.tDKwa2IJNFAHPjL
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Thank you for the patch.
+Hi all,
 
-On Tue, Jul 20, 2021 at 10:09:41AM +0200, Thomas Zimmermann wrote:
-> Drop the DRM IRQ midlayer in favor of Linux IRQ interfaces. DRM's
-> IRQ helpers are mostly useful for UMS drivers. Modern KMS drivers
-> don't benefit from using it.
-> 
-> v3:
-> 	* return error if (ret < 0) (Geert)
-> 	* remove duplicate error message (Geert)
-> v2:
-> 	* handle errors in platform_get_irq() (Geert, Sergei)
-> 	* store IRQ number in struct shmob_drm_device (Laurent)
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Acked-by: Sam Ravnborg <sam@ravnborg.org>
-> ---
->  drivers/gpu/drm/shmobile/shmob_drm_drv.c | 14 +++++++++-----
->  drivers/gpu/drm/shmobile/shmob_drm_drv.h |  1 +
->  2 files changed, 10 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/shmobile/shmob_drm_drv.c b/drivers/gpu/drm/shmobile/shmob_drm_drv.c
-> index 0a02b7092c04..7db01904d18d 100644
-> --- a/drivers/gpu/drm/shmobile/shmob_drm_drv.c
-> +++ b/drivers/gpu/drm/shmobile/shmob_drm_drv.c
-> @@ -18,7 +18,6 @@
->  #include <drm/drm_crtc_helper.h>
->  #include <drm/drm_drv.h>
->  #include <drm/drm_gem_cma_helper.h>
-> -#include <drm/drm_irq.h>
->  #include <drm/drm_probe_helper.h>
->  #include <drm/drm_vblank.h>
->  
-> @@ -130,7 +129,6 @@ DEFINE_DRM_GEM_CMA_FOPS(shmob_drm_fops);
->  
->  static const struct drm_driver shmob_drm_driver = {
->  	.driver_features	= DRIVER_GEM | DRIVER_MODESET,
-> -	.irq_handler		= shmob_drm_irq,
->  	DRM_GEM_CMA_DRIVER_OPS,
->  	.fops			= &shmob_drm_fops,
->  	.name			= "shmob-drm",
-> @@ -183,7 +181,7 @@ static int shmob_drm_remove(struct platform_device *pdev)
->  
->  	drm_dev_unregister(ddev);
->  	drm_kms_helper_poll_fini(ddev);
-> -	drm_irq_uninstall(ddev);
-> +	free_irq(sdev->irq, ddev);
->  	drm_dev_put(ddev);
->  
->  	return 0;
-> @@ -258,7 +256,13 @@ static int shmob_drm_probe(struct platform_device *pdev)
->  		goto err_modeset_cleanup;
->  	}
->  
-> -	ret = drm_irq_install(ddev, platform_get_irq(pdev, 0));
-> +	ret = platform_get_irq(pdev, 0);
-> +	if (ret < 0)
-> +		goto err_modeset_cleanup;
-> +	sdev->irq = ret;
-> +
-> +	ret = request_irq(sdev->irq, shmob_drm_irq, 0, ddev->driver->name,
-> +			  ddev);
+After merging the driver-core tree, today's linux-next build (arm
+multi_v7_defconfig) failed like this:
 
-We could pass sdev to this function instead of ddev (and same for
-free_irq()), and update shmob_drm_irq() accordingly. This could however
-be made on top, so
+drivers/gpu/drm/drm_dp_aux_bus.c:106:13: error: initialization of 'void (*)=
+(struct device *)' from incompatible pointer type 'int (*)(struct device *)=
+' [-Werror=3Dincompatible-pointer-types]
+  106 |  .remove  =3D dp_aux_ep_remove,
+      |             ^~~~~~~~~~~~~~~~
+drivers/gpu/drm/drm_dp_aux_bus.c:106:13: note: (near initialization for 'dp=
+_aux_bus_type.remove')
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Caused by commit
 
->  	if (ret < 0) {
->  		dev_err(&pdev->dev, "failed to install IRQ handler\n");
->  		goto err_modeset_cleanup;
-> @@ -275,7 +279,7 @@ static int shmob_drm_probe(struct platform_device *pdev)
->  	return 0;
->  
->  err_irq_uninstall:
-> -	drm_irq_uninstall(ddev);
-> +	free_irq(sdev->irq, ddev);
->  err_modeset_cleanup:
->  	drm_kms_helper_poll_fini(ddev);
->  err_free_drm_dev:
-> diff --git a/drivers/gpu/drm/shmobile/shmob_drm_drv.h b/drivers/gpu/drm/shmobile/shmob_drm_drv.h
-> index 80dc4b1020aa..4964ddd5ab74 100644
-> --- a/drivers/gpu/drm/shmobile/shmob_drm_drv.h
-> +++ b/drivers/gpu/drm/shmobile/shmob_drm_drv.h
-> @@ -29,6 +29,7 @@ struct shmob_drm_device {
->  	u32 lddckr;
->  	u32 ldmt1r;
->  
-> +	unsigned int irq;
->  	spinlock_t irq_lock;		/* Protects hardware LDINTR register */
->  
->  	struct drm_device *ddev;
-> 
+  aeb33699fc2c ("drm: Introduce the DP AUX bus")
 
--- 
-Regards,
+from the drm tree interacting with commit
 
-Laurent Pinchart
+  fc7a6209d571 ("bus: Make remove callback return void")
+
+from the driver-core tree.
+
+I applied the following merge fix patch.
+
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+Date: Fri, 23 Jul 2021 14:58:25 +1000
+Subject: [PATCH] fix for "drm: Introduce the DP AUX bus"
+
+interaction with "bus: Make remove callback return void"
+
+Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>
+---
+ drivers/gpu/drm/drm_dp_aux_bus.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
+
+diff --git a/drivers/gpu/drm/drm_dp_aux_bus.c b/drivers/gpu/drm/drm_dp_aux_=
+bus.c
+index e49a70f3691b..298ea7a49591 100644
+--- a/drivers/gpu/drm/drm_dp_aux_bus.c
++++ b/drivers/gpu/drm/drm_dp_aux_bus.c
+@@ -67,9 +67,8 @@ static int dp_aux_ep_probe(struct device *dev)
+  *
+  * Calls through to the endpoint driver remove.
+  *
+- * Return: 0 if no error or negative error code.
+  */
+-static int dp_aux_ep_remove(struct device *dev)
++static void dp_aux_ep_remove(struct device *dev)
+ {
+ 	struct dp_aux_ep_driver *aux_ep_drv =3D to_dp_aux_ep_drv(dev->driver);
+ 	struct dp_aux_ep_device *aux_ep =3D to_dp_aux_ep_dev(dev);
+@@ -77,8 +76,6 @@ static int dp_aux_ep_remove(struct device *dev)
+ 	if (aux_ep_drv->remove)
+ 		aux_ep_drv->remove(aux_ep);
+ 	dev_pm_domain_detach(dev, true);
+-
+-	return 0;
+ }
+=20
+ /**
+--=20
+2.30.2
+
+--=20
+Cheers,
+Stephen Rothwell
+
+--Sig_/N.p3av4.tDKwa2IJNFAHPjL
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmD6TxgACgkQAVBC80lX
+0Gy+Lgf9FGVOJRXFvvJLtV6FWF56PwDTTK0Yl3W7qqVr656qhOjnlWgoS/SfR+DV
+SpaU+wjOGEBqJ7cNF9nrfx1fcvRDGpd4sfIyo6WDNbiLKVGw0TVFtuf5VAThZrie
+uRBZJ2i4Cn993JgtWon1ZJb3UeD9WMgHYkmXMBdt6edvm7a8eBzjQxJMTGmDEDyr
+5KIC85CWI36jtbuFRlj6bCrHKml0hy3mLGFN8Le2vuea3krLHYFd0Liu/rtV2PIz
+tvsxO7Xi1W3o+po+/eRtjs3TVtOWQ3j8g7yCehodLpw9YiGaB+K1Doa/mhaaiiAS
+bJxasXotd3oUD6B2sXe5BXQ+kS565g==
+=Piz8
+-----END PGP SIGNATURE-----
+
+--Sig_/N.p3av4.tDKwa2IJNFAHPjL--
