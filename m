@@ -2,53 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89DB93D30CC
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jul 2021 02:22:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07DCD3D30CF
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jul 2021 02:22:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 719F66F884;
+	by gabe.freedesktop.org (Postfix) with ESMTP id F13806F885;
 	Fri, 23 Jul 2021 00:22:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com
- [IPv6:2607:f8b0:4864:20::102e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA81B6F880
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jul 2021 00:22:17 +0000 (UTC)
-Received: by mail-pj1-x102e.google.com with SMTP id j1so6659540pjj.4
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jul 2021 17:22:17 -0700 (PDT)
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com
+ [IPv6:2607:f8b0:4864:20::1036])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3FD656F880
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jul 2021 00:22:19 +0000 (UTC)
+Received: by mail-pj1-x1036.google.com with SMTP id
+ gv20-20020a17090b11d4b0290173b9578f1cso4855915pjb.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jul 2021 17:22:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=QIfL2wi4rwyW3wFJc4TBxi5hgLk5jqj90hpJmrNmT08=;
- b=ffzYNOq+5NVIrjnzOEMQvzZiScPi84W+VikPLqJD6LV9d9YyiO2l7ClDARkhr/K97M
- pFa+YpWWemm8hWsjssa1u+22dNYXE7YcTvlFyc3sxbWbbJGCjPmb59fPeLMf1jgsrKDk
- sTbH07TxjFiFNzZRPa1ELyE0P0wB6UQE1NT+g=
+ bh=lTsOWkE5xwBy2u5RnQLSAYUR8XEsGjJI+nk3qmejC1E=;
+ b=BNPuxlOtn1RwTIqc8Bt1Q8S0mgPrnNYGqHWkq+nLZcsqFyCQa4+3aWxn7yAuA6u4cX
+ aiXXgqBypo0flGvnyhkU+EerKrL3ie6Tr/3yv3Y+dkK+JJV4wSuFKaR3dObKgNcT+hkh
+ 6mZ/3NaOCo1KBPbav0MKLq91w6cUWn1UCTC/k=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=QIfL2wi4rwyW3wFJc4TBxi5hgLk5jqj90hpJmrNmT08=;
- b=oxQo1YjfgoSRJf/6gJqhY4ciqBcTdwacHVh4QGbqTHIlgrvEQYA/dQh0gLcatyoPcJ
- r9zh8z2HJCMe0ojLmYXVLxylNFozfIMUHQA//2c/i/9yEYLunfrq+WhxKnCYGS2AJ2p+
- Zdt7j1aHZdsEuTykdLfBSE8sKc3TyKbzaY/1kndiDYPXJ8JNNlvzXQBZG303KXzC3ChT
- BJOgAjA3v5+WBmUa2vGfD4dRh20KZtAYGzEEKnX4OY3/8q+CMcbi8IN5rm5BMYGVewbU
- LD4fXiiFWvdEY/aSTck3gRX60dLy+wRQ2n8cvMHwr9zEsyCe2YGw2t6uVCCs1AWCpvY3
- cY5Q==
-X-Gm-Message-State: AOAM533u9qyh3FCvKLqwRAYojxfI2ynbJtNj9yrscKNgnrgg791jzyt4
- Ea5n2TRf25LrGJ7wW8rnUvpShA==
-X-Google-Smtp-Source: ABdhPJxWVzz5mUT/xV8/8vfmjmFYzTrPcG2YkgBhXf9lv6EOfBA5NQ4+xu9T8hBisfib0fVtYQEr8w==
-X-Received: by 2002:a63:ee06:: with SMTP id e6mr2400550pgi.374.1626999737393; 
- Thu, 22 Jul 2021 17:22:17 -0700 (PDT)
+ bh=lTsOWkE5xwBy2u5RnQLSAYUR8XEsGjJI+nk3qmejC1E=;
+ b=sMud7nW+8OoCOtBkRYuUzysAOIUvypG9cKG8mH/xecquki1qAuhjUBUwHIQD5lCIpr
+ wKTOI97K2WHA3u+Qdm8AksaPsCZwutpLTM7eElEC8o0PVG0M6DcYWJEZ3W0kW1PoSNVC
+ dKnmTto/cuTa7mqWCaiuMZHLbG1yRrY3bIwSE0kCGPekr7tuKbOjtnDknQVLlIs5uIv9
+ 5VyCeHP5Aaqwq60x5KBozVdDpTsP54/xB7qXuuMByl7NJcv+CGEZ3bqGfDxfILTb8r2M
+ w2nWr2V4UDE5G38Syuny1Zw4z442PB0y3flSyEB+phSDOYViI1KfGjyTCDlspWREwayx
+ fphA==
+X-Gm-Message-State: AOAM5308AzibuebT+BBagAIjMvZjHOBgPoj6z5UuXJbAcZgyI/wOD/Wk
+ UtpH5fTwGmVXV1Jv7R9bCrR2YQ==
+X-Google-Smtp-Source: ABdhPJx3OwSufl06QG8cE253jZR44h1aw0BjXeshriQ5ivE540skLrstai4OBhXaFncTv/Vjt1j/aw==
+X-Received: by 2002:a17:90a:4d04:: with SMTP id
+ c4mr11018142pjg.148.1626999738853; 
+ Thu, 22 Jul 2021 17:22:18 -0700 (PDT)
 Received: from tictac2.mtv.corp.google.com
  ([2620:15c:202:201:5e70:6a49:67b5:2b7e])
- by smtp.gmail.com with ESMTPSA id iy13sm4072377pjb.28.2021.07.22.17.22.15
+ by smtp.gmail.com with ESMTPSA id iy13sm4072377pjb.28.2021.07.22.17.22.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 Jul 2021 17:22:16 -0700 (PDT)
+ Thu, 22 Jul 2021 17:22:18 -0700 (PDT)
 From: Douglas Anderson <dianders@chromium.org>
 To: Thierry Reding <thierry.reding@gmail.com>, Rob Herring <robh+dt@kernel.org>
-Subject: [RFC PATCH 6/8] drm/panel-simple: Split the delay structure out of
- the panel description
-Date: Thu, 22 Jul 2021 17:21:44 -0700
-Message-Id: <20210722172104.RFC.6.I11c226341f8e86d376a53d5ec11cb82f6fd2c38c@changeid>
+Subject: [RFC PATCH 7/8] drm/panel-simple: Implement generic "edp-panel"s
+ probed by EDID
+Date: Thu, 22 Jul 2021 17:21:45 -0700
+Message-Id: <20210722172104.RFC.7.Id9c96cba4eba3e5ee519bfb09cd64b39f2490293@changeid>
 X-Mailer: git-send-email 2.32.0.432.gabb21c7263-goog
 In-Reply-To: <20210723002146.1962910-1-dianders@chromium.org>
 References: <20210723002146.1962910-1-dianders@chromium.org>
@@ -75,228 +77,339 @@ Cc: devicetree@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In the case where we can read an EDID for a panel the only part of the
-panel description that can't be found directly from the EDID is the
-description of the delays. Let's break the delay structure out so that
-we can specify just the delays for panels that are detected by EDID.
+As discussed in the patch ("dt-bindings: drm/panel-simple: Introduce
+generic eDP panels") we can actually support probing eDP panels at
+runtime instead of hardcoding what panel is connected. Add support to
+the panel-simple driver for this.
 
-This is simple code motion. No functional change is intended.
+We'll implement a solution like this:
+* We'll read in two delays from the device tree that are used for
+  powering up the panel the initial time (to read the EDID).
+* In the EDID we can find a 32-bit ID that identifies what panel we've
+  found. From this ID we can look up the full set of delays.
+
+After this change we'll still need to add per-panel delays into the
+panel-simple driver but we will no longer need to specify exactly
+which panel is connected to which board. Nicely, any panels that are
+only supported this way also don't need to hardcode mode data since
+it's guaranteed that we can get that through the EDID.
+
+This patch will seed the ID-to-delay table with a few panels that I
+have access to, many of which are on sc7180-trogdor devices.
+
+NOTE: as part of this patch, we'll also support a "fallback" panel. If
+we have problems reading the EDID or we don't recognize the panel
+connected then we can fallback to the delays from the fallback
+panel. This can be handy for transitioning existing boards over to use
+the new edp-panel solution since we'll still end up with a working
+system even if some boards were shipped with different panels or bad
+EDIDs.
 
 Signed-off-by: Douglas Anderson <dianders@chromium.org>
 ---
 
- drivers/gpu/drm/panel/panel-simple.c | 191 ++++++++++++++-------------
- 1 file changed, 98 insertions(+), 93 deletions(-)
+ drivers/gpu/drm/panel/panel-simple.c | 218 ++++++++++++++++++++++++---
+ 1 file changed, 200 insertions(+), 18 deletions(-)
 
 diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-index c08bc70f7798..80bc60648ecf 100644
+index 80bc60648ecf..3220298f0772 100644
 --- a/drivers/gpu/drm/panel/panel-simple.c
 +++ b/drivers/gpu/drm/panel/panel-simple.c
-@@ -41,6 +41,103 @@
- #include <drm/drm_mipi_dsi.h>
- #include <drm/drm_panel.h>
+@@ -194,6 +194,20 @@ struct panel_desc {
+ 	int connector_type;
+ };
  
 +/**
-+ * struct panel_delay - Describes delays for a simple panel.
++ * struct edp_panel_entry - Maps panel ID to delay / panel name.
 + */
-+struct panel_delay {
-+	/**
-+	 * @prepare: Time for the panel to become ready.
-+	 *
-+	 * The time (in milliseconds) that it takes for the panel to
-+	 * become ready and start receiving video data
-+	 */
-+	unsigned int prepare;
++struct edp_panel_entry {
++	/** @panel_id: 32-bit ID for panel, encoded with encode_edid_id(). */
++	u32 panel_id;
 +
-+	/**
-+	 * @hpd_absent_delay: Time to wait if HPD isn't hooked up.
-+	 *
-+	 * Add this to the prepare delay if we know Hot Plug Detect
-+	 * isn't used.
-+	 */
-+	unsigned int hpd_absent_delay;
++	/* @delay: The power sequencing delays needed for this panel. */
++	const struct panel_delay *delay;
 +
-+	/**
-+	 * @prepare_to_enable: Time between prepare and enable.
-+	 *
-+	 * The minimum time, in milliseconds, that needs to have passed
-+	 * between when prepare finished and enable may begin. If at
-+	 * enable time less time has passed since prepare finished,
-+	 * the driver waits for the remaining time.
-+	 *
-+	 * If a fixed enable delay is also specified, we'll start
-+	 * counting before delaying for the fixed delay.
-+	 *
-+	 * If a fixed prepare delay is also specified, we won't start
-+	 * counting until after the fixed delay. We can't overlap this
-+	 * fixed delay with the min time because the fixed delay
-+	 * doesn't happen at the end of the function if a HPD GPIO was
-+	 * specified.
-+	 *
-+	 * In other words:
-+	 *   prepare()
-+	 *     ...
-+	 *     // do fixed prepare delay
-+	 *     // wait for HPD GPIO if applicable
-+	 *     // start counting for prepare_to_enable
-+	 *
-+	 *   enable()
-+	 *     // do fixed enable delay
-+	 *     // enforce prepare_to_enable min time
-+	 */
-+	unsigned int prepare_to_enable;
-+
-+	/**
-+	 * @power_to_enable: Time for the power to enable the display on.
-+	 *
-+	 * The time (in milliseconds) to wait after powering up the display
-+	 * before asserting its enable pin.
-+	 */
-+	unsigned int power_to_enable;
-+
-+	/**
-+	 * @disable_to_power_off: Time for the disable to power the display off.
-+	 *
-+	 * The time (in milliseconds) to wait before powering off the display
-+	 * after deasserting its enable pin.
-+	 */
-+	unsigned int disable_to_power_off;
-+
-+	/**
-+	 * @enable: Time for the panel to display a valid frame.
-+	 *
-+	 * The time (in milliseconds) that it takes for the panel to
-+	 * display the first valid frame after starting to receive
-+	 * video data.
-+	 */
-+	unsigned int enable;
-+
-+	/**
-+	 * @disable: Time for the panel to turn the display off.
-+	 *
-+	 * The time (in milliseconds) that it takes for the panel to
-+	 * turn the display off (no content is visible).
-+	 */
-+	unsigned int disable;
-+
-+	/**
-+	 * @unprepare: Time to power down completely.
-+	 *
-+	 * The time (in milliseconds) that it takes for the panel
-+	 * to power itself down completely.
-+	 *
-+	 * This time is used to prevent a future "prepare" from
-+	 * starting until at least this many milliseconds has passed.
-+	 * If at prepare time less time has passed since unprepare
-+	 * finished, the driver waits for the remaining time.
-+	 */
-+	unsigned int unprepare;
++	/* @name: Name of this panel (for printing to logs). */
++	const char *name;
 +};
 +
- /**
-  * struct panel_desc - Describes a simple panel.
-  */
-@@ -85,99 +182,7 @@ struct panel_desc {
- 	} size;
+ struct panel_simple {
+ 	struct drm_panel base;
+ 	bool enabled;
+@@ -552,8 +566,15 @@ static int panel_simple_get_modes(struct drm_panel *panel,
+ 		pm_runtime_put_autosuspend(panel->dev);
+ 	}
  
- 	/** @delay: Structure containing various delay values for this panel. */
--	struct {
--		/**
--		 * @delay.prepare: Time for the panel to become ready.
--		 *
--		 * The time (in milliseconds) that it takes for the panel to
--		 * become ready and start receiving video data
--		 */
--		unsigned int prepare;
--
--		/**
--		 * @delay.hpd_absent_delay: Time to wait if HPD isn't hooked up.
--		 *
--		 * Add this to the prepare delay if we know Hot Plug Detect
--		 * isn't used.
--		 */
--		unsigned int hpd_absent_delay;
--
--		/**
--		 * @delay.prepare_to_enable: Time between prepare and enable.
--		 *
--		 * The minimum time, in milliseconds, that needs to have passed
--		 * between when prepare finished and enable may begin. If at
--		 * enable time less time has passed since prepare finished,
--		 * the driver waits for the remaining time.
--		 *
--		 * If a fixed enable delay is also specified, we'll start
--		 * counting before delaying for the fixed delay.
--		 *
--		 * If a fixed prepare delay is also specified, we won't start
--		 * counting until after the fixed delay. We can't overlap this
--		 * fixed delay with the min time because the fixed delay
--		 * doesn't happen at the end of the function if a HPD GPIO was
--		 * specified.
--		 *
--		 * In other words:
--		 *   prepare()
--		 *     ...
--		 *     // do fixed prepare delay
--		 *     // wait for HPD GPIO if applicable
--		 *     // start counting for prepare_to_enable
--		 *
--		 *   enable()
--		 *     // do fixed enable delay
--		 *     // enforce prepare_to_enable min time
--		 */
--		unsigned int prepare_to_enable;
--
--		/**
--		 * @delay.power_to_enable: Time for the power to enable the display on.
--		 *
--		 * The time (in milliseconds) to wait after powering up the display
--		 * before asserting its enable pin.
--		 */
--		unsigned int power_to_enable;
--
--		/**
--		 * @delay.disable_to_power_off: Time for the disable to power the display off.
--		 *
--		 * The time (in milliseconds) to wait before powering off the display
--		 * after deasserting its enable pin.
--		 */
--		unsigned int disable_to_power_off;
--
--		/**
--		 * @delay.enable: Time for the panel to display a valid frame.
--		 *
--		 * The time (in milliseconds) that it takes for the panel to
--		 * display the first valid frame after starting to receive
--		 * video data.
--		 */
--		unsigned int enable;
--
--		/**
--		 * @delay.disable: Time for the panel to turn the display off.
--		 *
--		 * The time (in milliseconds) that it takes for the panel to
--		 * turn the display off (no content is visible).
--		 */
--		unsigned int disable;
--
--		/**
--		 * @delay.unprepare: Time to power down completely.
--		 *
--		 * The time (in milliseconds) that it takes for the panel
--		 * to power itself down completely.
--		 *
--		 * This time is used to prevent a future "prepare" from
--		 * starting until at least this many milliseconds has passed.
--		 * If at prepare time less time has passed since unprepare
--		 * finished, the driver waits for the remaining time.
--		 */
--		unsigned int unprepare;
--	} delay;
-+	struct panel_delay delay;
+-	/* add hard-coded panel modes */
+-	num += panel_simple_get_non_edid_modes(p, connector);
++	/*
++	 * Add hard-coded panel modes. Don't call this if there are no timings
++	 * and no modes (the generic edp-panel case) because it will clobber
++	 * the display_info that was already set by drm_add_edid_modes().
++	 */
++	if (p->desc.num_timings || p->desc.num_modes)
++		num += panel_simple_get_non_edid_modes(p, connector);
++	else if (!num)
++		dev_warn(p->base.dev, "No display modes\n");
  
- 	/** @bus_format: See MEDIA_BUS_FMT_... defines. */
- 	u32 bus_format;
+ 	/* set up connector's "panel orientation" property */
+ 	drm_connector_set_panel_orientation(connector, p->orientation);
+@@ -677,9 +698,90 @@ static void panel_simple_parse_panel_timing_node(struct device *dev,
+ 		dev_err(dev, "Reject override mode: No display_timing found\n");
+ }
+ 
++static const struct edp_panel_entry *find_edp_panel(u32 panel_id);
++
++static int generic_edp_panel_probe(struct device *dev, struct panel_simple *panel)
++{
++	const struct edp_panel_entry *edp_panel;
++	u32 panel_id;
++	char vend[4];
++	u16 product_id;
++	u32 val;
++	int ret;
++
++	/*
++	 * Read the dts properties for the initial probe. These are used by
++	 * the runtime resume code which will get called by the
++	 * pm_runtime_get_sync() call below.
++	 *
++	 * NOTE: the delays might be pre-populated if a fallback panel was
++	 * specified or might be 0 if no fallback panel was specified.
++	 *
++	 * The value in the device tree can be _higher_ than the fallback
++	 * panel but never lower since the device tree value should be the max
++	 * of all possible panels that might be plugged into a given board.
++	 */
++	ret = of_property_read_u32(dev->of_node, "hpd-reliable-delay", &val);
++	if (!ret) {
++		if (panel->desc.delay.prepare > val)
++			dev_warn(dev,
++				 "Ignoring hpd-reliable-delay that's lower than fallback\n");
++		else
++			panel->desc.delay.prepare = val;
++	}
++	ret = of_property_read_u32(dev->of_node, "hpd-absent-delay", &val);
++	if (!ret) {
++		if (panel->desc.delay.hpd_absent_delay > val)
++			dev_warn(dev,
++				 "Ignoring hpd-absent-delay that's lower than fallback\n");
++		else if (panel->desc.delay.prepare > val)
++			dev_warn(dev,
++				 "Ignoring hpd-absent-delay that's lower than prepare delay\n");
++		else
++			/* hpd_absent_delay is added to prepare delay in prepare, so subtract now */
++			panel->desc.delay.hpd_absent_delay =
++				val - panel->desc.delay.prepare;
++	}
++
++	/* Power the panel on so we can read the EDID */
++	pm_runtime_get_sync(dev);
++
++	panel_id = drm_get_panel_id(panel->ddc);
++	if (!panel_id) {
++		dev_warn(dev, "Couldn't identify panel via EDID\n");
++		ret = -EIO;
++		goto exit;
++	}
++	decode_edid_id(panel_id, vend, &product_id);
++
++	edp_panel = find_edp_panel(panel_id);
++	if (!edp_panel) {
++		dev_warn(dev, "Unrecognized panel %s %#06x\n", vend, product_id);
++		ret = -EINVAL;
++		goto exit;
++	}
++
++	dev_info(dev, "Detected %s %s (%#06x)\n", vend, edp_panel->name, product_id);
++
++	/* Zero out anything from the fallback */
++	memset(&panel->desc, 0, sizeof(panel->desc));
++
++	/* Fill in the two required things; everything else comes from EDID */
++	panel->desc.connector_type = DRM_MODE_CONNECTOR_eDP;
++	panel->desc.delay = *edp_panel->delay;
++
++	ret = 0;
++exit:
++	pm_runtime_mark_last_busy(dev);
++	pm_runtime_put_autosuspend(dev);
++
++	return ret;
++}
++
+ static int panel_simple_probe(struct device *dev, const struct panel_desc *desc,
+ 			      struct drm_dp_aux *aux)
+ {
++	bool is_generic_edp_panel = false;
+ 	struct panel_simple *panel;
+ 	struct display_timing dt;
+ 	struct device_node *ddc;
+@@ -693,7 +795,8 @@ static int panel_simple_probe(struct device *dev, const struct panel_desc *desc,
+ 
+ 	panel->enabled = false;
+ 	panel->prepared_time = 0;
+-	panel->desc = *desc;
++	if (desc)
++		panel->desc = *desc;
+ 	panel->aux = aux;
+ 
+ 	panel->no_hpd = of_property_read_bool(dev->of_node, "no-hpd");
+@@ -743,6 +846,36 @@ static int panel_simple_probe(struct device *dev, const struct panel_desc *desc,
+ 			panel_simple_parse_panel_timing_node(dev, panel, &dt);
+ 	}
+ 
++	dev_set_drvdata(dev, panel);
++
++	/*
++	 * We use runtime PM for prepare / unprepare since those power the panel
++	 * on and off and those can be very slow operations. This is important
++	 * to optimize powering the panel on briefly to read the EDID before
++	 * fully enabling the panel.
++	 */
++	pm_runtime_enable(dev);
++	pm_runtime_set_autosuspend_delay(dev, 1000);
++	pm_runtime_use_autosuspend(dev);
++
++	if (of_device_is_compatible(dev->of_node, "edp-panel")) {
++		err = generic_edp_panel_probe(dev, panel);
++		if (err && !desc)
++			return dev_err_probe(dev, err,
++					     "Couldn't detect panel nor find a fallback\n");
++
++		is_generic_edp_panel = !err;
++
++		/*
++		 * If desc was non-NULL then worst case we're using the fallback
++		 * and we can ignore errors. The generic_edp_panel_probe()
++		 * function would have already printed a warning.
++		 */
++		err = 0;
++	}
++
++	desc = &panel->desc;
++
+ 	connector_type = desc->connector_type;
+ 	/* Catch common mistakes for panels. */
+ 	switch (connector_type) {
+@@ -766,7 +899,7 @@ static int panel_simple_probe(struct device *dev, const struct panel_desc *desc,
+ 			desc->bpc != 8);
+ 		break;
+ 	case DRM_MODE_CONNECTOR_eDP:
+-		if (desc->bpc != 6 && desc->bpc != 8 && desc->bpc != 10)
++		if (!is_generic_edp_panel && desc->bpc != 6 && desc->bpc != 8 && desc->bpc != 10)
+ 			dev_warn(dev, "Expected bpc in {6,8,10} but got: %u\n", desc->bpc);
+ 		break;
+ 	case DRM_MODE_CONNECTOR_DSI:
+@@ -802,18 +935,6 @@ static int panel_simple_probe(struct device *dev, const struct panel_desc *desc,
+ 	if (!panel->enable_gpio && desc->delay.power_to_enable)
+ 		dev_warn(dev, "Need a delay before enabling panel GPIO, but a GPIO wasn't provided\n");
+ 
+-	dev_set_drvdata(dev, panel);
+-
+-	/*
+-	 * We use runtime PM for prepare / unprepare since those power the panel
+-	 * on and off and those can be very slow operations. This is important
+-	 * to optimize powering the panel on briefly to read the EDID before
+-	 * fully enabling the panel.
+-	 */
+-	pm_runtime_enable(dev);
+-	pm_runtime_set_autosuspend_delay(dev, 1000);
+-	pm_runtime_use_autosuspend(dev);
+-
+ 	drm_panel_init(&panel->base, dev, &panel_simple_funcs, connector_type);
+ 
+ 	err = drm_panel_of_backlight(&panel->base);
+@@ -4331,6 +4452,9 @@ static const struct panel_desc arm_rtsm = {
+ 
+ static const struct of_device_id platform_of_match[] = {
+ 	{
++		/* Must be first */
++		.compatible = "edp-panel",
++	}, {
+ 		.compatible = "ampire,am-1280800n3tzqw-t00h",
+ 		.data = &ampire_am_1280800n3tzqw_t00h,
+ 	}, {
+@@ -4760,11 +4884,61 @@ static const struct of_device_id platform_of_match[] = {
+ };
+ MODULE_DEVICE_TABLE(of, platform_of_match);
+ 
++const struct panel_delay boe116whm_t01_delay = {
++	.hpd_absent_delay = 200,
++	.prepare_to_enable = 80,
++	.unprepare = 500,
++};
++
++#define EDP_PANEL_ENTRY(vend_chr_0, vend_chr_1, vend_chr_2, product_id, _delay, _name) \
++{ \
++	.name = _name, \
++	.panel_id = encode_edid_id(vend_chr_0, vend_chr_1, vend_chr_2, product_id), \
++	.delay = _delay \
++}
++
++/*
++ * This table is used to figure out power sequencing delays for panels that
++ * are detected by EDID. Entries here may point to entries in the
++ * platform_of_match table (if a panel is listed in both places).
++ *
++ * Sort first by vendor, then by product ID.
++ */
++static const struct edp_panel_entry edp_panels[] = {
++	EDP_PANEL_ENTRY('A', 'U', 'O', 0x5c40, &auo_b116xak01.delay, "B116XAK01"),
++
++	EDP_PANEL_ENTRY('B', 'O', 'E', 0x2d08, &boe_nv133fhm_n61.delay, "NV133FHM-N62"),
++	EDP_PANEL_ENTRY('B', 'O', 'E', 0x8607, &boe116whm_t01_delay, "NV116WHM-T01"),
++	EDP_PANEL_ENTRY('B', 'O', 'E', 0x8d09, &boe_nv110wtm_n61.delay, "NV110WTM-N61"),
++	EDP_PANEL_ENTRY('B', 'O', 'E', 0xd107, &boe_nv133fhm_n61.delay, "NV133FHM-N61"),
++
++	EDP_PANEL_ENTRY('C', 'M', 'N', 0x4c11, &innolux_n116bca_ea1.delay, "N116BCA-EA1"),
++
++	EDP_PANEL_ENTRY('K', 'D', 'B', 0x2406, &kingdisplay_kd116n21_30nv_a010.delay, "116N21-30NV-A010"),
++
++	{ /* sentinal */ }
++};
++
++static const struct edp_panel_entry *find_edp_panel(u32 panel_id)
++{
++	const struct edp_panel_entry *panel;
++
++	if (!panel_id)
++		return NULL;
++
++	for (panel = edp_panels; panel->panel_id; panel++)
++		if (panel->panel_id == panel_id)
++			return panel;
++
++	return NULL;
++}
++
+ static int panel_simple_platform_probe(struct platform_device *pdev)
+ {
+ 	const struct of_device_id *id;
+ 
+-	id = of_match_node(platform_of_match, pdev->dev.of_node);
++	/* Skip one since "edp-panel" is only supported on DP AUX bus */
++	id = of_match_node(platform_of_match + 1, pdev->dev.of_node);
+ 	if (!id)
+ 		return -ENODEV;
+ 
+@@ -5097,7 +5271,15 @@ static int panel_simple_dp_aux_ep_probe(struct dp_aux_ep_device *aux_ep)
+ {
+ 	const struct of_device_id *id;
+ 
+-	id = of_match_node(platform_of_match, aux_ep->dev.of_node);
++	/*
++	 * Try "+ 1" first to only match "edp-panel" as a last resort. This
++	 * means that our descriptor will be set based on the fallback
++	 * compatible string if possible.
++	 */
++	id = of_match_node(platform_of_match + 1, aux_ep->dev.of_node);
++	if (!id)
++		id = of_match_node(platform_of_match, aux_ep->dev.of_node);
++
+ 	if (!id)
+ 		return -ENODEV;
+ 
 -- 
 2.32.0.432.gabb21c7263-goog
 
