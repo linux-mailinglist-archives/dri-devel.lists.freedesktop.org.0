@@ -1,69 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54BE13D3692
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jul 2021 10:22:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 627C13D36A4
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jul 2021 10:27:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8BA9F6E946;
-	Fri, 23 Jul 2021 08:22:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A78D6F3AD;
+	Fri, 23 Jul 2021 08:27:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
- [IPv6:2a00:1450:4864:20::436])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4DADA6E946
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jul 2021 08:22:38 +0000 (UTC)
-Received: by mail-wr1-x436.google.com with SMTP id w12so1347345wro.13
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jul 2021 01:22:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=eHQIcjQXUTuq7R+K/4eHvbaN0F5Gzr6UU0DXUwmBLJk=;
- b=nzcmKaSw5a9/iHEpD8IGwqxpV6+wQbsa6rC46XSES6JjF07FEKVg5FjKb1JTD1MJUp
- UWb+whYWfBLhf/apn1zGhcaT4qohXVV9Xxj+alDN1LG2wDWWnRrc4X6n0KHkAXqB4ry3
- EuYXMqVBCY8zFOqB5Bl21/xMzA/+RuztnUcARafe2vZJkDUEysgxx9fP8cYwtGQeWGrr
- KCFLMGwrWz1DZBQekRznkbB/lVRCjDPnvOmYPL749yv5CiBnHTr6FGF8M0FDMUoObyn7
- lu/nEXdekEdZuKsYKFZGN/QFViN1Fvqo8TvwjUbGuzVt2NKGXWZHmUzfVR28BQ1W3bzs
- x78A==
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
+ [IPv6:2a00:1450:4864:20::62e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B5F36F3AD
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jul 2021 08:27:12 +0000 (UTC)
+Received: by mail-ej1-x62e.google.com with SMTP id l13so2574296ejo.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jul 2021 01:27:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=iFpK+T9+raPLxD+yxquAoKkiFMyk8CjZ/tSZDv72n2o=;
+ b=ZVJXefECKmKkO0h9sYZ9RR58AL+LWdFA77aSbDvdI+zrMQ1A6P5FjdcTwjZyEjFUMT
+ dhw2K7Qaq+0Sc8B1FqcOpWv7fAmBt9R5PeYi3O6uSOM0LrQd8Z5eI7QRZ0Gi6eQKlIAW
+ 6KA5HNR69yUmOgsScu9ArA9ZZrhpJIoY5Ov9s=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=eHQIcjQXUTuq7R+K/4eHvbaN0F5Gzr6UU0DXUwmBLJk=;
- b=thjDdeXi1hPpR5RkemEGI+hFncqm5JkSFkfOc+feI0bs1+DtI1lfu/IDiWHbpF5zew
- qjy3w+K6yoY2R/BdQ1+gyEFp9JbDDC8Y/lK57kD8IVOGTDnDVKZjNOdDm3rymxEkyQVR
- LqTbyhyqwyvtJQScJMq/szjyKBGJiWyw2wAnB7KH/9YW386hsJbed7/0t7Jib1JdkbjL
- qdsUEqxFHU1h+7o8pGUkaDeY7Hyq8r3861cGfdXXoUHNaYWUQ4Xd4AdpELPLAZE43U4G
- 10ho85DG8ElhYDi+E22gWXI2Na66GmojZUc8LEh9RB9IXukAvnScqVAdQZT16zfLFlME
- vwPg==
-X-Gm-Message-State: AOAM533nP/AAB8nUq0/ZIDyBCBShDiORC4QVTCMA1qXFPHj7rmmgPqXg
- k5hTJIcRVNT9R61ck16tG4uw2PA9GBA=
-X-Google-Smtp-Source: ABdhPJzNsXd0xn+ZYk/hKsrkSpo+O4LewrB8Z7g153yCkw6fE4ToY+F0tCUlfnCAi8qU3Z4xnS7gPA==
-X-Received: by 2002:adf:f6cc:: with SMTP id y12mr1609495wrp.178.1627028556944; 
- Fri, 23 Jul 2021 01:22:36 -0700 (PDT)
-Received: from ?IPv6:2a02:908:1252:fb60:a0d7:cc1c:9090:5782?
- ([2a02:908:1252:fb60:a0d7:cc1c:9090:5782])
- by smtp.gmail.com with ESMTPSA id s24sm34555606wra.33.2021.07.23.01.22.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 23 Jul 2021 01:22:36 -0700 (PDT)
-Subject: Re: [Linaro-mm-sig] [PATCH] dma-buf/poll: Get a file reference for
- outstanding fence callbacks
-To: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-References: <20210723075857.4065-1-michel@daenzer.net>
- <f5f37693-bfe2-e52f-172b-00f4aa94dbd9@amd.com>
- <4cf94f59-f953-f5d7-9901-cfe5fd63bfbc@daenzer.net>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <884050b3-5e7d-c00b-5467-290cfc57e0ea@gmail.com>
-Date: Fri, 23 Jul 2021 10:22:34 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=iFpK+T9+raPLxD+yxquAoKkiFMyk8CjZ/tSZDv72n2o=;
+ b=kSNYNqdNzAfbX/2GR0R/9f1RJaEcfoHZu/fmVtvPbiZBlKqbiti3CLuq8lNqnx9A9t
+ AA0xlOH/Qc1iNdYfGzWvyHf6KFGrhQSKsge79Zc+KNNOkINF+nqFhB8h5tqL1/U6brRe
+ RdIZXFWz+TsVOMWHR+o7bELV/mWpYE6Quc9ii/P71xBXhIkumesdHoOJFqMVWiJZFTmE
+ ZBGJtWgxd9Ga/P27RuBx+6erz1mt9LjxqXPLiQbW18YYOqbWVijGOWL54Q/PUZfNAUP/
+ mSUOUJN+/5b06/1NxspavHqyqClsiPGOwyeCn4wBqmF84fu6cdq+BzS4Rz65xQ5RRbEO
+ j5gA==
+X-Gm-Message-State: AOAM530/mfUOaFyRrh3XFaKlZEoVxcZ5ObanDd+/re6vZLbPLo3DXu+f
+ qzr+b3oLBVPgQWdTbxGDj6+RNw==
+X-Google-Smtp-Source: ABdhPJyzWM4G9HcIWpk6UZ8YFodYmP7Y4vSG+XIakxaW8WUjB18orefvqugOUHJXwuBXOz5wWBjYxQ==
+X-Received: by 2002:a17:907:d09:: with SMTP id
+ gn9mr3619982ejc.447.1627028830842; 
+ Fri, 23 Jul 2021 01:27:10 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id m12sm10376485ejd.21.2021.07.23.01.27.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 23 Jul 2021 01:27:10 -0700 (PDT)
+Date: Fri, 23 Jul 2021 10:27:08 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Christoph Hellwig <hch@infradead.org>
+Subject: Re: [PATCH v2 0/9] PCI/VGA: Rework default VGA device selection
+Message-ID: <YPp9XCa+1kS/s3wK@phenom.ffwll.local>
+References: <20210722212920.347118-1-helgaas@kernel.org>
+ <YPpY/zRTYK3xI6rK@infradead.org>
 MIME-Version: 1.0
-In-Reply-To: <4cf94f59-f953-f5d7-9901-cfe5fd63bfbc@daenzer.net>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YPpY/zRTYK3xI6rK@infradead.org>
+X-Operating-System: Linux phenom 5.10.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,76 +67,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org
+Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Bjorn Helgaas <helgaas@kernel.org>, linux-pci@vger.kernel.org,
+ Bjorn Helgaas <bhelgaas@google.com>, Xuefeng Li <lixuefeng@loongson.cn>,
+ Huacai Chen <chenhuacai@loongson.cn>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, Jul 23, 2021 at 06:51:59AM +0100, Christoph Hellwig wrote:
+> On Thu, Jul 22, 2021 at 04:29:11PM -0500, Bjorn Helgaas wrote:
+> > From: Bjorn Helgaas <bhelgaas@google.com>
+> > 
+> > This is a little bit of rework and extension of Huacai's nice work at [1].
+> > 
+> > It moves the VGA arbiter to the PCI subsystem, fixes a few nits, and breaks
+> > a few pieces off Huacai's patch to make the main patch a little smaller.
+> > 
+> > That last patch is still not very small, and it needs a commit log, as I
+> > mentioned at [2].
+> 
+> FYI, I have a bunch of changes to this code that the drm maintainers
+> picked up.  They should show up in the next linux-next I think.
 
+Yeah I think for merging I think there'll be two options:
 
-Am 23.07.21 um 10:19 schrieb Michel Dänzer:
-> On 2021-07-23 10:04 a.m., Christian König wrote:
->> Am 23.07.21 um 09:58 schrieb Michel Dänzer:
->>> From: Michel Dänzer <mdaenzer@redhat.com>
->>>
->>> This makes sure we don't hit the
->>>
->>>      BUG_ON(dmabuf->cb_in.active || dmabuf->cb_out.active);
->>>
->>> in dma_buf_release, which could be triggered by user space closing the
->>> dma-buf file description while there are outstanding fence callbacks
->>> from dma_buf_poll.
->> I was also wondering the same thing while working on this, but then thought that the poll interface would take care of this.
-> I was able to hit the BUG_ON with https://gitlab.gnome.org/GNOME/mutter/-/merge_requests/1880 .
->
->
->>> Cc: stable@vger.kernel.org
->>> Signed-off-by: Michel Dänzer <mdaenzer@redhat.com>
->>> ---
->>>    drivers/dma-buf/dma-buf.c | 18 ++++++++++++------
->>>    1 file changed, 12 insertions(+), 6 deletions(-)
->>>
->>> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
->>> index 6c520c9bd93c..ec25498a971f 100644
->>> --- a/drivers/dma-buf/dma-buf.c
->>> +++ b/drivers/dma-buf/dma-buf.c
->>> @@ -65,12 +65,9 @@ static void dma_buf_release(struct dentry *dentry)
->>>        BUG_ON(dmabuf->vmapping_counter);
->>>          /*
->>> -     * Any fences that a dma-buf poll can wait on should be signaled
->>> -     * before releasing dma-buf. This is the responsibility of each
->>> -     * driver that uses the reservation objects.
->>> -     *
->>> -     * If you hit this BUG() it means someone dropped their ref to the
->>> -     * dma-buf while still having pending operation to the buffer.
->>> +     * If you hit this BUG() it could mean:
->>> +     * * There's a file reference imbalance in dma_buf_poll / dma_buf_poll_cb or somewhere else
->>> +     * * dmabuf->cb_in/out.active are non-0 despite no pending fence callback
->>>         */
->>>        BUG_ON(dmabuf->cb_in.active || dmabuf->cb_out.active);
->>>    @@ -196,6 +193,7 @@ static loff_t dma_buf_llseek(struct file *file, loff_t offset, int whence)
->>>    static void dma_buf_poll_cb(struct dma_fence *fence, struct dma_fence_cb *cb)
->>>    {
->>>        struct dma_buf_poll_cb_t *dcb = (struct dma_buf_poll_cb_t *)cb;
->>> +    struct dma_buf *dmabuf = container_of(dcb->poll, struct dma_buf, poll);
->>>        unsigned long flags;
->>>          spin_lock_irqsave(&dcb->poll->lock, flags);
->>> @@ -203,6 +201,8 @@ static void dma_buf_poll_cb(struct dma_fence *fence, struct dma_fence_cb *cb)
->>>        dcb->active = 0;
->>>        spin_unlock_irqrestore(&dcb->poll->lock, flags);
->>>        dma_fence_put(fence);
->>> +    /* Paired with get_file in dma_buf_poll */
->>> +    fput(dmabuf->file);
->> Is calling fput() in interrupt context ok? IIRC that could potentially sleep.
-> Looks fine AFAICT: It has
->
-> 		if (likely(!in_interrupt() && !(task->flags & PF_KTHREAD))) {
->
-> and as a fallback for that, it adds the file to a lock-less delayed_fput_list which is processed by a workqueue.
+- We also merge this series through drm-misc-next to avoid conflicts, but
+  anything after that will (i.e. from 5.16-rc1 onwards) will go in through
+  the pci tree.
 
-Ah, yes that makes sense.
+- You also merge Christoph's series, and we tell Linus to ignore the
+  vgaarb changes that also come in through drm-next pull.
 
-Fell free to add Reviewed-by: Christian König <christian.koenig@amd.com>
+It's a non-rebasing tree so taking them out isn't an option, and reverting
+feels silly. Either of the above is fine with me.
 
-Thanks,
-Christian.
+Also I just noticed that the scrip has gone wrong for drm-misc-next and
+it's not actually yet in linux-next. I'll sort that out. Ok I just did
+sort that out while I forgot this reply draft here, one of our committers
+pushed a patch to the wrong branch. Luckily it was a broken one and the
+right fix is in the right branch (and already in Linus' tree), so a hard
+reset was all it took. So should be all in linux-next on the next update.
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
