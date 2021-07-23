@@ -2,70 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87D8B3D3860
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jul 2021 12:12:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DDB83D3870
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jul 2021 12:15:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D6B336F501;
-	Fri, 23 Jul 2021 10:12:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F8716EA1E;
+	Fri, 23 Jul 2021 10:15:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD07A6F501
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jul 2021 10:12:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627035163;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Q9pRT+TDioDd0ny044PT7McbtP/VkEKPsqs+fpZmGxs=;
- b=J7JeJ/MsgtN8LiIlmC4RdV5A5qwymwDJgW19USuvqNu8/jQuYjPIRG9/ziPHx4g/o9W0RA
- 581/Ef0jpzLIJyGRo/4aOThKmSZ0UtdOpSDj6dhRKW1WwTS5DGlb8ph2PJzAOzCP0m3hPC
- ZRMtJM2owgl8smwAj4RZDja7xhZuGLQ=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-241-0kUD0Yb0MWKAPFSULlZq4A-1; Fri, 23 Jul 2021 06:12:41 -0400
-X-MC-Unique: 0kUD0Yb0MWKAPFSULlZq4A-1
-Received: by mail-wr1-f70.google.com with SMTP id
- a7-20020adfeec70000b0290140ab4d8389so812741wrp.10
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jul 2021 03:12:41 -0700 (PDT)
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
+ [IPv6:2a00:1450:4864:20::42f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 29A876EA1E
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jul 2021 10:15:15 +0000 (UTC)
+Received: by mail-wr1-x42f.google.com with SMTP id t17so1802791wrq.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jul 2021 03:15:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=gWZLVkLeqiIzTgA1yTsmCWAmxaZF0chvlAf5OlNj5WI=;
+ b=jaig5EExjQqcy0uRokhpYHMvvQot+nxu8Vl063VaZqXGNRrhdmKp1KItQIKBiHGWyK
+ 6BcN2tpmGnEOjSzvQl9n97yU4VN02QTK4L7LiFH7ByBGZR4nWvspQfK9kWyGyztELTGE
+ jCi6pvqzc6HbeLqBsrINyU/XvE7onV7odohZtH4fI9Cw094483S0LN6IaLS9fuAYYjvE
+ WPwdQ/yV5XlyTUrzsSMYQjyi5GSc1M/St8KMKTpJZX0CWs/7Ixpmkscpa6t4qV4CBl0c
+ QCplYxWZcaP7B0yX5H/a7eQn6m1Wz/x0n9s4iseIz1u2T2u+lxXAxRA6qwin7B+3RjKO
+ Evyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Q9pRT+TDioDd0ny044PT7McbtP/VkEKPsqs+fpZmGxs=;
- b=s1eLbXod1mbqx6BVZmYHHnsqwLGbMBXwfU6KFnhRVYNDgvZitb4usUKJVRXbladVVf
- jNnWx6s3NE7+J2KEOLrKKc7MBSBXHg3uBByN7VwqkPTZVTwS4IeK8PxgAqiNeeEueQhi
- NHhZ7jVoR+GEqH3KXpbEoCR3pWrGNIKfdCP0DzbFWHqXVSk2hCeZm4CpEEVLjinWS0dk
- ASB2leJzeSrinZntAs8bQDHI131u6KJ7Ntq+5tofs38Hz/DNL+FoIhC85mAecmuuYxWJ
- lg+9hgxqIUOn4t8qq/6pHTnA16c4qfeQCTNEvre7exMqynX8smHKMw2s8Wh8BPi24v+l
- gH3w==
-X-Gm-Message-State: AOAM530RbRRwKd4+bFS9rilb/jkjqSnoXSK9q/UDnQIxCt3rIg6E9EZ7
- xnCDl+s0KO/+cyb1IW8B8YCeIxW+0aWpQi/RPxkRgYNFAkKylvhfjo6hYAReOnJUgf7dG5MRyZi
- YmsT3dLwwVlRJTljJpXfVDXYyhFINoJIL1SuGA5M/zVt9
-X-Received: by 2002:a05:600c:3ba7:: with SMTP id
- n39mr3755669wms.164.1627035160619; 
- Fri, 23 Jul 2021 03:12:40 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx2n0dFuqSnizQabm+vXjBCnDF5inrP51MQVNclVAB1hSAcJbJ3coTLI37aBZNo+JsNAeWu1UbltRxODh+umPQ=
-X-Received: by 2002:a05:600c:3ba7:: with SMTP id
- n39mr3755652wms.164.1627035160411; 
- Fri, 23 Jul 2021 03:12:40 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=gWZLVkLeqiIzTgA1yTsmCWAmxaZF0chvlAf5OlNj5WI=;
+ b=Wp6/Indoc2mWgm2ZxossKZg0/v7iMZ/vuSXMVnwe0UrBNenuD0oyS/HYo6okPpDTNL
+ 71rr91A0mQeZaaoKFhMgTthClxJyE9GT+0XZnoINngR2lAzoIgsFOxyTwd6jCS8+4EKa
+ 6sPsR/iufBN08DA5tHdoRZRNoqTIQReBN+EXPRJNa/+xY5y4nYcJSKMwF6hKthhBqODv
+ 4EKOMIarT+ofy43paflVD+8J9LRktz04p7Fzdt+EBe6rbg3UJrLQAzaCg0P8P5HbT+KM
+ EbJFt+lhudiDyDtvjcksKhL980xtw49k/ZU/VktUmAteZqoNdlJTUhzI8SGyJSUW4hBS
+ JN3A==
+X-Gm-Message-State: AOAM532m6kLqv2XKsFxEc2JH2YUoCvGPR8VVbGgL8oPCpNxr89eaz6mR
+ JrtEeoIIMhit742Ixj7HSdQqDA==
+X-Google-Smtp-Source: ABdhPJxaINxX8qbrYB3mz1rfxUXspdpTMlELm5zKgjNAokK6QKq2Gh125hhBBgsP3wuBZuvFVSyypw==
+X-Received: by 2002:a5d:528d:: with SMTP id c13mr4526377wrv.343.1627035313649; 
+ Fri, 23 Jul 2021 03:15:13 -0700 (PDT)
+Received: from maple.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net.
+ [80.7.220.175])
+ by smtp.gmail.com with ESMTPSA id p22sm3478844wmq.44.2021.07.23.03.15.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 23 Jul 2021 03:15:12 -0700 (PDT)
+Date: Fri, 23 Jul 2021 11:15:10 +0100
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: Marek Vasut <marex@denx.de>
+Subject: Re: [PATCH] backlight: pwm_bl: Avoid backlight flicker if backlight
+ control GPIO is input
+Message-ID: <20210723101510.r2xz4rlzvgkhxtw3@maple.lan>
+References: <20210718211415.143709-1-marex@denx.de>
+ <20210719112202.4fvmn57ibgy3yesa@maple.lan>
+ <bbaad78e-91c7-0787-fa72-b5cfabcc6dbd@denx.de>
+ <20210721104914.4difos6w3ysjelnv@maple.lan>
+ <fee1ad9e-ae70-1644-5444-6c894473b48e@denx.de>
+ <20210721161249.gehnwkscto2hlh7s@maple.lan>
+ <298f6a35-2120-60a6-598a-87b141118bfa@denx.de>
+ <20210722112824.z5s2fst2q3vrblcr@maple.lan>
+ <dd372ddc-0137-2f1c-8493-4bd38762384c@denx.de>
 MIME-Version: 1.0
-References: <20210723091534.1730564-1-arnd@kernel.org>
- <CAKMK7uHG0T7kgHzrkxoGj+Cv1-5f=GaH1CviunoZd_wEL5G4YQ@mail.gmail.com>
- <CACO55ttWCe2NLBiDW+nujiXTE1nGgNJy4C0q+5Aa6uh0OJ1sww@mail.gmail.com>
-In-Reply-To: <CACO55ttWCe2NLBiDW+nujiXTE1nGgNJy4C0q+5Aa6uh0OJ1sww@mail.gmail.com>
-From: Karol Herbst <kherbst@redhat.com>
-Date: Fri, 23 Jul 2021 12:12:29 +0200
-Message-ID: <CACO55tvfzMiwfh87M=x3d_KWm41btDVHEGxPQLV0+iSskPQzWA@mail.gmail.com>
-Subject: Re: [PATCH] drm/nouveau/kms/nv50-: fix build failure with
- CONFIG_BACKLIGHT=n
-To: Daniel Vetter <daniel@ffwll.ch>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kherbst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <dd372ddc-0137-2f1c-8493-4bd38762384c@denx.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,101 +77,128 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Arnd Bergmann <arnd@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- David Airlie <airlied@linux.ie>, Nouveau Dev <nouveau@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Nikola Cornij <nikola.cornij@amd.com>, Ben Skeggs <bskeggs@redhat.com>
+Cc: linux-pwm@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Thierry Reding <treding@nvidia.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jul 23, 2021 at 12:10 PM Karol Herbst <kherbst@redhat.com> wrote:
->
-> On Fri, Jul 23, 2021 at 11:24 AM Daniel Vetter <daniel@ffwll.ch> wrote:
-> >
-> > On Fri, Jul 23, 2021 at 11:15 AM Arnd Bergmann <arnd@kernel.org> wrote:
-> > >
-> > > From: Arnd Bergmann <arnd@arndb.de>
-> > >
-> > > When the backlight support is disabled, the driver fails to build:
-> > >
-> > > drivers/gpu/drm/nouveau/dispnv50/disp.c: In function 'nv50_sor_atomic_disable':
-> > > drivers/gpu/drm/nouveau/dispnv50/disp.c:1665:59: error: 'struct nouveau_connector' has no member named 'backlight'
-> > >  1665 |         struct nouveau_backlight *backlight = nv_connector->backlight;
-> > >       |                                                           ^~
-> > > drivers/gpu/drm/nouveau/dispnv50/disp.c:1670:35: error: invalid use of undefined type 'struct nouveau_backlight'
-> > >  1670 |         if (backlight && backlight->uses_dpcd) {
-> > >       |                                   ^~
-> > > drivers/gpu/drm/nouveau/dispnv50/disp.c:1671:64: error: invalid use of undefined type 'struct nouveau_backlight'
-> > >  1671 |                 ret = drm_edp_backlight_disable(aux, &backlight->edp_info);
-> > >       |                                                                ^~
-> > >
-> > > The patch that introduced the problem already contains some #ifdef
-> > > checks, so just add another one that makes it build again.
-> > >
-> > > Fixes: 6eca310e8924 ("drm/nouveau/kms/nv50-: Add basic DPCD backlight support for nouveau")
-> > > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> >
-> > Can we just toss the idea that BACKTLIGHT=n is a reasonable config for
-> > drm drivers using backlights, and add depends BACKLIGHT to all of
-> > them?
-> >
-> > I mean this is a perfect source of continued patch streams to keep us
-> > all busy, but beyond that I really don't see the point ... I frankly
-> > have better things to do, and especially with the big drivers we have
-> > making backlight optional saves comparitively nothing.
-> > -Daniel
-> >
->
-> same, I'd just require BACKLIGHT as well tbh.
->
+On Thu, Jul 22, 2021 at 09:02:04PM +0200, Marek Vasut wrote:
+> On 7/22/21 1:28 PM, Daniel Thompson wrote:
+> > On Wed, Jul 21, 2021 at 08:46:42PM +0200, Marek Vasut wrote:
+> > > On 7/21/21 6:12 PM, Daniel Thompson wrote:
+> > > > On Wed, Jul 21, 2021 at 05:09:57PM +0200, Marek Vasut wrote:
+> > > > > On 7/21/21 12:49 PM, Daniel Thompson wrote:
+> > > > [...]
+> > > > This sails very close to the
+> > > > edge of what is in-scope for DT (at least it does it we can read
+> > > > the inherited state directly from the hardware).
+> > > 
+> > > The problem with reading it out of hardware is that the hardware might be in
+> > > undefined state and expects Linux to define that state, so that does not
+> > > always work. Hence my initial suggestion to add a DT property to define the
+> > > state up front, instead of using these fragile heuristics.
+> > 
+> > To achieve a flicker-free boot we must know the initial state of the
+> > backlight (not just the enable pin).
+> 
+> The backlight hardware might be in uninitialized state and then Linux should
+> set the state, likely based on something in DT, because there is no previous
+> state to read.
 
-ehhh, get rid of DRM_NOUVEAU_BACKLIGHT I meant.
+There is always a previous state. The kernel doesn't care whether that
+previous state was imposed by a power-on reset, the bootloader or a
+kexec.
 
-> > > ---
-> > >  drivers/gpu/drm/nouveau/dispnv50/disp.c | 11 +++++++----
-> > >  1 file changed, 7 insertions(+), 4 deletions(-)
-> > >
-> > > diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-> > > index 093e1f7163b3..fcf53e24db21 100644
-> > > --- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
-> > > +++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-> > > @@ -1659,20 +1659,23 @@ static void
-> > >  nv50_sor_atomic_disable(struct drm_encoder *encoder, struct drm_atomic_state *state)
-> > >  {
-> > >         struct nouveau_encoder *nv_encoder = nouveau_encoder(encoder);
-> > > -       struct nouveau_drm *drm = nouveau_drm(nv_encoder->base.base.dev);
-> > >         struct nouveau_crtc *nv_crtc = nouveau_crtc(nv_encoder->crtc);
-> > >         struct nouveau_connector *nv_connector = nv50_outp_get_old_connector(state, nv_encoder);
-> > > -       struct nouveau_backlight *backlight = nv_connector->backlight;
-> > >         struct drm_dp_aux *aux = &nv_connector->aux;
-> > > -       int ret;
-> > >         u8 pwr;
-> > >
-> > > +#ifdef CONFIG_DRM_NOUVEAU_BACKLIGHT
-> > > +       struct nouveau_drm *drm = nouveau_drm(nv_encoder->base.base.dev);
-> > > +       struct nouveau_backlight *backlight = nv_connector->backlight;
-> > > +
-> > >         if (backlight && backlight->uses_dpcd) {
-> > > -               ret = drm_edp_backlight_disable(aux, &backlight->edp_info);
-> > > +               int ret = drm_edp_backlight_disable(aux, &backlight->edp_info);
-> > > +
-> > >                 if (ret < 0)
-> > >                         NV_ERROR(drm, "Failed to disable backlight on [CONNECTOR:%d:%s]: %d\n",
-> > >                                  nv_connector->base.base.id, nv_connector->base.name, ret);
-> > >         }
-> > > +#endif
-> > >
-> > >         if (nv_encoder->dcb->type == DCB_OUTPUT_DP) {
-> > >                 int ret = drm_dp_dpcd_readb(aux, DP_SET_POWER, &pwr);
-> > > --
-> > > 2.29.2
-> > >
-> >
-> >
-> > --
-> > Daniel Vetter
-> > Software Engineer, Intel Corporation
-> > http://blog.ffwll.ch
-> >
+For the driver to come up flicker-free in all the different cases we
+need to know whether the backlight is currently emitting light or not
+and, if it is emitting light, then we need to know what the duty cycle
+is (currently we inherit require the PWM driver to correctly inherit the
+duty cycle from the hardware).
 
+So far, the previous state has been observable by the lower level
+drivers (GPIO, PWM, regulator). I remain reluctant to provide
+workarounds for cases where it is not observable without motivating
+hardware. I certainly wouldn't want to make such bindings mandatory
+since observable hardware registers are a far more reliable source of
+truth than what the DT tells us about what it thinks the bootloader
+(or power-on reset) actually did ;-).
+
+
+> > > > Overall I have fairly grave concerns that this simply moves
+> > > > fragility into the bootloader rather then reducing it.
+> > > 
+> > > Wait a minute, I think we disconnected somewhere. I would rather prefer to
+> > > remove the fragility and bootloader dependency altogether, exactly to avoid
+> > > depending on the state the bootloader left the hardware in.
+> > 
+> > The two fully flicker-free cases we support in pwm_bl are:
+> > 
+> > 1. Backlight off after bootloader has completed. Backlight must be
+> >     off after the probe completes (and never flicker on/off during the
+> >     probe). This allows the display to put a splash image on the screen
+> >     before lighting up the backlight (this avoids a flicker if there are
+> >     a few frames between backlight coming on and the splash image being
+> >     drawn). Naturally this requires help from the display system (and
+> >     that the display system is aware of the backlight to be able to start
+> >     it).
+> > 
+> > 2. Backlight on with a splash image after bootloader has completed.
+> >     Backlight must be on after the probe completes (and never flicker
+> >     off/on during the probe). This also requires that the display system
+> >     can take over the frame buffer without a flicker but that is
+> >     completely independent of backlight.
+> > 
+> > There is also a simpler case which is not "flicker-free" since the
+> > backlight may change level during the boot and may light up before
+> > there is an image on the screen (although we'd still to minimise
+> > flicker by ensuring there is only one change of backlight state/level
+> > during the probe (something your work will see fixed?):
+> 
+> Actually no, my usecase is the backlight is not initialized by the
+> bootloader at all, the pins are just strapped to default to the right
+> values, the init is left to the kernel to do.
+
+It doesn't matter to us who established the initial state. In this case
+the backlight is off at handover. That means you are either case #1
+(display system will unblank" the backlight automatically when the reset
+of the display unblanks) or #3 (BL driver will "unblank" the backlight
+during the probe).
+
+Your changes should result in a fix to both these cases!
+
+
+> > 3. Backlight is on after the probe completes. This is default if
+> >     we don't know the display system will activate the backlight.
+> >     This is an important legacy case since few userspaces know how
+> >     to change the backlight power-state at boot.
+> > 
+> > One oddity here is that #3 *also* needs to know the state of the
+> > backlight (on/off) to turn the backlight on without flickering
+> > (so it can figure out how to handle power_pwm_on_delay correctly)
+> > even though the final state is unconditionally on. That is the main
+> > reason I proposed an alternative to your patch (since this is
+> > currently broken).
+> > 
+> > The other oddity is that the difference between #1 and #3 is due to
+> > *software* (which driver ends up responsible for unmuting the display)
+> > meaning that the bootloader/DT has no business discriminating between
+> > these two cases.
+> > 
+> > Thus pwm_bl.c is based on making #2/#3 (which are similar) the default
+> > and switching to case #1 if there is a display driver to do the unblank
+> > (software) *and* that the backlight is currently off (currently read
+> > from hardware). Note that this is intentionally designed to that
+> > if the logic does go wrong we should get a small bug (a flicker) rather
+> > than a big one (a black screen).
+> > 
+> > Wow! That is *way* longer than I intended when I started writing it.
+> > Anyhow I suspect any disconnect comes about due to the difference in
+> > backlight state *after* probe being, in part, to software structure
+> > rather than purely a hardware property.
+> 
+> Maybe this should be added to documentation.
+
+I'll see what I can do.
+
+
+Daniel.
