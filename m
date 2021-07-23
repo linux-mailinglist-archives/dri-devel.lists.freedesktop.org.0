@@ -1,72 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9F8D3D4066
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jul 2021 20:48:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FB643D4070
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jul 2021 20:56:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5CA3F6FC73;
-	Fri, 23 Jul 2021 18:48:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 235F86FCC9;
+	Fri, 23 Jul 2021 18:56:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 75C066FC72
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jul 2021 18:48:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1627066112;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=TT3QlzruQFM0O9S/g7+HR5WRHatrYiPktX1CpTRxfHI=;
- b=MkVLqrLloHwsyDjO5cgdF1YaktoR+OAhFpjgZkybTxViOLYA5T7YIb1hfGhEXkjdsZMnjP
- +CvixTtIaOauh7TjI94jZWDGlUbsleNNxKzKWX66jWhTeJDm8IB6LPu8T7J/sfb9HcmHvS
- WS7dZExoNgySvOZIEHrrvOawAER4Elo=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-176-1oopIrU7PY-lvs3imPq6DQ-1; Fri, 23 Jul 2021 14:48:31 -0400
-X-MC-Unique: 1oopIrU7PY-lvs3imPq6DQ-1
-Received: by mail-wr1-f69.google.com with SMTP id
- p12-20020a5d68cc0000b02901426384855aso1287930wrw.11
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jul 2021 11:48:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=TT3QlzruQFM0O9S/g7+HR5WRHatrYiPktX1CpTRxfHI=;
- b=Ov89H0GVM2VHUnT6/NJTy8p4R/dIj/c+EhSoPxpQiMVJcRlu+Y39IhWYb1eewliXc5
- XiZwtYBuWm8Anh/CrV412FW8sgiZjwMxT3wm5C9635vDxKVH1The/B9t7TBkF4LqI30g
- zAOuVFbE8Jhipg85Fjh/A2y7tah4BFkZy2E5QNDKa+amih9ObhtXYOOzmBT1JcN17vJy
- TaF++nvtiv7Gc6KALeAuUbIYE36QILVKWueEam4zmDIlYSgSZXt8gV35QqTly7L7C596
- GRPILQyinUJINLBunKtdevOBGOEGGwaCoWx/3SrGRW4njPtarsjl4dLSjrcc+DzYmNZM
- OxUg==
-X-Gm-Message-State: AOAM530X89rJOc8xOFzNbAPKOQiCg85oZVfsHyPyC5RtlfblhtdtITZi
- vpzTyR7hzkXgvm0AL/f203qhW4oBsHIuj1eq/m5gWjBOXO1lisc0CKGzFy+jx2WwzbZLvJtXxho
- 7ZcWvBIX8fV+XU4GO0jaKukpZjcCOdeFG3hcle4gNsMw4
-X-Received: by 2002:adf:ec0c:: with SMTP id x12mr6982933wrn.113.1627066110111; 
- Fri, 23 Jul 2021 11:48:30 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxZMoQyCFyEOCbinYmqYmEk4f3Ojj0mdfzboAjHeKt/OCfsnzDXsFZfcZoauHAS7H3EsRN3J0C10LA5+A8j6co=
-X-Received: by 2002:adf:ec0c:: with SMTP id x12mr6982917wrn.113.1627066109896; 
- Fri, 23 Jul 2021 11:48:29 -0700 (PDT)
+Received: from EX13-EDG-OU-002.vmware.com (ex13-edg-ou-002.vmware.com
+ [208.91.0.190])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 36CA46FCC9
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jul 2021 18:56:08 +0000 (UTC)
+Received: from sc9-mailhost2.vmware.com (10.113.161.72) by
+ EX13-EDG-OU-002.vmware.com (10.113.208.156) with Microsoft SMTP Server id
+ 15.0.1156.6; Fri, 23 Jul 2021 11:56:02 -0700
+Received: from vertex.localdomain (unknown [10.84.231.59])
+ by sc9-mailhost2.vmware.com (Postfix) with ESMTP id 323E82021A;
+ Fri, 23 Jul 2021 11:56:07 -0700 (PDT)
+From: Zack Rusin <zackr@vmware.com>
+To: <dri-devel@lists.freedesktop.org>
+Subject: [PATCH] drm/vmwgfx: Remove the deprecated lower mem limit
+Date: Fri, 23 Jul 2021 14:56:06 -0400
+Message-ID: <20210723185606.117810-1-zackr@vmware.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20210723091534.1730564-1-arnd@kernel.org>
- <a618e29a-e4b7-bda4-a3e0-7dfd67d64e92@infradead.org>
- <CACO55tvQoCnjQWRJhrJ+8TzY5MuDDSUSnwd5AU8G1qsQYCSCBg@mail.gmail.com>
- <7ddd0c7c-9bdc-9ea3-c635-f1d141d1e870@infradead.org>
- <CACO55ttjQO5kUeEA7opvGLAwT+a1t0vAguncKDhB4bdy96K7LA@mail.gmail.com>
- <CAK8P3a0YiAgTLptmPbK6vczkMi7F=tzE-Ae8GPFnBtbvQnoF0Q@mail.gmail.com>
-In-Reply-To: <CAK8P3a0YiAgTLptmPbK6vczkMi7F=tzE-Ae8GPFnBtbvQnoF0Q@mail.gmail.com>
-From: Karol Herbst <kherbst@redhat.com>
-Date: Fri, 23 Jul 2021 20:48:19 +0200
-Message-ID: <CACO55ts5C6xodqstoeCvhpRpMOB=nTTPDnBfN_QT2GJe2F4wNw@mail.gmail.com>
-Subject: Re: [PATCH] drm/nouveau/kms/nv50-: fix build failure with
- CONFIG_BACKLIGHT=n
-To: Arnd Bergmann <arnd@kernel.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kherbst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+Received-SPF: None (EX13-EDG-OU-002.vmware.com: zackr@vmware.com does not
+ designate permitted sender hosts)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,39 +42,182 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Arnd Bergmann <arnd@arndb.de>, David Airlie <airlied@linux.ie>,
- nouveau <nouveau@lists.freedesktop.org>, Randy Dunlap <rdunlap@infradead.org>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Nikola Cornij <nikola.cornij@amd.com>, Ben Skeggs <bskeggs@redhat.com>
+Cc: Martin Krastev <krastevm@vmware.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jul 23, 2021 at 8:40 PM Arnd Bergmann <arnd@kernel.org> wrote:
->
-> On Fri, Jul 23, 2021 at 6:34 PM Karol Herbst <kherbst@redhat.com> wrote:
-> > On Fri, Jul 23, 2021 at 6:31 PM Randy Dunlap <rdunlap@infradead.org> wrote:
-> > > On 7/23/21 8:15 AM, Karol Herbst wrote:
-> > > > On Fri, Jul 23, 2021 at 5:10 PM Randy Dunlap <rdunlap@infradead.org> wrote:
-> > > >
-> > > > what's actually the use case of compiling with
-> > > > CONFIG_DRM_NOUVEAU_BACKLIGHT=n anyway?
-> > >
-> > > Dunno. In this case it was just a randconfig. Still, it needs to be
-> > > handled in some way - such as the other suggestion in this thread.
-> > >
-> >
-> > sure, I was just curious if there was a specific use case or just
-> > something random as you mentioned.
->
-> I think this is purely done because of tradition. A long time ago, we had
-> tiny framebuffer drivers and most PCs did not have backlights, so it
-> made sense to leave this optional.
->
-> This was probably just always carried over.
->
->          Arnd
->
+TTM during the transition to the new page allocator lost the ability
+to constrain the allocations via the lower_mem_limit. The code has
+been unused since the change:
+256dd44bd897 ("drm/ttm: nuke old page allocator")
+and there's no reason to keep it.
 
-okay. I think I will write a patch for nouveau then and send it out soonish
+Signed-off-by: Zack Rusin <zackr@vmware.com>
+---
+ drivers/gpu/drm/vmwgfx/ttm_memory.c | 99 +----------------------------
+ drivers/gpu/drm/vmwgfx/ttm_memory.h |  6 +-
+ 2 files changed, 2 insertions(+), 103 deletions(-)
+
+diff --git a/drivers/gpu/drm/vmwgfx/ttm_memory.c b/drivers/gpu/drm/vmwgfx/ttm_memory.c
+index edd17c30d5a5..2ced4c06ca45 100644
+--- a/drivers/gpu/drm/vmwgfx/ttm_memory.c
++++ b/drivers/gpu/drm/vmwgfx/ttm_memory.c
+@@ -34,7 +34,6 @@
+ #include <linux/mm.h>
+ #include <linux/module.h>
+ #include <linux/slab.h>
+-#include <linux/swap.h>
+ 
+ #include <drm/drm_device.h>
+ #include <drm/drm_file.h>
+@@ -173,69 +172,7 @@ static struct kobj_type ttm_mem_zone_kobj_type = {
+ 	.sysfs_ops = &ttm_mem_zone_ops,
+ 	.default_attrs = ttm_mem_zone_attrs,
+ };
+-
+-static struct attribute ttm_mem_global_lower_mem_limit = {
+-	.name = "lower_mem_limit",
+-	.mode = S_IRUGO | S_IWUSR
+-};
+-
+-static ssize_t ttm_mem_global_show(struct kobject *kobj,
+-				 struct attribute *attr,
+-				 char *buffer)
+-{
+-	struct ttm_mem_global *glob =
+-		container_of(kobj, struct ttm_mem_global, kobj);
+-	uint64_t val = 0;
+-
+-	spin_lock(&glob->lock);
+-	val = glob->lower_mem_limit;
+-	spin_unlock(&glob->lock);
+-	/* convert from number of pages to KB */
+-	val <<= (PAGE_SHIFT - 10);
+-	return snprintf(buffer, PAGE_SIZE, "%llu\n",
+-			(unsigned long long) val);
+-}
+-
+-static ssize_t ttm_mem_global_store(struct kobject *kobj,
+-				  struct attribute *attr,
+-				  const char *buffer,
+-				  size_t size)
+-{
+-	int chars;
+-	uint64_t val64;
+-	unsigned long val;
+-	struct ttm_mem_global *glob =
+-		container_of(kobj, struct ttm_mem_global, kobj);
+-
+-	chars = sscanf(buffer, "%lu", &val);
+-	if (chars == 0)
+-		return size;
+-
+-	val64 = val;
+-	/* convert from KB to number of pages */
+-	val64 >>= (PAGE_SHIFT - 10);
+-
+-	spin_lock(&glob->lock);
+-	glob->lower_mem_limit = val64;
+-	spin_unlock(&glob->lock);
+-
+-	return size;
+-}
+-
+-static struct attribute *ttm_mem_global_attrs[] = {
+-	&ttm_mem_global_lower_mem_limit,
+-	NULL
+-};
+-
+-static const struct sysfs_ops ttm_mem_global_ops = {
+-	.show = &ttm_mem_global_show,
+-	.store = &ttm_mem_global_store,
+-};
+-
+-static struct kobj_type ttm_mem_glob_kobj_type = {
+-	.sysfs_ops = &ttm_mem_global_ops,
+-	.default_attrs = ttm_mem_global_attrs,
+-};
++static struct kobj_type ttm_mem_glob_kobj_type = {0};
+ 
+ static bool ttm_zones_above_swap_target(struct ttm_mem_global *glob,
+ 					bool from_wq, uint64_t extra)
+@@ -435,11 +372,6 @@ int ttm_mem_global_init(struct ttm_mem_global *glob, struct device *dev)
+ 
+ 	si_meminfo(&si);
+ 
+-	spin_lock(&glob->lock);
+-	/* set it as 0 by default to keep original behavior of OOM */
+-	glob->lower_mem_limit = 0;
+-	spin_unlock(&glob->lock);
+-
+ 	ret = ttm_mem_init_kernel_zone(glob, &si);
+ 	if (unlikely(ret != 0))
+ 		goto out_no_zone;
+@@ -527,35 +459,6 @@ void ttm_mem_global_free(struct ttm_mem_global *glob,
+ }
+ EXPORT_SYMBOL(ttm_mem_global_free);
+ 
+-/*
+- * check if the available mem is under lower memory limit
+- *
+- * a. if no swap disk at all or free swap space is under swap_mem_limit
+- * but available system mem is bigger than sys_mem_limit, allow TTM
+- * allocation;
+- *
+- * b. if the available system mem is less than sys_mem_limit but free
+- * swap disk is bigger than swap_mem_limit, allow TTM allocation.
+- */
+-bool
+-ttm_check_under_lowerlimit(struct ttm_mem_global *glob,
+-			uint64_t num_pages,
+-			struct ttm_operation_ctx *ctx)
+-{
+-	int64_t available;
+-
+-	/* We allow over commit during suspend */
+-	if (ctx->force_alloc)
+-		return false;
+-
+-	available = get_nr_swap_pages() + si_mem_available();
+-	available -= num_pages;
+-	if (available < glob->lower_mem_limit)
+-		return true;
+-
+-	return false;
+-}
+-
+ static int ttm_mem_global_reserve(struct ttm_mem_global *glob,
+ 				  struct ttm_mem_zone *single_zone,
+ 				  uint64_t amount, bool reserve)
+diff --git a/drivers/gpu/drm/vmwgfx/ttm_memory.h b/drivers/gpu/drm/vmwgfx/ttm_memory.h
+index c50dba774485..7b0d617ebcb1 100644
+--- a/drivers/gpu/drm/vmwgfx/ttm_memory.h
++++ b/drivers/gpu/drm/vmwgfx/ttm_memory.h
+@@ -50,8 +50,6 @@
+  * @work: The workqueue callback for the shrink queue.
+  * @lock: Lock to protect the @shrink - and the memory accounting members,
+  * that is, essentially the whole structure with some exceptions.
+- * @lower_mem_limit: include lower limit of swap space and lower limit of
+- * system memory.
+  * @zones: Array of pointers to accounting zones.
+  * @num_zones: Number of populated entries in the @zones array.
+  * @zone_kernel: Pointer to the kernel zone.
+@@ -69,7 +67,6 @@ extern struct ttm_mem_global {
+ 	struct workqueue_struct *swap_queue;
+ 	struct work_struct work;
+ 	spinlock_t lock;
+-	uint64_t lower_mem_limit;
+ 	struct ttm_mem_zone *zones[TTM_MEM_MAX_ZONES];
+ 	unsigned int num_zones;
+ 	struct ttm_mem_zone *zone_kernel;
+@@ -91,6 +88,5 @@ int ttm_mem_global_alloc_page(struct ttm_mem_global *glob,
+ void ttm_mem_global_free_page(struct ttm_mem_global *glob,
+ 			      struct page *page, uint64_t size);
+ size_t ttm_round_pot(size_t size);
+-bool ttm_check_under_lowerlimit(struct ttm_mem_global *glob, uint64_t num_pages,
+-				struct ttm_operation_ctx *ctx);
++
+ #endif
+-- 
+2.30.2
 
