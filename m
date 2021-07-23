@@ -2,34 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 636873D3084
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jul 2021 01:37:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9F3E3D30C1
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jul 2021 02:22:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E3E176F5FB;
-	Thu, 22 Jul 2021 23:36:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C2576F87C;
+	Fri, 23 Jul 2021 00:22:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 11A636F5A5;
- Thu, 22 Jul 2021 23:36:44 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10053"; a="198975879"
-X-IronPort-AV: E=Sophos;i="5.84,262,1620716400"; d="scan'208";a="198975879"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Jul 2021 16:36:42 -0700
-X-IronPort-AV: E=Sophos;i="5.84,262,1620716400"; d="scan'208";a="470860965"
-Received: from dhiatt-server.jf.intel.com ([10.54.81.3])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Jul 2021 16:36:41 -0700
-From: Matthew Brost <matthew.brost@intel.com>
-To: <intel-gfx@lists.freedesktop.org>,
-	<dri-devel@lists.freedesktop.org>
-Subject: [PATCH 33/33] drm/i915/guc: Unblock GuC submission on Gen11+
-Date: Thu, 22 Jul 2021 16:54:26 -0700
-Message-Id: <20210722235426.31831-34-matthew.brost@intel.com>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20210722235426.31831-1-matthew.brost@intel.com>
-References: <20210722235426.31831-1-matthew.brost@intel.com>
+Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com
+ [IPv6:2607:f8b0:4864:20::62b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1AA5E6F87C
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jul 2021 00:22:08 +0000 (UTC)
+Received: by mail-pl1-x62b.google.com with SMTP id f1so1282690plt.7
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jul 2021 17:22:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ilHV4zkFYV/inpNlTjXcax19NKR7g9Dp2bd3Wi4nieU=;
+ b=H5PMaoBwCj/x/6zyYxozhyvWGMrvIQXzg/TlzwMXxkPxuAO0Sobu8MZT/+xdkHdx8U
+ KOOwY8KyFWw/2ShculMhRh/bi+M+p5yRTBQBIftJ/YDVi3aoASgjN4QuoUoSFqXWbmFt
+ ryb2z3k6h/2m3ta2j+N25Qa/slTSq5y5E/zuY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ilHV4zkFYV/inpNlTjXcax19NKR7g9Dp2bd3Wi4nieU=;
+ b=DsLkVBWvUEEPGbcE2Osu5IOZK5XkTAyY+Ud7WppHSZIwp7q2oEb9TljTKtlC0mMRXw
+ 1kUlS8IYYTykRhtO9X99YelHaRZdwiND41wgOD9LFvfCU9wr0bHKamRoDtaA6OrWoSmc
+ o3naSdiFftjMEYukVx7komt95PxfloeYqCrFXruiNPljTGPgrEefcMZ4LaikcsvnOfCC
+ FMO2f/wDqwmf7w25At0YyGCERS2hgRbOVT1HtIH3vNvKKqaEvAI2ojg4txNKaKG/6Idm
+ AoS1LcnUU+CoML/HtU4SmQAZq7nh2ZrSx7s6TIfUx/ShCAZqSBH+DJ1vMJFcvosR04aZ
+ zBOw==
+X-Gm-Message-State: AOAM531zn1yURk0yPQUhNXl4a2nmlc/eI9sCzp2CayiTrL0mnRFNax10
+ EyxKm8vvtIgzKp9T9ulDF1uyHQ==
+X-Google-Smtp-Source: ABdhPJy3fNIhcYUlCjPQ6rsNOgNRR30C3i3qn3hSQwAIOxUXOxQpz3bxuGzhyKhNARRvDRL91VLEsQ==
+X-Received: by 2002:a05:6a00:1951:b029:333:64d3:e1f1 with SMTP id
+ s17-20020a056a001951b029033364d3e1f1mr2175927pfk.43.1626999727675; 
+ Thu, 22 Jul 2021 17:22:07 -0700 (PDT)
+Received: from tictac2.mtv.corp.google.com
+ ([2620:15c:202:201:5e70:6a49:67b5:2b7e])
+ by smtp.gmail.com with ESMTPSA id iy13sm4072377pjb.28.2021.07.22.17.22.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 22 Jul 2021 17:22:07 -0700 (PDT)
+From: Douglas Anderson <dianders@chromium.org>
+To: Thierry Reding <thierry.reding@gmail.com>, Rob Herring <robh+dt@kernel.org>
+Subject: [RFC PATCH 0/8] eDP: Support probing eDP panels dynamically instead
+ of hardcoding
+Date: Thu, 22 Jul 2021 17:21:38 -0700
+Message-Id: <20210723002146.1962910-1-dianders@chromium.org>
+X-Mailer: git-send-email 2.32.0.432.gabb21c7263-goog
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -44,112 +65,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: devicetree@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, Andy Gross <agross@kernel.org>,
+ Steev Klimaszewski <steev@kali.org>, Sam Ravnborg <sam@ravnborg.org>,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
 
-Unblock GuC submission on Gen11+ platforms.
+The goal of this patch series is to move away from hardcoding exact
+eDP panels in device tree files. As discussed in the various patches
+in this series (I'm not repeating everything here), most eDP panels
+are 99% probable and we can get that last 1% by allowing two "power
+up" delays to be specified in the device tree file and then using the
+panel ID (found in the EDID) to look up additional power sequencing
+delays for the panel.
 
-v2:
- (Martin Peres / John H)
-  - Delete debug message when GuC is disabled by default on certain
-    platforms
+This patch series is the logical contiunation of a previous patch
+series where I proposed solving this problem by adding a
+board-specific compatible string [1]. In the discussion that followed
+it sounded like people were open to something like the solution
+proposed in this new series.
 
-Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
-Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-Reviewed-by: Matthew Brost <matthew.brost@intel.com>
----
- drivers/gpu/drm/i915/gt/uc/intel_guc.h            |  1 +
- drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c |  8 ++++++++
- drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h |  3 +--
- drivers/gpu/drm/i915/gt/uc/intel_uc.c             | 13 ++++++++-----
- 4 files changed, 18 insertions(+), 7 deletions(-)
+[1] https://lore.kernel.org/r/YFKQaXOmOwYyeqvM@google.com/
 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-index 8ab70a2223b0..a9547069ee7e 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-@@ -55,6 +55,7 @@ struct intel_guc {
- 	struct ida guc_ids;
- 	struct list_head guc_id_list;
- 
-+	bool submission_supported;
- 	bool submission_selected;
- 
- 	struct i915_vma *ads_vma;
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-index a323befb9753..03488b1ea1e3 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-@@ -2529,6 +2529,13 @@ void intel_guc_submission_disable(struct intel_guc *guc)
- 	/* Note: By the time we're here, GuC may have already been reset */
- }
- 
-+static bool __guc_submission_supported(struct intel_guc *guc)
-+{
-+	/* GuC submission is unavailable for pre-Gen11 */
-+	return intel_guc_is_supported(guc) &&
-+	       GRAPHICS_VER(guc_to_gt(guc)->i915) >= 11;
-+}
-+
- static bool __guc_submission_selected(struct intel_guc *guc)
- {
- 	struct drm_i915_private *i915 = guc_to_gt(guc)->i915;
-@@ -2541,6 +2548,7 @@ static bool __guc_submission_selected(struct intel_guc *guc)
- 
- void intel_guc_submission_init_early(struct intel_guc *guc)
- {
-+	guc->submission_supported = __guc_submission_supported(guc);
- 	guc->submission_selected = __guc_submission_selected(guc);
- }
- 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h
-index 03bc1c83a4d2..c7ef44fa0c36 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h
-@@ -38,8 +38,7 @@ int intel_guc_wait_for_pending_msg(struct intel_guc *guc,
- 
- static inline bool intel_guc_submission_is_supported(struct intel_guc *guc)
- {
--	/* XXX: GuC submission is unavailable for now */
--	return false;
-+	return guc->submission_supported;
- }
- 
- static inline bool intel_guc_submission_is_wanted(struct intel_guc *guc)
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc.c b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-index 7a69c3c027e9..da57d18d9f6b 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-@@ -34,8 +34,14 @@ static void uc_expand_default_options(struct intel_uc *uc)
- 		return;
- 	}
- 
--	/* Default: enable HuC authentication only */
--	i915->params.enable_guc = ENABLE_GUC_LOAD_HUC;
-+	/* Intermediate platforms are HuC authentication only */
-+	if (IS_DG1(i915) || IS_ALDERLAKE_S(i915)) {
-+		i915->params.enable_guc = ENABLE_GUC_LOAD_HUC;
-+		return;
-+	}
-+
-+	/* Default: enable HuC authentication and GuC submission */
-+	i915->params.enable_guc = ENABLE_GUC_LOAD_HUC | ENABLE_GUC_SUBMISSION;
- }
- 
- /* Reset GuC providing us with fresh state for both GuC and HuC.
-@@ -313,9 +319,6 @@ static int __uc_init(struct intel_uc *uc)
- 	if (i915_inject_probe_failure(uc_to_gt(uc)->i915))
- 		return -ENOMEM;
- 
--	/* XXX: GuC submission is unavailable for now */
--	GEM_BUG_ON(intel_uc_uses_guc_submission(uc));
--
- 	ret = intel_guc_init(guc);
- 	if (ret)
- 		return ret;
+
+Douglas Anderson (8):
+  dt-bindings: drm/panel-simple: Introduce generic eDP panels
+  drm/edid: Break out reading block 0 of the EDID
+  drm/edid: Allow the querying/working with the panel ID from the EDID
+  drm/panel-simple: Don't re-read the EDID every time we power off the
+    panel
+  drm/panel-simple: Copy "desc" into driver data; don't store a pointer
+  drm/panel-simple: Split the delay structure out of the panel
+    description
+  drm/panel-simple: Implement generic "edp-panel"s probed by EDID
+  arm64: dts: qcom: sc7180: trogdor devices can use probable eDP panels
+
+ .../bindings/display/panel/panel-edp.yaml     | 196 ++++++
+ .../bindings/display/panel/panel-simple.yaml  | 559 +++++++++---------
+ .../boot/dts/qcom/sc7180-trogdor-coachz.dtsi  |   2 +-
+ .../sc7180-trogdor-lazor-limozeen-nots.dts    |   2 +-
+ .../qcom/sc7180-trogdor-lazor-limozeen.dts    |   2 +-
+ .../boot/dts/qcom/sc7180-trogdor-lazor.dtsi   |   3 +-
+ .../boot/dts/qcom/sc7180-trogdor-pompom.dtsi  |   2 +-
+ drivers/gpu/drm/drm_edid.c                    | 113 +++-
+ drivers/gpu/drm/panel/panel-simple.c          | 497 +++++++++++-----
+ include/drm/drm_edid.h                        |  47 ++
+ 10 files changed, 965 insertions(+), 458 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/panel-edp.yaml
+
 -- 
-2.28.0
+2.32.0.432.gabb21c7263-goog
 
