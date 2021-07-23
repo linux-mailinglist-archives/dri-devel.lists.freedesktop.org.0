@@ -2,141 +2,141 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADDF83D4109
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jul 2021 21:43:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D2413D411B
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jul 2021 21:49:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B77066E9A9;
-	Fri, 23 Jul 2021 19:43:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D39076E8B1;
+	Fri, 23 Jul 2021 19:49:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B49B6E9A9;
- Fri, 23 Jul 2021 19:43:49 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10054"; a="297513033"
-X-IronPort-AV: E=Sophos;i="5.84,264,1620716400"; d="scan'208";a="297513033"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Jul 2021 12:43:48 -0700
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A7006E8B1;
+ Fri, 23 Jul 2021 19:49:11 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10054"; a="273049984"
+X-IronPort-AV: E=Sophos;i="5.84,264,1620716400"; d="scan'208";a="273049984"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Jul 2021 12:49:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,264,1620716400"; d="scan'208";a="434208216"
-Received: from orsmsx606.amr.corp.intel.com ([10.22.229.19])
- by fmsmga007.fm.intel.com with ESMTP; 23 Jul 2021 12:43:48 -0700
-Received: from orsmsx604.amr.corp.intel.com (10.22.229.17) by
- ORSMSX606.amr.corp.intel.com (10.22.229.19) with Microsoft SMTP Server
+X-IronPort-AV: E=Sophos;i="5.84,264,1620716400"; d="scan'208";a="565599889"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+ by orsmga004.jf.intel.com with ESMTP; 23 Jul 2021 12:49:09 -0700
+Received: from fmsmsx606.amr.corp.intel.com (10.18.126.86) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.10; Fri, 23 Jul 2021 12:43:47 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx604.amr.corp.intel.com (10.22.229.17) with Microsoft SMTP Server
+ 15.1.2242.10; Fri, 23 Jul 2021 12:49:08 -0700
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx606.amr.corp.intel.com (10.18.126.86) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.10 via Frontend Transport; Fri, 23 Jul 2021 12:43:47 -0700
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.108)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ 15.1.2242.10 via Frontend Transport; Fri, 23 Jul 2021 12:49:08 -0700
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.169)
+ by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2242.10; Fri, 23 Jul 2021 12:43:47 -0700
+ 15.1.2242.10; Fri, 23 Jul 2021 12:49:08 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=CQZujSnhz1d1o1qKsURFzsFW7TFBfQkhgl8xfJ3N9IUqEXgdC5sShmAreMFAo7WK4sDTmXFOIaWh1gHmesxlKTYBLFKRK7BSbuD0ukW0BFYSg9VAk3nkaPqdml9FFZoWiCwkjQ85ANkKRBhccG+3WgKk2Ci10f/JcBIdE2my614ADKtW1MZ77ieLV2WrE3UbvTghKcSPgFuXkS9A6HczCS+gyuzW9p18bJGplAGEXnp6guVqn4gWvOiDJTyLbukt6uDrnjZURjZntR/utdYs7gKttYjyRrWAQ5FFQp5v4BvSnBSksbyM+neI0w49sPhWMCk6FgiHfKBj+WYDmu/M8A==
+ b=jg2KRvUO2UWfsu8hKhm/0TFJucHtmHcYCztjLiWbg7o67pnZtGCu6LmCuwPE9NX10SrwFpRjIHhB/R89MEnS1ba3nqp6twc2jf9I2SZHih0VFnboJRB/oW2dHUCwhzBEJMjUfXapLKKRdwifWOblD/wElDO0QR3/sOCbD1z1dV9+fgWaPbRrl5lk+O6GIm4Jcm13DXpE83PqBtVHd/KX5DvJVk4n4LqVONQ1x4+U3/FXn+PgvvVlJNoDAh8pVcxqs44268THAL12kjEHt4QRrV6XqMTPdJMoaaEcBwr2lB/Leej0E1iWtF9L/IpedFYmyVS+oHur1Dc0yxpYABuWBA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+iEygOqkQDbNjmOecm+CHN6fN7qfEuaDFSu1KmyJC5w=;
- b=Fbs5+A6zJrdYL4QD23ycUW4K+74GRSTrs/mxYFo1P+MNzgbgTeO1DVtw0XC2/j1Z1Mb0iQcvw8fXChvqd518tfc7HdMaPW8ht5omrLfYwfd2X1//5FRlCgRKMjIzbmrMu62+cmKG1AXMThdAqsMWc18DzjUdYLLtr4Jy1uXc6ObDjx0l703kE+xMIXu5oS1epS/dYoOdNM/8VQHyl4RfWOQYnt6k6IW+U5XAjr5GbtqRUAS/odFmiefwMTfDl1qE7ePZ2BOz2VyWqOz8nDk7OzZs0I8OhFm3io5AXbDuQI5vEx+Hv77zOMLhqxnCalqUBgRKutOEA9pzmvlCsFohHQ==
+ bh=9AgrBcvmE9sTX1Z7qkH/34+vwpVq6OHsgFuOVoSJoKQ=;
+ b=Rn+kjrJFd5r7grn2w7ZJ1l/EqU6J6QhgDX+M5lNxUuqw+VXVZJjfUj1uTxeeKJcssvppu/fy+jSvN3sauKYesjnym/sJQaPYrR6Xo2VD5689e9S7rO74oIDQmjTNxtc8pFV1wLJ5UDcpiuRNV+utrldvvoGfljnlbfVecuM7c9NLtSROKS7U+FmSd2/wSIXpwbDdAcSG+ihtfMeEhQY7psBNoVYAjluseMprvx411DbwlU2RA0tEf4r5xSSdAY4RwES2hoQxhJfYTWAxlyX5NPzNqw5lPaZ7ZXgccEoGvQVoZaPXq9Bmaw1O3kJ+UhExR2HLjyPU014ff6Msn+RGzg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
  s=selector2-intel-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+iEygOqkQDbNjmOecm+CHN6fN7qfEuaDFSu1KmyJC5w=;
- b=ioMimO6OIfUOA3GlqWS/Xe2ON+tst44g1mPOaexmvWdyHblEmiIIEAnvRaxHO/mYoyq4nkm7BE9rkehWxM5//wl88wHFThkwQmkg1A/2mxPDMNZiDjbNgD3H3DocpnJlgN/Rsop7xNRlDVXIhnvI5yfOv6Egiuwo7MDrPBFqXak=
+ bh=9AgrBcvmE9sTX1Z7qkH/34+vwpVq6OHsgFuOVoSJoKQ=;
+ b=KDXaafpTtEsHJ/Sr8EpmG4IUNK/D4EFfMsLJxdu+di382+xZpfsZPk3YajIDNWTib6HTynLCEWspCZ2x0uTrhx21Ljzje4yy4wzHViNW0FBsEiyJ+pwyiaJSquN+U4JfccF/UXUtjM+rJid3wnczRO/ctcOk65T8lL7sUOLilkQ=
 Authentication-Results: intel.com; dkim=none (message not signed)
  header.d=none;intel.com; dmarc=none action=none header.from=intel.com;
 Received: from CO6PR11MB5634.namprd11.prod.outlook.com (2603:10b6:5:35d::20)
- by CO6PR11MB5617.namprd11.prod.outlook.com (2603:10b6:5:35c::14) with
+ by CO6PR11MB5650.namprd11.prod.outlook.com (2603:10b6:5:35a::9) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4352.24; Fri, 23 Jul
- 2021 19:43:46 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4352.26; Fri, 23 Jul
+ 2021 19:49:06 +0000
 Received: from CO6PR11MB5634.namprd11.prod.outlook.com
  ([fe80::5d5e:b6bf:aafa:ecd4]) by CO6PR11MB5634.namprd11.prod.outlook.com
  ([fe80::5d5e:b6bf:aafa:ecd4%9]) with mapi id 15.20.4352.029; Fri, 23 Jul 2021
- 19:43:46 +0000
-Subject: Re: [PATCH 08/14] drm/i915/guc/slpc: Add get max/min freq hooks
+ 19:49:06 +0000
+Subject: Re: [PATCH 09/14] drm/i915/guc/slpc: Add debugfs for SLPC info
 To: Michal Wajdeczko <michal.wajdeczko@intel.com>,
  <intel-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
 References: <20210721161120.24610-1-vinay.belgaumkar@intel.com>
- <20210721161120.24610-9-vinay.belgaumkar@intel.com>
- <afb6ccc2-1abd-b507-cea0-e09dda1952b6@intel.com>
+ <20210721161120.24610-10-vinay.belgaumkar@intel.com>
+ <91447d98-cf2d-cf60-e1c8-1bb13b4ae12d@intel.com>
 From: "Belgaumkar, Vinay" <vinay.belgaumkar@intel.com>
-Message-ID: <105fe19f-5ec4-3ba5-6771-ebb1dd2403b4@intel.com>
-Date: Fri, 23 Jul 2021 12:43:43 -0700
+Message-ID: <dd58cb25-e526-4658-8bea-9df1ff0efdd3@intel.com>
+Date: Fri, 23 Jul 2021 12:49:04 -0700
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
  Firefox/78.0 Thunderbird/78.12.0
-In-Reply-To: <afb6ccc2-1abd-b507-cea0-e09dda1952b6@intel.com>
+In-Reply-To: <91447d98-cf2d-cf60-e1c8-1bb13b4ae12d@intel.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MW4PR04CA0381.namprd04.prod.outlook.com
- (2603:10b6:303:81::26) To CO6PR11MB5634.namprd11.prod.outlook.com
+X-ClientProxiedBy: SJ0PR03CA0273.namprd03.prod.outlook.com
+ (2603:10b6:a03:39e::8) To CO6PR11MB5634.namprd11.prod.outlook.com
  (2603:10b6:5:35d::20)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from [192.168.1.71] (99.88.121.38) by
- MW4PR04CA0381.namprd04.prod.outlook.com (2603:10b6:303:81::26) with Microsoft
+ SJ0PR03CA0273.namprd03.prod.outlook.com (2603:10b6:a03:39e::8) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4352.24 via Frontend Transport; Fri, 23 Jul 2021 19:43:45 +0000
+ 15.20.4352.25 via Frontend Transport; Fri, 23 Jul 2021 19:49:06 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 618a012a-8716-46f0-dce5-08d94e122f5f
-X-MS-TrafficTypeDiagnostic: CO6PR11MB5617:
+X-MS-Office365-Filtering-Correlation-Id: 2ad02dda-68e0-4a2c-394b-08d94e12ee69
+X-MS-TrafficTypeDiagnostic: CO6PR11MB5650:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <CO6PR11MB561701D10979B79ABCE2559785E59@CO6PR11MB5617.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:800;
+X-Microsoft-Antispam-PRVS: <CO6PR11MB565019BE0010AF58FF587F6E85E59@CO6PR11MB5650.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:324;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 6gZAEaX/cCbBa5zLgKbPbUgLWA/5eGAcS4xmDSeI/cOX1tzAxCIn0kyxyv70TDz5zFGy01DftLobx7L/mQbIyskC0Q59PxQ23MEa7pWEmR6IFwWV8inTzTYucaR4GA4Y2Xgy7k7UP4D3oGmW+Iu9oQl/ahlGJljYgKcox6BSsZL7kRYgwY8k9cnMPBETXq+f4zqQWGp5gCpbzU2Gcn4TRqVXG9yqjF/tiAUhOYa9UMYTfcXNovTWQ5BkOZGMug90iVA7JVfkbYimgzktrXBXawF1oVuDS3Wbkum6Yy9W59qBFQve08n4rcSL+MOnCVEQ7tjYxxy1Hj32lhsPrvpsI8jaHHygcnQtkN3xHNlj/D+/1r7nklAXN+d4f+ekG4RuVpVBnqgdDzqFyAnqQiXzTBCPnRnY0URPt9Zqz7lmCP9uUQzdXXqaeforJFGEdAcizo++7mzPblgp8SRzdTwyqwF0eLwejjLSTwpeS2DwN8JDfLAoMX4p47wWsqYwC7g/GtZG7bgZCpbmmxIbOIG21Ky40pR1vWDmY22QiUxU4WKQ+U8f7O528al/oak1ZAh0D3qYgOKMreJU9tcClDfJaoUpTgG/Sf27kNCBNcRhKLyj9zfDWo4O7qK5DLYSLKwikJejO3w/U6tdxighz0uyBjArclOcpOcQM8wx89T9q7g86g6CVUl4mCFv53Ge6bLn0gG/y8rtJuJxyRcc02B3Uq3uMBp8Cza/pNi60MRqqrQ=
+X-Microsoft-Antispam-Message-Info: LfWOPe06ky0SDG+YG77o0s08XB2JO5fazwKdMD3dQN9oNiCXAa2/VpWOtFmxJL8HaIi7Pu+zXiwPWvCoS9rjwAhai80CrAojEQqDSenmlsDEpBRQtPsmCHRgewYD4nFgQY84TTTfaj2xqOEfZt7IdGc8piOYCp99eL9JtHNRugU5zSosx+GZDfzGTl7qbdkkL4hQ/gULJrNCtSmlDiZa0MwBm2UieD71KajnzwnkEQeuzjJwo/Vee30uyNOdcHJ7ZsLDHygn6T+p4zmCkgDgSbuYgWLBRBJ0zMkBsTC2x+7MckHXZ1GapfPDuXLb5982BPGwaPEaiKlz5A8m8qlghD53ui7WjrBTrxsH+p1PHW4l8aMXgPVh4zUiTEp8C5QQF14igT8oJpJ6eg0F/m72Kn7BOMp5UqKxTwhg9wassfmLkkqe4Rn11E9bNf9newYhs01pUmonEqyf1VeYK3wA4iXdSbQbORUqVsLifFm/Ebg2v4JeUuILTSwiJi/wpg33U1sWV3wYbjmEQpz6ww6+GU2t8y6+xYpHAznrUqI79rpRyUcMgNwx6dv6YR6nMzd+E/UXW1ITKlEZIhk1JjWY7oeCVqAdlOhv2X0hp/FpInP79neCcgyh1YXPvrGAdK91besqwacLIcPZEX3NCckAx/SvSdKbua4LMCBHyh5MopTcHQ45LsrqctB/9iC8h99Ny4sirMDknFbO85ATladlvbgssK5/CXO+PZmiQqxnGJ4=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:CO6PR11MB5634.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(376002)(39860400002)(136003)(346002)(396003)(478600001)(956004)(53546011)(83380400001)(316002)(107886003)(16576012)(2616005)(5660300002)(31686004)(2906002)(36756003)(8936002)(4326008)(450100002)(6486002)(86362001)(8676002)(31696002)(66946007)(186003)(38100700002)(66556008)(66476007)(26005)(45980500001)(43740500002);
+ SFS:(4636009)(136003)(39860400002)(346002)(366004)(376002)(396003)(86362001)(478600001)(5660300002)(26005)(8676002)(956004)(2616005)(8936002)(186003)(107886003)(83380400001)(4326008)(6486002)(450100002)(38100700002)(36756003)(31696002)(316002)(53546011)(2906002)(66946007)(16576012)(66556008)(31686004)(66476007)(43740500002)(45980500001);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VU96b1BGUjBrTy9oMlZjdk1OcGl0cGRFbmcycXFYWDRZaWU0WU1BQTJGQVI0?=
- =?utf-8?B?cW5UQm5oS3lMZ0Myc094T1gyWlRIcXJhTGhNS3RocGhuZFdaYnZ0VzBGWHlT?=
- =?utf-8?B?Y1NJKzMxcXV5RnRveUdpZU1qakh6VXIwUWd0c24zRFNrQzU5OG1laFZWb1hC?=
- =?utf-8?B?SklqYVRMRDZWYUU4eHRkaHFwamplSXRSR2Yrbnlrdmc2TkU3L051TVVxQzBv?=
- =?utf-8?B?RE1tb1FjVHIrVjBhTDdyQWFsN1pDcDVvaXh2WTE5MG1pQVNISnh0QmIyZUhZ?=
- =?utf-8?B?NTFxQWs1Q2V0eTRrZUlscE9RbkRwZVh1azV4OGJnU0NaYUVWSVg1TmNXT0Nq?=
- =?utf-8?B?b3hQNTJjUWlMSXBkVlZQcW9MUll0Um0wZFdGL3MwMDM1Z0V0bGk5akIxL0VQ?=
- =?utf-8?B?WlB6U3lvclU4MG15S2VGU3FlbXdBa3lrSE91SzBFbEhERVVhMjlaWldSdHMv?=
- =?utf-8?B?cUFKSmdQamhtM0hMdFQzWXNIdmh1aTIxNStmMlpSVDlBVHBJb2lxTG5nZmph?=
- =?utf-8?B?YmJyb3pMRjA4WG0vUThzcHdzS1UxTmZZY0pqeG5uRWdOS0grL3NNWjI0YXlp?=
- =?utf-8?B?cWxiU2pwNlErMUZ4S1oyajhkYnJOQ1lzN040ZDlkWlNzRnhmbklQak9uTXA2?=
- =?utf-8?B?OUluS09CaTdKU0l4Z3BLVkxRbUgzdHhIR2hnS0tZY1hrY0hYUlk1clJmU2NG?=
- =?utf-8?B?QUpydXEzZXg4Ym1oQW9USWhVN2dsa2xNVnB2RlVQTjVTQXRFUlBYQWUyd0FL?=
- =?utf-8?B?elVNUXVodnZLdTVuRm1tUzZrUHcza3NqM29oaVFGd240K1N1VVZBMWI2ZTFX?=
- =?utf-8?B?a2c4Q2JjeVY2NTdCdVRrNUk5b2pqUnR0UkxjMTR5aGxzSGptbFcyeVFMWmxv?=
- =?utf-8?B?VmZtK1k1RU41bU1vaVlOaXQ4cFkxWjF4a2hwUzhvdWJHTUhWQWd1dnR3T1Fs?=
- =?utf-8?B?b0JWb2k1WVZYbmllaGIyeURCR3F5VzM1MTA1WXduR20zeW1aYWR0SENrdnNm?=
- =?utf-8?B?Uko3SDlWM050akUyU0ROQTErclpMZ1M1eXUwaEtBRGJGQk1JK2IyOFJWK3c4?=
- =?utf-8?B?L1dMK3N2YW9YbWpBcVdiRW9qY3NFUmRmS2VudFIrb1lBYVVFZVA4WHk0cm9L?=
- =?utf-8?B?VmpqUmd4d2tVeWdETG5xd0pSVnVNUHkxV0ZVc0pMM1RHbE0zTEoyMDhPRTVN?=
- =?utf-8?B?TzRTZlZrT09pdmpUeFlBaEQ2ek5HTFkxRE1jYWJUMjIzQXIzMGRvSkpsSU9p?=
- =?utf-8?B?TURvbXlBSzJFYnkwWEs2dHNpNXdUb09DNzN5YUtVSFFwVzRPeW5QY0d3RVh4?=
- =?utf-8?B?WXQyVERGamtNNzhyWGZHNE1zMGRBY21INU1oRlYyV1RXZDhxRkVMQmc5TCtu?=
- =?utf-8?B?cXQyT3lUZXpDckZuTXgxQlBuejh1Y1pzbVIraEtYcHhHbVVGMXFxNHJzL2RR?=
- =?utf-8?B?NklIWnc4L2VEUmdXVExxQnVESzRka1VVSTl1MWlVUTNUYW9SV1U3WVhxTG5t?=
- =?utf-8?B?dFpYTHIrY0dzMUEyd3NZSWtHVTlvTWE2N2hsSytubU85N2xIcko5a09vV3dS?=
- =?utf-8?B?dHFCNm9GQWtPSHpJMmxGTW4zV1VITXJENlBOQklDYm83SSt4TUhLTklzSjkv?=
- =?utf-8?B?bkEyRGlUZEtBa3lrM0RzTmIyYjJTWjdtMkRRTml3TWJMUVZJWmFkNkJvNVhX?=
- =?utf-8?B?YUlTbWZST2kxT3FSOWZFNW5aRURvbzhWeHpqUlI4QVlsakN4VVhIUFh4Mi9Y?=
- =?utf-8?Q?X49kzZxmkwTtDeWTmPJ/yq/Rbv9CZKQ3GZIraL1?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 618a012a-8716-46f0-dce5-08d94e122f5f
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QWYydnZsc0tNYUlzaDBCQm81VEIwMTFXdWp4bWlHbm9TUGdqcFBCZmZWQzdX?=
+ =?utf-8?B?QVFKZDlzZE9XV1NpL0JoTFJSNVQwS2kwVnhUWjQyOXEvdmI4bEdNN0hId3gr?=
+ =?utf-8?B?T0hSSlpONThaclBHVG0vSys4WElTSGVTK1FsdmZwV1dCWFpYY0JHdmE2T0tx?=
+ =?utf-8?B?OVdtWmkySmhGdG1pVHlheWNKelRyY1pRZTVhUVBMVG9qTTgxdEMyeitETXN6?=
+ =?utf-8?B?ZWdZNVUwNFpUNnVqQUhNcWdsbnprVUZrVGplWVFhcmpnNnRXcWFPejVsdUtR?=
+ =?utf-8?B?SlRYVk9DRWV4YmIvY2duOURkZC8yZGRJemZzandMc0F2SEhEQ3NpaW4rSC9u?=
+ =?utf-8?B?WU1wN2x6RDFmOGk0WkZzc0liaFhZUk4wdVNHSDBlQTY4cVJ0WkFNRU5EZTUz?=
+ =?utf-8?B?MEQyOHphUmRXWURLa2dTR0NsVUNZUWU5NGh3Vk9hMlhha284OElteS9rQ3J0?=
+ =?utf-8?B?dGk0d3lNbzQ1ejFiZGRFendYMkJZT0JBODB5dE55VTJYeCtlMkJpclhxdExp?=
+ =?utf-8?B?THJaYkgyZXk0bElGdnZEanZ4dmRnUXRUZDQwbXNLQjJqQnoySlYxMC9xKy8y?=
+ =?utf-8?B?MVVuZmRWOHRuUXVQSnFIbkxHSko0eG5xbndKanZGbmhncEpydnlhSFh2Zkxy?=
+ =?utf-8?B?K3FaMDFFSVlDeGl2b2tLMDYvZTlFdHEraGtwU0grbDU1MFlLMEhmNDZ2cEg4?=
+ =?utf-8?B?bUpYeXFYYTdPc2c0OU0rM1VRUmNnaEpGWlcvSUtxcWFrT1JWZlFSN0xDclVE?=
+ =?utf-8?B?cWM4aUplUlpxcmZwckg4WkwzN3E4Zy83YWtVYWpGbERkMFZKb3daNFBYdHZN?=
+ =?utf-8?B?WG02NkdBV1hTMHRCK0Y2QzRhaEFlQXpGYklJSDBXcTlvaTBzWjFlU1ZQWlkv?=
+ =?utf-8?B?U0pyQTJjMXUxY2lIbjBPNnZ4T2lFeFhqT1VDMHRDNGsranUxRzhBdjVFYzgz?=
+ =?utf-8?B?K2d5cmMrS2IwZUR6TUFBUkZPSWdHd2RRSDg3L1RTeS8xY2NaUk11WVRPWis2?=
+ =?utf-8?B?aytOVklkaFR1d3NQSXdSR013Q0YvRU1yYks1VDVGdk5qTEg3Y2tUQUVNb0ha?=
+ =?utf-8?B?S0JyMTBpWGU1UGtsbUI4L0R4VWVML0JRcjNGdXh5YStFTWRYdklmeVpKMU9l?=
+ =?utf-8?B?OXFvdit6M1FJOUFCSDZlSy9MVEg2clJWV0hyNEFNcXp5UFRlWHIwWlVmLzZk?=
+ =?utf-8?B?L01Mc1h3c2xIUkRnUHE3ZGMyN2ZONzhEdGhBTFY3Qmcvb0E2YVM3bHBucmdL?=
+ =?utf-8?B?S29oaHRKRTVSTytPaVZmVU55VEVGeWxzN0hLU2FwWnJzU29ERjQyVElGZDhC?=
+ =?utf-8?B?ZlRZOVdsQ1JhS2FwUGFFN3pwTGdPTVJ3R0JzNGNVcWNzVjlVSlMvOTlraHE5?=
+ =?utf-8?B?aWQvSHFkSUFOeTVOVHE2OWNDTXVXSTJZd0FEbldydzlxMit6ODhUazF3dXN5?=
+ =?utf-8?B?QzdEajE1LzBEcTNKakRsMXNnSndDUGJIakR3ZWRaUThpcVQ5Wis5VnpXT00w?=
+ =?utf-8?B?NVlmVHVDRmg2VVV3MzlpbEZJUEowUlU4T0Q4cjFiYjdLMlVReHAraWJEZzcx?=
+ =?utf-8?B?Qk94cHBzMXQxeWVWNGdiSEdHZEpkL0swbHdiTjJ4eFZMeTdpU2JxajVOYld3?=
+ =?utf-8?B?QzRTRHNOTjJkd2VxMkxCc1FYMkhZdGFXNE8vd3ZWcWhNd01VL2N1Qllhc2dR?=
+ =?utf-8?B?amFkUy9jVjdsdUF4Ris3Y3dTcUFkdG9XZnJFZmhrcjRNVTBFZDFmUXIyZ1ow?=
+ =?utf-8?Q?N2lzRwkqwbySR6weIg22UjPHkEeC5pnrw5jQ2NI?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2ad02dda-68e0-4a2c-394b-08d94e12ee69
 X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5634.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jul 2021 19:43:46.1911 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jul 2021 19:49:06.6583 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: wUwPAAFoHXAxM6tQCLoRqB8JSTz/XGiDVCAj0MF7KD4YnhwKJpIeMPArHrATBhftHgFWfBaAYn1HBXmtkXTIy1lYnD2XU8f45HT0lPqomzo=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR11MB5617
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7R7+isBTBjYykmjwoJLOkKwbIfyPcdfzdhr2tK1iAWNd3GZqIb4hKV12SBpXIsMcslVbZaQGpZ5t0lOWRtxOzwCETVzcnW72B4W6e3rCwnw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR11MB5650
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -156,131 +156,176 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 7/21/2021 11:00 AM, Michal Wajdeczko wrote:
+On 7/21/2021 11:05 AM, Michal Wajdeczko wrote:
 > 
 > 
 > On 21.07.2021 18:11, Vinay Belgaumkar wrote:
->> Add helpers to read the min/max frequency being used
->> by SLPC. This is done by send a H2G command which forces
->> SLPC to update the shared data struct which can then be
->> read.
-> 
-> add note that functions will be used later
-
-ok.
-
-> 
+>> This prints out relevant SLPC info from the SLPC shared structure.
+>>
+>> We will send a h2g message which forces SLPC to update the
+>> shared data structure with latest information before reading it.
 >>
 >> v2: Address review comments (Michal W)
 >>
 >> Signed-off-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
 >> Signed-off-by: Sundaresan Sujaritha <sujaritha.sundaresan@intel.com>
 >> ---
->>   drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c | 52 +++++++++++++++++++++
->>   drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h |  2 +
->>   2 files changed, 54 insertions(+)
+>>   .../gpu/drm/i915/gt/uc/intel_guc_debugfs.c    | 23 +++++++++++
+>>   drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c   | 40 +++++++++++++++++++
+>>   drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h   |  4 +-
+>>   3 files changed, 66 insertions(+), 1 deletion(-)
 >>
->> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
->> index b40c39ba4049..c1cf8d46e360 100644
->> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
->> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
->> @@ -290,6 +290,32 @@ int intel_guc_slpc_set_max_freq(struct intel_guc_slpc *slpc, u32 val)
->>   	return ret;
->>   }
+>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_debugfs.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_debugfs.c
+>> index 72ddfff42f7d..46b22187927b 100644
+>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_debugfs.c
+>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_debugfs.c
+>> @@ -12,6 +12,7 @@
+>>   #include "gt/uc/intel_guc_ct.h"
+>>   #include "gt/uc/intel_guc_ads.h"
+>>   #include "gt/uc/intel_guc_submission.h"
+>> +#include "gt/uc/intel_guc_slpc.h"
 >>   
->> +/**
->> + * intel_guc_slpc_get_max_freq() - Get max frequency limit for SLPC.
->> + * @slpc: pointer to intel_guc_slpc.
->> + * @val: pointer to val which will hold max frequency (MHz)
->> + *
->> + * This function will invoke GuC SLPC action to read the max frequency
->> + * limit for unslice.
->> + *
->> + * Return: 0 on success, non-zero error code on failure.
->> + */
->> +int intel_guc_slpc_get_max_freq(struct intel_guc_slpc *slpc, u32 *val)
+>>   static int guc_info_show(struct seq_file *m, void *data)
+>>   {
+>> @@ -50,11 +51,33 @@ static int guc_registered_contexts_show(struct seq_file *m, void *data)
+>>   }
+>>   DEFINE_GT_DEBUGFS_ATTRIBUTE(guc_registered_contexts);
+>>   
+>> +static int guc_slpc_info_show(struct seq_file *m, void *unused)
 >> +{
->> +	intel_wakeref_t wakeref;
->> +	struct drm_i915_private *i915 = guc_to_gt(slpc_to_guc(slpc))->i915;
->> +	int ret = 0;
-> 
-> struct drm_i915_private *i915 = slpc_to_i915(slpc);
-> intel_wakeref_t wakeref;
-> int ret = 0;
-> 
+>> +	struct intel_guc *guc = m->private;
+>> +	struct intel_guc_slpc *slpc = &guc->slpc;
+>> +	struct drm_printer p = drm_seq_file_printer(m);
 >> +
->> +	with_intel_runtime_pm(&i915->runtime_pm, wakeref) {
->> +		/* Force GuC to update task data */
->> +		slpc_query_task_state(slpc);
-> 
-> what if this call fails ?
-
-saving error in ret.
-
-> 
+>> +	if (!intel_guc_slpc_is_used(guc))
+>> +		return -ENODEV;
 >> +
->> +		*val = slpc_decode_max_freq(slpc);
->> +	}
+>> +	return intel_guc_slpc_info(slpc, &p);
+>> +}
+>> +DEFINE_GT_DEBUGFS_ATTRIBUTE(guc_slpc_info);
 >> +
->> +	return ret;
+>> +bool intel_eval_slpc_support(void *data)
+>> +{
+>> +	struct intel_guc *guc;
+>> +
+>> +	guc = (struct intel_guc *)data;
+> 
+> 	struct intel_guc *guc = (struct intel_guc *)data;
+> 
+>> +	return intel_guc_slpc_is_used(guc);
 >> +}
 >> +
->>   /**
->>    * intel_guc_slpc_set_min_freq() - Set min frequency limit for SLPC.
->>    * @slpc: pointer to intel_guc_slpc.
->> @@ -322,6 +348,32 @@ int intel_guc_slpc_set_min_freq(struct intel_guc_slpc *slpc, u32 val)
->>   	return ret;
+>>   void intel_guc_debugfs_register(struct intel_guc *guc, struct dentry *root)
+>>   {
+>>   	static const struct debugfs_gt_file files[] = {
+>>   		{ "guc_info", &guc_info_fops, NULL },
+>>   		{ "guc_registered_contexts", &guc_registered_contexts_fops, NULL },
+>> +		{ "guc_slpc_info", &guc_slpc_info_fops, &intel_eval_slpc_support},
+>>   	};
+>>   
+>>   	if (!intel_guc_is_supported(guc))
+>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
+>> index c1cf8d46e360..73379985c105 100644
+>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
+>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
+>> @@ -430,6 +430,46 @@ int intel_guc_slpc_enable(struct intel_guc_slpc *slpc)
+>>   	return 0;
 >>   }
 >>   
->> +/**
->> + * intel_guc_slpc_get_min_freq() - Get min frequency limit for SLPC.
->> + * @slpc: pointer to intel_guc_slpc.
->> + * @val: pointer to val which will hold min frequency (MHz)
->> + *
->> + * This function will invoke GuC SLPC action to read the min frequency
->> + * limit for unslice.
->> + *
->> + * Return: 0 on success, non-zero error code on failure.
->> + */
->> +int intel_guc_slpc_get_min_freq(struct intel_guc_slpc *slpc, u32 *val)
+>> +int intel_guc_slpc_info(struct intel_guc_slpc *slpc, struct drm_printer *p)
 >> +{
->> +	intel_wakeref_t wakeref;
 >> +	struct drm_i915_private *i915 = guc_to_gt(slpc_to_guc(slpc))->i915;
+>> +	struct slpc_shared_data *data;
+>> +	struct slpc_task_state_data *slpc_tasks;
+>> +	intel_wakeref_t wakeref;
 >> +	int ret = 0;
 >> +
 >> +	with_intel_runtime_pm(&i915->runtime_pm, wakeref) {
->> +		/* Force GuC to update task data */
->> +		slpc_query_task_state(slpc);
+>> +		if (slpc_query_task_state(slpc))
+>> +			return -EIO;
 > 
-> same here
+> not sure if you can return directly from "with_rpm"
 
-Populated ret with return code.
+Good point, checking err instead.
 
+> 
+>> +
+>> +		slpc_tasks = &data->task_state_data;
+>> +
+>> +		drm_printf(p, "SLPC state: %s\n", slpc_state_string(slpc));
+>> +		drm_printf(p, "\tgtperf task active: %s\n",
+>> +			yesno(slpc_tasks->status & SLPC_GTPERF_TASK_ACTIVE));
+>> +		drm_printf(p, "\tdcc task active: %s\n",
+>> +			yesno(slpc_tasks->status & SLPC_DCC_TASK_ACTIVE));
+>> +		drm_printf(p, "\tin dcc: %s\n",
+>> +			yesno(slpc_tasks->status & SLPC_IN_DCC));
+>> +		drm_printf(p, "\tfreq switch active: %s\n",
+>> +			yesno(slpc_tasks->status & SLPC_FREQ_SWITCH_ACTIVE));
+>> +		drm_printf(p, "\tibc enabled: %s\n",
+>> +			yesno(slpc_tasks->status & SLPC_IBC_ENABLED));
+>> +		drm_printf(p, "\tibc active: %s\n",
+>> +			yesno(slpc_tasks->status & SLPC_IBC_ACTIVE));
+>> +		drm_printf(p, "\tpg1 enabled: %s\n",
+>> +			yesno(slpc_tasks->status & SLPC_PG1_ENABLED));
+>> +		drm_printf(p, "\tpg1 active: %s\n",
+>> +			yesno(slpc_tasks->status & SLPC_PG1_ACTIVE));
+>> +		drm_printf(p, "\tmax freq: %dMHz\n",
+>> +				slpc_decode_max_freq(slpc));
+>> +		drm_printf(p, "\tmin freq: %dMHz\n",
+>> +				slpc_decode_min_freq(slpc));
+> 
+> not sure what they are:
+> 
+> DCC ?
+> IBC ?
+> PG1 ?
+
+Removed these for now, since we don't use/enable them yet anyways.
+
+> 
+> and make sure to use %u for unsigned
+
+Ok.
 Thanks,
 Vinay.
+
 > 
 > Michal
 > 
->> +
->> +		*val = slpc_decode_min_freq(slpc);
 >> +	}
 >> +
 >> +	return ret;
 >> +}
 >> +
->>   /*
->>    * intel_guc_slpc_enable() - Start SLPC
->>    * @slpc: pointer to intel_guc_slpc.
+>>   void intel_guc_slpc_fini(struct intel_guc_slpc *slpc)
+>>   {
+>>   	if (!slpc->vma)
 >> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h
->> index 3a1a7eaafc12..627c71a95777 100644
+>> index 627c71a95777..852c6316aa47 100644
 >> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h
 >> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h
->> @@ -32,5 +32,7 @@ int intel_guc_slpc_enable(struct intel_guc_slpc *slpc);
+>> @@ -10,6 +10,8 @@
+>>   #include "intel_guc_slpc_types.h"
+>>   #include "abi/guc_actions_slpc_abi.h"
+>>   
+>> +struct drm_printer;
+>> +
+>>   static inline bool intel_guc_slpc_is_supported(struct intel_guc *guc)
+>>   {
+>>   	return guc->slpc_supported;
+>> @@ -26,7 +28,6 @@ static inline bool intel_guc_slpc_is_used(struct intel_guc *guc)
+>>   }
+>>   
+>>   void intel_guc_slpc_init_early(struct intel_guc_slpc *slpc);
+>> -
+>>   int intel_guc_slpc_init(struct intel_guc_slpc *slpc);
+>>   int intel_guc_slpc_enable(struct intel_guc_slpc *slpc);
 >>   void intel_guc_slpc_fini(struct intel_guc_slpc *slpc);
->>   int intel_guc_slpc_set_max_freq(struct intel_guc_slpc *slpc, u32 val);
+>> @@ -34,5 +35,6 @@ int intel_guc_slpc_set_max_freq(struct intel_guc_slpc *slpc, u32 val);
 >>   int intel_guc_slpc_set_min_freq(struct intel_guc_slpc *slpc, u32 val);
->> +int intel_guc_slpc_get_max_freq(struct intel_guc_slpc *slpc, u32 *val);
->> +int intel_guc_slpc_get_min_freq(struct intel_guc_slpc *slpc, u32 *val);
+>>   int intel_guc_slpc_get_max_freq(struct intel_guc_slpc *slpc, u32 *val);
+>>   int intel_guc_slpc_get_min_freq(struct intel_guc_slpc *slpc, u32 *val);
+>> +int intel_guc_slpc_info(struct intel_guc_slpc *slpc, struct drm_printer *p);
 >>   
 >>   #endif
 >>
