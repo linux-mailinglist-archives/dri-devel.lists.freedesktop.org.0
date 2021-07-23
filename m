@@ -1,37 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D6E03D3992
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jul 2021 13:35:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B04E3D39C4
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jul 2021 13:53:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5CB9D6FABF;
-	Fri, 23 Jul 2021 11:35:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D21396E8F0;
+	Fri, 23 Jul 2021 11:53:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E4F66F62A;
- Fri, 23 Jul 2021 11:35:02 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10053"; a="209969515"
-X-IronPort-AV: E=Sophos;i="5.84,263,1620716400"; d="scan'208";a="209969515"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Jul 2021 04:35:01 -0700
-X-IronPort-AV: E=Sophos;i="5.84,263,1620716400"; d="scan'208";a="471277641"
-Received: from rorykav-mobl.ger.corp.intel.com (HELO mwauld-desk1.intel.com)
- ([10.213.196.197])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Jul 2021 04:34:58 -0700
-From: Matthew Auld <matthew.auld@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH] drm/i915/userptr: Probe existence of backing struct pages
- upon creation
-Date: Fri, 23 Jul 2021 12:34:05 +0100
-Message-Id: <20210723113405.427004-1-matthew.auld@intel.com>
-X-Mailer: git-send-email 2.26.3
+Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
+ [66.111.4.221])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1ABA96E8F0
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jul 2021 11:53:07 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 94830580A24;
+ Fri, 23 Jul 2021 07:53:04 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute1.internal (MEProxy); Fri, 23 Jul 2021 07:53:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm3; bh=tYtirbbq8UOW3T3g4k3/5eqliLc
+ ilk6sdCztEJFWA2o=; b=K+/yB6a8QBlYbfHM7E6LMG7q592W4k+ci4A8OmrCX8b
+ sBIGInaJtJ32lgVd4T90lI5be0HUG8MuX+SmAArVlrvCRv4Ea4cNxV/bewJcrrAo
+ HFVoW27oRySPgmz+z71JgqG1JbQvgbBf3YU2XqEggWxuxkUbRxfplRlCnBAEqB8y
+ jQmyOwym+EZuFRZSFaqM5gRqPKnd/mlU9N2fW3MOObtRDsCH9+iq3fp0DYFiFeic
+ DaveMEyE31XLQM8JviCqZxefFPY6JeUa3NZgLbVdw4iPTfL/kHPuLE8u4COkf7ZP
+ SJ1MOotxf4mW8akVZFiR6EfHAyeSD6Dq96AVup6rUlw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=tYtirb
+ bq8UOW3T3g4k3/5eqliLcilk6sdCztEJFWA2o=; b=tEIJbagq90bnsVsia3zv3s
+ ZaieWOmRwbTJV8r+UaGiWrbA8SHE2q4qNQ+0+DvHnQlmOtjXIGTUIVPIy4SKRHZL
+ s0tvik8NaE0PpRw5jgxM/jAH7MUPyp3GqiTEuZhmRG08w/HzIefhnfT0AhQpm/C9
+ t5/AKQEzR7NA0bZOf5CbwPz+MUsgi5+r4CLW3htHHM6WF5YXNnIVS26Qr27ckBUW
+ MDlhWvM0AmGIQQeTEbeUbDBfV4bw0Zb8pVoKrWsfxfJD2mbhKKXRD5+GPDSMWHaK
+ Obl4FkluytXdqjs3L2lcLSJBXKvV9sQYEhyocGhVnI2fHlerSjjUhdC+qbMHWHFw
+ ==
+X-ME-Sender: <xms:ma36YMoEqeFhcxYrmDcw8KlOMNz9aj4kIuGUXtIA8ahWsBU1hQSaiQ>
+ <xme:ma36YCqics3j0ZuJLIvctdTV2lPRBM6IzXOlyQur631E6RbaoHrwU6woku0C3W1SS
+ K44xScgIdkDGJrvNH4>
+X-ME-Received: <xmr:ma36YBMgmVmEzfloQhAJ0bbjmBO2l0vzT9KjwG7FL_5hbcOtB_FIDyZfgb_H2m6vEpnu6qKKsq450DuJyTdSR6VI7RihIw0zn9rU>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrfeekgdeghecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkfhggtggujgesghdtreertddtudenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+ gvrhhnpeduvdduhfekkeehgffftefflefgffdtheffudffgeevteffheeuiedvvdejvdfg
+ veenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
+ igihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:ma36YD4mawld_8VPE7ZWLvfFm9_eyFrvjBaLGOpFKhkfReVB-lm6KA>
+ <xmx:ma36YL7AZoggd0xC0VS6sUORwtZBwkYCkjVGqKQ7ndLy8FBUB9FxDQ>
+ <xmx:ma36YDhh-VhIACYJCjKlO4O9DhmCW40uxJAFvJZ393K0DvR1WfXucA>
+ <xmx:oK36YGQujZ9LrFXUhtHAVGkIPUkSNKk0Ad0YDVPwh4wlp95-H3dOOw>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 23 Jul 2021 07:52:57 -0400 (EDT)
+Date: Fri, 23 Jul 2021 13:52:54 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@intel.com>,
+ David Airlie <airlied@linux.ie>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v6] Documentation: gpu: Mention the requirements for new
+ properties
+Message-ID: <20210723115254.ujq2ybztorjp26ki@gilmour>
+References: <20210720143544.571760-1-maxime@cerno.tech>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="ptabjuc5fu2o2g7m"
+Content-Disposition: inline
+In-Reply-To: <20210720143544.571760-1-maxime@cerno.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,183 +83,183 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Jordan Justen <jordan.l.justen@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>, dri-devel@lists.freedesktop.org,
- Chris Wilson <chris@chris-wilson.co.uk>,
- Kenneth Graunke <kenneth@whitecape.org>, Jason Ekstrand <jason@jlekstrand.net>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Xinliang Liu <xinliang.liu@linaro.org>,
+ Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Jerome Brunet <jbrunet@baylibre.com>,
+ Kevin Hilman <khilman@baylibre.com>,
+ Ludovic Desroches <ludovic.desroches@microchip.com>,
+ NXP Linux Team <linux-imx@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Roland Scheidegger <sroland@vmware.com>, Sean Paul <sean@poorly.run>,
+ Hyun Kwon <hyun.kwon@xilinx.com>, Andrew Jeffery <andrew@aj.id.au>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, linux-doc@vger.kernel.org,
+ Edmund Dea <edmund.j.dea@intel.com>, Eric Anholt <eric@anholt.net>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+ Steven Price <steven.price@arm.com>,
+ VMware Graphics <linux-graphics-maintainer@vmware.com>,
+ Ben Skeggs <bskeggs@redhat.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Boris Brezillon <bbrezillon@kernel.org>, Sandy Huang <hjc@rock-chips.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, Melissa Wen <melissa.srw@gmail.com>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>, Jonathan Corbet <corbet@lwn.net>,
+ Xinwei Kong <kong.kongxinwei@hisilicon.com>, Chen-Yu Tsai <wens@csie.org>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Chen Feng <puck.chen@hisilicon.com>, Alison Wang <alison.wang@nxp.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>, Tomi Valkeinen <tomba@kernel.org>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Tian Tao <tiantao6@hisilicon.com>, Shawn Guo <shawnguo@kernel.org>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Liviu Dudau <liviu.dudau@arm.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Paul Cercueil <paul@crapouillou.net>, Andrzej Hajda <a.hajda@samsung.com>,
+ Huang Rui <ray.huang@amd.com>, Marek Vasut <marex@denx.de>,
+ Joonyoung Shim <jy0922.shim@samsung.com>,
+ Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
+ Russell King <linux@armlinux.org.uk>,
+ Philippe Cornu <philippe.cornu@foss.st.com>,
+ Hans de Goede <hdegoede@redhat.com>, Matthias Brugger <matthias.bgg@gmail.com>,
+ Jernej Skrabec <jernej.skrabec@siol.net>,
+ Pekka Paalanen <pekka.paalanen@collabora.com>,
+ Yannick Fertre <yannick.fertre@foss.st.com>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Robert Foss <robert.foss@linaro.org>, Qiang Yu <yuq825@gmail.com>,
+ Jyri Sarha <jyri.sarha@iki.fi>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Chris Wilson <chris@chris-wilson.co.uk>
 
-Jason Ekstrand requested a more efficient method than userptr+set-domain
-to determine if the userptr object was backed by a complete set of pages
-upon creation. To be more efficient than simply populating the userptr
-using get_user_pages() (as done by the call to set-domain or execbuf),
-we can walk the tree of vm_area_struct and check for gaps or vma not
-backed by struct page (VM_PFNMAP). The question is how to handle
-VM_MIXEDMAP which may be either struct page or pfn backed...
+--ptabjuc5fu2o2g7m
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-With discrete we are going to drop support for set_domain(), so offering
-a way to probe the pages, without having to resort to dummy batches has
-been requested.
+On Tue, Jul 20, 2021 at 04:35:44PM +0200, Maxime Ripard wrote:
+> New KMS properties come with a bunch of requirements to avoid each
+> driver from running their own, inconsistent, set of properties,
+> eventually leading to issues like property conflicts, inconsistencies
+> between drivers and semantics, etc.
+>=20
+> Let's document what we expect.
+>=20
+> Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
+> Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>
+> Cc: Alex Deucher <alexander.deucher@amd.com>
+> Cc: Alison Wang <alison.wang@nxp.com>
+> Cc: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+> Cc: Andrew Jeffery <andrew@aj.id.au>
+> Cc: Andrzej Hajda <a.hajda@samsung.com>
+> Cc: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
+> Cc: Benjamin Gaignard <benjamin.gaignard@linaro.org>
+> Cc: Ben Skeggs <bskeggs@redhat.com>
+> Cc: Boris Brezillon <bbrezillon@kernel.org>
+> Cc: Brian Starkey <brian.starkey@arm.com>
+> Cc: Chen Feng <puck.chen@hisilicon.com>
+> Cc: Chen-Yu Tsai <wens@csie.org>
+> Cc: Christian Gmeiner <christian.gmeiner@gmail.com>
+> Cc: "Christian K=F6nig" <christian.koenig@amd.com>
+> Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+> Cc: Edmund Dea <edmund.j.dea@intel.com>
+> Cc: Eric Anholt <eric@anholt.net>
+> Cc: Fabio Estevam <festevam@gmail.com>
+> Cc: Gerd Hoffmann <kraxel@redhat.com>
+> Cc: Haneen Mohammed <hamohammed.sa@gmail.com>
+> Cc: Hans de Goede <hdegoede@redhat.com>
+> Cc: "Heiko St=FCbner" <heiko@sntech.de>
+> Cc: Huang Rui <ray.huang@amd.com>
+> Cc: Hyun Kwon <hyun.kwon@xilinx.com>
+> Cc: Inki Dae <inki.dae@samsung.com>
+> Cc: Jani Nikula <jani.nikula@linux.intel.com>
+> Cc: Jernej Skrabec <jernej.skrabec@siol.net>
+> Cc: Jerome Brunet <jbrunet@baylibre.com>
+> Cc: John Stultz <john.stultz@linaro.org>
+> Cc: Jonas Karlman <jonas@kwiboo.se>
+> Cc: Jonathan Hunter <jonathanh@nvidia.com>
+> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+> Cc: Joonyoung Shim <jy0922.shim@samsung.com>
+> Cc: Jyri Sarha <jyri.sarha@iki.fi>
+> Cc: Kevin Hilman <khilman@baylibre.com>
+> Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> Cc: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+> Cc: Kyungmin Park <kyungmin.park@samsung.com>
+> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> Cc: Linus Walleij <linus.walleij@linaro.org>
+> Cc: Liviu Dudau <liviu.dudau@arm.com>
+> Cc: Lucas Stach <l.stach@pengutronix.de>
+> Cc: Ludovic Desroches <ludovic.desroches@microchip.com>
+> Cc: Marek Vasut <marex@denx.de>
+> Cc: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+> Cc: Matthias Brugger <matthias.bgg@gmail.com>
+> Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Melissa Wen <melissa.srw@gmail.com>
+> Cc: Neil Armstrong <narmstrong@baylibre.com>
+> Cc: Nicolas Ferre <nicolas.ferre@microchip.com>
+> Cc: "Noralf Tr=F8nnes" <noralf@tronnes.org>
+> Cc: NXP Linux Team <linux-imx@nxp.com>
+> Cc: Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>
+> Cc: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+> Cc: Paul Cercueil <paul@crapouillou.net>
+> Cc: Pekka Paalanen <pekka.paalanen@collabora.com>
+> Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+> Cc: Philippe Cornu <philippe.cornu@foss.st.com>
+> Cc: Philipp Zabel <p.zabel@pengutronix.de>
+> Cc: Qiang Yu <yuq825@gmail.com>
+> Cc: Rob Clark <robdclark@gmail.com>
+> Cc: Robert Foss <robert.foss@linaro.org>
+> Cc: Rob Herring <robh@kernel.org>
+> Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
+> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> Cc: Roland Scheidegger <sroland@vmware.com>
+> Cc: Russell King <linux@armlinux.org.uk>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Sandy Huang <hjc@rock-chips.com>
+> Cc: Sascha Hauer <s.hauer@pengutronix.de>
+> Cc: Sean Paul <sean@poorly.run>
+> Cc: Seung-Woo Kim <sw0312.kim@samsung.com>
+> Cc: Shawn Guo <shawnguo@kernel.org>
+> Cc: Simon Ser <contact@emersion.fr>
+> Cc: Stefan Agner <stefan@agner.ch>
+> Cc: Steven Price <steven.price@arm.com>
+> Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> Cc: Thierry Reding <thierry.reding@gmail.com>
+> Cc: Tian Tao <tiantao6@hisilicon.com>
+> Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>
+> Cc: Tomi Valkeinen <tomba@kernel.org>
+> Cc: VMware Graphics <linux-graphics-maintainer@vmware.com>
+> Cc: Xinliang Liu <xinliang.liu@linaro.org>
+> Cc: Xinwei Kong <kong.kongxinwei@hisilicon.com>
+> Cc: Yannick Fertre <yannick.fertre@foss.st.com>
+> Cc: Zack Rusin <zackr@vmware.com>
+> Reviewed-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 
-v2:
-- add new query param for the PROBE flag, so userspace can easily
-  check if the kernel supports it(Jason).
-- use mmap_read_{lock, unlock}.
-- add some kernel-doc.
-v3:
-- In the docs also mention that PROBE doesn't guarantee that the pages
-  will remain valid by the time they are actually used(Tvrtko).
-- Add a small comment for the hole finding logic(Jason).
-- Move the param next to all the other params which just return true.
+Applied with Dave's Ack (on IRC)
 
-Testcase: igt/gem_userptr_blits/probe
-Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
-Signed-off-by: Matthew Auld <matthew.auld@intel.com>
-Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Cc: Jordan Justen <jordan.l.justen@intel.com>
-Cc: Kenneth Graunke <kenneth@whitecape.org>
-Cc: Jason Ekstrand <jason@jlekstrand.net>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Ramalingam C <ramalingam.c@intel.com>
-Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-Acked-by: Kenneth Graunke <kenneth@whitecape.org>
-Reviewed-by: Jason Ekstrand <jason@jlekstrand.net>
----
- drivers/gpu/drm/i915/gem/i915_gem_userptr.c | 41 ++++++++++++++++++++-
- drivers/gpu/drm/i915/i915_getparam.c        |  1 +
- include/uapi/drm/i915_drm.h                 | 20 ++++++++++
- 3 files changed, 61 insertions(+), 1 deletion(-)
+Maxime
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_userptr.c b/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
-index 56edfeff8c02..468a7a617fbf 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
-@@ -422,6 +422,34 @@ static const struct drm_i915_gem_object_ops i915_gem_userptr_ops = {
- 
- #endif
- 
-+static int
-+probe_range(struct mm_struct *mm, unsigned long addr, unsigned long len)
-+{
-+	const unsigned long end = addr + len;
-+	struct vm_area_struct *vma;
-+	int ret = -EFAULT;
-+
-+	mmap_read_lock(mm);
-+	for (vma = find_vma(mm, addr); vma; vma = vma->vm_next) {
-+		/* Check for holes, note that we also update the addr below */
-+		if (vma->vm_start > addr)
-+			break;
-+
-+		if (vma->vm_flags & (VM_PFNMAP | VM_MIXEDMAP))
-+			break;
-+
-+		if (vma->vm_end >= end) {
-+			ret = 0;
-+			break;
-+		}
-+
-+		addr = vma->vm_end;
-+	}
-+	mmap_read_unlock(mm);
-+
-+	return ret;
-+}
-+
- /*
-  * Creates a new mm object that wraps some normal memory from the process
-  * context - user memory.
-@@ -477,7 +505,8 @@ i915_gem_userptr_ioctl(struct drm_device *dev,
- 	}
- 
- 	if (args->flags & ~(I915_USERPTR_READ_ONLY |
--			    I915_USERPTR_UNSYNCHRONIZED))
-+			    I915_USERPTR_UNSYNCHRONIZED |
-+			    I915_USERPTR_PROBE))
- 		return -EINVAL;
- 
- 	if (i915_gem_object_size_2big(args->user_size))
-@@ -504,6 +533,16 @@ i915_gem_userptr_ioctl(struct drm_device *dev,
- 			return -ENODEV;
- 	}
- 
-+	if (args->flags & I915_USERPTR_PROBE) {
-+		/*
-+		 * Check that the range pointed to represents real struct
-+		 * pages and not iomappings (at this moment in time!)
-+		 */
-+		ret = probe_range(current->mm, args->user_ptr, args->user_size);
-+		if (ret)
-+			return ret;
-+	}
-+
- #ifdef CONFIG_MMU_NOTIFIER
- 	obj = i915_gem_object_alloc();
- 	if (obj == NULL)
-diff --git a/drivers/gpu/drm/i915/i915_getparam.c b/drivers/gpu/drm/i915/i915_getparam.c
-index 24e18219eb50..bbb7cac43eb4 100644
---- a/drivers/gpu/drm/i915/i915_getparam.c
-+++ b/drivers/gpu/drm/i915/i915_getparam.c
-@@ -134,6 +134,7 @@ int i915_getparam_ioctl(struct drm_device *dev, void *data,
- 	case I915_PARAM_HAS_EXEC_FENCE_ARRAY:
- 	case I915_PARAM_HAS_EXEC_SUBMIT_FENCE:
- 	case I915_PARAM_HAS_EXEC_TIMELINE_FENCES:
-+	case I915_PARAM_HAS_USERPTR_PROBE:
- 		/* For the time being all of these are always true;
- 		 * if some supported hardware does not have one of these
- 		 * features this value needs to be provided from
-diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
-index 975087553ea0..0d290535a6e5 100644
---- a/include/uapi/drm/i915_drm.h
-+++ b/include/uapi/drm/i915_drm.h
-@@ -674,6 +674,9 @@ typedef struct drm_i915_irq_wait {
-  */
- #define I915_PARAM_HAS_EXEC_TIMELINE_FENCES 55
- 
-+/* Query if the kernel supports the I915_USERPTR_PROBE flag. */
-+#define I915_PARAM_HAS_USERPTR_PROBE 56
-+
- /* Must be kept compact -- no holes and well documented */
- 
- typedef struct drm_i915_getparam {
-@@ -2222,12 +2225,29 @@ struct drm_i915_gem_userptr {
- 	 * through the GTT. If the HW can't support readonly access, an error is
- 	 * returned.
- 	 *
-+	 * I915_USERPTR_PROBE:
-+	 *
-+	 * Probe the provided @user_ptr range and validate that the @user_ptr is
-+	 * indeed pointing to normal memory and that the range is also valid.
-+	 * For example if some garbage address is given to the kernel, then this
-+	 * should complain.
-+	 *
-+	 * Returns -EFAULT if the probe failed.
-+	 *
-+	 * Note that this doesn't populate the backing pages, and also doesn't
-+	 * guarantee that the object will remain valid when the object is
-+	 * eventually used.
-+	 *
-+	 * The kernel supports this feature if I915_PARAM_HAS_USERPTR_PROBE
-+	 * returns a non-zero value.
-+	 *
- 	 * I915_USERPTR_UNSYNCHRONIZED:
- 	 *
- 	 * NOT USED. Setting this flag will result in an error.
- 	 */
- 	__u32 flags;
- #define I915_USERPTR_READ_ONLY 0x1
-+#define I915_USERPTR_PROBE 0x2
- #define I915_USERPTR_UNSYNCHRONIZED 0x80000000
- 	/**
- 	 * @handle: Returned handle for the object.
--- 
-2.26.3
+--ptabjuc5fu2o2g7m
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYPqtlgAKCRDj7w1vZxhR
+xbTKAPkBWWKtYXh8ttq5W89mxC3Dv+3R8u35eO/8vXFyXkzYtQEA7LJB9ZXrFcke
+yLiSMngtnc2JYAKT6OA5J7pm3LwvKQM=
+=dJca
+-----END PGP SIGNATURE-----
+
+--ptabjuc5fu2o2g7m--
