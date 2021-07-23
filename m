@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8069C3D326D
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jul 2021 05:57:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E2233D3286
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jul 2021 05:58:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5667B6F9B2;
-	Fri, 23 Jul 2021 03:57:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7597C6FA2D;
+	Fri, 23 Jul 2021 03:58:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 77B616F9B2
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jul 2021 03:57:34 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 9F8D160EC0;
- Fri, 23 Jul 2021 03:57:33 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 696AC6FA2D
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jul 2021 03:57:59 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 89C7D60F43;
+ Fri, 23 Jul 2021 03:57:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1627012654;
- bh=SgS92D8YtZxt1ox6McgFTvBPWgU+hwBTL57t+PUqMl8=;
+ s=k20201202; t=1627012679;
+ bh=sj8PzKPK4hd3q6UKKXJ5PZscVDWl0QR/ZBUL1AKbBvw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=pyHMt1OlQuL//+gTzSxKJk+/6ArMwPEV7grPbfXcJC3mwhtq/krwiiZoYuP8DhGsY
- AQfTkEo+AKdKaiyReSNJLXmgultAYvVIpH5b3gJKZGTwfLx7yyl1/lmUbbAFKJCTlB
- 9BAatMG+Fjj3lRXjXHUhT9BmjscnPgjm7/btc0MBabiGjW0wTxvKfXYWA4WEBFzCtQ
- +ZX5N0mb98XxG2Ke7Se0JKxVUY3XZxl6hesJEusbG7p7MJuRd5454Dn3wX+CbocXGg
- wMxqnHTKuPr0ERMuuTFVganO4mx5cgXGsG+X3f/SDC+x9DZ6QqeYpfZ+LGzVuSn8bZ
- KB6xjkJszP8Jg==
+ b=hLdqJ7RbLxnyhHzSrwCeoGRBEk0RQHtxh5+6GsvNxM0PAEwa2HjaxcuZrJvu4ql0o
+ KwsVMkO3TNu6ZTQnCO3IRzOVN+HdPzPnGprwhch9bjITflG1nu0qSt37YiKz571uVi
+ dVQxGaVOHgmtawU1nxxItih1zpmT2ygd8sok32BcAdAQNhrpEzb03iOmgRFDScMR5P
+ rxfeeJzoakRZGzQ0pGWvbbT6f/WgNp1PU+P545ZHJthLFi47biER5g+PDJ7m8/Vvcw
+ CKoqOKrnQRxgcwW6erBLirsNYMSsHNNwt+9HVIstVHxpTp9AaG54Jxy+q6SdyPg4vj
+ PtzRLFdn6AKUg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.13 10/19] drm/ttm: add a check against null pointer
+Subject: [PATCH AUTOSEL 5.10 08/17] drm/ttm: add a check against null pointer
  dereference
-Date: Thu, 22 Jul 2021 23:57:11 -0400
-Message-Id: <20210723035721.531372-10-sashal@kernel.org>
+Date: Thu, 22 Jul 2021 23:57:39 -0400
+Message-Id: <20210723035748.531594-8-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210723035721.531372-1-sashal@kernel.org>
-References: <20210723035721.531372-1-sashal@kernel.org>
+In-Reply-To: <20210723035748.531594-1-sashal@kernel.org>
+References: <20210723035748.531594-1-sashal@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-stable: review
@@ -92,10 +92,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 3 insertions(+)
 
 diff --git a/drivers/gpu/drm/ttm/ttm_range_manager.c b/drivers/gpu/drm/ttm/ttm_range_manager.c
-index 707e5c152896..ed053fd15c90 100644
+index 1da0e277c511..ce9d127edbb5 100644
 --- a/drivers/gpu/drm/ttm/ttm_range_manager.c
 +++ b/drivers/gpu/drm/ttm/ttm_range_manager.c
-@@ -146,6 +146,9 @@ int ttm_range_man_fini(struct ttm_device *bdev,
+@@ -147,6 +147,9 @@ int ttm_range_man_fini(struct ttm_bo_device *bdev,
  	struct drm_mm *mm = &rman->mm;
  	int ret;
  
@@ -104,7 +104,7 @@ index 707e5c152896..ed053fd15c90 100644
 +
  	ttm_resource_manager_set_used(man, false);
  
- 	ret = ttm_resource_manager_evict_all(bdev, man);
+ 	ret = ttm_resource_manager_force_list_clean(bdev, man);
 -- 
 2.30.2
 
