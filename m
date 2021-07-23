@@ -1,59 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA1373D38E3
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jul 2021 12:38:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9107C3D38ED
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jul 2021 12:51:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E5E086F445;
-	Fri, 23 Jul 2021 10:38:49 +0000 (UTC)
-X-Original-To: dri-devel@freedesktop.org
-Delivered-To: dri-devel@freedesktop.org
-Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F24D6F445
- for <dri-devel@freedesktop.org>; Fri, 23 Jul 2021 10:38:44 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1627036728; h=References: In-Reply-To: Message-Id: Date:
- Subject: Cc: To: From: Sender;
- bh=8OEWI6ySBoC2gfFN+pFic2zYM17gkNkjMXDyqkKeMME=;
- b=xX6x1667JyNWl88ecSW6lOxh6mBk4Q2fsFbRsQrMi4sm11+MLDZrOYPc+n0Zl5aVA6YQRuFF
- p1lJvZDuHgeVSYUkE+LGfIExJwGEFBIRwy5aSh1wG2hLduZuK3LgyRiH7G/hStCr8hTryeMu
- nXNTtdQo8QHfMCJlBktcpOntCTo=
-X-Mailgun-Sending-Ip: 69.72.43.7
-X-Mailgun-Sid: WyIxOTRiMSIsICJkcmktZGV2ZWxAZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n04.prod.us-east-1.postgun.com with SMTP id
- 60fa9c1d1dd16c8788c60078 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 23 Jul 2021 10:38:21
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 15A0DC4338A; Fri, 23 Jul 2021 10:38:21 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
- SPF_FAIL, 
- URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
-Received: from hyd-lnxbld559.qualcomm.com (unknown [202.46.22.19])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: akhilpo)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id A212DC433D3;
- Fri, 23 Jul 2021 10:38:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org A212DC433D3
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=fail smtp.mailfrom=akhilpo@codeaurora.org
-From: Akhil P Oommen <akhilpo@codeaurora.org>
-To: freedreno@lists.freedesktop.org
-Subject: [PATCH 2/2] drm/msm/a6xx: Add support for Adreno 7c Gen 3 gpu
-Date: Fri, 23 Jul 2021 16:08:08 +0530
-Message-Id: <1627036688-1426-2-git-send-email-akhilpo@codeaurora.org>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1627036688-1426-1-git-send-email-akhilpo@codeaurora.org>
-References: <1627036688-1426-1-git-send-email-akhilpo@codeaurora.org>
+	by gabe.freedesktop.org (Postfix) with ESMTP id 278906FAD2;
+	Fri, 23 Jul 2021 10:51:06 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E3386FAD1;
+ Fri, 23 Jul 2021 10:51:05 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10053"; a="199118898"
+X-IronPort-AV: E=Sophos;i="5.84,263,1620716400"; d="scan'208";a="199118898"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Jul 2021 03:51:04 -0700
+X-IronPort-AV: E=Sophos;i="5.84,263,1620716400"; d="scan'208";a="434078704"
+Received: from rorykav-mobl.ger.corp.intel.com (HELO mwauld-desk1.intel.com)
+ ([10.213.196.197])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Jul 2021 03:51:02 -0700
+From: Matthew Auld <matthew.auld@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH v4 1/2] drm/i915: document caching related bits
+Date: Fri, 23 Jul 2021 11:50:44 +0100
+Message-Id: <20210723105045.400841-1-matthew.auld@intel.com>
+X-Mailer: git-send-email 2.26.3
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,265 +43,261 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dianders@chromium.org, jonathan@marek.ca, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, jordan@cosmicpenguin.net, mka@chromium.org,
- dri-devel@freedesktop.org
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ Mika Kuoppala <mika.kuoppala@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch adds support for the gpu found in the Snapdragon 7c Gen 3
-compute platform. This gpu is similar to the exisiting a660 gpu with
-minor delta in the programing sequence. As the Adreno GPUs are moving
-away from a numeric chipid based naming scheme to a string, it was
-decided to use 0x06030500 as the gpu id of this gpu to communicate
-to the userspace driver.
+Try to document the object caching related bits, like cache_coherent and
+cache_dirty.
 
-Signed-off-by: Akhil P Oommen <akhilpo@codeaurora.org>
+v2(Ville):
+ - As pointed out by Ville, fix the completely incorrect assumptions
+   about the "partial" coherency on shared LLC platforms.
+v3(Daniel):
+ - Fix nonsense about "dirtying" the cache with reads.
+v4(Daniel):
+ - Various improvements, including adding some more details for WT.
+
+Suggested-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
+Cc: Mika Kuoppala <mika.kuoppala@linux.intel.com>
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 ---
- drivers/gpu/drm/msm/adreno/a6xx_gmu.c      | 20 ++++++++++++++++++-
- drivers/gpu/drm/msm/adreno/a6xx_gmu.h      |  1 +
- drivers/gpu/drm/msm/adreno/a6xx_gmu.xml.h  |  2 ++
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c      | 21 ++++++++++++++------
- drivers/gpu/drm/msm/adreno/a6xx_hfi.c      | 32 ++++++++++++++++++++++++++++++
- drivers/gpu/drm/msm/adreno/adreno_device.c | 12 +++++++++++
- drivers/gpu/drm/msm/adreno/adreno_gpu.h    | 11 ++++++++--
- 7 files changed, 90 insertions(+), 9 deletions(-)
+ .../gpu/drm/i915/gem/i915_gem_object_types.h  | 187 +++++++++++++++++-
+ drivers/gpu/drm/i915/i915_drv.h               |   9 -
+ 2 files changed, 183 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-index b349692..332301f 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-@@ -933,6 +933,7 @@ int a6xx_gmu_resume(struct a6xx_gpu *a6xx_gpu)
- 
- 	/* Use a known rate to bring up the GMU */
- 	clk_set_rate(gmu->core_clk, 200000000);
-+	clk_set_rate(gmu->hub_clk, 150000000);
- 	ret = clk_bulk_prepare_enable(gmu->nr_clocks, gmu->clocks);
- 	if (ret) {
- 		pm_runtime_put(gmu->gxpd);
-@@ -1094,6 +1095,7 @@ static void a6xx_gmu_shutdown(struct a6xx_gmu *gmu)
- 
- int a6xx_gmu_stop(struct a6xx_gpu *a6xx_gpu)
- {
-+	struct adreno_gpu *adreno_gpu = &a6xx_gpu->base;
- 	struct a6xx_gmu *gmu = &a6xx_gpu->gmu;
- 	struct msm_gpu *gpu = &a6xx_gpu->base.base;
- 
-@@ -1117,9 +1119,22 @@ int a6xx_gmu_stop(struct a6xx_gpu *a6xx_gpu)
- 	 * domain. Usually the GMU does this but only if the shutdown sequence
- 	 * was successful
- 	 */
--	if (!IS_ERR_OR_NULL(gmu->gxpd))
-+	if (!IS_ERR_OR_NULL(gmu->gxpd)) {
-+		/*
-+		 * Toggle the loop_en bit, across disabling the gx gdsc,
-+		 * with a delay of 10 XO cycles before disabling gx
-+		 * gdsc. This is to prevent CPR measurements from
-+		 * failing.
-+		 */
-+		if (adreno_is_a660(adreno_gpu))
-+			gmu_rmw(gmu, REG_A6XX_GPU_CPR_FSM_CTL, 1, 0);
-+
- 		pm_runtime_put_sync(gmu->gxpd);
- 
-+		if (adreno_is_a660(adreno_gpu))
-+			gmu_rmw(gmu, REG_A6XX_GPU_CPR_FSM_CTL, 1, 1);
-+	}
-+
- 	clk_bulk_disable_unprepare(gmu->nr_clocks, gmu->clocks);
- 
- 	pm_runtime_put_sync(gmu->dev);
-@@ -1393,6 +1408,9 @@ static int a6xx_gmu_clocks_probe(struct a6xx_gmu *gmu)
- 	gmu->core_clk = msm_clk_bulk_get_clock(gmu->clocks,
- 		gmu->nr_clocks, "gmu");
- 
-+	gmu->hub_clk = msm_clk_bulk_get_clock(gmu->clocks,
-+		gmu->nr_clocks, "hub");
-+
- 	return 0;
- }
- 
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.h b/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
-index 71dfa600..3c74f64 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
-@@ -66,6 +66,7 @@ struct a6xx_gmu {
- 	int nr_clocks;
- 	struct clk_bulk_data *clocks;
- 	struct clk *core_clk;
-+	struct clk *hub_clk;
- 
- 	/* current performance index set externally */
- 	int current_perf_index;
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.xml.h b/drivers/gpu/drm/msm/adreno/a6xx_gmu.xml.h
-index 8115892..d46733f 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.xml.h
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.xml.h
-@@ -479,5 +479,7 @@ static inline uint32_t A6XX_GMU_GPU_NAP_CTRL_SID(uint32_t val)
- 
- #define REG_A6XX_RSCC_TCS3_DRV0_STATUS				0x0000053e
- 
-+#define REG_A6XX_GPU_CPR_FSM_CTL				0x0000c001
-+
- 
- #endif /* A6XX_GMU_XML */
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-index 183b9f9..c0882536 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-@@ -694,6 +694,13 @@ static void a6xx_set_ubwc_config(struct msm_gpu *gpu)
- 		uavflagprd_inv = 2;
- 	}
- 
-+	if (adreno_is_7c3(adreno_gpu)) {
-+		lower_bit = 1;
-+		amsbc = 1;
-+		rgb565_predicator = 1;
-+		uavflagprd_inv = 2;
-+	}
-+
- 	gpu_write(gpu, REG_A6XX_RB_NC_MODE_CNTL,
- 		rgb565_predicator << 11 | amsbc << 4 | lower_bit << 1);
- 	gpu_write(gpu, REG_A6XX_TPL1_NC_MODE_CNTL, lower_bit << 1);
-@@ -950,10 +957,10 @@ static int a6xx_hw_init(struct msm_gpu *gpu)
- 	/* Setting the primFifo thresholds default values,
- 	 * and vccCacheSkipDis=1 bit (0x200) for A640 and newer
- 	*/
--	if (adreno_is_a650(adreno_gpu) || adreno_is_a660(adreno_gpu))
--		gpu_write(gpu, REG_A6XX_PC_DBG_ECO_CNTL, 0x00300200);
--	else if (adreno_is_a640(adreno_gpu))
-+	if (adreno_is_a640(adreno_gpu) || adreno_is_7c3(adreno_gpu))
- 		gpu_write(gpu, REG_A6XX_PC_DBG_ECO_CNTL, 0x00200200);
-+	else if (adreno_is_a650(adreno_gpu) || adreno_is_a660(adreno_gpu))
-+		gpu_write(gpu, REG_A6XX_PC_DBG_ECO_CNTL, 0x00300200);
- 	else
- 		gpu_write(gpu, REG_A6XX_PC_DBG_ECO_CNTL, 0x00180000);
- 
-@@ -993,8 +1000,9 @@ static int a6xx_hw_init(struct msm_gpu *gpu)
- 	if (adreno_is_a660(adreno_gpu)) {
- 		gpu_write(gpu, REG_A6XX_CP_CHICKEN_DBG, 0x1);
- 		gpu_write(gpu, REG_A6XX_RBBM_GBIF_CLIENT_QOS_CNTL, 0x0);
--		/* Set dualQ + disable afull for A660 GPU but not for A635 */
--		gpu_write(gpu, REG_A6XX_UCHE_CMDQ_CONFIG, 0x66906);
-+		/* Set dualQ + disable afull for A660 GPU but not for 7c3 */
-+		if (!adreno_is_7c3(adreno_gpu))
-+			gpu_write(gpu, REG_A6XX_UCHE_CMDQ_CONFIG, 0x66906);
- 	}
- 
- 	/* Enable expanded apriv for targets that support it */
-@@ -1780,7 +1788,8 @@ struct msm_gpu *a6xx_gpu_init(struct drm_device *dev)
- 	 */
- 	info = adreno_info(config->rev);
- 
--	if (info && (info->revn == 650 || info->revn == 660))
-+	if (info && (info->revn == 650 || info->revn == 660
-+			|| info->revn == ADRENO_REV_7C3))
- 		adreno_gpu->base.hw_apriv = true;
- 
- 	a6xx_llc_slices_init(pdev, a6xx_gpu);
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_hfi.c b/drivers/gpu/drm/msm/adreno/a6xx_hfi.c
-index 9194337..1451c2b 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_hfi.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_hfi.c
-@@ -382,6 +382,36 @@ static void a660_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
- 	msg->cnoc_cmds_data[1][0] =  0x60000001;
- }
- 
-+static void adreno_7c3_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
-+{
-+	/*
-+	 * Send a single "off" entry just to get things running
-+	 * TODO: bus scaling
-+	 */
-+	msg->bw_level_num = 1;
-+
-+	msg->ddr_cmds_num = 3;
-+	msg->ddr_wait_bitmask = 0x07;
-+
-+	msg->ddr_cmds_addrs[0] = 0x50004;
-+	msg->ddr_cmds_addrs[1] = 0x50000;
-+	msg->ddr_cmds_addrs[2] = 0x50088;
-+
-+	msg->ddr_cmds_data[0][0] =  0x40000000;
-+	msg->ddr_cmds_data[0][1] =  0x40000000;
-+	msg->ddr_cmds_data[0][2] =  0x40000000;
-+
-+	/*
-+	 * These are the CX (CNOC) votes - these are used by the GMU but the
-+	 * votes are known and fixed for the target
-+	 */
-+	msg->cnoc_cmds_num = 1;
-+	msg->cnoc_wait_bitmask = 0x01;
-+
-+	msg->cnoc_cmds_addrs[0] = 0x5006c;
-+	msg->cnoc_cmds_data[0][0] =  0x40000000;
-+	msg->cnoc_cmds_data[1][0] =  0x60000001;
-+}
- static void a6xx_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
- {
- 	/* Send a single "off" entry since the 630 GMU doesn't do bus scaling */
-@@ -432,6 +462,8 @@ static int a6xx_hfi_send_bw_table(struct a6xx_gmu *gmu)
- 		a640_build_bw_table(&msg);
- 	else if (adreno_is_a650(adreno_gpu))
- 		a650_build_bw_table(&msg);
-+	else if (adreno_is_7c3(adreno_gpu))
-+		adreno_7c3_build_bw_table(&msg);
- 	else if (adreno_is_a660(adreno_gpu))
- 		a660_build_bw_table(&msg);
- 	else
-diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
-index 6dad801..063b847 100644
---- a/drivers/gpu/drm/msm/adreno/adreno_device.c
-+++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
-@@ -300,6 +300,18 @@ static const struct adreno_info gpulist[] = {
- 		.init = a6xx_gpu_init,
- 		.zapfw = "a660_zap.mdt",
- 		.hwcg = a660_hwcg,
-+	}, {
-+		.rev = ADRENO_REV(6, 3, 5, ANY_ID),
-+		.revn = ADRENO_REV_7C3,
-+		.name = "Adreno 7c Gen 3",
-+		.fw = {
-+			[ADRENO_FW_SQE] = "a660_sqe.fw",
-+			[ADRENO_FW_GMU] = "a660_gmu.bin",
-+		},
-+		.gmem = SZ_512K,
-+		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
-+		.init = a6xx_gpu_init,
-+		.hwcg = a660_hwcg,
- 	},
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
+index afbadfc5516b..79de925aecfd 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
++++ b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
+@@ -92,6 +92,86 @@ struct drm_i915_gem_object_ops {
+ 	const char *name; /* friendly name for debug, e.g. lockdep classes */
  };
  
-diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-index 8dbe0d1..679bc59 100644
---- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-+++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-@@ -247,15 +247,22 @@ static inline int adreno_is_a650(struct adreno_gpu *gpu)
-        return gpu->revn == 650;
- }
- 
-+#define ADRENO_REV_7C3	0x06030500
-+static inline int adreno_is_7c3(struct adreno_gpu *gpu)
-+{
-+       return gpu->revn == ADRENO_REV_7C3;
-+}
++/**
++ * enum i915_cache_level - The supported GTT caching values for system memory
++ * pages.
++ *
++ * These translate to some special GTT PTE bits when binding pages into some
++ * address space. It also determines whether an object, or rather its pages are
++ * coherent with the GPU, when also reading or writing through the CPU cache
++ * with those pages.
++ *
++ * Userspace can also control this through struct drm_i915_gem_caching.
++ */
++enum i915_cache_level {
++	/**
++	 * @I915_CACHE_NONE:
++	 *
++	 * GPU access is not coherent with the CPU cache. If the cache is dirty
++	 * and we need the underlying pages to be coherent with some later GPU
++	 * access then we need to manually flush the pages.
++	 *
++	 * On shared LLC platforms reads and writes through the CPU cache are
++	 * still coherent even with this setting. See also
++	 * &drm_i915_gem_object.cache_coherent for more details. Due to this we
++	 * should only ever use uncached for scanout surfaces, otherwise we end
++	 * up over-flushing in some places.
++	 *
++	 * This is the default on non-LLC platforms.
++	 */
++	I915_CACHE_NONE = 0,
++	/**
++	 * @I915_CACHE_LLC:
++	 *
++	 * GPU access is coherent with the CPU cache. If the cache is dirty,
++	 * then the GPU will ensure that access remains coherent, when both
++	 * reading and writing through the CPU cache. GPU writes can dirty the
++	 * CPU cache.
++	 *
++	 * Not used for scanout surfaces.
++	 *
++	 * Applies to both platforms with shared LLC(HAS_LLC), and snooping
++	 * based platforms(HAS_SNOOP).
++	 *
++	 * This is the default on shared LLC platforms.  The only exception is
++	 * scanout objects, where the display engine is not coherent with the
++	 * CPU cache. For such objects I915_CACHE_NONE or I915_CACHE_WT is
++	 * automatically applied by the kernel in pin_for_display, if userspace
++	 * has not done so already.
++	 */
++	I915_CACHE_LLC,
++	/**
++	 * @I915_CACHE_L3_LLC:
++	 *
++	 * Explicitly enable the Gfx L3 cache, with coherent LLC.
++	 *
++	 * The Gfx L3 sits between the domain specific caches, e.g
++	 * sampler/render caches, and the larger LLC. LLC is coherent with the
++	 * GPU, but L3 is only visible to the GPU, so likely needs to be flushed
++	 * when the workload completes.
++	 *
++	 * Not used for scanout surfaces.
++	 *
++	 * Only exposed on some gen7 + GGTT. More recent hardware has dropped
++	 * this explicit setting, where it should now be enabled by default.
++	 */
++	I915_CACHE_L3_LLC,
++	/**
++	 * @I915_CACHE_WT:
++	 *
++	 * Write-through. Used for scanout surfaces.
++	 *
++	 * The GPU can utilise the caches, while still having the display engine
++	 * be coherent with GPU writes, as a result we don't need to flush the
++	 * CPU caches when moving out of the render domain. This is the default
++	 * setting chosen by the kernel, if supported by the HW, otherwise we
++	 * fallback to I915_CACHE_NONE. On the CPU side writes through the CPU
++	 * cache still need to be flushed, to remain coherent with the display
++	 * engine.
++	 */
++	I915_CACHE_WT,
++};
 +
- static inline int adreno_is_a660(struct adreno_gpu *gpu)
- {
--       return gpu->revn == 660;
-+       return gpu->revn == 660 || gpu->revn == ADRENO_REV_7C3;
- }
+ enum i915_map_type {
+ 	I915_MAP_WB = 0,
+ 	I915_MAP_WC,
+@@ -229,14 +309,113 @@ struct drm_i915_gem_object {
+ 	unsigned int mem_flags;
+ #define I915_BO_FLAG_STRUCT_PAGE BIT(0) /* Object backed by struct pages */
+ #define I915_BO_FLAG_IOMEM       BIT(1) /* Object backed by IO memory */
+-	/*
+-	 * Is the object to be mapped as read-only to the GPU
+-	 * Only honoured if hardware has relevant pte bit
++	/**
++	 * @cache_level: The desired GTT caching level.
++	 *
++	 * See enum i915_cache_level for possible values, along with what
++	 * each does.
+ 	 */
+ 	unsigned int cache_level:3;
+-	unsigned int cache_coherent:2;
++	/**
++	 * @cache_coherent:
++	 *
++	 * Track whether the pages are coherent with the GPU if reading or
++	 * writing through the CPU caches. The largely depends on the
++	 * @cache_level setting.
++	 *
++	 * On platforms which don't have the shared LLC(HAS_SNOOP), like on Atom
++	 * platforms, coherency must be explicitly requested with some special
++	 * GTT caching bits(see enum i915_cache_level). When enabling coherency
++	 * it does come at a performance and power cost on such platforms. On
++	 * the flip side the kernel does not need to manually flush any buffers
++	 * which need to be coherent with the GPU, if the object is not coherent
++	 * i.e @cache_coherent is zero.
++	 *
++	 * On platforms that share the LLC with the CPU(HAS_LLC), all GT memory
++	 * access will automatically snoop the CPU caches(even with CACHE_NONE).
++	 * The one exception is when dealing with the display engine, like with
++	 * scanout surfaces. To handle this the kernel will always flush the
++	 * surface out of the CPU caches when preparing it for scanout.  Also
++	 * note that since scanout surfaces are only ever read by the display
++	 * engine we only need to care about flushing any writes through the CPU
++	 * cache, reads on the other hand will always be coherent.
++	 *
++	 * Something strange here is why @cache_coherent is not a simple
++	 * boolean, i.e coherent vs non-coherent. The reasoning for this is back
++	 * to the display engine not being fully coherent. As a result scanout
++	 * surfaces will either be marked as I915_CACHE_NONE or I915_CACHE_WT.
++	 * In the case of seeing I915_CACHE_NONE the kernel makes the assumption
++	 * that this is likely a scanout surface, and will set @cache_coherent
++	 * as only I915_BO_CACHE_COHERENT_FOR_READ, on platforms with the shared
++	 * LLC. The kernel uses this to always flush writes through the CPU
++	 * cache as early as possible, where it can, in effect keeping
++	 * @cache_dirty clean, so we can potentially avoid stalling when
++	 * flushing the surface just before doing the scanout.  This does mean
++	 * we might unnecessarily flush non-scanout objects in some places, but
++	 * the default assumption is that all normal objects should be using
++	 * I915_CACHE_LLC, at least on platforms with the shared LLC.
++	 *
++	 * Supported values:
++	 *
++	 * I915_BO_CACHE_COHERENT_FOR_READ:
++	 *
++	 * On shared LLC platforms, we use this for special scanout surfaces,
++	 * where the display engine is not coherent with the CPU cache. As such
++	 * we need to ensure we flush any writes before doing the scanout. As an
++	 * optimisation we try to flush any writes as early as possible to avoid
++	 * stalling later.
++	 *
++	 * Thus for scanout surfaces using I915_CACHE_NONE, on shared LLC
++	 * platforms, we use:
++	 *
++	 *	cache_coherent = I915_BO_CACHE_COHERENT_FOR_READ
++	 *
++	 * While for normal objects that are fully coherent, including special
++	 * scanout surfaces marked as I915_CACHE_WT, we use:
++	 *
++	 *	cache_coherent = I915_BO_CACHE_COHERENT_FOR_READ |
++	 *			 I915_BO_CACHE_COHERENT_FOR_WRITE
++	 *
++	 * And then for objects that are not coherent at all we use:
++	 *
++	 *	cache_coherent = 0
++	 *
++	 * I915_BO_CACHE_COHERENT_FOR_WRITE:
++	 *
++	 * When writing through the CPU cache, the GPU is still coherent. Note
++	 * that this also implies I915_BO_CACHE_COHERENT_FOR_READ.
++	 */
+ #define I915_BO_CACHE_COHERENT_FOR_READ BIT(0)
+ #define I915_BO_CACHE_COHERENT_FOR_WRITE BIT(1)
++	unsigned int cache_coherent:2;
++
++	/**
++	 * @cache_dirty:
++	 *
++	 * Track if we are we dirty with writes through the CPU cache for this
++	 * object. As a result reading directly from main memory might yield
++	 * stale data.
++	 *
++	 * This also ties into whether the kernel is tracking the object as
++	 * coherent with the GPU, as per @cache_coherent, as it determines if
++	 * flushing might be needed at various points.
++	 *
++	 * Another part of @cache_dirty is managing flushing when first
++	 * acquiring the pages for system memory, at this point the pages are
++	 * considered foreign, so the default assumption is that the cache is
++	 * dirty, for example the page zeroing done by the kernel might leave
++	 * writes though the CPU cache, or swapping-in, while the actual data in
++	 * main memory is potentially stale.  Note that this is a potential
++	 * security issue when dealing with userspace objects and zeroing. Now,
++	 * whether we actually need apply the big sledgehammer of flushing all
++	 * the pages on acquire depends on if @cache_coherent is marked as
++	 * I915_BO_CACHE_COHERENT_FOR_WRITE, i.e that the GPU will be coherent
++	 * for both reads and writes though the CPU cache.
++	 *
++	 * Note that on shared LLC platforms we still apply the heavy flush for
++	 * I915_CACHE_NONE objects, under the assumption that this is going to
++	 * be used for scanout.
++	 */
+ 	unsigned int cache_dirty:1;
  
- /* check for a650, a660, or any derivatives */
- static inline int adreno_is_a650_family(struct adreno_gpu *gpu)
- {
--       return gpu->revn == 650 || gpu->revn == 620 || gpu->revn == 660;
-+       return gpu->revn == 650 || gpu->revn == 620 || gpu->revn == 660
-+	       || gpu->revn == ADRENO_REV_7C3;
- }
+ 	/**
+diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
+index d118834a4ed9..f65e0441fc99 100644
+--- a/drivers/gpu/drm/i915/i915_drv.h
++++ b/drivers/gpu/drm/i915/i915_drv.h
+@@ -394,15 +394,6 @@ struct drm_i915_display_funcs {
+ 	void (*read_luts)(struct intel_crtc_state *crtc_state);
+ };
  
- int adreno_get_param(struct msm_gpu *gpu, uint32_t param, uint64_t *value);
+-enum i915_cache_level {
+-	I915_CACHE_NONE = 0,
+-	I915_CACHE_LLC, /* also used for snoopable memory on non-LLC */
+-	I915_CACHE_L3_LLC, /* gen7+, L3 sits between the domain specifc
+-			      caches, eg sampler/render caches, and the
+-			      large Last-Level-Cache. LLC is coherent with
+-			      the CPU, but L3 is only visible to the GPU. */
+-	I915_CACHE_WT, /* hsw:gt3e WriteThrough for scanouts */
+-};
+ 
+ #define I915_COLOR_UNEVICTABLE (-1) /* a non-vma sharing the address space */
+ 
 -- 
-QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
-of Code Aurora Forum, hosted by The Linux Foundation.
+2.26.3
 
