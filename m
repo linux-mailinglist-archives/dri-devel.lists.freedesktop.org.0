@@ -2,37 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5143B3D3DE1
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jul 2021 18:51:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F3FD3D3DF6
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jul 2021 18:56:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 21B086E88D;
-	Fri, 23 Jul 2021 16:51:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 780DE6FB7E;
+	Fri, 23 Jul 2021 16:56:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EX13-EDG-OU-002.vmware.com (ex13-edg-ou-002.vmware.com
- [208.91.0.190])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3220F6E88D
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jul 2021 16:51:56 +0000 (UTC)
-Received: from sc9-mailhost3.vmware.com (10.113.161.73) by
- EX13-EDG-OU-002.vmware.com (10.113.208.156) with Microsoft SMTP Server id
- 15.0.1156.6; Fri, 23 Jul 2021 09:51:50 -0700
-Received: from vertex.localdomain (unknown [10.84.232.132])
- by sc9-mailhost3.vmware.com (Postfix) with ESMTP id 9C251202F4;
- Fri, 23 Jul 2021 09:51:55 -0700 (PDT)
-From: Zack Rusin <zackr@vmware.com>
-To: <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v2 4/4] drm/vmwgfx: Use 2.19 version number to recognize
- mks-stats ioctls
-Date: Fri, 23 Jul 2021 12:51:53 -0400
-Message-ID: <20210723165153.113198-4-zackr@vmware.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210723165153.113198-1-zackr@vmware.com>
-References: <20210723165153.113198-1-zackr@vmware.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-Received-SPF: None (EX13-EDG-OU-002.vmware.com: zackr@vmware.com does not
- designate permitted sender hosts)
+Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3549A6FB7B
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jul 2021 16:56:04 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1627059366; h=Message-Id: Date: Subject: Cc: To: From:
+ Sender; bh=4Jh8RB4Zx8Eu8OD654fUwNUoNyzPUDpS4D4lwRoZtLY=;
+ b=FFpoVCmxhKo2KW3B5ZV1+qOxytE8Qm7MGLjhkDZSgR/bzyZnnIzi+HX8Ccri6V2SJdd0eXJb
+ +Win8d9cgCJ8I43Dkb4BQ7Dl2MwoEl4CpKSTHFOJbHZk2JG6S9XUaFIGQ4xTfDkdJddq7bEM
+ 6xjRHdHg7BQ9uJpuB8Mg5Q3x7UQ=
+X-Mailgun-Sending-Ip: 69.72.43.7
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n05.prod.us-east-1.postgun.com with SMTP id
+ 60faf495b653fbdaddb76b1e (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 23 Jul 2021 16:55:49
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id C28CCC43217; Fri, 23 Jul 2021 16:55:48 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
+ SPF_FAIL, 
+ URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+Received: from khsieh-linux1.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: khsieh)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 2671BC43151;
+ Fri, 23 Jul 2021 16:55:44 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 2671BC43151
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=fail smtp.mailfrom=khsieh@codeaurora.org
+From: Kuogee Hsieh <khsieh@codeaurora.org>
+To: robdclark@gmail.com, sean@poorly.run, swboyd@chromium.org,
+ vkoul@kernel.org, agross@kernel.org, bjorn.andersson@linaro.org
+Subject: [PATCH v2] drm/msm/dp: signal audio plugged change at dp_pm_resume
+Date: Fri, 23 Jul 2021 09:55:39 -0700
+Message-Id: <1627059339-12142-1-git-send-email-khsieh@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,38 +65,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Martin Krastev <krastevm@vmware.com>, Neha Bhende <bhenden@vmware.com>
+Cc: linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, khsieh@codeaurora.org,
+ abhinavk@codeaurora.org, aravindh@codeaurora.org,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-To let the userspace recognize that it's running on top of a vmwgfx
-that supports mks-stat ioctls we need to bump the version number.
+There is a scenario that dp cable is unplugged from DUT during system
+suspended  will cause audio option state does not match real connection
+state. Fix this problem by Signaling audio plugged change with realtime
+connection status at dp_pm_resume() so that audio option will be in
+correct state after system resumed.
 
-Signed-off-by: Zack Rusin <zackr@vmware.com>
-Reviewed-by: Martin Krastev <krastevm@vmware.com>
-Reviewed-by: Neha Bhende <bhenden@vmware.com>
+Changes in V2:
+-- correct Fixes tag commit id.
+
+Fixes: f591dbb5fb8c ("drm/msm/dp: power off DP phy at suspend")
+Signed-off-by: Kuogee Hsieh <khsieh@codeaurora.org>
+Reviewed-by: Stephen Boyd <swboyd@chromium.org>
 ---
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.h | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/msm/dp/dp_display.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
-index 375b01cccd1a..63437270cbca 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
-@@ -54,10 +54,10 @@
+diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+index 78c5301..2b660e9 100644
+--- a/drivers/gpu/drm/msm/dp/dp_display.c
++++ b/drivers/gpu/drm/msm/dp/dp_display.c
+@@ -1339,6 +1339,10 @@ static int dp_pm_resume(struct device *dev)
+ 	else
+ 		dp->dp_display.is_connected = false;
  
++	dp_display_handle_plugged_change(g_dp_display,
++				dp->dp_display.is_connected);
++
++
+ 	mutex_unlock(&dp->event_mutex);
  
- #define VMWGFX_DRIVER_NAME "vmwgfx"
--#define VMWGFX_DRIVER_DATE "20210218"
-+#define VMWGFX_DRIVER_DATE "20210722"
- #define VMWGFX_DRIVER_MAJOR 2
--#define VMWGFX_DRIVER_MINOR 18
--#define VMWGFX_DRIVER_PATCHLEVEL 1
-+#define VMWGFX_DRIVER_MINOR 19
-+#define VMWGFX_DRIVER_PATCHLEVEL 0
- #define VMWGFX_FIFO_STATIC_SIZE (1024*1024)
- #define VMWGFX_MAX_RELOCATIONS 2048
- #define VMWGFX_MAX_VALIDATIONS 2048
+ 	return 0;
 -- 
-2.30.2
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
 
