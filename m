@@ -2,142 +2,125 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D2413D411B
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jul 2021 21:49:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62FD13D4127
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jul 2021 21:54:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D39076E8B1;
-	Fri, 23 Jul 2021 19:49:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CFE026EA8B;
+	Fri, 23 Jul 2021 19:54:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A7006E8B1;
- Fri, 23 Jul 2021 19:49:11 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10054"; a="273049984"
-X-IronPort-AV: E=Sophos;i="5.84,264,1620716400"; d="scan'208";a="273049984"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Jul 2021 12:49:09 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,264,1620716400"; d="scan'208";a="565599889"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
- by orsmga004.jf.intel.com with ESMTP; 23 Jul 2021 12:49:09 -0700
-Received: from fmsmsx606.amr.corp.intel.com (10.18.126.86) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.10; Fri, 23 Jul 2021 12:49:08 -0700
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx606.amr.corp.intel.com (10.18.126.86) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.10 via Frontend Transport; Fri, 23 Jul 2021 12:49:08 -0700
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.169)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2242.10; Fri, 23 Jul 2021 12:49:08 -0700
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam08on2043.outbound.protection.outlook.com [40.107.101.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C5DBE6E9D0;
+ Fri, 23 Jul 2021 19:54:11 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jg2KRvUO2UWfsu8hKhm/0TFJucHtmHcYCztjLiWbg7o67pnZtGCu6LmCuwPE9NX10SrwFpRjIHhB/R89MEnS1ba3nqp6twc2jf9I2SZHih0VFnboJRB/oW2dHUCwhzBEJMjUfXapLKKRdwifWOblD/wElDO0QR3/sOCbD1z1dV9+fgWaPbRrl5lk+O6GIm4Jcm13DXpE83PqBtVHd/KX5DvJVk4n4LqVONQ1x4+U3/FXn+PgvvVlJNoDAh8pVcxqs44268THAL12kjEHt4QRrV6XqMTPdJMoaaEcBwr2lB/Leej0E1iWtF9L/IpedFYmyVS+oHur1Dc0yxpYABuWBA==
+ b=bGRNTTP2ylXnng1n7nWZFG8hdNk49YXxdmD+62Yd9wridNUC1+SJ0Ug1hlvBJ7EEzxMTT1bh1xOL1IMpB7/IUzXmt2gCgTvvLnNeo79+J2wnRchzqekCEX+Z6Aqe1vCc/g/FRHfZKTSr/0qF6AlpM4VLq+UMNJW9ZCdbd+8cEebYCK7i2HCjDObI4QRQOA1h/MYqD2+O1KPlhWf0nLeN9qX4VYMwW6BlAD6yKtUjQcJ/s51SEq9PLu71IJt88W1GijF1MkX9alsOxviLnXgyHXPXaiTchQE8HH+onVFaTQG+DxmG7cRmAPKbdz2bvoaBTqst07ifxriAr/S2m86TKQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9AgrBcvmE9sTX1Z7qkH/34+vwpVq6OHsgFuOVoSJoKQ=;
- b=Rn+kjrJFd5r7grn2w7ZJ1l/EqU6J6QhgDX+M5lNxUuqw+VXVZJjfUj1uTxeeKJcssvppu/fy+jSvN3sauKYesjnym/sJQaPYrR6Xo2VD5689e9S7rO74oIDQmjTNxtc8pFV1wLJ5UDcpiuRNV+utrldvvoGfljnlbfVecuM7c9NLtSROKS7U+FmSd2/wSIXpwbDdAcSG+ihtfMeEhQY7psBNoVYAjluseMprvx411DbwlU2RA0tEf4r5xSSdAY4RwES2hoQxhJfYTWAxlyX5NPzNqw5lPaZ7ZXgccEoGvQVoZaPXq9Bmaw1O3kJ+UhExR2HLjyPU014ff6Msn+RGzg==
+ bh=ZT1lqFbWotTb4Zt5rcxRrMltR8mTNsb3ffbQ6PzFMTQ=;
+ b=MgdqUsTliK3pXQdBvceIZLerNeMHhGti9NZ0G2tCUIPvuyYTFOZT/BN3IaQTHKAT+Xil28WNMRqAQ6B+jM9b+JiKc/6XeI0LUfN8N8M4zfzq6742B7W+evE1Is97DzRwPyQlPvyc3kBq/s7FRcuP7xv2w5+bdS6XalCuZv3WWLM0VadR+M70HES6xHi6SqL7N7lKC/BeATw5WPSuWO19txVd1lQtR7I446SdQ94MZI6pKiUcUTfGRI6vU0kyyISIjcO0DrnNfdQHjV0nuRqYSwEFJyJo5sYNgawYfbiMd4ZViW0LPym2VF6aLf6QP/s/BNM9bEYCy3uic7AxQygjoQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
- s=selector2-intel-onmicrosoft-com;
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9AgrBcvmE9sTX1Z7qkH/34+vwpVq6OHsgFuOVoSJoKQ=;
- b=KDXaafpTtEsHJ/Sr8EpmG4IUNK/D4EFfMsLJxdu+di382+xZpfsZPk3YajIDNWTib6HTynLCEWspCZ2x0uTrhx21Ljzje4yy4wzHViNW0FBsEiyJ+pwyiaJSquN+U4JfccF/UXUtjM+rJid3wnczRO/ctcOk65T8lL7sUOLilkQ=
-Authentication-Results: intel.com; dkim=none (message not signed)
- header.d=none;intel.com; dmarc=none action=none header.from=intel.com;
-Received: from CO6PR11MB5634.namprd11.prod.outlook.com (2603:10b6:5:35d::20)
- by CO6PR11MB5650.namprd11.prod.outlook.com (2603:10b6:5:35a::9) with
+ bh=ZT1lqFbWotTb4Zt5rcxRrMltR8mTNsb3ffbQ6PzFMTQ=;
+ b=QTnXXUxYz5zgQhwpYPyJyT5jBN/8B9wVjjRUuqJxSI9NjZGVUEitI3aqrjjpFEbaEGr+feT3RT52lYR9gDLarO6M0XqrPahSxKP9TQ21F9FBaDR/XoU1YdNmls1mDE91qemYmMfd/xN65CGSY7XHFpRHglMt1NBHtE48f5nmv8c=
+Authentication-Results: vger.kernel.org; dkim=none (message not signed)
+ header.d=none;vger.kernel.org; dmarc=none action=none header.from=amd.com;
+Received: from CO6PR12MB5427.namprd12.prod.outlook.com (2603:10b6:5:358::13)
+ by CO6PR12MB5425.namprd12.prod.outlook.com (2603:10b6:303:13e::11) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4352.26; Fri, 23 Jul
- 2021 19:49:06 +0000
-Received: from CO6PR11MB5634.namprd11.prod.outlook.com
- ([fe80::5d5e:b6bf:aafa:ecd4]) by CO6PR11MB5634.namprd11.prod.outlook.com
- ([fe80::5d5e:b6bf:aafa:ecd4%9]) with mapi id 15.20.4352.029; Fri, 23 Jul 2021
- 19:49:06 +0000
-Subject: Re: [PATCH 09/14] drm/i915/guc/slpc: Add debugfs for SLPC info
-To: Michal Wajdeczko <michal.wajdeczko@intel.com>,
- <intel-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
-References: <20210721161120.24610-1-vinay.belgaumkar@intel.com>
- <20210721161120.24610-10-vinay.belgaumkar@intel.com>
- <91447d98-cf2d-cf60-e1c8-1bb13b4ae12d@intel.com>
-From: "Belgaumkar, Vinay" <vinay.belgaumkar@intel.com>
-Message-ID: <dd58cb25-e526-4658-8bea-9df1ff0efdd3@intel.com>
-Date: Fri, 23 Jul 2021 12:49:04 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.12.0
-In-Reply-To: <91447d98-cf2d-cf60-e1c8-1bb13b4ae12d@intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4352.25; Fri, 23 Jul
+ 2021 19:54:10 +0000
+Received: from CO6PR12MB5427.namprd12.prod.outlook.com
+ ([fe80::39db:7a51:9e0d:9b19]) by CO6PR12MB5427.namprd12.prod.outlook.com
+ ([fe80::39db:7a51:9e0d:9b19%5]) with mapi id 15.20.4352.029; Fri, 23 Jul 2021
+ 19:54:10 +0000
+Subject: Re: [PATCH] drm/nouveau/kms/nv50-: fix build failure with
+ CONFIG_BACKLIGHT=n
+To: "Cornij, Nikola" <Nikola.Cornij@amd.com>, Daniel Vetter
+ <daniel@ffwll.ch>, Arnd Bergmann <arnd@kernel.org>
+References: <20210723091534.1730564-1-arnd@kernel.org>
+ <CAKMK7uHG0T7kgHzrkxoGj+Cv1-5f=GaH1CviunoZd_wEL5G4YQ@mail.gmail.com>
+ <CAK8P3a3xjS-zJFiQgjYDz2Gja4KBeHWyrQX4PrbkkZfEV2OJgg@mail.gmail.com>
+ <YPre51p6TirescUu@phenom.ffwll.local>
+ <DM5PR12MB467963EB0A4E98B2182C6745EEE59@DM5PR12MB4679.namprd12.prod.outlook.com>
+From: Harry Wentland <harry.wentland@amd.com>
+Message-ID: <d59abe80-ab45-1b66-48c9-1d56075232d4@amd.com>
+Date: Fri, 23 Jul 2021 15:54:07 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
+In-Reply-To: <DM5PR12MB467963EB0A4E98B2182C6745EEE59@DM5PR12MB4679.namprd12.prod.outlook.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SJ0PR03CA0273.namprd03.prod.outlook.com
- (2603:10b6:a03:39e::8) To CO6PR11MB5634.namprd11.prod.outlook.com
- (2603:10b6:5:35d::20)
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: YT1PR01CA0001.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01::14)
+ To CO6PR12MB5427.namprd12.prod.outlook.com
+ (2603:10b6:5:358::13)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.1.71] (99.88.121.38) by
- SJ0PR03CA0273.namprd03.prod.outlook.com (2603:10b6:a03:39e::8) with Microsoft
+Received: from [IPv6:2607:fea8:3da0:edb0::4137] (2607:fea8:3da0:edb0::4137) by
+ YT1PR01CA0001.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01::14) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4352.25 via Frontend Transport; Fri, 23 Jul 2021 19:49:06 +0000
+ 15.20.4352.25 via Frontend Transport; Fri, 23 Jul 2021 19:54:09 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 2ad02dda-68e0-4a2c-394b-08d94e12ee69
-X-MS-TrafficTypeDiagnostic: CO6PR11MB5650:
+X-MS-Office365-Filtering-Correlation-Id: 587c873d-627d-4554-5284-08d94e13a37d
+X-MS-TrafficTypeDiagnostic: CO6PR12MB5425:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <CO6PR11MB565019BE0010AF58FF587F6E85E59@CO6PR11MB5650.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:324;
+X-Microsoft-Antispam-PRVS: <CO6PR12MB5425CCD677A391D95CA8923A8CE59@CO6PR12MB5425.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4714;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: LfWOPe06ky0SDG+YG77o0s08XB2JO5fazwKdMD3dQN9oNiCXAa2/VpWOtFmxJL8HaIi7Pu+zXiwPWvCoS9rjwAhai80CrAojEQqDSenmlsDEpBRQtPsmCHRgewYD4nFgQY84TTTfaj2xqOEfZt7IdGc8piOYCp99eL9JtHNRugU5zSosx+GZDfzGTl7qbdkkL4hQ/gULJrNCtSmlDiZa0MwBm2UieD71KajnzwnkEQeuzjJwo/Vee30uyNOdcHJ7ZsLDHygn6T+p4zmCkgDgSbuYgWLBRBJ0zMkBsTC2x+7MckHXZ1GapfPDuXLb5982BPGwaPEaiKlz5A8m8qlghD53ui7WjrBTrxsH+p1PHW4l8aMXgPVh4zUiTEp8C5QQF14igT8oJpJ6eg0F/m72Kn7BOMp5UqKxTwhg9wassfmLkkqe4Rn11E9bNf9newYhs01pUmonEqyf1VeYK3wA4iXdSbQbORUqVsLifFm/Ebg2v4JeUuILTSwiJi/wpg33U1sWV3wYbjmEQpz6ww6+GU2t8y6+xYpHAznrUqI79rpRyUcMgNwx6dv6YR6nMzd+E/UXW1ITKlEZIhk1JjWY7oeCVqAdlOhv2X0hp/FpInP79neCcgyh1YXPvrGAdK91besqwacLIcPZEX3NCckAx/SvSdKbua4LMCBHyh5MopTcHQ45LsrqctB/9iC8h99Ny4sirMDknFbO85ATladlvbgssK5/CXO+PZmiQqxnGJ4=
+X-Microsoft-Antispam-Message-Info: 7yLomdrMFtgAL5iYesuggg5er0vuCwMBvZkHCaKywrK4AUBtz9DdaN/6b3ZLzV3pcHgK6r6lcvFotXztP4gso8xyROJJQ752x588q7JzqVDnfVc4Q7pOER77GnWmHQTYs1ogvVH11NFQYE0+x/qjCCg6ZksDTmQtth9AUGtP9cz9Vg3Mp0X5lFUv/UzufwUeKLUK4J9UdF7FUBmX/sD5pRVioaklGvgoBySoc8Lyv/khgzvWcogS6HpGPh3baXkvjWNkoNp1DiYs97oN/arpLmUAu/89sQJE+y8jIqwN8bCE6BFDQsamdjIy/U1FB43MT1uCTN8lHmd0GH3+8ZtV6190TAjHPe0fOPwIFtMEczUAQP+RxJK4oCUXUaCxNARHAZavyiZaexj1ufoW/N3u9/duR7j5F0nV3lEbQJRD7vW1Nhta84hd1xxTcepH4YzANmWqO5ltu3JP+qKCtyV1TywV1SZ9fb6GCawKug+ionTkl1vSICY8kaXADv0Ids8BSdZKeR5Xw6k6j563g45wYP0couyC8ZclPgP7JYf4xf27lYJq1hEvo5s7a39DB/8SyBebSgXrhIxcfCFZJqI1amFkrBfhvJznKwaN76dcaRT+YMZgrf4NiMaxE+64yTfDA13r9agyVPy35ZmFRtWZWlfkoZt6r0PSbRUP1ZnvBqPQ/A6bEUR+2xUHI70VKTuW3d3bfwkVQNTJLhwZ9tmRnqVxiz3Wa+aUuFECFGsyk1pqGVaJbo9BvnoRHwKm4+ZivckLND6TlK6F4UXdqXTeuE6QhtAk9jOmfCguPXibF7EPSVPrtgF+oq5GNF/tYkNC8VzYG7g0JXxWd1btXVnGAg==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CO6PR11MB5634.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(136003)(39860400002)(346002)(366004)(376002)(396003)(86362001)(478600001)(5660300002)(26005)(8676002)(956004)(2616005)(8936002)(186003)(107886003)(83380400001)(4326008)(6486002)(450100002)(38100700002)(36756003)(31696002)(316002)(53546011)(2906002)(66946007)(16576012)(66556008)(31686004)(66476007)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
+ IPV:NLI; SFV:NSPM; H:CO6PR12MB5427.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(8676002)(53546011)(508600001)(54906003)(31686004)(31696002)(83380400001)(86362001)(966005)(186003)(6486002)(66574015)(36756003)(2616005)(7416002)(110136005)(66946007)(2906002)(316002)(38100700002)(66476007)(44832011)(5660300002)(4326008)(66556008)(8936002)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QWYydnZsc0tNYUlzaDBCQm81VEIwMTFXdWp4bWlHbm9TUGdqcFBCZmZWQzdX?=
- =?utf-8?B?QVFKZDlzZE9XV1NpL0JoTFJSNVQwS2kwVnhUWjQyOXEvdmI4bEdNN0hId3gr?=
- =?utf-8?B?T0hSSlpONThaclBHVG0vSys4WElTSGVTK1FsdmZwV1dCWFpYY0JHdmE2T0tx?=
- =?utf-8?B?OVdtWmkySmhGdG1pVHlheWNKelRyY1pRZTVhUVBMVG9qTTgxdEMyeitETXN6?=
- =?utf-8?B?ZWdZNVUwNFpUNnVqQUhNcWdsbnprVUZrVGplWVFhcmpnNnRXcWFPejVsdUtR?=
- =?utf-8?B?SlRYVk9DRWV4YmIvY2duOURkZC8yZGRJemZzandMc0F2SEhEQ3NpaW4rSC9u?=
- =?utf-8?B?WU1wN2x6RDFmOGk0WkZzc0liaFhZUk4wdVNHSDBlQTY4cVJ0WkFNRU5EZTUz?=
- =?utf-8?B?MEQyOHphUmRXWURLa2dTR0NsVUNZUWU5NGh3Vk9hMlhha284OElteS9rQ3J0?=
- =?utf-8?B?dGk0d3lNbzQ1ejFiZGRFendYMkJZT0JBODB5dE55VTJYeCtlMkJpclhxdExp?=
- =?utf-8?B?THJaYkgyZXk0bElGdnZEanZ4dmRnUXRUZDQwbXNLQjJqQnoySlYxMC9xKy8y?=
- =?utf-8?B?MVVuZmRWOHRuUXVQSnFIbkxHSko0eG5xbndKanZGbmhncEpydnlhSFh2Zkxy?=
- =?utf-8?B?K3FaMDFFSVlDeGl2b2tLMDYvZTlFdHEraGtwU0grbDU1MFlLMEhmNDZ2cEg4?=
- =?utf-8?B?bUpYeXFYYTdPc2c0OU0rM1VRUmNnaEpGWlcvSUtxcWFrT1JWZlFSN0xDclVE?=
- =?utf-8?B?cWM4aUplUlpxcmZwckg4WkwzN3E4Zy83YWtVYWpGbERkMFZKb3daNFBYdHZN?=
- =?utf-8?B?WG02NkdBV1hTMHRCK0Y2QzRhaEFlQXpGYklJSDBXcTlvaTBzWjFlU1ZQWlkv?=
- =?utf-8?B?U0pyQTJjMXUxY2lIbjBPNnZ4T2lFeFhqT1VDMHRDNGsranUxRzhBdjVFYzgz?=
- =?utf-8?B?K2d5cmMrS2IwZUR6TUFBUkZPSWdHd2RRSDg3L1RTeS8xY2NaUk11WVRPWis2?=
- =?utf-8?B?aytOVklkaFR1d3NQSXdSR013Q0YvRU1yYks1VDVGdk5qTEg3Y2tUQUVNb0ha?=
- =?utf-8?B?S0JyMTBpWGU1UGtsbUI4L0R4VWVML0JRcjNGdXh5YStFTWRYdklmeVpKMU9l?=
- =?utf-8?B?OXFvdit6M1FJOUFCSDZlSy9MVEg2clJWV0hyNEFNcXp5UFRlWHIwWlVmLzZk?=
- =?utf-8?B?L01Mc1h3c2xIUkRnUHE3ZGMyN2ZONzhEdGhBTFY3Qmcvb0E2YVM3bHBucmdL?=
- =?utf-8?B?S29oaHRKRTVSTytPaVZmVU55VEVGeWxzN0hLU2FwWnJzU29ERjQyVElGZDhC?=
- =?utf-8?B?ZlRZOVdsQ1JhS2FwUGFFN3pwTGdPTVJ3R0JzNGNVcWNzVjlVSlMvOTlraHE5?=
- =?utf-8?B?aWQvSHFkSUFOeTVOVHE2OWNDTXVXSTJZd0FEbldydzlxMit6ODhUazF3dXN5?=
- =?utf-8?B?QzdEajE1LzBEcTNKakRsMXNnSndDUGJIakR3ZWRaUThpcVQ5Wis5VnpXT00w?=
- =?utf-8?B?NVlmVHVDRmg2VVV3MzlpbEZJUEowUlU4T0Q4cjFiYjdLMlVReHAraWJEZzcx?=
- =?utf-8?B?Qk94cHBzMXQxeWVWNGdiSEdHZEpkL0swbHdiTjJ4eFZMeTdpU2JxajVOYld3?=
- =?utf-8?B?QzRTRHNOTjJkd2VxMkxCc1FYMkhZdGFXNE8vd3ZWcWhNd01VL2N1Qllhc2dR?=
- =?utf-8?B?amFkUy9jVjdsdUF4Ris3Y3dTcUFkdG9XZnJFZmhrcjRNVTBFZDFmUXIyZ1ow?=
- =?utf-8?Q?N2lzRwkqwbySR6weIg22UjPHkEeC5pnrw5jQ2NI?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2ad02dda-68e0-4a2c-394b-08d94e12ee69
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5634.namprd11.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cHJIcWlzOUlyWnZxQUNkV09iVm1XUURtTWNlcVFET0tSeEdQengwaWw0a3d2?=
+ =?utf-8?B?K0U1SHRNaG80Nkc2eHdrblBsRnRJZ2pHWkNjNHpmSHFhakF3bGJlR0xxTmQ4?=
+ =?utf-8?B?dlA5Tm91bHd2KzJyNTNQdmMwKzk4Tm1pcDM4ZzhZZWhKaURON1V3ZTZvcHBy?=
+ =?utf-8?B?eGRUZlp0aXhtOG5pc0paQkRCOGZkSUZFSmkxMXJudEpvaXFHVk9GUWpQcStQ?=
+ =?utf-8?B?ZWF3SlFuNGpLUVNYeUFPTmxhemptSDBkNGp6MFB2cDZ3TEkva0pkVy9qZDJF?=
+ =?utf-8?B?eFJNZ1M5ZUVWNGFEbmQ4NkF2L0ErSXpnU29LYXVxMFBPNjh4Nk1zYjRWeVIr?=
+ =?utf-8?B?c25DQUlnUWN4M3RuT1dVMGNhaVo1SXdBTzQ1QTFWZzFNdDQzc1Via3NDeXh6?=
+ =?utf-8?B?WVRRUGY2TlJtSE5KQ3RRazVMTjk5dm95VFNIMGd4bngvMDk4S2hOUkc4THhz?=
+ =?utf-8?B?aGNTbmJKSFQ0RVgzV043NDJyN2ZjbTg5L2VJUHVNaXRZOFNKa3g3QmpTVGMx?=
+ =?utf-8?B?SHg1VzV3b1hQTEY3bWhucTdLOVdLWHpubjdBU1kvaG1jT0ZHS3B2ZW42MktV?=
+ =?utf-8?B?UDNqbkVQeWJZZGZXdk1XN1hTektmMWFtR01jR0ZNU2hRd3VaMU1qNXlpT29o?=
+ =?utf-8?B?eFlocEZrQXl6UnpFVFlUZksxN0V1cWFiK1Z6ZXZKNUNxSHlIdjNxYWpjWE5a?=
+ =?utf-8?B?RUpYZFVKN0FHaWxOUkVEODJoR3cxRjE5R1ZXZUNUQ2U2RnU5QWx2citQbERw?=
+ =?utf-8?B?Qk5EMkFNN09BbXo5RW5URDkwWE9na1hYd1ljcjEwenpSdFpIYkdOMU0vM0Ro?=
+ =?utf-8?B?MkdNRWo3NE1tQSs5ZTdpN1RMM0JtQkJ5NSsvM0x3RWoxRU5QK3hSYzZvazda?=
+ =?utf-8?B?K1BFaE9icmxaN0d2VnhObkxveVlhZjlrc2JoRXA4M3ppYjlrZVFIWUVTMzdz?=
+ =?utf-8?B?WVU4UmtjeTFmTG1nUlZISnpzR2RvaExBTllweGx3ZEIyNHBtWFJYUzBsWVpE?=
+ =?utf-8?B?UnRLK0pTNzYrZnR2emc5VmNsNVN4SDAzcUx0NHorV05icGVRekw3OEZ0N0Fs?=
+ =?utf-8?B?d0w4K0tlVWxJaGQ0YzFKbUJKSTh2UXA2akxzRFk5K3dDSkhhdlhmWDIrcTAv?=
+ =?utf-8?B?L2JaWElycUpBRm9iR0FZWXBSZ21vaGZBcVJpdzBTY3pIMEtmQXY3ZWhMNEFj?=
+ =?utf-8?B?Ynl1eHM1WnFjMCtsWTMzM0RKdVVqQUgzZnpUb0tFSlQrTXV2SnNqYTJKektz?=
+ =?utf-8?B?anpET3htRUJDNkJUZmpNNzZ1U1pIdjA1SE5ncFEzQXJXQXB5WktwSXNkcjVK?=
+ =?utf-8?B?a2ZrZDJtU2RadXlVVUFOYWp2clhsc0o5UVJuR1NhWitzbFM0SVlqY2p2VkpF?=
+ =?utf-8?B?ZzRESzcyQWpDR2xOaFl4b2xNZkxLSnVJNnhUeUYxWXhMN2lyVnhGcnpsVmVP?=
+ =?utf-8?B?b0RjRFpaR0p1L1NzcDNyZU1qTGNwbENYcm9TaUlNYmRXcGJHdDkrU0lnVmFa?=
+ =?utf-8?B?eTNPN3g4cktRTnA5am5HQVcvR2xweHRWQlZvTFBMRXVEYk9BUkY3OEIyUmRq?=
+ =?utf-8?B?Qm1ua0xtcjRLM2pOcjZEaUpvb0ZyaUhuWHU2MzJ4c0twbVB1VmtPR3QzZFBo?=
+ =?utf-8?B?bTdVVkhvUEdWeVRPandIWkZpY042Rjd3M3RnbC9tTjl5SExROTEyY3RHNHRU?=
+ =?utf-8?B?dTFpWktrN1M1N1dJMVRTWWJBWkdjbzNMZXFRRys1eHhDMzNremV3S0Q5WE53?=
+ =?utf-8?B?RnFOVzdaSFZlN2VqdEhPMThDRmtRZ1BubFBMT2h1UmlzRWdaU0IwdjI1NVky?=
+ =?utf-8?Q?UAokL/OzqgO6v9ctbMdnFAN4bhcwlCZJVjIFI=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 587c873d-627d-4554-5284-08d94e13a37d
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5427.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jul 2021 19:49:06.6583 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jul 2021 19:54:10.5811 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 7R7+isBTBjYykmjwoJLOkKwbIfyPcdfzdhr2tK1iAWNd3GZqIb4hKV12SBpXIsMcslVbZaQGpZ5t0lOWRtxOzwCETVzcnW72B4W6e3rCwnw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR11MB5650
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-UserPrincipalName: QX4T7zHbQVvpsjEiV4wy5YFR/997qnqmQfjXWnQFVV1MRZgl/G1ell/K1sF8EEdEVBJzfDRcH0087P1x4B7r3g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR12MB5425
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -150,182 +133,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sundaresan Sujaritha <sujaritha.sundaresan@intel.com>
+Cc: Arnd Bergmann <arnd@arndb.de>, David Airlie <airlied@linux.ie>,
+ Nouveau Dev <nouveau@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Ben Skeggs <bskeggs@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 7/21/2021 11:05 AM, Michal Wajdeczko wrote:
+On 2021-07-23 3:14 p.m., Cornij, Nikola wrote:
+> [AMD Official Use Only]
 > 
+> +Harry
 > 
-> On 21.07.2021 18:11, Vinay Belgaumkar wrote:
->> This prints out relevant SLPC info from the SLPC shared structure.
+> -----Original Message-----
+> From: Daniel Vetter <daniel@ffwll.ch>
+> Sent: Friday, July 23, 2021 11:23 AM
+> To: Arnd Bergmann <arnd@kernel.org>
+> Cc: Daniel Vetter <daniel@ffwll.ch>; Ben Skeggs <bskeggs@redhat.com>; David Airlie <airlied@linux.ie>; Lyude Paul <lyude@redhat.com>; Arnd Bergmann <arnd@arndb.de>; Ville Syrjälä <ville.syrjala@linux.intel.com>; Cornij, Nikola <Nikola.Cornij@amd.com>; dri-devel <dri-devel@lists.freedesktop.org>; Nouveau Dev <nouveau@lists.freedesktop.org>; Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+> Subject: Re: [PATCH] drm/nouveau/kms/nv50-: fix build failure with CONFIG_BACKLIGHT=n
+> 
+> On Fri, Jul 23, 2021 at 12:16:31PM +0200, Arnd Bergmann wrote:
+>> On Fri, Jul 23, 2021 at 11:25 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+>>>
+>>> On Fri, Jul 23, 2021 at 11:15 AM Arnd Bergmann <arnd@kernel.org> wrote:
+>>>>
+>>>> From: Arnd Bergmann <arnd@arndb.de>
+>>>>
+>>>> When the backlight support is disabled, the driver fails to build:
+>>>>
+>>>> drivers/gpu/drm/nouveau/dispnv50/disp.c: In function 'nv50_sor_atomic_disable':
+>>>> drivers/gpu/drm/nouveau/dispnv50/disp.c:1665:59: error: 'struct nouveau_connector' has no member named 'backlight'
+>>>>  1665 |         struct nouveau_backlight *backlight = nv_connector->backlight;
+>>>>       |                                                           ^~
+>>>> drivers/gpu/drm/nouveau/dispnv50/disp.c:1670:35: error: invalid use of undefined type 'struct nouveau_backlight'
+>>>>  1670 |         if (backlight && backlight->uses_dpcd) {
+>>>>       |                                   ^~
+>>>> drivers/gpu/drm/nouveau/dispnv50/disp.c:1671:64: error: invalid use of undefined type 'struct nouveau_backlight'
+>>>>  1671 |                 ret = drm_edp_backlight_disable(aux, &backlight->edp_info);
+>>>>       |                                                                ^~
+>>>>
+>>>> The patch that introduced the problem already contains some #ifdef
+>>>> checks, so just add another one that makes it build again.
+>>>>
+>>>> Fixes: 6eca310e8924 ("drm/nouveau/kms/nv50-: Add basic DPCD
+>>>> backlight support for nouveau")
+>>>> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+>>>
+>>> Can we just toss the idea that BACKTLIGHT=n is a reasonable config
+>>> for drm drivers using backlights, and add depends BACKLIGHT to all
+>>> of them?
+>>>
+>>> I mean this is a perfect source of continued patch streams to keep
+>>> us all busy, but beyond that I really don't see the point ... I
+>>> frankly have better things to do, and especially with the big
+>>> drivers we have making backlight optional saves comparitively nothing.
+>>> -Daniel
 >>
->> We will send a h2g message which forces SLPC to update the
->> shared data structure with latest information before reading it.
+>> Yes! I'd definitely be in favor of that, I've wasted way too much time
+>> trying to sort through dependency loops and other problems with backlight support.
 >>
->> v2: Address review comments (Michal W)
->>
->> Signed-off-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
->> Signed-off-by: Sundaresan Sujaritha <sujaritha.sundaresan@intel.com>
->> ---
->>   .../gpu/drm/i915/gt/uc/intel_guc_debugfs.c    | 23 +++++++++++
->>   drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c   | 40 +++++++++++++++++++
->>   drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h   |  4 +-
->>   3 files changed, 66 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_debugfs.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_debugfs.c
->> index 72ddfff42f7d..46b22187927b 100644
->> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_debugfs.c
->> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_debugfs.c
->> @@ -12,6 +12,7 @@
->>   #include "gt/uc/intel_guc_ct.h"
->>   #include "gt/uc/intel_guc_ads.h"
->>   #include "gt/uc/intel_guc_submission.h"
->> +#include "gt/uc/intel_guc_slpc.h"
->>   
->>   static int guc_info_show(struct seq_file *m, void *data)
->>   {
->> @@ -50,11 +51,33 @@ static int guc_registered_contexts_show(struct seq_file *m, void *data)
->>   }
->>   DEFINE_GT_DEBUGFS_ATTRIBUTE(guc_registered_contexts);
->>   
->> +static int guc_slpc_info_show(struct seq_file *m, void *unused)
->> +{
->> +	struct intel_guc *guc = m->private;
->> +	struct intel_guc_slpc *slpc = &guc->slpc;
->> +	struct drm_printer p = drm_seq_file_printer(m);
->> +
->> +	if (!intel_guc_slpc_is_used(guc))
->> +		return -ENODEV;
->> +
->> +	return intel_guc_slpc_info(slpc, &p);
->> +}
->> +DEFINE_GT_DEBUGFS_ATTRIBUTE(guc_slpc_info);
->> +
->> +bool intel_eval_slpc_support(void *data)
->> +{
->> +	struct intel_guc *guc;
->> +
->> +	guc = (struct intel_guc *)data;
+>> Maybe we should leave the drivers/video/fbdev/ drivers untouched in
+>> this regard, at least for the moment, but for the drivers/gpu/drm
+>> users of backlight that would be a nice simplification, and even the
+>> smallest ones are unlikely to be used on systems that are too memory
+>> constrained to deal with 4KB extra .text.
 > 
-> 	struct intel_guc *guc = (struct intel_guc *)data;
+> Yeah I think we can do this entirely ad-hoc, i.e. any time the backlight wheel wobbles off again we nail it down for good for that driver with a depends on BACKGLIGHT and remove any lingering #ifdef all over.
 > 
->> +	return intel_guc_slpc_is_used(guc);
->> +}
->> +
->>   void intel_guc_debugfs_register(struct intel_guc *guc, struct dentry *root)
->>   {
->>   	static const struct debugfs_gt_file files[] = {
->>   		{ "guc_info", &guc_info_fops, NULL },
->>   		{ "guc_registered_contexts", &guc_registered_contexts_fops, NULL },
->> +		{ "guc_slpc_info", &guc_slpc_info_fops, &intel_eval_slpc_support},
->>   	};
->>   
->>   	if (!intel_guc_is_supported(guc))
->> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
->> index c1cf8d46e360..73379985c105 100644
->> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
->> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
->> @@ -430,6 +430,46 @@ int intel_guc_slpc_enable(struct intel_guc_slpc *slpc)
->>   	return 0;
->>   }
->>   
->> +int intel_guc_slpc_info(struct intel_guc_slpc *slpc, struct drm_printer *p)
->> +{
->> +	struct drm_i915_private *i915 = guc_to_gt(slpc_to_guc(slpc))->i915;
->> +	struct slpc_shared_data *data;
->> +	struct slpc_task_state_data *slpc_tasks;
->> +	intel_wakeref_t wakeref;
->> +	int ret = 0;
->> +
->> +	with_intel_runtime_pm(&i915->runtime_pm, wakeref) {
->> +		if (slpc_query_task_state(slpc))
->> +			return -EIO;
-> 
-> not sure if you can return directly from "with_rpm"
+> If you want maybe start out with the biggest drm drivers in a series, I think if nouveau/amdgpu/i915 folks ack this you're good to go to just convert as things get in the way.
 
-Good point, checking err instead.
+Sounds like a good idea to me.
 
-> 
->> +
->> +		slpc_tasks = &data->task_state_data;
->> +
->> +		drm_printf(p, "SLPC state: %s\n", slpc_state_string(slpc));
->> +		drm_printf(p, "\tgtperf task active: %s\n",
->> +			yesno(slpc_tasks->status & SLPC_GTPERF_TASK_ACTIVE));
->> +		drm_printf(p, "\tdcc task active: %s\n",
->> +			yesno(slpc_tasks->status & SLPC_DCC_TASK_ACTIVE));
->> +		drm_printf(p, "\tin dcc: %s\n",
->> +			yesno(slpc_tasks->status & SLPC_IN_DCC));
->> +		drm_printf(p, "\tfreq switch active: %s\n",
->> +			yesno(slpc_tasks->status & SLPC_FREQ_SWITCH_ACTIVE));
->> +		drm_printf(p, "\tibc enabled: %s\n",
->> +			yesno(slpc_tasks->status & SLPC_IBC_ENABLED));
->> +		drm_printf(p, "\tibc active: %s\n",
->> +			yesno(slpc_tasks->status & SLPC_IBC_ACTIVE));
->> +		drm_printf(p, "\tpg1 enabled: %s\n",
->> +			yesno(slpc_tasks->status & SLPC_PG1_ENABLED));
->> +		drm_printf(p, "\tpg1 active: %s\n",
->> +			yesno(slpc_tasks->status & SLPC_PG1_ACTIVE));
->> +		drm_printf(p, "\tmax freq: %dMHz\n",
->> +				slpc_decode_max_freq(slpc));
->> +		drm_printf(p, "\tmin freq: %dMHz\n",
->> +				slpc_decode_min_freq(slpc));
-> 
-> not sure what they are:
-> 
-> DCC ?
-> IBC ?
-> PG1 ?
+Harry
 
-Removed these for now, since we don't use/enable them yet anyways.
+> -Daniel
+> --
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch/>> 
 
-> 
-> and make sure to use %u for unsigned
-
-Ok.
-Thanks,
-Vinay.
-
-> 
-> Michal
-> 
->> +	}
->> +
->> +	return ret;
->> +}
->> +
->>   void intel_guc_slpc_fini(struct intel_guc_slpc *slpc)
->>   {
->>   	if (!slpc->vma)
->> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h
->> index 627c71a95777..852c6316aa47 100644
->> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h
->> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h
->> @@ -10,6 +10,8 @@
->>   #include "intel_guc_slpc_types.h"
->>   #include "abi/guc_actions_slpc_abi.h"
->>   
->> +struct drm_printer;
->> +
->>   static inline bool intel_guc_slpc_is_supported(struct intel_guc *guc)
->>   {
->>   	return guc->slpc_supported;
->> @@ -26,7 +28,6 @@ static inline bool intel_guc_slpc_is_used(struct intel_guc *guc)
->>   }
->>   
->>   void intel_guc_slpc_init_early(struct intel_guc_slpc *slpc);
->> -
->>   int intel_guc_slpc_init(struct intel_guc_slpc *slpc);
->>   int intel_guc_slpc_enable(struct intel_guc_slpc *slpc);
->>   void intel_guc_slpc_fini(struct intel_guc_slpc *slpc);
->> @@ -34,5 +35,6 @@ int intel_guc_slpc_set_max_freq(struct intel_guc_slpc *slpc, u32 val);
->>   int intel_guc_slpc_set_min_freq(struct intel_guc_slpc *slpc, u32 val);
->>   int intel_guc_slpc_get_max_freq(struct intel_guc_slpc *slpc, u32 *val);
->>   int intel_guc_slpc_get_min_freq(struct intel_guc_slpc *slpc, u32 *val);
->> +int intel_guc_slpc_info(struct intel_guc_slpc *slpc, struct drm_printer *p);
->>   
->>   #endif
->>
