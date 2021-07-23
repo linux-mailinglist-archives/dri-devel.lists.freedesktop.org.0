@@ -1,35 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7D053D3772
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jul 2021 11:14:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 140BB3D377A
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jul 2021 11:15:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 291FF6ED98;
-	Fri, 23 Jul 2021 09:14:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 23C586F8C5;
+	Fri, 23 Jul 2021 09:15:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 341866ED98
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jul 2021 09:14:28 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id BA19C60EBD;
- Fri, 23 Jul 2021 09:14:26 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E76B56F8C5;
+ Fri, 23 Jul 2021 09:15:39 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D50BC60ED4;
+ Fri, 23 Jul 2021 09:15:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1627031668;
- bh=AxCQ8l9x0B9n1yCKMSUvGByV+fN8rjun1sgxHSyPmHQ=;
+ s=k20201202; t=1627031739;
+ bh=SE6snYvEeeZ9b06fLIc5TbNhAAvsQE2VfQEDDanskLQ=;
  h=From:To:Cc:Subject:Date:From;
- b=QFaL4gXRtz+BiDVYCgaJPE9gFpk8Xa0lH3C4YrRju9+YDN4I/7ihiJCpQ5IdA3Pbi
- 3E0GQC0Y0nfAHxSoEmR2/FD+Zp1yjMJ9S4ZJCYL5ar9mDCYnSZvExQLWBAkl56aD1w
- NPCpU7+Iv0gAx+jn9BGDhYOEifgK2jHyYVAdQzxdm105GoVk//wAh4ZN0w7ZGiOoUh
- 32ECSfda1JD4fFX0/ryTJxZC7NUWLjwJ53VpcrFtnIRA4GnUtr5tMJ5NuglQe197VK
- ofJ2+6LM5h2bbzTFal5f+0EmcCZn2YWPwCKozF6VK8MHwqFcqAwWnWAGZvO+uEns4j
- cM9mWxBh4+n7Q==
+ b=ahof7/VWmPmw0D21oaa1MW95ypJ8UCeqvOHW0gxCOovI1GP4WDQob2SBP6z6mG5kM
+ rdkvSamfwj66jEMJkDqwBeIhZ650s1C2OzzobetoM2lIqESrHUshs/SfneFj1zoFcI
+ QfhI6pP8cT4as2G8hKYqUcmCyj+/HzjzfUpZzRkiQqDh6JwEL9YFRXHOSy3sL9PNq4
+ fOkHTpqtF7RxRupdpMFNpgGck7vrfreFZIlP3dg22xQnZru3tT0q0FySu6P+SJnPAh
+ WN3506dobl/mPLCtlxUSq/yHH9Ulb8oLe3H+71W6DJSqy9gCbW2fv3UMuAW3TGnKKH
+ HZXUqs24iWNdQ==
 From: Arnd Bergmann <arnd@kernel.org>
-To: Thierry Reding <thierry.reding@gmail.com>,
- Mikko Perttunen <mperttunen@nvidia.com>
-Subject: [PATCH] gpu: host1x: select CONFIG_SYNC_FILE
-Date: Fri, 23 Jul 2021 11:14:19 +0200
-Message-Id: <20210723091424.1682193-1-arnd@kernel.org>
+To: Ben Skeggs <bskeggs@redhat.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Lyude Paul <lyude@redhat.com>
+Subject: [PATCH] drm/nouveau/kms/nv50-: fix build failure with
+ CONFIG_BACKLIGHT=n
+Date: Fri, 23 Jul 2021 11:15:27 +0200
+Message-Id: <20210723091534.1730564-1-arnd@kernel.org>
 X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -45,37 +46,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org
+Cc: Arnd Bergmann <arnd@arndb.de>, nouveau@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Nikola Cornij <nikola.cornij@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Arnd Bergmann <arnd@arndb.de>
 
-With the addition of the DMA fence, the host1x driver now fails to
-build without the sync_file helper:
+When the backlight support is disabled, the driver fails to build:
 
-arm-linux-gnueabi-ld: drivers/gpu/host1x/fence.o: in function `host1x_fence_create_fd':
-fence.c:(.text+0x624): undefined reference to `sync_file_create'
+drivers/gpu/drm/nouveau/dispnv50/disp.c: In function 'nv50_sor_atomic_disable':
+drivers/gpu/drm/nouveau/dispnv50/disp.c:1665:59: error: 'struct nouveau_connector' has no member named 'backlight'
+ 1665 |         struct nouveau_backlight *backlight = nv_connector->backlight;
+      |                                                           ^~
+drivers/gpu/drm/nouveau/dispnv50/disp.c:1670:35: error: invalid use of undefined type 'struct nouveau_backlight'
+ 1670 |         if (backlight && backlight->uses_dpcd) {
+      |                                   ^~
+drivers/gpu/drm/nouveau/dispnv50/disp.c:1671:64: error: invalid use of undefined type 'struct nouveau_backlight'
+ 1671 |                 ret = drm_edp_backlight_disable(aux, &backlight->edp_info);
+      |                                                                ^~
 
-Fixes: ad0529424def ("gpu: host1x: Add DMA fence implementation")
+The patch that introduced the problem already contains some #ifdef
+checks, so just add another one that makes it build again.
+
+Fixes: 6eca310e8924 ("drm/nouveau/kms/nv50-: Add basic DPCD backlight support for nouveau")
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- drivers/gpu/host1x/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/nouveau/dispnv50/disp.c | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/host1x/Kconfig b/drivers/gpu/host1x/Kconfig
-index 6dab94adf25e..6f7ea1720a39 100644
---- a/drivers/gpu/host1x/Kconfig
-+++ b/drivers/gpu/host1x/Kconfig
-@@ -3,6 +3,7 @@ config TEGRA_HOST1X
- 	tristate "NVIDIA Tegra host1x driver"
- 	depends on ARCH_TEGRA || (ARM && COMPILE_TEST)
- 	select IOMMU_IOVA
-+	select SYNC_FILE
- 	help
- 	  Driver for the NVIDIA Tegra host1x hardware.
+diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c b/drivers/gpu/drm/nouveau/dispnv50/disp.c
+index 093e1f7163b3..fcf53e24db21 100644
+--- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
++++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
+@@ -1659,20 +1659,23 @@ static void
+ nv50_sor_atomic_disable(struct drm_encoder *encoder, struct drm_atomic_state *state)
+ {
+ 	struct nouveau_encoder *nv_encoder = nouveau_encoder(encoder);
+-	struct nouveau_drm *drm = nouveau_drm(nv_encoder->base.base.dev);
+ 	struct nouveau_crtc *nv_crtc = nouveau_crtc(nv_encoder->crtc);
+ 	struct nouveau_connector *nv_connector = nv50_outp_get_old_connector(state, nv_encoder);
+-	struct nouveau_backlight *backlight = nv_connector->backlight;
+ 	struct drm_dp_aux *aux = &nv_connector->aux;
+-	int ret;
+ 	u8 pwr;
  
++#ifdef CONFIG_DRM_NOUVEAU_BACKLIGHT
++	struct nouveau_drm *drm = nouveau_drm(nv_encoder->base.base.dev);
++	struct nouveau_backlight *backlight = nv_connector->backlight;
++
+ 	if (backlight && backlight->uses_dpcd) {
+-		ret = drm_edp_backlight_disable(aux, &backlight->edp_info);
++		int ret = drm_edp_backlight_disable(aux, &backlight->edp_info);
++
+ 		if (ret < 0)
+ 			NV_ERROR(drm, "Failed to disable backlight on [CONNECTOR:%d:%s]: %d\n",
+ 				 nv_connector->base.base.id, nv_connector->base.name, ret);
+ 	}
++#endif
+ 
+ 	if (nv_encoder->dcb->type == DCB_OUTPUT_DP) {
+ 		int ret = drm_dp_dpcd_readb(aux, DP_SET_POWER, &pwr);
 -- 
 2.29.2
 
