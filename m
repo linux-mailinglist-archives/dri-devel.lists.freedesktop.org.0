@@ -1,64 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A78023D36D4
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jul 2021 10:34:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EBAB33D36D6
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jul 2021 10:35:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D7256ECE9;
-	Fri, 23 Jul 2021 08:34:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B367E6EE3B;
+	Fri, 23 Jul 2021 08:35:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com
- [IPv6:2a00:1450:4864:20::530])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A8C56ECE9
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jul 2021 08:34:18 +0000 (UTC)
-Received: by mail-ed1-x530.google.com with SMTP id b7so782521edu.3
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jul 2021 01:34:17 -0700 (PDT)
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
+ [IPv6:2a00:1450:4864:20::62b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9AB536ED20
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jul 2021 08:35:08 +0000 (UTC)
+Received: by mail-ej1-x62b.google.com with SMTP id hs23so2365815ejc.13
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jul 2021 01:35:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=oa9LsULNSF8G3grb64t/9N62g6dzTVHbnQnaT/3ZVD0=;
- b=Uhj8q1dcnNzwe65TtgST0YcC9OKdf9lILHYSD7nmVihjSfs3a7m0h2yQFQiVTSDq7Y
- U+0Gc4NNr5HkH8u8AwarHjkKOD/uvbOFs41i7wLPIeFYS2W359jAaSyTYyG9idPPEZ/Q
- LNKILc2lKAM+RR3tSwFgGH8pFtok1WgagMABk=
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=f4bn887uqWohEHf9tJtivGZU2B/OMsh89fDHBPHgucE=;
+ b=GquE+FLUdLXKgierMdGxD5QMQi0V+Obx7uAPWKNMKtR8U7jSzEeBBmypZ9lVlQJ810
+ r0uv2HgmXlbD6jQv2f1Cb2xRWp5HSy43Xe4LpB0vWSbwvVXHcSQi998uVbXlonToXZQg
+ EABnUR4/Gkl2q8a3qAwJ1HzjckGxfO5Ezzug4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=oa9LsULNSF8G3grb64t/9N62g6dzTVHbnQnaT/3ZVD0=;
- b=FwAaR72sXmI0nWO4IyLblneyBFhbG6qxtDgTfR7fFRbnUGMtiZN5TpDJy4d9o968If
- bubh1nwYAJL2QL4VS43z83iTPeDkt63SUtSqFF0KPH6uw9RZSOSyzf6En6KSU4IrU7+9
- NUlDxD7VBfPvWm5n7D7KMACkh5iF3+rkRnbENzMjl8uuoiTckVXmQTlelcKWTB9wbbx/
- e8aXA+LcMiCZbDMof6JySedovUTY3ogDo3CaukBy/ambBxfs8+w/b0LTwksozeoeIXq0
- 1nI4vDgUisRXlBd3pccM5ee1kab4YU2FyPP9KgSb/oJFY13/fjIItcNYCMvOB2GMho4Q
- QbtQ==
-X-Gm-Message-State: AOAM532ZMrAGPeirkhvy+0gJF5rCJV80ZUmGHRsNTOX1fobNSmXxqGnO
- Md/RBiUYsfcRZgSqJs7eJLqzVA==
-X-Google-Smtp-Source: ABdhPJwAIhi5U4YXs77s+0AJfvT2vvqtnpViuUbw9uCDnytuItqpaveRhwpze8KIjFZtcLeLfzihSQ==
-X-Received: by 2002:aa7:cd03:: with SMTP id b3mr4288127edw.112.1627029256573; 
- Fri, 23 Jul 2021 01:34:16 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=f4bn887uqWohEHf9tJtivGZU2B/OMsh89fDHBPHgucE=;
+ b=Am1yH0l4//M9q7mzWUnf8ZFhio+sdg+mlUrOxqmyTCdOMoUpxJ/Dma8OU2lNaqhXfG
+ u9jKdr13GiGADrCS1TMmP8hilytk3O0S+wiSNDBBNVq0JVQ7GUgNTMBHJIxVykQep3Wn
+ eGXvQWtCY/tKN6GTIgkJsETAu+IyCO01BNRjlow6EzcVu3fyF58WLBi6ztmFWsjsAsRF
+ 7Q1NnRXATvPlYO9jMadJUla/ttg2g/NxQSzBcOBVv2zhp4IPG/CKLbMM1sXchAokf/9p
+ tS9Hm3ZDVQMYsyUvzptOTWCbJs9B20K+twieTlEZZ8m1E8Dfyyycec5kwIehNmfPVE4Y
+ ZVuw==
+X-Gm-Message-State: AOAM531AE23kQlU6BNwie6czNs1pbJ5WklgVZ5MV5KmtOMYLW53q7sWT
+ W4r8j9ehWes4d4bFE9bsHJTaEsUA4xzaGg==
+X-Google-Smtp-Source: ABdhPJyo99sg1Z/X7gvWndHlguL4DGLiUMKtoBa59X7cFNiRAsgU/yHatubV3eSW7QcgvOl9eeCX7Q==
+X-Received: by 2002:a17:906:5509:: with SMTP id
+ r9mr3798819ejp.74.1627029307206; 
+ Fri, 23 Jul 2021 01:35:07 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id jg9sm10185723ejc.6.2021.07.23.01.34.15
+ by smtp.gmail.com with ESMTPSA id s26sm10237758ejv.87.2021.07.23.01.35.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 23 Jul 2021 01:34:15 -0700 (PDT)
-Date: Fri, 23 Jul 2021 10:34:14 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Subject: Re: [PATCH v4 3/4] drm/shmem-helpers: Allocate wc pages on x86
-Message-ID: <YPp/BlD8zrM98+6C@phenom.ffwll.local>
-References: <20210713205153.1896059-1-daniel.vetter@ffwll.ch>
- <20210713205153.1896059-4-daniel.vetter@ffwll.ch>
- <0e4eefe0-9282-672c-7678-8d3162de35e3@suse.de>
- <YPpxh0QhILXESykX@phenom.ffwll.local>
- <be56fbe8-5151-ef8d-13cb-0b8a71f4d1e0@amd.com>
+ Fri, 23 Jul 2021 01:35:06 -0700 (PDT)
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+To: DRI Development <dri-devel@lists.freedesktop.org>
+Subject: [PATCH 1/3] drm/plane: remove drm_helper_get_plane_damage_clips
+Date: Fri, 23 Jul 2021 10:34:55 +0200
+Message-Id: <20210723083457.696939-1-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <be56fbe8-5151-ef8d-13cb-0b8a71f4d1e0@amd.com>
-X-Operating-System: Linux phenom 5.10.0-7-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,136 +64,122 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
  Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
+ =?UTF-8?q?Jos=C3=A9=20Roberto=20de=20Souza?= <jose.souza@intel.com>,
+ Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>,
+ Hans de Goede <hdegoede@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
  Daniel Vetter <daniel.vetter@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jul 23, 2021 at 10:02:39AM +0200, Christian Kˆnig wrote:
-> Am 23.07.21 um 09:36 schrieb Daniel Vetter:
-> > On Thu, Jul 22, 2021 at 08:40:56PM +0200, Thomas Zimmermann wrote:
-> > > Hi
-> > > 
-> > > Am 13.07.21 um 22:51 schrieb Daniel Vetter:
-> > > [SNIP]
-> > > > +#ifdef CONFIG_X86
-> > > > +	if (shmem->map_wc)
-> > > > +		set_pages_array_wc(pages, obj->size >> PAGE_SHIFT);
-> > > > +#endif
-> > > I cannot comment much on the technical details of the caching of various
-> > > architectures. If this patch goes in, there should be a longer comment that
-> > > reflects the discussion in this thread. It's apparently a workaround.
-> > > 
-> > > I think the call itself should be hidden behind a DRM API, which depends on
-> > > CONFIG_X86. Something simple like
-> > > 
-> > > ifdef CONFIG_X86
-> > > drm_set_pages_array_wc()
-> > > {
-> > > 	set_pages_array_wc();
-> > > }
-> > > else
-> > > drm_set_pages_array_wc()
-> > >   {
-> > >   }
-> > > #endif
-> > > 
-> > > Maybe in drm_cache.h?
-> > We do have a bunch of this in drm_cache.h already, and architecture
-> > maintainers hate us for it.
-> 
-> Yeah, for good reasons :)
-> 
-> > The real fix is to get at the architecture-specific wc allocator, which is
-> > currently not something that's exposed, but hidden within the dma api. I
-> > think having this stick out like this is better than hiding it behind fake
-> > generic code (like we do with drm_clflush, which defacto also only really
-> > works on x86).
-> 
-> The DMA API also doesn't really touch that stuff as far as I know.
-> 
-> What we rather do on other architectures is to set the appropriate caching
-> flags on the CPU mappings, see function ttm_prot_from_caching().
+It's not used. Drivers should instead use the helpers anyway.
 
-This alone doesn't do cache flushes. And at least on some arm cpus having
-inconsistent mappings can lead to interconnect hangs, so you have to at
-least punch out the kernel linear map. Which on some arms isn't possible
-(because the kernel map is a special linear map and not done with
-pagetables). Which means you need to carve this out at boot and treat them
-as GFP_HIGHMEM.
+Currently both vbox and i915 hand-roll this and it's not the greatest.
+vbox looks buggy, and i915 does a bit much that helpers would take
+care of I think.
 
-Afaik dma-api has that allocator somewhere which dtrt for
-dma_alloc_coherent.
+Also improve the kerneldocs while we're at it.
 
-Also shmem helpers already set the caching pgprot.
+Reviewed-by: Jos√© Roberto de Souza <jose.souza@intel.com>
+Cc: Ville Syrj√§l√§ <ville.syrjala@linux.intel.com>
+Cc: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
+Cc: Jos√© Roberto de Souza <jose.souza@intel.com>
+Cc: Hans de Goede <hdegoede@redhat.com>
+Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: David Airlie <airlied@linux.ie>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+---
+ drivers/gpu/drm/drm_damage_helper.c |  2 +-
+ include/drm/drm_damage_helper.h     | 17 -----------------
+ include/drm/drm_plane.h             | 10 +++++++---
+ include/drm/drm_rect.h              |  3 +++
+ 4 files changed, 11 insertions(+), 21 deletions(-)
 
-> > Also note that ttm has the exact same ifdef in its page allocator, but it
-> > does fall back to using dma_alloc_coherent on other platforms.
-> 
-> This works surprisingly well on non x86 architectures as well. We just don't
-> necessary update the kernel mappings everywhere which limits the kmap usage.
-> 
-> In other words radeon and nouveau still work on PowerPC AGP systems as far
-> as I know for example.
-
-The thing is, on most cpus you get away with just pgprot set to wc, and on
-many others it's only an issue while there's still some cpu dirt hanging
-around because they don't prefetch badly enough. It's very few were it's a
-persistent problem.
-
-Really the only reason I've even caught this was because some of the
-i915+vgem buffer sharing tests we have are very nasty and intentionally
-try to provoke the worst case :-)
-
-Anyway, since you're looking, can you pls review this and the previous
-patch for shmem helpers?
-
-The first one to make VM_PFNMAP standard for all dma-buf isn't ready yet,
-because I need to audit all the driver still. And at least i915 dma-buf
-mmap is still using gup-able memory too. So more work to do here.
--Danel
-
-> 
-> Christian.
-> 
-> > -Daniel
-> > 
-> > > Best regard
-> > > Thomas
-> > > 
-> > > > +
-> > > >    	shmem->pages = pages;
-> > > >    	return 0;
-> > > > @@ -203,6 +212,11 @@ static void drm_gem_shmem_put_pages_locked(struct drm_gem_shmem_object *shmem)
-> > > >    	if (--shmem->pages_use_count > 0)
-> > > >    		return;
-> > > > +#ifdef CONFIG_X86
-> > > > +	if (shmem->map_wc)
-> > > > +		set_pages_array_wb(shmem->pages, obj->size >> PAGE_SHIFT);
-> > > > +#endif
-> > > > +
-> > > >    	drm_gem_put_pages(obj, shmem->pages,
-> > > >    			  shmem->pages_mark_dirty_on_put,
-> > > >    			  shmem->pages_mark_accessed_on_put);
-> > > > 
-> > > -- 
-> > > Thomas Zimmermann
-> > > Graphics Driver Developer
-> > > SUSE Software Solutions Germany GmbH
-> > > Maxfeldstr. 5, 90409 N¸rnberg, Germany
-> > > (HRB 36809, AG N¸rnberg)
-> > > Gesch‰ftsf¸hrer: Felix Imendˆrffer
-> > > 
-> > 
-> > 
-> > 
-> 
-
+diff --git a/drivers/gpu/drm/drm_damage_helper.c b/drivers/gpu/drm/drm_damage_helper.c
+index 3a4126dc2520..eb69b7123af5 100644
+--- a/drivers/gpu/drm/drm_damage_helper.c
++++ b/drivers/gpu/drm/drm_damage_helper.c
+@@ -282,7 +282,7 @@ drm_atomic_helper_damage_iter_init(struct drm_atomic_helper_damage_iter *iter,
+ 	if (!state || !state->crtc || !state->fb || !state->visible)
+ 		return;
+ 
+-	iter->clips = drm_helper_get_plane_damage_clips(state);
++	iter->clips = (struct drm_rect *)drm_plane_get_damage_clips(state);
+ 	iter->num_clips = drm_plane_get_damage_clips_count(state);
+ 
+ 	/* Round down for x1/y1 and round up for x2/y2 to catch all pixels */
+diff --git a/include/drm/drm_damage_helper.h b/include/drm/drm_damage_helper.h
+index 40c34a5bf149..1ae8bce6a5ce 100644
+--- a/include/drm/drm_damage_helper.h
++++ b/include/drm/drm_damage_helper.h
+@@ -82,21 +82,4 @@ bool drm_atomic_helper_damage_merged(const struct drm_plane_state *old_state,
+ 				     struct drm_plane_state *state,
+ 				     struct drm_rect *rect);
+ 
+-/**
+- * drm_helper_get_plane_damage_clips - Returns damage clips in &drm_rect.
+- * @state: Plane state.
+- *
+- * Returns plane damage rectangles in internal &drm_rect. Currently &drm_rect
+- * can be obtained by simply typecasting &drm_mode_rect. This is because both
+- * are signed 32 and during drm_atomic_check_only() it is verified that damage
+- * clips are inside fb.
+- *
+- * Return: Clips in plane fb_damage_clips blob property.
+- */
+-static inline struct drm_rect *
+-drm_helper_get_plane_damage_clips(const struct drm_plane_state *state)
+-{
+-	return (struct drm_rect *)drm_plane_get_damage_clips(state);
+-}
+-
+ #endif
+diff --git a/include/drm/drm_plane.h b/include/drm/drm_plane.h
+index 1294610e84f4..7f7d5148310c 100644
+--- a/include/drm/drm_plane.h
++++ b/include/drm/drm_plane.h
+@@ -186,6 +186,9 @@ struct drm_plane_state {
+ 	 * since last plane update) as an array of &drm_mode_rect in framebuffer
+ 	 * coodinates of the attached framebuffer. Note that unlike plane src,
+ 	 * damage clips are not in 16.16 fixed point.
++	 *
++	 * See drm_plane_get_damage_clips() and
++	 * drm_plane_get_damage_clips_count() for accessing these.
+ 	 */
+ 	struct drm_property_blob *fb_damage_clips;
+ 
+@@ -914,9 +917,10 @@ drm_plane_get_damage_clips_count(const struct drm_plane_state *state)
+  * drm_plane_get_damage_clips - Returns damage clips.
+  * @state: Plane state.
+  *
+- * Note that this function returns uapi type &drm_mode_rect. Drivers might
+- * instead be interested in internal &drm_rect which can be obtained by calling
+- * drm_helper_get_plane_damage_clips().
++ * Note that this function returns uapi type &drm_mode_rect. Drivers might want
++ * to use the helper functions drm_atomic_helper_damage_iter_init() and
++ * drm_atomic_helper_damage_iter_next() or drm_atomic_helper_damage_merged() if
++ * the driver can only handle a single damage region at most.
+  *
+  * Return: Damage clips in plane fb_damage_clips blob property.
+  */
+diff --git a/include/drm/drm_rect.h b/include/drm/drm_rect.h
+index 39f2deee709c..6f6e19bd4dac 100644
+--- a/include/drm/drm_rect.h
++++ b/include/drm/drm_rect.h
+@@ -39,6 +39,9 @@
+  * @x2: horizontal ending coordinate (exclusive)
+  * @y1: vertical starting coordinate (inclusive)
+  * @y2: vertical ending coordinate (exclusive)
++ *
++ * Note that this must match the layout of struct drm_mode_rect or the damage
++ * helpers like drm_atomic_helper_damage_iter_init() break.
+  */
+ struct drm_rect {
+ 	int x1, y1, x2, y2;
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.32.0
+
