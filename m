@@ -2,45 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45F0B3D341C
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jul 2021 07:34:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46D413D34CB
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jul 2021 08:44:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 771946FA43;
-	Fri, 23 Jul 2021 05:34:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3CBD96EC3F;
+	Fri, 23 Jul 2021 06:44:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 59E546FA43
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jul 2021 05:34:28 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1m6npG-0005rP-96; Fri, 23 Jul 2021 07:34:22 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
- by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1m6npC-0003jJ-Gc; Fri, 23 Jul 2021 07:34:18 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1m6npC-00075a-Ff; Fri, 23 Jul 2021 07:34:18 +0200
-Date: Fri, 23 Jul 2021 07:34:18 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: Re: linux-next: build failure after merge of the driver-core tree
-Message-ID: <20210723053418.fizdbfnu4if2hs5x@pengutronix.de>
-References: <20210723150944.528c10af@canb.auug.org.au>
+Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com
+ [IPv6:2607:f8b0:4864:20::630])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 892476EC3F;
+ Fri, 23 Jul 2021 06:44:41 +0000 (UTC)
+Received: by mail-pl1-x630.google.com with SMTP id a20so2294165plm.0;
+ Thu, 22 Jul 2021 23:44:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=JtVRhU77ke1jykJUlx44YgtyrOvEU41Pb5DTJX/92t8=;
+ b=YICsHnOycxoxkOgj0f0hjRbEP9/EY2rkWi/vMtZq7CjO4baIqSowmIcWA3Httq8u0T
+ 9VTxJKZo/Uze4wwTZMDFowZR7eq6Xi5NGBR4XR69N0PhPkflgn9kz5ICkPWPi1UKzDGp
+ M2B3tekHiBZBL23dNaDN/fjKudWdmkxIYvIrvSMQJpm2vUXfh7PjlVxD3OpUodCsj3E3
+ OtIxeEVpX3fSMNV8S8PoGC/66JqXT3qxwXBNBjfyyj0/2tTanARkAuMkZBCegz5Ygqjb
+ e6NDLDE4vh8wtcAEDrC0uE0EOfWYMAC+vxcxNrjV85kTVU4syxEyEikhxxv/cQWF67ny
+ g/Ag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=JtVRhU77ke1jykJUlx44YgtyrOvEU41Pb5DTJX/92t8=;
+ b=P20YQosaI+c0m5X2NFsny49jFRTEDJ5aUn9Und9gRuJbYDpUa3uc513FcO1OeJctbi
+ XVcdiXwbTSZlS4FdUPga2iLmY+5AQEY0gfREXoTXMClnPhFBKiT2oQkR2R0XpwXVsBEr
+ Moy9mTpNysysMXMqLVSjH79oPEiDDRf5pWyirLPWt6DKunZmS5hvQqL3NGE1TtF08g4O
+ A4KZPUXDH1cNQSf/BI2AOPKMwiCwkjoue5ZYxnpvocPU11GoJYrle5JblJIBt+GkHPhc
+ lPwlSzpANEttiAb2eTEGbAcizmEsrmbe1GXdYFKW7nWKki62a2RwN+ohC8xxtekZx0D4
+ hoWw==
+X-Gm-Message-State: AOAM532CaoJnGQ2gibwHlQCgFoRPXEClCkvXZR9eFnaJjnlyBYJ4Nx6U
+ boMxC/wyPAYA0ApUWuh+CEAXZTzZ6jeUlF0Rkow=
+X-Google-Smtp-Source: ABdhPJz9iplYhIwZU1EW3jCgZDLvrZ1Zvw9a2ACvz4RyKBOSbBtaaNTJgPvIr9uWhLuDw5FJaj2vmw==
+X-Received: by 2002:a17:90b:3a92:: with SMTP id
+ om18mr3315626pjb.33.1627022681207; 
+ Thu, 22 Jul 2021 23:44:41 -0700 (PDT)
+Received: from [192.168.1.237] ([118.200.190.93])
+ by smtp.gmail.com with ESMTPSA id u14sm28466293pga.93.2021.07.22.23.44.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 22 Jul 2021 23:44:40 -0700 (PDT)
+Subject: Re: [PATCH 3/3] drm/vmwgfx: fix potential UAF in vmwgfx_surface.c
+To: Zack Rusin <zackr@vmware.com>, linux-graphics-maintainer@vmware.com,
+ airlied@linux.ie, daniel@ffwll.ch, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de
+References: <20210722092929.244629-1-desmondcheongzx@gmail.com>
+ <20210722092929.244629-4-desmondcheongzx@gmail.com>
+ <b27a2e80-c912-15eb-e78b-c8b6f3993930@vmware.com>
+From: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+Message-ID: <cb3ea66e-7f59-c057-06ea-7ddca4329a7c@gmail.com>
+Date: Fri, 23 Jul 2021 14:44:35 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="wwe4bxoweyfjcqqy"
-Content-Disposition: inline
-In-Reply-To: <20210723150944.528c10af@canb.auug.org.au>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+In-Reply-To: <b27a2e80-c912-15eb-e78b-c8b6f3993930@vmware.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,117 +76,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@linux.ie>, Greg KH <greg@kroah.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI <dri-devel@lists.freedesktop.org>,
- Douglas Anderson <dianders@chromium.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: gregkh@linuxfoundation.org, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ skhan@linuxfoundation.org, linux-kernel-mentees@lists.linuxfoundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 23/7/21 3:17 am, Zack Rusin wrote:
+> On 7/22/21 5:29 AM, Desmond Cheong Zhi Xi wrote:
+>> drm_file.master should be protected by either drm_device.master_mutex
+>> or drm_file.master_lookup_lock when being dereferenced. However,
+>> drm_master_get is called on unprotected file_priv->master pointers in
+>> vmw_surface_define_ioctl and vmw_gb_surface_define_internal.
+>>
+>> This is fixed by replacing drm_master_get with drm_file_get_master.
+>>
+>> Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+> 
+> Reviewed-by: Zack Rusin <zackr@vmware.com>
+> 
+> Thanks for taking the time to fix this. Apart from the clear logic 
+> error, do you happen to know under what circumstances would this be hit? 
+> We have someone looking at writing some vmwgfx specific igt tests and I 
+> was wondering if I could add this to the list.
+> 
+> z
 
---wwe4bxoweyfjcqqy
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi Zack,
 
-Hello Stephen,
+Thanks for the review.
 
-On Fri, Jul 23, 2021 at 03:09:44PM +1000, Stephen Rothwell wrote:
-> Hi all,
->=20
-> After merging the driver-core tree, today's linux-next build (arm
-> multi_v7_defconfig) failed like this:
->=20
-> drivers/gpu/drm/drm_dp_aux_bus.c:106:13: error: initialization of 'void (=
-*)(struct device *)' from incompatible pointer type 'int (*)(struct device =
-*)' [-Werror=3Dincompatible-pointer-types]
->   106 |  .remove  =3D dp_aux_ep_remove,
->       |             ^~~~~~~~~~~~~~~~
-> drivers/gpu/drm/drm_dp_aux_bus.c:106:13: note: (near initialization for '=
-dp_aux_bus_type.remove')
->=20
-> Caused by commit
->=20
->   aeb33699fc2c ("drm: Introduce the DP AUX bus")
->=20
-> from the drm tree interacting with commit
->=20
->   fc7a6209d571 ("bus: Make remove callback return void")
->=20
-> from the driver-core tree.
->=20
-> I applied the following merge fix patch.
->=20
-> From: Stephen Rothwell <sfr@canb.auug.org.au>
-> Date: Fri, 23 Jul 2021 14:58:25 +1000
-> Subject: [PATCH] fix for "drm: Introduce the DP AUX bus"
->=20
-> interaction with "bus: Make remove callback return void"
->=20
-> Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>
-> ---
->  drivers/gpu/drm/drm_dp_aux_bus.c | 5 +----
->  1 file changed, 1 insertion(+), 4 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/drm_dp_aux_bus.c b/drivers/gpu/drm/drm_dp_au=
-x_bus.c
-> index e49a70f3691b..298ea7a49591 100644
-> --- a/drivers/gpu/drm/drm_dp_aux_bus.c
-> +++ b/drivers/gpu/drm/drm_dp_aux_bus.c
-> @@ -67,9 +67,8 @@ static int dp_aux_ep_probe(struct device *dev)
->   *
->   * Calls through to the endpoint driver remove.
->   *
-> - * Return: 0 if no error or negative error code.
->   */
-> -static int dp_aux_ep_remove(struct device *dev)
-> +static void dp_aux_ep_remove(struct device *dev)
->  {
->  	struct dp_aux_ep_driver *aux_ep_drv =3D to_dp_aux_ep_drv(dev->driver);
->  	struct dp_aux_ep_device *aux_ep =3D to_dp_aux_ep_dev(dev);
-> @@ -77,8 +76,6 @@ static int dp_aux_ep_remove(struct device *dev)
->  	if (aux_ep_drv->remove)
->  		aux_ep_drv->remove(aux_ep);
->  	dev_pm_domain_detach(dev, true);
-> -
-> -	return 0;
->  }
+For some context, the use-after-free happens when there's a race between 
+accessing the value of drm_file.master, and a call to 
+drm_setmaster_ioctl. If drm_file is not the creator of master, then the 
+ioctl allocates a new master for drm_file and puts the old master.
 
-This looks right.
+Thus for example, the old value of drm_file.master could be freed in 
+between getting the value of file_priv->master, and the call to 
+drm_master_get.
 
-Greg provided a tag containing fc7a6209d571 ("bus: Make remove callback
-return void") at
+I'm not entirely sure whether this scenario is a good candidate for a test?
 
-	git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git tags/=
-bus_remove_return_void-5.15
+For further reference, the issue was originally caught by Syzbot here:
+https://syzkaller.appspot.com/bug?id=148d2f1dfac64af52ffd27b661981a540724f803
 
-(see https://lore.kernel.org/lkml/YPkwQwf0dUKnGA7L@kroah.com).
+And from the logs it seems that the reproducer set up a race between 
+DRM_IOCTL_GET_UNIQUE and DRM_IOCTL_SET_MASTER. So possibly a race 
+between VMW_CREATE_SURFACE and DRM_IOCTL_SET_MASTER could trigger the 
+same bug.
 
-It would be great if this could be merged into the drm tree with the
-above diff squashed into the merge commit.
+Best wishes,
+Desmond
 
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---wwe4bxoweyfjcqqy
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmD6VNcACgkQwfwUeK3K
-7AlfBAf/Zy8qvQXPKZUxJSnVaxZnzyG/ohkmvclUmS6qFSFq7xB/q+AeOkPrdpEG
-lehUg+vcs4e4IH2aLTGJmh22cu2PV8B5JcOG7clivg6FJJhxfjUE4/9OKgXJmLub
-nmxhlNhDQ9P0rtn//0oXrsTh5D7WAYASV9gCdGymGmsOsX6FjwfoH5eTes0O6Xif
-GNsBwBOziDhup7TniikMZ7wGnMZK873J5ftporulm48c/ytDaoFHeHeQsxkHwmzX
-2fHwJh6w7Biipd1wSYILy/bbkhq8wYtSbXq5Bh4vkAX4kgomgueirRozeuye9mDR
-pQ33bclEaAX2dCKQQmj8cKnjyA6DIw==
-=ach8
------END PGP SIGNATURE-----
-
---wwe4bxoweyfjcqqy--
