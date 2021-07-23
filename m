@@ -1,52 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 492BC3D3794
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jul 2021 11:18:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5485E3D379D
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jul 2021 11:22:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6DC956EA23;
-	Fri, 23 Jul 2021 09:18:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C3E546F58F;
+	Fri, 23 Jul 2021 09:22:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 96BF86F894
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jul 2021 09:18:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
- s=20161220; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
- MIME-Version:Date:Message-ID:References:Cc:To:From:Subject:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=crMwevUrUiGlxEnhBFj4y4HAHydElCl65A6jne0BeK8=; b=U7FWPEyckNRDPg3f4Yzl94zzgL
- EcQ+M4oNPMzexdurBMNkRjFHQQd7+Z2QCtjbgemp4hJHU4aMbPEa0VnBnIJ8RyoA5AkFZ0c3oxiwQ
- HWaAwXR/qhw9sKuhz3tHk4hY6aR6djs6YvbuAFy/Fe+8sY+zK34ddwWkxMx8fv1+lEOmbyPqBkf9Z
- 7aR2+KWyZTrV4h9oietZAqFCzhk8EBFQ+WePaVeoBrYeN0QTu9jcPBvaY0AkcIQ1iNXx5TfYbi78u
- iK6UHAdGQ1CWidot3uAPahogxofT9VeM54zIMBMBfJoE4M+R/+5yLPFgfsm8qa1HoH//tcqby8//J
- Dzu/vDlA==;
-Received: from dsl-hkibng22-54f986-236.dhcp.inet.fi ([84.249.134.236]
- helo=[192.168.1.10])
- by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.89) (envelope-from <cyndis@kapsi.fi>)
- id 1m6rKY-0006sm-7H; Fri, 23 Jul 2021 12:18:54 +0300
-Subject: Re: [PATCH] gpu: host1x: select CONFIG_SYNC_FILE
-From: Mikko Perttunen <cyndis@kapsi.fi>
-To: Arnd Bergmann <arnd@kernel.org>, Thierry Reding
- <thierry.reding@gmail.com>, Mikko Perttunen <mperttunen@nvidia.com>
-References: <20210723091424.1682193-1-arnd@kernel.org>
- <0f4d1f0a-c313-a60e-6a72-fd4b0c757bc3@kapsi.fi>
-Message-ID: <b7432d28-1082-1500-b4bd-fa566c63d264@kapsi.fi>
-Date: Fri, 23 Jul 2021 12:18:53 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com
+ [IPv6:2607:f8b0:4864:20::22c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 416B46F58F
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jul 2021 09:22:08 +0000 (UTC)
+Received: by mail-oi1-x22c.google.com with SMTP id q6so1161784oiw.7
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jul 2021 02:22:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=R2GBkm1+dYCdylnOQUaBIL+sywcJpYVK+B1WLnTME/0=;
+ b=GwkSrlJgfhTPrLC1Sw8+7ijQYUqb1kBnUFzyYekZK+WN9s+VxvmoxpX59L2VXz0SKJ
+ ipydnj0qXt8Ao/87V6bTyJogDbjWyHSvrE0YGLj9Ork8as817idy8J3/TcsXvupSEupa
+ wzGqnJZm0tluNQIhvbBXEb3GZw2Sq2T6naoyE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=R2GBkm1+dYCdylnOQUaBIL+sywcJpYVK+B1WLnTME/0=;
+ b=qEKT0ZHTilecgBp+Og/a/lMCRP44uT/uFQOvaZaxdwT3ajo1BE4qq5/2UuxLDF0LbK
+ PlpLqrpw4wwT22yUYkL2WHXEJy7gSn7vldw6VSFerKhXjKsn7YKaZukkt8V5qIB+wV35
+ dEDRqlYzYXfNnbAC8xvy1b5e7L8LpnjlEZvV3T61HoY70mNcUz/0rdN4I0IAFqobBPOl
+ UnVYe0QGDNcrPmJZbFxSKd6ttN6qsWMFLDnCoaNod5QUgxDBwGC1E3ZmXP0/VOrFRHwx
+ joO6HerbgGCx+N8huUBVO0hA2RxAXDttKyU/47rtyLsYjWg/+I2yubLvG9jxKmLD3cYv
+ 8yrg==
+X-Gm-Message-State: AOAM531Szn0FQhdVvGNA+OUHEElCQJEglDDTj0MsGuoa9Knt4TMtie15
+ MA4LXcXGe3aQrf2+VdJTYrCGM0o8pxICiqGnpf230g==
+X-Google-Smtp-Source: ABdhPJwHr8oCzDw2fd2jVsfcv9NrnLGXZwVeedoy/7Ca9/qxVy1x+CYPTwpqJSVAQo3CVoFxew4AQTC+W3zfwDi9nDw=
+X-Received: by 2002:aca:d682:: with SMTP id n124mr2508179oig.128.1627032127564; 
+ Fri, 23 Jul 2021 02:22:07 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <0f4d1f0a-c313-a60e-6a72-fd4b0c757bc3@kapsi.fi>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 84.249.134.236
-X-SA-Exim-Mail-From: cyndis@kapsi.fi
-X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
+References: <20210722124127.17901-1-christian.koenig@amd.com>
+ <YPqCBUDiibBWUs2/@phenom.ffwll.local>
+ <c83ebc42-567c-4f4c-d6da-53ff21739222@gmail.com>
+In-Reply-To: <c83ebc42-567c-4f4c-d6da-53ff21739222@gmail.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Fri, 23 Jul 2021 11:21:56 +0200
+Message-ID: <CAKMK7uGVPnsw2o=9E295CobiY_qYdCg5fZQN4Q8Bu22r9E3WUw@mail.gmail.com>
+Subject: Re: [PATCH 1/5] drm/vmwgfx: unbind in vmw_ttm_unpopulate
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,51 +62,138 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org
+Cc: Dave Airlie <airlied@redhat.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/23/21 12:17 PM, Mikko Perttunen wrote:
-> Hi Arnd,
-> 
-> I think the best fix for this is to just remove that function -- it is 
-> currently not used anywhere. I posted a patch to do that, but Thierry is 
-> currently on vacation so it hasn't been picked up yet.
+On Fri, Jul 23, 2021 at 11:13 AM Christian K=C3=B6nig
+<ckoenig.leichtzumerken@gmail.com> wrote:
+>
+> Am 23.07.21 um 10:47 schrieb Daniel Vetter:
+> > On Thu, Jul 22, 2021 at 02:41:23PM +0200, Christian K=C3=B6nig wrote:
+> >> Doing this in vmw_ttm_destroy() is to late.
+> >>
+> >> It turned out that this is not a good idea at all because it leaves po=
+inters
+> >> to freed up system memory pages in the GART tables of the drivers.
+> > So I wanted to review this series, and I can't reconcile your claim her=
+e
+> > with the demidlayering Dave has done. The driver patches here don't
+> > ouright undo what Dave has done, but that means the bug has been
+> > preexisting since forever (or is due to some other change?), and your
+> > commit message is a bit confusing here.
+> >
+> > The final patch just undoes the demidlayering from Dave, and I really
+> > don't see where there's even a functional change there.
+> >
+> > And even these patches here don't really change a hole lot with the
+> > calling sequence for at least final teardown: ttm_tt_destroy_common cal=
+ls
+> > ttm_tt_unpopulate as the first thing, so at least there there's no chan=
+ge.
+> >
+> > Can you pls elaborate more clearly what exactly you're fixing and what
+> > exactly needs to be reordered and where this bug is from (commit sha1)?=
+ As
+> > is I'm playing detective and the evidence presented is extremely since =
+and
+> > I can't reconcile it at all.
+> >
+> > I mean I know you don't like typing commit message and documentation, b=
+ut
+> > it does get occasionally rather frustrating on the reviewer side if I h=
+ave
+> > to interpolate between some very sparse hints for this stuff :-/
+>
+> Yeah, when have seen the history it's rather obvious what's wrong here
+> and I expected Dave to review it himself.
+>
+> Previously we had three states in TTM for a tt object: Allocated ->
+> Populated -> Bound which on destruction where done in the order unbind
+> -> unpopulate -> free.
+>
+> Dave moved handling of the bound state into the drivers since it is
+> basically a driver decision and not a TTM decision what should be bound
+> and what not (that part perfectly makes sense).
 
-.. and sorry for the top post ..
+I haven't reviewed all the patches from Dave, only the one you pointed
+at (in the last patch). And that one I still can't match up with your
+description. If there's other commits relevant, can you pls dig them
+out?
 
-Mikko
+Like it all makes sense what you're saying and matches the code, I
+just can't match it up with the commit you're referencing.
 
-> 
-> thanks,
-> Mikko
-> 
-> On 7/23/21 12:14 PM, Arnd Bergmann wrote:
->> From: Arnd Bergmann <arnd@arndb.de>
->>
->> With the addition of the DMA fence, the host1x driver now fails to
->> build without the sync_file helper:
->>
->> arm-linux-gnueabi-ld: drivers/gpu/host1x/fence.o: in function 
->> `host1x_fence_create_fd':
->> fence.c:(.text+0x624): undefined reference to `sync_file_create'
->>
->> Fixes: ad0529424def ("gpu: host1x: Add DMA fence implementation")
->> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
->> ---
->>   drivers/gpu/host1x/Kconfig | 1 +
->>   1 file changed, 1 insertion(+)
->>
->> diff --git a/drivers/gpu/host1x/Kconfig b/drivers/gpu/host1x/Kconfig
->> index 6dab94adf25e..6f7ea1720a39 100644
->> --- a/drivers/gpu/host1x/Kconfig
->> +++ b/drivers/gpu/host1x/Kconfig
->> @@ -3,6 +3,7 @@ config TEGRA_HOST1X
->>       tristate "NVIDIA Tegra host1x driver"
->>       depends on ARCH_TEGRA || (ARM && COMPILE_TEST)
->>       select IOMMU_IOVA
->> +    select SYNC_FILE
->>       help
->>         Driver for the NVIDIA Tegra host1x hardware.
->>
+> The problem is that he also moved doing the unbind into the free
+> callback instead of the unpopulate callback. This result in stale page
+> pointers in the GART if that unpopulate operation isn't immediately
+> followed by a free.
+>
+> Thinking more about it if we do populated->unpopulated->populated then
+> we would also have stale pointers to the old pages which is even worse.
+>
+> This is also not de-midlayering since we already have a proper
+> ttm_tt_init()/ttm_tt_fini() functions which should work nicely for the
+> tt object.
+
+Well you're last patch moves the ttm_tt_destroy_common stuff back into
+ttm, which kinda is de-demidlayering. So I'm confused.
+
+Other bit: I think it'd be good to document this properly in the
+callbacks, and maybe ideally go about and kerneldoc-ify the entire
+ttm_tt.h header. Otherwise when we eventually (never?) get around to
+that, everyone has forgotten these semantic details and issues again.
+-Daniel
+
+> Christian.
+>
+> > -Daniel
+> >
+> >> Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+> >> ---
+> >>   drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c | 9 +++------
+> >>   1 file changed, 3 insertions(+), 6 deletions(-)
+> >>
+> >> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c b/drivers/gpu/=
+drm/vmwgfx/vmwgfx_ttm_buffer.c
+> >> index b0973c27e774..904031d03dbe 100644
+> >> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
+> >> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
+> >> @@ -526,14 +526,9 @@ static void vmw_ttm_destroy(struct ttm_device *bd=
+ev, struct ttm_tt *ttm)
+> >>      struct vmw_ttm_tt *vmw_be =3D
+> >>              container_of(ttm, struct vmw_ttm_tt, dma_ttm);
+> >>
+> >> -    vmw_ttm_unbind(bdev, ttm);
+> >>      ttm_tt_destroy_common(bdev, ttm);
+> >>      vmw_ttm_unmap_dma(vmw_be);
+> >> -    if (vmw_be->dev_priv->map_mode =3D=3D vmw_dma_alloc_coherent)
+> >> -            ttm_tt_fini(&vmw_be->dma_ttm);
+> >> -    else
+> >> -            ttm_tt_fini(ttm);
+> >> -
+> >> +    ttm_tt_fini(ttm);
+> >>      if (vmw_be->mob)
+> >>              vmw_mob_destroy(vmw_be->mob);
+> >>
+> >> @@ -578,6 +573,8 @@ static void vmw_ttm_unpopulate(struct ttm_device *=
+bdev,
+> >>                                               dma_ttm);
+> >>      unsigned int i;
+> >>
+> >> +    vmw_ttm_unbind(bdev, ttm);
+> >> +
+> >>      if (vmw_tt->mob) {
+> >>              vmw_mob_destroy(vmw_tt->mob);
+> >>              vmw_tt->mob =3D NULL;
+> >> --
+> >> 2.25.1
+> >>
+>
+
+
+--=20
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
