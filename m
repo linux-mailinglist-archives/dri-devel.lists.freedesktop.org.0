@@ -2,67 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 575A33D37CF
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jul 2021 11:40:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C16903D381A
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jul 2021 11:53:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7BEC26E896;
-	Fri, 23 Jul 2021 09:40:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7299C88CBF;
+	Fri, 23 Jul 2021 09:53:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
- [IPv6:2a00:1450:4864:20::432])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 99FCB6E896
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jul 2021 09:40:23 +0000 (UTC)
-Received: by mail-wr1-x432.google.com with SMTP id z8so1644501wru.7
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jul 2021 02:40:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=ReRpvNkrpr1BuaHO5GOqJ4cFBZpQicPOLNn+wCL8Bsk=;
- b=II/on/AxxsJb9xykruRjqTkGPxhVpMcU9JGT3kG5VuFLNhtrqGZLNO/tc2vFESQwaf
- 5Y69PRk38ikI0Tj9+NhJsvMxIC6WZqYJ7bOOb4lRrhZ1ZW+X7T4ICN3v5NprFz8L1msp
- YK3Dpoy5eZYuTMEYqhVlNdJxrXMDhLDbnheVb6sR4bk5TbLYGiph2qcBsEgnHsp52k6p
- ICajVwWyobFiK79lkcIU01kyFUnqV4jjTbmv2hqcRF+Bpr44F29brV3If70O62dAUT8X
- ZC8PqgrhUzXljLJWzls562KozLG8LGSt8+bps429WOsnoT2Y56zW7uo1b2poCMRa3B2C
- JcUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=ReRpvNkrpr1BuaHO5GOqJ4cFBZpQicPOLNn+wCL8Bsk=;
- b=NZPHcKhuGFdypnSnc9iI85DbsPvISGLwx6V4DeMP05PrX+lJ5VEv9IsMpQf95l0PxK
- SqkR35PHixzB6I5jAG3NUGbtYIkVVQCav8bjdAtqjLYP71Mvj3l+rF0Y/peW9XORKV7H
- UL+W3MWpXP2r3E+FlVEyLReBDscZdpHwhgaq7SG3uggqbfZ00MC1wFAQo9XND/+02yid
- ANbaq9GEhoFIywbd61pw9m/vfW6/OypTFfRO3FguL0/8LQBc50i0SWLRQk7ARkp4hHJw
- fLkemAMw40ZDL2+t/GW7GPqWM8nRP4DyAZ5nzGcoWBf4FX1/NEZKnd0Anm+IUkpfW2YK
- ujaA==
-X-Gm-Message-State: AOAM532TdNM5mE2l05KdOudpZN2s5tdM6C4IRYaYyjioMCYMypiMFio5
- J01BvwFTXwSr4kS/0NLYC6/2k9XmqC0=
-X-Google-Smtp-Source: ABdhPJzSlBmn8j9zSQ4S06OzS0vUzGwSk6vORkor2skyVKUBZU00JVUXWyeVkJpxwxilFWxmQW3giQ==
-X-Received: by 2002:a5d:464b:: with SMTP id j11mr4368080wrs.356.1627033222230; 
- Fri, 23 Jul 2021 02:40:22 -0700 (PDT)
-Received: from ?IPv6:2a02:908:1252:fb60:a0d7:cc1c:9090:5782?
- ([2a02:908:1252:fb60:a0d7:cc1c:9090:5782])
- by smtp.gmail.com with ESMTPSA id q7sm27209678wmq.33.2021.07.23.02.40.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 23 Jul 2021 02:40:21 -0700 (PDT)
-Subject: Re: [PATCH 1/5] drm/vmwgfx: unbind in vmw_ttm_unpopulate
-To: Daniel Vetter <daniel@ffwll.ch>
-References: <20210722124127.17901-1-christian.koenig@amd.com>
- <YPqCBUDiibBWUs2/@phenom.ffwll.local>
- <c83ebc42-567c-4f4c-d6da-53ff21739222@gmail.com>
- <CAKMK7uGVPnsw2o=9E295CobiY_qYdCg5fZQN4Q8Bu22r9E3WUw@mail.gmail.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <4c30a961-0a73-3f69-7733-2491549a8743@gmail.com>
-Date: Fri, 23 Jul 2021 11:40:20 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 11E3588CBF
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jul 2021 09:53:49 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id CE11E60EFD
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jul 2021 09:53:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1627034028;
+ bh=0CQEAyffV8TwIx3za1CswnRfjAeEQH1GWzJ7vfDFpu4=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=sVWY/b0+AVaf0XylPpJk0zKPl+ScICOtPDCxLcQZKyfi9kMV7b0VE1AJp5AKUXz6T
+ u+N1/UAeJpecRH2ij17dqxL19WQDV+kdQdZ/Ys8rrkLpoXNMh6cAX9Y4RsiWgzhVSU
+ ZODbVoMhdcEjDD3HEsQ9SZjlyQRhZQ/HGvmkN+uJ8lbEyKHru0sqQqW8dAsEFr/cDb
+ EOEuGbdTnXmtK2XrLgRzp7jWSvchBjkyX+MeZ2TecATQJ7bJ+ftUMXx/QokMhc7VVC
+ PWY7mS3M2vkg2V7SrmfVj0SGyuDyOkXCKzrA5NTB3y53RIaXgF8ExYHspyqvbZzUSn
+ +dsNAGeJ8y3ow==
+Received: by mail-io1-f41.google.com with SMTP id h1so1782592iol.9
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jul 2021 02:53:48 -0700 (PDT)
+X-Gm-Message-State: AOAM533MaD6U/4exOObddT/PHRcQxp1nIQnh3xjRPVRJO5DcCDGxqmje
+ dBd0o7t1tlO/gIHnyQqt2wnu4fWv+wzc+jbWbT8=
+X-Google-Smtp-Source: ABdhPJxjPas0Yjcc0eSW6elHEn29KIWLjzrPGahEmHkYgplrkWRggpqpnwNzu/7uYWgSBraJUt8ZDZYNHE4kO/pbUe4=
+X-Received: by 2002:a05:6602:2406:: with SMTP id
+ s6mr3296440ioa.159.1627034028187; 
+ Fri, 23 Jul 2021 02:53:48 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAKMK7uGVPnsw2o=9E295CobiY_qYdCg5fZQN4Q8Bu22r9E3WUw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+References: <20210722212920.347118-1-helgaas@kernel.org>
+In-Reply-To: <20210722212920.347118-1-helgaas@kernel.org>
+From: Huacai Chen <chenhuacai@kernel.org>
+Date: Fri, 23 Jul 2021 17:53:36 +0800
+X-Gmail-Original-Message-ID: <CAAhV-H52feAf0Qf7xHa2uyv1veX+dBgDr3QKXjOZzpd=wcUr3Q@mail.gmail.com>
+Message-ID: <CAAhV-H52feAf0Qf7xHa2uyv1veX+dBgDr3QKXjOZzpd=wcUr3Q@mail.gmail.com>
+Subject: Re: [PATCH v2 0/9] PCI/VGA: Rework default VGA device selection
+To: Bjorn Helgaas <helgaas@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,154 +54,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@redhat.com>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: David Airlie <airlied@linux.ie>, linux-pci <linux-pci@vger.kernel.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Bjorn Helgaas <bhelgaas@google.com>, Xuefeng Li <lixuefeng@loongson.cn>,
+ Huacai Chen <chenhuacai@loongson.cn>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 23.07.21 um 11:21 schrieb Daniel Vetter:
-> On Fri, Jul 23, 2021 at 11:13 AM Christian König
-> <ckoenig.leichtzumerken@gmail.com> wrote:
->> Am 23.07.21 um 10:47 schrieb Daniel Vetter:
->>> On Thu, Jul 22, 2021 at 02:41:23PM +0200, Christian König wrote:
->>>> Doing this in vmw_ttm_destroy() is to late.
->>>>
->>>> It turned out that this is not a good idea at all because it leaves pointers
->>>> to freed up system memory pages in the GART tables of the drivers.
->>> So I wanted to review this series, and I can't reconcile your claim here
->>> with the demidlayering Dave has done. The driver patches here don't
->>> ouright undo what Dave has done, but that means the bug has been
->>> preexisting since forever (or is due to some other change?), and your
->>> commit message is a bit confusing here.
->>>
->>> The final patch just undoes the demidlayering from Dave, and I really
->>> don't see where there's even a functional change there.
->>>
->>> And even these patches here don't really change a hole lot with the
->>> calling sequence for at least final teardown: ttm_tt_destroy_common calls
->>> ttm_tt_unpopulate as the first thing, so at least there there's no change.
->>>
->>> Can you pls elaborate more clearly what exactly you're fixing and what
->>> exactly needs to be reordered and where this bug is from (commit sha1)? As
->>> is I'm playing detective and the evidence presented is extremely since and
->>> I can't reconcile it at all.
->>>
->>> I mean I know you don't like typing commit message and documentation, but
->>> it does get occasionally rather frustrating on the reviewer side if I have
->>> to interpolate between some very sparse hints for this stuff :-/
->> Yeah, when have seen the history it's rather obvious what's wrong here
->> and I expected Dave to review it himself.
->>
->> Previously we had three states in TTM for a tt object: Allocated ->
->> Populated -> Bound which on destruction where done in the order unbind
->> -> unpopulate -> free.
->>
->> Dave moved handling of the bound state into the drivers since it is
->> basically a driver decision and not a TTM decision what should be bound
->> and what not (that part perfectly makes sense).
-> I haven't reviewed all the patches from Dave, only the one you pointed
-> at (in the last patch). And that one I still can't match up with your
-> description. If there's other commits relevant, can you pls dig them
-> out?
+Hi, Bjorn,
+
+On Fri, Jul 23, 2021 at 5:29 AM Bjorn Helgaas <helgaas@kernel.org> wrote:
 >
-> Like it all makes sense what you're saying and matches the code, I
-> just can't match it up with the commit you're referencing.
-
-That is the patch directly following the one I've mentioned:
-
-commit 37bff6542c4e140a11657406c1bab50a40329cc1
-Author: Dave Airlie <airlied@redhat.com>
-Date:   Thu Sep 17 13:24:50 2020 +1000
-
-     drm/ttm: move unbind into the tt destroy.
-
-     This moves unbind into the driver side on destroy paths.
-
-I will add a Fixes tag to make that clear.
-
-But this patch also just moves the undbind from the TTM destroy path to 
-the driver destroy path.
-
-To be honest I'm not 100% sure either when the when the unbind moved 
-from the unpopulate path into the destroy path, but I think that this 
-wasn't always the case. Let me try to dig that up.
-
->> The problem is that he also moved doing the unbind into the free
->> callback instead of the unpopulate callback. This result in stale page
->> pointers in the GART if that unpopulate operation isn't immediately
->> followed by a free.
->>
->> Thinking more about it if we do populated->unpopulated->populated then
->> we would also have stale pointers to the old pages which is even worse.
->>
->> This is also not de-midlayering since we already have a proper
->> ttm_tt_init()/ttm_tt_fini() functions which should work nicely for the
->> tt object.
-> Well you're last patch moves the ttm_tt_destroy_common stuff back into
-> ttm, which kinda is de-demidlayering. So I'm confused.
-
-Ah, yes that is correct. I've also considered to move this in 
-ttm_tt_fini instead of there.
-
-But that would be a larger change and I wanted to fix the problem at 
-hand first, potentially even adding a CC stable tag.
-
-> Other bit: I think it'd be good to document this properly in the
-> callbacks, and maybe ideally go about and kerneldoc-ify the entire
-> ttm_tt.h header. Otherwise when we eventually (never?) get around to
-> that, everyone has forgotten these semantic details and issues again.
-
-Already working towards including more of the TTM headers and code files 
-in kerneldoc. But not quite there yet.
-
-But you know, normal human: Only equipped with one head and two hands 
-and not cloneable.
-
-Cheers,
-Christian.
-
-> -Daniel
+> From: Bjorn Helgaas <bhelgaas@google.com>
 >
->> Christian.
->>
->>> -Daniel
->>>
->>>> Signed-off-by: Christian König <christian.koenig@amd.com>
->>>> ---
->>>>    drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c | 9 +++------
->>>>    1 file changed, 3 insertions(+), 6 deletions(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
->>>> index b0973c27e774..904031d03dbe 100644
->>>> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
->>>> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
->>>> @@ -526,14 +526,9 @@ static void vmw_ttm_destroy(struct ttm_device *bdev, struct ttm_tt *ttm)
->>>>       struct vmw_ttm_tt *vmw_be =
->>>>               container_of(ttm, struct vmw_ttm_tt, dma_ttm);
->>>>
->>>> -    vmw_ttm_unbind(bdev, ttm);
->>>>       ttm_tt_destroy_common(bdev, ttm);
->>>>       vmw_ttm_unmap_dma(vmw_be);
->>>> -    if (vmw_be->dev_priv->map_mode == vmw_dma_alloc_coherent)
->>>> -            ttm_tt_fini(&vmw_be->dma_ttm);
->>>> -    else
->>>> -            ttm_tt_fini(ttm);
->>>> -
->>>> +    ttm_tt_fini(ttm);
->>>>       if (vmw_be->mob)
->>>>               vmw_mob_destroy(vmw_be->mob);
->>>>
->>>> @@ -578,6 +573,8 @@ static void vmw_ttm_unpopulate(struct ttm_device *bdev,
->>>>                                                dma_ttm);
->>>>       unsigned int i;
->>>>
->>>> +    vmw_ttm_unbind(bdev, ttm);
->>>> +
->>>>       if (vmw_tt->mob) {
->>>>               vmw_mob_destroy(vmw_tt->mob);
->>>>               vmw_tt->mob = NULL;
->>>> --
->>>> 2.25.1
->>>>
+> This is a little bit of rework and extension of Huacai's nice work at [1].
 >
+> It moves the VGA arbiter to the PCI subsystem, fixes a few nits, and breaks
+> a few pieces off Huacai's patch to make the main patch a little smaller.
+>
+> That last patch is still not very small, and it needs a commit log, as I
+> mentioned at [2].
+>
+> All comments welcome!
+>
+> [1] https://lore.kernel.org/dri-devel/20210705100503.1120643-1-chenhuacai@loongson.cn/
+> [2] https://lore.kernel.org/r/20210720221923.GA43331@bjorn-Precision-5520
+Thank you for your splitting. Your two questions are answered in the following.
 
+(1) explain why your initcall ordering is unusual.
+The original problem happens on MIPS. vga_arb_device_init() and
+pcibios_init() are both wrapped by subsys_initcall(). The order of
+functions in the same level depends on the Makefile.
+
+TOP level Makefile:
+drivers-y       := drivers/ sound/
+....
+include arch/$(SRCARCH)/Makefile
+
+drivers/Makefile:
+obj-$(CONFIG_ACPI)              += acpi/
+....
+obj-y                           += gpu/
+
+arch/mips/Makefile:
+drivers-$(CONFIG_PCI)           += arch/mips/pci/
+
+This makes pcibios_init() in arch/mips/pci/ placed after
+vga_arb_device_init() in drivers/gpu. ACPI-based systems have no
+problems because acpi_init() in drivers/acpi is placed before
+vga_arb_device_init().
+
+ (2) explain the approach, which IIUC is basically to add the
+vga_arb_select_default_device() functionality to
+vga_arbiter_add_pci_device().
+vga_arb_select_default_device() has only one chance to be called, we
+want to make it be called every time a new vga device is added. So
+rename it to vga_arb_update_default_device() and move the callsite to
+vga_arbiter_add_pci_device().
+
+I think you know all the information which you need now. And you can
+reorganize the commit message based on the existing one. As English is
+not my first language, the updated commit message written by me may
+still not be as good as you want.:)
+
+Huacai
+
+>
+>
+> Bjorn Helgaas (4):
+>   PCI/VGA: Move vgaarb to drivers/pci
+>   PCI/VGA: Replace full MIT license text with SPDX identifier
+>   PCI/VGA: Use unsigned format string to print lock counts
+>   PCI/VGA: Remove empty vga_arb_device_card_gone()
+>
+> Huacai Chen (5):
+>   PCI/VGA: Move vga_arb_integrated_gpu() earlier in file
+>   PCI/VGA: Prefer vga_default_device()
+>   PCI/VGA: Split out vga_arb_update_default_device()
+>   PCI/VGA: Log bridge control messages when adding devices
+>   PCI/VGA: Rework default VGA device selection
+>
+>  drivers/gpu/vga/Kconfig           |  19 ---
+>  drivers/gpu/vga/Makefile          |   1 -
+>  drivers/pci/Kconfig               |  19 +++
+>  drivers/pci/Makefile              |   1 +
+>  drivers/{gpu/vga => pci}/vgaarb.c | 269 ++++++++++++------------------
+>  5 files changed, 126 insertions(+), 183 deletions(-)
+>  rename drivers/{gpu/vga => pci}/vgaarb.c (90%)
+>
+> --
+> 2.25.1
+>
