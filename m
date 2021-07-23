@@ -2,47 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 340783D3871
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jul 2021 12:16:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D60A3D38DF
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jul 2021 12:38:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 69D9E6EABD;
-	Fri, 23 Jul 2021 10:16:50 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5DD266EABD;
- Fri, 23 Jul 2021 10:16:49 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 2EE4A60E73;
- Fri, 23 Jul 2021 10:16:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1627035409;
- bh=eBzt2n0xOqHlBvF7aRsjRRJPQRR0GZoHKCArOqHMbnA=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=gUd3YBzYI3+ChqWwG8xG/YcyCyhLt4pdo/xN/vW5wpAXrWUFVx3R7ty+D33jEix6w
- sJ9VTEbzDcrVJAG6DGe7ZDpU2BszjzR8pBEuGxcPkmfTyonYCjm189FWGXg3KXhoES
- /4Qq8g7chg6tVPo11uw3Mt+zAFRW7B+aUSC8olGh/Q0UmiYClcAFcEdMF/xxPaSLkm
- 8bCZY4Kt+1XCdpbt7DXpg8vOFaUUV+Zs5QQBW9/Z/g60o5+zF2+lSvqsD4qRHmhWUI
- yrllJ0uG6byClZ+uRF0kLsh2uFnkLmkF1ITL0iX1vJ8jYjcCy2rIGP9/91blbZH985
- RnVtr6I0mQy5g==
-Received: by mail-wm1-f46.google.com with SMTP id k4so488815wms.3;
- Fri, 23 Jul 2021 03:16:49 -0700 (PDT)
-X-Gm-Message-State: AOAM530qGei2gvPnywdz0Cp9dKDvsOPrWvhYbSIvFza5w56bAR76ih2G
- PBgHnyHxIcg+6DMzJdjStUwmDy1Sinmg+ZeL9pw=
-X-Google-Smtp-Source: ABdhPJwBriPt4dTcNwE3BGv5cf7FScUwWKH8mN6ZDjljoRtKp64H/dz4+H7KChwVJTdiPt+6EDqL+lbLXkOOxsq0TXs=
-X-Received: by 2002:a7b:c385:: with SMTP id s5mr3670132wmj.43.1627035407814;
- Fri, 23 Jul 2021 03:16:47 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210723091534.1730564-1-arnd@kernel.org>
- <CAKMK7uHG0T7kgHzrkxoGj+Cv1-5f=GaH1CviunoZd_wEL5G4YQ@mail.gmail.com>
-In-Reply-To: <CAKMK7uHG0T7kgHzrkxoGj+Cv1-5f=GaH1CviunoZd_wEL5G4YQ@mail.gmail.com>
-From: Arnd Bergmann <arnd@kernel.org>
-Date: Fri, 23 Jul 2021 12:16:31 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a3xjS-zJFiQgjYDz2Gja4KBeHWyrQX4PrbkkZfEV2OJgg@mail.gmail.com>
-Message-ID: <CAK8P3a3xjS-zJFiQgjYDz2Gja4KBeHWyrQX4PrbkkZfEV2OJgg@mail.gmail.com>
-Subject: Re: [PATCH] drm/nouveau/kms/nv50-: fix build failure with
- CONFIG_BACKLIGHT=n
-To: Daniel Vetter <daniel@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
+	by gabe.freedesktop.org (Postfix) with ESMTP id A2C9A6FA9F;
+	Fri, 23 Jul 2021 10:38:37 +0000 (UTC)
+X-Original-To: dri-devel@freedesktop.org
+Delivered-To: dri-devel@freedesktop.org
+Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 024006FA9F
+ for <dri-devel@freedesktop.org>; Fri, 23 Jul 2021 10:38:32 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1627036716; h=Message-Id: Date: Subject: Cc: To: From:
+ Sender; bh=v7tmRSfLGtC3m5GcBKH7ZiYevjGaMrzqFRWmNjL0x3k=;
+ b=vRyiAEPmTHcdPncllnBTh5OFQ/xX1SfsfRhzh8nLcvDZWXlaDGIqpr8eIQn+hqBBxjH9RIY6
+ +tL+MMZ7lwYXzmTO/1VKjy/zVh9xFL8kB2EJ14eZHuGznC01yflgOb3Oqlde8sQvgFy66zS7
+ QXlJEAl8kRWA9pZ8qN7z45bjOcc=
+X-Mailgun-Sending-Ip: 69.72.43.7
+X-Mailgun-Sid: WyIxOTRiMSIsICJkcmktZGV2ZWxAZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n03.prod.us-east-1.postgun.com with SMTP id
+ 60fa9c1ab653fbdadda3e6c1 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 23 Jul 2021 10:38:18
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 7CF88C4338A; Fri, 23 Jul 2021 10:38:17 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
+ SPF_FAIL, 
+ URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+Received: from hyd-lnxbld559.qualcomm.com (unknown [202.46.22.19])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: akhilpo)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 4F067C433F1;
+ Fri, 23 Jul 2021 10:38:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 4F067C433F1
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=fail smtp.mailfrom=akhilpo@codeaurora.org
+From: Akhil P Oommen <akhilpo@codeaurora.org>
+To: freedreno@lists.freedesktop.org
+Subject: [PATCH 1/2] drm/msm/a6xx: Fix llcc configuration for a660 gpu
+Date: Fri, 23 Jul 2021 16:08:07 +0530
+Message-Id: <1627036688-1426-1-git-send-email-akhilpo@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,56 +63,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Arnd Bergmann <arnd@arndb.de>, David Airlie <airlied@linux.ie>,
- Nouveau Dev <nouveau@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Nikola Cornij <nikola.cornij@amd.com>, Ben Skeggs <bskeggs@redhat.com>
+Cc: dianders@chromium.org, jonathan@marek.ca, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, jordan@cosmicpenguin.net, mka@chromium.org,
+ dri-devel@freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jul 23, 2021 at 11:25 AM Daniel Vetter <daniel@ffwll.ch> wrote:
->
-> On Fri, Jul 23, 2021 at 11:15 AM Arnd Bergmann <arnd@kernel.org> wrote:
-> >
-> > From: Arnd Bergmann <arnd@arndb.de>
-> >
-> > When the backlight support is disabled, the driver fails to build:
-> >
-> > drivers/gpu/drm/nouveau/dispnv50/disp.c: In function 'nv50_sor_atomic_disable':
-> > drivers/gpu/drm/nouveau/dispnv50/disp.c:1665:59: error: 'struct nouveau_connector' has no member named 'backlight'
-> >  1665 |         struct nouveau_backlight *backlight = nv_connector->backlight;
-> >       |                                                           ^~
-> > drivers/gpu/drm/nouveau/dispnv50/disp.c:1670:35: error: invalid use of undefined type 'struct nouveau_backlight'
-> >  1670 |         if (backlight && backlight->uses_dpcd) {
-> >       |                                   ^~
-> > drivers/gpu/drm/nouveau/dispnv50/disp.c:1671:64: error: invalid use of undefined type 'struct nouveau_backlight'
-> >  1671 |                 ret = drm_edp_backlight_disable(aux, &backlight->edp_info);
-> >       |                                                                ^~
-> >
-> > The patch that introduced the problem already contains some #ifdef
-> > checks, so just add another one that makes it build again.
-> >
-> > Fixes: 6eca310e8924 ("drm/nouveau/kms/nv50-: Add basic DPCD backlight support for nouveau")
-> > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
->
-> Can we just toss the idea that BACKTLIGHT=n is a reasonable config for
-> drm drivers using backlights, and add depends BACKLIGHT to all of
-> them?
->
-> I mean this is a perfect source of continued patch streams to keep us
-> all busy, but beyond that I really don't see the point ... I frankly
-> have better things to do, and especially with the big drivers we have
-> making backlight optional saves comparitively nothing.
-> -Daniel
+Add the missing scache_cntl0 register programing which is required for
+a660 gpu.
 
-Yes! I'd definitely be in favor of that, I've wasted way too much time trying
-to sort through dependency loops and other problems with backlight support.
+Signed-off-by: Akhil P Oommen <akhilpo@codeaurora.org>
+---
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 46 ++++++++++++++++++++---------------
+ 1 file changed, 27 insertions(+), 19 deletions(-)
 
-Maybe we should leave the drivers/video/fbdev/ drivers untouched in this
-regard, at least for the moment, but for the drivers/gpu/drm users of
-backlight that would be a nice simplification, and even the smallest ones
-are unlikely to be used on systems that are too memory constrained to
-deal with 4KB extra .text.
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+index 9c5e461..183b9f9 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+@@ -1383,13 +1383,13 @@ static void a6xx_llc_activate(struct a6xx_gpu *a6xx_gpu)
+ {
+ 	struct adreno_gpu *adreno_gpu = &a6xx_gpu->base;
+ 	struct msm_gpu *gpu = &adreno_gpu->base;
+-	u32 cntl1_regval = 0;
++	u32 gpu_scid, cntl1_regval = 0;
+ 
+ 	if (IS_ERR(a6xx_gpu->llc_mmio))
+ 		return;
+ 
+ 	if (!llcc_slice_activate(a6xx_gpu->llc_slice)) {
+-		u32 gpu_scid = llcc_get_slice_id(a6xx_gpu->llc_slice);
++		gpu_scid = llcc_get_slice_id(a6xx_gpu->llc_slice);
+ 
+ 		gpu_scid &= 0x1f;
+ 		cntl1_regval = (gpu_scid << 0) | (gpu_scid << 5) | (gpu_scid << 10) |
+@@ -1409,26 +1409,34 @@ static void a6xx_llc_activate(struct a6xx_gpu *a6xx_gpu)
+ 		}
+ 	}
+ 
+-	if (cntl1_regval) {
++	if (!cntl1_regval)
++		return;
++
++	/*
++	 * Program the slice IDs for the various GPU blocks and GPU MMU
++	 * pagetables
++	 */
++	if (!a6xx_gpu->have_mmu500) {
++		a6xx_llc_write(a6xx_gpu,
++			REG_A6XX_CX_MISC_SYSTEM_CACHE_CNTL_1, cntl1_regval);
++
+ 		/*
+-		 * Program the slice IDs for the various GPU blocks and GPU MMU
+-		 * pagetables
++		 * Program cacheability overrides to not allocate cache
++		 * lines on a write miss
+ 		 */
+-		if (a6xx_gpu->have_mmu500)
+-			gpu_rmw(gpu, REG_A6XX_GBIF_SCACHE_CNTL1, GENMASK(24, 0),
+-				cntl1_regval);
+-		else {
+-			a6xx_llc_write(a6xx_gpu,
+-				REG_A6XX_CX_MISC_SYSTEM_CACHE_CNTL_1, cntl1_regval);
+-
+-			/*
+-			 * Program cacheability overrides to not allocate cache
+-			 * lines on a write miss
+-			 */
+-			a6xx_llc_rmw(a6xx_gpu,
+-				REG_A6XX_CX_MISC_SYSTEM_CACHE_CNTL_0, 0xF, 0x03);
+-		}
++		a6xx_llc_rmw(a6xx_gpu,
++			REG_A6XX_CX_MISC_SYSTEM_CACHE_CNTL_0, 0xF, 0x03);
++		return;
+ 	}
++
++	gpu_rmw(gpu, REG_A6XX_GBIF_SCACHE_CNTL1, GENMASK(24, 0), cntl1_regval);
++
++	/* On A660, the SCID programming for UCHE traffic is done in
++	 * A6XX_GBIF_SCACHE_CNTL0[14:10]
++	 */
++	if (adreno_is_a660(adreno_gpu))
++		gpu_rmw(gpu, REG_A6XX_GBIF_SCACHE_CNTL0, (0x1f << 10) |
++			(1 << 8), (gpu_scid << 10) | (1 << 8));
+ }
+ 
+ static void a6xx_llc_slices_destroy(struct a6xx_gpu *a6xx_gpu)
+-- 
+QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
+of Code Aurora Forum, hosted by The Linux Foundation.
 
-       Arnd
