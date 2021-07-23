@@ -1,58 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CB1A3D393C
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jul 2021 13:14:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 988783D394E
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jul 2021 13:17:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 899C86FAD9;
-	Fri, 23 Jul 2021 11:14:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 49E436FADB;
+	Fri, 23 Jul 2021 11:17:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc29.google.com (mail-oo1-xc29.google.com
- [IPv6:2607:f8b0:4864:20::c29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B83F6FAD9
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jul 2021 11:13:59 +0000 (UTC)
-Received: by mail-oo1-xc29.google.com with SMTP id
- o17-20020a4a64110000b0290263e1ba7ff9so285610ooc.2
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jul 2021 04:13:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=4Nwk9qPAQEz7a/8yg7VWdxwdIwFtkYHBh+612HjXFR8=;
- b=ed8KUGsfCqWAQcQfBhF88Y9OVbMf4kku9i0iSmPQyK4UKJA8IW5SwF4EiYlGu5gvXZ
- 9zOtQB+o4iAK73tSfN3TlCHiB0dOF9wOXyxpoQ3Hk3aw/Iwif3d9xeq0OWQ06Mo0P9Vk
- 5d//f/EJQcO/kNZCkh/zg9Z6DEE9RnSunxT6W/jy9Fa9XF/EaGVTWFs1uda5bTvuHhhm
- pCjHFdJfBbdSyBt2DY/Cv5PKRLsF6cHoKCJe7/sxvC7sZlEHwS016uiJb36x3RQoTKc5
- lL1D5HjuBEmQXMoBhVXoTfAg09+M0tKn2jLDax6QxhSO7OiFYp7fSUwUFTJAKhCi3dc2
- R8eQ==
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com
+ [IPv6:2a00:1450:4864:20::433])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 22B686FADB
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jul 2021 11:17:28 +0000 (UTC)
+Received: by mail-wr1-x433.google.com with SMTP id t17so1995357wrq.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jul 2021 04:17:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=S8WwVQRfLT+0YgVaktWAs6cKEtHZfTnHXotrbhRYPLk=;
+ b=EVouAHej+UXSehgbUHqpNrOqCHh2c7UAnWBbWV79YZa1GRI8jJ+YiBXaUoF6hn7hhE
+ qqYby6CFmllOEXR2XPaJUOqXgGCG4A26juXm+mWuibBekkAfOyGJ9hAMcWBU/p27We02
+ pDjVchqV7m8X6MYnTpiGCI55twrrwQrR3pEIt8uPB4ooLlMMXQvENky0JOcxhL8i+4ce
+ Qur56fAc+1hCpl6B/5dKCk/f0xrUvKjBXP0AjXb7Py6jjGQXXZ1/14T5jWSaEu2L8XiP
+ CC2XwQFL86ki3TCZklLYGPI88z8NEhoAbaAa7u7PlAkNjdYR1HRmexpzTCkIYWH73eAC
+ B3KQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=4Nwk9qPAQEz7a/8yg7VWdxwdIwFtkYHBh+612HjXFR8=;
- b=acV09dyIZs78flH3S/C8luhJFyTktOLv0nutTnx68e5mDy/qiYH0m5dWACaWXoHd3l
- rO9DabfHRKK08l8zOjjaQkG90nuU5gTIcqksj2fXk3RT9oaoNCrPVpNAyq6v0NZTqcrr
- YVMOoniVlYZwQfa1xaCvnqZ5Zt7eJIQn4aNIfH8fM6iNMI+xEpItXdLDPwWattwSThnt
- kOt2lzXoKq9fC6gRiyQby2unwzUYvkp/FRBrItnqRHelMlcD7opSk3LxD1wS8zb2PniP
- qDyj4/ZP8D+2bEvipgbTnSKq1AvJr0xLFrEp7vryo9KXgye3fS2WgnOAUqW6SLTgfHUi
- jfYA==
-X-Gm-Message-State: AOAM532/UeASSTdVGJguDHk9N6mlh6UAABn6ARdKiAhf1n6jjzZhlguu
- kZl1KyXx8Ii6BT3J8w8p+pkPRtmLQB0uqIRyZsc=
-X-Google-Smtp-Source: ABdhPJzNCCp8fTtO0kzSFLOUM+lawDoT2CfKUL3Rr/JKyIfNM4DwmUjfKyJ5eSEbSZzASHckgWxaWjAwJmhGfdvT0m0=
-X-Received: by 2002:a05:6820:444:: with SMTP id
- p4mr2336576oou.75.1627038838422; 
- Fri, 23 Jul 2021 04:13:58 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=S8WwVQRfLT+0YgVaktWAs6cKEtHZfTnHXotrbhRYPLk=;
+ b=C89/BXyaAnRu9DT/h21uSrpDkGYLGSqWUcQvkKZorDipEQJnuZIF26ITyMFgz5IXqB
+ fdq3R4prrx/nYb6G6zJSa0Xvt2/zhmgqDLSf7gbqLJe+WvS9o9ZrK4PJhqB27fnUh7mb
+ oIgrGTQcVg8/Ko4Aw/uVqF2suS8UzjhSDKUDVmQck8F4i5NZOf/vi0xffPxE5G3kVJyd
+ CJez+vcC2d4wKS2tsYjv5PLXz4DRiFdBQa3gCcd+zkAtrxRWzdSNymfcpDWiI7wz5lGE
+ PjuJOcgdjA4CkvRpOo209VGBXQgtE9WVrNQnGMLRrvsiwgVRVNouBIbajeXjkltii2ed
+ NDOw==
+X-Gm-Message-State: AOAM530lLoyXYYWTTyhbOD6V/6vK6sir/rdXHtHxbXkWwzoo328WTBIV
+ ZMXwQcLteNSjs7AoWudSjj4Fhw==
+X-Google-Smtp-Source: ABdhPJzJM2NBkW1FR8tuwIoIfkquQ155By0Bouro5WdgnqSK60iUBFW3nLZji5lk49wRS+uuNjb3Ng==
+X-Received: by 2002:a05:6000:120f:: with SMTP id
+ e15mr4672334wrx.399.1627039046608; 
+ Fri, 23 Jul 2021 04:17:26 -0700 (PDT)
+Received: from maple.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net.
+ [80.7.220.175])
+ by smtp.gmail.com with ESMTPSA id j20sm734263wmi.1.2021.07.23.04.17.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 23 Jul 2021 04:17:25 -0700 (PDT)
+Date: Fri, 23 Jul 2021 12:17:24 +0100
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: Marek Vasut <marex@denx.de>
+Subject: Re: [PATCH] backlight: pwm_bl: Avoid backlight flicker if backlight
+ control GPIO is input
+Message-ID: <20210723111724.q4yu2ocgn5fdzge6@maple.lan>
+References: <20210718211415.143709-1-marex@denx.de>
+ <20210719112202.4fvmn57ibgy3yesa@maple.lan>
+ <bbaad78e-91c7-0787-fa72-b5cfabcc6dbd@denx.de>
+ <20210721104914.4difos6w3ysjelnv@maple.lan>
+ <fee1ad9e-ae70-1644-5444-6c894473b48e@denx.de>
+ <20210721161249.gehnwkscto2hlh7s@maple.lan>
+ <298f6a35-2120-60a6-598a-87b141118bfa@denx.de>
+ <20210722112824.z5s2fst2q3vrblcr@maple.lan>
+ <dd372ddc-0137-2f1c-8493-4bd38762384c@denx.de>
+ <20210723101510.r2xz4rlzvgkhxtw3@maple.lan>
 MIME-Version: 1.0
-References: <20210722092624.14401-1-jason-jh.lin@mediatek.com>
- <20210722092624.14401-2-jason-jh.lin@mediatek.com>
-In-Reply-To: <20210722092624.14401-2-jason-jh.lin@mediatek.com>
-From: Enric Balletbo Serra <eballetbo@gmail.com>
-Date: Fri, 23 Jul 2021 13:13:46 +0200
-Message-ID: <CAFqH_51qKkxMit5fkSh_AyeNAYwKnoPe09nwJLKaKez26+HUew@mail.gmail.com>
-Subject: Re: [PATCH v1 1/5] dt-bindings: arm: mediatek: mmsys: add mt8195 SoC
- binding
-To: "jason-jh.lin" <jason-jh.lin@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210723101510.r2xz4rlzvgkhxtw3@maple.lan>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,62 +79,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Jitao shi <jitao.shi@mediatek.com>,
- fshao@chromium.org, David Airlie <airlied@linux.ie>, singo.chang@mediatek.com,
- linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Fabien Parent <fparent@baylibre.com>, devicetree <devicetree@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- "Nancy.Lin" <nancy.lin@mediatek.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: linux-pwm@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Thierry Reding <treding@nvidia.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jason,
+On Fri, Jul 23, 2021 at 11:15:10AM +0100, Daniel Thompson wrote:
+> On Thu, Jul 22, 2021 at 09:02:04PM +0200, Marek Vasut wrote:
+> > On 7/22/21 1:28 PM, Daniel Thompson wrote:
+> > > On Wed, Jul 21, 2021 at 08:46:42PM +0200, Marek Vasut wrote:
+> > > > On 7/21/21 6:12 PM, Daniel Thompson wrote:
+> > > > > On Wed, Jul 21, 2021 at 05:09:57PM +0200, Marek Vasut wrote:
+> > > > > > On 7/21/21 12:49 PM, Daniel Thompson wrote:
+> > > > > [...]
+> > > > > This sails very close to the
+> > > > > edge of what is in-scope for DT (at least it does it we can read
+> > > > > the inherited state directly from the hardware).
+> > > > 
+> > > > The problem with reading it out of hardware is that the hardware might be in
+> > > > undefined state and expects Linux to define that state, so that does not
+> > > > always work. Hence my initial suggestion to add a DT property to define the
+> > > > state up front, instead of using these fragile heuristics.
+> > > 
+> > > To achieve a flicker-free boot we must know the initial state of the
+> > > backlight (not just the enable pin).
+> > 
+> > The backlight hardware might be in uninitialized state and then Linux should
+> > set the state, likely based on something in DT, because there is no previous
+> > state to read.
+> 
+> There is always a previous state. The kernel doesn't care whether that
+> previous state was imposed by a power-on reset, the bootloader or a
+> kexec.
+> 
+> For the driver to come up flicker-free in all the different cases we
+> need to know whether the backlight is currently emitting light or not
+> and, if it is emitting light, then we need to know what the duty cycle
+> is (currently we inherit require the PWM driver to correctly inherit the
+> duty cycle from the hardware).
 
-Thank you for your patch.
+Oops... this is wrong (I think it is cross-talk from an old patch). We
+do not currently inherit the duty cycle.
 
-Missatge de jason-jh.lin <jason-jh.lin@mediatek.com> del dia dj., 22
-de jul. 2021 a les 11:26:
->
-> There are 2 display hardware path in mt8195, namely vdosys0 and
-> vdosys1, so add their definition in mtk-mmsys documentation.
->
 
-Just having 2 display hardware paths is not a reason to have two
-compatibles, isn't the IP block the same? Why do you need to introduce
-the two compatibles?
+> So far, the previous state has been observable by the lower level
+> drivers (GPIO, PWM, regulator). I remain reluctant to provide
+> workarounds for cases where it is not observable without motivating
+> hardware. I certainly wouldn't want to make such bindings mandatory
+> since observable hardware registers are a far more reliable source of
+> truth than what the DT tells us about what it thinks the bootloader
+> (or power-on reset) actually did ;-).
 
-Thanks,
-  Enric
+Which makes conclusion badly reasoned.
 
-> Signed-off-by: jason-jh.lin <jason-jh.lin@mediatek.com>
-> ---
-> this patch is base on [1][2]
->
-> [1] dt-bindings: arm: mediatek: mmsys: convert to YAML format
-> - https://patchwork.kernel.org/project/linux-mediatek/patch/20210519161847.3747352-1-fparent@baylibre.com/
-> [2] dt-bindings: arm: mediatek: mmsys: add MT8365 SoC binding
-> - https://patchwork.kernel.org/project/linux-mediatek/patch/20210519161847.3747352-2-fparent@baylibre.com/
-> ---
->  .../devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml        | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml b/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml
-> index 2d4ff0ce387b..0789a9614f12 100644
-> --- a/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml
-> +++ b/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml
-> @@ -30,6 +30,8 @@ properties:
->                - mediatek,mt8173-mmsys
->                - mediatek,mt8183-mmsys
->                - mediatek,mt8365-mmsys
-> +              - mediatek,mt8195-vdosys0
-> +              - mediatek,mt8195-vdosys1
->            - const: syscon
->        - items:
->            - const: mediatek,mt7623-mmsys
-> --
-> 2.18.0
->
+However, until we can clearly articulate whether the problem we want to
+solve is describing the initial backlight state or specifying the default
+(post-probe) power state for the legacy cases I'm still content not to
+change things ;-).
+
+
+> > > [...]
+> > > Wow! That is *way* longer than I intended when I started writing it.
+> > > Anyhow I suspect any disconnect comes about due to the difference in
+> > > backlight state *after* probe being, in part, to software structure
+> > > rather than purely a hardware property.
+> > 
+> > Maybe this should be added to documentation.
+> 
+> I'll see what I can do.
+
+Done, see v3. I think it is better explained than the e-mail version.
+
+
+Daniel.
