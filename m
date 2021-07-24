@@ -1,31 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 866BE3D4399
-	for <lists+dri-devel@lfdr.de>; Sat, 24 Jul 2021 02:11:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C9463D43A5
+	for <lists+dri-devel@lfdr.de>; Sat, 24 Jul 2021 02:11:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 263956FD16;
-	Sat, 24 Jul 2021 00:11:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C58456FD21;
+	Sat, 24 Jul 2021 00:11:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 10E386FD16;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3323F6FD17;
  Sat, 24 Jul 2021 00:11:29 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10054"; a="191563440"
-X-IronPort-AV: E=Sophos;i="5.84,265,1620716400"; d="scan'208";a="191563440"
+X-IronPort-AV: E=McAfee;i="6200,9189,10054"; a="191563441"
+X-IronPort-AV: E=Sophos;i="5.84,265,1620716400"; d="scan'208";a="191563441"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  23 Jul 2021 17:11:27 -0700
-X-IronPort-AV: E=Sophos;i="5.84,265,1620716400"; d="scan'208";a="434269962"
+X-IronPort-AV: E=Sophos;i="5.84,265,1620716400"; d="scan'208";a="434269966"
 Received: from lucas-s2600cw.jf.intel.com ([10.165.21.202])
  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  23 Jul 2021 17:11:26 -0700
 From: Lucas De Marchi <lucas.demarchi@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 01/30] drm/i915: fix not reading DSC disable fuse in GLK
-Date: Fri, 23 Jul 2021 17:10:45 -0700
-Message-Id: <20210724001114.249295-2-lucas.demarchi@intel.com>
+Subject: [PATCH 02/30] drm/i915/display: split DISPLAY_VER 9 and 10 in
+ intel_setup_outputs()
+Date: Fri, 23 Jul 2021 17:10:46 -0700
+Message-Id: <20210724001114.249295-3-lucas.demarchi@intel.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210724001114.249295-1-lucas.demarchi@intel.com>
 References: <20210724001114.249295-1-lucas.demarchi@intel.com>
@@ -43,64 +44,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
- Jose Souza <jose.souza@intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Jani Nikula <jani.nikula@intel.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, Jose Souza <jose.souza@intel.com>,
+ Christoph Hellwig <hch@infradead.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We were using GRAPHICS_VER() to handle SKL_DFSM register, which means we
-were not handling GLK correctly since that has GRAPHICS_VER == 9, but
-DISPLAY_VER == 10. Switch the entire branch to check DISPLAY_VER
-which makes it more in line with Bspec.
+Commit 5a9d38b20a5a ("drm/i915/display: hide workaround for broken vbt
+in intel_bios.c") moved the workaround for broken or missing VBT to
+intel_bios.c. However is_port_valid() only protects the handling of
+different skus of the same display version. Since in
+intel_setup_outputs() we share the code path with version 9, this would
+also create port F for SKL/KBL, which does not exist.
 
-Even though the Bspec has an exception for RKL in
-TGL_DFSM_PIPE_D_DISABLE, we don't have to do anything as the bit has
-disable semantic and RKL doesn't have pipe D.
+Missing VBT can be reproduced when starting a headless QEMU with no
+opregion available.
 
-Bspec: 50075, 7548
-Fixes: 2b5a4562edd0 ("drm/i915/display: Simplify GLK display version tests")
-Cc: Matt Roper <matthew.d.roper@intel.com>
+Avoid the issue by splitting versions 9 and 10 in intel_setup_outputs(),
+which also makes it more clear what code path it's taking for each
+version.
+
+v2: move generic display version after Geminilake since that one has
+a different set of outputs
+
+Fixes: 5a9d38b20a5a ("drm/i915/display: hide workaround for broken vbt in intel_bios.c")
+Cc: Jani Nikula <jani.nikula@intel.com>
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Reported-by: Christoph Hellwig <hch@infradead.org>
 Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
+Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Reviewed-by: Matt Roper <matthew.d.roper@intel.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20210722232922.3796835-1-lucas.demarchi@intel.com
 ---
- drivers/gpu/drm/i915/intel_device_info.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/i915/display/intel_display.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/i915/intel_device_info.c b/drivers/gpu/drm/i915/intel_device_info.c
-index d5cf5977938a..99b51c292942 100644
---- a/drivers/gpu/drm/i915/intel_device_info.c
-+++ b/drivers/gpu/drm/i915/intel_device_info.c
-@@ -335,7 +335,7 @@ void intel_device_info_runtime_init(struct drm_i915_private *dev_priv)
- 			info->pipe_mask &= ~BIT(PIPE_C);
- 			info->cpu_transcoder_mask &= ~BIT(TRANSCODER_C);
- 		}
--	} else if (HAS_DISPLAY(dev_priv) && GRAPHICS_VER(dev_priv) >= 9) {
-+	} else if (HAS_DISPLAY(dev_priv) && DISPLAY_VER(dev_priv) >= 9) {
- 		u32 dfsm = intel_de_read(dev_priv, SKL_DFSM);
+diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
+index 400f062d785a..4633d4e00e6b 100644
+--- a/drivers/gpu/drm/i915/display/intel_display.c
++++ b/drivers/gpu/drm/i915/display/intel_display.c
+@@ -11409,13 +11409,19 @@ static void intel_setup_outputs(struct drm_i915_private *dev_priv)
+ 		intel_ddi_init(dev_priv, PORT_B);
+ 		intel_ddi_init(dev_priv, PORT_C);
+ 		vlv_dsi_init(dev_priv);
+-	} else if (DISPLAY_VER(dev_priv) >= 9) {
++	} else if (DISPLAY_VER(dev_priv) == 10) {
+ 		intel_ddi_init(dev_priv, PORT_A);
+ 		intel_ddi_init(dev_priv, PORT_B);
+ 		intel_ddi_init(dev_priv, PORT_C);
+ 		intel_ddi_init(dev_priv, PORT_D);
+ 		intel_ddi_init(dev_priv, PORT_E);
+ 		intel_ddi_init(dev_priv, PORT_F);
++	} else if (DISPLAY_VER(dev_priv) >= 9) {
++		intel_ddi_init(dev_priv, PORT_A);
++		intel_ddi_init(dev_priv, PORT_B);
++		intel_ddi_init(dev_priv, PORT_C);
++		intel_ddi_init(dev_priv, PORT_D);
++		intel_ddi_init(dev_priv, PORT_E);
+ 	} else if (HAS_DDI(dev_priv)) {
+ 		u32 found;
  
- 		if (dfsm & SKL_DFSM_PIPE_A_DISABLE) {
-@@ -350,7 +350,8 @@ void intel_device_info_runtime_init(struct drm_i915_private *dev_priv)
- 			info->pipe_mask &= ~BIT(PIPE_C);
- 			info->cpu_transcoder_mask &= ~BIT(TRANSCODER_C);
- 		}
--		if (GRAPHICS_VER(dev_priv) >= 12 &&
-+
-+		if (DISPLAY_VER(dev_priv) >= 12 &&
- 		    (dfsm & TGL_DFSM_PIPE_D_DISABLE)) {
- 			info->pipe_mask &= ~BIT(PIPE_D);
- 			info->cpu_transcoder_mask &= ~BIT(TRANSCODER_D);
-@@ -362,10 +363,10 @@ void intel_device_info_runtime_init(struct drm_i915_private *dev_priv)
- 		if (dfsm & SKL_DFSM_DISPLAY_PM_DISABLE)
- 			info->display.has_fbc = 0;
- 
--		if (GRAPHICS_VER(dev_priv) >= 11 && (dfsm & ICL_DFSM_DMC_DISABLE))
-+		if (DISPLAY_VER(dev_priv) >= 11 && (dfsm & ICL_DFSM_DMC_DISABLE))
- 			info->display.has_dmc = 0;
- 
--		if (GRAPHICS_VER(dev_priv) >= 10 &&
-+		if (DISPLAY_VER(dev_priv) >= 10 &&
- 		    (dfsm & CNL_DFSM_DISPLAY_DSC_DISABLE))
- 			info->display.has_dsc = 0;
- 	}
 -- 
 2.31.1
 
