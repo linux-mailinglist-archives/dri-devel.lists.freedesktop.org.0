@@ -1,31 +1,31 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B10E33D43DF
-	for <lists+dri-devel@lfdr.de>; Sat, 24 Jul 2021 02:12:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5369C3D43DE
+	for <lists+dri-devel@lfdr.de>; Sat, 24 Jul 2021 02:12:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F8066FD5E;
+	by gabe.freedesktop.org (Postfix) with ESMTP id C60956FD60;
 	Sat, 24 Jul 2021 00:11:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A0D946FD1C;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EEED36FD36;
  Sat, 24 Jul 2021 00:11:36 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10054"; a="191563470"
-X-IronPort-AV: E=Sophos;i="5.84,265,1620716400"; d="scan'208";a="191563470"
+X-IronPort-AV: E=McAfee;i="6200,9189,10054"; a="191563471"
+X-IronPort-AV: E=Sophos;i="5.84,265,1620716400"; d="scan'208";a="191563471"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  23 Jul 2021 17:11:36 -0700
-X-IronPort-AV: E=Sophos;i="5.84,265,1620716400"; d="scan'208";a="434270054"
+X-IronPort-AV: E=Sophos;i="5.84,265,1620716400"; d="scan'208";a="434270058"
 Received: from lucas-s2600cw.jf.intel.com ([10.165.21.202])
  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  23 Jul 2021 17:11:36 -0700
 From: Lucas De Marchi <lucas.demarchi@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 27/30] drm/i915: remove GRAPHICS_VER == 10
-Date: Fri, 23 Jul 2021 17:11:11 -0700
-Message-Id: <20210724001114.249295-28-lucas.demarchi@intel.com>
+Subject: [PATCH 28/30] drm/i915: rename/remove CNL registers
+Date: Fri, 23 Jul 2021 17:11:12 -0700
+Message-Id: <20210724001114.249295-29-lucas.demarchi@intel.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210724001114.249295-1-lucas.demarchi@intel.com>
 References: <20210724001114.249295-1-lucas.demarchi@intel.com>
@@ -48,454 +48,392 @@ Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Replace all remaining handling of GRAPHICS_VER {==,>=} 10 with
-{==,>=} 11. With the removal of CNL, there is no platform with graphics
-version equals 10.
+Remove registers that are not used anymore due to CNL removal and rename
+those that are.
 
 Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
 ---
- drivers/gpu/drm/i915/gem/i915_gem_stolen.c    |  1 -
- drivers/gpu/drm/i915/gt/debugfs_gt_pm.c       | 10 ++---
- drivers/gpu/drm/i915/gt/intel_engine_cs.c     |  3 --
- drivers/gpu/drm/i915/gt/intel_ggtt.c          |  4 +-
- .../gpu/drm/i915/gt/intel_gt_clock_utils.c    | 10 ++---
- drivers/gpu/drm/i915/gt/intel_gtt.c           |  6 +--
- drivers/gpu/drm/i915/gt/intel_lrc.c           | 42 +------------------
- drivers/gpu/drm/i915/gt/intel_rc6.c           |  2 +-
- drivers/gpu/drm/i915/gt/intel_rps.c           |  4 +-
- drivers/gpu/drm/i915/gt/intel_sseu_debugfs.c  |  6 +--
- drivers/gpu/drm/i915/gvt/gtt.c                |  2 +-
- drivers/gpu/drm/i915/i915_debugfs.c           |  6 +--
- drivers/gpu/drm/i915/i915_drv.h               |  2 +-
- drivers/gpu/drm/i915/i915_perf.c              | 21 ++++------
- drivers/gpu/drm/i915/intel_device_info.c      |  4 +-
- 15 files changed, 37 insertions(+), 86 deletions(-)
+ drivers/gpu/drm/i915/i915_reg.h          | 192 ++++++-----------------
+ drivers/gpu/drm/i915/intel_device_info.c |   2 +-
+ 2 files changed, 48 insertions(+), 146 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c b/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
-index 90708de27684..ddd37ccb1362 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
-@@ -447,7 +447,6 @@ static int i915_gem_init_stolen(struct intel_memory_region *mem)
- 		break;
- 	case 8:
- 	case 9:
--	case 10:
- 		if (IS_LP(i915))
- 			chv_get_stolen_reserved(i915, uncore,
- 						&reserved_base, &reserved_size);
-diff --git a/drivers/gpu/drm/i915/gt/debugfs_gt_pm.c b/drivers/gpu/drm/i915/gt/debugfs_gt_pm.c
-index 4270b5a34a83..d6f5836396f8 100644
---- a/drivers/gpu/drm/i915/gt/debugfs_gt_pm.c
-+++ b/drivers/gpu/drm/i915/gt/debugfs_gt_pm.c
-@@ -437,20 +437,20 @@ static int frequency_show(struct seq_file *m, void *unused)
- 		max_freq = (IS_GEN9_LP(i915) ? rp_state_cap >> 0 :
- 			    rp_state_cap >> 16) & 0xff;
- 		max_freq *= (IS_GEN9_BC(i915) ||
--			     GRAPHICS_VER(i915) >= 10 ? GEN9_FREQ_SCALER : 1);
-+			     GRAPHICS_VER(i915) >= 11 ? GEN9_FREQ_SCALER : 1);
- 		seq_printf(m, "Lowest (RPN) frequency: %dMHz\n",
- 			   intel_gpu_freq(rps, max_freq));
+diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
+index 8782d1723254..925cbdb53712 100644
+--- a/drivers/gpu/drm/i915/i915_reg.h
++++ b/drivers/gpu/drm/i915/i915_reg.h
+@@ -1877,7 +1877,7 @@ static inline bool i915_mmio_reg_valid(i915_reg_t reg)
+ #define BXT_PORT_CL1CM_DW30(phy)	_BXT_PHY((phy), _PORT_CL1CM_DW30_BC)
  
- 		max_freq = (rp_state_cap & 0xff00) >> 8;
- 		max_freq *= (IS_GEN9_BC(i915) ||
--			     GRAPHICS_VER(i915) >= 10 ? GEN9_FREQ_SCALER : 1);
-+			     GRAPHICS_VER(i915) >= 11 ? GEN9_FREQ_SCALER : 1);
- 		seq_printf(m, "Nominal (RP1) frequency: %dMHz\n",
- 			   intel_gpu_freq(rps, max_freq));
+ /*
+- * CNL/ICL Port/COMBO-PHY Registers
++ * ICL Port/COMBO-PHY Registers
+  */
+ #define _ICL_COMBOPHY_A			0x162000
+ #define _ICL_COMBOPHY_B			0x6C000
+@@ -1891,11 +1891,10 @@ static inline bool i915_mmio_reg_valid(i915_reg_t reg)
+ 					      _RKL_COMBOPHY_D, \
+ 					      _ADL_COMBOPHY_E)
  
- 		max_freq = (IS_GEN9_LP(i915) ? rp_state_cap >> 16 :
- 			    rp_state_cap >> 0) & 0xff;
- 		max_freq *= (IS_GEN9_BC(i915) ||
--			     GRAPHICS_VER(i915) >= 10 ? GEN9_FREQ_SCALER : 1);
-+			     GRAPHICS_VER(i915) >= 11 ? GEN9_FREQ_SCALER : 1);
- 		seq_printf(m, "Max non-overclocked (RP0) frequency: %dMHz\n",
- 			   intel_gpu_freq(rps, max_freq));
- 		seq_printf(m, "Max overclocked frequency: %dMHz\n",
-@@ -500,7 +500,7 @@ static int llc_show(struct seq_file *m, void *data)
+-/* CNL/ICL Port CL_DW registers */
++/* ICL Port CL_DW registers */
+ #define _ICL_PORT_CL_DW(dw, phy)	(_ICL_COMBOPHY(phy) + \
+ 					 4 * (dw))
  
- 	min_gpu_freq = rps->min_freq;
- 	max_gpu_freq = rps->max_freq;
--	if (IS_GEN9_BC(i915) || GRAPHICS_VER(i915) >= 10) {
-+	if (IS_GEN9_BC(i915) || GRAPHICS_VER(i915) >= 11) {
- 		/* Convert GT frequency to 50 HZ units */
- 		min_gpu_freq /= GEN9_FREQ_SCALER;
- 		max_gpu_freq /= GEN9_FREQ_SCALER;
-@@ -518,7 +518,7 @@ static int llc_show(struct seq_file *m, void *data)
- 			   intel_gpu_freq(rps,
- 					  (gpu_freq *
- 					   (IS_GEN9_BC(i915) ||
--					    GRAPHICS_VER(i915) >= 10 ?
-+					    GRAPHICS_VER(i915) >= 11 ?
- 					    GEN9_FREQ_SCALER : 1))),
- 			   ((ia_freq >> 0) & 0xff) * 100,
- 			   ((ia_freq >> 8) & 0xff) * 100);
-diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-index 4168b9fc59e1..152b5493a455 100644
---- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-+++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-@@ -35,7 +35,6 @@
- #define DEFAULT_LR_CONTEXT_RENDER_SIZE	(22 * PAGE_SIZE)
- #define GEN8_LR_CONTEXT_RENDER_SIZE	(20 * PAGE_SIZE)
- #define GEN9_LR_CONTEXT_RENDER_SIZE	(22 * PAGE_SIZE)
--#define GEN10_LR_CONTEXT_RENDER_SIZE	(18 * PAGE_SIZE)
- #define GEN11_LR_CONTEXT_RENDER_SIZE	(14 * PAGE_SIZE)
+-#define CNL_PORT_CL1CM_DW5		_MMIO(0x162014)
+ #define ICL_PORT_CL_DW5(phy)		_MMIO(_ICL_PORT_CL_DW(5, phy))
+ #define   CL_POWER_DOWN_ENABLE		(1 << 4)
+ #define   SUS_CLOCK_CONFIG		(3 << 0)
+@@ -1920,19 +1919,16 @@ static inline bool i915_mmio_reg_valid(i915_reg_t reg)
+ #define ICL_PORT_CL_DW12(phy)		_MMIO(_ICL_PORT_CL_DW(12, phy))
+ #define   ICL_LANE_ENABLE_AUX		(1 << 0)
  
- #define GEN8_LR_CONTEXT_OTHER_SIZE	( 2 * PAGE_SIZE)
-@@ -149,8 +148,6 @@ u32 intel_engine_context_size(struct intel_gt *gt, u8 class)
- 		case 12:
- 		case 11:
- 			return GEN11_LR_CONTEXT_RENDER_SIZE;
--		case 10:
--			return GEN10_LR_CONTEXT_RENDER_SIZE;
- 		case 9:
- 			return GEN9_LR_CONTEXT_RENDER_SIZE;
- 		case 8:
-diff --git a/drivers/gpu/drm/i915/gt/intel_ggtt.c b/drivers/gpu/drm/i915/gt/intel_ggtt.c
-index 9d445ad9a342..de3ac58fceec 100644
---- a/drivers/gpu/drm/i915/gt/intel_ggtt.c
-+++ b/drivers/gpu/drm/i915/gt/intel_ggtt.c
-@@ -826,13 +826,13 @@ static int ggtt_probe_common(struct i915_ggtt *ggtt, u64 size)
- 	phys_addr = pci_resource_start(pdev, 0) + pci_resource_len(pdev, 0) / 2;
+-/* CNL/ICL Port COMP_DW registers */
++/* ICL Port COMP_DW registers */
+ #define _ICL_PORT_COMP			0x100
+ #define _ICL_PORT_COMP_DW(dw, phy)	(_ICL_COMBOPHY(phy) + \
+ 					 _ICL_PORT_COMP + 4 * (dw))
  
- 	/*
--	 * On BXT+/CNL+ writes larger than 64 bit to the GTT pagetable range
-+	 * On BXT+/ICL+ writes larger than 64 bit to the GTT pagetable range
- 	 * will be dropped. For WC mappings in general we have 64 byte burst
- 	 * writes when the WC buffer is flushed, so we can't use it, but have to
- 	 * resort to an uncached mapping. The WC issue is easily caught by the
- 	 * readback check when writing GTT PTE entries.
- 	 */
--	if (IS_GEN9_LP(i915) || GRAPHICS_VER(i915) >= 10)
-+	if (IS_GEN9_LP(i915) || GRAPHICS_VER(i915) >= 11)
- 		ggtt->gsm = ioremap(phys_addr, size);
- 	else
- 		ggtt->gsm = ioremap_wc(phys_addr, size);
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt_clock_utils.c b/drivers/gpu/drm/i915/gt/intel_gt_clock_utils.c
-index 9f0e729d2d15..3513d6f90747 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt_clock_utils.c
-+++ b/drivers/gpu/drm/i915/gt/intel_gt_clock_utils.c
-@@ -24,8 +24,8 @@ static u32 read_reference_ts_freq(struct intel_uncore *uncore)
- 	return base_freq + frac_freq;
- }
+-#define CNL_PORT_COMP_DW0		_MMIO(0x162100)
+ #define ICL_PORT_COMP_DW0(phy)		_MMIO(_ICL_PORT_COMP_DW(0, phy))
+ #define   COMP_INIT			(1 << 31)
  
--static u32 gen10_get_crystal_clock_freq(struct intel_uncore *uncore,
--					u32 rpm_config_reg)
-+static u32 gen9_get_crystal_clock_freq(struct intel_uncore *uncore,
-+				       u32 rpm_config_reg)
- {
- 	u32 f19_2_mhz = 19200000;
- 	u32 f24_mhz = 24000000;
-@@ -128,10 +128,10 @@ static u32 read_clock_frequency(struct intel_uncore *uncore)
- 		} else {
- 			u32 c0 = intel_uncore_read(uncore, RPM_CONFIG0);
+-#define CNL_PORT_COMP_DW1		_MMIO(0x162104)
+ #define ICL_PORT_COMP_DW1(phy)		_MMIO(_ICL_PORT_COMP_DW(1, phy))
  
--			if (GRAPHICS_VER(uncore->i915) <= 10)
--				freq = gen10_get_crystal_clock_freq(uncore, c0);
--			else
-+			if (GRAPHICS_VER(uncore->i915) >= 11)
- 				freq = gen11_get_crystal_clock_freq(uncore, c0);
-+			else
-+				freq = gen9_get_crystal_clock_freq(uncore, c0);
+-#define CNL_PORT_COMP_DW3		_MMIO(0x16210c)
+ #define ICL_PORT_COMP_DW3(phy)		_MMIO(_ICL_PORT_COMP_DW(3, phy))
+ #define   PROCESS_INFO_DOT_0		(0 << 26)
+ #define   PROCESS_INFO_DOT_1		(1 << 26)
+@@ -1948,38 +1944,11 @@ static inline bool i915_mmio_reg_valid(i915_reg_t reg)
+ #define ICL_PORT_COMP_DW8(phy)		_MMIO(_ICL_PORT_COMP_DW(8, phy))
+ #define   IREFGEN			(1 << 24)
  
- 			/*
- 			 * Now figure out how the command stream's timestamp
-diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.c b/drivers/gpu/drm/i915/gt/intel_gtt.c
-index f7e0352edb62..e137dd32b5b8 100644
---- a/drivers/gpu/drm/i915/gt/intel_gtt.c
-+++ b/drivers/gpu/drm/i915/gt/intel_gtt.c
-@@ -426,7 +426,7 @@ static void tgl_setup_private_ppat(struct intel_uncore *uncore)
- 	intel_uncore_write(uncore, GEN12_PAT_INDEX(7), GEN8_PPAT_WB);
- }
+-#define CNL_PORT_COMP_DW9		_MMIO(0x162124)
+ #define ICL_PORT_COMP_DW9(phy)		_MMIO(_ICL_PORT_COMP_DW(9, phy))
  
--static void cnl_setup_private_ppat(struct intel_uncore *uncore)
-+static void icl_setup_private_ppat(struct intel_uncore *uncore)
- {
- 	intel_uncore_write(uncore,
- 			   GEN10_PAT_INDEX(0),
-@@ -526,8 +526,8 @@ void setup_private_pat(struct intel_uncore *uncore)
+-#define CNL_PORT_COMP_DW10		_MMIO(0x162128)
+ #define ICL_PORT_COMP_DW10(phy)		_MMIO(_ICL_PORT_COMP_DW(10, phy))
  
- 	if (GRAPHICS_VER(i915) >= 12)
- 		tgl_setup_private_ppat(uncore);
--	else if (GRAPHICS_VER(i915) >= 10)
--		cnl_setup_private_ppat(uncore);
-+	else if (GRAPHICS_VER(i915) >= 11)
-+		icl_setup_private_ppat(uncore);
- 	else if (IS_CHERRYVIEW(i915) || IS_GEN9_LP(i915))
- 		chv_setup_private_ppat(uncore);
- 	else
-diff --git a/drivers/gpu/drm/i915/gt/intel_lrc.c b/drivers/gpu/drm/i915/gt/intel_lrc.c
-index c3f5bec8ae15..bb4af4977920 100644
---- a/drivers/gpu/drm/i915/gt/intel_lrc.c
-+++ b/drivers/gpu/drm/i915/gt/intel_lrc.c
-@@ -70,7 +70,7 @@ static void set_offsets(u32 *regs,
- 	if (close) {
- 		/* Close the batch; used mainly by live_lrc_layout() */
- 		*regs = MI_BATCH_BUFFER_END;
--		if (GRAPHICS_VER(engine->i915) >= 10)
-+		if (GRAPHICS_VER(engine->i915) >= 11)
- 			*regs |= BIT(0);
- 	}
- }
-@@ -653,8 +653,6 @@ lrc_ring_indirect_offset_default(const struct intel_engine_cs *engine)
- 		return GEN12_CTX_RCS_INDIRECT_CTX_OFFSET_DEFAULT;
- 	case 11:
- 		return GEN11_CTX_RCS_INDIRECT_CTX_OFFSET_DEFAULT;
--	case 10:
--		return GEN10_CTX_RCS_INDIRECT_CTX_OFFSET_DEFAULT;
- 	case 9:
- 		return GEN9_CTX_RCS_INDIRECT_CTX_OFFSET_DEFAULT;
- 	case 8:
-@@ -1448,40 +1446,6 @@ static u32 *gen9_init_indirectctx_bb(struct intel_engine_cs *engine, u32 *batch)
- 	return batch;
- }
- 
--static u32 *
--gen10_init_indirectctx_bb(struct intel_engine_cs *engine, u32 *batch)
--{
--	int i;
+-/* CNL/ICL Port PCS registers */
+-#define _CNL_PORT_PCS_DW1_GRP_AE	0x162304
+-#define _CNL_PORT_PCS_DW1_GRP_B		0x162384
+-#define _CNL_PORT_PCS_DW1_GRP_C		0x162B04
+-#define _CNL_PORT_PCS_DW1_GRP_D		0x162B84
+-#define _CNL_PORT_PCS_DW1_GRP_F		0x162A04
+-#define _CNL_PORT_PCS_DW1_LN0_AE	0x162404
+-#define _CNL_PORT_PCS_DW1_LN0_B		0x162604
+-#define _CNL_PORT_PCS_DW1_LN0_C		0x162C04
+-#define _CNL_PORT_PCS_DW1_LN0_D		0x162E04
+-#define _CNL_PORT_PCS_DW1_LN0_F		0x162804
+-#define CNL_PORT_PCS_DW1_GRP(phy)	_MMIO(_PICK(phy, \
+-						    _CNL_PORT_PCS_DW1_GRP_AE, \
+-						    _CNL_PORT_PCS_DW1_GRP_B, \
+-						    _CNL_PORT_PCS_DW1_GRP_C, \
+-						    _CNL_PORT_PCS_DW1_GRP_D, \
+-						    _CNL_PORT_PCS_DW1_GRP_AE, \
+-						    _CNL_PORT_PCS_DW1_GRP_F))
+-#define CNL_PORT_PCS_DW1_LN0(phy)	_MMIO(_PICK(phy, \
+-						    _CNL_PORT_PCS_DW1_LN0_AE, \
+-						    _CNL_PORT_PCS_DW1_LN0_B, \
+-						    _CNL_PORT_PCS_DW1_LN0_C, \
+-						    _CNL_PORT_PCS_DW1_LN0_D, \
+-						    _CNL_PORT_PCS_DW1_LN0_AE, \
+-						    _CNL_PORT_PCS_DW1_LN0_F))
 -
--	/*
--	 * WaPipeControlBefore3DStateSamplePattern: cnl
--	 *
--	 * Ensure the engine is idle prior to programming a
--	 * 3DSTATE_SAMPLE_PATTERN during a context restore.
--	 */
--	batch = gen8_emit_pipe_control(batch,
--				       PIPE_CONTROL_CS_STALL,
--				       0);
--	/*
--	 * WaPipeControlBefore3DStateSamplePattern says we need 4 dwords for
--	 * the PIPE_CONTROL followed by 12 dwords of 0x0, so 16 dwords in
--	 * total. However, a PIPE_CONTROL is 6 dwords long, not 4, which is
--	 * confusing. Since gen8_emit_pipe_control() already advances the
--	 * batch by 6 dwords, we advance the other 10 here, completing a
--	 * cacheline. It's not clear if the workaround requires this padding
--	 * before other commands, or if it's just the regular padding we would
--	 * already have for the workaround bb, so leave it here for now.
--	 */
--	for (i = 0; i < 10; i++)
--		*batch++ = MI_NOOP;
++/* ICL Port PCS registers */
+ #define _ICL_PORT_PCS_AUX		0x300
+ #define _ICL_PORT_PCS_GRP		0x600
+ #define _ICL_PORT_PCS_LN(ln)		(0x800 + (ln) * 0x100)
+@@ -1998,34 +1967,7 @@ static inline bool i915_mmio_reg_valid(i915_reg_t reg)
+ #define   LATENCY_OPTIM_MASK		(0x3 << 2)
+ #define   LATENCY_OPTIM_VAL(x)		((x) << 2)
+ 
+-/* CNL/ICL Port TX registers */
+-#define _CNL_PORT_TX_AE_GRP_OFFSET		0x162340
+-#define _CNL_PORT_TX_B_GRP_OFFSET		0x1623C0
+-#define _CNL_PORT_TX_C_GRP_OFFSET		0x162B40
+-#define _CNL_PORT_TX_D_GRP_OFFSET		0x162BC0
+-#define _CNL_PORT_TX_F_GRP_OFFSET		0x162A40
+-#define _CNL_PORT_TX_AE_LN0_OFFSET		0x162440
+-#define _CNL_PORT_TX_B_LN0_OFFSET		0x162640
+-#define _CNL_PORT_TX_C_LN0_OFFSET		0x162C40
+-#define _CNL_PORT_TX_D_LN0_OFFSET		0x162E40
+-#define _CNL_PORT_TX_F_LN0_OFFSET		0x162840
+-#define _CNL_PORT_TX_DW_GRP(dw, port)	(_PICK((port), \
+-					       _CNL_PORT_TX_AE_GRP_OFFSET, \
+-					       _CNL_PORT_TX_B_GRP_OFFSET, \
+-					       _CNL_PORT_TX_B_GRP_OFFSET, \
+-					       _CNL_PORT_TX_D_GRP_OFFSET, \
+-					       _CNL_PORT_TX_AE_GRP_OFFSET, \
+-					       _CNL_PORT_TX_F_GRP_OFFSET) + \
+-					       4 * (dw))
+-#define _CNL_PORT_TX_DW_LN0(dw, port)	(_PICK((port), \
+-					       _CNL_PORT_TX_AE_LN0_OFFSET, \
+-					       _CNL_PORT_TX_B_LN0_OFFSET, \
+-					       _CNL_PORT_TX_B_LN0_OFFSET, \
+-					       _CNL_PORT_TX_D_LN0_OFFSET, \
+-					       _CNL_PORT_TX_AE_LN0_OFFSET, \
+-					       _CNL_PORT_TX_F_LN0_OFFSET) + \
+-					       4 * (dw))
 -
--	/* Pad to end of cacheline */
--	while ((unsigned long)batch % CACHELINE_BYTES)
--		*batch++ = MI_NOOP;
++/* ICL Port TX registers */
+ #define _ICL_PORT_TX_AUX		0x380
+ #define _ICL_PORT_TX_GRP		0x680
+ #define _ICL_PORT_TX_LN(ln)		(0x880 + (ln) * 0x100)
+@@ -2037,8 +1979,6 @@ static inline bool i915_mmio_reg_valid(i915_reg_t reg)
+ #define _ICL_PORT_TX_DW_LN(dw, ln, phy) (_ICL_COMBOPHY(phy) + \
+ 					  _ICL_PORT_TX_LN(ln) + 4 * (dw))
+ 
+-#define CNL_PORT_TX_DW2_GRP(port)	_MMIO(_CNL_PORT_TX_DW_GRP(2, port))
+-#define CNL_PORT_TX_DW2_LN0(port)	_MMIO(_CNL_PORT_TX_DW_LN0(2, port))
+ #define ICL_PORT_TX_DW2_AUX(phy)	_MMIO(_ICL_PORT_TX_DW_AUX(2, phy))
+ #define ICL_PORT_TX_DW2_GRP(phy)	_MMIO(_ICL_PORT_TX_DW_GRP(2, phy))
+ #define ICL_PORT_TX_DW2_LN0(phy)	_MMIO(_ICL_PORT_TX_DW_LN(2, 0, phy))
+@@ -2051,13 +1991,6 @@ static inline bool i915_mmio_reg_valid(i915_reg_t reg)
+ #define   RCOMP_SCALAR(x)		((x) << 0)
+ #define   RCOMP_SCALAR_MASK		(0xFF << 0)
+ 
+-#define _CNL_PORT_TX_DW4_LN0_AE		0x162450
+-#define _CNL_PORT_TX_DW4_LN1_AE		0x1624D0
+-#define CNL_PORT_TX_DW4_GRP(port)	_MMIO(_CNL_PORT_TX_DW_GRP(4, (port)))
+-#define CNL_PORT_TX_DW4_LN0(port)	_MMIO(_CNL_PORT_TX_DW_LN0(4, (port)))
+-#define CNL_PORT_TX_DW4_LN(ln, port)   _MMIO(_CNL_PORT_TX_DW_LN0(4, (port)) + \
+-					   ((ln) * (_CNL_PORT_TX_DW4_LN1_AE - \
+-						    _CNL_PORT_TX_DW4_LN0_AE)))
+ #define ICL_PORT_TX_DW4_AUX(phy)	_MMIO(_ICL_PORT_TX_DW_AUX(4, phy))
+ #define ICL_PORT_TX_DW4_GRP(phy)	_MMIO(_ICL_PORT_TX_DW_GRP(4, phy))
+ #define ICL_PORT_TX_DW4_LN0(phy)	_MMIO(_ICL_PORT_TX_DW_LN(4, 0, phy))
+@@ -2070,8 +2003,6 @@ static inline bool i915_mmio_reg_valid(i915_reg_t reg)
+ #define   CURSOR_COEFF(x)		((x) << 0)
+ #define   CURSOR_COEFF_MASK		(0x3F << 0)
+ 
+-#define CNL_PORT_TX_DW5_GRP(port)	_MMIO(_CNL_PORT_TX_DW_GRP(5, port))
+-#define CNL_PORT_TX_DW5_LN0(port)	_MMIO(_CNL_PORT_TX_DW_LN0(5, port))
+ #define ICL_PORT_TX_DW5_AUX(phy)	_MMIO(_ICL_PORT_TX_DW_AUX(5, phy))
+ #define ICL_PORT_TX_DW5_GRP(phy)	_MMIO(_ICL_PORT_TX_DW_GRP(5, phy))
+ #define ICL_PORT_TX_DW5_LN0(phy)	_MMIO(_ICL_PORT_TX_DW_LN(5, 0, phy))
+@@ -2083,8 +2014,6 @@ static inline bool i915_mmio_reg_valid(i915_reg_t reg)
+ #define   RTERM_SELECT(x)		((x) << 3)
+ #define   RTERM_SELECT_MASK		(0x7 << 3)
+ 
+-#define CNL_PORT_TX_DW7_GRP(port)	_MMIO(_CNL_PORT_TX_DW_GRP(7, (port)))
+-#define CNL_PORT_TX_DW7_LN0(port)	_MMIO(_CNL_PORT_TX_DW_LN0(7, (port)))
+ #define ICL_PORT_TX_DW7_AUX(phy)	_MMIO(_ICL_PORT_TX_DW_AUX(7, phy))
+ #define ICL_PORT_TX_DW7_GRP(phy)	_MMIO(_ICL_PORT_TX_DW_GRP(7, phy))
+ #define ICL_PORT_TX_DW7_LN0(phy)	_MMIO(_ICL_PORT_TX_DW_LN(7, 0, phy))
+@@ -8135,7 +8064,6 @@ enum {
+ #define  KVM_CONFIG_CHANGE_NOTIFICATION_SELECT	(1 << 14)
+ 
+ #define CHICKEN_MISC_2		_MMIO(0x42084)
+-#define  CNL_COMP_PWR_DOWN	(1 << 23)
+ #define  KBL_ARB_FILL_SPARE_14	REG_BIT(14)
+ #define  KBL_ARB_FILL_SPARE_13	REG_BIT(13)
+ #define  GLK_CL2_PWR_DOWN	(1 << 12)
+@@ -8175,7 +8103,7 @@ enum {
+ 					    [TRANSCODER_D] = _CHICKEN_TRANS_D))
+ #define  HSW_FRAME_START_DELAY_MASK	(3 << 27)
+ #define  HSW_FRAME_START_DELAY(x)	((x) << 27) /* 0-3 */
+-#define  VSC_DATA_SEL_SOFTWARE_CONTROL	(1 << 25) /* GLK and CNL+ */
++#define  VSC_DATA_SEL_SOFTWARE_CONTROL	(1 << 25) /* GLK */
+ #define  DDI_TRAINING_OVERRIDE_ENABLE	(1 << 19)
+ #define  DDI_TRAINING_OVERRIDE_VALUE	(1 << 18)
+ #define  DDIE_TRAINING_OVERRIDE_ENABLE	(1 << 17) /* CHICKEN_TRANS_A only */
+@@ -8241,7 +8169,6 @@ enum {
+ #define   SKL_SELECT_ALTERNATE_DC_EXIT	(1 << 30)
+ #define   ICL_DELAY_PMRSP		(1 << 22)
+ #define   MASK_WAKEMEM			(1 << 13)
+-#define   CNL_DDI_CLOCK_REG_ACCESS_ON	(1 << 7)
+ 
+ #define GEN11_CHICKEN_DCPR_2			_MMIO(0x46434)
+ #define   DCPR_MASK_MAXLATENCY_MEMUP_CLR	REG_BIT(27)
+@@ -8262,10 +8189,9 @@ enum {
+ #define   SKL_DFSM_PIPE_B_DISABLE	(1 << 21)
+ #define   SKL_DFSM_PIPE_C_DISABLE	(1 << 28)
+ #define   TGL_DFSM_PIPE_D_DISABLE	(1 << 22)
+-#define   CNL_DFSM_DISPLAY_DSC_DISABLE	(1 << 7)
++#define   GLK_DFSM_DISPLAY_DSC_DISABLE	(1 << 7)
+ 
+ #define SKL_DSSM				_MMIO(0x51004)
+-#define CNL_DSSM_CDCLK_PLL_REFCLK_24MHz		(1 << 31)
+ #define ICL_DSSM_CDCLK_PLL_REFCLK_MASK		(7 << 29)
+ #define ICL_DSSM_CDCLK_PLL_REFCLK_24MHz		(0 << 29)
+ #define ICL_DSSM_CDCLK_PLL_REFCLK_19_2MHz	(1 << 29)
+@@ -8364,7 +8290,6 @@ enum {
+ 
+ /* GEN8 chicken */
+ #define HDC_CHICKEN0				_MMIO(0x7300)
+-#define CNL_HDC_CHICKEN0			_MMIO(0xE5F0)
+ #define ICL_HDC_MODE				_MMIO(0xE5F4)
+ #define  HDC_FORCE_CSR_NON_COHERENT_OVR_DISABLE	(1 << 15)
+ #define  HDC_FENCE_DEST_SLM_DISABLE		(1 << 14)
+@@ -9540,7 +9465,6 @@ enum {
+ #define   HSW_SAMPLE_C_PERFORMANCE	(1 << 9)
+ #define   GEN8_CENTROID_PIXEL_OPT_DIS	(1 << 8)
+ #define   GEN9_DISABLE_OCL_OOB_SUPPRESS_LOGIC	(1 << 5)
+-#define   CNL_FAST_ANISO_L1_BANKING_FIX	(1 << 4)
+ #define   GEN8_SAMPLER_POWER_BYPASS_DIS	(1 << 1)
+ 
+ #define GEN9_HALF_SLICE_CHICKEN7	_MMIO(0xe194)
+@@ -9721,15 +9645,12 @@ enum {
+ /* HSW/BDW power well */
+ #define   HSW_PW_CTL_IDX_GLOBAL			15
+ 
+-/* SKL/BXT/GLK/CNL power wells */
++/* SKL/BXT/GLK power wells */
+ #define   SKL_PW_CTL_IDX_PW_2			15
+ #define   SKL_PW_CTL_IDX_PW_1			14
+-#define   CNL_PW_CTL_IDX_AUX_F			12
+-#define   CNL_PW_CTL_IDX_AUX_D			11
+ #define   GLK_PW_CTL_IDX_AUX_C			10
+ #define   GLK_PW_CTL_IDX_AUX_B			9
+ #define   GLK_PW_CTL_IDX_AUX_A			8
+-#define   CNL_PW_CTL_IDX_DDI_F			6
+ #define   SKL_PW_CTL_IDX_DDI_D			4
+ #define   SKL_PW_CTL_IDX_DDI_C			3
+ #define   SKL_PW_CTL_IDX_DDI_B			2
+@@ -10127,11 +10048,11 @@ enum skl_power_gate {
+ #define  TRANS_DDI_BPC_10		(1 << 20)
+ #define  TRANS_DDI_BPC_6		(2 << 20)
+ #define  TRANS_DDI_BPC_12		(3 << 20)
+-#define  TRANS_DDI_PORT_SYNC_MASTER_SELECT_MASK	REG_GENMASK(19, 18) /* bdw-cnl */
++#define  TRANS_DDI_PORT_SYNC_MASTER_SELECT_MASK	REG_GENMASK(19, 18)
+ #define  TRANS_DDI_PORT_SYNC_MASTER_SELECT(x)	REG_FIELD_PREP(TRANS_DDI_PORT_SYNC_MASTER_SELECT_MASK, (x))
+ #define  TRANS_DDI_PVSYNC		(1 << 17)
+ #define  TRANS_DDI_PHSYNC		(1 << 16)
+-#define  TRANS_DDI_PORT_SYNC_ENABLE	REG_BIT(15) /* bdw-cnl */
++#define  TRANS_DDI_PORT_SYNC_ENABLE	REG_BIT(15)
+ #define  TRANS_DDI_EDP_INPUT_MASK	(7 << 12)
+ #define  TRANS_DDI_EDP_INPUT_A_ON	(0 << 12)
+ #define  TRANS_DDI_EDP_INPUT_A_ONOFF	(4 << 12)
+@@ -10487,17 +10408,6 @@ enum skl_power_gate {
+ #define DPLL_CFGCR1(id)	_MMIO_PIPE((id) - SKL_DPLL1, _DPLL1_CFGCR1, _DPLL2_CFGCR1)
+ #define DPLL_CFGCR2(id)	_MMIO_PIPE((id) - SKL_DPLL1, _DPLL1_CFGCR2, _DPLL2_CFGCR2)
+ 
+-/*
+- * CNL Clocks
+- */
+-#define DPCLKA_CFGCR0				_MMIO(0x6C200)
+-#define  DPCLKA_CFGCR0_DDI_CLK_OFF(port)	(1 << ((port) ==  PORT_F ? 23 : \
+-						      (port) + 10))
+-#define  DPCLKA_CFGCR0_DDI_CLK_SEL_SHIFT(port)	((port) == PORT_F ? 21 : \
+-						(port) * 2)
+-#define  DPCLKA_CFGCR0_DDI_CLK_SEL_MASK(port)	(3 << DPCLKA_CFGCR0_DDI_CLK_SEL_SHIFT(port))
+-#define  DPCLKA_CFGCR0_DDI_CLK_SEL(pll, port)	((pll) << DPCLKA_CFGCR0_DDI_CLK_SEL_SHIFT(port))
 -
--	return batch;
--}
+ /* ICL Clocks */
+ #define ICL_DPCLKA_CFGCR0			_MMIO(0x164280)
+ #define  ICL_DPCLKA_CFGCR0_DDI_CLK_OFF(phy)	(1 << _PICK(phy, 10, 11, 24, 4, 5))
+@@ -10730,60 +10640,52 @@ enum skl_power_gate {
+ 						   _MG_PLL_TDC_COLDST_BIAS_PORT1, \
+ 						   _MG_PLL_TDC_COLDST_BIAS_PORT2)
+ 
+-#define _CNL_DPLL0_CFGCR0		0x6C000
+-#define _CNL_DPLL1_CFGCR0		0x6C080
+-#define  DPLL_CFGCR0_HDMI_MODE		(1 << 30)
+-#define  DPLL_CFGCR0_SSC_ENABLE		(1 << 29)
+-#define  DPLL_CFGCR0_SSC_ENABLE_ICL	(1 << 25)
+-#define  DPLL_CFGCR0_LINK_RATE_MASK	(0xf << 25)
+-#define  DPLL_CFGCR0_LINK_RATE_2700	(0 << 25)
+-#define  DPLL_CFGCR0_LINK_RATE_1350	(1 << 25)
+-#define  DPLL_CFGCR0_LINK_RATE_810	(2 << 25)
+-#define  DPLL_CFGCR0_LINK_RATE_1620	(3 << 25)
+-#define  DPLL_CFGCR0_LINK_RATE_1080	(4 << 25)
+-#define  DPLL_CFGCR0_LINK_RATE_2160	(5 << 25)
+-#define  DPLL_CFGCR0_LINK_RATE_3240	(6 << 25)
+-#define  DPLL_CFGCR0_LINK_RATE_4050	(7 << 25)
+-#define  DPLL_CFGCR0_DCO_FRACTION_MASK	(0x7fff << 10)
+-#define  DPLL_CFGCR0_DCO_FRACTION_SHIFT	(10)
+-#define  DPLL_CFGCR0_DCO_FRACTION(x)	((x) << 10)
+-#define  DPLL_CFGCR0_DCO_INTEGER_MASK	(0x3ff)
+-#define CNL_DPLL_CFGCR0(pll)		_MMIO_PLL(pll, _CNL_DPLL0_CFGCR0, _CNL_DPLL1_CFGCR0)
 -
- #define CTX_WA_BB_SIZE (PAGE_SIZE)
+-#define _CNL_DPLL0_CFGCR1		0x6C004
+-#define _CNL_DPLL1_CFGCR1		0x6C084
+-#define  DPLL_CFGCR1_QDIV_RATIO_MASK	(0xff << 10)
+-#define  DPLL_CFGCR1_QDIV_RATIO_SHIFT	(10)
+-#define  DPLL_CFGCR1_QDIV_RATIO(x)	((x) << 10)
+-#define  DPLL_CFGCR1_QDIV_MODE_SHIFT	(9)
+-#define  DPLL_CFGCR1_QDIV_MODE(x)	((x) << 9)
+-#define  DPLL_CFGCR1_KDIV_MASK		(7 << 6)
+-#define  DPLL_CFGCR1_KDIV_SHIFT		(6)
+-#define  DPLL_CFGCR1_KDIV(x)		((x) << 6)
+-#define  DPLL_CFGCR1_KDIV_1		(1 << 6)
+-#define  DPLL_CFGCR1_KDIV_2		(2 << 6)
+-#define  DPLL_CFGCR1_KDIV_3		(4 << 6)
+-#define  DPLL_CFGCR1_PDIV_MASK		(0xf << 2)
+-#define  DPLL_CFGCR1_PDIV_SHIFT		(2)
+-#define  DPLL_CFGCR1_PDIV(x)		((x) << 2)
+-#define  DPLL_CFGCR1_PDIV_2		(1 << 2)
+-#define  DPLL_CFGCR1_PDIV_3		(2 << 2)
+-#define  DPLL_CFGCR1_PDIV_5		(4 << 2)
+-#define  DPLL_CFGCR1_PDIV_7		(8 << 2)
+-#define  DPLL_CFGCR1_CENTRAL_FREQ	(3 << 0)
+-#define  DPLL_CFGCR1_CENTRAL_FREQ_8400	(3 << 0)
+-#define  TGL_DPLL_CFGCR1_CFSELOVRD_NORMAL_XTAL	(0 << 0)
+-#define CNL_DPLL_CFGCR1(pll)		_MMIO_PLL(pll, _CNL_DPLL0_CFGCR1, _CNL_DPLL1_CFGCR1)
+-
+ #define _ICL_DPLL0_CFGCR0		0x164000
+ #define _ICL_DPLL1_CFGCR0		0x164080
+ #define ICL_DPLL_CFGCR0(pll)		_MMIO_PLL(pll, _ICL_DPLL0_CFGCR0, \
+ 						  _ICL_DPLL1_CFGCR0)
++#define   DPLL_CFGCR0_HDMI_MODE		(1 << 30)
++#define   DPLL_CFGCR0_SSC_ENABLE	(1 << 29)
++#define   DPLL_CFGCR0_SSC_ENABLE_ICL	(1 << 25)
++#define   DPLL_CFGCR0_LINK_RATE_MASK	(0xf << 25)
++#define   DPLL_CFGCR0_LINK_RATE_2700	(0 << 25)
++#define   DPLL_CFGCR0_LINK_RATE_1350	(1 << 25)
++#define   DPLL_CFGCR0_LINK_RATE_810	(2 << 25)
++#define   DPLL_CFGCR0_LINK_RATE_1620	(3 << 25)
++#define   DPLL_CFGCR0_LINK_RATE_1080	(4 << 25)
++#define   DPLL_CFGCR0_LINK_RATE_2160	(5 << 25)
++#define   DPLL_CFGCR0_LINK_RATE_3240	(6 << 25)
++#define   DPLL_CFGCR0_LINK_RATE_4050	(7 << 25)
++#define   DPLL_CFGCR0_DCO_FRACTION_MASK	(0x7fff << 10)
++#define   DPLL_CFGCR0_DCO_FRACTION_SHIFT	(10)
++#define   DPLL_CFGCR0_DCO_FRACTION(x)	((x) << 10)
++#define   DPLL_CFGCR0_DCO_INTEGER_MASK	(0x3ff)
  
- static int lrc_create_wa_ctx(struct intel_engine_cs *engine)
-@@ -1534,10 +1498,6 @@ void lrc_init_wa_ctx(struct intel_engine_cs *engine)
- 	case 12:
- 	case 11:
- 		return;
--	case 10:
--		wa_bb_fn[0] = gen10_init_indirectctx_bb;
--		wa_bb_fn[1] = NULL;
--		break;
- 	case 9:
- 		wa_bb_fn[0] = gen9_init_indirectctx_bb;
- 		wa_bb_fn[1] = NULL;
-diff --git a/drivers/gpu/drm/i915/gt/intel_rc6.c b/drivers/gpu/drm/i915/gt/intel_rc6.c
-index 259d7eb4e165..a7d13fe35b2e 100644
---- a/drivers/gpu/drm/i915/gt/intel_rc6.c
-+++ b/drivers/gpu/drm/i915/gt/intel_rc6.c
-@@ -126,7 +126,7 @@ static void gen9_rc6_enable(struct intel_rc6 *rc6)
- 	enum intel_engine_id id;
+ #define _ICL_DPLL0_CFGCR1		0x164004
+ #define _ICL_DPLL1_CFGCR1		0x164084
+ #define ICL_DPLL_CFGCR1(pll)		_MMIO_PLL(pll, _ICL_DPLL0_CFGCR1, \
+ 						  _ICL_DPLL1_CFGCR1)
++#define   DPLL_CFGCR1_QDIV_RATIO_MASK	(0xff << 10)
++#define   DPLL_CFGCR1_QDIV_RATIO_SHIFT	(10)
++#define   DPLL_CFGCR1_QDIV_RATIO(x)	((x) << 10)
++#define   DPLL_CFGCR1_QDIV_MODE_SHIFT	(9)
++#define   DPLL_CFGCR1_QDIV_MODE(x)	((x) << 9)
++#define   DPLL_CFGCR1_KDIV_MASK		(7 << 6)
++#define   DPLL_CFGCR1_KDIV_SHIFT		(6)
++#define   DPLL_CFGCR1_KDIV(x)		((x) << 6)
++#define   DPLL_CFGCR1_KDIV_1		(1 << 6)
++#define   DPLL_CFGCR1_KDIV_2		(2 << 6)
++#define   DPLL_CFGCR1_KDIV_3		(4 << 6)
++#define   DPLL_CFGCR1_PDIV_MASK		(0xf << 2)
++#define   DPLL_CFGCR1_PDIV_SHIFT		(2)
++#define   DPLL_CFGCR1_PDIV(x)		((x) << 2)
++#define   DPLL_CFGCR1_PDIV_2		(1 << 2)
++#define   DPLL_CFGCR1_PDIV_3		(2 << 2)
++#define   DPLL_CFGCR1_PDIV_5		(4 << 2)
++#define   DPLL_CFGCR1_PDIV_7		(8 << 2)
++#define   DPLL_CFGCR1_CENTRAL_FREQ	(3 << 0)
++#define   DPLL_CFGCR1_CENTRAL_FREQ_8400	(3 << 0)
++#define   TGL_DPLL_CFGCR1_CFSELOVRD_NORMAL_XTAL	(0 << 0)
  
- 	/* 2b: Program RC6 thresholds.*/
--	if (GRAPHICS_VER(rc6_to_i915(rc6)) >= 10) {
-+	if (GRAPHICS_VER(rc6_to_i915(rc6)) >= 11) {
- 		set(uncore, GEN6_RC6_WAKE_RATE_LIMIT, 54 << 16 | 85);
- 		set(uncore, GEN10_MEDIA_WAKE_RATE_LIMIT, 150);
- 	} else if (IS_SKYLAKE(rc6_to_i915(rc6))) {
-diff --git a/drivers/gpu/drm/i915/gt/intel_rps.c b/drivers/gpu/drm/i915/gt/intel_rps.c
-index 06e9a8ed4e03..2e03ad80f3cf 100644
---- a/drivers/gpu/drm/i915/gt/intel_rps.c
-+++ b/drivers/gpu/drm/i915/gt/intel_rps.c
-@@ -999,7 +999,7 @@ static void gen6_rps_init(struct intel_rps *rps)
- 
- 	rps->efficient_freq = rps->rp1_freq;
- 	if (IS_HASWELL(i915) || IS_BROADWELL(i915) ||
--	    IS_GEN9_BC(i915) || GRAPHICS_VER(i915) >= 10) {
-+	    IS_GEN9_BC(i915) || GRAPHICS_VER(i915) >= 11) {
- 		u32 ddcc_status = 0;
- 
- 		if (sandybridge_pcode_read(i915,
-@@ -1012,7 +1012,7 @@ static void gen6_rps_init(struct intel_rps *rps)
- 					rps->max_freq);
- 	}
- 
--	if (IS_GEN9_BC(i915) || GRAPHICS_VER(i915) >= 10) {
-+	if (IS_GEN9_BC(i915) || GRAPHICS_VER(i915) >= 11) {
- 		/* Store the frequency values in 16.66 MHZ units, which is
- 		 * the natural hardware unit for SKL
- 		 */
-diff --git a/drivers/gpu/drm/i915/gt/intel_sseu_debugfs.c b/drivers/gpu/drm/i915/gt/intel_sseu_debugfs.c
-index 714fe8495775..5e7b09c5e36f 100644
---- a/drivers/gpu/drm/i915/gt/intel_sseu_debugfs.c
-+++ b/drivers/gpu/drm/i915/gt/intel_sseu_debugfs.c
-@@ -50,7 +50,7 @@ static void cherryview_sseu_device_status(struct intel_gt *gt,
- #undef SS_MAX
- }
- 
--static void gen10_sseu_device_status(struct intel_gt *gt,
-+static void gen11_sseu_device_status(struct intel_gt *gt,
- 				     struct sseu_dev_info *sseu)
- {
- #define SS_MAX 6
-@@ -267,8 +267,8 @@ int intel_sseu_status(struct seq_file *m, struct intel_gt *gt)
- 			bdw_sseu_device_status(gt, &sseu);
- 		else if (GRAPHICS_VER(i915) == 9)
- 			gen9_sseu_device_status(gt, &sseu);
--		else if (GRAPHICS_VER(i915) >= 10)
--			gen10_sseu_device_status(gt, &sseu);
-+		else if (GRAPHICS_VER(i915) >= 11)
-+			gen11_sseu_device_status(gt, &sseu);
- 	}
- 
- 	i915_print_sseu_info(m, false, HAS_POOLED_EU(i915), &sseu);
-diff --git a/drivers/gpu/drm/i915/gvt/gtt.c b/drivers/gpu/drm/i915/gvt/gtt.c
-index cc2c05e18206..e5c2fdfc20e3 100644
---- a/drivers/gpu/drm/i915/gvt/gtt.c
-+++ b/drivers/gpu/drm/i915/gvt/gtt.c
-@@ -1055,7 +1055,7 @@ static bool vgpu_ips_enabled(struct intel_vgpu *vgpu)
- {
- 	struct drm_i915_private *dev_priv = vgpu->gvt->gt->i915;
- 
--	if (GRAPHICS_VER(dev_priv) == 9 || GRAPHICS_VER(dev_priv) == 10) {
-+	if (GRAPHICS_VER(dev_priv) == 9) {
- 		u32 ips = vgpu_vreg_t(vgpu, GEN8_GAMW_ECO_DEV_RW_IA) &
- 			GAMW_ECO_ENABLE_64K_IPS_FIELD;
- 
-diff --git a/drivers/gpu/drm/i915/i915_debugfs.c b/drivers/gpu/drm/i915/i915_debugfs.c
-index 0529576f069c..44969f5dde50 100644
---- a/drivers/gpu/drm/i915/i915_debugfs.c
-+++ b/drivers/gpu/drm/i915/i915_debugfs.c
-@@ -538,20 +538,20 @@ static int i915_frequency_info(struct seq_file *m, void *unused)
- 		max_freq = (IS_GEN9_LP(dev_priv) ? rp_state_cap >> 0 :
- 			    rp_state_cap >> 16) & 0xff;
- 		max_freq *= (IS_GEN9_BC(dev_priv) ||
--			     GRAPHICS_VER(dev_priv) >= 10 ? GEN9_FREQ_SCALER : 1);
-+			     GRAPHICS_VER(dev_priv) >= 11 ? GEN9_FREQ_SCALER : 1);
- 		seq_printf(m, "Lowest (RPN) frequency: %dMHz\n",
- 			   intel_gpu_freq(rps, max_freq));
- 
- 		max_freq = (rp_state_cap & 0xff00) >> 8;
- 		max_freq *= (IS_GEN9_BC(dev_priv) ||
--			     GRAPHICS_VER(dev_priv) >= 10 ? GEN9_FREQ_SCALER : 1);
-+			     GRAPHICS_VER(dev_priv) >= 11 ? GEN9_FREQ_SCALER : 1);
- 		seq_printf(m, "Nominal (RP1) frequency: %dMHz\n",
- 			   intel_gpu_freq(rps, max_freq));
- 
- 		max_freq = (IS_GEN9_LP(dev_priv) ? rp_state_cap >> 16 :
- 			    rp_state_cap >> 0) & 0xff;
- 		max_freq *= (IS_GEN9_BC(dev_priv) ||
--			     GRAPHICS_VER(dev_priv) >= 10 ? GEN9_FREQ_SCALER : 1);
-+			     GRAPHICS_VER(dev_priv) >= 11 ? GEN9_FREQ_SCALER : 1);
- 		seq_printf(m, "Max non-overclocked (RP0) frequency: %dMHz\n",
- 			   intel_gpu_freq(rps, max_freq));
- 		seq_printf(m, "Max overclocked frequency: %dMHz\n",
-diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
-index e3c8283d770c..f9671686bf62 100644
---- a/drivers/gpu/drm/i915/i915_drv.h
-+++ b/drivers/gpu/drm/i915/i915_drv.h
-@@ -1649,7 +1649,7 @@ IS_SUBPLATFORM(const struct drm_i915_private *i915,
- 	(IS_SKL_GT3(dev_priv) || IS_SKL_GT4(dev_priv))
- 
- #define HAS_GMBUS_IRQ(dev_priv) (GRAPHICS_VER(dev_priv) >= 4)
--#define HAS_GMBUS_BURST_READ(dev_priv) (GRAPHICS_VER(dev_priv) >= 10 || \
-+#define HAS_GMBUS_BURST_READ(dev_priv) (GRAPHICS_VER(dev_priv) >= 11 || \
- 					IS_GEMINILAKE(dev_priv) || \
- 					IS_KABYLAKE(dev_priv))
- 
-diff --git a/drivers/gpu/drm/i915/i915_perf.c b/drivers/gpu/drm/i915/i915_perf.c
-index 108774d651d9..2f01b8c0284c 100644
---- a/drivers/gpu/drm/i915/i915_perf.c
-+++ b/drivers/gpu/drm/i915/i915_perf.c
-@@ -1256,7 +1256,6 @@ static int oa_get_render_ctx_id(struct i915_perf_stream *stream)
- 
- 	case 8:
- 	case 9:
--	case 10:
- 		if (intel_engine_uses_guc(ce->engine)) {
- 			/*
- 			 * When using GuC, the context descriptor we write in
-@@ -2589,7 +2588,7 @@ static void gen8_disable_metric_set(struct i915_perf_stream *stream)
- 	intel_uncore_rmw(uncore, GDT_CHICKEN_BITS, GT_NOA_ENABLE, 0);
- }
- 
--static void gen10_disable_metric_set(struct i915_perf_stream *stream)
-+static void gen11_disable_metric_set(struct i915_perf_stream *stream)
- {
- 	struct intel_uncore *uncore = stream->uncore;
- 
-@@ -3896,7 +3895,7 @@ static bool gen8_is_valid_mux_addr(struct i915_perf *perf, u32 addr)
- 	       REG_IN_RANGE(addr, RPM_CONFIG0, NOA_CONFIG(8));
- }
- 
--static bool gen10_is_valid_mux_addr(struct i915_perf *perf, u32 addr)
-+static bool gen11_is_valid_mux_addr(struct i915_perf *perf, u32 addr)
- {
- 	return gen8_is_valid_mux_addr(perf, addr) ||
- 	       REG_EQUAL(addr, GEN10_NOA_WRITE_HIGH) ||
-@@ -4403,27 +4402,23 @@ void i915_perf_init(struct drm_i915_private *i915)
- 
- 				perf->gen8_valid_ctx_bit = BIT(16);
- 			}
--		} else if (IS_GRAPHICS_VER(i915, 10, 11)) {
-+		} else if (GRAPHICS_VER(i915) == 11) {
- 			perf->ops.is_valid_b_counter_reg =
- 				gen7_is_valid_b_counter_addr;
- 			perf->ops.is_valid_mux_reg =
--				gen10_is_valid_mux_addr;
-+				gen11_is_valid_mux_addr;
- 			perf->ops.is_valid_flex_reg =
- 				gen8_is_valid_flex_addr;
- 
- 			perf->ops.oa_enable = gen8_oa_enable;
- 			perf->ops.oa_disable = gen8_oa_disable;
- 			perf->ops.enable_metric_set = gen8_enable_metric_set;
--			perf->ops.disable_metric_set = gen10_disable_metric_set;
-+			perf->ops.disable_metric_set = gen11_disable_metric_set;
- 			perf->ops.oa_hw_tail_read = gen8_oa_hw_tail_read;
- 
--			if (GRAPHICS_VER(i915) == 10) {
--				perf->ctx_oactxctrl_offset = 0x128;
--				perf->ctx_flexeu0_offset = 0x3de;
--			} else {
--				perf->ctx_oactxctrl_offset = 0x124;
--				perf->ctx_flexeu0_offset = 0x78e;
--			}
-+			perf->ctx_oactxctrl_offset = 0x124;
-+			perf->ctx_flexeu0_offset = 0x78e;
-+
- 			perf->gen8_valid_ctx_bit = BIT(16);
- 		} else if (GRAPHICS_VER(i915) == 12) {
- 			perf->ops.is_valid_b_counter_reg =
+ #define _TGL_DPLL0_CFGCR0		0x164284
+ #define _TGL_DPLL1_CFGCR0		0x16428C
 diff --git a/drivers/gpu/drm/i915/intel_device_info.c b/drivers/gpu/drm/i915/intel_device_info.c
-index 2893a8659a8b..4319ae020c86 100644
+index 4319ae020c86..ffe3b5d89a63 100644
 --- a/drivers/gpu/drm/i915/intel_device_info.c
 +++ b/drivers/gpu/drm/i915/intel_device_info.c
-@@ -265,7 +265,7 @@ void intel_device_info_runtime_init(struct drm_i915_private *dev_priv)
- 	if (IS_ADLS_DISPLAY_STEP(dev_priv, STEP_A0, STEP_A2))
- 		for_each_pipe(dev_priv, pipe)
- 			runtime->num_scalers[pipe] = 0;
--	else if (GRAPHICS_VER(dev_priv) >= 10) {
-+	else if (GRAPHICS_VER(dev_priv) >= 11) {
- 		for_each_pipe(dev_priv, pipe)
- 			runtime->num_scalers[pipe] = 2;
- 	} else if (GRAPHICS_VER(dev_priv) == 9) {
-@@ -282,7 +282,7 @@ void intel_device_info_runtime_init(struct drm_i915_private *dev_priv)
- 	else if (GRAPHICS_VER(dev_priv) >= 11)
- 		for_each_pipe(dev_priv, pipe)
- 			runtime->num_sprites[pipe] = 6;
--	else if (GRAPHICS_VER(dev_priv) == 10 || IS_GEMINILAKE(dev_priv))
-+	else if (IS_GEMINILAKE(dev_priv))
- 		for_each_pipe(dev_priv, pipe)
- 			runtime->num_sprites[pipe] = 3;
- 	else if (IS_BROXTON(dev_priv)) {
+@@ -365,7 +365,7 @@ void intel_device_info_runtime_init(struct drm_i915_private *dev_priv)
+ 			info->display.has_dmc = 0;
+ 
+ 		if (DISPLAY_VER(dev_priv) >= 10 &&
+-		    (dfsm & CNL_DFSM_DISPLAY_DSC_DISABLE))
++		    (dfsm & GLK_DFSM_DISPLAY_DSC_DISABLE))
+ 			info->display.has_dsc = 0;
+ 	}
+ 
 -- 
 2.31.1
 
