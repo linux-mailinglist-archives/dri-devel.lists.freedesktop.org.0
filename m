@@ -2,38 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC5F73D4914
-	for <lists+dri-devel@lfdr.de>; Sat, 24 Jul 2021 20:12:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A0DC3D490D
+	for <lists+dri-devel@lfdr.de>; Sat, 24 Jul 2021 20:08:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D8FF1734D7;
-	Sat, 24 Jul 2021 18:12:11 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A4A97734D6;
- Sat, 24 Jul 2021 18:12:10 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10055"; a="192315128"
-X-IronPort-AV: E=Sophos;i="5.84,266,1620716400"; d="scan'208";a="192315128"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Jul 2021 11:12:10 -0700
-X-IronPort-AV: E=Sophos;i="5.84,266,1620716400"; d="scan'208";a="433963780"
-Received: from mdroper-desk1.fm.intel.com (HELO
- mdroper-desk1.amr.corp.intel.com) ([10.1.27.134])
- by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Jul 2021 11:12:09 -0700
-Date: Sat, 24 Jul 2021 11:12:07 -0700
-From: Matt Roper <matthew.d.roper@intel.com>
-To: Lucas De Marchi <lucas.demarchi@intel.com>
-Subject: Re: [PATCH 04/30] drm/i915/display: remove explicit CNL handling
- from intel_cdclk.c
-Message-ID: <20210724181207.GL1556418@mdroper-desk1.amr.corp.intel.com>
-References: <20210724001114.249295-1-lucas.demarchi@intel.com>
- <20210724001114.249295-5-lucas.demarchi@intel.com>
+	by gabe.freedesktop.org (Postfix) with ESMTP id 48FAC734D4;
+	Sat, 24 Jul 2021 18:08:11 +0000 (UTC)
+X-Original-To: dri-devel@freedesktop.org
+Delivered-To: dri-devel@freedesktop.org
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com
+ [IPv6:2a00:1450:4864:20::333])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 43064734D4
+ for <dri-devel@freedesktop.org>; Sat, 24 Jul 2021 18:08:10 +0000 (UTC)
+Received: by mail-wm1-x333.google.com with SMTP id
+ 9-20020a05600c26c9b02901e44e9caa2aso3582235wmv.4
+ for <dri-devel@freedesktop.org>; Sat, 24 Jul 2021 11:08:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=MiQpeDS/bOdbcucYOh8ALaob0EUSxGeoUAmNnRu5KIw=;
+ b=Z7/vRFeMC8P++O7/RZkBHsMZ1S1J/Kk/bvQAA56l28KEnna/VLLCCG70iAKvkBv+gH
+ 4gun0YuCAgeQ2zcMJuqAFlzsMbj3N3Ti+5I90iD/EOz2PhwHbuy402GR/4bMF4qZM8FO
+ LVeM4ChsAH2jU1mMkENW070byRODKtFlEPcc0xXJ2vBTrfOqDBTnx+bp09i5UyEcu7Tq
+ bKImnBngmoTzHjAPGvU/xo0/j8H/7hD62uu9AWJ5CyKjx0Cd0fpfegS5VK28mBkX73Q/
+ 4ScG4SNGqNwK7le0vqB3m93D9IwCQsgHOL22A+iY2feexBvRbL3jcJtxHT/ap/qVUJ4s
+ i0OQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=MiQpeDS/bOdbcucYOh8ALaob0EUSxGeoUAmNnRu5KIw=;
+ b=PGcW4oJn6nzF47Lf71+tb2Pzy51yErNHCFqrt2kVPeM4YRjWmRqIFUdUS6mb4LdwLb
+ BdAOPbk0d1OB7Ano1hu8GpKO8NGpuvVI/24+YDxFQEX3/MVVLQuDq6HXKstvPaed6aEL
+ qtq92/IDk1jy4XbdnG7H0aD6peC16N0pggk2z9Kwf+U7n5IvWuxtJlyr0gi2bmxWMgB6
+ v/jiD2c7gU8wpFKLx+zjhgFX7Zs4v1STKJHUQ5eMyCUVnVntlhQcpoRwLFYCJyGiqKq/
+ 4M2Bko0RmJWeZ0H7sK8hU6xNlAqtg7cadjPxcsjQiw0xTP0RG+DbFuqXnxMxWzZoxLp2
+ gsgQ==
+X-Gm-Message-State: AOAM531fihZ2Vw5Nr1quwHIuCVx5KtpAcZpJxBfHS8yc33Ph346MzlSe
+ dhjzgOQpFqPClAQ4zxtUh6xeXeHpeJnlktbo2Pc=
+X-Google-Smtp-Source: ABdhPJwrhLZVEEgV4rK8VyCIepljzXGPeQHv6t3bOH/ECjyHC23eVO7r5YJuGjHPHJgDjsbDUtW726xKDsntFIL2d3s=
+X-Received: by 2002:a1c:f414:: with SMTP id z20mr19935294wma.94.1627150088851; 
+ Sat, 24 Jul 2021 11:08:08 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210724001114.249295-5-lucas.demarchi@intel.com>
+References: <1627036688-1426-1-git-send-email-akhilpo@codeaurora.org>
+ <1627036688-1426-2-git-send-email-akhilpo@codeaurora.org>
+In-Reply-To: <1627036688-1426-2-git-send-email-akhilpo@codeaurora.org>
+From: Rob Clark <robdclark@gmail.com>
+Date: Sat, 24 Jul 2021 11:12:17 -0700
+Message-ID: <CAF6AEGvn3BEJDS_8jDqVNfV6Z5GKdtETkFyMnBoG5ONsMZi5Xg@mail.gmail.com>
+Subject: Re: [Freedreno] [PATCH 2/2] drm/msm/a6xx: Add support for Adreno 7c
+ Gen 3 gpu
+To: Akhil P Oommen <akhilpo@codeaurora.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,248 +64,300 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
- intel-gfx@lists.freedesktop.org, Jose Souza <jose.souza@intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Jonathan <jonathan@marek.ca>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Douglas Anderson <dianders@chromium.org>,
+ Jordan Crouse <jordan@cosmicpenguin.net>, Matthias Kaehlcke <mka@chromium.org>,
+ dri-devel@freedesktop.org, freedreno <freedreno@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jul 23, 2021 at 05:10:48PM -0700, Lucas De Marchi wrote:
-> The only real platform with DISPLAY_VER == 10 is GLK, so we don't need
-> any checks and supporting code for CNL. Remove code and rename
-> functions/macros accordingly.
-> 
-> Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
+()
+
+On Fri, Jul 23, 2021 at 3:38 AM Akhil P Oommen <akhilpo@codeaurora.org> wrote:
+>
+> This patch adds support for the gpu found in the Snapdragon 7c Gen 3
+> compute platform. This gpu is similar to the exisiting a660 gpu with
+> minor delta in the programing sequence. As the Adreno GPUs are moving
+> away from a numeric chipid based naming scheme to a string, it was
+> decided to use 0x06030500 as the gpu id of this gpu to communicate
+> to the userspace driver.
+>
+> Signed-off-by: Akhil P Oommen <akhilpo@codeaurora.org>
 > ---
->  drivers/gpu/drm/i915/display/intel_cdclk.c | 72 +++++-----------------
->  drivers/gpu/drm/i915/i915_reg.h            |  4 +-
->  2 files changed, 18 insertions(+), 58 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/display/intel_cdclk.c b/drivers/gpu/drm/i915/display/intel_cdclk.c
-> index ff35c29508d5..34fa4130d5c4 100644
-> --- a/drivers/gpu/drm/i915/display/intel_cdclk.c
-> +++ b/drivers/gpu/drm/i915/display/intel_cdclk.c
-> @@ -1195,17 +1195,6 @@ static const struct intel_cdclk_vals glk_cdclk_table[] = {
->  	{}
+>  drivers/gpu/drm/msm/adreno/a6xx_gmu.c      | 20 ++++++++++++++++++-
+>  drivers/gpu/drm/msm/adreno/a6xx_gmu.h      |  1 +
+>  drivers/gpu/drm/msm/adreno/a6xx_gmu.xml.h  |  2 ++
+>  drivers/gpu/drm/msm/adreno/a6xx_gpu.c      | 21 ++++++++++++++------
+>  drivers/gpu/drm/msm/adreno/a6xx_hfi.c      | 32 ++++++++++++++++++++++++++++++
+>  drivers/gpu/drm/msm/adreno/adreno_device.c | 12 +++++++++++
+>  drivers/gpu/drm/msm/adreno/adreno_gpu.h    | 11 ++++++++--
+>  7 files changed, 90 insertions(+), 9 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+> index b349692..332301f 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+> @@ -933,6 +933,7 @@ int a6xx_gmu_resume(struct a6xx_gpu *a6xx_gpu)
+>
+>         /* Use a known rate to bring up the GMU */
+>         clk_set_rate(gmu->core_clk, 200000000);
+> +       clk_set_rate(gmu->hub_clk, 150000000);
+>         ret = clk_bulk_prepare_enable(gmu->nr_clocks, gmu->clocks);
+>         if (ret) {
+>                 pm_runtime_put(gmu->gxpd);
+> @@ -1094,6 +1095,7 @@ static void a6xx_gmu_shutdown(struct a6xx_gmu *gmu)
+>
+>  int a6xx_gmu_stop(struct a6xx_gpu *a6xx_gpu)
+>  {
+> +       struct adreno_gpu *adreno_gpu = &a6xx_gpu->base;
+>         struct a6xx_gmu *gmu = &a6xx_gpu->gmu;
+>         struct msm_gpu *gpu = &a6xx_gpu->base.base;
+>
+> @@ -1117,9 +1119,22 @@ int a6xx_gmu_stop(struct a6xx_gpu *a6xx_gpu)
+>          * domain. Usually the GMU does this but only if the shutdown sequence
+>          * was successful
+>          */
+> -       if (!IS_ERR_OR_NULL(gmu->gxpd))
+> +       if (!IS_ERR_OR_NULL(gmu->gxpd)) {
+> +               /*
+> +                * Toggle the loop_en bit, across disabling the gx gdsc,
+> +                * with a delay of 10 XO cycles before disabling gx
+> +                * gdsc. This is to prevent CPR measurements from
+> +                * failing.
+> +                */
+> +               if (adreno_is_a660(adreno_gpu))
+> +                       gmu_rmw(gmu, REG_A6XX_GPU_CPR_FSM_CTL, 1, 0);
+> +
+>                 pm_runtime_put_sync(gmu->gxpd);
+>
+> +               if (adreno_is_a660(adreno_gpu))
+> +                       gmu_rmw(gmu, REG_A6XX_GPU_CPR_FSM_CTL, 1, 1);
+
+This kinda seems like it should be a separate patch.. but I noticed
+you silently turned adreno_is_a660() into what should probably be
+adreno_is_a660_family()
+
+I'd suggest to break this out into it's own patch, so it is clear that
+it effects a660 as well, and then a next patch to rename
+adreno_is_a660_family()
+
+Longer term, we might want to think about refactoring all the
+if(adreno_is_xyz()) into a features table (see i915_pci.c for ideas)
+
+> +       }
+> +
+>         clk_bulk_disable_unprepare(gmu->nr_clocks, gmu->clocks);
+>
+>         pm_runtime_put_sync(gmu->dev);
+> @@ -1393,6 +1408,9 @@ static int a6xx_gmu_clocks_probe(struct a6xx_gmu *gmu)
+>         gmu->core_clk = msm_clk_bulk_get_clock(gmu->clocks,
+>                 gmu->nr_clocks, "gmu");
+>
+> +       gmu->hub_clk = msm_clk_bulk_get_clock(gmu->clocks,
+> +               gmu->nr_clocks, "hub");
+> +
+>         return 0;
+>  }
+>
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.h b/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
+> index 71dfa600..3c74f64 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
+> @@ -66,6 +66,7 @@ struct a6xx_gmu {
+>         int nr_clocks;
+>         struct clk_bulk_data *clocks;
+>         struct clk *core_clk;
+> +       struct clk *hub_clk;
+>
+>         /* current performance index set externally */
+>         int current_perf_index;
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.xml.h b/drivers/gpu/drm/msm/adreno/a6xx_gmu.xml.h
+> index 8115892..d46733f 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.xml.h
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.xml.h
+> @@ -479,5 +479,7 @@ static inline uint32_t A6XX_GMU_GPU_NAP_CTRL_SID(uint32_t val)
+>
+>  #define REG_A6XX_RSCC_TCS3_DRV0_STATUS                         0x0000053e
+>
+> +#define REG_A6XX_GPU_CPR_FSM_CTL                               0x0000c001
+> +
+>
+>  #endif /* A6XX_GMU_XML */
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> index 183b9f9..c0882536 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> @@ -694,6 +694,13 @@ static void a6xx_set_ubwc_config(struct msm_gpu *gpu)
+>                 uavflagprd_inv = 2;
+>         }
+>
+> +       if (adreno_is_7c3(adreno_gpu)) {
+> +               lower_bit = 1;
+> +               amsbc = 1;
+> +               rgb565_predicator = 1;
+> +               uavflagprd_inv = 2;
+> +       }
+> +
+>         gpu_write(gpu, REG_A6XX_RB_NC_MODE_CNTL,
+>                 rgb565_predicator << 11 | amsbc << 4 | lower_bit << 1);
+>         gpu_write(gpu, REG_A6XX_TPL1_NC_MODE_CNTL, lower_bit << 1);
+> @@ -950,10 +957,10 @@ static int a6xx_hw_init(struct msm_gpu *gpu)
+>         /* Setting the primFifo thresholds default values,
+>          * and vccCacheSkipDis=1 bit (0x200) for A640 and newer
+>         */
+> -       if (adreno_is_a650(adreno_gpu) || adreno_is_a660(adreno_gpu))
+> -               gpu_write(gpu, REG_A6XX_PC_DBG_ECO_CNTL, 0x00300200);
+> -       else if (adreno_is_a640(adreno_gpu))
+> +       if (adreno_is_a640(adreno_gpu) || adreno_is_7c3(adreno_gpu))
+>                 gpu_write(gpu, REG_A6XX_PC_DBG_ECO_CNTL, 0x00200200);
+> +       else if (adreno_is_a650(adreno_gpu) || adreno_is_a660(adreno_gpu))
+> +               gpu_write(gpu, REG_A6XX_PC_DBG_ECO_CNTL, 0x00300200);
+>         else
+>                 gpu_write(gpu, REG_A6XX_PC_DBG_ECO_CNTL, 0x00180000);
+>
+> @@ -993,8 +1000,9 @@ static int a6xx_hw_init(struct msm_gpu *gpu)
+>         if (adreno_is_a660(adreno_gpu)) {
+>                 gpu_write(gpu, REG_A6XX_CP_CHICKEN_DBG, 0x1);
+>                 gpu_write(gpu, REG_A6XX_RBBM_GBIF_CLIENT_QOS_CNTL, 0x0);
+> -               /* Set dualQ + disable afull for A660 GPU but not for A635 */
+> -               gpu_write(gpu, REG_A6XX_UCHE_CMDQ_CONFIG, 0x66906);
+> +               /* Set dualQ + disable afull for A660 GPU but not for 7c3 */
+> +               if (!adreno_is_7c3(adreno_gpu))
+> +                       gpu_write(gpu, REG_A6XX_UCHE_CMDQ_CONFIG, 0x66906);
+>         }
+>
+>         /* Enable expanded apriv for targets that support it */
+> @@ -1780,7 +1788,8 @@ struct msm_gpu *a6xx_gpu_init(struct drm_device *dev)
+>          */
+>         info = adreno_info(config->rev);
+>
+> -       if (info && (info->revn == 650 || info->revn == 660))
+> +       if (info && (info->revn == 650 || info->revn == 660
+> +                       || info->revn == ADRENO_REV_7C3))
+>                 adreno_gpu->base.hw_apriv = true;
+>
+>         a6xx_llc_slices_init(pdev, a6xx_gpu);
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_hfi.c b/drivers/gpu/drm/msm/adreno/a6xx_hfi.c
+> index 9194337..1451c2b 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_hfi.c
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_hfi.c
+> @@ -382,6 +382,36 @@ static void a660_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
+>         msg->cnoc_cmds_data[1][0] =  0x60000001;
+>  }
+>
+> +static void adreno_7c3_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
+> +{
+> +       /*
+> +        * Send a single "off" entry just to get things running
+> +        * TODO: bus scaling
+> +        */
+> +       msg->bw_level_num = 1;
+> +
+> +       msg->ddr_cmds_num = 3;
+> +       msg->ddr_wait_bitmask = 0x07;
+> +
+> +       msg->ddr_cmds_addrs[0] = 0x50004;
+> +       msg->ddr_cmds_addrs[1] = 0x50000;
+> +       msg->ddr_cmds_addrs[2] = 0x50088;
+> +
+> +       msg->ddr_cmds_data[0][0] =  0x40000000;
+> +       msg->ddr_cmds_data[0][1] =  0x40000000;
+> +       msg->ddr_cmds_data[0][2] =  0x40000000;
+> +
+> +       /*
+> +        * These are the CX (CNOC) votes - these are used by the GMU but the
+> +        * votes are known and fixed for the target
+> +        */
+> +       msg->cnoc_cmds_num = 1;
+> +       msg->cnoc_wait_bitmask = 0x01;
+> +
+> +       msg->cnoc_cmds_addrs[0] = 0x5006c;
+> +       msg->cnoc_cmds_data[0][0] =  0x40000000;
+> +       msg->cnoc_cmds_data[1][0] =  0x60000001;
+> +}
+>  static void a6xx_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
+>  {
+>         /* Send a single "off" entry since the 630 GMU doesn't do bus scaling */
+> @@ -432,6 +462,8 @@ static int a6xx_hfi_send_bw_table(struct a6xx_gmu *gmu)
+>                 a640_build_bw_table(&msg);
+>         else if (adreno_is_a650(adreno_gpu))
+>                 a650_build_bw_table(&msg);
+> +       else if (adreno_is_7c3(adreno_gpu))
+> +               adreno_7c3_build_bw_table(&msg);
+>         else if (adreno_is_a660(adreno_gpu))
+>                 a660_build_bw_table(&msg);
+>         else
+> diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
+> index 6dad801..063b847 100644
+> --- a/drivers/gpu/drm/msm/adreno/adreno_device.c
+> +++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
+> @@ -300,6 +300,18 @@ static const struct adreno_info gpulist[] = {
+>                 .init = a6xx_gpu_init,
+>                 .zapfw = "a660_zap.mdt",
+>                 .hwcg = a660_hwcg,
+> +       }, {
+> +               .rev = ADRENO_REV(6, 3, 5, ANY_ID),
+> +               .revn = ADRENO_REV_7C3,
+
+So rather than adding an ARENO_REV_7C3 define, I was thinking to just
+not set .revn (leave it zero) and identify based on .rev .. that (ie.
+GPU_ID being zero) would also be the signal to userspace to identify
+the GPU via CHIP_ID instead
+
+You could extract out the version comparison in adreno_info() into a
+helper that can be re-used in things like adreno_is_a660_family() and
+adreno_is_7c3().
+
+BR,
+-R
+
+> +               .name = "Adreno 7c Gen 3",
+> +               .fw = {
+> +                       [ADRENO_FW_SQE] = "a660_sqe.fw",
+> +                       [ADRENO_FW_GMU] = "a660_gmu.bin",
+> +               },
+> +               .gmem = SZ_512K,
+> +               .inactive_period = DRM_MSM_INACTIVE_PERIOD,
+> +               .init = a6xx_gpu_init,
+> +               .hwcg = a660_hwcg,
+>         },
 >  };
->  
-> -static const struct intel_cdclk_vals cnl_cdclk_table[] = {
-> -	{ .refclk = 19200, .cdclk = 168000, .divider = 4, .ratio = 35 },
-> -	{ .refclk = 19200, .cdclk = 336000, .divider = 2, .ratio = 35 },
-> -	{ .refclk = 19200, .cdclk = 528000, .divider = 2, .ratio = 55 },
-> -
-> -	{ .refclk = 24000, .cdclk = 168000, .divider = 4, .ratio = 28 },
-> -	{ .refclk = 24000, .cdclk = 336000, .divider = 2, .ratio = 28 },
-> -	{ .refclk = 24000, .cdclk = 528000, .divider = 2, .ratio = 44 },
-> -	{}
-> -};
-> -
->  static const struct intel_cdclk_vals icl_cdclk_table[] = {
->  	{ .refclk = 19200, .cdclk = 172800, .divider = 2, .ratio = 18 },
->  	{ .refclk = 19200, .cdclk = 192000, .divider = 2, .ratio = 20 },
-> @@ -1339,16 +1328,6 @@ static u8 bxt_calc_voltage_level(int cdclk)
->  	return DIV_ROUND_UP(cdclk, 25000);
+>
+> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+> index 8dbe0d1..679bc59 100644
+> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+> @@ -247,15 +247,22 @@ static inline int adreno_is_a650(struct adreno_gpu *gpu)
+>         return gpu->revn == 650;
 >  }
->  
-> -static u8 cnl_calc_voltage_level(int cdclk)
-> -{
-> -	if (cdclk > 336000)
-> -		return 2;
-> -	else if (cdclk > 168000)
-> -		return 1;
-> -	else
-> -		return 0;
-> -}
-> -
->  static u8 icl_calc_voltage_level(int cdclk)
+>
+> +#define ADRENO_REV_7C3 0x06030500
+> +static inline int adreno_is_7c3(struct adreno_gpu *gpu)
+> +{
+> +       return gpu->revn == ADRENO_REV_7C3;
+> +}
+> +
+>  static inline int adreno_is_a660(struct adreno_gpu *gpu)
 >  {
->  	if (cdclk > 556800)
-> @@ -1383,15 +1362,6 @@ static u8 tgl_calc_voltage_level(int cdclk)
->  		return 0;
+> -       return gpu->revn == 660;
+> +       return gpu->revn == 660 || gpu->revn == ADRENO_REV_7C3;
 >  }
->  
-> -static void cnl_readout_refclk(struct drm_i915_private *dev_priv,
-> -			       struct intel_cdclk_config *cdclk_config)
-> -{
-> -	if (intel_de_read(dev_priv, SKL_DSSM) & CNL_DSSM_CDCLK_PLL_REFCLK_24MHz)
-> -		cdclk_config->ref = 24000;
-> -	else
-> -		cdclk_config->ref = 19200;
-> -}
-> -
->  static void icl_readout_refclk(struct drm_i915_private *dev_priv,
->  			       struct intel_cdclk_config *cdclk_config)
+>
+>  /* check for a650, a660, or any derivatives */
+>  static inline int adreno_is_a650_family(struct adreno_gpu *gpu)
 >  {
-> @@ -1422,8 +1392,6 @@ static void bxt_de_pll_readout(struct drm_i915_private *dev_priv,
->  		cdclk_config->ref = 38400;
->  	else if (DISPLAY_VER(dev_priv) >= 11)
->  		icl_readout_refclk(dev_priv, cdclk_config);
-> -	else if (IS_CANNONLAKE(dev_priv))
-> -		cnl_readout_refclk(dev_priv, cdclk_config);
->  	else
->  		cdclk_config->ref = 19200;
->  
-> @@ -1439,11 +1407,11 @@ static void bxt_de_pll_readout(struct drm_i915_private *dev_priv,
->  	}
->  
->  	/*
-> -	 * CNL+ have the ratio directly in the PLL enable register, gen9lp had
-> -	 * it in a separate PLL control register.
-> +	 * DISPLAY_VER >= 11 have the ratio directly in the PLL enable register,
-> +	 * gen9lp had it in a separate PLL control register.
->  	 */
-> -	if (DISPLAY_VER(dev_priv) >= 11 || IS_CANNONLAKE(dev_priv))
-> -		ratio = val & CNL_CDCLK_PLL_RATIO_MASK;
-> +	if (DISPLAY_VER(dev_priv) >= 11)
-> +		ratio = val & ICL_CDCLK_PLL_RATIO_MASK;
->  	else
->  		ratio = intel_de_read(dev_priv, BXT_DE_PLL_CTL) & BXT_DE_PLL_RATIO_MASK;
->  
-> @@ -1530,7 +1498,7 @@ static void bxt_de_pll_enable(struct drm_i915_private *dev_priv, int vco)
->  	dev_priv->cdclk.hw.vco = vco;
+> -       return gpu->revn == 650 || gpu->revn == 620 || gpu->revn == 660;
+> +       return gpu->revn == 650 || gpu->revn == 620 || gpu->revn == 660
+> +              || gpu->revn == ADRENO_REV_7C3;
 >  }
->  
-> -static void cnl_cdclk_pll_disable(struct drm_i915_private *dev_priv)
-> +static void icl_cdclk_pll_disable(struct drm_i915_private *dev_priv)
->  {
->  	intel_de_rmw(dev_priv, BXT_DE_PLL_ENABLE,
->  		     BXT_DE_PLL_PLL_ENABLE, 0);
-> @@ -1542,12 +1510,12 @@ static void cnl_cdclk_pll_disable(struct drm_i915_private *dev_priv)
->  	dev_priv->cdclk.hw.vco = 0;
->  }
->  
-> -static void cnl_cdclk_pll_enable(struct drm_i915_private *dev_priv, int vco)
-> +static void icl_cdclk_pll_enable(struct drm_i915_private *dev_priv, int vco)
->  {
->  	int ratio = DIV_ROUND_CLOSEST(vco, dev_priv->cdclk.hw.ref);
->  	u32 val;
->  
-> -	val = CNL_CDCLK_PLL_RATIO(ratio);
-> +	val = ICL_CDCLK_PLL_RATIO(ratio);
->  	intel_de_write(dev_priv, BXT_DE_PLL_ENABLE, val);
->  
->  	val |= BXT_DE_PLL_PLL_ENABLE;
-> @@ -1566,7 +1534,7 @@ static void adlp_cdclk_pll_crawl(struct drm_i915_private *dev_priv, int vco)
->  	u32 val;
->  
->  	/* Write PLL ratio without disabling */
-> -	val = CNL_CDCLK_PLL_RATIO(ratio) | BXT_DE_PLL_PLL_ENABLE;
-> +	val = ICL_CDCLK_PLL_RATIO(ratio) | BXT_DE_PLL_PLL_ENABLE;
->  	intel_de_write(dev_priv, BXT_DE_PLL_ENABLE, val);
->  
->  	/* Submit freq change request */
-> @@ -1635,7 +1603,7 @@ static void bxt_set_cdclk(struct drm_i915_private *dev_priv,
->  	int ret;
->  
->  	/* Inform power controller of upcoming frequency change. */
-> -	if (DISPLAY_VER(dev_priv) >= 11 || IS_CANNONLAKE(dev_priv))
-> +	if (DISPLAY_VER(dev_priv) >= 11)
->  		ret = skl_pcode_request(dev_priv, SKL_PCODE_CDCLK_CONTROL,
->  					SKL_CDCLK_PREPARE_FOR_CHANGE,
->  					SKL_CDCLK_READY_FOR_CHANGE,
-> @@ -1659,13 +1627,13 @@ static void bxt_set_cdclk(struct drm_i915_private *dev_priv,
->  	if (HAS_CDCLK_CRAWL(dev_priv) && dev_priv->cdclk.hw.vco > 0 && vco > 0) {
->  		if (dev_priv->cdclk.hw.vco != vco)
->  			adlp_cdclk_pll_crawl(dev_priv, vco);
-> -	} else if (DISPLAY_VER(dev_priv) >= 11 || IS_CANNONLAKE(dev_priv)) {
-> +	} else if (DISPLAY_VER(dev_priv) >= 11) {
->  		if (dev_priv->cdclk.hw.vco != 0 &&
->  		    dev_priv->cdclk.hw.vco != vco)
-> -			cnl_cdclk_pll_disable(dev_priv);
-> +			icl_cdclk_pll_disable(dev_priv);
->  
->  		if (dev_priv->cdclk.hw.vco != vco)
-> -			cnl_cdclk_pll_enable(dev_priv, vco);
-> +			icl_cdclk_pll_enable(dev_priv, vco);
->  	} else {
->  		if (dev_priv->cdclk.hw.vco != 0 &&
->  		    dev_priv->cdclk.hw.vco != vco)
-> @@ -1691,7 +1659,7 @@ static void bxt_set_cdclk(struct drm_i915_private *dev_priv,
->  	if (pipe != INVALID_PIPE)
->  		intel_wait_for_vblank(dev_priv, pipe);
->  
-> -	if (DISPLAY_VER(dev_priv) >= 11 || IS_CANNONLAKE(dev_priv)) {
-> +	if (DISPLAY_VER(dev_priv) >= 11) {
->  		ret = sandybridge_pcode_write(dev_priv, SKL_PCODE_CDCLK_CONTROL,
->  					      cdclk_config->voltage_level);
->  	} else {
-> @@ -1716,7 +1684,7 @@ static void bxt_set_cdclk(struct drm_i915_private *dev_priv,
->  
->  	intel_update_cdclk(dev_priv);
->  
-> -	if (DISPLAY_VER(dev_priv) >= 11 || IS_CANNONLAKE(dev_priv))
-> +	if (DISPLAY_VER(dev_priv) >= 11)
->  		/*
->  		 * Can't read out the voltage level :(
->  		 * Let's just assume everything is as expected.
-> @@ -2125,7 +2093,7 @@ int intel_crtc_compute_min_cdclk(const struct intel_crtc_state *crtc_state)
->  	    crtc_state->port_clock >= 540000 &&
->  	    crtc_state->lane_count == 4) {
->  		if (DISPLAY_VER(dev_priv) == 10) {
-> -			/* Display WA #1145: glk,cnl */
-> +			/* Display WA #1145: glk */
->  			min_cdclk = max(316800, min_cdclk);
->  		} else if (DISPLAY_VER(dev_priv) == 9 || IS_BROADWELL(dev_priv)) {
->  			/* Display WA #1144: skl,bxt */
-> @@ -2246,7 +2214,7 @@ static int intel_compute_min_cdclk(struct intel_cdclk_state *cdclk_state)
->  
->  /*
->   * Account for port clock min voltage level requirements.
-> - * This only really does something on CNL+ but can be
-> + * This only really does something on DISPLA_VER >= 11 but can be
->   * called on earlier platforms as well.
->   *
->   * Note that this functions assumes that 0 is
-> @@ -2660,8 +2628,6 @@ void intel_update_max_cdclk(struct drm_i915_private *dev_priv)
->  			dev_priv->max_cdclk_freq = 648000;
->  		else
->  			dev_priv->max_cdclk_freq = 652800;
-> -	} else if (IS_CANNONLAKE(dev_priv)) {
-> -		dev_priv->max_cdclk_freq = 528000;
->  	} else if (IS_GEMINILAKE(dev_priv)) {
->  		dev_priv->max_cdclk_freq = 316800;
->  	} else if (IS_BROXTON(dev_priv)) {
-> @@ -2925,12 +2891,6 @@ void intel_init_cdclk_hooks(struct drm_i915_private *dev_priv)
->  		dev_priv->display.modeset_calc_cdclk = bxt_modeset_calc_cdclk;
->  		dev_priv->display.calc_voltage_level = icl_calc_voltage_level;
->  		dev_priv->cdclk.table = icl_cdclk_table;
-> -	} else if (IS_CANNONLAKE(dev_priv)) {
-> -		dev_priv->display.bw_calc_min_cdclk = skl_bw_calc_min_cdclk;
-> -		dev_priv->display.set_cdclk = bxt_set_cdclk;
-> -		dev_priv->display.modeset_calc_cdclk = bxt_modeset_calc_cdclk;
-> -		dev_priv->display.calc_voltage_level = cnl_calc_voltage_level;
-> -		dev_priv->cdclk.table = cnl_cdclk_table;
->  	} else if (IS_GEMINILAKE(dev_priv) || IS_BROXTON(dev_priv)) {
->  		dev_priv->display.bw_calc_min_cdclk = skl_bw_calc_min_cdclk;
->  		dev_priv->display.set_cdclk = bxt_set_cdclk;
-> diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
-> index 8e1392028184..6a894ffd91e1 100644
-> --- a/drivers/gpu/drm/i915/i915_reg.h
-> +++ b/drivers/gpu/drm/i915/i915_reg.h
-> @@ -11016,8 +11016,8 @@ enum skl_power_gate {
->  #define   BXT_DE_PLL_LOCK		(1 << 30)
->  #define   BXT_DE_PLL_FREQ_REQ		(1 << 23)
->  #define   BXT_DE_PLL_FREQ_REQ_ACK	(1 << 22)
-> -#define   CNL_CDCLK_PLL_RATIO(x)	(x)
-> -#define   CNL_CDCLK_PLL_RATIO_MASK	0xff
-> +#define   ICL_CDCLK_PLL_RATIO(x)	(x)
-> +#define   ICL_CDCLK_PLL_RATIO_MASK	0xff
-
-We could take this opportunity to switch to REG_GENMASK, REG_FIELD_PREP
-here.  Otherwise,
-
-Reviewed-by: Matt Roper <matthew.d.roper@intel.com>
-
->  
->  /* GEN9 DC */
->  #define DC_STATE_EN			_MMIO(0x45504)
-> -- 
-> 2.31.1
-> 
-
--- 
-Matt Roper
-Graphics Software Engineer
-VTT-OSGC Platform Enablement
-Intel Corporation
-(916) 356-2795
+>
+>  int adreno_get_param(struct msm_gpu *gpu, uint32_t param, uint64_t *value);
+> --
+> QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
+> of Code Aurora Forum, hosted by The Linux Foundation.
+>
+> _______________________________________________
+> Freedreno mailing list
+> Freedreno@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/freedreno
