@@ -2,31 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB44F3D439B
-	for <lists+dri-devel@lfdr.de>; Sat, 24 Jul 2021 02:11:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 866BE3D4399
+	for <lists+dri-devel@lfdr.de>; Sat, 24 Jul 2021 02:11:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4852E6FD1B;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 263956FD16;
 	Sat, 24 Jul 2021 00:11:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6EEA36FD16;
- Sat, 24 Jul 2021 00:11:28 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10054"; a="191563439"
-X-IronPort-AV: E=Sophos;i="5.84,265,1620716400"; d="scan'208";a="191563439"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 10E386FD16;
+ Sat, 24 Jul 2021 00:11:29 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10054"; a="191563440"
+X-IronPort-AV: E=Sophos;i="5.84,265,1620716400"; d="scan'208";a="191563440"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  23 Jul 2021 17:11:27 -0700
-X-IronPort-AV: E=Sophos;i="5.84,265,1620716400"; d="scan'208";a="434269958"
+X-IronPort-AV: E=Sophos;i="5.84,265,1620716400"; d="scan'208";a="434269962"
 Received: from lucas-s2600cw.jf.intel.com ([10.165.21.202])
  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  23 Jul 2021 17:11:26 -0700
 From: Lucas De Marchi <lucas.demarchi@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 00/30] Remove CNL support
-Date: Fri, 23 Jul 2021 17:10:44 -0700
-Message-Id: <20210724001114.249295-1-lucas.demarchi@intel.com>
+Subject: [PATCH 01/30] drm/i915: fix not reading DSC disable fuse in GLK
+Date: Fri, 23 Jul 2021 17:10:45 -0700
+Message-Id: <20210724001114.249295-2-lucas.demarchi@intel.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210724001114.249295-1-lucas.demarchi@intel.com>
+References: <20210724001114.249295-1-lucas.demarchi@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -46,104 +48,59 @@ Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Patches 1 and 2 are already being reviewed elsewhere. Discussion on 2nd
-patch made me revive something I started after comment from Ville
-at https://patchwork.freedesktop.org/patch/428168/?series=88988&rev=1#comment_768918
+We were using GRAPHICS_VER() to handle SKL_DFSM register, which means we
+were not handling GLK correctly since that has GRAPHICS_VER == 9, but
+DISPLAY_VER == 10. Switch the entire branch to check DISPLAY_VER
+which makes it more in line with Bspec.
 
-This removes CNL completely from the driver, while trying to rename
-functions and macros where appropriate (usually to GLK when dealing with
-display or with ICL otherwise). It starts with display, which is more
-straightforward, and then proceed to the rest of i915.
+Even though the Bspec has an exception for RKL in
+TGL_DFSM_PIPE_D_DISABLE, we don't have to do anything as the bit has
+disable semantic and RKL doesn't have pipe D.
 
-diff stat removing 1600 lines of dead code seems to pay the pain of
-doing this.
+Bspec: 50075, 7548
+Fixes: 2b5a4562edd0 ("drm/i915/display: Simplify GLK display version tests")
+Cc: Matt Roper <matthew.d.roper@intel.com>
+Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
+---
+ drivers/gpu/drm/i915/intel_device_info.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-
-Lucas De Marchi (30):
-  drm/i915: fix not reading DSC disable fuse in GLK
-  drm/i915/display: split DISPLAY_VER 9 and 10 in intel_setup_outputs()
-  drm/i915/display: remove PORT_F workaround for CNL
-  drm/i915/display: remove explicit CNL handling from intel_cdclk.c
-  drm/i915/display: remove explicit CNL handling from intel_color.c
-  drm/i915/display: remove explicit CNL handling from intel_combo_phy.c
-  drm/i915/display: remove explicit CNL handling from intel_crtc.c
-  drm/i915/display: remove explicit CNL handling from intel_ddi.c
-  drm/i915/display: remove explicit CNL handling from
-    intel_display_debugfs.c
-  drm/i915/display: remove explicit CNL handling from intel_dmc.c
-  drm/i915/display: remove explicit CNL handling from intel_dp.c
-  drm/i915/display: remove explicit CNL handling from intel_dpll_mgr.c
-  drm/i915/display: remove explicit CNL handling from intel_vdsc.c
-  drm/i915/display: remove explicit CNL handling from
-    skl_universal_plane.c
-  drm/i915/display: remove explicit CNL handling from
-    intel_display_power.c
-  drm/i915/display: remove CNL ddi buf translation tables
-  drm/i915/display: rename CNL references in skl_scaler.c
-  drm/i915: remove explicit CNL handling from i915_irq.c
-  drm/i915: remove explicit CNL handling from intel_pm.c
-  drm/i915: remove explicit CNL handling from intel_mocs.c
-  drm/i915: remove explicit CNL handling from intel_pch.c
-  drm/i915: remove explicit CNL handling from intel_wopcm.c
-  drm/i915/gt: remove explicit CNL handling from intel_sseu.c
-  drm/i915: rename CNL references in intel_dram.c
-  drm/i915/gt: rename CNL references in intel_engine.h
-  drm/i915: finish removal of CNL
-  drm/i915: remove GRAPHICS_VER == 10
-  drm/i915: rename/remove CNL registers
-  drm/i915: replace random CNL comments
-  drm/i915: switch num_scalers/num_sprites to consider DISPLAY_VER
-
- drivers/gpu/drm/i915/display/intel_bios.c     |   8 +-
- drivers/gpu/drm/i915/display/intel_cdclk.c    |  72 +-
- drivers/gpu/drm/i915/display/intel_color.c    |   5 +-
- .../gpu/drm/i915/display/intel_combo_phy.c    | 106 +--
- drivers/gpu/drm/i915/display/intel_crtc.c     |   2 +-
- drivers/gpu/drm/i915/display/intel_ddi.c      | 266 +-------
- .../drm/i915/display/intel_ddi_buf_trans.c    | 616 +++++-------------
- .../drm/i915/display/intel_ddi_buf_trans.h    |   4 +-
- drivers/gpu/drm/i915/display/intel_display.c  |   3 +-
- .../drm/i915/display/intel_display_debugfs.c  |   2 +-
- .../drm/i915/display/intel_display_power.c    | 289 --------
- .../drm/i915/display/intel_display_power.h    |   2 -
- drivers/gpu/drm/i915/display/intel_dmc.c      |   9 -
- drivers/gpu/drm/i915/display/intel_dp.c       |  35 +-
- drivers/gpu/drm/i915/display/intel_dp_aux.c   |   1 -
- drivers/gpu/drm/i915/display/intel_dpll_mgr.c | 586 +++--------------
- drivers/gpu/drm/i915/display/intel_dpll_mgr.h |   1 -
- drivers/gpu/drm/i915/display/intel_vbt_defs.h |   2 +-
- drivers/gpu/drm/i915/display/intel_vdsc.c     |   5 +-
- drivers/gpu/drm/i915/display/skl_scaler.c     |  10 +-
- .../drm/i915/display/skl_universal_plane.c    |  14 +-
- drivers/gpu/drm/i915/gem/i915_gem_stolen.c    |   1 -
- drivers/gpu/drm/i915/gt/debugfs_gt_pm.c       |  10 +-
- drivers/gpu/drm/i915/gt/intel_engine.h        |   2 +-
- drivers/gpu/drm/i915/gt/intel_engine_cs.c     |   3 -
- drivers/gpu/drm/i915/gt/intel_ggtt.c          |   4 +-
- .../gpu/drm/i915/gt/intel_gt_clock_utils.c    |  10 +-
- drivers/gpu/drm/i915/gt/intel_gtt.c           |   6 +-
- drivers/gpu/drm/i915/gt/intel_lrc.c           |  42 +-
- drivers/gpu/drm/i915/gt/intel_mocs.c          |   2 +-
- drivers/gpu/drm/i915/gt/intel_rc6.c           |   2 +-
- drivers/gpu/drm/i915/gt/intel_rps.c           |   4 +-
- drivers/gpu/drm/i915/gt/intel_sseu.c          |  79 ---
- drivers/gpu/drm/i915/gt/intel_sseu.h          |   2 +-
- drivers/gpu/drm/i915/gt/intel_sseu_debugfs.c  |   6 +-
- drivers/gpu/drm/i915/gvt/gtt.c                |   2 +-
- drivers/gpu/drm/i915/i915_debugfs.c           |   6 +-
- drivers/gpu/drm/i915/i915_drv.h               |  13 +-
- drivers/gpu/drm/i915/i915_irq.c               |   7 +-
- drivers/gpu/drm/i915/i915_pci.c               |  23 +-
- drivers/gpu/drm/i915/i915_perf.c              |  22 +-
- drivers/gpu/drm/i915/i915_reg.h               | 245 ++-----
- drivers/gpu/drm/i915/intel_device_info.c      |  23 +-
- drivers/gpu/drm/i915/intel_device_info.h      |   4 +-
- drivers/gpu/drm/i915/intel_dram.c             |  32 +-
- drivers/gpu/drm/i915/intel_pch.c              |   5 +-
- drivers/gpu/drm/i915/intel_pm.c               |  41 +-
- drivers/gpu/drm/i915/intel_wopcm.c            |  10 +-
- 48 files changed, 516 insertions(+), 2128 deletions(-)
-
+diff --git a/drivers/gpu/drm/i915/intel_device_info.c b/drivers/gpu/drm/i915/intel_device_info.c
+index d5cf5977938a..99b51c292942 100644
+--- a/drivers/gpu/drm/i915/intel_device_info.c
++++ b/drivers/gpu/drm/i915/intel_device_info.c
+@@ -335,7 +335,7 @@ void intel_device_info_runtime_init(struct drm_i915_private *dev_priv)
+ 			info->pipe_mask &= ~BIT(PIPE_C);
+ 			info->cpu_transcoder_mask &= ~BIT(TRANSCODER_C);
+ 		}
+-	} else if (HAS_DISPLAY(dev_priv) && GRAPHICS_VER(dev_priv) >= 9) {
++	} else if (HAS_DISPLAY(dev_priv) && DISPLAY_VER(dev_priv) >= 9) {
+ 		u32 dfsm = intel_de_read(dev_priv, SKL_DFSM);
+ 
+ 		if (dfsm & SKL_DFSM_PIPE_A_DISABLE) {
+@@ -350,7 +350,8 @@ void intel_device_info_runtime_init(struct drm_i915_private *dev_priv)
+ 			info->pipe_mask &= ~BIT(PIPE_C);
+ 			info->cpu_transcoder_mask &= ~BIT(TRANSCODER_C);
+ 		}
+-		if (GRAPHICS_VER(dev_priv) >= 12 &&
++
++		if (DISPLAY_VER(dev_priv) >= 12 &&
+ 		    (dfsm & TGL_DFSM_PIPE_D_DISABLE)) {
+ 			info->pipe_mask &= ~BIT(PIPE_D);
+ 			info->cpu_transcoder_mask &= ~BIT(TRANSCODER_D);
+@@ -362,10 +363,10 @@ void intel_device_info_runtime_init(struct drm_i915_private *dev_priv)
+ 		if (dfsm & SKL_DFSM_DISPLAY_PM_DISABLE)
+ 			info->display.has_fbc = 0;
+ 
+-		if (GRAPHICS_VER(dev_priv) >= 11 && (dfsm & ICL_DFSM_DMC_DISABLE))
++		if (DISPLAY_VER(dev_priv) >= 11 && (dfsm & ICL_DFSM_DMC_DISABLE))
+ 			info->display.has_dmc = 0;
+ 
+-		if (GRAPHICS_VER(dev_priv) >= 10 &&
++		if (DISPLAY_VER(dev_priv) >= 10 &&
+ 		    (dfsm & CNL_DFSM_DISPLAY_DSC_DISABLE))
+ 			info->display.has_dsc = 0;
+ 	}
 -- 
 2.31.1
 
