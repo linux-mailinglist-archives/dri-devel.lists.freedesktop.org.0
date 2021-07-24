@@ -1,32 +1,31 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67E3C3D43D2
-	for <lists+dri-devel@lfdr.de>; Sat, 24 Jul 2021 02:12:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 95CD73D43BF
+	for <lists+dri-devel@lfdr.de>; Sat, 24 Jul 2021 02:12:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE8B46FD38;
-	Sat, 24 Jul 2021 00:11:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 269116FD3D;
+	Sat, 24 Jul 2021 00:11:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4BF276FD1C;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C0E226FD1C;
  Sat, 24 Jul 2021 00:11:32 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10054"; a="191563457"
-X-IronPort-AV: E=Sophos;i="5.84,265,1620716400"; d="scan'208";a="191563457"
+X-IronPort-AV: E=McAfee;i="6200,9189,10054"; a="191563458"
+X-IronPort-AV: E=Sophos;i="5.84,265,1620716400"; d="scan'208";a="191563458"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  23 Jul 2021 17:11:32 -0700
-X-IronPort-AV: E=Sophos;i="5.84,265,1620716400"; d="scan'208";a="434270013"
+X-IronPort-AV: E=Sophos;i="5.84,265,1620716400"; d="scan'208";a="434270016"
 Received: from lucas-s2600cw.jf.intel.com ([10.165.21.202])
  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Jul 2021 17:11:31 -0700
+ 23 Jul 2021 17:11:32 -0700
 From: Lucas De Marchi <lucas.demarchi@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 15/30] drm/i915/display: remove explicit CNL handling from
- intel_display_power.c
-Date: Fri, 23 Jul 2021 17:10:59 -0700
-Message-Id: <20210724001114.249295-16-lucas.demarchi@intel.com>
+Subject: [PATCH 16/30] drm/i915/display: remove CNL ddi buf translation tables
+Date: Fri, 23 Jul 2021 17:11:00 -0700
+Message-Id: <20210724001114.249295-17-lucas.demarchi@intel.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210724001114.249295-1-lucas.demarchi@intel.com>
 References: <20210724001114.249295-1-lucas.demarchi@intel.com>
@@ -50,394 +49,836 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 The only real platform with DISPLAY_VER == 10 is GLK. We don't need to
-handle CNL explicitly in intel_display_power.c.
+handle CNL explicitly.
 
 Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
 ---
- .../drm/i915/display/intel_display_power.c    | 289 ------------------
- .../drm/i915/display/intel_display_power.h    |   2 -
- drivers/gpu/drm/i915/i915_reg.h               |  13 -
- 3 files changed, 304 deletions(-)
+ drivers/gpu/drm/i915/display/intel_ddi.c      |  12 +-
+ .../drm/i915/display/intel_ddi_buf_trans.c    | 616 +++++-------------
+ .../drm/i915/display/intel_ddi_buf_trans.h    |   4 +-
+ 3 files changed, 184 insertions(+), 448 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_display_power.c b/drivers/gpu/drm/i915/display/intel_display_power.c
-index 81efc77bada0..44aef0c44ab7 100644
---- a/drivers/gpu/drm/i915/display/intel_display_power.c
-+++ b/drivers/gpu/drm/i915/display/intel_display_power.c
-@@ -447,17 +447,6 @@ static void hsw_power_well_enable(struct drm_i915_private *dev_priv,
+diff --git a/drivers/gpu/drm/i915/display/intel_ddi.c b/drivers/gpu/drm/i915/display/intel_ddi.c
+index 8367462842fa..e5cfb606dd30 100644
+--- a/drivers/gpu/drm/i915/display/intel_ddi.c
++++ b/drivers/gpu/drm/i915/display/intel_ddi.c
+@@ -1055,8 +1055,8 @@ static void icl_ddi_combo_vswing_program(struct intel_encoder *encoder,
+ 	val = intel_de_read(dev_priv, ICL_PORT_TX_DW2_LN0(phy));
+ 	val &= ~(SWING_SEL_LOWER_MASK | SWING_SEL_UPPER_MASK |
+ 		 RCOMP_SCALAR_MASK);
+-	val |= SWING_SEL_UPPER(ddi_translations->entries[level].cnl.dw2_swing_sel);
+-	val |= SWING_SEL_LOWER(ddi_translations->entries[level].cnl.dw2_swing_sel);
++	val |= SWING_SEL_UPPER(ddi_translations->entries[level].icl.dw2_swing_sel);
++	val |= SWING_SEL_LOWER(ddi_translations->entries[level].icl.dw2_swing_sel);
+ 	/* Program Rcomp scalar for every table entry */
+ 	val |= RCOMP_SCALAR(0x98);
+ 	intel_de_write(dev_priv, ICL_PORT_TX_DW2_GRP(phy), val);
+@@ -1067,16 +1067,16 @@ static void icl_ddi_combo_vswing_program(struct intel_encoder *encoder,
+ 		val = intel_de_read(dev_priv, ICL_PORT_TX_DW4_LN(ln, phy));
+ 		val &= ~(POST_CURSOR_1_MASK | POST_CURSOR_2_MASK |
+ 			 CURSOR_COEFF_MASK);
+-		val |= POST_CURSOR_1(ddi_translations->entries[level].cnl.dw4_post_cursor_1);
+-		val |= POST_CURSOR_2(ddi_translations->entries[level].cnl.dw4_post_cursor_2);
+-		val |= CURSOR_COEFF(ddi_translations->entries[level].cnl.dw4_cursor_coeff);
++		val |= POST_CURSOR_1(ddi_translations->entries[level].icl.dw4_post_cursor_1);
++		val |= POST_CURSOR_2(ddi_translations->entries[level].icl.dw4_post_cursor_2);
++		val |= CURSOR_COEFF(ddi_translations->entries[level].icl.dw4_cursor_coeff);
+ 		intel_de_write(dev_priv, ICL_PORT_TX_DW4_LN(ln, phy), val);
+ 	}
  
- 	hsw_wait_for_power_well_enable(dev_priv, power_well, false);
- 
--	/* Display WA #1178: cnl */
--	if (IS_CANNONLAKE(dev_priv) &&
--	    pw_idx >= GLK_PW_CTL_IDX_AUX_B &&
--	    pw_idx <= CNL_PW_CTL_IDX_AUX_F) {
--		u32 val;
--
--		val = intel_de_read(dev_priv, CNL_AUX_ANAOVRD1(pw_idx));
--		val |= CNL_AUX_ANAOVRD1_ENABLE | CNL_AUX_ANAOVRD1_LDO_BYPASS;
--		intel_de_write(dev_priv, CNL_AUX_ANAOVRD1(pw_idx), val);
--	}
--
- 	if (power_well->desc->hsw.has_fuses) {
- 		enum skl_power_gate pg;
- 
-@@ -2743,63 +2732,6 @@ intel_display_power_put_mask_in_set(struct drm_i915_private *i915,
- 	BIT_ULL(POWER_DOMAIN_GMBUS) |			\
- 	BIT_ULL(POWER_DOMAIN_INIT))
- 
--#define CNL_DISPLAY_POWERWELL_2_POWER_DOMAINS (		\
--	BIT_ULL(POWER_DOMAIN_TRANSCODER_A) |		\
--	BIT_ULL(POWER_DOMAIN_PIPE_B) |			\
--	BIT_ULL(POWER_DOMAIN_TRANSCODER_B) |		\
--	BIT_ULL(POWER_DOMAIN_PIPE_C) |			\
--	BIT_ULL(POWER_DOMAIN_TRANSCODER_C) |		\
--	BIT_ULL(POWER_DOMAIN_PIPE_B_PANEL_FITTER) |		\
--	BIT_ULL(POWER_DOMAIN_PIPE_C_PANEL_FITTER) |		\
--	BIT_ULL(POWER_DOMAIN_PORT_DDI_B_LANES) |		\
--	BIT_ULL(POWER_DOMAIN_PORT_DDI_C_LANES) |		\
--	BIT_ULL(POWER_DOMAIN_PORT_DDI_D_LANES) |		\
--	BIT_ULL(POWER_DOMAIN_PORT_DDI_F_LANES) |		\
--	BIT_ULL(POWER_DOMAIN_AUX_B) |                       \
--	BIT_ULL(POWER_DOMAIN_AUX_C) |			\
--	BIT_ULL(POWER_DOMAIN_AUX_D) |			\
--	BIT_ULL(POWER_DOMAIN_AUX_F) |			\
--	BIT_ULL(POWER_DOMAIN_AUDIO) |			\
--	BIT_ULL(POWER_DOMAIN_VGA) |				\
--	BIT_ULL(POWER_DOMAIN_INIT))
--#define CNL_DISPLAY_DDI_A_IO_POWER_DOMAINS (		\
--	BIT_ULL(POWER_DOMAIN_PORT_DDI_A_IO) |		\
--	BIT_ULL(POWER_DOMAIN_INIT))
--#define CNL_DISPLAY_DDI_B_IO_POWER_DOMAINS (		\
--	BIT_ULL(POWER_DOMAIN_PORT_DDI_B_IO) |		\
--	BIT_ULL(POWER_DOMAIN_INIT))
--#define CNL_DISPLAY_DDI_C_IO_POWER_DOMAINS (		\
--	BIT_ULL(POWER_DOMAIN_PORT_DDI_C_IO) |		\
--	BIT_ULL(POWER_DOMAIN_INIT))
--#define CNL_DISPLAY_DDI_D_IO_POWER_DOMAINS (		\
--	BIT_ULL(POWER_DOMAIN_PORT_DDI_D_IO) |		\
--	BIT_ULL(POWER_DOMAIN_INIT))
--#define CNL_DISPLAY_AUX_A_POWER_DOMAINS (		\
--	BIT_ULL(POWER_DOMAIN_AUX_A) |			\
--	BIT_ULL(POWER_DOMAIN_AUX_IO_A) |		\
--	BIT_ULL(POWER_DOMAIN_INIT))
--#define CNL_DISPLAY_AUX_B_POWER_DOMAINS (		\
--	BIT_ULL(POWER_DOMAIN_AUX_B) |			\
--	BIT_ULL(POWER_DOMAIN_INIT))
--#define CNL_DISPLAY_AUX_C_POWER_DOMAINS (		\
--	BIT_ULL(POWER_DOMAIN_AUX_C) |			\
--	BIT_ULL(POWER_DOMAIN_INIT))
--#define CNL_DISPLAY_AUX_D_POWER_DOMAINS (		\
--	BIT_ULL(POWER_DOMAIN_AUX_D) |			\
--	BIT_ULL(POWER_DOMAIN_INIT))
--#define CNL_DISPLAY_AUX_F_POWER_DOMAINS (		\
--	BIT_ULL(POWER_DOMAIN_AUX_F) |			\
--	BIT_ULL(POWER_DOMAIN_INIT))
--#define CNL_DISPLAY_DDI_F_IO_POWER_DOMAINS (		\
--	BIT_ULL(POWER_DOMAIN_PORT_DDI_F_IO) |		\
--	BIT_ULL(POWER_DOMAIN_INIT))
--#define CNL_DISPLAY_DC_OFF_POWER_DOMAINS (		\
--	CNL_DISPLAY_POWERWELL_2_POWER_DOMAINS |		\
--	BIT_ULL(POWER_DOMAIN_GT_IRQ) |			\
--	BIT_ULL(POWER_DOMAIN_MODESET) |			\
--	BIT_ULL(POWER_DOMAIN_AUX_A) |			\
--	BIT_ULL(POWER_DOMAIN_INIT))
--
- /*
-  * ICL PW_0/PG_0 domains (HW/DMC control):
-  * - PCI
-@@ -3706,148 +3638,6 @@ static const struct i915_power_well_desc glk_power_wells[] = {
- 	},
- };
- 
--static const struct i915_power_well_desc cnl_power_wells[] = {
--	{
--		.name = "always-on",
--		.always_on = true,
--		.domains = POWER_DOMAIN_MASK,
--		.ops = &i9xx_always_on_power_well_ops,
--		.id = DISP_PW_ID_NONE,
--	},
--	{
--		.name = "power well 1",
--		/* Handled by the DMC firmware */
--		.always_on = true,
--		.domains = 0,
--		.ops = &hsw_power_well_ops,
--		.id = SKL_DISP_PW_1,
--		{
--			.hsw.regs = &hsw_power_well_regs,
--			.hsw.idx = SKL_PW_CTL_IDX_PW_1,
--			.hsw.has_fuses = true,
--		},
--	},
--	{
--		.name = "AUX A",
--		.domains = CNL_DISPLAY_AUX_A_POWER_DOMAINS,
--		.ops = &hsw_power_well_ops,
--		.id = DISP_PW_ID_NONE,
--		{
--			.hsw.regs = &hsw_power_well_regs,
--			.hsw.idx = GLK_PW_CTL_IDX_AUX_A,
--		},
--	},
--	{
--		.name = "AUX B",
--		.domains = CNL_DISPLAY_AUX_B_POWER_DOMAINS,
--		.ops = &hsw_power_well_ops,
--		.id = DISP_PW_ID_NONE,
--		{
--			.hsw.regs = &hsw_power_well_regs,
--			.hsw.idx = GLK_PW_CTL_IDX_AUX_B,
--		},
--	},
--	{
--		.name = "AUX C",
--		.domains = CNL_DISPLAY_AUX_C_POWER_DOMAINS,
--		.ops = &hsw_power_well_ops,
--		.id = DISP_PW_ID_NONE,
--		{
--			.hsw.regs = &hsw_power_well_regs,
--			.hsw.idx = GLK_PW_CTL_IDX_AUX_C,
--		},
--	},
--	{
--		.name = "AUX D",
--		.domains = CNL_DISPLAY_AUX_D_POWER_DOMAINS,
--		.ops = &hsw_power_well_ops,
--		.id = DISP_PW_ID_NONE,
--		{
--			.hsw.regs = &hsw_power_well_regs,
--			.hsw.idx = CNL_PW_CTL_IDX_AUX_D,
--		},
--	},
--	{
--		.name = "DC off",
--		.domains = CNL_DISPLAY_DC_OFF_POWER_DOMAINS,
--		.ops = &gen9_dc_off_power_well_ops,
--		.id = SKL_DISP_DC_OFF,
--	},
--	{
--		.name = "power well 2",
--		.domains = CNL_DISPLAY_POWERWELL_2_POWER_DOMAINS,
--		.ops = &hsw_power_well_ops,
--		.id = SKL_DISP_PW_2,
--		{
--			.hsw.regs = &hsw_power_well_regs,
--			.hsw.idx = SKL_PW_CTL_IDX_PW_2,
--			.hsw.irq_pipe_mask = BIT(PIPE_B) | BIT(PIPE_C),
--			.hsw.has_vga = true,
--			.hsw.has_fuses = true,
--		},
--	},
--	{
--		.name = "DDI A IO power well",
--		.domains = CNL_DISPLAY_DDI_A_IO_POWER_DOMAINS,
--		.ops = &hsw_power_well_ops,
--		.id = DISP_PW_ID_NONE,
--		{
--			.hsw.regs = &hsw_power_well_regs,
--			.hsw.idx = GLK_PW_CTL_IDX_DDI_A,
--		},
--	},
--	{
--		.name = "DDI B IO power well",
--		.domains = CNL_DISPLAY_DDI_B_IO_POWER_DOMAINS,
--		.ops = &hsw_power_well_ops,
--		.id = DISP_PW_ID_NONE,
--		{
--			.hsw.regs = &hsw_power_well_regs,
--			.hsw.idx = SKL_PW_CTL_IDX_DDI_B,
--		},
--	},
--	{
--		.name = "DDI C IO power well",
--		.domains = CNL_DISPLAY_DDI_C_IO_POWER_DOMAINS,
--		.ops = &hsw_power_well_ops,
--		.id = DISP_PW_ID_NONE,
--		{
--			.hsw.regs = &hsw_power_well_regs,
--			.hsw.idx = SKL_PW_CTL_IDX_DDI_C,
--		},
--	},
--	{
--		.name = "DDI D IO power well",
--		.domains = CNL_DISPLAY_DDI_D_IO_POWER_DOMAINS,
--		.ops = &hsw_power_well_ops,
--		.id = DISP_PW_ID_NONE,
--		{
--			.hsw.regs = &hsw_power_well_regs,
--			.hsw.idx = SKL_PW_CTL_IDX_DDI_D,
--		},
--	},
--	{
--		.name = "DDI F IO power well",
--		.domains = CNL_DISPLAY_DDI_F_IO_POWER_DOMAINS,
--		.ops = &hsw_power_well_ops,
--		.id = CNL_DISP_PW_DDI_F_IO,
--		{
--			.hsw.regs = &hsw_power_well_regs,
--			.hsw.idx = CNL_PW_CTL_IDX_DDI_F,
--		},
--	},
--	{
--		.name = "AUX F",
--		.domains = CNL_DISPLAY_AUX_F_POWER_DOMAINS,
--		.ops = &hsw_power_well_ops,
--		.id = CNL_DISP_PW_DDI_F_AUX,
--		{
--			.hsw.regs = &hsw_power_well_regs,
--			.hsw.idx = CNL_PW_CTL_IDX_AUX_F,
--		},
--	},
--};
--
- static const struct i915_power_well_ops icl_aux_power_well_ops = {
- 	.sync_hw = hsw_power_well_sync_hw,
- 	.enable = icl_aux_power_well_enable,
-@@ -5147,12 +4937,6 @@ int intel_power_domains_init(struct drm_i915_private *dev_priv)
- 		err = set_power_wells(power_domains, tgl_power_wells);
- 	} else if (DISPLAY_VER(dev_priv) == 11) {
- 		err = set_power_wells(power_domains, icl_power_wells);
--	} else if (IS_CNL_WITH_PORT_F(dev_priv)) {
--		err = set_power_wells(power_domains, cnl_power_wells);
--	} else if (IS_CANNONLAKE(dev_priv)) {
--		err = set_power_wells_mask(power_domains, cnl_power_wells,
--					   BIT_ULL(CNL_DISP_PW_DDI_F_IO) |
--					   BIT_ULL(CNL_DISP_PW_DDI_F_AUX));
- 	} else if (IS_GEMINILAKE(dev_priv)) {
- 		err = set_power_wells(power_domains, glk_power_wells);
- 	} else if (IS_BROXTON(dev_priv)) {
-@@ -5707,75 +5491,6 @@ static void bxt_display_core_uninit(struct drm_i915_private *dev_priv)
- 	usleep_range(10, 30);		/* 10 us delay per Bspec */
+ 	/* Program PORT_TX_DW7 */
+ 	val = intel_de_read(dev_priv, ICL_PORT_TX_DW7_LN0(phy));
+ 	val &= ~N_SCALAR_MASK;
+-	val |= N_SCALAR(ddi_translations->entries[level].cnl.dw7_n_scalar);
++	val |= N_SCALAR(ddi_translations->entries[level].icl.dw7_n_scalar);
+ 	intel_de_write(dev_priv, ICL_PORT_TX_DW7_GRP(phy), val);
  }
  
--static void cnl_display_core_init(struct drm_i915_private *dev_priv, bool resume)
--{
--	struct i915_power_domains *power_domains = &dev_priv->power_domains;
--	struct i915_power_well *well;
--
--	gen9_set_dc_state(dev_priv, DC_STATE_DISABLE);
--
--	/* 1. Enable PCH Reset Handshake */
--	intel_pch_reset_handshake(dev_priv, !HAS_PCH_NOP(dev_priv));
--
--	if (!HAS_DISPLAY(dev_priv))
--		return;
--
--	/* 2-3. */
--	intel_combo_phy_init(dev_priv);
--
--	/*
--	 * 4. Enable Power Well 1 (PG1).
--	 *    The AUX IO power wells will be enabled on demand.
--	 */
--	mutex_lock(&power_domains->lock);
--	well = lookup_power_well(dev_priv, SKL_DISP_PW_1);
--	intel_power_well_enable(dev_priv, well);
--	mutex_unlock(&power_domains->lock);
--
--	/* 5. Enable CD clock */
--	intel_cdclk_init_hw(dev_priv);
--
--	/* 6. Enable DBUF */
--	gen9_dbuf_enable(dev_priv);
--
--	if (resume && intel_dmc_has_payload(dev_priv))
--		intel_dmc_load_program(dev_priv);
--}
--
--static void cnl_display_core_uninit(struct drm_i915_private *dev_priv)
--{
--	struct i915_power_domains *power_domains = &dev_priv->power_domains;
--	struct i915_power_well *well;
--
--	if (!HAS_DISPLAY(dev_priv))
--		return;
--
--	gen9_disable_dc_states(dev_priv);
--
--	/* 1. Disable all display engine functions -> aready done */
--
--	/* 2. Disable DBUF */
--	gen9_dbuf_disable(dev_priv);
--
--	/* 3. Disable CD clock */
--	intel_cdclk_uninit_hw(dev_priv);
--
--	/*
--	 * 4. Disable Power Well 1 (PG1).
--	 *    The AUX IO power wells are toggled on demand, so they are already
--	 *    disabled at this point.
--	 */
--	mutex_lock(&power_domains->lock);
--	well = lookup_power_well(dev_priv, SKL_DISP_PW_1);
--	intel_power_well_disable(dev_priv, well);
--	mutex_unlock(&power_domains->lock);
--
--	usleep_range(10, 30);		/* 10 us delay per Bspec */
--
--	/* 5. */
--	intel_combo_phy_uninit(dev_priv);
--}
--
- struct buddy_page_mask {
- 	u32 page_mask;
- 	u8 type;
-@@ -6120,8 +5835,6 @@ void intel_power_domains_init_hw(struct drm_i915_private *i915, bool resume)
+diff --git a/drivers/gpu/drm/i915/display/intel_ddi_buf_trans.c b/drivers/gpu/drm/i915/display/intel_ddi_buf_trans.c
+index 63b1ae830d9a..9ab95bcd0c86 100644
+--- a/drivers/gpu/drm/i915/display/intel_ddi_buf_trans.c
++++ b/drivers/gpu/drm/i915/display/intel_ddi_buf_trans.c
+@@ -417,199 +417,19 @@ static const struct intel_ddi_buf_trans bxt_ddi_translations_hdmi = {
+ 	.hdmi_default_entry = ARRAY_SIZE(_bxt_ddi_translations_hdmi) - 1,
+ };
  
- 	if (DISPLAY_VER(i915) >= 11) {
- 		icl_display_core_init(i915, resume);
+-/* Voltage Swing Programming for VccIO 0.85V for DP */
+-static const union intel_ddi_buf_trans_entry _cnl_ddi_translations_dp_0_85V[] = {
+-							/* NT mV Trans mV db    */
+-	{ .cnl = { 0xA, 0x5D, 0x3F, 0x00, 0x00 } },	/* 350   350      0.0   */
+-	{ .cnl = { 0xA, 0x6A, 0x38, 0x00, 0x07 } },	/* 350   500      3.1   */
+-	{ .cnl = { 0xB, 0x7A, 0x32, 0x00, 0x0D } },	/* 350   700      6.0   */
+-	{ .cnl = { 0x6, 0x7C, 0x2D, 0x00, 0x12 } },	/* 350   900      8.2   */
+-	{ .cnl = { 0xA, 0x69, 0x3F, 0x00, 0x00 } },	/* 500   500      0.0   */
+-	{ .cnl = { 0xB, 0x7A, 0x36, 0x00, 0x09 } },	/* 500   700      2.9   */
+-	{ .cnl = { 0x6, 0x7C, 0x30, 0x00, 0x0F } },	/* 500   900      5.1   */
+-	{ .cnl = { 0xB, 0x7D, 0x3C, 0x00, 0x03 } },	/* 650   725      0.9   */
+-	{ .cnl = { 0x6, 0x7C, 0x34, 0x00, 0x0B } },	/* 600   900      3.5   */
+-	{ .cnl = { 0x6, 0x7B, 0x3F, 0x00, 0x00 } },	/* 900   900      0.0   */
+-};
+-
+-static const struct intel_ddi_buf_trans cnl_ddi_translations_dp_0_85V = {
+-	.entries = _cnl_ddi_translations_dp_0_85V,
+-	.num_entries = ARRAY_SIZE(_cnl_ddi_translations_dp_0_85V),
+-};
+-
+-/* Voltage Swing Programming for VccIO 0.85V for HDMI */
+-static const union intel_ddi_buf_trans_entry _cnl_ddi_translations_hdmi_0_85V[] = {
+-							/* NT mV Trans mV db    */
+-	{ .cnl = { 0xA, 0x60, 0x3F, 0x00, 0x00 } },	/* 450   450      0.0   */
+-	{ .cnl = { 0xB, 0x73, 0x36, 0x00, 0x09 } },	/* 450   650      3.2   */
+-	{ .cnl = { 0x6, 0x7F, 0x31, 0x00, 0x0E } },	/* 450   850      5.5   */
+-	{ .cnl = { 0xB, 0x73, 0x3F, 0x00, 0x00 } },	/* 650   650      0.0   */
+-	{ .cnl = { 0x6, 0x7F, 0x37, 0x00, 0x08 } },	/* 650   850      2.3   */
+-	{ .cnl = { 0x6, 0x7F, 0x3F, 0x00, 0x00 } },	/* 850   850      0.0   */
+-	{ .cnl = { 0x6, 0x7F, 0x35, 0x00, 0x0A } },	/* 600   850      3.0   */
+-};
+-
+-static const struct intel_ddi_buf_trans cnl_ddi_translations_hdmi_0_85V = {
+-	.entries = _cnl_ddi_translations_hdmi_0_85V,
+-	.num_entries = ARRAY_SIZE(_cnl_ddi_translations_hdmi_0_85V),
+-	.hdmi_default_entry = ARRAY_SIZE(_cnl_ddi_translations_hdmi_0_85V) - 1,
+-};
+-
+-/* Voltage Swing Programming for VccIO 0.85V for eDP */
+-static const union intel_ddi_buf_trans_entry _cnl_ddi_translations_edp_0_85V[] = {
+-							/* NT mV Trans mV db    */
+-	{ .cnl = { 0xA, 0x66, 0x3A, 0x00, 0x05 } },	/* 384   500      2.3   */
+-	{ .cnl = { 0x0, 0x7F, 0x38, 0x00, 0x07 } },	/* 153   200      2.3   */
+-	{ .cnl = { 0x8, 0x7F, 0x38, 0x00, 0x07 } },	/* 192   250      2.3   */
+-	{ .cnl = { 0x1, 0x7F, 0x38, 0x00, 0x07 } },	/* 230   300      2.3   */
+-	{ .cnl = { 0x9, 0x7F, 0x38, 0x00, 0x07 } },	/* 269   350      2.3   */
+-	{ .cnl = { 0xA, 0x66, 0x3C, 0x00, 0x03 } },	/* 446   500      1.0   */
+-	{ .cnl = { 0xB, 0x70, 0x3C, 0x00, 0x03 } },	/* 460   600      2.3   */
+-	{ .cnl = { 0xC, 0x75, 0x3C, 0x00, 0x03 } },	/* 537   700      2.3   */
+-	{ .cnl = { 0x2, 0x7F, 0x3F, 0x00, 0x00 } },	/* 400   400      0.0   */
+-};
+-
+-static const struct intel_ddi_buf_trans cnl_ddi_translations_edp_0_85V = {
+-	.entries = _cnl_ddi_translations_edp_0_85V,
+-	.num_entries = ARRAY_SIZE(_cnl_ddi_translations_edp_0_85V),
+-};
+-
+-/* Voltage Swing Programming for VccIO 0.95V for DP */
+-static const union intel_ddi_buf_trans_entry _cnl_ddi_translations_dp_0_95V[] = {
+-							/* NT mV Trans mV db    */
+-	{ .cnl = { 0xA, 0x5D, 0x3F, 0x00, 0x00 } },	/* 350   350      0.0   */
+-	{ .cnl = { 0xA, 0x6A, 0x38, 0x00, 0x07 } },	/* 350   500      3.1   */
+-	{ .cnl = { 0xB, 0x7A, 0x32, 0x00, 0x0D } },	/* 350   700      6.0   */
+-	{ .cnl = { 0x6, 0x7C, 0x2D, 0x00, 0x12 } },	/* 350   900      8.2   */
+-	{ .cnl = { 0xA, 0x69, 0x3F, 0x00, 0x00 } },	/* 500   500      0.0   */
+-	{ .cnl = { 0xB, 0x7A, 0x36, 0x00, 0x09 } },	/* 500   700      2.9   */
+-	{ .cnl = { 0x6, 0x7C, 0x30, 0x00, 0x0F } },	/* 500   900      5.1   */
+-	{ .cnl = { 0xB, 0x7D, 0x3C, 0x00, 0x03 } },	/* 650   725      0.9   */
+-	{ .cnl = { 0x6, 0x7C, 0x34, 0x00, 0x0B } },	/* 600   900      3.5   */
+-	{ .cnl = { 0x6, 0x7B, 0x3F, 0x00, 0x00 } },	/* 900   900      0.0   */
+-};
+-
+-static const struct intel_ddi_buf_trans cnl_ddi_translations_dp_0_95V = {
+-	.entries = _cnl_ddi_translations_dp_0_95V,
+-	.num_entries = ARRAY_SIZE(_cnl_ddi_translations_dp_0_95V),
+-};
+-
+-/* Voltage Swing Programming for VccIO 0.95V for HDMI */
+-static const union intel_ddi_buf_trans_entry _cnl_ddi_translations_hdmi_0_95V[] = {
+-							/* NT mV Trans mV db    */
+-	{ .cnl = { 0xA, 0x5C, 0x3F, 0x00, 0x00 } },	/* 400   400      0.0   */
+-	{ .cnl = { 0xB, 0x69, 0x37, 0x00, 0x08 } },	/* 400   600      3.5   */
+-	{ .cnl = { 0x5, 0x76, 0x31, 0x00, 0x0E } },	/* 400   800      6.0   */
+-	{ .cnl = { 0xA, 0x5E, 0x3F, 0x00, 0x00 } },	/* 450   450      0.0   */
+-	{ .cnl = { 0xB, 0x69, 0x3F, 0x00, 0x00 } },	/* 600   600      0.0   */
+-	{ .cnl = { 0xB, 0x79, 0x35, 0x00, 0x0A } },	/* 600   850      3.0   */
+-	{ .cnl = { 0x6, 0x7D, 0x32, 0x00, 0x0D } },	/* 600   1000     4.4   */
+-	{ .cnl = { 0x5, 0x76, 0x3F, 0x00, 0x00 } },	/* 800   800      0.0   */
+-	{ .cnl = { 0x6, 0x7D, 0x39, 0x00, 0x06 } },	/* 800   1000     1.9   */
+-	{ .cnl = { 0x6, 0x7F, 0x39, 0x00, 0x06 } },	/* 850   1050     1.8   */
+-	{ .cnl = { 0x6, 0x7F, 0x3F, 0x00, 0x00 } },	/* 1050  1050     0.0   */
+-};
+-
+-static const struct intel_ddi_buf_trans cnl_ddi_translations_hdmi_0_95V = {
+-	.entries = _cnl_ddi_translations_hdmi_0_95V,
+-	.num_entries = ARRAY_SIZE(_cnl_ddi_translations_hdmi_0_95V),
+-	.hdmi_default_entry = ARRAY_SIZE(_cnl_ddi_translations_hdmi_0_95V) - 1,
+-};
+-
+-/* Voltage Swing Programming for VccIO 0.95V for eDP */
+-static const union intel_ddi_buf_trans_entry _cnl_ddi_translations_edp_0_95V[] = {
+-							/* NT mV Trans mV db    */
+-	{ .cnl = { 0xA, 0x61, 0x3A, 0x00, 0x05 } },	/* 384   500      2.3   */
+-	{ .cnl = { 0x0, 0x7F, 0x38, 0x00, 0x07 } },	/* 153   200      2.3   */
+-	{ .cnl = { 0x8, 0x7F, 0x38, 0x00, 0x07 } },	/* 192   250      2.3   */
+-	{ .cnl = { 0x1, 0x7F, 0x38, 0x00, 0x07 } },	/* 230   300      2.3   */
+-	{ .cnl = { 0x9, 0x7F, 0x38, 0x00, 0x07 } },	/* 269   350      2.3   */
+-	{ .cnl = { 0xA, 0x61, 0x3C, 0x00, 0x03 } },	/* 446   500      1.0   */
+-	{ .cnl = { 0xB, 0x68, 0x39, 0x00, 0x06 } },	/* 460   600      2.3   */
+-	{ .cnl = { 0xC, 0x6E, 0x39, 0x00, 0x06 } },	/* 537   700      2.3   */
+-	{ .cnl = { 0x4, 0x7F, 0x3A, 0x00, 0x05 } },	/* 460   600      2.3   */
+-	{ .cnl = { 0x2, 0x7F, 0x3F, 0x00, 0x00 } },	/* 400   400      0.0   */
+-};
+-
+-static const struct intel_ddi_buf_trans cnl_ddi_translations_edp_0_95V = {
+-	.entries = _cnl_ddi_translations_edp_0_95V,
+-	.num_entries = ARRAY_SIZE(_cnl_ddi_translations_edp_0_95V),
+-};
+-
+-/* Voltage Swing Programming for VccIO 1.05V for DP */
+-static const union intel_ddi_buf_trans_entry _cnl_ddi_translations_dp_1_05V[] = {
+-							/* NT mV Trans mV db    */
+-	{ .cnl = { 0xA, 0x58, 0x3F, 0x00, 0x00 } },	/* 400   400      0.0   */
+-	{ .cnl = { 0xB, 0x64, 0x37, 0x00, 0x08 } },	/* 400   600      3.5   */
+-	{ .cnl = { 0x5, 0x70, 0x31, 0x00, 0x0E } },	/* 400   800      6.0   */
+-	{ .cnl = { 0x6, 0x7F, 0x2C, 0x00, 0x13 } },	/* 400   1050     8.4   */
+-	{ .cnl = { 0xB, 0x64, 0x3F, 0x00, 0x00 } },	/* 600   600      0.0   */
+-	{ .cnl = { 0x5, 0x73, 0x35, 0x00, 0x0A } },	/* 600   850      3.0   */
+-	{ .cnl = { 0x6, 0x7F, 0x30, 0x00, 0x0F } },	/* 550   1050     5.6   */
+-	{ .cnl = { 0x5, 0x76, 0x3E, 0x00, 0x01 } },	/* 850   900      0.5   */
+-	{ .cnl = { 0x6, 0x7F, 0x36, 0x00, 0x09 } },	/* 750   1050     2.9   */
+-	{ .cnl = { 0x6, 0x7F, 0x3F, 0x00, 0x00 } },	/* 1050  1050     0.0   */
+-};
+-
+-static const struct intel_ddi_buf_trans cnl_ddi_translations_dp_1_05V = {
+-	.entries = _cnl_ddi_translations_dp_1_05V,
+-	.num_entries = ARRAY_SIZE(_cnl_ddi_translations_dp_1_05V),
+-};
+-
+-/* Voltage Swing Programming for VccIO 1.05V for HDMI */
+-static const union intel_ddi_buf_trans_entry _cnl_ddi_translations_hdmi_1_05V[] = {
+-							/* NT mV Trans mV db    */
+-	{ .cnl = { 0xA, 0x58, 0x3F, 0x00, 0x00 } },	/* 400   400      0.0   */
+-	{ .cnl = { 0xB, 0x64, 0x37, 0x00, 0x08 } },	/* 400   600      3.5   */
+-	{ .cnl = { 0x5, 0x70, 0x31, 0x00, 0x0E } },	/* 400   800      6.0   */
+-	{ .cnl = { 0xA, 0x5B, 0x3F, 0x00, 0x00 } },	/* 450   450      0.0   */
+-	{ .cnl = { 0xB, 0x64, 0x3F, 0x00, 0x00 } },	/* 600   600      0.0   */
+-	{ .cnl = { 0x5, 0x73, 0x35, 0x00, 0x0A } },	/* 600   850      3.0   */
+-	{ .cnl = { 0x6, 0x7C, 0x32, 0x00, 0x0D } },	/* 600   1000     4.4   */
+-	{ .cnl = { 0x5, 0x70, 0x3F, 0x00, 0x00 } },	/* 800   800      0.0   */
+-	{ .cnl = { 0x6, 0x7C, 0x39, 0x00, 0x06 } },	/* 800   1000     1.9   */
+-	{ .cnl = { 0x6, 0x7F, 0x39, 0x00, 0x06 } },	/* 850   1050     1.8   */
+-	{ .cnl = { 0x6, 0x7F, 0x3F, 0x00, 0x00 } },	/* 1050  1050     0.0   */
+-};
+-
+-static const struct intel_ddi_buf_trans cnl_ddi_translations_hdmi_1_05V = {
+-	.entries = _cnl_ddi_translations_hdmi_1_05V,
+-	.num_entries = ARRAY_SIZE(_cnl_ddi_translations_hdmi_1_05V),
+-	.hdmi_default_entry = ARRAY_SIZE(_cnl_ddi_translations_hdmi_1_05V) - 1,
+-};
+-
+-/* Voltage Swing Programming for VccIO 1.05V for eDP */
+-static const union intel_ddi_buf_trans_entry _cnl_ddi_translations_edp_1_05V[] = {
+-							/* NT mV Trans mV db    */
+-	{ .cnl = { 0xA, 0x5E, 0x3A, 0x00, 0x05 } },	/* 384   500      2.3   */
+-	{ .cnl = { 0x0, 0x7F, 0x38, 0x00, 0x07 } },	/* 153   200      2.3   */
+-	{ .cnl = { 0x8, 0x7F, 0x38, 0x00, 0x07 } },	/* 192   250      2.3   */
+-	{ .cnl = { 0x1, 0x7F, 0x38, 0x00, 0x07 } },	/* 230   300      2.3   */
+-	{ .cnl = { 0x9, 0x7F, 0x38, 0x00, 0x07 } },	/* 269   350      2.3   */
+-	{ .cnl = { 0xA, 0x5E, 0x3C, 0x00, 0x03 } },	/* 446   500      1.0   */
+-	{ .cnl = { 0xB, 0x64, 0x39, 0x00, 0x06 } },	/* 460   600      2.3   */
+-	{ .cnl = { 0xE, 0x6A, 0x39, 0x00, 0x06 } },	/* 537   700      2.3   */
+-	{ .cnl = { 0x2, 0x7F, 0x3F, 0x00, 0x00 } },	/* 400   400      0.0   */
+-};
+-
+-static const struct intel_ddi_buf_trans cnl_ddi_translations_edp_1_05V = {
+-	.entries = _cnl_ddi_translations_edp_1_05V,
+-	.num_entries = ARRAY_SIZE(_cnl_ddi_translations_edp_1_05V),
+-};
+-
+ /* icl_combo_phy_ddi_translations */
+ static const union intel_ddi_buf_trans_entry _icl_combo_phy_ddi_translations_dp_hbr2_edp_hbr3[] = {
+ 							/* NT mV Trans mV db    */
+-	{ .cnl = { 0xA, 0x35, 0x3F, 0x00, 0x00 } },	/* 350   350      0.0   */
+-	{ .cnl = { 0xA, 0x4F, 0x37, 0x00, 0x08 } },	/* 350   500      3.1   */
+-	{ .cnl = { 0xC, 0x71, 0x2F, 0x00, 0x10 } },	/* 350   700      6.0   */
+-	{ .cnl = { 0x6, 0x7F, 0x2B, 0x00, 0x14 } },	/* 350   900      8.2   */
+-	{ .cnl = { 0xA, 0x4C, 0x3F, 0x00, 0x00 } },	/* 500   500      0.0   */
+-	{ .cnl = { 0xC, 0x73, 0x34, 0x00, 0x0B } },	/* 500   700      2.9   */
+-	{ .cnl = { 0x6, 0x7F, 0x2F, 0x00, 0x10 } },	/* 500   900      5.1   */
+-	{ .cnl = { 0xC, 0x6C, 0x3C, 0x00, 0x03 } },	/* 650   700      0.6   */
+-	{ .cnl = { 0x6, 0x7F, 0x35, 0x00, 0x0A } },	/* 600   900      3.5   */
+-	{ .cnl = { 0x6, 0x7F, 0x3F, 0x00, 0x00 } },	/* 900   900      0.0   */
++	{ .icl = { 0xA, 0x35, 0x3F, 0x00, 0x00 } },	/* 350   350      0.0   */
++	{ .icl = { 0xA, 0x4F, 0x37, 0x00, 0x08 } },	/* 350   500      3.1   */
++	{ .icl = { 0xC, 0x71, 0x2F, 0x00, 0x10 } },	/* 350   700      6.0   */
++	{ .icl = { 0x6, 0x7F, 0x2B, 0x00, 0x14 } },	/* 350   900      8.2   */
++	{ .icl = { 0xA, 0x4C, 0x3F, 0x00, 0x00 } },	/* 500   500      0.0   */
++	{ .icl = { 0xC, 0x73, 0x34, 0x00, 0x0B } },	/* 500   700      2.9   */
++	{ .icl = { 0x6, 0x7F, 0x2F, 0x00, 0x10 } },	/* 500   900      5.1   */
++	{ .icl = { 0xC, 0x6C, 0x3C, 0x00, 0x03 } },	/* 650   700      0.6   */
++	{ .icl = { 0x6, 0x7F, 0x35, 0x00, 0x0A } },	/* 600   900      3.5   */
++	{ .icl = { 0x6, 0x7F, 0x3F, 0x00, 0x00 } },	/* 900   900      0.0   */
+ };
+ 
+ static const struct intel_ddi_buf_trans icl_combo_phy_ddi_translations_dp_hbr2_edp_hbr3 = {
+@@ -619,16 +439,16 @@ static const struct intel_ddi_buf_trans icl_combo_phy_ddi_translations_dp_hbr2_e
+ 
+ static const union intel_ddi_buf_trans_entry _icl_combo_phy_ddi_translations_edp_hbr2[] = {
+ 							/* NT mV Trans mV db    */
+-	{ .cnl = { 0x0, 0x7F, 0x3F, 0x00, 0x00 } },	/* 200   200      0.0   */
+-	{ .cnl = { 0x8, 0x7F, 0x38, 0x00, 0x07 } },	/* 200   250      1.9   */
+-	{ .cnl = { 0x1, 0x7F, 0x33, 0x00, 0x0C } },	/* 200   300      3.5   */
+-	{ .cnl = { 0x9, 0x7F, 0x31, 0x00, 0x0E } },	/* 200   350      4.9   */
+-	{ .cnl = { 0x8, 0x7F, 0x3F, 0x00, 0x00 } },	/* 250   250      0.0   */
+-	{ .cnl = { 0x1, 0x7F, 0x38, 0x00, 0x07 } },	/* 250   300      1.6   */
+-	{ .cnl = { 0x9, 0x7F, 0x35, 0x00, 0x0A } },	/* 250   350      2.9   */
+-	{ .cnl = { 0x1, 0x7F, 0x3F, 0x00, 0x00 } },	/* 300   300      0.0   */
+-	{ .cnl = { 0x9, 0x7F, 0x38, 0x00, 0x07 } },	/* 300   350      1.3   */
+-	{ .cnl = { 0x9, 0x7F, 0x3F, 0x00, 0x00 } },	/* 350   350      0.0   */
++	{ .icl = { 0x0, 0x7F, 0x3F, 0x00, 0x00 } },	/* 200   200      0.0   */
++	{ .icl = { 0x8, 0x7F, 0x38, 0x00, 0x07 } },	/* 200   250      1.9   */
++	{ .icl = { 0x1, 0x7F, 0x33, 0x00, 0x0C } },	/* 200   300      3.5   */
++	{ .icl = { 0x9, 0x7F, 0x31, 0x00, 0x0E } },	/* 200   350      4.9   */
++	{ .icl = { 0x8, 0x7F, 0x3F, 0x00, 0x00 } },	/* 250   250      0.0   */
++	{ .icl = { 0x1, 0x7F, 0x38, 0x00, 0x07 } },	/* 250   300      1.6   */
++	{ .icl = { 0x9, 0x7F, 0x35, 0x00, 0x0A } },	/* 250   350      2.9   */
++	{ .icl = { 0x1, 0x7F, 0x3F, 0x00, 0x00 } },	/* 300   300      0.0   */
++	{ .icl = { 0x9, 0x7F, 0x38, 0x00, 0x07 } },	/* 300   350      1.3   */
++	{ .icl = { 0x9, 0x7F, 0x3F, 0x00, 0x00 } },	/* 350   350      0.0   */
+ };
+ 
+ static const struct intel_ddi_buf_trans icl_combo_phy_ddi_translations_edp_hbr2 = {
+@@ -638,13 +458,13 @@ static const struct intel_ddi_buf_trans icl_combo_phy_ddi_translations_edp_hbr2
+ 
+ static const union intel_ddi_buf_trans_entry _icl_combo_phy_ddi_translations_hdmi[] = {
+ 							/* NT mV Trans mV db    */
+-	{ .cnl = { 0xA, 0x60, 0x3F, 0x00, 0x00 } },	/* 450   450      0.0   */
+-	{ .cnl = { 0xB, 0x73, 0x36, 0x00, 0x09 } },	/* 450   650      3.2   */
+-	{ .cnl = { 0x6, 0x7F, 0x31, 0x00, 0x0E } },	/* 450   850      5.5   */
+-	{ .cnl = { 0xB, 0x73, 0x3F, 0x00, 0x00 } },	/* 650   650      0.0   ALS */
+-	{ .cnl = { 0x6, 0x7F, 0x37, 0x00, 0x08 } },	/* 650   850      2.3   */
+-	{ .cnl = { 0x6, 0x7F, 0x3F, 0x00, 0x00 } },	/* 850   850      0.0   */
+-	{ .cnl = { 0x6, 0x7F, 0x35, 0x00, 0x0A } },	/* 600   850      3.0   */
++	{ .icl = { 0xA, 0x60, 0x3F, 0x00, 0x00 } },	/* 450   450      0.0   */
++	{ .icl = { 0xB, 0x73, 0x36, 0x00, 0x09 } },	/* 450   650      3.2   */
++	{ .icl = { 0x6, 0x7F, 0x31, 0x00, 0x0E } },	/* 450   850      5.5   */
++	{ .icl = { 0xB, 0x73, 0x3F, 0x00, 0x00 } },	/* 650   650      0.0   ALS */
++	{ .icl = { 0x6, 0x7F, 0x37, 0x00, 0x08 } },	/* 650   850      2.3   */
++	{ .icl = { 0x6, 0x7F, 0x3F, 0x00, 0x00 } },	/* 850   850      0.0   */
++	{ .icl = { 0x6, 0x7F, 0x35, 0x00, 0x0A } },	/* 600   850      3.0   */
+ };
+ 
+ static const struct intel_ddi_buf_trans icl_combo_phy_ddi_translations_hdmi = {
+@@ -655,16 +475,16 @@ static const struct intel_ddi_buf_trans icl_combo_phy_ddi_translations_hdmi = {
+ 
+ static const union intel_ddi_buf_trans_entry _ehl_combo_phy_ddi_translations_dp[] = {
+ 							/* NT mV Trans mV db    */
+-	{ .cnl = { 0xA, 0x33, 0x3F, 0x00, 0x00 } },	/* 350   350      0.0   */
+-	{ .cnl = { 0xA, 0x47, 0x36, 0x00, 0x09 } },	/* 350   500      3.1   */
+-	{ .cnl = { 0xC, 0x64, 0x34, 0x00, 0x0B } },	/* 350   700      6.0   */
+-	{ .cnl = { 0x6, 0x7F, 0x30, 0x00, 0x0F } },	/* 350   900      8.2   */
+-	{ .cnl = { 0xA, 0x46, 0x3F, 0x00, 0x00 } },	/* 500   500      0.0   */
+-	{ .cnl = { 0xC, 0x64, 0x38, 0x00, 0x07 } },	/* 500   700      2.9   */
+-	{ .cnl = { 0x6, 0x7F, 0x32, 0x00, 0x0D } },	/* 500   900      5.1   */
+-	{ .cnl = { 0xC, 0x61, 0x3F, 0x00, 0x00 } },	/* 650   700      0.6   */
+-	{ .cnl = { 0x6, 0x7F, 0x38, 0x00, 0x07 } },	/* 600   900      3.5   */
+-	{ .cnl = { 0x6, 0x7F, 0x3F, 0x00, 0x00 } },	/* 900   900      0.0   */
++	{ .icl = { 0xA, 0x33, 0x3F, 0x00, 0x00 } },	/* 350   350      0.0   */
++	{ .icl = { 0xA, 0x47, 0x36, 0x00, 0x09 } },	/* 350   500      3.1   */
++	{ .icl = { 0xC, 0x64, 0x34, 0x00, 0x0B } },	/* 350   700      6.0   */
++	{ .icl = { 0x6, 0x7F, 0x30, 0x00, 0x0F } },	/* 350   900      8.2   */
++	{ .icl = { 0xA, 0x46, 0x3F, 0x00, 0x00 } },	/* 500   500      0.0   */
++	{ .icl = { 0xC, 0x64, 0x38, 0x00, 0x07 } },	/* 500   700      2.9   */
++	{ .icl = { 0x6, 0x7F, 0x32, 0x00, 0x0D } },	/* 500   900      5.1   */
++	{ .icl = { 0xC, 0x61, 0x3F, 0x00, 0x00 } },	/* 650   700      0.6   */
++	{ .icl = { 0x6, 0x7F, 0x38, 0x00, 0x07 } },	/* 600   900      3.5   */
++	{ .icl = { 0x6, 0x7F, 0x3F, 0x00, 0x00 } },	/* 900   900      0.0   */
+ };
+ 
+ static const struct intel_ddi_buf_trans ehl_combo_phy_ddi_translations_dp = {
+@@ -674,16 +494,16 @@ static const struct intel_ddi_buf_trans ehl_combo_phy_ddi_translations_dp = {
+ 
+ static const union intel_ddi_buf_trans_entry _ehl_combo_phy_ddi_translations_edp_hbr2[] = {
+ 							/* NT mV Trans mV db    */
+-	{ .cnl = { 0x8, 0x7F, 0x3F, 0x00, 0x00 } },	/* 200   200      0.0   */
+-	{ .cnl = { 0x8, 0x7F, 0x3F, 0x00, 0x00 } },	/* 200   250      1.9   */
+-	{ .cnl = { 0x1, 0x7F, 0x3D, 0x00, 0x02 } },	/* 200   300      3.5   */
+-	{ .cnl = { 0xA, 0x35, 0x39, 0x00, 0x06 } },	/* 200   350      4.9   */
+-	{ .cnl = { 0x8, 0x7F, 0x3F, 0x00, 0x00 } },	/* 250   250      0.0   */
+-	{ .cnl = { 0x1, 0x7F, 0x3C, 0x00, 0x03 } },	/* 250   300      1.6   */
+-	{ .cnl = { 0xA, 0x35, 0x39, 0x00, 0x06 } },	/* 250   350      2.9   */
+-	{ .cnl = { 0x1, 0x7F, 0x3F, 0x00, 0x00 } },	/* 300   300      0.0   */
+-	{ .cnl = { 0xA, 0x35, 0x38, 0x00, 0x07 } },	/* 300   350      1.3   */
+-	{ .cnl = { 0xA, 0x35, 0x3F, 0x00, 0x00 } },	/* 350   350      0.0   */
++	{ .icl = { 0x8, 0x7F, 0x3F, 0x00, 0x00 } },	/* 200   200      0.0   */
++	{ .icl = { 0x8, 0x7F, 0x3F, 0x00, 0x00 } },	/* 200   250      1.9   */
++	{ .icl = { 0x1, 0x7F, 0x3D, 0x00, 0x02 } },	/* 200   300      3.5   */
++	{ .icl = { 0xA, 0x35, 0x39, 0x00, 0x06 } },	/* 200   350      4.9   */
++	{ .icl = { 0x8, 0x7F, 0x3F, 0x00, 0x00 } },	/* 250   250      0.0   */
++	{ .icl = { 0x1, 0x7F, 0x3C, 0x00, 0x03 } },	/* 250   300      1.6   */
++	{ .icl = { 0xA, 0x35, 0x39, 0x00, 0x06 } },	/* 250   350      2.9   */
++	{ .icl = { 0x1, 0x7F, 0x3F, 0x00, 0x00 } },	/* 300   300      0.0   */
++	{ .icl = { 0xA, 0x35, 0x38, 0x00, 0x07 } },	/* 300   350      1.3   */
++	{ .icl = { 0xA, 0x35, 0x3F, 0x00, 0x00 } },	/* 350   350      0.0   */
+ };
+ 
+ static const struct intel_ddi_buf_trans ehl_combo_phy_ddi_translations_edp_hbr2 = {
+@@ -693,16 +513,16 @@ static const struct intel_ddi_buf_trans ehl_combo_phy_ddi_translations_edp_hbr2
+ 
+ static const union intel_ddi_buf_trans_entry _jsl_combo_phy_ddi_translations_edp_hbr[] = {
+ 							/* NT mV Trans mV db    */
+-	{ .cnl = { 0x8, 0x7F, 0x3F, 0x00, 0x00 } },	/* 200   200      0.0   */
+-	{ .cnl = { 0x8, 0x7F, 0x38, 0x00, 0x07 } },	/* 200   250      1.9   */
+-	{ .cnl = { 0x1, 0x7F, 0x33, 0x00, 0x0C } },	/* 200   300      3.5   */
+-	{ .cnl = { 0xA, 0x35, 0x36, 0x00, 0x09 } },	/* 200   350      4.9   */
+-	{ .cnl = { 0x8, 0x7F, 0x3F, 0x00, 0x00 } },	/* 250   250      0.0   */
+-	{ .cnl = { 0x1, 0x7F, 0x38, 0x00, 0x07 } },	/* 250   300      1.6   */
+-	{ .cnl = { 0xA, 0x35, 0x35, 0x00, 0x0A } },	/* 250   350      2.9   */
+-	{ .cnl = { 0x1, 0x7F, 0x3F, 0x00, 0x00 } },	/* 300   300      0.0   */
+-	{ .cnl = { 0xA, 0x35, 0x38, 0x00, 0x07 } },	/* 300   350      1.3   */
+-	{ .cnl = { 0xA, 0x35, 0x3F, 0x00, 0x00 } },	/* 350   350      0.0   */
++	{ .icl = { 0x8, 0x7F, 0x3F, 0x00, 0x00 } },	/* 200   200      0.0   */
++	{ .icl = { 0x8, 0x7F, 0x38, 0x00, 0x07 } },	/* 200   250      1.9   */
++	{ .icl = { 0x1, 0x7F, 0x33, 0x00, 0x0C } },	/* 200   300      3.5   */
++	{ .icl = { 0xA, 0x35, 0x36, 0x00, 0x09 } },	/* 200   350      4.9   */
++	{ .icl = { 0x8, 0x7F, 0x3F, 0x00, 0x00 } },	/* 250   250      0.0   */
++	{ .icl = { 0x1, 0x7F, 0x38, 0x00, 0x07 } },	/* 250   300      1.6   */
++	{ .icl = { 0xA, 0x35, 0x35, 0x00, 0x0A } },	/* 250   350      2.9   */
++	{ .icl = { 0x1, 0x7F, 0x3F, 0x00, 0x00 } },	/* 300   300      0.0   */
++	{ .icl = { 0xA, 0x35, 0x38, 0x00, 0x07 } },	/* 300   350      1.3   */
++	{ .icl = { 0xA, 0x35, 0x3F, 0x00, 0x00 } },	/* 350   350      0.0   */
+ };
+ 
+ static const struct intel_ddi_buf_trans jsl_combo_phy_ddi_translations_edp_hbr = {
+@@ -712,16 +532,16 @@ static const struct intel_ddi_buf_trans jsl_combo_phy_ddi_translations_edp_hbr =
+ 
+ static const union intel_ddi_buf_trans_entry _jsl_combo_phy_ddi_translations_edp_hbr2[] = {
+ 							/* NT mV Trans mV db    */
+-	{ .cnl = { 0x8, 0x7F, 0x3F, 0x00, 0x00 } },	/* 200   200      0.0   */
+-	{ .cnl = { 0x8, 0x7F, 0x3F, 0x00, 0x00 } },	/* 200   250      1.9   */
+-	{ .cnl = { 0x1, 0x7F, 0x3D, 0x00, 0x02 } },	/* 200   300      3.5   */
+-	{ .cnl = { 0xA, 0x35, 0x38, 0x00, 0x07 } },	/* 200   350      4.9   */
+-	{ .cnl = { 0x8, 0x7F, 0x3F, 0x00, 0x00 } },	/* 250   250      0.0   */
+-	{ .cnl = { 0x1, 0x7F, 0x3F, 0x00, 0x00 } },	/* 250   300      1.6   */
+-	{ .cnl = { 0xA, 0x35, 0x3A, 0x00, 0x05 } },	/* 250   350      2.9   */
+-	{ .cnl = { 0x1, 0x7F, 0x3F, 0x00, 0x00 } },	/* 300   300      0.0   */
+-	{ .cnl = { 0xA, 0x35, 0x38, 0x00, 0x07 } },	/* 300   350      1.3   */
+-	{ .cnl = { 0xA, 0x35, 0x3F, 0x00, 0x00 } },	/* 350   350      0.0   */
++	{ .icl = { 0x8, 0x7F, 0x3F, 0x00, 0x00 } },	/* 200   200      0.0   */
++	{ .icl = { 0x8, 0x7F, 0x3F, 0x00, 0x00 } },	/* 200   250      1.9   */
++	{ .icl = { 0x1, 0x7F, 0x3D, 0x00, 0x02 } },	/* 200   300      3.5   */
++	{ .icl = { 0xA, 0x35, 0x38, 0x00, 0x07 } },	/* 200   350      4.9   */
++	{ .icl = { 0x8, 0x7F, 0x3F, 0x00, 0x00 } },	/* 250   250      0.0   */
++	{ .icl = { 0x1, 0x7F, 0x3F, 0x00, 0x00 } },	/* 250   300      1.6   */
++	{ .icl = { 0xA, 0x35, 0x3A, 0x00, 0x05 } },	/* 250   350      2.9   */
++	{ .icl = { 0x1, 0x7F, 0x3F, 0x00, 0x00 } },	/* 300   300      0.0   */
++	{ .icl = { 0xA, 0x35, 0x38, 0x00, 0x07 } },	/* 300   350      1.3   */
++	{ .icl = { 0xA, 0x35, 0x3F, 0x00, 0x00 } },	/* 350   350      0.0   */
+ };
+ 
+ static const struct intel_ddi_buf_trans jsl_combo_phy_ddi_translations_edp_hbr2 = {
+@@ -731,16 +551,16 @@ static const struct intel_ddi_buf_trans jsl_combo_phy_ddi_translations_edp_hbr2
+ 
+ static const union intel_ddi_buf_trans_entry _dg1_combo_phy_ddi_translations_dp_rbr_hbr[] = {
+ 							/* NT mV Trans mV db    */
+-	{ .cnl = { 0xA, 0x32, 0x3F, 0x00, 0x00 } },	/* 350   350      0.0   */
+-	{ .cnl = { 0xA, 0x48, 0x35, 0x00, 0x0A } },	/* 350   500      3.1   */
+-	{ .cnl = { 0xC, 0x63, 0x2F, 0x00, 0x10 } },	/* 350   700      6.0   */
+-	{ .cnl = { 0x6, 0x7F, 0x2C, 0x00, 0x13 } },	/* 350   900      8.2   */
+-	{ .cnl = { 0xA, 0x43, 0x3F, 0x00, 0x00 } },	/* 500   500      0.0   */
+-	{ .cnl = { 0xC, 0x60, 0x36, 0x00, 0x09 } },	/* 500   700      2.9   */
+-	{ .cnl = { 0x6, 0x7F, 0x30, 0x00, 0x0F } },	/* 500   900      5.1   */
+-	{ .cnl = { 0xC, 0x60, 0x3F, 0x00, 0x00 } },	/* 650   700      0.6   */
+-	{ .cnl = { 0x6, 0x7F, 0x37, 0x00, 0x08 } },	/* 600   900      3.5   */
+-	{ .cnl = { 0x6, 0x7F, 0x3F, 0x00, 0x00 } },	/* 900   900      0.0   */
++	{ .icl = { 0xA, 0x32, 0x3F, 0x00, 0x00 } },	/* 350   350      0.0   */
++	{ .icl = { 0xA, 0x48, 0x35, 0x00, 0x0A } },	/* 350   500      3.1   */
++	{ .icl = { 0xC, 0x63, 0x2F, 0x00, 0x10 } },	/* 350   700      6.0   */
++	{ .icl = { 0x6, 0x7F, 0x2C, 0x00, 0x13 } },	/* 350   900      8.2   */
++	{ .icl = { 0xA, 0x43, 0x3F, 0x00, 0x00 } },	/* 500   500      0.0   */
++	{ .icl = { 0xC, 0x60, 0x36, 0x00, 0x09 } },	/* 500   700      2.9   */
++	{ .icl = { 0x6, 0x7F, 0x30, 0x00, 0x0F } },	/* 500   900      5.1   */
++	{ .icl = { 0xC, 0x60, 0x3F, 0x00, 0x00 } },	/* 650   700      0.6   */
++	{ .icl = { 0x6, 0x7F, 0x37, 0x00, 0x08 } },	/* 600   900      3.5   */
++	{ .icl = { 0x6, 0x7F, 0x3F, 0x00, 0x00 } },	/* 900   900      0.0   */
+ };
+ 
+ static const struct intel_ddi_buf_trans dg1_combo_phy_ddi_translations_dp_rbr_hbr = {
+@@ -750,16 +570,16 @@ static const struct intel_ddi_buf_trans dg1_combo_phy_ddi_translations_dp_rbr_hb
+ 
+ static const union intel_ddi_buf_trans_entry _dg1_combo_phy_ddi_translations_dp_hbr2_hbr3[] = {
+ 							/* NT mV Trans mV db    */
+-	{ .cnl = { 0xA, 0x32, 0x3F, 0x00, 0x00 } },	/* 350   350      0.0   */
+-	{ .cnl = { 0xA, 0x48, 0x35, 0x00, 0x0A } },	/* 350   500      3.1   */
+-	{ .cnl = { 0xC, 0x63, 0x2F, 0x00, 0x10 } },	/* 350   700      6.0   */
+-	{ .cnl = { 0x6, 0x7F, 0x2C, 0x00, 0x13 } },	/* 350   900      8.2   */
+-	{ .cnl = { 0xA, 0x43, 0x3F, 0x00, 0x00 } },	/* 500   500      0.0   */
+-	{ .cnl = { 0xC, 0x60, 0x36, 0x00, 0x09 } },	/* 500   700      2.9   */
+-	{ .cnl = { 0x6, 0x7F, 0x30, 0x00, 0x0F } },	/* 500   900      5.1   */
+-	{ .cnl = { 0xC, 0x58, 0x3F, 0x00, 0x00 } },	/* 650   700      0.6   */
+-	{ .cnl = { 0x6, 0x7F, 0x35, 0x00, 0x0A } },	/* 600   900      3.5   */
+-	{ .cnl = { 0x6, 0x7F, 0x3F, 0x00, 0x00 } },	/* 900   900      0.0   */
++	{ .icl = { 0xA, 0x32, 0x3F, 0x00, 0x00 } },	/* 350   350      0.0   */
++	{ .icl = { 0xA, 0x48, 0x35, 0x00, 0x0A } },	/* 350   500      3.1   */
++	{ .icl = { 0xC, 0x63, 0x2F, 0x00, 0x10 } },	/* 350   700      6.0   */
++	{ .icl = { 0x6, 0x7F, 0x2C, 0x00, 0x13 } },	/* 350   900      8.2   */
++	{ .icl = { 0xA, 0x43, 0x3F, 0x00, 0x00 } },	/* 500   500      0.0   */
++	{ .icl = { 0xC, 0x60, 0x36, 0x00, 0x09 } },	/* 500   700      2.9   */
++	{ .icl = { 0x6, 0x7F, 0x30, 0x00, 0x0F } },	/* 500   900      5.1   */
++	{ .icl = { 0xC, 0x58, 0x3F, 0x00, 0x00 } },	/* 650   700      0.6   */
++	{ .icl = { 0x6, 0x7F, 0x35, 0x00, 0x0A } },	/* 600   900      3.5   */
++	{ .icl = { 0x6, 0x7F, 0x3F, 0x00, 0x00 } },	/* 900   900      0.0   */
+ };
+ 
+ static const struct intel_ddi_buf_trans dg1_combo_phy_ddi_translations_dp_hbr2_hbr3 = {
+@@ -885,16 +705,16 @@ static const struct intel_ddi_buf_trans tgl_dkl_phy_ddi_translations_hdmi = {
+ 
+ static const union intel_ddi_buf_trans_entry _tgl_combo_phy_ddi_translations_dp_hbr[] = {
+ 							/* NT mV Trans mV db    */
+-	{ .cnl = { 0xA, 0x32, 0x3F, 0x00, 0x00 } },	/* 350   350      0.0   */
+-	{ .cnl = { 0xA, 0x4F, 0x37, 0x00, 0x08 } },	/* 350   500      3.1   */
+-	{ .cnl = { 0xC, 0x71, 0x2F, 0x00, 0x10 } },	/* 350   700      6.0   */
+-	{ .cnl = { 0x6, 0x7D, 0x2B, 0x00, 0x14 } },	/* 350   900      8.2   */
+-	{ .cnl = { 0xA, 0x4C, 0x3F, 0x00, 0x00 } },	/* 500   500      0.0   */
+-	{ .cnl = { 0xC, 0x73, 0x34, 0x00, 0x0B } },	/* 500   700      2.9   */
+-	{ .cnl = { 0x6, 0x7F, 0x2F, 0x00, 0x10 } },	/* 500   900      5.1   */
+-	{ .cnl = { 0xC, 0x6C, 0x3C, 0x00, 0x03 } },	/* 650   700      0.6   */
+-	{ .cnl = { 0x6, 0x7F, 0x35, 0x00, 0x0A } },	/* 600   900      3.5   */
+-	{ .cnl = { 0x6, 0x7F, 0x3F, 0x00, 0x00 } },	/* 900   900      0.0   */
++	{ .icl = { 0xA, 0x32, 0x3F, 0x00, 0x00 } },	/* 350   350      0.0   */
++	{ .icl = { 0xA, 0x4F, 0x37, 0x00, 0x08 } },	/* 350   500      3.1   */
++	{ .icl = { 0xC, 0x71, 0x2F, 0x00, 0x10 } },	/* 350   700      6.0   */
++	{ .icl = { 0x6, 0x7D, 0x2B, 0x00, 0x14 } },	/* 350   900      8.2   */
++	{ .icl = { 0xA, 0x4C, 0x3F, 0x00, 0x00 } },	/* 500   500      0.0   */
++	{ .icl = { 0xC, 0x73, 0x34, 0x00, 0x0B } },	/* 500   700      2.9   */
++	{ .icl = { 0x6, 0x7F, 0x2F, 0x00, 0x10 } },	/* 500   900      5.1   */
++	{ .icl = { 0xC, 0x6C, 0x3C, 0x00, 0x03 } },	/* 650   700      0.6   */
++	{ .icl = { 0x6, 0x7F, 0x35, 0x00, 0x0A } },	/* 600   900      3.5   */
++	{ .icl = { 0x6, 0x7F, 0x3F, 0x00, 0x00 } },	/* 900   900      0.0   */
+ };
+ 
+ static const struct intel_ddi_buf_trans tgl_combo_phy_ddi_translations_dp_hbr = {
+@@ -904,16 +724,16 @@ static const struct intel_ddi_buf_trans tgl_combo_phy_ddi_translations_dp_hbr =
+ 
+ static const union intel_ddi_buf_trans_entry _tgl_combo_phy_ddi_translations_dp_hbr2[] = {
+ 							/* NT mV Trans mV db    */
+-	{ .cnl = { 0xA, 0x35, 0x3F, 0x00, 0x00 } },	/* 350   350      0.0   */
+-	{ .cnl = { 0xA, 0x4F, 0x37, 0x00, 0x08 } },	/* 350   500      3.1   */
+-	{ .cnl = { 0xC, 0x63, 0x2F, 0x00, 0x10 } },	/* 350   700      6.0   */
+-	{ .cnl = { 0x6, 0x7F, 0x2B, 0x00, 0x14 } },	/* 350   900      8.2   */
+-	{ .cnl = { 0xA, 0x47, 0x3F, 0x00, 0x00 } },	/* 500   500      0.0   */
+-	{ .cnl = { 0xC, 0x63, 0x34, 0x00, 0x0B } },	/* 500   700      2.9   */
+-	{ .cnl = { 0x6, 0x7F, 0x2F, 0x00, 0x10 } },	/* 500   900      5.1   */
+-	{ .cnl = { 0xC, 0x61, 0x3C, 0x00, 0x03 } },	/* 650   700      0.6   */
+-	{ .cnl = { 0x6, 0x7B, 0x35, 0x00, 0x0A } },	/* 600   900      3.5   */
+-	{ .cnl = { 0x6, 0x7F, 0x3F, 0x00, 0x00 } },	/* 900   900      0.0   */
++	{ .icl = { 0xA, 0x35, 0x3F, 0x00, 0x00 } },	/* 350   350      0.0   */
++	{ .icl = { 0xA, 0x4F, 0x37, 0x00, 0x08 } },	/* 350   500      3.1   */
++	{ .icl = { 0xC, 0x63, 0x2F, 0x00, 0x10 } },	/* 350   700      6.0   */
++	{ .icl = { 0x6, 0x7F, 0x2B, 0x00, 0x14 } },	/* 350   900      8.2   */
++	{ .icl = { 0xA, 0x47, 0x3F, 0x00, 0x00 } },	/* 500   500      0.0   */
++	{ .icl = { 0xC, 0x63, 0x34, 0x00, 0x0B } },	/* 500   700      2.9   */
++	{ .icl = { 0x6, 0x7F, 0x2F, 0x00, 0x10 } },	/* 500   900      5.1   */
++	{ .icl = { 0xC, 0x61, 0x3C, 0x00, 0x03 } },	/* 650   700      0.6   */
++	{ .icl = { 0x6, 0x7B, 0x35, 0x00, 0x0A } },	/* 600   900      3.5   */
++	{ .icl = { 0x6, 0x7F, 0x3F, 0x00, 0x00 } },	/* 900   900      0.0   */
+ };
+ 
+ static const struct intel_ddi_buf_trans tgl_combo_phy_ddi_translations_dp_hbr2 = {
+@@ -923,16 +743,16 @@ static const struct intel_ddi_buf_trans tgl_combo_phy_ddi_translations_dp_hbr2 =
+ 
+ static const union intel_ddi_buf_trans_entry _tgl_uy_combo_phy_ddi_translations_dp_hbr2[] = {
+ 							/* NT mV Trans mV db    */
+-	{ .cnl = { 0xA, 0x35, 0x3F, 0x00, 0x00 } },	/* 350   350      0.0   */
+-	{ .cnl = { 0xA, 0x4F, 0x36, 0x00, 0x09 } },	/* 350   500      3.1   */
+-	{ .cnl = { 0xC, 0x60, 0x32, 0x00, 0x0D } },	/* 350   700      6.0   */
+-	{ .cnl = { 0xC, 0x7F, 0x2D, 0x00, 0x12 } },	/* 350   900      8.2   */
+-	{ .cnl = { 0xC, 0x47, 0x3F, 0x00, 0x00 } },	/* 500   500      0.0   */
+-	{ .cnl = { 0xC, 0x6F, 0x36, 0x00, 0x09 } },	/* 500   700      2.9   */
+-	{ .cnl = { 0x6, 0x7D, 0x32, 0x00, 0x0D } },	/* 500   900      5.1   */
+-	{ .cnl = { 0x6, 0x60, 0x3C, 0x00, 0x03 } },	/* 650   700      0.6   */
+-	{ .cnl = { 0x6, 0x7F, 0x34, 0x00, 0x0B } },	/* 600   900      3.5   */
+-	{ .cnl = { 0x6, 0x7F, 0x3F, 0x00, 0x00 } },	/* 900   900      0.0   */
++	{ .icl = { 0xA, 0x35, 0x3F, 0x00, 0x00 } },	/* 350   350      0.0   */
++	{ .icl = { 0xA, 0x4F, 0x36, 0x00, 0x09 } },	/* 350   500      3.1   */
++	{ .icl = { 0xC, 0x60, 0x32, 0x00, 0x0D } },	/* 350   700      6.0   */
++	{ .icl = { 0xC, 0x7F, 0x2D, 0x00, 0x12 } },	/* 350   900      8.2   */
++	{ .icl = { 0xC, 0x47, 0x3F, 0x00, 0x00 } },	/* 500   500      0.0   */
++	{ .icl = { 0xC, 0x6F, 0x36, 0x00, 0x09 } },	/* 500   700      2.9   */
++	{ .icl = { 0x6, 0x7D, 0x32, 0x00, 0x0D } },	/* 500   900      5.1   */
++	{ .icl = { 0x6, 0x60, 0x3C, 0x00, 0x03 } },	/* 650   700      0.6   */
++	{ .icl = { 0x6, 0x7F, 0x34, 0x00, 0x0B } },	/* 600   900      3.5   */
++	{ .icl = { 0x6, 0x7F, 0x3F, 0x00, 0x00 } },	/* 900   900      0.0   */
+ };
+ 
+ static const struct intel_ddi_buf_trans tgl_uy_combo_phy_ddi_translations_dp_hbr2 = {
+@@ -946,15 +766,15 @@ static const struct intel_ddi_buf_trans tgl_uy_combo_phy_ddi_translations_dp_hbr
+  */
+ static const union intel_ddi_buf_trans_entry _tgl_combo_phy_ddi_translations_edp_hbr2_hobl[] = {
+ 							/* VS	pre-emp	*/
+-	{ .cnl = { 0x6, 0x7F, 0x3F, 0x00, 0x00 } },	/* 0	0	*/
+-	{ .cnl = { 0x6, 0x7F, 0x3F, 0x00, 0x00 } },	/* 0	1	*/
+-	{ .cnl = { 0x6, 0x7F, 0x3F, 0x00, 0x00 } },	/* 0	2	*/
+-	{ .cnl = { 0x6, 0x7F, 0x3F, 0x00, 0x00 } },	/* 0	3	*/
+-	{ .cnl = { 0x6, 0x7F, 0x3F, 0x00, 0x00 } },	/* 1	0	*/
+-	{ .cnl = { 0x6, 0x7F, 0x3F, 0x00, 0x00 } },	/* 1	1	*/
+-	{ .cnl = { 0x6, 0x7F, 0x3F, 0x00, 0x00 } },	/* 1	2	*/
+-	{ .cnl = { 0x6, 0x7F, 0x3F, 0x00, 0x00 } },	/* 2	0	*/
+-	{ .cnl = { 0x6, 0x7F, 0x3F, 0x00, 0x00 } },	/* 2	1	*/
++	{ .icl = { 0x6, 0x7F, 0x3F, 0x00, 0x00 } },	/* 0	0	*/
++	{ .icl = { 0x6, 0x7F, 0x3F, 0x00, 0x00 } },	/* 0	1	*/
++	{ .icl = { 0x6, 0x7F, 0x3F, 0x00, 0x00 } },	/* 0	2	*/
++	{ .icl = { 0x6, 0x7F, 0x3F, 0x00, 0x00 } },	/* 0	3	*/
++	{ .icl = { 0x6, 0x7F, 0x3F, 0x00, 0x00 } },	/* 1	0	*/
++	{ .icl = { 0x6, 0x7F, 0x3F, 0x00, 0x00 } },	/* 1	1	*/
++	{ .icl = { 0x6, 0x7F, 0x3F, 0x00, 0x00 } },	/* 1	2	*/
++	{ .icl = { 0x6, 0x7F, 0x3F, 0x00, 0x00 } },	/* 2	0	*/
++	{ .icl = { 0x6, 0x7F, 0x3F, 0x00, 0x00 } },	/* 2	1	*/
+ };
+ 
+ static const struct intel_ddi_buf_trans tgl_combo_phy_ddi_translations_edp_hbr2_hobl = {
+@@ -964,16 +784,16 @@ static const struct intel_ddi_buf_trans tgl_combo_phy_ddi_translations_edp_hbr2_
+ 
+ static const union intel_ddi_buf_trans_entry _rkl_combo_phy_ddi_translations_dp_hbr[] = {
+ 							/* NT mV Trans mV db    */
+-	{ .cnl = { 0xA, 0x2F, 0x3F, 0x00, 0x00 } },	/* 350   350      0.0   */
+-	{ .cnl = { 0xA, 0x4F, 0x37, 0x00, 0x08 } },	/* 350   500      3.1   */
+-	{ .cnl = { 0xC, 0x63, 0x2F, 0x00, 0x10 } },	/* 350   700      6.0   */
+-	{ .cnl = { 0x6, 0x7D, 0x2A, 0x00, 0x15 } },	/* 350   900      8.2   */
+-	{ .cnl = { 0xA, 0x4C, 0x3F, 0x00, 0x00 } },	/* 500   500      0.0   */
+-	{ .cnl = { 0xC, 0x73, 0x34, 0x00, 0x0B } },	/* 500   700      2.9   */
+-	{ .cnl = { 0x6, 0x7F, 0x2F, 0x00, 0x10 } },	/* 500   900      5.1   */
+-	{ .cnl = { 0xC, 0x6E, 0x3E, 0x00, 0x01 } },	/* 650   700      0.6   */
+-	{ .cnl = { 0x6, 0x7F, 0x35, 0x00, 0x0A } },	/* 600   900      3.5   */
+-	{ .cnl = { 0x6, 0x7F, 0x3F, 0x00, 0x00 } },	/* 900   900      0.0   */
++	{ .icl = { 0xA, 0x2F, 0x3F, 0x00, 0x00 } },	/* 350   350      0.0   */
++	{ .icl = { 0xA, 0x4F, 0x37, 0x00, 0x08 } },	/* 350   500      3.1   */
++	{ .icl = { 0xC, 0x63, 0x2F, 0x00, 0x10 } },	/* 350   700      6.0   */
++	{ .icl = { 0x6, 0x7D, 0x2A, 0x00, 0x15 } },	/* 350   900      8.2   */
++	{ .icl = { 0xA, 0x4C, 0x3F, 0x00, 0x00 } },	/* 500   500      0.0   */
++	{ .icl = { 0xC, 0x73, 0x34, 0x00, 0x0B } },	/* 500   700      2.9   */
++	{ .icl = { 0x6, 0x7F, 0x2F, 0x00, 0x10 } },	/* 500   900      5.1   */
++	{ .icl = { 0xC, 0x6E, 0x3E, 0x00, 0x01 } },	/* 650   700      0.6   */
++	{ .icl = { 0x6, 0x7F, 0x35, 0x00, 0x0A } },	/* 600   900      3.5   */
++	{ .icl = { 0x6, 0x7F, 0x3F, 0x00, 0x00 } },	/* 900   900      0.0   */
+ };
+ 
+ static const struct intel_ddi_buf_trans rkl_combo_phy_ddi_translations_dp_hbr = {
+@@ -983,16 +803,16 @@ static const struct intel_ddi_buf_trans rkl_combo_phy_ddi_translations_dp_hbr =
+ 
+ static const union intel_ddi_buf_trans_entry _rkl_combo_phy_ddi_translations_dp_hbr2_hbr3[] = {
+ 							/* NT mV Trans mV db    */
+-	{ .cnl = { 0xA, 0x35, 0x3F, 0x00, 0x00 } },	/* 350   350      0.0   */
+-	{ .cnl = { 0xA, 0x50, 0x38, 0x00, 0x07 } },	/* 350   500      3.1   */
+-	{ .cnl = { 0xC, 0x61, 0x33, 0x00, 0x0C } },	/* 350   700      6.0   */
+-	{ .cnl = { 0x6, 0x7F, 0x2E, 0x00, 0x11 } },	/* 350   900      8.2   */
+-	{ .cnl = { 0xA, 0x47, 0x3F, 0x00, 0x00 } },	/* 500   500      0.0   */
+-	{ .cnl = { 0xC, 0x5F, 0x38, 0x00, 0x07 } },	/* 500   700      2.9   */
+-	{ .cnl = { 0x6, 0x7F, 0x2F, 0x00, 0x10 } },	/* 500   900      5.1   */
+-	{ .cnl = { 0xC, 0x5F, 0x3F, 0x00, 0x00 } },	/* 650   700      0.6   */
+-	{ .cnl = { 0x6, 0x7E, 0x36, 0x00, 0x09 } },	/* 600   900      3.5   */
+-	{ .cnl = { 0x6, 0x7F, 0x3F, 0x00, 0x00 } },	/* 900   900      0.0   */
++	{ .icl = { 0xA, 0x35, 0x3F, 0x00, 0x00 } },	/* 350   350      0.0   */
++	{ .icl = { 0xA, 0x50, 0x38, 0x00, 0x07 } },	/* 350   500      3.1   */
++	{ .icl = { 0xC, 0x61, 0x33, 0x00, 0x0C } },	/* 350   700      6.0   */
++	{ .icl = { 0x6, 0x7F, 0x2E, 0x00, 0x11 } },	/* 350   900      8.2   */
++	{ .icl = { 0xA, 0x47, 0x3F, 0x00, 0x00 } },	/* 500   500      0.0   */
++	{ .icl = { 0xC, 0x5F, 0x38, 0x00, 0x07 } },	/* 500   700      2.9   */
++	{ .icl = { 0x6, 0x7F, 0x2F, 0x00, 0x10 } },	/* 500   900      5.1   */
++	{ .icl = { 0xC, 0x5F, 0x3F, 0x00, 0x00 } },	/* 650   700      0.6   */
++	{ .icl = { 0x6, 0x7E, 0x36, 0x00, 0x09 } },	/* 600   900      3.5   */
++	{ .icl = { 0x6, 0x7F, 0x3F, 0x00, 0x00 } },	/* 900   900      0.0   */
+ };
+ 
+ static const struct intel_ddi_buf_trans rkl_combo_phy_ddi_translations_dp_hbr2_hbr3 = {
+@@ -1002,16 +822,16 @@ static const struct intel_ddi_buf_trans rkl_combo_phy_ddi_translations_dp_hbr2_h
+ 
+ static const union intel_ddi_buf_trans_entry _adls_combo_phy_ddi_translations_dp_hbr2_hbr3[] = {
+ 							/* NT mV Trans mV db    */
+-	{ .cnl = { 0xA, 0x35, 0x3F, 0x00, 0x00 } },	/* 350   350      0.0   */
+-	{ .cnl = { 0xA, 0x4F, 0x37, 0x00, 0x08 } },	/* 350   500      3.1   */
+-	{ .cnl = { 0xC, 0x63, 0x30, 0x00, 0x0F } },	/* 350   700      6.0   */
+-	{ .cnl = { 0x6, 0x7F, 0x2B, 0x00, 0x14 } },	/* 350   900      8.2   */
+-	{ .cnl = { 0xA, 0x47, 0x3F, 0x00, 0x00 } },	/* 500   500      0.0   */
+-	{ .cnl = { 0xC, 0x63, 0x37, 0x00, 0x08 } },	/* 500   700      2.9   */
+-	{ .cnl = { 0x6, 0x7F, 0x31, 0x00, 0x0E } },	/* 500   900      5.1   */
+-	{ .cnl = { 0xC, 0x61, 0x3C, 0x00, 0x03 } },	/* 650   700      0.6   */
+-	{ .cnl = { 0x6, 0x7B, 0x35, 0x00, 0x0A } },	/* 600   900      3.5   */
+-	{ .cnl = { 0x6, 0x7F, 0x3F, 0x00, 0x00 } },	/* 900   900      0.0   */
++	{ .icl = { 0xA, 0x35, 0x3F, 0x00, 0x00 } },	/* 350   350      0.0   */
++	{ .icl = { 0xA, 0x4F, 0x37, 0x00, 0x08 } },	/* 350   500      3.1   */
++	{ .icl = { 0xC, 0x63, 0x30, 0x00, 0x0F } },	/* 350   700      6.0   */
++	{ .icl = { 0x6, 0x7F, 0x2B, 0x00, 0x14 } },	/* 350   900      8.2   */
++	{ .icl = { 0xA, 0x47, 0x3F, 0x00, 0x00 } },	/* 500   500      0.0   */
++	{ .icl = { 0xC, 0x63, 0x37, 0x00, 0x08 } },	/* 500   700      2.9   */
++	{ .icl = { 0x6, 0x7F, 0x31, 0x00, 0x0E } },	/* 500   900      5.1   */
++	{ .icl = { 0xC, 0x61, 0x3C, 0x00, 0x03 } },	/* 650   700      0.6   */
++	{ .icl = { 0x6, 0x7B, 0x35, 0x00, 0x0A } },	/* 600   900      3.5   */
++	{ .icl = { 0x6, 0x7F, 0x3F, 0x00, 0x00 } },	/* 900   900      0.0   */
+ };
+ 
+ static const struct intel_ddi_buf_trans adls_combo_phy_ddi_translations_dp_hbr2_hbr3 = {
+@@ -1021,16 +841,16 @@ static const struct intel_ddi_buf_trans adls_combo_phy_ddi_translations_dp_hbr2_
+ 
+ static const union intel_ddi_buf_trans_entry _adls_combo_phy_ddi_translations_edp_hbr2[] = {
+ 							/* NT mV Trans mV db    */
+-	{ .cnl = { 0x9, 0x70, 0x3C, 0x00, 0x03 } },	/* 200   200      0.0   */
+-	{ .cnl = { 0x9, 0x6D, 0x3A, 0x00, 0x05 } },	/* 200   250      1.9   */
+-	{ .cnl = { 0x9, 0x7F, 0x36, 0x00, 0x09 } },	/* 200   300      3.5   */
+-	{ .cnl = { 0x4, 0x59, 0x32, 0x00, 0x0D } },	/* 200   350      4.9   */
+-	{ .cnl = { 0x2, 0x77, 0x3A, 0x00, 0x05 } },	/* 250   250      0.0   */
+-	{ .cnl = { 0x2, 0x7F, 0x38, 0x00, 0x07 } },	/* 250   300      1.6   */
+-	{ .cnl = { 0x4, 0x5A, 0x36, 0x00, 0x09 } },	/* 250   350      2.9   */
+-	{ .cnl = { 0x4, 0x5E, 0x3D, 0x00, 0x04 } },	/* 300   300      0.0   */
+-	{ .cnl = { 0x4, 0x65, 0x38, 0x00, 0x07 } },	/* 300   350      1.3   */
+-	{ .cnl = { 0x4, 0x6F, 0x3A, 0x00, 0x05 } },	/* 350   350      0.0   */
++	{ .icl = { 0x9, 0x70, 0x3C, 0x00, 0x03 } },	/* 200   200      0.0   */
++	{ .icl = { 0x9, 0x6D, 0x3A, 0x00, 0x05 } },	/* 200   250      1.9   */
++	{ .icl = { 0x9, 0x7F, 0x36, 0x00, 0x09 } },	/* 200   300      3.5   */
++	{ .icl = { 0x4, 0x59, 0x32, 0x00, 0x0D } },	/* 200   350      4.9   */
++	{ .icl = { 0x2, 0x77, 0x3A, 0x00, 0x05 } },	/* 250   250      0.0   */
++	{ .icl = { 0x2, 0x7F, 0x38, 0x00, 0x07 } },	/* 250   300      1.6   */
++	{ .icl = { 0x4, 0x5A, 0x36, 0x00, 0x09 } },	/* 250   350      2.9   */
++	{ .icl = { 0x4, 0x5E, 0x3D, 0x00, 0x04 } },	/* 300   300      0.0   */
++	{ .icl = { 0x4, 0x65, 0x38, 0x00, 0x07 } },	/* 300   350      1.3   */
++	{ .icl = { 0x4, 0x6F, 0x3A, 0x00, 0x05 } },	/* 350   350      0.0   */
+ };
+ 
+ static const struct intel_ddi_buf_trans adls_combo_phy_ddi_translations_edp_hbr2 = {
+@@ -1040,16 +860,16 @@ static const struct intel_ddi_buf_trans adls_combo_phy_ddi_translations_edp_hbr2
+ 
+ static const union intel_ddi_buf_trans_entry _adls_combo_phy_ddi_translations_edp_hbr3[] = {
+ 							/* NT mV Trans mV db    */
+-	{ .cnl = { 0xA, 0x5E, 0x34, 0x00, 0x0B } },	/* 350   350      0.0   */
+-	{ .cnl = { 0xA, 0x69, 0x32, 0x00, 0x0D } },	/* 350   500      3.1   */
+-	{ .cnl = { 0xC, 0x74, 0x31, 0x00, 0x0E } },	/* 350   700      6.0   */
+-	{ .cnl = { 0x6, 0x7F, 0x2E, 0x00, 0x11 } },	/* 350   900      8.2   */
+-	{ .cnl = { 0xA, 0x5C, 0x3F, 0x00, 0x00 } },	/* 500   500      0.0   */
+-	{ .cnl = { 0xC, 0x7F, 0x34, 0x00, 0x0B } },	/* 500   700      2.9   */
+-	{ .cnl = { 0x6, 0x7F, 0x33, 0x00, 0x0C } },	/* 500   900      5.1   */
+-	{ .cnl = { 0xC, 0x7F, 0x3F, 0x00, 0x00 } },	/* 650   700      0.6   */
+-	{ .cnl = { 0x6, 0x7F, 0x3C, 0x00, 0x03 } },	/* 600   900      3.5   */
+-	{ .cnl = { 0x6, 0x7F, 0x3F, 0x00, 0x00 } },	/* 900   900      0.0   */
++	{ .icl = { 0xA, 0x5E, 0x34, 0x00, 0x0B } },	/* 350   350      0.0   */
++	{ .icl = { 0xA, 0x69, 0x32, 0x00, 0x0D } },	/* 350   500      3.1   */
++	{ .icl = { 0xC, 0x74, 0x31, 0x00, 0x0E } },	/* 350   700      6.0   */
++	{ .icl = { 0x6, 0x7F, 0x2E, 0x00, 0x11 } },	/* 350   900      8.2   */
++	{ .icl = { 0xA, 0x5C, 0x3F, 0x00, 0x00 } },	/* 500   500      0.0   */
++	{ .icl = { 0xC, 0x7F, 0x34, 0x00, 0x0B } },	/* 500   700      2.9   */
++	{ .icl = { 0x6, 0x7F, 0x33, 0x00, 0x0C } },	/* 500   900      5.1   */
++	{ .icl = { 0xC, 0x7F, 0x3F, 0x00, 0x00 } },	/* 650   700      0.6   */
++	{ .icl = { 0x6, 0x7F, 0x3C, 0x00, 0x03 } },	/* 600   900      3.5   */
++	{ .icl = { 0x6, 0x7F, 0x3F, 0x00, 0x00 } },	/* 900   900      0.0   */
+ };
+ 
+ static const struct intel_ddi_buf_trans adls_combo_phy_ddi_translations_edp_hbr3 = {
+@@ -1269,88 +1089,6 @@ bxt_get_buf_trans(struct intel_encoder *encoder,
+ 		return intel_get_buf_trans(&bxt_ddi_translations_dp, n_entries);
+ }
+ 
+-static const struct intel_ddi_buf_trans *
+-cnl_get_buf_trans_hdmi(struct intel_encoder *encoder, int *n_entries)
+-{
+-	struct drm_i915_private *dev_priv = to_i915(encoder->base.dev);
+-	u32 voltage = intel_de_read(dev_priv, CNL_PORT_COMP_DW3) & VOLTAGE_INFO_MASK;
+-
+-	if (voltage == VOLTAGE_INFO_0_85V) {
+-		return intel_get_buf_trans(&cnl_ddi_translations_hdmi_0_85V,
+-					   n_entries);
+-	} else if (voltage == VOLTAGE_INFO_0_95V) {
+-		return intel_get_buf_trans(&cnl_ddi_translations_hdmi_0_95V,
+-					   n_entries);
+-	} else if (voltage == VOLTAGE_INFO_1_05V) {
+-		return intel_get_buf_trans(&cnl_ddi_translations_hdmi_1_05V,
+-					   n_entries);
+-	} else {
+-		*n_entries = 1; /* shut up gcc */
+-		MISSING_CASE(voltage);
+-	}
+-	return NULL;
+-}
+-
+-static const struct intel_ddi_buf_trans *
+-cnl_get_buf_trans_dp(struct intel_encoder *encoder, int *n_entries)
+-{
+-	struct drm_i915_private *dev_priv = to_i915(encoder->base.dev);
+-	u32 voltage = intel_de_read(dev_priv, CNL_PORT_COMP_DW3) & VOLTAGE_INFO_MASK;
+-
+-	if (voltage == VOLTAGE_INFO_0_85V) {
+-		return intel_get_buf_trans(&cnl_ddi_translations_dp_0_85V,
+-					   n_entries);
+-	} else if (voltage == VOLTAGE_INFO_0_95V) {
+-		return intel_get_buf_trans(&cnl_ddi_translations_dp_0_95V,
+-					   n_entries);
+-	} else if (voltage == VOLTAGE_INFO_1_05V) {
+-		return intel_get_buf_trans(&cnl_ddi_translations_dp_1_05V,
+-					   n_entries);
+-	} else {
+-		*n_entries = 1; /* shut up gcc */
+-		MISSING_CASE(voltage);
+-	}
+-	return NULL;
+-}
+-
+-static const struct intel_ddi_buf_trans *
+-cnl_get_buf_trans_edp(struct intel_encoder *encoder, int *n_entries)
+-{
+-	struct drm_i915_private *dev_priv = to_i915(encoder->base.dev);
+-	u32 voltage = intel_de_read(dev_priv, CNL_PORT_COMP_DW3) & VOLTAGE_INFO_MASK;
+-
+-	if (dev_priv->vbt.edp.low_vswing) {
+-		if (voltage == VOLTAGE_INFO_0_85V) {
+-			return intel_get_buf_trans(&cnl_ddi_translations_edp_0_85V,
+-						   n_entries);
+-		} else if (voltage == VOLTAGE_INFO_0_95V) {
+-			return intel_get_buf_trans(&cnl_ddi_translations_edp_0_95V,
+-						   n_entries);
+-		} else if (voltage == VOLTAGE_INFO_1_05V) {
+-			return intel_get_buf_trans(&cnl_ddi_translations_edp_1_05V,
+-						   n_entries);
+-		} else {
+-			*n_entries = 1; /* shut up gcc */
+-			MISSING_CASE(voltage);
+-		}
+-		return NULL;
+-	} else {
+-		return cnl_get_buf_trans_dp(encoder, n_entries);
+-	}
+-}
+-
+-static const struct intel_ddi_buf_trans *
+-cnl_get_buf_trans(struct intel_encoder *encoder,
+-		  const struct intel_crtc_state *crtc_state,
+-		  int *n_entries)
+-{
+-	if (intel_crtc_has_type(crtc_state, INTEL_OUTPUT_HDMI))
+-		return cnl_get_buf_trans_hdmi(encoder, n_entries);
+-	if (intel_crtc_has_type(crtc_state, INTEL_OUTPUT_EDP))
+-		return cnl_get_buf_trans_edp(encoder, n_entries);
+-	return cnl_get_buf_trans_dp(encoder, n_entries);
+-}
+-
+ static const struct intel_ddi_buf_trans *
+ icl_get_combo_buf_trans_dp(struct intel_encoder *encoder,
+ 			   const struct intel_crtc_state *crtc_state,
+@@ -1761,8 +1499,6 @@ void intel_ddi_buf_trans_init(struct intel_encoder *encoder)
+ 			encoder->get_buf_trans = icl_get_combo_buf_trans;
+ 		else
+ 			encoder->get_buf_trans = icl_get_mg_buf_trans;
 -	} else if (IS_CANNONLAKE(i915)) {
--		cnl_display_core_init(i915, resume);
+-		encoder->get_buf_trans = cnl_get_buf_trans;
  	} else if (IS_GEMINILAKE(i915) || IS_BROXTON(i915)) {
- 		bxt_display_core_init(i915, resume);
- 	} else if (DISPLAY_VER(i915) == 9) {
-@@ -6281,8 +5994,6 @@ void intel_power_domains_suspend(struct drm_i915_private *i915,
+ 		encoder->get_buf_trans = bxt_get_buf_trans;
+ 	} else if (IS_CML_ULX(i915) || IS_CFL_ULX(i915) || IS_KBL_ULX(i915)) {
+diff --git a/drivers/gpu/drm/i915/display/intel_ddi_buf_trans.h b/drivers/gpu/drm/i915/display/intel_ddi_buf_trans.h
+index 05226eb46cd6..2acd720f9d4f 100644
+--- a/drivers/gpu/drm/i915/display/intel_ddi_buf_trans.h
++++ b/drivers/gpu/drm/i915/display/intel_ddi_buf_trans.h
+@@ -25,7 +25,7 @@ struct bxt_ddi_buf_trans {
+ 	u8 deemphasis;
+ };
  
- 	if (DISPLAY_VER(i915) >= 11)
- 		icl_display_core_uninit(i915);
--	else if (IS_CANNONLAKE(i915))
--		cnl_display_core_uninit(i915);
- 	else if (IS_GEMINILAKE(i915) || IS_BROXTON(i915))
- 		bxt_display_core_uninit(i915);
- 	else if (DISPLAY_VER(i915) == 9)
-diff --git a/drivers/gpu/drm/i915/display/intel_display_power.h b/drivers/gpu/drm/i915/display/intel_display_power.h
-index ad788bbd727d..c79f7ca739d2 100644
---- a/drivers/gpu/drm/i915/display/intel_display_power.h
-+++ b/drivers/gpu/drm/i915/display/intel_display_power.h
-@@ -142,8 +142,6 @@ enum i915_power_well_id {
- 	SKL_DISP_PW_MISC_IO,
- 	SKL_DISP_PW_1,
- 	SKL_DISP_PW_2,
--	CNL_DISP_PW_DDI_F_IO,
--	CNL_DISP_PW_DDI_F_AUX,
- 	ICL_DISP_PW_3,
- 	SKL_DISP_DC_OFF,
- 	TGL_DISP_PW_TC_COLD_OFF,
-diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
-index 65596987b156..91e93f3e9649 100644
---- a/drivers/gpu/drm/i915/i915_reg.h
-+++ b/drivers/gpu/drm/i915/i915_reg.h
-@@ -9828,19 +9828,6 @@ enum skl_power_gate {
- 	((pw_idx) - ICL_PW_CTL_IDX_PW_1 + SKL_PG1)
- #define  SKL_FUSE_PG_DIST_STATUS(pg)		(1 << (27 - (pg)))
- 
--#define _CNL_AUX_REG_IDX(pw_idx)	((pw_idx) - GLK_PW_CTL_IDX_AUX_B)
--#define _CNL_AUX_ANAOVRD1_B		0x162250
--#define _CNL_AUX_ANAOVRD1_C		0x162210
--#define _CNL_AUX_ANAOVRD1_D		0x1622D0
--#define _CNL_AUX_ANAOVRD1_F		0x162A90
--#define CNL_AUX_ANAOVRD1(pw_idx)	_MMIO(_PICK(_CNL_AUX_REG_IDX(pw_idx), \
--						    _CNL_AUX_ANAOVRD1_B, \
--						    _CNL_AUX_ANAOVRD1_C, \
--						    _CNL_AUX_ANAOVRD1_D, \
--						    _CNL_AUX_ANAOVRD1_F))
--#define   CNL_AUX_ANAOVRD1_ENABLE	(1 << 16)
--#define   CNL_AUX_ANAOVRD1_LDO_BYPASS	(1 << 23)
--
- #define _ICL_AUX_REG_IDX(pw_idx)	((pw_idx) - ICL_PW_CTL_IDX_AUX_A)
- #define _ICL_AUX_ANAOVRD1_A		0x162398
- #define _ICL_AUX_ANAOVRD1_B		0x6C398
+-struct cnl_ddi_buf_trans {
++struct icl_ddi_buf_trans {
+ 	u8 dw2_swing_sel;
+ 	u8 dw7_n_scalar;
+ 	u8 dw4_cursor_coeff;
+@@ -48,7 +48,7 @@ struct tgl_dkl_phy_ddi_buf_trans {
+ union intel_ddi_buf_trans_entry {
+ 	struct hsw_ddi_buf_trans hsw;
+ 	struct bxt_ddi_buf_trans bxt;
+-	struct cnl_ddi_buf_trans cnl;
++	struct icl_ddi_buf_trans icl;
+ 	struct icl_mg_phy_ddi_buf_trans mg;
+ 	struct tgl_dkl_phy_ddi_buf_trans dkl;
+ };
 -- 
 2.31.1
 
