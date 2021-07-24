@@ -1,143 +1,144 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C65673D440C
-	for <lists+dri-devel@lfdr.de>; Sat, 24 Jul 2021 02:47:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6239E3D4418
+	for <lists+dri-devel@lfdr.de>; Sat, 24 Jul 2021 02:54:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1416C6E8BF;
-	Sat, 24 Jul 2021 00:47:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 068F76FD45;
+	Sat, 24 Jul 2021 00:54:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 966C26E8BF;
- Sat, 24 Jul 2021 00:47:52 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10054"; a="199234648"
-X-IronPort-AV: E=Sophos;i="5.84,265,1620716400"; d="scan'208";a="199234648"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Jul 2021 17:47:52 -0700
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 514F66FC89;
+ Sat, 24 Jul 2021 00:54:10 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10054"; a="212036403"
+X-IronPort-AV: E=Sophos;i="5.84,265,1620716400"; d="scan'208";a="212036403"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Jul 2021 17:54:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,265,1620716400"; d="scan'208";a="416000325"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
- by orsmga006.jf.intel.com with ESMTP; 23 Jul 2021 17:47:51 -0700
-Received: from fmsmsx604.amr.corp.intel.com (10.18.126.84) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+X-IronPort-AV: E=Sophos;i="5.84,265,1620716400"; d="scan'208";a="497479281"
+Received: from orsmsx606.amr.corp.intel.com ([10.22.229.19])
+ by orsmga001.jf.intel.com with ESMTP; 23 Jul 2021 17:54:09 -0700
+Received: from orsmsx607.amr.corp.intel.com (10.22.229.20) by
+ ORSMSX606.amr.corp.intel.com (10.22.229.19) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.10; Fri, 23 Jul 2021 17:47:51 -0700
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx604.amr.corp.intel.com (10.18.126.84) with Microsoft SMTP Server
+ 15.1.2242.10; Fri, 23 Jul 2021 17:54:09 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx607.amr.corp.intel.com (10.22.229.20) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.10 via Frontend Transport; Fri, 23 Jul 2021 17:47:51 -0700
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com (104.47.57.49) by
- edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ 15.1.2242.10 via Frontend Transport; Fri, 23 Jul 2021 17:54:09 -0700
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.168)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2242.10; Fri, 23 Jul 2021 17:47:51 -0700
+ 15.1.2242.10; Fri, 23 Jul 2021 17:54:08 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=B112kT8NeKWzAThl920No3chJWymzrNjAzoguA6a7zVdXE881gnQ5mnmiaSkFRTdybGYIB+ratiK/ouoDYZ9V6dyzyQ+jUEDEww+7LvWytHNCFy18FMXur2MlijCMNxM+PBZ3JZlP7pDjfsgjDIfZeAx/2yoQ+frO1Wr3lZeOVE3i/J31kZhCeopjH5uVIsYATGezuBN3oxZYRtTY8LKn4lHxzDmN2Vkw4illIfxdFfJB0OI6LBekGNWSbt5zJjXvt4TrIHQZCwmmzYX5sTCmc1JQCcLvur+ll4y5WYh/0psxz3mIDr78rggqCddtZv2ObNUZAqJvvyB3TLg5/aenQ==
+ b=iTuaztZ2PLhr7v1HdTlamI8pdoJ1aenyJxGZ2QqJKse0RZYETetBvx1wdca3BordrH9u2vviXaSPt0K+zYB1nw2f6Um4jj9ysANi/LJ9XbkK25j/gWL5KmblQtv5ItFK9zM2S3aEdiB0VQjgh4asXyw79KyUdDAgYXh5h/SR8mWe6ZuYkvho+F958R6IiIx3Kht+88LBdbihXvYsSMmTPzn3w6xJN1a3Qu6g0Af2OU0oCXuVEtVJ6jfWDfZCTcfh6AC9NjQAMrfzQBkZnIUdmb2WfMOmVEGpm2hVuDJMpitWHPSDqnVq2lXJq77QIRvxb2fP8m6XueE+K1JXwKMLNw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DyK/jFBt2z6kANrkAKdXYLYJ1TmTl+VJVerEdXkgNDE=;
- b=aBOXVuR7nRbOxRjulBE8DUpQDn9kWfansBjhpsoQ6S9UxNLqRPcXzq/0cszjRZk11SPfF/IWkBmO9aSLfLAEl1Wy6DOxTBVQeMYjL72wSjjAwm2QT7KatCW1Q94uIhdbMS/k9+ZuhuoFGH7G50O4E9wYPImCzU+01W5dV12jCz49ad5gCzp3YJEgOXy0seWUQPzlblpZCmWAtTOLVTkLp7OnbjjELShVztc7RAOJDrQMBFEe1sPdHIpaMcMqU5NfiB0QE9kBrFQ/bf0rl29wE+YtVAVHGymbDvhUq91tHD560M93B49EPxRGIeYxs4Rq5eESHS0v/vFJbL69HeT3zg==
+ bh=chV+alBBjFq+Hs+7rJE48VFNeg7koMGoF+y9nMvixN0=;
+ b=Ea1ff9KzXElahB2xGZc4Fkw699OLlOm7VcKUv9nOEveJjyxpfC1F5eDcQ78YIVDxuXxA1iwmuL+u5ph6/cn1U0ZlJ6fVMBUepAyLQwBWwiKnH5jFuC+0oIyZqZcLKGFN4kI1zxYwUU8AeJfPhySqm8WdA6UeIICBY/5usva4n8L2XLFgiG3VxUaCFM8G+jumpdRqfKJnsnvbCDb+xNDJ0WI6BUzszrvGiOfUyazfwfy4H+Ftpy8YMVmR/hOV3lbFoymYpvgS7IGpVcsUlrx1B/4NIoi0VeeJSYmKulzL+XsxOTDTlDC3vRcWgm3H3V+MhR26novcuDi3NcuD22W/wg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
  s=selector2-intel-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DyK/jFBt2z6kANrkAKdXYLYJ1TmTl+VJVerEdXkgNDE=;
- b=VK+6XqVBRCONGxJ+bGqXZVKmMYg4lMNUk5uwyJs7o8o54ZjVJS2GDs8RtBw5nofvE5eFhjinpkNX67I/OlauIrrid2EMJWk229GrVJmt7guLt23A33zEEpoE4yCqW9CaYGRRuPD6UT9G9wmRWTtbzUniuiAsYxODkRzjyiHTasw=
+ bh=chV+alBBjFq+Hs+7rJE48VFNeg7koMGoF+y9nMvixN0=;
+ b=D8mwd3KV4bANtrHHtKvkxjSBqkmzKfgIhcmlb8hmI89D6aQxfFjsfH34Z5kwFKC+qgU3dylVFqpa/7N/KB1gVGgwbTl8jdvP1iIBuKiwMfNgJCKczsQAVZaIFey5bZKjLJXG6xB6dmlM52hiI/EkBNPvzHIjNw85qDkWgS9WzTo=
 Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
  header.d=none; lists.freedesktop.org;
  dmarc=none action=none header.from=intel.com;
 Received: from DM4PR11MB5488.namprd11.prod.outlook.com (2603:10b6:5:39d::5) by
- DM6PR11MB4674.namprd11.prod.outlook.com (2603:10b6:5:2a0::9) with
+ DM6PR11MB2890.namprd11.prod.outlook.com (2603:10b6:5:63::20) with
  Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4352.25; Sat, 24 Jul 2021 00:47:49 +0000
+ 15.20.4331.29; Sat, 24 Jul 2021 00:54:07 +0000
 Received: from DM4PR11MB5488.namprd11.prod.outlook.com
  ([fe80::4017:e7ce:ef66:48d7]) by DM4PR11MB5488.namprd11.prod.outlook.com
  ([fe80::4017:e7ce:ef66:48d7%9]) with mapi id 15.20.4352.029; Sat, 24 Jul 2021
- 00:47:49 +0000
-Subject: Re: [Intel-gfx] [PATCH 01/33] drm/i915/guc: GuC virtual engines
+ 00:54:07 +0000
+Subject: Re: [Intel-gfx] [PATCH 32/33] drm/i915/guc: Implement GuC priority
+ management
 To: Matthew Brost <matthew.brost@intel.com>,
  <intel-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
 References: <20210722235426.31831-1-matthew.brost@intel.com>
- <20210722235426.31831-2-matthew.brost@intel.com>
+ <20210722235426.31831-33-matthew.brost@intel.com>
 From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-Message-ID: <9491cc8b-7406-a715-9542-792adc9dd9a6@intel.com>
-Date: Fri, 23 Jul 2021 17:47:45 -0700
+Message-ID: <b8dec292-b5db-bfe0-813b-60a933a5246d@intel.com>
+Date: Fri, 23 Jul 2021 17:54:04 -0700
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
  Firefox/78.0 Thunderbird/78.12.0
-In-Reply-To: <20210722235426.31831-2-matthew.brost@intel.com>
+In-Reply-To: <20210722235426.31831-33-matthew.brost@intel.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Content-Language: en-US
-X-ClientProxiedBy: MW4PR03CA0235.namprd03.prod.outlook.com
- (2603:10b6:303:b9::30) To DM4PR11MB5488.namprd11.prod.outlook.com
+X-ClientProxiedBy: MW3PR05CA0020.namprd05.prod.outlook.com
+ (2603:10b6:303:2b::25) To DM4PR11MB5488.namprd11.prod.outlook.com
  (2603:10b6:5:39d::5)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from [192.168.1.65] (99.72.232.53) by
- MW4PR03CA0235.namprd03.prod.outlook.com (2603:10b6:303:b9::30) with Microsoft
+ MW3PR05CA0020.namprd05.prod.outlook.com (2603:10b6:303:2b::25) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4352.25 via Frontend Transport; Sat, 24 Jul 2021 00:47:48 +0000
+ 15.20.4373.7 via Frontend Transport; Sat, 24 Jul 2021 00:54:06 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 62d0f0bc-f2a4-4507-5540-08d94e3ca8ec
-X-MS-TrafficTypeDiagnostic: DM6PR11MB4674:
+X-MS-Office365-Filtering-Correlation-Id: 860d61de-0993-43d8-f3fd-08d94e3d8a64
+X-MS-TrafficTypeDiagnostic: DM6PR11MB2890:
 X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <DM6PR11MB4674533A25B3DF4424F4B0C6F4E69@DM6PR11MB4674.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-Microsoft-Antispam-PRVS: <DM6PR11MB2890AB9B201E647FF9931894F4E69@DM6PR11MB2890.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1360;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 1qPv5dmkkzWmQcjdbfHcfUGPW5O/JTVtn4+Obriol4eJZi99TxKMnA6AgyqD41RufQ57Um5ZmG4xJAStvtjV18JB+8Luadvqh+g5u+TQe4EAHz+QjsCVJl8tudBrMSgMrqT/yH2e3U6b3TqZC3SdW4oCvaC1VCx+70o2+3vEgmHWYmvUwO7lNIIWQr+eSRFBGFACz9gjfpXjO9RB5oDGLeXHpTWhOr5cinjbo6SiP1QRtJCoJ0Iriiu5BkQw333FUkFIqSK763EQP4cZMQ6AZb6YZEGqn5NdRtJw7PuvAYFpE86LowPV9H5E5YnmnDrfRVY/zMu0heaNC91Mho66WO7UP4iwYreW2cizIg4cRY0/U9J4Rr0oZJDUC+Y2gvu3U38tACEYCMdmUiIF49lmWE8KiPNXRG+BuPC+K5hK0c+35SsBcJSzMvkfmNtbZjZA6Ka4RQXqTphX4SuWNhkxJ9evDtYn8d/W+MpFHa0LVWrQ9P6ad6Lhm+eMHTr+BKpbnyDYy+h6vogIRedOtI6b1LEUc2o6Eb4YHWEAGRKjafUYXuLtF+XRfaZ4pT5B8V6vwYVvNmxHYF8ycvkQjJSTzUxa8n0B94664hIYbZNx4CshZQZf112jnEmBNxlTSN45UBADnKPJKlN4MLzRX3UEgAcM9JKa8i/SXHb1SXune47sLaoeW3ArqWemTPigr/W9P5TNLTsStAY9rtUj8YDfW5zVUKib+mld0Jn6XCIbaxm5ctDgFbano1H5BDKsZHmdfbvvS6Tt40RUQut9g9KXiA==
+X-Microsoft-Antispam-Message-Info: AwbsjztiU+/vzMO5IvCrmXRjR2F+na74aMyK/RpuwVCFta23azamDJk23xcP2UMhkT4pCK5FcRDJV42BoNNqzTrkYOFDS6NVmlW5p/01wrsoiDyFiCkhLugdK9srDdec4WXY99R7Hf/1e2VLix2UeEd3F5N920a9S5ugBwRm0AVTCu5Us0pGO/ctfNhZharta3esqNV08DTuwOUtkX62/vwAjCRLR8aQyLRsPyl1nxpQAwDKFRtFjYCgFq6apxNTkJcxPUeeVykCLxqFOfgkY2eOM3Nu9YPNuvOmNg1pH4O+bv2V9vywWoV2CxwClcPDyUkj+Gqds+iU3f9Edf0zGFTTjd3v0O9r2733J3v0JlYdBsEVk8a48CdsNSW+XVJaYBOXHPCmdPHDGj6Jwi6WQPidT2SLMDZfK4Gh9BdDgWQhx4efJExA6cq7LasTCRVq9y2X0Tn8qdLi9ECIewncvA4NFicOiggqADxrKoO+/MB7clKrZyPohStdtEwzMRUy0XAMyCnwZ08RY6P5DLn0VlDvl7m+xKteI0K41MGtBcNucKpMvBHK2rx5WytG4ELIMUapsHEbxX3mOmQZnpNSGZCitElByphqu5UoQ5fQQzQPH9mkFJOneJ4qjbEHu459+nNQYq2wbH1+UFbieAliThL5BI0Ip5bvc+EHoEtr5vNNoBlTx/rp/M0nOdQPhdFF75GlQmtUNB0VUc96BrjDAeQVG3eld/FuyhdtglSe4iY=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:DM4PR11MB5488.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(136003)(396003)(366004)(376002)(39860400002)(346002)(8676002)(30864003)(53546011)(26005)(450100002)(2906002)(5660300002)(36756003)(186003)(66946007)(478600001)(956004)(83380400001)(2616005)(6666004)(16576012)(316002)(31696002)(66556008)(86362001)(38100700002)(31686004)(66476007)(6486002)(8936002)(21314003)(45980500001)(43740500002);
+ SFS:(4636009)(376002)(346002)(39860400002)(396003)(136003)(366004)(36756003)(6486002)(8936002)(186003)(956004)(83380400001)(66476007)(8676002)(31696002)(86362001)(31686004)(53546011)(2906002)(26005)(450100002)(30864003)(66556008)(38100700002)(16576012)(316002)(66946007)(2616005)(5660300002)(478600001)(43740500002)(45980500001);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eXA2dmtKQ2xpM3ZnMnZ4RlA4OU5zcXh2Mlp0cVhjRGkwUGNsZFZZcW1aVzd2?=
- =?utf-8?B?eWJjWUg2Z21PYi84aEVsNEd1L2FLNUc0RVdqejJrWitZTkJFUkVqWmx1dVpQ?=
- =?utf-8?B?bGd6blBFYzBNeDNuQWx6cFYzT0ovMmN2ZnlKTVBxam4va2NSUmYzdkM3c3BJ?=
- =?utf-8?B?emVjWUJFM3pjdFFmK3BFK0labzRtbUxRU1poQlhXT3A4ajVoakNpZTlCVHpq?=
- =?utf-8?B?UzhJeDV4UUVJaDR4Ym0rTFI2MFc0VmhVRThQVW5tWW55RDV6VkF4TWF3S1Vq?=
- =?utf-8?B?b2t5SllrWEJQVk9jNTdkVHpqQzhDaFJ2RHI1UkFUVE5waWZGK1FndHc4NHNk?=
- =?utf-8?B?b1phdmxoZ1E5ZjJpd0dXcWFGUnZ5TkxmbmxGd0lUNUh1QmpsZDlzNW5oT29q?=
- =?utf-8?B?QmdiTEljQUVlTTZkT2VESWt0dkpFMnB0cGN2Z1d0MU0yUEEzVmd4OWsxYVB2?=
- =?utf-8?B?SkVwOVJ2WmtITjF4bHltSklvUzBxdm5zeS9yM1ZRRVVJYlE3OWNWYnBFME96?=
- =?utf-8?B?clJtVDJ2S0ZoVG85T3VYWjNrMUpFNE5RYjMvektvUmtmL1M1YWNqNkpjdTdT?=
- =?utf-8?B?OUdWZDVjR1JwVDlSY1krWXo4WkJnNkZFY08wVDRGaEFuak1ybWJUeDBTS3hY?=
- =?utf-8?B?RERCYm1uUmlCNmFzMGJYY2hWY21MS1lIbUwyNW9UbkJVWklDSll6TVJMTzRq?=
- =?utf-8?B?b2gxNkd4djkzL0MwWTVlcU9iV1hUUGthVTFwQVZvelZqMXJ4L2U4YUpSM3I3?=
- =?utf-8?B?bm9qYm1KMXc1a0FmeHR0ZlZDWjJNb2djUnpiemxLdkNNeWcvWDhlMjUvWEMy?=
- =?utf-8?B?UjE1cGNsL2FRNXUwNWdiVVBSWHA0Uy9zb2ZibGx4M280dTFIakVUaTB2Zzky?=
- =?utf-8?B?QmNFRDc5amxxYUZYV2sxTlRBZXNFUng5TCtqNzJzREJCZDBtTnhLMEdwUzdh?=
- =?utf-8?B?OThwYzJ4TC9SNmRqSXk4bzZoYk92eE83VmlBaVBFbDZIakJHT0VCMGk0cCtX?=
- =?utf-8?B?OTJpOFlTbVgvKzNzT2dYc0E0Rm9KajhrWnJIMzJJTXhuZ0dKRUk2Tm4wd2VI?=
- =?utf-8?B?bUUrR0hPWlBFYVJ0NnV1NDhVTjZ4Qm14OG9XU3JoZU5IZEhQWFZkWkJSR3FL?=
- =?utf-8?B?WWZFcmo0OXBSVXRNRG9Ga1o4Vkgyb2lsV1dweXFSUmN6MEVWK25wMmFZNkYx?=
- =?utf-8?B?TGtnQmVrZHpHUHkrYksrYUZCYlpFOHBuV0JLa2NYRGlHZHNPbHZqRzVEL2tH?=
- =?utf-8?B?bzJId3hHbFUzcEFCZ2JSWThMZW1SMHo1cUtRSnNLNEV5WndVOTVVbE4valBv?=
- =?utf-8?B?TE1NU3JsaG1RZUZZMGhsb2FtOHNMcEtrNTNqQWt5MFZIN0hCT1RyOWdXaktU?=
- =?utf-8?B?cHE4Y0VmcVZEN2ZObmxKcWIxaW9mWlNpNlZGQVk5Q0dxdURuM2Vxbmdwc2NV?=
- =?utf-8?B?OUxFWXFJRkN4YlVxaGMxYURkdG9RR1oxMkYwSk92Y1JIenBIN3NNZUkvbDdX?=
- =?utf-8?B?VTBSUTJCeEhmeWFUejExdGJPUW9ZY3FYNitHaEdYUFRnOWNWVUJwOVVlanJz?=
- =?utf-8?B?ZlJNWGEvRW00Y0tqNzZHSG9mK2o4ZUdlYjAwTEoyUkdjUmhNTXhiUkIwNkRS?=
- =?utf-8?B?WXlkWkdOUmpYZHBXM29YL0phaytZS3lKcEdsR01yY0FRZVFWcWhlbmpEL0Iv?=
- =?utf-8?B?dmcxUFZGd2Fxc0E1UFdFTUxxV1NpK2pzZWJRd3J5NXpIb2dBa3FuZHVNRlRr?=
- =?utf-8?Q?PhJz6TVdvgE577cOLU5fdTkZ7ItRU5ii9somvAY?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 62d0f0bc-f2a4-4507-5540-08d94e3ca8ec
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?c3YzeHVmcEVORk1SaUwwQ0t3d3l2MUdOQWVudkhsYVJoNUJ4ZVVlNWVNVGNy?=
+ =?utf-8?B?RUF5SUFjRkdMeFF6ZUJJMWVENCtDeVljckdieGw4TGhIZHA5cDB0UnI2a0FU?=
+ =?utf-8?B?VUpDNkpqNHBwdUQ2K09hSVhPN0NiYjd1dW14R0MzZkY5UkxQMXp1c09WaXNX?=
+ =?utf-8?B?UHFlSmhMNzNqc29BUmRaMlk5TWpuV2RrZkJGWWRXU05UQnBMTWNuTWZLOFVZ?=
+ =?utf-8?B?czdWTGEwaUlwdHFzOHYvdjZ0NjNhTHA5cU16MFpuRkxMZmRKK3lSQ0pCMWlu?=
+ =?utf-8?B?VldGUlVYR3pGYy83aHVVUkE1ZGpzemlBOWlBeFBXNk9PblpCNW5BZitzMm8z?=
+ =?utf-8?B?UlhLeEdYSHZ3VUxDeXU1V201MXc5d1NWRnlYVzNCbm10M29LQ0RkNndOTFpu?=
+ =?utf-8?B?VFQrR2cwTDZSdlBjalZ2UFZzTnpxOHQ4MStIbHdqZWZ6dUd2QjhzNjJBc240?=
+ =?utf-8?B?bjk4ODM1ZGEybHhDUWZidFJtaitrUGlBMzY5MlRPdHk4bml2Vm5iM3c3d2pY?=
+ =?utf-8?B?UmhJK3VWdjl0S3l6T3U1ejRvaElDQkNkb0V1d3lVYmFuSW9nY1RTckJRaWtm?=
+ =?utf-8?B?dzBWa0Jpa2ZXSE9xdG4wVUQ5eWZnM3hTSG42MHRFWG5iSzBPZHJIK1lWKzJW?=
+ =?utf-8?B?UHYyT2RXYUs4UEZpUkN6bkJtemE4N3liK1E4cDJubmhqOEhCQ0x0dnRuMFBn?=
+ =?utf-8?B?b0VaWWsvUEJKK2UyRDJSM0xrd3JXRDEwaFFnZ1lITW1TVEFpUjJEdmFiZ1dK?=
+ =?utf-8?B?dmU5UjZUOTcwd1FQMWR6M0ppZHNmd0U3Znd6Z2J3aG41cWlZdEFtaGZkVVBJ?=
+ =?utf-8?B?RkNUTkdrbFp1YUcweERVeFBVWElpazBZcGVkVlI5MEdlaFZsK1FJNGxRc2Qy?=
+ =?utf-8?B?b0JBR28zdGFSWTNwc1A2L3h6QXdHMmRsYjZHQXN2bFBENlYvTUtTTHM5UWlL?=
+ =?utf-8?B?OEx5S1pmQS9rRVE3Z3A2TXhYcXZ1Q01ROGNncTF0ZmVVOG44cnQreGVKb0Fz?=
+ =?utf-8?B?eXcwbEZveFdMZFRXbVY1ai9RcXdwclJ5NVRqTlRla040d2hPejdKcjBOMU9q?=
+ =?utf-8?B?OSt1MURMa1c3bURXWVhLelVFUFBRUHRHQmJYRXgzRlpxVkRZL1pVRVdZUWN1?=
+ =?utf-8?B?K3E3bGZLRmZlTEI1K2NqeFV6aGh4d0kzZHozOVB1MHJaWUlEVDFaelBjNDdT?=
+ =?utf-8?B?eVNsV1VFa3lLbkZEaWtvMVdXUHVWNWlFQU9kSGV0SFI5MVI5eW03UGhwZkJx?=
+ =?utf-8?B?WktDZHpDQmNmS29ac3l0YzlJTDVQditsR21qa0RoNmpJMGxIUGhwcmZXM002?=
+ =?utf-8?B?L1IxSGdSTGZkMXBMeVZnM2o1YlZmbVZtZWw1SjAzSmVzQ3FSSTI3Uzd2RVdS?=
+ =?utf-8?B?anhrd2ozZmlRLzRTdlJST2w2UkxGU1o0OHZ6M3lmc3k4aThJT3ptbWpBQnRt?=
+ =?utf-8?B?dUxvNld3dUIrVThNeS9YVWdaMmQzaHU5Q3hubTZwRysrR1ZlcGZQNzlDVXow?=
+ =?utf-8?B?N0h2djhXTTdrTUtSd3YrK1pwNHY4QXJVbW9sYTFLMEFKcHd4SEVqWi9pdUZi?=
+ =?utf-8?B?Y0tJNDlOSFEwdUFyQUhXSlRjSmFMbjZrU0xkaUhLSHcraG9SMUNWMGtRcklo?=
+ =?utf-8?B?M0ZHMTdhalFSUnhOSjcwUWxhNFN5ZlhyeWJNYWJLc251Z2wzeXJNV3FGWUlO?=
+ =?utf-8?B?ODRScGgyTVVFSHc3L3E3azd5SFAxSXRRVmFaU2VwcE4xWWVGSCsyRFVpK2pK?=
+ =?utf-8?Q?670dPgcl1jubGF/QKqOFpHFGEid8BxgNMYdoNDi?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 860d61de-0993-43d8-f3fd-08d94e3d8a64
 X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5488.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jul 2021 00:47:49.1438 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jul 2021 00:54:07.5103 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: IKEQpQXvbwdPvrTUORclUPqlIKApvoy0ygjK1MAP5fICZfMzYVCYCZtFRBXzW5PnTg+Bm4VsA1Bjn+S0Qu+XPrH8spnwXj+9BEObpHcI9RA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB4674
+X-MS-Exchange-CrossTenant-UserPrincipalName: V9i8jLEtGLSzfx8KX80ZB8oDGIA4rX8Jg+TkQ1uDpjfIOUZeFH0vGqCznLM4SfFNTJPy7kwCiz9UWmUhJdUC+Q7B/ux0NLnpw0s8IDMn+aU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB2890
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -156,643 +157,611 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 7/22/2021 4:53 PM, Matthew Brost wrote:
-> Implement GuC virtual engines. Rather simple implementation, basically
-> just allocate an engine, setup context enter / exit function to virtual
-> engine specific functions, set all other variables / functions to guc
-> versions, and set the engine mask to that of all the siblings.
+On 7/22/2021 4:54 PM, Matthew Brost wrote:
+> Implement a simple static mapping algorithm of the i915 priority levels
+> (int, -1k to 1k exposed to user) to the 4 GuC levels. Mapping is as
+> follows:
 >
-> v2: Update to work with proto-ctx
-> v3:
+> i915 level < 0          -> GuC low level     (3)
+> i915 level == 0         -> GuC normal level  (2)
+> i915 level < INT_MAX    -> GuC high level    (1)
+> i915 level == INT_MAX   -> GuC highest level (0)
+>
+> We believe this mapping should cover the UMD use cases (3 distinct user
+> levels + 1 kernel level).
+>
+> In addition to static mapping, a simple counter system is attached to
+> each context tracking the number of requests inflight on the context at
+> each level. This is needed as the GuC levels are per context while in
+> the i915 levels are per request.
+>
+> v2:
 >   (Daniele)
->    - Drop include, add comment to intel_virtual_engine_has_heartbeat
+>    - Add BUILD_BUG_ON to enforce ordering of priority levels
+>    - Add missing lockdep to guc_prio_fini
+>    - Check for return before setting context registered flag
+>    - Map DISPLAY priority or higher to highest guc prio
+>    - Update comment for guc_prio
 >
-> Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
 > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> ---
->   drivers/gpu/drm/i915/gem/i915_gem_context.c   |   8 +-
->   drivers/gpu/drm/i915/gt/intel_context_types.h |   6 +
->   drivers/gpu/drm/i915/gt/intel_engine.h        |  30 ++-
->   drivers/gpu/drm/i915/gt/intel_engine_cs.c     |  14 +
->   .../drm/i915/gt/intel_execlists_submission.c  |  29 ++-
->   .../drm/i915/gt/intel_execlists_submission.h  |   4 -
->   drivers/gpu/drm/i915/gt/selftest_execlists.c  |  12 +-
->   .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 244 +++++++++++++++++-
->   .../gpu/drm/i915/gt/uc/intel_guc_submission.h |   2 +
->   9 files changed, 313 insertions(+), 36 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> index 89ca401bf9ae..bc52eeed782a 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> @@ -74,7 +74,6 @@
->   #include "gt/intel_context_param.h"
->   #include "gt/intel_engine_heartbeat.h"
->   #include "gt/intel_engine_user.h"
-> -#include "gt/intel_execlists_submission.h" /* virtual_engine */
->   #include "gt/intel_gpu_commands.h"
->   #include "gt/intel_ring.h"
->   
-> @@ -363,9 +362,6 @@ set_proto_ctx_engines_balance(struct i915_user_extension __user *base,
->   	if (!HAS_EXECLISTS(i915))
->   		return -ENODEV;
->   
-> -	if (intel_uc_uses_guc_submission(&i915->gt.uc))
-> -		return -ENODEV; /* not implement yet */
-> -
->   	if (get_user(idx, &ext->engine_index))
->   		return -EFAULT;
->   
-> @@ -950,8 +946,8 @@ static struct i915_gem_engines *user_engines(struct i915_gem_context *ctx,
->   			break;
->   
->   		case I915_GEM_ENGINE_TYPE_BALANCED:
-> -			ce = intel_execlists_create_virtual(pe[n].siblings,
-> -							    pe[n].num_siblings);
-> +			ce = intel_engine_create_virtual(pe[n].siblings,
-> +							 pe[n].num_siblings);
->   			break;
->   
->   		case I915_GEM_ENGINE_TYPE_INVALID:
-> diff --git a/drivers/gpu/drm/i915/gt/intel_context_types.h b/drivers/gpu/drm/i915/gt/intel_context_types.h
-> index 4a5518d295c2..542c98418771 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_context_types.h
-> +++ b/drivers/gpu/drm/i915/gt/intel_context_types.h
-> @@ -47,6 +47,12 @@ struct intel_context_ops {
->   
->   	void (*reset)(struct intel_context *ce);
->   	void (*destroy)(struct kref *kref);
-> +
-> +	/* virtual engine/context interface */
-> +	struct intel_context *(*create_virtual)(struct intel_engine_cs **engine,
-> +						unsigned int count);
-> +	struct intel_engine_cs *(*get_sibling)(struct intel_engine_cs *engine,
-> +					       unsigned int sibling);
->   };
->   
->   struct intel_context {
-> diff --git a/drivers/gpu/drm/i915/gt/intel_engine.h b/drivers/gpu/drm/i915/gt/intel_engine.h
-> index f911c1224ab2..13bfb7ec33b2 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_engine.h
-> +++ b/drivers/gpu/drm/i915/gt/intel_engine.h
-> @@ -273,13 +273,41 @@ intel_engine_has_preempt_reset(const struct intel_engine_cs *engine)
->   	return intel_engine_has_preemption(engine);
->   }
->   
-> +struct intel_context *
-> +intel_engine_create_virtual(struct intel_engine_cs **siblings,
-> +			    unsigned int count);
-
-looks like I missed this earlier, but this forward decl seems unneeded.
-
-> +
-> +static inline bool
-> +intel_virtual_engine_has_heartbeat(const struct intel_engine_cs *engine)
-> +{
-> +	/*
-> +	 * For non-GuC submission we expect the back-end to look at the
-> +	 * heartbeat status of the actual physical engine that the work
-> +	 * has been (or is being) scheduled on, so we should only reach
-> +	 * here with GuC submission enabled.
-> +	 */
-> +	GEM_BUG_ON(!intel_engine_uses_guc(engine));
-> +
-> +	return intel_guc_virtual_engine_has_heartbeat(engine);
-> +}
-> +
->   static inline bool
->   intel_engine_has_heartbeat(const struct intel_engine_cs *engine)
->   {
->   	if (!IS_ACTIVE(CONFIG_DRM_I915_HEARTBEAT_INTERVAL))
->   		return false;
->   
-> -	return READ_ONCE(engine->props.heartbeat_interval_ms);
-> +	if (intel_engine_is_virtual(engine))
-> +		return intel_virtual_engine_has_heartbeat(engine);
-> +	else
-> +		return READ_ONCE(engine->props.heartbeat_interval_ms);
-> +}
-> +
-> +static inline struct intel_engine_cs *
-> +intel_engine_get_sibling(struct intel_engine_cs *engine, unsigned int sibling)
-> +{
-> +	GEM_BUG_ON(!intel_engine_is_virtual(engine));
-> +	return engine->cops->get_sibling(engine, sibling);
->   }
->   
->   #endif /* _INTEL_RINGBUFFER_H_ */
-> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-> index c1c96ced2a4b..7dee9a1209bc 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-> @@ -1755,6 +1755,20 @@ ktime_t intel_engine_get_busy_time(struct intel_engine_cs *engine, ktime_t *now)
->   	return total;
->   }
->   
-> +struct intel_context *
-> +intel_engine_create_virtual(struct intel_engine_cs **siblings,
-> +			    unsigned int count)
-> +{
-> +	if (count == 0)
-> +		return ERR_PTR(-EINVAL);
-> +
-> +	if (count == 1)
-> +		return intel_context_create(siblings[0]);
-> +
-> +	GEM_BUG_ON(!siblings[0]->cops->create_virtual);
-> +	return siblings[0]->cops->create_virtual(siblings, count);
-> +}
-> +
->   static bool match_ring(struct i915_request *rq)
->   {
->   	u32 ring = ENGINE_READ(rq->engine, RING_START);
-> diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-> index 87cedaeb4bf8..b2580cd2ce51 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-> @@ -199,6 +199,9 @@ static struct virtual_engine *to_virtual_engine(struct intel_engine_cs *engine)
->   	return container_of(engine, struct virtual_engine, base);
->   }
->   
-> +static struct intel_context *
-> +execlists_create_virtual(struct intel_engine_cs **siblings, unsigned int count);
-> +
->   static struct i915_request *
->   __active_request(const struct intel_timeline * const tl,
->   		 struct i915_request *rq,
-> @@ -2599,6 +2602,8 @@ static const struct intel_context_ops execlists_context_ops = {
->   
->   	.reset = lrc_reset,
->   	.destroy = lrc_destroy,
-> +
-> +	.create_virtual = execlists_create_virtual,
->   };
->   
->   static int emit_pdps(struct i915_request *rq)
-> @@ -3545,6 +3550,17 @@ static void virtual_context_exit(struct intel_context *ce)
->   		intel_engine_pm_put(ve->siblings[n]);
->   }
->   
-> +static struct intel_engine_cs *
-> +virtual_get_sibling(struct intel_engine_cs *engine, unsigned int sibling)
-> +{
-> +	struct virtual_engine *ve = to_virtual_engine(engine);
-> +
-> +	if (sibling >= ve->num_siblings)
-> +		return NULL;
-> +
-> +	return ve->siblings[sibling];
-> +}
-> +
->   static const struct intel_context_ops virtual_context_ops = {
->   	.flags = COPS_HAS_INFLIGHT,
->   
-> @@ -3559,6 +3575,8 @@ static const struct intel_context_ops virtual_context_ops = {
->   	.exit = virtual_context_exit,
->   
->   	.destroy = virtual_context_destroy,
-> +
-> +	.get_sibling = virtual_get_sibling,
->   };
->   
->   static intel_engine_mask_t virtual_submission_mask(struct virtual_engine *ve)
-> @@ -3707,20 +3725,13 @@ static void virtual_submit_request(struct i915_request *rq)
->   	spin_unlock_irqrestore(&ve->base.sched_engine->lock, flags);
->   }
->   
-> -struct intel_context *
-> -intel_execlists_create_virtual(struct intel_engine_cs **siblings,
-> -			       unsigned int count)
-> +static struct intel_context *
-> +execlists_create_virtual(struct intel_engine_cs **siblings, unsigned int count)
->   {
->   	struct virtual_engine *ve;
->   	unsigned int n;
->   	int err;
->   
-> -	if (count == 0)
-> -		return ERR_PTR(-EINVAL);
-> -
-> -	if (count == 1)
-> -		return intel_context_create(siblings[0]);
-> -
->   	ve = kzalloc(struct_size(ve, siblings, count), GFP_KERNEL);
->   	if (!ve)
->   		return ERR_PTR(-ENOMEM);
-> diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.h b/drivers/gpu/drm/i915/gt/intel_execlists_submission.h
-> index ad4f3e1a0fde..a1aa92c983a5 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.h
-> +++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.h
-> @@ -32,10 +32,6 @@ void intel_execlists_show_requests(struct intel_engine_cs *engine,
->   							int indent),
->   				   unsigned int max);
->   
-> -struct intel_context *
-> -intel_execlists_create_virtual(struct intel_engine_cs **siblings,
-> -			       unsigned int count);
-> -
->   bool
->   intel_engine_in_execlists_submission_mode(const struct intel_engine_cs *engine);
->   
-> diff --git a/drivers/gpu/drm/i915/gt/selftest_execlists.c b/drivers/gpu/drm/i915/gt/selftest_execlists.c
-> index 22a124b134b6..f12ffe797639 100644
-> --- a/drivers/gpu/drm/i915/gt/selftest_execlists.c
-> +++ b/drivers/gpu/drm/i915/gt/selftest_execlists.c
-> @@ -3733,7 +3733,7 @@ static int nop_virtual_engine(struct intel_gt *gt,
->   	GEM_BUG_ON(!nctx || nctx > ARRAY_SIZE(ve));
->   
->   	for (n = 0; n < nctx; n++) {
-> -		ve[n] = intel_execlists_create_virtual(siblings, nsibling);
-> +		ve[n] = intel_engine_create_virtual(siblings, nsibling);
->   		if (IS_ERR(ve[n])) {
->   			err = PTR_ERR(ve[n]);
->   			nctx = n;
-> @@ -3929,7 +3929,7 @@ static int mask_virtual_engine(struct intel_gt *gt,
->   	 * restrict it to our desired engine within the virtual engine.
->   	 */
->   
-> -	ve = intel_execlists_create_virtual(siblings, nsibling);
-> +	ve = intel_engine_create_virtual(siblings, nsibling);
->   	if (IS_ERR(ve)) {
->   		err = PTR_ERR(ve);
->   		goto out_close;
-> @@ -4060,7 +4060,7 @@ static int slicein_virtual_engine(struct intel_gt *gt,
->   		i915_request_add(rq);
->   	}
->   
-> -	ce = intel_execlists_create_virtual(siblings, nsibling);
-> +	ce = intel_engine_create_virtual(siblings, nsibling);
->   	if (IS_ERR(ce)) {
->   		err = PTR_ERR(ce);
->   		goto out;
-> @@ -4112,7 +4112,7 @@ static int sliceout_virtual_engine(struct intel_gt *gt,
->   
->   	/* XXX We do not handle oversubscription and fairness with normal rq */
->   	for (n = 0; n < nsibling; n++) {
-> -		ce = intel_execlists_create_virtual(siblings, nsibling);
-> +		ce = intel_engine_create_virtual(siblings, nsibling);
->   		if (IS_ERR(ce)) {
->   			err = PTR_ERR(ce);
->   			goto out;
-> @@ -4214,7 +4214,7 @@ static int preserved_virtual_engine(struct intel_gt *gt,
->   	if (err)
->   		goto out_scratch;
->   
-> -	ve = intel_execlists_create_virtual(siblings, nsibling);
-> +	ve = intel_engine_create_virtual(siblings, nsibling);
->   	if (IS_ERR(ve)) {
->   		err = PTR_ERR(ve);
->   		goto out_scratch;
-> @@ -4354,7 +4354,7 @@ static int reset_virtual_engine(struct intel_gt *gt,
->   	if (igt_spinner_init(&spin, gt))
->   		return -ENOMEM;
->   
-> -	ve = intel_execlists_create_virtual(siblings, nsibling);
-> +	ve = intel_engine_create_virtual(siblings, nsibling);
->   	if (IS_ERR(ve)) {
->   		err = PTR_ERR(ve);
->   		goto out_spin;
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> index 26aadad10b12..28404454a97a 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> @@ -60,6 +60,15 @@
->    *
->    */
->   
-> +/* GuC Virtual Engine */
-> +struct guc_virtual_engine {
-> +	struct intel_engine_cs base;
-> +	struct intel_context context;
-> +};
-> +
-> +static struct intel_context *
-> +guc_create_virtual(struct intel_engine_cs **siblings, unsigned int count);
-> +
->   #define GUC_REQUEST_SIZE 64 /* bytes */
->   
->   /*
-> @@ -931,14 +940,17 @@ static int guc_lrc_desc_pin(struct intel_context *ce)
->   	return ret;
->   }
->   
-> -static int guc_context_pre_pin(struct intel_context *ce,
-> -			       struct i915_gem_ww_ctx *ww,
-> -			       void **vaddr)
-> +static int __guc_context_pre_pin(struct intel_context *ce,
-> +				 struct intel_engine_cs *engine,
-> +				 struct i915_gem_ww_ctx *ww,
-> +				 void **vaddr)
->   {
-> -	return lrc_pre_pin(ce, ce->engine, ww, vaddr);
-> +	return lrc_pre_pin(ce, engine, ww, vaddr);
->   }
->   
-> -static int guc_context_pin(struct intel_context *ce, void *vaddr)
-> +static int __guc_context_pin(struct intel_context *ce,
-> +			     struct intel_engine_cs *engine,
-> +			     void *vaddr)
->   {
->   	if (i915_ggtt_offset(ce->state) !=
->   	    (ce->lrc.lrca & CTX_GTT_ADDRESS_MASK))
-> @@ -949,7 +961,19 @@ static int guc_context_pin(struct intel_context *ce, void *vaddr)
->   	 * explaination of why.
->   	 */
->   
-> -	return lrc_pin(ce, ce->engine, vaddr);
-> +	return lrc_pin(ce, engine, vaddr);
-> +}
-> +
-> +static int guc_context_pre_pin(struct intel_context *ce,
-> +			       struct i915_gem_ww_ctx *ww,
-> +			       void **vaddr)
-> +{
-> +	return __guc_context_pre_pin(ce, ce->engine, ww, vaddr);
-> +}
-> +
-> +static int guc_context_pin(struct intel_context *ce, void *vaddr)
-> +{
-> +	return __guc_context_pin(ce, ce->engine, vaddr);
->   }
->   
->   static void guc_context_unpin(struct intel_context *ce)
-> @@ -1054,6 +1078,21 @@ static inline void guc_lrc_desc_unpin(struct intel_context *ce)
->   	deregister_context(ce, ce->guc_id);
->   }
->   
-> +static void __guc_context_destroy(struct intel_context *ce)
-> +{
-> +	lrc_fini(ce);
-> +	intel_context_fini(ce);
-> +
-> +	if (intel_engine_is_virtual(ce->engine)) {
-> +		struct guc_virtual_engine *ve =
-> +			container_of(ce, typeof(*ve), context);
-> +
-> +		kfree(ve);
-> +	} else {
-> +		intel_context_free(ce);
-> +	}
-> +}
-> +
->   static void guc_context_destroy(struct kref *kref)
->   {
->   	struct intel_context *ce = container_of(kref, typeof(*ce), ref);
-> @@ -1068,11 +1107,11 @@ static void guc_context_destroy(struct kref *kref)
->   	 * registered with the GuC.
->   	 */
->   	if (context_guc_id_invalid(ce)) {
-> -		lrc_destroy(kref);
-> +		__guc_context_destroy(ce);
->   		return;
->   	} else if (!lrc_desc_registered(guc, ce->guc_id)) {
->   		release_guc_id(guc, ce);
-> -		lrc_destroy(kref);
-> +		__guc_context_destroy(ce);
->   		return;
->   	}
->   
-> @@ -1087,7 +1126,7 @@ static void guc_context_destroy(struct kref *kref)
->   	spin_lock_irqsave(&guc->contexts_lock, flags);
->   	if (context_guc_id_invalid(ce)) {
->   		spin_unlock_irqrestore(&guc->contexts_lock, flags);
-> -		lrc_destroy(kref);
-> +		__guc_context_destroy(ce);
->   		return;
->   	}
->   
-> @@ -1132,6 +1171,8 @@ static const struct intel_context_ops guc_context_ops = {
->   
->   	.reset = lrc_reset,
->   	.destroy = guc_context_destroy,
-> +
-> +	.create_virtual = guc_create_virtual,
->   };
->   
->   static void __guc_signal_context_fence(struct intel_context *ce)
-> @@ -1260,6 +1301,83 @@ static int guc_request_alloc(struct i915_request *rq)
->   	return 0;
->   }
->   
-> +static struct intel_engine_cs *
-> +guc_virtual_get_sibling(struct intel_engine_cs *ve, unsigned int sibling)
-> +{
-> +	struct intel_engine_cs *engine;
-> +	intel_engine_mask_t tmp, mask = ve->mask;
-> +	unsigned int num_siblings = 0;
-> +
-> +	for_each_engine_masked(engine, ve->gt, mask, tmp)
-> +		if (num_siblings++ == sibling)
-> +			return engine;
-> +
-> +	return NULL;
-> +}
-> +
-> +static int guc_virtual_context_pre_pin(struct intel_context *ce,
-> +				       struct i915_gem_ww_ctx *ww,
-> +				       void **vaddr)
-> +{
-> +	struct intel_engine_cs *engine = guc_virtual_get_sibling(ce->engine, 0);
-> +
-> +	return __guc_context_pre_pin(ce, engine, ww, vaddr);
-> +}
-> +
-> +static int guc_virtual_context_pin(struct intel_context *ce, void *vaddr)
-> +{
-> +	struct intel_engine_cs *engine = guc_virtual_get_sibling(ce->engine, 0);
-> +
-> +	return __guc_context_pin(ce, engine, vaddr);
-> +}
-> +
-> +static void guc_virtual_context_enter(struct intel_context *ce)
-> +{
-> +	intel_engine_mask_t tmp, mask = ce->engine->mask;
-> +	struct intel_engine_cs *engine;
-> +
-> +	for_each_engine_masked(engine, ce->engine->gt, mask, tmp)
-> +		intel_engine_pm_get(engine);
-> +
-> +	intel_timeline_enter(ce->timeline);
-> +}
-> +
-> +static void guc_virtual_context_exit(struct intel_context *ce)
-> +{
-> +	intel_engine_mask_t tmp, mask = ce->engine->mask;
-> +	struct intel_engine_cs *engine;
-> +
-> +	for_each_engine_masked(engine, ce->engine->gt, mask, tmp)
-> +		intel_engine_pm_put(engine);
-> +
-> +	intel_timeline_exit(ce->timeline);
-> +}
-> +
-> +static int guc_virtual_context_alloc(struct intel_context *ce)
-> +{
-> +	struct intel_engine_cs *engine = guc_virtual_get_sibling(ce->engine, 0);
-> +
-> +	return lrc_alloc(ce, engine);
-> +}
-> +
-> +static const struct intel_context_ops virtual_guc_context_ops = {
-> +	.alloc = guc_virtual_context_alloc,
-> +
-> +	.pre_pin = guc_virtual_context_pre_pin,
-> +	.pin = guc_virtual_context_pin,
-> +	.unpin = guc_context_unpin,
-> +	.post_unpin = guc_context_post_unpin,
-> +
-> +	.enter = guc_virtual_context_enter,
-> +	.exit = guc_virtual_context_exit,
-> +
-> +	.sched_disable = guc_context_sched_disable,
-> +
-> +	.destroy = guc_context_destroy,
-> +
-> +	.get_sibling = guc_virtual_get_sibling,
-> +};
-> +
->   static void sanitize_hwsp(struct intel_engine_cs *engine)
->   {
->   	struct intel_timeline *tl;
-> @@ -1566,7 +1684,7 @@ int intel_guc_deregister_done_process_msg(struct intel_guc *guc,
->   	} else if (context_destroyed(ce)) {
->   		/* Context has been destroyed */
->   		release_guc_id(guc, ce);
-> -		lrc_destroy(&ce->ref);
-> +		__guc_context_destroy(ce);
->   	}
->   
->   	decr_outstanding_submission_g2h(guc);
-> @@ -1681,3 +1799,109 @@ void intel_guc_submission_print_context_info(struct intel_guc *guc,
->   			   atomic_read(&ce->guc_sched_state_no_lock));
->   	}
->   }
-> +
-> +static struct intel_context *
-> +guc_create_virtual(struct intel_engine_cs **siblings, unsigned int count)
-> +{
-> +	struct guc_virtual_engine *ve;
-> +	struct intel_guc *guc;
-> +	unsigned int n;
-> +	int err;
-> +
-> +	ve = kzalloc(sizeof(*ve), GFP_KERNEL);
-> +	if (!ve)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	guc = &siblings[0]->gt->uc.guc;
-> +
-> +	ve->base.i915 = siblings[0]->i915;
-> +	ve->base.gt = siblings[0]->gt;
-> +	ve->base.uncore = siblings[0]->uncore;
-> +	ve->base.id = -1;
-> +
-> +	ve->base.uabi_class = I915_ENGINE_CLASS_INVALID;
-> +	ve->base.instance = I915_ENGINE_CLASS_INVALID_VIRTUAL;
-> +	ve->base.uabi_instance = I915_ENGINE_CLASS_INVALID_VIRTUAL;
-> +	ve->base.saturated = ALL_ENGINES;
-> +	ve->base.breadcrumbs = intel_breadcrumbs_create(&ve->base);
-> +	if (!ve->base.breadcrumbs) {
-> +		kfree(ve);
-> +		return ERR_PTR(-ENOMEM);
-> +	}
-> +
-> +	snprintf(ve->base.name, sizeof(ve->base.name), "virtual");
-> +
-> +	ve->base.sched_engine = i915_sched_engine_get(guc->sched_engine);
-> +
-> +	ve->base.cops = &virtual_guc_context_ops;
-> +	ve->base.request_alloc = guc_request_alloc;
-> +
-> +	ve->base.submit_request = guc_submit_request;
-> +
-> +	ve->base.flags = I915_ENGINE_IS_VIRTUAL;
-> +
-> +	intel_context_init(&ve->context, &ve->base);
-> +
-> +	for (n = 0; n < count; n++) {
-> +		struct intel_engine_cs *sibling = siblings[n];
-> +
-> +		GEM_BUG_ON(!is_power_of_2(sibling->mask));
-> +		if (sibling->mask & ve->base.mask) {
-> +			DRM_DEBUG("duplicate %s entry in load balancer\n",
-> +				  sibling->name);
-> +			err = -EINVAL;
-> +			goto err_put;
-> +		}
-> +
-> +		ve->base.mask |= sibling->mask;
-> +
-> +		if (n != 0 && ve->base.class != sibling->class) {
-> +			DRM_DEBUG("invalid mixing of engine class, sibling %d, already %d\n",
-> +				  sibling->class, ve->base.class);
-> +			err = -EINVAL;
-> +			goto err_put;
-> +		} else if (n == 0) {
-> +			ve->base.class = sibling->class;
-> +			ve->base.uabi_class = sibling->uabi_class;
-> +			snprintf(ve->base.name, sizeof(ve->base.name),
-> +				 "v%dx%d", ve->base.class, count);
-> +			ve->base.context_size = sibling->context_size;
-> +
-> +			ve->base.emit_bb_start = sibling->emit_bb_start;
-> +			ve->base.emit_flush = sibling->emit_flush;
-> +			ve->base.emit_init_breadcrumb =
-> +				sibling->emit_init_breadcrumb;
-> +			ve->base.emit_fini_breadcrumb =
-> +				sibling->emit_fini_breadcrumb;
-> +			ve->base.emit_fini_breadcrumb_dw =
-> +				sibling->emit_fini_breadcrumb_dw;
-> +
-> +			ve->base.flags |= sibling->flags;
-> +
-> +			ve->base.props.timeslice_duration_ms =
-> +				sibling->props.timeslice_duration_ms;
-> +			ve->base.props.preempt_timeout_ms =
-> +				sibling->props.preempt_timeout_ms;
-> +		}
-> +	}
-> +
-> +	return &ve->context;
-> +
-> +err_put:
-> +	intel_context_put(&ve->context);
-> +	return ERR_PTR(err);
-> +}
-> +
-> +
-> +
-
-Too many new lines.
-
-with the 2 nits addressed:
+> Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
 
 Reviewed-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
 
 Daniele
 
-> +bool intel_guc_virtual_engine_has_heartbeat(const struct intel_engine_cs *ve)
-> +{
-> +	struct intel_engine_cs *engine;
-> +	intel_engine_mask_t tmp, mask = ve->mask;
-> +
-> +	for_each_engine_masked(engine, ve->gt, mask, tmp)
-> +		if (READ_ONCE(engine->props.heartbeat_interval_ms))
-> +			return true;
-> +
-> +	return false;
-> +}
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h
-> index 2b9470c90558..5f263ac4f46a 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h
-> @@ -26,6 +26,8 @@ void intel_guc_submission_print_info(struct intel_guc *guc,
->   void intel_guc_submission_print_context_info(struct intel_guc *guc,
->   					     struct drm_printer *p);
+> ---
+>   drivers/gpu/drm/i915/gt/intel_breadcrumbs.c   |   3 +
+>   drivers/gpu/drm/i915/gt/intel_context_types.h |   9 +-
+>   drivers/gpu/drm/i915/gt/intel_engine_user.c   |   4 +
+>   .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 214 +++++++++++++++++-
+>   drivers/gpu/drm/i915/i915_request.c           |   5 +
+>   drivers/gpu/drm/i915/i915_request.h           |   9 +
+>   drivers/gpu/drm/i915/i915_scheduler.c         |   7 +
+>   drivers/gpu/drm/i915/i915_scheduler_types.h   |  12 +
+>   drivers/gpu/drm/i915/i915_trace.h             |  17 +-
+>   include/uapi/drm/i915_drm.h                   |   9 +
+>   10 files changed, 283 insertions(+), 6 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/gt/intel_breadcrumbs.c b/drivers/gpu/drm/i915/gt/intel_breadcrumbs.c
+> index 2007dc6f6b99..209cf265bf74 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_breadcrumbs.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_breadcrumbs.c
+> @@ -245,6 +245,9 @@ static void signal_irq_work(struct irq_work *work)
+>   			llist_entry(signal, typeof(*rq), signal_node);
+>   		struct list_head cb_list;
 >   
-> +bool intel_guc_virtual_engine_has_heartbeat(const struct intel_engine_cs *ve);
+> +		if (rq->engine->sched_engine->retire_inflight_request_prio)
+> +			rq->engine->sched_engine->retire_inflight_request_prio(rq);
 > +
->   static inline bool intel_guc_submission_is_supported(struct intel_guc *guc)
+>   		spin_lock(&rq->lock);
+>   		list_replace(&rq->fence.cb_list, &cb_list);
+>   		__dma_fence_signal__timestamp(&rq->fence, timestamp);
+> diff --git a/drivers/gpu/drm/i915/gt/intel_context_types.h b/drivers/gpu/drm/i915/gt/intel_context_types.h
+> index 005a64f2afa7..fe555551c2d2 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_context_types.h
+> +++ b/drivers/gpu/drm/i915/gt/intel_context_types.h
+> @@ -18,8 +18,9 @@
+>   #include "intel_engine_types.h"
+>   #include "intel_sseu.h"
+>   
+> -#define CONTEXT_REDZONE POISON_INUSE
+> +#include "uc/intel_guc_fwif.h"
+>   
+> +#define CONTEXT_REDZONE POISON_INUSE
+>   DECLARE_EWMA(runtime, 3, 8);
+>   
+>   struct i915_gem_context;
+> @@ -191,6 +192,12 @@ struct intel_context {
+>   
+>   	/* GuC context blocked fence */
+>   	struct i915_sw_fence guc_blocked;
+> +
+> +	/*
+> +	 * GuC priority management
+> +	 */
+> +	u8 guc_prio;
+> +	u32 guc_prio_count[GUC_CLIENT_PRIORITY_NUM];
+>   };
+>   
+>   #endif /* __INTEL_CONTEXT_TYPES__ */
+> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_user.c b/drivers/gpu/drm/i915/gt/intel_engine_user.c
+> index 84142127ebd8..8f8bea08e734 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_engine_user.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_engine_user.c
+> @@ -11,6 +11,7 @@
+>   #include "intel_engine.h"
+>   #include "intel_engine_user.h"
+>   #include "intel_gt.h"
+> +#include "uc/intel_guc_submission.h"
+>   
+>   struct intel_engine_cs *
+>   intel_engine_lookup_user(struct drm_i915_private *i915, u8 class, u8 instance)
+> @@ -115,6 +116,9 @@ static void set_scheduler_caps(struct drm_i915_private *i915)
+>   			disabled |= (I915_SCHEDULER_CAP_ENABLED |
+>   				     I915_SCHEDULER_CAP_PRIORITY);
+>   
+> +		if (intel_uc_uses_guc_submission(&i915->gt.uc))
+> +			enabled |= I915_SCHEDULER_CAP_STATIC_PRIORITY_MAP;
+> +
+>   		for (i = 0; i < ARRAY_SIZE(map); i++) {
+>   			if (engine->flags & BIT(map[i].engine))
+>   				enabled |= BIT(map[i].sched);
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> index 58506d2781e8..a323befb9753 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> @@ -81,7 +81,8 @@ guc_create_virtual(struct intel_engine_cs **siblings, unsigned int count);
+>    */
+>   #define SCHED_STATE_NO_LOCK_ENABLED			BIT(0)
+>   #define SCHED_STATE_NO_LOCK_PENDING_ENABLE		BIT(1)
+> -#define SCHED_STATE_NO_LOCK_BLOCKED_SHIFT		2
+> +#define SCHED_STATE_NO_LOCK_REGISTERED			BIT(2)
+> +#define SCHED_STATE_NO_LOCK_BLOCKED_SHIFT		3
+>   #define SCHED_STATE_NO_LOCK_BLOCKED \
+>   	BIT(SCHED_STATE_NO_LOCK_BLOCKED_SHIFT)
+>   #define SCHED_STATE_NO_LOCK_BLOCKED_MASK \
+> @@ -145,6 +146,24 @@ static inline void decr_context_blocked(struct intel_context *ce)
+>   		   &ce->guc_sched_state_no_lock);
+>   }
+>   
+> +static inline bool context_registered(struct intel_context *ce)
+> +{
+> +	return (atomic_read(&ce->guc_sched_state_no_lock) &
+> +		SCHED_STATE_NO_LOCK_REGISTERED);
+> +}
+> +
+> +static inline void set_context_registered(struct intel_context *ce)
+> +{
+> +	atomic_or(SCHED_STATE_NO_LOCK_REGISTERED,
+> +		  &ce->guc_sched_state_no_lock);
+> +}
+> +
+> +static inline void clr_context_registered(struct intel_context *ce)
+> +{
+> +	atomic_and((u32)~SCHED_STATE_NO_LOCK_REGISTERED,
+> +		   &ce->guc_sched_state_no_lock);
+> +}
+> +
+>   /*
+>    * Below is a set of functions which control the GuC scheduling state which
+>    * require a lock, aside from the special case where the functions are called
+> @@ -1092,6 +1111,7 @@ static int steal_guc_id(struct intel_guc *guc)
+>   
+>   		list_del_init(&ce->guc_id_link);
+>   		guc_id = ce->guc_id;
+> +		clr_context_registered(ce);
+>   		set_context_guc_id_invalid(ce);
+>   		return guc_id;
+>   	} else {
+> @@ -1201,10 +1221,15 @@ static int register_context(struct intel_context *ce, bool loop)
+>   	struct intel_guc *guc = ce_to_guc(ce);
+>   	u32 offset = intel_guc_ggtt_offset(guc, guc->lrc_desc_pool) +
+>   		ce->guc_id * sizeof(struct guc_lrc_desc);
+> +	int ret;
+>   
+>   	trace_intel_context_register(ce);
+>   
+> -	return __guc_action_register_context(guc, ce->guc_id, offset, loop);
+> +	ret = __guc_action_register_context(guc, ce->guc_id, offset, loop);
+> +	if (likely(!ret))
+> +		set_context_registered(ce);
+> +
+> +	return ret;
+>   }
+>   
+>   static int __guc_action_deregister_context(struct intel_guc *guc,
+> @@ -1260,6 +1285,8 @@ static void guc_context_policy_init(struct intel_engine_cs *engine,
+>   	desc->preemption_timeout = engine->props.preempt_timeout_ms * 1000;
+>   }
+>   
+> +static inline u8 map_i915_prio_to_guc_prio(int prio);
+> +
+>   static int guc_lrc_desc_pin(struct intel_context *ce, bool loop)
 >   {
->   	/* XXX: GuC submission is unavailable for now */
+>   	struct intel_engine_cs *engine = ce->engine;
+> @@ -1267,6 +1294,8 @@ static int guc_lrc_desc_pin(struct intel_context *ce, bool loop)
+>   	struct intel_guc *guc = &engine->gt->uc.guc;
+>   	u32 desc_idx = ce->guc_id;
+>   	struct guc_lrc_desc *desc;
+> +	const struct i915_gem_context *ctx;
+> +	int prio = I915_CONTEXT_DEFAULT_PRIORITY;
+>   	bool context_registered;
+>   	intel_wakeref_t wakeref;
+>   	int ret = 0;
+> @@ -1282,6 +1311,12 @@ static int guc_lrc_desc_pin(struct intel_context *ce, bool loop)
+>   
+>   	context_registered = lrc_desc_registered(guc, desc_idx);
+>   
+> +	rcu_read_lock();
+> +	ctx = rcu_dereference(ce->gem_context);
+> +	if (ctx)
+> +		prio = ctx->sched.priority;
+> +	rcu_read_unlock();
+> +
+>   	reset_lrc_desc(guc, desc_idx);
+>   	set_lrc_desc_registered(guc, desc_idx, ce);
+>   
+> @@ -1290,7 +1325,8 @@ static int guc_lrc_desc_pin(struct intel_context *ce, bool loop)
+>   	desc->engine_submit_mask = adjust_engine_mask(engine->class,
+>   						      engine->mask);
+>   	desc->hw_context_desc = ce->lrc.lrca;
+> -	desc->priority = GUC_CLIENT_PRIORITY_KMD_NORMAL;
+> +	ce->guc_prio = map_i915_prio_to_guc_prio(prio);
+> +	desc->priority = ce->guc_prio;
+>   	desc->context_flags = CONTEXT_REGISTRATION_FLAG_KMD;
+>   	guc_context_policy_init(engine, desc);
+>   	init_sched_state(ce);
+> @@ -1679,11 +1715,17 @@ static inline void guc_lrc_desc_unpin(struct intel_context *ce)
+>   	GEM_BUG_ON(ce != __get_context(guc, ce->guc_id));
+>   	GEM_BUG_ON(context_enabled(ce));
+>   
+> +	clr_context_registered(ce);
+>   	deregister_context(ce, ce->guc_id, true);
+>   }
+>   
+>   static void __guc_context_destroy(struct intel_context *ce)
+>   {
+> +	GEM_BUG_ON(ce->guc_prio_count[GUC_CLIENT_PRIORITY_KMD_HIGH] ||
+> +		   ce->guc_prio_count[GUC_CLIENT_PRIORITY_HIGH] ||
+> +		   ce->guc_prio_count[GUC_CLIENT_PRIORITY_KMD_NORMAL] ||
+> +		   ce->guc_prio_count[GUC_CLIENT_PRIORITY_NORMAL]);
+> +
+>   	lrc_fini(ce);
+>   	intel_context_fini(ce);
+>   
+> @@ -1777,15 +1819,124 @@ static int guc_context_alloc(struct intel_context *ce)
+>   	return lrc_alloc(ce, ce->engine);
+>   }
+>   
+> +static void guc_context_set_prio(struct intel_guc *guc,
+> +				 struct intel_context *ce,
+> +				 u8 prio)
+> +{
+> +	u32 action[] = {
+> +		INTEL_GUC_ACTION_SET_CONTEXT_PRIORITY,
+> +		ce->guc_id,
+> +		prio,
+> +	};
+> +
+> +	GEM_BUG_ON(prio < GUC_CLIENT_PRIORITY_KMD_HIGH ||
+> +		   prio > GUC_CLIENT_PRIORITY_NORMAL);
+> +
+> +	if (ce->guc_prio == prio || submission_disabled(guc) ||
+> +	    !context_registered(ce))
+> +		return;
+> +
+> +	guc_submission_send_busy_loop(guc, action, ARRAY_SIZE(action), 0, true);
+> +
+> +	ce->guc_prio = prio;
+> +	trace_intel_context_set_prio(ce);
+> +}
+> +
+> +static inline u8 map_i915_prio_to_guc_prio(int prio)
+> +{
+> +	if (prio == I915_PRIORITY_NORMAL)
+> +		return GUC_CLIENT_PRIORITY_KMD_NORMAL;
+> +	else if (prio < I915_PRIORITY_NORMAL)
+> +		return GUC_CLIENT_PRIORITY_NORMAL;
+> +	else if (prio < I915_PRIORITY_DISPLAY)
+> +		return GUC_CLIENT_PRIORITY_HIGH;
+> +	else
+> +		return GUC_CLIENT_PRIORITY_KMD_HIGH;
+> +}
+> +
+> +static inline void add_context_inflight_prio(struct intel_context *ce,
+> +					     u8 guc_prio)
+> +{
+> +	lockdep_assert_held(&ce->guc_active.lock);
+> +	GEM_BUG_ON(guc_prio >= ARRAY_SIZE(ce->guc_prio_count));
+> +
+> +	++ce->guc_prio_count[guc_prio];
+> +
+> +	/* Overflow protection */
+> +	GEM_WARN_ON(!ce->guc_prio_count[guc_prio]);
+> +}
+> +
+> +static inline void sub_context_inflight_prio(struct intel_context *ce,
+> +					     u8 guc_prio)
+> +{
+> +	lockdep_assert_held(&ce->guc_active.lock);
+> +	GEM_BUG_ON(guc_prio >= ARRAY_SIZE(ce->guc_prio_count));
+> +
+> +	/* Underflow protection */
+> +	GEM_WARN_ON(!ce->guc_prio_count[guc_prio]);
+> +
+> +	--ce->guc_prio_count[guc_prio];
+> +}
+> +
+> +static inline void update_context_prio(struct intel_context *ce)
+> +{
+> +	struct intel_guc *guc = &ce->engine->gt->uc.guc;
+> +	int i;
+> +
+> +	BUILD_BUG_ON(GUC_CLIENT_PRIORITY_KMD_HIGH != 0);
+> +	BUILD_BUG_ON(GUC_CLIENT_PRIORITY_KMD_HIGH > GUC_CLIENT_PRIORITY_NORMAL);
+> +
+> +	lockdep_assert_held(&ce->guc_active.lock);
+> +
+> +	for (i = 0; i < ARRAY_SIZE(ce->guc_prio_count); ++i) {
+> +		if (ce->guc_prio_count[i]) {
+> +			guc_context_set_prio(guc, ce, i);
+> +			break;
+> +		}
+> +	}
+> +}
+> +
+> +static inline bool new_guc_prio_higher(u8 old_guc_prio, u8 new_guc_prio)
+> +{
+> +	/* Lower value is higher priority */
+> +	return new_guc_prio < old_guc_prio;
+> +}
+> +
+>   static void add_to_context(struct i915_request *rq)
+>   {
+>   	struct intel_context *ce = rq->context;
+> +	u8 new_guc_prio = map_i915_prio_to_guc_prio(rq_prio(rq));
+> +
+> +	GEM_BUG_ON(rq->guc_prio == GUC_PRIO_FINI);
+>   
+>   	spin_lock(&ce->guc_active.lock);
+>   	list_move_tail(&rq->sched.link, &ce->guc_active.requests);
+> +
+> +	if (rq->guc_prio == GUC_PRIO_INIT) {
+> +		rq->guc_prio = new_guc_prio;
+> +		add_context_inflight_prio(ce, rq->guc_prio);
+> +	} else if (new_guc_prio_higher(rq->guc_prio, new_guc_prio)) {
+> +		sub_context_inflight_prio(ce, rq->guc_prio);
+> +		rq->guc_prio = new_guc_prio;
+> +		add_context_inflight_prio(ce, rq->guc_prio);
+> +	}
+> +	update_context_prio(ce);
+> +
+>   	spin_unlock(&ce->guc_active.lock);
+>   }
+>   
+> +static void guc_prio_fini(struct i915_request *rq, struct intel_context *ce)
+> +{
+> +	lockdep_assert_held(&ce->guc_active.lock);
+> +
+> +	if (rq->guc_prio != GUC_PRIO_INIT &&
+> +	    rq->guc_prio != GUC_PRIO_FINI) {
+> +		sub_context_inflight_prio(ce, rq->guc_prio);
+> +		update_context_prio(ce);
+> +	}
+> +	rq->guc_prio = GUC_PRIO_FINI;
+> +}
+> +
+>   static void remove_from_context(struct i915_request *rq)
+>   {
+>   	struct intel_context *ce = rq->context;
+> @@ -1798,6 +1949,8 @@ static void remove_from_context(struct i915_request *rq)
+>   	/* Prevent further __await_execution() registering a cb, then flush */
+>   	set_bit(I915_FENCE_FLAG_ACTIVE, &rq->fence.flags);
+>   
+> +	guc_prio_fini(rq, ce);
+> +
+>   	spin_unlock_irq(&ce->guc_active.lock);
+>   
+>   	atomic_dec(&ce->guc_id_ref);
+> @@ -2079,6 +2232,39 @@ static void guc_init_breadcrumbs(struct intel_engine_cs *engine)
+>   	}
+>   }
+>   
+> +static void guc_bump_inflight_request_prio(struct i915_request *rq,
+> +					   int prio)
+> +{
+> +	struct intel_context *ce = rq->context;
+> +	u8 new_guc_prio = map_i915_prio_to_guc_prio(prio);
+> +
+> +	/* Short circuit function */
+> +	if (prio < I915_PRIORITY_NORMAL ||
+> +	    (rq->guc_prio == GUC_PRIO_FINI) ||
+> +	    (rq->guc_prio != GUC_PRIO_INIT &&
+> +	     !new_guc_prio_higher(rq->guc_prio, new_guc_prio)))
+> +		return;
+> +
+> +	spin_lock(&ce->guc_active.lock);
+> +	if (rq->guc_prio != GUC_PRIO_FINI) {
+> +		if (rq->guc_prio != GUC_PRIO_INIT)
+> +			sub_context_inflight_prio(ce, rq->guc_prio);
+> +		rq->guc_prio = new_guc_prio;
+> +		add_context_inflight_prio(ce, rq->guc_prio);
+> +		update_context_prio(ce);
+> +	}
+> +	spin_unlock(&ce->guc_active.lock);
+> +}
+> +
+> +static void guc_retire_inflight_request_prio(struct i915_request *rq)
+> +{
+> +	struct intel_context *ce = rq->context;
+> +
+> +	spin_lock(&ce->guc_active.lock);
+> +	guc_prio_fini(rq, ce);
+> +	spin_unlock(&ce->guc_active.lock);
+> +}
+> +
+>   static void sanitize_hwsp(struct intel_engine_cs *engine)
+>   {
+>   	struct intel_timeline *tl;
+> @@ -2303,6 +2489,10 @@ int intel_guc_submission_setup(struct intel_engine_cs *engine)
+>   		guc->sched_engine->disabled = guc_sched_engine_disabled;
+>   		guc->sched_engine->private_data = guc;
+>   		guc->sched_engine->destroy = guc_sched_engine_destroy;
+> +		guc->sched_engine->bump_inflight_request_prio =
+> +			guc_bump_inflight_request_prio;
+> +		guc->sched_engine->retire_inflight_request_prio =
+> +			guc_retire_inflight_request_prio;
+>   		tasklet_setup(&guc->sched_engine->tasklet,
+>   			      guc_submission_tasklet);
+>   	}
+> @@ -2680,6 +2870,22 @@ void intel_guc_submission_print_info(struct intel_guc *guc,
+>   	drm_printf(p, "\n");
+>   }
+>   
+> +static inline void guc_log_context_priority(struct drm_printer *p,
+> +					    struct intel_context *ce)
+> +{
+> +	int i;
+> +
+> +	drm_printf(p, "\t\tPriority: %d\n",
+> +		   ce->guc_prio);
+> +	drm_printf(p, "\t\tNumber Requests (lower index == higher priority)\n");
+> +	for (i = GUC_CLIENT_PRIORITY_KMD_HIGH;
+> +	     i < GUC_CLIENT_PRIORITY_NUM; ++i) {
+> +		drm_printf(p, "\t\tNumber requests in priority band[%d]: %d\n",
+> +			   i, ce->guc_prio_count[i]);
+> +	}
+> +	drm_printf(p, "\n");
+> +}
+> +
+>   void intel_guc_submission_print_context_info(struct intel_guc *guc,
+>   					     struct drm_printer *p)
+>   {
+> @@ -2702,6 +2908,8 @@ void intel_guc_submission_print_context_info(struct intel_guc *guc,
+>   		drm_printf(p, "\t\tSchedule State: 0x%x, 0x%x\n\n",
+>   			   ce->guc_state.sched_state,
+>   			   atomic_read(&ce->guc_sched_state_no_lock));
+> +
+> +		guc_log_context_priority(p, ce);
+>   	}
+>   }
+>   
+> diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
+> index 541a20371502..1f1d4a6a0eff 100644
+> --- a/drivers/gpu/drm/i915/i915_request.c
+> +++ b/drivers/gpu/drm/i915/i915_request.c
+> @@ -114,6 +114,9 @@ static void i915_fence_release(struct dma_fence *fence)
+>   {
+>   	struct i915_request *rq = to_request(fence);
+>   
+> +	GEM_BUG_ON(rq->guc_prio != GUC_PRIO_INIT &&
+> +		   rq->guc_prio != GUC_PRIO_FINI);
+> +
+>   	/*
+>   	 * The request is put onto a RCU freelist (i.e. the address
+>   	 * is immediately reused), mark the fences as being freed now.
+> @@ -924,6 +927,8 @@ __i915_request_create(struct intel_context *ce, gfp_t gfp)
+>   
+>   	rq->rcustate = get_state_synchronize_rcu(); /* acts as smp_mb() */
+>   
+> +	rq->guc_prio = GUC_PRIO_INIT;
+> +
+>   	/* We bump the ref for the fence chain */
+>   	i915_sw_fence_reinit(&i915_request_get(rq)->submit);
+>   	i915_sw_fence_reinit(&i915_request_get(rq)->semaphore);
+> diff --git a/drivers/gpu/drm/i915/i915_request.h b/drivers/gpu/drm/i915/i915_request.h
+> index ac0e3326c067..e6a0e0ebc9aa 100644
+> --- a/drivers/gpu/drm/i915/i915_request.h
+> +++ b/drivers/gpu/drm/i915/i915_request.h
+> @@ -293,6 +293,15 @@ struct i915_request {
+>   	 */
+>   	struct list_head guc_fence_link;
+>   
+> +	/**
+> +	 * Priority level while the request is inflight. Differs from i915
+> +	 * scheduler priority. See comment above
+> +	 * I915_SCHEDULER_CAP_STATIC_PRIORITY_MAP for details.
+> +	 */
+> +#define	GUC_PRIO_INIT	0xff
+> +#define	GUC_PRIO_FINI	0xfe
+> +	u8 guc_prio;
+> +
+>   	I915_SELFTEST_DECLARE(struct {
+>   		struct list_head link;
+>   		unsigned long delay;
+> diff --git a/drivers/gpu/drm/i915/i915_scheduler.c b/drivers/gpu/drm/i915/i915_scheduler.c
+> index 28dd887eb1be..17843c204356 100644
+> --- a/drivers/gpu/drm/i915/i915_scheduler.c
+> +++ b/drivers/gpu/drm/i915/i915_scheduler.c
+> @@ -241,6 +241,9 @@ static void __i915_schedule(struct i915_sched_node *node,
+>   	/* Fifo and depth-first replacement ensure our deps execute before us */
+>   	sched_engine = lock_sched_engine(node, sched_engine, &cache);
+>   	list_for_each_entry_safe_reverse(dep, p, &dfs, dfs_link) {
+> +		struct i915_request *from = container_of(dep->signaler,
+> +							 struct i915_request,
+> +							 sched);
+>   		INIT_LIST_HEAD(&dep->dfs_link);
+>   
+>   		node = dep->signaler;
+> @@ -254,6 +257,10 @@ static void __i915_schedule(struct i915_sched_node *node,
+>   		GEM_BUG_ON(node_to_request(node)->engine->sched_engine !=
+>   			   sched_engine);
+>   
+> +		/* Must be called before changing the nodes priority */
+> +		if (sched_engine->bump_inflight_request_prio)
+> +			sched_engine->bump_inflight_request_prio(from, prio);
+> +
+>   		WRITE_ONCE(node->attr.priority, prio);
+>   
+>   		/*
+> diff --git a/drivers/gpu/drm/i915/i915_scheduler_types.h b/drivers/gpu/drm/i915/i915_scheduler_types.h
+> index eaef233e9080..b0a1b58c7893 100644
+> --- a/drivers/gpu/drm/i915/i915_scheduler_types.h
+> +++ b/drivers/gpu/drm/i915/i915_scheduler_types.h
+> @@ -179,6 +179,18 @@ struct i915_sched_engine {
+>   	void	(*kick_backend)(const struct i915_request *rq,
+>   				int prio);
+>   
+> +	/**
+> +	 * @bump_inflight_request_prio: update priority of an inflight request
+> +	 */
+> +	void	(*bump_inflight_request_prio)(struct i915_request *rq,
+> +					      int prio);
+> +
+> +	/**
+> +	 * @retire_inflight_request_prio: indicate request is retired to
+> +	 * priority tracking
+> +	 */
+> +	void	(*retire_inflight_request_prio)(struct i915_request *rq);
+> +
+>   	/**
+>   	 * @schedule: adjust priority of request
+>   	 *
+> diff --git a/drivers/gpu/drm/i915/i915_trace.h b/drivers/gpu/drm/i915/i915_trace.h
+> index 9613a7c19661..806ad688274b 100644
+> --- a/drivers/gpu/drm/i915/i915_trace.h
+> +++ b/drivers/gpu/drm/i915/i915_trace.h
+> @@ -904,6 +904,7 @@ DECLARE_EVENT_CLASS(intel_context,
+>   			     __field(int, pin_count)
+>   			     __field(u32, sched_state)
+>   			     __field(u32, guc_sched_state_no_lock)
+> +			     __field(u8, guc_prio)
+>   			     ),
+>   
+>   		    TP_fast_assign(
+> @@ -912,12 +913,19 @@ DECLARE_EVENT_CLASS(intel_context,
+>   			   __entry->sched_state = ce->guc_state.sched_state;
+>   			   __entry->guc_sched_state_no_lock =
+>   			   atomic_read(&ce->guc_sched_state_no_lock);
+> +			   __entry->guc_prio = ce->guc_prio;
+>   			   ),
+>   
+> -		    TP_printk("guc_id=%d, pin_count=%d sched_state=0x%x,0x%x",
+> +		    TP_printk("guc_id=%d, pin_count=%d sched_state=0x%x,0x%x, guc_prio=%u",
+>   			      __entry->guc_id, __entry->pin_count,
+>   			      __entry->sched_state,
+> -			      __entry->guc_sched_state_no_lock)
+> +			      __entry->guc_sched_state_no_lock,
+> +			      __entry->guc_prio)
+> +);
+> +
+> +DEFINE_EVENT(intel_context, intel_context_set_prio,
+> +	     TP_PROTO(struct intel_context *ce),
+> +	     TP_ARGS(ce)
+>   );
+>   
+>   DEFINE_EVENT(intel_context, intel_context_reset,
+> @@ -1017,6 +1025,11 @@ trace_i915_request_out(struct i915_request *rq)
+>   {
+>   }
+>   
+> +static inline void
+> +trace_intel_context_set_prio(struct intel_context *ce)
+> +{
+> +}
+> +
+>   static inline void
+>   trace_intel_context_reset(struct intel_context *ce)
+>   {
+> diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
+> index 0aea82657cdc..7d9819dc49c8 100644
+> --- a/include/uapi/drm/i915_drm.h
+> +++ b/include/uapi/drm/i915_drm.h
+> @@ -572,6 +572,15 @@ typedef struct drm_i915_irq_wait {
+>   #define   I915_SCHEDULER_CAP_PREEMPTION	(1ul << 2)
+>   #define   I915_SCHEDULER_CAP_SEMAPHORES	(1ul << 3)
+>   #define   I915_SCHEDULER_CAP_ENGINE_BUSY_STATS	(1ul << 4)
+> +/*
+> + * Indicates the 2k user priority levels are statically mapped into 3 buckets as
+> + * follows:
+> + *
+> + * -1k to -1	Low priority
+> + * 0		Normal priority
+> + * 1 to 1k	Highest priority
+> + */
+> +#define   I915_SCHEDULER_CAP_STATIC_PRIORITY_MAP	(1ul << 5)
+>   
+>   #define I915_PARAM_HUC_STATUS		 42
+>   
 
