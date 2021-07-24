@@ -2,59 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48EFA3D48F0
-	for <lists+dri-devel@lfdr.de>; Sat, 24 Jul 2021 19:44:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1173D3D48FF
+	for <lists+dri-devel@lfdr.de>; Sat, 24 Jul 2021 20:02:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E8116FA64;
-	Sat, 24 Jul 2021 17:44:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 16370734D3;
+	Sat, 24 Jul 2021 18:02:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9776672DFF
- for <dri-devel@lists.freedesktop.org>; Sat, 24 Jul 2021 17:44:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1627148677;
- bh=NnnKncfAnaFeKpuZRfNKoEnQZQQS40lYryGaD8rwMk4=;
- h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
- b=NFNUK8e1lGKlLsZ78wPfP5vHKXND1wmC2AI4RH71M5Ie9Y8wYdWHqJVuRDtIJ3wW3
- VXs2CX4KUZKOYnpaq3xLdSs4YyW7qx6gNhO3e4eHKLo/QnqC/AzUNWViHh7ztLdfXa
- a3TfKXl//kPVXrValL65VXLVmtUKycHLbFO8vyjI=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from localhost.localdomain ([83.52.228.41]) by mail.gmx.net
- (mrgmx004 [212.227.17.184]) with ESMTPSA (Nemesis) id
- 1Ml6mE-1lMEif0gvs-00lTqs; Sat, 24 Jul 2021 19:44:37 +0200
-From: Len Baker <len.baker@gmx.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH v2 3/3] staging/fbtft: Fix braces coding style
-Date: Sat, 24 Jul 2021 17:14:11 +0200
-Message-Id: <20210724151411.9531-4-len.baker@gmx.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210724151411.9531-1-len.baker@gmx.com>
-References: <20210724151411.9531-1-len.baker@gmx.com>
+Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com
+ [209.85.221.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2CF49734D3
+ for <dri-devel@lists.freedesktop.org>; Sat, 24 Jul 2021 18:02:05 +0000 (UTC)
+Received: by mail-vk1-f178.google.com with SMTP id f4so1106066vkb.10
+ for <dri-devel@lists.freedesktop.org>; Sat, 24 Jul 2021 11:02:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=CFAXOYswwIGflCWWx9fpDZl57pj1QpRpAZ3Zwc4ZdWQ=;
+ b=tH4DrQoHXbvbWmYeLsSgpl3EFn1xxlVutzGZnh8QROGfUczwzzQc4tiQ4DNmM8DOY2
+ OKNI27L73V2TamxcddbdMEb2iwRm+Y114sSionH5c++AK2hKUmistwaMu8cwT3ymG6vU
+ D5+y5MkfjcU1MPaQhzScr+V29PBIvU+iAVHxjghgXYA7ToV/aUyWbxdfJ0vQd9kKd2sv
+ 1W6tvdUyAq0YUOpl2MRFOJwrqZOXZAhnvPtZLfY8aM/ak9PhcEHjaJG5QgkT1YuBRq43
+ 6uon9IYjXTzIwyqEgMfkPQpCGsHwPxq4MMSXruObrJ2z25X0M5+BlF+MGlvGYXwQ2gjB
+ i4pg==
+X-Gm-Message-State: AOAM5321WKyIzzSyzIkrM79JskZXYL7B5F5V2TqsdoXmu/iDtqNHceg7
+ nN+JcMFyu+wNcfJ+dr8LOMlKYx5nY9iE9RuLiY0=
+X-Google-Smtp-Source: ABdhPJznGi7hzvA1p2VsWdfv9lBV4MVLJwhvR4BKSFCYB+5JUdtBAWgTUa81Xuz+HTQ+Zc8W97HV8XtBugNdFeb48jQ=
+X-Received: by 2002:a05:6122:a12:: with SMTP id 18mr7348420vkn.1.1627149724368; 
+ Sat, 24 Jul 2021 11:02:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:Lxq6kiLtjzFc7OrUMkOeAtgYvYuYKRc/giZKldt3BoFUT8h46VN
- Kg9FIPsCHHoEzU1Mpx9okxfyNGfBWPsPHYWimuPRdKM7YMgx2f/hyOp2LoOaeTQQ39tB119
- r00lutgbYittzltAdnF6QCZZMkyT5+zF0brw7VKPt3rZbRv5z9hwxA/m471V2iAF4Ivk4re
- fJ9snb6LaTghFsDzNuZKg==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:+WwuL9lnI14=:Lg8CcfCZ7rwXHqQl323hZy
- fGlFde99fZWlaom5py+XLvoegd+qdqmZEnaZcZfjaZXvCeQfq1VcgF/kPHuf3DX7+Dnc+fEYM
- GF5J3HJvxIuQB/LKFn2AYmrVe+k7eP8fdhESjiwle6j2jlpdvGJkY53L22oeIQ9pjNVzIssJR
- lTeRxVTZoFtv7PJXi4frv7WYleVjSsoS+aMSpp7psFbCVzS0eR36Fl61cRvfhokOfM3YVs71d
- TSUNWgcaTPd2gGx/iffDIqzBPfpZfSPZ57NqUjGggEfbgwrNQyh7zBArIEtgH6Qdl/hRT32PJ
- JXoI9p0V8gNiUjVGp1f1s9Uz/+ibpDt7QxC6XeQ+0bo1/uw6tqnO3lVGaVIHVWKq7VzeNY4+d
- 2OpnbFIPjtMG4G37mboGXULo2eh2u2o6A0XFu2pYtyK0J8GAyB5aIjgh7s9SVTV94dYXhLCBv
- 0miwN3QGGRxpnD5Kxw+0pfJfAJubKiXXXruRCsawp5sJ1aqNmI/GellC7vWzdjvW3M7JFhBxV
- D+LTiSfdu6TIqkaju1DEGsoHLejU9iO+jg2GOwpf4tsTVfz1rkaaYRT/YilFHbaxeuENaDVUZ
- KlfGAn9Q7eBgvNoXqYPJUM5Pt6dN/Eo6NbpkJs5P7okfSgpPdP2YqDk9OMZRSdn0kNciNMdl+
- MXvkoUTAtJe1fy93gvr7MVIvwmN5QCaxcMZI9NMCETYMV7S45tDl+wEZvFEdBP9aSuXC0ughK
- 9odmeqPINVGQWl1Vd5BMuvN1jf1ucvBSmD+b+XDCaA8oPJGqNg94oTA5jI2lbELcTe+UEUC4k
- 2VZZkSasNSfjuaS0Qw9UY62tOGme/eW2xzVXIUdkAfKzSdOYg5SspQsEp7tl/gKC640W26ivK
- +3GDojDJUFZNf5dAvtRwplJIKRuG3mo4RXhFXDekbKGom+ybJq+s19ZFJRtYW30q99dg66Oqn
- NVZ/95qRcpoIbhYb87SLwP2G1O9gMhadg3TgGQpfaJZstM6uK6dGjVuaN6h/ixb7IWFI5k/Nl
- 7wG2olAL5nGf7iJQ2NFtfHQ9f0MCh6jDVlSoiwy4qZmjA2XnlK5rUjsDTiI6vIPDskEW+/YdI
- DBKweJCMhiMW2bjwr0ar/okB4t5uJ6NbzgQ
+References: <20210724151411.9531-1-len.baker@gmx.com>
+ <20210724151411.9531-4-len.baker@gmx.com>
+In-Reply-To: <20210724151411.9531-4-len.baker@gmx.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Sat, 24 Jul 2021 20:01:53 +0200
+Message-ID: <CAMuHMdX6PUr0irndogg=Aa+AFDdiDJMeMWM74mLBkuLrW+zWng@mail.gmail.com>
+Subject: Re: [PATCH v2 3/3] staging/fbtft: Fix braces coding style
+To: Len Baker <len.baker@gmx.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,54 +53,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Phil Reid <preid@electromag.com.au>,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Geert Uytterhoeven <geert@linux-m68k.org>,
- Len Baker <len.baker@gmx.com>,
+Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ Phil Reid <preid@electromag.com.au>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
  Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add braces to the "for" loop and remove braces from the "if" statement.
-This way the kernel coding style is followed.
+Hi Len,
 
-Signed-off-by: Len Baker <len.baker@gmx.com>
-=2D--
- drivers/staging/fbtft/fbtft-core.c | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+On Sat, Jul 24, 2021 at 7:44 PM Len Baker <len.baker@gmx.com> wrote:
+> Add braces to the "for" loop and remove braces from the "if" statement.
+> This way the kernel coding style is followed.
+>
+> Signed-off-by: Len Baker <len.baker@gmx.com>
 
-diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fb=
-tft-core.c
-index cc2bee22f7ad..d87792649efe 100644
-=2D-- a/drivers/staging/fbtft/fbtft-core.c
-+++ b/drivers/staging/fbtft/fbtft-core.c
-@@ -1003,9 +1003,11 @@ int fbtft_init_display(struct fbtft_par *par)
- 	}
+Thanks for your patch!
 
- 	/* make sure stop marker exists */
--	for (i =3D 0; i < FBTFT_MAX_INIT_SEQUENCE; i++)
-+	for (i =3D 0; i < FBTFT_MAX_INIT_SEQUENCE; i++) {
- 		if (par->init_sequence[i] =3D=3D -3)
- 			break;
-+	}
-+
- 	if (i =3D=3D FBTFT_MAX_INIT_SEQUENCE) {
- 		dev_err(par->info->device,
- 			"missing stop marker at end of init sequence\n");
-@@ -1016,10 +1018,9 @@ int fbtft_init_display(struct fbtft_par *par)
+> --- a/drivers/staging/fbtft/fbtft-core.c
+> +++ b/drivers/staging/fbtft/fbtft-core.c
 
- 	i =3D 0;
- 	while (i < FBTFT_MAX_INIT_SEQUENCE) {
--		if (par->init_sequence[i] =3D=3D -3) {
--			/* done */
--			return 0;
--		}
-+		if (par->init_sequence[i] =3D=3D -3)
-+			return 0; /* done */
-+
- 		if (par->init_sequence[i] >=3D 0) {
- 			dev_err(par->info->device,
- 				"missing delimiter at position %d\n", i);
-=2D-
-2.25.1
+> @@ -1016,10 +1018,9 @@ int fbtft_init_display(struct fbtft_par *par)
+>
+>         i = 0;
+>         while (i < FBTFT_MAX_INIT_SEQUENCE) {
+> -               if (par->init_sequence[i] == -3) {
+> -                       /* done */
+> -                       return 0;
+> -               }
 
+These braces should not be removed, due to the presence of
+the comment.
+
+> +               if (par->init_sequence[i] == -3)
+> +                       return 0; /* done */
+> +
+>                 if (par->init_sequence[i] >= 0) {
+>                         dev_err(par->info->device,
+>                                 "missing delimiter at position %d\n", i);
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
