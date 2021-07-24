@@ -2,68 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23DA53D48BC
-	for <lists+dri-devel@lfdr.de>; Sat, 24 Jul 2021 19:06:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE3983D48E3
+	for <lists+dri-devel@lfdr.de>; Sat, 24 Jul 2021 19:29:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 06E9173303;
-	Sat, 24 Jul 2021 17:06:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 35A756F9EF;
+	Sat, 24 Jul 2021 17:29:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 577026F9EF
- for <dri-devel@lists.freedesktop.org>; Sat, 24 Jul 2021 17:06:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1627146376;
- bh=45e0H0Lk78ezpdCHaXHQi6m/MsRnxorf6VPy1DfA5rg=;
- h=X-UI-Sender-Class:Date:In-Reply-To:References:Subject:Reply-to:To:
- CC:From;
- b=k6Tue3gwJ6yzegHJFgwwcNIfP5QpSB/PhMLA0dvuX0o7hOPPW9+Cohd0EgET33ADU
- 2t7ztArwdbcCPu/zFoesd0xTOgkw4m1eANnOwNgxBrhoiEz+WQLPfd3zi0XgCnoo5F
- qWIGinmGQXH7hgDfXbg1K1fcTGUh0TeeJqrdY5mY=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from frank-s9 ([217.61.144.209]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1N5G9n-1l71if2i17-011BVY; Sat, 24
- Jul 2021 19:06:16 +0200
-Date: Sat, 24 Jul 2021 19:06:11 +0200
-User-Agent: K-9 Mail for Android
-In-Reply-To: <dbe23d2a-cd29-0782-1b7d-bcb5c6683607@collabora.com>
-References: <20210710132431.265985-1-linux@fw-web.de>
- <456f0611-1fc7-75ac-ff45-9afd94190283@collabora.com>
- <trinity-02bc17fc-b458-4d17-baca-8afe30e4c92c-1626110171249@3c-app-gmx-bs28>
- <dbe23d2a-cd29-0782-1b7d-bcb5c6683607@collabora.com>
-MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: Aw: Re: [PATCH] soc: mediatek: mmsys: fix HDMI output on
- mt7623/bananapi-r2
-To: linux-mediatek@lists.infradead.org,
- Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>
-From: Frank Wunderlich <frank-w@public-files.de>
-Message-ID: <6EF00182-1FF4-4061-BCE4-E2AD7275211B@public-files.de>
-X-Provags-ID: V03:K1:4FhZ1GklljU1021mGj9Ps5PKAoEI+UWnutXSedKAVhllFTdL6qE
- c1CqIwzfV3VC1imKUiJZBa2LZrDoeu81zvP/hOKF/nujp85aegg/n3/tKnl8R3s3l2J1dyP
- ReYdVoamgPbMSrCq/g8UplSje/TIqUUO/5sR0DGlVCrWrPhsj87eIuAB4Mq3bFvizVtlsle
- uABYORqkd1W6W50CWxbeg==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:gfZr4u6469E=:2UmEpvl+OhZS14QzOalCMU
- OnlmbM91s4cRo5JYTmRLFMiA75U6gBKCM8/x7i+F8saSi40jfUIs5yQkc77/xCJ9O2btbmNYP
- bt++S1a4YXn+SiE7RRku9fPX22xdFwDBD8gOJKeCUewH7XjfOKqQeYCAJBl+5s65unGPxEQLq
- B9Jfz4YDJGFWlYJZUB7uhLQg3US4e6ODoCIYS2vRBQEA8mdSGHLUfsLV8FnGG6+6MOxz4TRZx
- bbnN3XFeo2kMHTvuZkrK2q2jhEqaSWVVpqOQPYpBGEXIpjjC7VQjvcu/UX2+2wbhTRPt5gOFk
- t8KovDLE9Te+Zb7mnp51LCkUYXzQOnzXqySziomcstLH5tXRhaKxoEIbJSh5qY6p+L/NRt6xu
- r/hosbLzlTt0nXny/SpTq7+undBqHpzfIprTQbemnIUdU/Vua3joZ1RpNAk/CF5brqGcwWGjq
- yh3e0IMkhkdIVKthIvJLwJa75X6oyxpd5M0pK5Ir/jle2Dk0T1/ov63ieLdmHbI3amBt1YNmk
- ChPnVaiZC4mzlb6UdO8LHI+6j1OG/zgPjOyYVgoDKqOSYV424gti6dQAuXxBvbn8xhIjaXzGs
- qDrWD8ZGefvcf4uuBrQTtCuqgcOFWIPcYv9XroRd0O7j65wTToolV7JrJ6MWqQWQjt6QSR5Ak
- dDI7d6I1bLxF5JvghMtsQkjAzK26fFFYP61i1gqg+1L9YaVBA6VacEywmkIXFmjFXTXp+JoAf
- ft00rR92KDHkoYPU2zhxXrOT2N8N96O37TDIe2I5cqNbMOqVsZq/To6SOBuf3CLkuLcJHNncu
- 91tkrVFx3Sorg78DJpwuSHqOIvYIuzQW8PDvA2qtI7UoB+3HZMEG/WDIEh1Jmn5BnhGsVIuCk
- zeRedyIEAvcR8n8czXdhwQJGV7hxfcEfkwppwLWiSSsw5s+wZ3wfuTGLS4eJR+clRqjIcvcAw
- jNU7A54lY6mSFqkqEl8ObhSavXv28rlmG8ZG4UWetrDT6AXg4pFpCIrFPAFXJA1gFnPKEpIG4
- m0mwULvM6n4V9mL6WDS2VnGkpuobZuT4ZHz5g6QrO55nQAh/3G0DPraZsGbqezPGASY8SHVnZ
- ig0vxqstt0R1XOHTJ3IBFD7LHqHqkI4ZIamXs7dgC9tYm32UHoWMSm5hA==
+Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC3E26F9EF
+ for <dri-devel@lists.freedesktop.org>; Sat, 24 Jul 2021 17:29:26 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1627147767; h=Message-Id: Date: Subject: Cc: To: From:
+ Sender; bh=Ktj1i3AlaWGew5NfuLfcGEy2Chnk/dvK1HpNHbnFwgA=;
+ b=pdtj10fTsKFQ1hE5mHlk5v4iKQsFzD7HaOo7ii+CYprZeFMyZ7a+Bi6s1rJ9Ju1SdYHgPzGN
+ xAFDCvKPTbaT1PCLZc5Az7AIxJSAyeiYg3JhqrrXu4QHiDrBGewZENrmbkzNzT/vDuAfjxw/
+ NpsMsfQBg5WJlbRjpU87bNSz7oY=
+X-Mailgun-Sending-Ip: 198.61.254.9
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n05.prod.us-east-1.postgun.com with SMTP id
+ 60fc4df4b653fbdadd5a5259 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Sat, 24 Jul 2021 17:29:24
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id F1E59C43217; Sat, 24 Jul 2021 17:29:23 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
+ SPF_FAIL, 
+ URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+Received: from hyd-lnxbld559.qualcomm.com (unknown [202.46.22.19])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: akhilpo)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id A3176C433D3;
+ Sat, 24 Jul 2021 17:29:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org A3176C433D3
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=fail smtp.mailfrom=akhilpo@codeaurora.org
+From: Akhil P Oommen <akhilpo@codeaurora.org>
+To: freedreno <freedreno@lists.freedesktop.org>,
+ dri-devel@lists.freedesktop.org,
+ OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS <devicetree@vger.kernel.org>, 
+ linux-arm-msm@vger.kernel.org, Stephen Boyd <swboyd@chromium.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Rob Herring <robh+dt@kernel.org>
+Subject: [PATCH v2] arm64: dts: qcom: sc7280: Add gpu support
+Date: Sat, 24 Jul 2021 22:59:00 +0530
+Message-Id: <1627147740-11590-1-git-send-email-akhilpo@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,34 +68,161 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: frank-w@public-files.de
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Enric Balletbo i Serra <enric.balletbo@collabora.com>,
- Matthias Brugger <matthias.bgg@gmail.com>, Frank Wunderlich <linux@fw-web.de>,
- Collabora Kernel ML <kernel@collabora.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: Jonathan Marek <jonathan@marek.ca>, linux-kernel@vger.kernel.org,
+ Douglas Anderson <dianders@chromium.org>,
+ Jordan Crouse <jordan@cosmicpenguin.net>, Andy Gross <agross@kernel.org>,
+ Matthias Kaehlcke <mka@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
->On 12=2E07=2E21 19:16, Frank Wunderlich wrote:
->> Hi,
->>=20
->> it turns out that problem is the read+or of the new value
->>=20
->> i reverted my patch and changed
->>=20
->> reg =3D readl_relaxed(mmsys->regs + routes[i]=2Eaddr) | routes[i]=2Eval=
-;
->> writel_relaxed(reg, mmsys->regs + routes[i]=2Eaddr);
->>=20
->> to
->>=20
->> writel_relaxed(routes[i]=2Eval, mmsys->regs + routes[i]=2Eaddr);
->>=20
->> and it works too, but maybe it breaks other platforms
+Add the necessary dt nodes for gpu support in sc7280.
 
-A gentle ping=2E Amy further comments which of both ways is the right one =
-(restoring old output select function or write only without read+or)?
+Signed-off-by: Akhil P Oommen <akhilpo@codeaurora.org>
+---
+This patch has dependency on the GPUCC bindings patch here:
+https://patchwork.kernel.org/project/linux-arm-msm/patch/1619519590-3019-4-git-send-email-tdas@codeaurora.org/
 
-regards Frank
+Changes in v2:
+- formatting update and removed a duplicate header (Stephan)
+
+ arch/arm64/boot/dts/qcom/sc7280.dtsi | 116 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 116 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/qcom/sc7280.dtsi b/arch/arm64/boot/dts/qcom/sc7280.dtsi
+index 029723a..524a5e0 100644
+--- a/arch/arm64/boot/dts/qcom/sc7280.dtsi
++++ b/arch/arm64/boot/dts/qcom/sc7280.dtsi
+@@ -6,6 +6,7 @@
+  */
+ 
+ #include <dt-bindings/clock/qcom,gcc-sc7280.h>
++#include <dt-bindings/clock/qcom,gpucc-sc7280.h>
+ #include <dt-bindings/clock/qcom,rpmh.h>
+ #include <dt-bindings/interconnect/qcom,sc7280.h>
+ #include <dt-bindings/interrupt-controller/arm-gic.h>
+@@ -585,6 +586,121 @@
+ 			#clock-cells = <1>;
+ 		};
+ 
++		gpu@3d00000 {
++			compatible = "qcom,adreno-635.0", "qcom,adreno";
++			#stream-id-cells = <16>;
++			reg = <0 0x03d00000 0 0x40000>,
++			      <0 0x03d9e000 0 0x1000>,
++			      <0 0x03d61000 0 0x800>;
++			reg-names = "kgsl_3d0_reg_memory",
++				    "cx_mem",
++				    "cx_dbgc";
++			interrupts = <GIC_SPI 300 IRQ_TYPE_LEVEL_HIGH>;
++			iommus = <&adreno_smmu 0 0x401>;
++			operating-points-v2 = <&gpu_opp_table>;
++			qcom,gmu = <&gmu>;
++			interconnects = <&gem_noc MASTER_GFX3D 0 &mc_virt SLAVE_EBI1 0>;
++			interconnect-names = "gfx-mem";
++
++			gpu_opp_table: opp-table {
++				compatible = "operating-points-v2";
++
++				opp-550000000 {
++					opp-hz = /bits/ 64 <550000000>;
++					opp-level = <RPMH_REGULATOR_LEVEL_SVS_L1>;
++					opp-peak-kBps = <6832000>;
++				};
++
++				opp-450000000 {
++					opp-hz = /bits/ 64 <450000000>;
++					opp-level = <RPMH_REGULATOR_LEVEL_SVS>;
++					opp-peak-kBps = <4068000>;
++				};
++
++				opp-315000000 {
++					opp-hz = /bits/ 64 <315000000>;
++					opp-level = <RPMH_REGULATOR_LEVEL_LOW_SVS>;
++					opp-peak-kBps = <1804000>;
++				};
++			};
++		};
++
++		gmu: gmu@3d69000 {
++			compatible="qcom,adreno-gmu-635.0", "qcom,adreno-gmu";
++			reg = <0 0x03d6a000 0 0x34000>,
++				<0 0x3de0000 0 0x10000>,
++				<0 0x0b290000 0 0x10000>;
++			reg-names = "gmu", "rscc", "gmu_pdc";
++			interrupts = <GIC_SPI 304 IRQ_TYPE_LEVEL_HIGH>,
++					<GIC_SPI 305 IRQ_TYPE_LEVEL_HIGH>;
++			interrupt-names = "hfi", "gmu";
++			clocks = <&gpucc GPU_CC_CX_GMU_CLK>,
++					<&gpucc GPU_CC_CXO_CLK>,
++					<&gcc GCC_DDRSS_GPU_AXI_CLK>,
++					<&gcc GCC_GPU_MEMNOC_GFX_CLK>,
++					<&gpucc GPU_CC_AHB_CLK>,
++					<&gpucc GPU_CC_HUB_CX_INT_CLK>,
++					<&gpucc GPU_CC_HLOS1_VOTE_GPU_SMMU_CLK>;
++			clock-names = "gmu",
++				      "cxo",
++				      "axi",
++				      "memnoc",
++				      "ahb",
++				      "hub",
++				      "smmu_vote";
++			power-domains = <&gpucc GPU_CC_CX_GDSC>,
++					<&gpucc GPU_CC_GX_GDSC>;
++			power-domain-names = "cx",
++					     "gx";
++			iommus = <&adreno_smmu 5 0x400>;
++			operating-points-v2 = <&gmu_opp_table>;
++
++			gmu_opp_table: opp-table {
++				compatible = "operating-points-v2";
++
++				opp-200000000 {
++					opp-hz = /bits/ 64 <200000000>;
++					opp-level = <RPMH_REGULATOR_LEVEL_MIN_SVS>;
++				};
++			};
++		};
++
++		adreno_smmu: iommu@3da0000 {
++			compatible = "qcom,sc7280-smmu-500", "qcom,adreno-smmu", "arm,mmu-500";
++			reg = <0 0x03da0000 0 0x20000>;
++			#iommu-cells = <2>;
++			#global-interrupts = <2>;
++			interrupts = <GIC_SPI 673 IRQ_TYPE_LEVEL_HIGH>,
++					<GIC_SPI 675 IRQ_TYPE_LEVEL_HIGH>,
++					<GIC_SPI 678 IRQ_TYPE_LEVEL_HIGH>,
++					<GIC_SPI 679 IRQ_TYPE_LEVEL_HIGH>,
++					<GIC_SPI 680 IRQ_TYPE_LEVEL_HIGH>,
++					<GIC_SPI 681 IRQ_TYPE_LEVEL_HIGH>,
++					<GIC_SPI 682 IRQ_TYPE_LEVEL_HIGH>,
++					<GIC_SPI 683 IRQ_TYPE_LEVEL_HIGH>,
++					<GIC_SPI 684 IRQ_TYPE_LEVEL_HIGH>,
++					<GIC_SPI 685 IRQ_TYPE_LEVEL_HIGH>,
++					<GIC_SPI 686 IRQ_TYPE_LEVEL_HIGH>,
++					<GIC_SPI 687 IRQ_TYPE_LEVEL_HIGH>;
++
++			clocks = <&gcc GCC_GPU_MEMNOC_GFX_CLK>,
++					<&gcc GCC_GPU_SNOC_DVM_GFX_CLK>,
++					<&gpucc GPU_CC_AHB_CLK>,
++					<&gpucc GPU_CC_HLOS1_VOTE_GPU_SMMU_CLK>,
++					<&gpucc GPU_CC_CX_GMU_CLK>,
++					<&gpucc GPU_CC_HUB_CX_INT_CLK>,
++					<&gpucc GPU_CC_HUB_AON_CLK>;
++			clock-names = "gcc_gpu_memnoc_gfx_clk",
++					"gcc_gpu_snoc_dvm_gfx_clk",
++					"gpu_cc_ahb_clk",
++					"gpu_cc_hlos1_vote_gpu_smmu_clk",
++					"gpu_cc_cx_gmu_clk",
++					"gpu_cc_hub_cx_int_clk",
++					"gpu_cc_hub_aon_clk";
++
++			power-domains = <&gpucc GPU_CC_CX_GDSC>;
++		};
++
+ 		lpass_ag_noc: interconnect@3c40000 {
+ 			reg = <0 0x03c40000 0 0xf080>;
+ 			compatible = "qcom,sc7280-lpass-ag-noc";
+-- 
+QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
+of Code Aurora Forum, hosted by The Linux Foundation.
+
