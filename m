@@ -1,54 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C30B3D4835
-	for <lists+dri-devel@lfdr.de>; Sat, 24 Jul 2021 16:58:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EAC23D4843
+	for <lists+dri-devel@lfdr.de>; Sat, 24 Jul 2021 17:14:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A12D86E15C;
-	Sat, 24 Jul 2021 14:58:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 40C3A6E120;
+	Sat, 24 Jul 2021 15:14:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E363B6E15C;
- Sat, 24 Jul 2021 14:58:24 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 8D13C60EB0;
- Sat, 24 Jul 2021 14:58:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1627138704;
- bh=NbqjL70DokqVvV19hzj4hiRcYchamdVrDx6kJEYgsgM=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=IqSXjpLTIn6PxzBXLoGz2wvI8STZMkUsHdjULHm/QAiDJCK+FFPSya+ZsEpV67SUs
- kgR1JNugBg+D2Qks7kJFatUrRasJVjUvGcik3Ul3RShflNDK0dr7wg8/jEltdYTZ9R
- ha3JphNjP26TV/QlbYJu9yCxHPcg6mrWnQlVQeJfq5rvpDave68y1YC8Z/nZbOBwe2
- sGCkJxS/4ayx4GTKbEXZIqu5+6/IFD6WYPTW0gPzq/++Gp73sGAXgc2HFa2MWc10rR
- O1BcDMmAHJQxOAhIKWEFDFMV27tSa/mrPNvB8yJbIvHNelvgaNBeFr3BVXMZnIaKUx
- /GqLkL2h2B3sA==
-Received: by mail-wm1-f52.google.com with SMTP id
- j34-20020a05600c1c22b029024e75084404so2419267wms.1; 
- Sat, 24 Jul 2021 07:58:24 -0700 (PDT)
-X-Gm-Message-State: AOAM530caWDz+p9EhoQPx+C5sETviO8TtC7q+2ol1VXLR4Altw2zgAlq
- 8QMjKRDpb8MA89VvNlcYfljr9MptXEHdU91zLfE=
-X-Google-Smtp-Source: ABdhPJwltPl/wWX13/CxEFCAvNsrOMzwCqFUDp745ygruk3669M6BQP+fmfDf7Z3x+vjqYFjPYCieuVIF4EIc3uZU8w=
-X-Received: by 2002:a1c:4e0c:: with SMTP id g12mr18758940wmh.120.1627138703148; 
- Sat, 24 Jul 2021 07:58:23 -0700 (PDT)
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 50C5B6E120
+ for <dri-devel@lists.freedesktop.org>; Sat, 24 Jul 2021 15:14:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1627139666;
+ bh=4noc/sQzclIW/kkrihBjzzi6QwizoNZ8djRM4lvM73g=;
+ h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
+ b=lWuupqZvPp60MW1gvccIpZbpV3BV0Y2OPov5Sl7JQNykMOhs0y4XHb1aDQI+3W1EK
+ 72fg87aV0FYCm4bkVOA9evD72G4d/VsyO/Ht1TCD87QWTwuK9Kb+Dc5okPtIpoAa47
+ j3MOZRZoXmKxy9/DfQEYjAA37pXuK+eszRe+JCto=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from localhost.localdomain ([83.52.228.41]) by mail.gmx.net
+ (mrgmx005 [212.227.17.184]) with ESMTPSA (Nemesis) id
+ 1N0oBr-1lBVhf04W5-00wpiS; Sat, 24 Jul 2021 17:14:26 +0200
+From: Len Baker <len.baker@gmx.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [PATCH v2 0/3] Remove all strcpy() uses
+Date: Sat, 24 Jul 2021 17:14:08 +0200
+Message-Id: <20210724151411.9531-1-len.baker@gmx.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20210723224617.3088886-1-kherbst@redhat.com>
- <CAK8P3a3u_jsxQW4dPXtsdKkw1mjKXL-h=qN1SGHytvUMPf3fPw@mail.gmail.com>
- <CACO55tuNWk6emjnnukgv9h-9jbpVP564Ogmi7TGbybc9n5v+ZQ@mail.gmail.com>
- <CAK8P3a1BceSaiqkTf+9Pr4Br-G3kgqD4ztwiaS7fxNiUg9t7Dg@mail.gmail.com>
- <CACO55tsoi2akTKvFdz3p48UHRjFXDW7dUnOM8qVePBFWet-3UQ@mail.gmail.com>
- <CACO55tuceMUz2pgOM23wvcmtaTqbo6S6rCB+mfLptqJRt=fMWA@mail.gmail.com>
- <CAK8P3a3+AD02-8nbULMdae2Hc=hJ+-Zb_CL+bHF-9oGieYiZWQ@mail.gmail.com>
- <CACO55tswMuDE9u3asU2Ls7BhA0uKGGarLk+E-WTD6MVnLwc3tw@mail.gmail.com>
-In-Reply-To: <CACO55tswMuDE9u3asU2Ls7BhA0uKGGarLk+E-WTD6MVnLwc3tw@mail.gmail.com>
-From: Arnd Bergmann <arnd@kernel.org>
-Date: Sat, 24 Jul 2021 16:58:06 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a0i0WP24Z0TScmPqKxmM2ovtKnmm+qZq6+Tc1ju+hma0w@mail.gmail.com>
-Message-ID: <CAK8P3a0i0WP24Z0TScmPqKxmM2ovtKnmm+qZq6+Tc1ju+hma0w@mail.gmail.com>
-Subject: Re: [PATCH] nouveau: make backlight support non optional
-To: Karol Herbst <kherbst@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:CF3KTYSkqaOEngOglxyMd9EaNlUb1/dUGyEAN5GU0u03js5doC/
+ EM/4b9OWhbjKSd8ru2UsL197JEJVkoJ01uJW+UCo8Ib0nVE/Kjg6/LwqUCSKrPRwG8tshkb
+ nYwzaM44pjBoeFei5eLsV4sr1WCEw82bY3EGORYXF2KyoMTwfX22dqSBeoZuYNPF0q7qS3e
+ FkZkqVqZaZAfI7lSgoHtQ==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:RqDB3YaQbQo=:uDk5LDovtG0+MYOzDQ8jE0
+ XYwmMu2BOsBt4QV3A+LIE5bBK1CCjII05VUvqKg/Mq+SnYY15OFAcCDoU4oqr6KG4l9/SduzR
+ oMVr2yCtPStMkFyLWSc6iLgDOCYNWC3f1Asi/OrmeHPzY29i79LYyxQMCqs/qwgp/iCo7MFwz
+ qxBwtbbssO9Eo3VEfBuBJ7eQQ4JNYj5pf9ZWfz8+Rai4TmVKqaSidvF1DODPSaQ+G7sASDqiq
+ yUATZhIyeyvq/syvBrhP0838+PavDK5tAmwoJOTLY4uXKjXG/p0koYD7JY/778lej8wa+FIOB
+ tVeV20NTaqxbXR7N0EXRASQPsbEWGWIq4NbZUD4Xs84Hyp3X2dwBjrTJW7wr77Si/tAigRzT5
+ GEEV2vSGQ1EkakyTcgQ8p8cGXPvFK4cZ+Rg4g5h2b+Zu9CgO/Xcf9WLLVmbvHprjqdBh6jX8L
+ fGJ9Yq0urLwgLy2KFQ06TCCtxNSmM9ImwRO7SkR19l0jyCbI8vPTA+Ptd+gjPcSnc3W12LtId
+ 8m0vRazFbAKbllGDQIpdm1AEJbdRHHYg3TG1KPqXB04cInnWMAyFKf53abFuOzOZ5oWMHaNCV
+ Q0nw+vpdAhASPyViMtyrZCnGw4DIzD0DYpqPHf/F0JMaMKcFXzZULFk2DukSMOIrTXfAl61uJ
+ 6AHTitFA+GghNqzceTrTtPf9kU/TC946QIMGpLYUDpa3pLGddyamwITInCUAok2uuC6JMUVO3
+ Y42G7fIfR94JzSAhrE4+eoMthLKzr6Lu2n/LXhK99VIKhQ6Vo7cB8ZEXwMf1wPLRKp9fXjxd+
+ u3ldvZgzvpDxNDU2jn9GjlBJLbUfnbJ8bzEDA5yB2E9Bgzp+IGTLM5TwBYni4miJMaX/KUFRE
+ ZXb7/6smxzV5yy5fXMhBUOqvpLuv6JndVpdmSkNtt5HAFhubtaqrlxr/lUK7RAuUm/9tL4BxF
+ Uq3mrkPa7MmCoEXO5hih8fo7AKMFHzLazw9tJdlU2SVZaKDCX0+Gjnm5yDDK28cAXkoMxG1qS
+ ZG/vDRP9unJ2v4wiNdCU4v0D+PWjeXJJ53wfspsATd9hFnYnK6Qs7LFdFU0f8wOmy4ZmxnpEo
+ w8RBvQq3A2+RAHE6Q4cl4G8Q3dJoN1P6UY2
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,70 +65,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ML nouveau <nouveau@lists.freedesktop.org>,
- Randy Dunlap <rdunlap@infradead.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Ben Skeggs <bskeggs@redhat.com>
+Cc: linux-fbdev@vger.kernel.org, Phil Reid <preid@electromag.com.au>,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Geert Uytterhoeven <geert@linux-m68k.org>,
+ Len Baker <len.baker@gmx.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Jul 24, 2021 at 4:14 PM Karol Herbst <kherbst@redhat.com> wrote:
->
-> we use the MXM_WMI in code. We also have to keep arm in mind and not
-> break stuff there. So I will try to play around with your changes and
-> see how that goes.
+strcpy() performs no bounds checking on the destination buffer. This
+could result in linear overflows beyond the end of the buffer, leading
+to all kinds of misbehaviors. So, this serie removes all strcpy uses
+from the "staging/fbtft" subsystem.
 
-Ok, should find any randconfig build failures for arm, arm64 or x86 over the
-weekend. I also this on linux-next today
+Also, refactor the code a bit to follow the kernel coding-style and
+avoid unnecessary variable initialization.
 
-ld: drivers/gpu/drm/i915/display/intel_panel.o: in function
-`intel_backlight_device_register':
-intel_panel.c:(.text+0x2804): undefined reference to `backlight_device_register'
-ld: intel_panel.c:(.text+0x284e): undefined reference to
-`backlight_device_register'
-ld: drivers/gpu/drm/i915/display/intel_panel.o: in function
-`intel_backlight_device_unregister':
-intel_panel.c:(.text+0x28b1): undefined reference to
-`backlight_device_unregister'
+Changelog v1 -> v2
+- Add two new commits to clean the code.
+- Use the "%*ph" format specifier instead of strscpy() function (Geert
+  Uytterhoeven)
 
-and I added this same thing there to see how it goes:
+Len Baker (3):
+  staging/fbtft: Remove all strcpy() uses
+  staging/fbtft: Remove unnecessary variable initialization
+  staging/fbtft: Fix braces coding style
 
-diff --git a/drivers/gpu/drm/i915/Kconfig b/drivers/gpu/drm/i915/Kconfig
-index 87825d36335b..69c6b7aec49e 100644
---- a/drivers/gpu/drm/i915/Kconfig
-+++ b/drivers/gpu/drm/i915/Kconfig
-@@ -3,6 +3,8 @@ config DRM_I915
-        tristate "Intel 8xx/9xx/G3x/G4x/HD Graphics"
-        depends on DRM
-        depends on X86 && PCI
-+       depends on ACPI_VIDEO || !ACPI
-+       depends on BACKLIGHT_CLASS_DEVICE
-        select INTEL_GTT
-        select INTERVAL_TREE
-        # we need shmfs for the swappable backing store, and in particular
-@@ -16,10 +18,6 @@ config DRM_I915
-        select IRQ_WORK
-        # i915 depends on ACPI_VIDEO when ACPI is enabled
-        # but for select to work, need to select ACPI_VIDEO's dependencies, ick
--       select DRM_I915_BACKLIGHT if ACPI
--       select INPUT if ACPI
--       select ACPI_VIDEO if ACPI
--       select ACPI_BUTTON if ACPI
-        select SYNC_FILE
-        select IOSF_MBI
-        select CRC32
-@@ -64,13 +62,7 @@ config DRM_I915_FORCE_PROBE
-          Use "*" to force probe the driver for all known devices.
+ drivers/staging/fbtft/fbtft-core.c | 30 +++++++++++++-----------------
+ 1 file changed, 13 insertions(+), 17 deletions(-)
 
- config DRM_I915_BACKLIGHT
--       tristate "Control backlight support"
--       depends on DRM_I915
--       default DRM_I915
--       select BACKLIGHT_CLASS_DEVICE
--       help
--          Say Y here if you want to control the backlight of your display
--          (e.g. a laptop panel).
-+       def_tristate DRM_I915
+=2D-
+2.25.1
 
- config DRM_I915_CAPTURE_ERROR
-        bool "Enable capturing GPU state following a hang"
