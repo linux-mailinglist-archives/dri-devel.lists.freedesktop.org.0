@@ -1,61 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE3983D48E3
-	for <lists+dri-devel@lfdr.de>; Sat, 24 Jul 2021 19:29:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 48EFA3D48F0
+	for <lists+dri-devel@lfdr.de>; Sat, 24 Jul 2021 19:44:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 35A756F9EF;
-	Sat, 24 Jul 2021 17:29:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E8116FA64;
+	Sat, 24 Jul 2021 17:44:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC3E26F9EF
- for <dri-devel@lists.freedesktop.org>; Sat, 24 Jul 2021 17:29:26 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1627147767; h=Message-Id: Date: Subject: Cc: To: From:
- Sender; bh=Ktj1i3AlaWGew5NfuLfcGEy2Chnk/dvK1HpNHbnFwgA=;
- b=pdtj10fTsKFQ1hE5mHlk5v4iKQsFzD7HaOo7ii+CYprZeFMyZ7a+Bi6s1rJ9Ju1SdYHgPzGN
- xAFDCvKPTbaT1PCLZc5Az7AIxJSAyeiYg3JhqrrXu4QHiDrBGewZENrmbkzNzT/vDuAfjxw/
- NpsMsfQBg5WJlbRjpU87bNSz7oY=
-X-Mailgun-Sending-Ip: 198.61.254.9
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n05.prod.us-east-1.postgun.com with SMTP id
- 60fc4df4b653fbdadd5a5259 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Sat, 24 Jul 2021 17:29:24
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id F1E59C43217; Sat, 24 Jul 2021 17:29:23 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
- SPF_FAIL, 
- URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
-Received: from hyd-lnxbld559.qualcomm.com (unknown [202.46.22.19])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: akhilpo)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id A3176C433D3;
- Sat, 24 Jul 2021 17:29:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org A3176C433D3
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=fail smtp.mailfrom=akhilpo@codeaurora.org
-From: Akhil P Oommen <akhilpo@codeaurora.org>
-To: freedreno <freedreno@lists.freedesktop.org>,
- dri-devel@lists.freedesktop.org,
- OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS <devicetree@vger.kernel.org>, 
- linux-arm-msm@vger.kernel.org, Stephen Boyd <swboyd@chromium.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Rob Herring <robh+dt@kernel.org>
-Subject: [PATCH v2] arm64: dts: qcom: sc7280: Add gpu support
-Date: Sat, 24 Jul 2021 22:59:00 +0530
-Message-Id: <1627147740-11590-1-git-send-email-akhilpo@codeaurora.org>
-X-Mailer: git-send-email 2.7.4
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9776672DFF
+ for <dri-devel@lists.freedesktop.org>; Sat, 24 Jul 2021 17:44:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1627148677;
+ bh=NnnKncfAnaFeKpuZRfNKoEnQZQQS40lYryGaD8rwMk4=;
+ h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
+ b=NFNUK8e1lGKlLsZ78wPfP5vHKXND1wmC2AI4RH71M5Ie9Y8wYdWHqJVuRDtIJ3wW3
+ VXs2CX4KUZKOYnpaq3xLdSs4YyW7qx6gNhO3e4eHKLo/QnqC/AzUNWViHh7ztLdfXa
+ a3TfKXl//kPVXrValL65VXLVmtUKycHLbFO8vyjI=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from localhost.localdomain ([83.52.228.41]) by mail.gmx.net
+ (mrgmx004 [212.227.17.184]) with ESMTPSA (Nemesis) id
+ 1Ml6mE-1lMEif0gvs-00lTqs; Sat, 24 Jul 2021 19:44:37 +0200
+From: Len Baker <len.baker@gmx.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [PATCH v2 3/3] staging/fbtft: Fix braces coding style
+Date: Sat, 24 Jul 2021 17:14:11 +0200
+Message-Id: <20210724151411.9531-4-len.baker@gmx.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210724151411.9531-1-len.baker@gmx.com>
+References: <20210724151411.9531-1-len.baker@gmx.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:Lxq6kiLtjzFc7OrUMkOeAtgYvYuYKRc/giZKldt3BoFUT8h46VN
+ Kg9FIPsCHHoEzU1Mpx9okxfyNGfBWPsPHYWimuPRdKM7YMgx2f/hyOp2LoOaeTQQ39tB119
+ r00lutgbYittzltAdnF6QCZZMkyT5+zF0brw7VKPt3rZbRv5z9hwxA/m471V2iAF4Ivk4re
+ fJ9snb6LaTghFsDzNuZKg==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:+WwuL9lnI14=:Lg8CcfCZ7rwXHqQl323hZy
+ fGlFde99fZWlaom5py+XLvoegd+qdqmZEnaZcZfjaZXvCeQfq1VcgF/kPHuf3DX7+Dnc+fEYM
+ GF5J3HJvxIuQB/LKFn2AYmrVe+k7eP8fdhESjiwle6j2jlpdvGJkY53L22oeIQ9pjNVzIssJR
+ lTeRxVTZoFtv7PJXi4frv7WYleVjSsoS+aMSpp7psFbCVzS0eR36Fl61cRvfhokOfM3YVs71d
+ TSUNWgcaTPd2gGx/iffDIqzBPfpZfSPZ57NqUjGggEfbgwrNQyh7zBArIEtgH6Qdl/hRT32PJ
+ JXoI9p0V8gNiUjVGp1f1s9Uz/+ibpDt7QxC6XeQ+0bo1/uw6tqnO3lVGaVIHVWKq7VzeNY4+d
+ 2OpnbFIPjtMG4G37mboGXULo2eh2u2o6A0XFu2pYtyK0J8GAyB5aIjgh7s9SVTV94dYXhLCBv
+ 0miwN3QGGRxpnD5Kxw+0pfJfAJubKiXXXruRCsawp5sJ1aqNmI/GellC7vWzdjvW3M7JFhBxV
+ D+LTiSfdu6TIqkaju1DEGsoHLejU9iO+jg2GOwpf4tsTVfz1rkaaYRT/YilFHbaxeuENaDVUZ
+ KlfGAn9Q7eBgvNoXqYPJUM5Pt6dN/Eo6NbpkJs5P7okfSgpPdP2YqDk9OMZRSdn0kNciNMdl+
+ MXvkoUTAtJe1fy93gvr7MVIvwmN5QCaxcMZI9NMCETYMV7S45tDl+wEZvFEdBP9aSuXC0ughK
+ 9odmeqPINVGQWl1Vd5BMuvN1jf1ucvBSmD+b+XDCaA8oPJGqNg94oTA5jI2lbELcTe+UEUC4k
+ 2VZZkSasNSfjuaS0Qw9UY62tOGme/eW2xzVXIUdkAfKzSdOYg5SspQsEp7tl/gKC640W26ivK
+ +3GDojDJUFZNf5dAvtRwplJIKRuG3mo4RXhFXDekbKGom+ybJq+s19ZFJRtYW30q99dg66Oqn
+ NVZ/95qRcpoIbhYb87SLwP2G1O9gMhadg3TgGQpfaJZstM6uK6dGjVuaN6h/ixb7IWFI5k/Nl
+ 7wG2olAL5nGf7iJQ2NFtfHQ9f0MCh6jDVlSoiwy4qZmjA2XnlK5rUjsDTiI6vIPDskEW+/YdI
+ DBKweJCMhiMW2bjwr0ar/okB4t5uJ6NbzgQ
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,161 +67,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jonathan Marek <jonathan@marek.ca>, linux-kernel@vger.kernel.org,
- Douglas Anderson <dianders@chromium.org>,
- Jordan Crouse <jordan@cosmicpenguin.net>, Andy Gross <agross@kernel.org>,
- Matthias Kaehlcke <mka@chromium.org>
+Cc: linux-fbdev@vger.kernel.org, Phil Reid <preid@electromag.com.au>,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Geert Uytterhoeven <geert@linux-m68k.org>,
+ Len Baker <len.baker@gmx.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add the necessary dt nodes for gpu support in sc7280.
+Add braces to the "for" loop and remove braces from the "if" statement.
+This way the kernel coding style is followed.
 
-Signed-off-by: Akhil P Oommen <akhilpo@codeaurora.org>
----
-This patch has dependency on the GPUCC bindings patch here:
-https://patchwork.kernel.org/project/linux-arm-msm/patch/1619519590-3019-4-git-send-email-tdas@codeaurora.org/
+Signed-off-by: Len Baker <len.baker@gmx.com>
+=2D--
+ drivers/staging/fbtft/fbtft-core.c | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
-Changes in v2:
-- formatting update and removed a duplicate header (Stephan)
+diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fb=
+tft-core.c
+index cc2bee22f7ad..d87792649efe 100644
+=2D-- a/drivers/staging/fbtft/fbtft-core.c
++++ b/drivers/staging/fbtft/fbtft-core.c
+@@ -1003,9 +1003,11 @@ int fbtft_init_display(struct fbtft_par *par)
+ 	}
 
- arch/arm64/boot/dts/qcom/sc7280.dtsi | 116 +++++++++++++++++++++++++++++++++++
- 1 file changed, 116 insertions(+)
+ 	/* make sure stop marker exists */
+-	for (i =3D 0; i < FBTFT_MAX_INIT_SEQUENCE; i++)
++	for (i =3D 0; i < FBTFT_MAX_INIT_SEQUENCE; i++) {
+ 		if (par->init_sequence[i] =3D=3D -3)
+ 			break;
++	}
++
+ 	if (i =3D=3D FBTFT_MAX_INIT_SEQUENCE) {
+ 		dev_err(par->info->device,
+ 			"missing stop marker at end of init sequence\n");
+@@ -1016,10 +1018,9 @@ int fbtft_init_display(struct fbtft_par *par)
 
-diff --git a/arch/arm64/boot/dts/qcom/sc7280.dtsi b/arch/arm64/boot/dts/qcom/sc7280.dtsi
-index 029723a..524a5e0 100644
---- a/arch/arm64/boot/dts/qcom/sc7280.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sc7280.dtsi
-@@ -6,6 +6,7 @@
-  */
- 
- #include <dt-bindings/clock/qcom,gcc-sc7280.h>
-+#include <dt-bindings/clock/qcom,gpucc-sc7280.h>
- #include <dt-bindings/clock/qcom,rpmh.h>
- #include <dt-bindings/interconnect/qcom,sc7280.h>
- #include <dt-bindings/interrupt-controller/arm-gic.h>
-@@ -585,6 +586,121 @@
- 			#clock-cells = <1>;
- 		};
- 
-+		gpu@3d00000 {
-+			compatible = "qcom,adreno-635.0", "qcom,adreno";
-+			#stream-id-cells = <16>;
-+			reg = <0 0x03d00000 0 0x40000>,
-+			      <0 0x03d9e000 0 0x1000>,
-+			      <0 0x03d61000 0 0x800>;
-+			reg-names = "kgsl_3d0_reg_memory",
-+				    "cx_mem",
-+				    "cx_dbgc";
-+			interrupts = <GIC_SPI 300 IRQ_TYPE_LEVEL_HIGH>;
-+			iommus = <&adreno_smmu 0 0x401>;
-+			operating-points-v2 = <&gpu_opp_table>;
-+			qcom,gmu = <&gmu>;
-+			interconnects = <&gem_noc MASTER_GFX3D 0 &mc_virt SLAVE_EBI1 0>;
-+			interconnect-names = "gfx-mem";
+ 	i =3D 0;
+ 	while (i < FBTFT_MAX_INIT_SEQUENCE) {
+-		if (par->init_sequence[i] =3D=3D -3) {
+-			/* done */
+-			return 0;
+-		}
++		if (par->init_sequence[i] =3D=3D -3)
++			return 0; /* done */
 +
-+			gpu_opp_table: opp-table {
-+				compatible = "operating-points-v2";
-+
-+				opp-550000000 {
-+					opp-hz = /bits/ 64 <550000000>;
-+					opp-level = <RPMH_REGULATOR_LEVEL_SVS_L1>;
-+					opp-peak-kBps = <6832000>;
-+				};
-+
-+				opp-450000000 {
-+					opp-hz = /bits/ 64 <450000000>;
-+					opp-level = <RPMH_REGULATOR_LEVEL_SVS>;
-+					opp-peak-kBps = <4068000>;
-+				};
-+
-+				opp-315000000 {
-+					opp-hz = /bits/ 64 <315000000>;
-+					opp-level = <RPMH_REGULATOR_LEVEL_LOW_SVS>;
-+					opp-peak-kBps = <1804000>;
-+				};
-+			};
-+		};
-+
-+		gmu: gmu@3d69000 {
-+			compatible="qcom,adreno-gmu-635.0", "qcom,adreno-gmu";
-+			reg = <0 0x03d6a000 0 0x34000>,
-+				<0 0x3de0000 0 0x10000>,
-+				<0 0x0b290000 0 0x10000>;
-+			reg-names = "gmu", "rscc", "gmu_pdc";
-+			interrupts = <GIC_SPI 304 IRQ_TYPE_LEVEL_HIGH>,
-+					<GIC_SPI 305 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "hfi", "gmu";
-+			clocks = <&gpucc GPU_CC_CX_GMU_CLK>,
-+					<&gpucc GPU_CC_CXO_CLK>,
-+					<&gcc GCC_DDRSS_GPU_AXI_CLK>,
-+					<&gcc GCC_GPU_MEMNOC_GFX_CLK>,
-+					<&gpucc GPU_CC_AHB_CLK>,
-+					<&gpucc GPU_CC_HUB_CX_INT_CLK>,
-+					<&gpucc GPU_CC_HLOS1_VOTE_GPU_SMMU_CLK>;
-+			clock-names = "gmu",
-+				      "cxo",
-+				      "axi",
-+				      "memnoc",
-+				      "ahb",
-+				      "hub",
-+				      "smmu_vote";
-+			power-domains = <&gpucc GPU_CC_CX_GDSC>,
-+					<&gpucc GPU_CC_GX_GDSC>;
-+			power-domain-names = "cx",
-+					     "gx";
-+			iommus = <&adreno_smmu 5 0x400>;
-+			operating-points-v2 = <&gmu_opp_table>;
-+
-+			gmu_opp_table: opp-table {
-+				compatible = "operating-points-v2";
-+
-+				opp-200000000 {
-+					opp-hz = /bits/ 64 <200000000>;
-+					opp-level = <RPMH_REGULATOR_LEVEL_MIN_SVS>;
-+				};
-+			};
-+		};
-+
-+		adreno_smmu: iommu@3da0000 {
-+			compatible = "qcom,sc7280-smmu-500", "qcom,adreno-smmu", "arm,mmu-500";
-+			reg = <0 0x03da0000 0 0x20000>;
-+			#iommu-cells = <2>;
-+			#global-interrupts = <2>;
-+			interrupts = <GIC_SPI 673 IRQ_TYPE_LEVEL_HIGH>,
-+					<GIC_SPI 675 IRQ_TYPE_LEVEL_HIGH>,
-+					<GIC_SPI 678 IRQ_TYPE_LEVEL_HIGH>,
-+					<GIC_SPI 679 IRQ_TYPE_LEVEL_HIGH>,
-+					<GIC_SPI 680 IRQ_TYPE_LEVEL_HIGH>,
-+					<GIC_SPI 681 IRQ_TYPE_LEVEL_HIGH>,
-+					<GIC_SPI 682 IRQ_TYPE_LEVEL_HIGH>,
-+					<GIC_SPI 683 IRQ_TYPE_LEVEL_HIGH>,
-+					<GIC_SPI 684 IRQ_TYPE_LEVEL_HIGH>,
-+					<GIC_SPI 685 IRQ_TYPE_LEVEL_HIGH>,
-+					<GIC_SPI 686 IRQ_TYPE_LEVEL_HIGH>,
-+					<GIC_SPI 687 IRQ_TYPE_LEVEL_HIGH>;
-+
-+			clocks = <&gcc GCC_GPU_MEMNOC_GFX_CLK>,
-+					<&gcc GCC_GPU_SNOC_DVM_GFX_CLK>,
-+					<&gpucc GPU_CC_AHB_CLK>,
-+					<&gpucc GPU_CC_HLOS1_VOTE_GPU_SMMU_CLK>,
-+					<&gpucc GPU_CC_CX_GMU_CLK>,
-+					<&gpucc GPU_CC_HUB_CX_INT_CLK>,
-+					<&gpucc GPU_CC_HUB_AON_CLK>;
-+			clock-names = "gcc_gpu_memnoc_gfx_clk",
-+					"gcc_gpu_snoc_dvm_gfx_clk",
-+					"gpu_cc_ahb_clk",
-+					"gpu_cc_hlos1_vote_gpu_smmu_clk",
-+					"gpu_cc_cx_gmu_clk",
-+					"gpu_cc_hub_cx_int_clk",
-+					"gpu_cc_hub_aon_clk";
-+
-+			power-domains = <&gpucc GPU_CC_CX_GDSC>;
-+		};
-+
- 		lpass_ag_noc: interconnect@3c40000 {
- 			reg = <0 0x03c40000 0 0xf080>;
- 			compatible = "qcom,sc7280-lpass-ag-noc";
--- 
-QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
-of Code Aurora Forum, hosted by The Linux Foundation.
+ 		if (par->init_sequence[i] >=3D 0) {
+ 			dev_err(par->info->device,
+ 				"missing delimiter at position %d\n", i);
+=2D-
+2.25.1
 
