@@ -2,60 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF9643D48AB
-	for <lists+dri-devel@lfdr.de>; Sat, 24 Jul 2021 18:55:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23DA53D48BC
+	for <lists+dri-devel@lfdr.de>; Sat, 24 Jul 2021 19:06:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1DCDF73300;
-	Sat, 24 Jul 2021 16:54:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 06E9173303;
+	Sat, 24 Jul 2021 17:06:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D9D573300
- for <dri-devel@lists.freedesktop.org>; Sat, 24 Jul 2021 16:54:56 +0000 (UTC)
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 577026F9EF
+ for <dri-devel@lists.freedesktop.org>; Sat, 24 Jul 2021 17:06:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1627145673;
- bh=wSYHYXjQ8tY2LuOVqUnrRReY9Qkro14biYwp5qK9Qbg=;
- h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
- b=L+tQhJdM8xwferGORR21neTgmRxe/Guw+NJ4eh+UMFI37GVhv9GN839nFHvjt/wk8
- 20gTx6DxdNAHQ0Mxi4wcFWuA1dzEEIDcvP1KAqiYxwUIBeyySdX/f9xOHgbXXoUZmi
- Q5ZK5JT8vYy2KWFAkpBMeHB5o+cbaVLS/rIDqyAw=
+ s=badeba3b8450; t=1627146376;
+ bh=45e0H0Lk78ezpdCHaXHQi6m/MsRnxorf6VPy1DfA5rg=;
+ h=X-UI-Sender-Class:Date:In-Reply-To:References:Subject:Reply-to:To:
+ CC:From;
+ b=k6Tue3gwJ6yzegHJFgwwcNIfP5QpSB/PhMLA0dvuX0o7hOPPW9+Cohd0EgET33ADU
+ 2t7ztArwdbcCPu/zFoesd0xTOgkw4m1eANnOwNgxBrhoiEz+WQLPfd3zi0XgCnoo5F
+ qWIGinmGQXH7hgDfXbg1K1fcTGUh0TeeJqrdY5mY=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from localhost.localdomain ([83.52.228.41]) by mail.gmx.net
- (mrgmx004 [212.227.17.184]) with ESMTPSA (Nemesis) id
- 1MQe5k-1lkjZG48YQ-00NjkY; Sat, 24 Jul 2021 18:54:33 +0200
-From: Len Baker <len.baker@gmx.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH v2 2/3] staging/fbtft: Remove unnecessary variable
- initialization
-Date: Sat, 24 Jul 2021 17:14:10 +0200
-Message-Id: <20210724151411.9531-3-len.baker@gmx.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210724151411.9531-1-len.baker@gmx.com>
-References: <20210724151411.9531-1-len.baker@gmx.com>
+Received: from frank-s9 ([217.61.144.209]) by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1N5G9n-1l71if2i17-011BVY; Sat, 24
+ Jul 2021 19:06:16 +0200
+Date: Sat, 24 Jul 2021 19:06:11 +0200
+User-Agent: K-9 Mail for Android
+In-Reply-To: <dbe23d2a-cd29-0782-1b7d-bcb5c6683607@collabora.com>
+References: <20210710132431.265985-1-linux@fw-web.de>
+ <456f0611-1fc7-75ac-ff45-9afd94190283@collabora.com>
+ <trinity-02bc17fc-b458-4d17-baca-8afe30e4c92c-1626110171249@3c-app-gmx-bs28>
+ <dbe23d2a-cd29-0782-1b7d-bcb5c6683607@collabora.com>
 MIME-Version: 1.0
+Content-Type: text/plain;
+ charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:rSb/1rkm96QKJVkdD088liE9MP7SztbliVsYvbYCK+YrW7iDYYq
- HU/dJvRyII6cTTHQZQzwVy+75Zu0HmH2G2Mkk/z/F1vReW8xpIJrWi8B99CCqSZtb8v2KzN
- l6OZ/SfERY4L+rKQwlMpHXX0qK2BHDILB+LoYCMpGlG1FBo1CUGM9EGumIV+/GGmeyChCce
- eGgevo9c/bPR7Odcw86ow==
+Subject: Re: Aw: Re: [PATCH] soc: mediatek: mmsys: fix HDMI output on
+ mt7623/bananapi-r2
+To: linux-mediatek@lists.infradead.org,
+ Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>
+From: Frank Wunderlich <frank-w@public-files.de>
+Message-ID: <6EF00182-1FF4-4061-BCE4-E2AD7275211B@public-files.de>
+X-Provags-ID: V03:K1:4FhZ1GklljU1021mGj9Ps5PKAoEI+UWnutXSedKAVhllFTdL6qE
+ c1CqIwzfV3VC1imKUiJZBa2LZrDoeu81zvP/hOKF/nujp85aegg/n3/tKnl8R3s3l2J1dyP
+ ReYdVoamgPbMSrCq/g8UplSje/TIqUUO/5sR0DGlVCrWrPhsj87eIuAB4Mq3bFvizVtlsle
+ uABYORqkd1W6W50CWxbeg==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:b2MJHBGWTlQ=:OXq0MS/8hkj1BxEsUVhVYM
- oBHhsBJmTHlO0M/pOFx3QclSI1wUBCigQ4s9Sa7A1CjQmoTKhtdJ/oyVrPClFgKT/w/tAnz7a
- vRALzoO3n2hbnKZM0tR9ari1BjovUUXmnAqajK8ToAaTVOLQ4Zg/FvR5/+oEknEraf6u6Zvck
- Hdin+nf9wErG/apNrynfWeO760O6HQPccPI8CYz9rtf6ogAKkdK77oNh88UM9t9VC+SkXR6a3
- W6wltemJVs9NA0Duzi6p7ba5ewPdlZWp25ZkDBG741ss7pzFrR48DPDJTTQPlouLWHgy7tbtJ
- oHPkFAkHVuMuNAnOAmvXj/ynO5v6Ajqy0eheCupmMHgT5Xn3vd1qyi/t65kGWSXrvR9euRoq2
- ZtXF5YJRrUL7CcK+HWzMvhaId1QNq3HgBWhM2JZgFzwDHNbK7Ife8IRBt9lCtfEfEK20ms71i
- FiK4HTMcjZmR6mI7CbiyAG9iJdjJCqElaZNjptitm8mezKiII4lclDjMNjntszWRp25dYiECp
- dX7JWF5P0bRKZrjK/mMHBGPDcqcaVJ165i/VkMJsD9xeCNv00CTiDXsUDAYGuAJPoNWQaa/Qr
- 13I5aORe/YJZt1lE05Yo7C/G/Xs3UzFMR7sfK++dNmw2q/I//GegiNuWI9hkGJM0nNALgZOM1
- Qm7A6IpL+ROx+NDNDD++g2nc8Q5rwdzMWNPhzEi5n1KV2g6+t4Ubq2Oh2fxqAMrakNven2k80
- TymJFe2CS+SS9o+JGcPE1CXShLzrvxvgKXrA5xEwlRe/+ZHXrnDzf0hxm7vn45inf28wGtCzu
- 4hjSwmi7Nd++7HgBXzZ/IVBmELmB9VKM7QcQvIRka77E+ZUrKRflpOr3jUFXQgtKjLKDVugi9
- ci/7cykY2ChbIG/RYSaqXCEu2BkaWsqtlnwd3hOH4r0TeSrJI74+rIjsVhlwnbiqruuIAGfnS
- 2GGVOoWJMO7SONvjcjypKGWzHBPwoO3j52bPpd2oVeRfJu9yeyBTNqY50ieqLn/cCTTkccGKa
- ZUulqmK+IC4CIWw+t/edPCA6XGE8f8gIcCf9sgZ40Q1mJ8PxeY1xxsExx5JIoMRTm/pJgwiq6
- pxrVzx3VTlMSXCUv4di8MCQ5u0g2s1zyfpy
+X-UI-Out-Filterresults: notjunk:1;V03:K0:gfZr4u6469E=:2UmEpvl+OhZS14QzOalCMU
+ OnlmbM91s4cRo5JYTmRLFMiA75U6gBKCM8/x7i+F8saSi40jfUIs5yQkc77/xCJ9O2btbmNYP
+ bt++S1a4YXn+SiE7RRku9fPX22xdFwDBD8gOJKeCUewH7XjfOKqQeYCAJBl+5s65unGPxEQLq
+ B9Jfz4YDJGFWlYJZUB7uhLQg3US4e6ODoCIYS2vRBQEA8mdSGHLUfsLV8FnGG6+6MOxz4TRZx
+ bbnN3XFeo2kMHTvuZkrK2q2jhEqaSWVVpqOQPYpBGEXIpjjC7VQjvcu/UX2+2wbhTRPt5gOFk
+ t8KovDLE9Te+Zb7mnp51LCkUYXzQOnzXqySziomcstLH5tXRhaKxoEIbJSh5qY6p+L/NRt6xu
+ r/hosbLzlTt0nXny/SpTq7+undBqHpzfIprTQbemnIUdU/Vua3joZ1RpNAk/CF5brqGcwWGjq
+ yh3e0IMkhkdIVKthIvJLwJa75X6oyxpd5M0pK5Ir/jle2Dk0T1/ov63ieLdmHbI3amBt1YNmk
+ ChPnVaiZC4mzlb6UdO8LHI+6j1OG/zgPjOyYVgoDKqOSYV424gti6dQAuXxBvbn8xhIjaXzGs
+ qDrWD8ZGefvcf4uuBrQTtCuqgcOFWIPcYv9XroRd0O7j65wTToolV7JrJ6MWqQWQjt6QSR5Ak
+ dDI7d6I1bLxF5JvghMtsQkjAzK26fFFYP61i1gqg+1L9YaVBA6VacEywmkIXFmjFXTXp+JoAf
+ ft00rR92KDHkoYPU2zhxXrOT2N8N96O37TDIe2I5cqNbMOqVsZq/To6SOBuf3CLkuLcJHNncu
+ 91tkrVFx3Sorg78DJpwuSHqOIvYIuzQW8PDvA2qtI7UoB+3HZMEG/WDIEh1Jmn5BnhGsVIuCk
+ zeRedyIEAvcR8n8czXdhwQJGV7hxfcEfkwppwLWiSSsw5s+wZ3wfuTGLS4eJR+clRqjIcvcAw
+ jNU7A54lY6mSFqkqEl8ObhSavXv28rlmG8ZG4UWetrDT6AXg4pFpCIrFPAFXJA1gFnPKEpIG4
+ m0mwULvM6n4V9mL6WDS2VnGkpuobZuT4ZHz5g6QrO55nQAh/3G0DPraZsGbqezPGASY8SHVnZ
+ ig0vxqstt0R1XOHTJ3IBFD7LHqHqkI4ZIamXs7dgC9tYm32UHoWMSm5hA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,37 +76,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Phil Reid <preid@electromag.com.au>,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Geert Uytterhoeven <geert@linux-m68k.org>,
- Len Baker <len.baker@gmx.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Reply-To: frank-w@public-files.de
+Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Frank Wunderlich <linux@fw-web.de>,
+ Collabora Kernel ML <kernel@collabora.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Remove the initialization of the variable "i" since it is written a few
-lines later.
+>On 12=2E07=2E21 19:16, Frank Wunderlich wrote:
+>> Hi,
+>>=20
+>> it turns out that problem is the read+or of the new value
+>>=20
+>> i reverted my patch and changed
+>>=20
+>> reg =3D readl_relaxed(mmsys->regs + routes[i]=2Eaddr) | routes[i]=2Eval=
+;
+>> writel_relaxed(reg, mmsys->regs + routes[i]=2Eaddr);
+>>=20
+>> to
+>>=20
+>> writel_relaxed(routes[i]=2Eval, mmsys->regs + routes[i]=2Eaddr);
+>>=20
+>> and it works too, but maybe it breaks other platforms
 
-Signed-off-by: Len Baker <len.baker@gmx.com>
-=2D--
- drivers/staging/fbtft/fbtft-core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+A gentle ping=2E Amy further comments which of both ways is the right one =
+(restoring old output select function or write only without read+or)?
 
-diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fb=
-tft-core.c
-index be20da3c4a5c..cc2bee22f7ad 100644
-=2D-- a/drivers/staging/fbtft/fbtft-core.c
-+++ b/drivers/staging/fbtft/fbtft-core.c
-@@ -992,7 +992,7 @@ static int fbtft_init_display_from_property(struct fbt=
-ft_par *par)
- int fbtft_init_display(struct fbtft_par *par)
- {
- 	int buf[64];
--	int i =3D 0;
-+	int i;
- 	int j;
-
- 	/* sanity check */
-=2D-
-2.25.1
-
+regards Frank
