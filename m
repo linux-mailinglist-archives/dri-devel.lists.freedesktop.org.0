@@ -1,38 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 897BF3D4393
-	for <lists+dri-devel@lfdr.de>; Sat, 24 Jul 2021 02:10:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AB44F3D439B
+	for <lists+dri-devel@lfdr.de>; Sat, 24 Jul 2021 02:11:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 183FF6FA2C;
-	Sat, 24 Jul 2021 00:10:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4852E6FD1B;
+	Sat, 24 Jul 2021 00:11:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B68A06FA2C
- for <dri-devel@lists.freedesktop.org>; Sat, 24 Jul 2021 00:10:45 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id A70DE60E9C;
- Sat, 24 Jul 2021 00:10:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1627085445;
- bh=nmR91NX8dtR/WS09amQLZqUt+/m8Wb7iJ02RfzJAtFc=;
- h=Date:From:To:Cc:Subject:In-Reply-To:From;
- b=JsJj+8wel8HfmmDGkGH3fpGS/8TfmHsYFyw54/ryOZjI80oygMYExuOLRwbEftaPq
- QREazNjDblLVnX5fQNEJ/lB8PpkKuOZB3DjXAtPlssbtBsmHQ78NtUr0X5/JhR/8h2
- jBlwVf0+EMncCVIiol3MXWLSkOMghkjHVkP35MOdYKQY0bcOyy/UrpbvMRaJBQfr3K
- KK2MRIY+386tVRBwrupXgB7LCNQC0VxTn1V042gIVe+LvKOutZpZnTM1AEINYgqh7k
- akCDg0bD9ClRn5Jws5KIaZCLPAbLm3SIBaOAjUgWD+mOI558RKbOMfi8eGUQCd19WL
- kNbTCddP5djdg==
-Date: Fri, 23 Jul 2021 19:10:43 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Huacai Chen <chenhuacai@kernel.org>
-Subject: Re: [PATCH v2 0/9] PCI/VGA: Rework default VGA device selection
-Message-ID: <20210724001043.GA448782@bjorn-Precision-5520>
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6EEA36FD16;
+ Sat, 24 Jul 2021 00:11:28 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10054"; a="191563439"
+X-IronPort-AV: E=Sophos;i="5.84,265,1620716400"; d="scan'208";a="191563439"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Jul 2021 17:11:27 -0700
+X-IronPort-AV: E=Sophos;i="5.84,265,1620716400"; d="scan'208";a="434269958"
+Received: from lucas-s2600cw.jf.intel.com ([10.165.21.202])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Jul 2021 17:11:26 -0700
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH 00/30] Remove CNL support
+Date: Fri, 23 Jul 2021 17:10:44 -0700
+Message-Id: <20210724001114.249295-1-lucas.demarchi@intel.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAAhV-H52feAf0Qf7xHa2uyv1veX+dBgDr3QKXjOZzpd=wcUr3Q@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,133 +41,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-pci@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Christoph Hellwig <hch@infradead.org>,
- Bjorn Helgaas <bhelgaas@google.com>, Xuefeng Li <lixuefeng@loongson.cn>,
- Huacai Chen <chenhuacai@loongson.cn>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ Jose Souza <jose.souza@intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jul 23, 2021 at 05:53:36PM +0800, Huacai Chen wrote:
-> Hi, Bjorn,
-> 
-> On Fri, Jul 23, 2021 at 5:29 AM Bjorn Helgaas <helgaas@kernel.org> wrote:
-> >
-> > From: Bjorn Helgaas <bhelgaas@google.com>
-> >
-> > This is a little bit of rework and extension of Huacai's nice work at [1].
-> >
-> > It moves the VGA arbiter to the PCI subsystem, fixes a few nits, and breaks
-> > a few pieces off Huacai's patch to make the main patch a little smaller.
-> >
-> > That last patch is still not very small, and it needs a commit log, as I
-> > mentioned at [2].
-> >
-> > All comments welcome!
-> >
-> > [1] https://lore.kernel.org/dri-devel/20210705100503.1120643-1-chenhuacai@loongson.cn/
-> > [2] https://lore.kernel.org/r/20210720221923.GA43331@bjorn-Precision-5520
-> Thank you for your splitting. Your two questions are answered in the following.
-> 
-> (1) explain why your initcall ordering is unusual.
-> The original problem happens on MIPS. vga_arb_device_init() and
-> pcibios_init() are both wrapped by subsys_initcall(). The order of
-> functions in the same level depends on the Makefile.
-> 
-> TOP level Makefile:
-> drivers-y       := drivers/ sound/
-> ....
-> include arch/$(SRCARCH)/Makefile
-> 
-> drivers/Makefile:
-> obj-$(CONFIG_ACPI)              += acpi/
-> ....
-> obj-y                           += gpu/
-> 
-> arch/mips/Makefile:
-> drivers-$(CONFIG_PCI)           += arch/mips/pci/
-> 
-> This makes pcibios_init() in arch/mips/pci/ placed after
-> vga_arb_device_init() in drivers/gpu. ACPI-based systems have no
-> problems because acpi_init() in drivers/acpi is placed before
-> vga_arb_device_init().
+Patches 1 and 2 are already being reviewed elsewhere. Discussion on 2nd
+patch made me revive something I started after comment from Ville
+at https://patchwork.freedesktop.org/patch/428168/?series=88988&rev=1#comment_768918
 
-Thanks for the above; that was helpful.  To summarize:
+This removes CNL completely from the driver, while trying to rename
+functions and macros where appropriate (usually to GLK when dealing with
+display or with ICL otherwise). It starts with display, which is more
+straightforward, and then proceed to the rest of i915.
 
-  - On your system, the AST2500 bridge [1a03:1150] does not implement
-    PCI_BRIDGE_CTL_VGA [1].  This is perfectly legal but means the
-    legacy VGA resources won't reach downstream devices unless they're
-    included in the usual bridge windows.
+diff stat removing 1600 lines of dead code seems to pay the pain of
+doing this.
 
-  - vga_arb_select_default_device() will set a device below such a
-    bridge as the default VGA device as long as it has PCI_COMMAND_IO
-    and PCI_COMMAND_MEMORY enabled.
 
-  - vga_arbiter_add_pci_device() is called for every VGA device,
-    either at boot-time or at hot-add time, and it will also set the
-    device as the default VGA device, but ONLY if all bridges leading
-    to it implement PCI_BRIDGE_CTL_VGA.
+Lucas De Marchi (30):
+  drm/i915: fix not reading DSC disable fuse in GLK
+  drm/i915/display: split DISPLAY_VER 9 and 10 in intel_setup_outputs()
+  drm/i915/display: remove PORT_F workaround for CNL
+  drm/i915/display: remove explicit CNL handling from intel_cdclk.c
+  drm/i915/display: remove explicit CNL handling from intel_color.c
+  drm/i915/display: remove explicit CNL handling from intel_combo_phy.c
+  drm/i915/display: remove explicit CNL handling from intel_crtc.c
+  drm/i915/display: remove explicit CNL handling from intel_ddi.c
+  drm/i915/display: remove explicit CNL handling from
+    intel_display_debugfs.c
+  drm/i915/display: remove explicit CNL handling from intel_dmc.c
+  drm/i915/display: remove explicit CNL handling from intel_dp.c
+  drm/i915/display: remove explicit CNL handling from intel_dpll_mgr.c
+  drm/i915/display: remove explicit CNL handling from intel_vdsc.c
+  drm/i915/display: remove explicit CNL handling from
+    skl_universal_plane.c
+  drm/i915/display: remove explicit CNL handling from
+    intel_display_power.c
+  drm/i915/display: remove CNL ddi buf translation tables
+  drm/i915/display: rename CNL references in skl_scaler.c
+  drm/i915: remove explicit CNL handling from i915_irq.c
+  drm/i915: remove explicit CNL handling from intel_pm.c
+  drm/i915: remove explicit CNL handling from intel_mocs.c
+  drm/i915: remove explicit CNL handling from intel_pch.c
+  drm/i915: remove explicit CNL handling from intel_wopcm.c
+  drm/i915/gt: remove explicit CNL handling from intel_sseu.c
+  drm/i915: rename CNL references in intel_dram.c
+  drm/i915/gt: rename CNL references in intel_engine.h
+  drm/i915: finish removal of CNL
+  drm/i915: remove GRAPHICS_VER == 10
+  drm/i915: rename/remove CNL registers
+  drm/i915: replace random CNL comments
+  drm/i915: switch num_scalers/num_sprites to consider DISPLAY_VER
 
-  - This difference between vga_arb_select_default_device() and
-    vga_arbiter_add_pci_device() means that a device below an AST2500
-    or similar bridge can only be set as the default if it is
-    enumerated before vga_arb_device_init().
+ drivers/gpu/drm/i915/display/intel_bios.c     |   8 +-
+ drivers/gpu/drm/i915/display/intel_cdclk.c    |  72 +-
+ drivers/gpu/drm/i915/display/intel_color.c    |   5 +-
+ .../gpu/drm/i915/display/intel_combo_phy.c    | 106 +--
+ drivers/gpu/drm/i915/display/intel_crtc.c     |   2 +-
+ drivers/gpu/drm/i915/display/intel_ddi.c      | 266 +-------
+ .../drm/i915/display/intel_ddi_buf_trans.c    | 616 +++++-------------
+ .../drm/i915/display/intel_ddi_buf_trans.h    |   4 +-
+ drivers/gpu/drm/i915/display/intel_display.c  |   3 +-
+ .../drm/i915/display/intel_display_debugfs.c  |   2 +-
+ .../drm/i915/display/intel_display_power.c    | 289 --------
+ .../drm/i915/display/intel_display_power.h    |   2 -
+ drivers/gpu/drm/i915/display/intel_dmc.c      |   9 -
+ drivers/gpu/drm/i915/display/intel_dp.c       |  35 +-
+ drivers/gpu/drm/i915/display/intel_dp_aux.c   |   1 -
+ drivers/gpu/drm/i915/display/intel_dpll_mgr.c | 586 +++--------------
+ drivers/gpu/drm/i915/display/intel_dpll_mgr.h |   1 -
+ drivers/gpu/drm/i915/display/intel_vbt_defs.h |   2 +-
+ drivers/gpu/drm/i915/display/intel_vdsc.c     |   5 +-
+ drivers/gpu/drm/i915/display/skl_scaler.c     |  10 +-
+ .../drm/i915/display/skl_universal_plane.c    |  14 +-
+ drivers/gpu/drm/i915/gem/i915_gem_stolen.c    |   1 -
+ drivers/gpu/drm/i915/gt/debugfs_gt_pm.c       |  10 +-
+ drivers/gpu/drm/i915/gt/intel_engine.h        |   2 +-
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c     |   3 -
+ drivers/gpu/drm/i915/gt/intel_ggtt.c          |   4 +-
+ .../gpu/drm/i915/gt/intel_gt_clock_utils.c    |  10 +-
+ drivers/gpu/drm/i915/gt/intel_gtt.c           |   6 +-
+ drivers/gpu/drm/i915/gt/intel_lrc.c           |  42 +-
+ drivers/gpu/drm/i915/gt/intel_mocs.c          |   2 +-
+ drivers/gpu/drm/i915/gt/intel_rc6.c           |   2 +-
+ drivers/gpu/drm/i915/gt/intel_rps.c           |   4 +-
+ drivers/gpu/drm/i915/gt/intel_sseu.c          |  79 ---
+ drivers/gpu/drm/i915/gt/intel_sseu.h          |   2 +-
+ drivers/gpu/drm/i915/gt/intel_sseu_debugfs.c  |   6 +-
+ drivers/gpu/drm/i915/gvt/gtt.c                |   2 +-
+ drivers/gpu/drm/i915/i915_debugfs.c           |   6 +-
+ drivers/gpu/drm/i915/i915_drv.h               |  13 +-
+ drivers/gpu/drm/i915/i915_irq.c               |   7 +-
+ drivers/gpu/drm/i915/i915_pci.c               |  23 +-
+ drivers/gpu/drm/i915/i915_perf.c              |  22 +-
+ drivers/gpu/drm/i915/i915_reg.h               | 245 ++-----
+ drivers/gpu/drm/i915/intel_device_info.c      |  23 +-
+ drivers/gpu/drm/i915/intel_device_info.h      |   4 +-
+ drivers/gpu/drm/i915/intel_dram.c             |  32 +-
+ drivers/gpu/drm/i915/intel_pch.c              |   5 +-
+ drivers/gpu/drm/i915/intel_pm.c               |  41 +-
+ drivers/gpu/drm/i915/intel_wopcm.c            |  10 +-
+ 48 files changed, 516 insertions(+), 2128 deletions(-)
 
-  - On ACPI-based systems, PCI devices are enumerated by acpi_init(),
-    which runs before vga_arb_device_init().
+-- 
+2.31.1
 
-  - On non-ACPI systems, like your MIPS system, they are enumerated by
-    pcibios_init(), which typically runs *after*
-    vga_arb_device_init().
-
-So I think the critical change is actually that you made
-vga_arb_update_default_device(), which you call from
-vga_arbiter_add_pci_device(), set the default device even if it does
-not own the VGA resources because an upstream bridge doesn't implement
-PCI_BRIDGE_CTL_VGA, i.e.,
-
-  (vgadev->owns & VGA_RSRC_LEGACY_MASK) != VGA_RSRC_LEGACY_MASK
-
-Does that seem right?
-
-[1] https://lore.kernel.org/r/CAAhV-H4pn53XC7qVvwM792ppkQRnjWpPDwmrhBv8twgQu0eabQ@mail.gmail.com
-
-> (2) explain the approach, which IIUC is basically to add the
-> vga_arb_select_default_device() functionality to
-> vga_arbiter_add_pci_device().
-> vga_arb_select_default_device() has only one chance to be called, we
-> want to make it be called every time a new vga device is added. So
-> rename it to vga_arb_update_default_device() and move the callsite to
-> vga_arbiter_add_pci_device().
-> 
-> I think you know all the information which you need now. And you can
-> reorganize the commit message based on the existing one. As English is
-> not my first language, the updated commit message written by me may
-> still not be as good as you want.:)
-> 
-> Huacai
-> 
-> > Bjorn Helgaas (4):
-> >   PCI/VGA: Move vgaarb to drivers/pci
-> >   PCI/VGA: Replace full MIT license text with SPDX identifier
-> >   PCI/VGA: Use unsigned format string to print lock counts
-> >   PCI/VGA: Remove empty vga_arb_device_card_gone()
-> >
-> > Huacai Chen (5):
-> >   PCI/VGA: Move vga_arb_integrated_gpu() earlier in file
-> >   PCI/VGA: Prefer vga_default_device()
-> >   PCI/VGA: Split out vga_arb_update_default_device()
-> >   PCI/VGA: Log bridge control messages when adding devices
-> >   PCI/VGA: Rework default VGA device selection
-> >
-> >  drivers/gpu/vga/Kconfig           |  19 ---
-> >  drivers/gpu/vga/Makefile          |   1 -
-> >  drivers/pci/Kconfig               |  19 +++
-> >  drivers/pci/Makefile              |   1 +
-> >  drivers/{gpu/vga => pci}/vgaarb.c | 269 ++++++++++++------------------
-> >  5 files changed, 126 insertions(+), 183 deletions(-)
-> >  rename drivers/{gpu/vga => pci}/vgaarb.c (90%)
-> >
-> > --
-> > 2.25.1
-> >
