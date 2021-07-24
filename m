@@ -1,42 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2978F3D482F
-	for <lists+dri-devel@lfdr.de>; Sat, 24 Jul 2021 16:51:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C30B3D4835
+	for <lists+dri-devel@lfdr.de>; Sat, 24 Jul 2021 16:58:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B7B96E155;
-	Sat, 24 Jul 2021 14:50:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A12D86E15C;
+	Sat, 24 Jul 2021 14:58:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 678326E155;
- Sat, 24 Jul 2021 14:50:56 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10055"; a="211746807"
-X-IronPort-AV: E=Sophos;i="5.84,266,1620716400"; d="scan'208";a="211746807"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Jul 2021 07:50:55 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,266,1620716400"; d="scan'208";a="472683141"
-Received: from lkp-server01.sh.intel.com (HELO d053b881505b) ([10.239.97.150])
- by fmsmga008.fm.intel.com with ESMTP; 24 Jul 2021 07:50:54 -0700
-Received: from kbuild by d053b881505b with local (Exim 4.92)
- (envelope-from <lkp@intel.com>)
- id 1m7IzN-0003T5-UN; Sat, 24 Jul 2021 14:50:53 +0000
-Date: Sat, 24 Jul 2021 22:50:51 +0800
-From: kernel test robot <lkp@intel.com>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>,
- DRI Development <dri-devel@lists.freedesktop.org>
-Subject: [RFC PATCH] drm/i915: slab_luts can be static
-Message-ID: <20210724145051.GA66050@4ba55c1fc0c2>
-References: <20210723192934.1004427-5-daniel.vetter@ffwll.ch>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E363B6E15C;
+ Sat, 24 Jul 2021 14:58:24 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 8D13C60EB0;
+ Sat, 24 Jul 2021 14:58:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1627138704;
+ bh=NbqjL70DokqVvV19hzj4hiRcYchamdVrDx6kJEYgsgM=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=IqSXjpLTIn6PxzBXLoGz2wvI8STZMkUsHdjULHm/QAiDJCK+FFPSya+ZsEpV67SUs
+ kgR1JNugBg+D2Qks7kJFatUrRasJVjUvGcik3Ul3RShflNDK0dr7wg8/jEltdYTZ9R
+ ha3JphNjP26TV/QlbYJu9yCxHPcg6mrWnQlVQeJfq5rvpDave68y1YC8Z/nZbOBwe2
+ sGCkJxS/4ayx4GTKbEXZIqu5+6/IFD6WYPTW0gPzq/++Gp73sGAXgc2HFa2MWc10rR
+ O1BcDMmAHJQxOAhIKWEFDFMV27tSa/mrPNvB8yJbIvHNelvgaNBeFr3BVXMZnIaKUx
+ /GqLkL2h2B3sA==
+Received: by mail-wm1-f52.google.com with SMTP id
+ j34-20020a05600c1c22b029024e75084404so2419267wms.1; 
+ Sat, 24 Jul 2021 07:58:24 -0700 (PDT)
+X-Gm-Message-State: AOAM530caWDz+p9EhoQPx+C5sETviO8TtC7q+2ol1VXLR4Altw2zgAlq
+ 8QMjKRDpb8MA89VvNlcYfljr9MptXEHdU91zLfE=
+X-Google-Smtp-Source: ABdhPJwltPl/wWX13/CxEFCAvNsrOMzwCqFUDp745ygruk3669M6BQP+fmfDf7Z3x+vjqYFjPYCieuVIF4EIc3uZU8w=
+X-Received: by 2002:a1c:4e0c:: with SMTP id g12mr18758940wmh.120.1627138703148; 
+ Sat, 24 Jul 2021 07:58:23 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210723192934.1004427-5-daniel.vetter@ffwll.ch>
-X-Patchwork-Hint: ignore
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20210723224617.3088886-1-kherbst@redhat.com>
+ <CAK8P3a3u_jsxQW4dPXtsdKkw1mjKXL-h=qN1SGHytvUMPf3fPw@mail.gmail.com>
+ <CACO55tuNWk6emjnnukgv9h-9jbpVP564Ogmi7TGbybc9n5v+ZQ@mail.gmail.com>
+ <CAK8P3a1BceSaiqkTf+9Pr4Br-G3kgqD4ztwiaS7fxNiUg9t7Dg@mail.gmail.com>
+ <CACO55tsoi2akTKvFdz3p48UHRjFXDW7dUnOM8qVePBFWet-3UQ@mail.gmail.com>
+ <CACO55tuceMUz2pgOM23wvcmtaTqbo6S6rCB+mfLptqJRt=fMWA@mail.gmail.com>
+ <CAK8P3a3+AD02-8nbULMdae2Hc=hJ+-Zb_CL+bHF-9oGieYiZWQ@mail.gmail.com>
+ <CACO55tswMuDE9u3asU2Ls7BhA0uKGGarLk+E-WTD6MVnLwc3tw@mail.gmail.com>
+In-Reply-To: <CACO55tswMuDE9u3asU2Ls7BhA0uKGGarLk+E-WTD6MVnLwc3tw@mail.gmail.com>
+From: Arnd Bergmann <arnd@kernel.org>
+Date: Sat, 24 Jul 2021 16:58:06 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a0i0WP24Z0TScmPqKxmM2ovtKnmm+qZq6+Tc1ju+hma0w@mail.gmail.com>
+Message-ID: <CAK8P3a0i0WP24Z0TScmPqKxmM2ovtKnmm+qZq6+Tc1ju+hma0w@mail.gmail.com>
+Subject: Re: [PATCH] nouveau: make backlight support non optional
+To: Karol Herbst <kherbst@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,30 +61,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- kbuild-all@lists.01.org
+Cc: ML nouveau <nouveau@lists.freedesktop.org>,
+ Randy Dunlap <rdunlap@infradead.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Ben Skeggs <bskeggs@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drivers/gpu/drm/i915/gem/i915_gem_context.c:87:19: warning: symbol 'slab_luts' was not declared. Should it be static?
+On Sat, Jul 24, 2021 at 4:14 PM Karol Herbst <kherbst@redhat.com> wrote:
+>
+> we use the MXM_WMI in code. We also have to keep arm in mind and not
+> break stuff there. So I will try to play around with your changes and
+> see how that goes.
 
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: kernel test robot <lkp@intel.com>
----
- i915_gem_context.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Ok, should find any randconfig build failures for arm, arm64 or x86 over the
+weekend. I also this on linux-next today
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-index c17c28af1e574..087e1ede6c43f 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-@@ -84,7 +84,7 @@
- 
- #define ALL_L3_SLICES(dev) (1 << NUM_L3_SLICES(dev)) - 1
- 
--struct kmem_cache *slab_luts;
-+static struct kmem_cache *slab_luts;
- 
- struct i915_lut_handle *i915_lut_handle_alloc(void)
- {
+ld: drivers/gpu/drm/i915/display/intel_panel.o: in function
+`intel_backlight_device_register':
+intel_panel.c:(.text+0x2804): undefined reference to `backlight_device_register'
+ld: intel_panel.c:(.text+0x284e): undefined reference to
+`backlight_device_register'
+ld: drivers/gpu/drm/i915/display/intel_panel.o: in function
+`intel_backlight_device_unregister':
+intel_panel.c:(.text+0x28b1): undefined reference to
+`backlight_device_unregister'
+
+and I added this same thing there to see how it goes:
+
+diff --git a/drivers/gpu/drm/i915/Kconfig b/drivers/gpu/drm/i915/Kconfig
+index 87825d36335b..69c6b7aec49e 100644
+--- a/drivers/gpu/drm/i915/Kconfig
++++ b/drivers/gpu/drm/i915/Kconfig
+@@ -3,6 +3,8 @@ config DRM_I915
+        tristate "Intel 8xx/9xx/G3x/G4x/HD Graphics"
+        depends on DRM
+        depends on X86 && PCI
++       depends on ACPI_VIDEO || !ACPI
++       depends on BACKLIGHT_CLASS_DEVICE
+        select INTEL_GTT
+        select INTERVAL_TREE
+        # we need shmfs for the swappable backing store, and in particular
+@@ -16,10 +18,6 @@ config DRM_I915
+        select IRQ_WORK
+        # i915 depends on ACPI_VIDEO when ACPI is enabled
+        # but for select to work, need to select ACPI_VIDEO's dependencies, ick
+-       select DRM_I915_BACKLIGHT if ACPI
+-       select INPUT if ACPI
+-       select ACPI_VIDEO if ACPI
+-       select ACPI_BUTTON if ACPI
+        select SYNC_FILE
+        select IOSF_MBI
+        select CRC32
+@@ -64,13 +62,7 @@ config DRM_I915_FORCE_PROBE
+          Use "*" to force probe the driver for all known devices.
+
+ config DRM_I915_BACKLIGHT
+-       tristate "Control backlight support"
+-       depends on DRM_I915
+-       default DRM_I915
+-       select BACKLIGHT_CLASS_DEVICE
+-       help
+-          Say Y here if you want to control the backlight of your display
+-          (e.g. a laptop panel).
++       def_tristate DRM_I915
+
+ config DRM_I915_CAPTURE_ERROR
+        bool "Enable capturing GPU state following a hang"
