@@ -2,57 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EAC23D4843
-	for <lists+dri-devel@lfdr.de>; Sat, 24 Jul 2021 17:14:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38F0D3D4881
+	for <lists+dri-devel@lfdr.de>; Sat, 24 Jul 2021 18:04:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 40C3A6E120;
-	Sat, 24 Jul 2021 15:14:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 783FE6FF7D;
+	Sat, 24 Jul 2021 16:04:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 50C5B6E120
- for <dri-devel@lists.freedesktop.org>; Sat, 24 Jul 2021 15:14:40 +0000 (UTC)
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F9D66FF7D
+ for <dri-devel@lists.freedesktop.org>; Sat, 24 Jul 2021 16:04:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1627139666;
- bh=4noc/sQzclIW/kkrihBjzzi6QwizoNZ8djRM4lvM73g=;
- h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
- b=lWuupqZvPp60MW1gvccIpZbpV3BV0Y2OPov5Sl7JQNykMOhs0y4XHb1aDQI+3W1EK
- 72fg87aV0FYCm4bkVOA9evD72G4d/VsyO/Ht1TCD87QWTwuK9Kb+Dc5okPtIpoAa47
- j3MOZRZoXmKxy9/DfQEYjAA37pXuK+eszRe+JCto=
+ s=badeba3b8450; t=1627142669;
+ bh=6kxx24+tNiTwiGUNlCYc0+udJ3yXQxBElRKKameUdnU=;
+ h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
+ b=R5FpRZPbkKdGoKh2n+vPr4/m9cWtCOYSGhFzS82nJ5xdfjbwNs4MkQgGaStaD2DrD
+ +ZbHrcIjDX5WFd0sw2Z2kqfFhs5nYyENqw8zeyel8ZB39umdgVqdrLhcxQ1dO39tRj
+ ayjON7htm0vVuFmzQ+W8cxDY4ADwYJW7TQm6kmhg=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
 Received: from localhost.localdomain ([83.52.228.41]) by mail.gmx.net
  (mrgmx005 [212.227.17.184]) with ESMTPSA (Nemesis) id
- 1N0oBr-1lBVhf04W5-00wpiS; Sat, 24 Jul 2021 17:14:26 +0200
+ 1MDQiS-1lxwU702L8-00AS7x; Sat, 24 Jul 2021 18:04:29 +0200
 From: Len Baker <len.baker@gmx.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH v2 0/3] Remove all strcpy() uses
-Date: Sat, 24 Jul 2021 17:14:08 +0200
-Message-Id: <20210724151411.9531-1-len.baker@gmx.com>
+Subject: [PATCH v2 1/3] staging/fbtft: Remove all strcpy() uses
+Date: Sat, 24 Jul 2021 17:14:09 +0200
+Message-Id: <20210724151411.9531-2-len.baker@gmx.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210724151411.9531-1-len.baker@gmx.com>
+References: <20210724151411.9531-1-len.baker@gmx.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:CF3KTYSkqaOEngOglxyMd9EaNlUb1/dUGyEAN5GU0u03js5doC/
- EM/4b9OWhbjKSd8ru2UsL197JEJVkoJ01uJW+UCo8Ib0nVE/Kjg6/LwqUCSKrPRwG8tshkb
- nYwzaM44pjBoeFei5eLsV4sr1WCEw82bY3EGORYXF2KyoMTwfX22dqSBeoZuYNPF0q7qS3e
- FkZkqVqZaZAfI7lSgoHtQ==
+X-Provags-ID: V03:K1:329MDQ8YYI419jtmxMfrFBjESTzOsFnksAGa5ruA+GfDttL7lWO
+ wte8/djM2LhNs6aEPzKc7JtdjaOdDdMoNv0o6C+eFtqCWikMKFXqUIciDbQgSo5yVwiDl6X
+ ZH/WD1FmYzPF1ja/WrdY5hztftD5klqmo8f6g8Ol4tUTKicTr8nD7tszuqCgpzW+TwDEApL
+ QuYGl5kqbhqENSGRWrAvQ==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:RqDB3YaQbQo=:uDk5LDovtG0+MYOzDQ8jE0
- XYwmMu2BOsBt4QV3A+LIE5bBK1CCjII05VUvqKg/Mq+SnYY15OFAcCDoU4oqr6KG4l9/SduzR
- oMVr2yCtPStMkFyLWSc6iLgDOCYNWC3f1Asi/OrmeHPzY29i79LYyxQMCqs/qwgp/iCo7MFwz
- qxBwtbbssO9Eo3VEfBuBJ7eQQ4JNYj5pf9ZWfz8+Rai4TmVKqaSidvF1DODPSaQ+G7sASDqiq
- yUATZhIyeyvq/syvBrhP0838+PavDK5tAmwoJOTLY4uXKjXG/p0koYD7JY/778lej8wa+FIOB
- tVeV20NTaqxbXR7N0EXRASQPsbEWGWIq4NbZUD4Xs84Hyp3X2dwBjrTJW7wr77Si/tAigRzT5
- GEEV2vSGQ1EkakyTcgQ8p8cGXPvFK4cZ+Rg4g5h2b+Zu9CgO/Xcf9WLLVmbvHprjqdBh6jX8L
- fGJ9Yq0urLwgLy2KFQ06TCCtxNSmM9ImwRO7SkR19l0jyCbI8vPTA+Ptd+gjPcSnc3W12LtId
- 8m0vRazFbAKbllGDQIpdm1AEJbdRHHYg3TG1KPqXB04cInnWMAyFKf53abFuOzOZ5oWMHaNCV
- Q0nw+vpdAhASPyViMtyrZCnGw4DIzD0DYpqPHf/F0JMaMKcFXzZULFk2DukSMOIrTXfAl61uJ
- 6AHTitFA+GghNqzceTrTtPf9kU/TC946QIMGpLYUDpa3pLGddyamwITInCUAok2uuC6JMUVO3
- Y42G7fIfR94JzSAhrE4+eoMthLKzr6Lu2n/LXhK99VIKhQ6Vo7cB8ZEXwMf1wPLRKp9fXjxd+
- u3ldvZgzvpDxNDU2jn9GjlBJLbUfnbJ8bzEDA5yB2E9Bgzp+IGTLM5TwBYni4miJMaX/KUFRE
- ZXb7/6smxzV5yy5fXMhBUOqvpLuv6JndVpdmSkNtt5HAFhubtaqrlxr/lUK7RAuUm/9tL4BxF
- Uq3mrkPa7MmCoEXO5hih8fo7AKMFHzLazw9tJdlU2SVZaKDCX0+Gjnm5yDDK28cAXkoMxG1qS
- ZG/vDRP9unJ2v4wiNdCU4v0D+PWjeXJJ53wfspsATd9hFnYnK6Qs7LFdFU0f8wOmy4ZmxnpEo
- w8RBvQq3A2+RAHE6Q4cl4G8Q3dJoN1P6UY2
+X-UI-Out-Filterresults: notjunk:1;V03:K0:TlzSNjjpZCc=:WL3ahatTWMY6d26wj6FmBM
+ feg2Cl66/zRO4QSieaqZMJmneHGcFh76xjVo7ovVPictW2u806BykZUnKxUPCocZztniypk3X
+ nF77c76931fexpNuPWQ2CDD2YK7k9mhpXvirYAUQ230vxEiWd1DvQ9Q6pdpTzCLySIXt73+5v
+ iubuY58rFsK6vZ4NeQQcB8sslt4xyrKFt6dHj4MB06R43PwyV5+vPDoqRSlNHvuYfkiXDVu4E
+ SNsJhb+MSAl3JkY+jkziYyTtEI5GopguWnXT8xP9tH1V1Xhh+azjhZdMZiuqjJV9dRCeXllac
+ oTHd5PPv8EDrYF50oiP/bfhdNR6VthWzecALMNPdXYbFK2bueG58tkexxFnj/yz2HPiAMYmM9
+ YqRAtqKGJFpa0xUNodwuSTt3f2wY3VJxrIwf1AraROCYDIAEpfRrDtczFauKjI8L11KFubuXw
+ KKi+39RRPA9JtZUuI6QlT/Gos8dAJvi4v5292TSnM07UNDiUMN30BT2Vynt7QKz3ijY1HZDfH
+ KL69SaknYSuQryW9QQiaOOFzqWoIi99et87BAyfEYzVsobPvpfFPzNYXzx0Ju/tvdjVAVnnQq
+ 2btdxJqc6G+FGoA7kN+/lSS+y8vgRPSRYLWt2Np16v/y1PLAM4S5bMCMLtErbfde+BJsRv60Z
+ uZbW95IL2WcLSu8hGmN3Ry8T4CQuSwXk53VCdGLJdUk89TWTJSuIldTRKxcFk3Z5bWBJ9XbYA
+ bM/IOxVOnE7E0U9YzisEUx8BEOEp9yz7DjGlKshpP+s2pKh0FFQihPmXjRHe8GCcmVJyFJrNG
+ Ymg2ntUbT9jWgnyRFkE3UJabppENEfQGI6YqmS1XQLyAUxIZ12feKHrVeayFtsZjkjL4ypFrX
+ ubUQqv/VY+4EdFB+gKv/8EgP8Lp2bbC4DlkSXLV31h9rS2ewwTdozl+XRsUVN3RvKWuGVVGkF
+ bK/ICNuLwdfozsoDj7b/EfkguzjAU+YoOGVxntFb9PnOdQ7cHj55/QVlz4W+WDd/Y6vDTPxZw
+ JwN/wrpYnQez/f4wlg7qXsouYPXJ0rMw9rxMxIAkpJww2eiIX2mu+NVsZAUGkrj1W3ATm7TV2
+ t5KEU48QHESBP4XdDI5zoR/xcGYY0676nUd
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,25 +77,53 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 strcpy() performs no bounds checking on the destination buffer. This
 could result in linear overflows beyond the end of the buffer, leading
-to all kinds of misbehaviors. So, this serie removes all strcpy uses
-from the "staging/fbtft" subsystem.
+to all kinds of misbehaviors. The safe replacement is strscpy() but in
+this case it is simpler to use the "%*ph" format specifier.
 
-Also, refactor the code a bit to follow the kernel coding-style and
-avoid unnecessary variable initialization.
+Signed-off-by: Len Baker <len.baker@gmx.com>
+=2D--
+ drivers/staging/fbtft/fbtft-core.c | 17 ++++++-----------
+ 1 file changed, 6 insertions(+), 11 deletions(-)
 
-Changelog v1 -> v2
-- Add two new commits to clean the code.
-- Use the "%*ph" format specifier instead of strscpy() function (Geert
-  Uytterhoeven)
+diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fb=
+tft-core.c
+index 3723269890d5..be20da3c4a5c 100644
+=2D-- a/drivers/staging/fbtft/fbtft-core.c
++++ b/drivers/staging/fbtft/fbtft-core.c
+@@ -992,8 +992,6 @@ static int fbtft_init_display_from_property(struct fbt=
+ft_par *par)
+ int fbtft_init_display(struct fbtft_par *par)
+ {
+ 	int buf[64];
+-	char msg[128];
+-	char str[16];
+ 	int i =3D 0;
+ 	int j;
 
-Len Baker (3):
-  staging/fbtft: Remove all strcpy() uses
-  staging/fbtft: Remove unnecessary variable initialization
-  staging/fbtft: Fix braces coding style
+@@ -1036,17 +1034,14 @@ int fbtft_init_display(struct fbtft_par *par)
+ 		switch (par->init_sequence[i]) {
+ 		case -1:
+ 			i++;
++
+ 			/* make debug message */
+-			strcpy(msg, "");
+-			j =3D i + 1;
+-			while (par->init_sequence[j] >=3D 0) {
+-				sprintf(str, "0x%02X ", par->init_sequence[j]);
+-				strcat(msg, str);
+-				j++;
+-			}
++			for (j =3D i + 1; par->init_sequence[j] >=3D 0; j++);
++
+ 			fbtft_par_dbg(DEBUG_INIT_DISPLAY, par,
+-				      "init: write(0x%02X) %s\n",
+-				      par->init_sequence[i], msg);
++				      "init: write(0x%02X) %*ph\n",
++				      par->init_sequence[i], j - i - 1,
++				      &par->init_sequence[i + 1]);
 
- drivers/staging/fbtft/fbtft-core.c | 30 +++++++++++++-----------------
- 1 file changed, 13 insertions(+), 17 deletions(-)
-
+ 			/* Write */
+ 			j =3D 0;
 =2D-
 2.25.1
 
