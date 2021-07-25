@@ -1,26 +1,25 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52AD83D5091
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jul 2021 01:06:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 546123D5094
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jul 2021 01:07:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9BDCE6E479;
-	Sun, 25 Jul 2021 23:06:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C12B6E500;
+	Sun, 25 Jul 2021 23:07:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 807426E479
- for <dri-devel@lists.freedesktop.org>; Sun, 25 Jul 2021 23:06:54 +0000 (UTC)
-Date: Mon, 26 Jul 2021 00:06:44 +0100
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AFF856E4FE
+ for <dri-devel@lists.freedesktop.org>; Sun, 25 Jul 2021 23:07:27 +0000 (UTC)
+Date: Mon, 26 Jul 2021 00:07:17 +0100
 From: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH v3 2/3] dt-bindings: Add DT bindings for QiShenglong
- Gopher 2b panel
+Subject: Re: [PATCH v3 3/3] drm/panel-simple: add Gopher 2b LCD panel
 To: Artjom Vejsel <akawolf0@gmail.com>
-Message-Id: <8JPTWQ.0T8NM4BDXSSK2@crapouillou.net>
-In-Reply-To: <20210725221527.1771892-3-akawolf0@gmail.com>
+Message-Id: <5KPTWQ.8BMLSDUPJDH71@crapouillou.net>
+In-Reply-To: <20210725221527.1771892-4-akawolf0@gmail.com>
 References: <20210725221527.1771892-1-akawolf0@gmail.com>
- <20210725221527.1771892-3-akawolf0@gmail.com>
+ <20210725221527.1771892-4-akawolf0@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1; format=flowed
 Content-Transfer-Encoding: quoted-printable
@@ -42,12 +41,16 @@ Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Artjom,
 
-Le lun., juil. 26 2021 at 01:15:26 +0300, Artjom Vejsel=20
+
+Le lun., juil. 26 2021 at 01:15:27 +0300, Artjom Vejsel=20
 <akawolf0@gmail.com> a =E9crit :
-> Add DT bindings for QiShenglong Gopher 2b 4.3" 480(RGB)x272 TFT LCD=20
-> panel.
+> The Gopher 2b LCD panel is used in Gopher 2b handhelds.
+> It's simple panel with NewVision NV3047 driver, but SPI lines are not=20
+> connected.
+> It has no specific name, since it's unique to that handhelds.
+> lot name at AliExpress: 4.3 inch 40PIN TFT LCD Screen COG NV3047=20
+> Drive IC 480(RGB)*272 No Touch 24Bit RGB Interface
 >=20
 > Signed-off-by: Artjom Vejsel <akawolf0@gmail.com>
 
@@ -57,29 +60,75 @@ Cheers,
 -Paul
 
 > ---
->  .../devicetree/bindings/display/panel/panel-simple.yaml         | 2=20
-> ++
->  1 file changed, 2 insertions(+)
+>  drivers/gpu/drm/panel/panel-simple.c | 43=20
+> ++++++++++++++++++++++++++++
+>  1 file changed, 43 insertions(+)
 >=20
-> diff --git=20
-> a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml=20
-> b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-> index 3624363938dd..e7f3db118c5d 100644
-> ---=20
-> a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-> +++=20
-> b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-> @@ -244,6 +244,8 @@ properties:
->        - powertip,ph800480t013-idf02
->          # QiaoDian XianShi Corporation 4"3 TFT LCD panel
->        - qiaodian,qd43003c0-40
-> +        # Shenzhen QiShenglong Industrialist Co., Ltd. Gopher 2b=20
-> 4.3" 480(RGB)x272 TFT LCD panel
-> +      - qishenglong,gopher2b-lcd-panel
->          # Rocktech Displays Ltd. RK101II01D-CT 10.1" TFT 1280x800
->        - rocktech,rk101ii01d-ct
->          # Rocktech Display Ltd. RK070ER9427 800(RGB)x480 TFT LCD=20
-> panel
+> diff --git a/drivers/gpu/drm/panel/panel-simple.c=20
+> b/drivers/gpu/drm/panel/panel-simple.c
+> index 9b286bd4444f..6b69c0c70814 100644
+> --- a/drivers/gpu/drm/panel/panel-simple.c
+> +++ b/drivers/gpu/drm/panel/panel-simple.c
+> @@ -3563,6 +3563,46 @@ static const struct panel_desc qd43003c0_40 =3D {
+>  	.bus_format =3D MEDIA_BUS_FMT_RGB888_1X24,
+>  };
+>=20
+> +static const struct drm_display_mode=20
+> qishenglong_gopher2b_lcd_panel_modes[] =3D {
+> +	{ /* 60 Hz */
+> +		.clock =3D 10800,
+> +		.hdisplay =3D 480,
+> +		.hsync_start =3D 480 + 77,
+> +		.hsync_end =3D 480 + 77 + 41,
+> +		.htotal =3D 480 + 77 + 41 + 2,
+> +		.vdisplay =3D 272,
+> +		.vsync_start =3D 272 + 16,
+> +		.vsync_end =3D 272 + 16 + 10,
+> +		.vtotal =3D 272 + 16 + 10 + 2,
+> +		.flags =3D DRM_MODE_FLAG_NVSYNC | DRM_MODE_FLAG_NHSYNC,
+> +	},
+> +	{ /* 50 Hz */
+> +		.clock =3D 10800,
+> +		.hdisplay =3D 480,
+> +		.hsync_start =3D 480 + 17,
+> +		.hsync_end =3D 480 + 17 + 41,
+> +		.htotal =3D 480 + 17 + 41 + 2,
+> +		.vdisplay =3D 272,
+> +		.vsync_start =3D 272 + 116,
+> +		.vsync_end =3D 272 + 116 + 10,
+> +		.vtotal =3D 272 + 116 + 10 + 2,
+> +		.flags =3D DRM_MODE_FLAG_NVSYNC | DRM_MODE_FLAG_NHSYNC,
+> +	},
+> +};
+> +
+> +static const struct panel_desc qishenglong_gopher2b_lcd_panel =3D {
+> +	.modes =3D qishenglong_gopher2b_lcd_panel_modes,
+> +	.num_modes =3D ARRAY_SIZE(qishenglong_gopher2b_lcd_panel_modes),
+> +	.bpc =3D 8,
+> +	.size =3D {
+> +		.width =3D 95,
+> +		.height =3D 54,
+> +	},
+> +	.bus_format =3D MEDIA_BUS_FMT_RGB888_1X24,
+> +	.bus_flags =3D DRM_BUS_FLAG_DE_HIGH |=20
+> DRM_BUS_FLAG_PIXDATA_SAMPLE_NEGEDGE,
+> +	.connector_type =3D DRM_MODE_CONNECTOR_DPI,
+> +};
+> +
+>  static const struct display_timing rocktech_rk070er9427_timing =3D {
+>  	.pixelclock =3D { 26400000, 33300000, 46800000 },
+>  	.hactive =3D { 800, 800, 800 },
+> @@ -4651,6 +4691,9 @@ static const struct of_device_id=20
+> platform_of_match[] =3D {
+>  	}, {
+>  		.compatible =3D "qiaodian,qd43003c0-40",
+>  		.data =3D &qd43003c0_40,
+> +	}, {
+> +		.compatible =3D "qishenglong,gopher2b-lcd-panel",
+> +		.data =3D &qishenglong_gopher2b_lcd_panel,
+>  	}, {
+>  		.compatible =3D "rocktech,rk070er9427",
+>  		.data =3D &rocktech_rk070er9427,
 > --
 > 2.32.0
 >=20
