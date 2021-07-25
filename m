@@ -1,38 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F82F3D4A95
-	for <lists+dri-devel@lfdr.de>; Sun, 25 Jul 2021 01:13:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 12D493D4AC4
+	for <lists+dri-devel@lfdr.de>; Sun, 25 Jul 2021 02:47:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D4146F8A9;
-	Sat, 24 Jul 2021 23:13:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 048D8737EB;
+	Sun, 25 Jul 2021 00:47:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 89CC86F8A9;
- Sat, 24 Jul 2021 23:13:15 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10055"; a="192327926"
-X-IronPort-AV: E=Sophos;i="5.84,266,1620716400"; d="scan'208";a="192327926"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Jul 2021 16:13:14 -0700
-X-IronPort-AV: E=Sophos;i="5.84,266,1620716400"; d="scan'208";a="436182938"
-Received: from dut151-iclu.fm.intel.com ([10.105.23.43])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Jul 2021 16:13:14 -0700
-Date: Sat, 24 Jul 2021 23:13:13 +0000
-From: Matthew Brost <matthew.brost@intel.com>
-To: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-Subject: Re: [Intel-gfx] [PATCH 01/33] drm/i915/guc: GuC virtual engines
-Message-ID: <20210724231313.GA29902@DUT151-ICLU.fm.intel.com>
-References: <20210722235426.31831-1-matthew.brost@intel.com>
- <20210722235426.31831-2-matthew.brost@intel.com>
- <9491cc8b-7406-a715-9542-792adc9dd9a6@intel.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 700E8737EB
+ for <dri-devel@lists.freedesktop.org>; Sun, 25 Jul 2021 00:47:18 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id EF12A60EB1
+ for <dri-devel@lists.freedesktop.org>; Sun, 25 Jul 2021 00:47:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1627174038;
+ bh=lqphOb0pPXaJ3VZdpct93XwL4ZGYUWJyWDRZ2pY9l7Y=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=MKcsACEOvmnzpySQot9Q0FgZgP9zRt1uiuhBTZznAGd4JsOxQNCW7kd44vEbtQIS2
+ 2YeDp+oclWx9MBL2Zhl6lbAGTMtlMp53+cgPbbmjJJlNGlYmEHS9ZS+RPO1vEKFu7g
+ WdjOgX5RyJbYsOKd5bi7gsQBY86+lf7Y63DZsHN69x80LrBgkoljxFvGb5JyhnvJdK
+ +716s+FRJkQZHBRhW26Bq2s8PaIFH6TVgCmhy/qVYMLcxGt2rvvpkUP8259nrGrM3+
+ RERbZSBQl/mk7n3uLDczlOVLavc+17qmvRnbHGDV5c37Oeu0AbyRbw9B6ox4ZPG5+s
+ gTm/C/mfor2Eg==
+Received: by mail-ej1-f48.google.com with SMTP id ga41so9519761ejc.10
+ for <dri-devel@lists.freedesktop.org>; Sat, 24 Jul 2021 17:47:17 -0700 (PDT)
+X-Gm-Message-State: AOAM532/SzuAdfapEc+YAt1K+D0OGr/QW20U4bXYJMRpzsxqI0T8Xj/w
+ Ray8qIoZlj+7co6BOASo1b56HUqScYLvrNPz/Q==
+X-Google-Smtp-Source: ABdhPJwA1isch6yhWrzrmK67jOA4kPuoU0cZqcvYoKg20qYbj8+pO+rb90cYn9O720rlCqNBDbvr6mWfA1GWXQih6bA=
+X-Received: by 2002:a17:906:2497:: with SMTP id
+ e23mr1848834ejb.194.1627174036416; 
+ Sat, 24 Jul 2021 17:47:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9491cc8b-7406-a715-9542-792adc9dd9a6@intel.com>
+References: <1626417143-8015-1-git-send-email-yongqiang.niu@mediatek.com>
+ <1626417143-8015-2-git-send-email-yongqiang.niu@mediatek.com>
+In-Reply-To: <1626417143-8015-2-git-send-email-yongqiang.niu@mediatek.com>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Sun, 25 Jul 2021 08:47:04 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_-K54whkY9eNc2V66xmra59-aaJTD4amhUKwasQda8Jmg@mail.gmail.com>
+Message-ID: <CAAOTY_-K54whkY9eNc2V66xmra59-aaJTD4amhUKwasQda8Jmg@mail.gmail.com>
+Subject: Re: [PATCH v3, 1/3] drm/mediatek: Separate aal module
+To: Yongqiang Niu <yongqiang.niu@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,618 +56,394 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ DTML <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
+ Jassi Brar <jassisinghbrar@gmail.com>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Dennis YC Hsieh <dennis-yc.hsieh@mediatek.com>,
+ Fabien Parent <fparent@baylibre.com>, Rob Herring <robh+dt@kernel.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Hsin-Yi Wang <hsinyi@chromium.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jul 23, 2021 at 05:47:45PM -0700, Daniele Ceraolo Spurio wrote:
-> 
-> 
-> On 7/22/2021 4:53 PM, Matthew Brost wrote:
-> > Implement GuC virtual engines. Rather simple implementation, basically
-> > just allocate an engine, setup context enter / exit function to virtual
-> > engine specific functions, set all other variables / functions to guc
-> > versions, and set the engine mask to that of all the siblings.
-> > 
-> > v2: Update to work with proto-ctx
-> > v3:
-> >   (Daniele)
-> >    - Drop include, add comment to intel_virtual_engine_has_heartbeat
-> > 
-> > Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-> > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> > ---
-> >   drivers/gpu/drm/i915/gem/i915_gem_context.c   |   8 +-
-> >   drivers/gpu/drm/i915/gt/intel_context_types.h |   6 +
-> >   drivers/gpu/drm/i915/gt/intel_engine.h        |  30 ++-
-> >   drivers/gpu/drm/i915/gt/intel_engine_cs.c     |  14 +
-> >   .../drm/i915/gt/intel_execlists_submission.c  |  29 ++-
-> >   .../drm/i915/gt/intel_execlists_submission.h  |   4 -
-> >   drivers/gpu/drm/i915/gt/selftest_execlists.c  |  12 +-
-> >   .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 244 +++++++++++++++++-
-> >   .../gpu/drm/i915/gt/uc/intel_guc_submission.h |   2 +
-> >   9 files changed, 313 insertions(+), 36 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> > index 89ca401bf9ae..bc52eeed782a 100644
-> > --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> > +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> > @@ -74,7 +74,6 @@
-> >   #include "gt/intel_context_param.h"
-> >   #include "gt/intel_engine_heartbeat.h"
-> >   #include "gt/intel_engine_user.h"
-> > -#include "gt/intel_execlists_submission.h" /* virtual_engine */
-> >   #include "gt/intel_gpu_commands.h"
-> >   #include "gt/intel_ring.h"
-> > @@ -363,9 +362,6 @@ set_proto_ctx_engines_balance(struct i915_user_extension __user *base,
-> >   	if (!HAS_EXECLISTS(i915))
-> >   		return -ENODEV;
-> > -	if (intel_uc_uses_guc_submission(&i915->gt.uc))
-> > -		return -ENODEV; /* not implement yet */
-> > -
-> >   	if (get_user(idx, &ext->engine_index))
-> >   		return -EFAULT;
-> > @@ -950,8 +946,8 @@ static struct i915_gem_engines *user_engines(struct i915_gem_context *ctx,
-> >   			break;
-> >   		case I915_GEM_ENGINE_TYPE_BALANCED:
-> > -			ce = intel_execlists_create_virtual(pe[n].siblings,
-> > -							    pe[n].num_siblings);
-> > +			ce = intel_engine_create_virtual(pe[n].siblings,
-> > +							 pe[n].num_siblings);
-> >   			break;
-> >   		case I915_GEM_ENGINE_TYPE_INVALID:
-> > diff --git a/drivers/gpu/drm/i915/gt/intel_context_types.h b/drivers/gpu/drm/i915/gt/intel_context_types.h
-> > index 4a5518d295c2..542c98418771 100644
-> > --- a/drivers/gpu/drm/i915/gt/intel_context_types.h
-> > +++ b/drivers/gpu/drm/i915/gt/intel_context_types.h
-> > @@ -47,6 +47,12 @@ struct intel_context_ops {
-> >   	void (*reset)(struct intel_context *ce);
-> >   	void (*destroy)(struct kref *kref);
-> > +
-> > +	/* virtual engine/context interface */
-> > +	struct intel_context *(*create_virtual)(struct intel_engine_cs **engine,
-> > +						unsigned int count);
-> > +	struct intel_engine_cs *(*get_sibling)(struct intel_engine_cs *engine,
-> > +					       unsigned int sibling);
-> >   };
-> >   struct intel_context {
-> > diff --git a/drivers/gpu/drm/i915/gt/intel_engine.h b/drivers/gpu/drm/i915/gt/intel_engine.h
-> > index f911c1224ab2..13bfb7ec33b2 100644
-> > --- a/drivers/gpu/drm/i915/gt/intel_engine.h
-> > +++ b/drivers/gpu/drm/i915/gt/intel_engine.h
-> > @@ -273,13 +273,41 @@ intel_engine_has_preempt_reset(const struct intel_engine_cs *engine)
-> >   	return intel_engine_has_preemption(engine);
-> >   }
-> > +struct intel_context *
-> > +intel_engine_create_virtual(struct intel_engine_cs **siblings,
-> > +			    unsigned int count);
-> 
-> looks like I missed this earlier, but this forward decl seems unneeded.
-> 
+Hi, Yongqiang:
 
-Not a forward decl, this is a header file which defines a function
-implmented in gt/intel_engine_cs.c and used in gem/i915_gem_contexts.c.
-It is absolutely needed.
+Yongqiang Niu <yongqiang.niu@mediatek.com> =E6=96=BC 2021=E5=B9=B47=E6=9C=
+=8816=E6=97=A5 =E9=80=B1=E4=BA=94 =E4=B8=8B=E5=8D=882:32=E5=AF=AB=E9=81=93=
+=EF=BC=9A
+>
+> mt8183 aal has no gamma function
 
-> > +
-> > +static inline bool
-> > +intel_virtual_engine_has_heartbeat(const struct intel_engine_cs *engine)
-> > +{
-> > +	/*
-> > +	 * For non-GuC submission we expect the back-end to look at the
-> > +	 * heartbeat status of the actual physical engine that the work
-> > +	 * has been (or is being) scheduled on, so we should only reach
-> > +	 * here with GuC submission enabled.
-> > +	 */
-> > +	GEM_BUG_ON(!intel_engine_uses_guc(engine));
-> > +
-> > +	return intel_guc_virtual_engine_has_heartbeat(engine);
-> > +}
-> > +
-> >   static inline bool
-> >   intel_engine_has_heartbeat(const struct intel_engine_cs *engine)
-> >   {
-> >   	if (!IS_ACTIVE(CONFIG_DRM_I915_HEARTBEAT_INTERVAL))
-> >   		return false;
-> > -	return READ_ONCE(engine->props.heartbeat_interval_ms);
-> > +	if (intel_engine_is_virtual(engine))
-> > +		return intel_virtual_engine_has_heartbeat(engine);
-> > +	else
-> > +		return READ_ONCE(engine->props.heartbeat_interval_ms);
-> > +}
-> > +
-> > +static inline struct intel_engine_cs *
-> > +intel_engine_get_sibling(struct intel_engine_cs *engine, unsigned int sibling)
-> > +{
-> > +	GEM_BUG_ON(!intel_engine_is_virtual(engine));
-> > +	return engine->cops->get_sibling(engine, sibling);
-> >   }
-> >   #endif /* _INTEL_RINGBUFFER_H_ */
-> > diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-> > index c1c96ced2a4b..7dee9a1209bc 100644
-> > --- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-> > +++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-> > @@ -1755,6 +1755,20 @@ ktime_t intel_engine_get_busy_time(struct intel_engine_cs *engine, ktime_t *now)
-> >   	return total;
-> >   }
-> > +struct intel_context *
-> > +intel_engine_create_virtual(struct intel_engine_cs **siblings,
-> > +			    unsigned int count)
-> > +{
-> > +	if (count == 0)
-> > +		return ERR_PTR(-EINVAL);
-> > +
-> > +	if (count == 1)
-> > +		return intel_context_create(siblings[0]);
-> > +
-> > +	GEM_BUG_ON(!siblings[0]->cops->create_virtual);
-> > +	return siblings[0]->cops->create_virtual(siblings, count);
-> > +}
-> > +
-> >   static bool match_ring(struct i915_request *rq)
-> >   {
-> >   	u32 ring = ENGINE_READ(rq->engine, RING_START);
-> > diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-> > index 87cedaeb4bf8..b2580cd2ce51 100644
-> > --- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-> > +++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-> > @@ -199,6 +199,9 @@ static struct virtual_engine *to_virtual_engine(struct intel_engine_cs *engine)
-> >   	return container_of(engine, struct virtual_engine, base);
-> >   }
-> > +static struct intel_context *
-> > +execlists_create_virtual(struct intel_engine_cs **siblings, unsigned int count);
-> > +
-> >   static struct i915_request *
-> >   __active_request(const struct intel_timeline * const tl,
-> >   		 struct i915_request *rq,
-> > @@ -2599,6 +2602,8 @@ static const struct intel_context_ops execlists_context_ops = {
-> >   	.reset = lrc_reset,
-> >   	.destroy = lrc_destroy,
-> > +
-> > +	.create_virtual = execlists_create_virtual,
-> >   };
-> >   static int emit_pdps(struct i915_request *rq)
-> > @@ -3545,6 +3550,17 @@ static void virtual_context_exit(struct intel_context *ce)
-> >   		intel_engine_pm_put(ve->siblings[n]);
-> >   }
-> > +static struct intel_engine_cs *
-> > +virtual_get_sibling(struct intel_engine_cs *engine, unsigned int sibling)
-> > +{
-> > +	struct virtual_engine *ve = to_virtual_engine(engine);
-> > +
-> > +	if (sibling >= ve->num_siblings)
-> > +		return NULL;
-> > +
-> > +	return ve->siblings[sibling];
-> > +}
-> > +
-> >   static const struct intel_context_ops virtual_context_ops = {
-> >   	.flags = COPS_HAS_INFLIGHT,
-> > @@ -3559,6 +3575,8 @@ static const struct intel_context_ops virtual_context_ops = {
-> >   	.exit = virtual_context_exit,
-> >   	.destroy = virtual_context_destroy,
-> > +
-> > +	.get_sibling = virtual_get_sibling,
-> >   };
-> >   static intel_engine_mask_t virtual_submission_mask(struct virtual_engine *ve)
-> > @@ -3707,20 +3725,13 @@ static void virtual_submit_request(struct i915_request *rq)
-> >   	spin_unlock_irqrestore(&ve->base.sched_engine->lock, flags);
-> >   }
-> > -struct intel_context *
-> > -intel_execlists_create_virtual(struct intel_engine_cs **siblings,
-> > -			       unsigned int count)
-> > +static struct intel_context *
-> > +execlists_create_virtual(struct intel_engine_cs **siblings, unsigned int count)
-> >   {
-> >   	struct virtual_engine *ve;
-> >   	unsigned int n;
-> >   	int err;
-> > -	if (count == 0)
-> > -		return ERR_PTR(-EINVAL);
-> > -
-> > -	if (count == 1)
-> > -		return intel_context_create(siblings[0]);
-> > -
-> >   	ve = kzalloc(struct_size(ve, siblings, count), GFP_KERNEL);
-> >   	if (!ve)
-> >   		return ERR_PTR(-ENOMEM);
-> > diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.h b/drivers/gpu/drm/i915/gt/intel_execlists_submission.h
-> > index ad4f3e1a0fde..a1aa92c983a5 100644
-> > --- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.h
-> > +++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.h
-> > @@ -32,10 +32,6 @@ void intel_execlists_show_requests(struct intel_engine_cs *engine,
-> >   							int indent),
-> >   				   unsigned int max);
-> > -struct intel_context *
-> > -intel_execlists_create_virtual(struct intel_engine_cs **siblings,
-> > -			       unsigned int count);
-> > -
-> >   bool
-> >   intel_engine_in_execlists_submission_mode(const struct intel_engine_cs *engine);
-> > diff --git a/drivers/gpu/drm/i915/gt/selftest_execlists.c b/drivers/gpu/drm/i915/gt/selftest_execlists.c
-> > index 22a124b134b6..f12ffe797639 100644
-> > --- a/drivers/gpu/drm/i915/gt/selftest_execlists.c
-> > +++ b/drivers/gpu/drm/i915/gt/selftest_execlists.c
-> > @@ -3733,7 +3733,7 @@ static int nop_virtual_engine(struct intel_gt *gt,
-> >   	GEM_BUG_ON(!nctx || nctx > ARRAY_SIZE(ve));
-> >   	for (n = 0; n < nctx; n++) {
-> > -		ve[n] = intel_execlists_create_virtual(siblings, nsibling);
-> > +		ve[n] = intel_engine_create_virtual(siblings, nsibling);
-> >   		if (IS_ERR(ve[n])) {
-> >   			err = PTR_ERR(ve[n]);
-> >   			nctx = n;
-> > @@ -3929,7 +3929,7 @@ static int mask_virtual_engine(struct intel_gt *gt,
-> >   	 * restrict it to our desired engine within the virtual engine.
-> >   	 */
-> > -	ve = intel_execlists_create_virtual(siblings, nsibling);
-> > +	ve = intel_engine_create_virtual(siblings, nsibling);
-> >   	if (IS_ERR(ve)) {
-> >   		err = PTR_ERR(ve);
-> >   		goto out_close;
-> > @@ -4060,7 +4060,7 @@ static int slicein_virtual_engine(struct intel_gt *gt,
-> >   		i915_request_add(rq);
-> >   	}
-> > -	ce = intel_execlists_create_virtual(siblings, nsibling);
-> > +	ce = intel_engine_create_virtual(siblings, nsibling);
-> >   	if (IS_ERR(ce)) {
-> >   		err = PTR_ERR(ce);
-> >   		goto out;
-> > @@ -4112,7 +4112,7 @@ static int sliceout_virtual_engine(struct intel_gt *gt,
-> >   	/* XXX We do not handle oversubscription and fairness with normal rq */
-> >   	for (n = 0; n < nsibling; n++) {
-> > -		ce = intel_execlists_create_virtual(siblings, nsibling);
-> > +		ce = intel_engine_create_virtual(siblings, nsibling);
-> >   		if (IS_ERR(ce)) {
-> >   			err = PTR_ERR(ce);
-> >   			goto out;
-> > @@ -4214,7 +4214,7 @@ static int preserved_virtual_engine(struct intel_gt *gt,
-> >   	if (err)
-> >   		goto out_scratch;
-> > -	ve = intel_execlists_create_virtual(siblings, nsibling);
-> > +	ve = intel_engine_create_virtual(siblings, nsibling);
-> >   	if (IS_ERR(ve)) {
-> >   		err = PTR_ERR(ve);
-> >   		goto out_scratch;
-> > @@ -4354,7 +4354,7 @@ static int reset_virtual_engine(struct intel_gt *gt,
-> >   	if (igt_spinner_init(&spin, gt))
-> >   		return -ENOMEM;
-> > -	ve = intel_execlists_create_virtual(siblings, nsibling);
-> > +	ve = intel_engine_create_virtual(siblings, nsibling);
-> >   	if (IS_ERR(ve)) {
-> >   		err = PTR_ERR(ve);
-> >   		goto out_spin;
-> > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> > index 26aadad10b12..28404454a97a 100644
-> > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> > @@ -60,6 +60,15 @@
-> >    *
-> >    */
-> > +/* GuC Virtual Engine */
-> > +struct guc_virtual_engine {
-> > +	struct intel_engine_cs base;
-> > +	struct intel_context context;
-> > +};
-> > +
-> > +static struct intel_context *
-> > +guc_create_virtual(struct intel_engine_cs **siblings, unsigned int count);
-> > +
-> >   #define GUC_REQUEST_SIZE 64 /* bytes */
-> >   /*
-> > @@ -931,14 +940,17 @@ static int guc_lrc_desc_pin(struct intel_context *ce)
-> >   	return ret;
-> >   }
-> > -static int guc_context_pre_pin(struct intel_context *ce,
-> > -			       struct i915_gem_ww_ctx *ww,
-> > -			       void **vaddr)
-> > +static int __guc_context_pre_pin(struct intel_context *ce,
-> > +				 struct intel_engine_cs *engine,
-> > +				 struct i915_gem_ww_ctx *ww,
-> > +				 void **vaddr)
-> >   {
-> > -	return lrc_pre_pin(ce, ce->engine, ww, vaddr);
-> > +	return lrc_pre_pin(ce, engine, ww, vaddr);
-> >   }
-> > -static int guc_context_pin(struct intel_context *ce, void *vaddr)
-> > +static int __guc_context_pin(struct intel_context *ce,
-> > +			     struct intel_engine_cs *engine,
-> > +			     void *vaddr)
-> >   {
-> >   	if (i915_ggtt_offset(ce->state) !=
-> >   	    (ce->lrc.lrca & CTX_GTT_ADDRESS_MASK))
-> > @@ -949,7 +961,19 @@ static int guc_context_pin(struct intel_context *ce, void *vaddr)
-> >   	 * explaination of why.
-> >   	 */
-> > -	return lrc_pin(ce, ce->engine, vaddr);
-> > +	return lrc_pin(ce, engine, vaddr);
-> > +}
-> > +
-> > +static int guc_context_pre_pin(struct intel_context *ce,
-> > +			       struct i915_gem_ww_ctx *ww,
-> > +			       void **vaddr)
-> > +{
-> > +	return __guc_context_pre_pin(ce, ce->engine, ww, vaddr);
-> > +}
-> > +
-> > +static int guc_context_pin(struct intel_context *ce, void *vaddr)
-> > +{
-> > +	return __guc_context_pin(ce, ce->engine, vaddr);
-> >   }
-> >   static void guc_context_unpin(struct intel_context *ce)
-> > @@ -1054,6 +1078,21 @@ static inline void guc_lrc_desc_unpin(struct intel_context *ce)
-> >   	deregister_context(ce, ce->guc_id);
-> >   }
-> > +static void __guc_context_destroy(struct intel_context *ce)
-> > +{
-> > +	lrc_fini(ce);
-> > +	intel_context_fini(ce);
-> > +
-> > +	if (intel_engine_is_virtual(ce->engine)) {
-> > +		struct guc_virtual_engine *ve =
-> > +			container_of(ce, typeof(*ve), context);
-> > +
-> > +		kfree(ve);
-> > +	} else {
-> > +		intel_context_free(ce);
-> > +	}
-> > +}
-> > +
-> >   static void guc_context_destroy(struct kref *kref)
-> >   {
-> >   	struct intel_context *ce = container_of(kref, typeof(*ce), ref);
-> > @@ -1068,11 +1107,11 @@ static void guc_context_destroy(struct kref *kref)
-> >   	 * registered with the GuC.
-> >   	 */
-> >   	if (context_guc_id_invalid(ce)) {
-> > -		lrc_destroy(kref);
-> > +		__guc_context_destroy(ce);
-> >   		return;
-> >   	} else if (!lrc_desc_registered(guc, ce->guc_id)) {
-> >   		release_guc_id(guc, ce);
-> > -		lrc_destroy(kref);
-> > +		__guc_context_destroy(ce);
-> >   		return;
-> >   	}
-> > @@ -1087,7 +1126,7 @@ static void guc_context_destroy(struct kref *kref)
-> >   	spin_lock_irqsave(&guc->contexts_lock, flags);
-> >   	if (context_guc_id_invalid(ce)) {
-> >   		spin_unlock_irqrestore(&guc->contexts_lock, flags);
-> > -		lrc_destroy(kref);
-> > +		__guc_context_destroy(ce);
-> >   		return;
-> >   	}
-> > @@ -1132,6 +1171,8 @@ static const struct intel_context_ops guc_context_ops = {
-> >   	.reset = lrc_reset,
-> >   	.destroy = guc_context_destroy,
-> > +
-> > +	.create_virtual = guc_create_virtual,
-> >   };
-> >   static void __guc_signal_context_fence(struct intel_context *ce)
-> > @@ -1260,6 +1301,83 @@ static int guc_request_alloc(struct i915_request *rq)
-> >   	return 0;
-> >   }
-> > +static struct intel_engine_cs *
-> > +guc_virtual_get_sibling(struct intel_engine_cs *ve, unsigned int sibling)
-> > +{
-> > +	struct intel_engine_cs *engine;
-> > +	intel_engine_mask_t tmp, mask = ve->mask;
-> > +	unsigned int num_siblings = 0;
-> > +
-> > +	for_each_engine_masked(engine, ve->gt, mask, tmp)
-> > +		if (num_siblings++ == sibling)
-> > +			return engine;
-> > +
-> > +	return NULL;
-> > +}
-> > +
-> > +static int guc_virtual_context_pre_pin(struct intel_context *ce,
-> > +				       struct i915_gem_ww_ctx *ww,
-> > +				       void **vaddr)
-> > +{
-> > +	struct intel_engine_cs *engine = guc_virtual_get_sibling(ce->engine, 0);
-> > +
-> > +	return __guc_context_pre_pin(ce, engine, ww, vaddr);
-> > +}
-> > +
-> > +static int guc_virtual_context_pin(struct intel_context *ce, void *vaddr)
-> > +{
-> > +	struct intel_engine_cs *engine = guc_virtual_get_sibling(ce->engine, 0);
-> > +
-> > +	return __guc_context_pin(ce, engine, vaddr);
-> > +}
-> > +
-> > +static void guc_virtual_context_enter(struct intel_context *ce)
-> > +{
-> > +	intel_engine_mask_t tmp, mask = ce->engine->mask;
-> > +	struct intel_engine_cs *engine;
-> > +
-> > +	for_each_engine_masked(engine, ce->engine->gt, mask, tmp)
-> > +		intel_engine_pm_get(engine);
-> > +
-> > +	intel_timeline_enter(ce->timeline);
-> > +}
-> > +
-> > +static void guc_virtual_context_exit(struct intel_context *ce)
-> > +{
-> > +	intel_engine_mask_t tmp, mask = ce->engine->mask;
-> > +	struct intel_engine_cs *engine;
-> > +
-> > +	for_each_engine_masked(engine, ce->engine->gt, mask, tmp)
-> > +		intel_engine_pm_put(engine);
-> > +
-> > +	intel_timeline_exit(ce->timeline);
-> > +}
-> > +
-> > +static int guc_virtual_context_alloc(struct intel_context *ce)
-> > +{
-> > +	struct intel_engine_cs *engine = guc_virtual_get_sibling(ce->engine, 0);
-> > +
-> > +	return lrc_alloc(ce, engine);
-> > +}
-> > +
-> > +static const struct intel_context_ops virtual_guc_context_ops = {
-> > +	.alloc = guc_virtual_context_alloc,
-> > +
-> > +	.pre_pin = guc_virtual_context_pre_pin,
-> > +	.pin = guc_virtual_context_pin,
-> > +	.unpin = guc_context_unpin,
-> > +	.post_unpin = guc_context_post_unpin,
-> > +
-> > +	.enter = guc_virtual_context_enter,
-> > +	.exit = guc_virtual_context_exit,
-> > +
-> > +	.sched_disable = guc_context_sched_disable,
-> > +
-> > +	.destroy = guc_context_destroy,
-> > +
-> > +	.get_sibling = guc_virtual_get_sibling,
-> > +};
-> > +
-> >   static void sanitize_hwsp(struct intel_engine_cs *engine)
-> >   {
-> >   	struct intel_timeline *tl;
-> > @@ -1566,7 +1684,7 @@ int intel_guc_deregister_done_process_msg(struct intel_guc *guc,
-> >   	} else if (context_destroyed(ce)) {
-> >   		/* Context has been destroyed */
-> >   		release_guc_id(guc, ce);
-> > -		lrc_destroy(&ce->ref);
-> > +		__guc_context_destroy(ce);
-> >   	}
-> >   	decr_outstanding_submission_g2h(guc);
-> > @@ -1681,3 +1799,109 @@ void intel_guc_submission_print_context_info(struct intel_guc *guc,
-> >   			   atomic_read(&ce->guc_sched_state_no_lock));
-> >   	}
-> >   }
-> > +
-> > +static struct intel_context *
-> > +guc_create_virtual(struct intel_engine_cs **siblings, unsigned int count)
-> > +{
-> > +	struct guc_virtual_engine *ve;
-> > +	struct intel_guc *guc;
-> > +	unsigned int n;
-> > +	int err;
-> > +
-> > +	ve = kzalloc(sizeof(*ve), GFP_KERNEL);
-> > +	if (!ve)
-> > +		return ERR_PTR(-ENOMEM);
-> > +
-> > +	guc = &siblings[0]->gt->uc.guc;
-> > +
-> > +	ve->base.i915 = siblings[0]->i915;
-> > +	ve->base.gt = siblings[0]->gt;
-> > +	ve->base.uncore = siblings[0]->uncore;
-> > +	ve->base.id = -1;
-> > +
-> > +	ve->base.uabi_class = I915_ENGINE_CLASS_INVALID;
-> > +	ve->base.instance = I915_ENGINE_CLASS_INVALID_VIRTUAL;
-> > +	ve->base.uabi_instance = I915_ENGINE_CLASS_INVALID_VIRTUAL;
-> > +	ve->base.saturated = ALL_ENGINES;
-> > +	ve->base.breadcrumbs = intel_breadcrumbs_create(&ve->base);
-> > +	if (!ve->base.breadcrumbs) {
-> > +		kfree(ve);
-> > +		return ERR_PTR(-ENOMEM);
-> > +	}
-> > +
-> > +	snprintf(ve->base.name, sizeof(ve->base.name), "virtual");
-> > +
-> > +	ve->base.sched_engine = i915_sched_engine_get(guc->sched_engine);
-> > +
-> > +	ve->base.cops = &virtual_guc_context_ops;
-> > +	ve->base.request_alloc = guc_request_alloc;
-> > +
-> > +	ve->base.submit_request = guc_submit_request;
-> > +
-> > +	ve->base.flags = I915_ENGINE_IS_VIRTUAL;
-> > +
-> > +	intel_context_init(&ve->context, &ve->base);
-> > +
-> > +	for (n = 0; n < count; n++) {
-> > +		struct intel_engine_cs *sibling = siblings[n];
-> > +
-> > +		GEM_BUG_ON(!is_power_of_2(sibling->mask));
-> > +		if (sibling->mask & ve->base.mask) {
-> > +			DRM_DEBUG("duplicate %s entry in load balancer\n",
-> > +				  sibling->name);
-> > +			err = -EINVAL;
-> > +			goto err_put;
-> > +		}
-> > +
-> > +		ve->base.mask |= sibling->mask;
-> > +
-> > +		if (n != 0 && ve->base.class != sibling->class) {
-> > +			DRM_DEBUG("invalid mixing of engine class, sibling %d, already %d\n",
-> > +				  sibling->class, ve->base.class);
-> > +			err = -EINVAL;
-> > +			goto err_put;
-> > +		} else if (n == 0) {
-> > +			ve->base.class = sibling->class;
-> > +			ve->base.uabi_class = sibling->uabi_class;
-> > +			snprintf(ve->base.name, sizeof(ve->base.name),
-> > +				 "v%dx%d", ve->base.class, count);
-> > +			ve->base.context_size = sibling->context_size;
-> > +
-> > +			ve->base.emit_bb_start = sibling->emit_bb_start;
-> > +			ve->base.emit_flush = sibling->emit_flush;
-> > +			ve->base.emit_init_breadcrumb =
-> > +				sibling->emit_init_breadcrumb;
-> > +			ve->base.emit_fini_breadcrumb =
-> > +				sibling->emit_fini_breadcrumb;
-> > +			ve->base.emit_fini_breadcrumb_dw =
-> > +				sibling->emit_fini_breadcrumb_dw;
-> > +
-> > +			ve->base.flags |= sibling->flags;
-> > +
-> > +			ve->base.props.timeslice_duration_ms =
-> > +				sibling->props.timeslice_duration_ms;
-> > +			ve->base.props.preempt_timeout_ms =
-> > +				sibling->props.preempt_timeout_ms;
-> > +		}
-> > +	}
-> > +
-> > +	return &ve->context;
-> > +
-> > +err_put:
-> > +	intel_context_put(&ve->context);
-> > +	return ERR_PTR(err);
-> > +}
-> > +
-> > +
-> > +
-> 
-> Too many new lines.
-> 
+Applied to mediatek-drm-next [1], thanks.
 
-Yep, running dim checkpatch caught this for me. Already fixed.
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git/=
+log/?h=3Dmediatek-drm-next
 
-Matt
+Regards,
+Chun-Kuang.
 
-> with the 2 nits addressed:
-> 
-> Reviewed-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-> 
-> Daniele
-> 
-> > +bool intel_guc_virtual_engine_has_heartbeat(const struct intel_engine_cs *ve)
-> > +{
-> > +	struct intel_engine_cs *engine;
-> > +	intel_engine_mask_t tmp, mask = ve->mask;
-> > +
-> > +	for_each_engine_masked(engine, ve->gt, mask, tmp)
-> > +		if (READ_ONCE(engine->props.heartbeat_interval_ms))
-> > +			return true;
-> > +
-> > +	return false;
-> > +}
-> > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h
-> > index 2b9470c90558..5f263ac4f46a 100644
-> > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h
-> > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h
-> > @@ -26,6 +26,8 @@ void intel_guc_submission_print_info(struct intel_guc *guc,
-> >   void intel_guc_submission_print_context_info(struct intel_guc *guc,
-> >   					     struct drm_printer *p);
-> > +bool intel_guc_virtual_engine_has_heartbeat(const struct intel_engine_cs *ve);
-> > +
-> >   static inline bool intel_guc_submission_is_supported(struct intel_guc *guc)
-> >   {
-> >   	/* XXX: GuC submission is unavailable for now */
-> 
+>
+> Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
+> ---
+>  drivers/gpu/drm/mediatek/Makefile           |   3 +-
+>  drivers/gpu/drm/mediatek/mtk_disp_aal.c     | 166 ++++++++++++++++++++++=
+++++++
+>  drivers/gpu/drm/mediatek/mtk_disp_drv.h     |   9 ++
+>  drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c |  42 +------
+>  drivers/gpu/drm/mediatek/mtk_drm_drv.c      |   6 +-
+>  drivers/gpu/drm/mediatek/mtk_drm_drv.h      |   1 +
+>  6 files changed, 186 insertions(+), 41 deletions(-)
+>  create mode 100644 drivers/gpu/drm/mediatek/mtk_disp_aal.c
+>
+> diff --git a/drivers/gpu/drm/mediatek/Makefile b/drivers/gpu/drm/mediatek=
+/Makefile
+> index dc54a7a..29098d7 100644
+> --- a/drivers/gpu/drm/mediatek/Makefile
+> +++ b/drivers/gpu/drm/mediatek/Makefile
+> @@ -1,6 +1,7 @@
+>  # SPDX-License-Identifier: GPL-2.0
+>
+> -mediatek-drm-y :=3D mtk_disp_ccorr.o \
+> +mediatek-drm-y :=3D mtk_disp_aal.o \
+> +                 mtk_disp_ccorr.o \
+>                   mtk_disp_color.o \
+>                   mtk_disp_gamma.o \
+>                   mtk_disp_ovl.o \
+> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_aal.c b/drivers/gpu/drm/me=
+diatek/mtk_disp_aal.c
+> new file mode 100644
+> index 0000000..fb212e96
+> --- /dev/null
+> +++ b/drivers/gpu/drm/mediatek/mtk_disp_aal.c
+> @@ -0,0 +1,166 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright (c) 2021 MediaTek Inc.
+> + */
+> +
+> +#include <linux/clk.h>
+> +#include <linux/component.h>
+> +#include <linux/module.h>
+> +#include <linux/of_device.h>
+> +#include <linux/of_irq.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/soc/mediatek/mtk-cmdq.h>
+> +
+> +#include "mtk_disp_drv.h"
+> +#include "mtk_drm_crtc.h"
+> +#include "mtk_drm_ddp_comp.h"
+> +
+> +#define DISP_AAL_EN                            0x0000
+> +#define AAL_EN                                         BIT(0)
+> +#define DISP_AAL_SIZE                          0x0030
+> +
+> +
+> +struct mtk_disp_aal_data {
+> +       bool has_gamma;
+> +};
+> +
+> +/**
+> + * struct mtk_disp_aal - DISP_AAL driver structure
+> + * @ddp_comp - structure containing type enum and hardware resources
+> + * @crtc - associated crtc to report irq events to
+> + */
+> +struct mtk_disp_aal {
+> +       struct clk *clk;
+> +       void __iomem *regs;
+> +       struct cmdq_client_reg cmdq_reg;
+> +       const struct mtk_disp_aal_data *data;
+> +};
+> +
+> +int mtk_aal_clk_enable(struct device *dev)
+> +{
+> +       struct mtk_disp_aal *aal =3D dev_get_drvdata(dev);
+> +
+> +       return clk_prepare_enable(aal->clk);
+> +}
+> +
+> +void mtk_aal_clk_disable(struct device *dev)
+> +{
+> +       struct mtk_disp_aal *aal =3D dev_get_drvdata(dev);
+> +
+> +       clk_disable_unprepare(aal->clk);
+> +}
+> +
+> +void mtk_aal_config(struct device *dev, unsigned int w,
+> +                          unsigned int h, unsigned int vrefresh,
+> +                          unsigned int bpc, struct cmdq_pkt *cmdq_pkt)
+> +{
+> +       struct mtk_disp_aal *aal =3D dev_get_drvdata(dev);
+> +
+> +       mtk_ddp_write(cmdq_pkt, w << 16 | h, &aal->cmdq_reg, aal->regs, D=
+ISP_AAL_SIZE);
+> +}
+> +
+> +void mtk_aal_gamma_set(struct device *dev, struct drm_crtc_state *state)
+> +{
+> +       struct mtk_disp_aal *aal =3D dev_get_drvdata(dev);
+> +
+> +       if (aal->data && aal->data->has_gamma)
+> +               mtk_gamma_set_common(aal->regs, state);
+> +}
+> +
+> +void mtk_aal_start(struct device *dev)
+> +{
+> +       struct mtk_disp_aal *aal =3D dev_get_drvdata(dev);
+> +
+> +       writel(AAL_EN, aal->regs + DISP_AAL_EN);
+> +}
+> +
+> +void mtk_aal_stop(struct device *dev)
+> +{
+> +       struct mtk_disp_aal *aal =3D dev_get_drvdata(dev);
+> +
+> +       writel_relaxed(0x0, aal->regs + DISP_AAL_EN);
+> +}
+> +
+> +static int mtk_disp_aal_bind(struct device *dev, struct device *master,
+> +                              void *data)
+> +{
+> +       return 0;
+> +}
+> +
+> +static void mtk_disp_aal_unbind(struct device *dev, struct device *maste=
+r,
+> +                                 void *data)
+> +{
+> +}
+> +
+> +static const struct component_ops mtk_disp_aal_component_ops =3D {
+> +       .bind   =3D mtk_disp_aal_bind,
+> +       .unbind =3D mtk_disp_aal_unbind,
+> +};
+> +
+> +static int mtk_disp_aal_probe(struct platform_device *pdev)
+> +{
+> +       struct device *dev =3D &pdev->dev;
+> +       struct mtk_disp_aal *priv;
+> +       struct resource *res;
+> +       int ret;
+> +
+> +       priv =3D devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+> +       if (!priv)
+> +               return -ENOMEM;
+> +
+> +       priv->clk =3D devm_clk_get(dev, NULL);
+> +       if (IS_ERR(priv->clk)) {
+> +               dev_err(dev, "failed to get aal clk\n");
+> +               return PTR_ERR(priv->clk);
+> +       }
+> +
+> +       res =3D platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> +       priv->regs =3D devm_ioremap_resource(dev, res);
+> +       if (IS_ERR(priv->regs)) {
+> +               dev_err(dev, "failed to ioremap aal\n");
+> +               return PTR_ERR(priv->regs);
+> +       }
+> +
+> +#if IS_REACHABLE(CONFIG_MTK_CMDQ)
+> +       ret =3D cmdq_dev_get_client_reg(dev, &priv->cmdq_reg, 0);
+> +       if (ret)
+> +               dev_dbg(dev, "get mediatek,gce-client-reg fail!\n");
+> +#endif
+> +
+> +       priv->data =3D of_device_get_match_data(dev);
+> +       platform_set_drvdata(pdev, priv);
+> +
+> +       ret =3D component_add(dev, &mtk_disp_aal_component_ops);
+> +       if (ret)
+> +               dev_err(dev, "Failed to add component: %d\n", ret);
+> +
+> +       return ret;
+> +}
+> +
+> +static int mtk_disp_aal_remove(struct platform_device *pdev)
+> +{
+> +       component_del(&pdev->dev, &mtk_disp_aal_component_ops);
+> +
+> +       return 0;
+> +}
+> +
+> +static const struct mtk_disp_aal_data mt8173_aal_driver_data =3D {
+> +       .has_gamma =3D true,
+> +};
+> +
+> +static const struct of_device_id mtk_disp_aal_driver_dt_match[] =3D {
+> +       { .compatible =3D "mediatek,mt8173-disp-aal",
+> +         .data =3D &mt8173_aal_driver_data},
+> +       {},
+> +};
+> +MODULE_DEVICE_TABLE(of, mtk_disp_aal_driver_dt_match);
+> +
+> +struct platform_driver mtk_disp_aal_driver =3D {
+> +       .probe          =3D mtk_disp_aal_probe,
+> +       .remove         =3D mtk_disp_aal_remove,
+> +       .driver         =3D {
+> +               .name   =3D "mediatek-disp-aal",
+> +               .owner  =3D THIS_MODULE,
+> +               .of_match_table =3D mtk_disp_aal_driver_dt_match,
+> +       },
+> +};
+> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_drv.h b/drivers/gpu/drm/me=
+diatek/mtk_disp_drv.h
+> index cafd9df..86c3068 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_disp_drv.h
+> +++ b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
+> @@ -9,6 +9,15 @@
+>  #include <linux/soc/mediatek/mtk-cmdq.h>
+>  #include "mtk_drm_plane.h"
+>
+> +int mtk_aal_clk_enable(struct device *dev);
+> +void mtk_aal_clk_disable(struct device *dev);
+> +void mtk_aal_config(struct device *dev, unsigned int w,
+> +                   unsigned int h, unsigned int vrefresh,
+> +                   unsigned int bpc, struct cmdq_pkt *cmdq_pkt);
+> +void mtk_aal_gamma_set(struct device *dev, struct drm_crtc_state *state)=
+;
+> +void mtk_aal_start(struct device *dev);
+> +void mtk_aal_stop(struct device *dev);
+> +
+>  void mtk_ccorr_ctm_set(struct device *dev, struct drm_crtc_state *state)=
+;
+>  int mtk_ccorr_clk_enable(struct device *dev);
+>  void mtk_ccorr_clk_disable(struct device *dev);
+> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c b/drivers/gpu/dr=
+m/mediatek/mtk_drm_ddp_comp.c
+> index 75bc00e..99cbf44 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
+> @@ -32,9 +32,6 @@
+>
+>  #define DISP_REG_UFO_START                     0x0000
+>
+> -#define DISP_AAL_EN                            0x0000
+> -#define DISP_AAL_SIZE                          0x0030
+> -
+>  #define DISP_DITHER_EN                         0x0000
+>  #define DITHER_EN                              BIT(0)
+>  #define DISP_DITHER_CFG                                0x0020
+> @@ -48,8 +45,6 @@
+>
+>  #define UFO_BYPASS                             BIT(2)
+>
+> -#define AAL_EN                                 BIT(0)
+> -
+>  #define DISP_DITHERING                         BIT(2)
+>  #define DITHER_LSB_ERR_SHIFT_R(x)              (((x) & 0x7) << 28)
+>  #define DITHER_OVFLW_BIT_R(x)                  (((x) & 0x7) << 24)
+> @@ -190,36 +185,6 @@ static void mtk_ufoe_start(struct device *dev)
+>         writel(UFO_BYPASS, priv->regs + DISP_REG_UFO_START);
+>  }
+>
+> -static void mtk_aal_config(struct device *dev, unsigned int w,
+> -                          unsigned int h, unsigned int vrefresh,
+> -                          unsigned int bpc, struct cmdq_pkt *cmdq_pkt)
+> -{
+> -       struct mtk_ddp_comp_dev *priv =3D dev_get_drvdata(dev);
+> -
+> -       mtk_ddp_write(cmdq_pkt, w << 16 | h, &priv->cmdq_reg, priv->regs,=
+ DISP_AAL_SIZE);
+> -}
+> -
+> -static void mtk_aal_gamma_set(struct device *dev, struct drm_crtc_state =
+*state)
+> -{
+> -       struct mtk_ddp_comp_dev *priv =3D dev_get_drvdata(dev);
+> -
+> -       mtk_gamma_set_common(priv->regs, state);
+> -}
+> -
+> -static void mtk_aal_start(struct device *dev)
+> -{
+> -       struct mtk_ddp_comp_dev *priv =3D dev_get_drvdata(dev);
+> -
+> -       writel(AAL_EN, priv->regs + DISP_AAL_EN);
+> -}
+> -
+> -static void mtk_aal_stop(struct device *dev)
+> -{
+> -       struct mtk_ddp_comp_dev *priv =3D dev_get_drvdata(dev);
+> -
+> -       writel_relaxed(0x0, priv->regs + DISP_AAL_EN);
+> -}
+> -
+>  static void mtk_dither_config(struct device *dev, unsigned int w,
+>                               unsigned int h, unsigned int vrefresh,
+>                               unsigned int bpc, struct cmdq_pkt *cmdq_pkt=
+)
+> @@ -247,8 +212,8 @@ static void mtk_dither_stop(struct device *dev)
+>  }
+>
+>  static const struct mtk_ddp_comp_funcs ddp_aal =3D {
+> -       .clk_enable =3D mtk_ddp_clk_enable,
+> -       .clk_disable =3D mtk_ddp_clk_disable,
+> +       .clk_enable =3D mtk_aal_clk_enable,
+> +       .clk_disable =3D mtk_aal_clk_disable,
+>         .gamma_set =3D mtk_aal_gamma_set,
+>         .config =3D mtk_aal_config,
+>         .start =3D mtk_aal_start,
+> @@ -505,7 +470,8 @@ int mtk_ddp_comp_init(struct device_node *node, struc=
+t mtk_ddp_comp *comp,
+>                         return ret;
+>         }
+>
+> -       if (type =3D=3D MTK_DISP_BLS ||
+> +       if (type =3D=3D MTK_DISP_AAL ||
+> +           type =3D=3D MTK_DISP_BLS ||
+>             type =3D=3D MTK_DISP_CCORR ||
+>             type =3D=3D MTK_DISP_COLOR ||
+>             type =3D=3D MTK_DISP_GAMMA ||
+> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/med=
+iatek/mtk_drm_drv.c
+> index b46bdb8..67a585e 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+> @@ -532,11 +532,12 @@ static int mtk_drm_probe(struct platform_device *pd=
+ev)
+>                 private->comp_node[comp_id] =3D of_node_get(node);
+>
+>                 /*
+> -                * Currently only the CCORR, COLOR, GAMMA, OVL, RDMA, DSI=
+, and DPI
+> +                * Currently only the AAL, CCORR, COLOR, GAMMA, OVL, RDMA=
+, DSI, and DPI
+>                  * blocks have separate component platform drivers and in=
+itialize their own
+>                  * DDP component structure. The others are initialized he=
+re.
+>                  */
+> -               if (comp_type =3D=3D MTK_DISP_CCORR ||
+> +               if (comp_type =3D=3D MTK_DISP_AAL ||
+> +                   comp_type =3D=3D MTK_DISP_CCORR ||
+>                     comp_type =3D=3D MTK_DISP_COLOR ||
+>                     comp_type =3D=3D MTK_DISP_GAMMA ||
+>                     comp_type =3D=3D MTK_DISP_OVL ||
+> @@ -636,6 +637,7 @@ static SIMPLE_DEV_PM_OPS(mtk_drm_pm_ops, mtk_drm_sys_=
+suspend,
+>  };
+>
+>  static struct platform_driver * const mtk_drm_drivers[] =3D {
+> +       &mtk_disp_aal_driver,
+>         &mtk_disp_ccorr_driver,
+>         &mtk_disp_color_driver,
+>         &mtk_disp_gamma_driver,
+> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.h b/drivers/gpu/drm/med=
+iatek/mtk_drm_drv.h
+> index 637f566..3e7d1e6 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_drm_drv.h
+> +++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.h
+> @@ -46,6 +46,7 @@ struct mtk_drm_private {
+>         struct drm_atomic_state *suspend_state;
+>  };
+>
+> +extern struct platform_driver mtk_disp_aal_driver;
+>  extern struct platform_driver mtk_disp_ccorr_driver;
+>  extern struct platform_driver mtk_disp_color_driver;
+>  extern struct platform_driver mtk_disp_gamma_driver;
+> --
+> 1.8.1.1.dirty
+>
