@@ -1,25 +1,26 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B0773D508E
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jul 2021 01:06:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 52AD83D5091
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jul 2021 01:06:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A5256E34B;
-	Sun, 25 Jul 2021 23:06:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9BDCE6E479;
+	Sun, 25 Jul 2021 23:06:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 27E526E34B
- for <dri-devel@lists.freedesktop.org>; Sun, 25 Jul 2021 23:06:19 +0000 (UTC)
-Date: Mon, 26 Jul 2021 00:06:07 +0100
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 807426E479
+ for <dri-devel@lists.freedesktop.org>; Sun, 25 Jul 2021 23:06:54 +0000 (UTC)
+Date: Mon, 26 Jul 2021 00:06:44 +0100
 From: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH v3 1/3] dt-bindings: Add QiShenglong vendor prefix
+Subject: Re: [PATCH v3 2/3] dt-bindings: Add DT bindings for QiShenglong
+ Gopher 2b panel
 To: Artjom Vejsel <akawolf0@gmail.com>
-Message-Id: <7IPTWQ.3Z1HNE2ZJG041@crapouillou.net>
-In-Reply-To: <20210725221527.1771892-2-akawolf0@gmail.com>
+Message-Id: <8JPTWQ.0T8NM4BDXSSK2@crapouillou.net>
+In-Reply-To: <20210725221527.1771892-3-akawolf0@gmail.com>
 References: <20210725221527.1771892-1-akawolf0@gmail.com>
- <20210725221527.1771892-2-akawolf0@gmail.com>
+ <20210725221527.1771892-3-akawolf0@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1; format=flowed
 Content-Transfer-Encoding: quoted-printable
@@ -43,13 +44,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi Artjom,
 
-Le lun., juil. 26 2021 at 01:15:25 +0300, Artjom Vejsel=20
+Le lun., juil. 26 2021 at 01:15:26 +0300, Artjom Vejsel=20
 <akawolf0@gmail.com> a =E9crit :
-> Add vendor prefix for Shenzhen QiShenglong Industrialist Co., Ltd.
-> QiShenglong is a Chinese manufacturer of handheld gaming consoles,=20
-> most of
-> which run (very old) versions of Linux.
-> QiShenglong is known as Hamy.
+> Add DT bindings for QiShenglong Gopher 2b 4.3" 480(RGB)x272 TFT LCD=20
+> panel.
 >=20
 > Signed-off-by: Artjom Vejsel <akawolf0@gmail.com>
 
@@ -59,23 +57,29 @@ Cheers,
 -Paul
 
 > ---
->  Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+>  .../devicetree/bindings/display/panel/panel-simple.yaml         | 2=20
+> ++
 >  1 file changed, 2 insertions(+)
 >=20
-> diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml=20
-> b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-> index b868cefc7c55..1d45a2d7a7bb 100644
-> --- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
-> +++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-> @@ -926,6 +926,8 @@ patternProperties:
->      description: Chengdu Kaixuan Information Technology Co., Ltd.
->    "^qiaodian,.*":
->      description: QiaoDian XianShi Corporation
-> +  "^qishenglong,.*":
-> +    description: Shenzhen QiShenglong Industrialist Co., Ltd.
->    "^qnap,.*":
->      description: QNAP Systems, Inc.
->    "^radxa,.*":
+> diff --git=20
+> a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml=20
+> b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+> index 3624363938dd..e7f3db118c5d 100644
+> ---=20
+> a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+> +++=20
+> b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+> @@ -244,6 +244,8 @@ properties:
+>        - powertip,ph800480t013-idf02
+>          # QiaoDian XianShi Corporation 4"3 TFT LCD panel
+>        - qiaodian,qd43003c0-40
+> +        # Shenzhen QiShenglong Industrialist Co., Ltd. Gopher 2b=20
+> 4.3" 480(RGB)x272 TFT LCD panel
+> +      - qishenglong,gopher2b-lcd-panel
+>          # Rocktech Displays Ltd. RK101II01D-CT 10.1" TFT 1280x800
+>        - rocktech,rk101ii01d-ct
+>          # Rocktech Display Ltd. RK070ER9427 800(RGB)x480 TFT LCD=20
+> panel
 > --
 > 2.32.0
 >=20
