@@ -1,58 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A47BC3D4F14
-	for <lists+dri-devel@lfdr.de>; Sun, 25 Jul 2021 19:28:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A4353D4F17
+	for <lists+dri-devel@lfdr.de>; Sun, 25 Jul 2021 19:31:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A5C76E435;
-	Sun, 25 Jul 2021 17:28:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 083316E438;
+	Sun, 25 Jul 2021 17:31:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com
- [IPv6:2607:f8b0:4864:20::62b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E2E546E435
- for <dri-devel@lists.freedesktop.org>; Sun, 25 Jul 2021 17:28:33 +0000 (UTC)
-Received: by mail-pl1-x62b.google.com with SMTP id c16so3296269plh.7
- for <dri-devel@lists.freedesktop.org>; Sun, 25 Jul 2021 10:28:33 -0700 (PDT)
+Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com
+ [IPv6:2a00:1450:4864:20::531])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 400BE6E438
+ for <dri-devel@lists.freedesktop.org>; Sun, 25 Jul 2021 17:31:13 +0000 (UTC)
+Received: by mail-ed1-x531.google.com with SMTP id h8so7391519ede.4
+ for <dri-devel@lists.freedesktop.org>; Sun, 25 Jul 2021 10:31:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amarulasolutions.com; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=U1qSxIQbiVdVt/lEXiEIEXng9XXzwdSD4TYYp63Ch7U=;
- b=MKyAWRu4ceLjKVKJJMSZ+JZdZt7XWJKsj/dse7md4NRBzmQjhicS6c1HSejfjkqJ3A
- ybwQUlJOvXLA8nsbVW2nSzMu8bTlBuiVACURkC9hWSxBBL9HlBXL1r+FfdBDiw2ZB9Lq
- 9ptgoE/OCy+hfAn//XiNQVfxFRITmReZtMPOw=
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=UkBtWhkl5JjlzgWjWjbI0oCul3smhswI+BT+jn3A+AY=;
+ b=lBBlbVTgySrhfYF11i0DKiwn3+sSA7nyyo0yoTZTVFnYulOqwe3Wijrr0RpX8FDptS
+ nDVJh/X1mD/yD8XHJOIaYurWvOcIO6GmVpnIcUqYI9L0pSi3Oq4H6TXmtA2Eu2EVDCt7
+ ftUZ9aMRZdzcjyTEhRpFSadpe/L4hrOcUQ2fw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=U1qSxIQbiVdVt/lEXiEIEXng9XXzwdSD4TYYp63Ch7U=;
- b=NX6NX9BVbw/txD2KxIiB0KvLLsbF9BaGP/VU6y1SJ/Zph4t5sYPZFJFZwaH8RHNvxx
- FZUsRTnaKeqAtsag5wo0T8TGAxP/BlPbE6xGyjjHWLXb6yigD9peovss+8iZkbdknvih
- 7JDD7pyvjK9vTywVFTf2m3c2OelAaR2/wUkKAVKNKVMi1OZMxOpcm/6I6OV0FMl1wl2j
- 17QTcr/7GfUagRO4Y1Kxxk5HjaC26hDxpRHUdWLEWKWx3VxlZH5PHUxGXQIjKfTKr+BU
- 4/A71ybZSzgZVq8kKDt39DnemARqDPezzHJthVW8mqbQNiwI3/zNuG0Qqkkzh2dBmC3I
- rWoQ==
-X-Gm-Message-State: AOAM532ZtYhbK39zwnwKkQcQMSqghNcoWVC4EiGEARxaVS4cZWRmL5/O
- BhvtPOmtHNr9BZPANMnVHMjjsw==
-X-Google-Smtp-Source: ABdhPJzoM5i38zUrzezGU7JigZkm4Cm4VM2JAjeKj2jGQmuMgKF+Vhl60TI8vyRiwEe29MIzVqysmQ==
-X-Received: by 2002:a17:902:b692:b029:12b:e0b8:3415 with SMTP id
- c18-20020a170902b692b029012be0b83415mr7900893pls.32.1627234113452; 
- Sun, 25 Jul 2021 10:28:33 -0700 (PDT)
-Received: from e-ThinkPad-E14-Gen-2.domain.name ([103.161.30.206])
- by smtp.gmail.com with ESMTPSA id 143sm14897026pfz.13.2021.07.25.10.28.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 25 Jul 2021 10:28:33 -0700 (PDT)
-From: Jagan Teki <jagan@amarulasolutions.com>
-To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
-Subject: [PATCH v2] drm/panel: panel-simple: Fix proper bpc for
- ytc700tlag_05_201c
-Date: Sun, 25 Jul 2021 22:58:22 +0530
-Message-Id: <20210725172822.890363-1-jagan@amarulasolutions.com>
-X-Mailer: git-send-email 2.25.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=UkBtWhkl5JjlzgWjWjbI0oCul3smhswI+BT+jn3A+AY=;
+ b=rE0BUYdAEC13jJfS8H7TTmxx0+oJIcIBkotFXJbmkKWJk7CSXJZOLs2Mi0v1pSpmRZ
+ 129DBqurwoeopa1J0mGPF2PjmnVI9gAPUzTL4oPaO1bCemB16WO12PFVSVPPCyX14Nch
+ tEKn7kuxD1zZwGq8JheGXxbB8HU1D0GGYo7SPRRLC123bunnTgz3qQkX2V6pMwGXC+Cd
+ jeNDHKLSgwUiRZ06PSBE5+21t68fvOrme8pcpDFQNUvjd2h94dea91kVRRUo61XuWiY4
+ szhNjYgSEV+T6sM4/1xvsDb0gMUYgJ5Jl4al5fIXqvONCMfdkNrX27pv3yvNo4utiCdZ
+ UtOg==
+X-Gm-Message-State: AOAM533/wx1suL3vN5ixdaI4vCU8CtnV+TQcRgu3fAxrbYXdiuSwz6te
+ Y61koI7qQsMF369HAETZ9GuR1n1pdZF0tlBEC7oRdQ==
+X-Google-Smtp-Source: ABdhPJx151WxgS05DBXIbJnohD/dbKLDBEbx/smB09iPx/aNJsLqRY1rRPuWytgxhRRXNS+9iqhHYx5oieQg99TAJ7Q=
+X-Received: by 2002:a05:6402:144f:: with SMTP id
+ d15mr17294723edx.27.1627234271837; 
+ Sun, 25 Jul 2021 10:31:11 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210704090230.26489-1-jagan@amarulasolutions.com>
+ <20210704090230.26489-7-jagan@amarulasolutions.com>
+ <YP2el40V3K4R7ner@ravnborg.org>
+In-Reply-To: <YP2el40V3K4R7ner@ravnborg.org>
+From: Jagan Teki <jagan@amarulasolutions.com>
+Date: Sun, 25 Jul 2021 23:01:00 +0530
+Message-ID: <CAMty3ZAw9ZNYCm=LnETEoi8qHn3qc5_B2tewhOKw-TTPrU0xog@mail.gmail.com>
+Subject: Re: [RFC PATCH 06/17] drm/exynos: dsi: Handle exynos specifics via
+ driver_data
+To: Sam Ravnborg <sam@ravnborg.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,36 +63,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jagan Teki <jagan@amarulasolutions.com>, dri-devel@lists.freedesktop.org
+Cc: Marek Vasut <marex@denx.de>, devicetree <devicetree@vger.kernel.org>,
+ linux-samsung-soc@vger.kernel.org, Joonyoung Shim <jy0922.shim@samsung.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ linux-amarula <linux-amarula@amarulasolutions.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>, Robert Foss <robert.foss@linaro.org>,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Andrzej Hajda <a.hajda@samsung.com>, Kyungmin Park <kyungmin.park@samsung.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+ NXP Linux Team <linux-imx@nxp.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-ytc700tlag_05_201c panel support 8 bpc not 6 bpc as per
-recent testing in i.MX8MM platform.
+On Sun, Jul 25, 2021 at 10:55 PM Sam Ravnborg <sam@ravnborg.org> wrote:
+>
+> On Sun, Jul 04, 2021 at 02:32:19PM +0530, Jagan Teki wrote:
+> > Exynos DSI driver is actually a Samsung MIPI DSIM bridge
+> > IP which is also used in i.MX8MM platforms.
+> >
+> > Right now the existing driver has some exynos drm specific
+> > code bases like te_irq, crtc and component_ops.
+> >
+> > In order to switch this driver into a common bridge driver
+> > We can see 2 options to handle the exynos specific code.
+> >
+> > A. Drop the component_ops, and rework other specifics.
+> >    This may lead to more foundation work as it requires
+> >    more changes in exynos drm drivers stack.
+> >
+> > B. Handle the exynos specifics via driver data, and make
+> >    the common bridge work in different platforms and plan
+> >    for option A in future.
+> >
+> > So, this patch is trying to add option B) changes to handle
+> > exynos specifics via driver_data.
+>
+> We really should find someone that has the time, energy, knowledge and
+> hardware that can include device_link support once anf for all for
+> bridges.
+> Then we would avoid hacks like this.
+>
+> I see no other options at the moment, but look forward for a better
+> solution.
 
-Fix it.
+The real key problem here is hardware, unfortunately I'm unable to
+find any proper exynos DSI hardware for myself to proceed atleast.
 
-Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
----
-Changes for v2:
-- none
-
- drivers/gpu/drm/panel/panel-simple.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-index 9be050ab372f..6f4151729fb7 100644
---- a/drivers/gpu/drm/panel/panel-simple.c
-+++ b/drivers/gpu/drm/panel/panel-simple.c
-@@ -4164,7 +4164,7 @@ static const struct drm_display_mode yes_optoelectronics_ytc700tlag_05_201c_mode
- static const struct panel_desc yes_optoelectronics_ytc700tlag_05_201c = {
- 	.modes = &yes_optoelectronics_ytc700tlag_05_201c_mode,
- 	.num_modes = 1,
--	.bpc = 6,
-+	.bpc = 8,
- 	.size = {
- 		.width = 154,
- 		.height = 90,
--- 
-2.25.1
-
+Thanks,
+Jagan.
