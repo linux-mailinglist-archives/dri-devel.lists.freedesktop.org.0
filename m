@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 224663D4F3D
-	for <lists+dri-devel@lfdr.de>; Sun, 25 Jul 2021 19:45:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 604AA3D4F39
+	for <lists+dri-devel@lfdr.de>; Sun, 25 Jul 2021 19:44:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 45E356E444;
-	Sun, 25 Jul 2021 17:45:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 13A346E43C;
+	Sun, 25 Jul 2021 17:44:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 22FEF6E440
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 22A196E43F
  for <dri-devel@lists.freedesktop.org>; Sun, 25 Jul 2021 17:44:44 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id D020C1FE19;
- Sun, 25 Jul 2021 17:44:42 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 181B61FE1E;
+ Sun, 25 Jul 2021 17:44:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1627235082; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1627235083; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SWLJtvBq4XB0jcheo7sLboD2XFts4+gPX/Ky62Xu478=;
- b=dxqEnN6O/cylNH7MHCDpgumr7zhiYYseIvMRWQbOKIT1xp1qMFZSzEuUDE4LHh7kZ+0rGJ
- 9jHUylSfyDrhrtnO2zWU22O2hDnctyUNkeoi+DJUgu4J4sCTpIlnOCE1DOXNY+G6wp5waX
- 81H1bVcluZSw01Vlhw9pw6XF+akP91M=
+ bh=+RZc7FTOeC9xzmuJHAYzB6leyQ8CXVE8cqfkGryNe8o=;
+ b=xRLN5m6isR/eWeKGoix0TO3RGVSFqpvnlTVV44p38YsAOKeiYIxU29gWppH3NrYBPItxHy
+ F5hvvYrUi++UA7RE0x84J51C8Xnn8ThS1XtvC4m6rJSTzg8PIOB3vT7Q9Kgx4cUNz9/5lS
+ 9/RnSJ2AL34nEGkxmsBxgPQ5RtdfUFA=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1627235082;
+ s=susede2_ed25519; t=1627235083;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SWLJtvBq4XB0jcheo7sLboD2XFts4+gPX/Ky62Xu478=;
- b=rSPkMn2YgenMvsq2eefmMVnjxk+dUVjlsXjG4KhiBRnnWIQ63kS/IltTCHYUb/5oFTDx9T
- 1f3A8o159qod1pBw==
+ bh=+RZc7FTOeC9xzmuJHAYzB6leyQ8CXVE8cqfkGryNe8o=;
+ b=bhHE+CDjCGDRFxbE8ITuHnD9tW0XsAaBldR/pEWsnHVJozHKKuefAE22wDw4e8jmKy28Bp
+ bOfs1000PJp/reDw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9412D13A3D;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D341113A1A;
  Sun, 25 Jul 2021 17:44:42 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id kMUYIwqj/WCmMAAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id KGeTMgqj/WCmMAAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Sun, 25 Jul 2021 17:44:42 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@linux.ie,
  daniel@ffwll.ch, noralf@tronnes.org, rodrigosiqueiramelo@gmail.com,
  melissa.srw@gmail.com, hamohammed.sa@gmail.com
-Subject: [PATCH v2 1/5] drm: Define DRM_FORMAT_MAX_PLANES
-Date: Sun, 25 Jul 2021 19:44:34 +0200
-Message-Id: <20210725174438.24493-2-tzimmermann@suse.de>
+Subject: [PATCH v2 2/5] drm/gem: Provide drm_gem_fb_{vmap,vunmap}()
+Date: Sun, 25 Jul 2021 19:44:35 +0200
+Message-Id: <20210725174438.24493-3-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210725174438.24493-1-tzimmermann@suse.de>
 References: <20210725174438.24493-1-tzimmermann@suse.de>
@@ -73,203 +73,210 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DRM uses a magic number of 4 for the maximum number of planes per color
-format. Declare this constant via DRM_FORMAT_MAX_PLANES and update the
-related code. Some code depends on the length of arrays that are now
-declared with DRM_FORMAT_MAX_PLANES. Convert it from '4' to ARRAY_SIZE.
+Move framebuffer vmap code from shadow-buffered plane state into the new
+interfaces drm_gem_fb_vmap() and drm_gem_fb_vunmap(). These functions
+provide mappings of a framebuffer's BOs into kernel address space. No
+functional changes.
 
 v2:
-	* mention usage of ARRAY_SIZE() in the commit message (Maxime)
-	* also fix error handling in drm_gem_fb_init_with_funcs()
-	  (kernel test robot)
-	* include <drm/drm_fourcc.h> for DRM_FORMAT_MAX_PLANES
+	* using [static N] for array parameters enables compile-time checks
+	* include <drm/drm_fourcc.h> for DRM_FORMAT_MAX_PLANES (kernel
+	  test robot)
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/drm_gem_framebuffer_helper.c | 19 +++++++++++--------
- include/drm/drm_fourcc.h                     | 13 +++++++++----
- include/drm/drm_framebuffer.h                |  8 ++++----
- include/drm/drm_gem_atomic_helper.h          |  3 ++-
- 4 files changed, 26 insertions(+), 17 deletions(-)
+ drivers/gpu/drm/drm_gem_atomic_helper.c      | 37 +---------
+ drivers/gpu/drm/drm_gem_framebuffer_helper.c | 73 ++++++++++++++++++++
+ include/drm/drm_gem_framebuffer_helper.h     |  6 ++
+ 3 files changed, 82 insertions(+), 34 deletions(-)
 
+diff --git a/drivers/gpu/drm/drm_gem_atomic_helper.c b/drivers/gpu/drm/drm_gem_atomic_helper.c
+index 26af09b959d4..b1cc19e47165 100644
+--- a/drivers/gpu/drm/drm_gem_atomic_helper.c
++++ b/drivers/gpu/drm/drm_gem_atomic_helper.c
+@@ -330,10 +330,7 @@ int drm_gem_prepare_shadow_fb(struct drm_plane *plane, struct drm_plane_state *p
+ {
+ 	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(plane_state);
+ 	struct drm_framebuffer *fb = plane_state->fb;
+-	struct drm_gem_object *obj;
+-	struct dma_buf_map map;
+ 	int ret;
+-	size_t i;
+ 
+ 	if (!fb)
+ 		return 0;
+@@ -342,27 +339,7 @@ int drm_gem_prepare_shadow_fb(struct drm_plane *plane, struct drm_plane_state *p
+ 	if (ret)
+ 		return ret;
+ 
+-	for (i = 0; i < ARRAY_SIZE(shadow_plane_state->map); ++i) {
+-		obj = drm_gem_fb_get_obj(fb, i);
+-		if (!obj)
+-			continue;
+-		ret = drm_gem_vmap(obj, &map);
+-		if (ret)
+-			goto err_drm_gem_vunmap;
+-		shadow_plane_state->map[i] = map;
+-	}
+-
+-	return 0;
+-
+-err_drm_gem_vunmap:
+-	while (i) {
+-		--i;
+-		obj = drm_gem_fb_get_obj(fb, i);
+-		if (!obj)
+-			continue;
+-		drm_gem_vunmap(obj, &shadow_plane_state->map[i]);
+-	}
+-	return ret;
++	return drm_gem_fb_vmap(fb, shadow_plane_state->map);
+ }
+ EXPORT_SYMBOL(drm_gem_prepare_shadow_fb);
+ 
+@@ -374,25 +351,17 @@ EXPORT_SYMBOL(drm_gem_prepare_shadow_fb);
+  * This function implements struct &drm_plane_helper_funcs.cleanup_fb.
+  * This function unmaps all buffer objects of the plane's framebuffer.
+  *
+- * See drm_gem_prepare_shadow_fb() for more inforamtion.
++ * See drm_gem_prepare_shadow_fb() for more information.
+  */
+ void drm_gem_cleanup_shadow_fb(struct drm_plane *plane, struct drm_plane_state *plane_state)
+ {
+ 	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(plane_state);
+ 	struct drm_framebuffer *fb = plane_state->fb;
+-	size_t i = ARRAY_SIZE(shadow_plane_state->map);
+-	struct drm_gem_object *obj;
+ 
+ 	if (!fb)
+ 		return;
+ 
+-	while (i) {
+-		--i;
+-		obj = drm_gem_fb_get_obj(fb, i);
+-		if (!obj)
+-			continue;
+-		drm_gem_vunmap(obj, &shadow_plane_state->map[i]);
+-	}
++	drm_gem_fb_vunmap(fb, shadow_plane_state->map);
+ }
+ EXPORT_SYMBOL(drm_gem_cleanup_shadow_fb);
+ 
 diff --git a/drivers/gpu/drm/drm_gem_framebuffer_helper.c b/drivers/gpu/drm/drm_gem_framebuffer_helper.c
-index 67bc9edc1d98..421e029a6b3e 100644
+index 421e029a6b3e..243affbad437 100644
 --- a/drivers/gpu/drm/drm_gem_framebuffer_helper.c
 +++ b/drivers/gpu/drm/drm_gem_framebuffer_helper.c
-@@ -48,7 +48,7 @@
- struct drm_gem_object *drm_gem_fb_get_obj(struct drm_framebuffer *fb,
- 					  unsigned int plane)
- {
--	if (plane >= 4)
-+	if (plane >= ARRAY_SIZE(fb->obj))
- 		return NULL;
+@@ -15,6 +15,8 @@
+ #include <drm/drm_gem_framebuffer_helper.h>
+ #include <drm/drm_modeset_helper.h>
  
- 	return fb->obj[plane];
-@@ -62,7 +62,8 @@ drm_gem_fb_init(struct drm_device *dev,
- 		 struct drm_gem_object **obj, unsigned int num_planes,
- 		 const struct drm_framebuffer_funcs *funcs)
- {
--	int ret, i;
-+	unsigned int i;
-+	int ret;
- 
- 	drm_helper_mode_fill_fb_struct(dev, fb, mode_cmd);
- 
-@@ -86,9 +87,9 @@ drm_gem_fb_init(struct drm_device *dev,
-  */
- void drm_gem_fb_destroy(struct drm_framebuffer *fb)
- {
--	int i;
-+	size_t i;
- 
--	for (i = 0; i < 4; i++)
-+	for (i = 0; i < ARRAY_SIZE(fb->obj); i++)
- 		drm_gem_object_put(fb->obj[i]);
- 
- 	drm_framebuffer_cleanup(fb);
-@@ -145,8 +146,9 @@ int drm_gem_fb_init_with_funcs(struct drm_device *dev,
- 			       const struct drm_framebuffer_funcs *funcs)
- {
- 	const struct drm_format_info *info;
--	struct drm_gem_object *objs[4];
--	int ret, i;
-+	struct drm_gem_object *objs[DRM_FORMAT_MAX_PLANES];
-+	unsigned int i;
-+	int ret;
- 
- 	info = drm_get_format_info(dev, mode_cmd);
- 	if (!info) {
-@@ -187,9 +189,10 @@ int drm_gem_fb_init_with_funcs(struct drm_device *dev,
- 	return 0;
- 
- err_gem_object_put:
--	for (i--; i >= 0; i--)
-+	while (i > 0) {
-+		--i;
- 		drm_gem_object_put(objs[i]);
--
-+	}
- 	return ret;
- }
- EXPORT_SYMBOL_GPL(drm_gem_fb_init_with_funcs);
-diff --git a/include/drm/drm_fourcc.h b/include/drm/drm_fourcc.h
-index 3b138d4ae67e..22aa64d07c79 100644
---- a/include/drm/drm_fourcc.h
-+++ b/include/drm/drm_fourcc.h
-@@ -25,6 +25,11 @@
- #include <linux/types.h>
- #include <uapi/drm/drm_fourcc.h>
- 
-+/**
-+ * DRM_FORMAT_MAX_PLANES - maximum number of planes a DRM format can have
-+ */
-+#define DRM_FORMAT_MAX_PLANES	4u
++#include "drm_internal.h"
 +
- /*
-  * DRM formats are little endian.  Define host endian variants for the
-  * most common formats here, to reduce the #ifdefs needed in drivers.
-@@ -78,7 +83,7 @@ struct drm_format_info {
- 		 * triplet @char_per_block, @block_w, @block_h for better
- 		 * describing the pixel format.
- 		 */
--		u8 cpp[4];
-+		u8 cpp[DRM_FORMAT_MAX_PLANES];
+ #define AFBC_HEADER_SIZE		16
+ #define AFBC_TH_LAYOUT_ALIGNMENT	8
+ #define AFBC_HDR_ALIGN			64
+@@ -309,6 +311,77 @@ drm_gem_fb_create_with_dirty(struct drm_device *dev, struct drm_file *file,
+ }
+ EXPORT_SYMBOL_GPL(drm_gem_fb_create_with_dirty);
  
- 		/**
- 		 * @char_per_block:
-@@ -104,7 +109,7 @@ struct drm_format_info {
- 		 * information from their drm_mode_config.get_format_info hook
- 		 * if they want the core to be validating the pitch.
- 		 */
--		u8 char_per_block[4];
-+		u8 char_per_block[DRM_FORMAT_MAX_PLANES];
- 	};
- 
- 	/**
-@@ -113,7 +118,7 @@ struct drm_format_info {
- 	 * Block width in pixels, this is intended to be accessed through
- 	 * drm_format_info_block_width()
- 	 */
--	u8 block_w[4];
-+	u8 block_w[DRM_FORMAT_MAX_PLANES];
- 
- 	/**
- 	 * @block_h:
-@@ -121,7 +126,7 @@ struct drm_format_info {
- 	 * Block height in pixels, this is intended to be accessed through
- 	 * drm_format_info_block_height()
- 	 */
--	u8 block_h[4];
-+	u8 block_h[DRM_FORMAT_MAX_PLANES];
- 
- 	/** @hsub: Horizontal chroma subsampling factor */
- 	u8 hsub;
-diff --git a/include/drm/drm_framebuffer.h b/include/drm/drm_framebuffer.h
-index be658ebbec72..f67c5b7bcb68 100644
---- a/include/drm/drm_framebuffer.h
-+++ b/include/drm/drm_framebuffer.h
-@@ -27,12 +27,12 @@
- #include <linux/list.h>
- #include <linux/sched.h>
- 
-+#include <drm/drm_fourcc.h>
- #include <drm/drm_mode_object.h>
- 
- struct drm_clip_rect;
- struct drm_device;
- struct drm_file;
--struct drm_format_info;
- struct drm_framebuffer;
- struct drm_gem_object;
- 
-@@ -147,7 +147,7 @@ struct drm_framebuffer {
- 	 * @pitches: Line stride per buffer. For userspace created object this
- 	 * is copied from drm_mode_fb_cmd2.
- 	 */
--	unsigned int pitches[4];
-+	unsigned int pitches[DRM_FORMAT_MAX_PLANES];
- 	/**
- 	 * @offsets: Offset from buffer start to the actual pixel data in bytes,
- 	 * per buffer. For userspace created object this is copied from
-@@ -165,7 +165,7 @@ struct drm_framebuffer {
- 	 * data (even for linear buffers). Specifying an x/y pixel offset is
- 	 * instead done through the source rectangle in &struct drm_plane_state.
- 	 */
--	unsigned int offsets[4];
-+	unsigned int offsets[DRM_FORMAT_MAX_PLANES];
- 	/**
- 	 * @modifier: Data layout modifier. This is used to describe
- 	 * tiling, or also special layouts (like compression) of auxiliary
-@@ -210,7 +210,7 @@ struct drm_framebuffer {
- 	 * This is used by the GEM framebuffer helpers, see e.g.
- 	 * drm_gem_fb_create().
- 	 */
--	struct drm_gem_object *obj[4];
-+	struct drm_gem_object *obj[DRM_FORMAT_MAX_PLANES];
- };
- 
- #define obj_to_fb(x) container_of(x, struct drm_framebuffer, base)
-diff --git a/include/drm/drm_gem_atomic_helper.h b/include/drm/drm_gem_atomic_helper.h
-index d82c23622156..f9f8b6f0494a 100644
---- a/include/drm/drm_gem_atomic_helper.h
-+++ b/include/drm/drm_gem_atomic_helper.h
-@@ -5,6 +5,7 @@
- 
++
++/**
++ * drm_gem_fb_vmap - maps all framebuffer BOs into kernel address space
++ * @fb: the framebuffer
++ * @map: returns the mapping's address for each BO
++ *
++ * This function maps all buffer objects of the given framebuffer into
++ * kernel address space and stores them in struct dma_buf_map. If the
++ * mapping operation fails for one of the BOs, the function unmaps the
++ * already established mappings automatically.
++ *
++ * See drm_gem_fb_vunmap() for unmapping.
++ *
++ * Returns:
++ * 0 on success, or a negative errno code otherwise.
++ */
++int drm_gem_fb_vmap(struct drm_framebuffer *fb,
++		    struct dma_buf_map map[static DRM_FORMAT_MAX_PLANES])
++{
++	struct drm_gem_object *obj;
++	unsigned int i;
++	int ret;
++
++	for (i = 0; i < DRM_FORMAT_MAX_PLANES; ++i) {
++		obj = drm_gem_fb_get_obj(fb, i);
++		if (!obj)
++			continue;
++		ret = drm_gem_vmap(obj, &map[i]);
++		if (ret)
++			goto err_drm_gem_vunmap;
++	}
++
++	return 0;
++
++err_drm_gem_vunmap:
++	while (i) {
++		--i;
++		obj = drm_gem_fb_get_obj(fb, i);
++		if (!obj)
++			continue;
++		drm_gem_vunmap(obj, &map[i]);
++	}
++	return ret;
++}
++EXPORT_SYMBOL(drm_gem_fb_vmap);
++
++/**
++ * drm_gem_fb_vunmap - unmaps framebuffer BOs from kernel address space
++ * @fb: the framebuffer
++ * @map: mapping addresses as returned by drm_gem_fb_vmap()
++ *
++ * This function unmaps all buffer objects of the given framebuffer.
++ *
++ * See drm_gem_fb_vmap() for more information.
++ */
++void drm_gem_fb_vunmap(struct drm_framebuffer *fb,
++		       struct dma_buf_map map[static DRM_FORMAT_MAX_PLANES])
++{
++	unsigned int i = DRM_FORMAT_MAX_PLANES;
++	struct drm_gem_object *obj;
++
++	while (i) {
++		--i;
++		obj = drm_gem_fb_get_obj(fb, i);
++		if (!obj)
++			continue;
++		drm_gem_vunmap(obj, &map[i]);
++	}
++}
++EXPORT_SYMBOL(drm_gem_fb_vunmap);
++
+ /**
+  * drm_gem_fb_begin_cpu_access - prepares GEM buffer objects for CPU access
+  * @fb: the framebuffer
+diff --git a/include/drm/drm_gem_framebuffer_helper.h b/include/drm/drm_gem_framebuffer_helper.h
+index 5705722f0855..ff2024dd7b77 100644
+--- a/include/drm/drm_gem_framebuffer_helper.h
++++ b/include/drm/drm_gem_framebuffer_helper.h
+@@ -4,6 +4,8 @@
+ #include <linux/dma-buf.h>
  #include <linux/dma-buf-map.h>
  
 +#include <drm/drm_fourcc.h>
- #include <drm/drm_plane.h>
++
+ struct drm_afbc_framebuffer;
+ struct drm_device;
+ struct drm_fb_helper_surface_size;
+@@ -37,6 +39,10 @@ struct drm_framebuffer *
+ drm_gem_fb_create_with_dirty(struct drm_device *dev, struct drm_file *file,
+ 			     const struct drm_mode_fb_cmd2 *mode_cmd);
  
- struct drm_simple_display_pipe;
-@@ -40,7 +41,7 @@ struct drm_shadow_plane_state {
- 	 * The memory mappings stored in map should be established in the plane's
- 	 * prepare_fb callback and removed in the cleanup_fb callback.
- 	 */
--	struct dma_buf_map map[4];
-+	struct dma_buf_map map[DRM_FORMAT_MAX_PLANES];
- };
++int drm_gem_fb_vmap(struct drm_framebuffer *fb,
++		    struct dma_buf_map map[static DRM_FORMAT_MAX_PLANES]);
++void drm_gem_fb_vunmap(struct drm_framebuffer *fb,
++		       struct dma_buf_map map[static DRM_FORMAT_MAX_PLANES]);
+ int drm_gem_fb_begin_cpu_access(struct drm_framebuffer *fb, enum dma_data_direction dir);
+ void drm_gem_fb_end_cpu_access(struct drm_framebuffer *fb, enum dma_data_direction dir);
  
- /**
 -- 
 2.32.0
 
