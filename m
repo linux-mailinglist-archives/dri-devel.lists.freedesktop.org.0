@@ -2,62 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B7613D4DF0
-	for <lists+dri-devel@lfdr.de>; Sun, 25 Jul 2021 16:02:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 856433D4DF7
+	for <lists+dri-devel@lfdr.de>; Sun, 25 Jul 2021 16:04:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E9D846E3EC;
-	Sun, 25 Jul 2021 14:02:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B6DD988FAE;
+	Sun, 25 Jul 2021 14:04:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 23D656E3EC
- for <dri-devel@lists.freedesktop.org>; Sun, 25 Jul 2021 14:02:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1627221727;
- bh=340oxUqB+pwxiqxWW/cd7DjFI0xOrzq59FIfoXP3S1I=;
- h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
- b=gbvFuDGOyKNCqw5KidhNLWnATQrXYGbCL60RErsLk8WUUv80FI6ipKOydrqL1w6XY
- 2xDmvC5Yf/EsHCQVvDue/mNxqwP4idWefRTY5NBrBfoWVmGXt+gNLgTfG3o5JFM0Bf
- kpi/gLgRJ19i3fu6szYRigGoq2qdxdNQZCfzCEuI=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from titan ([83.52.228.41]) by mail.gmx.net (mrgmx105
- [212.227.17.174]) with ESMTPSA (Nemesis) id 1N63VY-1l1VBu38Wm-016S1K; Sun, 25
- Jul 2021 16:02:06 +0200
-Date: Sun, 25 Jul 2021 16:02:04 +0200
-From: Len Baker <len.baker@gmx.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH v2 3/3] staging/fbtft: Fix braces coding style
-Message-ID: <20210725140204.GB1953@titan>
-References: <20210724151411.9531-1-len.baker@gmx.com>
- <20210724151411.9531-4-len.baker@gmx.com>
- <CAMuHMdX6PUr0irndogg=Aa+AFDdiDJMeMWM74mLBkuLrW+zWng@mail.gmail.com>
+Received: from vps5.brixit.nl (vps5.brixit.nl [192.81.221.234])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2FBAE88FAE
+ for <dri-devel@lists.freedesktop.org>; Sun, 25 Jul 2021 14:04:53 +0000 (UTC)
+Received: from lexxgentoo.collabio.net (unknown [77.239.252.99])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by vps5.brixit.nl (Postfix) with ESMTPSA id 49A4460906;
+ Sun, 25 Jul 2021 14:04:50 +0000 (UTC)
+From: Alexey Minnekhanov <alexeymin@postmarketos.org>
+To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>,
+ dri-devel@lists.freedesktop.org (open list:DRM PANEL DRIVERS),
+ devicetree@vger.kernel.org (open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE
+ BINDINGS), linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH 1/2] dt-bindings: panel: Add Samsung S6E3FA2 panel
+Date: Sun, 25 Jul 2021 17:03:37 +0300
+Message-Id: <20210725140339.2465677-1-alexeymin@postmarketos.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdX6PUr0irndogg=Aa+AFDdiDJMeMWM74mLBkuLrW+zWng@mail.gmail.com>
-X-Provags-ID: V03:K1:3Eg3v7AELPHXFdoJHGTE5b05uHbis/dRr8ApGFt/g1+gkHNbSSg
- KSHc03AunknsizsegEZKOcG0miDl6Ne1a/radEDdbQ3VP4TJhjoU5qW5U8qCJTxKuJ9qiva
- u91KUIi8wpJOrhsSZLaBz9LJvnmmQNbtRhlk32j3azogf4uNS4mIs7R/t7MeP1II6juDyTl
- K7VvjSL0a7vD9NSEJW5tQ==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:2xiUjm9aORg=:xoqOPOdWGflIJ4WGEGkMFX
- bOCy2BhOi925zBfTtkX8yYLF6T0iQXo9hgeFgB7zzS57DL2EK8UXbCD5MVSiwZwmpT8KTOQBA
- Aj9KHT9jfQ/5a03etCykDe7InMaDfoE0e+rVV7EA+FAa5RrCkfycn7vKCTtzM8YG1qsSy/v47
- KuV1CzL/dLjXr4qKwIbP6MCICTkDCsqWtz1H7C2zCAsbQqWYsXc94T7k4gEMVPoMmRC+QbTxz
- vgtNrbOlVnCWIj5cdXXmlQRvGoWhaTs2G1+xo7egfgnIZmIi36FKVHP9RYdqbTwokJXR66gyl
- aZ2XMylFK2Xt30NYSv+Fzo2ookmxTz089a2UJCs2yuiyYRoA+wNdquQ+ocIhv4xWt+pGBh/Fd
- AtYzoJIplwayVMRtJWx5ZAS0MwGc4tUhKTyHrEPOtEmi4fcf/SXij4pgInsyPaOXYxNL9tBPq
- CBIyZffZ0PA5UaL5e4YQ1nAjVuJRB9V8bhcdHKcuWgBmS51Q8MM862KLT5a0Ey5RSA/sYh0X0
- o+87gwdZSFKmPPRxQhIfjhqhq67xRI8Cx/bDdkJ5brFj0wusgnhD36MsxEyG+O9RlZMVM+q0O
- nFLTcLfjLIMT8Qu8qjEhdxBemT1GibOHaL6HJXztsP2dZoDDv5WjUkyTn8zD6Yaxg3ARt5lCz
- McCFp0E33C+bfLtkUrD2KEf1nsHyL9EUshkWLDI/6zXR67tP8FYQbRvUXGTSZZUNi9sHLylOE
- 8b4YFP4SpcCLCroz/O0eQjtN3/MnThINO7+amlF9yEidr8kSRRLSDaRqTXEK0CWOeafkxMLDf
- YodzEnnsa4gMtiSHFU35RYzg48rqs/KTPE4AxCSg0Zc3KD4+v36A5qwFpgIjsqkSdveL2vBi6
- GO3cYaaUy8R65Efn935qlAYLej8IkvF1AMKMEpSxo7scDuTlRUlzS5x+CNfEAX/o4P/KOztin
- UVi3vlWtKghw2Ox0F8zStg+7ujU6rcYNOPgWHQVUzlYf6EWwmHQN++7GpgHYuDtQeeGbsgZ+F
- 0jPEjxGjvP3CHbOF/tu1EgbtJITWkLEZuJ7l7X1lMI+/AF5CqHv+fZtbtVJ0FQR2z7T9JCJuj
- 6dQnNQI8bD4bJ13eAPboqYD+k5iqbjPtrQI
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Spam: Yes
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,46 +43,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Phil Reid <preid@electromag.com.au>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Len Baker <len.baker@gmx.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Alexey Minnekhanov <alexeymin@postmarketos.org>,
+ phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+The Samsung S6E3FA2 AMOLED cmd LCD panel is used on Samsung Galaxy
+S5 (klte) phone.
 
-On Sat, Jul 24, 2021 at 08:01:53PM +0200, Geert Uytterhoeven wrote:
-> Hi Len,
->
-> On Sat, Jul 24, 2021 at 7:44 PM Len Baker <len.baker@gmx.com> wrote:
-> > Add braces to the "for" loop and remove braces from the "if" statement=
-.
-> > This way the kernel coding style is followed.
-> >
-> > Signed-off-by: Len Baker <len.baker@gmx.com>
->
-> Thanks for your patch!
->
-> > --- a/drivers/staging/fbtft/fbtft-core.c
-> > +++ b/drivers/staging/fbtft/fbtft-core.c
->
-> > @@ -1016,10 +1018,9 @@ int fbtft_init_display(struct fbtft_par *par)
-> >
-> >         i =3D 0;
-> >         while (i < FBTFT_MAX_INIT_SEQUENCE) {
-> > -               if (par->init_sequence[i] =3D=3D -3) {
-> > -                       /* done */
-> > -                       return 0;
-> > -               }
->
-> These braces should not be removed, due to the presence of
-> the comment.
+Signed-off-by: Alexey Minnekhanov <alexeymin@postmarketos.org>
+---
+ .../display/panel/samsung,s6e3fa2.yaml        | 63 +++++++++++++++++++
+ 1 file changed, 63 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/samsung,s6e3fa2.yaml
 
-Ok, I leave it as is.
+diff --git a/Documentation/devicetree/bindings/display/panel/samsung,s6e3fa2.yaml b/Documentation/devicetree/bindings/display/panel/samsung,s6e3fa2.yaml
+new file mode 100644
+index 000000000000..d5628ae81141
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/panel/samsung,s6e3fa2.yaml
+@@ -0,0 +1,63 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/panel/samsung,s6e3fa2.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Samsung s6e3fa2 AMOLED CMD LCD DSI panel
++
++maintainers:
++  - Alexey Minnekhanov <alexeymin@postmarketos.org>
++
++allOf:
++  - $ref: panel-common.yaml#
++
++properties:
++  compatible:
++    const: samsung,s6e3fa2
++
++  reg: true
++  reset-gpios: true
++  port: true
++
++  iovdd-supply:
++    description: IOVDD regulator
++
++  vddr-supply:
++    description: VDDR regulator
++
++required:
++  - compatible
++  - reset-gpios
++  - iovdd-supply
++  - vddr-supply
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    /* from Samsung Galaxy S5 klte */
++    #include <dt-bindings/gpio/gpio.h>
++
++    dsi {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        panel@0 {
++            compatible = "samsung,s6e3fa2";
++            reg = <0>;
++
++            reset-gpios = <&pma8084_gpios 17 GPIO_ACTIVE_LOW>;
++
++            iovdd-supply = <&pma8084_lvs4>;
++            vddr-supply = <&vreg_panel>;
++
++            port {
++                panel_in: endpoint {
++                    remote-endpoint = <&dsi0_out>;
++                };
++            };
++        };
++    };
++
++...
+-- 
+2.31.1
 
-Thanks,
-Len
