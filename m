@@ -2,40 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4351D3D4FD8
-	for <lists+dri-devel@lfdr.de>; Sun, 25 Jul 2021 22:23:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC4003D5059
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jul 2021 00:16:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 23C186E4AF;
-	Sun, 25 Jul 2021 20:23:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F0C46E4C9;
+	Sun, 25 Jul 2021 22:16:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.smtp.larsendata.com (mx2.smtp.larsendata.com
- [91.221.196.228])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B73A6E4AF
- for <dri-devel@lists.freedesktop.org>; Sun, 25 Jul 2021 20:23:19 +0000 (UTC)
-Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
- by mx2.smtp.larsendata.com (Halon) with ESMTPS
- id 2f47e092-ed86-11eb-8d1a-0050568cd888;
- Sun, 25 Jul 2021 20:23:33 +0000 (UTC)
-Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
- [80.162.45.141])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: sam@ravnborg.org)
- by mail01.mxhotel.dk (Postfix) with ESMTPSA id 01BCF194B04;
- Sun, 25 Jul 2021 22:23:36 +0200 (CEST)
-Date: Sun, 25 Jul 2021 22:23:15 +0200
-X-Report-Abuse-To: abuse@mxhotel.dk
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Artjom Vejsel <akawolf0@gmail.com>
-Subject: Re: [PATCH v2 3/3] drm/panel-simple: add Gopher 2b LCD panel
-Message-ID: <YP3IM4PbN68qd4ec@ravnborg.org>
-References: <20210724103358.1632020-1-akawolf0@gmail.com>
- <20210724103358.1632020-4-akawolf0@gmail.com>
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
+ [IPv6:2a00:1450:4864:20::129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0DB836E4C7
+ for <dri-devel@lists.freedesktop.org>; Sun, 25 Jul 2021 22:16:00 +0000 (UTC)
+Received: by mail-lf1-x129.google.com with SMTP id h2so12042703lfu.4
+ for <dri-devel@lists.freedesktop.org>; Sun, 25 Jul 2021 15:16:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=g1DZBEYdDyLJJT2wpyRDVzHNpwXpqcxfHLQtIRbcQfo=;
+ b=Su364SznOABhDumPHYeKmjtErtDtj2OYrfWpTcUaC18fYoXko/tQ9oVn+KSH29axG4
+ UG6MTx9cfx+ZorqYZuOAL/WSZyBqRRq35FeyoQbN0+fubFjmTCRb25VdKJgF1QQzSGRh
+ nc0ydnpgkb3Rw59+xgHSOzqa3upHqim8IPIV68pWhCBXRz4+r/fSPD35EaciWL74LDkw
+ hukkyjIYzXXSe2OdUAQysWUW8Rjj4zuYsc7EG1SS4VqPcvLMYjwDi71JefIaLeku4MtB
+ +9wCNrXr4lAFGQEQ2xnGXTwJh1abCIq8xMMu+INlEeA7zt5Vy+HXEATCWyabSgBzULHt
+ HioQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=g1DZBEYdDyLJJT2wpyRDVzHNpwXpqcxfHLQtIRbcQfo=;
+ b=jH0jvFyh20NrCJMMWeZ0ZGmyhxuOa2Kxk3ic6B8JJik5tKtKA76K/Xt68+au7l+PZd
+ foo3fxn19W415VAk827oCKdCcHNXEQOzKPYEj4A10KjUGDRTKKqcB2iu1QEBPureatEq
+ mijPRwl1Q0HnpwJAeD1WxeeX234j4/rOaMPl5ibw8mxFicK8czojFiQEHnEkz758rtfH
+ 0shZ+m/qnTwdKXQZg8WmoJwTSMzw4n2rJGIwuDwcESmggUlks9tuQxbAFy0Vksth88+0
+ fgQtxysh/plTCNB92Uh+hNgrPMcZRV8zHVKR05LoZOY0ViuknHhXwiLHCQmWRe08aYl6
+ P9ZQ==
+X-Gm-Message-State: AOAM530ftIixnCuZ7VVCIPpsg45nK7p4XIaGgsd+pgPtS4qaO8EqdGgs
+ fcoHs/HHH3vtRUHIH7/1aPI=
+X-Google-Smtp-Source: ABdhPJyF3rNNIkEIYpfHzOuD1bUaOrmlsL12pe6fvHDbnhI3pa955ihaSZPstxz/w8mE9uRwiSUj3Q==
+X-Received: by 2002:a05:6512:2388:: with SMTP id
+ c8mr10274737lfv.201.1627251359503; 
+ Sun, 25 Jul 2021 15:15:59 -0700 (PDT)
+Received: from akaWolf-PC.. ([194.79.5.201])
+ by smtp.gmail.com with ESMTPSA id z12sm2862647lfu.53.2021.07.25.15.15.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 25 Jul 2021 15:15:58 -0700 (PDT)
+From: Artjom Vejsel <akawolf0@gmail.com>
+To: 
+Subject: [PATCH v3 0/3] add Gopher 2b LCD panel
+Date: Mon, 26 Jul 2021 01:15:24 +0300
+Message-Id: <20210725221527.1771892-1-akawolf0@gmail.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210724103358.1632020-4-akawolf0@gmail.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,86 +68,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, paul@crapouillou.net, robh+dt@kernel.org,
- thierry.reding@gmail.com
+ thierry.reding@gmail.com, akawolf0@gmail.com, sam@ravnborg.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Jul 24, 2021 at 01:33:58PM +0300, Artjom Vejsel wrote:
-> The Gopher 2b LCD panel is used in Gopher 2b handhelds.
-> It's simple panel with NewVision NV3047 driver, but SPI lines are not connected.
-> It has no specific name, since it's unique to that handhelds.
-> lot name at AliExpress: 4.3 inch 40PIN TFT LCD Screen COG NV3047 Drive IC 480(RGB)*272 No Touch 24Bit RGB Interface
-> 
-> Signed-off-by: Artjom Vejsel <akawolf0@gmail.com>
-> ---
->  drivers/gpu/drm/panel/panel-simple.c | 43 ++++++++++++++++++++++++++++
->  1 file changed, 43 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-> index 9b286bd4444f..9676e25accb3 100644
-> --- a/drivers/gpu/drm/panel/panel-simple.c
-> +++ b/drivers/gpu/drm/panel/panel-simple.c
-> @@ -4306,6 +4306,46 @@ static const struct panel_desc yes_optoelectronics_ytc700tlag_05_201c = {
->  	.connector_type = DRM_MODE_CONNECTOR_LVDS,
->  };
->  
-> +static const struct drm_display_mode qishenglong_gopher2b_lcd_panel_modes[] = {
-> +	{ /* 60 Hz */
-> +		.clock = 10800,
-> +		.hdisplay = 480,
-> +		.hsync_start = 480 + 77,
-> +		.hsync_end = 480 + 77 + 41,
-> +		.htotal = 480 + 77 + 41 + 2,
-> +		.vdisplay = 272,
-> +		.vsync_start = 272 + 16,
-> +		.vsync_end = 272 + 16 + 10,
-> +		.vtotal = 272 + 16 + 10 + 2,
-> +		.flags = DRM_MODE_FLAG_NVSYNC | DRM_MODE_FLAG_NHSYNC,
-> +	},
-> +	{ /* 50 Hz */
-> +		.clock = 10800,
-> +		.hdisplay = 480,
-> +		.hsync_start = 480 + 17,
-> +		.hsync_end = 480 + 17 + 41,
-> +		.htotal = 480 + 17 + 41 + 2,
-> +		.vdisplay = 272,
-> +		.vsync_start = 272 + 116,
-> +		.vsync_end = 272 + 116 + 10,
-> +		.vtotal = 272 + 116 + 10 + 2,
-> +		.flags = DRM_MODE_FLAG_NVSYNC | DRM_MODE_FLAG_NHSYNC,
-> +	},
-> +};
-> +
-> +static const struct panel_desc qishenglong_gopher2b_lcd_panel = {
-> +	.modes = qishenglong_gopher2b_lcd_panel_modes,
-> +	.num_modes = ARRAY_SIZE(qishenglong_gopher2b_lcd_panel_modes),
-> +	.bpc = 8,
-> +	.size = {
-> +		.width = 95,
-> +		.height = 54,
-> +	},
-> +	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
-> +	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_SAMPLE_NEGEDGE,
-> +	.connector_type = DRM_MODE_CONNECTOR_DPI,
-> +};
-> +
->  static const struct drm_display_mode arm_rtsm_mode[] = {
->  	{
->  		.clock = 65000,
-> @@ -4753,6 +4793,9 @@ static const struct of_device_id platform_of_match[] = {
->  	}, {
->  		.compatible = "yes-optoelectronics,ytc700tlag-05-201c",
->  		.data = &yes_optoelectronics_ytc700tlag_05_201c,
-> +	}, {
-> +		.compatible = "qishenglong,gopher2b-lcd-panel",
-> +		.data = &qishenglong_gopher2b_lcd_panel,
->  	}, {
+The Gopher 2b LCD panel is used in Gopher 2b handhelds.
+It's simple panel with NewVision NV3047 driver,
+but SPI lines are not connected.
+It has no specific name, since it's unique to that handhelds.
+lot name at AliExpress: 4.3 inch 40PIN TFT LCD Screen COG
+NV3047 Drive IC 480(RGB)*272 No Touch 24Bit RGB Interface
 
-This list shall also be sorted alphabetically, after the compatible.
-Same goes for the definition of the variable &qishenglong_gopher2b_lcd_panel
-that shall be listed in the same order as here.
+Changelog:
+v2: remove .num_modes
+v3: sort QiShenglong vendor prefix,
+	sort qishenglong_gopher2b_lcd_panel_modes struct
 
-Sorry for the nit-picking - but if we do not ask to have it fixed then
-we quickly have a mess.
+Artjom Vejsel (3):
+  dt-bindings: Add QiShenglong vendor prefix
+  dt-bindings: Add DT bindings for QiShenglong Gopher 2b panel
+  drm/panel-simple: add Gopher 2b LCD panel
 
-	Sam
+ .../bindings/display/panel/panel-simple.yaml  |  2 +
+ .../devicetree/bindings/vendor-prefixes.yaml  |  2 +
+ drivers/gpu/drm/panel/panel-simple.c          | 43 +++++++++++++++++++
+ 3 files changed, 47 insertions(+)
+
+--
+2.32.0
