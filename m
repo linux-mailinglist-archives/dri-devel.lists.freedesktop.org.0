@@ -1,55 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 560DF3D5C49
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jul 2021 16:56:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A2BEB3D5C4C
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jul 2021 16:56:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F6DF6EB90;
-	Mon, 26 Jul 2021 14:56:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 525846EC13;
+	Mon, 26 Jul 2021 14:56:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com
  [IPv6:2607:f8b0:4864:20::1035])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7245B6EA93;
- Mon, 26 Jul 2021 14:56:28 +0000 (UTC)
-Received: by mail-pj1-x1035.google.com with SMTP id l19so13326275pjz.0;
- Mon, 26 Jul 2021 07:56:28 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 34FEF6EA93;
+ Mon, 26 Jul 2021 14:56:31 +0000 (UTC)
+Received: by mail-pj1-x1035.google.com with SMTP id
+ m10-20020a17090a34cab0290176b52c60ddso355078pjf.4; 
+ Mon, 26 Jul 2021 07:56:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=e/9kD03R/I14WeS9EvRH7N0IZXDfhlSexdVdh0n2rZY=;
- b=eEAiAKgjaHmZxwolent+wg3QattYfdkp1B0CmBm/n40uP0adslIMDfuPojzmUsbdyf
- AJDhZD2T9HzZzplabGfqo8gQPP9dME4H6pveaKZqKwobsfdPE8Y9OZYV3DC0p7/jsYPb
- YOxuwU+69NC2rkX1MN1uOs/XdYgs0dlDSGtqlBENN/5+Gj8eAVuRwLXex2mtVWEJ2KiE
- WtwNOkH3OTI1F5cxvTt0paNXzDkEUw/UmBl9iTo+DSoazqsv8Drb9dipj0XNLQoTo/H3
- ZUfPI5+sODHce6y1VBxcn9xfdPGo9dLvloP6ahN5m1HrZMDVssFSMndb71D66EeKJLqI
- Ofcg==
+ bh=Js4SVN2QJpsuQ3B87ULYILXZZSJ6LhH5VH51TEc9C1M=;
+ b=JiIaaMCMbRm9mnJqUkFsfhJqfx6YQtWOcgTgsY7B0MQSf2dCUJ6fDDh2OdEKoM29XW
+ QE+0jeQMIxKphuKIDCJEOqXn4g1B53buWNFtI5BkjhpBXV6OQP+gMbAR8C2ryOJYkoze
+ y97CGRS3CFKLf7T/6IXO/NPSLPSlDBGTDhKQxHUMtAbvZaPl0j0EXA/38rjqUGvVGMeu
+ NU2HHPINv2C8My3S0ihjsrW7uxgV62D6Zn650OWpTcTsZNzlWkO/6Kal3lx8L/k1dnTL
+ wUCZqmMfk+FiY/cdwpOOnAR2WD2UcH5H2/pexZt3DsNJSOgV6bOtXc4Iw5mprG/7zPtv
+ FsIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=e/9kD03R/I14WeS9EvRH7N0IZXDfhlSexdVdh0n2rZY=;
- b=TlKhf9N8DwsLAxmopxMOBdkhdvu+odDO17349dU7DWt0xM0Jxs/xSED9V9DJgRVaJl
- gUhRI5x2YBMrX/72bk7yw9b418hd6hNw/+uu/jec+LJm2KGzxZXRC8v27TOxVXlWWYDf
- dtmyuEWnWSKZUXNJHYbuSXqb6uQ2T+v3sSSgRAGb/n6KbFbyaLV3R+LYW/NJreszCgpW
- peZRptWmYQTBtCIZIy6O3FFVGe115FZ95lpN4FYoRK5aw16+YHFgYvJ1liP/F1KNvZyh
- fV2GVntNBMYErk6Ok2n+tEDh+zKQ9160uABJDtEZZO9JbDCzskmLUir+eleovj9Oa8Q/
- +y5A==
-X-Gm-Message-State: AOAM533mLL6lLpk9tT0IrMC8cpdJpkRUN7Jk+3ANRbXqD6E1Z90fqjmI
- 4cIgDKBddTq9Z+RbcUHJQt5O3Od3Ks5Xxg==
-X-Google-Smtp-Source: ABdhPJzYzbwPC/fDpYJzGIRqBQhd3hO0AKLAC7XEJkJ8Quu2UsD6LRtVtgG9bMycjZdnKMhEwKgTuw==
-X-Received: by 2002:a63:490e:: with SMTP id w14mr11480400pga.93.1627311387489; 
- Mon, 26 Jul 2021 07:56:27 -0700 (PDT)
+ bh=Js4SVN2QJpsuQ3B87ULYILXZZSJ6LhH5VH51TEc9C1M=;
+ b=ckS/NTNwZJJi8pGxrSL1ZQiFri+OgjaQ2LwDRuGz+DbZpDN9YliGDeuvFX3xgiGkr2
+ T65vGolwWguLS6hNXdz6if+nkjxCz01hv5aKk4CgbLkWo9ZC9bgiGtq77J3htSug+HOu
+ ZjZUK9Fg0hhpsTjQdAp0QPkUw4oxiO8w3KUyaH5qxtuTEang13xY4Fztl0jEGKluFQAT
+ bCUBj6cDubbADr+FpTvvz2xan0AUFvJ0L0IrBcQB7F2bJ9wDuqP4ClK6xSk85vIS3HZw
+ nKv9anDBrKJN/rmtYkESzeUrEDqGCgJxEy+V4GLQBCt1yYvskb97np18hX+EbL9VNNFS
+ obUQ==
+X-Gm-Message-State: AOAM532zLuasKn/8IayCDj+6267F+vNtmcB2/40QUgj/ieAOqMDPnY3V
+ d1zCV3xBRh9LcUqUApXZB8rnlqys9Ivf9Q==
+X-Google-Smtp-Source: ABdhPJz86h6PCUyD51DoJndCL8qycP19c2HgrDfDXD+QrXL7gt+CAfAJRBeyCjnSVSAo7Xas4LT+qw==
+X-Received: by 2002:a05:6a00:1503:b029:395:f05c:e073 with SMTP id
+ q3-20020a056a001503b0290395f05ce073mr6929303pfu.80.1627311390171; 
+ Mon, 26 Jul 2021 07:56:30 -0700 (PDT)
 Received: from localhost ([2601:1c0:5200:a6:307:a401:7b76:c6e5])
- by smtp.gmail.com with ESMTPSA id x14sm262652pfq.143.2021.07.26.07.56.26
+ by smtp.gmail.com with ESMTPSA id h30sm242101pfr.191.2021.07.26.07.56.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 Jul 2021 07:56:26 -0700 (PDT)
+ Mon, 26 Jul 2021 07:56:29 -0700 (PDT)
 From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 01/12] drm/msm: Docs and misc cleanup
-Date: Mon, 26 Jul 2021 08:00:15 -0700
-Message-Id: <20210726150038.2187631-2-robdclark@gmail.com>
+Subject: [PATCH v2 02/12] drm/msm: Small submitqueue creation cleanup
+Date: Mon, 26 Jul 2021 08:00:16 -0700
+Message-Id: <20210726150038.2187631-3-robdclark@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210726150038.2187631-1-robdclark@gmail.com>
 References: <20210726150038.2187631-1-robdclark@gmail.com>
@@ -79,111 +81,66 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Rob Clark <robdclark@chromium.org>
 
-Fix a couple incorrect or misspelt comments, and add submitqueue doc
-comment.
+If we don't have a gpu, there is no need to create a submitqueue, which
+lets us simplify the error handling and submitqueue creation.
 
 Signed-off-by: Rob Clark <robdclark@chromium.org>
 Acked-by: Christian König <christian.koenig@amd.com>
 ---
- drivers/gpu/drm/msm/msm_gem.h         |  3 +--
- drivers/gpu/drm/msm/msm_gem_submit.c  |  1 +
- drivers/gpu/drm/msm/msm_gpu.h         | 15 +++++++++++++++
- drivers/gpu/drm/msm/msm_ringbuffer.c  |  2 +-
- drivers/gpu/drm/msm/msm_submitqueue.c |  9 +++++----
- 5 files changed, 23 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/msm/msm_submitqueue.c | 22 +++++++++++-----------
+ 1 file changed, 11 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/msm_gem.h b/drivers/gpu/drm/msm/msm_gem.h
-index 405f8411e395..d69fcb37ce17 100644
---- a/drivers/gpu/drm/msm/msm_gem.h
-+++ b/drivers/gpu/drm/msm/msm_gem.h
-@@ -313,8 +313,7 @@ void msm_gem_vunmap(struct drm_gem_object *obj);
- 
- /* Created per submit-ioctl, to track bo's and cmdstream bufs, etc,
-  * associated with the cmdstream submission for synchronization (and
-- * make it easier to unwind when things go wrong, etc).  This only
-- * lasts for the duration of the submit-ioctl.
-+ * make it easier to unwind when things go wrong, etc).
-  */
- struct msm_gem_submit {
- 	struct kref ref;
-diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
-index 44f84bfd0c0e..6d46f9275a40 100644
---- a/drivers/gpu/drm/msm/msm_gem_submit.c
-+++ b/drivers/gpu/drm/msm/msm_gem_submit.c
-@@ -655,6 +655,7 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
- 	bool has_ww_ticket = false;
- 	unsigned i;
- 	int ret, submitid;
-+
- 	if (!gpu)
- 		return -ENXIO;
- 
-diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_gpu.h
-index 710c3fedfbf3..96efcb31e502 100644
---- a/drivers/gpu/drm/msm/msm_gpu.h
-+++ b/drivers/gpu/drm/msm/msm_gpu.h
-@@ -250,6 +250,21 @@ struct msm_gpu_perfcntr {
- 	const char *name;
- };
- 
-+/**
-+ * A submitqueue is associated with a gl context or vk queue (or equiv)
-+ * in userspace.
-+ *
-+ * @id:        userspace id for the submitqueue, unique within the drm_file
-+ * @flags:     userspace flags for the submitqueue, specified at creation
-+ *             (currently unusued)
-+ * @prio:      the submitqueue priority
-+ * @faults:    the number of GPU hangs associated with this submitqueue
-+ * @ctx:       the per-drm_file context associated with the submitqueue (ie.
-+ *             which set of pgtables do submits jobs associated with the
-+ *             submitqueue use)
-+ * @node:      node in the context's list of submitqueues
-+ * @ref:       reference count
-+ */
- struct msm_gpu_submitqueue {
- 	int id;
- 	u32 flags;
-diff --git a/drivers/gpu/drm/msm/msm_ringbuffer.c b/drivers/gpu/drm/msm/msm_ringbuffer.c
-index 7e92d9532454..054461662af5 100644
---- a/drivers/gpu/drm/msm/msm_ringbuffer.c
-+++ b/drivers/gpu/drm/msm/msm_ringbuffer.c
-@@ -32,7 +32,7 @@ struct msm_ringbuffer *msm_ringbuffer_new(struct msm_gpu *gpu, int id,
- 
- 	if (IS_ERR(ring->start)) {
- 		ret = PTR_ERR(ring->start);
--		ring->start = 0;
-+		ring->start = NULL;
- 		goto fail;
- 	}
- 
 diff --git a/drivers/gpu/drm/msm/msm_submitqueue.c b/drivers/gpu/drm/msm/msm_submitqueue.c
-index c3d206105d28..e5eef11ed014 100644
+index e5eef11ed014..9e9fec61d629 100644
 --- a/drivers/gpu/drm/msm/msm_submitqueue.c
 +++ b/drivers/gpu/drm/msm/msm_submitqueue.c
-@@ -98,17 +98,18 @@ int msm_submitqueue_create(struct drm_device *drm, struct msm_file_private *ctx,
- 	return 0;
- }
+@@ -66,6 +66,12 @@ int msm_submitqueue_create(struct drm_device *drm, struct msm_file_private *ctx,
+ 	if (!ctx)
+ 		return -ENODEV;
  
-+/*
-+ * Create the default submit-queue (id==0), used for backwards compatibility
-+ * for userspace that pre-dates the introduction of submitqueues.
-+ */
- int msm_submitqueue_init(struct drm_device *drm, struct msm_file_private *ctx)
- {
++	if (!priv->gpu)
++		return -ENODEV;
++
++	if (prio >= priv->gpu->nr_rings)
++		return -EINVAL;
++
+ 	queue = kzalloc(sizeof(*queue), GFP_KERNEL);
+ 
+ 	if (!queue)
+@@ -73,15 +79,7 @@ int msm_submitqueue_create(struct drm_device *drm, struct msm_file_private *ctx,
+ 
+ 	kref_init(&queue->ref);
+ 	queue->flags = flags;
+-
+-	if (priv->gpu) {
+-		if (prio >= priv->gpu->nr_rings) {
+-			kfree(queue);
+-			return -EINVAL;
+-		}
+-
+-		queue->prio = prio;
+-	}
++	queue->prio = prio;
+ 
+ 	write_lock(&ctx->queuelock);
+ 
+@@ -107,12 +105,14 @@ int msm_submitqueue_init(struct drm_device *drm, struct msm_file_private *ctx)
  	struct msm_drm_private *priv = drm->dev_private;
  	int default_prio;
  
--	if (!ctx)
--		return 0;
--
++	if (!priv->gpu)
++		return -ENODEV;
++
  	/*
  	 * Select priority 2 as the "default priority" unless nr_rings is less
--	 * than 2 and then pick the lowest pirority
-+	 * than 2 and then pick the lowest priority
+ 	 * than 2 and then pick the lowest priority
  	 */
- 	default_prio = priv->gpu ?
- 		clamp_t(uint32_t, 2, 0, priv->gpu->nr_rings - 1) : 0;
+-	default_prio = priv->gpu ?
+-		clamp_t(uint32_t, 2, 0, priv->gpu->nr_rings - 1) : 0;
++	default_prio = clamp_t(uint32_t, 2, 0, priv->gpu->nr_rings - 1);
+ 
+ 	INIT_LIST_HEAD(&ctx->submitqueues);
+ 
 -- 
 2.31.1
 
