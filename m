@@ -1,39 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E153D3D6A2C
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jul 2021 01:21:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CBF53D6A2E
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jul 2021 01:25:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E42326EA30;
-	Mon, 26 Jul 2021 23:21:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F9A86EA31;
+	Mon, 26 Jul 2021 23:25:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1DA246EA2C;
- Mon, 26 Jul 2021 23:21:49 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10057"; a="212053751"
-X-IronPort-AV: E=Sophos;i="5.84,272,1620716400"; d="scan'208";a="212053751"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jul 2021 16:21:48 -0700
-X-IronPort-AV: E=Sophos;i="5.84,272,1620716400"; d="scan'208";a="498518818"
-Received: from mdroper-desk1.fm.intel.com (HELO
- mdroper-desk1.amr.corp.intel.com) ([10.1.27.134])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jul 2021 16:21:48 -0700
-Date: Mon, 26 Jul 2021 16:21:47 -0700
-From: Matt Roper <matthew.d.roper@intel.com>
-To: Lucas De Marchi <lucas.demarchi@intel.com>
-Subject: Re: [PATCH 10/30] drm/i915/display: remove explicit CNL handling
- from intel_dmc.c
-Message-ID: <20210726232147.GX1556418@mdroper-desk1.amr.corp.intel.com>
-References: <20210724001114.249295-1-lucas.demarchi@intel.com>
- <20210724001114.249295-11-lucas.demarchi@intel.com>
+Received: from mail-il1-f170.google.com (mail-il1-f170.google.com
+ [209.85.166.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5906B6EA31
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Jul 2021 23:25:41 +0000 (UTC)
+Received: by mail-il1-f170.google.com with SMTP id h18so10541668ilc.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Jul 2021 16:25:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=MT4ylZQUL8zUjXo5xoBdpyFKPIyYeR5lDgFshQ2XgV4=;
+ b=GOifjkUwlQw81WczzWfmSFI/5sur3rIe214eYfbtIYvMXP+VGjVvtTsYLVaK95exQ9
+ B+VEq5lz7hVP0SI8vpdn35iQyjoF1Mx4kNV1MN21txGqoOFi0C1pXvy435YxWory77Wf
+ L7k/AbCX/eILDUC3UcFBRMaDxKnPmZlPm4liNyGutQJREvTnCfCe1zaR53OeQIMyOgfA
+ Fnq+5U1CoTybJhHORWHEIpo4q18BzFKHX0AKOXg/48pZW+y79zRfDLGYwjltwDD4kWoB
+ gpRrMYLyCBxf9KFnMoygJPdviiDuktHH4RPh/3amLTDLv+3eDHg+HQS/kZrJ0lRwAjdd
+ Vblg==
+X-Gm-Message-State: AOAM530c0Hp5yMqZ4+Kzh01mfmx8e/QOAT7WgondcvJVh998ZW0qtY4X
+ AWeoj2c5EkvrJ32wOFjHIw==
+X-Google-Smtp-Source: ABdhPJybV1QTJn5F7wJak8d/0grLF5h3EbNyDlCgdReZoM4WIRqGcy5VdThDY8w8DBuHmbVt84Bdbg==
+X-Received: by 2002:a92:cf05:: with SMTP id c5mr14181235ilo.196.1627341940689; 
+ Mon, 26 Jul 2021 16:25:40 -0700 (PDT)
+Received: from robh.at.kernel.org ([64.188.179.248])
+ by smtp.gmail.com with ESMTPSA id x11sm666558ilu.3.2021.07.26.16.25.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 26 Jul 2021 16:25:40 -0700 (PDT)
+Received: (nullmailer pid 1074977 invoked by uid 1000);
+ Mon, 26 Jul 2021 23:25:37 -0000
+Date: Mon, 26 Jul 2021 17:25:37 -0600
+From: Rob Herring <robh@kernel.org>
+To: Marek Vasut <marex@denx.de>
+Subject: Re: [PATCH V3 1/2] dt-bindings: display: bridge: lvds-codec:
+ Document LVDS data mapping select
+Message-ID: <20210726232537.GA1065054@robh.at.kernel.org>
+References: <20210726210250.531544-1-marex@denx.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210724001114.249295-11-lucas.demarchi@intel.com>
+In-Reply-To: <20210726210250.531544-1-marex@denx.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,57 +60,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
- intel-gfx@lists.freedesktop.org, Jose Souza <jose.souza@intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: devicetree@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jul 23, 2021 at 05:10:54PM -0700, Lucas De Marchi wrote:
-> Remove DMC firmware for CNL.
+On Mon, Jul 26, 2021 at 11:02:49PM +0200, Marek Vasut wrote:
+> Decoder input LVDS format is a property of the decoder chip or even
+> its strapping. Add DT property data-mapping the same way lvds-panel
+> does, to define the LVDS data mapping.
 > 
-> Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
-
-Reviewed-by: Matt Roper <matthew.d.roper@intel.com>
-
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: Rob Herring <robh+dt@kernel.org>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: devicetree@vger.kernel.org
+> To: dri-devel@lists.freedesktop.org
 > ---
->  drivers/gpu/drm/i915/display/intel_dmc.c | 9 ---------
->  1 file changed, 9 deletions(-)
+> V2: - Use allOf
+>     - Move the data-mapping to endpoint
+> V3: - Rebase on V2 submitted a while ago, reinstate changelog
+>     - Drop the allOf and un-rebase on previous pclk patch
+> ---
+>  .../bindings/display/bridge/lvds-codec.yaml   | 31 +++++++++++++++++++
+>  1 file changed, 31 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/i915/display/intel_dmc.c b/drivers/gpu/drm/i915/display/intel_dmc.c
-> index 9895fd957df9..3c3c6cb5c0df 100644
-> --- a/drivers/gpu/drm/i915/display/intel_dmc.c
-> +++ b/drivers/gpu/drm/i915/display/intel_dmc.c
-> @@ -70,11 +70,6 @@ MODULE_FIRMWARE(TGL_DMC_PATH);
->  #define ICL_DMC_MAX_FW_SIZE		0x6000
->  MODULE_FIRMWARE(ICL_DMC_PATH);
+> diff --git a/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml b/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
+> index 304a1367faaa7..f795c671c3ce1 100644
+> --- a/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
+> +++ b/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
+> @@ -60,6 +60,21 @@ properties:
+>            For LVDS encoders, port 1 is the LVDS output
+>            For LVDS decoders, port 1 is the parallel output
 >  
-> -#define CNL_DMC_PATH			DMC_PATH(cnl, 1, 07)
-> -#define CNL_DMC_VERSION_REQUIRED	DMC_VERSION(1, 7)
-> -#define CNL_DMC_MAX_FW_SIZE		GLK_DMC_MAX_FW_SIZE
-> -MODULE_FIRMWARE(CNL_DMC_PATH);
-> -
->  #define GLK_DMC_PATH			DMC_PATH(glk, 1, 04)
->  #define GLK_DMC_VERSION_REQUIRED	DMC_VERSION(1, 4)
->  #define GLK_DMC_MAX_FW_SIZE		0x4000
-> @@ -718,10 +713,6 @@ void intel_dmc_ucode_init(struct drm_i915_private *dev_priv)
->  		dmc->fw_path = ICL_DMC_PATH;
->  		dmc->required_version = ICL_DMC_VERSION_REQUIRED;
->  		dmc->max_fw_size = ICL_DMC_MAX_FW_SIZE;
-> -	} else if (IS_CANNONLAKE(dev_priv)) {
-> -		dmc->fw_path = CNL_DMC_PATH;
-> -		dmc->required_version = CNL_DMC_VERSION_REQUIRED;
-> -		dmc->max_fw_size = CNL_DMC_MAX_FW_SIZE;
->  	} else if (IS_GEMINILAKE(dev_priv)) {
->  		dmc->fw_path = GLK_DMC_PATH;
->  		dmc->required_version = GLK_DMC_VERSION_REQUIRED;
-> -- 
-> 2.31.1
-> 
+> +        properties:
+> +          endpoint:
+> +            $ref: /schemas/media/video-interfaces.yaml#
 
--- 
-Matt Roper
-Graphics Software Engineer
-VTT-OSGC Platform Enablement
-Intel Corporation
-(916) 356-2795
+Adding this means the 'port' needs to reference '$defs/port-base' 
+instead of 'properties/port'. Otherwise, it's going to start failing 
+when 'unevaluatedProperties' gets implemented (appears to be soon now).
+
+> +            unevaluatedProperties: false
+> +
+> +            properties:
+> +              data-mapping:
+> +                enum:
+> +                  - jeida-18
+> +                  - jeida-24
+> +                  - vesa-24
+> +                description: |
+> +                  The color signals mapping order. See details in
+> +                  Documentation/devicetree/bindings/display/panel/lvds.yaml
+> +
+>      required:
+>        - port@0
+>        - port@1
+> @@ -71,6 +86,22 @@ properties:
+>  
+>    power-supply: true
+>  
+> +if:
+> +  not:
+> +    properties:
+> +      compatible:
+> +        contains:
+> +          const: lvds-decoder
+> +then:
+> +  properties:
+> +    ports:
+> +      properties:
+> +        port@1:
+> +          properties:
+> +            endpoint:
+> +              properties:
+> +                data-mapping: false
+
+With this, I kind of think the schema should be split into encoder and 
+decoder schemas. But we can leave that for the next addition...
+
+Rob
