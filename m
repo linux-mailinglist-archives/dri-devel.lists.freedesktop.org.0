@@ -1,45 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACBA23D6058
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jul 2021 18:10:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 56BB13D6274
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jul 2021 18:20:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 73A0B72DCD;
-	Mon, 26 Jul 2021 16:10:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 523186EB12;
+	Mon, 26 Jul 2021 16:20:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C17E72DE3;
- Mon, 26 Jul 2021 16:10:50 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10057"; a="273353081"
-X-IronPort-AV: E=Sophos;i="5.84,270,1620716400"; d="scan'208";a="273353081"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jul 2021 09:10:47 -0700
-X-IronPort-AV: E=Sophos;i="5.84,270,1620716400"; d="scan'208";a="436884138"
-Received: from jdonohue-mobl.ger.corp.intel.com (HELO [10.213.215.117])
- ([10.213.215.117])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jul 2021 09:10:45 -0700
-Subject: Re: [PATCH] drm/i915/userptr: Probe existence of backing struct pages
- upon creation
-To: Jason Ekstrand <jason@jlekstrand.net>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-References: <20210723113405.427004-1-matthew.auld@intel.com>
- <0988bf67-c42a-1e7e-af77-ae2da65b036f@linux.intel.com>
- <CAOFGe94-StYYc3Fk70u3h0xp2F4RqONb96cnFLhgnhxOVKi8JA@mail.gmail.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-Message-ID: <cf0253c0-6a4c-aaaa-4110-aa403d66ea9f@linux.intel.com>
-Date: Mon, 26 Jul 2021 17:10:43 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com
+ [IPv6:2607:f8b0:4864:20::b2d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 09A3A6EB51
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Jul 2021 16:20:41 +0000 (UTC)
+Received: by mail-yb1-xb2d.google.com with SMTP id s19so15727944ybc.6
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Jul 2021 09:20:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=17LuCjRWSa481z+i5/TyQvh9obotD3o34cqh7WaO1oA=;
+ b=ZKRdfCe0Tjlqdxqq8pVINA6iJYzDntqbtEkhLe54OcfYvoQoXfxZjtXEntklHQbvmL
+ rh0p4p33qoU22rqhqWfDJSd9PHpbh8d5tIR/ob0HBP/szl9WYagahWvDHzwDJsOE/6mG
+ jSpBMu1UZZ1MZ4WWKJdKFtDVBC0q0MMeqOhoyPX/RRvEMLiSPiH2s80Go5O8GQRMiYnj
+ mbrg1IDiaEAvQoOwJ+rNxfHvRc1zeJVT+C+viFkYc8aOF+JBjfi02higniPvtdFbZEqx
+ PvZKrpY8hHW44ZJ7dvyACIJErFnBdL6M0X3qwz3fxuu1m64frgiReYYkBildYck2unO0
+ ycHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=17LuCjRWSa481z+i5/TyQvh9obotD3o34cqh7WaO1oA=;
+ b=SEAeUZDqm6XGPZIFjuy0SSmhHx8F+Hvshg10L2aYmIZ9mcyshDHzhiaZF5xusXHpVW
+ sNjNF6TFthKFObCiocM9tC0LfpxDx3qumrJ9jGeMCxfaG4E30z7QCj7UgZUQtcMkxomI
+ N8bSnP2t/6IeasP9xVx77Xoh/QOBJXP+rTEh4B+uxYn0hLQmHcb3JucAyzeTW7CatVmJ
+ lttBT+ZlFf3fqkKdXVf/aZ1RCFynlA7HlsK5/AQeZmuBrJC12Hyj4Nt72FePf038dWok
+ eqLxBStnso9bfT3mkj4B7lK9YQaixVsdDW1G87zqL7Otcr/rruahhxu7J0odFTmF+iAU
+ Ug5A==
+X-Gm-Message-State: AOAM532PESyC1oqpOdrBuwqDCx9+6LQKlSlhnNJnuO6emLpbOiyLkAyS
+ NvnYqB14OJ9G/QIuX5kzx/PbWp7ZhH8LpusIVyFbeg==
+X-Google-Smtp-Source: ABdhPJzPiAMbHdMmpBw/HcIT/6SeWIhu9ViLs8wt2qgUJ+IapVceAEmG0/frT6VYS+1cGZcLJTlNBoYe11UpEPGAmLo=
+X-Received: by 2002:a25:208b:: with SMTP id
+ g133mr24328330ybg.211.1627316439890; 
+ Mon, 26 Jul 2021 09:20:39 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAOFGe94-StYYc3Fk70u3h0xp2F4RqONb96cnFLhgnhxOVKi8JA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <20210723192934.1004427-1-daniel.vetter@ffwll.ch>
+ <20210723192934.1004427-4-daniel.vetter@ffwll.ch>
+ <0edb5c4d-1faf-4b24-a21d-fd2e5be6591d@linux.intel.com>
+ <CAOFGe96Da_O7VBaw85LsNTfMZhb2ycVg3WJ0fFe6xekB0m2NnA@mail.gmail.com>
+ <CAOFGe96OBK3W_c8YU=4LHysumEOm3Y27KX_Mok=P686aa3c0Bw@mail.gmail.com>
+ <031997ab-5568-9dbd-fcee-b4f820a32632@linux.intel.com>
+In-Reply-To: <031997ab-5568-9dbd-fcee-b4f820a32632@linux.intel.com>
+From: Jason Ekstrand <jason@jlekstrand.net>
+Date: Mon, 26 Jul 2021 11:20:28 -0500
+Message-ID: <CAOFGe95G3bYWxZ_EwPEFzxf10vf1T3Zdyez_fbh=imcDj+TSHw@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH 04/10] drm/i915: move intel_context slab to
+ direct module init/exit
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,213 +69,233 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- Jordan Justen <jordan.l.justen@intel.com>,
- Intel GFX <intel-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Chris Wilson <chris@chris-wilson.co.uk>,
- Kenneth Graunke <kenneth@whitecape.org>, Matthew Auld <matthew.auld@intel.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, Jul 26, 2021 at 11:08 AM Tvrtko Ursulin
+<tvrtko.ursulin@linux.intel.com> wrote:
+> On 26/07/2021 16:42, Jason Ekstrand wrote:
+> > On Mon, Jul 26, 2021 at 10:30 AM Jason Ekstrand <jason@jlekstrand.net> wrote:
+> >>
+> >> On Mon, Jul 26, 2021 at 3:35 AM Tvrtko Ursulin
+> >> <tvrtko.ursulin@linux.intel.com> wrote:
+> >>>
+> >>>
+> >>> On 23/07/2021 20:29, Daniel Vetter wrote:
+> >>>> With the global kmem_cache shrink infrastructure gone there's nothing
+> >>>> special and we can convert them over.
+> >>>>
+> >>>> I'm doing this split up into each patch because there's quite a bit of
+> >>>> noise with removing the static global.slab_ce to just a
+> >>>> slab_ce.
+> >>>>
+> >>>> Cc: Jason Ekstrand <jason@jlekstrand.net>
+> >>>> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> >>>> ---
+> >>>>    drivers/gpu/drm/i915/gt/intel_context.c | 25 ++++++++-----------------
+> >>>>    drivers/gpu/drm/i915/gt/intel_context.h |  3 +++
+> >>>>    drivers/gpu/drm/i915/i915_globals.c     |  2 --
+> >>>>    drivers/gpu/drm/i915/i915_globals.h     |  1 -
+> >>>>    drivers/gpu/drm/i915/i915_pci.c         |  2 ++
+> >>>>    5 files changed, 13 insertions(+), 20 deletions(-)
+> >>>>
+> >>>> diff --git a/drivers/gpu/drm/i915/gt/intel_context.c b/drivers/gpu/drm/i915/gt/intel_context.c
+> >>>> index baa05fddd690..283382549a6f 100644
+> >>>> --- a/drivers/gpu/drm/i915/gt/intel_context.c
+> >>>> +++ b/drivers/gpu/drm/i915/gt/intel_context.c
+> >>>> @@ -7,7 +7,6 @@
+> >>>>    #include "gem/i915_gem_pm.h"
+> >>>>
+> >>>>    #include "i915_drv.h"
+> >>>> -#include "i915_globals.h"
+> >>>>    #include "i915_trace.h"
+> >>>>
+> >>>>    #include "intel_context.h"
+> >>>> @@ -15,14 +14,11 @@
+> >>>>    #include "intel_engine_pm.h"
+> >>>>    #include "intel_ring.h"
+> >>>>
+> >>>> -static struct i915_global_context {
+> >>>> -     struct i915_global base;
+> >>>> -     struct kmem_cache *slab_ce;
+> >>>> -} global;
+> >>>> +struct kmem_cache *slab_ce;
+> >>
+> >> Static?  With that,
+> >>
+> >> Reviewed-by: Jason Ekstrand <jason@jlekstrand.net>
+> >>
+> >>>>
+> >>>>    static struct intel_context *intel_context_alloc(void)
+> >>>>    {
+> >>>> -     return kmem_cache_zalloc(global.slab_ce, GFP_KERNEL);
+> >>>> +     return kmem_cache_zalloc(slab_ce, GFP_KERNEL);
+> >>>>    }
+> >>>>
+> >>>>    static void rcu_context_free(struct rcu_head *rcu)
+> >>>> @@ -30,7 +26,7 @@ static void rcu_context_free(struct rcu_head *rcu)
+> >>>>        struct intel_context *ce = container_of(rcu, typeof(*ce), rcu);
+> >>>>
+> >>>>        trace_intel_context_free(ce);
+> >>>> -     kmem_cache_free(global.slab_ce, ce);
+> >>>> +     kmem_cache_free(slab_ce, ce);
+> >>>>    }
+> >>>>
+> >>>>    void intel_context_free(struct intel_context *ce)
+> >>>> @@ -410,22 +406,17 @@ void intel_context_fini(struct intel_context *ce)
+> >>>>        i915_active_fini(&ce->active);
+> >>>>    }
+> >>>>
+> >>>> -static void i915_global_context_exit(void)
+> >>>> +void i915_context_module_exit(void)
+> >>>>    {
+> >>>> -     kmem_cache_destroy(global.slab_ce);
+> >>>> +     kmem_cache_destroy(slab_ce);
+> >>>>    }
+> >>>>
+> >>>> -static struct i915_global_context global = { {
+> >>>> -     .exit = i915_global_context_exit,
+> >>>> -} };
+> >>>> -
+> >>>> -int __init i915_global_context_init(void)
+> >>>> +int __init i915_context_module_init(void)
+> >>>>    {
+> >>>> -     global.slab_ce = KMEM_CACHE(intel_context, SLAB_HWCACHE_ALIGN);
+> >>>> -     if (!global.slab_ce)
+> >>>> +     slab_ce = KMEM_CACHE(intel_context, SLAB_HWCACHE_ALIGN);
+> >>>> +     if (!slab_ce)
+> >>>>                return -ENOMEM;
+> >>>>
+> >>>> -     i915_global_register(&global.base);
+> >>>>        return 0;
+> >>>>    }
+> >>>>
+> >>>> diff --git a/drivers/gpu/drm/i915/gt/intel_context.h b/drivers/gpu/drm/i915/gt/intel_context.h
+> >>>> index 974ef85320c2..a0ca82e3c40d 100644
+> >>>> --- a/drivers/gpu/drm/i915/gt/intel_context.h
+> >>>> +++ b/drivers/gpu/drm/i915/gt/intel_context.h
+> >>>> @@ -30,6 +30,9 @@ void intel_context_init(struct intel_context *ce,
+> >>>>                        struct intel_engine_cs *engine);
+> >>>>    void intel_context_fini(struct intel_context *ce);
+> >>>>
+> >>>> +void i915_context_module_exit(void);
+> >>>> +int i915_context_module_init(void);
+> >>>> +
+> >>>>    struct intel_context *
+> >>>>    intel_context_create(struct intel_engine_cs *engine);
+> >>>>
+> >>>> diff --git a/drivers/gpu/drm/i915/i915_globals.c b/drivers/gpu/drm/i915/i915_globals.c
+> >>>> index 3de7cf22ec76..d36eb7dc40aa 100644
+> >>>> --- a/drivers/gpu/drm/i915/i915_globals.c
+> >>>> +++ b/drivers/gpu/drm/i915/i915_globals.c
+> >>>> @@ -7,7 +7,6 @@
+> >>>>    #include <linux/slab.h>
+> >>>>    #include <linux/workqueue.h>
+> >>>>
+> >>>> -#include "gem/i915_gem_context.h"
+> >>>>    #include "gem/i915_gem_object.h"
+> >>>>    #include "i915_globals.h"
+> >>>>    #include "i915_request.h"
+> >>>> @@ -32,7 +31,6 @@ static void __i915_globals_cleanup(void)
+> >>>>    }
+> >>>>
+> >>>>    static __initconst int (* const initfn[])(void) = {
+> >>>> -     i915_global_context_init,
+> >>>>        i915_global_gem_context_init,
+> >>>>        i915_global_objects_init,
+> >>>>        i915_global_request_init,
+> >>>> diff --git a/drivers/gpu/drm/i915/i915_globals.h b/drivers/gpu/drm/i915/i915_globals.h
+> >>>> index d80901ba75e3..60daa738a188 100644
+> >>>> --- a/drivers/gpu/drm/i915/i915_globals.h
+> >>>> +++ b/drivers/gpu/drm/i915/i915_globals.h
+> >>>> @@ -23,7 +23,6 @@ int i915_globals_init(void);
+> >>>>    void i915_globals_exit(void);
+> >>>>
+> >>>>    /* constructors */
+> >>>> -int i915_global_context_init(void);
+> >>>>    int i915_global_gem_context_init(void);
+> >>>>    int i915_global_objects_init(void);
+> >>>>    int i915_global_request_init(void);
+> >>>> diff --git a/drivers/gpu/drm/i915/i915_pci.c b/drivers/gpu/drm/i915/i915_pci.c
+> >>>> index f9527269e30a..266618157775 100644
+> >>>> --- a/drivers/gpu/drm/i915/i915_pci.c
+> >>>> +++ b/drivers/gpu/drm/i915/i915_pci.c
+> >>>> @@ -33,6 +33,7 @@
+> >>>>    #include "i915_active.h"
+> >>>>    #include "i915_buddy.h"
+> >>>>    #include "i915_drv.h"
+> >>>> +#include "gem/i915_gem_context.h"
+> >>>
+> >>> It's a bit ugly to go to a design where i915_pci.c has to include so
+> >>> many random parts of i915. IMO for a complex driver like i915,
+> >>> compartmentalizing so much knowledge about the internals was better
+> >>> inside the globals layer.
+> >>
+> >> I agree that i915_pci feels like the wrong place to put this but I
+> >> don't think that's so much because globals don't belong in i915_pci
+> >> but because i915_init/exit don't belong there.  Maybe, once this is
+> >> all said and done (or at the start of the series), we should move
+> >> i915_init/exit to i915_drv.c?  Of course, there's a bunch of PCI
+> >> probing stuff in i915_drv.c so..... yeah.... our organization is
+> >> pretty busted.
+> >
+> > To put a finer point on this, the new "design" is really to have a
+> > single flat list instead of two, one nested inside the other.  There's
+> > nothing wrong with that at all.  The fact that all this stuff now
+> > lives in i915_pci.c is ugly.  But, as I said, that's kind-of an
+> > accident of history because that's where i915_init() and i915_exit()
+> > currently live.  We should just move the lot to i915_drv.c.
+>
+> Hmm.. on one hand it does sounds better to move to i915_drv.c, but is it
+> just because all these new include directive are so visibly out of place
+> in i915_pci.c?
+>
+> Perhaps we need i915_module.c and then i915_globals is a completely fine
+> concept. Desired IMO even since we have to avoid globals in general
+> (multi-gpu) so it sticks out nicely that all that is allowed to be
+> global has a special place.
+>
+> And i915_drv.c can remain being about a driver instance as bound to one GPU.
 
-On 26/07/2021 16:14, Jason Ekstrand wrote:
-> On Mon, Jul 26, 2021 at 3:31 AM Maarten Lankhorst
-> <maarten.lankhorst@linux.intel.com> wrote:
->>
->> Op 23-07-2021 om 13:34 schreef Matthew Auld:
->>> From: Chris Wilson <chris@chris-wilson.co.uk>
->>>
->>> Jason Ekstrand requested a more efficient method than userptr+set-domain
->>> to determine if the userptr object was backed by a complete set of pages
->>> upon creation. To be more efficient than simply populating the userptr
->>> using get_user_pages() (as done by the call to set-domain or execbuf),
->>> we can walk the tree of vm_area_struct and check for gaps or vma not
->>> backed by struct page (VM_PFNMAP). The question is how to handle
->>> VM_MIXEDMAP which may be either struct page or pfn backed...
->>>
->>> With discrete we are going to drop support for set_domain(), so offering
->>> a way to probe the pages, without having to resort to dummy batches has
->>> been requested.
->>>
->>> v2:
->>> - add new query param for the PROBE flag, so userspace can easily
->>>    check if the kernel supports it(Jason).
->>> - use mmap_read_{lock, unlock}.
->>> - add some kernel-doc.
->>> v3:
->>> - In the docs also mention that PROBE doesn't guarantee that the pages
->>>    will remain valid by the time they are actually used(Tvrtko).
->>> - Add a small comment for the hole finding logic(Jason).
->>> - Move the param next to all the other params which just return true.
->>>
->>> Testcase: igt/gem_userptr_blits/probe
->>> Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
->>> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
->>> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
->>> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
->>> Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
->>> Cc: Jordan Justen <jordan.l.justen@intel.com>
->>> Cc: Kenneth Graunke <kenneth@whitecape.org>
->>> Cc: Jason Ekstrand <jason@jlekstrand.net>
->>> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
->>> Cc: Ramalingam C <ramalingam.c@intel.com>
->>> Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->>> Acked-by: Kenneth Graunke <kenneth@whitecape.org>
->>> Reviewed-by: Jason Ekstrand <jason@jlekstrand.net>
->>> ---
->>>   drivers/gpu/drm/i915/gem/i915_gem_userptr.c | 41 ++++++++++++++++++++-
->>>   drivers/gpu/drm/i915/i915_getparam.c        |  1 +
->>>   include/uapi/drm/i915_drm.h                 | 20 ++++++++++
->>>   3 files changed, 61 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_userptr.c b/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
->>> index 56edfeff8c02..468a7a617fbf 100644
->>> --- a/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
->>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
->>> @@ -422,6 +422,34 @@ static const struct drm_i915_gem_object_ops i915_gem_userptr_ops = {
->>>
->>>   #endif
->>>
->>> +static int
->>> +probe_range(struct mm_struct *mm, unsigned long addr, unsigned long len)
->>> +{
->>> +     const unsigned long end = addr + len;
->>> +     struct vm_area_struct *vma;
->>> +     int ret = -EFAULT;
->>> +
->>> +     mmap_read_lock(mm);
->>> +     for (vma = find_vma(mm, addr); vma; vma = vma->vm_next) {
->>> +             /* Check for holes, note that we also update the addr below */
->>> +             if (vma->vm_start > addr)
->>> +                     break;
->>> +
->>> +             if (vma->vm_flags & (VM_PFNMAP | VM_MIXEDMAP))
->>> +                     break;
->>> +
->>> +             if (vma->vm_end >= end) {
->>> +                     ret = 0;
->>> +                     break;
->>> +             }
->>> +
->>> +             addr = vma->vm_end;
->>> +     }
->>> +     mmap_read_unlock(mm);
->>> +
->>> +     return ret;
->>> +}
->>> +
->>>   /*
->>>    * Creates a new mm object that wraps some normal memory from the process
->>>    * context - user memory.
->>> @@ -477,7 +505,8 @@ i915_gem_userptr_ioctl(struct drm_device *dev,
->>>        }
->>>
->>>        if (args->flags & ~(I915_USERPTR_READ_ONLY |
->>> -                         I915_USERPTR_UNSYNCHRONIZED))
->>> +                         I915_USERPTR_UNSYNCHRONIZED |
->>> +                         I915_USERPTR_PROBE))
->>>                return -EINVAL;
->>>
->>>        if (i915_gem_object_size_2big(args->user_size))
->>> @@ -504,6 +533,16 @@ i915_gem_userptr_ioctl(struct drm_device *dev,
->>>                        return -ENODEV;
->>>        }
->>>
->>> +     if (args->flags & I915_USERPTR_PROBE) {
->>> +             /*
->>> +              * Check that the range pointed to represents real struct
->>> +              * pages and not iomappings (at this moment in time!)
->>> +              */
->>> +             ret = probe_range(current->mm, args->user_ptr, args->user_size);
->>> +             if (ret)
->>> +                     return ret;
->>> +     }
->>> +
->>>   #ifdef CONFIG_MMU_NOTIFIER
->>>        obj = i915_gem_object_alloc();
->>>        if (obj == NULL)
->>> diff --git a/drivers/gpu/drm/i915/i915_getparam.c b/drivers/gpu/drm/i915/i915_getparam.c
->>> index 24e18219eb50..bbb7cac43eb4 100644
->>> --- a/drivers/gpu/drm/i915/i915_getparam.c
->>> +++ b/drivers/gpu/drm/i915/i915_getparam.c
->>> @@ -134,6 +134,7 @@ int i915_getparam_ioctl(struct drm_device *dev, void *data,
->>>        case I915_PARAM_HAS_EXEC_FENCE_ARRAY:
->>>        case I915_PARAM_HAS_EXEC_SUBMIT_FENCE:
->>>        case I915_PARAM_HAS_EXEC_TIMELINE_FENCES:
->>> +     case I915_PARAM_HAS_USERPTR_PROBE:
->>>                /* For the time being all of these are always true;
->>>                 * if some supported hardware does not have one of these
->>>                 * features this value needs to be provided from
->>> diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
->>> index 975087553ea0..0d290535a6e5 100644
->>> --- a/include/uapi/drm/i915_drm.h
->>> +++ b/include/uapi/drm/i915_drm.h
->>> @@ -674,6 +674,9 @@ typedef struct drm_i915_irq_wait {
->>>    */
->>>   #define I915_PARAM_HAS_EXEC_TIMELINE_FENCES 55
->>>
->>> +/* Query if the kernel supports the I915_USERPTR_PROBE flag. */
->>> +#define I915_PARAM_HAS_USERPTR_PROBE 56
->>> +
->>>   /* Must be kept compact -- no holes and well documented */
->>>
->>>   typedef struct drm_i915_getparam {
->>> @@ -2222,12 +2225,29 @@ struct drm_i915_gem_userptr {
->>>         * through the GTT. If the HW can't support readonly access, an error is
->>>         * returned.
->>>         *
->>> +      * I915_USERPTR_PROBE:
->>> +      *
->>> +      * Probe the provided @user_ptr range and validate that the @user_ptr is
->>> +      * indeed pointing to normal memory and that the range is also valid.
->>> +      * For example if some garbage address is given to the kernel, then this
->>> +      * should complain.
->>> +      *
->>> +      * Returns -EFAULT if the probe failed.
->>> +      *
->>> +      * Note that this doesn't populate the backing pages, and also doesn't
->>> +      * guarantee that the object will remain valid when the object is
->>> +      * eventually used.
->>> +      *
->>> +      * The kernel supports this feature if I915_PARAM_HAS_USERPTR_PROBE
->>> +      * returns a non-zero value.
->>> +      *
->>>         * I915_USERPTR_UNSYNCHRONIZED:
->>>         *
->>>         * NOT USED. Setting this flag will result in an error.
->>>         */
->>>        __u32 flags;
->>>   #define I915_USERPTR_READ_ONLY 0x1
->>> +#define I915_USERPTR_PROBE 0x2
->>>   #define I915_USERPTR_UNSYNCHRONIZED 0x80000000
->>>        /**
->>>         * @handle: Returned handle for the object.
->>
->> Could we use _VALIDATE instead of probe? Or at least pin the pages as well, so we don't have to do it later?
-> 
-> I only care that the name matches what it does.  _VALIDATE sounds like
-> it does a full validation of everything such that, if the import
-> succeeds, execbuf will as well.  If we pin the pages at the same time,
-> maybe that's true?  _PROBE, on the other hand, sounds a lot more like
+Is i915_drv.c about a single instance bound to a single GPU?  If so,
+then, yeah, maybe not the right place.  Maybe a i915_module.c would be
+better.  It's all different shades of shed paint.
 
-No it is not possible to guarantee backing store remains valid until 
-execbuf.
+--Jason
 
-> a one-time best-effort check which may race with other stuff and
-> doesn't guarantee future success.  That's in line with what the
-> current patch does.
-> 
->> We already have i915_gem_object_userptr_validate, no need to dupe it.
-> 
-> I have no opinion on this.
-
-I was actually suggesting the same as Maarten here - that we should add 
-a "populate" flag. But opinion was that was not desired - please look 
-for the older threads to see the reasoning there.
-
-Regards,
-
-Tvrtko
+> That feels like the best of both worlds to me.
+>
+> Regards,
+>
+> Tvrtko
+>
+> >
+> >> --Jason
+> >>
+> >>> Maybe add a cover letter to explain the perceived pros and cons and
+> >>> thinking in general?
+> >>>
+> >>> Regards,
+> >>>
+> >>> Tvrtko
+> >>>
+> >>>>    #include "i915_perf.h"
+> >>>>    #include "i915_globals.h"
+> >>>>    #include "i915_selftest.h"
+> >>>> @@ -1297,6 +1298,7 @@ static const struct {
+> >>>>        { i915_check_nomodeset, NULL },
+> >>>>        { i915_active_module_init, i915_active_module_exit },
+> >>>>        { i915_buddy_module_init, i915_buddy_module_exit },
+> >>>> +     { i915_context_module_init, i915_context_module_exit },
+> >>>>        { i915_globals_init, i915_globals_exit },
+> >>>>        { i915_mock_selftests, NULL },
+> >>>>        { i915_pmu_init, i915_pmu_exit },
+> >>>>
+> >>> _______________________________________________
+> >>> Intel-gfx mailing list
+> >>> Intel-gfx@lists.freedesktop.org
+> >>> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
