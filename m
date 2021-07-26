@@ -2,38 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 282BE3D59FA
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jul 2021 15:00:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 749623D5A79
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jul 2021 15:41:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B60E6E96D;
-	Mon, 26 Jul 2021 13:00:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 636B56E959;
+	Mon, 26 Jul 2021 13:41:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 444B06E96D
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Jul 2021 13:00:31 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 6E24260EB2;
- Mon, 26 Jul 2021 13:00:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1627304431;
- bh=Gx/Vu6b5lzcfCCty2qy4h00ua5IDYhArV6JrOmQxNS8=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=o9aDp1ctvx10cMjlC0OosTWfFezUbdRDRuQu1+MFYpb8tIhL5aOmRbXZBg1ZeHtO3
- riGsjq9UYMhSgJdfLhE0CFvjViQRi2xUL9a42dzMsO6zenIWRF2FDoTmRCZbKhcVZd
- qnUoC54u7kjQi2h8T2RlDDwYjiy1q4xjHpU81Nng=
-Date: Mon, 26 Jul 2021 15:00:28 +0200
-From: "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
-To: =?utf-8?B?dGNzX2tlcm5lbCjohb7orq/kupHlhoXmoLjlvIDlj5HogIUp?=
- <tcs_kernel@tencent.com>
-Subject: Re: [PATCH] fbcon: Out-Of-Bounds write in sys_imageblit, add range
- check
-Message-ID: <YP6x7C1OJg2mVHAd@kroah.com>
-References: <D5DF8A1C-5FA2-426B-AAB4-3199AEA0A02E@tencent.com>
+Received: from mx2.smtp.larsendata.com (mx2.smtp.larsendata.com
+ [91.221.196.228])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 76BE86E95C
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Jul 2021 13:41:04 +0000 (UTC)
+Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
+ by mx2.smtp.larsendata.com (Halon) with ESMTPS
+ id 27ecbc45-ee17-11eb-8d1a-0050568cd888;
+ Mon, 26 Jul 2021 13:41:18 +0000 (UTC)
+Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
+ [80.162.45.141])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: sam@ravnborg.org)
+ by mail01.mxhotel.dk (Postfix) with ESMTPSA id 52681194B7A;
+ Mon, 26 Jul 2021 15:41:19 +0200 (CEST)
+Date: Mon, 26 Jul 2021 15:40:57 +0200
+X-Report-Abuse-To: abuse@mxhotel.dk
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Nicolas Boichat <drinkcat@chromium.org>
+Subject: Re: [PATCH v2] drm/dsi: Add _NO_ to MIPI_DSI_* flags disabling
+ features
+Message-ID: <YP67aeAOIVgpMdca@ravnborg.org>
+References: <20210629074703.v2.1.I629b2366a6591410359c7fcf6d385b474b705ca2@changeid>
+ <YP1nmsofOs5KHre+@ravnborg.org>
+ <CANMq1KD_6DoNR9PvO9wrpEQc5BDwx6952mwz0poCw=hu+HsUbw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <D5DF8A1C-5FA2-426B-AAB4-3199AEA0A02E@tencent.com>
+In-Reply-To: <CANMq1KD_6DoNR9PvO9wrpEQc5BDwx6952mwz0poCw=hu+HsUbw@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,79 +50,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
- "ducheng2@gmail.com" <ducheng2@gmail.com>,
- "penguin-kernel@I-love.SAKURA.ne.jp" <penguin-kernel@i-love.sakura.ne.jp>,
- "daniel.vetter@ffwll.ch" <daniel.vetter@ffwll.ch>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "george.kennedy@oracle.com" <george.kennedy@oracle.com>,
- "tzimmermann@suse.de" <tzimmermann@suse.de>,
- "sam@ravnborg.org" <sam@ravnborg.org>,
- "yepeilin.cs@gmail.com" <yepeilin.cs@gmail.com>
+Cc: Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ Viresh Kumar <viresh.kumar@linaro.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Jordan Crouse <jordan@cosmicpenguin.net>, Andrzej Hajda <a.hajda@samsung.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
+ Joonyoung Shim <jy0922.shim@samsung.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Yangtao Li <tiny.windzz@gmail.com>,
+ Adrien Grassein <adrien.grassein@gmail.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+ MSM <linux-arm-msm@vger.kernel.org>, Abhinav Kumar <abhinavk@codeaurora.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Tzung-Bi Shih <tzungbi@google.com>, Pi-Hsun Shih <pihsun@chromium.org>,
+ Hsin-Yi Wang <hsinyi@chromium.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ Sean Paul <sean@poorly.run>, Xin Ji <xji@analogixsemi.com>,
+ linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
+ Rajendra Nayak <rnayak@codeaurora.org>, Seung-Woo Kim <sw0312.kim@samsung.com>,
+ lkml <linux-kernel@vger.kernel.org>, Robert Foss <robert.foss@linaro.org>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno <freedreno@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jul 26, 2021 at 11:32:37AM +0000, tcs_kernel(腾讯云内核开发者) wrote:
-> yres and vyres can be controlled by user mode paramaters, and cause p->vrows to become a negative value. While this value be passed to real_y function, the ypos will be out of screen range.
-> This is an out-of-bounds write bug.
+Hi Nicolas,
+
+On Mon, Jul 26, 2021 at 08:38:18AM +0800, Nicolas Boichat wrote:
+> On Sun, Jul 25, 2021 at 9:31 PM Sam Ravnborg <sam@ravnborg.org> wrote:
+> >
+> > On Tue, Jun 29, 2021 at 07:47:21AM +0800, Nicolas Boichat wrote:
+> > > Many of the DSI flags have names opposite to their actual effects,
+> > > e.g. MIPI_DSI_MODE_EOT_PACKET means that EoT packets will actually
+> > > be disabled. Fix this by including _NO_ in the flag names, e.g.
+> > > MIPI_DSI_MODE_NO_EOT_PACKET.
+> > >
+> > > Signed-off-by: Nicolas Boichat <drinkcat@chromium.org>
+> >
+> > Hi Nicolas,
+> >
+> > in this thread:
+> > https://lore.kernel.org/dri-devel/20210211113309.1.I629b2366a6591410359c7fcf6d385b474b705ca2@changeid/
+> > I see that several people added their Reviewed-by.
+> >
+> > Please either add the tgas if missing, or elaborate why you left them out.
 > 
+> Oh simple, I just forgot.
+Yeah, know that feeling.
 > 
-> diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
-> index 22bb3892f6bd..0970de46782f 100644
-> --- a/drivers/video/fbdev/core/fbcon.c
-> +++ b/drivers/video/fbdev/core/fbcon.c
-> @@ -1956,11 +1956,12 @@ static void updatescrollmode(struct fbcon_display *p,
->         int yres = FBCON_SWAP(ops->rotate, info->var.yres, info->var.xres);
->         int vyres = FBCON_SWAP(ops->rotate, info->var.yres_virtual,
->                                    info->var.xres_virtual);
-> +       int rows = vc->vc_rows;
->  
->         p->vrows = vyres/fh;
-> -       if (yres > (fh * (vc->vc_rows + 1)))
-> -               p->vrows -= (yres - (fh * vc->vc_rows)) / fh;
-> -       if ((yres % fh) && (vyres % fh < yres % fh))
-> +       if ((yres > (fh * (rows + 1))) && (vyres >= (yres - (fh * rows))) && p->vrows)
-> +               p->vrows -= (yres - (fh * rows)) / fh;
-> +       if ((yres % fh) && (vyres % fh < yres % fh) && p->vrows)
->                 p->vrows--;
->  }
+> I regenerated the patch so it's a bit different from v1... Not 100%
+> sure if I can add those, since those were for the overall patch:
+> Reviewed-by: Robert Foss <robert.foss@linaro.org>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Reviewed-by: Andrzej Hajda <andrzej.hajda@samsung.com>.
 > 
+> Those 2 shouldn't be a problem:
+> Reviewed-by: Xin Ji <xji@analogixsemi.com> # anx7625.c
+> Reviewed-by: Abhinav Kumar <abhinavk@codeaurora.org> # msm/dsi
+> 
+> > I was suprised this had not landed yet.
+> 
+> Yep. Let me know if you want me to send a v3 with those tags.
+Please resend a v3 with the tags.
 
-Hi,
-
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
-
-You are receiving this message because of the following common error(s)
-as indicated below:
-
-- Your patch is malformed (tabs converted to spaces, linewrapped, etc.)
-  and can not be applied.  Please read the file,
-  Documentation/email-clients.txt in order to fix this.
-
-- Your patch does not have a Signed-off-by: line.  Please read the
-  kernel file, Documentation/SubmittingPatches and resend it after
-  adding that line.  Note, the line needs to be in the body of the
-  email, before the patch, not at the bottom of the patch or in the
-  email signature.
-
-- You did not specify a description of why the patch is needed, or
-  possibly, any description at all, in the email body.  Please read the
-  section entitled "The canonical patch format" in the kernel file,
-  Documentation/SubmittingPatches for what is needed in order to
-  properly describe the change.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
+	Sam
