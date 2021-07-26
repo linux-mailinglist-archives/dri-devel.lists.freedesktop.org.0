@@ -2,59 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D30B3D5C01
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jul 2021 16:42:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 560A93D5C44
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jul 2021 16:56:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 984F06F9DA;
-	Mon, 26 Jul 2021 14:42:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D7A0A6E575;
+	Mon, 26 Jul 2021 14:56:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com
- [IPv6:2607:f8b0:4864:20::1035])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F8896EE6C;
- Mon, 26 Jul 2021 14:42:51 +0000 (UTC)
-Received: by mail-pj1-x1035.google.com with SMTP id
- pf12-20020a17090b1d8cb0290175c085e7a5so20101612pjb.0; 
- Mon, 26 Jul 2021 07:42:51 -0700 (PDT)
+Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com
+ [IPv6:2607:f8b0:4864:20::102f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 543616E15D;
+ Mon, 26 Jul 2021 14:56:26 +0000 (UTC)
+Received: by mail-pj1-x102f.google.com with SMTP id l19so13326110pjz.0;
+ Mon, 26 Jul 2021 07:56:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=Rlta0NEovcclpaPJpD2xtS9yg3zCeqF6l6C6xl/bEnk=;
- b=MXQvlm5f7NTlQFcq3MkDZlFoTbSB2ULWsD6K+q14oA0GkYqM4+ZHwtjr/XT0wPmsN9
- 58obxREMteJ8Y05M6NgoXSKtfShL+iWJcy+YYGMXgokoSLKT9161DNf/+ylDyM0dJixe
- maG6+qAjJa0pMkhlMfISxJRYx8cBtwLnmnCHP7B2jT0rqXXlGVZUaqi9UreTy543Zgz+
- A78ucVm7QM46p4KW9Hgpa+QcEt7vYEL8FsqCNRTt1WXbWQh8i75qXPWYqQxMQqVT7hhk
- L7Gf/4CmAXhe7UGG5hRsRfRrJPNgPBtEJEqlPZXL048WzRIF67SL67Fm82fU3vfiSrnO
- JWwA==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=4kiMiLKKdf74B8SbPL3dRDmnPHR8lzRMp7RHSQmrGNw=;
+ b=jI1j/NgDo5hs4g+F/KPwBAM+MOzWrSm17BUPFpmgS+r7lkXmGUXQyhqz+hNF7GRKNx
+ YYdlgQ9QLIfqyzRXe3rC5M4gstvciuqgcrV255x0Vxqhw7eL5DloVQhMdzEUbUS0j5hy
+ qJOEGjd7GJ8RWFVPOyIRnu7H96draFn/HNd/c+M2AqULKQLshZ17TLnXoPmqxn2bN6AV
+ u6ORrEl3fyvVFrZx3ZkKJxZhaU29xzgJVNObiE/bAsFPXX84rwqeTQiIUzveLeotHELk
+ XJnGUQTodmB3X2vAoLHL/gEW0aLo/m0ovZFT8XxhChsFH59k+DitsaHWPt04F84Tr63U
+ eB2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Rlta0NEovcclpaPJpD2xtS9yg3zCeqF6l6C6xl/bEnk=;
- b=UR5PLAtzALVOfRisymhFpLTiBGpuNbID8mat/eUrtEEPBvVK4fQhgx0UDqpl3TFvej
- kIwjPNRkdu6ncPvbZkdBs35Pyj+w1YeynWHeVKx48lHrtBk/MHdRfmSEw0yFn2n83CQD
- a0yIJ22jnzL+hWZCqJxh6X41mwOts6dKa+WPOI8gwPRtpXFnn2VSRBeZmSMx1JAaPQ3I
- RAus+DcxJ20NEooKIAKEVWS/kn1NtL+rvmAbCJi21fs25GiypOPFO72kwFN0vJv3+qBH
- eoZlmyUR0wmZjhnqJrjU7mE7N83HqTpN2y5HxaHe6+Ub0F+Rejm79BneUzpT97acZa09
- nkow==
-X-Gm-Message-State: AOAM532EABA+Poka59hq5ud0+IRpj322S2fr7ZO1aboLQCyAejnqHM/8
- bVjY/F42TT/kadHc6T7w83cEIm3KsznbEQ==
-X-Google-Smtp-Source: ABdhPJwvV+Ta7Aed4EqK/5ZlO07y7a/xBo8shDf26JWpJt+WXH9hmPeAdzDtih6ushddXac2m2SrdQ==
-X-Received: by 2002:a63:354:: with SMTP id 81mr18503749pgd.369.1627310570186; 
- Mon, 26 Jul 2021 07:42:50 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=4kiMiLKKdf74B8SbPL3dRDmnPHR8lzRMp7RHSQmrGNw=;
+ b=LrD/ES8Bu7AMuf3u62hCJq5z9Rc4llTKBU8lb0fb8fz7ZGvCTBWv1UFB2CKyJOfKKQ
+ snWjzJEtiAIiSjnSCwxZzCn/NCv8AnWxR4SXx4+v+gKqQlvWdoNU+RfhaQ2n5LBYVCDy
+ c+ENi1Blnq9C6dJKcSt/N5Tiq1S1jJWyeyO76M8wA8KNg5XK7PomPPz8q8IC8w6t9MKR
+ 9tRjz/wTcYl3r870mRxluKnE6oK1UHgc6CiLSl/DLS/7bV4+b3SQVZIDg9KQsyZ4gtUK
+ ZvJqgKY+2ut1G0hVbAnyKCUTxW1FcJNVSjtHJTZfK/zakPvSu0yT46qJBHJZ3FUnfetE
+ IpyA==
+X-Gm-Message-State: AOAM533uaXaTM59Y/yiUutEV1OilmUH2kVM8ZvkZekW34P/yvEtAlzIw
+ OXAn50eV1cUoqONux7zK8BsBbCVBWAS7eQ==
+X-Google-Smtp-Source: ABdhPJxCzSPaN6g5q60cPg019AFRxemj39UE/GdRQyt7U07FdFkZJldm6g5LHorArCTP21RfR8lbHw==
+X-Received: by 2002:a17:902:a710:b029:12b:9b9f:c461 with SMTP id
+ w16-20020a170902a710b029012b9b9fc461mr14548619plq.59.1627311385190; 
+ Mon, 26 Jul 2021 07:56:25 -0700 (PDT)
 Received: from localhost ([2601:1c0:5200:a6:307:a401:7b76:c6e5])
- by smtp.gmail.com with ESMTPSA id i13sm230613pfr.79.2021.07.26.07.42.48
+ by smtp.gmail.com with ESMTPSA id x6sm3034152pjk.24.2021.07.26.07.56.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 Jul 2021 07:42:49 -0700 (PDT)
+ Mon, 26 Jul 2021 07:56:24 -0700 (PDT)
 From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 3/3] drm/msm: Devfreq tuning
-Date: Mon, 26 Jul 2021 07:46:50 -0700
-Message-Id: <20210726144653.2180096-4-robdclark@gmail.com>
+Subject: [PATCH v2 00/12] drm/msm: drm scheduler conversion and cleanups
+Date: Mon, 26 Jul 2021 08:00:14 -0700
+Message-Id: <20210726150038.2187631-1-robdclark@gmail.com>
 X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210726144653.2180096-1-robdclark@gmail.com>
-References: <20210726144653.2180096-1-robdclark@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,253 +67,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU"
- <freedreno@lists.freedesktop.org>, David Airlie <airlied@linux.ie>,
+Cc: Emma Anholt <emma@anholt.net>, Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Akhil P Oommen <akhilpo@codeaurora.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Lee Jones <lee.jones@linaro.org>, Rob Clark <robdclark@chromium.org>,
+ Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
+ Jonathan Marek <jonathan@marek.ca>, Bernard Zhao <bernard@vivo.com>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
  "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>, Sean Paul <sean@poorly.run>
+ Sharat Masetty <smasetty@codeaurora.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Jordan Crouse <jordan@cosmicpenguin.net>,
+ Douglas Anderson <dianders@chromium.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ Zhenzhong Duan <zhenzhong.duan@gmail.com>,
+ "Kristian H. Kristensen" <hoegsberg@google.com>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <freedreno@lists.freedesktop.org>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Rob Clark <robdclark@chromium.org>
 
-This adds a few things to try and make frequency scaling better match
-the workload:
+Conversion to gpu_scheduler, and bonus removal of
+drm_gem_object_put_locked()
 
-1) Longer polling interval to avoid whip-lashing between too-high and
-   too-low frequencies in certain workloads, like mobile games which
-   throttle themselves to 30fps.
+v2: Fix priority mixup (msm UAPI has lower numeric priority value as
+    higher priority, inverse of drm/scheduler) and add some comments
+    in the UAPI header to clarify.
 
-   Previously our polling interval was short enough to let things
-   ramp down to minimum freq in the "off" frame, but long enough to
-   not react quickly enough when rendering started on the next frame,
-   leading to uneven frame times.  (Ie. rather than a consistent 33ms
-   it would alternate between 16/33/48ms.)
+    Now that we move active refcnt get into msm_gem_submit, add a
+    patch to mark all bos busy before pinning, to avoid evicting bos
+    used in same batch.
 
-2) Awareness of when the GPU is active vs idle.  Since we know when
-   the GPU is active vs idle, we can clamp the frequency down to the
-   minimum while it is idle.  (If it is idle for long enough, then
-   the autosuspend delay will eventually kick in and power down the
-   GPU.)
+    Fix bo locking for cmdstream dumping ($debugfs/n/{rd,hangrd})
 
-   Since devfreq has no knowledge of powered-but-idle, this takes a
-   small bit of trickery to maintain a "fake" frequency while idle.
-   This, combined with the longer polling period allows devfreq to
-   arrive at a reasonable "active" frequency, while still clamping
-   to minimum freq when idle to reduce power draw.
+Rob Clark (12):
+  drm/msm: Docs and misc cleanup
+  drm/msm: Small submitqueue creation cleanup
+  drm/msm: drop drm_gem_object_put_locked()
+  drm: Drop drm_gem_object_put_locked()
+  drm/msm/submit: Simplify out-fence-fd handling
+  drm/msm: Consolidate submit bo state
+  drm/msm: Track "seqno" fences by idr
+  drm/msm: Return ERR_PTR() from submit_create()
+  drm/msm: Conversion to drm scheduler
+  drm/msm: Drop struct_mutex in submit path
+  drm/msm: Utilize gpu scheduler priorities
+  drm/msm/gem: Mark active before pinning
 
-3) Boost.  Because simple_ondemand needs to see a certain threshold
-   of busyness to ramp up, we could end up needing multiple polling
-   cycles before it reacts appropriately on interactive workloads
-   (ex. scrolling a web page after reading for some time), on top
-   of the already lengthened polling interval, when we see a idle
-   to active transition after a period of idle time we boost the
-   frequency that we return to.
+ drivers/gpu/drm/drm_gem.c                   |  22 --
+ drivers/gpu/drm/msm/Kconfig                 |   1 +
+ drivers/gpu/drm/msm/adreno/a5xx_debugfs.c   |   4 +-
+ drivers/gpu/drm/msm/adreno/a5xx_gpu.c       |   6 +-
+ drivers/gpu/drm/msm/adreno/a5xx_power.c     |   2 +-
+ drivers/gpu/drm/msm/adreno/a5xx_preempt.c   |   7 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.c       |  12 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c       |   2 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c |   4 +-
+ drivers/gpu/drm/msm/adreno/adreno_gpu.c     |   6 +-
+ drivers/gpu/drm/msm/msm_drv.c               |  30 +-
+ drivers/gpu/drm/msm/msm_fence.c             |  39 ---
+ drivers/gpu/drm/msm/msm_fence.h             |   2 -
+ drivers/gpu/drm/msm/msm_gem.c               |  93 +-----
+ drivers/gpu/drm/msm/msm_gem.h               |  39 ++-
+ drivers/gpu/drm/msm/msm_gem_submit.c        | 316 ++++++++++++--------
+ drivers/gpu/drm/msm/msm_gpu.c               |  46 +--
+ drivers/gpu/drm/msm/msm_gpu.h               |  78 ++++-
+ drivers/gpu/drm/msm/msm_rd.c                |   6 +-
+ drivers/gpu/drm/msm/msm_ringbuffer.c        |  70 ++++-
+ drivers/gpu/drm/msm/msm_ringbuffer.h        |  12 +
+ drivers/gpu/drm/msm/msm_submitqueue.c       |  53 +++-
+ include/drm/drm_gem.h                       |   2 -
+ include/uapi/drm/msm_drm.h                  |  14 +-
+ 24 files changed, 503 insertions(+), 363 deletions(-)
 
-Signed-off-by: Rob Clark <robdclark@chromium.org>
----
- drivers/gpu/drm/msm/msm_gpu.c         | 16 ++++++
- drivers/gpu/drm/msm/msm_gpu.h         | 29 +++++++++++
- drivers/gpu/drm/msm/msm_gpu_devfreq.c | 73 ++++++++++++++++++++++++++-
- 3 files changed, 117 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
-index fedbd785e42f..c4ed8694f721 100644
---- a/drivers/gpu/drm/msm/msm_gpu.c
-+++ b/drivers/gpu/drm/msm/msm_gpu.c
-@@ -680,6 +680,14 @@ static void retire_submit(struct msm_gpu *gpu, struct msm_ringbuffer *ring,
- 	list_del(&submit->node);
- 	spin_unlock_irqrestore(&ring->submit_lock, flags);
- 
-+	/* Update devfreq on transition from active->idle: */
-+	mutex_lock(&gpu->active_lock);
-+	gpu->active_submits--;
-+	WARN_ON(gpu->active_submits < 0);
-+	if (!gpu->active_submits)
-+		msm_devfreq_idle(gpu);
-+	mutex_unlock(&gpu->active_lock);
-+
- 	msm_gem_submit_put(submit);
- }
- 
-@@ -781,6 +789,13 @@ void msm_gpu_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
- 	list_add_tail(&submit->node, &ring->submits);
- 	spin_unlock_irqrestore(&ring->submit_lock, flags);
- 
-+	/* Update devfreq on transition from idle->active: */
-+	mutex_lock(&gpu->active_lock);
-+	if (!gpu->active_submits)
-+		msm_devfreq_active(gpu);
-+	gpu->active_submits++;
-+	mutex_unlock(&gpu->active_lock);
-+
- 	gpu->funcs->submit(gpu, submit);
- 	priv->lastctx = submit->queue->ctx;
- 
-@@ -866,6 +881,7 @@ int msm_gpu_init(struct drm_device *drm, struct platform_device *pdev,
- 	sched_set_fifo_low(gpu->worker->task);
- 
- 	INIT_LIST_HEAD(&gpu->active_list);
-+	mutex_init(&gpu->active_lock);
- 	kthread_init_work(&gpu->retire_work, retire_worker);
- 	kthread_init_work(&gpu->recover_work, recover_worker);
- 	kthread_init_work(&gpu->fault_work, fault_worker);
-diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_gpu.h
-index 2e61d05293e6..710c3fedfbf3 100644
---- a/drivers/gpu/drm/msm/msm_gpu.h
-+++ b/drivers/gpu/drm/msm/msm_gpu.h
-@@ -98,6 +98,20 @@ struct msm_gpu_devfreq {
- 
- 	/** time: Time of last sampling period. */
- 	ktime_t time;
-+
-+	/** idle_time: Time of last transition to idle: */
-+	ktime_t idle_time;
-+
-+	/**
-+	 * idle_freq:
-+	 *
-+	 * Shadow frequency used while the GPU is idle.  From the PoV of
-+	 * the devfreq governor, we are continuing to sample busyness and
-+	 * adjust frequency while the GPU is idle, but we use this shadow
-+	 * value as the GPU is actually clamped to minimum frequency while
-+	 * it is inactive.
-+	 */
-+	unsigned long idle_freq;
- };
- 
- struct msm_gpu {
-@@ -129,6 +143,19 @@ struct msm_gpu {
- 	 */
- 	struct list_head active_list;
- 
-+	/**
-+	 * active_submits:
-+	 *
-+	 * The number of submitted but not yet retired submits, used to
-+	 * determine transitions between active and idle.
-+	 *
-+	 * Protected by lock
-+	 */
-+	int active_submits;
-+
-+	/** lock: protects active_submits and idle/active transitions */
-+	struct mutex active_lock;
-+
- 	/* does gpu need hw_init? */
- 	bool needs_hw_init;
- 
-@@ -322,6 +349,8 @@ void msm_devfreq_init(struct msm_gpu *gpu);
- void msm_devfreq_cleanup(struct msm_gpu *gpu);
- void msm_devfreq_resume(struct msm_gpu *gpu);
- void msm_devfreq_suspend(struct msm_gpu *gpu);
-+void msm_devfreq_active(struct msm_gpu *gpu);
-+void msm_devfreq_idle(struct msm_gpu *gpu);
- 
- int msm_gpu_hw_init(struct msm_gpu *gpu);
- 
-diff --git a/drivers/gpu/drm/msm/msm_gpu_devfreq.c b/drivers/gpu/drm/msm/msm_gpu_devfreq.c
-index 2e24a97be624..0a1ee20296a2 100644
---- a/drivers/gpu/drm/msm/msm_gpu_devfreq.c
-+++ b/drivers/gpu/drm/msm/msm_gpu_devfreq.c
-@@ -22,6 +22,15 @@ static int msm_devfreq_target(struct device *dev, unsigned long *freq,
- 
- 	opp = devfreq_recommended_opp(dev, freq, flags);
- 
-+	/*
-+	 * If the GPU is idle, devfreq is not aware, so just ignore
-+	 * it's requests
-+	 */
-+	if (gpu->devfreq.idle_freq) {
-+		gpu->devfreq.idle_freq = *freq;
-+		return 0;
-+	}
-+
- 	if (IS_ERR(opp))
- 		return PTR_ERR(opp);
- 
-@@ -39,6 +48,9 @@ static int msm_devfreq_target(struct device *dev, unsigned long *freq,
- 
- static unsigned long get_freq(struct msm_gpu *gpu)
- {
-+	if (gpu->devfreq.idle_freq)
-+		return gpu->devfreq.idle_freq;
-+
- 	if (gpu->funcs->gpu_get_freq)
- 		return gpu->funcs->gpu_get_freq(gpu);
- 
-@@ -69,7 +81,8 @@ static int msm_devfreq_get_cur_freq(struct device *dev, unsigned long *freq)
- }
- 
- static struct devfreq_dev_profile msm_devfreq_profile = {
--	.polling_ms = 10,
-+	.timer = DEVFREQ_TIMER_DELAYED,
-+	.polling_ms = 50,
- 	.target = msm_devfreq_target,
- 	.get_dev_status = msm_devfreq_get_dev_status,
- 	.get_cur_freq = msm_devfreq_get_cur_freq,
-@@ -130,3 +143,61 @@ void msm_devfreq_suspend(struct msm_gpu *gpu)
- {
- 	devfreq_suspend_device(gpu->devfreq.devfreq);
- }
-+
-+void msm_devfreq_active(struct msm_gpu *gpu)
-+{
-+	struct msm_gpu_devfreq *df = &gpu->devfreq;
-+	struct devfreq_dev_status status;
-+	unsigned int idle_time;
-+	unsigned long target_freq = df->idle_freq;
-+
-+	/*
-+	 * Hold devfreq lock to synchronize with get_dev_status()/
-+	 * target() callbacks
-+	 */
-+	mutex_lock(&df->devfreq->lock);
-+
-+	idle_time = ktime_to_ms(ktime_sub(ktime_get(), df->idle_time));
-+
-+	/*
-+	 * If we've been idle for a significant fraction of a polling
-+	 * interval, then we won't meet the threshold of busyness for
-+	 * the governor to ramp up the freq.. so give some boost
-+	 */
-+	if (idle_time > msm_devfreq_profile.polling_ms/2) {
-+		target_freq *= 2;
-+	}
-+
-+	df->idle_freq = 0;
-+
-+	msm_devfreq_target(&gpu->pdev->dev, &target_freq, 0);
-+
-+	/*
-+	 * Reset the polling interval so we aren't inconsistent
-+	 * about freq vs busy/total cycles
-+	 */
-+	msm_devfreq_get_dev_status(&gpu->pdev->dev, &status);
-+
-+	mutex_unlock(&df->devfreq->lock);
-+}
-+
-+void msm_devfreq_idle(struct msm_gpu *gpu)
-+{
-+	struct msm_gpu_devfreq *df = &gpu->devfreq;
-+	unsigned long idle_freq, target_freq = 0;
-+
-+	/*
-+	 * Hold devfreq lock to synchronize with get_dev_status()/
-+	 * target() callbacks
-+	 */
-+	mutex_lock(&df->devfreq->lock);
-+
-+	idle_freq = get_freq(gpu);
-+
-+	msm_devfreq_target(&gpu->pdev->dev, &target_freq, 0);
-+
-+	df->idle_time = ktime_get();
-+	df->idle_freq = idle_freq;
-+
-+	mutex_unlock(&df->devfreq->lock);
-+}
 -- 
 2.31.1
 
