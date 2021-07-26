@@ -1,40 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 481E23D5C96
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jul 2021 17:06:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD55B3D5CAF
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jul 2021 17:11:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E33B6EC87;
-	Mon, 26 Jul 2021 15:06:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF9EE6FE97;
+	Mon, 26 Jul 2021 15:11:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A61989E0D;
- Mon, 26 Jul 2021 15:06:21 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10057"; a="199489137"
-X-IronPort-AV: E=Sophos;i="5.84,270,1620716400"; d="scan'208";a="199489137"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jul 2021 08:06:20 -0700
-X-IronPort-AV: E=Sophos;i="5.84,270,1620716400"; d="scan'208";a="662039456"
-Received: from mandhav-mobl3.gar.corp.intel.com (HELO ldmartin-desk2)
- ([10.251.20.227])
- by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jul 2021 08:06:19 -0700
-Date: Mon, 26 Jul 2021 08:06:18 -0700
-From: Lucas De Marchi <lucas.demarchi@intel.com>
-To: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Subject: Re: [PATCH 18/30] drm/i915: remove explicit CNL handling from
- i915_irq.c
-Message-ID: <20210726150618.ue3f6snpdpzwmt6p@ldmartin-desk2>
-References: <20210724001114.249295-1-lucas.demarchi@intel.com>
- <20210724001114.249295-19-lucas.demarchi@intel.com>
- <YP6Vl2b0iBuQZSJi@intel.com>
+Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com
+ [IPv6:2607:f8b0:4864:20::b2d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4BFA572D7F
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Jul 2021 15:11:21 +0000 (UTC)
+Received: by mail-yb1-xb2d.google.com with SMTP id a93so15421184ybi.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Jul 2021 08:11:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=BDfwKIgSKbxznyYPJRVzxNju+XZ1+lwgPHYGCuhA5pA=;
+ b=jWiIPmZDg1jCBIqZv0cgAmanq2J7sUeaoqbGcMR5vKQ9saX/aLrhpYk4LLNhdxKFSh
+ 8hrcEx1FxartIX7f5zlCUvfeVhZ7pz38POwhSusGeUM3WFJqfcE54PsNtpp0sX8PVnAl
+ Q9DUdjCs+fVhqp95GIyLowoiocfD/VQw97nW4SpazC0c8YMCJoeZnGtMoRXEjg5HUnDQ
+ fFYerCmN/7BRMoRvlj17ZA/pUjh5VwhW/8vgk9z9kmb/Au8Vby5dr8g+ElJfz/IRe191
+ OidW3mMXyf5cOWTTbToQUdT+hx3tURXwyZpFwH8XyvmP+dhG8KPXCJW9Lc+p9707DTL4
+ k8ow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=BDfwKIgSKbxznyYPJRVzxNju+XZ1+lwgPHYGCuhA5pA=;
+ b=V64DKXJWPY3fEPtt2F0nqOPzCd4XsOkW7syOFa/FRgFZ1BMOYIlnUKEaqYu1DX+qI/
+ bf0cxuqHe+cm0ShWbsKoUjNP5hLlHe9JoTjiakjBhEPkFBPjYeq0pCQ4lrX6VqikkYUb
+ jdsfnXd+t4UvnKTB+S78eDXhcwXIe+fnnZrGMyLtJoJLvHS9wR6jUVBRk/gkzPFV3oZf
+ iX8zoi2RmHXaDDdBOpwZkeFRUjwgTfUP3I9ATSlssnuCfuYIbckp+oH423fTJmaMGcv0
+ 92jkrzkM/1HOGIWtgYj9I/KVQ7Jya1OeAHTSBgkg0MgDSXvm2TjmiMhWS80DHCmsP18/
+ Zg5A==
+X-Gm-Message-State: AOAM530tRHe3p+jvGcUzHImub3AolIunebVVxpAidyWfTntz//mOu5+e
+ h9lD47lc4KrlvoijsoTiM6YmYAeUid9cgAjxrDeISg==
+X-Google-Smtp-Source: ABdhPJyATk0zkFzsgvDBrEHmWSwloqdqBBw6ZaZ4wfrikFlaRGMdXmqKXlk03IKz4SxHmYqXwGGgMiRHlztE0r7bip0=
+X-Received: by 2002:a25:d714:: with SMTP id o20mr10260386ybg.287.1627312280173; 
+ Mon, 26 Jul 2021 08:11:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <YP6Vl2b0iBuQZSJi@intel.com>
+References: <20210723172142.3273510-1-jason@jlekstrand.net>
+ <CAM0jSHOgJQni53DJWP0NWJTAR82PNmb6zgt2Gm-faBd1sDaSHA@mail.gmail.com>
+In-Reply-To: <CAM0jSHOgJQni53DJWP0NWJTAR82PNmb6zgt2Gm-faBd1sDaSHA@mail.gmail.com>
+From: Jason Ekstrand <jason@jlekstrand.net>
+Date: Mon, 26 Jul 2021 10:11:08 -0500
+Message-ID: <CAOFGe95CVvM=7UvH3yBBx9Qr4OPrkRUG7QAXgnSLkWgPGef10g@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH 0/8] drm/i915: Migrate memory to SMEM when
+ imported cross-device (v8)
+To: Matthew Auld <matthew.william.auld@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,68 +66,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, intel-gfx@lists.freedesktop.org,
- Jose Souza <jose.souza@intel.com>, dri-devel@lists.freedesktop.org
+Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jul 26, 2021 at 06:59:35AM -0400, Rodrigo Vivi wrote:
->On Fri, Jul 23, 2021 at 05:11:02PM -0700, Lucas De Marchi wrote:
->> Remove special handling of PORT_F in i915_irq.c and only do it for
->> DISPLAY_VER == 11.
+On Mon, Jul 26, 2021 at 3:12 AM Matthew Auld
+<matthew.william.auld@gmail.com> wrote:
 >
->oh! ignore my previous thought about removing the port F...
+> On Fri, 23 Jul 2021 at 18:21, Jason Ekstrand <jason@jlekstrand.net> wrote=
+:
+> >
+> > This patch series fixes an issue with discrete graphics on Intel where =
+we
+> > allowed dma-buf import while leaving the object in local memory.  This
+> > breaks down pretty badly if the import happened on a different physical
+> > device.
+> >
+> > v7:
+> >  - Drop "drm/i915/gem/ttm: Place new BOs in the requested region"
+> >  - Add a new "drm/i915/gem: Call i915_gem_flush_free_objects() in i915_=
+gem_dumb_create()"
+> >  - Misc. review feedback from Matthew Auld
+> > v8:
+> >  - Misc. review feedback from Matthew Auld
+> > v9:
+> >  - Replace the i915/ttm patch with two that are hopefully more correct
+> >
+> > Jason Ekstrand (6):
+> >   drm/i915/gem: Check object_can_migrate from object_migrate
+> >   drm/i915/gem: Refactor placement setup for i915_gem_object_create*
+> >     (v2)
+> >   drm/i915/gem: Call i915_gem_flush_free_objects() in
+> >     i915_gem_dumb_create()
+> >   drm/i915/gem: Unify user object creation (v3)
+> >   drm/i915/gem/ttm: Only call __i915_gem_object_set_pages if needed
+> >   drm/i915/gem: Always call obj->ops->migrate unless can_migrate fails
+> >
+> > Thomas Hellstr=C3=B6m (2):
+> >   drm/i915/gem: Correct the locking and pin pattern for dma-buf (v8)
+> >   drm/i915/gem: Migrate to system at dma-buf attach time (v7)
+>
+> Should I push the series?
 
-of course I only saw this after replying to your comment :)
+Yes, please.  Do we have a solid testing plan for things like this
+that touch discrete?  I tested with mesa+glxgears on my DG1 but
+haven't run anything more stressful.
 
-thanks
-Lucas De Marchi
+--Jason
 
->
->>
->> Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
->
->
->Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
->
->
->> ---
->>  drivers/gpu/drm/i915/i915_irq.c | 7 +++----
->>  drivers/gpu/drm/i915/i915_reg.h | 2 +-
->>  2 files changed, 4 insertions(+), 5 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/i915/i915_irq.c b/drivers/gpu/drm/i915/i915_irq.c
->> index e2171bd2820e..17d336218b67 100644
->> --- a/drivers/gpu/drm/i915/i915_irq.c
->> +++ b/drivers/gpu/drm/i915/i915_irq.c
->> @@ -2297,11 +2297,10 @@ static u32 gen8_de_port_aux_mask(struct drm_i915_private *dev_priv)
->>  			GEN9_AUX_CHANNEL_C |
->>  			GEN9_AUX_CHANNEL_D;
->>
->> -	if (IS_CNL_WITH_PORT_F(dev_priv) || DISPLAY_VER(dev_priv) == 11)
->> -		mask |= CNL_AUX_CHANNEL_F;
->> -
->> -	if (DISPLAY_VER(dev_priv) == 11)
->> +	if (DISPLAY_VER(dev_priv) == 11) {
->> +		mask |= ICL_AUX_CHANNEL_F;
->>  		mask |= ICL_AUX_CHANNEL_E;
->> +	}
->>
->>  	return mask;
->>  }
->> diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
->> index d198b1a2d4b5..fdc8fd424d36 100644
->> --- a/drivers/gpu/drm/i915/i915_reg.h
->> +++ b/drivers/gpu/drm/i915/i915_reg.h
->> @@ -7945,7 +7945,7 @@ enum {
->>  #define  DSI1_NON_TE			(1 << 31)
->>  #define  DSI0_NON_TE			(1 << 30)
->>  #define  ICL_AUX_CHANNEL_E		(1 << 29)
->> -#define  CNL_AUX_CHANNEL_F		(1 << 28)
->> +#define  ICL_AUX_CHANNEL_F		(1 << 28)
->>  #define  GEN9_AUX_CHANNEL_D		(1 << 27)
->>  #define  GEN9_AUX_CHANNEL_C		(1 << 26)
->>  #define  GEN9_AUX_CHANNEL_B		(1 << 25)
->> --
->> 2.31.1
->>
+
+> >
+> >  drivers/gpu/drm/i915/gem/i915_gem_create.c    | 177 ++++++++--------
+> >  drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c    |  58 ++++--
+> >  drivers/gpu/drm/i915/gem/i915_gem_object.c    |  20 +-
+> >  drivers/gpu/drm/i915/gem/i915_gem_object.h    |   4 +
+> >  drivers/gpu/drm/i915/gem/i915_gem_ttm.c       |  13 +-
+> >  .../drm/i915/gem/selftests/i915_gem_dmabuf.c  | 190 +++++++++++++++++-
+> >  .../drm/i915/gem/selftests/i915_gem_migrate.c |  15 --
+> >  7 files changed, 341 insertions(+), 136 deletions(-)
+> >
+> > --
+> > 2.31.1
+> >
+> > _______________________________________________
+> > Intel-gfx mailing list
+> > Intel-gfx@lists.freedesktop.org
+> > https://lists.freedesktop.org/mailman/listinfo/intel-gfx
