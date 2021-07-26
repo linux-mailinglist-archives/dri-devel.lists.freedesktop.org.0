@@ -1,39 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 432253D5778
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jul 2021 12:28:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BBF53D5795
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jul 2021 12:33:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 536DD6F918;
-	Mon, 26 Jul 2021 10:28:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9EBB46E7D2;
+	Mon, 26 Jul 2021 10:33:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 060D66E94E;
- Mon, 26 Jul 2021 10:28:42 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10056"; a="199393932"
-X-IronPort-AV: E=Sophos;i="5.84,270,1620716400"; d="scan'208";a="199393932"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jul 2021 03:28:41 -0700
-X-IronPort-AV: E=Sophos;i="5.84,270,1620716400"; d="scan'208";a="498093846"
-Received: from dechasso-mobl3.amr.corp.intel.com (HELO intel.com)
- ([10.212.115.115])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jul 2021 03:28:40 -0700
-Date: Mon, 26 Jul 2021 06:28:39 -0400
-From: Rodrigo Vivi <rodrigo.vivi@intel.com>
-To: Lucas De Marchi <lucas.demarchi@intel.com>
-Subject: Re: [Intel-gfx] [PATCH 15/30] drm/i915/display: remove explicit CNL
- handling from intel_display_power.c
-Message-ID: <YP6OV5prJtzVesUU@intel.com>
-References: <20210724001114.249295-1-lucas.demarchi@intel.com>
- <20210724001114.249295-16-lucas.demarchi@intel.com>
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1092E6E7D2
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Jul 2021 10:33:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1627295581;
+ bh=+VUL+QLDy3glb1Z4duCwJNXnE36cEk4VDEsuDj6mCnQ=;
+ h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
+ b=D4haEr6H/SaIBPEo3SJ8CWQB4DeoSwc2UtLQllOAVQsGyKYm01eMGbsPhTzMQ7TXa
+ +Vpku6C6oeY4t8LkQSq2ylwij6Qn4zQ/odvh05cxoBq7D/y/1zO4Dl/ZIuMR7XCjhS
+ y6jNDaZkirM2el+zVw9/P5wa+Ufys5riG9RzI5Qg=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [217.61.151.117] ([217.61.151.117]) by web-mail.gmx.net
+ (3c-app-gmx-bs55.server.lan [172.19.170.139]) (via HTTP); Mon, 26 Jul 2021
+ 12:33:01 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210724001114.249295-16-lucas.demarchi@intel.com>
+Message-ID: <trinity-3fb57d4b-aa73-410c-9d9b-4ba3c8b0f674-1627295581632@3c-app-gmx-bs55>
+From: Frank Wunderlich <frank-w@public-files.de>
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Subject: Aw: Re:  Re: [PATCH] soc: mediatek: mmsys: fix HDMI output on
+ mt7623/bananapi-r2
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 26 Jul 2021 12:33:01 +0200
+Importance: normal
+Sensitivity: Normal
+In-Reply-To: <CAAOTY_-2vJE_v2vV=fJqK9--yx=++P9x53T-g3Cv4qKfHhqbLg@mail.gmail.com>
+References: <20210710132431.265985-1-linux@fw-web.de>
+ <456f0611-1fc7-75ac-ff45-9afd94190283@collabora.com>
+ <trinity-02bc17fc-b458-4d17-baca-8afe30e4c92c-1626110171249@3c-app-gmx-bs28>
+ <dbe23d2a-cd29-0782-1b7d-bcb5c6683607@collabora.com>
+ <6EF00182-1FF4-4061-BCE4-E2AD7275211B@public-files.de>
+ <CAAOTY_-2vJE_v2vV=fJqK9--yx=++P9x53T-g3Cv4qKfHhqbLg@mail.gmail.com>
+X-UI-Message-Type: mail
+X-Priority: 3
+X-Provags-ID: V03:K1:iPn7TUoOCvn5EtAyQEAe4fH9u6GWCjG99MHdzRiuhNVgs2b7AjqMoxzf+RKZ1aSoarRpO
+ 6di4hcveSpohkWPxcKqUEwsKney50YrmUADSL/bV4qeqUyR6rCMiTymQgeiIvA4v1XoQFKtCUX+H
+ 5cEdAvXLupE2EomWYtTOY26eGRYJSwzGODgEmjhcHavXkvGpordBctuERaRmSvEB/i3I9U5azvfC
+ KpeAb5OpCwYueskrexzltzsrroC5uPn7X2Pa5hfOEtf71Bj0dWqygfBU+8gwdDTYdlLk5ip0ouTh
+ sY=
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:3D1zLxNwjgY=:WUxgCA+GhIthK0mPzonNLV
+ Tz6F3VlfZSjLkuGSpaC/9Tysu0WFvu7ofQJNq6I9eNAYT7bd4RaZV421YMrQXpzNl8RIWcKrf
+ 6V7g1DdfLtPp7Stjlkxopl7lHzJcYaWNJOYPYT7YapwJLHvHr2zrGGTiJ409YhjDNRUAq+O0f
+ jkRMMCgJ9l8fOK4m94ShbZq3CWqJqPU5mNnGOu1WY/nWgcjj7sHIQuKjKrjepL31TU42LVwHe
+ msQLZ96/zzoKY6CPOw8qVx8P93KTPG+WP3rtdtrCTzpEpOv09PB2VhsSv2FklwlOYjIM6Jczl
+ uerSsDND6PouY7IineKf7Az3ZmPpqNzh5cD1nADyfieIrJoyV9dxLvg++V3n4escBGrplo3Bl
+ b8LXnVZf/jDC6c3n325Gar8tus2x5vJCQFYdftGLRQYnNVB5XFbXatUGZiqZcRgMCvszB4+RF
+ uVjwpEejJVycv/zgmXw/yEMA3EAlSZr6SwLfWkDMeDgHvajlpwYwCinHpGcZAumBxeu4N8G1i
+ NZCUAhAsKxEG+1EOkxZRjX/+qgsSSfwebsC7UGOicSrVrmK6D7y7P+uHwUqsSkOYWy/B8/yB5
+ 4uZiPI0inEtH7ex8to3REb9MGi544f2F1f38Zw9cGZYSDtfleOs2YB4JJcw1lUOYkMyqoIIdV
+ FepBaKWROreMfTvQgzTqEV7mipD8v6wrjyzXvjdQSi4lcxK8BIxkheAlp8a0A/AXqCkXpnhHj
+ +dxUDQUiyIX3Ox7ocy6HoaTnnzQ3czx5fBK/MnlJM+nXHeID668eQplEapkxdyy+cVlkTPbvq
+ XAah5Xx+cjNooG+Tpr9DWj0W3+X8MUM+6d6/mqRpoJSJ9qD1Eo=
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,408 +74,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+ David Airlie <airlied@linux.ie>, linux-kernel <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+ Frank Wunderlich <linux@fw-web.de>, Collabora Kernel ML <kernel@collabora.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jul 23, 2021 at 05:10:59PM -0700, Lucas De Marchi wrote:
-> The only real platform with DISPLAY_VER == 10 is GLK. We don't need to
-> handle CNL explicitly in intel_display_power.c.
-> 
-> Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
+Hi
 
-Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> Gesendet: Montag, 26. Juli 2021 um 02:27 Uhr
+> Von: "Chun-Kuang Hu" <chunkuang.hu@kernel.org>
+> As I've discussed in [1], SOUT has many bits and need to be cleared
+> before set new value. Of course, write only could do the clear, but
+> for MOUT, it clear the bits that should not be cleared. If you want to
+> use the table, you need to implement the 'mask'.
+>
+> [1] https://patchwork.kernel.org/project/linux-mediatek/patch/trinity-93=
+7ebfa3-d123-42de-a289-3ad0dbc09782-1625830110576@3c-app-gmx-bap43/
 
-> ---
->  .../drm/i915/display/intel_display_power.c    | 289 ------------------
->  .../drm/i915/display/intel_display_power.h    |   2 -
->  drivers/gpu/drm/i915/i915_reg.h               |  13 -
->  3 files changed, 304 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/display/intel_display_power.c b/drivers/gpu/drm/i915/display/intel_display_power.c
-> index 81efc77bada0..44aef0c44ab7 100644
-> --- a/drivers/gpu/drm/i915/display/intel_display_power.c
-> +++ b/drivers/gpu/drm/i915/display/intel_display_power.c
-> @@ -447,17 +447,6 @@ static void hsw_power_well_enable(struct drm_i915_private *dev_priv,
->  
->  	hsw_wait_for_power_well_enable(dev_priv, power_well, false);
->  
-> -	/* Display WA #1178: cnl */
-> -	if (IS_CANNONLAKE(dev_priv) &&
-> -	    pw_idx >= GLK_PW_CTL_IDX_AUX_B &&
-> -	    pw_idx <= CNL_PW_CTL_IDX_AUX_F) {
-> -		u32 val;
-> -
-> -		val = intel_de_read(dev_priv, CNL_AUX_ANAOVRD1(pw_idx));
-> -		val |= CNL_AUX_ANAOVRD1_ENABLE | CNL_AUX_ANAOVRD1_LDO_BYPASS;
-> -		intel_de_write(dev_priv, CNL_AUX_ANAOVRD1(pw_idx), val);
-> -	}
-> -
->  	if (power_well->desc->hsw.has_fuses) {
->  		enum skl_power_gate pg;
->  
-> @@ -2743,63 +2732,6 @@ intel_display_power_put_mask_in_set(struct drm_i915_private *i915,
->  	BIT_ULL(POWER_DOMAIN_GMBUS) |			\
->  	BIT_ULL(POWER_DOMAIN_INIT))
->  
-> -#define CNL_DISPLAY_POWERWELL_2_POWER_DOMAINS (		\
-> -	BIT_ULL(POWER_DOMAIN_TRANSCODER_A) |		\
-> -	BIT_ULL(POWER_DOMAIN_PIPE_B) |			\
-> -	BIT_ULL(POWER_DOMAIN_TRANSCODER_B) |		\
-> -	BIT_ULL(POWER_DOMAIN_PIPE_C) |			\
-> -	BIT_ULL(POWER_DOMAIN_TRANSCODER_C) |		\
-> -	BIT_ULL(POWER_DOMAIN_PIPE_B_PANEL_FITTER) |		\
-> -	BIT_ULL(POWER_DOMAIN_PIPE_C_PANEL_FITTER) |		\
-> -	BIT_ULL(POWER_DOMAIN_PORT_DDI_B_LANES) |		\
-> -	BIT_ULL(POWER_DOMAIN_PORT_DDI_C_LANES) |		\
-> -	BIT_ULL(POWER_DOMAIN_PORT_DDI_D_LANES) |		\
-> -	BIT_ULL(POWER_DOMAIN_PORT_DDI_F_LANES) |		\
-> -	BIT_ULL(POWER_DOMAIN_AUX_B) |                       \
-> -	BIT_ULL(POWER_DOMAIN_AUX_C) |			\
-> -	BIT_ULL(POWER_DOMAIN_AUX_D) |			\
-> -	BIT_ULL(POWER_DOMAIN_AUX_F) |			\
-> -	BIT_ULL(POWER_DOMAIN_AUDIO) |			\
-> -	BIT_ULL(POWER_DOMAIN_VGA) |				\
-> -	BIT_ULL(POWER_DOMAIN_INIT))
-> -#define CNL_DISPLAY_DDI_A_IO_POWER_DOMAINS (		\
-> -	BIT_ULL(POWER_DOMAIN_PORT_DDI_A_IO) |		\
-> -	BIT_ULL(POWER_DOMAIN_INIT))
-> -#define CNL_DISPLAY_DDI_B_IO_POWER_DOMAINS (		\
-> -	BIT_ULL(POWER_DOMAIN_PORT_DDI_B_IO) |		\
-> -	BIT_ULL(POWER_DOMAIN_INIT))
-> -#define CNL_DISPLAY_DDI_C_IO_POWER_DOMAINS (		\
-> -	BIT_ULL(POWER_DOMAIN_PORT_DDI_C_IO) |		\
-> -	BIT_ULL(POWER_DOMAIN_INIT))
-> -#define CNL_DISPLAY_DDI_D_IO_POWER_DOMAINS (		\
-> -	BIT_ULL(POWER_DOMAIN_PORT_DDI_D_IO) |		\
-> -	BIT_ULL(POWER_DOMAIN_INIT))
-> -#define CNL_DISPLAY_AUX_A_POWER_DOMAINS (		\
-> -	BIT_ULL(POWER_DOMAIN_AUX_A) |			\
-> -	BIT_ULL(POWER_DOMAIN_AUX_IO_A) |		\
-> -	BIT_ULL(POWER_DOMAIN_INIT))
-> -#define CNL_DISPLAY_AUX_B_POWER_DOMAINS (		\
-> -	BIT_ULL(POWER_DOMAIN_AUX_B) |			\
-> -	BIT_ULL(POWER_DOMAIN_INIT))
-> -#define CNL_DISPLAY_AUX_C_POWER_DOMAINS (		\
-> -	BIT_ULL(POWER_DOMAIN_AUX_C) |			\
-> -	BIT_ULL(POWER_DOMAIN_INIT))
-> -#define CNL_DISPLAY_AUX_D_POWER_DOMAINS (		\
-> -	BIT_ULL(POWER_DOMAIN_AUX_D) |			\
-> -	BIT_ULL(POWER_DOMAIN_INIT))
-> -#define CNL_DISPLAY_AUX_F_POWER_DOMAINS (		\
-> -	BIT_ULL(POWER_DOMAIN_AUX_F) |			\
-> -	BIT_ULL(POWER_DOMAIN_INIT))
-> -#define CNL_DISPLAY_DDI_F_IO_POWER_DOMAINS (		\
-> -	BIT_ULL(POWER_DOMAIN_PORT_DDI_F_IO) |		\
-> -	BIT_ULL(POWER_DOMAIN_INIT))
-> -#define CNL_DISPLAY_DC_OFF_POWER_DOMAINS (		\
-> -	CNL_DISPLAY_POWERWELL_2_POWER_DOMAINS |		\
-> -	BIT_ULL(POWER_DOMAIN_GT_IRQ) |			\
-> -	BIT_ULL(POWER_DOMAIN_MODESET) |			\
-> -	BIT_ULL(POWER_DOMAIN_AUX_A) |			\
-> -	BIT_ULL(POWER_DOMAIN_INIT))
-> -
->  /*
->   * ICL PW_0/PG_0 domains (HW/DMC control):
->   * - PCI
-> @@ -3706,148 +3638,6 @@ static const struct i915_power_well_desc glk_power_wells[] = {
->  	},
->  };
->  
-> -static const struct i915_power_well_desc cnl_power_wells[] = {
-> -	{
-> -		.name = "always-on",
-> -		.always_on = true,
-> -		.domains = POWER_DOMAIN_MASK,
-> -		.ops = &i9xx_always_on_power_well_ops,
-> -		.id = DISP_PW_ID_NONE,
-> -	},
-> -	{
-> -		.name = "power well 1",
-> -		/* Handled by the DMC firmware */
-> -		.always_on = true,
-> -		.domains = 0,
-> -		.ops = &hsw_power_well_ops,
-> -		.id = SKL_DISP_PW_1,
-> -		{
-> -			.hsw.regs = &hsw_power_well_regs,
-> -			.hsw.idx = SKL_PW_CTL_IDX_PW_1,
-> -			.hsw.has_fuses = true,
-> -		},
-> -	},
-> -	{
-> -		.name = "AUX A",
-> -		.domains = CNL_DISPLAY_AUX_A_POWER_DOMAINS,
-> -		.ops = &hsw_power_well_ops,
-> -		.id = DISP_PW_ID_NONE,
-> -		{
-> -			.hsw.regs = &hsw_power_well_regs,
-> -			.hsw.idx = GLK_PW_CTL_IDX_AUX_A,
-> -		},
-> -	},
-> -	{
-> -		.name = "AUX B",
-> -		.domains = CNL_DISPLAY_AUX_B_POWER_DOMAINS,
-> -		.ops = &hsw_power_well_ops,
-> -		.id = DISP_PW_ID_NONE,
-> -		{
-> -			.hsw.regs = &hsw_power_well_regs,
-> -			.hsw.idx = GLK_PW_CTL_IDX_AUX_B,
-> -		},
-> -	},
-> -	{
-> -		.name = "AUX C",
-> -		.domains = CNL_DISPLAY_AUX_C_POWER_DOMAINS,
-> -		.ops = &hsw_power_well_ops,
-> -		.id = DISP_PW_ID_NONE,
-> -		{
-> -			.hsw.regs = &hsw_power_well_regs,
-> -			.hsw.idx = GLK_PW_CTL_IDX_AUX_C,
-> -		},
-> -	},
-> -	{
-> -		.name = "AUX D",
-> -		.domains = CNL_DISPLAY_AUX_D_POWER_DOMAINS,
-> -		.ops = &hsw_power_well_ops,
-> -		.id = DISP_PW_ID_NONE,
-> -		{
-> -			.hsw.regs = &hsw_power_well_regs,
-> -			.hsw.idx = CNL_PW_CTL_IDX_AUX_D,
-> -		},
-> -	},
-> -	{
-> -		.name = "DC off",
-> -		.domains = CNL_DISPLAY_DC_OFF_POWER_DOMAINS,
-> -		.ops = &gen9_dc_off_power_well_ops,
-> -		.id = SKL_DISP_DC_OFF,
-> -	},
-> -	{
-> -		.name = "power well 2",
-> -		.domains = CNL_DISPLAY_POWERWELL_2_POWER_DOMAINS,
-> -		.ops = &hsw_power_well_ops,
-> -		.id = SKL_DISP_PW_2,
-> -		{
-> -			.hsw.regs = &hsw_power_well_regs,
-> -			.hsw.idx = SKL_PW_CTL_IDX_PW_2,
-> -			.hsw.irq_pipe_mask = BIT(PIPE_B) | BIT(PIPE_C),
-> -			.hsw.has_vga = true,
-> -			.hsw.has_fuses = true,
-> -		},
-> -	},
-> -	{
-> -		.name = "DDI A IO power well",
-> -		.domains = CNL_DISPLAY_DDI_A_IO_POWER_DOMAINS,
-> -		.ops = &hsw_power_well_ops,
-> -		.id = DISP_PW_ID_NONE,
-> -		{
-> -			.hsw.regs = &hsw_power_well_regs,
-> -			.hsw.idx = GLK_PW_CTL_IDX_DDI_A,
-> -		},
-> -	},
-> -	{
-> -		.name = "DDI B IO power well",
-> -		.domains = CNL_DISPLAY_DDI_B_IO_POWER_DOMAINS,
-> -		.ops = &hsw_power_well_ops,
-> -		.id = DISP_PW_ID_NONE,
-> -		{
-> -			.hsw.regs = &hsw_power_well_regs,
-> -			.hsw.idx = SKL_PW_CTL_IDX_DDI_B,
-> -		},
-> -	},
-> -	{
-> -		.name = "DDI C IO power well",
-> -		.domains = CNL_DISPLAY_DDI_C_IO_POWER_DOMAINS,
-> -		.ops = &hsw_power_well_ops,
-> -		.id = DISP_PW_ID_NONE,
-> -		{
-> -			.hsw.regs = &hsw_power_well_regs,
-> -			.hsw.idx = SKL_PW_CTL_IDX_DDI_C,
-> -		},
-> -	},
-> -	{
-> -		.name = "DDI D IO power well",
-> -		.domains = CNL_DISPLAY_DDI_D_IO_POWER_DOMAINS,
-> -		.ops = &hsw_power_well_ops,
-> -		.id = DISP_PW_ID_NONE,
-> -		{
-> -			.hsw.regs = &hsw_power_well_regs,
-> -			.hsw.idx = SKL_PW_CTL_IDX_DDI_D,
-> -		},
-> -	},
-> -	{
-> -		.name = "DDI F IO power well",
-> -		.domains = CNL_DISPLAY_DDI_F_IO_POWER_DOMAINS,
-> -		.ops = &hsw_power_well_ops,
-> -		.id = CNL_DISP_PW_DDI_F_IO,
-> -		{
-> -			.hsw.regs = &hsw_power_well_regs,
-> -			.hsw.idx = CNL_PW_CTL_IDX_DDI_F,
-> -		},
-> -	},
-> -	{
-> -		.name = "AUX F",
-> -		.domains = CNL_DISPLAY_AUX_F_POWER_DOMAINS,
-> -		.ops = &hsw_power_well_ops,
-> -		.id = CNL_DISP_PW_DDI_F_AUX,
-> -		{
-> -			.hsw.regs = &hsw_power_well_regs,
-> -			.hsw.idx = CNL_PW_CTL_IDX_AUX_F,
-> -		},
-> -	},
-> -};
-> -
->  static const struct i915_power_well_ops icl_aux_power_well_ops = {
->  	.sync_hw = hsw_power_well_sync_hw,
->  	.enable = icl_aux_power_well_enable,
-> @@ -5147,12 +4937,6 @@ int intel_power_domains_init(struct drm_i915_private *dev_priv)
->  		err = set_power_wells(power_domains, tgl_power_wells);
->  	} else if (DISPLAY_VER(dev_priv) == 11) {
->  		err = set_power_wells(power_domains, icl_power_wells);
-> -	} else if (IS_CNL_WITH_PORT_F(dev_priv)) {
-> -		err = set_power_wells(power_domains, cnl_power_wells);
-> -	} else if (IS_CANNONLAKE(dev_priv)) {
-> -		err = set_power_wells_mask(power_domains, cnl_power_wells,
-> -					   BIT_ULL(CNL_DISP_PW_DDI_F_IO) |
-> -					   BIT_ULL(CNL_DISP_PW_DDI_F_AUX));
->  	} else if (IS_GEMINILAKE(dev_priv)) {
->  		err = set_power_wells(power_domains, glk_power_wells);
->  	} else if (IS_BROXTON(dev_priv)) {
-> @@ -5707,75 +5491,6 @@ static void bxt_display_core_uninit(struct drm_i915_private *dev_priv)
->  	usleep_range(10, 30);		/* 10 us delay per Bspec */
->  }
->  
-> -static void cnl_display_core_init(struct drm_i915_private *dev_priv, bool resume)
-> -{
-> -	struct i915_power_domains *power_domains = &dev_priv->power_domains;
-> -	struct i915_power_well *well;
-> -
-> -	gen9_set_dc_state(dev_priv, DC_STATE_DISABLE);
-> -
-> -	/* 1. Enable PCH Reset Handshake */
-> -	intel_pch_reset_handshake(dev_priv, !HAS_PCH_NOP(dev_priv));
-> -
-> -	if (!HAS_DISPLAY(dev_priv))
-> -		return;
-> -
-> -	/* 2-3. */
-> -	intel_combo_phy_init(dev_priv);
-> -
-> -	/*
-> -	 * 4. Enable Power Well 1 (PG1).
-> -	 *    The AUX IO power wells will be enabled on demand.
-> -	 */
-> -	mutex_lock(&power_domains->lock);
-> -	well = lookup_power_well(dev_priv, SKL_DISP_PW_1);
-> -	intel_power_well_enable(dev_priv, well);
-> -	mutex_unlock(&power_domains->lock);
-> -
-> -	/* 5. Enable CD clock */
-> -	intel_cdclk_init_hw(dev_priv);
-> -
-> -	/* 6. Enable DBUF */
-> -	gen9_dbuf_enable(dev_priv);
-> -
-> -	if (resume && intel_dmc_has_payload(dev_priv))
-> -		intel_dmc_load_program(dev_priv);
-> -}
-> -
-> -static void cnl_display_core_uninit(struct drm_i915_private *dev_priv)
-> -{
-> -	struct i915_power_domains *power_domains = &dev_priv->power_domains;
-> -	struct i915_power_well *well;
-> -
-> -	if (!HAS_DISPLAY(dev_priv))
-> -		return;
-> -
-> -	gen9_disable_dc_states(dev_priv);
-> -
-> -	/* 1. Disable all display engine functions -> aready done */
-> -
-> -	/* 2. Disable DBUF */
-> -	gen9_dbuf_disable(dev_priv);
-> -
-> -	/* 3. Disable CD clock */
-> -	intel_cdclk_uninit_hw(dev_priv);
-> -
-> -	/*
-> -	 * 4. Disable Power Well 1 (PG1).
-> -	 *    The AUX IO power wells are toggled on demand, so they are already
-> -	 *    disabled at this point.
-> -	 */
-> -	mutex_lock(&power_domains->lock);
-> -	well = lookup_power_well(dev_priv, SKL_DISP_PW_1);
-> -	intel_power_well_disable(dev_priv, well);
-> -	mutex_unlock(&power_domains->lock);
-> -
-> -	usleep_range(10, 30);		/* 10 us delay per Bspec */
-> -
-> -	/* 5. */
-> -	intel_combo_phy_uninit(dev_priv);
-> -}
-> -
->  struct buddy_page_mask {
->  	u32 page_mask;
->  	u8 type;
-> @@ -6120,8 +5835,6 @@ void intel_power_domains_init_hw(struct drm_i915_private *i915, bool resume)
->  
->  	if (DISPLAY_VER(i915) >= 11) {
->  		icl_display_core_init(i915, resume);
-> -	} else if (IS_CANNONLAKE(i915)) {
-> -		cnl_display_core_init(i915, resume);
->  	} else if (IS_GEMINILAKE(i915) || IS_BROXTON(i915)) {
->  		bxt_display_core_init(i915, resume);
->  	} else if (DISPLAY_VER(i915) == 9) {
-> @@ -6281,8 +5994,6 @@ void intel_power_domains_suspend(struct drm_i915_private *i915,
->  
->  	if (DISPLAY_VER(i915) >= 11)
->  		icl_display_core_uninit(i915);
-> -	else if (IS_CANNONLAKE(i915))
-> -		cnl_display_core_uninit(i915);
->  	else if (IS_GEMINILAKE(i915) || IS_BROXTON(i915))
->  		bxt_display_core_uninit(i915);
->  	else if (DISPLAY_VER(i915) == 9)
-> diff --git a/drivers/gpu/drm/i915/display/intel_display_power.h b/drivers/gpu/drm/i915/display/intel_display_power.h
-> index ad788bbd727d..c79f7ca739d2 100644
-> --- a/drivers/gpu/drm/i915/display/intel_display_power.h
-> +++ b/drivers/gpu/drm/i915/display/intel_display_power.h
-> @@ -142,8 +142,6 @@ enum i915_power_well_id {
->  	SKL_DISP_PW_MISC_IO,
->  	SKL_DISP_PW_1,
->  	SKL_DISP_PW_2,
-> -	CNL_DISP_PW_DDI_F_IO,
-> -	CNL_DISP_PW_DDI_F_AUX,
->  	ICL_DISP_PW_3,
->  	SKL_DISP_DC_OFF,
->  	TGL_DISP_PW_TC_COLD_OFF,
-> diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
-> index 65596987b156..91e93f3e9649 100644
-> --- a/drivers/gpu/drm/i915/i915_reg.h
-> +++ b/drivers/gpu/drm/i915/i915_reg.h
-> @@ -9828,19 +9828,6 @@ enum skl_power_gate {
->  	((pw_idx) - ICL_PW_CTL_IDX_PW_1 + SKL_PG1)
->  #define  SKL_FUSE_PG_DIST_STATUS(pg)		(1 << (27 - (pg)))
->  
-> -#define _CNL_AUX_REG_IDX(pw_idx)	((pw_idx) - GLK_PW_CTL_IDX_AUX_B)
-> -#define _CNL_AUX_ANAOVRD1_B		0x162250
-> -#define _CNL_AUX_ANAOVRD1_C		0x162210
-> -#define _CNL_AUX_ANAOVRD1_D		0x1622D0
-> -#define _CNL_AUX_ANAOVRD1_F		0x162A90
-> -#define CNL_AUX_ANAOVRD1(pw_idx)	_MMIO(_PICK(_CNL_AUX_REG_IDX(pw_idx), \
-> -						    _CNL_AUX_ANAOVRD1_B, \
-> -						    _CNL_AUX_ANAOVRD1_C, \
-> -						    _CNL_AUX_ANAOVRD1_D, \
-> -						    _CNL_AUX_ANAOVRD1_F))
-> -#define   CNL_AUX_ANAOVRD1_ENABLE	(1 << 16)
-> -#define   CNL_AUX_ANAOVRD1_LDO_BYPASS	(1 << 23)
-> -
->  #define _ICL_AUX_REG_IDX(pw_idx)	((pw_idx) - ICL_PW_CTL_IDX_AUX_A)
->  #define _ICL_AUX_ANAOVRD1_A		0x162398
->  #define _ICL_AUX_ANAOVRD1_B		0x6C398
-> -- 
-> 2.31.1
-> 
-> _______________________________________________
-> Intel-gfx mailing list
-> Intel-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
+I've added the mask like you did here [1] on my repo [2]
+
+and it works too...should i use you as author as i only take your code whe=
+n posting?
+
+regards Frank
+
+[1] https://chromium-review.googlesource.com/c/chromiumos/third_party/kern=
+el/+/2345186/5/drivers/soc/mediatek/mtk-mmsys.c#294
+[2] https://github.com/frank-w/BPI-R2-4.14/commits/5.14-mmsys
