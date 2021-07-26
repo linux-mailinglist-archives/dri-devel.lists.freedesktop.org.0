@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A5413D6A3C
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jul 2021 01:34:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DC2D3D6A3F
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jul 2021 01:34:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 822696EA42;
-	Mon, 26 Jul 2021 23:34:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B87A6EA55;
+	Mon, 26 Jul 2021 23:34:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com
- [IPv6:2607:f8b0:4864:20::62f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2160D6EA55
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Jul 2021 23:34:48 +0000 (UTC)
-Received: by mail-pl1-x62f.google.com with SMTP id e5so11641799pld.6
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Jul 2021 16:34:48 -0700 (PDT)
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com
+ [IPv6:2607:f8b0:4864:20::1035])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 32DB56EA42
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Jul 2021 23:34:50 +0000 (UTC)
+Received: by mail-pj1-x1035.google.com with SMTP id
+ m2-20020a17090a71c2b0290175cf22899cso2317666pjs.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Jul 2021 16:34:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Hr8TbT0NY8bhwRPFfOulQoFlLUKAkASJhK+Ly3YzODY=;
- b=j8LlgSPw1RFIs8exl6aXPn3feuweS/2CJIHKyHEB7xVGXTNTC85mtEg/Uq+42kAlt2
- 3QjXHcRqxRY2YLBc/jRGnCj71ESXb3kYFw4vm/zBJUYQ8kIHhxPNUw8U5SBxXsPeo0++
- +0KYr1u29WW/FfVUqJJhz1n67eMRUY2pPWVlZ2NKZJ4YtMbcgkyjTi++nbRozr3VyCpB
- /Def4VylyfYnxhrjrlupA1NQ22I3TDfVPJqR6eoJLDGBYyvFR7ANRtd5Gu4fX47qDI8U
- T6fC5hASr8PoHrvYYtUpfai0fxI/yp8YrtOmOrPcSJnWieo53lWJRaIQyIskGWwapfcy
- PvRQ==
+ bh=LbCW32LfSHCHAkiAwgfCI+KXCphqw3RtU6lMEfGs4FM=;
+ b=K7q0iQ+y4WkqT1bVjpFLpq2Mqb2axCqi3h4Q2onnI0EzLhJZARQ/qTyYNRBYJ9l1DE
+ 7GZO8TjDe7AZ+qALiz6rF/b8fgT8J2Pf4sduYXHwQRzEO5WobDLtcyD1Mgqk3yGETTIk
+ H6c3UJEVgPHOXWNMgxcHjvWo3eaOXzaJKXyLybJ8mHHUF0TZw3+zWyJWlKYN6ayjEAV5
+ LNAzrjKa6OJf+Zszw7Q32fI4KDy+KYNsvtdNbJe9smE73vR7qN4jfm1KdbIuwQC8eFr0
+ LdIu9cO1MTVz+49dy146/Pcbqnt5FdDj0Ljf+PF0WyFTYntjdV29dBlGwwjlWvdK2jOr
+ ZI7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Hr8TbT0NY8bhwRPFfOulQoFlLUKAkASJhK+Ly3YzODY=;
- b=iwgLbaOgUNdBvHuJooH5K5Xxkvxb0NgBVXH2sY15Sel64mAAGcx8aaqP2w04w60wlV
- QUHtfHJdjZ/eLMm1U4X5R5p9SsQ5TADLz1cr3/f/Ml6PwAC05v+IJt3jEl4Y1MX7p+mn
- AuZxBb9kjmhzhIs9ACbM5rCxV1cA+OakG7/7w2rJxfQvMYSMQheXsY1oMH6MZ5J4jYiw
- GuMM3spqtgkZq7D0iP3YOWxu18Y6ZRm8PPV7mvtrlXI/Pm2I37BRxixKFr8xXiMbCHb6
- qSkgelaroCC1jHi0pFY5WmuW9ooag7+cRZnGg2pXo3w9kWuiOD5ap4vW/kdMdYeof8Z1
- slkQ==
-X-Gm-Message-State: AOAM533Vn+1aLuqEJgUr7D+XMc19TfGBE1YoPrAFRXoazwS6ouzFDPGN
- IQd00BfW2L2+urigvBl5xv9SUzQ6zhU++Q==
-X-Google-Smtp-Source: ABdhPJzCJR1KRrhEUmpZNBEL+HoO6bZ9tT6NUdNFHH+pky+Hz4zM8T717wtK0Zidl77XkVjEvdhVFw==
-X-Received: by 2002:a17:90a:940e:: with SMTP id
- r14mr1342648pjo.41.1627342487091; 
- Mon, 26 Jul 2021 16:34:47 -0700 (PDT)
+ bh=LbCW32LfSHCHAkiAwgfCI+KXCphqw3RtU6lMEfGs4FM=;
+ b=P3Znr2jlYe7TkmGdUsp0J89szrV06T60cXh20QP1q/0FN74OFkOpSd22Lv5siORzEJ
+ 81sk8XeueklIpihG+0QGZUKkvy1NfyVB4BJYSA64wgT880tVLPYa1Cz0Ag1OHETDc8di
+ DK+dIPDBpdVeJoVelCkcxnu5wXhGb5jNeNe3eO8jCagzyT6gAmOxOfGNa6WeS9l7FV1O
+ 11pdcQ3kObnaXfW2lX3ITwOjGGcTxSKVImQtcOHJYcwRKfIui+apzNNGHDoyttAvs9II
+ PPOnCQlrPgdqUJWi6LOy3ikPGbZ9UshgCw26y2McWfU9WkqSd5RBBmtiWVTXmlJSYVCN
+ 1OEw==
+X-Gm-Message-State: AOAM530JRk9MybOQwZUm0RupZzQ+X1anhPbqe3j2xZopWXF/Xw+mev0r
+ zzkAgWRRqd2L+PGSQXTILSvizeagSO0SvA==
+X-Google-Smtp-Source: ABdhPJxoQiLmHlotD+gpMoGdvL3iH855w/RTYJTvJFSV12JczIXixU5zFwe1jY6beM1RPKlKx/Hotg==
+X-Received: by 2002:a63:d74c:: with SMTP id w12mr20458925pgi.91.1627342489183; 
+ Mon, 26 Jul 2021 16:34:49 -0700 (PDT)
 Received: from localhost ([2601:1c0:5200:a6:307:a401:7b76:c6e5])
- by smtp.gmail.com with ESMTPSA id u190sm1212457pfb.95.2021.07.26.16.34.46
+ by smtp.gmail.com with ESMTPSA id ns18sm720850pjb.31.2021.07.26.16.34.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 Jul 2021 16:34:46 -0700 (PDT)
+ Mon, 26 Jul 2021 16:34:48 -0700 (PDT)
 From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [RFC 1/4] dma-fence: Add deadline awareness
-Date: Mon, 26 Jul 2021 16:38:48 -0700
-Message-Id: <20210726233854.2453899-2-robdclark@gmail.com>
+Subject: [RFC 2/4] drm/vblank: Add helper to get next vblank time
+Date: Mon, 26 Jul 2021 16:38:49 -0700
+Message-Id: <20210726233854.2453899-3-robdclark@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210726233854.2453899-1-robdclark@gmail.com>
 References: <20210726233854.2453899-1-robdclark@gmail.com>
@@ -69,128 +69,74 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Matthew Brost <matthew.brost@intel.com>, Rob Clark <robdclark@chromium.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- open list <linux-kernel@vger.kernel.org>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Gustavo Padovan <gustavo@padovan.org>,
- "open list:SYNC FILE FRAMEWORK" <linux-media@vger.kernel.org>
+ open list <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Rob Clark <robdclark@chromium.org>
 
-Add a way to hint to the fence signaler of an upcoming deadline, such as
-vblank, which the fence waiter would prefer not to miss.  This is to aid
-the fence signaler in making power management decisions, like boosting
-frequency as the deadline approaches and awareness of missing deadlines
-so that can be factored in to the frequency scaling.
-
 Signed-off-by: Rob Clark <robdclark@chromium.org>
 ---
- drivers/dma-buf/dma-fence.c | 39 +++++++++++++++++++++++++++++++++++++
- include/linux/dma-fence.h   | 17 ++++++++++++++++
- 2 files changed, 56 insertions(+)
+ drivers/gpu/drm/drm_vblank.c | 31 +++++++++++++++++++++++++++++++
+ include/drm/drm_vblank.h     |  1 +
+ 2 files changed, 32 insertions(+)
 
-diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
-index ce0f5eff575d..2e0d25ab457e 100644
---- a/drivers/dma-buf/dma-fence.c
-+++ b/drivers/dma-buf/dma-fence.c
-@@ -910,6 +910,45 @@ dma_fence_wait_any_timeout(struct dma_fence **fences, uint32_t count,
+diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
+index 3417e1ac7918..88c824c294dc 100644
+--- a/drivers/gpu/drm/drm_vblank.c
++++ b/drivers/gpu/drm/drm_vblank.c
+@@ -980,6 +980,37 @@ u64 drm_crtc_vblank_count_and_time(struct drm_crtc *crtc,
  }
- EXPORT_SYMBOL(dma_fence_wait_any_timeout);
+ EXPORT_SYMBOL(drm_crtc_vblank_count_and_time);
  
-+
 +/**
-+ * dma_fence_set_deadline - set desired fence-wait deadline
-+ * @fence:    the fence that is to be waited on
-+ * @deadline: the time by which the waiter hopes for the fence to be
-+ *            signaled
++ * drm_crtc_next_vblank_time - calculate the time of the next vblank
++ * @crtc: the crtc for which to calculate next vblank time
++ * @vblanktime: pointer to time to receive the next vblank timestamp.
 + *
-+ * Inform the fence signaler of an upcoming deadline, such as vblank, by
-+ * which point the waiter would prefer the fence to be signaled by.  This
-+ * is intended to give feedback to the fence signaler to aid in power
-+ * management decisions, such as boosting GPU frequency if a periodic
-+ * vblank deadline is approaching.
++ * Calculate the expected time of the next vblank based on time of previous
++ * vblank and frame duration
 + */
-+void dma_fence_set_deadline(struct dma_fence *fence, ktime_t deadline)
++int drm_crtc_next_vblank_time(struct drm_crtc *crtc, ktime_t *vblanktime)
 +{
-+	unsigned long flags;
++	unsigned int pipe = drm_crtc_index(crtc);
++	struct drm_vblank_crtc *vblank = &crtc->dev->vblank[pipe];
++	u64 count;
 +
-+	if (dma_fence_is_signaled(fence))
-+		return;
++	if (!vblank->framedur_ns)
++		return -EINVAL;
 +
-+	spin_lock_irqsave(fence->lock, flags);
++	count = drm_vblank_count_and_time(crtc->dev, pipe, vblanktime);
 +
-+	/* If we already have an earlier deadline, keep it: */
-+	if (test_bit(DMA_FENCE_FLAG_HAS_DEADLINE_BIT, &fence->flags) &&
-+	    ktime_before(fence->deadline, deadline)) {
-+		spin_unlock_irqrestore(fence->lock, flags);
-+		return;
-+	}
-+
-+	fence->deadline = deadline;
-+	set_bit(DMA_FENCE_FLAG_HAS_DEADLINE_BIT, &fence->flags);
-+
-+	spin_unlock_irqrestore(fence->lock, flags);
-+
-+	if (fence->ops->set_deadline)
-+		fence->ops->set_deadline(fence, deadline);
-+}
-+EXPORT_SYMBOL(dma_fence_set_deadline);
-+
- /**
-  * dma_fence_init - Initialize a custom fence.
-  * @fence: the fence to initialize
-diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
-index 6ffb4b2c6371..4e6cfe4e6fbc 100644
---- a/include/linux/dma-fence.h
-+++ b/include/linux/dma-fence.h
-@@ -88,6 +88,7 @@ struct dma_fence {
- 		/* @timestamp replaced by @rcu on dma_fence_release() */
- 		struct rcu_head rcu;
- 	};
-+	ktime_t deadline;
- 	u64 context;
- 	u64 seqno;
- 	unsigned long flags;
-@@ -99,6 +100,7 @@ enum dma_fence_flag_bits {
- 	DMA_FENCE_FLAG_SIGNALED_BIT,
- 	DMA_FENCE_FLAG_TIMESTAMP_BIT,
- 	DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT,
-+	DMA_FENCE_FLAG_HAS_DEADLINE_BIT,
- 	DMA_FENCE_FLAG_USER_BITS, /* must always be last member */
- };
- 
-@@ -261,6 +263,19 @@ struct dma_fence_ops {
- 	 */
- 	void (*timeline_value_str)(struct dma_fence *fence,
- 				   char *str, int size);
-+
-+	/**
-+	 * @set_deadline:
-+	 *
-+	 * Callback to allow a fence waiter to inform the fence signaler of an
-+	 * upcoming deadline, such as vblank, by which point the waiter would
-+	 * prefer the fence to be signaled by.  This is intended to give feedback
-+	 * to the fence signaler to aid in power management decisions, such as
-+	 * boosting GPU frequency.
-+	 *
-+	 * This callback is optional.
++	/*
++	 * If we don't get a valid count, then we probably also don't
++	 * have a valid time:
 +	 */
-+	void (*set_deadline)(struct dma_fence *fence, ktime_t deadline);
- };
- 
- void dma_fence_init(struct dma_fence *fence, const struct dma_fence_ops *ops,
-@@ -586,6 +601,8 @@ static inline signed long dma_fence_wait(struct dma_fence *fence, bool intr)
- 	return ret < 0 ? ret : 0;
- }
- 
-+void dma_fence_set_deadline(struct dma_fence *fence, ktime_t deadline);
++	if (!count)
++		return -EINVAL;
 +
- struct dma_fence *dma_fence_get_stub(void);
- struct dma_fence *dma_fence_allocate_private_stub(void);
- u64 dma_fence_context_alloc(unsigned num);
++	*vblanktime = ktime_add(*vblanktime, ns_to_ktime(vblank->framedur_ns));
++
++	return 0;
++}
++
+ static void send_vblank_event(struct drm_device *dev,
+ 		struct drm_pending_vblank_event *e,
+ 		u64 seq, ktime_t now)
+diff --git a/include/drm/drm_vblank.h b/include/drm/drm_vblank.h
+index 733a3e2d1d10..a63bc2c92f3c 100644
+--- a/include/drm/drm_vblank.h
++++ b/include/drm/drm_vblank.h
+@@ -230,6 +230,7 @@ bool drm_dev_has_vblank(const struct drm_device *dev);
+ u64 drm_crtc_vblank_count(struct drm_crtc *crtc);
+ u64 drm_crtc_vblank_count_and_time(struct drm_crtc *crtc,
+ 				   ktime_t *vblanktime);
++int drm_crtc_next_vblank_time(struct drm_crtc *crtc, ktime_t *vblanktime);
+ void drm_crtc_send_vblank_event(struct drm_crtc *crtc,
+ 			       struct drm_pending_vblank_event *e);
+ void drm_crtc_arm_vblank_event(struct drm_crtc *crtc,
 -- 
 2.31.1
 
