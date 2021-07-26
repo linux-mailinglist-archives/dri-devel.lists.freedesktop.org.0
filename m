@@ -2,42 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B33063D5AAA
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jul 2021 15:45:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7CE73D5AEC
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jul 2021 16:02:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 44BB86E8FB;
-	Mon, 26 Jul 2021 13:45:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1DF6A6E862;
+	Mon, 26 Jul 2021 14:02:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.smtp.larsendata.com (mx2.smtp.larsendata.com
- [91.221.196.228])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4DD646E8FB
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Jul 2021 13:45:27 +0000 (UTC)
-Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
- by mx2.smtp.larsendata.com (Halon) with ESMTPS
- id c518c79b-ee17-11eb-8d1a-0050568cd888;
- Mon, 26 Jul 2021 13:45:42 +0000 (UTC)
-Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
- [80.162.45.141])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: sam@ravnborg.org)
- by mail01.mxhotel.dk (Postfix) with ESMTPSA id E4582194B7A;
- Mon, 26 Jul 2021 15:45:42 +0200 (CEST)
-Date: Mon, 26 Jul 2021 15:45:21 +0200
-X-Report-Abuse-To: abuse@mxhotel.dk
-From: Sam Ravnborg <sam@ravnborg.org>
-To: =?utf-8?B?dGNzX2tlcm5lbCjohb7orq/kupHlhoXmoLjlvIDlj5HogIUp?=
- <tcs_kernel@tencent.com>
-Subject: Re: [PATCH] fbcon: Out-Of-Bounds write in sys_imageblit, add range
- check
-Message-ID: <YP68cQ4WVVusCv0N@ravnborg.org>
-References: <D5DF8A1C-5FA2-426B-AAB4-3199AEA0A02E@tencent.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 13F5A6E821;
+ Mon, 26 Jul 2021 14:02:07 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10056"; a="210350391"
+X-IronPort-AV: E=Sophos;i="5.84,270,1620716400"; d="scan'208";a="210350391"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Jul 2021 07:02:06 -0700
+X-IronPort-AV: E=Sophos;i="5.84,270,1620716400"; d="scan'208";a="516110255"
+Received: from mandhav-mobl3.gar.corp.intel.com (HELO ldmartin-desk2)
+ ([10.251.20.227])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Jul 2021 07:02:05 -0700
+Date: Mon, 26 Jul 2021 07:01:53 -0700
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Subject: Re: [Intel-gfx] [PATCH 02/30] drm/i915/display: split DISPLAY_VER 9
+ and 10 in intel_setup_outputs()
+Message-ID: <20210726140153.adlmwxqdaiujfzp6@ldmartin-desk2>
+References: <20210724001114.249295-1-lucas.demarchi@intel.com>
+ <20210724001114.249295-3-lucas.demarchi@intel.com>
+ <YPxQwdEAcNRIX9ep@infradead.org>
+ <20210725050215.s2ejpin6xkwzba5h@ldmartin-desk2>
+ <YP6MU/zzQTwWKOyD@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <D5DF8A1C-5FA2-426B-AAB4-3199AEA0A02E@tencent.com>
+In-Reply-To: <YP6MU/zzQTwWKOyD@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,49 +49,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
- "ducheng2@gmail.com" <ducheng2@gmail.com>,
- "penguin-kernel@I-love.SAKURA.ne.jp" <penguin-kernel@i-love.sakura.ne.jp>,
- "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "george.kennedy@oracle.com" <george.kennedy@oracle.com>,
- "tzimmermann@suse.de" <tzimmermann@suse.de>,
- "daniel.vetter@ffwll.ch" <daniel.vetter@ffwll.ch>,
- "yepeilin.cs@gmail.com" <yepeilin.cs@gmail.com>
+Cc: Christoph Hellwig <hch@infradead.org>, Jani Nikula <jani.nikula@intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-On Mon, Jul 26, 2021 at 11:32:37AM +0000, tcs_kernel(腾讯云内核开发者) wrote:
-> yres and vyres can be controlled by user mode paramaters, and cause p->vrows to become a negative value. While this value be passed to real_y function, the ypos will be out of screen range.
-> This is an out-of-bounds write bug.
+On Mon, Jul 26, 2021 at 06:20:03AM -0400, Rodrigo Vivi wrote:
+>On Sat, Jul 24, 2021 at 10:02:15PM -0700, Lucas De Marchi wrote:
+>> On Sat, Jul 24, 2021 at 06:41:21PM +0100, Christoph Hellwig wrote:
+>> > Still tests fine:
+>> >
+>> > Tested-by: Christoph Hellwig <hch@lst.de>
+>>
+>> I just pushed this  to drm-intel-next as part of another series and
+>> added your Tested-by.
+>>
+>> Rodrigo, can you pick this up for -fixes? This should go with your other
+>> patch to fix the port mask, too.
+>
+>done.
+>
+>But while doing this and reviewing this series at the same time
+>I got myself wondering if we shouldn't remove the PORT_F support
+>entirely...
 
-Please investigate if you can validate the user-supplied values for yres
-and vyres earlier so the code never reaches the below statements.
-This would also make it much more explicit what is going on.
+well, there is still ICL with some skus having it. I'm not sure we
+actually have that sku out in the wild, but if we do, we wouldn't be
+able to remove it.
 
-	Sam
+Lucas De Marchi
 
-> 
-> 
-> diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
-> index 22bb3892f6bd..0970de46782f 100644
-> --- a/drivers/video/fbdev/core/fbcon.c
-> +++ b/drivers/video/fbdev/core/fbcon.c
-> @@ -1956,11 +1956,12 @@ static void updatescrollmode(struct fbcon_display *p,
->         int yres = FBCON_SWAP(ops->rotate, info->var.yres, info->var.xres);
->         int vyres = FBCON_SWAP(ops->rotate, info->var.yres_virtual,
->                                    info->var.xres_virtual);
-> +       int rows = vc->vc_rows;
->  
->         p->vrows = vyres/fh;
-> -       if (yres > (fh * (vc->vc_rows + 1)))
-> -               p->vrows -= (yres - (fh * vc->vc_rows)) / fh;
-> -       if ((yres % fh) && (vyres % fh < yres % fh))
-> +       if ((yres > (fh * (rows + 1))) && (vyres >= (yres - (fh * rows))) && p->vrows)
-> +               p->vrows -= (yres - (fh * rows)) / fh;
-> +       if ((yres % fh) && (vyres % fh < yres % fh) && p->vrows)
->                 p->vrows--;
->  }
-> 
+>
+>>
+>> Thanks for the bug report and test.
+>>
+>> Lucas De Marchi
+>> _______________________________________________
+>> Intel-gfx mailing list
+>> Intel-gfx@lists.freedesktop.org
+>> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
