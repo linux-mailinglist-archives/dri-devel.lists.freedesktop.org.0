@@ -1,57 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1E923D68B3
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jul 2021 23:31:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BF433D68C0
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jul 2021 23:36:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 48BB36EA00;
-	Mon, 26 Jul 2021 21:31:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B91A730C8;
+	Mon, 26 Jul 2021 21:36:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32f.google.com (mail-ot1-x32f.google.com
- [IPv6:2607:f8b0:4864:20::32f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D5EB73001
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Jul 2021 21:31:12 +0000 (UTC)
-Received: by mail-ot1-x32f.google.com with SMTP id
- h63-20020a9d14450000b02904ce97efee36so11360671oth.7
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Jul 2021 14:31:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:in-reply-to:references:from:user-agent:date:message-id
- :subject:to:cc;
- bh=2nXaLs/a4QnWZ6CsBprHQUZ0PT34FLzVCZM7MpduHa4=;
- b=gQGAGt9eEIgv8OU25omKBzR8PLkHSLWDrPryqtU60qn5PueYnFkrrRF5sZmw8zvbW8
- VNvqSxzJKU4JHj3qQjp0n6PyQtHvjicciYGeODKdQPIQW3jy2u5oycvxVco1k8n0Ln2x
- voLvNquo5k+uiomYEnvZohtgMYMykoPKM0dHM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:in-reply-to:references:from
- :user-agent:date:message-id:subject:to:cc;
- bh=2nXaLs/a4QnWZ6CsBprHQUZ0PT34FLzVCZM7MpduHa4=;
- b=gt3eXJBVTPHQMjcz1pB0a5mKv2s4ixvazjM5AsYinS3sdscBEvhlvOHvFd0w8/cbCj
- 6lXDP66SDlJThOqpU/Mog72+/WAsCxsGAYgSlBAKq6fwda+QEs2UqolI79GYpSBm1fYJ
- 9muvV2Q7Nwrez0Ye6y52ESk3CKLr6+qUwNh1FLZzFMmZNb2v/OgFNRBfVjm04ETrUXWi
- xRgtIJWesrtSfYDXQ72XIumh2h4u9RsjKaFYbj2cmeUIAE7IUWgd2p4hShNu2tyCMOFC
- nWL35F1bdLvvGyjwiYpoFj1Msh4/ZHGOmWudxm4doia8hsUqnXTHGyLGusXw0RbhDPBg
- v8VQ==
-X-Gm-Message-State: AOAM531r8XkBA5ipwk9hL4Vb4S3tgHcKXKsDoabzWo8tgRlHjaW3ZnH+
- 4bbs8k8ZJ6v2cXmJNCT8WhA0Ht2TdMlW9x+tP4mhT+6eJlU=
-X-Google-Smtp-Source: ABdhPJxwnRHClL4PJXQ2kAmJVcUKbc5TCfHvRyXzHShrdN8UAJDxajrWEr88V72kZPeMp9GmmNEQVKgYIcGEH0FLNgQ=
-X-Received: by 2002:a9d:650e:: with SMTP id i14mr13316575otl.233.1627335071314; 
- Mon, 26 Jul 2021 14:31:11 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 26 Jul 2021 17:31:10 -0400
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 089A4730C8
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Jul 2021 21:36:14 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E850860F8F;
+ Mon, 26 Jul 2021 21:36:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1627335373;
+ bh=Vubfk8aM5cW2938KL+upVnHES3wmu9lPf2Qpjd4nZJY=;
+ h=From:To:Cc:Subject:Date:From;
+ b=HalJUibZZEm7Sc2D9CCA3tQKU/Eysjjyg5E8ZM5bYWWkTs7468YXXxeZt25QXG6nx
+ tYgEGjbuqKSEcbQ1JQve/X0/4RWS5zRsBDT5irWo1yzgVPcMePStRPgmJAItqPjfKz
+ KV3fQ6hIcqjj+3EtbEpwVe2MQiDHYHhP7iZV7MNNAmXMJYr2Iwk+h6PQs2bbumgdLL
+ 1a0M8fmwDle9QMQhHNCR39s/MLg4W4K95CEQIEjvB+/pTQ25wzS0wVxJ3LuhXDoiY0
+ 2zKXDJwO/pGkGAdtVlPZ4+ukIYMK0LWBGcb+NBff/ni99uUrzXVWO18EanRryx8OWV
+ 7J8YgSs/dDS0A==
+From: Mark Brown <broonie@kernel.org>
+To: Javier Martinez Canillas <javierm@redhat.com>,
+ Borislav Petkov <bp@suse.de>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Subject: linux-next: build failure due to the drm tree
+Date: Mon, 26 Jul 2021 22:36:00 +0100
+Message-Id: <20210726213600.4054-1-broonie@kernel.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <1627320986-25436-1-git-send-email-maitreye@codeaurora.org>
-References: <1627320986-25436-1-git-send-email-maitreye@codeaurora.org>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.9.1
-Date: Mon, 26 Jul 2021 17:31:10 -0400
-Message-ID: <CAE-0n50gGT8nfQ0KEnCG=g2DiQdCPpQZsFOVB_8iROmHXXjNFg@mail.gmail.com>
-Subject: Re: [PATCH v5] drm/msm/dp: add logs across DP driver for ease of
- debugging
-To: dri-devel@lists.freedesktop.org, maitreye <maitreye@codeaurora.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,32 +46,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, abhinavk@codeaurora.org,
- khsieh@codeaurora.org, seanpaul@chromium.org, aravindh@codeaurora.org,
- freedreno@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting maitreye (2021-07-26 10:36:26)
-> @@ -509,6 +515,7 @@ static int dp_display_usbpd_attention_cb(struct device *dev)
->                 DRM_ERROR("invalid dev\n");
->                 return -EINVAL;
->         }
-> +       DRM_DEBUG_DP("sink_request: %d\n", sink_request);
+Hi all,
 
-This one is bad. sink_request isn't assigned yet.
+Today's -next fails to build an arm64 allnoconfig:
 
->
->         dp = container_of(g_dp_display,
->                         struct dp_display_private, dp_display);
-> @@ -523,6 +530,7 @@ static int dp_display_usbpd_attention_cb(struct device *dev)
->         rc = dp_link_process_request(dp->link);
->         if (!rc) {
->                 sink_request = dp->link->sink_request;
-> +               DRM_DEBUG_DP("hpd_state=%d sink_count=%d\n", dp->hpd_state, sink_request);
+aarch64-none-linux-gnu-ld: drivers/firmware/sysfb.o: in function `sysfb_init':
+sysfb.c:(.init.text+0xc): undefined reference to `screen_info'
+aarch64-none-linux-gnu-ld: drivers/firmware/sysfb.o: relocation R_AARCH64_ADR_PREL_PG_HI21 against symbol `screen_info' which may bind externally can not be used when making a shared object; recompile with -fPIC
+sysfb.c:(.init.text+0xc): dangerous relocation: unsupported relocation
+aarch64-none-linux-gnu-ld: sysfb.c:(.init.text+0x10): undefined reference to `screen_info'
+make[1]: *** [/tmp/next/build/Makefile:1276: vmlinux] Error 1
 
-Should that say sink_request?
+Caused by
 
->                 if (sink_request & DS_PORT_STATUS_CHANGED)
->                         rc = dp_display_handle_port_ststus_changed(dp);
->                 else
+  d391c58271072d0b0f ("drivers/firmware: move x86 Generic System Framebuffers support")
+
+or one of the related commits.
