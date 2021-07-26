@@ -1,39 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71C7E3D572B
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jul 2021 12:11:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 54CBD3D5733
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jul 2021 12:13:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6DAC96E934;
-	Mon, 26 Jul 2021 10:11:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 684116EB10;
+	Mon, 26 Jul 2021 10:13:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 127956E934;
- Mon, 26 Jul 2021 10:11:36 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10056"; a="275998909"
-X-IronPort-AV: E=Sophos;i="5.84,270,1620716400"; d="scan'208";a="275998909"
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 49F026E8A6;
+ Mon, 26 Jul 2021 10:13:13 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10056"; a="212194901"
+X-IronPort-AV: E=Sophos;i="5.84,270,1620716400"; d="scan'208";a="212194901"
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jul 2021 03:11:35 -0700
-X-IronPort-AV: E=Sophos;i="5.84,270,1620716400"; d="scan'208";a="516041460"
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Jul 2021 03:13:12 -0700
+X-IronPort-AV: E=Sophos;i="5.84,270,1620716400"; d="scan'208";a="516041839"
 Received: from dechasso-mobl3.amr.corp.intel.com (HELO intel.com)
  ([10.212.115.115])
  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jul 2021 03:11:34 -0700
-Date: Mon, 26 Jul 2021 06:11:33 -0400
+ 26 Jul 2021 03:13:11 -0700
+Date: Mon, 26 Jul 2021 06:13:10 -0400
 From: Rodrigo Vivi <rodrigo.vivi@intel.com>
 To: Lucas De Marchi <lucas.demarchi@intel.com>
-Subject: Re: [PATCH 17/30] drm/i915/display: rename CNL references in
- skl_scaler.c
-Message-ID: <YP6KVZSZUFo6YgIZ@intel.com>
+Subject: Re: [Intel-gfx] [PATCH 30/30] drm/i915: switch
+ num_scalers/num_sprites to consider DISPLAY_VER
+Message-ID: <YP6Ktiij08KY9wvt@intel.com>
 References: <20210724001114.249295-1-lucas.demarchi@intel.com>
- <20210724001114.249295-18-lucas.demarchi@intel.com>
+ <20210724001114.249295-31-lucas.demarchi@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210724001114.249295-18-lucas.demarchi@intel.com>
+In-Reply-To: <20210724001114.249295-31-lucas.demarchi@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,83 +47,68 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, intel-gfx@lists.freedesktop.org,
- Jose Souza <jose.souza@intel.com>, dri-devel@lists.freedesktop.org
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jul 23, 2021 at 05:11:01PM -0700, Lucas De Marchi wrote:
-> With the removal of CNL, let's consider GLK as the first platform using
-> those constants since GLK has DISPLAY_VER == 10.
+On Fri, Jul 23, 2021 at 05:11:14PM -0700, Lucas De Marchi wrote:
+> The numbers of scalers and sprites depend on the display version, so use
+> it instead of GRAPHICS_VER. We were mixing both, which let me confused
+> while removing CNL and GRAPHICS_VER == 10.
 > 
 > Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
+> ---
+>  drivers/gpu/drm/i915/intel_device_info.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/intel_device_info.c b/drivers/gpu/drm/i915/intel_device_info.c
+> index ffe3b5d89a63..7023d36a9a28 100644
+> --- a/drivers/gpu/drm/i915/intel_device_info.c
+> +++ b/drivers/gpu/drm/i915/intel_device_info.c
+> @@ -265,10 +265,10 @@ void intel_device_info_runtime_init(struct drm_i915_private *dev_priv)
+>  	if (IS_ADLS_DISPLAY_STEP(dev_priv, STEP_A0, STEP_A2))
+>  		for_each_pipe(dev_priv, pipe)
+>  			runtime->num_scalers[pipe] = 0;
+> -	else if (GRAPHICS_VER(dev_priv) >= 11) {
+> +	else if (DISPLAY_VER(dev_priv) >= 11) {
+>  		for_each_pipe(dev_priv, pipe)
+>  			runtime->num_scalers[pipe] = 2;
+> -	} else if (GRAPHICS_VER(dev_priv) == 9) {
+> +	} else if (DISPLAY_VER(dev_priv) == 9) {
+>  		runtime->num_scalers[PIPE_A] = 2;
+>  		runtime->num_scalers[PIPE_B] = 2;
+>  		runtime->num_scalers[PIPE_C] = 1;
+> @@ -279,7 +279,7 @@ void intel_device_info_runtime_init(struct drm_i915_private *dev_priv)
+>  	if (DISPLAY_VER(dev_priv) >= 13 || HAS_D12_PLANE_MINIMIZATION(dev_priv))
+>  		for_each_pipe(dev_priv, pipe)
+>  			runtime->num_sprites[pipe] = 4;
+> -	else if (GRAPHICS_VER(dev_priv) >= 11)
+> +	else if (DISPLAY_VER(dev_priv) >= 11)
+>  		for_each_pipe(dev_priv, pipe)
+>  			runtime->num_sprites[pipe] = 6;
+>  	else if (IS_GEMINILAKE(dev_priv))
+
+while at it we could probably change this to DISPLAY_VER == 10?!
+
+but anyway:
 
 Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
 
-> ---
->  drivers/gpu/drm/i915/display/skl_scaler.c | 10 +++++-----
->  drivers/gpu/drm/i915/i915_reg.h           |  4 ++--
->  2 files changed, 7 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/display/skl_scaler.c b/drivers/gpu/drm/i915/display/skl_scaler.c
-> index 911a113ee006..ebdd3115de16 100644
-> --- a/drivers/gpu/drm/i915/display/skl_scaler.c
-> +++ b/drivers/gpu/drm/i915/display/skl_scaler.c
-> @@ -341,12 +341,12 @@ static u16 cnl_nearest_filter_coef(int t)
->   *
->   */
->  
-> -static void cnl_program_nearest_filter_coefs(struct drm_i915_private *dev_priv,
-> +static void glk_program_nearest_filter_coefs(struct drm_i915_private *dev_priv,
->  					     enum pipe pipe, int id, int set)
->  {
->  	int i;
->  
-> -	intel_de_write_fw(dev_priv, CNL_PS_COEF_INDEX_SET(pipe, id, set),
-> +	intel_de_write_fw(dev_priv, GLK_PS_COEF_INDEX_SET(pipe, id, set),
->  			  PS_COEE_INDEX_AUTO_INC);
->  
->  	for (i = 0; i < 17 * 7; i += 2) {
-> @@ -359,11 +359,11 @@ static void cnl_program_nearest_filter_coefs(struct drm_i915_private *dev_priv,
->  		t = cnl_coef_tap(i + 1);
->  		tmp |= cnl_nearest_filter_coef(t) << 16;
->  
-> -		intel_de_write_fw(dev_priv, CNL_PS_COEF_DATA_SET(pipe, id, set),
-> +		intel_de_write_fw(dev_priv, GLK_PS_COEF_DATA_SET(pipe, id, set),
->  				  tmp);
+
+
+> @@ -301,7 +301,7 @@ void intel_device_info_runtime_init(struct drm_i915_private *dev_priv)
+>  	} else if (IS_VALLEYVIEW(dev_priv) || IS_CHERRYVIEW(dev_priv)) {
+>  		for_each_pipe(dev_priv, pipe)
+>  			runtime->num_sprites[pipe] = 2;
+> -	} else if (GRAPHICS_VER(dev_priv) >= 5 || IS_G4X(dev_priv)) {
+> +	} else if (DISPLAY_VER(dev_priv) >= 5 || IS_G4X(dev_priv)) {
+>  		for_each_pipe(dev_priv, pipe)
+>  			runtime->num_sprites[pipe] = 1;
 >  	}
->  
-> -	intel_de_write_fw(dev_priv, CNL_PS_COEF_INDEX_SET(pipe, id, set), 0);
-> +	intel_de_write_fw(dev_priv, GLK_PS_COEF_INDEX_SET(pipe, id, set), 0);
->  }
->  
->  static u32 skl_scaler_get_filter_select(enum drm_scaling_filter filter, int set)
-> @@ -386,7 +386,7 @@ static void skl_scaler_setup_filter(struct drm_i915_private *dev_priv, enum pipe
->  	case DRM_SCALING_FILTER_DEFAULT:
->  		break;
->  	case DRM_SCALING_FILTER_NEAREST_NEIGHBOR:
-> -		cnl_program_nearest_filter_coefs(dev_priv, pipe, id, set);
-> +		glk_program_nearest_filter_coefs(dev_priv, pipe, id, set);
->  		break;
->  	default:
->  		MISSING_CASE(filter);
-> diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
-> index 91e93f3e9649..d198b1a2d4b5 100644
-> --- a/drivers/gpu/drm/i915/i915_reg.h
-> +++ b/drivers/gpu/drm/i915/i915_reg.h
-> @@ -7726,11 +7726,11 @@ enum {
->  #define SKL_PS_ECC_STAT(pipe, id)  _MMIO_PIPE(pipe,     \
->  			_ID(id, _PS_ECC_STAT_1A, _PS_ECC_STAT_2A),   \
->  			_ID(id, _PS_ECC_STAT_1B, _PS_ECC_STAT_2B))
-> -#define CNL_PS_COEF_INDEX_SET(pipe, id, set)  _MMIO_PIPE(pipe,    \
-> +#define GLK_PS_COEF_INDEX_SET(pipe, id, set)  _MMIO_PIPE(pipe,    \
->  			_ID(id, _PS_COEF_SET0_INDEX_1A, _PS_COEF_SET0_INDEX_2A) + (set) * 8, \
->  			_ID(id, _PS_COEF_SET0_INDEX_1B, _PS_COEF_SET0_INDEX_2B) + (set) * 8)
->  
-> -#define CNL_PS_COEF_DATA_SET(pipe, id, set)  _MMIO_PIPE(pipe,     \
-> +#define GLK_PS_COEF_DATA_SET(pipe, id, set)  _MMIO_PIPE(pipe,     \
->  			_ID(id, _PS_COEF_SET0_DATA_1A, _PS_COEF_SET0_DATA_2A) + (set) * 8, \
->  			_ID(id, _PS_COEF_SET0_DATA_1B, _PS_COEF_SET0_DATA_2B) + (set) * 8)
->  /* legacy palette */
 > -- 
 > 2.31.1
 > 
+> _______________________________________________
+> Intel-gfx mailing list
+> Intel-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
