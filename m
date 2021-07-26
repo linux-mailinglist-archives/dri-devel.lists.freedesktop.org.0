@@ -2,40 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B3883D55AD
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jul 2021 10:31:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C08943D55B1
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jul 2021 10:34:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC50A6E848;
-	Mon, 26 Jul 2021 08:31:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B0626E870;
+	Mon, 26 Jul 2021 08:34:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 828E46E848;
- Mon, 26 Jul 2021 08:31:40 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10056"; a="212179884"
-X-IronPort-AV: E=Sophos;i="5.84,270,1620716400"; d="scan'208";a="212179884"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jul 2021 01:31:38 -0700
-X-IronPort-AV: E=Sophos;i="5.84,270,1620716400"; d="scan'208";a="504813780"
-Received: from vsorokin-mobl.ccr.corp.intel.com (HELO [10.249.33.94])
- ([10.249.33.94])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jul 2021 01:31:35 -0700
-Subject: Re: [PATCH] drm/i915/userptr: Probe existence of backing struct pages
- upon creation
-To: Matthew Auld <matthew.auld@intel.com>, intel-gfx@lists.freedesktop.org
-References: <20210723113405.427004-1-matthew.auld@intel.com>
-From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Message-ID: <0988bf67-c42a-1e7e-af77-ae2da65b036f@linux.intel.com>
-Date: Mon, 26 Jul 2021 10:31:33 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.0
+Received: from mail-4316.protonmail.ch (mail-4316.protonmail.ch [185.70.43.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C6D916E870
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Jul 2021 08:34:17 +0000 (UTC)
+Date: Mon, 26 Jul 2021 08:34:14 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail; t=1627288454;
+ bh=yhbVoCAmox2vAgFyrpH3nKND6IGvOGE2Ka3jEaYL794=;
+ h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
+ b=kobmVOd31Q843C/LT0KgJqaYJ13sEvv840MJqZ0x0+fw29kyRhqwA3LCWJXHutV0b
+ VG4Xw0uTzORlJp2r20s1vIEJQGZ9HD/V7VUXU7QB4VCOerSvrNgd+HN2KLeOKlf0vM
+ aTvDhGh7al3NxHvOhZJIQGbAqe8O0lKus0Qzg8AcJBeO0oolOorPGKbxLsUQctwBvq
+ mjf7frWDQOz0D0hNx0o7Eo9aNas8wjdDBcuNAwYlBxvFmNWMKZAPGB4HAVUM9y4Tze
+ Rs5E+1fh/eCjFsfdDMf0A7nYXLR0s1ca9gs1URwaL6MbqYlCWBbMat10M4JdWB9pdE
+ NJbPJ7vfjt9cw==
+To: Daniel Vetter <daniel@ffwll.ch>
+From: Simon Ser <contact@emersion.fr>
+Subject: Re: [PATCH] drm: document drm_mode_get_property
+Message-ID: <QjQOQBq4Tf992ih6qPcE1Rw5VNKcjiPbctKkIBBbwFgudHtGSlI8-sNjPVLBUBfNIEbjlQFUa_oab6AGMPmyrQ656Hc2HOdBxLef7QCf5bw=@emersion.fr>
+In-Reply-To: <YPgHeJ4gcKI1YaUa@phenom.ffwll.local>
+References: <1tz9tpGFTp14Rdm6Qrih80WnzsUdM9GdHBqcT7t0zuc@cp3-web-021.plabs.ch>
+ <YPgHeJ4gcKI1YaUa@phenom.ffwll.local>
 MIME-Version: 1.0
-In-Reply-To: <20210723113405.427004-1-matthew.auld@intel.com>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+ DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
+ autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
+ mailout.protonmail.ch
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,186 +50,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Jordan Justen <jordan.l.justen@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>, dri-devel@lists.freedesktop.org,
- Chris Wilson <chris@chris-wilson.co.uk>,
- Kenneth Graunke <kenneth@whitecape.org>, Jason Ekstrand <jason@jlekstrand.net>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
+Reply-To: Simon Ser <contact@emersion.fr>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Pekka Paalanen <pekka.paalanen@collabora.com>,
+ Leandro Ribeiro <leandro.ribeiro@collabora.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Op 23-07-2021 om 13:34 schreef Matthew Auld:
-> From: Chris Wilson <chris@chris-wilson.co.uk>
->
-> Jason Ekstrand requested a more efficient method than userptr+set-domain
-> to determine if the userptr object was backed by a complete set of pages
-> upon creation. To be more efficient than simply populating the userptr
-> using get_user_pages() (as done by the call to set-domain or execbuf),
-> we can walk the tree of vm_area_struct and check for gaps or vma not
-> backed by struct page (VM_PFNMAP). The question is how to handle
-> VM_MIXEDMAP which may be either struct page or pfn backed...
->
-> With discrete we are going to drop support for set_domain(), so offering
-> a way to probe the pages, without having to resort to dummy batches has
-> been requested.
->
-> v2:
-> - add new query param for the PROBE flag, so userspace can easily
->   check if the kernel supports it(Jason).
-> - use mmap_read_{lock, unlock}.
-> - add some kernel-doc.
-> v3:
-> - In the docs also mention that PROBE doesn't guarantee that the pages
->   will remain valid by the time they are actually used(Tvrtko).
-> - Add a small comment for the hole finding logic(Jason).
-> - Move the param next to all the other params which just return true.
->
-> Testcase: igt/gem_userptr_blits/probe
-> Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
-> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
-> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-> Cc: Jordan Justen <jordan.l.justen@intel.com>
-> Cc: Kenneth Graunke <kenneth@whitecape.org>
-> Cc: Jason Ekstrand <jason@jlekstrand.net>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: Ramalingam C <ramalingam.c@intel.com>
-> Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-> Acked-by: Kenneth Graunke <kenneth@whitecape.org>
-> Reviewed-by: Jason Ekstrand <jason@jlekstrand.net>
-> ---
->  drivers/gpu/drm/i915/gem/i915_gem_userptr.c | 41 ++++++++++++++++++++-
->  drivers/gpu/drm/i915/i915_getparam.c        |  1 +
->  include/uapi/drm/i915_drm.h                 | 20 ++++++++++
->  3 files changed, 61 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_userptr.c b/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
-> index 56edfeff8c02..468a7a617fbf 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
-> @@ -422,6 +422,34 @@ static const struct drm_i915_gem_object_ops i915_gem_userptr_ops = {
->  
->  #endif
->  
-> +static int
-> +probe_range(struct mm_struct *mm, unsigned long addr, unsigned long len)
-> +{
-> +	const unsigned long end = addr + len;
-> +	struct vm_area_struct *vma;
-> +	int ret = -EFAULT;
-> +
-> +	mmap_read_lock(mm);
-> +	for (vma = find_vma(mm, addr); vma; vma = vma->vm_next) {
-> +		/* Check for holes, note that we also update the addr below */
-> +		if (vma->vm_start > addr)
-> +			break;
-> +
-> +		if (vma->vm_flags & (VM_PFNMAP | VM_MIXEDMAP))
-> +			break;
-> +
-> +		if (vma->vm_end >= end) {
-> +			ret = 0;
-> +			break;
-> +		}
-> +
-> +		addr = vma->vm_end;
-> +	}
-> +	mmap_read_unlock(mm);
-> +
-> +	return ret;
-> +}
-> +
->  /*
->   * Creates a new mm object that wraps some normal memory from the process
->   * context - user memory.
-> @@ -477,7 +505,8 @@ i915_gem_userptr_ioctl(struct drm_device *dev,
->  	}
->  
->  	if (args->flags & ~(I915_USERPTR_READ_ONLY |
-> -			    I915_USERPTR_UNSYNCHRONIZED))
-> +			    I915_USERPTR_UNSYNCHRONIZED |
-> +			    I915_USERPTR_PROBE))
->  		return -EINVAL;
->  
->  	if (i915_gem_object_size_2big(args->user_size))
-> @@ -504,6 +533,16 @@ i915_gem_userptr_ioctl(struct drm_device *dev,
->  			return -ENODEV;
->  	}
->  
-> +	if (args->flags & I915_USERPTR_PROBE) {
-> +		/*
-> +		 * Check that the range pointed to represents real struct
-> +		 * pages and not iomappings (at this moment in time!)
-> +		 */
-> +		ret = probe_range(current->mm, args->user_ptr, args->user_size);
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
->  #ifdef CONFIG_MMU_NOTIFIER
->  	obj = i915_gem_object_alloc();
->  	if (obj == NULL)
-> diff --git a/drivers/gpu/drm/i915/i915_getparam.c b/drivers/gpu/drm/i915/i915_getparam.c
-> index 24e18219eb50..bbb7cac43eb4 100644
-> --- a/drivers/gpu/drm/i915/i915_getparam.c
-> +++ b/drivers/gpu/drm/i915/i915_getparam.c
-> @@ -134,6 +134,7 @@ int i915_getparam_ioctl(struct drm_device *dev, void *data,
->  	case I915_PARAM_HAS_EXEC_FENCE_ARRAY:
->  	case I915_PARAM_HAS_EXEC_SUBMIT_FENCE:
->  	case I915_PARAM_HAS_EXEC_TIMELINE_FENCES:
-> +	case I915_PARAM_HAS_USERPTR_PROBE:
->  		/* For the time being all of these are always true;
->  		 * if some supported hardware does not have one of these
->  		 * features this value needs to be provided from
-> diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
-> index 975087553ea0..0d290535a6e5 100644
-> --- a/include/uapi/drm/i915_drm.h
-> +++ b/include/uapi/drm/i915_drm.h
-> @@ -674,6 +674,9 @@ typedef struct drm_i915_irq_wait {
->   */
->  #define I915_PARAM_HAS_EXEC_TIMELINE_FENCES 55
->  
-> +/* Query if the kernel supports the I915_USERPTR_PROBE flag. */
-> +#define I915_PARAM_HAS_USERPTR_PROBE 56
-> +
->  /* Must be kept compact -- no holes and well documented */
->  
->  typedef struct drm_i915_getparam {
-> @@ -2222,12 +2225,29 @@ struct drm_i915_gem_userptr {
->  	 * through the GTT. If the HW can't support readonly access, an error is
->  	 * returned.
->  	 *
-> +	 * I915_USERPTR_PROBE:
-> +	 *
-> +	 * Probe the provided @user_ptr range and validate that the @user_ptr is
-> +	 * indeed pointing to normal memory and that the range is also valid.
-> +	 * For example if some garbage address is given to the kernel, then this
-> +	 * should complain.
-> +	 *
-> +	 * Returns -EFAULT if the probe failed.
-> +	 *
-> +	 * Note that this doesn't populate the backing pages, and also doesn't
-> +	 * guarantee that the object will remain valid when the object is
-> +	 * eventually used.
-> +	 *
-> +	 * The kernel supports this feature if I915_PARAM_HAS_USERPTR_PROBE
-> +	 * returns a non-zero value.
-> +	 *
->  	 * I915_USERPTR_UNSYNCHRONIZED:
->  	 *
->  	 * NOT USED. Setting this flag will result in an error.
->  	 */
->  	__u32 flags;
->  #define I915_USERPTR_READ_ONLY 0x1
-> +#define I915_USERPTR_PROBE 0x2
->  #define I915_USERPTR_UNSYNCHRONIZED 0x80000000
->  	/**
->  	 * @handle: Returned handle for the object.
+On Wednesday, July 21st, 2021 at 13:39, Daniel Vetter <daniel@ffwll.ch> wro=
+te:
 
-Could we use _VALIDATE instead of probe? Or at least pin the pages as well, so we don't have to do it later?
+> I think it would be really good to link to
+>
+> https://dri.freedesktop.org/docs/drm/gpu/drm-kms.html#modeset-base-object=
+-abstraction
+>
+> for all the property related ioctl. That entire class vs instance
+> confusion is pretty common I think, which is why I even made a nice
+> picture about it :-)
 
-We already have i915_gem_object_userptr_validate, no need to dupe it.
+I cannot figure out how to link to that page after blindly trying a bunch o=
+f
+magical Sphinx invocations. I must say, links aren't RST's forte, inserting
+them is as intuitive as mud.
 
+Does anyone know how to do it?
