@@ -1,38 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2E653D5712
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jul 2021 12:08:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BD363D5715
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jul 2021 12:08:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B8C876E917;
-	Mon, 26 Jul 2021 10:08:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F74B6E942;
+	Mon, 26 Jul 2021 10:08:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 210866E915;
- Mon, 26 Jul 2021 10:08:11 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10056"; a="210311285"
-X-IronPort-AV: E=Sophos;i="5.84,270,1620716400"; d="scan'208";a="210311285"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jul 2021 03:08:05 -0700
-X-IronPort-AV: E=Sophos;i="5.84,270,1620716400"; d="scan'208";a="498088095"
-Received: from dechasso-mobl3.amr.corp.intel.com (HELO intel.com)
- ([10.212.115.115])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jul 2021 03:08:04 -0700
-Date: Mon, 26 Jul 2021 06:08:03 -0400
-From: Rodrigo Vivi <rodrigo.vivi@intel.com>
-To: Lucas De Marchi <lucas.demarchi@intel.com>
-Subject: Re: [Intel-gfx] [PATCH 27/30] drm/i915: remove GRAPHICS_VER == 10
-Message-ID: <YP6Jg9t8LMDvq1yv@intel.com>
-References: <20210724001114.249295-1-lucas.demarchi@intel.com>
- <20210724001114.249295-28-lucas.demarchi@intel.com>
+Received: from mail-ot1-x32d.google.com (mail-ot1-x32d.google.com
+ [IPv6:2607:f8b0:4864:20::32d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A6276E942
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Jul 2021 10:08:41 +0000 (UTC)
+Received: by mail-ot1-x32d.google.com with SMTP id
+ h63-20020a9d14450000b02904ce97efee36so9462476oth.7
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Jul 2021 03:08:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=F1W8BM33E8I7Rg6qQkHpIq24nb3jtDXTVrJEtrhyQpY=;
+ b=mhxSo+BtVhr0w+J9JSXO8eV4u/xQHPXbnkT1CJPffjjbaxEUzQHPRFm9j8Er6+4DyB
+ 7jFZhKMOOZ/9DEfrCUmxS3cO4159fI3JHkWf+itkWMBYAXmhPG4T6qO0/hJM/ecd6KRM
+ +fBwalsP8KMrcDjZPg/r1d9qdCagN6ec2r9TQgaWMnpldEetamoI1WIPPPrwyFzhGQcR
+ Jh/3NOTVKIMMWCUYMXSZHv8rD0/eOWpgxdbYDnwJNUITjcPzQHNjZaNc6zmZstvviRjl
+ PbVDcIszcZEdawhBkh2zIjxEd2nqOiuIIUkx1TpoU8MGw265fNFfAYcCZ1x97CLBxr+T
+ BeSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=F1W8BM33E8I7Rg6qQkHpIq24nb3jtDXTVrJEtrhyQpY=;
+ b=gOhI3XpIVQeoHIv7xCpbttCq9bYTYAqZ3I5NGVKP/KbxyTWAqb5b3rgn9X/4LrEWPB
+ pcAypE8Bzs0QL8z6NWqmq7viJm4c90RD7e8Z1fsA/xm+CtGBTvzBNMo7KzZi+bv/0wu2
+ Asu0068YqDWP3s1YuDJdwKu58/Iuju2VUj21S1LsGTdYcT/fqZxSaEDWagfS0ELY2v4U
+ 0veR6Oz9l3BuHK+AU9KJxglD6Fhgab8yS4ZU2TmMUXxGQyfgH/HoSFJ161DV2y35UshV
+ PJ6A2NdJ7dfTrZlv8A9LtdzWDB4m+3qcnKympw4vfxatruXed8vnaV4dVwAxF8KSEctR
+ J4aw==
+X-Gm-Message-State: AOAM533rAJo6nkfoRODUy12daoeJu1QgPg7uPbeCsZNTuA7+Zf8Cs+0l
+ SMwL66AO7/XSnZYpukJcYZeT4M/pgvrY+3nAW44=
+X-Google-Smtp-Source: ABdhPJwcFKNYI6+KwnCa9bmjN5KGLG4/G0IOcDqm6ZBsn9Z8heUe+7xQBKSswL+u6yHDGeIWzLR0FC8ZXJ5dmHqbbiY=
+X-Received: by 2002:a9d:6490:: with SMTP id g16mr1584823otl.184.1627294120561; 
+ Mon, 26 Jul 2021 03:08:40 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210724001114.249295-28-lucas.demarchi@intel.com>
+References: <20210722092624.14401-1-jason-jh.lin@mediatek.com>
+ <20210722092624.14401-2-jason-jh.lin@mediatek.com>
+ <CAFqH_51qKkxMit5fkSh_AyeNAYwKnoPe09nwJLKaKez26+HUew@mail.gmail.com>
+ <4c0fe16988c559a5a4b1ce714eeaa31f4628f68f.camel@mediatek.com>
+In-Reply-To: <4c0fe16988c559a5a4b1ce714eeaa31f4628f68f.camel@mediatek.com>
+From: Enric Balletbo Serra <eballetbo@gmail.com>
+Date: Mon, 26 Jul 2021 12:08:28 +0200
+Message-ID: <CAFqH_512RCNBufS=zL5hQSQJya3565dm2D3zznWie9rKUN_sAw@mail.gmail.com>
+Subject: Re: [PATCH v1 1/5] dt-bindings: arm: mediatek: mmsys: add mt8195 SoC
+ binding
+To: Jason-JH Lin <jason-jh.lin@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,467 +66,165 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Jitao shi <jitao.shi@mediatek.com>,
+ fshao@chromium.org, David Airlie <airlied@linux.ie>, singo.chang@mediatek.com,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Fabien Parent <fparent@baylibre.com>, devicetree <devicetree@vger.kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ "Nancy.Lin" <nancy.lin@mediatek.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jul 23, 2021 at 05:11:11PM -0700, Lucas De Marchi wrote:
-> Replace all remaining handling of GRAPHICS_VER {==,>=} 10 with
-> {==,>=} 11. With the removal of CNL, there is no platform with graphics
-> version equals 10.
-> 
-> Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
+Hi Jason,
 
-Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Missatge de Jason-JH Lin <jason-jh.lin@mediatek.com> del dia dl., 26
+de jul. 2021 a les 9:02:
+>
+> On Fri, 2021-07-23 at 13:13 +0200, Enric Balletbo Serra wrote:
+> > Hi Jason,
+> >
+> > Thank you for your patch.
+> >
+> > Missatge de jason-jh.lin <jason-jh.lin@mediatek.com> del dia dj., 22
+> > de jul. 2021 a les 11:26:
+> > >
+> > > There are 2 display hardware path in mt8195, namely vdosys0 and
+> > > vdosys1, so add their definition in mtk-mmsys documentation.
+> > >
+> >
+> > Just having 2 display hardware paths is not a reason to have two
+> > compatibles, isn't the IP block the same? Why do you need to
+> > introduce
+> > the two compatibles?
+> >
+> > Thanks,
+> >   Enric
+> >
+>
+> Hi Enric,
+>
+> Thanks for reviewing my patch.
+>
+> The reason for using two compatibles is that vdosys0 and vdosys1 are
+> different IP blocks.
+>
 
-> ---
->  drivers/gpu/drm/i915/gem/i915_gem_stolen.c    |  1 -
->  drivers/gpu/drm/i915/gt/debugfs_gt_pm.c       | 10 ++---
->  drivers/gpu/drm/i915/gt/intel_engine_cs.c     |  3 --
->  drivers/gpu/drm/i915/gt/intel_ggtt.c          |  4 +-
->  .../gpu/drm/i915/gt/intel_gt_clock_utils.c    | 10 ++---
->  drivers/gpu/drm/i915/gt/intel_gtt.c           |  6 +--
->  drivers/gpu/drm/i915/gt/intel_lrc.c           | 42 +------------------
->  drivers/gpu/drm/i915/gt/intel_rc6.c           |  2 +-
->  drivers/gpu/drm/i915/gt/intel_rps.c           |  4 +-
->  drivers/gpu/drm/i915/gt/intel_sseu_debugfs.c  |  6 +--
->  drivers/gpu/drm/i915/gvt/gtt.c                |  2 +-
->  drivers/gpu/drm/i915/i915_debugfs.c           |  6 +--
->  drivers/gpu/drm/i915/i915_drv.h               |  2 +-
->  drivers/gpu/drm/i915/i915_perf.c              | 21 ++++------
->  drivers/gpu/drm/i915/intel_device_info.c      |  4 +-
->  15 files changed, 37 insertions(+), 86 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c b/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
-> index 90708de27684..ddd37ccb1362 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
-> @@ -447,7 +447,6 @@ static int i915_gem_init_stolen(struct intel_memory_region *mem)
->  		break;
->  	case 8:
->  	case 9:
-> -	case 10:
->  		if (IS_LP(i915))
->  			chv_get_stolen_reserved(i915, uncore,
->  						&reserved_base, &reserved_size);
-> diff --git a/drivers/gpu/drm/i915/gt/debugfs_gt_pm.c b/drivers/gpu/drm/i915/gt/debugfs_gt_pm.c
-> index 4270b5a34a83..d6f5836396f8 100644
-> --- a/drivers/gpu/drm/i915/gt/debugfs_gt_pm.c
-> +++ b/drivers/gpu/drm/i915/gt/debugfs_gt_pm.c
-> @@ -437,20 +437,20 @@ static int frequency_show(struct seq_file *m, void *unused)
->  		max_freq = (IS_GEN9_LP(i915) ? rp_state_cap >> 0 :
->  			    rp_state_cap >> 16) & 0xff;
->  		max_freq *= (IS_GEN9_BC(i915) ||
-> -			     GRAPHICS_VER(i915) >= 10 ? GEN9_FREQ_SCALER : 1);
-> +			     GRAPHICS_VER(i915) >= 11 ? GEN9_FREQ_SCALER : 1);
->  		seq_printf(m, "Lowest (RPN) frequency: %dMHz\n",
->  			   intel_gpu_freq(rps, max_freq));
->  
->  		max_freq = (rp_state_cap & 0xff00) >> 8;
->  		max_freq *= (IS_GEN9_BC(i915) ||
-> -			     GRAPHICS_VER(i915) >= 10 ? GEN9_FREQ_SCALER : 1);
-> +			     GRAPHICS_VER(i915) >= 11 ? GEN9_FREQ_SCALER : 1);
->  		seq_printf(m, "Nominal (RP1) frequency: %dMHz\n",
->  			   intel_gpu_freq(rps, max_freq));
->  
->  		max_freq = (IS_GEN9_LP(i915) ? rp_state_cap >> 16 :
->  			    rp_state_cap >> 0) & 0xff;
->  		max_freq *= (IS_GEN9_BC(i915) ||
-> -			     GRAPHICS_VER(i915) >= 10 ? GEN9_FREQ_SCALER : 1);
-> +			     GRAPHICS_VER(i915) >= 11 ? GEN9_FREQ_SCALER : 1);
->  		seq_printf(m, "Max non-overclocked (RP0) frequency: %dMHz\n",
->  			   intel_gpu_freq(rps, max_freq));
->  		seq_printf(m, "Max overclocked frequency: %dMHz\n",
-> @@ -500,7 +500,7 @@ static int llc_show(struct seq_file *m, void *data)
->  
->  	min_gpu_freq = rps->min_freq;
->  	max_gpu_freq = rps->max_freq;
-> -	if (IS_GEN9_BC(i915) || GRAPHICS_VER(i915) >= 10) {
-> +	if (IS_GEN9_BC(i915) || GRAPHICS_VER(i915) >= 11) {
->  		/* Convert GT frequency to 50 HZ units */
->  		min_gpu_freq /= GEN9_FREQ_SCALER;
->  		max_gpu_freq /= GEN9_FREQ_SCALER;
-> @@ -518,7 +518,7 @@ static int llc_show(struct seq_file *m, void *data)
->  			   intel_gpu_freq(rps,
->  					  (gpu_freq *
->  					   (IS_GEN9_BC(i915) ||
-> -					    GRAPHICS_VER(i915) >= 10 ?
-> +					    GRAPHICS_VER(i915) >= 11 ?
->  					    GEN9_FREQ_SCALER : 1))),
->  			   ((ia_freq >> 0) & 0xff) * 100,
->  			   ((ia_freq >> 8) & 0xff) * 100);
-> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-> index 4168b9fc59e1..152b5493a455 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-> @@ -35,7 +35,6 @@
->  #define DEFAULT_LR_CONTEXT_RENDER_SIZE	(22 * PAGE_SIZE)
->  #define GEN8_LR_CONTEXT_RENDER_SIZE	(20 * PAGE_SIZE)
->  #define GEN9_LR_CONTEXT_RENDER_SIZE	(22 * PAGE_SIZE)
-> -#define GEN10_LR_CONTEXT_RENDER_SIZE	(18 * PAGE_SIZE)
->  #define GEN11_LR_CONTEXT_RENDER_SIZE	(14 * PAGE_SIZE)
->  
->  #define GEN8_LR_CONTEXT_OTHER_SIZE	( 2 * PAGE_SIZE)
-> @@ -149,8 +148,6 @@ u32 intel_engine_context_size(struct intel_gt *gt, u8 class)
->  		case 12:
->  		case 11:
->  			return GEN11_LR_CONTEXT_RENDER_SIZE;
-> -		case 10:
-> -			return GEN10_LR_CONTEXT_RENDER_SIZE;
->  		case 9:
->  			return GEN9_LR_CONTEXT_RENDER_SIZE;
->  		case 8:
-> diff --git a/drivers/gpu/drm/i915/gt/intel_ggtt.c b/drivers/gpu/drm/i915/gt/intel_ggtt.c
-> index 9d445ad9a342..de3ac58fceec 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_ggtt.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_ggtt.c
-> @@ -826,13 +826,13 @@ static int ggtt_probe_common(struct i915_ggtt *ggtt, u64 size)
->  	phys_addr = pci_resource_start(pdev, 0) + pci_resource_len(pdev, 0) / 2;
->  
->  	/*
-> -	 * On BXT+/CNL+ writes larger than 64 bit to the GTT pagetable range
-> +	 * On BXT+/ICL+ writes larger than 64 bit to the GTT pagetable range
->  	 * will be dropped. For WC mappings in general we have 64 byte burst
->  	 * writes when the WC buffer is flushed, so we can't use it, but have to
->  	 * resort to an uncached mapping. The WC issue is easily caught by the
->  	 * readback check when writing GTT PTE entries.
->  	 */
-> -	if (IS_GEN9_LP(i915) || GRAPHICS_VER(i915) >= 10)
-> +	if (IS_GEN9_LP(i915) || GRAPHICS_VER(i915) >= 11)
->  		ggtt->gsm = ioremap(phys_addr, size);
->  	else
->  		ggtt->gsm = ioremap_wc(phys_addr, size);
-> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_clock_utils.c b/drivers/gpu/drm/i915/gt/intel_gt_clock_utils.c
-> index 9f0e729d2d15..3513d6f90747 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_gt_clock_utils.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_gt_clock_utils.c
-> @@ -24,8 +24,8 @@ static u32 read_reference_ts_freq(struct intel_uncore *uncore)
->  	return base_freq + frac_freq;
->  }
->  
-> -static u32 gen10_get_crystal_clock_freq(struct intel_uncore *uncore,
-> -					u32 rpm_config_reg)
-> +static u32 gen9_get_crystal_clock_freq(struct intel_uncore *uncore,
-> +				       u32 rpm_config_reg)
->  {
->  	u32 f19_2_mhz = 19200000;
->  	u32 f24_mhz = 24000000;
-> @@ -128,10 +128,10 @@ static u32 read_clock_frequency(struct intel_uncore *uncore)
->  		} else {
->  			u32 c0 = intel_uncore_read(uncore, RPM_CONFIG0);
->  
-> -			if (GRAPHICS_VER(uncore->i915) <= 10)
-> -				freq = gen10_get_crystal_clock_freq(uncore, c0);
-> -			else
-> +			if (GRAPHICS_VER(uncore->i915) >= 11)
->  				freq = gen11_get_crystal_clock_freq(uncore, c0);
-> +			else
-> +				freq = gen9_get_crystal_clock_freq(uncore, c0);
->  
->  			/*
->  			 * Now figure out how the command stream's timestamp
-> diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.c b/drivers/gpu/drm/i915/gt/intel_gtt.c
-> index f7e0352edb62..e137dd32b5b8 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_gtt.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_gtt.c
-> @@ -426,7 +426,7 @@ static void tgl_setup_private_ppat(struct intel_uncore *uncore)
->  	intel_uncore_write(uncore, GEN12_PAT_INDEX(7), GEN8_PPAT_WB);
->  }
->  
-> -static void cnl_setup_private_ppat(struct intel_uncore *uncore)
-> +static void icl_setup_private_ppat(struct intel_uncore *uncore)
->  {
->  	intel_uncore_write(uncore,
->  			   GEN10_PAT_INDEX(0),
-> @@ -526,8 +526,8 @@ void setup_private_pat(struct intel_uncore *uncore)
->  
->  	if (GRAPHICS_VER(i915) >= 12)
->  		tgl_setup_private_ppat(uncore);
-> -	else if (GRAPHICS_VER(i915) >= 10)
-> -		cnl_setup_private_ppat(uncore);
-> +	else if (GRAPHICS_VER(i915) >= 11)
-> +		icl_setup_private_ppat(uncore);
->  	else if (IS_CHERRYVIEW(i915) || IS_GEN9_LP(i915))
->  		chv_setup_private_ppat(uncore);
->  	else
-> diff --git a/drivers/gpu/drm/i915/gt/intel_lrc.c b/drivers/gpu/drm/i915/gt/intel_lrc.c
-> index c3f5bec8ae15..bb4af4977920 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_lrc.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_lrc.c
-> @@ -70,7 +70,7 @@ static void set_offsets(u32 *regs,
->  	if (close) {
->  		/* Close the batch; used mainly by live_lrc_layout() */
->  		*regs = MI_BATCH_BUFFER_END;
-> -		if (GRAPHICS_VER(engine->i915) >= 10)
-> +		if (GRAPHICS_VER(engine->i915) >= 11)
->  			*regs |= BIT(0);
->  	}
->  }
-> @@ -653,8 +653,6 @@ lrc_ring_indirect_offset_default(const struct intel_engine_cs *engine)
->  		return GEN12_CTX_RCS_INDIRECT_CTX_OFFSET_DEFAULT;
->  	case 11:
->  		return GEN11_CTX_RCS_INDIRECT_CTX_OFFSET_DEFAULT;
-> -	case 10:
-> -		return GEN10_CTX_RCS_INDIRECT_CTX_OFFSET_DEFAULT;
->  	case 9:
->  		return GEN9_CTX_RCS_INDIRECT_CTX_OFFSET_DEFAULT;
->  	case 8:
-> @@ -1448,40 +1446,6 @@ static u32 *gen9_init_indirectctx_bb(struct intel_engine_cs *engine, u32 *batch)
->  	return batch;
->  }
->  
-> -static u32 *
-> -gen10_init_indirectctx_bb(struct intel_engine_cs *engine, u32 *batch)
-> -{
-> -	int i;
-> -
-> -	/*
-> -	 * WaPipeControlBefore3DStateSamplePattern: cnl
-> -	 *
-> -	 * Ensure the engine is idle prior to programming a
-> -	 * 3DSTATE_SAMPLE_PATTERN during a context restore.
-> -	 */
-> -	batch = gen8_emit_pipe_control(batch,
-> -				       PIPE_CONTROL_CS_STALL,
-> -				       0);
-> -	/*
-> -	 * WaPipeControlBefore3DStateSamplePattern says we need 4 dwords for
-> -	 * the PIPE_CONTROL followed by 12 dwords of 0x0, so 16 dwords in
-> -	 * total. However, a PIPE_CONTROL is 6 dwords long, not 4, which is
-> -	 * confusing. Since gen8_emit_pipe_control() already advances the
-> -	 * batch by 6 dwords, we advance the other 10 here, completing a
-> -	 * cacheline. It's not clear if the workaround requires this padding
-> -	 * before other commands, or if it's just the regular padding we would
-> -	 * already have for the workaround bb, so leave it here for now.
-> -	 */
-> -	for (i = 0; i < 10; i++)
-> -		*batch++ = MI_NOOP;
-> -
-> -	/* Pad to end of cacheline */
-> -	while ((unsigned long)batch % CACHELINE_BYTES)
-> -		*batch++ = MI_NOOP;
-> -
-> -	return batch;
-> -}
-> -
->  #define CTX_WA_BB_SIZE (PAGE_SIZE)
->  
->  static int lrc_create_wa_ctx(struct intel_engine_cs *engine)
-> @@ -1534,10 +1498,6 @@ void lrc_init_wa_ctx(struct intel_engine_cs *engine)
->  	case 12:
->  	case 11:
->  		return;
-> -	case 10:
-> -		wa_bb_fn[0] = gen10_init_indirectctx_bb;
-> -		wa_bb_fn[1] = NULL;
-> -		break;
->  	case 9:
->  		wa_bb_fn[0] = gen9_init_indirectctx_bb;
->  		wa_bb_fn[1] = NULL;
-> diff --git a/drivers/gpu/drm/i915/gt/intel_rc6.c b/drivers/gpu/drm/i915/gt/intel_rc6.c
-> index 259d7eb4e165..a7d13fe35b2e 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_rc6.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_rc6.c
-> @@ -126,7 +126,7 @@ static void gen9_rc6_enable(struct intel_rc6 *rc6)
->  	enum intel_engine_id id;
->  
->  	/* 2b: Program RC6 thresholds.*/
-> -	if (GRAPHICS_VER(rc6_to_i915(rc6)) >= 10) {
-> +	if (GRAPHICS_VER(rc6_to_i915(rc6)) >= 11) {
->  		set(uncore, GEN6_RC6_WAKE_RATE_LIMIT, 54 << 16 | 85);
->  		set(uncore, GEN10_MEDIA_WAKE_RATE_LIMIT, 150);
->  	} else if (IS_SKYLAKE(rc6_to_i915(rc6))) {
-> diff --git a/drivers/gpu/drm/i915/gt/intel_rps.c b/drivers/gpu/drm/i915/gt/intel_rps.c
-> index 06e9a8ed4e03..2e03ad80f3cf 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_rps.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_rps.c
-> @@ -999,7 +999,7 @@ static void gen6_rps_init(struct intel_rps *rps)
->  
->  	rps->efficient_freq = rps->rp1_freq;
->  	if (IS_HASWELL(i915) || IS_BROADWELL(i915) ||
-> -	    IS_GEN9_BC(i915) || GRAPHICS_VER(i915) >= 10) {
-> +	    IS_GEN9_BC(i915) || GRAPHICS_VER(i915) >= 11) {
->  		u32 ddcc_status = 0;
->  
->  		if (sandybridge_pcode_read(i915,
-> @@ -1012,7 +1012,7 @@ static void gen6_rps_init(struct intel_rps *rps)
->  					rps->max_freq);
->  	}
->  
-> -	if (IS_GEN9_BC(i915) || GRAPHICS_VER(i915) >= 10) {
-> +	if (IS_GEN9_BC(i915) || GRAPHICS_VER(i915) >= 11) {
->  		/* Store the frequency values in 16.66 MHZ units, which is
->  		 * the natural hardware unit for SKL
->  		 */
-> diff --git a/drivers/gpu/drm/i915/gt/intel_sseu_debugfs.c b/drivers/gpu/drm/i915/gt/intel_sseu_debugfs.c
-> index 714fe8495775..5e7b09c5e36f 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_sseu_debugfs.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_sseu_debugfs.c
-> @@ -50,7 +50,7 @@ static void cherryview_sseu_device_status(struct intel_gt *gt,
->  #undef SS_MAX
->  }
->  
-> -static void gen10_sseu_device_status(struct intel_gt *gt,
-> +static void gen11_sseu_device_status(struct intel_gt *gt,
->  				     struct sseu_dev_info *sseu)
->  {
->  #define SS_MAX 6
-> @@ -267,8 +267,8 @@ int intel_sseu_status(struct seq_file *m, struct intel_gt *gt)
->  			bdw_sseu_device_status(gt, &sseu);
->  		else if (GRAPHICS_VER(i915) == 9)
->  			gen9_sseu_device_status(gt, &sseu);
-> -		else if (GRAPHICS_VER(i915) >= 10)
-> -			gen10_sseu_device_status(gt, &sseu);
-> +		else if (GRAPHICS_VER(i915) >= 11)
-> +			gen11_sseu_device_status(gt, &sseu);
->  	}
->  
->  	i915_print_sseu_info(m, false, HAS_POOLED_EU(i915), &sseu);
-> diff --git a/drivers/gpu/drm/i915/gvt/gtt.c b/drivers/gpu/drm/i915/gvt/gtt.c
-> index cc2c05e18206..e5c2fdfc20e3 100644
-> --- a/drivers/gpu/drm/i915/gvt/gtt.c
-> +++ b/drivers/gpu/drm/i915/gvt/gtt.c
-> @@ -1055,7 +1055,7 @@ static bool vgpu_ips_enabled(struct intel_vgpu *vgpu)
->  {
->  	struct drm_i915_private *dev_priv = vgpu->gvt->gt->i915;
->  
-> -	if (GRAPHICS_VER(dev_priv) == 9 || GRAPHICS_VER(dev_priv) == 10) {
-> +	if (GRAPHICS_VER(dev_priv) == 9) {
->  		u32 ips = vgpu_vreg_t(vgpu, GEN8_GAMW_ECO_DEV_RW_IA) &
->  			GAMW_ECO_ENABLE_64K_IPS_FIELD;
->  
-> diff --git a/drivers/gpu/drm/i915/i915_debugfs.c b/drivers/gpu/drm/i915/i915_debugfs.c
-> index 0529576f069c..44969f5dde50 100644
-> --- a/drivers/gpu/drm/i915/i915_debugfs.c
-> +++ b/drivers/gpu/drm/i915/i915_debugfs.c
-> @@ -538,20 +538,20 @@ static int i915_frequency_info(struct seq_file *m, void *unused)
->  		max_freq = (IS_GEN9_LP(dev_priv) ? rp_state_cap >> 0 :
->  			    rp_state_cap >> 16) & 0xff;
->  		max_freq *= (IS_GEN9_BC(dev_priv) ||
-> -			     GRAPHICS_VER(dev_priv) >= 10 ? GEN9_FREQ_SCALER : 1);
-> +			     GRAPHICS_VER(dev_priv) >= 11 ? GEN9_FREQ_SCALER : 1);
->  		seq_printf(m, "Lowest (RPN) frequency: %dMHz\n",
->  			   intel_gpu_freq(rps, max_freq));
->  
->  		max_freq = (rp_state_cap & 0xff00) >> 8;
->  		max_freq *= (IS_GEN9_BC(dev_priv) ||
-> -			     GRAPHICS_VER(dev_priv) >= 10 ? GEN9_FREQ_SCALER : 1);
-> +			     GRAPHICS_VER(dev_priv) >= 11 ? GEN9_FREQ_SCALER : 1);
->  		seq_printf(m, "Nominal (RP1) frequency: %dMHz\n",
->  			   intel_gpu_freq(rps, max_freq));
->  
->  		max_freq = (IS_GEN9_LP(dev_priv) ? rp_state_cap >> 16 :
->  			    rp_state_cap >> 0) & 0xff;
->  		max_freq *= (IS_GEN9_BC(dev_priv) ||
-> -			     GRAPHICS_VER(dev_priv) >= 10 ? GEN9_FREQ_SCALER : 1);
-> +			     GRAPHICS_VER(dev_priv) >= 11 ? GEN9_FREQ_SCALER : 1);
->  		seq_printf(m, "Max non-overclocked (RP0) frequency: %dMHz\n",
->  			   intel_gpu_freq(rps, max_freq));
->  		seq_printf(m, "Max overclocked frequency: %dMHz\n",
-> diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
-> index e3c8283d770c..f9671686bf62 100644
-> --- a/drivers/gpu/drm/i915/i915_drv.h
-> +++ b/drivers/gpu/drm/i915/i915_drv.h
-> @@ -1649,7 +1649,7 @@ IS_SUBPLATFORM(const struct drm_i915_private *i915,
->  	(IS_SKL_GT3(dev_priv) || IS_SKL_GT4(dev_priv))
->  
->  #define HAS_GMBUS_IRQ(dev_priv) (GRAPHICS_VER(dev_priv) >= 4)
-> -#define HAS_GMBUS_BURST_READ(dev_priv) (GRAPHICS_VER(dev_priv) >= 10 || \
-> +#define HAS_GMBUS_BURST_READ(dev_priv) (GRAPHICS_VER(dev_priv) >= 11 || \
->  					IS_GEMINILAKE(dev_priv) || \
->  					IS_KABYLAKE(dev_priv))
->  
-> diff --git a/drivers/gpu/drm/i915/i915_perf.c b/drivers/gpu/drm/i915/i915_perf.c
-> index 108774d651d9..2f01b8c0284c 100644
-> --- a/drivers/gpu/drm/i915/i915_perf.c
-> +++ b/drivers/gpu/drm/i915/i915_perf.c
-> @@ -1256,7 +1256,6 @@ static int oa_get_render_ctx_id(struct i915_perf_stream *stream)
->  
->  	case 8:
->  	case 9:
-> -	case 10:
->  		if (intel_engine_uses_guc(ce->engine)) {
->  			/*
->  			 * When using GuC, the context descriptor we write in
-> @@ -2589,7 +2588,7 @@ static void gen8_disable_metric_set(struct i915_perf_stream *stream)
->  	intel_uncore_rmw(uncore, GDT_CHICKEN_BITS, GT_NOA_ENABLE, 0);
->  }
->  
-> -static void gen10_disable_metric_set(struct i915_perf_stream *stream)
-> +static void gen11_disable_metric_set(struct i915_perf_stream *stream)
->  {
->  	struct intel_uncore *uncore = stream->uncore;
->  
-> @@ -3896,7 +3895,7 @@ static bool gen8_is_valid_mux_addr(struct i915_perf *perf, u32 addr)
->  	       REG_IN_RANGE(addr, RPM_CONFIG0, NOA_CONFIG(8));
->  }
->  
-> -static bool gen10_is_valid_mux_addr(struct i915_perf *perf, u32 addr)
-> +static bool gen11_is_valid_mux_addr(struct i915_perf *perf, u32 addr)
->  {
->  	return gen8_is_valid_mux_addr(perf, addr) ||
->  	       REG_EQUAL(addr, GEN10_NOA_WRITE_HIGH) ||
-> @@ -4403,27 +4402,23 @@ void i915_perf_init(struct drm_i915_private *i915)
->  
->  				perf->gen8_valid_ctx_bit = BIT(16);
->  			}
-> -		} else if (IS_GRAPHICS_VER(i915, 10, 11)) {
-> +		} else if (GRAPHICS_VER(i915) == 11) {
->  			perf->ops.is_valid_b_counter_reg =
->  				gen7_is_valid_b_counter_addr;
->  			perf->ops.is_valid_mux_reg =
-> -				gen10_is_valid_mux_addr;
-> +				gen11_is_valid_mux_addr;
->  			perf->ops.is_valid_flex_reg =
->  				gen8_is_valid_flex_addr;
->  
->  			perf->ops.oa_enable = gen8_oa_enable;
->  			perf->ops.oa_disable = gen8_oa_disable;
->  			perf->ops.enable_metric_set = gen8_enable_metric_set;
-> -			perf->ops.disable_metric_set = gen10_disable_metric_set;
-> +			perf->ops.disable_metric_set = gen11_disable_metric_set;
->  			perf->ops.oa_hw_tail_read = gen8_oa_hw_tail_read;
->  
-> -			if (GRAPHICS_VER(i915) == 10) {
-> -				perf->ctx_oactxctrl_offset = 0x128;
-> -				perf->ctx_flexeu0_offset = 0x3de;
-> -			} else {
-> -				perf->ctx_oactxctrl_offset = 0x124;
-> -				perf->ctx_flexeu0_offset = 0x78e;
-> -			}
-> +			perf->ctx_oactxctrl_offset = 0x124;
-> +			perf->ctx_flexeu0_offset = 0x78e;
-> +
->  			perf->gen8_valid_ctx_bit = BIT(16);
->  		} else if (GRAPHICS_VER(i915) == 12) {
->  			perf->ops.is_valid_b_counter_reg =
-> diff --git a/drivers/gpu/drm/i915/intel_device_info.c b/drivers/gpu/drm/i915/intel_device_info.c
-> index 2893a8659a8b..4319ae020c86 100644
-> --- a/drivers/gpu/drm/i915/intel_device_info.c
-> +++ b/drivers/gpu/drm/i915/intel_device_info.c
-> @@ -265,7 +265,7 @@ void intel_device_info_runtime_init(struct drm_i915_private *dev_priv)
->  	if (IS_ADLS_DISPLAY_STEP(dev_priv, STEP_A0, STEP_A2))
->  		for_each_pipe(dev_priv, pipe)
->  			runtime->num_scalers[pipe] = 0;
-> -	else if (GRAPHICS_VER(dev_priv) >= 10) {
-> +	else if (GRAPHICS_VER(dev_priv) >= 11) {
->  		for_each_pipe(dev_priv, pipe)
->  			runtime->num_scalers[pipe] = 2;
->  	} else if (GRAPHICS_VER(dev_priv) == 9) {
-> @@ -282,7 +282,7 @@ void intel_device_info_runtime_init(struct drm_i915_private *dev_priv)
->  	else if (GRAPHICS_VER(dev_priv) >= 11)
->  		for_each_pipe(dev_priv, pipe)
->  			runtime->num_sprites[pipe] = 6;
-> -	else if (GRAPHICS_VER(dev_priv) == 10 || IS_GEMINILAKE(dev_priv))
-> +	else if (IS_GEMINILAKE(dev_priv))
->  		for_each_pipe(dev_priv, pipe)
->  			runtime->num_sprites[pipe] = 3;
->  	else if (IS_BROXTON(dev_priv)) {
-> -- 
-> 2.31.1
-> 
-> _______________________________________________
-> Intel-gfx mailing list
-> Intel-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
+With that there are different IP blocks, what do you mean? Do you mean
+that there are two completely different blocks with completely
+different functionalities?
+
+Or that there is the same IP block twice? I mean, of course, the
+registers are different but has exactly the same functionality.
+
+> Because mmsys provides clock control, other display function blocks may
+> use them as clock provider.
+>
+> E.g.
+> 1. mmsys with compatible="mediatek,mt8195-vdosys0"
+> [v4,1/6] arm64: dts: mt8195: add display node for vdosys0
+>
+> https://patchwork.kernel.org/project/linux-mediatek/patch/20210723090233.24007-2-jason-jh.lin@mediatek.com/
+>
+> ovl0: disp_ovl@1c000000 {
+>         ...
+>         clocks = <&vdosys0 CLK_VDO0_DISP_OVL0>;
+>         ...
+> };
+>
+> 2. mmsys with compatible="mediatek,mt8195-vdosys1"
+> [v2,06/14] arm64: dts: mt8195: add display node for vdosys1
+>
+> https://patchwork.kernel.org/project/linux-mediatek/patch/20210722094551.15255-7-nancy.lin@mediatek.com/
+>
+> vdo1_rdma0: vdo1_rdma@1c104000 {
+>         ...
+>         clocks = <&vdosys1 CLK_VDO1_MDP_RDMA0>;
+>         ...
+> };
+>
+
+Note that I am talking without knowing the hardware in detail, but I
+am wondering why I can't have something like this, where every mmsys
+is a clock and reset controller provider.
+
+vdosys0: syscon@14000000 {
+          compatible = "mediatek,mt8195-mmsys", "syscon";
+          reg = <0 0x14000000 0 0x1000>;
+          #clock-cells = <1>;
+          #reset-cells = <1>;
+};
+
+vdosys1: syscon@15000000 {
+          compatible = "mediatek,mt8195-mmsys", "syscon";
+          reg = <0 0x15000000 0 0x1000>;
+          #clock-cells = <1>;
+          #reset-cells = <1>;
+};
+
+ovl0: disp_ovl@1c000000 {
+        ...
+       clocks = <&vdosys0 CLK_VDO0_DISP_OVL0>;
+        ...
+};
+
+vdo1_rdma0: vdo1_rdma@1c104000 {
+        ...
+        clocks = <&vdosys1 CLK_VDO1_MDP_RDMA0>;
+        ...
+};
+
+What are the differences between vdosys0 and vdosys1 from a hardware
+point of view?
+
+Cheers,
+  Enric
+
+> Regards,
+> Jason-JH.Lin
+>
+> > > Signed-off-by: jason-jh.lin <jason-jh.lin@mediatek.com>
+> > > ---
+> > > this patch is base on [1][2]
+> > >
+> > > [1] dt-bindings: arm: mediatek: mmsys: convert to YAML format
+> > > -
+> > > https://urldefense.com/v3/__https://patchwork.kernel.org/project/linux-mediatek/patch/20210519161847.3747352-1-fparent@baylibre.com/__;!!CTRNKA9wMg0ARbw!ycgPEK4yBDojiiZJC2E9mGwvxJbaLqhyUxzJIq0ckEP-JVteBcjFdc6ixkNbmknH8f2P$
+> > >
+> > > [2] dt-bindings: arm: mediatek: mmsys: add MT8365 SoC binding
+> > > -
+> > > https://urldefense.com/v3/__https://patchwork.kernel.org/project/linux-mediatek/patch/20210519161847.3747352-2-fparent@baylibre.com/__;!!CTRNKA9wMg0ARbw!ycgPEK4yBDojiiZJC2E9mGwvxJbaLqhyUxzJIq0ckEP-JVteBcjFdc6ixkNbmju2GBrD$
+> > >
+> > > ---
+> > >  .../devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml        |
+> > > 2 ++
+> > >  1 file changed, 2 insertions(+)
+> > >
+> > > diff --git
+> > > a/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yam
+> > > l
+> > > b/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yam
+> > > l
+> > > index 2d4ff0ce387b..0789a9614f12 100644
+> > > ---
+> > > a/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yam
+> > > l
+> > > +++
+> > > b/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yam
+> > > l
+> > > @@ -30,6 +30,8 @@ properties:
+> > >                - mediatek,mt8173-mmsys
+> > >                - mediatek,mt8183-mmsys
+> > >                - mediatek,mt8365-mmsys
+> > > +              - mediatek,mt8195-vdosys0
+> > > +              - mediatek,mt8195-vdosys1
+> > >            - const: syscon
+> > >        - items:
+> > >            - const: mediatek,mt7623-mmsys
+> > > --
+> > > 2.18.0
+> > >
+> --
